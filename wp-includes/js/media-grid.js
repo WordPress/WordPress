@@ -11,19 +11,18 @@
 	}
 
 	/**
-	 * A state for editing (cropping, etc.) an image.
+	 * A state for editing an attachment's metadata.
 	 *
 	 * @constructor
 	 * @augments wp.media.controller.State
 	 * @augments Backbone.Model
 	 */
-	media.controller.EditImageNoFrame = media.controller.State.extend({
+	media.controller.EditAttachmentMetadata = media.controller.State.extend({
 		defaults: {
 			id:      'edit-attachment',
-			title:   l10n.editImage,
+			title:   l10n.attachmentDetails,
 			// Region mode defaults.
 			menu:    false,
-			router:  'edit-metadata',
 			content: 'edit-metadata',
 
 			url:     ''
@@ -36,29 +35,23 @@
 		 * include the regions expected there.
 		 */
 		_postActivate: function() {
+			this.frame.on( 'title:render:default', this._renderTitle, this );
+
+			this._title();
 			this._content();
-			this._router();
 		},
 
 		/**
 		 * @access private
 		 */
-		_router: function() {
-			var router = this.frame.router,
-				mode = this.get('router'),
-				view;
-
-			this.frame.$el.toggleClass( 'hide-router', ! mode );
-			if ( ! mode ) {
-				return;
-			}
-
-			this.frame.router.render( mode );
-
-			view = router.get();
-			if ( view && view.select ) {
-				view.select( this.frame.content.mode() );
-			}
+		_title: function() {
+			this.frame.title.render( this.get('titleMode') || 'default' );
+		},
+		/**
+		 * @access private
+		 */
+		_renderTitle: function( view ) {
+			view.$el.text( this.get('title') || '' );
 		},
 
 		_content: function() {
@@ -286,6 +279,18 @@
 	media.view.Attachment.Details.TwoColumn = media.view.Attachment.Details.extend({
 		template: wp.template( 'attachment-details-two-column' ),
 
+		events: {
+			'change [data-setting]':          'updateSetting',
+			'change [data-setting] input':    'updateSetting',
+			'change [data-setting] select':   'updateSetting',
+			'change [data-setting] textarea': 'updateSetting',
+			'click .delete-attachment':       'deleteAttachment',
+			'click .trash-attachment':        'trashAttachment',
+			'click .edit-attachment':         'editAttachment',
+			'click .refresh-attachment':      'refreshAttachment',
+			'click .edit-image':              'handleEditImageClick'
+		},
+
 		initialize: function() {
 			if ( ! this.model ) {
 				return;
@@ -320,6 +325,10 @@
 		deleteAttachment: function( event ) {
 			this.preDestroy( event );
 			media.view.Attachment.Details.prototype.deleteAttachment.apply( this, arguments );
+		},
+
+		handleEditImageClick: function() {
+			this.controller.setState( 'edit-image' );
 		},
 
 		afterDelete: function( model ) {
@@ -405,11 +414,11 @@
 	 *
 	 * Requires an attachment model to be passed in the options hash under `model`.
 	 */
-	media.view.MediaFrame.EditAttachments = media.view.Frame.extend({
+	media.view.MediaFrame.EditAttachments = media.view.MediaFrame.extend({
 
 		className: 'edit-attachment-frame',
 		template: media.template( 'edit-attachment-frame' ),
-		regions:   [ 'router', 'content' ],
+		regions:   [ 'title', 'content' ],
 
 		events: {
 			'click':                    'collapse',
@@ -440,8 +449,10 @@
 			this.on( 'content:render:edit-metadata', this.editMetadataContent, this );
 			this.on( 'content:render:edit-image', this.editImageContentUgh, this );
 			this.on( 'close', this.detach );
-			this.on( 'router:create', this.createRouter, this );
-			this.on( 'router:render', this.browseRouter, this );
+
+			// Bind default title creation.
+			this.on( 'title:create:default', this.createTitle, this );
+			this.title.mode('default');
 
 			this.options.hasPrevious = this.hasPrevious();
 			this.options.hasNext = this.hasNext();
@@ -474,23 +485,16 @@
 		 * Add the default states to the frame.
 		 */
 		createStates: function() {
+			var editImageState = new media.controller.EditImage( { model: this.model } );
+			// Noop some methods.
+			editImageState._toolbar = function() {};
+			editImageState._router = function() {};
+			editImageState._menu = function() {};
 			this.states.add([
-				new media.controller.EditImageNoFrame( { model: this.model } )
-			]);
-		},
+				new media.controller.EditAttachmentMetadata( { model: this.model } ),
+				editImageState
 
-		/**
-		 * @returns {wp.media.view.MediaFrame} Returns itself to allow chaining
-		 */
-		render: function() {
-			// Activate the default state if no active state exists.
-			if ( ! this.state() && this.options.state ) {
-				this.setState( this.options.state );
-			}
-			/**
-			 * call 'render' directly on the parent class
-			 */
-			return media.view.Frame.prototype.render.apply( this, arguments );
+			]);
 		},
 
 		/**
@@ -528,42 +532,6 @@
 
 			// after creating the wrapper view, load the actual editor via an ajax call
 			view.loadEditor();
-		},
-
-		/**
-		 * Create the router view.
-		 *
-		 * @param {Object} router
-		 * @this wp.media.controller.Region
-		 */
-		createRouter: function( router ) {
-			router.view = new media.view.Router({
-				controller: this
-			});
-		},
-
-		/**
-		 * Router rendering callback.
-		 *
-		 * @param  media.view.Router view Instantiated in this.createRouter()
-		 */
-		browseRouter: function( view ) {
-			view.set({
-				'edit-metadata': {
-					text:     l10n.editMetadata,
-					priority: 20
-				}
-			});
-
-			// Only need a tab to Edit Image for images.
-			if ( 'undefined' !== typeof this.model && this.model.get( 'type' ) === 'image' ) {
-				view.set({
-					'edit-image': {
-						text:     l10n.editImage,
-						priority: 40
-					}
-				});
-			}
 		},
 
 		resetContent: function() {

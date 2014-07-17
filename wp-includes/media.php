@@ -2909,6 +2909,9 @@ function wp_enqueue_media( $args = array() ) {
 		'uploadedToThisPost' => $hier ? __( 'Uploaded to this page' ) : __( 'Uploaded to this post' ),
 		'warnDelete' =>      __( "You are about to permanently delete this item.\n  'Cancel' to stop, 'OK' to delete." ),
 
+		// Library Details
+		'attachmentDetails'  => __( 'Attachment Details' ),
+
 		// From URL
 		'insertFromUrlTitle' => __( 'Insert from URL' ),
 

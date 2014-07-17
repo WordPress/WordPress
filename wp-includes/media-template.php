@@ -255,23 +255,18 @@ function wp_print_media_templates() {
 
 	<script type="text/html" id="tmpl-edit-attachment-frame">
 		<div class="edit-media-header">
-			<button class="left dashicons dashicons-no<# if ( ! data.hasPrevious ) { #> disabled <# } #>"><span class="screen-reader-text"><?php _e( 'Edit previous media item' ); ?></span></button>
-			<button class="right dashicons dashicons-no<# if ( ! data.hasNext ) { #> disabled <# } #>"><span class="screen-reader-text"><?php _e( 'Edit next media item' ); ?></span></button>
+			<button class="left dashicons <# if ( ! data.hasPrevious ) { #> disabled <# } #>"><span class="screen-reader-text"><?php _e( 'Edit previous media item' ); ?></span></button>
+			<button class="right dashicons <# if ( ! data.hasNext ) { #> disabled <# } #>"><span class="screen-reader-text"><?php _e( 'Edit next media item' ); ?></span></button>
 		</div>
-		<div class="media-frame-router"></div>
+		<div class="media-frame-title"></div>
 		<div class="media-frame-content"></div>
 	</script>
 
 	<script type="text/html" id="tmpl-attachment-details-two-column">
 		<h3>
 			<?php _e('Attachment Details'); ?>
-
-			<span class="settings-save-status">
-				<span class="spinner"></span>
-				<span class="saved"><?php esc_html_e('Saved.'); ?></span>
-			</span>
 		</h3>
-		<div class="attachment-info">
+		<div class="attachment-media-view">
 			<div class="thumbnail thumbnail-{{ data.type }}">
 				<# if ( data.uploading ) { #>
 					<div class="media-progress-bar"><div></div></div>
@@ -280,22 +275,43 @@ function wp_print_media_templates() {
 				<# } else if ( -1 === jQuery.inArray( data.type, [ 'audio', 'video' ] ) ) { #>
 					<img src="{{ data.icon }}" class="icon" draggable="false" />
 				<# } #>
+
+				<# if ( 'audio' === data.type ) { #>
+				<div class="wp-media-wrapper">
+					<audio style="visibility: hidden" controls class="wp-audio-shortcode" width="100%" preload="none">
+						<source type="{{ data.mime }}" src="{{ data.url }}"/>
+					</audio>
+				</div>
+				<# } else if ( 'video' === data.type ) { #>
+				<div style="max-width: 100%; width: {{ data.width }}px" class="wp-media-wrapper">
+					<video controls class="wp-video-shortcode" preload="metadata"
+						width="{{ data.width }}" height="{{ data.height }}"
+						<# if ( data.image && data.image.src !== data.icon ) { #>poster="{{ data.image.src }}"<# } #>>
+						<source type="{{ data.mime }}" src="{{ data.url }}"/>
+					</video>
+				</div>
+				<# } #>
+
+				<div class="attachment-actions">
+					<# if ( 'image' === data.type && ! data.uploading ) { #>
+						<a class="button edit-image" href="#"><?php _e( 'Edit Image' ); ?></a>
+					<# } #>
+
+					<# if ( ! data.uploading && data.can.remove ) { #>
+						<?php if ( MEDIA_TRASH ): ?>
+							<a class="trash-attachment" href="#"><?php _e( 'Trash' ); ?></a>
+						<?php else: ?>
+							<a class="delete-attachment" href="#"><?php _e( 'Delete Permanently' ); ?></a>
+						<?php endif; ?>
+					<# } #>
+				</div>
 			</div>
-			<# if ( 'audio' === data.type ) { #>
-			<div class="wp-media-wrapper">
-				<audio style="visibility: hidden" controls class="wp-audio-shortcode" width="100%" preload="none">
-					<source type="{{ data.mime }}" src="{{ data.url }}"/>
-				</audio>
-			</div>
-			<# } else if ( 'video' === data.type ) { #>
-			<div style="max-width: 100%; width: {{ data.width }}px" class="wp-media-wrapper">
-				<video controls class="wp-video-shortcode" preload="metadata"
-					width="{{ data.width }}" height="{{ data.height }}"
-					<# if ( data.image && data.image.src !== data.icon ) { #>poster="{{ data.image.src }}"<# } #>>
-					<source type="{{ data.mime }}" src="{{ data.url }}"/>
-				</video>
-			</div>
-			<# } #>
+		</div>
+		<div class="attachment-info">
+			<span class="settings-save-status">
+				<span class="spinner"></span>
+				<span class="saved"><?php esc_html_e('Saved.'); ?></span>
+			</span>
 			<div class="details">
 				<div class="filename"><strong><?php _e( 'File name:' ); ?></strong> {{ data.filename }}</div>
 				<div class="filename"><strong><?php _e( 'File type:' ); ?></strong> {{ data.mime }}</div>
@@ -321,66 +337,61 @@ function wp_print_media_templates() {
 					</div>
 				<# } #>
 
-				<# if ( ! data.uploading && data.can.remove ) { #>
-					<?php if ( MEDIA_TRASH ): ?>
-						<a class="trash-attachment" href="#"><?php _e( 'Trash' ); ?></a>
-					<?php else: ?>
-						<a class="delete-attachment" href="#"><?php _e( 'Delete Permanently' ); ?></a>
-					<?php endif; ?>
-				<# } #>
-
 				<div class="compat-meta">
 					<# if ( data.compat && data.compat.meta ) { #>
 						{{{ data.compat.meta }}}
 					<# } #>
 				</div>
 			</div>
-		</div>
-		<div class="attachment-fields">
-			<label class="setting" data-setting="url">
-				<span class="name"><?php _e('URL'); ?></span>
-				<input type="text" value="{{ data.url }}" readonly />
-			</label>
-			<# var maybeReadOnly = data.can.save || data.allowLocalEdits ? '' : 'readonly'; #>
-			<label class="setting" data-setting="title">
-				<span class="name"><?php _e('Title'); ?></span>
-				<input type="text" value="{{ data.title }}" {{ maybeReadOnly }} />
-			</label>
-			<# if ( 'audio' === data.type ) { #>
-			<?php foreach ( array(
-				'artist' => __( 'Artist' ),
-				'album' => __( 'Album' ),
-			) as $key => $label ) : ?>
-			<label class="setting" data-setting="<?php echo esc_attr( $key ) ?>">
-				<span class="name"><?php echo $label ?></span>
-				<input type="text" value="{{ data.<?php echo $key ?> || data.meta.<?php echo $key ?> || '' }}" />
-			</label>
-			<?php endforeach; ?>
-			<# } #>
-			<label class="setting" data-setting="caption">
-				<span class="name"><?php _e('Caption'); ?></span>
-				<textarea {{ maybeReadOnly }}>{{ data.caption }}</textarea>
-			</label>
-			<# if ( 'image' === data.type ) { #>
-				<label class="setting" data-setting="alt">
-					<span class="name"><?php _e('Alt Text'); ?></span>
-					<input type="text" value="{{ data.alt }}" {{ maybeReadOnly }} />
+
+			<div class="settings">
+				<label class="setting" data-setting="url">
+					<span class="name"><?php _e('URL'); ?></span>
+					<input type="text" value="{{ data.url }}" readonly />
 				</label>
-			<# } #>
-			<label class="setting" data-setting="description">
-				<span class="name"><?php _e('Description'); ?></span>
-				<textarea {{ maybeReadOnly }}>{{ data.description }}</textarea>
-			</label>
-			<label class="setting">
-				<span class="name"><?php _e( 'Uploaded By' ); ?></span>
-				<span class="value">{{ data.authorName }}</span>
-			</label>
-			<# if ( data.uploadedTo ) { #>
+				<# var maybeReadOnly = data.can.save || data.allowLocalEdits ? '' : 'readonly'; #>
+				<label class="setting" data-setting="title">
+					<span class="name"><?php _e('Title'); ?></span>
+					<input type="text" value="{{ data.title }}" {{ maybeReadOnly }} />
+				</label>
+				<# if ( 'audio' === data.type ) { #>
+				<?php foreach ( array(
+					'artist' => __( 'Artist' ),
+					'album' => __( 'Album' ),
+				) as $key => $label ) : ?>
+				<label class="setting" data-setting="<?php echo esc_attr( $key ) ?>">
+					<span class="name"><?php echo $label ?></span>
+					<input type="text" value="{{ data.<?php echo $key ?> || data.meta.<?php echo $key ?> || '' }}" />
+				</label>
+				<?php endforeach; ?>
+				<# } #>
+				<label class="setting" data-setting="caption">
+					<span class="name"><?php _e( 'Caption' ); ?></span>
+					<textarea {{ maybeReadOnly }}>{{ data.caption }}</textarea>
+				</label>
+				<# if ( 'image' === data.type ) { #>
+					<label class="setting" data-setting="alt">
+						<span class="name"><?php _e( 'Alt Text' ); ?></span>
+						<input type="text" value="{{ data.alt }}" {{ maybeReadOnly }} />
+					</label>
+				<# } #>
+				<label class="setting" data-setting="description">
+					<span class="name"><?php _e('Description'); ?></span>
+					<textarea {{ maybeReadOnly }}>{{ data.description }}</textarea>
+				</label>
 				<label class="setting">
-					<span class="name"><?php _e('Uploaded To'); ?></span>
-					<span class="value"><a href="{{ data.uploadedToLink }}">{{ data.uploadedToTitle }}</a></span>
+					<span class="name"><?php _e( 'Uploaded By' ); ?></span>
+					<span class="value">{{ data.authorName }}</span>
 				</label>
-			<# } #>
+				<# if ( data.uploadedTo ) { #>
+					<label class="setting">
+						<span class="name"><?php _e( 'Uploaded To' ); ?></span>
+						<span class="value"><a href="{{ data.uploadedToLink }}">{{ data.uploadedToTitle }}</a></span>
+					</label>
+				<# } #>
+			</div>
+
+			<a href="post.php?post={{ data.id }}&action=edit"><?php _e( 'Edit more details' ); ?></a>
 
 		</div>
 	</script>

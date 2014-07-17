@@ -1525,33 +1525,32 @@ video#inline-media-node {
 	margin-top: 14px;
 }
 
-.media-sidebar .settings-save-status {
-	background: #f5f5f5;
-	float: right;
-	text-transform: none;
-	z-index: 10;
-}
-
-.media-sidebar .settings-save-status .spinner {
-	margin: 0 5px 0;
-}
-
-.media-sidebar .settings-save-status .saved {
-	float: right;
-	display: none;
-}
-
-.media-sidebar .save-waiting .settings-save-status .spinner,
-.media-sidebar .save-complete .settings-save-status .saved {
-	display: block;
-}
-
 /**
  * Attachment Details
  */
 .attachment-details {
 	position: relative;
 	overflow: auto;
+}
+
+.attachment-details .settings-save-status {
+	float: right;
+	text-transform: none;
+	z-index: 10;
+}
+
+.attachment-details .settings-save-status .spinner {
+	margin: 0 5px 0;
+}
+
+.attachment-details .settings-save-status .saved {
+	float: right;
+	display: none;
+}
+
+.attachment-details.save-waiting .settings-save-status .spinner,
+.attachment-details.save-complete .settings-save-status .saved {
+	display: block;
 }
 
 .attachment-info {
@@ -1645,13 +1644,13 @@ video#inline-media-node {
 	display: block;
 }
 
-.attachment-info .delete-attachment,
-.attachment-info .trash-attachment {
+.media-modal .delete-attachment,
+.media-modal .trash-attachment {
 	color: #bc0b0b;
 }
 
-.attachment-info .delete-attachment:hover,
-.attachment-info .trash-attachment:hover {
+.media-modal .delete-attachment:hover,
+.media-modal .trash-attachment:hover {
 	color: red;
 }
 
@@ -2670,17 +2669,57 @@ video#inline-media-node {
  *
  * This should be OOCSS'd so both use a shared selector.
  */
+.edit-attachment-frame .edit-media-header {
+	overflow: hidden;
+}
+
+.upload-php .media-modal-close .media-modal-icon:before {
+	content: '\f335';
+	font-size: 30px;
+}
+
+.upload-php .media-modal-close:hover .media-modal-icon:before,
+.upload-php .media-modal-close:focus .media-modal-icon:before {
+	color: #fff;
+}
+
+.upload-php .media-modal-close .media-modal-icon {
+	margin-top: 13px;
+	width: 30px;
+	height: 30px;
+}
+
+.upload-php .media-modal-close,
 .edit-attachment-frame .edit-media-header .left,
 .edit-attachment-frame .edit-media-header .right {
 	cursor: pointer;
 	color: #777;
 	background-color: transparent;
-	height: 48px;
-	width: 54px;
-	float: left;
+	height: 56px;
+	width: 56px;
+	padding: 0;
+	position: absolute;
 	text-align: center;
 	border: 0;
-	border-right: 1px solid #ddd;
+	border-left: 1px solid #ddd;
+}
+
+.upload-php .media-modal-close {
+	top: 0;
+	right: 0;
+}
+
+.edit-attachment-frame .edit-media-header .left {
+	right: 112px;
+}
+
+.edit-attachment-frame .edit-media-header .right {
+	right: 56px;
+}
+
+.edit-attachment-frame .media-frame-title {
+	left: 0;
+	right: 170px; /* leave space for prev/next/close */
 }
 
 .edit-attachment-frame .edit-media-header .right:before,
@@ -2711,10 +2750,10 @@ video#inline-media-node {
 	cursor: inherit;
 }
 
-.edit-attachment-frame .edit-media-header .close:hover,
+.upload-php .media-modal-close:hover,
 .edit-attachment-frame .edit-media-header .right:hover,
 .edit-attachment-frame .edit-media-header .left:hover,
-.edit-attachment-frame .edit-media-header .close:focus,
+.upload-php .media-modal-close:focus,
 .edit-attachment-frame .edit-media-header .right:focus,
 .edit-attachment-frame .edit-media-header .left:focus {
 	background: #0074a2;
@@ -2729,6 +2768,7 @@ video#inline-media-node {
 .edit-attachment-frame .media-frame-content {
 	border-bottom: none;
 	bottom: 0;
+	top: 56px;
 }
 
 /* Hiding this for the moment instead of removing it from the template. */
@@ -2743,94 +2783,100 @@ video#inline-media-node {
 	bottom: 0;
 	right: 0;
 	left: 0;
+	-webkit-box-shadow: inset 0px 4px 4px -4px rgba(0, 0, 0, 0.1);
+	box-shadow: inset 0px 4px 4px -4px rgba(0, 0, 0, 0.1);
+}
+.edit-attachment-frame .attachment-media-view {
+	float: left;
+	width: 65%;
+	height: 100%;
 }
 
-.edit-attachment-frame .attachment-info {
-	border-bottom: 0;
-	border-right: 1px solid #ddd;
-	bottom: 0;
-	position: absolute;
-	top: 0;
-	left: 0;
-	right: 50%;
-	margin-bottom: 0;
-	padding: 2% 4% 0;
-	height: 98%; /* 100% - padding percentage above */
+.edit-attachment-frame .attachment-media-view .thumbnail {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	padding: 16px;
+	height: 100%;
 }
 
-.edit-attachment-frame .attachment-info .thumbnail {
-	float: none;
-	max-width: none;
-	max-height: 70%;
-	margin-right: 0;
-}
-
-.edit-attachment-frame .attachment-info .thumbnail-image img {
-	margin: 0;
-}
-
-.edit-attachment-frame .attachment-info .thumbnail-image:after {
-	-webkit-box-shadow: none;
-	        box-shadow: none;
-}
-
-.edit-attachment-frame .attachment-info .thumbnail img {
+.edit-attachment-frame .attachment-media-view img {
+	display: block;
+	margin-bottom: 16px;
 	max-width: 100%;
-	max-height: 100%;
+	max-height: -webkit-calc( 100% - 42px );
+	max-height: calc( 100% - 42px ); /* leave space for actions underneath */
 }
 
-.edit-attachment-frame .attachment-info .details {
-	float: none;
+.edit-attachment-frame .delete-attachment {
+	float: right;
+	margin-top: 7px;
 }
 
 .edit-attachment-frame .wp-media-wrapper {
 	margin-bottom: 12px;
 }
 
-.edit-attachment-frame .attachment-fields {
-	bottom: 0;
-	padding: 2% 4%;
-	position: absolute;
-	top: 0;
-	left: 50%;
-	right: 0;
+.edit-attachment-frame .attachment-info {
+	overflow: auto;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	margin-bottom: 0;
+	padding: 12px 16px 0;
+	width: 35%;
+	height: 100%;
+	-webkit-box-shadow: inset 0px 4px 4px -4px rgba(0, 0, 0, 0.1);
+	box-shadow: inset 0px 4px 4px -4px rgba(0, 0, 0, 0.1);
+	border-bottom: 0;
+	border-left: 1px solid #ddd;
+	background: #f3f3f3;
 }
 
-.edit-attachment-frame .attachment-fields .setting {
+.edit-attachment-frame .attachment-info .details,
+.edit-attachment-frame .attachment-info .settings {
+	overflow: hidden;
+	float: none;
+	margin-bottom: 15px;
+	padding-bottom: 15px;
+	border-bottom: 1px solid #ddd;
+}
+
+.edit-attachment-frame .attachment-info .setting {
 	display: block;
 	float: left;
 	width: 100%;
 	margin: 1px 0;
 }
 
-.edit-attachment-frame .attachment-fields .setting label {
+.edit-attachment-frame .attachment-info .setting label {
 	display: block;
 }
 
-.edit-attachment-frame .attachment-fields .setting .link-to-custom {
+.edit-attachment-frame .attachment-info .setting .link-to-custom {
 	margin: 3px 0;
 }
 
-.edit-attachment-frame .attachment-fields .setting .name {
+.edit-attachment-frame .attachment-info .setting .name {
 	min-width: 30%;
 	margin-right: 4%;
 	font-size: 12px;
 	text-align: right;
 }
 
-.edit-attachment-frame .attachment-fields .setting select {
+.edit-attachment-frame .attachment-info .setting select {
 	max-width: 65%;
 }
 
-.edit-attachment-frame .attachment-fields .setting input[type="checkbox"],
-.edit-attachment-frame .attachment-fields .field input[type="checkbox"] {
+.edit-attachment-frame .attachment-info .setting input[type="checkbox"],
+.edit-attachment-frame .attachment-info .field input[type="checkbox"] {
 	width: 16px;
 	float: none;
 	margin: 8px 3px 0;
 	padding: 0;
 }
 
-.edit-attachment-frame .attachment-fields .setting span {
+.edit-attachment-frame .attachment-info .setting span {
 	float: left;
 	min-height: 22px;
 	padding-top: 8px;
@@ -2839,14 +2885,14 @@ video#inline-media-node {
 	color: #666;
 }
 
-.edit-attachment-frame .attachment-fields .setting input[type="text"],
-.edit-attachment-frame .attachment-fields .setting input[type="password"],
-.edit-attachment-frame .attachment-fields .setting input[type="number"],
-.edit-attachment-frame .attachment-fields .setting input[type="search"],
-.edit-attachment-frame .attachment-fields .setting input[type="email"],
-.edit-attachment-frame .attachment-fields .setting input[type="url"],
-.edit-attachment-frame .attachment-fields .setting textarea,
-.edit-attachment-frame .attachment-fields .setting .value {
+.edit-attachment-frame .attachment-info .setting input[type="text"],
+.edit-attachment-frame .attachment-info .setting input[type="password"],
+.edit-attachment-frame .attachment-info .setting input[type="number"],
+.edit-attachment-frame .attachment-info .setting input[type="search"],
+.edit-attachment-frame .attachment-info .setting input[type="email"],
+.edit-attachment-frame .attachment-info .setting input[type="url"],
+.edit-attachment-frame .attachment-info .setting textarea,
+.edit-attachment-frame .attachment-info .setting .value {
 	margin: 1px;
 	width: 65%;
 	float: right;
@@ -2856,12 +2902,12 @@ video#inline-media-node {
 	box-sizing: border-box;
 }
 
-.edit-attachment-frame .attachment-fields .setting textarea {
+.edit-attachment-frame .attachment-info .setting textarea {
 	height: 62px;
 	resize: vertical;
 }
 
-.edit-attachment-frame .attachment-fields select {
+.edit-attachment-frame .attachment-info select {
 	margin-top: 3px;
 }
 
