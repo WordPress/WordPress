@@ -167,8 +167,8 @@ function has_shortcode( $content, $tag ) {
 		foreach ( $matches as $shortcode ) {
 			if ( $tag === $shortcode[2] ) {
 				return true;
-			} elseif ( isset( $shortcode[5] ) && has_shortcode( $shortcode[5], $tag ) ) {
-				return has_shortcode( $shortcode[5], $tag );
+			} elseif ( ! empty( $shortcode[5] ) && has_shortcode( $shortcode[5], $tag ) ) {
+				return true;
 			}
 		}
 	}
