@@ -302,7 +302,7 @@ function edit_post( $post_data = null ) {
 			$image_alt = wp_unslash( $post_data['_wp_attachment_image_alt'] );
 			if ( $image_alt != get_post_meta( $post_ID, '_wp_attachment_image_alt', true ) ) {
 				$image_alt = wp_strip_all_tags( $image_alt, true );
-				// update_meta expects slashed
+				// update_meta expects slashed.
 				update_post_meta( $post_ID, '_wp_attachment_image_alt', wp_slash( $image_alt ) );
 			}
 		}
@@ -740,9 +740,10 @@ function add_meta( $post_ID ) {
 		$metavalue = trim( $metavalue );
 
 	if ( ('0' === $metavalue || ! empty ( $metavalue ) ) && ( ( ( '#NONE#' != $metakeyselect ) && !empty ( $metakeyselect) ) || !empty ( $metakeyinput ) ) ) {
-		// We have a key/value pair. If both the select and the
-		// input for the key have data, the input takes precedence:
-
+		/*
+		 * We have a key/value pair. If both the select and the input
+		 * for the key have data, the input takes precedence.
+		 */
  		if ( '#NONE#' != $metakeyselect )
 			$metakey = $metakeyselect;
 

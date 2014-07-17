@@ -85,7 +85,8 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 			$this->options['username'] = $opt['username'];
 
 		if ( empty ($opt['password']) ) {
-			if ( !$this->keys )	//password can be blank if we are using keys
+			// Password can be blank if we are using keys.
+			if ( !$this->keys )
 				$this->errors->add('empty_password', __('SSH2 password is required'));
 		} else {
 			$this->options['password'] = $opt['password'];

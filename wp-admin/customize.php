@@ -189,12 +189,14 @@ do_action( 'customize_controls_print_scripts' );
 	 */
 	do_action( 'customize_controls_print_footer_scripts' );
 
-	// If the frontend and the admin are served from the same domain, load the
-	// preview over ssl if the customizer is being loaded over ssl. This avoids
-	// insecure content warnings. This is not attempted if the admin and frontend
-	// are on different domains to avoid the case where the frontend doesn't have
-	// ssl certs. Domain mapping plugins can allow other urls in these conditions
-	// using the customize_allowed_urls filter.
+	/*
+	 * If the frontend and the admin are served from the same domain, load the
+	 * preview over ssl if the customizer is being loaded over ssl. This avoids
+	 * insecure content warnings. This is not attempted if the admin and frontend
+	 * are on different domains to avoid the case where the frontend doesn't have
+	 * ssl certs. Domain mapping plugins can allow other urls in these conditions
+	 * using the customize_allowed_urls filter.
+	 */
 
 	$allowed_urls = array( home_url('/') );
 	$admin_origin = parse_url( admin_url() );

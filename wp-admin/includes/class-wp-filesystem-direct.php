@@ -224,7 +224,7 @@ class WP_Filesystem_Direct extends WP_Filesystem_Base {
 		if ( ! $overwrite && $this->exists($destination) )
 			return false;
 
-		// try using rename first. if that fails (for example, source is read only) try copy
+		// Try using rename first. if that fails (for example, source is read only) try copy.
 		if ( @rename($source, $destination) )
 			return true;
 
@@ -305,7 +305,7 @@ class WP_Filesystem_Direct extends WP_Filesystem_Base {
 	}
 
 	public function mkdir($path, $chmod = false, $chown = false, $chgrp = false) {
-		// safe mode fails with a trailing slash under certain PHP versions.
+		// Safe mode fails with a trailing slash under certain PHP versions.
 		$path = untrailingslashit($path);
 		if ( empty($path) )
 			return false;

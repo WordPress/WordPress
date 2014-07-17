@@ -33,7 +33,8 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 	}
 
 	protected function get_table_classes() {
-		return array( 'widefat', 'plugins' );	// todo: remove and add CSS for .themes
+		// todo: remove and add CSS for .themes
+		return array( 'widefat', 'plugins' );
 	}
 
 	public function ajax_user_can() {
@@ -268,7 +269,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 			$allowed = $theme->is_allowed( 'network' );
 		}
 
-		// preorder
+		// Pre-order.
 		$actions = array(
 			'enable' => '',
 			'disable' => '',

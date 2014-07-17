@@ -414,7 +414,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 
 			foreach ( $pages as $page ) {
 
-				// catch and repair bad pages
+				// Catch and repair bad pages.
 				if ( $page->post_parent == $page->ID ) {
 					$page->post_parent = 0;
 					$wpdb->update( $wpdb->posts, array( 'post_parent' => 0 ), array( 'ID' => $page->ID ) );
@@ -449,7 +449,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 				$this->_page_rows( $children_pages, $count, $page->ID, $level + 1, $pagenum, $per_page );
 		}
 
-		// if it is the last pagenum and there are orphaned pages, display them with paging as well
+		// If it is the last pagenum and there are orphaned pages, display them with paging as well.
 		if ( isset( $children_pages ) && $count < $end ){
 			foreach ( $children_pages as $orphans ){
 				foreach ( $orphans as $op ) {
@@ -591,7 +591,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 				$attributes = 'class="post-title page-title column-title"' . $style;
 				if ( $this->hierarchical_display ) {
 					if ( 0 == $level && (int) $post->post_parent > 0 ) {
-						//sent level 0 by accident, by default, or because we don't know the actual level
+						// Sent level 0 by accident, by default, or because we don't know the actual level.
 						$find_main_page = (int) $post->post_parent;
 						while ( $find_main_page > 0 ) {
 							$parent = get_post( $find_main_page );

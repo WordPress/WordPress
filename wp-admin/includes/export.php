@@ -83,10 +83,13 @@ function export_wp( $args = array() ) {
 			$where .= $wpdb->prepare( " AND {$wpdb->posts}.post_date < %s", date( 'Y-m-d', strtotime('+1 month', strtotime($args['end_date'])) ) );
 	}
 
-	// grab a snapshot of post IDs, just in case it changes during the export
+	// Grab a snapshot of post IDs, just in case it changes during the export.
 	$post_ids = $wpdb->get_col( "SELECT ID FROM {$wpdb->posts} $join WHERE $where" );
 
-	// get the requested terms ready, empty unless posts filtered by category or all content
+	/*
+	 * Get the requested terms ready, empty unless posts filtered by category
+	 * or all content.
+	 */
 	$cats = $tags = $terms = array();
 	if ( isset( $term ) && $term ) {
 		$cat = get_term( $term['term_id'], 'category' );
@@ -99,7 +102,7 @@ function export_wp( $args = array() ) {
 		$custom_taxonomies = get_taxonomies( array( '_builtin' => false ) );
 		$custom_terms = (array) get_terms( $custom_taxonomies, array( 'get' => 'all' ) );
 
-		// put categories in order with no child going before its parent
+		// Put categories in order with no child going before its parent.
 		while ( $cat = array_shift( $categories ) ) {
 			if ( $cat->parent == 0 || isset( $cats[$cat->parent] ) )
 				$cats[$cat->term_id] = $cat;
@@ -107,7 +110,7 @@ function export_wp( $args = array() ) {
 				$categories[] = $cat;
 		}
 
-		// put terms in order with no child going before its parent
+		// Put terms in order with no child going before its parent.
 		while ( $t = array_shift( $custom_terms ) ) {
 			if ( $t->parent == 0 || isset( $terms[$t->parent] ) )
 				$terms[$t->term_id] = $t;
@@ -144,10 +147,10 @@ function export_wp( $args = array() ) {
 	 * @return string Site URL.
 	 */
 	function wxr_site_url() {
-		// ms: the base url
+		// Multisite: the base URL.
 		if ( is_multisite() )
 			return network_home_url();
-		// wp: the blog url
+		// WordPress (single site): the blog URL.
 		else
 			return get_bloginfo_rss( 'url' );
 	}
@@ -373,14 +376,16 @@ function export_wp( $args = array() ) {
 
 <?php if ( $post_ids ) {
 	global $wp_query;
-	$wp_query->in_the_loop = true; // Fake being in the loop.
 
-	// fetch 20 posts at a time rather than loading the entire table into memory
+	// Fake being in the loop.
+	$wp_query->in_the_loop = true;
+
+	// Fetch 20 posts at a time rather than loading the entire table into memory.
 	while ( $next_posts = array_splice( $post_ids, 0, 20 ) ) {
 	$where = 'WHERE ID IN (' . join( ',', $next_posts ) . ')';
 	$posts = $wpdb->get_results( "SELECT * FROM {$wpdb->posts} $where" );
 
-	// Begin Loop
+	// Begin Loop.
 	foreach ( $posts as $post ) {
 		setup_postdata( $post );
 		$is_sticky = is_sticky( $post->ID ) ? 1 : 0;

@@ -47,8 +47,10 @@ function wp_crop_image( $src, $src_x, $src_y, $src_w, $src_h, $dst_w, $dst_h, $s
 	if ( ! $dst_file )
 		$dst_file = str_replace( basename( $src_file ), 'cropped-' . basename( $src_file ), $src_file );
 
-	// The directory containing the original file may no longer exist when
-	// using a replication plugin.
+	/*
+	 * The directory containing the original file may no longer exist when
+	 * using a replication plugin.
+	 */
 	wp_mkdir_p( dirname( $dst_file ) );
 
 	$dst_file = dirname( $dst_file ) . '/' . wp_unique_filename( dirname( $dst_file ), basename( $dst_file ) );
@@ -79,10 +81,10 @@ function wp_generate_attachment_metadata( $attachment_id, $file ) {
 		$metadata['width'] = $imagesize[0];
 		$metadata['height'] = $imagesize[1];
 
-		// Make the file path relative to the upload dir
+		// Make the file path relative to the upload dir.
 		$metadata['file'] = _wp_relative_upload_path($file);
 
-		// make thumbnails and other intermediate sizes
+		// Make thumbnails and other intermediate sizes.
 		global $_wp_additional_image_sizes;
 
 		$sizes = array();
@@ -120,7 +122,7 @@ function wp_generate_attachment_metadata( $attachment_id, $file ) {
 			$metadata['sizes'] = array();
 		}
 
-		// fetch additional metadata from exif/iptc
+		// Fetch additional metadata from EXIF/IPTC.
 		$image_meta = wp_read_image_metadata( $file );
 		if ( $image_meta )
 			$metadata['image_meta'] = $image_meta;
@@ -134,7 +136,7 @@ function wp_generate_attachment_metadata( $attachment_id, $file ) {
 	}
 
 	if ( $support && ! empty( $metadata['image']['data'] ) ) {
-		// check for existing cover
+		// Check for existing cover.
 		$hash = md5( $metadata['image']['data'] );
 		$posts = get_posts( array(
 			'fields' => 'ids',
@@ -187,7 +189,7 @@ function wp_generate_attachment_metadata( $attachment_id, $file ) {
 		}
 	}
 
-	// remove the blob of binary data from the array
+	// Remove the blob of binary data from the array.
 	if ( isset( $metadata['image']['data'] ) )
 		unset( $metadata['image']['data'] );
 
@@ -254,10 +256,12 @@ function wp_read_image_metadata( $file ) {
 
 	list( , , $sourceImageType ) = getimagesize( $file );
 
-	// exif contains a bunch of data we'll probably never need formatted in ways
-	// that are difficult to use. We'll normalize it and just extract the fields
-	// that are likely to be useful. Fractions and numbers are converted to
-	// floats, dates to unix timestamps, and everything else to strings.
+	/*
+	 * EXIF contains a bunch of data we'll probably never need formatted in ways
+	 * that are difficult to use. We'll normalize it and just extract the fields
+	 * that are likely to be useful. Fractions and numbers are converted to
+	 * floats, dates to unix timestamps, and everything else to strings.
+	 */
 	$meta = array(
 		'aperture' => 0,
 		'credit' => '',
@@ -271,20 +275,26 @@ function wp_read_image_metadata( $file ) {
 		'title' => '',
 	);
 
-	// read iptc first, since it might contain data not available in exif such
-	// as caption, description etc
+	/*
+	 * Read IPTC first, since it might contain data not available in exif such
+	 * as caption, description etc.
+	 */
 	if ( is_callable( 'iptcparse' ) ) {
 		getimagesize( $file, $info );
 
 		if ( ! empty( $info['APP13'] ) ) {
 			$iptc = iptcparse( $info['APP13'] );
 
-			// headline, "A brief synopsis of the caption."
-			if ( ! empty( $iptc['2#105'][0] ) )
+			// Headline, "A brief synopsis of the caption."
+			if ( ! empty( $iptc['2#105'][0] ) ) {
 				$meta['title'] = trim( $iptc['2#105'][0] );
-			// title, "Many use the Title field to store the filename of the image, though the field may be used in many ways."
-			elseif ( ! empty( $iptc['2#005'][0] ) )
+			/*
+			 * Title, "Many use the Title field to store the filename of the image,
+			 * though the field may be used in many ways."
+			 */
+			} elseif ( ! empty( $iptc['2#005'][0] ) ) {
 				$meta['title'] = trim( $iptc['2#005'][0] );
+			}
 
 			if ( ! empty( $iptc['2#120'][0] ) ) { // description / legacy caption
 				$caption = trim( $iptc['2#120'][0] );
@@ -568,8 +578,10 @@ function _copy_image_file( $attachment_id ) {
 		$dst_file = str_replace( basename( $dst_file ), 'copy-' . basename( $dst_file ), $dst_file );
 		$dst_file = dirname( $dst_file ) . '/' . wp_unique_filename( dirname( $dst_file ), basename( $dst_file ) );
 
-		// The directory containing the original file may no longer exist when
-		// using a replication plugin.
+		/*
+		 * The directory containing the original file may no longer
+		 * exist when using a replication plugin.
+		 */
 		wp_mkdir_p( dirname( $dst_file ) );
 
 		if ( ! @copy( $src_file, $dst_file ) )

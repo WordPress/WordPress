@@ -41,7 +41,7 @@ class WP_Importer {
 			}
 		} while ( count( $results ) == $limit );
 
-		// unset to save memory
+		// Unset to save memory.
 		unset( $results, $r );
 
 		return $hashtable;
@@ -67,7 +67,7 @@ class WP_Importer {
 		if ( !empty( $result ) )
 			$count = intval( $result[0]->cnt );
 
-		// unset to save memory
+		// Unset to save memory.
 		unset( $results );
 
 		return $count;
@@ -109,7 +109,7 @@ class WP_Importer {
 			}
 		} while ( count( $results ) == $limit );
 
-		// unset to save memory
+		// Unset to save memory.
 		unset( $results, $r );
 
 		return $hashtable;

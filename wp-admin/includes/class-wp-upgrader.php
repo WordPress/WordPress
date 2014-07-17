@@ -190,7 +190,8 @@ class WP_Upgrader {
 		);
 
 		$args = wp_parse_args($args, $defaults);
-		// these were previously extract()'d
+
+		// These were previously extract()'d.
 		$source = $args['source'];
 		$destination = $args['destination'];
 		$clear_destination = $args['clear_destination'];
@@ -249,14 +250,19 @@ class WP_Upgrader {
 			return $source;
 		}
 
-		//Has the source location changed? If so, we need a new source_files list.
+		// Has the source location changed? If so, we need a new source_files list.
 		if ( $source !== $remote_source ) {
 			$source_files = array_keys( $wp_filesystem->dirlist( $source ) );
 		}
-		// Protection against deleting files in any important base directories.
-		// Theme_Upgrader & Plugin_Upgrader also trigger this, as they pass the destination directory (WP_PLUGIN_DIR / wp-content/themes)
-		// intending to copy the directory into the directory, whilst they pass the source as the actual files to copy.
+		/*
+		 * Protection against deleting files in any important base directories.
+		 * Theme_Upgrader & Plugin_Upgrader also trigger this, as they pass the
+		 * destination directory (WP_PLUGIN_DIR / wp-content/themes) intending
+		 * to copy the directory into the directory, whilst they pass the source
+		 * as the actual files to copy.
+		 */
 		$protected_directories = array( ABSPATH, WP_CONTENT_DIR, WP_PLUGIN_DIR, WP_CONTENT_DIR . '/themes' );
+
 		if ( is_array( $wp_theme_directories ) ) {
 			$protected_directories = array_merge( $protected_directories, $wp_theme_directories );
 		}
@@ -716,7 +722,7 @@ class Plugin_Upgrader extends WP_Upgrader {
 		return $source;
 	}
 
-	//return plugin info.
+	// Return plugin info.
 	public function plugin_info() {
 		if ( ! is_array($this->result) )
 			return false;
@@ -1266,8 +1272,10 @@ class Language_Pack_Upgrader extends WP_Upgrader {
 		$this->update_count = count( $language_updates );
 		$this->update_current = 0;
 
-		// The filesystem's mkdir() is not recursive. Make sure WP_LANG_DIR exists,
-		// as we then may need to create a /plugins or /themes directory inside of it.
+		/*
+		 * The filesystem's mkdir() is not recursive. Make sure WP_LANG_DIR exists,
+		 * as we then may need to create a /plugins or /themes directory inside of it.
+		 */
 		$remote_destination = $wp_filesystem->find_folder( WP_LANG_DIR );
 		if ( ! $wp_filesystem->exists( $remote_destination ) )
 			if ( ! $wp_filesystem->mkdir( $remote_destination, FS_CHMOD_DIR ) )
@@ -1469,9 +1477,11 @@ class Core_Upgrader extends WP_Upgrader {
 			$try_rollback = false;
 			if ( is_wp_error( $result ) ) {
 				$error_code = $result->get_error_code();
-				// Not all errors are equal. These codes are critical: copy_failed__copy_dir,
-				// mkdir_failed__copy_dir, copy_failed__copy_dir_retry, and disk_full.
-				// do_rollback allows for update_core() to trigger a rollback if needed.
+				/*
+				 * Not all errors are equal. These codes are critical: copy_failed__copy_dir,
+				 * mkdir_failed__copy_dir, copy_failed__copy_dir_retry, and disk_full.
+				 * do_rollback allows for update_core() to trigger a rollback if needed.
+				 */
 				if ( false !== strpos( $error_code, 'do_rollback' ) )
 					$try_rollback = true;
 				elseif ( false !== strpos( $error_code, '__copy_dir' ) )
@@ -1601,7 +1611,7 @@ class Core_Upgrader extends WP_Upgrader {
 			 */
 			if ( ! apply_filters( 'allow_dev_auto_core_updates', $upgrade_dev ) )
 				return false;
-			// else fall through to minor + major branches below
+			// Else fall through to minor + major branches below.
 		}
 
 		// 4: Minor In-branch updates (3.7.0 -> 3.7.1 -> 3.7.2 -> 3.7.4)
@@ -1692,10 +1702,10 @@ class File_Upload_Upgrader {
 				'post_status' => 'private'
 			);
 
-			// Save the data
+			// Save the data.
 			$this->id = wp_insert_attachment( $object, $file['file'] );
 
-			// schedule a cleanup for 2 hours from now in case of failed install
+			// Schedule a cleanup for 2 hours from now in case of failed install.
 			wp_schedule_single_event( time() + 2 * HOUR_IN_SECONDS, 'upgrader_scheduled_cleanup', array( $this->id ) );
 
 		} elseif ( is_numeric( $_GET[$urlholder] ) ) {
@@ -2018,16 +2028,18 @@ class WP_Automatic_Updater {
 		// Boom, This sites about to get a whole new splash of paint!
 		$upgrade_result = $upgrader->upgrade( $upgrader_item, array(
 			'clear_update_cache' => false,
-			'pre_check_md5'      => false, /* always use partial builds if possible for core updates */
-			'attempt_rollback'   => true, /* only available for core updates */
+			// Always use partial builds if possible for core updates.
+			'pre_check_md5'      => false,
+			// Only available for core updates.
+			'attempt_rollback'   => true,
 		) );
 
-		// if the filesystem is unavailable, false is returned.
+		// If the filesystem is unavailable, false is returned.
 		if ( false === $upgrade_result ) {
 			$upgrade_result = new WP_Error( 'fs_unavailable', __( 'Could not access filesystem.' ) );
 		}
 
-		// Core doesn't output this, so lets append it so we don't get confused
+		// Core doesn't output this, so lets append it so we don't get confused.
 		if ( 'core' == $type ) {
 			if ( is_wp_error( $upgrade_result ) ) {
 				$skin->error( __( 'Installation Failed' ), $upgrade_result );

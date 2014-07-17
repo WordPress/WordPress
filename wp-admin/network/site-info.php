@@ -59,10 +59,10 @@ if ( isset($_REQUEST['action']) && 'update-site' == $_REQUEST['action'] ) {
 			update_option( 'home', $blog_address );
 	}
 
-	// rewrite rules can't be flushed during switch to blog
+	// Rewrite rules can't be flushed during switch to blog.
 	delete_option( 'rewrite_rules' );
 
-	// update blogs table
+	// Update blogs table.
 	$blog_data = wp_unslash( $_POST['blog'] );
 	$existing_details = get_blog_details( $id, false );
 	$blog_data_checkboxes = array( 'public', 'archived', 'spam', 'mature', 'deleted' );

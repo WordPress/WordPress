@@ -179,8 +179,8 @@ function validate_file_to_edit( $file, $allowed_files = '' ) {
 		case 1 :
 			wp_die( __( 'Sorry, that file cannot be edited.' ) );
 
-		//case 2 :
-		//	wp_die( __('Sorry, can&#8217;t call files with their real path.' ));
+		// case 2 :
+		// wp_die( __('Sorry, can&#8217;t call files with their real path.' ));
 
 		case 3 :
 			wp_die( __( 'Sorry, that file cannot be edited.' ) );
@@ -257,7 +257,10 @@ function wp_handle_upload( &$file, $overrides = false, $time = null ) {
 		__( "Failed to write file to disk." ),
 		__( "File upload stopped by extension." ));
 
-	// this may not have orignially been intended to be overrideable, but historically has been
+	/*
+	 * This may not have orignially been intended to be overrideable,
+	 * but historically has been.
+	 */
 	if ( isset( $overrides['upload_error_strings'] ) ) {
 		$upload_error_strings = $overrides['upload_error_strings'];
 	}
@@ -267,7 +270,7 @@ function wp_handle_upload( &$file, $overrides = false, $time = null ) {
 	$test_size = isset( $overrides['test_size'] ) ? $overrides['test_size'] : true;
 	$test_upload = isset( $overrides['test_upload'] ) ? $overrides['test_upload'] : true;
 
-	// If you override this, you must provide $ext and $type!!!!
+	// If you override this, you must provide $ext and $type!!
 	$test_type = isset( $overrides['test_type'] ) ? $overrides['test_type'] : true;
 	$mimes = isset( $overrides['mimes'] ) ? $overrides['mimes'] : false;
 
@@ -314,13 +317,16 @@ function wp_handle_upload( &$file, $overrides = false, $time = null ) {
 		$type = '';
 	}
 
-	// A writable uploads dir will pass this test. Again, there's no point overriding this one.
+	/*
+	 * A writable uploads dir will pass this test. Again, there's no point
+	 * overriding this one.
+	 */
 	if ( ! ( ( $uploads = wp_upload_dir($time) ) && false === $uploads['error'] ) )
 		return call_user_func($upload_error_handler, $file, $uploads['error'] );
 
 	$filename = wp_unique_filename( $uploads['path'], $file['name'], $unique_filename_callback );
 
-	// Move the file to the uploads dir
+	// Move the file to the uploads dir.
 	$new_file = $uploads['path'] . "/$filename";
 	if ( false === @ move_uploaded_file( $file['tmp_name'], $new_file ) ) {
 		if ( 0 === strpos( $uploads['basedir'], ABSPATH ) )
@@ -331,12 +337,12 @@ function wp_handle_upload( &$file, $overrides = false, $time = null ) {
 		return $upload_error_handler( $file, sprintf( __('The uploaded file could not be moved to %s.' ), $error_path ) );
 	}
 
-	// Set correct file permissions
+	// Set correct file permissions.
 	$stat = stat( dirname( $new_file ));
 	$perms = $stat['mode'] & 0000666;
 	@ chmod( $new_file, $perms );
 
-	// Compute the URL
+	// Compute the URL.
 	$url = $uploads['url'] . "/$filename";
 
 	if ( is_multisite() )
@@ -1051,7 +1057,7 @@ function request_filesystem_credentials($form_post, $type = '', $error = false, 
 	$credentials['public_key'] = defined('FTP_PUBKEY') ? FTP_PUBKEY : (!empty($_POST['public_key']) ? wp_unslash( $_POST['public_key'] ) : '');
 	$credentials['private_key'] = defined('FTP_PRIKEY') ? FTP_PRIKEY : (!empty($_POST['private_key']) ? wp_unslash( $_POST['private_key'] ) : '');
 
-	//sanitize the hostname, Some people might pass in odd-data:
+	// Sanitize the hostname, Some people might pass in odd-data:
 	$credentials['hostname'] = preg_replace('|\w+://|', '', $credentials['hostname']); //Strip any schemes off
 
 	if ( strpos($credentials['hostname'], ':') ) {

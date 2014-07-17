@@ -53,7 +53,8 @@ switch ( $action ) {
 			wp_save_nav_menu_items( $nav_menu_selected_id, $_REQUEST['menu-item'] );
 		break;
 	case 'move-down-menu-item' :
-		// moving down a menu item is the same as moving up the next in order
+
+		// Moving down a menu item is the same as moving up the next in order.
 		check_admin_referer( 'move-menu_item' );
 		$menu_item_id = isset( $_REQUEST['menu-item'] ) ? (int) $_REQUEST['menu-item'] : 0;
 		if ( is_nav_menu_item( $menu_item_id ) ) {
@@ -63,7 +64,7 @@ switch ( $action ) {
 				$ordered_menu_items = wp_get_nav_menu_items( $menu_id );
 				$menu_item_data = (array) wp_setup_nav_menu_item( get_post( $menu_item_id ) );
 
-				// set up the data we need in one pass through the array of menu items
+				// Set up the data we need in one pass through the array of menu items.
 				$dbids_to_orders = array();
 				$orders_to_dbids = array();
 				foreach( (array) $ordered_menu_items as $ordered_menu_item_object ) {
@@ -75,14 +76,14 @@ switch ( $action ) {
 					}
 				}
 
-				// get next in order
+				// Get next in order.
 				if (
 					isset( $orders_to_dbids[$dbids_to_orders[$menu_item_id] + 1] )
 				) {
 					$next_item_id = $orders_to_dbids[$dbids_to_orders[$menu_item_id] + 1];
 					$next_item_data = (array) wp_setup_nav_menu_item( get_post( $next_item_id ) );
 
-					// if not siblings of same parent, bubble menu item up but keep order
+					// If not siblings of same parent, bubble menu item up but keep order.
 					if (
 						! empty( $menu_item_data['menu_item_parent'] ) &&
 						(
@@ -102,7 +103,7 @@ switch ( $action ) {
 
 						}
 
-					// make menu item a child of its next sibling
+					// Make menu item a child of its next sibling.
 					} else {
 						$next_item_data['menu_order'] = $next_item_data['menu_order'] - 1;
 						$menu_item_data['menu_order'] = $menu_item_data['menu_order'] + 1;
@@ -114,7 +115,7 @@ switch ( $action ) {
 						wp_update_post($next_item_data);
 					}
 
-				// the item is last but still has a parent, so bubble up
+				// The item is last but still has a parent, so bubble up.
 				} elseif (
 					! empty( $menu_item_data['menu_item_parent'] ) &&
 					in_array( $menu_item_data['menu_item_parent'], $orders_to_dbids )
@@ -136,7 +137,7 @@ switch ( $action ) {
 				$ordered_menu_items = wp_get_nav_menu_items( $menu_id );
 				$menu_item_data = (array) wp_setup_nav_menu_item( get_post( $menu_item_id ) );
 
-				// set up the data we need in one pass through the array of menu items
+				// Set up the data we need in one pass through the array of menu items.
 				$dbids_to_orders = array();
 				$orders_to_dbids = array();
 				foreach( (array) $ordered_menu_items as $ordered_menu_item_object ) {
@@ -148,10 +149,10 @@ switch ( $action ) {
 					}
 				}
 
-				// if this menu item is not first
+				// If this menu item is not first.
 				if ( ! empty( $dbids_to_orders[$menu_item_id] ) && ! empty( $orders_to_dbids[$dbids_to_orders[$menu_item_id] - 1] ) ) {
 
-					// if this menu item is a child of the previous
+					// If this menu item is a child of the previous.
 					if (
 						! empty( $menu_item_data['menu_item_parent'] ) &&
 						in_array( $menu_item_data['menu_item_parent'], array_keys( $dbids_to_orders ) ) &&
@@ -164,7 +165,10 @@ switch ( $action ) {
 						if ( ! is_wp_error( $parent_object ) ) {
 							$parent_data = (array) $parent_object;
 
-							// if there is something before the parent and parent a child of it, make menu item a child also of it
+							/*
+							 * If there is something before the parent and parent a child of it,
+							 * make menu item a child also of it.
+							 */
 							if (
 								! empty( $dbids_to_orders[$parent_db_id] ) &&
 								! empty( $orders_to_dbids[$dbids_to_orders[$parent_db_id] - 1] ) &&
@@ -172,7 +176,10 @@ switch ( $action ) {
 							) {
 								$menu_item_data['menu_item_parent'] = $parent_data['menu_item_parent'];
 
-							// else if there is something before parent and parent not a child of it, make menu item a child of that something's parent
+							/*
+							 * Else if there is something before parent and parent not a child of it,
+							 * make menu item a child of that something's parent
+							 */
 							} elseif (
 								! empty( $dbids_to_orders[$parent_db_id] ) &&
 								! empty( $orders_to_dbids[$dbids_to_orders[$parent_db_id] - 1] )
@@ -183,24 +190,24 @@ switch ( $action ) {
 								else
 									$menu_item_data['menu_item_parent'] = 0;
 
-							// else there isn't something before the parent
+							// Else there isn't something before the parent.
 							} else {
 								$menu_item_data['menu_item_parent'] = 0;
 							}
 
-							// set former parent's [menu_order] to that of menu-item's
+							// Set former parent's [menu_order] to that of menu-item's.
 							$parent_data['menu_order'] = $parent_data['menu_order'] + 1;
 
-							// set menu-item's [menu_order] to that of former parent
+							// Set menu-item's [menu_order] to that of former parent.
 							$menu_item_data['menu_order'] = $menu_item_data['menu_order'] - 1;
 
-							// save changes
+							// Save changes.
 							update_post_meta( $menu_item_data['ID'], '_menu_item_menu_item_parent', (int) $menu_item_data['menu_item_parent'] );
 							wp_update_post($menu_item_data);
 							wp_update_post($parent_data);
 						}
 
-					// else this menu item is not a child of the previous
+					// Else this menu item is not a child of the previous.
 					} elseif (
 						empty( $menu_item_data['menu_order'] ) ||
 						empty( $menu_item_data['menu_item_parent'] ) ||
@@ -208,7 +215,7 @@ switch ( $action ) {
 						empty( $orders_to_dbids[$dbids_to_orders[$menu_item_id] - 1] ) ||
 						$orders_to_dbids[$dbids_to_orders[$menu_item_id] - 1] != $menu_item_data['menu_item_parent']
 					) {
-						// just make it a child of the previous; keep the order
+						// Just make it a child of the previous; keep the order.
 						$menu_item_data['menu_item_parent'] = (int) $orders_to_dbids[$dbids_to_orders[$menu_item_id] - 1];
 						update_post_meta( $menu_item_data['ID'], '_menu_item_menu_item_parent', (int) $menu_item_data['menu_item_parent'] );
 						wp_update_post($menu_item_data);
@@ -232,7 +239,7 @@ switch ( $action ) {
 		if ( is_nav_menu( $nav_menu_selected_id ) ) {
 			$deletion = wp_delete_nav_menu( $nav_menu_selected_id );
 		} else {
-			// Reset the selected menu
+			// Reset the selected menu.
 			$nav_menu_selected_id = 0;
 			unset( $_REQUEST['menu'] );
 		}
@@ -266,22 +273,22 @@ switch ( $action ) {
 	case 'update':
 		check_admin_referer( 'update-nav_menu', 'update-nav-menu-nonce' );
 
-		// Remove menu locations that have been unchecked
+		// Remove menu locations that have been unchecked.
 		foreach ( $locations as $location => $description ) {
 			if ( ( empty( $_POST['menu-locations'] ) || empty( $_POST['menu-locations'][ $location ] ) ) && isset( $menu_locations[ $location ] ) && $menu_locations[ $location ] == $nav_menu_selected_id )
 				unset( $menu_locations[ $location ] );
 		}
 
-		// Merge new and existing menu locations if any new ones are set
+		// Merge new and existing menu locations if any new ones are set.
 		if ( isset( $_POST['menu-locations'] ) ) {
 			$new_menu_locations = array_map( 'absint', $_POST['menu-locations'] );
 			$menu_locations = array_merge( $menu_locations, $new_menu_locations );
 		}
 
-		// Set menu locations
+		// Set menu locations.
 		set_theme_mod( 'nav_menu_locations', $menu_locations );
 
-		// Add Menu
+		// Add Menu.
 		if ( 0 == $nav_menu_selected_id ) {
 			$new_menu_title = trim( esc_html( $_POST['menu-name'] ) );
 
@@ -314,6 +321,7 @@ switch ( $action ) {
 							$menu_locations[ $_REQUEST['use-location'] ] = $nav_menu_selected_id;
 						set_theme_mod( 'nav_menu_locations', $menu_locations );
 					}
+
 					// $messages[] = '<div id="message" class="updated"><p>' . sprintf( __( '<strong>%s</strong> has been created.' ), $nav_menu_selected_title ) . '</p></div>';
 					wp_redirect( admin_url( 'nav-menus.php?menu=' . $_nav_menu_selected_id ) );
 					exit();
@@ -322,7 +330,7 @@ switch ( $action ) {
 				$messages[] = '<div id="message" class="error"><p>' . __( 'Please enter a valid menu name.' ) . '</p></div>';
 			}
 
-		// Update existing menu
+		// Update existing menu.
 		} else {
 
 			$_menu_object = wp_get_nav_menu_object( $nav_menu_selected_id );
@@ -344,7 +352,7 @@ switch ( $action ) {
 				}
 			}
 
-			// Update menu items
+			// Update menu items.
 			if ( ! is_wp_error( $_menu_object ) ) {
 				$messages = array_merge( $messages, wp_nav_menu_update_menu_items( $nav_menu_selected_id, $nav_menu_selected_title ) );
 			}
@@ -371,7 +379,7 @@ switch ( $action ) {
 		break;
 }
 
-// Get all nav menus
+// Get all nav menus.
 $nav_menus = wp_get_nav_menus( array('orderby' => 'name') );
 $menu_count = count( $nav_menus );
 
@@ -380,7 +388,10 @@ $add_new_screen = ( isset( $_GET['menu'] ) && 0 == $_GET['menu'] ) ? true : fals
 
 $locations_screen = ( isset( $_GET['action'] ) && 'locations' == $_GET['action'] ) ? true : false;
 
-// If we have one theme location, and zero menus, we take them right into editing their first menu
+/*
+ * If we have one theme location, and zero menus, we take them right
+ * into editing their first menu.
+ */
 $page_count = wp_count_posts( 'page' );
 $one_theme_location_no_menus = ( 1 == count( get_registered_nav_menus() ) && ! $add_new_screen && empty( $nav_menus ) && ! empty( $page_count->publish ) ) ? true : false;
 
@@ -404,32 +415,35 @@ $nav_menus_l10n = array(
 );
 wp_localize_script( 'nav-menu', 'menus', $nav_menus_l10n );
 
-// Redirect to add screen if there are no menus and this users has either zero, or more than 1 theme locations
+/*
+ * Redirect to add screen if there are no menus and this users has either zero,
+ * or more than 1 theme locations.
+ */
 if ( 0 == $menu_count && ! $add_new_screen && ! $one_theme_location_no_menus )
 	wp_redirect( admin_url( 'nav-menus.php?action=edit&menu=0' ) );
 
-// Get recently edited nav menu
+// Get recently edited nav menu.
 $recently_edited = absint( get_user_option( 'nav_menu_recently_edited' ) );
 if ( empty( $recently_edited ) && is_nav_menu( $nav_menu_selected_id ) )
 	$recently_edited = $nav_menu_selected_id;
 
-// Use $recently_edited if none are selected
+// Use $recently_edited if none are selected.
 if ( empty( $nav_menu_selected_id ) && ! isset( $_GET['menu'] ) && is_nav_menu( $recently_edited ) )
 	$nav_menu_selected_id = $recently_edited;
 
-// On deletion of menu, if another menu exists, show it
+// On deletion of menu, if another menu exists, show it.
 if ( ! $add_new_screen && 0 < $menu_count && isset( $_GET['action'] ) && 'delete' == $_GET['action'] )
 	$nav_menu_selected_id = $nav_menus[0]->term_id;
 
-// Set $nav_menu_selected_id to 0 if no menus
+// Set $nav_menu_selected_id to 0 if no menus.
 if ( $one_theme_location_no_menus ) {
 	$nav_menu_selected_id = 0;
 } elseif ( empty( $nav_menu_selected_id ) && ! empty( $nav_menus ) && ! $add_new_screen ) {
-	// if we have no selection yet, and we have menus, set to the first one in the list
+	// if we have no selection yet, and we have menus, set to the first one in the list.
 	$nav_menu_selected_id = $nav_menus[0]->term_id;
 }
 
-// Update the user's setting
+// Update the user's setting.
 if ( $nav_menu_selected_id != $recently_edited && is_nav_menu( $nav_menu_selected_id ) )
 	update_user_meta( $current_user->ID, 'nav_menu_recently_edited', $nav_menu_selected_id );
 
@@ -439,23 +453,25 @@ if ( ! $nav_menu_selected_title && is_nav_menu( $nav_menu_selected_id ) ) {
 	$nav_menu_selected_title = ! is_wp_error( $_menu_object ) ? $_menu_object->name : '';
 }
 
-// Generate truncated menu names
+// Generate truncated menu names.
 foreach( (array) $nav_menus as $key => $_nav_menu ) {
 	$nav_menus[$key]->truncated_name = wp_html_excerpt( $_nav_menu->name, 40, '&hellip;' );
 }
 
-// Retrieve menu locations
+// Retrieve menu locations.
 if ( current_theme_supports( 'menus' ) ) {
 	$locations = get_registered_nav_menus();
 	$menu_locations = get_nav_menu_locations();
 }
 
-// Ensure the user will be able to scroll horizontally
-// by adding a class for the max menu depth.
+/*
+ * Ensure the user will be able to scroll horizontally
+ * by adding a class for the max menu depth.
+ */
 global $_wp_nav_menu_max_depth;
 $_wp_nav_menu_max_depth = 0;
 
-// Calling wp_get_nav_menu_to_edit generates $_wp_nav_menu_max_depth
+// Calling wp_get_nav_menu_to_edit generates $_wp_nav_menu_max_depth.
 if ( is_nav_menu( $nav_menu_selected_id ) ) {
 	$menu_items = wp_get_nav_menu_items( $nav_menu_selected_id, array( 'post_status' => 'any' ) );
 	$edit_markup = wp_get_nav_menu_to_edit( $nav_menu_selected_id );
@@ -510,7 +526,7 @@ if ( ! $locations_screen ) : // Main tab
 		'title'   => __( 'Editing Menus' ),
 		'content' => $editing_menus
 	) );
-else : // Locations Tab
+else : // Locations Tab.
 	$locations_overview  = '<p>' . __( 'This screen is used for globally assigning menus to locations defined by your theme.' ) . '</p>';
 	$locations_overview .= '<ul><li>' . __( 'To assign menus to one or more theme locations, <strong>select a menu from each location&#8217;s drop down.</strong> When you&#8217;re finished, <strong>click Save Changes</strong>' ) . '</li>';
 	$locations_overview .= '<li>' . __( 'To edit a menu currently assigned to a theme location, <strong>click the adjacent &#8217;Edit&#8217; link</strong>' ) . '</li>';
@@ -529,7 +545,7 @@ get_current_screen()->set_help_sidebar(
 	'<p>' . __('<a href="https://wordpress.org/support/" target="_blank">Support Forums</a>') . '</p>'
 );
 
-// Get the admin header
+// Get the admin header.
 require_once( ABSPATH . 'wp-admin/admin-header.php' );
 ?>
 <div class="wrap">
@@ -644,7 +660,7 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 							 */
 							$assigned_locations = array_slice( $locations_assigned_to_this_menu, 0, absint( apply_filters( 'wp_nav_locations_listed_per_menu', 3 ) ) );
 
-							// Adds ellipses following the number of locations defined in $assigned_locations
+							// Adds ellipses following the number of locations defined in $assigned_locations.
 							if ( ! empty( $assigned_locations ) ) {
 								printf( ' (%1$s%2$s)',
 									implode( ', ', $assigned_locations ),

@@ -80,9 +80,12 @@ function _wp_menu_output( $menu, $submenu, $submenu_as_parent = true ) {
 		$img = $img_style = '';
 		$img_class = ' dashicons-before';
 
-		// if the string 'none' (previously 'div') is passed instead of an URL, don't output the default menu image
-		// so an icon can be added to div.wp-menu-image as background with CSS.
-		// Dashicons and base64-encoded data:image/svg_xml URIs are also handled as special cases.
+		/*
+		 * If the string 'none' (previously 'div') is passed instead of an URL, don't output
+		 * the default menu image so an icon can be added to div.wp-menu-image as background
+		 * with CSS. Dashicons and base64-encoded data:image/svg_xml URIs are also handled
+		 * as special cases.
+		 */
 		if ( ! empty( $item[6] ) ) {
 			$img = '<img src="' . $item[6] . '" alt="" />';
 

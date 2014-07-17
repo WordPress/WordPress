@@ -92,7 +92,7 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 				break;
 
 			case 'featured':
-			//case 'popular':
+			// case 'popular':
 			case 'new':
 			case 'updated':
 				$args['browse'] = $tab;

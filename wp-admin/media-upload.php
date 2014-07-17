@@ -30,14 +30,14 @@ wp_enqueue_script( 'media-gallery' );
 $ID = isset($ID) ? (int) $ID : 0;
 $post_id = isset($post_id)? (int) $post_id : 0;
 
-// Require an ID for the edit screen
+// Require an ID for the edit screen.
 if ( isset($action) && $action == 'edit' && !$ID )
 	wp_die( __( 'Cheatin&#8217; uh?' ) );
 
 	if ( ! empty( $_REQUEST['post_id'] ) && ! current_user_can( 'edit_post' , $_REQUEST['post_id'] ) )
 		wp_die( __( 'Cheatin&#8217; uh?' ) );
 
-	// upload type: image, video, file, ..?
+	// Upload type: image, video, file, ..?
 	if ( isset($_GET['type']) ) {
 		$type = strval($_GET['type']);
 	} else {
@@ -52,7 +52,7 @@ if ( isset($action) && $action == 'edit' && !$ID )
 		$type = apply_filters( 'media_upload_default_type', 'file' );
 	}
 
-	// tab: gallery, library, or type-specific
+	// Tab: gallery, library, or type-specific.
 	if ( isset($_GET['tab']) ) {
 		$tab = strval($_GET['tab']);
 	} else {
@@ -68,7 +68,7 @@ if ( isset($action) && $action == 'edit' && !$ID )
 
 	$body_id = 'media-upload';
 
-	// let the action code decide how to handle the request
+	// Let the action code decide how to handle the request.
 	if ( $tab == 'type' || $tab == 'type_url' || ! array_key_exists( $tab , media_upload_tabs() ) ) {
 		/**
 		 * Fires inside specific upload-type views in the legacy (pre-3.5.0)

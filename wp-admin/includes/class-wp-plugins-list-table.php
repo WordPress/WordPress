@@ -340,7 +340,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 		$context = $status;
 		$screen = $this->screen;
 
-		// preorder
+		// Pre-order.
 		$actions = array(
 			'deactivate' => '',
 			'activate' => '',

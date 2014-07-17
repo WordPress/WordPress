@@ -40,7 +40,7 @@ case 'editattachment' :
 		exit;
 	}
 
-	// no break
+	// No break.
 case 'edit' :
 	$title = __('Edit Media');
 

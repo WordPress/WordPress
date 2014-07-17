@@ -232,7 +232,7 @@ class WP_Filesystem_ftpsockets extends WP_Filesystem_Base {
 	public function exists( $file ) {
 		$list = $this->ftp->nlist( $file );
 		return !empty( $list ); //empty list = no file, so invert.
-		// return $this->ftp->is_exists($file); has issues with ABOR+426 responses on the ncFTPd server
+		// Return $this->ftp->is_exists($file); has issues with ABOR+426 responses on the ncFTPd server.
 	}
 
 	public function is_file($file) {

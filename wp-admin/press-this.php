@@ -40,7 +40,7 @@ function press_it() {
 	$upload = false;
 	if ( !empty($_POST['photo_src']) && current_user_can('upload_files') ) {
 		foreach( (array) $_POST['photo_src'] as $key => $image) {
-			// see if files exist in content - we don't want to upload non-used selected files.
+			// See if files exist in content - we don't want to upload non-used selected files.
 			if ( strpos($_POST['content'], htmlspecialchars($image)) !== false ) {
 				$desc = isset($_POST['photo_description'][$key]) ? $_POST['photo_description'][$key] : '';
 				$upload = media_sideload_image($image, $post_ID, $desc);
@@ -51,7 +51,7 @@ function press_it() {
 			}
 		}
 	}
-	// set the post_content and status
+	// Set the post_content and status.
 	$post['post_content'] = $content;
 	if ( isset( $_POST['publish'] ) && current_user_can( 'publish_posts' ) )
 		$post['post_status'] = 'publish';
@@ -60,12 +60,12 @@ function press_it() {
 	else
 		$post['post_status'] = 'draft';
 
-	// error handling for media_sideload
+	// Error handling for media_sideload.
 	if ( is_wp_error($upload) ) {
 		wp_delete_post($post_ID);
 		wp_die($upload);
 	} else {
-		// Post formats
+		// Post formats.
 		if ( isset( $_POST['post_format'] ) ) {
 			if ( current_theme_supports( 'post-formats', $_POST['post_format'] ) )
 				set_post_format( $post_ID, $_POST['post_format'] );
@@ -181,9 +181,10 @@ if ( !empty($_REQUEST['ajax']) ) {
 				return '';
 			$sources = array();
 			foreach ($matches[3] as $src) {
-				// if no http in url
+
+				// If no http in URL.
 				if (strpos($src, 'http') === false)
-					// if it doesn't have a relative uri
+					// If it doesn't have a relative URI.
 					if ( strpos($src, '../') === false && strpos($src, './') === false && strpos($src, '/') === 0)
 						$src = 'http://'.str_replace('//','/', $host['host'].'/'.$src);
 					else
@@ -197,7 +198,7 @@ if ( !empty($_REQUEST['ajax']) ) {
 		break;
 
 	case 'photo_js': ?>
-		// gather images and load some default JS
+		// Gather images and load some default JS.
 		var last = null
 		var img, img_tag, aspect, w, h, skip, i, strtoappend = "";
 		if(photostorage == false) {
@@ -438,12 +439,14 @@ var photostorage = false;
 		}
 	}
 	jQuery(document).ready(function($) {
-		//resize screen
+		// Resize screen.
 		window.resizeTo(760,580);
-		// set button actions
+
+		// Set button actions.
 		jQuery('#photo_button').click(function() { show('photo'); return false; });
 		jQuery('#video_button').click(function() { show('video'); return false; });
-		// auto select
+
+		// Auto select.
 		<?php if ( preg_match("/youtube\.com\/watch/i", $url) ) { ?>
 			show('video');
 		<?php } elseif ( preg_match("/vimeo\.com\/[0-9]+/i", $url) ) { ?>

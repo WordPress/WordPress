@@ -222,7 +222,8 @@ switch($step) {
 		$admin_password_check = isset($_POST['admin_password2']) ? wp_unslash( $_POST['admin_password2'] ) : '';
 		$admin_email  = isset( $_POST['admin_email']  ) ?trim( wp_unslash( $_POST['admin_email'] ) ) : '';
 		$public       = isset( $_POST['blog_public']  ) ? (int) $_POST['blog_public'] : 0;
-		// check e-mail address
+
+		// Check e-mail address.
 		$error = false;
 		if ( empty( $user_name ) ) {
 			// TODO: poka-yoke

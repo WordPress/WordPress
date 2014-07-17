@@ -97,8 +97,10 @@ foreach ( $menu as $id => $data ) {
 	$first_sub = array_shift($subs);
 	$old_parent = $data[2];
 	$new_parent = $first_sub[2];
-	// If the first submenu is not the same as the assigned parent,
-	// make the first submenu the new parent.
+	/*
+	 * If the first submenu is not the same as the assigned parent,
+	 * make the first submenu the new parent.
+	 */
 	if ( $new_parent != $old_parent ) {
 		$_wp_real_parent_file[$old_parent] = $new_parent;
 		$menu[$id][2] = $new_parent;

@@ -424,7 +424,7 @@ class WP_Comments_List_Table extends WP_List_Table {
 		}
 
 		if ( $user_can ) {
-			// preorder it: Approve | Reply | Quick Edit | Edit | Spam | Trash
+			// Preorder it: Approve | Reply | Quick Edit | Edit | Spam | Trash.
 			$actions = array(
 				'approve' => '', 'unapprove' => '',
 				'reply' => '',
@@ -434,7 +434,8 @@ class WP_Comments_List_Table extends WP_List_Table {
 				'trash' => '', 'untrash' => '', 'delete' => ''
 			);
 
-			if ( $comment_status && 'all' != $comment_status ) { // not looking at all comments
+			// Not looking at all comments.
+			if ( $comment_status && 'all' != $comment_status ) {
 				if ( 'approved' == $the_comment_status )
 					$actions['unapprove'] = "<a href='$unapprove_url' data-wp-lists='delete:the-comment-list:comment-$comment->comment_ID:e7e7d3:action=dim-comment&amp;new=unapproved' class='vim-u vim-destructive' title='" . esc_attr__( 'Unapprove this comment' ) . "'>" . __( 'Unapprove' ) . '</a>';
 				else if ( 'unapproved' == $the_comment_status )

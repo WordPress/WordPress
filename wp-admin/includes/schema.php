@@ -205,7 +205,7 @@ CREATE TABLE $wpdb->posts (
   KEY user_nicename (user_nicename)
 ) $charset_collate;\n";
 
-	// usermeta
+	// Usermeta.
 	$usermeta_table = "CREATE TABLE $wpdb->usermeta (
   umeta_id bigint(20) unsigned NOT NULL auto_increment,
   user_id bigint(20) unsigned NOT NULL default '0',
@@ -522,10 +522,10 @@ function populate_options() {
 	if ( !empty($insert) )
 		$wpdb->query("INSERT INTO $wpdb->options (option_name, option_value, autoload) VALUES " . $insert);
 
-	// in case it is set, but blank, update "home"
+	// In case it is set, but blank, update "home".
 	if ( !__get_option('home') ) update_option('home', $guessurl);
 
-	// Delete unused options
+	// Delete unused options.
 	$unusedoptions = array(
 		'blodotgsping_url', 'bodyterminator', 'emailtestonly', 'phoneemail_separator', 'smilies_directory',
 		'subjectprefix', 'use_bbcode', 'use_blodotgsping', 'use_phoneemail', 'use_quicktags', 'use_weblogsping',
@@ -547,12 +547,14 @@ function populate_options() {
 	foreach ( $unusedoptions as $option )
 		delete_option($option);
 
-	// delete obsolete magpie stuff
+	// Delete obsolete magpie stuff.
 	$wpdb->query("DELETE FROM $wpdb->options WHERE option_name REGEXP '^rss_[0-9a-f]{32}(_ts)?$'");
 
-	// Deletes all expired transients.
-	// The multi-table delete syntax is used to delete the transient record from table a,
-	// and the corresponding transient_timeout record from table b.
+	/*
+	 * Deletes all expired transients. The multi-table delete syntax is used
+	 * to delete the transient record from table a, and the corresponding
+	 * transient_timeout record from table b.
+	 */
 	$time = time();
 	$sql = "DELETE a, b FROM $wpdb->options a, $wpdb->options b
 		WHERE a.option_name LIKE %s
@@ -819,8 +821,10 @@ function populate_roles_300() {
 		$role->add_cap( 'list_users' );
 		$role->add_cap( 'remove_users' );
 
-		// Never used, will be removed. create_users or
-		// promote_users is the capability you're looking for.
+		/*
+		 * Never used, will be removed. create_users or promote_users
+		 * is the capability you're looking for.
+		 */
 		$role->add_cap( 'add_users' );
 
 		$role->add_cap( 'promote_users' );
@@ -863,7 +867,7 @@ function populate_network( $network_id = 1, $domain = '', $email = '', $site_nam
 	if ( '' == $site_name )
 		$errors->add( 'empty_sitename', __( 'You must provide a name for your network of sites.' ) );
 
-	// check for network collision
+	// Check for network collision.
 	if ( $network_id == $wpdb->get_var( $wpdb->prepare( "SELECT id FROM $wpdb->site WHERE id = %d", $network_id ) ) )
 		$errors->add( 'siteid_exists', __( 'The network already exists.' ) );
 
@@ -874,7 +878,7 @@ function populate_network( $network_id = 1, $domain = '', $email = '', $site_nam
 	if ( $errors->get_error_code() )
 		return $errors;
 
-	// set up site tables
+	// Set up site tables.
 	$template = get_option( 'template' );
 	$stylesheet = get_option( 'stylesheet' );
 	$allowed_themes = array( $stylesheet => true );
@@ -920,13 +924,13 @@ We hope you enjoy your new site. Thanks!
 --The Team @ SITE_NAME' );
 
 	$misc_exts = array(
-		// images
+		// Images.
 		'jpg', 'jpeg', 'png', 'gif',
-		// video
+		// Video.
 		'mov', 'avi', 'mpg', '3gp', '3g2',
-		// "audio"
+		// "audio".
 		'midi', 'mid',
-		// misc
+		// Miscellaneous.
 		'pdf', 'doc', 'ppt', 'odt', 'pptx', 'docx', 'pps', 'ppsx', 'xls', 'xlsx', 'key',
 	);
 	$audio_exts = wp_get_audio_extensions();
@@ -981,9 +985,13 @@ We hope you enjoy your new site. Thanks!
 	}
 	$wpdb->query( "INSERT INTO $wpdb->sitemeta ( site_id, meta_key, meta_value ) VALUES " . $insert );
 
-	// When upgrading from single to multisite, assume the current site will become the main site of the network.
-	// When using populate_network() to create another network in an existing multisite environment,
-	// skip these steps since the main site of the new network has not yet been created.
+	/*
+	 * When upgrading from single to multisite, assume the current site will
+	 * become the main site of the network. When using populate_network()
+	 * to create another network in an existing multisite environment, skip
+	 * these steps since the main site of the new network has not yet been
+	 * created.
+	 */
 	if ( ! is_multisite() ) {
 		$current_site = new stdClass;
 		$current_site->domain = $domain;

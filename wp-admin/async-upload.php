@@ -94,10 +94,10 @@ if ( is_wp_error($id) ) {
 }
 
 if ( $_REQUEST['short'] ) {
-	// short form response - attachment ID only
+	// Short form response - attachment ID only.
 	echo $id;
 } else {
-	// long form response - big chunk o html
+	// Long form response - big chunk o html.
 	$type = $_REQUEST['type'];
 
 	/**

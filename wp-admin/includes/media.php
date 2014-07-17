@@ -180,7 +180,8 @@ function image_add_caption( $html, $id, $caption, $title, $align, $url, $size, $
 
 	$caption = str_replace( array("\r\n", "\r"), "\n", $caption);
 	$caption = preg_replace_callback( '/<[a-zA-Z0-9]+(?: [^<>]+>)*/', '_cleanup_image_add_caption', $caption );
-	// convert any remaining line breaks to <br>
+
+	// Convert any remaining line breaks to <br>.
 	$caption = preg_replace( '/[ \n\t]*\n[ \t]*/', '<br />', $caption );
 
 	$html = preg_replace( '/(class=["\'][^\'"]*)align(none|left|right|center)\s?/', '$1', $html );
@@ -208,7 +209,7 @@ add_filter( 'image_send_to_editor', 'image_add_caption', 20, 8 );
  * @since 3.4.0
  */
 function _cleanup_image_add_caption( $matches ) {
-	// remove any line breaks from inside the tags
+	// Remove any line breaks from inside the tags.
 	return preg_replace( '/[\r\n\t]+/', ' ', $matches[0] );
 }
 
@@ -317,7 +318,7 @@ function media_handle_upload($file_id, $post_id, $post_data = array(), $override
 		if ( ! empty( $meta['genre'] ) )
 			$content .= ' ' . sprintf( __( 'Genre: %s.' ), $meta['genre'] );
 
-	// use image exif/iptc data for title and caption defaults if possible
+	// Use image exif/iptc data for title and caption defaults if possible.
 	} elseif ( $image_meta = @wp_read_image_metadata( $file ) ) {
 		if ( trim( $image_meta['title'] ) && ! is_numeric( sanitize_title( $image_meta['title'] ) ) )
 			$title = $image_meta['title'];
@@ -378,7 +379,7 @@ function media_handle_sideload($file_array, $post_id, $desc = null, $post_data =
 	$title = preg_replace('/\.[^.]+$/', '', basename($file));
 	$content = '';
 
-	// use image exif/iptc data for title and caption defaults if possible
+	// Use image exif/iptc data for title and caption defaults if possible.
 	if ( $image_meta = @wp_read_image_metadata($file) ) {
 		if ( trim( $image_meta['title'] ) && ! is_numeric( sanitize_title( $image_meta['title'] ) ) )
 			$title = $image_meta['title'];
@@ -389,7 +390,7 @@ function media_handle_sideload($file_array, $post_id, $desc = null, $post_data =
 	if ( isset( $desc ) )
 		$title = $desc;
 
-	// Construct the attachment array
+	// Construct the attachment array.
 	$attachment = array_merge( array(
 		'post_mime_type' => $type,
 		'guid' => $url,
@@ -634,7 +635,8 @@ function media_upload_form_handler() {
 			$image_alt = wp_unslash( $attachment['image_alt'] );
 			if ( $image_alt != get_post_meta($attachment_id, '_wp_attachment_image_alt', true) ) {
 				$image_alt = wp_strip_all_tags( $image_alt, true );
-				// update_meta expects slashed
+
+				// Update_meta expects slashed.
 				update_post_meta( $attachment_id, '_wp_attachment_image_alt', wp_slash( $image_alt ) );
 			}
 		}
@@ -807,11 +809,11 @@ function wp_media_upload_handler() {
  */
 function media_sideload_image( $file, $post_id, $desc = null ) {
 	if ( ! empty( $file ) ) {
-		// Set variables for storage
-		// fix file filename for query strings
+		// Set variables for storage, fix file filename for query strings.
 		preg_match( '/[^\?]+\.(jpe?g|jpe|gif|png)\b/i', $file, $matches );
 		$file_array['name'] = basename( $matches[0] );
-		// Download file to temp location
+
+		// Download file to temp location.
 		$file_array['tmp_name'] = download_url( $file );
 
 		// If error storing temporarily, return the error.
@@ -819,9 +821,10 @@ function media_sideload_image( $file, $post_id, $desc = null ) {
 			return $file_array['tmp_name'];
 		}
 
-		// do the validation and storage stuff
+		// Do the validation and storage stuff.
 		$id = media_handle_sideload( $file_array, $post_id, $desc );
-		// If error storing permanently, unlink
+
+		// If error storing permanently, unlink.
 		if ( is_wp_error( $id ) ) {
 			@unlink( $file_array['tmp_name'] );
 			return $id;
@@ -830,7 +833,7 @@ function media_sideload_image( $file, $post_id, $desc = null ) {
 		$src = wp_get_attachment_url( $id );
 	}
 
-	// Finally check to make sure the file has been saved, then return the html
+	// Finally check to make sure the file has been saved, then return the HTML.
 	if ( ! empty( $src ) ) {
 		$alt = isset( $desc ) ? esc_attr( $desc ) : '';
 		$html = "<img src='$src' alt='$alt' />";
@@ -943,17 +946,21 @@ function image_size_input_fields( $post, $check = '' ) {
 			$downsize = image_downsize($post->ID, $size);
 			$checked = '';
 
-			// is this size selectable?
+			// Is this size selectable?
 			$enabled = ( $downsize[3] || 'full' == $size );
 			$css_id = "image-size-{$size}-{$post->ID}";
-			// if this size is the default but that's not available, don't select it
+
+			// If this size is the default but that's not available, don't select it.
 			if ( $size == $check ) {
 				if ( $enabled )
 					$checked = " checked='checked'";
 				else
 					$check = '';
 			} elseif ( !$check && $enabled && 'thumbnail' != $size ) {
-				// if $check is not enabled, default to the first available size that's bigger than a thumbnail
+				/*
+				 * If $check is not enabled, default to the first available size
+				 * that's bigger than a thumbnail.
+				 */
 				$check = $size;
 				$checked = " checked='checked'";
 			}
@@ -961,7 +968,8 @@ function image_size_input_fields( $post, $check = '' ) {
 			$html = "<div class='image-size-item'><input type='radio' " . disabled( $enabled, false, false ) . "name='attachments[$post->ID][image-size]' id='{$css_id}' value='{$size}'$checked />";
 
 			$html .= "<label for='{$css_id}'>$label</label>";
-			// only show the dimensions if that choice is available
+
+			// Only show the dimensions if that choice is available.
 			if ( $enabled )
 				$html .= " <label for='{$css_id}' class='help'>" . sprintf( "(%d&nbsp;&times;&nbsp;%d)", $downsize[1], $downsize[2] ). "</label>";
 
@@ -1009,7 +1017,7 @@ function image_link_input_fields($post, $url_type = '') {
 }
 
 function wp_caption_input_textarea($edit_post) {
-	// post data is already escaped
+	// Post data is already escaped.
 	$name = "attachments[{$edit_post->ID}][post_excerpt]";
 
 	return '<textarea name="' . $name . '" id="' . $name . '">' . $edit_post->post_excerpt . '</textarea>';
@@ -1472,10 +1480,10 @@ function get_media_item( $attachment_id, $args = null ) {
 			$item .= $field[ $field['input'] ];
 		elseif ( $field['input'] == 'textarea' ) {
 			if ( 'post_content' == $id && user_can_richedit() ) {
-				// sanitize_post() skips the post_content when user_can_richedit
+				// Sanitize_post() skips the post_content when user_can_richedit.
 				$field['value'] = htmlspecialchars( $field['value'], ENT_QUOTES );
 			}
-			// post_excerpt is already escaped by sanitize_post() in get_attachment_fields_to_edit()
+			// Post_excerpt is already escaped by sanitize_post() in get_attachment_fields_to_edit().
 			$item .= "<textarea id='$name' name='$name' $aria_required>" . $field['value'] . '</textarea>';
 		} else {
 			$item .= "<input type='text' class='text' id='$name' name='$name' value='" . esc_attr( $field['value'] ) . "' $aria_required />";
@@ -1621,7 +1629,7 @@ function get_compat_media_markup( $attachment_id, $args = null ) {
 			$item .= $field[ $field['input'] ];
 		elseif ( $field['input'] == 'textarea' ) {
 			if ( 'post_content' == $id && user_can_richedit() ) {
-				// sanitize_post() skips the post_content when user_can_richedit
+				// sanitize_post() skips the post_content when user_can_richedit.
 				$field['value'] = htmlspecialchars( $field['value'], ENT_QUOTES );
 			}
 			$item .= "<textarea id='$id_attr' name='$name' $aria_required>" . $field['value'] . '</textarea>';
@@ -2852,7 +2860,7 @@ function wp_add_id3_tag_data( &$metadata, $data ) {
 			foreach ( $data[$version]['comments'] as $key => $list ) {
 				if ( ! empty( $list ) ) {
 					$metadata[$key] = reset( $list );
-					// fix bug in byte stream analysis
+					// Fix bug in byte stream analysis.
 					if ( 'terms_of_use' === $key && 0 === strpos( $metadata[$key], 'yright notice.' ) )
 						$metadata[$key] = 'Cop' . $metadata[$key];
 				}

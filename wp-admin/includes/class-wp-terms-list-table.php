@@ -155,12 +155,13 @@ class WP_Terms_List_Table extends WP_List_Table {
 		) );
 
 		$page = $args['page'];
-		// set variable because $args['number'] can be subsequently overridden
+
+		// Set variable because $args['number'] can be subsequently overridden.
 		$number = $args['number'];
 
 		$args['offset'] = $offset = ( $page - 1 ) * $number;
 
-		// convert it to table rows
+		// Convert it to table rows.
 		$count = 0;
 
 		if ( is_taxonomy_hierarchical( $taxonomy ) && ! isset( $args['orderby'] ) ) {

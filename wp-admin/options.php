@@ -216,7 +216,7 @@ foreach ( (array) $options as $option ) :
 		continue;
 	if ( is_serialized( $option->option_value ) ) {
 		if ( is_serialized_string( $option->option_value ) ) {
-			// this is a serialized string, so we should display it
+			// This is a serialized string, so we should display it.
 			$value = maybe_unserialize( $option->option_value );
 			$options_to_update[] = $option->option_name;
 			$class = 'all-options';

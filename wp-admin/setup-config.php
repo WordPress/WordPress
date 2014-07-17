@@ -300,8 +300,10 @@ el.select();
 </script>
 <?php
 	else :
-		// If this file doesn't exist, then we are using the wp-config-sample.php
-		// file one level up, which is for the develop repo.
+		/*
+		 * If this file doesn't exist, then we are using the wp-config-sample.php
+		 * file one level up, which is for the develop repo.
+		 */
 		if ( file_exists( ABSPATH . 'wp-config-sample.php' ) )
 			$path_to_wp_config = ABSPATH . 'wp-config.php';
 		else

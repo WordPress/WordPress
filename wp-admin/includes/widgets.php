@@ -173,11 +173,14 @@ function wp_widget_control( $sidebar_args ) {
 		$query_arg['key'] = $key;
 	}
 
-	// We aren't showing a widget control, we're outputting a template for a multi-widget control
+	/*
+	 * We aren't showing a widget control, we're outputting a template
+	 * for a multi-widget control.
+	 */
 	if ( isset($sidebar_args['_display']) && 'template' == $sidebar_args['_display'] && $widget_number ) {
 		// number == -1 implies a template where id numbers are replaced by a generic '__i__'
 		$control['params'][0]['number'] = -1;
-		// with id_base widget id's are constructed like {$id_base}-{$id_number}
+		// With id_base widget id's are constructed like {$id_base}-{$id_number}.
 		if ( isset($control['id_base']) )
 			$id_format = $control['id_base'] . '-__i__';
 	}

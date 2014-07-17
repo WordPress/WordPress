@@ -516,7 +516,7 @@ function wp_nav_menu_post_type_meta_boxes() {
 		$post_type = apply_filters( 'nav_menu_meta_box_object', $post_type );
 		if ( $post_type ) {
 			$id = $post_type->name;
-			// give pages a higher priority
+			// Give pages a higher priority.
 			$priority = ( 'page' == $post_type->name ? 'core' : 'default' );
 			add_meta_box( "add-{$id}", $post_type->labels->name, 'wp_nav_menu_item_post_type_meta_box', 'nav-menus', 'side', $priority, $post_type );
 		}
@@ -615,7 +615,7 @@ function wp_nav_menu_item_post_type_meta_box( $object, $post_type ) {
 
 	$post_type_name = $post_type['args']->name;
 
-	// paginate browsing for large numbers of post objects
+	// Paginate browsing for large numbers of post objects.
 	$per_page = 50;
 	$pagenum = isset( $_REQUEST[$post_type_name . '-tab'] ) && isset( $_REQUEST['paged'] ) ? absint( $_REQUEST['paged'] ) : 1;
 	$offset = 0 < $pagenum ? $per_page * ( $pagenum - 1 ) : 0;
@@ -762,7 +762,10 @@ function wp_nav_menu_item_post_type_meta_box( $object, $post_type ) {
 				<?php
 				$args['walker'] = $walker;
 
-				// if we're dealing with pages, let's put a checkbox for the front page at the top of the list
+				/*
+				 * If we're dealing with pages, let's put a checkbox for the front
+				 * page at the top of the list.
+				 */
 				if ( 'page' == $post_type_name ) {
 					$front_page = 'page' == get_option('show_on_front') ? (int) get_option( 'page_on_front' ) : 0;
 					if ( ! empty( $front_page ) ) {
@@ -854,7 +857,7 @@ function wp_nav_menu_item_taxonomy_meta_box( $object, $taxonomy ) {
 	global $nav_menu_selected_id;
 	$taxonomy_name = $taxonomy['args']->name;
 
-	// paginate browsing for large numbers of objects
+	// Paginate browsing for large numbers of objects.
 	$per_page = 50;
 	$pagenum = isset( $_REQUEST[$taxonomy_name . '-tab'] ) && isset( $_REQUEST['paged'] ) ? absint( $_REQUEST['paged'] ) : 1;
 	$offset = 0 < $pagenum ? $per_page * ( $pagenum - 1 ) : 0;
@@ -1045,21 +1048,26 @@ function wp_save_nav_menu_items( $menu_id = 0, $menu_data = array() ) {
 
 	if ( 0 == $menu_id || is_nav_menu( $menu_id ) ) {
 
-		// Loop through all the menu items' POST values
+		// Loop through all the menu items' POST values.
 		foreach( (array) $menu_data as $_possible_db_id => $_item_object_data ) {
 			if (
-				empty( $_item_object_data['menu-item-object-id'] ) && // checkbox is not checked
+				// Checkbox is not checked.
+				empty( $_item_object_data['menu-item-object-id'] ) &&
 				(
-					! isset( $_item_object_data['menu-item-type'] ) || // and item type either isn't set
-					in_array( $_item_object_data['menu-item-url'], array( 'http://', '' ) ) || // or URL is the default
+					// And item type either isn't set.
+					! isset( $_item_object_data['menu-item-type'] ) ||
+					// Or URL is the default.
+					in_array( $_item_object_data['menu-item-url'], array( 'http://', '' ) ) ||
 					! ( 'custom' == $_item_object_data['menu-item-type'] && ! isset( $_item_object_data['menu-item-db-id'] ) ) || // or it's not a custom menu item (but not the custom home page)
-					! empty( $_item_object_data['menu-item-db-id'] ) // or it *is* a custom menu item that already exists
+					// Or it *is* a custom menu item that already exists.
+					! empty( $_item_object_data['menu-item-db-id'] )
 				)
 			) {
-				continue; // then this potential menu item is not getting added to this menu
+				// Then this potential menu item is not getting added to this menu.
+				continue;
 			}
 
-			// if this possible menu item doesn't actually have a menu database ID yet
+			// If this possible menu item doesn't actually have a menu database ID yet.
 			if (
 				empty( $_item_object_data['menu-item-db-id'] ) ||
 				( 0 > $_possible_db_id ) ||
@@ -1112,20 +1120,20 @@ function _wp_nav_menu_meta_box_object( $object = null ) {
 				'post_status' => 'publish',
 			);
 
-		// posts should show only published items
+		// Posts should show only published items.
 		} elseif ( 'post' == $object->name ) {
 			$object->_default_query = array(
 				'post_status' => 'publish',
 			);
 
-		// cats should be in reverse chronological order
+		// Categories should be in reverse chronological order.
 		} elseif ( 'category' == $object->name ) {
 			$object->_default_query = array(
 				'orderby' => 'id',
 				'order' => 'DESC',
 			);
 
-		// custom post types should show only published items
+		// Custom post types should show only published items.
 		} else {
 			$object->_default_query = array(
 				'post_status' => 'publish',
@@ -1226,7 +1234,7 @@ function _wp_delete_orphaned_draft_menu_items() {
 	global $wpdb;
 	$delete_timestamp = time() - ( DAY_IN_SECONDS * EMPTY_TRASH_DAYS );
 
-	// delete orphaned draft menu items
+	// Delete orphaned draft menu items.
 	$menu_items_to_delete = $wpdb->get_col($wpdb->prepare("SELECT ID FROM $wpdb->posts AS p LEFT JOIN $wpdb->postmeta AS m ON p.ID = m.post_id WHERE post_type = 'nav_menu_item' AND post_status = 'draft' AND meta_key = '_menu_item_orphaned' AND meta_value < '%d'", $delete_timestamp ) );
 
 	foreach( (array) $menu_items_to_delete as $menu_item_id )

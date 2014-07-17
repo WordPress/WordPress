@@ -308,16 +308,21 @@ class WP_Filesystem_Base {
 			if ( $index == $last_index )
 				continue; // We want this to be caught by the next code block.
 
-			// Working from /home/ to /user/ to /wordpress/ see if that file exists within the current folder,
-			// If it's found, change into it and follow through looking for it.
-			// If it cant find WordPress down that route, it'll continue onto the next folder level, and see if that matches, and so on.
-			// If it reaches the end, and still cant find it, it'll return false for the entire function.
+			/*
+			 * Working from /home/ to /user/ to /wordpress/ see if that file exists within
+			 * the current folder, If it's found, change into it and follow through looking
+			 * for it. If it cant find WordPress down that route, it'll continue onto the next
+			 * folder level, and see if that matches, and so on. If it reaches the end, and still
+			 * cant find it, it'll return false for the entire function.
+			 */
 			if ( isset($files[ $key ]) ){
+
 				// Lets try that folder:
 				$newdir = trailingslashit(path_join($base, $key));
 				if ( $this->verbose )
 					printf( "\n" . __('Changing to %s') . "<br/>\n", $newdir );
-				// only search for the remaining path tokens in the directory, not the full path again
+
+				// Only search for the remaining path tokens in the directory, not the full path again.
 				$newfolder = implode( '/', array_slice( $folder_parts, $index + 1 ) );
 				if ( $ret = $this->search_for_folder( $newfolder, $newdir, $loop) )
 					return $ret;

@@ -45,13 +45,14 @@ function startElement($parser, $tagName, $attrs) {
 		if ( isset( $attrs['HTMLURL'] ) ) {
 			$url = $attrs['HTMLURL'];
 		}
-		// save the data away.
+
+		// Save the data away.
 		$names[] = $name;
 		$urls[] = $url;
 		$targets[] = isset( $attrs['TARGET'] ) ? $attrs['TARGET'] :  '';
 		$feeds[] = isset( $attrs['XMLURL'] ) ? $attrs['XMLURL'] :  '';
 		$descriptions[] = isset( $attrs['DESCRIPTION'] ) ? $attrs['DESCRIPTION'] :  '';
-	} // end if outline
+	} // End if outline.
 }
 
 /**
@@ -64,7 +65,7 @@ function startElement($parser, $tagName, $attrs) {
  * @param string $tagName XML tag name.
  */
 function endElement($parser, $tagName) {
-	// nothing to do.
+	// Nothing to do.
 }
 
 // Create an XML parser

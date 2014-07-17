@@ -177,8 +177,11 @@ function wp_prepare_revisions_for_js( $post, $selected_revision_id, $from = null
 		);
 	}
 
-	// If a post has been saved since the last revision (no revisioned fields were changed)
-	// we may not have a "current" revision. Mark the latest revision as "current".
+	/*
+	 * If a post has been saved since the last revision (no revisioned fields
+	 * were changed), we may not have a "current" revision. Mark the latest
+	 * revision as "current".
+	 */
 	if ( empty( $current_id ) ) {
 		if ( $revisions[ $revision->ID ]['autosave'] ) {
 			$revision = end( $revisions );
@@ -192,7 +195,7 @@ function wp_prepare_revisions_for_js( $post, $selected_revision_id, $from = null
 		$revisions[ $current_id ]['current'] = true;
 	}
 
-	// Now, grab the initial diff
+	// Now, grab the initial diff.
 	$compare_two_mode = is_numeric( $from );
 	if ( ! $compare_two_mode ) {
 		$found = array_search( $selected_revision_id, array_keys( $revisions ) );

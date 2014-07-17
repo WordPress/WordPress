@@ -531,7 +531,7 @@ function _wp_dashboard_recent_comments_row( &$comment, $show_date = true ) {
 
 	$actions_string = '';
 	if ( current_user_can( 'edit_comment', $comment->comment_ID ) ) {
-		// preorder it: Approve | Reply | Edit | Spam | Trash
+		// Pre-order it: Approve | Reply | Edit | Spam | Trash.
 		$actions = array(
 			'approve' => '', 'unapprove' => '',
 			'reply' => '',
@@ -898,7 +898,8 @@ function wp_dashboard_rss_control( $widget_id, $form_inputs = array() ) {
 		$_POST['widget-rss'][$number] = wp_unslash( $_POST['widget-rss'][$number] );
 		$widget_options[$widget_id] = wp_widget_rss_process( $_POST['widget-rss'][$number] );
 		$widget_options[$widget_id]['number'] = $number;
-		// title is optional. If black, fill it if possible
+
+		// Title is optional. If black, fill it if possible.
 		if ( !$widget_options[$widget_id]['title'] && isset($_POST['widget-rss'][$number]['title']) ) {
 			$rss = fetch_feed($widget_options[$widget_id]['url']);
 			if ( is_wp_error($rss) ) {

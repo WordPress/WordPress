@@ -21,7 +21,7 @@
 function wp_ajax_nopriv_heartbeat() {
 	$response = array();
 
-	// screen_id is the same as $current_screen->id and the JS global 'pagenow'
+	// screen_id is the same as $current_screen->id and the JS global 'pagenow'.
 	if ( ! empty($_POST['screen_id']) )
 		$screen_id = sanitize_key($_POST['screen_id']);
 	else
@@ -64,7 +64,7 @@ function wp_ajax_nopriv_heartbeat() {
 	 */
 	do_action( 'heartbeat_nopriv_tick', $response, $screen_id );
 
-	// send the current time according to the server
+	// Send the current time according to the server.
 	$response['server_time'] = time();
 
 	wp_send_json($response);
@@ -362,16 +362,19 @@ function _wp_ajax_delete_comment_response( $comment_id, $delta = -1 ) {
 
 		$comment_count = wp_count_comments($post_id);
 
-		if ( isset( $comment_count->$status ) ) // We're looking for a known type of comment count
+		// We're looking for a known type of comment count.
+		if ( isset( $comment_count->$status ) )
 			$total = $comment_count->$status;
-			// else use the decremented value from above
+			// Else use the decremented value from above.
 	}
 
-	$time = time(); // The time since the last comment count
+	// The time since the last comment count.
+	$time = time();
 
 	$x = new WP_Ajax_Response( array(
 		'what' => 'comment',
-		'id' => $comment_id, // here for completeness - not used
+		// Here for completeness - not used.
+		'id' => $comment_id,
 		'supplemental' => array(
 			'total_items_i18n' => sprintf( _n( '1 item', '%s items', $total ), number_format_i18n( $total ) ),
 			'total_pages' => ceil( $total / $per_page ),
@@ -955,7 +958,7 @@ function wp_ajax_replyto_comment( $action ) {
 	$comment_auto_approved = false;
 	$commentdata = compact('comment_post_ID', 'comment_author', 'comment_author_email', 'comment_author_url', 'comment_content', 'comment_type', 'comment_parent', 'user_ID');
 
-	// automatically approve parent comment
+	// Automatically approve parent comment.
 	if ( !empty($_POST['approve_parent']) ) {
 		$parent = get_comment( $comment_parent );
 
@@ -1512,18 +1515,20 @@ function wp_ajax_inline_save() {
 	$data = &$_POST;
 
 	$post = get_post( $post_ID, ARRAY_A );
-	$post = wp_slash($post); //since it is from db
+
+	// Since it's coming from the database.
+	$post = wp_slash($post);
 
 	$data['content'] = $post['post_content'];
 	$data['excerpt'] = $post['post_excerpt'];
 
-	// rename
+	// Rename.
 	$data['user_ID'] = get_current_user_id();
 
 	if ( isset($data['post_parent']) )
 		$data['parent_id'] = $data['post_parent'];
 
-	// status
+	// Status.
 	if ( isset($data['keep_private']) && 'private' == $data['keep_private'] )
 		$data['post_status'] = 'private';
 	else
@@ -1540,7 +1545,7 @@ function wp_ajax_inline_save() {
 		$data['post_name'] = wp_unique_post_slug( $data['post_name'], $post['ID'], $post['post_status'], $post['post_type'], $post['post_parent'] );
 	}
 
-	// update the post
+	// Update the post.
 	edit_post();
 
 	$wp_list_table = _get_list_table( 'WP_Posts_List_Table', array( 'screen' => $_POST['screen'] ) );
@@ -1686,7 +1691,7 @@ function wp_ajax_widgets_order() {
 
 	unset( $_POST['savewidgets'], $_POST['action'] );
 
-	// save widgets order for all sidebars
+	// Save widgets order for all sidebars.
 	if ( is_array($_POST['sidebars']) ) {
 		$sidebars = array();
 		foreach ( $_POST['sidebars'] as $key => $val ) {
@@ -1751,7 +1756,7 @@ function wp_ajax_save_widget() {
 	$sidebars = wp_get_sidebars_widgets();
 	$sidebar = isset($sidebars[$sidebar_id]) ? $sidebars[$sidebar_id] : array();
 
-	// delete
+	// Delete.
 	if ( isset($_POST['delete_widget']) && $_POST['delete_widget'] ) {
 
 		if ( !isset($wp_registered_widgets[$widget_id]) )
@@ -2411,9 +2416,11 @@ function wp_ajax_send_link_to_editor() {
 		$title = wp_basename( $src );
 
 	$post = get_post( isset( $_POST['post_id'] ) ? $_POST['post_id'] : 0 );
-	// ping WordPress for an embed
+
+	// Ping WordPress for an embed.
 	$check_embed = $wp_embed->run_shortcode( '[embed]'. $src .'[/embed]' );
-	// fallback that WordPress creates when no oEmbed was found
+
+	// Fallback that WordPress creates when no oEmbed was found.
 	$fallback = $wp_embed->maybe_make_link( $src );
 
 	if ( $check_embed !== $fallback ) {
@@ -2456,7 +2463,7 @@ function wp_ajax_heartbeat() {
 		wp_send_json($response);
 	}
 
-	// screen_id is the same as $current_screen->id and the JS global 'pagenow'
+	// screen_id is the same as $current_screen->id and the JS global 'pagenow'.
 	if ( ! empty($_POST['screen_id']) )
 		$screen_id = sanitize_key($_POST['screen_id']);
 	else

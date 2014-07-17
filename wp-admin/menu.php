@@ -121,7 +121,10 @@ foreach ( (array) get_post_types( array('show_ui' => true, '_builtin' => false, 
 		$ptype_class = 'post';
 	}
 
-	// if $ptype_menu_position is already populated or will be populated by a hard-coded value below, increment the position.
+	/*
+	 * If $ptype_menu_position is already populated or will be populated
+	 * by a hard-coded value below, increment the position.
+	 */
 	$core_menu_positions = array(59, 60, 65, 70, 75, 80, 85, 99);
 	while ( isset($menu[$ptype_menu_position]) || in_array($ptype_menu_position, $core_menu_positions) )
 		$ptype_menu_position++;

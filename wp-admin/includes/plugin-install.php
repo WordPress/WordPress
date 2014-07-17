@@ -245,15 +245,18 @@ add_action( 'install_plugins_favorites', 'display_plugins_table' );
  * @since 3.0.0
  */
 function install_plugin_install_status($api, $loop = false) {
-	// this function is called recursively, $loop prevents further loops.
+	// This function is called recursively, $loop prevents further loops.
 	if ( is_array($api) )
 		$api = (object) $api;
 
-	//Default to a "new" plugin
+	// Default to a "new" plugin
 	$status = 'install';
 	$url = false;
 
-	//Check to see if this plugin is known to be installed, and has an update awaiting it.
+	/*
+	 * Check to see if this plugin is known to be installed,
+	 * and has an update awaiting it.
+	 */
 	$update_plugins = get_site_transient('update_plugins');
 	if ( isset( $update_plugins->response ) ) {
 		foreach ( (array)$update_plugins->response as $file => $plugin ) {
@@ -438,7 +441,7 @@ function install_plugin_information() {
 
 		if ( ! empty( $api->ratings ) && array_sum( (array) $api->ratings ) > 0 ) {
 			foreach( $api->ratings as $key => $ratecount ) {
-				// avoid div-by-zero
+				// Avoid div-by-zero.
 				$_rating = $api->num_ratings ? ( $ratecount / $api->num_ratings ) : 0;
 				?>
 				<div class="counter-container">

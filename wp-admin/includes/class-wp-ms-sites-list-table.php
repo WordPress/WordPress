@@ -38,8 +38,10 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 			$s = trim($s, '*');
 		}
 
-		// If the network is large and a search is not being performed, show only the latest blogs with no paging in order
-		// to avoid expensive count queries.
+		/*
+		 * If the network is large and a search is not being performed, show only
+		 * the latest blogs with no paging in order to avoid expensive count queries.
+		 */
 		if ( !$s && wp_is_large_network() ) {
 			if ( !isset($_REQUEST['orderby']) )
 				$_GET['orderby'] = $_REQUEST['orderby'] = '';
