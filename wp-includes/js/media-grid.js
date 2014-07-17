@@ -1,4 +1,4 @@
-/* global _wpMediaViewsL10n, MediaElementPlayer, _wpMediaGridSettings */
+/* global _wpMediaViewsL10n, MediaElementPlayer, _wpMediaGridSettings, confirm */
 (function($, _, Backbone, wp) {
 	var media = wp.media, l10n;
 
@@ -603,12 +603,12 @@
 		}
 	});
 
- 	media.view.BulkSelection = media.View.extend({
+	media.view.BulkSelection = media.View.extend({
 		className: 'bulk-select',
 
 		initialize: function() {
 			this.model = new Backbone.Model({
-				currentAction: '',
+				currentAction: ''
 
 			});
 
@@ -631,8 +631,8 @@
 	media.view.BulkSelectionActionDropdown = media.View.extend({
 		tagName:   'select',
 
-  		initialize: function() {
-  			media.view.Button.prototype.initialize.apply( this, arguments );
+		initialize: function() {
+			media.view.Button.prototype.initialize.apply( this, arguments );
 			this.listenTo( this.controller.controller.state().get( 'selection' ), 'add remove reset', _.bind( this.enabled, this ) );
 			this.$el.append( $('<option></option>').val( '' ).html( l10n.bulkActions ) )
 				.append( $('<option></option>').val( 'delete' ).html( l10n.deletePermanently ) );
@@ -642,12 +642,12 @@
 
 		toggleChange: function() {
 			this.controller.model.set( { 'currentAction': this.$el.val() } );
-  		},
+		},
 		enabled: function() {
 			var disabled = ! this.controller.controller.state().get('selection').length;
 			this.$el.prop( 'disabled', disabled );
-  		}
-  	});
+		}
+	});
 
 	media.view.BulkSelectionActionButton = media.view.Button.extend({
 		tagName: 'button',

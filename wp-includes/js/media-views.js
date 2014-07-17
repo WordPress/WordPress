@@ -5660,9 +5660,9 @@
 				}).render() );
 
 				this.toolbar.set( 'BulkSelection', new media.view.BulkSelection({
-  					controller: this.controller,
-  					priority: -70
-  				}).render() );
+					controller: this.controller,
+					priority: -70
+				}).render() );
 			}
 
 			filters = this.options.filters;
