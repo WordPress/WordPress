@@ -913,7 +913,7 @@
 }
 
 .attachment.details .check,
-.media-grid-view .attachment .check {
+.media-grid-view .attachment.selected .check {
 	background-color: #1e8cbe;
 	-webkit-box-shadow: 0 0 0 1px #fff,
 				0 0 0 2px #1e8cbe;
@@ -921,13 +921,21 @@
 				0 0 0 2px #1e8cbe;
 }
 
-.attachment.details .check div,
+.media-grid-view .attachment .check {
+	display: block;
+}
+
 .media-grid-view .attachment .check div {
+	background-position: 21px 0;
+}
+
+.attachment.details .check div,
+.media-grid-view .attachment.selected .check div {
 	background-position: -21px 0;
 }
 
 .attachment.details .check:hover div,
-.media-grid-view .attachment .check:hover div {
+.media-grid-view .attachment.selected .check:hover div {
 	background-position: -60px 0;
 }
 
@@ -1051,7 +1059,7 @@
 	display: inline-block;
 }
 
-.attachment:hover .inline-toolbar {
+.attachment-preview:hover ~ .inline-toolbar {
 	display: block;
 }
 
@@ -2600,12 +2608,21 @@ video#inline-media-node {
 	margin-top: 0;
 }
 
+.media-grid-view .media-toolbar select {
+	margin-top: 1px;
+	font-size: inherit;
+}
+
+.media-grid-view .attachments-browser .bulk-select {
+	display: inline-block;
+}
+
 /**
  * Copied styles from the Add theme toolbar.
  *
  * This should be OOCSS'd so both use a shared selector.
  */
-.media-grid-view .media-toolbar {
+.media-grid-view .attachments-browser .media-toolbar {
 	background: #fff;
 	-webkit-box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
 	box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
@@ -2643,7 +2660,7 @@ video#inline-media-node {
 	margin: 0 20px 0 0;
 }
 
-.media-grid-view select.attachment-filters {
+.media-grid-view select {
 	margin: 0 10px 0 0;
 }
 
@@ -2729,7 +2746,7 @@ video#inline-media-node {
 	font-weight: 300;
 }
 
-.media-frame.mode-bulk-edit .attachment:hover .inline-toolbar {
+.media-frame.mode-bulk-edit .attachment-preview:hover ~ .inline-toolbar {
 	display: none;
 }
 
@@ -2911,9 +2928,13 @@ video#inline-media-node {
 	margin-top: 3px;
 }
 
+/**
+ * Media queries for media grid.
+ */
+
 @media only screen and (max-width: 1120px) {
-	.media-grid-view .media-toolbar-primary,
-	.media-grid-view .media-toolbar-secondary {
+	.media-grid-view .attachments-browser .media-toolbar-primary,
+	.media-grid-view .attachments-browser .media-toolbar-secondary {
 		float: none;
 	}
 
@@ -2924,4 +2945,3 @@ video#inline-media-node {
 		max-width: none !important;
 	}
 }
-

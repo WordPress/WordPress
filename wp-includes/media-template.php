@@ -397,11 +397,6 @@ function wp_print_media_templates() {
 	</script>
 
 	<script type="text/html" id="tmpl-attachment">
-		<# if ( _.contains( data.controller.options.mode, 'grid' ) ) { #>
-		<div class="inline-toolbar js--select-attachment">
-			<div class="dashicons dashicons-edit edit edit-media"></div>
-		</div>
-		<# } #>
 		<div class="attachment-preview js--select-attachment type-{{ data.type }} subtype-{{ data.subtype }} {{ data.orientation }}">
 			<# if ( data.uploading ) { #>
 				<div class="media-progress-bar"><div></div></div>
@@ -424,11 +419,15 @@ function wp_print_media_templates() {
 			<# if ( data.buttons.close ) { #>
 				<a class="close media-modal-icon" href="#" title="<?php esc_attr_e('Remove'); ?>"></a>
 			<# } #>
-
-			<# if ( data.buttons.check ) { #>
-				<a class="check" href="#" title="<?php esc_attr_e('Deselect'); ?>" tabindex="-1"><div class="media-modal-icon"></div></a>
-			<# } #>
 		</div>
+		<# if ( _.contains( data.controller.options.mode, 'grid' ) ) { #>
+		<div class="inline-toolbar js--select-attachment">
+			<div class="dashicons dashicons-edit edit edit-media"></div>
+		</div>
+		<# } #>
+		<# if ( data.buttons.check ) { #>
+			<a class="check" href="#" title="<?php esc_attr_e('Deselect'); ?>" tabindex="-1"><div class="media-modal-icon"></div></a>
+		<# } #>
 		<#
 		var maybeReadOnly = data.can.save || data.allowLocalEdits ? '' : 'readonly';
 		if ( data.describe ) {

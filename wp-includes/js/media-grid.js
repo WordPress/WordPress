@@ -184,27 +184,25 @@
 		},
 
 		createStates: function() {
-			var options = this.options,
-				libraryState;
+			var options = this.options;
 
 			if ( this.options.states ) {
 				return;
 			}
 
-			libraryState = new media.controller.Library({
-				library:    media.query( options.library ),
-				multiple:   options.multiple,
-				title:      options.title,
-				priority:   20,
-				toolbar:    false,
-				router:     false,
-				content:    'browse',
-				filterable: 'mime-types'
-			});
-
 			// Add the default states.
 			this.states.add([
-				libraryState
+				new media.controller.Library({
+					library:    media.query( options.library ),
+					multiple:   options.multiple,
+					title:      options.title,
+					priority:   20,
+
+					router:     false,
+					content:    'browse',
+
+					filterable: 'mime-types'
+				})
 			]);
 		},
 
@@ -254,7 +252,6 @@
 				filters:    state.get('filterable'),
 				display:    state.get('displaySettings'),
 				dragInfo:   state.get('dragInfo'),
-				bulkEdit:   true,
 				sidebar:    false,
 
 				suggestedWidth:  state.get('suggestedWidth'),
@@ -606,55 +603,81 @@
 		}
 	});
 
-	media.view.BulkSelectionToggleButton = media.view.Button.extend({
+ 	media.view.BulkSelection = media.View.extend({
+		className: 'bulk-select',
+
 		initialize: function() {
-			media.view.Button.prototype.initialize.apply( this, arguments );
-			this.listenTo( this.controller, 'bulk-edit:activate bulk-edit:deactivate', _.bind( this.toggleBulkEditHandler, this ) );
-		},
+			this.model = new Backbone.Model({
+				currentAction: '',
 
-		click: function() {
-			var bulkEditActive = this.controller.activeModes.where( { id: 'bulk-edit' } ).length;
-			media.view.Button.prototype.click.apply( this, arguments );
+			});
 
-			if ( bulkEditActive ) {
-				this.controller.deactivateMode( 'bulk-edit' ).activateMode( 'edit' );
-			} else {
-				this.controller.deactivateMode( 'edit' ).activateMode( 'bulk-edit' );
-			}
-		},
+			this.views.add(
+				new media.view.BulkSelectionActionDropdown({
+					controller: this
+				})
+			);
 
-		toggleBulkEditHandler: function() {
-			var bulkEditActive = this.controller.activeModes.where( { id: 'bulk-edit' } ).length;
-			if ( bulkEditActive ) {
-				this.$el.addClass( 'button-primary' );
-			} else {
-				this.$el.removeClass( 'button-primary' );
-				this.controller.state().get('selection').reset();
-			}
+			this.views.add(
+				new media.view.BulkSelectionActionButton({
+					disabled:   true,
+					text:       l10n.apply,
+					controller: this
+				})
+			);
 		}
 	});
 
-	media.view.BulkDeleteButton = media.view.Button.extend({
+	media.view.BulkSelectionActionDropdown = media.View.extend({
+		tagName:   'select',
+
+  		initialize: function() {
+  			media.view.Button.prototype.initialize.apply( this, arguments );
+			this.listenTo( this.controller.controller.state().get( 'selection' ), 'add remove reset', _.bind( this.enabled, this ) );
+			this.$el.append( $('<option></option>').val( '' ).html( l10n.bulkActions ) )
+				.append( $('<option></option>').val( 'delete' ).html( l10n.deletePermanently ) );
+			this.$el.prop( 'disabled', true );
+			this.$el.on( 'change', _.bind( this.toggleChange, this ) );
+		},
+
+		toggleChange: function() {
+			this.controller.model.set( { 'currentAction': this.$el.val() } );
+  		},
+		enabled: function() {
+			var disabled = ! this.controller.controller.state().get('selection').length;
+			this.$el.prop( 'disabled', disabled );
+  		}
+  	});
+
+	media.view.BulkSelectionActionButton = media.view.Button.extend({
+		tagName: 'button',
+
 		initialize: function() {
 			media.view.Button.prototype.initialize.apply( this, arguments );
-			this.$el.hide();
-			this.listenTo( this.controller, 'bulk-edit:activate bulk-edit:deactivate', _.bind( this.visibility, this ) );
+
+			this.listenTo( this.controller.model, 'change', this.enabled, this );
+			this.listenTo( this.controller.controller.state().get( 'selection' ), 'add remove reset', _.bind( this.enabled, this ) );
 		},
 
 		click: function() {
+			var selection = this.controller.controller.state().get('selection');
 			media.view.Button.prototype.click.apply( this, arguments );
-			while (this.controller.state().get('selection').length > 0) {
-				this.controller.state().get('selection').at(0).destroy();
+
+			// Currently assumes delete is the only action
+			if ( confirm( l10n.warnBulkDelete ) ) {
+				while ( selection.length > 0) {
+					selection.at(0).destroy();
+				}
 			}
+
+			this.enabled();
 		},
 
-		visibility: function() {
-			var bulkEditActive = this.controller.activeModes.where( { id: 'bulk-edit' } ).length;
-			if ( bulkEditActive ) {
-				this.$el.show();
-			} else {
-				this.$el.hide();
-			}
+		enabled: function() {
+			var currentAction = this.controller.model.get( 'currentAction' ),
+				selection = this.controller.controller.state().get('selection'),
+				disabled = ! currentAction || ! selection.length;
+			this.$el.prop( 'disabled', disabled );
 		}
 	});
 

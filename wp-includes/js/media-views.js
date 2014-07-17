@@ -4619,7 +4619,7 @@
 			'change [data-setting] select':   'updateSetting',
 			'change [data-setting] textarea': 'updateSetting',
 			'click .close':                   'removeFromLibrary',
-			'click .check':                   'removeFromSelection',
+			'click .check':                   'checkClickHandler',
 			'click a':                        'preventDefault',
 			'keydown':                        'toggleSelectionHandler'
 		},
@@ -4879,12 +4879,8 @@
 				return;
 			}
 
-			// In bulk edit mode (in media grid), attachments don't open the "details"
-			// pane, so a `details` class is unnecessary on the attachment view.
-			if ( ! this.controller.isModeActive( 'bulk-edit' ) ) {
-				details = selection.single();
-				this.$el.toggleClass( 'details', details === this.model );
-			}
+			details = selection.single();
+			this.$el.toggleClass( 'details', details === this.model );
 		},
 		/**
 		 * @param {Object} event
@@ -5015,19 +5011,25 @@
 
 			this.collection.remove( this.model );
 		},
+
 		/**
-		 * @param {Object} event
+		 * Add the model if it isn't in the selection, if it is in the selection,
+		 * remove it.
+		 *
+		 * @param  {[type]} event [description]
+		 * @return {[type]}       [description]
 		 */
-		removeFromSelection: function( event ) {
+		checkClickHandler: function ( event ) {
 			var selection = this.options.selection;
 			if ( ! selection ) {
 				return;
 			}
-
-			// Stop propagation so the model isn't selected.
 			event.stopPropagation();
-
-			selection.remove( this.model );
+			if ( selection.where( { id: this.model.get( 'id' ) } ).length ) {
+				selection.remove( this.model );
+			} else {
+				selection.add( this.model );
+			}
 		}
 	});
 
@@ -5657,17 +5659,10 @@
 					priority: -90
 				}).render() );
 
-				this.toolbar.set( 'bulkSelectionToggleButton', new media.view.BulkSelectionToggleButton({
-					text: 'Bulk Edit',
-					controller: this.controller,
-					priority: -70
-				}).render() );
-
-				this.toolbar.set( 'BulkDeleteButton', new media.view.BulkDeleteButton({
-					text: 'Bulk Delete',
-					controller: this.controller,
-					priority: -69
-				}).render() );
+				this.toolbar.set( 'BulkSelection', new media.view.BulkSelection({
+  					controller: this.controller,
+  					priority: -70
+  				}).render() );
 			}
 
 			filters = this.options.filters;
