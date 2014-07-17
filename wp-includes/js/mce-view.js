@@ -132,6 +132,7 @@ window.wp = window.wp || {};
 						frameBorder: '0',
 						allowTransparency: 'true',
 						scrolling: 'no',
+						'class': 'wpview-sandbox',
 						style: {
 							width: '100%',
 							display: 'block'
@@ -554,9 +555,10 @@ window.wp = window.wp || {};
 
 			pausePlayers: function() {
 				this.getNodes( function( editor, node, content ) {
-					var p, win = $( 'iframe', content ).get(0).contentWindow;
+					var p, win,
+						iframe = $( 'iframe.wpview-sandbox', content ).get(0);
 
-					if ( win && win.mejs ) {
+					if ( iframe && ( win = iframe.contentWindow ) && win.mejs ) {
 						for ( p in win.mejs.players ) {
 							win.mejs.players[p].pause();
 						}
@@ -566,9 +568,10 @@ window.wp = window.wp || {};
 
 			unsetPlayers: function() {
 				this.getNodes( function( editor, node, content ) {
-					var p, win = $( 'iframe', content ).get(0).contentWindow;
+					var p, win,
+						iframe = $( 'iframe.wpview-sandbox', content ).get(0);
 
-					if ( win && win.mejs ) {
+					if ( iframe && ( win = iframe.contentWindow ) && win.mejs ) {
 						for ( p in win.mejs.players ) {
 							win.mejs.players[p].remove();
 						}
