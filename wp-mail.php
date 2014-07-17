@@ -68,7 +68,7 @@ for ( $i = 1; $i <= $count; $i++ ) {
 	$author_found = false;
 	$dmonths = array('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec');
 	foreach ($message as $line) {
-		// body signal
+		// Body signal.
 		if ( strlen($line) < 3 )
 			$bodysignal = true;
 		if ( $bodysignal ) {
@@ -108,8 +108,10 @@ for ( $i = 1; $i <= $count; $i++ ) {
 				$subject = $subject[0];
 			}
 
-			// Set the author using the email address (From or Reply-To, the last used)
-			// otherwise use the site admin
+			/*
+			 * Set the author using the email address (From or Reply-To, the last used)
+			 * otherwise use the site admin.
+			 */
 			if ( ! $author_found && preg_match( '/^(From|Reply-To): /', $line ) ) {
 				if ( preg_match('|[a-z0-9_.-]+@[a-z0-9_.-]+(?!.*<)|i', $line, $matches) )
 					$author = $matches[0];
@@ -171,7 +173,8 @@ for ( $i = 1; $i <= $count; $i++ ) {
 	if ( $content_type == 'multipart/alternative' ) {
 		$content = explode('--'.$boundary, $content);
 		$content = $content[2];
-		// match case-insensitive content-transfer-encoding
+
+		// Match case-insensitive content-transfer-encoding.
 		if ( preg_match( '/Content-Transfer-Encoding: quoted-printable/i', $content, $delim) ) {
 			$content = explode($delim[0], $content);
 			$content = $content[1];

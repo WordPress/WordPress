@@ -316,7 +316,7 @@ function validate_another_blog_signup() {
 
 	$result = validate_blog_form();
 
-	// extracted values set/overwrite globals
+	// Extracted values set/overwrite globals.
 	$domain = $result['domain'];
 	$path = $result['path'];
 	$blogname = $result['blogname'];

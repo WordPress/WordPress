@@ -69,9 +69,11 @@ function login_header( $title = 'Log In', $message = '', $wp_error = '' ) {
 
 	wp_admin_css( 'login', true );
 
-	// Remove all stored post data on logging out.
-	// This could be added by add_action('login_head'...) like wp_shake_js()
-	// but maybe better if it's not removable by plugins
+	/*
+	 * Remove all stored post data on logging out.
+	 * This could be added by add_action('login_head'...) like wp_shake_js(),
+	 * but maybe better if it's not removable by plugins
+	 */
 	if ( 'loggedout' == $wp_error->get_error_code() ) {
 		?>
 		<script>if("sessionStorage" in window){try{for(var key in sessionStorage){if(key.indexOf("wp-autosave-")!=-1){sessionStorage.removeItem(key)}}}catch(e){}};</script>
@@ -296,7 +298,7 @@ function retrieve_password() {
 		return $errors;
 	}
 
-	// redefining user_login ensures we return the right case in the email
+	// Redefining user_login ensures we return the right case in the email.
 	$user_login = $user_data->user_login;
 	$user_email = $user_data->user_email;
 
@@ -309,6 +311,7 @@ function retrieve_password() {
 	 * @param string $user_login The user login name.
 	 */
 	do_action( 'retreive_password', $user_login );
+
 	/**
 	 * Fires before a new password is retrieved.
 	 *
@@ -364,8 +367,10 @@ function retrieve_password() {
 	if ( is_multisite() )
 		$blogname = $GLOBALS['current_site']->site_name;
 	else
-		// The blogname option is escaped with esc_html on the way into the database in sanitize_option
-		// we want to reverse this for the plain text arena of emails.
+		/*
+		 * The blogname option is escaped with esc_html on the way into the database
+		 * in sanitize_option we want to reverse this for the plain text arena of emails.
+		 */
 		$blogname = wp_specialchars_decode(get_option('blogname'), ENT_QUOTES);
 
 	$title = sprintf( __('[%s] Password Reset'), $blogname );
