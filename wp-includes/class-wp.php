@@ -582,7 +582,7 @@ class WP {
 			}
 
 			// Don't 404 for these queries either.
-			if ( is_home() || is_search() ) {
+			if ( is_home() || is_search() || is_feed() ) {
 				status_header( 200 );
 				return;
 			}
