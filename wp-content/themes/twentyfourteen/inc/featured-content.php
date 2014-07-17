@@ -196,7 +196,6 @@ class Featured_Content {
 	 * @return array Array of sticky posts.
 	 */
 	public static function get_sticky_posts() {
-		$settings = self::get_setting();
 		return array_slice( get_option( 'sticky_posts', array() ), 0, self::$max_posts );
 	}
 
