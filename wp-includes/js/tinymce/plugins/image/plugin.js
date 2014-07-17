@@ -216,20 +216,28 @@ tinymce.PluginManager.add('image', function(editor) {
 			return value;
 		}
 
-		function srcChange() {
+		function srcChange(e) {
+			var meta = e.meta || {};
+
 			if (imageListCtrl) {
 				imageListCtrl.value(editor.convertURL(this.value(), 'src'));
 			}
 
-			getImageSize(this.value(), function(data) {
-				if (data.width && data.height && imageDimensions) {
-					width = data.width;
-					height = data.height;
-
-					win.find('#width').value(width);
-					win.find('#height').value(height);
-				}
+			tinymce.each(meta, function(value, key) {
+				win.find('#' + key).value(value);
 			});
+
+			if (!meta.width && !meta.height) {
+				getImageSize(this.value(), function(data) {
+					if (data.width && data.height && imageDimensions) {
+						width = data.width;
+						height = data.height;
+
+						win.find('#width').value(width);
+						win.find('#height').value(height);
+					}
+				});
+			}
 		}
 
 		width = dom.getAttrib(imgElm, 'width');
@@ -297,7 +305,14 @@ tinymce.PluginManager.add('image', function(editor) {
 
 		// General settings shared between simple and advanced dialogs
 		var generalFormItems = [
-			{name: 'src', type: 'filepicker', filetype: 'image', label: 'Source', autofocus: true, onchange: srcChange},
+			{
+				name: 'src',
+				type: 'filepicker',
+				filetype: 'image',
+				label: 'Source',
+				autofocus: true,
+				onchange: srcChange
+			},
 			imageListCtrl
 		];
 

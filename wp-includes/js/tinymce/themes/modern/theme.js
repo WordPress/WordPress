@@ -342,13 +342,13 @@ tinymce.ThemeManager.add('modern', function(editor) {
 			width = Math.max(settings.min_width || 100, width);
 			width = Math.min(settings.max_width || 0xFFFF, width);
 
-			DOM.css(containerElm, 'width', width + (containerSize.width - iframeSize.width));
-			DOM.css(iframeElm, 'width', width);
+			DOM.setStyle(containerElm, 'width', width + (containerSize.width - iframeSize.width));
+			DOM.setStyle(iframeElm, 'width', width);
 		}
 
 		height = Math.max(settings.min_height || 100, height);
 		height = Math.min(settings.max_height || 0xFFFF, height);
-		DOM.css(iframeElm, 'height', height);
+		DOM.setStyle(iframeElm, 'height', height);
 
 		editor.fire('ResizeEditor');
 	}
@@ -383,7 +383,7 @@ tinymce.ThemeManager.add('modern', function(editor) {
 					deltaY = Math.max(0, scrollContainerPos.y - bodyPos.y);
 				}
 
-				panel.fixed(false).moveRel(body, editor.rtl ? ['tr-br', 'br-tr'] : ['tl-bl', 'bl-tl']).moveBy(deltaX, deltaY);
+				panel.fixed(false).moveRel(body, editor.rtl ? ['tr-br', 'br-tr'] : ['tl-bl', 'bl-tl', 'tr-br']).moveBy(deltaX, deltaY);
 			}
 		}
 
