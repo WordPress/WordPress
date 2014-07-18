@@ -108,8 +108,17 @@ class WP_Plugins_List_Table extends WP_List_Table {
 					unset( $recently_activated[$key] );
 			update_option( 'recently_activated', $recently_activated );
 		}
+		
+		$plugin_info = get_site_transient( 'update_plugins' );
 
 		foreach ( (array) $plugins['all'] as $plugin_file => $plugin_data ) {
+			// Extra info if known. array_merge() ensures $plugin_data has precedence if keys collide.
+			if ( isset( $plugin_info->response[ $plugin_file ] ) ) {
+				$plugins['all'][ $plugin_file ] = $plugin_data = array_merge( (array) $plugin_info->response[ $plugin_file ], $plugin_data );
+			} elseif ( isset( $plugin_info->no_update[ $plugin_file ] ) ) {
+				$plugins['all'][ $plugin_file ] = $plugin_data = array_merge( (array) $plugin_info->no_update[ $plugin_file ], $plugin_data );
+			}
+
 			// Filter into individual sections
 			if ( is_multisite() && ! $screen->in_admin( 'network' ) && is_network_only_plugin( $plugin_file ) && ! is_plugin_active( $plugin_file ) ) {
 				// On the non-network screen, filter out network-only plugins as long as they're not individually activated
@@ -344,6 +353,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 		$actions = array(
 			'deactivate' => '',
 			'activate' => '',
+			'details' => '',
 			'edit' => '',
 			'delete' => '',
 		);
@@ -392,7 +402,17 @@ class WP_Plugins_List_Table extends WP_List_Table {
 					if ( ! is_multisite() && current_user_can('delete_plugins') )
 						$actions['delete'] = '<a href="' . wp_nonce_url('plugins.php?action=delete-selected&amp;checked[]=' . $plugin_file . '&amp;plugin_status=' . $context . '&amp;paged=' . $page . '&amp;s=' . $s, 'bulk-plugins') . '" title="' . esc_attr__('Delete this plugin') . '" class="delete">' . __('Delete') . '</a>';
 				} // end if $is_active
+				
 			 } // end if $screen->in_admin( 'network' )
+
+			// Details link using API info, if available
+			if ( ( ! is_multisite() || $screen->in_admin( 'network' ) ) && isset( $plugin_data['slug'] ) ) {
+				$actions['details'] = sprintf( '<a href="%s" class="thickbox" title="%s">%s</a>',
+					esc_url( self_admin_url( 'plugin-install.php?tab=plugin-information&plugin=' . $plugin_data['slug'] .
+						'&TB_iframe=true&width=600&height=550' ) ),
+					esc_attr( sprintf( __( 'More information about %s' ), $plugin_data['Name'] ) ),
+					__( 'Details' ) );
+			}
 
 			if ( ( ! is_multisite() || $screen->in_admin( 'network' ) ) && current_user_can('edit_plugins') && is_writable(WP_PLUGIN_DIR . '/' . $plugin_file) )
 				$actions['edit'] = '<a href="plugin-editor.php?file=' . $plugin_file . '" title="' . esc_attr__('Open this file in the Plugin Editor') . '" class="edit">' . __('Edit') . '</a>';
