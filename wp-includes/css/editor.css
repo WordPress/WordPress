@@ -270,9 +270,13 @@ div.mce-path {
 }
 
 .mce-toolbar .mce-colorbutton .mce-preview {
-	margin-left: -17px;
+	margin: 0;
 	padding: 0;
-	width: 18px;
+	top: auto;
+	bottom: 2px;
+	left: 3px;
+	height: 3px;
+	width: 20px;
 }
 
 /* mce listbox */
@@ -582,6 +586,7 @@ i.mce-i-wp_adv,
 i.mce-i-underline,
 i.mce-i-alignjustify,
 i.mce-i-forecolor,
+i.mce-i-backcolor,
 i.mce-i-pastetext,
 i.mce-i-pasteword,
 i.mce-i-removeformat,
@@ -685,7 +690,8 @@ i.mce-i-alignjustify:before {
 	content: '\f214';
 }
 
-i.mce-i-forecolor:before {
+i.mce-i-forecolor:before,
+i.mce-i-backcolor:before {
 	content: '\f215';
 }
 
