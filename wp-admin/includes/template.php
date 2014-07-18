@@ -2146,6 +2146,7 @@ function wp_star_rating( $args = array() ) {
 	}
 
 	echo '<div class="star-rating" title="' . esc_attr( $title ) . '">';
+	echo '<span class="screen-reader-text">' . $title . '</span>';
 	echo str_repeat( '<div class="star star-full"></div>', $full_stars );
 	echo str_repeat( '<div class="star star-half"></div>', $half_stars );
 	echo str_repeat( '<div class="star star-empty"></div>', $empty_stars);
