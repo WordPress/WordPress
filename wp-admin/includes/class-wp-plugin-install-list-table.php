@@ -17,6 +17,34 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 		return current_user_can('install_plugins');
 	}
 
+	/**
+	 * Return a list of slugs of installed plugins, if known.
+	 *
+	 * Uses the transient data from the updates API to determine the slugs of
+	 * known installed plugins. This might be better elsewhere, perhaps even
+	 * within get_plugins().
+	 *
+	 * @since 4.0.0
+	 */
+	protected function get_installed_plugin_slugs() {
+		$slugs = array();
+
+		$plugin_info = get_site_transient( 'update_plugins' );
+		if ( isset( $plugin_info->no_update ) ) {
+			foreach ( $plugin_info->no_update as $plugin ) {
+				$slugs[] = $plugin->slug;
+			}
+		}
+
+		if ( isset( $plugin_info->response ) ) {
+			foreach ( $plugin_info->response as $plugin ) {
+				$slugs[] = $plugin->slug;
+			}
+		}
+
+		return $slugs;
+	}
+
 	public function prepare_items() {
 		include( ABSPATH . 'wp-admin/includes/plugin-install.php' );
 
@@ -66,7 +94,14 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 		if ( empty( $tab ) || ( !isset( $tabs[ $tab ] ) && !in_array( $tab, (array) $nonmenu_tabs ) ) )
 			$tab = key( $tabs );
 
-		$args = array( 'page' => $paged, 'per_page' => $per_page, 'fields' => array( 'last_updated' => true, 'downloaded' => true ) );
+		$args = array(
+			'page' => $paged,
+			'per_page' => $per_page,
+			'fields' => array( 'last_updated' => true, 'downloaded' => true ),
+			// Send the locale and installed plugin slugs to the API so it can provide context-sensitive results.
+			'locale' => get_locale(),
+			'installed_plugins' => $this->get_installed_plugin_slugs(),
+		);
 
 		switch ( $tab ) {
 			case 'search':
