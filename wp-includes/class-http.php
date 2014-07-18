@@ -28,41 +28,57 @@
 class WP_Http {
 
 	/**
-	 * Send a HTTP request to a URI.
+	 * Send an HTTP request to a URI.
 	 *
-	 * The body and headers are part of the arguments. The 'body' argument is for the body and will
-	 * accept either a string or an array. The 'headers' argument should be an array, but a string
-	 * is acceptable. If the 'body' argument is an array, then it will automatically be escaped
-	 * using http_build_query().
-	 *
-	 * The only URI that are supported in the HTTP Transport implementation are the HTTP and HTTPS
-	 * protocols.
-	 *
-	 * The defaults are 'method', 'timeout', 'redirection', 'httpversion', 'blocking' and
-	 * 'user-agent'.
-	 *
-	 * Accepted 'method' values are 'GET', 'POST', and 'HEAD', some transports technically allow
-	 * others, but should not be assumed. The 'timeout' is used to sent how long the connection
-	 * should stay open before failing when no response. 'redirection' is used to track how many
-	 * redirects were taken and used to sent the amount for other transports, but not all transports
-	 * accept setting that value.
-	 *
-	 * The 'httpversion' option is used to sent the HTTP version and accepted values are '1.0', and
-	 * '1.1' and should be a string. The 'user-agent' option is the user-agent and is used to
-	 * replace the default user-agent, which is 'WordPress/WP_Version', where WP_Version is the
-	 * value from $wp_version.
-	 *
-	 * The 'blocking' parameter can be used to specify if the calling code requires the result of
-	 * the HTTP request. If set to false, the request will be sent to the remote server, and
-	 * processing returned to the calling code immediately, the caller will know if the request
-	 * suceeded or failed, but will not receive any response from the remote server.
+	 * Please note: The only URI that are supported in the HTTP Transport implementation
+	 * are the HTTP and HTTPS protocols.
 	 *
 	 * @access public
 	 * @since 2.7.0
 	 *
-	 * @param string $url The request URL.
-	 * @param string|array $args Optional. Override the defaults.
-	 * @return array|WP_Error Array containing 'headers', 'body', 'response', 'cookies', 'filename'. A WP_Error instance upon error
+	 * @param string       $url  The request URL.
+	 * @param string|array $args {
+	 *     Optional. Array or string of HTTP request arguments.
+	 *
+	 *     @type string       $method              Request method. Accepts 'GET', 'POST', 'HEAD', or 'PUT'.
+	 *                                             Some transports technically allow others, but should not be
+	 *                                             assumed. Default 'GET'.
+	 *     @type int          $timeout             How long the connection should stay open in seconds. Default 5.
+	 *     @type int          $redirection         Number of allowed redirects. Not supported by all transports
+	 *                                             Default 5.
+	 *     @type string       $httpversion         Version of the HTTP protocol to use. Accepts '1.0' and '1.1'.
+	 *                                             Default '1.0'.
+	 *     @type string       $user-agent          User-agent value sent.
+	 *                                             Default WordPress/' . $wp_version . '; ' . get_bloginfo( 'url' ).
+	 *     @type bool         $reject_unsafe_urls  Whether to pass URLs through {@see wp_http_validate_url()}.
+	 *                                             Default false.
+	 *     @type bool         $blocking            Whether the calling code requires the result of the request.
+	 *                                             If set to false, the request will be sent to the remote server,
+	 *                                             and processing returned to the calling code immediately, the caller
+	 *                                             will know if the request succeeded or failed, but will not receive
+	 *                                             any response from the remote server. Default true.
+	 *     @type string|array $headers             Array or string of headers to send with the request.
+	 *                                             Default empty array.
+	 *     @type array        $cookies             List of cookies to send with the request. Default empty array.
+	 *     @type string|array $body                Body to send with the request. Default null.
+	 *     @type bool         $compress            Whether to compress the $body when sending the request.
+	 *                                             Default false.
+	 *     @type bool         $decompress          Whether to decompress a compressed response. If set to false and
+	 *                                             compressed content is returned in the response anyway, it will
+	 *                                             need to be separately decompressed. Default true.
+	 *     @type bool         $sslverify           Whether to verify SSL for the request. Default true.
+	 *     @type string       sslcertificates      Absolute path to an SSL certificate .crt file.
+	 *                                             Default ABSPATH . WPINC . '/certificates/ca-bundle.crt'.
+	 *     @type bool         $stream              Whether to stream to a file. If set to true and no filename was
+	 *                                             given, it will be droped it in the WP temp dir and its name will
+	 *                                             be set using the basename of the URL. Default false.
+	 *     @type string       $filename            Filename of the file to write to when streaming. $stream must be
+	 *                                             set to true. Default null.
+	 *     @type int          $limit_response_size Size in bytes to limit the response to. Default null.
+	 *
+	 * }
+	 * @return array|WP_Error Array containing 'headers', 'body', 'response', 'cookies', 'filename'.
+	 *                        A WP_Error instance upon error.
 	 */
 	public function request( $url, $args = array() ) {
 		global $wp_version;
