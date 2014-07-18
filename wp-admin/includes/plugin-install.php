@@ -163,8 +163,16 @@ add_action('install_plugins_dashboard', 'install_dashboard');
 function install_search_form( $type_selector = true ) {
 	$type = isset($_REQUEST['type']) ? wp_unslash( $_REQUEST['type'] ) : 'term';
 	$term = isset($_REQUEST['s']) ? wp_unslash( $_REQUEST['s'] ) : '';
+	$input_attrs = '';
+	$button_type = 'button';
 
-	?><form id="search-plugins" method="get" action="">
+	// assume no $type_selector means it's a simplified search form
+	if ( ! $type_selector ) {
+		$input_attrs = 'class="wp-filter-search" placeholder="' . esc_attr__( 'Search Plugins' ) . '" ';
+		$button_type .= ' screen-reader-text';
+	}
+
+	?><form class="search-plugins" method="get" action="">
 		<input type="hidden" name="tab" value="search" />
 		<?php if ( $type_selector ) : ?>
 		<select name="type" id="typeselector">
@@ -173,9 +181,10 @@ function install_search_form( $type_selector = true ) {
 			<option value="tag"<?php selected('tag', $type) ?>><?php _ex('Tag', 'Plugin Installer'); ?></option>
 		</select>
 		<?php endif; ?>
-		<input type="search" name="s" id="plugin-search-input" value="<?php echo esc_attr($term) ?>" autofocus="autofocus" />
-		<label class="screen-reader-text" for="plugin-search-input"><?php _e('Search Plugins'); ?></label>
-		<?php submit_button( __( 'Search Plugins' ), 'button', false, false, array( 'id' => 'search-submit' ) ); ?>
+		<label><span class="screen-reader-text"><?php _e('Search Plugins'); ?></span>
+			<input type="search" name="s" value="<?php echo esc_attr($term) ?>" <?php echo $input_attrs; ?>/>
+		</label>
+		<?php submit_button( __( 'Search Plugins' ), $button_type, false, false, array( 'id' => 'search-submit' ) ); ?>
 	</form><?php
 }
 

@@ -73,7 +73,13 @@ get_current_screen()->set_help_sidebar(
 include(ABSPATH . 'wp-admin/admin-header.php');
 ?>
 <div class="wrap">
-<h2><?php echo esc_html( $title ); ?></h2>
+<h2>
+	<?php
+		echo esc_html( $title );
+		$href = self_admin_url( 'plugin-install.php?tab=upload' );
+	?>
+	<a href="<?php echo $href; ?>" class="upload add-new-h2"><?php _e( 'Upload Plugin' ); ?></a>
+</h2>
 
 <?php $wp_list_table->views(); ?>
 

@@ -465,7 +465,7 @@ p.search-box {
 }
 
 .search-box input[name="s"],
-#search-plugins input[name="s"],
+.tablenav .search-plugins input[name="s"],
 .tagsdiv .newtag {
 	float: right;
 	height: 28px;

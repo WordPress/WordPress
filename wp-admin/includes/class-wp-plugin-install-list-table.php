@@ -26,10 +26,9 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 
 		// These are the tabs which are shown on the page
 		$tabs = array();
-		$tabs['dashboard'] = __( 'Search' );
+
 		if ( 'search' == $tab )
 			$tabs['search']	= __( 'Search Results' );
-		$tabs['upload']    = __( 'Upload' );
 		$tabs['featured']  = _x( 'Featured', 'Plugin Installer' );
 		$tabs['popular']   = _x( 'Popular', 'Plugin Installer' );
 		$tabs['new']       = _x( 'Newest', 'Plugin Installer' );
@@ -38,7 +37,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 			$tabs['beta']      = _x( 'Beta Testing', 'Plugin Installer' );
 		}
 
-		$nonmenu_tabs = array( 'plugin-information' ); //Valid actions to perform which do not have a Menu item.
+		$nonmenu_tabs = array( 'upload', 'plugin-information' ); //Valid actions to perform which do not have a Menu item.
 
 		/**
 		 * Filter the tabs shown on the Plugin Install screen.
@@ -146,12 +145,40 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 
 		$display_tabs = array();
 		foreach ( (array) $tabs as $action => $text ) {
-			$class = ( $action == $tab ) ? ' class="current"' : '';
+			$class = 'wp-filter-link';
+			$class .= ( $action == $tab ) ? ' current' : '';
 			$href = self_admin_url('plugin-install.php?tab=' . $action);
-			$display_tabs['plugin-install-'.$action] = "<a href='$href'$class>$text</a>";
+			$display_tabs['plugin-install-'.$action] = "<a href='$href' class='$class'>$text</a>";
 		}
 
 		return $display_tabs;
+	}
+
+	/**
+	 * Override parent views so we can use the filter bar display.
+	 */
+	public function views() {
+		$views = $this->get_views();
+
+		/** This filter is documented in wp-admin/inclues/class-wp-list-table.php */
+		$views = apply_filters( "views_{$this->screen->id}", $views );
+
+?>
+<div class="wp-filter">
+	<ul class="wp-filter-links">
+		<?php
+		if ( ! empty( $views ) ) {
+			foreach ( $views as $class => $view ) {
+				$views[ $class ] = "\t<li class='$class'>$view";
+			}
+			echo implode( " </li>\n", $views ) . "</li>\n";
+		}
+		?>
+	</ul>
+
+	<?php install_search_form( false ); ?>
+</div>
+<?php
 	}
 
 	/**
