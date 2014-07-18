@@ -586,6 +586,7 @@ if ( !function_exists('wp_logout') ) :
  * @since 2.5.0
  */
 function wp_logout() {
+	wp_destroy_current_session();
 	wp_clear_auth_cookie();
 
 	/**
@@ -631,6 +632,7 @@ function wp_validate_auth_cookie($cookie = '', $scheme = '') {
 	$scheme = $cookie_elements['scheme'];
 	$username = $cookie_elements['username'];
 	$hmac = $cookie_elements['hmac'];
+	$token = $cookie_elements['token'];
 	$expired = $expiration = $cookie_elements['expiration'];
 
 	// Allow a grace period for POST and AJAX requests
@@ -666,10 +668,10 @@ function wp_validate_auth_cookie($cookie = '', $scheme = '') {
 
 	$pass_frag = substr($user->user_pass, 8, 4);
 
-	$key = wp_hash($username . $pass_frag . '|' . $expiration, $scheme);
-	$hash = hash_hmac('md5', $username . '|' . $expiration, $key);
+	$key = wp_hash( $username . '|' . $pass_frag . '|' . $expiration . '|' . $token, $scheme );
+	$hash = hash_hmac( 'sha256', $username . '|' . $expiration . '|' . $token, $key );
 
-	if ( hash_hmac( 'md5', $hmac, $key ) !== hash_hmac( 'md5', $hash, $key ) ) {
+	if ( hash_hmac( 'sha256', $hmac, $key ) !== hash_hmac( 'sha256', $hash, $key ) ) {
 		/**
 		 * Fires if a bad authentication cookie hash is encountered.
 		 *
@@ -681,7 +683,14 @@ function wp_validate_auth_cookie($cookie = '', $scheme = '') {
 		return false;
 	}
 
-	if ( $expiration < time() ) {// AJAX/POST grace period set above
+	$manager = WP_Session_Tokens::get_instance( $user->ID );
+	if ( ! $manager->verify_token( $token ) ) {
+		do_action( 'auth_cookie_bad_session_token', $cookie_elements );
+		return false;
+	}
+
+	// AJAX/POST grace period set above
+	if ( $expiration < time() ) {
 		$GLOBALS['login_grace_period'] = 1;
 	}
 
@@ -708,17 +717,26 @@ if ( !function_exists('wp_generate_auth_cookie') ) :
  * @param int $user_id User ID
  * @param int $expiration Cookie expiration in seconds
  * @param string $scheme Optional. The cookie scheme to use: auth, secure_auth, or logged_in
- * @return string Authentication cookie contents
+ * @param string $token User's session token to use for this cookie
+ * @return string Authentication cookie contents. Empty string if user does not exist.
  */
-function wp_generate_auth_cookie($user_id, $expiration, $scheme = 'auth') {
+function wp_generate_auth_cookie( $user_id, $expiration, $scheme = 'auth', $token = '' ) {
 	$user = get_userdata($user_id);
+	if ( ! $user ) {
+		return '';
+	}
+
+	if ( ! $token ) {
+		$manager = WP_Session_Tokens::get_instance( $user_id );
+		$token = $manager->create_token( $expiration );
+	}
 
 	$pass_frag = substr($user->user_pass, 8, 4);
 
-	$key = wp_hash($user->user_login . $pass_frag . '|' . $expiration, $scheme);
-	$hash = hash_hmac('md5', $user->user_login . '|' . $expiration, $key);
+	$key = wp_hash( $user->user_login . '|' . $pass_frag . '|' . $expiration . '|' . $token, $scheme );
+	$hash = hash_hmac( 'sha256', $user->user_login . '|' . $expiration . '|' . $token, $key );
 
-	$cookie = $user->user_login . '|' . $expiration . '|' . $hash;
+	$cookie = $user->user_login . '|' . $expiration . '|' . $token . '|' . $hash;
 
 	/**
 	 * Filter the authentication cookie.
@@ -729,8 +747,9 @@ function wp_generate_auth_cookie($user_id, $expiration, $scheme = 'auth') {
 	 * @param int    $user_id    User ID.
 	 * @param int    $expiration Authentication cookie expiration in seconds.
 	 * @param string $scheme     Cookie scheme used. Accepts 'auth', 'secure_auth', or 'logged_in'.
+	 * @param string $token      User's session token used.
 	 */
-	return apply_filters( 'auth_cookie', $cookie, $user_id, $expiration, $scheme );
+	return apply_filters( 'auth_cookie', $cookie, $user_id, $expiration, $scheme, $token );
 }
 endif;
 
@@ -772,12 +791,13 @@ function wp_parse_auth_cookie($cookie = '', $scheme = '') {
 	}
 
 	$cookie_elements = explode('|', $cookie);
-	if ( count($cookie_elements) != 3 )
+	if ( count( $cookie_elements ) !== 4 ) {
 		return false;
+	}
 
-	list($username, $expiration, $hmac) = $cookie_elements;
+	list( $username, $expiration, $token, $hmac ) = $cookie_elements;
 
-	return compact('username', 'expiration', 'hmac', 'scheme');
+	return compact( 'username', 'expiration', 'token', 'hmac', 'scheme' );
 }
 endif;
 
@@ -793,6 +813,8 @@ if ( !function_exists('wp_set_auth_cookie') ) :
  *
  * @param int $user_id User ID
  * @param bool $remember Whether to remember the user
+ * @param mixed $secure  Whether the admin cookies should only be sent over HTTPS.
+ *                       Default is_ssl().
  */
 function wp_set_auth_cookie($user_id, $remember = false, $secure = '') {
 	if ( $remember ) {
@@ -854,8 +876,11 @@ function wp_set_auth_cookie($user_id, $remember = false, $secure = '') {
 		$scheme = 'auth';
 	}
 
-	$auth_cookie = wp_generate_auth_cookie($user_id, $expiration, $scheme);
-	$logged_in_cookie = wp_generate_auth_cookie($user_id, $expiration, 'logged_in');
+	$manager = WP_Session_Tokens::get_instance( $user_id );
+	$token = $manager->create_token( $expiration );
+
+	$auth_cookie = wp_generate_auth_cookie( $user_id, $expiration, $scheme, $token );
+	$logged_in_cookie = wp_generate_auth_cookie( $user_id, $expiration, 'logged_in', $token );
 
 	/**
 	 * Fires immediately before the authentication cookie is set.
@@ -1682,14 +1707,19 @@ function wp_verify_nonce($nonce, $action = -1) {
 		$uid = apply_filters( 'nonce_user_logged_out', $uid, $action );
 	}
 
+	$token = wp_get_session_token();
 	$i = wp_nonce_tick();
 
 	// Nonce generated 0-12 hours ago
-	if ( substr(wp_hash($i . $action . $uid, 'nonce'), -12, 10) === $nonce )
+	if ( $nonce === substr( wp_hash( $i . '|' . $action . '|' . $uid . '|' . $token, 'nonce'), -12, 10 ) ) {
 		return 1;
+	}
+
 	// Nonce generated 12-24 hours ago
-	if ( substr(wp_hash(($i - 1) . $action . $uid, 'nonce'), -12, 10) === $nonce )
+	if ( $nonce === substr( wp_hash( ( $i - 1 ) . '|' . $action . '|' . $uid . '|' . $token, 'nonce' ), -12, 10 ) ) {
 		return 2;
+	}
+
 	// Invalid nonce
 	return false;
 }
@@ -1712,9 +1742,10 @@ function wp_create_nonce($action = -1) {
 		$uid = apply_filters( 'nonce_user_logged_out', $uid, $action );
 	}
 
+	$token = wp_get_session_token();
 	$i = wp_nonce_tick();
 
-	return substr(wp_hash($i . $action . $uid, 'nonce'), -12, 10);
+	return substr( wp_hash( $i . '|' . $action . '|' . $uid . '|' . $token, 'nonce' ), -12, 10 );
 }
 endif;
 
