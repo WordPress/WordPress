@@ -9,6 +9,10 @@
  */
 class WP_Plugin_Install_List_Table extends WP_List_Table {
 
+	var $order = 'ASC';
+	var $orderby = null;
+	var $groups = array();
+
 	public function ajax_user_can() {
 		return current_user_can('install_plugins');
 	}
@@ -85,6 +89,9 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 				break;
 
 			case 'featured':
+				$args['fields']['group'] = true;
+				$this->orderby = 'group';
+				// No break!
 			case 'popular':
 			case 'new':
 			case 'beta':
@@ -130,10 +137,17 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 
 		$this->items = $api->plugins;
 
+		if ( $this->orderby ) {
+			uasort( $this->items, array( $this, '_order_callback' ) );
+		}
+
 		$this->set_pagination_args( array(
 			'total_items' => $api->info['results'],
 			'per_page' => $args['per_page'],
 		) );
+
+		if ( isset( $api->info['groups'] ) )
+			$this->groups = $api->info['groups'];
 	}
 
 	public function no_items() {
@@ -243,6 +257,25 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 		);
 	}
 
+	public function _order_callback( $plugin_a, $plugin_b ) {
+
+		$orderby = $this->orderby;
+		if ( !isset( $plugin_a->$orderby, $plugin_b->$orderby ) )
+			return 0;
+
+		$a = $plugin_a->$orderby;
+		$b = $plugin_b->$orderby;
+
+		if ( $a == $b )
+			return 0;
+
+		if ( 'DESC' == $this->order )
+			return ( $a < $b ) ? 1 : -1;
+		else
+			return ( $a < $b ) ? -1 : 1;
+	}
+
+
 	public function display_rows() {
 		$plugins_allowedtags = array(
 			'a' => array( 'href' => array(),'title' => array(), 'target' => array() ),
@@ -258,10 +291,30 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 			$style[ $column_name ] = in_array( $column_name, $hidden ) ? 'style="display:none;"' : '';
 		}
 
+		$group = null;
+
 		foreach ( (array) $this->items as $plugin ) {
 			if ( is_object( $plugin ) )
 				$plugin = (array) $plugin;
 
+			// Display the group heading if there is one
+			if ( isset( $plugin['group'] ) && $plugin['group'] != $group ) {
+				if ( isset( $this->groups[ $plugin['group'] ] ) )
+					$group_name = translate( $this->groups[ $plugin['group'] ] ); // Does this need context?
+				else
+					$group_name = $plugin['group'];
+
+				// Starting a new group, close off the divs of the last one
+				if ( ! empty( $group ) ) {
+					echo '</div></div>';
+				}
+
+				echo '<div class="plugin-group"><h3>' . esc_html( $group_name ) . '</h3>';
+				// needs an extra wrapping div for nth-child selectors to work
+				echo '<div class="plugin-items">';
+
+				$group = $plugin['group'];
+			}
 			$title = wp_kses( $plugin['name'], $plugins_allowedtags );
 
 			//Remove any HTML from the description.

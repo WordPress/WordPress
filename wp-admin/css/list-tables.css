@@ -1216,6 +1216,16 @@ tr.active + tr.plugin-update-tr .plugin-update .update-message {
 }
 
 /* Plugin card table view */
+.plugin-group {
+	overflow: hidden; /* clearfix */
+	margin-top: 1.5em;
+}
+
+.plugin-group:first-of-type,
+.plugin-group h3 {
+	margin-top: 0;
+}
+
 .plugin-card {
 	float: left;
 	margin: 0 8px 16px;
