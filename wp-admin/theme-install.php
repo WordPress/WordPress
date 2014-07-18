@@ -134,48 +134,52 @@ include(ABSPATH . 'wp-admin/admin-header.php');
 	<?php install_themes_upload(); ?>
 	</div>
 
-	<div class="theme-navigation">
-		<span class="theme-count"></span>
-		<a class="theme-section" href="#" data-sort="featured"><?php _ex( 'Featured', 'themes' ); ?></a>
-		<a class="theme-section" href="#" data-sort="popular"><?php _ex( 'Popular', 'themes' ); ?></a>
-		<a class="theme-section" href="#" data-sort="new"><?php _ex( 'Latest', 'themes' ); ?></a>
-		<div class="theme-top-filters">
-			<!-- <span class="theme-filter" data-filter="photoblogging">Photography</span>
-			<span class="theme-filter" data-filter="responsive-layout">Responsive</span> -->
-			<a class="more-filters" href="#"><?php _e( 'Feature Filter' ); ?></a>
+	<div class="wp-filter">
+		<div class="wp-filter-count">
+			<span class="count theme-count"></span>
 		</div>
-		<div class="more-filters-container">
-			<a class="apply-filters button button-secondary" href="#"><?php _e( 'Apply Filters' ); ?><span></span></a>
-			<a class="clear-filters button button-secondary" href="#"><?php _e( 'Clear' ); ?></a>
-			<br class="clear" />
+
+		<ul class="wp-filter-links">
+			<li><a class="wp-filter-link" href="#" data-sort="featured"><?php _ex( 'Featured', 'themes' ); ?></a></li>
+			<li><a class="wp-filter-link" href="#" data-sort="popular"><?php _ex( 'Popular', 'themes' ); ?></a></li>
+			<li><a class="wp-filter-link" href="#" data-sort="new"><?php _ex( 'Latest', 'themes' ); ?></a></li>
+		</ul>
+
+		<a class="wp-filter-drawer-toggle" href="#"><?php _e( 'Feature Filter' ); ?></a>
+
+		<div class="wp-filter-drawer">
+			<div class="wp-filter-drawer-buttons">
+				<a class="apply-filters button button-secondary" href="#"><?php _e( 'Apply Filters' ); ?><span></span></a>
+				<a class="clear-filters button button-secondary" href="#"><?php _e( 'Clear' ); ?></a>
+			</div>
 		<?php
 		$feature_list = get_theme_feature_list();
 		foreach ( $feature_list as $feature_name => $features ) {
 			if ( $feature_name === 'Features' || $feature_name === __( 'Features' ) ) { // hack hack hack
-				echo '<div class="filters-group wide-filters-group">';
+				echo '<div class="wp-filter-group wp-filter-group-wide">';
 			} else {
-				echo '<div class="filters-group">';
+				echo '<div class="wp-filter-group">';
 			}
 			$feature_name = esc_html( $feature_name );
-			echo '<h4 class="feature-name">' . $feature_name . '</h4>';
+			echo '<h4 class="wp-filter-group-title">' . $feature_name . '</h4>';
 			echo '<ol class="feature-group">';
 			foreach ( $features as $feature => $feature_name ) {
 				$feature = esc_attr( $feature );
-				echo '<li><input type="checkbox" id="feature-id-' . $feature . '" value="' . $feature . '" /> ';
-				echo '<label for="feature-id-' . $feature . '">' . $feature_name . '</label></li>';
+				echo '<li><input type="checkbox" id="filter-id-' . $feature . '" value="' . $feature . '" /> ';
+				echo '<label for="filter-id-' . $feature . '">' . $feature_name . '</label></li>';
 			}
 			echo '</ol>';
 			echo '</div>';
 		}
 		?>
-			<div class="filtering-by">
+			<div class="wp-filter-by">
 				<span><?php _e( 'Filtering by:' ); ?></span>
 				<div class="tags"></div>
 				<a href="#"><?php _e( 'Edit' ); ?></a>
 			</div>
 		</div>
 	</div>
-	<div class="theme-browser"></div>
+	<div class="theme-browser wp-filter-content"></div>
 	<div class="theme-install-overlay wp-full-overlay expanded"></div>
 
 	<p class="no-themes"><?php _e( 'No themes found. Try a different search.' ); ?></p>
