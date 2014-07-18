@@ -723,6 +723,13 @@
 		0 0 0 3px #ccc;
 }
 
+.selected.attachment:focus {
+	-webkit-box-shadow: 0 0 0 1px #fff,
+	 0 0 0 5px #1e8cbe;
+	box-shadow: 0 0 0 1px #fff,
+	 0 0 0 5px #1e8cbe;
+}
+
 .attachment-preview {
 	position: relative;
 	width: 199px;
@@ -913,6 +920,7 @@
 }
 
 .attachment.details .check,
+.attachment.selected .check:focus,
 .media-grid-view .attachment.selected .check {
 	background-color: #1e8cbe;
 	-webkit-box-shadow: 0 0 0 1px #fff,
@@ -935,6 +943,7 @@
 }
 
 .attachment.details .check:hover div,
+.attachment.selected .check:focus div,
 .media-grid-view .attachment.selected .check:hover div {
 	background-position: -60px 0;
 }
@@ -1476,6 +1485,14 @@ video#inline-media-node {
 .attachment.selection.selected {
 	-webkit-box-shadow: none;
 	box-shadow: none;
+}
+
+.attachment.selection.selected:focus {
+	webkit-box-shadow: 0 0 0 1px #5b9dd9,
+	 0 0 2px 2px #5b9dd9;
+	box-shadow: 0 0 0 1px #5b9dd9,
+	 0 0 2px 2px #5b9dd9;
+	outline: none;
 }
 
 .attachment.selection.details {

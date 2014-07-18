@@ -758,6 +758,9 @@
 				this.frame.content.mode('browse');
 			}
 			this.get('selection').add( attachment );
+
+			// Set focus back to where it goes when an attachment is selected.
+			$( '.attachments-browser .attachments .attachment' ).first().focus();
 		},
 
 		/**
@@ -3221,7 +3224,7 @@
 				};
 			}
 
-			$el.show().focus();
+			$el.show().find( '.media-modal-close' ).focus();
 			return this.propagate('open');
 		},
 
@@ -3302,9 +3305,6 @@
 			if ( 27 === event.which && this.$el.is(':visible') ) {
 				this.escape();
 				event.stopImmediatePropagation();
-			} else {
-				// Keep focus inside the media modal
-				this.focusManager;
 			}
 		}
 	});
@@ -4404,6 +4404,10 @@
 			} else {
 				this.click();
 			}
+
+			// When selecting a tab along the left side,
+			// focus should be transferred into the main panel
+			$('.media-frame-content input').first().focus();
 		},
 
 		click: function() {
@@ -4735,6 +4739,13 @@
 		 */
 		toggleSelectionHandler: function( event ) {
 			var method;
+
+			// Catch arrow events
+			if ( 37 === event.keyCode || 38 === event.keyCode || 39 === event.keyCode || 40 === event.keyCode ) {
+				this.arrowEvent(event);
+				return;
+			}
+
 			// Catch enter and space events
 			if ( 'keydown' === event.type && 13 !== event.keyCode && 32 !== event.keyCode ) {
 				return;
@@ -4755,6 +4766,54 @@
 			this.toggleSelection({
 				method: method
 			});
+		},
+		/**
+		 * @param {Object} event
+		 */
+		arrowEvent: function( event ) {
+			var attachment = $('.attachments-browser .attachment'),
+				attachmentsWidth = $('.attachments-browser .attachments').width(),
+				thumbnailWidth = attachment.first().innerWidth() + 16,
+				thumbnailsPerRow = Math.floor(attachmentsWidth/thumbnailWidth),
+				totalThumnails = attachment.length,
+				totalRows = Math.ceil(totalThumnails/thumbnailsPerRow),
+				thisIndex = attachment.filter( ':focus' ).index(),
+				thisIndexAdjusted = thisIndex + 1,
+				thisRow = thisIndexAdjusted <= thumbnailsPerRow ? 1 : Math.ceil(thisIndexAdjusted/thumbnailsPerRow);
+
+				// Left arrow
+				if ( 37 === event.keyCode ) {
+					if ( 0 === thisIndex ) {
+						return;
+					}
+					attachment.eq( thisIndex - 1 ).focus();
+				}
+
+				// Up arrow
+				if ( 38 === event.keyCode ) {
+					if ( 1 === thisRow ) {
+						return;
+					}
+					attachment.eq( thisIndex - thumbnailsPerRow ).focus();
+				}
+
+				// Right arrow
+				if ( 39 === event.keyCode ) {
+					if ( totalThumnails === thisIndex ) {
+						return;
+					}
+					attachment.eq( thisIndex + 1 ).focus();
+				}
+
+				// Down arrow
+				if ( 40 === event.keyCode ) {
+					if ( totalRows === thisRow ) {
+						return;
+					}
+					attachment.eq( thisIndex + thumbnailsPerRow ).focus();
+				}
+
+				return false;
 		},
 		/**
 		 * @param {Object} options
@@ -4792,6 +4851,10 @@
 
 				selection.add( models );
 				selection.single( model );
+
+				// When selecting attachments, focus should be transferred to the right details panel
+				$('.attachment-details input').first().focus();
+
 				return;
 
 			// If the `method` is set to `toggle`, just flip the selection
@@ -4799,6 +4862,12 @@
 			} else if ( 'toggle' === method ) {
 				selection[ this.selected() ? 'remove' : 'add' ]( model );
 				selection.single( model );
+
+				if ( this.selected() ) {
+					// When selecting an attachment, focus should be transferred to the right details panel
+					$('.attachment-details input').first().focus();
+				}
+
 				return;
 			}
 
@@ -4850,7 +4919,11 @@
 				return;
 			}
 
-			this.$el.addClass('selected').attr('aria-checked', true);
+			this.$el.addClass( 'selected' ).attr( 'aria-checked', true )
+					.find( '.check' ).attr( 'tabindex', '0' );
+
+			// When selecting an attachment, focus should be transferred to the right details panel
+			$('.attachment-details input').first().focus();
 		},
 		/**
 		 * @param {Backbone.Model} model
@@ -4865,7 +4938,8 @@
 			if ( ! selection || ( collection && collection !== selection ) ) {
 				return;
 			}
-			this.$el.removeClass('selected').attr('aria-checked', false);
+			this.$el.removeClass( 'selected' ).attr( 'aria-checked', false )
+					.find( '.check' ).attr( 'tabindex', '-1' );
 		},
 		/**
 		 * @param {Backbone.Model} model
@@ -5027,6 +5101,8 @@
 			event.stopPropagation();
 			if ( selection.where( { id: this.model.get( 'id' ) } ).length ) {
 				selection.remove( this.model );
+				// Move focus back to the attachment tile (from the check).
+				this.$el.focus();
 			} else {
 				selection.add( this.model );
 			}
@@ -6237,7 +6313,8 @@
 			'click .delete-attachment':       'deleteAttachment',
 			'click .trash-attachment':        'trashAttachment',
 			'click .edit-attachment':         'editAttachment',
-			'click .refresh-attachment':      'refreshAttachment'
+			'click .refresh-attachment':      'refreshAttachment',
+			'keydown':                        'toggleSelectionHandler'
 		},
 
 		initialize: function() {
@@ -6300,6 +6377,17 @@
 			this.$el.removeClass('needs-refresh');
 			event.preventDefault();
 			this.model.fetch();
+		},
+		/**
+		 * @param {Object} event
+		 */
+		toggleSelectionHandler: function( event ) {
+			// Reverse tabbing out of the right details panel
+			// should take me back to the item in the list that was being edited.
+			if ( 'keydown' === event.type && 9 === event.keyCode && event.shiftKey && event.target === $( ':tabbable', this.$el ).filter( ':first' )[0] ) {
+				$('.attachments-browser .details').focus();
+				return false;
+			}
 		}
 
 	});
