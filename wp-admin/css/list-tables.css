@@ -1211,6 +1211,10 @@ tr.active + tr.plugin-update-tr .plugin-update .update-message {
 	margin: 2.5em 0 8px;
 }
 
+.plugin-install-php .wp-filter {
+	margin-bottom: 0;
+}
+
 /* Plugin card table view */
 .plugin-card {
 	float: left;
@@ -1225,6 +1229,41 @@ tr.active + tr.plugin-update-tr .plugin-update .update-message {
 	box-sizing: border-box;
 }
 
+.plugin-card:nth-child(odd) {
+	clear: both;
+	margin-left: 0;
+}
+
+.plugin-card:nth-child(even) {
+	margin-right: 0;
+}
+
+@media screen and ( min-width: 1600px ) {
+	.plugin-card {
+		width: 30%;
+		width: -webkit-calc( 33.1% - 8px );
+		width: calc( 33.1% - 8px );
+	}
+
+	.plugin-card:nth-child(odd) {
+		clear: none;
+		margin-left: 8px;
+	}
+
+	.plugin-card:nth-child(even) {
+		margin-right: 8px;
+	}
+
+	.plugin-card:nth-child(3n+1) {
+		clear: both;
+		margin-left: 0;
+	}
+
+	.plugin-card:nth-child(3n) {
+		margin-right: 0;
+	}
+}
+
 @media screen and ( max-width: 782px ) {
 	.plugin-card {
 		margin-left: 0;
@@ -1233,17 +1272,9 @@ tr.active + tr.plugin-update-tr .plugin-update .update-message {
 	}
 }
 
-.plugin-card:nth-child(odd) {
-	clear: both;
-	margin-left: 0;
-}
-
-.plugin-card:nth-child(even) {
-	margin-right: 0
-}
-
 .plugin-card-top {
 	padding: 20px 20px 10px;
+	min-height: 115px; /* 2 lines for the description + author */
 }
 
 div.action-links,

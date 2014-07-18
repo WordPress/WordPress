@@ -306,7 +306,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 			$details_link   = self_admin_url( 'plugin-install.php?tab=plugin-information&amp;plugin=' . $plugin['slug'] .
 								'&amp;TB_iframe=true&amp;width=600&amp;height=550' );
 
-			$action_links[] = '<a href="' . esc_attr( $details_link ) . '" class="thickbox" aria-labelledby="' . $plugin['slug'] . '" data-title="' . esc_attr( $name ) . '">' . __( 'More Details' ) . '</a>';
+			$action_links[] = '<a href="' . esc_url( $details_link ) . '" class="thickbox" aria-labelledby="' . $plugin['slug'] . '" data-title="' . esc_attr( $name ) . '">' . __( 'More Details' ) . '</a>';
 
 
 			/**
@@ -322,7 +322,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 		<div class="plugin-card">
 			<div class="plugin-card-top">
 				<div class="name column-name"<?php echo $style['name']; ?>>
-					<h4><a href="<?php echo esc_attr( $details_link ) ?>" class="thickbox"><?php echo $title; ?></a></h4>
+					<h4><a href="<?php echo esc_url( $details_link ) ?>" class="thickbox"><?php echo $title; ?></a></h4>
 					<div class="action-links">
 						<?php
 							if ( ! empty( $action_links ) ) {
@@ -332,11 +332,8 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 					</div>
 				</div>
 				<div class="desc column-description"<?php echo $style['description']; ?>>
-					<p><?php echo $description ?>
-					<span class="authors">
-						<?php echo $author; ?>
-					</span>
-					</p>
+					<p><?php echo $description ?></p>
+					<p class="authors"><?php echo $author; ?></p>
 				</div>
 			</div>
 			<div class="plugin-card-bottom">
@@ -344,10 +341,16 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 					<?php wp_star_rating( array( 'rating' => $plugin['rating'], 'type' => 'percent', 'number' => $plugin['num_ratings'] ) ); ?>
 					<span class="num-ratings">(<?php echo number_format_i18n( $plugin['num_ratings'] ); ?>)</span>
 				</div>
-				<div class="column-updated"><?php echo __( '<strong>Last updated:</strong>' ) . ' '. sprintf( '%s ago', human_time_diff( strtotime($plugin['last_updated']) ) ); ?></div>
-				<div class="column-downloaded"><?php echo sprintf( __('%s downloads'), number_format_i18n( $plugin['downloaded'] ) ); ?></div>
+				<div class="column-updated">
+					<strong><?php _e( 'Last Updated:' ); ?></strong> <span title="<?php echo esc_attr( $plugin['last_updated'] ); ?>">
+						<?php printf( __( '%s ago' ), human_time_diff( strtotime( $plugin['last_updated'] ) ) ); ?>
+					</span>
+				</div>
+				<div class="column-downloaded">
+					<?php echo sprintf( _n( '%s download', '%s downloads', $plugin['downloaded'] ), number_format_i18n( $plugin['downloaded'] ) ); ?>
+				</div>
 				<div class="column-compatibility">
-				<?php
+					<?php
 					if ( ! empty( $plugin['tested'] ) && version_compare( substr( $GLOBALS['wp_version'], 0, strlen( $plugin['tested'] ) ), $plugin['tested'], '>' ) ) {
 						echo  __( '<strong>Untested</strong> with your install ');
 					} elseif ( ! empty( $plugin['requires'] ) && version_compare( substr( $GLOBALS['wp_version'], 0, strlen( $plugin['requires'] ) ), $plugin['requires'], '<' ) ) {
@@ -355,7 +358,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 					} else {
 						echo __( '<strong>Compatible</strong> with your install ');
 					}
-				?>
+					?>
 				</div>
 			</div>
 		</div>
