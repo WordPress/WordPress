@@ -177,11 +177,13 @@ class WP_Http {
 		if ( $this->block_request( $url ) )
 			return new WP_Error( 'http_request_failed', __( 'User has blocked requests through HTTP.' ) );
 
-		// Determine if this is a https call and pass that on to the transport functions
-		// so that we can blacklist the transports that do not support ssl verification
+		/*
+		 * Determine if this is a https call and pass that on to the transport functions
+		 * so that we can blacklist the transports that do not support ssl verification
+		 */
 		$r['ssl'] = $arrURL['scheme'] == 'https' || $arrURL['scheme'] == 'ssl';
 
-		// Determine if this request is to OUR install of WordPress
+		// Determine if this request is to OUR install of WordPress.
 		$homeURL = parse_url( get_bloginfo( 'url' ) );
 		if ( isset( $homeURL['host'] ) ) {
 			$r['local'] = ( $homeURL['host'] == $arrURL['host'] || 'localhost' == $arrURL['host'] );
@@ -190,12 +192,17 @@ class WP_Http {
 		}
 		unset( $homeURL );
 
-		// If we are streaming to a file but no filename was given drop it in the WP temp dir
-		// and pick its name using the basename of the $url
+		/*
+		 * If we are streaming to a file but no filename was given drop it in the WP temp dir
+		 * and pick its name using the basename of the $url.
+		 */
 		if ( $r['stream']  && empty( $r['filename'] ) )
 			$r['filename'] = get_temp_dir() . basename( $url );
 
-		// Force some settings if we are streaming to a file and check for existence and perms of destination directory
+		/*
+		 * Force some settings if we are streaming to a file and check for existence and perms
+		 * of destination directory.
+		 */
 		if ( $r['stream'] ) {
 			$r['blocking'] = true;
 			if ( ! wp_is_writable( dirname( $r['filename'] ) ) )
@@ -224,10 +231,10 @@ class WP_Http {
 			$r['headers']['connection'] = 'close';
 		}
 
-		// Construct Cookie: header if any cookies are set
+		// Construct Cookie: header if any cookies are set.
 		WP_Http::buildCookieHeader( $r );
 
-		// Avoid issues where mbstring.func_overload is enabled
+		// Avoid issues where mbstring.func_overload is enabled.
 		mbstring_binary_safe_encoding();
 
 		if ( ! isset( $r['headers']['Accept-Encoding'] ) ) {
@@ -294,11 +301,11 @@ class WP_Http {
 		 */
 		$request_order = apply_filters( 'http_api_transports', array( 'curl', 'streams' ), $args, $url );
 
-		// Loop over each transport on each HTTP request looking for one which will serve this request's needs
+		// Loop over each transport on each HTTP request looking for one which will serve this request's needs.
 		foreach ( $request_order as $transport ) {
 			$class = 'WP_HTTP_' . $transport;
 
-			// Check to see if this transport is a possibility, calls the transport statically
+			// Check to see if this transport is a possibility, calls the transport statically.
 			if ( !call_user_func( array( $class, 'test' ), $args, $url ) )
 				continue;
 
@@ -450,20 +457,25 @@ class WP_Http {
 	 * 					Then a numbered array is returned as the value of that header-key.
 	 */
 	public static function processHeaders( $headers, $url = '' ) {
-		// split headers, one per array element
+		// Split headers, one per array element.
 		if ( is_string($headers) ) {
-			// tolerate line terminator: CRLF = LF (RFC 2616 19.3)
+			// Tolerate line terminator: CRLF = LF (RFC 2616 19.3).
 			$headers = str_replace("\r\n", "\n", $headers);
-			// unfold folded header fields. LWS = [CRLF] 1*( SP | HT ) <US-ASCII SP, space (32)>, <US-ASCII HT, horizontal-tab (9)> (RFC 2616 2.2)
+			/*
+			 * Unfold folded header fields. LWS = [CRLF] 1*( SP | HT ) <US-ASCII SP, space (32)>,
+			 * <US-ASCII HT, horizontal-tab (9)> (RFC 2616 2.2).
+			 */
 			$headers = preg_replace('/\n[ \t]/', ' ', $headers);
-			// create the headers array
+			// Create the headers array.
 			$headers = explode("\n", $headers);
 		}
 
 		$response = array('code' => 0, 'message' => '');
 
-		// If a redirection has taken place, The headers for each page request may have been passed.
-		// In this case, determine the final HTTP header and parse from there.
+		/*
+		 * If a redirection has taken place, The headers for each page request may have been passed.
+		 * In this case, determine the final HTTP header and parse from there.
+		 */
 		for ( $i = count($headers)-1; $i >= 0; $i-- ) {
 			if ( !empty($headers[$i]) && false === strpos($headers[$i], ':') ) {
 				$headers = array_splice($headers, $i);
@@ -518,7 +530,7 @@ class WP_Http {
 	 */
 	public static function buildCookieHeader( &$r ) {
 		if ( ! empty($r['cookies']) ) {
-			// Upgrade any name => value cookie pairs to WP_HTTP_Cookie instances
+			// Upgrade any name => value cookie pairs to WP_HTTP_Cookie instances.
 			foreach ( $r['cookies'] as $name => $value ) {
 				if ( ! is_object( $value ) )
 					$r['cookies'][ $name ] = new WP_HTTP_Cookie( array( 'name' => $name, 'value' => $value ) );
@@ -554,7 +566,9 @@ class WP_Http {
 			return $body;
 
 		$parsed_body = '';
-		$body_original = $body; // We'll be altering $body, so need a backup in case of error
+
+		// We'll be altering $body, so need a backup in case of error.
+		$body_original = $body;
 
 		while ( true ) {
 			$has_chunk = (bool) preg_match( '/^([0-9a-f]+)[^\r\n]*\r\n/i', $body, $match );
@@ -564,13 +578,13 @@ class WP_Http {
 			$length = hexdec( $match[1] );
 			$chunk_length = strlen( $match[0] );
 
-			// Parse out the chunk of data
+			// Parse out the chunk of data.
 			$parsed_body .= substr( $body, $chunk_length, $length );
 
-			// Remove the chunk from the raw data
+			// Remove the chunk from the raw data.
 			$body = substr( $body, $length + $chunk_length );
 
-			// End of document
+			// End of the document.
 			if ( '0' === trim( $body ) )
 				return $parsed_body;
 		}
@@ -606,7 +620,7 @@ class WP_Http {
 
 		$home = parse_url( get_option('siteurl') );
 
-		// Don't block requests back to ourselves by default
+		// Don't block requests back to ourselves by default.
 		if ( $check['host'] == 'localhost' || $check['host'] == $home['host'] ) {
 			/**
 			 * Filter whether to block local requests through the proxy.
@@ -646,7 +660,7 @@ class WP_Http {
 		if ( empty( $url ) )
 			return $maybe_relative_path;
 
-		// Check for a scheme
+		// Check for a scheme.
 		if ( false !== strpos( $maybe_relative_path, '://' ) )
 			return $maybe_relative_path;
 
@@ -660,31 +674,31 @@ class WP_Http {
 		if ( isset( $url_parts['port'] ) )
 			$absolute_path .= ':' . $url_parts['port'];
 
-		// Start off with the Absolute URL path
+		// Start off with the Absolute URL path.
 		$path = ! empty( $url_parts['path'] ) ? $url_parts['path'] : '/';
 
-		// If it's a root-relative path, then great
+		// If it's a root-relative path, then great.
 		if ( ! empty( $relative_url_parts['path'] ) && '/' == $relative_url_parts['path'][0] ) {
 			$path = $relative_url_parts['path'];
 
-		// Else it's a relative path
+		// Else it's a relative path.
 		} elseif ( ! empty( $relative_url_parts['path'] ) ) {
-			// Strip off any file components from the absolute path
+			// Strip off any file components from the absolute path.
 			$path = substr( $path, 0, strrpos( $path, '/' ) + 1 );
 
-			// Build the new path
+			// Build the new path.
 			$path .= $relative_url_parts['path'];
 
-			// Strip all /path/../ out of the path
+			// Strip all /path/../ out of the path.
 			while ( strpos( $path, '../' ) > 1 ) {
 				$path = preg_replace( '![^/]+/\.\./!', '', $path );
 			}
 
-			// Strip any final leading ../ from the path
+			// Strip any final leading ../ from the path.
 			$path = preg_replace( '!^/(\.\./)+!', '', $path );
 		}
 
-		// Add the Query string
+		// Add the Query string.
 		if ( ! empty( $relative_url_parts['query'] ) )
 			$path .= '?' . $relative_url_parts['query'];
 
@@ -706,29 +720,29 @@ class WP_Http {
 		if ( ! isset( $response['headers']['location'] ) || 0 === $args['_redirection'] )
 			return false;
 
-		// Only perform redirections on redirection http codes
+		// Only perform redirections on redirection http codes.
 		if ( $response['response']['code'] > 399 || $response['response']['code'] < 300 )
 			return false;
 
-		// Don't redirect if we've run out of redirects
+		// Don't redirect if we've run out of redirects.
 		if ( $args['redirection']-- <= 0 )
 			return new WP_Error( 'http_request_failed', __('Too many redirects.') );
 
 		$redirect_location = $response['headers']['location'];
 
-		// If there were multiple Location headers, use the last header specified
+		// If there were multiple Location headers, use the last header specified.
 		if ( is_array( $redirect_location ) )
 			$redirect_location = array_pop( $redirect_location );
 
 		$redirect_location = WP_HTTP::make_absolute_url( $redirect_location, $url );
 
-		// POST requests should not POST to a redirected location
+		// POST requests should not POST to a redirected location.
 		if ( 'POST' == $args['method'] ) {
 			if ( in_array( $response['response']['code'], array( 302, 303 ) ) )
 				$args['method'] = 'GET';
 		}
 
-		// Include valid cookies in the redirect process
+		// Include valid cookies in the redirect process.
 		if ( ! empty( $response['cookies'] ) ) {
 			foreach ( $response['cookies'] as $cookie ) {
 				if ( $cookie->test( $redirect_location ) )
@@ -805,7 +819,7 @@ class WP_Http_Streams {
 			unset($r['headers']['user-agent']);
 		}
 
-		// Construct Cookie: header if any cookies are set
+		// Construct Cookie: header if any cookies are set.
 		WP_Http::buildCookieHeader( $r );
 
 		$arrURL = parse_url($url);
@@ -830,8 +844,11 @@ class WP_Http_Streams {
 			unset( $r['headers']['Host'], $r['headers']['host'] );
 		}
 
-		// Certain versions of PHP have issues with 'localhost' and IPv6, It attempts to connect to ::1,
-		// which fails when the server is not set up for it. For compatibility, always connect to the IPv4 address.
+		/*
+		 * Certain versions of PHP have issues with 'localhost' and IPv6, It attempts to connect
+		 * to ::1, which fails when the server is not set up for it. For compatibility, always
+		 * connect to the IPv4 address.
+		 */
 		if ( 'localhost' == strtolower( $connect_host ) )
 			$connect_host = '127.0.0.1';
 
@@ -876,11 +893,14 @@ class WP_Http_Streams {
 		$utimeout = $timeout == $r['timeout'] ? 0 : 1000000 * $r['timeout'] % 1000000;
 		$connect_timeout = max( $timeout, 1 );
 
-		$connection_error = null; // Store error number
-		$connection_error_str = null; // Store error string
+		// Store error number.
+		$connection_error = null;
+
+		// Store error string.
+		$connection_error_str = null;
 
 		if ( !WP_DEBUG ) {
-			// In the event that the SSL connection fails, silence the many PHP Warnings
+			// In the event that the SSL connection fails, silence the many PHP Warnings.
 			if ( $secure_transport )
 				$error_reporting = error_reporting(0);
 
@@ -900,14 +920,14 @@ class WP_Http_Streams {
 		}
 
 		if ( false === $handle ) {
-			// SSL connection failed due to expired/invalid cert, or, OpenSSL configuration is broken
+			// SSL connection failed due to expired/invalid cert, or, OpenSSL configuration is broken.
 			if ( $secure_transport && 0 === $connection_error && '' === $connection_error_str )
 				return new WP_Error( 'http_request_failed', __( 'The SSL certificate for the host could not be verified.' ) );
 
 			return new WP_Error('http_request_failed', $connection_error . ': ' . $connection_error_str );
 		}
 
-		// Verify that the SSL certificate is valid for this request
+		// Verify that the SSL certificate is valid for this request.
 		if ( $secure_transport && $ssl_verify && ! $proxy->is_enabled() ) {
 			if ( ! self::verify_ssl_certificate( $handle, $arrURL['host'] ) )
 				return new WP_Error( 'http_request_failed', __( 'The SSL certificate for the host could not be verified.' ) );
@@ -963,7 +983,7 @@ class WP_Http_Streams {
 		if ( isset( $r['limit_response_size'] ) )
 			$block_size = min( $block_size, $r['limit_response_size'] );
 
-		// If streaming to a file setup the file handle
+		// If streaming to a file setup the file handle.
 		if ( $r['stream'] ) {
 			if ( ! WP_DEBUG )
 				$stream_handle = @fopen( $r['filename'], 'w+' );
@@ -1029,13 +1049,14 @@ class WP_Http_Streams {
 
 		$response = array(
 			'headers' => $arrHeaders['headers'],
-			'body' => null, // Not yet processed
+			// Not yet processed.
+			'body' => null,
 			'response' => $arrHeaders['response'],
 			'cookies' => $arrHeaders['cookies'],
 			'filename' => $r['filename']
 		);
 
-		// Handle redirects
+		// Handle redirects.
 		if ( false !== ( $redirect_response = WP_HTTP::handle_redirects( $url, $r, $response ) ) )
 			return $redirect_response;
 
@@ -1081,7 +1102,10 @@ class WP_Http_Streams {
 		if ( ! $cert )
 			return false;
 
-		// If the request is being made to an IP address, we'll validate against IP fields in the cert (if they exist)
+		/*
+		 * If the request is being made to an IP address, we'll validate against IP fields
+		 * in the cert (if they exist)
+		 */
 		$host_type = ( WP_HTTP::is_ip_address( $host ) ? 'ip' : 'dns' );
 
 		$certificate_hostnames = array();
@@ -1093,23 +1117,23 @@ class WP_Http_Streams {
 					$certificate_hostnames[] = strtolower( trim( $match_host ) );
 			}
 		} elseif ( !empty( $cert['subject']['CN'] ) ) {
-			// Only use the CN when the certificate includes no subjectAltName extension
+			// Only use the CN when the certificate includes no subjectAltName extension.
 			$certificate_hostnames[] = strtolower( $cert['subject']['CN'] );
 		}
 
-		// Exact hostname/IP matches
+		// Exact hostname/IP matches.
 		if ( in_array( strtolower( $host ), $certificate_hostnames ) )
 			return true;
 
-		// IP's can't be wildcards, Stop processing
+		// IP's can't be wildcards, Stop processing.
 		if ( 'ip' == $host_type )
 			return false;
 
-		// Test to see if the domain is at least 2 deep for wildcard support
+		// Test to see if the domain is at least 2 deep for wildcard support.
 		if ( substr_count( $host, '.' ) < 2 )
 			return false;
 
-		// Wildcard subdomains certs (*.example.com) are valid for a.example.com but not a.b.example.com
+		// Wildcard subdomains certs (*.example.com) are valid for a.example.com but not a.b.example.com.
 		$wildcard_host = preg_replace( '/^[^.]+\./', '*.', $host );
 
 		return in_array( strtolower( $wildcard_host ), $certificate_hostnames );
@@ -1162,7 +1186,7 @@ class WP_Http_Streams {
  * @deprecated 3.7.0 Please use WP_HTTP::request() directly
  */
 class WP_HTTP_Fsockopen extends WP_HTTP_Streams {
-	// For backwards compatibility for users who are using the class directly
+	// For backwards compatibility for users who are using the class directly.
 }
 
 /**
@@ -1270,8 +1294,10 @@ class WP_Http_Curl {
 			$ssl_verify = apply_filters( 'https_ssl_verify', $ssl_verify );
 		}
 
-		// CURLOPT_TIMEOUT and CURLOPT_CONNECTTIMEOUT expect integers. Have to use ceil since
-		// a value of 0 will allow an unlimited timeout.
+		/*
+		 * CURLOPT_TIMEOUT and CURLOPT_CONNECTTIMEOUT expect integers. Have to use ceil since.
+		 * a value of 0 will allow an unlimited timeout.
+		 */
 		$timeout = (int) ceil( $r['timeout'] );
 		curl_setopt( $handle, CURLOPT_CONNECTTIMEOUT, $timeout );
 		curl_setopt( $handle, CURLOPT_TIMEOUT, $timeout );
@@ -1282,8 +1308,11 @@ class WP_Http_Curl {
 		curl_setopt( $handle, CURLOPT_SSL_VERIFYPEER, $ssl_verify );
 		curl_setopt( $handle, CURLOPT_CAINFO, $r['sslcertificates'] );
 		curl_setopt( $handle, CURLOPT_USERAGENT, $r['user-agent'] );
-		// The option doesn't work with safe mode or when open_basedir is set, and there's a
-		// bug #17490 with redirected POST requests, so handle redirections outside Curl.
+
+		/*
+		 * The option doesn't work with safe mode or when open_basedir is set, and there's
+		 * a bug #17490 with redirected POST requests, so handle redirections outside Curl.
+		 */
 		curl_setopt( $handle, CURLOPT_FOLLOWLOCATION, false );
 		if ( defined( 'CURLOPT_PROTOCOLS' ) ) // PHP 5.2.10 / cURL 7.19.4
 			curl_setopt( $handle, CURLOPT_PROTOCOLS, CURLPROTO_HTTP | CURLPROTO_HTTPS );
@@ -1319,7 +1348,7 @@ class WP_Http_Curl {
 		else
 			$this->max_body_length = false;
 
-		// If streaming to a file open a file handle, and setup our curl streaming handler
+		// If streaming to a file open a file handle, and setup our curl streaming handler.
 		if ( $r['stream'] ) {
 			if ( ! WP_DEBUG )
 				$this->stream_handle = @fopen( $r['filename'], 'w+' );
@@ -1332,7 +1361,7 @@ class WP_Http_Curl {
 		}
 
 		if ( !empty( $r['headers'] ) ) {
-			// cURL expects full header strings in each element
+			// cURL expects full header strings in each element.
 			$headers = array();
 			foreach ( $r['headers'] as $name => $value ) {
 				$headers[] = "{$name}: $value";
@@ -1385,7 +1414,7 @@ class WP_Http_Curl {
 
 		$curl_error = curl_errno( $handle );
 
-		// If an error occured, or, no response
+		// If an error occured, or, no response.
 		if ( $curl_error || ( 0 == strlen( $theBody ) && empty( $theHeaders['headers'] ) ) ) {
 			if ( CURLE_WRITE_ERROR /* 23 */ == $curl_error &&  $r['stream'] ) {
 				fclose( $this->stream_handle );
@@ -1418,7 +1447,7 @@ class WP_Http_Curl {
 			'filename' => $r['filename']
 		);
 
-		// Handle redirects
+		// Handle redirects.
 		if ( false !== ( $redirect_response = WP_HTTP::handle_redirects( $url, $r, $response ) ) )
 			return $redirect_response;
 
@@ -1467,7 +1496,7 @@ class WP_Http_Curl {
 			$bytes_written = $data_length;
 		}
 
-		// Upon event of this function returning less than strlen( $data ) curl will error with CURLE_WRITE_ERROR
+		// Upon event of this function returning less than strlen( $data ) curl will error with CURLE_WRITE_ERROR.
 		return $bytes_written;
 	}
 
@@ -1487,7 +1516,8 @@ class WP_Http_Curl {
 
 		if ( $is_ssl ) {
 			$curl_version = curl_version();
-			if ( ! (CURL_VERSION_SSL & $curl_version['features']) ) // Does this cURL version support SSL requests?
+			// Check whether this cURL version support SSL requests.
+			if ( ! (CURL_VERSION_SSL & $curl_version['features']) )
 				return false;
 		}
 
@@ -1657,8 +1687,10 @@ class WP_HTTP_Proxy {
 	 * @return bool True, to send through the proxy and false if, the proxy should not be used.
 	 */
 	public function send_through_proxy( $uri ) {
-		// parse_url() only handles http, https type URLs, and will emit E_WARNING on failure.
-		// This will be displayed on blogs, which is not reasonable.
+		/*
+		 * parse_url() only handles http, https type URLs, and will emit E_WARNING on failure.
+		 * This will be displayed on blogs, which is not reasonable.
+		 */
 		$check = @parse_url($uri);
 
 		// Malformed URL, can not process, but this could mean ssl, so let through anyway.
@@ -1796,20 +1828,24 @@ class WP_Http_Cookie {
 			$this->path = dirname( $this->path ) . '/';
 
 		if ( is_string( $data ) ) {
-			// Assume it's a header string direct from a previous request
+			// Assume it's a header string direct from a previous request.
 			$pairs = explode( ';', $data );
 
-			// Special handling for first pair; name=value. Also be careful of "=" in value
+			// Special handling for first pair; name=value. Also be careful of "=" in value.
 			$name  = trim( substr( $pairs[0], 0, strpos( $pairs[0], '=' ) ) );
 			$value = substr( $pairs[0], strpos( $pairs[0], '=' ) + 1 );
 			$this->name  = $name;
 			$this->value = urldecode( $value );
-			array_shift( $pairs ); //Removes name=value from items.
 
-			// Set everything else as a property
+			// Removes name=value from items.
+			array_shift( $pairs );
+
+			// Set everything else as a property.
 			foreach ( $pairs as $pair ) {
 				$pair = rtrim($pair);
-				if ( empty($pair) ) //Handles the cookie ending in ; which results in a empty final pair
+
+				// Handle the cookie ending in ; which results in a empty final pair.
+				if ( empty($pair) )
 					continue;
 
 				list( $key, $val ) = strpos( $pair, '=' ) ? explode( '=', $pair ) : array( $pair, '' );
@@ -1822,7 +1858,7 @@ class WP_Http_Cookie {
 			if ( !isset( $data['name'] ) )
 				return false;
 
-			// Set properties based directly on parameters
+			// Set properties based directly on parameters.
 			foreach ( array( 'name', 'value', 'path', 'domain', 'port' ) as $field ) {
 				if ( isset( $data[ $field ] ) )
 					$this->$field = $data[ $field ];
@@ -1850,32 +1886,32 @@ class WP_Http_Cookie {
 		if ( is_null( $this->name ) )
 			return false;
 
-		// Expires - if expired then nothing else matters
+		// Expires - if expired then nothing else matters.
 		if ( isset( $this->expires ) && time() > $this->expires )
 			return false;
 
-		// Get details on the URL we're thinking about sending to
+		// Get details on the URL we're thinking about sending to.
 		$url = parse_url( $url );
 		$url['port'] = isset( $url['port'] ) ? $url['port'] : ( 'https' == $url['scheme'] ? 443 : 80 );
 		$url['path'] = isset( $url['path'] ) ? $url['path'] : '/';
 
-		// Values to use for comparison against the URL
+		// Values to use for comparison against the URL.
 		$path   = isset( $this->path )   ? $this->path   : '/';
 		$port   = isset( $this->port )   ? $this->port   : null;
 		$domain = isset( $this->domain ) ? strtolower( $this->domain ) : strtolower( $url['host'] );
 		if ( false === stripos( $domain, '.' ) )
 			$domain .= '.local';
 
-		// Host - very basic check that the request URL ends with the domain restriction (minus leading dot)
+		// Host - very basic check that the request URL ends with the domain restriction (minus leading dot).
 		$domain = substr( $domain, 0, 1 ) == '.' ? substr( $domain, 1 ) : $domain;
 		if ( substr( $url['host'], -strlen( $domain ) ) != $domain )
 			return false;
 
-		// Port - supports "port-lists" in the format: "80,8000,8080"
+		// Port - supports "port-lists" in the format: "80,8000,8080".
 		if ( !empty( $port ) && !in_array( $url['port'], explode( ',', $port) ) )
 			return false;
 
-		// Path - request path must start with path restriction
+		// Path - request path must start with path restriction.
 		if ( substr( $url['path'], 0, strlen( $path ) ) != $path )
 			return false;
 
@@ -2005,7 +2041,7 @@ class WP_Http_Encoding {
 	 */
 	public static function compatible_gzinflate($gzData) {
 
-		// Compressed data might contain a full header, if so strip it for gzinflate()
+		// Compressed data might contain a full header, if so strip it for gzinflate().
 		if ( substr($gzData, 0, 3) == "\x1f\x8b\x08" ) {
 			$i = 10;
 			$flg = ord( substr($gzData, 3, 1) );
@@ -2045,11 +2081,11 @@ class WP_Http_Encoding {
 		$type = array();
 		$compression_enabled = WP_Http_Encoding::is_available();
 
-		if ( ! $args['decompress'] ) // decompression specifically disabled
+		if ( ! $args['decompress'] ) // Decompression specifically disabled.
 			$compression_enabled = false;
-		elseif ( $args['stream'] ) // disable when streaming to file
+		elseif ( $args['stream'] ) // Disable when streaming to file.
 			$compression_enabled = false;
-		elseif ( isset( $args['limit_response_size'] ) ) // If only partial content is being requested, we won't be able to decompress it
+		elseif ( isset( $args['limit_response_size'] ) ) // If only partial content is being requested, we won't be able to decompress it.
 			$compression_enabled = false;
 
 		if ( $compression_enabled ) {
