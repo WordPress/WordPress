@@ -2421,7 +2421,7 @@ function wp_insert_term( $term, $taxonomy, $args = array() ) {
 	$args = wp_parse_args( $args, $defaults );
 
 	if ( $args['parent'] > 0 && ! term_exists( (int) $args['parent'] ) ) {
-		return new WP_Error( 'missing_parent', __( 'The selected parent term no longer exists' ) );
+		return new WP_Error( 'missing_parent', __( 'Parent term does not exist.' ) );
 	}
 	$args['name'] = $term;
 	$args['taxonomy'] = $taxonomy;
