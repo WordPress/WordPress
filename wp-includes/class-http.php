@@ -60,9 +60,9 @@ class WP_Http {
 	 * @access public
 	 * @since 2.7.0
 	 *
-	 * @param string $url URI resource.
-	 * @param str|array $args Optional. Override the defaults.
-	 * @return array|object Array containing 'headers', 'body', 'response', 'cookies', 'filename'. A WP_Error instance upon error
+	 * @param string $url The request URL.
+	 * @param string|array $args Optional. Override the defaults.
+	 * @return array|WP_Error Array containing 'headers', 'body', 'response', 'cookies', 'filename'. A WP_Error instance upon error
 	 */
 	public function request( $url, $args = array() ) {
 		global $wp_version;
@@ -139,7 +139,7 @@ class WP_Http {
 		 * @since 2.7.0
 		 *
 		 * @param array  $r   An array of HTTP request arguments.
-		 * @param string $url The request URI resource.
+		 * @param string $url The request URL.
 		 */
 		$r = apply_filters( 'http_request_args', $r, $url );
 
@@ -157,7 +157,7 @@ class WP_Http {
 		 *
 		 * @param bool   $preempt Whether to preempt an HTTP request return. Default false.
 		 * @param array  $r       HTTP request arguments.
-		 * @param string $url     The request URI resource.
+		 * @param string $url     The request URL.
 		 */
 		$pre = apply_filters( 'pre_http_request', false, $r, $url );
 		if ( false !== $pre )
@@ -321,7 +321,7 @@ class WP_Http {
 	 *
 	 * @param string $url URL to Request
 	 * @param array $args Request arguments
-	 * @return array|object Array containing 'headers', 'body', 'response', 'cookies', 'filename'. A WP_Error instance upon error
+	 * @return array|WP_Error Array containing 'headers', 'body', 'response', 'cookies', 'filename'. A WP_Error instance upon error
 	 */
 	private function _dispatch_request( $url, $args ) {
 		static $transports = array();
@@ -341,11 +341,11 @@ class WP_Http {
 		 *
 		 * @since 2.8.0
 		 *
-		 * @param mixed  $response HTTP Response or WP_Error object.
-		 * @param string $context  Context under which the hook is fired.
-		 * @param string $class    HTTP transport used.
-		 * @param array  $args     HTTP request arguments.
-		 * @param string $url      The request URL.
+		 * @param array|WP_Error $response HTTP response or WP_Error object.
+		 * @param string         $context  Context under which the hook is fired.
+		 * @param string         $class    HTTP transport used.
+		 * @param array          $args     HTTP request arguments.
+		 * @param string         $url      The request URL.
 		 */
 		do_action( 'http_api_debug', $response, 'response', $class, $args, $url );
 
@@ -357,9 +357,9 @@ class WP_Http {
 		 *
 		 * @since 2.9.0
 		 *
-		 * @param array|obj $response HTTP Response.
-		 * @param array     $args     HTTP request arguments.
-		 * @param string    $url      The request URL.
+		 * @param array  $response HTTP response.
+		 * @param array  $args     HTTP request arguments.
+		 * @param string $url      The request URL.
 		 */
 		return apply_filters( 'http_response', $response, $args, $url );
 	}
@@ -372,9 +372,9 @@ class WP_Http {
 	 * @access public
 	 * @since 2.7.0
 	 *
-	 * @param string       $url  URI resource.
+	 * @param string       $url  The request URL.
 	 * @param string|array $args Optional. Override the defaults.
-	 * @return array|object Array containing 'headers', 'body', 'response', 'cookies', 'filename'. A WP_Error instance upon error
+	 * @return array|WP_Error Array containing 'headers', 'body', 'response', 'cookies', 'filename'. A WP_Error instance upon error
 	 */
 	public function post($url, $args = array()) {
 		$defaults = array('method' => 'POST');
@@ -390,9 +390,9 @@ class WP_Http {
 	 * @access public
 	 * @since 2.7.0
 	 *
-	 * @param string $url URI resource.
-	 * @param str|array $args Optional. Override the defaults.
-	 * @return array|object Array containing 'headers', 'body', 'response', 'cookies', 'filename'. A WP_Error instance upon error
+	 * @param string $url The request URL.
+	 * @param string|array $args Optional. Override the defaults.
+	 * @return array|WP_Error Array containing 'headers', 'body', 'response', 'cookies', 'filename'. A WP_Error instance upon error
 	 */
 	public function get($url, $args = array()) {
 		$defaults = array('method' => 'GET');
@@ -408,9 +408,9 @@ class WP_Http {
 	 * @access public
 	 * @since 2.7.0
 	 *
-	 * @param string $url URI resource.
-	 * @param str|array $args Optional. Override the defaults.
-	 * @return array|object Array containing 'headers', 'body', 'response', 'cookies', 'filename'. A WP_Error instance upon error
+	 * @param string $url The request URL.
+	 * @param string|array $args Optional. Override the defaults.
+	 * @return array|WP_Error Array containing 'headers', 'body', 'response', 'cookies', 'filename'. A WP_Error instance upon error
 	 */
 	public function head($url, $args = array()) {
 		$defaults = array('method' => 'HEAD');
@@ -783,9 +783,9 @@ class WP_Http_Streams {
 	 * @since 3.7.0 Combined with the fsockopen transport and switched to stream_socket_client().
 	 *
 	 * @access public
-	 * @param string $url URI resource.
+	 * @param string $url The request URL.
 	 * @param string|array $args Optional. Override the defaults.
-	 * @return array 'headers', 'body', 'response', 'cookies' and 'filename' keys.
+	 * @return array|WP_Error Array containing 'headers', 'body', 'response', 'cookies', 'filename'. A WP_Error instance upon error
 	 */
 	public function request($url, $args = array()) {
 		$defaults = array(
@@ -1218,9 +1218,9 @@ class WP_Http_Curl {
 	 * @access public
 	 * @since 2.7.0
 	 *
-	 * @param string $url
-	 * @param str|array $args Optional. Override the defaults.
-	 * @return array 'headers', 'body', 'response', 'cookies' and 'filename' keys.
+	 * @param string $url The request URL.
+	 * @param string|array $args Optional. Override the defaults.
+	 * @return array|WP_Error Array containing 'headers', 'body', 'response', 'cookies', 'filename'. A WP_Error instance upon error
 	 */
 	public function request($url, $args = array()) {
 		$defaults = array(
@@ -1355,7 +1355,7 @@ class WP_Http_Curl {
 		 *
 		 * @param resource &$handle The cURL handle returned by curl_init().
 		 * @param array    $r       The HTTP request arguments.
-		 * @param string   $url     The destination URL.
+		 * @param string   $url     The request URL.
 		 */
 		do_action_ref_array( 'http_api_curl', array( &$handle, $r, $url ) );
 
