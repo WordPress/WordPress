@@ -316,10 +316,13 @@
 				isEsc = ( event.which === 27 ),
 				isDown = ( event.which === 40 ),
 				isUp = ( event.which === 38 ),
+				isTab = ( event.which === 9 ),
+				isShift = ( event.shiftKey ),
 				selected = null,
 				firstVisible = this.$el.find( '> .widget-tpl:visible:first' ),
 				lastVisible = this.$el.find( '> .widget-tpl:visible:last' ),
-				isSearchFocused = $( event.target ).is( this.$search );
+				isSearchFocused = $( event.target ).is( this.$search ),
+				isLastWidgetFocused = $( event.target ).is( '.widget-tpl:visible:last' );
 
 			if ( isDown || isUp ) {
 				if ( isDown ) {
@@ -356,6 +359,11 @@
 				this.submit();
 			} else if ( isEsc ) {
 				this.close( { returnFocus: true } );
+			}
+
+			if ( isTab && ( isShift && isSearchFocused || ! isShift && isLastWidgetFocused ) ) {
+				this.currentSidebarControl.container.find( '.add-new-widget' ).focus();
+				event.preventDefault();
 			}
 		}
 	});
