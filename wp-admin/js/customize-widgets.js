@@ -1588,6 +1588,9 @@
 				} );
 
 				this.$sectionContent.find( '.first-widget .move-widget' ).focus();
+				this.$sectionContent.find( '.add-new-widget' ).prop( 'tabIndex', -1 );
+			} else {
+				this.$sectionContent.find( '.add-new-widget' ).prop( 'tabIndex', 0 );
 			}
 		},
 
