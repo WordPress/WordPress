@@ -370,11 +370,19 @@ function register_theme_directory( $directory ) {
 		// Try prepending as the theme directory could be relative to the content directory
 		$directory = WP_CONTENT_DIR . '/' . $directory;
 		// If this directory does not exist, return and do not register
-		if ( ! file_exists( $directory ) )
+		if ( ! file_exists( $directory ) ) {
 			return false;
+		}
 	}
 
-	$wp_theme_directories[] = $directory;
+	if ( ! is_array( $wp_theme_directories ) ) {
+		$wp_theme_directories = array();
+	}
+
+	$untrailed = untrailingslashit( $directory );
+	if ( ! empty( $untrailed ) && ! in_array( $untrailed, $wp_theme_directories ) ) {
+		$wp_theme_directories[] = $untrailed;
+	}
 
 	return true;
 }
