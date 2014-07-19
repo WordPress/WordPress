@@ -177,7 +177,10 @@ class WP_Customize_Section {
 		}
 		?>
 		<li id="accordion-section-<?php echo esc_attr( $this->id ); ?>" class="<?php echo esc_attr( $classes ); ?>">
-			<h3 class="accordion-section-title" tabindex="0"><?php echo esc_html( $this->title ); ?></h3>
+			<h3 class="accordion-section-title" tabindex="0">
+				<?php echo esc_html( $this->title ); ?>
+				<span class="screen-reader-text"><?php _e( 'Press return or enter to expand' ); ?></span>
+			</h3>
 			<ul class="accordion-section-content">
 				<?php if ( ! empty( $this->description ) ) : ?>
 				<li><p class="description customize-section-description"><?php echo $this->description; ?></p></li>
@@ -241,7 +244,10 @@ class WP_Customize_Panel extends WP_Customize_Section {
 	protected function render() {
 		?>
 		<li id="accordion-section-<?php echo esc_attr( $this->id ); ?>" class="control-section control-panel accordion-section">
-			<h3 class="accordion-section-title" tabindex="0"><?php echo esc_html( $this->title ); ?></h3>
+			<h3 class="accordion-section-title" tabindex="0">
+				<?php echo esc_html( $this->title ); ?>
+				<span class="screen-reader-text"><?php _e( 'Press return or enter to open panel' ); ?></span>
+			</h3>
 			<span class="control-panel-back" tabindex="-1"><span class="screen-reader-text"><?php _e( 'Back' ); ?></span></span>
 			<ul class="accordion-sub-container control-panel-content">
 				<li class="accordion-section control-section<?php if ( empty( $this->description ) ) echo ' cannot-expand'; ?>">
