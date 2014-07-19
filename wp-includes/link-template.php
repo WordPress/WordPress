@@ -1477,41 +1477,41 @@ function get_adjacent_post( $in_same_term = false, $excluded_terms = '', $previo
 	$current_post_date = $post->post_date;
 
 	$join = '';
-	$posts_in_ex_terms_sql = '';
+	$where = '';
+
 	if ( $in_same_term || ! empty( $excluded_terms ) ) {
 		$join = " INNER JOIN $wpdb->term_relationships AS tr ON p.ID = tr.object_id INNER JOIN $wpdb->term_taxonomy tt ON tr.term_taxonomy_id = tt.term_taxonomy_id";
+		$where = $wpdb->prepare( "AND tt.taxonomy = %s", $taxonomy );
+
+		if ( ! empty( $excluded_terms ) && ! is_array( $excluded_terms ) ) {
+			// back-compat, $excluded_terms used to be $excluded_terms with IDs separated by " and "
+			if ( false !== strpos( $excluded_terms, ' and ' ) ) {
+				_deprecated_argument( __FUNCTION__, '3.3', sprintf( __( 'Use commas instead of %s to separate excluded terms.' ), "'and'" ) );
+				$excluded_terms = explode( ' and ', $excluded_terms );
+			} else {
+				$excluded_terms = explode( ',', $excluded_terms );
+			}
+
+			$excluded_terms = array_map( 'intval', $excluded_terms );
+		}
 
 		if ( $in_same_term ) {
 			if ( ! is_object_in_taxonomy( $post->post_type, $taxonomy ) )
 				return '';
 			$term_array = wp_get_object_terms( $post->ID, $taxonomy, array( 'fields' => 'ids' ) );
+
+			// Remove any exclusions from the term array to include.
+			$term_array = array_diff( $term_array, (array) $excluded_terms );
+			$term_array = array_map( 'intval', $term_array );
+
 			if ( ! $term_array || is_wp_error( $term_array ) )
 				return '';
-			$join .= $wpdb->prepare( " AND tt.taxonomy = %s AND tt.term_id IN (" . implode( ',', array_map( 'intval', $term_array ) ) . ")", $taxonomy );
+
+			$where .= " AND tt.term_id IN (" . implode( ',', $term_array ) . ")";
 		}
 
-		$posts_in_ex_terms_sql = $wpdb->prepare( "AND tt.taxonomy = %s", $taxonomy );
 		if ( ! empty( $excluded_terms ) ) {
-			if ( ! is_array( $excluded_terms ) ) {
-				// back-compat, $excluded_terms used to be $excluded_terms with IDs separated by " and "
-				if ( false !== strpos( $excluded_terms, ' and ' ) ) {
-					_deprecated_argument( __FUNCTION__, '3.3', sprintf( __( 'Use commas instead of %s to separate excluded terms.' ), "'and'" ) );
-					$excluded_terms = explode( ' and ', $excluded_terms );
-				} else {
-					$excluded_terms = explode( ',', $excluded_terms );
-				}
-			}
-
-			$excluded_terms = array_map( 'intval', $excluded_terms );
-
-			if ( ! empty( $term_array ) ) {
-				$excluded_terms = array_diff( $excluded_terms, $term_array );
-				$posts_in_ex_terms_sql = '';
-			}
-
-			if ( ! empty( $excluded_terms ) ) {
-				$posts_in_ex_terms_sql = $wpdb->prepare( " AND tt.taxonomy = %s AND tt.term_id NOT IN (" . implode( $excluded_terms, ',' ) . ')', $taxonomy );
-			}
+			$where .= " AND p.ID NOT IN ( SELECT object_id FROM $wpdb->term_relationships WHERE term_taxonomy_id IN (" . implode( $excluded_terms, ',' ) . ') )';
 		}
 	}
 
@@ -1545,7 +1545,7 @@ function get_adjacent_post( $in_same_term = false, $excluded_terms = '', $previo
 	 * @param bool   $in_same_term   Whether post should be in a same taxonomy term.
 	 * @param array  $excluded_terms Array of excluded term IDs.
 	 */
-	$where = apply_filters( "get_{$adjacent}_post_where", $wpdb->prepare( "WHERE p.post_date $op %s AND p.post_type = %s AND p.post_status = 'publish' $posts_in_ex_terms_sql", $current_post_date, $post->post_type), $in_same_term, $excluded_terms );
+	$where = apply_filters( "get_{$adjacent}_post_where", $wpdb->prepare( "WHERE p.post_date $op %s AND p.post_type = %s AND p.post_status = 'publish' $where", $current_post_date, $post->post_type ), $in_same_term, $excluded_terms );
 
 	/**
 	 * Filter the ORDER BY clause in the SQL for an adjacent post query.
