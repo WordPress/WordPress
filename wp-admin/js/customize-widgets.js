@@ -1586,6 +1586,8 @@
 				_( this.getWidgetFormControls() ).each( function( formControl ) {
 					formControl.collapseForm();
 				} );
+
+				this.$sectionContent.find( '.first-widget .move-widget' ).focus();
 			}
 		},
 
