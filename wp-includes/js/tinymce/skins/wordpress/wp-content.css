@@ -262,6 +262,7 @@ audio {
 	bottom: -2px;
 	width: 1px;
 	background-color: black;
+	background-color: currentcolor;
 	-webkit-transition: opacity 0.15s ease-out;
 	-moz-transition: opacity 0.15s ease-out;
 	transition: opacity 0.15s ease-out;
