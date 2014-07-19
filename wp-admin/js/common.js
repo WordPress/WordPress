@@ -610,8 +610,7 @@ $(document).ready( function() {
 
 	window.wpResponsive = {
 		init: function() {
-			var self = this,
-				scrollStart = 0;
+			var self = this;
 
 			// Modify functionality based on custom activate/deactivate event
 			$document.on( 'wp-responsive-activate.wp-responsive', function() {
@@ -635,12 +634,8 @@ $(document).ready( function() {
 			} );
 
 			// Add menu events
-			$adminmenu.on( 'touchstart.wp-responsive', 'li.wp-has-submenu > a', function() {
-				scrollStart = $window.scrollTop();
-			}).on( 'touchend.wp-responsive click.wp-responsive', 'li.wp-has-submenu > a', function( event ) {
-				if ( ! $adminmenu.data('wp-responsive') ||
-					( event.type === 'touchend' && $window.scrollTop() !== scrollStart ) ) {
-
+			$adminmenu.on( 'click.wp-responsive', 'li.wp-has-submenu > a', function( event ) {
+				if ( ! $adminmenu.data('wp-responsive') ) {
 					return;
 				}
 
