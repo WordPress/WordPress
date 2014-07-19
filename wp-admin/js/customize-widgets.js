@@ -623,7 +623,9 @@
 			 * Handle clicks for up/down/move on the reorder nav
 			 */
 			$reorderNav = this.container.find( '.widget-reorder-nav' );
-			$reorderNav.find( '.move-widget, .move-widget-down, .move-widget-up' ).on( 'click keypress', function( event ) {
+			$reorderNav.find( '.move-widget, .move-widget-down, .move-widget-up' ).each( function() {
+				$( this ).prepend( self.container.find( '.widget-title' ).text() + ': ' );
+			} ).on( 'click keypress', function( event ) {
 				if ( event.type === 'keypress' && ( event.which !== 13 && event.which !== 32 ) ) {
 					return;
 				}
