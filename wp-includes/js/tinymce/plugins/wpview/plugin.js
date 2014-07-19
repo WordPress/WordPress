@@ -101,6 +101,15 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 		editor.nodeChanged();
 	}
 
+	function removeView( view ) {
+		// TODO: trigger an event to run a clean up function.
+		// Maybe `jQuery( view ).trigger( 'remove' );`?
+		editor.undoManager.transact( function() {
+			handleEnter( view );
+			editor.dom.remove( view );
+		});
+	}
+
 	function select( viewNode ) {
 		var clipboard,
 			dom = editor.dom;
@@ -183,6 +192,10 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 
 		if ( ! event.content ) {
 			return;
+		}
+
+		if ( selected ) {
+			removeView( selected );
 		}
 
 		if ( ! event.initial ) {
@@ -293,7 +306,7 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 					if ( editor.dom.hasClass( event.target, 'edit' ) ) {
 						wp.mce.views.edit( view );
 					} else if ( editor.dom.hasClass( event.target, 'remove' ) ) {
-						editor.dom.remove( view );
+						removeView( view );
 					}
 				}
 
@@ -340,20 +353,15 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 			dom = editor.dom,
 			selection = editor.selection,
 			node, view, cursorBefore, cursorAfter,
-			range, clonedRange, tempRange, remove;
+			range, clonedRange, tempRange;
 
 		if ( selected ) {
-			// Let key presses that involve the command or control keys through.
-			// Also, let any of the F# keys through.
-			if ( event.metaKey || event.ctrlKey || ( key >= 112 && key <= 123 ) ) {
-				// But remove the view when cmd/ctrl + x/backspace are pressed.
-				if ( ( event.metaKey || event.ctrlKey ) && ( key === 88 || key === VK.BACKSPACE ) ) {
-					// We'll remove a cut view on keyup, otherwise the browser can't copy the content.
-					if ( key === 88 ) {
-						toRemove = selected;
-					} else {
-						editor.dom.remove( selected );
-					}
+			// Ignore key presses that involve the command or control key, but continue when in combination with backspace or v.
+			// Also ignore the F# keys.
+			if ( ( ( event.metaKey || event.ctrlKey ) && key !== VK.BACKSPACE && key !== 86 ) || ( key >= 112 && key <= 123 ) ) {
+				// Remove the view when pressing cmd/ctrl+x on keyup, otherwise the browser can't copy the content.
+				if ( ( event.metaKey || event.ctrlKey ) && key === 88 ) {
+					toRemove = selected;
 				}
 				return;
 			}
@@ -399,11 +407,7 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 				event.preventDefault();
 			// Ignore keys that don't insert anything.
 			} else if ( ( key > 47 || VK.SPACEBAR || key === VK.ENTER || key === VK.DELETE || key === VK.BACKSPACE ) && key !== 144 && key !== 145 ) {
-				editor.undoManager.transact( function() {
-					remove = selected;
-					handleEnter( selected );
-					dom.remove( remove );
-				});
+				removeView( selected );
 
 				if ( key === VK.ENTER || key === VK.DELETE || key === VK.BACKSPACE ) {
 					event.preventDefault();
@@ -437,26 +441,23 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 				}
 			}
 
-			// Make sure we don't eat any content.
-			if ( event.keyCode === VK.BACKSPACE ) {
-				if ( editor.dom.isEmpty( node ) ) {
-					if ( view = getView( node.previousSibling ) ) {
-						setViewCursor( false, view );
-						editor.dom.remove( node );
-						event.preventDefault();
-						return;
-					}
-				} else if ( ( range = selection.getRng() ) &&
-						range.startOffset === 0 &&
-						range.endOffset === 0 &&
-						( view = getView( node.previousSibling ) ) ) {
-					setViewCursor( false, view );
-					event.preventDefault();
-					return;
-				}
-			}
-
 			if ( ! view ) {
+				// Make sure we don't eat any content.
+				if ( event.keyCode === VK.BACKSPACE ) {
+					if ( editor.dom.isEmpty( node ) ) {
+						if ( view = getView( node.previousSibling ) ) {
+							setViewCursor( false, view );
+							editor.dom.remove( node );
+							event.preventDefault();
+						}
+					} else if ( ( range = selection.getRng() ) &&
+							range.startOffset === 0 &&
+							range.endOffset === 0 &&
+							( view = getView( node.previousSibling ) ) ) {
+						setViewCursor( false, view );
+						event.preventDefault();
+					}
+				}
 				return;
 			}
 
@@ -515,10 +516,7 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 				select( view );
 				event.preventDefault();
 			} else if ( cursorAfter && key === VK.BACKSPACE ) {
-				editor.undoManager.transact( function() {
-					handleEnter( view );
-					dom.remove( view );
-				});
+				removeView( view );
 				event.preventDefault();
 			} else if ( cursorAfter ) {
 				handleEnter( view );
@@ -534,7 +532,7 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 
 	editor.on( 'keyup', function() {
 		if ( toRemove ) {
-			editor.dom.remove( toRemove );
+			removeView( toRemove );
 			toRemove = false;
 		}
 	});
