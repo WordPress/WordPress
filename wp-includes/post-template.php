@@ -145,21 +145,6 @@ function get_the_title( $post = 0 ) {
 			 */
 			$private_title_format = apply_filters( 'private_title_format', __( 'Private: %s' ), $post );
 			$title = sprintf( $private_title_format, $title );
-		} else if ( isset( $post->post_status ) && 'draft' == $post->post_status ) {
-
-			/**
-			 * Filter the text prepended to the post title of draft posts.
-			 *
-			 * The filter is only applied on the front end.
-			 *
-			 * @since 4.0.0
-			 *
-			 * @param string  $prepend Text displayed before the post title.
-			 *                         Default 'Draft: %s'.
-			 * @param WP_Post $post    Current post object.
-			 */
-			$draft_title_format = apply_filters( 'draft_title_format', __( 'Draft: %s' ), $post );
-			$title = sprintf( $draft_title_format, $title );
 		}
 	}
 
@@ -557,7 +542,6 @@ function get_body_class( $class = '' ) {
 		if ( isset( $post->post_type ) ) {
 			$classes[] = 'single-' . sanitize_html_class($post->post_type, $post_id);
 			$classes[] = 'postid-' . $post_id;
-			$classes[] = 'single-status-' . sanitize_html_class( $post->post_status );
 
 			// Post Format
 			if ( post_type_supports( $post->post_type, 'post-formats' ) ) {
