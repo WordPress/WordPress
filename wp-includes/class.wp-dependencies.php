@@ -325,6 +325,31 @@ class WP_Dependencies {
 	}
 
 	/**
+	 * Recursively search the passed dependency tree for $handle
+	 *
+	 * @since 4.0.0
+	 *
+	 * @param array  $queue  An array of queued _WP_Dependency handle objects.
+	 * @param string $handle Name of the item. Should be unique.
+	 * @return boolean Whether the handle is found after recursively searching the dependency tree.
+	 */
+	protected function recurse_deps( $queue, $handle ) {
+		foreach ( $queue as $queued ) {
+			if ( ! isset( $this->registered[ $queued ] ) ) {
+				continue;
+			}
+
+			if ( in_array( $handle, $this->registered[ $queued ]->deps ) ) {
+				return true;
+			} else {
+				return $this->recurse_deps( $this->registered[ $queued ]->deps, $handle );
+			}
+		}
+
+		return false;
+	}
+
+	/**
 	 * Query list for an item.
 	 *
 	 * @access public
@@ -344,7 +369,10 @@ class WP_Dependencies {
 
 			case 'enqueued' :
 			case 'queue' :
-				return in_array( $handle, $this->queue );
+				if ( in_array( $handle, $this->queue ) ) {
+					return true;
+				}
+				return $this->recurse_deps( $this->queue, $handle );
 
 			case 'to_do' :
 			case 'to_print': // back compat
