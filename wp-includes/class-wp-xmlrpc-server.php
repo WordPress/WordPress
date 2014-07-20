@@ -66,6 +66,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			'wp.deleteCategory'		=> 'this:wp_deleteCategory',
 			'wp.suggestCategories'	=> 'this:wp_suggestCategories',
 			'wp.uploadFile'			=> 'this:mw_newMediaObject',	// Alias
+			'wp.deleteFile'			=> 'this:wp_deletePost',		// Alias
 			'wp.getCommentCount'	=> 'this:wp_getCommentCount',
 			'wp.getPostStatusList'	=> 'this:wp_getPostStatusList',
 			'wp.getPageStatusList'	=> 'this:wp_getPageStatusList',
@@ -78,7 +79,6 @@ class wp_xmlrpc_server extends IXR_Server {
 			'wp.editComment'		=> 'this:wp_editComment',
 			'wp.newComment'			=> 'this:wp_newComment',
 			'wp.getCommentStatusList' => 'this:wp_getCommentStatusList',
-			'wp.deleteMediaItem'	=> 'this:wp_deletePost',		// Alias
 			'wp.getMediaItem'		=> 'this:wp_getMediaItem',
 			'wp.getMediaLibrary'	=> 'this:wp_getMediaLibrary',
 			'wp.getPostFormats'     => 'this:wp_getPostFormats',
