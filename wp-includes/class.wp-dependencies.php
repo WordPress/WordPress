@@ -341,8 +341,8 @@ class WP_Dependencies {
 
 			if ( in_array( $handle, $this->registered[ $queued ]->deps ) ) {
 				return true;
-			} else {
-				return $this->recurse_deps( $this->registered[ $queued ]->deps, $handle );
+			} elseif ( $this->recurse_deps( $this->registered[ $queued ]->deps, $handle ) ) {
+				return true;
 			}
 		}
 
