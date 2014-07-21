@@ -2197,20 +2197,20 @@ function wp_install_language_form( $languages ) {
 	echo "<fieldset>\n";
 	echo "<legend class='screen-reader-text'>Select a default language</legend>\n";
 	echo '<input type="radio" checked="checked" class="screen-reader-input language-chooser-input" name="language" id="language_default" value="">';
-	echo '<label for="language_default">English (United States)</label>';
+	echo '<label for="language_default" lang="en">English (United States)</label>';
 	echo "\n";
 
 	if ( defined( 'WPLANG' ) && ( '' !== WPLANG ) && ( 'en_US' !== WPLANG ) ) {
 		if ( isset( $languages[ WPLANG ] ) ) {
 			$language = $languages[ WPLANG ];
 			echo '<input type="radio" name="language" checked="checked" class="' . esc_attr( $language['language'] ) . ' screen-reader-input" id="language_wplang" value="' . esc_attr( $language['language'] ) . '">';
-			echo '<label for="language_wplang">' . esc_html( $language['native_name'] ) . "</label>\n";
+			echo '<label for="language_wplang" lang="' . esc_attr( $language['iso'][1] ) . '">' . esc_html( $language['native_name'] ) . "</label>\n";
 		}
 	}
 
 	foreach ( $languages as $language ) {
 		echo '<input type="radio" name="language" class="' . esc_attr( $language['language'] ) . ' screen-reader-input language-chooser-input" id="language_'. esc_attr( $language['language'] ) .'" value="' . esc_attr( $language['language'] ) . '">';
-		echo '<label for="language_' . esc_attr( $language['language'] ) . '">' . esc_html( $language['native_name'] ) . "</label>\n";
+		echo '<label for="language_' . esc_attr( $language['language'] ) . '" lang="' . esc_attr( $language['iso'][1] ) . '">' . esc_html( $language['native_name'] ) . "</label>\n";
 	}
 	echo "</fieldset>\n";
 	echo '<p class="step"><span class="spinner"></span><input type="submit" class="button button-primary button-hero" value="&raquo;" /></p>';
