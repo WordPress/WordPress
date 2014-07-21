@@ -385,9 +385,8 @@ var imageEdit = window.imageEdit = {
 	},
 
 	setCropSelection : function(postid, c) {
-		var sel, min = $('#imgedit-minthumb-' + postid).val() || '128:128',
+		var sel,
 			sizer = this.hold.sizer;
-			min = min.split(':');
 			c = c || 0;
 
 		if ( !c || ( c.width < 3 && c.height < 3 ) ) {
@@ -395,12 +394,6 @@ var imageEdit = window.imageEdit = {
 			this.setDisabled($('#imgedit-crop-sel-' + postid), 0);
 			$('#imgedit-sel-width-' + postid).val('');
 			$('#imgedit-sel-height-' + postid).val('');
-			$('#imgedit-selection-' + postid).val('');
-			return false;
-		}
-
-		if ( c.width < (min[0] * sizer) && c.height < (min[1] * sizer) ) {
-			this.setDisabled($('.imgedit-crop', '#imgedit-panel-' + postid), 0);
 			$('#imgedit-selection-' + postid).val('');
 			return false;
 		}
