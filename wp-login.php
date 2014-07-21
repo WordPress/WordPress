@@ -896,7 +896,7 @@ default:
 <script type="text/javascript">
 function wp_attempt_focus(){
 setTimeout( function(){ try{
-<?php if ( $user_login || $interim_login ) { ?>
+<?php if ( $user_login ) { ?>
 d = document.getElementById('user_pass');
 d.value = '';
 <?php } else { ?>
