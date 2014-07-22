@@ -263,9 +263,6 @@ function wp_print_media_templates() {
 	</script>
 
 	<script type="text/html" id="tmpl-attachment-details-two-column">
-		<h3>
-			<?php _e('Attachment Details'); ?>
-		</h3>
 		<div class="attachment-media-view">
 			<div class="thumbnail thumbnail-{{ data.type }}">
 				<# if ( data.uploading ) { #>
@@ -294,7 +291,7 @@ function wp_print_media_templates() {
 
 				<div class="attachment-actions">
 					<# if ( 'image' === data.type && ! data.uploading ) { #>
-						<a class="button edit-image" href="#"><?php _e( 'Edit Image' ); ?></a>
+						<a class="button edit-attachment" href="#"><?php _e( 'Edit Image' ); ?></a>
 					<# } #>
 
 					<# if ( ! data.uploading && data.can.remove ) { #>

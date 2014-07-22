@@ -912,7 +912,7 @@
 }
 
 .attachment.details,
-.media-grid-view .selected.attachment {
+.media-frame.mode-grid .selected.attachment {
 	-webkit-box-shadow: 0 0 0 1px #fff,
 				0 0 0 5px #1e8cbe;
 	box-shadow: 0 0 0 1px #fff,
@@ -921,7 +921,7 @@
 
 .attachment.details .check,
 .attachment.selected .check:focus,
-.media-grid-view .attachment.selected .check {
+.media-frame.mode-grid .attachment.selected .check {
 	background-color: #1e8cbe;
 	-webkit-box-shadow: 0 0 0 1px #fff,
 				0 0 0 2px #1e8cbe;
@@ -929,22 +929,22 @@
 				0 0 0 2px #1e8cbe;
 }
 
-.media-grid-view .attachment .check {
+.media-frame.mode-grid .attachment .check {
 	display: block;
 }
 
-.media-grid-view .attachment .check div {
+.media-frame.mode-grid .attachment .check div {
 	background-position: 21px 0;
 }
 
 .attachment.details .check div,
-.media-grid-view .attachment.selected .check div {
+.media-frame.mode-grid .attachment.selected .check div {
 	background-position: -21px 0;
 }
 
 .attachment.details .check:hover div,
 .attachment.selected .check:focus div,
-.media-grid-view .attachment.selected .check:hover div {
+.media-frame.mode-grid .attachment.selected .check:hover div {
 	background-position: -60px 0;
 }
 
@@ -1068,7 +1068,8 @@
 	display: inline-block;
 }
 
-.attachment-preview:hover ~ .inline-toolbar {
+.attachment-preview:hover + .inline-toolbar,
+.inline-toolbar:hover {
 	display: block;
 }
 
@@ -2596,26 +2597,27 @@ video#inline-media-node {
 /**
  * Media Grid
  */
-.media-grid-view,
-.media-grid-view .media-frame-content,
-.media-grid-view .attachments-browser .attachments,
-.media-grid-view .uploader-inline-content {
+.media-frame.mode-grid,
+.media-frame.mode-grid .media-frame-content,
+.media-frame.mode-grid .attachments-browser .attachments,
+.media-frame.mode-grid .uploader-inline-content {
 	position: static;
 }
 
 /* Regions we don't use at all */
-.media-grid-view .media-frame-title,
-.media-grid-view .media-frame-toolbar,
-.media-grid-view .media-frame-menu {
+.media-frame.mode-grid .media-frame-title,
+.media-frame.mode-grid .media-frame-toolbar,
+.media-frame.mode-grid .media-frame-router,
+.media-frame.mode-grid .media-frame-menu {
 	display: none;
 }
 
-.media-grid-view .media-frame-content {
+.media-frame.mode-grid .media-frame-content {
 	background-color: transparent;
 	border: none;
 }
 
-.media-grid-view .uploader-inline {
+.media-frame.mode-grid .uploader-inline {
 	position: relative;
 	top: auto;
 	right: auto;
@@ -2625,12 +2627,12 @@ video#inline-media-node {
 	margin-top: 0;
 }
 
-.media-grid-view .media-toolbar select {
+.media-frame.mode-grid .media-toolbar select {
 	margin-top: 1px;
 	font-size: inherit;
 }
 
-.media-grid-view .attachments-browser .bulk-select {
+.media-frame.mode-grid .attachments-browser .bulk-select {
 	display: inline-block;
 }
 
@@ -2639,7 +2641,7 @@ video#inline-media-node {
  *
  * This should be OOCSS'd so both use a shared selector.
  */
-.media-grid-view .attachments-browser .media-toolbar {
+.media-frame.mode-grid .attachments-browser .media-toolbar {
 	background: #fff;
 	-webkit-box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
 	box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
@@ -2657,7 +2659,7 @@ video#inline-media-node {
 	border: none;
 }
 
-.media-grid-view input[type="search"] {
+.media-frame.mode-grid input[type="search"] {
 	margin: 1px;
 	padding: 3px 5px;
 	position: absolute;
@@ -2669,7 +2671,7 @@ video#inline-media-node {
 	width: 280px;
 }
 
-.media-grid-view .view-switch {
+.media-frame.mode-grid .view-switch {
 	display: inline-block;
 	float: none;
 	vertical-align: middle;
@@ -2677,19 +2679,19 @@ video#inline-media-node {
 	margin: 0 20px 0 0;
 }
 
-.media-grid-view select {
+.media-frame.mode-grid select {
 	margin: 0 10px 0 0;
 }
 
-.media-grid-view .spinner {
+.media-frame.mode-grid .spinner {
 	margin-top: 15px;
 }
 
-.media-grid-view .attachments-browser {
+.media-frame.mode-grid .attachments-browser {
 	padding: 0;
 }
 
-.media-grid-view .attachments-browser .no-media {
+.media-frame.mode-grid .attachments-browser .no-media {
 	color: #999;
 	font-size: 18px;
 	font-style: normal;
@@ -2805,11 +2807,6 @@ video#inline-media-node {
 	border-bottom: none;
 	bottom: 0;
 	top: 56px;
-}
-
-/* Hiding this for the moment instead of removing it from the template. */
-.edit-attachment-frame h3 {
-	display: none;
 }
 
 .edit-attachment-frame .attachment-details {
@@ -2953,12 +2950,12 @@ video#inline-media-node {
  */
 
 @media only screen and (max-width: 1120px) {
-	.media-grid-view .attachments-browser .media-toolbar-primary,
-	.media-grid-view .attachments-browser .media-toolbar-secondary {
+	.media-frame.mode-grid .attachments-browser .media-toolbar-primary,
+	.media-frame.mode-grid .attachments-browser .media-toolbar-secondary {
 		float: none;
 	}
 
-	.media-grid-view input[type="search"] {
+	.media-frame.mode-grid input[type="search"] {
 		margin: 20px 0;
 		position: static;
 		width: 100%;

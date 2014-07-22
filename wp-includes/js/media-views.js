@@ -1685,8 +1685,12 @@
 	 */
 	media.view.Frame = media.View.extend({
 		initialize: function() {
+			_.defaults( this.options, {
+				mode: [ 'select' ]
+			});
 			this._createRegions();
 			this._createStates();
+			this._createModes();
 		},
 
 		_createRegions: function() {
@@ -1721,12 +1725,99 @@
 				this.states.add( this.options.states );
 			}
 		},
+		_createModes: function() {
+			// Store active "modes" that the frame is in. Unrelated to region modes.
+			this.activeModes = new Backbone.Collection();
+			this.activeModes.on( 'add remove reset', _.bind( this.triggerModeEvents, this ) );
+
+			_.each( this.options.mode, function( mode ) {
+				this.activateMode( mode );
+			}, this );
+		},
 		/**
 		 * @returns {wp.media.view.Frame} Returns itself to allow chaining
 		 */
 		reset: function() {
 			this.states.invoke( 'trigger', 'reset' );
 			return this;
+		},
+		/**
+		 * Map activeMode collection events to the frame.
+		 */
+		triggerModeEvents: function( model, collection, options ) {
+			var collectionEvent,
+				modeEventMap = {
+					add: 'activate',
+					remove: 'deactivate'
+				},
+				eventToTrigger;
+			// Probably a better way to do this.
+			_.each( options, function( value, key ) {
+				if ( value ) {
+					collectionEvent = key;
+				}
+			} );
+
+			if ( ! _.has( modeEventMap, collectionEvent ) ) {
+				return;
+			}
+
+			eventToTrigger = model.get('id') + ':' + modeEventMap[collectionEvent];
+			this.trigger( eventToTrigger );
+		},
+		/**
+		 * Activate a mode on the frame.
+		 *
+		 * @param string mode Mode ID.
+		 * @returns {this} Returns itself to allow chaining.
+		 */
+		activateMode: function( mode ) {
+			// Bail if the mode is already active.
+			if ( this.isModeActive( mode ) ) {
+				return;
+			}
+			this.activeModes.add( [ { id: mode } ] );
+			// Add a CSS class to the frame so elements can be styled for the mode.
+			this.$el.addClass( 'mode-' + mode );
+			/**
+			 * Frame mode activation event.
+			 *
+			 * @event this#{mode}:activate
+			 */
+			this.trigger( mode + ':activate' );
+
+			return this;
+		},
+		/**
+		 * Deactivate a mode on the frame.
+		 *
+		 * @param string mode Mode ID.
+		 * @returns {this} Returns itself to allow chaining.
+		 */
+		deactivateMode: function( mode ) {
+			// Bail if the mode isn't active.
+			if ( ! this.isModeActive( mode ) ) {
+				return;
+			}
+			this.activeModes.remove( this.activeModes.where( { id: mode } ) );
+			this.$el.removeClass( 'mode-' + mode );
+			/**
+			 * Frame mode deactivation event.
+			 *
+			 * @event this#{mode}:deactivate
+			 */
+			this.trigger( mode + ':deactivate' );
+
+			return this;
+		},
+		/**
+		 * Check if a mode is enabled on the frame.
+		 *
+		 * @param  string mode Mode ID.
+		 * @return bool
+		 */
+		isModeActive: function( mode ) {
+			return Boolean( this.activeModes.where( { id: mode } ).length );
 		}
 	});
 
@@ -1759,8 +1850,7 @@
 			_.defaults( this.options, {
 				title:    '',
 				modal:    true,
-				uploader: true,
-				mode:     [ 'select' ]
+				uploader: true
 			});
 
 			// Ensure core UI is enabled.
@@ -1775,14 +1865,6 @@
 
 				this.modal.content( this );
 			}
-
-			// Store active "modes" that the frame is in. Unrelated to region modes.
-			this.activeModes = new Backbone.Collection();
-			this.activeModes.on( 'add remove reset', _.bind( this.triggerModeEvents, this ) );
-
-			_.each( this.options.mode, function( mode ) {
-				this.activateMode( mode );
-			}, this );
 
 			// Force the uploader off if the upload limit has been exceeded or
 			// if the browser isn't supported.
@@ -1948,85 +2030,6 @@
 
 			window.tb_remove = this._tb_remove;
 			delete this._tb_remove;
-		},
-
-		/**
-		 * Map activeMode collection events to the frame.
-		 */
-		triggerModeEvents: function( model, collection, options ) {
-			var collectionEvent,
-				modeEventMap = {
-					add: 'activate',
-					remove: 'deactivate'
-				},
-				eventToTrigger;
-			// Probably a better way to do this.
-			_.each( options, function( value, key ) {
-				if ( value ) {
-					collectionEvent = key;
-				}
-			} );
-
-			if ( ! _.has( modeEventMap, collectionEvent ) )
-				return;
-
-			eventToTrigger = model.get('id') + ':' + modeEventMap[collectionEvent];
-			this.trigger( eventToTrigger );
-		},
-		/**
-		 * Activate a mode on the frame.
-		 *
-		 * @param string mode Mode ID.
-		 * @returns {this} Returns itself to allow chaining.
-		 */
-		activateMode: function( mode ) {
-			// Bail if the mode is already active.
-			if ( this.isModeActive( mode ) ) {
-				return;
-			}
-			this.activeModes.add( [ { id: mode } ] );
-			// Add a css class to the frame for anything that needs to be styled
-			// for the mode.
-			this.$el.addClass( 'mode-' + mode );
-			/**
-			 * Frame mode activation event.
-			 *
-			 * @event this#{mode}:activate
-			 */
-			this.trigger( mode + ':activate' );
-
-			return this;
-		},
-		/**
-		 * Deactivate a mode on the frame.
-		 *
-		 * @param string mode Mode ID.
-		 * @returns {this} Returns itself to allow chaining.
-		 */
-		deactivateMode: function( mode ) {
-			// Bail if the mode isn't active.
-			if ( ! this.isModeActive( mode ) ) {
-				return;
-			}
-			this.activeModes.remove( this.activeModes.where( { id: mode } ) );
-			this.$el.removeClass( 'mode-' + mode );
-			/**
-			 * Frame mode deactivation event.
-			 *
-			 * @event this#{mode}:deactivate
-			 */
-			this.trigger( mode + ':deactivate' );
-
-			return this;
-		},
-		/**
-		 * Check if a mode is enabled on the frame.
-		 *
-		 * @param  string mode Mode ID.
-		 * @return bool
-		 */
-		isModeActive: function( mode ) {
-			return Boolean( this.activeModes.where( { id: mode } ).length );
 		}
 	});
 
@@ -4631,10 +4634,15 @@
 		buttons: {},
 
 		initialize: function() {
-			var selection = this.options.selection;
+			var selection = this.options.selection,
+				options = _.defaults( this.options, {
+					rerenderOnModelChange: true
+				} );
+			this.$el.attr( 'aria-label', this.model.get( 'title' ) ).attr( 'aria-checked', false );
 
-			this.$el.attr('aria-label', this.model.attributes.title).attr('aria-checked', false);
-			this.model.on( 'change', this.render, this );
+			if ( options.rerenderOnModelChange ) {
+				this.model.on( 'change', this.render, this );
+			}
 			this.model.on( 'change:title', this._syncTitle, this );
 			this.model.on( 'change:caption', this._syncCaption, this );
 			this.model.on( 'change:artist', this._syncArtist, this );
@@ -4646,11 +4654,10 @@
 			this.model.on( 'remove', this.deselect, this );
 			if ( selection ) {
 				selection.on( 'reset', this.updateSelect, this );
+				// Update the model's details view.
+				this.model.on( 'selection:single selection:unsingle', this.details, this );
+				this.details( this.model, this.controller.state().get('selection') );
 			}
-
-			// Update the model's details view.
-			this.model.on( 'selection:single selection:unsingle', this.details, this );
-			this.details( this.model, this.controller.state().get('selection') );
 		},
 		/**
 		 * @returns {wp.media.view.Attachment} Returns itself to allow chaining
@@ -4752,7 +4759,7 @@
 			}
 
 			// In the grid view, bubble up an edit:attachment event to the controller.
-			if ( this.controller.activeModes.where( { id: 'edit' } ).length ) {
+			if ( this.controller.isModeActive( 'grid' ) ) {
 				this.controller.trigger( 'edit:attachment', this.model );
 				return;
 			}
@@ -6318,20 +6325,13 @@
 		},
 
 		initialize: function() {
+			this.options = _.defaults( this.options, {
+				rerenderOnModelChange: false
+			});
 			/**
 			 * call 'initialize' directly on the parent class
 			 */
 			media.view.Attachment.prototype.initialize.apply( this, arguments );
-		},
-		/**
-		 * @returns {wp.media.view..Attachment.Details} Returns itself to allow chaining
-		 */
-		render: function() {
-			/**
-			 * call 'render' directly on the parent class
-			 */
-			media.view.Attachment.prototype.render.apply( this, arguments );
-			return this;
 		},
 		/**
 		 * @param {Object} event
@@ -6379,11 +6379,12 @@
 			this.model.fetch();
 		},
 		/**
+		 * When reverse tabbing(shift+tab) out of the right details panel, deliver
+		 * the focus to the item in the list that was being edited.
+		 *
 		 * @param {Object} event
 		 */
 		toggleSelectionHandler: function( event ) {
-			// Reverse tabbing out of the right details panel
-			// should take me back to the item in the list that was being edited.
 			if ( 'keydown' === event.type && 9 === event.keyCode && event.shiftKey && event.target === $( ':tabbable', this.$el ).filter( ':first' )[0] ) {
 				$('.attachments-browser .details').focus();
 				return false;
