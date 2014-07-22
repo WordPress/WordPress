@@ -2156,7 +2156,7 @@ function wp_ajax_query_attachments() {
 	$query = isset( $_REQUEST['query'] ) ? (array) $_REQUEST['query'] : array();
 	$query = array_intersect_key( $query, array_flip( array(
 		's', 'order', 'orderby', 'posts_per_page', 'paged', 'post_mime_type',
-		'post_parent', 'post__in', 'post__not_in',
+		'post_parent', 'post__in', 'post__not_in', 'year', 'monthnum'
 	) ) );
 
 	$query['post_type'] = 'attachment';
@@ -2713,7 +2713,7 @@ function wp_ajax_parse_media_shortcode() {
 	if ( ! empty( $wp_scripts ) ) {
 		$wp_scripts->done = array();
 	}
-	
+
 	if ( 'playlist' === $_REQUEST['type'] ) {
 		wp_underscore_playlist_templates();
 

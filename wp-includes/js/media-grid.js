@@ -448,7 +448,7 @@
 
 		/**
 		 * Render the EditImage view into the frame's content region.
-		 * 
+		 *
 		 * @param {Object} contentRegion Basic object with a `view` property, which
 		 *                               should be set with the proper region view.
 		 */
@@ -646,6 +646,35 @@
 				selection = this.controller.controller.state().get('selection'),
 				disabled = ! currentAction || ! selection.length;
 			this.$el.prop( 'disabled', disabled );
+		}
+	});
+
+	/**
+	 * A filter dropdown for month/dates.
+	 */
+	media.view.DateFilter = media.view.AttachmentFilters.extend({
+		id: 'media-attachment-date-filters',
+
+		createFilters: function() {
+			var filters = {};
+			_.each( media.view.settings.months || {}, function( value, index ) {
+				filters[ index ] = {
+					text: value.text,
+					props: {
+						year: value.year,
+						monthnum: value.month
+					}
+				};
+			});
+			filters.all = {
+				text:  l10n.allDates,
+				props: {
+					monthnum: false,
+					year:  false
+				},
+				priority: 10
+			};
+			this.filters = filters;
 		}
 	});
 

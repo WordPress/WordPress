@@ -5506,13 +5506,19 @@
 			this.select();
 		},
 
+		/**
+		 * @abstract
+		 */
 		createFilters: function() {
 			this.filters = {};
 		},
 
+		/**
+		 * When the selection changes, set the Query properties
+		 * accordingly for the selected filter.
+		 */
 		change: function() {
 			var filter = this.filters[ this.el.value ];
-
 			if ( filter ) {
 				this.model.set( filter.props );
 			}
@@ -5742,9 +5748,14 @@
 					priority: -90
 				}).render() );
 
-				this.toolbar.set( 'BulkSelection', new media.view.BulkSelection({
+				this.toolbar.set( 'bulkSelection', new media.view.BulkSelection({
 					controller: this.controller,
 					priority: -70
+				}).render() );
+				this.toolbar.set( 'dateFilter', new media.view.DateFilter({
+					controller: this.controller,
+					model:      this.collection.props,
+					priority: -75
 				}).render() );
 			}
 

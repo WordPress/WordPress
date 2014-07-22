@@ -2772,7 +2772,7 @@ function wp_enqueue_media( $args = array() ) {
 	if ( did_action( 'wp_enqueue_media' ) )
 		return;
 
-	global $content_width, $wpdb;
+	global $content_width, $wpdb, $wp_locale;
 
 	$defaults = array(
 		'post' => null,
@@ -2825,6 +2825,15 @@ function wp_enqueue_media( $args = array() ) {
 		AND post_mime_type LIKE 'video%'
 		LIMIT 1
 	" );
+	$months = $wpdb->get_results( $wpdb->prepare( "
+		SELECT DISTINCT YEAR( post_date ) AS year, MONTH( post_date ) AS month
+		FROM $wpdb->posts
+		WHERE post_type = %s
+		ORDER BY post_date DESC
+	", 'attachment' ) );
+	foreach ( $months as $month_year ) {
+		$month_year->text = sprintf( __( '%1$s %2$d' ), $wp_locale->get_month( $month_year->month ), $month_year->year );
+	}
 
 	$settings = array(
 		'tabs'      => $tabs,
@@ -2846,6 +2855,7 @@ function wp_enqueue_media( $args = array() ) {
 		'embedExts'    => $exts,
 		'embedMimes'   => $ext_mimes,
 		'contentWidth' => $content_width,
+		'months'       => $months,
 	);
 
 	$post = null;
@@ -2904,6 +2914,7 @@ function wp_enqueue_media( $args = array() ) {
 		'returnToLibrary'        => __( '&#8592; Return to library' ),
 		'allMediaItems'          => __( 'All media items' ),
 		'allMediaTypes'          => __( 'All media types' ),
+		'allDates'               => __( 'All dates' ),
 		'noItemsFound'           => __( 'No items found.' ),
 		'insertIntoPost'         => $hier ? __( 'Insert into page' ) : __( 'Insert into post' ),
 		'uploadedToThisPost'     => $hier ? __( 'Uploaded to this page' ) : __( 'Uploaded to this post' ),
