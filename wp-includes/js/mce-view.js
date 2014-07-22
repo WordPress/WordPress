@@ -504,15 +504,15 @@ window.wp = window.wp || {};
 
 				this.shortcode = options.shortcode;
 
-				_.bindAll( this, 'setIframes', 'setNodes', 'fetch', 'pausePlayers' );
+				_.bindAll( this, 'setIframes', 'setNodes', 'fetch', 'stopPlayers' );
 				$( this ).on( 'ready', this.setNodes );
 
-				$( document ).on( 'media:edit', this.pausePlayers );
+				$( document ).on( 'media:edit', this.stopPlayers );
 
 				this.fetch();
 
 				this.getEditors( function( editor ) {
-					editor.on( 'hide', self.pausePlayers );
+					editor.on( 'hide', self.stopPlayers );
 				});
 			},
 
@@ -553,35 +553,30 @@ window.wp = window.wp || {};
 				} );
 			},
 
-			pausePlayers: function() {
+			stopPlayers: function( remove ) {
+				var rem = remove === 'remove';
+
 				this.getNodes( function( editor, node, content ) {
 					var p, win,
 						iframe = $( 'iframe.wpview-sandbox', content ).get(0);
 
 					if ( iframe && ( win = iframe.contentWindow ) && win.mejs ) {
-						for ( p in win.mejs.players ) {
-							win.mejs.players[p].pause();
-						}
-					}
-				});
-			},
+						// Sometimes ME.js may show a "Download File" placeholder and player.remove() doesn't exist there.
+						try {
+							for ( p in win.mejs.players ) {
+								win.mejs.players[p].pause();
 
-			unsetPlayers: function() {
-				this.getNodes( function( editor, node, content ) {
-					var p, win,
-						iframe = $( 'iframe.wpview-sandbox', content ).get(0);
-
-					if ( iframe && ( win = iframe.contentWindow ) && win.mejs ) {
-						for ( p in win.mejs.players ) {
-							win.mejs.players[p].remove();
-						}
+								if ( rem ) {
+									win.mejs.players[p].remove();
+								}
+							}
+						} catch( er ) {}
 					}
 				});
 			},
 
 			unbind: function() {
-				this.pausePlayers();
-				this.unsetPlayers();
+				this.stopPlayers( 'remove' );
 			}
 		},
 
