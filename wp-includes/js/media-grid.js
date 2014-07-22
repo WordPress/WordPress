@@ -285,8 +285,7 @@
 			'click .trash-attachment':        'trashAttachment',
 			'click .edit-attachment':         'editAttachment',
 			'click .refresh-attachment':      'refreshAttachment',
-			'click .edit-image':              'handleEditImageClick',
-			'click .view-attachment':         'handleViewAttachmentClick'
+			'click .edit-image':              'handleEditImageClick'
 		},
 
 		initialize: function() {
@@ -327,13 +326,6 @@
 
 		handleEditImageClick: function() {
 			this.controller.setState( 'edit-image' );
-		},
-
-		/**
-		 * When View is clicked, navigate to the attachment page
-		 */
-		handleViewAttachmentClick: function() {
-			window.location = this.model.get( 'link' );
 		},
 
 		afterDelete: function( model ) {
