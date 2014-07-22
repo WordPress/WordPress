@@ -724,10 +724,12 @@
 }
 
 .selected.attachment:focus {
-	-webkit-box-shadow: 0 0 0 1px #fff,
-	 0 0 0 5px #1e8cbe;
-	box-shadow: 0 0 0 1px #fff,
-	 0 0 0 5px #1e8cbe;
+	-webkit-box-shadow:
+		0 0 0 1px #fff,
+		0 0 0 5px #1e8cbe;
+	box-shadow:
+		0 0 0 1px #fff,
+		0 0 0 5px #1e8cbe;
 }
 
 .attachment-preview {
@@ -1489,10 +1491,12 @@ video#inline-media-node {
 }
 
 .attachment.selection.selected:focus {
-	webkit-box-shadow: 0 0 0 1px #5b9dd9,
-	 0 0 2px 2px #5b9dd9;
-	box-shadow: 0 0 0 1px #5b9dd9,
-	 0 0 2px 2px #5b9dd9;
+	-webkit-box-shadow:
+		0 0 0 1px #5b9dd9,
+		0 0 2px 2px #5b9dd9;
+	box-shadow:
+		0 0 0 1px #5b9dd9,
+		0 0 2px 2px #5b9dd9;
 	outline: none;
 }
 
