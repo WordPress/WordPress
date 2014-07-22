@@ -119,6 +119,11 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 			return;
 		}
 
+		// Make sure that the editor is focused.
+		// It is possible that the editor is not focused when the mouse event fires
+		// without focus, the selection will not work properly.
+		editor.getBody().focus();
+
 		deselect();
 		selected = viewNode;
 		dom.setAttrib( viewNode, 'data-mce-selected', 1 );
@@ -133,11 +138,6 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 		// Both of the following are necessary to prevent manipulating the selection/focus
 		dom.bind( clipboard, 'beforedeactivate focusin focusout', _stop );
 		dom.bind( selected, 'beforedeactivate focusin focusout', _stop );
-
-		// Make sure that the editor is focused.
-		// It is possible that the editor is not focused when the mouse event fires
-		// without focus, the selection will not work properly.
-		editor.getBody().focus();
 
 		// select the hidden div
 		editor.selection.select( clipboard, true );
