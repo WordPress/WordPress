@@ -385,9 +385,9 @@ var imageEdit = window.imageEdit = {
 	},
 
 	setCropSelection : function(postid, c) {
-		var sel,
-			sizer = this.hold.sizer;
-			c = c || 0;
+		var sel;
+
+		c = c || 0;
 
 		if ( !c || ( c.width < 3 && c.height < 3 ) ) {
 			this.setDisabled($('.imgedit-crop', '#imgedit-panel-' + postid), 0);
