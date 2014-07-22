@@ -2873,6 +2873,7 @@ video#inline-media-node {
 .edit-attachment-frame .attachment-info .settings {
 	overflow: hidden;
 	float: none;
+	position: relative;
 	margin-bottom: 15px;
 	padding-bottom: 15px;
 	border-bottom: 1px solid #ddd;
