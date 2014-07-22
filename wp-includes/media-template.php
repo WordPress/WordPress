@@ -297,6 +297,8 @@ function wp_print_media_templates() {
 						<a class="button edit-image" href="#"><?php _e( 'Edit Image' ); ?></a>
 					<# } #>
 
+					<a class="button view-attachment" href="#"><?php _e( 'View' ); ?></a>
+
 					<# if ( ! data.uploading && data.can.remove ) { #>
 						<?php if ( MEDIA_TRASH ): ?>
 							<a class="trash-attachment" href="#"><?php _e( 'Trash' ); ?></a>
