@@ -2767,11 +2767,13 @@ video#inline-media-node {
 	display: none;
 }
 
-.edit-attachment-frame .edit-media-header .left:before {
+.edit-attachment-frame .edit-media-header .left:before,
+.rtl .edit-attachment-frame .edit-media-header .right:before {
 	content: '\f340';
 }
 
-.edit-attachment-frame .edit-media-header .right:before {
+.edit-attachment-frame .edit-media-header .right:before,
+.rtl .edit-attachment-frame .edit-media-header .left:before {
 	content: '\f344';
 }
 
