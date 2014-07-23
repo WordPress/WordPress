@@ -440,6 +440,16 @@
 				controller: this,
 				model:      this.model
 			});
+
+			/**
+			 * Attach a subview to display fields added via the
+			 * `attachment_fields_to_edit` filter.
+			 */
+			contentRegion.view.views.set( '.attachment-compat', new media.view.AttachmentCompat({
+				controller: this,
+				model:      this.model
+			}) );
+
 			// Update browser url when navigating media details
 			if ( this.model ) {
 				this.gridRouter.navigate( this.gridRouter.baseUrl( '?item=' + this.model.id ) );

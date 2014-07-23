@@ -6407,6 +6407,8 @@
 	/**
 	 * wp.media.view.AttachmentCompat
 	 *
+	 * A view to display fields added via the `attachment_fields_to_edit` filter.
+	 *
 	 * @constructor
 	 * @augments wp.media.View
 	 * @augments wp.Backbone.View

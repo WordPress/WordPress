@@ -386,6 +386,7 @@ function wp_print_media_templates() {
 						<span class="value"><a href="{{ data.uploadedToLink }}">{{ data.uploadedToTitle }}</a></span>
 					</label>
 				<# } #>
+				<div class="attachment-compat"></div>
 			</div>
 
 			<a class="view-attachment" href="{{ data.link }}"><?php _e( 'View attachment page' ); ?></a> |
