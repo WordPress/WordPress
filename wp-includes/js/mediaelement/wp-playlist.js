@@ -144,7 +144,7 @@
 
 			if ( last !== current ) {
 				this.setPlayer( true );
-			} else if ( this.isCompatibleSrc() ) {
+			} else {
 				this.playerNode.attr( 'src', this.current.get( 'src' ) );
 				this.playCurrentSrc();
 			}
