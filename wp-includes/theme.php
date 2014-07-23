@@ -137,7 +137,7 @@ function is_child_theme() {
  * The theme name that the administrator has currently set the front end theme
  * as.
  *
- * For all extensive purposes, the template name and the stylesheet name are
+ * For all intents and purposes, the template name and the stylesheet name are
  * going to be the same for most cases.
  *
  * @since 1.5.0
