@@ -689,9 +689,9 @@ function unregister_sidebar( $name ) {
 /**
  * Register widget for use in sidebars.
  *
- * The default widget option is 'classname' that can be override.
+ * The default widget option is 'classname' that can be overridden.
  *
- * The function can also be used to unregister widgets when $output_callback
+ * The function can also be used to un-register widgets when $output_callback
  * parameter is an empty string.
  *
  * @since 2.2.0
