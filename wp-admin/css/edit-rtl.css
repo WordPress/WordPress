@@ -378,6 +378,24 @@ td.plugin-title p {
 	overflow: hidden;
 }
 
+.wp-fullscreen-wrap #content-textarea-clone {
+	display: none;
+}
+
+/* editor-expand.js override */
+.wp-fullscreen-wrap {
+	padding-top: 0 !important;
+}
+
+.wp-fullscreen-wrap .wp-editor-area {
+	margin-top: 0 !important;
+}
+
+.wp-fullscreen-wrap .mce-edit-area {
+	padding-top: 0 !important;
+}
+/* end editor-expand.js override */
+
 #timestampdiv select {
 	height: 21px;
 	line-height: 14px;

@@ -42,6 +42,7 @@ tinymce.PluginManager.add( 'wpautoresize', function( editor ) {
 			return;
 		}
 
+		e = e || {};
 		body = doc.body;
 		docElm = doc.documentElement;
 		resizeHeight = settings.autoresize_min_height;
@@ -59,6 +60,11 @@ tinymce.PluginManager.add( 'wpautoresize', function( editor ) {
 		marginTop = editor.dom.getStyle( body, 'margin-top', true );
 		marginBottom = editor.dom.getStyle( body, 'margin-bottom', true );
 		myHeight = body.offsetHeight + parseInt( marginTop, 10 ) + parseInt( marginBottom, 10 );
+
+		// IE < 11, other?
+		if ( myHeight && myHeight < docElm.offsetHeight ) {
+			myHeight = docElm.offsetHeight;
+		}
 
 		// Make sure we have a valid height
 		if ( isNaN( myHeight ) || myHeight <= 0 ) {
@@ -93,6 +99,8 @@ tinymce.PluginManager.add( 'wpautoresize', function( editor ) {
 			if ( tinymce.isWebKit && deltaSize < 0 ) {
 				resize( e );
 			}
+
+			editor.fire( 'wp-autoresize', { height: resizeHeight } );
 		}
 	}
 
@@ -102,7 +110,7 @@ tinymce.PluginManager.add( 'wpautoresize', function( editor ) {
 	 */
 	function wait( times, interval, callback ) {
 		setTimeout( function() {
-			resize({});
+			resize();
 
 			if ( times-- ) {
 				wait( times, interval, callback );
@@ -123,14 +131,20 @@ tinymce.PluginManager.add( 'wpautoresize', function( editor ) {
 			editor.dom.addClass( editor.getBody(), 'wp-autoresize' );
 			// Add appropriate listeners for resizing the content area
 			editor.on( 'nodechange setcontent keyup FullscreenStateChanged', resize );
+			resize();
 		}
 	}
 
 	function off() {
+		var doc;
+
 		// Don't turn off if the setting is 'on'
 		if ( ! settings.wp_autoresize_on ) {
+			doc = editor.getDoc();
 			editor.dom.removeClass( editor.getBody(), 'wp-autoresize' );
 			editor.off( 'nodechange setcontent keyup FullscreenStateChanged', resize );
+			doc.body.style.overflowY = 'auto';
+			doc.documentElement.style.overflowY = 'auto'; // Old IE
 			oldSize = 0;
 		}
 	}
@@ -157,6 +171,11 @@ tinymce.PluginManager.add( 'wpautoresize', function( editor ) {
 			});
 		}
 	}
+
+	// Reset the stored size
+	editor.on( 'show', function() {
+		oldSize = 0;
+	});
 
 	// Register the command
 	editor.addCommand( 'wpAutoResize', resize );

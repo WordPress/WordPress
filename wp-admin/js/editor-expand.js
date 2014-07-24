@@ -41,20 +41,26 @@ jQuery( document ).ready( function($) {
 		textEditorResize();
 	} );
 
-	$textEditor.on( 'keyup', function() {
-		var range = document.createRange(),
-			start = $textEditor[0].selectionStart,
-			end = $textEditor[0].selectionEnd,
+	$textEditor.on( 'keyup', function( event ) {
+		var VK = jQuery.ui.keyCode,
+			key = event.keyCode,
+			range = document.createRange(),
+			selStart = $textEditor[0].selectionStart,
+			selEnd = $textEditor[0].selectionEnd,
 			textNode = $textEditorClone[0].firstChild,
 			windowHeight = $window.height(),
+			buffer = 10,
 			offset, cursorTop, cursorBottom, editorTop, editorBottom;
 
-		if ( start && end && start !== end ) {
+		if ( selStart && selEnd && selStart !== selEnd ) {
 			return;
 		}
 
-		range.setStart( textNode, start );
-		range.setEnd( textNode, end + 1 );
+		// These are not TinyMCE ranges.
+		try {
+			range.setStart( textNode, selStart );
+			range.setEnd( textNode, selEnd + 1 );
+		} catch ( ex ) {}
 
 		offset = range.getBoundingClientRect();
 
@@ -62,13 +68,15 @@ jQuery( document ).ready( function($) {
 			return;
 		}
 
-		cursorTop = offset.top;
-		cursorBottom = cursorTop + offset.height;
-		editorTop = $adminBar.outerHeight() + $textTop.outerHeight();
+		cursorTop = offset.top - buffer;
+		cursorBottom = cursorTop + offset.height + buffer;
+		editorTop = $adminBar.outerHeight() + $tools.outerHeight() + $textTop.outerHeight();
 		editorBottom = windowHeight - $bottom.outerHeight();
 
-		if ( cursorTop < editorTop || cursorBottom > editorBottom ) {
-			window.scrollTo( window.pageXOffset, cursorTop + window.pageYOffset - windowHeight / 2 );
+		if ( cursorTop < editorTop && ( key === VK.UP || key === VK.LEFT || key === VK.BACKSPACE ) ) {
+			window.scrollTo( window.pageXOffset, cursorTop + window.pageYOffset - editorTop );
+		} else if ( cursorBottom > editorBottom ) {
+			window.scrollTo( window.pageXOffset, cursorBottom + window.pageYOffset - editorBottom );
 		}
 	} );
 
@@ -77,8 +85,13 @@ jQuery( document ).ready( function($) {
 			return;
 		}
 
-		var hiddenHeight = $textEditorClone.width( $textEditor.width() ).text( $textEditor.val() + '&nbsp;' ).height(),
-			textEditorHeight = $textEditor.height();
+		var textEditorHeight = $textEditor.height(),
+			hiddenHeight;
+
+		$textEditorClone.width( $textEditor.width() );
+		$textEditorClone.text( $textEditor.val() + '&nbsp;' );
+
+		hiddenHeight = $textEditorClone.height();
 
 		if ( hiddenHeight < 300 ) {
 			hiddenHeight = 300;
@@ -90,7 +103,7 @@ jQuery( document ).ready( function($) {
 
 		$textEditor.height( hiddenHeight );
 
-		adjust( 'resize' );
+		adjust();
 	}
 
 	// We need to wait for TinyMCE to initialize.
@@ -102,9 +115,6 @@ jQuery( document ).ready( function($) {
 
 		// Copy the editor instance.
 		editorInstance = editor;
-
-		// Resizing will be handled by the autoresize plugin.
-		editor.theme.resizeTo = function() {};
 
 		// Set the minimum height to the initial viewport height.
 		editor.settings.autoresize_min_height = 300;
@@ -118,8 +128,8 @@ jQuery( document ).ready( function($) {
 		editor.on( 'show', function() {
 			setTimeout( function() {
 				editor.execCommand( 'wpAutoResize' );
-				adjust( 'resize' );
-			}, 200 );
+				adjust();
+			}, 300 );
 		} );
 
 		// Make sure the cursor is always visible.
@@ -195,58 +205,21 @@ jQuery( document ).ready( function($) {
 
 		editor.on( 'hide', function() {
 			textEditorResize();
-			adjust( 'resize' );
+			adjust();
 		} );
 
 		// Adjust when the editor resizes.
-		editor.on( 'nodechange setcontent keyup FullscreenStateChanged', function() {
-			adjust( 'resize' );
-		} );
-
-		editor.on( 'wp-toolbar-toggle', function() {
-			$visualEditor.css( {
-				paddingTop: $visualTop.outerHeight()
-			} );
+		editor.on( 'setcontent wp-autoresize wp-toolbar-toggle', function() {
+			adjust();
 		} );
 
 		// And adjust "immediately".
 		// Allow some time to load CSS etc.
-		setTimeout( function() {
-			$visualEditor.css( {
-				paddingTop: $visualTop.outerHeight()
-			} );
-
-			adjust( 'resize' );
-		}, 500 );
-	} );
-
-	// Adjust when the window is scrolled or resized.
-	$window.on( 'scroll resize', function( event ) {
-		adjust( event.type );
-	} );
-
-	// Adjust when exiting fullscreen mode.
-	fullscreen && fullscreen.pubsub.subscribe( 'hidden', function() {
-		adjust( 'resize' );
-	} );
-
-	// Adjust when collapsing the menu.
-	$document.on( 'wp-collapse-menu.editor-expand', function() {
-		adjust( 'resize' );
-	} )
-
-	// Adjust when changing the columns.
-	.on( 'postboxes-columnchange.editor-expand', function() {
-		adjust( 'resize' );
-	} )
-
-	// Adjust when changing the body class.
-	.on( 'editor-classchange.editor-expand', function() {
-		adjust( 'resize' );
+		initialResize( adjust );
 	} );
 
 	// Adjust the toolbars based on the active editor mode.
-	function adjust( eventType ) {
+	function adjust( type ) {
 		// Make sure we're not in fullscreen mode.
 		if ( fullscreen && fullscreen.settings.visible ) {
 			return;
@@ -257,22 +230,14 @@ jQuery( document ).ready( function($) {
 			windowHeight = $window.height(),
 			windowWidth = $window.width(),
 			adminBarHeight = windowWidth > 600 ? $adminBar.height() : 0,
-			$top, $editor, visual,
+			resize = type !== 'scroll',
+			visual = ( editorInstance && ! editorInstance.isHidden() ),
+			$top, $editor,
 			toolsHeight, topPos, topHeight, editorPos, editorHeight, editorWidth, statusBarHeight;
 
-		// Visual editor.
-		if ( editorInstance && ! editorInstance.isHidden() ) {
+		if ( visual ) {
 			$top = $visualTop;
 			$editor = $visualEditor;
-			visual = true;
-
-			// Doesn't hide the panel of 'styleselect'. :(
-			tinymce.each( editorInstance.controlManager.buttons, function( button ) {
-				if ( button._active && ( button.type === 'colorbutton' || button.type === 'panelbutton' || button.type === 'menubutton' ) ) {
-					button.hidePanel();
-				}
-			} );
-		// Text editor.
 		} else {
 			$top = $textTop;
 			$editor = $textEditor;
@@ -287,7 +252,7 @@ jQuery( document ).ready( function($) {
 		statusBarHeight = visual ? $statusBar.outerHeight() : 0;
 
 		// Maybe pin the top.
-		if ( ( ! fixedTop || eventType === 'resize' ) &&
+		if ( ( ! fixedTop || resize ) &&
 				// Handle scrolling down.
 				( windowPos >= ( topPos - toolsHeight - adminBarHeight ) &&
 				// Handle scrolling up.
@@ -307,7 +272,7 @@ jQuery( document ).ready( function($) {
 				width: editorWidth + 2
 			} );
 		// Maybe unpin the top.
-		} else if ( fixedTop || eventType === 'resize' ) {
+		} else if ( fixedTop || resize ) {
 			// Handle scrolling up.
 			if ( windowPos <= ( topPos - toolsHeight -  adminBarHeight ) ) {
 				fixedTop = false;
@@ -342,7 +307,7 @@ jQuery( document ).ready( function($) {
 		}
 
 		// Maybe adjust the bottom bar.
-		if ( ( ! fixedBottom || eventType === 'resize' ) &&
+		if ( ( ! fixedBottom || resize ) &&
 				// + 1 for the border around the .wp-editor-container.
 				( windowPos + windowHeight ) <= ( editorPos + editorHeight + bottomHeight + statusBarHeight + 1 ) ) {
 			fixedBottom = true;
@@ -353,7 +318,7 @@ jQuery( document ).ready( function($) {
 				width: editorWidth + 2,
 				borderTop: '1px solid #dedede'
 			} );
-		} else if ( fixedBottom &&
+		} else if ( ( fixedBottom || resize ) &&
 				( windowPos + windowHeight ) > ( editorPos + editorHeight + bottomHeight + statusBarHeight - 1 ) ) {
 			fixedBottom = false;
 
@@ -364,24 +329,50 @@ jQuery( document ).ready( function($) {
 				borderTop: 'none'
 			} );
 		}
+
+		if ( resize ) {
+			$contentWrap.css( {
+				paddingTop: $tools.outerHeight()
+			} );
+
+			if ( visual ) {
+				$visualEditor.css( {
+					paddingTop: $visualTop.outerHeight()
+				} );
+			} else {
+				$textEditor.css( {
+					marginTop: $textTop.outerHeight()
+				} );
+				$textEditorClone.width( $textEditor.width() );
+			}
+		}
 	}
 
-	textEditorResize();
+	function initialResize( callback ) {
+		for ( var i = 1; i < 6; i++ ) {
+			setTimeout( callback, 500 * i );
+		}
+	}
 
-	$tools.css( {
-		position: 'absolute',
-		top: 0,
-		width: $contentWrap.width()
+	// Adjust when the window is scrolled or resized.
+	$window.on( 'scroll.editor-expand resize.editor-expand', function( event ) {
+		adjust( event.type );
 	} );
 
-	$contentWrap.css( {
-		paddingTop: $tools.outerHeight()
+	// Adjust when entering/exiting fullscreen mode.
+	fullscreen && fullscreen.pubsub.subscribe( 'hidden', function() {
+		textEditorResize();
+		adjust();
 	} );
 
-	// This needs to execute after quicktags is ready or a button is added...
-	setTimeout( function() {
-		$textEditor.css( {
-			paddingTop: $textTop.outerHeight() + parseInt( $textEditor.css( 'padding-top' ), 10 )
+	// Adjust when collapsing the menu, changing the columns, changing the body class.
+	$document.on( 'wp-collapse-menu.editor-expand postboxes-columnchange.editor-expand editor-classchange.editor-expand', adjust );
+
+	// Ideally we need to resize just after CSS has fully loaded and QuickTags is ready.
+	if ( $contentWrap.hasClass( 'html-active' ) ) {
+		initialResize( function() {
+			adjust();
+			textEditorResize();
 		} );
-	}, 500 );
+	}
 });
