@@ -4760,7 +4760,8 @@
 
 			// In the grid view, bubble up an edit:attachment event to the controller.
 			if ( this.controller.isModeActive( 'grid' ) ) {
-				this.controller.trigger( 'edit:attachment', this.model );
+				// Pass the current target to restore focus when closing
+				this.controller.trigger( 'edit:attachment', this.model, event.currentTarget );
 				return;
 			}
 
