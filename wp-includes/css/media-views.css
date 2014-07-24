@@ -141,33 +141,40 @@
 .media-modal-close {
 	position: absolute;
 	text-decoration: none;
-	top: 5px;
-	right: 10px;
-	width: 30px;
-	height: 30px;
+	top: 0;
+	right: 0;
+	width: 50px;
+	height: 48px;
 	z-index: 1000;
+	color: #777;
 }
 
 .media-modal-close span.media-modal-icon {
-	display: block;
+	display: none;
 	margin: 8px auto 0;
 	width: 15px;
 	height: 15px;
 	background-image: none;
 }
 
-.media-modal-close .media-modal-icon:before {
-	content: '\f158';
-	font: normal 20px/1 'dashicons';
+.media-modal-close:before {
+	position: absolute;
+	top: 1px;
+	left: 11px;
+	font: normal 30px/50px 'dashicons' !important;
+	content: '\f335';
+	font-weight: 300;
 	speak: none;
-	vertical-align: middle;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
-	color: #666;
 }
 
-.media-modal-close:hover .media-modal-icon:before {
-	color: #2ea2cc;
+.media-modal-close:focus,
+.media-modal-close:hover {
+	background: #0074a2;
+	color: #fff;
+	-webkit-box-shadow: none;
+	box-shadow: none;
 }
 
 .media-modal-close:active {
@@ -2688,20 +2695,9 @@ video#inline-media-node {
 	overflow: hidden;
 }
 
-.upload-php .media-modal-close .media-modal-icon:before {
-	content: '\f335';
-	font-size: 30px;
-}
-
-.upload-php .media-modal-close:hover .media-modal-icon:before,
-.upload-php .media-modal-close:focus .media-modal-icon:before {
-	color: #fff;
-}
-
-.upload-php .media-modal-close .media-modal-icon {
-	margin-top: 13px;
-	width: 30px;
-	height: 30px;
+.upload-php .media-modal-close:before {
+	top: 4px;
+	left: 14px;
 }
 
 .upload-php .media-modal-close,
@@ -2717,11 +2713,6 @@ video#inline-media-node {
 	text-align: center;
 	border: 0;
 	border-left: 1px solid #ddd;
-}
-
-.upload-php .media-modal-close {
-	top: 0;
-	right: 0;
 }
 
 .edit-attachment-frame .edit-media-header .left {
@@ -2760,6 +2751,8 @@ video#inline-media-node {
 
 .edit-attachment-frame .edit-media-header .left.disabled,
 .edit-attachment-frame .edit-media-header .right.disabled,
+.edit-attachment-frame .edit-media-header .left.disabled:focus,
+.edit-attachment-frame .edit-media-header .right.disabled:focus,
 .edit-attachment-frame .edit-media-header .left.disabled:hover,
 .edit-attachment-frame .edit-media-header .right.disabled:hover {
 	color: #ccc;

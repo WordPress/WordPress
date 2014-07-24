@@ -267,6 +267,10 @@ ul#adminmenu a.wp-has-current-submenu:after, ul#adminmenu > li.current > a.curre
   -webkit-box-shadow: 0 0 0 1px #fff, 0 0 0 2px #e14d43;
           box-shadow: 0 0 0 1px #fff, 0 0 0 2px #e14d43; }
 
+.media-modal-close:hover, .edit-attachment-frame .edit-media-header .right:hover, .edit-attachment-frame .edit-media-header .left:hover, .media-modal-close:focus, .edit-attachment-frame .edit-media-header .right:focus, .edit-attachment-frame .edit-media-header .left:focus {
+  background: #e14d43;
+  color: #fff; }
+
 /* Themes */
 .theme-browser .theme.active .theme-name, .theme-browser .theme.add-new-theme:hover:after {
   background: #e14d43; }
