@@ -830,6 +830,7 @@
 			// Attachments browser defaults. @see media.view.AttachmentsBrowser
 			searchable:      false,
 			sortable:        true,
+			display:         false,
 			// Initial region modes.
 			content:         'browse',
 			toolbar:         'gallery-edit',
@@ -2174,7 +2175,7 @@
 				sortable:   state.get('sortable'),
 				search:     state.get('searchable'),
 				filters:    state.get('filterable'),
-				display:    state.get('displaySettings'),
+				display:    state.has('display') ? state.get('display') : state.get('displaySettings'),
 				dragInfo:   state.get('dragInfo'),
 
 				suggestedWidth:  state.get('suggestedWidth'),
