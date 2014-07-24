@@ -942,7 +942,13 @@ ul.categorychecklist li {
 	font-size: 12px;
 }
 
-.form-field input,
+.form-field input[type="text"],
+.form-field input[type="password"],
+.form-field input[type="email"],
+.form-field input[type="number"],
+.form-field input[type="search"],
+.form-field input[type="tel"],
+.form-field input[type="url"],
 .form-field textarea {
 	border-style: solid;
 	border-width: 1px;
