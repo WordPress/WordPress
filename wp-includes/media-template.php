@@ -419,11 +419,6 @@ function wp_print_media_templates() {
 				<a class="close media-modal-icon" href="#" title="<?php esc_attr_e('Remove'); ?>"></a>
 			<# } #>
 		</div>
-		<# if ( _.contains( data.controller.options.mode, 'grid' ) ) { #>
-		<div class="inline-toolbar js--select-attachment">
-			<div class="dashicons dashicons-edit edit edit-media"></div>
-		</div>
-		<# } #>
 		<# if ( data.buttons.check ) { #>
 			<a class="check" href="#" title="<?php esc_attr_e('Deselect'); ?>" tabindex="-1"><div class="media-modal-icon"></div></a>
 		<# } #>

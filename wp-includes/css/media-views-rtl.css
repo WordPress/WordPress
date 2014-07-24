@@ -1038,90 +1038,6 @@
 	font-weight: 300;
 }
 
-.inline-toolbar {
-	position: absolute;
-	top: 0;
-	right: 0;
-	display: none;
-	z-index: 100;
-}
-
-.inline-toolbar .remove {
-	display: none;
-}
-
-.active-video .inline-toolbar .remove {
-	display: inline-block;
-}
-
-.attachment-preview:hover + .inline-toolbar,
-.inline-toolbar:hover {
-	display: block;
-}
-
-.inline-toolbar div,
-.inline-toolbar .inline-media-control {
-	display: inline-block;
-	margin-top: 4px;
-	margin-right: 4px;
-	padding: 2px;
-	width: 20px;
-	height: 20px;
-	-webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.5);
-	box-shadow: 0 1px 3px rgba(0,0,0,0.5);
-	background-color: #000;
-	background-color: rgba(0,0,0,0.9);
-	cursor: pointer;
-	color: white;
-	font-size: 20px;
-}
-
-.ie8 .inline-toolbar div,
-.ie7 .inline-toolbar div {
-	display: inline;
-	padding: 0;
-}
-
-.inline-media-control span {
-	display: block;
-	width: 16px;
-	height: 16px;
-	margin: 2px;
-	background: url(/wp-includes/js/mediaelement/controls.png) 0 0 no-repeat;
-}
-
-.inline-media-control.active span {
-	margin: 2px;
-	background-position: 0 -16px;
-}
-
-.inline-media-control.paused span {
-	margin: 2px;
-	background-position: 0 0;
-}
-
-audio#inline-media-node {
-	display: none;
-}
-
-video#inline-media-node {
-	position: relative;
-	z-index: 5;
-	top: 0;
-	right: 0;
-}
-
-.inline-video-wrap {
-	width: 100%;
-	height: auto;
-	position: absolute;
-	z-index: 5;
-	background: #000;
-	padding: 10px 0 5px;
-	top: 0;
-	right: 0;
-}
-
 .attachments-browser.hide-sidebar .attachments,
 .attachments-browser.hide-sidebar .uploader-inline {
 	left: 0;
@@ -2733,10 +2649,6 @@ video#inline-media-node {
 	font: normal 20px/50px 'dashicons' !important;
 	display: inline;
 	font-weight: 300;
-}
-
-.media-frame.mode-bulk-edit .attachment-preview:hover ~ .inline-toolbar {
-	display: none;
 }
 
 .edit-attachment-frame .edit-media-header .left:before,
