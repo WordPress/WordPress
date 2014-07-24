@@ -1049,6 +1049,7 @@ function sanitize_file_name( $filename ) {
 	$special_chars = apply_filters( 'sanitize_file_name_chars', $special_chars, $filename_raw );
 	$filename = preg_replace( "#\x{00a0}#siu", ' ', $filename );
 	$filename = str_replace($special_chars, '', $filename);
+	$filename = str_replace( array( '%20', '+' ), '-', $filename );
 	$filename = preg_replace('/[\s-]+/', '-', $filename);
 	$filename = trim($filename, '.-_');
 
