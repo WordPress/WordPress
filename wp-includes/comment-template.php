@@ -1889,7 +1889,7 @@ class Walker_Comment extends Walker {
  * @param string|array $args {
  *     Optional. Formatting options.
  *
- *     @type string $walker            The Walker class used to list comments. Default null.
+ *     @type object $walker            Instance of a Walker class to list comments. Default null.
  *     @type int    $max_depth         The maximum comments depth. Default empty.
  *     @type string $style             The style of list ordering. Default 'ul'. Accepts 'ul', 'ol'.
  *     @type string $callback          Callback function to use. Default null.

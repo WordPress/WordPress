@@ -215,7 +215,7 @@ class Walker_Nav_Menu extends Walker {
  *     @type string        $link_after      Text after the link. Default empty.
  *     @type bool          $echo            Whether to echo the menu or return it. Default true.
  *     @type int           $depth           How many levels of the hierarchy are to be included. 0 means all. Default 0.
- *     @type string        $walker          Allows a custom walker class to be specified. Default empty.
+ *     @type object        $walker          Instance of a custom walker class. Default empty.
  *     @type string        $theme_location  Theme location to be used. Must be registered with register_nav_menu()
  *                                          in order to be selectable by the user.
  *     @type string        $items_wrap      How the list items should be wrapped. Default is a ul with an id and class.
