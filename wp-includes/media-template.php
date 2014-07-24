@@ -678,13 +678,15 @@ function wp_print_media_templates() {
 					data-user-setting="urlbutton"
 				<# } #>>
 
-				<option value="post" selected>
+				<option value="post" <# if ( ! wp.media.galleryDefaults.link || 'post' == wp.media.galleryDefaults.link ) {
+					#>selected="selected"<# }
+				#>>
 					<?php esc_attr_e('Attachment Page'); ?>
 				</option>
-				<option value="file">
+				<option value="file" <# if ( 'file' == wp.media.galleryDefaults.link ) { #>selected="selected"<# } #>>
 					<?php esc_attr_e('Media File'); ?>
 				</option>
-				<option value="none">
+				<option value="none" <# if ( 'none' == wp.media.galleryDefaults.link ) { #>selected="selected"<# } #>>
 					<?php esc_attr_e('None'); ?>
 				</option>
 			</select>
@@ -695,7 +697,9 @@ function wp_print_media_templates() {
 			<select class="columns" name="columns"
 				data-setting="columns">
 				<?php for ( $i = 1; $i <= 9; $i++ ) : ?>
-					<option value="<?php echo esc_attr( $i ); ?>" <?php selected( $i, 3 ); ?>>
+					<option value="<?php echo esc_attr( $i ); ?>" <#
+						if ( <?php echo $i ?> == wp.media.galleryDefaults.columns ) { #>selected="selected"<# }
+					#>>
 						<?php echo esc_html( $i ); ?>
 					</option>
 				<?php endfor; ?>
