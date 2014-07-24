@@ -325,7 +325,7 @@ function wp_print_media_templates() {
 					<div class="file-length"><strong><?php _e( 'Length:' ); ?></strong> {{ data.fileLength }}</div>
 				<# } #>
 
-				<# if ( 'audio' === data.type && data.meta && data.meta.bitrate ) { #>
+				<# if ( 'audio' === data.type && data.meta.bitrate ) { #>
 					<div class="bitrate">
 						<strong><?php _e( 'Bitrate:' ); ?></strong> {{ Math.round( data.meta.bitrate / 1000 ) }}kb/s
 						<# if ( data.meta.bitrate_mode ) { #>

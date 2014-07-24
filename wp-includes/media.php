@@ -2628,6 +2628,7 @@ function wp_prepare_attachment_for_js( $attachment ) {
 			'edit'   => false
 		),
 		'editLink'   => false,
+		'meta'       => false,
 	);
 
 	$author = new WP_User( $attachment->post_author );
@@ -2725,6 +2726,8 @@ function wp_prepare_attachment_for_js( $attachment ) {
 
 		$response['meta'] = array();
 		foreach ( wp_get_attachment_id3_keys( $attachment, 'js' ) as $key => $label ) {
+			$response['meta'][ $key ] = false;
+
 			if ( ! empty( $meta[ $key ] ) ) {
 				$response['meta'][ $key ] = $meta[ $key ];
 			}
