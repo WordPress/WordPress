@@ -443,37 +443,7 @@ function wp_print_media_templates() {
 						placeholder="<?php esc_attr_e('Describe this media file&hellip;'); ?>"
 					<# } #> {{ maybeReadOnly }} />
 			<# }
-		}
-
-		if ( _.contains( data.controller.options.mode, 'grid' ) ) { #>
-		<div class="data-fields">
-		<?php
-		$option = get_user_option( 'manageuploadgridcolumnshidden' );
-		$hidden = array();
-		if ( ! empty( $option ) ) {
-			$hidden = $option;
-		}
-		$fields = array( 'title', 'uploadedTo', 'dateFormatted', 'mime' );
-		foreach ( $fields as $field ):
-			$class_name = in_array( $field, $hidden ) ? 'data-field data-hidden' : 'data-field data-visible';
-		?>
-			<div class="<?php echo $class_name ?> data-<?php echo $field ?>"><#
-				if ( 'uploadedTo' === '<?php echo $field ?>' ) {
-					if ( data[ '<?php echo $field ?>' ] ) {
-					#><?php _e( 'Uploaded To: ' ) ?><a href="{{ data.uploadedToLink }}">{{ data.uploadedToTitle }}</a><#
-					} else {
-					#><?php _e( 'Unattached' ) ?><#
-					}
-				} else if ( 'title' === '<?php echo $field ?>' && ! data[ '<?php echo $field ?>' ] ) {
-				#><?php _e( '(No title)' ) ?><#
-				} else if ( data[ '<?php echo $field ?>' ] ) {
-				#>{{ data[ '<?php echo $field ?>' ] }}<#
-				}
-			#></div>
-		<?php endforeach ?>
-		</div>
-		<# } #>
-
+		} #>
 	</script>
 
 	<script type="text/html" id="tmpl-attachment-details">

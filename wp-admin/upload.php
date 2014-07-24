@@ -28,12 +28,6 @@ if ( 'grid' === $mode ) {
 		'adminUrl' => parse_url( self_admin_url(), PHP_URL_PATH ),
 	) );
 
-	add_screen_option( 'misc_screen_options', array( 'option' => 'manageuploadgridcolumnshidden', 'id' => 'grid' ) );
-	add_screen_option( 'title', array( 'label' => __( 'Name' ) ) );
-	add_screen_option( 'uploadedTo', array( 'label' => __( 'Uploaded To' ) ) );
-	add_screen_option( 'dateFormatted', array( 'label' => __( 'Date' ) ) );
-	add_screen_option( 'mime', array( 'label' => __( 'Mime-type' ) ) );
-
 	get_current_screen()->add_help_tab( array(
 		'id'		=> 'overview',
 		'title'		=> __( 'Overview' ),

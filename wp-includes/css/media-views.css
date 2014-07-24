@@ -961,29 +961,6 @@
 	border-radius: 0;
 }
 
-.attachment .data-fields {
-	margin: 5px 0 0;
-}
-
-.attachment .data-field {
-	white-space: nowrap;
-	text-overflow: ellipsis;
-	overflow: hidden;
-	line-height: 19px;
-	height: 19px;
-	text-align: left;
-	width: 90%;
-	margin: 0 5%;
-}
-
-.attachment .data-hidden {
-	display: none;
-}
-
-.attachment .data-visible {
-	display: block;
-}
-
 /**
  * Attachments Browser
  */
