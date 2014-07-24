@@ -273,6 +273,7 @@ function wp_read_image_metadata( $file ) {
 		'iso' => 0,
 		'shutter_speed' => 0,
 		'title' => '',
+		'orientation' => 0,
 	);
 
 	/*
@@ -388,6 +389,9 @@ function wp_read_image_metadata( $file ) {
 		}
 		if ( ! empty( $exif['ExposureTime'] ) ) {
 			$meta['shutter_speed'] = (string) wp_exif_frac2dec( $exif['ExposureTime'] );
+		}
+		if ( ! empty( $exif['Orientation'] ) ) {
+			$meta['orientation'] = $exif['Orientation'];
 		}
 	}
 
