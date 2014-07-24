@@ -6334,6 +6334,7 @@
 			'click .trash-attachment':        'trashAttachment',
 			'click .edit-attachment':         'editAttachment',
 			'click .refresh-attachment':      'refreshAttachment',
+			'click .advanced-toggle':         'onToggleAdvanced',
 			'keydown':                        'toggleSelectionHandler'
 		},
 
@@ -6345,6 +6346,17 @@
 			 * call 'initialize' directly on the parent class
 			 */
 			media.view.Attachment.prototype.initialize.apply( this, arguments );
+		},
+
+		/**
+		 * Render view, then check if the advanced details should be shown.
+		 */
+		render: function(){
+			media.view.Attachment.prototype.render.apply( this, arguments );
+
+			if ( 'show' === getUserSetting( 'advImgDetails' ) ) {
+				this.toggleAdvanced( true );
+			}
 		},
 		/**
 		 * @param {Object} event
@@ -6402,8 +6414,27 @@
 				$('.attachments-browser .details').focus();
 				return false;
 			}
-		}
+		},
 
+		onToggleAdvanced: function( event ) {
+			event.preventDefault();
+			this.toggleAdvanced();
+		},
+
+		toggleAdvanced: function( show ) {
+			var $advanced = this.$( '.advanced-section' ), mode = 'show';
+
+			if ( $advanced.hasClass('advanced-visible') || false === show ) {
+				$advanced.removeClass('advanced-visible');
+				$advanced.find('.advanced-settings').addClass('hidden');
+				mode = 'hide';
+			} else {
+				$advanced.addClass('advanced-visible');
+				$advanced.find('.advanced-settings').removeClass('hidden');
+			}
+
+			setUserSetting( 'advImgDetails', mode );
+		}
 	});
 
 	/**
