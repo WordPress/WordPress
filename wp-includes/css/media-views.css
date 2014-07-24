@@ -1185,8 +1185,6 @@ video#inline-media-node {
 
 .media-sidebar .media-uploader-status {
 	border-bottom: 1px solid #dfdfdf;
-	-webkit-box-shadow: 0 1px 0 #fff;
-	box-shadow: 0 1px 0 #fff;
 }
 
 .uploader-inline .media-uploader-status h3 {
