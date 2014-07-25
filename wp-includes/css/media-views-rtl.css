@@ -1006,6 +1006,10 @@
 	outline: none;
 }
 
+.attachments-browser .uploader-inline {
+	border: 4px dashed #bbb;
+}
+
 .attachments-browser .uploader-inline:not(.hidden) + .attachments {
 	top: 350px;
 }
@@ -1024,9 +1028,9 @@
 	cursor: pointer;
 	height: 48px;
 	position: absolute;
-	left: 20px;
+	left: 0;
 	text-align: center;
-	top: 20px;
+	top: 0;
 	width: 50px;
 	z-index: 1;
 }
@@ -1237,8 +1241,8 @@
 }
 
 .media-frame .uploader-inline {
-	margin: 20px;
-	padding: 20px;
+	margin-bottom: 20px;
+	padding: 0;
 	text-align: center;
 }
 
@@ -1250,7 +1254,7 @@
 }
 
 .uploader-inline-content .upload-ui {
-	margin: 4em 0;
+	margin: 2em 0;
 }
 
 .uploader-inline-content .post-upload-ui {
@@ -1265,7 +1269,7 @@
 	font-size: 20px;
 	line-height: 28px;
 	font-weight: 400;
-	margin-bottom: 1.6em;
+	margin: 0;
 }
 
 .uploader-inline .has-upload-message .upload-instructions {
@@ -1284,6 +1288,7 @@
 
 .uploader-inline p {
 	font-size: 12px;
+	margin: 0.5em 0;
 }
 
 .uploader-inline .media-progress-bar {
