@@ -348,6 +348,10 @@ var wpLink;
 				return;
 			}
 
+			if ( inputs.url.is( ':focus' ) || inputs.title.is( ':focus' ) ) {
+				return;
+			}
+
 			fn = event.keyCode === key.UP ? 'prev' : 'next';
 			clearInterval( wpLink.keyInterval );
 			wpLink[ fn ]();
