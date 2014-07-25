@@ -298,13 +298,13 @@ class WP_Plugins_List_Table extends WP_List_Table {
 		return $actions;
 	}
 
-	public function bulk_actions() {
+	public function bulk_actions( $which ) {
 		global $status;
 
 		if ( in_array( $status, array( 'mustuse', 'dropins' ) ) )
 			return;
 
-		parent::bulk_actions();
+		parent::bulk_actions( $which );
 	}
 
 	protected function extra_tablenav( $which ) {

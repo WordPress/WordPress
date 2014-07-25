@@ -343,8 +343,10 @@ class WP_List_Table {
 	 *
 	 * @since 3.1.0
 	 * @access protected
+	 *
+	 * @param string $which The location of the bulk actions: 'top' or 'bottom'.
 	 */
-	protected function bulk_actions() {
+	protected function bulk_actions( $which ) {
 		if ( is_null( $this->_actions ) ) {
 			$no_new_actions = $this->_actions = $this->get_bulk_actions();
 			/**
@@ -369,7 +371,8 @@ class WP_List_Table {
 		if ( empty( $this->_actions ) )
 			return;
 
-		echo "<select name='action$two'>\n";
+		echo "<label for='bulk-action-selector-" . esc_attr( $which ) . "' class='screen-reader-text'>" . __( 'Select Bulk Action' ) . "</label>";
+		echo "<select name='action$two' id='bulk-action-selector-" . esc_attr( $which ) . "'>\n";
 		echo "<option value='-1' selected='selected'>" . __( 'Bulk Actions' ) . "</option>\n";
 
 		foreach ( $this->_actions as $name => $title ) {
@@ -638,7 +641,8 @@ class WP_List_Table {
 		if ( 'bottom' == $which ) {
 			$html_current_page = $current;
 		} else {
-			$html_current_page = sprintf( "<input class='current-page' title='%s' type='text' name='paged' value='%s' size='%d' />",
+			$html_current_page_label = "<label for='current-page-selector'>" . __( 'Select Page' ) . "</label>";
+			$html_current_page = $html_current_page_label . sprintf( "<input class='current-page' id='current-page-selector' title='%s' type='text' name='paged' value='%s' size='%d' />",
 				esc_attr__( 'Current page' ),
 				$current,
 				strlen( $total_pages )
@@ -898,7 +902,7 @@ class WP_List_Table {
 	<div class="tablenav <?php echo esc_attr( $which ); ?>">
 
 		<div class="alignleft actions bulkactions">
-			<?php $this->bulk_actions(); ?>
+			<?php $this->bulk_actions( $which ); ?>
 		</div>
 <?php
 		$this->extra_tablenav( $which );
