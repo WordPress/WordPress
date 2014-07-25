@@ -175,7 +175,6 @@
 			wp.media( {
 				frame:       'edit-attachments',
 				gridRouter:  this.gridRouter,
-				gridItem:    $( currentTarget ).closest( 'li' ),
 				library:     this.state().get('library'),
 				model:       model
 			} );
@@ -368,7 +367,6 @@
 				state: 'edit-attachment'
 			});
 
-			this.gridItem = this.options.gridItem;
 			this.gridRouter = this.options.gridRouter;
 			this.library = this.options.library;
 			if ( this.options.model ) {
@@ -406,7 +404,7 @@
 					self.modal.remove();
 					$( 'body' ).off( 'keydown.media-modal' ); /* remove the keydown event */
 					// Restore the original focus item if possible
-					self.gridItem && self.gridItem.focus();
+					$( 'li.attachment[data-id="' + self.model.get( 'id' ) +'"]' ).focus();
 					self.resetRoute();
 				} );
 

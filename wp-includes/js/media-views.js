@@ -4639,7 +4639,11 @@
 				options = _.defaults( this.options, {
 					rerenderOnModelChange: true
 				} );
-			this.$el.attr( 'aria-label', this.model.get( 'title' ) ).attr( 'aria-checked', false );
+			this.$el.attr( {
+				'aria-label'  : this.model.get( 'title' ),
+				'aria-checked': false,
+				'data-id'     : this.model.get( 'id' )
+			} );
 
 			if ( options.rerenderOnModelChange ) {
 				this.model.on( 'change', this.render, this );
