@@ -286,8 +286,7 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 		});
 
 		editor.dom.bind( editor.getBody().parentNode, 'mousedown mouseup click', function( event ) {
-			var view = getView( event.target ),
-				deselectEventType;
+			var view = getView( event.target );
 
 			firstFocus = false;
 

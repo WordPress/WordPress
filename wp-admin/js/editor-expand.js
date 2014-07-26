@@ -124,13 +124,18 @@ jQuery( document ).ready( function($) {
 		$visualEditor = $contentWrap.find( '.mce-edit-area' );
 		$statusBar = $contentWrap.find( '.mce-statusbar' ).filter( ':visible' );
 
-		// Adjust when switching editor modes.
-		editor.on( 'show', function() {
-			setTimeout( function() {
-				editor.execCommand( 'wpAutoResize' );
-				adjust();
-			}, 300 );
-		} );
+		function getCursorOffset() {
+			var node = editor.selection.getNode(),
+				view, offset;
+
+			if ( editor.plugins.wpview && ( view = editor.plugins.wpview.getView( node ) ) ) {
+				offset = view.getBoundingClientRect();
+			} else {
+				offset = node.getBoundingClientRect();
+			}
+
+			return offset.height ? offset : false;
+		}
 
 		// Make sure the cursor is always visible.
 		// This is not only necessary to keep the cursor between the toolbars,
@@ -150,12 +155,17 @@ jQuery( document ).ready( function($) {
 				return;
 			}
 
-			cursorTop = offset.top + editor.getContentAreaContainer().getElementsByTagName( 'iframe' )[0].getBoundingClientRect().top;
+			cursorTop = offset.top + editor.getContentAreaContainer().firstChild.getBoundingClientRect().top;
 			cursorBottom = cursorTop + offset.height;
 			cursorTop = cursorTop - buffer;
 			cursorBottom = cursorBottom + buffer;
 			editorTop = $adminBar.outerHeight() + $tools.outerHeight() + $visualTop.outerHeight();
 			editorBottom = windowHeight - $bottom.outerHeight();
+
+			// Don't scroll if the node is taller than the visible part of the editor
+			if ( editorBottom - editorTop < offset.height ) {
+				return;
+			}
 
 			if ( cursorTop < editorTop && ( key === VK.UP || key === VK.LEFT || key === VK.BACKSPACE ) ) {
 				window.scrollTo( window.pageXOffset, cursorTop + window.pageYOffset - editorTop );
@@ -164,44 +174,13 @@ jQuery( document ).ready( function($) {
 			}
 		} );
 
-		function getCursorOffset() {
-			var selection = editor.selection,
-				node = selection.getNode(),
-				range = selection.getRng(),
-				view, clone, offset;
-
-			if ( tinymce.Env.ie && tinymce.Env.ie < 9 ) {
-				return;
-			}
-
-			if ( editor.plugins.wpview && ( view = editor.plugins.wpview.getView( node ) ) ) {
-				offset = view.getBoundingClientRect();
-			} else if ( selection.isCollapsed() ) {
-				clone = range.cloneRange();
-
-				if ( clone.startContainer.length > 1 ) {
-					if ( clone.startContainer.length > clone.endOffset ) {
-						clone.setEnd( clone.startContainer, clone.endOffset + 1 );
-					} else {
-						clone.setStart( clone.startContainer, clone.endOffset - 1 );
-					}
-
-					selection.setRng( clone );
-					offset = selection.getRng().getBoundingClientRect();
-					selection.setRng( range );
-				} else {
-					offset = node.getBoundingClientRect();
-				}
-			} else {
-				offset = range.getBoundingClientRect();
-			}
-
-			if ( ! offset.height ) {
-				return;
-			}
-
-			return offset;
-		}
+		// Adjust when switching editor modes.
+		editor.on( 'show', function() {
+			setTimeout( function() {
+				editor.execCommand( 'wpAutoResize' );
+				adjust();
+			}, 300 );
+		} );
 
 		editor.on( 'hide', function() {
 			textEditorResize();
