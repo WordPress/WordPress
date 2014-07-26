@@ -178,7 +178,7 @@ function wp_print_media_templates() {
 		<?php else : ?>
 			<div class="upload-ui">
 				<h3 class="upload-instructions drop-instructions"><?php _e( 'Drop files here' ); ?></h3>
-				<p><?php _e( 'or' ); ?></p>
+				<p><?php _ex( 'or', 'Uploader: Drop files here - or - Select Files' ); ?></p>
 				<a href="#" class="browser button"><?php _e( 'Select Files' ); ?></a>
 			</div>
 
