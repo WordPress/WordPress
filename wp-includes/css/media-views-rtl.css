@@ -1018,10 +1018,6 @@
 	display: none;
 }
 
-.attachments-browser .uploader-inline-content {
-	top: 0;
-}
-
 .uploader-inline .close {
 	background-color: transparent;
 	border: 0;
@@ -2403,19 +2399,20 @@
 		height: auto;
 	}
 
-	.uploader-inline h3 {
-		margin: 0 0 .8em 0;
-	}
-
 	.uploader-inline-content {
 		top: auto;
 	}
 
 	.uploader-inline-content .upload-ui {
-		margin: 0;
+		margin: 1em 0;
 	}
 
-	.attachments-browser .attachments, .attachments-browser .uploader-inline {
+	.uploader-inline-content .post-upload-ui {
+		margin-bottom: 1em;
+	}
+
+	.attachments-browser .attachments,
+	.attachments-browser .uploader-inline {
 		position: relative;
 		margin-left: 180px;
 	}
@@ -2589,6 +2586,7 @@
 
 .media-frame.mode-grid .attachments-browser .bulk-select {
 	display: inline-block;
+	margin: 0 0 0 10px;
 }
 
 /**
