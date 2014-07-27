@@ -303,6 +303,10 @@ TABLE OF CONTENTS:
 		font-size: 13px;
 	}
 
+	.media-frame.mode-grid .bulk-select .button {
+		margin-bottom: 0;
+	}
+
 	/* Publish Metabox Options */
 	.wp-core-ui .save-post-status.button {
 		position: relative;
