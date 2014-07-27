@@ -641,8 +641,8 @@ class WP_List_Table {
 		if ( 'bottom' == $which ) {
 			$html_current_page = $current;
 		} else {
-			$html_current_page_label = "<label for='current-page-selector'>" . __( 'Select Page' ) . "</label>";
-			$html_current_page = $html_current_page_label . sprintf( "<input class='current-page' id='current-page-selector' title='%s' type='text' name='paged' value='%s' size='%d' />",
+			$html_current_page = sprintf( "%s<input class='current-page' id='current-page-selector' title='%s' type='text' name='paged' value='%s' size='%d' />",
+				'<label for="current-page-selector" class="screen-reader-text">' . __( 'Select Page' ) . '</label>',
 				esc_attr__( 'Current page' ),
 				$current,
 				strlen( $total_pages )
