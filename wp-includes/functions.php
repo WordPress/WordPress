@@ -3502,19 +3502,6 @@ function is_ssl() {
 }
 
 /**
- * Determine if the scheme of the given URL is https.
- *
- * @since 4.0.0
- * 
- * @param string $url The URL.
- * @return bool True if the given URL uses https, false if not (or if the URL
- *              is not valid).
- */
-function is_https_url( $url ) {
-	return ( 'https' === parse_url( $url, PHP_URL_SCHEME ) );
-}
-
-/**
  * Whether SSL login should be forced.
  *
  * @since 2.6.0
