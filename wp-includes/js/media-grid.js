@@ -139,12 +139,12 @@
 			// Add the default states.
 			this.states.add([
 				new media.controller.Library({
-					library:    media.query( options.library ),
-					multiple:   options.multiple,
-					title:      options.title,
-					content:    'browse',
-
-					filterable: 'mime-types'
+					library:            media.query( options.library ),
+					multiple:           options.multiple,
+					title:              options.title,
+					content:            'browse',
+					contentUserSetting: false,
+					filterable:         'mime-types'
 				})
 			]);
 		},
