@@ -5201,10 +5201,6 @@
 
 		cssTemplate: media.template('attachments-css'),
 
-		events: {
-			'scroll': 'scroll'
-		},
-
 		initialize: function() {
 			this.el.id = _.uniqueId('__attachments-view-');
 
@@ -5235,8 +5231,11 @@
 
 			this.collection.on( 'reset', this.render, this );
 
-			// Throttle the scroll handler.
+			// Throttle the scroll handler and bind this.
 			this.scroll = _.chain( this.scroll ).bind( this ).throttle( this.options.refreshSensitivity ).value();
+
+			this.options.scrollElement = this.options.scrollElement || this.el;
+			$( this.options.scrollElement ).on( 'scroll', this.scroll );
 
 			this.initSortable();
 
@@ -5406,20 +5405,29 @@
 
 		scroll: function() {
 			var view = this,
+				el = this.options.scrollElement,
+				scrollTop = el.scrollTop,
 				toolbar;
 
-			if ( ! this.$el.is(':visible') || ! this.collection.hasMore() ) {
+			// The scroll event occurs on the document, but the element
+			// that should be checked is the document body.
+			if ( el == document ) {
+				el = document.body;
+				scrollTop = $(document).scrollTop();
+			}
+
+			if ( ! $(el).is(':visible') || ! this.collection.hasMore() ) {
 				return;
 			}
 
 			toolbar = this.views.parent.toolbar;
 
 			// Show the spinner only if we are close to the bottom.
-			if ( this.el.scrollHeight - ( this.el.scrollTop + this.el.clientHeight ) < this.el.clientHeight / 3 ) {
+			if ( el.scrollHeight - ( scrollTop + el.clientHeight ) < el.clientHeight / 3 ) {
 				toolbar.get('spinner').show();
 			}
 
-			if ( this.el.scrollHeight < this.el.scrollTop + ( this.el.clientHeight * this.options.refreshThreshold ) ) {
+			if ( el.scrollHeight < scrollTop + ( el.clientHeight * this.options.refreshThreshold ) ) {
 				this.collection.more().done(function() {
 					view.scroll();
 					toolbar.get('spinner').hide();
@@ -5859,6 +5867,7 @@
 				selection:            this.options.selection,
 				model:                this.model,
 				sortable:             this.options.sortable,
+				scrollElement:        this.options.scrollElement,
 
 				// The single `Attachment` view to be used in the `Attachments` view.
 				AttachmentView: this.options.AttachmentView

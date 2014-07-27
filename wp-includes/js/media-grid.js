@@ -206,7 +206,9 @@
 				suggestedWidth:  state.get('suggestedWidth'),
 				suggestedHeight: state.get('suggestedHeight'),
 
-				AttachmentView: state.get('AttachmentView')
+				AttachmentView: state.get('AttachmentView'),
+
+				scrollElement: document
 			});
 		}
 	});
