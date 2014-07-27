@@ -170,7 +170,7 @@
 		/**
 		 * Open the Edit Attachment modal.
 		 */
-		openEditAttachmentModal: function( model, currentTarget ) {
+		openEditAttachmentModal: function( model ) {
 			// Create a new EditAttachment frame, passing along the library and the attachment model.
 			wp.media( {
 				frame:       'edit-attachments',

@@ -440,7 +440,7 @@
 			shortcode: function( attachments ) {
 				var props = attachments.props.toJSON(),
 					attrs = _.pick( props, 'orderby', 'order' ),
-					shortcode, clone, self = this;
+					shortcode, clone;
 
 				if ( attachments.type ) {
 					attrs.type = attachments.type;
