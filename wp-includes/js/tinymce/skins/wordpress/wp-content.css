@@ -122,8 +122,7 @@ img::selection {
 	padding: 0;
 }
 
-.mce-content-body img.mce-wp-nextpage,
-.mce-content-body img.mce-wp-more {
+.mce-content-body img[data-wp-more] {
 	border: 0;
 	-webkit-box-shadow: none;
 	box-shadow: none;
@@ -135,16 +134,15 @@ img::selection {
 	cursor: default;
 }
 
-.mce-content-body img.mce-wp-nextpage[data-mce-selected],
-.mce-content-body img.mce-wp-more[data-mce-selected] {
+.mce-content-body img[data-wp-more][data-mce-selected] {
 	outline: 1px dotted #888;
 }
 
-.mce-content-body img.mce-wp-more {
+.mce-content-body img[data-wp-more="more"] {
 	background: transparent url( images/more.png ) repeat-y scroll center center;
 }
 
-.mce-content-body img.mce-wp-nextpage {
+.mce-content-body img[data-wp-more="nextpage"] {
     background: transparent url( images/pagebreak.png ) repeat-y scroll center center;
 }
 

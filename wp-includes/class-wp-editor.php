@@ -944,6 +944,7 @@ final class _WP_Editors {
 			'Keyboard Shortcuts' => __( 'Keyboard Shortcuts' ),
 			'Toolbar Toggle' => __( 'Toolbar Toggle' ),
 			'Insert Read More tag' => __( 'Insert Read More tag' ),
+			'Read more...' => __( 'Read more...' ), // Title on the placeholder inside the editor
 			'Distraction Free Writing' => __( 'Distraction Free Writing' ),
 		);
 
