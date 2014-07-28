@@ -408,7 +408,7 @@ table.diff .diff-addedline ins {
 	z-index: 10000;
 }
 
-.arrow::after {
+.arrow:after {
 	z-index: 9999;
 	background-color: #fff;
 	-webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.1);

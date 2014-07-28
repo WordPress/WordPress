@@ -168,7 +168,7 @@ h3.dashboard-widget-title small a:hover {
 	line-height: 1;
 }
 
-#welcome-panel.welcome-panel .welcome-panel-close::before {
+#welcome-panel.welcome-panel .welcome-panel-close:before {
 	position: absolute;
 	right: -18px;
 	margin-top: -2px;
@@ -1128,7 +1128,7 @@ a.rsswidget {
 	}
 
 	/* Make the close icon larger for tappability. */
-	#welcome-panel.welcome-panel .welcome-panel-close::before {
+	#welcome-panel.welcome-panel .welcome-panel-close:before {
 		font-size: 20px;
 		margin: 0;
 	}

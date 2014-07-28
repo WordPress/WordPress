@@ -111,10 +111,10 @@ body {
 	background: #f5f5f5;
 }
 
-#customize-theme-controls .control-section:hover > .accordion-section-title::after,
-#customize-theme-controls .control-section .accordion-section-title:hover::after,
-#customize-theme-controls .control-section.open .accordion-section-title::after,
-#customize-theme-controls .control-section .accordion-section-title:focus::after {
+#customize-theme-controls .control-section:hover > .accordion-section-title:after,
+#customize-theme-controls .control-section .accordion-section-title:hover:after,
+#customize-theme-controls .control-section.open .accordion-section-title:after,
+#customize-theme-controls .control-section .accordion-section-title:focus:after {
 	color: #555555;
 }
 

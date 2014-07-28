@@ -746,7 +746,7 @@ h3.dashboard-widget-title small,
 }
 
 /* @todo can we combine these into a class or use an existing dashicon one? */
-#welcome-panel.welcome-panel .welcome-panel-close::before,
+#welcome-panel.welcome-panel .welcome-panel-close:before,
 .tagchecklist span a:before,
 #bulk-titles div a:before {
 	background: none;
@@ -756,10 +756,18 @@ h3.dashboard-widget-title small,
 	font: normal 16px/1 'dashicons';
 	speak: none;
 	height: 20px;
-	margin: 2px 0;
 	text-align: center;
 	width: 20px;
 	-webkit-font-smoothing: antialiased !important;
+}
+
+#welcome-panel.welcome-panel .welcome-panel-close:before {
+	margin: 0;
+}
+
+.tagchecklist span a:before,
+#bulk-titles div a:before {
+	margin: 2px 0;
 }
 
 #welcome-panel.welcome-panel .welcome-panel-close:hover:before,
