@@ -392,6 +392,12 @@ function wpautop($pee, $br = true) {
 	$pee = preg_replace('!(</' . $allblocks . '>)!', "$1\n\n", $pee);
 	$pee = str_replace(array("\r\n", "\r"), "\n", $pee); // cross-platform newlines
 
+	if ( strpos( $pee, '<option' ) !== false ) {
+		// no P/BR around option
+		$pee = preg_replace( '|\s<option|', '<option', $pee );
+		$pee = preg_replace( '|</option>\s|', '</option>', $pee );
+	}
+
 	if ( strpos( $pee, '</object>' ) !== false ) {
 		// no P/BR around param and embed
 		$pee = preg_replace( '|(<object[^>]*>)\s*|', '$1', $pee );

@@ -168,6 +168,11 @@ window.switchEditors = {
 		content = content.replace( new RegExp('\\s*</(' + blocklist2 + ')>\\s*', 'g' ), '</$1>\n' );
 		content = content.replace( /<li([^>]*)>/g, '\t<li$1>' );
 
+		if ( content.indexOf( '<option' ) !== -1 ) {
+			content = content.replace( /\s*<option/g, '\n<option' );
+			content = content.replace( /\s*<\/select>/g, '\n</select>' );
+		}
+
 		if ( content.indexOf( '<hr' ) !== -1 ) {
 			content = content.replace( /\s*<hr( [^>]*)?>\s*/g, '\n\n<hr$1>\n\n' );
 		}
@@ -244,6 +249,8 @@ window.switchEditors = {
 		pee = pee.replace( new RegExp( '(<(?:' + blocklist + ')(?: [^>]*)?>)', 'gi' ), '\n$1' );
 		pee = pee.replace( new RegExp( '(</(?:' + blocklist + ')>)', 'gi' ), '$1\n\n' );
 		pee = pee.replace( /<hr( [^>]*)?>/gi, '<hr$1>\n\n' ); // hr is self closing block element
+		pee = pee.replace( /\s<option/gi, '<option' ); // No <p> or <br> around <option>
+		pee = pee.replace( /<\/option>\s/gi, '</option>' );
 		pee = pee.replace( /\r\n|\r/g, '\n' );
 		pee = pee.replace( /\n\s*\n+/g, '\n\n' );
 		pee = pee.replace( /([\s\S]+?)\n\n/g, '<p>$1</p>\n' );
