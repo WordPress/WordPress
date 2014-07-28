@@ -394,8 +394,8 @@ function wpautop($pee, $br = true) {
 
 	if ( strpos( $pee, '<option' ) !== false ) {
 		// no P/BR around option
-		$pee = preg_replace( '|\s<option|', '<option', $pee );
-		$pee = preg_replace( '|</option>\s|', '</option>', $pee );
+		$pee = preg_replace( '|\s*<option|', '<option', $pee );
+		$pee = preg_replace( '|</option>\s*|', '</option>', $pee );
 	}
 
 	if ( strpos( $pee, '</object>' ) !== false ) {
