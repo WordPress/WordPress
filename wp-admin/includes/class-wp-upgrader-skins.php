@@ -684,8 +684,6 @@ class Language_Pack_Upgrader_Skin extends WP_Upgrader_Skin {
 
 		if ( $update_actions && $this->display_footer_actions )
 			$this->feedback( implode( ' | ', $update_actions ) );
-
-		parent::footer();
 	}
 }
 
