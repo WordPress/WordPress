@@ -395,7 +395,11 @@ function wp_print_media_templates() {
 					<# if ( data.uploadedTo ) { #>
 						<label class="setting">
 							<span class="name"><?php _e( 'Uploaded To' ); ?></span>
-							<span class="value"><a href="{{ data.uploadedToLink }}">{{ data.uploadedToTitle }}</a></span>
+							<# if ( data.uploadedToLink ) { #>
+								<span class="value"><a href="{{ data.uploadedToLink }}">{{ data.uploadedToTitle }}</a></span>
+							<# } else { #>
+								<span class="value">{{ data.uploadedToTitle }}</span>
+							<# } #>
 						</label>
 					<# } #>
 					<div class="attachment-compat"></div>
