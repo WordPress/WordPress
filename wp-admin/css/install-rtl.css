@@ -60,6 +60,11 @@ abbr {
 	border: 0;
 	font-variant: normal;
 }
+
+label {
+	cursor: pointer;
+}
+
 #logo {
 	margin: 6px 0 14px 0;
 	border-bottom: none;
