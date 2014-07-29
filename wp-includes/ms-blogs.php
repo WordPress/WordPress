@@ -912,7 +912,7 @@ function _update_blog_date_on_post_delete( $post_id ) {
 /**
  * Handler for updating the blog posts count date when a post is deleted.
  *
- * @since 4.0
+ * @since 4.0.0
  *
  * @param int $post_id Post ID.
  */
@@ -927,7 +927,7 @@ function _update_posts_count_on_delete( $post_id ) {
 /**
  * Handler for updating the blog posts count date when a post status changes.
  *
- * @since 4.0
+ * @since 4.0.0
  *
  * @param string $new_status The status the post is changing to.
  * @param string $old_status The status the post is changing from.
