@@ -1376,7 +1376,7 @@ final class _WP_Editors {
 		<?php wp_nonce_field( 'internal-linking', '_ajax_linking_nonce', false ); ?>
 		<div id="link-modal-title">
 			<?php _e( 'Insert/edit link' ) ?>
-			<div id="wp-link-close" tabindex="0"></div>
+			<button id="wp-link-close"><span class="screen-reader-text"><?php _e( 'Close' ); ?></span></button>
 	 	</div>
 		<div id="link-selector">
 			<div id="link-options">
@@ -1391,7 +1391,7 @@ final class _WP_Editors {
 					<label><span>&nbsp;</span><input type="checkbox" id="link-target-checkbox" /> <?php _e( 'Open link in a new window/tab' ); ?></label>
 				</div>
 			</div>
-			<p class="howto" id="wp-link-search-toggle"><?php _e( 'Or link to existing content' ); ?></p>
+			<p class="howto"><a href="#" id="wp-link-search-toggle"><?php _e( 'Or link to existing content' ); ?></a></p>
 			<div id="search-panel">
 				<div class="link-search-wrapper">
 					<label>
@@ -1400,14 +1400,17 @@ final class _WP_Editors {
 						<span class="spinner"></span>
 					</label>
 				</div>
-				<div id="search-results" class="query-results">
+				<div id="search-results" class="query-results" tabindex="0">
 					<ul></ul>
 					<div class="river-waiting">
 						<span class="spinner"></span>
 					</div>
 				</div>
-				<div id="most-recent-results" class="query-results">
-					<div class="query-notice"><em><?php _e( 'No search term specified. Showing recent items.' ); ?></em></div>
+				<div id="most-recent-results" class="query-results" tabindex="0">
+					<div class="query-notice" id="query-notice-message">
+						<em class="query-notice-default"><?php _e( 'No search term specified. Showing recent items.' ); ?></em>
+						<em class="query-notice-hint screen-reader-text"><?php _e( 'Search or use up and down arrow keys to select an item.' ); ?></em>
+					</div>
 					<ul></ul>
 					<div class="river-waiting">
 						<span class="spinner"></span>
@@ -1416,11 +1419,11 @@ final class _WP_Editors {
 			</div>
 		</div>
 		<div class="submitbox">
-			<div id="wp-link-update">
-				<input type="submit" value="<?php esc_attr_e( 'Add Link' ); ?>" class="button button-primary" id="wp-link-submit" name="wp-link-submit">
-			</div>
 			<div id="wp-link-cancel">
 				<a class="submitdelete deletion" href="#"><?php _e( 'Cancel' ); ?></a>
+			</div>
+			<div id="wp-link-update">
+				<input type="submit" value="<?php esc_attr_e( 'Add Link' ); ?>" class="button button-primary" id="wp-link-submit" name="wp-link-submit">
 			</div>
 		</div>
 		</form>
