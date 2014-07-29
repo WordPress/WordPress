@@ -1128,7 +1128,7 @@ function add_submenu_page( $parent_slug, $page_title, $menu_title, $capability, 
 	if (!isset( $submenu[$parent_slug] ) && $menu_slug != $parent_slug ) {
 		foreach ( (array)$menu as $parent_menu ) {
 			if ( $parent_menu[2] == $parent_slug && current_user_can( $parent_menu[1] ) )
-				$submenu[$parent_slug][] = $parent_menu;
+				$submenu[$parent_slug][] = array_slice( $parent_menu, 0, 4 );
 		}
 	}
 
