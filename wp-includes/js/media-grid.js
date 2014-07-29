@@ -362,6 +362,7 @@
 
 		initialize: function() {
 			var self = this;
+
 			media.view.Frame.prototype.initialize.apply( this, arguments );
 
 			_.defaults( this.options, {
@@ -371,11 +372,15 @@
 
 			this.gridRouter = this.options.gridRouter;
 			this.library = this.options.library;
+
 			if ( this.options.model ) {
 				this.model = this.options.model;
 			} else {
 				this.model = this.library.at( 0 );
 			}
+
+			// Close the modal if the attachment is deleted.
+			this.listenTo( this.model, 'destroy', this.close, this );
 
 			this.createStates();
 
@@ -385,7 +390,7 @@
 
 			// Bind default title creation.
 			this.on( 'title:create:default', this.createTitle, this );
-			this.title.mode('default');
+			this.title.mode( 'default' );
 
 			this.options.hasPrevious = this.hasPrevious();
 			this.options.hasNext = this.hasNext();
