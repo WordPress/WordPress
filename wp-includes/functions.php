@@ -3404,11 +3404,11 @@ function apache_mod_loaded($mod, $default = false) {
 	if ( !$is_apache )
 		return false;
 
-	if ( function_exists('apache_get_modules') ) {
+	if ( function_exists( 'apache_get_modules' ) ) {
 		$mods = apache_get_modules();
 		if ( in_array($mod, $mods) )
 			return true;
-	} elseif ( function_exists('phpinfo') ) {
+	} elseif ( function_exists( 'phpinfo' ) && false === strpos( ini_get( 'disable_functions' ), 'phpinfo' ) ) {
 			ob_start();
 			phpinfo(8);
 			$phpinfo = ob_get_clean();
