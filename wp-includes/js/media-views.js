@@ -4752,6 +4752,11 @@
 		toggleSelectionHandler: function( event ) {
 			var method;
 
+			// Don't do anything inside inputs.
+			if ( 'input' === event.target.tagName.toLowerCase() ) {
+				return
+			}
+
 			// Catch arrow events
 			if ( 37 === event.keyCode || 38 === event.keyCode || 39 === event.keyCode || 40 === event.keyCode ) {
 				this.arrowEvent(event);
@@ -4767,6 +4772,9 @@
 			if ( this.controller.isModeActive( 'grid' ) ) {
 				// Pass the current target to restore focus when closing
 				this.controller.trigger( 'edit:attachment', this.model, event.currentTarget );
+
+				// Don't scroll the view and don't attempt to submit anything.
+				event.stopPropagation();
 				return;
 			}
 
@@ -4779,6 +4787,9 @@
 			this.toggleSelection({
 				method: method
 			});
+
+			// Don't scroll the view and don't attempt to submit anything.
+			event.stopPropagation();
 		},
 		/**
 		 * @param {Object} event
