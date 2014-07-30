@@ -589,13 +589,6 @@
 					return;
 				}
 
-				// Any controls not even registered on the previewed URL are not active either
-				api.control.each( function ( control ) {
-					if ( typeof data.activeControls[ control.id ] === 'undefined' ) {
-						data.activeControls[ control.id ] = false;
-					}
-				} );
-
 				$.each( data.activeControls, function ( id, active ) {
 					var control = api.control( id );
 					if ( control ) {
