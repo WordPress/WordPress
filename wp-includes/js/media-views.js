@@ -4753,8 +4753,8 @@
 			var method;
 
 			// Don't do anything inside inputs.
-			if ( 'input' === event.target.tagName.toLowerCase() ) {
-				return
+			if ( 'INPUT' === event.target.nodeName ) {
+				return;
 			}
 
 			// Catch arrow events
