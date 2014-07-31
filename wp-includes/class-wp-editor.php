@@ -1376,7 +1376,7 @@ final class _WP_Editors {
 		<?php wp_nonce_field( 'internal-linking', '_ajax_linking_nonce', false ); ?>
 		<div id="link-modal-title">
 			<?php _e( 'Insert/edit link' ) ?>
-			<button id="wp-link-close"><span class="screen-reader-text"><?php _e( 'Close' ); ?></span></button>
+			<button type="button" id="wp-link-close"><span class="screen-reader-text"><?php _e( 'Close' ); ?></span></button>
 	 	</div>
 		<div id="link-selector">
 			<div id="link-options">
