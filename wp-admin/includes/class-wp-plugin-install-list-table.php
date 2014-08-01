@@ -352,7 +352,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 			}
 			$title = wp_kses( $plugin['name'], $plugins_allowedtags );
 
-			//Remove any HTML from the description.
+			// Remove any HTML from the description.
 			$description = strip_tags( $plugin['short_description'] );
 			$version = wp_kses( $plugin['version'], $plugins_allowedtags );
 
@@ -414,7 +414,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 					<div class="action-links">
 						<?php
 							if ( ! empty( $action_links ) ) {
-								echo '<ul class="plugin-action-buttons"><li>' . implode( '</li><li>', $action_links ) . '</li>';
+								echo '<ul class="plugin-action-buttons"><li>' . implode( '</li><li>', $action_links ) . '</li></ul>';
 							}
 						?>
 					</div>
@@ -451,6 +451,11 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 			</div>
 		</div>
 		<?php
+		}
+
+		// Close off the group divs of the last one
+		if ( ! empty( $group ) ) {
+			echo '</div></div>';
 		}
 	}
 }
