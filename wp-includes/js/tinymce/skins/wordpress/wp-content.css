@@ -37,7 +37,6 @@ body.webkit b {
 /* DFW mode */
 html.wp-fullscreen,
 html.wp-fullscreen body {
-	background: transparent;
 	width: auto;
 	max-width: none;
 	min-height: 0;
