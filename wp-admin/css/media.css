@@ -278,9 +278,14 @@
 
 .find-box-search .spinner {
 	float: none;
-	left: 125px;
+	left: 110px;
 	position: absolute;
-	top: 18px;
+	top: 2px;
+}
+
+.find-box-search,
+#find-posts-response {
+	position: relative; /* RTL fix, #WP28010 */
 }
 
 #find-posts-input,
