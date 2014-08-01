@@ -1110,6 +1110,11 @@ final class WP_Screen {
 				<?php
 			endfor; ?>
 		</div>
+		<div class="editor-expand hidden">
+			<label for="editor-expand-toggle">
+			<input type="checkbox" id="editor-expand-toggle" <?php checked( get_user_setting( 'editor_expand', 'on' ) === 'on' ); ?> />
+			<?php _e( 'Expand the editor to match the window height.' ); ?></label>
+		</div>
 		<?php
 	}
 

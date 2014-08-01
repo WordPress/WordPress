@@ -490,7 +490,7 @@ do_action( 'edit_form_after_title', $post );
 
 if ( post_type_supports($post_type, 'editor') ) {
 ?>
-<div id="postdivrich" class="postarea edit-form-section">
+<div id="postdivrich" class="postarea edit-form-section<?php if ( get_user_setting( 'editor_expand', 'on' ) === 'on' ) { echo ' wp-editor-expand'; } ?>">
 
 <?php wp_editor( $post->post_content, 'content', array(
 	'dfw' => true,
@@ -499,7 +499,7 @@ if ( post_type_supports($post_type, 'editor') ) {
 	'editor_height' => 360,
 	'tinymce' => array(
 		'resize' => false,
-		'wp_autoresize_on' => ! empty( $_wp_autoresize_on ),
+		'wp_autoresize_on' => ( ! empty( $_wp_autoresize_on ) && get_user_setting( 'editor_expand', 'on' ) === 'on' ),
 		'add_unload_trigger' => false,
 	),
 ) ); ?>

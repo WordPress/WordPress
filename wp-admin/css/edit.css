@@ -355,10 +355,19 @@ td.plugin-title p {
 #content-resize-handle {
 	background: transparent url(../images/resize.gif) no-repeat scroll right bottom;
 	width: 12px;
+	cursor: row-resize;
 }
 
 .rtl #content-resize-handle {
 	background: transparent url(../images/resize-rtl.gif) no-repeat scroll left bottom;
+}
+
+.wp-editor-expand #content-resize-handle {
+	display: none;
+}
+
+#postdivrich #content {
+	resize: none;
 }
 
 #wp-word-count {

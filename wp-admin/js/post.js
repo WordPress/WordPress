@@ -1005,7 +1005,7 @@ jQuery(document).ready( function($) {
 		var editor, offset, mce,
 			$textarea = $('textarea#content'),
 			$handle = $('#post-status-info'),
-			$contentWrap = $('#wp-content-wrap');
+			$postdivrich = $('#postdivrich');
 
 		// No point for touch devices
 		if ( ! $textarea.length || 'ontouchstart' in window ) {
@@ -1015,7 +1015,7 @@ jQuery(document).ready( function($) {
 		}
 
 		function dragging( event ) {
-			if ( $contentWrap.hasClass( 'wp-editor-expand' ) ) {
+			if ( $postdivrich.hasClass( 'wp-editor-expand' ) ) {
 				return;
 			}
 
@@ -1031,7 +1031,7 @@ jQuery(document).ready( function($) {
 		function endDrag() {
 			var height, toolbarHeight;
 
-			if ( $contentWrap.hasClass( 'wp-editor-expand' ) ) {
+			if ( $postdivrich.hasClass( 'wp-editor-expand' ) ) {
 				return;
 			}
 
@@ -1056,8 +1056,6 @@ jQuery(document).ready( function($) {
 				setUserSetting( 'ed_size', height );
 			}
 		}
-
-		$textarea.css( 'resize', 'none' );
 
 		$handle.on( 'mousedown.wp-editor-resize', function( event ) {
 			if ( typeof tinymce !== 'undefined' ) {
