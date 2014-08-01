@@ -127,8 +127,7 @@ class WP_Terms_List_Table extends WP_List_Table {
 		if ( 'link_category' == $this->screen->taxonomy ) {
 			$columns['links'] = __( 'Links' );
 		} else {
-			$post_type_object = get_post_type_object( $this->screen->post_type );
-			$columns['posts'] = $post_type_object ? $post_type_object->labels->name : __( 'Posts' );
+			$columns['posts'] = _x( 'Count', 'Number/count of items' );
 		}
 
 		return $columns;

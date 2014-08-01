@@ -263,6 +263,10 @@ table.fixed {
 	width: 10%;
 }
 
+.fixed .column-posts {
+    width: 74px;
+}
+
 .fixed .column-comment .comment-author {
 	display: none;
 }
@@ -1557,7 +1561,7 @@ div.action-links,
 
 	/* Taxonomies */
 	.tags .column-posts {
-		width: 50px;
+		width: 74px;
 	}
 
 	.tags .column-slug {
