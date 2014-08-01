@@ -112,6 +112,7 @@ var wpLink;
 			inputs.backdrop.show();
 
 			wpLink.refresh();
+			$( document ).trigger( 'wplink-open', inputs.wrap );
 		},
 
 		isMCE: function() {
@@ -178,6 +179,7 @@ var wpLink;
 
 			inputs.backdrop.hide();
 			inputs.wrap.hide();
+			$( document ).trigger( 'wplink-close', inputs.wrap );
 		},
 
 		getAttrs: function() {
