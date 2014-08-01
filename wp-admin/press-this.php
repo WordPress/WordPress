@@ -439,6 +439,8 @@ var photostorage = false;
 		}
 	}
 	jQuery(document).ready(function($) {
+		var $contnet = $( '#content' );
+
 		// Resize screen.
 		window.resizeTo(760,580);
 
@@ -460,6 +462,12 @@ var photostorage = false;
 		$('#tagsdiv-post_tag, #categorydiv').children('h3, .handlediv').click(function(){
 			$(this).siblings('.inside').toggle();
 		});
+
+		if ( $( '#wp-content-wrap' ).hasClass( 'html-active' ) && window.switchEditors &&
+			( tinyMCEPreInit.mceInit.content && tinyMCEPreInit.mceInit.content.wpautop ) ) {
+			// The Text editor is default, run the initial content through pre_wpautop() to convert the paragraphs
+			$contnet.text( window.switchEditors.pre_wpautop( $contnet.text() ) );
+		}
 	});
 </script>
 </head>
