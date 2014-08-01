@@ -181,8 +181,9 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 			'per_page' => $args['per_page'],
 		) );
 
-		if ( isset( $api->info['groups'] ) )
+		if ( isset( $api->info['groups'] ) ) {
 			$this->groups = $api->info['groups'];
+		}
 	}
 
 	public function no_items() {
@@ -293,23 +294,24 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 	}
 
 	public function _order_callback( $plugin_a, $plugin_b ) {
-
 		$orderby = $this->orderby;
-		if ( !isset( $plugin_a->$orderby, $plugin_b->$orderby ) )
+		if ( ! isset( $plugin_a->$orderby, $plugin_b->$orderby ) ) {
 			return 0;
+		}
 
 		$a = $plugin_a->$orderby;
 		$b = $plugin_b->$orderby;
 
-		if ( $a == $b )
+		if ( $a == $b ) {
 			return 0;
+		}
 
-		if ( 'DESC' == $this->order )
+		if ( 'DESC' == $this->order ) {
 			return ( $a < $b ) ? 1 : -1;
-		else
+		} else {
 			return ( $a < $b ) ? -1 : 1;
+		}
 	}
-
 
 	public function display_rows() {
 		$plugins_allowedtags = array(
@@ -329,15 +331,17 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 		$group = null;
 
 		foreach ( (array) $this->items as $plugin ) {
-			if ( is_object( $plugin ) )
+			if ( is_object( $plugin ) ) {
 				$plugin = (array) $plugin;
+			}
 
 			// Display the group heading if there is one
 			if ( isset( $plugin['group'] ) && $plugin['group'] != $group ) {
-				if ( isset( $this->groups[ $plugin['group'] ] ) )
+				if ( isset( $this->groups[ $plugin['group'] ] ) ) {
 					$group_name = translate( $this->groups[ $plugin['group'] ] ); // Does this need context?
-				else
+				} else {
 					$group_name = $plugin['group'];
+				}
 
 				// Starting a new group, close off the divs of the last one
 				if ( ! empty( $group ) ) {
@@ -358,13 +362,10 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 
 			$name = strip_tags( $title . ' ' . $version );
 
-			$author = $plugin['author'];
-
+			$author = wp_kses( $plugin['author'], $plugins_allowedtags );
 			if ( ! empty( $author ) ) {
 				$author = ' <cite>' . sprintf( __( 'By %s' ), $author ) . '</cite>';
 			}
-
-			$author = wp_kses( $author, $plugins_allowedtags );
 
 			$action_links = array();
 
