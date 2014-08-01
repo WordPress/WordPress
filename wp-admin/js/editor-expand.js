@@ -21,7 +21,8 @@ jQuery( document ).ready( function($) {
 		mceBind = function(){},
 		mceUnbind = function(){},
 		fixedTop = false,
-		fixedBottom = false;
+		fixedBottom = false,
+		scrollTimer;
 
 	$textEditorClone.insertAfter( $textEditor );
 
@@ -345,6 +346,11 @@ jQuery( document ).ready( function($) {
 		}
 	}
 
+	function afterScroll() {
+		clearTimeout( scrollTimer );
+		scrollTimer = setTimeout( adjust, 200 );
+	}
+
 	function on() {
 		// Scroll to the top when triggering this from JS.
 		// Ensures toolbars are pinned properly.
@@ -357,6 +363,7 @@ jQuery( document ).ready( function($) {
 		// Adjust when the window is scrolled or resized.
 		$window.on( 'scroll.editor-expand resize.editor-expand', function( event ) {
 			adjust( event.type );
+			afterScroll();
 		} );
 
 		// Adjust when collapsing the menu, changing the columns, changing the body class.
