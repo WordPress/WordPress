@@ -701,7 +701,7 @@ themes.view.Details = wp.Backbone.View.extend({
 	// Performs the actions to effectively close
 	// the theme details overlay
 	closeOverlay: function() {
-		$( 'body' ).removeClass( 'theme-overlay-open' );
+		$( 'body' ).removeClass( 'modal-open' );
 		this.remove();
 		this.unbind();
 		this.trigger( 'theme:collapse' );
@@ -1000,7 +1000,7 @@ themes.view.Themes = wp.Backbone.View.extend({
 
 		// Sets this.view to 'detail'
 		this.setView( 'detail' );
-		$( 'body' ).addClass( 'theme-overlay-open' );
+		$( 'body' ).addClass( 'modal-open' );
 
 		// Set up the theme details view
 		this.overlay = new themes.view.Details({

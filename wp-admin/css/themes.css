@@ -409,10 +409,6 @@
 	z-index: 10;
 }
 
-body.theme-overlay-open {
-	overflow: hidden;
-}
-
 .theme-overlay .theme-header {
 	position: absolute;
 	top: 0;

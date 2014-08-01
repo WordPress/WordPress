@@ -46,6 +46,7 @@ function tb_show(caption, url, imageGroup) {//function called when the user clic
 			if(document.getElementById("TB_overlay") === null){
 				jQuery("body").append("<div id='TB_overlay'></div><div id='TB_window'></div>");
 				jQuery("#TB_overlay").click(tb_remove);
+				jQuery( 'body' ).addClass( 'modal-open' );
 			}
 		}
 
@@ -264,6 +265,7 @@ function tb_remove() {
  	jQuery("#TB_imageOff").unbind("click");
 	jQuery("#TB_closeWindowButton").unbind("click");
 	jQuery("#TB_window").fadeOut("fast",function(){jQuery('#TB_window,#TB_overlay,#TB_HideSelect').trigger("tb_unload").unbind().remove();});
+	jQuery( 'body' ).removeClass( 'modal-open' );
 	jQuery("#TB_load").remove();
 	if (typeof document.body.style.maxHeight == "undefined") {//if IE 6
 		jQuery("body","html").css({height: "auto", width: "auto"});

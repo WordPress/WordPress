@@ -218,6 +218,10 @@ body.iframe {
 	padding-top: 1px;
 }
 
+body.modal-open {
+	overflow: hidden;
+}
+
 iframe,
 img {
 	border: 0;

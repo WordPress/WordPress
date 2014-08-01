@@ -3228,6 +3228,9 @@
 				};
 			}
 
+			// Disable page scrolling.
+			$( 'body' ).addClass( 'modal-open' );
+
 			$el.show().find( '.media-modal-close' ).focus();
 			return this.propagate('open');
 		},
@@ -3242,6 +3245,9 @@
 			if ( ! this.views.attached || ! this.$el.is(':visible') ) {
 				return this;
 			}
+
+			// Enable page scrolling.
+			$( 'body' ).removeClass( 'modal-open' );
 
 			// Hide modal and remove restricted media modal tab focus once it's closed
 			this.$el.hide().undelegate( 'keydown' );
