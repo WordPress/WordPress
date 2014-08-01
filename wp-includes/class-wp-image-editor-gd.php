@@ -383,15 +383,8 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 			if ( function_exists('imageistruecolor') && ! imageistruecolor( $image ) )
 				imagetruecolortopalette( $image, false, imagecolorstotal( $image ) );
 
-			/*
-			 * Invert the 1-100 quality scale and constrain it to 0-9,
-			 * as per imagepng()'s peculiar quality parameter.
-			 */
-			$compression_level = floor( ( 101 - $this->quality ) * 0.09 );
-
-			if ( ! $this->make_image( $filename, 'imagepng', array( $image, $filename, $compression_level ) ) ) {
+			if ( ! $this->make_image( $filename, 'imagepng', array( $image, $filename ) ) )
 				return new WP_Error( 'image_save_error', __('Image Editor Save Failed') );
-			}
 		}
 		elseif ( 'image/jpeg' == $mime_type ) {
 			if ( ! $this->make_image( $filename, 'imagejpeg', array( $image, $filename, $this->get_quality() ) ) )
