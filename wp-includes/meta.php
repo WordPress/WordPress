@@ -137,8 +137,9 @@ function update_metadata($meta_type, $object_id, $meta_key, $meta_value, $prev_v
 	if ( !$meta_type || !$meta_key )
 		return false;
 
-	if ( !$object_id = absint($object_id) )
+	if ( ! is_numeric( $object_id ) || ! $object_id = absint( $object_id ) ) {
 		return false;
+	}
 
 	if ( ! $table = _get_meta_table($meta_type) )
 		return false;
