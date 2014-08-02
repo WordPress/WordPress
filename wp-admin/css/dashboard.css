@@ -74,20 +74,6 @@
 	min-height: 100px;
 }
 
-h3.dashboard-widget-title,
-h3.dashboard-widget-title span,
-h3.dashboard-widget-title small {
-	color: #333;
-}
-
-h3.dashboard-widget-title small a {
-	color: #d7d7d7;
-}
-
-h3.dashboard-widget-title small a:hover {
-	color: #fff;
-}
-
 /* @todo: this was originally in this section, but likely belongs elsewhere */
 #the-comment-list td.comment p.comment-author {
 	margin-top: 0;
@@ -299,15 +285,6 @@ body #dashboard-widgets .postbox form .submit {
 
 .dashboard-widget-control-form p {
 	margin-top: 0;
-}
-
-/* @todo: are these actually used anywhere? no non-CSS results in plugin search */
-div.dashboard-widget-error {
-	background-color: #c43;
-}
-
-div.dashboard-widget-notice {
-	background-color: #cfe1ef;
 }
 
 .rssSummary {
