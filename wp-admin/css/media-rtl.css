@@ -102,7 +102,7 @@
 	display: block;
 	line-height: 36px;
 	float: left;
-	margin-left: 6px;
+	margin-left: 10px;
 }
 
 .media-item .describe-toggle-off,
@@ -114,16 +114,18 @@
 	display: block;
 }
 
-#media-items .media-item {
-	border-bottom: 1px solid #dfdfdf;
+.media-upload-form .media-item {
 	min-height: 36px;
+	margin-bottom: 1px;
 	position: relative;
 	width: 100%;
 	background: #fff;
 }
 
-.media-new-php #media-items {
-	margin: 1em 0;
+.media-upload-form .media-item,
+.media-upload-form .media-item .error {
+	-webkit-box-shadow: 0 1px 0 #dfdfdf;
+	box-shadow: 0 1px 0 #dfdfdf;
 }
 
 #media-items:empty {
@@ -134,10 +136,6 @@
 	line-height: 36px;
 	overflow: hidden;
 	margin-right: 6px;
-}
-
-.media-item .error-div {
-	padding-right: 10px;
 }
 
 .media-item .pinkynail {
@@ -208,22 +206,20 @@
 	display: block;
 }
 
-.media-upload-form .media-item.error {
-	margin: 0;
-	padding: 0;
+.media-upload-form .media-item.error,
+.media-upload-form .media-item .error {
+	width: auto;
+	margin: 0 0 1px 0;
 }
 
-.media-upload-form .media-item.error p,
-.media-item .error-div {
-	line-height: 16px;
-	margin: 5px 10px;
-	padding: 0;
+.media-upload-form .media-item .error {
+	padding: 10px 14px 10px 0;
 }
 
 .media-item .error-div a.dismiss {
 	display: block;
 	float: left;
-	margin: 5px 15px 0 4px;
+	margin: 0 15px 0 10px;
 }
 
 /*------------------------------------------------------------------------------
@@ -510,7 +506,7 @@ border color while dragging a file over the uploader drop area */
 }
 
 .media-disabled,
-.imgedit-settings .disabled  {
+.imgedit-settings .disabled {
 	color: grey;
 }
 
@@ -724,5 +720,19 @@ audio, video {
 	.wp_attachment_details label[for="content"] {
 		font-size: 14px;
 		line-height: 1.5em;
+	}
+
+	.media-upload-form .media-item.error,
+	.media-upload-form .media-item .error {
+		font-size: 13px;
+		line-height: 1.5;
+	}
+
+	.media-upload-form .media-item.error {
+		padding: 1px 10px;
+	}
+
+	.media-upload-form .media-item .error {
+		padding: 10px 12px 10px 0;
 	}
 }
