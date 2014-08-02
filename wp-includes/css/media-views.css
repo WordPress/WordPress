@@ -1013,12 +1013,8 @@
 	outline: none;
 }
 
-.attachments-browser .uploader-inline {
+.media-frame.mode-grid .uploader-inline {
 	border: 4px dashed #bbb;
-}
-
-.attachments-browser .uploader-inline:not(.hidden) + .attachments {
-	top: 350px;
 }
 
 .attachments-browser .uploader-inline.hidden {

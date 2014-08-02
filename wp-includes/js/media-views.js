@@ -3695,12 +3695,14 @@
 				suggestedHeight = this.controller.state().get('suggestedHeight'),
 				data = {};
 
+			data.message = this.options.message;
 			data.canClose = this.options.canClose;
 
 			if ( suggestedWidth && suggestedHeight ) {
 				data.suggestedWidth = suggestedWidth;
 				data.suggestedHeight = suggestedHeight;
 			}
+
 			return data;
 		},
 		/**
@@ -5840,19 +5842,27 @@
 		},
 
 		updateContent: function() {
-			var view = this;
+			var view = this,
+				noItemsView;
+
+			if ( this.controller.isModeActive( 'grid' ) ) {
+				noItemsView = view.attachmentsNoResults;
+			} else {
+				noItemsView = view.uploader;
+			}
+
 			if ( ! this.collection.length ) {
 				this.toolbar.get( 'spinner' ).show();
 				this.collection.more().done(function() {
 					if ( ! view.collection.length ) {
-						view.attachmentsNoResults.$el.removeClass( 'hidden' );
+						noItemsView.$el.removeClass( 'hidden' );
 					} else {
-						view.attachmentsNoResults.$el.addClass( 'hidden' );
+						noItemsView.$el.addClass( 'hidden' );
 					}
 					view.toolbar.get( 'spinner' ).hide();
 				});
 			} else {
-				this.attachmentsNoResults.$el.addClass( 'hidden' );
+				noItemsView.$el.addClass( 'hidden' );
 				view.toolbar.get( 'spinner' ).hide();
 			}
 		},
@@ -5865,7 +5875,7 @@
 				canClose:   this.controller.isModeActive( 'grid' )
 			});
 
-			this.uploader.$el.addClass( 'hidden' );
+			this.uploader.hide();
 			this.views.add( this.uploader );
 		},
 
@@ -5901,8 +5911,6 @@
 			this.attachmentsNoResults.$el.html( l10n.noMedia );
 
 			this.views.add( this.attachmentsNoResults );
-
-
 		},
 
 		createSidebar: function() {
