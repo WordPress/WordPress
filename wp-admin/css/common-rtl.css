@@ -1028,6 +1028,15 @@ th.action-links {
 	line-height: 1.5;
 }
 
+.wp-filter-no-results {
+	color: #999;
+	font-size: 18px;
+	font-style: normal;
+	margin: 0;
+	padding: 100px 0 0;
+	text-align: center;
+}
+
 .wp-filter-drawer-toggle {
 	display: inline-block;
 	margin: 0 10px;

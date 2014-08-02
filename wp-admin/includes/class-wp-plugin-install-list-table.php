@@ -187,7 +187,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 	}
 
 	public function no_items() {
-		_e( 'No plugins match your request.' );
+		echo '<div class="wp-filter-no-results">' . __( 'No plugins match your request.' ) . '</div>';
 	}
 
 	protected function get_views() {
