@@ -176,8 +176,8 @@ body {
 	border-left: 1px solid #ddd;
 	color: #444;
 	cursor: pointer;
-	-webkit-transition: color ease-in .1s;
-	transition: color ease-in .1s;
+	-webkit-transition: color .1s ease-in-out, background .1s ease-in-out;
+	transition: color .1s ease-in-out, background .1s ease-in-out;
 }
 
 .control-panel-back {
@@ -192,8 +192,8 @@ body {
 	background: #eee;
 	border-left: 1px solid #ddd;
 	cursor: pointer;
-	-webkit-transition: right ease-in-out .18s, color ease-in .1s;
-	transition: right ease-in-out .18s, color ease-in .1s;
+	-webkit-transition: right .18s ease-in-out, color .1s ease-in-out, background .1s ease-in-out;
+	transition: right .18s ease-in-out, color .1s ease-in-out, background .1s ease-in-out;
 }
 
 .collapsed .control-panel-back {

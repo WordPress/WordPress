@@ -427,6 +427,8 @@
 	border: 0;
 	border-left: 1px solid #ddd;
 	background-color: transparent;
+	-webkit-transition: color .1s ease-in-out, background .1s ease-in-out;
+	transition: color .1s ease-in-out, background .1s ease-in-out;
 }
 
 .theme-overlay .theme-header .close:hover:before,
@@ -454,6 +456,8 @@
 	text-align: center;
 	border: 0;
 	border-right: 1px solid #ddd;
+	-webkit-transition: color .1s ease-in-out, background .1s ease-in-out;
+	transition: color .1s ease-in-out, background .1s ease-in-out;
 }
 
 .theme-overlay .theme-header .close:hover,
@@ -464,6 +468,9 @@
 .theme-overlay .theme-header .left:focus {
 	background: #0074a2;
 	color: #fff;
+	outline: none;
+	-webkit-box-shadow: none;
+	box-shadow: none;
 }
 
 .theme-overlay .theme-header .left.disabled,
@@ -1383,8 +1390,8 @@ body.full-overlay-active {
 	color: #444;
 	cursor: pointer;
 	text-decoration: none;
-	-webkit-transition: color ease-in .1s;
-	transition: color ease-in .1s;
+	-webkit-transition: color .1s ease-in-out, background .1s ease-in-out;
+	transition: color .1s ease-in-out, background .1s ease-in-out;
 }
 
 .theme-install-overlay .close-full-overlay:hover,

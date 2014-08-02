@@ -2525,15 +2525,25 @@ body.index-php .tb-close-icon {
 	line-height: 48px;
 	width: 48px;
 	height: 48px;
+	-webkit-transition: color .1s ease-in-out, background .1s ease-in-out;
+	transition: color .1s ease-in-out, background .1s ease-in-out;
 }
 
+body.plugin-install-php .tb-close-icon:focus,
 body.plugin-install-php .tb-close-icon:hover,
+body.import-php .tb-close-icon:focus,
 body.import-php .tb-close-icon:hover,
+body.plugins-php .tb-close-icon:focus,
 body.plugins-php .tb-close-icon:hover,
+body.update-core-php .tb-close-icon:focus,
 body.update-core-php .tb-close-icon:hover,
+body.index-php .tb-close-icon:focus,
 body.index-php .tb-close-icon:hover {
 	background: #0074a2;
 	color: #fff;
+	outline: none;
+	-webkit-box-shadow: none;
+	box-shadow: none;
 }
 
 body.plugin-install-php .tb-close-icon:before,

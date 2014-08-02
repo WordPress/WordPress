@@ -147,6 +147,8 @@
 	height: 48px;
 	z-index: 1000;
 	color: #777;
+	-webkit-transition: color .1s ease-in-out, background .1s ease-in-out;
+	transition: color .1s ease-in-out, background .1s ease-in-out;
 }
 
 .media-modal-close span.media-modal-icon {
@@ -1082,8 +1084,8 @@
 	background: #1e8cbe;
 	-webkit-border-radius: 10px;
 	border-radius: 10px;
-	-webkit-transition:         width 300ms;
-	transition:         width 300ms;
+	-webkit-transition: width 300ms;
+	transition: width 300ms;
 }
 
 .media-uploader-status .media-progress-bar {
@@ -2683,6 +2685,8 @@
 	text-align: center;
 	border: 0;
 	border-right: 1px solid #ddd;
+	-webkit-transition: color .1s ease-in-out, background .1s ease-in-out;
+    transition: color .1s ease-in-out, background .1s ease-in-out;
 }
 
 .edit-attachment-frame .edit-media-header .left {
@@ -2734,6 +2738,9 @@
 .edit-attachment-frame .edit-media-header .left:focus {
 	background: #0074a2;
 	color: #fff;
+	outline: none;
+	-webkit-box-shadow: none;
+	box-shadow: none;
 }
 
 .edit-attachment-frame .media-frame-content,
