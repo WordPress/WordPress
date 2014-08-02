@@ -104,13 +104,22 @@ class WP_Upgrader_Skin {
 		if ( ! $this->result || is_wp_error( $this->result ) || 'up_to_date' === $this->result ) {
 			return;
 		}
-		echo '<script type="text/javascript">
-				(function( wp ) {
-					if ( wp && wp.updates.decrementCount ) {
-						wp.updates.decrementCount( "' . $type . '" );
+
+		if ( defined( 'IFRAME_REQUEST' ) ) {
+			echo '<script type="text/javascript">
+					if ( window.postMessage && JSON ) {
+						window.parent.postMessage( JSON.stringify( { action: "decrementUpdateCount", upgradeType: "' . $type . '" } ), window.location.protocol + "//" + window.location.hostname );
 					}
-				})( window.wp );
-			</script>';
+				</script>';
+		} else {
+			echo '<script type="text/javascript">
+					(function( wp ) {
+						if ( wp && wp.updates.decrementCount ) {
+							wp.updates.decrementCount( "' . $type . '" );
+						}
+					})( window.wp );
+				</script>';
+		}
 	}
 }
 
@@ -283,25 +292,6 @@ class Bulk_Upgrader_Skin extends WP_Upgrader_Skin {
 	public function flush_output() {
 		wp_ob_end_flush_all();
 		flush();
-	}
-
-	/**
-	 * Output JavaScript that sends message to parent window to decrement the update counts.
-	 *
-	 * @since 3.9.0
-	 *
-	 * @param string $type Type of update count to decrement. Likely values include 'plugin',
-	 *                     'theme', 'translation', etc.
-	 */
-	protected function decrement_update_count( $type ) {
-		if ( ! $this->result || is_wp_error( $this->result ) || 'up_to_date' === $this->result ) {
-			return;
-		}
-		echo '<script type="text/javascript">
-				if ( window.postMessage && JSON ) {
-					window.parent.postMessage( JSON.stringify( { action: "decrementUpdateCount", upgradeType: "' . $type . '" } ), window.location.protocol + "//" + window.location.hostname );
-				}
-			</script>';
 	}
 }
 
