@@ -18,6 +18,7 @@ class WP_Upgrader_Skin {
 
 	public $upgrader;
 	public $done_header = false;
+	public $done_footer = false;
 	public $result = false;
 
 	public function __construct($args = array()) {
@@ -47,13 +48,18 @@ class WP_Upgrader_Skin {
 	}
 
 	public function header() {
-		if ( $this->done_header )
+		if ( $this->done_header ) {
 			return;
+		}
 		$this->done_header = true;
 		echo '<div class="wrap">';
 		echo '<h2>' . $this->options['title'] . '</h2>';
 	}
 	public function footer() {
+		if ( $this->done_footer ) {
+			return;
+		}
+		$this->done_footer = true;
 		echo '</div>';
 	}
 
@@ -628,6 +634,7 @@ class Theme_Upgrader_Skin extends WP_Upgrader_Skin {
 class Language_Pack_Upgrader_Skin extends WP_Upgrader_Skin {
 	public $language_update = null;
 	public $done_header = false;
+	public $done_footer = false;
 	public $display_footer_actions = true;
 
 	public function __construct( $args = array() ) {
@@ -635,6 +642,7 @@ class Language_Pack_Upgrader_Skin extends WP_Upgrader_Skin {
 		$args = wp_parse_args( $args, $defaults );
 		if ( $args['skip_header_footer'] ) {
 			$this->done_header = true;
+			$this->done_footer = true;
 			$this->display_footer_actions = false;
 		}
 		parent::__construct( $args );
