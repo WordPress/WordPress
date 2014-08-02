@@ -314,8 +314,9 @@
 }
 
 .media-sidebar .setting input[type="checkbox"],
-.media-sidebar .field input[type="checkbox"] {
-	width: 16px;
+.media-sidebar .field input[type="checkbox"],
+.media-sidebar .setting input[type="radio"],
+.media-sidebar .field input[type="radio"] {
 	float: none;
 	margin: 8px 3px 0;
 	padding: 0;
@@ -401,7 +402,13 @@
 	width: 66%;
 }
 
-.compat-item .field input {
+.compat-item .field input[type="text"],
+.compat-item .field input[type="password"],
+.compat-item .field input[type="email"],
+.compat-item .field input[type="number"],
+.compat-item .field input[type="search"],
+.compat-item .field input[type="tel"],
+.compat-item .field input[type="url"] {
 	width: 100%;
 	margin: 0;
 }
@@ -2801,6 +2808,12 @@
 	background: #f3f3f3;
 }
 
+.edit-attachment-frame input,
+.edit-attachment-frame textarea {
+	padding: 6px 8px;
+	line-height: 16px;
+}
+
 .edit-attachment-frame .attachment-info .details,
 .edit-attachment-frame .attachment-info .settings {
 	overflow: hidden;
@@ -2838,8 +2851,9 @@
 }
 
 .edit-attachment-frame .attachment-info .setting input[type="checkbox"],
-.edit-attachment-frame .attachment-info .field input[type="checkbox"] {
-	width: 16px;
+.edit-attachment-frame .attachment-info .field input[type="checkbox"],
+.edit-attachment-frame .attachment-info .setting input[type="radio"],
+.edit-attachment-frame .attachment-info .field input[type="radio"] {
 	float: none;
 	margin: 8px 3px 0;
 	padding: 0;
@@ -2856,6 +2870,7 @@
 
 .edit-attachment-frame .attachment-info .setting input[type="text"],
 .edit-attachment-frame .attachment-info .setting input[type="password"],
+.edit-attachment-frame .attachment-info .setting input[type="email"],
 .edit-attachment-frame .attachment-info .setting input[type="number"],
 .edit-attachment-frame .attachment-info .setting input[type="search"],
 .edit-attachment-frame .attachment-info .setting input[type="email"],
@@ -2865,7 +2880,6 @@
 	margin: 1px;
 	width: 65%;
 	float: right;
-	padding: 6px 8px;
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
