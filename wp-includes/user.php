@@ -523,6 +523,19 @@ class WP_User_Query {
 			) );
 		}
 
+		/**
+		 * Fires before the WP_User_Query has been parsed.
+		 *
+		 * The passed WP_User_Query object contains the query variables, not
+		 * yet passed into SQL.
+		 *
+		 * @since 4.0.0
+		 *
+		 * @param WP_User_Query $this The current WP_User_Query instance,
+		 *                            passed by reference.
+		 */
+		do_action( 'pre_get_users', $this );
+
 		$qv =& $this->query_vars;
 
 		if ( is_array( $qv['fields'] ) ) {
