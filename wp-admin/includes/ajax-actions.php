@@ -1637,8 +1637,9 @@ function wp_ajax_find_posts() {
 
 	$posts = get_posts( $args );
 
-	if ( ! $posts )
-		wp_die( __('No items found.') );
+	if ( ! $posts ) {
+		wp_send_json_error( __( 'No items found.' ) );
+	}
 
 	$html = '<table class="widefat"><thead><tr><th class="found-radio"><br /></th><th>'.__('Title').'</th><th class="no-break">'.__('Type').'</th><th class="no-break">'.__('Date').'</th><th class="no-break">'.__('Status').'</th></tr></thead><tbody>';
 	$alt = '';
