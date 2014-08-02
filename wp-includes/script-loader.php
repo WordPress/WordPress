@@ -72,7 +72,7 @@ function wp_default_scripts( &$scripts ) {
 	$scripts->add( 'utils', "/wp-includes/js/utils$suffix.js" );
 	did_action( 'init' ) && $scripts->localize( 'utils', 'userSettings', array(
 		'url' => (string) SITECOOKIEPATH,
-		'uid' => (string) get_current_user_id(),
+		'uid' => get_current_user_id() . '-' . get_current_blog_id(),
 		'time' => (string) time(),
 	) );
 
