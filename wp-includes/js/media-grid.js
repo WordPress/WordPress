@@ -81,8 +81,8 @@
 				this.uploader = new media.view.UploaderWindow({
 					controller: this,
 					uploader: {
-						dropzone:  $('body'),
-						container: $('body')
+						dropzone:  document.body,
+						container: document.body
 					}
 				}).render();
 				this.uploader.ready();
