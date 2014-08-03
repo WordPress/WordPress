@@ -186,7 +186,6 @@ p {
 .login form .input,
 .login input[type="text"] {
 	font-size: 24px;
-	line-height: 1;
 	width: 100%;
 	padding: 3px;
 	margin: 2px 6px 16px 0;

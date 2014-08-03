@@ -67,9 +67,8 @@ TABLE OF CONTENTS:
 .wp-core-ui input[type="reset"]::-moz-focus-inner,
 .wp-core-ui input[type="button"]::-moz-focus-inner,
 .wp-core-ui input[type="submit"]::-moz-focus-inner {
-	border-width: 1px 0;
-	border-style: solid none;
-	border-color: transparent;
+	border-width: 0;
+	border-style: none;
 	padding: 0;
 }
 

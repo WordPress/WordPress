@@ -145,7 +145,6 @@ input,
 select {
 	font-size: 14px;
 	padding: 3px 5px;
-	line-height: 15px;
 	-webkit-border-radius: 0;
 	border-radius: 0; /* Reset mobile webkit's default element styling */
 }
@@ -864,6 +863,10 @@ table.form-table td .updated {
 		-webkit-box-sizing: border-box;
 		-moz-box-sizing: border-box;
 		box-sizing: border-box;
+	}
+
+	#wpbody .form-table td select {
+		height: 40px;
 	}
 
 	input[type=text].small-text,
