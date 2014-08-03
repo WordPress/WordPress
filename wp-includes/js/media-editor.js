@@ -1048,22 +1048,22 @@
 		 * @returns {wp.media.view.MediaFrame}
 		 */
 		open: function( id, options ) {
-			var workflow;
+			var workflow, focusTrap;
+
+			if ( 'ontouchend' in document ) {
+				// Close the onscreen keyboard
+				if ( ! focusTrap ) {
+					focusTrap = $( '<input type="text" />' );
+				}
+
+				$( document.body ).append( focusTrap );
+				focusTrap.focus().blur().remove();
+			}
 
 			options = options || {};
 
 			id = this.id( id );
-/*
-			// Save a bookmark of the caret position in IE.
-			if ( ! _.isUndefined( window.tinymce ) ) {
-				editor = tinymce.get( id );
 
-				if ( tinymce.isIE && editor && ! editor.isHidden() ) {
-					editor.focus();
-					editor.windowManager.insertimagebookmark = editor.selection.getBookmark();
-				}
-			}
-*/
 			workflow = this.get( id );
 
 			// Redo workflow if state has changed
