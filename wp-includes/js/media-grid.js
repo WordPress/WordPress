@@ -478,18 +478,17 @@
 		},
 
 		/**
-		 * Close this modal and immediately open another one.
-		 *
-		 * Allows for quickly swapping out the attachment being edited.
+		 * Rerender the view.
 		 */
-		resetContent: function() {
-			this.modal.close();
-			wp.media( {
-				frame:       'edit-attachments',
-				gridRouter:  this.gridRouter,
-				library:     this.library,
-				model:       this.model
-			} );
+		rerender: function() {
+			// Only rerender the `content` region.
+			if ( this.content.mode() !== 'edit-metadata' ) {
+				this.content.mode( 'edit-metadata' );
+			} else {
+				this.content.render();
+			}
+			this.$('.left').toggleClass( 'disabled', ! this.hasPrevious() );
+			this.$('.right').toggleClass( 'disabled', ! this.hasNext() );
 		},
 
 		/**
@@ -500,7 +499,8 @@
 				return;
 			}
 			this.model = this.library.at( this.getCurrentIndex() - 1 );
-			this.resetContent();
+
+			this.rerender();
 		},
 
 		/**
@@ -511,7 +511,8 @@
 				return;
 			}
 			this.model = this.library.at( this.getCurrentIndex() + 1 );
-			this.resetContent();
+
+			this.rerender();
 		},
 
 		getCurrentIndex: function() {
