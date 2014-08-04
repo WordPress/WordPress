@@ -98,8 +98,8 @@ label {
 	text-align: right;
 	padding: 0;
 }
-.step .button-large {
-	font-size: 14px;
+.language-chooser.wp-core-ui .step .button.button-large {
+	height: 36px;
 }
 textarea {
 	border: 1px solid #dfdfdf;
@@ -325,57 +325,20 @@ body.language-chooser {
 	max-width: 300px;
 }
 
-.language-chooser fieldset {
-	margin: 1px;
+.language-chooser select {
 	padding: 8px;
+	width: 100%;
 	display: block;
 	border: 1px solid #ddd;
-	-webkit-border-radius: 0;
-	border-radius: 0; /* Reset mobile webkit's default element styling */
-	-webkit-transition: .05s border-color ease-in-out;
-	transition: .05s border-color ease-in-out;
-	outline: 0;
-	-webkit-box-shadow: inset 0 1px 2px rgba(0,0,0,0.07);
-	box-shadow: inset 0 1px 2px rgba(0,0,0,0.07);
 	background-color: #fff;
 	color: #333;
 	font-size: 16px;
-	font-family: inherit;
-	font-weight: inherit;
-	overflow-y: scroll;
-	height: 250px;
-}
-
-.language-chooser fieldset.focus {
-	border-color: #5b9dd9;
-	-webkit-box-shadow: 0 0 2px rgba(30,140,190,0.8);
-	box-shadow: 0 0 2px rgba(30,140,190,0.8);
-}
-
-.wp-core-ui.language-chooser .button.button-hero {
-	font-size: 30px;
-	line-height: 30px;
+	font-family: Arial, sans-serif;
+	font-weight: normal;
 }
 
 .language-chooser p {
 	text-align: left;
-}
-
-.language-chooser input:checked + label{
-	  color:white;
-	  background: #777;
-}
-
-.language-chooser .focus input:checked + label{
-	  background: #0074A2;
-}
-
-.language-chooser label:hover {
-	  background: #eee;
-}
-
-.language-chooser label{
-	display:block;
 }
 
 .screen-reader-input,
@@ -404,7 +367,9 @@ body.language-chooser {
 
 .step .spinner {
 	display: inline-block;
+	margin-top: 8px;
 	margin-left: 15px;
+	vertical-align: top;
 }
 
 /**

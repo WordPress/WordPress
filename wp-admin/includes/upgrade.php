@@ -2193,27 +2193,40 @@ CREATE TABLE $wpdb->sitecategories (
 }
 endif;
 
+/**
+ * Output the input fields for the language selection form on the installation screen.
+ *
+ * @since 4.0.0
+ *
+ * @see wp_get_available_translations_from_api()
+ * 
+ * @param array $languages Array of available languages (populated via the Translations API).
+ */
 function wp_install_language_form( $languages ) {
-	echo "<fieldset>\n";
-	echo "<legend class='screen-reader-text'>Select a default language</legend>\n";
-	echo '<input type="radio" checked="checked" class="screen-reader-input language-chooser-input" name="language" id="language_default" value="">';
-	echo '<label for="language_default" lang="en">English (United States)</label>';
+	$installed_languages = get_available_languages();
+
+	echo "<label class='screen-reader-text' for='language'>Select a default language</label>\n";
+	echo "<select size='14' name='language' id='language'>\n";
+	echo '<option value="" lang="en" selected="selected" data-continue="Continue" data-installed="1">English (United States)</option>';
 	echo "\n";
 
 	if ( defined( 'WPLANG' ) && ( '' !== WPLANG ) && ( 'en_US' !== WPLANG ) ) {
 		if ( isset( $languages[ WPLANG ] ) ) {
 			$language = $languages[ WPLANG ];
-			echo '<input type="radio" name="language" checked="checked" class="' . esc_attr( $language['language'] ) . ' screen-reader-input" id="language_wplang" value="' . esc_attr( $language['language'] ) . '">';
-			echo '<label for="language_wplang" lang="' . esc_attr( $language['iso'][1] ) . '">' . esc_html( $language['native_name'] ) . "</label>\n";
+			echo '<option value="' . esc_attr( $language['language'] ) . '" lang="' . esc_attr( $language['iso'][1] ) . '">' . esc_html( $language['native_name'] ) . "</option>\n";
 		}
 	}
 
 	foreach ( $languages as $language ) {
-		echo '<input type="radio" name="language" class="' . esc_attr( $language['language'] ) . ' screen-reader-input language-chooser-input" id="language_'. esc_attr( $language['language'] ) .'" value="' . esc_attr( $language['language'] ) . '">';
-		echo '<label for="language_' . esc_attr( $language['language'] ) . '" lang="' . esc_attr( $language['iso'][1] ) . '">' . esc_html( $language['native_name'] ) . "</label>\n";
+		printf( '<option value="%s" lang="%s" data-continue="%s"%s>%s</option>' . "\n",
+			esc_attr( $language['language'] ),
+			esc_attr( $language['iso'][1] ),
+			esc_attr( $language['strings']['continue'] ),
+			in_array( $language['language'], $installed_languages ) ? ' data-installed="1"' : '',
+			esc_html( $language['native_name'] ) );
 	}
-	echo "</fieldset>\n";
-	echo '<p class="step"><span class="spinner"></span><input type="submit" class="button button-primary button-hero" value="&raquo;" /></p>';
+	echo "</select>\n";
+	echo '<p class="step"><span class="spinner"></span><input id="language-continue" type="submit" class="button button-primary button-large" value="Continue" /></p>';
 }
 
 /**

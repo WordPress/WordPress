@@ -1,43 +1,26 @@
-(function($){
-	if ( $('body').hasClass('language-chooser') === false ) {
-		return;
+jQuery( function($) {
+
+var select = $( '#language' ),
+	submit = $( '#language-continue' );
+
+if ( ! $( 'body' ).hasClass( 'language-chooser' ) ) {
+	return;
+}
+
+select.focus().on( 'change', function() {
+	var option = select.children( 'option:selected' );
+	submit.attr({
+		value: option.data( 'continue' ),
+		lang: option.attr( 'lang' )
+	});
+});
+
+$( 'form' ).submit( function() {
+	// Don't show a spinner for English and installed languages,
+	// as there is nothing to download.
+	if ( ! select.children( 'option:selected' ).data( 'installed' ) ) {
+		$( this ).find( '.step .spinner' ).css( 'visibility', 'visible' );
 	}
+});
 
-	var mouseDown = 0,
-		$fieldset = $('fieldset');
-
-	// simple way to check if mousebutton is depressed while accounting for multiple mouse buttons being used independently
-	document.body.onmousedown = function() {
-		++mouseDown;
-	};
-	document.body.onmouseup = function() {
-		--mouseDown;
-	};
-
-	/*
-		we can't rely upon the focusout event
-		since clicking on a label triggers it
-	*/
-	function maybeRemoveFieldsetFocus(){
-		if (mouseDown) {
-			setTimeout( maybeRemoveFieldsetFocus, 50);
-			return;
-		}
-		if ( $(':focus').hasClass('language-chooser-input') !== true ) {
-			$fieldset.removeClass('focus');
-		}
-	}
-
-	$fieldset.focusin( function() {
-		$(this).addClass('focus');
-	});
-
-	$fieldset.focusout( function() {
-		setTimeout( maybeRemoveFieldsetFocus, 50);
-	});
-
-	$('form').submit(function(){
-		$(this).find('.step .spinner').css('visibility','visible');
-	});
-
-})(jQuery);
+});
