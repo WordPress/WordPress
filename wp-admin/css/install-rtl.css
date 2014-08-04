@@ -100,6 +100,8 @@ label {
 }
 .language-chooser.wp-core-ui .step .button.button-large {
 	height: 36px;
+	vertical-align: middle;
+	font-size: 14px;
 }
 textarea {
 	border: 1px solid #dfdfdf;
