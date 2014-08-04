@@ -794,28 +794,14 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 				dom.insertAfter( p, node );
 				editor.selection.setCursorLocation( p, 0 );
 				editor.nodeChanged();
-
-				if ( tinymce.Env.ie > 8 ) {
-					setTimeout( function() {
-						editor.selection.setCursorLocation( p, 0 );
-						editor.selection.setContent( event.value );
-					}, 500 );
-
-					return false;
-				}
 			}
 		} else if ( cmd === 'JustifyLeft' || cmd === 'JustifyRight' || cmd === 'JustifyCenter' ) {
 			node = editor.selection.getNode();
 			align = cmd.substr(7).toLowerCase();
-			align = 'align' + align;
+			align = 'align' + align,
+			DL = dom.getParent( node, 'dl.wp-caption' );
 
 			removeToolbar();
-
-			if ( dom.is( node, 'dl.wp-caption' ) ) {
-				DL = node;
-			} else {
-				DL = dom.getParent( node, 'dl.wp-caption' );
-			}
 
 			if ( DL ) {
 				// When inside an image caption, set the align* class on dl.wp-caption
@@ -827,7 +813,12 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 					dom.addClass( DL, align );
 				}
 
-				return false;
+				if ( node.nodeName === 'IMG' ) {
+					// Re-select the image to update resize handles, etc.
+					editor.nodeChanged();
+				}
+
+				event.preventDefault();
 			}
 
 			if ( node.nodeName === 'IMG' ) {
