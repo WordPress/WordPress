@@ -1431,7 +1431,6 @@
 /**
  * Spinner
  */
-
 .media-frame .spinner {
 	background: url(../images/spinner.gif) no-repeat;
 	-webkit-background-size: 20px 20px;
@@ -1653,7 +1652,6 @@
 /**
  * Image Editor
  */
-
 .media-modal .imgedit-wrap {
 	position: static;
 }
@@ -2137,9 +2135,6 @@
 :lang(he-il) .rtl .media-frame select {
 	font-family: Arial, sans-serif;
 }
-
-
-
 
 @media only screen and (max-width: 960px) {
 	.media-frame-content .media-toolbar-primary .search,

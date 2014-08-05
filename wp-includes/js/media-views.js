@@ -4798,7 +4798,7 @@
 		arrowEvent: function( event ) {
 			var attachment = $('.attachments-browser .attachment'),
 				attachmentsWidth = $('.attachments-browser .attachments').width(),
-				thumbnailWidth = attachment.first().width(),
+				thumbnailWidth = attachment.first().outerWidth(),
 				thumbnailsPerRow = Math.round( attachmentsWidth / thumbnailWidth ),
 				totalThumnails = attachment.length,
 				totalRows = Math.ceil(totalThumnails/thumbnailsPerRow),
