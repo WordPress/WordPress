@@ -700,7 +700,7 @@
  */
 .attachments {
 	margin: 0;
-	padding-right: 16px;
+	padding: 8px;
 	-webkit-overflow-scrolling: touch;
 }
 
@@ -710,101 +710,74 @@
 .attachment {
 	position: relative;
 	float: left;
-	padding: 0;
-	margin: 0 10px 20px;
+	padding: 8px;
+	margin: 0;
 	color: #464646;
+	cursor: pointer;
 	list-style: none;
 	text-align: center;
 	-webkit-user-select: none;
 	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
+	width: 20%;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
 }
 
 .attachment:focus {
 	-webkit-box-shadow:
-		0 0 0 1px #5b9dd9,
-		0 0 2px 2px #5b9dd9;
+		inset 0 0 0 5px #fff,
+		inset 0 0 1px 7px #5b9dd9;
 	box-shadow:
-		0 0 0 1px #5b9dd9,
-		0 0 2px 2px #5b9dd9;
+		inset 0 0 0 5px #fff,
+		inset 0 0 1px 7px #5b9dd9;
 	outline: none;
 }
 
 .selected.attachment {
 	-webkit-box-shadow:
-		0 0 0 1px #fff,
-		0 0 0 3px #ccc;
+		inset 0 0 0 5px #fff,
+		inset 0 0 0 7px #ccc;
 	box-shadow:
-		0 0 0 1px #fff,
-		0 0 0 3px #ccc;
-}
-
-.selected.attachment:focus {
-	-webkit-box-shadow:
-		0 0 0 1px #fff,
-		0 0 0 5px #1e8cbe;
-	box-shadow:
-		0 0 0 1px #fff,
-		0 0 0 5px #1e8cbe;
+		inset 0 0 0 5px #fff,
+		inset 0 0 0 7px #ccc;
 }
 
 .attachment-preview {
 	position: relative;
-	width: 199px;
-	height: 199px;
-	-webkit-box-shadow:
-		inset 0 0 15px rgba( 0, 0, 0, 0.1 ),
-		inset 0 0 0 1px rgba( 0, 0, 0, 0.05 );
-	box-shadow:
-		inset 0 0 15px rgba( 0, 0, 0, 0.1 ),
-		inset 0 0 0 1px rgba( 0, 0, 0, 0.05 );
-	background: #eee;
-	cursor: pointer;
+}
+
+.attachment-preview:before {
+	content: '';
+	display: block;
+	padding-top: 100%;
 }
 
 .attachment .icon {
 	margin: 0 auto;
 	overflow: hidden;
-	padding-top: 20%;
 }
 
 .attachment .thumbnail {
-	display: block;
+	overflow: hidden;
 	position: absolute;
 	top: 0;
+	right: 0;
+	bottom: 0;
 	left: 0;
-	margin: 0 auto;
-	overflow: hidden;
+}
+
+.attachment .portrait img {
 	max-width: 100%;
+}
+
+.attachment .landscape img {
 	max-height: 100%;
 }
 
-.attachment-preview.type-audio .thumbnail,
-.attachment-preview.type-video .thumbnail {
-	z-index: 1;
-	margin: 1%;
-	max-width: 98%;
-	max-height: 98%;
-}
-
-.media-frame-content .attachment-preview.type-audio .icon,
-.media-frame-content .attachment-preview.type-video .icon {
-	z-index: 2;
-	background: #f1f1f1;
-	position: relative;
-	padding: 0;
-	top: 15%;
-	left: auto;
-	right: auto;
-}
-
-.attachment-preview.type-audio .filename,
-.attachment-preview.type-video .filename {
-	z-index: 3;
-}
-
-.attachment-preview .thumbnail:after {
+.attachment .thumbnail:after {
 	content: '';
 	display: block;
 	position: absolute;
@@ -831,13 +804,13 @@
 	width: 100%;
 	height: 100%;
 	-webkit-transform: translate( 50%, 50% );
-	-ms-transform: translate( 50%, 50% );
+	-ms-transform: translate(50%,50%); /* Fails with spaces?? Weird! */
 	transform: translate( 50%, 50% );
 }
 
 .attachment .thumbnail .centered img {
 	-webkit-transform: translate( -50%, -50% );
-	-ms-transform: translate( -50%, -50% );
+	-ms-transform: translate(-50%,-50%);
 	transform: translate( -50%, -50% );
 }
 
@@ -848,7 +821,6 @@
 	bottom: 0;
 	overflow: hidden;
 	max-height: 100%;
-
 	word-wrap: break-word;
 	text-align: center;
 	font-weight: bold;
@@ -859,11 +831,6 @@
 
 .attachment .filename div {
 	padding: 5px 10px;
-}
-
-.attachment-preview .thumbnail {
-	width: 199px;
-	height: 199px;
 }
 
 .attachment .thumbnail img {
@@ -907,8 +874,8 @@
 	width: 24px;
 	position: absolute;
 	z-index: 10;
-	top: -6px;
-	right: -6px;
+	top: 0;
+	right: 0;
 	outline: none;
 	background: #eee;
 	-webkit-box-shadow: 0 0 0 1px #fff, 0 0 0 2px rgba( 0, 0, 0, 0.15 );
@@ -930,22 +897,27 @@
 	display: block;
 }
 
+.selected.attachment:focus,
 .attachment.details,
 .media-frame.mode-grid .selected.attachment {
-	-webkit-box-shadow: 0 0 0 1px #fff,
-				0 0 0 5px #1e8cbe;
-	box-shadow: 0 0 0 1px #fff,
-				0 0 0 5px #1e8cbe;
+	-webkit-box-shadow:
+		inset 0 0 0 3px #fff,
+		inset 0 0 0 7px #1e8cbe;
+	box-shadow:
+		inset 0 0 0 3px #fff,
+		inset 0 0 0 7px #1e8cbe;
 }
 
 .attachment.details .check,
 .attachment.selected .check:focus,
 .media-frame.mode-grid .attachment.selected .check {
 	background-color: #1e8cbe;
-	-webkit-box-shadow: 0 0 0 1px #fff,
-				0 0 0 2px #1e8cbe;
-	box-shadow: 0 0 0 1px #fff,
-				0 0 0 2px #1e8cbe;
+	-webkit-box-shadow:
+		0 0 0 1px #fff,
+		0 0 0 2px #1e8cbe;
+	box-shadow:
+		0 0 0 1px #fff,
+		0 0 0 2px #1e8cbe;
 }
 
 .media-frame.mode-grid .attachment .check {
@@ -971,7 +943,7 @@
 	position: relative;
 	display: block;
 	width: 100%;
-	margin: -1px 0 0;
+	margin: 0;
 	padding: 8px;
 	font-size: 12px;
 	-webkit-border-radius: 0;
@@ -1218,7 +1190,7 @@
 	left: 0;
 	right: 0;
 	-webkit-transform: translateY( -50% );
-	-ms-transform: translateY( -50% );
+	-ms-transform: translateY(-50%);
 	transform: translateY( -50% );
 	font-size: 40px;
 	color: #fff;
@@ -1381,16 +1353,32 @@
 .media-selection .attachments {
 	display: inline-block;
 	height: 48px;
-	margin-top: 5px;
+	margin: 6px;
+	padding: 0;
 	overflow: hidden;
 	vertical-align: top;
+}
+
+.media-selection .attachment {
+	width: 48px;
+	padding: 0;
+	margin: 0;
+	-webkit-box-shadow: none;
+	box-shadow: none; 
+}
+
+.media-selection .attachment .thumbnail {
+	top: 4px;
+	right: 4px;
+	bottom: 4px;
+	left: 4px;
 }
 
 .media-selection .attachment .icon {
 	width: 50%;
 }
-
-.attachment.selection.selected {
+/*
+.attachment.selection.selected .thumbnail {
 	-webkit-box-shadow: none;
 	box-shadow: none;
 }
@@ -1413,8 +1401,8 @@
 		0 0 0 1px #fff,
 		0 0 0 4px #1e8cbe;
 }
-
-.media-selection .attachment.selection.details {
+*/
+.media-selection .attachment.selection.details .thumbnail {
 	-webkit-box-shadow:
 		0 0 0 1px #fff,
 		0 0 0 3px #1e8cbe;
@@ -2056,7 +2044,7 @@
 	left: 0;
 	right: 0;
 	-webkit-transform: translateY( -50% );
-	-ms-transform: translateY( -50% );
+	-ms-transform: translateY(-50%);
 	transform: translateY( -50% );
 	font-size: 3em;
 	line-height: 1.3;
@@ -2913,4 +2901,52 @@
 		width: 100%;
 		max-width: none !important;
 	}
+}
+
+.attachments[data-columns="1"] .attachment {
+	width: 100%;
+}
+
+.attachments[data-columns="2"] .attachment {
+	width: 50%;
+}
+
+.attachments[data-columns="3"] .attachment {
+	width: 33.3%;
+}
+
+.attachments[data-columns="4"] .attachment {
+	width: 25%;
+}
+
+.attachments[data-columns="5"] .attachment {
+	width: 20%;
+}
+
+.attachments[data-columns="6"] .attachment {
+	width: 16.6%;
+}
+
+.attachments[data-columns="7"] .attachment {
+	width: 14.2%;
+}
+
+.attachments[data-columns="8"] .attachment {
+	width: 12.5%;
+}
+
+.attachments[data-columns="9"] .attachment {
+	width: 11.1%;
+}
+
+.attachments[data-columns="10"] .attachment {
+	width: 10%;
+}
+
+.attachments[data-columns="11"] .attachment {
+	width: 9%;
+}
+
+.attachments[data-columns="12"] .attachment {
+	width: 8.3%;
 }

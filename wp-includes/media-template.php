@@ -414,24 +414,26 @@ function wp_print_media_templates() {
 
 	<script type="text/html" id="tmpl-attachment">
 		<div class="attachment-preview js--select-attachment type-{{ data.type }} subtype-{{ data.subtype }} {{ data.orientation }}">
-			<# if ( data.uploading ) { #>
-				<div class="media-progress-bar"><div></div></div>
-			<# } else if ( 'image' === data.type ) { #>
-				<div class="thumbnail">
+			<div class="thumbnail">
+				<# if ( data.uploading ) { #>
+					<div class="media-progress-bar"><div>
+				<# } else if ( 'image' === data.type ) { #>
 					<div class="centered">
 						<img src="{{ data.size.url }}" draggable="false" alt="" />
 					</div>
-				</div>
-			<# } else {
-				if ( data.thumb && data.thumb.src && data.thumb.src !== data.icon ) {
-				#><img src="{{ data.thumb.src }}" class="thumbnail" draggable="false" /><#
-				} else {
-				#><img src="{{ data.icon }}" class="icon" draggable="false" /><#
-				} #>
-				<div class="filename">
-					<div>{{ data.filename }}</div>
-				</div>
-			<# } #>
+				<# } else { #>
+					<div class="centered">
+						<# if ( data.thumb && data.thumb.src && data.thumb.src !== data.icon ) { #>
+							<img src="{{ data.thumb.src }}" class="thumbnail" draggable="false" />
+						<# } else { #>
+							<img src="{{ data.icon }}" class="icon" draggable="false" />
+						<# } #>
+					</div>
+					<div class="filename">
+						<div>{{ data.filename }}</div>
+					</div>
+				<# } #>
+			</div>
 			<# if ( data.buttons.close ) { #>
 				<a class="close media-modal-icon" href="#" title="<?php esc_attr_e('Remove'); ?>"></a>
 			<# } #>
@@ -820,35 +822,6 @@ function wp_print_media_templates() {
 			</div>
 			<input type="text" class="link-to-custom" data-setting="linkUrl" />
 		</div>
-	</script>
-
-	<script type="text/html" id="tmpl-attachments-css">
-		<style type="text/css" id="{{ data.id }}-css">
-			#{{ data.id }} {
-				padding: 0 {{ data.gutter }}px;
-			}
-
-			#{{ data.id }} .attachment {
-				margin: {{ data.gutter }}px;
-				width: {{ data.edge }}px;
-			}
-
-			#{{ data.id }} .attachment-preview,
-			#{{ data.id }} .attachment-preview .thumbnail {
-				width: {{ data.edge }}px;
-				height: {{ data.edge }}px;
-			}
-
-			#{{ data.id }} .portrait .thumbnail img {
-				max-width: {{ data.edge }}px;
-				height: auto;
-			}
-
-			#{{ data.id }} .landscape .thumbnail img {
-				width: auto;
-				max-height: {{ data.edge }}px;
-			}
-		</style>
 	</script>
 
 	<script type="text/html" id="tmpl-image-details">

@@ -630,14 +630,6 @@
 				}) );
 			}
 
-			if ( ! this.get('edge') ) {
-				this.set( 'edge', 150 );
-			}
-
-			if ( ! this.get('gutter') ) {
-				this.set( 'gutter', 8 );
-			}
-
 			this.resetDisplays();
 		},
 
@@ -835,12 +827,12 @@
 			content:         'browse',
 			toolbar:         'gallery-edit',
 
-			describe:        true,
-			displaySettings: true,
-			dragInfo:        true,
-			edge:            199,
-			editing:         false,
-			priority:        60,
+			describe:         true,
+			displaySettings:  true,
+			dragInfo:         true,
+			idealColumnWidth: 170,
+			editing:          false,
+			priority:         60,
 
 			// Don't sync the selection, as the Edit Gallery library
 			// *is* the selection.
@@ -989,12 +981,12 @@
 			// Region mode defaults.
 			content:      'browse',
 
-			describe:     true,
-			dragInfo:     true,
-			edge:         199,
-			editing:      false,
-			priority:     60,
-			SettingsView: false,
+			describe:         true,
+			dragInfo:         true,
+			idealColumnWidth: 170,
+			editing:          false,
+			priority:         60,
+			SettingsView:     false,
 
 			// Don't sync the selection, as the Edit {Collection} library
 			// *is* the selection.
@@ -2178,8 +2170,9 @@
 				display:    state.has('display') ? state.get('display') : state.get('displaySettings'),
 				dragInfo:   state.get('dragInfo'),
 
-				suggestedWidth:  state.get('suggestedWidth'),
-				suggestedHeight: state.get('suggestedHeight'),
+				idealColumnWidth: state.get('idealColumnWidth'),
+				suggestedWidth:   state.get('suggestedWidth'),
+				suggestedHeight:  state.get('suggestedHeight'),
 
 				AttachmentView: state.get('AttachmentView')
 			});
@@ -4805,8 +4798,8 @@
 		arrowEvent: function( event ) {
 			var attachment = $('.attachments-browser .attachment'),
 				attachmentsWidth = $('.attachments-browser .attachments').width(),
-				thumbnailWidth = attachment.first().innerWidth() + 16,
-				thumbnailsPerRow = Math.floor(attachmentsWidth/thumbnailWidth),
+				thumbnailWidth = attachment.first().width(),
+				thumbnailsPerRow = Math.round( attachmentsWidth / thumbnailWidth ),
 				totalThumnails = attachment.length,
 				totalRows = Math.ceil(totalThumnails/thumbnailsPerRow),
 				thisIndex = attachment.filter( ':focus' ).index(),
@@ -5218,8 +5211,6 @@
 			tabIndex: -1
 		},
 
-		cssTemplate: media.template('attachments-css'),
-
 		initialize: function() {
 			this.el.id = _.uniqueId('__attachments-view-');
 
@@ -5228,7 +5219,8 @@
 				refreshThreshold:   3,
 				AttachmentView:     media.view.Attachment,
 				sortable:           false,
-				resize:             true
+				resize:             true,
+				idealColumnWidth:   150
 			});
 
 			this._viewsByCid = {};
@@ -5258,56 +5250,35 @@
 
 			this.initSortable();
 
-			_.bindAll( this, 'css' );
-			this.model.on( 'change:edge change:gutter', this.css, this );
-			this._resizeCss = _.debounce( _.bind( this.css, this ), this.refreshSensitivity );
+			_.bindAll( this, 'setColumns' );
+
 			if ( this.options.resize ) {
-				$(window).on( 'resize.attachments', this._resizeCss );
+				$( window ).on( 'resize.attachments', this.setColumns );
 			}
 
-			// Call this.css() after this view has been rendered in the DOM so
+			// Call this.setColumns() after this view has been rendered in the DOM so
 			// attachments get proper width applied.
-			_.defer( this.css, this );
+			_.defer( this.setColumns, this );
 		},
 
 		dispose: function() {
 			this.collection.props.off( null, null, this );
-			$(window).off( 'resize.attachments', this._resizeCss );
+			$( window ).off( 'resize.attachments', this.setColumns );
+
 			/**
 			 * call 'dispose' directly on the parent class
 			 */
 			media.View.prototype.dispose.apply( this, arguments );
 		},
 
-		css: function() {
-			var $css = $( '#' + this.el.id + '-css' );
+		setColumns: function() {
+			var prev = this.columns;
 
-			if ( $css.length ) {
-				$css.remove();
+			this.columns = Math.round( this.$el.width() / this.options.idealColumnWidth );
+
+			if ( prev !== this.columns ) {
+				this.$el.attr( 'data-columns', this.columns );
 			}
-
-			media.view.Attachments.$head().append( this.cssTemplate({
-				id:     this.el.id,
-				edge:   this.edge(),
-				gutter: this.model.get('gutter')
-			}) );
-		},
-		/**
-		 * @returns {Number}
-		 */
-		edge: function() {
-			var edge = this.model.get('edge'),
-				gutter, width, columns;
-
-			if ( ! this.$el.is(':visible') ) {
-				return edge;
-			}
-
-			gutter  = this.model.get('gutter') * 2;
-			width   = this.$el.width() - gutter;
-			columns = Math.ceil( width / ( edge + gutter ) );
-			edge = Math.floor( ( width - ( columns * gutter ) ) / columns );
-			return edge;
 		},
 
 		initSortable: function() {
@@ -5453,13 +5424,6 @@
 				});
 			}
 		}
-	}, {
-		$head: (function() {
-			var $head;
-			return function() {
-				return $head = $head || $('head');
-			};
-		}())
 	});
 
 	/**
@@ -5895,6 +5859,7 @@
 				model:                this.model,
 				sortable:             this.options.sortable,
 				scrollElement:        this.options.scrollElement,
+				idealColumnWidth:     this.options.idealColumnWidth,
 
 				// The single `Attachment` view to be used in the `Attachments` view.
 				AttachmentView: this.options.AttachmentView
@@ -6003,10 +5968,7 @@
 				controller: this.controller,
 				collection: this.collection,
 				selection:  this.collection,
-				model:      new Backbone.Model({
-					edge:   40,
-					gutter: 5
-				})
+				model:      new Backbone.Model()
 			});
 
 			this.views.set( '.selection-view', this.attachments );
