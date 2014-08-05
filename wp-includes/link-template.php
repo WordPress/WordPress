@@ -2641,12 +2641,9 @@ function content_url($path = '') {
 */
 function plugins_url( $path = '', $plugin = '' ) {
 
-	$path = str_replace( '\\' ,'/', $path ); // sanitize for Win32 installs
-	$path = preg_replace( '|/+|', '/', $path );
-	$plugin = str_replace( '\\' ,'/', $plugin ); // sanitize for Win32 installs
-	$plugin = preg_replace( '|/+|', '/', $plugin );
-	$mu_plugin_dir = str_replace( '\\' ,'/', WPMU_PLUGIN_DIR ); // sanitize for Win32 installs
-	$mu_plugin_dir = preg_replace( '|/+|', '/', $mu_plugin_dir );
+	$path = wp_normalize_path( $path );
+	$plugin = wp_normalize_path( $plugin );
+	$mu_plugin_dir = wp_normalize_path( WPMU_PLUGIN_DIR );
 
 	if ( !empty($plugin) && 0 === strpos($plugin, $mu_plugin_dir) )
 		$url = WPMU_PLUGIN_URL;
