@@ -5702,7 +5702,9 @@
 			this.updateContent();
 			if ( this.options.sidebar ) {
 				this.createSidebar();
-			} else {
+			}
+
+			if ( ! this.options.sidebar || 'errors' === this.options.sidebar ) {
 				this.$el.addClass( 'hide-sidebar' );
 			}
 

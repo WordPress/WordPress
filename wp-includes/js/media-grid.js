@@ -191,7 +191,7 @@
 			var state = this.state();
 
 			// Browse our library of attachments.
-			contentRegion.view = new media.view.AttachmentsBrowser({
+			this.browserView = contentRegion.view = new media.view.AttachmentsBrowser({
 				controller: this,
 				collection: state.get('library'),
 				selection:  state.get('selection'),
@@ -201,7 +201,7 @@
 				filters:    state.get('filterable'),
 				display:    state.get('displaySettings'),
 				dragInfo:   state.get('dragInfo'),
-				sidebar:    false,
+				sidebar:    'errors',
 
 				suggestedWidth:  state.get('suggestedWidth'),
 				suggestedHeight: state.get('suggestedHeight'),
@@ -210,6 +210,13 @@
 
 				scrollElement: document
 			});
+
+			this.errors = wp.Uploader.errors;
+			this.errors.on( 'add remove reset', this.sidebarVisibility, this );
+		},
+
+		sidebarVisibility: function() {
+			this.browserView.$( '.media-sidebar' ).toggle( this.errors.length );
 		}
 	});
 

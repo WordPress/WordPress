@@ -257,6 +257,11 @@
 	-webkit-overflow-scrolling: touch;
 }
 
+.upload-php .mode-grid .hide-sidebar .media-sidebar {
+	top: 102px;
+	display: none;
+}
+
 .hide-toolbar .media-sidebar {
 	bottom: 0;
 }
@@ -1383,7 +1388,7 @@
 	padding: 0;
 	margin: 0;
 	-webkit-box-shadow: none;
-	box-shadow: none; 
+	box-shadow: none;
 }
 
 .media-selection .attachment .thumbnail {
