@@ -2113,7 +2113,8 @@ function get_avatar( $id_or_email, $size = '96', $default = '', $alt = false ) {
 		$out = str_replace( '&#038;', '&amp;', esc_url( $out ) );
 		$avatar = "<img alt='{$safe_alt}' src='{$out}' class='avatar avatar-{$size} photo' height='{$size}' width='{$size}' />";
 	} else {
-		$avatar = "<img alt='{$safe_alt}' src='{$default}' class='avatar avatar-{$size} photo avatar-default' height='{$size}' width='{$size}' />";
+		$out = esc_url( $default );
+		$avatar = "<img alt='{$safe_alt}' src='{$out}' class='avatar avatar-{$size} photo avatar-default' height='{$size}' width='{$size}' />";
 	}
 
 	/**
