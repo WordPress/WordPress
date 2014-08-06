@@ -1119,22 +1119,19 @@ final class WP_Customize_Widgets {
 	}
 
 	/**
-	 * Get a widget instance's hash key.
+	 * Get MAC for a serialized widget instance string.
 	 *
-	 * Serialize an instance and hash it with the AUTH_KEY; when a JS value is
-	 * posted back to save, this instance hash key is used to ensure that the
-	 * serialized_instance was not tampered with, but that it had originated
-	 * from WordPress and so is sanitized.
+	 * Allows values posted back from JS to be rejected if any tampering of the
+	 * data has occurred.
 	 *
 	 * @since 3.9.0
 	 * @access protected
 	 *
-	 * @param array $instance Widget instance.
-	 * @return string Widget instance's hash key.
+	 * @param string $serialized_instance Widget instance.
+	 * @return string MAC for serialized widget instance.
 	 */
-	protected function get_instance_hash_key( $instance ) {
-		$hash = md5( AUTH_KEY . serialize( $instance ) );
-		return $hash;
+	protected function get_instance_hash_key( $serialized_instance ) {
+		return wp_hash( $serialized_instance );
 	}
 
 	/**
@@ -1162,18 +1159,19 @@ final class WP_Customize_Widgets {
 		}
 
 		$decoded = base64_decode( $value['encoded_serialized_instance'], true );
-
 		if ( false === $decoded ) {
 			return null;
 		}
-		$instance = unserialize( $decoded );
 
+		if ( $this->get_instance_hash_key( $decoded ) !== $value['instance_hash_key'] ) {
+			return null;
+		}
+
+		$instance = unserialize( $decoded );
 		if ( false === $instance ) {
 			return null;
 		}
-		if ( $this->get_instance_hash_key( $instance ) !== $value['instance_hash_key'] ) {
-			return null;
-		}
+
 		return $instance;
 	}
 
@@ -1194,7 +1192,7 @@ final class WP_Customize_Widgets {
 				'encoded_serialized_instance'   => base64_encode( $serialized ),
 				'title'                         => empty( $value['title'] ) ? '' : $value['title'],
 				'is_widget_customizer_js_value' => true,
-				'instance_hash_key'             => $this->get_instance_hash_key( $value ),
+				'instance_hash_key'             => $this->get_instance_hash_key( $serialized ),
 			);
 		}
 		return $value;
