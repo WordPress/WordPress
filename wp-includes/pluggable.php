@@ -671,7 +671,7 @@ function wp_validate_auth_cookie($cookie = '', $scheme = '') {
 	$key = wp_hash( $username . '|' . $pass_frag . '|' . $expiration . '|' . $token, $scheme );
 	$hash = hash_hmac( 'sha256', $username . '|' . $expiration . '|' . $token, $key );
 
-	if ( hash_hmac( 'sha256', $hmac, $key ) !== hash_hmac( 'sha256', $hash, $key ) ) {
+	if ( ! hash_equals( $hash, $hmac ) ) {
 		/**
 		 * Fires if a bad authentication cookie hash is encountered.
 		 *
@@ -1711,12 +1711,14 @@ function wp_verify_nonce($nonce, $action = -1) {
 	$i = wp_nonce_tick();
 
 	// Nonce generated 0-12 hours ago
-	if ( $nonce === substr( wp_hash( $i . '|' . $action . '|' . $uid . '|' . $token, 'nonce'), -12, 10 ) ) {
+	$expected = substr( wp_hash( $i . '|' . $action . '|' . $uid . '|' . $token, 'nonce'), -12, 10 );
+	if ( hash_equals( $expected, $nonce ) ) {
 		return 1;
 	}
 
 	// Nonce generated 12-24 hours ago
-	if ( $nonce === substr( wp_hash( ( $i - 1 ) . '|' . $action . '|' . $uid . '|' . $token, 'nonce' ), -12, 10 ) ) {
+	$expected = substr( wp_hash( ( $i - 1 ) . '|' . $action . '|' . $uid . '|' . $token, 'nonce' ), -12, 10 );
+	if ( hash_equals( $expected, $nonce ) ) {
 		return 2;
 	}
 
