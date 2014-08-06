@@ -203,11 +203,37 @@ class IXR_Message
     {
         // first remove the XML declaration
         // merged from WP #10698 - this method avoids the RAM usage of preg_replace on very large messages
-        $header = preg_replace( '/<\?xml.*?\?'.'>/', '', substr($this->message, 0, 100), 1);
-        $this->message = substr_replace($this->message, $header, 0, 100);
-        if (trim($this->message) == '') {
+        $header = preg_replace( '/<\?xml.*?\?'.'>/s', '', substr( $this->message, 0, 100 ), 1 );
+        $this->message = trim( substr_replace( $this->message, $header, 0, 100 ) );
+        if ( '' == $this->message ) {
             return false;
         }
+
+        // Then remove the DOCTYPE
+        $header = preg_replace( '/^<!DOCTYPE[^>]*+>/i', '', substr( $this->message, 0, 200 ), 1 );
+        $this->message = trim( substr_replace( $this->message, $header, 0, 200 ) );
+        if ( '' == $this->message ) {
+            return false;
+        }
+
+        // Check that the root tag is valid
+        $root_tag = substr( $this->message, 0, strcspn( substr( $this->message, 0, 20 ), "> \t\r\n" ) );
+        if ( '<!DOCTYPE' === strtoupper( $root_tag ) ) {
+            return false;
+        }
+        if ( ! in_array( $root_tag, array( '<methodCall', '<methodResponse', '<fault' ) ) ) {
+            return false;
+        }
+
+        // Bail if there are too many elements to parse
+        $element_limit = 30000;
+        if ( function_exists( 'apply_filters' ) ) {
+            $element_limit = apply_filters( 'xmlrpc_element_limit', $element_limit );
+        }
+        if ( $element_limit && 2 * $element_limit < substr_count( $this->message, '<' ) ) {
+            return false;
+        }
+
         $this->_parser = xml_parser_create();
         // Set XML parser to take the case of tags in to account
         xml_parser_set_option($this->_parser, XML_OPTION_CASE_FOLDING, false);
