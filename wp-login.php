@@ -568,13 +568,16 @@ case 'rp' :
 		exit;
 	}
 
-	list( $rp_login, $rp_key ) = explode( ':', wp_unslash( $_COOKIE[ $rp_cookie ] ), 2 );
+	if ( isset( $_COOKIE[ $rp_cookie ] ) && 0 < strpos( $_COOKIE[ $rp_cookie ], ':' ) ) {
+		list( $rp_login, $rp_key ) = explode( ':', wp_unslash( $_COOKIE[ $rp_cookie ] ), 2 );
+		$user = check_password_reset_key( $rp_key, $rp_login );
+	} else {
+		$user = false;
+	}
 
-	$user = check_password_reset_key( $rp_key, $rp_login );
-
-	if ( is_wp_error($user) ) {
+	if ( ! $user || is_wp_error( $user ) ) {
 		setcookie( $rp_cookie, ' ', time() - YEAR_IN_SECONDS, $rp_path, COOKIE_DOMAIN, is_ssl(), true );
-		if ( $user->get_error_code() === 'expired_key' )
+		if ( $user && $user->get_error_code() === 'expired_key' )
 			wp_redirect( site_url( 'wp-login.php?action=lostpassword&error=expiredkey' ) );
 		else
 			wp_redirect( site_url( 'wp-login.php?action=lostpassword&error=invalidkey' ) );
