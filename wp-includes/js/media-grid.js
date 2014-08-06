@@ -647,10 +647,12 @@
 			var selection = this.controller.controller.state().get('selection');
 			media.view.Button.prototype.click.apply( this, arguments );
 
-			// Currently assumes delete is the only action
-			if ( confirm( l10n.warnBulkDelete ) ) {
-				while ( selection.length > 0) {
-					selection.at(0).destroy();
+			if ( 'delete' === this.controller.model.get( 'currentAction' ) ) {
+				// Currently assumes delete is the only action
+				if ( confirm( l10n.warnBulkDelete ) ) {
+					while ( selection.length > 0 ) {
+						selection.at(0).destroy();
+					}
 				}
 			}
 
