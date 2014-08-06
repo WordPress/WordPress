@@ -519,11 +519,12 @@ class getid3_lib
 	}
 
 	public static function XML2array($XMLstring) {
-		if (function_exists('simplexml_load_string')) {
-			if (function_exists('get_object_vars')) {
-				$XMLobject = simplexml_load_string($XMLstring);
-				return self::SimpleXMLelement2array($XMLobject);
-			}
+		if ( function_exists( 'simplexml_load_string' ) && function_exists( 'libxml_disable_entity_loader' ) ) {
+			$loader = libxml_disable_entity_loader( true );
+			$XMLobject = simplexml_load_string( $XMLstring, 'SimpleXMLElement', LIBXML_NOENT );
+			$return = self::SimpleXMLelement2array( $XMLobject );
+			libxml_disable_entity_loader( $loader );
+			return $return;
 		}
 		return false;
 	}
