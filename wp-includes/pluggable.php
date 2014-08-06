@@ -546,7 +546,7 @@ function wp_validate_auth_cookie($cookie = '', $scheme = '') {
 	$key = wp_hash($username . $pass_frag . '|' . $expiration, $scheme);
 	$hash = hash_hmac('md5', $username . '|' . $expiration, $key);
 
-	if ( hash_hmac( 'md5', $hmac, $key ) !== hash_hmac( 'md5', $hash, $key ) ) {
+	if ( ! hash_equals( $hash, $hmac ) ) {
 		do_action('auth_cookie_bad_hash', $cookie_elements);
 		return false;
 	}
@@ -1297,11 +1297,17 @@ function wp_verify_nonce($nonce, $action = -1) {
 	$i = wp_nonce_tick();
 
 	// Nonce generated 0-12 hours ago
-	if ( substr(wp_hash($i . $action . $uid, 'nonce'), -12, 10) === $nonce )
+	$expected = substr( wp_hash( $i . '|' . $action . '|' . $uid . '|' . $token, 'nonce'), -12, 10 );
+	if ( hash_equals( $expected, $nonce ) ) {
 		return 1;
+	}
+
 	// Nonce generated 12-24 hours ago
-	if ( substr(wp_hash(($i - 1) . $action . $uid, 'nonce'), -12, 10) === $nonce )
+	$expected = substr( wp_hash( ( $i - 1 ) . '|' . $action . '|' . $uid . '|' . $token, 'nonce' ), -12, 10 );
+	if ( hash_equals( $expected, $nonce ) ) {
 		return 2;
+	}
+
 	// Invalid nonce
 	return false;
 }
@@ -1784,3 +1790,35 @@ function wp_text_diff( $left_string, $right_string, $args = null ) {
 }
 endif;
 
+if ( ! function_exists( 'hash_equals' ) ) :
+/**
+ * Compare two strings in constant time.
+ *
+ * This function is NOT pluggable. It is in this file (in addition to
+ * compat.php) to prevent errors if, during an update, pluggable.php
+ * copies over but compat.php does not.
+ *
+ * This function was added in PHP 5.6.
+ * It can leak the length of a string.
+ *
+ * @since 3.9.2
+ *
+ * @param string $a Expected string.
+ * @param string $b Actual string.
+ * @return bool Whether strings are equal.
+ */
+function hash_equals( $a, $b ) {
+	$a_length = strlen( $a );
+	if ( $a_length !== strlen( $b ) ) {
+		return false;
+	}
+	$result = 0;
+
+	// Do not attempt to "optimize" this.
+	for ( $i = 0; $i < $a_length; $i++ ) {
+		$result |= ord( $a[ $i ] ) ^ ord( $b[ $i ] );
+	}
+
+	return $result === 0;
+}
+endif;
