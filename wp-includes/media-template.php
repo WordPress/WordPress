@@ -423,8 +423,8 @@ function wp_print_media_templates() {
 					</div>
 				<# } else { #>
 					<div class="centered">
-						<# if ( data.thumb && data.thumb.src && data.thumb.src !== data.icon ) { #>
-							<img src="{{ data.thumb.src }}" class="thumbnail" draggable="false" />
+						<# if ( data.image && data.image.src && data.image.src !== data.icon ) { #>
+							<img src="{{ data.image.src }}" class="thumbnail" draggable="false" />
 						<# } else { #>
 							<img src="{{ data.icon }}" class="icon" draggable="false" />
 						<# } #>
