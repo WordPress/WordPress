@@ -91,6 +91,8 @@
 				this.options.uploader = false;
 			}
 
+			this.gridRouter = new media.view.MediaFrame.Manage.Router();
+
 			// Call 'initialize' directly on the parent class.
 			media.view.MediaFrame.prototype.initialize.apply( this, arguments );
 
@@ -109,21 +111,6 @@
 				}
 				self.gridRouter.navigate( self.gridRouter.baseUrl( url ) );
 			}, 1000 ) );
-
-			// This is problematic.
-			_.delay( _.bind( this.createRouter, this ), 1000 );
-		},
-
-		createRouter: function() {
-			this.gridRouter = new media.view.MediaFrame.Manage.Router();
-
-			// Verify pushState support and activate
-			if ( window.history && window.history.pushState ) {
-				Backbone.history.start({
-					root: _wpMediaGridSettings.adminUrl,
-					pushState: true
-				});
-			}
 		},
 
 		/**
@@ -210,6 +197,7 @@
 
 				scrollElement: document
 			});
+			this.browserView.on( 'ready', _.bind( this.bindDeferred, this ) );
 
 			this.errors = wp.Uploader.errors;
 			this.errors.on( 'add remove reset', this.sidebarVisibility, this );
@@ -217,6 +205,20 @@
 
 		sidebarVisibility: function() {
 			this.browserView.$( '.media-sidebar' ).toggle( this.errors.length );
+		},
+
+		bindDeferred: function() {
+			this.browserView.dfd.done( _.bind( this.startHistory, this ) );
+		},
+
+		startHistory: function() {
+			// Verify pushState support and activate
+			if ( window.history && window.history.pushState ) {
+				Backbone.history.start( {
+					root: _wpMediaGridSettings.adminUrl,
+					pushState: true
+				} );
+			}
 		}
 	});
 

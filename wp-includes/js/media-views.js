@@ -5819,14 +5819,14 @@
 
 			if ( ! this.collection.length ) {
 				this.toolbar.get( 'spinner' ).show();
-				this.collection.more().done(function() {
+				this.dfd = this.collection.more().done( function() {
 					if ( ! view.collection.length ) {
 						noItemsView.$el.removeClass( 'hidden' );
 					} else {
 						noItemsView.$el.addClass( 'hidden' );
 					}
 					view.toolbar.get( 'spinner' ).hide();
-				});
+				} );
 			} else {
 				noItemsView.$el.addClass( 'hidden' );
 				view.toolbar.get( 'spinner' ).hide();
