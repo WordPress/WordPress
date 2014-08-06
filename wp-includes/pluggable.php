@@ -1342,13 +1342,13 @@ function wp_verify_nonce($nonce, $action = -1) {
 	$i = wp_nonce_tick();
 
 	// Nonce generated 0-12 hours ago
-	$expected = substr( wp_hash( $i . '|' . $action . '|' . $uid . '|' . $token, 'nonce'), -12, 10 );
+	$expected = substr( wp_hash( $i . '|' . $action . '|' . $uid, 'nonce'), -12, 10 );
 	if ( hash_equals( $expected, $nonce ) ) {
 		return 1;
 	}
 
 	// Nonce generated 12-24 hours ago
-	$expected = substr( wp_hash( ( $i - 1 ) . '|' . $action . '|' . $uid . '|' . $token, 'nonce' ), -12, 10 );
+	$expected = substr( wp_hash( ( $i - 1 ) . '|' . $action . '|' . $uid, 'nonce' ), -12, 10 );
 	if ( hash_equals( $expected, $nonce ) ) {
 		return 2;
 	}
@@ -1375,7 +1375,7 @@ function wp_create_nonce($action = -1) {
 
 	$i = wp_nonce_tick();
 
-	return substr(wp_hash($i . $action . $uid, 'nonce'), -12, 10);
+	return substr(wp_hash($i . '|' . $action . '|' . $uid, 'nonce'), -12, 10);
 }
 endif;
 
