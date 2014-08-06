@@ -747,6 +747,14 @@
 
 .attachment-preview {
 	position: relative;
+	-webkit-box-shadow:
+		inset 0 0 15px rgba( 0, 0, 0, 0.1 ),
+		inset 0 0 0 1px rgba( 0, 0, 0, 0.05 );
+	box-shadow:
+		inset 0 0 15px rgba( 0, 0, 0, 0.1 ),
+		inset 0 0 0 1px rgba( 0, 0, 0, 0.05 );
+	background: #eee;
+	cursor: pointer;
 }
 
 .attachment-preview:before {
@@ -812,6 +820,17 @@
 	-webkit-transform: translate( -50%, -50% );
 	-ms-transform: translate(-50%,-50%);
 	transform: translate( -50%, -50% );
+}
+
+.attachment .thumbnail .centered img.icon {
+	-webkit-transform: translate( -50%, -70% );
+	-ms-transform: translate(-50%,-70%);
+	transform: translate( -50%, -70% );
+}
+
+.ie8 .attachment img.icon {
+	top: 20%;
+	position: relative;
 }
 
 .attachment .filename {
@@ -2204,10 +2223,6 @@
 	.media-frame textarea,
 	.media-frame .search {
 		padding: 3px 6px;
-	}
-
-	.media-frame-content .attachment .icon {
-		top: 40%;
 	}
 
 	.image-details .media-modal {
