@@ -5619,54 +5619,28 @@
 				priority: 10
 			};
 
-			filters.uploaded = {
-				text:  l10n.uploadedToThisPost,
-				props: {
-					type:    null,
-					uploadedTo: media.view.settings.post.id,
-					orderby: 'menuOrder',
-					order:   'ASC'
-				},
-				priority: 20
-			};
-
-			this.filters = filters;
-		}
-	});
-
-	/**
-	 * wp.media.view.AttachmentFilters.FileTypes
-	 *
-	 * @constructor
-	 * @augments wp.media.view.AttachmentFilters
-	 * @augments wp.media.View
-	 * @augments wp.Backbone.View
-	 * @augments Backbone.View
-	 */
-	media.view.AttachmentFilters.mimeTypes = media.view.AttachmentFilters.extend({
-		createFilters: function() {
-			var filters = {};
-
-			_.each( media.view.settings.mimeTypes || {}, function( text, key ) {
-				filters[ key ] = {
-					text: text,
+			if ( media.view.settings.post.id ) {
+				filters.uploaded = {
+					text:  l10n.uploadedToThisPost,
 					props: {
-						type:    key,
-						uploadedTo: null,
-						orderby: 'date',
-						order:   'DESC'
-					}
+						type:    null,
+						uploadedTo: media.view.settings.post.id,
+						orderby: 'menuOrder',
+						order:   'ASC'
+					},
+					priority: 20
 				};
-			});
-			filters.all = {
-				text:  l10n.allMediaTypes,
+			}
+
+			filters.unattached = {
+				text:  l10n.unattached,
 				props: {
-					type:    null,
-					uploadedTo: null,
-					orderby: 'date',
-					order:   'DESC'
+					uploadedTo: 0,
+					type:       null,
+					orderby:    'menuOrder',
+					order:      'ASC'
 				},
-				priority: 10
+				priority: 50
 			};
 
 			this.filters = filters;
@@ -5763,8 +5737,6 @@
 				FiltersConstructor = media.view.AttachmentFilters.Uploaded;
 			} else if ( 'all' === filters ) {
 				FiltersConstructor = media.view.AttachmentFilters.All;
-			} else if ( 'mime-types' === filters ) {
-				FiltersConstructor = media.view.AttachmentFilters.mimeTypes;
 			}
 
 			if ( FiltersConstructor ) {

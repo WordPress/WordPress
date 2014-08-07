@@ -131,7 +131,7 @@
 					title:              options.title,
 					content:            'browse',
 					contentUserSetting: false,
-					filterable:         'mime-types'
+					filterable:         'all'
 				})
 			]);
 		},
