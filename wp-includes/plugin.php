@@ -107,7 +107,23 @@ function add_filter( $tag, $function_to_add, $priority = 10, $accepted_args = 1 
 function has_filter($tag, $function_to_check = false) {
 	global $wp_filter;
 
-	$has = !empty($wp_filter[$tag]);
+	$has = ! empty( $wp_filter[ $tag ] );
+
+	// Make sure at least one priority has a filter callback
+	if ( $has ) {
+		$exists = false;
+		foreach ( $wp_filter[ $tag ] as $callbacks ) {
+			if ( ! empty( $callbacks ) ) {
+				$exists = true;
+				break;
+			}
+		}
+
+		if ( ! $exists ) {
+			$has = false;
+		}
+	}
+
 	if ( false === $function_to_check || false == $has )
 		return $has;
 
