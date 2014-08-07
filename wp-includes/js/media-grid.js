@@ -266,8 +266,7 @@
 	media.view.MediaFrame.Manage.Router = Backbone.Router.extend({
 		routes: {
 			'upload.php?item=:slug':    'showItem',
-			'upload.php?search=:query': 'search',
-			':default':                 'defaultRoute'
+			'upload.php?search=:query': 'search'
 		},
 
 		// Map routes against the page URL
@@ -277,8 +276,6 @@
 
 		// Respond to the search route by filling the search field and trigggering the input event
 		search: function( query ) {
-			// Ensure modal closed, see back button
-			this.closeModal();
 			$( '#media-search-input' ).val( query ).trigger( 'input' );
 		},
 
@@ -286,23 +283,8 @@
 		showItem: function( query ) {
 			var library = media.frame.state().get('library');
 
-			// Remove existing modal if present
-			this.closeModal();
 			// Trigger the media frame to open the correct item
 			media.frame.trigger( 'edit:attachment', library.findWhere( { id: parseInt( query, 10 ) } ) );
-		},
-
-		// Close the modal if set up
-		closeModal: function() {
-			if ( media.frame.modal ) {
-				media.frame.modal.close();
-			}
-		},
-
-		// Default route: make sure the modal and search are reset
-		defaultRoute: function() {
-			this.closeModal();
-			$( '#media-search-input' ).val( '' ).trigger( 'input' );
 		}
 	});
 
@@ -344,6 +326,7 @@
 			});
 
 			this.gridRouter = this.options.gridRouter;
+
 			this.library = this.options.library;
 
 			if ( this.options.model ) {
