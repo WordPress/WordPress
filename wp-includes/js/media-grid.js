@@ -565,7 +565,8 @@
 	 * @augments Backbone.View
 	 */
 	media.view.BulkSelectionActionDropdown = media.View.extend({
-		tagName:   'select',
+		tagName: 'select',
+		id:      'bulk-select-dropdown',
 
 		initialize: function() {
 			media.view.Button.prototype.initialize.apply( this, arguments );
