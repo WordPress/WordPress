@@ -342,7 +342,13 @@
 	text-align: left;
 }
 
-.media-sidebar .setting input,
+.media-sidebar .setting input[type="text"],
+.media-sidebar .setting input[type="password"],
+.media-sidebar .setting input[type="email"],
+.media-sidebar .setting input[type="number"],
+.media-sidebar .setting input[type="search"],
+.media-sidebar .setting input[type="tel"],
+.media-sidebar .setting input[type="url"],
 .media-sidebar .setting textarea,
 .media-sidebar .setting .value {
 	margin: 1px;
@@ -2072,7 +2078,13 @@
 	max-width: 55%;
 }
 
-.ie7 .media-sidebar .setting input,
+.ie7 .media-sidebar .setting input[type="text"],
+.ie7 .media-sidebar .setting input[type="password"],
+.ie7 .media-sidebar .setting input[type="email"],
+.ie7 .media-sidebar .setting input[type="number"],
+.ie7 .media-sidebar .setting input[type="search"],
+.ie7 .media-sidebar .setting input[type="tel"],
+.ie7 .media-sidebar .setting input[type="url"],
 .ie7 .media-sidebar .setting textarea {
 	width: 55%;
 }
@@ -2093,6 +2105,7 @@
 .rtl .media-frame input[type="search"],
 .rtl .media-frame input[type="email"],
 .rtl .media-frame input[type="url"],
+.rtl .media-frame input[type="tel"],
 .rtl .media-frame textarea,
 .rtl .media-frame select {
 	font-family: Tahoma, sans-serif;
@@ -2165,7 +2178,13 @@
 		padding: 8px 2px 0;
 	}
 
-	.media-sidebar .setting input,
+	.media-sidebar .setting input[type="text"],
+	.media-sidebar .setting input[type="password"],
+	.media-sidebar .setting input[type="email"],
+	.media-sidebar .setting input[type="number"],
+	.media-sidebar .setting input[type="search"],
+	.media-sidebar .setting input[type="tel"],
+	.media-sidebar .setting input[type="url"],
 	.media-sidebar .setting textarea,
 	.media-sidebar .setting select {
 		width: 98%;
@@ -2402,11 +2421,6 @@
 
 	.uploader-inline-content {
 		position: relative;
-	}
-
-	.media-sidebar .setting input[type="checkbox"],
-	.media-sidebar .field input[type="checkbox"] {
-		width: 25px;
 	}
 
 	/* Image From Link */
