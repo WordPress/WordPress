@@ -1520,6 +1520,9 @@ function prepend_attachment($content) {
 			$atts['width'] = (int) $meta['width'];
 			$atts['height'] = (int) $meta['height'];
 		}
+		if ( has_post_thumbnail() ) {
+			$atts['poster'] = wp_get_attachment_url( get_post_thumbnail_id() );
+		}
 		$p = wp_video_shortcode( $atts );
 	} elseif ( 0 === strpos( $post->post_mime_type, 'audio' ) ) {
 		$p = wp_audio_shortcode( array( 'src' => wp_get_attachment_url() ) );

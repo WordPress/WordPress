@@ -50,7 +50,8 @@ function wp_underscore_audio_template() {
 function wp_underscore_video_template() {
 	$video_types = wp_get_video_extensions();
 ?>
-<#  var w, h, settings = wp.media.view.settings,
+<#  var w_rule = '', h_rule = '',
+		w, h, settings = wp.media.view.settings,
 		isYouTube = ! _.isEmpty( data.model.src ) && data.model.src.match(/youtube|youtu\.be/);
 
 	if ( settings.contentWidth && data.model.width >= settings.contentWidth ) {
@@ -64,12 +65,20 @@ function wp_underscore_video_template() {
 	} else {
 		h = data.model.height;
 	}
+
+	if ( w ) {
+		w_rule = ' width: ' + w + 'px;';
+	}
+
+	if ( h ) {
+		h_rule = ' height: ' + h + 'px;';
+	}
 #>
-<div style="max-width: 100%; width: {{ w }}px">
+<div style="max-width: 100%;{{ w_rule }}{{ h_rule }}">
 <video controls
 	class="wp-video-shortcode{{ isYouTube ? ' youtube-video' : '' }}"
-	width="{{ w }}"
-	height="{{ h }}"
+	<# if ( w ) { #>width="{{ w }}"<# } #>
+	<# if ( h ) { #>height="{{ h }}"<# } #>
 	<?php
 	$props = array( 'poster' => '', 'preload' => 'metadata' );
 	foreach ( $props as $key => $value ):
@@ -280,10 +289,21 @@ function wp_print_media_templates() {
 						<source type="{{ data.mime }}" src="{{ data.url }}"/>
 					</audio>
 				</div>
-				<# } else if ( 'video' === data.type ) { #>
-				<div style="max-width: 100%; width: {{ data.width }}px" class="wp-media-wrapper">
+				<# } else if ( 'video' === data.type ) {
+					var w_rule = h_rule = '';
+					if ( data.width ) {
+						w_rule = ' width: ' + data.width + 'px;';
+					} else if ( wp.media.view.settings.contentWidth ) {
+						w_rule = ' width: ' + wp.media.view.settings.contentWidth + 'px;';
+					}
+					if ( data.height ) {
+						h_rule = ' height: ' + data.height + 'px;';
+					}
+				#>
+				<div style="max-width: 100%; {{ w_rule }}{{ h_rule }}" class="wp-media-wrapper">
 					<video controls class="wp-video-shortcode" preload="metadata"
-						width="{{ data.width }}" height="{{ data.height }}"
+						<# if ( data.width ) { #>width="{{ data.width }}"<# } #>
+						<# if ( data.height ) { #>height="{{ data.height }}"<# } #>
 						<# if ( data.image && data.image.src !== data.icon ) { #>poster="{{ data.image.src }}"<# } #>>
 						<source type="{{ data.mime }}" src="{{ data.url }}"/>
 					</video>

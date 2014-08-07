@@ -1874,7 +1874,14 @@ function wp_video_shortcode( $attr, $content = '' ) {
 	}
 	$html .= '</video>';
 
-	$output = sprintf( '<div style="width: %dpx; max-width: 100%%;" class="wp-video">%s</div>', $atts['width'], $html );
+	$width_rule = $height_rule = '';
+	if ( ! empty( $atts['width'] ) ) {
+		$width_rule = sprintf( ' width: %dpx;', $atts['width'] );
+	}
+	if ( ! empty( $atts['height'] ) ) {
+		$height_rule = sprintf( ' height: %dpx;', $atts['height'] );
+	}
+	$output = sprintf( '<div style="max-width: 100%%;%s%s" class="wp-video">%s</div>', $width_rule, $height_rule, $html );
 
 	/**
 	 * Filter the output of the video shortcode.
