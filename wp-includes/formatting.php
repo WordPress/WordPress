@@ -219,7 +219,7 @@ function wptexturize($text, $reset = false) {
 		.		'[^\[\]<>]'	// Shortcodes do not contain other shortcodes.
 		.	'|'
 		.		'<[^>]+>' 	// HTML elements permitted. Prevents matching ] before >.
-		.	')+'
+		.	')++'
 		.	'\]'		// Find end of shortcode.
 		.	'\]?'		// Shortcodes may end with ]]
 		. ')/s';
@@ -241,12 +241,12 @@ function wptexturize($text, $reset = false) {
 
 			continue;
 
-		} elseif ( '[' === $first && 1 === preg_match( '/^\[(?:[^\[\]<>]|<[^>]+>)+\]$/', $curl ) ) {
+		} elseif ( '[' === $first && 1 === preg_match( '/^\[(?:[^\[\]<>]|<[^>]+>)++\]$/', $curl ) ) {
 			// This is a shortcode delimeter.
 
 			_wptexturize_pushpop_element( $curl, $no_texturize_shortcodes_stack, $no_texturize_shortcodes );
 
-		} elseif ( '[' === $first && 1 === preg_match( '/^\[\[?(?:[^\[\]<>]|<[^>]+>)+\]\]?$/', $curl ) ) {
+		} elseif ( '[' === $first && 1 === preg_match( '/^\[\[?(?:[^\[\]<>]|<[^>]+>)++\]\]?$/', $curl ) ) {
 			// This is an escaped shortcode delimeter.
 
 			// Do not texturize.
