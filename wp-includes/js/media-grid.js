@@ -236,23 +236,6 @@
 	media.view.Attachment.Details.TwoColumn = media.view.Attachment.Details.extend({
 		template: media.template( 'attachment-details-two-column' ),
 
-		preDestroy: function( event ) {
-			event.preventDefault();
-
-			this.lastIndex = this.controller.getCurrentIndex();
-			this.hasNext = this.controller.hasNext();
-		},
-
-		trashAttachment: function( event ) {
-			this.preDestroy( event );
-			media.view.Attachment.Details.prototype.trashAttachment.apply( this, arguments );
-		},
-
-		deleteAttachment: function( event ) {
-			this.preDestroy( event );
-			media.view.Attachment.Details.prototype.deleteAttachment.apply( this, arguments );
-		},
-
 		editAttachment: function( event ) {
 			event.preventDefault();
 			this.controller.setState( 'edit-image' );
@@ -262,25 +245,6 @@
 		 * Noop this from parent class, doesn't apply here.
 		 */
 		toggleSelectionHandler: function() {},
-
-		afterDelete: function( model ) {
-			if ( ! model.destroyed ) {
-				return;
-			}
-
-			var frame = this.controller, index = this.lastIndex;
-
-			if ( ! frame.library.length ) {
-				media.frame.modal.close();
-				return;
-			}
-
-			if ( this.hasNext ) {
-				index -= 1;
-			}
-			frame.model = frame.library.at( index );
-			frame.nextMediaItem();
-		},
 
 		render: function() {
 			media.view.Attachment.Details.prototype.render.apply( this, arguments );
