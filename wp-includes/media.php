@@ -2941,6 +2941,7 @@ function wp_enqueue_media( $args = array() ) {
 		'deletePermanently'      => __( 'Delete Permanently' ),
 		'apply'                  => __( 'Apply' ),
 		'filterByDate'           => __( 'Filter by date' ),
+		'filterByType'           => __( 'Filter by type' ),
 		'searchMediaLabel'       => __( 'Search Media' ),
 
 		// Library Details

@@ -5743,6 +5743,10 @@
 				}).render() );
 			}
 
+			this.toolbar.set( 'spinner', new media.view.Spinner({
+				priority: -60
+			}) );
+
 			filters = this.options.filters;
 			if ( 'uploaded' === filters ) {
 				FiltersConstructor = media.view.AttachmentFilters.Uploaded;
@@ -5751,19 +5755,21 @@
 			}
 
 			if ( FiltersConstructor ) {
+				// "FiltersConstructor" will return a <select>, need to render
+				// screen reader text before
+				this.toolbar.set( 'filtersLabel', new media.view.Label({
+					value: l10n.filterByType,
+					attributes: {
+						'for':  'media-attachment-filters'
+					},
+					priority:   -80
+				}).render() );
 				this.toolbar.set( 'filters', new FiltersConstructor({
 					controller: this.controller,
 					model:      this.collection.props,
 					priority:   -80
 				}).render() );
-
-				screenReaderText = $( '<label class="screen-reader-text" for="media-attachment-filters">' + l10n.select + '</label>' );
-				this.toolbar.get( 'filters' ).$el.before( screenReaderText );
 			}
-
-			this.toolbar.set( 'spinner', new media.view.Spinner({
-				priority: -70
-			}) );
 
 			if ( this.options.search ) {
 				// Search is an input, screen reader text needs to be rendered before
