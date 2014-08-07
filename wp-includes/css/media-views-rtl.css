@@ -284,8 +284,7 @@
 }
 
 .media-sidebar h3,
-.image-details h3,
-.attachment-info h3 {
+.image-details h3 {
 	position: relative;
 	font-weight: bold;
 	text-transform: uppercase;
@@ -1485,9 +1484,8 @@
 	z-index: 10;
 }
 
-.attachment-details .settings-save-status .spinner,
-.attachment-details .settings-save-status .saved {
-	margin: 0 5px -20px;
+.attachment-details .settings-save-status .spinner {
+	margin: 0 5px 0;
 }
 
 .attachment-details .settings-save-status .saved {
@@ -1508,29 +1506,6 @@
 	color: #666;
 	border-bottom: 1px solid #ddd;
 	padding-bottom: 11px;
-}
-
-.attachment-info .details {
-	clear: left;
-}
-
-.attachment-info h3:first-child {
-	margin-top: 0;
-}
-
-.attachment-info .details .setting .name {
-	float: right;
-	margin: 8px 1% 0 1% !important;
-	padding: 0;
-	line-height: 1.1;
-}
-
-.attachment-info .details .url.setting .name {
-	padding-top: 3px;
-}
-
-.attachment-info .setting .value {
-	font-style: italic;
 }
 
 .attachment-info .filename {
@@ -1593,29 +1568,6 @@
 	float: right;
 	font-size: 12px;
 	max-width: 100%;
-}
-
-.attachment-info .advanced-toggle {
-	color: #666;
-	text-decoration: none;
-	display: block;
-}
-.attachment-info .advanced-toggle:hover {
-	color: #d54e21;
-}
-
-.attachment-info .advanced-toggle:after {
-	font: normal 20px/1 'dashicons';
-	speak: none;
-	vertical-align: top;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
-	content: '\f140';
-	display: inline-block;
-	margin-top: -2px;
-}
-.attachment-info .advanced-visible .advanced-toggle:after {
-	content: '\f142';
 }
 
 .attachment-info .edit-attachment,
