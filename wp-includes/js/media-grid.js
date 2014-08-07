@@ -487,11 +487,7 @@
 		 */
 		keyEvent: function( event ) {
 			var $target = $( event.target );
-			// Pressing the escape key routes back to main url
-			if ( event.keyCode === 27 ) {
-				this.resetRoute();
-				return event;
-			}
+
 			//Don't go left/right if we are in a textarea or input field
 			if ( $target.is( 'input' ) || $target.is( 'textarea' ) ) {
 				return event;
