@@ -5766,13 +5766,19 @@
 			}) );
 
 			if ( this.options.search ) {
+				// Search is an input, screen reader text needs to be rendered before
+				this.toolbar.set( 'searchLabel', new media.view.Label({
+					value: l10n.searchMediaLabel,
+					attributes: {
+						'for': 'media-search-input'
+					},
+					priority:   60
+				}).render() );
 				this.toolbar.set( 'search', new media.view.Search({
 					controller: this.controller,
 					model:      this.collection.props,
 					priority:   60
 				}).render() );
-				screenReaderText = $( '<label class="screen-reader-text" for="media-search-input">' + l10n.search + '</label>' );
-				this.toolbar.get( 'search' ).$el.before( screenReaderText );
 			}
 
 			if ( this.options.dragInfo ) {
