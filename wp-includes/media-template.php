@@ -71,7 +71,7 @@ function wp_underscore_video_template() {
 	}
 
 	if ( h ) {
-		h_rule = ' height: ' + h + 'px;';
+		h_rule = ' height: auto';
 	}
 #>
 <div style="max-width: 100%;{{ w_rule }}{{ h_rule }}">
@@ -297,7 +297,7 @@ function wp_print_media_templates() {
 						w_rule = ' width: ' + wp.media.view.settings.contentWidth + 'px;';
 					}
 					if ( data.height ) {
-						h_rule = ' height: ' + data.height + 'px;';
+						h_rule = ' height: auto';
 					}
 				#>
 				<div style="max-width: 100%; {{ w_rule }}{{ h_rule }}" class="wp-media-wrapper">

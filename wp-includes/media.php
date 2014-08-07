@@ -1880,6 +1880,8 @@ function wp_video_shortcode( $attr, $content = '' ) {
 	}
 	if ( ! empty( $atts['height'] ) ) {
 		$height_rule = sprintf( ' height: %dpx;', $atts['height'] );
+	} else {
+		$height_rule = ' height: auto;';
 	}
 	$output = sprintf( '<div style="max-width: 100%%;%s%s" class="wp-video">%s</div>', $width_rule, $height_rule, $html );
 
