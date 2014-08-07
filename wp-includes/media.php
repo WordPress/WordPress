@@ -2940,6 +2940,7 @@ function wp_enqueue_media( $args = array() ) {
 		'bulkActionsLabel'       => __( 'Select bulk action' ),
 		'deletePermanently'      => __( 'Delete Permanently' ),
 		'apply'                  => __( 'Apply' ),
+		'filterByDate'           => __( 'Filter by date' ),
 
 		// Library Details
 		'attachmentDetails'  => __( 'Attachment Details' ),

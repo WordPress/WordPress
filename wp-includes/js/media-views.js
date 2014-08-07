@@ -5716,14 +5716,25 @@
 					className: 'view-switch media-grid-view-switch',
 					template: media.template( 'media-library-view-switcher')
 				});
+
 				this.toolbar.set( 'libraryViewSwitcher', new LibraryViewSwitcher({
 					controller: this.controller,
 					priority: -90
 				}).render() );
 
+				// BulkSelection is a <div> with subviews, including screen reader text
 				this.toolbar.set( 'bulkSelection', new media.view.BulkSelection({
 					controller: this.controller,
 					priority: -70
+				}).render() );
+
+				// DateFilter is a <select>, screen reader text needs to be rendered before
+				this.toolbar.set( 'dateFilterLabel', new media.view.Label({
+					value: l10n.filterByDate,
+					attributes: {
+						'for': 'media-attachment-date-filters'
+					},
+					priority: -75
 				}).render() );
 				this.toolbar.set( 'dateFilter', new media.view.DateFilter({
 					controller: this.controller,
@@ -6583,6 +6594,8 @@
 
 		render: function() {
 			this.$el.html( this.value );
+
+			return this;
 		}
 	});
 
