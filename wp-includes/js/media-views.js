@@ -5697,10 +5697,7 @@
 			var filters,
 				LibraryViewSwitcher,
 				FiltersConstructor,
-				filterByTypeLabel,
-				bulkActionsLabel,
-				filterByDateLabel,
-				searchLabel;
+				screenReaderText;
 
 			/**
 			 * @member {wp.media.view.Toolbar}
@@ -5715,32 +5712,24 @@
 			// browser view. Is this a use case for doAction( 'add:toolbar-items:attachments-browser', this.toolbar );
 			// which the controller can tap into and add this view?
 			if ( this.controller.activeModes.where( { id: 'grid' } ).length ) {
-
 				LibraryViewSwitcher = media.View.extend({
 					className: 'view-switch media-grid-view-switch',
 					template: media.template( 'media-library-view-switcher')
 				});
-
 				this.toolbar.set( 'libraryViewSwitcher', new LibraryViewSwitcher({
 					controller: this.controller,
 					priority: -90
-				}).render() );
-
-				this.toolbar.set( 'dateFilter', new media.view.DateFilter({
-					controller: this.controller,
-					model:      this.collection.props,
-					priority: -75
 				}).render() );
 
 				this.toolbar.set( 'bulkSelection', new media.view.BulkSelection({
 					controller: this.controller,
 					priority: -70
 				}).render() );
-
-				this.toolbar.set( 'spinner', new media.view.Spinner({
-					priority: -60
-				}) );
-
+				this.toolbar.set( 'dateFilter', new media.view.DateFilter({
+					controller: this.controller,
+					model:      this.collection.props,
+					priority: -75
+				}).render() );
 			}
 
 			filters = this.options.filters;
@@ -5757,15 +5746,13 @@
 					priority:   -80
 				}).render() );
 
-				filterByTypeLabel = $( '<label class="screen-reader-text" for="media-attachment-filters">' + l10n.filterByType + '</label>' );
-				this.toolbar.get( 'filters' ).$el.before( filterByTypeLabel );
-
-				filterByDateLabel = $( '<label class="screen-reader-text" for="media-attachment-date-filters">' + l10n.filterByDate + '</label>' );
-				this.toolbar.get( 'dateFilter' ).$el.before( filterByDateLabel );
-
-				bulkActionsLabel = $( '<label class="screen-reader-text" for="bulk-select-dropdown">' + l10n.bulkActionsLabel + '</label>' );
-				this.toolbar.get( 'bulkSelection' ).$el.before( bulkActionsLabel );
+				screenReaderText = $( '<label class="screen-reader-text" for="media-attachment-filters">' + l10n.select + '</label>' );
+				this.toolbar.get( 'filters' ).$el.before( screenReaderText );
 			}
+
+			this.toolbar.set( 'spinner', new media.view.Spinner({
+				priority: -70
+			}) );
 
 			if ( this.options.search ) {
 				this.toolbar.set( 'search', new media.view.Search({
@@ -5773,8 +5760,8 @@
 					model:      this.collection.props,
 					priority:   60
 				}).render() );
-				searchLabel = $( '<label class="screen-reader-text" for="media-search-input">' + l10n.searchMediaLabel + '</label>' );
-				this.toolbar.get( 'search' ).$el.before( searchLabel );
+				screenReaderText = $( '<label class="screen-reader-text" for="media-search-input">' + l10n.search + '</label>' );
+				this.toolbar.get( 'search' ).$el.before( screenReaderText );
 			}
 
 			if ( this.options.dragInfo ) {
