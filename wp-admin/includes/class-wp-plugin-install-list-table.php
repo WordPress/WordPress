@@ -375,13 +375,15 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 				switch ( $status['status'] ) {
 					case 'install':
 						if ( $status['url'] ) {
-							$action_links[] = '<a class="install-now button" href="' . $status['url'] . '" aria-labelledby="' . $plugin['slug'] . '">' . __( 'Install Now' ) . '</a>';
+							/* translators: 1: Plugin name and version. */
+							$action_links[] = '<a class="install-now button" href="' . $status['url'] . '" aria-label="' . esc_attr( sprintf( __( 'Install %s now' ), $name ) ) . '">' . __( 'Install Now' ) . '</a>';
 						}
 
 						break;
 					case 'update_available':
 						if ( $status['url'] ) {
-							$action_links[] = '<a class="button" href="' . $status['url'] . '" aria-labelledby="' . $plugin['slug'] . '">' . __( 'Update Now' ) . '</a>';
+							/* translators: 1: Plugin name and version */
+							$action_links[] = '<a class="button" href="' . $status['url'] . '" aria-label="' . esc_attr( sprintf( __( 'Update %s now' ), $name ) ) . '">' . __( 'Update Now' ) . '</a>';
 						}
 
 						break;
@@ -395,7 +397,8 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 			$details_link   = self_admin_url( 'plugin-install.php?tab=plugin-information&amp;plugin=' . $plugin['slug'] .
 								'&amp;TB_iframe=true&amp;width=600&amp;height=550' );
 
-			$action_links[] = '<a href="' . esc_url( $details_link ) . '" class="thickbox" aria-labelledby="' . $plugin['slug'] . '" data-title="' . esc_attr( $name ) . '">' . __( 'More Details' ) . '</a>';
+			/* translators: 1: Plugin name and version. */
+			$action_links[] = '<a href="' . esc_url( $details_link ) . '" class="thickbox" aria-label="' . esc_attr( sprintf( __( 'More information about %s' ), $name ) ) . '" data-title="' . esc_attr( $name ) . '">' . __( 'More Details' ) . '</a>';
 
 
 			/**
