@@ -14,9 +14,9 @@ class WP_List_Table {
 	 *
 	 * @since 3.1.0
 	 * @var array
-	 * @access protected
+	 * @access public
 	 */
-	protected $items;
+	public $items;
 
 	/**
 	 * Various information about the current table
