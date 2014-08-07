@@ -5696,8 +5696,7 @@
 		createToolbar: function() {
 			var filters,
 				LibraryViewSwitcher,
-				FiltersConstructor,
-				screenReaderText;
+				FiltersConstructor;
 
 			/**
 			 * @member {wp.media.view.Toolbar}
