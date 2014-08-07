@@ -2597,6 +2597,10 @@
 	margin: 0 0 0 10px;
 }
 
+.media-frame.mode-grid .attachments {
+	padding: 2px;
+}
+
 /**
  * Copied styles from the Add theme toolbar.
  *
