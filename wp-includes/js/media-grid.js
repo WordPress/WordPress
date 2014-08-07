@@ -540,6 +540,13 @@
 
 			});
 
+			this.views.add( new media.view.Label({
+				value: l10n.bulkActionsLabel,
+				attributes: {
+					'for': 'bulk-select-dropdown'
+				}
+			}) );
+
 			this.views.add(
 				new media.view.BulkSelectionActionDropdown({
 					controller: this
@@ -565,7 +572,8 @@
 	 * @augments Backbone.View
 	 */
 	media.view.BulkSelectionActionDropdown = media.View.extend({
-		tagName:   'select',
+		tagName: 'select',
+		id:      'bulk-select-dropdown',
 
 		initialize: function() {
 			media.view.Button.prototype.initialize.apply( this, arguments );

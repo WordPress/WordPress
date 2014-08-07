@@ -2937,6 +2937,7 @@ function wp_enqueue_media( $args = array() ) {
 		'warnDelete'             => __( "You are about to permanently delete this item.\n  'Cancel' to stop, 'OK' to delete." ),
 		'warnBulkDelete'         => __( "You are about to permanently delete these items.\n  'Cancel' to stop, 'OK' to delete." ),
 		'bulkActions'            => __( 'Bulk Actions' ),
+		'bulkActionsLabel'       => __( 'Select bulk action' ),
 		'deletePermanently'      => __( 'Delete Permanently' ),
 		'apply'                  => __( 'Apply' ),
 

@@ -6568,6 +6568,25 @@
 	});
 
 	/**
+	 * @constructor
+	 * @augments wp.media.View
+	 * @augments wp.Backbone.View
+	 * @augments Backbone.View
+	 */
+	media.view.Label = media.View.extend({
+		tagName: 'label',
+		className: 'screen-reader-text',
+
+		initialize: function() {
+			this.value = this.options.value;
+		},
+
+		render: function() {
+			this.$el.html( this.value );
+		}
+	});
+
+	/**
 	 * wp.media.view.EmbedUrl
 	 *
 	 * @constructor
