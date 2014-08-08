@@ -140,42 +140,35 @@
 .media-modal-close {
 	position: absolute;
 	text-decoration: none;
-	top: 0;
-	left: 0;
-	width: 50px;
-	height: 50px;
+	top: 5px;
+	left: 10px;
+	width: 30px;
+	height: 30px;
 	z-index: 1000;
-	color: #777;
 	-webkit-transition: color .1s ease-in-out, background .1s ease-in-out;
 	transition: color .1s ease-in-out, background .1s ease-in-out;
 }
 
 .media-modal-close span.media-modal-icon {
-	display: none;
+	display: block;
 	margin: 8px auto 0;
 	width: 15px;
 	height: 15px;
 	background-image: none;
 }
 
-.media-modal-close:before {
-	position: absolute;
-	top: 1px;
-	right: 11px;
-	font: normal 30px/50px 'dashicons' !important;
-	content: '\f335';
-	font-weight: 300;
+.media-modal-close .media-modal-icon:before {
+	content: '\f158';
+	font: normal 20px/1 'dashicons';
 	speak: none;
+	vertical-align: middle;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
+	color: #666;
 }
 
-.media-modal-close:focus,
-.media-modal-close:hover {
-	background: #0074a2;
-	color: #fff;
-	-webkit-box-shadow: none;
-	box-shadow: none;
+.media-modal-close:hover .media-modal-icon:before {
+	color: #2ea2cc;
 }
 
 .media-modal-close:active {
@@ -2554,9 +2547,20 @@
 	overflow: hidden;
 }
 
-.upload-php .media-modal-close:before {
-	top: 4px;
-	right: 14px;
+.upload-php .media-modal-close .media-modal-icon:before {
+	content: '\f335';
+	font-size: 30px;
+}
+
+.upload-php .media-modal-close:hover .media-modal-icon:before,
+.upload-php .media-modal-close:focus .media-modal-icon:before {
+	color: #fff;
+}
+
+.upload-php .media-modal-close .media-modal-icon {
+	margin-top: 13px;
+	width: 30px;
+	height: 30px;
 }
 
 .upload-php .media-modal-close,
@@ -2574,6 +2578,11 @@
 	border-right: 1px solid #ddd;
 	-webkit-transition: color .1s ease-in-out, background .1s ease-in-out;
     transition: color .1s ease-in-out, background .1s ease-in-out;
+}
+
+.upload-php .media-modal-close {
+	top: 0;
+	left: 0;
 }
 
 .edit-attachment-frame .edit-media-header .left {
@@ -2608,8 +2617,6 @@
 
 .edit-attachment-frame .edit-media-header .left.disabled,
 .edit-attachment-frame .edit-media-header .right.disabled,
-.edit-attachment-frame .edit-media-header .left.disabled:focus,
-.edit-attachment-frame .edit-media-header .right.disabled:focus,
 .edit-attachment-frame .edit-media-header .left.disabled:hover,
 .edit-attachment-frame .edit-media-header .right.disabled:hover {
 	color: #ccc;

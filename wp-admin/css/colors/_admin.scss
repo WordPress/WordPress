@@ -416,15 +416,6 @@ ul#adminmenu > li.current > a.current:after {
 	box-shadow: 0 0 0 1px #fff, 0 0 0 2px $highlight-color;
 }
 
-.media-modal-close:hover,
-.edit-attachment-frame .edit-media-header .right:hover,
-.edit-attachment-frame .edit-media-header .left:hover,
-.media-modal-close:focus,
-.edit-attachment-frame .edit-media-header .right:focus,
-.edit-attachment-frame .edit-media-header .left:focus {
-	background: $menu-highlight-background;
-	color: $menu-highlight-text;
-}
 
 /* Themes */
 
