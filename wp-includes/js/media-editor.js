@@ -1048,16 +1048,20 @@
 		 * @returns {wp.media.view.MediaFrame}
 		 */
 		open: function( id, options ) {
-			var workflow, focusTrap;
+			var workflow, focusTrap, scrollTop;
 
 			if ( 'ontouchend' in document ) {
 				// Close the onscreen keyboard
 				if ( ! focusTrap ) {
-					focusTrap = $( '<input type="text" />' );
+					focusTrap = $( '<input type="text" style="width: 1px; height: 1px;" />' );
 				}
+
+				// Keep the scroll position
+				scrollTop = $( window ).scrollTop();
 
 				$( document.body ).append( focusTrap );
 				focusTrap.focus().blur().remove();
+				$( window ).scrollTop( scrollTop );
 			}
 
 			options = options || {};

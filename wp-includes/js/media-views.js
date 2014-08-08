@@ -1,6 +1,8 @@
 /* global _wpMediaViewsL10n, confirm, getUserSetting, setUserSetting */
-(function($, _){
-	var media = wp.media, l10n;
+( function( $, _ ) {
+	var l10n,
+		media = wp.media,
+		isTouchDevice = ( 'ontouchend' in document );
 
 	// Link any localized strings.
 	l10n = media.view.l10n = typeof _wpMediaViewsL10n === 'undefined' ? {} : _wpMediaViewsL10n;
@@ -1834,6 +1836,10 @@
 		template:  media.template('media-frame'),
 		regions:   ['menu','title','content','toolbar','router'],
 
+		events: {
+			'click div.media-frame-title h1': 'toggleMenu'
+		},
+
 		/**
 		 * @global wp.Uploader
 		 */
@@ -1883,6 +1889,10 @@
 			this.on( 'title:create:default', this.createTitle, this );
 			this.title.mode('default');
 
+			this.on( 'title:render', function( view ) {
+				view.$el.append( '<span class="dashicons dashicons-arrow-down"></span>' );
+			});
+
 			// Bind default menu.
 			this.on( 'menu:create:default', this.createMenu, this );
 		},
@@ -1918,6 +1928,11 @@
 				controller: this
 			});
 		},
+
+		toggleMenu: function() {
+			this.$el.find( '.media-menu' ).toggleClass( 'visible' );
+		},
+
 		/**
 		 * @param {Object} toolbar
 		 * @this wp.media.controller.Region
@@ -2555,7 +2570,10 @@
 			}).render();
 
 			this.content.set( view );
-			view.url.focus();
+
+			if ( ! isTouchDevice ) {
+				view.url.focus();
+			}
 		},
 
 		editSelectionContent: function() {
@@ -4412,13 +4430,17 @@
 
 			// When selecting a tab along the left side,
 			// focus should be transferred into the main panel
-			$('.media-frame-content input').first().focus();
+			if ( ! isTouchDevice ) {
+				$('.media-frame-content input').first().focus();
+			}
 		},
 
 		click: function() {
 			var state = this.options.state;
+
 			if ( state ) {
 				this.controller.setState( state );
+				this.views.parent.$el.removeClass( 'visible' ); // TODO: or hide on any click, see below
 			}
 		},
 		/**
@@ -4452,6 +4474,17 @@
 		property:  'state',
 		ItemView:  media.view.MenuItem,
 		region:    'menu',
+
+		/* TODO: alternatively hide on any click anywhere
+		events: {
+			'click': 'click'
+		},
+
+		click: function() {
+			this.$el.removeClass( 'visible' );
+		},
+		*/
+
 		/**
 		 * @param {Object} options
 		 * @param {string} id
@@ -4615,6 +4648,7 @@
 		tagName:   'li',
 		className: 'attachment',
 		template:  media.template('attachment'),
+		_isTouch: false,
 
 		attributes: {
 			tabIndex: 0,
@@ -4623,6 +4657,7 @@
 
 		events: {
 			'click .js--select-attachment':   'toggleSelectionHandler',
+			'touchend .attachment-preview':   'setTouch',
 			'change [data-setting]':          'updateSetting',
 			'change [data-setting] input':    'updateSetting',
 			'change [data-setting] select':   'updateSetting',
@@ -4747,6 +4782,11 @@
 				this.$bar.width( this.model.get('percent') + '%' );
 			}
 		},
+
+		setTouch: function() {
+			this._isTouch = true;
+		},
+
 		/**
 		 * @param {Object} event
 		 */
@@ -4783,6 +4823,11 @@
 				method = 'between';
 			} else if ( event.ctrlKey || event.metaKey ) {
 				method = 'toggle';
+			}
+
+			if ( this._isTouch ) {
+				this._isTouch = false;
+				method = 'add';
 			}
 
 			this.toggleSelection({
@@ -4878,7 +4923,9 @@
 				selection.single( model );
 
 				// When selecting attachments, focus should be transferred to the right details panel
-				$('.attachment-details input').first().focus();
+				if ( ! isTouchDevice ) {
+					$('.attachment-details input').first().focus();
+				}
 
 				return;
 
@@ -4888,11 +4935,15 @@
 				selection[ this.selected() ? 'remove' : 'add' ]( model );
 				selection.single( model );
 
-				if ( this.selected() ) {
+				if ( ! isTouchDevice && this.selected() ) {
 					// When selecting an attachment, focus should be transferred to the right details panel
 					$('.attachment-details input').first().focus();
 				}
 
+				return;
+			} else if ( 'add' === method ) {
+				selection.add( model );
+				selection.single( model );
 				return;
 			}
 
@@ -4948,7 +4999,9 @@
 					.find( '.check' ).attr( 'tabindex', '0' );
 
 			// When selecting an attachment, focus should be transferred to the right details panel
-			$('.attachment-details input').first().focus();
+			if ( ! isTouchDevice ) {
+				$('.attachment-details input').first().focus();
+			}
 		},
 		/**
 		 * @param {Backbone.Model} model
@@ -5215,12 +5268,12 @@
 			this.el.id = _.uniqueId('__attachments-view-');
 
 			_.defaults( this.options, {
-				refreshSensitivity: 200,
+				refreshSensitivity: isTouchDevice ? 300 : 200,
 				refreshThreshold:   3,
 				AttachmentView:     media.view.Attachment,
 				sortable:           false,
 				resize:             true,
-				idealColumnWidth:   150
+				idealColumnWidth:   $( window ).width() < 640 ? 135 : 150
 			});
 
 			this._viewsByCid = {};
@@ -5253,7 +5306,8 @@
 			_.bindAll( this, 'setColumns' );
 
 			if ( this.options.resize ) {
-				$( window ).on( 'resize.attachments', this.setColumns );
+				$( window ).on( 'resize.media-modal-columns', this.setColumns );
+				this.controller.on( 'open', this.setColumns );
 			}
 
 			// Call this.setColumns() after this view has been rendered in the DOM so
@@ -5263,7 +5317,7 @@
 
 		dispose: function() {
 			this.collection.props.off( null, null, this );
-			$( window ).off( 'resize.attachments', this.setColumns );
+			$( window ).off( 'resize.media-modal-columns' );
 
 			/**
 			 * call 'dispose' directly on the parent class
@@ -5272,19 +5326,22 @@
 		},
 
 		setColumns: function() {
-			var prev = this.columns;
+			var prev = this.columns,
+				width = this.$el.width();
 
-			this.columns = Math.round( this.$el.width() / this.options.idealColumnWidth );
+			if ( width ) {
+				this.columns = Math.round( width / this.options.idealColumnWidth ) || 1;
 
-			if ( prev !== this.columns ) {
-				this.$el.attr( 'data-columns', this.columns );
+				if ( ! prev || prev !== this.columns ) {
+					this.$el.attr( 'data-columns', this.columns );
+				}
 			}
 		},
 
 		initSortable: function() {
 			var collection = this.collection;
 
-			if ( ! this.options.sortable || ! $.fn.sortable ) {
+			if ( isTouchDevice || ! this.options.sortable || ! $.fn.sortable ) {
 				return;
 			}
 
@@ -5347,7 +5404,7 @@
 		},
 
 		refreshSortable: function() {
-			if ( ! this.options.sortable || ! $.fn.sortable ) {
+			if ( isTouchDevice || ! this.options.sortable || ! $.fn.sortable ) {
 				return;
 			}
 
@@ -6273,7 +6330,7 @@
 			$input.removeClass( 'hidden' );
 
 			// If the input is visible, focus and select its contents.
-			if ( $input.is(':visible') ) {
+			if ( ! isTouchDevice && $input.is(':visible') ) {
 				$input.focus()[0].select();
 			}
 		}
@@ -6633,7 +6690,9 @@
 		},
 
 		ready: function() {
-			this.focus();
+			if ( ! isTouchDevice ) {
+				this.focus();
+			}
 		},
 
 		url: function( event ) {
