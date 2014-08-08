@@ -2,6 +2,11 @@
 	var api = wp.customize,
 		debounce;
 
+	/**
+	 * Returns a debounced version of the function.
+	 *
+	 * @todo Require Underscore.js for this file and retire this.
+	 */
 	debounce = function( fn, delay, context ) {
 		var timeout;
 		return function() {
@@ -17,6 +22,12 @@
 		};
 	};
 
+	/**
+	 * @constructor
+	 * @augments wp.customize.Messenger
+	 * @augments wp.customize.Class
+	 * @mixes wp.customize.Events
+	 */
 	api.Preview = api.Messenger.extend({
 		/**
 		 * Requires params:

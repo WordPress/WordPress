@@ -3,6 +3,10 @@
 	var api = wp.customize;
 
 	/**
+	 * @constructor
+	 * @augments wp.customize.Value
+	 * @augments wp.customize.Class
+	 *
 	 * @param options
 	 * - previewer - The Previewer instance to sync with.
 	 * - transport - The transport to use for previewing. Supports 'refresh' and 'postMessage'.
@@ -26,6 +30,10 @@
 		}
 	});
 
+	/**
+	 * @constructor
+	 * @augments wp.customize.Class
+	 */
 	api.Control = api.Class.extend({
 		initialize: function( id, options ) {
 			var control = this,
@@ -87,6 +95,9 @@
 			control.toggle( control.active() );
 		},
 
+		/**
+		 * @abstract
+		 */
 		ready: function() {},
 
 		/**
@@ -141,6 +152,11 @@
 		}
 	});
 
+	/**
+	 * @constructor
+	 * @augments wp.customize.Control
+	 * @augments wp.customize.Class
+	 */
 	api.ColorControl = api.Control.extend({
 		ready: function() {
 			var control = this,
@@ -157,6 +173,11 @@
 		}
 	});
 
+	/**
+	 * @constructor
+	 * @augments wp.customize.Control
+	 * @augments wp.customize.Class
+	 */
 	api.UploadControl = api.Control.extend({
 		ready: function() {
 			var control = this;
@@ -210,6 +231,12 @@
 		}
 	});
 
+	/**
+	 * @constructor
+	 * @augments wp.customize.UploadControl
+	 * @augments wp.customize.Control
+	 * @augments wp.customize.Class
+	 */
 	api.ImageControl = api.UploadControl.extend({
 		ready: function() {
 			var control = this,
@@ -328,6 +355,11 @@
 		}
 	});
 
+	/**
+	 * @constructor
+	 * @augments wp.customize.Control
+	 * @augments wp.customize.Class
+	 */
 	api.HeaderControl = api.Control.extend({
 		ready: function() {
 			this.btnRemove        = $('#customize-control-header_image .actions .remove');
@@ -544,6 +576,12 @@
 	// Create the collection of Control objects.
 	api.control = new api.Values({ defaultConstructor: api.Control });
 
+	/**
+	 * @constructor
+	 * @augments wp.customize.Messenger
+	 * @augments wp.customize.Class
+	 * @mixes wp.customize.Events
+	 */
 	api.PreviewFrame = api.Messenger.extend({
 		sensitivity: 2000,
 
@@ -714,11 +752,22 @@
 
 	(function(){
 		var uuid = 0;
+		/**
+		 * Create a universally unique identifier.
+		 *
+		 * @return {int}
+		 */
 		api.PreviewFrame.uuid = function() {
 			return 'preview-' + uuid++;
 		};
 	}());
 
+	/**
+	 * @constructor
+	 * @augments wp.customize.Messenger
+	 * @augments wp.customize.Class
+	 * @mixes wp.customize.Events
+	 */
 	api.Previewer = api.Messenger.extend({
 		refreshBuffer: 250,
 
@@ -923,10 +972,6 @@
 			$( document.body ).empty().addClass('cheatin').append( '<p>' + api.l10n.cheatin + '</p>' );
 		}
 	});
-
-	/* =====================================================================
-	 * Ready.
-	 * ===================================================================== */
 
 	api.controlConstructor = {
 		color:  api.ColorControl,

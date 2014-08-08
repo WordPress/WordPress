@@ -16,7 +16,7 @@
  */
 final class WP_Customize_Manager {
 	/**
-	 * An instance of the theme that is being customized.
+	 * An instance of the theme being previewed.
 	 *
 	 * @var WP_Theme
 	 */
@@ -30,8 +30,7 @@ final class WP_Customize_Manager {
 	protected $original_stylesheet;
 
 	/**
-	 * Whether filters have been set to change the active theme to the theme being
-	 * customized.
+	 * Whether this is a Customizer pageload.
 	 *
 	 * @var boolean
 	 */
@@ -183,7 +182,6 @@ final class WP_Customize_Manager {
 				$this->wp_die( -1 );
 		}
 
-		// All good, let's do some internal business to preview the theme.
 		$this->start_previewing_theme();
 	}
 
@@ -200,7 +198,8 @@ final class WP_Customize_Manager {
 	}
 
 	/**
-	 * Start previewing the selected theme by adding filters to change the current theme.
+	 * If the theme to be previewed isn't the active theme, add filter callbacks
+	 * to swap it out at runtime.
 	 *
 	 * @since 3.4.0
 	 */
