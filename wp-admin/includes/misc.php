@@ -826,3 +826,20 @@ function heartbeat_autosave( $response, $data ) {
 }
 // Run later as we have to set DOING_AUTOSAVE for back-compat
 add_filter( 'heartbeat_received', 'heartbeat_autosave', 500, 2 );
+
+/**
+ * Disables autocomplete on the 'post' form (Add/Edit Post screens) for WebKit browsers,
+ * as they disregard the autocomplete setting on the editor textarea. That can break the editor
+ * when the user navigates to it with the browser's Back button. See #28037
+ *
+ * @since 4.0 
+ */
+function post_form_autocomplete_off() {
+	global $is_safari, $is_chrome;
+
+	if ( $is_safari || $is_chrome ) {
+		echo ' autocomplete="off"';
+	}
+}
+
+add_action( 'post_edit_form_tag', 'post_form_autocomplete_off' );
