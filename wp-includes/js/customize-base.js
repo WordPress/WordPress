@@ -1,25 +1,22 @@
 window.wp = window.wp || {};
 
 (function( exports, $ ){
-	var api, extend, ctor, inherits,
+	var api = {}, ctor, inherits,
 		slice = Array.prototype.slice;
-
-	/* =====================================================================
-	 * Micro-inheritance - thank you, backbone.js.
-	 * ===================================================================== */
-
-	extend = function( protoProps, classProps ) {
-		var child = inherits( this, protoProps, classProps );
-		child.extend = this.extend;
-		return child;
-	};
 
 	// Shared empty constructor function to aid in prototype-chain creation.
 	ctor = function() {};
 
-	// Helper function to correctly set up the prototype chain, for subclasses.
-	// Similar to `goog.inherits`, but uses a hash of prototype properties and
-	// class properties to be extended.
+	/**
+	 * Helper function to correctly set up the prototype chain, for subclasses.
+	 * Similar to `goog.inherits`, but uses a hash of prototype properties and
+	 * class properties to be extended.
+	 *
+	 * @param  object parent      Parent class constructor to inherit from.
+	 * @param  object protoProps  Properties to apply to the prototype for use as class instance properties.
+	 * @param  object staticProps Properties to apply directly to the class constructor.
+	 * @return child              The subclassed constructor.
+	 */
 	inherits = function( parent, protoProps, staticProps ) {
 		var child;
 
@@ -65,12 +62,9 @@ window.wp = window.wp || {};
 		return child;
 	};
 
-	api = {};
-
-	/* =====================================================================
-	 * Base class.
-	 * ===================================================================== */
-
+	/**
+	 * Base class for object inheritance.
+	 */
 	api.Class = function( applicator, argsArray, options ) {
 		var magic, args = arguments;
 
@@ -90,6 +84,19 @@ window.wp = window.wp || {};
 
 		magic.initialize.apply( magic, args );
 		return magic;
+	};
+
+	/**
+	 * Creates a subclass of the class.
+	 *
+	 * @param  object protoProps  Properties to apply to the prototype.
+	 * @param  object staticProps Properties to apply directly to the class.
+	 * @return child              The subclass.
+	 */
+	api.Class.extend = function( protoProps, classProps ) {
+		var child = inherits( this, protoProps, classProps );
+		child.extend = this.extend;
+		return child;
 	};
 
 	api.Class.applicator = {};
@@ -116,12 +123,11 @@ window.wp = window.wp || {};
 		return false;
 	};
 
-	api.Class.extend = extend;
-
-	/* =====================================================================
-	 * Events mixin.
-	 * ===================================================================== */
-
+	/**
+	 * An events manager object, offering the ability to bind to and trigger events.
+	 *
+	 * Used as a mixin.
+	 */
 	api.Events = {
 		trigger: function( id ) {
 			if ( this.topics && this.topics[ id ] )
@@ -143,10 +149,11 @@ window.wp = window.wp || {};
 		}
 	};
 
-	/* =====================================================================
+	/**
 	 * Observable values that support two-way binding.
-	 * ===================================================================== */
-
+	 *
+	 * @constuctor
+	 */
 	api.Value = api.Class.extend({
 		initialize: function( initial, options ) {
 			this._value = initial; // @todo: potentially change this to a this.set() call.
@@ -254,10 +261,13 @@ window.wp = window.wp || {};
 		}
 	});
 
-	/* =====================================================================
+	/**
 	 * A collection of observable values.
-	 * ===================================================================== */
-
+	 *
+	 * @constuctor
+	 * @augments wp.customize.Class
+	 * @mixes wp.customize.Events
+	 */
 	api.Values = api.Class.extend({
 		defaultConstructor: api.Value,
 
@@ -379,16 +389,25 @@ window.wp = window.wp || {};
 
 	$.extend( api.Values.prototype, api.Events );
 
-	/* =====================================================================
-	 * An observable value that syncs with an element.
-	 *
-	 * Handles inputs, selects, and textareas by default.
-	 * ===================================================================== */
 
+	/**
+	 * Cast a string to a jQuery collection if it isn't already.
+	 *
+	 * @param {string|jQuery collection} element
+	 */
 	api.ensure = function( element ) {
 		return typeof element == 'string' ? $( element ) : element;
 	};
 
+	/**
+	 * An observable value that syncs with an element.
+	 *
+	 * Handles inputs, selects, and textareas by default.
+	 *
+	 * @constuctor
+	 * @augments wp.customize.Value
+	 * @augments wp.customize.Class
+	 */
 	api.Element = api.Value.extend({
 		initialize: function( element, options ) {
 			var self = this,
@@ -442,7 +461,7 @@ window.wp = window.wp || {};
 
 	api.Element.synchronizer = {};
 
-	$.each( [ 'html', 'val' ], function( i, method ) {
+	$.each( [ 'html', 'val' ], function( index, method ) {
 		api.Element.synchronizer[ method ] = {
 			update: function( to ) {
 				this.element[ method ]( to );
@@ -473,13 +492,24 @@ window.wp = window.wp || {};
 		}
 	};
 
-	/* =====================================================================
-	 * Messenger for postMessage.
-	 * ===================================================================== */
-
 	$.support.postMessage = !! window.postMessage;
 
+	/**
+	 * Messenger for postMessage.
+	 *
+	 * @constuctor
+	 * @augments wp.customize.Class
+	 * @mixes wp.customize.Events
+	 */
 	api.Messenger = api.Class.extend({
+		/**
+		 * Create a new Value.
+		 *
+		 * @param  {string} key     Unique identifier.
+		 * @param  {mixed}  initial Initial value.
+		 * @param  {mixed}  options Options hash. Optional.
+		 * @return {Value}          Class instance of the Value.
+		 */
 		add: function( key, initial, options ) {
 			return this[ key ] = new api.Value( initial, options );
 		},
@@ -570,10 +600,7 @@ window.wp = window.wp || {};
 	// Add the Events mixin to api.Messenger.
 	$.extend( api.Messenger.prototype, api.Events );
 
-	/* =====================================================================
-	 * Core customize object.
-	 * ===================================================================== */
-
+	// Core customize object.
 	api = $.extend( new api.Values(), api );
 	api.get = function() {
 		var result = {};
@@ -585,6 +612,6 @@ window.wp = window.wp || {};
 		return result;
 	};
 
-	// Expose the API to the world.
+	// Expose the API publicly on window.wp.customize
 	exports.customize = api;
 })( wp, jQuery );

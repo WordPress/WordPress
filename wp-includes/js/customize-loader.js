@@ -10,7 +10,20 @@ window.wp = window.wp || {};
 		hashchange: ('onhashchange' in window) && (document.documentMode === undefined || document.documentMode > 7)
 	});
 
+	/**
+	 * Allows the Customizer to be overlayed on any page.
+	 *
+	 * By default, any element in the body with the load-customize class will open
+	 * the Customizer overlay with the URL specified.
+	 *
+	 *     e.g. <a class="load-customize" href="http://siteurl.com/2014/01/02/post">Open customizer</a>
+	 *
+	 * @augments wp.customize.Events
+	 */
 	Loader = $.extend( {}, api.Events, {
+		/**
+		 * Setup the Loader; triggered on document#ready.
+		 */
 		initialize: function() {
 			this.body = $( document.body );
 
@@ -23,9 +36,12 @@ window.wp = window.wp || {};
 			this.window  = $( window );
 			this.element = $( '<div id="customize-container" />' ).appendTo( this.body );
 
+			// Bind events for opening and closing the overlay.
 			this.bind( 'open', this.overlay.show );
 			this.bind( 'close', this.overlay.hide );
 
+			// Any element in the body with the `load-customize` class opens
+			// the Customizer.
 			$('#wpbody').on( 'click', '.load-customize', function( event ) {
 				event.preventDefault();
 
@@ -73,6 +89,11 @@ window.wp = window.wp || {};
 			}
 		},
 
+		/**
+		 * Open the customizer overlay for a specific URL.
+		 *
+		 * @param  string src URL to load in the Customizer.
+		 */
 		open: function( src ) {
 
 			if ( this.active ) {
@@ -148,10 +169,16 @@ window.wp = window.wp || {};
 			}
 		},
 
+		/**
+		 * Callback after the customizer has been opened.
+		 */
 		opened: function() {
 			Loader.body.addClass( 'customize-active full-overlay-active' );
 		},
 
+		/**
+		 * Close the Customizer overlay and return focus to the link that opened it.
+		 */
 		close: function() {
 			if ( ! this.active ) {
 				return;
@@ -174,6 +201,9 @@ window.wp = window.wp || {};
 			}
 		},
 
+		/**
+		 * Callback after the customizer has been closed.
+		 */
 		closed: function() {
 			Loader.iframe.remove();
 			Loader.messenger.destroy();
@@ -184,10 +214,16 @@ window.wp = window.wp || {};
 			$( window ).off( 'beforeunload', Loader.beforeunload );
 		},
 
+		/**
+		 * Callback for the `load` event on the Customizer iframe.
+		 */
 		loaded: function() {
 			Loader.body.removeClass('customize-loading');
 		},
 
+		/**
+		 * Overlay hide/show utility methods.
+		 */
 		overlay: {
 			show: function() {
 				this.element.fadeIn( 200, Loader.opened );
@@ -199,11 +235,12 @@ window.wp = window.wp || {};
 		}
 	});
 
+	// Bootstrap the Loader on document#ready.
 	$( function() {
 		Loader.settings = _wpCustomizeLoaderSettings;
 		Loader.initialize();
 	});
 
-	// Expose the API to the world.
+	// Expose the API publicly on window.wp.customize.Loader
 	api.Loader = Loader;
 })( wp, jQuery );
