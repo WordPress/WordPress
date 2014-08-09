@@ -33,11 +33,16 @@ tinymce.PluginManager.add( 'wpautoresize', function( editor ) {
 		return;
 	}
 
+	function getInt( n ) {
+		return parseInt( n, 10 ) || 0;
+	}
+
 	/**
 	 * This method gets executed each time the editor needs to resize.
 	 */
 	function resize( e ) {
-		var deltaSize, doc, body, docElm, DOM = tinymce.DOM, resizeHeight, myHeight, marginTop, marginBottom;
+		var deltaSize, doc, body, docElm, DOM = tinymce.DOM, resizeHeight, myHeight,
+			marginTop, marginBottom, paddingTop, paddingBottom, borderTop, borderBottom;
 
 		if ( ! isActive ) {
 			return;
@@ -65,7 +70,13 @@ tinymce.PluginManager.add( 'wpautoresize', function( editor ) {
 		// Calculate outer height of the body element using CSS styles
 		marginTop = editor.dom.getStyle( body, 'margin-top', true );
 		marginBottom = editor.dom.getStyle( body, 'margin-bottom', true );
-		myHeight = body.offsetHeight + parseInt( marginTop, 10 ) + parseInt( marginBottom, 10 );
+		paddingTop = editor.dom.getStyle( body, 'padding-top', true );
+		paddingBottom = editor.dom.getStyle( body, 'padding-bottom', true );
+		borderTop = editor.dom.getStyle( body, 'border-top-width', true );
+		borderBottom = editor.dom.getStyle( body, 'border-bottom-width', true );
+		myHeight = body.offsetHeight + getInt( marginTop ) + getInt( marginBottom ) +
+			getInt( paddingTop ) + getInt( paddingBottom ) +
+			getInt( borderTop ) + getInt( borderBottom );
 
 		// IE < 11, other?
 		if ( myHeight && myHeight < docElm.offsetHeight ) {
@@ -97,7 +108,7 @@ tinymce.PluginManager.add( 'wpautoresize', function( editor ) {
 		// Resize content element
 		if (resizeHeight !== oldSize) {
 			deltaSize = resizeHeight - oldSize;
-			DOM.setStyle( DOM.get( editor.id + '_ifr'), 'height', resizeHeight + 'px' );
+			DOM.setStyle( editor.iframeElement, 'height', resizeHeight + 'px' );
 			oldSize = resizeHeight;
 
 			// WebKit doesn't decrease the size of the body element until the iframe gets resized

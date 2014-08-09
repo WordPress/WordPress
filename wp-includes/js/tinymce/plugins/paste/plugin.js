@@ -250,7 +250,7 @@ define("tinymce/pasteplugin/Clipboard", [
 	"tinymce/pasteplugin/Utils"
 ], function(Env, VK, Utils) {
 	return function(editor) {
-		var self = this, pasteBinElm, lastRng, keyboardPasteTimeStamp = 0;
+		var self = this, pasteBinElm, lastRng, keyboardPasteTimeStamp = 0, draggingInternally = false;
 		var pasteBinDefaultContent = '%MCEPASTEBIN%', keyboardPastePlainTextState;
 
 		/**
@@ -455,16 +455,20 @@ define("tinymce/pasteplugin/Clipboard", [
 		function getDataTransferItems(dataTransfer) {
 			var data = {};
 
-			if (dataTransfer && dataTransfer.types) {
-				// Use old WebKit API
-				var legacyText = dataTransfer.getData('Text');
-				if (legacyText && legacyText.length > 0) {
-					data['text/plain'] = legacyText;
+			if (dataTransfer) {
+				// Use old WebKit/IE API
+				if (dataTransfer.getData) {
+					var legacyText = dataTransfer.getData('Text');
+					if (legacyText && legacyText.length > 0) {
+						data['text/plain'] = legacyText;
+					}
 				}
 
-				for (var i = 0; i < dataTransfer.types.length; i++) {
-					var contentType = dataTransfer.types[i];
-					data[contentType] = dataTransfer.getData(contentType);
+				if (dataTransfer.types) {
+					for (var i = 0; i < dataTransfer.types.length; i++) {
+						var contentType = dataTransfer.types[i];
+						data[contentType] = dataTransfer.getData(contentType);
+					}
 				}
 			}
 
@@ -675,6 +679,11 @@ define("tinymce/pasteplugin/Clipboard", [
 
 					removePasteBin();
 
+					// If we got nothing from clipboard API and pastebin then we could try the last resort: plain/text
+					if (!content.length) {
+						plainTextMode = true;
+					}
+
 					// Grab plain text from Clipboard API or convert existing HTML to plain text
 					if (plainTextMode) {
 						// Use plain text contents from Clipboard API unless the HTML contains paragraphs then
@@ -704,20 +713,14 @@ define("tinymce/pasteplugin/Clipboard", [
 				}, 0);
 			});
 
-			editor.on('dragstart', function(e) {
-				if (e.dataTransfer.types) {
-					try {
-						e.dataTransfer.setData('mce-internal', editor.selection.getContent());
-					} catch (ex) {
-						// IE 10 throws an error since it doesn't support custom data items
-					}
-				}
+			editor.on('dragstart dragend', function(e) {
+				draggingInternally = e.type == 'dragstart';
 			});
 
 			editor.on('drop', function(e) {
 				var rng = getCaretRangeFromEvent(e);
 
-				if (e.isDefaultPrevented()) {
+				if (e.isDefaultPrevented() || draggingInternally) {
 					return;
 				}
 
@@ -725,7 +728,7 @@ define("tinymce/pasteplugin/Clipboard", [
 					return;
 				}
 
-				if (rng) {
+				if (rng && editor.settings.paste_filter_drop !== false) {
 					var dropContent = getDataTransferItems(e.dataTransfer);
 					var content = dropContent['mce-internal'] || dropContent['text/html'] || dropContent['text/plain'];
 
@@ -738,6 +741,8 @@ define("tinymce/pasteplugin/Clipboard", [
 							}
 
 							editor.selection.setRng(rng);
+
+							content = Utils.trimHtml(content);
 
 							if (!dropContent['text/html']) {
 								pasteText(content);
@@ -828,6 +833,38 @@ define("tinymce/pasteplugin/WordFilter", [
 			(/class="OutlineElement/).test(content) ||
 			(/id="?docs\-internal\-guid\-/.test(content))
 		);
+	}
+
+	/**
+	 * Checks if the specified text starts with "1. " or "a. " etc.
+	 */
+	function isNumericList(text) {
+		var found, patterns;
+
+		patterns = [
+			/^[IVXLMCD]{1,2}\.[ \u00a0]/,  // Roman upper case
+			/^[ivxlmcd]{1,2}\.[ \u00a0]/,  // Roman lower case
+			/^[a-z]{1,2}[\.\)][ \u00a0]/,  // Alphabetical a-z
+			/^[A-Z]{1,2}[\.\)][ \u00a0]/,  // Alphabetical A-Z
+			/^[0-9]+\.[ \u00a0]/,          // Numeric lists
+			/^[\u3007\u4e00\u4e8c\u4e09\u56db\u4e94\u516d\u4e03\u516b\u4e5d]+\.[ \u00a0]/, // Japanese
+			/^[\u58f1\u5f10\u53c2\u56db\u4f0d\u516d\u4e03\u516b\u4e5d\u62fe]+\.[ \u00a0]/  // Chinese
+		];
+
+		text = text.replace(/^[\u00a0 ]+/, '');
+
+		Tools.each(patterns, function(pattern) {
+			if (pattern.test(text)) {
+				found = true;
+				return false;
+			}
+		});
+
+		return found;
+	}
+
+	function isBulletList(text) {
+		return /^[\s\u00a0]*[\u2022\u00b7\u00a7\u00d8\u25CF]\s*/.test(text);
 	}
 
 	function WordFilter(editor) {
@@ -951,16 +988,15 @@ define("tinymce/pasteplugin/WordFilter", [
 					if (node.name == 'p' && node.firstChild) {
 						// Find first text node in paragraph
 						var nodeText = getText(node);
-						var listStartTextNode = node.firstChild;
 
 						// Detect unordered lists look for bullets
-						if (/^[\s\u00a0]*[\u2022\u00b7\u00a7\u00d8\u25CF]\s*/.test(nodeText)) {
+						if (isBulletList(nodeText)) {
 							convertParagraphToLi(node, 'ul');
 							continue;
 						}
 
 						// Detect ordered lists 1., a. or ixv.
-						if (/^[\s\u00a0]*\w+\./.test(nodeText) && !/^[\s\u00a0]*\w+\.\s*[^\s]+/.test(listStartTextNode.value)) {
+						if (isNumericList(nodeText)) {
 							// Parse OL start number
 							var matches = /([0-9])\./.exec(nodeText);
 							var start = 1;
