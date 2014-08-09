@@ -2151,25 +2151,33 @@
 	}
 
 	.media-menu {
-		display: none;
+		width: auto;
+		max-width: 80%;
+		overflow: auto;
+		z-index: 2000;
+		top: 50px;
+		right: -300px;
+		left: auto;
+		bottom: auto;
+		padding: 5px 0;
+		border: 1px solid #ccc;
 	}
 
 	.media-menu.visible {
-		z-index: 2000;
-		display: block;
-		position: fixed;
-		top: 30px;
-		right: 30px;
-		left: 30px;
-		bottom: 30px;
-		width: 250px;
-		max-width: 100%;
-		overflow: auto;
+		right: 0;
 	}
 
 	.media-menu > a {
-		padding: 10px 20px;
+		padding: 12px 16px;
 		font-size: 16px;
+	}
+
+	.media-menu > a.active {
+		display: none;
+	}
+
+	.media-menu .separator {
+		margin: 5px 10px;
 	}
 
 	.media-frame-title {
@@ -2296,10 +2304,6 @@
 		display: none;
 	}
 
-	.media-menu .separator {
-		margin: 12px 10px;
-	}
-
 	.media-modal .attachments-browser .media-toolbar-primary,
 	.media-modal .attachments-browser .media-toolbar-secondary {
 		width: 50%;
@@ -2339,8 +2343,7 @@
 @media only screen and (max-width: 640px), screen and (max-height: 400px) {
 	/* Full-bleed modal */
 	.media-modal,
-	.image-details .media-modal,
-	.media-menu.visible {
+	.image-details .media-modal {
 		position: fixed;
 		top: 0;
 		right: 0;
@@ -2353,7 +2356,15 @@
 	}
 
 	.media-sidebar {
-		display: none;
+		z-index: 1900;
+		max-width: 70%;
+		bottom: 120%;
+		box-sizing: border-box;
+		padding-bottom: 0;
+	}
+
+	.media-sidebar.visible {
+		bottom: 0;
 	}
 
 	.attachments-browser .attachments,
@@ -2361,8 +2372,6 @@
 	.attachments-browser .media-toolbar {
 		left: 0;
 	}
-
-
 
 	.image-details .media-frame-title {
 		display: block;

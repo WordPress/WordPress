@@ -4648,7 +4648,6 @@
 		tagName:   'li',
 		className: 'attachment',
 		template:  media.template('attachment'),
-		_isTouch: false,
 
 		attributes: {
 			tabIndex: 0,
@@ -4657,7 +4656,6 @@
 
 		events: {
 			'click .js--select-attachment':   'toggleSelectionHandler',
-			'touchend .attachment-preview':   'setTouch',
 			'change [data-setting]':          'updateSetting',
 			'change [data-setting] input':    'updateSetting',
 			'change [data-setting] select':   'updateSetting',
@@ -4783,10 +4781,6 @@
 			}
 		},
 
-		setTouch: function() {
-			this._isTouch = true;
-		},
-
 		/**
 		 * @param {Object} event
 		 */
@@ -4823,11 +4817,6 @@
 				method = 'between';
 			} else if ( event.ctrlKey || event.metaKey ) {
 				method = 'toggle';
-			}
-
-			if ( this._isTouch ) {
-				this._isTouch = false;
-				method = 'add';
 			}
 
 			this.toggleSelection({
@@ -4948,9 +4937,10 @@
 			}
 
 			// Fixes bug that loses focus when selecting a featured image
-			if ( !method ) {
+			if ( ! method ) {
 				method = 'add';
 			}
+
 			if ( method !== 'add' ) {
 				method = 'reset';
 			}
@@ -5980,6 +5970,11 @@
 					userSettings: this.model.get('displayUserSettings')
 				}) );
 			}
+
+			// Show the sidebar on mobile
+			if ( this.model.id === 'insert' ) {
+				sidebar.$el.addClass( 'visible' );
+			}
 		},
 
 		disposeSingle: function() {
@@ -5987,6 +5982,8 @@
 			sidebar.unset('details');
 			sidebar.unset('compat');
 			sidebar.unset('display');
+			// Hide the sidebar on mobile
+			sidebar.$el.removeClass( 'visible' );
 		}
 	});
 
@@ -6914,7 +6911,6 @@
 				value = Math.round( this.model.get( 'aspectRatio' ) * num );
 				this.model.set( 'customWidth', value, { silent: true  } );
 				this.$( '[data-setting="customWidth"]' ).val( value );
-
 			}
 		},
 
