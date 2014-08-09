@@ -2297,7 +2297,7 @@ function wp_embed_handler_googlevideo( $matches, $attr, $url, $rawattr ) {
  * @since 4.0.0
  *
  * @param array  $matches The regex matches from the provided regex when calling
- *                        {@link wp_embed_register_handler()}.
+ *                        {@see wp_embed_register_handler()}.
  * @param array  $attr    Embed attributes.
  * @param string $url     The original URL that was matched by the regex.
  * @param array  $rawattr The original unmodified attributes.
@@ -3301,6 +3301,7 @@ function attachment_url_to_postid( $url ) {
  * @since 4.0.0
  *
  * @global $wp_version
+ *
  * @return array The relevant CSS file URLs.
  */
 function wp_media_mce_styles() {

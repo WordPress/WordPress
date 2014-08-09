@@ -25,6 +25,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 	 * within get_plugins().
 	 *
 	 * @since 4.0.0
+	 * @access protected
 	 */
 	protected function get_installed_plugin_slugs() {
 		$slugs = array();
