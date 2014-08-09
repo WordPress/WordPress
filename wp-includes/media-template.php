@@ -50,7 +50,7 @@ function wp_underscore_audio_template() {
 function wp_underscore_video_template() {
 	$video_types = wp_get_video_extensions();
 ?>
-<#  var w_rule = '', h_rule = '',
+<#  var w_rule = '',
 		w, h, settings = wp.media.view.settings,
 		isYouTube = ! _.isEmpty( data.model.src ) && data.model.src.match(/youtube|youtu\.be/);
 
@@ -69,12 +69,8 @@ function wp_underscore_video_template() {
 	if ( w ) {
 		w_rule = ' width: ' + w + 'px;';
 	}
-
-	if ( h ) {
-		h_rule = ' height: auto';
-	}
 #>
-<div style="max-width: 100%;{{ w_rule }}{{ h_rule }}">
+<div style="{{ w_rule }}" class="wp-video">
 <video controls
 	class="wp-video-shortcode{{ isYouTube ? ' youtube-video' : '' }}"
 	<# if ( w ) { #>width="{{ w }}"<# } #>
@@ -278,9 +274,9 @@ function wp_print_media_templates() {
 				<# if ( data.uploading ) { #>
 					<div class="media-progress-bar"><div></div></div>
 				<# } else if ( 'image' === data.type ) { #>
-					<img src="{{ data.sizes.full.url }}" draggable="false" />
+					<img class="details-image" src="{{ data.sizes.full.url }}" draggable="false" />
 				<# } else if ( -1 === jQuery.inArray( data.type, [ 'audio', 'video' ] ) ) { #>
-					<img src="{{ data.icon }}" class="icon" draggable="false" />
+					<img class="details-image" src="{{ data.icon }}" class="icon" draggable="false" />
 				<# } #>
 
 				<# if ( 'audio' === data.type ) { #>
@@ -290,18 +286,15 @@ function wp_print_media_templates() {
 					</audio>
 				</div>
 				<# } else if ( 'video' === data.type ) {
-					var w_rule = h_rule = '';
+					var w_rule = '';
 					if ( data.width ) {
-						w_rule = ' width: ' + data.width + 'px;';
+						w_rule = 'width: ' + data.width + 'px;';
 					} else if ( wp.media.view.settings.contentWidth ) {
-						w_rule = ' width: ' + wp.media.view.settings.contentWidth + 'px;';
-					}
-					if ( data.height ) {
-						h_rule = ' height: auto';
+						w_rule = 'width: ' + wp.media.view.settings.contentWidth + 'px;';
 					}
 				#>
-				<div style="max-width: 100%; {{ w_rule }}{{ h_rule }}" class="wp-media-wrapper">
-					<video controls class="wp-video-shortcode" preload="metadata"
+				<div style="{{ w_rule }}" class="wp-media-wrapper wp-video">
+					<video controls="controls" class="wp-video-shortcode" preload="metadata"
 						<# if ( data.width ) { #>width="{{ data.width }}"<# } #>
 						<# if ( data.height ) { #>height="{{ data.height }}"<# } #>
 						<# if ( data.image && data.image.src !== data.icon ) { #>poster="{{ data.image.src }}"<# } #>>

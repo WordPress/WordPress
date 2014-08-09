@@ -92,6 +92,11 @@
 	margin: 0 0 10px;
 }
 
+.wp-video {
+	max-width: 100%;
+	height: auto;
+}
+
 video.wp-video-shortcode,
 .wp-video-shortcode video {
 	max-width: 100%;

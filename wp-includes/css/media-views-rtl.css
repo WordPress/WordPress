@@ -2681,7 +2681,7 @@
 	height: 100%;
 }
 
-.edit-attachment-frame .attachment-media-view img {
+.edit-attachment-frame .attachment-media-view .details-image {
 	display: block;
 	margin-bottom: 16px;
 	max-width: 100%;
