@@ -444,7 +444,7 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
 	}
 
 	/**
-	 * Make private properties setable for backwards compatibility.
+	 * Make private properties settable for backwards compatibility.
 	 *
 	 * @since 4.0.0
 	 * @access public
@@ -471,7 +471,7 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
 	}
 
 	/**
-	 * Make private properties unsetable for backwards compatibility.
+	 * Make private properties un-settable for backwards compatibility.
 	 *
 	 * @since 4.0.0
 	 * @access public

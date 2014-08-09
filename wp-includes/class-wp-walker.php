@@ -40,7 +40,9 @@ class Walker {
 	protected $max_pages = 1;
 
 	/**
-	 * Wether the current element has children or not. To be used in start_el()
+	 * Wether the current element has children or not.
+	 *
+	 * To be used in start_el().
 	 *
 	 * @since 4.0.0
 	 * @access protected
@@ -62,7 +64,7 @@ class Walker {
 	}
 
 	/**
-	 * Make private properties setable for backwards compatibility.
+	 * Make private properties settable for backwards compatibility.
 	 *
 	 * @since 4.0.0
 	 * @access public
@@ -89,7 +91,7 @@ class Walker {
 	}
 
 	/**
-	 * Make private properties unsetable for backwards compatibility.
+	 * Make private properties un-settable for backwards compatibility.
 	 *
 	 * @since 4.0.0
 	 * @access public

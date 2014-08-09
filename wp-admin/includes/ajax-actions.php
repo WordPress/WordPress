@@ -1953,7 +1953,7 @@ function wp_ajax_set_post_thumbnail() {
 }
 
 /**
- * Ajax handler for setting the featured image for an attachment.
+ * AJAX handler for setting the featured image for an attachment.
  *
  * @since 4.0.0
  *
@@ -2613,7 +2613,7 @@ function wp_ajax_query_themes() {
 }
 
 /**
- * Apply [embed] handlers to a string.
+ * Apply [embed] AJAX handlers to a string.
  *
  * @since 4.0.0
  *

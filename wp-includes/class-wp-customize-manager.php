@@ -431,7 +431,7 @@ final class WP_Customize_Manager {
 
 	/**
 	 * Prevent sending a 404 status when returning the response for the customize
-	 * preview, since it causes the jQuery Ajax to fail. Send 200 instead.
+	 * preview, since it causes the jQuery AJAX to fail. Send 200 instead.
 	 *
 	 * @since 4.0.0
 	 * @access public

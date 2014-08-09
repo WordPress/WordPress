@@ -109,12 +109,12 @@ class WP_List_Table {
 	}
 
 	/**
-	 * Make private properties setable for backwards compatibility.
+	 * Make private properties settable for backwards compatibility.
 	 *
 	 * @since 4.0.0
 	 * @access public
 	 *
-	 * @param string $name  Propert to set.
+	 * @param string $name  Property to set.
 	 * @param mixed  $value Property value.
 	 * @return mixed Newly-set property.
 	 */
@@ -136,7 +136,7 @@ class WP_List_Table {
 	}
 
 	/**
-	 * Make private properties unsetable for backwards compatibility.
+	 * Make private properties un-settable for backwards compatibility.
 	 *
 	 * @since 4.0.0
 	 * @access public
