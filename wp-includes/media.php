@@ -1874,11 +1874,14 @@ function wp_video_shortcode( $attr, $content = '' ) {
 	}
 	$html .= '</video>';
 
-	$width_rule = '';
+	$width_rule = $height_rule = '';
 	if ( ! empty( $atts['width'] ) ) {
-		$width_rule = sprintf( ' width: %dpx;', $atts['width'] );
+		$width_rule = sprintf( 'width: %dpx; ', $atts['width'] );
 	}
-	$output = sprintf( '<div style="%s" class="wp-video">%s</div>', $width_rule, $html );
+	if ( ! empty( $atts['height'] ) ) {
+		$height_rule = sprintf( 'height: %dpx; ', $atts['height'] );
+	}
+	$output = sprintf( '<div style="%s%s" class="wp-video">%s</div>', $width_rule, $height_rule, $html );
 
 	/**
 	 * Filter the output of the video shortcode.
