@@ -2052,6 +2052,10 @@ if ( !function_exists('wp_set_password') ) :
  * For integration with other applications, this function can be overwritten to
  * instead use the other package password checking algorithm.
  *
+ * Please note: This function should be used sparingly and is really only meant for single-time
+ * application. Leveraging this improperly in a plugin or theme could result in an endless loop
+ * of password resets if precautions are not taken to ensure it does execute on every page load.
+ *
  * @since 2.5.0
  *
  * @uses $wpdb WordPress database object for queries
