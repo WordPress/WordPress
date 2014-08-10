@@ -1787,6 +1787,8 @@
 
 .image-details .embed-media-settings,
 .image-details .embed-media-settings div {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 }
 
@@ -2319,6 +2321,7 @@
 		margin: 11px 0 0;
 		height: auto;
 		max-width: 65%;
+		max-width: -webkit-calc(100% - 38px);
 		max-width: calc(100% - 38px);
 	}
 
@@ -2359,6 +2362,8 @@
 		z-index: 1900;
 		max-width: 70%;
 		bottom: 120%;
+		-webkit-box-sizing: border-box;
+		-moz-box-sizing: border-box;
 		box-sizing: border-box;
 		padding-bottom: 0;
 	}
