@@ -2054,7 +2054,7 @@ if ( !function_exists('wp_set_password') ) :
  *
  * Please note: This function should be used sparingly and is really only meant for single-time
  * application. Leveraging this improperly in a plugin or theme could result in an endless loop
- * of password resets if precautions are not taken to ensure it does execute on every page load.
+ * of password resets if precautions are not taken to ensure it does not execute on every page load.
  *
  * @since 2.5.0
  *
