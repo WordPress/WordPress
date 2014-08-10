@@ -71,6 +71,7 @@ class WP_List_Table {
 	 * the default $args.
 	 *
 	 * @since 3.1.0
+	 * @access public
 	 *
 	 * @param array|string $args {
 	 *     Array or string of arguments.
