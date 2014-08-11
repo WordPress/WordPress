@@ -95,7 +95,8 @@ TABLE OF CONTENTS:
 	padding: 0 36px;
 }
 
-.wp-core-ui .button:active {
+.wp-core-ui .button:active,
+.wp-core-ui .button:focus {
 	outline: none;
 }
 
@@ -126,8 +127,8 @@ TABLE OF CONTENTS:
 	color: #555;
 	border-color: #cccccc;
 	background: #f7f7f7;
-	-webkit-box-shadow: inset 0 1px 0 #fff, 0 1px 0 rgba(0,0,0,.08);
-	box-shadow: inset 0 1px 0 #fff, 0 1px 0 rgba(0,0,0,.08);
+	-webkit-box-shadow: inset 0 1px 0 #fff, 0 1px 0 rgba( 0, 0, 0, 0.08 );
+	box-shadow: inset 0 1px 0 #fff, 0 1px 0 rgba( 0, 0, 0, 0.08 );
  	vertical-align: top;
 }
 
@@ -149,13 +150,16 @@ TABLE OF CONTENTS:
 .wp-core-ui .button.focus,
 .wp-core-ui .button:focus,
 .wp-core-ui .button-secondary:focus {
-	-webkit-box-shadow: 1px 1px 1px rgba(0,0,0,.2);
-	box-shadow: 1px 1px 1px rgba(0,0,0,.2);
+	-webkit-box-shadow:
+		0 0 0 1px #5b9dd9,
+		0 0 2px 1px rgba(30, 140, 190, .8);
+	box-shadow:
+		0 0 0 1px #5b9dd9,
+		0 0 2px 1px rgba(30, 140, 190, .8);
 }
 
 .wp-core-ui .button.active,
 .wp-core-ui .button.active:hover,
-.wp-core-ui .button.active:focus,
 .wp-core-ui .button:active,
 .wp-core-ui .button-secondary:active {
 	background: #eee;
@@ -163,6 +167,17 @@ TABLE OF CONTENTS:
 	color: #333;
  	-webkit-box-shadow: inset 0 2px 5px -3px rgba( 0, 0, 0, 0.5 );
  	box-shadow: inset 0 2px 5px -3px rgba( 0, 0, 0, 0.5 );
+}
+
+.wp-core-ui .button.active:focus {
+	-webkit-box-shadow:
+		inset 0 2px 5px -3px rgba( 0, 0, 0, 0.5 ),
+		0 0 0 1px #5b9dd9,
+		0 0 2px 1px rgba(30, 140, 190, .8);
+	box-shadow:
+		inset 0 2px 5px -3px rgba( 0, 0, 0, 0.5 ),
+		0 0 0 1px #5b9dd9,
+		0 0 2px 1px rgba(30, 140, 190, .8);
 }
 
 .wp-core-ui .button[disabled],
@@ -188,8 +203,8 @@ TABLE OF CONTENTS:
 .wp-core-ui .button-primary {
 	background: #2ea2cc;
 	border-color: #0074a2;
- 	-webkit-box-shadow: inset 0 1px 0 rgba(120,200,230,0.5), 0 1px 0 rgba(0,0,0,.15);
- 	box-shadow: inset 0 1px 0 rgba(120,200,230,0.5), 0 1px 0 rgba(0,0,0,.15);
+ 	-webkit-box-shadow: inset 0 1px 0 rgba( 120, 200, 230, 0.5), 0 1px 0 rgba( 0, 0, 0, 0.15 );
+ 	box-shadow: inset 0 1px 0 rgba( 120, 200, 230, 0.5 ), 0 1px 0 rgba( 0, 0, 0, 0.15 );
  	color: #fff;
 	text-decoration: none;
 }
@@ -200,16 +215,22 @@ TABLE OF CONTENTS:
 .wp-core-ui .button-primary:focus {
 	background: #1e8cbe;
 	border-color: #0074a2;
- 	-webkit-box-shadow: inset 0 1px 0 rgba(120,200,230,0.6);
- 	box-shadow: inset 0 1px 0 rgba(120,200,230,0.6);
+ 	-webkit-box-shadow: inset 0 1px 0 rgba( 120, 200, 230, 0.6 );
+ 	box-shadow: inset 0 1px 0 rgba( 120, 200, 230, 0.6 );
 	color: #fff;
 }
 
 .wp-core-ui .button-primary.focus,
 .wp-core-ui .button-primary:focus {
 	border-color: #0e3950;
-	-webkit-box-shadow: inset 0 1px 0 rgba(120,200,230,0.6), 1px 1px 2px rgba(0,0,0,0.4);
-	box-shadow: inset 0 1px 0 rgba(120,200,230,0.6), 1px 1px 2px rgba(0,0,0,0.4);
+	-webkit-box-shadow:
+		inset 0 1px 0 rgba( 120, 200, 230, 0.6 ),
+		0 0 0 1px #5b9dd9,
+		0 0 2px 1px rgba(30, 140, 190, .8);
+	box-shadow:
+		inset 0 1px 0 rgba( 120, 200, 230, 0.6 ),
+		0 0 0 1px #5b9dd9,
+		0 0 2px 1px rgba(30, 140, 190, .8);
 }
 
 .wp-core-ui .button-primary.active,
@@ -218,9 +239,9 @@ TABLE OF CONTENTS:
 .wp-core-ui .button-primary:active {
 	background: #1b7aa6;
 	border-color: #005684;
-	color: rgba(255,255,255,0.95);
- 	-webkit-box-shadow: inset 0 1px 0 rgba(0,0,0,0.1);
- 	box-shadow: inset 0 1px 0 rgba(0,0,0,0.1);
+	color: rgba( 255, 255, 255, 0.95 );
+ 	-webkit-box-shadow: inset 0 1px 0 rgba( 0, 0, 0, 0.1 );
+ 	box-shadow: inset 0 1px 0 rgba( 0, 0, 0, 0.1 );
  	vertical-align: top;
 }
 
@@ -233,7 +254,7 @@ TABLE OF CONTENTS:
 	border-color: #1b607f !important;
 	-webkit-box-shadow: none !important;
 	box-shadow: none !important;
-	text-shadow: 0 -1px 0 rgba(0,0,0,0.1) !important;
+	text-shadow: 0 -1px 0 rgba( 0, 0, 0, 0.1 ) !important;
 	cursor: default;
 }
 
@@ -273,6 +294,11 @@ TABLE OF CONTENTS:
 .wp-core-ui .button-group > .button:last-child {
 	-webkit-border-radius: 3px 0 0 3px;
 	border-radius: 3px 0 0 3px;
+}
+
+.wp-core-ui .button-group > .button:focus {
+	position: relative;
+	z-index: 1;
 }
 
 /* ----------------------------------------------------------------------------
