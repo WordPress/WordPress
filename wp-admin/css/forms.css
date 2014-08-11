@@ -1,11 +1,5 @@
-/* include margin and padding in the width calculation of input and textarea */
+/* Include margin and padding in the width calculation of input and textarea. */
 input,
-input[type="text"],
-input[type="password"],
-input[type="number"],
-input[type="search"],
-input[type="email"],
-input[type="url"],
 textarea {
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
@@ -36,11 +30,8 @@ input[type="radio"] {
 	width: 16px;
 	min-width: 16px;
 	-webkit-appearance: none;
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
-	-webkit-box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
-	box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
+	-webkit-box-shadow: inset 0 1px 2px rgba( 0, 0, 0, 0.1 );
+	box-shadow: inset 0 1px 2px rgba( 0, 0, 0, 0.1 );
 	-webkit-transition: .05s border-color ease-in-out;
 	transition: .05s border-color ease-in-out;
 }
@@ -55,28 +46,28 @@ input[type="radio"]:checked + label:before {
 }
 
 td > input[type="checkbox"],
-.wp-admin p input[type=checkbox],
-.wp-admin p input[type=radio] {
+.wp-admin p input[type="checkbox"],
+.wp-admin p input[type="radio"] {
 	margin-top: 0;
 }
 
-.wp-admin p label input[type=checkbox] {
+.wp-admin p label input[type="checkbox"] {
 	margin-top: -4px;
 }
 
-.wp-admin p label input[type=radio] {
+.wp-admin p label input[type="radio"] {
 	margin-top: -2px;
 }
 
-input[type=radio] {
+input[type="radio"] {
 	-webkit-border-radius: 50%;
 	border-radius: 50%;
 	margin-right: 4px;
 	line-height: 10px;
 }
 
-input[type=checkbox]:checked:before,
-input[type=radio]:checked:before {
+input[type="checkbox"]:checked:before,
+input[type="radio"]:checked:before {
 	float: left;
 	display: inline-block;
 	vertical-align: middle;
@@ -87,13 +78,13 @@ input[type=radio]:checked:before {
 	-moz-osx-font-smoothing: grayscale;
 }
 
-input[type=checkbox]:checked:before {
+input[type="checkbox"]:checked:before {
 	content: '\f147';
 	margin: -3px 0 0 -4px;
 	color: #1e8cbe;
 }
 
-input[type=radio]:checked:before {
+input[type="radio"]:checked:before {
 	content: '\2022';
 	text-indent: -9999px;
 	-webkit-border-radius: 50px;
@@ -106,13 +97,9 @@ input[type=radio]:checked:before {
 	background-color: #1e8cbe;
 }
 
-input.readonly, textarea.readonly {
-	background-color: #ddd;
-}
-
 @-moz-document url-prefix() {
-	input[type=checkbox],
-	input[type=radio],
+	input[type="checkbox"],
+	input[type="radio"],
 	.form-table input.tog {
 		margin-bottom: -1px;
 	}
@@ -155,17 +142,6 @@ textarea {
 	line-height: 1.4;
 }
 
-input[type="text"],
-input[type="password"],
-input[type="number"],
-input[type="search"],
-input[type="email"],
-input[type="url"],
-textarea,
-select {
-	outline: 0;
-}
-
 .wp-admin input[type="file"] {
 	padding: 3px 0;
 }
@@ -189,45 +165,63 @@ textarea.code {
 	padding: 4px 6px 1px 6px;
 }
 
-textarea,
 input[type="text"],
 input[type="password"],
+input[type="checkbox"],
+input[type="color"],
+input[type="date"],
+input[type="datetime"],
+input[type="datetime-local"],
 input[type="email"],
+input[type="month"],
 input[type="number"],
+input[type="password"],
 input[type="search"],
+input[type="radio"],
 input[type="tel"],
+input[type="text"],
+input[type="time"],
 input[type="url"],
-select {
+input[type="week"],
+select,
+textarea {
 	border: 1px solid #ddd;
-	-webkit-box-shadow: inset 0 1px 2px rgba(0,0,0,0.07);
-	box-shadow: inset 0 1px 2px rgba(0,0,0,0.07);
+	-webkit-box-shadow: inset 0 1px 2px rgba( 0, 0, 0, 0.07 );
+	box-shadow: inset 0 1px 2px rgba( 0, 0, 0, 0.07 );
 	background-color: #fff;
 	color: #333;
-	-webkit-transition: .05s border-color ease-in-out;
-	transition: .05s border-color ease-in-out;
+	outline: none;
+	-webkit-transition: 0.05s border-color ease-in-out;
+	transition: 0.05s border-color ease-in-out;
 }
 
-select[disabled] {
-	color: #7f7f7f;
-}
-
-textarea:focus,
 input[type="text"]:focus,
 input[type="password"]:focus,
+input[type="color"]:focus,
+input[type="date"]:focus,
+input[type="datetime"]:focus,
+input[type="datetime-local"]:focus,
 input[type="email"]:focus,
+input[type="month"]:focus,
 input[type="number"]:focus,
+input[type="password"]:focus,
 input[type="search"]:focus,
 input[type="tel"]:focus,
+input[type="text"]:focus,
+input[type="time"]:focus,
 input[type="url"]:focus,
-input[type="checkbox"]:focus,
-input[type="radio"]:focus,
-select:focus {
+input[type="week"]:focus,
+select:focus,
+textarea:focus {
 	border-color: #5b9dd9;
-	-webkit-box-shadow: 0 0 2px rgba(30,140,190,0.8);
-	box-shadow: 0 0 2px rgba(30,140,190,0.8);
+	-webkit-box-shadow: 0 0 2px rgba( 30, 140, 190, 0.8 );
+	box-shadow: 0 0 2px rgba( 30, 140, 190, 0.8 );
 }
 
-input[readonly] {
+input.readonly,
+input[readonly],
+textarea.readonly,
+textarea[readonly] {
 	background-color: #eee;
 }
 
@@ -251,19 +245,34 @@ input[readonly] {
 
 input:disabled,
 input.disabled,
+select:disabled,
+select.disabled,
 textarea:disabled,
 textarea.disabled {
-	-webkit-box-shadow: inset 0 1px 2px rgba(0,0,0,0.04);
-	box-shadow: inset 0 1px 2px rgba(0,0,0,0.04);
-	border-color: rgba(222, 222, 222, .75);
-	background: rgba(255, 255, 255, .5);
-	color: rgba(51, 51, 51, .5);
+	background: rgba( 255, 255, 255, 0.5 );
+	border-color: rgba( 222, 222, 222, 0.75 );
+	-webkit-box-shadow: inset 0 1px 2px rgba( 0, 0, 0, 0.04 );
+	box-shadow: inset 0 1px 2px rgba( 0, 0, 0, 0.04 );
+	color: rgba( 51, 51, 51, 0.5 );
 }
 
-input[type=checkbox]:disabled,
-input[type=radio]:disabled,
-input[type=checkbox]:disabled:checked:before,
-input[type=radio]:disabled:checked:before {
+input[type="file"]:disabled,
+input[type="file"].disabled,
+input[type="range"]:disabled,
+input[type="range"].disabled {
+	background: none;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+}
+
+input[type="checkbox"]:disabled,
+input[type="checkbox"].disabled,
+input[type="radio"]:disabled,
+input[type="radio"].disabled,
+input[type="checkbox"]:disabled:checked:before,
+input[type="checkbox"].disabled:checked:before,
+input[type="radio"]:disabled:checked:before,
+input[type="radio"].disabled:checked:before {
 	opacity: 0.7;
 }
 
@@ -584,7 +593,7 @@ ul#add-to-blog-users {
 }
 
 .form-table input.tog,
-.form-table input[type=radio] {
+.form-table input[type="radio"] {
 	margin-top: -4px;
 	margin-right: 4px;
 	float: none;
@@ -759,8 +768,8 @@ table.form-table td .updated {
 		-webkit-appearance: none;
 	}
 
-	input[type=text], input[type=search],
-	input[type=password], input[type=number] {
+	input[type=text], input[type="search"],
+	input[type=password], input[type="number"] {
 		-webkit-appearance: none;
 		padding: 6px 10px;
 	}
@@ -770,32 +779,32 @@ table.form-table td .updated {
 		padding-top: 10px;
 	}
 
-	input[type=checkbox], .widefat th input[type=checkbox] {
+	input[type="checkbox"], .widefat th input[type="checkbox"] {
 		-webkit-appearance: none;
 		padding: 10px;
 	}
 
-	.widefat th input[type=checkbox] {
+	.widefat th input[type="checkbox"] {
 		margin-bottom: 8px;
 	}
 
-	input[type=checkbox]:checked:before, .widefat th input[type=checkbox]:before {
+	input[type="checkbox"]:checked:before, .widefat th input[type="checkbox"]:before {
 		font: normal 30px/1 'Dashicons';
 		margin: -3px -5px;
 	}
 
-	input[type=radio],
-	input[type=checkbox] {
+	input[type="radio"],
+	input[type="checkbox"] {
 		height: 25px;
 		width: 25px;
 	}
 
-	.wp-admin p input[type=checkbox],
-	.wp-admin p input[type=radio] {
+	.wp-admin p input[type="checkbox"],
+	.wp-admin p input[type="radio"] {
 		margin-top: -3px;
 	}
 
-	input[type=radio]:checked:before {
+	input[type="radio"]:checked:before {
 		vertical-align: middle;
 		width: 9px;
 		height: 9px;
@@ -803,7 +812,7 @@ table.form-table td .updated {
 		line-height: 16px;
 	}
 
-	.wp-upload-form input[type=submit] {
+	.wp-upload-form input[type="submit"] {
 		margin-top: 10px;
 	}
 
@@ -869,12 +878,12 @@ table.form-table td .updated {
 		height: 40px;
 	}
 
-	input[type=text].small-text,
-	input[type=search].small-text,
-	input[type=password].small-text,
-	input[type=number].small-text,
+	input[type="text"].small-text,
+	input[type="search"].small-text,
+	input[type="password"].small-text,
 	input[type="number"].small-text,
-	.form-table input[type=text].small-text {
+	input[type="number"].small-text,
+	.form-table input[type="text"].small-text {
 		width: auto;
 		max-width: 55px;
 		display: inline;
