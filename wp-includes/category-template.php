@@ -1240,7 +1240,7 @@ function term_description( $term = 0, $taxonomy = 'post_tag' ) {
  *
  * @param int|object $post Post ID or object.
  * @param string $taxonomy Taxonomy name.
- * @return array|bool|WP_Error Array of term objects on success, false or WP_Error on failure.
+ * @return array|bool|WP_Error Array of term objects on success, false if there are no terms, WP_Error on failure.
  */
 function get_the_terms( $post, $taxonomy ) {
 	if ( ! $post = get_post( $post ) )
@@ -1257,9 +1257,9 @@ function get_the_terms( $post, $taxonomy ) {
 	 *
 	 * @since 3.1.0
 	 *
-	 * @param array  $terms    List of attached terms.
-	 * @param int    $post_id  Post ID.
-	 * @param string $taxonomy Name of the taxonomy.
+	 * @param array|WP_Error $terms    List of attached terms, or WP_Error on failure.
+	 * @param int            $post_id  Post ID.
+	 * @param string         $taxonomy Name of the taxonomy.
 	 */
 	$terms = apply_filters( 'get_the_terms', $terms, $post->ID, $taxonomy );
 

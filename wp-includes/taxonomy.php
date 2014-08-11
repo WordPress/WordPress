@@ -429,7 +429,7 @@ function register_taxonomy( $taxonomy, $object_type, $args = array() ) {
 	 *
 	 * @param string       $taxonomy    Taxonomy slug.
 	 * @param array|string $object_type Object type or array of object types.
-	 * @param array|string $args        Array or string of taxonomy registration arguments.
+	 * @param array        $args        Array of taxonomy registration arguments.
 	 */
 	do_action( 'registered_taxonomy', $taxonomy, $object_type, $args );
 }
