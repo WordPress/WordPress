@@ -1167,7 +1167,7 @@ function get_the_tags( $id = 0 ) {
  * @param string $sep Optional. Between tags.
  * @param string $after Optional. After tags.
  * @param int $id Optional. Post ID. Defaults to the current post.
- * @return string|bool|WP_Error A list of tags on success, false or WP_Error on failure.
+ * @return string|bool|WP_Error A list of tags on success, false if there are no terms, WP_Error on failure.
  */
 function get_the_tag_list( $before = '', $sep = '', $after = '', $id = 0 ) {
 
@@ -1240,7 +1240,8 @@ function term_description( $term = 0, $taxonomy = 'post_tag' ) {
  *
  * @param int|object $post Post ID or object.
  * @param string $taxonomy Taxonomy name.
- * @return array|bool|WP_Error Array of term objects on success, false if there are no terms, WP_Error on failure.
+ * @return array|bool|WP_Error Array of term objects on success, false if there are no terms
+ *                             or the post does not exist, WP_Error on failure.
  */
 function get_the_terms( $post, $taxonomy ) {
 	if ( ! $post = get_post( $post ) )
@@ -1279,7 +1280,7 @@ function get_the_terms( $post, $taxonomy ) {
  * @param string $before Optional. Before list.
  * @param string $sep Optional. Separate items using this.
  * @param string $after Optional. After list.
- * @return string|bool|WP_Error A list of terms on success, false or WP_Error on failure.
+ * @return string|bool|WP_Error A list of terms on success, false if there are no terms, WP_Error on failure.
  */
 function get_the_term_list( $id, $taxonomy, $before = '', $sep = '', $after = '' ) {
 	$terms = get_the_terms( $id, $taxonomy );
