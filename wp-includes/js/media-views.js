@@ -3243,7 +3243,7 @@
 			// Disable page scrolling.
 			$( 'body' ).addClass( 'modal-open' );
 
-			$el.show().find( '.media-modal-close' ).focus();
+			$el.show();
 
 			// Try to close the onscreen keyboard
 			if ( 'ontouchend' in document ) {
@@ -3256,6 +3256,8 @@
 					}, 100 );
 				}
 			}
+
+			$el.find( '.media-modal-close' ).focus();
 
 			return this.propagate('open');
 		},
