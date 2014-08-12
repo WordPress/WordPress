@@ -17,7 +17,7 @@ jQuery( document ).ready( function( $ ) {
 			});
 			if ( typeof document.body.style.maxWidth !== 'undefined' ) {
 				tbWindow.css({
-					'top': ( ( 792 < width ) ? 30 : 10 ) + 'px',
+					'top': '30px',
 					'margin-top': '0'
 				});
 			}

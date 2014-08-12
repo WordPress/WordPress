@@ -372,7 +372,7 @@ function install_plugin_information() {
 	}
 
 	iframe_header( __( 'Plugin Install' ) );
-
+	
 	$_with_banner = '';
 
 	if ( ! empty( $api->banners ) && ( ! empty( $api->banners['low'] ) || ! empty( $api->banners['high'] ) ) ) {
@@ -393,6 +393,7 @@ function install_plugin_information() {
 		<?php
 	}
 
+	echo '<div id="plugin-information-scrollable">';
 	echo "<div id='{$_tab}-title' class='{$_with_banner}'><div class='vignette'></div><h2>{$api->name}</h2></div>";
 	echo "<div id='{$_tab}-tabs' class='{$_with_banner}'>\n";
 
@@ -513,6 +514,7 @@ function install_plugin_information() {
 		}
 	echo "</div>\n";
 	echo "</div>\n";
+	echo "</div>\n"; // #plugin-information-scrollable
 	echo "<div id='$tab-footer'>\n";
 	if ( ! empty( $api->download_link ) && ( current_user_can( 'install_plugins' ) || current_user_can( 'update_plugins' ) ) ) {
 		$status = install_plugin_install_status( $api );

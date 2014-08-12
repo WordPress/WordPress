@@ -2126,19 +2126,26 @@ div.action-links {
 
 /* Plugin install thickbox */
 #plugin-information {
-	background: #fcfcfc;
+	background: #fff;
 	position: fixed;
 	top: 0;
 	right: 0;
 	bottom: 0;
 	left: 0;
-	height: auto;
+	height: 100%;
 	padding: 0;
 }
 
+#plugin-information-scrollable {
+	display: block;
+	overflow: auto;
+	height: 100%;
+	padding-bottom: 58px;
+}
+
 #plugin-information-title {
-	margin-right: 56px; /* avoid collisions with the close icon */
 	padding: 0 20px;
+	background: #f5f5f5;
 	font-size: 22px;
 	font-weight: 600;
 	line-height: 56px;
@@ -2167,15 +2174,13 @@ div.action-links {
 }
 
 #plugin-information-title.with-banner h2 {
+	display: inline-block;
 	font-size: 30px;
 	line-height: 50px;
 	font-weight: bold;
 	max-width: 760px;
-	position: absolute;
-	left: 20px;
-	top: 145px;
 	padding: 0 15px;
-	margin: 0;
+	margin: 174px 0 0 10px;
 	color: #fff;
 	background: rgba( 30, 30, 30, 0.9 );
 	text-shadow: 0 1px 3px rgba( 0, 0, 0, 0.4 );
@@ -2191,8 +2196,9 @@ div.action-links {
 
 #plugin-information-title.with-banner div.vignette {
 	display: block;
+	float: right;
 	top: 0;
-	height: 215px;
+	height: 250px;
 	width: 830px;
 	margin: 0 -20px;
 	background: transparent;
@@ -2202,17 +2208,13 @@ div.action-links {
 
 #plugin-information-tabs {
 	padding: 0 16px;
-	position: absolute;
-	top: 56px;
+	position: relative;
 	right: 0;
 	left: 0;
 	height: 36px;
 	z-index: 1;
-}
-
-#plugin-information-tabs.with-banner {
-	top: 214px;
-	background: rgba( 255, 255, 255, 0.85 );
+	border-bottom: 1px solid #ddd;
+	background: #f3f3f3;
 }
 
 #plugin-information-tabs a {
@@ -2232,7 +2234,7 @@ div.action-links {
 	margin: 0 -1px 0;
 	background: #fff;
 	border: 1px solid #ddd;
-	border-bottom: none;
+	border-bottom-color: #fff;
 	padding-top: 8px;
 	color: #333;
 }
@@ -2248,31 +2250,26 @@ div.action-links {
 }
 
 #plugin-information-content {
+	overflow: hidden; /* equal height column trick */
 	background: #fff;
-	border-top: 1px solid #ddd;
-	border-bottom: 1px solid #ddd;
-	position: absolute;
-	top: 91px;
+	position: relative;
+	top: 0;
 	right: 0;
-	bottom: 58px;
 	left: 0;
-	overflow: auto;
-}
-
-#plugin-information-content.with-banner {
-	border-top: none;
-	top: 250px;
+	min-height: 100%;
+	min-height: calc( 100% - 346px );
 }
 
 #section-holder {
-	margin: 0;
-	padding: 10px 26px;
-	position: absolute;
+	position: relative;
 	top: 0;
 	right: 250px;
 	bottom: 0;
 	left: 0;
-	overflow: auto;
+	margin-right: 250px; /* FYI box */
+	padding: 10px 26px;
+	margin-bottom: -99930px; /* a bit less than the padding below to accommodate footer */
+	padding-bottom: 99999px; /* equal height column trick */
 }
 
 #section-holder .updated {
@@ -2281,16 +2278,17 @@ div.action-links {
 
 #plugin-information .fyi {
 	display: block;
-	background: #f3f3f3;
-	border-left: 1px solid #ddd;
-	color: #666;
-	padding: 16px;
-	position: absolute;
+	float: right;
+	position: relative;
 	top: 0;
 	right: 0;
-	bottom: 0;
+	padding: 16px;
+	margin-bottom: -99930px; /* slightly less than the padding below to accommodate footer */
+	padding-bottom: 99999px; /* equal height column trick */
 	width: 217px;
-	overflow: auto;
+	border-left: 1px solid #ddd;
+	background: #f3f3f3;
+	color: #666;
 }
 
 #plugin-information .fyi strong {
@@ -2375,6 +2373,8 @@ div.action-links {
 	bottom: 0;
 	left: 0;
 	height: 28px;
+	border-top: 1px solid #ddd;
+	background: #f3f3f3;
 }
 
 #plugin-information .section ul,
@@ -2387,6 +2387,10 @@ div.action-links {
 #plugin-information .section p {
 	font-size: 14px;
 	line-height: 1.7;
+}
+
+#plugin-information .section h4:first-of-type {
+	margin-top: 1em;
 }
 
 #plugin-information #section-screenshots ol {
@@ -2419,47 +2423,50 @@ div.action-links {
 	font-size: 13px;
 }
 
-@media screen and ( max-width: 771px ), screen and ( max-height: 500px ) {
+@media screen and ( max-height: 500px ) {
 	#plugin-information-title.with-banner {
 		height: 100px;
 		bottom: 100px;
 	}
 
 	#plugin-information-title.with-banner h2 {
-		top: 12px;
+		margin-top: 30px;
 		font-size: 20px;
 		line-height: 40px;
 	}
 
 	#plugin-information-title.with-banner div.vignette {
-		height: 65px;
-		bottom: 65px;
+		height: 100px;
+		bottom: 100px;
 		width: 800%;
-	}
-
-	#plugin-information-tabs.with-banner {
-		top: 63px;
-	}
-
-	#plugin-information-content.with-banner {
-		top: 99px;
 	}
 }
 
 @media screen and ( max-width: 771px ) {
 	#plugin-information-tabs {
+		overflow: hidden; /* clearfix */
 		padding: 0;
+		height: auto; /* let tabs wrap */
+	}
+
+	#plugin-information-tabs a.current {
+		margin-bottom: 0;
+		border-bottom: none;
 	}
 
 	#plugin-information .fyi {
+		float: none;
 		border: 1px solid #ddd;
 		position: static;
 		width: auto;
-		margin: 26px 26px 16px;
+		margin: 26px 26px 0;
+		padding-bottom: 0; /* reset from the two column height fix */
 	}
 
 	#section-holder {
 		position: static;
+		margin: 0;
+		padding-bottom: 70px; /* reset from the two column height fix, plus accomodate footer */
 	}
 
 	#plugin-information .fyi h3,
@@ -2520,11 +2527,8 @@ body.import-php .tb-close-icon,
 body.plugins-php .tb-close-icon,
 body.update-core-php .tb-close-icon,
 body.index-php .tb-close-icon {
-	background: rgba( 255, 255, 255, .5);
-	color: #444;
-	line-height: 48px;
-	width: 48px;
-	height: 48px;
+	right: -30px;
+	color: #eee;
 	-webkit-transition: color .1s ease-in-out, background .1s ease-in-out;
 	transition: color .1s ease-in-out, background .1s ease-in-out;
 }
@@ -2539,8 +2543,7 @@ body.update-core-php .tb-close-icon:focus,
 body.update-core-php .tb-close-icon:hover,
 body.index-php .tb-close-icon:focus,
 body.index-php .tb-close-icon:hover {
-	background: #0074a2;
-	color: #fff;
+	color: #2ea2cc;
 	outline: none;
 	-webkit-box-shadow: none;
 	box-shadow: none;
@@ -2551,7 +2554,20 @@ body.import-php .tb-close-icon:before,
 body.plugins-php .tb-close-icon:before,
 body.update-core-php .tb-close-icon:before,
 body.index-php .tb-close-icon:before {
-	line-height: 48px;
+	content: "\f335";
+	font-size: 32px;
+}
+
+/* move plugin install close icon to top on narrow screens */
+@media screen and ( max-width: 830px ) {
+	body.plugin-install-php .tb-close-icon,
+	body.import-php .tb-close-icon,
+	body.plugins-php .tb-close-icon,
+	body.update-core-php .tb-close-icon,
+	body.index-php .tb-close-icon {
+		right: 0;
+		top: -30px;
+	}
 }
 
 /* @todo: move this. */
