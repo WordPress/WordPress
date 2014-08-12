@@ -483,6 +483,9 @@ window.wp = window.wp || {};
 				var shortcode = gallery.shortcode( selection ).string();
 				$( node ).attr( 'data-wpview-text', window.encodeURIComponent( shortcode ) );
 				wp.mce.views.refreshView( self, shortcode );
+			});
+
+			frame.on( 'close', function() {
 				frame.detach();
 			});
 		}

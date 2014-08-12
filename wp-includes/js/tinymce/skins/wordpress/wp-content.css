@@ -209,7 +209,9 @@ audio {
 
 /* delegate the handling of the selection to the wpview tinymce plugin */
 .wpview-wrap,
-.wpview-wrap * {
+.wpview-wrap *,
+#wp-image-toolbar,
+#wp-image-toolbar * {
 	-moz-user-select: none;
 	-webkit-user-select: none;
 	-ms-user-select: none;

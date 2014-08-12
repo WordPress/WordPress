@@ -3222,7 +3222,8 @@
 		 */
 		open: function() {
 			var $el = this.$el,
-				options = this.options;
+				options = this.options,
+				mceEditor;
 
 			if ( $el.is(':visible') ) {
 				return this;
@@ -3243,6 +3244,19 @@
 			$( 'body' ).addClass( 'modal-open' );
 
 			$el.show().find( '.media-modal-close' ).focus();
+
+			// Try to close the onscreen keyboard
+			if ( 'ontouchend' in document ) {
+				if ( ( mceEditor = window.tinymce && window.tinymce.activeEditor )  && ! mceEditor.isHidden() && mceEditor.iframeElement ) {
+					mceEditor.iframeElement.focus();
+					mceEditor.iframeElement.blur();
+
+					setTimeout( function() {
+						mceEditor.iframeElement.blur();
+					}, 100 );
+				}
+			}
+
 			return this.propagate('open');
 		},
 
