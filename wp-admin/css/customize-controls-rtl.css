@@ -32,6 +32,10 @@ body {
 	display: block;
 }
 
+#customize-header-actions {
+	border-bottom: 1px solid #ddd;
+}
+
 #customize-controls .wp-full-overlay-sidebar-content {
 	overflow-y: auto;
 	overflow-x: hidden;
@@ -90,7 +94,7 @@ body {
 
 #customize-theme-controls .accordion-section-content {
 	color: #555555;
-	background: white;
+	background: #fff;
 }
 
 #customize-info.open .accordion-section-title,
@@ -100,7 +104,7 @@ body {
 #customize-theme-controls .control-section .accordion-section-title:hover,
 #customize-theme-controls .control-section.open .accordion-section-title,
 #customize-theme-controls .control-section .accordion-section-title:focus {
-	color: #555555;
+	color: #222;
 	background: #f5f5f5;
 }
 
@@ -115,7 +119,7 @@ body {
 #customize-theme-controls .control-section .accordion-section-title:hover:after,
 #customize-theme-controls .control-section.open .accordion-section-title:after,
 #customize-theme-controls .control-section .accordion-section-title:focus:after {
-	color: #555555;
+	color: #555;
 }
 
 #customize-info.open,
@@ -137,12 +141,36 @@ body {
 	margin: 0;
 }
 
+.control-section.control-panel > .accordion-section-title {
+	padding-left: 54px;
+}
+
 .control-section.control-panel > .accordion-section-title:after {
-	content: "\f139";
+	content: "\f345";
+	background: #f5f5f5;
+	color: #555;
+	width: 38px;
+	height: 100%;
+	margin: -11px 0 -11px -10px; /* compensate for positioning */
+	line-height: 45px;
+	padding-right: 5px;
+	border-right: 1px solid #eee;
+	z-index: 0;
 }
 
 .rtl .control-section.control-panel > .accordion-section-title:after {
-	content: "\f141";
+	content: "\f341";
+}
+
+#customize-theme-controls .control-section.control-panel > h3.accordion-section-title:focus:after,
+#customize-theme-controls .control-section.control-panel > h3.accordion-section-title:hover:after {
+	background: #ddd;
+	color: #000;
+	border: 1px solid #d9d9d9;
+	border-left: none;
+	margin-top: -12px;
+	line-height: 44px;
+	z-index: 1;
 }
 
 .accordion-sub-container.control-panel-content {
