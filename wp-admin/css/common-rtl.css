@@ -2137,10 +2137,8 @@ div.action-links {
 }
 
 #plugin-information-scrollable {
-	display: block;
 	overflow: auto;
 	height: 100%;
-	padding-bottom: 58px;
 }
 
 #plugin-information-title {
