@@ -243,7 +243,7 @@ class WP_Customize_Panel extends WP_Customize_Section {
 	 */
 	protected function render() {
 		?>
-		<li id="accordion-section-<?php echo esc_attr( $this->id ); ?>" class="control-section control-panel accordion-section">
+		<li id="accordion-panel-<?php echo esc_attr( $this->id ); ?>" class="control-section control-panel accordion-section">
 			<h3 class="accordion-section-title" tabindex="0">
 				<?php echo esc_html( $this->title ); ?>
 				<span class="screen-reader-text"><?php _e( 'Press return or enter to open panel' ); ?></span>
