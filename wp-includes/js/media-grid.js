@@ -492,12 +492,18 @@
 			if ( $target.is( 'input' ) || $target.is( 'textarea' ) ) {
 				return event;
 			}
+
+			// Escape key, while in the Edit Image mode
+			if ( 27 === event.keyCode ) {
+				this.modal.close();
+			}
+
 			// The right arrow key
-			if ( event.keyCode === 39 ) {
+			if ( 39 === event.keyCode ) {
 				this.nextMediaItem();
 			}
 			// The left arrow key
-			if ( event.keyCode === 37 ) {
+			if ( 37 === event.keyCode ) {
 				this.previousMediaItem();
 			}
 		},
