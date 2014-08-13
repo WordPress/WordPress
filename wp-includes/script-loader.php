@@ -72,8 +72,9 @@ function wp_default_scripts( &$scripts ) {
 	$scripts->add( 'utils', "/wp-includes/js/utils$suffix.js" );
 	did_action( 'init' ) && $scripts->localize( 'utils', 'userSettings', array(
 		'url' => (string) SITECOOKIEPATH,
-		'uid' => get_current_user_id() . '-' . get_current_blog_id(),
+		'uid' => (string) get_current_user_id(),
 		'time' => (string) time(),
+		'secure' => (string) ( 'https' === parse_url( site_url(), PHP_URL_SCHEME ) ),
 	) );
 
 	$scripts->add( 'common', "/wp-admin/js/common$suffix.js", array('jquery', 'hoverIntent', 'utils'), false, 1 );

@@ -726,17 +726,16 @@ function wp_user_settings() {
 	}
 
 	$settings = (string) get_user_option( 'user-settings', $user_id );
-	$uid = $user_id . '-' . get_current_blog_id();
 
-	if ( isset( $_COOKIE['wp-settings-' . $uid] ) ) {
-		$cookie = preg_replace( '/[^A-Za-z0-9=&_]/', '', $_COOKIE['wp-settings-' . $uid] );
+	if ( isset( $_COOKIE['wp-settings-' . $user_id] ) ) {
+		$cookie = preg_replace( '/[^A-Za-z0-9=&_]/', '', $_COOKIE['wp-settings-' . $user_id] );
 
 		// No change or both empty
 		if ( $cookie == $settings )
 			return;
 
 		$last_saved = (int) get_user_option( 'user-settings-time', $user_id );
-		$current = isset( $_COOKIE['wp-settings-time-' . $uid]) ? preg_replace( '/[^0-9]/', '', $_COOKIE['wp-settings-time-' . $uid] ) : 0;
+		$current = isset( $_COOKIE['wp-settings-time-' . $user_id]) ? preg_replace( '/[^0-9]/', '', $_COOKIE['wp-settings-time-' . $user_id] ) : 0;
 
 		// The cookie is newer than the saved value. Update the user_option and leave the cookie as-is
 		if ( $current > $last_saved ) {
@@ -748,9 +747,9 @@ function wp_user_settings() {
 
 	// The cookie is not set in the current browser or the saved value is newer.
 	$secure = ( 'https' === parse_url( site_url(), PHP_URL_SCHEME ) );
-	setcookie( 'wp-settings-' . $uid, $settings, time() + YEAR_IN_SECONDS, SITECOOKIEPATH, COOKIE_DOMAIN, $secure );
-	setcookie( 'wp-settings-time-' . $uid, time(), time() + YEAR_IN_SECONDS, SITECOOKIEPATH, COOKIE_DOMAIN, $secure );
-	$_COOKIE['wp-settings-' . $uid] = $settings;
+	setcookie( 'wp-settings-' . $user_id, $settings, time() + YEAR_IN_SECONDS, SITECOOKIEPATH, null, $secure );
+	setcookie( 'wp-settings-time-' . $user_id, time(), time() + YEAR_IN_SECONDS, SITECOOKIEPATH, null, $secure );
+	$_COOKIE['wp-settings-' . $user_id] = $settings;
 }
 
 /**
@@ -846,20 +845,19 @@ function get_all_user_settings() {
 	}
 
 	$user_settings = array();
-	$uid = $user_id . '-' . get_current_blog_id();
 
-	if ( isset( $_COOKIE['wp-settings-' . $uid] ) ) {
-		$cookie = preg_replace( '/[^A-Za-z0-9=&_]/', '', $_COOKIE['wp-settings-' . $uid] );
-	} elseif ( isset( $_COOKIE['wp-settings-' . $user_id] ) ) {
+	if ( isset( $_COOKIE['wp-settings-' . $user_id] ) ) {
 		$cookie = preg_replace( '/[^A-Za-z0-9=&_]/', '', $_COOKIE['wp-settings-' . $user_id] );
-	}
 
-	if ( ! empty( $cookie ) && strpos( $cookie, '=' ) ) { // '=' cannot be 1st char
-		parse_str( $cookie, $user_settings );
+		if ( strpos( $cookie, '=' ) ) { // '=' cannot be 1st char
+			parse_str( $cookie, $user_settings );
+		}
 	} else {
 		$option = get_user_option( 'user-settings', $user_id );
-		if ( $option && is_string( $option ) )
+
+		if ( $option && is_string( $option ) ) {
 			parse_str( $option, $user_settings );
+		}
 	}
 
 	$_updated_user_settings = $user_settings;
@@ -914,9 +912,8 @@ function delete_all_user_settings() {
 		return;
 	}
 
-	$uid = $user_id . '-' . get_current_blog_id();
 	update_user_option( $user_id, 'user-settings', '', false );
-	setcookie( 'wp-settings-' . $uid, ' ', time() - YEAR_IN_SECONDS, SITECOOKIEPATH );
+	setcookie( 'wp-settings-' . $user_id, ' ', time() - YEAR_IN_SECONDS, SITECOOKIEPATH );
 }
 
 /**
