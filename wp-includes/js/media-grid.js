@@ -238,7 +238,7 @@
 
 		editAttachment: function( event ) {
 			event.preventDefault();
-			this.controller.setState( 'edit-image' );
+			this.controller.content.mode( 'edit-image' );
 		},
 
 		/**
@@ -285,6 +285,27 @@
 
 			// Trigger the media frame to open the correct item
 			media.frame.trigger( 'edit:attachment', library.findWhere( { id: parseInt( query, 10 ) } ) );
+		}
+	});
+
+	media.view.EditImage.Details = media.view.EditImage.extend({
+		initialize: function( options ) {
+			this.editor = window.imageEdit;
+			this.frame = options.frame;
+			this.controller = options.controller;
+			media.View.prototype.initialize.apply( this, arguments );
+		},
+
+		back: function() {
+			this.frame.content.mode( 'edit-metadata' );
+		},
+
+		save: function() {
+			var self = this;
+
+			this.model.fetch().done( function() {
+				self.frame.content.mode( 'edit-metadata' );
+			});
 		}
 	});
 
@@ -342,6 +363,7 @@
 
 			this.on( 'content:create:edit-metadata', this.editMetadataMode, this );
 			this.on( 'content:create:edit-image', this.editImageMode, this );
+			this.on( 'content:render:edit-image', this.editImageModeRender, this );
 			this.on( 'close', this.detach );
 
 			// Bind default title creation.
@@ -381,15 +403,8 @@
 		 * Add the default states to the frame.
 		 */
 		createStates: function() {
-			var editImageState = new media.controller.EditImage( { model: this.model } );
-			// Noop some methods.
-			editImageState._toolbar = function() {};
-			editImageState._router = function() {};
-			editImageState._menu = function() {};
 			this.states.add([
-				new media.controller.EditAttachmentMetadata( { model: this.model } ),
-				editImageState
-
+				new media.controller.EditAttachmentMetadata( { model: this.model } )
 			]);
 		},
 
@@ -427,10 +442,24 @@
 		 *                               should be set with the proper region view.
 		 */
 		editImageMode: function( contentRegion ) {
-			contentRegion.view = new media.view.EditImage( { model: this.model, controller: this } );
-			// Defer a call to load the editor, which
-			// requires DOM elements to exist.
-			_.defer( _.bind( contentRegion.view.loadEditor, contentRegion.view ) );
+			var editImageController = new media.controller.EditImage( {
+				model: this.model,
+				frame: this
+			} );
+			// Noop some methods.
+			editImageController._toolbar = function() {};
+			editImageController._router = function() {};
+			editImageController._menu = function() {};
+
+			contentRegion.view = new media.view.EditImage.Details( {
+				model: this.model,
+				frame: this,
+				controller: editImageController
+			} );
+		},
+
+		editImageModeRender: function( view ) {
+			view.on( 'ready', view.loadEditor );
 		},
 
 		/**
