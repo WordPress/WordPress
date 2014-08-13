@@ -322,6 +322,12 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 			'ul' => array(), 'ol' => array(), 'li' => array(), 'p' => array(), 'br' => array()
 		);
 
+		$plugins_group_titles = array(
+			'Performance' => _x( 'Performance', 'Plugin installer group title' ),
+			'Social'      => _x( 'Social',      'Plugin installer group title' ),
+			'Tools'       => _x( 'Tools',       'Plugin installer group title' ),
+		);
+
 		list( $columns, $hidden ) = $this->get_column_info();
 
 		$style = array();
@@ -339,7 +345,10 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 			// Display the group heading if there is one
 			if ( isset( $plugin['group'] ) && $plugin['group'] != $group ) {
 				if ( isset( $this->groups[ $plugin['group'] ] ) ) {
-					$group_name = translate( $this->groups[ $plugin['group'] ] ); // Does this need context?
+					$group_name = $this->groups[ $plugin['group'] ];
+					if ( isset( $plugins_group_titles[ $group_name ] ) ) {
+						$group_name = $plugins_group_titles[ $group_name ];
+					}
 				} else {
 					$group_name = $plugin['group'];
 				}
