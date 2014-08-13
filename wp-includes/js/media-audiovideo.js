@@ -617,7 +617,7 @@
 	/**
 	 * wp.media.view.MediaDetails
 	 *
-	 * @contructor
+	 * @constructor
 	 * @augments wp.media.view.Settings.AttachmentDisplay
 	 * @augments wp.media.view.Settings
 	 * @augments wp.media.View
@@ -762,7 +762,7 @@
 	/**
 	 * wp.media.view.AudioDetails
 	 *
-	 * @contructor
+	 * @constructor
 	 * @augments wp.media.view.MediaDetails
 	 * @augments wp.media.view.Settings.AttachmentDisplay
 	 * @augments wp.media.view.Settings
@@ -794,7 +794,7 @@
 	/**
 	 * wp.media.view.VideoDetails
 	 *
-	 * @contructor
+	 * @constructor
 	 * @augments wp.media.view.MediaDetails
 	 * @augments wp.media.view.Settings.AttachmentDisplay
 	 * @augments wp.media.view.Settings

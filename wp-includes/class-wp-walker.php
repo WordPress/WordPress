@@ -40,7 +40,7 @@ class Walker {
 	protected $max_pages = 1;
 
 	/**
-	 * Wether the current element has children or not.
+	 * Whether the current element has children or not.
 	 *
 	 * To be used in start_el().
 	 *

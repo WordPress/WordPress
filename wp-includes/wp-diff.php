@@ -414,7 +414,7 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
 		if ( !$string1 )
 			return $difference;
 
-		// Return distance per charcter (of string1)
+		// Return distance per character (of string1).
 		return $difference / strlen($string1);
 	}
 

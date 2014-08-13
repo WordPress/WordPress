@@ -282,7 +282,7 @@ function get_theme_feature_list( $api = true ) {
  * It is possible for a theme to override the Themes API result with three
  * filters. Assume this is for themes, which can extend on the Theme Info to
  * offer more choices. This is very powerful and must be used with care, when
- * overridding the filters.
+ * overriding the filters.
  *
  * The first filter, 'themes_api_args', is for the args and gives the action as
  * the second parameter. The hook for 'themes_api_args' must ensure that an
