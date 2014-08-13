@@ -1792,7 +1792,7 @@
 		deactivateMode: function( mode ) {
 			// Bail if the mode isn't active.
 			if ( ! this.isModeActive( mode ) ) {
-				return;
+				return this;
 			}
 			this.activeModes.remove( this.activeModes.where( { id: mode } ) );
 			this.$el.removeClass( 'mode-' + mode );
@@ -4821,12 +4821,18 @@
 
 			// In the grid view, bubble up an edit:attachment event to the controller.
 			if ( this.controller.isModeActive( 'grid' ) ) {
-				// Pass the current target to restore focus when closing
-				this.controller.trigger( 'edit:attachment', this.model, event.currentTarget );
+				if ( this.controller.isModeActive( 'edit' ) ) {
+					// Pass the current target to restore focus when closing
+					this.controller.trigger( 'edit:attachment', this.model, event.currentTarget );
 
-				// Don't scroll the view and don't attempt to submit anything.
-				event.stopPropagation();
-				return;
+					// Don't scroll the view and don't attempt to submit anything.
+					event.stopPropagation();
+					return;
+				}
+
+				if ( this.controller.isModeActive( 'select' ) ) {
+					method = 'toggle';
+				}
 			}
 
 			if ( event.shiftKey ) {
@@ -4838,6 +4844,8 @@
 			this.toggleSelection({
 				method: method
 			});
+
+			this.controller.trigger( 'selection:toggle' );
 
 			// Don't scroll the view and don't attempt to submit anything.
 			event.stopPropagation();
@@ -5784,12 +5792,6 @@
 					priority: -90
 				}).render() );
 
-				// BulkSelection is a <div> with subviews, including screen reader text
-				this.toolbar.set( 'bulkSelection', new media.view.BulkSelection({
-					controller: this.controller,
-					priority: -70
-				}).render() );
-
 				// DateFilter is a <select>, screen reader text needs to be rendered before
 				this.toolbar.set( 'dateFilterLabel', new media.view.Label({
 					value: l10n.filterByDate,
@@ -5802,6 +5804,26 @@
 					controller: this.controller,
 					model:      this.collection.props,
 					priority: -75
+				}).render() );
+
+				// BulkSelection is a <div> with subviews, including screen reader text
+				this.toolbar.set( 'selectModeToggleButton', new media.view.SelectModeToggleButton({
+					text: l10n.bulkSelect,
+					controller: this.controller,
+					priority: -70
+				}).render() );
+
+				this.toolbar.set( 'deleteSelectedButton', new media.view.DeleteSelectedButton({
+					style: 'primary',
+					disabled: true,
+					text:  l10n.deleteSelected,
+					controller: this.controller,
+					priority: -60,
+					click: function() {
+						while ( this.controller.state().get( 'selection' ).length > 0 ) {
+							this.controller.state().get( 'selection' ).at( 0 ).destroy();
+						}
+					}
 				}).render() );
 			}
 

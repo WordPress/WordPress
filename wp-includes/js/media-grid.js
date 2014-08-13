@@ -62,10 +62,13 @@
 				multiple:  'add',
 				state:     'library',
 				uploader:  true,
-				mode:      [ 'grid' ]
+				mode:      [ 'grid', 'edit' ]
 			});
 
-			$(document).on( 'click', '.add-new-h2', _.bind( this.addNewClickHandler, this ) );
+			this.$window = $( window );
+			this.$adminBar = $( '#wpadminbar' );
+			this.$window.on( 'scroll', _.debounce( _.bind( this.fixPosition, this ), 15 ) );
+			$( document ).on( 'click', '.add-new-h2', _.bind( this.addNewClickHandler, this ) );
 
 			// Ensure core and media grid view UI is enabled.
 			this.$el.addClass('wp-core-ui');
@@ -95,6 +98,8 @@
 
 			// Call 'initialize' directly on the parent class.
 			media.view.MediaFrame.prototype.initialize.apply( this, arguments );
+
+			this.on( 'all', function () { console.log( arguments ); } );
 
 			// Append the frame view directly the supplied container.
 			this.$el.appendTo( this.options.container );
@@ -130,6 +135,7 @@
 					multiple:           options.multiple,
 					title:              options.title,
 					content:            'browse',
+					toolbar:            'select',
 					contentUserSetting: false,
 					filterable:         'all'
 				})
@@ -144,6 +150,21 @@
 
 			// Handle a frame-level event for editing an attachment.
 			this.on( 'edit:attachment', this.openEditAttachmentModal, this );
+		},
+
+		fixPosition: function() {
+			var $browser;
+			if ( ! this.isModeActive( 'select' ) ) {
+				return;
+			}
+
+			$browser = this.$('.attachments-browser');
+
+			if ( $browser.offset().top < this.$window.scrollTop() + this.$adminBar.height() ) {
+				$browser.find('.media-toolbar').addClass( 'fixed' );
+			} else {
+				$browser.find('.media-toolbar').removeClass( 'fixed' );
+			}
 		},
 
 		/**
@@ -542,126 +563,60 @@
 		}
 	});
 
-	/**
-	 * Controller for bulk selection.
-	 */
-	media.view.BulkSelection = media.View.extend({
-		className: 'bulk-select',
-
-		initialize: function() {
-			this.model = new Backbone.Model({
-				currentAction: ''
-
-			});
-
-			this.views.add( new media.view.Label({
-				value: l10n.bulkActionsLabel,
-				attributes: {
-					'for': 'bulk-select-dropdown'
-				}
-			}) );
-
-			this.views.add(
-				new media.view.BulkSelectionActionDropdown({
-					controller: this
-				})
-			);
-
-			this.views.add(
-				new media.view.BulkSelectionActionButton({
-					disabled:   true,
-					text:       l10n.apply,
-					controller: this
-				})
-			);
-		}
-	});
-
-	/**
-	 * Bulk Selection dropdown view.
-	 *
-	 * @constructor
-	 * @augments wp.media.View
-	 * @augments wp.Backbone.View
-	 * @augments Backbone.View
-	 */
-	media.view.BulkSelectionActionDropdown = media.View.extend({
-		tagName: 'select',
-		id:      'bulk-select-dropdown',
-
+	media.view.SelectModeToggleButton = media.view.Button.extend({
 		initialize: function() {
 			media.view.Button.prototype.initialize.apply( this, arguments );
-			this.listenTo( this.controller.controller.state().get( 'selection' ), 'add remove reset', _.bind( this.enabled, this ) );
-			this.$el.append( $('<option></option>').val( '' ).html( l10n.bulkActions ) )
-				.append( $('<option></option>').val( 'delete' ).html( l10n.deletePermanently ) );
-			this.$el.prop( 'disabled', true );
-			this.$el.on( 'change', _.bind( this.changeHandler, this ) );
+			this.listenTo( this.controller, 'select:activate select:deactivate', this.toggleBulkEditHandler );
 		},
 
-		/**
-		 * Change handler for the dropdown.
-		 *
-		 * Sets the bulk selection controller's currentAction.
-		 */
-		changeHandler: function() {
-			this.controller.model.set( { 'currentAction': this.$el.val() } );
-		},
-
-		/**
-		 * Enable or disable the dropdown if attachments have been selected.
-		 */
-		enabled: function() {
-			var disabled = ! this.controller.controller.state().get('selection').length;
-			this.$el.prop( 'disabled', disabled );
-		}
-	});
-
-	/**
-	 * Bulk Selection dropdown view.
-	 *
-	 * @constructor
-	 *
-	 * @augments wp.media.view.Button
-	 * @augments wp.media.View
-	 * @augments wp.Backbone.View
-	 * @augments Backbone.View
-	 */
-	media.view.BulkSelectionActionButton = media.view.Button.extend({
-		tagName: 'button',
-
-		initialize: function() {
-			media.view.Button.prototype.initialize.apply( this, arguments );
-
-			this.listenTo( this.controller.model, 'change', this.enabled, this );
-			this.listenTo( this.controller.controller.state().get( 'selection' ), 'add remove reset', _.bind( this.enabled, this ) );
-		},
-		/**
-		 * Button click handler.
-		 */
 		click: function() {
-			var selection = this.controller.controller.state().get('selection');
 			media.view.Button.prototype.click.apply( this, arguments );
-
-			if ( 'delete' === this.controller.model.get( 'currentAction' ) ) {
-				// Currently assumes delete is the only action
-				if ( confirm( l10n.warnBulkDelete ) ) {
-					while ( selection.length > 0 ) {
-						selection.at(0).destroy();
-					}
-				}
+			if ( this.controller.isModeActive( 'select' ) ) {
+				this.controller.deactivateMode( 'select' ).activateMode( 'edit' );
+			} else {
+				this.controller.deactivateMode( 'edit' ).activateMode( 'select' );
 			}
-
-			this.enabled();
 		},
-		/**
-		 * Enable or disable the button depending if a bulk action is selected
-		 * in the bulk select dropdown, and if attachments have been selected.
-		 */
-		enabled: function() {
-			var currentAction = this.controller.model.get( 'currentAction' ),
-				selection = this.controller.controller.state().get('selection'),
-				disabled = ! currentAction || ! selection.length;
-			this.$el.prop( 'disabled', disabled );
+
+		render: function() {
+			media.view.Button.prototype.render.apply( this, arguments );
+			this.$el.addClass( 'select-mode-toggle-button' );
+			return this;
+		},
+
+		toggleBulkEditHandler: function() {
+			var toolbar = this.controller.content.get().toolbar, children;
+
+			children = toolbar.$( '.media-toolbar-secondary > *, .media-toolbar-primary > *');
+
+			if ( this.controller.isModeActive( 'select' ) ) {
+				this.model.set( 'text', l10n.cancelSelection );
+				children.not( '.delete-selected-button' ).hide();
+				toolbar.$( '.select-mode-toggle-button' ).show();
+				toolbar.$( '.delete-selected-button' ).removeClass( 'hidden' );
+			} else {
+				this.model.set( 'text', l10n.bulkSelect );
+				toolbar.$( '.delete-selected-button' ).addClass( 'hidden' );
+				children.not( '.spinner, .delete-selected-button' ).show();
+				this.controller.state().get( 'selection' ).reset();
+			}
+		}
+	});
+
+	media.view.DeleteSelectedButton = media.view.Button.extend({
+		initialize: function() {
+			media.view.Button.prototype.initialize.apply( this, arguments );
+			this.listenTo( this.controller, 'selection:toggle', this.toggleDisabled );
+		},
+
+		toggleDisabled: function() {
+			this.$el.attr( 'disabled', ! this.controller.state().get( 'selection' ).length );
+		},
+
+		render: function() {
+			media.view.Button.prototype.render.apply( this, arguments );
+			this.$el.addClass( 'delete-selected-button hidden' );
+			return this;
 		}
 	});
 
