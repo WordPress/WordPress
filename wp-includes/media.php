@@ -2647,7 +2647,7 @@ function wp_prepare_attachment_for_js( $attachment ) {
 		if ( $parent_type && $parent_type->show_ui && current_user_can( 'edit_post', $attachment->post_parent ) ) {
 			$response['uploadedToLink'] = get_edit_post_link( $attachment->post_parent, 'raw' );
 		}
-		$response['uploadedToTitle'] = $post_parent->post_title ? $post_parent->post_title : __( '(No title)' );
+		$response['uploadedToTitle'] = $post_parent->post_title ? $post_parent->post_title : __( '(no title)' );
 	}
 
 	$attached_file = get_attached_file( $attachment->ID );
