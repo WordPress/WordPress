@@ -729,17 +729,6 @@
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
-	opacity: 1;
-	-webkit-transition: opacity 250ms;
-	transition: opacity 250ms;
-}
-
-.media-frame.mode-select .attachment {
-	opacity: 0.65;
-}
-
-.media-frame.mode-select .attachment.selected {
-	opacity: 1;
 }
 
 .attachment:focus {
@@ -754,10 +743,10 @@
 
 .media-frame.mode-grid .attachment:focus {
 	-webkit-box-shadow:
-		inset 0 0 0 6px #f1f1f1,
+		inset 0 0 0 5px #f1f1f1,
 		inset 0 0 1px 7px #5b9dd9;
 	box-shadow:
-		inset 0 0 0 6px #f1f1f1,
+		inset 0 0 0 5px #f1f1f1,
 		inset 0 0 1px 7px #5b9dd9;
 }
 
@@ -772,10 +761,10 @@
 
 .media-frame.mode-grid .selected.attachment {
 	-webkit-box-shadow:
-		inset 0 0 0 6px #f1f1f1,
+		inset 0 0 0 5px #f1f1f1,
 		inset 0 0 0 7px #ccc;
 	box-shadow:
-		inset 0 0 0 6px #f1f1f1,
+		inset 0 0 0 5px #f1f1f1,
 		inset 0 0 0 7px #ccc;
 }
 
@@ -809,6 +798,17 @@
 	left: 0;
 	bottom: 0;
 	right: 0;
+	opacity: 1;
+	-webkit-transition: opacity .1s;
+	transition: opacity .1s;
+}
+
+.media-frame.mode-select .attachment .thumbnail {
+	opacity: 0.65;
+}
+
+.media-frame.mode-select .attachment.selected .thumbnail {
+	opacity: 1;
 }
 
 .attachment .portrait img {
@@ -2520,6 +2520,12 @@
 	padding: 2px;
 }
 
+.media-frame.mode-select .attachments-browser.fixed .attachments {
+	position: relative;
+	top: 80px; /* prevent jumping up when the toolbar becomes fixed */
+	padding-bottom: 80px; /* offset for above so the bottom doesn't get cut off */
+}
+
 /**
  * Copied styles from the Add theme toolbar.
  *
@@ -2543,12 +2549,11 @@
 	border: none;
 }
 
-.media-frame.mode-select .attachments-browser .media-toolbar.fixed {
+.media-frame.mode-select .attachments-browser.fixed .media-toolbar {
 	position: fixed;
-	top: 28px;
-	right: 182px;
+	top: 12px;
+	right: auto;
 	left: 20px;
-	width: auto;
 }
 
 .media-frame.mode-grid input[type="search"] {

@@ -151,17 +151,20 @@
 		},
 
 		fixPosition: function() {
-			var $browser;
+			var $browser, $toolbar;
 			if ( ! this.isModeActive( 'select' ) ) {
 				return;
 			}
 
 			$browser = this.$('.attachments-browser');
+			$toolbar = $browser.find('.media-toolbar')
 
 			if ( $browser.offset().top < this.$window.scrollTop() + this.$adminBar.height() ) {
-				$browser.find('.media-toolbar').addClass( 'fixed' );
+				$browser.addClass( 'fixed' );
+				$toolbar.css('width', $browser.width() + 'px');
 			} else {
-				$browser.find('.media-toolbar').removeClass( 'fixed' );
+				$browser.removeClass( 'fixed' );
+				$toolbar.css('width', '');
 			}
 		},
 
@@ -594,6 +597,8 @@
 				toolbar.$( '.delete-selected-button' ).removeClass( 'hidden' );
 			} else {
 				this.model.set( 'text', l10n.bulkSelect );
+				this.controller.content.get().$el.removeClass('fixed');
+				toolbar.$el.css('width', '');
 				toolbar.$( '.delete-selected-button' ).addClass( 'hidden' );
 				children.not( '.spinner, .delete-selected-button' ).show();
 				this.controller.state().get( 'selection' ).reset();
