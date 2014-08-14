@@ -5874,6 +5874,20 @@
 							selection = this.controller.state().get( 'selection' ),
 							library = this.controller.state().get( 'library' );
 
+						if ( ! selection.length ) {
+							return;
+						}
+
+						if ( ! media.view.settings.mediaTrash && ! confirm( l10n.warnBulkDelete ) ) {
+							return;
+						}
+
+						if ( media.view.settings.mediaTrash
+							&& 'trash' !== selection.at( 0 ).get( 'status' )
+							&& ! confirm( l10n.warnBulkTrash ) ) {
+							return;
+						}
+
 						while ( selection.length > 0 ) {
 							model = selection.at( 0 );
 							if ( media.view.settings.mediaTrash && 'trash' === model.get( 'status' ) ) {
