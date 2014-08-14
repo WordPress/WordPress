@@ -66,6 +66,7 @@ final class WP_Customize_Manager {
 	 */
 	public function __construct() {
 		require( ABSPATH . WPINC . '/class-wp-customize-setting.php' );
+		require( ABSPATH . WPINC . '/class-wp-customize-panel.php' );
 		require( ABSPATH . WPINC . '/class-wp-customize-section.php' );
 		require( ABSPATH . WPINC . '/class-wp-customize-control.php' );
 		require( ABSPATH . WPINC . '/class-wp-customize-widgets.php' );
