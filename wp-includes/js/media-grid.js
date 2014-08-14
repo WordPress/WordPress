@@ -183,7 +183,7 @@
 			// Create a new EditAttachment frame, passing along the library and the attachment model.
 			wp.media( {
 				frame:       'edit-attachments',
-				gridRouter:  this.gridRouter,
+				controller:  this,
 				library:     this.state().get('library'),
 				model:       model
 			} );
@@ -230,6 +230,9 @@
 		},
 
 		bindDeferred: function() {
+			if ( ! this.browserView.dfd ) {
+				return;
+			}
 			this.browserView.dfd.done( _.bind( this.startHistory, this ) );
 		},
 
@@ -352,15 +355,11 @@
 		regions:   [ 'title', 'content' ],
 
 		events: {
-			'click':                    'collapse',
-			'click .delete-media-item': 'deleteMediaItem',
 			'click .left':              'previousMediaItem',
 			'click .right':             'nextMediaItem'
 		},
 
 		initialize: function() {
-			var self = this;
-
 			media.view.Frame.prototype.initialize.apply( this, arguments );
 
 			_.defaults( this.options, {
@@ -368,32 +367,42 @@
 				state: 'edit-attachment'
 			});
 
-			this.gridRouter = this.options.gridRouter;
-
+			this.controller = this.options.controller;
+			this.gridRouter = this.controller.gridRouter;
 			this.library = this.options.library;
 
 			if ( this.options.model ) {
 				this.model = this.options.model;
 			} else {
+				// this is a hack
 				this.model = this.library.at( 0 );
 			}
 
-			// Close the modal if the attachment is deleted.
-			this.listenTo( this.model, 'destroy', this.close, this );
-
+			this.bindHandlers();
 			this.createStates();
+			this.createModal();
+
+			this.title.mode( 'default' );
+
+			this.options.hasPrevious = this.hasPrevious();
+			this.options.hasNext = this.hasNext();
+		},
+
+		bindHandlers: function() {
+			// Bind default title creation.
+			this.on( 'title:create:default', this.createTitle, this );
+
+			// Close the modal if the attachment is deleted.
+			this.listenTo( this.model, 'change:status destroy', this.close, this );
 
 			this.on( 'content:create:edit-metadata', this.editMetadataMode, this );
 			this.on( 'content:create:edit-image', this.editImageMode, this );
 			this.on( 'content:render:edit-image', this.editImageModeRender, this );
 			this.on( 'close', this.detach );
+		},
 
-			// Bind default title creation.
-			this.on( 'title:create:default', this.createTitle, this );
-			this.title.mode( 'default' );
-
-			this.options.hasPrevious = this.hasPrevious();
-			this.options.hasNext = this.hasNext();
+		createModal: function() {
+			var self = this;
 
 			// Initialize modal container view.
 			if ( this.options.modal ) {
@@ -609,16 +618,33 @@
 	media.view.DeleteSelectedButton = media.view.Button.extend({
 		initialize: function() {
 			media.view.Button.prototype.initialize.apply( this, arguments );
+			if ( this.options.filters ) {
+				this.listenTo( this.options.filters.model, 'change', this.filterChange );
+			}
 			this.listenTo( this.controller, 'selection:toggle', this.toggleDisabled );
 		},
 
+		filterChange: function( model ) {
+			if ( 'trash' === model.get( 'status' ) ) {
+				this.model.set( 'text', l10n.untrashSelected );
+			} else if ( media.view.settings.mediaTrash ) {
+				this.model.set( 'text', l10n.trashSelected );
+			} else {
+				this.model.set( 'text', l10n.deleteSelected );
+			}
+		},
+
 		toggleDisabled: function() {
-			this.$el.attr( 'disabled', ! this.controller.state().get( 'selection' ).length );
+			this.model.set( 'disabled', ! this.controller.state().get( 'selection' ).length );
 		},
 
 		render: function() {
 			media.view.Button.prototype.render.apply( this, arguments );
-			this.$el.addClass( 'delete-selected-button hidden' );
+			if ( this.controller.isModeActive( 'select' ) ) {
+				this.$el.addClass( 'delete-selected-button' );
+			} else {
+				this.$el.addClass( 'delete-selected-button hidden' );
+			}
 			return this;
 		}
 	});

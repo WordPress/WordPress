@@ -1603,7 +1603,8 @@
 .attachment-info .edit-attachment,
 .attachment-info .refresh-attachment,
 .attachment-info .delete-attachment,
-.attachment-info .trash-attachment {
+.attachment-info .trash-attachment,
+.attachment-info .untrash-attachment {
 	display: block;
 	text-decoration: none;
 	white-space: nowrap;
@@ -1620,12 +1621,14 @@
 }
 
 .media-modal .delete-attachment,
-.media-modal .trash-attachment {
+.media-modal .trash-attachment,
+.media-modal .untrash-attachment {
 	color: #bc0b0b;
 }
 
 .media-modal .delete-attachment:hover,
-.media-modal .trash-attachment:hover {
+.media-modal .trash-attachment:hover,
+.media-modal .untrash-attachment:hover {
 	color: red;
 }
 
@@ -2743,7 +2746,9 @@
 	max-height: calc( 100% - 42px ); /* leave space for actions underneath */
 }
 
-.edit-attachment-frame .delete-attachment {
+.edit-attachment-frame .delete-attachment,
+.edit-attachment-frame .trash-attachment,
+.edit-attachment-frame .untrash-attachment {
 	float: left;
 	margin-top: 7px;
 }

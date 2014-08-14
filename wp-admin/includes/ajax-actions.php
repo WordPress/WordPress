@@ -2161,7 +2161,14 @@ function wp_ajax_query_attachments() {
 	) ) );
 
 	$query['post_type'] = 'attachment';
-	$query['post_status'] = 'inherit';
+	if ( MEDIA_TRASH
+		&& ! empty( $_REQUEST['query']['post_status'] )
+		&& 'trash' === $_REQUEST['query']['post_status'] ) {
+		$query['post_status'] = 'trash';
+	} else {
+		$query['post_status'] = 'inherit';
+	}
+
 	if ( current_user_can( get_post_type_object( 'attachment' )->cap->read_private_posts ) )
 		$query['post_status'] .= ',private';
 
@@ -2216,6 +2223,9 @@ function wp_ajax_save_attachment() {
 	if ( isset( $changes['description'] ) )
 		$post['post_content'] = $changes['description'];
 
+	if ( MEDIA_TRASH && isset( $changes['status'] ) )
+		$post['post_status'] = $changes['status'];
+
 	if ( isset( $changes['alt'] ) ) {
 		$alt = wp_unslash( $changes['alt'] );
 		if ( $alt != get_post_meta( $id, '_wp_attachment_image_alt', true ) ) {
@@ -2243,7 +2253,12 @@ function wp_ajax_save_attachment() {
 		}
 	}
 
-	wp_update_post( $post );
+	if ( MEDIA_TRASH && isset( $changes['status'] ) && 'trash' === $changes['status'] ) {
+		wp_delete_post( $id );
+	} else {
+		wp_update_post( $post );
+	}
+
 	wp_send_json_success();
 }
 

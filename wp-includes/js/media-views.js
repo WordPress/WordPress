@@ -5671,6 +5671,7 @@
 				filters[ key ] = {
 					text: text,
 					props: {
+						status:  null,
 						type:    key,
 						uploadedTo: null,
 						orderby: 'date',
@@ -5682,6 +5683,7 @@
 			filters.all = {
 				text:  l10n.allMediaItems,
 				props: {
+					status:  null,
 					type:    null,
 					uploadedTo: null,
 					orderby: 'date',
@@ -5694,6 +5696,7 @@
 				filters.uploaded = {
 					text:  l10n.uploadedToThisPost,
 					props: {
+						status:  null,
 						type:    null,
 						uploadedTo: media.view.settings.post.id,
 						orderby: 'menuOrder',
@@ -5706,6 +5709,7 @@
 			filters.unattached = {
 				text:  l10n.unattached,
 				props: {
+					status:     null,
 					uploadedTo: 0,
 					type:       null,
 					orderby:    'menuOrder',
@@ -5713,6 +5717,20 @@
 				},
 				priority: 50
 			};
+
+			if ( media.view.settings.mediaTrash ) {
+				filters.trash = {
+					text:  l10n.trash,
+					props: {
+						uploadedTo: null,
+						status:     'trash',
+						type:       null,
+						orderby:    'date',
+						order:      'DESC'
+					},
+					priority: 50
+				};
+			}
 
 			this.filters = filters;
 		}
@@ -5765,9 +5783,7 @@
 		},
 
 		createToolbar: function() {
-			var filters,
-				LibraryViewSwitcher,
-				FiltersConstructor;
+			var LibraryViewSwitcher, Filters;
 
 			/**
 			 * @member {wp.media.view.Toolbar}
@@ -5777,6 +5793,38 @@
 			});
 
 			this.views.add( this.toolbar );
+
+			this.toolbar.set( 'spinner', new media.view.Spinner({
+				priority: -60
+			}) );
+
+			if ( -1 !== $.inArray( this.options.filters, [ 'uploaded', 'all' ] ) ) {
+				// "Filters" will return a <select>, need to render
+				// screen reader text before
+				this.toolbar.set( 'filtersLabel', new media.view.Label({
+					value: l10n.filterByType,
+					attributes: {
+						'for':  'media-attachment-filters'
+					},
+					priority:   -80
+				}).render() );
+
+				if ( 'uploaded' === this.options.filters ) {
+					this.toolbar.set( 'filters', new media.view.AttachmentFilters.Uploaded({
+						controller: this.controller,
+						model:      this.collection.props,
+						priority:   -80
+					}).render() );
+				} else {
+					Filters = new media.view.AttachmentFilters.All({
+						controller: this.controller,
+						model:      this.collection.props,
+						priority:   -80
+					});
+
+					this.toolbar.set( 'filters', Filters.render() );
+				}
+			}
 
 			// Feels odd to bring the global media library switcher into the Attachment
 			// browser view. Is this a use case for doAction( 'add:toolbar-items:attachments-browser', this.toolbar );
@@ -5814,44 +5862,38 @@
 				}).render() );
 
 				this.toolbar.set( 'deleteSelectedButton', new media.view.DeleteSelectedButton({
+					filters: Filters,
 					style: 'primary',
 					disabled: true,
-					text:  l10n.deleteSelected,
+					text: media.view.settings.mediaTrash ? l10n.trashSelected : l10n.deleteSelected,
 					controller: this.controller,
 					priority: -60,
 					click: function() {
-						while ( this.controller.state().get( 'selection' ).length > 0 ) {
-							this.controller.state().get( 'selection' ).at( 0 ).destroy();
+						var model, changed = [],
+							selection = this.controller.state().get( 'selection' ),
+							library = this.controller.state().get( 'library' );
+
+						while ( selection.length > 0 ) {
+							model = selection.at( 0 );
+							if ( media.view.settings.mediaTrash && 'trash' === model.get( 'status' ) ) {
+								model.set( 'status', 'inherit' );
+								changed.push( model.save() );
+								selection.remove( model );
+							} else if ( media.view.settings.mediaTrash ) {
+								model.set( 'status', 'trash' );
+								changed.push( model.save() );
+								selection.remove( model );
+							} else {
+								model.destroy();
+							}
+						}
+
+						if ( changed.length ) {
+							$.when( changed ).then( function() {
+								library._requery( true );
+							} );
 						}
 					}
-				}).render() );
-			}
-
-			this.toolbar.set( 'spinner', new media.view.Spinner({
-				priority: -60
-			}) );
-
-			filters = this.options.filters;
-			if ( 'uploaded' === filters ) {
-				FiltersConstructor = media.view.AttachmentFilters.Uploaded;
-			} else if ( 'all' === filters ) {
-				FiltersConstructor = media.view.AttachmentFilters.All;
-			}
-
-			if ( FiltersConstructor ) {
-				// "FiltersConstructor" will return a <select>, need to render
-				// screen reader text before
-				this.toolbar.set( 'filtersLabel', new media.view.Label({
-					value: l10n.filterByType,
-					attributes: {
-						'for':  'media-attachment-filters'
-					},
-					priority:   -80
-				}).render() );
-				this.toolbar.set( 'filters', new FiltersConstructor({
-					controller: this.controller,
-					model:      this.collection.props,
-					priority:   -80
 				}).render() );
 			}
 
@@ -6420,6 +6462,7 @@
 			'change [data-setting] textarea': 'updateSetting',
 			'click .delete-attachment':       'deleteAttachment',
 			'click .trash-attachment':        'trashAttachment',
+			'click .untrash-attachment':      'untrashAttachment',
 			'click .edit-attachment':         'editAttachment',
 			'click .refresh-attachment':      'refreshAttachment',
 			'keydown':                        'toggleSelectionHandler'
@@ -6453,9 +6496,29 @@
 		 * @param {Object} event
 		 */
 		trashAttachment: function( event ) {
+			var library = this.controller.library;
 			event.preventDefault();
 
-			this.model.destroy();
+			if ( media.view.settings.mediaTrash ) {
+				this.model.set( 'status', 'trash' );
+				this.model.save().done( function() {
+					library._requery( true );
+				} );
+			}  else {
+				this.model.destroy();
+			}
+		},
+		/**
+		 * @param {Object} event
+		 */
+		untrashAttachment: function( event ) {
+			var library = this.controller.library;
+			event.preventDefault();
+
+			this.model.set( 'status', 'inherit' );
+			this.model.save().done( function() {
+				library._requery( true );
+			} );
 		},
 		/**
 		 * @param {Object} event

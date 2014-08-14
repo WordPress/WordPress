@@ -2869,6 +2869,7 @@ function wp_enqueue_media( $args = array() ) {
 		'embedMimes'   => $ext_mimes,
 		'contentWidth' => $content_width,
 		'months'       => $months,
+		'mediaTrash'   => MEDIA_TRASH ? 1 : 0
 	);
 
 	$post = null;
@@ -2931,11 +2932,14 @@ function wp_enqueue_media( $args = array() ) {
 		'noItemsFound'           => __( 'No items found.' ),
 		'insertIntoPost'         => $hier ? __( 'Insert into page' ) : __( 'Insert into post' ),
 		'unattached'             => __( 'Unattached' ),
+		'trash'                  => __( 'Trash' ),
 		'uploadedToThisPost'     => $hier ? __( 'Uploaded to this page' ) : __( 'Uploaded to this post' ),
 		'warnDelete'             => __( "You are about to permanently delete this item.\n  'Cancel' to stop, 'OK' to delete." ),
 		'warnBulkDelete'         => __( "You are about to permanently delete these items.\n  'Cancel' to stop, 'OK' to delete." ),
 		'bulkSelect'             => __( 'Bulk Select' ),
 		'cancelSelection'        => __( 'Cancel Selection' ),
+		'trashSelected'          => __( 'Trash Selected' ),
+		'untrashSelected'        => __( 'Untrash Selected' ),
 		'deleteSelected'         => __( 'Delete Selected' ),
 		'deletePermanently'      => __( 'Delete Permanently' ),
 		'apply'                  => __( 'Apply' ),
