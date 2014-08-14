@@ -434,8 +434,9 @@ final class WP_Customize_Widgets {
 		}
 
 		$this->manager->add_panel( 'widgets', array(
-			'title' => __( 'Widgets' ),
+			'title'       => __( 'Widgets' ),
 			'description' => __( 'Widgets are independent sections of content that can be placed into widgetized areas provided by your theme (commonly called sidebars).' ),
+			'priority'    => 110,
 		) );
 
 		foreach ( $sidebars_widgets as $sidebar_id => $sidebar_widget_ids ) {

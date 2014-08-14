@@ -132,7 +132,7 @@ body {
 }
 
 #customize-theme-controls .control-section:last-of-type.open,
-#customize-theme-controls .control-section:last-of-type .accordion-section-title {
+#customize-theme-controls .control-section:last-of-type > .accordion-section-title {
 	border-bottom-color: #ddd;
 }
 
