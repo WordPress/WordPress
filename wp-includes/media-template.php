@@ -508,7 +508,11 @@ function wp_print_media_templates() {
 
 				<# if ( ! data.uploading && data.can.remove ) { #>
 					<?php if ( MEDIA_TRASH ): ?>
+					<# if ( 'trash' === data.status ) { #>
+						<a class="untrash-attachment" href="#"><?php _e( 'Untrash' ); ?></a>
+					<# } else { #>
 						<a class="trash-attachment" href="#"><?php _e( 'Trash' ); ?></a>
+					<# } #>
 					<?php else: ?>
 						<a class="delete-attachment" href="#"><?php _e( 'Delete Permanently' ); ?></a>
 					<?php endif; ?>
