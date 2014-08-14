@@ -99,8 +99,6 @@
 			// Call 'initialize' directly on the parent class.
 			media.view.MediaFrame.prototype.initialize.apply( this, arguments );
 
-			this.on( 'all', function () { console.log( arguments ); } );
-
 			// Append the frame view directly the supplied container.
 			this.$el.appendTo( this.options.container );
 
