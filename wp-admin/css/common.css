@@ -3055,6 +3055,10 @@ img {
 		right: -190px;
 	}
 
+	code {
+		word-wrap: break-word;
+	}
+
 	/* General Metabox */
 	.postbox {
 		font-size: 14px;
