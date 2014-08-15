@@ -272,7 +272,7 @@ function wp_print_media_templates() {
 	</script>
 
 	<script type="text/html" id="tmpl-attachment-details-two-column">
-		<div class="attachment-media-view">
+		<div class="attachment-media-view {{ data.orientation }}">
 			<div class="thumbnail thumbnail-{{ data.type }}">
 				<# if ( data.uploading ) { #>
 					<div class="media-progress-bar"><div></div></div>
@@ -312,18 +312,6 @@ function wp_print_media_templates() {
 				<div class="attachment-actions">
 					<# if ( 'image' === data.type && ! data.uploading ) { #>
 						<a class="button edit-attachment" href="#"><?php _e( 'Edit Image' ); ?></a>
-					<# } #>
-
-					<# if ( ! data.uploading && data.can.remove ) { #>
-						<?php if ( MEDIA_TRASH ): ?>
-						<# if ( 'trash' === data.status ) { #>
-							<a class="untrash-attachment" href="#"><?php _e( 'Untrash' ); ?></a>
-						<# } else { #>
-							<a class="trash-attachment" href="#"><?php _e( 'Trash' ); ?></a>
-						<# } #>
-						<?php else: ?>
-							<a class="delete-attachment" href="#"><?php _e( 'Delete Permanently' ); ?></a>
-						<?php endif; ?>
 					<# } #>
 				</div>
 			</div>
@@ -413,8 +401,21 @@ function wp_print_media_templates() {
 				<div class="attachment-compat"></div>
 			</div>
 
-			<a class="view-attachment" href="{{ data.link }}"><?php _e( 'View attachment page' ); ?></a> |
-			<a href="post.php?post={{ data.id }}&action=edit"><?php _e( 'Edit more details' ); ?></a>
+			<div class="actions">
+				<a class="view-attachment" href="{{ data.link }}"><?php _e( 'View attachment page' ); ?></a> |
+				<a href="post.php?post={{ data.id }}&action=edit"><?php _e( 'Edit more details' ); ?></a>
+				<# if ( ! data.uploading && data.can.remove ) { #> |
+						<?php if ( MEDIA_TRASH ): ?>
+						<# if ( 'trash' === data.status ) { #>
+							<a class="untrash-attachment" href="#"><?php _e( 'Untrash' ); ?></a>
+						<# } else { #>
+							<a class="trash-attachment" href="#"><?php _e( 'Trash' ); ?></a>
+						<# } #>
+						<?php else: ?>
+							<a class="delete-attachment" href="#"><?php _e( 'Delete Permanently' ); ?></a>
+						<?php endif; ?>
+					<# } #>
+			</div>
 
 		</div>
 	</script>

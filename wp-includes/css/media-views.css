@@ -285,42 +285,42 @@
 	margin: 24px 0 8px;
 }
 
-.media-sidebar .setting {
+.attachment-details .setting {
 	display: block;
 	float: left;
 	width: 100%;
 	margin: 1px 0;
 }
 
-.media-sidebar .setting label {
+.attachment-details .setting label {
 	display: block;
 }
 
-.media-sidebar .setting .link-to-custom {
+.attachment-details .setting .link-to-custom {
 	margin: 3px 2px 0;
 }
 
-.media-sidebar .setting span {
+.attachment-details .setting span {
 	min-width: 30%;
 	margin-right: 4%;
 	font-size: 12px;
 	text-align: right;
 }
 
-.media-sidebar .setting select {
+.attachment-details .setting select {
 	max-width: 65%;
 }
 
-.media-sidebar .setting input[type="checkbox"],
-.media-sidebar .field input[type="checkbox"],
-.media-sidebar .setting input[type="radio"],
-.media-sidebar .field input[type="radio"] {
+.attachment-details .setting input[type="checkbox"],
+.attachment-details .field input[type="checkbox"],
+.attachment-details .setting input[type="radio"],
+.attachment-details .field input[type="radio"] {
 	float: none;
 	margin: 8px 3px 0;
 	padding: 0;
 }
 
-.media-sidebar .setting span,
+.attachment-details .setting span,
 .compat-item label span {
 	float: left;
 	min-height: 22px;
@@ -334,32 +334,33 @@
 	text-align: right;
 }
 
-.media-sidebar .setting input[type="text"],
-.media-sidebar .setting input[type="password"],
-.media-sidebar .setting input[type="email"],
-.media-sidebar .setting input[type="number"],
-.media-sidebar .setting input[type="search"],
-.media-sidebar .setting input[type="tel"],
-.media-sidebar .setting input[type="url"],
-.media-sidebar .setting textarea,
-.media-sidebar .setting .value {
+.attachment-details .setting input[type="text"],
+.attachment-details .setting input[type="password"],
+.attachment-details .setting input[type="email"],
+.attachment-details .setting input[type="number"],
+.attachment-details .setting input[type="search"],
+.attachment-details .setting input[type="tel"],
+.attachment-details .setting input[type="url"],
+.attachment-details .setting textarea,
+.attachment-details .setting .value {
+	box-sizing: border-box;
 	margin: 1px;
 	width: 65%;
 	float: right;
 }
 
-.media-sidebar .setting .value {
+.attachment-details .setting .value {
 	margin: 0 1px;
 	text-align: left;
 }
 
-.media-sidebar .setting textarea,
+.attachment-details .setting textarea,
 .compat-item .field textarea {
 	height: 62px;
 	resize: vertical;
 }
 
-.media-sidebar select {
+.attachment-details select {
 	margin-top: 3px;
 }
 
@@ -2172,19 +2173,19 @@
 @media only screen and (max-width: 900px) {
 
 	/* Drop-down menu */
-	.media-frame-title,
-	.media-frame-router,
-	.media-frame-content,
-	.media-frame-toolbar {
+	.media-frame .media-frame-title,
+	.media-frame .media-frame-router,
+	.media-frame .media-frame-content,
+	.media-frame .media-frame-toolbar {
 		left: 0;
 	}
 
-	.media-frame-menu {
+	.media-frame .media-frame-menu {
 		position: static;
 		width: 0;
 	}
 
-	.media-menu {
+	.media-frame .media-menu {
 		width: auto;
 		max-width: 80%;
 		overflow: auto;
@@ -2197,34 +2198,34 @@
 		border: 1px solid #ccc;
 	}
 
-	.media-menu.visible {
+	.media-frame .media-menu.visible {
 		left: 0;
 	}
 
-	.media-menu > a {
+	.media-frame .media-menu > a {
 		padding: 12px 16px;
 		font-size: 16px;
 	}
 
-	.media-menu > a.active {
+	.media-frame .media-menu > a.active {
 		display: none;
 	}
 
-	.media-menu .separator {
+	.media-frame .media-menu .separator {
 		margin: 5px 10px;
 	}
 
-	.media-frame-title {
+	.media-frame .media-frame-title {
 		left: 0;
 		color: #21759b;
 	}
 
-	.media-frame-title .dashicons {
+	.media-frame .media-frame-title .dashicons {
 		display: inline-block;
 		line-height: 56px;
 	}
 
-	.media-frame-title h1 {
+	.media-frame .media-frame-title h1 {
 		line-height: 3;
 		font-size: 18px;
 		float: left;
@@ -2242,18 +2243,18 @@
 		right: 262px;
 	}
 
-	.media-sidebar .setting {
+	.attachment-details .setting {
 		margin: 6px 0px;
 	}
 
-	.media-sidebar .setting input,
-	.media-sidebar .setting textarea,
-	.media-sidebar .setting span,
+	.attachment-details .setting input,
+	.attachment-details .setting textarea,
+	.attachment-details .setting span,
 	.compat-item label span {
 		float: none;
 	}
 
-	.media-sidebar .setting span,
+	.attachment-details .setting span,
 	.compat-item label span {
 		text-align: inherit;
 		min-height: 16px;
@@ -2261,26 +2262,27 @@
 		padding: 8px 2px 0;
 	}
 
-	.media-sidebar .setting .value {
+	.attachment-details .setting .value {
 		float: none;
 		width: auto;
 	}
 
-	.media-sidebar .setting input[type="text"],
-	.media-sidebar .setting input[type="password"],
-	.media-sidebar .setting input[type="email"],
-	.media-sidebar .setting input[type="number"],
-	.media-sidebar .setting input[type="search"],
-	.media-sidebar .setting input[type="tel"],
-	.media-sidebar .setting input[type="url"],
-	.media-sidebar .setting textarea,
-	.media-sidebar .setting select {
+	.attachment-details .setting input[type="text"],
+	.attachment-details .setting input[type="password"],
+	.attachment-details .setting input[type="email"],
+	.attachment-details .setting input[type="number"],
+	.attachment-details .setting input[type="search"],
+	.attachment-details .setting input[type="tel"],
+	.attachment-details .setting input[type="url"],
+	.attachment-details .setting textarea,
+	.attachment-details .setting select {
+		float: none;
 		width: 98%;
 		max-width: none;
 		height: auto;
 	}
 
-	.media-sidebar .setting select.columns {
+	.attachment-details .setting select.columns {
 		width: auto;
 	}
 
@@ -2742,15 +2744,9 @@
 	display: block;
 	margin-bottom: 16px;
 	max-width: 100%;
+	max-height: 90%;
 	max-height: -webkit-calc( 100% - 42px );
 	max-height: calc( 100% - 42px ); /* leave space for actions underneath */
-}
-
-.edit-attachment-frame .delete-attachment,
-.edit-attachment-frame .trash-attachment,
-.edit-attachment-frame .untrash-attachment {
-	float: right;
-	margin-top: 7px;
 }
 
 .edit-attachment-frame .wp-media-wrapper {
@@ -2773,90 +2769,28 @@
 	background: #f3f3f3;
 }
 
-.edit-attachment-frame input,
-.edit-attachment-frame textarea {
-	padding: 6px 8px;
-	line-height: 16px;
-}
-
 .edit-attachment-frame .attachment-info .details,
 .edit-attachment-frame .attachment-info .settings {
 	overflow: hidden;
 	float: none;
-	position: relative;
 	margin-bottom: 15px;
 	padding-bottom: 15px;
 	border-bottom: 1px solid #ddd;
 }
 
-.edit-attachment-frame .attachment-info .setting {
-	display: block;
-	float: left;
-	width: 100%;
-	margin: 1px 0;
+.attachment-info .actions {
+	margin-bottom: 16px;
 }
 
-.edit-attachment-frame .attachment-info .setting label {
-	display: block;
+.attachment-info .actions a {
+	display: inline;
+	text-decoration: none;
 }
 
-.edit-attachment-frame .attachment-info .setting .link-to-custom {
-	margin: 3px 0;
-}
-
-.edit-attachment-frame .attachment-info .setting .name {
-	min-width: 30%;
-	margin-right: 4%;
-	font-size: 12px;
-	text-align: right;
-}
-
-.edit-attachment-frame .attachment-info .setting select {
-	max-width: 65%;
-}
-
-.edit-attachment-frame .attachment-info .setting input[type="checkbox"],
-.edit-attachment-frame .attachment-info .field input[type="checkbox"],
-.edit-attachment-frame .attachment-info .setting input[type="radio"],
-.edit-attachment-frame .attachment-info .field input[type="radio"] {
-	float: none;
-	margin: 8px 3px 0;
-	padding: 0;
-}
-
-.edit-attachment-frame .attachment-info .setting span {
-	float: left;
-	min-height: 22px;
-	padding-top: 8px;
+.edit-attachment-frame input,
+.edit-attachment-frame textarea {
+	padding: 6px 8px;
 	line-height: 16px;
-	font-weight: normal;
-	color: #666;
-}
-
-.edit-attachment-frame .attachment-info .setting input[type="text"],
-.edit-attachment-frame .attachment-info .setting input[type="password"],
-.edit-attachment-frame .attachment-info .setting input[type="email"],
-.edit-attachment-frame .attachment-info .setting input[type="number"],
-.edit-attachment-frame .attachment-info .setting input[type="search"],
-.edit-attachment-frame .attachment-info .setting input[type="email"],
-.edit-attachment-frame .attachment-info .setting input[type="url"],
-.edit-attachment-frame .attachment-info .setting textarea,
-.edit-attachment-frame .attachment-info .setting .value {
-	margin: 1px;
-	width: 65%;
-	float: right;
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
-}
-
-.edit-attachment-frame .attachment-info .setting textarea {
-	height: 62px;
-	resize: vertical;
-}
-
-.edit-attachment-frame .attachment-info select {
-	margin-top: 3px;
 }
 
 /**
@@ -2874,6 +2808,24 @@
 		position: static;
 		width: 100%;
 		max-width: 280px;
+	}
+}
+
+@media only screen and (max-width: 480px) {
+	.edit-attachment-frame .attachment-media-view {
+		float: none;
+		max-height: 70%;
+		height: auto;
+		width: 100%;
+	}
+
+	.edit-attachment-frame .attachment-media-view.portrait {
+		height: 70%;
+	}
+
+	.edit-attachment-frame .attachment-info {
+		height: auto;
+		width: 100%;
 	}
 }
 
