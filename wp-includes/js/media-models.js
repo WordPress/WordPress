@@ -824,11 +824,11 @@ window.wp = window.wp || {};
 		/**
 		 * @access private
 		 */
-		_requery: function( cache ) {
+		_requery: function( refresh ) {
 			var props;
 			if ( this.props.get('query') ) {
 				props = this.props.toJSON();
-				props.cache = ( true !== cache );
+				props.cache = ( true !== refresh || _.isUndefined( refresh ) );
 				this.mirror( Query.get( props ) );
 			}
 		},

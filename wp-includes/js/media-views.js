@@ -5906,7 +5906,7 @@
 						}
 
 						if ( changed.length ) {
-							$.when( changed ).then( function() {
+							$.when.apply( null, changed ).then( function() {
 								library._requery( true );
 							} );
 						}
