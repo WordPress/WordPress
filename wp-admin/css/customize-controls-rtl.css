@@ -428,8 +428,8 @@ p.customize-section-description {
 	border: none !important;
 	-webkit-box-shadow: none !important;
 	box-shadow: none !important;
-	-webkit-border-radius: !important 0;
-	border-radius: !important 0;
+	-webkit-border-radius: 0 !important;
+	border-radius: 0 !important;
 }
 
 
