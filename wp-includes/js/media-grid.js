@@ -1,4 +1,4 @@
-/* global _wpMediaViewsL10n, MediaElementPlayer, _wpMediaGridSettings, confirm */
+/* global _wpMediaViewsL10n, MediaElementPlayer, _wpMediaGridSettings */
 (function($, _, Backbone, wp) {
 	// Local reference to the WordPress media namespace.
 	var media = wp.media, l10n;
@@ -157,7 +157,7 @@
 			}
 
 			$browser = this.$('.attachments-browser');
-			$toolbar = $browser.find('.media-toolbar')
+			$toolbar = $browser.find('.media-toolbar');
 
 			if ( $browser.offset().top < this.$window.scrollTop() + this.$adminBar.height() ) {
 				$browser.addClass( 'fixed' );

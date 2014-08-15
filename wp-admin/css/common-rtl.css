@@ -2255,6 +2255,7 @@ div.action-links {
 	left: 0;
 	right: 0;
 	min-height: 100%;
+	min-height: -webkit-calc( 100% - 346px );
 	min-height: calc( 100% - 346px );
 }
 

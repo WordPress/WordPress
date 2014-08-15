@@ -5718,8 +5718,9 @@
 				priority: 50
 			};
 
-			if ( media.view.settings.mediaTrash
-				&& this.controller.activeModes.where( { id: 'grid' } ).length ) {
+			if ( media.view.settings.mediaTrash &&
+				this.controller.activeModes.where( { id: 'grid' } ).length ) {
+
 				filters.trash = {
 					text:  l10n.trash,
 					props: {
@@ -5882,9 +5883,10 @@
 							return;
 						}
 
-						if ( media.view.settings.mediaTrash
-							&& 'trash' !== selection.at( 0 ).get( 'status' )
-							&& ! confirm( l10n.warnBulkTrash ) ) {
+						if ( media.view.settings.mediaTrash &&
+							'trash' !== selection.at( 0 ).get( 'status' ) &&
+							! confirm( l10n.warnBulkTrash ) ) {
+
 							return;
 						}
 
@@ -6514,8 +6516,9 @@
 			var library = this.controller.library;
 			event.preventDefault();
 
-			if ( media.view.settings.mediaTrash
-				&& 'edit-metadata' === this.controller.content.mode() ) {
+			if ( media.view.settings.mediaTrash &&
+				'edit-metadata' === this.controller.content.mode() ) {
+
 				this.model.set( 'status', 'trash' );
 				this.model.save().done( function() {
 					library._requery( true );
