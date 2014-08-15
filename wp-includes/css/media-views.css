@@ -285,6 +285,7 @@
 	margin: 24px 0 8px;
 }
 
+.media-sidebar .setting,
 .attachment-details .setting {
 	display: block;
 	float: left;
@@ -292,14 +293,17 @@
 	margin: 1px 0;
 }
 
+.media-sidebar .setting label,
 .attachment-details .setting label {
 	display: block;
 }
 
+.media-sidebar .setting .link-to-custom,
 .attachment-details .setting .link-to-custom {
 	margin: 3px 2px 0;
 }
 
+.media-sidebar .setting span,
 .attachment-details .setting span {
 	min-width: 30%;
 	margin-right: 4%;
@@ -307,10 +311,15 @@
 	text-align: right;
 }
 
+.media-sidebar .setting select,
 .attachment-details .setting select {
 	max-width: 65%;
 }
 
+.media-sidebar .setting input[type="checkbox"],
+.media-sidebar .field input[type="checkbox"],
+.media-sidebar .setting input[type="radio"],
+.media-sidebar .field input[type="radio"],
 .attachment-details .setting input[type="checkbox"],
 .attachment-details .field input[type="checkbox"],
 .attachment-details .setting input[type="radio"],
@@ -320,6 +329,7 @@
 	padding: 0;
 }
 
+.media-sidebar .setting span,
 .attachment-details .setting span,
 .compat-item label span {
 	float: left;
@@ -334,6 +344,15 @@
 	text-align: right;
 }
 
+.media-sidebar .setting input[type="text"],
+.media-sidebar .setting input[type="password"],
+.media-sidebar .setting input[type="email"],
+.media-sidebar .setting input[type="number"],
+.media-sidebar .setting input[type="search"],
+.media-sidebar .setting input[type="tel"],
+.media-sidebar .setting input[type="url"],
+.media-sidebar .setting textarea,
+.media-sidebar .setting .value,
 .attachment-details .setting input[type="text"],
 .attachment-details .setting input[type="password"],
 .attachment-details .setting input[type="email"],
@@ -351,17 +370,20 @@
 	float: right;
 }
 
+.media-sidebar .setting .value,
 .attachment-details .setting .value {
 	margin: 0 1px;
 	text-align: left;
 }
 
+.media-sidebar .setting textarea,
 .attachment-details .setting textarea,
 .compat-item .field textarea {
 	height: 62px;
 	resize: vertical;
 }
 
+.media-sidebar select,
 .attachment-details select {
 	margin-top: 3px;
 }
@@ -2245,10 +2267,14 @@
 		right: 262px;
 	}
 
+	.media-sidebar .setting,
 	.attachment-details .setting {
 		margin: 6px 0px;
 	}
 
+	.media-sidebar .setting input,
+	.media-sidebar .setting textarea,
+	.media-sidebar .setting span,
 	.attachment-details .setting input,
 	.attachment-details .setting textarea,
 	.attachment-details .setting span,
@@ -2256,6 +2282,7 @@
 		float: none;
 	}
 
+	.media-sidebar .setting span,
 	.attachment-details .setting span,
 	.compat-item label span {
 		text-align: inherit;
@@ -2264,11 +2291,21 @@
 		padding: 8px 2px 0;
 	}
 
+	.media-sidebar .setting .value,
 	.attachment-details .setting .value {
 		float: none;
 		width: auto;
 	}
 
+	.media-sidebar .setting input[type="text"],
+	.media-sidebar .setting input[type="password"],
+	.media-sidebar .setting input[type="email"],
+	.media-sidebar .setting input[type="number"],
+	.media-sidebar .setting input[type="search"],
+	.media-sidebar .setting input[type="tel"],
+	.media-sidebar .setting input[type="url"],
+	.media-sidebar .setting textarea,
+	.media-sidebar .setting select,
 	.attachment-details .setting input[type="text"],
 	.attachment-details .setting input[type="password"],
 	.attachment-details .setting input[type="email"],
@@ -2284,6 +2321,7 @@
 		height: auto;
 	}
 
+	.media-sidebar .setting select.columns,
 	.attachment-details .setting select.columns {
 		width: auto;
 	}
@@ -2328,6 +2366,10 @@
 
 	.image-details .embed-media-settings .custom-size {
 		margin-left: 20px;
+	}
+
+	.collection-settings .setting input[type="checkbox"] {
+		margin-top: 0;
 	}
 
 	.media-selection {
