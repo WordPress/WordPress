@@ -2325,6 +2325,7 @@ div.action-links {
 #plugin-information .counter-label {
 	float: left;
 	margin-right: 5px;
+	min-width: 55px;
 }
 
 #plugin-information .counter-back {

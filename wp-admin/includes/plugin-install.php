@@ -457,12 +457,12 @@ function install_plugin_information() {
 				<div class="counter-container">
 					<a href="<?php echo esc_url( self_admin_url( 'plugin-install.php?tab=plugin-information&amp;plugin=' . $api->slug . '&amp;section=reviews' ) ); ?>"
 					   title="<?php echo esc_attr( sprintf( _n( 'Click to see reviews that provided a rating of %d star', 'Click to see reviews that provided a rating of %d stars', $key ), $key ) ); ?>">
-						<span class="counter-label"><?php echo $key; ?> stars</span>
+						<span class="counter-label"><?php printf( _n( '%d star', '%d stars', $key ), $key ); ?></span>
 						<span class="counter-back">
 							<span class="counter-bar" style="width: <?php echo 92 * $_rating; ?>px;"></span>
 						</span>
 					</a>
-					<span class="counter-count"><?php echo $ratecount; ?></span>
+					<span class="counter-count"><?php echo number_format_i18n( $ratecount ); ?></span>
 				</div>
 				<?php
 			}
