@@ -9,16 +9,17 @@
 
 #wpcontent {
 	height: 100%;
+	padding-right: 20px;
 }
 
 #wpcontent,
 #wpfooter {
-	margin-right: 180px;
+	margin-right: 160px;
 }
 
 .folded #wpcontent,
 .folded #wpfooter {
-	margin-right: 56px;
+	margin-right: 36px;
 }
 
 #wpbody-content {
@@ -1781,8 +1782,7 @@ html.wp-toolbar {
 	bottom: 0;
 	right: 0;
 	left: 0;
-	padding: 10px 0;
-	margin-left: 20px;
+	padding: 10px 20px;
 	color: #777;
 }
 

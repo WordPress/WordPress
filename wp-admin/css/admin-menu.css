@@ -615,7 +615,7 @@ li#wp-admin-bar-menu-toggle {
 @media only screen and (max-width: 900px) {
 	.auto-fold #wpcontent,
 	.auto-fold #wpfooter {
-		margin-left: 56px;
+		margin-left: 36px;
 	}
 
 	.auto-fold #adminmenuback,
