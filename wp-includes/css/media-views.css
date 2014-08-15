@@ -806,7 +806,7 @@
 	transition: opacity .1s;
 }
 
-.media-frame.mode-select .attachment .thumbnail {
+.media-frame.mode-grid.mode-select .attachment .thumbnail {
 	opacity: 0.65;
 }
 
