@@ -286,12 +286,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 	}
 
 	public function get_columns() {
-		return array(
-			'name'        => _x( 'Name', 'plugin name' ),
-			'version'     => __( 'Version' ),
-			'rating'      => __( 'Rating' ),
-			'description' => __( 'Description' ),
-		);
+		return array();
 	}
 
 	public function _order_callback( $plugin_a, $plugin_b ) {
@@ -327,13 +322,6 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 			'Social'      => _x( 'Social',      'Plugin installer group title' ),
 			'Tools'       => _x( 'Tools',       'Plugin installer group title' ),
 		);
-
-		list( $columns, $hidden ) = $this->get_column_info();
-
-		$style = array();
-		foreach ( $columns as $column_name => $column_display_name ) {
-			$style[ $column_name ] = in_array( $column_name, $hidden ) ? 'style="display:none;"' : '';
-		}
 
 		$group = null;
 
@@ -423,8 +411,8 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 		?>
 		<div class="plugin-card">
 			<div class="plugin-card-top">
-				<div class="name column-name"<?php echo $style['name']; ?>>
-					<h4><a href="<?php echo esc_url( $details_link ) ?>" class="thickbox"><?php echo $title; ?></a></h4>
+				<div class="name column-name">
+					<h4><a href="<?php echo esc_url( $details_link ); ?>" class="thickbox"><?php echo $title; ?></a></h4>
 					<div class="action-links">
 						<?php
 							if ( ! empty( $action_links ) ) {
@@ -433,13 +421,13 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 						?>
 					</div>
 				</div>
-				<div class="desc column-description"<?php echo $style['description']; ?>>
-					<p><?php echo $description ?></p>
+				<div class="desc column-description">
+					<p><?php echo $description; ?></p>
 					<p class="authors"><?php echo $author; ?></p>
 				</div>
 			</div>
 			<div class="plugin-card-bottom">
-				<div class="vers column-rating"<?php echo $style['rating']; ?>>
+				<div class="vers column-rating">
 					<?php wp_star_rating( array( 'rating' => $plugin['rating'], 'type' => 'percent', 'number' => $plugin['num_ratings'] ) ); ?>
 					<span class="num-ratings">(<?php echo number_format_i18n( $plugin['num_ratings'] ); ?>)</span>
 				</div>
