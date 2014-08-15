@@ -35,7 +35,7 @@ class WP_Customize_Section {
 	 * @access public
 	 * @var integer
 	 */
-	public $priority = 10;
+	public $priority = 160;
 
 	/**
 	 * Panel in which to show the section, making it a sub-section.
