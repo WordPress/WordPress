@@ -372,7 +372,7 @@ function install_plugin_information() {
 	}
 
 	iframe_header( __( 'Plugin Install' ) );
-	
+
 	$_with_banner = '';
 
 	if ( ! empty( $api->banners ) && ( ! empty( $api->banners['low'] ) || ! empty( $api->banners['high'] ) ) ) {
@@ -440,7 +440,7 @@ function install_plugin_information() {
 		<?php } if ( ! empty( $api->homepage ) ) { ?>
 			<li><a target="_blank" href="<?php echo esc_url( $api->homepage ); ?>"><?php _e( 'Plugin Homepage &#187;' ); ?></a></li>
 		<?php } if ( ! empty( $api->donate_link ) && empty( $api->contributors ) ) { ?>
-			<li><a target="_blank" href="<?php echo $api->donate_link ?>"><?php _e( 'Donate to this plugin &#187;' ); ?></a></li>
+			<li><a target="_blank" href="<?php echo esc_url( $api->donate_link ); ?>"><?php _e( 'Donate to this plugin &#187;' ); ?></a></li>
 		<?php } ?>
 		</ul>
 		<?php if ( ! empty( $api->rating ) ) { ?>
