@@ -343,6 +343,8 @@
 .attachment-details .setting input[type="url"],
 .attachment-details .setting textarea,
 .attachment-details .setting .value {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	margin: 1px;
 	width: 65%;
