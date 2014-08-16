@@ -345,9 +345,9 @@ function list_translation_updates() {
 	$form_action = 'update-core.php?action=do-translation-upgrade';
 	?>
 	<h3><?php _e( 'Translations' ); ?></h3>
-	<form method="post" action="<?php echo esc_url( $form_action ); ?>" name="upgrade-themes" class="upgrade">
+	<form method="post" action="<?php echo esc_url( $form_action ); ?>" name="upgrade-translations" class="upgrade">
 		<p><?php _e( 'Some of your translations are out of date.' ); ?></p>
-		<?php wp_nonce_field('upgrade-translations'); ?>
+		<?php wp_nonce_field( 'upgrade-translations' ); ?>
 		<p><input class="button" type="submit" value="<?php esc_attr_e( 'Update Translations' ); ?>" name="upgrade" /></p>
 	</form>
 	<?php
