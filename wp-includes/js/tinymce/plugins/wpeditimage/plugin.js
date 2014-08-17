@@ -549,8 +549,6 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 	}
 
 	if ( 'ontouchend' in document ) {
-		editor.on( 'touchend', edit );
-
 		editor.on( 'click', function( event ) {
 			var target = event.target;
 
@@ -563,9 +561,9 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 				event.stopPropagation();
 			}
 		});
-	} else {
-		editor.on( 'mouseup', edit );
 	}
+
+	editor.on( 'mouseup touchend', edit );
 
 	editor.on( 'init', function() {
 		var dom = editor.dom,

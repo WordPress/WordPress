@@ -11,7 +11,7 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 		toRemove = false,
 		firstFocus = true,
 		_noop = function() { return false; },
-		isTouchDevice = ( 'ontouchend' in document ),
+		isios = /iPad|iPod|iPhone/.test( navigator.userAgent ),
 		cursorInterval, lastKeyDownNode, setViewCursorTries, focus, execCommandView;
 
 	function getView( node ) {
@@ -141,7 +141,7 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 		dom.bind( selected, 'beforedeactivate focusin focusout', _stop );
 
 		// select the hidden div
-		if ( isTouchDevice ) {
+		if ( isios ) {
 			editor.selection.select( clipboard );
 		} else {
 			editor.selection.select( clipboard, true );
@@ -298,8 +298,7 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 		});
 
 		editor.on( 'mousedown mouseup click touchend', function( event ) {
-			var view = getView( event.target ),
-				type = isTouchDevice ? 'touchend' : 'mousedown';
+			var view = getView( event.target );
 
 			firstFocus = false;
 
@@ -308,7 +307,7 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 				event.stopImmediatePropagation();
 				event.preventDefault();
 
-				if ( event.type === type && ! event.metaKey && ! event.ctrlKey ) {
+				if ( ( event.type === 'touchend' || event.type === 'mousedown' ) && ! event.metaKey && ! event.ctrlKey ) {
 					if ( editor.dom.hasClass( event.target, 'edit' ) ) {
 						wp.mce.views.edit( view );
 						editor.focus();
@@ -329,7 +328,7 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 				// Unfortunately, it also inhibits the dragging of views to a new location.
 				return false;
 			} else {
-				if ( event.type === type ) {
+				if ( event.type === 'touchend' || event.type === 'mousedown' ) {
 					deselect();
 				}
 			}
