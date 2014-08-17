@@ -2600,10 +2600,25 @@
 
 .media-frame.mode-select .attachments-browser.fixed .media-toolbar {
 	position: fixed;
-	top: 12px;
+	top: 32px;
 	right: auto;
 	left: 20px;
+	margin-top: 0;
 }
+
+@media only screen and ( max-width: 782px ) {
+	.media-frame.mode-select .attachments-browser.fixed .media-toolbar {
+		top: 46px;
+		left: 10px;
+	}
+}
+
+@media only screen and (max-width: 600px) {
+	.media-frame.mode-select .attachments-browser.fixed .media-toolbar {
+		top: 0;
+	}
+}
+
 
 .media-frame.mode-grid input[type="search"] {
 	margin: 1px;

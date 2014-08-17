@@ -67,7 +67,7 @@
 
 			this.$window = $( window );
 			this.$adminBar = $( '#wpadminbar' );
-			this.$window.on( 'scroll', _.debounce( _.bind( this.fixPosition, this ), 15 ) );
+			this.$window.on( 'scroll resize', _.debounce( _.bind( this.fixPosition, this ), 15 ) );
 			$( document ).on( 'click', '.add-new-h2', _.bind( this.addNewClickHandler, this ) );
 
 			// Ensure core and media grid view UI is enabled.
