@@ -193,10 +193,10 @@ $(document).ready( function() {
 			respWidth = Math.max( window.innerWidth, document.documentElement.clientWidth );
 		} else {
 			// IE < 9 doesn't support @media CSS rules
-			respWidth = 901;
+			respWidth = 961;
 		}
 
-		if ( respWidth && respWidth < 900 ) {
+		if ( respWidth && respWidth < 960 ) {
 			if ( body.hasClass('auto-fold') ) {
 				body.removeClass('auto-fold').removeClass('folded');
 				setUserSetting('unfold', 1);
