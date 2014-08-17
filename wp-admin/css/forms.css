@@ -211,6 +211,8 @@ input[type="text"]:focus,
 input[type="time"]:focus,
 input[type="url"]:focus,
 input[type="week"]:focus,
+input[type="checkbox"]:focus,
+input[type="radio"]:focus,
 select:focus,
 textarea:focus {
 	border-color: #5b9dd9;
