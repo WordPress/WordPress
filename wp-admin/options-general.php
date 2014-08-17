@@ -307,7 +307,7 @@ endfor;
 	if ( $languages ) :
 ?>
 	<tr>
-		<th width="33%" scope="row"><?php _e('Site Language') ?></th>
+		<th width="33%" scope="row"><label for="WPLANG"><?php _e('Site Language') ?></label></th>
 		<td>
 			<?php wp_dropdown_languages( array(
 				'name'      => 'WPLANG',
