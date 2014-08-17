@@ -31,9 +31,8 @@ jQuery( document ).ready( function($) {
 		scrollTimer,
 		lastScrollPosition = 0,
 		pageYOffsetAtTop = 130,
-		pinnedToolsTop = 56, // also used in CSS for the "#poststuff #post-body #postbox-container-1.pinned" selector
-		textEditorClonePaddingTop = 37,
-		autoresizeMinHeight = 300; // $window.height() - 310;
+		pinnedToolsTop = 56,
+		autoresizeMinHeight = 300;
 
 	$textEditorClone.insertAfter( $textEditor );
 
@@ -41,8 +40,6 @@ jQuery( document ).ready( function($) {
 		'font-family': $textEditor.css( 'font-family' ),
 		'font-size': $textEditor.css( 'font-size' ),
 		'line-height': $textEditor.css( 'line-height' ),
-		'padding': $textEditor.css( 'padding' ),
-		'padding-top': textEditorClonePaddingTop,
 		'white-space': 'pre-wrap',
 		'word-wrap': 'break-word'
 	} );
@@ -438,8 +435,9 @@ jQuery( document ).ready( function($) {
 				$textEditor.css( {
 					marginTop: $textTop.outerHeight()
 				} );
-				$textEditorClone.width( $textEditor.width() );
 			}
+			// ALways resize the clone so it doesn't "push" the parent width over 100%
+			$textEditorClone.width( contentWrapWidth - 20 - ( borderWidth * 2 ) );
 		}
 	}
 
