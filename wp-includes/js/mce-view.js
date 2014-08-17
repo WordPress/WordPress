@@ -127,53 +127,57 @@ window.wp = window.wp || {};
 
 					content.innerHTML = '';
 
-					iframe = dom.add( content, 'iframe', {
-						src: tinymce.Env.ie ? 'javascript:""' : '',
-						frameBorder: '0',
-						allowTransparency: 'true',
-						scrolling: 'no',
-						'class': 'wpview-sandbox',
-						style: {
-							width: '100%',
-							display: 'block'
-						}
-					} );
-
-					iframeDoc = iframe.contentWindow.document;
-
-					iframeDoc.open();
-					iframeDoc.write(
-						'<!DOCTYPE html>' +
-						'<html>' +
-							'<head>' +
-								'<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />' +
-							'</head>' +
-							'<body data-context="iframe-sandbox" style="padding: 0; margin: 0;" class="' + editor.getBody().className + '">' +
-								html +
-							'</body>' +
-						'</html>'
-					);
-					iframeDoc.close();
-
-					resize = function() {
-						// Make sure the iframe still exists.
-						iframe.contentWindow && $( iframe ).height( $( iframeDoc.body ).height() );
-					};
-
-					if ( MutationObserver ) {
-						new MutationObserver( _.debounce( function() {
-							resize();
-						}, 100 ) )
-						.observe( iframeDoc.body, {
-							attributes: true,
-							childList: true,
-							subtree: true
+					// Seems Firefox needs a bit of time to insert/set the view nodes, or the iframe will fail
+					// especially when switching Text => Visual.
+					setTimeout( function() {
+						iframe = dom.add( content, 'iframe', {
+							src: tinymce.Env.ie ? 'javascript:""' : '',
+							frameBorder: '0',
+							allowTransparency: 'true',
+							scrolling: 'no',
+							'class': 'wpview-sandbox',
+							style: {
+								width: '100%',
+								display: 'block'
+							}
 						} );
-					} else {
-						for ( i = 1; i < 6; i++ ) {
-							setTimeout( resize, i * 700 );
+
+						iframeDoc = iframe.contentWindow.document;
+
+						iframeDoc.open();
+						iframeDoc.write(
+							'<!DOCTYPE html>' +
+							'<html>' +
+								'<head>' +
+									'<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />' +
+								'</head>' +
+								'<body data-context="iframe-sandbox" style="padding: 0; margin: 0;" class="' + editor.getBody().className + '">' +
+									html +
+								'</body>' +
+							'</html>'
+						);
+						iframeDoc.close();
+
+						resize = function() {
+							// Make sure the iframe still exists.
+							iframe.contentWindow && $( iframe ).height( $( iframeDoc.body ).height() );
+						};
+
+						if ( MutationObserver ) {
+							new MutationObserver( _.debounce( function() {
+								resize();
+							}, 100 ) )
+							.observe( iframeDoc.body, {
+								attributes: true,
+								childList: true,
+								subtree: true
+							} );
+						} else {
+							for ( i = 1; i < 6; i++ ) {
+								setTimeout( resize, i * 700 );
+							}
 						}
-					}
+					}, 50 );
 				});
 			} else {
 				this.setContent( html );
