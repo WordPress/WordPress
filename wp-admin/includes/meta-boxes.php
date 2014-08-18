@@ -42,6 +42,7 @@ if ( 'publish' == $post->post_status ) {
 	$preview_button = __( 'Preview Changes' );
 } else {
 	$preview_link = set_url_scheme( get_permalink( $post->ID ) );
+
 	/**
 	 * Filter the URI of a post preview in the post submit box.
 	 *

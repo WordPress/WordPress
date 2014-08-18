@@ -46,24 +46,30 @@ window.wp = window.wp || {};
 					'<div class="wpview-loading"><ins></ins></div>' +
 				'</div>';
 		},
-		render: function() {
-			this.setContent(
-				'<p class="wpview-selection-before">\u00a0</p>' +
-				'<div class="wpview-body" contenteditable="false">' +
-					'<div class="toolbar">' +
-						( _.isFunction( views[ this.type ].edit ) ? '<div class="dashicons dashicons-edit edit"></div>' : '' ) +
-						'<div class="dashicons dashicons-no-alt remove"></div>' +
-					'</div>' +
-					'<div class="wpview-content wpview-type-' + this.type + '">' +
-						( this.getHtml() || this.loadingPlaceholder() ) +
-					'</div>' +
-					( this.overlay ? '<div class="wpview-overlay"></div>' : '' ) +
-				'</div>' +
-				'<p class="wpview-selection-after">\u00a0</p>',
-				'wrap'
-			);
+		render: function( force ) {
+			if ( force || ! this.rendered() ) {
+				this.unbind();
 
-			$( this ).trigger( 'ready' );
+				this.setContent(
+					'<p class="wpview-selection-before">\u00a0</p>' +
+					'<div class="wpview-body" contenteditable="false">' +
+						'<div class="toolbar">' +
+							( _.isFunction( views[ this.type ].edit ) ? '<div class="dashicons dashicons-edit edit"></div>' : '' ) +
+							'<div class="dashicons dashicons-no-alt remove"></div>' +
+						'</div>' +
+						'<div class="wpview-content wpview-type-' + this.type + '">' +
+							( this.getHtml() || this.loadingPlaceholder() ) +
+						'</div>' +
+						( this.overlay ? '<div class="wpview-overlay"></div>' : '' ) +
+					'</div>' +
+					'<p class="wpview-selection-after">\u00a0</p>',
+					'wrap'
+				);
+
+				$( this ).trigger( 'ready' );
+
+				this.rendered( true );
+			}
 		},
 		unbind: function() {},
 		getEditors: function( callback ) {
@@ -127,53 +133,57 @@ window.wp = window.wp || {};
 
 					content.innerHTML = '';
 
-					iframe = dom.add( content, 'iframe', {
-						src: tinymce.Env.ie ? 'javascript:""' : '',
-						frameBorder: '0',
-						allowTransparency: 'true',
-						scrolling: 'no',
-						'class': 'wpview-sandbox',
-						style: {
-							width: '100%',
-							display: 'block'
-						}
-					} );
-
-					iframeDoc = iframe.contentWindow.document;
-
-					iframeDoc.open();
-					iframeDoc.write(
-						'<!DOCTYPE html>' +
-						'<html>' +
-							'<head>' +
-								'<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />' +
-							'</head>' +
-							'<body data-context="iframe-sandbox" style="padding: 0; margin: 0;" class="' + editor.getBody().className + '">' +
-								html +
-							'</body>' +
-						'</html>'
-					);
-					iframeDoc.close();
-
-					resize = function() {
-						// Make sure the iframe still exists.
-						iframe.contentWindow && $( iframe ).height( $( iframeDoc.body ).height() );
-					};
-
-					if ( MutationObserver ) {
-						new MutationObserver( _.debounce( function() {
-							resize();
-						}, 100 ) )
-						.observe( iframeDoc.body, {
-							attributes: true,
-							childList: true,
-							subtree: true
+					// Seems Firefox needs a bit of time to insert/set the view nodes, or the iframe will fail
+					// especially when switching Text => Visual.
+					setTimeout( function() {
+						iframe = dom.add( content, 'iframe', {
+							src: tinymce.Env.ie ? 'javascript:""' : '',
+							frameBorder: '0',
+							allowTransparency: 'true',
+							scrolling: 'no',
+							'class': 'wpview-sandbox',
+							style: {
+								width: '100%',
+								display: 'block'
+							}
 						} );
-					} else {
-						for ( i = 1; i < 6; i++ ) {
-							setTimeout( resize, i * 700 );
+
+						iframeDoc = iframe.contentWindow.document;
+
+						iframeDoc.open();
+						iframeDoc.write(
+							'<!DOCTYPE html>' +
+							'<html>' +
+								'<head>' +
+									'<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />' +
+								'</head>' +
+								'<body data-context="iframe-sandbox" style="padding: 0; margin: 0;" class="' + editor.getBody().className + '">' +
+									html +
+								'</body>' +
+							'</html>'
+						);
+						iframeDoc.close();
+
+						resize = function() {
+							// Make sure the iframe still exists.
+							iframe.contentWindow && $( iframe ).height( $( iframeDoc.body ).height() );
+						};
+
+						if ( MutationObserver ) {
+							new MutationObserver( _.debounce( function() {
+								resize();
+							}, 100 ) )
+							.observe( iframeDoc.body, {
+								attributes: true,
+								childList: true,
+								subtree: true
+							} );
+						} else {
+							for ( i = 1; i < 6; i++ ) {
+								setTimeout( resize, i * 700 );
+							}
 						}
-					}
+					}, 50 );
 				});
 			} else {
 				this.setContent( html );
@@ -186,6 +196,19 @@ window.wp = window.wp || {};
 					'<p>' + message + '</p>' +
 				'</div>'
 			);
+		},
+		rendered: function( value ) {
+			var notRendered;
+
+			this.getNodes( function( editor, node ) {
+				if ( value != null ) {
+					$( node ).data( 'rendered', value === true );
+				} else {
+					notRendered = notRendered || ! $( node ).data( 'rendered' );
+				}
+			} );
+
+			return ! notRendered;
 		}
 	} );
 
@@ -386,7 +409,7 @@ window.wp = window.wp || {};
 				instances[ encodedText ] = instance;
 			}
 
-			wp.mce.views.render();
+			instance.render();
 		},
 
 		getInstance: function( encodedText ) {
@@ -402,9 +425,9 @@ window.wp = window.wp || {};
 		 * To generate wrapper elements, pass your content through
 		 * `wp.mce.view.toViews( content )`.
 		 */
-		render: function() {
+		render: function( force ) {
 			_.each( instances, function( instance ) {
-				instance.render();
+				instance.render( force );
 			} );
 		},
 
@@ -434,8 +457,12 @@ window.wp = window.wp || {};
 			},
 
 			fetch: function() {
+				var self = this;
+
 				this.attachments = wp.media.gallery.attachments( this.shortcode, this.postID );
-				this.dfd = this.attachments.more().done( _.bind( this.render, this ) );
+				this.dfd = this.attachments.more().done( function() {
+					self.render( true );
+				} );
 			},
 
 			getHtml: function() {
@@ -483,6 +510,9 @@ window.wp = window.wp || {};
 				var shortcode = gallery.shortcode( selection ).string();
 				$( node ).attr( 'data-wpview-text', window.encodeURIComponent( shortcode ) );
 				wp.mce.views.refreshView( self, shortcode );
+			});
+
+			frame.on( 'close', function() {
 				frame.detach();
 			});
 		}

@@ -209,7 +209,11 @@ switch($step) {
 		display_setup_form();
 		break;
 	case 2:
-		$loaded_language = wp_install_load_language( $_REQUEST['language'] );
+		if ( !empty( $_REQUEST['language'] ) ) {
+			$loaded_language = wp_install_load_language( $_REQUEST['language'] );
+		} else {
+			$loaded_language = 'en_US';
+		}
 
 		if ( ! empty( $wpdb->error ) )
 			wp_die( $wpdb->error->get_error_message() );

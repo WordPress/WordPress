@@ -172,7 +172,7 @@ class Gettext_Translations extends Translations {
 	}
 
 	/**
-	 * Adds parantheses to the inner parts of ternary operators in
+	 * Adds parentheses to the inner parts of ternary operators in
 	 * plural expressions, because PHP evaluates ternary oerators from left to right
 	 *
 	 * @param string $expression the expression without parentheses

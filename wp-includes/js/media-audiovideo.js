@@ -617,7 +617,7 @@
 	/**
 	 * wp.media.view.MediaDetails
 	 *
-	 * @contructor
+	 * @constructor
 	 * @augments wp.media.view.Settings.AttachmentDisplay
 	 * @augments wp.media.view.Settings
 	 * @augments wp.media.View
@@ -636,7 +636,8 @@
 			this.events = _.extend( this.events, {
 				'click .remove-setting' : 'removeSetting',
 				'change .content-track' : 'setTracks',
-				'click .remove-track' : 'setTracks'
+				'click .remove-track' : 'setTracks',
+				'click .add-media-source' : 'addSource'
 			} );
 
 			media.view.Settings.AttachmentDisplay.prototype.initialize.apply( this, arguments );
@@ -680,6 +681,11 @@
 
 			this.model.set( 'content', tracks );
 			this.trigger( 'media:setting:remove', this );
+		},
+
+		addSource : function( e ) {
+			this.controller.lastMime = $( e.currentTarget ).data( 'mime' );
+			this.controller.setState( 'add-' + this.controller.defaults.id + '-source' );
 		},
 
 		/**
@@ -756,7 +762,7 @@
 	/**
 	 * wp.media.view.AudioDetails
 	 *
-	 * @contructor
+	 * @constructor
 	 * @augments wp.media.view.MediaDetails
 	 * @augments wp.media.view.Settings.AttachmentDisplay
 	 * @augments wp.media.view.Settings
@@ -788,7 +794,7 @@
 	/**
 	 * wp.media.view.VideoDetails
 	 *
-	 * @contructor
+	 * @constructor
 	 * @augments wp.media.view.MediaDetails
 	 * @augments wp.media.view.Settings.AttachmentDisplay
 	 * @augments wp.media.view.Settings
@@ -821,18 +827,5 @@
 			return this;
 		}
 	});
-
-	/**
-	 * Event binding
-	 */
-	function init() {
-		$(document.body)
-			.on( 'click', '.add-media-source', function( e ) {
-				media.frame.lastMime = $( e.currentTarget ).data( 'mime' );
-				media.frame.setState( 'add-' + media.frame.defaults.id + '-source' );
-			} );
-	}
-
-	$( init );
 
 }(jQuery, _, Backbone));

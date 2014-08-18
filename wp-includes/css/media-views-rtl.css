@@ -254,6 +254,40 @@
 	display: none;
 }
 
+.upload-php .mode-grid .media-sidebar {
+	background: #fff;
+	bottom: auto;
+	border-right: none;
+	padding: 16px;
+	box-shadow: -1px 0px 1px rgba(0,0,0,.3);
+}
+
+.upload-php .mode-grid .media-sidebar .media-uploader-status {
+	border-bottom: none;
+	padding-bottom: 0;
+}
+
+.upload-php .mode-grid .media-sidebar .media-uploader-status .upload-dismiss-errors {
+	font-size: 0;
+	top: -20px;
+	left:  -14px;
+}
+
+.upload-php .mode-grid .media-sidebar .media-uploader-status .upload-dismiss-errors:before {
+	content: "\f158";
+	font: normal 20px/1 dashicons;
+	color: #666;
+}
+
+.upload-php .mode-grid .media-sidebar .media-uploader-status .upload-dismiss-errors:focus:before,
+.upload-php .mode-grid .media-sidebar .media-uploader-status .upload-dismiss-errors:hover:before {
+	color: #2ea2cc;
+}
+
+.upload-php .mode-grid .media-sidebar .media-uploader-status.errors h3 {
+	display: none;
+}
+
 .hide-toolbar .media-sidebar {
 	bottom: 0;
 }
@@ -285,42 +319,52 @@
 	margin: 24px 0 8px;
 }
 
-.media-sidebar .setting {
+.media-sidebar .setting,
+.attachment-details .setting {
 	display: block;
 	float: right;
 	width: 100%;
 	margin: 1px 0;
 }
 
-.media-sidebar .setting label {
+.media-sidebar .setting label,
+.attachment-details .setting label {
 	display: block;
 }
 
-.media-sidebar .setting .link-to-custom {
+.media-sidebar .setting .link-to-custom,
+.attachment-details .setting .link-to-custom {
 	margin: 3px 2px 0;
 }
 
-.media-sidebar .setting span {
+.media-sidebar .setting span,
+.attachment-details .setting span {
 	min-width: 30%;
 	margin-left: 4%;
 	font-size: 12px;
 	text-align: left;
 }
 
-.media-sidebar .setting select {
+.media-sidebar .setting select,
+.attachment-details .setting select {
 	max-width: 65%;
 }
 
 .media-sidebar .setting input[type="checkbox"],
 .media-sidebar .field input[type="checkbox"],
 .media-sidebar .setting input[type="radio"],
-.media-sidebar .field input[type="radio"] {
+.media-sidebar .field input[type="radio"],
+.attachment-details .setting input[type="checkbox"],
+.attachment-details .field input[type="checkbox"],
+.attachment-details .setting input[type="radio"],
+.attachment-details .field input[type="radio"] {
 	float: none;
 	margin: 8px 3px 0;
 	padding: 0;
 }
 
 .media-sidebar .setting span,
+.attachment-details .setting span,
 .compat-item label span {
 	float: right;
 	min-height: 22px;
@@ -342,24 +386,39 @@
 .media-sidebar .setting input[type="tel"],
 .media-sidebar .setting input[type="url"],
 .media-sidebar .setting textarea,
-.media-sidebar .setting .value {
+.media-sidebar .setting .value,
+.attachment-details .setting input[type="text"],
+.attachment-details .setting input[type="password"],
+.attachment-details .setting input[type="email"],
+.attachment-details .setting input[type="number"],
+.attachment-details .setting input[type="search"],
+.attachment-details .setting input[type="tel"],
+.attachment-details .setting input[type="url"],
+.attachment-details .setting textarea,
+.attachment-details .setting .value {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
 	margin: 1px;
 	width: 65%;
 	float: left;
 }
 
-.media-sidebar .setting .value {
+.media-sidebar .setting .value,
+.attachment-details .setting .value {
 	margin: 0 1px;
 	text-align: right;
 }
 
 .media-sidebar .setting textarea,
+.attachment-details .setting textarea,
 .compat-item .field textarea {
 	height: 62px;
 	resize: vertical;
 }
 
-.media-sidebar select {
+.media-sidebar select,
+.attachment-details select {
 	margin-top: 3px;
 }
 
@@ -417,6 +476,12 @@
 	margin: 0;
 }
 
+.sidebar-for-errors .attachment-details,
+.sidebar-for-errors .compat-item,
+.sidebar-for-errors .media-progress-bar,
+.sidebar-for-errors .upload-details {
+	display: none !important;
+}
 
 /**
  * Menu
@@ -741,12 +806,30 @@
 	outline: none;
 }
 
+.media-frame.mode-grid .attachment:focus {
+	-webkit-box-shadow:
+		inset 0 0 0 5px #f1f1f1,
+		inset 0 0 1px 7px #5b9dd9;
+	box-shadow:
+		inset 0 0 0 5px #f1f1f1,
+		inset 0 0 1px 7px #5b9dd9;
+}
+
 .selected.attachment {
 	-webkit-box-shadow:
 		inset 0 0 0 5px #fff,
 		inset 0 0 0 7px #ccc;
 	box-shadow:
 		inset 0 0 0 5px #fff,
+		inset 0 0 0 7px #ccc;
+}
+
+.media-frame.mode-grid .selected.attachment {
+	-webkit-box-shadow:
+		inset 0 0 0 5px #f1f1f1,
+		inset 0 0 0 7px #ccc;
+	box-shadow:
+		inset 0 0 0 5px #f1f1f1,
 		inset 0 0 0 7px #ccc;
 }
 
@@ -780,6 +863,17 @@
 	left: 0;
 	bottom: 0;
 	right: 0;
+	opacity: 1;
+	-webkit-transition: opacity .1s;
+	transition: opacity .1s;
+}
+
+.media-frame.mode-grid.mode-select .attachment .thumbnail {
+	opacity: 0.65;
+}
+
+.media-frame.mode-select .attachment.selected .thumbnail {
+	opacity: 1;
 }
 
 .attachment .portrait img {
@@ -922,13 +1016,21 @@
 }
 
 .selected.attachment:focus,
-.attachment.details,
-.media-frame.mode-grid .selected.attachment {
+.attachment.details {
 	-webkit-box-shadow:
 		inset 0 0 0 3px #fff,
 		inset 0 0 0 7px #1e8cbe;
 	box-shadow:
 		inset 0 0 0 3px #fff,
+		inset 0 0 0 7px #1e8cbe;
+}
+
+.media-frame.mode-grid .selected.attachment:focus {
+	-webkit-box-shadow:
+		inset 0 0 0 3px #f1f1f1,
+		inset 0 0 0 7px #1e8cbe;
+	box-shadow:
+		inset 0 0 0 3px #f1f1f1,
 		inset 0 0 0 7px #1e8cbe;
 }
 
@@ -942,14 +1044,6 @@
 	box-shadow:
 		0 0 0 1px #fff,
 		0 0 0 2px #1e8cbe;
-}
-
-.media-frame.mode-grid .attachment .check {
-	display: block;
-}
-
-.media-frame.mode-grid .attachment .check div {
-	background-position: 21px 0;
 }
 
 .attachment.details .check div,
@@ -997,7 +1091,7 @@
 .attachments-browser .media-toolbar-primary > .media-button-group,
 .attachments-browser .media-toolbar-secondary > .media-button,
 .attachments-browser .media-toolbar-secondary > .media-button-group {
-	margin-top: 10px;
+	margin: 11px 0;
 }
 
 .attachments-browser .attachments,
@@ -1574,7 +1668,8 @@
 .attachment-info .edit-attachment,
 .attachment-info .refresh-attachment,
 .attachment-info .delete-attachment,
-.attachment-info .trash-attachment {
+.attachment-info .trash-attachment,
+.attachment-info .untrash-attachment {
 	display: block;
 	text-decoration: none;
 	white-space: nowrap;
@@ -1591,12 +1686,14 @@
 }
 
 .media-modal .delete-attachment,
-.media-modal .trash-attachment {
+.media-modal .trash-attachment,
+.media-modal .untrash-attachment {
 	color: #bc0b0b;
 }
 
 .media-modal .delete-attachment:hover,
-.media-modal .trash-attachment:hover {
+.media-modal .trash-attachment:hover,
+.media-modal .untrash-attachment:hover {
 	color: red;
 }
 
@@ -1787,6 +1884,8 @@
 
 .image-details .embed-media-settings,
 .image-details .embed-media-settings div {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 }
 
@@ -2138,19 +2237,19 @@
 @media only screen and (max-width: 900px) {
 
 	/* Drop-down menu */
-	.media-frame-title,
-	.media-frame-router,
-	.media-frame-content,
-	.media-frame-toolbar {
+	.media-frame .media-frame-title,
+	.media-frame .media-frame-router,
+	.media-frame .media-frame-content,
+	.media-frame .media-frame-toolbar {
 		right: 0;
 	}
 
-	.media-frame-menu {
+	.media-frame .media-frame-menu {
 		position: static;
 		width: 0;
 	}
 
-	.media-menu {
+	.media-frame .media-menu {
 		width: auto;
 		max-width: 80%;
 		overflow: auto;
@@ -2163,34 +2262,34 @@
 		border: 1px solid #ccc;
 	}
 
-	.media-menu.visible {
+	.media-frame .media-menu.visible {
 		right: 0;
 	}
 
-	.media-menu > a {
+	.media-frame .media-menu > a {
 		padding: 12px 16px;
 		font-size: 16px;
 	}
 
-	.media-menu > a.active {
+	.media-frame .media-menu > a.active {
 		display: none;
 	}
 
-	.media-menu .separator {
+	.media-frame .media-menu .separator {
 		margin: 5px 10px;
 	}
 
-	.media-frame-title {
+	.media-frame .media-frame-title {
 		right: 0;
 		color: #21759b;
 	}
 
-	.media-frame-title .dashicons {
+	.media-frame .media-frame-title .dashicons {
 		display: inline-block;
 		line-height: 56px;
 	}
 
-	.media-frame-title h1 {
+	.media-frame .media-frame-title h1 {
 		line-height: 3;
 		font-size: 18px;
 		float: right;
@@ -2208,18 +2307,23 @@
 		left: 262px;
 	}
 
-	.media-sidebar .setting {
+	.media-sidebar .setting,
+	.attachment-details .setting {
 		margin: 6px 0px;
 	}
 
 	.media-sidebar .setting input,
 	.media-sidebar .setting textarea,
 	.media-sidebar .setting span,
+	.attachment-details .setting input,
+	.attachment-details .setting textarea,
+	.attachment-details .setting span,
 	.compat-item label span {
 		float: none;
 	}
 
 	.media-sidebar .setting span,
+	.attachment-details .setting span,
 	.compat-item label span {
 		text-align: inherit;
 		min-height: 16px;
@@ -2227,7 +2331,8 @@
 		padding: 8px 2px 0;
 	}
 
-	.media-sidebar .setting .value {
+	.media-sidebar .setting .value,
+	.attachment-details .setting .value {
 		float: none;
 		width: auto;
 	}
@@ -2240,13 +2345,24 @@
 	.media-sidebar .setting input[type="tel"],
 	.media-sidebar .setting input[type="url"],
 	.media-sidebar .setting textarea,
-	.media-sidebar .setting select {
+	.media-sidebar .setting select,
+	.attachment-details .setting input[type="text"],
+	.attachment-details .setting input[type="password"],
+	.attachment-details .setting input[type="email"],
+	.attachment-details .setting input[type="number"],
+	.attachment-details .setting input[type="search"],
+	.attachment-details .setting input[type="tel"],
+	.attachment-details .setting input[type="url"],
+	.attachment-details .setting textarea,
+	.attachment-details .setting select {
+		float: none;
 		width: 98%;
 		max-width: none;
 		height: auto;
 	}
 
-	.media-sidebar .setting select.columns {
+	.media-sidebar .setting select.columns,
+	.attachment-details .setting select.columns {
 		width: auto;
 	}
 
@@ -2292,6 +2408,10 @@
 		margin-right: 20px;
 	}
 
+	.collection-settings .setting input[type="checkbox"] {
+		margin-top: 0;
+	}
+
 	.media-selection {
 		min-width: 120px;
 	}
@@ -2319,6 +2439,7 @@
 		margin: 11px 0 0;
 		height: auto;
 		max-width: 65%;
+		max-width: -webkit-calc(100% - 38px);
 		max-width: calc(100% - 38px);
 	}
 
@@ -2359,6 +2480,8 @@
 		z-index: 1900;
 		max-width: 70%;
 		bottom: 120%;
+		-webkit-box-sizing: border-box;
+		-moz-box-sizing: border-box;
 		box-sizing: border-box;
 		padding-bottom: 0;
 	}
@@ -2448,7 +2571,6 @@
 
 /* Regions we don't use at all */
 .media-frame.mode-grid .media-frame-title,
-.media-frame.mode-grid .media-frame-toolbar,
 .media-frame.mode-grid .media-frame-router,
 .media-frame.mode-grid .media-frame-menu {
 	display: none;
@@ -2483,6 +2605,16 @@
 	padding: 2px;
 }
 
+.media-frame.mode-select .attachments {
+	padding: 2px;
+}
+
+.media-frame.mode-select .attachments-browser.fixed .attachments {
+	position: relative;
+	top: 80px; /* prevent jumping up when the toolbar becomes fixed */
+	padding-bottom: 80px; /* offset for above so the bottom doesn't get cut off */
+}
+
 /**
  * Copied styles from the Add theme toolbar.
  *
@@ -2505,6 +2637,28 @@
 	height: auto;
 	border: none;
 }
+
+.media-frame.mode-select .attachments-browser.fixed .media-toolbar {
+	position: fixed;
+	top: 32px;
+	right: auto;
+	left: 20px;
+	margin-top: 0;
+}
+
+@media only screen and ( max-width: 782px ) {
+	.media-frame.mode-select .attachments-browser.fixed .media-toolbar {
+		top: 46px;
+		left: 10px;
+	}
+}
+
+@media only screen and (max-width: 600px) {
+	.media-frame.mode-select .attachments-browser.fixed .media-toolbar {
+		top: 0;
+	}
+}
+
 
 .media-frame.mode-grid input[type="search"] {
 	margin: 1px;
@@ -2532,6 +2686,10 @@
 
 .media-frame.mode-grid .spinner {
 	margin-top: 15px;
+}
+
+.attachments-browser .media-toolbar-secondary > .select-mode-toggle-button {
+	margin-left: 10px;
 }
 
 .media-frame.mode-grid .attachments-browser {
@@ -2681,17 +2839,13 @@
 	height: 100%;
 }
 
-.edit-attachment-frame .attachment-media-view img {
+.edit-attachment-frame .attachment-media-view .details-image {
 	display: block;
 	margin-bottom: 16px;
 	max-width: 100%;
+	max-height: 90%;
 	max-height: -webkit-calc( 100% - 42px );
 	max-height: calc( 100% - 42px ); /* leave space for actions underneath */
-}
-
-.edit-attachment-frame .delete-attachment {
-	float: left;
-	margin-top: 7px;
 }
 
 .edit-attachment-frame .wp-media-wrapper {
@@ -2714,90 +2868,28 @@
 	background: #f3f3f3;
 }
 
-.edit-attachment-frame input,
-.edit-attachment-frame textarea {
-	padding: 6px 8px;
-	line-height: 16px;
-}
-
 .edit-attachment-frame .attachment-info .details,
 .edit-attachment-frame .attachment-info .settings {
 	overflow: hidden;
 	float: none;
-	position: relative;
 	margin-bottom: 15px;
 	padding-bottom: 15px;
 	border-bottom: 1px solid #ddd;
 }
 
-.edit-attachment-frame .attachment-info .setting {
-	display: block;
-	float: right;
-	width: 100%;
-	margin: 1px 0;
+.attachment-info .actions {
+	margin-bottom: 16px;
 }
 
-.edit-attachment-frame .attachment-info .setting label {
-	display: block;
+.attachment-info .actions a {
+	display: inline;
+	text-decoration: none;
 }
 
-.edit-attachment-frame .attachment-info .setting .link-to-custom {
-	margin: 3px 0;
-}
-
-.edit-attachment-frame .attachment-info .setting .name {
-	min-width: 30%;
-	margin-left: 4%;
-	font-size: 12px;
-	text-align: left;
-}
-
-.edit-attachment-frame .attachment-info .setting select {
-	max-width: 65%;
-}
-
-.edit-attachment-frame .attachment-info .setting input[type="checkbox"],
-.edit-attachment-frame .attachment-info .field input[type="checkbox"],
-.edit-attachment-frame .attachment-info .setting input[type="radio"],
-.edit-attachment-frame .attachment-info .field input[type="radio"] {
-	float: none;
-	margin: 8px 3px 0;
-	padding: 0;
-}
-
-.edit-attachment-frame .attachment-info .setting span {
-	float: right;
-	min-height: 22px;
-	padding-top: 8px;
+.edit-attachment-frame input,
+.edit-attachment-frame textarea {
+	padding: 6px 8px;
 	line-height: 16px;
-	font-weight: normal;
-	color: #666;
-}
-
-.edit-attachment-frame .attachment-info .setting input[type="text"],
-.edit-attachment-frame .attachment-info .setting input[type="password"],
-.edit-attachment-frame .attachment-info .setting input[type="email"],
-.edit-attachment-frame .attachment-info .setting input[type="number"],
-.edit-attachment-frame .attachment-info .setting input[type="search"],
-.edit-attachment-frame .attachment-info .setting input[type="email"],
-.edit-attachment-frame .attachment-info .setting input[type="url"],
-.edit-attachment-frame .attachment-info .setting textarea,
-.edit-attachment-frame .attachment-info .setting .value {
-	margin: 1px;
-	width: 65%;
-	float: left;
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
-}
-
-.edit-attachment-frame .attachment-info .setting textarea {
-	height: 62px;
-	resize: vertical;
-}
-
-.edit-attachment-frame .attachment-info select {
-	margin-top: 3px;
 }
 
 /**
@@ -2815,6 +2907,24 @@
 		position: static;
 		width: 100%;
 		max-width: 280px;
+	}
+}
+
+@media only screen and (max-width: 480px) {
+	.edit-attachment-frame .attachment-media-view {
+		float: none;
+		max-height: 70%;
+		height: auto;
+		width: 100%;
+	}
+
+	.edit-attachment-frame .attachment-media-view.portrait {
+		height: 70%;
+	}
+
+	.edit-attachment-frame .attachment-info {
+		height: auto;
+		width: 100%;
 	}
 }
 

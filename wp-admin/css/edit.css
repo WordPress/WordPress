@@ -385,6 +385,7 @@ td.plugin-title p {
 	top: 0;
 	visibility: hidden;
 	overflow: hidden;
+	max-width: 100%;
 }
 
 .wp-fullscreen-wrap #content-textarea-clone {
@@ -404,6 +405,10 @@ td.plugin-title p {
 	padding-top: 0 !important;
 }
 /* end editor-expand.js override */
+
+#poststuff #post-body.columns-2 #side-sortables {
+	width: 280px;
+}
 
 #timestampdiv select {
 	height: 21px;
@@ -1229,6 +1234,7 @@ table.links-table {
 
 	#poststuff #post-body.columns-2 #side-sortables {
 		min-height: 0;
+		width: auto;
 	}
 
 	/* hide the radio buttons for column prefs */

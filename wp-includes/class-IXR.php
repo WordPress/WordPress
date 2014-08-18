@@ -358,7 +358,7 @@ class IXR_Message
                     $this->_arraystructs[count($this->_arraystructs)-1][] = $value;
                 }
             } else {
-                // Just add as a paramater
+                // Just add as a parameter
                 $this->params[] = $value;
             }
         }
@@ -451,7 +451,7 @@ EOD;
 
         // Perform the callback and send the response
         if (count($args) == 1) {
-            // If only one paramater just send that instead of the whole array
+            // If only one parameter just send that instead of the whole array
             $args = $args[0];
         }
 

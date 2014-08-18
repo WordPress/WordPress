@@ -84,7 +84,7 @@ class WP_Date_Query {
 	 *                                     Default (string:empty)|(array:last day of month). Accepts numbers 1-31.
 	 *             }
 	 *             @type string       $column    Optional. Used to add a clause comparing a column other than the column
-	 *                                           specified in the top-level $column paramater.  Default is the value
+	 *                                           specified in the top-level $column parameter.  Default is the value
 	 *                                           of top-level $column. Accepts 'post_date', 'post_date_gmt',
 	 *                                           'post_modified', 'post_modified_gmt', 'comment_date', 'comment_date_gmt'.
 	 *             @type string       $compare   Optional. The comparison operator. Default '='. Accepts '=', '!=',

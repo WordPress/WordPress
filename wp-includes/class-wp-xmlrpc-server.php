@@ -5759,7 +5759,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		$urltest = parse_url($pagelinkedto);
 		if ( $post_ID = url_to_postid($pagelinkedto) ) {
 			$way = 'url_to_postid()';
-		} elseif ( preg_match('#p/[0-9]{1,}#', $urltest['path'], $match) ) {
+		} elseif ( isset( $urltest['path'] ) && preg_match('#p/[0-9]{1,}#', $urltest['path'], $match) ) {
 			// the path defines the post_ID (archives/p/XXXX)
 			$blah = explode('/', $match[0]);
 			$post_ID = (int) $blah[1];

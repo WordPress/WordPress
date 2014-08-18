@@ -50,7 +50,7 @@ function wp_underscore_audio_template() {
 function wp_underscore_video_template() {
 	$video_types = wp_get_video_extensions();
 ?>
-<#  var w_rule = '', h_rule = '',
+<#  var w_rule = h_rule = '',
 		w, h, settings = wp.media.view.settings,
 		isYouTube = ! _.isEmpty( data.model.src ) && data.model.src.match(/youtube|youtu\.be/);
 
@@ -67,14 +67,13 @@ function wp_underscore_video_template() {
 	}
 
 	if ( w ) {
-		w_rule = ' width: ' + w + 'px;';
+		w_rule = 'width: ' + w + 'px; ';
 	}
-
 	if ( h ) {
-		h_rule = ' height: auto';
+		h_rule = 'height: ' + h + 'px;';
 	}
 #>
-<div style="max-width: 100%;{{ w_rule }}{{ h_rule }}">
+<div style="{{ w_rule }}{{ h_rule }}" class="wp-video">
 <video controls
 	class="wp-video-shortcode{{ isYouTube ? ' youtube-video' : '' }}"
 	<# if ( w ) { #>width="{{ w }}"<# } #>
@@ -273,14 +272,14 @@ function wp_print_media_templates() {
 	</script>
 
 	<script type="text/html" id="tmpl-attachment-details-two-column">
-		<div class="attachment-media-view">
+		<div class="attachment-media-view {{ data.orientation }}">
 			<div class="thumbnail thumbnail-{{ data.type }}">
 				<# if ( data.uploading ) { #>
 					<div class="media-progress-bar"><div></div></div>
-				<# } else if ( 'image' === data.type ) { #>
-					<img src="{{ data.sizes.full.url }}" draggable="false" />
+				<# } else if ( 'image' === data.type && data.sizes && data.sizes.full ) { #>
+					<img class="details-image" src="{{ data.sizes.full.url }}" draggable="false" />
 				<# } else if ( -1 === jQuery.inArray( data.type, [ 'audio', 'video' ] ) ) { #>
-					<img src="{{ data.icon }}" class="icon" draggable="false" />
+					<img class="details-image" src="{{ data.icon }}" class="icon" draggable="false" />
 				<# } #>
 
 				<# if ( 'audio' === data.type ) { #>
@@ -292,16 +291,16 @@ function wp_print_media_templates() {
 				<# } else if ( 'video' === data.type ) {
 					var w_rule = h_rule = '';
 					if ( data.width ) {
-						w_rule = ' width: ' + data.width + 'px;';
+						w_rule = 'width: ' + data.width + 'px;';
 					} else if ( wp.media.view.settings.contentWidth ) {
-						w_rule = ' width: ' + wp.media.view.settings.contentWidth + 'px;';
+						w_rule = 'width: ' + wp.media.view.settings.contentWidth + 'px;';
 					}
 					if ( data.height ) {
-						h_rule = ' height: auto';
+						h_rule = 'height: ' + data.height + 'px;';
 					}
 				#>
-				<div style="max-width: 100%; {{ w_rule }}{{ h_rule }}" class="wp-media-wrapper">
-					<video controls class="wp-video-shortcode" preload="metadata"
+				<div style="{{ w_rule }}{{ h_rule }}" class="wp-media-wrapper wp-video">
+					<video controls="controls" class="wp-video-shortcode" preload="metadata"
 						<# if ( data.width ) { #>width="{{ data.width }}"<# } #>
 						<# if ( data.height ) { #>height="{{ data.height }}"<# } #>
 						<# if ( data.image && data.image.src !== data.icon ) { #>poster="{{ data.image.src }}"<# } #>>
@@ -311,16 +310,8 @@ function wp_print_media_templates() {
 				<# } #>
 
 				<div class="attachment-actions">
-					<# if ( 'image' === data.type && ! data.uploading ) { #>
+					<# if ( 'image' === data.type && ! data.uploading && data.sizes ) { #>
 						<a class="button edit-attachment" href="#"><?php _e( 'Edit Image' ); ?></a>
-					<# } #>
-
-					<# if ( ! data.uploading && data.can.remove ) { #>
-						<?php if ( MEDIA_TRASH ): ?>
-							<a class="trash-attachment" href="#"><?php _e( 'Trash' ); ?></a>
-						<?php else: ?>
-							<a class="delete-attachment" href="#"><?php _e( 'Delete Permanently' ); ?></a>
-						<?php endif; ?>
 					<# } #>
 				</div>
 			</div>
@@ -410,8 +401,21 @@ function wp_print_media_templates() {
 				<div class="attachment-compat"></div>
 			</div>
 
-			<a class="view-attachment" href="{{ data.link }}"><?php _e( 'View attachment page' ); ?></a> |
-			<a href="post.php?post={{ data.id }}&action=edit"><?php _e( 'Edit more details' ); ?></a>
+			<div class="actions">
+				<a class="view-attachment" href="{{ data.link }}"><?php _e( 'View attachment page' ); ?></a> |
+				<a href="post.php?post={{ data.id }}&action=edit"><?php _e( 'Edit more details' ); ?></a>
+				<# if ( ! data.uploading && data.can.remove ) { #> |
+						<?php if ( MEDIA_TRASH ): ?>
+						<# if ( 'trash' === data.status ) { #>
+							<a class="untrash-attachment" href="#"><?php _e( 'Untrash' ); ?></a>
+						<# } else { #>
+							<a class="trash-attachment" href="#"><?php _e( 'Trash' ); ?></a>
+						<# } #>
+						<?php else: ?>
+							<a class="delete-attachment" href="#"><?php _e( 'Delete Permanently' ); ?></a>
+						<?php endif; ?>
+					<# } #>
+			</div>
 
 		</div>
 	</script>
@@ -421,7 +425,7 @@ function wp_print_media_templates() {
 			<div class="thumbnail">
 				<# if ( data.uploading ) { #>
 					<div class="media-progress-bar"><div>
-				<# } else if ( 'image' === data.type ) { #>
+				<# } else if ( 'image' === data.type && data.sizes ) { #>
 					<div class="centered">
 						<img src="{{ data.size.url }}" draggable="false" alt="" />
 					</div>
@@ -477,7 +481,7 @@ function wp_print_media_templates() {
 			<div class="thumbnail thumbnail-{{ data.type }}">
 				<# if ( data.uploading ) { #>
 					<div class="media-progress-bar"><div></div></div>
-				<# } else if ( 'image' === data.type ) { #>
+				<# } else if ( 'image' === data.type && data.sizes ) { #>
 					<img src="{{ data.size.url }}" draggable="false" />
 				<# } else { #>
 					<img src="{{ data.icon }}" class="icon" draggable="false" />
@@ -493,7 +497,7 @@ function wp_print_media_templates() {
 						<div class="dimensions">{{ data.width }} &times; {{ data.height }}</div>
 					<# } #>
 
-					<# if ( data.can.save ) { #>
+					<# if ( data.can.save && data.sizes ) { #>
 						<a class="edit-attachment" href="{{ data.editLink }}&amp;image-editor" target="_blank"><?php _e( 'Edit Image' ); ?></a>
 						<a class="refresh-attachment" href="#"><?php _e( 'Refresh' ); ?></a>
 					<# } #>
@@ -505,7 +509,11 @@ function wp_print_media_templates() {
 
 				<# if ( ! data.uploading && data.can.remove ) { #>
 					<?php if ( MEDIA_TRASH ): ?>
+					<# if ( 'trash' === data.status ) { #>
+						<a class="untrash-attachment" href="#"><?php _e( 'Untrash' ); ?></a>
+					<# } else { #>
 						<a class="trash-attachment" href="#"><?php _e( 'Trash' ); ?></a>
+					<# } #>
 					<?php else: ?>
 						<a class="delete-attachment" href="#"><?php _e( 'Delete Permanently' ); ?></a>
 					<?php endif; ?>

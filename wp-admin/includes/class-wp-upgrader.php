@@ -2089,7 +2089,7 @@ class WP_Automatic_Updater {
 				return;
 		}
 
-		// Update the lock, as by this point we've definately got a lock, just need to fire the actions
+		// Update the lock, as by this point we've definitely got a lock, just need to fire the actions
 		update_option( $lock_name, time() );
 
 		// Don't automatically run these thins, as we'll handle it ourselves

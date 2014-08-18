@@ -3937,7 +3937,7 @@ class WP_Query {
 	 * @since 4.0.0
 	 * @access public
 	 *
-	 * @param string $name Property to get
+	 * @param string $name Property to get.
 	 * @return mixed Property.
 	 */
 	public function __get( $name ) {
@@ -3945,7 +3945,7 @@ class WP_Query {
 	}
 
 	/**
-	 * Make private properties setable for backwards compatibility.
+	 * Make private properties settable for backwards compatibility.
 	 *
 	 * @since 4.0.0
 	 * @access public
@@ -3958,7 +3958,7 @@ class WP_Query {
 	}
 
 	/**
-	 * Make private properties setable for backwards compatibility.
+	 * Make private properties settable for backwards compatibility.
 	 *
 	 * @since 4.0.0
 	 * @access public

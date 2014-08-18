@@ -194,7 +194,7 @@ class WP_Embed {
 			$cachekey_time = '_oembed_time_' . $key_suffix;
 
 			/**
-			 * Filter the oEmbed TTL (time to live).
+			 * Filter the oEmbed TTL value (time to live).
 			 *
 			 * @since 4.0.0
 			 *

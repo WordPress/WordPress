@@ -128,8 +128,8 @@ var wpCookies = {
 	 *
 	 * This is done by setting it to an empty value and setting the expiration time in the past.
 	 */
-	remove: function( name, path ) {
-		this.set( name, '', -1000, path );
+	remove: function( name, path, domain, secure ) {
+		this.set( name, '', -1000, path, domain, secure );
 	}
 };
 
@@ -157,9 +157,9 @@ function setUserSetting( name, value, _del ) {
 	}
 
 	var uid = userSettings.uid,
-		oldUid = uid.lastIndexOf('-') > 0 ? uid.substring( 0, uid.lastIndexOf('-') ) : 0,
 		settings = wpCookies.getHash( 'wp-settings-' + uid ),
-		path = userSettings.url;
+		path = userSettings.url,
+		secure = !! userSettings.secure;
 
 	name = name.toString().replace( /[^A-Za-z0-9_]/, '' );
 
@@ -167,17 +167,6 @@ function setUserSetting( name, value, _del ) {
 		value = parseInt( value, 10 );
 	} else {
 		value = value.toString().replace( /[^A-Za-z0-9_]/, '' );
-	}
-
-	if ( oldUid ) {
-		if ( ! settings ) {
-			settings = wpCookies.getHash( 'wp-settings-' + oldUid );
-		}
-		// Delete old cookies
-		if ( wpCookies.get( 'wp-settings-time-' + oldUid ) ) {
-			wpCookies.remove( 'wp-settings-' + oldUid, path );
-			wpCookies.remove( 'wp-settings-time-' + oldUid, path );
-		}
 	}
 
 	settings = settings || {};
@@ -188,8 +177,8 @@ function setUserSetting( name, value, _del ) {
 		settings[name] = value;
 	}
 
-	wpCookies.setHash( 'wp-settings-' + uid, settings, 31536000, path );
-	wpCookies.set( 'wp-settings-time-' + uid, userSettings.time, 31536000, path );
+	wpCookies.setHash( 'wp-settings-' + uid, settings, 31536000, path, '', secure );
+	wpCookies.set( 'wp-settings-time-' + uid, userSettings.time, 31536000, path, '', secure );
 
 	return name;
 }
@@ -204,14 +193,5 @@ function getAllUserSettings() {
 		return {};
 	}
 
-	var uid = userSettings.uid,
-		settings = wpCookies.getHash( 'wp-settings-' + uid );
-
-	// Try the old format cookie
-	if ( ! settings && uid.lastIndexOf('-') > 0 ) {
-		uid = uid.substring( 0, uid.lastIndexOf('-') );
-		settings = wpCookies.getHash( 'wp-settings-' + uid );
-	}
-
-	return settings || {};
+	return wpCookies.getHash( 'wp-settings-' + userSettings.uid ) || {};
 }

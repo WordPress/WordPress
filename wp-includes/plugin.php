@@ -105,7 +105,7 @@ function add_filter( $tag, $function_to_add, $priority = 10, $accepted_args = 1 
  *                  return value.
  */
 function has_filter($tag, $function_to_check = false) {
-	global $wp_filter;
+	$wp_filter = $GLOBALS['wp_filter'];
 
 	$has = ! empty( $wp_filter[ $tag ] );
 

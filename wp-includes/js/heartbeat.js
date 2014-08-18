@@ -63,7 +63,7 @@
 				// Whether a connection is currently in progress
 				connecting: false,
 
-				// Whether a connection error occured
+				// Whether a connection error occurred
 				connectionError: false,
 
 				// Used to track non-critical errors

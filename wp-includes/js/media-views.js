@@ -1792,7 +1792,7 @@
 		deactivateMode: function( mode ) {
 			// Bail if the mode isn't active.
 			if ( ! this.isModeActive( mode ) ) {
-				return;
+				return this;
 			}
 			this.activeModes.remove( this.activeModes.where( { id: mode } ) );
 			this.$el.removeClass( 'mode-' + mode );
@@ -3222,7 +3222,8 @@
 		 */
 		open: function() {
 			var $el = this.$el,
-				options = this.options;
+				options = this.options,
+				mceEditor;
 
 			if ( $el.is(':visible') ) {
 				return this;
@@ -3242,7 +3243,22 @@
 			// Disable page scrolling.
 			$( 'body' ).addClass( 'modal-open' );
 
-			$el.show().find( '.media-modal-close' ).focus();
+			$el.show();
+
+			// Try to close the onscreen keyboard
+			if ( 'ontouchend' in document ) {
+				if ( ( mceEditor = window.tinymce && window.tinymce.activeEditor )  && ! mceEditor.isHidden() && mceEditor.iframeElement ) {
+					mceEditor.iframeElement.focus();
+					mceEditor.iframeElement.blur();
+
+					setTimeout( function() {
+						mceEditor.iframeElement.blur();
+					}, 100 );
+				}
+			}
+
+			$el.find( '.media-modal-close' ).focus();
+
 			return this.propagate('open');
 		},
 
@@ -4805,12 +4821,18 @@
 
 			// In the grid view, bubble up an edit:attachment event to the controller.
 			if ( this.controller.isModeActive( 'grid' ) ) {
-				// Pass the current target to restore focus when closing
-				this.controller.trigger( 'edit:attachment', this.model, event.currentTarget );
+				if ( this.controller.isModeActive( 'edit' ) ) {
+					// Pass the current target to restore focus when closing
+					this.controller.trigger( 'edit:attachment', this.model, event.currentTarget );
 
-				// Don't scroll the view and don't attempt to submit anything.
-				event.stopPropagation();
-				return;
+					// Don't scroll the view and don't attempt to submit anything.
+					event.stopPropagation();
+					return;
+				}
+
+				if ( this.controller.isModeActive( 'select' ) ) {
+					method = 'toggle';
+				}
 			}
 
 			if ( event.shiftKey ) {
@@ -4822,6 +4844,8 @@
 			this.toggleSelection({
 				method: method
 			});
+
+			this.controller.trigger( 'selection:toggle' );
 
 			// Don't scroll the view and don't attempt to submit anything.
 			event.stopPropagation();
@@ -5647,6 +5671,7 @@
 				filters[ key ] = {
 					text: text,
 					props: {
+						status:  null,
 						type:    key,
 						uploadedTo: null,
 						orderby: 'date',
@@ -5658,6 +5683,7 @@
 			filters.all = {
 				text:  l10n.allMediaItems,
 				props: {
+					status:  null,
 					type:    null,
 					uploadedTo: null,
 					orderby: 'date',
@@ -5670,6 +5696,7 @@
 				filters.uploaded = {
 					text:  l10n.uploadedToThisPost,
 					props: {
+						status:  null,
 						type:    null,
 						uploadedTo: media.view.settings.post.id,
 						orderby: 'menuOrder',
@@ -5682,6 +5709,7 @@
 			filters.unattached = {
 				text:  l10n.unattached,
 				props: {
+					status:     null,
 					uploadedTo: 0,
 					type:       null,
 					orderby:    'menuOrder',
@@ -5689,6 +5717,22 @@
 				},
 				priority: 50
 			};
+
+			if ( media.view.settings.mediaTrash &&
+				this.controller.activeModes.where( { id: 'grid' } ).length ) {
+
+				filters.trash = {
+					text:  l10n.trash,
+					props: {
+						uploadedTo: null,
+						status:     'trash',
+						type:       null,
+						orderby:    'date',
+						order:      'DESC'
+					},
+					priority: 50
+				};
+			}
 
 			this.filters = filters;
 		}
@@ -5727,6 +5771,10 @@
 
 			if ( ! this.options.sidebar || 'errors' === this.options.sidebar ) {
 				this.$el.addClass( 'hide-sidebar' );
+
+				if ( 'errors' === this.options.sidebar ) {
+					this.$el.addClass( 'sidebar-for-errors' );
+				}
 			}
 
 			this.collection.on( 'add remove reset', this.updateContent, this );
@@ -5741,9 +5789,7 @@
 		},
 
 		createToolbar: function() {
-			var filters,
-				LibraryViewSwitcher,
-				FiltersConstructor;
+			var LibraryViewSwitcher, Filters;
 
 			/**
 			 * @member {wp.media.view.Toolbar}
@@ -5753,6 +5799,38 @@
 			});
 
 			this.views.add( this.toolbar );
+
+			this.toolbar.set( 'spinner', new media.view.Spinner({
+				priority: -60
+			}) );
+
+			if ( -1 !== $.inArray( this.options.filters, [ 'uploaded', 'all' ] ) ) {
+				// "Filters" will return a <select>, need to render
+				// screen reader text before
+				this.toolbar.set( 'filtersLabel', new media.view.Label({
+					value: l10n.filterByType,
+					attributes: {
+						'for':  'media-attachment-filters'
+					},
+					priority:   -80
+				}).render() );
+
+				if ( 'uploaded' === this.options.filters ) {
+					this.toolbar.set( 'filters', new media.view.AttachmentFilters.Uploaded({
+						controller: this.controller,
+						model:      this.collection.props,
+						priority:   -80
+					}).render() );
+				} else {
+					Filters = new media.view.AttachmentFilters.All({
+						controller: this.controller,
+						model:      this.collection.props,
+						priority:   -80
+					});
+
+					this.toolbar.set( 'filters', Filters.render() );
+				}
+			}
 
 			// Feels odd to bring the global media library switcher into the Attachment
 			// browser view. Is this a use case for doAction( 'add:toolbar-items:attachments-browser', this.toolbar );
@@ -5768,12 +5846,6 @@
 					priority: -90
 				}).render() );
 
-				// BulkSelection is a <div> with subviews, including screen reader text
-				this.toolbar.set( 'bulkSelection', new media.view.BulkSelection({
-					controller: this.controller,
-					priority: -70
-				}).render() );
-
 				// DateFilter is a <select>, screen reader text needs to be rendered before
 				this.toolbar.set( 'dateFilterLabel', new media.view.Label({
 					value: l10n.filterByDate,
@@ -5787,33 +5859,62 @@
 					model:      this.collection.props,
 					priority: -75
 				}).render() );
-			}
 
-			this.toolbar.set( 'spinner', new media.view.Spinner({
-				priority: -60
-			}) );
-
-			filters = this.options.filters;
-			if ( 'uploaded' === filters ) {
-				FiltersConstructor = media.view.AttachmentFilters.Uploaded;
-			} else if ( 'all' === filters ) {
-				FiltersConstructor = media.view.AttachmentFilters.All;
-			}
-
-			if ( FiltersConstructor ) {
-				// "FiltersConstructor" will return a <select>, need to render
-				// screen reader text before
-				this.toolbar.set( 'filtersLabel', new media.view.Label({
-					value: l10n.filterByType,
-					attributes: {
-						'for':  'media-attachment-filters'
-					},
-					priority:   -80
-				}).render() );
-				this.toolbar.set( 'filters', new FiltersConstructor({
+				// BulkSelection is a <div> with subviews, including screen reader text
+				this.toolbar.set( 'selectModeToggleButton', new media.view.SelectModeToggleButton({
+					text: l10n.bulkSelect,
 					controller: this.controller,
-					model:      this.collection.props,
-					priority:   -80
+					priority: -70
+				}).render() );
+
+				this.toolbar.set( 'deleteSelectedButton', new media.view.DeleteSelectedButton({
+					filters: Filters,
+					style: 'primary',
+					disabled: true,
+					text: media.view.settings.mediaTrash ? l10n.trashSelected : l10n.deleteSelected,
+					controller: this.controller,
+					priority: -60,
+					click: function() {
+						var model, changed = [],
+							selection = this.controller.state().get( 'selection' ),
+							library = this.controller.state().get( 'library' );
+
+						if ( ! selection.length ) {
+							return;
+						}
+
+						if ( ! media.view.settings.mediaTrash && ! confirm( l10n.warnBulkDelete ) ) {
+							return;
+						}
+
+						if ( media.view.settings.mediaTrash &&
+							'trash' !== selection.at( 0 ).get( 'status' ) &&
+							! confirm( l10n.warnBulkTrash ) ) {
+
+							return;
+						}
+
+						while ( selection.length > 0 ) {
+							model = selection.at( 0 );
+							if ( media.view.settings.mediaTrash && 'trash' === model.get( 'status' ) ) {
+								model.set( 'status', 'inherit' );
+								changed.push( model.save() );
+								selection.remove( model );
+							} else if ( media.view.settings.mediaTrash ) {
+								model.set( 'status', 'trash' );
+								changed.push( model.save() );
+								selection.remove( model );
+							} else {
+								model.destroy();
+							}
+						}
+
+						if ( changed.length ) {
+							$.when.apply( null, changed ).then( function() {
+								library._requery( true );
+							} );
+						}
+					}
 				}).render() );
 			}
 
@@ -6382,6 +6483,7 @@
 			'change [data-setting] textarea': 'updateSetting',
 			'click .delete-attachment':       'deleteAttachment',
 			'click .trash-attachment':        'trashAttachment',
+			'click .untrash-attachment':      'untrashAttachment',
 			'click .edit-attachment':         'editAttachment',
 			'click .refresh-attachment':      'refreshAttachment',
 			'keydown':                        'toggleSelectionHandler'
@@ -6415,9 +6517,31 @@
 		 * @param {Object} event
 		 */
 		trashAttachment: function( event ) {
+			var library = this.controller.library;
 			event.preventDefault();
 
-			this.model.destroy();
+			if ( media.view.settings.mediaTrash &&
+				'edit-metadata' === this.controller.content.mode() ) {
+
+				this.model.set( 'status', 'trash' );
+				this.model.save().done( function() {
+					library._requery( true );
+				} );
+			}  else {
+				this.model.destroy();
+			}
+		},
+		/**
+		 * @param {Object} event
+		 */
+		untrashAttachment: function( event ) {
+			var library = this.controller.library;
+			event.preventDefault();
+
+			this.model.set( 'status', 'inherit' );
+			this.model.save().done( function() {
+				library._requery( true );
+			} );
 		},
 		/**
 		 * @param {Object} event
@@ -6768,7 +6892,7 @@
 	/**
 	 * wp.media.view.EmbedImage
 	 *
-	 * @contructor
+	 * @constructor
 	 * @augments wp.media.view.Settings.AttachmentDisplay
 	 * @augments wp.media.view.Settings
 	 * @augments wp.media.View
@@ -6795,7 +6919,7 @@
 	/**
 	 * wp.media.view.ImageDetails
 	 *
-	 * @contructor
+	 * @constructor
 	 * @augments wp.media.view.Settings.AttachmentDisplay
 	 * @augments wp.media.view.Settings
 	 * @augments wp.media.View

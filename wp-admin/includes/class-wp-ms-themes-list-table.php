@@ -12,6 +12,16 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 	public $site_id;
 	public $is_site_themes;
 
+	/**
+	 * Constructor.
+	 *
+	 * @since 3.1.0
+	 * @access public
+	 *
+	 * @see WP_List_Table::__construct() for more information on default arguments.
+	 *
+	 * @param array $args An associative array of arguments.
+	 */
 	public function __construct( $args = array() ) {
 		global $status, $page;
 

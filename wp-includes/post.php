@@ -1458,7 +1458,7 @@ function register_post_type( $post_type, $args = array() ) {
 	 * @since 3.3.0
 	 *
 	 * @param string $post_type Post type.
-	 * @param array  $args      Arguments used to register the post type.
+	 * @param object $args      Arguments used to register the post type.
 	 */
 	do_action( 'registered_post_type', $post_type, $args );
 

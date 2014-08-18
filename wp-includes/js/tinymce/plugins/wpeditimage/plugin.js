@@ -1,6 +1,7 @@
 /* global tinymce */
 tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
-	var toolbarActive = false;
+	var toolbarActive = false,
+		editingImage = false;
 
 	function parseShortcode( content ) {
 		return content.replace( /(?:<p>)?\[(?:wp_)?caption([^\]]+)\]([\s\S]+?)\[\/(?:wp_)?caption\](?:<\/p>)?/g, function( a, b, c ) {
@@ -411,6 +412,7 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 		frame.on( 'close', function() {
 			editor.focus();
 			frame.detach();
+			editingImage = false;
 		});
 
 		frame.open();
@@ -435,12 +437,14 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 			}
 
 			editor.selection.collapse( true );
-			editor.nodeChanged();
 			editor.dom.remove( wrap );
 		} else {
 			editor.dom.remove( node );
 		}
+
 		removeToolbar();
+		editor.nodeChanged();
+		editor.undoManager.add();
 	}
 
 	function addToolbar( node ) {
@@ -457,12 +461,12 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 		dom.setAttrib( node, 'data-wp-imgselect', 1 );
 		rectangle = dom.getRect( node );
 
-		toolbarHtml = '<i class="dashicons dashicons-edit edit" data-mce-bogus="1"></i>' +
-			'<i class="dashicons dashicons-no-alt remove" data-mce-bogus="1"></i>';
+		toolbarHtml = '<i class="dashicons dashicons-edit edit" data-mce-bogus="all"></i>' +
+			'<i class="dashicons dashicons-no-alt remove" data-mce-bogus="all"></i>';
 
 		toolbar = dom.create( 'p', {
 			'id': 'wp-image-toolbar',
-			'data-mce-bogus': '1',
+			'data-mce-bogus': 'all',
 			'contenteditable': false
 		}, toolbarHtml );
 
@@ -490,6 +494,7 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 
 		editor.dom.setAttrib( editor.dom.select( 'img[data-wp-imgselect]' ), 'data-wp-imgselect', null );
 
+		editingImage = false;
 		toolbarActive = false;
 	}
 
@@ -504,6 +509,61 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 
 		return false;
 	}
+
+	function isToolbarButton( node ) {
+		return ( node && node.nodeName === 'I' && node.parentNode.id === 'wp-image-toolbar' );
+	}
+
+	function edit( event ) {
+		var image,
+			node = event.target,
+			dom = editor.dom;
+
+		// Don't trigger on right-click
+		if ( event.button && event.button > 1 ) {
+			return;
+		}
+
+		if ( isToolbarButton( node ) ) {
+			image = dom.select( 'img[data-wp-imgselect]' )[0];
+
+			if ( image ) {
+				editor.selection.select( image );
+
+				if ( dom.hasClass( node, 'remove' ) ) {
+					removeImage( image );
+				} else if ( dom.hasClass( node, 'edit' ) ) {
+					if ( ! editingImage ) {
+						editImage( image );
+						editingImage = true;
+					}
+				}
+			}
+
+			event.preventDefault();
+		} else if ( node.nodeName === 'IMG' && ! editor.dom.getAttrib( node, 'data-wp-imgselect' ) && ! isPlaceholder( node ) ) {
+			addToolbar( node );
+		} else if ( node.nodeName !== 'IMG' ) {
+			removeToolbar();
+		}
+	}
+
+	if ( 'ontouchend' in document ) {
+		editor.on( 'click', function( event ) {
+			var target = event.target;
+
+			if ( editingImage && target.nodeName === 'IMG' ) {
+				event.preventDefault();
+			}
+
+			if ( isToolbarButton( target ) ) {
+				event.preventDefault();
+				event.stopPropagation();
+			}
+		});
+	}
+
+	editor.on( 'mouseup touchend', edit );
 
 	editor.on( 'init', function() {
 		var dom = editor.dom,
@@ -917,7 +977,7 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 	});
 
 	editor.on( 'mousedown', function( event ) {
-		if ( editor.dom.getParent( event.target, '#wp-image-toolbar' ) ) {
+		if ( isToolbarButton( event.target ) ) {
 			if ( tinymce.Env.ie ) {
 				// Stop IE > 8 from making the wrapper resizable on mousedown
 				event.preventDefault();
@@ -927,41 +987,23 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 		}
 	});
 
-	editor.on( 'mouseup', function( event ) {
-		var image,
-			node = event.target,
-			dom = editor.dom;
-
-		// Don't trigger on right-click
-		if ( event.button && event.button > 1 ) {
-			return;
-		}
-
-		if ( node.nodeName === 'I' && dom.getParent( node, '#wp-image-toolbar' ) ) {
-			image = dom.select( 'img[data-wp-imgselect]' )[0];
-
-			if ( image ) {
-				editor.selection.select( image );
-
-				if ( dom.hasClass( node, 'remove' ) ) {
-					removeImage( image );
-				} else if ( dom.hasClass( node, 'edit' ) ) {
-					editImage( image );
-				}
-			}
-		} else if ( node.nodeName === 'IMG' && ! editor.dom.getAttrib( node, 'data-wp-imgselect' ) && ! isPlaceholder( node ) ) {
-			addToolbar( node );
-		} else if ( node.nodeName !== 'IMG' ) {
-			removeToolbar();
-		}
-	});
-
-	// Remove toolbar from undo levels
+	// Remove from undo levels
 	editor.on( 'BeforeAddUndo', function( event ) {
-		event.level.content = event.level.content.replace( /<p [^>]*data-mce-bogus[^>]+>[\s\S]*?<\/p>/g, '' );
+		event.level.content = event.level.content.replace( / data-wp-imgselect="1"/g, '' );
 	});
 
-	editor.on( 'cut', function() {
+	// After undo/redo FF seems to set the image height very slowly when it is set to 'auto' in the CSS.
+	// This causes image.getBoundingClientRect() to return wrong values and the resize handles are shown in wrong places.
+	// Collapse the selection to remove the resize handles.
+	if ( tinymce.Env.gecko ) {
+		editor.on( 'undo redo', function() {
+			if ( editor.selection.getNode().nodeName === 'IMG' ) {
+				editor.selection.collapse();
+			}
+		});
+	}
+
+	editor.on( 'cut wpview-selected', function() {
 		removeToolbar();
 	});
 

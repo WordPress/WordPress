@@ -227,27 +227,27 @@ function wptexturize($text, $reset = false) {
 	$textarr = preg_split( $regex, $text, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY );
 
 	foreach ( $textarr as &$curl ) {
-		// Only call _wptexturize_pushpop_element if $curl is a delimeter.
+		// Only call _wptexturize_pushpop_element if $curl is a delimiter.
 		$first = $curl[0];
 		if ( '<' === $first && '>' === substr( $curl, -1 ) ) {
-			// This is an HTML delimeter.
+			// This is an HTML delimiter.
 
 			if ( '<!--' !== substr( $curl, 0, 4 ) ) {
 				_wptexturize_pushpop_element( $curl, $no_texturize_tags_stack, $no_texturize_tags );
 			}
 
 		} elseif ( '' === trim( $curl ) ) {
-			// This is a newline between delimeters.  Performance improves when we check this.
+			// This is a newline between delimiters.  Performance improves when we check this.
 
 			continue;
 
 		} elseif ( '[' === $first && 1 === preg_match( '/^\[(?:[^\[\]<>]|<[^>]+>)++\]$/', $curl ) ) {
-			// This is a shortcode delimeter.
+			// This is a shortcode delimiter.
 
 			_wptexturize_pushpop_element( $curl, $no_texturize_shortcodes_stack, $no_texturize_shortcodes );
 
 		} elseif ( '[' === $first && 1 === preg_match( '/^\[\[?(?:[^\[\]<>]|<[^>]+>)++\]\]?$/', $curl ) ) {
-			// This is an escaped shortcode delimeter.
+			// This is an escaped shortcode delimiter.
 
 			// Do not texturize.
 			// Do not push to the shortcodes stack.
@@ -255,7 +255,7 @@ function wptexturize($text, $reset = false) {
 			continue;
 
 		} elseif ( empty( $no_texturize_shortcodes_stack ) && empty( $no_texturize_tags_stack ) ) {
-			// This is neither a delimeter, nor is this content inside of no_texturize pairs.  Do texturize.
+			// This is neither a delimiter, nor is this content inside of no_texturize pairs.  Do texturize.
 
 			$curl = str_replace( $static_characters, $static_replacements, $curl );
 

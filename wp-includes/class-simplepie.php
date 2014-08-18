@@ -1612,7 +1612,7 @@ class SimplePie
 	}
 
 	/**
-	 * Get the error message for the occured error
+	 * Get the error message for the occurred error.
 	 *
 	 * @return string|array Error message, or array of messages for multifeeds
 	 */

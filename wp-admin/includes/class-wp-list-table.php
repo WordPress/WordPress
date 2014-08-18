@@ -2,10 +2,11 @@
 /**
  * Base class for displaying a list of items in an ajaxified HTML table.
  *
- * @package WordPress
- * @subpackage List_Table
  * @since 3.1.0
  * @access private
+ *
+ * @package WordPress
+ * @subpackage List_Table
  */
 class WP_List_Table {
 
@@ -64,11 +65,31 @@ class WP_List_Table {
 	private $_pagination;
 
 	/**
-	 * Constructor. The child class should call this constructor from its own constructor
+	 * Constructor.
 	 *
-	 * @param array $args An associative array with information about the current table
-	 * @access protected
-	 */
+	 * The child class should call this constructor from its own constructor to override
+	 * the default $args.
+	 *
+	 * @since 3.1.0
+	 * @access public
+	 *
+	 * @param array|string $args {
+	 *     Array or string of arguments.
+	 *
+	 *     @type string $plural   Plural value used for labels and the objects being listed.
+	 *                            This affects things such as CSS class-names and nonces used
+	 *                            in the list table, e.g. 'posts'. Default empty.
+	 *     @type string $singular Singular label for an object being listed, e.g. 'post'.
+	 *                            Default empty
+	 *     @type bool   $ajax     Whether the list table supports AJAX. This includes loading
+	 *                            and sorting data, for example. If true, the class will call
+	 *                            the {@see _js_vars()} method in the footer to provide variables
+	 *                            to any scripts handling AJAX events. Default false.
+	 *     @type string $screen   String containing the hook name used to determine the current
+	 *                            screen. If left null, the current screen will be automatically set.
+	 *                            Default null.
+	 * }
+	 */	
 	public function __construct( $args = array() ) {
 		$args = wp_parse_args( $args, array(
 			'plural' => '',
@@ -109,12 +130,12 @@ class WP_List_Table {
 	}
 
 	/**
-	 * Make private properties setable for backwards compatibility.
+	 * Make private properties settable for backwards compatibility.
 	 *
 	 * @since 4.0.0
 	 * @access public
 	 *
-	 * @param string $name  Propert to set.
+	 * @param string $name  Property to set.
 	 * @param mixed  $value Property value.
 	 * @return mixed Newly-set property.
 	 */
@@ -136,7 +157,7 @@ class WP_List_Table {
 	}
 
 	/**
-	 * Make private properties unsetable for backwards compatibility.
+	 * Make private properties un-settable for backwards compatibility.
 	 *
 	 * @since 4.0.0
 	 * @access public

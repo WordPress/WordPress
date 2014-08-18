@@ -165,8 +165,7 @@ class WP_Customize_Setting {
 			return false;
 
 		/**
-		 * Fires when the WP_Customize_Setting::save() method is called for settings
-		 * not handled as theme_mods or options.
+		 * Fires when the WP_Customize_Setting::save() method is called.
 		 *
 		 * The dynamic portion of the hook name, $this->id_data['base'] refers to
 		 * the base slug of the setting name.

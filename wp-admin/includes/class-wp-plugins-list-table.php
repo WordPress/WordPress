@@ -9,6 +9,16 @@
  */
 class WP_Plugins_List_Table extends WP_List_Table {
 
+	/**
+	 * Constructor.
+	 * 
+	 * @since 3.1.0
+	 * @access public
+	 *
+	 * @see WP_List_Table::__construct() for more information on default arguments.
+	 *
+	 * @param array $args An associative array of arguments.
+	 */	
 	public function __construct( $args = array() ) {
 		global $status, $page;
 
@@ -108,7 +118,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 					unset( $recently_activated[$key] );
 			update_option( 'recently_activated', $recently_activated );
 		}
-		
+
 		$plugin_info = get_site_transient( 'update_plugins' );
 
 		foreach ( (array) $plugins['all'] as $plugin_file => $plugin_data ) {
@@ -298,7 +308,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 		return $actions;
 	}
 
-	public function bulk_actions( $which ) {
+	public function bulk_actions( $which = '' ) {
 		global $status;
 
 		if ( in_array( $status, array( 'mustuse', 'dropins' ) ) )
@@ -402,7 +412,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 					if ( ! is_multisite() && current_user_can('delete_plugins') )
 						$actions['delete'] = '<a href="' . wp_nonce_url('plugins.php?action=delete-selected&amp;checked[]=' . $plugin_file . '&amp;plugin_status=' . $context . '&amp;paged=' . $page . '&amp;s=' . $s, 'bulk-plugins') . '" title="' . esc_attr__('Delete this plugin') . '" class="delete">' . __('Delete') . '</a>';
 				} // end if $is_active
-				
+
 			 } // end if $screen->in_admin( 'network' )
 
 			if ( ( ! is_multisite() || $screen->in_admin( 'network' ) ) && current_user_can('edit_plugins') && is_writable(WP_PLUGIN_DIR . '/' . $plugin_file) )

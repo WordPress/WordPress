@@ -184,7 +184,7 @@ function get_the_content_feed($feed_type = null) {
 	if ( !$feed_type )
 		$feed_type = get_default_feed();
 
-	/** This filter is documented in wp-admin/post-template.php */
+	/** This filter is documented in wp-includes/post-template.php */
 	$content = apply_filters( 'the_content', get_the_content() );
 	$content = str_replace(']]>', ']]&gt;', $content);
 	/**

@@ -11,6 +11,7 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 		toRemove = false,
 		firstFocus = true,
 		_noop = function() { return false; },
+		isios = /iPad|iPod|iPhone/.test( navigator.userAgent ),
 		cursorInterval, lastKeyDownNode, setViewCursorTries, focus, execCommandView;
 
 	function getView( node ) {
@@ -140,8 +141,14 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 		dom.bind( selected, 'beforedeactivate focusin focusout', _stop );
 
 		// select the hidden div
-		editor.selection.select( clipboard, true );
+		if ( isios ) {
+			editor.selection.select( clipboard );
+		} else {
+			editor.selection.select( clipboard, true );
+		}
+
 		editor.nodeChanged();
+		editor.fire( 'wpview-selected', viewNode );
 	}
 
 	/**
@@ -198,10 +205,6 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 			removeView( selected );
 		}
 
-		if ( ! event.initial ) {
-			wp.mce.views.unbind( editor );
-		}
-
 		node = editor.selection.getNode();
 
 		// When a url is pasted, only try to embed it when pasted in an empty paragrapgh.
@@ -256,7 +259,8 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 	});
 
 	editor.on( 'init', function() {
-		var selection = editor.selection;
+		var scrolled = false,
+			selection = editor.selection;
 
 		// When a view is selected, ensure content that is being pasted
 		// or inserted is added to a text node (instead of the view).
@@ -285,16 +289,21 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 			selection.collapse( true );
 		});
 
-		editor.dom.bind( editor.getBody().parentNode, 'mousedown mouseup click', function( event ) {
+		editor.dom.bind( editor.getDoc(), 'touchmove', function() {
+			scrolled = true;
+		});
+
+		editor.on( 'mousedown mouseup click touchend', function( event ) {
 			var view = getView( event.target );
 
 			firstFocus = false;
 
 			// Contain clicks inside the view wrapper
 			if ( view ) {
-				event.stopPropagation();
+				event.stopImmediatePropagation();
+				event.preventDefault();
 
-				if ( event.type === 'mousedown' && ! event.metaKey && ! event.ctrlKey ) {
+				if ( ( event.type === 'touchend' || event.type === 'mousedown' ) && ! event.metaKey && ! event.ctrlKey ) {
 					if ( editor.dom.hasClass( event.target, 'edit' ) ) {
 						wp.mce.views.edit( view );
 						editor.focus();
@@ -305,17 +314,25 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 					}
 				}
 
-				select( view );
+				if ( event.type === 'touchend' && scrolled ) {
+					scrolled = false;
+				} else {
+					select( view );
+				}
 
 				// Returning false stops the ugly bars from appearing in IE11 and stops the view being selected as a range in FF.
 				// Unfortunately, it also inhibits the dragging of views to a new location.
 				return false;
 			} else {
-				if ( event.type === 'mousedown' ) {
+				if ( event.type === 'touchend' || event.type === 'mousedown' ) {
 					deselect();
 				}
 			}
-		});
+
+			if ( event.type === 'touchend' && scrolled ) {
+				scrolled = false;
+			}
+		}, true );
 	});
 
 	editor.on( 'PreProcess', function( event ) {
@@ -564,41 +581,39 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 			}
 		});
 
-		if ( focus ) {
-			if ( view ) {
-				if ( ( className === 'wpview-selection-before' || className === 'wpview-selection-after' ) && editor.selection.isCollapsed() ) {
-					setViewCursorTries = 0;
+		if ( focus && view ) {
+			if ( ( className === 'wpview-selection-before' || className === 'wpview-selection-after' ) &&
+				editor.selection.isCollapsed() ) {
 
-					deselect();
+				setViewCursorTries = 0;
 
-					// Make sure the cursor arrived in the right node.
-					// This is necessary for Firefox.
-					if ( lKDN === view.previousSibling ) {
-						setViewCursor( true, view );
-						return;
-					} else if ( lKDN === view.nextSibling ) {
-						setViewCursor( false, view );
-						return;
-					}
-
-					dom.addClass( view, className );
-
-					cursorInterval = setInterval( function() {
-						if ( dom.hasClass( view, 'wpview-cursor-hide' ) ) {
-							dom.removeClass( view, 'wpview-cursor-hide' );
-						} else {
-							dom.addClass( view, 'wpview-cursor-hide' );
-						}
-					}, 500 );
-				// If the cursor lands anywhere else in the view, set the cursor before it.
-				// Only try this once to prevent a loop. (You never know.)
-				} else if ( ! getParent( event.element, 'wpview-clipboard' ) && ! setViewCursorTries ) {
-					deselect();
-					setViewCursorTries++;
-					setViewCursor( true, view );
-				}
-			} else {
 				deselect();
+
+				// Make sure the cursor arrived in the right node.
+				// This is necessary for Firefox.
+				if ( lKDN === view.previousSibling ) {
+					setViewCursor( true, view );
+					return;
+				} else if ( lKDN === view.nextSibling ) {
+					setViewCursor( false, view );
+					return;
+				}
+
+				dom.addClass( view, className );
+
+				cursorInterval = setInterval( function() {
+					if ( dom.hasClass( view, 'wpview-cursor-hide' ) ) {
+						dom.removeClass( view, 'wpview-cursor-hide' );
+					} else {
+						dom.addClass( view, 'wpview-cursor-hide' );
+					}
+				}, 500 );
+			// If the cursor lands anywhere else in the view, set the cursor before it.
+			// Only try this once to prevent a loop. (You never know.)
+			} else if ( ! getParent( event.element, 'wpview-clipboard' ) && ! setViewCursorTries ) {
+				deselect();
+				setViewCursorTries++;
+				setViewCursor( true, view );
 			}
 		}
 	});
