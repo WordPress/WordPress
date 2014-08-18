@@ -5771,6 +5771,10 @@
 
 			if ( ! this.options.sidebar || 'errors' === this.options.sidebar ) {
 				this.$el.addClass( 'hide-sidebar' );
+
+				if ( 'errors' === this.options.sidebar ) {
+					this.$el.addClass( 'sidebar-for-errors' );
+				}
 			}
 
 			this.collection.on( 'add remove reset', this.updateContent, this );
