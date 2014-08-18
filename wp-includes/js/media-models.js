@@ -828,7 +828,7 @@ window.wp = window.wp || {};
 			var props;
 			if ( this.props.get('query') ) {
 				props = this.props.toJSON();
-				props.cache = ( true !== refresh || _.isUndefined( refresh ) );
+				props.cache = ( true !== refresh );
 				this.mirror( Query.get( props ) );
 			}
 		},
@@ -1190,7 +1190,7 @@ window.wp = window.wp || {};
 					orderby  = Query.orderby,
 					defaults = Query.defaultProps,
 					query,
-					cache    = !! props.cache;
+					cache    = !! props.cache || _.isUndefined( props.cache );
 
 				// Remove the `query` property. This isn't linked to a query,
 				// this *is* the query.
