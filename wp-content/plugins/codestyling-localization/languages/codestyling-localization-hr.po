@@ -1,0 +1,823 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: CodeStyling Localization v1.95\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2010-03-18 11:07+0100\n"
+"Last-Translator: sinisa kozuh <sinisa.kozuh@gmail.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Poedit-Language: Croatian\n"
+"X-Poedit-Country: CROATIA\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2\n"
+"X-Textdomain-Support: yes\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#@ codestyling-localization
+#: codestyling-localization.php:102
+msgid "required"
+msgstr "potrebno"
+
+#@ codestyling-localization
+#: codestyling-localization.php:102
+msgid "actual"
+msgstr "stvarni"
+
+#@ codestyling-localization
+#: codestyling-localization.php:273
+msgid "You do not have permission to manage translation files."
+msgstr "Nemate dozvolu za upravljanje datotekama sa prijevodom."
+
+#@ codestyling-localization
+#: codestyling-localization.php:283
+#: codestyling-localization.php:1311
+msgid "WordPress"
+msgstr "WordPress"
+
+#@ codestyling-localization
+#: codestyling-localization.php:289
+#: codestyling-localization.php:328
+#: codestyling-localization.php:435
+#: codestyling-localization.php:508
+#: codestyling-localization.php:1335
+msgid "activated"
+msgstr "aktivan"
+
+#@ codestyling-localization
+#: codestyling-localization.php:307
+#: codestyling-localization.php:388
+#: codestyling-localization.php:398
+#: codestyling-localization.php:488
+#: codestyling-localization.php:561
+#: codestyling-localization.php:974
+#: codestyling-localization.php:1032
+#: codestyling-localization.php:1071
+#: codestyling-localization.php:1203
+#: includes/class-translationfile.php:676
+msgid "m/d/Y H:i:s"
+msgstr "d.m.Y H:i"
+
+#@ codestyling-localization
+#: codestyling-localization.php:323
+msgid "Plugin"
+msgstr "Plugin"
+
+#@ codestyling-localization
+#: codestyling-localization.php:328
+#: codestyling-localization.php:508
+msgid "deactivated"
+msgstr "deaktiviran"
+
+#@ codestyling-localization
+#: codestyling-localization.php:430
+msgid "μ Plugin"
+msgstr "μ Plugin"
+
+#@ codestyling-localization
+#: codestyling-localization.php:503
+msgid "Theme"
+msgstr "Tema"
+
+#@ codestyling-localization
+#: codestyling-localization.php:728
+#: codestyling-localization.php:822
+msgid "Project-Id-Version"
+msgstr "Project-Id-verzija"
+
+#@ codestyling-localization
+#: codestyling-localization.php:732
+msgid "Creation-Date"
+msgstr "Datum-kreiranja"
+
+#@ codestyling-localization
+#: codestyling-localization.php:736
+msgid "Last-Translator"
+msgstr "Zadnji-prevoditelj"
+
+#@ codestyling-localization
+#: codestyling-localization.php:771
+msgid "create po-file"
+msgstr "kreiraj .PO datoteku"
+
+#@ codestyling-localization
+#: codestyling-localization.php:782
+#, php-format
+msgid "You are about to delete <strong>%s</strong> from \"<strong>%s</strong>\" permanently.<br/>Are you sure you wish to delete these files?"
+msgstr "Upravo ćete izbrisati <strong>%s</strong> iz \"<strong>%s</strong>\" zauvijek.<br/>Jeste li sigurni da to želite?"
+
+#@ codestyling-localization
+#: codestyling-localization.php:783
+msgid "delete files"
+msgstr "brisanje datoteka"
+
+#@ codestyling-localization
+#: codestyling-localization.php:826
+msgid "Language Target"
+msgstr "Željeni jezik"
+
+#@ codestyling-localization
+#: codestyling-localization.php:831
+msgid "Affected Total Files"
+msgstr "Datoteka obuhvaćeno"
+
+#@ codestyling-localization
+#: codestyling-localization.php:836
+msgid "Scanning Progress"
+msgstr "Napredak skeniranja"
+
+#@ codestyling-localization
+#: codestyling-localization.php:844
+msgid "scan now"
+msgstr "Skeniraj sada"
+
+#@ codestyling-localization
+#: codestyling-localization.php:844
+msgid "Please standby, files presently being scanned ..."
+msgstr "Molimo pričekajte, datoteke se trenutno skeniraju ..."
+
+#@ codestyling-localization
+#: codestyling-localization.php:959
+#, php-format
+msgid "You do not have the permission to create the file '%s'."
+msgstr "Nemate dozvolu za stvaranje datoteke '%s'."
+
+#@ codestyling-localization
+#: codestyling-localization.php:967
+#: codestyling-localization.php:1000
+#: codestyling-localization.php:1414
+#, php-format
+msgid "<strong>%d</strong> Language"
+msgid_plural "<strong>%d</strong> Languages"
+msgstr[0] "<strong>%d</strong> Jezik"
+msgstr[1] "<strong>%d</strong> Jezika"
+msgstr[2] "<strong>%d</strong> Jezici"
+
+#@ codestyling-localization
+#: codestyling-localization.php:987
+#: codestyling-localization.php:988
+#, php-format
+msgid "You do not have the permission to delete the file '%s'."
+msgstr "Nemate dozvolu za brisanje datoteke '%s'."
+
+#@ codestyling-localization
+#: codestyling-localization.php:1037
+#: codestyling-localization.php:1135
+#: codestyling-localization.php:1196
+#, php-format
+msgid "You do not have the permission to write the file '%s'."
+msgstr "Nemate dopuštenje za uređivanje datoteke '%s'."
+
+#@ codestyling-localization
+#: codestyling-localization.php:1043
+#: codestyling-localization.php:1148
+#: codestyling-localization.php:1163
+#, php-format
+msgid "You do not have the permission to read the file '%s'."
+msgstr "Nemate dopuštenje za čitanje datoteke '%s'."
+
+#@ codestyling-localization
+#: codestyling-localization.php:1060
+msgid "Server Restrictions: Changing file rights is not permitted."
+msgstr "Serversko ograničenje: Promjena prava datoteke nije dozvoljena."
+
+#@ codestyling-localization
+#: codestyling-localization.php:1063
+#, php-format
+msgid "You do not have the permission to modify the file rights for a not existing file '%s'."
+msgstr "Nemate dozvolu za izmjenu prava nepostojeće datoteke '%s'."
+
+#@ codestyling-localization
+#: codestyling-localization.php:1096
+msgid "Your translation file doesn't support the required textdomain extension.<br/>Please re-scan the related source files to enable this feature."
+msgstr "Vaša jezična datoteka ne podržava potrebni nastavak textdomene. <br/> Molimo da ponovo skenirate vezane izvorne datoteke kako biste omogućili tu značajku."
+
+#@ codestyling-localization
+#: codestyling-localization.php:1118
+msgid "Sorry, Google Translation is not available."
+msgstr "Nažalost, Google Prevoditelj nije dostupan."
+
+#@ codestyling-localization
+#: codestyling-localization.php:1216
+msgid "You do not have the permission to create the WordPress Language File Path.<br/>Please create the appropriated path using you FTP access."
+msgstr "Nemate dozvolu za stvaranje WordPress jezičnog direktorija. <br/> Molimo da kreirate direktorij putem FTP pristupa."
+
+#@ codestyling-localization
+#: codestyling-localization.php:1236
+msgid "You do not have the permission to choose the translation file directory<br/>Please upload at least on language file (*.mo|*.po) or an empty template file (*.pot) at the appropriated folder using FTP."
+msgstr "Nemate dopuštenje da odaberete direktorij sa jezičnim datotekama <br/> Molimo da postavite u direktorij barem jednu jezičnu datoteku (*. mo | *. po) ili prazan predložak datoteke (*. pot) u prikladni direktorij putem FTP pristupa."
+
+#@ codestyling-localization
+#: codestyling-localization.php:1293
+msgid "WordPress Localization"
+msgstr "WordPress Lokalizacija"
+
+#@ codestyling-localization
+#: codestyling-localization.php:1293
+msgid "Localization"
+msgstr "Lokalizacija"
+
+#@ codestyling-localization
+#: codestyling-localization.php:1305
+msgid "Manage Language Files"
+msgstr "Upravljanje jezičnim datotekama"
+
+#@ codestyling-localization
+#: codestyling-localization.php:1308
+msgid "All Translations"
+msgstr "Svi prijevodi"
+
+#@ codestyling-localization
+#: codestyling-localization.php:1315
+msgid "μ Plugins"
+msgstr "μ Pluginovi"
+
+#@ codestyling-localization
+#: codestyling-localization.php:1319
+msgid "Plugins"
+msgstr "Pluginovi"
+
+#@ codestyling-localization
+#: codestyling-localization.php:1322
+msgid "Themes"
+msgstr "Teme"
+
+#@ codestyling-localization
+#: codestyling-localization.php:1328
+msgid "Type"
+msgstr "Vrsta"
+
+#@ codestyling-localization
+#: codestyling-localization.php:1329
+#: codestyling-localization.php:1356
+#: codestyling-localization.php:1378
+msgid "Description"
+msgstr "Opis"
+
+#@ codestyling-localization
+#: codestyling-localization.php:1330
+msgid "Languages"
+msgstr "Jezici"
+
+#@ codestyling-localization
+#: codestyling-localization.php:1341
+msgid "Textdomain"
+msgstr "Textdomena"
+
+#@ codestyling-localization
+#: codestyling-localization.php:1342
+msgid "defined by constant"
+msgstr "predefinirano"
+
+#@ codestyling-localization
+#: codestyling-localization.php:1348
+#: codestyling-localization.php:1370
+msgid "Version"
+msgstr "Verzija"
+
+#@ codestyling-localization
+#: codestyling-localization.php:1352
+#: codestyling-localization.php:1374
+msgid "State"
+msgstr "Status"
+
+#@ codestyling-localization
+#: codestyling-localization.php:1361
+msgid "<strong>ATTENTION</strong>: The path of translation files is ambiguous, please select the language file folder!"
+msgstr "<strong>PAŽNJA:</strong> Putanja do datoteka prijevoda je nevaljana, molimo odaberite mapu jezične datoteke!"
+
+#@ codestyling-localization
+#: codestyling-localization.php:1367
+msgid "by"
+msgstr "by"
+
+#@ codestyling-localization
+#: codestyling-localization.php:1387
+msgid "The original US version doesn't contain the language directory."
+msgstr "Originalna US verzija ne sadrži direktorij sa jezičnim datotekama."
+
+#@ codestyling-localization
+#: codestyling-localization.php:1389
+msgid "try to create the WordPress language directory"
+msgstr "pokušaj stvoriti WordPress jezični direktorij"
+
+#@ codestyling-localization
+#: codestyling-localization.php:1392
+msgid "or create the missing directory using FTP Access as:"
+msgstr "ili kreirati nedostajući direktorij putem FTP pristupa kao:"
+
+#@ codestyling-localization
+#: codestyling-localization.php:1397
+msgid "Available Directories:"
+msgstr "Dostupni direktoriji:"
+
+#@ codestyling-localization
+#: codestyling-localization.php:1412
+#: codestyling-localization.php:1628
+msgid "Add New Language"
+msgstr "Dod. novi jezik"
+
+#@ codestyling-localization
+#: codestyling-localization.php:1417
+msgid "Language"
+msgstr "Jezik"
+
+#@ codestyling-localization
+#: codestyling-localization.php:1418
+msgid "Permissions"
+msgstr "Dozvole"
+
+#@ codestyling-localization
+#: codestyling-localization.php:1419
+#: codestyling-localization.php:1547
+msgid "Actions"
+msgstr "Akcije"
+
+#@ codestyling-localization
+#: codestyling-localization.php:1427
+#: codestyling-localization.php:1663
+msgid "Locale"
+msgstr "Lokalni"
+
+#@ codestyling-localization
+#: codestyling-localization.php:1433
+#: codestyling-localization.php:1438
+#: codestyling-localization.php:1671
+msgid "-n.a.-"
+msgstr "-n.a.-"
+
+#@ codestyling-localization
+#: codestyling-localization.php:1443
+#: codestyling-localization.php:1675
+#: codestyling-localization.php:2061
+msgid "Edit"
+msgstr "Uredi"
+
+#@ codestyling-localization
+#: codestyling-localization.php:1445
+#: codestyling-localization.php:1677
+msgid "Rescan"
+msgstr "Skeniraj"
+
+#@ codestyling-localization
+#: codestyling-localization.php:1447
+#: codestyling-localization.php:1679
+msgid "Delete"
+msgstr "Obriši"
+
+#@ codestyling-localization
+#: codestyling-localization.php:1461
+msgid "Translate Language File"
+msgstr "Prevedi jezičnu datoteku"
+
+#@ codestyling-localization
+#: codestyling-localization.php:1461
+msgid "back to main page &raquo;"
+msgstr "povratak na glavnu stranicu &raquo;"
+
+#@ codestyling-localization
+#: codestyling-localization.php:1463
+#: codestyling-localization.php:1833
+#: codestyling-localization.php:2463
+msgid "File:"
+msgstr "Datoteka:"
+
+#@ codestyling-localization
+#: codestyling-localization.php:1463
+#: codestyling-localization.php:1476
+#: includes/class-translationfile.php:676
+msgid "unknown"
+msgstr "nepoznati"
+
+#@ codestyling-localization
+#: codestyling-localization.php:1468
+msgid "<b>Hint:</b> The extended feature for textdomain separation shows at dropdown box <i>Textdomain</i> the pre-selected primary textdomain."
+msgstr ""
+
+#@ codestyling-localization
+#: codestyling-localization.php:1469
+msgid "All other additional contained textdomains occur at the source but will not be used, if not explicitely supported by this component!"
+msgstr ""
+
+#@ codestyling-localization
+#: codestyling-localization.php:1470
+msgid "Please contact the author, if some of the non primary textdomain based phrases will not show up translated at the required position!"
+msgstr "Molimo kontaktirajte autora, ukoliko se neki od izraza primarne textdomene ne pojavljuju prevedeni na predviđenim mjestima!"
+
+#@ codestyling-localization
+#: codestyling-localization.php:1471
+msgid "The Textdomain <i><b>default</b></i> always stands for the WordPress main language file, this could be either intentionally or accidentally!"
+msgstr "U drop-down izborniku Textdomena <i><b>default</b></i> uvijek označava WordPress glavnu jezičnu datoteku, to može biti ili namjerno ili slučajno!"
+
+#@ codestyling-localization
+#: codestyling-localization.php:1474
+msgid "Textdomain:"
+msgstr "Textdomena:"
+
+#@ codestyling-localization
+#: codestyling-localization.php:1475
+msgid "generate mo-file"
+msgstr "generiraj .MO datoteku"
+
+#@ codestyling-localization
+#: codestyling-localization.php:1476
+msgid "last written:"
+msgstr "posljednja izmjena:"
+
+#@ codestyling-localization
+#: codestyling-localization.php:1480
+msgid "Total"
+msgstr "Ukupno"
+
+#@ codestyling-localization
+#: codestyling-localization.php:1481
+msgid "Plural"
+msgstr "Množina"
+
+#@ codestyling-localization
+#: codestyling-localization.php:1482
+#: codestyling-localization.php:2038
+msgid "Context"
+msgstr "Kontekst"
+
+#@ codestyling-localization
+#: codestyling-localization.php:1483
+msgid "Not translated"
+msgstr "Nije prevedeno"
+
+#@ codestyling-localization
+#: codestyling-localization.php:1484
+msgid "Comments"
+msgstr "Komentari"
+
+#@ codestyling-localization
+#: codestyling-localization.php:1485
+#: codestyling-localization.php:2020
+msgid "Code Hint"
+msgstr "Code Hint"
+
+#@ codestyling-localization
+#: codestyling-localization.php:1486
+msgid "Search Result"
+msgstr "Rezultat(i) pretraživanja"
+
+#@ codestyling-localization
+#: codestyling-localization.php:1487
+msgid "Expression Result"
+msgstr "Rezultati izraza"
+
+#@ codestyling-localization
+#: codestyling-localization.php:1491
+msgid "Page Size"
+msgstr "Veličina stranice"
+
+#@ codestyling-localization
+#: codestyling-localization.php:1503
+#: codestyling-localization.php:1557
+#: codestyling-localization.php:2002
+msgid "&laquo; Previous"
+msgstr "&laquo; Prethodni"
+
+#@ codestyling-localization
+#: codestyling-localization.php:1508
+#: codestyling-localization.php:1562
+#: codestyling-localization.php:2009
+msgid "Next &raquo;"
+msgstr "Sljedeći &raquo;"
+
+#@ codestyling-localization
+#: codestyling-localization.php:1516
+msgid "Infos"
+msgstr "Informacije"
+
+#@ codestyling-localization
+#: codestyling-localization.php:1520
+#: codestyling-localization.php:2421
+msgid "Original:"
+msgstr "Original:"
+
+#@ codestyling-localization
+#: codestyling-localization.php:1524
+#: codestyling-localization.php:1539
+msgid "non case-sensitive"
+msgstr "nije osjetljivo na VELIKA/mala slova"
+
+#@ codestyling-localization
+#: codestyling-localization.php:1535
+#: codestyling-localization.php:2424
+#: codestyling-localization.php:2426
+msgid "Translation:"
+msgstr "Prijevod:"
+
+#@ codestyling-localization
+#: codestyling-localization.php:1551
+msgid "Please wait, file content presently being loaded ..."
+msgstr "Molimo pričekajte, sadržaj datoteke se trenutno učitava ..."
+
+#@ codestyling-localization
+#: codestyling-localization.php:1555
+msgid "scroll to top"
+msgstr "pomaknite se na vrh"
+
+#@ codestyling-localization
+#: codestyling-localization.php:1572
+#: codestyling-localization.php:2378
+msgid "Edit Catalog Entry"
+msgstr "Uredi zapise jezične datoteke"
+
+#@ codestyling-localization
+#: codestyling-localization.php:1573
+msgid "close"
+msgstr "zatvori"
+
+#@ codestyling-localization
+#: codestyling-localization.php:1714
+msgid "Confirm Delete Language"
+msgstr "Potvrdite brisanje jezika"
+
+#@ codestyling-localization
+#: codestyling-localization.php:1782
+msgid "Rescanning PHP Source Files"
+msgstr "Skeniram PHP datoteke"
+
+#@ codestyling-localization
+#: codestyling-localization.php:1808
+#: codestyling-localization.php:1838
+msgid "finished"
+msgstr "završeno"
+
+#@ codestyling-localization
+#: codestyling-localization.php:1934
+msgid "Access Error"
+msgstr "Greška u pristupu"
+
+#@ codestyling-localization
+#: codestyling-localization.php:2019
+msgid "Comment"
+msgstr "Komentar"
+
+#@ codestyling-localization
+#: codestyling-localization.php:2028
+msgid "Files:"
+msgstr "Datoteke:"
+
+#@ codestyling-localization
+#: codestyling-localization.php:2042
+#: codestyling-localization.php:2407
+msgid "Singular:"
+msgstr "Jednina:"
+
+#@ codestyling-localization
+#: codestyling-localization.php:2042
+#: codestyling-localization.php:2409
+msgid "Plural:"
+msgstr "Množina:"
+
+#@ codestyling-localization
+#: codestyling-localization.php:2046
+#: codestyling-localization.php:2049
+#: codestyling-localization.php:2385
+#: codestyling-localization.php:2388
+#: codestyling-localization.php:2391
+#: codestyling-localization.php:2396
+msgid "Plural Index Result ="
+msgstr "Rezultat indeksa množine  ="
+
+#@ codestyling-localization
+#: codestyling-localization.php:2062
+msgid "Copy"
+msgstr "Kopiraj"
+
+#@ codestyling-localization
+#: codestyling-localization.php:2192
+msgid "Extended Expression Search"
+msgstr "Proširena pretraga izraza"
+
+#@ codestyling-localization
+#: codestyling-localization.php:2194
+msgid "Expression:"
+msgstr "Izraz:"
+
+#@ codestyling-localization
+#: codestyling-localization.php:2196
+msgid "Examples: <small>Please refer to official Perl regular expression descriptions</small>"
+msgstr ""
+
+#@ codestyling-localization
+#: codestyling-localization.php:2201
+msgid "Search"
+msgstr "Pretraživanje"
+
+#@ codestyling-localization
+#: codestyling-localization.php:2385
+#: codestyling-localization.php:2388
+#: codestyling-localization.php:2426
+msgid "translate with Google API"
+msgstr "prevedi sa Google API"
+
+#@ codestyling-localization
+#: codestyling-localization.php:2411
+msgid "Plural Index Calculation:"
+msgstr "Izračun indeksa množine:"
+
+#@ codestyling-localization
+#: codestyling-localization.php:2414
+#: codestyling-localization.php:2430
+msgid "« Save & Previous"
+msgstr "« Spremi & Prethodni"
+
+#@ codestyling-localization
+#: codestyling-localization.php:2415
+#: codestyling-localization.php:2431
+msgid "Save"
+msgstr "Spremi"
+
+#@ codestyling-localization
+#: codestyling-localization.php:2416
+#: codestyling-localization.php:2432
+msgid "Save & Next »"
+msgstr "Spremi & Sljedeći »"
+
+#@ codestyling-localization
+#: includes/js-help-perlreg.php:4
+msgctxt "pcre"
+msgid "Component"
+msgstr "Komponenta"
+
+#@ codestyling-localization
+#: includes/js-help-perlreg.php:5
+msgctxt "pcre"
+msgid "Example"
+msgstr "Primjer"
+
+#@ codestyling-localization
+#: includes/js-help-perlreg.php:6
+msgctxt "pcre"
+msgid "Description"
+msgstr "Opis"
+
+#@ codestyling-localization
+#: includes/js-help-perlreg.php:12
+#: includes/js-help-perlreg.php:17
+#: includes/js-help-perlreg.php:22
+#: includes/js-help-perlreg.php:27
+#: includes/js-help-perlreg.php:32
+#: includes/js-help-perlreg.php:37
+#: includes/js-help-perlreg.php:42
+#: includes/js-help-perlreg.php:47
+#: includes/js-help-perlreg.php:52
+#: includes/js-help-perlreg.php:112
+#: includes/js-help-perlreg.php:117
+#: includes/js-help-perlreg.php:122
+#: includes/js-help-perlreg.php:127
+msgctxt "pcre"
+msgid "out"
+msgstr ""
+
+#@ codestyling-localization
+#: includes/js-help-perlreg.php:13
+msgctxt "pcre"
+msgid "matches \"out\", but also \"timeout\", \"outbreak\", \"Route\" and \"gouty\"."
+msgstr ""
+
+#@ codestyling-localization
+#: includes/js-help-perlreg.php:18
+msgctxt "pcre"
+msgid "matches \"out\" at start of string like \"out\", \"outbreak\", as long as this are the first words at string."
+msgstr ""
+
+#@ codestyling-localization
+#: includes/js-help-perlreg.php:23
+msgctxt "pcre"
+msgid "matches \"out\" at end of string like \"out\", \"timeout\" and \"burnout\" as long as this are the last words at string."
+msgstr ""
+
+#@ codestyling-localization
+#: includes/js-help-perlreg.php:28
+msgctxt "pcre"
+msgid "matches \"ou\", \"out\", \"outt\" and \"outttttt\", the char prior to asterisk can be repeated 0 to unlimited times."
+msgstr ""
+
+#@ codestyling-localization
+#: includes/js-help-perlreg.php:33
+msgctxt "pcre"
+msgid "matches \"outt\" and \"outttt\", the char prior to plus char have to be repeated at least one time or more often."
+msgstr ""
+
+#@ codestyling-localization
+#: includes/js-help-perlreg.php:38
+msgctxt "pcre"
+msgid "matches \"rout\" and \"gout\", any char can be placed at this position."
+msgstr ""
+
+#@ codestyling-localization
+#: includes/js-help-perlreg.php:43
+msgctxt "pcre"
+msgid "matches \"timeout\" and \"Fallout\", any char sequence at this position. Is a combination of any char and 1 but upto many times."
+msgstr ""
+
+#@ codestyling-localization
+#: includes/js-help-perlreg.php:48
+msgctxt "pcre"
+msgid "matches \"out\" as single word. \\b means word break."
+msgstr ""
+
+#@ codestyling-localization
+#: includes/js-help-perlreg.php:53
+msgctxt "pcre"
+msgid "matches \"out\" only inside words, like \"Route\" or \"gouty\". \\B means not word break."
+msgstr ""
+
+#@ codestyling-localization
+#: includes/js-help-perlreg.php:58
+msgctxt "pcre"
+msgid "matches any number. \\d means a numerical digit (0 to 9)"
+msgstr "odgovara bilo kojem broju. \\d označava numeričke znamenke (od 0 do 9)"
+
+#@ codestyling-localization
+#: includes/js-help-perlreg.php:63
+msgctxt "pcre"
+msgid "matches \"-out\" at \"3-out\", any non number."
+msgstr ""
+
+#@ codestyling-localization
+#: includes/js-help-perlreg.php:68
+msgctxt "pcre"
+msgid "matches form feed char."
+msgstr ""
+
+#@ codestyling-localization
+#: includes/js-help-perlreg.php:73
+msgctxt "pcre"
+msgid "matches line feed char."
+msgstr ""
+
+#@ codestyling-localization
+#: includes/js-help-perlreg.php:78
+msgctxt "pcre"
+msgid "matches carriage return char."
+msgstr "odgovara znaku novog reda."
+
+#@ codestyling-localization
+#: includes/js-help-perlreg.php:83
+msgctxt "pcre"
+msgid "matches tabulator char."
+msgstr "odgovara znaku tabulatora."
+
+#@ codestyling-localization
+#: includes/js-help-perlreg.php:88
+msgctxt "pcre"
+msgid "matches vertical tabulator char."
+msgstr "odgovara znaku vertikalnog tabulatora."
+
+#@ codestyling-localization
+#: includes/js-help-perlreg.php:93
+msgctxt "pcre"
+msgid "matches any kind of whitespace and space char."
+msgstr "odgovara znaku razmaka"
+
+#@ codestyling-localization
+#: includes/js-help-perlreg.php:98
+msgctxt "pcre"
+msgid "matches any char, that is not a whitespace char."
+msgstr "odgovara bilo kojem znaku, ovo nije znak razmaka."
+
+#@ codestyling-localization
+#: includes/js-help-perlreg.php:103
+msgctxt "pcre"
+msgid "matches any alphanumerical char and underscore (typical for programming syntax)."
+msgstr "odgovara bilo kojem alfanumeričkom znaku i znaku underscore (tipično za programiranje sintaksa)."
+
+#@ codestyling-localization
+#: includes/js-help-perlreg.php:108
+msgctxt "pcre"
+msgid "matches any char, that is not alphanumerical char and underscore (typical for illegal char detection at programming)."
+msgstr "odgovara bilo kojem znaku, koji nije alfanumerički i znak underscore (tipično za otkrivanje nedopuštenih znakova u programiranju)."
+
+#@ codestyling-localization
+#: includes/js-help-perlreg.php:113
+msgctxt "pcre"
+msgid "matches \"out\" and remembers matches internally. Upto 9 brackets are allowed per expression."
+msgstr ""
+
+#@ codestyling-localization
+#: includes/js-help-perlreg.php:118
+msgctxt "pcre"
+msgid "matches \"aus\" as often it is contained at string. The match positions will be stored internally as array."
+msgstr ""
+
+#@ codestyling-localization
+#: includes/js-help-perlreg.php:123
+msgctxt "pcre"
+msgid "matches \"out\", \"Out\" and \"OUT\", not case-sensitive match."
+msgstr ""
+
+#@ codestyling-localization
+#: includes/js-help-perlreg.php:128
+msgctxt "pcre"
+msgid "matches \"out\", as ofter occurs (g) and also non case-sensitive."
+msgstr ""
+

@@ -1,0 +1,50 @@
+== Version 1.1 ==
+* Links changed
+
+== Version 1.0 ==
+* If caption is empty hide the caption box
+
+== Version 0.9 ==
+* Poor thumbnail quality fix in default slider skin
+
+== Version 0.8 ==
+* Inline CSS and JS code removed
+* mb_strtoupper function replaced with strtoupper - No fatal error for servers without Multibyte extension
+
+== Version 0.7 ==
+* Editor Access support Added
+* CSS bug fixes and making the default slider skin compatible with more themes
+* Typo fixes
+* New tag added
+* Little here and there code improvements/changes in the plugin
+* Readme updated
+
+== Version 0.6 ==
+* Added support for shortcode attribute "size" in slider shortcode and supported values are ["thumbnail", "medium", "large", "full"]
+* Added support for shortcode attribute "link_target" in slider shortcode and supported values are ["_blank", "_self", "_parent", "_top"]
+* Added the alt attribute to slide images in the default image skin
+* Fixed the bug "Not showing the html editor when slide type is changed to html from image"
+* Fixed the bug "Post updated/created messages not showing up on all other post types"
+* Little here and there code improvements/changes in the plugin
+
+
+== Version 0.5 ==
+* Default image skin now supports linkable option for images in previous versions the links only worked in captions
+
+== Version 0.4.2 ==
+* Minor bug fix
+
+== Version 0.4.1 ==
+* Fixed skin styling for twentytwelve theme or a minor bug
+
+== Version 0.4 ==
+* Fixed the IE and Opera default image slider skin css bug now it'll work in IE and opera as in other browsers, tested in IE9 and Opera and partially in IE8
+
+== Version 0.3 ==
+* Added the "max-width: 100%" css property for slide images in "Default Image Skin" style.css. Fixes the extra blank space issue next to slide images in twentyeleven and other themes.
+* Added the function "muneeb_ssp_slider_fixes()" to fix wpautop issue with slider shortcode and for other fixes in future
+* Removed the "Default HTML skin" option from skins array
+
+== Version 0.2 ==
+* Added support for the fixed width option for "Default Image Skin"
+* Fixed IE bug "Screen hang on image insert"

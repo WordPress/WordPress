@@ -1,0 +1,136 @@
+@CHARSET "UTF-8";
+
+/* A font by Jos Buivenga (exljbris) -> www.exljbris.nl */
+@font-face {
+	font-family: "Fertigo";
+	src: url(http://www.mauriciocuenca.com/qnktwit/Fertigo.otf) format("opentype");
+}
+body {
+	background-color: #efead6;
+	margin: 0 auto;
+	padding: 0;
+	width: 800px;
+	color: #000000;
+	/* font: normal 80%/120% Georgia, "Times New Roman", Times, serif; */
+	font-family: "Fertigo","Georgia","Big Caslon",serif;
+}
+a {
+	color: #000000;
+}
+h1 {
+	font: normal 320%/100% "Fertigo", Georgia, "Times New Roman", Times, serif;
+	margin: 20px 0 5px 10px;
+	letter-spacing: -2px;
+	text-shadow: 1px 1px 2px #1F1F1F;
+}
+.pictitle {
+	margin: 20px 0 5px -80px;
+}
+.credits {
+	border-bottom: solid 1px #ccc;
+	padding-bottom: 5px;
+	margin: 0 0 30px 10px;
+	font: 120% Garamond, Georgia, serif;
+}
+.credits em {
+	color: #999;
+}
+.credits a {
+	color: #666;
+	text-decoration: none;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+}
+.credits a:hover {
+	color: #000;
+}
+
+img {
+	border: none;
+}
+
+.footer {
+	font-size: 11px;
+	color: #999;
+	clear: both;
+	margin-bottom: 30px;
+	border-top: solid 1px #ccc;
+	padding-top: 5px;
+	text-align: center;
+}
+.footer a {
+	color: #999;
+}
+.footer a:hover {
+	color: #000;
+}
+
+.footerpic {
+	position: absolute;
+	top: 700px;
+	left: 60px;
+	font-size: 11px;
+	color: #999;
+	clear: both;
+	margin-bottom: 30px;
+	border-top: solid 1px #ccc;
+	padding-top: 5px;
+	text-align: center;
+	width: 800px;
+}
+
+/* ---------- gallery styles start here ----------------------- */
+.photo {
+	margin: 30px;
+	position: relative;
+	width: 180px;
+	height: 130px;
+	float: left;
+}
+.photo img {
+	/* background: #fff; */
+	/* border: solid 1px #ccc; */
+	padding: 4px;
+}
+.photo span {
+	width: 20px;
+	height: 18px;
+	display: block;
+	position: absolute;
+	top: 12px;
+	left: 12px;
+	background: url(images/digg-style.gif) no-repeat;
+}
+.photo a {
+	text-decoration: none;
+}
+
+.photodetail {
+	position: absolute;
+	top: 74px;
+	left: 60px;
+}
+.photodetail img {
+	padding: 4px;
+}
+.photodetail span {
+	width: 20px;
+	height: 18px;
+	display: block;
+	position: absolute;
+	top: 12px;
+	left: 12px;
+}
+.photodetail a {
+	text-decoration: none;
+}
+
+.thumb {
+	font-family: Tahoma, Verdana, Arial;
+	font-size: 11px;
+	position: absolute;
+	top: 110px;
+	left: 700px;
+	width: 160px;
+	display: block:
+}

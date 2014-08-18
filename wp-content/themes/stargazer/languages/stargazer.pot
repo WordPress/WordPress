@@ -1,0 +1,603 @@
+# Copyright (C) 2014 Justin Tadlock
+# This file is distributed under the GNU General Public License v2.0 or later.
+msgid ""
+msgstr ""
+"Project-Id-Version: Stargazer 1.2.0-alpha-1\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tags/stargazer\n"
+"POT-Creation-Date: 2014-07-13 22:32:59+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2014-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+
+#: comment/comment.php:7 comment/ping.php:5
+msgid "%s ago"
+msgstr ""
+
+#: comment/comment.php:8 comment/ping.php:6 content/link.php:39
+#: content/quote.php:29 content/status.php:47
+msgid "Permalink"
+msgstr ""
+
+#: content/aside.php:26 content/audio.php:28 content/chat.php:34
+#: content/content.php:25 content/gallery.php:26 content/image.php:28
+#: content/link.php:26 content/quote.php:16 content/status.php:24
+#: content/video.php:28
+msgid "Posted in %s"
+msgstr ""
+
+#: content/aside.php:27 content/audio.php:29 content/chat.php:35
+#: content/content.php:26 content/gallery.php:27 content/image.php:29
+#: content/link.php:27 content/quote.php:17 content/status.php:25
+#: content/video.php:29
+msgid "Tagged %s"
+msgstr ""
+
+#: content/attachment-audio.php:28 inc/stargazer.php:409
+msgid "Audio Info"
+msgstr ""
+
+#: content/attachment-image.php:22
+msgid "Sizes: %s"
+msgstr ""
+
+#: content/attachment-image.php:60
+msgid "Image Info"
+msgstr ""
+
+#: content/attachment-image.php:71
+msgid "Gallery"
+msgstr ""
+
+#: content/attachment-video.php:28 inc/stargazer.php:459
+msgid "Video Info"
+msgstr ""
+
+#: content/error.php:4
+msgid "Nothing found"
+msgstr ""
+
+#: content/error.php:8
+msgid "Apologies, but no entries were found."
+msgstr ""
+
+#: content/gallery.php:51
+msgid "This gallery contains %s item."
+msgid_plural "This gallery contains %s items."
+msgstr[0] ""
+msgstr[1] ""
+
+#. Translators: 1 is current year, 2 is site name/link, 3 is WordPress
+#. name/link, and 4 is theme name/link.
+
+#: footer.php:18
+msgid "Copyright &#169; %1$s %2$s. Powered by %3$s and %4$s."
+msgstr ""
+
+#: functions.php:60
+msgid "1 Column Wide"
+msgstr ""
+
+#: functions.php:61
+msgid "1 Column Narrow"
+msgstr ""
+
+#: functions.php:62
+msgid "2 Columns: Content / Sidebar"
+msgstr ""
+
+#: functions.php:63
+msgid "2 Columns: Sidebar / Content"
+msgstr ""
+
+#: header.php:13
+msgid "Skip to content"
+msgstr ""
+
+#: inc/custom-colors.php:244
+msgid "Primary Color"
+msgstr ""
+
+#. Translators: Header image description.
+
+#: inc/custom-header.php:50
+msgid "Horizon"
+msgstr ""
+
+#. Translators: Header image description.
+
+#: inc/custom-header.php:56
+msgid "Orange Burn"
+msgstr ""
+
+#. Translators: Header image description.
+
+#: inc/custom-header.php:62
+msgid "Blue Planets"
+msgstr ""
+
+#. Translators: Header image description.
+
+#: inc/custom-header.php:68
+msgid "Planet Burst"
+msgstr ""
+
+#. Translators: Header image description.
+
+#: inc/custom-header.php:74
+msgid "Space Splatters"
+msgstr ""
+
+#: inc/stargazer.php:84
+msgctxt "nav menu location"
+msgid "Primary"
+msgstr ""
+
+#: inc/stargazer.php:85
+msgctxt "nav menu location"
+msgid "Secondary"
+msgstr ""
+
+#: inc/stargazer.php:86
+msgctxt "nav menu location"
+msgid "Social"
+msgstr ""
+
+#: inc/stargazer.php:101
+msgctxt "sidebar"
+msgid "Primary"
+msgstr ""
+
+#: inc/stargazer.php:102
+msgid "The main sidebar. It is displayed on either the left or right side of the page based on the chosen layout."
+msgstr ""
+
+#: inc/stargazer.php:109
+msgctxt "sidebar"
+msgid "Subsidiary"
+msgstr ""
+
+#: inc/stargazer.php:110
+msgid "A sidebar located in the footer of the site. Optimized for one, two, or three widgets (and multiples thereof)."
+msgstr ""
+
+#: inc/stargazer.php:132
+msgid "Expand Search Form"
+msgstr ""
+
+#: library/admin/meta-box-post-template.php:48
+msgid "Template"
+msgstr ""
+
+#. Translators: %s is the theme name.
+
+#: library/admin/theme-settings.php:134 library/admin/theme-settings.php:199
+msgid "%s Theme Settings"
+msgstr ""
+
+#: library/admin/theme-settings.php:135
+msgid "Theme Settings"
+msgstr ""
+
+#: library/classes/customize-control-background-image.php:49
+msgctxt "theme customizer tab"
+msgid "Default"
+msgstr ""
+
+#. Translators: Media dimensions - 1 is width and 2 is height.
+
+#: library/classes/hybrid-media-meta.php:154
+#: library/classes/hybrid-media-meta.php:282
+#: library/functions/template-media.php:102
+msgid "%1$s &#215; %2$s"
+msgstr ""
+
+#: library/classes/hybrid-media-meta.php:155
+#: library/classes/hybrid-media-meta.php:282
+msgid "Dimensions"
+msgstr ""
+
+#: library/classes/hybrid-media-meta.php:161
+msgid "Date"
+msgstr ""
+
+#: library/classes/hybrid-media-meta.php:165
+msgid "Camera"
+msgstr ""
+
+#: library/classes/hybrid-media-meta.php:169
+msgid "Aperture"
+msgstr ""
+
+#. Translators: Camera focal length.
+
+#: library/classes/hybrid-media-meta.php:174
+msgid "%s mm"
+msgstr ""
+
+#: library/classes/hybrid-media-meta.php:174
+msgid "Focal Length"
+msgstr ""
+
+#: library/classes/hybrid-media-meta.php:180
+msgid "International Organization for Standardization"
+msgstr ""
+
+#: library/classes/hybrid-media-meta.php:180
+msgid "ISO"
+msgstr ""
+
+#. Translators: Camera shutter speed. "sec" is an abbreviation for "seconds".
+
+#: library/classes/hybrid-media-meta.php:199
+msgid "%s sec"
+msgstr ""
+
+#: library/classes/hybrid-media-meta.php:199
+msgid "Shutter Speed"
+msgstr ""
+
+#: library/classes/hybrid-media-meta.php:248
+#: library/classes/hybrid-media-meta.php:285
+msgid "File Name"
+msgstr ""
+
+#: library/classes/hybrid-media-meta.php:256
+#: library/classes/hybrid-media-meta.php:293
+msgid "File Type"
+msgstr ""
+
+#: library/extensions/breadcrumb-trail.php:178
+msgid "Browse:"
+msgstr ""
+
+#: library/extensions/breadcrumb-trail.php:179
+msgid "Home"
+msgstr ""
+
+#: library/extensions/breadcrumb-trail.php:180
+#: library/functions/template-general.php:513
+msgid "404 Not Found"
+msgstr ""
+
+#: library/extensions/breadcrumb-trail.php:181
+#: library/functions/template-general.php:339
+msgid "Archives"
+msgstr ""
+
+#. Translators: %s is the search query. The HTML entities are opening and
+#. closing curly quotes.
+
+#: library/extensions/breadcrumb-trail.php:183
+#: library/functions/template-general.php:494
+msgid "Search results for &#8220;%s&#8221;"
+msgstr ""
+
+#. Translators: %s is the page number.
+
+#: library/extensions/breadcrumb-trail.php:185
+msgid "Page %s"
+msgstr ""
+
+#. Translators: Minute archive title. %s is the minute time format.
+
+#: library/extensions/breadcrumb-trail.php:187
+#: library/functions/template-general.php:455
+msgid "Minute %s"
+msgstr ""
+
+#. Translators: Weekly archive title. %s is the week date format.
+
+#: library/extensions/breadcrumb-trail.php:189
+msgid "Week %s"
+msgstr ""
+
+#: library/extensions/breadcrumb-trail.php:716
+#: library/functions/template-general.php:474
+msgctxt "minute and hour archives time format"
+msgid "g:i a"
+msgstr ""
+
+#: library/extensions/breadcrumb-trail.php:733
+#: library/functions/template-general.php:455
+msgctxt "minute archives time format"
+msgid "i"
+msgstr ""
+
+#: library/extensions/breadcrumb-trail.php:750
+#: library/functions/template-general.php:435
+msgctxt "hour archives time format"
+msgid "g a"
+msgstr ""
+
+#: library/extensions/breadcrumb-trail.php:766
+#: library/extensions/breadcrumb-trail.php:795
+#: library/extensions/breadcrumb-trail.php:822
+#: library/extensions/breadcrumb-trail.php:849
+#: library/extensions/breadcrumb-trail.php:1036
+#: library/functions/template-general.php:377
+#: library/functions/template-general.php:397
+msgctxt "yearly archives date format"
+msgid "Y"
+msgstr ""
+
+#: library/extensions/breadcrumb-trail.php:767
+#: library/extensions/breadcrumb-trail.php:823
+#: library/extensions/breadcrumb-trail.php:1040
+msgctxt "monthly archives date format"
+msgid "F"
+msgstr ""
+
+#: library/extensions/breadcrumb-trail.php:768
+#: library/extensions/breadcrumb-trail.php:1044
+msgctxt "daily archives date format"
+msgid "j"
+msgstr ""
+
+#: library/extensions/breadcrumb-trail.php:796
+#: library/functions/template-general.php:397
+msgctxt "weekly archives date format"
+msgid "W"
+msgstr ""
+
+#: library/extensions/breadcrumb-trail.php:1135
+#: library/extensions/breadcrumb-trail.php:1171
+#: library/extensions/breadcrumb-trail.php:1188
+#: library/extensions/breadcrumb-trail.php:1219
+msgid "Edit"
+msgstr ""
+
+#: library/extensions/breadcrumb-trail.php:1163
+msgid "Split"
+msgstr ""
+
+#: library/extensions/breadcrumb-trail.php:1167
+msgid "Merge"
+msgstr ""
+
+#: library/extensions/post-stylesheets.php:286
+msgid "Stylesheet"
+msgstr ""
+
+#. Translators: Default theme layout option.
+
+#: library/extensions/theme-layouts.php:363
+msgctxt "theme layout"
+msgid "Default"
+msgstr ""
+
+#: library/extensions/theme-layouts.php:458
+#: library/extensions/theme-layouts.php:565
+#: library/extensions/theme-layouts.php:650
+msgid "Layout"
+msgstr ""
+
+#: library/extensions/theme-layouts.php:683
+msgid "Global Layout"
+msgstr ""
+
+#. Translators: The %s is the sidebar name. This is used for the 'aria-label'
+#. attribute.
+
+#: library/functions/attr.php:195
+msgctxt "sidebar aria label"
+msgid "%s Sidebar"
+msgstr ""
+
+#. Translators: The %s is the menu name. This is used for the 'aria-label'
+#. attribute.
+
+#: library/functions/attr.php:223
+msgctxt "nav menu aria label"
+msgid "%s Menu"
+msgstr ""
+
+#. Translators: Post date/time "title" attribute.
+
+#: library/functions/attr.php:440
+msgctxt "post time format"
+msgid "l, F j, Y, g:i a"
+msgstr ""
+
+#. Translators: Comment date/time "title" attribute.
+
+#: library/functions/attr.php:561
+msgctxt "comment time format"
+msgid "l, F j, Y, g:i a"
+msgstr ""
+
+#. Translators: 1 is the page title. 2 is the page number.
+
+#: library/functions/head.php:149
+msgid "%1$s Page %2$s"
+msgstr ""
+
+#: library/functions/media.php:32
+msgid "Post Thumbnail"
+msgstr ""
+
+#: library/functions/media.php:53
+msgid "File Size"
+msgstr ""
+
+#: library/functions/media.php:54
+msgid "Mime Type"
+msgstr ""
+
+#: library/functions/media.php:55
+msgid "Run Time"
+msgstr ""
+
+#: library/functions/media.php:60
+msgid "Genre"
+msgstr ""
+
+#: library/functions/media.php:61
+msgid "Year"
+msgstr ""
+
+#: library/functions/media.php:62
+msgid "Composer"
+msgstr ""
+
+#: library/functions/media.php:63
+msgid "Track"
+msgstr ""
+
+#: library/functions/media.php:66
+msgid "Lyrics"
+msgstr ""
+
+#: library/functions/template-general.php:55
+msgid "State-of-the-art semantic personal publishing platform"
+msgstr ""
+
+#: library/functions/template-general.php:55
+msgid "WordPress"
+msgstr ""
+
+#. Translators: Theme name.
+
+#: library/functions/template-general.php:82
+#: library/functions/template-general.php:115
+msgid "%s WordPress Theme"
+msgstr ""
+
+#: library/functions/template-general.php:305
+msgid "You are browsing the search results for &#8220;%s&#8221;"
+msgstr ""
+
+#: library/functions/template-general.php:311
+msgid "You are browsing the site archives by time."
+msgstr ""
+
+#: library/functions/template-general.php:314
+#: library/functions/template-general.php:317
+#: library/functions/template-general.php:320
+msgid "You are browsing the site archives for %s."
+msgstr ""
+
+#: library/functions/template-general.php:323
+msgid "You are browsing the site archives."
+msgstr ""
+
+#. Translators: 1 is the week number and 2 is the year.
+
+#: library/functions/template-general.php:397
+msgid "Week %1$s of %2$s"
+msgstr ""
+
+#: library/functions/template-general.php:416
+msgctxt "daily archives date format"
+msgid "F j, Y"
+msgstr ""
+
+#. Translators: Separates tags, categories, etc. when displaying a post.
+
+#: library/functions/template-post.php:144
+msgctxt "taxonomy terms separator"
+msgid ", "
+msgstr ""
+
+#. Translators: Used as a placeholder for untitled posts on non-singular views.
+
+#: library/functions/utility.php:88
+msgid "(Untitled)"
+msgstr ""
+
+#. Translators: %s is the nav menu name. This is the nav menu title shown to
+#. screen readers.
+
+#: menu/primary.php:8 menu/secondary.php:8
+msgctxt "nav menu title"
+msgid "%s Menu"
+msgstr ""
+
+#. Translators: The two %s are placeholders for HTML. The order can't be
+#. changed.
+
+#: misc/comments-error.php:6
+msgid "Comments are closed, but %strackbacks%s and pingbacks are open."
+msgstr ""
+
+#: misc/comments-error.php:13
+msgid "Comments are closed."
+msgstr ""
+
+#: misc/comments-nav.php:5
+msgid "Comments Navigation"
+msgstr ""
+
+#: misc/comments-nav.php:7
+msgctxt "comments navigation"
+msgid "&larr; Previous"
+msgstr ""
+
+#. Translators: Comments page numbers. 1 is current page and 2 is total pages.
+
+#: misc/comments-nav.php:11
+msgid "Page %1$s of %2$s"
+msgstr ""
+
+#: misc/comments-nav.php:14
+msgctxt "comments navigation"
+msgid "Next &rarr;"
+msgstr ""
+
+#: misc/loop-nav.php:4
+msgid "Previous Post: %link"
+msgstr ""
+
+#: misc/loop-nav.php:5
+msgid "Next Post: %link"
+msgstr ""
+
+#: misc/loop-nav.php:12
+msgctxt "posts navigation"
+msgid "&larr; Previous"
+msgstr ""
+
+#: misc/loop-nav.php:13
+msgctxt "posts navigation"
+msgid "Next &rarr;"
+msgstr ""
+
+#. Translators: %s is the sidebar name. This is the sidebar title shown to
+#. screen readers.
+
+#: sidebar/primary.php:7
+msgctxt "sidebar title"
+msgid "%s Sidebar"
+msgstr ""
+
+#: sidebar/primary.php:19
+msgid "Example Widget"
+msgstr ""
+
+#. Translators: The %s are placeholders for HTML, so the order can't be
+#. changed.
+
+#: sidebar/primary.php:21
+msgid "This is an example widget to show how the Primary sidebar looks by default. You can add custom widgets from the %swidgets screen%s in the admin."
+msgstr ""
+#. Theme Name of the plugin/theme
+msgid "Stargazer"
+msgstr ""
+
+#. Theme URI of the plugin/theme
+msgid "http://themehybrid.com/themes/stargazer"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid "Welcome to Stargazer, the most advanced theme ever created for WordPress without compromising standards. This is the only theme in the world that you'll find that extends WordPress' built-in theme features so robustly but naturally. The theme is built on the rock-solid Hybrid Core theme framework. It's built with search-engine optimization (SEO) in mind by utilizing the most current HTML5 conventions and <a href=\"http://schema.org\">Schema.org</a> microdata. It also integrates with useful theme add-on plugins like <a href=\"http://wordpress.org/plugins/custom-background-extended\">Custom Background Extended</a>, <a href=\"http://wordpress.org/plugins/custom-header-extended\">Custom Header Extended</a>, <a href=\"http://wordpress.org/plugins/whistles\">Whistles</a>, and more."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "Justin Tadlock"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "http://justintadlock.com"
+msgstr ""

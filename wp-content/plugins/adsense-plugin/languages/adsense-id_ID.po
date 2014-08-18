@@ -1,0 +1,292 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: adsense\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-12-25 15:18+0300\n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: Nasrulhaq <nasroel@al-badar.net>\n"
+"Language: id_ID\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-Basepath: ..\n"
+"X-Generator: Poedit 1.5.4\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: adsense-plugin.class.php:77 adsense-plugin.php:33
+msgid "AdSense Settings"
+msgstr "Pengaturan AdSense"
+
+#: adsense-plugin.class.php:77 adsense-plugin.php:34
+msgid "AdSense"
+msgstr "AdSense"
+
+#: adsense-plugin.class.php:84 adsense-plugin.class.php:93
+msgid "Settings"
+msgstr "Pengaturan"
+
+#: adsense-plugin.class.php:94
+msgid "FAQ"
+msgstr "Pertanyaan Diajukan"
+
+#: adsense-plugin.class.php:95
+msgid "Support"
+msgstr "Dukungan"
+
+#: adsense-plugin.class.php:243
+msgid "requires"
+msgstr "membutuhkan"
+
+#: adsense-plugin.class.php:243
+msgid ""
+"or higher, that is why it has been deactivated! Please upgrade WordPress and "
+"try again."
+msgstr ""
+"atau lebih tinggi, itulah mengapa dinonaktifkan! Harap tingkatkan WordPress "
+"dan coba lagi."
+
+#: adsense-plugin.class.php:243
+msgid "Back to the WordPress"
+msgstr "Kembali ke WordPress "
+
+#: adsense-plugin.class.php:243
+msgid "Plugins page"
+msgstr "Halaman Plugin"
+
+#: adsense-plugin.class.php:260
+msgid "Settings saved"
+msgstr "Pengaturan disimpan"
+
+#: adsense-plugin.class.php:368
+msgid "Please enter valid Publisher ID."
+msgstr "Masukkan ID Publisher yang berlaku."
+
+#: adsense-plugin.class.php:370
+msgid "Please enter your Publisher ID."
+msgstr "Masukkan ID Publisher anda."
+
+#: adsense-plugin.class.php:385
+msgid "Notice:"
+msgstr ""
+
+#: adsense-plugin.class.php:385
+msgid ""
+"The plugin's settings have been changed. In order to save them please don't "
+"forget to click the 'Save Changes' button."
+msgstr ""
+
+#: adsense-plugin.class.php:389
+msgid "Network"
+msgstr "Jaringan"
+
+#: adsense-plugin.class.php:392
+msgid "Publisher ID:"
+msgstr "ID Publisher:"
+
+#: adsense-plugin.class.php:399
+msgid "Publisher ID is a unique identifier of"
+msgstr "ID Publisher adalah identifikasi unik untuk"
+
+#: adsense-plugin.class.php:399
+msgid "your account"
+msgstr "akun anda"
+
+#: adsense-plugin.class.php:399
+msgid "in Google AdSense."
+msgstr "dalam Google AdSense."
+
+#: adsense-plugin.class.php:404
+msgid "Ad Type &amp; Format"
+msgstr "Format Tipe Iklan &amp;"
+
+#: adsense-plugin.class.php:407
+msgid "Type:"
+msgstr "Tipe:"
+
+#: adsense-plugin.class.php:411
+msgid "Ad block"
+msgstr "Blok iklan"
+
+#: adsense-plugin.class.php:414
+msgid "Text and image ads"
+msgstr "Iklanteks dan gambar "
+
+#: adsense-plugin.class.php:415
+msgid "Text ads only (default)"
+msgstr "Iklan teks saja (standar)"
+
+#: adsense-plugin.class.php:416
+msgid "Image ads only"
+msgstr "Iklan gambar saja"
+
+#: adsense-plugin.class.php:420
+msgid "Block of links"
+msgstr "Blok link"
+
+#: adsense-plugin.class.php:424
+msgid "Format:"
+msgstr "Format:"
+
+#: adsense-plugin.class.php:487
+msgid "Position &amp; amount of ads"
+msgstr "Posisi &amp; jumlah iklan"
+
+#: adsense-plugin.class.php:490
+msgid "Position:"
+msgstr "Posisi:"
+
+#: adsense-plugin.class.php:494
+msgid "Below the post (Single post page)"
+msgstr "Di bawah posting (posting tunggal halaman)"
+
+#: adsense-plugin.class.php:495
+msgid "Below the post (Home page)"
+msgstr "Dibawah posting (Beranda)"
+
+#: adsense-plugin.class.php:496
+msgid "Below the post (Single post page and Home page)"
+msgstr "Di bawah posting (Posting tunggal halaman dan Beranda)"
+
+#: adsense-plugin.class.php:497
+msgid "Below the comment form"
+msgstr "Di bawah formulir komentar"
+
+#: adsense-plugin.class.php:498
+msgid "Above the footer"
+msgstr "Di atas footer"
+
+#: adsense-plugin.class.php:503
+msgid "Number of Ads:"
+msgstr "Jumlah Iklan:"
+
+#: adsense-plugin.class.php:512
+msgid "Number of ads below the posts on the home page."
+msgstr "Jumlah iklan di bawah posting di halaman beranda."
+
+#: adsense-plugin.class.php:517
+msgid "Visualisation"
+msgstr "Visualisasi"
+
+#: adsense-plugin.class.php:521
+msgid "Colors:"
+msgstr "Warna:"
+
+#: adsense-plugin.class.php:532
+msgid "Border"
+msgstr "Batas"
+
+#: adsense-plugin.class.php:543 adsense-plugin.class.php:774
+msgid "Title"
+msgstr "Judul"
+
+#: adsense-plugin.class.php:554
+msgid "Background"
+msgstr "latar belakang"
+
+#: adsense-plugin.class.php:565
+msgid "Text"
+msgstr "Teks"
+
+#: adsense-plugin.class.php:576
+msgid "URL"
+msgstr "URL"
+
+#: adsense-plugin.class.php:589
+msgid "Palette:"
+msgstr "Palet:"
+
+#: adsense-plugin.class.php:593
+msgid "Default Google pallete"
+msgstr "Palet Default Google"
+
+#: adsense-plugin.class.php:596
+msgid "Open Air"
+msgstr "Udara terbuka"
+
+#: adsense-plugin.class.php:597
+msgid "Seaside"
+msgstr "tepi laut"
+
+#: adsense-plugin.class.php:598
+msgid "Shadow"
+msgstr "bayangan"
+
+#: adsense-plugin.class.php:599
+msgid "Blue Mix"
+msgstr "biru Mix"
+
+#: adsense-plugin.class.php:600
+msgid "Ink"
+msgstr "tinta"
+
+#: adsense-plugin.class.php:601
+msgid "Graphite"
+msgstr "grafit"
+
+#: adsense-plugin.class.php:605
+msgid "These are the standard Google color palettes."
+msgstr "Ini adalah standar palet warna Google."
+
+#: adsense-plugin.class.php:609
+msgid "Corner Style:"
+msgstr "Gaya Sudut:"
+
+#: adsense-plugin.class.php:613
+msgid "Select a corner style"
+msgstr "Memilih gaya sudut"
+
+#: adsense-plugin.class.php:614
+msgid "Square corners"
+msgstr "sudut persegi"
+
+#: adsense-plugin.class.php:615
+msgid "Slightly rounded corners"
+msgstr "Sudut sedikit membulat"
+
+#: adsense-plugin.class.php:616
+msgid "Rounded corners"
+msgstr "sudut bulat"
+
+#: adsense-plugin.class.php:619
+msgid "Corner style property will help you to make your Ad corners rounded."
+msgstr ""
+"Properti gaya sudut akan membantu Anda untuk membuat sudut Iklan bulat."
+
+#: adsense-plugin.class.php:624
+msgid "Donations"
+msgstr "Sumbangan"
+
+#: adsense-plugin.class.php:627
+msgid "Donate:"
+msgstr "Donasi:"
+
+#: adsense-plugin.class.php:632
+msgid "Support us by Donating Ad Space."
+msgstr "Dukung kami dengan Menyumbangkan Space Iklan."
+
+#: adsense-plugin.class.php:634
+msgid ""
+"Please enter a percentage value of the ad slots you are ready to share "
+"[Default: 0%]."
+msgstr ""
+"Masukkan nilai persentase dari slot iklan Anda siap untuk berbagi [Default: "
+"0%]."
+
+#: adsense-plugin.class.php:649
+msgid "Save Changes"
+msgstr "Simpan Perubahan"
+
+#: adsense-plugin.class.php:658
+msgid "If you enjoy our plugin, please give it 5 stars on WordPress"
+msgstr ""
+
+#: adsense-plugin.class.php:659
+msgid "Rate the plugin"
+msgstr ""
+
+#: adsense-plugin.class.php:662
+msgid "If there is something wrong about it, please contact us"
+msgstr ""

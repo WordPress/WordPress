@@ -1,0 +1,187 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: WP Slider v0.6\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2011-03-10 12:45+0000\n"
+"Last-Translator: jcchavezs <jcchavezs@gmail.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Poedit-Language: Spanish\n"
+"X-Poedit-Country: SPAIN\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2;\n"
+"X-Poedit-Basepath: ../\n"
+"X-Poedit-Bookmarks: \n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Textdomain-Support: yes"
+
+#: admin.php:86
+#: admin.php:275
+#@ default
+msgid "Options saved"
+msgstr ""
+
+#: admin.php:99
+#@ wp-slider
+msgid "Slider example"
+msgstr ""
+
+#: admin.php:122
+#: admin.php:303
+#: admin.php:314
+#@ wp-slider
+msgid "Name"
+msgstr "Nombre"
+
+#: admin.php:126
+#@ wp-slider
+msgid "Width"
+msgstr "Ancho"
+
+#: admin.php:130
+#@ wp-slider
+msgid "Height"
+msgstr "Alto"
+
+#: admin.php:134
+#@ wp-slider
+msgid "Text-Width"
+msgstr "Ancho de texto"
+
+#: admin.php:138
+#@ wp-slider
+msgid "Effect"
+msgstr "Efecto"
+
+#: admin.php:139
+#: admin.php:143
+#@ default
+msgid "none"
+msgstr ""
+
+#: admin.php:142
+#@ wp-slider
+msgid "Easing"
+msgstr ""
+
+#: admin.php:146
+#@ wp-slider
+msgid "Frecuency"
+msgstr "Frecuencia"
+
+#: admin.php:147
+#: admin.php:151
+#@ wp-slider
+msgid "seconds"
+msgstr "segundos"
+
+#: admin.php:150
+#@ wp-slider
+msgid "Delay"
+msgstr ""
+
+#: admin.php:154
+#@ wp-slider
+msgid "onBefore function name"
+msgstr ""
+
+#: admin.php:159
+#@ wp-slider
+msgid "onAfter function name"
+msgstr "función onAfter"
+
+#: admin.php:176
+#@ wp-slider
+msgid "No action"
+msgstr "Ningun acción"
+
+#: admin.php:177
+#@ wp-slider
+msgid "Delete all"
+msgstr "Borrar todos"
+
+#: admin.php:189
+#: admin.php:200
+#@ wp-slider
+msgid "Filename"
+msgstr "Nombre del archivo"
+
+#: admin.php:190
+#: admin.php:201
+#@ wp-slider
+msgid "Title"
+msgstr "Título"
+
+#: admin.php:190
+#: admin.php:201
+#@ wp-slider
+msgid "Content"
+msgstr "Contenido"
+
+#: admin.php:191
+#: admin.php:202
+#@ wp-slider
+msgid "URL"
+msgstr "URL"
+
+#: admin.php:192
+#: admin.php:203
+#@ wp-slider
+msgid "Orden"
+msgstr ""
+
+#: admin.php:193
+#: admin.php:204
+#@ wp-slider
+msgid "Status"
+msgstr "Estado"
+
+#: admin.php:194
+#: admin.php:205
+#: admin.php:305
+#: admin.php:316
+#@ wp-slider
+msgid "Action"
+msgstr "Acción"
+
+#: admin.php:213
+#: admin.php:232
+#@ wp-slider
+msgid "Target"
+msgstr "Destino"
+
+#: admin.php:223
+#@ default
+msgid "Cancel"
+msgstr ""
+
+#: admin.php:230
+#@ default
+msgid "change"
+msgstr ""
+
+#: admin.php:248
+#: admin.php:330
+#@ wp-slider
+msgid "Delete"
+msgstr "Eliminar"
+
+#: admin.php:252
+#@ wp-slider
+msgid "There are no slides yet"
+msgstr "Aún no hay slides"
+
+#: admin.php:330
+#@ wp-slider
+msgid "Delete this slider?"
+msgstr "¿Eliminar este slider?"
+
+#: admin.php:335
+#@ wp-slider
+msgid "There are not sliders yet"
+msgstr ""
+

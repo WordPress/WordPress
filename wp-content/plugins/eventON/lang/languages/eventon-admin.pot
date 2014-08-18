@@ -1,0 +1,539 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: eventon 2.2\n"
+"POT-Creation-Date: 2013-11-12 17:04-0800\n"
+"PO-Revision-Date: 2013-11-12 17:09-0800\n"
+"Last-Translator: \n"
+"Language-Team: ashanjay\n"
+"Language: english\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.7\n"
+"X-Poedit-KeywordsList: _;gettext;gettext_noop;__;_e\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SearchPath-0: ..\n"
+
+#: ../eventon-ajax.php:154
+msgid "You do not have sufficient permissions to access this page."
+msgstr ""
+
+#: ../eventon-ajax.php:156
+msgid "You have taken too long. Please go back and retry."
+msgstr ""
+
+#: ../eventon-core-functions.php:341
+msgid "Add New "
+msgstr ""
+
+#: ../eventon-core-functions.php:342
+msgid "Edit "
+msgstr ""
+
+#: ../eventon-core-functions.php:343
+msgid "New "
+msgstr ""
+
+#: ../eventon-core-functions.php:344
+msgid "All "
+msgstr ""
+
+#: ../eventon-core-functions.php:345
+msgid "View "
+msgstr ""
+
+#: ../eventon-core-functions.php:346
+msgid "Search "
+msgstr ""
+
+#: ../eventon-core-functions.php:347 ../eventon-core-functions.php:348
+msgid "No "
+msgstr ""
+
+#: ../eventon.php:280
+msgid "This is where you can add new events to your calendar."
+msgstr ""
+
+#: ../admin/eventon-admin-content.php:26
+msgid "Overview"
+msgstr ""
+
+#: ../admin/eventon-admin-content.php:29
+msgid "Thank you for using EventON WordPress Event Calendar plugin. "
+msgstr ""
+
+#: ../admin/eventon-admin-content.php:35
+#: ../admin/eventon-admin-settings.php:42 ../admin/includes/welcome.php:87
+msgid "Settings"
+msgstr ""
+
+#: ../admin/eventon-admin-content.php:37
+msgid ""
+"In here you can change variety of settings for the calendar that will allow "
+"you further customization to your need:"
+msgstr ""
+
+#: ../admin/eventon-admin-content.php:38
+msgid "General"
+msgstr ""
+
+#: ../admin/eventon-admin-content.php:38
+msgid ""
+"General settings include basic show hide elements for overall calendar, "
+"Event type taxonomies naming and enabling them for frontend."
+msgstr ""
+
+#: ../admin/eventon-admin-content.php:39
+msgid "Appearance"
+msgstr ""
+
+#: ../admin/eventon-admin-content.php:39
+msgid ""
+"This is where you can customize the look of the overall calendar "
+"aesthetically."
+msgstr ""
+
+#: ../admin/eventon-admin-content.php:40
+msgid "Icons"
+msgstr ""
+
+#: ../admin/eventon-admin-content.php:40
+msgid ""
+"In here you can upload your own icons to replace those are default in the "
+"calendar event card."
+msgstr ""
+
+#: ../admin/eventon-admin-content.php:41
+msgid "Third Party API"
+msgstr ""
+
+#: ../admin/eventon-admin-content.php:41
+msgid ""
+"In here you can find the third party APIs supported in this plugin that you "
+"can enable with API keys"
+msgstr ""
+
+#: ../admin/eventon-admin-content.php:46
+msgid "How to use shortcode"
+msgstr ""
+
+#: ../admin/eventon-admin-content.php:67
+msgid "How to use Template Tags"
+msgstr ""
+
+#: ../admin/eventon-admin-content.php:102
+msgid "Parameters"
+msgstr ""
+
+#: ../admin/eventon-admin-content.php:129
+msgid "For more information:"
+msgstr ""
+
+#: ../admin/eventon-admin-content.php:130
+msgid "EventON"
+msgstr ""
+
+#: ../admin/eventon-admin-content.php:131
+msgid "FAQ Section"
+msgstr ""
+
+#: ../admin/eventon-admin-content.php:132
+msgid "Changelog"
+msgstr ""
+
+#: ../admin/eventon-admin-content.php:133 ../admin/includes/welcome.php:89
+msgid "Documentation"
+msgstr ""
+
+#: ../admin/eventon-admin-content.php:134 ../admin/includes/welcome.php:137
+msgid "Addons"
+msgstr ""
+
+#: ../admin/eventon-admin-init.php:41
+msgid "EventON - Event Calendar"
+msgstr ""
+
+#: ../admin/eventon-admin-init.php:305
+msgid ""
+"Event categories for events can be managed here. To change the order of "
+"categories on the front-end you can drag and drop to sort them. To see more "
+"categories listed click the \"screen options\" link at the top of the page."
+msgstr ""
+
+#: ../admin/eventon-admin-init.php:318
+msgid "ID"
+msgstr ""
+
+#: ../admin/eventon-admin-install.php:52
+msgid "Events"
+msgstr ""
+
+#: ../admin/eventon-admin-settings.php:43
+msgid "Language"
+msgstr ""
+
+#: ../admin/eventon-admin-settings.php:44
+msgid "Styles"
+msgstr ""
+
+#: ../admin/eventon-admin-settings.php:45
+msgid "Addons & Licenses"
+msgstr ""
+
+#: ../admin/eventon-admin-settings.php:89
+msgid "Action failed. Please refresh the page and retry."
+msgstr ""
+
+#: ../admin/eventon-admin-settings.php:156
+#: ../admin/eventon-admin-settings.php:254
+#: ../admin/includes/settings_advanced_tab.php:55
+#: ../admin/includes/settings_styles_tab.php:13
+msgid "Save Changes"
+msgstr ""
+
+#: ../admin/eventon-admin-settings.php:181
+msgid "Type in custom language text"
+msgstr ""
+
+#: ../admin/eventon-admin-settings.php:182
+msgid ""
+"Please use the below fields to type in custom language text that will be "
+"used to replace the default language text on the front-end of the calendar."
+msgstr ""
+
+#: ../admin/eventon-admin-settings.php:197
+msgid "Enable custom day names?"
+msgstr ""
+
+#: ../admin/includes/settings_addons_tab.php:101
+msgid "Can not get remote eventON addon information"
+msgstr ""
+
+#: ../admin/includes/settings_addons_tab.php:121
+msgid "EventON License"
+msgstr ""
+
+#: ../admin/includes/settings_addons_tab.php:201
+msgid ""
+"Activate your copy of EventON to get free automatic plugin updates direct to "
+"your site!"
+msgstr ""
+
+#: ../admin/includes/settings_advanced_tab.php:21
+msgid "Advnaced Settings"
+msgstr ""
+
+#: ../admin/includes/settings_styles_tab.php:4
+msgid "Add your own custom styles"
+msgstr ""
+
+#: ../admin/includes/settings_styles_tab.php:5
+msgid ""
+"Please use text area below to write your own CSS styles to override or fix "
+"style/layout changes in your calendar. <br/>These styles will be appended "
+"into the dynamic styles sheet loaded on the front-end."
+msgstr ""
+
+#: ../admin/post_types/ajde_events.php:57
+msgid "Event Name"
+msgstr ""
+
+#: ../admin/post_types/ajde_events.php:61
+#: ../admin/post_types/ajde_events.php:351
+msgid "Start Date"
+msgstr ""
+
+#: ../admin/post_types/ajde_events.php:62
+#: ../admin/post_types/ajde_events.php:357
+msgid "End Date"
+msgstr ""
+
+#: ../admin/post_types/ajde_events.php:63
+msgid "Featured"
+msgstr ""
+
+#: ../admin/post_types/ajde_events.php:64
+msgid "Event Repeat"
+msgstr ""
+
+#: ../admin/post_types/ajde_events.php:114
+msgid "Edit this item"
+msgstr ""
+
+#: ../admin/post_types/ajde_events.php:114
+msgid "Edit"
+msgstr ""
+
+#: ../admin/post_types/ajde_events.php:115
+msgid "Edit this item inline"
+msgstr ""
+
+#: ../admin/post_types/ajde_events.php:115
+msgid "Quick&nbsp;Edit"
+msgstr ""
+
+#: ../admin/post_types/ajde_events.php:119
+msgid "Restore this item from the Trash"
+msgstr ""
+
+#: ../admin/post_types/ajde_events.php:119
+msgid "Restore"
+msgstr ""
+
+#: ../admin/post_types/ajde_events.php:121
+msgid "Move this item to the Trash"
+msgstr ""
+
+#: ../admin/post_types/ajde_events.php:121
+msgid "Trash"
+msgstr ""
+
+#: ../admin/post_types/ajde_events.php:123
+msgid "Delete this item permanently"
+msgstr ""
+
+#: ../admin/post_types/ajde_events.php:123
+msgid "Delete Permanently"
+msgstr ""
+
+#: ../admin/post_types/ajde_events.php:128
+#, php-format
+msgid "Preview &#8220;%s&#8221;"
+msgstr ""
+
+#: ../admin/post_types/ajde_events.php:128
+msgid "Preview"
+msgstr ""
+
+#: ../admin/post_types/ajde_events.php:130
+#, php-format
+msgid "View &#8220;%s&#8221;"
+msgstr ""
+
+#: ../admin/post_types/ajde_events.php:130
+msgid "View"
+msgstr ""
+
+#: ../admin/post_types/ajde_events.php:199
+msgid "Toggle featured"
+msgstr ""
+
+#: ../admin/post_types/ajde_events.php:201
+msgid "Yes"
+msgstr ""
+
+#: ../admin/post_types/ajde_events.php:203
+msgid "No"
+msgstr ""
+
+#: ../admin/post_types/ajde_events.php:297
+msgid "Make a duplicate from this event"
+msgstr ""
+
+#: ../admin/post_types/ajde_events.php:298
+msgid "Duplicate"
+msgstr ""
+
+#: ../admin/post_types/ajde_events.php:325
+msgid "Duplicate this event"
+msgstr ""
+
+#: ../admin/post_types/ajde_events.php:346
+msgid "Event Data"
+msgstr ""
+
+#: ../admin/post_types/ajde_events.php:353
+#: ../admin/post_types/ajde_events_meta_boxes.php:175
+msgid "Event Start Date"
+msgstr ""
+
+#: ../admin/post_types/ajde_events.php:359
+#: ../admin/post_types/ajde_events_meta_boxes.php:229
+msgid "Event End Date"
+msgstr ""
+
+#: ../admin/post_types/ajde_events.php:365
+msgid "Location"
+msgstr ""
+
+#: ../admin/post_types/ajde_events.php:367
+msgid "Event Location"
+msgstr ""
+
+#: ../admin/post_types/ajde_events.php:370
+#: ../admin/post_types/ajde_events_meta_boxes.php:507
+msgid "Organizer"
+msgstr ""
+
+#: ../admin/post_types/ajde_events.php:372
+#: ../admin/post_types/ajde_events_meta_boxes.php:376
+msgid "Event Organizer"
+msgstr ""
+
+#: ../admin/post_types/ajde_events_meta_boxes.php:57
+msgid "Click here to pick a color"
+msgstr ""
+
+#: ../admin/post_types/ajde_events_meta_boxes.php:168
+msgid "All Day Event"
+msgstr ""
+
+#: ../admin/post_types/ajde_events_meta_boxes.php:216
+msgid "Select a Time"
+msgstr ""
+
+#: ../admin/post_types/ajde_events_meta_boxes.php:231
+msgid "Select a Date"
+msgstr ""
+
+#: ../admin/post_types/ajde_events_meta_boxes.php:273
+msgid "Select the Time"
+msgstr ""
+
+#: ../admin/post_types/ajde_events_meta_boxes.php:282
+msgid "Hide End Time from calendar"
+msgstr ""
+
+#: ../admin/post_types/ajde_events_meta_boxes.php:296
+msgid "Repeating event"
+msgstr ""
+
+#: ../admin/post_types/ajde_events_meta_boxes.php:348
+msgid "Event Location Address"
+msgstr ""
+
+#: ../admin/post_types/ajde_events_meta_boxes.php:351
+msgid "Latitude"
+msgstr ""
+
+#: ../admin/post_types/ajde_events_meta_boxes.php:352
+msgid "Longitude"
+msgstr ""
+
+#: ../admin/post_types/ajde_events_meta_boxes.php:359
+msgid "Generate Google Map from the address"
+msgstr ""
+
+#: ../admin/post_types/ajde_events_meta_boxes.php:404
+msgid "Open in new window"
+msgstr ""
+
+#: ../admin/post_types/ajde_events_meta_boxes.php:407
+msgid "Type the URL address"
+msgstr ""
+
+#: ../admin/post_types/ajde_events_meta_boxes.php:439
+msgid "Open in New window"
+msgstr ""
+
+#: ../admin/post_types/ajde_events_meta_boxes.php:488
+msgid "Time and Date"
+msgstr ""
+
+#: ../admin/post_types/ajde_events_meta_boxes.php:497
+msgid "Location and Venue"
+msgstr ""
+
+#: ../admin/post_types/ajde_events_meta_boxes.php:516
+msgid "User Interaction for event click"
+msgstr ""
+
+#: ../admin/post_types/ajde_events_meta_boxes.php:526
+msgid "Learn more about event link"
+msgstr ""
+
+#: ../admin/post_types/ajde_events_meta_boxes.php:767
+msgid "Paypal Link to purchase event tickets."
+msgstr ""
+
+#: ../admin/post_types/duplicate_event.php:23
+msgid "No event to duplicate has been supplied!"
+msgstr ""
+
+#: ../admin/post_types/duplicate_event.php:43
+msgid "Event creation failed, could not find original event:"
+msgstr ""
+
+#: ../admin/post_types/duplicate_event.php:89
+msgid "(Copy)"
+msgstr ""
+
+#: ../classes/class-evo-updater.php:113
+msgid "An unknown error occurred"
+msgstr ""
+
+#: ../lang/strings.php:16
+msgid "january"
+msgstr ""
+
+#: ../lang/strings.php:17
+msgid "february"
+msgstr ""
+
+#: ../lang/strings.php:18
+msgid "march"
+msgstr ""
+
+#: ../lang/strings.php:19
+msgid "april"
+msgstr ""
+
+#: ../lang/strings.php:20
+msgid "may"
+msgstr ""
+
+#: ../lang/strings.php:21
+msgid "june"
+msgstr ""
+
+#: ../lang/strings.php:22
+msgid "july"
+msgstr ""
+
+#: ../lang/strings.php:23
+msgid "august"
+msgstr ""
+
+#: ../lang/strings.php:24
+msgid "september"
+msgstr ""
+
+#: ../lang/strings.php:25
+msgid "october"
+msgstr ""
+
+#: ../lang/strings.php:26
+msgid "november"
+msgstr ""
+
+#: ../lang/strings.php:27
+msgid "december"
+msgstr ""
+
+#: ../lang/strings.php:30
+msgid "monday"
+msgstr ""
+
+#: ../lang/strings.php:31
+msgid "tuesday"
+msgstr ""
+
+#: ../lang/strings.php:32
+msgid "wednesday"
+msgstr ""
+
+#: ../lang/strings.php:33
+msgid "thursday"
+msgstr ""
+
+#: ../lang/strings.php:34
+msgid "friday"
+msgstr ""
+
+#: ../lang/strings.php:35
+msgid "saturday"
+msgstr ""
+
+#: ../lang/strings.php:36
+msgid "sunday"
+msgstr ""

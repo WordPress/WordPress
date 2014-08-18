@@ -1,0 +1,101 @@
+.wp_themeSkin span.mce_embedplus_youtubeprefs, span.mce_embedplus_youtubeprefs
+{
+    background: transparent url("../images/btnprefsoff.png") no-repeat scroll center center !important;
+}
+
+.wp_themeSkin span.mce_embedplus_youtubeprefs:hover, span.mce_embedplus_youtubeprefs:hover
+{
+    background-image: url("../images/btnprefson.png") !important;
+}
+
+
+.wp_themeSkin span.mce_embedplus_youtubeprefs_wiz, span.mce_embedplus_youtubeprefs_wiz
+{
+    background: transparent url("../images/btnwizoff.png") no-repeat scroll center center !important;
+}
+
+.wp_themeSkin span.mce_embedplus_youtubeprefs_wiz:hover, span.mce_embedplus_youtubeprefs_wiz:hover
+{
+    background-image: url("../images/btnwizon.png") !important;
+}
+
+
+
+
+.wp_themeSkin span.mce_embedplusstats, span.mce_embedplusstats,
+.wp_themeSkin span.mce_embedplusstats_youtubeprefs, span.mce_embedplusstats_youtubeprefs
+
+{
+    background: transparent url("../images/btn_embedplusstatsoff.png") no-repeat scroll center center !important;
+}
+
+.wp_themeSkin span.mce_embedplusstats:hover, span.mce_embedplusstats:hover,
+.wp_themeSkin span.mce_embedplusstats_youtubeprefs:hover, span.mce_embedplusstats_youtubeprefs:hover
+{
+    background-image: url("../images/btn_embedplusstats.png") !important;
+}
+
+/********** media button */
+
+.wp-core-ui a.ytprefs_media_link span, a.ytprefs_media_link span, #media-buttons a.ytprefs_media_link span
+{
+    background: transparent url("../images/btnwizoff.png") no-repeat scroll top left;
+    display: inline-block;
+    height: 16px;
+    margin: 2px 2px 0 0;
+    vertical-align: top;
+    width: 16px;
+}
+
+.wp-core-ui a.ytprefs_media_link:hover span, a.ytprefs_media_link:hover span, #media-buttons a.ytprefs_media_link:hover span
+{
+    background-image: url("../images/btnwizon.png");
+}
+
+/*
+.wp-core-ui a.ytprefs_media_link, a.ytprefs_media_link
+{
+    padding: 0 10px 1px .4em;
+}
+
+#media-buttons a.ytprefs_media_link_old
+{
+    padding: 3px 10px 3px 10px;
+}
+*/
+
+#media-buttons a.ytprefs_media_link, .wp-core-ui a.ytprefs_media_link, a.ytprefs_media_link
+{
+    background-attachment: scroll;
+    background-clip: border-box;
+    background-color: #F3F3F3;
+    background-image: linear-gradient(#FEFEFE, #F4F4F4);
+    background-origin: padding-box;
+    background-size: auto;
+    border-radius: 3px;
+    border: 1px solid #bbbbbb;
+    box-sizing: border-box;
+    /*color: #333;*/
+    cursor: pointer;
+    display: inline-block;
+    /*font-family: sans-serif;
+    font-size: 12px;
+    height: 24px;
+    line-height: 23px;*/
+    margin: 0px 5px 0px 0px;
+    outline-color: #333;
+    outline-style: none;
+    outline-width: 0px;
+    padding: 0px 10px 1px .4em;
+    text-decoration: none;
+    text-shadow: #FFF 0px 1px 0px;
+    white-space: nowrap;
+}
+
+#dashboard_right_now .page-count a.ytprefs_glance_button:before, #dashboard_right_now .page-count span.ytprefs_glance_button:before
+{
+    content: '';
+    width: 20px;
+    height: 20px;
+    background:transparent url('../images/youtubeicon16off.png') no-repeat scroll 0px 1px;
+}

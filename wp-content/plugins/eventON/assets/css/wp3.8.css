@@ -1,0 +1,29 @@
+/*
+	Styles for only WP higher than 3.8
+*/
+#evo_shortcode_btn{
+	padding-bottom: 5px;
+	padding-top: 6px;
+}
+.customization_right_in .backender_yn_sec{
+	border-top: 1px solid #dbdbdb;
+	margin: -8px -20px 0;
+	padding: 10px 20px 0;
+}
+.customization_right_in .backender_yn_sec em.hr_line{
+	margin: 8px -20px;
+}
+.customization_right_in #evoEVC_arrange_box{
+	margin-bottom: 25px;
+}
+#adminmenuwrap #adminmenu #toplevel_page_eventon a .wp-menu-image:before{
+	position: relative;
+	margin-top: 0;
+	margin-left: 0;
+	padding-top: 6px;
+}
+
+/* widget */
+	#eventon_widget_settings{margin-bottom: 10px;}
+	#eventon_widget_settings .eventon_widget_top{margin: -1px -16px 0; }
+	.evo_widget_outter{margin: 0 -15px;}

@@ -1,0 +1,282 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Easy Instagram\n"
+"POT-Creation-Date: 2013-08-01 16:30+0200\n"
+"PO-Revision-Date: 2013-08-01 16:32+0200\n"
+"Last-Translator: \n"
+"Language-Team: velomedia\n"
+"Language: ro_RO\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.7\n"
+"X-Poedit-KeywordsList: _;gettext;gettext_noop;__;_e\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-SearchPath-0: /home/tweek/public_html/vm/wp-content/plugins/easy-"
+"instagram\n"
+
+#: /home/tweek/public_html/vm/wp-content/plugins/easy-instagram/include/class-easy-instagram-widget.php:14
+msgid ""
+"Display one or more images from Instagram based on a tag or Instagram user id"
+msgstr ""
+
+#: /home/tweek/public_html/vm/wp-content/plugins/easy-instagram/include/class-easy-instagram-widget.php:123
+msgid "Title:"
+msgstr "Titlu:"
+
+#: /home/tweek/public_html/vm/wp-content/plugins/easy-instagram/include/class-easy-instagram-widget.php:128
+msgid "Type:"
+msgstr "Tip:"
+
+#: /home/tweek/public_html/vm/wp-content/plugins/easy-instagram/include/class-easy-instagram-widget.php:131
+msgid "Tag"
+msgstr "Tag"
+
+#: /home/tweek/public_html/vm/wp-content/plugins/easy-instagram/include/class-easy-instagram-widget.php:134
+msgid "User ID"
+msgstr "ID Utilizator"
+
+#: /home/tweek/public_html/vm/wp-content/plugins/easy-instagram/include/class-easy-instagram-widget.php:139
+msgid "ID/Hashtag Value:"
+msgstr "ID Utilizator/Hashtag:"
+
+#: /home/tweek/public_html/vm/wp-content/plugins/easy-instagram/include/class-easy-instagram-widget.php:141
+#, php-format
+msgid "Your User ID is: %s"
+msgstr ""
+
+#: /home/tweek/public_html/vm/wp-content/plugins/easy-instagram/include/class-easy-instagram-widget.php:145
+msgid "Images Count:"
+msgstr "Numar Imagini:"
+
+#: /home/tweek/public_html/vm/wp-content/plugins/easy-instagram/include/class-easy-instagram-widget.php:161
+msgid "Thumbnail Size (in pixels, leave blank for default):"
+msgstr ""
+
+#: /home/tweek/public_html/vm/wp-content/plugins/easy-instagram/include/class-easy-instagram-widget.php:166
+msgid "Show Caption Hashtags:"
+msgstr ""
+
+#: /home/tweek/public_html/vm/wp-content/plugins/easy-instagram/include/class-easy-instagram-widget.php:169
+#: /home/tweek/public_html/vm/wp-content/plugins/easy-instagram/include/class-easy-instagram-widget.php:190
+msgid "Yes"
+msgstr "Da"
+
+#: /home/tweek/public_html/vm/wp-content/plugins/easy-instagram/include/class-easy-instagram-widget.php:172
+#: /home/tweek/public_html/vm/wp-content/plugins/easy-instagram/include/class-easy-instagram-widget.php:193
+msgid "No"
+msgstr "Nu"
+
+#: /home/tweek/public_html/vm/wp-content/plugins/easy-instagram/include/class-easy-instagram-widget.php:177
+msgid "Caption Character Limit (0 for no caption):"
+msgstr ""
+
+#: /home/tweek/public_html/vm/wp-content/plugins/easy-instagram/include/class-easy-instagram-widget.php:182
+msgid "Author Text:"
+msgstr ""
+
+#: /home/tweek/public_html/vm/wp-content/plugins/easy-instagram/include/class-easy-instagram-widget.php:187
+msgid "Show Author's Full Name:"
+msgstr ""
+
+#: /home/tweek/public_html/vm/wp-content/plugins/easy-instagram/include/class-easy-instagram-widget.php:198
+msgid "On Thumbnail Click:"
+msgstr ""
+
+#: /home/tweek/public_html/vm/wp-content/plugins/easy-instagram/include/class-easy-instagram-widget.php:208
+msgid "Time Text:"
+msgstr ""
+
+#: /home/tweek/public_html/vm/wp-content/plugins/easy-instagram/include/class-easy-instagram-widget.php:214
+msgid "Time Format:"
+msgstr ""
+
+#: /home/tweek/public_html/vm/wp-content/plugins/easy-instagram/include/class-easy-instagram.php:22
+msgid "Do Nothing"
+msgstr ""
+
+#: /home/tweek/public_html/vm/wp-content/plugins/easy-instagram/include/class-easy-instagram.php:23
+msgid "Show in Thickbox"
+msgstr ""
+
+#: /home/tweek/public_html/vm/wp-content/plugins/easy-instagram/include/class-easy-instagram.php:24
+msgid "Show original in a new tab"
+msgstr ""
+
+#: /home/tweek/public_html/vm/wp-content/plugins/easy-instagram/include/class-easy-instagram.php:33
+#: /home/tweek/public_html/vm/wp-content/plugins/easy-instagram/include/class-easy-instagram.php:34
+#: /home/tweek/public_html/vm/wp-content/plugins/easy-instagram/include/class-easy-instagram.php:185
+msgid "Easy Instagram"
+msgstr ""
+
+#: /home/tweek/public_html/vm/wp-content/plugins/easy-instagram/include/class-easy-instagram.php:127
+msgid "Please enter your Instagram client id"
+msgstr ""
+
+#: /home/tweek/public_html/vm/wp-content/plugins/easy-instagram/include/class-easy-instagram.php:131
+msgid "Please enter your Instagram client secret"
+msgstr ""
+
+#: /home/tweek/public_html/vm/wp-content/plugins/easy-instagram/include/class-easy-instagram.php:135
+msgid "Please enter your Instagram redirect URI"
+msgstr ""
+
+#: /home/tweek/public_html/vm/wp-content/plugins/easy-instagram/include/class-easy-instagram.php:188
+msgid "Plugin Settings"
+msgstr "Configurare Plugin"
+
+#: /home/tweek/public_html/vm/wp-content/plugins/easy-instagram/include/class-easy-instagram.php:189
+msgid "Help"
+msgstr "Ajutor"
+
+#: /home/tweek/public_html/vm/wp-content/plugins/easy-instagram/include/class-easy-instagram.php:199
+#, php-format
+msgid "The directory %s is not writable !"
+msgstr ""
+
+#: /home/tweek/public_html/vm/wp-content/plugins/easy-instagram/include/class-easy-instagram.php:205
+msgid "General Settings"
+msgstr ""
+
+#: /home/tweek/public_html/vm/wp-content/plugins/easy-instagram/include/class-easy-instagram.php:209
+msgid "Application Client ID"
+msgstr ""
+
+#: /home/tweek/public_html/vm/wp-content/plugins/easy-instagram/include/class-easy-instagram.php:218
+msgid "This is the ID of your Instagram application"
+msgstr ""
+
+#: /home/tweek/public_html/vm/wp-content/plugins/easy-instagram/include/class-easy-instagram.php:224
+msgid "Application Client Secret"
+msgstr ""
+
+#: /home/tweek/public_html/vm/wp-content/plugins/easy-instagram/include/class-easy-instagram.php:233
+msgid "This is your Instagram application secret"
+msgstr ""
+
+#: /home/tweek/public_html/vm/wp-content/plugins/easy-instagram/include/class-easy-instagram.php:239
+msgid "Application Redirect URI"
+msgstr ""
+
+#: /home/tweek/public_html/vm/wp-content/plugins/easy-instagram/include/class-easy-instagram.php:247
+msgid "This is your Instagram application redirect URI"
+msgstr ""
+
+#: /home/tweek/public_html/vm/wp-content/plugins/easy-instagram/include/class-easy-instagram.php:253
+msgid "Cache Expire Time (minutes)"
+msgstr ""
+
+#: /home/tweek/public_html/vm/wp-content/plugins/easy-instagram/include/class-easy-instagram.php:259
+#, php-format
+msgid "Minimum expire time: %d minutes."
+msgstr ""
+
+#: /home/tweek/public_html/vm/wp-content/plugins/easy-instagram/include/class-easy-instagram.php:272
+msgid "Save Settings"
+msgstr ""
+
+#: /home/tweek/public_html/vm/wp-content/plugins/easy-instagram/include/class-easy-instagram.php:283
+#: /home/tweek/public_html/vm/wp-content/plugins/easy-instagram/include/class-easy-instagram.php:303
+msgid "Instagram Account"
+msgstr ""
+
+#: /home/tweek/public_html/vm/wp-content/plugins/easy-instagram/include/class-easy-instagram.php:292
+msgid "Instagram Login"
+msgstr ""
+
+#: /home/tweek/public_html/vm/wp-content/plugins/easy-instagram/include/class-easy-instagram.php:294
+msgid "Please configure the General Settings first"
+msgstr ""
+
+#: /home/tweek/public_html/vm/wp-content/plugins/easy-instagram/include/class-easy-instagram.php:307
+msgid "Instagram Username"
+msgstr ""
+
+#: /home/tweek/public_html/vm/wp-content/plugins/easy-instagram/include/class-easy-instagram.php:316
+msgid "Instagram User ID"
+msgstr ""
+
+#: /home/tweek/public_html/vm/wp-content/plugins/easy-instagram/include/class-easy-instagram.php:328
+msgid "Instagram Logout"
+msgstr ""
+
+#: /home/tweek/public_html/vm/wp-content/plugins/easy-instagram/include/class-easy-instagram.php:533
+msgid "Loading..."
+msgstr ""
+
+#: /home/tweek/public_html/vm/wp-content/plugins/easy-instagram/include/class-easy-instagram.php:808
+msgid "Every Five Minutes"
+msgstr ""
+
+#: /home/tweek/public_html/vm/wp-content/plugins/easy-instagram/include/class-easy-instagram-utils.php:113
+msgid "1 second ago"
+msgstr "acum 1 secunda"
+
+#: /home/tweek/public_html/vm/wp-content/plugins/easy-instagram/include/class-easy-instagram-utils.php:114
+msgid "1 minute ago"
+msgstr "acum 1 minut"
+
+#: /home/tweek/public_html/vm/wp-content/plugins/easy-instagram/include/class-easy-instagram-utils.php:115
+msgid "1 hour ago"
+msgstr "acum 1 ora"
+
+#: /home/tweek/public_html/vm/wp-content/plugins/easy-instagram/include/class-easy-instagram-utils.php:116
+msgid "1 day ago"
+msgstr "acum 1 zi"
+
+#: /home/tweek/public_html/vm/wp-content/plugins/easy-instagram/include/class-easy-instagram-utils.php:117
+msgid "1 week ago"
+msgstr "acum 1 saptamana"
+
+#: /home/tweek/public_html/vm/wp-content/plugins/easy-instagram/include/class-easy-instagram-utils.php:118
+msgid "1 month ago"
+msgstr "acum 1 luna"
+
+#: /home/tweek/public_html/vm/wp-content/plugins/easy-instagram/include/class-easy-instagram-utils.php:119
+msgid "1 year ago"
+msgstr "acum 1 an"
+
+#: /home/tweek/public_html/vm/wp-content/plugins/easy-instagram/include/class-easy-instagram-utils.php:120
+msgid "1 decade ago"
+msgstr "acum 1 decada"
+
+#: /home/tweek/public_html/vm/wp-content/plugins/easy-instagram/include/class-easy-instagram-utils.php:123
+#, php-format
+msgid "%s seconds ago"
+msgstr "acum %s secunde"
+
+#: /home/tweek/public_html/vm/wp-content/plugins/easy-instagram/include/class-easy-instagram-utils.php:124
+#, php-format
+msgid "%s minutes ago"
+msgstr "acum %s minute"
+
+#: /home/tweek/public_html/vm/wp-content/plugins/easy-instagram/include/class-easy-instagram-utils.php:125
+#, php-format
+msgid "%s hours ago"
+msgstr "acum %s ore"
+
+#: /home/tweek/public_html/vm/wp-content/plugins/easy-instagram/include/class-easy-instagram-utils.php:126
+#, php-format
+msgid "%s days ago"
+msgstr "acum %s zile"
+
+#: /home/tweek/public_html/vm/wp-content/plugins/easy-instagram/include/class-easy-instagram-utils.php:127
+#, php-format
+msgid "%s weeks ago"
+msgstr "acum %s saptamani"
+
+#: /home/tweek/public_html/vm/wp-content/plugins/easy-instagram/include/class-easy-instagram-utils.php:128
+#, php-format
+msgid "%s months ago"
+msgstr "acum %s luni"
+
+#: /home/tweek/public_html/vm/wp-content/plugins/easy-instagram/include/class-easy-instagram-utils.php:129
+#, php-format
+msgid "%s years ago"
+msgstr "acum %s luni"
+
+#: /home/tweek/public_html/vm/wp-content/plugins/easy-instagram/include/class-easy-instagram-utils.php:130
+#, php-format
+msgid "%s decades ago"
+msgstr "acum %s decade"

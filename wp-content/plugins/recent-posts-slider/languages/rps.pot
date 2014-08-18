@@ -1,0 +1,263 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: rps\n"
+"POT-Creation-Date: 2012-12-23 17:35+0530\n"
+"PO-Revision-Date: 2012-12-23 18:30+0530\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.4\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-Basepath: ../\n"
+"X-Poedit-SearchPath-0: ..\n"
+
+#: ../recent-posts-slider/recent-posts-slider-admin.php:8
+msgid "Please enter width in numbers."
+msgstr ""
+
+#: ../recent-posts-slider/recent-posts-slider-admin.php:14
+msgid "Please enter height in numbers."
+msgstr ""
+
+#: ../recent-posts-slider/recent-posts-slider-admin.php:23
+msgid "Please enter total posts in numbers."
+msgstr ""
+
+#: ../recent-posts-slider/recent-posts-slider-admin.php:74
+msgid "Settings saved."
+msgstr ""
+
+#: ../recent-posts-slider/recent-posts-slider-admin.php:107
+msgid "Recent Posts Slider Options"
+msgstr ""
+
+#: ../recent-posts-slider/recent-posts-slider-admin.php:110
+msgid ""
+"In this page you can customize the plugin according to your needs. Having "
+"any issues"
+msgstr ""
+
+#: ../recent-posts-slider/recent-posts-slider-admin.php:111
+msgid "contact"
+msgstr ""
+
+#: ../recent-posts-slider/recent-posts-slider-admin.php:111
+msgid "me."
+msgstr ""
+
+#: ../recent-posts-slider/recent-posts-slider-admin.php:112
+msgid "And feel free to"
+msgstr ""
+
+#: ../recent-posts-slider/recent-posts-slider-admin.php:112
+msgid "donate"
+msgstr ""
+
+#: ../recent-posts-slider/recent-posts-slider-admin.php:112
+msgid "for this plugin"
+msgstr ""
+
+#: ../recent-posts-slider/recent-posts-slider-admin.php:118
+msgid "Slider Options"
+msgstr ""
+
+#: ../recent-posts-slider/recent-posts-slider-admin.php:122
+msgid "Width"
+msgstr ""
+
+#: ../recent-posts-slider/recent-posts-slider-admin.php:123
+#: ../recent-posts-slider/recent-posts-slider-admin.php:140
+msgid "px"
+msgstr ""
+
+#: ../recent-posts-slider/recent-posts-slider-admin.php:124
+msgid "Total width of the slider (ex : 200)"
+msgstr ""
+
+#: ../recent-posts-slider/recent-posts-slider-admin.php:127
+msgid "No. of post to show per slide"
+msgstr ""
+
+#: ../recent-posts-slider/recent-posts-slider-admin.php:139
+msgid "Height"
+msgstr ""
+
+#: ../recent-posts-slider/recent-posts-slider-admin.php:141
+msgid "Total height of the slider (ex : 150)"
+msgstr ""
+
+#: ../recent-posts-slider/recent-posts-slider-admin.php:144
+msgid "Slider Speed"
+msgstr ""
+
+#: ../recent-posts-slider/recent-posts-slider-admin.php:146
+msgid "ex : 10 (in seconds)"
+msgstr ""
+
+#: ../recent-posts-slider/recent-posts-slider-admin.php:153
+msgid "Total Posts"
+msgstr ""
+
+#: ../recent-posts-slider/recent-posts-slider-admin.php:155
+msgid "No of posts to show in a slider"
+msgstr ""
+
+#: ../recent-posts-slider/recent-posts-slider-admin.php:158
+msgid "Pagination Style"
+msgstr ""
+
+#: ../recent-posts-slider/recent-posts-slider-admin.php:160
+msgid "Numbers"
+msgstr ""
+
+#: ../recent-posts-slider/recent-posts-slider-admin.php:161
+msgid "Dots"
+msgstr ""
+
+#: ../recent-posts-slider/recent-posts-slider-admin.php:162
+msgid "No Pagination"
+msgstr ""
+
+#: ../recent-posts-slider/recent-posts-slider-admin.php:172
+msgid "Slider Content Options"
+msgstr ""
+
+#: ../recent-posts-slider/recent-posts-slider-admin.php:176
+msgid "Slider content"
+msgstr ""
+
+#: ../recent-posts-slider/recent-posts-slider-admin.php:178
+msgid "Show Post Thumbnails"
+msgstr ""
+
+#: ../recent-posts-slider/recent-posts-slider-admin.php:179
+msgid "Show Excerpt"
+msgstr ""
+
+#: ../recent-posts-slider/recent-posts-slider-admin.php:180
+msgid "Show Both"
+msgstr ""
+
+#: ../recent-posts-slider/recent-posts-slider-admin.php:184
+msgid "Category IDs"
+msgstr ""
+
+#: ../recent-posts-slider/recent-posts-slider-admin.php:186
+msgid "ex : 1,2,3,-4 (Use negative id to exclude)"
+msgstr ""
+
+#: ../recent-posts-slider/recent-posts-slider-admin.php:189
+msgid "Posts Title Color"
+msgstr ""
+
+#: ../recent-posts-slider/recent-posts-slider-admin.php:191
+#: ../recent-posts-slider/recent-posts-slider-admin.php:216
+msgid "ex : ef4534"
+msgstr ""
+
+#: ../recent-posts-slider/recent-posts-slider-admin.php:194
+msgid "Excerpt Words"
+msgstr ""
+
+#: ../recent-posts-slider/recent-posts-slider-admin.php:196
+msgid "ex : 10"
+msgstr ""
+
+#: ../recent-posts-slider/recent-posts-slider-admin.php:197
+msgid "Don't remove tags"
+msgstr ""
+
+#: ../recent-posts-slider/recent-posts-slider-admin.php:204
+msgid "Posts to include"
+msgstr ""
+
+#: ../recent-posts-slider/recent-posts-slider-admin.php:206
+#: ../recent-posts-slider/recent-posts-slider-admin.php:211
+msgid "Seperated by commas"
+msgstr ""
+
+#: ../recent-posts-slider/recent-posts-slider-admin.php:209
+msgid "Posts to exclude"
+msgstr ""
+
+#: ../recent-posts-slider/recent-posts-slider-admin.php:214
+msgid "Posts Title Backgroud Color"
+msgstr ""
+
+#: ../recent-posts-slider/recent-posts-slider-admin.php:219
+msgid "Set Link Text"
+msgstr ""
+
+#: ../recent-posts-slider/recent-posts-slider-admin.php:221
+msgid "ex : [more]"
+msgstr ""
+
+#: ../recent-posts-slider/recent-posts-slider-admin.php:228
+msgid "Post Date Settings"
+msgstr ""
+
+#: ../recent-posts-slider/recent-posts-slider-admin.php:229
+msgid "Show"
+msgstr ""
+
+#: ../recent-posts-slider/recent-posts-slider-admin.php:230
+msgid "Text Before Date"
+msgstr ""
+
+#: ../recent-posts-slider/recent-posts-slider-admin.php:231
+msgid "ex : Posted On"
+msgstr ""
+
+#: ../recent-posts-slider/recent-posts-slider-admin.php:232
+msgid "Date Format"
+msgstr ""
+
+#: ../recent-posts-slider/recent-posts-slider-admin.php:233
+msgid "ex. F j, Y"
+msgstr ""
+
+#: ../recent-posts-slider/recent-posts-slider-admin.php:233
+msgid "(F = Month name | j = Day of the month"
+msgstr ""
+
+#: ../recent-posts-slider/recent-posts-slider-admin.php:233
+msgid "S = ordinal suffix for the day of the month | Y = Year)"
+msgstr ""
+
+#: ../recent-posts-slider/recent-posts-slider-admin.php:242
+msgid "Custom CSS"
+msgstr ""
+
+#: ../recent-posts-slider/recent-posts-slider-admin.php:244
+msgid "Modify the css to suite your needs."
+msgstr ""
+
+#: ../recent-posts-slider/recent-posts-slider-admin.php:248
+msgid "Ex."
+msgstr ""
+
+#: ../recent-posts-slider/recent-posts-slider-admin.php:250
+msgid "To change the color of post date."
+msgstr ""
+
+#: ../recent-posts-slider/recent-posts-slider-admin.php:259
+msgid "Save Changes"
+msgstr ""
+
+#: ../recent-posts-slider/recent-posts-slider.php:246
+msgid "You do not have sufficient permissions to access this page."
+msgstr ""
+
+#: ../recent-posts-slider/recent-posts-slider.php:563
+msgid "Recent Posts Slider"
+msgstr ""
+
+#: ../recent-posts-slider/recent-posts-slider.php:563
+msgid "Your blogs recent post using slider"
+msgstr ""
+
+#: ../recent-posts-slider/recent-posts-slider.php:588
+msgid "Title:"
+msgstr ""

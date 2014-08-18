@@ -1,0 +1,401 @@
+/**
+ * Sharedaddy Admin Styles
+ */
+
+#services-config {
+	min-width: 700px;
+	width: 100%;
+	float: left;
+}
+
+#services-config h3 {
+	font-weight: normal;
+	font-size: 15px;
+	margin: 0;
+	padding: 8px 10px;
+	overflow: hidden;
+	white-space: nowrap;
+	color: #464646;
+}
+
+#available-services, #enabled-services, #live-preview {
+	padding: 0;
+	width: 100%;
+	padding-top: 20px;
+	border-spacing: 0;
+}
+
+#enabled-services .ui-sortable {
+	min-height: 50px;
+}
+
+#enabled-services {
+	padding-bottom: 20px;	
+}
+
+#available-services, #enabled-services {
+	border-bottom: 2px solid #cccccc;
+}
+
+#live-preview {
+	border-bottom: 1px solid #dfdfdf;
+	padding-bottom: 60px;
+}
+
+#available-services h3, #enabled-services h3, #live-preview h3 {
+	padding: 0px;
+	margin-top: 0px;
+	margin-bottom: 1em;
+}
+
+body.settings_page_sharing .description {
+	width: 180px;
+	vertical-align: top;
+}
+
+body.settings_page_sharing .description p {
+	font-size: 13px;
+	font-style: italic;
+}
+
+body.settings_page_sharing .services {
+	padding: 0px 20px;
+	vertical-align: top;
+}
+
+body.settings_page_sharing .services ul li {
+	float: left;
+	cursor: move;
+}
+
+body.settings_page_sharing .services ul li.divider {
+	border: none;
+	padding: 0;
+	background: none;
+	cursor: default;
+}
+
+body.settings_page_sharing ul.services-hidden {
+	margin-bottom: 0;
+}
+
+/* Generic style */
+#available-services .service, #enabled-services .service {
+	margin-right: 10px;
+	padding: 5px 10px 5px 5px;
+	border-radius: 3px;
+	border: 1px solid #bbb;
+	background: #f8f8f8;
+	background-repeat: no-repeat;
+	background-position: center center;
+}
+
+#available-services .service:hover, #enabled-services .service:hover {
+	background: #fff;
+	border: 1px solid #bbb;
+	box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+/* Generic style icons */
+li.service span:before {
+	color: #555;
+	display: inline-block;
+	-webkit-font-smoothing: antialiased;
+	font: normal 16px/1 'Noticons', 'Genericons';
+	vertical-align: top;
+	position: relative;
+	top: 1px;
+	margin-right: 3px;
+	width: 16px;
+	height: 16px;
+	text-align: center;
+}
+li.service.share-print span:before {
+	content: '\f469';
+}
+li.service.share-digg span:before {
+	content: '\f221';
+}
+li.service.share-email span:before {
+	content: '\f410';
+}
+li.service.share-linkedin span:before {
+	content: '\f207';
+}
+li.service.share-twitter span:before {
+	content: '\f202';
+}
+li.service.share-reddit span:before {
+	content: '\f222';
+}
+li.service.share-tumblr span:before {
+	content: '\f214';
+}
+li.service.share-stumbleupon span:before {
+	content: '\f223';
+}
+li.service.share-pocket span:before {
+	content: '\f224';
+}
+li.service.share-pinterest span:before {
+	content: '\f209';
+}
+li.service.share-google-plus-1 span:before {
+	content: '\f218';
+}
+li.service.share-facebook span:before {
+	content: '\f204';
+}
+li.service.share-press-this span:before {	/* Fixme: remove this button in favor of reblog */
+	content: '\f205';
+}
+
+
+/**
+ * Preview section
+ */
+
+body.settings_page_sharing ul.preview {
+	float: left;
+	margin: 0px;
+}
+
+body.settings_page_sharing ul.preview li.preview-item, body.settings_page_sharing ul.preview li.preview-item a {
+	cursor: default;
+	text-decoration: none;
+}
+
+div.sd-social-icon ul.preview li.preview-item a span {
+	display: none;
+}
+
+div.sd-social-icon ul.preview li.preview-item.preview-custom a span {
+	display: inline-block;
+	
+}
+
+.services .preview li.share-custom a {
+	text-decoration: none;
+}
+
+.services ul li.end-fix {
+	clear:both;
+	float:none;
+	visibility:hidden;
+	padding:0;
+	margin:0;
+	height:20px;
+	width:0;
+}
+
+#enabled-services h2{
+	font-size:20px;
+	padding-top:0px;
+	font-weight: normal !important;
+	color: #999;
+}
+
+body.settings_page_sharing #live-preview h2 {
+	font-size:20px;
+	font-weight: normal !important;
+	color: #e3e3e3;
+}
+
+body.settings_page_sharing .clearing {
+	clear: both;
+}
+
+body.settings_page_sharing .options .options-left {
+	float: left;
+}
+
+body.settings_page_sharing .input label {
+	font-size: 11px;
+	line-height: 16px;
+}
+
+body.settings_page_sharing .advanced-form {
+	padding: 10px 14px 8px 10px;
+	margin-left: -24px;
+	display: none;
+	border-top: 1px #e3e3e3 solid;
+	margin-top:4px;
+}
+
+body.settings_page_sharing .utility {
+	float: right;
+	padding-top:10px;
+	padding-right: 10px;
+	font-size: 10px;
+}
+
+body.settings_page_sharing .advanced input[type=submit] {
+	float: left;
+	margin-top:10px;
+	margin-right: 10px;
+}
+
+.services li.dropzone {
+	border: 1px dashed #999;
+	border-radius: 3px;
+	background: #e3e3e3;
+	margin-right: 10px;
+	padding: 5px;
+	height: 18px;
+}
+
+.advanced-form .form-table th {
+	width: auto !important;
+}
+
+.advanced-form .button-secondary {
+	margin-top: 0 !important;
+}
+
+#hidden-drop-target {
+	background: #e1e1e1;
+	border: 1px solid #cdcdcd;
+	width: 29%;
+	padding: 10px;
+	vertical-align: top;
+}
+
+#hidden-drop-target p {
+	font-size: 13px;
+	font-style: italic;
+	margin: 0 0 10px 0;
+}
+
+
+/* Official button previews */
+.preview li.preview-item {
+	background-position: 0px 5px;
+	cursor: default;
+}
+
+.preview .option-smart-on {
+	margin: 3px 5px 0 0;
+}
+
+.preview-digg .option-smart-on {
+	background: url(images/smart-digg.png) no-repeat top left;
+	background-size: 76px 17px;
+	width:76px;
+	height:17px;
+	margin-top: 2px;
+}
+
+.preview-reddit .option-smart-on {
+	background: url(images/smart-reddit.png) no-repeat top left;
+	background-size: 104px 21px;
+	width:104px;
+	height:21px;
+}
+
+.preview-stumbleupon .option-smart-on {
+	background: url(images/smart-stumbleupon.png) no-repeat top left;
+	background-size: 74px 18px;
+	width: 74px;
+	height: 18px;
+	margin-top: 1px;
+}
+
+.preview-facebook .option-smart-on {
+	background: url(images/smart-like.png) no-repeat top left;
+	background-size: 50px 20px;
+	width:50px;
+	height:20px;
+}
+
+.preview-twitter .option-smart-on {
+	background: url(images/smart-twitter.png?1) no-repeat top left;
+	background-size: 92px 20px;
+	width:92px;
+	height:20px;
+}
+
+.preview-linkedin .option-smart-on {
+	background: url(images/linkedin-smart.png) no-repeat top center;
+	background-size: 99px 18px;
+	width:99px;
+	height:18px;
+	margin-top: 1px;
+}
+
+.preview-google-plus-1 .option-smart-on {
+	background: url(images/smart-googleplus1.png) no-repeat top left;
+	background-size: 96px 20px;
+	width: 96px;
+	height: 20px;
+}
+
+.preview-tumblr .option-smart-on {
+	background: url(images/smart-tumblr.png) no-repeat top left;
+	background-size: 62px 20px;
+	width: 62px;
+	height: 20px;
+}
+
+.preview-pinterest .option-smart-on {
+	background: url(images/smart-pinterest.png) no-repeat top left;
+	background-size: 39px 20px;
+	width: 39px;
+	height: 20px;
+}
+
+.preview-pocket .option-smart-on {
+	background: url(images/smart-pocket.png) no-repeat top left;
+	background-size: 60px 20px;
+	width: 60px;
+	height: 20px;
+}
+
+
+/**
+ * Overflow sharing dialog
+ */
+
+.services .sharing-hidden li {
+	background-color: transparent;
+}
+
+.sharing-hidden li.share-end {
+    clear: both;
+    height: 0;
+    padding: 0px !important;
+    margin: 0px !important;
+    width: 0;
+    visibility: hidden;
+    float: none;
+}
+
+.preview .sharing-label {
+	font-weight: bold;
+	border: 0;
+	padding: 4px 6px 0 0;
+}
+
+#services-config a.remove {
+	background: #ddd;
+	color: #fff;
+	padding: 0px 4px 2px;
+	border-radius: 15px;
+	-moz-border-radius: 15px;
+	-webkit-border-radius: 15px;
+	text-decoration: none;
+	font-weight: bold;
+	font-size: 10px;
+}
+
+#services-config a.remove:hover {
+	background: #f00;
+}
+
+.sd-social-icon .inner a.sd-button span,
+.sd-social-icon .inner a.share-icon span {
+	display: inline-block;
+	overflow: hidden;
+	width: 0;
+	text-indent: 100%;
+}
+

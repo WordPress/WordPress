@@ -1,0 +1,850 @@
+/*
+	
+*/
+
+/* transitions */
+.eventon_popup_text .eventon_shortcode_btn, table.evo_metatable tr{
+	-webkit-transition: all .2s ease;
+	-moz-transition: all .2s ease;
+	-ms-transition: all .2s ease;
+	-o-transition: all .2s ease;
+	transition: all .2s ease;
+}
+
+/* general */
+	.highl{background-color: #F7F1C8;}
+
+
+/* event locations */
+	body.taxonomy-event_location form #the-list span.view{display:none;}
+
+/*-- eventon buttons */
+	.evo_admin_btn{
+		margin-left:0;
+		border:none;
+		font:bold 14px 'Open Sans', arial;
+		text-transform:uppercase;
+		line-height:150%;
+		display:inline-block;
+		cursor:pointer;
+		box-sizing:border-box;
+		padding:4px 10px;
+		margin-bottom:3px;
+		text-decoration:none;
+		border-radius: 4px;
+	}
+	#evcal_settings .eventon_guide_btn.button-primary, .evo_admin_btn.button-primary{
+		margin-left:0;
+		background-color: #dfa872;
+		background-image:none;
+		border:none;
+		font:bold 14px 'Open Sans';
+		text-transform:uppercase;
+		line-height:150%;
+		-webkit-box-shadow: none;
+		box-shadow: none;
+		border-radius:0px;
+		-webkit-border-radius: 0px;
+	}
+	#evcal_settings .eventon_guide_btn.button-primary:hover, .evo_admin_btn.button-primary:hover{
+		background-image: -webkit-gradient(linear,left top,left bottom,from(#e5a667),to(#da9551));
+		background-image: -webkit-linear-gradient(top,#e5a667,#da9551);
+		background-image: -moz-linear-gradient(top,#e5a667,#da9551);
+		background-image: -ms-linear-gradient(top,#e5a667,#da9551);
+		background-image: -o-linear-gradient(top,#e5a667,#da9551);
+		background-image: linear-gradient(to bottom,#e5a667,#da9551);
+		background-color: #dfa872;
+		-webkit-box-shadow: none;
+		box-shadow: none;
+	}
+	.evo_admin_btn.btn_prime:hover{background-color:#cd935a;}
+	.evo_admin_btn.btn_prime{
+		background-color:#dfa872; color:#fff;
+	}
+	.evo_admin_btn.btn_secondary:hover{background-color:#b04537;}
+	.evo_admin_btn.btn_secondary{
+		background-color: #ca594a;
+		color:#fff;	
+	}
+	.evo_admin_btn.btn_triad{background-color:#d4d4d4;color:#fff;}
+	.evo_admin_btn.btn_triad:hover{background-color:#A0A0A0;color:#fff;}
+	.evo_admin_btn.btn_tritiary{background-color:#487e8a;color:#fff;}
+	.evo_admin_btn.btn_tritiary:hover{background-color:#3a717d;}
+
+/* Editor button */
+	span.mce_eventon_shortcodes_button, span.mce_EventONShortcodes{
+		background-image: url(../images/icons/evo_shortcode.png) !important;
+		background-repeat: no-repeat !important;
+		background-position: center !important;
+	}
+
+	#icon-eventon, .eventon_icon, .icon32-posts-ajde_events, #eventon #icon-themes.icon32{
+		background-image: url(../images/icons/eventon_icons.png) !important;
+		background-position: 0px 0px;
+		background-size: auto !important;
+	}
+	#eventon #icon-themes.icon32 {
+		background-position: -32px 0px !important;
+	}
+	.icon32-posts-ajde_events {	background-position: 0px 0px !important;}
+	.icon32-posts-reservation {	background-position: -96px 0px !important;}
+	.mce-btn i.mce-i-eventon_shortcode_button:before{
+		content: '\e600';
+	}
+	.mce-btn i.mce-i-eventon_shortcode_button{
+		font-family: 'eventon' !important;
+		speak: none;
+		font-style: normal;
+		font-weight: normal;
+		font-variant: normal;
+		text-transform: none;
+		line-height: 1;
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+		font-size: 20px;
+	}
+
+
+/* events edit page */
+	.wp-list-table.posts #evo_featured{
+		width: 46px;
+		text-align: left!important;
+	}
+	.wp-list-table.posts #repeat{
+		width: 55px;
+		text-align: left!important;
+	}
+
+
+/* guide buttons everywhere on wp-admin */
+	.evomb_section .evoGuideCall{
+		padding:0;
+		font-style:normal
+	}
+	#ajde_customization .evoGuideCall{
+		cursor: pointer;
+		padding:0;
+		display:inline-block;
+		background-color:#9d9d9d;
+		border-color:#9d9d9d;
+		color:#fff;
+	}
+
+	.evoGuideCall{
+		padding: 0;
+		margin-left:4px;
+		text-align: center;
+		background-color: #9d9d9d;
+		font-style: normal;
+		position: absolute;
+		cursor: pointer;
+		width: 13px;
+		height: 14px;
+		line-height: 110%;
+		border: 1px solid #9d9d9d;
+		opacity: 0.4;
+		font:11px 'times new roman';
+		border-radius:3px;
+		color:#fff;
+	}
+	.evoGuideCall:hover{
+		opacity:1; background-color:#828282;
+	}
+	.evoGuideCall:hover em{display:block}
+	.evoGuideCall em{
+		font:italic 12px 'open sans';
+		display:none;
+		position: absolute;
+		left: -1px;
+		width: 200px;
+		background-color: #487e8a;
+		color: #fff;
+		padding: 8px;
+		bottom: 14px;
+		z-index: 900;
+		text-align:left
+	}
+	.evoGuideCall em a{color:#fff}
+	.evoGuideCall.L em{
+		right:-1px;
+		left:auto;
+	}
+
+	.evoGuideCall em:before{
+		content: "";
+		width: 0px;
+		height: 0px;
+		border-style: solid;
+		border-width: 7px 7px 0 0;
+		border-color: #487e8a transparent transparent transparent;
+		position: absolute;
+		bottom: -7px;
+		left: 0;
+	}
+	.evoGuideCall.L em:before{
+		left:auto;
+		right:0;
+		border-width: 0 7px 7px 0 ;
+		border-color: transparent #487e8a transparent  transparent;
+	}
+	.evomb_header p span.evoGuideCall{
+		color:#fff;
+	}
+
+/*	Eventon in-window popup */
+ 	#evo_popup_bg{
+ 		background-color: #000;
+ 		opacity:0.6;
+ 		position: fixed; height: 100%; width: 100%;
+ 		z-index: 990;
+ 		top: 0; left: 0; display: none;
+ 	}
+	#eventon_popup_outter{
+		z-index:10900;
+		position:absolute;
+		top:0;
+		left:0;
+		width:100%;
+	}
+	.eventon_popup.eventon_shortcode{
+		width:470px
+	}
+	.eventon_popup{
+		position:relative;
+		z-index:9990;
+		width:70%;
+		margin:70px auto 10px;
+		background-color:#fff;
+		top:50px;
+		opacity:0;
+		border-radius:5px;
+		overflow: hidden;
+	}
+	.eventon_popup.padd .evo_lightbox_outter.maxbox{
+		overflow: auto;
+	}
+	.eventon_popup.padd .eventon_popup_text{
+		padding:5px 15px;
+	}
+
+	.eventon_close_pop_btn, .evopop_backbtn{
+		cursor:pointer;
+		color:#fff;
+		position:absolute;
+		top:10px;right:10px;
+		font-size:14px;
+		border:1px solid #fff;
+		border-radius:50%;
+		font-family:'open sans';
+		height: 22px;
+		width: 25px;
+		text-align: center;
+		padding-top: 3px;
+		opacity: 0.5;
+	}
+	.eventon_close_pop_btn:hover, .evopop_backbtn:hover{
+		background-color: #fff; color: #dfa872;opacity: 1;
+	}
+	
+	.evopop_backbtn{
+		left: 10px; opacity: 0.8;
+	}
+
+	
+	.evoPOP_header{
+		background-color:#dfa872;
+		position:relative;
+		min-height:20px;
+		padding:13px;
+		color:#fff;
+		font:18px 'open sans', arial;
+		font-weight:300;
+		line-height:100%;
+	}
+	#evoPOP_title{
+		text-align: center;
+		font:18px 'open sans', arial;
+		margin:0;
+		line-height:100%;
+		text-transform: uppercase;
+		font-weight: 600;
+	}
+	#evoPOP_subtitle{
+		text-align: center;
+		font:italic 12px 'open sans', arial;
+		margin:0;
+		line-height:100%;
+	}
+	.padded .eventon_popup_text{padding:15px}
+	.eventon_popup .eventon_popup_text h2{
+		font:18px 'open sans', arial;
+		margin:0 0 5px 0
+	}
+	.eventon_popup_text p{	font:13px 'open sans', arial; margin: 0; padding-bottom:15px;}
+	.eventon_popup_text h3{	padding-bottom:5px;margin: 0;}
+
+	.eventon_popup .eventon_popup_text h4{
+		font:600 14px 'open sans', arial;
+		margin:5px 0 5px 0;
+	}
+
+/* shortcode popup */
+	.mceIcon.eventon_shortcode_button{position: relative;}
+	.mceIcon.eventon_shortcode_button:before{
+		font-family: 'eventon' !important;
+		content: '\e600';
+		speak: none;
+		font-style: normal;
+		font-weight: normal;
+		font-variant: normal;
+		text-transform: none;
+		line-height: 1;
+		position: absolute;
+		left: 0;
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+	}
+	#evo_shortcode_btn{
+		line-height:130%;
+		-webkit-border-radius: 2px;
+		border-radius: 2px;
+		border-bottom: 2px solid #ca9058;
+		padding: 4px 10px 3px;
+		vertical-align: top
+	}
+	.eventon_popup_text .eventon_shortcode_btn:hover{
+		border-color:#c6c6c6;
+		background-color:#f8f8f8;
+		color:#444444;
+	}
+	.eventon_popup_text .eventon_shortcode_btn{
+		margin:0 4px 4px 0;
+		width:230px;
+		float:left;
+		background-color:#f5f5f5;color:#a0a0a0;	
+		border:1px solid #dfdfdf;	
+		border-bottom:3px solid #dfdfdf;
+		
+		height: auto;
+		line-height: 100%;
+		padding: 7px 8px 8px;
+		display: block;
+		text-decoration: none;
+		font-size: 12px;
+		cursor: pointer;	
+		white-space: nowrap;
+		-webkit-box-sizing: border-box;
+		-moz-box-sizing: border-box;
+		box-sizing: border-box;
+	}
+	.eventon_popup .message.bad{
+		background-color:#ca594a;
+		color:#fff;
+	}
+	.eventon_popup .message.good{
+		background-color:#7fb7c5;
+		color:#fff;
+	}
+	.eventon_popup .message{
+		display:none;
+		background-color:#efcfaf;
+		color:#915b25;
+		margin:0;
+		padding:5px 20px;
+		font:italic 13px 'open sans'
+	}
+	.eventon_popup_text input{
+		padding:3px 5px;
+		border: 1px solid #ddd;
+		-webkit-box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
+		box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
+		background-color: #fff;
+		color: #333;
+		-webkit-transition: .05s border-color ease-in-out;
+		transition: .05s border-color ease-in-out;
+	}
+	.eventon_popup_text input.evoPOSH_input{width: 189px;}
+	.eventon_popup_text input.short.evoPOSH_input{
+		display: inline-block;
+		margin-right: 5px;
+		width: 91px;
+	}
+	.eventon_popup_text input.short.shorter.evoPOSH_input{width: 59px;}
+	#eventon_loading{
+		display:none;
+		margin:-20px 0 0 -20px;
+		position:absolute;
+		width:100%;
+		height:100%;
+		background:url(../images/loading_animation.gif) center center no-repeat;
+	}
+
+	.evoPOSH_inner{
+		width:940px;
+	}
+	.evoPOSH_inner .steps.step2{
+		height: 450px;
+		overflow: auto;
+		display: none;
+	}
+	.evoPOSH_inner .steps{
+		float:left;
+		width:470px;
+	}
+	#evoPOSH_outter{
+		width:470px;
+		overflow:hidden;
+		position:relative;
+	}
+	#evoPOSH_outter h3{
+		font:italic 14px 'open sans';
+		color:#848484;
+		margin:0;
+		border-bottom:1px solid #ededed;
+		position:relative;
+		overflow:hidden;
+	}
+	#evoPOSH_outter h3.back span{
+		padding-left:30px;
+	}
+	#evoPOSH_outter h3 span{
+		padding:10px;
+		display:block;
+	}
+	#evoPOSH_back{
+		cursor:pointer;
+		position:absolute;
+		height:100%;
+		display:block;
+		background:#efeeee url(../images/icons/arrows_back.png) center center no-repeat;
+		float:left;
+		width:20px;
+		left:-20px
+	}
+	#evoPOSH_back:hover{opacity:0.8}
+	.evoPOSH_btn{
+		cursor:pointer;
+		border-bottom:1px solid #ededed;
+		font:16px 'open sans';
+		padding:10px;
+	}
+	.evoPOSH_btn:hover{
+		background-color:#ededed;
+	}
+	.evoPOSH_footer{
+		background-color:#e2e2e2;
+		position:relative;
+		border-bottom:2px solid #d0d0d0;
+	}
+	#evoPOSH_code{
+		margin:0;
+		padding: 15px 50px 15px 10px;
+		font-family: century;
+		font-size: 14px;
+		color:#7b7b7b;	
+	}
+	.evoPOSH_insert{
+		display:block;
+		background:#dfa872 url(../images/backend_post/shortcode_insert_icon.png) center center no-repeat;
+		padding:0 20px;
+		position:absolute;
+		right:0; bottom:-2px;
+		height:100%;
+		cursor:pointer;
+		border-bottom:2px solid #d69d66
+	}
+	.evoPOSH_insert:hover{opacity:0.8}
+	.fieldline{
+		border-bottom:1px solid #ededed;
+		padding:5px 10px;
+		position: relative;
+	}
+	.fieldline p.label{
+		margin:0;
+		padding:0px;
+		font:13px 'open sans';
+		position: relative;
+		background-color: transparent;
+		color: #444
+	}
+	#evoPOSH_var_{display:none}
+
+	.fieldline .evoPOSH_tax{
+		position:relative;
+		background-color:#c5c4c4;
+		color:#fff;
+		padding:2px 6px;
+		border-radius:3px;
+		cursor:pointer;
+		border-bottom:2px solid #adadad
+	}
+	.fieldline .evoPOSH_tax:hover span{
+		display:block;
+	}
+	.fieldline .evoPOSH_tax span{
+		position:absolute;
+		background-color:#777777;
+		color:#fff;
+		left:0;
+		bottom:28px;
+		padding:4px;
+		display:none;
+		width:150px;
+	}
+	.fieldline .evoPOSH_tax span em{
+		display:block
+	}
+	.fieldline .evoPOSH_tax span:before{
+		content:"";
+		width: 0px;
+		height: 0px;
+		border-style: solid;
+		border-width: 8px 6px 0 6px;
+		border-color: #777777 transparent transparent transparent;
+		position:absolute;
+		left:15px;
+		bottom:-6px
+	}
+	#evoPOSH_outter .evoGuideCall{
+		right: 0;
+		top: 5px;
+		padding: 0;
+	}
+
+
+/* taxonomy section */
+	#evo_et1_color .evo_et1_color_circle{
+		height: 50px; width: 50px;
+		border:3px solid #fff;
+		border-radius:50%;cursor: pointer;
+	}
+	#evo_et1_color .evo_et1_color_circle:hover{border-color:#BBB;}
+
+
+/*-- fields and inputs */
+	.evoYN_row .evcal_yn_btn{
+		display:inline-block;
+		position:absolute;
+	}
+	.evoYN_row label{
+		padding-left:80px;
+	}
+	.yesno_leg_line{padding-top:10px}
+	.evo_YN_btn{
+		background: url(../images/yes_no_btn.png) left top no-repeat;
+		height: 26px;
+		width: 68px;
+		display: inline-block;
+		cursor: pointer;
+		outline: none;
+		position:absolute
+	}
+	.evo_YN_btn.NO{
+		background-position:0 -26px
+	}
+	.evoYN_row span{
+		padding-left: 77px;
+		padding-top: 4px;
+		padding-bottom: 4px;
+		display: block;
+	}
+	
+	/* CSS button */
+	
+		.evo_yn_btn{
+			background-color: #dfa872;
+			height: 22px;
+			width: 68px;
+			overflow: hidden;
+			display: inline-block;	
+			border: 1px solid #aaa;	
+			border-bottom: 3px solid #aaa;	
+			cursor: pointer; border-radius: 4px;
+		}
+		.evo_yn_btn:hover{border-bottom-width: 2px;margin-top: 1px;}
+		.evo_yn_btn:hover .catchHandle{background-color: #fff;}
+		.evo_yn_btn.NO{background-color: #fff;
+			border-color: #d9d7d7;
+		}
+		
+
+		.evo_yn_btn .btn_inner:before,.evo_yn_btn .btn_inner:after{
+			top: 0;
+			position: absolute;		
+			padding: 4px 8px;
+			line-height: 100%;
+		}
+		.evo_yn_btn .btn_inner:before{
+			left: 0;
+			content:"NO";
+			color: #A0A0A0;
+		}
+		.evo_yn_btn .btn_inner:after{
+			right: 0;
+			color: #fff;
+			content:"YES";
+			padding-right: 8px;
+		}
+		.evo_yn_btn .btn_inner{
+			position: relative;
+			padding-left: 42px;
+			padding-right: 42px;
+			padding-top: 0;
+			height: 22px;
+			width: 26px;
+			display: block;
+			margin-left: -43px;
+		}	
+			.evo_yn_btn.NO .btn_inner{margin-left: 0px;}
+		.catchHandle{
+			border-left: 1px solid #d9d7d7;
+			border-right: 1px solid #d9d7d7;
+			background-color: #f0efef;
+			height: 22px;
+			padding-top: 4px;
+			width: 26px;
+			display: block;
+		}
+		.catchHandle:before{
+			content:"";
+			border-left: 2px solid #d9d7d7;
+			border-right: 2px solid #d9d7d7;
+			height: 13px;
+			width: 4px;
+			display: block;
+			margin-left: 8px;
+		}
+		.evo_yn_btn .btn_inner, .catchHandle {
+			-webkit-transition: all .2s ease;
+			-moz-transition: all .2s ease;
+			-ms-transition: all .2s ease;
+			-o-transition: all .2s ease;
+			transition: all .2s ease;
+		}
+
+		.evomb_body .evo_yn_btn{border-color:#666666;}
+		.evomb_body .catchHandle{border-color:#9B9B9B;}
+
+
+
+/*-- widget --*/
+	.eventon_widget_settings p.evo_widget_textarea textarea{
+		width: 100%;
+	}
+	#eventon_widget_settings .eventon_widget_top{
+		margin:-12px -12px 0px -12px;
+		background-color:#dfa872;
+		border-bottom:1px solid #dfdfdf;
+		padding:10px 0;
+		border-top: 3px solid #d0945a;
+	}
+	#eventon_widget_settings .eventon_widget_top p{
+		margin:0;
+		background:#dfa872 url(../images/widget_image.jpg) 10px center no-repeat;
+		height:33px;
+	}
+	#eventon_widget_settings .divider{
+		margin:0 -12px 0px;	
+		border-bottom:1px solid #dfdfdf;
+	}
+
+	.evo_widget_outter{
+		margin:0 -12px 0;
+	}
+	.evowig em{
+		background-color:#f6efe8;
+		padding:7px 11px;
+		display:block;
+		color:#c3b9af;
+		font: italic 12px 'open sans',arial;
+		line-height:110%;
+	}
+	.evo_wig_item .evoGuideCall{
+		right:10px;
+		top:10px;
+	}
+	.evo_wig_item .evoGuideCall em{
+		display:none;
+		background-color: #487e8a;
+		color: #fff;
+		padding: 8px;
+		font: italic 12px 'open sans';
+	}
+	.evo_wig_item .evoGuideCall:hover em{ display:block}
+
+	.evo_wig_item.select_row select{
+		border:none; box-shadow: none
+	}
+	.evo_wig_item.select_row label{
+		padding-left: 10px;
+		font: italic 15px 'open sans',arial;
+	}
+	.evo_wig_item{
+		border-bottom:1px solid #dfdfdf;
+		position:relative;
+	}
+
+	.evowig input{
+		background-color: transparent;
+		border: 0;
+		-webkit-box-sizing: border-box;
+		outline: 0;
+		width: 100%;
+		resize:none;
+		vertical-align:bottom;
+		overflow:hidden;
+		font: italic 15px 'open sans',arial;
+		-webkit-appearance: none;
+		-webkit-border-radius: 0;
+		box-shadow:none;
+		padding:7px 11px;
+	}
+	.evowig input:focus{
+		-webkit-appearance: none;
+		-webkit-border-radius: 0;
+		box-shadow:none
+	}
+	#eventon_widget_settings .evo_wig_item p{
+		padding:6px;margin:0;
+		font: italic 13px 'open sans',arial;
+	}
+	.evo_wug_hid{display:none}
+	#eventon_widget_settings .evo_wig_item p.evowig_chbx{
+		cursor:pointer;
+		background-color:#dfa872;
+		width:46px; height:35px;
+		display:block;
+		float:left;
+		margin-right:8px;
+		margin-bottom:0;
+		padding:0;
+	}
+	#eventon_widget_settings .evo_wig_item:hover p.evowig_chbx:before{
+		background-image:url(../images/backend_post/checkmark_2.png);
+		background-position:center center;
+		background-repeat:no-repeat;
+		content:"";
+		opacity:0.3;
+		width:100%; height:100%; display:block;
+	}
+	#adminmenuwrap #adminmenu #toplevel_page_eventon a .wp-menu-image:before {
+		font-size: 20px;
+		margin-top: 3px;
+		margin-left: 5px;
+		position: absolute;
+	}
+	.evowig_chbx.selected{
+		background-image:url(../images/backend_post/checkmark_2.png);
+		background-position:center center;
+		background-repeat:no-repeat;
+	}
+
+
+/* stylish meta box with table of content */
+	table.evo_metatable{border:none; border-spacing: 0px;
+	    border-collapse: separate;
+	    border-radius:8px; overflow:hidden;
+	    font-size: 14px;
+	    font-style: italic;
+	}
+	table.evo_metatable td{
+		padding: 10px;
+		border-bottom:1px dashed #E6E6E6;
+	}
+	table.evo_metatable tr:last-child td{border:none;}
+	table.evo_metatable tr:hover{
+		background-color: #FDF8EF;
+	}
+
+
+/* edit events page */
+	.inline-edit-ajde_events .input_time{
+		padding-right:60px;
+		display:block;
+		position:relative
+	}
+	.inline-edit-ajde_events .input_time em{
+		position:absolute;
+		right:5px;
+		top:5px;
+		width:50px;
+	}
+
+/* icon eventon */
+	#adminmenuwrap #adminmenu #toplevel_page_eventon a .wp-menu-image img {
+		display: none;
+	}	
+	#adminmenuwrap #adminmenu #toplevel_page_eventon a .wp-menu-image:before {
+		font-family: 'eventon' !important;
+		content: '\e600';
+		speak: none;
+		font-style: normal;
+		font-weight: normal;
+		font-variant: normal;
+		text-transform: none;
+		line-height: 1;
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+	}
+
+	#adminmenuwrap #menu-posts-ajde_events .wp-menu-image:before{
+		content: "\f133";
+		display: inline-block;
+		font-family: FontAwesome;
+		font-style: normal;
+		font-weight: normal;
+		line-height: 1;
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+	}
+
+/* custom fonts for icon */
+	@font-face {
+		font-family: 'eventon';
+		src:url('../fonts/eventon.eot');
+		src:url('../fonts/eventon.eot?#iefix') format('embedded-opentype'),
+			url('../fonts/eventon.ttf') format('truetype'),
+			url('../fonts/eventon.woff') format('woff'),
+			url('../fonts/eventon.svg#eventon') format('svg');
+		font-weight: normal;
+		font-style: normal;
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

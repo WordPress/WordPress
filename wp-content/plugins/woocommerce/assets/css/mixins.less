@@ -1,0 +1,166 @@
+@woocommerce: 	#ad74a2;
+@green:			#7ad03a;
+@red:			#a00;
+@orange:		#ffba00;
+@blue:			#2ea2cc;
+
+.clearfix() {
+	*zoom:1;
+	&:before,
+	&:after {
+		content: " ";
+		display: table;
+	}
+	&:after {
+		clear: both;
+	}
+}
+.border_radius(@radius:4px) {
+	-webkit-border-radius:@radius;
+	border-radius:@radius;
+}
+.border_radius_right(@radius:4px) {
+	-webkit-border-top-right-radius: @radius;
+	-webkit-border-bottom-right-radius: @radius;
+	border-top-right-radius: @radius;
+	border-bottom-right-radius: @radius;
+}
+.border_radius_left(@radius:4px) {
+	-webkit-border-top-left-radius: @radius;
+	-webkit-border-bottom-left-radius: @radius;
+	border-top-left-radius: @radius;
+	border-bottom-left-radius: @radius;
+}
+.border_radius_bottom(@radius:4px) {
+	-webkit-border-bottom-left-radius: @radius;
+	-webkit-border-bottom-right-radius: @radius;
+	border-bottom-left-radius: @radius;
+	border-bottom-right-radius: @radius;
+}
+.border_radius_top(@radius:4px) {
+	-webkit-border-top-left-radius: @radius;
+	-webkit-border-top-right-radius: @radius;
+	border-top-left-radius: @radius;
+	border-top-right-radius: @radius;
+}
+.opacity(@opacity:0.75) {
+	filter:~"alpha(opacity=@opacity * 100)";
+	-moz-opacity:@opacity;
+	-khtml-opacity: @opacity;
+	opacity: @opacity;
+}
+.box_shadow(@shadow_x:3px, @shadow_y:3px, @shadow_rad:3px, @shadow_in:3px, @shadow_color:#888) {
+	box-shadow:@shadow_x @shadow_y @shadow_rad @shadow_in @shadow_color;
+	-webkit-box-shadow:@shadow_x @shadow_y @shadow_rad @shadow_in @shadow_color;
+}
+.inset_box_shadow(@shadow_x:3px, @shadow_y:3px, @shadow_rad:3px, @shadow_in:3px, @shadow_color:#888) {
+	box-shadow:inset @shadow_x @shadow_y @shadow_rad @shadow_in @shadow_color;
+	-webkit-box-shadow:inset @shadow_x @shadow_y @shadow_rad @shadow_in @shadow_color;
+}
+.text_shadow(@shadow_x:3px, @shadow_y:3px, @shadow_rad:3px, @shadow_color:#fff) {
+	text-shadow:@shadow_x @shadow_y @shadow_rad @shadow_color;
+}
+.vertical_gradient(@from: #000, @to: #FFF) {
+	background: @from;
+	background: -webkit-gradient(linear, left top, left bottom, from(@from), to(@to));
+	background: -webkit-linear-gradient(@from, @to);
+	background: -moz-linear-gradient(center top, @from 0%, @to 100%);
+	background: -moz-gradient(center top, @from 0%, @to 100%);
+}
+.transition(@selector:all, @animation:ease-in-out, @duration:.2s) {
+	-webkit-transition:@selector @animation @duration;
+	-moz-transition:@selector @animation @duration;
+	-o-transition:@selector @animation @duration;
+	transition:@selector @animation @duration;
+}
+
+.scale(@ratio:1.5){
+  -webkit-transform:scale(@ratio);
+  -moz-transform:scale(@ratio);
+  -ms-transform:scale(@ratio);
+  -o-transform:scale(@ratio);
+  transform:scale(@ratio);
+}
+
+.borderbox () {
+	-webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+	-moz-box-sizing: border-box;    /* Firefox, other Gecko */
+	box-sizing: border-box;         /* Opera/IE 8+ */
+}
+
+.clear { clear: both; }
+.nobr { white-space: nowrap; }
+
+.darkorlighttextshadow ( @a, @opacity: 0.8 ) when (lightness(@a) >= 65%) { .text_shadow( 0, -1px, 0, rgba(0,0,0,@opacity) ); }
+.darkorlighttextshadow ( @a, @opacity: 0.8 ) when (lightness(@a) < 65%) { .text_shadow( 0, 1px, 0, rgba(255,255,255,@opacity) ); }
+
+/**
+ * Objects
+ */
+.menu() {
+	.clearfix;
+	li {
+		display: inline-block;
+	}
+}
+.mediaright() {
+	.clearfix;
+	img {
+		float:right;
+		height:auto;
+	}
+}
+.medialeft() {
+	.clearfix;
+	img {
+		float:right;
+		height:auto;
+	}
+}
+.ir() {
+	display: block;
+	text-indent: -9999px;
+	position: relative;
+	height:1em;
+	width:1em;
+}
+.icon( @glyph: "\e001" ) {
+	font-family: 'WooCommerce';
+	speak: none;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+	-webkit-font-smoothing: antialiased;
+	margin:0;
+	text-indent: 0;
+	position: absolute;
+	top:0;
+	left:0;
+	width:100%;
+	height: 100%;
+	text-align: center;
+	content: @glyph;
+}
+.iconbefore( @glyph: "\e001" ) {
+	font-family: 'WooCommerce';
+	speak: none;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+	-webkit-font-smoothing: antialiased;
+	margin-right:7px;
+	content: @glyph;
+}
+.iconafter( @glyph: "\e001" ) {
+	font-family: 'WooCommerce';
+	speak: none;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+	-webkit-font-smoothing: antialiased;
+	margin-left:7px;
+	content: @glyph;
+}

@@ -1,0 +1,177 @@
+
+/* Kludge for too-wide forums dropdown */
+#poststuff #bbp_forum_attributes select#parent_id,
+#poststuff #bbp_topic_attributes select#parent_id,
+#poststuff #bbp_reply_attributes select#bbp_forum_id {
+	max-width: 170px;
+}
+
+/* Version Badge */
+
+.bbp-badge {
+	padding-top: 142px;
+	height: 50px;
+	width: 173px;
+	color: #fafafa;
+	font-weight: bold;
+	font-size: 14px;
+	text-align: center;
+	margin: 0 -5px;
+	background: url('../images/badge.png') no-repeat;
+}
+
+.about-wrap .bbp-badge {
+	position: absolute;
+	top: 0;
+	right: 0;
+}
+	body.rtl .about-wrap .bbp-badge {
+		right: auto;
+		left: 0;
+	}
+
+#bbp-dashboard-right-now p.sub,
+#bbp-dashboard-right-now .table,
+#bbp-dashboard-right-now .versions {
+	margin: -12px;
+}
+
+#bbp-dashboard-right-now .inside {
+	font-size: 12px;
+	padding-top: 20px;
+	margin-bottom: 0;
+}
+
+#bbp-dashboard-right-now p.sub {
+	padding: 5px 0 15px;
+	color: #8f8f8f;
+	font-size: 14px;
+	position: absolute;
+	top: -17px;
+	left: 15px;
+}
+	body.rtl #bbp-dashboard-right-now p.sub {
+		right: 15px;
+		left: 0;
+	}
+
+#bbp-dashboard-right-now .table {
+	margin: 0;
+	padding: 0;
+	position: relative;
+}
+
+#bbp-dashboard-right-now .table_content {
+	float: left;
+	border-top: #ececec 1px solid;
+	width: 45%;
+}
+	body.rtl #bbp-dashboard-right-now .table_content {
+		float: right;
+	}
+
+#bbp-dashboard-right-now .table_discussion {
+	float: right;
+	border-top: #ececec 1px solid;
+	width: 45%;
+}
+	body.rtl #bbp-dashboard-right-now .table_discussion {
+		float: left;
+	}
+
+#bbp-dashboard-right-now table td {
+	padding: 3px 0;
+	white-space: nowrap;
+}
+
+#bbp-dashboard-right-now table tr.first td {
+	border-top: none;
+}
+
+#bbp-dashboard-right-now td.b {
+	padding-right: 6px;
+	text-align: right;
+	font-family: Georgia, "Times New Roman", "Bitstream Charter", Times, serif;
+	font-size: 14px;
+	width: 1%;
+}
+	body.rtl #bbp-dashboard-right-now td.b {
+		padding-left: 6px;
+		padding-right: 0;
+	}
+
+#bbp-dashboard-right-now td.b a {
+	font-size: 18px;
+}
+
+#bbp-dashboard-right-now td.b a:hover {
+	color: #d54e21;
+}
+
+#bbp-dashboard-right-now .t {
+	font-size: 12px;
+	padding-right: 12px;
+	padding-top: 6px;
+	color: #777;
+}
+	body.rtl #bbp-dashboard-right-now .t {
+		padding-left: 12px;
+		padding-right: 0;
+	}
+
+#bbp-dashboard-right-now .t a {
+	white-space: nowrap;
+}
+
+#bbp-dashboard-right-now .spam {
+	color: red;
+}
+
+#bbp-dashboard-right-now .waiting {
+	color: #e66f00;
+}
+
+#bbp-dashboard-right-now .approved {
+	color: green;
+}
+
+#bbp-dashboard-right-now .versions {
+	padding: 6px 10px 12px;
+	clear: both;
+}
+
+#bbp-dashboard-right-now .versions .b {
+	font-weight: bold;
+}
+
+#bbp-dashboard-right-now a.button {
+	float: right;
+	clear: right;
+	position: relative;
+	top: -5px;
+}
+	body.rtl #bbp-dashboard-right-now a.button {
+		float: left;
+		clear: left;
+	}
+
+/* Dashicons */
+#adminmenu #menu-posts-forum .wp-menu-image:before {
+	content: "\f449";
+}
+
+#adminmenu #menu-posts-topic .wp-menu-image:before {
+	content: "\f450";
+}
+
+#adminmenu #menu-posts-reply .wp-menu-image:before {
+	content: "\f451";
+}
+
+/* Ratio 2x */
+@media only screen and (-webkit-min-device-pixel-ratio: 1.5) {
+	.bbp-badge {
+		background-image: url('../images/badge-2x.png');
+		background-size: 173px 194px;
+	}
+}

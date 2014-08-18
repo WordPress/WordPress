@@ -1,0 +1,7 @@
+  Theme : Flato
+Version : 1.0
+ Author : -
+
+December 18 2013 - 1.0
+===========================================================
+- Initial release

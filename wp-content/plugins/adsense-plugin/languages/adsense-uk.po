@@ -1,0 +1,296 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: adsense\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-12-25 15:19+0300\n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: BestWebSoft <support@bestwebsoft.com>\n"
+"Language: ru_RU\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-Basepath: ..\n"
+"X-Generator: Poedit 1.5.4\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: adsense-plugin.class.php:77 adsense-plugin.php:33
+msgid "AdSense Settings"
+msgstr "Установки AdSense"
+
+#: adsense-plugin.class.php:77 adsense-plugin.php:34
+msgid "AdSense"
+msgstr "AdSense"
+
+#: adsense-plugin.class.php:84 adsense-plugin.class.php:93
+msgid "Settings"
+msgstr "Установки"
+
+#: adsense-plugin.class.php:94
+msgid "FAQ"
+msgstr "Часті питання"
+
+#: adsense-plugin.class.php:95
+msgid "Support"
+msgstr "Підтримка"
+
+#: adsense-plugin.class.php:243
+msgid "requires"
+msgstr "потребує"
+
+#: adsense-plugin.class.php:243
+msgid ""
+"or higher, that is why it has been deactivated! Please upgrade WordPress and "
+"try again."
+msgstr ""
+"чи вище, тому він був деактивований! Будь ласка оновіть WordPress та "
+"спробуйте ще раз."
+
+#: adsense-plugin.class.php:243
+msgid "Back to the WordPress"
+msgstr "Повернутися до WordPress на"
+
+#: adsense-plugin.class.php:243
+msgid "Plugins page"
+msgstr "Сторінку плагинів"
+
+#: adsense-plugin.class.php:260
+msgid "Settings saved"
+msgstr "Установки збережено"
+
+#: adsense-plugin.class.php:368
+msgid "Please enter valid Publisher ID."
+msgstr "Будь ласка, заповніть ваш Publisher ID."
+
+#: adsense-plugin.class.php:370
+msgid "Please enter your Publisher ID."
+msgstr "Будь ласка, заповніть ваш Publisher ID."
+
+#: adsense-plugin.class.php:385
+msgid "Notice:"
+msgstr "Зауважте:"
+
+#: adsense-plugin.class.php:385
+msgid ""
+"The plugin's settings have been changed. In order to save them please don't "
+"forget to click the 'Save Changes' button."
+msgstr ""
+"Налаштування плагіну змінено. Будь ласка, натисніть кнопку \"Зберегти\", щоб "
+"зберегти зміни."
+
+#: adsense-plugin.class.php:389
+msgid "Network"
+msgstr "Мережа"
+
+#: adsense-plugin.class.php:392
+msgid "Publisher ID:"
+msgstr "Publisher ID:"
+
+#: adsense-plugin.class.php:399
+msgid "Publisher ID is a unique identifier of"
+msgstr "Publisher ID є унікальним номером"
+
+#: adsense-plugin.class.php:399
+msgid "your account"
+msgstr "вашого акаунту"
+
+#: adsense-plugin.class.php:399
+msgid "in Google AdSense."
+msgstr "в Google AdSense."
+
+#: adsense-plugin.class.php:404
+msgid "Ad Type &amp; Format"
+msgstr "Тип та формат рекламних блоків"
+
+#: adsense-plugin.class.php:407
+msgid "Type:"
+msgstr "Тип:"
+
+#: adsense-plugin.class.php:411
+msgid "Ad block"
+msgstr "Блок реклами"
+
+#: adsense-plugin.class.php:414
+msgid "Text and image ads"
+msgstr "Текстова та візуальна реклама"
+
+#: adsense-plugin.class.php:415
+msgid "Text ads only (default)"
+msgstr "Тільки текстова реклама (стандартна установка)"
+
+#: adsense-plugin.class.php:416
+msgid "Image ads only"
+msgstr "Тільки візуальна реклама"
+
+#: adsense-plugin.class.php:420
+msgid "Block of links"
+msgstr "Блок посилань"
+
+#: adsense-plugin.class.php:424
+msgid "Format:"
+msgstr "Формат:"
+
+#: adsense-plugin.class.php:487
+msgid "Position &amp; amount of ads"
+msgstr "Розміщення та кількість рекламних блоків"
+
+#: adsense-plugin.class.php:490
+msgid "Position:"
+msgstr "Розміщення:"
+
+#: adsense-plugin.class.php:494
+msgid "Below the post (Single post page)"
+msgstr "Після запису (на окремій сторінці)"
+
+#: adsense-plugin.class.php:495
+msgid "Below the post (Home page)"
+msgstr "Після запису (на домашній сторінці)"
+
+#: adsense-plugin.class.php:496
+msgid "Below the post (Single post page and Home page)"
+msgstr "Після запису (на домашній та окремій сторінках)"
+
+#: adsense-plugin.class.php:497
+msgid "Below the comment form"
+msgstr "Після форми відправки коментаря"
+
+#: adsense-plugin.class.php:498
+msgid "Above the footer"
+msgstr "Перед футером"
+
+#: adsense-plugin.class.php:503
+msgid "Number of Ads:"
+msgstr "Кількість блоків:"
+
+#: adsense-plugin.class.php:512
+msgid "Number of ads below the posts on the home page."
+msgstr "Кількість рекламних блоків після записів на домашній сторінці."
+
+#: adsense-plugin.class.php:517
+msgid "Visualisation"
+msgstr "Зовнішній вигляд"
+
+#: adsense-plugin.class.php:521
+msgid "Colors:"
+msgstr "Кольори:"
+
+#: adsense-plugin.class.php:532
+msgid "Border"
+msgstr "Рамка"
+
+#: adsense-plugin.class.php:543 adsense-plugin.class.php:774
+msgid "Title"
+msgstr "Заголовок"
+
+#: adsense-plugin.class.php:554
+msgid "Background"
+msgstr "Фон"
+
+#: adsense-plugin.class.php:565
+msgid "Text"
+msgstr "Текст"
+
+#: adsense-plugin.class.php:576
+msgid "URL"
+msgstr "Посилання"
+
+#: adsense-plugin.class.php:589
+msgid "Palette:"
+msgstr "Палітра:"
+
+#: adsense-plugin.class.php:593
+msgid "Default Google pallete"
+msgstr "Палітра Google (стандартна установка)"
+
+#: adsense-plugin.class.php:596
+msgid "Open Air"
+msgstr "Open Air"
+
+#: adsense-plugin.class.php:597
+msgid "Seaside"
+msgstr "Seaside"
+
+#: adsense-plugin.class.php:598
+msgid "Shadow"
+msgstr "Shadow"
+
+#: adsense-plugin.class.php:599
+msgid "Blue Mix"
+msgstr "Blue Mix"
+
+#: adsense-plugin.class.php:600
+msgid "Ink"
+msgstr "Ink"
+
+#: adsense-plugin.class.php:601
+msgid "Graphite"
+msgstr "Graphite"
+
+#: adsense-plugin.class.php:605
+msgid "These are the standard Google color palettes."
+msgstr "Це стандартні Google палітри."
+
+#: adsense-plugin.class.php:609
+msgid "Corner Style:"
+msgstr "Стиль кутів:"
+
+#: adsense-plugin.class.php:613
+msgid "Select a corner style"
+msgstr "Виберіть стиль кутів"
+
+#: adsense-plugin.class.php:614
+msgid "Square corners"
+msgstr "Кути без заокруглювань"
+
+#: adsense-plugin.class.php:615
+msgid "Slightly rounded corners"
+msgstr "дещо заокруглені кути"
+
+#: adsense-plugin.class.php:616
+msgid "Rounded corners"
+msgstr "Дуже заокруглені кути"
+
+#: adsense-plugin.class.php:619
+msgid "Corner style property will help you to make your Ad corners rounded."
+msgstr ""
+"За допомогою даної опції Ви можете заокруглити кути Вашого рекламного блоку."
+
+#: adsense-plugin.class.php:624
+msgid "Donations"
+msgstr "Пожертви"
+
+#: adsense-plugin.class.php:627
+msgid "Donate:"
+msgstr "Зробіть пожертву:"
+
+#: adsense-plugin.class.php:632
+msgid "Support us by Donating Ad Space."
+msgstr "Підтримайте наш проект, надаючи рекламний простір."
+
+#: adsense-plugin.class.php:634
+msgid ""
+"Please enter a percentage value of the ad slots you are ready to share "
+"[Default: 0%]."
+msgstr ""
+"Введіть процент від перегляду реклами, яким ви можете пожертвувати "
+"[Стандартне значення: 0%]."
+
+#: adsense-plugin.class.php:649
+msgid "Save Changes"
+msgstr "Зберегти зміни"
+
+#: adsense-plugin.class.php:658
+msgid "If you enjoy our plugin, please give it 5 stars on WordPress"
+msgstr ""
+"Якщо вам подобається наш плагін, будь ласка, поставте нам п’ять зірочок на "
+"WordPress"
+
+#: adsense-plugin.class.php:659
+msgid "Rate the plugin"
+msgstr "Оцініть плагін"
+
+#: adsense-plugin.class.php:662
+msgid "If there is something wrong about it, please contact us"
+msgstr "Якщо у вас виникли проблеми, повідомте нам"

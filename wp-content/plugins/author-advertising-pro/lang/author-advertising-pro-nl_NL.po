@@ -1,0 +1,1582 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Author Advertising pro\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-02-09 12:00+0100\n"
+"PO-Revision-Date: 2014-02-09 12:04+0100\n"
+"Last-Translator: Gianluca Marzaro <giangel84@gmail.com>\n"
+"Language-Team: Marzaro Gianluca <info@author-adv-pro.org>\n"
+"Language: it_IT\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: _e;__\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Generator: Poedit 1.6.3\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: admin-ads.php:183 admin-ads.php:235
+msgid "Dimensioni dell'Annuncio:"
+msgstr "Advertentie grootte:"
+
+#: admin-ads.php:197
+msgid "Consigliato"
+msgstr "Geadviseerd"
+
+#: admin-ads.php:198
+msgid "Rettangolo medio"
+msgstr "Middelgrote rechthoek"
+
+#: admin-ads.php:199
+msgid "Rettangolo grande"
+msgstr "Grote rechthoek"
+
+#: admin-ads.php:200
+msgid "Leaderboard"
+msgstr "Leaderboard"
+
+#: admin-ads.php:201
+msgid "Skyscraper largo"
+msgstr "Grote skyscraper"
+
+#: admin-ads.php:202
+msgid "Banner mobile"
+msgstr "banner mobiel"
+
+#: admin-ads.php:205
+msgid "Altro: orizzontale"
+msgstr "Andere: Horizontaal"
+
+#: admin-ads.php:206
+msgid "Leaderboard grande"
+msgstr "Leaderboard grote"
+
+#: admin-ads.php:207
+msgid "Banner grande per dispositivi mobili"
+msgstr "Grote banners voor mobiele apparaten"
+
+#: admin-ads.php:208
+msgid "Banner"
+msgstr "Banner"
+
+#: admin-ads.php:209
+msgid "Mezzo banner"
+msgstr "Halve banner"
+
+#: admin-ads.php:212
+msgid "Altro: verticale"
+msgstr "Andere: Vertikaal"
+
+#: admin-ads.php:213
+msgid "Skyscraper"
+msgstr "Wolkenkrabber"
+
+#: admin-ads.php:214
+msgid "Banner verticale"
+msgstr "Vertikale banner"
+
+#: admin-ads.php:215
+msgid "Skyscraper grande"
+msgstr "wolkenkrabber grande"
+
+#: admin-ads.php:218
+msgid "Altro: quadrato"
+msgstr "Andere: Vierkant"
+
+#: admin-ads.php:219
+msgid "Quadrato"
+msgstr "Vierkant"
+
+#: admin-ads.php:220
+msgid "Quadrato piccolo"
+msgstr "Klein vierkant"
+
+#: admin-ads.php:221
+msgid "Rettangolo piccolo"
+msgstr "Kleine rechthoek"
+
+#: admin-ads.php:222
+msgid "Button"
+msgstr "Knop"
+
+#: admin-ads.php:249 admin-ads.php:783
+msgid "Unit&agrave; di Link"
+msgstr "Link Unit"
+
+#: admin-ads.php:310
+msgid "Author Advertising Pro - Gestione Annunci Google"
+msgstr "Author Advertising Pro - Google Ads Manager"
+
+#: admin-ads.php:318
+msgid ""
+"In questa sezione potrai gestire, creare o eliminare i tuoi annunci Adsense"
+msgstr ""
+"In dit gedeelte kunt u Adsense advertenties maken, verwijderen en "
+"onderhouden."
+
+#: admin-ads.php:319 admin-adv.php:30
+msgid ""
+"Scegli il tipo di annuncio che desideri, poi compila tutti i campi necessari "
+"a farlo funzionare correttamente sul sito;<br/>In questa nuova versione di "
+"Author Advertising Pro, potrai decidere direttamente dove posizionare gli "
+"annunci all'interno delle pagine senza dover mettere mano al codice del tuo "
+"template."
+msgstr ""
+"Kies het advertentietype dat u wilt, dan vult u alle velden die nodig zijn "
+"om alles goed te laten werken op de site. <br/> In deze nieuwe versie van "
+"Author Advertising Pro kunt u beslissen waar u de advertenties wilt plaatsen "
+"op de pagina's zonder de code van uw sjabloon te manipuleren."
+
+#: admin-ads.php:343
+msgid "Annuncio eliminato correttamente."
+msgstr "Advertentie met succes verwijdert."
+
+#: admin-ads.php:347
+msgid "Errore durante l'eliminazione dell'annuncio."
+msgstr "Fout bij verwijderen advertentie."
+
+#: admin-ads.php:356
+msgid ""
+"Tutti gli annunci sono stati eliminati, il contatore degli ID &egrave; stato "
+"quindi resettato e ripartir&agrave; da 1"
+msgstr ""
+"Alle advertenties zijn verwijdert en de teller van het pub-id is gereset en "
+"begint weer bij 1."
+
+#: admin-ads.php:374
+msgid ""
+"E' stato creato un nuovo ID annuncio! Ora puoi modificarlo impostando i "
+"campi sottostanti!"
+msgstr ""
+"Nieuwe Advertentie ID met succes aangemaakt! U kunt de instellingen wijzigen "
+"met de onderstaande velden!"
+
+#: admin-ads.php:380
+msgid "Errore durante la creazione del nuovo ID annuncio"
+msgstr "Fout bij het maken van de nieuwe ID."
+
+#: admin-ads.php:396
+msgid "Non ci sono annunci salvati nel database"
+msgstr "Er zijn geen advertenties opgslagen in de database"
+
+#: admin-ads.php:400 admin-ads.php:414
+msgid "Crea un nuovo annuncio"
+msgstr "Maak een nieuwe advertentie"
+
+#: admin-ads.php:405
+msgid "Mostrami gli annunci che avevo nella precedente versione."
+msgstr "Laat me de advertenties van de vorige versie zien."
+
+#: admin-ads.php:716
+msgid "Scegli l'ID dell'annuncio che vuoi modificare:"
+msgstr "Kies het advertentie ID dat u wilt bewerken:"
+
+#: admin-ads.php:717 widget.php:163
+msgid "ID Annuncio:"
+msgstr "Advertentie ID:"
+
+#: admin-ads.php:721 widget.php:167
+msgid "Seleziona ID Annuncio"
+msgstr "Selecteer Advertentie ID:"
+
+#: admin-ads.php:750
+msgid "Spunta la casella se desideri che l'annuncio sia attivo:"
+msgstr "Selecteer indien u de advertentie wilt activeren:"
+
+#: admin-ads.php:755
+msgid "Annuncio Attivo:"
+msgstr "Actieve advertentie:"
+
+#: admin-ads.php:761
+msgid "Scegli il tipo di annuncio Adsense (Link/Banner):"
+msgstr "Kies het Adsense type (Links/Banner):"
+
+#: admin-ads.php:784
+msgid "Annuncio Illustrato/Testo"
+msgstr "Tekst en afbeeldingen"
+
+#: admin-ads.php:792
+msgid "Scegli il tipo di annuncio che desideri creare:"
+msgstr "Kies het type advertentie dat u wilt maken:"
+
+#: admin-ads.php:814
+msgid "Nuovo codice Adsense (ad_slot)"
+msgstr "Nieuwe Adsense code (ad_slot)"
+
+#: admin-ads.php:815
+msgid "Vecchio codice Adsense"
+msgstr "Oude Adsense code"
+
+#: admin-ads.php:832
+msgid "Codice AD_SLOT (formato annuncio):"
+msgstr "AD_SLOT code (Adverentie formaat):"
+
+#: admin-ads.php:850
+msgid "Usa il codice AD_SLOT relativo al pub-id dell'Autore"
+msgstr "Gebruik de AD_SLOT code, gerelateerd aan het pub-id van de auteur"
+
+#: admin-ads.php:851
+msgid "Usa un codice AD_SLOT personale"
+msgstr "Gebruik een aangepast AD_SLOT"
+
+#: admin-ads.php:856
+msgid "Ad_slot:"
+msgstr "Ad_slot:"
+
+#: admin-ads.php:858
+msgid ""
+"Inserisci il codice Ad_Slot di 10 cifre, altrimenti l'annuncio non "
+"funzioner&agrave;!"
+msgstr ""
+"Insert the Ad_Slot code consisting on 10 figures, else this Ad will not work!"
+
+#: admin-ads.php:858
+msgid "Codice Ad_Slot formalmente valido!"
+msgstr "Ad_Slot formeel geldige code!"
+
+#: admin-ads.php:859
+msgid "Codice Ad_Slot non valido: Deve contenere solo numeri!"
+msgstr "Invalid Ad_Slot code: It must contain only numbers!"
+
+#: admin-ads.php:935
+msgid ""
+"Puoi selezionare solo gli Ad_Slot che hai attivato nelle Impostazioni "
+"generali del plugin."
+msgstr ""
+"U kunt alleen de Ad_slot's selecteren welke bij de Plugin Standaard "
+"Instellingen zijn geactiveerd."
+
+#: admin-ads.php:946
+msgid "Scegli lo stile dell'annuncio Adsense:"
+msgstr "Kies Adsense Advertentie stijl:"
+
+#: admin-ads.php:969
+msgid "Solo Immagini"
+msgstr "Alleen afbeeldingen"
+
+#: admin-ads.php:973
+msgid "Solo Testo"
+msgstr "Alleen tekst"
+
+#: admin-ads.php:976
+msgid "Immagini e Testo"
+msgstr "Tekst en afbeeldingen"
+
+#: admin-ads.php:984
+msgid "Numero di links:"
+msgstr "Aantal links:"
+
+#: admin-ads.php:1005
+msgid "Seleziona lo stile degli angoli dell'annuncio:"
+msgstr "Kies de advertentie hoek stijl:"
+
+#: admin-ads.php:1022
+msgid "Nessuno (squadrato)"
+msgstr "Geen (vierkant)"
+
+#: admin-ads.php:1023
+msgid "Leggermente arrotondati"
+msgstr "Lichtelijk afgerond"
+
+#: admin-ads.php:1024
+msgid "Molto arrotondati"
+msgstr "Sterk afgerond"
+
+#: admin-ads.php:1030
+msgid "Seleziona i colori dell'annuncio:"
+msgstr "Kies Advertentie kleuren:"
+
+#: admin-ads.php:1030
+msgid ""
+"Inserisci un valore esadecimale o clicca sulla casella del colore per "
+"selezionarne uno."
+msgstr ""
+"Geef een HEX waarde of klik rechts in het kleurenpalet om een kleur te "
+"selecteren."
+
+#: admin-ads.php:1034
+msgid "Bordo"
+msgstr "Rand"
+
+#: admin-ads.php:1041
+msgid "Titolo"
+msgstr "Titel"
+
+#: admin-ads.php:1048
+msgid "Sfondo"
+msgstr "Achtergrond"
+
+#: admin-ads.php:1055
+msgid "Testo"
+msgstr "Tekst"
+
+#: admin-ads.php:1064
+msgid "URL"
+msgstr "URL"
+
+#: admin-ads.php:1072
+msgid "Link"
+msgstr "Link"
+
+#: admin-ads.php:1085
+msgid "Personalizza Pub-id:"
+msgstr "Pub-id aanpassen:"
+
+#: admin-ads.php:1092
+msgid ""
+"Inserisci un codice pub-id personale se desideri fare in modo che questo "
+"annuncio visualizzi sempre uno specifico pub-id.<br/><b>Lascialo vuoto se "
+"desideri che appaia il codice pub-id dell'autore!</b>"
+msgstr ""
+"Typ een aangepaste pub-id indien u wenst dat deze advertentie altijd de "
+"gespecificeerde pub-id laat zien. <br/> <b> Leeg laten als de pub-id van de "
+"auteur moet worden weergegeven! </ B>"
+
+#: admin-ads.php:1095
+msgid "Codice Pub-id:"
+msgstr "Pub-id Code:"
+
+#: admin-ads.php:1105 admin-ads.php:1111 user-adsense.php:75
+#: user-adsense.php:81
+msgid "Manca il suffisso \"pub-\" all'inizio del codice numerico"
+msgstr "Voorvoegsel \"pub-\" aan het begin van de code niet ingevuld!"
+
+#: admin-ads.php:1116 user-adsense.php:86
+msgid "Il codice pub-id inserito sembra corretto"
+msgstr "De ingevoerde pub-id code lijkt correct"
+
+#: admin-ads.php:1120 user-adsense.php:90
+msgid ""
+"Il codice pub-id dovrebbe essere di 4 caratteri + 16 cifre (es.: "
+"pub-0123456789012345)!"
+msgstr ""
+"De pub-id code moet uit 4 karakters + 16 nummers bestaan (bv.:  "
+"pub-0123456789012345)!"
+
+#: admin-ads.php:1126
+msgid "Inserire il codice pub-id utente!"
+msgstr "Insert the user pub-id code!"
+
+#: admin-ads.php:1138
+msgid "Canale di monitoraggio per questo annuncio:"
+msgstr "Kanaal monitoren van deze Advertentie:"
+
+#: admin-ads.php:1139
+msgid "Nome canale:"
+msgstr "Kanaal namen:"
+
+#: admin-ads.php:1146
+msgid "Commento per questo annuncio:"
+msgstr "Opmerking voor deze advertentie:"
+
+#: admin-ads.php:1147
+msgid "Testo del commento:"
+msgstr "Link titel"
+
+#: admin-ads.php:1153
+msgid "Posizionamento Automatico:"
+msgstr "Automatische positionering:"
+
+#: admin-ads.php:1154
+msgid ""
+"Ti permette di scegliere dove inserire questo annuncio, automaticamente, "
+"senza dover mettere mano al codice del template."
+msgstr ""
+"Hiermee kunt u kiezen waar deze advertentie te plaatsen, automatisch, zonder "
+"dat u de code van de template hacken."
+
+#: admin-ads.php:1161
+msgid "All'inizio dell'articolo:"
+msgstr "Aan het begin van het bericht:"
+
+#: admin-ads.php:1162
+msgid "Alla fine dell'articolo:"
+msgstr "Aan het einde van het bericht:"
+
+#: admin-ads.php:1163
+msgid "Al centro dell'articolo:"
+msgstr "In het midden van het bericht:"
+
+#: admin-ads.php:1164
+msgid ""
+"Attenzione: Il posizionamento automatico al centro viene ignorato se "
+"nell'articolo inserisci anche il TAG manuale o se non sono presenti ALMENO 2 "
+"paragrafi (Es.: &lsaquo;p&rsaquo;Primo paragrafo&lsaquo;/p&rsaquo;&lsaquo;"
+"p&rsaquo;Secondo paragrafo&lsaquo;/p&rsaquo;)"
+msgstr ""
+"Opmerking: De automatische positionering in het midden wordt genegeerd als "
+"de TAG artikel handmatig invoeren ook of als er geen minimaal 2 punten (Bv: "
+"&lsaquo;p&rsaquo;eerste paragraaf&lsaquo;/p&rsaquo; &lsaquo;p&rsaquo;Tweede "
+"paragraaf&lsaquo;/p&rsaquo;)"
+
+#: admin-ads.php:1172
+msgid "Posizionamento Manuale:"
+msgstr "Manuele positionering:"
+
+#: admin-ads.php:1173
+msgid ""
+"Scegli il TAG, ovvero la parola che inserita nell'articolo, verr&agrave "
+"sostituita con questo annuncio.<br/>Oppure copia il codice template ed "
+"inseriscilo dove preferisci nel codice php del tuo tema."
+msgstr ""
+"Door het plaatsen van een TAG in een bericht wordt deze advertentie "
+"weergegeven.<br/>Ook kunt u de code kopieeren en in het sjabloon platsen "
+"waar u de advertentie wilt hebben."
+
+#: admin-ads.php:1174
+msgid "TAG:"
+msgstr "TAG:"
+
+#: admin-ads.php:1195
+msgid "PHP Template tag:"
+msgstr "PHP sjabloon tag:"
+
+#: admin-ads.php:1204
+msgid ""
+"Seleziona le categorie abilitate alla visualizzazione di questo annuncio:"
+msgstr "Kies de categorien waar u advertenties wilt vertonen:"
+
+#: admin-ads.php:1208
+msgid ""
+"Inserisci l' ID della categoria degli articoli che vuoi includere/escludere "
+"- se pi&ugrave; di una separati da virgola (es.: 1,34,23,28). - <br/>Se "
+"escludi l'id di una categoria, e lo stesso id lo inserisci tra le categorie "
+"abilitate, l'annuncio non verr&agrave; visualizzato!"
+msgstr ""
+"Typ de berichten categorieën die u wilt opnemen / uitsluiten - als er meer "
+"dan een is dient u ze te scheiden met komma's (bv: 1,34,23,28). - <br/> "
+"Wanneer u een categorie uitsluit, en u typt dezelfde categorie in bij "
+"ingeschakelde categorieën, wordt de advertentie niet getoond!"
+
+#: admin-ads.php:1208
+msgid ""
+"Lascia vuota la casella se non desideri utilizzare la relativa funzione. Per "
+"le modalit&agrave; di funzionamento di questa opzione consulta la <a href="
+"\"http://author-adv-pro.org/guides?lang=it\" target=\"_blank\">guida</a>."
+msgstr ""
+"Laat leeg als u de relatieve functies niet wilt gebruiken. Voor de werkwijze "
+"van deze functie zie de <a href=\"http://author-adv-pro.org/guides?lang=it\" "
+"target=\"_blank\"> gids.</ a>"
+
+#: admin-ads.php:1212
+msgid "Disabilita per queste categorie:"
+msgstr "Voor deze categoriën uitschakelen:"
+
+#: admin-ads.php:1213
+msgid "Abilita per queste categorie:"
+msgstr "Voor deze categoriën inschakelen:"
+
+#: admin-ads.php:1218
+msgid "Personalizza Annuncio:"
+msgstr "Advertentie bewerken:"
+
+#: admin-ads.php:1221
+msgid ""
+"Gli annunci vengono visualizzati sul sito all'interno di un DIV, utilizza "
+"questo campo per scrivere delle regole CSS personalizzate."
+msgstr ""
+"De advertenties verschijnen op de site binnen een DIV, gebruik dit veld om "
+"een aangepast CSS te schrijven."
+
+#: admin-ads.php:1221
+msgid "(es.: \"float:left;height:280px;width:336px;overflow:hidden;\")"
+msgstr "(bv: \"float:left;height:280px;width:336px;overflow:hidden;\")"
+
+#: admin-ads.php:1224
+msgid "Css personalizzato:"
+msgstr "Aangepast CSS:"
+
+#: admin-ads.php:1231
+msgid "Codice Adsense generato per l'annuncio"
+msgstr "Adsense code gegenereerd voor deze advertentie"
+
+#: admin-ads.php:1237
+msgid "Salva questo annuncio"
+msgstr "Deze advertentie opslaan"
+
+#: admin-ads.php:1240
+msgid "Sei sicuro di voler eliminare questo annuncio defenitivamente?"
+msgstr "Wilt u deze advertentie permanent verwijderen?"
+
+#: admin-ads.php:1240
+msgid "Elimina questo annuncio"
+msgstr "Deze advertentie verwijderen"
+
+#: admin-adv.php:21
+msgid "Author Advertising Pro - Gestione Ad Rotator"
+msgstr "Author Advertising Pro - Ad Rotator Manager"
+
+#: admin-adv.php:29
+msgid ""
+"In questa sezione potrai gestire, creare o eliminare gli annunci di altre "
+"campagne NON-ADSENSE (Zanox, Tradedoubler ecc...).</b><br/><br/>Copia e "
+"Incolla direttamente qui sotto il codice completo dell'annuncio fornito dal "
+"tuo Advertiser. "
+msgstr ""
+"In dit gedeelte kunt u advertenties beheren, maken of verwijderen uit andere "
+"niet-Adsense campagnes (Zanox, Tradedoubler etc ...). </ b> Kopiëren en "
+"Plakken <br/> direct onder de volledige code van de advertentie van uw "
+"adverteerder"
+
+#: admin-mode.php:155
+msgid "Author Advertising Pro - Admin Mode"
+msgstr "Author Advertising Pro - Admin Mode"
+
+#: admin-mode.php:163
+msgid "Scegli la modalit&agrave; di funzionamento di Auhtor Advertising Pro."
+msgstr "Kies de werkingsmethode van Advertising Auhtor Pro"
+
+#: admin-mode.php:164
+msgid ""
+"Questa funzione ti permette di scegliere se vuoi suddividere la percentuale "
+"di impression dell'Amministratore con altri utenti specifici (ad esempio dei "
+"soci): Essi non dovranno per forza avere il ruolo di amministratore nel "
+"sito, sar&agrave; sufficiente che siano registrati e che abbiano inserito i "
+"propri dati adsense nel loro pannello di controllo."
+msgstr ""
+"Met deze functie kunt u het percentage van administrator impressies met "
+"andere specifieke gebruikers (bijvoorbeeld leden) verdelen: Ze mogen geen "
+"beheerder zijn van de site, ze hoeven alleen te zijn geregistreerd en hun "
+"gegevens in het adsense controle paneel te hebben ingevoerd."
+
+#: admin-mode.php:167
+msgid "Modalit&agrave; singolo/multi Admin."
+msgstr "Enkele / meerdere administrators."
+
+#: admin-mode.php:178
+msgid "Un solo Admin"
+msgstr "Een administrator"
+
+#: admin-mode.php:179
+msgid "Multi Admin"
+msgstr "Meedere administratoren"
+
+#: admin-mode.php:198
+msgid "Scegli il numero di utenti con i quali condividere le impression."
+msgstr "Kies het gebruikers nummer waamee impressies wordt gedeeld."
+
+#: admin-mode.php:199
+msgid "Numero di Admin"
+msgstr "Administrator nummer"
+
+#: admin-mode.php:213
+msgid ""
+"Ogni volta che <b>diminuisci</b> il numero di admin selezionati, le "
+"percentuali si resettano automaticamente."
+msgstr ""
+"Elke keer als u het aantal administrators <b>verminderd</b> worden de "
+"percentages automatisch gereset."
+
+#: admin-mode.php:217
+msgid ""
+"Scegli gli utenti dalla lista ed imposta, per ciascuno di essi, la "
+"percentuale di impression da condividere."
+msgstr ""
+"Kies de gebruikers uit de lijst en stel voor elk het percentage gedeelde "
+"impressies in."
+
+#: admin-mode.php:228
+msgid "Admin"
+msgstr "Administrator"
+
+#: admin-mode.php:245
+msgid "Percentuale totale:"
+msgstr "Totale percentage:"
+
+#: admin-mode.php:246
+msgid ""
+"Ricordati che devi impostare le percentuali di ogni utente in modo che il "
+"totale sia 100/100, altrimenti avrai perdite di impression."
+msgstr ""
+"Vergeet niet het percentage voor elke gebruiker in te stellen om een totaal "
+"van 100/100 te ontvangen, anders kunt u impressies verliezen."
+
+#: admin-mode.php:249 referral-mode.php:559 user-admin.php:89 widget.php:85
+msgid "Salva"
+msgstr "Opslaan"
+
+#: admin-options.php:134
+msgid ""
+"Poich&egrave; la percentuale dell'admin &egrave; stata diminutita rispetto "
+"alla percentuale del Referral, di conseguenza &egrave; stato corretto anche "
+"il valore percentuale del Referral. Verifica le impostazioni del Referral "
+"Mode se vuoi modificare il suo valore."
+msgstr ""
+"Als het percentage van de administrator is gezakt vergeleken met het "
+"percentage van de verwijzingen, is het percentage verwijzingen ook juist. "
+"Controleer de instellingen van de verwijzing Mode als u de waarde wilt "
+"wijzigen."
+
+#: admin-options.php:149
+msgid ""
+"Il Reset comporta la perdita permanente delle impostazioni di base del "
+"plugin. (I dati dei singoli utenti e delle altre funzioni non subiranno "
+"variazioni"
+msgstr ""
+"Resetten heeft permanent verlies van de basis instellingen van de plugin tot "
+"gevolg. (De gegevens voor individuele gebruikers en andere functies zal niet "
+"veranderen)"
+
+#: admin-options.php:167
+msgid "Author Advertising Pro - Impostazioni"
+msgstr "Author Advertising Pro - Standaard instellingen"
+
+#: admin-options.php:173
+msgid "Lingua in uso:"
+msgstr "Taal in gebruik:"
+
+#: admin-options.php:195
+msgid ""
+"Al momento le impression degli annunci Google sul tuo sito vengono suddivise "
+"con queste percentuali:"
+msgstr ""
+"De Adsense impressies zijn op uw site verdeeld volgens deze percentages:"
+
+#: admin-options.php:198
+msgid "Amministratore:"
+msgstr "Administrator:"
+
+#: admin-options.php:199
+msgid ""
+" con Referral mode attiva e <u>solo quando</u> si visualizzano gli articoli "
+"di autori sub-affiliati ad altri utenti."
+msgstr ""
+"van de verwijzing mode <u>alleen</u> actief als de artikelen van de partners "
+"van auteurs worden getoond."
+
+#: admin-options.php:201
+msgid "Editori:"
+msgstr "Editors:"
+
+#: admin-options.php:202
+msgid "Autori:"
+msgstr "Auteurs:"
+
+#: admin-options.php:207
+msgid "Referral:"
+msgstr "Verwijzing:"
+
+#: admin-options.php:217 admin-options.php:368 widget.php:203
+msgid "Salva le modifiche"
+msgstr "Instellingen opslaan"
+
+#: admin-options.php:223
+msgid "Modalit&agrave; di funzionamento:"
+msgstr "Plugin werkings mode:"
+
+#: admin-options.php:239
+msgid "Un solo Pub-id"
+msgstr "Enkele Pub-id"
+
+#: admin-options.php:240
+msgid "Multi Pub-id"
+msgstr "Meerdere Pub-id:"
+
+#: admin-options.php:245
+msgid ""
+"Seleziona il metodo di funzionamento del Plugin. Come stabilito recentemente "
+"dal <a target=\"_blank\" href=\"http://adsense.blogspot.com/2008/07/sharing-"
+"your-ad-space.html\" >regolamento di Google Adsense</a> nel tuo sito puoi "
+"far apparire uno o pi&ugrave; Pub-id per ogni singola pagina. Leggi la guida "
+"per maggiori informazioni."
+msgstr ""
+"Selecteer de werkings methode van de plugin. Volgens <a href=\"http://"
+"adsense.blogspot.com/2008/07/sharing-your-ad-space.html\">Google Adsense</a> "
+"mag u op uw site meerdere pub-id's voor elke pagina aanbrengen. Lees de "
+"handleiding voor meer informatie."
+
+#: admin-options.php:249
+msgid "Amministratore"
+msgstr "Administrator"
+
+#: admin-options.php:253
+msgid ""
+"Seleziona l' amministratore del sito. Se un autore non specifica il proprio "
+"pub-id nel suo profilo verranno visualizzati gli annunci adsense con il pub-"
+"id dell'amministratore all'interno del suo articolo."
+msgstr ""
+"Kies de administrator van de website. Als een auteur zijn juiste pub-id "
+"Adsense niet in zijn profiel opslaat, zal de pub-id van de administrator in "
+"zijn bericht worden getoond."
+
+#: admin-options.php:257
+msgid "Percentuale di visualizzazione Ads Admin"
+msgstr "Weergave percentage advertenties van de administrator"
+
+#: admin-options.php:261
+msgid ""
+"Inserisci la percentuale di visualizzazioni che desideri ottenere come "
+"Amministratore. Impostando 20, i tuoi ads verranno visualizzati 20 volte su "
+"100, mentre l'Ads dell'autore 80 su 100."
+msgstr ""
+"Voer het percentage in dat u wenst te verkrijgen als beheerder. Door het "
+"instellen van 20 worden uw advertenties 20 keer getoond van de 100, terwijl "
+"van de auteur 80 advertenties van de 100 worden getoond."
+
+#: admin-options.php:265
+msgid "Percentuale di visualizzazione Ads Editori"
+msgstr "Percentage advertenties van de editor"
+
+#: admin-options.php:272 admin-options.php:289
+msgid "Registra il plugin per attivare questa funzione"
+msgstr "Registreer de plugin om deze functie te activeren"
+
+#: admin-options.php:279
+msgid ""
+"Inserisci la percentuale di visualizzazioni che desideri offrire ai "
+"moderatori/editori degli articoli. Impostando 20% admin e 10% editori, i "
+"tuoi ads verranno visualizzati 20 volte su 100, quello dell'editore 10 volte "
+"su 100, mentre l'Ads dell'autore 70 su 100."
+msgstr ""
+"Voer het percentage van de editor in. Door het instellen van 20% voor "
+"administrator en 10% voor editors, worden uw advertenties 20 keer getoond "
+"van de 100, van de editor 10 keer van de 100, terwijl de advertenties van de "
+"auteur 70 keer van de 100 wodt getoond."
+
+#: admin-options.php:283
+msgid "Incentivo Editore"
+msgstr "Stimulans editor"
+
+#: admin-options.php:293
+#, php-format
+msgid ""
+"Attivando questa opzione, verr&agrave; dato il 100% delle impression agli "
+"articoli scritti dagli utenti con ruolo di Editore."
+msgstr ""
+"Wanneer u deze optie selecteerd, krijgen editors 100% impressies, als zijn "
+"berichten worden getoond."
+
+#: admin-options.php:296
+msgid "Ruoli permessi"
+msgstr "Toegestane rollen"
+
+#: admin-options.php:308
+msgid ""
+"<b>Nota bene:</b> Qui puoi abilitare i ruoli degli utenti che potranno "
+"visualizzare il link per inserire i propri dati di Adsense in Bacheca.<br/>A "
+"causa delle impostazioni di Wordpress, una volta selezionate le caselle ed "
+"aver salvato la configurazione le modifiche saranno effettive per tutti gli "
+"utenti, <b>tuttavia dovrai aggiornare nuovamente la pagina (F5) per "
+"visualizzare subito le voci nel men&ugrave;.</b>"
+msgstr ""
+"<b> Opmerking: </ b>Hier kunt u rol van de gebruikers instellen en de "
+"AdSense-gegevens in het Dashboard zichtbaar maken. <br/> Wanneer u de optie "
+"in het dashbord van Wordpress heeft geselecteerd wordt deze voor alle "
+"gebruikers actief.<b> Om de menu-items weer te geven dient u echter op de "
+"knop (Instellingen opslaan) te drukken, zodat de pagina ververst wordt en "
+"het item zichtbaar wordt.</ b>"
+
+#: admin-options.php:316
+msgid "Opzioni utente in Bacheca"
+msgstr "Gebruikers opties in het dashbord"
+
+#: admin-options.php:317
+msgid ""
+"Qui puoi modificare il testo che gli utenti visualizzaranno nelle opzioni "
+"Author Advertising della propria Bacheca, ovvero la pagina che permette agli "
+"iscritti di inserire il loro codice pub-id, ad-slot ecc..."
+msgstr ""
+"Hier kunt u de tekst bewerken die gebruikers kunnen zien in de opties van "
+"Advertising Author's berichten bord. Hier kunnen de gebruikers hun pub-id, "
+"ad-slot codes en dergelijke bewerken."
+
+#: admin-options.php:320
+msgid "Titolo del link"
+msgstr "Link titel"
+
+#: admin-options.php:321
+msgid "es.: 'I miei codici Adsense'"
+msgstr "bv.: 'Mijn Adsense Codes'"
+
+#: admin-options.php:323
+msgid "Contenuto della pagina"
+msgstr "Pagina inhoud"
+
+#: admin-options.php:324
+msgid ""
+"Il testo di introduzione che dovrebbe guidare gli utenti ad inserire i loro "
+"codici nei campi corrispondenti"
+msgstr ""
+"De tekst die gebruikers er toe moet leiden hun codes in te voeren in de "
+"overeenkomende velden"
+
+#: admin-options.php:327
+msgid "Ad_slot utenti"
+msgstr "Gebruikers Ad_slot"
+
+#: admin-options.php:328
+msgid "Ad_Slot 1 Attivo"
+msgstr "Ad_Slot 1 Aktief"
+
+#: admin-options.php:330
+msgid "Descrizione Ad_Slot 1:"
+msgstr "Beschrijving Ad_Slot 1:"
+
+#: admin-options.php:332
+msgid "Ad_slot 2 Attivo"
+msgstr "Ad_slot 2 Aktief"
+
+#: admin-options.php:334
+msgid "Descrizione Ad_Slot 2:"
+msgstr "Beschrijving Ad_Slot 2:"
+
+#: admin-options.php:336
+msgid "Ad_Slot 3 Attivo"
+msgstr "Ad_Slot 3 Aktief"
+
+#: admin-options.php:338
+msgid "Descrizione Ad_Slot 3:"
+msgstr "Beschrijving Ad_Slot 3:"
+
+#: admin-options.php:340
+msgid "Ad_slot 4 Attivo"
+msgstr "Ad_slot 4 Aktief"
+
+#: admin-options.php:342
+msgid "Descrizione Ad_Slot 4:"
+msgstr "Beschrijving Ad_Slot 4:"
+
+#: admin-options.php:344
+msgid "Ad_Slot 5 Attivo"
+msgstr "Ad_Slot 5 Aktief"
+
+#: admin-options.php:346
+msgid "Descrizione Ad_Slot 5:"
+msgstr "Beschrijving Ad_Slot 5:"
+
+#: admin-options.php:348
+msgid "Ad_slot 6 Attivo"
+msgstr "Ad_slot 6 Aktief"
+
+#: admin-options.php:350
+msgid "Descrizione Ad_Slot 6:"
+msgstr "Beschrijving Ad_Slot 6:"
+
+#: admin-options.php:357
+msgid "Attiva modalita' di debug"
+msgstr "Debug mode Aktief"
+
+#: admin-options.php:361
+msgid ""
+"Se selezionato visualizzerai sotto all'annuncio le informazioni relative al "
+"pub-id ed ai codici dell'annuncio stesso.<br/>Solo gli utenti admin potranno "
+"visualizzare il debug sul sito.<br/>E' una funzione utile per risolvere "
+"eventuali problemi senza dover aprire il sorgente HTML della pagina."
+msgstr ""
+"Indien geselecteerd zie je de informatie met betrekking tot de pub-id en "
+"codes hieronder van de advertentie zelf. <br/>Alleen admininistrators kunnen "
+"de debug mode op de site inschakelen. <br/>Het is een handige functie om "
+"eventuele problemen op te lossen zonder dat je de HTML-broncode van de "
+"pagina hoeft te openen."
+
+#: admin-options.php:372
+msgid "Reset Impostazioni"
+msgstr "Reset Settings"
+
+#: author-advertising-pro.php:227
+msgid "Guida alla configurazione"
+msgstr "Plugin configuratie handleiding"
+
+#: author-advertising-pro.php:229
+msgid "Pagina Facebook ufficiale"
+msgstr "Officiële Facebook Pagina"
+
+#: author-advertising-pro.php:231
+msgid "Supporto via Skype"
+msgstr "Ondersteuning via Skype"
+
+#: author-advertising-pro.php:236 author-advertising-pro.php:281
+msgid "Impostazioni"
+msgstr "Instellingen"
+
+#: author-advertising-pro.php:238
+msgid "Crea nuovo Annuncio Adsense"
+msgstr "Maak een nieuwe Adsense Advertentie"
+
+#: author-advertising-pro.php:240
+msgid "Impostazioni Admin Mode"
+msgstr "Admin Mode instellingen"
+
+#: author-advertising-pro.php:242
+msgid "Gestione Codici Utenti"
+msgstr "Instellingen gebruikers pub-id codes"
+
+#: author-advertising-pro.php:244
+msgid "Gestione Widget"
+msgstr "Instellingen widget"
+
+#: author-advertising-pro.php:283
+msgid "Annunci Google"
+msgstr "Google Ads"
+
+#: author-advertising-pro.php:285
+msgid "Admin Mode"
+msgstr "Admin Mode"
+
+#: author-advertising-pro.php:287
+msgid "Widget"
+msgstr "Widget"
+
+#: author-advertising-pro.php:289
+msgid "Gestione Utenti"
+msgstr "Gebruikers bewerken"
+
+#: check-installation.php:111 updater.php:90
+msgid "Error code: #01_array"
+msgstr "Fout code: #01_array"
+
+#: install-function.php:36 install-function.php:90 install-function.php:120
+msgid "Creazione TABELLA"
+msgstr "TABELLEN aanmaken"
+
+#: install-function.php:141
+msgid "Codici Adsense"
+msgstr "Adsense Codes"
+
+#: install-function.php:142
+msgid ""
+"<p>In questa pagina puoi inserire il tuo codice personale Adsense \"pub-id\" "
+"ed i codici Ad_slot che avrai creato seguendo le <a href=\"http://www.your-"
+"site-name.ext/guides\" target=\"_blank\">nostre guide!</a></p>"
+msgstr ""
+"<p>Op deze pagina kunt u de persoonlijke Adsense code invoeren \"pub-id\" en "
+"de codes voor voor Ad_slot (optioneel) <a href=\"http://www.your-site-name."
+"ext/guides\" target =\"_blank\">onze handleiding!</ a></ p>"
+
+#: install-function.php:144
+msgid "Esempio: Annuncio 336x280 solo testo"
+msgstr "bv.: Advertentie 336x280 alleen tekst"
+
+#: installer.php:19 installer.php:42 installer.php:54
+msgid "Author Advertising Pro - Installazione Automatica"
+msgstr "Author Advertising Pro - Automatische installatie"
+
+#: installer.php:22
+msgid ""
+"Inizializzazione procedura di installazione automatica...attendere prego."
+msgstr ""
+"Initialisatie van de automatische installatie procedures ... even geduld."
+
+#: installer.php:29
+msgid "La creazione della tabella dedicata, &egrave; avvenuta con successo!"
+msgstr "Aanmaken van de tabellen met succes uitgevoerd!"
+
+#: installer.php:30
+msgid "Author Advertising Pro ora &egrave; pronto per funzionare."
+msgstr "Auhtor Advertising Pro is gereed voor gebruik."
+
+#: installer.php:31 installer.php:46
+msgid "Vai alla configurazione del plugin"
+msgstr "Ga naar de plugin configuratie"
+
+#: installer.php:45
+msgid "La tabella esiste gi&agrave; all'interno del database."
+msgstr "Tabel bestaat reeds in de database."
+
+#: installer.php:57
+msgid ""
+"ERRORE: La procedura di installazione automatica non &egrave; andata a buon "
+"fine."
+msgstr ""
+"FOUT: De automatische installatie procedure is niet met succes uitgevoerd."
+
+#: installer.php:58 installer.php:75
+msgid "Torna indietro"
+msgstr "Ga terug"
+
+#: installer.php:58
+msgid ""
+"e prova con l'installazione manuale (cos&igrave potrai visualizzare gli "
+"eventuali errori delle singole query MySQL)."
+msgstr ""
+"en probeer het met de handmatige installatie (dan kunt u zien wanneer fouten "
+"optreden bij elke MySQL query)."
+
+#: installer.php:71
+msgid "Author Advertising Pro - Installazione Manuale"
+msgstr "Author Advertising Pro - Handmatige installatie"
+
+#: installer.php:75
+msgid "per selezionare la modalit&agrave; di installazione automatica."
+msgstr "om de automatische installatie methode te selecteren."
+
+#: installer.php:77
+msgid "Per procedere con l'installazione manuale segui queste istruzioni:"
+msgstr "Volg de volgende stappen om de handmatige installatie uit te voeren:"
+
+#: installer.php:78
+msgid ""
+"1) Accedi al tuo pannello di controllo PhpMyAdmin del tuo database MySQL."
+msgstr "1) Login met PhpMyAdmin voor contole van uw MySQL database."
+
+#: installer.php:79
+msgid ""
+"2) Clicca sulla 'linguetta' SQL (troverai la scritta: Esegui la/e query SQL "
+"sul database...)"
+msgstr ""
+"2) Klik op het SQL label (er staat: Voer SQL query/queries uit op de server "
+"\"uw site\":)"
+
+#: installer.php:80
+msgid ""
+"3) Quindi copia il codice sottostante ed incollalo nel campo di testo della "
+"Query MySQL da eseguire sul tuo database."
+msgstr ""
+"3) Kopieer de onderstaande code en plak het in het MySQL query veld om het "
+"uit te voeren op de database."
+
+#: installer.php:81
+msgid "4) Clicca su ESEGUI."
+msgstr "4) Klik op Start."
+
+#: installer.php:147 installer.php:151 installer.php:155
+msgid "CODICE Query SQL:"
+msgstr "SQL Query code:"
+
+#: installer.php:149 installer.php:153
+msgid ""
+"Ripeti l'operazione (seguendo di nuovo i punti precedenti, dal n.1 al n.4) "
+"anche per la query sottostante"
+msgstr ""
+"Herhaal de procedure (door nogmaals de stappen 1 t/m 4 te doorlopen) voor de "
+"onderstaande query"
+
+#: installer.php:157
+msgid "5) Fine. Esci da PhpMyAdmin e aggiorna questa pagina (F5)."
+msgstr "5) Klaar. Sluit PhpMyAdmin and ververs de pagina (F5)."
+
+#: installer.php:166
+msgid "Author Advertising Pro - Installazione"
+msgstr "Author Advertising Pro - Installatie"
+
+#: installer.php:169
+msgid ""
+"Per funzionare correttamente Author Advertising Pro ha bisogno di creare una "
+"nuova tabella all'interno del database."
+msgstr ""
+"Om Author Advertising Pro naar behoren te laten werken moeten er een aantal "
+"tabellen in de database worden aangemaakt."
+
+#: installer.php:170
+msgid ""
+"Per continuare, scegli tra la modalit&agrave; di installazione che "
+"preferisci:"
+msgstr "Selecteer de installatie methode om verder te gaan:"
+
+#: installer.php:173
+msgid "Installazione Automatica"
+msgstr "Automatische installatie"
+
+#: installer.php:174
+msgid "Installazione Manuale"
+msgstr "Handmatige installatie"
+
+#: installer.php:176
+msgid "Vai"
+msgstr "Start"
+
+#: quick-guide.php:8
+msgid "Author Advertising Pro - Guide"
+msgstr "Author Advertising Pro - Handleidingen"
+
+#: quick-guide.php:11
+msgid "Guida rapida alla configurazione:"
+msgstr "Snelle handleiding:"
+
+#: quick-guide.php:12
+msgid ""
+"Questa sezione ti permette di capire come configurare il plugin per ottenere "
+"la modalit&agrave; di funzionamento che desideri"
+msgstr ""
+"In dit gedeelte wordt uitgelegd hoe u de plugin moet instellen om de methode "
+"te gebruiken die u wenst"
+
+#: referral-mode.php:99
+msgid "Referral ID"
+msgstr "Verwijzer ID"
+
+#: referral-mode.php:180
+msgid "referred by"
+msgstr "Verwezen door"
+
+#: referral-mode.php:181
+msgid "referred"
+msgstr "verwezen"
+
+#: referral-mode.php:261 referral-mode.php:339 user-admin.php:146
+msgid "Referral"
+msgstr "Verwijzer"
+
+#: referral-mode.php:264 referral-mode.php:342
+msgid "Ti sei iscritto tramite"
+msgstr "U bent aangesloten door"
+
+#: referral-mode.php:268 referral-mode.php:346
+msgid "Numero di utenti che si sono iscritti con il tuo Link"
+msgstr "Partners aangesloten door jouw"
+
+#: referral-mode.php:272 referral-mode.php:350
+msgid "Lista degli utenti"
+msgstr "Lijst van gebruikers"
+
+#: referral-mode.php:272 referral-mode.php:350
+msgid "Nome Utente"
+msgstr "Gebruikersnaam"
+
+#: referral-mode.php:272 referral-mode.php:350
+msgid "Numero Articoli Pubblicati"
+msgstr "Aantal gepubliceerde berichten"
+
+#: referral-mode.php:288 referral-mode.php:366
+msgid "Il tuo Link-Referral"
+msgstr "Uw Verwijzings-Link"
+
+#: referral-mode.php:290 referral-mode.php:368
+msgid ""
+"Invita persone ad iscriversi tramite il tuo link! Potrai guadagnare una "
+"percentuale sulle impression Adsense visualizzate tramite i loro articoli."
+"<br/>Le impression vengono ripartite sottraendo la percentuale che "
+"guadagnerai da quella che invece andrebbe allo staff. Gli utenti che si "
+"iscrivono tramite il tuo link guadagnano sempre la stessa percentuale fissa "
+"di impression per ogni articolo scritto, anche se si registrano senza "
+"referral."
+msgstr ""
+"Nodig mensen uit om mee te doen via uw link! U verdient een percentage van "
+"de AdSense-vertoningen, terwijl hun berichten worden weergegeven. <br/> "
+"Gebruikers die zich hebben aangemeld via uw link verdienen het vaste "
+"percentage van de impressies voor elk geschreven artikel, dat normaal voor "
+"de beheerder van de site is."
+
+#: referral-mode.php:395
+msgid "Devi eseguire il login per visualizzare questa pagina"
+msgstr "U moet inloggen om dit gedeelte van de pagina te bekijken"
+
+#: referral-mode.php:440
+msgid "Author Advertising Pro - Referral Mode"
+msgstr "Author Advertising Pro - Verwijzings Mode"
+
+#: referral-mode.php:448
+msgid "In questa sezione potrai attivare e configurare la funzione Referral."
+msgstr ""
+"In dit gedeelte kunt u de verwijzings functie inschakelen en instellen."
+
+#: referral-mode.php:449
+msgid ""
+"<b>Come funziona?</b> La funzione Referral mode permette ai tuoi utenti/"
+"autori di invitare altre persone ad iscriversi a questo sito. Funziona in "
+"modo molto semplice: ogni utente trover&agrave; nel proprio <a href=\"/wp-"
+"admin/profile.php\" target=\"blank\">profilo</a> un link personale, da "
+"copiare ed inviare agli amici. In questo modo gli utenti che si iscriveranno "
+"tramite quel link diventeranno sub-affiliati dell'utente che li ha invitati. "
+"<br/><br/><i>Quest'ultimo, se desideri incentivare gli inviti, "
+"otterr&agrave; quindi una percentuale (che decidi tu) sulle impression "
+"generate dagli articoli scritti dagli amici invitati!</i><br/><br/><b>Ad "
+"esempio:</b> Se Luca invita due amici, Diego e Silvia, e questi scrivono 3 "
+"articoli ciascuno, il Pub_id di Luca verr&agrave; visualizzato in questi 6 "
+"articoli secondo la percentuale che imposterai qui sotto!<br/><br/>Tale "
+"percentuale viene sottratta all'admin, infatti come puoi vedere, per evitare "
+"errori di calcolo, puoi impostare una percentuale massima, uguale o "
+"inferiore a quella che hai salvato nelle Impostazioni generali del plugin."
+msgstr ""
+"<b> Hoe werkt het? </b> Met de verwijzings functie-modus kunnen uw "
+"gebruikers / auteurs anderen uitnodigen om zich bij deze site aan te "
+"sluiten. Het werkt heel eenvoudig: elke gebruiker vindt in uw <a href=\"/wp-"
+"admin/profile.php\" target=\"blank\"> profiel </a> een link die gekopieerd "
+"en gestuurd kan worden naar vrienden. Op deze manier kunnen gebruikers die "
+"zich aanmelden via die verwijzing een partner worden van de gebruiker die de "
+"partner heeft aangemeld. <br><i>Om de gebruiker aan te moedigen partners uit "
+"te uitnodigingen, krijgt u een percentage (die u bepaald) op de impressies "
+"die worden gegenereerd door de artikelen geschreven door de uitgenodigde "
+"partners</i></br><br>Bijvoorbeeld: </b>Als Luke twee vrienden uitnodigt, "
+"John en Mike, die beide 3 items per persoon schrijven, verschijnt het pub_id "
+"van Luke in deze 6 items volgens het onderstaande percentage<br></br>Dit "
+"percentage wordt afgetrokken van de admininistrator. Om fouten in de "
+"berekeningen te vermijden is het maximale percentage wat u kunt invoeren "
+"gelijk aan of minder dan wat u hebt opgeslagen in de algemene instellingen "
+"van de plugin."
+
+#: referral-mode.php:458
+msgid "Attiva Referral Mode"
+msgstr "Activeer verwijzings Mode"
+
+#: referral-mode.php:462
+msgid "Seleziona se desideri attivare la funzione Referral Mode."
+msgstr "Selecteer indien u de verwijzings mode wilt aktiveren."
+
+#: referral-mode.php:497
+msgid "Impression Referral"
+msgstr "Verwijzings impressie"
+
+#: referral-mode.php:501
+msgid ""
+"Seleziona la percentuale di condivisione per gli utenti che fanno iscrivere "
+"nuovi autori."
+msgstr ""
+"Selecteer het percentage dat u wilt besteden aan gebruikers, die nieuwe "
+"gebruikers aanmelden."
+
+#: referral-mode.php:506
+msgid "Annulla Cookie"
+msgstr "Annuleer cookie"
+
+#: referral-mode.php:510
+msgid ""
+"Seleziona se desideri che il cookie gi&agrave esistente non venga sostituito "
+"da nuovi link-referral."
+msgstr ""
+"Selecteer als het aanwezige cookie niet vervangen moet worden door een "
+"nieuwe verwijzings link."
+
+#: referral-mode.php:513
+msgid "Validit&agrave del cookie"
+msgstr "Geldigheidstijd cookie"
+
+#: referral-mode.php:515
+msgid ""
+"Numero di giorni di validit&agrave del cookie. Imposta 0 se vuoi che venga "
+"eliminato alla chiusura del browser."
+msgstr ""
+"Geldigheid cookie in dagen. Stel in op 0 als u wilt dat de cookie wordt "
+"gewist bij het afsluiten van de browser."
+
+#: referral-mode.php:519
+msgid "Redirect URL"
+msgstr "Omleidings URL"
+
+#: referral-mode.php:521
+msgid ""
+"URL per il redirect degli utenti che eseguono il login (tranne gli utenti "
+"con ruolo di amministratore)."
+msgstr ""
+"URL voor het omleiden van gebruikers die willen inloggen (niet voor "
+"gebruikers met administrator rechten)."
+
+#: referral-mode.php:525
+msgid "Landingpage URL"
+msgstr "URL Landingspagina"
+
+#: referral-mode.php:527
+msgid ""
+"Puoi inserire un URL dove redirezionare un utente che arriva sul sito da un "
+"referral-link."
+msgstr ""
+"U kunt een URL opgeven waar gebruikers naar toe geleid moeten worden als ze "
+"op de site komen via een verwijzingslink."
+
+#: referral-mode.php:531
+msgid "Visualizza il campo referral"
+msgstr "Toon verwijzings veld"
+
+#: referral-mode.php:536
+msgid "Seleziona per mostrare il campo referral nella pagina di registrazione."
+msgstr ""
+"Selecteer indien het verwijzingsveld op de registratiepagina moet worden "
+"getoond."
+
+#: referral-mode.php:539
+msgid "Visualizza informazioni sul Referral nella pagina profilo degli utenti."
+msgstr "Toon verwijzingsinformatie op de gebruikers profiel pagina."
+
+#: referral-mode.php:544
+msgid ""
+"Visualizza informazioni come l'utente tramite il quale ci si &egrave "
+"registrati, il numero di utenti che si sono iscritti tramite il nostro link, "
+"ed il numero di articoli scritti da ciascuno di essi."
+msgstr ""
+"Toon informatie zoals geregistreerde gebruikers, het aantal gebruikers dat "
+"is aangemeld door het gebruik van de link en het aantal gepubliceerde "
+"berichten voor elk."
+
+#: referral-mode.php:546
+msgid "Shortcode"
+msgstr "Korte code"
+
+#: referral-mode.php:548
+msgid ""
+"Copia e incolla questo TAG nel contenuto di una pagina o di un articolo per "
+"visualizzare le informazioni sul referral."
+msgstr ""
+"Kopieer en plak deze TAG in berichten of pagina inhoud om verwijzngs "
+"informatie weer te geven."
+
+#: referral-mode.php:550
+msgid "Codice Template"
+msgstr "Sjabloon code"
+
+#: referral-mode.php:554
+msgid ""
+"Copia e incolla questo script nel contenuto php di una pagina (page.php) o "
+"di un articolo(single.php) per visualizzare le informazioni sul referral."
+msgstr ""
+"Kopieer en plak dit script in de php pagina inhoud (page.php) of artikel "
+"(single.php) om verwijzings informatie weer te geven."
+
+#: updater.php:16
+msgid "Author Advertising Pro - Aggiornamento"
+msgstr "Author Advertising Pro - Update"
+
+#: updater.php:17
+msgid ""
+"Per funzionare correttamente Author Advertising Pro ha bisogno di aggiornare "
+"la tabella correntemente utilizzata nel database."
+msgstr ""
+"Om Author Advertising Pro goed te laten functioneren moet u de huidige tabel "
+"in de database updaten."
+
+#: updater.php:18
+msgid ""
+"****** I dati che si trovano nelle tabelle non subiranno modifiche o "
+"variazioni. Procedendo NON perderai la tua configurazione attuale. ******"
+msgstr ""
+"******  Alle gegevens die zijn opgeslagen in uw tabellen zullen niet "
+"verloren gaan bij wijzigingen. Door verder te gaan zult u de huidige plugin "
+"configuratie niet verliezen. ******"
+
+#: updater.php:20
+msgid ""
+"Prima di continuare &egrave; consigliato effettuare il backup del database "
+"attuale. Per procedere clicca sul pulsante OK."
+msgstr ""
+"Voordat u verder gaat is het aan te bevelen een backup van uw bestaande "
+"database te maken. Klik op OK om verder te gaan."
+
+#: updater.php:32
+msgid "Author Advertising Pro - Aggiornamento in corso"
+msgstr "Author Advertising Pro - Bezig met updaten"
+
+#: updater.php:58
+msgid "UPDATE TABLE"
+msgstr "UPDATE TABEL"
+
+#: updater.php:78 updater.php:82
+msgid "Aggiornamento #"
+msgstr "Update #"
+
+#: updater.php:78
+msgid "eseguito con successo."
+msgstr "met succes uitgevoerd."
+
+#: updater.php:80
+msgid "ERRORE: Aggiornamento #"
+msgstr "FOUT: Update #"
+
+#: updater.php:80
+msgid "non eseguito."
+msgstr "niet uitgevoerd."
+
+#: updater.php:82
+msgid "non necessario."
+msgstr "niet nodig"
+
+#: updater.php:97
+msgid ""
+"Aggiornamento completato, se hai ricevuto degli errori consulta la guida o "
+"visita il"
+msgstr ""
+"Update kompleet, raadpleeg de handleiding als u fouten krijgt, of bezoek de"
+
+#: user-admin.php:23
+msgid "Sicuro di voler eliminare questo utente?"
+msgstr "Weet u zeker dat u deze gebruiker wilt verwijderen?"
+
+#: user-admin.php:32
+msgid "Author Advertising Pro - Modifica Utente"
+msgstr "Author Advertising Pro - Beheer gebruiker"
+
+#: user-admin.php:40
+msgid "User ID"
+msgstr "Gebruiker ID"
+
+#: user-admin.php:43 user-admin.php:145
+msgid "Username"
+msgstr "Gebruikersnaam"
+
+#: user-admin.php:46
+msgid "Referral id"
+msgstr "Verwijzings ID"
+
+#: user-admin.php:54
+msgid "Rimuovi il Referral"
+msgstr "Verwijder de Referral"
+
+#: user-admin.php:60 user-admin.php:147
+msgid "Pub-id"
+msgstr "Pub-id"
+
+#: user-admin.php:63 user-admin.php:148
+msgid "AdSlot 1"
+msgstr "AdSlot 1"
+
+#: user-admin.php:66 user-admin.php:149
+msgid "AdSlot 2"
+msgstr "AdSlot 2"
+
+#: user-admin.php:69 user-admin.php:150
+msgid "AdSlot 3"
+msgstr "AdSlot 3"
+
+#: user-admin.php:72 user-admin.php:151
+msgid "AdSlot 4"
+msgstr "AdSlot 4"
+
+#: user-admin.php:75 user-admin.php:152
+msgid "AdSlot 5"
+msgstr "AdSlot 5"
+
+#: user-admin.php:78 user-admin.php:153
+msgid "AdSlot 6"
+msgstr "AdSlot 6"
+
+#: user-admin.php:81
+msgid "Incentivo Autore (100%)"
+msgstr "Auteur stimulans (100%)"
+
+#: user-admin.php:136
+msgid "Author Advertising Pro - Gestione Utenti"
+msgstr "Author Advertising Pro - Beheer gebruikers"
+
+#: user-admin.php:144
+msgid "UID"
+msgstr "UID"
+
+#: user-admin.php:154
+msgid "Incentivo Autore"
+msgstr "Auteur stimulans"
+
+#: user-admin.php:155
+msgid "Azioni"
+msgstr "Aktie"
+
+#: user-admin.php:172
+msgid "Elimina"
+msgstr "Verwijderen"
+
+#: user-admin.php:172
+msgid "Modifica"
+msgstr "Aanpassen"
+
+#: user-adsense.php:64
+msgid "Il tuo pub-id Adsense"
+msgstr "Uw Adsense pub-id"
+
+#: user-adsense.php:107 user-adsense.php:121 user-adsense.php:135
+#: user-adsense.php:150 user-adsense.php:165 user-adsense.php:180
+msgid "Il codice inserito sembra corretto"
+msgstr "De ingevoerde code lijkt correct"
+
+#: user-adsense.php:111 user-adsense.php:125 user-adsense.php:139
+#: user-adsense.php:154 user-adsense.php:169 user-adsense.php:184
+msgid "Il codice inserito NON sembra corretto"
+msgstr "De ingevoerde code lijkt niet correct"
+
+#: user-adsense.php:111 user-adsense.php:125 user-adsense.php:139
+#: user-adsense.php:154 user-adsense.php:169 user-adsense.php:184
+msgid ""
+"Il codice inserito non sembra corretto (deve essere numerico, di 10 cifre, "
+"senza caratteri e senza spazi)"
+msgstr ""
+"De ingevoerde code lijkt niet correct (moet nummeriek zijn, 10 nummers "
+"zonder spaties)"
+
+#: widget.php:52
+msgid "Titolo:"
+msgstr "Titel:"
+
+#: widget.php:80
+msgid "Author Advertising Pro Widgets"
+msgstr "Author Advertising Pro Widgets"
+
+#: widget.php:81
+msgid "Di quanti Widget hai bisogno?"
+msgstr "Hoeveel Widgets heeft u nodig?"
+
+#: widget.php:98
+#, php-format
+msgid "Author Advertising Pro %d"
+msgstr "Author Advertising Pro %d"
+
+#: widget.php:147
+msgid "Author Advertising Pro - Widget"
+msgstr "Author Advertising Pro - Widget"
+
+#: widget.php:155
+msgid ""
+"In questa sezione potrai selezionare l'id dell'annuncio Adsense che desideri "
+"utilizzare come widget."
+msgstr ""
+"In deze sectie kunt u het Ads ID kiezen welke u voor het widget wilt "
+"gebruiken."
+
+#: widget.php:162
+msgid "Scegli l'ID dell'annuncio Adsense che vuoi usare come Widget:"
+msgstr "Kies het Google Ad ID welke u voor het widget wilt gebruiken."
+
+#: widget.php:197
+msgid "Nascondi in Home:"
+msgstr "Verberg in Home:"
+
+#: widget.php:198
+msgid "Nascondi in Archivi:"
+msgstr "Verberg in Archief:"
+
+#: widget.php:199
+msgid "Nascondi in Categorie:"
+msgstr "Verberg in Categorie:"
+
+#: widget.php:200
+msgid "Nascondi in Pagine:"
+msgstr "Verberg in Pagina's:"
+
+#: widget.php:201
+msgid "Nascondi in Articoli:"
+msgstr "Verberg in Berichten:"
+
+#~ msgid ""
+#~ "Attenzione: Il posizionamento automatico al centro viene ignorato se "
+#~ "nell'articolo inserisci anche il TAG manuale"
+#~ msgstr ""
+#~ "Waarschuwing: Autmatisch in het midden plaatsen wordt genegeerd indien "
+#~ "manueel een TAG als dit wordt geplaatst"
+
+#~ msgid "Status Plugin:"
+#~ msgstr "Plugin status:"
+
+#~ msgid "Registrato"
+#~ msgstr "Geregistreerd"
+
+#~ msgid "Non Registrato"
+#~ msgstr "Niet geregistreerd"
+
+#~ msgid "Registra il tuo plugin"
+#~ msgstr "Registreer uw plugin"
+
+#~ msgid "Impostazioni Referral Mode"
+#~ msgstr "Verwijzing mode instellingen"
+
+#~ msgid "Referral Mode"
+#~ msgstr "Verwijzing Mode"
+
+#~ msgid "Ad Rotator"
+#~ msgstr "Advertentie Rotator"
+
+#~ msgid "(Codice Installazione:"
+#~ msgstr "(Installation code:"
+
+#~ msgid ""
+#~ "Nelle prossime versioni del plugin tale funzione otterr&agrave; notevoli "
+#~ "miglioramenti."
+#~ msgstr "With the next version of plugin this function will be optimized."
+
+#~ msgid "Versione Plugin:"
+#~ msgstr "Plugin Version:"
+
+#~ msgid "Sito Web:"
+#~ msgstr "Website:"
+
+#~ msgid ""
+#~ "La percentuale generale di visualizzazioni Ads Admin &egrave; impostata a:"
+#~ msgstr "The general Ads Admin percentage is set to:"
+
+#~ msgid "Ci&ograve; significa che quando viene visualizzato un articolo, "
+#~ msgstr "It means that when a Post is displayed"

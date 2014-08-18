@@ -1,0 +1,55 @@
+div.wordpress { font-size: 16px; }
+
+#header {
+	overflow:   hidden;
+	max-width:  100%;
+	padding:    0 3em;
+	background: #fff;
+}
+
+.display-header-text #header {
+	border-bottom: 1px solid #e3e3e3;
+}
+
+	     #branding { max-width: 80%; margin-top: 1.5rem; }
+	.ltr #branding { float: left; }
+	.rtl #branding { float: right; }
+
+	.header-image {
+		max-width: 100%;
+		height:    auto;
+	}
+
+	#site-title {
+		margin:      0;
+		padding:     0;
+		font-size:   2.125em;
+		line-height: 1.5;
+		border:      none;
+		font-family: 'Open Sans', Arial, sans-serif;
+		font-weight: 700;
+	}
+
+	#site-title a { 
+		text-decoration: none;
+	}
+
+	#site-title a:hover {
+		text-decoration: none;
+		opacity:         0.75;
+		border-bottom:   1px solid #d3d3d3;
+	}
+
+	#site-description {
+		margin:       0 0 1.5em;
+		padding:      0;
+		font-size:    1.125em;
+		line-height:  1.5;
+		font-weight:  400;
+		border:       none;
+		opacity:      0.5;
+		font-family:  'Droid Serif', 'Lora', 'Georgia', serif; 
+		color:        #656565;
+	}
+
+	.en #site-description { font-style: italic; }

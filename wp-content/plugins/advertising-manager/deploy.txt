@@ -1,0 +1,86 @@
+// HERE IS HOW TO DEPLOY A VERSION
+
+TRANSLATIONS
+(NOTE - translations are in the process of being moved to
+    1.  Generate a translation pot template here:
+    http://wordpress.org/extend/plugins/advertising-manager/admin/
+    
+    2.  Copy the translation template to the pootle server:
+    cd ~/Downloads/
+    mv advertising-manager.pot advman.pot
+    scp advman.pot pootle@openx.org:/home/pootle/Pootle/po/advman/templates/
+    rm advman.pot
+    
+    3.  Update the templates:
+    http://translate.openx.org/projects/advman/admin.html?doupdatelanguage=1&updatelanguage=en
+    
+    4.  Translate (at least English!):
+    http://translate.openx.org/en/advman/index.html?editing=1
+    
+    5.  Generate the .mo file for all languages:
+    cd ~/code/advertising-manager/trunk/languages/
+    rm *.mo
+    curl http://translate.openx.org/ar/advman/advman.mo -o advman-ar.mo
+    curl http://translate.openx.org/cs/advman/advman.mo -o advman-cs_CZ.mo
+    curl http://translate.openx.org/de/advman/advman.mo -o advman-de_DE.mo
+    curl http://translate.openx.org/el/advman/advman.mo -o advman-el.mo
+    curl http://translate.openx.org/en/advman/advman.mo -o advman-en_US.mo
+    curl http://translate.openx.org/es/advman/advman.mo -o advman-es_ES.mo
+    curl http://translate.openx.org/he/advman/advman.mo -o advman-he_IL.mo
+    curl http://translate.openx.org/hu/advman/advman.mo -o advman-hu_HU.mo
+    curl http://translate.openx.org/id/advman/advman.mo -o advman-id_ID.mo
+    curl http://translate.openx.org/ja/advman/advman.mo -o advman-ja.mo
+    curl http://translate.openx.org/ko/advman/advman.mo -o advman-ko_KR.mo
+    curl http://translate.openx.org/pt_BR/advman/advman.mo -o advman-pt_BR.mo
+    curl http://translate.openx.org/pt_PT/advman/advman.mo -o advman-pt_PT.mo
+    curl http://translate.openx.org/ru/advman/advman.mo -o advman-ru_RU.mo
+    curl http://translate.openx.org/sv/advman/advman.mo -o advman-sv_SE.mo
+    curl http://translate.openx.org/tr/advman/advman.mo -o advman-tr.mo
+    svn add *.mo
+    svn ci -m "Updated languages from translation server"
+    
+    New language names follow the ISO format used in Wordpress:
+    http://codex.wordpress.org/WordPress_Localization
+    
+    New language:
+    Add the 'nobody' account permission:  Compile PO Files
+    ex:  http://translate.openx.org/ru/advman/admin.html
+
+INCREASE VERSION NUMBER
+    1.  in the comments at the top of advertising-manager.php
+    2.  in the code at the top of advertising-manager.php
+    3.  in the readme file
+    4.  in this build file (search for the version number 3.4.22 - there are a number of places in this file where the version exists)
+    5.  check the upgrade to make sure any version upgrades are correct
+
+README
+    1.  Add to the changelog
+    2.  Add the update message
+    3.  Update the Readme.txt file with any changes in documentation.  Validate here:
+        http://wordpress.org/extend/plugins/about/validator/
+
+CHECK IN ALL FILES
+- Add any files that need adding
+    cd ~/code/wordpress/advertising-manager/trunk
+    svn st
+        
+
+DEPLOYMENT
+- Tag the version in wordpress
+    cd ~/code/wordpress/advertising-manager
+    svn cp trunk tags/3.4.22
+    svn ci -m "tagging version 3.4.22"
+
+- Add a zipped file to the repository:
+    Follow the build process below:
+    
+    rm -rf ~/build
+    mkdir ~/build
+    cd ~/build
+    svn export http://svn.wp-plugins.org/advertising-manager/trunk
+    mv trunk advertising-manager
+    zip -r advertising-manager-3.4.22.zip advertising-manager/
+    
+    http://code.openx.org/projects/list_files/advertising-manager
+
+DEMO SERVERS

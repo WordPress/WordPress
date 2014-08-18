@@ -1,0 +1,70 @@
+/* Theme settings page. */
+.appearance_page_theme-settings .side .form-table th {
+	width: 20%;
+	font-weight: bold;
+	text-align: left;
+	padding-left: 0;
+	}
+.appearance_page_theme-settings .metabox-holder textarea {
+	width: 100%;
+	}
+
+/* Post edit screen. */
+.custom-post-format-wrap, .post-layout-wrap {
+	padding: 0 5px;
+	max-height: 170px;
+	overflow-y: auto;
+	}
+.hybrid-post-settings {
+	padding-top: 5px;
+	}
+.hybrid-post-settings p {
+	margin-bottom: 15px !important;
+	}
+
+/* Widgets page. */
+
+/* Fixes the MP6 Plugin's small container issue that doesn't allow widget controls to expand. */
+.widgets-php div.widget-liquid-right div.widgets-holder-wrap {
+	width: 100%;
+}
+
+.widgets-php .columns-1 {
+	}
+.widgets-php .columns-2 {
+	overflow: hidden;
+	float: left;
+	width: 48%;
+	}
+.widgets-php .columns-3 {
+	overflow: hidden;
+	float: left;
+	width: 31%;
+	margin-right: 3.5%;
+	}
+.widgets-php .column-last {
+	float: right;
+	margin-right: 0;
+	}
+
+.widgets-php .hybrid-widget-controls label {
+	font-size: 11px;
+	}
+.widgets-php .columns-2 input.widefat, .widgets-php .columns-2 select.widefat {
+	width: 99%;
+	}
+.widgets-php .columns-3 select.widefat {
+	width: 98.5%;
+	}
+.widgets-php .hybrid-widget-controls select[multiple="multiple"] {
+	width: 100%;
+	height: 5.0em !important;
+	}
+.widgets-php input.smallfat {
+	float: right;
+	width: 66px;
+	}
+.widgets-php select.smallfat {
+	float: right;
+	min-width: 66px;
+	}

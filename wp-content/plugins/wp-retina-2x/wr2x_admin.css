@@ -1,0 +1,117 @@
+#wr2x-pages {
+	float: right;
+	position: relative;
+	top: 12px;
+}
+
+.wr2x-hover-drop {
+	background: rgb(243, 243, 243);
+}
+
+.wr2x-hover-drop .wr2x-title {
+	background: url('./img/replace.png');
+	background-position: 5px 4px;
+	background-repeat: no-repeat;
+}
+
+.wr2x-loading-file {
+	background: rgb(243, 243, 243);
+}
+
+.wr2x-loading-file .wr2x-title {
+	background: url('./img/loading.gif');
+	background-position: 5px 1px;
+	background-repeat: no-repeat;
+}
+
+.wr2x-loading-file .wr2x-title a, .wr2x-loading-file .wr2x-title span,
+.wr2x-hover-drop .wr2x-title a, .wr2x-hover-drop .wr2x-title span {
+	opacity: 0.0;
+}
+
+#wr2x-pages a {
+	text-decoration: none;
+	border: 1px solid black;
+	padding: 2px 5px;
+	border-radius: 4px;
+	background: #E9E9E9;
+	color: lightslategrey;
+	border-color: #BEBEBE;
+}
+
+#wr2x-pages .current {
+	font-weight: bold;
+}
+
+.wp-core-ui .button-red {
+	background-color: #9B2124;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#C5292E), to(#9B2124));
+	background-image: -webkit-linear-gradient(top, #C5292E, #9B2124);
+	background-image:    -moz-linear-gradient(top, #C5292E, #9B2124);
+	background-image:     -ms-linear-gradient(top, #C5292E, #9B2124);
+	background-image:      -o-linear-gradient(top, #C5292E, #9B2124);
+	background-image:   linear-gradient(to bottom, #C5292E, #9B2124);
+	border-color: #9B2124;
+	border-bottom-color: #8D1F21;
+	-webkit-box-shadow: inset 0 1px 0 rgba(120,200,230,0.5);
+ 	box-shadow: inset 0 1px 0 rgba(120,200,230,0.5);
+ 	color: #fff;
+	text-decoration: none;
+	text-shadow: 0 1px 0 rgba(0,0,0,0.1);
+    float: right;
+}
+
+.wp-core-ui .button-red.hover,
+.wp-core-ui .button-red:hover,
+.wp-core-ui .button-red.focus,
+.wp-core-ui .button-red:focus {
+	background-color: #B72629;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#D22E30), to(#9B2124));
+	background-image: -webkit-linear-gradient(top, #D22E30, #9B2124);
+	background-image:    -moz-linear-gradient(top, #D22E30, #9B2124);
+	background-image:     -ms-linear-gradient(top, #D22E30, #9B2124);
+	background-image:      -o-linear-gradient(top, #D22E30, #9B2124);
+	background-image:   linear-gradient(to bottom, #D22E30, #9B2124);
+	border-color: #7F1C1F;
+	-webkit-box-shadow: inset 0 1px 0 rgba(120,200,230,0.6);
+ 	box-shadow: inset 0 1px 0 rgba(120,200,230,0.6);
+	color: #fff;
+	text-shadow: 0 -1px 0 rgba(0,0,0,0.3);
+}
+
+.wp-core-ui .button-red.focus,
+.wp-core-ui .button-red:focus {
+	border-color: #500F0E;
+	-webkit-box-shadow: inset 0 1px 0 rgba(120,200,230,0.6), 1px 1px 2px rgba(0,0,0,0.4);
+	box-shadow: inset 0 1px 0 rgba(120,200,230,0.6), 1px 1px 2px rgba(0,0,0,0.4);
+}
+
+.wp-core-ui .button-red.active,
+.wp-core-ui .button-red.active:hover,
+.wp-core-ui .button-red.active:focus,
+.wp-core-ui .button-red:active {
+	background: #7F1C1F;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#9B2124), to(#B72629));
+	background-image: -webkit-linear-gradient(top, #9B2124, #B72629);
+	background-image:    -moz-linear-gradient(top, #9B2124, #B72629);
+	background-image:     -ms-linear-gradient(top, #9B2124, #B72629);
+	background-image:      -o-linear-gradient(top, #9B2124, #B72629);
+	background-image:   linear-gradient(to bottom, #9B2124, #B72629);
+	border-color: #601312 #AE2426 #AE2426 #AE2426;
+	color: rgba(255,255,255,0.95);
+	-webkit-box-shadow: inset 0 1px 0 rgba(0,0,0,0.1);
+ 	box-shadow: inset 0 1px 0 rgba(0,0,0,0.1);
+	text-shadow: 0 1px 0 rgba(0,0,0,0.1);
+}
+
+.wp-core-ui .button-red[disabled],
+.wp-core-ui .button-red:disabled,
+.wp-core-ui .button-red-disabled {
+	color: #E79496 !important;
+	background: #BA292B !important;
+	border-color: #7F1C1F !important;
+	-webkit-box-shadow: none !important;
+	box-shadow:         none !important;
+	text-shadow: 0 -1px 0 rgba(0,0,0,0.1) !important;
+	cursor: default;
+}

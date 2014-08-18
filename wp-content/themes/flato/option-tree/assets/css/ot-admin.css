@@ -1,0 +1,1376 @@
+/* -------------------------------------------------- 
+  :: Screen Meta & Menu Icon
+  ---------------------------------------------------*/
+.appearance_page_ot-theme-options #screen-meta {
+  margin-right: 20px;
+  margin-left: 2px;
+  min-width: 533px;
+}
+
+/* -------------------------------------------------- 
+  :: Messages
+  ---------------------------------------------------*/
+.wrap.settings-wrap div.error,
+.wrap.settings-wrap div.updated {
+  margin: 9px 5px 0px 2px !important;
+}
+ 
+/* -------------------------------------------------- 
+  :: OptionTree Wrappers
+  ---------------------------------------------------*/
+#option-tree-settings-api .metabox-holder {
+  overflow: hidden;
+}
+#option-tree-settings-api .postbox {
+  background: #fff;
+  border: none;
+  margin: 0 20px;
+}
+#option-tree-settings-api .inside {
+  margin: 0px !important;
+  padding: 0px !important;
+}
+#option-tree-settings-api .ui-tabs {
+  background: #fff url(../images/ot-menu-bg.png) repeat-y 0 0;
+  border: 1px solid #ccc;
+  border-top: none;
+  margin: 0px 5px 0 2px;
+  min-width: 533px;
+  padding-bottom: 5px;
+  position: relative;
+  -webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  -webkit-border-radius: 0 0 4px 4px;
+   -khtml-border-radius: 0 0 4px 4px;
+     -moz-border-radius: 0 0 4px 4px;
+       -o-border-radius: 0 0 4px 4px;
+          border-radius: 0 0 4px 4px; 
+}
+
+/* -------------------------------------------------- 
+  :: Header
+  ---------------------------------------------------*/
+#option-tree-header-wrap {
+  position: relative;
+}
+#option-tree-header {
+  background: #464646;
+  color: #ccc;
+  display: block;
+  margin: 11px 5px 0 2px;
+  min-width: 535px;
+  overflow: hidden;
+  position: relative;
+  background-image: -webkit-linear-gradient(bottom, #373737, #464646 5px);
+  -webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  -webkit-border-radius: 4px 4px 0 0;
+   -khtml-border-radius: 4px 4px 0 0;
+     -moz-border-radius: 4px 4px 0 0;
+       -o-border-radius: 4px 4px 0 0;
+          border-radius: 4px 4px 0 0;
+}
+#option-tree-header li {
+  display: block;
+  float: left;
+  margin: 0px;
+  padding: 0px;
+}
+#option-tree-header li a {
+  color: #ccc;
+  text-decoration: none;
+}
+#option-tree-header li a:hover {
+  color: #fafafa;
+}
+#option-tree-header #option-tree-logo a {
+  background: transparent url(../images/ot-logo.png) no-repeat 13px center;
+  border-right: 1px solid #333;
+  display: block;
+  float: left;
+  height: 24px;
+  line-height: 24px;
+  padding: 3px 12px 3px 13px;
+  text-indent: -9999px;
+  width: 24px;
+}
+#option-tree-header li#option-tree-logo:hover {
+  color: #fafafa;
+  background-color: #3a3a3a;
+  background-image: -ms-linear-gradient(bottom,#3a3a3a,#222);
+  background-image: -moz-linear-gradient(bottom,#3a3a3a,#222);
+  background-image: -o-linear-gradient(bottom,#3a3a3a,#222);
+  background-image: -webkit-gradient(linear,left bottom,left top,from(#3a3a3a),to(#222));
+  background-image: -webkit-linear-gradient(bottom,#3a3a3a,#222);
+  background-image: linear-gradient(bottom,#3a3a3a,#222);
+  -webkit-border-top-left-radius: 5px;
+  -moz-border-radius-topleft: 5px;
+  border-top-left-radius: 5px;
+}
+#option-tree-header #option-tree-version {
+
+}
+#option-tree-header #option-tree-version span {
+  border-left: 1px solid #555;
+  display: block;
+  float: left;
+  height: 24px;
+  line-height: 24px;
+  padding: 3px 12px 3px 12px;
+}
+
+/* -------------------------------------------------- 
+  :: Sub Header
+  ---------------------------------------------------*/
+#option-tree-sub-header { 
+  background: #fafafa url(../images/ot-sub-header-bg.png) repeat-x 0 0; 
+  border: 1px solid #ccc; 
+  border-top: none; 
+  display: block; 
+  margin: 0 5px 0 2px; 
+  min-width: 523px; 
+  overflow: hidden; 
+  padding: 5px; 
+  position: relative; 
+  -webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.05); 
+  box-shadow:0 1px 3px rgba(0,0,0,0.05); 
+}
+
+/* -------------------------------------------------- 
+  :: Tabs
+  ---------------------------------------------------*/
+.wrap.settings-wrap .ui-tabs-nav { 
+  background: url(../images/ot-menu-top-bg.png) no-repeat right top; 
+  float: left; 
+  list-style: none; 
+  margin: 0 0 0 -4px; 
+  padding: 1em 0; 
+  width: 151px; 
+}
+.wrap.settings-wrap .ui-tabs-nav li { 
+  border: 1px solid transparent; 
+  border-right-width: 0px; 
+  display: block; margin: 0; 
+  -webkit-border-radius: 3px 0 0 3px;
+   -khtml-border-radius: 3px 0 0 3px;
+     -moz-border-radius: 3px 0 0 3px;
+       -o-border-radius: 3px 0 0 3px;
+          border-radius: 3px 0 0 3px; 
+}
+.wrap.settings-wrap .ui-tabs-nav li.ui-state-active { 
+  background: #fff; 
+  border-color: #ccc; 
+  color: #000; 
+}
+.wrap.settings-wrap .ui-tabs-nav li a { 
+  color: #21759b; 
+  display: block; 
+  line-height: 18px; 
+  padding: 5px 5px 5px 12px; 
+  text-decoration: none; 
+}
+.wrap.settings-wrap .ui-tabs-nav li a:hover,
+.wrap.settings-wrap .ui-tabs-nav li.ui-state-active a { 
+  color: #000; 
+  outline: none; 
+}
+.wrap.settings-wrap .ui-tabs-panel { 
+  clear: both; 
+}
+/* -------------------------------------------------- 
+  :: Format Settings
+  ---------------------------------------------------*/
+.format-settings { 
+  padding: 10px 0 20px 0; 
+  position: relative; 
+  width: 100%; 
+}
+
+/* -------------------------------------------------- 
+  :: Format Setting Label
+  ---------------------------------------------------*/
+.format-setting-label {
+  border-bottom: 1px dashed #ddd;
+  margin: 0 0 14px 0;
+  padding: 5px 0px 1px 0px;
+  width: 100%;
+}
+#option-tree-settings-api .description h3,
+#option-tree-settings-api .format-setting-label .label,
+.metabox-holder .format-setting-label .label {
+  background: none;
+  border: none;
+  color: #333;
+  cursor: text;
+  display: block;
+  font-family: sans-serif !important;
+  font-size: 1.2em !important;
+  font-weight: bold !important;
+  letter-spacing: 0;
+  padding: 0 0 9px 0 !important;
+  -webkit-user-select: text;
+  text-shadow: none;
+}
+    
+/* -------------------------------------------------- 
+  :: Format Setting
+  ---------------------------------------------------*/
+.format-setting {
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+}
+.format-setting .format-setting-inner {
+  float: left;
+  position: relative;
+  width: 63%;
+}
+.format-setting.no-desc .format-setting-inner,
+.format-setting.wide-desc .format-setting-inner,
+.option-tree-list-item .format-setting-inner {
+  width: 100%;
+}
+.format-setting .description {
+  float: right;
+  padding: 5px 0;
+  width: 35%;
+}
+.format-setting.no-desc .description,
+.format-setting.wide-desc .description,
+.option-tree-list-item .description {
+  float: none;
+  width: 100%;
+}
+.list-item-description {
+  padding-top: 10px;
+}
+#option-tree-settings-api h4 {
+  color: #333;
+  font-size: 1.12em;
+  font-weight: bold;
+  margin: 1em 0 0.5em 0;
+  padding: 0;
+}
+#option-tree-settings-api h5 {
+  color: #444;
+  font-size: 1em;
+  font-weight: bold;
+  margin: 1em 0 0.5em 0;
+  padding: 0;
+}
+#option-tree-settings-api p {
+  margin: 0 0 1.5em 0 !important;
+}
+#post .format-setting-inner p {
+  float: left;
+  width: 100%;
+  margin: 0 0 1.05em 0 !important;
+}
+.aside {
+  border-bottom: 1px solid #eee;
+  padding-bottom: 15px;
+  margin-bottom: 15px;
+}
+.deprecated {
+  border-bottom: 1px solid #eee;
+  color: #b94029;
+  padding-bottom: 15px;
+  margin-bottom: 15px;
+}
+.warning {
+  color: #b94029;
+}
+.docs-ul {
+  line-height: 1.3em;
+  margin: 0;
+  padding: 0 0 1em 0;
+}
+.docs-ul li {
+  list-style-type: square;
+  margin-left: 20px;
+}
+#contextual-help-setting {
+  float: left;
+  padding: 10px 0 5px 0;
+  width: 100%;
+}
+#contextual-help-label {
+  float: left;
+  padding-top: 20px;
+  width: 100%;
+}
+#option_tree_settings_help {
+  float: left;
+  width: 100%;
+}
+#option-tree-settings-api blockquote {
+  font-style: italic;
+  padding-left: 15px;
+  position: relative;
+}
+#option-tree-settings-api blockquote:before {
+  color: #ccc;
+  content: "\201C";
+  display: block;
+  font-size: 400%;
+  font-style: normal;
+  left: -10px;
+  position: absolute;
+  top: 10px;
+}
+
+@media only screen and (max-width: 900px) {
+ 
+  .format-setting .description, 
+  .format-setting .format-setting-inner {
+    width: 100%;
+  }
+
+  .format-setting .description {
+    padding-top: 0px;
+  };
+}
+
+/* -------------------------------------------------- 
+  :: Code formatting
+  ---------------------------------------------------*/
+#option-tree-settings-api code {
+  background-color: #f1f1f1;
+  color: #000;
+}
+#option-tree-settings-api pre {
+  font-size: 13px;
+  padding: 0;
+  margin: 1.5em 0;
+  line-height: 18px;
+  overflow: auto;
+  overflow-Y: hidden;
+  padding-top: 18px;
+  background: #f1f1f1;
+  border-bottom: 1px solid #f1f1f1;
+  margin-bottom: 20px;
+  color: #000;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+#option-tree-settings-api pre code {
+  padding: 0 18px 18px 18px;
+  display: block;
+  background: url(../images/ot-pre-bg.gif) repeat left top;
+}
+
+/* -------------------------------------------------- 
+  :: Input & Upload
+  ---------------------------------------------------*/
+input.option-tree-ui-upload-input,
+input.option-tree-ui-input {
+  background: #fff;
+  border: 1px solid #ccc !important;
+  line-height: 17px;
+  font-size: 12px;
+  margin-bottom: 5px;
+  padding: 7px 6px;
+  position: relative;
+  width: 100%;
+  border-radius: 2px;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  -moz-box-shadow: inset 1px 1px 1px rgba(0, 0, 0, 0.05);
+  -webkit-box-shadow: inset 1px 1px 1px rgba(0, 0, 0, 0.05);
+  box-shadow: inset 1px 1px 1px rgba(0, 0, 0, 0.05);
+}
+input:focus.option-tree-ui-upload-input,
+input:focus.option-tree-ui-input {
+  border-color: #bbb !important;
+}
+
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+ 
+  .option-tree-ui-input,
+  .option-tree-ui-upload-input {
+    padding: 5px 6px !important;
+  };
+}
+
+/* -------------------------------------------------- 
+  :: Upload
+  ---------------------------------------------------*/
+div.option-tree-ui-media-wrap {
+  margin: 5px 63px 0 0;
+  min-height: 35px;
+  position: relative;
+}
+.option-tree-ui-media-wrap img {
+  background: #fafafa;
+  border: 1px solid #ccc;
+  padding: 4px;
+  border-radius: 2px;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  display: block;
+  float: left;
+  max-width: 100%;
+  height: auto;
+  -ms-interpolation-mode: bicubic;
+}
+.option-tree-ui-upload-parent {
+  width: auto !important;
+  margin-right: 53px;
+  padding: 0px;
+  position: relative;
+}
+.format-setting .ot_upload_media {
+  top: 0px;
+  margin: 0px !important;
+  position: absolute;
+  right: -53px;
+}
+.option-tree-ui-media-wrap a.option-tree-ui-remove-media {
+  float: none !important;
+  margin: 0px !important;
+  position: absolute !important;
+  right: -63px;
+  top: 1px;
+}
+
+/* -------------------------------------------------- 
+  :: Textarea
+  ---------------------------------------------------*/
+.fill-area .description,
+.fill-area .format-setting-inner {
+  width: 100% !important;
+}
+
+.wp-editor-area {
+  display: block;
+}
+.textarea,
+.ot-metabox-wrapper textarea {
+  width: 99.9%;
+  border: 1px solid #ccc;
+  font-family: Consolas, Monaco, monospace;
+  line-height: 150%;
+  outline: 0;
+  padding: 10px;
+  resize: vertical;
+}
+#contextual-help-setting .textarea {
+  width: 99.75%;
+}
+.ot-metabox-wrapper .wp-editor-container {
+  border: none;
+}
+.ot-metabox-wrapper textarea:focus {
+  border-color: #bbb !important;
+}
+
+@media only screen and (max-width: 1105px) {
+  .type-textarea .description, .type-textarea .format-setting-inner {
+    width: 100%;
+  };
+}
+
+/* -------------------------------------------------- 
+  :: Setting Item with Drag & Drop
+  ---------------------------------------------------*/
+.option-tree-setting-wrap             { margin-top: 0px; }
+.option-tree-setting-wrap li          { margin: 4px 0px; }
+.option-tree-setting { 
+  border: 1px solid #ccc; 
+  overflow: hidden; 
+  position: relative; 
+  -webkit-border-radius: 4px;
+   -khtml-border-radius: 4px;
+     -moz-border-radius: 4px;
+       -o-border-radius: 4px;
+          border-radius: 4px; 
+}
+.option-tree-setting a { 
+  text-decoration: none; 
+}
+.option-tree-setting .open {
+  background: #fafafa;
+  cursor: move;
+  line-height: 21px;
+  height: 21px;
+  padding: 10px 100px 10px 10px;
+  display: block;
+}
+.ui-state-disabled .option-tree-setting .open {
+  cursor: default;
+}
+.option-tree-setting .open:hover {
+  background: #fafafa url(../images/ot-dots.png) no-repeat 4px 15px;
+}
+.button-section {
+  position: absolute;
+  right: 0px;
+  top: 1px;
+}
+.option-tree-setting.is-section { 
+  border: 1px solid #464646; 
+}
+.option-tree-setting.is-section .open {
+  background: #464646;
+  color: #ccc;
+}
+.option-tree-setting.is-section .option-tree-ui-button {
+  border-color: #151515 !important;
+}
+.format-setting .ui-sortable-helper .option-tree-setting .open {
+  background: #fff url(../images/ot-dots.png) no-repeat 4px 15px;
+}
+.option-tree-setting.is-section .open:hover,
+.format-setting .ui-sortable-helper .option-tree-setting.is-section .open {
+  background: #464646 url(../images/ot-dots.png) no-repeat 4px 15px;
+}
+.ui-state-highlight {
+  border: 1px dashed #ccc;
+  display: block;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+}
+.option-tree-setting-body {
+  background: #fff;
+  border-top: 1px solid #ccc;
+  display: none;
+  padding: 10px;
+  -webkit-border-bottom-right-radius: 3px;
+  -webkit-border-bottom-left-radius: 3px;
+  -moz-border-radius-bottomright: 3px;
+  -moz-border-radius-bottomleft: 3px;
+  border-bottom-right-radius: 3px;
+  border-bottom-left-radius: 3px;
+}
+li ul .format-settings {
+  padding: 0 0 10px 0;
+}
+li ul .format-setting-label {
+  border: none;
+  padding: 0px;
+  margin: 0px;
+}
+
+/* -------------------------------------------------- 
+  :: Layouts
+  ---------------------------------------------------*/
+#option_tree_layouts {
+  display: none;
+  padding-top: 12px;
+}
+#option-tree-options-layouts-form {
+  left: 13px;
+  position: absolute;
+  top: 30px;
+  z-index: 100;
+}
+.option-tree-save-layout {
+  float: left;
+  padding: 10px 0;
+}
+.option-tree-save-layout.active-layout {
+  border-left: 1px solid #fff;
+  padding-left: 9px;
+}
+.option-tree-save-layout .widefat {
+  float: left;
+  width: 128px !important;
+  margin: 0;
+}
+.option-tree-save-layout button.blue {
+  margin: 0 0 0 10px;
+}
+.option-tree-active-layout {
+  border-right: 1px solid #ccc;
+  float: left;
+  padding: 10px 10px 10px 0;
+  min-width: 126px;
+}
+
+/* -------------------------------------------------- 
+  :: Select
+  ---------------------------------------------------*/
+.select-group {
+  margin-right: 53px;
+  overflow: hidden;
+  width: auto;
+}
+.select-wrapper {
+  background: #fff url(../images/ot-select.png) no-repeat right center;
+  border: 1px solid #ccc;
+  display: block;
+  float: left;
+  font-size: 12px;
+  height: 27px;
+  margin: 0 5px 5px 0;
+  width: auto;
+  border-radius: 2px;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  -moz-box-shadow: inset 1px 1px 1px rgba(0, 0, 0, 0.05);
+  -webkit-box-shadow: inset 1px 1px 1px rgba(0, 0, 0, 0.05);
+  box-shadow: inset 1px 1px 1px rgba(0, 0, 0, 0.05);
+}
+.select-wrapper:hover {
+  background-image: url(../images/ot-select-hover.png);
+  border-color: #bbb;
+}
+select.option-tree-ui-select {
+  cursor: pointer;
+  filter: alpha(opacity: 0);
+  font-size: 14px;
+  height: 29px;
+  margin: 0;
+  -moz-opacity: 0;
+  opacity: 0;
+  padding: 0 !important;
+  position: relative;
+  width: inherit;
+  z-index: 4;
+  min-width: 118px;
+}
+
+select.option-tree-ui-select option {
+  padding: 3px 15px !important;
+}
+.select-wrapper span {
+  height: 27px;
+  line-height: 27px;
+  padding-left: 7px;
+  position: absolute;
+  z-index: 2;
+}
+#option-tree-options-layouts-form .select-wrapper {
+  margin: 0px;
+}
+#option-tree-options-layouts-form select.option-tree-ui-select {
+  min-width: 124px;
+}
+.type-measurement select.option-tree-ui-select {
+  min-width: 68px !important;
+}
+.type-measurement .select-wrapper {
+  position: absolute;
+  right: 0px;
+  top: 0px;
+}
+
+/* FireFox */
+@-moz-document url-prefix() {
+  #option-tree-options-layouts-form .select-wrapper {
+    left: 250px;
+  };
+}
+
+/* Webkit */
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+ 
+  .select-wrapper span {
+    height: 26px;
+    line-height: 26px;
+  };
+}
+
+/* Opera 11 */
+@media not screen and (1) {
+  .select-wrapper {
+    height: 26px;
+  };
+}
+
+/* -------------------------------------------------- 
+  :: Measurement
+  ---------------------------------------------------*/
+.option-tree-ui-measurement-input-wrap { 
+  margin-right: 80px; 
+}
+
+/* -------------------------------------------------- 
+  :: Checkbox & Radio
+  ---------------------------------------------------*/
+.format-setting.type-checkbox input,
+.format-setting.type-radio input {
+  float: left;
+  margin: 2px 5px 0 1px;
+}
+.format-setting.type-checkbox label,
+.format-setting.type-radio label {
+  float: left;
+  max-width: 90%;
+  padding: 0px;
+}
+#option-tree-settings-api .format-setting.type-checkbox p,
+#option-tree-settings-api .format-setting.type-radio p {
+  float: left;
+  margin: 0.5em 0 !important;
+  width: 100%;
+}
+     
+/* -------------------------------------------------- 
+  :: Radio Images
+  ---------------------------------------------------*/
+.type-radio-image .option-tree-ui-radio-images {
+  float: left;
+  margin: 0 10px 10px 0px;
+}
+.type-radio-image .option-tree-ui-radio-images img {
+  background: #fff;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 3px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+}
+.type-radio-image .option-tree-ui-radio-images img.option-tree-ui-radio-image-selected,
+.type-radio-image .option-tree-ui-radio-images img:hover {
+  border-color: #464646;
+  -webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+/* -------------------------------------------------- 
+  :: Numeric Slider
+  ---------------------------------------------------*/
+.type-numeric-slider .format-setting-inner {
+  background: #fcfcfc;
+  border: 1px solid #ccc;
+  min-height: 41px;
+  padding: 5px;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+  -webkit-border-radius: 3px;
+     -moz-border-radius: 3px;
+          border-radius: 3px;
+}
+.ot-numeric-slider-wrap {
+  margin: 0 96px 0 0;
+}
+.ot-numeric-slider-wrap .ot-numeric-slider-helper-input { 
+  position: absolute; 
+  right: 5px;
+  text-align: center;
+  top: 5px;
+  width: 90px;
+}
+.ot-numeric-slider.ui-slider { 
+  background: #fff;
+  border: 1px solid #ccc;
+  margin: 8px 8px 0 8px; 
+  position: relative; 
+  -webkit-box-shadow: inset 1px 1px 1px rgba(0, 0, 0, 0.05);
+     -moz-box-shadow: inset 1px 1px 1px rgba(0, 0, 0, 0.05); 
+          box-shadow: inset 1px 1px 1px rgba(0, 0, 0, 0.05); 
+  -webkit-border-radius: 2px;
+     -moz-border-radius: 2px;
+          border-radius: 2px;
+}
+.ot-numeric-slider.ui-slider-horizontal { 
+  height: 11px;
+}
+.ot-numeric-slider.ui-slider .ui-slider-handle { 
+  background-color: #21759b; 
+  border: 1px solid #21759b;
+  border-bottom-color: #1e6a8d;
+  cursor: pointer;
+  display: block;
+  height: 27px; 
+  margin: -9px -8px;
+  outline: 0;
+  position: absolute; 
+  width: 16px; 
+  background-image: -webkit-gradient(linear,left top,left bottom,from(#2a95c5),to(#21759b));
+  background-image: -webkit-linear-gradient(top,#2a95c5,#21759b);
+  background-image: -moz-linear-gradient(top,#2a95c5,#21759b);
+  background-image: -ms-linear-gradient(top,#2a95c5,#21759b);
+  background-image: -o-linear-gradient(top,#2a95c5,#21759b);
+  background-image: linear-gradient(to bottom,#2a95c5,#21759b);
+  -webkit-box-shadow: inset 0 1px 0 rgba(120,200,230,0.5);
+     -moz-box-shadow: inset 0 1px 0 rgba(120,200,230,0.5);
+          box-shadow: inset 0 1px 0 rgba(120,200,230,0.5);
+  -webkit-border-radius: 3px;
+     -moz-border-radius: 3px;
+          border-radius: 3px;
+}
+.ot-numeric-slider.ui-slider .ui-slider-handle:hover { 
+  background-color: #278ab7;
+  background-image: -webkit-gradient(linear,left top,left bottom,from(#2e9fd2),to(#21759b));
+  background-image: -webkit-linear-gradient(top,#2e9fd2,#21759b);
+  background-image: -moz-linear-gradient(top,#2e9fd2,#21759b);
+  background-image: -ms-linear-gradient(top,#2e9fd2,#21759b);
+  background-image: -o-linear-gradient(top,#2e9fd2,#21759b);
+  background-image: linear-gradient(to bottom,#2e9fd2,#21759b);
+  border-color: #1b607f;
+  -webkit-box-shadow: inset 0 1px 0 rgba(120,200,230,0.6);
+     -moz-box-shadow: inset 0 1px 0 rgba(120,200,230,0.6);
+          box-shadow: inset 0 1px 0 rgba(120,200,230,0.6);
+}
+
+/* -------------------------------------------------- 
+  :: Colorpicker
+  ---------------------------------------------------*/
+.option-tree-ui-colorpicker-input-wrap {
+  margin-right: 53px;
+  position: relative;
+  width: auto;
+}
+.format-settings .cp_box {
+  background: #f1f1f1;
+  border: 1px solid #ccc;
+  bottom: 5px;
+  height: 27px;
+  position: absolute;
+  right: -53px;
+  width: 46px;
+  -moz-border-radius: 2px;
+  -webkit-border-radius: 2px;
+  border-radius: 2px;
+}
+.ot_colorpicker {
+  width: 342px;
+  height: 170px;
+  overflow: hidden;
+  position: absolute;
+  background: #fafafa url(../images/colorpicker/color_bg.png);
+  font-family: Arial, Helvetica, sans-serif;
+  display: none;
+  border: 1px solid #bbb;
+  -moz-border-radius: 2px;
+  -webkit-border-radius: 2px;
+  border-radius: 2px;
+  -webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  z-index: 100;
+}
+.ot_colorpicker .colorpicker_color {
+  width: 150px;
+  height: 150px;
+  left: 10px;
+  top: 10px;
+  position: absolute;
+  background: #f00;
+  overflow: hidden;
+  cursor: crosshair;
+}
+.ot_colorpicker .colorpicker_color div {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 150px;
+  height: 150px;
+  background: url(../images/colorpicker/color_overlay.png);
+}
+.ot_colorpicker .colorpicker_color div div {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 11px;
+  height: 11px;
+  overflow: hidden;
+  background: url(../images/colorpicker/color_select.gif);
+  margin: -5px 0 0 -5px;
+}
+.ot_colorpicker .colorpicker_hue {
+  position: absolute;
+  top: 10px;
+  left: 164px;
+  width: 35px;
+  height: 150px;
+  cursor: n-resize;
+}
+.ot_colorpicker .colorpicker_hue div {
+  position: absolute;
+  width: 35px;
+  height: 9px;
+  overflow: hidden;
+  background: url(../images/colorpicker/color_indicator.png) left top;
+  margin: -5px 0 0 0;
+}
+.ot_colorpicker .colorpicker_new_color {
+  position: absolute;
+  width: 60px;
+  height: 30px;
+  right: 80px;
+  top: 10px;
+  background: #f00;
+}
+.ot_colorpicker .colorpicker_current_color {
+  position: absolute;
+  width: 60px;
+  height: 30px;
+  right: 10px;
+  top: 10px;
+  background: #f00;
+}
+.ot_colorpicker input {
+  background-color: transparent !important;
+  border: 1px solid transparent !important;
+  position: absolute !important;
+  font-size: 10px !important;
+  font-family: Arial, Helvetica, sans-serif !important;
+  color: #666 !important;
+  top: 0px !important;
+  right: 12px !important;
+  text-align: right !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  height: 22px !important;
+  line-height: 22px !important;
+}
+.ot_colorpicker .colorpicker_hex {
+  position: absolute;
+  width: 72px;
+  height: 22px;
+  background: url(../images/colorpicker/color_hex.png) top;
+  left: 201px;
+  bottom: 9px;
+}
+.ot_colorpicker .colorpicker_hex input {
+  left: 13px;
+  height: 22px;
+  line-height: 22px;
+  padding: 10px;
+}
+.ot_colorpicker .colorpicker_field {
+  height: 22px;
+  width: 62px;
+  background-position: top;
+  position: absolute;
+}
+.ot_colorpicker .colorpicker_field span {
+  position: absolute;
+  width: 12px;
+  height: 22px;
+  overflow: hidden;
+  top: 0;
+  right: 0;
+  cursor: n-resize;
+}
+.ot_colorpicker .colorpicker_rgb_r {
+  background-image: url(../images/colorpicker/color_rgb_r.png);
+  top: 49px;
+  left: 201px;
+}
+.ot_colorpicker .colorpicker_rgb_g {
+  background-image: url(../images/colorpicker/color_rgb_g.png);
+  top: 79px;
+  left: 201px;
+}
+.ot_colorpicker .colorpicker_rgb_b {
+  background-image: url(../images/colorpicker/color_rgb_b.png);
+  top: 109px;
+  left: 201px;
+}
+.ot_colorpicker .colorpicker_hsb_h {
+  background-image: url(../images/colorpicker/color_hsb_h.png);
+  top: 49px;
+  right: 9px;
+}
+.ot_colorpicker .colorpicker_hsb_s {
+  background-image: url(../images/colorpicker/color_hsb_s.png);
+  top: 79px;
+  right: 9px;
+}
+.ot_colorpicker .colorpicker_hsb_b {
+  background-image: url(../images/colorpicker/color_hsb_b.png);
+  top: 109px;
+  right: 9px;
+}
+.ot_colorpicker .colorpicker_submit {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  background: url(../images/colorpicker/color_wheel.png) top;
+  right: 10px;
+  bottom: 10px;
+  overflow: hidden;
+}
+.ot_colorpicker .colorpicker_focus {
+  background-position: center;
+}
+.ot_colorpicker .colorpicker_hex.colorpicker_focus {
+  background-position: bottom;
+}
+.ot_colorpicker .colorpicker_submit.colorpicker_focus {
+  background-position: bottom;
+}
+.ot_colorpicker .colorpicker_slider {
+  background-position: bottom;
+}
+
+@media not screen and (1) {
+  .format-settings .cp_box {
+    height: 26px;
+  };
+}
+
+/* -------------------------------------------------- 
+  :: OptionTree UI Buttons 
+  ---------------------------------------------------*/
+.option-tree-ui-button,
+.option-tree-ui-button.blue,
+.option-tree-ui-button.red {
+  display: inline-block;
+  text-decoration: none;
+  float: left;
+  font-size: 12px;
+  line-height: 28px;
+  height: 29px;
+  margin: 5px;
+  padding: 0 14px 1px;
+  cursor: pointer;
+  border-width: 1px;
+  border-style: solid;
+  -webkit-appearance: none;
+  white-space: nowrap;
+  -webkit-border-radius: 3px;
+     -moz-border-radius: 3px;
+          border-radius: 3px;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+}
+button.option-tree-ui-button::-moz-focus-inner,
+input[type="reset"].option-tree-ui-button::-moz-focus-inner,
+input[type="button"].option-tree-ui-button::-moz-focus-inner,
+input[type="submit"].option-tree-ui-button::-moz-focus-inner {
+  border-width: 1px 0;
+  border-style: solid none;
+  border-color: transparent;
+  padding: 0;
+}
+.option-tree-ui-button:active {
+  outline: 0;
+}
+.option-tree-ui-button.hidden {
+  display: none;
+}
+.option-tree-ui-button,
+.option-tree-ui-button.red {
+  background: #f3f3f3;
+  background-image: -webkit-gradient(linear,left top,left bottom,from(#fefefe),to(#f4f4f4));
+  background-image: -webkit-linear-gradient(top,#fefefe,#f4f4f4);
+  background-image: -moz-linear-gradient(top,#fefefe,#f4f4f4);
+  background-image: -o-linear-gradient(top,#fefefe,#f4f4f4);
+  background-image: linear-gradient(to bottom,#fefefe,#f4f4f4);
+  border-color: #bbb;
+  color: #333;
+  text-shadow: 0 1px 0 #fff;
+}
+.option-tree-ui-button.hover,
+.option-tree-ui-button:hover,
+.option-tree-ui-button.red:hover,
+.option-tree-ui-button.focus,
+.option-tree-ui-button:focus,
+.option-tree-ui-button.red:focus {
+  background: #f3f3f3;
+  background-image: -webkit-gradient(linear,left top,left bottom,from(#fff),to(#f3f3f3));
+  background-image: -webkit-linear-gradient(top,#fff,#f3f3f3);
+  background-image: -moz-linear-gradient(top,#fff,#f3f3f3);
+  background-image: -ms-linear-gradient(top,#fff,#f3f3f3);
+  background-image: -o-linear-gradient(top,#fff,#f3f3f3);
+  background-image: linear-gradient(to bottom,#fff,#f3f3f3);
+  border-color: #999;
+  color: #222;
+}
+.option-tree-ui-button.focus,
+.option-tree-ui-button:focus,
+.option-tree-ui-button.red:focus {
+  -webkit-box-shadow: 1px 1px 1px rgba(0,0,0,.2);
+  box-shadow: 1px 1px 1px rgba(0,0,0,.2);
+}
+.option-tree-ui-button.active,
+.option-tree-ui-button.active:hover,
+.option-tree-ui-button.active:focus,
+.option-tree-ui-button:active,
+.option-tree-ui-button.red:active {
+  background: #eee;
+  background-image: -webkit-gradient(linear,left top,left bottom,from(#f4f4f4),to(#fefefe));
+  background-image: -webkit-linear-gradient(top,#f4f4f4,#fefefe);
+  background-image: -moz-linear-gradient(top,#f4f4f4,#fefefe);
+  background-image: -ms-linear-gradient(top,#f4f4f4,#fefefe);
+  background-image: -o-linear-gradient(top,#f4f4f4,#fefefe);
+  background-image: linear-gradient(to bottom,#f4f4f4,#fefefe);
+  border-color: #999;
+  color: #333;
+  text-shadow: 0 -1px 0 #fff;
+  -webkit-box-shadow: inset 0 2px 5px -3px rgba(0,0,0,0.5);
+  box-shadow: inset 0 2px 5px -3px rgba(0,0,0,0.5);
+}
+.option-tree-ui-button[disabled],
+.option-tree-ui-button:disabled,
+.option-tree-ui-button.red[disabled],
+.option-tree-ui-button.red:disabled,
+.option-tree-ui-button.disabled {
+  color: #aaa!important;
+  border-color: #ddd!important;
+  background-image: -webkit-gradient(linear,left top,left bottom,from(#f9f9f9),to(#f4f4f4))!important;
+  background-image: -webkit-linear-gradient(top,#f9f9f9,#f4f4f4)!important;
+  background-image: -moz-linear-gradient(top,#f9f9f9,#f4f4f4)!important;
+  background-image: -ms-linear-gradient(top,#f9f9f9,#f4f4f4)!important;
+  background-image: -o-linear-gradient(top,#f9f9f9,#f4f4f4)!important;
+  background-image: linear-gradient(to bottom,#f9f9f9,#f4f4f4)!important;
+  -webkit-box-shadow: none!important;
+  box-shadow: none!important;
+  text-shadow: 0 1px 0 #fff!important;
+  cursor: default;
+}
+.option-tree-ui-button.blue {
+  background-color: #21759b;
+  background-image: -webkit-gradient(linear,left top,left bottom,from(#2a95c5),to(#21759b));
+  background-image: -webkit-linear-gradient(top,#2a95c5,#21759b);
+  background-image: -moz-linear-gradient(top,#2a95c5,#21759b);
+  background-image: -ms-linear-gradient(top,#2a95c5,#21759b);
+  background-image: -o-linear-gradient(top,#2a95c5,#21759b);
+  background-image: linear-gradient(to bottom,#2a95c5,#21759b);
+  border-color: #21759b;
+  border-bottom-color: #1e6a8d;
+  -webkit-box-shadow: inset 0 1px 0 rgba(120,200,230,0.5);
+  box-shadow: inset 0 1px 0 rgba(120,200,230,0.5);
+  color: #fff;
+  text-decoration: none;
+  text-shadow: 0 1px 0 rgba(0,0,0,0.1);
+}
+.option-tree-ui-button.blue.hover,
+.option-tree-ui-button.blue:hover,
+.option-tree-ui-button.blue.focus,
+.option-tree-ui-button.blue:focus {
+  background-color: #278ab7;
+  background-image: -webkit-gradient(linear,left top,left bottom,from(#2e9fd2),to(#21759b));
+  background-image: -webkit-linear-gradient(top,#2e9fd2,#21759b);
+  background-image: -moz-linear-gradient(top,#2e9fd2,#21759b);
+  background-image: -ms-linear-gradient(top,#2e9fd2,#21759b);
+  background-image: -o-linear-gradient(top,#2e9fd2,#21759b);
+  background-image: linear-gradient(to bottom,#2e9fd2,#21759b);
+  border-color: #1b607f;
+  -webkit-box-shadow: inset 0 1px 0 rgba(120,200,230,0.6);
+  box-shadow: inset 0 1px 0 rgba(120,200,230,0.6);
+  color: #fff;
+  text-shadow: 0 -1px 0 rgba(0,0,0,0.3);
+}
+.option-tree-ui-button.blue.focus,
+.option-tree-ui-button.blue:focus {
+  border-color: #0e3950;
+  -webkit-box-shadow: inset 0 1px 0 rgba(120,200,230,0.6),1px 1px 2px rgba(0,0,0,0.4);
+  box-shadow: inset 0 1px 0 rgba(120,200,230,0.6),1px 1px 2px rgba(0,0,0,0.4);
+}
+.option-tree-ui-button.blue.active,
+.option-tree-ui-button.blue.active:hover,
+.option-tree-ui-button.blue.active:focus,
+.option-tree-ui-button.blue:active {
+  background: #1b607f;
+  background-image: -webkit-gradient(linear,left top,left bottom,from(#21759b),to(#278ab7));
+  background-image: -webkit-linear-gradient(top,#21759b,#278ab7);
+  background-image: -moz-linear-gradient(top,#21759b,#278ab7);
+  background-image: -ms-linear-gradient(top,#21759b,#278ab7);
+  background-image: -o-linear-gradient(top,#21759b,#278ab7);
+  background-image: linear-gradient(to bottom,#21759b,#278ab7);
+  border-color: #124560 #2382ae #2382ae #2382ae;
+  color: rgba(255,255,255,0.95);
+  -webkit-box-shadow: inset 0 1px 0 rgba(0,0,0,0.1);
+  box-shadow: inset 0 1px 0 rgba(0,0,0,0.1);
+  text-shadow: 0 1px 0 rgba(0,0,0,0.1);
+}
+.option-tree-ui-button.blue[disabled],
+.option-tree-ui-button.blue:disabled,
+.option-tree-ui-button.blue-disabled {
+  color: #94cde7!important;
+  background: #298cba!important;
+  border-color: #1b607f!important;
+  -webkit-box-shadow: none!important;
+  box-shadow: none!important;
+  text-shadow: 0 -1px 0 rgba(0,0,0,0.1)!important;
+  cursor: default;
+}
+.option-tree-ui-button.red {
+  background-color: #9b3221;
+  background-image: -webkit-gradient(linear,left top,left bottom,from(#c5402a),to(#9b3221));
+  background-image: -webkit-linear-gradient(top,#c5402a,#9b3221);
+  background-image: -moz-linear-gradient(top,#c5402a,#9b3221);
+  background-image: -ms-linear-gradient(top,#c5402a,#9b3221);
+  background-image: -o-linear-gradient(top,#c5402a,#9b3221);
+  background-image: linear-gradient(to bottom,#c5402a,#9b3221);
+  border-color: #9b3221;
+  border-bottom-color: #8d2e1e;
+  -webkit-box-shadow: inset 0 1px 0 rgba(229,134,119,0.5);
+  box-shadow: inset 0 1px 0 rgba(229,134,119,0.5);
+  color: #fff;
+  text-decoration: none;
+  text-shadow: 0 1px 0 rgba(0,0,0,0.1);
+}
+.option-tree-ui-button.red.hover,
+.option-tree-ui-button.red:hover,
+.option-tree-ui-button.red.focus,
+.option-tree-ui-button.red:focus {
+  background-color: #b73b27;
+  background-image: -webkit-gradient(linear,left top,left bottom,from(#d2452e),to(#9b3221));
+  background-image: -webkit-linear-gradient(top,#d2452e,#9b3221);
+  background-image: -moz-linear-gradient(top,#d2452e,#9b3221);
+  background-image: -ms-linear-gradient(top,#d2452e,#9b3221);
+  background-image: -o-linear-gradient(top,#d2452e,#9b3221);
+  background-image: linear-gradient(to bottom,#d2452e,#9b3221);
+  border-color: #7f291b;
+  -webkit-box-shadow: inset 0 1px 0 rgba(229,134,119,0.6);
+  box-shadow: inset 0 1px 0 rgba(229,134,119,0.6);
+  color: #fff;
+  text-shadow: 0 -1px 0 rgba(0,0,0,0.3);
+}
+.option-tree-ui-button.red.focus,
+.option-tree-ui-button.red:focus {
+  border-color: #4f160d;
+  -webkit-box-shadow: inset 0 1px 0 rgba(229,134,119,0.6),1px 1px 2px rgba(0,0,0,0.4);
+  box-shadow: inset 0 1px 0 rgba(229,134,119,0.6),1px 1px 2px rgba(0,0,0,0.4);
+}
+.option-tree-ui-button.red.active,
+.option-tree-ui-button.red.active:hover,
+.option-tree-ui-button.red.active:focus,
+.option-tree-ui-button.red:active {
+  background: #7f291b;
+  background-image: -webkit-gradient(linear,left top,left bottom,from(#9b3221),to(#b73b27));
+  background-image: -webkit-linear-gradient(top,#9b3221,#b73b27);
+  background-image: -moz-linear-gradient(top,#9b3221,#b73b27);
+  background-image: -ms-linear-gradient(top,#9b3221,#b73b27);
+  background-image: -o-linear-gradient(top,#9b3221,#b73b27);
+  background-image: linear-gradient(to bottom,#9b3221,#b73b27);
+  border-color: #611d12 #ad3523 #ad3523 #ad3523;
+  color: rgba(255,255,255,0.95);
+  -webkit-box-shadow: inset 0 1px 0 rgba(0,0,0,0.1);
+  box-shadow: inset 0 1px 0 rgba(0,0,0,0.1);
+  text-shadow: 0 1px 0 rgba(0,0,0,0.1);
+}
+.option-tree-ui-button.red[disabled],
+.option-tree-ui-button.red:disabled,
+.option-tree-ui-button.red-disabled {
+  color: #94cde7!important;
+  background: #ba3c29!important;
+  border-color: #7f291b!important;
+  -webkit-box-shadow: none!important;
+  box-shadow: none!important;
+  text-shadow: 0 -1px 0 rgba(0,0,0,0.1)!important;
+  cursor: default;
+}
+.option-tree-ui-button.right {
+  float: right;
+}
+.option-tree-ui-button.hug-left {
+  margin-left: 0px;
+}
+.option-tree-ui-button.hug-right {
+  margin-right: 0px;
+}
+.option-tree-ui-button.pad {
+  padding: 0px 21px;
+}
+.option-tree-ui-button.left-item {
+  margin: 5px 0 5px 5px;
+  -webkit-border-top-right-radius: 0px;
+  -webkit-border-bottom-right-radius: 0px;
+  -moz-border-radius-topright: 0px;
+  -moz-border-radius-bottomright: 0px;
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+}
+.option-tree-ui-button.center-item {
+  margin: 5px 0 5px -1px;
+  -webkit-border-radius: 0px;
+  -moz-border-radius: 0px;
+  border-radius: 0px;
+}
+.option-tree-ui-button.right-item {
+  margin: 5px 5px 5px -1px;
+  -webkit-border-top-left-radius: 0px;
+  -webkit-border-bottom-left-radius: 0px;
+  -moz-border-radius-topleft: 0px;
+  -moz-border-radius-bottomleft: 0px;
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
+}
+.option-tree-ui-buttons {
+  background: #fff;
+  border: 1px solid #ccc;
+  margin: 11px 5px 0 2px;
+  min-width: 523px;
+  overflow: hidden;
+  padding: 5px;
+  position: relative;
+  -webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  -webkit-border-radius: 4px;
+   -khtml-border-radius: 4px;
+     -moz-border-radius: 4px;
+       -o-border-radius: 4px;
+          border-radius: 4px;
+}
+.option-tree-ui-buttons.alt {
+  background: #f5f5f5;
+  border-color: #dfdfdf;
+}
+.option-tree-ui-buttons:before, 
+.option-tree-ui-buttons:after {
+  content: "\0020";
+  display: block;
+  height: 0;
+  visibility: hidden;
+}
+.option-tree-ui-buttons:after {
+  clear: both;
+}
+.option-tree-ui-buttons {
+  zoom: 1;
+}
+button.reset-settings {
+  position: relative;
+  top: -45px;
+  left: 8px;
+}
+
+/* -------------------------------------------------- 
+  :: OptionTree UI Button Icons 
+  ---------------------------------------------------*/
+.option-tree-ui-button .icon {
+  background: url(../images/ot-ui-sprite.png) no-repeat;
+  display: inline-block;
+  float: left;
+  height: 18px;
+  margin-top: 4px;
+  opacity: 0.65;
+  overflow: hidden;
+  text-indent: -9999px;
+  width: 18px;
+}
+button.option-tree-ui-button .icon {
+  margin-top: -3px;
+}
+.option-tree-ui-button.light .icon {
+  background-image: url(../images/ot-ui-light-sprite.png);
+  opacity: 0.9;
+}
+.option-tree-ui-button.active .icon,
+.option-tree-ui-button:hover .icon {
+  opacity: 1;
+}
+.option-tree-ui-button .icon.right-label {
+  margin-right: 10px;
+}
+.option-tree-ui-button .icon.left-label {
+  margin-left: 10px;
+  float: right;
+}
+.option-tree-ui-button .upload {
+  background-position: -0px -0px;
+}
+.option-tree-ui-button .trash-can {
+  background-position: -18px -0px;
+}
+.option-tree-ui-button .pencil,
+.option-tree-ui-button .check {
+  background-position: -36px -0px;
+}
+.option-tree-ui-button:hover .pencil,
+.option-tree-ui-button:hover .check,
+.option-tree-ui-button.active .pencil,
+.option-tree-ui-button.active .check {
+  background-position: -54px -0px;
+}

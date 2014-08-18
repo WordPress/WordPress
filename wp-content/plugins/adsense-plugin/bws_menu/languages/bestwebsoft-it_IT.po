@@ -1,0 +1,709 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: bestwebsoft\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-01-17 12:13+0300\n"
+"PO-Revision-Date: 2014-01-17 12:13+0300\n"
+"Last-Translator: bestwebsoft.com <plugins@bestwebsoft.com>\n"
+"Language-Team: Marco <marco@blackstudio.it>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Poedit 1.5.4\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-Basepath: ..\n"
+"X-Textdomain-Support: yes\n"
+"X-Poedit-SearchPath-0: .\n"
+
+# @ bestwebsoft
+#: bws_menu.php:339
+msgid "Not set"
+msgstr "Non impostato"
+
+# @ bestwebsoft
+#: bws_menu.php:341
+#: bws_menu.php:345
+msgid "On"
+msgstr "Abilitato"
+
+# @ bestwebsoft
+#: bws_menu.php:343
+#: bws_menu.php:347
+msgid "Off"
+msgstr "Disabilitato"
+
+# @ bestwebsoft
+#: bws_menu.php:351
+#: bws_menu.php:355
+#: bws_menu.php:359
+#: bws_menu.php:363
+#: bws_menu.php:367
+#: bws_menu.php:393
+msgid "N/A"
+msgstr "Non disponibile"
+
+# @ bestwebsoft
+#: bws_menu.php:365
+msgid " Mb"
+msgstr "Mb"
+
+# @ bestwebsoft
+#: bws_menu.php:369
+#: bws_menu.php:373
+#: bws_menu.php:377
+#: bws_menu.php:388
+msgid "Yes"
+msgstr "Sì"
+
+# @ bestwebsoft
+#: bws_menu.php:371
+#: bws_menu.php:375
+#: bws_menu.php:379
+#: bws_menu.php:390
+msgid "No"
+msgstr "No"
+
+# @ bestwebsoft
+#: bws_menu.php:404
+msgid "Operating System"
+msgstr "Sistema operativo"
+
+# @ bestwebsoft
+#: bws_menu.php:405
+msgid "Server"
+msgstr "Server"
+
+# @ bestwebsoft
+#: bws_menu.php:406
+msgid "Memory usage"
+msgstr "Utilizzo memoria"
+
+# @ bestwebsoft
+#: bws_menu.php:407
+msgid "MYSQL Version"
+msgstr "Versione MYSQL"
+
+# @ bestwebsoft
+#: bws_menu.php:408
+msgid "SQL Mode"
+msgstr "Modalità SQL"
+
+# @ bestwebsoft
+#: bws_menu.php:409
+msgid "PHP Version"
+msgstr "Versione PHP"
+
+# @ bestwebsoft
+#: bws_menu.php:410
+msgid "PHP Safe Mode"
+msgstr "Safe Mode PHP"
+
+# @ bestwebsoft
+#: bws_menu.php:411
+msgid "PHP Allow URL fopen"
+msgstr "Consenti URL fopen PHP"
+
+# @ bestwebsoft
+#: bws_menu.php:412
+msgid "PHP Memory Limit"
+msgstr "Limite di memoria PHP"
+
+# @ bestwebsoft
+#: bws_menu.php:413
+msgid "PHP Max Upload Size"
+msgstr "Dimensione upload massima PHP"
+
+# @ bestwebsoft
+#: bws_menu.php:414
+msgid "PHP Max Post Size"
+msgstr "Dimensione massima Post PHP"
+
+# @ bestwebsoft
+#: bws_menu.php:415
+msgid "PHP Max Script Execute Time"
+msgstr "Tempo massimo di esecuzione PHP"
+
+# @ bestwebsoft
+#: bws_menu.php:416
+msgid "PHP Exif support"
+msgstr "Supporto Exif PHP"
+
+# @ bestwebsoft
+#: bws_menu.php:417
+msgid "PHP IPTC support"
+msgstr "Supporto IPTC PHP"
+
+# @ bestwebsoft
+#: bws_menu.php:418
+msgid "PHP XML support"
+msgstr "Supporto XML PHP"
+
+# @ bestwebsoft
+#: bws_menu.php:419
+msgid "Site URL"
+msgstr "URL sito"
+
+# @ bestwebsoft
+#: bws_menu.php:420
+msgid "Home URL"
+msgstr "URL home"
+
+# @ bestwebsoft
+#: bws_menu.php:421
+msgid "WordPress Version"
+msgstr "Versione WordPress"
+
+# @ bestwebsoft
+#: bws_menu.php:422
+msgid "WordPress DB Version"
+msgstr "Versione DB WordPress"
+
+# @ bestwebsoft
+#: bws_menu.php:423
+msgid "Multisite"
+msgstr "Multisito"
+
+# @ bestwebsoft
+#: bws_menu.php:424
+msgid "Active Theme"
+msgstr "Tema attivo"
+
+# @ bestwebsoft
+#: bws_menu.php:440
+msgid "Please enter a valid email address."
+msgstr "Per favore inserisci un indirizzo e-mail valido."
+
+# @ bestwebsoft
+#: bws_menu.php:444
+msgid "Email with system info is sent to "
+msgstr "Email con informazioni di sistema spedita a "
+
+# @ bestwebsoft
+#: bws_menu.php:448
+msgid "Thank you for contacting us."
+msgstr "Grazie per averci contattato."
+
+# @ bestwebsoft
+#: bws_menu.php:476
+msgid "Sorry, email message could not be delivered."
+msgstr "Spiacenti, il messaggio email non può essere inviato."
+
+#: bws_menu.php:488
+msgid "Switch to new interface"
+msgstr ""
+
+# @ bestwebsoft
+#: bws_menu.php:495
+msgid "Pro plugins"
+msgstr "Plugin Pro"
+
+# @ bestwebsoft
+#: bws_menu.php:498
+#: bws_menu.php:524
+msgid "Activated plugins"
+msgstr "Plugin attivi"
+
+# @ bestwebsoft
+#: bws_menu.php:500
+#: bws_menu.php:508
+#: bws_menu.php:516
+#: bws_menu.php:526
+#: bws_menu.php:534
+#: bws_menu.php:542
+#: bws_menu.php:552
+#: bws_menu.php:559
+#: bws_menu.php:567
+msgid "Read more"
+msgstr "Leggi tutto"
+
+# @ bestwebsoft
+# @ captcha
+#: bws_menu.php:500
+#: bws_menu.php:526
+#: bws_menu.php:678
+#: bws_menu.php:706
+msgid "Settings"
+msgstr "Impostazioni"
+
+# @ bestwebsoft
+#: bws_menu.php:506
+#: bws_menu.php:532
+#: bws_menu.php:658
+msgid "Installed plugins"
+msgstr "Plugin installati"
+
+# @ bestwebsoft
+#: bws_menu.php:514
+#: bws_menu.php:540
+#: bws_menu.php:765
+msgid "Recommended plugins"
+msgstr "Plugin raccomandati"
+
+# @ bestwebsoft
+#: bws_menu.php:516
+msgid "Purchase"
+msgstr "Acquista"
+
+# @ bestwebsoft
+#: bws_menu.php:521
+msgid "Free plugins"
+msgstr "Plugin gratuiti"
+
+# @ bestwebsoft
+#: bws_menu.php:542
+#: bws_menu.php:567
+msgid "Download"
+msgstr "Scarica"
+
+# @ default
+#: bws_menu.php:542
+#: bws_menu.php:567
+#: bws_menu.php:867
+#, php-format
+msgid "Install %s"
+msgstr "Installa %s"
+
+# @ bestwebsoft
+#: bws_menu.php:542
+#: bws_menu.php:567
+msgid "Install now from wordpress.org"
+msgstr "Installa ora da wordpress.org"
+
+#: bws_menu.php:548
+msgid "Free themes"
+msgstr ""
+
+# @ bestwebsoft
+#: bws_menu.php:551
+#, fuzzy
+msgid "Activated theme"
+msgstr "Tema attivo"
+
+#: bws_menu.php:552
+#, php-format
+msgid "Customize &#8220;%s&#8221;"
+msgstr ""
+
+#: bws_menu.php:552
+msgid "Customize"
+msgstr ""
+
+# @ default
+#: bws_menu.php:557
+#, fuzzy
+msgid "Installed themes"
+msgstr "Installa %s"
+
+# @ bestwebsoft
+#: bws_menu.php:565
+#, fuzzy
+msgid "Recommended themes"
+msgstr "Plugin raccomandati"
+
+# @ bestwebsoft
+#: bws_menu.php:573
+msgid "If you have any questions, please contact us via"
+msgstr "Se hai domande, contattaci tramite"
+
+# @ bestwebsoft
+#: bws_menu.php:580
+#: bws_menu.php:648
+#: bws_menu.php:903
+msgid "System status"
+msgstr "Stato sistema"
+
+# @ bestwebsoft
+#: bws_menu.php:584
+#: bws_menu.php:906
+msgid "Environment"
+msgstr "Ambiente"
+
+# @ bestwebsoft
+#: bws_menu.php:595
+#: bws_menu.php:917
+msgid "Active Plugins"
+msgstr "Plugin attivi"
+
+# @ bestwebsoft
+#: bws_menu.php:606
+#: bws_menu.php:928
+msgid "Inactive Plugins"
+msgstr "Plugin inattivi"
+
+# @ bestwebsoft
+#: bws_menu.php:620
+#: bws_menu.php:942
+msgid "Send to support"
+msgstr "Invia al supporto"
+
+# @ bestwebsoft
+#: bws_menu.php:627
+#: bws_menu.php:949
+msgid "Send to custom email &#187;"
+msgstr "Invia a una email personalizzata &#187;"
+
+#: bws_menu.php:638
+msgid "Switch to old interface"
+msgstr ""
+
+# @ bestwebsoft
+#: bws_menu.php:644
+#, fuzzy
+msgid "Plugins"
+msgstr "Plugin Pro"
+
+#: bws_menu.php:646
+msgid "Themes"
+msgstr ""
+
+#: bws_menu.php:652
+msgid "All"
+msgstr ""
+
+# @ default
+#: bws_menu.php:653
+#, fuzzy
+msgid "Installed"
+msgstr "Installa %s"
+
+# @ bestwebsoft
+#: bws_menu.php:654
+#, fuzzy
+msgid "Recommended"
+msgstr "Plugin raccomandati"
+
+# @ bestwebsoft
+#: bws_menu.php:676
+#: bws_menu.php:704
+#: bws_menu.php:726
+#: bws_menu.php:754
+#: bws_menu.php:795
+#, fuzzy
+msgid "Learn more"
+msgstr "Leggi tutto"
+
+#: bws_menu.php:694
+#: bws_menu.php:744
+#: bws_menu.php:785
+msgid "Go"
+msgstr ""
+
+#: bws_menu.php:698
+#: bws_menu.php:748
+#: bws_menu.php:789
+msgid "DONATE"
+msgstr ""
+
+# @ bestwebsoft
+#: bws_menu.php:728
+#: bws_menu.php:756
+#, fuzzy
+msgid "Activate this plugin"
+msgstr "Plugin attivi"
+
+# @ bestwebsoft
+#: bws_menu.php:728
+#: bws_menu.php:756
+#, fuzzy
+msgid "Activate"
+msgstr "Plugin attivi"
+
+# @ default
+#: bws_menu.php:797
+#, fuzzy
+msgid "Install now"
+msgstr "Installa %s"
+
+#: bws_menu.php:819
+msgid "Try again"
+msgstr ""
+
+#: bws_menu.php:836
+#, php-format
+msgid "Preview &#8220;%s&#8221;"
+msgstr ""
+
+# @ default
+#: bws_menu.php:867
+#, fuzzy
+msgid "Install Now"
+msgstr "Installa %s"
+
+#: bws_menu.php:870
+#, php-format
+msgid "Update to version %s"
+msgstr ""
+
+#: bws_menu.php:870
+msgid "Update"
+msgstr ""
+
+#: bws_menu.php:877
+#, php-format
+msgid "Preview %s"
+msgstr ""
+
+#: bws_menu.php:877
+msgid "Preview"
+msgstr ""
+
+#: bws_menu.php:884
+#, php-format
+msgid "By %s"
+msgstr ""
+
+#: bws_menu.php:890
+msgid "Details"
+msgstr ""
+
+# @ default
+#, fuzzy
+#~ msgid "installed"
+#~ msgstr "Installa %s"
+
+# @ captcha
+#, fuzzy
+#~ msgid "Captcha Settings"
+#~ msgstr "Impostazioni Captcha"
+
+# @ captcha
+#~ msgid "Captcha"
+#~ msgstr "Captcha"
+# @ captcha
+#~ msgid "Login form"
+#~ msgstr "Modulo di login"
+# @ captcha
+#, fuzzy
+#~ msgid "Registration form"
+#~ msgstr "Modulo di registrazione"
+
+# @ captcha
+#~ msgid "Register form"
+#~ msgstr "Modulo di registrazione"
+# @ captcha
+#, fuzzy
+#~ msgid "Reset Password form"
+#~ msgstr "Modulo recupero password"
+
+# @ captcha
+#~ msgid "Lost password form"
+#~ msgstr "Modulo recupero password"
+# @ captcha
+#~ msgid "Comments form"
+#~ msgstr "Modulo dei commenti"
+# @ captcha
+#~ msgid "Hide CAPTCHA for registered users"
+#~ msgstr "Nascondi CAPTCHA per gli utenti registrati"
+# @ captcha
+#~ msgid "Plus (&#43;)"
+#~ msgstr "Addizione (&#43;)"
+# @ captcha
+#~ msgid "Plus"
+#~ msgstr "Più"
+# @ captcha
+#~ msgid "Minus (&minus;)"
+#~ msgstr "Sottrazione (&minus;)"
+# @ captcha
+#~ msgid "Minus"
+#~ msgstr "Meno"
+# @ captcha
+#, fuzzy
+#~ msgid "Multiplication (&times;)"
+#~ msgstr "Moltiplicazione (&times;)"
+
+# @ captcha
+#, fuzzy
+#~ msgid "Multiply"
+#~ msgstr "Moltiplicazione"
+
+# @ captcha
+#~ msgid "Numbers"
+#~ msgstr "Numeri"
+# @ captcha
+#~ msgid "Words"
+#~ msgstr "Parole"
+# @ captcha
+#~ msgid "FAQ"
+#~ msgstr "FAQ"
+# @ captcha
+#~ msgid "Support"
+#~ msgstr "Supporto"
+# @ captcha
+#, fuzzy
+#~ msgid ""
+#~ "Please select one item in the block Arithmetic and Complexity for CAPTCHA"
+#~ msgstr ""
+#~ "Per favole seleziona una opzione nel blocco Aritmetica e Difficolatà per "
+#~ "il CAPTCHA"
+
+# @ captcha
+#~ msgid "Options saved."
+#~ msgstr "Impostazioni salvate."
+# @ captcha
+#, fuzzy
+#~ msgid "Enable CAPTCHA for:"
+#~ msgstr "Abilita il CAPTCHA per:"
+
+# @ captcha
+#~ msgid "Contact form"
+#~ msgstr "Modulo di contatto"
+# @ captcha
+#~ msgid "powered by"
+#~ msgstr "powered by"
+# @ captcha
+#~ msgid "Activate contact form"
+#~ msgstr "Attiva modulo di contatto"
+# @ captcha
+#~ msgid "Download contact form"
+#~ msgstr "Scarica il plugin per il modulo di contatto"
+# @ captcha
+#, fuzzy
+#~ msgid ""
+#~ "If you would like to customize this plugin for a custom form, please see"
+#~ msgstr ""
+#~ "Se desideri personalizzare il plugin per un modulo di contatto "
+#~ "personalizzato, vedi"
+
+# @ captcha
+#~ msgid "\"Create a Group\" form"
+#~ msgstr "Modulo \"Crea un gruppo\""
+# @ captcha
+#~ msgid ""
+#~ "This functionality is available in the Pro version of the plugin. For "
+#~ "more details, please follow the link"
+#~ msgstr ""
+#~ "Questa funzionalità è disponibile nella versione Pro del plugin. Per "
+#~ "maggiori dettagli, per favore vai al link"
+# @ captcha
+#, fuzzy
+#~ msgid "Title for CAPTCHA in the form"
+#~ msgstr "Titolo per il CAPTCHA nel modulo"
+
+# @ captcha
+#~ msgid "Arithmetic actions for CAPTCHA"
+#~ msgstr "Operazioni aritmetiche per il  CAPTCHA"
+# @ captcha
+#~ msgid "CAPTCHA complexity level"
+#~ msgstr "Livello complessità CAPTCHA"
+# @ default
+#~ msgid "Save Changes"
+#~ msgstr "Salva le modifiche"
+# @ captcha
+#~ msgid "ERROR"
+#~ msgstr "ERRORE"
+# @ captcha
+#~ msgid "Please fill the form."
+#~ msgstr "Per favore compila il modulo."
+# @ captcha
+#, fuzzy
+#~ msgid "Please enter a valid CAPTCHA value."
+#~ msgstr "Per favore completa il test di controllo."
+
+# @ captcha
+#, fuzzy
+#~ msgid ""
+#~ "Error: You have entered an incorrect CAPTCHA value. Click the BACK button "
+#~ "on your browser, and try again."
+#~ msgstr ""
+#~ "Errore: hai inserito una risposta errata nel codice di controllo. Fai "
+#~ "click sul pulsante INDIETRO del tuo browser e prova di nuovo."
+
+# @ captcha
+#~ msgid "zero"
+#~ msgstr "zero"
+# @ captcha
+#~ msgid "one"
+#~ msgstr "uno"
+# @ captcha
+#~ msgid "two"
+#~ msgstr "due"
+# @ captcha
+#~ msgid "three"
+#~ msgstr "tre"
+# @ captcha
+#~ msgid "four"
+#~ msgstr "quattro"
+# @ captcha
+#~ msgid "five"
+#~ msgstr "cinque"
+# @ captcha
+#~ msgid "six"
+#~ msgstr "sei"
+# @ captcha
+#~ msgid "seven"
+#~ msgstr "sette"
+# @ captcha
+#~ msgid "eight"
+#~ msgstr "otto"
+# @ captcha
+#~ msgid "nine"
+#~ msgstr "nove"
+# @ captcha
+#~ msgid "eleven"
+#~ msgstr "undici"
+# @ captcha
+#~ msgid "twelve"
+#~ msgstr "dodici"
+# @ captcha
+#~ msgid "thirteen"
+#~ msgstr "tredici"
+# @ captcha
+#~ msgid "fourteen"
+#~ msgstr "quattordici"
+# @ captcha
+#~ msgid "fifteen"
+#~ msgstr "quindici"
+# @ captcha
+#~ msgid "sixteen"
+#~ msgstr "sedici"
+# @ captcha
+#~ msgid "seventeen"
+#~ msgstr "diciassette"
+# @ captcha
+#~ msgid "eighteen"
+#~ msgstr "diciotto"
+# @ captcha
+#~ msgid "nineteen"
+#~ msgstr "diciannove"
+# @ captcha
+#~ msgid "ten"
+#~ msgstr "dieci"
+# @ captcha
+#~ msgid "twenty"
+#~ msgstr "venti"
+# @ captcha
+#~ msgid "thirty"
+#~ msgstr "trenta"
+# @ captcha
+#~ msgid "forty"
+#~ msgstr "quaranta"
+# @ captcha
+#~ msgid "fifty"
+#~ msgstr "cinquanta"
+# @ captcha
+#~ msgid "sixty"
+#~ msgstr "sessanta"
+# @ captcha
+#~ msgid "seventy"
+#~ msgstr "settanta"
+# @ captcha
+#~ msgid "eighty"
+#~ msgstr "ottanta"
+# @ captcha
+#~ msgid "ninety"
+#~ msgstr "novanta"
+# @ captcha
+#~ msgid "and"
+#~ msgstr "e"
+# @ captcha
+#, fuzzy
+#~ msgid "Encryption password is not set"
+#~ msgstr "La password per la decodifica della cifratura non è impostata"
+
+# @ captcha
+#, fuzzy
+#~ msgid "Decryption password is not set"
+#~ msgstr "La password per la decodifica della cifratura non è impostata"

@@ -1,0 +1,1 @@
+window.devicePixelRatio = 2;

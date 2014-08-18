@@ -1,0 +1,4 @@
+Tickets (TX) addon for EventON Plugin
+====================================
+v 0.1 (2014-6-24)
+Initial release

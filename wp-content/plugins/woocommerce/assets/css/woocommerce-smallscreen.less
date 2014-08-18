@@ -1,0 +1,123 @@
+/**
+ * This stylesheet optimises the default WooCommerce layout when viewed on smaller screens.
+ */
+
+@import "mixins.less";
+
+.woocommerce, .woocommerce-page {
+
+	/**
+	 * General layout
+	 */
+	.col2-set {
+		.col-1, .col-2 {
+			float: none;
+			width:100%;
+		}
+	}
+
+	/**
+	 * Products
+	 */
+	ul.products {
+		li.product {
+			width:48%;
+			float: left;
+			clear:both;
+			margin:0 0 2.992em;
+			&:nth-child(2n) {
+				float: right;
+				clear:none !important;
+			}
+		}
+	}
+
+	/**
+	 * Product Details
+	 */
+	div.product, #content div.product {
+		div.images, div.summary {
+			float: none;
+			width:100%;
+		}
+	}
+
+	/**
+	 * Cart
+	 */
+	table.cart, #content table.cart {
+		.product-thumbnail {
+			display: none;
+		}
+		td.actions {
+			text-align: left;
+			.coupon {
+				float:none;
+				.clearfix;
+				padding-bottom:.5em;
+			}
+			input, .button, .input-text {
+				width:48%;
+				.borderbox;
+			}
+			.input-text + .button, .button.alt {
+				float: right;
+			}
+		}
+	}
+	.cart-collaterals {
+		.cart_totals, .shipping_calculator, .cross-sells {
+			width:100%;
+			float: none;
+			text-align: left;
+		}
+	}
+
+	/**
+	 * Checkout
+	 */
+	&.woocommerce-checkout {
+		form.login {
+			.form-row {
+				width: 100%;
+				float: none;
+			}
+		}
+	}
+
+	#payment {
+		.terms {
+			text-align: left;
+			padding:0;
+		}
+		#place_order {
+			float: none;
+			width:100%;
+			.borderbox;
+			margin-bottom:1em;
+		}
+	}
+
+	/**
+	 * Account
+	 */
+	.lost_reset_password {
+		.form-row-first,
+		.form-row-last {
+			width: 100%;
+			float: none;
+			margin-right: 0;
+		}
+	}
+}
+
+/* =Twenty Thirteen Specific styles
+-------------------------------------------------------------- */
+.single-product {
+	.twentythirteen {
+		.panel {
+			padding-left: 20px !important;
+			padding-right: 20px !important;
+		}
+	}
+}

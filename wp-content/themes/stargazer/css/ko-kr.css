@@ -1,0 +1,54 @@
+﻿/* Korean stylesheet. */
+
+q { quotes: '\201C' '\201D' '\2018' '\2019'; }
+
+.font-primary,
+body,
+input,
+textarea,
+.label-checkbox,
+.label-radio,
+.required,
+#site-description,
+#reply-title small { 
+	font-family: 'Droid Serif', 'Lora', 'Georgia', 'Malgun Gothic', 'Gulim', 'Batang', "돋움", 'Dotum', 'Hangangche', serif;
+}
+
+.font-secondary,
+dt,
+th,
+legend,
+label,
+input[type="submit"],
+input[type="reset"], 
+input[type="button"],
+button,
+select,
+option,
+.wp-caption-text,
+.gallery-caption,
+.mejs-controls,
+.entry-byline,
+.entry-footer,
+.chat-author cite,
+.chat-author,
+.comment-meta,
+.menu,
+.breadcrumb-trail,
+.media-info .prep,
+.comment-reply-link,
+.comment-reply-login,
+.clean-my-archives .day,
+.whistle-title {
+	font-family: 'Open Sans', 'Malgun Gothic', 'Gulim', 'Batang', "돋움", 'Dotum', 'Hangangche', sans-serif;
+}
+
+.font-headlines,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-family: 'Open Sans', 'Malgun Gothic', 'Gulim', 'Batang', "돋움", 'Dotum', 'Hangangche', sans-serif;
+}

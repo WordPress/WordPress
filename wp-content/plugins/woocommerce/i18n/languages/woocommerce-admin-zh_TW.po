@@ -1,0 +1,5455 @@
+# 
+# Translators:
+# Nel, 2014
+# pdb <ray12369@gmail.com>, 2014
+# y12studio <y12studio@gmail.com>, 2014
+msgid ""
+msgstr ""
+"Project-Id-Version: WooCommerce\n"
+"Report-Msgid-Bugs-To: https://github.com/woothemes/woocommerce/issues\n"
+"POT-Creation-Date: 2014-06-30 14:28:36+00:00\n"
+"PO-Revision-Date: 2014-06-30 14:42+0000\n"
+"Last-Translator: Mike Jolley <mike.jolley@me.com>\n"
+"Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/woocommerce/language/zh_TW/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: zh_TW\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: includes/admin/class-wc-admin-assets.php:65
+#: includes/admin/class-wc-admin-menus.php:48
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-notes.php:49
+#: includes/admin/wc-admin-functions.php:19
+msgid "WooCommerce"
+msgstr "WooCommerce"
+
+#: includes/admin/class-wc-admin-assets.php:108
+msgid "Please enter in decimal (%s) format without thousand separators."
+msgstr ""
+
+#: includes/admin/class-wc-admin-assets.php:109
+msgid ""
+"Please enter in monetary decimal (%s) format without thousand separators and"
+" currency symbols."
+msgstr ""
+
+#: includes/admin/class-wc-admin-assets.php:136
+msgid ""
+"Are you sure you want to remove the selected items? If you have previously "
+"reduced this item's stock, or this order was submitted by a customer, you "
+"will need to manually restore the item's stock."
+msgstr ""
+
+#: includes/admin/class-wc-admin-assets.php:137
+msgid "Please select some items."
+msgstr "請選擇一些項目。"
+
+#: includes/admin/class-wc-admin-assets.php:138
+msgid "Remove this item meta?"
+msgstr ""
+
+#: includes/admin/class-wc-admin-assets.php:139
+msgid "Remove this attribute?"
+msgstr "刪除這個屬性？"
+
+#: includes/admin/class-wc-admin-assets.php:140
+#: includes/admin/class-wc-admin-attributes.php:239
+#: includes/admin/class-wc-admin-attributes.php:275
+#: includes/admin/class-wc-admin-attributes.php:307
+#: includes/admin/class-wc-admin-attributes.php:330
+#: includes/admin/class-wc-admin-attributes.php:374
+#: includes/admin/class-wc-admin-attributes.php:399
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:259
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:186
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:442
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:536
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:148
+#: includes/admin/settings/class-wc-settings-shipping.php:203
+msgid "Name"
+msgstr "名字"
+
+#: includes/admin/class-wc-admin-assets.php:141
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:434
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:528
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:6
+msgid "Remove"
+msgstr "刪除"
+
+#: includes/admin/class-wc-admin-assets.php:142
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:435
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:529
+#: includes/admin/post-types/meta-boxes/views/html-order-download-permission.php:7
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:7
+msgid "Click to toggle"
+msgstr "點擊切換"
+
+#: includes/admin/class-wc-admin-assets.php:143
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:450
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:542
+msgid "Value(s)"
+msgstr ""
+
+#: includes/admin/class-wc-admin-assets.php:144
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:543
+msgid "Enter some text, or some attributes by pipe (|) separating values."
+msgstr ""
+
+#: includes/admin/class-wc-admin-assets.php:145
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:493
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:548
+msgid "Visible on the product page"
+msgstr "在商品頁面中可見"
+
+#: includes/admin/class-wc-admin-assets.php:146
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:506
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:554
+msgid "Used for variations"
+msgstr ""
+
+#: includes/admin/class-wc-admin-assets.php:147
+msgid "Enter a name for the new attribute term:"
+msgstr "輸入新屬性的名稱："
+
+#: includes/admin/class-wc-admin-assets.php:148
+msgid "Calculate totals based on order items, discounts, and shipping?"
+msgstr ""
+
+#: includes/admin/class-wc-admin-assets.php:149
+msgid ""
+"Calculate line taxes? This will calculate taxes based on the customers "
+"country. If no billing/shipping is set it will use the store base country."
+msgstr ""
+
+#: includes/admin/class-wc-admin-assets.php:150
+msgid ""
+"Copy billing information to shipping information? This will remove any "
+"currently entered shipping information."
+msgstr ""
+
+#: includes/admin/class-wc-admin-assets.php:151
+msgid ""
+"Load the customer's billing information? This will remove any currently "
+"entered billing information."
+msgstr ""
+
+#: includes/admin/class-wc-admin-assets.php:152
+msgid ""
+"Load the customer's shipping information? This will remove any currently "
+"entered shipping information."
+msgstr ""
+
+#: includes/admin/class-wc-admin-assets.php:153
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:173
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:273
+#: includes/admin/views/html-bulk-edit-product.php:170
+#: includes/admin/views/html-quick-edit-product.php:128
+msgid "Featured"
+msgstr "特色"
+
+#: includes/admin/class-wc-admin-assets.php:156
+msgid "No customer selected"
+msgstr "未選擇顧客"
+
+#: includes/admin/class-wc-admin-assets.php:182
+msgid ""
+"Could not grant access - the user may already have permission for this file "
+"or billing email is not set. Ensure the billing email is set, and the order "
+"has been saved."
+msgstr ""
+
+#: includes/admin/class-wc-admin-assets.php:183
+msgid "Are you sure you want to revoke access to this download?"
+msgstr ""
+
+#: includes/admin/class-wc-admin-assets.php:203
+msgid ""
+"Are you sure you want to link all variations? This will create a new "
+"variation for each and every possible combination of variation attributes "
+"(max 50 per run)."
+msgstr ""
+
+#: includes/admin/class-wc-admin-assets.php:204
+msgid "Enter a value"
+msgstr "輸入數值"
+
+#: includes/admin/class-wc-admin-assets.php:205
+msgid "Enter a value (fixed or %)"
+msgstr ""
+
+#: includes/admin/class-wc-admin-assets.php:206
+msgid "Are you sure you want to delete all variations? This cannot be undone."
+msgstr ""
+
+#: includes/admin/class-wc-admin-assets.php:207
+msgid "Last warning, are you sure?"
+msgstr "最後警告，你是否確定?"
+
+#: includes/admin/class-wc-admin-assets.php:208
+#: includes/admin/class-wc-admin-taxonomies.php:123
+#: includes/admin/class-wc-admin-taxonomies.php:210
+msgid "Choose an image"
+msgstr "選擇一張圖片"
+
+#: includes/admin/class-wc-admin-assets.php:209
+msgid "Set variation image"
+msgstr ""
+
+#: includes/admin/class-wc-admin-assets.php:210
+msgid "variation added"
+msgstr ""
+
+#: includes/admin/class-wc-admin-assets.php:211
+msgid "variations added"
+msgstr ""
+
+#: includes/admin/class-wc-admin-assets.php:212
+msgid "No variations added"
+msgstr ""
+
+#: includes/admin/class-wc-admin-assets.php:213
+msgid "Are you sure you want to remove this variation?"
+msgstr ""
+
+#: includes/admin/class-wc-admin-attributes.php:82
+msgid "Please, provide an attribute name, slug and type."
+msgstr ""
+
+#: includes/admin/class-wc-admin-attributes.php:84
+msgid "Slug “%s” is too long (28 characters max). Shorten it, please."
+msgstr "代稱 “%s” 太長 (超過 28 字元上限)，請縮短。"
+
+#: includes/admin/class-wc-admin-attributes.php:86
+msgid ""
+"Slug “%s” is not allowed because it is a reserved term. Change it, please."
+msgstr ""
+
+#: includes/admin/class-wc-admin-attributes.php:91
+#: includes/admin/class-wc-admin-attributes.php:96
+msgid "Slug “%s” is already in use. Change it, please."
+msgstr "代稱 “%s” 已被使用，請更換。"
+
+#: includes/admin/class-wc-admin-attributes.php:233
+msgid "Edit Attribute"
+msgstr "編輯屬性"
+
+#: includes/admin/class-wc-admin-attributes.php:243
+#: includes/admin/class-wc-admin-attributes.php:376
+msgid "Name for the attribute (shown on the front-end)."
+msgstr ""
+
+#: includes/admin/class-wc-admin-attributes.php:248
+#: includes/admin/class-wc-admin-attributes.php:308
+#: includes/admin/class-wc-admin-attributes.php:380
+msgid "Slug"
+msgstr "代稱"
+
+#: includes/admin/class-wc-admin-attributes.php:252
+#: includes/admin/class-wc-admin-attributes.php:382
+msgid ""
+"Unique slug/reference for the attribute; must be shorter than 28 characters."
+msgstr ""
+
+#: includes/admin/class-wc-admin-attributes.php:257
+#: includes/admin/class-wc-admin-attributes.php:309
+#: includes/admin/class-wc-admin-attributes.php:386
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:274
+msgid "Type"
+msgstr "類型"
+
+#: includes/admin/class-wc-admin-attributes.php:261
+#: includes/admin/class-wc-admin-attributes.php:388
+msgid "Select"
+msgstr "選擇"
+
+#: includes/admin/class-wc-admin-attributes.php:262
+#: includes/admin/class-wc-admin-attributes.php:389
+msgid "Text"
+msgstr "文字"
+
+#: includes/admin/class-wc-admin-attributes.php:265
+#: includes/admin/class-wc-admin-attributes.php:392
+msgid ""
+"Determines how you select attributes for products. Under admin panel -> "
+"products -> product data -> attributes -> values, <strong>Text</strong> "
+"allows manual entry whereas <strong>select</strong> allows pre-configured "
+"terms in a drop-down list."
+msgstr ""
+
+#: includes/admin/class-wc-admin-attributes.php:270
+#: includes/admin/class-wc-admin-attributes.php:396
+msgid "Default sort order"
+msgstr ""
+
+#: includes/admin/class-wc-admin-attributes.php:274
+#: includes/admin/class-wc-admin-attributes.php:336
+#: includes/admin/class-wc-admin-attributes.php:398
+msgid "Custom ordering"
+msgstr ""
+
+#: includes/admin/class-wc-admin-attributes.php:276
+#: includes/admin/class-wc-admin-attributes.php:333
+#: includes/admin/class-wc-admin-attributes.php:400
+msgid "Term ID"
+msgstr ""
+
+#: includes/admin/class-wc-admin-attributes.php:278
+#: includes/admin/class-wc-admin-attributes.php:402
+msgid ""
+"Determines the sort order of the terms on the frontend shop product pages. "
+"If using custom ordering, you can drag and drop the terms in this attribute."
+msgstr ""
+
+#: includes/admin/class-wc-admin-attributes.php:283
+msgid "Update"
+msgstr "更新"
+
+#: includes/admin/class-wc-admin-attributes.php:299
+#: includes/admin/class-wc-admin-menus.php:50
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:105
+msgid "Attributes"
+msgstr "屬性"
+
+#: includes/admin/class-wc-admin-attributes.php:310
+msgid "Order by"
+msgstr "排序"
+
+#: includes/admin/class-wc-admin-attributes.php:311
+msgid "Terms"
+msgstr ""
+
+#: includes/admin/class-wc-admin-attributes.php:323
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:177
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:322
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-items.php:82
+#: includes/admin/reports/class-wc-report-customer-list.php:192
+#: includes/admin/reports/class-wc-report-stock.php:112
+msgid "Edit"
+msgstr "編輯"
+
+#: includes/admin/class-wc-admin-attributes.php:323
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-images.php:44
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-images.php:55
+#: includes/admin/post-types/meta-boxes/views/html-product-download.php:6
+#: includes/admin/post-types/meta-boxes/views/html-product-variation-download.php:5
+msgid "Delete"
+msgstr "刪除"
+
+#: includes/admin/class-wc-admin-attributes.php:356
+msgid "Configure terms"
+msgstr ""
+
+#: includes/admin/class-wc-admin-attributes.php:360
+msgid "No attributes currently exist."
+msgstr "目前沒有任何屬性。"
+
+#: includes/admin/class-wc-admin-attributes.php:370
+msgid "Add New Attribute"
+msgstr "新增屬性"
+
+#: includes/admin/class-wc-admin-attributes.php:371
+msgid ""
+"Attributes let you define extra product data, such as size or colour. You "
+"can use these attributes in the shop sidebar using the \"layered nav\" "
+"widgets. Please note: you cannot rename an attribute later on."
+msgstr ""
+
+#: includes/admin/class-wc-admin-attributes.php:405
+msgid "Add Attribute"
+msgstr "新增屬性"
+
+#: includes/admin/class-wc-admin-attributes.php:416
+msgid "Are you sure you want to delete this attribute?"
+msgstr ""
+
+#: includes/admin/class-wc-admin-dashboard.php:35
+msgid "WooCommerce Recent Reviews"
+msgstr "WooCommerce 近期評論"
+
+#: includes/admin/class-wc-admin-dashboard.php:38
+#: includes/admin/class-wc-admin-menus.php:81
+msgid "WooCommerce Status"
+msgstr "WooCommerce 狀態"
+
+#: includes/admin/class-wc-admin-dashboard.php:132
+msgid "<strong>%s</strong> sales this month"
+msgstr "<strong>%s</strong> 銷售當月"
+
+#: includes/admin/class-wc-admin-dashboard.php:139
+msgid "%s top seller this month (sold %d)"
+msgstr "%s 當月最高銷售 (賣出 %d)"
+
+#: includes/admin/class-wc-admin-dashboard.php:145
+msgid "<strong>%s order</strong> awaiting processing"
+msgid_plural "<strong>%s orders</strong> awaiting processing"
+msgstr[0] ""
+
+#: includes/admin/class-wc-admin-dashboard.php:150
+msgid "<strong>%s order</strong> on-hold"
+msgid_plural "<strong>%s orders</strong> on-hold"
+msgstr[0] ""
+
+#: includes/admin/class-wc-admin-dashboard.php:155
+msgid "<strong>%s product</strong> low in stock"
+msgid_plural "<strong>%s products</strong> low in stock"
+msgstr[0] "<strong>%s 產品</strong> 低庫存"
+
+#: includes/admin/class-wc-admin-dashboard.php:160
+msgid "<strong>%s product</strong> out of stock"
+msgid_plural "<strong>%s products</strong> out of stock"
+msgstr[0] "<strong>%s 產品</strong> 無庫存"
+
+#: includes/admin/class-wc-admin-dashboard.php:193
+msgid "out of 5"
+msgstr "由 5 個之中"
+
+#: includes/admin/class-wc-admin-dashboard.php:195
+msgid "reviewed by"
+msgstr ""
+
+#: includes/admin/class-wc-admin-dashboard.php:201
+msgid "There are no product reviews yet."
+msgstr "還沒有商品評論。"
+
+#: includes/admin/class-wc-admin-duplicate-product.php:43
+msgid "Make a duplicate from this product"
+msgstr "從此商品複製"
+
+#: includes/admin/class-wc-admin-duplicate-product.php:44
+msgid "Duplicate"
+msgstr "複製"
+
+#: includes/admin/class-wc-admin-duplicate-product.php:67
+msgid "Copy to a new draft"
+msgstr "複製為新的草稿"
+
+#: includes/admin/class-wc-admin-duplicate-product.php:77
+msgid "No product to duplicate has been supplied!"
+msgstr ""
+
+#: includes/admin/class-wc-admin-duplicate-product.php:99
+msgid "Product creation failed, could not find original product:"
+msgstr "商品建立失敗。無法找到原商品 :"
+
+#: includes/admin/class-wc-admin-duplicate-product.php:126
+msgid "(Copy)"
+msgstr "(複製)"
+
+#: includes/admin/class-wc-admin-help.php:38
+msgid "Documentation"
+msgstr "文件"
+
+#: includes/admin/class-wc-admin-help.php:41
+msgid ""
+"Thank you for using WooCommerce :) Should you need help using or extending "
+"WooCommerce please read the documentation."
+msgstr "感謝您使用 WooCommerce :) 請閱讀文件如果您需要 WooCommerce 使用及擴展上的幫助。"
+
+#: includes/admin/class-wc-admin-help.php:43
+msgid "WooCommerce Documentation"
+msgstr "WooCommerce 文件"
+
+#: includes/admin/class-wc-admin-help.php:43
+msgid "Developer API Docs"
+msgstr "開發者 API 文件"
+
+#: includes/admin/class-wc-admin-help.php:49
+msgid "Support"
+msgstr "支援"
+
+#: includes/admin/class-wc-admin-help.php:52
+msgid ""
+"After <a href=\"%s\">reading the documentation</a>, for further assistance "
+"you can use the <a href=\"%s\">community forum</a>, or if you have access as"
+" a WooThemes customer, <a href=\"%s\">our support desk</a>."
+msgstr ""
+
+#: includes/admin/class-wc-admin-help.php:54
+msgid ""
+"Before asking for help we recommend checking the status page to identify any"
+" problems with your configuration."
+msgstr "在尋求幫助之前，建議您先確認狀態頁面有無系統配置上的問題。"
+
+#: includes/admin/class-wc-admin-help.php:56
+#: includes/admin/class-wc-admin-help.php:67
+#: includes/admin/class-wc-admin-menus.php:81
+#: includes/admin/views/html-admin-page-status.php:5
+#: includes/admin/views/html-notice-template-check.php:6
+msgid "System Status"
+msgstr "系統狀態"
+
+#: includes/admin/class-wc-admin-help.php:56
+msgid "Community Support"
+msgstr "社群支援"
+
+#: includes/admin/class-wc-admin-help.php:56
+msgid "Customer Support"
+msgstr "顧客支援"
+
+#: includes/admin/class-wc-admin-help.php:62
+msgid "Found a bug?"
+msgstr "發現臭蟲？"
+
+#: includes/admin/class-wc-admin-help.php:65
+msgid ""
+"If you find a bug within WooCommerce core you can create a ticket via <a "
+"href=\"%s\">Github issues</a>. Ensure you read the <a "
+"href=\"%s\">contribution guide</a> prior to submitting your report. Be as "
+"descriptive as possible and please include your <a href=\"%s\">system status"
+" report</a>."
+msgstr ""
+
+#: includes/admin/class-wc-admin-help.php:67
+msgid "Report a bug"
+msgstr "回報臭蟲"
+
+#: includes/admin/class-wc-admin-help.php:73
+msgid "For more information:"
+msgstr ""
+
+#: includes/admin/class-wc-admin-help.php:74
+#: includes/admin/class-wc-admin-welcome.php:49
+msgid "About WooCommerce"
+msgstr "關於 WooCommerce"
+
+#: includes/admin/class-wc-admin-help.php:75
+msgid "Project on WordPress.org"
+msgstr "WordPress.org 上的專案"
+
+#: includes/admin/class-wc-admin-help.php:76
+msgid "Project on Github"
+msgstr "Github 上的專案"
+
+#: includes/admin/class-wc-admin-help.php:77
+msgid "Official Extensions"
+msgstr "官方擴展軟體"
+
+#: includes/admin/class-wc-admin-help.php:78
+msgid "Official Themes"
+msgstr "官方佈景主題"
+
+#: includes/admin/class-wc-admin-importers.php:32
+msgid "WooCommerce Tax Rates (CSV)"
+msgstr "WooCommerce 稅率 (CSV)"
+
+#: includes/admin/class-wc-admin-importers.php:32
+msgid "Import <strong>tax rates</strong> to your store via a csv file."
+msgstr "從 cvs 檔案匯入<strong>稅率</strong>至商店中。"
+
+#: includes/admin/class-wc-admin-menus.php:57
+msgid "Reports"
+msgstr "報告"
+
+#: includes/admin/class-wc-admin-menus.php:64
+msgid "WooCommerce Settings"
+msgstr "WooCommerce 設定"
+
+#: includes/admin/class-wc-admin-menus.php:64
+#: includes/admin/class-wc-admin-welcome.php:219
+#: includes/admin/settings/class-wc-settings-checkout.php:277
+#: includes/admin/settings/class-wc-settings-shipping.php:243
+#: includes/admin/views/html-admin-page-status-report.php:275
+msgid "Settings"
+msgstr "設定"
+
+#: includes/admin/class-wc-admin-menus.php:89
+#: includes/admin/views/html-admin-page-addons.php:4
+msgid "WooCommerce Add-ons/Extensions"
+msgstr "WooCommerce 附加軟體/擴展軟體"
+
+#: includes/admin/class-wc-admin-menus.php:89
+msgid "Add-ons"
+msgstr "附加軟體"
+
+#: includes/admin/class-wc-admin-menus.php:127
+#: includes/admin/class-wc-admin-menus.php:129
+msgctxt "Admin menu name"
+msgid "Orders"
+msgstr "訂單"
+
+#: includes/admin/class-wc-admin-permalink-settings.php:33
+msgid "Product permalink base"
+msgstr ""
+
+#: includes/admin/class-wc-admin-permalink-settings.php:38
+msgid "Product category base"
+msgstr ""
+
+#: includes/admin/class-wc-admin-permalink-settings.php:45
+msgid "Product tag base"
+msgstr ""
+
+#: includes/admin/class-wc-admin-permalink-settings.php:52
+msgid "Product attribute base"
+msgstr ""
+
+#: includes/admin/class-wc-admin-permalink-settings.php:65
+msgctxt "slug"
+msgid "product-category"
+msgstr "商品類別"
+
+#: includes/admin/class-wc-admin-permalink-settings.php:75
+msgctxt "slug"
+msgid "product-tag"
+msgstr "商品標籤"
+
+#: includes/admin/class-wc-admin-permalink-settings.php:93
+msgid ""
+"These settings control the permalinks used for products. These settings only"
+" apply when <strong>not using \"default\" permalinks above</strong>."
+msgstr ""
+
+#: includes/admin/class-wc-admin-permalink-settings.php:100
+msgctxt "default-slug"
+msgid "shop"
+msgstr "商店"
+
+#: includes/admin/class-wc-admin-permalink-settings.php:101
+msgctxt "default-slug"
+msgid "product"
+msgstr "商品"
+
+#: includes/admin/class-wc-admin-permalink-settings.php:113
+#: includes/admin/class-wc-admin-taxonomies.php:88
+#: includes/admin/class-wc-admin-taxonomies.php:177
+#: includes/admin/settings/class-wc-settings-checkout.php:226
+#: includes/admin/settings/class-wc-settings-shipping.php:202
+#: includes/admin/views/html-admin-page-status-report.php:76
+msgid "Default"
+msgstr "標準"
+
+#: includes/admin/class-wc-admin-permalink-settings.php:117
+#: includes/admin/reports/class-wc-report-stock.php:141
+msgid "Product"
+msgstr "商品"
+
+#: includes/admin/class-wc-admin-permalink-settings.php:122
+msgid "Shop base"
+msgstr ""
+
+#: includes/admin/class-wc-admin-permalink-settings.php:126
+msgid "Shop base with category"
+msgstr ""
+
+#: includes/admin/class-wc-admin-permalink-settings.php:132
+msgid "Custom Base"
+msgstr ""
+
+#: includes/admin/class-wc-admin-permalink-settings.php:134
+msgid ""
+"Enter a custom base to use. A base <strong>must</strong> be set or WordPress"
+" will use default instead."
+msgstr ""
+
+#: includes/admin/class-wc-admin-permalink-settings.php:184
+msgctxt "slug"
+msgid "product"
+msgstr "商品"
+
+#: includes/admin/class-wc-admin-post-types.php:58
+msgid "Product updated. <a href=\"%s\">View Product</a>"
+msgstr "商品已更新。<a href=\"%s\">查看商品</a>"
+
+#: includes/admin/class-wc-admin-post-types.php:59
+#: includes/admin/class-wc-admin-post-types.php:74
+#: includes/admin/class-wc-admin-post-types.php:89
+msgid "Custom field updated."
+msgstr "自訂欄位一更新。"
+
+#: includes/admin/class-wc-admin-post-types.php:60
+#: includes/admin/class-wc-admin-post-types.php:75
+#: includes/admin/class-wc-admin-post-types.php:90
+msgid "Custom field deleted."
+msgstr "自訂欄位已刪除。"
+
+#: includes/admin/class-wc-admin-post-types.php:61
+msgid "Product updated."
+msgstr "商品已更新。"
+
+#: includes/admin/class-wc-admin-post-types.php:62
+msgid "Product restored to revision from %s"
+msgstr "商品已回復到 %s 之修訂版本。"
+
+#: includes/admin/class-wc-admin-post-types.php:63
+msgid "Product published. <a href=\"%s\">View Product</a>"
+msgstr "商品已發佈。<a href=\"%s\">查看商品</a>"
+
+#: includes/admin/class-wc-admin-post-types.php:64
+msgid "Product saved."
+msgstr "商品已儲存。"
+
+#: includes/admin/class-wc-admin-post-types.php:65
+msgid "Product submitted. <a target=\"_blank\" href=\"%s\">Preview Product</a>"
+msgstr "商品已送出。<a target=\"_blank\" href=\"%s\">預覽商品</a>"
+
+#: includes/admin/class-wc-admin-post-types.php:66
+msgid ""
+"Product scheduled for: <strong>%1$s</strong>. <a target=\"_blank\" "
+"href=\"%2$s\">Preview Product</a>"
+msgstr ""
+
+#: includes/admin/class-wc-admin-post-types.php:67
+#: includes/admin/class-wc-admin-post-types.php:82
+#: includes/admin/class-wc-admin-post-types.php:97
+msgid "M j, Y @ G:i"
+msgstr "M j, Y @ G:i"
+
+#: includes/admin/class-wc-admin-post-types.php:68
+msgid "Product draft updated. <a target=\"_blank\" href=\"%s\">Preview Product</a>"
+msgstr "商品草稿已更新，<a target=\"_blank\" href=\"%s\">預覽商品</a>"
+
+#: includes/admin/class-wc-admin-post-types.php:73
+#: includes/admin/class-wc-admin-post-types.php:76
+#: includes/admin/class-wc-admin-post-types.php:78
+msgid "Order updated."
+msgstr "訂單已更新。"
+
+#: includes/admin/class-wc-admin-post-types.php:77
+msgid "Order restored to revision from %s"
+msgstr ""
+
+#: includes/admin/class-wc-admin-post-types.php:79
+msgid "Order saved."
+msgstr "訂單已儲存。"
+
+#: includes/admin/class-wc-admin-post-types.php:80
+msgid "Order submitted."
+msgstr "訂單已送出。"
+
+#: includes/admin/class-wc-admin-post-types.php:81
+msgid "Order scheduled for: <strong>%1$s</strong>."
+msgstr ""
+
+#: includes/admin/class-wc-admin-post-types.php:83
+msgid "Order draft updated."
+msgstr "訂單草稿已更新。"
+
+#: includes/admin/class-wc-admin-post-types.php:88
+#: includes/admin/class-wc-admin-post-types.php:91
+#: includes/admin/class-wc-admin-post-types.php:93
+msgid "Coupon updated."
+msgstr "優惠券已更新。"
+
+#: includes/admin/class-wc-admin-post-types.php:92
+msgid "Coupon restored to revision from %s"
+msgstr "優惠券已回復到 %s 之修訂版本。"
+
+#: includes/admin/class-wc-admin-post-types.php:94
+msgid "Coupon saved."
+msgstr "優惠券已儲存。"
+
+#: includes/admin/class-wc-admin-post-types.php:95
+msgid "Coupon submitted."
+msgstr "優惠券已送出。"
+
+#: includes/admin/class-wc-admin-post-types.php:96
+msgid "Coupon scheduled for: <strong>%1$s</strong>."
+msgstr ""
+
+#: includes/admin/class-wc-admin-post-types.php:98
+msgid "Coupon draft updated."
+msgstr "優惠券草稿已更新。"
+
+#: includes/admin/class-wc-admin-profile.php:45
+msgid "Customer Billing Address"
+msgstr "顧客帳單地址"
+
+#: includes/admin/class-wc-admin-profile.php:48
+#: includes/admin/class-wc-admin-profile.php:97
+msgid "First name"
+msgstr "名字"
+
+#: includes/admin/class-wc-admin-profile.php:52
+#: includes/admin/class-wc-admin-profile.php:101
+msgid "Last name"
+msgstr "姓氏"
+
+#: includes/admin/class-wc-admin-profile.php:56
+#: includes/admin/class-wc-admin-profile.php:105
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:37
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:84
+msgid "Company"
+msgstr "公司"
+
+#: includes/admin/class-wc-admin-profile.php:60
+#: includes/admin/class-wc-admin-profile.php:109
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:41
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:88
+msgid "Address 1"
+msgstr "地址第一行"
+
+#: includes/admin/class-wc-admin-profile.php:64
+#: includes/admin/class-wc-admin-profile.php:113
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:45
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:92
+msgid "Address 2"
+msgstr "地址第二"
+
+#: includes/admin/class-wc-admin-profile.php:68
+#: includes/admin/class-wc-admin-profile.php:117
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:49
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:96
+#: includes/admin/settings/class-wc-settings-tax.php:256
+#: includes/admin/settings/class-wc-settings-tax.php:383
+msgid "City"
+msgstr "城市"
+
+#: includes/admin/class-wc-admin-profile.php:72
+#: includes/admin/class-wc-admin-profile.php:121
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:53
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:100
+msgid "Postcode"
+msgstr "郵遞區號"
+
+#: includes/admin/class-wc-admin-profile.php:76
+#: includes/admin/class-wc-admin-profile.php:125
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:63
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:110
+msgid "State/County"
+msgstr "州"
+
+#: includes/admin/class-wc-admin-profile.php:77
+#: includes/admin/class-wc-admin-profile.php:126
+msgid "State/County or state code"
+msgstr ""
+
+#: includes/admin/class-wc-admin-profile.php:80
+#: includes/admin/class-wc-admin-profile.php:129
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:57
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:104
+msgid "Country"
+msgstr "國家"
+
+#: includes/admin/class-wc-admin-profile.php:81
+#: includes/admin/class-wc-admin-profile.php:130
+msgid "2 letter Country code"
+msgstr "2個字母州碼"
+
+#: includes/admin/class-wc-admin-profile.php:84
+msgid "Telephone"
+msgstr "電話"
+
+#: includes/admin/class-wc-admin-profile.php:88
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:67
+#: includes/admin/reports/class-wc-report-customer-list.php:249
+msgid "Email"
+msgstr "電子郵件"
+
+#: includes/admin/class-wc-admin-profile.php:94
+msgid "Customer Shipping Address"
+msgstr "顧客運送地址"
+
+#: includes/admin/class-wc-admin-profile.php:197
+msgid "Read"
+msgstr "讀"
+
+#: includes/admin/class-wc-admin-profile.php:198
+msgid "Write"
+msgstr "寫"
+
+#: includes/admin/class-wc-admin-profile.php:199
+msgid "Read/Write"
+msgstr "讀/寫"
+
+#: includes/admin/class-wc-admin-profile.php:207
+msgid "WooCommerce API Keys"
+msgstr "WooCommerce API Keys"
+
+#: includes/admin/class-wc-admin-profile.php:211
+msgid "Generate API Key"
+msgstr "產生 API Key"
+
+#: includes/admin/class-wc-admin-profile.php:213
+msgid "Consumer Key:"
+msgstr ""
+
+#: includes/admin/class-wc-admin-profile.php:214
+msgid "Consumer Secret:"
+msgstr ""
+
+#: includes/admin/class-wc-admin-profile.php:215
+msgid "Permissions:"
+msgstr ""
+
+#: includes/admin/class-wc-admin-profile.php:219
+msgid "Revoke API Key"
+msgstr ""
+
+#: includes/admin/class-wc-admin-reports.php:43
+#: includes/admin/reports/class-wc-report-customer-list.php:251
+msgid "Orders"
+msgstr "訂單"
+
+#: includes/admin/class-wc-admin-reports.php:46
+msgid "Sales by date"
+msgstr ""
+
+#: includes/admin/class-wc-admin-reports.php:52
+msgid "Sales by product"
+msgstr ""
+
+#: includes/admin/class-wc-admin-reports.php:58
+msgid "Sales by category"
+msgstr ""
+
+#: includes/admin/class-wc-admin-reports.php:64
+msgid "Coupons by date"
+msgstr ""
+
+#: includes/admin/class-wc-admin-reports.php:72
+#: includes/admin/reports/class-wc-report-customer-list.php:30
+msgid "Customers"
+msgstr "顧客"
+
+#: includes/admin/class-wc-admin-reports.php:75
+msgid "Customers vs. Guests"
+msgstr ""
+
+#: includes/admin/class-wc-admin-reports.php:81
+msgid "Customer List"
+msgstr ""
+
+#: includes/admin/class-wc-admin-reports.php:89
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:266
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:773
+#: includes/admin/reports/class-wc-report-stock.php:25
+#: includes/admin/reports/class-wc-report-stock.php:26
+msgid "Stock"
+msgstr "庫存"
+
+#: includes/admin/class-wc-admin-reports.php:92
+msgid "Low in stock"
+msgstr "低庫存"
+
+#: includes/admin/class-wc-admin-reports.php:98
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:441
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:303
+#: includes/admin/reports/class-wc-report-stock.php:98
+#: includes/admin/views/html-bulk-edit-product.php:195
+#: includes/admin/views/html-quick-edit-product.php:138
+msgid "Out of stock"
+msgstr "已售完"
+
+#: includes/admin/class-wc-admin-reports.php:104
+msgid "Most Stocked"
+msgstr ""
+
+#: includes/admin/class-wc-admin-reports.php:115
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-totals.php:75
+msgid "Taxes"
+msgstr "稅金"
+
+#: includes/admin/class-wc-admin-reports.php:118
+msgid "Taxes by code"
+msgstr ""
+
+#: includes/admin/class-wc-admin-reports.php:124
+msgid "Taxes by date"
+msgstr ""
+
+#: includes/admin/class-wc-admin-settings.php:54
+msgid "Action failed. Please refresh the page and retry."
+msgstr "動作失敗。請更新此頁面 (F5) 並重試。"
+
+#: includes/admin/class-wc-admin-settings.php:65
+msgid "Your settings have been saved."
+msgstr "你的設定已經被儲存。"
+
+#: includes/admin/class-wc-admin-settings.php:121
+msgid "The changes you made will be lost if you navigate away from this page."
+msgstr ""
+
+#: includes/admin/class-wc-admin-settings.php:490
+msgid "Hard Crop?"
+msgstr "硬裁切？"
+
+#: includes/admin/class-wc-admin-settings.php:515
+msgid "Select a page&hellip;"
+msgstr "選擇一個頁面&hellip;"
+
+#: includes/admin/class-wc-admin-settings.php:538
+msgid "Choose a country&hellip;"
+msgstr "選擇一個國家&hellip;"
+
+#: includes/admin/class-wc-admin-settings.php:562
+msgid "Choose countries&hellip;"
+msgstr "選擇國家&hellip;"
+
+#: includes/admin/class-wc-admin-settings.php:568
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:464
+msgid "Select all"
+msgstr "全選"
+
+#: includes/admin/class-wc-admin-settings.php:568
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:464
+msgid "Select none"
+msgstr "全不選"
+
+#: includes/admin/class-wc-admin-status.php:52
+msgid "Product Transients Cleared"
+msgstr ""
+
+#: includes/admin/class-wc-admin-status.php:93
+msgid "%d Transients Rows Cleared"
+msgstr ""
+
+#: includes/admin/class-wc-admin-status.php:102
+msgid "Roles successfully reset"
+msgstr ""
+
+#: includes/admin/class-wc-admin-status.php:116
+msgid "Terms successfully recounted"
+msgstr ""
+
+#: includes/admin/class-wc-admin-status.php:127
+msgid "Sessions successfully cleared"
+msgstr ""
+
+#: includes/admin/class-wc-admin-status.php:131
+msgid "All missing WooCommerce pages was installed successfully."
+msgstr ""
+
+#: includes/admin/class-wc-admin-status.php:139
+msgid "Tax rates successfully deleted"
+msgstr "稅率已成功刪除。"
+
+#: includes/admin/class-wc-admin-status.php:148
+msgid "There was an error calling %s::%s"
+msgstr ""
+
+#: includes/admin/class-wc-admin-status.php:151
+msgid "There was an error calling %s"
+msgstr ""
+
+#: includes/admin/class-wc-admin-status.php:161
+msgid "Your changes have been saved."
+msgstr ""
+
+#: includes/admin/class-wc-admin-status.php:175
+msgid "WC Transients"
+msgstr ""
+
+#: includes/admin/class-wc-admin-status.php:176
+msgid "Clear transients"
+msgstr ""
+
+#: includes/admin/class-wc-admin-status.php:177
+msgid "This tool will clear the product/shop transients cache."
+msgstr ""
+
+#: includes/admin/class-wc-admin-status.php:180
+msgid "Expired Transients"
+msgstr ""
+
+#: includes/admin/class-wc-admin-status.php:181
+msgid "Clear expired transients"
+msgstr ""
+
+#: includes/admin/class-wc-admin-status.php:182
+msgid "This tool will clear ALL expired transients from WordPress."
+msgstr ""
+
+#: includes/admin/class-wc-admin-status.php:185
+msgid "Term counts"
+msgstr ""
+
+#: includes/admin/class-wc-admin-status.php:186
+msgid "Recount terms"
+msgstr ""
+
+#: includes/admin/class-wc-admin-status.php:187
+msgid ""
+"This tool will recount product terms - useful when changing your settings in"
+" a way which hides products from the catalog."
+msgstr ""
+
+#: includes/admin/class-wc-admin-status.php:190
+msgid "Capabilities"
+msgstr ""
+
+#: includes/admin/class-wc-admin-status.php:191
+msgid "Reset capabilities"
+msgstr ""
+
+#: includes/admin/class-wc-admin-status.php:192
+msgid ""
+"This tool will reset the admin, customer and shop_manager roles to default. "
+"Use this if your users cannot access all of the WooCommerce admin pages."
+msgstr ""
+
+#: includes/admin/class-wc-admin-status.php:195
+msgid "Customer Sessions"
+msgstr ""
+
+#: includes/admin/class-wc-admin-status.php:196
+msgid "Clear all sessions"
+msgstr ""
+
+#: includes/admin/class-wc-admin-status.php:197
+msgid ""
+"<strong class=\"red\">Warning:</strong> This tool will delete all customer "
+"session data from the database, including any current live carts."
+msgstr ""
+
+#: includes/admin/class-wc-admin-status.php:200
+#: includes/admin/views/html-notice-install.php:6
+msgid "Install WooCommerce Pages"
+msgstr "安裝 WooCommerce 頁面"
+
+#: includes/admin/class-wc-admin-status.php:201
+msgid "Install pages"
+msgstr "安裝頁面"
+
+#: includes/admin/class-wc-admin-status.php:202
+msgid ""
+"<strong class=\"red\">Note:</strong> This tool will install all the missing "
+"WooCommerce pages. Pages already defined and set up will not be replaced."
+msgstr ""
+
+#: includes/admin/class-wc-admin-status.php:205
+msgid "Delete all WooCommerce tax rates"
+msgstr "刪除所有 WooCommerce 稅率"
+
+#: includes/admin/class-wc-admin-status.php:206
+msgid "Delete ALL tax rates"
+msgstr "刪除所有稅率"
+
+#: includes/admin/class-wc-admin-status.php:207
+msgid ""
+"<strong class=\"red\">Note:</strong> This option will delete ALL of your tax"
+" rates, use with caution."
+msgstr ""
+
+#: includes/admin/class-wc-admin-taxonomies.php:86
+#: includes/admin/class-wc-admin-taxonomies.php:174
+msgid "Display type"
+msgstr "顯示類型"
+
+#: includes/admin/class-wc-admin-taxonomies.php:89
+#: includes/admin/class-wc-admin-taxonomies.php:178
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:97
+#: includes/admin/settings/class-wc-settings-products.php:25
+#: includes/admin/views/html-admin-page-addons.php:16
+msgid "Products"
+msgstr "商品"
+
+#: includes/admin/class-wc-admin-taxonomies.php:90
+#: includes/admin/class-wc-admin-taxonomies.php:179
+msgid "Subcategories"
+msgstr ""
+
+#: includes/admin/class-wc-admin-taxonomies.php:91
+#: includes/admin/class-wc-admin-taxonomies.php:180
+msgid "Both"
+msgstr ""
+
+#: includes/admin/class-wc-admin-taxonomies.php:95
+#: includes/admin/class-wc-admin-taxonomies.php:185
+msgid "Thumbnail"
+msgstr "縮圖"
+
+#: includes/admin/class-wc-admin-taxonomies.php:99
+#: includes/admin/class-wc-admin-taxonomies.php:190
+msgid "Upload/Add image"
+msgstr "上傳/新增圖片"
+
+#: includes/admin/class-wc-admin-taxonomies.php:100
+#: includes/admin/class-wc-admin-taxonomies.php:191
+msgid "Remove image"
+msgstr "刪除圖片"
+
+#: includes/admin/class-wc-admin-taxonomies.php:125
+#: includes/admin/class-wc-admin-taxonomies.php:212
+msgid "Use image"
+msgstr "使用圖片"
+
+#: includes/admin/class-wc-admin-taxonomies.php:270
+msgid ""
+"Product categories for your store can be managed here. To change the order "
+"of categories on the front-end you can drag and drop to sort them. To see "
+"more categories listed click the \"screen options\" link at the top of the "
+"page."
+msgstr ""
+
+#: includes/admin/class-wc-admin-taxonomies.php:280
+msgid ""
+"Shipping classes can be used to group products of similar type. These groups"
+" can then be used by certain shipping methods to provide different rates to "
+"different products."
+msgstr ""
+
+#: includes/admin/class-wc-admin-taxonomies.php:293
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:257
+msgid "Image"
+msgstr "圖片"
+
+#: includes/admin/class-wc-admin-welcome.php:50
+msgid "Welcome to WooCommerce"
+msgstr "歡迎使用 WooCommerce"
+
+#: includes/admin/class-wc-admin-welcome.php:201
+msgid "Welcome to WooCommerce %s"
+msgstr ""
+
+#: includes/admin/class-wc-admin-welcome.php:206
+msgid "Thanks, all done!"
+msgstr "謝謝，一切都搞定了！"
+
+#: includes/admin/class-wc-admin-welcome.php:208
+msgid "Thank you for updating to the latest version!"
+msgstr "感謝您更新到最新版本！"
+
+#: includes/admin/class-wc-admin-welcome.php:210
+msgid "Thanks for installing!"
+msgstr "謝謝安裝！"
+
+#: includes/admin/class-wc-admin-welcome.php:212
+msgid ""
+"%s WooCommerce %s is more powerful, stable, and secure than ever before. We "
+"hope you enjoy it."
+msgstr "%s WooCommerce %s 比過去更強大、更穩定且更安全了。我們希望您會喜歡。"
+
+#: includes/admin/class-wc-admin-welcome.php:216
+msgid "Version %s"
+msgstr "版本 %s"
+
+#: includes/admin/class-wc-admin-welcome.php:220
+msgid "Docs"
+msgstr "文件"
+
+#: includes/admin/class-wc-admin-welcome.php:227
+msgid "What's New"
+msgstr "新功能"
+
+#: includes/admin/class-wc-admin-welcome.php:229
+msgid "Credits"
+msgstr ""
+
+#: includes/admin/class-wc-admin-welcome.php:231
+msgid "Translators"
+msgstr "翻譯者"
+
+#: includes/admin/class-wc-admin-welcome.php:249
+msgid "A new RESTful API developers will &#10084;"
+msgstr ""
+
+#: includes/admin/class-wc-admin-welcome.php:252
+msgid "Access your data from 3rd party applications"
+msgstr ""
+
+#: includes/admin/class-wc-admin-welcome.php:253
+msgid ""
+"Built on top of the WooCommerce API, and targeted directly at developers, "
+"the new REST API allows you to get data for <strong>Orders</strong>, "
+"<strong>Coupons</strong>, <strong>Customers</strong>, "
+"<strong>Products</strong> and <strong>Reports</strong> in both "
+"<code>XML</code> and <code>JSON</code> formats."
+msgstr ""
+
+#: includes/admin/class-wc-admin-welcome.php:257
+msgid "Authentication to keep data secure"
+msgstr ""
+
+#: includes/admin/class-wc-admin-welcome.php:258
+msgid ""
+"Authentication for the REST API is performed using HTTP Basic Auth if you "
+"have SSL enabled, or signed according to the <a "
+"href=\"http://tools.ietf.org/html/rfc5849\">OAuth 1.0a</a> specification if "
+"you don't have SSL. Data is only available to authenticated users."
+msgstr ""
+
+#: includes/admin/class-wc-admin-welcome.php:263
+msgid "UI and reporting improvements"
+msgstr ""
+
+#: includes/admin/class-wc-admin-welcome.php:266
+msgid "WordPress 3.8 admin UI compatibility"
+msgstr ""
+
+#: includes/admin/class-wc-admin-welcome.php:267
+msgid ""
+"WooCommerce 2.1 has had its UI restyled to work with the new admin design in"
+" WordPress 3.8. All bitmap icons have been replaced with a custom, "
+"lightweight icon font for razor sharp clarity on retina devices as well as "
+"improved performance."
+msgstr ""
+
+#: includes/admin/class-wc-admin-welcome.php:270
+msgid "Simplified order UI"
+msgstr ""
+
+#: includes/admin/class-wc-admin-welcome.php:271
+msgid ""
+"The orders panel has seen significant improvement to both the totals panel, "
+"and line item display making editing new and existing orders a breeze."
+msgstr ""
+
+#: includes/admin/class-wc-admin-welcome.php:272
+msgid ""
+"Item meta has also been optimised and can now be viewed as HTML rather than "
+"stuck in a text input."
+msgstr ""
+
+#: includes/admin/class-wc-admin-welcome.php:275
+msgid "Improved Reporting"
+msgstr ""
+
+#: includes/admin/class-wc-admin-welcome.php:276
+msgid ""
+"Reports have been redesigned with new <strong>filtering</strong> "
+"capabilities, a new <strong>customer report</strong> showing "
+"orders/spending, and the ability to <strong>export CSVs</strong>."
+msgstr ""
+
+#: includes/admin/class-wc-admin-welcome.php:277
+msgid ""
+"The dashboard also has a new widget showing you an overview of current "
+"orders complete with sparklines for quick at-a-glance stats."
+msgstr ""
+
+#: includes/admin/class-wc-admin-welcome.php:282
+msgid "Separated integrations"
+msgstr ""
+
+#: includes/admin/class-wc-admin-welcome.php:285
+msgid "New separate plugins"
+msgstr ""
+
+#: includes/admin/class-wc-admin-welcome.php:286
+msgid ""
+"To make core more lean, some integrations have been removed and turned into "
+"dedicated plugins which you can install as and when you need them."
+msgstr ""
+
+#: includes/admin/class-wc-admin-welcome.php:289
+msgid "Google Analytics"
+msgstr "谷歌分析"
+
+#: includes/admin/class-wc-admin-welcome.php:290
+msgid "Add Google Analytics eCommerce tracking to your WooCommerce store."
+msgstr ""
+
+#: includes/admin/class-wc-admin-welcome.php:291
+#: includes/admin/class-wc-admin-welcome.php:296
+#: includes/admin/class-wc-admin-welcome.php:301
+#: includes/admin/class-wc-admin-welcome.php:306
+#: includes/admin/class-wc-admin-welcome.php:311
+msgid "Download"
+msgstr "下載"
+
+#: includes/admin/class-wc-admin-welcome.php:294
+msgid "Piwik"
+msgstr ""
+
+#: includes/admin/class-wc-admin-welcome.php:295
+msgid "Integrate WooCommerce with Piwik and the WP-Piwik plugin."
+msgstr ""
+
+#: includes/admin/class-wc-admin-welcome.php:299
+msgid "ShareThis"
+msgstr ""
+
+#: includes/admin/class-wc-admin-welcome.php:300
+msgid "Add social network sharing buttons to products using ShareThis."
+msgstr ""
+
+#: includes/admin/class-wc-admin-welcome.php:304
+msgid "Sharedaddy"
+msgstr ""
+
+#: includes/admin/class-wc-admin-welcome.php:305
+msgid "Add social network sharing buttons to products using Sharedaddy."
+msgstr ""
+
+#: includes/admin/class-wc-admin-welcome.php:309
+msgid "ShareYourCart"
+msgstr ""
+
+#: includes/admin/class-wc-admin-welcome.php:310
+msgid ""
+"Let users share their carts for a discount using the ShareYourCart service."
+msgstr ""
+
+#: includes/admin/class-wc-admin-welcome.php:316
+msgid "Under the Hood"
+msgstr ""
+
+#: includes/admin/class-wc-admin-welcome.php:320
+msgid "PayPal PDT support"
+msgstr ""
+
+#: includes/admin/class-wc-admin-welcome.php:321
+msgid ""
+"PayPal Data Transfer (PDT) is an alternative for PayPal IPN which sends back"
+" the status of an order when a customer returns from PayPal."
+msgstr ""
+
+#: includes/admin/class-wc-admin-welcome.php:325
+msgid "Stylesheet separation"
+msgstr ""
+
+#: includes/admin/class-wc-admin-welcome.php:326
+msgid ""
+"Frontend styles have been split into separate appearance/layout/smallscreen "
+"stylesheets to help with selective customisation."
+msgstr ""
+
+#: includes/admin/class-wc-admin-welcome.php:330
+msgid "New endpoints"
+msgstr ""
+
+#: includes/admin/class-wc-admin-welcome.php:331
+msgid ""
+"Certain pages such as \"Pay\", \"Order Received\" and some account pages are"
+" now endpoints rather than pages to make checkout more reliable."
+msgstr ""
+
+#: includes/admin/class-wc-admin-welcome.php:337
+msgid "Default credit card form for gateways"
+msgstr ""
+
+#: includes/admin/class-wc-admin-welcome.php:338
+msgid ""
+"We've added a standardized, default credit card form for gateways to use if "
+"they support <code>default_credit_card_form</code>."
+msgstr ""
+
+#: includes/admin/class-wc-admin-welcome.php:342
+msgid "Coupon limits per customer"
+msgstr ""
+
+#: includes/admin/class-wc-admin-welcome.php:343
+msgid ""
+"Coupon usage limits can now be set per user (using email + ID) rather than "
+"global."
+msgstr ""
+
+#: includes/admin/class-wc-admin-welcome.php:347
+msgid "Streamlined new-account process"
+msgstr ""
+
+#: includes/admin/class-wc-admin-welcome.php:348
+msgid ""
+"During checkout, username and passwords are optional and can be "
+"automatically generated by WooCommerce."
+msgstr ""
+
+#: includes/admin/class-wc-admin-welcome.php:355
+msgid "Additional price display options"
+msgstr ""
+
+#: includes/admin/class-wc-admin-welcome.php:356
+msgid ""
+"Define whether prices should be shown incl. or excl. of tax on the frontend,"
+" and add an optional suffix."
+msgstr ""
+
+#: includes/admin/class-wc-admin-welcome.php:360
+msgid "Past order linking"
+msgstr ""
+
+#: includes/admin/class-wc-admin-welcome.php:361
+msgid ""
+"Admins now have the ability to link past orders to a customer (before they "
+"registered) by email address."
+msgstr ""
+
+#: includes/admin/class-wc-admin-welcome.php:365
+msgid "Review improvements"
+msgstr ""
+
+#: includes/admin/class-wc-admin-welcome.php:366
+msgid ""
+"We've added a new option to restrict reviews to logged in purchasers, and "
+"made ratings editable from the backend."
+msgstr ""
+
+#: includes/admin/class-wc-admin-welcome.php:373
+msgid "Go to WooCommerce Settings"
+msgstr "前往 WooCommerce 設定"
+
+#: includes/admin/class-wc-admin-welcome.php:388
+msgid ""
+"WooCommerce is developed and maintained by a worldwide team of passionate "
+"individuals and backed by an awesome developer community. Want to see your "
+"name? <a "
+"href=\"https://github.com/woothemes/woocommerce/blob/master/CONTRIBUTING.md\">Contribute"
+" to WooCommerce</a>."
+msgstr ""
+
+#: includes/admin/class-wc-admin-welcome.php:404
+msgid ""
+"WooCommerce has been kindly translated into several other languages thanks "
+"to our translation team. Want to see your name? <a "
+"href=\"https://www.transifex.com/projects/p/woocommerce/\">Translate "
+"WooCommerce</a>."
+msgstr ""
+
+#: includes/admin/class-wc-admin-welcome.php:429
+msgid "View %s"
+msgstr ""
+
+#: includes/admin/class-wc-admin.php:114
+msgid "HTML Email Template"
+msgstr "HTML 電郵樣板"
+
+#: includes/admin/importers/class-wc-tax-rate-importer.php:103
+#: includes/admin/importers/class-wc-tax-rate-importer.php:190
+#: includes/admin/importers/class-wc-tax-rate-importer.php:230
+#: includes/admin/importers/class-wc-tax-rate-importer.php:245
+msgid "Sorry, there has been an error."
+msgstr "抱歉，有問題出現。"
+
+#: includes/admin/importers/class-wc-tax-rate-importer.php:104
+msgid "The file does not exist, please try again."
+msgstr "檔案不存在，請再試一次。"
+
+#: includes/admin/importers/class-wc-tax-rate-importer.php:191
+msgid "The CSV is invalid."
+msgstr "這個 CSV 格式不正確。"
+
+#: includes/admin/importers/class-wc-tax-rate-importer.php:202
+msgid ""
+"Import complete - imported <strong>%s</strong> tax rates and skipped "
+"<strong>%s</strong>."
+msgstr ""
+
+#: includes/admin/importers/class-wc-tax-rate-importer.php:212
+msgid "All done!"
+msgstr "一切都搞定了！"
+
+#: includes/admin/importers/class-wc-tax-rate-importer.php:212
+msgid "View Tax Rates"
+msgstr "查看稅率"
+
+#: includes/admin/importers/class-wc-tax-rate-importer.php:263
+msgid "Import Tax Rates"
+msgstr "匯入稅率"
+
+#: includes/admin/importers/class-wc-tax-rate-importer.php:285
+msgid ""
+"Hi there! Upload a CSV file containing tax rates to import the contents into"
+" your shop. Choose a .csv file to upload, then click \"Upload file and "
+"import\"."
+msgstr ""
+
+#: includes/admin/importers/class-wc-tax-rate-importer.php:287
+msgid ""
+"Tax rates need to be defined with columns in a specific order (10 columns). "
+"<a href=\"%s\">Click here to download a sample</a>."
+msgstr ""
+
+#: includes/admin/importers/class-wc-tax-rate-importer.php:295
+msgid ""
+"Before you can upload your import file, you will need to fix the following "
+"error:"
+msgstr ""
+
+#: includes/admin/importers/class-wc-tax-rate-importer.php:304
+msgid "Choose a file from your computer:"
+msgstr "從您的電腦中選擇一個檔案："
+
+#: includes/admin/importers/class-wc-tax-rate-importer.php:310
+msgid "Maximum size: %s"
+msgstr "檔案大小上限：%s"
+
+#: includes/admin/importers/class-wc-tax-rate-importer.php:315
+msgid "OR enter path to file:"
+msgstr "或輸入檔案位置："
+
+#: includes/admin/importers/class-wc-tax-rate-importer.php:322
+msgid "Delimiter"
+msgstr ""
+
+#: includes/admin/importers/class-wc-tax-rate-importer.php:328
+msgid "Upload file and import"
+msgstr "上傳檔案並匯入"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:106
+msgid "Product Image"
+msgstr "商品圖片"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:108
+msgid "Remove product image"
+msgstr "刪除商品圖片"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:110
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:124
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:125
+msgid "Set product image"
+msgstr "設定商品圖片"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:139
+msgid "Product name"
+msgstr "商品名稱"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:162
+msgid "Catalog/search"
+msgstr "型錄/搜尋"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:163
+#: includes/admin/views/html-bulk-edit-product.php:158
+#: includes/admin/views/html-quick-edit-product.php:115
+msgid "Catalog"
+msgstr "型錄"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:164
+#: includes/admin/views/html-bulk-edit-product.php:159
+#: includes/admin/views/html-quick-edit-product.php:116
+msgid "Search"
+msgstr "搜尋"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:165
+#: includes/admin/views/html-bulk-edit-product.php:160
+#: includes/admin/views/html-quick-edit-product.php:117
+msgid "Hidden"
+msgstr "隱藏"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:169
+msgid "Catalog visibility:"
+msgstr "型錄可見度:"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:185
+msgid ""
+"Define the loops this product should be visible in. The product will still "
+"be accessible directly."
+msgstr "設定商品在型錄中可見度，直接連結商品還是可以觀看。"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:191
+msgid "Enable this option to feature this product."
+msgstr "將此商品設定為特色商品。"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:193
+msgid "Featured Product"
+msgstr "特色商品"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:196
+msgid "OK"
+msgstr "OK"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:197
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:170
+msgid "Cancel"
+msgstr "取消"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:262
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:136
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:53
+#: includes/admin/views/html-quick-edit-product.php:11
+msgid "SKU"
+msgstr "編號"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:269
+#: includes/admin/views/html-bulk-edit-product.php:10
+#: includes/admin/views/html-quick-edit-product.php:22
+msgid "Price"
+msgstr "價格"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:271
+#: includes/admin/reports/class-wc-report-sales-by-category.php:155
+msgid "Categories"
+msgstr "類別"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:272
+msgid "Tags"
+msgstr "標籤"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:275
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:98
+#: includes/admin/reports/class-wc-report-coupon-usage.php:321
+#: includes/admin/reports/class-wc-report-customers.php:206
+#: includes/admin/reports/class-wc-report-sales-by-category.php:227
+#: includes/admin/reports/class-wc-report-sales-by-date.php:165
+#: includes/admin/reports/class-wc-report-sales-by-product.php:319
+msgid "Date"
+msgstr "日期"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:322
+msgid "Edit this item"
+msgstr "編輯這個項目"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:323
+msgid "Edit this item inline"
+msgstr "直接編輯這個項目"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:323
+msgid "Quick&nbsp;Edit"
+msgstr "快速&nbsp;編輯"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:327
+#: includes/admin/post-types/class-wc-admin-cpt-shop_coupon.php:111
+msgid "Restore this item from the Trash"
+msgstr "從垃圾桶中回復此項目"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:327
+#: includes/admin/post-types/class-wc-admin-cpt-shop_coupon.php:111
+msgid "Restore"
+msgstr "回復"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:329
+#: includes/admin/post-types/class-wc-admin-cpt-shop_coupon.php:113
+msgid "Move this item to the Trash"
+msgstr "將此項目移至垃圾桶"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:329
+#: includes/admin/post-types/class-wc-admin-cpt-shop_coupon.php:113
+msgid "Trash"
+msgstr "垃圾桶"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:333
+#: includes/admin/post-types/class-wc-admin-cpt-shop_coupon.php:115
+msgid "Delete this item permanently"
+msgstr "永久刪除這個項目"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:333
+#: includes/admin/post-types/class-wc-admin-cpt-shop_coupon.php:115
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-actions.php:64
+msgid "Delete Permanently"
+msgstr "永久刪除"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:339
+msgid "Preview &#8220;%s&#8221;"
+msgstr "預覽 &#8220;%s&#8221;"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:339
+msgid "Preview"
+msgstr "預覽"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:341
+msgid "View &#8220;%s&#8221;"
+msgstr "檢視 &#8220;%s&#8221;"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:341
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:300
+#: includes/admin/reports/class-wc-report-stock.php:119
+msgid "View"
+msgstr "檢視"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:391
+msgid "Grouped"
+msgstr "群組"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:393
+msgid "External/Affiliate"
+msgstr ""
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:397
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:596
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:51
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:214
+msgid "Virtual"
+msgstr "虛擬"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:399
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:588
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:58
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:212
+msgid "Downloadable"
+msgstr "可下載"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:401
+msgid "Simple"
+msgstr "簡單"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:405
+msgid "Variable"
+msgstr "可變的"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:428
+msgid "Toggle featured"
+msgstr ""
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:430
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:139
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:208
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:212
+#: includes/admin/views/html-admin-page-status-report.php:38
+#: includes/admin/views/html-admin-page-status-report.php:72
+#: includes/admin/views/html-admin-page-status-report.php:97
+#: includes/admin/views/html-admin-page-status-report.php:282
+#: includes/admin/views/html-bulk-edit-product.php:176
+#: includes/admin/views/html-bulk-edit-product.php:213
+msgid "Yes"
+msgstr "是"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:432
+#: includes/admin/views/html-admin-page-status-report.php:38
+#: includes/admin/views/html-admin-page-status-report.php:72
+#: includes/admin/views/html-admin-page-status-report.php:97
+#: includes/admin/views/html-admin-page-status-report.php:282
+#: includes/admin/views/html-bulk-edit-product.php:177
+#: includes/admin/views/html-bulk-edit-product.php:214
+msgid "No"
+msgstr "否"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:439
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:302
+#: includes/admin/reports/class-wc-report-stock.php:96
+#: includes/admin/views/html-bulk-edit-product.php:194
+#: includes/admin/views/html-quick-edit-product.php:137
+msgid "In stock"
+msgstr "尚有庫存"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:527
+msgid "Sort Products"
+msgstr "商品排序"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:548
+msgid "Show all product types"
+msgstr "顯示所有商品類型"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:561
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:37
+msgid "Grouped product"
+msgstr "群組商品"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:564
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:38
+msgid "External/Affiliate product"
+msgstr "外部/加盟商品"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:567
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:39
+msgid "Variable product"
+msgstr "可變商品"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:570
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:36
+msgid "Simple product"
+msgstr "簡單商品"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_coupon.php:53
+msgid "Coupon code"
+msgstr "優惠券代碼"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_coupon.php:66
+msgid "Description (optional)"
+msgstr ""
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_coupon.php:77
+msgid "Code"
+msgstr ""
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_coupon.php:78
+msgid "Coupon type"
+msgstr "優惠券類型"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_coupon.php:79
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:66
+#: includes/admin/reports/class-wc-report-sales-by-date.php:327
+msgid "Coupon amount"
+msgstr "優惠券金額"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_coupon.php:80
+msgid "Description"
+msgstr "商品資訊"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_coupon.php:81
+msgid "Product IDs"
+msgstr "商品編號"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_coupon.php:82
+msgid "Usage / Limit"
+msgstr "使用 / 限制"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_coupon.php:83
+msgid "Expiry date"
+msgstr "到期日"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_coupon.php:102
+msgid "Edit coupon"
+msgstr "編輯優惠券"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_coupon.php:160
+msgid "%s / %s"
+msgstr "%s / %s"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_coupon.php:162
+msgid "%s / &infin;"
+msgstr "%s / &infin;"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_coupon.php:208
+msgid "Show all types"
+msgstr "顯示所有類型"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:91
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:758
+#: includes/admin/settings/class-wc-settings-checkout.php:229
+#: includes/admin/settings/class-wc-settings-shipping.php:205
+msgid "Status"
+msgstr "狀態"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:92
+msgid "Order"
+msgstr "訂單"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:93
+msgid "Purchased"
+msgstr "已購買"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:94
+msgid "Ship to"
+msgstr "配送至"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:96
+msgid "Customer Message"
+msgstr "顧客訊息"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:97
+#: includes/admin/post-types/class-wc-admin-meta-boxes.php:110
+msgid "Order Notes"
+msgstr "訂單備註"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:99
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-items.php:43
+#: includes/admin/post-types/meta-boxes/views/html-order-fee.php:62
+#: includes/admin/post-types/meta-boxes/views/html-order-item.php:175
+#: includes/admin/reports/class-wc-report-taxes-by-code.php:127
+msgid "Total"
+msgstr "總計"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:100
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-actions.php:34
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-items.php:81
+#: includes/admin/reports/class-wc-report-customer-list.php:254
+#: includes/admin/reports/class-wc-report-stock.php:145
+msgid "Actions"
+msgstr ""
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:125
+msgid "Unpublished"
+msgstr "未公開"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:127
+msgid "Y/m/d g:i:s A"
+msgstr "Y/m/d g:i:s A"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:130
+msgid "Y/m/d"
+msgstr "年/月/日"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:151
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:189
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:224
+msgid "Via"
+msgstr "由"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:155
+msgid "%d item"
+msgid_plural "%d items"
+msgstr[0] "%d 個項目"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:210
+msgid "plus %d other note"
+msgid_plural "plus %d other notes"
+msgstr[0] ""
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:210
+msgid "%d note"
+msgid_plural "%d notes"
+msgstr[0] "%d 個備註"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:232
+msgid "Billing:"
+msgstr "帳單："
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:236
+msgid "Tel:"
+msgstr "電話："
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:261
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:169
+msgid "Guest"
+msgstr "訪客"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:265
+msgid "%s by %s"
+msgstr ""
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:285
+msgid "Processing"
+msgstr "處理中"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:293
+msgid "Complete"
+msgstr "完成"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:388
+msgid "Show all statuses"
+msgstr "顯示所有狀態"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:408
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:433
+msgid "Show all customers"
+msgstr "顯示所有顧客"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:667
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:668
+msgid "Mark processing"
+msgstr "標記為處理中"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:670
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:671
+msgid "Mark on-hold"
+msgstr "標記為擱置"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:673
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:674
+msgid "Mark completed"
+msgstr "標記為完成"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:715
+msgid "Order status changed by bulk edit:"
+msgstr "訂單狀態已使用大量編輯變更："
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:737
+msgid "Order status changed."
+msgid_plural "%s order statuses changed."
+msgstr[0] "訂單狀態改變。"
+
+#: includes/admin/post-types/class-wc-admin-cpt.php:42
+msgid "Insert into %s"
+msgstr "插入 %s"
+
+#: includes/admin/post-types/class-wc-admin-cpt.php:43
+msgid "Uploaded to this %s"
+msgstr ""
+
+#: includes/admin/post-types/class-wc-admin-meta-boxes.php:102
+msgid "Product Short Description"
+msgstr "商品簡短說明"
+
+#: includes/admin/post-types/class-wc-admin-meta-boxes.php:103
+#: includes/admin/settings/class-wc-settings-products.php:283
+#: includes/admin/views/html-bulk-edit-product.php:4
+#: includes/admin/views/html-quick-edit-product.php:4
+msgid "Product Data"
+msgstr "商品資料"
+
+#: includes/admin/post-types/class-wc-admin-meta-boxes.php:104
+msgid "Product Gallery"
+msgstr "商品圖庫"
+
+#: includes/admin/post-types/class-wc-admin-meta-boxes.php:107
+msgid "Order Data"
+msgstr "訂單資料"
+
+#: includes/admin/post-types/class-wc-admin-meta-boxes.php:108
+msgid "Order Items"
+msgstr "訂單項目"
+
+#: includes/admin/post-types/class-wc-admin-meta-boxes.php:109
+msgid "Order Totals"
+msgstr "訂單總價"
+
+#: includes/admin/post-types/class-wc-admin-meta-boxes.php:111
+msgid "Downloadable Product Permissions"
+msgstr "可下載商品權限"
+
+#: includes/admin/post-types/class-wc-admin-meta-boxes.php:111
+msgid ""
+"Note: Permissions for order items will automatically be granted when the "
+"order status changes to processing/completed."
+msgstr ""
+
+#: includes/admin/post-types/class-wc-admin-meta-boxes.php:112
+msgid "Order Actions"
+msgstr ""
+
+#: includes/admin/post-types/class-wc-admin-meta-boxes.php:115
+msgid "Coupon Data"
+msgstr "折價券資料"
+
+#: includes/admin/post-types/class-wc-admin-meta-boxes.php:120
+msgid "Rating"
+msgstr "評分"
+
+#: includes/admin/post-types/class-wc-admin-meta-boxes.php:153
+msgid "Reviews"
+msgstr "商品評論"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:37
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:85
+#: includes/admin/settings/class-wc-settings-general.php:27
+msgid "General"
+msgstr "一般"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:42
+msgid "Usage Restriction"
+msgstr "使用限制"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:47
+msgid "Usage Limits"
+msgstr "使用限度"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:63
+msgid "Discount type"
+msgstr "折扣種類"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:66
+msgid "Value of the coupon."
+msgstr "折價券金額"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:69
+msgid "Allow free shipping"
+msgstr "允許免運費"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:69
+msgid ""
+"Check this box if the coupon grants free shipping. The <a href=\"%s\">free "
+"shipping method</a> must be enabled with the \"must use coupon\" setting."
+msgstr "如果這張折價券提供免運費請勾選此選項。需啟用 <a href=\"%s\">免運費方式</a> 設定中的 \"需使用折價券\" 選項。"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:72
+msgid "Apply before tax"
+msgstr "稅前套用"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:72
+msgid ""
+"Check this box if the coupon should be applied before calculating cart tax."
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:75
+msgid "Coupon expiry date"
+msgstr "優惠券到期日"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:75
+msgctxt "placeholder"
+msgid "YYYY-MM-DD"
+msgstr "YYYY-MM-DD"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:85
+msgid "Minimum spend"
+msgstr "最低消費"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:85
+msgid "No minimum"
+msgstr "無最低消費"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:85
+msgid ""
+"This field allows you to set the minimum subtotal needed to use the coupon."
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:88
+msgid "Individual use only"
+msgstr "限個人使用"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:88
+msgid ""
+"Check this box if the coupon cannot be used in conjunction with other "
+"coupons."
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:91
+msgid "Exclude sale items"
+msgstr "排除特價商品"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:91
+msgid ""
+"Check this box if the coupon should not apply to items on sale. Per-item "
+"coupons will only work if the item is not on sale. Per-cart coupons will "
+"only work if there are no sale items in the cart."
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:98
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-items.php:95
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:589
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:606
+#: includes/admin/reports/class-wc-report-sales-by-product.php:173
+msgid "Search for a product&hellip;"
+msgstr "搜尋商品&hellip;"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:111
+msgid ""
+"Products which need to be in the cart to use this coupon or, for \"Product "
+"Discounts\", which products are discounted."
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:116
+msgid "Exclude products"
+msgstr "排除商品"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:117
+msgid "Search for a product…"
+msgstr "搜尋商品..."
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:130
+msgid ""
+"Products which must not be in the cart to use this coupon or, for \"Product "
+"Discounts\", which products are not discounted."
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:137
+msgid "Product categories"
+msgstr "商品類別"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:138
+msgid "Any category"
+msgstr "任何類別"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:147
+msgid ""
+"A product must be in this category for the coupon to remain valid or, for "
+"\"Product Discounts\", products in these categories will be discounted."
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:152
+msgid "Exclude categories"
+msgstr "排除類別"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:153
+msgid "No categories"
+msgstr "無類別"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:162
+msgid ""
+"Product must not be in this category for the coupon to remain valid or, for "
+"\"Product Discounts\", products in these categories will not be discounted."
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:168
+msgid "Email restrictions"
+msgstr "Email 限制"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:168
+msgid "No restrictions"
+msgstr "無限制"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:168
+msgid ""
+"List of emails to check against the customer's billing email when an order "
+"is placed. Separate email addresses with commas."
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:182
+msgid "Usage limit per coupon"
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:182
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:194
+msgctxt "placeholder"
+msgid "Unlimited usage"
+msgstr "無限使用"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:182
+msgid "How many times this coupon can be used before it is void."
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:188
+msgid "Limit usage to X items"
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:188
+msgctxt "placeholder"
+msgid "Apply to all qualifying items in cart"
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:188
+msgid ""
+"The maximum number of individual items this coupon can apply to when using "
+"product discounts. Leave blank to apply to all qualifying items in cart."
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:194
+msgid "Usage limit per user"
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:194
+msgid ""
+"How many times this coupon can be used by an invidual user. Uses billing "
+"email for guests, and user ID for logged in users."
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:231
+msgid ""
+"Coupon code already exists - customers will use the latest coupon with this "
+"code."
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-actions.php:35
+msgid "Resend order emails"
+msgstr "重寄訂單郵件"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-actions.php:51
+msgid "Generate Download Permissions"
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-actions.php:57
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-items.php:91
+msgid "Apply"
+msgstr "套用"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-actions.php:66
+msgid "Move to Trash"
+msgstr "移至垃圾桶"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-actions.php:71
+msgid "Save Order"
+msgstr "儲存訂單"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-actions.php:71
+msgid "Save/update the order"
+msgstr "儲存/更新訂單"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:29
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:76
+msgid "First Name"
+msgstr "名字"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:33
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:80
+msgid "Last Name"
+msgstr "姓氏"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:60
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:107
+msgid "Select a country&hellip;"
+msgstr "選擇國家&hellip;"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:70
+msgid "Phone"
+msgstr "聯絡電話"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:139
+msgid "Order Details"
+msgstr "訂單資訊"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:142
+msgid "Order number"
+msgstr "訂單號碼"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:145
+msgid "Customer IP:"
+msgstr "顧客 IP："
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:150
+msgid "General Details"
+msgstr "一般資訊"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:152
+msgid "Order date:"
+msgstr "訂購日："
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:153
+msgid "h"
+msgstr "時"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:153
+#: includes/admin/settings/class-wc-settings-products.php:311
+msgid "m"
+msgstr "分"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:156
+msgid "Order status:"
+msgstr "訂單狀態："
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:167
+msgid "Customer:"
+msgstr "顧客："
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:182
+msgid "Billing Details"
+msgstr "帳單資訊"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:188
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:190
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:267
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:269
+msgid "Address"
+msgstr "地址"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:190
+msgid "No billing address set."
+msgstr "沒有設定帳單地址。"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:208
+msgid "Payment Method"
+msgstr "付款方式"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:213
+msgid "Load billing address"
+msgstr "載入帳單地址"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:230
+msgid "Payment Method:"
+msgstr "付款方式："
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:232
+#: includes/admin/post-types/meta-boxes/views/html-order-fee.php:33
+#: includes/admin/post-types/meta-boxes/views/html-order-shipping.php:12
+#: includes/admin/post-types/meta-boxes/views/html-order-tax.php:8
+msgid "N/A"
+msgstr "無法提供"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:245
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:247
+#: includes/admin/post-types/meta-boxes/views/html-order-shipping.php:30
+#: includes/admin/post-types/meta-boxes/views/html-order-shipping.php:32
+msgid "Other"
+msgstr "其他"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:261
+msgid "Shipping Details"
+msgstr "配送資訊"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:269
+msgid "No shipping address set."
+msgstr "沒有設定配送地址。"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:282
+msgid "Customer Note"
+msgstr "顧客備註"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:287
+msgid "Load shipping address"
+msgstr "載入配送地址"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:287
+msgid "Copy from billing"
+msgstr "從帳單複製"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:304
+msgid "Customer Note:"
+msgstr "顧客備註："
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:305
+msgid "Customer's notes about the order"
+msgstr "有關此訂單的顧客備註"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-downloads.php:51
+msgid "File %d"
+msgstr "檔案 %d"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-downloads.php:64
+msgid "Search for a downloadable product&hellip;"
+msgstr "搜尋可下載商品&hellip;"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-downloads.php:65
+msgid "Grant Access"
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-items.php:33
+msgid "Item"
+msgstr "項目"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-items.php:38
+msgid "Tax&nbsp;Class"
+msgstr "稅金級別"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-items.php:41
+msgid "Qty"
+msgstr "數量"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-items.php:46
+#: includes/admin/reports/class-wc-report-taxes-by-code.php:116
+#: includes/admin/settings/class-wc-settings-tax.php:25
+#: includes/admin/settings/class-wc-settings-tax.php:550
+#: includes/admin/settings/class-wc-settings-tax.php:647
+msgid "Tax"
+msgstr "稅金"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-items.php:83
+msgid "Delete Lines"
+msgstr "刪除行"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-items.php:85
+msgid "Stock Actions"
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-items.php:86
+msgid "Reduce Line Stock"
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-items.php:87
+msgid "Increase Line Stock"
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-items.php:97
+msgid "Add item(s)"
+msgstr "新增項目"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-items.php:98
+msgid "Add fee"
+msgstr "新增費用"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-notes.php:48
+msgid "added %s ago"
+msgstr "%s 以前新增"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-notes.php:49
+msgid "by %s"
+msgstr "由 %s"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-notes.php:50
+msgid "Delete note"
+msgstr "刪除備註"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-notes.php:56
+msgid "There are no notes for this order yet."
+msgstr "此訂單尚無備註。"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-notes.php:62
+msgid "Add note"
+msgstr "新增備註"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-notes.php:62
+msgid ""
+"Add a note for your reference, or add a customer note (the user will be "
+"notified)."
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-notes.php:68
+msgid "Customer note"
+msgstr "顧客備註"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-notes.php:69
+msgid "Private note"
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-notes.php:71
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:567
+msgid "Add"
+msgstr "新增"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-totals.php:31
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-totals.php:62
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:95
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:775
+#: includes/admin/settings/class-wc-settings-shipping.php:25
+#: includes/admin/settings/class-wc-settings-tax.php:266
+#: includes/admin/settings/class-wc-settings-tax.php:383
+#: includes/admin/views/html-admin-page-addons.php:14
+msgid "Shipping"
+msgstr "運送方式"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-totals.php:66
+msgid "+ Add shipping cost"
+msgstr "+ 加運費"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-totals.php:66
+msgid "These are the shipping and handling costs for the order."
+msgstr "此訂單有運費及手續費。"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-totals.php:106
+msgid "+ Add tax row"
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-totals.php:106
+msgid ""
+"These rows contain taxes for this order. This allows you to display multiple"
+" or compound taxes rather than a single total."
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-totals.php:113
+msgid "Order Discount"
+msgstr "訂單折扣"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-totals.php:113
+msgid "This is the total discount applied after tax."
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-totals.php:120
+msgid "Order Total"
+msgstr "訂單總計"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-totals.php:148
+msgid "Calculate Tax"
+msgstr "計算稅金"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-totals.php:150
+msgid "Calculate Total"
+msgstr "計算總價"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:42
+msgid "Product Type"
+msgstr "商品類型"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:52
+msgid "Virtual products are intangible and aren't shipped."
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:59
+msgid "Downloadable products give access to a file upon purchase."
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:90
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:772
+#: includes/admin/settings/class-wc-settings-products.php:41
+msgid "Inventory"
+msgstr "庫存"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:100
+msgid "Linked Products"
+msgstr "連結商品"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:110
+msgid "Variations"
+msgstr "變化類型"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:115
+msgid "Advanced"
+msgstr "進階"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:136
+msgid "Stock Keeping Unit"
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:136
+msgid ""
+"SKU refers to a Stock-keeping unit, a unique identifier for each distinct "
+"product and service that can be purchased."
+msgstr "編號稱為 SKU，是一組用來區別商品的專用字串。"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:147
+msgid "Product URL"
+msgstr "商品網址"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:147
+msgid "Enter the external URL to the product."
+msgstr "輸入此商品的外部網址。"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:150
+msgid "Button text"
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:150
+msgctxt "placeholder"
+msgid "Buy product"
+msgstr "購買商品"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:150
+msgid "This text will be shown on the button linking to the external product."
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:157
+msgid "Regular Price"
+msgstr "原價"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:160
+msgid "Sale Price"
+msgstr "促銷價"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:160
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:77
+msgid "Schedule"
+msgstr "時間表"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:167
+msgid "Sale Price Dates"
+msgstr "促銷假日期"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:168
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:85
+msgctxt "placeholder"
+msgid "From&hellip;"
+msgstr "從&hellip;"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:169
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:89
+msgctxt "placeholder"
+msgid "To&hellip;"
+msgstr "到&hellip;"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:181
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:144
+msgid "Downloadable Files"
+msgstr "可下載檔案"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:186
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:148
+msgid "This is the name of the download shown to the customer."
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:187
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:149
+msgid "File URL"
+msgstr "檔案網址"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:187
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:149
+msgid ""
+"This is the URL or absolute path to the file which customers will get access"
+" to."
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:202
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:164
+msgid "Add File"
+msgstr "新增檔案"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:222
+msgid "Download Limit"
+msgstr "下載限制"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:222
+#: includes/admin/post-types/meta-boxes/views/html-order-download-permission.php:19
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:191
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:197
+msgid "Unlimited"
+msgstr "無限"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:222
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:190
+msgid "Leave blank for unlimited re-downloads."
+msgstr "無限重複下載清留空。"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:228
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:783
+msgid "Download Expiry"
+msgstr "下載到期日"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:228
+#: includes/admin/post-types/meta-boxes/views/html-order-download-permission.php:23
+msgid "Never"
+msgstr "從未"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:228
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:196
+msgid ""
+"Enter the number of days before a download link expires, or leave blank."
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:234
+msgid "Download Type"
+msgstr "下載類型"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:234
+msgid "Choose a download type - this controls the <a href=\"%s\">schema</a>."
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:235
+msgid "Standard Product"
+msgstr "標準商品"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:236
+msgid "Application/Software"
+msgstr "軟體"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:237
+msgid "Music"
+msgstr "音樂"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:249
+#: includes/admin/views/html-bulk-edit-product.php:58
+#: includes/admin/views/html-quick-edit-product.php:38
+msgid "Tax Status"
+msgstr "稅金狀態"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:250
+#: includes/admin/post-types/meta-boxes/views/html-order-fee.php:34
+#: includes/admin/views/html-bulk-edit-product.php:64
+#: includes/admin/views/html-quick-edit-product.php:43
+msgid "Taxable"
+msgstr "應課稅"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:251
+#: includes/admin/views/html-bulk-edit-product.php:65
+#: includes/admin/views/html-quick-edit-product.php:44
+msgid "Shipping only"
+msgstr "只配送"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:252
+#: includes/admin/views/html-bulk-edit-product.php:66
+#: includes/admin/views/html-quick-edit-product.php:45
+msgctxt "Tax status"
+msgid "None"
+msgstr "無"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:257
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:737
+#: includes/admin/post-types/meta-boxes/views/html-order-fee.php:27
+#: includes/admin/post-types/meta-boxes/views/html-order-fee.php:39
+#: includes/admin/post-types/meta-boxes/views/html-order-item.php:126
+#: includes/admin/settings/class-wc-settings-tax.php:122
+#: includes/admin/settings/class-wc-settings-tax.php:243
+#: includes/admin/views/html-bulk-edit-product.php:83
+#: includes/admin/views/html-quick-edit-product.php:61
+msgid "Standard"
+msgstr "標準"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:262
+#: includes/admin/settings/class-wc-settings-tax.php:383
+#: includes/admin/views/html-bulk-edit-product.php:77
+#: includes/admin/views/html-quick-edit-product.php:56
+msgid "Tax Class"
+msgstr "稅金級別"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:283
+#: includes/admin/views/html-bulk-edit-product.php:207
+#: includes/admin/views/html-quick-edit-product.php:153
+msgid "Manage stock?"
+msgstr "管理庫存？"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:283
+msgid ""
+"Enable stock management at product level (not needed if managing stock at "
+"variation level)"
+msgstr "在商品等級設定庫存管理 (如為變動等級不需設定)"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:290
+#: includes/admin/views/html-bulk-edit-product.php:226
+#: includes/admin/views/html-bulk-edit-product.php:242
+#: includes/admin/views/html-quick-edit-product.php:157
+msgid "Stock Qty"
+msgstr "庫存量"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:290
+msgid ""
+"Stock quantity. If this is a variable product this value will be used to "
+"control stock for all variations, unless you define stock at variation "
+"level."
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:301
+#: includes/admin/reports/class-wc-report-stock.php:144
+msgid "Stock status"
+msgstr "庫存狀態"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:304
+msgid ""
+"Controls whether or not the product is listed as \"in stock\" or \"out of "
+"stock\" on the frontend."
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:311
+msgid "Allow Backorders?"
+msgstr "允許缺貨？"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:312
+#: includes/admin/views/html-bulk-edit-product.php:253
+#: includes/admin/views/html-quick-edit-product.php:172
+msgid "Do not allow"
+msgstr "不允許"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:313
+#: includes/admin/views/html-bulk-edit-product.php:254
+#: includes/admin/views/html-quick-edit-product.php:173
+msgid "Allow, but notify customer"
+msgstr "允許，但通知顧客"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:314
+#: includes/admin/views/html-bulk-edit-product.php:255
+#: includes/admin/views/html-quick-edit-product.php:174
+msgid "Allow"
+msgstr "允許"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:315
+msgid ""
+"If managing stock, this controls whether or not backorders are allowed for "
+"this product and variations. If enabled, stock quantity can go below 0."
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:328
+msgid "Sold Individually"
+msgstr "單獨出售"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:328
+msgid ""
+"Enable this to only allow one of this item to be bought in a single order"
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:347
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:779
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:97
+#: includes/admin/views/html-bulk-edit-product.php:103
+#: includes/admin/views/html-quick-edit-product.php:84
+msgid "Weight"
+msgstr "重量"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:347
+msgid "Weight in decimal form"
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:352
+msgid "Dimensions"
+msgstr "尺寸"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:354
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:776
+#: includes/admin/views/html-bulk-edit-product.php:143
+#: includes/admin/views/html-quick-edit-product.php:97
+msgid "Length"
+msgstr "長度"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:355
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:777
+#: includes/admin/views/html-bulk-edit-product.php:144
+#: includes/admin/views/html-quick-edit-product.php:98
+msgid "Width"
+msgstr "寬度"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:356
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:778
+#: includes/admin/views/html-bulk-edit-product.php:145
+#: includes/admin/views/html-quick-edit-product.php:99
+msgid "Height"
+msgstr "高度"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:358
+msgid "LxWxH in decimal form"
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:375
+msgid "No shipping class"
+msgstr "無配送級別"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:381
+msgid "Shipping class"
+msgstr "配送級別"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:381
+msgid ""
+"Shipping classes are used by certain shipping methods to group similar "
+"products."
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:393
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:755
+msgid "Close all"
+msgstr "全部關閉"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:393
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:755
+msgid "Expand all"
+msgstr "全部展開"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:452
+msgid "Select terms"
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:466
+msgid "Add new"
+msgstr "新增"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:479
+msgid "Pipe (|) separate terms"
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:569
+msgid "Custom product attribute"
+msgstr "自訂商品屬性"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:581
+msgid "Save attributes"
+msgstr "儲存屬性"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:588
+msgid "Up-Sells"
+msgstr "推薦型"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:603
+msgid ""
+"Up-sells are products which you recommend instead of the currently viewed "
+"product, for example, products that are more profitable or better quality or"
+" more expensive."
+msgstr "當顧客點進商品時，顯示要推薦給他們的其它商品"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:605
+msgid "Cross-Sells"
+msgstr "交叉型"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:620
+msgid ""
+"Cross-sells are products which you promote in the cart, based on the current"
+" product."
+msgstr "將選定的商品放在購物車中推薦給顧客"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:630
+msgid "Choose a grouped product&hellip;"
+msgstr "選擇群組商品&hellip;"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:660
+msgid "Grouping"
+msgstr "分群組"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:660
+msgid "Set this option to make this product part of a grouped product."
+msgstr "將該商品設到群組商品中。"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:680
+msgid "Purchase Note"
+msgstr "購買備註"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:680
+msgid "Enter an optional note to send the customer after purchase."
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:687
+msgid "Menu order"
+msgstr "選單順序"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:687
+msgid "Custom ordering position."
+msgstr "自訂排列順序。"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:695
+msgid "Enable reviews"
+msgstr "啟用評論"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:747
+msgid ""
+"Before adding variations, add and save some attributes on the "
+"<strong>Attributes</strong> tab."
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:749
+msgid "Learn more"
+msgstr "了解更多"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:757
+msgid "Choose a field to bulk edit&hellip;"
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:759
+msgid "Toggle &quot;Enabled&quot;"
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:760
+msgid "Toggle &quot;Downloadable&quot;"
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:761
+msgid "Toggle &quot;Virtual&quot;"
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:762
+msgid "Delete all variations"
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:764
+msgid "Pricing"
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:765
+msgid "Prices"
+msgstr "價格"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:766
+msgid "Prices increase by (fixed amount or %)"
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:767
+msgid "Prices decrease by (fixed amount or %)"
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:768
+msgid "Sale prices"
+msgstr "優惠價"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:769
+msgid "Sale prices increase by (fixed amount or %)"
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:770
+msgid "Sale prices decrease by (fixed amount or %)"
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:781
+msgid "Downloadable products"
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:782
+msgid "Download limit"
+msgstr "下載限制"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:787
+#: includes/admin/views/html-report-by-date.php:31
+msgid "Go"
+msgstr "送出"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:882
+msgid "Add Variation"
+msgstr "添加變化類型"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:884
+msgid "Link all variations"
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:886
+msgid "Defaults"
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:886
+msgid "These are the attributes that will be pre-selected on the frontend."
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:899
+msgid "No default"
+msgstr "沒有預設"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:1003
+msgid "Product SKU must be unique."
+msgstr "商品編號不能重複。"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:1373
+msgid "Variation #%s of %s"
+msgstr "#%s 變化類新的 %s"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-images.php:44
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-images.php:55
+msgid "Delete image"
+msgstr "刪除圖片"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-images.php:55
+msgid "Add Images to Product Gallery"
+msgstr "新增圖片到商品圖庫"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-images.php:55
+msgid "Add to gallery"
+msgstr "新增到圖庫"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-images.php:55
+msgid "Add product gallery images"
+msgstr "新增商品圖庫圖片"
+
+#: includes/admin/post-types/meta-boxes/views/html-order-download-permission.php:6
+msgid "Revoke Access"
+msgstr "撤銷存取"
+
+#: includes/admin/post-types/meta-boxes/views/html-order-download-permission.php:9
+msgid "%s: %s"
+msgstr "%s: %s"
+
+#: includes/admin/post-types/meta-boxes/views/html-order-download-permission.php:9
+msgid "Downloaded %s time"
+msgid_plural "Downloaded %s times"
+msgstr[0] "已下載 %s 次"
+
+#: includes/admin/post-types/meta-boxes/views/html-order-download-permission.php:16
+msgid "Downloads Remaining"
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/views/html-order-download-permission.php:22
+msgid "Access Expires"
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/views/html-order-fee.php:12
+msgid "Fee"
+msgstr "費用"
+
+#: includes/admin/post-types/meta-boxes/views/html-order-fee.php:16
+msgid "Fee Name"
+msgstr "費用名稱"
+
+#: includes/admin/post-types/meta-boxes/views/html-order-fee.php:31
+#: includes/admin/post-types/meta-boxes/views/html-order-item.php:140
+msgid "Tax class"
+msgstr "稅金級別"
+
+#: includes/admin/post-types/meta-boxes/views/html-order-item.php:10
+msgid "Product ID:"
+msgstr "商品編號："
+
+#: includes/admin/post-types/meta-boxes/views/html-order-item.php:13
+msgid "Variation ID:"
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/views/html-order-item.php:16
+msgid "Product SKU:"
+msgstr "商品編號："
+
+#: includes/admin/post-types/meta-boxes/views/html-order-item.php:75
+msgid "Add&nbsp;meta"
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/views/html-order-item.php:173
+msgid "Subtotal"
+msgstr "小計"
+
+#: includes/admin/post-types/meta-boxes/views/html-order-item.php:173
+msgid "Before pre-tax discounts."
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/views/html-order-item.php:175
+msgid "After pre-tax discounts."
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/views/html-order-shipping.php:6
+msgid "Label"
+msgstr "標記"
+
+#: includes/admin/post-types/meta-boxes/views/html-order-shipping.php:11
+msgid "Shipping Method"
+msgstr "配送方式"
+
+#: includes/admin/post-types/meta-boxes/views/html-order-tax.php:7
+msgid "Tax Rate"
+msgstr "稅率"
+
+#: includes/admin/post-types/meta-boxes/views/html-order-tax.php:17
+msgid "Sales Tax"
+msgstr "營業稅"
+
+#: includes/admin/post-types/meta-boxes/views/html-order-tax.php:21
+msgid "Shipping Tax"
+msgstr "配送稅金"
+
+#: includes/admin/post-types/meta-boxes/views/html-product-download.php:3
+#: includes/admin/post-types/meta-boxes/views/html-product-variation-download.php:2
+msgid "File Name"
+msgstr "檔案名稱"
+
+#: includes/admin/post-types/meta-boxes/views/html-product-download.php:4
+#: includes/admin/post-types/meta-boxes/views/html-product-variation-download.php:3
+msgid "http://"
+msgstr "http://"
+
+#: includes/admin/post-types/meta-boxes/views/html-product-download.php:5
+#: includes/admin/post-types/meta-boxes/views/html-product-variation-download.php:4
+msgid "Choose file"
+msgstr "選擇檔案"
+
+#: includes/admin/post-types/meta-boxes/views/html-product-download.php:5
+#: includes/admin/post-types/meta-boxes/views/html-product-variation-download.php:4
+msgid "Insert file URL"
+msgstr "插入檔案位址"
+
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:21
+msgid "Any"
+msgstr "任何"
+
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:53
+msgid ""
+"Enter a SKU for this variation or leave blank to use the parent product SKU."
+msgstr "輸入該項變動商品編號，或是留白使用上層商品編號。"
+
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:64
+msgid "Stock Qty:"
+msgstr "庫存量："
+
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:64
+msgid ""
+"Enter a quantity to enable stock management at variation level, or leave "
+"blank to use the parent product's options."
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:73
+msgid "Regular Price:"
+msgstr "原價："
+
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:74
+msgid "Variation price (required)"
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:77
+msgid "Sale Price:"
+msgstr "促銷價："
+
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:77
+msgid "Cancel schedule"
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:84
+msgid "Sale start date:"
+msgstr "促銷開始日期："
+
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:88
+msgid "Sale end date:"
+msgstr "促銷結束日期："
+
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:97
+msgid ""
+"Enter a weight for this variation or leave blank to use the parent product "
+"weight."
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:105
+msgid "Dimensions (L&times;W&times;H)"
+msgstr "規格 (長&times;寬&times;高)"
+
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:116
+msgid "Shipping class:"
+msgstr "配送級別："
+
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:120
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:133
+msgid "Same as parent"
+msgstr "與父母相同"
+
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:131
+msgid "Tax class:"
+msgstr "稅金級別："
+
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:190
+msgid "Download Limit:"
+msgstr "下載限制："
+
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:196
+msgid "Download Expiry:"
+msgstr "下載到期日："
+
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:210
+#: includes/admin/settings/class-wc-settings-checkout.php:269
+#: includes/admin/settings/class-wc-settings-shipping.php:235
+#: includes/admin/views/html-admin-page-status-tools.php:26
+#: includes/admin/views/html-admin-page-status-tools.php:37
+#: includes/admin/views/html-admin-page-status-tools.php:48
+msgid "Enabled"
+msgstr "啟用"
+
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:212
+msgid ""
+"Enable this option if access is given to a downloadable file upon purchase "
+"of a product"
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:214
+msgid ""
+"Enable this option if a product is not shipped or there is no shipping cost"
+msgstr ""
+
+#: includes/admin/reports/class-wc-admin-report.php:384
+msgid "Sold %s worth in the last %d days"
+msgstr ""
+
+#: includes/admin/reports/class-wc-admin-report.php:386
+msgid "Sold 1 item in the last %d days"
+msgid_plural "Sold %d items in the last %d days"
+msgstr[0] "過去 %s 天賣出一個項目"
+
+#: includes/admin/reports/class-wc-report-coupon-usage.php:76
+msgid "%s discounts in total"
+msgstr ""
+
+#: includes/admin/reports/class-wc-report-coupon-usage.php:82
+msgid "%s coupons used in total"
+msgstr ""
+
+#: includes/admin/reports/class-wc-report-coupon-usage.php:95
+#: includes/admin/reports/class-wc-report-customers.php:145
+#: includes/admin/reports/class-wc-report-sales-by-category.php:81
+#: includes/admin/reports/class-wc-report-sales-by-date.php:129
+#: includes/admin/reports/class-wc-report-sales-by-product.php:99
+#: includes/admin/reports/class-wc-report-taxes-by-code.php:46
+#: includes/admin/reports/class-wc-report-taxes-by-date.php:46
+msgid "Year"
+msgstr "年"
+
+#: includes/admin/reports/class-wc-report-coupon-usage.php:96
+#: includes/admin/reports/class-wc-report-customers.php:146
+#: includes/admin/reports/class-wc-report-sales-by-category.php:82
+#: includes/admin/reports/class-wc-report-sales-by-date.php:130
+#: includes/admin/reports/class-wc-report-sales-by-product.php:100
+#: includes/admin/reports/class-wc-report-taxes-by-code.php:47
+#: includes/admin/reports/class-wc-report-taxes-by-date.php:47
+msgid "Last Month"
+msgstr "上個月"
+
+#: includes/admin/reports/class-wc-report-coupon-usage.php:97
+#: includes/admin/reports/class-wc-report-customers.php:147
+#: includes/admin/reports/class-wc-report-sales-by-category.php:83
+#: includes/admin/reports/class-wc-report-sales-by-date.php:131
+#: includes/admin/reports/class-wc-report-sales-by-product.php:101
+#: includes/admin/reports/class-wc-report-taxes-by-code.php:48
+#: includes/admin/reports/class-wc-report-taxes-by-date.php:48
+msgid "This Month"
+msgstr "本月"
+
+#: includes/admin/reports/class-wc-report-coupon-usage.php:98
+#: includes/admin/reports/class-wc-report-customers.php:148
+#: includes/admin/reports/class-wc-report-sales-by-category.php:84
+#: includes/admin/reports/class-wc-report-sales-by-date.php:132
+#: includes/admin/reports/class-wc-report-sales-by-product.php:102
+msgid "Last 7 Days"
+msgstr "過去七日"
+
+#: includes/admin/reports/class-wc-report-coupon-usage.php:138
+msgid "Filter by coupon"
+msgstr ""
+
+#: includes/admin/reports/class-wc-report-coupon-usage.php:166
+msgid "Choose coupons&hellip;"
+msgstr "選擇優惠券&hellip;"
+
+#: includes/admin/reports/class-wc-report-coupon-usage.php:167
+msgid "All coupons"
+msgstr "所有優惠券"
+
+#: includes/admin/reports/class-wc-report-coupon-usage.php:174
+#: includes/admin/reports/class-wc-report-sales-by-category.php:186
+#: includes/admin/reports/class-wc-report-sales-by-product.php:174
+msgid "Show"
+msgstr "顯示"
+
+#: includes/admin/reports/class-wc-report-coupon-usage.php:187
+msgid "No used coupons found"
+msgstr "沒有已使用的優惠券"
+
+#: includes/admin/reports/class-wc-report-coupon-usage.php:192
+msgid "Most Popular"
+msgstr "最受歡迎"
+
+#: includes/admin/reports/class-wc-report-coupon-usage.php:234
+#: includes/admin/reports/class-wc-report-coupon-usage.php:281
+msgid "No coupons found in range"
+msgstr ""
+
+#: includes/admin/reports/class-wc-report-coupon-usage.php:239
+msgid "Most Discount"
+msgstr "最優惠"
+
+#: includes/admin/reports/class-wc-report-coupon-usage.php:324
+#: includes/admin/reports/class-wc-report-customers.php:209
+#: includes/admin/reports/class-wc-report-sales-by-category.php:230
+#: includes/admin/reports/class-wc-report-sales-by-date.php:169
+#: includes/admin/reports/class-wc-report-sales-by-product.php:322
+#: includes/admin/reports/class-wc-report-taxes-by-code.php:34
+#: includes/admin/reports/class-wc-report-taxes-by-date.php:34
+#: includes/admin/settings/class-wc-settings-tax.php:289
+msgid "Export CSV"
+msgstr "匯出 CSV"
+
+#: includes/admin/reports/class-wc-report-coupon-usage.php:415
+msgid "Number of coupons used"
+msgstr "已使用優惠券數量"
+
+#: includes/admin/reports/class-wc-report-coupon-usage.php:423
+msgid "Discount amount"
+msgstr "優惠金額"
+
+#: includes/admin/reports/class-wc-report-customer-list.php:29
+msgid "Customer"
+msgstr "顧客"
+
+#: includes/admin/reports/class-wc-report-customer-list.php:39
+msgid "No customers found."
+msgstr "沒有顧客。"
+
+#: includes/admin/reports/class-wc-report-customer-list.php:53
+msgid "%s previous order linked"
+msgid_plural "%s previous orders linked"
+msgstr[0] ""
+
+#: includes/admin/reports/class-wc-report-customer-list.php:58
+msgid "Search customers"
+msgstr "搜尋顧客"
+
+#: includes/admin/reports/class-wc-report-customer-list.php:198
+msgid "View orders"
+msgstr "檢視訂單"
+
+#: includes/admin/reports/class-wc-report-customer-list.php:222
+msgid "Link previous orders"
+msgstr ""
+
+#: includes/admin/reports/class-wc-report-customer-list.php:247
+msgid "Name (Last, First)"
+msgstr "全名 (姓氏, 名字)"
+
+#: includes/admin/reports/class-wc-report-customer-list.php:248
+msgid "Username"
+msgstr "使用者名稱"
+
+#: includes/admin/reports/class-wc-report-customer-list.php:250
+msgid "Location"
+msgstr "地點"
+
+#: includes/admin/reports/class-wc-report-customer-list.php:252
+msgid "Spent"
+msgstr "花費"
+
+#: includes/admin/reports/class-wc-report-customer-list.php:253
+msgid "Last order"
+msgstr "上個訂單"
+
+#: includes/admin/reports/class-wc-report-customers.php:22
+msgid "%s signups in this period"
+msgstr ""
+
+#: includes/admin/reports/class-wc-report-customers.php:90
+msgid "Customer Sales"
+msgstr ""
+
+#: includes/admin/reports/class-wc-report-customers.php:91
+msgid "Guest Sales"
+msgstr ""
+
+#: includes/admin/reports/class-wc-report-customers.php:100
+#: includes/admin/reports/class-wc-report-customers.php:296
+msgid "Customer Orders"
+msgstr ""
+
+#: includes/admin/reports/class-wc-report-customers.php:105
+#: includes/admin/reports/class-wc-report-customers.php:306
+msgid "Guest Orders"
+msgstr ""
+
+#: includes/admin/reports/class-wc-report-customers.php:124
+msgid "orders"
+msgstr "訂單"
+
+#: includes/admin/reports/class-wc-report-customers.php:302
+msgid "customer orders"
+msgstr ""
+
+#: includes/admin/reports/class-wc-report-customers.php:312
+msgid "guest orders"
+msgstr ""
+
+#: includes/admin/reports/class-wc-report-customers.php:316
+msgid "Signups"
+msgstr "註冊"
+
+#: includes/admin/reports/class-wc-report-customers.php:323
+msgid "new users"
+msgstr "新用戶"
+
+#: includes/admin/reports/class-wc-report-low-in-stock.php:22
+msgid "No low in stock products found."
+msgstr "沒有低庫存商品。"
+
+#: includes/admin/reports/class-wc-report-out-of-stock.php:22
+msgid "No out of stock products found."
+msgstr "沒有已售完商品。"
+
+#: includes/admin/reports/class-wc-report-sales-by-category.php:63
+msgid "%s sales in %s"
+msgstr ""
+
+#: includes/admin/reports/class-wc-report-sales-by-category.php:170
+msgid "Select categories&hellip;"
+msgstr "選擇類別&hellip;"
+
+#: includes/admin/reports/class-wc-report-sales-by-category.php:184
+msgid "None"
+msgstr "無"
+
+#: includes/admin/reports/class-wc-report-sales-by-category.php:185
+msgid "All"
+msgstr "全部"
+
+#: includes/admin/reports/class-wc-report-sales-by-category.php:245
+msgid "&larr; Choose a category to view stats"
+msgstr ""
+
+#: includes/admin/reports/class-wc-report-sales-by-date.php:81
+msgid "%s average daily sales"
+msgstr ""
+
+#: includes/admin/reports/class-wc-report-sales-by-date.php:84
+msgid "%s average monthly sales"
+msgstr ""
+
+#: includes/admin/reports/class-wc-report-sales-by-date.php:89
+msgid "%s sales in this period"
+msgstr ""
+
+#: includes/admin/reports/class-wc-report-sales-by-date.php:99
+msgid "%s orders placed"
+msgstr ""
+
+#: includes/admin/reports/class-wc-report-sales-by-date.php:104
+msgid "%s items purchased"
+msgstr ""
+
+#: includes/admin/reports/class-wc-report-sales-by-date.php:109
+msgid "%s charged for shipping"
+msgstr ""
+
+#: includes/admin/reports/class-wc-report-sales-by-date.php:114
+msgid "%s worth of coupons used"
+msgstr ""
+
+#: includes/admin/reports/class-wc-report-sales-by-date.php:301
+#: includes/admin/reports/class-wc-report-sales-by-product.php:435
+msgid "Number of items sold"
+msgstr "售出項目數量"
+
+#: includes/admin/reports/class-wc-report-sales-by-date.php:309
+#: includes/admin/reports/class-wc-report-taxes-by-code.php:118
+#: includes/admin/reports/class-wc-report-taxes-by-date.php:114
+msgid "Number of orders"
+msgstr "訂單數量"
+
+#: includes/admin/reports/class-wc-report-sales-by-date.php:317
+msgid "Average sales amount"
+msgstr "平均銷售金額"
+
+#: includes/admin/reports/class-wc-report-sales-by-date.php:337
+msgid "Shipping amount"
+msgstr "運費"
+
+#: includes/admin/reports/class-wc-report-sales-by-date.php:347
+#: includes/admin/reports/class-wc-report-sales-by-product.php:443
+msgid "Sales amount"
+msgstr "銷售金額"
+
+#: includes/admin/reports/class-wc-report-sales-by-product.php:79
+msgid "%s sales for the selected items"
+msgstr ""
+
+#: includes/admin/reports/class-wc-report-sales-by-product.php:84
+msgid "%s purchases for the selected items"
+msgstr ""
+
+#: includes/admin/reports/class-wc-report-sales-by-product.php:130
+msgid "Showing reports for:"
+msgstr "顯示報告："
+
+#: includes/admin/reports/class-wc-report-sales-by-product.php:160
+msgid "Reset"
+msgstr "重置"
+
+#: includes/admin/reports/class-wc-report-sales-by-product.php:169
+msgid "Product Search"
+msgstr "商品搜尋"
+
+#: includes/admin/reports/class-wc-report-sales-by-product.php:206
+msgid "Top Sellers"
+msgstr ""
+
+#: includes/admin/reports/class-wc-report-sales-by-product.php:241
+#: includes/admin/reports/class-wc-report-sales-by-product.php:281
+msgid "No products found in range"
+msgstr ""
+
+#: includes/admin/reports/class-wc-report-sales-by-product.php:246
+msgid "Top Earners"
+msgstr ""
+
+#: includes/admin/reports/class-wc-report-sales-by-product.php:337
+msgid "&larr; Choose a product to view stats"
+msgstr ""
+
+#: includes/admin/reports/class-wc-report-stock.php:35
+msgid "No products found."
+msgstr "沒有商品。"
+
+#: includes/admin/reports/class-wc-report-stock.php:126
+msgid "product"
+msgstr "商品"
+
+#: includes/admin/reports/class-wc-report-stock.php:142
+msgid "Parent"
+msgstr "父母"
+
+#: includes/admin/reports/class-wc-report-stock.php:143
+msgid "Units in stock"
+msgstr ""
+
+#: includes/admin/reports/class-wc-report-taxes-by-code.php:117
+msgid "Rate"
+msgstr ""
+
+#: includes/admin/reports/class-wc-report-taxes-by-code.php:119
+msgid "Tax Amount"
+msgstr "稅金"
+
+#: includes/admin/reports/class-wc-report-taxes-by-code.php:119
+msgid "This is the sum of the \"Tax Rows\" tax amount within your orders."
+msgstr ""
+
+#: includes/admin/reports/class-wc-report-taxes-by-code.php:120
+msgid "Shipping Tax Amount"
+msgstr ""
+
+#: includes/admin/reports/class-wc-report-taxes-by-code.php:120
+msgid ""
+"This is the sum of the \"Tax Rows\" shipping tax amount within your orders."
+msgstr ""
+
+#: includes/admin/reports/class-wc-report-taxes-by-code.php:121
+#: includes/admin/reports/class-wc-report-taxes-by-date.php:117
+msgid "Total Tax"
+msgstr ""
+
+#: includes/admin/reports/class-wc-report-taxes-by-code.php:121
+#: includes/admin/reports/class-wc-report-taxes-by-date.php:117
+msgid "This is the total tax for the rate (shipping tax + product tax)."
+msgstr ""
+
+#: includes/admin/reports/class-wc-report-taxes-by-code.php:170
+#: includes/admin/reports/class-wc-report-taxes-by-date.php:161
+msgid "No taxes found in this period"
+msgstr ""
+
+#: includes/admin/reports/class-wc-report-taxes-by-date.php:113
+msgid "Period"
+msgstr "週期"
+
+#: includes/admin/reports/class-wc-report-taxes-by-date.php:115
+msgid "Total Sales"
+msgstr ""
+
+#: includes/admin/reports/class-wc-report-taxes-by-date.php:115
+msgid "This is the sum of the 'Order Total' field within your orders."
+msgstr ""
+
+#: includes/admin/reports/class-wc-report-taxes-by-date.php:116
+msgid "Total Shipping"
+msgstr ""
+
+#: includes/admin/reports/class-wc-report-taxes-by-date.php:116
+msgid "This is the sum of the 'Shipping Total' field within your orders."
+msgstr ""
+
+#: includes/admin/reports/class-wc-report-taxes-by-date.php:118
+msgid "Net profit"
+msgstr ""
+
+#: includes/admin/reports/class-wc-report-taxes-by-date.php:118
+msgid "Total sales minus shipping and tax."
+msgstr ""
+
+#: includes/admin/reports/class-wc-report-taxes-by-date.php:127
+msgid "Totals"
+msgstr "總計"
+
+#: includes/admin/settings/class-wc-settings-accounts.php:25
+msgid "Accounts"
+msgstr "帳號"
+
+#: includes/admin/settings/class-wc-settings-accounts.php:41
+msgid "Account Pages"
+msgstr "帳號頁面"
+
+#: includes/admin/settings/class-wc-settings-accounts.php:41
+msgid ""
+"These pages need to be set so that WooCommerce knows where to send users to "
+"access account related functionality."
+msgstr "設定這些頁面以便 WooCommerce 引導顧客至帳戶相關功能頁面。"
+
+#: includes/admin/settings/class-wc-settings-accounts.php:44
+msgid "My Account Page"
+msgstr "我的帳戶頁面"
+
+#: includes/admin/settings/class-wc-settings-accounts.php:45
+#: includes/admin/settings/class-wc-settings-checkout.php:113
+#: includes/admin/settings/class-wc-settings-checkout.php:124
+msgid "Page contents:"
+msgstr "頁面內容："
+
+#: includes/admin/settings/class-wc-settings-accounts.php:56
+msgid "My Account Endpoints"
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-accounts.php:56
+msgid ""
+"Endpoints are appended to your page URLs to handle specific actions on the "
+"accounts pages. They should be unique."
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-accounts.php:59
+msgid "View Order"
+msgstr "查看訂單"
+
+#: includes/admin/settings/class-wc-settings-accounts.php:60
+msgid "Endpoint for the My Account &rarr; View Order page"
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-accounts.php:68
+msgid "Edit Account"
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-accounts.php:69
+msgid "Endpoint for the My Account &rarr; Edit Account page"
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-accounts.php:77
+msgid "Edit Address"
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-accounts.php:78
+msgid "Endpoint for the My Account &rarr; Edit Address page"
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-accounts.php:86
+msgid "Lost Password"
+msgstr "忘記密碼"
+
+#: includes/admin/settings/class-wc-settings-accounts.php:87
+msgid "Endpoint for the My Account &rarr; Lost Password page"
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-accounts.php:95
+msgid "Logout"
+msgstr "登出"
+
+#: includes/admin/settings/class-wc-settings-accounts.php:96
+msgid ""
+"Endpoint for the triggering logout. You can add this to your menus via a "
+"custom link: yoursite.com/?customer-logout=true"
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-accounts.php:105
+msgid "Registration Options"
+msgstr "註冊選項"
+
+#: includes/admin/settings/class-wc-settings-accounts.php:108
+msgid "Enable Registration"
+msgstr "啟用註冊功能"
+
+#: includes/admin/settings/class-wc-settings-accounts.php:109
+msgid "Enable registration on the \"Checkout\" page"
+msgstr "在 \"結帳\" 頁面啟用註冊功能"
+
+#: includes/admin/settings/class-wc-settings-accounts.php:118
+msgid "Enable registration on the \"My Account\" page"
+msgstr "在 \"我的帳戶\" 頁面啟用註冊功能"
+
+#: includes/admin/settings/class-wc-settings-accounts.php:127
+msgid "Display returning customer login reminder on the \"Checkout\" page"
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-accounts.php:136
+msgid "Account Creation"
+msgstr "帳戶建立"
+
+#: includes/admin/settings/class-wc-settings-accounts.php:137
+msgid "Automatically generate username from customer email"
+msgstr "自動從顧客信箱產生用戶名稱"
+
+#: includes/admin/settings/class-wc-settings-accounts.php:146
+msgid "Automatically generate customer password"
+msgstr "自動產生顧客密碼"
+
+#: includes/admin/settings/class-wc-settings-checkout.php:25
+msgctxt "Settings tab label"
+msgid "Checkout"
+msgstr "結帳"
+
+#: includes/admin/settings/class-wc-settings-checkout.php:41
+msgid "Checkout Options"
+msgstr "結帳選項"
+
+#: includes/admin/settings/class-wc-settings-checkout.php:65
+msgid "Checkout Process"
+msgstr "結帳流程"
+
+#: includes/admin/settings/class-wc-settings-checkout.php:68
+msgid "Coupons"
+msgstr "優惠券"
+
+#: includes/admin/settings/class-wc-settings-checkout.php:69
+msgid "Enable the use of coupons"
+msgstr "開放使用優惠券"
+
+#: includes/admin/settings/class-wc-settings-checkout.php:73
+msgid "Coupons can be applied from the cart and checkout pages."
+msgstr "優惠券可以在購物車及結帳頁面中輸入使用。"
+
+#: includes/admin/settings/class-wc-settings-checkout.php:78
+msgctxt "Settings group label"
+msgid "Checkout"
+msgstr "結帳"
+
+#: includes/admin/settings/class-wc-settings-checkout.php:79
+msgid "Enable guest checkout"
+msgstr "開放未註冊訪客結帳"
+
+#: includes/admin/settings/class-wc-settings-checkout.php:80
+msgid "Allows customers to checkout without creating an account."
+msgstr "允許顧客免註冊結帳。"
+
+#: includes/admin/settings/class-wc-settings-checkout.php:89
+msgid "Force secure checkout"
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-checkout.php:95
+msgid ""
+"Force SSL (HTTPS) on the checkout pages (an SSL Certificate is required)."
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-checkout.php:99
+msgid "Un-force HTTPS when leaving the checkout"
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-checkout.php:109
+msgid "Checkout Pages"
+msgstr "結帳頁面"
+
+#: includes/admin/settings/class-wc-settings-checkout.php:109
+msgid ""
+"These pages need to be set so that WooCommerce knows where to send users to "
+"checkout."
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-checkout.php:112
+msgid "Cart Page"
+msgstr "購物車頁面"
+
+#: includes/admin/settings/class-wc-settings-checkout.php:123
+msgid "Checkout Page"
+msgstr "結帳頁面"
+
+#: includes/admin/settings/class-wc-settings-checkout.php:134
+msgid "Terms and Conditions"
+msgstr "條款及規則"
+
+#: includes/admin/settings/class-wc-settings-checkout.php:135
+msgid ""
+"If you define a \"Terms\" page the customer will be asked if they accept "
+"them when checking out."
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-checkout.php:147
+msgid "Checkout Endpoints"
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-checkout.php:147
+msgid ""
+"Endpoints are appended to your page URLs to handle specific actions during "
+"the checkout process. They should be unique."
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-checkout.php:150
+msgid "Pay"
+msgstr "付款"
+
+#: includes/admin/settings/class-wc-settings-checkout.php:151
+msgid "Endpoint for the Checkout &rarr; Pay page"
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-checkout.php:159
+msgid "Order Received"
+msgstr "已收到訂單"
+
+#: includes/admin/settings/class-wc-settings-checkout.php:160
+msgid "Endpoint for the Checkout &rarr; Order Received page"
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-checkout.php:168
+msgid "Add Payment Method"
+msgstr "新增付款方式"
+
+#: includes/admin/settings/class-wc-settings-checkout.php:169
+msgid "Endpoint for the Checkout &rarr; Add Payment Method page"
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-checkout.php:178
+msgid "Payment Gateways"
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-checkout.php:178
+msgid ""
+"Installed gateways are listed below. Drag and drop gateways to control their"
+" display order on the frontend."
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-checkout.php:219
+msgid "Gateway Display"
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-checkout.php:227
+msgid "Gateway"
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-checkout.php:228
+msgid "Gateway ID"
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-emails.php:25
+msgid "Emails"
+msgstr "Emails"
+
+#: includes/admin/settings/class-wc-settings-emails.php:40
+msgid "Email Options"
+msgstr "Email 選項"
+
+#: includes/admin/settings/class-wc-settings-emails.php:66
+msgid "Email Sender Options"
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-emails.php:66
+msgid ""
+"The following options affect the sender (email address and name) used in "
+"WooCommerce emails."
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-emails.php:69
+msgid "\"From\" Name"
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-emails.php:79
+msgid "\"From\" Email Address"
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-emails.php:93
+msgid "Email Template"
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-emails.php:93
+msgid ""
+"This section lets you customise the WooCommerce emails. <a href=\"%s\" "
+"target=\"_blank\">Click here to preview your email template</a>. For more "
+"advanced control copy <code>woocommerce/templates/emails/</code> to "
+"<code>yourtheme/woocommerce/emails/</code>."
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-emails.php:96
+msgid "Header Image"
+msgstr "頁首圖片"
+
+#: includes/admin/settings/class-wc-settings-emails.php:97
+msgid ""
+"Enter a URL to an image you want to show in the email's header. Upload your "
+"image using the <a href=\"%s\">media uploader</a>."
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-emails.php:106
+msgid "Email Footer Text"
+msgstr "Email 頁尾文字"
+
+#: includes/admin/settings/class-wc-settings-emails.php:107
+msgid "The text to appear in the footer of WooCommerce emails."
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-emails.php:111
+msgid "Powered by WooCommerce"
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-emails.php:116
+msgid "Base Colour"
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-emails.php:117
+msgid ""
+"The base colour for WooCommerce email templates. Default "
+"<code>#557da1</code>."
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-emails.php:126
+msgid "Background Colour"
+msgstr "背景顏色"
+
+#: includes/admin/settings/class-wc-settings-emails.php:127
+msgid ""
+"The background colour for WooCommerce email templates. Default "
+"<code>#f5f5f5</code>."
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-emails.php:136
+msgid "Email Body Background Colour"
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-emails.php:137
+msgid "The main body background colour. Default <code>#fdfdfd</code>."
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-emails.php:146
+msgid "Email Body Text Colour"
+msgstr "Email 本文文字顏色"
+
+#: includes/admin/settings/class-wc-settings-emails.php:147
+msgid "The main body text colour. Default <code>#505050</code>."
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-general.php:52
+msgid "General Options"
+msgstr "一般選項"
+
+#: includes/admin/settings/class-wc-settings-general.php:55
+msgid "Base Location"
+msgstr "商店地點"
+
+#: includes/admin/settings/class-wc-settings-general.php:56
+msgid ""
+"This is the base location for your business. Tax rates will be based on this"
+" country."
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-general.php:65
+msgid "Selling Location(s)"
+msgstr "銷售地點"
+
+#: includes/admin/settings/class-wc-settings-general.php:66
+msgid "This option lets you limit which countries you are willing to sell to."
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-general.php:74
+msgid "Sell to all countries"
+msgstr "銷售至所有國家"
+
+#: includes/admin/settings/class-wc-settings-general.php:75
+msgid "Sell to specific countries only"
+msgstr "只銷售到特定國家"
+
+#: includes/admin/settings/class-wc-settings-general.php:80
+#: includes/admin/settings/class-wc-settings-shipping.php:147
+msgid "Specific Countries"
+msgstr "特定國家"
+
+#: includes/admin/settings/class-wc-settings-general.php:89
+msgid "Store Notice"
+msgstr "商店通知"
+
+#: includes/admin/settings/class-wc-settings-general.php:90
+msgid "Enable site-wide store notice text"
+msgstr "啟用全站商店通知文字"
+
+#: includes/admin/settings/class-wc-settings-general.php:97
+msgid "Store Notice Text"
+msgstr "商店通知內容"
+
+#: includes/admin/settings/class-wc-settings-general.php:100
+msgid ""
+"This is a demo store for testing purposes &mdash; no orders shall be "
+"fulfilled."
+msgstr "這是一個測試用的範例網站 &mdash; 沒有任何訂單會被實現。"
+
+#: includes/admin/settings/class-wc-settings-general.php:107
+msgid "API"
+msgstr "API"
+
+#: includes/admin/settings/class-wc-settings-general.php:108
+msgid "Enable the REST API"
+msgstr "啟用 REST API"
+
+#: includes/admin/settings/class-wc-settings-general.php:116
+msgid "Currency Options"
+msgstr "貨幣選項"
+
+#: includes/admin/settings/class-wc-settings-general.php:116
+msgid "The following options affect how prices are displayed on the frontend."
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-general.php:119
+msgid "Currency"
+msgstr "貨幣"
+
+#: includes/admin/settings/class-wc-settings-general.php:120
+msgid ""
+"This controls what currency prices are listed at in the catalog and which "
+"currency gateways will take payments in."
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-general.php:131
+msgid "Currency Position"
+msgstr "貨幣符號位置"
+
+#: includes/admin/settings/class-wc-settings-general.php:132
+msgid "This controls the position of the currency symbol."
+msgstr "控制貨幣符號的顯示位置"
+
+#: includes/admin/settings/class-wc-settings-general.php:139
+msgid "Left"
+msgstr "左邊"
+
+#: includes/admin/settings/class-wc-settings-general.php:140
+msgid "Right"
+msgstr "右邊"
+
+#: includes/admin/settings/class-wc-settings-general.php:141
+msgid "Left with space"
+msgstr "左邊及空白"
+
+#: includes/admin/settings/class-wc-settings-general.php:142
+msgid "Right with space"
+msgstr "右邊及空白"
+
+#: includes/admin/settings/class-wc-settings-general.php:148
+msgid "Thousand Separator"
+msgstr "千分位符號"
+
+#: includes/admin/settings/class-wc-settings-general.php:149
+msgid "This sets the thousand separator of displayed prices."
+msgstr "設定顯示價格的千分位符號"
+
+#: includes/admin/settings/class-wc-settings-general.php:158
+msgid "Decimal Separator"
+msgstr "小數點符號"
+
+#: includes/admin/settings/class-wc-settings-general.php:159
+msgid "This sets the decimal separator of displayed prices."
+msgstr "設定顯示價格的小數點符號"
+
+#: includes/admin/settings/class-wc-settings-general.php:168
+msgid "Number of Decimals"
+msgstr "小數位數"
+
+#: includes/admin/settings/class-wc-settings-general.php:169
+msgid "This sets the number of decimal points shown in displayed prices."
+msgstr "設定顯示價格的小數位數"
+
+#: includes/admin/settings/class-wc-settings-general.php:183
+msgid "Styles and Scripts"
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-general.php:188
+msgid "Scripts"
+msgstr "腳本"
+
+#: includes/admin/settings/class-wc-settings-general.php:189
+msgid "Enable Lightbox"
+msgstr "啟用 Lightbox"
+
+#: includes/admin/settings/class-wc-settings-general.php:192
+msgid ""
+"Include WooCommerce's lightbox. Product gallery images will open in a "
+"lightbox."
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-general.php:198
+msgid "Enable enhanced country select boxes"
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-general.php:203
+msgid ""
+"This will enable a script allowing the country fields to be searchable."
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-general.php:221
+msgid "Frontend Styles"
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-general.php:251
+msgid "Primary"
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-general.php:251
+msgid "Call to action buttons/price slider/layered nav UI"
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-general.php:252
+msgid "Secondary"
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-general.php:252
+msgid "Buttons and tabs"
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-general.php:253
+msgid "Highlight"
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-general.php:253
+msgid "Price labels and Sale Flashes"
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-general.php:254
+msgid "Content"
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-general.php:254
+msgid "Your themes page background - used for tab active states"
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-general.php:255
+msgid "Subtext"
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-general.php:255
+msgid "Used for certain text and asides - breadcrumbs, small text etc."
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-general.php:258
+msgid ""
+"To edit colours <code>woocommerce/assets/css/woocommerce-base.less</code> "
+"and <code>woocommerce.css</code> need to be writable. See <a "
+"href=\"http://codex.wordpress.org/Changing_File_Permissions\">the Codex</a> "
+"for more information."
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-general.php:311
+msgid ""
+"Error saving the Frontend Styles, %s is not a valid color, please use only "
+"valid colors code."
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-integrations.php:25
+msgid "Integration"
+msgstr "整合"
+
+#: includes/admin/settings/class-wc-settings-products.php:40
+msgid "Product Options"
+msgstr "商品選項"
+
+#: includes/admin/settings/class-wc-settings-products.php:79
+msgid "Inventory Options"
+msgstr "庫存選項"
+
+#: includes/admin/settings/class-wc-settings-products.php:82
+msgid "Manage Stock"
+msgstr "管理庫存"
+
+#: includes/admin/settings/class-wc-settings-products.php:83
+msgid "Enable stock management"
+msgstr "啟用庫存管理"
+
+#: includes/admin/settings/class-wc-settings-products.php:90
+msgid "Hold Stock (minutes)"
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-products.php:91
+msgid ""
+"Hold stock (for unpaid orders) for x minutes. When this limit is reached, "
+"the pending order will be cancelled. Leave blank to disable."
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-products.php:104
+msgid "Notifications"
+msgstr "通知"
+
+#: includes/admin/settings/class-wc-settings-products.php:105
+msgid "Enable low stock notifications"
+msgstr "啟用低庫存通知"
+
+#: includes/admin/settings/class-wc-settings-products.php:114
+msgid "Enable out of stock notifications"
+msgstr "啟用無庫存通知"
+
+#: includes/admin/settings/class-wc-settings-products.php:123
+msgid "Notification Recipient"
+msgstr "通知收件人"
+
+#: includes/admin/settings/class-wc-settings-products.php:132
+msgid "Low Stock Threshold"
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-products.php:146
+msgid "Out Of Stock Threshold"
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-products.php:160
+msgid "Out Of Stock Visibility"
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-products.php:161
+msgid "Hide out of stock items from the catalog"
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-products.php:168
+msgid "Stock Display Format"
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-products.php:169
+msgid "This controls how stock is displayed on the frontend."
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-products.php:175
+msgid "Always show stock e.g. \"12 in stock\""
+msgstr "永遠顯示庫存 例：\"庫存 12\""
+
+#: includes/admin/settings/class-wc-settings-products.php:176
+msgid "Only show stock when low e.g. \"Only 2 left in stock\" vs. \"In Stock\""
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-products.php:177
+msgid "Never show stock amount"
+msgstr "永不顯示庫存數量"
+
+#: includes/admin/settings/class-wc-settings-products.php:196
+msgid ""
+"Note: The shop page has children - child pages will not work if you enable "
+"this option."
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-products.php:200
+msgid "Product Listings"
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-products.php:203
+msgid "Product Archive / Shop Page"
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-products.php:204
+msgid ""
+"The base page can also be used in your <a href=\"%s\">product "
+"permalinks</a>."
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-products.php:210
+msgid ""
+"This sets the base page of your shop - this is where your product archive "
+"will be."
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-products.php:214
+msgid "Shop Page Display"
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-products.php:215
+msgid "This controls what is shown on the product archive."
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-products.php:222
+#: includes/admin/settings/class-wc-settings-products.php:238
+msgid "Show products"
+msgstr "顯示商品"
+
+#: includes/admin/settings/class-wc-settings-products.php:223
+#: includes/admin/settings/class-wc-settings-products.php:239
+msgid "Show subcategories"
+msgstr "顯示子類別"
+
+#: includes/admin/settings/class-wc-settings-products.php:224
+#: includes/admin/settings/class-wc-settings-products.php:240
+msgid "Show both"
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-products.php:230
+msgid "Default Category Display"
+msgstr "預設顯示類別"
+
+#: includes/admin/settings/class-wc-settings-products.php:231
+msgid "This controls what is shown on category archives."
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-products.php:246
+msgid "Default Product Sorting"
+msgstr "預設商品排序"
+
+#: includes/admin/settings/class-wc-settings-products.php:247
+msgid "This controls the default sort order of the catalog."
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-products.php:254
+msgid "Default sorting (custom ordering + name)"
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-products.php:255
+msgid "Popularity (sales)"
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-products.php:256
+msgid "Average Rating"
+msgstr "平均評分"
+
+#: includes/admin/settings/class-wc-settings-products.php:257
+msgid "Sort by most recent"
+msgstr "依最近新增"
+
+#: includes/admin/settings/class-wc-settings-products.php:258
+msgid "Sort by price (asc)"
+msgstr "依價格排序 (低至高)"
+
+#: includes/admin/settings/class-wc-settings-products.php:259
+msgid "Sort by price (desc)"
+msgstr "依價格排序 (高至低)"
+
+#: includes/admin/settings/class-wc-settings-products.php:265
+msgid "Add to cart"
+msgstr "加入購物車"
+
+#: includes/admin/settings/class-wc-settings-products.php:266
+msgid "Redirect to the cart page after successful addition"
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-products.php:274
+msgid "Enable AJAX add to cart buttons on archives"
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-products.php:286
+msgid "Weight Unit"
+msgstr "重量單位"
+
+#: includes/admin/settings/class-wc-settings-products.php:287
+msgid "This controls what unit you will define weights in."
+msgstr "設定您所使用的重量單位。"
+
+#: includes/admin/settings/class-wc-settings-products.php:294
+msgid "kg"
+msgstr "公斤"
+
+#: includes/admin/settings/class-wc-settings-products.php:295
+msgid "g"
+msgstr "公克"
+
+#: includes/admin/settings/class-wc-settings-products.php:296
+msgid "lbs"
+msgstr "磅"
+
+#: includes/admin/settings/class-wc-settings-products.php:297
+msgid "oz"
+msgstr "盎司"
+
+#: includes/admin/settings/class-wc-settings-products.php:303
+msgid "Dimensions Unit"
+msgstr "規格單位"
+
+#: includes/admin/settings/class-wc-settings-products.php:304
+msgid "This controls what unit you will define lengths in."
+msgstr "設定您所使用的長度單位。"
+
+#: includes/admin/settings/class-wc-settings-products.php:312
+msgid "cm"
+msgstr "公分"
+
+#: includes/admin/settings/class-wc-settings-products.php:313
+msgid "mm"
+msgstr "公厘"
+
+#: includes/admin/settings/class-wc-settings-products.php:314
+msgid "in"
+msgstr "英吋"
+
+#: includes/admin/settings/class-wc-settings-products.php:315
+msgid "yd"
+msgstr "碼"
+
+#: includes/admin/settings/class-wc-settings-products.php:321
+msgid "Product Ratings"
+msgstr "商品評分"
+
+#: includes/admin/settings/class-wc-settings-products.php:322
+msgid "Enable ratings on reviews"
+msgstr "在評論中啟用評分"
+
+#: includes/admin/settings/class-wc-settings-products.php:332
+msgid "Ratings are required to leave a review"
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-products.php:342
+msgid "Show \"verified owner\" label for customer reviews"
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-products.php:352
+msgid "Only allow reviews from \"verified owners\""
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-products.php:363
+msgid "Product Image Sizes"
+msgstr "商品圖片大小"
+
+#: includes/admin/settings/class-wc-settings-products.php:363
+msgid ""
+"These settings affect the actual dimensions of images in your catalog - the "
+"display on the front-end will still be affected by CSS styles. After "
+"changing these settings you may need to <a href=\"%s\">regenerate your "
+"thumbnails</a>."
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-products.php:366
+msgid "Catalog Images"
+msgstr "型錄圖片"
+
+#: includes/admin/settings/class-wc-settings-products.php:367
+msgid "This size is usually used in product listings"
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-products.php:380
+msgid "Single Product Image"
+msgstr "單一商品圖片"
+
+#: includes/admin/settings/class-wc-settings-products.php:381
+msgid "This is the size used by the main image on the product page."
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-products.php:394
+msgid "Product Thumbnails"
+msgstr "商品縮圖"
+
+#: includes/admin/settings/class-wc-settings-products.php:395
+msgid ""
+"This size is usually used for the gallery of images on the product page."
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-products.php:409
+msgid "Downloadable Products"
+msgstr "可下載的商品"
+
+#: includes/admin/settings/class-wc-settings-products.php:412
+msgid "File Download Method"
+msgstr "檔案下載方式"
+
+#: includes/admin/settings/class-wc-settings-products.php:413
+msgid ""
+"Forcing downloads will keep URLs hidden, but some servers may serve large "
+"files unreliably. If supported, <code>X-Accel-Redirect</code>/ "
+"<code>X-Sendfile</code> can be used to serve downloads instead (server "
+"requires <code>mod_xsendfile</code>)."
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-products.php:421
+msgid "Force Downloads"
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-products.php:422
+msgid "X-Accel-Redirect/X-Sendfile"
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-products.php:423
+msgid "Redirect only"
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-products.php:429
+msgid "Access Restriction"
+msgstr "存取限制"
+
+#: includes/admin/settings/class-wc-settings-products.php:430
+msgid "Downloads require login"
+msgstr "下載前需登入"
+
+#: includes/admin/settings/class-wc-settings-products.php:434
+msgid "This setting does not apply to guest purchases."
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-products.php:440
+msgid "Grant access to downloadable products after payment"
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-products.php:444
+msgid ""
+"Enable this option to grant access to downloads when orders are "
+"\"processing\", rather than \"completed\"."
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-shipping.php:41
+#: includes/admin/settings/class-wc-settings-shipping.php:67
+msgid "Shipping Options"
+msgstr "運送選項"
+
+#: includes/admin/settings/class-wc-settings-shipping.php:70
+msgid "Shipping Calculations"
+msgstr "運費計算"
+
+#: includes/admin/settings/class-wc-settings-shipping.php:71
+msgid "Enable shipping"
+msgstr "啟用配送"
+
+#: includes/admin/settings/class-wc-settings-shipping.php:79
+msgid "Enable the shipping calculator on the cart page"
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-shipping.php:88
+msgid "Hide shipping costs until an address is entered"
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-shipping.php:97
+msgid "Shipping Display Mode"
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-shipping.php:98
+msgid ""
+"This controls how multiple shipping methods are displayed on the frontend."
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-shipping.php:103
+msgid "Display shipping methods with \"radio\" buttons"
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-shipping.php:104
+msgid "Display shipping methods in a dropdown"
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-shipping.php:111
+msgid "Shipping Destination"
+msgstr "配送目的地"
+
+#: includes/admin/settings/class-wc-settings-shipping.php:112
+msgid "Ship to billing address by default"
+msgstr "預設配送至帳單地址"
+
+#: includes/admin/settings/class-wc-settings-shipping.php:122
+msgid "Only ship to the users billing address"
+msgstr "只配送至用戶帳單地址"
+
+#: includes/admin/settings/class-wc-settings-shipping.php:132
+msgid "Restrict shipping to Location(s)"
+msgstr "限制配送地區"
+
+#: includes/admin/settings/class-wc-settings-shipping.php:133
+msgid ""
+"Choose which countries you want to ship to, or choose to ship to all <a "
+"href=\"%s\">locations you sell to</a>."
+msgstr "選擇您想配送的國家，或選擇配送至所有<a href=\"%s\">您有銷售商品的地區</a>。"
+
+#: includes/admin/settings/class-wc-settings-shipping.php:140
+msgid "Ship to all countries you sell to"
+msgstr "配送至所有您有銷售商品的國家"
+
+#: includes/admin/settings/class-wc-settings-shipping.php:141
+msgid "Ship to all countries"
+msgstr "配送至所有國家"
+
+#: includes/admin/settings/class-wc-settings-shipping.php:142
+msgid "Ship to specific countries only"
+msgstr "只配送至特定國家"
+
+#: includes/admin/settings/class-wc-settings-shipping.php:197
+msgid "Shipping Methods"
+msgstr "配送方式"
+
+#: includes/admin/settings/class-wc-settings-shipping.php:204
+msgid "ID"
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-shipping.php:214
+msgid "Automatic"
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-shipping.php:214
+msgid "The cheapest available shipping method will be selected by default."
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-shipping.php:215
+msgid ""
+"Drag and drop the above shipping methods to control their display order."
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-tax.php:40
+#: includes/admin/settings/class-wc-settings-tax.php:68
+msgid "Tax Options"
+msgstr "稅金選項"
+
+#: includes/admin/settings/class-wc-settings-tax.php:41
+msgid "Standard Rates"
+msgstr "標準稅率"
+
+#: includes/admin/settings/class-wc-settings-tax.php:49
+msgid "%s Rates"
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-tax.php:71
+msgid "Enable Taxes"
+msgstr "啟用稅金"
+
+#: includes/admin/settings/class-wc-settings-tax.php:72
+msgid "Enable taxes and tax calculations"
+msgstr "啟用稅金及稅金計算"
+
+#: includes/admin/settings/class-wc-settings-tax.php:79
+msgid "Prices Entered With Tax"
+msgstr "售價包含稅金"
+
+#: includes/admin/settings/class-wc-settings-tax.php:83
+msgid ""
+"This option is important as it will affect how you input prices. Changing it"
+" will not update existing products."
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-tax.php:85
+msgid "Yes, I will enter prices inclusive of tax"
+msgstr "是，我將輸入包含稅金的售價。"
+
+#: includes/admin/settings/class-wc-settings-tax.php:86
+msgid "No, I will enter prices exclusive of tax"
+msgstr "不，我將輸入不含稅金的售價。"
+
+#: includes/admin/settings/class-wc-settings-tax.php:91
+msgid "Calculate Tax Based On:"
+msgstr "稅金計算依據："
+
+#: includes/admin/settings/class-wc-settings-tax.php:93
+msgid "This option determines which address is used to calculate tax."
+msgstr "此選項決定使用哪個地址來計算稅金。"
+
+#: includes/admin/settings/class-wc-settings-tax.php:97
+msgid "Customer shipping address"
+msgstr "顧客配送地址"
+
+#: includes/admin/settings/class-wc-settings-tax.php:98
+msgid "Customer billing address"
+msgstr "顧客帳單地址"
+
+#: includes/admin/settings/class-wc-settings-tax.php:99
+#: includes/admin/settings/class-wc-settings-tax.php:111
+msgid "Shop base address"
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-tax.php:104
+msgid "Default Customer Address:"
+msgstr "預設顧客地址："
+
+#: includes/admin/settings/class-wc-settings-tax.php:106
+msgid ""
+"This option determines the customers default address (before they input "
+"their own)."
+msgstr "此選項決定顧客的預設地址 (在他們輸入之前)。"
+
+#: includes/admin/settings/class-wc-settings-tax.php:110
+msgid "No address"
+msgstr "沒有地址"
+
+#: includes/admin/settings/class-wc-settings-tax.php:116
+msgid "Shipping Tax Class:"
+msgstr "配送稅金級別："
+
+#: includes/admin/settings/class-wc-settings-tax.php:117
+msgid ""
+"Optionally control which tax class shipping gets, or leave it so shipping "
+"tax is based on the cart items themselves."
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-tax.php:122
+msgid "Shipping tax class based on cart items"
+msgstr "依據購物車內容項目決定配送稅金級別"
+
+#: includes/admin/settings/class-wc-settings-tax.php:127
+msgid "Rounding"
+msgstr "四捨五入"
+
+#: includes/admin/settings/class-wc-settings-tax.php:128
+msgid "Round tax at subtotal level, instead of rounding per line"
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-tax.php:135
+msgid "Additional Tax Classes"
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-tax.php:136
+msgid ""
+"List additional tax classes below (1 per line). This is in addition to the "
+"default <code>Standard Rate</code>. Tax classes can be assigned to products."
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-tax.php:140
+msgid "Reduced Rate%sZero Rate"
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-tax.php:144
+msgid "Display prices in the shop:"
+msgstr "商店中顯示的價格："
+
+#: includes/admin/settings/class-wc-settings-tax.php:149
+#: includes/admin/settings/class-wc-settings-tax.php:168
+msgid "Including tax"
+msgstr "含稅"
+
+#: includes/admin/settings/class-wc-settings-tax.php:150
+#: includes/admin/settings/class-wc-settings-tax.php:169
+msgid "Excluding tax"
+msgstr "未稅"
+
+#: includes/admin/settings/class-wc-settings-tax.php:155
+msgid "Price display suffix:"
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-tax.php:159
+msgid ""
+"Define text to show after your product prices. This could be, for example, "
+"\"inc. Vat\" to explain your pricing. You can also have prices substituted "
+"here using one of the following: <code>{price_including_tax}, "
+"{price_excluding_tax}</code>."
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-tax.php:163
+msgid "Display prices during cart/checkout:"
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-tax.php:175
+msgid "Display tax totals:"
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-tax.php:180
+msgid "As a single total"
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-tax.php:181
+msgid "Itemized"
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-tax.php:243
+msgid "Tax Rates for the \"%s\" Class"
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-tax.php:244
+msgid ""
+"Define tax rates for countries and states below. <a href=\"%s\">See here</a>"
+" for available alpha-2 country codes."
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-tax.php:250
+msgid "Country&nbsp;Code"
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-tax.php:250
+msgid "A 2 digit country code, e.g. US. Leave blank to apply to all."
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-tax.php:252
+msgid "State&nbsp;Code"
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-tax.php:252
+msgid "A 2 digit state code, e.g. AL. Leave blank to apply to all."
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-tax.php:254
+#: includes/admin/settings/class-wc-settings-tax.php:383
+msgid "ZIP/Postcode"
+msgstr "郵遞區號"
+
+#: includes/admin/settings/class-wc-settings-tax.php:254
+msgid ""
+"Postcode for this rule. Semi-colon (;) separate multiple values. Leave blank"
+" to apply to all areas. Wildcards (*) can be used. Ranges for numeric "
+"postcodes (e.g. 12345-12350) will be expanded into individual postcodes."
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-tax.php:256
+msgid ""
+"Cities for this rule. Semi-colon (;) separate multiple values. Leave blank "
+"to apply to all cities."
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-tax.php:258
+msgid "Rate&nbsp;%"
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-tax.php:258
+msgid "Enter a tax rate (percentage) to 4 decimal places."
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-tax.php:260
+msgid "Tax&nbsp;Name"
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-tax.php:260
+msgid "Enter a name for this tax rate."
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-tax.php:262
+#: includes/admin/settings/class-wc-settings-tax.php:383
+msgid "Priority"
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-tax.php:262
+msgid ""
+"Choose a priority for this tax rate. Only 1 matching rate per priority will "
+"be used. To define multiple tax rates for a single area you need to specify "
+"a different priority per rate."
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-tax.php:264
+#: includes/admin/settings/class-wc-settings-tax.php:383
+msgid "Compound"
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-tax.php:264
+msgid ""
+"Choose whether or not this is a compound rate. Compound tax rates are "
+"applied on top of other tax rates."
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-tax.php:266
+msgid "Choose whether or not this tax rate also gets applied to shipping."
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-tax.php:273
+msgid "Insert row"
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-tax.php:274
+msgid "Remove selected row(s)"
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-tax.php:290
+msgid "Import CSV"
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-tax.php:376
+msgid "No row(s) selected"
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-tax.php:383
+msgid "Country Code"
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-tax.php:383
+msgid "State Code"
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-tax.php:383
+msgid "Rate %"
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-tax.php:383
+msgid "Tax Name"
+msgstr ""
+
+#: includes/admin/views/html-admin-page-addons.php:5
+msgid "Browse all extensions"
+msgstr ""
+
+#: includes/admin/views/html-admin-page-addons.php:6
+msgid "Browse themes"
+msgstr ""
+
+#: includes/admin/views/html-admin-page-addons.php:12
+msgid "Popular"
+msgstr ""
+
+#: includes/admin/views/html-admin-page-addons.php:13
+msgid "Gateways"
+msgstr ""
+
+#: includes/admin/views/html-admin-page-addons.php:15
+msgid "Import/export"
+msgstr ""
+
+#: includes/admin/views/html-admin-page-addons.php:17
+msgid "Marketing"
+msgstr ""
+
+#: includes/admin/views/html-admin-page-addons.php:18
+msgid "Acounting"
+msgstr ""
+
+#: includes/admin/views/html-admin-page-addons.php:19
+msgid "Free"
+msgstr "免費"
+
+#: includes/admin/views/html-admin-page-addons.php:20
+msgid "Third-party"
+msgstr ""
+
+#: includes/admin/views/html-admin-page-addons.php:81
+msgid ""
+"Our catalog of WooCommerce Extensions can be found on WooThemes.com here: <a"
+" href=\"%s\">WooCommerce Extensions Catalog</a>"
+msgstr ""
+
+#: includes/admin/views/html-admin-page-status-report.php:2
+msgid "Please include this information when requesting support:"
+msgstr ""
+
+#: includes/admin/views/html-admin-page-status-report.php:3
+msgid "Get System Report"
+msgstr "取得系統報告"
+
+#: includes/admin/views/html-admin-page-status-report.php:11
+msgid "Environment"
+msgstr "環境"
+
+#: includes/admin/views/html-admin-page-status-report.php:17
+msgid "Home URL"
+msgstr "WordPress 網址"
+
+#: includes/admin/views/html-admin-page-status-report.php:21
+msgid "Site URL"
+msgstr "網站網址"
+
+#: includes/admin/views/html-admin-page-status-report.php:25
+msgid "WC Version"
+msgstr "WC 版本"
+
+#: includes/admin/views/html-admin-page-status-report.php:29
+msgid "WC Database Version"
+msgstr "WC 資料庫版本"
+
+#: includes/admin/views/html-admin-page-status-report.php:33
+msgid "WP Version"
+msgstr "WP 版本"
+
+#: includes/admin/views/html-admin-page-status-report.php:37
+msgid "WP Multisite Enabled"
+msgstr "WP 多網站啟用"
+
+#: includes/admin/views/html-admin-page-status-report.php:41
+msgid "Web Server Info"
+msgstr "Web Server 資訊"
+
+#: includes/admin/views/html-admin-page-status-report.php:45
+msgid "PHP Version"
+msgstr "PHP 版本"
+
+#: includes/admin/views/html-admin-page-status-report.php:49
+msgid "MySQL Version"
+msgstr "MySQL 版本"
+
+#: includes/admin/views/html-admin-page-status-report.php:59
+msgid "WP Memory Limit"
+msgstr "WP 記憶體限制"
+
+#: includes/admin/views/html-admin-page-status-report.php:64
+msgid ""
+"%s - We recommend setting memory to at least 64MB. See: <a "
+"href=\"%s\">Increasing memory allocated to PHP</a>"
+msgstr "%s - 我們建議將記憶體設定為至少 64M。<a href=\"%s\">增加 PHP 分配到的記憶體</a>"
+
+#: includes/admin/views/html-admin-page-status-report.php:71
+msgid "WP Debug Mode"
+msgstr "WP 除錯模式"
+
+#: includes/admin/views/html-admin-page-status-report.php:75
+msgid "WP Language"
+msgstr "WP 語言"
+
+#: includes/admin/views/html-admin-page-status-report.php:79
+msgid "WP Max Upload Size"
+msgstr "WP 最大上傳檔案大小"
+
+#: includes/admin/views/html-admin-page-status-report.php:84
+msgid "PHP Post Max Size"
+msgstr "PHP Post Max Size"
+
+#: includes/admin/views/html-admin-page-status-report.php:88
+msgid "PHP Time Limit"
+msgstr "PHP Time Limit"
+
+#: includes/admin/views/html-admin-page-status-report.php:92
+msgid "PHP Max Input Vars"
+msgstr "PHP Max Input Vars"
+
+#: includes/admin/views/html-admin-page-status-report.php:96
+msgid "SUHOSIN Installed"
+msgstr "SUHOSIN 已安裝"
+
+#: includes/admin/views/html-admin-page-status-report.php:101
+msgid "WC Logging"
+msgstr "WC 紀錄"
+
+#: includes/admin/views/html-admin-page-status-report.php:104
+msgid "Log directory is writable."
+msgstr "Log 資料夾可寫入"
+
+#: includes/admin/views/html-admin-page-status-report.php:106
+msgid ""
+"Log directory (<code>woocommerce/logs/</code>) is not writable. Logging will"
+" not be possible."
+msgstr "Log 資料夾 (<code>woocommerce/logs/</code>) 不可寫入。無法執行紀錄。"
+
+#: includes/admin/views/html-admin-page-status-report.php:110
+msgid "Default Timezone"
+msgstr "預設時區"
+
+#: includes/admin/views/html-admin-page-status-report.php:114
+msgid "Default timezone is %s - it should be UTC"
+msgstr "預設時區為 %s - 應該為 UTC"
+
+#: includes/admin/views/html-admin-page-status-report.php:116
+msgid "Default timezone is %s"
+msgstr "預設時區為 %s"
+
+#: includes/admin/views/html-admin-page-status-report.php:124
+msgid "fsockopen/cURL"
+msgstr "fsockopen/cURL"
+
+#: includes/admin/views/html-admin-page-status-report.php:127
+msgid "Your server has fsockopen and cURL enabled."
+msgstr "你的伺服器已啟用 fsockopen 和 cURL。"
+
+#: includes/admin/views/html-admin-page-status-report.php:129
+msgid "Your server has fsockopen enabled, cURL is disabled."
+msgstr "你的伺服器已啟用 fsockopen ，未啟用 cURL。"
+
+#: includes/admin/views/html-admin-page-status-report.php:131
+msgid "Your server has cURL enabled, fsockopen is disabled."
+msgstr "你的伺服器已啟用 cURL，未啟用 fsockopen。"
+
+#: includes/admin/views/html-admin-page-status-report.php:135
+msgid ""
+"Your server does not have fsockopen or cURL enabled - PayPal IPN and other "
+"scripts which communicate with other servers will not work. Contact your "
+"hosting provider."
+msgstr "你的伺服器未啟用 fsockopen 或 cURL - PayPal IPN 及需與其他伺服器通訊的腳本將無法使用。請與你的主機服務商聯絡。 "
+
+#: includes/admin/views/html-admin-page-status-report.php:140
+msgid "SOAP Client"
+msgstr "SOAP Client"
+
+#: includes/admin/views/html-admin-page-status-report.php:142
+msgid "Your server has the SOAP Client class enabled."
+msgstr "你的伺服器已啟用 SOAP Client class。"
+
+#: includes/admin/views/html-admin-page-status-report.php:145
+msgid ""
+"Your server does not have the <a href=\"%s\">SOAP Client</a> class enabled -"
+" some gateway plugins which use SOAP may not work as expected."
+msgstr ""
+
+#: includes/admin/views/html-admin-page-status-report.php:150
+msgid "WP Remote Post"
+msgstr ""
+
+#: includes/admin/views/html-admin-page-status-report.php:161
+msgid "wp_remote_post() was successful - PayPal IPN is working."
+msgstr ""
+
+#: includes/admin/views/html-admin-page-status-report.php:164
+msgid ""
+"wp_remote_post() failed. PayPal IPN won't work with your server. Contact "
+"your hosting provider. Error:"
+msgstr ""
+
+#: includes/admin/views/html-admin-page-status-report.php:167
+msgid "wp_remote_post() failed. PayPal IPN may not work with your server."
+msgstr ""
+
+#: includes/admin/views/html-admin-page-status-report.php:190
+msgid "Locale"
+msgstr "語言環境"
+
+#: includes/admin/views/html-admin-page-status-report.php:206
+msgid "Plugins"
+msgstr "外掛"
+
+#: includes/admin/views/html-admin-page-status-report.php:212
+msgid "Installed Plugins"
+msgstr "已安裝外掛"
+
+#: includes/admin/views/html-admin-page-status-report.php:232
+msgid "Visit plugin homepage"
+msgstr "前往外掛主頁"
+
+#: includes/admin/views/html-admin-page-status-report.php:256
+#: includes/admin/views/html-admin-page-status-report.php:438
+msgid "is available"
+msgstr "可用"
+
+#: includes/admin/views/html-admin-page-status-report.php:259
+msgid "by"
+msgstr ""
+
+#: includes/admin/views/html-admin-page-status-report.php:259
+msgid "version"
+msgstr "版本"
+
+#: includes/admin/views/html-admin-page-status-report.php:281
+msgid "Force SSL"
+msgstr ""
+
+#: includes/admin/views/html-admin-page-status-report.php:288
+msgid "WC Pages"
+msgstr "WC 頁面"
+
+#: includes/admin/views/html-admin-page-status-report.php:295
+msgctxt "Page setting"
+msgid "Shop Base"
+msgstr ""
+
+#: includes/admin/views/html-admin-page-status-report.php:299
+msgctxt "Page setting"
+msgid "Cart"
+msgstr "購物車"
+
+#: includes/admin/views/html-admin-page-status-report.php:303
+msgctxt "Page setting"
+msgid "Checkout"
+msgstr "結帳"
+
+#: includes/admin/views/html-admin-page-status-report.php:307
+msgctxt "Page setting"
+msgid "My Account"
+msgstr "帳號設定"
+
+#: includes/admin/views/html-admin-page-status-report.php:327
+msgid "Page not set"
+msgstr "未設定頁面"
+
+#: includes/admin/views/html-admin-page-status-report.php:337
+msgid "Page does not exist"
+msgstr "頁面不存在"
+
+#: includes/admin/views/html-admin-page-status-report.php:342
+msgid "Page does not contain the shortcode: %s"
+msgstr "頁面不包含 shortcode: %s"
+
+#: includes/admin/views/html-admin-page-status-report.php:361
+msgid "WC Taxonomies"
+msgstr ""
+
+#: includes/admin/views/html-admin-page-status-report.php:367
+msgid "Order Statuses"
+msgstr "訂單狀態"
+
+#: includes/admin/views/html-admin-page-status-report.php:377
+msgid "Product Types"
+msgstr "商品類型"
+
+#: includes/admin/views/html-admin-page-status-report.php:390
+msgid "Theme"
+msgstr "佈景主題"
+
+#: includes/admin/views/html-admin-page-status-report.php:427
+msgid "Theme Name"
+msgstr "佈景主題名稱"
+
+#: includes/admin/views/html-admin-page-status-report.php:433
+msgid "Theme Version"
+msgstr "佈景主題版本"
+
+#: includes/admin/views/html-admin-page-status-report.php:442
+msgid "Author URL"
+msgstr "作者網址"
+
+#: includes/admin/views/html-admin-page-status-report.php:451
+msgid "Templates"
+msgstr "範本"
+
+#: includes/admin/views/html-admin-page-status-report.php:486
+msgid ""
+"<code>%s</code> version <strong style=\"color:red\">%s</strong> is out of "
+"date. The core version is %s"
+msgstr ""
+
+#: includes/admin/views/html-admin-page-status-report.php:497
+#: includes/admin/views/html-admin-page-status-report.php:503
+msgid "Template Overrides"
+msgstr ""
+
+#: includes/admin/views/html-admin-page-status-report.php:504
+msgid "No overrides present in theme."
+msgstr ""
+
+#: includes/admin/views/html-admin-page-status-tools.php:7
+#: includes/admin/views/html-admin-page-status.php:6
+msgid "Tools"
+msgstr "工具"
+
+#: includes/admin/views/html-admin-page-status-tools.php:23
+msgid "Shipping Debug Mode"
+msgstr ""
+
+#: includes/admin/views/html-admin-page-status-tools.php:29
+msgid "This tool will disable shipping rate caching."
+msgstr ""
+
+#: includes/admin/views/html-admin-page-status-tools.php:34
+msgid "Template Debug Mode"
+msgstr ""
+
+#: includes/admin/views/html-admin-page-status-tools.php:40
+msgid ""
+"This tool will disable template overrides for logged-in administrators for "
+"debugging purposes."
+msgstr ""
+
+#: includes/admin/views/html-admin-page-status-tools.php:45
+msgid "Remove post types on uninstall"
+msgstr ""
+
+#: includes/admin/views/html-admin-page-status-tools.php:51
+msgid ""
+"This tool will delete all product and order post data when uninstalling via "
+"Plugins > Delete."
+msgstr ""
+
+#: includes/admin/views/html-admin-page-status-tools.php:58
+msgid "Save Changes"
+msgstr "儲存變更"
+
+#: includes/admin/views/html-admin-settings.php:20
+msgid "Save changes"
+msgstr "儲存修改"
+
+#: includes/admin/views/html-bulk-edit-product.php:15
+#: includes/admin/views/html-bulk-edit-product.php:39
+#: includes/admin/views/html-bulk-edit-product.php:63
+#: includes/admin/views/html-bulk-edit-product.php:82
+#: includes/admin/views/html-bulk-edit-product.php:108
+#: includes/admin/views/html-bulk-edit-product.php:132
+#: includes/admin/views/html-bulk-edit-product.php:156
+#: includes/admin/views/html-bulk-edit-product.php:175
+#: includes/admin/views/html-bulk-edit-product.php:193
+#: includes/admin/views/html-bulk-edit-product.php:212
+#: includes/admin/views/html-bulk-edit-product.php:231
+#: includes/admin/views/html-bulk-edit-product.php:252
+msgid "— No Change —"
+msgstr "— 無變更 —"
+
+#: includes/admin/views/html-bulk-edit-product.php:16
+#: includes/admin/views/html-bulk-edit-product.php:40
+#: includes/admin/views/html-bulk-edit-product.php:109
+#: includes/admin/views/html-bulk-edit-product.php:133
+#: includes/admin/views/html-bulk-edit-product.php:232
+msgid "Change to:"
+msgstr "更改為："
+
+#: includes/admin/views/html-bulk-edit-product.php:17
+#: includes/admin/views/html-bulk-edit-product.php:41
+msgid "Increase by (fixed amount or %):"
+msgstr ""
+
+#: includes/admin/views/html-bulk-edit-product.php:18
+#: includes/admin/views/html-bulk-edit-product.php:42
+msgid "Decrease by (fixed amount or %):"
+msgstr ""
+
+#: includes/admin/views/html-bulk-edit-product.php:28
+#: includes/admin/views/html-bulk-edit-product.php:53
+msgid "Enter price"
+msgstr "輸入價格"
+
+#: includes/admin/views/html-bulk-edit-product.php:34
+#: includes/admin/views/html-quick-edit-product.php:29
+msgid "Sale"
+msgstr "促銷"
+
+#: includes/admin/views/html-bulk-edit-product.php:43
+msgid "Decrease regular price by (fixed amount or %):"
+msgstr "降價(固定金額或%)"
+
+#: includes/admin/views/html-bulk-edit-product.php:127
+#: includes/admin/views/html-quick-edit-product.php:95
+msgid "L/W/H"
+msgstr "長/寬/高"
+
+#: includes/admin/views/html-bulk-edit-product.php:151
+#: includes/admin/views/html-quick-edit-product.php:109
+msgid "Visibility"
+msgstr "可見"
+
+#: includes/admin/views/html-bulk-edit-product.php:157
+#: includes/admin/views/html-quick-edit-product.php:114
+msgid "Catalog &amp; search"
+msgstr "型錄 &amp; 搜尋"
+
+#: includes/admin/views/html-bulk-edit-product.php:188
+#: includes/admin/views/html-quick-edit-product.php:132
+msgid "In stock?"
+msgstr "庫存？"
+
+#: includes/admin/views/html-bulk-edit-product.php:247
+#: includes/admin/views/html-quick-edit-product.php:167
+msgid "Backorders?"
+msgstr "缺貨？"
+
+#: includes/admin/views/html-notice-install.php:5
+msgid ""
+"<strong>Welcome to WooCommerce</strong> &#8211; You're almost ready to start"
+" selling :)"
+msgstr "<strong>歡迎使用 WooCommerce</strong> &#8211; 你就快準備好開始銷售 :)"
+
+#: includes/admin/views/html-notice-install.php:6
+msgid "Skip setup"
+msgstr "跳過安裝"
+
+#: includes/admin/views/html-notice-template-check.php:5
+msgid ""
+"<strong>Your theme has bundled outdated copies of WooCommerce template "
+"files</strong> &#8211; if you encounter functionality issues on the frontend"
+" this could the reason. Ensure you update or remove them (in general we "
+"recommend only bundling the template files you actually need to customize). "
+"See the system report for full details."
+msgstr ""
+
+#: includes/admin/views/html-notice-template-check.php:6
+#: includes/admin/views/html-notice-theme-support.php:6
+msgid "Hide this notice"
+msgstr "隱藏這個通知"
+
+#: includes/admin/views/html-notice-theme-support.php:5
+msgid ""
+"<strong>Your theme does not declare WooCommerce support</strong> &#8211; if "
+"you encounter layout issues please read our integration guide or choose a "
+"WooCommerce theme :)"
+msgstr ""
+
+#: includes/admin/views/html-notice-theme-support.php:6
+msgid "Theme Integration Guide"
+msgstr "佈景主題整合指南"
+
+#: includes/admin/views/html-notice-update.php:5
+msgid ""
+"<strong>WooCommerce Data Update Required</strong> &#8211; We just need to "
+"update your install to the latest version"
+msgstr ""
+
+#: includes/admin/views/html-notice-update.php:6
+msgid "Run the updater"
+msgstr "執行更新程序"
+
+#: includes/admin/views/html-notice-update.php:10
+msgid ""
+"It is strongly recommended that you backup your database before proceeding. "
+"Are you sure you wish to run the updater now?"
+msgstr ""
+
+#: includes/admin/views/html-quick-edit-product.php:24
+msgid "Regular price"
+msgstr "原價"
+
+#: includes/admin/views/html-quick-edit-product.php:31
+msgid "Sale price"
+msgstr "促銷價"
+
+#: includes/admin/views/html-report-by-date.php:16
+msgid "Custom:"
+msgstr ""
+
+#: includes/admin/wc-admin-functions.php:192
+msgid "Could not compile woocommerce.less:"
+msgstr ""

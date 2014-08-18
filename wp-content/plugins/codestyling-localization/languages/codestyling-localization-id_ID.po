@@ -1,0 +1,1030 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: CodeStyling Localization v1.99.15\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2011-06-18 03:10+0000\n"
+"Last-Translator: Dedy Sofyan <dedy@sys-talk.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Poedit-Language: Indonesian\n"
+"X-Poedit-Country: INDONESIA\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2;\n"
+"X-Poedit-Basepath: ../\n"
+"X-Poedit-Bookmarks: \n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Textdomain-Support: yes"
+
+#. translators: plugin header field 'Name'
+#: codestyling-localization.php:0
+#@ codestyling-localization
+msgid "CodeStyling Localization"
+msgstr "CodeStyling Localization"
+
+#. translators: plugin header field 'PluginURI'
+#: codestyling-localization.php:0
+#@ codestyling-localization
+msgid "http://www.code-styling.de/english/development/wordpress-plugin-codestyling-localization-en"
+msgstr "http://www.code-styling.de/english/development/wordpress-plugin-codestyling-localization-en"
+
+#. translators: plugin header field 'Description'
+#: codestyling-localization.php:0
+#@ codestyling-localization
+msgid "Now you can freely manage, edit and modify your WordPress language translation files (*.po / *.mo) as usual. You won't need any additional editor have been installed. Also supports WPMU plugins, if WPMU versions has been detected."
+msgstr "Kini Anda dapat dengan mudah mengatur, menyunting dan memodifikasi berkas terjemahan bahasa WordPress Anda (*.po / *.mo) seperti biasa. Anda tidak perlu menginstal penyunting tambahan. Juga mendukung plugin WPMU, jika versi WPMU terdeteksi."
+
+#. translators: plugin header field 'Author'
+#: codestyling-localization.php:0
+#@ codestyling-localization
+msgid "Heiko Rabe"
+msgstr "Heiko Rabe"
+
+#. translators: plugin header field 'AuthorURI'
+#: codestyling-localization.php:0
+#@ codestyling-localization
+msgid "http://www.code-styling.de/english/"
+msgstr "http://www.code-styling.de/english/"
+
+#. translators: plugin header field 'Version'
+#: codestyling-localization.php:0
+#@ codestyling-localization
+msgid "1.99.15"
+msgstr "1.99.15"
+
+#: codestyling-localization.php:135
+#@ codestyling-localization
+msgid "required"
+msgstr "wajib"
+
+#: codestyling-localization.php:135
+#@ codestyling-localization
+msgid "actual"
+msgstr "aktual"
+
+#: codestyling-localization.php:320
+#@ codestyling-localization
+msgid "You do not have permission to manage translation files."
+msgstr "Anda tidak memiliki izin ntuk mengatur berkas terjemahan."
+
+#: codestyling-localization.php:342
+#: codestyling-localization.php:1844
+#@ codestyling-localization
+msgid "WordPress"
+msgstr "WordPress"
+
+#: codestyling-localization.php:348
+#: codestyling-localization.php:398
+#: codestyling-localization.php:580
+#: codestyling-localization.php:669
+#: codestyling-localization.php:828
+#: codestyling-localization.php:869
+#: codestyling-localization.php:1896
+#: codestyling-localization.php:1897
+#@ codestyling-localization
+msgid "activated"
+msgstr "diaktifkan"
+
+#: codestyling-localization.php:370
+#: codestyling-localization.php:495
+#: codestyling-localization.php:510
+#: codestyling-localization.php:521
+#: codestyling-localization.php:536
+#: codestyling-localization.php:636
+#: codestyling-localization.php:734
+#: codestyling-localization.php:849
+#: codestyling-localization.php:893
+#: codestyling-localization.php:1460
+#: codestyling-localization.php:1541
+#: codestyling-localization.php:1580
+#: codestyling-localization.php:1719
+#: includes/class-translationfile.php:789
+#@ codestyling-localization
+msgid "m/d/Y H:i:s"
+msgstr "d/m/Y H:i:s"
+
+#: codestyling-localization.php:389
+#@ codestyling-localization
+msgid "Plugin"
+msgstr "Plugin"
+
+#: codestyling-localization.php:398
+#: codestyling-localization.php:669
+#: codestyling-localization.php:828
+#: codestyling-localization.php:869
+#@ codestyling-localization
+msgid "deactivated"
+msgstr "dinonaktifkan"
+
+#: codestyling-localization.php:431
+#@ codestyling-localization
+msgid "<strong>Loading Issue: </strong>Author is using <em>load_textdomain</em> instead of <em>load_plugin_textdomain</em> function. This may break behavior of WordPress, because some filters and actions won't be executed anymore. Please contact the Author about that."
+msgstr "<strong>Masalah Pemuatan: </strong>Penulis menggunakan fungsi <em>load_textdomain</em> dan bukan fungsi <em>load_plugin_textdomain</em>. Ini dapat merusak perilaku WordPress, karena beberapa penyaring dan tindakan mungkin tidak akan dieksekusi lebih lanjut. Silahkan hubungi Penulis plugin mengenai hal ini."
+
+#: codestyling-localization.php:473
+#@ codestyling-localization
+msgid "<strong>Full Encryped PHP Code: </strong>This plugin consists out of encryped code will be <strong>eval</strong>'d at runtime! It can't be checked against exploitable code pieces. That's why it will become potential target of hidden intrusion."
+msgstr "<strong>Kode PHP Terenkripsi Penuh: </strong>Plugin ini mengandung kode terenkripsi yang akan di-<strong>eval</strong> pada runtime! Ia tidak dapat diperiksa terhadap pecahan kode yang dapat di-eksploitasi. Oleh karena itu bisa saja menjadi target potensial untuk intrusi tersembunyi."
+
+#: codestyling-localization.php:478
+#@ codestyling-localization
+msgid "<strong>Textdomain definition: </strong>This plugin provides a textdomain definition at plugin header fields but seems not to load any translation file. If it doesn't show your translation, please contact the plugin Author."
+msgstr "<strong>Definisi Textdomain: </strong>Plugin ini menyediakan sebuah definisi textdomain pada ruas tajuk plugin header namun rupanya tidak memuat berkas terjemahan apapun. Jika terjemahan Anda tidak muncul, silahkan hubungi Penulis plugin tersebut."
+
+#: codestyling-localization.php:506
+#: codestyling-localization.php:532
+#@ codestyling-localization
+msgid "<strong>Textdomain definition: </strong>There are problems to find the used textdomain. It has been taken from existing translation files. If it doesn't work with your install, please contact the Author of this plugin."
+msgstr "<strong>Definisi Textdomain: </strong>Terdapat beberapa masalah ketika mencari textdomain yang digunakan. Ia sudah diambil dari berkas terjemahan yang telah ada. Jika tidak berfungsi pada instalasi Anda, silahkan hubungi Penulis plugin tersebut."
+
+#: codestyling-localization.php:571
+#@ codestyling-localization
+msgid "μ Plugin"
+msgstr "Plugin μ"
+
+#: codestyling-localization.php:664
+#@ codestyling-localization
+msgid "Childtheme"
+msgstr "Tema-anak"
+
+#: codestyling-localization.php:664
+#@ codestyling-localization
+msgid "Theme"
+msgstr "Tema"
+
+#: codestyling-localization.php:671
+#@ codestyling-localization
+msgid "child theme of"
+msgstr "tema anak dari"
+
+#: codestyling-localization.php:693
+#@ codestyling-localization
+msgid "<strong>Loading Issue: </strong>Author is using <em>load_textdomain</em> instead of <em>load_theme_textdomain</em> or <em>load_child_theme_textdomain</em> function. This may break behavior of WordPress, because some filters and actions won't be executed anymore. Please contact the Author about that."
+msgstr "<strong>Masalah Pemuatan: </strong>Penulis menggunakan fungsi <em>load_textdomain</em> bukannya <em>load_theme_textdomain</em> atau <em>load_child_theme_textdomain</em>. Ini dapat merusak perilaku WordPress, karena beberapa penyaring dan tindakan tidak akan di-eksekusi lebih lanjut. Silahkan hubungi Penulis plugin tersebut mengenai hal ini."
+
+#: codestyling-localization.php:699
+#@ codestyling-localization
+msgid "<strong>Textdomain Naming Issue: </strong>Author uses a variable to load the textdomain. It will be assumed to be equal to theme name now."
+msgstr "<strong>Masalah Penamaan Textdomain: </strong>Penulis menggunakan sebuah variable untuk memuat textdomain. Ia diasumsikan sama dengan nama tema sekarang."
+
+#: codestyling-localization.php:744
+#, php-format
+#@ codestyling-localization
+msgid "<strong>Naming Issue: </strong>Author uses unsupported language file naming convention! Instead of example <em>de_DE.po</em> the non theme standard version <em>%s</em> has been used. If you translate this Theme, only renamed language files will be working!"
+msgstr "<strong>Masalah Penamaan: </strong>Penulis menggunakan tata cara penamaan berkas bahasa yang tidak terdukung! Bukannya sebagai contoh <em>id_ID.po</em>, tetapi versi tema non-standar <em>%s</em> yang digunakannya. Jika Anda menerjemahkan Tema ini, hanya bila nama berkas bahasanya diubah baru akan bekerja dengan semestinya!"
+
+#: codestyling-localization.php:798
+#@ codestyling-localization
+msgid "<strong>Textdomain Naming Issue: </strong>Author uses a variable to define the textdomain constant. It will be assumed to be equal to theme name now."
+msgstr "<strong>Masalah Penamaan Textdomain: </strong>Penulis menggunakan sebuah variable untuk mendefinisikan konstanta textdomain. Ia akan diasumsikan sama dengan nama tema sekarang."
+
+#: codestyling-localization.php:805
+#@ codestyling-localization
+msgid "<strong>WooThemes Issue: </strong>The Author is known for not supporting a translatable backend. Please expect only translations for frontend or contact the Author for support!"
+msgstr "<strong>Masalah WooThemes: </strong>Pengembang ini dikenal tidak mendukung muka-belakang yang dapat diterjemahkan. Hanya muka-depan saja yang bisa diterjemahkan atau silahkan hubungi Pengembang tema ini untuk dukungan!"
+
+#: codestyling-localization.php:819
+#@ codestyling-localization
+msgid "BuddyPress"
+msgstr "BuddyPress"
+
+#: codestyling-localization.php:864
+#@ codestyling-localization
+msgid "bbPress"
+msgstr "bbPress"
+
+#: codestyling-localization.php:1078
+#: codestyling-localization.php:1212
+#@ codestyling-localization
+msgid "Project-Id-Version"
+msgstr "Versi-Id-Projek"
+
+#: codestyling-localization.php:1082
+#@ codestyling-localization
+msgid "Creation-Date"
+msgstr "Tgl-Diciptakan"
+
+#: codestyling-localization.php:1086
+#@ codestyling-localization
+msgid "Last-Translator"
+msgstr "Penerjemah-Terakhir"
+
+#: codestyling-localization.php:1125
+#@ codestyling-localization
+msgid "create po-file"
+msgstr "ciptakan berkas-po"
+
+#: codestyling-localization.php:1136
+#, php-format
+#@ codestyling-localization
+msgid "You are about to delete <strong>%s</strong> from \"<strong>%s</strong>\" permanently.<br/>Are you sure you wish to delete these files?"
+msgstr "Anda akan menghapus <strong>%s</strong> dari \"<strong>%s</strong>\" secara permanen.<br/>Apa Anda yakin ingin menghapus berkas-berkas ini?"
+
+#: codestyling-localization.php:1137
+#@ codestyling-localization
+msgid "delete files"
+msgstr "hapus berkas"
+
+#: codestyling-localization.php:1216
+#@ codestyling-localization
+msgid "Language Target"
+msgstr "Bahasa Tujuan"
+
+#: codestyling-localization.php:1221
+#@ codestyling-localization
+msgid "Affected Total Files"
+msgstr "Jumlah Berkas Terpengaruh"
+
+#: codestyling-localization.php:1226
+#@ codestyling-localization
+msgid "Scanning Progress"
+msgstr "Progres Pemindaian"
+
+#: codestyling-localization.php:1234
+#@ codestyling-localization
+msgid "scan now"
+msgstr "pindai sekarang"
+
+#: codestyling-localization.php:1234
+#@ codestyling-localization
+msgid "Please standby, files presently being scanned ..."
+msgstr "Silahkan tunggu, berkas-berkas sedang dipindai ..."
+
+#: codestyling-localization.php:1443
+#, php-format
+#@ codestyling-localization
+msgid "You do not have the permission to create the file '%s'."
+msgstr "Anda tidak memiliki izin untuk menciptakan berkas '%s'."
+
+#: codestyling-localization.php:1451
+#: codestyling-localization.php:1487
+#: codestyling-localization.php:2009
+#, php-format
+#@ codestyling-localization
+msgid "<strong>%d</strong> Language"
+msgid_plural "<strong>%d</strong> Languages"
+msgstr[0] "<strong>%d</strong> Bahasa"
+msgstr[1] "<strong>%d</strong> Bahasa"
+
+#: codestyling-localization.php:1474
+#: codestyling-localization.php:1475
+#, php-format
+#@ codestyling-localization
+msgid "You do not have the permission to delete the file '%s'."
+msgstr "Anda tidak memiliki izin untuk menghapus berkas '%s'"
+
+#: codestyling-localization.php:1546
+#: codestyling-localization.php:1644
+#: codestyling-localization.php:1712
+#, php-format
+#@ codestyling-localization
+msgid "You do not have the permission to write to the file '%s'."
+msgstr "Anda tidak memiliki izin untuk menulis ke berkas '%s'."
+
+#: codestyling-localization.php:1552
+#: codestyling-localization.php:1657
+#: codestyling-localization.php:1672
+#, php-format
+#@ codestyling-localization
+msgid "You do not have the permission to read the file '%s'."
+msgstr "Anda tidak memiliki izin untuk membaca berkas '%s'."
+
+#: codestyling-localization.php:1569
+#@ codestyling-localization
+msgid "Server Restrictions: Changing file rights is not permitted."
+msgstr "Pembatasan Server: Perubahan hak berkas tidak diizinkan."
+
+#: codestyling-localization.php:1572
+#, php-format
+#@ codestyling-localization
+msgid "You do not have the permission to modify the file rights for a not existing file '%s'."
+msgstr "Anda tidak memiliki izin untuk memodifikasi hak berkas untuk berkas yang tidak ada '%s'."
+
+#: codestyling-localization.php:1605
+#@ codestyling-localization
+msgid "Your translation file doesn't support the <em>multiple textdomains in one translation file</em> extension.<br/>Please re-scan the related source files at the overview page to enable this feature."
+msgstr "Berkas terjemahan Anda tidak mendukung ekstensi <em>beberapa textdomain di dalam satu berkas terjemahan</em>.<br/>Silahkan pindai ulang berkas sumber terkait pada halaman ikhtisar untuk mengaktifkan fitur ini."
+
+#: codestyling-localization.php:1627
+#@ codestyling-localization
+msgid "Sorry, Google Translation is not available."
+msgstr "Maaf, Terjemahan Google tidak tersedia."
+
+#: codestyling-localization.php:1705
+#@ codestyling-localization
+msgid "You are trying to create an empty mo-file without any translations. This is not possible, please translate at least one entry."
+msgstr "Anda mencoba untuk membuat berkas-mo kosong tanpa terjemahan. Hal ini tidak dimungkinkan, silakan menerjemahkan sekurang-kurangnya satu entri saja."
+
+#: codestyling-localization.php:1732
+#@ codestyling-localization
+msgid "You do not have the permission to create a new Language File Path.<br/>Please create the appropriated path using your FTP access."
+msgstr "Anda tidak memiliki izin untuk menciptakan Alamat Berkas Bahasa baru.<br/>Harap ciptakan alamat yang sesuai dengan menggunakan akses FTP Anda."
+
+#: codestyling-localization.php:1752
+#@ codestyling-localization
+msgid "You do not have the permission to choose the translation file directory<br/>Please upload at least one language file (*.mo|*.po) or an empty template file (*.pot) at the appropriated folder using FTP."
+msgstr "Anda tidak memiliki izin untuk memilih direktori berkas terjemahan <br/> Silakan unggah setidaknya satu berkas bahasa (*. mo | *. po) atau templat berkas kosong (*. pot) di map yang sesuai dengan menggunakan FTP."
+
+#: codestyling-localization.php:1817
+#@ codestyling-localization
+msgid "WordPress Localization"
+msgstr "Lokalisasi WordPress"
+
+#: codestyling-localization.php:1817
+#@ codestyling-localization
+msgid "Localization"
+msgstr "Lokalisasi"
+
+#: codestyling-localization.php:1829
+#@ codestyling-localization
+msgid "Manage Language Files"
+msgstr "Atur Berkas Bahasa"
+
+#: codestyling-localization.php:1831
+#@ codestyling-localization
+msgid "enable low memory mode"
+msgstr "aktifkan mode memori rendah"
+
+#: codestyling-localization.php:1832
+#@ codestyling-localization
+msgid "If your Installation is running under low remaining memory conditions, you will face the memory limit error during scan process or opening catalog content. If you hitting your limit, you can enable this special mode. This will try to perform the actions in a slightly different way but that will lead to a considerably slower response times but nevertheless gives no warranty, that it will solve your memory related problems at all cases."
+msgstr "Jika Instalasi Anda berjalan di bawah kondisi memori yang tersisa rendah, Anda akan menghadapi galat batas memori selama proses pemindaian atau pembukaan isi katalog. Jika Anda mencapai batasnya, Anda disarankan mengaktifkan mode ini khusus. Mode ini akan mencoba untuk melakukan tindakan dengan cara yang sedikit berbeda namun akan menyebabkan waktu respon jauh lebih lambat namun masih tidak dapat memastikan bahwa ini akan dapat membantu memecahkan masalah memori Anda pada semua kasus."
+
+#: codestyling-localization.php:1836
+#@ codestyling-localization
+msgid "Attention:"
+msgstr "Perhatian:"
+
+#: codestyling-localization.php:1836
+#@ codestyling-localization
+msgid "You have a running version of WP e-Commerce and it has been programmed to deactivate the javascript library prototype.js at each WordPress backend page! I did a work arround that, in case of issues read my article: <a href=\"http://www.code-styling.de/english/wp-e-commerce-breaks-intentionally-other-plugins-or-themes\">WP e-Commerce breaks intentionally other Plugins or Themes</a>"
+msgstr "Anda memiliki versi berjalan WP e-Commerce dan plugin ini telah diprogram untuk menonaktifkan pustaka javascript prototype.js di setiap halaman muka-belakang WordPress! Saya telah membuat solusi sementara untuk kasus ini silahkan baca artikel saya: <a href=\"http://www.code-styling.de/english/wp-e-commerce-breaks-intentionally-other-plugins-or-themes\">WP e-Commerce dengan sengaja memecah Plugin dan Tema lain</a>"
+
+#: codestyling-localization.php:1841
+#@ codestyling-localization
+msgid "All Translations"
+msgstr "Semua Terjemahan"
+
+#: codestyling-localization.php:1848
+#@ codestyling-localization
+msgid "μ Plugins"
+msgstr "Plugin μ"
+
+#: codestyling-localization.php:1852
+#@ codestyling-localization
+msgid "Plugins"
+msgstr "Plugin"
+
+#: codestyling-localization.php:1855
+#@ codestyling-localization
+msgid "Themes"
+msgstr "Tema"
+
+#: codestyling-localization.php:1858
+#: codestyling-localization.php:1924
+#@ codestyling-localization
+msgid "Compatibility"
+msgstr "Kompatibilitas"
+
+#: codestyling-localization.php:1861
+#: codestyling-localization.php:1931
+#@ codestyling-localization
+msgid "Security Risk"
+msgstr "Resiko Keamanan"
+
+#: codestyling-localization.php:1865
+#@ codestyling-localization
+msgid "You like it?"
+msgstr "Apakah Anda suka?"
+
+#: codestyling-localization.php:1885
+#@ codestyling-localization
+msgid "Type"
+msgstr "Tipe"
+
+#: codestyling-localization.php:1886
+#: codestyling-localization.php:1918
+#: codestyling-localization.php:1963
+#@ codestyling-localization
+msgid "Description"
+msgstr "Deskripsi"
+
+#: codestyling-localization.php:1887
+#@ codestyling-localization
+msgid "Languages"
+msgstr "Bahasa"
+
+#: codestyling-localization.php:1903
+#@ codestyling-localization
+msgid "Textdomain"
+msgstr "Textdomain"
+
+#: codestyling-localization.php:1904
+#@ codestyling-localization
+msgid "defined by constant"
+msgstr "didefinisikan oleh konstanta"
+
+#: codestyling-localization.php:1910
+#: codestyling-localization.php:1955
+#@ codestyling-localization
+msgid "Version"
+msgstr "Versi"
+
+#: codestyling-localization.php:1914
+#: codestyling-localization.php:1959
+#@ codestyling-localization
+msgid "State"
+msgstr "Keadaan"
+
+#: codestyling-localization.php:1938
+#@ codestyling-localization
+msgid "Memory Warning"
+msgstr "Peringatan Memori"
+
+#: codestyling-localization.php:1939
+#@ codestyling-localization
+msgid "Since WordPress 3.x version it may require at least <strong>58MB</strong> PHP memory_limit! The reason is still unclear but it doesn't freeze anymore. Instead a error message will be shown and the scanning process aborts while reaching your limits."
+msgstr "Sejak versi 3.x Wordpress membutuhkan sedikitnya <strong>58MB</strong> memory_limit PHP! Alasannya masih belum jelas tetapi setidaknya dia tidak akan <em>hang</em> lagi. Sebagai gantinya pesan kesalahan akan ditampilkan dan membatalkan proses pemindaian apabila mencapai batasnya."
+
+#: codestyling-localization.php:1945
+#@ codestyling-localization
+msgid "Language Folder"
+msgstr "Map Bahasa"
+
+#: codestyling-localization.php:1946
+#@ codestyling-localization
+msgid "The translation file folder is ambiguous, please select by clicking the appropriated language file folder or ask the Author about!"
+msgstr "Map berkas terjemahan rancu, silahkan pilih dengan mengklik map berkas bahasa yang dimaksud atau tanyakan Penulisnya!"
+
+#: codestyling-localization.php:1952
+#@ codestyling-localization
+msgid "by"
+msgstr "oleh"
+
+#: codestyling-localization.php:1972
+#@ codestyling-localization
+msgid "The original US version doesn't contain the language directory."
+msgstr "Versi AS asli tidak berisi direktori bahasa."
+
+#: codestyling-localization.php:1974
+#@ codestyling-localization
+msgid "try to create the WordPress language directory"
+msgstr "coba ciptakan direktori bahasa Wordpress"
+
+#: codestyling-localization.php:1977
+#: codestyling-localization.php:1998
+#@ codestyling-localization
+msgid "or create the missing directory using FTP Access as:"
+msgstr "atau ciptakan direktori yang hilang dengan menggunakan akses FTP sebagai:"
+
+#: codestyling-localization.php:1982
+#@ codestyling-localization
+msgid "Available Directories:"
+msgstr "Direktori Tersedia:"
+
+#: codestyling-localization.php:1993
+#@ codestyling-localization
+msgid "The original bbPress component doesn't contain a language directory."
+msgstr "Komponen bbPress asli tidak berisi direktori bahasa."
+
+#: codestyling-localization.php:1995
+#@ codestyling-localization
+msgid "try to create the bbPress language directory"
+msgstr "coba ciptakan direktori bahasa bbPress"
+
+#: codestyling-localization.php:2007
+#: codestyling-localization.php:2234
+#@ codestyling-localization
+msgid "Add New Language"
+msgstr "Tambah Bahasa Baru"
+
+#: codestyling-localization.php:2012
+#@ codestyling-localization
+msgid "Language"
+msgstr "Bahasa"
+
+#: codestyling-localization.php:2013
+#@ codestyling-localization
+msgid "Permissions"
+msgstr "Izin"
+
+#: codestyling-localization.php:2014
+#: codestyling-localization.php:2148
+#@ codestyling-localization
+msgid "Actions"
+msgstr "Tindakan"
+
+#: codestyling-localization.php:2022
+#: codestyling-localization.php:2273
+#@ codestyling-localization
+msgid "Locale"
+msgstr "Lokal"
+
+#: codestyling-localization.php:2028
+#: codestyling-localization.php:2033
+#: codestyling-localization.php:2281
+#@ codestyling-localization
+msgid "-n.a.-"
+msgstr "-n.a.-"
+
+#: codestyling-localization.php:2038
+#: codestyling-localization.php:2285
+#: codestyling-localization.php:2716
+#@ codestyling-localization
+msgid "Edit"
+msgstr "Sunting"
+
+#: codestyling-localization.php:2041
+#: codestyling-localization.php:2044
+#: codestyling-localization.php:2287
+#: codestyling-localization.php:2290
+#@ codestyling-localization
+msgid "Rescan"
+msgstr "Pindai Ulang"
+
+#: codestyling-localization.php:2047
+#: codestyling-localization.php:2293
+#@ codestyling-localization
+msgid "Delete"
+msgstr "Hapus"
+
+#: codestyling-localization.php:2061
+#@ codestyling-localization
+msgid "Translate Language File"
+msgstr "Berkas Bahasa Terjemahan"
+
+#: codestyling-localization.php:2061
+#@ codestyling-localization
+msgid "back to overview page &raquo;"
+msgstr "kembali ke halaman ikhtisar &raquo;"
+
+#: codestyling-localization.php:2063
+#: codestyling-localization.php:2460
+#: codestyling-localization.php:3130
+#@ codestyling-localization
+msgid "File:"
+msgstr "Berkas:"
+
+#: codestyling-localization.php:2063
+#: codestyling-localization.php:2076
+#: includes/class-translationfile.php:789
+#@ codestyling-localization
+msgid "unknown"
+msgstr "tidak diketahui"
+
+#: codestyling-localization.php:2068
+#@ codestyling-localization
+msgid "<b>Hint:</b> The extended feature for textdomain separation shows at dropdown box <i>Textdomain</i> the pre-selected primary textdomain."
+msgstr "<b>Petunjuk:</b> Fitur tambahan untuk pemisahan textdomain ditunjukkan di kotak dropdown <i> Textdomain</i> yang dipilih awalnya adalah textdomain primer."
+
+#: codestyling-localization.php:2069
+#@ codestyling-localization
+msgid "All other additional contained textdomains occur at the source but will not be used, if not explicitely supported by this component!"
+msgstr "Semua textdomain lain yang terkandung secara tambahan ada pada sumber tetapi tidak akan digunakan, jika tidak secara eksplisit didukung oleh komponen ini!"
+
+#: codestyling-localization.php:2070
+#@ codestyling-localization
+msgid "Please contact the author, if some of the non primary textdomain based phrases will not show up translated at the required position!"
+msgstr "Silakan hubungi penulis, jika beberapa frase berbasis textdomain non-primer tidak akan muncul seperti yang telah diterjemahkan pada posisi diperlukan!"
+
+#: codestyling-localization.php:2071
+#@ codestyling-localization
+msgid "The Textdomain <i><b>default</b></i> always stands for the WordPress main language file, this could be either intentionally or accidentally!"
+msgstr "Textdomain <i><b>bawaan</b></i> selalu berdiri untuk berkas bahasa Wordpress utama, ini bisa jadi disengaja atau tidak disengaja!"
+
+#: codestyling-localization.php:2074
+#@ codestyling-localization
+msgid "Textdomain:"
+msgstr "Textdomain:"
+
+#: codestyling-localization.php:2075
+#@ codestyling-localization
+msgid "generate mo-file"
+msgstr "buat berkas-mo"
+
+#: codestyling-localization.php:2076
+#@ codestyling-localization
+msgid "last written:"
+msgstr "terakhir ditulis:"
+
+#: codestyling-localization.php:2080
+#@ codestyling-localization
+msgid "Total"
+msgstr "Total"
+
+#: codestyling-localization.php:2081
+#@ codestyling-localization
+msgid "Plural"
+msgstr "Jamak"
+
+#: codestyling-localization.php:2082
+#: codestyling-localization.php:2693
+#@ codestyling-localization
+msgid "Context"
+msgstr "Konteks"
+
+#: codestyling-localization.php:2083
+#@ codestyling-localization
+msgid "Not translated"
+msgstr "Tidak diterjemahkan"
+
+#: codestyling-localization.php:2084
+#@ codestyling-localization
+msgid "Comments"
+msgstr "Komentar"
+
+#: codestyling-localization.php:2085
+#: codestyling-localization.php:2675
+#@ codestyling-localization
+msgid "Code Hint"
+msgstr "Petunjuk Kode"
+
+#: codestyling-localization.php:2086
+#@ codestyling-localization
+msgid "Trailing Space"
+msgstr "Spasi Terakhir"
+
+#: codestyling-localization.php:2087
+#@ codestyling-localization
+msgid "Search Result"
+msgstr "Hasil Pencarian"
+
+#: codestyling-localization.php:2088
+#@ codestyling-localization
+msgid "Expression Result"
+msgstr "Hasil Ekspresi"
+
+#: codestyling-localization.php:2092
+#@ codestyling-localization
+msgid "Page Size"
+msgstr "Ukuran Halaman"
+
+#: codestyling-localization.php:2104
+#: codestyling-localization.php:2158
+#: codestyling-localization.php:2657
+#@ codestyling-localization
+msgid "&laquo; Previous"
+msgstr "&laquo; Kembali"
+
+#: codestyling-localization.php:2109
+#: codestyling-localization.php:2163
+#: codestyling-localization.php:2664
+#@ codestyling-localization
+msgid "Next &raquo;"
+msgstr "Lanjut &raquo;"
+
+#: codestyling-localization.php:2117
+#@ codestyling-localization
+msgid "Infos"
+msgstr "Info"
+
+#: codestyling-localization.php:2121
+#: codestyling-localization.php:3081
+#@ codestyling-localization
+msgid "Original:"
+msgstr "Asli:"
+
+#: codestyling-localization.php:2125
+#: codestyling-localization.php:2140
+#@ codestyling-localization
+msgid "non case-sensitive"
+msgstr "tidak case-sensitif"
+
+#: codestyling-localization.php:2136
+#: codestyling-localization.php:3084
+#: codestyling-localization.php:3086
+#@ codestyling-localization
+msgid "Translation:"
+msgstr "Terjemahan:"
+
+#: codestyling-localization.php:2152
+#@ codestyling-localization
+msgid "Please wait, file content presently being loaded ..."
+msgstr "Silahkan tunggu, konten berkas kini sedang dimuat ..."
+
+#: codestyling-localization.php:2156
+#@ codestyling-localization
+msgid "scroll to top"
+msgstr "kembali ke atas"
+
+#: codestyling-localization.php:2173
+#: codestyling-localization.php:3036
+#@ codestyling-localization
+msgid "Edit Catalog Entry"
+msgstr "Sunting Entri Katalog"
+
+#: codestyling-localization.php:2174
+#@ codestyling-localization
+msgid "close"
+msgstr "tutup"
+
+#: codestyling-localization.php:2328
+#@ codestyling-localization
+msgid "Confirm Delete Language"
+msgstr "Konfirmasi Penghapusan Bahasa"
+
+#: codestyling-localization.php:2397
+#@ codestyling-localization
+msgid "Rescanning PHP Source Files"
+msgstr "Memindai ulang Berkas Sumber PHP"
+
+#: codestyling-localization.php:2423
+#: codestyling-localization.php:2448
+#: codestyling-localization.php:2465
+#@ codestyling-localization
+msgid "finished"
+msgstr "selesai"
+
+#: codestyling-localization.php:2453
+#, php-format
+#@ codestyling-localization
+msgid "You are trying to rescan files which expands above your PHP Memory Limit at %s MB during the analysis.<br/>Please enable the <em>low memory mode</em> for scanning this component."
+msgstr "Anda mencoba untuk memindai ulang berkas yang mengembang di atas Batas Memori PHP Anda di %s MB selama analisa.<br/> Silahkan aktifkan <em>mode memori modus rendah.</em> untuk memindai komponen ini."
+
+#: codestyling-localization.php:2581
+#@ codestyling-localization
+msgid "Access Error"
+msgstr "Galat Akses"
+
+#: codestyling-localization.php:2614
+#, php-format
+#@ codestyling-localization
+msgid "You are trying to open a translation catalog which expands above your PHP Memory Limit at %s MB during read.<br/>Please enable the <em>low memory mode</em> for opening this components catalog."
+msgstr "Anda mencoba untuk membuka katalog terjemahan yang mengembang di atas Batas Memori PHP Anda di %s MB selama pembacaan.<br/> Silahkan aktifkan <em>mode memori modus rendah.</em> untuk membuka katalog komponen ini."
+
+#: codestyling-localization.php:2674
+#@ codestyling-localization
+msgid "Comment"
+msgstr "Komentar"
+
+#: codestyling-localization.php:2683
+#@ codestyling-localization
+msgid "Files:"
+msgstr "Berkas:"
+
+#: codestyling-localization.php:2697
+#: codestyling-localization.php:3066
+#@ codestyling-localization
+msgid "Singular:"
+msgstr "Tunggal:"
+
+#: codestyling-localization.php:2697
+#: codestyling-localization.php:3068
+#@ codestyling-localization
+msgid "Plural:"
+msgstr "Jamak:"
+
+#: codestyling-localization.php:2701
+#: codestyling-localization.php:2704
+#: codestyling-localization.php:3043
+#: codestyling-localization.php:3046
+#: codestyling-localization.php:3049
+#: codestyling-localization.php:3054
+#@ codestyling-localization
+msgid "Plural Index Result ="
+msgstr "Hasil Indeks Jamak ="
+
+#: codestyling-localization.php:2717
+#@ codestyling-localization
+msgid "Copy"
+msgstr "Salin"
+
+#: codestyling-localization.php:2848
+#@ codestyling-localization
+msgid "Extended Expression Search"
+msgstr "Ekspresi Pencarian Tambahan"
+
+#: codestyling-localization.php:2850
+#@ codestyling-localization
+msgid "Expression:"
+msgstr "Ekspresi:"
+
+#: codestyling-localization.php:2852
+#@ codestyling-localization
+msgid "Examples: <small>Please refer to official Perl regular expression descriptions</small>"
+msgstr "Contoh: <small>Silakan merujuk ke deskripsi resmi ekspresi reguler Perl</small>"
+
+#: codestyling-localization.php:2857
+#@ codestyling-localization
+msgid "Search"
+msgstr "Cari"
+
+#: codestyling-localization.php:3043
+#: codestyling-localization.php:3046
+#: codestyling-localization.php:3086
+#@ codestyling-localization
+msgid "translate with Google API"
+msgstr "terjemahkan dengan API Google"
+
+#: codestyling-localization.php:3065
+#: codestyling-localization.php:3080
+#@ codestyling-localization
+msgid "Access Keys:"
+msgstr "Kunci Akses:"
+
+#: codestyling-localization.php:3070
+#@ codestyling-localization
+msgid "Plural Index Calculation:"
+msgstr "Kalkulasi Indeks Jamak:"
+
+#: codestyling-localization.php:3073
+#: codestyling-localization.php:3090
+#@ codestyling-localization
+msgid "« Save & Previous"
+msgstr "« Simpan & Sebelumnya"
+
+#: codestyling-localization.php:3074
+#: codestyling-localization.php:3091
+#@ codestyling-localization
+msgid "Save"
+msgstr "Simpan"
+
+#: codestyling-localization.php:3075
+#: codestyling-localization.php:3092
+#@ codestyling-localization
+msgid "Save & Next »"
+msgstr "Simpan & Selanjutnya »"
+
+#: includes/js-help-perlreg.php:4
+#@ codestyling-localization
+msgctxt "pcre"
+msgid "Component"
+msgstr "Komponen"
+
+#: includes/js-help-perlreg.php:5
+#@ codestyling-localization
+msgctxt "pcre"
+msgid "Example"
+msgstr "Contoh"
+
+#: includes/js-help-perlreg.php:6
+#@ codestyling-localization
+msgctxt "pcre"
+msgid "Description"
+msgstr "Deskripsi"
+
+#: includes/js-help-perlreg.php:12
+#: includes/js-help-perlreg.php:17
+#: includes/js-help-perlreg.php:22
+#: includes/js-help-perlreg.php:27
+#: includes/js-help-perlreg.php:32
+#: includes/js-help-perlreg.php:37
+#: includes/js-help-perlreg.php:42
+#: includes/js-help-perlreg.php:47
+#: includes/js-help-perlreg.php:52
+#: includes/js-help-perlreg.php:112
+#: includes/js-help-perlreg.php:117
+#: includes/js-help-perlreg.php:122
+#: includes/js-help-perlreg.php:127
+#@ codestyling-localization
+msgctxt "pcre"
+msgid "out"
+msgstr "out"
+
+#: includes/js-help-perlreg.php:13
+#@ codestyling-localization
+msgctxt "pcre"
+msgid "matches \"out\", but also \"timeout\", \"outbreak\", \"Route\" and \"gouty\"."
+msgstr "cocok dengan \"out\", tapi juga \"timeout\", \"outbreak\", \"Route\" dan \"gouty\"."
+
+#: includes/js-help-perlreg.php:18
+#@ codestyling-localization
+msgctxt "pcre"
+msgid "matches \"out\" at start of string like \"out\", \"outbreak\", as long as this are the first words at string."
+msgstr "cocok dengan \"out\" pada awalan string seperti \"out\", \"outbreak\", selama ini adalah kata pertama pada string."
+
+#: includes/js-help-perlreg.php:23
+#@ codestyling-localization
+msgctxt "pcre"
+msgid "matches \"out\" at end of string like \"out\", \"timeout\" and \"burnout\" as long as this are the last words at string."
+msgstr "cocok dengan \"out\" pada akhir string seperti \"out\", \"timeout\" dan \"burnout\" selama merupakan kata-kata pertama di akhir string."
+
+#: includes/js-help-perlreg.php:28
+#@ codestyling-localization
+msgctxt "pcre"
+msgid "matches \"ou\", \"out\", \"outt\" and \"outttttt\", the char prior to asterisk can be repeated 0 to unlimited times."
+msgstr "cocok dengan \"ou\", \"out\", \"outt\" dan \"outttttt\", karakter sebelum asterisk dapat berulang sebanyak 0 hingga beberapa kali dan tak terhingga."
+
+#: includes/js-help-perlreg.php:33
+#@ codestyling-localization
+msgctxt "pcre"
+msgid "matches \"outt\" and \"outttt\", the char prior to plus char have to be repeated at least one time or more often."
+msgstr "cocok dengan \"outt\" dan \"outttt\", karakter sebelum karakter plus dapat berulang satu hingga beberapa kali."
+
+#: includes/js-help-perlreg.php:38
+#@ codestyling-localization
+msgctxt "pcre"
+msgid "matches \"rout\" and \"gout\", any char can be placed at this position."
+msgstr "cocok dengan \"rout\" dan \"gout\", karakter apa saja dapat ditempatkan di posisi ini."
+
+#: includes/js-help-perlreg.php:43
+#@ codestyling-localization
+msgctxt "pcre"
+msgid "matches \"timeout\" and \"Fallout\", any char sequence at this position. Is a combination of any char and 1 but upto many times."
+msgstr "cocok dengan \"timeout\" dan \"Fallout\", urutan karakter apa saja di posisi ini. Berupa kombinasi dari karakter apa pun dan satu hingga beberapa kali."
+
+#: includes/js-help-perlreg.php:48
+#@ codestyling-localization
+msgctxt "pcre"
+msgid "matches \"out\" as single word. \\b means word break."
+msgstr "cocok dengan \"out\" sebagai kata tunggal. \\b artinya pisah kata <em>(word break)</em>."
+
+#: includes/js-help-perlreg.php:53
+#@ codestyling-localization
+msgctxt "pcre"
+msgid "matches \"out\" only inside words, like \"Route\" or \"gouty\". \\B means not word break."
+msgstr "cocok dengan \"out\" hanya di dalam kata-kata, seperti \"Route\" atau \"gouty\". \\B artinya bukan pisah kata <em>(not word break)</em>."
+
+#: includes/js-help-perlreg.php:58
+#@ codestyling-localization
+msgctxt "pcre"
+msgid "matches any number. \\d means a numerical digit (0 to 9)"
+msgstr "cocok dengan angka apa saja. \\d artinya sebuah digit numerik (0 hingga 9)"
+
+#: includes/js-help-perlreg.php:63
+#@ codestyling-localization
+msgctxt "pcre"
+msgid "matches \"-out\" at \"3-out\", any non number."
+msgstr "cocok dengan \"-out\" pada \"3-out\", non angka apa saja."
+
+#: includes/js-help-perlreg.php:68
+#@ codestyling-localization
+msgctxt "pcre"
+msgid "matches form feed char."
+msgstr "cocok dengan karakter umpan formulir."
+
+#: includes/js-help-perlreg.php:73
+#@ codestyling-localization
+msgctxt "pcre"
+msgid "matches line feed char."
+msgstr "cocok dengan karakter umpan baris."
+
+#: includes/js-help-perlreg.php:78
+#@ codestyling-localization
+msgctxt "pcre"
+msgid "matches carriage return char."
+msgstr "cocok dengan karakter enter."
+
+#: includes/js-help-perlreg.php:83
+#@ codestyling-localization
+msgctxt "pcre"
+msgid "matches tabulator char."
+msgstr "cocok dengan karakter tabulator (tab)."
+
+#: includes/js-help-perlreg.php:88
+#@ codestyling-localization
+msgctxt "pcre"
+msgid "matches vertical tabulator char."
+msgstr "cocok dengan karakter tabulator vertikal."
+
+#: includes/js-help-perlreg.php:93
+#@ codestyling-localization
+msgctxt "pcre"
+msgid "matches any kind of whitespace and space char."
+msgstr "cocok dengan ruang spasi apa saja dan karakter spasi."
+
+#: includes/js-help-perlreg.php:98
+#@ codestyling-localization
+msgctxt "pcre"
+msgid "matches any char, that is not a whitespace char."
+msgstr "cocok dengan karakter apapun, yang bukan berupa karakter ruang spasi."
+
+#: includes/js-help-perlreg.php:103
+#@ codestyling-localization
+msgctxt "pcre"
+msgid "matches any alphanumerical char and underscore (typical for programming syntax)."
+msgstr "cocok dengan karakter alpha-numerik dan garis-bawah (biasanya pada sintaks pemrograman)."
+
+#: includes/js-help-perlreg.php:108
+#@ codestyling-localization
+msgctxt "pcre"
+msgid "matches any char, that is not alphanumerical char and underscore (typical for illegal char detection at programming)."
+msgstr "cocok dengan karakter apapun, yang bukan karakter alpha-numerik dan garis-bawah (biasanya untuk pendeteksi karakter ilegal pada pemrograman)."
+
+#: includes/js-help-perlreg.php:113
+#@ codestyling-localization
+msgctxt "pcre"
+msgid "matches \"out\" and remembers matches internally. Upto 9 brackets are allowed per expression."
+msgstr "cocok dengan \"out\" dan mengingat hasil pencocokan secara internal. Hingga 9 kurung yang diizinkan per ekspresi."
+
+#: includes/js-help-perlreg.php:118
+#@ codestyling-localization
+msgctxt "pcre"
+msgid "matches \"aus\" as often it is contained at string. The match positions will be stored internally as array."
+msgstr "cocok dengan \"out\" sesering mungkin yang terkandung dalam string. Posisi yang ditemukan akan disimpan secara internal sebagai array."
+
+#: includes/js-help-perlreg.php:123
+#@ codestyling-localization
+msgctxt "pcre"
+msgid "matches \"out\", \"Out\" and \"OUT\", not case-sensitive match."
+msgstr "cocok dengan \"out\", \"Out\" dan \"OUT\", tidak case-sensitif."
+
+#: includes/js-help-perlreg.php:128
+#@ codestyling-localization
+msgctxt "pcre"
+msgid "matches \"out\", as ofter occurs (g) and also non case-sensitive."
+msgstr "cocok dengan \"out\", sesering apapun (g) dan juga non case-sensitif."
+

@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Documentation</title>
+	<link href="assets/bootstrap.css" rel="stylesheet">
+	<link href="assets/docs.css" rel="stylesheet">
+	<!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+</head>
+<body>
+
+<!-- Sticky Sidebar
+================================================== -->	
+	<div class="container">
+		<div class="sidebar">
+			<div class="well">
+				<ul class="nav nav-list">
+					<li><a href="#start"><span class="label color-01">01</span>Getting started</a></li>
+					<li><a href="#install"><span class="label color-02">02</span>Installation</a>
+						<ul>
+							<li><a href="#install-adapt">Adapt old content</a></li>
+							<li><a href="#install-import">Demo content</a></li>
+							<li><a href="#install-updates">Theme updates</a></li>
+						</ul>
+					</li>
+					<li><a href="#options"><span class="label color-03">03</span>Theme Options</a></li>
+					<li><a href="#post-formats"><span class="label color-04">04</span>Post Formats</a></li>
+					<li><a href="#customization"><span class="label color-05">05</span>Customization</a>
+						<ul>
+							<li><a href="#customization-child-theme">Child Theme</a></li>
+							<li><a href="#customization-file-structure">File Structure</a></li>
+							<li><a href="#customization-css">CSS</a></li>
+						</ul>
+					</li>
+					<li><a href="#more"><span class="label color-06">06</span>More</a>
+						<ul>
+							<li><a href="#more-troubleshoot">Troubleshooting</a></li>
+						</ul>
+					</li>
+					<li><a href="#faq"><span class="label color-07">07</span>FAQ</a></li>
+				</ul>
+			</div>
+		</div><!--/sidebar-->
+	</div>
+	
+	
+<!-- Header
+================================================== -->	
+	<header class="jumbotron" id="overview">
+		<div class="container">
+			
+			<h1>Hueman</h1>
+			<p class="lead">Thank you for using this theme, you have good taste! ;-)</p>
+			<p><a href="http://alxmedia.se">AlxMedia</a> &middot; <a href="http://alxmedia.se/themes/">Themes</a></p>
+			
+		</div>
+	</header><!--/header-->
+
+
+<!-- Getting Started
+================================================== -->	
+	<section id="start" class="color-01">
+		<div class="container">
+			
+			<h1><span class="label color-01">01</span>Getting started</h1>
+			<p>Looks like you've found the documentation for the theme, we're off to a good start! On the right side you can see the table of contents of this documentation.</p>
+			<p>Jump to the section you want, or read it all through - your choice.</p>
+			<p>Let's move on!</p>
+		</div>
+	</section><!--/section-->
+	
+	
+<!-- Installation
+================================================== -->	
+	<section id="install" class="color-02">
+		<div class="container">
+		
+			<h1><span class="label color-02">02</span>Installation</h1>
+
+			<p>Installing your theme is pretty easy! After downloading you should have a hueman.zip file. This is a compressed file containing all of the required templates and images required for the theme to function properly.</p>
+
+			<h3>Upload the theme</h3>
+			<ol>
+				<li>Go to <strong>Appearance > Themes</strong> in the WordPress menu</li>
+				<li>Click on the <strong>Add New</strong> button</li>
+				<li>Click on the <strong>Upload</strong> link</li>
+				<li>Select the <code>hueman.zip</code> file</li>
+				<li>Click <strong>Install Now</strong></li>
+			</ol>
+
+			<h3>Activate the theme</h3>
+			<ol>
+				<li>Go to <strong>Appearance > Themes</strong> in the WordPress menu</li>
+				<li>Hover over the theme thumbnail and press the <strong>Activate</strong> button</li>
+			</ol>
+			<div class="alert alert-info">Additional information: <a href="http://codex.wordpress.org/Using_Themes" target="_blank">WordPress Codex – Using Themes</a></div>
+		
+		</div>
+	</section><!--/section-->
+
+	
+	
+	<section id="install-adapt" class="color-02">
+		<div class="container">
+			
+			<h1><span class="label color-02">02.1</span>Adapting existing content</h1>
+			
+			<p>If you are changing theme from another one and have plenty of existing content, menus and widgets on the website already, you need to do the following after having activated the new theme:</p>
+			<ol>
+				<li>Go to <strong>Appearance > Menus</strong> and <a href="http://en.support.wordpress.com/menus/">add the menu areas</a> back to where you want them. The menus will be hidden until you add links to them. This way you can choose how many menu areas to show on the website.</li>
+				<li>Go to <strong>Appearance > Widgets</strong> and <a href="http://en.support.wordpress.com/widgets/">add the widgets</a> back to your sidebars, or use some of the new custom widgets.</li>
+				<li>Install the <a target="_blank" href="http://wordpress.org/plugins/regenerate-thumbnails/">Regenerate Thumbnails</a> plugin and activate it. Then go to <strong>Tools > Regenerate Thumbnails</strong> and run it once. This will crop existing thumbnails to the new sizes used in this theme.</li>
+				<li>If you have not used the Featured Image feature in your other theme, you can use the <a target="_blank" href="http://wordpress.org/plugins/easy-add-thumbnail/">Easy Add Thumbnail</a> plugin to automatically set featured images for old articles.</li>
+			</ol>
+			
+		</div>
+	</section><!--/section-->
+	
+	
+	
+	<section id="install-import" class="color-02">
+		<div class="container">
+			
+			<h1><span class="label color-02">02.2</span>Importing demo content</h1>
+			<p><strong>Note:</strong> For server bandwidth reasons, I can not supply the demo site data for this theme, although I want to. However you can download the WordPress sample theme test data XML from <a target="_blank" href="http://codex.wordpress.org/Theme_Unit_Test">here</a>.</p>
+			<p>This step is optional and for new WordPress sites without any content. If you don't want to import any extra pages and sample data to your site, you can skip to the next section. If you want a base similar to the demo site to work on and edit, then this is for you.</p>
+			<div class="alert alert-warning">
+				<p><strong>Important:</strong> If your site is not a fresh install with no content, but has existing content and pages on it already, it is important to remember that this file will add a lot of pages, posts, categories and tags (and media if you choose to import that) to your site, that you will have to edit or remove after importing.</p>
+			</div>
+
+			<h3>Importing</h3>
+			<ol>
+				<li>Go to <strong>Tools > Import</strong> in the WordPress menu</li>
+				<li>Click on the <strong>WordPress</strong> link</li>
+				<li>Install the plugin it asks for and activate, if you haven't already installed it.</li>
+				<li>Now you should see a select file button on the <strong>Tools > Import > WordPress</strong> page.</li>
+				<li>Upload the .XML data file. Choose if you want to import media or not (images).</li>
+				<li>Wait for the import process to finish. When it's finished it will say so.</li>
+				<li>Go to <strong>Appearance > Menus</strong> and <a target="_blank" href="http://en.support.wordpress.com/menus/">add the menu areas</a> to for example header.</li>
+				<li>Go to <strong>Appearance > Widgets</strong> and <a target="_blank" href="http://en.support.wordpress.com/widgets/">add some widgets</a> to your sidebars.</li>
+			</ol>
+			<p>Your page should now look similar to the demo page. Refer to the <a target="_blank" href="http://en.support.wordpress.com/pages/front-page/">Frontpage guide</a> if you want to use a static page / non-blog home page.</p>
+			
+		</div>
+	</section><!--/section-->
+	
+	
+	
+	<section id="install-updates" class="color-02">
+		<div class="container">
+			
+			<h1><span class="label color-02">02.3</span>Theme updates</h1>
+			
+			<p>If this is your first-time install or if you use the wordpress.org version of the theme, you can skip this step.</p>
+			<p>It is a good idea to keep your theme up to date with the latest version, as it often includes important bugfixes or new neat features. If a new version of the theme is available, do the following to update it:</p>
+			<ol>
+				<li>Download the latest version.</li>
+				<li>Locate the <code>hueman.zip</code> file to upload.</li>
+				<li>Go to <strong>Appearance > Themes</strong> in the WordPress menu</li>
+				<li>Activate a default theme temporarily, such as Twenty Twelve (to be able to delete your current theme)</li>
+				<li>Click on the theme you wish to update, and press the red delete link bottom right. Your admin panel options should remain saved.</li>
+				<li>Upload the new <code>hueman.zip</code>, as you did on <a href="#install">first-time install</a>, and activate it.</li>
+			</ol>
+			<p>You are now running the latest and best version of the theme!</p>
+			<div class="alert alert-warning">
+				<p><strong>Important:</strong> If you haven't used a <a href="#customization">child theme</a> for your theme customizations, you must do the following before each update:</p>
+				<ul>
+					<li>Backup your custom.css file if you have used it, it will be overwritten and needs to be re-added after the update.</li>
+					<li>Backup your additional language files if you have created/modified any, they will be removed and need to be re-added after the update.</li>
+					<li>Backup any other custom code.</li>
+				</ul>
+			</div>
+		
+		</div>
+	</section><!--/section-->
+
+	
+<!-- Theme Options
+================================================== -->
+	<section id="options" class="color-03">
+		<div class="container">
+		
+			<h1><span class="label color-03">03</span>Theme options</h1>
+			
+			<p>Each option in the admin panel is pretty well described there and easy to use already, so we will just go through the sections in short so you can get an idea of the overall structure - and point out the important things.</p>
+			
+			<h3>General</h3>
+			<p>This is where you will find general options for the whole theme. This typically includes favicon upload, custom RSS feed option, analytics tracking code field and so on.</p>
+				<ul>
+					<li><strong>Responsive Layout:</strong> If you choose to disable responsive.css, you may need to do further changes in style.css for the site to work completely as un-responsive, as there are some mediaqueries in this file as well - mainly for the menus.</li>
+					<li><strong>Tracking Code:</strong> Make sure to add your full tracking code in the field, including the <code>< script ></code> tags.</li>
+				</ul>
+			<h3>Blog</h3>
+			<p>Here you will find all options that relates to posts - mainly the blog homepage, the single post pages as well as archive pages.</p>
+				<ul>
+					<li><strong>Heading &amp; Subheading:</strong> This text appears at the top of the posts homepage.</li>
+					<li><strong>Featured Post Count:</strong> By adjusting this you turn the slider on / off.</li>
+					<li><strong>Single - Share Buttons:</strong> Disable the in-built article sharing buttons if you wish to use a plugin instead.
+						<div class="alert alert-warning">
+							<p><strong>Note:</strong> If your Google+ button is not appearing, you need to make sure that your server has urlCurl enabled. Ask your webhost to enable cURL, and make sure that safe_mode is not on. Otherwise it will not work.</p>
+							<p>If you wish to add more sharing icons, please refer to <a target="_blank" href="http://sharrre.com/">Sharrre documentation</a>. The file to modify via a child theme would be /inc/sharrre.php.</p>
+						</div>
+					</li>
+					<li><strong>Single - Author Bio:</strong> Note that this block will only appear if a description is set for the user writing the article.</li>
+				</ul>
+				
+			<h3>Header</h3>
+			<ul>
+				<li><strong>Custom Logo:</strong> The max-height of the logo can be adjusted from styling options. The the uploaded image should always have the double height of the max-height in order to be high resolution - often preferably in PNG format with transparent background.</li>
+				<li><strong>Header Image:</strong> This options is for a full centered header image instead of logo.</li>
+			</ul>
+			
+			<h3>Footer</h3>
+			<ul>
+				<li><strong>Footer Widget Columns:</strong> This is where you enable footer widgets. Select the column count you wish to use, and then go to <strong>Appearance > Widgets</strong> and add your widgets to the Footer 1/2/3/4 boxes. Usually 3 columns are recommended in order for it to look best on all screen resolutions.</li>
+			</ul>
+			
+			<h3>Layout</h3>
+			<p>Here you can set a specific layout for each one of the standard WordPress page sections. If a specific page or post has another layout set, the single and page options set here will be overridden by that option. If you just want one sidebar layout for the entire website, you only need to modify the Global option.</p>
+			<p>To set a layout for a specific page or post, you need to go to that page or post and select which layout to use below the large text field.</p>
+			
+			<h3>Sidebars</h3>
+			<p>This is where you can create unlimited sidebar widget areas for your theme! The sidebar title is seen at the top of the widget box in <strong>Appearance > Widgets</strong>. The sidebar ID is used in template files.</p>
+			<p>To add a sidebar you have created for a specific page or post, you need to go to that page or post, and select sidebar from the dropdown menu below the large text field.</p>
+			<div class="alert alert-warning">
+				<p><strong>Important:</strong> Make sure that each sidebar area that you create has a unique ID, for example "sidebar-24" or "sidebar-about". Only use lowercase letters and no spaces for the IDs. </p><p>You must save options in order to be able to see the new widget area in the dropdowns below.</p>
+			</div>
+			
+			<h3>Social Links</h3>
+			<p>Here you create and re-order your Social Links as you wish. These links will appear in the header and footer of your theme in most cases. </p>
+			<p>The icons can be given a specific color if you wish, or you can just leave that option blank and it will use the default setting.</p>
+			<p>The icon names can be found <a target="_blank" href="http://fortawesome.github.io/Font-Awesome/icons/">here</a> - FontAwesome gives you the option to choose between 370 unique icons to use. Example of names to fill in the admin panel would be "fa-facebook", "fa-twitter" and "fa-google-plus".</p>
+			
+			<h3>Styling</h3>
+			<p>The dynamic styles in this theme gives you the ability to change color of large parts of theme in seconds.</p>
+			<div class="alert alert-warning">
+				<p><strong>Important:</strong> Make sure to tick the checkbox "Enable to use" at the top of the styling options in order to turn this feature on. You may also need to empty all caches if you use a cache plugin. And finally you may also need to force-refresh the page while viewing it by pressing F5.</p>
+			</div>
+			<p><strong>Advanced:</strong> The dynamic styles will be added directly to the head of your theme. This is according to WordPress best practices, but if you do not want it printed out there, simply inspect the code of your page with the styling options set. Copy the CSS from head into your <a href="#customization">child theme's</a> style.css file or this theme's custom.css (which you need to enable), and disable dynamic styling.</p>
+			
+		</div>
+	</section><!--/section-->
+
+	
+<!-- Post Formats
+================================================== -->	
+	<section id="post-formats" class="color-04">
+		<div class="container">
+			
+			<h1><span class="label color-04">04</span>Post Formats</h1>
+			<p>This theme makes use of all of WordPress' 10 post formats to give you plenty of ways to show content in the top section of your articles. You choose type by selecting format in the "Format" box on the right side when you edit or add a new post. Depending on which format you select, new options will appear below the large text field.</p>
+			<p>Here is how to use each one of the formats, and what each one does:</p>
+			<ul>
+				<li><strong>Standard</strong> - This is the default option. It will not automatically include a featured image at the top of the post, like the image format does. It's simply a standard post that shows article text.</li>
+				<li><strong>Audio</strong> - Shows an audio player at the top of your post, as well as the featured image. Two audio URL fields will appear once selected. Both audio formats are required for cross-browser compatibility.</li>
+				<li><strong>Aside</strong> - Hides the entry title of the article</li>
+				<li><strong>Chat</strong> - Shows a chat conversation box at the top of the article. A textarea field to paste the chat conversation in will appear once selected.</li>
+				<li><strong>Gallery</strong> - Shows all images attached to the post as a slider at the top of the article. More details how to use will appear below once selected.
+				<div class="alert alert-warning">
+					<p><strong>Note:</strong> If you want to show an image in the article below the slider, but still not include it in the slider, you need to go to <strong>Media > Add New</strong> and upload it there. Then go back to the post and insert it. Make sure it's not attached to the post.</p>
+				</div>
+				</li>
+				<li><strong>Image</strong> - Same as Standard format except that it auto-includes the featured image at the top of the article.</li>
+				<li><strong>Link</strong> - Shows a big link at the top of the article. Link title and link URL fields will appear once selected.</li>
+				<li><strong>Quote</strong> - Shows a big quote box at the top of the article. Fields for the quote text and quote author will appear once selected.</li>
+				<li><strong>Status</strong> - Hides the entry title and transforms the entry text into a large status-type style.</li>
+				<li><strong>Video</strong> - Shows an embed video at the top of the article. Fields for link embed or code embed will appear once selected. <br /><br />You can show self-hosted videos in this field, although it's not intentionally supported, by using HTML5-video tags in the Embed Code field. <br /><br />
+				<strong>HTML5 video sample code:</strong>
+				
+<pre><code>&#60;video width="320" height="240" controls="controls">
+&#60;source src="http://www.html5rocks.com/en/tutorials/video/basics/Chrome_ImF.webm" type='video/webm; codecs="vp8, vorbis"' />
+&#60;source src="http://www.html5rocks.com/en/tutorials/video/basics/Chrome_ImF.mp4" type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"' />
+&#60;source src="http://www.html5rocks.com/en/tutorials/video/basics/Chrome_ImF.ogv" type='video/ogg; codecs="theora, vorbis"' />
+Your browser does not support the video tag.
+&#60;/video></code></pre>
+
+				</li>
+			</ul>
+		</div>
+	</section><!--/section-->
+	
+
+<!-- Customization
+================================================== -->	
+	<section id="customization" class="color-05">
+		<div class="container">
+			
+			<h1><span class="label color-05">05</span>Theme Customization</h1>
+			<p>This section is very important to read if you plan to <strong>edit any files within the theme</strong> - whether it is adding custom functions, custom styles, new language files or modifying other function-related files. Spending some extra minutes to read this and do it right from the very beginning can save a lot of time and headaches later on.</p>
+			<p>Most of the information below can be found and read more about elsewhere on the web a well if you wish to go more in-depth, as it's common practices. I've summarized the core parts of it, which you are likely to use the most. </p>
+			<p>Let us begin!</p>
+		</div>
+	</section><!--/section-->	
+
+
+<!-- Child Theme
+================================================== -->		
+	<section id="customization-child-theme" class="color-05">
+		<div class="container">
+			
+			<h1><span class="label color-05">05.1</span>Using a Child Theme</h1>
+			<p>If you intend to edit the code of the theme, translate it or place any custom files in the theme folder it is highly recommended to use a <a target="_blank" href="http://codex.wordpress.org/Child_Themes">child theme</a>. Otherwise all of your modifications will disappear once you update the theme - unless you backup and re-add the files afterwards.</p>
+			<p>I would only recommend using the <code>custom.css</code> option instead if you are doing minor CSS modifications that can be easily backed up.</p>
+			<ul>
+				<li><strong><a href="https://github.com/AlxMedia/hueman-child/archive/master.zip">Download the sample child theme</a></strong> - specifically made for this theme to get you started! Upload the .zip via admin just as with any other theme, rename the folder to anything you wish.</li>
+				<li>Learn more how to use child themes <strong><a target="_blank" href="http://codex.wordpress.org/Child_Themes">here</a></strong>.</li>
+			</ul>
+			<p>This theme has been built with <strong>child themes in mind</strong>, and therefore all theme functions are pluggable - which means you can overwrite them by copying a function from the parent theme and pasting it into the child theme's functions.php, modify it as you wish - and it will use your modified function instead the original one.</p>
+			<h3>Load certain functionality from the child theme instead</h3>
+			<p>This only applies for files loaded from the parent theme's <strong>functions.php</strong>. Let's say we wish to load the responsive.css file from our child theme's directory instead. We then need to copy the alx_styles() function to functions.php of the child theme (not including add_action, add_filter or !function_exists - just the function).</p>
+			<p>Now we have this function in our child theme - but it makes absolutely no difference, and still loads all files from the parent theme.</p>
+			
+<pre><code>function alx_styles() {
+	wp_enqueue_style( 'style', get_stylesheet_uri() );
+	if ( !ot_get_option('responsive') ) { wp_enqueue_style( 'responsive', get_template_directory_uri().'/responsive.css' ); }
+	if ( ot_get_option('custom') ) { wp_enqueue_style( 'custom', get_template_directory_uri().'/custom.css' ); }
+	wp_enqueue_style( 'font-awesome', get_template_directory_uri().'/fonts/font-awesome.min.css' );
+}</code></pre>
+			
+			<p>To load from the child theme instead, change <em>get_template_directory_uri</em> to <em>get_stylesheet_directory_uri</em> for the responsive.css file. The rest of the files will still load from the parent theme, as they use get_template_directory_uri. Like this:</p>
+
+<pre><code>function alx_styles() {
+	wp_enqueue_style( 'style', get_stylesheet_uri() );
+	if ( !ot_get_option('responsive') ) { wp_enqueue_style( 'responsive', get_stylesheet_directory_uri().'/responsive.css' ); }
+	if ( ot_get_option('custom') ) { wp_enqueue_style( 'custom', get_template_directory_uri().'/custom.css' ); }
+	wp_enqueue_style( 'font-awesome', get_template_directory_uri().'/fonts/font-awesome.min.css' );
+}</code></pre>
+			
+			<p>The same method would be used to change language files folder. You would then copy over the whole alx_load() function, but only modify this one line in it:</p>
+<pre><code>// Load theme languages
+load_theme_textdomain( 'themename', get_template_directory().'/languages' );</code></pre>
+			
+			<p>To this:</p>
+<pre><code>// Load theme languages
+load_theme_textdomain( 'themename', get_stylesheet_directory().'/languages' );</code></pre>
+			
+			<p>Now the language files will be loaded from the /language/ folder of your child theme instead. Simple, isn't it? This way your changes will always stay safe in your child theme folder, no matter how many updates you do to the parent theme. To summarize:</p>
+			<ul>
+				<li><strong>get_template_directory</strong> - file loads from parent theme</li>
+				<li><strong>get_template_directory_uri</strong> - file loads from parent theme</li>
+				<li><strong>get_stylesheet_directory</strong> - file loads from child theme</li>
+				<li><strong>get_stylesheet_directory_uri</strong> - file loads from child theme</li>
+			</ul>
+			<div class="alert alert-warning">
+				<p><strong>Important:</strong> Always copy over the entire function to your child theme, and only modify the part that you wish to change - leave the rest of the function as it is. </p><p>If you were to only include the lines you are changing in the function, and leave the rest of the functionality out, those parts would disappear and stop working.</p>
+			</div>
+			
+			<h3>Disabling functions</h3>
+			<p>You can also completely disable functionality with the child theme replacement method. Let's say you don't want the plugin installation notice in your admin panel, or the "Install Plugins" item in your menu. All you would need to add  is this to your child theme's functions.php:</p>
+			<pre><code>function alx_plugins() { }</code></pre>
+			<p>Simply emptying the function, disabling it completely.</p>
+			
+			<h3>Replacing page templates</h3>
+			<p>Finally, we wish to modify the page.php template with some custom code. All we need to do then is just copy over page.php from the parent theme to the child theme, and now this file will be used instead - and you are free to modify it without having to fear losing it when updating the theme.</p>
+			
+			<p>Pretty nifty, isn't it?</p>
+		</div>
+	</section><!--/section-->	
+
+
+<!-- File Structure
+================================================== -->		
+	<section id="customization-file-structure" class="color-05">
+		<div class="container">
+			
+			<h1><span class="label color-05">05.2</span>Theme File Structure</h1>
+			<p>Here is a quick summary of how the files in this theme are structured. It will hopefully make things easier to find!</p>
+			
+			<h3>Folders</h3>
+			<ul>
+				<li><strong>/fonts/</strong> - Includes any self-hosted font files and Font Awesome css (icons)</li>
+				<li><strong>/functions/</strong> - This folder contains everything that is admin-panel related</li>
+				<li><strong>/functions/img/</strong> - Admin panel images</li>
+				<li><strong>/functions/js/</strong> - Admin panel javascript</li>
+				<li><strong>/functions/plugins/</strong> - Plugins that are not available on wordpress.org but bundled with the theme for easy installation</li>
+				<li><strong>/functions/widgets/</strong> - The custom widgets included with the theme</li>
+				<li><strong>/img/</strong> - Theme images</li>
+				<li><strong>/img/ie/</strong> - Images used for Internet Explorer compatibility</li>
+				<li><strong>/inc/</strong> - Includes all template-parts (partials) that are non-standard to WordPress, but often are used in several files</li>
+				<li><strong>/js/</strong> - Theme javascript. All custom theme scripts are in scripts.js</li>
+				<li><strong>/js/ie/</strong> - Javascript used for Internet Explorer compatibility</li>
+				<li><strong>/languages/</strong> - Contains a language file that you can use to translate or change texts in the theme</li>
+				<li><strong>/option-tree/</strong> - This folder is the OptionTree framework plugin running in fully-integrated theme mode. It ties in with <i>/functions/meta-boxes.php</i> and <i>/functions/theme-options.php</i> and the <i>ot_get_option()</i> function used in template files. Relates to the admin panel, to create theme options. It's best to leave this folder alone.</li>
+				<li><strong>/page-templates/</strong> - Contains all page templates for the theme, such as Child Menu</li>
+			</ul>
+			<hr>
+			<h3>Files</h3>
+			<ul>
+				<li><strong>custom.css</strong> - Used for your custom styles
+				<li><strong>responsive.css</strong> - Contains almost all the CSS that creates the responsive layout
+				<li><strong>changelog.txt</strong> - Information about changes made in all updates
+				<li><strong>license.txt</strong> - The main theme license
+				<li><strong>readme.txt</strong> - Contains all additional license information
+			</ul>
+			<p>The rest of the files have a standard WordPress structure.</p>
+
+		</div>
+	</section><!--/section-->	
+	
+	
+<!-- CSS
+================================================== -->		
+	<section id="customization-css" class="color-05">
+		<div class="container">
+			
+			<h1><span class="label color-05">05.3</span>CSS Styling</h1>
+			
+			<h3>Theme related</h3>
+			<p>If you are not using Theme Options > Styling combined with your own custom css, you can skip this part.</p>
+			<p>If you have issues with your CSS styling changes not showing up or working correctly, remember that this is the order in which the styles are loaded in the theme:</p>
+			<ol>
+				<li>style.css</li>
+				<li>responsive.css</li>
+				<li>custom.css</li>
+				<li>Dynamic CSS output</li>
+			</ol>
+			<p>The dynamic CSS is added at the end of head tag. This means that <strong>the dynamic styles will override your custom.css / child theme styles</strong> - unless you specify the class/id more or use the <code>!important</code> CSS value.</p>
+			
+			<h3>How to fix CSS override issues</h3>
+			<ol>
+				<li>Set your dynamic styles in theme options.</li>
+				<li>Visit the website, inspect the code, copy the dynamic styles from head of the theme into your child theme's style.css. Disable dynamic styles.</li>
+				<li>You now have no more overriding issues.</li>
+			</ol>
+			<p>If you think that responsive.css still overrides styles, use @import to import it at the top of style.css of the child theme and disable it in theme options so it doesn't load twice.</p>			
+			<p>If you styling changes still do not appear:</p>
+			<ul>
+				<li>If you run any cache plugin, make sure to empty all caches.</li>
+				<li>When viewing the webpage, press F5 to force-refresh it.</li>
+			</ul>
+			<hr>
+			<h3>CSS basics</h3>
+			<p>This is for people who are pretty new to CSS and have never used or heard the word Firebug. It is not theme-related but deals with CSS+Firebug usage, which is essential for easy modification of any styles.</p>
+			<h4>Change styling</h4>
+			<p>You look at your page and say to yourself, "I would like to restyle that element right there on the my page". But how do you know what the CSS class or id you need to specify in your custom.css? Without tools this would be hard - thankfully both Firefox and Chrome makes it easier.</p>
+			<h4>Enter Firebug</h4>
+			<p>This addon that exist both for Firefox and for Chrome (as a lite version) will save you a lot of time. I use it my development all the time - it's incredibly useful.</p>
+			<ul>
+				<li><strong><a href="https://addons.mozilla.org/en-us/firefox/addon/firebug/">Download for Firefox</a></strong></li>
+				<li><strong><a href="https://chrome.google.com/webstore/detail/firebug-lite-for-google-c/bmagokdooijbeehmkpknfglimnifench">Download for Google Chrome</a></strong></li>
+			</ul>
+			<p>Installed it? Good. Now, go to your website and <strong>right click</strong> on any element you want. For example, let's say you want to recolor the dropcap shortcode text color, that you've just inserted on your page. To find out what class or ID this element uses, right click on it and select "<strong>Inspect Element with Firebug</strong>". This will open up a window at the bottom. To the left side you should see the HTML. On the right, the CSS.</p>
+			<p>Try hovering over the HTML-section for the button. You will see that the button will be highlighted so that you can easily see what element you are viewing. The HTML would look something like this: <code>&lt;span class="dropcap">L&lt;/span></code></p>
+			<p>The CSS should appear on the right side in the Firebug window (If it doesn't, click on the <code>&lt;span></code> part of the code, and it will appear). You should see something like this:</p>
+			
+<pre></code>.dropcap
+{
+color: #444444;
+display: block;
+float: left;
+- etc -
+}
+</code></pre>
+			
+			<p>And there we go! You've found the CSS class you are looking for, and all the CSS styling that is currently used for this element.</p>
+			<p>There are many good Firebug introduction videos out there on <a href="http://www.youtube.com/results?search_query=firebug+css">YouTube</a>. Here is one short and simple one I found useful: <strong><a target="_blank" href="http://www.youtube.com/watch?v=yOOk3T3_nZ8">View Video</a></strong></p>		
+			<p>As shown here, Firebug also allows you to preview styling changes directly in your browser window. It's great when you want to see how something looks before adding it. It can also be used to test to remove HTML or CSS values, and many other things.
+			
+			<h4>Adding CSS to custom.css</h4>
+			<ol>
+				<li>Go to your WordPress dashboard and then <strong>Theme Options &gt; General</strong>. Tick the checkbox to enable custom.css (this will load the css file in the theme).</li>
+				<li>Go to <strong>Appearance &gt; Editor</strong>. Click on custom.css on the right side in the list.</li>
+				<li>The code in this file will now appear (most likely empty). Just add your css here and save, and you're done.</li>
+			</ol>
+			<p>Thanks to Firebug, we now know that our dropcap element is called <code>.dropcap</code>. We want to change the text color to red, so all we need to do is to add this to our custom.css file:</p>
+
+			<pre></code>.dropcap { color: red; }</code></pre>
+
+			<p>Save it, and your dropcap text should now be red!</p>
+
+			<p>This method can be used to restyle any element on your website. It is also useful to use for troubleshooting, to see what CSS styling you may have added that breaks the page and so on.</p>
+
+			<p>Happy editing!</p>
+		</div>
+	</section><!--/section-->	
+	
+<!-- More
+================================================== -->	
+	<section id="more" class="color-06">
+		<div class="container">
+			
+			<h1><span class="label color-06">06</span>Additional Information</h1>
+			<p>Extra information that you may find useful.</p>
+			
+			<h3>Font Awesome (icon) issues?</h3>
+			<p>If you have trouble with Font Awesome showing strange characters instead of icons, you are most likely using a CDN or external host in some way for the font files. Certain browsers may have issues with that, as they follow certain web standards. (Also make sure that your font files were uploaded correctly, and empty caches)</p>
+			<p>This can be fixed with for example this sample <a target="_blank" href="http://support.maxcdn.com/tutorials/htaccess-examples/">.htaccess file</a> from MaxCDN. If you wish to read more about this, it relates to CORS headers.</p>
+			
+			<h3>Wrong Facebook and Google+ thumbnails?</h3>
+			<p>If your shared posts show wrong thumbnails on social networks, see the Facebook Thumb Fixer plugin below.</p>
+			
+			<h3>Useful plugins</h3>
+			<p>Many common problems or missing features can usually be solved with plugins. Here is a list of some great ones.</p>
+			<ul>
+				<li><strong><a target="_blank" href="http://wordpress.org/plugins/regenerate-thumbnails/">Regenerate Thumbnails</a></strong> - A must-have when changing theme or thumbnail sizes</li>
+				<li><strong><a target="_blank" href="http://wordpress.org/plugins/wordpress-importer/">WordPress Importer</a></strong> - Import XML file data for the website</li>
+				<li><strong><a target="_blank" href="http://wordpress.org/plugins/wp-pagenavi/">WP-PageNavi</a></strong> - Better pagination for your blog</li>
+				<li><strong><a target="_blank" href="http://wordpress.org/plugins/contact-form-7/">Contact Form 7</a></strong> - A simple and flexible contact form plugin</li>
+				<li><strong><a target="_blank" href="http://wordpress.org/plugins/w3-total-cache/">W3 Total Cache</a></strong> - Cache plugin to speed up your website</li>
+				<li><strong><a target="_blank" href="http://wordpress.org/plugins/easy-add-thumbnail/">Easy Add Thumbnail</a></strong> - Auto-set featured images for old as well as new posts</li>
+				<li><strong><a target="_blank" href="http://wordpress.org/plugins/facebook-thumb-fixer/">Facebook Thumb Fixer</a></strong> - Make sure articles shared on Facebook and Google+ shows the right thumbnail images</li>
+				<li><strong><a target="_blank" href="http://bryceadams.com/light-free-responsive-lightbox-plugin-for-wordpress/">Light - Responsive Lightbox</a></strong> - Easily add fancybox2 responsive lightboxes to your website and gallery images</li>
+				<li><strong><a target="_blank" href="http://wordpress.org/plugins/syntaxhighlighter/">SyntaxHighlighter Evolved</a></strong> - Post code in your articles in a visually pleasing way</li>
+				<li><strong><a target="_blank" href="http://wordpress.org/plugins/woocommerce/">WooCommerce</a></strong> - Sell stuff</li>
+			</ul>
+			
+			<h3>Recommended theme editing software</h3>
+			<ul>
+				<li><strong><a target="_blank" href="http://firefox.com">Firefox</a></strong> - The web browser of choice for me, although there are many good ones</li>
+				<li><strong><a target="_blank" href="https://getfirebug.com/">Firebug</a></strong> - Inspect code directly in the web browser. Lite version for Chrome <a target="_blank" href="https://getfirebug.com/releases/lite/chrome/">here</a>. Search on YouTube for video tutorials and you will quickly learn how to use it.</li>
+				<li><strong><a target="_blank" href="http://www.poedit.net/download.php">PoEdit</a></strong> - Translate your theme. Read how to translate <a target="_blank" href="http://www.appthemes.com/blog/how-to-translate-a-wordpress-theme/">here</a>.</li>
+				<li><strong><a target="_blank" href="http://notepad-plus-plus.org/download/">Notepad++</a></strong> - A great text editor to modify theme code</li>
+				<li><strong><a target="_blank" href="https://filezilla-project.org/download.php?type=client">FileZilla</a></strong> - Modify or upload theme files via FTP</li>		
+			</ul>
+			
+			<h3>Link Resources</h3>
+			<p>Learn more and ask about WordPress' standard features. WordPress is in itself an extremely well-documented open platform. It is recommended to search for answers via Google / DuckDuckGo first if you have questions – it almost always give useful information or at least point you in the right direction.</p>
+			<ul>
+				<li><strong><a target="_blank" href="http://en.support.wordpress.com/">WordPress.com Documentation</a></strong> - Quick and simple guides to standard features</li>
+				<li><strong><a target="_blank" href="http://codex.wordpress.org/">WordPress.org Codex</a></strong> - Documentation and great code examples</li>
+				<li><strong><a target="_blank" href="http://wordpress.org/support/">WordPress.org Forums</a></strong> - Support for WordPress</li>
+				<li><strong><a target="_blank" href="http://wordpress.stackexchange.com/">WordPress Code Answers</a></strong> - Ask and find great answers to code questions</li>
+				<li><strong><a target="_blank" href="http://google.com">Google</a> / <a target="_blank" href="http://duckduckgo.com">DuckDuckGo</a></strong> - Find answers from all over the web. Always good.</li>
+			</ul>
+		</div>
+	</section><!--/section-->
+	
+<!-- Troubleshooting
+================================================== -->	
+	<section id="more-troubleshoot" class="color-06">
+		<div class="container">
+			
+			<h1><span class="label color-06">06.1</span>Troubleshooting 101</h1>
+			<p>Do you have a problem with your theme? This quick troubleshooting guide should be the first thing to check through - it will help you find the <strong>root cause</strong> of the issue.</p>
+			<p>A WordPress website issue can come from mainly one of 4 areas:</p>
+			<ul>
+				<li>Conflicting plugins</li>
+				<li>Broken WordPress install</li>
+				<li>Incorrect server setup</li>
+				<li>The theme itself</li>
+			</ul>
+			<p>Lets find out where your issue is coming from!</p>
+
+			<h3>Step 1: Check your plugins</h3>
+			<p>The first thing to do is to see if you have any plugins installed. Do you? If so, go to your admin panel and disable all of them. Now, go back to your site and see if the issue remains. If the problem is gone, then re-activate your plugins one-by-one and check the site between each activation. This way you will directly find the plugin(s) that cause problems.</p>
+
+			<p>If your issue remains even with all plugins disabled, go on to the next step.</p>
+			<h3>Step 2: Check your customizations</h3>
+			<p>Have you customized your theme in any way before you noticed the issue? If so, go to the theme demo website of the theme and see if you find the same issue there. If you can not see the issue there, you need to take a look at your customized code and find what may be wrong.</p>
+
+			<h3>Step 3: Is the issue admin panel related?</h3>
+			<p>If you have problems with media uploads, errors in the WordPress dashboard or other access issues, the likely cause is either an incorrectly setup server or a broken WordPress install.</p>
+			<p>To see if your problem is related to a broken WordPress install or an incorrect server setup, simply activate a WordPress default theme such as Twenty Twelve. Does the issue remain? Then your issue is not theme related. If the issue goes away with a default theme active, then it's most likely theme related.</p>
+
+			<ul>
+				<li>Do you think your issue is WordPress related? <strong>Re-installing WordPress</strong> may be a good idea, or asking for help on the <a target="_blank" href="http://wordpress.org/support/">wordpress.org forums</a>.</li>
+				<li>Do you think your issue is server related? Try some <strong>Google-searching</strong> for the issue, or <strong>contact your server provider</strong> about it.</li>
+				<li>Do you think the issue is coming from the theme? Make sure to read this documentation through. If the issue remains and you are certain it's coming from the theme, feel free to report the bug on the wordpress.org <a target="_blank" href="http://wordpress.org/support/theme/hueman">support forums for hueman</a>.</li>
+			</ul>
+			<h3>Note: Remember cache!</h3>
+			<p>If you apply/repair code to fix issues but see no changes on your website when you save it, check if your website has any cache plugin activated. If so, make sure to empty all caches. Also force-refresh the page when viewing it by pressing F5.</p>
+
+		</div>
+	</section><!--/section-->
+	
+
+<!-- FAQ
+================================================== -->	
+	<section id="faq" class="color-07">
+		<div class="container">
+			
+			<h1><span class="label color-07">07</span>FAQ</h1>
+			<p><i>Q: Why are social sharing buttons missing Google Plus?</i> &mdash; A: You need to enable urlCurl with safe_mode off on your server for G+ to work. Ask your webhost to do so. If you are unable to, you can disable the buttons and use any other plugin instead.</p>
+			<p><i>Q: My old thumbnails have different sizes, why?</i> &mdash; A: Thumbnails uploaded before changing theme will not be automatically re-cropped. To fix this, you need to run the <a target="_blank" href="http://wordpress.org/plugins/regenerate-thumbnails/">Regenerate Thumbnails</a> plugin once.</p>
+			<p><i>Q: I did not use featured images before and have many posts, what do I do?</i> &mdash; A: Use the <a target="_blank" href="http://wordpress.org/plugins/easy-add-thumbnail/">Easy Add Thumbnail</a> plugin to automatically make the first image uploaded to each post a featured image.</p>
+			<p><i>Q: Why is my featured image not appearing on the single post page?</i> &mdash; A: You need to use the "Image" format option for it to show up, as not everyone wants to show the featured image at the top for the "Standard" post format.</p>
+			<p><i>Q: My gallery format post shows images twice, why?</i> &mdash; A: This is because you insert a standard gallery into the post itself. This is not needed, as the gallery format post will auto-display attached images in the slider above.</p>
+			<p><i>Q: My slider gallery includes images I only want to show in the content below</i> &mdash; A: The gallery format will always show all attached images. For it to not show up, go to Media > Add New and upload it there. Then go back to the post and add it.</p>
+			<p><i>Q: How do I make the homepage slider auto-progress?</i> &mdash; A: In /inc/featured.php change <i>slideshow: false</i> to true with a child theme.</p>
+		
+			<h3>Thank you for reading!</h3>
+		
+		</div>
+	</section><!--/section-->
+	
+	
+<!-- Footer
+================================================== -->	
+	<footer class="footer">
+		<div class="container">
+			<p class="pull-right"><a href="#">Back to top</a></p>
+			<p>Written by <a href="http://alxmedia.se">Alexander Agnarson</a>. Re-use or edit this documentation as you wish (<a href="http://www.wtfpl.net/">WTFPL</a>).</p>
+		</div>
+	</footer>
+
+</body>
+</html>

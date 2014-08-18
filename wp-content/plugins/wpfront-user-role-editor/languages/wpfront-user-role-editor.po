@@ -1,0 +1,535 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: WPFront Notification Bar\n"
+"POT-Creation-Date: 2014-04-30 18:53-0700\n"
+"PO-Revision-Date: 2014-04-30 18:54-0700\n"
+"Last-Translator: \n"
+"Language-Team: WPFront <contact@wpfront.com>\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.6.4\n"
+"X-Poedit-Basepath: .\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-SearchPath-0: ..\n"
+
+#: ../classes/base/class-wpfront-base-menu.php:52
+msgid "Name"
+msgstr "Name"
+
+#: ../classes/base/class-wpfront-base-menu.php:53
+msgid "Version"
+msgstr "Version"
+
+#: ../classes/base/class-wpfront-base-menu.php:54
+msgid "Rating"
+msgstr "Rating"
+
+#: ../classes/base/class-wpfront-base-menu.php:55
+msgid "Description"
+msgstr "Description"
+
+#: ../classes/base/class-wpfront-base-menu.php:69
+#, php-format
+msgid "based on %s rating(s)"
+msgstr "based on %s rating(s)"
+
+#: ../classes/base/class-wpfront-base-menu.php:105
+msgid "Unable to communicate with WordPress.org"
+msgstr "Unable to communicate with WordPress.org"
+
+#: ../classes/base/class-wpfront-base-menu.php:123
+#: ../classes/base/class-wpfront-base-menu.php:217
+msgid "WPFront Plugins"
+msgstr "WPFront Plugins"
+
+#: ../classes/base/class-wpfront-base-menu.php:147
+#, php-format
+msgid "By %s"
+msgstr "By %s"
+
+#: ../classes/base/class-wpfront-base-menu.php:154
+#, php-format
+msgid "More information about %s"
+msgstr "More information about %s"
+
+#: ../classes/base/class-wpfront-base-menu.php:154
+msgid "Details"
+msgstr "Details"
+
+#: ../classes/base/class-wpfront-base-menu.php:163
+#, php-format
+msgid "Install %s"
+msgstr "Install %s"
+
+#: ../classes/base/class-wpfront-base-menu.php:163
+msgid "Install Now"
+msgstr "Install Now"
+
+#: ../classes/base/class-wpfront-base-menu.php:168
+#, php-format
+msgid "Update to version %s"
+msgstr "Update to version %s"
+
+#: ../classes/base/class-wpfront-base-menu.php:168
+msgid "Update Now"
+msgstr "Update Now"
+
+#: ../classes/base/class-wpfront-base-menu.php:173
+msgid "This plugin is already installed and is up to date"
+msgstr "This plugin is already installed and is up to date"
+
+#: ../classes/base/class-wpfront-base-menu.php:173
+msgid "Installed"
+msgstr "Installed"
+
+#: ../classes/base/class-wpfront-base-menu.php:175
+#: ../classes/base/class-wpfront-base.php:105
+msgid "Settings"
+msgstr "Settings"
+
+#: ../classes/base/class-wpfront-base-menu.php:177
+msgid "Activate"
+msgstr "Activate"
+
+#: ../classes/base/class-wpfront-base-menu.php:199
+#: ../classes/class-wpfront-user-role-editor.php:298
+msgid "Feedback"
+msgstr "Feedback"
+
+#: ../classes/base/class-wpfront-base-menu.php:216
+msgid "WPFront"
+msgstr "WPFront"
+
+#: ../classes/base/class-wpfront-base-menu.php:217
+msgid "All Plugins"
+msgstr "All Plugins"
+
+#: ../classes/base/class-wpfront-base.php:130
+#: ../classes/class-wpfront-user-role-editor.php:248
+msgid "You do not have sufficient permissions to access this page."
+msgstr "You do not have sufficient permissions to access this page."
+
+#: ../classes/base/class-wpfront-base.php:150
+msgid ""
+"If you have a caching plugin, clear the cache for the new settings to take "
+"effect."
+msgstr ""
+"If you have a caching plugin, clear the cache for the new settings to take "
+"effect."
+
+#: ../classes/base/class-wpfront-base.php:168
+msgid "Settings Description"
+msgstr "Settings Description"
+
+#: ../classes/base/class-wpfront-base.php:170
+msgid "Plugin FAQ"
+msgstr "Plugin FAQ"
+
+#: ../classes/base/class-wpfront-base.php:172
+msgid "Feature Request"
+msgstr "Feature Request"
+
+#: ../classes/base/class-wpfront-base.php:174
+msgid "Report Bug"
+msgstr "Report Bug"
+
+#: ../classes/base/class-wpfront-base.php:176
+msgid "Write Review"
+msgstr "Write Review"
+
+#: ../classes/base/class-wpfront-base.php:178
+msgid "Contact Me (syam@wpfront.com)"
+msgstr "Contact Me (syam@wpfront.com)"
+
+#: ../classes/base/class-wpfront-base.php:195
+msgid "Save Changes"
+msgstr "Save Changes"
+
+#: ../classes/class-wpfront-user-role-editor-list.php:238
+#: ../templates/add-edit-role.php:111
+msgid "Select All"
+msgstr "Select All"
+
+#: ../classes/class-wpfront-user-role-editor-list.php:242
+#: ../templates/add-edit-role.php:71
+msgid "Display Name"
+msgstr "Display Name"
+
+#: ../classes/class-wpfront-user-role-editor-list.php:245
+#: ../templates/add-edit-role.php:81
+msgid "Role Name"
+msgstr "Role Name"
+
+#: ../classes/class-wpfront-user-role-editor-list.php:248
+msgid "Type"
+msgstr "Type"
+
+#: ../classes/class-wpfront-user-role-editor-list.php:251
+msgid "User Default"
+msgstr "User Default"
+
+#: ../classes/class-wpfront-user-role-editor-list.php:254
+msgid "Users"
+msgstr "Users"
+
+#: ../classes/class-wpfront-user-role-editor-list.php:257
+#: ../templates/add-edit-role.php:95
+msgid "Capabilities"
+msgstr "Capabilities"
+
+#: ../classes/class-wpfront-user-role-editor-list.php:268
+msgid "Bulk Actions"
+msgstr "Bulk Actions"
+
+#: ../classes/class-wpfront-user-role-editor-list.php:270
+#: ../templates/list-roles.php:101
+msgid "Delete"
+msgstr "Delete"
+
+#: ../classes/class-wpfront-user-role-editor-list.php:273
+#: ../templates/add-edit-role.php:107
+msgid "Apply"
+msgstr "Apply"
+
+#: ../classes/class-wpfront-user-role-editor-list.php:275
+#, php-format
+msgid "%s item(s)"
+msgstr "%s item(s)"
+
+#: ../classes/class-wpfront-user-role-editor-list.php:298
+msgid "All"
+msgstr "All"
+
+#: ../classes/class-wpfront-user-role-editor-list.php:309
+msgid "Having Users"
+msgstr "Having Users"
+
+#: ../classes/class-wpfront-user-role-editor-list.php:315
+msgid "No Users"
+msgstr "No Users"
+
+#: ../classes/class-wpfront-user-role-editor-list.php:326
+#: ../templates/list-roles.php:114
+msgid "Built-In"
+msgstr "Built-In"
+
+#: ../classes/class-wpfront-user-role-editor-list.php:332
+#: ../templates/list-roles.php:114
+msgid "Custom"
+msgstr "Custom"
+
+#: ../classes/class-wpfront-user-role-editor-options.php:41
+msgid "Display Deprecated Capabilities"
+msgstr "Display Deprecated Capabilities"
+
+#: ../classes/class-wpfront-user-role-editor-options.php:42
+msgid "Add Role Capabilities"
+msgstr "Add Role Capabilities"
+
+#: ../classes/class-wpfront-user-role-editor.php:150
+msgid "WPFront User Role Editor"
+msgstr "WPFront User Role Editor"
+
+#: ../classes/class-wpfront-user-role-editor.php:150
+msgid "User Role Editor"
+msgstr "User Role Editor"
+
+#: ../classes/class-wpfront-user-role-editor.php:175
+#: ../classes/class-wpfront-user-role-editor.php:177
+#: ../templates/list-roles.php:37
+msgid "Roles"
+msgstr "Roles"
+
+#: ../classes/class-wpfront-user-role-editor.php:177
+msgid "All Roles"
+msgstr "All Roles"
+
+#: ../classes/class-wpfront-user-role-editor.php:181
+#: ../templates/add-edit-role.php:35 ../templates/add-edit-role.php:154
+msgid "Add New Role"
+msgstr "Add New Role"
+
+#: ../classes/class-wpfront-user-role-editor.php:181
+#: ../templates/add-edit-role.php:37 ../templates/list-roles.php:40
+msgid "Add New"
+msgstr "Add New"
+
+#: ../classes/class-wpfront-user-role-editor.php:300
+msgid "Buy me a Beer"
+msgstr "Buy me a Beer"
+
+#: ../templates/add-edit-role.php:35
+msgid "Edit Role"
+msgstr "Edit Role"
+
+#: ../templates/add-edit-role.php:45 ../templates/add-edit-role.php:53
+msgid "ERROR"
+msgstr "ERROR"
+
+#: ../templates/add-edit-role.php:45
+msgid "This role already exists in this site."
+msgstr "This role already exists in this site."
+
+#: ../templates/add-edit-role.php:53
+msgid "There was an unexpected error while performing this action."
+msgstr "There was an unexpected error while performing this action."
+
+#: ../templates/add-edit-role.php:60
+msgid "Create a brand new role and add it to this site."
+msgstr "Create a brand new role and add it to this site."
+
+#: ../templates/add-edit-role.php:71 ../templates/add-edit-role.php:81
+msgid "required"
+msgstr "required"
+
+#: ../templates/add-edit-role.php:100
+msgid "Copy from"
+msgstr "Copy from"
+
+#: ../templates/add-edit-role.php:112
+msgid "Select None"
+msgstr "Select None"
+
+#: ../templates/add-edit-role.php:154
+msgid "Update Role"
+msgstr "Update Role"
+
+#: ../templates/delete-role.php:37
+msgid "Delete Roles"
+msgstr "Delete Roles"
+
+#: ../templates/delete-role.php:38
+msgid "You have specified these roles for deletion"
+msgstr "You have specified these roles for deletion"
+
+#: ../templates/delete-role.php:45
+msgid "Role"
+msgstr "Role"
+
+#: ../templates/delete-role.php:57
+msgid "Confirm Deletion"
+msgstr "Confirm Deletion"
+
+#: ../templates/list-roles.php:62 ../templates/list-roles.php:64
+msgid "Search Roles"
+msgstr "Search Roles"
+
+#: ../templates/list-roles.php:98
+msgid "Edit"
+msgstr "Edit"
+
+#: ../templates/list-roles.php:98
+msgid "View"
+msgstr "View"
+
+#: ../templates/list-roles.php:104
+msgid "Default"
+msgstr "Default"
+
+#: ../templates/options-template.php:32
+msgid "WPFront User Role Editor Settings"
+msgstr "WPFront User Role Editor Settings"
+
+#~ msgid "Enabled"
+#~ msgstr "Enabled"
+
+#~ msgid "Position"
+#~ msgstr "Position"
+
+#~ msgid "Bar Height"
+#~ msgstr "Bar Height"
+
+#~ msgid "Message Text"
+#~ msgstr "Message Text"
+
+#~ msgid "Display After"
+#~ msgstr "Display After"
+
+#~ msgid "Animation Duration"
+#~ msgstr "Animation Duration"
+
+#~ msgid "Display Close Button"
+#~ msgstr "Display Close Button"
+
+#~ msgid "Auto Close After"
+#~ msgstr "Auto Close After"
+
+#~ msgid "Display Button"
+#~ msgstr "Display Button"
+
+#~ msgid "Button Text"
+#~ msgstr "Button Text"
+
+#~ msgid "Open URL:"
+#~ msgstr "Open URL:"
+
+#~ msgid "Open URL in new tab/window"
+#~ msgstr "Open URL in new tab/window"
+
+#~ msgid "Execute JavaScript"
+#~ msgstr "Execute JavaScript"
+
+#~ msgid "Close Bar on Button Click"
+#~ msgstr "Close Bar on Button Click"
+
+#~ msgid "Display Shadow"
+#~ msgstr "Display Shadow"
+
+#~ msgid "Fixed at Position"
+#~ msgstr "Fixed at Position"
+
+#~ msgid "Message Text Color"
+#~ msgstr "Message Text Color"
+
+#~ msgid "From Color"
+#~ msgstr "From Color"
+
+#~ msgid "To Color"
+#~ msgstr "To Color"
+
+#~ msgid "Button Text Color"
+#~ msgstr "Button Text Color"
+
+#~ msgid "Display on Pages"
+#~ msgstr "Display on Pages"
+
+#~ msgid "Display Reopen Button"
+#~ msgstr "Display Reopen Button"
+
+#~ msgid "Reopen Button Color"
+#~ msgstr "Reopen Button Color"
+
+#~ msgid "Keep Closed"
+#~ msgstr "Keep Closed"
+
+#~ msgid "Keep Closed For"
+#~ msgstr "Keep Closed For"
+
+#~ msgid "Position Offset"
+#~ msgstr "Position Offset"
+
+#~ msgid "Close Button Color"
+#~ msgstr "Close Button Color"
+
+#~ msgid "WPFront Notification Bar"
+#~ msgstr "WPFront Notification Bar"
+
+#~ msgid "Notification Bar"
+#~ msgstr "Notification Bar"
+
+#~ msgid "[Page]"
+#~ msgstr "[Page]"
+
+#~ msgid "Home"
+#~ msgstr "Home"
+
+#~ msgid "[Post]"
+#~ msgstr "[Post]"
+
+#~ msgid "Top"
+#~ msgstr "Top"
+
+#~ msgid "Bottom"
+#~ msgstr "Bottom"
+
+#~ msgid "[Sticky Bar, bar will stay at position regardless of scrolling.]"
+#~ msgstr "[Sticky Bar, bar will stay at position regardless of scrolling.]"
+
+#~ msgid "px"
+#~ msgstr "px"
+
+#~ msgid "Set 0px to auto fit contents."
+#~ msgstr "Set 0px to auto fit contents."
+
+#~ msgid ""
+#~ "(Top bar only) If you find the bar overlapping, try increasing this "
+#~ "value. (eg. WordPress 3.8 Twenty Fourteen theme, set 48px)"
+#~ msgstr ""
+#~ "(Top bar only) If you find the bar overlapping, try increasing this "
+#~ "value. (eg. WordPress 3.8 Twenty Fourteen theme, set 48px)"
+
+#~ msgid "second(s)"
+#~ msgstr "second(s)"
+
+#~ msgid "Set 0 second(s) to display immediately."
+#~ msgstr "Set 0 second(s) to display immediately."
+
+#~ msgid "Set 0 second(s) for no animation."
+#~ msgstr "Set 0 second(s) for no animation."
+
+#~ msgid "[Displays a close button at the top right corner of the bar.]"
+#~ msgstr "[Displays a close button at the top right corner of the bar.]"
+
+#~ msgid "Set 0 second(s) to disable auto close."
+#~ msgstr "Set 0 second(s) to disable auto close."
+
+#~ msgid "A reopen button will be displayed after the bar is closed."
+#~ msgstr "A reopen button will be displayed after the bar is closed."
+
+#~ msgid "Once closed, bar will display closed on other pages."
+#~ msgstr "Once closed, bar will display closed on other pages."
+
+#~ msgid "day(s)"
+#~ msgstr "day(s)"
+
+#~ msgid ""
+#~ "Bar will be kept closed for the number of days specified from last closed "
+#~ "date."
+#~ msgstr ""
+#~ "Bar will be kept closed for the number of days specified from last closed "
+#~ "date."
+
+#~ msgid "Content"
+#~ msgstr "Content"
+
+#~ msgid "[HTML tags are allowed. e.g. Add <br /> for break.]"
+#~ msgstr "[HTML tags are allowed. e.g. Add <br /> for break.]"
+
+#~ msgid "[Displays a button next to the message.]"
+#~ msgstr "[Displays a button next to the message.]"
+
+#~ msgid "Filter"
+#~ msgstr "Filter"
+
+#~ msgid "Only in landing page."
+#~ msgstr "Only in landing page."
+
+#~ msgid "[The first page they visit on your website.]"
+#~ msgstr "[The first page they visit on your website.]"
+
+#~ msgid "Include in following pages"
+#~ msgstr "Include in following pages"
+
+#~ msgid "Exclude in following pages"
+#~ msgstr "Exclude in following pages"
+
+#~ msgid "Color"
+#~ msgstr "Color"
+
+#~ msgid "Bar Color"
+#~ msgstr "Bar Color"
+
+#~ msgid "[Select two different colors to create a gradient.]"
+#~ msgstr "[Select two different colors to create a gradient.]"
+
+#~ msgid "Button Color"
+#~ msgstr "Button Color"
+
+#~ msgid "[Normal, Hover, X]"
+#~ msgstr "[Normal, Hover, X]"
+
+#~ msgid "CSS"
+#~ msgstr "CSS"
+
+#~ msgid "Plugin Ideas"
+#~ msgstr "Plugin Ideas"
+
+#~ msgid "Animate Display"
+#~ msgstr "Animate Display"
+
+#~ msgid "Animate Display Delay"
+#~ msgstr "Animate Display Delay"

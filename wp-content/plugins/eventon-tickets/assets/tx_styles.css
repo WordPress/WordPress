@@ -1,0 +1,80 @@
+/*
+	Front end styles for tickets
+*/
+
+/* cart notification */
+	.evo_metarow_tix .tx_wc_notic{
+		padding: 10px 20px;
+		margin-left: -15px;	
+		margin-right: -15px;	
+		background-color: #A3C484;
+		margin-top: 15px;
+		margin-bottom: -15px;
+	}
+	.evo_metarow_tix.lastrow .tx_wc_notic{margin-right: 0;}
+	.evo_metarow_tix .tx_wc_notic p{
+		font-size: 16px; padding: 0;
+		min-height: 36px;
+		margin: 0;		
+	}
+	.evo_metarow_tix .tx_wc_notic p span{
+		float: left;
+		color: #fff; padding-top: 8px;
+		font-size: 16px;
+	}
+	.evo_metarow_tix .tx_wc_notic p em{clear: both;}
+	.tx_wc_notic a.evcal_btn{
+		float: right;
+		margin-left: 5px;
+		margin-top: 0;
+	}
+
+.evoTX_wc .tx_price_line {font-size: 18px!important;}
+.evoTX_wc .tx_price_line{margin-bottom: 5px;}
+.evoTX_wc .quantity{
+	float: left;
+	margin-right: 10px;
+}
+.evoTX_wc .quantity input{
+	border: 2px solid #b7b7b7;
+	font-family: inherit;
+	padding: 5px;
+	font-size: 100%;
+	margin: 0;
+	max-width: 70px;
+	vertical-align: baseline;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+.evoTX_wc .variations_button .quantity input, .evoTX_wc .tx_single .tx_orderonline_add_cart .quantity input{
+	border-radius:5px;padding: 4px;
+}
+.evoTX_wc table.variations td.value select{
+	border-radius:5px; padding: 4px;
+}
+.evoTX_wc .evcal_bnt{
+	float: left;
+	border-bottom: none;
+	padding: 10px;
+	line-height: 100%;
+}
+#evcal_list .eventon_list_event .evoTX_wc .evcal_btn, .evo_pop_body .evoTX_wc .evcal_btn{
+	border:none;
+	margin-top: 0px;
+}
+.evoTX_wc .quantity input[type='button'] {
+	display: none;
+}
+
+
+/* add to cart buttons and variable item form */
+	#evcal_list .evo_metarow_tix .evoTX_wc .evotx_price_line{font-size: 18px;margin-bottom: 5px;}
+	#evcal_list .evo_metarow_tix .evoTX_wc{padding-top: 10px;}
+	#evcal_list .evo_metarow_tix .evoTX_wc table.variations{font-size: 16px; margin-bottom: 0px;}
+	#evcal_list .evo_metarow_tix .evoTX_wc table.variations .reset_variations{padding-left: 10px;font-style: italic;}
+	#evcal_list .evo_metarow_tix .evoTX_wc .evotx_orderonline_add_cart .single_variation{
+		font-size: 20px; font-style: italic;
+		color:#656565;
+		font-family:'open sans',georgia
+	}

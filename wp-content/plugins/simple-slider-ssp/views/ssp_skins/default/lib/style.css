@@ -1,0 +1,148 @@
+/*Twenty Twelve fixes and other theme fixes and styles :( */
+
+.flex-caption {
+  background: #000;   
+  -ms-filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#4C000000,endColorstr=#4C000000);
+  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#4C000000,endColorstr=#4C000000); 
+  zoom: 1;
+}
+
+.wsp_default_skin .flex-caption {
+  width: 100%;
+  position: absolute;
+  height: 35px;
+  bottom: 0px;
+  background: rgba(0,0,0,.3);
+  color: white;
+  font-size: 14px;
+  z-index: 99999;
+  margin: 0 !important;
+}
+
+.wsp_default_skin .flex-caption a {
+  color: white;
+  text-decoration: none;
+}
+
+.wsp_default_skin .flex-caption a:hover {
+  color: white;
+  text-decoration: none;
+}
+
+.wsp_default_skin .flex-caption strong {
+   padding: 5px 10px !important;
+   color: #fff;
+   display: block;
+}
+
+.ssp_slider_default > li.slide {
+  position: relative;
+}
+
+.ssp_slider_default .slide_image {
+  box-shadow: none !important;
+  border-radius: 0;
+}
+
+.wsp_default_skin > li.slide, .wsp_default_skin > li.slide img {
+  margin: 0;
+  max-width: 100%;
+}
+
+.ssp_slider_default .flex-direction-nav, .flex-control-nav {
+  list-style: none !important;
+  margin: 0 !important;
+}
+
+.ssp_slider_default .flex-control-nav > li {
+  margin: 0 6px;
+}
+
+.ssp_slider_default .flex-control-thumbs li {
+  margin: 0px;
+  margin-top: 5px;
+}
+
+.ssp_slider_default .flex-control-thumbs li img {
+  margin-bottom: 0px;
+  box-shadow: none;
+  border-radius: 0px;
+}
+
+.ssp_no_chrome_slider_default {
+  background: inherit;
+  border: none;
+  position: relative;
+  -webkit-border-radius: 0px;
+  -moz-border-radius: 0px;
+  -o-border-radius: 0px;
+  border-radius: 0px;
+  box-shadow: none;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  -o-box-shadow: none;
+}
+
+.wsp_default_skin .slide {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  list-style-type: none;
+}
+
+.ssp_slider_default .slide img {
+  margin: 0;
+  padding: 0;
+}
+.ssp_slider_default .slides{
+  margin: 0;
+  padding: 0;
+}
+.ssp_slider_default .flex-direction-nav li {
+  list-style-type: none;
+}
+.ssp_slider_default .flex-direction-nav li a {
+  position: absolute;
+
+}
+
+/** TT fixes and styles END **/
+
+/** Slider Default HTML skin **/
+
+.ssp_slider_default_html .flex-direction-nav {
+  list-style: none !important;
+}
+
+.ssp_slider_default_html .flex-control-nav > li {
+  margin: 0 6px;
+}
+
+.ssp_slider_default_html > li.slide {
+  position: relative;
+}
+
+.ssp_slider_default_html > li.slide, .wsp_default_skin > li.slide img {
+  margin: 0;
+}
+
+.ssp_slider_default_html .flex-direction-nav, .flex-control-nav {
+  list-style: none !important;
+  margin: 0 !important;
+}
+
+.ssp_slider_default_html .slides {
+  list-style: none !important;
+}
+
+/** End styling for default html skin **/
+
+/** Carousel skin **/
+.ssp_carousel_skin .slide_image{
+  margin-bottom: 0px;
+}
+.ssp_carousel_skin .c_slide {
+  margin: 0px;
+  margin-right: 5px;
+}
+/** End Styling **/

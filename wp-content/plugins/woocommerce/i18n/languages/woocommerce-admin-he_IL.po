@@ -1,0 +1,5471 @@
+# 
+# Translators:
+# Ariel Klikstein <relklik@gmail.com>, 2014
+# amitgilad <gilad.amit@gmail.com>, 2014
+# ishay1999 <ishay19999@gmail.com>, 2014
+# joelbal <jbalbachan@gmail.com>, 2014
+# Josh Marom <josh@josh.co.il>, 2014
+# roidayan <roi.dayan@gmail.com>, 2014
+# Seggev Shoresh, 2014
+# Yakir Gottesman <yakir@go-press.co.il>, 2014
+msgid ""
+msgstr ""
+"Project-Id-Version: WooCommerce\n"
+"Report-Msgid-Bugs-To: https://github.com/woothemes/woocommerce/issues\n"
+"POT-Creation-Date: 2014-06-30 14:28:36+00:00\n"
+"PO-Revision-Date: 2014-06-30 18:37+0000\n"
+"Last-Translator: Seggev Shoresh\n"
+"Language-Team: Hebrew (Israel) (http://www.transifex.com/projects/p/woocommerce/language/he_IL/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: he_IL\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: includes/admin/class-wc-admin-assets.php:65
+#: includes/admin/class-wc-admin-menus.php:48
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-notes.php:49
+#: includes/admin/wc-admin-functions.php:19
+msgid "WooCommerce"
+msgstr "WooCommerce"
+
+#: includes/admin/class-wc-admin-assets.php:108
+msgid "Please enter in decimal (%s) format without thousand separators."
+msgstr "הקש בפורמט דצימלי (%s) ללא הפרדת אלפים."
+
+#: includes/admin/class-wc-admin-assets.php:109
+msgid ""
+"Please enter in monetary decimal (%s) format without thousand separators and"
+" currency symbols."
+msgstr "אנא הזן פורמט כספי עשרוני (%s) ללא מפרידי אלפים וסימני מטבע."
+
+#: includes/admin/class-wc-admin-assets.php:136
+msgid ""
+"Are you sure you want to remove the selected items? If you have previously "
+"reduced this item's stock, or this order was submitted by a customer, you "
+"will need to manually restore the item's stock."
+msgstr "האם אתה בטוח שברצונך להסיר את הפריטים שנבחרו? אם הפחתת בעבר מלאי של פריט זה או שלקוח הזמין פריט זה יהיה עליך לשחזר ידנית ידני את המלאי של פריט זה"
+
+#: includes/admin/class-wc-admin-assets.php:137
+msgid "Please select some items."
+msgstr "בחר מספר פריטים."
+
+#: includes/admin/class-wc-admin-assets.php:138
+msgid "Remove this item meta?"
+msgstr "הסר מטא פריט זה?"
+
+#: includes/admin/class-wc-admin-assets.php:139
+msgid "Remove this attribute?"
+msgstr "להסיר את התכונה הזאת?"
+
+#: includes/admin/class-wc-admin-assets.php:140
+#: includes/admin/class-wc-admin-attributes.php:239
+#: includes/admin/class-wc-admin-attributes.php:275
+#: includes/admin/class-wc-admin-attributes.php:307
+#: includes/admin/class-wc-admin-attributes.php:330
+#: includes/admin/class-wc-admin-attributes.php:374
+#: includes/admin/class-wc-admin-attributes.php:399
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:259
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:186
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:442
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:536
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:148
+#: includes/admin/settings/class-wc-settings-shipping.php:203
+msgid "Name"
+msgstr "שם"
+
+#: includes/admin/class-wc-admin-assets.php:141
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:434
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:528
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:6
+msgid "Remove"
+msgstr "הסר"
+
+#: includes/admin/class-wc-admin-assets.php:142
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:435
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:529
+#: includes/admin/post-types/meta-boxes/views/html-order-download-permission.php:7
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:7
+msgid "Click to toggle"
+msgstr "לחץ כדי להפעיל/לכבות"
+
+#: includes/admin/class-wc-admin-assets.php:143
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:450
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:542
+msgid "Value(s)"
+msgstr "ערך(ים)"
+
+#: includes/admin/class-wc-admin-assets.php:144
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:543
+msgid "Enter some text, or some attributes by pipe (|) separating values."
+msgstr "הזן טקסט כלשהו, ​​או כמה תכונות  והפרד על ידי קו (|) מפריד."
+
+#: includes/admin/class-wc-admin-assets.php:145
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:493
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:548
+msgid "Visible on the product page"
+msgstr "מוצג בעמוד המוצר"
+
+#: includes/admin/class-wc-admin-assets.php:146
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:506
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:554
+msgid "Used for variations"
+msgstr "נועד עבור וריאציות"
+
+#: includes/admin/class-wc-admin-assets.php:147
+msgid "Enter a name for the new attribute term:"
+msgstr "הזן שם עבור ערך התכונה:"
+
+#: includes/admin/class-wc-admin-assets.php:148
+msgid "Calculate totals based on order items, discounts, and shipping?"
+msgstr "חישוב סכומים הבוסס על פריטי סדר, הנחות ומשלוח?"
+
+#: includes/admin/class-wc-admin-assets.php:149
+msgid ""
+"Calculate line taxes? This will calculate taxes based on the customers "
+"country. If no billing/shipping is set it will use the store base country."
+msgstr "חישוב מסי שורות? זה ייחשב מסים המבוססים על מדינת הלקוחות. אם אין חיוב / משלוח מוגדר הוא ישתמש מדינת בסיס החנות."
+
+#: includes/admin/class-wc-admin-assets.php:150
+msgid ""
+"Copy billing information to shipping information? This will remove any "
+"currently entered shipping information."
+msgstr "פרטי חיוב של העתקה למשלוח מידע? זו תסיר את כל מידע משלוח נכנס ברגע זה."
+
+#: includes/admin/class-wc-admin-assets.php:151
+msgid ""
+"Load the customer's billing information? This will remove any currently "
+"entered billing information."
+msgstr "טען את פרטי החיוב של הלקוח? זו תסיר את כל פרטי חיוב נכנסו כרגע."
+
+#: includes/admin/class-wc-admin-assets.php:152
+msgid ""
+"Load the customer's shipping information? This will remove any currently "
+"entered shipping information."
+msgstr "טען מידע המשלוח של הלקוח? זו תסיר את כל מידע משלוח נכנס ברגע זה."
+
+#: includes/admin/class-wc-admin-assets.php:153
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:173
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:273
+#: includes/admin/views/html-bulk-edit-product.php:170
+#: includes/admin/views/html-quick-edit-product.php:128
+msgid "Featured"
+msgstr "מועדף"
+
+#: includes/admin/class-wc-admin-assets.php:156
+msgid "No customer selected"
+msgstr "לא נבחר לקוח"
+
+#: includes/admin/class-wc-admin-assets.php:182
+msgid ""
+"Could not grant access - the user may already have permission for this file "
+"or billing email is not set. Ensure the billing email is set, and the order "
+"has been saved."
+msgstr "לא יכל להעניק לו גישה - למשתמש כבר יש הרשאה לקובץ הזה או שהמייל חיוב אינו מוגדר. ודא כי מייל החיוב מוגדר, ושההזמנה נשמרה."
+
+#: includes/admin/class-wc-admin-assets.php:183
+msgid "Are you sure you want to revoke access to this download?"
+msgstr "האם אתה בטוח שאתה רוצה לבטל את הגישה להורדה זו?"
+
+#: includes/admin/class-wc-admin-assets.php:203
+msgid ""
+"Are you sure you want to link all variations? This will create a new "
+"variation for each and every possible combination of variation attributes "
+"(max 50 per run)."
+msgstr "האם אתה בטוח שברצונך לקשר כל הוריאציות? פעולה זו תיצור וריאציה חדשה עבור כל שילוב אפשרי של תכונות (מקסימום 50 לכל ריצה)."
+
+#: includes/admin/class-wc-admin-assets.php:204
+msgid "Enter a value"
+msgstr "הזן ערך"
+
+#: includes/admin/class-wc-admin-assets.php:205
+msgid "Enter a value (fixed or %)"
+msgstr "הזן ערך (מס' קבוע או באחוזים)"
+
+#: includes/admin/class-wc-admin-assets.php:206
+msgid "Are you sure you want to delete all variations? This cannot be undone."
+msgstr "האם אתה בטוח שברצונך למחוק את כל הוריאציות? לא ניתן לבטל פעולה זו."
+
+#: includes/admin/class-wc-admin-assets.php:207
+msgid "Last warning, are you sure?"
+msgstr "אזהרה אחרונה, אתה בטוח?"
+
+#: includes/admin/class-wc-admin-assets.php:208
+#: includes/admin/class-wc-admin-taxonomies.php:123
+#: includes/admin/class-wc-admin-taxonomies.php:210
+msgid "Choose an image"
+msgstr "בחר תמונה"
+
+#: includes/admin/class-wc-admin-assets.php:209
+msgid "Set variation image"
+msgstr "הגדר את תמונת הוריאציה"
+
+#: includes/admin/class-wc-admin-assets.php:210
+msgid "variation added"
+msgstr "הוריאציה נוספה"
+
+#: includes/admin/class-wc-admin-assets.php:211
+msgid "variations added"
+msgstr "הוריאציות נוספו"
+
+#: includes/admin/class-wc-admin-assets.php:212
+msgid "No variations added"
+msgstr "לא נוספה וריאציה"
+
+#: includes/admin/class-wc-admin-assets.php:213
+msgid "Are you sure you want to remove this variation?"
+msgstr "האם אתה בטוח שברצונך להסיר וריאציה זאת?"
+
+#: includes/admin/class-wc-admin-attributes.php:82
+msgid "Please, provide an attribute name, slug and type."
+msgstr "יש להזין את שם התכונה, מזהה הכתובת וסוג התכונה."
+
+#: includes/admin/class-wc-admin-attributes.php:84
+msgid "Slug “%s” is too long (28 characters max). Shorten it, please."
+msgstr "מזהה הכתובת \"%s\" ארוך מדי (28 תווים לכל היותר). יש לקצר אותו בבקשה."
+
+#: includes/admin/class-wc-admin-attributes.php:86
+msgid ""
+"Slug “%s” is not allowed because it is a reserved term. Change it, please."
+msgstr "מזהה הכתובת “%s” אינו מותר משום שהוא מונח שמור. יש לשנות אותו בבקשה."
+
+#: includes/admin/class-wc-admin-attributes.php:91
+#: includes/admin/class-wc-admin-attributes.php:96
+msgid "Slug “%s” is already in use. Change it, please."
+msgstr "מזהה הכתובת \"%s\" כבר נמצא בשימוש. יש לשנות אותו בבקשה."
+
+#: includes/admin/class-wc-admin-attributes.php:233
+msgid "Edit Attribute"
+msgstr "עריכת תכונה"
+
+#: includes/admin/class-wc-admin-attributes.php:243
+#: includes/admin/class-wc-admin-attributes.php:376
+msgid "Name for the attribute (shown on the front-end)."
+msgstr "שם התכונה (המוצגת בצד ממשק הלקוח)."
+
+#: includes/admin/class-wc-admin-attributes.php:248
+#: includes/admin/class-wc-admin-attributes.php:308
+#: includes/admin/class-wc-admin-attributes.php:380
+msgid "Slug"
+msgstr "מזהה כתובת"
+
+#: includes/admin/class-wc-admin-attributes.php:252
+#: includes/admin/class-wc-admin-attributes.php:382
+msgid ""
+"Unique slug/reference for the attribute; must be shorter than 28 characters."
+msgstr "מזהה כתובת ייחודי / ייחוס לתכונה; חייב להיות קצר יותר מ 28 תווים."
+
+#: includes/admin/class-wc-admin-attributes.php:257
+#: includes/admin/class-wc-admin-attributes.php:309
+#: includes/admin/class-wc-admin-attributes.php:386
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:274
+msgid "Type"
+msgstr "סוג"
+
+#: includes/admin/class-wc-admin-attributes.php:261
+#: includes/admin/class-wc-admin-attributes.php:388
+msgid "Select"
+msgstr "רשימה נפתחת"
+
+#: includes/admin/class-wc-admin-attributes.php:262
+#: includes/admin/class-wc-admin-attributes.php:389
+msgid "Text"
+msgstr "טקסט"
+
+#: includes/admin/class-wc-admin-attributes.php:265
+#: includes/admin/class-wc-admin-attributes.php:392
+msgid ""
+"Determines how you select attributes for products. Under admin panel -> "
+"products -> product data -> attributes -> values, <strong>Text</strong> "
+"allows manual entry whereas <strong>select</strong> allows pre-configured "
+"terms in a drop-down list."
+msgstr "קובע כיצד אתה בוחר תכונות עבור מוצרים. בתוך לוח מנהל מערכת -> מוצרים -> נתוני מוצרים -> תכונות -> ערכים, <strong>טקסט</strong> מאפשר הזנה ידנית בעוד <strong>בחירה</strong> מאפשרת ערכים מוגדרים מראש ברשימה נפתחת."
+
+#: includes/admin/class-wc-admin-attributes.php:270
+#: includes/admin/class-wc-admin-attributes.php:396
+msgid "Default sort order"
+msgstr "סידור ברירת מחדל"
+
+#: includes/admin/class-wc-admin-attributes.php:274
+#: includes/admin/class-wc-admin-attributes.php:336
+#: includes/admin/class-wc-admin-attributes.php:398
+msgid "Custom ordering"
+msgstr "סידור מותאם אישית"
+
+#: includes/admin/class-wc-admin-attributes.php:276
+#: includes/admin/class-wc-admin-attributes.php:333
+#: includes/admin/class-wc-admin-attributes.php:400
+msgid "Term ID"
+msgstr "מזהה מונח"
+
+#: includes/admin/class-wc-admin-attributes.php:278
+#: includes/admin/class-wc-admin-attributes.php:402
+msgid ""
+"Determines the sort order of the terms on the frontend shop product pages. "
+"If using custom ordering, you can drag and drop the terms in this attribute."
+msgstr "קובע את סדר המיון של המונחים בעמודי המוצרים של החנות. אם נעשה שימוש במיון מותאם אישית, באפשרותך לגרור ולשחרר את המונחים שבתכונה זו."
+
+#: includes/admin/class-wc-admin-attributes.php:283
+msgid "Update"
+msgstr "עדכן"
+
+#: includes/admin/class-wc-admin-attributes.php:299
+#: includes/admin/class-wc-admin-menus.php:50
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:105
+msgid "Attributes"
+msgstr "תכונות"
+
+#: includes/admin/class-wc-admin-attributes.php:310
+msgid "Order by"
+msgstr "מיון לפי"
+
+#: includes/admin/class-wc-admin-attributes.php:311
+msgid "Terms"
+msgstr "במונחים"
+
+#: includes/admin/class-wc-admin-attributes.php:323
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:177
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:322
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-items.php:82
+#: includes/admin/reports/class-wc-report-customer-list.php:192
+#: includes/admin/reports/class-wc-report-stock.php:112
+msgid "Edit"
+msgstr "עריכה"
+
+#: includes/admin/class-wc-admin-attributes.php:323
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-images.php:44
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-images.php:55
+#: includes/admin/post-types/meta-boxes/views/html-product-download.php:6
+#: includes/admin/post-types/meta-boxes/views/html-product-variation-download.php:5
+msgid "Delete"
+msgstr "מחיקה"
+
+#: includes/admin/class-wc-admin-attributes.php:356
+msgid "Configure terms"
+msgstr "הגדר מונחים"
+
+#: includes/admin/class-wc-admin-attributes.php:360
+msgid "No attributes currently exist."
+msgstr "אין כרגע תכונות קיימות."
+
+#: includes/admin/class-wc-admin-attributes.php:370
+msgid "Add New Attribute"
+msgstr "הוסף תכונה חדשה"
+
+#: includes/admin/class-wc-admin-attributes.php:371
+msgid ""
+"Attributes let you define extra product data, such as size or colour. You "
+"can use these attributes in the shop sidebar using the \"layered nav\" "
+"widgets. Please note: you cannot rename an attribute later on."
+msgstr "תכונות מאפשרות לך להגדיר נתוני מוצר נוספים, כגון גודל או צבע. אתה יכול להשתמש בתכונה זאת לסינון מוצרים בסרגל הצידי של החנות באמצעות שימוש בוידג'ט \"ניווט בשכבות\".  שימו לב: לא ניתן לשנות את שם התכונה לאחר הגדרת וריאציות לתכונה ושימוש בתכונה.."
+
+#: includes/admin/class-wc-admin-attributes.php:405
+msgid "Add Attribute"
+msgstr "הוסף תכונה"
+
+#: includes/admin/class-wc-admin-attributes.php:416
+msgid "Are you sure you want to delete this attribute?"
+msgstr "האם אתה בטוח שברצונך למחוק תכונה זאת?"
+
+#: includes/admin/class-wc-admin-dashboard.php:35
+msgid "WooCommerce Recent Reviews"
+msgstr "סקירות אחרונות"
+
+#: includes/admin/class-wc-admin-dashboard.php:38
+#: includes/admin/class-wc-admin-menus.php:81
+msgid "WooCommerce Status"
+msgstr "מצב חנות"
+
+#: includes/admin/class-wc-admin-dashboard.php:132
+msgid "<strong>%s</strong> sales this month"
+msgstr "<strong>%s</strong> עסקאות החודש"
+
+#: includes/admin/class-wc-admin-dashboard.php:139
+msgid "%s top seller this month (sold %d)"
+msgstr "%s רב מכר החודש (מכר %d)"
+
+#: includes/admin/class-wc-admin-dashboard.php:145
+msgid "<strong>%s order</strong> awaiting processing"
+msgid_plural "<strong>%s orders</strong> awaiting processing"
+msgstr[0] "<strong>%s עסקאות</strong> ממתינות לטיפול"
+msgstr[1] "<strong>%s עסקאות</strong> ממתינות לטיפול"
+
+#: includes/admin/class-wc-admin-dashboard.php:150
+msgid "<strong>%s order</strong> on-hold"
+msgid_plural "<strong>%s orders</strong> on-hold"
+msgstr[0] "<strong>%s הזמנות</strong> בהמתנה"
+msgstr[1] "<strong>%s הזמנות</strong> מושהות"
+
+#: includes/admin/class-wc-admin-dashboard.php:155
+msgid "<strong>%s product</strong> low in stock"
+msgid_plural "<strong>%s products</strong> low in stock"
+msgstr[0] "<strong>%s מוצרים</strong> המלאי נמוך"
+msgstr[1] "<strong>%s מוצרים</strong> בעלי מלאי נמוך"
+
+#: includes/admin/class-wc-admin-dashboard.php:160
+msgid "<strong>%s product</strong> out of stock"
+msgid_plural "<strong>%s products</strong> out of stock"
+msgstr[0] "<strong>%s מוצרים</strong> המלאי אזל"
+msgstr[1] "<strong>%s מוצרים</strong> אזלו מן המלאי"
+
+#: includes/admin/class-wc-admin-dashboard.php:193
+msgid "out of 5"
+msgstr "מתוך 5"
+
+#: includes/admin/class-wc-admin-dashboard.php:195
+msgid "reviewed by"
+msgstr "נסקר על ידי"
+
+#: includes/admin/class-wc-admin-dashboard.php:201
+msgid "There are no product reviews yet."
+msgstr "עדיין אין ביקורות."
+
+#: includes/admin/class-wc-admin-duplicate-product.php:43
+msgid "Make a duplicate from this product"
+msgstr "לשכפל מוצר זה"
+
+#: includes/admin/class-wc-admin-duplicate-product.php:44
+msgid "Duplicate"
+msgstr "שכפל"
+
+#: includes/admin/class-wc-admin-duplicate-product.php:67
+msgid "Copy to a new draft"
+msgstr "העתק לטיוטה חדשה"
+
+#: includes/admin/class-wc-admin-duplicate-product.php:77
+msgid "No product to duplicate has been supplied!"
+msgstr "לא סופק מוצר לשכפול!"
+
+#: includes/admin/class-wc-admin-duplicate-product.php:99
+msgid "Product creation failed, could not find original product:"
+msgstr "יצירת מוצר נכשלה, לא הצליח למצוא מוצר מקורי:"
+
+#: includes/admin/class-wc-admin-duplicate-product.php:126
+msgid "(Copy)"
+msgstr "(העתק)"
+
+#: includes/admin/class-wc-admin-help.php:38
+msgid "Documentation"
+msgstr "תיעוד"
+
+#: includes/admin/class-wc-admin-help.php:41
+msgid ""
+"Thank you for using WooCommerce :) Should you need help using or extending "
+"WooCommerce please read the documentation."
+msgstr "תודה שבחרת בWooCommerce :) במידה ותזדקק לעזרה בשימוש או בהרחבת WooCommerce, אנא קרא את התיעוד."
+
+#: includes/admin/class-wc-admin-help.php:43
+msgid "WooCommerce Documentation"
+msgstr "תיעוד WooCommerce"
+
+#: includes/admin/class-wc-admin-help.php:43
+msgid "Developer API Docs"
+msgstr "מסמכי \"ממשק תכנות יישומים\" למפתחים"
+
+#: includes/admin/class-wc-admin-help.php:49
+msgid "Support"
+msgstr "תמיכה"
+
+#: includes/admin/class-wc-admin-help.php:52
+msgid ""
+"After <a href=\"%s\">reading the documentation</a>, for further assistance "
+"you can use the <a href=\"%s\">community forum</a>, or if you have access as"
+" a WooThemes customer, <a href=\"%s\">our support desk</a>."
+msgstr ""
+
+#: includes/admin/class-wc-admin-help.php:54
+msgid ""
+"Before asking for help we recommend checking the status page to identify any"
+" problems with your configuration."
+msgstr "לפני בקשת עזרה אנו ממליצים לבדוק את עמוד הסטטוס לצורך זיהוי בעיות כלשהן עם ההגדרות שלך."
+
+#: includes/admin/class-wc-admin-help.php:56
+#: includes/admin/class-wc-admin-help.php:67
+#: includes/admin/class-wc-admin-menus.php:81
+#: includes/admin/views/html-admin-page-status.php:5
+#: includes/admin/views/html-notice-template-check.php:6
+msgid "System Status"
+msgstr "מצב מערכת"
+
+#: includes/admin/class-wc-admin-help.php:56
+msgid "Community Support"
+msgstr "תמיכה מהקהילה"
+
+#: includes/admin/class-wc-admin-help.php:56
+msgid "Customer Support"
+msgstr "תמיכה טכנית ללקוחות"
+
+#: includes/admin/class-wc-admin-help.php:62
+msgid "Found a bug?"
+msgstr "מצאת באג?"
+
+#: includes/admin/class-wc-admin-help.php:65
+msgid ""
+"If you find a bug within WooCommerce core you can create a ticket via <a "
+"href=\"%s\">Github issues</a>. Ensure you read the <a "
+"href=\"%s\">contribution guide</a> prior to submitting your report. Be as "
+"descriptive as possible and please include your <a href=\"%s\">system status"
+" report</a>."
+msgstr ""
+
+#: includes/admin/class-wc-admin-help.php:67
+msgid "Report a bug"
+msgstr "דיווח על באג"
+
+#: includes/admin/class-wc-admin-help.php:73
+msgid "For more information:"
+msgstr "למידע נוסף על ההזמה:"
+
+#: includes/admin/class-wc-admin-help.php:74
+#: includes/admin/class-wc-admin-welcome.php:49
+msgid "About WooCommerce"
+msgstr "מידע על WooCommerce"
+
+#: includes/admin/class-wc-admin-help.php:75
+msgid "Project on WordPress.org"
+msgstr "פרויקט על WordPress.org"
+
+#: includes/admin/class-wc-admin-help.php:76
+msgid "Project on Github"
+msgstr "פרויקט על Github"
+
+#: includes/admin/class-wc-admin-help.php:77
+msgid "Official Extensions"
+msgstr "רחבות רשמיות"
+
+#: includes/admin/class-wc-admin-help.php:78
+msgid "Official Themes"
+msgstr "נושאים רשמיים"
+
+#: includes/admin/class-wc-admin-importers.php:32
+msgid "WooCommerce Tax Rates (CSV)"
+msgstr "שיעורי מס WooCommerce (CSV)"
+
+#: includes/admin/class-wc-admin-importers.php:32
+msgid "Import <strong>tax rates</strong> to your store via a csv file."
+msgstr "ייבא <strong>שיעורי מס</strong> לחנות שלך באמצעות קובץ CSV."
+
+#: includes/admin/class-wc-admin-menus.php:57
+msgid "Reports"
+msgstr "דוחות"
+
+#: includes/admin/class-wc-admin-menus.php:64
+msgid "WooCommerce Settings"
+msgstr "הגדרות חנות"
+
+#: includes/admin/class-wc-admin-menus.php:64
+#: includes/admin/class-wc-admin-welcome.php:219
+#: includes/admin/settings/class-wc-settings-checkout.php:277
+#: includes/admin/settings/class-wc-settings-shipping.php:243
+#: includes/admin/views/html-admin-page-status-report.php:275
+msgid "Settings"
+msgstr "הגדרות"
+
+#: includes/admin/class-wc-admin-menus.php:89
+#: includes/admin/views/html-admin-page-addons.php:4
+msgid "WooCommerce Add-ons/Extensions"
+msgstr "תוספים והרחבות"
+
+#: includes/admin/class-wc-admin-menus.php:89
+msgid "Add-ons"
+msgstr "תוספים"
+
+#: includes/admin/class-wc-admin-menus.php:127
+#: includes/admin/class-wc-admin-menus.php:129
+msgctxt "Admin menu name"
+msgid "Orders"
+msgstr "הזמנות"
+
+#: includes/admin/class-wc-admin-permalink-settings.php:33
+msgid "Product permalink base"
+msgstr "בסיס מבנה קישור של מוצר"
+
+#: includes/admin/class-wc-admin-permalink-settings.php:38
+msgid "Product category base"
+msgstr "בסיס קטגוריית מוצר"
+
+#: includes/admin/class-wc-admin-permalink-settings.php:45
+msgid "Product tag base"
+msgstr "בסיס תגית מוצר"
+
+#: includes/admin/class-wc-admin-permalink-settings.php:52
+msgid "Product attribute base"
+msgstr "בסיס תכונת מוצר"
+
+#: includes/admin/class-wc-admin-permalink-settings.php:65
+msgctxt "slug"
+msgid "product-category"
+msgstr "product-category"
+
+#: includes/admin/class-wc-admin-permalink-settings.php:75
+msgctxt "slug"
+msgid "product-tag"
+msgstr "product-tag"
+
+#: includes/admin/class-wc-admin-permalink-settings.php:93
+msgid ""
+"These settings control the permalinks used for products. These settings only"
+" apply when <strong>not using \"default\" permalinks above</strong>."
+msgstr "הגדרות אלה קובעות את הקישורים הקבועים למוצרים. הגדרות אלה חלות רק כאשר <strong> לא משתמשים במבנה קישורים \"ברירת המחדל\"  של וורדפרס</strong>."
+
+#: includes/admin/class-wc-admin-permalink-settings.php:100
+msgctxt "default-slug"
+msgid "shop"
+msgstr "חנות"
+
+#: includes/admin/class-wc-admin-permalink-settings.php:101
+msgctxt "default-slug"
+msgid "product"
+msgstr "מוצר"
+
+#: includes/admin/class-wc-admin-permalink-settings.php:113
+#: includes/admin/class-wc-admin-taxonomies.php:88
+#: includes/admin/class-wc-admin-taxonomies.php:177
+#: includes/admin/settings/class-wc-settings-checkout.php:226
+#: includes/admin/settings/class-wc-settings-shipping.php:202
+#: includes/admin/views/html-admin-page-status-report.php:76
+msgid "Default"
+msgstr "ברירת מחדל"
+
+#: includes/admin/class-wc-admin-permalink-settings.php:117
+#: includes/admin/reports/class-wc-report-stock.php:141
+msgid "Product"
+msgstr "מוצר"
+
+#: includes/admin/class-wc-admin-permalink-settings.php:122
+msgid "Shop base"
+msgstr "בסיס חנות"
+
+#: includes/admin/class-wc-admin-permalink-settings.php:126
+msgid "Shop base with category"
+msgstr "בסיס חנות עם קטגוריה"
+
+#: includes/admin/class-wc-admin-permalink-settings.php:132
+msgid "Custom Base"
+msgstr "בסיס מותאם אישית"
+
+#: includes/admin/class-wc-admin-permalink-settings.php:134
+msgid ""
+"Enter a custom base to use. A base <strong>must</strong> be set or WordPress"
+" will use default instead."
+msgstr "הזן מבנה קישורים מותאם אישית. מבנה הקישורים <strong>חייב</ strong> להיות מוגדר במידה ולא וורדפרס ישתמש במבנה קישורים ברירת מחדל במקום."
+
+#: includes/admin/class-wc-admin-permalink-settings.php:184
+msgctxt "slug"
+msgid "product"
+msgstr "product"
+
+#: includes/admin/class-wc-admin-post-types.php:58
+msgid "Product updated. <a href=\"%s\">View Product</a>"
+msgstr "המוצר התעדכן. <a href=\"%s\">צפה במוצר </a>"
+
+#: includes/admin/class-wc-admin-post-types.php:59
+#: includes/admin/class-wc-admin-post-types.php:74
+#: includes/admin/class-wc-admin-post-types.php:89
+msgid "Custom field updated."
+msgstr "שדה מותאם אישית עודכן."
+
+#: includes/admin/class-wc-admin-post-types.php:60
+#: includes/admin/class-wc-admin-post-types.php:75
+#: includes/admin/class-wc-admin-post-types.php:90
+msgid "Custom field deleted."
+msgstr "שדה מותאם אישית נמחק."
+
+#: includes/admin/class-wc-admin-post-types.php:61
+msgid "Product updated."
+msgstr "המוצר עודכן."
+
+#: includes/admin/class-wc-admin-post-types.php:62
+msgid "Product restored to revision from %s"
+msgstr "המוצר שוחזר לגרסה מתאריך %s"
+
+#: includes/admin/class-wc-admin-post-types.php:63
+msgid "Product published. <a href=\"%s\">View Product</a>"
+msgstr "המוצר פורסם. <a href=\"%s\">הצגת מוצר</a>"
+
+#: includes/admin/class-wc-admin-post-types.php:64
+msgid "Product saved."
+msgstr "מוצר נשמר."
+
+#: includes/admin/class-wc-admin-post-types.php:65
+msgid "Product submitted. <a target=\"_blank\" href=\"%s\">Preview Product</a>"
+msgstr "המוצר נשלח. <a target=\"_blank\" href=\"%s\"> תצוגה מקדימה למוצר </a>"
+
+#: includes/admin/class-wc-admin-post-types.php:66
+msgid ""
+"Product scheduled for: <strong>%1$s</strong>. <a target=\"_blank\" "
+"href=\"%2$s\">Preview Product</a>"
+msgstr "פרסום מוצר מתוכנן ל: <strong>%1$s</strong>. <a target=\"_blank\" href=\"%2$s\">תצוגה מקדימה של המוצר</a>"
+
+#: includes/admin/class-wc-admin-post-types.php:67
+#: includes/admin/class-wc-admin-post-types.php:82
+#: includes/admin/class-wc-admin-post-types.php:97
+msgid "M j, Y @ G:i"
+msgstr "M j, Y @ G: i"
+
+#: includes/admin/class-wc-admin-post-types.php:68
+msgid "Product draft updated. <a target=\"_blank\" href=\"%s\">Preview Product</a>"
+msgstr "טיוטת מוצר עודכנה. <a target=\"_blank\" href=\"%s\"> תצוגה מקדימה </ a>"
+
+#: includes/admin/class-wc-admin-post-types.php:73
+#: includes/admin/class-wc-admin-post-types.php:76
+#: includes/admin/class-wc-admin-post-types.php:78
+msgid "Order updated."
+msgstr "הזמנה עודכנה."
+
+#: includes/admin/class-wc-admin-post-types.php:77
+msgid "Order restored to revision from %s"
+msgstr "ההזמנה שוחזרה לגרסה מתאריך %s"
+
+#: includes/admin/class-wc-admin-post-types.php:79
+msgid "Order saved."
+msgstr "הזמנה נשמרה."
+
+#: includes/admin/class-wc-admin-post-types.php:80
+msgid "Order submitted."
+msgstr "הזמנה נשלחה."
+
+#: includes/admin/class-wc-admin-post-types.php:81
+msgid "Order scheduled for: <strong>%1$s</strong>."
+msgstr "הצו נקבע ל: %1$s </ strong>."
+
+#: includes/admin/class-wc-admin-post-types.php:83
+msgid "Order draft updated."
+msgstr "טיוטת הזמנה עודכנה."
+
+#: includes/admin/class-wc-admin-post-types.php:88
+#: includes/admin/class-wc-admin-post-types.php:91
+#: includes/admin/class-wc-admin-post-types.php:93
+msgid "Coupon updated."
+msgstr "קופון עודכן."
+
+#: includes/admin/class-wc-admin-post-types.php:92
+msgid "Coupon restored to revision from %s"
+msgstr "הקופון שוחזר לגרסה מתאריך %s"
+
+#: includes/admin/class-wc-admin-post-types.php:94
+msgid "Coupon saved."
+msgstr "קופון נשמר."
+
+#: includes/admin/class-wc-admin-post-types.php:95
+msgid "Coupon submitted."
+msgstr "קופון נשלח."
+
+#: includes/admin/class-wc-admin-post-types.php:96
+msgid "Coupon scheduled for: <strong>%1$s</strong>."
+msgstr "פרסום קופון נקבע ל: %1$s </ strong>."
+
+#: includes/admin/class-wc-admin-post-types.php:98
+msgid "Coupon draft updated."
+msgstr "טיוטת קופון עודכנה."
+
+#: includes/admin/class-wc-admin-profile.php:45
+msgid "Customer Billing Address"
+msgstr "כתובת חשבון"
+
+#: includes/admin/class-wc-admin-profile.php:48
+#: includes/admin/class-wc-admin-profile.php:97
+msgid "First name"
+msgstr "שם פרטי"
+
+#: includes/admin/class-wc-admin-profile.php:52
+#: includes/admin/class-wc-admin-profile.php:101
+msgid "Last name"
+msgstr "שם משפחה"
+
+#: includes/admin/class-wc-admin-profile.php:56
+#: includes/admin/class-wc-admin-profile.php:105
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:37
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:84
+msgid "Company"
+msgstr "חברה"
+
+#: includes/admin/class-wc-admin-profile.php:60
+#: includes/admin/class-wc-admin-profile.php:109
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:41
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:88
+msgid "Address 1"
+msgstr "כתובת 1"
+
+#: includes/admin/class-wc-admin-profile.php:64
+#: includes/admin/class-wc-admin-profile.php:113
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:45
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:92
+msgid "Address 2"
+msgstr "כתובת 2"
+
+#: includes/admin/class-wc-admin-profile.php:68
+#: includes/admin/class-wc-admin-profile.php:117
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:49
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:96
+#: includes/admin/settings/class-wc-settings-tax.php:256
+#: includes/admin/settings/class-wc-settings-tax.php:383
+msgid "City"
+msgstr "עיר"
+
+#: includes/admin/class-wc-admin-profile.php:72
+#: includes/admin/class-wc-admin-profile.php:121
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:53
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:100
+msgid "Postcode"
+msgstr "מיקוד"
+
+#: includes/admin/class-wc-admin-profile.php:76
+#: includes/admin/class-wc-admin-profile.php:125
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:63
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:110
+msgid "State/County"
+msgstr "מדינה / ארץ"
+
+#: includes/admin/class-wc-admin-profile.php:77
+#: includes/admin/class-wc-admin-profile.php:126
+msgid "State/County or state code"
+msgstr "מדינה / ארץ"
+
+#: includes/admin/class-wc-admin-profile.php:80
+#: includes/admin/class-wc-admin-profile.php:129
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:57
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:104
+msgid "Country"
+msgstr "ארץ"
+
+#: includes/admin/class-wc-admin-profile.php:81
+#: includes/admin/class-wc-admin-profile.php:130
+msgid "2 letter Country code"
+msgstr "קוד מדינה 2 אותיות"
+
+#: includes/admin/class-wc-admin-profile.php:84
+msgid "Telephone"
+msgstr "טלפון"
+
+#: includes/admin/class-wc-admin-profile.php:88
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:67
+#: includes/admin/reports/class-wc-report-customer-list.php:249
+msgid "Email"
+msgstr "אימייל"
+
+#: includes/admin/class-wc-admin-profile.php:94
+msgid "Customer Shipping Address"
+msgstr "כתובת משלוח"
+
+#: includes/admin/class-wc-admin-profile.php:197
+msgid "Read"
+msgstr "קריאה"
+
+#: includes/admin/class-wc-admin-profile.php:198
+msgid "Write"
+msgstr "כתיבה"
+
+#: includes/admin/class-wc-admin-profile.php:199
+msgid "Read/Write"
+msgstr "קריאה/כתיבה"
+
+#: includes/admin/class-wc-admin-profile.php:207
+msgid "WooCommerce API Keys"
+msgstr ""
+
+#: includes/admin/class-wc-admin-profile.php:211
+msgid "Generate API Key"
+msgstr "צור מפתח API"
+
+#: includes/admin/class-wc-admin-profile.php:213
+msgid "Consumer Key:"
+msgstr "מפתח צרכן:"
+
+#: includes/admin/class-wc-admin-profile.php:214
+msgid "Consumer Secret:"
+msgstr "סוד צרכן"
+
+#: includes/admin/class-wc-admin-profile.php:215
+msgid "Permissions:"
+msgstr "הרשאות:"
+
+#: includes/admin/class-wc-admin-profile.php:219
+msgid "Revoke API Key"
+msgstr ""
+
+#: includes/admin/class-wc-admin-reports.php:43
+#: includes/admin/reports/class-wc-report-customer-list.php:251
+msgid "Orders"
+msgstr "הזמנות"
+
+#: includes/admin/class-wc-admin-reports.php:46
+msgid "Sales by date"
+msgstr "מכירות לפי תאריך"
+
+#: includes/admin/class-wc-admin-reports.php:52
+msgid "Sales by product"
+msgstr "מכירות לפי מוצר"
+
+#: includes/admin/class-wc-admin-reports.php:58
+msgid "Sales by category"
+msgstr "מכירות לפי קטגוריה"
+
+#: includes/admin/class-wc-admin-reports.php:64
+msgid "Coupons by date"
+msgstr "קופונים לפי תאריך"
+
+#: includes/admin/class-wc-admin-reports.php:72
+#: includes/admin/reports/class-wc-report-customer-list.php:30
+msgid "Customers"
+msgstr "לקוחות"
+
+#: includes/admin/class-wc-admin-reports.php:75
+msgid "Customers vs. Guests"
+msgstr "לקוחות לעומת אורחים"
+
+#: includes/admin/class-wc-admin-reports.php:81
+msgid "Customer List"
+msgstr "רשימת לקוחות"
+
+#: includes/admin/class-wc-admin-reports.php:89
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:266
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:773
+#: includes/admin/reports/class-wc-report-stock.php:25
+#: includes/admin/reports/class-wc-report-stock.php:26
+msgid "Stock"
+msgstr "מלאי"
+
+#: includes/admin/class-wc-admin-reports.php:92
+msgid "Low in stock"
+msgstr "מלאי נמוך"
+
+#: includes/admin/class-wc-admin-reports.php:98
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:441
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:303
+#: includes/admin/reports/class-wc-report-stock.php:98
+#: includes/admin/views/html-bulk-edit-product.php:195
+#: includes/admin/views/html-quick-edit-product.php:138
+msgid "Out of stock"
+msgstr "המלאי אזל"
+
+#: includes/admin/class-wc-admin-reports.php:104
+msgid "Most Stocked"
+msgstr "הכי הרבה במלאי"
+
+#: includes/admin/class-wc-admin-reports.php:115
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-totals.php:75
+msgid "Taxes"
+msgstr "מיסים"
+
+#: includes/admin/class-wc-admin-reports.php:118
+msgid "Taxes by code"
+msgstr "מיסים לפי קוד"
+
+#: includes/admin/class-wc-admin-reports.php:124
+msgid "Taxes by date"
+msgstr "מיסים לפי תאריך"
+
+#: includes/admin/class-wc-admin-settings.php:54
+msgid "Action failed. Please refresh the page and retry."
+msgstr "פעולה נכשלה. יש לרענן את הדף ולנסות שוב."
+
+#: includes/admin/class-wc-admin-settings.php:65
+msgid "Your settings have been saved."
+msgstr "ההגדרות שלך נשמרה."
+
+#: includes/admin/class-wc-admin-settings.php:121
+msgid "The changes you made will be lost if you navigate away from this page."
+msgstr "השינויים שביצעת יאבדו אם תנווט מחוץ לדף זה."
+
+#: includes/admin/class-wc-admin-settings.php:490
+msgid "Hard Crop?"
+msgstr "חיתוך למידות מדויקות?"
+
+#: includes/admin/class-wc-admin-settings.php:515
+msgid "Select a page&hellip;"
+msgstr "בחירת עמוד&hellip;"
+
+#: includes/admin/class-wc-admin-settings.php:538
+msgid "Choose a country&hellip;"
+msgstr "בחירת מדינה&hellip;"
+
+#: includes/admin/class-wc-admin-settings.php:562
+msgid "Choose countries&hellip;"
+msgstr "בחירת מדינות&hellip;"
+
+#: includes/admin/class-wc-admin-settings.php:568
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:464
+msgid "Select all"
+msgstr "לבחור הכל"
+
+#: includes/admin/class-wc-admin-settings.php:568
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:464
+msgid "Select none"
+msgstr "לא לבחור כלום"
+
+#: includes/admin/class-wc-admin-status.php:52
+msgid "Product Transients Cleared"
+msgstr "קבצים זמניים נוקו"
+
+#: includes/admin/class-wc-admin-status.php:93
+msgid "%d Transients Rows Cleared"
+msgstr "%d שורות קבצים זמניים נוקו"
+
+#: includes/admin/class-wc-admin-status.php:102
+msgid "Roles successfully reset"
+msgstr "תפקידים אופסו בהצלחה"
+
+#: includes/admin/class-wc-admin-status.php:116
+msgid "Terms successfully recounted"
+msgstr "מונחים נספרו בהצלחה"
+
+#: includes/admin/class-wc-admin-status.php:127
+msgid "Sessions successfully cleared"
+msgstr "כל הSessions נמחקו בהצלחה"
+
+#: includes/admin/class-wc-admin-status.php:131
+msgid "All missing WooCommerce pages was installed successfully."
+msgstr "כל עמודי WooCommerce החסרים הותקנו בהצלחה."
+
+#: includes/admin/class-wc-admin-status.php:139
+msgid "Tax rates successfully deleted"
+msgstr "שיעור מס נמחקו בהצלחה"
+
+#: includes/admin/class-wc-admin-status.php:148
+msgid "There was an error calling %s::%s"
+msgstr "הייתה שגיאה בקריאה %s::%s"
+
+#: includes/admin/class-wc-admin-status.php:151
+msgid "There was an error calling %s"
+msgstr "הייתה שגיאה בקריאה ל %s"
+
+#: includes/admin/class-wc-admin-status.php:161
+msgid "Your changes have been saved."
+msgstr "השינויים שלך נשמרו."
+
+#: includes/admin/class-wc-admin-status.php:175
+msgid "WC Transients"
+msgstr "קבצים זמניים של החנות"
+
+#: includes/admin/class-wc-admin-status.php:176
+msgid "Clear transients"
+msgstr "נקוי קבצים זמניים"
+
+#: includes/admin/class-wc-admin-status.php:177
+msgid "This tool will clear the product/shop transients cache."
+msgstr "כלי זה נועד לנקות את המטמון הזמני של המוצרים / החנות."
+
+#: includes/admin/class-wc-admin-status.php:180
+msgid "Expired Transients"
+msgstr "קבצים זמניים שפגו תוקף"
+
+#: includes/admin/class-wc-admin-status.php:181
+msgid "Clear expired transients"
+msgstr "נקה קבצים זמניים שפגו תוקף"
+
+#: includes/admin/class-wc-admin-status.php:182
+msgid "This tool will clear ALL expired transients from WordPress."
+msgstr ""
+
+#: includes/admin/class-wc-admin-status.php:185
+msgid "Term counts"
+msgstr "ספירת מונחים"
+
+#: includes/admin/class-wc-admin-status.php:186
+msgid "Recount terms"
+msgstr "ספירה מחדש"
+
+#: includes/admin/class-wc-admin-status.php:187
+msgid ""
+"This tool will recount product terms - useful when changing your settings in"
+" a way which hides products from the catalog."
+msgstr "כלי זה יספור מונחי מוצר - שימושי בעת שינוי ההגדרות שלך באופן שמסתיר את המוצרים מהקטלוג."
+
+#: includes/admin/class-wc-admin-status.php:190
+msgid "Capabilities"
+msgstr "תפקידים"
+
+#: includes/admin/class-wc-admin-status.php:191
+msgid "Reset capabilities"
+msgstr "איפוס תפקידים"
+
+#: includes/admin/class-wc-admin-status.php:192
+msgid ""
+"This tool will reset the admin, customer and shop_manager roles to default. "
+"Use this if your users cannot access all of the WooCommerce admin pages."
+msgstr "כלי זה יאפס את תפקידי המנהל, הלקוחות ומנהל החנות לברירת מחדל. השתמש באפשרות זו אם המשתמשים שלך לא יכולים לגשת לכל דפי ניהול של החנות."
+
+#: includes/admin/class-wc-admin-status.php:195
+msgid "Customer Sessions"
+msgstr "Sessions לקוחות"
+
+#: includes/admin/class-wc-admin-status.php:196
+msgid "Clear all sessions"
+msgstr "מחק את כל הSessions"
+
+#: includes/admin/class-wc-admin-status.php:197
+msgid ""
+"<strong class=\"red\">Warning:</strong> This tool will delete all customer "
+"session data from the database, including any current live carts."
+msgstr "<strong class=\"red\">הזהרה:</strong> הכלי הזה ימחק את כל נתוני session לקוחות ממסד הנתונים, כולל כל עגלות פעילות כרגע."
+
+#: includes/admin/class-wc-admin-status.php:200
+#: includes/admin/views/html-notice-install.php:6
+msgid "Install WooCommerce Pages"
+msgstr "התקנת עמודי החנות"
+
+#: includes/admin/class-wc-admin-status.php:201
+msgid "Install pages"
+msgstr "התקן דפים"
+
+#: includes/admin/class-wc-admin-status.php:202
+msgid ""
+"<strong class=\"red\">Note:</strong> This tool will install all the missing "
+"WooCommerce pages. Pages already defined and set up will not be replaced."
+msgstr "<strong class=\"red\">הערה:</strong> כלי זה יתקין את כל עמודי WooCommerce החסרים. עמודים אשר הוגדרו כבר לא יוחלפו."
+
+#: includes/admin/class-wc-admin-status.php:205
+msgid "Delete all WooCommerce tax rates"
+msgstr "מחק את כל תעריפי המס של WooCommerce."
+
+#: includes/admin/class-wc-admin-status.php:206
+msgid "Delete ALL tax rates"
+msgstr "מחק את כל שיערי המס"
+
+#: includes/admin/class-wc-admin-status.php:207
+msgid ""
+"<strong class=\"red\">Note:</strong> This option will delete ALL of your tax"
+" rates, use with caution."
+msgstr "<strong class=\"red\">הערה:</strong> אפשרות זו תמחק את <u>כל</u> תעריפי המס שלך, השתמש בה בזהירות."
+
+#: includes/admin/class-wc-admin-taxonomies.php:86
+#: includes/admin/class-wc-admin-taxonomies.php:174
+msgid "Display type"
+msgstr "סוג תצוגה"
+
+#: includes/admin/class-wc-admin-taxonomies.php:89
+#: includes/admin/class-wc-admin-taxonomies.php:178
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:97
+#: includes/admin/settings/class-wc-settings-products.php:25
+#: includes/admin/views/html-admin-page-addons.php:16
+msgid "Products"
+msgstr "מוצרים"
+
+#: includes/admin/class-wc-admin-taxonomies.php:90
+#: includes/admin/class-wc-admin-taxonomies.php:179
+msgid "Subcategories"
+msgstr "תתי קטגוריות"
+
+#: includes/admin/class-wc-admin-taxonomies.php:91
+#: includes/admin/class-wc-admin-taxonomies.php:180
+msgid "Both"
+msgstr "בשניהם"
+
+#: includes/admin/class-wc-admin-taxonomies.php:95
+#: includes/admin/class-wc-admin-taxonomies.php:185
+msgid "Thumbnail"
+msgstr "תמונה ראשית"
+
+#: includes/admin/class-wc-admin-taxonomies.php:99
+#: includes/admin/class-wc-admin-taxonomies.php:190
+msgid "Upload/Add image"
+msgstr "העלאת/הוספת תמונה"
+
+#: includes/admin/class-wc-admin-taxonomies.php:100
+#: includes/admin/class-wc-admin-taxonomies.php:191
+msgid "Remove image"
+msgstr "הסרת התמונה"
+
+#: includes/admin/class-wc-admin-taxonomies.php:125
+#: includes/admin/class-wc-admin-taxonomies.php:212
+msgid "Use image"
+msgstr "להשתמש בתמונה"
+
+#: includes/admin/class-wc-admin-taxonomies.php:270
+msgid ""
+"Product categories for your store can be managed here. To change the order "
+"of categories on the front-end you can drag and drop to sort them. To see "
+"more categories listed click the \"screen options\" link at the top of the "
+"page."
+msgstr "ניתן לנהל מכאן קטגוריות מוצרים עבור החנות שלך . כדי לשנות את הסדר של קטגוריות אתה יכול לגרור ולשחרר כדי למיין אותם. כדי לראות קטגוריות נוספות המפורטות לחץ על הקישור \"אפשרויות מסך \"  בחלק העליון של הדף."
+
+#: includes/admin/class-wc-admin-taxonomies.php:280
+msgid ""
+"Shipping classes can be used to group products of similar type. These groups"
+" can then be used by certain shipping methods to provide different rates to "
+"different products."
+msgstr "כיתות משלוח יכולות לשמש למוצרי קבוצה מסוג דומה. קבוצות אלה לאחר מכן ניתן להשתמש בשיטות משלוח מסוימות לספק תעריפים שונים למוצרים שונים."
+
+#: includes/admin/class-wc-admin-taxonomies.php:293
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:257
+msgid "Image"
+msgstr "תמונה"
+
+#: includes/admin/class-wc-admin-welcome.php:50
+msgid "Welcome to WooCommerce"
+msgstr "ברוכים הבאים לWooCommerce"
+
+#: includes/admin/class-wc-admin-welcome.php:201
+msgid "Welcome to WooCommerce %s"
+msgstr "ברוכים הבאים לWooCommerce %s"
+
+#: includes/admin/class-wc-admin-welcome.php:206
+msgid "Thanks, all done!"
+msgstr "תודה, הכל נעשה!"
+
+#: includes/admin/class-wc-admin-welcome.php:208
+msgid "Thank you for updating to the latest version!"
+msgstr "תודה לך על עדכון לגרסה העדכנית ביותר!"
+
+#: includes/admin/class-wc-admin-welcome.php:210
+msgid "Thanks for installing!"
+msgstr "תודה על התקנה!"
+
+#: includes/admin/class-wc-admin-welcome.php:212
+msgid ""
+"%s WooCommerce %s is more powerful, stable, and secure than ever before. We "
+"hope you enjoy it."
+msgstr "%s WooCommerce %s היא יותר חזקה, יציבה ומאובטחת מאי פעם. אנו מקווים שאתה תהנה ממנה."
+
+#: includes/admin/class-wc-admin-welcome.php:216
+msgid "Version %s"
+msgstr "גרסה %s"
+
+#: includes/admin/class-wc-admin-welcome.php:220
+msgid "Docs"
+msgstr "תיעוד"
+
+#: includes/admin/class-wc-admin-welcome.php:227
+msgid "What's New"
+msgstr "מה חדש"
+
+#: includes/admin/class-wc-admin-welcome.php:229
+msgid "Credits"
+msgstr "קרדיטים"
+
+#: includes/admin/class-wc-admin-welcome.php:231
+msgid "Translators"
+msgstr "מתרגמים"
+
+#: includes/admin/class-wc-admin-welcome.php:249
+msgid "A new RESTful API developers will &#10084;"
+msgstr ""
+
+#: includes/admin/class-wc-admin-welcome.php:252
+msgid "Access your data from 3rd party applications"
+msgstr ""
+
+#: includes/admin/class-wc-admin-welcome.php:253
+msgid ""
+"Built on top of the WooCommerce API, and targeted directly at developers, "
+"the new REST API allows you to get data for <strong>Orders</strong>, "
+"<strong>Coupons</strong>, <strong>Customers</strong>, "
+"<strong>Products</strong> and <strong>Reports</strong> in both "
+"<code>XML</code> and <code>JSON</code> formats."
+msgstr ""
+
+#: includes/admin/class-wc-admin-welcome.php:257
+msgid "Authentication to keep data secure"
+msgstr ""
+
+#: includes/admin/class-wc-admin-welcome.php:258
+msgid ""
+"Authentication for the REST API is performed using HTTP Basic Auth if you "
+"have SSL enabled, or signed according to the <a "
+"href=\"http://tools.ietf.org/html/rfc5849\">OAuth 1.0a</a> specification if "
+"you don't have SSL. Data is only available to authenticated users."
+msgstr ""
+
+#: includes/admin/class-wc-admin-welcome.php:263
+msgid "UI and reporting improvements"
+msgstr "שיפורי ממשק משתמש ודיווח"
+
+#: includes/admin/class-wc-admin-welcome.php:266
+msgid "WordPress 3.8 admin UI compatibility"
+msgstr ""
+
+#: includes/admin/class-wc-admin-welcome.php:267
+msgid ""
+"WooCommerce 2.1 has had its UI restyled to work with the new admin design in"
+" WordPress 3.8. All bitmap icons have been replaced with a custom, "
+"lightweight icon font for razor sharp clarity on retina devices as well as "
+"improved performance."
+msgstr ""
+
+#: includes/admin/class-wc-admin-welcome.php:270
+msgid "Simplified order UI"
+msgstr "ממשק הזמנה מפושט"
+
+#: includes/admin/class-wc-admin-welcome.php:271
+msgid ""
+"The orders panel has seen significant improvement to both the totals panel, "
+"and line item display making editing new and existing orders a breeze."
+msgstr ""
+
+#: includes/admin/class-wc-admin-welcome.php:272
+msgid ""
+"Item meta has also been optimised and can now be viewed as HTML rather than "
+"stuck in a text input."
+msgstr ""
+
+#: includes/admin/class-wc-admin-welcome.php:275
+msgid "Improved Reporting"
+msgstr "דיווח משופר"
+
+#: includes/admin/class-wc-admin-welcome.php:276
+msgid ""
+"Reports have been redesigned with new <strong>filtering</strong> "
+"capabilities, a new <strong>customer report</strong> showing "
+"orders/spending, and the ability to <strong>export CSVs</strong>."
+msgstr ""
+
+#: includes/admin/class-wc-admin-welcome.php:277
+msgid ""
+"The dashboard also has a new widget showing you an overview of current "
+"orders complete with sparklines for quick at-a-glance stats."
+msgstr ""
+
+#: includes/admin/class-wc-admin-welcome.php:282
+msgid "Separated integrations"
+msgstr "הטמעות נפרדות"
+
+#: includes/admin/class-wc-admin-welcome.php:285
+msgid "New separate plugins"
+msgstr "תוספים נפרדים חדשים"
+
+#: includes/admin/class-wc-admin-welcome.php:286
+msgid ""
+"To make core more lean, some integrations have been removed and turned into "
+"dedicated plugins which you can install as and when you need them."
+msgstr ""
+
+#: includes/admin/class-wc-admin-welcome.php:289
+msgid "Google Analytics"
+msgstr "Google Analytics"
+
+#: includes/admin/class-wc-admin-welcome.php:290
+msgid "Add Google Analytics eCommerce tracking to your WooCommerce store."
+msgstr ""
+
+#: includes/admin/class-wc-admin-welcome.php:291
+#: includes/admin/class-wc-admin-welcome.php:296
+#: includes/admin/class-wc-admin-welcome.php:301
+#: includes/admin/class-wc-admin-welcome.php:306
+#: includes/admin/class-wc-admin-welcome.php:311
+msgid "Download"
+msgstr "הורדה"
+
+#: includes/admin/class-wc-admin-welcome.php:294
+msgid "Piwik"
+msgstr "Piwik"
+
+#: includes/admin/class-wc-admin-welcome.php:295
+msgid "Integrate WooCommerce with Piwik and the WP-Piwik plugin."
+msgstr "הטמעה את WooCommerce  עם Piwik ותוסף הWP-Piwik."
+
+#: includes/admin/class-wc-admin-welcome.php:299
+msgid "ShareThis"
+msgstr "ShareThis"
+
+#: includes/admin/class-wc-admin-welcome.php:300
+msgid "Add social network sharing buttons to products using ShareThis."
+msgstr "הוסף כפתורי שיתוף ברשתות החברתיות באמצעות ShareThis."
+
+#: includes/admin/class-wc-admin-welcome.php:304
+msgid "Sharedaddy"
+msgstr "Sharedaddy"
+
+#: includes/admin/class-wc-admin-welcome.php:305
+msgid "Add social network sharing buttons to products using Sharedaddy."
+msgstr "הוסף כפתורי שיתוף ברשתות החברתיות למוצרים באמצעות Sharedaddy."
+
+#: includes/admin/class-wc-admin-welcome.php:309
+msgid "ShareYourCart"
+msgstr "ShareYourCart"
+
+#: includes/admin/class-wc-admin-welcome.php:310
+msgid ""
+"Let users share their carts for a discount using the ShareYourCart service."
+msgstr "אפשר למשתמשים לשתף את העגלה שלהם עבור הנחה באמצעות שירות ShareYourCart."
+
+#: includes/admin/class-wc-admin-welcome.php:316
+msgid "Under the Hood"
+msgstr "מתחת למכסה המנוע"
+
+#: includes/admin/class-wc-admin-welcome.php:320
+msgid "PayPal PDT support"
+msgstr "תמיכה ב- PayPal PDT"
+
+#: includes/admin/class-wc-admin-welcome.php:321
+msgid ""
+"PayPal Data Transfer (PDT) is an alternative for PayPal IPN which sends back"
+" the status of an order when a customer returns from PayPal."
+msgstr "PayPal Data Transfer (PDT) הינה אלטרנטיבה עבור  IPN (Instant Payment Notification) של PayPal אשר שולחת חזרה את מצב ההזמנה כאשר לקוח חוזר מPayPal."
+
+#: includes/admin/class-wc-admin-welcome.php:325
+msgid "Stylesheet separation"
+msgstr "הפרדת עמוד סגנון"
+
+#: includes/admin/class-wc-admin-welcome.php:326
+msgid ""
+"Frontend styles have been split into separate appearance/layout/smallscreen "
+"stylesheets to help with selective customisation."
+msgstr ""
+
+#: includes/admin/class-wc-admin-welcome.php:330
+msgid "New endpoints"
+msgstr "נקודות קצה חדשות"
+
+#: includes/admin/class-wc-admin-welcome.php:331
+msgid ""
+"Certain pages such as \"Pay\", \"Order Received\" and some account pages are"
+" now endpoints rather than pages to make checkout more reliable."
+msgstr ""
+
+#: includes/admin/class-wc-admin-welcome.php:337
+msgid "Default credit card form for gateways"
+msgstr "טופס כרטיס אשראי ברירת מחדל עבור שיטות תשלום"
+
+#: includes/admin/class-wc-admin-welcome.php:338
+msgid ""
+"We've added a standardized, default credit card form for gateways to use if "
+"they support <code>default_credit_card_form</code>."
+msgstr "הוספנו טופס כרטיס אשראי ברירת מחדל מתוקנן עבור שימוש של שיטות תשלום אם הן תומכות ב<code>default_credit_card_form</code>."
+
+#: includes/admin/class-wc-admin-welcome.php:342
+msgid "Coupon limits per customer"
+msgstr "הגבלות קופון עבור כל לקוח"
+
+#: includes/admin/class-wc-admin-welcome.php:343
+msgid ""
+"Coupon usage limits can now be set per user (using email + ID) rather than "
+"global."
+msgstr "הגבלות שימוש עבור קופונים יכולות כעת להיות מוגדרות עבור כל משתמש (באמצעות שימוש באימייל + מזהה) על פני הגדרה גלובלית."
+
+#: includes/admin/class-wc-admin-welcome.php:347
+msgid "Streamlined new-account process"
+msgstr ""
+
+#: includes/admin/class-wc-admin-welcome.php:348
+msgid ""
+"During checkout, username and passwords are optional and can be "
+"automatically generated by WooCommerce."
+msgstr ""
+
+#: includes/admin/class-wc-admin-welcome.php:355
+msgid "Additional price display options"
+msgstr "אפשרויות הצגת מחיר נוספות"
+
+#: includes/admin/class-wc-admin-welcome.php:356
+msgid ""
+"Define whether prices should be shown incl. or excl. of tax on the frontend,"
+" and add an optional suffix."
+msgstr ""
+
+#: includes/admin/class-wc-admin-welcome.php:360
+msgid "Past order linking"
+msgstr "קישור הזמנות קודמות"
+
+#: includes/admin/class-wc-admin-welcome.php:361
+msgid ""
+"Admins now have the ability to link past orders to a customer (before they "
+"registered) by email address."
+msgstr ""
+
+#: includes/admin/class-wc-admin-welcome.php:365
+msgid "Review improvements"
+msgstr "שיפורי חוות דעת"
+
+#: includes/admin/class-wc-admin-welcome.php:366
+msgid ""
+"We've added a new option to restrict reviews to logged in purchasers, and "
+"made ratings editable from the backend."
+msgstr ""
+
+#: includes/admin/class-wc-admin-welcome.php:373
+msgid "Go to WooCommerce Settings"
+msgstr "מעבר להגדרות"
+
+#: includes/admin/class-wc-admin-welcome.php:388
+msgid ""
+"WooCommerce is developed and maintained by a worldwide team of passionate "
+"individuals and backed by an awesome developer community. Want to see your "
+"name? <a "
+"href=\"https://github.com/woothemes/woocommerce/blob/master/CONTRIBUTING.md\">Contribute"
+" to WooCommerce</a>."
+msgstr "WooCommerce מפותח ומתוחזק על ידי צוות עולמי של אנשים נלהבים ומגובה על ידי קהילת מפתחים מדהימה. רוצה לראות את השם שלך?  <a href=\"https://github.com/woothemes/woocommerce/blob/master/CONTRIBUTING.md\"> לתרום ל WooCommerce </a>."
+
+#: includes/admin/class-wc-admin-welcome.php:404
+msgid ""
+"WooCommerce has been kindly translated into several other languages thanks "
+"to our translation team. Want to see your name? <a "
+"href=\"https://www.transifex.com/projects/p/woocommerce/\">Translate "
+"WooCommerce</a>."
+msgstr ""
+
+#: includes/admin/class-wc-admin-welcome.php:429
+msgid "View %s"
+msgstr "צפייה %s"
+
+#: includes/admin/class-wc-admin.php:114
+msgid "HTML Email Template"
+msgstr "תבנית HTML של אימייל"
+
+#: includes/admin/importers/class-wc-tax-rate-importer.php:103
+#: includes/admin/importers/class-wc-tax-rate-importer.php:190
+#: includes/admin/importers/class-wc-tax-rate-importer.php:230
+#: includes/admin/importers/class-wc-tax-rate-importer.php:245
+msgid "Sorry, there has been an error."
+msgstr "אנו מצטערים, אירעה שגיאה."
+
+#: includes/admin/importers/class-wc-tax-rate-importer.php:104
+msgid "The file does not exist, please try again."
+msgstr "הקובץ אינו קיים, יש לנסות שוב."
+
+#: includes/admin/importers/class-wc-tax-rate-importer.php:191
+msgid "The CSV is invalid."
+msgstr "CSV אינו תקין."
+
+#: includes/admin/importers/class-wc-tax-rate-importer.php:202
+msgid ""
+"Import complete - imported <strong>%s</strong> tax rates and skipped "
+"<strong>%s</strong>."
+msgstr "הייבוא הסתיים - ייובא שיעור מס <strong>%s</strong> ודילג על <strong>%s</strong>."
+
+#: includes/admin/importers/class-wc-tax-rate-importer.php:212
+msgid "All done!"
+msgstr "הכל בוצע!"
+
+#: includes/admin/importers/class-wc-tax-rate-importer.php:212
+msgid "View Tax Rates"
+msgstr "צפו בשיעורי מס"
+
+#: includes/admin/importers/class-wc-tax-rate-importer.php:263
+msgid "Import Tax Rates"
+msgstr "יבוא שיעורי מס"
+
+#: includes/admin/importers/class-wc-tax-rate-importer.php:285
+msgid ""
+"Hi there! Upload a CSV file containing tax rates to import the contents into"
+" your shop. Choose a .csv file to upload, then click \"Upload file and "
+"import\"."
+msgstr ""
+
+#: includes/admin/importers/class-wc-tax-rate-importer.php:287
+msgid ""
+"Tax rates need to be defined with columns in a specific order (10 columns). "
+"<a href=\"%s\">Click here to download a sample</a>."
+msgstr "שיעורי מס צריכים להיות מוגדרים עם עמודות לפי סדר מסוים (10 עמודים). <a href=\"%s\"> לחץ כאן כדי להוריד דוגמה</a>."
+
+#: includes/admin/importers/class-wc-tax-rate-importer.php:295
+msgid ""
+"Before you can upload your import file, you will need to fix the following "
+"error:"
+msgstr "לפני שתוכל להעלות את קובץ היבוא שלך, אתה צריך לתקן את השגיאה הבאה:"
+
+#: includes/admin/importers/class-wc-tax-rate-importer.php:304
+msgid "Choose a file from your computer:"
+msgstr "בחירת קובץ מהמחשב:"
+
+#: includes/admin/importers/class-wc-tax-rate-importer.php:310
+msgid "Maximum size: %s"
+msgstr "גודל מקסימלי: %s"
+
+#: includes/admin/importers/class-wc-tax-rate-importer.php:315
+msgid "OR enter path to file:"
+msgstr "או להכניס נתיב לקובץ:"
+
+#: includes/admin/importers/class-wc-tax-rate-importer.php:322
+msgid "Delimiter"
+msgstr "מפריד"
+
+#: includes/admin/importers/class-wc-tax-rate-importer.php:328
+msgid "Upload file and import"
+msgstr "העלה קובץ ויבא"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:106
+msgid "Product Image"
+msgstr "תמונת מוצר"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:108
+msgid "Remove product image"
+msgstr "הסר תמונת מוצר"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:110
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:124
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:125
+msgid "Set product image"
+msgstr "הצמד תמונת מוצר"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:139
+msgid "Product name"
+msgstr "שם מוצר"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:162
+msgid "Catalog/search"
+msgstr "קטלוג וחיפוש"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:163
+#: includes/admin/views/html-bulk-edit-product.php:158
+#: includes/admin/views/html-quick-edit-product.php:115
+msgid "Catalog"
+msgstr "קטלוג"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:164
+#: includes/admin/views/html-bulk-edit-product.php:159
+#: includes/admin/views/html-quick-edit-product.php:116
+msgid "Search"
+msgstr "חיפוש"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:165
+#: includes/admin/views/html-bulk-edit-product.php:160
+#: includes/admin/views/html-quick-edit-product.php:117
+msgid "Hidden"
+msgstr "להסתיר"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:169
+msgid "Catalog visibility:"
+msgstr "נראות הקטלוג:"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:185
+msgid ""
+"Define the loops this product should be visible in. The product will still "
+"be accessible directly."
+msgstr "הגדר את הלולאות שבהן המוצר יהיה גלוי בהן. המוצר עדיין יהיה נגיש באופן ישיר."
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:191
+msgid "Enable this option to feature this product."
+msgstr "הפעל אפשרות זו כדי להפוך את המוצר למוצר מומלץ."
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:193
+msgid "Featured Product"
+msgstr "מוצר מומלץ"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:196
+msgid "OK"
+msgstr "אישור"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:197
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:170
+msgid "Cancel"
+msgstr "ביטול"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:262
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:136
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:53
+#: includes/admin/views/html-quick-edit-product.php:11
+msgid "SKU"
+msgstr "מק&quot;ט"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:269
+#: includes/admin/views/html-bulk-edit-product.php:10
+#: includes/admin/views/html-quick-edit-product.php:22
+msgid "Price"
+msgstr "מחיר"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:271
+#: includes/admin/reports/class-wc-report-sales-by-category.php:155
+msgid "Categories"
+msgstr "קטגוריות"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:272
+msgid "Tags"
+msgstr "תגיות"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:275
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:98
+#: includes/admin/reports/class-wc-report-coupon-usage.php:321
+#: includes/admin/reports/class-wc-report-customers.php:206
+#: includes/admin/reports/class-wc-report-sales-by-category.php:227
+#: includes/admin/reports/class-wc-report-sales-by-date.php:165
+#: includes/admin/reports/class-wc-report-sales-by-product.php:319
+msgid "Date"
+msgstr "תאריך"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:322
+msgid "Edit this item"
+msgstr "עריכת פריט"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:323
+msgid "Edit this item inline"
+msgstr "לערוך את הפריט בעמוד הנוכחי"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:323
+msgid "Quick&nbsp;Edit"
+msgstr "עריכה מהירה"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:327
+#: includes/admin/post-types/class-wc-admin-cpt-shop_coupon.php:111
+msgid "Restore this item from the Trash"
+msgstr "שחזור פריט זה מהאשפה"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:327
+#: includes/admin/post-types/class-wc-admin-cpt-shop_coupon.php:111
+msgid "Restore"
+msgstr "שחזור"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:329
+#: includes/admin/post-types/class-wc-admin-cpt-shop_coupon.php:113
+msgid "Move this item to the Trash"
+msgstr "הזזת פריט זה לאשפה"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:329
+#: includes/admin/post-types/class-wc-admin-cpt-shop_coupon.php:113
+msgid "Trash"
+msgstr "אשפה"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:333
+#: includes/admin/post-types/class-wc-admin-cpt-shop_coupon.php:115
+msgid "Delete this item permanently"
+msgstr "מחק פריט זה לצמיתות"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:333
+#: includes/admin/post-types/class-wc-admin-cpt-shop_coupon.php:115
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-actions.php:64
+msgid "Delete Permanently"
+msgstr "למחוק לצמיתות"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:339
+msgid "Preview &#8220;%s&#8221;"
+msgstr "תצוגה מקדימה של &#8220;%s&#8221;"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:339
+msgid "Preview"
+msgstr "תצוגה מקדימה"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:341
+msgid "View &#8220;%s&#8221;"
+msgstr "הצגת &#8220;%s&#8221;"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:341
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:300
+#: includes/admin/reports/class-wc-report-stock.php:119
+msgid "View"
+msgstr "צפייה"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:391
+msgid "Grouped"
+msgstr "בקבוצה"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:393
+msgid "External/Affiliate"
+msgstr "תוכנית שותפים/חיצוני"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:397
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:596
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:51
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:214
+msgid "Virtual"
+msgstr "וירטואלי"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:399
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:588
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:58
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:212
+msgid "Downloadable"
+msgstr "להורדה"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:401
+msgid "Simple"
+msgstr "מוצר רגיל"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:405
+msgid "Variable"
+msgstr "עם משתנים"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:428
+msgid "Toggle featured"
+msgstr "הפעלה/כיבוי מוצר מועדף"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:430
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:139
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:208
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:212
+#: includes/admin/views/html-admin-page-status-report.php:38
+#: includes/admin/views/html-admin-page-status-report.php:72
+#: includes/admin/views/html-admin-page-status-report.php:97
+#: includes/admin/views/html-admin-page-status-report.php:282
+#: includes/admin/views/html-bulk-edit-product.php:176
+#: includes/admin/views/html-bulk-edit-product.php:213
+msgid "Yes"
+msgstr "כן"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:432
+#: includes/admin/views/html-admin-page-status-report.php:38
+#: includes/admin/views/html-admin-page-status-report.php:72
+#: includes/admin/views/html-admin-page-status-report.php:97
+#: includes/admin/views/html-admin-page-status-report.php:282
+#: includes/admin/views/html-bulk-edit-product.php:177
+#: includes/admin/views/html-bulk-edit-product.php:214
+msgid "No"
+msgstr "לא"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:439
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:302
+#: includes/admin/reports/class-wc-report-stock.php:96
+#: includes/admin/views/html-bulk-edit-product.php:194
+#: includes/admin/views/html-quick-edit-product.php:137
+msgid "In stock"
+msgstr "במלאי"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:527
+msgid "Sort Products"
+msgstr "סדר המוצרים"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:548
+msgid "Show all product types"
+msgstr "הצגת כל סוגי המוצרים"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:561
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:37
+msgid "Grouped product"
+msgstr "קבוצת מוצרים"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:564
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:38
+msgid "External/Affiliate product"
+msgstr "תוכנית שותפים/חיצוני"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:567
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:39
+msgid "Variable product"
+msgstr "מוצר עם וריאציות"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:570
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:36
+msgid "Simple product"
+msgstr "מוצר רגיל"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_coupon.php:53
+msgid "Coupon code"
+msgstr "קוד קופון"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_coupon.php:66
+msgid "Description (optional)"
+msgstr "תיאור (אופציונלי)"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_coupon.php:77
+msgid "Code"
+msgstr "קוד"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_coupon.php:78
+msgid "Coupon type"
+msgstr "סוג קופון"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_coupon.php:79
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:66
+#: includes/admin/reports/class-wc-report-sales-by-date.php:327
+msgid "Coupon amount"
+msgstr "כמות קופונים"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_coupon.php:80
+msgid "Description"
+msgstr "תיאור"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_coupon.php:81
+msgid "Product IDs"
+msgstr "מזהי מוצר"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_coupon.php:82
+msgid "Usage / Limit"
+msgstr "שימוש / הגבלה"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_coupon.php:83
+msgid "Expiry date"
+msgstr "תאריך תפוגה"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_coupon.php:102
+msgid "Edit coupon"
+msgstr "ערוך קופון"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_coupon.php:160
+msgid "%s / %s"
+msgstr "%s / %s"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_coupon.php:162
+msgid "%s / &infin;"
+msgstr "%s / &infin;"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_coupon.php:208
+msgid "Show all types"
+msgstr "הצג את כל הסוגים"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:91
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:758
+#: includes/admin/settings/class-wc-settings-checkout.php:229
+#: includes/admin/settings/class-wc-settings-shipping.php:205
+msgid "Status"
+msgstr "מצב"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:92
+msgid "Order"
+msgstr "הזמנה"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:93
+msgid "Purchased"
+msgstr "נקנה"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:94
+msgid "Ship to"
+msgstr "שלח אל"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:96
+msgid "Customer Message"
+msgstr "הודעה מהלקוח"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:97
+#: includes/admin/post-types/class-wc-admin-meta-boxes.php:110
+msgid "Order Notes"
+msgstr "הערות הזמנה"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:99
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-items.php:43
+#: includes/admin/post-types/meta-boxes/views/html-order-fee.php:62
+#: includes/admin/post-types/meta-boxes/views/html-order-item.php:175
+#: includes/admin/reports/class-wc-report-taxes-by-code.php:127
+msgid "Total"
+msgstr "סה&quot;כ"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:100
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-actions.php:34
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-items.php:81
+#: includes/admin/reports/class-wc-report-customer-list.php:254
+#: includes/admin/reports/class-wc-report-stock.php:145
+msgid "Actions"
+msgstr "פעולות"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:125
+msgid "Unpublished"
+msgstr "לא פורסם"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:127
+msgid "Y/m/d g:i:s A"
+msgstr "Y/m/d g:i:s A"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:130
+msgid "Y/m/d"
+msgstr "Y/m/d"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:151
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:189
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:224
+msgid "Via"
+msgstr "באמצעות"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:155
+msgid "%d item"
+msgid_plural "%d items"
+msgstr[0] "פריט %d"
+msgstr[1] "%d פריטים"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:210
+msgid "plus %d other note"
+msgid_plural "plus %d other notes"
+msgstr[0] "ועוד הערה נוספת אחת."
+msgstr[1] "ועוד %d הערות נוספות"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:210
+msgid "%d note"
+msgid_plural "%d notes"
+msgstr[0] "הערה %d"
+msgstr[1] "%d הערות"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:232
+msgid "Billing:"
+msgstr "חיוב:"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:236
+msgid "Tel:"
+msgstr "טלפון:"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:261
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:169
+msgid "Guest"
+msgstr "אורח"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:265
+msgid "%s by %s"
+msgstr "%s על ידי %s"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:285
+msgid "Processing"
+msgstr "בטיפול"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:293
+msgid "Complete"
+msgstr "הושלם"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:388
+msgid "Show all statuses"
+msgstr "הצג את המצב של כל כולם"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:408
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:433
+msgid "Show all customers"
+msgstr "הצג את כל הלקוחות"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:667
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:668
+msgid "Mark processing"
+msgstr "סמן בטיפול"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:670
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:671
+msgid "Mark on-hold"
+msgstr "סמן כמושהה"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:673
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:674
+msgid "Mark completed"
+msgstr "סמן סיום"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:715
+msgid "Order status changed by bulk edit:"
+msgstr "מצב הזמנה לשינוי על ידי עריכה בכמות גדולה:"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:737
+msgid "Order status changed."
+msgid_plural "%s order statuses changed."
+msgstr[0] "מצב הזמנה השתנה."
+msgstr[1] "מצב הזמנה השתנה."
+
+#: includes/admin/post-types/class-wc-admin-cpt.php:42
+msgid "Insert into %s"
+msgstr "להכניס לתוך %s"
+
+#: includes/admin/post-types/class-wc-admin-cpt.php:43
+msgid "Uploaded to this %s"
+msgstr "הועלה אל %s זה/זו."
+
+#: includes/admin/post-types/class-wc-admin-meta-boxes.php:102
+msgid "Product Short Description"
+msgstr "תיאור קצר למוצר"
+
+#: includes/admin/post-types/class-wc-admin-meta-boxes.php:103
+#: includes/admin/settings/class-wc-settings-products.php:283
+#: includes/admin/views/html-bulk-edit-product.php:4
+#: includes/admin/views/html-quick-edit-product.php:4
+msgid "Product Data"
+msgstr "פרטי המוצר"
+
+#: includes/admin/post-types/class-wc-admin-meta-boxes.php:104
+msgid "Product Gallery"
+msgstr "גלריית מוצרים"
+
+#: includes/admin/post-types/class-wc-admin-meta-boxes.php:107
+msgid "Order Data"
+msgstr "פרטי הזמנה"
+
+#: includes/admin/post-types/class-wc-admin-meta-boxes.php:108
+msgid "Order Items"
+msgstr "פריטי הזמנה"
+
+#: includes/admin/post-types/class-wc-admin-meta-boxes.php:109
+msgid "Order Totals"
+msgstr "סך הזמנה"
+
+#: includes/admin/post-types/class-wc-admin-meta-boxes.php:111
+msgid "Downloadable Product Permissions"
+msgstr "הרשאות מוצרים להורדה"
+
+#: includes/admin/post-types/class-wc-admin-meta-boxes.php:111
+msgid ""
+"Note: Permissions for order items will automatically be granted when the "
+"order status changes to processing/completed."
+msgstr "הערה: הרשאת גישה לפריטים תינתן באופן אוטומטי כאשר מצב ההזמנה ישתנה לבטיפול/הושלמה."
+
+#: includes/admin/post-types/class-wc-admin-meta-boxes.php:112
+msgid "Order Actions"
+msgstr "אפשרויות הזמנה"
+
+#: includes/admin/post-types/class-wc-admin-meta-boxes.php:115
+msgid "Coupon Data"
+msgstr "פרטי קופון"
+
+#: includes/admin/post-types/class-wc-admin-meta-boxes.php:120
+msgid "Rating"
+msgstr "דירוג"
+
+#: includes/admin/post-types/class-wc-admin-meta-boxes.php:153
+msgid "Reviews"
+msgstr "חוות דעת"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:37
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:85
+#: includes/admin/settings/class-wc-settings-general.php:27
+msgid "General"
+msgstr "כללי"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:42
+msgid "Usage Restriction"
+msgstr "הגבלת שימוש"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:47
+msgid "Usage Limits"
+msgstr "הגבלות שימוש"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:63
+msgid "Discount type"
+msgstr "סוג הנחה"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:66
+msgid "Value of the coupon."
+msgstr "ערך הקופון"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:69
+msgid "Allow free shipping"
+msgstr "אפשר משלוח חינם"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:69
+msgid ""
+"Check this box if the coupon grants free shipping. The <a href=\"%s\">free "
+"shipping method</a> must be enabled with the \"must use coupon\" setting."
+msgstr "סמן תיבה זו אם קופון זה מקנה משלוח חינם. על <a href=\"%s\">משלוח חינם</a> להיות מאופשר בהגדרת \"חובה להשתמש בקופון\"."
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:72
+msgid "Apply before tax"
+msgstr "החל לפני מיסים"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:72
+msgid ""
+"Check this box if the coupon should be applied before calculating cart tax."
+msgstr "סמן תיבה זו אם הקופון צריך להיות מיושם לפני חישוב המיסים לסל"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:75
+msgid "Coupon expiry date"
+msgstr "תאריך תפוגת הקופון"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:75
+msgctxt "placeholder"
+msgid "YYYY-MM-DD"
+msgstr "YYYY-MM-DD"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:85
+msgid "Minimum spend"
+msgstr "סכום רכישה מינימלי"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:85
+msgid "No minimum"
+msgstr "אין מינימום"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:85
+msgid ""
+"This field allows you to set the minimum subtotal needed to use the coupon."
+msgstr "שדה זה מאפשר לך לקבוע את סכום ביניים המינימלי הנדרש כדי להשתמש בקופון."
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:88
+msgid "Individual use only"
+msgstr "לשימוש אישי בלבד"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:88
+msgid ""
+"Check this box if the coupon cannot be used in conjunction with other "
+"coupons."
+msgstr "סמן תיבה זו אם לא ניתן להשתמש בקופון בשילוב עם קופונים נוספים."
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:91
+msgid "Exclude sale items"
+msgstr "אל תכלול פריטים במבצע"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:91
+msgid ""
+"Check this box if the coupon should not apply to items on sale. Per-item "
+"coupons will only work if the item is not on sale. Per-cart coupons will "
+"only work if there are no sale items in the cart."
+msgstr "סמנו תיבה זו אם הקופון לא יחול על פריטים במבצע. קופונים לפי פריט יפעלו רק אם הפריט אינו במבצע. קופונים לכל עגלה יפעלו רק אם אין פריטים במבצע בעגלה."
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:98
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-items.php:95
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:589
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:606
+#: includes/admin/reports/class-wc-report-sales-by-product.php:173
+msgid "Search for a product&hellip;"
+msgstr "חפש מוצר…"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:111
+msgid ""
+"Products which need to be in the cart to use this coupon or, for \"Product "
+"Discounts\", which products are discounted."
+msgstr "מוצרים אשר צריכים להיות בעגלה כדי להשתמש בקופון זה או, בשביל &quot;הנחות מוצר&quot;, בו מוצרים מוזלים."
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:116
+msgid "Exclude products"
+msgstr "לא כולל את המוצרים הבאים"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:117
+msgid "Search for a product…"
+msgstr "חפש את המוצר…"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:130
+msgid ""
+"Products which must not be in the cart to use this coupon or, for \"Product "
+"Discounts\", which products are not discounted."
+msgstr "מוצרים שאסור שימצאו בעגלה כדי לעשות שימוש בקופון זה, או עבור \"הנחות מוצרים\", אילו מוצרים אינם מקבלים הנחה."
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:137
+msgid "Product categories"
+msgstr "קטגוריות מוצרים"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:138
+msgid "Any category"
+msgstr "כל קטגוריה"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:147
+msgid ""
+"A product must be in this category for the coupon to remain valid or, for "
+"\"Product Discounts\", products in these categories will be discounted."
+msgstr "מוצר חייב להיות בקטגוריה זו עבור התלוש להישאר תקף או, לקבל &quot;הנחות מוצר&quot;, מוצרים בקטגוריות זו יהיו בהנחה."
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:152
+msgid "Exclude categories"
+msgstr "אל תכלול קטגוריות"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:153
+msgid "No categories"
+msgstr "אין קטגוריות"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:162
+msgid ""
+"Product must not be in this category for the coupon to remain valid or, for "
+"\"Product Discounts\", products in these categories will not be discounted."
+msgstr "חובה על מוצרים לא להשתייך לקטגוריה זו כדי שהקופון יישאר תקף, או עבור \"הנחות מוצר\", מוצרים בקטגוריות אלו לא יקבלו הנחה."
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:168
+msgid "Email restrictions"
+msgstr "מגבלות אימייל"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:168
+msgid "No restrictions"
+msgstr "ללא מגבלות"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:168
+msgid ""
+"List of emails to check against the customer's billing email when an order "
+"is placed. Separate email addresses with commas."
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:182
+msgid "Usage limit per coupon"
+msgstr "מגבלת שימוש לקופון"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:182
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:194
+msgctxt "placeholder"
+msgid "Unlimited usage"
+msgstr "שימוש בלתי מוגבל"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:182
+msgid "How many times this coupon can be used before it is void."
+msgstr "כמה פעמים קופון זה יכול ליהיות משומש לפני שיהיה מבוטל."
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:188
+msgid "Limit usage to X items"
+msgstr "הגבלת שימוש לX פריטים"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:188
+msgctxt "placeholder"
+msgid "Apply to all qualifying items in cart"
+msgstr "החל על כל הפריטים הכשירים בעגלה"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:188
+msgid ""
+"The maximum number of individual items this coupon can apply to when using "
+"product discounts. Leave blank to apply to all qualifying items in cart."
+msgstr "המספר המקסימלי של פריטים בודדים אשר ניתן להשתמש בקופון זה עבורם כאשר נעשה שימוש בהנחות מוצר. השאר ריק כדי לתקף לכל הפריטים המתאימים בעגלה."
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:194
+msgid "Usage limit per user"
+msgstr "מגבלת שימוש למשתמש"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:194
+msgid ""
+"How many times this coupon can be used by an invidual user. Uses billing "
+"email for guests, and user ID for logged in users."
+msgstr "מספר הפעמים בהן קופון זה ניתן לשימוש על ידי משתמש בודד. עושה שימוש באי-מייל חשבון עבור אורחים, ומזהה משתמש עבור משתמשים מחוברים."
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:231
+msgid ""
+"Coupon code already exists - customers will use the latest coupon with this "
+"code."
+msgstr "קוד קופון כבר קיים - לקוחות ישתמשו בקופון האחרון עם הקוד הזה."
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-actions.php:35
+msgid "Resend order emails"
+msgstr "לשלוח שוב אימייל הזמנה"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-actions.php:51
+msgid "Generate Download Permissions"
+msgstr "צור הרשאות הורדה"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-actions.php:57
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-items.php:91
+msgid "Apply"
+msgstr "שמור"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-actions.php:66
+msgid "Move to Trash"
+msgstr "להעביר לאשפה"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-actions.php:71
+msgid "Save Order"
+msgstr "שמירת הזמנה"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-actions.php:71
+msgid "Save/update the order"
+msgstr "שמור / עדכן הזמנה"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:29
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:76
+msgid "First Name"
+msgstr "שם פרטי"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:33
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:80
+msgid "Last Name"
+msgstr "שם משפחה"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:60
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:107
+msgid "Select a country&hellip;"
+msgstr "בחירת מדינה…"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:70
+msgid "Phone"
+msgstr "טלפון"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:139
+msgid "Order Details"
+msgstr "פרטי הזמנה"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:142
+msgid "Order number"
+msgstr "מספר הזמנה"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:145
+msgid "Customer IP:"
+msgstr "ה-IP של הלקוח:"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:150
+msgid "General Details"
+msgstr "פרטים כלליים"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:152
+msgid "Order date:"
+msgstr "תאריך הזמנה:"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:153
+msgid "h"
+msgstr "h"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:153
+#: includes/admin/settings/class-wc-settings-products.php:311
+msgid "m"
+msgstr "m"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:156
+msgid "Order status:"
+msgstr "סטטוסי הזמנות:"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:167
+msgid "Customer:"
+msgstr "לקוח:"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:182
+msgid "Billing Details"
+msgstr "פרטי חיוב"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:188
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:190
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:267
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:269
+msgid "Address"
+msgstr "כתובת"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:190
+msgid "No billing address set."
+msgstr "לא נקבעה כתובת לחיוב."
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:208
+msgid "Payment Method"
+msgstr "אמצעי תשלום"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:213
+msgid "Load billing address"
+msgstr "טען כתובת חיוב"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:230
+msgid "Payment Method:"
+msgstr "אמצעי תשלום:"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:232
+#: includes/admin/post-types/meta-boxes/views/html-order-fee.php:33
+#: includes/admin/post-types/meta-boxes/views/html-order-shipping.php:12
+#: includes/admin/post-types/meta-boxes/views/html-order-tax.php:8
+msgid "N/A"
+msgstr "אין מידע"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:245
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:247
+#: includes/admin/post-types/meta-boxes/views/html-order-shipping.php:30
+#: includes/admin/post-types/meta-boxes/views/html-order-shipping.php:32
+msgid "Other"
+msgstr "אחר"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:261
+msgid "Shipping Details"
+msgstr "פרטי משלוח"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:269
+msgid "No shipping address set."
+msgstr "לא הוגדרה כתובת משלוח."
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:282
+msgid "Customer Note"
+msgstr "הערת לקוח"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:287
+msgid "Load shipping address"
+msgstr "טען כתובת משלוח"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:287
+msgid "Copy from billing"
+msgstr "העתק מחיוב"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:304
+msgid "Customer Note:"
+msgstr "הערת לקוח:"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:305
+msgid "Customer's notes about the order"
+msgstr "הערות לקוח בקשר להזמנה"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-downloads.php:51
+msgid "File %d"
+msgstr "קובץ %d"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-downloads.php:64
+msgid "Search for a downloadable product&hellip;"
+msgstr "חפש מוצר ניתן להורדה&hellip;"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-downloads.php:65
+msgid "Grant Access"
+msgstr "הענק גישה"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-items.php:33
+msgid "Item"
+msgstr "פריט"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-items.php:38
+msgid "Tax&nbsp;Class"
+msgstr "מס וסוג"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-items.php:41
+msgid "Qty"
+msgstr "כמות"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-items.php:46
+#: includes/admin/reports/class-wc-report-taxes-by-code.php:116
+#: includes/admin/settings/class-wc-settings-tax.php:25
+#: includes/admin/settings/class-wc-settings-tax.php:550
+#: includes/admin/settings/class-wc-settings-tax.php:647
+msgid "Tax"
+msgstr "מיסים"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-items.php:83
+msgid "Delete Lines"
+msgstr "מחק את השורות"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-items.php:85
+msgid "Stock Actions"
+msgstr "פעולות מלאי"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-items.php:86
+msgid "Reduce Line Stock"
+msgstr "להפחית מלאי שורה"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-items.php:87
+msgid "Increase Line Stock"
+msgstr "הגדל מלאי שורה"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-items.php:97
+msgid "Add item(s)"
+msgstr "הוסף פריט(ים)"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-items.php:98
+msgid "Add fee"
+msgstr "הוספת עמלה"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-notes.php:48
+msgid "added %s ago"
+msgstr "נוסף לפני %s"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-notes.php:49
+msgid "by %s"
+msgstr "על ידי %s"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-notes.php:50
+msgid "Delete note"
+msgstr "למחוק את ההערה"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-notes.php:56
+msgid "There are no notes for this order yet."
+msgstr "אין הערות להזמנה עדיין."
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-notes.php:62
+msgid "Add note"
+msgstr "הוסף הערה"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-notes.php:62
+msgid ""
+"Add a note for your reference, or add a customer note (the user will be "
+"notified)."
+msgstr "הוספת הערה לעיונך, או להוסיף הערת ללקוח (הלקוח יקבל הודעה לאימייל)."
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-notes.php:68
+msgid "Customer note"
+msgstr "הערת לקוח"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-notes.php:69
+msgid "Private note"
+msgstr "הערה פרטית"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-notes.php:71
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:567
+msgid "Add"
+msgstr "הוספה"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-totals.php:31
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-totals.php:62
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:95
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:775
+#: includes/admin/settings/class-wc-settings-shipping.php:25
+#: includes/admin/settings/class-wc-settings-tax.php:266
+#: includes/admin/settings/class-wc-settings-tax.php:383
+#: includes/admin/views/html-admin-page-addons.php:14
+msgid "Shipping"
+msgstr "משלוח"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-totals.php:66
+msgid "+ Add shipping cost"
+msgstr "+ הוסף עלות משלוח"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-totals.php:66
+msgid "These are the shipping and handling costs for the order."
+msgstr "אלה הן הוצאות הטיפול והמשלוח להזמנה."
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-totals.php:106
+msgid "+ Add tax row"
+msgstr "+ הוספת שורת מס"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-totals.php:106
+msgid ""
+"These rows contain taxes for this order. This allows you to display multiple"
+" or compound taxes rather than a single total."
+msgstr "שורות אלה מכילים מסים בגין הזמנה זו. זה מאפשר לך להציג מסים מרובים או מיסים מורכבים ולא סך הכל בודד."
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-totals.php:113
+msgid "Order Discount"
+msgstr "הנחת הזמנה"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-totals.php:113
+msgid "This is the total discount applied after tax."
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-totals.php:120
+msgid "Order Total"
+msgstr "סך הזמנה"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-totals.php:148
+msgid "Calculate Tax"
+msgstr "חשב מס"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-totals.php:150
+msgid "Calculate Total"
+msgstr "חשב סך כללי"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:42
+msgid "Product Type"
+msgstr "סוג המוצר"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:52
+msgid "Virtual products are intangible and aren't shipped."
+msgstr "מוצרים וירטואליים הם בלתי מוחשיים ולא מועברים למשלוח."
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:59
+msgid "Downloadable products give access to a file upon purchase."
+msgstr "מוצרים להורדה מעניקים גישה לקובץ לאחר הרכישה."
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:90
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:772
+#: includes/admin/settings/class-wc-settings-products.php:41
+msgid "Inventory"
+msgstr "מלאי"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:100
+msgid "Linked Products"
+msgstr "מוצרים מקושרים"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:110
+msgid "Variations"
+msgstr "וריאציות"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:115
+msgid "Advanced"
+msgstr "מתקדם"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:136
+msgid "Stock Keeping Unit"
+msgstr "יחידת שמירת מלאי"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:136
+msgid ""
+"SKU refers to a Stock-keeping unit, a unique identifier for each distinct "
+"product and service that can be purchased."
+msgstr "המק&quot;ט מתייחס ליחידת שמירת המלאי, מזהה ייחודיי לכל מוצר ושירות ייחודיים שניתן לרכוש."
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:147
+msgid "Product URL"
+msgstr "כתובת המוצר "
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:147
+msgid "Enter the external URL to the product."
+msgstr "הזן את כתובת האתר החיצונית למוצר."
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:150
+msgid "Button text"
+msgstr "טקסט כפתור"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:150
+msgctxt "placeholder"
+msgid "Buy product"
+msgstr "קנה מוצר"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:150
+msgid "This text will be shown on the button linking to the external product."
+msgstr "טקסט זה יופיע על כפתור קישור למוצר החיצוני."
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:157
+msgid "Regular Price"
+msgstr "מחיר רגיל"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:160
+msgid "Sale Price"
+msgstr "מחיר מבצע"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:160
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:77
+msgid "Schedule"
+msgstr "תזמון"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:167
+msgid "Sale Price Dates"
+msgstr "תאריך מחיר מבצע"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:168
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:85
+msgctxt "placeholder"
+msgid "From&hellip;"
+msgstr "מאת&hellip;"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:169
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:89
+msgctxt "placeholder"
+msgid "To&hellip;"
+msgstr "נמען…"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:181
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:144
+msgid "Downloadable Files"
+msgstr "קבצים להורדה"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:186
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:148
+msgid "This is the name of the download shown to the customer."
+msgstr "זהו שם ההורדה אשר מוצג ללקוח."
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:187
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:149
+msgid "File URL"
+msgstr "כתובת URL של קובץ"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:187
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:149
+msgid ""
+"This is the URL or absolute path to the file which customers will get access"
+" to."
+msgstr "זוהי כתובת הURL או השביל המוחלט אל הקובץ אשר לקוחות יקבלו גישה אליו."
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:202
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:164
+msgid "Add File"
+msgstr "הוסף קובץ"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:222
+msgid "Download Limit"
+msgstr "הגבלת הורדה"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:222
+#: includes/admin/post-types/meta-boxes/views/html-order-download-permission.php:19
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:191
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:197
+msgid "Unlimited"
+msgstr "ללא הגבלה"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:222
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:190
+msgid "Leave blank for unlimited re-downloads."
+msgstr "להשאיר ריק בשביל לא להגביל הורדות."
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:228
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:783
+msgid "Download Expiry"
+msgstr "פקיעת ההורדה"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:228
+#: includes/admin/post-types/meta-boxes/views/html-order-download-permission.php:23
+msgid "Never"
+msgstr "אף פעם"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:228
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:196
+msgid ""
+"Enter the number of days before a download link expires, or leave blank."
+msgstr "הזן את מספר הימים לפני שהקישור להורדה פג תוקף, או השאר ריק."
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:234
+msgid "Download Type"
+msgstr "סוג הורדה"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:234
+msgid "Choose a download type - this controls the <a href=\"%s\">schema</a>."
+msgstr "בחר סוג הורדה - זה שולט על <a href=\"%s\">הסכמה</a>"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:235
+msgid "Standard Product"
+msgstr "מוצר סטנדרטי"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:236
+msgid "Application/Software"
+msgstr "אפליקציה/תוכנה"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:237
+msgid "Music"
+msgstr "מוזיקה"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:249
+#: includes/admin/views/html-bulk-edit-product.php:58
+#: includes/admin/views/html-quick-edit-product.php:38
+msgid "Tax Status"
+msgstr "מצב מיסים"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:250
+#: includes/admin/post-types/meta-boxes/views/html-order-fee.php:34
+#: includes/admin/views/html-bulk-edit-product.php:64
+#: includes/admin/views/html-quick-edit-product.php:43
+msgid "Taxable"
+msgstr "טעון מס"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:251
+#: includes/admin/views/html-bulk-edit-product.php:65
+#: includes/admin/views/html-quick-edit-product.php:44
+msgid "Shipping only"
+msgstr "משלוח בלבד"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:252
+#: includes/admin/views/html-bulk-edit-product.php:66
+#: includes/admin/views/html-quick-edit-product.php:45
+msgctxt "Tax status"
+msgid "None"
+msgstr "ללא"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:257
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:737
+#: includes/admin/post-types/meta-boxes/views/html-order-fee.php:27
+#: includes/admin/post-types/meta-boxes/views/html-order-fee.php:39
+#: includes/admin/post-types/meta-boxes/views/html-order-item.php:126
+#: includes/admin/settings/class-wc-settings-tax.php:122
+#: includes/admin/settings/class-wc-settings-tax.php:243
+#: includes/admin/views/html-bulk-edit-product.php:83
+#: includes/admin/views/html-quick-edit-product.php:61
+msgid "Standard"
+msgstr "סטנדרטי"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:262
+#: includes/admin/settings/class-wc-settings-tax.php:383
+#: includes/admin/views/html-bulk-edit-product.php:77
+#: includes/admin/views/html-quick-edit-product.php:56
+msgid "Tax Class"
+msgstr "סוג מס"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:283
+#: includes/admin/views/html-bulk-edit-product.php:207
+#: includes/admin/views/html-quick-edit-product.php:153
+msgid "Manage stock?"
+msgstr "ניהול המלאי?"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:283
+msgid ""
+"Enable stock management at product level (not needed if managing stock at "
+"variation level)"
+msgstr "לאפשר ניהול מלאי ברמת המוצר (אין צורך אם ניהול המלאי ברמת וריאציה)"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:290
+#: includes/admin/views/html-bulk-edit-product.php:226
+#: includes/admin/views/html-bulk-edit-product.php:242
+#: includes/admin/views/html-quick-edit-product.php:157
+msgid "Stock Qty"
+msgstr "כמות מלאי"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:290
+msgid ""
+"Stock quantity. If this is a variable product this value will be used to "
+"control stock for all variations, unless you define stock at variation "
+"level."
+msgstr "כמות מלאי. אם מדובר במוצר עם וריאציות, ערך זה ישמש לשליטה במלאי לכל הוריאציות, אלא אם אתה מגדיר את המלאי ברמת הוריאציה."
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:301
+#: includes/admin/reports/class-wc-report-stock.php:144
+msgid "Stock status"
+msgstr "מצב מלאי"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:304
+msgid ""
+"Controls whether or not the product is listed as \"in stock\" or \"out of "
+"stock\" on the frontend."
+msgstr "שליטה על האם המוצר רשום כ&quot;במלאי&quot; או &quot;אזל מהמלאי&quot; בממשק המשתמש."
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:311
+msgid "Allow Backorders?"
+msgstr "הפעל הזמנה מראש?"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:312
+#: includes/admin/views/html-bulk-edit-product.php:253
+#: includes/admin/views/html-quick-edit-product.php:172
+msgid "Do not allow"
+msgstr "אל תאפשר"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:313
+#: includes/admin/views/html-bulk-edit-product.php:254
+#: includes/admin/views/html-quick-edit-product.php:173
+msgid "Allow, but notify customer"
+msgstr "הפעל, אבל תודיע ללקוח"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:314
+#: includes/admin/views/html-bulk-edit-product.php:255
+#: includes/admin/views/html-quick-edit-product.php:174
+msgid "Allow"
+msgstr "הפעל"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:315
+msgid ""
+"If managing stock, this controls whether or not backorders are allowed for "
+"this product and variations. If enabled, stock quantity can go below 0."
+msgstr "אם מנהלים את המלאי, אפשרות זאת שולטת על האם הזמנה מראש מותרת עבור המוצר והורציאציות שלו. אם מופעלת האפשרות, כמות היחידות במלאי יכולה לרדת מתחת ל0."
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:328
+msgid "Sold Individually"
+msgstr "נמכרים בנפרד"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:328
+msgid ""
+"Enable this to only allow one of this item to be bought in a single order"
+msgstr "הפעל אפשרות זאת כדי להגביל קניית פריט אחד בלבד בכל הזמנה"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:347
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:779
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:97
+#: includes/admin/views/html-bulk-edit-product.php:103
+#: includes/admin/views/html-quick-edit-product.php:84
+msgid "Weight"
+msgstr "משקל"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:347
+msgid "Weight in decimal form"
+msgstr "משקל בתבנית עשרונית"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:352
+msgid "Dimensions"
+msgstr "מידות"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:354
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:776
+#: includes/admin/views/html-bulk-edit-product.php:143
+#: includes/admin/views/html-quick-edit-product.php:97
+msgid "Length"
+msgstr "אורך"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:355
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:777
+#: includes/admin/views/html-bulk-edit-product.php:144
+#: includes/admin/views/html-quick-edit-product.php:98
+msgid "Width"
+msgstr "רוחב"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:356
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:778
+#: includes/admin/views/html-bulk-edit-product.php:145
+#: includes/admin/views/html-quick-edit-product.php:99
+msgid "Height"
+msgstr "גובה"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:358
+msgid "LxWxH in decimal form"
+msgstr "אורך x רוחב x גובה בתבנית עשרונית"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:375
+msgid "No shipping class"
+msgstr "אין סוגי משלוח"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:381
+msgid "Shipping class"
+msgstr "סוג משלוח"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:381
+msgid ""
+"Shipping classes are used by certain shipping methods to group similar "
+"products."
+msgstr "סוגי משלוח מאפשרים לקבץ יחד מוצרים לפי סוג המשלוח."
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:393
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:755
+msgid "Close all"
+msgstr "סגור הכל"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:393
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:755
+msgid "Expand all"
+msgstr "הרחב הכל"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:452
+msgid "Select terms"
+msgstr "בחר מונחים"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:466
+msgid "Add new"
+msgstr "הוסף חדש"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:479
+msgid "Pipe (|) separate terms"
+msgstr "מונחים מופרדים בצינורית (|)"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:569
+msgid "Custom product attribute"
+msgstr "תכונות מוצר מותאמות אישית"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:581
+msgid "Save attributes"
+msgstr "שמור תכונות"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:588
+msgid "Up-Sells"
+msgstr "קידום מכירות"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:603
+msgid ""
+"Up-sells are products which you recommend instead of the currently viewed "
+"product, for example, products that are more profitable or better quality or"
+" more expensive."
+msgstr "מוצרים מקדמי מכירות הם מוצרים שאתה ממליץ במקום המוצר הנצפה הנוכחי, לדוגמא, מוצרים שהם יותר רווחיים או באיכות גבוהה יותר או יקרים יותר."
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:605
+msgid "Cross-Sells"
+msgstr "מוצרים משלימים"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:620
+msgid ""
+"Cross-sells are products which you promote in the cart, based on the current"
+" product."
+msgstr "מוצרים משלימים הם מוצרים שאתה מקדם בעגלה, במבוסס על המוצר הנוכחי."
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:630
+msgid "Choose a grouped product&hellip;"
+msgstr "בחר קבוצת מוצרים&hellip;"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:660
+msgid "Grouping"
+msgstr "קבוצה"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:660
+msgid "Set this option to make this product part of a grouped product."
+msgstr "הגדר אפשרות זו כדי להפוך את המוצר הזה לחלק מקבוצת מוצרים."
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:680
+msgid "Purchase Note"
+msgstr "הערת רכישה"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:680
+msgid "Enter an optional note to send the customer after purchase."
+msgstr "הזן הערה אופציונלית שתשלח ללקוח לאחר הרכישה."
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:687
+msgid "Menu order"
+msgstr "סידור תפריט"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:687
+msgid "Custom ordering position."
+msgstr "סידור מותאם אישית."
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:695
+msgid "Enable reviews"
+msgstr "הפעל חוות דעת"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:747
+msgid ""
+"Before adding variations, add and save some attributes on the "
+"<strong>Attributes</strong> tab."
+msgstr "לפני הוספת וריאציות, יש להוסיף ולשמור כמה <strong>תכונות</strong> בטאב התכונות."
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:749
+msgid "Learn more"
+msgstr "למידע נוסף"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:757
+msgid "Choose a field to bulk edit&hellip;"
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:759
+msgid "Toggle &quot;Enabled&quot;"
+msgstr "הפעל/כבה"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:760
+msgid "Toggle &quot;Downloadable&quot;"
+msgstr "הפעל/כבה &quot;בר הורדה&quot;"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:761
+msgid "Toggle &quot;Virtual&quot;"
+msgstr "הפעל/כבה &quot;וירטואלי&quot;"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:762
+msgid "Delete all variations"
+msgstr "מחק את כל הוריאציות"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:764
+msgid "Pricing"
+msgstr "מחירון"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:765
+msgid "Prices"
+msgstr "מחירים"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:766
+msgid "Prices increase by (fixed amount or %)"
+msgstr "מחירים מועלים ב... (סכום קבוע או %)"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:767
+msgid "Prices decrease by (fixed amount or %)"
+msgstr "מחירים מורדים ב... (סכום קבוע או %)"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:768
+msgid "Sale prices"
+msgstr "מחירי מבצע"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:769
+msgid "Sale prices increase by (fixed amount or %)"
+msgstr "מחירי מבצע מועלים ב... (סכום קבוע או %)"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:770
+msgid "Sale prices decrease by (fixed amount or %)"
+msgstr "מחירי מבצע מורדים ב... (סכום קבוע או %)"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:781
+msgid "Downloadable products"
+msgstr "מוצרים להורדה"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:782
+msgid "Download limit"
+msgstr "הגבלת הורדה"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:787
+#: includes/admin/views/html-report-by-date.php:31
+msgid "Go"
+msgstr "בצע"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:882
+msgid "Add Variation"
+msgstr "הוספת וריאציה"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:884
+msgid "Link all variations"
+msgstr "חיבור כל הוריאציות"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:886
+msgid "Defaults"
+msgstr "ברירות מחדל"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:886
+msgid "These are the attributes that will be pre-selected on the frontend."
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:899
+msgid "No default"
+msgstr "ללא ברירת מחדל"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:1003
+msgid "Product SKU must be unique."
+msgstr "מק&quot;ט המוצר חייב להיות ייחודי."
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:1373
+msgid "Variation #%s of %s"
+msgstr "וריאציה מספר %s מתוך %s"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-images.php:44
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-images.php:55
+msgid "Delete image"
+msgstr "מחק תמונה"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-images.php:55
+msgid "Add Images to Product Gallery"
+msgstr "הוסף תמונות לגלרית המוצר"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-images.php:55
+msgid "Add to gallery"
+msgstr "הוסף לגלריה"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-images.php:55
+msgid "Add product gallery images"
+msgstr "הוסף תמונות גלריה של המוצר"
+
+#: includes/admin/post-types/meta-boxes/views/html-order-download-permission.php:6
+msgid "Revoke Access"
+msgstr "בטל גישה"
+
+#: includes/admin/post-types/meta-boxes/views/html-order-download-permission.php:9
+msgid "%s: %s"
+msgstr "%s: %s"
+
+#: includes/admin/post-types/meta-boxes/views/html-order-download-permission.php:9
+msgid "Downloaded %s time"
+msgid_plural "Downloaded %s times"
+msgstr[0] "הורד פעם %s"
+msgstr[1] "הורד %s פעמים"
+
+#: includes/admin/post-types/meta-boxes/views/html-order-download-permission.php:16
+msgid "Downloads Remaining"
+msgstr "הורדות שנותרו"
+
+#: includes/admin/post-types/meta-boxes/views/html-order-download-permission.php:22
+msgid "Access Expires"
+msgstr "גישה פגה תוקף"
+
+#: includes/admin/post-types/meta-boxes/views/html-order-fee.php:12
+msgid "Fee"
+msgstr "חיוב"
+
+#: includes/admin/post-types/meta-boxes/views/html-order-fee.php:16
+msgid "Fee Name"
+msgstr "שם עמלה"
+
+#: includes/admin/post-types/meta-boxes/views/html-order-fee.php:31
+#: includes/admin/post-types/meta-boxes/views/html-order-item.php:140
+msgid "Tax class"
+msgstr "סוג מס"
+
+#: includes/admin/post-types/meta-boxes/views/html-order-item.php:10
+msgid "Product ID:"
+msgstr "מזהה המוצר:"
+
+#: includes/admin/post-types/meta-boxes/views/html-order-item.php:13
+msgid "Variation ID:"
+msgstr "מזהה וריאציה:"
+
+#: includes/admin/post-types/meta-boxes/views/html-order-item.php:16
+msgid "Product SKU:"
+msgstr "מק&quot;ט מוצר:"
+
+#: includes/admin/post-types/meta-boxes/views/html-order-item.php:75
+msgid "Add&nbsp;meta"
+msgstr "הוסף מטא"
+
+#: includes/admin/post-types/meta-boxes/views/html-order-item.php:173
+msgid "Subtotal"
+msgstr "סיכום ביניים"
+
+#: includes/admin/post-types/meta-boxes/views/html-order-item.php:173
+msgid "Before pre-tax discounts."
+msgstr "לפני הנחות טרום-מסים."
+
+#: includes/admin/post-types/meta-boxes/views/html-order-item.php:175
+msgid "After pre-tax discounts."
+msgstr "אחרי הנחות טרום-מסים."
+
+#: includes/admin/post-types/meta-boxes/views/html-order-shipping.php:6
+msgid "Label"
+msgstr "תווית"
+
+#: includes/admin/post-types/meta-boxes/views/html-order-shipping.php:11
+msgid "Shipping Method"
+msgstr "אפשרויות משלוח"
+
+#: includes/admin/post-types/meta-boxes/views/html-order-tax.php:7
+msgid "Tax Rate"
+msgstr "שיעור מס"
+
+#: includes/admin/post-types/meta-boxes/views/html-order-tax.php:17
+msgid "Sales Tax"
+msgstr "מס מכירה"
+
+#: includes/admin/post-types/meta-boxes/views/html-order-tax.php:21
+msgid "Shipping Tax"
+msgstr "מס משלוח"
+
+#: includes/admin/post-types/meta-boxes/views/html-product-download.php:3
+#: includes/admin/post-types/meta-boxes/views/html-product-variation-download.php:2
+msgid "File Name"
+msgstr "שם הקובץ"
+
+#: includes/admin/post-types/meta-boxes/views/html-product-download.php:4
+#: includes/admin/post-types/meta-boxes/views/html-product-variation-download.php:3
+msgid "http://"
+msgstr "http://"
+
+#: includes/admin/post-types/meta-boxes/views/html-product-download.php:5
+#: includes/admin/post-types/meta-boxes/views/html-product-variation-download.php:4
+msgid "Choose file"
+msgstr "בחר קובץ"
+
+#: includes/admin/post-types/meta-boxes/views/html-product-download.php:5
+#: includes/admin/post-types/meta-boxes/views/html-product-variation-download.php:4
+msgid "Insert file URL"
+msgstr "הכנס כתובת קובץ"
+
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:21
+msgid "Any"
+msgstr "כל"
+
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:53
+msgid ""
+"Enter a SKU for this variation or leave blank to use the parent product SKU."
+msgstr "הזן מק&quot;ט עבור וריאציה זאת או השאר ריק כדי להשתמש במק&quot;ט המוצר."
+
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:64
+msgid "Stock Qty:"
+msgstr "כמות מלאי:"
+
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:64
+msgid ""
+"Enter a quantity to enable stock management at variation level, or leave "
+"blank to use the parent product's options."
+msgstr "הזן כמות כדי לאפשר ניהול מלאי ברמת הוריאציה, או השאר ריק כדי להשתמש באפשרויות של מוצר ההורה."
+
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:73
+msgid "Regular Price:"
+msgstr "מחיר רגיל:"
+
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:74
+msgid "Variation price (required)"
+msgstr "מחיר הוריאציה (חובה)"
+
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:77
+msgid "Sale Price:"
+msgstr "מחיר מבצע:"
+
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:77
+msgid "Cancel schedule"
+msgstr "ביטול תזמון"
+
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:84
+msgid "Sale start date:"
+msgstr "תאריך התחלת המבצע:"
+
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:88
+msgid "Sale end date:"
+msgstr "תאריך סיום מבצע:"
+
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:97
+msgid ""
+"Enter a weight for this variation or leave blank to use the parent product "
+"weight."
+msgstr "הזן משקל עבור הוריאציה הזאת או השאר ריק אם ברצונך להשתמש לפי המשקל של מוצר האב."
+
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:105
+msgid "Dimensions (L&times;W&times;H)"
+msgstr "מידות (משקל/גובה/רוחב)"
+
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:116
+msgid "Shipping class:"
+msgstr "סוג משלוח:"
+
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:120
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:133
+msgid "Same as parent"
+msgstr "כמו האב"
+
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:131
+msgid "Tax class:"
+msgstr "סוג מס:"
+
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:190
+msgid "Download Limit:"
+msgstr "הגבלת הורדות:"
+
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:196
+msgid "Download Expiry:"
+msgstr "פקיעת הורדה:"
+
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:210
+#: includes/admin/settings/class-wc-settings-checkout.php:269
+#: includes/admin/settings/class-wc-settings-shipping.php:235
+#: includes/admin/views/html-admin-page-status-tools.php:26
+#: includes/admin/views/html-admin-page-status-tools.php:37
+#: includes/admin/views/html-admin-page-status-tools.php:48
+msgid "Enabled"
+msgstr "פעיל"
+
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:212
+msgid ""
+"Enable this option if access is given to a downloadable file upon purchase "
+"of a product"
+msgstr "הפעל אפשרות זו, אם ניתנת גישה לקובץ להורדה בעת רכישת המוצר"
+
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:214
+msgid ""
+"Enable this option if a product is not shipped or there is no shipping cost"
+msgstr "הפעל אפשרות זו אם מוצר לא בעל אפשרות משלוח או שאין עלות משלוח"
+
+#: includes/admin/reports/class-wc-admin-report.php:384
+msgid "Sold %s worth in the last %d days"
+msgstr "נמכר בשווי של %s ב%d ימים האחרונים"
+
+#: includes/admin/reports/class-wc-admin-report.php:386
+msgid "Sold 1 item in the last %d days"
+msgid_plural "Sold %d items in the last %d days"
+msgstr[0] "%d פריט נמכר ב%d הימים האחרונים"
+msgstr[1] "%d פריטים נמכרו ב%d הימים האחרונים"
+
+#: includes/admin/reports/class-wc-report-coupon-usage.php:76
+msgid "%s discounts in total"
+msgstr "%s הנחות בסה\"כ"
+
+#: includes/admin/reports/class-wc-report-coupon-usage.php:82
+msgid "%s coupons used in total"
+msgstr "%s קופונים מומשו"
+
+#: includes/admin/reports/class-wc-report-coupon-usage.php:95
+#: includes/admin/reports/class-wc-report-customers.php:145
+#: includes/admin/reports/class-wc-report-sales-by-category.php:81
+#: includes/admin/reports/class-wc-report-sales-by-date.php:129
+#: includes/admin/reports/class-wc-report-sales-by-product.php:99
+#: includes/admin/reports/class-wc-report-taxes-by-code.php:46
+#: includes/admin/reports/class-wc-report-taxes-by-date.php:46
+msgid "Year"
+msgstr "שנה"
+
+#: includes/admin/reports/class-wc-report-coupon-usage.php:96
+#: includes/admin/reports/class-wc-report-customers.php:146
+#: includes/admin/reports/class-wc-report-sales-by-category.php:82
+#: includes/admin/reports/class-wc-report-sales-by-date.php:130
+#: includes/admin/reports/class-wc-report-sales-by-product.php:100
+#: includes/admin/reports/class-wc-report-taxes-by-code.php:47
+#: includes/admin/reports/class-wc-report-taxes-by-date.php:47
+msgid "Last Month"
+msgstr "החודש הקודם"
+
+#: includes/admin/reports/class-wc-report-coupon-usage.php:97
+#: includes/admin/reports/class-wc-report-customers.php:147
+#: includes/admin/reports/class-wc-report-sales-by-category.php:83
+#: includes/admin/reports/class-wc-report-sales-by-date.php:131
+#: includes/admin/reports/class-wc-report-sales-by-product.php:101
+#: includes/admin/reports/class-wc-report-taxes-by-code.php:48
+#: includes/admin/reports/class-wc-report-taxes-by-date.php:48
+msgid "This Month"
+msgstr "החודש הזה"
+
+#: includes/admin/reports/class-wc-report-coupon-usage.php:98
+#: includes/admin/reports/class-wc-report-customers.php:148
+#: includes/admin/reports/class-wc-report-sales-by-category.php:84
+#: includes/admin/reports/class-wc-report-sales-by-date.php:132
+#: includes/admin/reports/class-wc-report-sales-by-product.php:102
+msgid "Last 7 Days"
+msgstr "7 ימים אחרונים"
+
+#: includes/admin/reports/class-wc-report-coupon-usage.php:138
+msgid "Filter by coupon"
+msgstr "סנן לפי קופון"
+
+#: includes/admin/reports/class-wc-report-coupon-usage.php:166
+msgid "Choose coupons&hellip;"
+msgstr "בחר קופונים&hellip;"
+
+#: includes/admin/reports/class-wc-report-coupon-usage.php:167
+msgid "All coupons"
+msgstr "כל הקופונים"
+
+#: includes/admin/reports/class-wc-report-coupon-usage.php:174
+#: includes/admin/reports/class-wc-report-sales-by-category.php:186
+#: includes/admin/reports/class-wc-report-sales-by-product.php:174
+msgid "Show"
+msgstr "הצג"
+
+#: includes/admin/reports/class-wc-report-coupon-usage.php:187
+msgid "No used coupons found"
+msgstr "לא נמצאו קופונים שמומשו"
+
+#: includes/admin/reports/class-wc-report-coupon-usage.php:192
+msgid "Most Popular"
+msgstr "הפופולריים ביותר"
+
+#: includes/admin/reports/class-wc-report-coupon-usage.php:234
+#: includes/admin/reports/class-wc-report-coupon-usage.php:281
+msgid "No coupons found in range"
+msgstr "לא נמצאו קופונים בטווח"
+
+#: includes/admin/reports/class-wc-report-coupon-usage.php:239
+msgid "Most Discount"
+msgstr "הנחה רבה ביותר"
+
+#: includes/admin/reports/class-wc-report-coupon-usage.php:324
+#: includes/admin/reports/class-wc-report-customers.php:209
+#: includes/admin/reports/class-wc-report-sales-by-category.php:230
+#: includes/admin/reports/class-wc-report-sales-by-date.php:169
+#: includes/admin/reports/class-wc-report-sales-by-product.php:322
+#: includes/admin/reports/class-wc-report-taxes-by-code.php:34
+#: includes/admin/reports/class-wc-report-taxes-by-date.php:34
+#: includes/admin/settings/class-wc-settings-tax.php:289
+msgid "Export CSV"
+msgstr "יצוא לקובץ CSV"
+
+#: includes/admin/reports/class-wc-report-coupon-usage.php:415
+msgid "Number of coupons used"
+msgstr "מספר של קופונים שמומשו"
+
+#: includes/admin/reports/class-wc-report-coupon-usage.php:423
+msgid "Discount amount"
+msgstr "סכום הנחה"
+
+#: includes/admin/reports/class-wc-report-customer-list.php:29
+msgid "Customer"
+msgstr "לקוח"
+
+#: includes/admin/reports/class-wc-report-customer-list.php:39
+msgid "No customers found."
+msgstr "לא נמצאו לקוחות."
+
+#: includes/admin/reports/class-wc-report-customer-list.php:53
+msgid "%s previous order linked"
+msgid_plural "%s previous orders linked"
+msgstr[0] "%s הזמנה קודמת קושרה"
+msgstr[1] "%s הזמנות קודמות קושרו"
+
+#: includes/admin/reports/class-wc-report-customer-list.php:58
+msgid "Search customers"
+msgstr "חיפוש לקוחות"
+
+#: includes/admin/reports/class-wc-report-customer-list.php:198
+msgid "View orders"
+msgstr "הצג הזמנות"
+
+#: includes/admin/reports/class-wc-report-customer-list.php:222
+msgid "Link previous orders"
+msgstr "קישור להזמנה קודמת"
+
+#: includes/admin/reports/class-wc-report-customer-list.php:247
+msgid "Name (Last, First)"
+msgstr "שם (משפחה, פרטי)"
+
+#: includes/admin/reports/class-wc-report-customer-list.php:248
+msgid "Username"
+msgstr "שם משתמש"
+
+#: includes/admin/reports/class-wc-report-customer-list.php:250
+msgid "Location"
+msgstr "מיקום"
+
+#: includes/admin/reports/class-wc-report-customer-list.php:252
+msgid "Spent"
+msgstr "בזבז"
+
+#: includes/admin/reports/class-wc-report-customer-list.php:253
+msgid "Last order"
+msgstr "הזמנה אחרונה"
+
+#: includes/admin/reports/class-wc-report-customers.php:22
+msgid "%s signups in this period"
+msgstr "%s הרשמות בתקופה זו"
+
+#: includes/admin/reports/class-wc-report-customers.php:90
+msgid "Customer Sales"
+msgstr "מכירות לקוח"
+
+#: includes/admin/reports/class-wc-report-customers.php:91
+msgid "Guest Sales"
+msgstr "מכירות אורח"
+
+#: includes/admin/reports/class-wc-report-customers.php:100
+#: includes/admin/reports/class-wc-report-customers.php:296
+msgid "Customer Orders"
+msgstr "הזמנות לקוח"
+
+#: includes/admin/reports/class-wc-report-customers.php:105
+#: includes/admin/reports/class-wc-report-customers.php:306
+msgid "Guest Orders"
+msgstr "הזמנות אורח"
+
+#: includes/admin/reports/class-wc-report-customers.php:124
+msgid "orders"
+msgstr "הזמנות"
+
+#: includes/admin/reports/class-wc-report-customers.php:302
+msgid "customer orders"
+msgstr "הזמנות לקוחות"
+
+#: includes/admin/reports/class-wc-report-customers.php:312
+msgid "guest orders"
+msgstr "הזמנות אורחים"
+
+#: includes/admin/reports/class-wc-report-customers.php:316
+msgid "Signups"
+msgstr "הרשמות"
+
+#: includes/admin/reports/class-wc-report-customers.php:323
+msgid "new users"
+msgstr "משתמשים חדשים"
+
+#: includes/admin/reports/class-wc-report-low-in-stock.php:22
+msgid "No low in stock products found."
+msgstr "לא נמצאו מוצרים עם מלאי נמוך"
+
+#: includes/admin/reports/class-wc-report-out-of-stock.php:22
+msgid "No out of stock products found."
+msgstr "לא נמצאו מוצרים שאזלו מהמלאי"
+
+#: includes/admin/reports/class-wc-report-sales-by-category.php:63
+msgid "%s sales in %s"
+msgstr "%s מכירות ב %s"
+
+#: includes/admin/reports/class-wc-report-sales-by-category.php:170
+msgid "Select categories&hellip;"
+msgstr "בחור קטגוריות&hellip;"
+
+#: includes/admin/reports/class-wc-report-sales-by-category.php:184
+msgid "None"
+msgstr "כלום"
+
+#: includes/admin/reports/class-wc-report-sales-by-category.php:185
+msgid "All"
+msgstr "הכל"
+
+#: includes/admin/reports/class-wc-report-sales-by-category.php:245
+msgid "&larr; Choose a category to view stats"
+msgstr "&rarr; בחר בקטגוריה להצגת נתונים"
+
+#: includes/admin/reports/class-wc-report-sales-by-date.php:81
+msgid "%s average daily sales"
+msgstr "%s ממוצע מכירות יומי"
+
+#: includes/admin/reports/class-wc-report-sales-by-date.php:84
+msgid "%s average monthly sales"
+msgstr "%s ממוצע מכירות חודשי"
+
+#: includes/admin/reports/class-wc-report-sales-by-date.php:89
+msgid "%s sales in this period"
+msgstr "%s מכירות בתקופה הנוכחית"
+
+#: includes/admin/reports/class-wc-report-sales-by-date.php:99
+msgid "%s orders placed"
+msgstr "%s הזמנות בוצעו"
+
+#: includes/admin/reports/class-wc-report-sales-by-date.php:104
+msgid "%s items purchased"
+msgstr "%s מוצרים נרכשו"
+
+#: includes/admin/reports/class-wc-report-sales-by-date.php:109
+msgid "%s charged for shipping"
+msgstr "%s חיובים על משלוח"
+
+#: includes/admin/reports/class-wc-report-sales-by-date.php:114
+msgid "%s worth of coupons used"
+msgstr "%s שווי של קופונים מומשו"
+
+#: includes/admin/reports/class-wc-report-sales-by-date.php:301
+#: includes/admin/reports/class-wc-report-sales-by-product.php:435
+msgid "Number of items sold"
+msgstr "מספר מוצרים שנמכרו"
+
+#: includes/admin/reports/class-wc-report-sales-by-date.php:309
+#: includes/admin/reports/class-wc-report-taxes-by-code.php:118
+#: includes/admin/reports/class-wc-report-taxes-by-date.php:114
+msgid "Number of orders"
+msgstr "מספר הזמנות"
+
+#: includes/admin/reports/class-wc-report-sales-by-date.php:317
+msgid "Average sales amount"
+msgstr "סכום מכירות ממוצע"
+
+#: includes/admin/reports/class-wc-report-sales-by-date.php:337
+msgid "Shipping amount"
+msgstr "סכום משלוח"
+
+#: includes/admin/reports/class-wc-report-sales-by-date.php:347
+#: includes/admin/reports/class-wc-report-sales-by-product.php:443
+msgid "Sales amount"
+msgstr "סך כל המכירות"
+
+#: includes/admin/reports/class-wc-report-sales-by-product.php:79
+msgid "%s sales for the selected items"
+msgstr "%s מכירות עבור הפריטים שנבחרו"
+
+#: includes/admin/reports/class-wc-report-sales-by-product.php:84
+msgid "%s purchases for the selected items"
+msgstr "%s רכישות עבור הפריטים שנבחרו"
+
+#: includes/admin/reports/class-wc-report-sales-by-product.php:130
+msgid "Showing reports for:"
+msgstr "מציג דוח\"ות עבור:"
+
+#: includes/admin/reports/class-wc-report-sales-by-product.php:160
+msgid "Reset"
+msgstr "איפוס"
+
+#: includes/admin/reports/class-wc-report-sales-by-product.php:169
+msgid "Product Search"
+msgstr "חיפוש מוצר"
+
+#: includes/admin/reports/class-wc-report-sales-by-product.php:206
+msgid "Top Sellers"
+msgstr "הכי נמכרים"
+
+#: includes/admin/reports/class-wc-report-sales-by-product.php:241
+#: includes/admin/reports/class-wc-report-sales-by-product.php:281
+msgid "No products found in range"
+msgstr "לא נמצאו מוצרים בטווח"
+
+#: includes/admin/reports/class-wc-report-sales-by-product.php:246
+msgid "Top Earners"
+msgstr "הכי ריוחיים"
+
+#: includes/admin/reports/class-wc-report-sales-by-product.php:337
+msgid "&larr; Choose a product to view stats"
+msgstr "&rarr; בחר במוצר להצגת נתונים"
+
+#: includes/admin/reports/class-wc-report-stock.php:35
+msgid "No products found."
+msgstr "לא נמצאו מוצרים."
+
+#: includes/admin/reports/class-wc-report-stock.php:126
+msgid "product"
+msgstr "product"
+
+#: includes/admin/reports/class-wc-report-stock.php:142
+msgid "Parent"
+msgstr "אב"
+
+#: includes/admin/reports/class-wc-report-stock.php:143
+msgid "Units in stock"
+msgstr "יחידות במלאי"
+
+#: includes/admin/reports/class-wc-report-taxes-by-code.php:117
+msgid "Rate"
+msgstr "שיעור"
+
+#: includes/admin/reports/class-wc-report-taxes-by-code.php:119
+msgid "Tax Amount"
+msgstr "סכום מס"
+
+#: includes/admin/reports/class-wc-report-taxes-by-code.php:119
+msgid "This is the sum of the \"Tax Rows\" tax amount within your orders."
+msgstr ""
+
+#: includes/admin/reports/class-wc-report-taxes-by-code.php:120
+msgid "Shipping Tax Amount"
+msgstr "סכום מס משלוח"
+
+#: includes/admin/reports/class-wc-report-taxes-by-code.php:120
+msgid ""
+"This is the sum of the \"Tax Rows\" shipping tax amount within your orders."
+msgstr ""
+
+#: includes/admin/reports/class-wc-report-taxes-by-code.php:121
+#: includes/admin/reports/class-wc-report-taxes-by-date.php:117
+msgid "Total Tax"
+msgstr "סך הכל מס"
+
+#: includes/admin/reports/class-wc-report-taxes-by-code.php:121
+#: includes/admin/reports/class-wc-report-taxes-by-date.php:117
+msgid "This is the total tax for the rate (shipping tax + product tax)."
+msgstr "זהו סך המס עבור התעריף (מס משלוח + מס מוצר)"
+
+#: includes/admin/reports/class-wc-report-taxes-by-code.php:170
+#: includes/admin/reports/class-wc-report-taxes-by-date.php:161
+msgid "No taxes found in this period"
+msgstr "לא נמצאו מיסים בתקופה זו"
+
+#: includes/admin/reports/class-wc-report-taxes-by-date.php:113
+msgid "Period"
+msgstr "תקופה"
+
+#: includes/admin/reports/class-wc-report-taxes-by-date.php:115
+msgid "Total Sales"
+msgstr "סך כל המחירות"
+
+#: includes/admin/reports/class-wc-report-taxes-by-date.php:115
+msgid "This is the sum of the 'Order Total' field within your orders."
+msgstr "זה הוא הסיכום של השדה \"סכום ההזמנה\" בכל הההזמנות שלך."
+
+#: includes/admin/reports/class-wc-report-taxes-by-date.php:116
+msgid "Total Shipping"
+msgstr "סך הכל משלוח"
+
+#: includes/admin/reports/class-wc-report-taxes-by-date.php:116
+msgid "This is the sum of the 'Shipping Total' field within your orders."
+msgstr "זה הוא סיכום של השדה \"סך כל המשלוחים\" בכל ההזמנות שלך."
+
+#: includes/admin/reports/class-wc-report-taxes-by-date.php:118
+msgid "Net profit"
+msgstr "רווח נקי"
+
+#: includes/admin/reports/class-wc-report-taxes-by-date.php:118
+msgid "Total sales minus shipping and tax."
+msgstr "המכירות בניכוי משלוח ומיסים."
+
+#: includes/admin/reports/class-wc-report-taxes-by-date.php:127
+msgid "Totals"
+msgstr "סך הכל"
+
+#: includes/admin/settings/class-wc-settings-accounts.php:25
+msgid "Accounts"
+msgstr "חשבונות"
+
+#: includes/admin/settings/class-wc-settings-accounts.php:41
+msgid "Account Pages"
+msgstr "דפי חשבון"
+
+#: includes/admin/settings/class-wc-settings-accounts.php:41
+msgid ""
+"These pages need to be set so that WooCommerce knows where to send users to "
+"access account related functionality."
+msgstr "על עמודים אלו להיות מוגדרים כדי שWooCommerce יידע לאן לנתב לקוחות כדי לגשת לפונקציונליות הקשורה לחשבון אישי."
+
+#: includes/admin/settings/class-wc-settings-accounts.php:44
+msgid "My Account Page"
+msgstr "עמוד חשבון שלי"
+
+#: includes/admin/settings/class-wc-settings-accounts.php:45
+#: includes/admin/settings/class-wc-settings-checkout.php:113
+#: includes/admin/settings/class-wc-settings-checkout.php:124
+msgid "Page contents:"
+msgstr "תוכן עמוד:"
+
+#: includes/admin/settings/class-wc-settings-accounts.php:56
+msgid "My Account Endpoints"
+msgstr "נקודות קצה החשבון שלי"
+
+#: includes/admin/settings/class-wc-settings-accounts.php:56
+msgid ""
+"Endpoints are appended to your page URLs to handle specific actions on the "
+"accounts pages. They should be unique."
+msgstr "נקודות קצה מסופחות לכתובות URL של העמודים שלך כדי להתמודד עם פעולות ספציפיות בעמודי החשבונות. עליהן להיות ייחודיות."
+
+#: includes/admin/settings/class-wc-settings-accounts.php:59
+msgid "View Order"
+msgstr "הצג הזמנה"
+
+#: includes/admin/settings/class-wc-settings-accounts.php:60
+msgid "Endpoint for the My Account &rarr; View Order page"
+msgstr "נקודות קצה עבור עמוד החשבון שלי &larr; הצג הזמנה"
+
+#: includes/admin/settings/class-wc-settings-accounts.php:68
+msgid "Edit Account"
+msgstr "ערוך חשבון"
+
+#: includes/admin/settings/class-wc-settings-accounts.php:69
+msgid "Endpoint for the My Account &rarr; Edit Account page"
+msgstr "נקודות קצה עבור עמוד החשבון שלי &larr; ערוך חשבון"
+
+#: includes/admin/settings/class-wc-settings-accounts.php:77
+msgid "Edit Address"
+msgstr "עריכת כתובת"
+
+#: includes/admin/settings/class-wc-settings-accounts.php:78
+msgid "Endpoint for the My Account &rarr; Edit Address page"
+msgstr "נקודות קצה עבור עמוד החשבון שלי &larr; ערוך כתובת"
+
+#: includes/admin/settings/class-wc-settings-accounts.php:86
+msgid "Lost Password"
+msgstr "שכחתי את סיסמא"
+
+#: includes/admin/settings/class-wc-settings-accounts.php:87
+msgid "Endpoint for the My Account &rarr; Lost Password page"
+msgstr "נקודות קצה עבור עמוד החשבון שלי &larr; שכחתי את הסיסמא"
+
+#: includes/admin/settings/class-wc-settings-accounts.php:95
+msgid "Logout"
+msgstr "התנתקות"
+
+#: includes/admin/settings/class-wc-settings-accounts.php:96
+msgid ""
+"Endpoint for the triggering logout. You can add this to your menus via a "
+"custom link: yoursite.com/?customer-logout=true"
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-accounts.php:105
+msgid "Registration Options"
+msgstr "אפשרויות הרשמה"
+
+#: includes/admin/settings/class-wc-settings-accounts.php:108
+msgid "Enable Registration"
+msgstr "אפשר הרשמה"
+
+#: includes/admin/settings/class-wc-settings-accounts.php:109
+msgid "Enable registration on the \"Checkout\" page"
+msgstr "אפשר הרשמה בעמוד התשלום (\"קופה\")"
+
+#: includes/admin/settings/class-wc-settings-accounts.php:118
+msgid "Enable registration on the \"My Account\" page"
+msgstr "אפשר הרשמה בעמוד \"החשבון שלי\""
+
+#: includes/admin/settings/class-wc-settings-accounts.php:127
+msgid "Display returning customer login reminder on the \"Checkout\" page"
+msgstr "הצג תזכורת לקוח חוזר בעמוד התשלום (\"קופה\")"
+
+#: includes/admin/settings/class-wc-settings-accounts.php:136
+msgid "Account Creation"
+msgstr "יצירת חשבון"
+
+#: includes/admin/settings/class-wc-settings-accounts.php:137
+msgid "Automatically generate username from customer email"
+msgstr "ייצר שם משתמש באופן אוטומטי מתוך אי-מייל לקוח"
+
+#: includes/admin/settings/class-wc-settings-accounts.php:146
+msgid "Automatically generate customer password"
+msgstr "ייצר סיסמת לקוח באופן אוטומטי"
+
+#: includes/admin/settings/class-wc-settings-checkout.php:25
+msgctxt "Settings tab label"
+msgid "Checkout"
+msgstr "תשלום"
+
+#: includes/admin/settings/class-wc-settings-checkout.php:41
+msgid "Checkout Options"
+msgstr "אפשרויות תשלום"
+
+#: includes/admin/settings/class-wc-settings-checkout.php:65
+msgid "Checkout Process"
+msgstr "תהליך תשלום"
+
+#: includes/admin/settings/class-wc-settings-checkout.php:68
+msgid "Coupons"
+msgstr "קופונים"
+
+#: includes/admin/settings/class-wc-settings-checkout.php:69
+msgid "Enable the use of coupons"
+msgstr "לאפשר את השימוש בקופונים"
+
+#: includes/admin/settings/class-wc-settings-checkout.php:73
+msgid "Coupons can be applied from the cart and checkout pages."
+msgstr "ניתן לממש קופונים מהעגלה וגם דפי התשלום."
+
+#: includes/admin/settings/class-wc-settings-checkout.php:78
+msgctxt "Settings group label"
+msgid "Checkout"
+msgstr "תשלום"
+
+#: includes/admin/settings/class-wc-settings-checkout.php:79
+msgid "Enable guest checkout"
+msgstr "אפשר רכישה לאורחים"
+
+#: includes/admin/settings/class-wc-settings-checkout.php:80
+msgid "Allows customers to checkout without creating an account."
+msgstr "מאפשר ללקוחות לשלם מבלי ליצור חשבון."
+
+#: includes/admin/settings/class-wc-settings-checkout.php:89
+msgid "Force secure checkout"
+msgstr "הכרח תשלום מאובטח"
+
+#: includes/admin/settings/class-wc-settings-checkout.php:95
+msgid ""
+"Force SSL (HTTPS) on the checkout pages (an SSL Certificate is required)."
+msgstr "הכרח SSL בעמוד התשלום (HTTPS) בדפי הקופה (תעודת SSL נדרשת)."
+
+#: includes/admin/settings/class-wc-settings-checkout.php:99
+msgid "Un-force HTTPS when leaving the checkout"
+msgstr "אפשר לצאת ממצב מאובטח (HTTPS) כאשר עוזבים את הקופה"
+
+#: includes/admin/settings/class-wc-settings-checkout.php:109
+msgid "Checkout Pages"
+msgstr "עמודי תשלום"
+
+#: includes/admin/settings/class-wc-settings-checkout.php:109
+msgid ""
+"These pages need to be set so that WooCommerce knows where to send users to "
+"checkout."
+msgstr "יש להגדיר דפים אלה כדי שWooCommerce יידע לאן לשלוח את המשתמשים לתשלום."
+
+#: includes/admin/settings/class-wc-settings-checkout.php:112
+msgid "Cart Page"
+msgstr "עמוד סל קניות"
+
+#: includes/admin/settings/class-wc-settings-checkout.php:123
+msgid "Checkout Page"
+msgstr "עמוד רכישה"
+
+#: includes/admin/settings/class-wc-settings-checkout.php:134
+msgid "Terms and Conditions"
+msgstr "תנאי השימוש"
+
+#: includes/admin/settings/class-wc-settings-checkout.php:135
+msgid ""
+"If you define a \"Terms\" page the customer will be asked if they accept "
+"them when checking out."
+msgstr "אם אתה מגדיר את &quot;תנאי &quot; דף הלקוח יתבקש אם הם יקבלו אותם בעת בדיקה החוצה."
+
+#: includes/admin/settings/class-wc-settings-checkout.php:147
+msgid "Checkout Endpoints"
+msgstr "נקודות קצה תשלום (\"קופה\")"
+
+#: includes/admin/settings/class-wc-settings-checkout.php:147
+msgid ""
+"Endpoints are appended to your page URLs to handle specific actions during "
+"the checkout process. They should be unique."
+msgstr "נקודות קצה מסופחות לכתובות URL של העמודים שלך כדי להתמודד עם פעולות ספציפיות במהלך תהליך התשלום. עליהן להיות ייחודיות."
+
+#: includes/admin/settings/class-wc-settings-checkout.php:150
+msgid "Pay"
+msgstr "תשלום"
+
+#: includes/admin/settings/class-wc-settings-checkout.php:151
+msgid "Endpoint for the Checkout &rarr; Pay page"
+msgstr "נקודות קצה עבור עמוד ה\"קופה\" &larr; עמוד תשלום"
+
+#: includes/admin/settings/class-wc-settings-checkout.php:159
+msgid "Order Received"
+msgstr "הזמנה התקבלה"
+
+#: includes/admin/settings/class-wc-settings-checkout.php:160
+msgid "Endpoint for the Checkout &rarr; Order Received page"
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-checkout.php:168
+msgid "Add Payment Method"
+msgstr "הוספת אמצעי תשלום"
+
+#: includes/admin/settings/class-wc-settings-checkout.php:169
+msgid "Endpoint for the Checkout &rarr; Add Payment Method page"
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-checkout.php:178
+msgid "Payment Gateways"
+msgstr "שיטות תשלום"
+
+#: includes/admin/settings/class-wc-settings-checkout.php:178
+msgid ""
+"Installed gateways are listed below. Drag and drop gateways to control their"
+" display order on the frontend."
+msgstr "שיטות תשלום מותקנות רשומות למטה. גרור ושחרר שיטות תשלום כדי לשלוט בסדר ההצגה שלהם בקצה המשתמש."
+
+#: includes/admin/settings/class-wc-settings-checkout.php:219
+msgid "Gateway Display"
+msgstr "הצגת שיטת תשלום"
+
+#: includes/admin/settings/class-wc-settings-checkout.php:227
+msgid "Gateway"
+msgstr "שיטת תשלום"
+
+#: includes/admin/settings/class-wc-settings-checkout.php:228
+msgid "Gateway ID"
+msgstr "מזהה שיטת תשלום"
+
+#: includes/admin/settings/class-wc-settings-emails.php:25
+msgid "Emails"
+msgstr "אימיילים"
+
+#: includes/admin/settings/class-wc-settings-emails.php:40
+msgid "Email Options"
+msgstr "אפשרויות אימייל"
+
+#: includes/admin/settings/class-wc-settings-emails.php:66
+msgid "Email Sender Options"
+msgstr "אפשרויות שליחת דואר אלקטרוני"
+
+#: includes/admin/settings/class-wc-settings-emails.php:66
+msgid ""
+"The following options affect the sender (email address and name) used in "
+"WooCommerce emails."
+msgstr "האפשרויות הבאות ישפיעו על פרטי השולח (כתובת אימייל ושם) שבשמו ישלחו המיילים של החנות."
+
+#: includes/admin/settings/class-wc-settings-emails.php:69
+msgid "\"From\" Name"
+msgstr "שם מוען"
+
+#: includes/admin/settings/class-wc-settings-emails.php:79
+msgid "\"From\" Email Address"
+msgstr "אימייל מוען"
+
+#: includes/admin/settings/class-wc-settings-emails.php:93
+msgid "Email Template"
+msgstr "תבנית דואר אלקטרוני"
+
+#: includes/admin/settings/class-wc-settings-emails.php:93
+msgid ""
+"This section lets you customise the WooCommerce emails. <a href=\"%s\" "
+"target=\"_blank\">Click here to preview your email template</a>. For more "
+"advanced control copy <code>woocommerce/templates/emails/</code> to "
+"<code>yourtheme/woocommerce/emails/</code>."
+msgstr "סעיף זה מאפשר לך להתאים באופן אישי את מראה האימיילים שנשלחים מהחנות. <a href=\"%s\" target=\"_blank\">לחץ כאן כדי לצפות בתצוגה מקדימה בתבנית האימייל שלך</a>. לשליטה מתקדמת יותר, העתק את התיקייה <code>woocommerce/templates/emails/</code> לתיקיית העיצוב שלך <code>yourtheme/woocommerce/emails/</code>."
+
+#: includes/admin/settings/class-wc-settings-emails.php:96
+msgid "Header Image"
+msgstr "תמונת כותרת"
+
+#: includes/admin/settings/class-wc-settings-emails.php:97
+msgid ""
+"Enter a URL to an image you want to show in the email's header. Upload your "
+"image using the <a href=\"%s\">media uploader</a>."
+msgstr "הזן כתובת URL לתמונה שברצונך להציג בכותרת העליונה של הדואר אלקטרוני. הוסף תמונה שלך באמצעות <a href=\"%s\">העלאת מדיה </a>."
+
+#: includes/admin/settings/class-wc-settings-emails.php:106
+msgid "Email Footer Text"
+msgstr "טקסט שיופיע בתחתית האימייל"
+
+#: includes/admin/settings/class-wc-settings-emails.php:107
+msgid "The text to appear in the footer of WooCommerce emails."
+msgstr "הטקסט שיופיע בכותרת התחתונה של האימיילים."
+
+#: includes/admin/settings/class-wc-settings-emails.php:111
+msgid "Powered by WooCommerce"
+msgstr "פועל ע״י WooCommerce"
+
+#: includes/admin/settings/class-wc-settings-emails.php:116
+msgid "Base Colour"
+msgstr "צבע בסיס"
+
+#: includes/admin/settings/class-wc-settings-emails.php:117
+msgid ""
+"The base colour for WooCommerce email templates. Default "
+"<code>#557da1</code>."
+msgstr "צבע הבסיס של תבניות אימייל. ברירת מחדל <code> # 557da1 </ code>."
+
+#: includes/admin/settings/class-wc-settings-emails.php:126
+msgid "Background Colour"
+msgstr "צבע רקע"
+
+#: includes/admin/settings/class-wc-settings-emails.php:127
+msgid ""
+"The background colour for WooCommerce email templates. Default "
+"<code>#f5f5f5</code>."
+msgstr "צבע הרקע עבור תבניות האימייל. ברירת מחדל <code>#eeeeee </ code>."
+
+#: includes/admin/settings/class-wc-settings-emails.php:136
+msgid "Email Body Background Colour"
+msgstr " צבע רקע לגוף האימייל"
+
+#: includes/admin/settings/class-wc-settings-emails.php:137
+msgid "The main body background colour. Default <code>#fdfdfd</code>."
+msgstr "צבע רקע הגוף העיקרי. <code> ברירת המחדל # fdfdfd </ code>."
+
+#: includes/admin/settings/class-wc-settings-emails.php:146
+msgid "Email Body Text Colour"
+msgstr "צבע טקסט בגוף האימייל"
+
+#: includes/admin/settings/class-wc-settings-emails.php:147
+msgid "The main body text colour. Default <code>#505050</code>."
+msgstr "צבע גוף הטקסט הראשי. <code> ברירת המחדל # 505050 </ code>."
+
+#: includes/admin/settings/class-wc-settings-general.php:52
+msgid "General Options"
+msgstr "אפשרויות כלליות"
+
+#: includes/admin/settings/class-wc-settings-general.php:55
+msgid "Base Location"
+msgstr "מיקום בסיס"
+
+#: includes/admin/settings/class-wc-settings-general.php:56
+msgid ""
+"This is the base location for your business. Tax rates will be based on this"
+" country."
+msgstr "זוהי המדינה המוגדרת עבור העסק שלך. שיעורי המע&quot;מ יתבססו על הארץ הזאת."
+
+#: includes/admin/settings/class-wc-settings-general.php:65
+msgid "Selling Location(s)"
+msgstr "איזורי מכירה"
+
+#: includes/admin/settings/class-wc-settings-general.php:66
+msgid "This option lets you limit which countries you are willing to sell to."
+msgstr "אפשרות זו מאפשרת לך להגביל את הארצות שאתה מעוניין למכור להן."
+
+#: includes/admin/settings/class-wc-settings-general.php:74
+msgid "Sell to all countries"
+msgstr "מכירה לכל הארצות"
+
+#: includes/admin/settings/class-wc-settings-general.php:75
+msgid "Sell to specific countries only"
+msgstr "מכירה לארצות ספציפיות בלבד"
+
+#: includes/admin/settings/class-wc-settings-general.php:80
+#: includes/admin/settings/class-wc-settings-shipping.php:147
+msgid "Specific Countries"
+msgstr "מדינה ספציפית"
+
+#: includes/admin/settings/class-wc-settings-general.php:89
+msgid "Store Notice"
+msgstr "הודעת חנות"
+
+#: includes/admin/settings/class-wc-settings-general.php:90
+msgid "Enable site-wide store notice text"
+msgstr "הפעל הודעת חנות שתופיע בכל החנות"
+
+#: includes/admin/settings/class-wc-settings-general.php:97
+msgid "Store Notice Text"
+msgstr "טקסט הודעת חנות"
+
+#: includes/admin/settings/class-wc-settings-general.php:100
+msgid ""
+"This is a demo store for testing purposes &mdash; no orders shall be "
+"fulfilled."
+msgstr "זוהי חנות לדגומא למטרות בדיקה - הזמנות לא יכובדו."
+
+#: includes/admin/settings/class-wc-settings-general.php:107
+msgid "API"
+msgstr "API"
+
+#: includes/admin/settings/class-wc-settings-general.php:108
+msgid "Enable the REST API"
+msgstr "אפשר REST API"
+
+#: includes/admin/settings/class-wc-settings-general.php:116
+msgid "Currency Options"
+msgstr "אפשרויות מטבע"
+
+#: includes/admin/settings/class-wc-settings-general.php:116
+msgid "The following options affect how prices are displayed on the frontend."
+msgstr "האפשרויות הבאות ישפיעו על אופן שהמחירים מוצגים בממשק המשתמש."
+
+#: includes/admin/settings/class-wc-settings-general.php:119
+msgid "Currency"
+msgstr "המטבע שלך."
+
+#: includes/admin/settings/class-wc-settings-general.php:120
+msgid ""
+"This controls what currency prices are listed at in the catalog and which "
+"currency gateways will take payments in."
+msgstr "זה קובע באיזה מטבע כתובים המחירים בקטלוג ובאיזה מטבע שיטות תשלום יקבלו תשלומים."
+
+#: includes/admin/settings/class-wc-settings-general.php:131
+msgid "Currency Position"
+msgstr "מיקום מטבע"
+
+#: includes/admin/settings/class-wc-settings-general.php:132
+msgid "This controls the position of the currency symbol."
+msgstr "אפשרות זו קובעת את המיקום של סמל המטבע."
+
+#: includes/admin/settings/class-wc-settings-general.php:139
+msgid "Left"
+msgstr "שמאל"
+
+#: includes/admin/settings/class-wc-settings-general.php:140
+msgid "Right"
+msgstr " ימין"
+
+#: includes/admin/settings/class-wc-settings-general.php:141
+msgid "Left with space"
+msgstr "שמאל עם מרווח"
+
+#: includes/admin/settings/class-wc-settings-general.php:142
+msgid "Right with space"
+msgstr "ימינה עם מרווח"
+
+#: includes/admin/settings/class-wc-settings-general.php:148
+msgid "Thousand Separator"
+msgstr "מפריד אלפים"
+
+#: includes/admin/settings/class-wc-settings-general.php:149
+msgid "This sets the thousand separator of displayed prices."
+msgstr "אפשרות זו קובעת את המפריד העשרוני למחירים המוצגים."
+
+#: includes/admin/settings/class-wc-settings-general.php:158
+msgid "Decimal Separator"
+msgstr "מפריד עשרוני"
+
+#: includes/admin/settings/class-wc-settings-general.php:159
+msgid "This sets the decimal separator of displayed prices."
+msgstr "אפשרות זו קובעת את המפריד העשרוני למחירים המוצגים."
+
+#: includes/admin/settings/class-wc-settings-general.php:168
+msgid "Number of Decimals"
+msgstr "מספר ספרות אחרי הנקודה"
+
+#: includes/admin/settings/class-wc-settings-general.php:169
+msgid "This sets the number of decimal points shown in displayed prices."
+msgstr "אפשרות זאת קובעת את מספר הספרות שיש להציג אחרי הנקודה"
+
+#: includes/admin/settings/class-wc-settings-general.php:183
+msgid "Styles and Scripts"
+msgstr "סגנונות וסקריפטים"
+
+#: includes/admin/settings/class-wc-settings-general.php:188
+msgid "Scripts"
+msgstr "סקריפטים"
+
+#: includes/admin/settings/class-wc-settings-general.php:189
+msgid "Enable Lightbox"
+msgstr "הפעל Lightbox"
+
+#: includes/admin/settings/class-wc-settings-general.php:192
+msgid ""
+"Include WooCommerce's lightbox. Product gallery images will open in a "
+"lightbox."
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-general.php:198
+msgid "Enable enhanced country select boxes"
+msgstr "הפעל תיבות בחירה משופרות לארצות"
+
+#: includes/admin/settings/class-wc-settings-general.php:203
+msgid ""
+"This will enable a script allowing the country fields to be searchable."
+msgstr "זה יאפשר סקריפט המאפשר חיפוש ארצות."
+
+#: includes/admin/settings/class-wc-settings-general.php:221
+msgid "Frontend Styles"
+msgstr "סגנון עיצוב חזיתי - Front-end"
+
+#: includes/admin/settings/class-wc-settings-general.php:251
+msgid "Primary"
+msgstr "עיקרי"
+
+#: includes/admin/settings/class-wc-settings-general.php:251
+msgid "Call to action buttons/price slider/layered nav UI"
+msgstr "ממשק משתמש של כפתורי פעולה/סליידר מחיר/ניווט שכבות"
+
+#: includes/admin/settings/class-wc-settings-general.php:252
+msgid "Secondary"
+msgstr "משני"
+
+#: includes/admin/settings/class-wc-settings-general.php:252
+msgid "Buttons and tabs"
+msgstr "כפתורים וטאבים"
+
+#: includes/admin/settings/class-wc-settings-general.php:253
+msgid "Highlight"
+msgstr "הדגשה"
+
+#: includes/admin/settings/class-wc-settings-general.php:253
+msgid "Price labels and Sale Flashes"
+msgstr "תוויות מחיר והבזקי מבצע"
+
+#: includes/admin/settings/class-wc-settings-general.php:254
+msgid "Content"
+msgstr "תוכן"
+
+#: includes/admin/settings/class-wc-settings-general.php:254
+msgid "Your themes page background - used for tab active states"
+msgstr "רקע עמוד ערכת העיצוב שלך - משמש לטאבים פעילים"
+
+#: includes/admin/settings/class-wc-settings-general.php:255
+msgid "Subtext"
+msgstr "טקסט משנה"
+
+#: includes/admin/settings/class-wc-settings-general.php:255
+msgid "Used for certain text and asides - breadcrumbs, small text etc."
+msgstr "משמש לטקסט והערות אגב מסוימים - פירורי לחם, טקסט קטן וכו"
+
+#: includes/admin/settings/class-wc-settings-general.php:258
+msgid ""
+"To edit colours <code>woocommerce/assets/css/woocommerce-base.less</code> "
+"and <code>woocommerce.css</code> need to be writable. See <a "
+"href=\"http://codex.wordpress.org/Changing_File_Permissions\">the Codex</a> "
+"for more information."
+msgstr "כדי לערוך את הצבעים, הקבצים <code>woocommerce/assets/css/woocommerce-base.less</code> וגם <code>woocommerce.css</code> צריכים להיות ניתנים לכתיבה. ראה <a href=\"http://codex.wordpress.org/Changing_File_Permissions\">הקודקס</a> לקבלת מידע נוסף."
+
+#: includes/admin/settings/class-wc-settings-general.php:311
+msgid ""
+"Error saving the Frontend Styles, %s is not a valid color, please use only "
+"valid colors code."
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-integrations.php:25
+msgid "Integration"
+msgstr "הגדרות כלליות"
+
+#: includes/admin/settings/class-wc-settings-products.php:40
+msgid "Product Options"
+msgstr "אפשרויות מוצר"
+
+#: includes/admin/settings/class-wc-settings-products.php:79
+msgid "Inventory Options"
+msgstr "אפשרויות מלאי"
+
+#: includes/admin/settings/class-wc-settings-products.php:82
+msgid "Manage Stock"
+msgstr "ניהול המלאי"
+
+#: includes/admin/settings/class-wc-settings-products.php:83
+msgid "Enable stock management"
+msgstr "הפעל ניהול מלאי"
+
+#: includes/admin/settings/class-wc-settings-products.php:90
+msgid "Hold Stock (minutes)"
+msgstr "שמירה על המלאי (דקות)"
+
+#: includes/admin/settings/class-wc-settings-products.php:91
+msgid ""
+"Hold stock (for unpaid orders) for x minutes. When this limit is reached, "
+"the pending order will be cancelled. Leave blank to disable."
+msgstr "שמור על המלאי (עבור הזמנות שלא שולמו) ל-x דקות. כשהמערכת מגיעה למגבלה זאת, הזמנות שלא שולמו יבוטלו. השאר ריק כדי לבטל."
+
+#: includes/admin/settings/class-wc-settings-products.php:104
+msgid "Notifications"
+msgstr "התראות"
+
+#: includes/admin/settings/class-wc-settings-products.php:105
+msgid "Enable low stock notifications"
+msgstr "הפעל התראה כאשר המלאי נמוך"
+
+#: includes/admin/settings/class-wc-settings-products.php:114
+msgid "Enable out of stock notifications"
+msgstr "הפעל התראות לא במלאי"
+
+#: includes/admin/settings/class-wc-settings-products.php:123
+msgid "Notification Recipient"
+msgstr "נמען התראות"
+
+#: includes/admin/settings/class-wc-settings-products.php:132
+msgid "Low Stock Threshold"
+msgstr "סף התראה &quot;מלאי נמוך&quot;"
+
+#: includes/admin/settings/class-wc-settings-products.php:146
+msgid "Out Of Stock Threshold"
+msgstr "סף התראת &quot;לא במלאי&quot;"
+
+#: includes/admin/settings/class-wc-settings-products.php:160
+msgid "Out Of Stock Visibility"
+msgstr "תצוגת לא במלאי"
+
+#: includes/admin/settings/class-wc-settings-products.php:161
+msgid "Hide out of stock items from the catalog"
+msgstr "הסתר את מלאי הפריטים מתוך הקטלוג"
+
+#: includes/admin/settings/class-wc-settings-products.php:168
+msgid "Stock Display Format"
+msgstr "פורמט הצגת המלאי"
+
+#: includes/admin/settings/class-wc-settings-products.php:169
+msgid "This controls how stock is displayed on the frontend."
+msgstr "אפשרות זאת קובעת כיצד יוצג המלאי בממשק המשתמש."
+
+#: includes/admin/settings/class-wc-settings-products.php:175
+msgid "Always show stock e.g. \"12 in stock\""
+msgstr "הצג תמיד מלאי למשל \"12 במלאי\""
+
+#: includes/admin/settings/class-wc-settings-products.php:176
+msgid "Only show stock when low e.g. \"Only 2 left in stock\" vs. \"In Stock\""
+msgstr "הצג רק כאשר המלאי נמוך למשל \"נשארו רק 2 במלאי\" ולא כאשר  \"במלאי\""
+
+#: includes/admin/settings/class-wc-settings-products.php:177
+msgid "Never show stock amount"
+msgstr "לעולם אל תציג כמות המלאי"
+
+#: includes/admin/settings/class-wc-settings-products.php:196
+msgid ""
+"Note: The shop page has children - child pages will not work if you enable "
+"this option."
+msgstr "הערה: לדף החנות יש עמוד ילד - דפי הילד לא יעבדו אם תפעיל אפשרות זו."
+
+#: includes/admin/settings/class-wc-settings-products.php:200
+msgid "Product Listings"
+msgstr "רשימת מוצרים"
+
+#: includes/admin/settings/class-wc-settings-products.php:203
+msgid "Product Archive / Shop Page"
+msgstr "ארכיון מוצרים / עמוד החנות"
+
+#: includes/admin/settings/class-wc-settings-products.php:204
+msgid ""
+"The base page can also be used in your <a href=\"%s\">product "
+"permalinks</a>."
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-products.php:210
+msgid ""
+"This sets the base page of your shop - this is where your product archive "
+"will be."
+msgstr "זה קובע את דף הבסיס של החנות שלך - זה מקום שבו ארכיון המוצר שלך יהיה."
+
+#: includes/admin/settings/class-wc-settings-products.php:214
+msgid "Shop Page Display"
+msgstr "תצוגת חנות"
+
+#: includes/admin/settings/class-wc-settings-products.php:215
+msgid "This controls what is shown on the product archive."
+msgstr "זה מקובע את מה שמוצג על ארכיון המוצר."
+
+#: includes/admin/settings/class-wc-settings-products.php:222
+#: includes/admin/settings/class-wc-settings-products.php:238
+msgid "Show products"
+msgstr "הצג מוצרים"
+
+#: includes/admin/settings/class-wc-settings-products.php:223
+#: includes/admin/settings/class-wc-settings-products.php:239
+msgid "Show subcategories"
+msgstr "הצג קטגוריות"
+
+#: includes/admin/settings/class-wc-settings-products.php:224
+#: includes/admin/settings/class-wc-settings-products.php:240
+msgid "Show both"
+msgstr "תראה את שניהם"
+
+#: includes/admin/settings/class-wc-settings-products.php:230
+msgid "Default Category Display"
+msgstr "תצוגת קטגוריה ברירת מחדל"
+
+#: includes/admin/settings/class-wc-settings-products.php:231
+msgid "This controls what is shown on category archives."
+msgstr "זה שולט מה שמוצג בארכיוני קטגוריה."
+
+#: includes/admin/settings/class-wc-settings-products.php:246
+msgid "Default Product Sorting"
+msgstr "מיון מוצרים בקטלוג"
+
+#: includes/admin/settings/class-wc-settings-products.php:247
+msgid "This controls the default sort order of the catalog."
+msgstr "ניתן לשלוט על סדר מיון ברירת המחדל של קטלוג המוצרים"
+
+#: includes/admin/settings/class-wc-settings-products.php:254
+msgid "Default sorting (custom ordering + name)"
+msgstr "מיון ברירת מחדל (סידור מותאם אישית + שם)"
+
+#: includes/admin/settings/class-wc-settings-products.php:255
+msgid "Popularity (sales)"
+msgstr "פופולריות (מכירות)"
+
+#: includes/admin/settings/class-wc-settings-products.php:256
+msgid "Average Rating"
+msgstr "דירוג הממוצע"
+
+#: includes/admin/settings/class-wc-settings-products.php:257
+msgid "Sort by most recent"
+msgstr "למיין לפי האחרון"
+
+#: includes/admin/settings/class-wc-settings-products.php:258
+msgid "Sort by price (asc)"
+msgstr "מיין לפי מחיר (עולה)"
+
+#: includes/admin/settings/class-wc-settings-products.php:259
+msgid "Sort by price (desc)"
+msgstr "מיין לפי מחיר (יורד)"
+
+#: includes/admin/settings/class-wc-settings-products.php:265
+msgid "Add to cart"
+msgstr "הוסף לעגלה"
+
+#: includes/admin/settings/class-wc-settings-products.php:266
+msgid "Redirect to the cart page after successful addition"
+msgstr "הפניה לדף העגלה אחרי הוספת מוצר לעגלה"
+
+#: includes/admin/settings/class-wc-settings-products.php:274
+msgid "Enable AJAX add to cart buttons on archives"
+msgstr "הפעל אפשרות כפתור AJAX של \"הוסף לעגלה\" בעמוד ארכיון המוצרים"
+
+#: includes/admin/settings/class-wc-settings-products.php:286
+msgid "Weight Unit"
+msgstr "יחידת משקל"
+
+#: includes/admin/settings/class-wc-settings-products.php:287
+msgid "This controls what unit you will define weights in."
+msgstr "אפשרות זו שולטת באיזו יחידה אתה תגדיר משקל."
+
+#: includes/admin/settings/class-wc-settings-products.php:294
+msgid "kg"
+msgstr "ק&quot;ג"
+
+#: includes/admin/settings/class-wc-settings-products.php:295
+msgid "g"
+msgstr "גרם"
+
+#: includes/admin/settings/class-wc-settings-products.php:296
+msgid "lbs"
+msgstr "ליברות"
+
+#: includes/admin/settings/class-wc-settings-products.php:297
+msgid "oz"
+msgstr "עוז"
+
+#: includes/admin/settings/class-wc-settings-products.php:303
+msgid "Dimensions Unit"
+msgstr "יחידת מידות"
+
+#: includes/admin/settings/class-wc-settings-products.php:304
+msgid "This controls what unit you will define lengths in."
+msgstr "אפשרות זו שולטת באיזו יחידה אתה מגדיר אורכים."
+
+#: includes/admin/settings/class-wc-settings-products.php:312
+msgid "cm"
+msgstr "סנטימטרים"
+
+#: includes/admin/settings/class-wc-settings-products.php:313
+msgid "mm"
+msgstr "מילימטרים"
+
+#: includes/admin/settings/class-wc-settings-products.php:314
+msgid "in"
+msgstr "אינצ'ים"
+
+#: includes/admin/settings/class-wc-settings-products.php:315
+msgid "yd"
+msgstr "יארדים"
+
+#: includes/admin/settings/class-wc-settings-products.php:321
+msgid "Product Ratings"
+msgstr "דירוג מוצר"
+
+#: includes/admin/settings/class-wc-settings-products.php:322
+msgid "Enable ratings on reviews"
+msgstr "הפעל דירוג חוות דעת"
+
+#: includes/admin/settings/class-wc-settings-products.php:332
+msgid "Ratings are required to leave a review"
+msgstr "נדרש דירוג כדי להשאיר חוות דעת"
+
+#: includes/admin/settings/class-wc-settings-products.php:342
+msgid "Show \"verified owner\" label for customer reviews"
+msgstr "הצג תווית \"בעל מוצר מאומת\" על חוות דעת של לקוחות"
+
+#: includes/admin/settings/class-wc-settings-products.php:352
+msgid "Only allow reviews from \"verified owners\""
+msgstr "אפשר חוות דעת מ\"בעלים מאומתים\" בלבד"
+
+#: includes/admin/settings/class-wc-settings-products.php:363
+msgid "Product Image Sizes"
+msgstr "גודל תמונה של המוצר"
+
+#: includes/admin/settings/class-wc-settings-products.php:363
+msgid ""
+"These settings affect the actual dimensions of images in your catalog - the "
+"display on the front-end will still be affected by CSS styles. After "
+"changing these settings you may need to <a href=\"%s\">regenerate your "
+"thumbnails</a>."
+msgstr "הגדרות אלה משפיעות על הממדים האמיתיים של תמונות הקטלוג שלך - וימשיך להיות מושפע סגנונות CSS. לאחר שינוי הגדרות אלה ייתכן שיהיה עליך <a href=\"%s\"> לרענן את התמונות הממוזערות שלך </a>."
+
+#: includes/admin/settings/class-wc-settings-products.php:366
+msgid "Catalog Images"
+msgstr "תמונת קטלוג"
+
+#: includes/admin/settings/class-wc-settings-products.php:367
+msgid "This size is usually used in product listings"
+msgstr "גודל זה משמש בדרך כלל את רשימות מוצרים"
+
+#: includes/admin/settings/class-wc-settings-products.php:380
+msgid "Single Product Image"
+msgstr "תמונת מוצר בודד"
+
+#: includes/admin/settings/class-wc-settings-products.php:381
+msgid "This is the size used by the main image on the product page."
+msgstr "זהו הגודל המשמש את התמונה הראשית בדף המוצר."
+
+#: includes/admin/settings/class-wc-settings-products.php:394
+msgid "Product Thumbnails"
+msgstr "תמונות ממוזערות של המוצרים"
+
+#: includes/admin/settings/class-wc-settings-products.php:395
+msgid ""
+"This size is usually used for the gallery of images on the product page."
+msgstr "גודל זה משמש בדרך כלל לגלריה של תמונות בדף המוצר."
+
+#: includes/admin/settings/class-wc-settings-products.php:409
+msgid "Downloadable Products"
+msgstr "מוצרים להורדה"
+
+#: includes/admin/settings/class-wc-settings-products.php:412
+msgid "File Download Method"
+msgstr "אפשרויות הורדת קובץ"
+
+#: includes/admin/settings/class-wc-settings-products.php:413
+msgid ""
+"Forcing downloads will keep URLs hidden, but some servers may serve large "
+"files unreliably. If supported, <code>X-Accel-Redirect</code>/ "
+"<code>X-Sendfile</code> can be used to serve downloads instead (server "
+"requires <code>mod_xsendfile</code>)."
+msgstr "הכרחת הורדות ישמור את הכתובות נסתרות, אבל כמה שרתים יכולים להגיש קבצים גדולים בצורה בלתי מהימנה. אם השרת תומך ב <code>X-Accel-Redirect</code>/ <code>X-Sendfile</code> יכול לשמש להורדות במקום זאת (שרת דורש <code>mod_xsendfile</code>)."
+
+#: includes/admin/settings/class-wc-settings-products.php:421
+msgid "Force Downloads"
+msgstr "הכרח הורדות"
+
+#: includes/admin/settings/class-wc-settings-products.php:422
+msgid "X-Accel-Redirect/X-Sendfile"
+msgstr "X-Accel-Redirect/X-Sendfile"
+
+#: includes/admin/settings/class-wc-settings-products.php:423
+msgid "Redirect only"
+msgstr "הפניה בלבד"
+
+#: includes/admin/settings/class-wc-settings-products.php:429
+msgid "Access Restriction"
+msgstr "הגבלת גישה"
+
+#: includes/admin/settings/class-wc-settings-products.php:430
+msgid "Downloads require login"
+msgstr "הורדות דורשות התחברות לאתר"
+
+#: includes/admin/settings/class-wc-settings-products.php:434
+msgid "This setting does not apply to guest purchases."
+msgstr "הגדרה זו אינה חלה על רכישות אורחים."
+
+#: includes/admin/settings/class-wc-settings-products.php:440
+msgid "Grant access to downloadable products after payment"
+msgstr "הענקת גישה למוצרים להורדה לאחר תשלום"
+
+#: includes/admin/settings/class-wc-settings-products.php:444
+msgid ""
+"Enable this option to grant access to downloads when orders are "
+"\"processing\", rather than \"completed\"."
+msgstr "הפעל אפשרות זו כדי להעניק גישה להורדות כאשר הזמנות הן &quot;בטיפול&quot; ולא &quot;הושלמה&quot;."
+
+#: includes/admin/settings/class-wc-settings-shipping.php:41
+#: includes/admin/settings/class-wc-settings-shipping.php:67
+msgid "Shipping Options"
+msgstr "אפשרויות משלוח"
+
+#: includes/admin/settings/class-wc-settings-shipping.php:70
+msgid "Shipping Calculations"
+msgstr "חישוב משלוח"
+
+#: includes/admin/settings/class-wc-settings-shipping.php:71
+msgid "Enable shipping"
+msgstr "הפעל משלוחים"
+
+#: includes/admin/settings/class-wc-settings-shipping.php:79
+msgid "Enable the shipping calculator on the cart page"
+msgstr "הפעל את מחשבון המשלוח על דף העגלה"
+
+#: includes/admin/settings/class-wc-settings-shipping.php:88
+msgid "Hide shipping costs until an address is entered"
+msgstr "הסתר את עלויות המשלוח עד שהכתובת מוזנת"
+
+#: includes/admin/settings/class-wc-settings-shipping.php:97
+msgid "Shipping Display Mode"
+msgstr "מצב תצוגת משלוח"
+
+#: includes/admin/settings/class-wc-settings-shipping.php:98
+msgid ""
+"This controls how multiple shipping methods are displayed on the frontend."
+msgstr "זו שולטת בשיטות משלוח מרובות מוצגות בממשק."
+
+#: includes/admin/settings/class-wc-settings-shipping.php:103
+msgid "Display shipping methods with \"radio\" buttons"
+msgstr "הצג שיטות משלוח עם כפתורי בחירה (\"רדיו\")"
+
+#: includes/admin/settings/class-wc-settings-shipping.php:104
+msgid "Display shipping methods in a dropdown"
+msgstr "הצג שיטות משלוח ברשימה נפתחת"
+
+#: includes/admin/settings/class-wc-settings-shipping.php:111
+msgid "Shipping Destination"
+msgstr "יעד משלוח"
+
+#: includes/admin/settings/class-wc-settings-shipping.php:112
+msgid "Ship to billing address by default"
+msgstr "משלוח לכתובת חיוב ברירת המחדל"
+
+#: includes/admin/settings/class-wc-settings-shipping.php:122
+msgid "Only ship to the users billing address"
+msgstr "לשלוח רק לכתובת החיוב של המשתמש"
+
+#: includes/admin/settings/class-wc-settings-shipping.php:132
+msgid "Restrict shipping to Location(s)"
+msgstr "הגבל משלוח למקום/ות"
+
+#: includes/admin/settings/class-wc-settings-shipping.php:133
+msgid ""
+"Choose which countries you want to ship to, or choose to ship to all <a "
+"href=\"%s\">locations you sell to</a>."
+msgstr "בחר לאיזה ארצות אתה מבצע משלוחים, או בחר לבצע משלוחים לכל <a href=\"%s\">המקומות שאתה מוכר להם</a>."
+
+#: includes/admin/settings/class-wc-settings-shipping.php:140
+msgid "Ship to all countries you sell to"
+msgstr "משלוח לכל הארצות שאתה מוכר להן"
+
+#: includes/admin/settings/class-wc-settings-shipping.php:141
+msgid "Ship to all countries"
+msgstr "משלוח לכל הארצות"
+
+#: includes/admin/settings/class-wc-settings-shipping.php:142
+msgid "Ship to specific countries only"
+msgstr "משלוח לארצות ספציפיות בלבד"
+
+#: includes/admin/settings/class-wc-settings-shipping.php:197
+msgid "Shipping Methods"
+msgstr "אפשרויות משלוח"
+
+#: includes/admin/settings/class-wc-settings-shipping.php:204
+msgid "ID"
+msgstr "מזהה"
+
+#: includes/admin/settings/class-wc-settings-shipping.php:214
+msgid "Automatic"
+msgstr "אוטומטי"
+
+#: includes/admin/settings/class-wc-settings-shipping.php:214
+msgid "The cheapest available shipping method will be selected by default."
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-shipping.php:215
+msgid ""
+"Drag and drop the above shipping methods to control their display order."
+msgstr "גרור ושחרר את אפשרויות המשלוח שלעיל כדי לשלוט בסדר הצגתן."
+
+#: includes/admin/settings/class-wc-settings-tax.php:40
+#: includes/admin/settings/class-wc-settings-tax.php:68
+msgid "Tax Options"
+msgstr "אפשריות מיסים"
+
+#: includes/admin/settings/class-wc-settings-tax.php:41
+msgid "Standard Rates"
+msgstr "תעריפים סטנדרטיים"
+
+#: includes/admin/settings/class-wc-settings-tax.php:49
+msgid "%s Rates"
+msgstr "תעריפי %s"
+
+#: includes/admin/settings/class-wc-settings-tax.php:71
+msgid "Enable Taxes"
+msgstr "הפעל מסים"
+
+#: includes/admin/settings/class-wc-settings-tax.php:72
+msgid "Enable taxes and tax calculations"
+msgstr "הפעל מיסים וחישוב המיסים"
+
+#: includes/admin/settings/class-wc-settings-tax.php:79
+msgid "Prices Entered With Tax"
+msgstr "מחירים נכנסו עם מס"
+
+#: includes/admin/settings/class-wc-settings-tax.php:83
+msgid ""
+"This option is important as it will affect how you input prices. Changing it"
+" will not update existing products."
+msgstr "אפשרות זו היא חשובה כי היא משפיעה על הצורה שבה אתה מזין את המחירים שלך. שינוי אפשרות זאת לא מעדכן את המוצרים הקיימים."
+
+#: includes/admin/settings/class-wc-settings-tax.php:85
+msgid "Yes, I will enter prices inclusive of tax"
+msgstr "כן, אני אכתוב מחירים כולל מס"
+
+#: includes/admin/settings/class-wc-settings-tax.php:86
+msgid "No, I will enter prices exclusive of tax"
+msgstr "לא, אני אכתוב מחירים ללא מס"
+
+#: includes/admin/settings/class-wc-settings-tax.php:91
+msgid "Calculate Tax Based On:"
+msgstr "חישוב מס על פי:"
+
+#: includes/admin/settings/class-wc-settings-tax.php:93
+msgid "This option determines which address is used to calculate tax."
+msgstr "אפשרות זו קובעת שכתובת משמשת לחישוב מס."
+
+#: includes/admin/settings/class-wc-settings-tax.php:97
+msgid "Customer shipping address"
+msgstr "כתובת משלוח"
+
+#: includes/admin/settings/class-wc-settings-tax.php:98
+msgid "Customer billing address"
+msgstr "כתובת חשבון"
+
+#: includes/admin/settings/class-wc-settings-tax.php:99
+#: includes/admin/settings/class-wc-settings-tax.php:111
+msgid "Shop base address"
+msgstr "כתובת בסיס חנות"
+
+#: includes/admin/settings/class-wc-settings-tax.php:104
+msgid "Default Customer Address:"
+msgstr "כתובת לקוחות פרטי:"
+
+#: includes/admin/settings/class-wc-settings-tax.php:106
+msgid ""
+"This option determines the customers default address (before they input "
+"their own)."
+msgstr "אפשרות זו קובעת את כתובת ברירת המחדל ללקוחות (לפני שהקלט שלהם)."
+
+#: includes/admin/settings/class-wc-settings-tax.php:110
+msgid "No address"
+msgstr "אין כתובת"
+
+#: includes/admin/settings/class-wc-settings-tax.php:116
+msgid "Shipping Tax Class:"
+msgstr "שיעור מס משלוח:"
+
+#: includes/admin/settings/class-wc-settings-tax.php:117
+msgid ""
+"Optionally control which tax class shipping gets, or leave it so shipping "
+"tax is based on the cart items themselves."
+msgstr "באופן אופציונלי שולט על איזה מיסים יחולו על המשלוח, או השאר ריק אם מיסי המשלוח מתבססים על הפריטים העגלה עצמם."
+
+#: includes/admin/settings/class-wc-settings-tax.php:122
+msgid "Shipping tax class based on cart items"
+msgstr "שיעורי מס משלוח מבוססים על פריטי העגלה"
+
+#: includes/admin/settings/class-wc-settings-tax.php:127
+msgid "Rounding"
+msgstr "עיגול"
+
+#: includes/admin/settings/class-wc-settings-tax.php:128
+msgid "Round tax at subtotal level, instead of rounding per line"
+msgstr "עיגול מס ברמת סכום ביניים, במקום עיגול בכל שורה"
+
+#: includes/admin/settings/class-wc-settings-tax.php:135
+msgid "Additional Tax Classes"
+msgstr "שיעורי מס נוספים"
+
+#: includes/admin/settings/class-wc-settings-tax.php:136
+msgid ""
+"List additional tax classes below (1 per line). This is in addition to the "
+"default <code>Standard Rate</code>. Tax classes can be assigned to products."
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-tax.php:140
+msgid "Reduced Rate%sZero Rate"
+msgstr "שיעור מופחת %s שיעור אפס"
+
+#: includes/admin/settings/class-wc-settings-tax.php:144
+msgid "Display prices in the shop:"
+msgstr "הצג מחירים בחנות:"
+
+#: includes/admin/settings/class-wc-settings-tax.php:149
+#: includes/admin/settings/class-wc-settings-tax.php:168
+msgid "Including tax"
+msgstr "כולל מיסים"
+
+#: includes/admin/settings/class-wc-settings-tax.php:150
+#: includes/admin/settings/class-wc-settings-tax.php:169
+msgid "Excluding tax"
+msgstr "לא כולל מיסים"
+
+#: includes/admin/settings/class-wc-settings-tax.php:155
+msgid "Price display suffix:"
+msgstr "סיומת תצוגת מחיר:"
+
+#: includes/admin/settings/class-wc-settings-tax.php:159
+msgid ""
+"Define text to show after your product prices. This could be, for example, "
+"\"inc. Vat\" to explain your pricing. You can also have prices substituted "
+"here using one of the following: <code>{price_including_tax}, "
+"{price_excluding_tax}</code>."
+msgstr ""
+
+#: includes/admin/settings/class-wc-settings-tax.php:163
+msgid "Display prices during cart/checkout:"
+msgstr "הצגת מחירים בעגלה / קופה:"
+
+#: includes/admin/settings/class-wc-settings-tax.php:175
+msgid "Display tax totals:"
+msgstr "הצג סכומי מיסים:"
+
+#: includes/admin/settings/class-wc-settings-tax.php:180
+msgid "As a single total"
+msgstr "כסך יחיד"
+
+#: includes/admin/settings/class-wc-settings-tax.php:181
+msgid "Itemized"
+msgstr "מפורט"
+
+#: includes/admin/settings/class-wc-settings-tax.php:243
+msgid "Tax Rates for the \"%s\" Class"
+msgstr "שיעורי מס מסוג &quot;%s&quot;"
+
+#: includes/admin/settings/class-wc-settings-tax.php:244
+msgid ""
+"Define tax rates for countries and states below. <a href=\"%s\">See here</a>"
+" for available alpha-2 country codes."
+msgstr "הגדר שיעורי מס למדינות כאן.  <a href=\"%s\"> לחץ כאן </a> לרשימת קודי מדינה אלפא-2 זמינים."
+
+#: includes/admin/settings/class-wc-settings-tax.php:250
+msgid "Country&nbsp;Code"
+msgstr "קוד ארץ"
+
+#: includes/admin/settings/class-wc-settings-tax.php:250
+msgid "A 2 digit country code, e.g. US. Leave blank to apply to all."
+msgstr "קוד ארץ בעל שתי תווים, למשל, US. השאר ריק כדי להחיל על כל הארצות."
+
+#: includes/admin/settings/class-wc-settings-tax.php:252
+msgid "State&nbsp;Code"
+msgstr "קוד מדינה"
+
+#: includes/admin/settings/class-wc-settings-tax.php:252
+msgid "A 2 digit state code, e.g. AL. Leave blank to apply to all."
+msgstr "קוד מדינה בעל שתי תווים, למשל AL. השאר ריק כדי להחיל על כל המדינות."
+
+#: includes/admin/settings/class-wc-settings-tax.php:254
+#: includes/admin/settings/class-wc-settings-tax.php:383
+msgid "ZIP/Postcode"
+msgstr "ZIP / מיקוד"
+
+#: includes/admin/settings/class-wc-settings-tax.php:254
+msgid ""
+"Postcode for this rule. Semi-colon (;) separate multiple values. Leave blank"
+" to apply to all areas. Wildcards (*) can be used. Ranges for numeric "
+"postcodes (e.g. 12345-12350) will be expanded into individual postcodes."
+msgstr "הזן כאן מיקוד. אם יש ערכים מרובים, יש להפריד אותם בנקודה פסיק (;). השאר ריק כדי להחיל על כל האזורים.  ניתן להשתמש בתו כללי (*). טווחי מיקוד מספריים (למשל 12345-12350) יורחבו למיקודים בודדים."
+
+#: includes/admin/settings/class-wc-settings-tax.php:256
+msgid ""
+"Cities for this rule. Semi-colon (;) separate multiple values. Leave blank "
+"to apply to all cities."
+msgstr "הזן כאן ערים. יש להפריד ערכים מרובים בנקודה פסיק (;). השאר ריק אם ברצונך להחיל על כל הערים."
+
+#: includes/admin/settings/class-wc-settings-tax.php:258
+msgid "Rate&nbsp;%"
+msgstr "שיעור מס באחוזים"
+
+#: includes/admin/settings/class-wc-settings-tax.php:258
+msgid "Enter a tax rate (percentage) to 4 decimal places."
+msgstr "הזן את שיעור המיסים (באחוזים) עד 4 ספרות אחרי הנקודה העשרונית."
+
+#: includes/admin/settings/class-wc-settings-tax.php:260
+msgid "Tax&nbsp;Name"
+msgstr "שם מס"
+
+#: includes/admin/settings/class-wc-settings-tax.php:260
+msgid "Enter a name for this tax rate."
+msgstr "הזן שם לשיעור המס הזה."
+
+#: includes/admin/settings/class-wc-settings-tax.php:262
+#: includes/admin/settings/class-wc-settings-tax.php:383
+msgid "Priority"
+msgstr "עדיפות"
+
+#: includes/admin/settings/class-wc-settings-tax.php:262
+msgid ""
+"Choose a priority for this tax rate. Only 1 matching rate per priority will "
+"be used. To define multiple tax rates for a single area you need to specify "
+"a different priority per rate."
+msgstr "בחר עדיפות לשימוש בשיעור המס הזה. ניתן להשתמש בשיעור מס אחד בלבד עבור כל עדיפות. כדי להגדיר שיעורי מס מרובים לאזור יחיד אתה צריך לציין עדיפות שונה לכל שיעור."
+
+#: includes/admin/settings/class-wc-settings-tax.php:264
+#: includes/admin/settings/class-wc-settings-tax.php:383
+msgid "Compound"
+msgstr "מורכב"
+
+#: includes/admin/settings/class-wc-settings-tax.php:264
+msgid ""
+"Choose whether or not this is a compound rate. Compound tax rates are "
+"applied on top of other tax rates."
+msgstr "בחר אם זה מס מורכב. מיסים מורכבים הם מיסים שחלים על מיסים אחרים."
+
+#: includes/admin/settings/class-wc-settings-tax.php:266
+msgid "Choose whether or not this tax rate also gets applied to shipping."
+msgstr "בחר אם שיעור המס זה חל גם על מחיר המשלוח."
+
+#: includes/admin/settings/class-wc-settings-tax.php:273
+msgid "Insert row"
+msgstr "להוסיף שורה"
+
+#: includes/admin/settings/class-wc-settings-tax.php:274
+msgid "Remove selected row(s)"
+msgstr "הסר את השורות שנבחרו"
+
+#: includes/admin/settings/class-wc-settings-tax.php:290
+msgid "Import CSV"
+msgstr "יבוא מקובץ CSV"
+
+#: includes/admin/settings/class-wc-settings-tax.php:376
+msgid "No row(s) selected"
+msgstr "אין שורה (ים) נבחר"
+
+#: includes/admin/settings/class-wc-settings-tax.php:383
+msgid "Country Code"
+msgstr "קוד ארץ"
+
+#: includes/admin/settings/class-wc-settings-tax.php:383
+msgid "State Code"
+msgstr "קוד מדינה"
+
+#: includes/admin/settings/class-wc-settings-tax.php:383
+msgid "Rate %"
+msgstr "שיעור מס באחוזים"
+
+#: includes/admin/settings/class-wc-settings-tax.php:383
+msgid "Tax Name"
+msgstr "שם מס"
+
+#: includes/admin/views/html-admin-page-addons.php:5
+msgid "Browse all extensions"
+msgstr "עיין בכל ההרחבות"
+
+#: includes/admin/views/html-admin-page-addons.php:6
+msgid "Browse themes"
+msgstr "חיפוש ערכות עיצוב"
+
+#: includes/admin/views/html-admin-page-addons.php:12
+msgid "Popular"
+msgstr "פופולרי"
+
+#: includes/admin/views/html-admin-page-addons.php:13
+msgid "Gateways"
+msgstr "שיטות תשלום"
+
+#: includes/admin/views/html-admin-page-addons.php:15
+msgid "Import/export"
+msgstr "יצוא/יבוא"
+
+#: includes/admin/views/html-admin-page-addons.php:17
+msgid "Marketing"
+msgstr "שיווק"
+
+#: includes/admin/views/html-admin-page-addons.php:18
+msgid "Acounting"
+msgstr "חשבונאות"
+
+#: includes/admin/views/html-admin-page-addons.php:19
+msgid "Free"
+msgstr "חינם"
+
+#: includes/admin/views/html-admin-page-addons.php:20
+msgid "Third-party"
+msgstr "צד ג'"
+
+#: includes/admin/views/html-admin-page-addons.php:81
+msgid ""
+"Our catalog of WooCommerce Extensions can be found on WooThemes.com here: <a"
+" href=\"%s\">WooCommerce Extensions Catalog</a>"
+msgstr ""
+
+#: includes/admin/views/html-admin-page-status-report.php:2
+msgid "Please include this information when requesting support:"
+msgstr "נא לכלול את המידע הזה כשבקשים תמיכה:"
+
+#: includes/admin/views/html-admin-page-status-report.php:3
+msgid "Get System Report"
+msgstr "קבל דוח מערכת"
+
+#: includes/admin/views/html-admin-page-status-report.php:11
+msgid "Environment"
+msgstr "סביבה"
+
+#: includes/admin/views/html-admin-page-status-report.php:17
+msgid "Home URL"
+msgstr "כתובת דף הבית"
+
+#: includes/admin/views/html-admin-page-status-report.php:21
+msgid "Site URL"
+msgstr "כתובת URL של אתר"
+
+#: includes/admin/views/html-admin-page-status-report.php:25
+msgid "WC Version"
+msgstr "גרסת WooCommerce"
+
+#: includes/admin/views/html-admin-page-status-report.php:29
+msgid "WC Database Version"
+msgstr "גרסת מסד נתונים של WooCommerce"
+
+#: includes/admin/views/html-admin-page-status-report.php:33
+msgid "WP Version"
+msgstr "גרסת WP"
+
+#: includes/admin/views/html-admin-page-status-report.php:37
+msgid "WP Multisite Enabled"
+msgstr "רשת אתרים של וורדפרס מופעלת"
+
+#: includes/admin/views/html-admin-page-status-report.php:41
+msgid "Web Server Info"
+msgstr "מידע שרת אינטרנט"
+
+#: includes/admin/views/html-admin-page-status-report.php:45
+msgid "PHP Version"
+msgstr "גרסת PHP"
+
+#: includes/admin/views/html-admin-page-status-report.php:49
+msgid "MySQL Version"
+msgstr "MySQL גרסה"
+
+#: includes/admin/views/html-admin-page-status-report.php:59
+msgid "WP Memory Limit"
+msgstr "מגבלת זכרון WP"
+
+#: includes/admin/views/html-admin-page-status-report.php:64
+msgid ""
+"%s - We recommend setting memory to at least 64MB. See: <a "
+"href=\"%s\">Increasing memory allocated to PHP</a>"
+msgstr "%s - We recommend setting memory to at least 64MB. See: <a href=\"%s\">Increasing memory allocated to PHP</a>"
+
+#: includes/admin/views/html-admin-page-status-report.php:71
+msgid "WP Debug Mode"
+msgstr "מצב Debug WP"
+
+#: includes/admin/views/html-admin-page-status-report.php:75
+msgid "WP Language"
+msgstr "שפת וורדפרס"
+
+#: includes/admin/views/html-admin-page-status-report.php:79
+msgid "WP Max Upload Size"
+msgstr "וורדפרס מקסימום גודל ההעלאה"
+
+#: includes/admin/views/html-admin-page-status-report.php:84
+msgid "PHP Post Max Size"
+msgstr "גודל PHP הודעת מקס"
+
+#: includes/admin/views/html-admin-page-status-report.php:88
+msgid "PHP Time Limit"
+msgstr "הגבלת זמן PHP"
+
+#: includes/admin/views/html-admin-page-status-report.php:92
+msgid "PHP Max Input Vars"
+msgstr ""
+
+#: includes/admin/views/html-admin-page-status-report.php:96
+msgid "SUHOSIN Installed"
+msgstr ""
+
+#: includes/admin/views/html-admin-page-status-report.php:101
+msgid "WC Logging"
+msgstr "רישום מערכת"
+
+#: includes/admin/views/html-admin-page-status-report.php:104
+msgid "Log directory is writable."
+msgstr "הספרייה התחברה לכתוב אליו."
+
+#: includes/admin/views/html-admin-page-status-report.php:106
+msgid ""
+"Log directory (<code>woocommerce/logs/</code>) is not writable. Logging will"
+" not be possible."
+msgstr "ספרייה התחברה (<code> woocommerce / יומנים / </ code>) אינה ניתנת לכתיבה. רישום לא יהיה אפשרי."
+
+#: includes/admin/views/html-admin-page-status-report.php:110
+msgid "Default Timezone"
+msgstr "איזור זמן ברירת מחדל"
+
+#: includes/admin/views/html-admin-page-status-report.php:114
+msgid "Default timezone is %s - it should be UTC"
+msgstr "איזור זמן ברירת מחדל הוא %s - צריך להיות UTC"
+
+#: includes/admin/views/html-admin-page-status-report.php:116
+msgid "Default timezone is %s"
+msgstr "איזור זמן ברירת מחדל הוא %s"
+
+#: includes/admin/views/html-admin-page-status-report.php:124
+msgid "fsockopen/cURL"
+msgstr "fsockopen / CURL"
+
+#: includes/admin/views/html-admin-page-status-report.php:127
+msgid "Your server has fsockopen and cURL enabled."
+msgstr "השרת שלך fsockopen ולהתכרבל מופעל."
+
+#: includes/admin/views/html-admin-page-status-report.php:129
+msgid "Your server has fsockopen enabled, cURL is disabled."
+msgstr "בשרת שלך fsockopen זמין, cURL לא זמין."
+
+#: includes/admin/views/html-admin-page-status-report.php:131
+msgid "Your server has cURL enabled, fsockopen is disabled."
+msgstr "בשרת שלך cURL זמין, fsockopen אינו זמין."
+
+#: includes/admin/views/html-admin-page-status-report.php:135
+msgid ""
+"Your server does not have fsockopen or cURL enabled - PayPal IPN and other "
+"scripts which communicate with other servers will not work. Contact your "
+"hosting provider."
+msgstr "בשרת שלך fsockopen ו- cURL לא זמינים - PayPal IPN וסקריפטים אחרים אשר מתקשרים עם שרתים אחרים לא יעבדו. צור קשר עם ספק האירוח שלך."
+
+#: includes/admin/views/html-admin-page-status-report.php:140
+msgid "SOAP Client"
+msgstr "SOAP לקוח"
+
+#: includes/admin/views/html-admin-page-status-report.php:142
+msgid "Your server has the SOAP Client class enabled."
+msgstr "בשרת שלך SOAP Client class זמין."
+
+#: includes/admin/views/html-admin-page-status-report.php:145
+msgid ""
+"Your server does not have the <a href=\"%s\">SOAP Client</a> class enabled -"
+" some gateway plugins which use SOAP may not work as expected."
+msgstr "Your server does not have the <a href=\"%s\">SOAP Client</a> class enabled - some gateway plugins which use SOAP may not work as expected."
+
+#: includes/admin/views/html-admin-page-status-report.php:150
+msgid "WP Remote Post"
+msgstr "WP Remote Post"
+
+#: includes/admin/views/html-admin-page-status-report.php:161
+msgid "wp_remote_post() was successful - PayPal IPN is working."
+msgstr "wp_remote_post() was successful - PayPal IPN is working."
+
+#: includes/admin/views/html-admin-page-status-report.php:164
+msgid ""
+"wp_remote_post() failed. PayPal IPN won't work with your server. Contact "
+"your hosting provider. Error:"
+msgstr "wp_remote_post() failed. PayPal IPN won't work with your server. Contact your hosting provider. Error:"
+
+#: includes/admin/views/html-admin-page-status-report.php:167
+msgid "wp_remote_post() failed. PayPal IPN may not work with your server."
+msgstr "wp_remote_post() failed. PayPal IPN may not work with your server."
+
+#: includes/admin/views/html-admin-page-status-report.php:190
+msgid "Locale"
+msgstr "מקומי"
+
+#: includes/admin/views/html-admin-page-status-report.php:206
+msgid "Plugins"
+msgstr "תוספים"
+
+#: includes/admin/views/html-admin-page-status-report.php:212
+msgid "Installed Plugins"
+msgstr "תוספים מותקנים"
+
+#: includes/admin/views/html-admin-page-status-report.php:232
+msgid "Visit plugin homepage"
+msgstr "בקר בעמוד הבית של התוסף"
+
+#: includes/admin/views/html-admin-page-status-report.php:256
+#: includes/admin/views/html-admin-page-status-report.php:438
+msgid "is available"
+msgstr "זמין"
+
+#: includes/admin/views/html-admin-page-status-report.php:259
+msgid "by"
+msgstr "על ידי"
+
+#: includes/admin/views/html-admin-page-status-report.php:259
+msgid "version"
+msgstr "גירסה"
+
+#: includes/admin/views/html-admin-page-status-report.php:281
+msgid "Force SSL"
+msgstr "הכרח SSL"
+
+#: includes/admin/views/html-admin-page-status-report.php:288
+msgid "WC Pages"
+msgstr "עמודי החנות"
+
+#: includes/admin/views/html-admin-page-status-report.php:295
+msgctxt "Page setting"
+msgid "Shop Base"
+msgstr "מאגר החנות"
+
+#: includes/admin/views/html-admin-page-status-report.php:299
+msgctxt "Page setting"
+msgid "Cart"
+msgstr "סל הקניות"
+
+#: includes/admin/views/html-admin-page-status-report.php:303
+msgctxt "Page setting"
+msgid "Checkout"
+msgstr "לתשלום"
+
+#: includes/admin/views/html-admin-page-status-report.php:307
+msgctxt "Page setting"
+msgid "My Account"
+msgstr "החשבון שלי"
+
+#: includes/admin/views/html-admin-page-status-report.php:327
+msgid "Page not set"
+msgstr "דף לא מוגדר"
+
+#: includes/admin/views/html-admin-page-status-report.php:337
+msgid "Page does not exist"
+msgstr "עמוד לא קיים"
+
+#: includes/admin/views/html-admin-page-status-report.php:342
+msgid "Page does not contain the shortcode: %s"
+msgstr "עמוד אינו מכיל את %s"
+
+#: includes/admin/views/html-admin-page-status-report.php:361
+msgid "WC Taxonomies"
+msgstr "טקסונומיה של WooCommerce"
+
+#: includes/admin/views/html-admin-page-status-report.php:367
+msgid "Order Statuses"
+msgstr "סטטוסים להזמין"
+
+#: includes/admin/views/html-admin-page-status-report.php:377
+msgid "Product Types"
+msgstr "סוגי מוצרים"
+
+#: includes/admin/views/html-admin-page-status-report.php:390
+msgid "Theme"
+msgstr "ערכת עיצוב"
+
+#: includes/admin/views/html-admin-page-status-report.php:427
+msgid "Theme Name"
+msgstr "שם ערכת נושא"
+
+#: includes/admin/views/html-admin-page-status-report.php:433
+msgid "Theme Version"
+msgstr "גרסת ערכת עיצוב"
+
+#: includes/admin/views/html-admin-page-status-report.php:442
+msgid "Author URL"
+msgstr "URL מחבר"
+
+#: includes/admin/views/html-admin-page-status-report.php:451
+msgid "Templates"
+msgstr "תבניות"
+
+#: includes/admin/views/html-admin-page-status-report.php:486
+msgid ""
+"<code>%s</code> version <strong style=\"color:red\">%s</strong> is out of "
+"date. The core version is %s"
+msgstr ""
+
+#: includes/admin/views/html-admin-page-status-report.php:497
+#: includes/admin/views/html-admin-page-status-report.php:503
+msgid "Template Overrides"
+msgstr "עוקפי תבניות"
+
+#: includes/admin/views/html-admin-page-status-report.php:504
+msgid "No overrides present in theme."
+msgstr "אין שכתובים בערכת העיצוב."
+
+#: includes/admin/views/html-admin-page-status-tools.php:7
+#: includes/admin/views/html-admin-page-status.php:6
+msgid "Tools"
+msgstr "כלים"
+
+#: includes/admin/views/html-admin-page-status-tools.php:23
+msgid "Shipping Debug Mode"
+msgstr ""
+
+#: includes/admin/views/html-admin-page-status-tools.php:29
+msgid "This tool will disable shipping rate caching."
+msgstr ""
+
+#: includes/admin/views/html-admin-page-status-tools.php:34
+msgid "Template Debug Mode"
+msgstr ""
+
+#: includes/admin/views/html-admin-page-status-tools.php:40
+msgid ""
+"This tool will disable template overrides for logged-in administrators for "
+"debugging purposes."
+msgstr ""
+
+#: includes/admin/views/html-admin-page-status-tools.php:45
+msgid "Remove post types on uninstall"
+msgstr "הסר סוגי פוסטים עם הסרת ההתקנה"
+
+#: includes/admin/views/html-admin-page-status-tools.php:51
+msgid ""
+"This tool will delete all product and order post data when uninstalling via "
+"Plugins > Delete."
+msgstr "כלי זה ימחק את כל המוצרים ונתוני פוסט ההזמנה כאשר מסירים את התקנתו דרך תוספים > מחק."
+
+#: includes/admin/views/html-admin-page-status-tools.php:58
+msgid "Save Changes"
+msgstr "שמירת שינויים"
+
+#: includes/admin/views/html-admin-settings.php:20
+msgid "Save changes"
+msgstr "שמירת שינויים"
+
+#: includes/admin/views/html-bulk-edit-product.php:15
+#: includes/admin/views/html-bulk-edit-product.php:39
+#: includes/admin/views/html-bulk-edit-product.php:63
+#: includes/admin/views/html-bulk-edit-product.php:82
+#: includes/admin/views/html-bulk-edit-product.php:108
+#: includes/admin/views/html-bulk-edit-product.php:132
+#: includes/admin/views/html-bulk-edit-product.php:156
+#: includes/admin/views/html-bulk-edit-product.php:175
+#: includes/admin/views/html-bulk-edit-product.php:193
+#: includes/admin/views/html-bulk-edit-product.php:212
+#: includes/admin/views/html-bulk-edit-product.php:231
+#: includes/admin/views/html-bulk-edit-product.php:252
+msgid "— No Change —"
+msgstr "- ללא שינוי -"
+
+#: includes/admin/views/html-bulk-edit-product.php:16
+#: includes/admin/views/html-bulk-edit-product.php:40
+#: includes/admin/views/html-bulk-edit-product.php:109
+#: includes/admin/views/html-bulk-edit-product.php:133
+#: includes/admin/views/html-bulk-edit-product.php:232
+msgid "Change to:"
+msgstr "שנה ל:"
+
+#: includes/admin/views/html-bulk-edit-product.php:17
+#: includes/admin/views/html-bulk-edit-product.php:41
+msgid "Increase by (fixed amount or %):"
+msgstr "הגדל ב (סכום קבוע או אחוז):"
+
+#: includes/admin/views/html-bulk-edit-product.php:18
+#: includes/admin/views/html-bulk-edit-product.php:42
+msgid "Decrease by (fixed amount or %):"
+msgstr "הורד ב (סכום קבוע או אחוז):"
+
+#: includes/admin/views/html-bulk-edit-product.php:28
+#: includes/admin/views/html-bulk-edit-product.php:53
+msgid "Enter price"
+msgstr "הזן את המחיר"
+
+#: includes/admin/views/html-bulk-edit-product.php:34
+#: includes/admin/views/html-quick-edit-product.php:29
+msgid "Sale"
+msgstr "מבצע"
+
+#: includes/admin/views/html-bulk-edit-product.php:43
+msgid "Decrease regular price by (fixed amount or %):"
+msgstr "הורד מחיר קבוע ב (סכום קבוע או אחוז):"
+
+#: includes/admin/views/html-bulk-edit-product.php:127
+#: includes/admin/views/html-quick-edit-product.php:95
+msgid "L/W/H"
+msgstr "אורך / רוחב / גובה"
+
+#: includes/admin/views/html-bulk-edit-product.php:151
+#: includes/admin/views/html-quick-edit-product.php:109
+msgid "Visibility"
+msgstr "תצוגה"
+
+#: includes/admin/views/html-bulk-edit-product.php:157
+#: includes/admin/views/html-quick-edit-product.php:114
+msgid "Catalog &amp; search"
+msgstr "קטלוג וחיפוש"
+
+#: includes/admin/views/html-bulk-edit-product.php:188
+#: includes/admin/views/html-quick-edit-product.php:132
+msgid "In stock?"
+msgstr "במלאי?"
+
+#: includes/admin/views/html-bulk-edit-product.php:247
+#: includes/admin/views/html-quick-edit-product.php:167
+msgid "Backorders?"
+msgstr "הזמנות מראש?"
+
+#: includes/admin/views/html-notice-install.php:5
+msgid ""
+"<strong>Welcome to WooCommerce</strong> &#8211; You're almost ready to start"
+" selling :)"
+msgstr "<strong> ברוכים הבאים לחנות </ strong> - אתה כמעט מוכן להתחיל למכור :)"
+
+#: includes/admin/views/html-notice-install.php:6
+msgid "Skip setup"
+msgstr "דלג על ההתקנה"
+
+#: includes/admin/views/html-notice-template-check.php:5
+msgid ""
+"<strong>Your theme has bundled outdated copies of WooCommerce template "
+"files</strong> &#8211; if you encounter functionality issues on the frontend"
+" this could the reason. Ensure you update or remove them (in general we "
+"recommend only bundling the template files you actually need to customize). "
+"See the system report for full details."
+msgstr ""
+
+#: includes/admin/views/html-notice-template-check.php:6
+#: includes/admin/views/html-notice-theme-support.php:6
+msgid "Hide this notice"
+msgstr "הסתר הודעה זו"
+
+#: includes/admin/views/html-notice-theme-support.php:5
+msgid ""
+"<strong>Your theme does not declare WooCommerce support</strong> &#8211; if "
+"you encounter layout issues please read our integration guide or choose a "
+"WooCommerce theme :)"
+msgstr "<strong> ערכת העיצוב שלך לא מצהירה על תמיכה בWooCommerce </strong> - אם אתה נתקלת בבעיות פריסה אנא קרא את המדריך שלנו על שילוב עם עיצובים קיימים או לבחור עיצוב מותאם מראש לWooCommerce :)"
+
+#: includes/admin/views/html-notice-theme-support.php:6
+msgid "Theme Integration Guide"
+msgstr "מדריך שילוב ערכת העיצוב"
+
+#: includes/admin/views/html-notice-update.php:5
+msgid ""
+"<strong>WooCommerce Data Update Required</strong> &#8211; We just need to "
+"update your install to the latest version"
+msgstr "<strong>נדרש עדכון נתונים עבור WooCommerce</strong> &#8211; אנחנו רק צריכים לעדכן את ההתקנה שלך לגרסא החדשה ביותר"
+
+#: includes/admin/views/html-notice-update.php:6
+msgid "Run the updater"
+msgstr "הפעל את המעדכן"
+
+#: includes/admin/views/html-notice-update.php:10
+msgid ""
+"It is strongly recommended that you backup your database before proceeding. "
+"Are you sure you wish to run the updater now?"
+msgstr "מומלץ מאוד לגבות את מסד הנתונים שלך לפני שתמשיך. האם אתה בטוח שברצונך להפעיל את המעדכן עכשיו?"
+
+#: includes/admin/views/html-quick-edit-product.php:24
+msgid "Regular price"
+msgstr "מחיר רגיל"
+
+#: includes/admin/views/html-quick-edit-product.php:31
+msgid "Sale price"
+msgstr "מחיר מבצע"
+
+#: includes/admin/views/html-report-by-date.php:16
+msgid "Custom:"
+msgstr "מותאם אישית:"
+
+#: includes/admin/wc-admin-functions.php:192
+msgid "Could not compile woocommerce.less:"
+msgstr "לא יכל לקמפל woocommerce.less:"

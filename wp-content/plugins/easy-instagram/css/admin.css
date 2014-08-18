@@ -1,0 +1,107 @@
+table.easy-instagram-settings {
+	width: 100%;
+}
+
+table.easy-instagram-settings td {
+	padding: 3px 5px 8px 5px;
+}
+
+table.easy-instagram-settings td.labels {
+	width: 30%;
+	font-weight: bold;
+}
+
+.easy-instagram-settings-form h3 {
+	padding: 7px 10px;
+	background-color: #dadada;
+	width: 95%;
+	margin: 10px 0px 0px 0px;
+}
+
+.easy-instagram-settings-form input[type='text'] {
+	width: 500px;
+	padding: 5px;
+}
+
+.easy-instagram-settings-form .info {
+	font-size: 90%;
+	color: #14f;
+	padding: 0px 0px 0px 5px;
+}
+
+.form-error {
+	color: #f00;
+}
+
+table.easy-instagram-settings tr.warning {
+	color: #f00;
+}
+
+#ei-help {
+	display: none;
+}
+
+ul.manage-clients {
+	margin-left: 10px;
+	margin-top: 5px;
+}
+
+.code {
+	font: 12px 'Andale Mono', 'Courier New', 'Fixed', monospace
+}
+
+h2.ei-nav-tab-wrapper {
+	border-bottom: 1px solid #CCC;
+	padding-bottom: 0;
+	color: #464646;
+	font-size: 23px;
+	padding: 9px 15px 0px 7px;
+	line-height: 27px;
+	margin: 0;
+}
+
+.ei-nav-tab {
+	border-style: solid;
+	border-color: #DFDFDF #DFDFDF white;
+	border-width: 1px 1px 0;
+	color: #AAA;
+	text-shadow: white 0 1px 0;
+	font-size: 16px;
+	line-height: 16px;
+	display: inline-block;
+	padding: 3px 6px 3px;
+	text-decoration: none;
+	margin: 0 6px -1px 0;
+	-webkit-border-top-left-radius: 3px;
+	-webkit-border-top-right-radius: 3px;
+	border-top-left-radius: 3px;
+	border-top-right-radius: 3px;
+	font-weight: 200;
+	font-family: "HelveticaNeue-Light","Helvetica Neue Light","Helvetica Neue",sans-serif;
+}
+
+.ei-nav-tab:hover, .ei-nav-tab-active {
+	border-color: #CCC #CCC white;
+}
+
+.ei-nav-tab-active {
+	border-width: 1px;
+	color: #464646;
+}
+
+.ei-field-info {
+	color: #555;
+	font-size: 90%;
+}
+
+.ei-code {
+	font: 100% courier,monospace;
+	border: 1px solid #ccc; 
+	padding: 2px;
+	background: #fff7f0; 
+	color: #000	
+}
+
+td.exception {
+	color: #f00;
+}

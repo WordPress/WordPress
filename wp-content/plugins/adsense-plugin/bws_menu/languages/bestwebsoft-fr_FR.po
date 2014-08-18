@@ -1,0 +1,903 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: bestwebsoft\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-03-03 15:03+0300\n"
+"PO-Revision-Date: 2014-03-03 15:03+0300\n"
+"Last-Translator: bestwebsoft.com <plugins@bestwebsoft.com>\n"
+"Language-Team: Luc Capronnier <lcapronnier@yahoo.com>\n"
+"Language: fr_FR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"Plural-Forms: nplurals=2;plural=n>2;\n"
+"X-Generator: Poedit 1.5.7\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: bws_menu.php:417
+msgid "Not set"
+msgstr "Not set"
+
+#: bws_menu.php:419
+#: bws_menu.php:423
+msgid "On"
+msgstr "On"
+
+#: bws_menu.php:421
+#: bws_menu.php:425
+msgid "Off"
+msgstr "Off"
+
+#: bws_menu.php:429
+#: bws_menu.php:433
+#: bws_menu.php:437
+#: bws_menu.php:441
+#: bws_menu.php:445
+#: bws_menu.php:471
+msgid "N/A"
+msgstr "N/A"
+
+#: bws_menu.php:443
+msgid " Mb"
+msgstr " Mb"
+
+#: bws_menu.php:447
+#: bws_menu.php:451
+#: bws_menu.php:455
+#: bws_menu.php:466
+msgid "Yes"
+msgstr "Yes"
+
+#: bws_menu.php:449
+#: bws_menu.php:453
+#: bws_menu.php:457
+#: bws_menu.php:468
+msgid "No"
+msgstr "No"
+
+#: bws_menu.php:482
+msgid "Operating System"
+msgstr "Operating System"
+
+#: bws_menu.php:483
+msgid "Server"
+msgstr "Server"
+
+#: bws_menu.php:484
+msgid "Memory usage"
+msgstr "Memory usage"
+
+#: bws_menu.php:485
+msgid "MYSQL Version"
+msgstr "MYSQL Version"
+
+#: bws_menu.php:486
+msgid "SQL Mode"
+msgstr "SQL Mode"
+
+#: bws_menu.php:487
+msgid "PHP Version"
+msgstr "PHP Version"
+
+#: bws_menu.php:488
+msgid "PHP Safe Mode"
+msgstr "PHP Safe Mode"
+
+#: bws_menu.php:489
+msgid "PHP Allow URL fopen"
+msgstr "PHP Allow URL fopen"
+
+#: bws_menu.php:490
+msgid "PHP Memory Limit"
+msgstr "PHP Memory Limit"
+
+#: bws_menu.php:491
+msgid "PHP Max Upload Size"
+msgstr "PHP Max Upload Size"
+
+#: bws_menu.php:492
+msgid "PHP Max Post Size"
+msgstr "PHP Max Post Size"
+
+#: bws_menu.php:493
+msgid "PHP Max Script Execute Time"
+msgstr "PHP Max Script Execute Time"
+
+#: bws_menu.php:494
+msgid "PHP Exif support"
+msgstr "PHP Exif support"
+
+#: bws_menu.php:495
+msgid "PHP IPTC support"
+msgstr "PHP IPTC support"
+
+#: bws_menu.php:496
+msgid "PHP XML support"
+msgstr "PHP XML support"
+
+#: bws_menu.php:497
+msgid "Site URL"
+msgstr "Site URL"
+
+#: bws_menu.php:498
+msgid "Home URL"
+msgstr "Home URL"
+
+#: bws_menu.php:501
+msgid "WordPress Version"
+msgstr "WordPress Version"
+
+#: bws_menu.php:502
+msgid "WordPress DB Version"
+msgstr "WordPress DB Version"
+
+#: bws_menu.php:503
+msgid "Multisite"
+msgstr "Multisite"
+
+#: bws_menu.php:504
+msgid "Active Theme"
+msgstr "Active Theme"
+
+#: bws_menu.php:520
+msgid "Please enter a valid email address."
+msgstr "Merci de saisir une adresse e-mail valide."
+
+#: bws_menu.php:524
+msgid "Email with system info is sent to "
+msgstr "Le courriel avec les informations système est envoyé à"
+
+#: bws_menu.php:528
+msgid "Thank you for contacting us."
+msgstr "Merci de nous avoir contacté."
+
+#: bws_menu.php:556
+msgid "Sorry, email message could not be delivered."
+msgstr "Désolé, votre e-mail n'a pas pu être envoyé."
+
+#: bws_menu.php:568
+msgid "Switch to new interface"
+msgstr "Basculer vers la nouvelle interface"
+
+#: bws_menu.php:575
+msgid "Pro plugins"
+msgstr "Plugins Pro"
+
+#: bws_menu.php:578
+#: bws_menu.php:604
+msgid "Activated plugins"
+msgstr "Plugin activé"
+
+#: bws_menu.php:580
+#: bws_menu.php:588
+#: bws_menu.php:596
+#: bws_menu.php:606
+#: bws_menu.php:614
+#: bws_menu.php:622
+#: bws_menu.php:632
+#: bws_menu.php:639
+#: bws_menu.php:647
+msgid "Read more"
+msgstr "Lire la suite"
+
+#: bws_menu.php:580
+#: bws_menu.php:606
+#: bws_menu.php:779
+#: bws_menu.php:806
+msgid "Settings"
+msgstr "Réglages"
+
+#: bws_menu.php:586
+#: bws_menu.php:612
+#: bws_menu.php:741
+msgid "Installed plugins"
+msgstr "Plugin installé"
+
+#: bws_menu.php:594
+#: bws_menu.php:620
+#: bws_menu.php:863
+msgid "Recommended plugins"
+msgstr "Plugin recommandé"
+
+#: bws_menu.php:596
+msgid "Purchase"
+msgstr "Achetez"
+
+#: bws_menu.php:601
+msgid "Free plugins"
+msgstr "Plugins gratuits"
+
+#: bws_menu.php:622
+#: bws_menu.php:647
+msgid "Download"
+msgstr "Téléchargement"
+
+#: bws_menu.php:622
+#: bws_menu.php:647
+#: bws_menu.php:980
+#, php-format
+msgid "Install %s"
+msgstr "%s installé"
+
+#: bws_menu.php:622
+#: bws_menu.php:647
+msgid "Install now from wordpress.org"
+msgstr "Installer maintenant depuis wordpress.org"
+
+#: bws_menu.php:628
+msgid "Free themes"
+msgstr "Thèmes gratuits"
+
+#: bws_menu.php:631
+msgid "Activated theme"
+msgstr "Thème actif"
+
+#: bws_menu.php:632
+#, php-format
+msgid "Customize &#8220;%s&#8221;"
+msgstr "Personnaliser &#8220;%s&#8221;"
+
+#: bws_menu.php:632
+msgid "Customize"
+msgstr "Personnaliser"
+
+#: bws_menu.php:637
+msgid "Installed themes"
+msgstr "Thèmes installés"
+
+#: bws_menu.php:645
+msgid "Recommended themes"
+msgstr "Thèmes recommandés"
+
+#: bws_menu.php:653
+msgid "If you have any questions, please contact us via"
+msgstr "Si vous avez des questions, merci de contacter via "
+
+#: bws_menu.php:660
+#: bws_menu.php:731
+#: bws_menu.php:1016
+msgid "System status"
+msgstr "System status"
+
+#: bws_menu.php:664
+#: bws_menu.php:1019
+msgid "Environment"
+msgstr "Environment"
+
+#: bws_menu.php:675
+#: bws_menu.php:1030
+msgid "Active Plugins"
+msgstr "Plugin actifs"
+
+#: bws_menu.php:686
+#: bws_menu.php:1041
+msgid "Inactive Plugins"
+msgstr "Plugin inactifs"
+
+#: bws_menu.php:703
+#: bws_menu.php:1058
+msgid "Send to support"
+msgstr "Envoyé au support"
+
+#: bws_menu.php:710
+#: bws_menu.php:1065
+msgid "Send to custom email &#187;"
+msgstr "Envoyer un e-mail spécifique &#187;"
+
+#: bws_menu.php:721
+msgid "Switch to old interface"
+msgstr "Basculer vers l'ancienne interface"
+
+#: bws_menu.php:727
+msgid "Plugins"
+msgstr "Externsions"
+
+#: bws_menu.php:729
+msgid "Themes"
+msgstr "Thèmes"
+
+#: bws_menu.php:735
+msgid "All"
+msgstr "Tous"
+
+#: bws_menu.php:736
+msgid "Installed"
+msgstr "Installé"
+
+#: bws_menu.php:737
+msgid "Recommended"
+msgstr "Recommandé"
+
+#: bws_menu.php:777
+#: bws_menu.php:804
+#: bws_menu.php:825
+#: bws_menu.php:852
+#: bws_menu.php:908
+msgid "Learn more"
+msgstr "En savoir plus"
+
+#: bws_menu.php:794
+#: bws_menu.php:842
+#: bws_menu.php:898
+msgid "Go"
+msgstr "Allez"
+
+#: bws_menu.php:798
+#: bws_menu.php:846
+#: bws_menu.php:902
+msgid "DONATE"
+msgstr "Faire un don"
+
+#: bws_menu.php:827
+#: bws_menu.php:854
+msgid "Activate this plugin"
+msgstr "Activer cette extension"
+
+#: bws_menu.php:827
+#: bws_menu.php:854
+msgid "Activate"
+msgstr "Activé"
+
+#: bws_menu.php:910
+msgid "Install now"
+msgstr "Installer maintenant"
+
+#: bws_menu.php:932
+msgid "Try again"
+msgstr "Essayer de nouveau"
+
+#: bws_menu.php:949
+#, php-format
+msgid "Preview &#8220;%s&#8221;"
+msgstr "Pré-visualiser &#8220;%s&#8221;"
+
+#: bws_menu.php:980
+msgid "Install Now"
+msgstr "Installa Ora"
+
+#: bws_menu.php:983
+#, php-format
+msgid "Update to version %s"
+msgstr "Mettre à jour pour la version %s"
+
+#: bws_menu.php:983
+msgid "Update"
+msgstr "Mettre à jour"
+
+#: bws_menu.php:990
+#, php-format
+msgid "Preview %s"
+msgstr "Pré-visualiser %s"
+
+#: bws_menu.php:990
+msgid "Preview"
+msgstr "Pré-visualiser"
+
+#: bws_menu.php:997
+#, php-format
+msgid "By %s"
+msgstr "Par %s"
+
+#: bws_menu.php:1003
+msgid "Details"
+msgstr "Détails"
+
+#, fuzzy
+#~ msgid "installed"
+#~ msgstr "%s installé"
+
+#~ msgid "Contact Form Settings"
+#~ msgstr "Options du formulaire de Contact"
+
+#~ msgid "Contact Form"
+#~ msgstr "Formulaire de Contact"
+
+#~ msgid "Contact Form Pro Extra Settings"
+#~ msgstr ""
+#~ "Options supplémentaires de la version Pro pour le formulaire de Contact"
+
+#~ msgid "Contact Form Pro"
+#~ msgstr "Formulaire Pro de Contact"
+
+#~ msgid "Name:"
+#~ msgstr "Nom:"
+
+#~ msgid "Address:"
+#~ msgstr "Adresse :"
+
+#~ msgid "Email Address:"
+#~ msgstr "Adresse e-mail:"
+
+#~ msgid "Phone number:"
+#~ msgstr "Téléphone:"
+
+#~ msgid "Subject:"
+#~ msgstr "Sujet:"
+
+#~ msgid "Message:"
+#~ msgstr "Message:"
+
+#~ msgid "Attachment:"
+#~ msgstr "Pièce-jointe:"
+
+#~ msgid "Send me a copy"
+#~ msgstr "M'envoyer une copie"
+
+#~ msgid "Submit"
+#~ msgstr "Envoyer"
+
+#~ msgid "Your name is required."
+#~ msgstr "Un nom est obligatoire."
+
+#~ msgid "Address is required."
+#~ msgstr "Une adresse est obligatoire."
+
+#~ msgid "A valid email address is required."
+#~ msgstr "Une adresse e-mail valide est obligatoire."
+
+#~ msgid "Phone number is required."
+#~ msgstr "Le numéro de téléphone est obligatoire."
+
+#~ msgid "Subject is required."
+#~ msgstr "Sujet obligatoire."
+
+#~ msgid "Message text is required."
+#~ msgstr "Un message est obligatoire."
+
+#~ msgid "File format is not valid."
+#~ msgstr "La pièce-jointe n'est pas valide."
+
+#~ msgid "File upload error."
+#~ msgstr "Erreur de chargement du fichier."
+
+#~ msgid "The file could not be uploaded."
+#~ msgstr "Le fichier n'a pas pu être envoyé."
+
+#~ msgid "This file is too large."
+#~ msgstr "Le fichier est trop volumineux."
+
+#~ msgid "Please fill out the CAPTCHA."
+#~ msgstr "Merci de compléter le CAPTCHA."
+
+#~ msgid "Please make corrections below and try again."
+#~ msgstr "Merci de faire les corrections suivantes et de réessayer."
+
+#~ msgid ""
+#~ "If the 'Redirect to page' option is selected then the URL field should be "
+#~ "in the following format"
+#~ msgstr ""
+#~ "Si l'ioption 'Rediriger vers la page' est positionnée, alors le champ Url "
+#~ "doit être rempli avec le format suivant"
+
+#~ msgid "Such user does not exist. Settings are not saved."
+#~ msgstr ""
+#~ "Cet utilisateur est inconnu. Les modifications ne sont pas sauvegardées."
+
+#~ msgid ""
+#~ "Please enter a valid email address in the 'FROM' field. Settings are not "
+#~ "saved."
+#~ msgstr ""
+#~ "Merci de saisir une adresse e-mail valide pour le 'FROM'. Les "
+#~ "modifications ne sont pas sauvegardées."
+
+#~ msgid "Settings saved."
+#~ msgstr "Options sauvegardées."
+
+#~ msgid "Extra settings"
+#~ msgstr "Options supplémentaires"
+
+#~ msgid ""
+#~ "If you would like to add the Contact Form to your website, just copy and "
+#~ "paste this shortcode to your post or page or widget:"
+#~ msgstr ""
+#~ "Si vous souhaiter ajouter un formulaire de contact à votre site web, "
+#~ "copiez juste ce code dans un article ou sur une page ou un widget:"
+
+#~ msgid ""
+#~ "If you leave the fields empty, the messages will be sent to the email "
+#~ "address specified during registration."
+#~ msgstr ""
+#~ "Si les champs ci-dessous ne sont pas renseignés le message sera envoyé à "
+#~ "l'adresse spécifiée lors de l'enregistrement."
+
+#~ msgid "The user's email address:"
+#~ msgstr "Utiliser l'e-mail du compte wordpress:"
+
+#~ msgid "Create a username"
+#~ msgstr "Choisir un nom d'utilisateur"
+
+#~ msgid ""
+#~ "Enter a username of the person who should get the messages from the "
+#~ "contact form."
+#~ msgstr ""
+#~ "Choisir le nom d'utilisateur qui recevra les messages envoyés depuis le "
+#~ "formulaire de contact."
+
+#~ msgid "Use this email address:"
+#~ msgstr "Utiliser cette adresse e-mail:"
+
+#~ msgid "Enter the email address you want the messages forwarded to."
+#~ msgstr ""
+#~ "Choisir l'adresse e-mail qui sera utilisée pour recevoir les messages."
+
+#~ msgid "Additional options"
+#~ msgstr "Options supplémentaires"
+
+#~ msgid "What to use?"
+#~ msgstr "Quelle méthode d'envoie ?"
+
+#~ msgid "Wp-mail"
+#~ msgstr "Wp-mail"
+
+#~ msgid "You can use the wp_mail function for mailing"
+#~ msgstr ""
+#~ "Pour envoyer l'e-mail, vous pouvez utiliser la fonction wp_mail de "
+#~ "wordpress"
+
+#~ msgid "Mail"
+#~ msgstr "E-mail"
+
+#~ msgid "To send mail you can use the php mail function"
+#~ msgstr "Pour envoyer l'e-mail, vous pouvez utiliser la fonction mail de php"
+
+#~ msgid "Change text of the 'FROM' field"
+#~ msgstr "Modifier le texte pour le champ 'FROM' du courriel"
+
+#~ msgid "Enter the email address in the 'From' field"
+#~ msgstr "Sélectionner l'adresse e-mail pour le champ 'FROM' du courriel"
+
+#~ msgid "User email"
+#~ msgstr "E-mail de l'utlisateur"
+
+#~ msgid ""
+#~ "The email address of the user who fills the form will be used in the "
+#~ "field 'From'."
+#~ msgstr ""
+#~ "Dans le champ 'From' du courriel, il sera utilisé l'adresse e-mail de "
+#~ "l'utlisateur qui rempli le formulaire."
+
+#~ msgid "This email address will be used in the 'From' field."
+#~ msgstr "Dans le champ 'FROM', cette adresse e-mail sera utilisée."
+
+#~ msgid "Display fields"
+#~ msgstr "Afficher le texte"
+
+#~ msgid "Address"
+#~ msgstr "Adresse"
+
+#~ msgid "Phone"
+#~ msgstr "Téléphone"
+
+#~ msgid "Attachment block"
+#~ msgstr "Bloc pièce-jointe"
+
+#~ msgid "Users can attach the following file formats"
+#~ msgstr "Les utilisateurs peuvent joindre des documents des types suivants"
+
+#~ msgid "Captcha"
+#~ msgstr "Captcha"
+
+#~ msgid "(powered by bestwebsoft.com)"
+#~ msgstr "(fourni par bestwebsoft.com)"
+
+#~ msgid "Download captcha"
+#~ msgstr "Télécharger le captcha"
+
+#, fuzzy
+#~ msgid "Display tips below the Attachment block"
+#~ msgstr "Afficher les explications après le bloc des pièces jointes"
+
+#, fuzzy
+#~ msgid "Display 'Send me a copy' block"
+#~ msgstr "S'envoyer une copie"
+
+#~ msgid "Required fields"
+#~ msgstr "Champ obligatoire"
+
+#~ msgid "Name"
+#~ msgstr "Nom"
+
+#~ msgid "Email Address"
+#~ msgstr "Adresse e-mail"
+
+#~ msgid "Subject"
+#~ msgstr "Sujet"
+
+#~ msgid "Message"
+#~ msgstr "Message"
+
+#~ msgid "Display additional info in the email"
+#~ msgstr "Afficher les informations complémentaires dans le courriel"
+
+#~ msgid "Sent from (ip address)"
+#~ msgstr "Envoyé de (adresse IP)"
+
+#, fuzzy
+#~ msgid "Example: Sent from (IP address):\t127.0.0.1"
+#~ msgstr "Envoyé de (adresse IP)"
+
+#~ msgid "Date/Time"
+#~ msgstr "Date/Heure"
+
+#~ msgid "Sent from (referer)"
+#~ msgstr "Envoyer de (référence)"
+
+#~ msgid "Using (user agent)"
+#~ msgstr "Depuis (navigateur)"
+
+#~ msgid "Language settings for the field names in the form"
+#~ msgstr "Définition des langues pour les titres des champs"
+
+#~ msgid "Add a language"
+#~ msgstr "Ajouter une langue"
+
+#~ msgid "Change the names of the contact form fields and error messages"
+#~ msgstr ""
+#~ "Modifier le texte pour les champs du formulaire de contact et les "
+#~ "messages d'erreur"
+
+#~ msgid "English"
+#~ msgstr "Anglais"
+
+#~ msgid "Error message for the Name field"
+#~ msgstr "Message d'erreur pour le champ nom"
+
+#~ msgid "Error message for the Address field"
+#~ msgstr "Message d'erreur pour le champ Adresse"
+
+#~ msgid "Error message for the Email field"
+#~ msgstr "Message d'erreur pour le champ e-mail"
+
+#~ msgid "Error message for the Phone field"
+#~ msgstr "Message d'erreur pour le champ téléphone"
+
+#~ msgid "Error message for the Subject field"
+#~ msgstr "Message d'erreur pour le champ sujet"
+
+#~ msgid "Error message for the Message field"
+#~ msgstr "Message d'erreur pour le champ message"
+
+#~ msgid "Error message about the file type for the Attachment field"
+#~ msgstr "Message d'erreur pour le champ fichier joint (type du fichier)"
+
+#~ msgid ""
+#~ "Error message while uploading a file for the Attachment field to the "
+#~ "server"
+#~ msgstr ""
+#~ "Message d'erreur pour le champ fichier joint (problème d'envoie vers le "
+#~ "serveur)"
+
+#~ msgid "Error message while moving the file for the Attachment field"
+#~ msgstr ""
+#~ "Message d'erreur pour le champ fichier joint (déplacement du fichier)"
+
+#~ msgid ""
+#~ "Error message when file size limit for the Attachment field is exceeded"
+#~ msgstr ""
+#~ "Message d'erreur pour le champ fichier joint (taille limite du fichier "
+#~ "atteinte)"
+
+#~ msgid "Error message for the Captcha field"
+#~ msgstr "Message d'erreur pour le captcha"
+
+#~ msgid "Error message for the whole form"
+#~ msgstr "Message d'erreur demandant à compléter les champs manquants"
+
+#~ msgid "Use shortcode"
+#~ msgstr "Utiliser le code court"
+
+#~ msgid "for this language"
+#~ msgstr "pour cette langue"
+
+#~ msgid "Action after email is sent"
+#~ msgstr "Action après l'envoie de l'e-mail"
+
+#~ msgid "Display text"
+#~ msgstr "Afficher le texte"
+
+#~ msgid "Text"
+#~ msgstr "Texte"
+
+#~ msgid "Redirect to the page"
+#~ msgstr "Rediriger vers la page"
+
+#~ msgid "Url"
+#~ msgstr "Url"
+
+#~ msgid "Save Changes"
+#~ msgstr "Sauvegarder les modifications"
+
+#~ msgid "Contact Form Pro | Extra Settings"
+#~ msgstr "Formulaire Pro de Contact | Options supplémentaires"
+
+#~ msgid ""
+#~ "This functionality is available in the Pro version of the plugin. For "
+#~ "more details, please follow the link"
+#~ msgstr ""
+#~ "Cette fonctionalité est disponible dans le version Pro de cette "
+#~ "extension. Pour plus de détails, merci de suivre ce lien"
+
+#~ msgid "Errors output"
+#~ msgstr "Affichage des erreurs"
+
+#~ msgid "Display error messages"
+#~ msgstr "Aficher les messages d'erreur"
+
+#~ msgid "Color of the input field errors."
+#~ msgstr "Mettre en couleur les champs ayant des erreurs"
+
+#~ msgid "Display error messages & color of the input field errors"
+#~ msgstr ""
+#~ "Afficher les messages d'erreur et mettre en couleur les champs ayant des "
+#~ "erreurs"
+
+#~ msgid "Add placeholder to the input blocks"
+#~ msgstr "Ajouter la localisation dans le bloc de saisie"
+
+#~ msgid "Add tooltips"
+#~ msgstr "Ajouter les conseils"
+
+#~ msgid "Email address"
+#~ msgstr "Adresse e-mail"
+
+#~ msgid "Phone Number"
+#~ msgstr "Téléphone"
+
+#~ msgid "Attachment"
+#~ msgstr "Pièce-jointe"
+
+#~ msgid "Style options"
+#~ msgstr "Options de style"
+
+#~ msgid "Text color"
+#~ msgstr "Couleur du texte"
+
+#~ msgid "Default"
+#~ msgstr "Défaut"
+
+#~ msgid "Label text color"
+#~ msgstr "Couleur des textes des intitulés"
+
+#~ msgid "Placeholder color"
+#~ msgstr "Couleur pour la localisation"
+
+#~ msgid "Errors color"
+#~ msgstr "Couleur pour les erreurs"
+
+#~ msgid "Error text color"
+#~ msgstr "Couleur pour le texte des erreurs"
+
+#~ msgid "Background color of the input field errors"
+#~ msgstr "Couleur de fond pour les erreurs de saisie dans les champs"
+
+#~ msgid "Border color of the input field errors"
+#~ msgstr "Couleur de la bordure pour les erreurs de saisie dans les champs"
+
+#~ msgid "Placeholder color of the input field errors"
+#~ msgstr "Couleur pour la localisation lors d'une erreur de saisie du champ"
+
+#~ msgid "Input fields"
+#~ msgstr "Champs de saisie"
+
+#~ msgid "Input fields background color"
+#~ msgstr "Couleur de fond pour les champs de saisie"
+
+#~ msgid "Text fields color"
+#~ msgstr "Couleur pour les textes des champs de saisie"
+
+#~ msgid "Border width in px, numbers only"
+#~ msgstr "Largeur des bordures en px, nombre seulement"
+
+#~ msgid "Border color"
+#~ msgstr "Couleur des bordures"
+
+#~ msgid "Submit button"
+#~ msgstr "Bouton Envoyer"
+
+#~ msgid "Width in px, numbers only"
+#~ msgstr "Largeur en px, nombre seulement"
+
+#~ msgid "Button color"
+#~ msgstr "Couleur du bouton"
+
+#~ msgid "Button text color"
+#~ msgstr "Couleur du texte du bouton"
+
+#~ msgid "Contact Form Pro | Preview"
+#~ msgstr "Formulaire Pro de Contact | Prévisualisation"
+
+#~ msgid "Show with errors"
+#~ msgstr "Afficher avec les erreurs"
+
+#~ msgid "Please enter your full name..."
+#~ msgstr "Merci de saisir votre nom..."
+
+#~ msgid "Please enter your address..."
+#~ msgstr "Merci de saisir votre adresse..."
+
+#~ msgid "Please enter your email address..."
+#~ msgstr "Merci de saisir votre adresse e-mail..."
+
+#~ msgid "Please enter your phone number..."
+#~ msgstr "Merci de saisir votre numéro de téléphone..."
+
+#~ msgid "Please enter subject..."
+#~ msgstr "Merci de saisir le sujet..."
+
+#~ msgid "Please enter your message..."
+#~ msgstr "Merci de saisir votre message..."
+
+#~ msgid ""
+#~ "Supported file types: HTML, TXT, CSS, GIF, PNG, JPEG, JPG, TIFF, BMP, AI, "
+#~ "EPS, PS, RTF, PDF, DOC, DOCX, XLS, ZIP, RAR, WAV, MP3, PPT. Max file "
+#~ "size: 2MB"
+#~ msgstr ""
+#~ "Types de fichiers autorisés: HTML, TXT, CSS, GIF, PNG, JPEG, JPG, TIFF, "
+#~ "BMP, AI, EPS, PS, RTF, PDF, DOC, DOCX, XLS, ZIP, RAR, WAV, MP3, PPT. "
+#~ "Taille maximum 2MB"
+
+#~ msgid "You can attach the following file formats"
+#~ msgstr "Vous pouvez joindre des fichiers aux formats suivants"
+
+#~ msgid "Contact from"
+#~ msgstr "Contact de"
+
+#~ msgid "Email"
+#~ msgstr "E-mail"
+
+#~ msgid "Site"
+#~ msgstr "Site"
+
+#~ msgid ""
+#~ "If you can see this MIME, it means that the MIME type is not supported by "
+#~ "your email client!"
+#~ msgstr ""
+#~ "Si vous voyez ce MIME c'est que votre navigateur n'accepte pas ce type de "
+#~ "MIME !"
+
+#~ msgid "FAQ"
+#~ msgstr "FAQ"
+
+#~ msgid "Support"
+#~ msgstr "Support"
+
+#~ msgid "Are you sure that you want to delete this language data?"
+#~ msgstr "Etes vous sûr de vouloir supprimer cette langue ?"
+
+#~ msgid "Display Attachment tips"
+#~ msgstr "Afficher les explications sur les pièces jointes"
+
+#~ msgid "Display a phone number field"
+#~ msgstr "Afficher le champ téléphone"
+
+#~ msgid "Please enter a valid email address. Settings are not saved."
+#~ msgstr ""
+#~ "Merci de saisir une adresse e-mail valide. Les modifications ne sont pas "
+#~ "sauvegardées."
+
+#~ msgid "E-Mail Address"
+#~ msgstr "Adresse e-mail"
+
+#, fuzzy
+#~ msgid ""
+#~ "If you would like to add a Contact Form to your website, just copy and "
+#~ "put this shortcode onto your post or page:"
+#~ msgstr ""
+#~ "Si vous souhaiter ajouter un formulaire de contact à votre site web, "
+#~ "copiez juste ce code dans un article ou sur une page ou un widget:"
+
+#, fuzzy
+#~ msgid "Thank you for contact."
+#~ msgstr "Merci de nous avoir contacté."
+
+#, fuzzy
+#~ msgid "Set a name of user wo will get messages from a contact form."
+#~ msgstr ""
+#~ "Choisir le nom d'utilisateur qui recevra les messages envoyés depuis le "
+#~ "formulaire de contact."
+
+#~ msgid "E-Mail Addresse:"
+#~ msgstr "Indirizzo e-mail:"

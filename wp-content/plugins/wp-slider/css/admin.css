@@ -1,0 +1,20 @@
+#slider-example{
+    width:532px;
+    height:302px;
+    overflow:hidden;
+    margin: auto;
+}
+
+#slider-example img{
+    width:500px;
+    height:270px;
+    float:left;
+   -moz-border-radius: 10px;
+    border-radius:10px;
+    -webkit-border-radius:10px;
+    background-color: #EEEEEE;
+    border: 1px solid #CCCCCC;
+    left: 0;
+    padding: 15px;
+    top: 0;
+}

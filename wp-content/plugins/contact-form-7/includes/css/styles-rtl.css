@@ -1,0 +1,13 @@
+span.wpcf7-not-valid-tip {
+	direction: rtl;
+}
+
+.use-floating-validation-tip span.wpcf7-not-valid-tip { 
+	left: auto;
+	right: 20%;
+}
+
+span.wpcf7-list-item {
+	margin-left: 0;
+	margin-right: 0.5em;
+}

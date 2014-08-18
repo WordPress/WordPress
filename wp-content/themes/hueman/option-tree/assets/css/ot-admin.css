@@ -1,0 +1,3709 @@
+/* -------------------------------------------------- 
+  :: OptionTree Font
+  ---------------------------------------------------*/
+@font-face {
+  font-family: "option-tree-font";
+  src:url("../fonts/option-tree-font.eot");
+  src:url("../fonts/option-tree-font.eot?#iefix") format("embedded-opentype"),
+    url("../fonts/option-tree-font.woff") format("woff"),
+    url("../fonts/option-tree-font.ttf") format("truetype"),
+    url("../fonts/option-tree-font.svg#option-tree-font") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+        
+[class^="ot-icon-"], 
+[class*=" ot-icon-"] {
+  font-family: "option-tree-font";
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.ot-icon-option-tree:before {
+  content: "\e785";
+}
+.ot-icon-glass:before {
+  content: "\f000";
+}
+.ot-icon-music:before {
+  content: "\f001";
+}
+.ot-icon-search:before {
+  content: "\f002";
+}
+.ot-icon-envelope-o:before {
+  content: "\f003";
+}
+.ot-icon-heart:before {
+  content: "\f004";
+}
+.ot-icon-star:before {
+  content: "\f005";
+}
+.ot-icon-star-o:before {
+  content: "\f006";
+}
+.ot-icon-user:before {
+  content: "\f007";
+}
+.ot-icon-film:before {
+  content: "\f008";
+}
+.ot-icon-th-large:before {
+  content: "\f009";
+}
+.ot-icon-th:before {
+  content: "\f00a";
+}
+.ot-icon-th-list:before {
+  content: "\f00b";
+}
+.ot-icon-check:before {
+  content: "\f00c";
+}
+.ot-icon-times:before {
+  content: "\f00d";
+}
+.ot-icon-search-plus:before {
+  content: "\f00e";
+}
+.ot-icon-search-minus:before {
+  content: "\f010";
+}
+.ot-icon-power-off:before {
+  content: "\f011";
+}
+.ot-icon-signal:before {
+  content: "\f012";
+}
+.ot-icon-gear:before {
+  content: "\f013";
+}
+.ot-icon-trash-o:before {
+  content: "\f014";
+}
+.ot-icon-home:before {
+  content: "\f015";
+}
+.ot-icon-file-o:before {
+  content: "\f016";
+}
+.ot-icon-clock-o:before {
+  content: "\f017";
+}
+.ot-icon-road:before {
+  content: "\f018";
+}
+.ot-icon-download:before {
+  content: "\f019";
+}
+.ot-icon-arrow-circle-o-down:before {
+  content: "\f01a";
+}
+.ot-icon-arrow-circle-o-up:before {
+  content: "\f01b";
+}
+.ot-icon-inbox:before {
+  content: "\f01c";
+}
+.ot-icon-play-circle-o:before {
+  content: "\f01d";
+}
+.ot-icon-rotate-right:before {
+  content: "\f01e";
+}
+.ot-icon-refresh:before {
+  content: "\f021";
+}
+.ot-icon-list-alt:before {
+  content: "\f022";
+}
+.ot-icon-lock:before {
+  content: "\f023";
+}
+.ot-icon-flag:before {
+  content: "\f024";
+}
+.ot-icon-headphones:before {
+  content: "\f025";
+}
+.ot-icon-volume-off:before {
+  content: "\f026";
+}
+.ot-icon-volume-down:before {
+  content: "\f027";
+}
+.ot-icon-volume-up:before {
+  content: "\f028";
+}
+.ot-icon-qrcode:before {
+  content: "\f029";
+}
+.ot-icon-barcode:before {
+  content: "\f02a";
+}
+.ot-icon-tag:before {
+  content: "\f02b";
+}
+.ot-icon-tags:before {
+  content: "\f02c";
+}
+.ot-icon-book:before {
+  content: "\f02d";
+}
+.ot-icon-bookmark:before {
+  content: "\f02e";
+}
+.ot-icon-print:before {
+  content: "\f02f";
+}
+.ot-icon-camera:before {
+  content: "\f030";
+}
+.ot-icon-font:before {
+  content: "\f031";
+}
+.ot-icon-bold:before {
+  content: "\f032";
+}
+.ot-icon-italic:before {
+  content: "\f033";
+}
+.ot-icon-text-height:before {
+  content: "\f034";
+}
+.ot-icon-text-width:before {
+  content: "\f035";
+}
+.ot-icon-align-left:before {
+  content: "\f036";
+}
+.ot-icon-align-center:before {
+  content: "\f037";
+}
+.ot-icon-align-right:before {
+  content: "\f038";
+}
+.ot-icon-align-justify:before {
+  content: "\f039";
+}
+.ot-icon-list:before {
+  content: "\f03a";
+}
+.ot-icon-dedent:before {
+  content: "\f03b";
+}
+.ot-icon-indent:before {
+  content: "\f03c";
+}
+.ot-icon-video-camera:before {
+  content: "\f03d";
+}
+.ot-icon-picture-o:before {
+  content: "\f03e";
+}
+.ot-icon-pencil:before {
+  content: "\f040";
+}
+.ot-icon-map-marker:before {
+  content: "\f041";
+}
+.ot-icon-adjust:before {
+  content: "\f042";
+}
+.ot-icon-tint:before {
+  content: "\f043";
+}
+.ot-icon-edit:before {
+  content: "\f044";
+}
+.ot-icon-share-square-o:before {
+  content: "\f045";
+}
+.ot-icon-check-square-o:before {
+  content: "\f046";
+}
+.ot-icon-arrows:before {
+  content: "\f047";
+}
+.ot-icon-step-backward:before {
+  content: "\f048";
+}
+.ot-icon-fast-backward:before {
+  content: "\f049";
+}
+.ot-icon-backward:before {
+  content: "\f04a";
+}
+.ot-icon-play:before {
+  content: "\f04b";
+}
+.ot-icon-pause:before {
+  content: "\f04c";
+}
+.ot-icon-stop:before {
+  content: "\f04d";
+}
+.ot-icon-forward:before {
+  content: "\f04e";
+}
+.ot-icon-fast-forward:before {
+  content: "\f050";
+}
+.ot-icon-step-forward:before {
+  content: "\f051";
+}
+.ot-icon-eject:before {
+  content: "\f052";
+}
+.ot-icon-chevron-left:before {
+  content: "\f053";
+}
+.ot-icon-chevron-right:before {
+  content: "\f054";
+}
+.ot-icon-plus-circle:before {
+  content: "\f055";
+}
+.ot-icon-minus-circle:before {
+  content: "\f056";
+}
+.ot-icon-times-circle:before {
+  content: "\f057";
+}
+.ot-icon-check-circle:before {
+  content: "\f058";
+}
+.ot-icon-question-circle:before {
+  content: "\f059";
+}
+.ot-icon-info-circle:before {
+  content: "\f05a";
+}
+.ot-icon-crosshairs:before {
+  content: "\f05b";
+}
+.ot-icon-times-circle-o:before {
+  content: "\f05c";
+}
+.ot-icon-check-circle-o:before {
+  content: "\f05d";
+}
+.ot-icon-ban:before {
+  content: "\f05e";
+}
+.ot-icon-arrow-left:before {
+  content: "\f060";
+}
+.ot-icon-arrow-right:before {
+  content: "\f061";
+}
+.ot-icon-arrow-up:before {
+  content: "\f062";
+}
+.ot-icon-arrow-down:before {
+  content: "\f063";
+}
+.ot-icon-mail-forward:before {
+  content: "\f064";
+}
+.ot-icon-expand:before {
+  content: "\f065";
+}
+.ot-icon-compress:before {
+  content: "\f066";
+}
+.ot-icon-plus:before {
+  content: "\f067";
+}
+.ot-icon-minus:before {
+  content: "\f068";
+}
+.ot-icon-asterisk:before {
+  content: "\f069";
+}
+.ot-icon-exclamation-circle:before {
+  content: "\f06a";
+}
+.ot-icon-gift:before {
+  content: "\f06b";
+}
+.ot-icon-leaf:before {
+  content: "\f06c";
+}
+.ot-icon-fire:before {
+  content: "\f06d";
+}
+.ot-icon-eye:before {
+  content: "\f06e";
+}
+.ot-icon-eye-slash:before {
+  content: "\f070";
+}
+.ot-icon-warning:before {
+  content: "\f071";
+}
+.ot-icon-plane:before {
+  content: "\f072";
+}
+.ot-icon-calendar:before {
+  content: "\f073";
+}
+.ot-icon-random:before {
+  content: "\f074";
+}
+.ot-icon-comment:before {
+  content: "\f075";
+}
+.ot-icon-magnet:before {
+  content: "\f076";
+}
+.ot-icon-chevron-up:before {
+  content: "\f077";
+}
+.ot-icon-chevron-down:before {
+  content: "\f078";
+}
+.ot-icon-retweet:before {
+  content: "\f079";
+}
+.ot-icon-shopping-cart:before {
+  content: "\f07a";
+}
+.ot-icon-folder:before {
+  content: "\f07b";
+}
+.ot-icon-folder-open:before {
+  content: "\f07c";
+}
+.ot-icon-arrows-v:before {
+  content: "\f07d";
+}
+.ot-icon-arrows-h:before {
+  content: "\f07e";
+}
+.ot-icon-bar-chart-o:before {
+  content: "\f080";
+}
+.ot-icon-twitter-square:before {
+  content: "\f081";
+}
+.ot-icon-facebook-square:before {
+  content: "\f082";
+}
+.ot-icon-camera-retro:before {
+  content: "\f083";
+}
+.ot-icon-key:before {
+  content: "\f084";
+}
+.ot-icon-gears:before {
+  content: "\f085";
+}
+.ot-icon-comments:before {
+  content: "\f086";
+}
+.ot-icon-thumbs-o-up:before {
+  content: "\f087";
+}
+.ot-icon-thumbs-o-down:before {
+  content: "\f088";
+}
+.ot-icon-star-half:before {
+  content: "\f089";
+}
+.ot-icon-heart-o:before {
+  content: "\f08a";
+}
+.ot-icon-sign-out:before {
+  content: "\f08b";
+}
+.ot-icon-linkedin-square:before {
+  content: "\f08c";
+}
+.ot-icon-thumb-tack:before {
+  content: "\f08d";
+}
+.ot-icon-external-link:before {
+  content: "\f08e";
+}
+.ot-icon-sign-in:before {
+  content: "\f090";
+}
+.ot-icon-trophy:before {
+  content: "\f091";
+}
+.ot-icon-github-square:before {
+  content: "\f092";
+}
+.ot-icon-upload:before {
+  content: "\f093";
+}
+.ot-icon-lemon-o:before {
+  content: "\f094";
+}
+.ot-icon-phone:before {
+  content: "\f095";
+}
+.ot-icon-square-o:before {
+  content: "\f096";
+}
+.ot-icon-bookmark-o:before {
+  content: "\f097";
+}
+.ot-icon-phone-square:before {
+  content: "\f098";
+}
+.ot-icon-twitter:before {
+  content: "\f099";
+}
+.ot-icon-facebook:before {
+  content: "\f09a";
+}
+.ot-icon-github:before {
+  content: "\f09b";
+}
+.ot-icon-unlock:before {
+  content: "\f09c";
+}
+.ot-icon-credit-card:before {
+  content: "\f09d";
+}
+.ot-icon-rss:before {
+  content: "\f09e";
+}
+.ot-icon-hdd-o:before {
+  content: "\f0a0";
+}
+.ot-icon-bullhorn:before {
+  content: "\f0a1";
+}
+.ot-icon-bell:before {
+  content: "\f0a2";
+}
+.ot-icon-certificate:before {
+  content: "\f0a3";
+}
+.ot-icon-hand-o-right:before {
+  content: "\f0a4";
+}
+.ot-icon-hand-o-left:before {
+  content: "\f0a5";
+}
+.ot-icon-hand-o-up:before {
+  content: "\f0a6";
+}
+.ot-icon-hand-o-down:before {
+  content: "\f0a7";
+}
+.ot-icon-arrow-circle-left:before {
+  content: "\f0a8";
+}
+.ot-icon-arrow-circle-right:before {
+  content: "\f0a9";
+}
+.ot-icon-arrow-circle-up:before {
+  content: "\f0aa";
+}
+.ot-icon-arrow-circle-down:before {
+  content: "\f0ab";
+}
+.ot-icon-globe:before {
+  content: "\f0ac";
+}
+.ot-icon-wrench:before {
+  content: "\f0ad";
+}
+.ot-icon-tasks:before {
+  content: "\f0ae";
+}
+.ot-icon-filter:before {
+  content: "\f0b0";
+}
+.ot-icon-briefcase:before {
+  content: "\f0b1";
+}
+.ot-icon-arrows-alt:before {
+  content: "\f0b2";
+}
+.ot-icon-group:before {
+  content: "\f0c0";
+}
+.ot-icon-chain:before {
+  content: "\f0c1";
+}
+.ot-icon-cloud:before {
+  content: "\f0c2";
+}
+.ot-icon-flask:before {
+  content: "\f0c3";
+}
+.ot-icon-cut:before {
+  content: "\f0c4";
+}
+.ot-icon-copy:before {
+  content: "\f0c5";
+}
+.ot-icon-paperclip:before {
+  content: "\f0c6";
+}
+.ot-icon-save:before {
+  content: "\f0c7";
+}
+.ot-icon-square:before {
+  content: "\f0c8";
+}
+.ot-icon-bars:before {
+  content: "\f0c9";
+}
+.ot-icon-list-ul:before {
+  content: "\f0ca";
+}
+.ot-icon-list-ol:before {
+  content: "\f0cb";
+}
+.ot-icon-strikethrough:before {
+  content: "\f0cc";
+}
+.ot-icon-underline:before {
+  content: "\f0cd";
+}
+.ot-icon-table:before {
+  content: "\f0ce";
+}
+.ot-icon-magic:before {
+  content: "\f0d0";
+}
+.ot-icon-truck:before {
+  content: "\f0d1";
+}
+.ot-icon-pinterest:before {
+  content: "\f0d2";
+}
+.ot-icon-pinterest-square:before {
+  content: "\f0d3";
+}
+.ot-icon-google-plus-square:before {
+  content: "\f0d4";
+}
+.ot-icon-google-plus:before {
+  content: "\f0d5";
+}
+.ot-icon-money:before {
+  content: "\f0d6";
+}
+.ot-icon-caret-down:before {
+  content: "\f0d7";
+}
+.ot-icon-caret-up:before {
+  content: "\f0d8";
+}
+.ot-icon-caret-left:before {
+  content: "\f0d9";
+}
+.ot-icon-caret-right:before {
+  content: "\f0da";
+}
+.ot-icon-columns:before {
+  content: "\f0db";
+}
+.ot-icon-unsorted:before {
+  content: "\f0dc";
+}
+.ot-icon-sort-down:before {
+  content: "\f0dd";
+}
+.ot-icon-sort-up:before {
+  content: "\f0de";
+}
+.ot-icon-envelope:before {
+  content: "\f0e0";
+}
+.ot-icon-linkedin:before {
+  content: "\f0e1";
+}
+.ot-icon-rotate-left:before {
+  content: "\f0e2";
+}
+.ot-icon-legal:before {
+  content: "\f0e3";
+}
+.ot-icon-dashboard:before {
+  content: "\f0e4";
+}
+.ot-icon-comment-o:before {
+  content: "\f0e5";
+}
+.ot-icon-comments-o:before {
+  content: "\f0e6";
+}
+.ot-icon-flash:before {
+  content: "\f0e7";
+}
+.ot-icon-sitemap:before {
+  content: "\f0e8";
+}
+.ot-icon-umbrella:before {
+  content: "\f0e9";
+}
+.ot-icon-paste:before {
+  content: "\f0ea";
+}
+.ot-icon-lightbulb-o:before {
+  content: "\f0eb";
+}
+.ot-icon-exchange:before {
+  content: "\f0ec";
+}
+.ot-icon-cloud-download:before {
+  content: "\f0ed";
+}
+.ot-icon-cloud-upload:before {
+  content: "\f0ee";
+}
+.ot-icon-user-md:before {
+  content: "\f0f0";
+}
+.ot-icon-stethoscope:before {
+  content: "\f0f1";
+}
+.ot-icon-suitcase:before {
+  content: "\f0f2";
+}
+.ot-icon-bell-o:before {
+  content: "\f0f3";
+}
+.ot-icon-coffee:before {
+  content: "\f0f4";
+}
+.ot-icon-cutlery:before {
+  content: "\f0f5";
+}
+.ot-icon-file-text-o:before {
+  content: "\f0f6";
+}
+.ot-icon-building-o:before {
+  content: "\f0f7";
+}
+.ot-icon-hospital-o:before {
+  content: "\f0f8";
+}
+.ot-icon-ambulance:before {
+  content: "\f0f9";
+}
+.ot-icon-medkit:before {
+  content: "\f0fa";
+}
+.ot-icon-fighter-jet:before {
+  content: "\f0fb";
+}
+.ot-icon-beer:before {
+  content: "\f0fc";
+}
+.ot-icon-h-square:before {
+  content: "\f0fd";
+}
+.ot-icon-plus-square:before {
+  content: "\f0fe";
+}
+.ot-icon-angle-double-left:before {
+  content: "\f100";
+}
+.ot-icon-angle-double-right:before {
+  content: "\f101";
+}
+.ot-icon-angle-double-up:before {
+  content: "\f102";
+}
+.ot-icon-angle-double-down:before {
+  content: "\f103";
+}
+.ot-icon-angle-left:before {
+  content: "\f104";
+}
+.ot-icon-angle-right:before {
+  content: "\f105";
+}
+.ot-icon-angle-up:before {
+  content: "\f106";
+}
+.ot-icon-angle-down:before {
+  content: "\f107";
+}
+.ot-icon-desktop:before {
+  content: "\f108";
+}
+.ot-icon-laptop:before {
+  content: "\f109";
+}
+.ot-icon-tablet:before {
+  content: "\f10a";
+}
+.ot-icon-mobile-phone:before {
+  content: "\f10b";
+}
+.ot-icon-circle-o:before {
+  content: "\f10c";
+}
+.ot-icon-quote-left:before {
+  content: "\f10d";
+}
+.ot-icon-quote-right:before {
+  content: "\f10e";
+}
+.ot-icon-spinner:before {
+  content: "\f110";
+}
+.ot-icon-circle:before {
+  content: "\f111";
+}
+.ot-icon-mail-reply:before {
+  content: "\f112";
+}
+.ot-icon-github-alt:before {
+  content: "\f113";
+}
+.ot-icon-folder-o:before {
+  content: "\f114";
+}
+.ot-icon-folder-open-o:before {
+  content: "\f115";
+}
+.ot-icon-smile-o:before {
+  content: "\f118";
+}
+.ot-icon-frown-o:before {
+  content: "\f119";
+}
+.ot-icon-meh-o:before {
+  content: "\f11a";
+}
+.ot-icon-gamepad:before {
+  content: "\f11b";
+}
+.ot-icon-keyboard-o:before {
+  content: "\f11c";
+}
+.ot-icon-flag-o:before {
+  content: "\f11d";
+}
+.ot-icon-flag-checkered:before {
+  content: "\f11e";
+}
+.ot-icon-terminal:before {
+  content: "\f120";
+}
+.ot-icon-code:before {
+  content: "\f121";
+}
+.ot-icon-reply-all:before {
+  content: "\f122";
+}
+.ot-icon-star-half-empty:before {
+  content: "\f123";
+}
+.ot-icon-location-arrow:before {
+  content: "\f124";
+}
+.ot-icon-crop:before {
+  content: "\f125";
+}
+.ot-icon-code-fork:before {
+  content: "\f126";
+}
+.ot-icon-unlink:before {
+  content: "\f127";
+}
+.ot-icon-question:before {
+  content: "\f128";
+}
+.ot-icon-info:before {
+  content: "\f129";
+}
+.ot-icon-exclamation:before {
+  content: "\f12a";
+}
+.ot-icon-superscript:before {
+  content: "\f12b";
+}
+.ot-icon-subscript:before {
+  content: "\f12c";
+}
+.ot-icon-eraser:before {
+  content: "\f12d";
+}
+.ot-icon-puzzle-piece:before {
+  content: "\f12e";
+}
+.ot-icon-microphone:before {
+  content: "\f130";
+}
+.ot-icon-microphone-slash:before {
+  content: "\f131";
+}
+.ot-icon-shield:before {
+  content: "\f132";
+}
+.ot-icon-calendar-o:before {
+  content: "\f133";
+}
+.ot-icon-fire-extinguisher:before {
+  content: "\f134";
+}
+.ot-icon-rocket:before {
+  content: "\f135";
+}
+.ot-icon-maxcdn:before {
+  content: "\f136";
+}
+.ot-icon-chevron-circle-left:before {
+  content: "\f137";
+}
+.ot-icon-chevron-circle-right:before {
+  content: "\f138";
+}
+.ot-icon-chevron-circle-up:before {
+  content: "\f139";
+}
+.ot-icon-chevron-circle-down:before {
+  content: "\f13a";
+}
+.ot-icon-html5:before {
+  content: "\f13b";
+}
+.ot-icon-css3:before {
+  content: "\f13c";
+}
+.ot-icon-anchor:before {
+  content: "\f13d";
+}
+.ot-icon-unlock-alt:before {
+  content: "\f13e";
+}
+.ot-icon-bullseye:before {
+  content: "\f140";
+}
+.ot-icon-ellipsis-h:before {
+  content: "\f141";
+}
+.ot-icon-ellipsis-v:before {
+  content: "\f142";
+}
+.ot-icon-rss-square:before {
+  content: "\f143";
+}
+.ot-icon-play-circle:before {
+  content: "\f144";
+}
+.ot-icon-ticket:before {
+  content: "\f145";
+}
+.ot-icon-minus-square:before {
+  content: "\f146";
+}
+.ot-icon-minus-square-o:before {
+  content: "\f147";
+}
+.ot-icon-level-up:before {
+  content: "\f148";
+}
+.ot-icon-level-down:before {
+  content: "\f149";
+}
+.ot-icon-check-square:before {
+  content: "\f14a";
+}
+.ot-icon-pencil-square:before {
+  content: "\f14b";
+}
+.ot-icon-external-link-square:before {
+  content: "\f14c";
+}
+.ot-icon-share-square:before {
+  content: "\f14d";
+}
+.ot-icon-compass:before {
+  content: "\f14e";
+}
+.ot-icon-toggle-down:before {
+  content: "\f150";
+}
+.ot-icon-toggle-up:before {
+  content: "\f151";
+}
+.ot-icon-toggle-right:before {
+  content: "\f152";
+}
+.ot-icon-euro:before {
+  content: "\f153";
+}
+.ot-icon-gbp:before {
+  content: "\f154";
+}
+.ot-icon-dollar:before {
+  content: "\f155";
+}
+.ot-icon-rupee:before {
+  content: "\f156";
+}
+.ot-icon-cny:before {
+  content: "\f157";
+}
+.ot-icon-ruble:before {
+  content: "\f158";
+}
+.ot-icon-won:before {
+  content: "\f159";
+}
+.ot-icon-bitcoin:before {
+  content: "\f15a";
+}
+.ot-icon-file:before {
+  content: "\f15b";
+}
+.ot-icon-file-text:before {
+  content: "\f15c";
+}
+.ot-icon-sort-alpha-asc:before {
+  content: "\f15d";
+}
+.ot-icon-sort-alpha-desc:before {
+  content: "\f15e";
+}
+.ot-icon-sort-amount-asc:before {
+  content: "\f160";
+}
+.ot-icon-sort-amount-desc:before {
+  content: "\f161";
+}
+.ot-icon-sort-numeric-asc:before {
+  content: "\f162";
+}
+.ot-icon-sort-numeric-desc:before {
+  content: "\f163";
+}
+.ot-icon-thumbs-up:before {
+  content: "\f164";
+}
+.ot-icon-thumbs-down:before {
+  content: "\f165";
+}
+.ot-icon-youtube-square:before {
+  content: "\f166";
+}
+.ot-icon-youtube:before {
+  content: "\f167";
+}
+.ot-icon-xing:before {
+  content: "\f168";
+}
+.ot-icon-xing-square:before {
+  content: "\f169";
+}
+.ot-icon-youtube-play:before {
+  content: "\f16a";
+}
+.ot-icon-dropbox:before {
+  content: "\f16b";
+}
+.ot-icon-stack-overflow:before {
+  content: "\f16c";
+}
+.ot-icon-instagram:before {
+  content: "\f16d";
+}
+.ot-icon-flickr:before {
+  content: "\f16e";
+}
+.ot-icon-adn:before {
+  content: "\f170";
+}
+.ot-icon-bitbucket:before {
+  content: "\f171";
+}
+.ot-icon-bitbucket-square:before {
+  content: "\f172";
+}
+.ot-icon-tumblr:before {
+  content: "\f173";
+}
+.ot-icon-tumblr-square:before {
+  content: "\f174";
+}
+.ot-icon-long-arrow-down:before {
+  content: "\f175";
+}
+.ot-icon-long-arrow-up:before {
+  content: "\f176";
+}
+.ot-icon-long-arrow-left:before {
+  content: "\f177";
+}
+.ot-icon-long-arrow-right:before {
+  content: "\f178";
+}
+.ot-icon-apple:before {
+  content: "\f179";
+}
+.ot-icon-windows:before {
+  content: "\f17a";
+}
+.ot-icon-android:before {
+  content: "\f17b";
+}
+.ot-icon-linux:before {
+  content: "\f17c";
+}
+.ot-icon-dribbble:before {
+  content: "\f17d";
+}
+.ot-icon-skype:before {
+  content: "\f17e";
+}
+.ot-icon-foursquare:before {
+  content: "\f180";
+}
+.ot-icon-trello:before {
+  content: "\f181";
+}
+.ot-icon-female:before {
+  content: "\f182";
+}
+.ot-icon-male:before {
+  content: "\f183";
+}
+.ot-icon-gittip:before {
+  content: "\f184";
+}
+.ot-icon-sun-o:before {
+  content: "\f185";
+}
+.ot-icon-moon-o:before {
+  content: "\f186";
+}
+.ot-icon-archive:before {
+  content: "\f187";
+}
+.ot-icon-bug:before {
+  content: "\f188";
+}
+.ot-icon-vk:before {
+  content: "\f189";
+}
+.ot-icon-weibo:before {
+  content: "\f18a";
+}
+.ot-icon-renren:before {
+  content: "\f18b";
+}
+.ot-icon-pagelines:before {
+  content: "\f18c";
+}
+.ot-icon-stack-exchange:before {
+  content: "\f18d";
+}
+.ot-icon-arrow-circle-o-right:before {
+  content: "\f18e";
+}
+.ot-icon-arrow-circle-o-left:before {
+  content: "\f190";
+}
+.ot-icon-toggle-left:before {
+  content: "\f191";
+}
+.ot-icon-dot-circle-o:before {
+  content: "\f192";
+}
+.ot-icon-wheelchair:before {
+  content: "\f193";
+}
+.ot-icon-vimeo-square:before {
+  content: "\f194";
+}
+.ot-icon-turkish-lira:before {
+  content: "\f195";
+}
+.ot-icon-plus-square-o:before {
+  content: "\f196";
+}
+       
+/* -------------------------------------------------- 
+  :: Screen Meta & Menu Icon
+  ---------------------------------------------------*/
+.appearance_page_ot-theme-options #screen-meta {
+  margin-right: 20px;
+  margin-left: 2px;
+  min-width: 533px;
+}
+
+/* -------------------------------------------------- 
+  :: Messages
+  ---------------------------------------------------*/
+.wrap.settings-wrap div.error,
+.wrap.settings-wrap div.updated {
+  margin: 9px 5px 0px 2px !important;
+}
+ 
+/* -------------------------------------------------- 
+  :: OptionTree Wrappers
+  ---------------------------------------------------*/
+#option-tree-settings-api .metabox-holder {
+  overflow: hidden;
+}
+#option-tree-settings-api .postbox {
+  background: #fff;
+  border: none;
+  margin: 0 20px;
+}
+#option-tree-settings-api .inside {
+  margin: 0px !important;
+  padding: 0px !important;
+}
+#option-tree-settings-api > .ui-tabs {
+  background: #fff;
+  border: 1px solid #ccc;
+  border-top: none;
+  margin: 0px 5px 0 2px;
+  min-width: 533px;
+  padding-bottom: 5px;
+  position: relative;
+  -webkit-box-shadow: inset 146px 0 0 #f1f1f1, inset 147px 0 0 #ccc, 0 1px 3px rgba(0,0,0,0.05);
+     -moz-box-shadow: inset 146px 0 0 #f1f1f1, inset 147px 0 0 #ccc, 0 1px 3px rgba(0,0,0,0.05);
+          box-shadow: inset 146px 0 0 #f1f1f1, inset 147px 0 0 #ccc, 0 1px 3px rgba(0,0,0,0.05);
+  -webkit-border-radius: 0 0 2px 2px;
+     -moz-border-radius: 0 0 2px 2px;
+          border-radius: 0 0 2px 2px;
+}
+
+/* -------------------------------------------------- 
+  :: Header
+  ---------------------------------------------------*/
+#option-tree-header-wrap {
+  position: relative;
+}
+#option-tree-header {
+  background: #333;
+  color: #bbb;
+  display: block;
+  margin: 11px 5px 0 2px;
+  min-width: 535px;
+  overflow: hidden;
+  position: relative;
+  -webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+     -moz-box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+          box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  -webkit-border-radius: 2px 2px 0 0;
+     -moz-border-radius: 2px 2px 0 0;
+          border-radius: 2px 2px 0 0;
+}
+#option-tree-header li {
+  display: block;
+  float: left;
+  margin: 0px;
+  padding: 0px;
+}
+#option-tree-header li a {
+  color: #999;
+  text-decoration: none;
+  -webkit-transition: none;
+     -moz-transition: none;
+          transition: none;
+}
+#option-tree-header li a:hover {
+  color: #0074a2;
+}
+#option-tree-header #option-tree-logo a {
+  border-right: 1px solid #000;
+  float: left;
+  height: 24px;
+  padding: 3px 12px 3px 13px;
+  width: 20px;
+}
+#option-tree-header li#option-tree-logo:hover {
+  background-color: #222;
+  color: #0074a2;
+  -webkit-border-top-left-radius: 2px;
+      -moz-border-radius-topleft: 2px;
+          border-top-left-radius: 2px;
+}
+#option-tree-header li#option-tree-logo:hover a {
+  border-right-color: #000;
+}
+#option-tree-header #option-tree-version span,
+#option-tree-header #theme-version span {
+  border-left: 1px solid #444;
+  display: block;
+  float: left;
+  height: 24px;
+  line-height: 24px;
+  padding: 3px 12px 3px 12px;
+}
+#option-tree-header #theme-version:before {
+  border-right: 1px solid #000;
+  content: "";
+  display: block;
+  float: left;
+  height: 30px;
+}
+/* light */
+.admin-color-light #option-tree-header {
+  background: #888;
+  color: #fff;
+}
+.admin-color-light #option-tree-header li a {
+  color: #ccc;
+}
+.admin-color-light #option-tree-header li a:hover {
+  color: #eee;
+}
+.admin-color-light #option-tree-header #option-tree-logo a,
+.admin-color-light #option-tree-header #theme-version:before {
+  border-right-color: #3c3c3c;
+}
+.admin-color-light #option-tree-header li#option-tree-logo:hover {
+  background-color: #777;
+}
+.admin-color-light #option-tree-header li#option-tree-logo:hover a {
+  border-right-color: #3c3c3c;
+}
+.admin-color-light #option-tree-header #option-tree-version span,
+.admin-color-light #option-tree-header #theme-version span {
+  border-left-color: #999;
+}
+/* blue */
+.admin-color-blue #option-tree-header {
+  background: #52accc;
+  color: #fff;
+}
+.admin-color-blue #option-tree-header li a {
+  color: #e2f8ff;
+}
+.admin-color-blue #option-tree-header li a:hover {
+  color: #fff;
+}
+.admin-color-blue #option-tree-header #option-tree-logo a,
+.admin-color-blue #option-tree-header #theme-version:before {
+  border-right-color: #002b39;
+}
+.admin-color-blue #option-tree-header li#option-tree-logo:hover {
+  background-color: #006484;
+}
+.admin-color-blue #option-tree-header li#option-tree-logo:hover a {
+  border-right-color: #002b39;
+}
+.admin-color-blue #option-tree-header #option-tree-version span,
+.admin-color-blue #option-tree-header #theme-version span {
+  border-left-color: #5dc2e6;
+}
+/* coffee */
+.admin-color-coffee #option-tree-header {
+  background: #59524c;
+  color: #c7cbc9;
+}
+.admin-color-coffee #option-tree-header li a {
+  color: #f3f2f1;
+}
+.admin-color-coffee #option-tree-header li a:hover {
+  color: #fff;
+}
+.admin-color-coffee #option-tree-header #option-tree-logo a,
+.admin-color-coffee #option-tree-header #theme-version:before {
+  border-right-color: #0f0e0d;
+}
+.admin-color-coffee #option-tree-header li#option-tree-logo:hover {
+  background-color: #cca588;
+}
+.admin-color-coffee #option-tree-header li#option-tree-logo:hover a {
+  border-right-color: #0f0e0d;
+}
+.admin-color-coffee #option-tree-header #option-tree-version span,
+.admin-color-coffee #option-tree-header #theme-version span {
+  border-left-color: #675f58;
+}
+/* ectoplasm */
+.admin-color-ectoplasm #option-tree-header {
+  background: #523f6d;
+  color: #c6c6d3;
+}
+.admin-color-ectoplasm #option-tree-header li a {
+  color: #f3f2f1;
+}
+.admin-color-ectoplasm #option-tree-header li a:hover {
+  color: #fff;
+}
+.admin-color-ectoplasm #option-tree-header #option-tree-logo a,
+.admin-color-ectoplasm #option-tree-header #theme-version:before {
+  border-right-color: #181220;
+}
+.admin-color-ectoplasm #option-tree-header li#option-tree-logo:hover {
+  background-color: #a3b542;
+}
+.admin-color-ectoplasm #option-tree-header li#option-tree-logo:hover a {
+  border-right-color: #181220;
+}
+.admin-color-ectoplasm #option-tree-header #option-tree-version span,
+.admin-color-ectoplasm #option-tree-header #theme-version span {
+  border-left-color: #644d85;
+}
+/* midnight */
+.admin-color-midnight #option-tree-header {
+  background: #363b3f;
+  color: #f1f2f3;
+}
+.admin-color-midnight #option-tree-header li a {
+  color: #f1f2f3;
+}
+.admin-color-midnight #option-tree-header li a:hover {
+  color: #fff;
+}
+.admin-color-midnight #option-tree-header #option-tree-logo a,
+.admin-color-midnight #option-tree-header #theme-version:before {
+  border-right-color: #090a0b;
+}
+.admin-color-midnight #option-tree-header li#option-tree-logo:hover {
+  background-color: #ed543f;
+}
+.admin-color-midnight #option-tree-header li#option-tree-logo:hover a {
+  border-right-color: #090a0b;
+}
+.admin-color-midnight #option-tree-header #option-tree-version span,
+.admin-color-midnight #option-tree-header #theme-version span {
+  border-left-color: #4c5359;
+}
+/* ocean */
+.admin-color-ocean #option-tree-header {
+  background: #738e96;
+  color: #f1fcff;
+}
+.admin-color-ocean #option-tree-header li a {
+  color: #f1fcff;
+}
+.admin-color-ocean #option-tree-header li a:hover {
+  color: #fff;
+}
+.admin-color-ocean #option-tree-header #option-tree-logo a,
+.admin-color-ocean #option-tree-header #theme-version:before {
+  border-right-color: #39464a;
+}
+.admin-color-ocean #option-tree-header li#option-tree-logo:hover {
+  background-color: #9ab8a0;
+}
+.admin-color-ocean #option-tree-header li#option-tree-logo:hover a {
+  border-right-color: #39464a;
+}
+.admin-color-ocean #option-tree-header #option-tree-version span,
+.admin-color-ocean #option-tree-header #theme-version span {
+  border-left-color: #87a6af;
+}
+/* sunrise */
+.admin-color-sunrise #option-tree-header {
+  background: #da4f41;
+  color: #fff;
+}
+.admin-color-sunrise #option-tree-header li a {
+  color: #f3f1f1;
+}
+.admin-color-sunrise #option-tree-header li a:hover {
+  color: #fff;
+}
+.admin-color-sunrise #option-tree-header #option-tree-logo a,
+.admin-color-sunrise #option-tree-header #theme-version:before {
+  border-right-color: #8a322a;
+}
+.admin-color-sunrise #option-tree-header li#option-tree-logo:hover {
+  background-color: #e88436;
+}
+.admin-color-sunrise #option-tree-header li#option-tree-logo:hover a {
+  border-right-color: #8a322a;
+}
+.admin-color-sunrise #option-tree-header #option-tree-version span,
+.admin-color-sunrise #option-tree-header #theme-version span {
+  border-left-color: #e75546;
+}
+
+/* -------------------------------------------------- 
+  :: Sub Header
+  ---------------------------------------------------*/
+#option-tree-sub-header { 
+  background: #fafafa; 
+  border: 1px solid #ccc; 
+  border-top: none; 
+  display: block; 
+  margin: 0 5px 0 2px; 
+  min-width: 523px; 
+  overflow: hidden; 
+  padding: 5px; 
+  position: relative; 
+  -webkit-box-shadow: inset 0 1px 0 #fff, 0 1px 3px rgba(0,0,0,0.05);
+     -moz-box-shadow: inset 0 1px 0 #fff, 0 1px 3px rgba(0,0,0,0.05);
+          box-shadow: inset 0 1px 0 #fff, 0 1px 3px rgba(0,0,0,0.05);
+}
+
+/* -------------------------------------------------- 
+  :: Tabs
+  ---------------------------------------------------*/
+.wrap.settings-wrap .ui-tabs-nav { 
+  float: left; 
+  list-style: none; 
+  margin: 0 0 0 -4px; 
+  padding: 1em 0; 
+  width: 151px; 
+}
+.wrap.settings-wrap .ui-tabs-nav li { 
+  border: 1px solid transparent; 
+  border-right-width: 0px; 
+  display: block; margin: 0; 
+  -webkit-border-radius: 2px 0 0 2px;
+     -moz-border-radius: 2px 0 0 2px;
+          border-radius: 2px 0 0 2px; 
+}
+.wrap.settings-wrap .ui-tabs-nav li.ui-state-active { 
+  background: #fff; 
+  border-color: #ccc; 
+  color: #000; 
+}
+.wrap.settings-wrap .ui-tabs-nav li a { 
+  color: #21759b; 
+  display: block; 
+  line-height: 18px; 
+  padding: 5px 5px 5px 12px; 
+  text-decoration: none; 
+}
+.wrap.settings-wrap .ui-tabs-nav li a:hover,
+.wrap.settings-wrap .ui-tabs-nav li.ui-state-active a { 
+  color: #000; 
+  outline: none; 
+}
+.wrap.settings-wrap .ui-tabs-panel { 
+  clear: both; 
+}
+
+/* -------------------------------------------------- 
+  :: Format Settings
+  ---------------------------------------------------*/
+.format-settings {
+  position: relative; 
+  width: 100%; 
+}
+.format-setting-wrap {
+  padding: 10px 0 20px 0; 
+}
+
+/* -------------------------------------------------- 
+  :: Format Setting Label
+  ---------------------------------------------------*/
+.format-setting-label {
+  border-bottom: 1px dashed #ccc;
+  margin: 0 0 20px 0;
+  padding: 5px 0px 1px 0px;
+  width: 100%;
+}
+#option-tree-settings-api .description h3,
+#option-tree-settings-api .format-setting-label .label,
+#poststuff .format-setting-label .label {
+  background: none;
+  border: none;
+  color: #222;
+  cursor: text;
+  display: block;
+  font-size: 1.3em;
+  font-weight: 500;
+  line-height: 1.6em;
+  letter-spacing: 0;
+  padding: 0 0 9px 0;
+  -webkit-user-select: text;
+  text-shadow: none;
+}
+    
+/* -------------------------------------------------- 
+  :: Format Setting
+  ---------------------------------------------------*/
+.format-setting {
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+}
+.format-setting .format-setting-inner {
+  float: left;
+  position: relative;
+  width: 63%;
+}
+.format-setting.no-desc > .format-setting-inner,
+.format-setting.wide-desc .format-setting-inner {
+  width: 100%;
+}
+.format-setting .description {
+  float: right;
+  padding: 5px 0;
+  width: 35%;
+}
+.format-setting.no-desc > .description,
+.format-setting.wide-desc .description {
+  float: none;
+  width: 100%;
+}
+.list-item-description {
+  padding-top: 10px;
+}
+#option-tree-settings-api h4 {
+  color: #333;
+  font-size: 1.2em;
+  font-weight: 500;
+  line-height: 1.5em;
+  margin: 1em 0 0.5em 0;
+  padding: 0;
+}
+#option-tree-settings-api h5 {
+  color: #444;
+  font-size: 1em;
+  font-weight: 700;
+  line-height: 1.2em;
+  margin: 1em 0 0.5em 0;
+  padding: 0;
+}
+#option-tree-settings-api p {
+  margin: 0 0 1.5em 0 !important;
+}
+#post .format-setting-inner p {
+  float: left;
+  width: 100%;
+  margin: 0 0 1.05em 0 !important;
+}
+.aside {
+  border-bottom: 1px solid #eee;
+  padding-bottom: 15px;
+  margin-bottom: 15px;
+}
+.deprecated {
+  border-bottom: 1px solid #eee;
+  color: #b94029;
+  padding-bottom: 15px;
+  margin-bottom: 15px;
+}
+.warning {
+  color: #b94029;
+}
+.docs-ul {
+  line-height: 1.3em;
+  margin: 0;
+  padding: 0 0 1em 0;
+}
+.docs-ul li {
+  list-style-type: square;
+  margin-left: 20px;
+}
+#contextual-help-setting {
+  float: left;
+  padding: 10px 0 5px 0;
+  width: 100%;
+}
+#contextual-help-label {
+  float: left;
+  padding-top: 20px;
+  width: 100%;
+}
+#option_tree_settings_help {
+  float: left;
+  width: 100%;
+}
+#option-tree-settings-api blockquote {
+  font-style: italic;
+  padding-left: 15px;
+  position: relative;
+}
+#option-tree-settings-api blockquote:before {
+  color: #ccc;
+  content: "\201C";
+  display: block;
+  font-size: 400%;
+  font-style: normal;
+  left: -10px;
+  position: absolute;
+  top: 10px;
+}
+@media only screen and (max-width: 1020px) {
+  .format-setting .description, 
+  .format-setting .format-setting-inner {
+    width: 100%;
+  }
+  .format-setting .description {
+    padding-top: 0px;
+    padding-bottom: 20px;
+  }
+}
+.ot-background-group {
+  overflow: hidden;
+  width: auto;
+}
+.ot-background-size-input {
+  max-width: 110px;
+}
+.option-tree-setting-edit,
+.option-tree-setting-remove {
+  text-indent: -9999px;
+}
+
+/* -------------------------------------------------- 
+  :: Code formatting
+  ---------------------------------------------------*/
+#option-tree-settings-api code,
+.ot-metabox-wrapper code {
+  background-color: #f1f1f1;
+  color: #333;
+  font-size: 12px;
+}
+#option-tree-settings-api pre {
+  font-size: 13px;
+  padding: 0;
+  margin: 1.5em 0;
+  line-height: 18px;
+  overflow: auto;
+  overflow-Y: hidden;
+  padding-top: 18px;
+  background: #f1f1f1;
+  border-bottom: 1px solid #f1f1f1;
+  margin-bottom: 20px;
+  color: #000;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+#option-tree-settings-api pre code {
+  padding: 0 18px 18px 18px;
+  display: block;
+  background: url(../images/ot-pre-bg.gif) repeat left top;
+}
+
+/* -------------------------------------------------- 
+  :: Input & Upload
+  ---------------------------------------------------*/
+input.option-tree-ui-upload-input,
+input.option-tree-ui-input {
+  background: #fff;
+  border: 1px solid #ccc !important;
+  line-height: 17px;
+  font-size: 12px;
+  margin-bottom: 5px !important;
+  padding: 7px 6px;
+  position: relative;
+  width: 100% !important;
+  -webkit-border-radius: 2px;
+     -moz-border-radius: 2px;
+          border-radius: 2px;
+  -webkit-box-shadow: inset 1px 1px 1px rgba(0, 0, 0, 0.05);
+     -moz-box-shadow: inset 1px 1px 1px rgba(0, 0, 0, 0.05);
+          box-shadow: inset 1px 1px 1px rgba(0, 0, 0, 0.05);
+}
+input:hover.option-tree-ui-upload-input,
+input:hover.option-tree-ui-input {
+  border-color: #bbb !important;
+  -webkit-box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.0980392);
+     -moz-box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.0980392);
+          box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.0980392);
+}
+input:focus.option-tree-ui-upload-input,
+input:focus.option-tree-ui-input {
+  border-color: #999 !important;
+}
+
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  .option-tree-ui-input,
+  .option-tree-ui-upload-input {
+    padding: 5px 6px !important;
+  }
+}
+
+/* -------------------------------------------------- 
+  :: Upload
+  ---------------------------------------------------*/
+div.option-tree-ui-media-wrap {
+  margin: 0 55px 0 0;
+  min-height: 35px;
+  position: relative;
+}
+.option-tree-ui-media-wrap img {
+  background: #fafafa;
+  border: 1px solid #ccc;
+  padding: 4px;
+  display: block;
+  float: left;
+  max-width: 100%;
+  height: auto;
+  -ms-interpolation-mode: bicubic;
+  -webkit-border-radius: 2px;
+     -moz-border-radius: 2px;
+          border-radius: 2px;
+}
+.option-tree-ui-upload-parent {
+  width: auto !important;
+  margin-right: 45px;
+  padding: 0px;
+  position: relative;
+}
+.ot_upload_media {
+  top: 0px;
+  margin: 0px !important;
+  position: absolute;
+  right: -45px;
+  text-indent: -9999px;
+}
+.option-tree-ui-media-wrap a.option-tree-ui-remove-media {
+  float: none !important;
+  margin: 0px !important;
+  position: absolute !important;
+  right: -55px;
+  text-indent: -9999px;
+  top: 1px;
+}
+
+/* -------------------------------------------------- 
+  :: Textarea
+  ---------------------------------------------------*/
+.fill-area .description,
+.fill-area .format-setting-inner {
+  width: 100% !important;
+}
+.wp-editor-area {
+  display: block;
+}
+.textarea,
+.ot-metabox-wrapper textarea {
+  width: 99.9%;
+  border: 1px solid #ccc;
+  font-family: Consolas, Monaco, monospace;
+  line-height: 150%;
+  outline: 0;
+  padding: 10px;
+  resize: vertical;
+}
+#contextual-help-setting .textarea {
+  width: 99.75%;
+}
+.ot-metabox-wrapper .wp-editor-container {
+  border: none;
+}
+.textarea:hover,
+.ot-metabox-wrapper textarea:hover {
+  border-color: #bbb !important;
+  -webkit-box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.0980392);
+     -moz-box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.0980392);
+          box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.0980392);
+}
+.textarea:focus,
+.ot-metabox-wrapper textarea:focus {
+  border-color: #999 !important;
+}
+
+@media only screen and (max-width: 1105px) {
+  .type-textarea .description, .type-textarea .format-setting-inner {
+    width: 100%;
+  }
+}
+
+/* -------------------------------------------------- 
+  :: Setting Item with Drag & Drop
+  ---------------------------------------------------*/
+.option-tree-setting-wrap { 
+  margin-top: 0px; 
+}
+.option-tree-setting-wrap li { 
+  margin: 5px 0px; 
+}
+.option-tree-setting { 
+  border: 1px solid #ccc; 
+  overflow: hidden; 
+  position: relative; 
+  -webkit-border-radius: 2px;
+     -moz-border-radius: 2px;
+          border-radius: 2px; 
+}
+.option-tree-setting:hover {
+  border-color: #999;
+  -webkit-box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.0980392);
+     -moz-box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.0980392);
+          box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.0980392);
+}
+.option-tree-setting a { 
+  text-decoration: none; 
+}
+.option-tree-setting .open {
+  background: #fafafa;
+  cursor: move;
+  line-height: 21px;
+  height: 21px;
+  padding: 10px 100px 10px 10px;
+  display: block;
+}
+.ui-state-disabled .option-tree-setting .open {
+  cursor: default;
+}
+.option-tree-setting .open:hover {
+  background: #fafafa;
+}
+.option-tree-setting .open:hover:before {
+  color: #999;
+  content: "\f142";
+  left: 4px;
+  font-family: "option-tree-font";
+  speak: none;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  position: absolute;
+  top: 14px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.option-tree-setting.is-section .open:hover:before {
+  color: #000;
+}
+.button-section {
+  position: absolute;
+  right: 0px;
+  top: 1px;
+}
+.option-tree-setting.is-section { 
+  border: 1px solid #000; 
+}
+.option-tree-setting.is-section .option-tree-setting-body,
+.option-tree-setting.is-section .option-tree-ui-button {
+  border-right-color: #000 !important;
+}
+.option-tree-setting.is-section .open {
+  background: #333;
+  color: #bbb;
+}
+.format-setting .ui-sortable-helper .option-tree-setting .open {
+  background: #fff;
+}
+.option-tree-setting.is-section .open:hover,
+.format-setting .ui-sortable-helper .option-tree-setting.is-section .open {
+  background: #333;
+}
+/* light */
+.admin-color-light .option-tree-setting.is-section,
+.admin-color-light .option-tree-setting.is-section .option-tree-setting-body,
+.admin-color-light .option-tree-setting.is-section .option-tree-ui-button { 
+  border-color: #3c3c3c !important; 
+}
+.admin-color-light .option-tree-setting.is-section .open:hover:before {
+  color: #3c3c3c;
+}
+.admin-color-light .option-tree-setting.is-section .open {
+  background: #888;
+  color: #fff;
+}
+.admin-color-light .option-tree-setting.is-section .open:hover,
+.admin-color-light .format-setting .ui-sortable-helper .option-tree-setting.is-section .open {
+  background: #888;
+}
+/* blue */
+.admin-color-blue .option-tree-setting.is-section,
+.admin-color-blue .option-tree-setting.is-section .option-tree-setting-body,
+.admin-color-blue .option-tree-setting.is-section .option-tree-ui-button { 
+  border-color: #002b39 !important; 
+}
+.admin-color-blue .option-tree-setting.is-section .open:hover:before {
+  color: #002b39;
+}
+.admin-color-blue .option-tree-setting.is-section .open {
+  background: #52accc;
+  color: #fff;
+}
+.admin-color-blue .option-tree-setting.is-section .open:hover,
+.admin-color-blue .format-setting .ui-sortable-helper .option-tree-setting.is-section .open {
+  background: #52accc;
+}
+/* coffee */
+.admin-color-coffee .option-tree-setting.is-section,
+.admin-color-coffee .option-tree-setting.is-section .option-tree-setting-body,
+.admin-color-coffee .option-tree-setting.is-section .option-tree-ui-button { 
+  border-color: #0f0e0d !important; 
+}
+.admin-color-coffee .option-tree-setting.is-section .open:hover:before {
+  color: #0f0e0d;
+}
+.admin-color-coffee .option-tree-setting.is-section .open {
+  background: #59524c;
+  color: #c7cbc9;
+}
+.admin-color-coffee .option-tree-setting.is-section .open:hover,
+.admin-color-coffee .format-setting .ui-sortable-helper .option-tree-setting.is-section .open {
+  background: #59524c;
+}
+/* ectoplasm */
+.admin-color-ectoplasm .option-tree-setting.is-section,
+.admin-color-ectoplasm .option-tree-setting.is-section .option-tree-setting-body,
+.admin-color-ectoplasm .option-tree-setting.is-section .option-tree-ui-button { 
+  border-color: #181220 !important; 
+}
+.admin-color-ectoplasm .option-tree-setting.is-section .open:hover:before {
+  color: #181220;
+}
+.admin-color-ectoplasm .option-tree-setting.is-section .open {
+  background: #523f6d;
+  color: #c6c6d3;
+}
+.admin-color-ectoplasm .option-tree-setting.is-section .open:hover,
+.admin-color-ectoplasm .format-setting .ui-sortable-helper .option-tree-setting.is-section .open {
+  background: #523f6d;
+}
+/* midnight */
+.admin-color-midnight .option-tree-setting.is-section,
+.admin-color-midnight .option-tree-setting.is-section .option-tree-setting-body,
+.admin-color-midnight .option-tree-setting.is-section .option-tree-ui-button { 
+  border-color: #090a0b !important; 
+}
+.admin-color-midnight .option-tree-setting.is-section .open:hover:before {
+  color: #090a0b;
+}
+.admin-color-midnight .option-tree-setting.is-section .open {
+  background: #363b3f;
+  color: #f1f2f3;
+}
+.admin-color-midnight .option-tree-setting.is-section .open:hover,
+.admin-color-midnight .format-setting .ui-sortable-helper .option-tree-setting.is-section .open {
+  background: #363b3f;
+}
+/* ocean */
+.admin-color-ocean .option-tree-setting.is-section,
+.admin-color-ocean .option-tree-setting.is-section .option-tree-setting-body,
+.admin-color-ocean .option-tree-setting.is-section .option-tree-ui-button { 
+  border-color: #39464a !important; 
+}
+.admin-color-ocean .option-tree-setting.is-section .open:hover:before {
+  color: #39464a;
+}
+.admin-color-ocean .option-tree-setting.is-section .open {
+  background: #738e96;
+  color: #f1fcff;
+}
+.admin-color-ocean .option-tree-setting.is-section .open:hover,
+.admin-color-ocean .format-setting .ui-sortable-helper .option-tree-setting.is-section .open {
+  background: #738e96;
+}
+/* sunrise */
+.admin-color-sunrise .option-tree-setting.is-section,
+.admin-color-sunrise .option-tree-setting.is-section .option-tree-setting-body,
+.admin-color-sunrise .option-tree-setting.is-section .option-tree-ui-button { 
+  border-color: #8a322a !important; 
+}
+.admin-color-sunrise .option-tree-setting.is-section .open:hover:before {
+  color: #8a322a;
+}
+.admin-color-sunrise .option-tree-setting.is-section .open {
+  background: #da4f41;
+  color: #fff;
+}
+.admin-color-sunrise .option-tree-setting.is-section .open:hover,
+.admin-color-sunrise .format-setting .ui-sortable-helper .option-tree-setting.is-section .open {
+  background: #da4f41;
+}
+.ui-state-highlight {
+  border: 1px dashed #ccc;
+  display: block;
+  -webkit-border-radius: 2px;
+     -moz-border-radius: 2px;
+          border-radius: 2px;
+}
+.option-tree-setting-body {
+  background: #fff;
+  border-top: 1px solid #ccc;
+  display: none;
+  padding: 10px;
+  -webkit-border-bottom-right-radius: 2px;
+   -webkit-border-bottom-left-radius: 2px;
+      -moz-border-radius-bottomright: 2px;
+       -moz-border-radius-bottomleft: 2px;
+          border-bottom-right-radius: 2px;
+           border-bottom-left-radius: 2px;
+}
+li ul .format-setting-wrap {
+  padding: 0 0 10px 0;
+}
+li ul .format-setting-label {
+  border: none;
+  padding: 0px;
+  margin: 0px;
+}
+
+/* -------------------------------------------------- 
+  :: Layouts
+  ---------------------------------------------------*/
+#option_tree_layouts {
+  display: none;
+  padding-top: 12px;
+}
+#option-tree-options-layouts-form {
+  left: 13px;
+  position: absolute;
+  top: 30px;
+  z-index: 10;
+}
+.option-tree-save-layout {
+  float: left;
+  padding: 10px 0;
+}
+.option-tree-save-layout.active-layout {
+  padding-left: 10px;
+}
+.option-tree-save-layout .widefat {
+  float: left;
+  width: 128px !important;
+  margin: 0;
+}
+.option-tree-active-layout {
+  border-right: 1px solid #ccc;
+  float: left;
+  padding: 10px 10px 10px 0;
+  min-width: 126px;
+}
+.button.save-layout {
+  margin: 0 0 0 10px !important;
+}
+.option-tree-layout-activate {
+  text-indent: -9999px;
+}
+.option-tree-layout-activate .icon:before {
+  content: "\f096";
+  position: relative;
+  top: 1px;
+}
+.option-tree-layout-activate.active .icon:before {
+  content: "\f046";
+  padding-left: 1px;
+}
+
+/* -------------------------------------------------- 
+  :: Select
+  ---------------------------------------------------*/
+.select-wrapper {
+  background: #fff url(../images/ot-select.png) no-repeat right center;
+  border: 1px solid #ccc;
+  display: block;
+  float: left;
+  font-size: 12px;
+  height: 27px;
+  margin: 0 5px 5px 0;
+  width: auto;
+  -webkit-border-radius: 2px;
+     -moz-border-radius: 2px;
+          border-radius: 2px;
+  -webkit-box-shadow: inset 1px 1px 1px rgba(0, 0, 0, 0.05);
+     -moz-box-shadow: inset 1px 1px 1px rgba(0, 0, 0, 0.05);
+          box-shadow: inset 1px 1px 1px rgba(0, 0, 0, 0.05);
+}
+.select-wrapper:hover {
+  background-image: url(../images/ot-select-hover.png);
+  border-color: #999;
+}
+select.option-tree-ui-select {
+  cursor: pointer;
+  filter: alpha(opacity: 0);
+  font-size: 14px;
+  height: 29px;
+  margin: 0;
+  -moz-opacity: 0;
+  opacity: 0;
+  padding: 0 !important;
+  position: relative;
+  width: inherit;
+  z-index: 4;
+  min-width: 118px;
+}
+
+select.option-tree-ui-select option {
+  padding: 3px 15px !important;
+}
+.select-wrapper span {
+  height: 27px;
+  line-height: 27px;
+  padding-left: 7px;
+  position: absolute;
+  z-index: 2;
+}
+#option-tree-options-layouts-form .select-wrapper {
+  margin: 0px;
+}
+#option-tree-options-layouts-form select.option-tree-ui-select {
+  min-width: 124px;
+}
+.type-measurement select.option-tree-ui-select {
+  min-width: 73px !important;
+}
+.type-measurement .select-wrapper {
+  margin-right: 0;
+  position: absolute;
+  right: 0px;
+  top: 0px;
+}
+
+/* FireFox */
+@-moz-document url-prefix() {
+  #option-tree-options-layouts-form .select-wrapper {
+    left: 250px;
+  }
+}
+
+/* Webkit */
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  .select-wrapper span {
+    height: 26px;
+    line-height: 26px;
+  }
+}
+
+/* Opera 11 */
+@media not screen and (1) {
+  .select-wrapper {
+    height: 26px;
+  }
+}
+
+/* -------------------------------------------------- 
+  :: Measurement
+  ---------------------------------------------------*/
+.option-tree-ui-measurement-input-wrap { 
+  margin-right: 80px; 
+}
+
+/* -------------------------------------------------- 
+  :: Checkbox & Radio
+  ---------------------------------------------------*/
+.format-setting.type-checkbox input,
+.format-setting.type-radio input {
+  float: left;
+  margin: 2px 5px 0 1px;
+}
+.format-setting.type-checkbox label,
+.format-setting.type-radio label {
+  float: left;
+  max-width: 90%;
+  padding: 0px;
+}
+#option-tree-settings-api .format-setting.type-checkbox p,
+#option-tree-settings-api .format-setting.type-radio p {
+  float: left;
+  margin: 0.5em 0 !important;
+  width: 100%;
+}
+@media screen and ( max-width: 782px ) {
+  .format-setting.type-checkbox,
+  .format-setting.type-radio {
+    padding-top: 0.3em;
+  }
+}
+     
+/* -------------------------------------------------- 
+  :: Radio Images
+  ---------------------------------------------------*/
+.type-radio-image .option-tree-ui-radio-images {
+  float: left;
+  margin: 0 10px 10px 0px;
+}
+.type-radio-image .option-tree-ui-radio-images img {
+  background: #fff;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  opacity: 0.8;
+  padding: 5px;
+  -webkit-border-radius: 2px;
+     -moz-border-radius: 2px;
+          border-radius: 2px;
+}
+.type-radio-image .option-tree-ui-radio-images img.option-tree-ui-radio-image-selected,
+.type-radio-image .option-tree-ui-radio-images img:hover {
+  border-color: #464646;
+  opacity: 1;
+  -webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+     -moz-box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+          box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+/* -------------------------------------------------- 
+  :: Social Links
+  ---------------------------------------------------*/
+.type-social-links input.option-tree-ui-input {
+  margin-top: 5px;
+}
+
+/* -------------------------------------------------- 
+  :: Numeric Slider
+  ---------------------------------------------------*/
+.type-numeric-slider .format-setting-inner {
+  background: #fcfcfc;
+  border: 1px solid #ccc;
+  min-height: 41px;
+  padding: 5px;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+  -webkit-border-radius: 2px;
+     -moz-border-radius: 2px;
+          border-radius: 2px;
+}
+.ot-numeric-slider-wrap {
+  margin: 0 96px 0 0;
+}
+.ot-numeric-slider-wrap .ot-numeric-slider-helper-input { 
+  position: absolute; 
+  right: 5px;
+  text-align: center;
+  top: 5px;
+  width: 90px !important;
+}
+.ot-numeric-slider.ui-slider { 
+  background: #fff;
+  border: 1px solid #ccc;
+  margin: 8px 8px 0 8px; 
+  position: relative; 
+  -webkit-box-shadow: inset 1px 1px 1px rgba(0, 0, 0, 0.05);
+     -moz-box-shadow: inset 1px 1px 1px rgba(0, 0, 0, 0.05); 
+          box-shadow: inset 1px 1px 1px rgba(0, 0, 0, 0.05); 
+  -webkit-border-radius: 2px;
+     -moz-border-radius: 2px;
+          border-radius: 2px;
+}
+.ot-numeric-slider.ui-slider-horizontal { 
+  height: 11px;
+}
+.ot-numeric-slider.ui-slider .ui-slider-handle {
+  border: 1px solid #000;
+  color: #555;
+  cursor: pointer;
+  display: block;
+  height: 27px; 
+  margin: -9px -8px;
+  outline: 0;
+  position: absolute; 
+  width: 16px;
+  -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 1px 0 rgba(0,0,0,.08);
+     -moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 1px 0 rgba(0,0,0,.08);
+          box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 1px 0 rgba(0,0,0,.08);
+  -webkit-border-radius: 2px;
+     -moz-border-radius: 2px;
+          border-radius: 2px;
+}
+/* default */
+.ot-numeric-slider.ui-slider .ui-slider-handle {
+  background: #333;
+  border-color: #000;
+}
+.ot-numeric-slider.ui-slider .ui-slider-handle:hover,
+.ot-numeric-slider.ui-slider .ui-slider-handle.ui-state-active {
+  background: #444;
+  border-color: #111;
+}
+/* light */
+.admin-color-light .ot-numeric-slider.ui-slider .ui-slider-handle {
+  background: #888;
+  border-color: #3c3c3c;
+}
+.admin-color-light .ot-numeric-slider.ui-slider .ui-slider-handle:hover,
+.admin-color-light .ot-numeric-slider.ui-slider .ui-slider-handle.ui-state-active {
+  background: #999;
+  border-color: #777;
+}
+/* blue */
+.admin-color-blue .ot-numeric-slider.ui-slider .ui-slider-handle {
+  background: #52accc;
+  border-color: #002b39;
+}
+.admin-color-blue .ot-numeric-slider.ui-slider .ui-slider-handle:hover,
+.admin-color-blue .ot-numeric-slider.ui-slider .ui-slider-handle.ui-state-active {
+  background: #5dc2e6;
+  border-color: #006484;
+}
+/* coffee */
+.admin-color-coffee .ot-numeric-slider.ui-slider .ui-slider-handle {
+  background: #59524c;
+  border-color: #0f0e0d;
+}
+.admin-color-coffee .ot-numeric-slider.ui-slider .ui-slider-handle:hover,
+.admin-color-coffee .ot-numeric-slider.ui-slider .ui-slider-handle.ui-state-active {
+  background: #cca588;
+  border-color: #675f58;
+}
+/* ectoplasm */
+.admin-color-ectoplasm .ot-numeric-slider.ui-slider .ui-slider-handle {
+  background: #523f6d;
+  border-color: #181220;
+}
+.admin-color-ectoplasm .ot-numeric-slider.ui-slider .ui-slider-handle:hover,
+.admin-color-ectoplasm .ot-numeric-slider.ui-slider .ui-slider-handle.ui-state-active {
+  background: #a3b542;
+  border-color: #644d85;
+}
+/* midnight */
+.admin-color-midnight .ot-numeric-slider.ui-slider .ui-slider-handle {
+  background: #363b3f;
+  border-color: #090a0b;
+}
+.admin-color-midnight .ot-numeric-slider.ui-slider .ui-slider-handle:hover,
+.admin-color-midnight .ot-numeric-slider.ui-slider .ui-slider-handle.ui-state-active {
+  background: #ed543f;
+  border-color: #a0382a;
+}
+/* ocean */
+.admin-color-ocean .ot-numeric-slider.ui-slider .ui-slider-handle {
+  background: #738e96;
+  border-color: #39464a;
+}
+.admin-color-ocean .ot-numeric-slider.ui-slider .ui-slider-handle:hover,
+.admin-color-ocean .ot-numeric-slider.ui-slider .ui-slider-handle.ui-state-active {
+  background: #9ab8a0;
+  border-color: #5a6c5e;
+}
+/* sunrise */
+.admin-color-sunrise .ot-numeric-slider.ui-slider .ui-slider-handle {
+  background: #da4f41;
+  border-color: #8a322a;
+}
+.admin-color-sunrise .ot-numeric-slider.ui-slider .ui-slider-handle:hover,
+.admin-color-sunrise .ot-numeric-slider.ui-slider .ui-slider-handle.ui-state-active {
+  background: #e88436;
+  border-color: #e75546;
+}
+
+/* -------------------------------------------------- 
+  :: Colorpicker
+  ---------------------------------------------------*/
+.option-tree-ui-colorpicker-input-wrap {
+  float: left;
+}
+.hide-color-picker {
+  display: none;
+}
+.option-tree-ui-colorpicker-input-wrap .wp-color-picker,
+.option-tree-ui-colorpicker-input-wrap .wp-picker-default,
+.option-tree-ui-colorpicker-input-wrap .wp-picker-clear {
+  border-color: #ccc;
+  height: 29px !important;
+  line-height: 27px !important;
+  margin-top: 0px;
+  -webkit-border-radius: 2px;
+     -moz-border-radius: 2px;
+          border-radius: 2px;
+  -webkit-box-shadow: none;
+     -moz-box-shadow: none;
+          box-shadow: none;
+}
+.option-tree-ui-colorpicker-input-wrap .wp-color-result {
+  height: 27px;
+  outline: 0;
+  margin: 0 5px 5px 0px;
+  top: 0px;
+  -webkit-box-shadow: none;
+     -moz-box-shadow: none;
+          box-shadow: none;
+}
+.option-tree-ui-colorpicker-input-wrap .wp-color-result:after {
+  line-height: 27px;
+}
+.option-tree-ui-colorpicker-input-wrap .wp-picker-container .iris-picker {
+  border-color: #ccc;
+  margin: 0px 5px 5px 0;
+  -webkit-border-radius: 2px;
+     -moz-border-radius: 2px;
+          border-radius: 2px;
+}
+
+/* -------------------------------------------------- 
+  :: OptionTree UI Buttons 
+  ---------------------------------------------------*/
+.option-tree-ui-button.button {
+  float: left;
+  font-size: 12px !important;
+  line-height: 27px !important;
+  height: 29px !important;
+  margin: 5px;
+  min-width: 40px;
+  padding: 0 10px 1px !important;
+}
+.option-tree-ui-button:active,
+.option-tree-ui-button:hover,
+.option-tree-ui-button:focus {
+  outline: 0;
+}
+.option-tree-ui-button.hidden {
+  display: none;
+}
+.option-tree-ui-button.button-secondary {
+  background: #b73b27;
+  border-color: #7f291b;
+  color: #fff;
+  text-shadow: none;
+  -webkit-box-shadow: inset 0 1px 0 rgba(229,134,119,0.5), 0 1px 0 rgba(0,0,0,.15);
+     -moz-box-shadow: inset 0 1px 0 rgba(229,134,119,0.5), 0 1px 0 rgba(0,0,0,.15);
+           box-shadow: inset 0 1px 0 rgba(229,134,119,0.5), 0 1px 0 rgba(0,0,0,.15);
+}
+.option-tree-ui-button.button-secondary.hover,
+.option-tree-ui-button.button-secondary:hover,
+.option-tree-ui-button.button-secondary.focus,
+.option-tree-ui-button.button-secondary:focus {
+  background: #9b3221;
+  border-color: #7f291b;
+  color: #fff;
+  -webkit-box-shadow: inset 0 1px 0 rgba(229,134,119,0.6);
+     -moz-box-shadow: inset 0 1px 0 rgba(229,134,119,0.5), 0 1px 0 rgba(0,0,0,.15);
+           box-shadow: inset 0 1px 0 rgba(229,134,119,0.6);
+}
+.option-tree-ui-button.button-secondary.focus,
+.option-tree-ui-button.button-secondary:focus {
+  border-color: #4f160d;
+  -webkit-box-shadow: inset 0 1px 0 rgba(229,134,119,0.6), 1px 1px 2px rgba(0,0,0,0.4);
+     -moz-box-shadow: inset 0 1px 0 rgba(229,134,119,0.6), 1px 1px 2px rgba(0,0,0,0.4);
+           box-shadow: inset 0 1px 0 rgba(229,134,119,0.6), 1px 1px 2px rgba(0,0,0,0.4);
+}
+.option-tree-ui-button.button-secondary.active,
+.option-tree-ui-button.button-secondary.active:hover,
+.option-tree-ui-button.button-secondary.active:focus,
+.option-tree-ui-button.button-secondary:active {
+  background: #b73b27;
+  border-color: #7f291b;
+  color: rgba(255,255,255,0.95);
+  -webkit-box-shadow: inset 0 1px 0 rgba(0,0,0,0.1);
+     -moz-box-shadow: inset 0 1px 0 rgba(0,0,0,0.1);
+           box-shadow: inset 0 1px 0 rgba(0,0,0,0.1);
+   vertical-align: top;
+}
+.option-tree-ui-button.right {
+  float: right;
+}
+.option-tree-ui-button.hug-left {
+  margin-left: 0px;
+}
+.option-tree-ui-button.hug-right {
+  margin-right: 0px;
+}
+.option-tree-ui-button.pad {
+  padding: 0px 21px;
+}
+.option-tree-ui-button.left-item {
+  margin: 5px 0 5px 5px;
+  -webkit-border-top-right-radius: 0px;
+  -webkit-border-bottom-right-radius: 0px;
+  -moz-border-radius-topright: 0px;
+  -moz-border-radius-bottomright: 0px;
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+}
+.option-tree-ui-button.center-item {
+  margin: 5px 0 5px -1px;
+  -webkit-border-radius: 0px;
+  -moz-border-radius: 0px;
+  border-radius: 0px;
+}
+.option-tree-ui-button.right-item {
+  margin: 5px 5px 5px -1px;
+  -webkit-border-top-left-radius: 0px;
+  -webkit-border-bottom-left-radius: 0px;
+  -moz-border-radius-topleft: 0px;
+  -moz-border-radius-bottomleft: 0px;
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
+}
+.option-tree-ui-buttons {
+  background: #fff;
+  border: 1px solid #ccc;
+  margin: 11px 5px 0 2px;
+  min-width: 523px;
+  overflow: hidden;
+  padding: 5px;
+  position: relative;
+  -webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+     -moz-box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+          box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  -webkit-border-radius: 2px;
+     -moz-border-radius: 2px;
+          border-radius: 2px;
+}
+.option-tree-ui-buttons.alt {
+  background: #f5f5f5;
+  border-color: #dfdfdf;
+}
+.option-tree-ui-buttons:before, 
+.option-tree-ui-buttons:after {
+  content: "\0020";
+  display: block;
+  height: 0;
+  visibility: hidden;
+}
+.option-tree-ui-buttons:after {
+  clear: both;
+}
+.option-tree-ui-buttons {
+  zoom: 1;
+}
+button.reset-settings {
+  position: relative;
+  top: -45px;
+  left: 8px;
+}
+
+/* -------------------------------------------------- 
+  :: OptionTree UI Button Icons 
+  ---------------------------------------------------*/
+.option-tree-ui-button .icon {
+  color: #3a3a3a;
+  display: inline-block;
+  float: left;
+  font-size: 20px;
+  height: 20px;
+  margin-top: 3px;
+  opacity: 0.9;
+  overflow: hidden;
+  text-align: center;
+  text-indent: 0;
+  width: 18px;
+}
+button.option-tree-ui-button .icon {
+  margin-top: -3px;
+}
+.option-tree-ui-button.light .icon {
+  color: #fff;
+  opacity: 0.9;
+}
+.option-tree-ui-button.active .icon,
+.option-tree-ui-button:hover .icon {
+  opacity: 1;
+}
+.option-tree-ui-button .icon.right-label {
+  margin-right: 10px;
+}
+.option-tree-ui-button .icon.left-label {
+  margin-left: 10px;
+  float: right;
+}
+.option-tree-ui-button .upload {
+  background-position: -0px -0px;
+}
+.option-tree-ui-button .trash-can {
+  background-position: -18px -0px;
+}
+.option-tree-ui-button .pencil,
+.option-tree-ui-button .check {
+  background-position: -36px -0px;
+}
+.option-tree-ui-button:hover .pencil,
+.option-tree-ui-button:hover .check,
+.option-tree-ui-button.active .pencil,
+.option-tree-ui-button.active .check {
+  background-position: -54px -0px;
+}
+
+/* -------------------------------------------------- 
+  :: WP 3.8 Fixes (via Github @AlxMedia)
+  ---------------------------------------------------*/
+#option-tree-settings-api #poststuff,
+#option-tree-settings-api #post-body-content { 
+  min-width: 0;
+}
+#option-tree-settings-api #poststuff h3 { 
+  font-family: inherit !important;
+}
+#option-tree-settings-api .postbox { 
+  -webkit-box-shadow: none;
+     -moz-box-shadow: none;
+          box-shadow: none;
+}
+#option-tree-settings-api p input[type="checkbox"], 
+#option-tree-settings-api p input[type="radio"] { 
+  margin-top: 2px;
+}
+#option-tree-settings-api .format-setting.type-checkbox p, 
+#option-tree-settings-api .format-setting.type-radio p { 
+  margin: 0.3em 0 !important;
+}
+input.option-tree-ui-upload-input, 
+input.option-tree-ui-input { 
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+@media screen and ( max-width: 782px ) {
+  #option-tree-settings-api p input[type="checkbox"],
+  #option-tree-settings-api p input[type="radio"] {
+    margin-top: -3px;
+  }
+}
+
+/* -------------------------------------------------- 
+  :: Gallery
+  ---------------------------------------------------*/
+ul.ot-gallery-list {
+  float: left;
+  margin: 0;
+  width: 100%;
+}
+ul.ot-gallery-list li {
+  background: none repeat scroll 0 0 white;
+  border: 1px solid #bbb;
+  float: left;
+  margin: 0px 10px 10px 0;
+  padding: 4px;
+  -webkit-border-radius: 2px;
+     -moz-border-radius: 2px;
+          border-radius: 2px;
+}
+ul.ot-gallery-list li img {
+  display: block;
+  margin: 0;
+}
+
+.ot-gallery-buttons {
+  float: left;
+  width: 100%;
+}
+.ot-gallery-buttons a.option-tree-ui-button {
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+/* -------------------------------------------------- 
+  :: On/Off Switch
+  ---------------------------------------------------*/
+.on-off-switch .slide-button {
+  display: none;
+}
+@media only screen {
+  .on-off-switch {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    color: #333;
+    display: block;
+    font-size: 12px;
+    font-weight: normal;
+    height: 27px;
+    margin: 2px 1px;
+    position: relative;
+    padding: 0;
+    text-align: center;
+    text-transform: uppercase;
+    width: 100px;
+    -webkit-border-radius: 2px;
+       -moz-border-radius: 2px;
+            border-radius: 2px;
+    -webkit-box-shadow: inset 1px 1px 1px rgba(0, 0, 0, 0.05);
+       -moz-box-shadow: inset 1px 1px 1px rgba(0, 0, 0, 0.05);
+            box-shadow: inset 1px 1px 1px rgba(0, 0, 0, 0.05);
+  }
+  .on-off-switch * {
+    -webkit-box-sizing: border-box;
+       -moz-box-sizing: border-box;
+            box-sizing: border-box; 
+  }
+  .on-off-switch input {
+    position: absolute;
+    opacity: 0;
+  }
+  .on-off-switch label {
+    cursor: pointer;
+    float: left;
+    height: 27px;
+    line-height: 27px;
+    margin: 0;
+    position: relative;
+    text-align: center;
+    vertical-align: middle;
+    width: 50px;
+    z-index: 2;
+  }
+  .on-off-switch input:last-of-type + label {
+    color: #333;
+  }
+  .on-off-switch input:checked + label {
+    color: #333;
+  }
+  .on-off-switch input:last-of-type:checked + label {
+    color: #fff;
+  }
+  .on-off-switch input:focus + label {
+    outline: none;
+  }
+  .on-off-switch .slide-button {
+    background: #b2d27e;
+    border: 1px solid #7c9258;
+    display: block;
+    height: 29px;
+    left: -1px;
+    padding: 0;
+    position: absolute;
+    text-decoration: none;
+    top: -1px;
+    width: 51px;
+    z-index: 1;
+    -webkit-border-radius: 2px;
+       -moz-border-radius: 2px;
+            border-radius: 2px;
+    -webkit-box-shadow: inset 0 1px 0 #c8eb8e, 0 1px 0 rgba(0,0,0,.08);
+       -moz-box-shadow: inset 0 1px 0 #c8eb8e, 0 1px 0 rgba(0,0,0,.08);
+            box-shadow: inset 0 1px 0 #c8eb8e, 0 1px 0 rgba(0,0,0,.08);
+    -webkit-transition: all 0.2s ease-out;
+       -moz-transition: all 0.2s ease-out;
+            transition: all 0.2s ease-out; 
+  }
+  .on-off-switch input:last-of-type:checked ~ .slide-button {
+    background: #b73b27;
+    border-color: #7f291b;
+    color: #fff;
+    left: 50px;
+    -webkit-box-shadow: inset 0 1px 0 rgba(229,134,119,0.6), 0 1px 0 rgba(0,0,0,.15);
+       -moz-box-shadow: inset 0 1px 0 rgba(229,134,119,0.6), 0 1px 0 rgba(0,0,0,.15);
+             box-shadow: inset 0 1px 0 rgba(229,134,119,0.6), 0 1px 0 rgba(0,0,0,.15);
+  }
+}
+@media only screen and (-webkit-max-device-pixel-ratio: 2) and (max-device-width: 1280px) {
+  .on-off-switch {
+    -webkit-animation: webkitSiblingBugfix infinite 1s; 
+  } 
+}
+@-webkit-keyframes webkitSiblingBugfix {
+  from {
+    -webkit-transform: translate3d(0, 0, 0); 
+  }
+  to {
+    -webkit-transform: translate3d(0, 0, 0); 
+  } 
+}
+
+/* -------------------------------------------------- 
+  :: Simple Input Append & Prepend
+  ---------------------------------------------------*/
+.ot-input-append,
+.ot-input-prepend {
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 0;
+  white-space: nowrap;
+}
+.ot-input-append input {
+  position: relative;
+  margin-bottom: 0;
+  *margin-left: 0;
+  vertical-align: top;
+  -webkit-border-radius: 0 2px 2px 0;
+     -moz-border-radius: 0 2px 2px 0;
+          border-radius: 0 2px 2px 0;
+}
+.ot-input-append input:focus,
+.ot-input-prepend input:focus {
+  z-index: 2;
+}
+.ot-input-append .ot-add-on,
+.ot-input-prepend .ot-add-on {
+  display: inline-block;
+  width: auto;
+  height: 27px;
+  line-height: 28px;
+  min-width: 16px;
+  padding: 0 6px;
+  font-size: 16px;
+  font-weight: normal;
+  text-align: center;
+  text-shadow: 0 1px 0 white;
+  background-color: #f7f7f7;
+  border: 1px solid #ccc;
+}
+.ot-input-prepend input {
+  border-left: 0 !important;
+}
+.ot-input-prepend .ot-add-on:first-child {
+  -webkit-border-radius: 2px 0 0 2px;
+     -moz-border-radius: 2px 0 0 2px;
+          border-radius: 2px 0 0 2px;
+}
+.ot-input-append input {
+  border-right: 0 !important;
+  -webkit-border-radius: 2px 0 0 2px;
+     -moz-border-radius: 2px 0 0 2px;
+          border-radius: 2px 0 0 2px;
+}
+.ot-input-append input + .btn-group .btn:first-child {
+  -webkit-border-top-left-radius: 0;
+  -moz-border-radius-topleft: 0;
+  border-top-left-radius: 0;
+  -webkit-border-bottom-left-radius: 0;
+  -moz-border-radius-bottomleft: 0;
+  border-bottom-left-radius: 0;
+}
+.ot-input-append .ot-add-on:last-child {
+  -webkit-border-radius: 0 2px 2px 0;
+     -moz-border-radius: 0 2px 2px 0;
+          border-radius: 0 2px 2px 0;
+}
+.ot-input-prepend.ot-input-append input {
+  -webkit-border-radius: 0;
+     -moz-border-radius: 0;
+          border-radius: 0;
+}
+.ot-input-prepend.ot-input-append .ot-add-on:first-child {
+  -webkit-border-radius: 2px 0 0 2px;
+     -moz-border-radius: 2px 0 0 2px;
+          border-radius: 2px 0 0 2px;
+}
+.ot-input-prepend.ot-input-append .ot-add-on:last-child {
+  -webkit-border-radius: 0 2px 2px 0;
+     -moz-border-radius: 0 2px 2px 0;
+          border-radius: 0 2px 2px 0;
+}
+
+/* -------------------------------------------------- 
+  :: CSS Editor
+  ---------------------------------------------------*/
+#option-tree-settings-api pre.ot-css-editor,
+#poststuff .type-css pre.ot-css-editor {
+  bottom: 0;
+  height: 280px;
+  left: 0;
+  margin: 0 !important;
+  right: 0;
+  top: 0;
+}
+#option-tree-settings-api pre.ace-chrome,
+#poststuff .type-css pre.ace-chrome {
+  background-color: #fff !important;
+  border: 1px solid #ccc;
+  -webkit-border-radius: 2px;
+     -moz-border-radius: 2px;
+          border-radius: 2px;
+}
+#option-tree-settings-api pre.ace-chrome:hover,
+#poststuff .type-css pre.ace-chrome:hover {
+  border-color: #bbb !important;
+  -webkit-box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.0980392);
+     -moz-box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.0980392);
+          box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.0980392);
+}
+#option-tree-settings-api pre.ace-chrome.ace_focus,
+#poststuff .type-css pre.ace-chrome.ace_focus {
+  border-color: #999 !important;
+  -webkit-box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.0980392);
+     -moz-box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.0980392);
+          box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.0980392);
+} 
+
+/* -------------------------------------------------- 
+  :: Date Picker
+  ---------------------------------------------------*/
+.ui-datepicker {
+  background: #fff;
+  border: 1px solid #ccc;
+  height: auto;
+  margin: 5px auto 0;
+  width: 216px;
+  z-index: 101 !important;
+  -webkit-border-radius: 2px;
+     -moz-border-radius: 2px;
+          border-radius: 2px;
+}
+.ui-datepicker a {
+  text-decoration: none;
+}
+.ui-datepicker table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+}
+.ui-datepicker .ui-widget-header {
+  left: -1px;
+  line-height: 30px;
+  position: relative;
+  top: -1px;
+  width: 218px;
+  -webkit-border-radius: 2px 2px 0 0;
+     -moz-border-radius: 2px 2px 0 0;
+          border-radius: 2px 2px 0 0;
+}
+.ui-datepicker .ui-datepicker-title {
+  text-align: center;
+}
+.ui-datepicker-prev, 
+.ui-datepicker-next {
+  color: #ccc;
+  display: inline-block;
+  font-family: "option-tree-font";
+  font-size: 16px;
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  cursor: pointer;
+  -webkit-border-radius: 2px 0 0 0;
+     -moz-border-radius: 2px 0 0 0;
+          border-radius: 2px 0 0 0;
+}
+.ui-datepicker-next {
+  -webkit-border-radius: 0 2px 0 0;
+     -moz-border-radius: 0 2px 0 0;
+          border-radius: 0 2px 0 0;
+}
+.ui-datepicker-prev span, 
+.ui-datepicker-next span {
+  display: none;
+}
+.ui-datepicker-prev:hover, 
+.ui-datepicker-next:hover {
+  color: #fff;
+}
+.ui-datepicker-prev:before {
+  border-right: 1px solid #555;
+  content: "\f104";
+  display: block;
+  float: left;
+  width: 31px;
+  height: 30px;
+}
+.ui-datepicker-prev {
+  border-right: 1px solid #333;
+  float: left;
+}
+.ui-datepicker-next:before {
+  border-left: 1px solid #555;
+  content: "\f105";
+  display: block;
+  float: right;
+  width: 30px;
+  height: 30px;
+}
+.ui-datepicker-next {
+  border-left: 1px solid #333;
+  float: right;
+  width: 31px;
+}
+a.ui-datepicker-prev, 
+a.ui-datepicker-next {
+  outline: 0;
+}
+.ui-datepicker thead {
+  background-color: #fafafa;
+  border-bottom: 1px solid #ccc;
+}
+.ui-datepicker th {
+  text-transform: uppercase;
+  font-size: 9px;
+  padding: 5px 0;
+  color: #555;
+  text-shadow: 1px 0px 0px rgba(255,255,255,0.5);
+}
+.ui-datepicker tbody td {
+  border-right: 1px solid #ccc;
+  padding: 0;
+}
+.ui-datepicker tbody td:last-child {
+  border-right: 0px;
+}
+.ui-datepicker tbody tr {
+  border-bottom: 1px solid #ccc;
+}
+.ui-datepicker tbody tr:last-child {
+  border-bottom: 0px;
+}
+.ui-datepicker td span, 
+.ui-datepicker td a {
+  display: inline-block;
+  font-size: 11px;
+  text-align: center;
+  width: 30px;
+  height: 29px;
+  line-height: 30px;
+  color: #555;
+  text-shadow: 1px 0px 0px rgba(255,255,255,0.5);
+}
+.ui-datepicker-calendar .ui-state-default {
+  background-color: #f1f1f1;
+}
+.ui-datepicker-calendar .ui-state-highlight {
+  border-radius: 0px;
+  border: none;
+  color: #0074a2;
+}
+.ui-datepicker-calendar .ui-state-hover {
+  background: #fff;
+}
+.ui-datepicker-calendar .ui-state-active {
+  background-color: #0074a2;
+  color: #fff !important;
+  text-shadow: 0px 1px 0px rgba(0,0,0,0.25);
+  position: relative;
+}
+.ui-datepicker-unselectable .ui-state-default {
+  background: #fff;
+  color: #aaa;
+}
+.ui-datepicker-calendar td:first-child .ui-state-active {
+  margin-left: 0;
+  width: 30px;
+}
+.ui-datepicker-calendar td:last-child .ui-state-active {
+  margin-right: 0;
+  width: 30px;
+}
+.ui-datepicker-calendar tr:last-child .ui-state-active {
+  height: 30px;
+  margin-bottom: 0;
+}
+.ui-datepicker .ui-datepicker-buttonpane {
+  background-image: none;
+  border-left: 0;
+  border-right: 0;
+  border-bottom: 0;
+  margin: 0;
+  padding: 0 .7em;
+}
+.ui-datepicker .ui-datepicker-buttonpane button {
+  background: #f7f7f7;
+  border: 1px solid #ccc;
+  color: #555;
+  cursor: pointer;
+  float: right;
+  height: auto;
+  margin: .7em 0;
+  padding: 5px 14px;
+  width: auto;
+  -webkit-border-radius: 3px;
+     -moz-border-radius: 3px;
+          border-radius: 3px;
+  -webkit-box-shadow: inset 0 1px 0 #fff, 0 1px 0 rgba(0,0,0,.08);
+     -moz-box-shadow: inset 0 1px 0 #fff, 0 1px 0 rgba(0,0,0,.08);
+          box-shadow: inset 0 1px 0 #fff, 0 1px 0 rgba(0,0,0,.08);
+}
+.ui-datepicker .ui-datepicker-buttonpane button::-moz-focus-inner {
+  border-width: 1px 0;
+  border-style: solid none;
+  border-color: transparent;
+  padding: 0;
+}
+.ui-datepicker .ui-datepicker-buttonpane button:hover,
+.ui-datepicker .ui-datepicker-buttonpane button:focus {
+  background: #fafafa;
+  border-color: #999;
+  color: #222;
+  outline: 0;
+}
+.ui-datepicker .ui-datepicker-buttonpane button:focus {
+  -webkit-box-shadow: 1px 1px 1px rgba(0,0,0,.2);
+     -moz-box-shadow: 1px 1px 1px rgba(0,0,0,.2);
+          box-shadow: 1px 1px 1px rgba(0,0,0,.2);
+}
+.ui-datepicker .ui-datepicker-buttonpane button:active {
+  background: #eee;
+  border-color: #999;
+  color: #333;
+  outline: 0;
+  -webkit-box-shadow: inset 0 2px 5px -3px rgba( 0, 0, 0, 0.5 );
+     -moz-box-shadow: inset 0 2px 5px -3px rgba( 0, 0, 0, 0.5 );
+           box-shadow: inset 0 2px 5px -3px rgba( 0, 0, 0, 0.5 );
+}
+.ui-datepicker .ui-datepicker-buttonpane button.ui-datepicker-current {
+  float: left;
+}
+.ui-datepicker-calendar + .ui-datepicker-buttonpane {
+  border-bottom: 1px solid #ccc;
+}
+.ui-datepicker-multi-2 {
+  width: 432px !important;
+}
+.ui-datepicker-multi-3 {
+  width: 648px !important;
+}
+.ui-datepicker-multi-4 {
+  width: 864px !important;
+}
+.ui-datepicker-group {
+  float: left;
+  width: 216px !important;
+}
+.ui-datepicker-row-break {
+  clear: both;
+  width: 100%;
+  font-size: 0;
+}
+.ui-datepicker-multi .ui-datepicker-buttonpane {
+  border-top: 1px solid #ccc !important;
+}
+
+/* default color scheme */
+.ui-datepicker .ui-widget-header {
+  background: #333;
+  color: #bbb;
+}
+.ui-datepicker .ui-widget-header a {
+  color: #999;
+}
+.ui-datepicker-prev,
+.ui-datepicker-next:before {
+  border-color: #000;
+}
+.ui-datepicker-next,
+.ui-datepicker-prev:before {
+  border-color: #444;
+}
+.ui-datepicker-prev:hover, 
+.ui-datepicker-next:hover {
+  background: #222;
+  color: #0074a2 !important;
+}
+/* light */
+.admin-color-light .ui-datepicker .ui-widget-header {
+  background: #888;
+  color: #fff;
+}
+.admin-color-light .ui-datepicker .ui-widget-header a {
+  color: #ccc;
+}
+.admin-color-light .ui-datepicker-prev,
+.admin-color-light .ui-datepicker-next:before {
+  border-color: #3c3c3c;
+}
+.admin-color-light .ui-datepicker-next,
+.admin-color-light .ui-datepicker-prev:before {
+  border-color: #999;
+}
+.admin-color-light .ui-datepicker-prev:hover, 
+.admin-color-light .ui-datepicker-next:hover {
+  background: #777;
+  color: #eee !important;
+}
+/* blue */
+.admin-color-blue .ui-datepicker .ui-widget-header {
+  background: #52accc;
+  color: #fff;
+}
+.admin-color-blue .ui-datepicker .ui-widget-header a {
+  color: #e2f8ff;
+}
+.admin-color-blue .ui-datepicker-prev,
+.admin-color-blue .ui-datepicker-next:before {
+  border-color: #002b39;
+}
+.admin-color-blue .ui-datepicker-next,
+.admin-color-blue .ui-datepicker-prev:before {
+  border-color: #5dc2e6;
+}
+.admin-color-blue .ui-datepicker-prev:hover, 
+.admin-color-blue .ui-datepicker-next:hover {
+  background: #006484;
+  color: #fff !important;
+}
+/* coffee */
+.admin-color-coffee .ui-datepicker .ui-widget-header {
+  background: #59524c;
+  color: #c7cbc9;
+}
+.admin-color-coffee .ui-datepicker .ui-widget-header a {
+  color: #f3f2f1;
+}
+.admin-color-coffee .ui-datepicker-prev,
+.admin-color-coffee .ui-datepicker-next:before {
+  border-color: #0f0e0d;
+}
+.admin-color-coffee .ui-datepicker-next,
+.admin-color-coffee .ui-datepicker-prev:before {
+  border-color: #675f58;
+}
+.admin-color-coffee .ui-datepicker-prev:hover, 
+.admin-color-coffee .ui-datepicker-next:hover {
+  background: #cca588;
+  color: #fff !important;
+}
+/* ectoplasm */
+.admin-color-ectoplasm .ui-datepicker .ui-widget-header {
+  background: #523f6d;
+  color: #c6c6d3;
+}
+.admin-color-ectoplasm .ui-datepicker .ui-widget-header a {
+  color: #f3f2f1;
+}
+.admin-color-ectoplasm .ui-datepicker-prev,
+.admin-color-ectoplasm .ui-datepicker-next:before {
+  border-color: #181220;
+}
+.admin-color-ectoplasm .ui-datepicker-next,
+.admin-color-ectoplasm .ui-datepicker-prev:before {
+  border-color: #644d85;
+}
+.admin-color-ectoplasm .ui-datepicker-prev:hover, 
+.admin-color-ectoplasm .ui-datepicker-next:hover {
+  background: #a3b542;
+  color: #fff !important;
+}
+/* midnight */
+.admin-color-midnight .ui-datepicker .ui-widget-header {
+  background: #363b3f;
+  color: #f1f2f3;
+}
+.admin-color-midnight .ui-datepicker .ui-widget-header a {
+  color: #f1f2f3;
+}
+.admin-color-midnight .ui-datepicker-prev,
+.admin-color-midnight .ui-datepicker-next:before {
+  border-color: #090a0b;
+}
+.admin-color-midnight .ui-datepicker-next,
+.admin-color-midnight .ui-datepicker-prev:before {
+  border-color: #4c5359;
+}
+.admin-color-midnight .ui-datepicker-prev:hover, 
+.admin-color-midnight .ui-datepicker-next:hover {
+  background: #ed543f;
+  color: #fff !important;
+}
+/* ocean */
+.admin-color-ocean .ui-datepicker .ui-widget-header {
+  background: #738e96;
+  color: #f1fcff;
+}
+.admin-color-ocean .ui-datepicker .ui-widget-header a {
+  color: #f1fcff;
+}
+.admin-color-ocean .ui-datepicker-prev,
+.admin-color-ocean .ui-datepicker-next:before {
+  border-color: #39464a;
+}
+.admin-color-ocean .ui-datepicker-next,
+.admin-color-ocean .ui-datepicker-prev:before {
+  border-color: #87a6af;
+}
+.admin-color-ocean .ui-datepicker-prev:hover, 
+.admin-color-ocean .ui-datepicker-next:hover {
+  background: #9ab8a0;
+  color: #fff !important;
+}
+/* sunrise */
+.admin-color-sunrise .ui-datepicker .ui-widget-header {
+  background: #da4f41;
+  color: #fff;
+}
+.admin-color-sunrise .ui-datepicker .ui-widget-header a {
+  color: #f3f1f1;
+}
+.admin-color-sunrise .ui-datepicker-prev,
+.admin-color-sunrise .ui-datepicker-next:before {
+  border-color: #8a322a;
+}
+.admin-color-sunrise .ui-datepicker-next,
+.admin-color-sunrise .ui-datepicker-prev:before {
+  border-color: #e75546;
+}
+.admin-color-sunrise .ui-datepicker-prev:hover, 
+.admin-color-sunrise .ui-datepicker-next:hover {
+  background: #e88436;
+  color: #fff !important;
+}
+
+/* -------------------------------------------------- 
+  :: Time Picker
+  ---------------------------------------------------*/
+.ui-timepicker-div {
+  border-top: 1px solid #ccc;
+  padding: 0 .4em;
+}
+.ui-timepicker-div .ui-widget-content { 
+  border: 1px solid #aaa;
+  background: #fff;
+  font-weight: normal;
+  color: #212121;
+}
+.ui-timepicker-div .ui-slider {
+  position: relative;
+  text-align: left;
+}
+.ui-timepicker-div .ui-slider-horizontal {
+  height: .8em;
+  bottom: -.3em;
+  position: relative;
+  -webkit-border-radius: 2px;
+     -moz-border-radius: 2px;
+          border-radius: 2px;
+}
+.ui-timepicker-div .ui-slider-horizontal .ui-slider-handle {
+  background: #f7f7f7;
+  border: 1px solid #ccc;
+  color: #555;
+  cursor: pointer;
+  display: block;
+  height: 1.3em; 
+  margin-left: -.5em;
+  outline: 0;
+  position: absolute;
+  top: -.325em;
+  width: .8em; 
+  -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 1px 0 rgba(0,0,0,.08);
+     -moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 1px 0 rgba(0,0,0,.08);
+          box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 1px 0 rgba(0,0,0,.08);
+  -webkit-border-radius: 2px;
+     -moz-border-radius: 2px;
+          border-radius: 2px;
+}
+.ui-timepicker-div .ui-slider-horizontal .ui-slider-handle:hover {
+  background: #fafafa;
+  border-color: #999;
+  color: #222;
+}
+.ui-timepicker-div .ui-slider-horizontal .ui-slider-handle.ui-state-active {
+  background: #eee;
+  border-color: #999;
+  color: #333;
+  outline: none;
+}
+.ui-datepicker-prev,
+.ui-datepicker-next:before {
+  border-color: #000;
+}
+.ui-datepicker-next,
+.ui-datepicker-prev:before {
+  border-color: #444;
+}
+.ui-datepicker-prev:hover, 
+.ui-datepicker-next:hover {
+  background: #222;
+  color: #0074a2 !important;
+}
+
+.ui-timepicker-div dl { 
+  text-align: left; 
+}
+.ui-timepicker-div dl dt { 
+  float: left; 
+  clear: left; 
+  padding: 0 0 0 5px; 
+}
+.ui-timepicker-div dl dd { 
+  margin: 0 10px 10px 45%; 
+}
+.ui-timepicker-div td { 
+  font-size: 90%; 
+}
+.ui-tpicker-grid-label { 
+  background: none; 
+  border: none; 
+  margin: 0; 
+  padding: 0; 
+}
+/* default */
+.ui-timepicker-div .ui-slider-horizontal .ui-slider-handle {
+  background: #333;
+  border-color: #000;
+}
+.ui-timepicker-div .ui-slider-horizontal .ui-slider-handle:hover,
+.ui-timepicker-div .ui-slider-horizontal .ui-slider-handle.ui-state-active {
+  background: #444;
+  border-color: #111;
+}
+/* light */
+.admin-color-light .ui-timepicker-div .ui-slider-horizontal .ui-slider-handle {
+  background: #888;
+  border-color: #3c3c3c;
+}
+.admin-color-light .ui-timepicker-div .ui-slider-horizontal .ui-slider-handle:hover,
+.admin-color-light .ui-timepicker-div .ui-slider-horizontal .ui-slider-handle.ui-state-active {
+  background: #999;
+  border-color: #777;
+}
+/* blue */
+.admin-color-blue .ui-timepicker-div .ui-slider-horizontal .ui-slider-handle {
+  background: #52accc;
+  border-color: #002b39;
+}
+.admin-color-blue .ui-timepicker-div .ui-slider-horizontal .ui-slider-handle:hover,
+.admin-color-blue .ui-timepicker-div .ui-slider-horizontal .ui-slider-handle.ui-state-active {
+  background: #5dc2e6;
+  border-color: #006484;
+}
+/* coffee */
+.admin-color-coffee .ui-timepicker-div .ui-slider-horizontal .ui-slider-handle {
+  background: #59524c;
+  border-color: #0f0e0d;
+}
+.admin-color-coffee .ui-timepicker-div .ui-slider-horizontal .ui-slider-handle:hover,
+.admin-color-coffee .ui-timepicker-div .ui-slider-horizontal .ui-slider-handle.ui-state-active {
+  background: #cca588;
+  border-color: #675f58;
+}
+/* ectoplasm */
+.admin-color-ectoplasm .ui-timepicker-div .ui-slider-horizontal .ui-slider-handle {
+  background: #523f6d;
+  border-color: #181220;
+}
+.admin-color-ectoplasm .ui-timepicker-div .ui-slider-horizontal .ui-slider-handle:hover,
+.admin-color-ectoplasm .ui-timepicker-div .ui-slider-horizontal .ui-slider-handle.ui-state-active {
+  background: #a3b542;
+  border-color: #644d85;
+}
+/* midnight */
+.admin-color-midnight .ui-timepicker-div .ui-slider-horizontal .ui-slider-handle {
+  background: #363b3f;
+  border-color: #090a0b;
+}
+.admin-color-midnight .ui-timepicker-div .ui-slider-horizontal .ui-slider-handle:hover,
+.admin-color-midnight .ui-timepicker-div .ui-slider-horizontal .ui-slider-handle.ui-state-active {
+  background: #ed543f;
+  border-color: #a0382a;
+}
+/* ocean */
+.admin-color-ocean .ui-timepicker-div .ui-slider-horizontal .ui-slider-handle {
+  background: #738e96;
+  border-color: #39464a;
+}
+.admin-color-ocean .ui-timepicker-div .ui-slider-horizontal .ui-slider-handle:hover,
+.admin-color-ocean .ui-timepicker-div .ui-slider-horizontal .ui-slider-handle.ui-state-active {
+  background: #9ab8a0;
+  border-color: #5a6c5e;
+}
+/* sunrise */
+.admin-color-sunrise .ui-timepicker-div .ui-slider-horizontal .ui-slider-handle {
+  background: #da4f41;
+  border-color: #8a322a;
+}
+.admin-color-sunrise .ui-timepicker-div .ui-slider-horizontal .ui-slider-handle:hover,
+.admin-color-sunrise .ui-timepicker-div .ui-slider-horizontal .ui-slider-handle.ui-state-active {
+  background: #e88436;
+  border-color: #e75546;
+}
+
+/* -------------------------------------------------- 
+  :: Meta Box Tabs
+  ---------------------------------------------------*/
+.ot-metabox-tabs.ui-tabs {
+  overflow: hidden;
+  position: relative;
+}
+.ot-metabox-tabs.ui-tabs .ot-metabox-wrapper {
+  overflow: hidden;
+}
+.ot-metabox-tabs.ui-tabs .ot-metabox-panels {
+  background: white;
+  border: 1px solid #ccc;
+  margin: 7px 0 1px 0;
+  min-height: 140px;
+  overflow: hidden;
+  padding: 12px;
+  -webkit-border-radius: 2px;
+     -moz-border-radius: 2px;
+          border-radius: 2px;
+}
+.ot-metabox-tabs.ui-tabs .ot-metabox-nav.ui-tabs-nav {
+  float: left;
+  list-style: none;
+  margin: 0 -1px 0 0;
+  padding: 18px 0 12px 0;
+  width: 151px;
+}
+.ot-metabox-tabs.ui-tabs .ot-metabox-nav.ui-tabs-nav li,
+.ot-metabox-tabs.ui-tabs .ot-metabox-nav.ui-tabs-nav li.ui-state-focus {
+  background: none;
+  border: 1px solid transparent;
+  border-right-width: 0px;
+  display: block;
+  margin: 0;
+  outline: 0;
+  padding: 1px 0;
+  width: 150px;
+  -webkit-border-radius: 2px 0 0 2px;
+     -moz-border-radius: 2px 0 0 2px;
+          border-radius: 2px 0 0 2px;
+}
+.ot-metabox-tabs.ui-tabs .ot-metabox-nav.ui-tabs-nav li.ui-state-active {
+  background: white;
+  border-color: #ccc;
+  color: black;
+}
+.ot-metabox-tabs.ui-tabs .ot-metabox-nav.ui-tabs-nav li a {
+  color: #21759b;
+  display: block;
+  line-height: 18px;
+  outline: 0;
+  padding: 5px 5px 5px 12px;
+  text-decoration: none;
+}
+.ot-metabox-tabs.ui-tabs .ot-metabox-nav.ui-tabs-nav li a:hover {
+  color: black;
+  outline: none;
+}
+.ot-metabox-tabs.ui-tabs .ot-metabox-nav.ui-tabs-nav li.ui-state-active a {
+  color: black;
+  outline: none;
+}
+.ot-metabox-tabs.ui-tabs .ot-metabox-panel {
+  clear: both;
+}
+
+/* -------------------------------------------------- 
+  :: Theme Option & Side Metabox Tabs
+  ---------------------------------------------------*/
+.ot-theme-option-tabs.ui-tabs
+#side-sortables .ot-metabox-tabs.ui-tabs {
+  position: relative;
+}
+.ot-theme-option-tabs.ui-tabs .inside,
+#side-sortables .ot-metabox-tabs.ui-tabs .ot-metabox-wrapper {
+  overflow: hidden;
+}
+.ot-theme-option-tabs.ui-tabs .ot-theme-option-panels,
+#side-sortables .ot-metabox-tabs.ui-tabs .ot-metabox-panels {
+  border: 0;
+  margin: 0;
+  overflow: hidden;
+  padding: 0;
+  width: 100%;
+}
+.ot-theme-option-tabs.ui-tabs .ot-theme-option-nav.ui-tabs-nav,
+#side-sortables .ot-metabox-tabs.ui-tabs .ot-metabox-nav.ui-tabs-nav {
+  border-bottom: 1px solid #ccc;
+  float: none;
+  font-size: 12px !important;
+  height: 30px;
+  list-style: none;
+  margin: 2px 0 0 0;
+  padding: 0;
+  width: 100%;
+}
+#side-sortables .ot-metabox-tabs.ui-tabs .ot-metabox-nav.ui-tabs-nav {
+  margin-top: 10px;
+}
+.ot-theme-option-tabs.ui-tabs .ot-theme-option-nav.ui-tabs-nav li.ui-state-default,
+#side-sortables .ot-metabox-tabs.ui-tabs .ot-metabox-nav.ui-tabs-nav li.ui-state-default {
+  background: #fafafa;
+  border: 1px solid #ccc;
+  border-width: 1px 1px 0px 1px;
+  display: block;
+  float: left;
+  margin: 0 0 0 3px;
+  padding: 0;
+  outline: 0;
+  -webkit-border-radius: 2px 2px 0 0;
+     -moz-border-radius: 2px 2px 0 0;
+          border-radius: 2px 2px 0 0;
+}
+.ot-theme-option-tabs.ui-tabs .ot-theme-option-nav.ui-tabs-nav li:hover,
+#side-sortables .ot-metabox-tabs.ui-tabs .ot-metabox-nav.ui-tabs-nav li:hover {
+  background: #f1f1f1;
+  border: 1px solid #ccc;
+  border-width: 1px 1px 0px 1px;
+}
+.ot-theme-option-tabs.ui-tabs .ot-theme-option-nav.ui-tabs-nav li.ui-state-active,
+#side-sortables .ot-metabox-tabs.ui-tabs .ot-metabox-nav.ui-tabs-nav li.ui-state-active {
+  background: white;
+  border-color: #ccc;
+  border-width: 1px 1px 0px 1px;
+  color: black;
+  padding: 0;
+  -webkit-border-radius: 2px 2px 0 0;
+     -moz-border-radius: 2px 2px 0 0;
+          border-radius: 2px 2px 0 0;
+}
+.ot-theme-option-tabs.ui-tabs .ot-theme-option-nav.ui-tabs-nav li a,
+#side-sortables .ot-metabox-tabs.ui-tabs .ot-metabox-nav.ui-tabs-nav li a {
+  color: #21759b;
+  display: block;
+  line-height: 18px;
+  outline: 0;
+  padding: 6px 12px 5px 12px !important;
+  text-decoration: none;
+}
+.ot-theme-option-tabs.ui-tabs .ot-theme-option-nav.ui-tabs-nav li a:hover,
+#side-sortables .ot-metabox-tabs.ui-tabs .ot-metabox-nav.ui-tabs-nav li a:hover {
+  color: black;
+  outline: none;
+}
+.ot-theme-option-tabs.ui-tabs .ot-theme-option-nav.ui-tabs-nav li.ui-state-active a,
+#side-sortables .ot-metabox-tabs.ui-tabs .ot-metabox-nav.ui-tabs-nav li.ui-state-active a {
+  color: black;
+  outline: none;
+  padding: 6px 12px 6px 12px !important;
+}
+.ot-theme-option-tabs.ui-tabs .ot-theme-option-panel,
+#side-sortables .ot-metabox-tabs.ui-tabs .ot-metabox-panel {
+  clear: both;
+}
+#side-sortables .ot-metabox-tabs.ui-tabs .format-setting .description,
+#side-sortables .ot-metabox-tabs.ui-tabs .format-setting .format-setting-inner {
+  width: 100%;
+}
+
+/* -------------------------------------------------- 
+  :: Metabox Tabs for Small Screens & Mobile Devices
+  ---------------------------------------------------*/
+@media screen and ( max-width: 1020px ) {
+  .ot-metabox-tabs.ui-tabs {
+    position: relative;
+  }
+  .ot-metabox-tabs.ui-tabs .ot-metabox-wrapper {
+    overflow: hidden;
+  }
+  .ot-metabox-tabs.ui-tabs .ot-metabox-panels {
+    border: 0;
+    margin: 0;
+    overflow: hidden;
+    padding: 0;
+    width: 100%;
+  }
+  .ot-metabox-tabs.ui-tabs .ot-metabox-nav.ui-tabs-nav {
+    border-bottom: 1px solid #ccc;
+    float: none;
+    font-size: 12px !important;
+    height: 30px;
+    list-style: none;
+    margin: 2px 0 0 0;
+    padding: 0;
+    width: 100%;
+  }
+  #side-sortables .ot-metabox-tabs.ui-tabs .ot-metabox-nav.ui-tabs-nav {
+    margin-top: 10px;
+  }
+  .ot-metabox-tabs.ui-tabs .ot-metabox-nav.ui-tabs-nav li.ui-state-default {
+    background: #fafafa;
+    border: 1px solid #ccc;
+    border-width: 1px 1px 0px 1px;
+    display: block;
+    float: left;
+    margin: 0 0 0 3px;
+    padding: 0;
+    outline: 0;
+    -webkit-border-radius: 2px 2px 0 0;
+       -moz-border-radius: 2px 2px 0 0;
+            border-radius: 2px 2px 0 0;
+  }
+  .ot-metabox-tabs.ui-tabs .ot-metabox-nav.ui-tabs-nav li:hover {
+    background: #f1f1f1;
+    border: 1px solid #ccc;
+    border-width: 1px 1px 0px 1px;
+  }
+  .ot-metabox-tabs.ui-tabs .ot-metabox-nav.ui-tabs-nav li.ui-state-active {
+    background: white;
+    border-color: #ccc;
+    border-width: 1px 1px 0px 1px;
+    color: black;
+    padding: 0;
+    -webkit-border-radius: 2px 2px 0 0;
+       -moz-border-radius: 2px 2px 0 0;
+            border-radius: 2px 2px 0 0;
+  }
+  .ot-metabox-tabs.ui-tabs .ot-metabox-nav.ui-tabs-nav li a {
+    color: #21759b;
+    display: block;
+    line-height: 18px;
+    outline: 0;
+    padding: 6px 12px 5px 12px !important;
+    text-decoration: none;
+  }
+  .ot-metabox-tabs.ui-tabs .ot-metabox-nav.ui-tabs-nav li a:hover {
+    color: black;
+    outline: none;
+  }
+  .ot-metabox-tabs.ui-tabs .ot-metabox-nav.ui-tabs-nav li.ui-state-active a {
+    color: black;
+    outline: none;
+    padding: 6px 12px 6px 12px !important;
+  }
+  .ot-metabox-tabs.ui-tabs .ot-metabox-panel {
+    clear: both;
+  }
+}

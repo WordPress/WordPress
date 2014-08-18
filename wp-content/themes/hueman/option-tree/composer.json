@@ -1,0 +1,15 @@
+{
+  "name": "valendesigns/option-tree",
+  "description": "Theme Options UI Builder for WordPress.",
+  "authors": [
+    {
+      "name": "Derek Herman",
+      "email": "derek@valendesigns.com"
+    }
+  ],
+  "require": {
+  },
+  "autoload": {
+    "files": ["ot-loader.php"]
+  }
+}

@@ -1,0 +1,50 @@
+/*
+	Styles for eventon Admin settings section
+*/
+
+
+.evo_hide_this{display:none!important}
+
+/** eventon backend settings **/
+.eventon_settings_tb{width:100%}
+.eventon_input{
+	width: 100%;
+	color: #666666;
+	padding: 5px 8px;
+}
+.eventon_input_short{width:auto}
+.eventon_field_label{margin:0 0 3px}
+.eventon_field{margin:0 0 3px}
+.eventon_field_row{
+	padding:0 0 12px
+}
+.eventon_field_legend{
+	color:#a1a1a1;
+	margin:0 0 3px;
+	font-style:italic;
+	font-size:11px;
+	font-family:georgia
+}
+
+.evcal_admin_meta h3{
+	font-size:20px;
+	padding: 9px 15px 4px 0;
+	line-height: 22px;
+	font-family:"HelveticaNeue-Light","Helvetica Neue Light","Helvetica Neue",sans-serif;	
+}
+.evcal_admin_meta h4{
+	font-size:16px;
+	padding: 7px 10px 4px 0;
+	margin:0;
+	line-height: 18px;
+	font-family:georgia, 'times new roman';
+	font-style:italic;
+}
+.evcal_admin_meta h3,.evcal_admin_meta h4{
+	font-weight:normal;		
+	border:none;
+	-webkit-box-shadow: none;
+	box-shadow:none;
+	background-image:none;
+	background:transparent;
+}

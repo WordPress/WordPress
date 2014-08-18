@@ -1,0 +1,153 @@
+FONTLOG
+Gentium Basic and Gentium Book Basic  v1.1
+==========================================================
+
+
+This file provides detailed information on the Gentium Basic and Gentium Book Basic font families. This information should be distributed along with the Gentium Basic and Gentium Book Basic fonts and any derivative works.
+
+
+Basic Font Information
+----------------------
+
+Gentium ("belonging to the nations" in Latin) is a Unicode typeface family designed to enable the many diverse ethnic groups around the world who use the Latin script to produce readable, high-quality publications. The design is intended to be highly readable, reasonably compact, and visually attractive. Gentium has won a "Certificate of Excellence in Typeface Design" in two major international typeface design competitions: bukva:raz! (2001), TDC2003 (2003).
+
+The Gentium Basic and Gentium Book Basic font famililes are based on the original design, but with additional weights. The "Book" family is slightly heavier. Both families come with a complete regular, bold, italic and bold italic set of fonts.
+
+The supported character set, however, is much smaller than for the main Gentium fonts. These "Basic" fonts support only the Basic Latin and Latin-1 Supplement Unicode ranges, plus a selection of the more commonly used extended Latin characters, with miscellaneous diacritical marks, symbols and punctuation. For a complete list of supported characters see the list at the end of this document. 
+
+In particular, these fonts do not support:
+
+- Full extended Latin IPA
+- Complete support for Central European languages
+- Greek
+- Cyrillic
+
+A much more complete character set will be supported in a future version of the complete Gentium fonts. These "Basic" fonts are intended as a way to provide additional weights for basic font users without waiting until the complete Gentium character set is finished. So please don't request additional glyphs or characters to be supported in the Basic fonts - such support will become available in the main Gentium family in the future.
+
+There are also some other limitations of the Basic fonts:
+
+- They are not completely metric-compatible with the full Gentium family
+    (some glyphs may have different widths, although changes have been minimal)
+- There is no kerning
+- There are no "Alt" versions, or ones with low-profile diacritics
+- The default stacking style for some diacritic combinations does not match Vietnamese-style conventions (although this is available through a OpenType/Graphite feature)
+- No support for TypeTuner
+
+There are, however, some wonderful new features that are still missing from the main Gentium family:
+
+- Bold!
+- Bold Italic!
+- The slightly-heavier Book family!
+- OpenType and Graphite smart code for diacritic placement!
+- A few useful OpenType and Graphite features
+- Support for a few more recent additions to Unicode and the SIL PUA (http://scripts.sil.org/UnicodePUA)
+- Character assignments are updated to conform to Unicode 5.1
+
+In particular, the Basic fonts support a subset of the smart font features that the Doulos SIL font supports. Those features are:
+
+- Capital Eng alternates
+- Literacy alternates
+- Capital Y-hook alternate
+- Capital N-left-hook alternate
+- Modifier apostrophe alternate
+- Modifier colon alternate
+- Open o alternate
+- Vietnamese-style diacritics
+
+More detail on the features can be seen in the Doulos SIL Technical Documentation (http://scripts.sil.org/DoulosSIL_Technical).
+
+
+Known Problems
+--------------
+
+We know of the following problems. Please report any other problems you encounter.
+
+- logicalnot (U+00AC) appears distorted in Bold Italic and Book Italic.
+- Opening the fonts with FontLab 5.0.x, then closing them, crashes FontLab. We are working to get this bug fixed in the next version of FontLab. A workaround is to open the font, save as a .vfb file, close (which still causes a crash). Then restart FontLab and open the .vfb file.
+
+
+ChangeLog
+---------
+(This should list both major and minor changes, most recent first.)
+
+4 Apr 2008 (Victor Gaultney)  Gentium Basic/Gentium Book Basic version 1.1
+- Final release
+
+12 Nov 2007 (Victor Gaultney)  Gentium Basic/Gentium Book Basic version 1.1b1
+- trimmed character set down to Basic
+- added additional weights
+- no FontLab source files
+
+28 Nov 2005 (Victor Gaultney)  Gentium version 1.02
+- Changed licensing to the SIL Open Font License
+- Included FontLab source files
+- Fixed some duplicate PostScript glyphs names
+- Fixed italic angle
+
+19 Sep 2003 (Victor Gaultney)  Gentium version 1.01 
+- Maintenance release focused on changing internal font
+- Information to reflect the changeover to an SIL project
+- There is only one bug fix - the Greek mu PS name was changed to try and fix a display/printing problem. There is still no manual hinting
+
+16 Sep 2002 (Victor Gaultney)  Gentium version 1.00
+- First public release
+- No manual hinting is included in this version. Some has been done - with good results - but is not yet complete enough.
+
+
+Information for Developers/Contributors
+---------------------------------------
+
+The source release contains FontLab source files for the eight fonts, but those files do not include the OpenType and Graphite code, as those are inserted after the fonts are generated from FontLab. The files are included as a source for the PostScript-style cubic curves. You are welcome, however, to open the font files themselves to gain access to the smart font code, although most editors will not let you edit that code directly. We will provide a richer set of sources for the full Gentium fonts at a later time.
+
+SIL will remain as maintainers of this font project, but we do not intend any further major releases. Our primary efforts will be going into the full Gentium package. Any contributions should be directed toward that project.
+
+
+Acknowledgements
+----------------
+(Here is where contributors can be acknowledged. If you make modifications be sure to add your name (N), email (E), web-address (W) and description (D). This list is sorted by last name in alphabetical order.)
+
+N: Victor Gaultney
+E: victor_gaultney@sil.org
+W: http://www.sil.org/~gaultney/
+D: Original Designer
+
+N: Annie Olsen
+E: nrsi@sil.org
+W: http://scripts.sil.org/
+D: Contributed some extended Latin glyphs
+
+N: SIL font engineers
+E: nrsi@sil.org
+W: http://scripts.sil.org/
+D: OpenType code and build support
+
+The Gentium project, and the Gentium Basic and Gentium Book Basic fonts, are maintained by SIL International.
+
+For more information please visit the Gentium page on SIL International's Computers and Writing systems website:
+http://scripts.sil.org/gentium
+
+Or send an email to <gentium AT sil DOT org>
+
+
+Character Range Coverage
+------------------------
+
+C0 Controls and Basic Latin (U+0020..U+007E)
+C1 Controls and Latin-1 Supplement (U+00A0..U+00FF)
+Latin Extended-A (U+0100..U+0103, U+0106..U+010E, U+011A..U+0121, U+0124..U+0125, U+0128..U+012D, U+0130..U+0133, U+0139..U+013A, U+0141..U+0144, U+0147..U+0148, U+014A..U+0155, U+0158..U+015D, U+0160..U+0161, U+0164, U+0168..U+0171, U+00174..U+017E)
+Latin Extended-B (U+0181, U+0186, U+0189..U+018A, U+018E, U+0190, U+0192, U+0197..U+019A, U+019D, U+019F..U+01A1, U+01A9..U+01AA, U+01AF..U+01B0, U+01B3..U+01B4, U+01B7, U+01CD..U+01E3, U+01E6..U+01E9, U+01EE..U+01EF, U+01F4..U+01F5, U+01F8..U+01FF, U+021E..U+021F, U+0226..U+0233, U+0237, U+023D, U+0241..U+0242, U+0244..U+0245, U+024A..U+024B)
+IPA Extensions (U+0251, U+0253..U+0254, U+0256..U+0257, U+0259, U+025B, U+0263, U+0268..U+0269, U+026B, U+0272, U+0275, U+0283, U+0289..U+028A, U+028C, U+0292, U+0294, U+02A0)
+Spacing Modifier Letters (U+02BC, U+02C0, U+02C6..U+02C7, U+02C9..U+02CB, U+02CD, U+02D7..U+02DD)
+Combining Diacritical Marks (U+0300..U+0304,U+0306..U+030C, U+031B, U+0323, U+0327..U+0328, U+0331, U+033F, U+035F)
+Greek and Coptic (U+03A0, U+03A9, U+03C0)
+Latin Extended Additional (U+1E02..U+1E0F, U+1E14..U+1E17, U+1E1C..U+1E27, U+1E2E..U+1E3B, U+1E3E..U+1E49, U+1E4C..U+1E6F, U+1E78..U+1E99, U+1EA0..U+1EF9)
+General Punctuation (U+2011, U+2013..U+2014, U+2018..U+201A, U+201C..U+201E, U+2020..U+2022, U+2026, U+2030, U+2039..U+203A, U+2044)
+Currency Symbols (U+20AC)
+Letterlike Symbols (U+2122..U+2123, U+2126)
+Mathematical Operators (U+2202, U+2205..U+2206, U+220F, U+2211..U+2212, U+2219..U+221A, U+221E, U+222B, U+2248, U+2260, U+2264..U+2265)
+Geometric Shapes (U+25CA, U+25CC)
+Latin Extended-C (U+2C60..U+2C62)
+Modifier Tone Letters (U+A700..U+A71A)
+Latin Extended-D (U+A789..U+A78C)
+Alphabetic Presentation Forms (U+FB01..U+FB02)
+SIL PUA (U+F130..U+F131, U+F195, U+F197, U+F1C8, U+F1E9..U+F1EA, U+F20E..U+F20F, U+F211..U+F212, U+F218..U+F219, U+F21D..U+F21F, U+F242, U+F26A)
