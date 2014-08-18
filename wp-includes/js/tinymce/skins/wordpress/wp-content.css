@@ -36,11 +36,13 @@ body.webkit b {
 
 /* DFW mode */
 html.wp-fullscreen,
-html.wp-fullscreen body {
+html.wp-fullscreen body#tinymce {
 	width: auto;
 	max-width: none;
 	min-height: 0;
 	overflow: hidden;
+	color: #333;
+	background: transparent;
 }
 
 .aligncenter,

@@ -1806,7 +1806,7 @@ i.mce-i-hr:before {
 .wp-fullscreen-active.wp-dfw-show-ui .wp-editor-container {
 	-webkit-transition-duration: 0.4s;
 	transition-duration: 0.4s;
-	border-color: currentColor;
+	border-color: #ccc;
 }
 
 .fade-1000,
@@ -1855,7 +1855,7 @@ i.mce-i-hr:before {
 
 .wp-fullscreen-active.wp-dfw-touch  .wp-fullscreen-title,
 .wp-fullscreen-active.wp-dfw-touch .wp-editor-container {
-	border-color: currentColor;
+	border-color: #ccc;
 }
 
 .wp-dfw-touch #wp-fullscreen-statusbar {
