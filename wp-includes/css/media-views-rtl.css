@@ -259,7 +259,8 @@
 	bottom: auto;
 	border-right: none;
 	padding: 16px;
-	box-shadow: -1px 0px 1px rgba(0,0,0,.3);
+	-webkit-box-shadow: -1px 0 1px rgba(0,0,0,.3);
+	box-shadow: -1px 0 1px rgba(0,0,0,.3);
 }
 
 .upload-php .mode-grid .media-sidebar .media-uploader-status {

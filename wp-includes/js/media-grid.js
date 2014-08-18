@@ -226,11 +226,7 @@
 		},
 
 		sidebarVisibility: function() {
-			if ( this.errors.length ) {
-				this.browserView.$( '.media-sidebar' ).show();
-			} else {
-				this.browserView.$( '.media-sidebar' ).hide();
-			}
+			this.browserView.$( '.media-sidebar' ).toggle( !! this.errors.length );
 		},
 
 		bindDeferred: function() {
