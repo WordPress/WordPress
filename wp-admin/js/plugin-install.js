@@ -42,7 +42,10 @@ jQuery( document ).ready( function( $ ) {
 		tb_click.call(this);
 
 		$('#TB_title').css({'background-color':'#222','color':'#cfcfcf'});
-		$('#TB_ajaxWindowTitle').html('<strong>' + plugininstallL10n.plugin_information + '</strong>&nbsp;' + $(this).data( 'title' ) );
+		$('#TB_ajaxWindowTitle').html( '<strong>' + plugininstallL10n.plugin_information + '</strong>&nbsp;' + $(this).data( 'title' ) );
+		$('#TB_iframeContent').attr( 'title', plugininstallL10n.plugin_information + ' ' + $(this).data( 'title' ) );
+		$('#TB_closeWindowButton').focus();
+
 		return false;
 	});
 
