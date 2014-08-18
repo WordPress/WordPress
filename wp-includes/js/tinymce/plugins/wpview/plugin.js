@@ -205,10 +205,6 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 			removeView( selected );
 		}
 
-		if ( ! event.initial ) {
-			wp.mce.views.unbind( editor );
-		}
-
 		node = editor.selection.getNode();
 
 		// When a url is pasted, only try to embed it when pasted in an empty paragrapgh.
