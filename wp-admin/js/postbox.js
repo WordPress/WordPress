@@ -49,11 +49,11 @@ var postboxes;
 				if ( $(this).prop('checked') ) {
 					$postbox.show();
 					if ( $.isFunction( postboxes.pbshow ) )
-						self.pbshow( box );
+						self.pbshow( boxId );
 				} else {
 					$postbox.hide();
 					if ( $.isFunction( postboxes.pbhide ) )
-						self.pbhide( box );
+						self.pbhide( boxId );
 				}
 				self.save_state(page);
 				self._mark_area();

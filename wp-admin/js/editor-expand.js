@@ -91,7 +91,7 @@ jQuery( document ).ready( function($) {
 		var textEditorHeight = $textEditor.height(),
 			hiddenHeight;
 
-		$textEditorClone.width( $textEditor.width() );
+		$textEditorClone.width( $textEditor.width() - 22 );
 		$textEditorClone.text( $textEditor.val() + '&nbsp;' );
 
 		hiddenHeight = $textEditorClone.height();
@@ -461,9 +461,9 @@ jQuery( document ).ready( function($) {
 				$textEditor.css( {
 					marginTop: $textTop.outerHeight()
 				} );
+
+				$textEditorClone.width( contentWrapWidth - 20 - ( borderWidth * 2 ) );
 			}
-			// ALways resize the clone so it doesn't "push" the parent width over 100%
-			$textEditorClone.width( contentWrapWidth - 20 - ( borderWidth * 2 ) );
 		}
 	}
 
