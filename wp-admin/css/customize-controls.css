@@ -232,27 +232,26 @@ body {
 .customize-controls-close:hover,
 .control-panel-back:focus,
 .control-panel-back:hover {
-	background-color: #0074a2;
-	color: #fff;
+	color: #2ea2cc;
 	outline: none;
 	-webkit-box-shadow: none;
 	box-shadow: none;
 }
 
 .customize-controls-close:before {
-	font: normal 32px/1 dashicons;
+	font: normal 22px/1 dashicons;
 	content: "\f335";
 	position: relative;
-	top: 8px;
-	left: 8px;
+	top: 7px;
+	left: 12px;
 }
 
 .control-panel-back:before {
-	font: normal 29px/1 dashicons;
-	content: "\f340";
+	font: normal 20px/1 dashicons;
+	content: "\f341";
 	position: relative;
-	top: 9px;
-	left: 9px;
+	top: 13px;
+	left: 13px;
 }
 
 .rtl .control-panel-back:before {

@@ -254,7 +254,10 @@ ul#adminmenu a.wp-has-current-submenu:after, ul#adminmenu > li.current > a.curre
 .wp-pointer.wp-pointer-top .wp-pointer-arrow, .wp-pointer.wp-pointer-undefined .wp-pointer-arrow {
   border-bottom-color: #dd823b; }
 
-/* Media Uploader */
+/* Media */
+.media-modal-close:hover .media-modal-icon:before, .edit-attachment-frame .edit-media-header .right:hover, .edit-attachment-frame .edit-media-header .left:hover {
+  color: #0099d5; }
+
 .media-item .bar, .media-progress-bar div {
   background-color: #dd823b; }
 
@@ -275,7 +278,7 @@ ul#adminmenu a.wp-has-current-submenu:after, ul#adminmenu > li.current > a.curre
   color: #dd823b; }
 
 .theme-overlay .theme-header .close:hover, .theme-overlay .theme-header .right:hover, .theme-overlay .theme-header .left:hover {
-  background: #dd823b; }
+  color: #0099d5; }
 
 .theme-section.current, .theme-filter.current {
   border-bottom-color: #cf4944; }
@@ -295,8 +298,7 @@ body.more-filters-opened .more-filters:hover:before, body.more-filters-opened .m
   color: #fff; }
 
 .theme-install-overlay .close-full-overlay:hover, .theme-install-overlay .close-full-overlay:focus, .theme-install-overlay .previous-theme:hover, .theme-install-overlay .previous-theme:focus, .theme-install-overlay .next-theme:hover, .theme-install-overlay .next-theme:focus {
-  background-color: #dd823b;
-  color: #fff; }
+  color: #0099d5; }
 
 /* Widgets */
 .widgets-chooser li.widgets-chooser-selected {
@@ -312,8 +314,7 @@ body.more-filters-opened .more-filters:hover:before, body.more-filters-opened .m
   color: #fff; }
 
 .customize-controls-close:focus, .customize-controls-close:hover, .control-panel-back:focus, .control-panel-back:hover {
-  background-color: #dd823b;
-  color: #fff; }
+  color: #0099d5; }
 
 /* jQuery UI Slider */
 .wp-slider .ui-slider-handle, .wp-slider .ui-slider-handle.ui-state-hover, .wp-slider .ui-slider-handle.focus {

@@ -400,7 +400,13 @@ ul#adminmenu > li.current > a.current:after {
 }
 
 
-/* Media Uploader */
+/* Media */
+
+.media-modal-close:hover .media-modal-icon:before,
+.edit-attachment-frame .edit-media-header .right:hover,
+.edit-attachment-frame .edit-media-header .left:hover {
+	color: $link-focus;
+}
 
 .media-item .bar,
 .media-progress-bar div {
@@ -431,7 +437,7 @@ ul#adminmenu > li.current > a.current:after {
 .theme-overlay .theme-header .close:hover,
 .theme-overlay .theme-header .right:hover,
 .theme-overlay .theme-header .left:hover {
-	background: $highlight-color;
+	color: $link-focus;
 }
 
 .theme-section.current,
@@ -465,8 +471,7 @@ body.more-filters-opened .more-filters:focus:before {
 .theme-install-overlay .previous-theme:focus,
 .theme-install-overlay .next-theme:hover,
 .theme-install-overlay .next-theme:focus {
-	background-color: $menu-highlight-background;
-	color: $menu-highlight-text;
+	color: $link-focus;
 }
 
 /* Widgets */
@@ -492,8 +497,7 @@ body.more-filters-opened .more-filters:focus:before {
 .customize-controls-close:hover,
 .control-panel-back:focus,
 .control-panel-back:hover {
-	background-color: $menu-highlight-background;
-	color: $menu-highlight-text;
+	color: $link-focus;
 }
 
 /* jQuery UI Slider */

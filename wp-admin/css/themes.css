@@ -431,13 +431,8 @@
 	transition: color .1s ease-in-out, background .1s ease-in-out;
 }
 
-.theme-overlay .theme-header .close:hover:before,
-.theme-overlay .theme-header .close:focus:before {
-	color: #fff;
-}
-
 .theme-overlay .theme-header .close:before {
-	font: normal 30px/50px 'dashicons' !important;
+	font: normal 22px/50px 'dashicons' !important;
 	color: #777;
 	display: inline-block;
 	content: '\f335';
@@ -461,16 +456,23 @@
 }
 
 .theme-overlay .theme-header .close:hover,
+.theme-overlay .theme-header .close:hover:before,
+.theme-overlay .theme-header .close:focus:before,
 .theme-overlay .theme-header .right:hover,
-.theme-overlay .theme-header .left:hover,
+.theme-overlay .theme-header .left:hover {
+	color: #2ea2cc;
+}
+
 .theme-overlay .theme-header .close:focus,
 .theme-overlay .theme-header .right:focus,
 .theme-overlay .theme-header .left:focus {
-	background: #0074a2;
-	color: #fff;
-	outline: none;
-	-webkit-box-shadow: none;
-	box-shadow: none;
+	color: #2ea2cc;
+    -webkit-box-shadow:
+    	0 0 0 1px #5b9dd9,
+		0 0 2px 1px rgba(30, 140, 190, .8);
+    box-shadow:
+    	0 0 0 1px #5b9dd9,
+		0 0 2px 1px rgba(30, 140, 190, .8);
 }
 
 .theme-overlay .theme-header .left.disabled,
@@ -489,21 +491,17 @@
 	font-weight: 300;
 }
 
-.theme-overlay .theme-header .left:before {
-	content: '\f340';
+.theme-overlay .theme-header .left:before,
+.rtl .theme-overlay .theme-header .right:before {
+	content: '\f341';
 }
 
-.theme-overlay .theme-header .right:before {
-	content: '\f344';
-}
-
+.theme-overlay .theme-header .right:before,
 .rtl .theme-overlay .theme-header .left:before {
 	content: '\f345';
 }
 
-.rtl .theme-overlay .theme-header .right:before {
-	content: '\f341';
-}
+
 
 .theme-overlay .theme-wrap {
 	clear: both;
@@ -1400,24 +1398,23 @@ body.full-overlay-active {
 .theme-install-overlay .previous-theme:focus,
 .theme-install-overlay .next-theme:hover,
 .theme-install-overlay .next-theme:focus {
-	background-color: #0074a2;
-	color: #fff;
+	color: #2ea2cc;
 	outline: none;
 	-webkit-box-shadow: none;
 	box-shadow: none;
 }
 
 .theme-install-overlay .close-full-overlay:before {
-	font: normal 30px/1 dashicons;
+	font: normal 22px/1 dashicons;
 	content: "\f335";
 	position: relative;
-	top: 9px;
-	left: 9px;
+	top: 7px;
+	left: 12px;
 }
 
 .theme-install-overlay .previous-theme:before {
 	font: normal 20px/1 dashicons;
-	content: "\f340";
+	content: "\f341";
 	position: relative;
 	top: 6px;
 	left: 14px;
@@ -1425,7 +1422,7 @@ body.full-overlay-active {
 
 .theme-install-overlay .next-theme:before {
 	font: normal 20px/1 dashicons;
-	content: "\f344";
+	content: "\f345";
 	position: relative;
 	top: 6px;
 	left: 13px;
@@ -1443,11 +1440,11 @@ body.full-overlay-active {
 }
 
 .rtl .theme-install-overlay .previous-theme:before {
-	content: "\f344";
+	content: "\f345";
 }
 
 .rtl .theme-install-overlay .next-theme:before {
-	content: "\f340";
+	content: "\f341";
 }
 
 /* Collapse Button */
