@@ -156,8 +156,18 @@ window.wp = window.wp || {};
 							'<html>' +
 								'<head>' +
 									'<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />' +
+									'<style>' +
+										'html, body#wpview-iframe-sandbox {' +
+											'background: transparent;' +
+											'padding: 0;' +
+											'margin: 0;' +
+										'}' +
+										'body#wpview-iframe-sandbox {' +
+											'padding: 1px 0;' +
+										'}' +
+									'</style>' +
 								'</head>' +
-								'<body data-context="iframe-sandbox" style="padding: 0; margin: 0;" class="' + editor.getBody().className + '">' +
+								'<body id="wpview-iframe-sandbox">' +
 									html +
 								'</body>' +
 							'</html>'
@@ -166,7 +176,7 @@ window.wp = window.wp || {};
 
 						resize = function() {
 							// Make sure the iframe still exists.
-							iframe.contentWindow && $( iframe ).height( $( iframeDoc.body ).height() );
+							iframe.contentWindow && $( iframe ).height( $( iframeDoc.body ).outerHeight() );
 						};
 
 						if ( MutationObserver ) {
