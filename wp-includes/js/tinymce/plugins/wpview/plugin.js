@@ -353,6 +353,14 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 		}
 	});
 
+	// Excludes arrow keys, delete, backspace, enter, space bar.
+	function isSpecialKey( key ) {
+		return ( ( key <= 47 && key !== VK.SPACEBAR && key !== VK.ENTER && key !== VK.DELETE && key !== VK.BACKSPACE && ( key < 37 || key > 40 ) ) ||
+			key === 144 || key === 145 || // Num Lock, Scroll Lock
+			( key >= 91 && key <= 93 ) || // Windows keys
+			( key >= 112 && key <= 123 ) ); // F keys
+	}
+
 	// (De)select views when arrow keys are used to navigate the content of the editor.
 	editor.on( 'keydown', function( event ) {
 		var key = event.keyCode,
@@ -410,9 +418,10 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 				} else {
 					setViewCursor( false, view );
 				}
+
 				event.preventDefault();
 			// Ignore keys that don't insert anything.
-			} else if ( ( key > 47 || VK.SPACEBAR || key === VK.ENTER || key === VK.DELETE || key === VK.BACKSPACE ) && key !== 144 && key !== 145 ) {
+			} else if ( ! isSpecialKey( key ) ) {
 				removeView( selected );
 
 				if ( key === VK.ENTER || key === VK.DELETE || key === VK.BACKSPACE ) {
@@ -469,6 +478,11 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 
 			if ( ! ( ( cursorBefore = dom.hasClass( view, 'wpview-selection-before' ) ) ||
 					( cursorAfter = dom.hasClass( view, 'wpview-selection-after' ) ) ) ) {
+				return;
+			}
+
+			if ( isSpecialKey( key ) ) {
+				// ignore
 				return;
 			}
 
