@@ -2715,7 +2715,16 @@ function wp_ajax_parse_media_shortcode() {
 		wp_send_json_error();
 	}
 
+	if ( empty( $_POST['shortcode'] ) || ! current_user_can( 'edit_post', $post->ID ) ) {
+		wp_send_json_error();
+	}
+
 	setup_postdata( $post );
+	$shortcode = do_shortcode( wp_unslash( $_REQUEST['shortcode'] ) );
+
+	if ( empty( $shortcode ) ) {
+		wp_send_json_error( array( 'statusText' => __( 'No items found.' ) ) );
+	}
 
 	ob_start();
 
@@ -2724,7 +2733,7 @@ function wp_ajax_parse_media_shortcode() {
 		printf( '<link rel="stylesheet" href="%s"/>', $style );
 	}
 
-	echo do_shortcode( wp_unslash( $_REQUEST['shortcode'] ) );
+	echo $shortcode;
 
 	if ( ! empty( $wp_scripts ) ) {
 		$wp_scripts->done = array();
