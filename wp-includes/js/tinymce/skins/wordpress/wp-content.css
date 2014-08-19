@@ -366,6 +366,11 @@ audio {
 	}
 }
 
+.wpview-wrap .wpview-content > iframe {
+	max-width: 100%;
+	background: transparent;
+}
+
 #wp-image-toolbar {
 	position: absolute;
 	margin: 0;
