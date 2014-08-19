@@ -918,9 +918,10 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 		var node, wrap, P, spacer,
 			selection = editor.selection,
 			keyCode = event.keyCode,
-			dom = editor.dom;
+			dom = editor.dom,
+			VK = tinymce.util.VK;
 
-		if ( keyCode === tinymce.util.VK.ENTER ) {
+		if ( keyCode === VK.ENTER ) {
 			// When pressing Enter inside a caption move the caret to a new parapraph under it
 			node = selection.getNode();
 			wrap = dom.getParent( node, 'div.mceTemp' );
@@ -947,7 +948,7 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 				editor.nodeChanged();
 				selection.setCursorLocation( P, 0 );
 			}
-		} else if ( keyCode === tinymce.util.VK.DELETE || keyCode === tinymce.util.VK.BACKSPACE ) {
+		} else if ( keyCode === VK.DELETE || keyCode === VK.BACKSPACE ) {
 			node = selection.getNode();
 
 			if ( node.nodeName === 'DIV' && dom.hasClass( node, 'mceTemp' ) ) {
@@ -965,10 +966,9 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 			removeToolbar();
 		}
 
-		// Key presses will replace the image so we need to remove the toolbar
+		// Most key presses will replace the image so we need to remove the toolbar
 		if ( toolbarActive ) {
-			if ( event.ctrlKey || event.metaKey || event.altKey ||
-				( keyCode < 48 && keyCode > 90 ) || keyCode > 186 ) {
+			if ( event.ctrlKey || event.metaKey || event.altKey || ( keyCode < 48 && keyCode !== VK.SPACEBAR ) ) {
 				return;
 			}
 
