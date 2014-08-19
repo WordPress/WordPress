@@ -880,7 +880,7 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 		} else if ( cmd === 'JustifyLeft' || cmd === 'JustifyRight' || cmd === 'JustifyCenter' ) {
 			node = editor.selection.getNode();
 			align = cmd.substr(7).toLowerCase();
-			align = 'align' + align,
+			align = 'align' + align;
 			DL = dom.getParent( node, 'dl.wp-caption' );
 
 			removeToolbar();
