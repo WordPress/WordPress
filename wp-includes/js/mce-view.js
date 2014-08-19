@@ -157,13 +157,15 @@ window.wp = window.wp || {};
 								'<head>' +
 									'<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />' +
 									'<style>' +
-										'html, body#wpview-iframe-sandbox {' +
+										'html {' +
 											'background: transparent;' +
 											'padding: 0;' +
 											'margin: 0;' +
 										'}' +
 										'body#wpview-iframe-sandbox {' +
+											'background: transparent;' +
 											'padding: 1px 0;' +
+											'margin: -1px 0 0;' +
 										'}' +
 									'</style>' +
 								'</head>' +
@@ -176,7 +178,7 @@ window.wp = window.wp || {};
 
 						resize = function() {
 							// Make sure the iframe still exists.
-							iframe.contentWindow && $( iframe ).height( $( iframeDoc.body ).outerHeight() );
+							iframe.contentWindow && $( iframe ).height( $( iframeDoc.body ).height() );
 						};
 
 						if ( MutationObserver ) {
