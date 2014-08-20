@@ -89,21 +89,6 @@ if ( $doaction ) {
 	}
 
 	switch ( $doaction ) {
-		case 'find_detached':
-			if ( !current_user_can('edit_posts') )
-				wp_die( __('You are not allowed to scan for lost attachments.') );
-
-			$lost = $wpdb->get_col( "
-				SELECT ID FROM $wpdb->posts
-				WHERE post_type = 'attachment' AND post_parent > '0'
-				AND post_parent NOT IN (
-					SELECT ID FROM $wpdb->posts
-					WHERE post_type NOT IN ( 'attachment', '" . join( "', '", get_post_types( array( 'public' => false ) ) ) . "' )
-				)
-			" );
-
-			$_REQUEST['detached'] = 1;
-			break;
 		case 'attach':
 			$parent_id = (int) $_REQUEST['found_post_id'];
 			if ( !$parent_id )

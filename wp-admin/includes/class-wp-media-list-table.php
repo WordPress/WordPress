@@ -11,16 +11,16 @@ class WP_Media_List_Table extends WP_List_Table {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @since 3.1.0
 	 * @access public
 	 *
 	 * @see WP_List_Table::__construct() for more information on default arguments.
 	 *
 	 * @param array $args An associative array of arguments.
-	 */	
+	 */
 	public function __construct( $args = array() ) {
-		$this->detached = isset( $_REQUEST['detached'] ) || isset( $_REQUEST['find_detached'] );
+		$this->detached = isset( $_REQUEST['detached'] );
 
 		parent::__construct( array(
 			'plural' => 'media',
@@ -33,14 +33,9 @@ class WP_Media_List_Table extends WP_List_Table {
 	}
 
 	public function prepare_items() {
-		global $lost, $wp_query, $post_mime_types, $avail_post_mime_types, $mode;
+		global $wp_query, $post_mime_types, $avail_post_mime_types, $mode;
 
-		$q = $_REQUEST;
-
-		if ( !empty( $lost ) )
-			$q['post__in'] = implode( ',', $lost );
-
-		list( $post_mime_types, $avail_post_mime_types ) = wp_edit_attachments_query( $q );
+		list( $post_mime_types, $avail_post_mime_types ) = wp_edit_attachments_query( $_REQUEST );
 
  		$this->is_trash = isset( $_REQUEST['status'] ) && 'trash' == $_REQUEST['status'];
 
@@ -107,9 +102,7 @@ class WP_Media_List_Table extends WP_List_Table {
 			submit_button( __( 'Filter' ), 'button', 'filter_action', false, array( 'id' => 'post-query-submit' ) );
 		}
 
-		if ( $this->detached ) {
-			submit_button( __( 'Scan for lost attachments' ), 'secondary', 'find_detached', false );
-		} elseif ( $this->is_trash && current_user_can( 'edit_others_posts' ) ) {
+		if ( $this->is_trash && current_user_can( 'edit_others_posts' ) ) {
 			submit_button( __( 'Empty Trash' ), 'apply', 'delete_all', false );
 		} ?>
 		</div>
@@ -117,9 +110,6 @@ class WP_Media_List_Table extends WP_List_Table {
 	}
 
 	public function current_action() {
-		if ( isset( $_REQUEST['find_detached'] ) )
-			return 'find_detached';
-
 		if ( isset( $_REQUEST['found_post_id'] ) && isset( $_REQUEST['media'] ) )
 			return 'attach';
 
