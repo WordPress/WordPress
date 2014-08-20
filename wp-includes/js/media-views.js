@@ -4854,49 +4854,8 @@
 		 * @param {Object} event
 		 */
 		arrowEvent: function( event ) {
-			var attachment = $('.attachments-browser .attachment'),
-				attachmentsWidth = $('.attachments-browser .attachments').width(),
-				thumbnailWidth = attachment.first().outerWidth(),
-				thumbnailsPerRow = Math.round( attachmentsWidth / thumbnailWidth ),
-				totalThumnails = attachment.length,
-				totalRows = Math.ceil(totalThumnails/thumbnailsPerRow),
-				thisIndex = attachment.filter( ':focus' ).index(),
-				thisIndexAdjusted = thisIndex + 1,
-				thisRow = thisIndexAdjusted <= thumbnailsPerRow ? 1 : Math.ceil(thisIndexAdjusted/thumbnailsPerRow);
-
-				// Left arrow
-				if ( 37 === event.keyCode ) {
-					if ( 0 === thisIndex ) {
-						return;
-					}
-					attachment.eq( thisIndex - 1 ).focus();
-				}
-
-				// Up arrow
-				if ( 38 === event.keyCode ) {
-					if ( 1 === thisRow ) {
-						return;
-					}
-					attachment.eq( thisIndex - thumbnailsPerRow ).focus();
-				}
-
-				// Right arrow
-				if ( 39 === event.keyCode ) {
-					if ( totalThumnails === thisIndex ) {
-						return;
-					}
-					attachment.eq( thisIndex + 1 ).focus();
-				}
-
-				// Down arrow
-				if ( 40 === event.keyCode ) {
-					if ( totalRows === thisRow ) {
-						return;
-					}
-					attachment.eq( thisIndex + thumbnailsPerRow ).focus();
-				}
-
-				return false;
+			this.controller.trigger( 'attachment:keydown:arrow', event );
+			return false;
 		},
 		/**
 		 * @param {Object} options
@@ -5315,6 +5274,8 @@
 
 			this.collection.on( 'reset', this.render, this );
 
+			this.listenTo( this.controller, 'attachment:keydown:arrow', this.arrowEvent );
+
 			// Throttle the scroll handler and bind this.
 			this.scroll = _.chain( this.scroll ).bind( this ).throttle( this.options.refreshSensitivity ).value();
 
@@ -5333,6 +5294,45 @@
 			// Call this.setColumns() after this view has been rendered in the DOM so
 			// attachments get proper width applied.
 			_.defer( this.setColumns, this );
+		},
+
+		arrowEvent: function( event ) {
+			var attachments = this.$el.children( 'li' ),
+				perRow = Math.round( this.$el.width() / attachments.first().outerWidth() ),
+				index = attachments.filter( ':focus' ).index(),
+				row = ( index + 1 ) <= perRow ? 1 : Math.ceil( ( index + 1 ) / perRow );
+
+			// Left arrow
+			if ( 37 === event.keyCode ) {
+				if ( 0 === index ) {
+					return;
+				}
+				attachments.eq( index - 1 ).focus();
+			}
+
+			// Up arrow
+			if ( 38 === event.keyCode ) {
+				if ( 1 === row ) {
+					return;
+				}
+				attachments.eq( index - perRow ).focus();
+			}
+
+			// Right arrow
+			if ( 39 === event.keyCode ) {
+				if ( attachments.length === index ) {
+					return;
+				}
+				attachments.eq( index + 1 ).focus();
+			}
+
+			// Down arrow
+			if ( 40 === event.keyCode ) {
+				if ( Math.ceil( attachments.length / perRow ) === row ) {
+					return;
+				}
+				attachments.eq( index + perRow ).focus();
+			}
 		},
 
 		dispose: function() {
@@ -6581,12 +6581,11 @@
 		 * @param {Object} event
 		 */
 		toggleSelectionHandler: function( event ) {
-			if ( 'keydown' === event.type && 9 === event.keyCode && event.shiftKey && event.target === $( ':tabbable', this.$el ).filter( ':first' )[0] ) {
-				$('.attachments-browser .details').focus();
+			if ( 'keydown' === event.type && 9 === event.keyCode && event.shiftKey && event.target === this.$( ':tabbable' ).get( 0 ) ) {
+				this.$( ':tabbable' ).eq( 0 ).blur();
 				return false;
 			}
 		}
-
 	});
 
 	/**
