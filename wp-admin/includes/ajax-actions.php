@@ -2677,7 +2677,7 @@ function wp_ajax_parse_embed() {
 
 	if ( has_shortcode( $parsed, 'audio' ) || has_shortcode( $parsed, 'video' ) ) {
 		$styles = '';
-		$mce_styles = wp_media_mce_styles();
+		$mce_styles = wpview_media_sandbox_styles();
 		foreach ( $mce_styles as $style ) {
 			$styles .= sprintf( '<link rel="stylesheet" href="%s"/>', $style );
 		}
@@ -2728,7 +2728,7 @@ function wp_ajax_parse_media_shortcode() {
 
 	ob_start();
 
-	$styles = wp_media_mce_styles();
+	$styles = wpview_media_sandbox_styles();
 	foreach ( $styles as $style ) {
 		printf( '<link rel="stylesheet" href="%s"/>', $style );
 	}

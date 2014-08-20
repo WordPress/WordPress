@@ -3308,11 +3308,20 @@ function attachment_url_to_postid( $url ) {
  *
  * @return array The relevant CSS file URLs.
  */
-function wp_media_mce_styles() {
+function wpview_media_sandbox_styles() {
  	$version = 'ver=' . $GLOBALS['wp_version'];
 	$dashicons = includes_url( "css/dashicons.css?$version" );
  	$mediaelement = includes_url( "js/mediaelement/mediaelementplayer.min.css?$version" );
  	$wpmediaelement = includes_url( "js/mediaelement/wp-mediaelement.css?$version" );
 
-	return array( $dashicons, $mediaelement, $wpmediaelement );
+	/**
+	 * For use by themes that need to override the styling of MediaElement based previews in the Visual editor.
+	 * Not intended for adding editor-style.css. Ideally these styles will be applied by using
+	 * the 'seamless' iframe attribute in the future.
+	 *
+	 * @since 4.0
+	 *
+	 * @param array The URLs to the stylesheets that will be loaded in the sandbox iframe.
+	 */
+	return apply_filters( 'wpview_media_sandbox_styles', array( $dashicons, $mediaelement, $wpmediaelement ) );
 }
