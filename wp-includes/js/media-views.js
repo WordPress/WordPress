@@ -4893,12 +4893,6 @@
 
 				selection.add( models );
 				selection.single( model );
-
-				// When selecting attachments, focus should be transferred to the right details panel
-				if ( ! isTouchDevice ) {
-					$('.attachment-details input').first().focus();
-				}
-
 				return;
 
 			// If the `method` is set to `toggle`, just flip the selection
@@ -4906,12 +4900,6 @@
 			} else if ( 'toggle' === method ) {
 				selection[ this.selected() ? 'remove' : 'add' ]( model );
 				selection.single( model );
-
-				if ( ! isTouchDevice && this.selected() ) {
-					// When selecting an attachment, focus should be transferred to the right details panel
-					$('.attachment-details input').first().focus();
-				}
-
 				return;
 			} else if ( 'add' === method ) {
 				selection.add( model );
@@ -4974,13 +4962,7 @@
 			}
 
 			// Add 'selected' class to model, set aria-checked to true and make the checkbox tabable.
-			this.$el.addClass( 'selected' ).attr( 'aria-checked', true )
-					.find( '.check' ).attr( 'tabindex', '0' );
-
-			// When selecting an attachment, focus should be transferred to the right details panel.
-			if ( ! isTouchDevice ) {
-				$('.attachment-details input').first().focus();
-			}
+			this.$el.addClass( 'selected' ).attr( 'aria-checked', true ).find( '.check' ).attr( 'tabindex', '0' );
 		},
 		/**
 		 * @param {Backbone.Model} model
@@ -6502,10 +6484,18 @@
 			this.options = _.defaults( this.options, {
 				rerenderOnModelChange: false
 			});
+
+			this.on( 'ready', this.initialFocus );
 			/**
 			 * call 'initialize' directly on the parent class
 			 */
 			media.view.Attachment.prototype.initialize.apply( this, arguments );
+		},
+
+		initialFocus: function() {
+			if ( ! isTouchDevice ) {
+				this.$( ':input' ).eq( 0 ).focus();
+			}
 		},
 		/**
 		 * @param {Object} event
