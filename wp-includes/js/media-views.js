@@ -5344,7 +5344,7 @@
 				width = this.$el.width();
 
 			if ( width ) {
-				this.columns = Math.round( width / this.options.idealColumnWidth ) || 1;
+				this.columns = Math.min( Math.round( width / this.options.idealColumnWidth ), 12 ) || 1;
 
 				if ( ! prev || prev !== this.columns ) {
 					this.$el.attr( 'data-columns', this.columns );
