@@ -753,8 +753,7 @@
 			}
 			this.get('selection').add( attachment );
 
-			// Set focus back to where it goes when an attachment is selected.
-			$( '.attachments-browser .attachments .attachment' ).first().focus();
+			this.frame.trigger( 'library:selection:add' );
 		},
 
 		/**
@@ -5256,6 +5255,7 @@
 
 			this.collection.on( 'reset', this.render, this );
 
+			this.listenTo( this.controller, 'library:selection:add',    this.attachmentFocus );
 			this.listenTo( this.controller, 'attachment:keydown:arrow', this.arrowEvent );
 
 			// Throttle the scroll handler and bind this.
@@ -5276,6 +5276,10 @@
 			// Call this.setColumns() after this view has been rendered in the DOM so
 			// attachments get proper width applied.
 			_.defer( this.setColumns, this );
+		},
+
+		attachmentFocus: function() {
+			this.$( 'li:first' ).focus();
 		},
 
 		arrowEvent: function( event ) {
