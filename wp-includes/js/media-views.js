@@ -5009,10 +5009,16 @@
 				return;
 			}
 
+			// Bail if the model is already selected.
+			if ( this.$el.hasClass( 'selected' ) ) {
+				return;
+			}
+
+			// Add 'selected' class to model, set aria-checked to true and make the checkbox tabable.
 			this.$el.addClass( 'selected' ).attr( 'aria-checked', true )
 					.find( '.check' ).attr( 'tabindex', '0' );
 
-			// When selecting an attachment, focus should be transferred to the right details panel
+			// When selecting an attachment, focus should be transferred to the right details panel.
 			if ( ! isTouchDevice ) {
 				$('.attachment-details input').first().focus();
 			}
