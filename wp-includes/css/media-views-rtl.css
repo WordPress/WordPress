@@ -254,18 +254,19 @@
 	-webkit-overflow-scrolling: touch;
 }
 
-.upload-php .mode-grid .hide-sidebar .media-sidebar {
-	top: 102px;
-	display: none;
-}
-
 .upload-php .mode-grid .media-sidebar {
-	background: #fff;
+	z-index: 1900;
+	top: 102px;
 	bottom: auto;
+	background: #fff;
 	border-right: none;
 	padding: 16px;
 	-webkit-box-shadow: -1px 0 1px rgba(0,0,0,.3);
 	box-shadow: -1px 0 1px rgba(0,0,0,.3);
+}
+
+.upload-php .mode-grid .hide-sidebar .media-sidebar {
+	display: none;
 }
 
 .upload-php .mode-grid .media-sidebar .media-uploader-status {
