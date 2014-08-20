@@ -293,19 +293,20 @@ class WP_Embed {
 	public function cache_oembed( $post_ID ) {
 		$post = get_post( $post_ID );
 
-		$post_types = array( 'post', 'page' );
+		$post_types = get_post_types( array( 'show_ui' => true ) );
 		/**
 		 * Filter the array of post types to cache oEmbed results for.
 		 *
 		 * @since 2.9.0
 		 *
-		 * @param array $post_types Array of post types to cache oEmbed results for. Default 'post', 'page'.
+		 * @param array $post_types Array of post types to cache oEmbed results for. Defaults to post types with `show_ui` set to true.
 		 */
-		if ( empty($post->ID) || !in_array( $post->post_type, apply_filters( 'embed_cache_oembed_types', $post_types ) ) )
+		if ( empty( $post->ID ) || ! in_array( $post->post_type, apply_filters( 'embed_cache_oembed_types', $post_types ) ) ){
 			return;
+		}
 
 		// Trigger a caching
-		if ( !empty($post->post_content) ) {
+		if ( ! empty( $post->post_content ) ) {
 			$this->post_ID = $post->ID;
 			$this->usecache = false;
 
