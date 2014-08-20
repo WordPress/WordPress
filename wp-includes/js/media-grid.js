@@ -390,9 +390,7 @@
 			this.createModal();
 
 			this.title.mode( 'default' );
-
-			this.options.hasPrevious = this.hasPrevious();
-			this.options.hasNext = this.hasNext();
+			this.toggleNav();
 		},
 
 		bindHandlers: function() {
@@ -500,6 +498,11 @@
 			view.on( 'ready', view.loadEditor );
 		},
 
+		toggleNav: function() {
+			this.$('.left').toggleClass( 'disabled', ! this.hasPrevious() );
+			this.$('.right').toggleClass( 'disabled', ! this.hasNext() );
+		},
+
 		/**
 		 * Rerender the view.
 		 */
@@ -510,8 +513,8 @@
 			} else {
 				this.content.render();
 			}
-			this.$('.left').toggleClass( 'disabled', ! this.hasPrevious() );
-			this.$('.right').toggleClass( 'disabled', ! this.hasNext() );
+
+			this.toggleNav();
 		},
 
 		/**
