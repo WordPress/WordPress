@@ -5903,6 +5903,8 @@
 								library._requery( true );
 								self.controller.trigger( 'selection:action:done' );
 							} );
+						} else {
+							this.controller.trigger( 'selection:action:done' );
 						}
 					}
 				}).render() );
