@@ -2717,6 +2717,12 @@
  *
  * This should be OOCSS'd so both use a shared selector.
  */
+.edit-attachment-frame {
+	display: block;
+	height: 100%;
+	width: 100%;
+}
+
 .edit-attachment-frame .edit-media-header {
 	overflow: hidden;
 }
@@ -2773,8 +2779,10 @@
 	font-weight: 300;
 }
 
+.edit-attachment-frame .edit-media-header .left:hover,
 .edit-attachment-frame .edit-media-header .right:hover,
-.edit-attachment-frame .edit-media-header .left:hover {
+.edit-attachment-frame .edit-media-header .left:focus,
+.edit-attachment-frame .edit-media-header .right:focus {
 	color: #2ea2cc;
 }
 

@@ -3256,7 +3256,7 @@
 				}
 			}
 
-			$el.find( '.media-modal-close' ).focus();
+			this.$( '.media-modal-close' ).focus();
 
 			return this.propagate('open');
 		},
@@ -4809,7 +4809,7 @@
 
 			// Catch arrow events
 			if ( 37 === event.keyCode || 38 === event.keyCode || 39 === event.keyCode || 40 === event.keyCode ) {
-				this.arrowEvent(event);
+				this.controller.trigger( 'attachment:keydown:arrow', event );
 				return;
 			}
 
@@ -4848,13 +4848,6 @@
 
 			// Don't scroll the view and don't attempt to submit anything.
 			event.stopPropagation();
-		},
-		/**
-		 * @param {Object} event
-		 */
-		arrowEvent: function( event ) {
-			this.controller.trigger( 'attachment:keydown:arrow', event );
-			return false;
 		},
 		/**
 		 * @param {Object} options
@@ -6579,6 +6572,11 @@
 				this.$( ':tabbable' ).eq( 0 ).blur();
 				return false;
 			}
+
+			if ( 37 === event.keyCode || 38 === event.keyCode || 39 === event.keyCode || 40 === event.keyCode ) {
+				this.controller.trigger( 'attachment:keydown:arrow', event );
+				return;
+			}
 		}
 	});
 
@@ -7157,7 +7155,12 @@
 		},
 
 		loadEditor: function() {
-			this.editor.open( this.model.get('id'), this.model.get('nonces').edit, this );
+			var dfd = this.editor.open( this.model.get('id'), this.model.get('nonces').edit, this );
+			dfd.done( _.bind( this.focus, this ) );
+		},
+
+		focus: function() {
+			this.$( '.imgedit-submit .button' ).eq( 0 ).focus();
 		},
 
 		back: function() {

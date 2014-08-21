@@ -365,8 +365,9 @@
 		regions:   [ 'title', 'content' ],
 
 		events: {
-			'click .left':              'previousMediaItem',
-			'click .right':             'nextMediaItem'
+			'click .left':  'previousMediaItem',
+			'click .right': 'nextMediaItem',
+			'keydown':      'keyEvent'
 		},
 
 		initialize: function() {
@@ -522,11 +523,12 @@
 		 */
 		previousMediaItem: function() {
 			if ( ! this.hasPrevious() ) {
+				this.$( '.left' ).blur();
 				return;
 			}
 			this.model = this.library.at( this.getCurrentIndex() - 1 );
-
 			this.rerender();
+			this.$( '.left' ).focus();
 		},
 
 		/**
@@ -534,11 +536,12 @@
 		 */
 		nextMediaItem: function() {
 			if ( ! this.hasNext() ) {
+				this.$( '.right' ).blur();
 				return;
 			}
 			this.model = this.library.at( this.getCurrentIndex() + 1 );
-
 			this.rerender();
+			this.$( '.right' ).focus();
 		},
 
 		getCurrentIndex: function() {
@@ -556,16 +559,8 @@
 		 * Respond to the keyboard events: right arrow, left arrow, escape.
 		 */
 		keyEvent: function( event ) {
-			var $target = $( event.target );
-
-			//Don't go left/right if we are in a textarea or input field
-			if ( $target.is( 'input' ) || $target.is( 'textarea' ) ) {
-				return event;
-			}
-
-			// Escape key, while in the Edit Image mode
-			if ( 27 === event.keyCode ) {
-				this.modal.close();
+			if ( 'INPUT' === event.target.tagName && ! ( event.target.readOnly || event.target.disabled ) ) {
+				return;
 			}
 
 			// The right arrow key
