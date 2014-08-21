@@ -5864,7 +5864,7 @@
 					controller: this.controller,
 					priority: -60,
 					click: function() {
-						var model, changed = [],
+						var model, changed = [], self = this,
 							selection = this.controller.state().get( 'selection' ),
 							library = this.controller.state().get( 'library' );
 
@@ -5901,6 +5901,7 @@
 						if ( changed.length ) {
 							$.when.apply( null, changed ).then( function() {
 								library._requery( true );
+								self.controller.trigger( 'selection:action:done' );
 							} );
 						}
 					}

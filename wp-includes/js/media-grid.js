@@ -136,7 +136,7 @@
 					toolbar:            'select',
 					contentUserSetting: false,
 					filterable:         'all',
-					autoSelect:         false 
+					autoSelect:         false
 				})
 			]);
 		},
@@ -583,12 +583,17 @@
 		initialize: function() {
 			media.view.Button.prototype.initialize.apply( this, arguments );
 			this.listenTo( this.controller, 'select:activate select:deactivate', this.toggleBulkEditHandler );
+			this.listenTo( this.controller, 'selection:action:done', this.back );
+		},
+
+		back: function () {
+			this.controller.deactivateMode( 'select' ).activateMode( 'edit' );
 		},
 
 		click: function() {
 			media.view.Button.prototype.click.apply( this, arguments );
 			if ( this.controller.isModeActive( 'select' ) ) {
-				this.controller.deactivateMode( 'select' ).activateMode( 'edit' );
+				this.back();
 			} else {
 				this.controller.deactivateMode( 'edit' ).activateMode( 'select' );
 			}
