@@ -485,7 +485,7 @@
 
 .sidebar-for-errors .attachment-details,
 .sidebar-for-errors .compat-item,
-.sidebar-for-errors .media-progress-bar,
+.sidebar-for-errors .media-sidebar .media-progress-bar,
 .sidebar-for-errors .upload-details {
 	display: none !important;
 }
