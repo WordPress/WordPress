@@ -4664,9 +4664,14 @@
 		className: 'attachment',
 		template:  media.template('attachment'),
 
-		attributes: {
-			tabIndex: 0,
-			role: 'checkbox'
+		attributes: function() {
+			return {
+				'tabIndex':     0,
+				'role':         'checkbox',
+				'aria-label':   this.model.get( 'title' ),
+				'aria-checked': false,
+				'data-id':      this.model.get( 'id' )
+			};
 		},
 
 		events: {
@@ -4688,11 +4693,6 @@
 				options = _.defaults( this.options, {
 					rerenderOnModelChange: true
 				} );
-			this.$el.attr( {
-				'aria-label'  : this.model.get( 'title' ),
-				'aria-checked': false,
-				'data-id'     : this.model.get( 'id' )
-			} );
 
 			if ( options.rerenderOnModelChange ) {
 				this.model.on( 'change', this.render, this );
@@ -4954,7 +4954,8 @@
 			}
 
 			// Add 'selected' class to model, set aria-checked to true and make the checkbox tabable.
-			this.$el.addClass( 'selected' ).attr( 'aria-checked', true ).find( '.check' ).attr( 'tabindex', '0' );
+			this.$el.addClass( 'selected' ).attr( 'aria-checked', true )
+				.find( '.check' ).attr( 'tabindex', '0' );
 		},
 		/**
 		 * @param {Backbone.Model} model
@@ -4970,7 +4971,7 @@
 				return;
 			}
 			this.$el.removeClass( 'selected' ).attr( 'aria-checked', false )
-					.find( '.check' ).attr( 'tabindex', '-1' );
+				.find( '.check' ).attr( 'tabindex', '-1' );
 		},
 		/**
 		 * @param {Backbone.Model} model
