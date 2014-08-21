@@ -595,6 +595,7 @@
 			filterable:         false,
 			sortable:           true,
 
+			autoSelect:         true,
 			describe:           false,
 			// Uses a user setting to override the content mode.
 			contentUserSetting: true,
@@ -751,9 +752,11 @@
 			if ( 'upload' === content.mode() ) {
 				this.frame.content.mode('browse');
 			}
-			this.get('selection').add( attachment );
 
-			this.frame.trigger( 'library:selection:add' );
+			if ( this.get( 'autoSelect' ) ) {
+				this.get('selection').add( attachment );
+				this.frame.trigger( 'library:selection:add' );
+			}
 		},
 
 		/**
@@ -5705,7 +5708,7 @@
 			};
 
 			if ( media.view.settings.mediaTrash &&
-				this.controller.activeModes.where( { id: 'grid' } ).length ) {
+				this.controller.isModeActive( 'grid' ) ) {
 
 				filters.trash = {
 					text:  l10n.trash,
@@ -5821,7 +5824,7 @@
 			// Feels odd to bring the global media library switcher into the Attachment
 			// browser view. Is this a use case for doAction( 'add:toolbar-items:attachments-browser', this.toolbar );
 			// which the controller can tap into and add this view?
-			if ( this.controller.activeModes.where( { id: 'grid' } ).length ) {
+			if ( this.controller.isModeActive( 'grid' ) ) {
 				LibraryViewSwitcher = media.View.extend({
 					className: 'view-switch media-grid-view-switch',
 					template: media.template( 'media-library-view-switcher')

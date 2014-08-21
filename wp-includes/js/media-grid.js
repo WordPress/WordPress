@@ -135,7 +135,8 @@
 					content:            'browse',
 					toolbar:            'select',
 					contentUserSetting: false,
-					filterable:         'all'
+					filterable:         'all',
+					autoSelect:         false 
 				})
 			]);
 		},
