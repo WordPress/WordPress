@@ -98,7 +98,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 		$args = array(
 			'page' => $paged,
 			'per_page' => $per_page,
-			'fields' => array( 'last_updated' => true, 'downloaded' => true ),
+			'fields' => array( 'last_updated' => true, 'downloaded' => true, 'icons' => true ),
 			// Send the locale and installed plugin slugs to the API so it can provide context-sensitive results.
 			'locale' => get_locale(),
 			'installed_plugins' => $this->get_installed_plugin_slugs(),
@@ -398,6 +398,15 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 			/* translators: 1: Plugin name and version. */
 			$action_links[] = '<a href="' . esc_url( $details_link ) . '" class="thickbox" aria-label="' . esc_attr( sprintf( __( 'More information about %s' ), $name ) ) . '" data-title="' . esc_attr( $name ) . '">' . __( 'More Details' ) . '</a>';
 
+			if ( !empty( $plugin['icons']['svg'] ) ) {
+				$plugin_icon_url = $plugin['icons']['svg'];
+			} elseif ( !empty( $plugin['icons']['2x'] ) ) {
+				$plugin_icon_url = $plugin['icons']['2x'];
+			} elseif ( !empty( $plugin['icons']['1x'] ) ) {
+				$plugin_icon_url = $plugin['icons']['1x'];
+			} else {
+				$plugin_icon_url = $plugin['icons']['default'];
+			}
 
 			/**
 			 * Filter the install action links for a plugin.
@@ -411,15 +420,16 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 		?>
 		<div class="plugin-card">
 			<div class="plugin-card-top">
+				<a href="<?php echo esc_url( $details_link ); ?>" class="thickbox"><img src="<?php echo esc_attr( $plugin_icon_url ) ?>" class="plugin-icon" /></a>
+				<div class="action-links">
+					<?php
+						if ( $action_links ) {
+							echo '<ul class="plugin-action-buttons"><li>' . implode( '</li><li>', $action_links ) . '</li></ul>';
+						}
+					?>
+				</div>
 				<div class="name column-name">
 					<h4><a href="<?php echo esc_url( $details_link ); ?>" class="thickbox"><?php echo $title; ?></a></h4>
-					<div class="action-links">
-						<?php
-							if ( ! empty( $action_links ) ) {
-								echo '<ul class="plugin-action-buttons"><li>' . implode( '</li><li>', $action_links ) . '</li></ul>';
-							}
-						?>
-					</div>
 				</div>
 				<div class="desc column-description">
 					<p><?php echo $description; ?></p>

@@ -1297,16 +1297,12 @@ div.action-links,
 }
 
 .plugin-card h4 {
-	float: right;
 	margin: 0 0 12px;
 	font-size: 18px;
 }
 
-.plugin-card .desc {
-	clear: right;
-}
-
 .plugin-action-buttons {
+	clear: left;
 	float: left;
 	margin-right: 2em;
 	margin-bottom: 1em;
@@ -1348,6 +1344,13 @@ div.action-links,
 .plugin-card .column-compatibility {
 	float: left;
 	clear: left;
+}
+
+.plugin-icon {
+	width: 128px;
+	height: 128px;
+	float: right;
+	margin: 0 0 1em 1em;
 }
 
 /* ms */
