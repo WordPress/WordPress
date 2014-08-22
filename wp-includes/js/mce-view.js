@@ -561,8 +561,8 @@ window.wp = window.wp || {};
 			setNodes: function () {
 				if ( this.parsed ) {
 					this.setIframes( this.parsed );
-				} else if ( this.parsed === false ) {
-					this.setContent( '<p>' + this.original + '</p>', 'replace' );
+				} else {
+					this.fail();
 				}
 			},
 
@@ -576,28 +576,41 @@ window.wp = window.wp || {};
 						shortcode: this.shortcode.string()
 					}
 				} )
-				.always( function() {
-					self.parsed = false;
-				} )
 				.done( function( response ) {
 					if ( response ) {
 						self.parsed = response;
 						self.setIframes( response );
+					} else {
+						self.fail( true );
 					}
 				} )
 				.fail( function( response ) {
-					if ( response && response.message ) {
-						if ( ( response.type === 'not-embeddable' && self.type === 'embed' ) ||
-							response.type === 'not-ssl' ) {
-
-							self.setError( response.message, 'admin-media' );
-						} else {
-							self.setContent( '<p>' + self.original + '</p>', 'replace' );
-						}
-					} else if ( response && response.statusText ) {
-						self.setError( response.statusText, 'admin-media' );
-					}
+					self.fail( response || true );
 				} );
+			},
+
+			fail: function( error ) {
+				if ( ! this.error ) {
+					if ( error ) {
+						this.error = error
+					} else {
+						return;
+					}
+				}
+
+				if ( this.error.message ) {
+					if ( ( this.error.type === 'not-embeddable' && this.type === 'embed' ) || this.error.type === 'not-ssl' ||
+						this.error.type === 'no-items' ) {
+
+						this.setError( this.error.message, 'admin-media' );
+					} else {
+						this.setContent( '<p>' + this.original + '</p>', 'replace' );
+					}
+				} else if ( this.error.statusText ) {
+					this.setError( this.error.statusText, 'admin-media' );
+				} else if ( this.original ) {
+					this.setContent( '<p>' + this.original + '</p>', 'replace' );
+				}
 			},
 
 			stopPlayers: function( remove ) {

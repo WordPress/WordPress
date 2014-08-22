@@ -2723,7 +2723,10 @@ function wp_ajax_parse_media_shortcode() {
 	$shortcode = do_shortcode( wp_unslash( $_REQUEST['shortcode'] ) );
 
 	if ( empty( $shortcode ) ) {
-		wp_send_json_error( array( 'statusText' => __( 'No items found.' ) ) );
+		wp_send_json_error( array(
+			'type' => 'no-items',
+			'message' => __( 'No items found.' ),
+		) );
 	}
 
 	ob_start();
