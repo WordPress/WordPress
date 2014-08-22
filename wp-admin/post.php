@@ -229,8 +229,9 @@ case 'editpost':
 	$post_id = edit_post();
 
 	// Session cookie flag that the post was saved
-	if ( isset( $_COOKIE['wp-saving-post-' . $post_id] ) )
-		setcookie( 'wp-saving-post-' . $post_id, 'saved' );
+	if ( isset( $_COOKIE['wp-saving-post'] ) && $_COOKIE['wp-saving-post'] === $post_id . '-check' ) {
+		setcookie( 'wp-saving-post', $post_id . '-saved', time() + DAY_IN_SECONDS );
+	}
 
 	redirect_post($post_id); // Send user on their way while we keep working
 

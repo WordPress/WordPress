@@ -286,7 +286,7 @@ window.autosave = function() {
 						});
 					}
 
-					wpCookies.set( 'wp-saving-post-' + post_id, 'check' );
+					wpCookies.set( 'wp-saving-post', post_id + '-check', 24 * 60 * 60 );
 				});
 			}
 
@@ -309,20 +309,17 @@ window.autosave = function() {
 			function checkPost() {
 				var content, post_title, excerpt, $notice,
 					postData = getSavedPostData(),
-					cookie = wpCookies.get( 'wp-saving-post-' + post_id );
+					cookie = wpCookies.get( 'wp-saving-post' );
 
-				if ( ! postData ) {
+				if ( cookie === post_id + '-saved' ) {
+					wpCookies.remove( 'wp-saving-post' );
+					// The post was saved properly, remove old data and bail
+					setData( false );
 					return;
 				}
 
-				if ( cookie ) {
-					wpCookies.remove( 'wp-saving-post-' + post_id );
-
-					if ( cookie === 'saved' ) {
-						// The post was saved properly, remove old data and bail
-						setData( false );
-						return;
-					}
+				if ( ! postData ) {
+					return;
 				}
 
 				// There is a newer autosave. Don't show two "restore" notices at the same time.
@@ -334,9 +331,8 @@ window.autosave = function() {
 				post_title = $( '#title' ).val() || '';
 				excerpt = $( '#excerpt' ).val() || '';
 
-				// cookie == 'check' means the post was not saved properly, always show #local-storage-notice
-				if ( cookie !== 'check' && compare( content, postData.content ) &&
-					compare( post_title, postData.post_title ) && compare( excerpt, postData.excerpt ) ) {
+				if ( compare( content, postData.content ) && compare( post_title, postData.post_title ) &&
+					compare( excerpt, postData.excerpt ) ) {
 
 					return;
 				}
