@@ -561,6 +561,8 @@ window.wp = window.wp || {};
 			setNodes: function () {
 				if ( this.parsed ) {
 					this.setIframes( this.parsed );
+				} else if ( this.parsed === false ) {
+					this.setContent( '<p>' + this.original + '</p>', 'replace' );
 				}
 			},
 
@@ -573,6 +575,9 @@ window.wp = window.wp || {};
 						type: this.shortcode.tag,
 						shortcode: this.shortcode.string()
 					}
+				} )
+				.always( function() {
+					self.parsed = false;
 				} )
 				.done( function( response ) {
 					if ( response ) {
