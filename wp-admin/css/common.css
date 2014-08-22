@@ -2533,19 +2533,24 @@ body.index-php .tb-close-icon {
 	transition: color .1s ease-in-out, background .1s ease-in-out;
 }
 
+body.plugin-install-php #TB_closeWindowButton:focus,
 body.plugin-install-php #TB_closeWindowButton:focus .tb-close-icon,
-body.import-php #TB_closeWindowButton:focus .tb-close-icon,
-body.plugins-php #TB_closeWindowButton:focus .tb-close-icon,
-body.update-core-php #TB_closeWindowButton:focus .tb-close-icon,
-body.index-php #TB_closeWindowButton:focus .tb-close-icon,
 body.plugin-install-php .tb-close-icon:focus,
 body.plugin-install-php .tb-close-icon:hover,
+body.import-php #TB_closeWindowButton:focus,
+body.import-php #TB_closeWindowButton:focus .tb-close-icon,
 body.import-php .tb-close-icon:focus,
 body.import-php .tb-close-icon:hover,
+body.plugins-php #TB_closeWindowButton:focus,
+body.plugins-php #TB_closeWindowButton:focus .tb-close-icon,
 body.plugins-php .tb-close-icon:focus,
 body.plugins-php .tb-close-icon:hover,
+body.update-core-php #TB_closeWindowButton:focus,
+body.update-core-php #TB_closeWindowButton:focus .tb-close-icon,
 body.update-core-php .tb-close-icon:focus,
 body.update-core-php .tb-close-icon:hover,
+body.index-php #TB_closeWindowButton:focus,
+body.index-php #TB_closeWindowButton:focus .tb-close-icon,
 body.index-php .tb-close-icon:focus,
 body.index-php .tb-close-icon:hover {
 	color: #2ea2cc;
