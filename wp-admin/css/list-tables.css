@@ -1338,12 +1338,42 @@ div.action-links,
 .plugin-card .column-downloaded {
 	float: left;
 	clear: left;
+	max-width: 180px;
 }
 
 .plugin-card .column-updated,
 .plugin-card .column-compatibility {
+	text-align: right;
 	float: right;
 	clear: right;
+	width: 65%;
+	width: calc( 100% - 180px );
+}
+
+.plugin-card .column-compatibility span:before {
+	font: normal 20px/.5 'dashicons';
+	speak: none;
+	display: inline-block;
+	padding: 0;
+	top: 4px;
+	left: -2px;
+	position: relative;
+	vertical-align: top;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	text-decoration: none !important;
+	color: #444;
+}
+.plugin-card .compatibility-incompatible:before {
+	content: '\f158';
+}
+
+.plugin-card .compatibility-compatible:before {
+	content: '\f147';
+}
+
+.plugin-card .compatibility-untested strong {
+	font-weight: normal;
 }
 
 .plugin-icon {
