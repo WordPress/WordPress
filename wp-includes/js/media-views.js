@@ -4942,7 +4942,8 @@
 		 * @param {Backbone.Collection} collection
 		 */
 		select: function( model, collection ) {
-			var selection = this.options.selection;
+			var selection = this.options.selection,
+				controller = this.controller;
 
 			// Check if a selection exists and if it's the collection provided.
 			// If they're not the same collection, bail; we're in another
@@ -4956,9 +4957,12 @@
 				return;
 			}
 
-			// Add 'selected' class to model, set aria-checked to true and make the checkbox tabable.
-			this.$el.addClass( 'selected' ).attr( 'aria-checked', true )
-				.find( '.check' ).attr( 'tabindex', '0' );
+			// Add 'selected' class to model, set aria-checked to true.
+			this.$el.addClass( 'selected' ).attr( 'aria-checked', true );
+			//  Make the checkbox tabable, except in media grid (bulk select mode).
+			if ( ! ( controller.isModeActive( 'grid' ) && controller.isModeActive( 'select' ) ) ) {
+				this.$( '.check' ).attr( 'tabindex', '0' );
+			}
 		},
 		/**
 		 * @param {Backbone.Model} model
