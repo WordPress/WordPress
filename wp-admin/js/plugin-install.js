@@ -38,7 +38,7 @@ jQuery( document ).ready( function( $ ) {
 		tb_position();
 	});
 
-	$('.plugin-card').on( 'click', 'a.thickbox', function() {
+	$( '.plugin-card, .plugins .column-description' ).on( 'click', 'a.thickbox', function() {
 		tb_click.call(this);
 
 		$('#TB_title').css({'background-color':'#222','color':'#cfcfcf'});
