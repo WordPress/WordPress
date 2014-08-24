@@ -2255,6 +2255,13 @@ div.action-links {
 	left: 0;
 	right: 0;
 	min-height: 100%;
+	/* Height of title + tabs + install now */
+	min-height: -webkit-calc( 100% - 152px );
+	min-height: calc( 100% - 152px );
+}
+
+#plugin-information-content.with-banner {
+	/* Height of banner + tabs + install now */
 	min-height: -webkit-calc( 100% - 346px );
 	min-height: calc( 100% - 346px );
 }
