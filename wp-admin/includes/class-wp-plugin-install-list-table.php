@@ -452,11 +452,11 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 				<div class="column-compatibility">
 					<?php
 					if ( ! empty( $plugin['tested'] ) && version_compare( substr( $GLOBALS['wp_version'], 0, strlen( $plugin['tested'] ) ), $plugin['tested'], '>' ) ) {
-						echo  __( '<strong>Untested</strong> with your install ');
+						echo  __( '<strong>Untested</strong> with your version of WordPress' );
 					} elseif ( ! empty( $plugin['requires'] ) && version_compare( substr( $GLOBALS['wp_version'], 0, strlen( $plugin['requires'] ) ), $plugin['requires'], '<' ) ) {
-						echo __( '<strong>Incompatible</strong> with your install ');
+						echo __( '<strong>Incompatible</strong> with your version of WordPress' );
 					} else {
-						echo __( '<strong>Compatible</strong> with your install ');
+						echo __( '<strong>Compatible</strong> with your version of WordPress' );
 					}
 					?>
 				</div>
