@@ -5253,7 +5253,6 @@
 			this.collection.on( 'reset', this.render, this );
 
 			this.listenTo( this.controller, 'library:selection:add',    this.attachmentFocus );
-			this.listenTo( this.controller, 'attachment:keydown:arrow', this.arrowEvent );
 
 			// Throttle the scroll handler and bind this.
 			this.scroll = _.chain( this.scroll ).bind( this ).throttle( this.options.refreshSensitivity ).value();
@@ -5281,9 +5280,13 @@
 
 		arrowEvent: function( event ) {
 			var attachments = this.$el.children( 'li' ),
-				perRow = Math.round( this.$el.width() / attachments.first().outerWidth() ),
+				perRow = this.$el.data( 'columns' ),
 				index = attachments.filter( ':focus' ).index(),
 				row = ( index + 1 ) <= perRow ? 1 : Math.ceil( ( index + 1 ) / perRow );
+
+			if ( index === -1 ) {
+				return;
+			}
 
 			// Left arrow
 			if ( 37 === event.keyCode ) {
@@ -6000,6 +6003,9 @@
 				// The single `Attachment` view to be used in the `Attachments` view.
 				AttachmentView: this.options.AttachmentView
 			});
+
+			// Add keydown listener to the instance of the Attachments view
+			this.attachments.listenTo( this.controller, 'attachment:keydown:arrow', this.attachments.arrowEvent );
 
 			this.views.add( this.attachments );
 
