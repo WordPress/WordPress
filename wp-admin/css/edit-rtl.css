@@ -406,6 +406,38 @@ td.plugin-title p {
 }
 /* end editor-expand.js override */
 
+.wp-editor-expand #wp-content-editor-tools {
+	z-index: 1000;
+	border-bottom: 1px solid #e5e5e5;
+}
+
+.wp-editor-expand #wp-content-editor-container {
+	-webkit-box-shadow: none;
+	box-shadow: none;
+	margin-top: -1px;
+}
+
+.wp-editor-expand #wp-content-editor-container {
+	border-bottom: 0 none;
+}
+
+.wp-editor-expand div.mce-statusbar {
+	z-index: 1;
+}
+
+.wp-editor-expand #post-status-info {
+	border-top: 1px solid #e5e5e5;
+}
+
+.wp-editor-expand div.mce-toolbar-grp {
+	z-index: 999;
+}
+
+#wp-content-editor-tools {
+	background-color: #f1f1f1;
+	padding-top: 20px;
+}
+
 #poststuff #post-body.columns-2 #side-sortables {
 	width: 280px;
 }

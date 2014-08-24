@@ -152,7 +152,6 @@ div.mce-toolbar-grp {
 	background: #f5f5f5;
 	padding: 0;
 	position: relative;
-	z-index: 999;
 }
 
 div.mce-toolbar-grp > div {
@@ -368,6 +367,8 @@ div.mce-path {
 /* Menubar */
 .mce-menubar {
 	border-color: #e5e5e5;
+	background: #fff;
+	border-width: 0px 0px 1px;
 }
 
 .mce-menubar .mce-btn:focus {
@@ -759,11 +760,9 @@ i.mce-i-hr:before {
 	position: relative;
 }
 
-#wp-content-editor-tools {
-	background-color: #f1f1f1;
-	padding-top: 20px;
+.wp-editor-tools {
 	position: relative;
-	z-index: 1000;
+	z-index: 1;
 }
 
 .wp-editor-tools:after {

@@ -592,7 +592,7 @@ window.wp = window.wp || {};
 			fail: function( error ) {
 				if ( ! this.error ) {
 					if ( error ) {
-						this.error = error
+						this.error = error;
 					} else {
 						return;
 					}
