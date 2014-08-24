@@ -967,9 +967,15 @@ final class WP_Screen {
 
 		$show_screen = ! empty( $wp_meta_boxes[ $this->id ] ) || $columns || $this->get_option( 'per_page' );
 
-		switch ( $this->id ) {
+		switch ( $this->base ) {
 			case 'widgets':
 				$this->_screen_settings = '<p><a id="access-on" href="widgets.php?widgets-access=on">' . __('Enable accessibility mode') . '</a><a id="access-off" href="widgets.php?widgets-access=off">' . __('Disable accessibility mode') . "</a></p>\n";
+				break;
+			case 'post' :
+				$expand = '<div class="editor-expand hidden"><label for="editor-expand-toggle">';
+				$expand .= '<input type="checkbox" id="editor-expand-toggle"' . checked( get_user_setting( 'editor_expand', 'on' ), 'on', false ) . ' />';
+				$expand .= __( 'Expand the editor to match the window height.' ) . '</label></div>';
+				$this->_screen_settings = $expand;
 				break;
 			default:
 				$this->_screen_settings = '';
@@ -1109,11 +1115,6 @@ final class WP_Screen {
 				</label>
 				<?php
 			endfor; ?>
-		</div>
-		<div class="editor-expand hidden">
-			<label for="editor-expand-toggle">
-			<input type="checkbox" id="editor-expand-toggle" <?php checked( get_user_setting( 'editor_expand', 'on' ) === 'on' ); ?> />
-			<?php _e( 'Expand the editor to match the window height.' ); ?></label>
 		</div>
 		<?php
 	}
