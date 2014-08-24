@@ -73,6 +73,11 @@ jQuery( document ).ready( function($) {
 			statusBarHeight: $statusBar.outerHeight() || 0,
 			sideSortablesHeight: $sideSortables.height() || 0
 		};
+
+		// Adjust for hidden
+		if ( heights.menuBarHeight < 3 ) {
+			heights.menuBarHeight = 0;
+		}
 	}
 
 	function textEditorKeyup( event ) {
@@ -216,7 +221,14 @@ jQuery( document ).ready( function($) {
 		}
 
 		function mceHide() {
+			var wrapHeight = $( '#wpwrap' ).height();
+
 			textEditorResize();
+
+			if ( wrapHeight && $window.scrollTop() > wrapHeight ) {
+				window.scrollTo( window.pageXOffset, wrapHeight - 1 );
+			}
+
 			adjust();
 		}
 
