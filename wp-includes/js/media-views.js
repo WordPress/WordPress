@@ -5278,6 +5278,10 @@
 			this.$( 'li:first' ).focus();
 		},
 
+		restoreFocus: function() {
+			this.$( 'li.selected:first' ).focus();
+		},
+
 		arrowEvent: function( event ) {
 			var attachments = this.$el.children( 'li' ),
 				perRow = this.$el.data( 'columns' ),
@@ -6005,7 +6009,8 @@
 			});
 
 			// Add keydown listener to the instance of the Attachments view
-			this.attachments.listenTo( this.controller, 'attachment:keydown:arrow', this.attachments.arrowEvent );
+			this.attachments.listenTo( this.controller, 'attachment:keydown:arrow',     this.attachments.arrowEvent );
+			this.attachments.listenTo( this.controller, 'attachment:details:shift-tab', this.attachments.restoreFocus );
 
 			this.views.add( this.attachments );
 
@@ -6582,7 +6587,7 @@
 		 */
 		toggleSelectionHandler: function( event ) {
 			if ( 'keydown' === event.type && 9 === event.keyCode && event.shiftKey && event.target === this.$( ':tabbable' ).get( 0 ) ) {
-				this.$( ':tabbable' ).eq( 0 ).blur();
+				this.controller.trigger( 'attachment:details:shift-tab', event );
 				return false;
 			}
 
