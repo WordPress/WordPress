@@ -34,6 +34,8 @@ require( ABSPATH . 'wp-settings.php' );
 
 require( ABSPATH . 'wp-admin/includes/upgrade.php' );
 
+nocache_headers();
+
 // Support wp-config-sample.php one level up, for the develop repo.
 if ( file_exists( ABSPATH . 'wp-config-sample.php' ) )
 	$config_file = file( ABSPATH . 'wp-config-sample.php' );

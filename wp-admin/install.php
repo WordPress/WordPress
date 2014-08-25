@@ -41,6 +41,8 @@ require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 /** Load wpdb */
 require_once( ABSPATH . WPINC . '/wp-db.php' );
 
+nocache_headers();
+
 $step = isset( $_GET['step'] ) ? (int) $_GET['step'] : 0;
 
 /**
