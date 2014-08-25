@@ -64,6 +64,17 @@
 	border-color: #dfdfdf;
 }
 
+.media-frame input[type="text"]:focus,
+.media-frame input[type="password"]:focus,
+.media-frame input[type="number"]:focus,
+.media-frame input[type="search"]:focus,
+.media-frame input[type="email"]:focus,
+.media-frame input[type="url"]:focus,
+.media-frame textarea:focus,
+.media-frame select:focus {
+	border-color: #5b9dd9;
+}
+
 .media-frame select {
 	height: 24px;
 	padding: 2px;
@@ -763,13 +774,15 @@
 	box-sizing: border-box;
 }
 
-.attachment:focus {
+.attachment:focus,
+.selected.attachment:focus,
+.attachment.details:focus {
 	-webkit-box-shadow:
-		inset 0 0 0 5px #fff,
-		inset 0 0 1px 7px #5b9dd9;
+		inset 0 0 2px 3px #fff,
+		inset 0 0 0 7px #5b9dd9;
 	box-shadow:
-		inset 0 0 0 5px #fff,
-		inset 0 0 1px 7px #5b9dd9;
+		inset 0 0 2px 3px #fff,
+		inset 0 0 0 7px #5b9dd9;
 	outline: none;
 }
 
@@ -780,6 +793,15 @@
 	box-shadow:
 		inset 0 0 0 5px #fff,
 		inset 0 0 0 7px #ccc;
+}
+
+.attachment.details {
+	-webkit-box-shadow:
+		inset 0 0 0 3px #fff,
+		inset 0 0 0 7px #1e8cbe;
+	box-shadow:
+		inset 0 0 0 3px #fff,
+		inset 0 0 0 7px #1e8cbe;
 }
 
 .attachment-preview {
@@ -954,16 +976,6 @@
 
 .attachment.selected .check {
 	display: block;
-}
-
-.selected.attachment:focus,
-.attachment.details {
-	-webkit-box-shadow:
-		inset 0 0 0 3px #fff,
-		inset 0 0 0 7px #1e8cbe;
-	box-shadow:
-		inset 0 0 0 3px #fff,
-		inset 0 0 0 7px #1e8cbe;
 }
 
 .attachment.details .check,
@@ -1423,31 +1435,13 @@
 .media-selection .attachment .icon {
 	width: 50%;
 }
-/*
-.attachment.selection.selected .thumbnail {
+
+.media-selection .attachment-preview {
 	-webkit-box-shadow: none;
 	box-shadow: none;
+	background: none;
 }
 
-.attachment.selection.selected:focus {
-	-webkit-box-shadow:
-		0 0 0 1px #5b9dd9,
-		0 0 2px 2px #5b9dd9;
-	box-shadow:
-		0 0 0 1px #5b9dd9,
-		0 0 2px 2px #5b9dd9;
-	outline: none;
-}
-
-.attachment.selection.details {
-	-webkit-box-shadow:
-		0 0 0 1px #fff,
-		0 0 0 4px #1e8cbe;
-	box-shadow:
-		0 0 0 1px #fff,
-		0 0 0 4px #1e8cbe;
-}
-*/
 .media-selection .attachment.selection.details .thumbnail {
 	-webkit-box-shadow:
 		0 0 0 1px #fff,

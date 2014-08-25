@@ -528,13 +528,16 @@ border color while dragging a file over the uploader drop area */
 	padding-bottom: 80px; /* offset for above so the bottom doesn't get cut off */
 }
 
-.media-frame.mode-grid .attachment:focus {
+.media-frame.mode-grid .attachment:focus,
+.media-frame.mode-grid .selected.attachment:focus,
+.media-frame.mode-grid .attachment.details:focus {
 	-webkit-box-shadow:
-		inset 0 0 0 5px #f1f1f1,
-		inset 0 0 1px 7px #5b9dd9;
+		inset 0 0 2px 3px #f1f1f1,
+		inset 0 0 0 7px #5b9dd9;
 	box-shadow:
-		inset 0 0 0 5px #f1f1f1,
-		inset 0 0 1px 7px #5b9dd9;
+		inset 0 0 2px 3px #f1f1f1,
+		inset 0 0 0 7px #5b9dd9;
+	outline: none;
 }
 
 .media-frame.mode-grid .selected.attachment {
@@ -546,7 +549,7 @@ border color while dragging a file over the uploader drop area */
 		inset 0 0 0 7px #ccc;
 }
 
-.media-frame.mode-grid .selected.attachment:focus {
+.media-frame.mode-grid .attachment.details {
 	-webkit-box-shadow:
 		inset 0 0 0 3px #f1f1f1,
 		inset 0 0 0 7px #1e8cbe;
