@@ -2165,7 +2165,10 @@ div.action-links {
 	font-weight: bold;
 	padding: 0;
 	margin: 0;
-	max-width: 760px;
+	max-width: 680px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 
 #plugin-information-title.with-banner h2 {
@@ -2173,7 +2176,6 @@ div.action-links {
 	display: inline-block;
 	font-size: 30px;
 	line-height: 50px;
-	max-width: 760px;
 	padding: 0 15px;
 	margin: 174px 0 0 10px;
 	color: #fff;
@@ -2427,7 +2429,7 @@ div.action-links {
 	font-size: 13px;
 }
 
-@media screen and ( max-height: 500px ) {
+@media screen and ( max-width: 771px ) {
 	#plugin-information-title.with-banner {
 		height: 100px;
 		bottom: 100px;
@@ -2437,6 +2439,7 @@ div.action-links {
 		margin-top: 30px;
 		font-size: 20px;
 		line-height: 40px;
+		max-width: 85%;
 	}
 
 	#plugin-information-title.with-banner div.vignette {
@@ -2444,9 +2447,7 @@ div.action-links {
 		bottom: 100px;
 		width: 800%;
 	}
-}
 
-@media screen and ( max-width: 771px ) {
 	#plugin-information-tabs {
 		overflow: hidden; /* clearfix */
 		padding: 0;
