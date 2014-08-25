@@ -386,6 +386,7 @@ td.plugin-title p {
 	visibility: hidden;
 	overflow: hidden;
 	max-width: 100%;
+	border: 1px solid transparent;
 }
 
 .wp-fullscreen-wrap #content-textarea-clone {

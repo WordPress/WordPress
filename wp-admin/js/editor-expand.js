@@ -276,6 +276,10 @@ jQuery( document ).ready( function($) {
 			getHeights();
 		}
 
+		if ( ! visual && type === 'resize' ) {
+			textEditorResize();
+		}
+
 		if ( visual ) {
 			$top = $visualTop;
 			$editor = $visualEditor;
