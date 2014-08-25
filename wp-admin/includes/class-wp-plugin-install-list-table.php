@@ -121,7 +121,6 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 						break;
 				}
 
-				add_action( 'install_plugins_table_header', 'install_search_form', 10, 0 );
 				break;
 
 			case 'featured':
@@ -195,7 +194,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 		} else {
 			$message = __( 'No plugins match your request.' );
 		}
-		echo '<div class="wp-filter-no-results">' . $message . '</div>';
+		echo '<div class="no-plugin-results">' . $message . '</div>';
 	}
 
 	protected function get_views() {
@@ -203,8 +202,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 
 		$display_tabs = array();
 		foreach ( (array) $tabs as $action => $text ) {
-			$class = 'wp-filter-link';
-			$class .= ( $action == $tab ) ? ' current' : '';
+			$class = ( $action == $tab ) ? ' current' : '';
 			$href = self_admin_url('plugin-install.php?tab=' . $action);
 			$display_tabs['plugin-install-'.$action] = "<a href='$href' class='$class'>$text</a>";
 		}
@@ -223,7 +221,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 
 ?>
 <div class="wp-filter">
-	<ul class="wp-filter-links">
+	<ul class="filter-links">
 		<?php
 		if ( ! empty( $views ) ) {
 			foreach ( $views as $class => $view ) {
@@ -234,7 +232,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 		?>
 	</ul>
 
-	<?php install_search_form( false ); ?>
+	<?php install_search_form( isset( $views['plugin-install-search'] ) ); ?>
 </div>
 <?php
 	}

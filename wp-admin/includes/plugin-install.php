@@ -164,15 +164,14 @@ function install_search_form( $type_selector = true ) {
 	$type = isset($_REQUEST['type']) ? wp_unslash( $_REQUEST['type'] ) : 'term';
 	$term = isset($_REQUEST['s']) ? wp_unslash( $_REQUEST['s'] ) : '';
 	$input_attrs = '';
-	$button_type = 'button';
+	$button_type = 'button screen-reader-text';
 
 	// assume no $type_selector means it's a simplified search form
 	if ( ! $type_selector ) {
 		$input_attrs = 'class="wp-filter-search" placeholder="' . esc_attr__( 'Search Plugins' ) . '" ';
-		$button_type .= ' screen-reader-text';
 	}
 
-	?><form class="search-plugins" method="get" action="">
+	?><form class="search-form search-plugins" method="get" action="">
 		<input type="hidden" name="tab" value="search" />
 		<?php if ( $type_selector ) : ?>
 		<select name="type" id="typeselector">
