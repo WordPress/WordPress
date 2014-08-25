@@ -65,6 +65,7 @@
 				mode:      [ 'grid', 'edit' ]
 			});
 
+			this.$body = $( document.body );
 			this.$window = $( window );
 			this.$adminBar = $( '#wpadminbar' );
 			this.$window.on( 'scroll resize', _.debounce( _.bind( this.fixPosition, this ), 15 ) );
@@ -149,6 +150,24 @@
 
 			// Handle a frame-level event for editing an attachment.
 			this.on( 'edit:attachment', this.openEditAttachmentModal, this );
+
+			this.on( 'select:activate', this.bindKeydown, this );
+			this.on( 'select:deactivate', this.unbindKeydown, this );
+		},
+
+		handleKeydown: function( e ) {
+			if ( 27 === e.which ) {
+				e.preventDefault();
+				this.deactivateMode( 'select' ).activateMode( 'edit' );
+			}
+		},
+
+		bindKeydown: function() {
+			this.$body.on( 'keydown.select', _.bind( this.handleKeydown, this ) );
+		},
+
+		unbindKeydown: function() {
+			this.$body.off( 'keydown.select' );
 		},
 
 		fixPosition: function() {
