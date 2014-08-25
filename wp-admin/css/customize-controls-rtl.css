@@ -252,7 +252,7 @@ body {
 	font: normal 20px/1 dashicons;
 	content: "\f341";
 	position: relative;
-	top: 13px;
+	top: 7px;
 	right: 13px;
 }
 
@@ -260,7 +260,7 @@ body {
 	content: "\f344";
 }
 
-.current-panel .control-panel-back {
+.in-sub-panel .control-panel-back {
 	right: 0;
 }
 

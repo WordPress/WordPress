@@ -47,14 +47,14 @@
 		});
 
 		// Go back to the top-level Customizer accordion.
-		$( '.accordion-container' ).on( 'click keydown', '.control-panel-back', function( e ) {
+		$( '#customize-header-actions' ).on( 'click keydown', '.control-panel-back', function( e ) {
 			if ( e.type === 'keydown' && 13 !== e.which ) { // "return" key
 				return;
 			}
 
 			e.preventDefault(); // Keep this AFTER the key filter above
 
-			panelSwitch( $( this ) );
+			panelSwitch( $( '.current-panel' ) );
 		});
 	});
 
@@ -108,7 +108,7 @@
 			container = section.closest( '.accordion-container' ),
 			siblings = container.find( '.open' ),
 			topPanel = overlay.find( '#customize-theme-controls > ul > .accordion-section > .accordion-section-title' ).add( '#customize-info > .accordion-section-title' ),
-			backBtn = section.find( '.control-panel-back' ),
+			backBtn = overlay.find( '.control-panel-back' ),
 			panelTitle = section.find( '.accordion-section-title' ).first(),
 			content = section.find( '.control-panel-content' );
 
