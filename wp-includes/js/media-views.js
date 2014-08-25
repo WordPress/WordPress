@@ -4680,12 +4680,13 @@
 
 			if ( options.rerenderOnModelChange ) {
 				this.model.on( 'change', this.render, this );
+			} else {
+				this.model.on( 'change:percent', this.progress, this );
 			}
 			this.model.on( 'change:title', this._syncTitle, this );
 			this.model.on( 'change:caption', this._syncCaption, this );
 			this.model.on( 'change:artist', this._syncArtist, this );
 			this.model.on( 'change:album', this._syncAlbum, this );
-			this.model.on( 'change:percent', this.progress, this );
 
 			// Update the selection.
 			this.model.on( 'add', this.select, this );
@@ -4753,10 +4754,15 @@
 				options.allowLocalEdits = true;
 			}
 
+			if ( options.uploading && ! options.percent ) {
+				options.percent = 0;
+			}
+
 			this.views.detach();
 			this.$el.html( this.template( options ) );
 
 			this.$el.toggleClass( 'uploading', options.uploading );
+
 			if ( options.uploading ) {
 				this.$bar = this.$('.media-progress-bar div');
 			} else {

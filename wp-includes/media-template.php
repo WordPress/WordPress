@@ -428,7 +428,7 @@ function wp_print_media_templates() {
 		<div class="attachment-preview js--select-attachment type-{{ data.type }} subtype-{{ data.subtype }} {{ data.orientation }}">
 			<div class="thumbnail">
 				<# if ( data.uploading ) { #>
-					<div class="media-progress-bar"><div>
+					<div class="media-progress-bar"><div style="width: {{ data.percent }}%"></div></div>
 				<# } else if ( 'image' === data.type && data.sizes ) { #>
 					<div class="centered">
 						<img src="{{ data.size.url }}" draggable="false" alt="" />
