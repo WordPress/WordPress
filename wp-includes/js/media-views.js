@@ -1776,12 +1776,6 @@
 			this.activeModes.add( [ { id: mode } ] );
 			// Add a CSS class to the frame so elements can be styled for the mode.
 			this.$el.addClass( 'mode-' + mode );
-			/**
-			 * Frame mode activation event.
-			 *
-			 * @event this#{mode}:activate
-			 */
-			this.trigger( mode + ':activate' );
 
 			return this;
 		},
