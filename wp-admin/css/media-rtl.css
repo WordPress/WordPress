@@ -432,6 +432,403 @@ border color while dragging a file over the uploader drop area */
 	position: relative;
 }
 
+/**
+ * Media Library grid view
+ */
+
+.media-frame.mode-grid,
+.media-frame.mode-grid .media-frame-content,
+.media-frame.mode-grid .attachments-browser .attachments,
+.media-frame.mode-grid .uploader-inline-content {
+	position: static;
+}
+
+/* Regions we don't use at all */
+.media-frame.mode-grid .media-frame-title,
+.media-frame.mode-grid .media-frame-router,
+.media-frame.mode-grid .media-frame-menu {
+	display: none;
+}
+
+.media-frame.mode-grid .media-frame-content {
+	background-color: transparent;
+	border: none;
+}
+
+.upload-php .mode-grid .media-sidebar {
+	z-index: 1900;
+	top: 102px;
+	bottom: auto;
+	background: #fff;
+	border-right: none;
+	padding: 16px;
+	-webkit-box-shadow: -1px 0 1px rgba(0,0,0,.3);
+	box-shadow: -1px 0 1px rgba(0,0,0,.3);
+}
+
+.upload-php .mode-grid .hide-sidebar .media-sidebar {
+	display: none;
+}
+
+.upload-php .mode-grid .media-sidebar .media-uploader-status {
+	border-bottom: none;
+	padding-bottom: 0;
+}
+
+.upload-php .mode-grid .media-sidebar .media-uploader-status .upload-dismiss-errors {
+	font-size: 0;
+	top: -20px;
+	left:  -14px;
+}
+
+.upload-php .mode-grid .media-sidebar .media-uploader-status .upload-dismiss-errors:before {
+	content: "\f158";
+	font: normal 20px/1 dashicons;
+	color: #666;
+}
+
+.upload-php .mode-grid .media-sidebar .media-uploader-status .upload-dismiss-errors:focus:before,
+.upload-php .mode-grid .media-sidebar .media-uploader-status .upload-dismiss-errors:hover:before {
+	color: #2ea2cc;
+}
+
+.upload-php .mode-grid .media-sidebar .media-uploader-status.errors h3 {
+	display: none;
+}
+
+.media-frame.mode-grid .uploader-inline {
+	position: relative;
+	top: auto;
+	left: auto;
+	right: auto;
+	bottom: auto;
+	padding-top: 0;
+	margin-top: 0;
+	border: 4px dashed #bbb;
+}
+
+.media-frame.mode-grid .media-toolbar select {
+	margin-top: 1px;
+	font-size: inherit;
+}
+
+.media-frame.mode-grid .attachments-browser .bulk-select {
+	display: inline-block;
+	margin: 0 0 0 10px;
+}
+
+.media-frame.mode-grid .attachments,
+.media-frame.mode-select .attachments {
+	padding: 2px;
+}
+
+.media-frame.mode-select .attachments-browser.fixed .attachments {
+	position: relative;
+	top: 80px; /* prevent jumping up when the toolbar becomes fixed */
+	padding-bottom: 80px; /* offset for above so the bottom doesn't get cut off */
+}
+
+.media-frame.mode-grid .attachment:focus {
+	-webkit-box-shadow:
+		inset 0 0 0 5px #f1f1f1,
+		inset 0 0 1px 7px #5b9dd9;
+	box-shadow:
+		inset 0 0 0 5px #f1f1f1,
+		inset 0 0 1px 7px #5b9dd9;
+}
+
+.media-frame.mode-grid .selected.attachment {
+	-webkit-box-shadow:
+		inset 0 0 0 5px #f1f1f1,
+		inset 0 0 0 7px #ccc;
+	box-shadow:
+		inset 0 0 0 5px #f1f1f1,
+		inset 0 0 0 7px #ccc;
+}
+
+.media-frame.mode-grid .selected.attachment:focus {
+	-webkit-box-shadow:
+		inset 0 0 0 3px #f1f1f1,
+		inset 0 0 0 7px #1e8cbe;
+	box-shadow:
+		inset 0 0 0 3px #f1f1f1,
+		inset 0 0 0 7px #1e8cbe;
+}
+
+.media-frame.mode-grid.mode-select .attachment .thumbnail {
+	opacity: 0.65;
+}
+
+.media-frame.mode-select .attachment.selected .thumbnail {
+	opacity: 1;
+}
+
+/**
+ * Copied styles from the Add theme toolbar.
+ *
+ * This should be OOCSS'd so both use a shared selector.
+ */
+.media-frame.mode-grid .attachments-browser .media-toolbar {
+	background: #fff;
+	-webkit-box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
+	box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	color: #555;
+	display: inline-block;
+	font-size: 13px;
+	margin: 20px 0;
+	padding: 0 20px;
+	position: relative;
+	width: 100%;
+	height: auto;
+	border: none;
+}
+
+.media-frame.mode-select .attachments-browser.fixed .media-toolbar {
+	position: fixed;
+	top: 32px;
+	right: auto;
+	left: 20px;
+	margin-top: 0;
+}
+
+.media-frame.mode-grid input[type="search"] {
+	margin: 1px;
+	padding: 3px 5px;
+	position: absolute;
+	left: 10px;
+	top: 9px;
+	font-size: 16px;
+	font-weight: 300;
+	line-height: 1.5;
+	width: 280px;
+}
+
+.media-frame.mode-grid .view-switch {
+	display: inline-block;
+	float: none;
+	vertical-align: middle;
+	padding: 15px 0;
+	margin: 0 0 0 20px;
+}
+
+.media-frame.mode-grid select {
+	margin: 0 0 0 10px;
+}
+
+.media-frame.mode-grid .spinner {
+	margin-top: 15px;
+}
+
+.attachments-browser .media-toolbar-secondary > .select-mode-toggle-button {
+	margin-left: 10px;
+}
+
+.media-frame.mode-grid .attachments-browser {
+	padding: 0;
+}
+
+.media-frame.mode-grid .attachments-browser .no-media {
+	color: #999;
+	font-size: 18px;
+	font-style: normal;
+	margin: 0;
+	padding: 100px 0 0;
+	text-align: center;
+}
+
+/**
+ * Attachment details modal
+ */
+
+.edit-attachment-frame {
+	display: block;
+	height: 100%;
+	width: 100%;
+}
+
+.edit-attachment-frame .edit-media-header {
+	overflow: hidden;
+}
+
+.upload-php .media-modal-close .media-modal-icon:before {
+	content: '\f335';
+	font-size: 22px;
+}
+
+.upload-php .media-modal-close .media-modal-icon {
+	margin: 14px;
+	width: 22px;
+}
+
+.upload-php .media-modal-close,
+.edit-attachment-frame .edit-media-header .left,
+.edit-attachment-frame .edit-media-header .right {
+	cursor: pointer;
+	color: #777;
+	background-color: transparent;
+	height: 50px;
+	width: 50px;
+	padding: 0;
+	position: absolute;
+	text-align: center;
+	border: 0;
+	border-right: 1px solid #ddd;
+	-webkit-transition: color .1s ease-in-out, background .1s ease-in-out;
+    transition: color .1s ease-in-out, background .1s ease-in-out;
+}
+
+.upload-php .media-modal-close {
+	top: 0;
+	left: 0;
+}
+
+.edit-attachment-frame .edit-media-header .left {
+	left: 102px;
+}
+
+.edit-attachment-frame .edit-media-header .right {
+	left: 51px;
+}
+
+.edit-attachment-frame .media-frame-title {
+	right: 0;
+	left: 150px; /* leave space for prev/next/close */
+}
+
+.edit-attachment-frame .edit-media-header .right:before,
+.edit-attachment-frame .edit-media-header .left:before {
+	font: normal 20px/50px 'dashicons' !important;
+	display: inline;
+	font-weight: 300;
+}
+
+.edit-attachment-frame .edit-media-header .left:hover,
+.edit-attachment-frame .edit-media-header .right:hover,
+.edit-attachment-frame .edit-media-header .left:focus,
+.edit-attachment-frame .edit-media-header .right:focus {
+	color: #2ea2cc;
+}
+
+.edit-attachment-frame .edit-media-header .left:before,
+.rtl .edit-attachment-frame .edit-media-header .right:before {
+	content: '\f341';
+}
+
+.edit-attachment-frame .edit-media-header .right:before,
+.rtl .edit-attachment-frame .edit-media-header .left:before {
+	content: '\f345';
+}
+
+.edit-attachment-frame .edit-media-header .left.disabled,
+.edit-attachment-frame .edit-media-header .right.disabled,
+.edit-attachment-frame .edit-media-header .left.disabled:hover,
+.edit-attachment-frame .edit-media-header .right.disabled:hover {
+	color: #ccc;
+	background: inherit;
+	cursor: default;
+}
+
+.edit-attachment-frame .media-frame-content,
+.edit-attachment-frame .media-frame-router {
+	right: 0;
+}
+
+.edit-attachment-frame .media-frame-content {
+	border-bottom: none;
+	bottom: 0;
+	top: 50px;
+}
+
+.edit-attachment-frame .attachment-details {
+	position: absolute;
+	overflow: auto;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	-webkit-box-shadow: inset 0px 4px 4px -4px rgba(0, 0, 0, 0.1);
+	box-shadow: inset 0px 4px 4px -4px rgba(0, 0, 0, 0.1);
+}
+
+.edit-attachment-frame .attachment-media-view {
+	float: right;
+	width: 65%;
+	height: 100%;
+}
+
+.edit-attachment-frame .attachment-media-view .thumbnail {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	padding: 16px;
+	height: 100%;
+}
+
+.edit-attachment-frame .attachment-media-view .details-image {
+	display: block;
+	margin-bottom: 16px;
+	max-width: 100%;
+	max-height: 90%;
+	max-height: -webkit-calc( 100% - 42px );
+	max-height: calc( 100% - 42px ); /* leave space for actions underneath */
+}
+
+.edit-attachment-frame .wp-media-wrapper {
+	margin-bottom: 12px;
+}
+
+.edit-attachment-frame input,
+.edit-attachment-frame textarea {
+	padding: 6px 8px;
+	line-height: 16px;
+}
+
+.edit-attachment-frame .attachment-info {
+	overflow: auto;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	margin-bottom: 0;
+	padding: 12px 16px 0;
+	width: 35%;
+	height: 100%;
+	-webkit-box-shadow: inset 0px 4px 4px -4px rgba(0, 0, 0, 0.1);
+	box-shadow: inset 0px 4px 4px -4px rgba(0, 0, 0, 0.1);
+	border-bottom: 0;
+	border-right: 1px solid #ddd;
+	background: #f3f3f3;
+}
+
+.edit-attachment-frame .attachment-info .details,
+.edit-attachment-frame .attachment-info .settings {
+	overflow: hidden;
+	float: none;
+	margin-bottom: 15px;
+	padding-bottom: 15px;
+	border-bottom: 1px solid #ddd;
+}
+
+.edit-attachment-frame .attachment-info .filename {
+	font-weight: normal;
+	color: #666;
+}
+
+.edit-attachment-frame .attachment-info .thumbnail {
+	margin-bottom: 12px;
+}
+
+.attachment-info .actions {
+	margin-bottom: 16px;
+}
+
+.attachment-info .actions a {
+	display: inline;
+	text-decoration: none;
+}
+
 
 /*------------------------------------------------------------------------------
   14.2 - Image Editor
@@ -734,5 +1131,54 @@ audio, video {
 
 	.media-upload-form .media-item .error {
 		padding: 10px 12px 10px 0;
+	}
+}
+
+/**
+ * Media queries for media grid.
+ */
+
+@media only screen and (max-width: 1120px) {
+	.media-frame.mode-grid .attachments-browser .media-toolbar-primary,
+	.media-frame.mode-grid .attachments-browser .media-toolbar-secondary {
+		float: none;
+	}
+
+	.media-frame.mode-grid input[type="search"] {
+		margin: 20px 0;
+		position: static;
+		width: 100%;
+		max-width: 280px;
+	}
+}
+
+@media only screen and ( max-width: 782px ) {
+	.media-frame.mode-select .attachments-browser.fixed .media-toolbar {
+		top: 46px;
+		left: 10px;
+	}
+}
+
+@media only screen and (max-width: 600px) {
+	.media-frame.mode-select .attachments-browser.fixed .media-toolbar {
+		top: 0;
+	}
+}
+
+@media only screen and (max-width: 480px) {
+	.edit-attachment-frame .attachment-media-view {
+		float: none;
+		max-height: 70%;
+		height: auto;
+		width: 100%;
+	}
+
+	.edit-attachment-frame .attachment-media-view.portrait {
+		height: 70%;
+	}
+
+	.edit-attachment-frame .attachment-info {
+		height: auto;
+		width: 100%;
 	}
 }
