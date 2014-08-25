@@ -1347,6 +1347,7 @@ div.action-links,
 	float: right;
 	clear: right;
 	width: 65%;
+	width: -webkit-calc( 100% - 180px );
 	width: calc( 100% - 180px );
 }
 

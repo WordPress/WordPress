@@ -1003,6 +1003,7 @@ th.action-links {
 }
 
 .filter-links .current {
+	-webkit-box-shadow: none;
 	box-shadow: none;
 	border-bottom: 4px solid #666;
 	color: #222;
