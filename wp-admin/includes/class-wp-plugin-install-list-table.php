@@ -168,8 +168,10 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 
 		$api = plugins_api( 'query_plugins', $args );
 
-		if ( is_wp_error( $api ) )
-			wp_die( $api->get_error_message() . '</p> <p class="hide-if-no-js"><a href="#" onclick="document.location.reload(); return false;">' . __( 'Try again' ) . '</a>' );
+		if ( is_wp_error( $api ) ) {
+			$this->error = $api;
+			return;
+		}
 
 		$this->items = $api->plugins;
 
@@ -188,7 +190,12 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 	}
 
 	public function no_items() {
-		echo '<div class="wp-filter-no-results">' . __( 'No plugins match your request.' ) . '</div>';
+		if ( isset( $this->error ) ) {
+			$message = $this->error->get_error_message() . '<p class="hide-if-no-js"><a href="#" class="button" onclick="document.location.reload(); return false;">' . __( 'Try again' ) . '</a></p>';
+		} else {
+			$message = __( 'No plugins match your request.' );
+		}
+		echo '<div class="wp-filter-no-results">' . $message . '</div>';
 	}
 
 	protected function get_views() {
