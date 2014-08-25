@@ -455,18 +455,25 @@
 	transition: color .1s ease-in-out, background .1s ease-in-out;
 }
 
+.theme-overlay .theme-header .close:focus,
 .theme-overlay .theme-header .close:hover,
-.theme-overlay .theme-header .close:hover:before,
-.theme-overlay .theme-header .close:focus:before,
+.theme-overlay .theme-header .right:focus,
 .theme-overlay .theme-header .right:hover,
+.theme-overlay .theme-header .left:focus,
 .theme-overlay .theme-header .left:hover {
-	color: #2ea2cc;
+	background: #ddd;
+	border-color: #ccc;
+	color: #000;
+}
+
+.theme-overlay .theme-header .close:focus:before,
+.theme-overlay .theme-header .close:hover:before {
+	color: #000;
 }
 
 .theme-overlay .theme-header .close:focus,
 .theme-overlay .theme-header .right:focus,
 .theme-overlay .theme-header .left:focus {
-	color: #2ea2cc;
     -webkit-box-shadow:
     	0 0 0 1px #5b9dd9,
 		0 0 2px 1px rgba(30, 140, 190, .8);
@@ -1398,7 +1405,9 @@ body.full-overlay-active {
 .theme-install-overlay .previous-theme:focus,
 .theme-install-overlay .next-theme:hover,
 .theme-install-overlay .next-theme:focus {
-	color: #2ea2cc;
+	background: #ddd;
+	border-color: #ccc;
+	color: #000;
 	outline: none;
 	-webkit-box-shadow: none;
 	box-shadow: none;
@@ -1409,7 +1418,7 @@ body.full-overlay-active {
 	content: "\f335";
 	position: relative;
 	top: 7px;
-	left: 12px;
+	left: 13px;
 }
 
 .theme-install-overlay .previous-theme:before {
@@ -1437,6 +1446,7 @@ body.full-overlay-active {
 	color: #bbb;
 	background: #eee;
 	cursor: default;
+	pointer-events: none;
 }
 
 .rtl .theme-install-overlay .previous-theme:before {

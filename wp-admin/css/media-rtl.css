@@ -708,11 +708,20 @@ border color while dragging a file over the uploader drop area */
 	font-weight: 300;
 }
 
+.upload-php .media-modal-close:hover,
+.upload-php .media-modal-close:focus,
 .edit-attachment-frame .edit-media-header .left:hover,
 .edit-attachment-frame .edit-media-header .right:hover,
 .edit-attachment-frame .edit-media-header .left:focus,
 .edit-attachment-frame .edit-media-header .right:focus {
-	color: #2ea2cc;
+	background: #ddd;
+	border-color: #ccc;
+	color: #000;
+}
+
+.upload-php .media-modal-close:focus .media-modal-icon:before,
+.upload-php .media-modal-close:hover .media-modal-icon:before {
+	color: #000;
 }
 
 .edit-attachment-frame .edit-media-header .left:before,
@@ -732,6 +741,7 @@ border color while dragging a file over the uploader drop area */
 	color: #ccc;
 	background: inherit;
 	cursor: default;
+	pointer-events: none;
 }
 
 .edit-attachment-frame .media-frame-content,

@@ -232,7 +232,9 @@ body {
 .customize-controls-close:hover,
 .control-panel-back:focus,
 .control-panel-back:hover {
-	color: #2ea2cc;
+	background: #ddd;
+	border-color: #ccc;
+	color: #000;
 	outline: none;
 	-webkit-box-shadow: none;
 	box-shadow: none;
@@ -243,7 +245,7 @@ body {
 	content: "\f335";
 	position: relative;
 	top: 7px;
-	right: 12px;
+	right: 13px;
 }
 
 .control-panel-back:before {
