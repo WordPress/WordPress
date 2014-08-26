@@ -5749,12 +5749,12 @@
 			this.listenTo( this.controller, 'toggle:upload:attachment', _.bind( this.toggleUploader, this ) );
 
 			this.createToolbar();
-			this.createUploader();
-			this.createAttachments();
-			this.updateContent();
 			if ( this.options.sidebar ) {
 				this.createSidebar();
 			}
+			this.createUploader();
+			this.createAttachments();
+			this.updateContent();
 
 			if ( ! this.options.sidebar || 'errors' === this.options.sidebar ) {
 				this.$el.addClass( 'hide-sidebar' );

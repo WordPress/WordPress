@@ -456,14 +456,12 @@ border color while dragging a file over the uploader drop area */
 }
 
 .upload-php .mode-grid .media-sidebar {
-	z-index: 1900;
-	top: 102px;
-	bottom: auto;
-	background: #fff;
-	border-right: none;
-	padding: 16px;
-	-webkit-box-shadow: -1px 0 1px rgba(0,0,0,.3);
-	box-shadow: -1px 0 1px rgba(0,0,0,.3);
+	position: relative;
+	width: auto;
+	margin-bottom: 16px;
+	padding: 0 16px;
+	border: 1px solid #c00;
+	background-color: #feebe8;
 }
 
 .upload-php .mode-grid .hide-sidebar .media-sidebar {
@@ -473,12 +471,20 @@ border color while dragging a file over the uploader drop area */
 .upload-php .mode-grid .media-sidebar .media-uploader-status {
 	border-bottom: none;
 	padding-bottom: 0;
+	max-width: 100%;
+}
+
+.upload-php .mode-grid .media-sidebar .upload-error {
+	margin: 20px 0;
+	padding: 0;
+	border: none;
+	background: none;
 }
 
 .upload-php .mode-grid .media-sidebar .media-uploader-status .upload-dismiss-errors {
 	font-size: 0;
-	top: -20px;
-	left:  -14px;
+	top: -12px;
+	left: -10px;
 }
 
 .upload-php .mode-grid .media-sidebar .media-uploader-status .upload-dismiss-errors:before {
@@ -1193,5 +1199,11 @@ audio, video {
 	.edit-attachment-frame .attachment-info {
 		height: auto;
 		width: 100%;
+	}
+}
+
+@media only screen and (max-width: 640px), screen and (max-height: 400px) {
+	.upload-php .mode-grid .media-sidebar{
+		max-width: 100%;
 	}
 }
