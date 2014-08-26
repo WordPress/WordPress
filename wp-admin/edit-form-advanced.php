@@ -490,7 +490,7 @@ do_action( 'edit_form_after_title', $post );
 
 if ( post_type_supports($post_type, 'editor') ) {
 ?>
-<div id="postdivrich" class="postarea edit-form-section<?php if ( get_user_setting( 'editor_expand', 'on' ) === 'on' ) { echo ' wp-editor-expand'; } ?>">
+<div id="postdivrich" class="postarea<?php if ( get_user_setting( 'editor_expand', 'on' ) === 'on' ) { echo ' wp-editor-expand'; } ?>">
 
 <?php wp_editor( $post->post_content, 'content', array(
 	'dfw' => true,
