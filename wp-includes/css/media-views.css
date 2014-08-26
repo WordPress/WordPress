@@ -2411,6 +2411,17 @@
 		font-size: 14px;
 	}
 
+	.image-details .column-image,
+	.image-details .column-settings {
+		width: 100%;
+		position: relative;
+		left: 0;
+	}
+
+	.image-details .column-settings {
+		padding: 4px 0;
+	}
+
 	/* Media tabs on the top */
 	.media-frame-content .media-toolbar .instructions {
 		display: none;
