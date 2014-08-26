@@ -1045,6 +1045,7 @@ class Theme_Upgrader extends WP_Upgrader {
 				'destination' => get_theme_root( $theme ),
 				'clear_destination' => true,
 				'clear_working' => true,
+				'is_multi' => true,
 				'hook_extra' => array(
 					'theme' => $theme
 				),
