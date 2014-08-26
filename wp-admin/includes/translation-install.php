@@ -139,7 +139,13 @@ function wp_install_language_form( $languages ) {
 	if ( ! empty( $wp_local_package ) && isset( $languages[ $wp_local_package ] ) ) {
 		if ( isset( $languages[ $wp_local_package ] ) ) {
 			$language = $languages[ $wp_local_package ];
-			echo '<option value="' . esc_attr( $language['language'] ) . '" lang="' . esc_attr( $language['iso'][1] ) . '">' . esc_html( $language['native_name'] ) . "</option>\n";
+			printf( '<option value="%s" lang="%s" data-continue="%s"%s>%s</option>' . "\n",
+				esc_attr( $language['language'] ),
+				esc_attr( $language['iso'][1] ),
+				esc_attr( $language['strings']['continue'] ),
+				in_array( $language['language'], $installed_languages ) ? ' data-installed="1"' : '',
+				esc_html( $language['native_name'] ) );
+
 			unset( $languages[ $wp_local_package ] );
 		}
 	}
