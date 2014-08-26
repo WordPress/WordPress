@@ -34,6 +34,7 @@ jQuery( document ).ready( function($) {
 		pageYOffsetAtTop = 130,
 		pinnedToolsTop = 56,
 		autoresizeMinHeight = 300,
+		initialMode = window.getUserSetting( 'editor' ),
 		// These are corrected when adjust() runs, except on scrolling if already set.
 		heights = {
 			windowHeight: 0,
@@ -119,7 +120,7 @@ jQuery( document ).ready( function($) {
 	}
 
 	function textEditorResize() {
-		if ( mceEditor && ! mceEditor.isHidden() ) {
+		if ( ( mceEditor && ! mceEditor.isHidden() ) || ( ! mceEditor && initialMode === 'tinymce' ) ) {
 			return;
 		}
 

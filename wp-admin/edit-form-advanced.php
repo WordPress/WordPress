@@ -496,7 +496,7 @@ if ( post_type_supports($post_type, 'editor') ) {
 	'dfw' => true,
 	'drag_drop_upload' => true,
 	'tabfocus_elements' => 'insert-media-button-1,save-post',
-	'editor_height' => 360,
+	'editor_height' => 300,
 	'tinymce' => array(
 		'resize' => false,
 		'wp_autoresize_on' => ( ! empty( $_wp_autoresize_on ) && get_user_setting( 'editor_expand', 'on' ) === 'on' ),
