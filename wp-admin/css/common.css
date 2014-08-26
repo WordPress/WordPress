@@ -2389,10 +2389,6 @@ div.action-links {
 	line-height: 1.7;
 }
 
-#plugin-information .section h4:first-of-type {
-	margin-top: 1em;
-}
-
 #plugin-information #section-screenshots ol {
 	list-style: none;
 	margin: 0;
@@ -2417,6 +2413,52 @@ div.action-links {
 	padding: 7px;
 	overflow: auto;
 	border: 1px solid #ccc;
+}
+
+#plugin-information .review {
+	width: 100%;
+	float: left;
+	margin-bottom: 20px;
+	border-bottom: 1px solid #e6e6e6;
+}
+
+#plugin-information .review-title-section {
+	display: block;
+	width: 100%;
+	clear: both;
+}
+
+#plugin-information .review-title-section h4 {
+	display: inline-block;
+	float: left;
+	margin: 0 6px 0 0;
+}
+
+#plugin-information .reviewer-info p {
+	display: block;
+	width: 100%;
+	clear: both;
+	margin: 0;
+	padding-top: 2px;
+}
+
+#plugin-information .reviewer-info .avatar {
+	float: left;
+	margin: 4px 6px 0 0;
+}
+
+#plugin-information .star-rating {
+	float: left;
+}
+
+#plugin-information .review-meta {
+	float: left;
+	margin-left: 0.75em;
+}
+
+#plugin-information .review-body {
+	float: left;
+	width: 100%;
 }
 
 .plugin-version-author-uri {
