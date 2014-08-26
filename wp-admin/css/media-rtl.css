@@ -1145,15 +1145,42 @@ audio, video {
 }
 
 @media only screen and (max-width: 480px) {
-	.edit-attachment-frame .attachment-media-view {
-		float: none;
-		max-height: 70%;
-		height: auto;
-		width: 100%;
+	.edit-attachment-frame .media-frame-title {
+		left: 110px;
 	}
 
-	.edit-attachment-frame .attachment-media-view.portrait {
-		height: 70%;
+	.upload-php .media-modal-close,
+	.edit-attachment-frame .edit-media-header .left,
+	.edit-attachment-frame .edit-media-header .right {
+		width: 40px;
+		height: 40px;
+	}
+
+	.upload-php .media-modal-close .media-modal-icon {
+		margin: 9px 10px;
+	}
+
+	.edit-attachment-frame .edit-media-header .right:before,
+	.edit-attachment-frame .edit-media-header .left:before {
+		line-height: 40px !important;
+	}
+
+	.edit-attachment-frame .edit-media-header .left {
+		left: 82px;
+	}
+
+	.edit-attachment-frame .edit-media-header .right {
+		left: 41px;
+	}
+
+	.edit-attachment-frame .media-frame-content {
+		top: 40px;
+	}
+
+	.edit-attachment-frame .attachment-media-view {
+		float: none;
+		height: auto;
+		width: 100%;
 	}
 
 	.edit-attachment-frame .attachment-info {
