@@ -1707,6 +1707,10 @@ function wp_verify_nonce($nonce, $action = -1) {
 		$uid = apply_filters( 'nonce_user_logged_out', $uid, $action );
 	}
 
+	if ( empty( $nonce ) ) {
+		return false;
+	}
+
 	$token = wp_get_session_token();
 	$i = wp_nonce_tick();
 
