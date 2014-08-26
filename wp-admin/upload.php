@@ -265,11 +265,9 @@ if ( !empty($message) ) { ?>
 <div id="message" class="updated"><p><?php echo $message; ?></p></div>
 <?php } ?>
 
-<?php $wp_list_table->views(); ?>
-
 <form id="posts-filter" action="" method="get">
 
-<?php $wp_list_table->search_box( __( 'Search Media' ), 'media' ); ?>
+<?php $wp_list_table->views(); ?>
 
 <?php $wp_list_table->display(); ?>
 

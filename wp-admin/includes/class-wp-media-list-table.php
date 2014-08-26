@@ -20,7 +20,7 @@ class WP_Media_List_Table extends WP_List_Table {
 	 * @param array $args An associative array of arguments.
 	 */
 	public function __construct( $args = array() ) {
-		$this->detached = isset( $_REQUEST['detached'] );
+		$this->detached = ( isset( $_REQUEST['attachment-filter'] ) && 'detached' === $_REQUEST['attachment-filter'] );
 
 		parent::__construct( array(
 			'plural' => 'media',
@@ -60,23 +60,24 @@ class WP_Media_List_Table extends WP_List_Table {
 			foreach ( $reals as $real )
 				$num_posts[$type] = ( isset( $num_posts[$type] ) ) ? $num_posts[$type] + $_num_posts[$real] : $_num_posts[$real];
 
-		$class = ( empty($_GET['post_mime_type']) && !$this->detached && !isset($_GET['status']) ) ? ' class="current"' : '';
-		$type_links['all'] = "<a href='upload.php'$class>" . sprintf( _nx( 'All <span class="count">(%s)</span>', 'All <span class="count">(%s)</span>', $_total_posts, 'uploaded files' ), number_format_i18n( $_total_posts ) ) . '</a>';
+		$selected = empty( $_GET['attachment-filter'] ) ? ' selected="selected"' : '';
+		$type_links['all'] = "<option value=''$selected>" . sprintf( _nx( 'All (%s)', 'All (%s)', $_total_posts, 'uploaded files' ), number_format_i18n( $_total_posts ) ) . '</option>';
 		foreach ( $post_mime_types as $mime_type => $label ) {
 			$class = '';
 
 			if ( !wp_match_mime_types($mime_type, $avail_post_mime_types) )
 				continue;
 
-			if ( !empty($_GET['post_mime_type']) && wp_match_mime_types($mime_type, $_GET['post_mime_type']) )
-				$class = ' class="current"';
+			$selected = '';
+			if ( !empty( $_GET['attachment-filter'] ) && strpos( $_GET['attachment-filter'], 'post_mime_type:' ) === 0 && wp_match_mime_types( $mime_type, str_replace( 'post_mime_type:', '', $_GET['attachment-filter'] ) ) )
+				$selected = ' selected="selected"';
 			if ( !empty( $num_posts[$mime_type] ) )
-				$type_links[$mime_type] = '<a href="upload.php?post_mime_type=' . urlencode( $mime_type ) . '"' . $class . '>' . sprintf( translate_nooped_plural( $label[2], $num_posts[$mime_type] ), number_format_i18n( $num_posts[$mime_type] )) . '</a>';
+				$type_links[$mime_type] = '<option value="post_mime_type:' . urlencode( $mime_type ) . '"' . $selected . '>' . sprintf( translate_nooped_plural( $label[2], $num_posts[$mime_type] ), number_format_i18n( $num_posts[$mime_type] )) . '</option>';
 		}
-		$type_links['detached'] = '<a href="upload.php?detached=1"' . ( $this->detached ? ' class="current"' : '' ) . '>' . sprintf( _nx( 'Unattached <span class="count">(%s)</span>', 'Unattached <span class="count">(%s)</span>', $total_orphans, 'detached files' ), number_format_i18n( $total_orphans ) ) . '</a>';
+		$type_links['detached'] = '<option value="detached"' . ( $this->detached ? ' selected="selected"' : '' ) . '>' . sprintf( _nx( 'Unattached (%s)', 'Unattached (%s)', $total_orphans, 'detached files' ), number_format_i18n( $total_orphans ) ) . '</option>';
 
 		if ( !empty($_num_posts['trash']) )
-			$type_links['trash'] = '<a href="upload.php?status=trash"' . ( (isset($_GET['status']) && $_GET['status'] == 'trash' ) ? ' class="current"' : '') . '>' . sprintf( _nx( 'Trash <span class="count">(%s)</span>', 'Trash <span class="count">(%s)</span>', $_num_posts['trash'], 'uploaded files' ), number_format_i18n( $_num_posts['trash'] ) ) . '</a>';
+			$type_links['trash'] = '<option value="trash"' . ( (isset($_GET['attachment-filter']) && $_GET['attachment-filter'] == 'trash' ) ? ' selected="selected"' : '') . '>' . sprintf( _nx( 'Trash (%s)', 'Trash (%s)', $_num_posts['trash'], 'uploaded files' ), number_format_i18n( $_num_posts['trash'] ) ) . '</option>';
 
 		return $type_links;
 	}
@@ -91,10 +92,13 @@ class WP_Media_List_Table extends WP_List_Table {
 	}
 
 	protected function extra_tablenav( $which ) {
+		if ( 'bar' !== $which ) {
+			return;
+		}
 ?>
-		<div class="alignleft actions">
+		<div class="actions">
 <?php
-		if ( 'top' == $which && !is_singular() && !$this->detached && !$this->is_trash ) {
+		if ( ! is_singular() && ! $this->is_trash ) {
 			$this->months_dropdown( 'attachment' );
 
 			/** This action is documented in wp-admin/includes/class-wp-posts-list-table.php */
@@ -131,8 +135,6 @@ class WP_Media_List_Table extends WP_List_Table {
 		global $mode;
 
 		parent::pagination( $which );
-
-		$this->view_switcher( $mode );
 	}
 
 	/**
@@ -165,6 +167,50 @@ class WP_Media_List_Table extends WP_List_Table {
 		?>
 		</div>
 <?php
+	}
+
+	/**
+	 * Override parent views so we can use the filter bar display.
+	 */
+	public function views() {
+		global $mode;
+
+		$views = $this->get_views();
+?>
+<div class="wp-filter">
+	<?php $this->view_switcher( $mode ); ?>
+
+	<select class="attachment-filters" name="attachment-filter">
+		<?php
+		if ( ! empty( $views ) ) {
+			foreach ( $views as $class => $view ) {
+				echo "\t$view\n";
+			}
+		}
+		?>
+	</select>
+
+<?php
+	$this->extra_tablenav( 'bar' );
+
+	/** This filter is documented in wp-admin/inclues/class-wp-list-table.php */
+	$views = apply_filters( "views_{$this->screen->id}", '' );
+
+	// Back compat for pre-4.0 view links.
+	if ( ! empty( $views ) ) {
+		echo '<ul class="filter-links">';
+		foreach ( $views as $class => $view ) {
+			echo "<li class='$class'>$view</li>";
+		}
+		echo '</ul>';
+	}
+?>
+
+	<div class="search-form">
+		<label for="media-search-input" class="screen-reader-text"><?php esc_html_e( 'Search Media' ); ?></label>
+		<input type="search" placeholder="Search" id="media-search-input" class="search" name="s" value="<?php _admin_search_query(); ?>"></div>
+	</div>
+	<?php
 	}
 
 	public function get_columns() {

@@ -1032,6 +1032,8 @@ function wp_edit_attachments_query( $q = false ) {
 		$states .= ',private';
 
 	$q['post_status'] = isset( $q['status'] ) && 'trash' == $q['status'] ? 'trash' : $states;
+	$q['post_status'] = isset( $q['attachment-filter'] ) && 'trash' == $q['attachment-filter'] ? 'trash' : $states;
+
 	$media_per_page = (int) get_user_option( 'upload_per_page' );
 	if ( empty( $media_per_page ) || $media_per_page < 1 )
 		$media_per_page = 20;
@@ -1051,8 +1053,16 @@ function wp_edit_attachments_query( $q = false ) {
 	if ( isset($q['post_mime_type']) && !array_intersect( (array) $q['post_mime_type'], array_keys($post_mime_types) ) )
 		unset($q['post_mime_type']);
 
-	if ( isset($q['detached']) )
+	foreach( array_keys( $post_mime_types ) as $type ) {
+		if ( isset( $q['attachment-filter'] ) && "post_mime_type:$type" == $q['attachment-filter'] ) {
+			$q['post_mime_type'] = $type;
+			break;
+		}
+	}
+
+	if ( isset( $q['detached'] ) || ( isset( $q['attachment-filter'] ) && 'detached' == $q['attachment-filter'] ) ) {
 		$q['post_parent'] = 0;
+	}
 
 	wp( $q );
 

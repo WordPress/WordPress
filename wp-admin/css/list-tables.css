@@ -595,6 +595,11 @@ th.asc:hover span.sorting-indicator {
 	padding: 2px 8px 0 0;
 }
 
+.wp-filter .actions {
+	display: inline-block;
+	vertical-align: middle;
+}
+
 .tablenav .delete {
 	margin-right: 20px;
 }
@@ -617,9 +622,16 @@ classes exist in paginate_links() but not seen in list table output. */
 	color: #2ea2cc;
 }
 
-.view-switch {
+tablenav .view-switch {
 	float: right;
 	margin: 5px 16px 0 8px;
+}
+
+.wp-filter .view-switch {
+	display: inline-block;
+	vertical-align: middle;
+	padding: 14px 0;
+	margin: 0 20px 0 0;
 }
 
 .view-switch a {
@@ -679,6 +691,10 @@ classes exist in paginate_links() but not seen in list table output. */
 }
 .screen-per-page {
 	width: 4em;
+}
+
+#posts-filter .wp-filter {
+	margin-bottom: 0;
 }
 
 #posts-filter fieldset {
@@ -1437,7 +1453,8 @@ div.action-links,
 		display: block;
 	}
 
-	.tablenav.top .actions, .view-switch {
+	.tablenav.top .actions,
+	.tablenav .view-switch {
 		display: none;
 	}
 

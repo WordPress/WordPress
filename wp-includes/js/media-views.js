@@ -3911,7 +3911,7 @@
 	 */
 	media.view.Toolbar = media.View.extend({
 		tagName:   'div',
-		className: 'media-toolbar',
+		className: 'media-toolbar wp-filter',
 
 		initialize: function() {
 			var state = this.controller.state(),
@@ -3923,7 +3923,7 @@
 			// The toolbar is composed of two `PriorityList` views.
 			this.primary   = new media.view.PriorityList();
 			this.secondary = new media.view.PriorityList();
-			this.primary.$el.addClass('media-toolbar-primary');
+			this.primary.$el.addClass('media-toolbar-primary search-form');
 			this.secondary.$el.addClass('media-toolbar-secondary');
 
 			this.views.set([ this.secondary, this.primary ]);

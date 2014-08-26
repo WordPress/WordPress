@@ -513,16 +513,6 @@ border color while dragging a file over the uploader drop area */
 	border: 4px dashed #bbb;
 }
 
-.media-frame.mode-grid .media-toolbar select {
-	margin-top: 1px;
-	font-size: inherit;
-}
-
-.media-frame.mode-grid .attachments-browser .bulk-select {
-	display: inline-block;
-	margin: 0 0 0 10px;
-}
-
 .media-frame.mode-grid .attachments,
 .media-frame.mode-select .attachments {
 	padding: 2px;
@@ -530,8 +520,8 @@ border color while dragging a file over the uploader drop area */
 
 .media-frame.mode-select .attachments-browser.fixed .attachments {
 	position: relative;
-	top: 80px; /* prevent jumping up when the toolbar becomes fixed */
-	padding-bottom: 80px; /* offset for above so the bottom doesn't get cut off */
+	top: 94px; /* prevent jumping up when the toolbar becomes fixed */
+	padding-bottom: 94px; /* offset for above so the bottom doesn't get cut off */
 }
 
 .media-frame.mode-grid .attachment:focus,
@@ -572,59 +562,28 @@ border color while dragging a file over the uploader drop area */
 	opacity: 1;
 }
 
-/**
- * Copied styles from the Add theme toolbar.
- *
- * This should be OOCSS'd so both use a shared selector.
- */
-.media-frame.mode-grid .attachments-browser .media-toolbar {
-	background: #fff;
-	-webkit-box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
-	box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
-	color: #555;
-	display: inline-block;
-	font-size: 13px;
-	margin: 20px 0;
-	padding: 0 20px;
-	position: relative;
-	width: 100%;
+.media-frame.mode-grid .media-toolbar {
+	margin: 15px 0;
 	height: auto;
-	border: none;
 }
 
-.media-frame.mode-select .attachments-browser.fixed .media-toolbar {
-	position: fixed;
-	top: 32px;
-	right: auto;
-	left: 20px;
-	margin-top: 0;
-}
-
-.media-frame.mode-grid input[type="search"] {
-	margin: 1px;
-	padding: 3px 5px;
-	position: absolute;
-	left: 10px;
-	top: 9px;
-	font-size: 16px;
-	font-weight: 300;
-	line-height: 1.5;
-	width: 280px;
-}
-
-.media-frame.mode-grid .view-switch {
-	display: inline-block;
-	float: none;
-	vertical-align: middle;
-	padding: 15px 0;
-	margin: 0 0 0 20px;
-}
-
-.media-frame.mode-grid select {
+.media-frame.mode-grid .media-toolbar select {
 	margin: 0 0 0 10px;
+	font-size: 14px;
+}
+
+.media-frame.mode-grid .media-toolbar-secondary > .media-button {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+.media-frame.mode-grid .attachments-browser .bulk-select {
+	display: inline-block;
+	margin: 0 0 0 10px;
+}
+
+.media-frame.mode-grid .search {
+	margin-top: 0;
 }
 
 .media-frame.mode-grid .spinner {
@@ -633,6 +592,14 @@ border color while dragging a file over the uploader drop area */
 
 .attachments-browser .media-toolbar-secondary > .select-mode-toggle-button {
 	margin-left: 10px;
+}
+
+.media-frame.mode-select .attachments-browser.fixed .media-toolbar {
+	position: fixed;
+	top: 32px;
+	right: auto;
+	left: 20px;
+	margin-top: 0;
 }
 
 .media-frame.mode-grid .attachments-browser {
@@ -1159,16 +1126,8 @@ audio, video {
  */
 
 @media only screen and (max-width: 1120px) {
-	.media-frame.mode-grid .attachments-browser .media-toolbar-primary,
 	.media-frame.mode-grid .attachments-browser .media-toolbar-secondary {
 		float: none;
-	}
-
-	.media-frame.mode-grid input[type="search"] {
-		margin: 20px 0;
-		position: static;
-		width: 100%;
-		max-width: 280px;
 	}
 }
 

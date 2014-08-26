@@ -179,7 +179,8 @@
 			$browser = this.$('.attachments-browser');
 			$toolbar = $browser.find('.media-toolbar');
 
-			if ( $browser.offset().top < this.$window.scrollTop() + this.$adminBar.height() ) {
+			// Offset doesn't appear to take top margin into account, hence +16
+			if ( ( $browser.offset().top + 16 ) < this.$window.scrollTop() + this.$adminBar.height() ) {
 				$browser.addClass( 'fixed' );
 				$toolbar.css('width', $browser.width() + 'px');
 			} else {
