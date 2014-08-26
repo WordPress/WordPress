@@ -2425,17 +2425,16 @@ div.action-links {
 
 /* @noflip */
 #plugin-information .review {
+	overflow: hidden; /* clearfix */
 	width: 100%;
-	float: left;
 	margin-bottom: 20px;
 	border-bottom: 1px solid #e6e6e6;
 }
 
 #plugin-information .review-title-section {
-	display: block;
-	width: 100%;
-	clear: both;
+	overflow: hidden; /* clearfix */
 }
+
 /* @noflip */
 #plugin-information .review-title-section h4 {
 	display: inline-block;
@@ -2444,8 +2443,6 @@ div.action-links {
 }
 
 #plugin-information .reviewer-info p {
-	display: block;
-	width: 100%;
 	clear: both;
 	margin: 0;
 	padding-top: 2px;
