@@ -2705,7 +2705,9 @@ function wp_ajax_parse_embed() {
 		) );
 	}
 
-	wp_send_json_success( $parsed );
+	wp_send_json_success( array(
+		'body' => $parsed
+	) );
 }
 
 function wp_ajax_parse_media_shortcode() {
@@ -2729,18 +2731,20 @@ function wp_ajax_parse_media_shortcode() {
 		) );
 	}
 
-	ob_start();
-
+	$head = '';
 	$styles = wpview_media_sandbox_styles();
-	foreach ( $styles as $style ) {
-		printf( '<link rel="stylesheet" href="%s"/>', $style );
-	}
 
-	echo $shortcode;
+	foreach ( $styles as $style ) {
+		$head .= '<link type="text/css" rel="stylesheet" href="' . $style . '">';
+	}
 
 	if ( ! empty( $wp_scripts ) ) {
 		$wp_scripts->done = array();
 	}
+
+	ob_start();
+
+	echo $shortcode;
 
 	if ( 'playlist' === $_REQUEST['type'] ) {
 		wp_underscore_playlist_templates();
@@ -2750,5 +2754,8 @@ function wp_ajax_parse_media_shortcode() {
 		wp_print_scripts( 'wp-mediaelement' );
 	}
 
-	wp_send_json_success( ob_get_clean() );
+	wp_send_json_success( array(
+		'head' => $head,
+		'body' => ob_get_clean()
+	) );
 }

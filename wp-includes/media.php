@@ -3310,19 +3310,8 @@ function attachment_url_to_postid( $url ) {
  */
 function wpview_media_sandbox_styles() {
  	$version = 'ver=' . $GLOBALS['wp_version'];
-	$open_sans = "//fonts.googleapis.com/css?family=Open+Sans%3A300italic%2C400italic%2C600italic%2C300%2C400%2C600&subset=latin%2Clatin-ext&ver=$version";
-	$dashicons = includes_url( "css/dashicons.css?$version" );
  	$mediaelement = includes_url( "js/mediaelement/mediaelementplayer.min.css?$version" );
  	$wpmediaelement = includes_url( "js/mediaelement/wp-mediaelement.css?$version" );
 
-	/**
-	 * For use by themes that need to override the styling of MediaElement based previews in the Visual editor.
-	 * Not intended for adding editor-style.css. Ideally these styles will be applied by using
-	 * the 'seamless' iframe attribute in the future.
-	 *
-	 * @since 4.0
-	 *
-	 * @param array The URLs to the stylesheets that will be loaded in the sandbox iframe.
-	 */
-	return apply_filters( 'wpview_media_sandbox_styles', array( $open_sans, $dashicons, $mediaelement, $wpmediaelement ) );
+	return array( $mediaelement, $wpmediaelement );
 }

@@ -123,15 +123,34 @@ window.wp = window.wp || {};
 			} );
 		},
 		/* jshint scripturl: true */
-		setIframes: function ( html ) {
-			var MutationObserver = window.MutationObserver || window.WebKitMutationObserver || window.MozMutationObserver;
+		setIframes: function ( head, body ) {
+			var MutationObserver = window.MutationObserver || window.WebKitMutationObserver || window.MozMutationObserver,
+				importStyles = this.type === 'video' || this.type === 'audio' || this.type === 'playlist';
 
-			if ( html.indexOf( '<script' ) !== -1 ) {
+			if ( head || body.indexOf( '<script' ) !== -1 ) {
 				this.getNodes( function ( editor, node, content ) {
 					var dom = editor.dom,
+						styles = '',
+						bodyClasses = editor.getBody().className || '',
 						iframe, iframeDoc, i, resize;
 
 					content.innerHTML = '';
+
+					if ( importStyles ) {
+						if ( ! wp.mce.views.sandboxStyles ) {
+							tinymce.each( dom.$( 'link[rel="stylesheet"]', editor.getDoc().head ), function( link ) {
+								if ( link.href && link.href.indexOf( 'skins/lightgray/content.min.css' ) === -1 &&
+									link.href.indexOf( 'skins/wordpress/wp-content.css' ) === -1 ) {
+
+									styles += dom.getOuterHTML( link ) + '\n';
+								}
+							});
+
+							wp.mce.views.sandboxStyles = styles;
+						} else {
+							styles = wp.mce.views.sandboxStyles;
+						}
+					}
 
 					// Seems Firefox needs a bit of time to insert/set the view nodes, or the iframe will fail
 					// especially when switching Text => Visual.
@@ -156,6 +175,8 @@ window.wp = window.wp || {};
 							'<html>' +
 								'<head>' +
 									'<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />' +
+									head +
+									styles +
 									'<style>' +
 										'html {' +
 											'background: transparent;' +
@@ -164,13 +185,18 @@ window.wp = window.wp || {};
 										'}' +
 										'body#wpview-iframe-sandbox {' +
 											'background: transparent;' +
-											'padding: 1px 0;' +
-											'margin: -1px 0 0;' +
+											'padding: 1px 0 !important;' +
+											'margin: -1px 0 0 !important;' +
+										'}' +
+										'body#wpview-iframe-sandbox:before,' +
+										'body#wpview-iframe-sandbox:after {' +
+											'display: none;' +
+											'content: "";' +
 										'}' +
 									'</style>' +
 								'</head>' +
-								'<body id="wpview-iframe-sandbox">' +
-									html +
+								'<body id="wpview-iframe-sandbox" class="' + bodyClasses + '">' +
+									body +
 								'</body>' +
 							'</html>'
 						);
@@ -195,10 +221,16 @@ window.wp = window.wp || {};
 								setTimeout( resize, i * 700 );
 							}
 						}
+
+						if ( importStyles ) {
+							editor.on( 'wp-body-class-change', function() {
+								iframeDoc.body.className = editor.getBody().className;
+							});
+						}
 					}, 50 );
 				});
 			} else {
-				this.setContent( html );
+				this.setContent( body );
 			}
 		},
 		setError: function( message, dashicon ) {
@@ -560,7 +592,7 @@ window.wp = window.wp || {};
 
 			setNodes: function () {
 				if ( this.parsed ) {
-					this.setIframes( this.parsed );
+					this.setIframes( this.parsed.head, this.parsed.body );
 				} else {
 					this.fail();
 				}
@@ -579,7 +611,7 @@ window.wp = window.wp || {};
 				.done( function( response ) {
 					if ( response ) {
 						self.parsed = response;
-						self.setIframes( response );
+						self.setIframes( response.head, response.body );
 					} else {
 						self.fail( true );
 					}

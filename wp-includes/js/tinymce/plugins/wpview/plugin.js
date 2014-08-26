@@ -260,7 +260,8 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 
 	editor.on( 'init', function() {
 		var scrolled = false,
-			selection = editor.selection;
+			selection = editor.selection,
+			MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
 
 		// When a view is selected, ensure content that is being pasted
 		// or inserted is added to a text node (instead of the view).
@@ -333,6 +334,16 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 				scrolled = false;
 			}
 		}, true );
+
+		if ( MutationObserver ) {
+			new MutationObserver( function() {
+				editor.fire( 'wp-body-class-change' );
+			} )
+			.observe( editor.getBody(), {
+				attributes: true,
+				attributeFilter: ['class']
+			} );
+		}
 	});
 
 	editor.on( 'PreProcess', function( event ) {
