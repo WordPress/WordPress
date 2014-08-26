@@ -3911,7 +3911,7 @@
 	 */
 	media.view.Toolbar = media.View.extend({
 		tagName:   'div',
-		className: 'media-toolbar wp-filter',
+		className: 'media-toolbar',
 
 		initialize: function() {
 			var state = this.controller.state(),
@@ -5750,14 +5750,20 @@
 		},
 
 		createToolbar: function() {
-			var LibraryViewSwitcher, Filters;
+			var LibraryViewSwitcher, Filters, toolbarOptions;
+
+			toolbarOptions = {
+				controller: this.controller
+			};
+
+			if ( this.controller.isModeActive( 'grid' ) ) {
+				toolbarOptions.className = 'media-toolbar wp-filter';
+			}
 
 			/**
-			 * @member {wp.media.view.Toolbar}
-			 */
-			this.toolbar = new media.view.Toolbar({
-				controller: this.controller
-			});
+			* @member {wp.media.view.Toolbar}
+			*/
+			this.toolbar = new media.view.Toolbar( toolbarOptions );
 
 			this.views.add( this.toolbar );
 
