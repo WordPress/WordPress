@@ -823,6 +823,7 @@ border color while dragging a file over the uploader drop area */
 
 .edit-attachment-frame .attachment-info .details,
 .edit-attachment-frame .attachment-info .settings {
+	position: relative; /* RTL fix, #WP29352 */
 	overflow: hidden;
 	float: none;
 	margin-bottom: 15px;

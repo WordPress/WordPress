@@ -1682,6 +1682,7 @@
 	margin-bottom: 16px;
 	padding: 0;
 	padding-bottom: 16px;
+	position: relative; /* RTL fix, #WP29352 */
 }
 
 .media-modal .imgedit-group:last-of-type {

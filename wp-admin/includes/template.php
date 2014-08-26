@@ -452,7 +452,7 @@ function wp_comment_reply($position = '1', $checkbox = false, $mode = 'single', 
 
 		<div class="inside">
 		<label for="author-url"><?php _e('URL') ?></label>
-		<input type="text" id="author-url" name="newcomment_author_url" size="103" value="" />
+		<input type="text" id="author-url" name="newcomment_author_url" class="code" size="103" value="" />
 		</div>
 		<div style="clear:both;"></div>
 	</div>
