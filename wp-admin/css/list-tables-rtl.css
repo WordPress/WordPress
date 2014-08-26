@@ -622,7 +622,7 @@ classes exist in paginate_links() but not seen in list table output. */
 	color: #2ea2cc;
 }
 
-tablenav .view-switch {
+.tablenav .view-switch {
 	float: left;
 	margin: 5px 8px 0 16px;
 }
