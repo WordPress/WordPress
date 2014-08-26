@@ -302,23 +302,43 @@ endfor;
 </select></td>
 </tr>
 <?php do_settings_fields('general', 'default'); ?>
+
 <?php
-	$languages = get_available_languages();
-	if ( $languages ) :
-?>
+$languages = get_available_languages();
+if ( ! empty( $languages ) ) {
+	?>
 	<tr>
-		<th width="33%" scope="row"><label for="WPLANG"><?php _e('Site Language') ?></label></th>
+		<th width="33%" scope="row"><label for="WPLANG"><?php _e( 'Site Language' ); ?></label></th>
 		<td>
-			<?php wp_dropdown_languages( array(
+			<?php
+			$locale = get_locale();
+			if ( ! in_array( $locale, $languages ) ) {
+				$locale = '';
+			}
+
+			wp_dropdown_languages( array(
 				'name'      => 'WPLANG',
 				'id'        => 'WPLANG',
-				'selected'  => get_option( 'WPLANG' ),
+				'selected'  => $locale,
 				'languages' => $languages,
-			) ); ?>
+			) );
+
+			// Add note about deprecated WPLANG constant.
+			if ( defined( 'WPLANG' ) && ( '' !== WPLANG ) && $locale !== WPLANG ) {
+				if ( is_super_admin() ) {
+					?>
+					<p class="description">
+						<strong><?php _e( 'Note:' ); ?></strong> <?php printf( __( 'The %s constant in your %s file is no longer needed.' ), '<code>WPLANG</code>', '<code>wp-config.php</code>' ); ?>
+					</p>
+					<?php
+				}
+				_deprecated_argument( 'define()', '4.0', sprintf( __( 'The %s constant in your %s file is no longer needed.' ), 'WPLANG', 'wp-config.php' ) );
+			}
+			?>
 		</td>
 	</tr>
-<?php
-	endif;
+	<?php
+}
 ?>
 </table>
 

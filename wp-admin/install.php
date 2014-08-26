@@ -38,6 +38,9 @@ require_once( dirname( dirname( __FILE__ ) ) . '/wp-load.php' );
 /** Load WordPress Administration Upgrade API */
 require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 
+/** Load WordPress Translation Install API */
+require_once( ABSPATH . 'wp-admin/includes/translation-install.php' );
+
 /** Load wpdb */
 require_once( ABSPATH . WPINC . '/wp-db.php' );
 
@@ -178,10 +181,15 @@ if ( ! is_string( $wpdb->base_prefix ) || '' === $wpdb->base_prefix ) {
 	die( '<h1>' . __( 'Configuration Error' ) . '</h1><p>' . __( 'Your <code>wp-config.php</code> file has an empty database table prefix, which is not supported.' ) . '</p></body></html>' );
 }
 
+$langugage = '';
+if ( ! empty( $_REQUEST['language'] ) ) {
+	$langugage = preg_replace( '/[^a-zA-Z_]/', '', $_REQUEST['language'] );
+}
+
 switch($step) {
 	case 0: // Step 0
 
-		if ( empty( $_GET['language'] ) && ( $languages = wp_get_available_translations_from_api() ) ) {
+		if ( empty( $langugage ) && ( $languages = wp_get_available_translations() ) ) {
 			display_header( 'language-chooser' );
 			echo '<form id="setup" method="post" action="?step=1">';
 			wp_install_language_form( $languages );
@@ -192,10 +200,10 @@ switch($step) {
 		// Deliberately fall through if we can't reach the translations API.
 
 	case 1: // Step 1, direct link or from language chooser.
-		if ( ! empty( $_REQUEST['language'] ) ) {
-			$loaded_language = wp_install_download_language_pack( $_REQUEST['language'] );
+		if ( ! empty( $langugage ) ) {
+			$loaded_language = wp_download_language_pack( $langugage );
 			if ( $loaded_language ) {
-				wp_install_load_language( $loaded_language );
+				load_default_textdomain( $loaded_language );
 			}
 		}
 
@@ -211,8 +219,8 @@ switch($step) {
 		display_setup_form();
 		break;
 	case 2:
-		if ( !empty( $_REQUEST['language'] ) ) {
-			$loaded_language = wp_install_load_language( $_REQUEST['language'] );
+		if ( ! empty( $langugage ) && load_default_textdomain( $langugage ) ) {
+			$loaded_language = $langugage;
 		} else {
 			$loaded_language = 'en_US';
 		}
@@ -226,8 +234,8 @@ switch($step) {
 		$user_name = isset($_POST['user_name']) ? trim( wp_unslash( $_POST['user_name'] ) ) : '';
 		$admin_password = isset($_POST['admin_password']) ? wp_unslash( $_POST['admin_password'] ) : '';
 		$admin_password_check = isset($_POST['admin_password2']) ? wp_unslash( $_POST['admin_password2'] ) : '';
-		$admin_email  = isset( $_POST['admin_email']  ) ?trim( wp_unslash( $_POST['admin_email'] ) ) : '';
-		$public       = isset( $_POST['blog_public']  ) ? (int) $_POST['blog_public'] : 0;
+		$admin_email  = isset( $_POST['admin_email'] ) ?trim( wp_unslash( $_POST['admin_email'] ) ) : '';
+		$public       = isset( $_POST['blog_public'] ) ? (int) $_POST['blog_public'] : 0;
 
 		// Check e-mail address.
 		$error = false;

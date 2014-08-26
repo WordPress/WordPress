@@ -32,7 +32,11 @@ define( 'ABSPATH', dirname( dirname( __FILE__ ) ) . '/' );
 
 require( ABSPATH . 'wp-settings.php' );
 
-require( ABSPATH . 'wp-admin/includes/upgrade.php' );
+/** Load WordPress Administration Upgrade API */
+require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+
+/** Load WordPress Translation Install API */
+require_once( ABSPATH . 'wp-admin/includes/translation-install.php' );
 
 nocache_headers();
 
@@ -85,10 +89,13 @@ function setup_config_display_header( $body_classes = array() ) {
 <?php
 } // end function setup_config_display_header();
 
+$language = '';
+if ( ! empty( $_REQUEST['language'] ) ) {
+	$language = preg_replace( '/[^a-zA-Z_]/', '', $_REQUEST['language'] );
+}
 switch($step) {
 	case -1:
-
-		if ( empty( $_GET['language'] ) && ( $languages = wp_get_available_translations_from_api() ) ) {
+		if ( empty( $language ) && ( $languages = wp_get_available_translations() ) ) {
 			setup_config_display_header( 'language-chooser' );
 			echo '<form id="setup" method="post" action="?step=0">';
 			wp_install_language_form( $languages );
@@ -99,10 +106,10 @@ switch($step) {
 		// Deliberately fall through if we can't reach the translations API.
 
 	case 0:
-		if ( ! empty( $_REQUEST['language'] ) ) {
-			$loaded_language = wp_install_download_language_pack( $_REQUEST['language'] );
+		if ( ! empty( $language ) ) {
+			$loaded_language = wp_download_language_pack( $language );
 			if ( $loaded_language ) {
-				wp_install_load_language( $loaded_language );
+				load_default_textdomain( $loaded_language );
 			}
 		}
 
@@ -136,7 +143,7 @@ switch($step) {
 	break;
 
 	case 1:
-		$loaded_language = wp_install_load_language( $_REQUEST['language'] );
+		load_default_textdomain( $language );
 		setup_config_display_header();
 	?>
 <form method="post" action="setup-config.php?step=2">
@@ -169,14 +176,14 @@ switch($step) {
 		</tr>
 	</table>
 	<?php if ( isset( $_GET['noapi'] ) ) { ?><input name="noapi" type="hidden" value="1" /><?php } ?>
-	<input type="hidden" name="language" value="<?php echo esc_attr( $loaded_language ); ?>" />
+	<input type="hidden" name="language" value="<?php echo esc_attr( $language ); ?>" />
 	<p class="step"><input name="submit" type="submit" value="<?php echo htmlspecialchars( __( 'Submit' ), ENT_QUOTES ); ?>" class="button button-large" /></p>
 </form>
 <?php
 	break;
 
 	case 2:
-	$loaded_language = wp_install_load_language( $_REQUEST['language'] );
+	load_default_textdomain( $language );
 	$dbname = trim( wp_unslash( $_POST[ 'dbname' ] ) );
 	$uname = trim( wp_unslash( $_POST[ 'uname' ] ) );
 	$pwd = trim( wp_unslash( $_POST[ 'pwd' ] ) );
@@ -189,9 +196,9 @@ switch($step) {
 		$step_1 .= '&amp;noapi';
 	}
 
-	if ( $loaded_language ) {
-		$step_1 .= '&amp;language=' . $loaded_language;
-		$install .= '?language=' . $loaded_language;
+	if ( ! empty( $language ) ) {
+		$step_1 .= '&amp;language=' . $language;
+		$install .= '?language=' . $language;
 	} else {
 		$install .= '?language=en_US';
 	}

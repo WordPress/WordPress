@@ -437,6 +437,9 @@ function upgrade_all() {
 	if ( $wp_current_db_version < 26691 )
 		upgrade_380();
 
+	if ( $wp_current_db_version < 29630 )
+		upgrade_400();
+
 	maybe_disable_link_manager();
 
 	maybe_disable_automattic_widgets();
@@ -1304,6 +1307,25 @@ function upgrade_380() {
 		deactivate_plugins( array( 'mp6/mp6.php' ), true );
 	}
 }
+
+/**
+ * Execute changes made in WordPress 4.0.0.
+ *
+ * @since 4.0.0
+ */
+function upgrade_400() {
+	global $wp_current_db_version;
+	if ( $wp_current_db_version < 29630 ) {
+		if ( ! is_multisite() && false === get_option( 'WPLANG' ) ) {
+			if ( defined( 'WPLANG' ) && ( '' !== WPLANG ) && in_array( WPLANG, get_available_languages() ) ) {
+				update_option( 'WPLANG', WPLANG );
+			} else {
+				update_option( 'WPLANG', '' );
+			}
+		}
+	}
+}
+
 /**
  * Execute network level changes
  *
@@ -1419,7 +1441,7 @@ function upgrade_network() {
  */
 function maybe_create_table($table_name, $create_ddl) {
 	global $wpdb;
-	
+
 	$query = $wpdb->prepare( "SHOW TABLES LIKE %s", $wpdb->esc_like( $table_name ) );
 
 	if ( $wpdb->get_var( $query ) == $table_name ) {
@@ -2192,145 +2214,3 @@ CREATE TABLE $wpdb->sitecategories (
 	dbDelta( $ms_queries );
 }
 endif;
-
-/**
- * Output the input fields for the language selection form on the installation screen.
- *
- * @since 4.0.0
- *
- * @see wp_get_available_translations_from_api()
- * 
- * @param array $languages Array of available languages (populated via the Translations API).
- */
-function wp_install_language_form( $languages ) {
-	$installed_languages = get_available_languages();
-
-	echo "<label class='screen-reader-text' for='language'>Select a default language</label>\n";
-	echo "<select size='14' name='language' id='language'>\n";
-	echo '<option value="" lang="en" selected="selected" data-continue="Continue" data-installed="1">English (United States)</option>';
-	echo "\n";
-
-	if ( defined( 'WPLANG' ) && ( '' !== WPLANG ) && ( 'en_US' !== WPLANG ) ) {
-		if ( isset( $languages[ WPLANG ] ) ) {
-			$language = $languages[ WPLANG ];
-			echo '<option value="' . esc_attr( $language['language'] ) . '" lang="' . esc_attr( $language['iso'][1] ) . '">' . esc_html( $language['native_name'] ) . "</option>\n";
-		}
-	}
-
-	foreach ( $languages as $language ) {
-		printf( '<option value="%s" lang="%s" data-continue="%s"%s>%s</option>' . "\n",
-			esc_attr( $language['language'] ),
-			esc_attr( $language['iso'][1] ),
-			esc_attr( $language['strings']['continue'] ),
-			in_array( $language['language'], $installed_languages ) ? ' data-installed="1"' : '',
-			esc_html( $language['native_name'] ) );
-	}
-	echo "</select>\n";
-	echo '<p class="step"><span class="spinner"></span><input id="language-continue" type="submit" class="button button-primary button-large" value="Continue" /></p>';
-}
-
-/**
- * Get available translations from the WordPress.org API.
- *
- * @since 4.0.0
- *
- * @see wp_remote_post()
- *
- * @return array Array of translations, each an array of data.
- */
-function wp_get_available_translations_from_api() {
-	$url = 'http://api.wordpress.org/translations/core/1.0/';
-	if ( wp_http_supports( array( 'ssl' ) ) ) {
-		$url = set_url_scheme( $url, 'https' );
-	}
-
-	$options = array(
-		'timeout' => 3,
-		'body' => array( 'version' => $GLOBALS['wp_version'] ),
-	);
-
-	$response = wp_remote_post( $url, $options );
-	$body = wp_remote_retrieve_body( $response );
-	if ( $body && $body = json_decode( $body, true ) ) {
-		$translations = array();
-		// Key the array with the language code for now
-		foreach ( $body['translations'] as $translation ) {
-			$translations[ $translation['language'] ] = $translation;
-		}
-		return $translations;
-	}
-	return false;
-}
-
-/**
- * Download a language pack.
- *
- * @since 4.0.0
- *
- * @see wp_get_available_translations_from_api()
- *
- * @param string $download Language code to download.
- * @return string|bool Returns the language code if successfully downloaded
- *                     (or already installed), or false on failure.
- */
-function wp_install_download_language_pack( $download ) {
-	// Check if the translation is already installed.
-	if ( in_array( $download, get_available_languages() ) ) {
-		return $download;
-	}
-
-	// Confirm the translation is one we can download.
-	$translations = wp_get_available_translations_from_api();
-	if ( ! $translations ) {
-		return false;
-	}
-	foreach ( $translations as $translation ) {
-		if ( $translation['language'] === $download ) {
-			$translation_to_load = true;
-			break;
-		}
-	}
-
-	if ( empty( $translation_to_load ) ) {
-		return false;
-	}
-	$translation = (object) $translation;
-
-	require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
-	$skin = new Automatic_Upgrader_Skin;
-	$upgrader = new Language_Pack_Upgrader( $skin );
-	$translation->type = 'core';
-	/**
-	 * @todo failures (such as non-direct FS)
-	 */
-	$upgrader->upgrade( $translation, array( 'clear_update_cache' => false ) );
-	return $translation->language;
-}
-
-/**
- * Load a translation during the install process.
- *
- * @since 4.0.0
- *
- * @see load_textdomain()
- *
- * @param string $translation Translation to load.
- * @return string|bool Returns the language code if successfully loaded,
- *                     or false on failure.
- */
-function wp_install_load_language( $translation ) {
-	if ( ! empty( $translation ) ) {
-		if ( in_array( $translation, get_available_languages() ) ) {
-			$translation_to_load = $translation;
-		}
-	}
-
-	if ( empty( $translation_to_load ) ) {
-		return false;
-	}
-
-	unload_textdomain( 'default' ); // Start over.
-	load_textdomain( 'default', WP_LANG_DIR . "/{$translation_to_load}.mo" );
-	load_textdomain( 'default', WP_LANG_DIR . "/admin-{$translation_to_load}.mo" );
-	return $translation_to_load;
-}
