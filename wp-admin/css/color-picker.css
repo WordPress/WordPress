@@ -47,13 +47,15 @@
 	box-shadow: inset 0 1px 0 #fff;
 }
 
-.wp-color-result:hover {
+.wp-color-result:hover,
+.wp-color-result:focus {
 	background: #fafafa;
 	border-color: #999;
 	color: #222;
 }
 
-.wp-color-result:hover:after {
+.wp-color-result:hover:after,
+.wp-color-result:focus:after {
 	color: #222;
 	border-color: #aaa;
 	border-left: 1px solid #999;
@@ -73,13 +75,12 @@
 }
 
 .wp-color-result:focus {
-	border-color: #888;
-	-webkit-box-shadow: 0 1px 2px rgba( 0, 0, 0, 0.2 );
-	box-shadow: 0 1px 2px rgba( 0, 0, 0, 0.2 );
-}
-
-.wp-color-result:focus:after {
-	border-color: #888;
+	-webkit-box-shadow:
+		0 0 0 1px #5b9dd9,
+		0 0 2px 1px rgba( 30, 140, 190, 0.8 );
+	box-shadow:
+		0 0 0 1px #5b9dd9,
+		0 0 2px 1px rgba( 30, 140, 190, 0.8 );
 }
 
 .wp-picker-open + .wp-picker-input-wrap {

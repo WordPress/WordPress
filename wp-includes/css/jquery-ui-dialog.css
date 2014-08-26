@@ -181,9 +181,14 @@
 	color: #555;
 	border-color: #cccccc;
 	background: #f7f7f7;
-	-webkit-box-shadow: inset 0 1px 0 #fff, 0 1px 0 rgba(0,0,0,.08);
-	box-shadow: inset 0 1px 0 #fff, 0 1px 0 rgba(0,0,0,.08);
+	-webkit-box-shadow: inset 0 1px 0 #fff, 0 1px 0 rgba( 0, 0, 0, 0.08 );
+	box-shadow: inset 0 1px 0 #fff, 0 1px 0 rgba( 0, 0, 0, 0.08 );
 	vertical-align: top;
+}
+
+.ui-button:active,
+.ui-button:focus {
+	outline: none;
 }
 
 /* Remove the dotted border on :focus and the extra padding in Firefox */
@@ -194,24 +199,28 @@
 	padding: 0;
 }
 
-.ui-button:hover {
+.ui-button:hover,
+.ui-button:focus {
 	background: #fafafa;
 	border-color: #999;
 	color: #222;
 }
 
 .ui-button:focus {
-	-webkit-box-shadow: 1px 1px 1px rgba(0,0,0,.2);
-	box-shadow: 1px 1px 1px rgba(0,0,0,.2);
+	-webkit-box-shadow:
+		0 0 0 1px #5b9dd9,
+		0 0 2px 1px rgba( 30, 140, 190, 0.8 );
+	box-shadow:
+		0 0 0 1px #5b9dd9,
+		0 0 2px 1px rgba( 30, 140, 190, 0.8 );
 }
 
 .ui-button:active {
 	background: #eee;
 	border-color: #999;
 	color: #333;
- 	-webkit-box-shadow: inset 0 2px 5px -3px rgba( 0, 0, 0, 0.5 );
- 	box-shadow: inset 0 2px 5px -3px rgba( 0, 0, 0, 0.5 );
- 	outline: none;
+	-webkit-box-shadow: inset 0 2px 5px -3px rgba( 0, 0, 0, 0.5 );
+	box-shadow: inset 0 2px 5px -3px rgba( 0, 0, 0, 0.5 );
 }
 
 .ui-button[disabled],

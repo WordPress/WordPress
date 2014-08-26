@@ -188,13 +188,17 @@
 	-webkit-transition: opacity 0.1s ease-in-out;
 	transition: opacity 0.1s ease-in-out;
 }
+
 .theme-browser .theme:focus {
-	outline: 1px dotted #222;
+	border-color: #5b9dd9;
+	-webkit-box-shadow: 0 0 2px rgba( 30, 140, 190, 0.8 );
+	box-shadow: 0 0 2px rgba( 30, 140, 190, 0.8 );
 }
 
 .theme-browser .theme:focus .more-details {
 	opacity: 1;
 }
+
 /* Current theme needs to have its action always on view */
 .theme-browser .theme.active:focus .theme-actions {
 	display: block;

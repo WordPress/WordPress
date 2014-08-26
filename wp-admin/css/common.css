@@ -1382,12 +1382,6 @@ form.upgrade .hint {
 	color: #333;
 }
 
-#screen-meta-links a:focus {
-	border-color: #aaa;
-	-webkit-box-shadow: 0 2px 3px rgba(0,0,0,0.15);
-	box-shadow: 0 2px 3px rgba(0,0,0,0.15);
-}
-
 #screen-meta-links a.show-settings {
 	display: block;
 	font-size: 13px;

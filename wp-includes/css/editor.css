@@ -414,8 +414,8 @@ div.mce-menu .mce-menu-item-sep,
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
 	white-space: nowrap;
-	-webkit-box-shadow: inset 0 1px 0 #fff, 0 1px 0 rgba(0,0,0,.08);
-	box-shadow: inset 0 1px 0 #fff, 0 1px 0 rgba(0,0,0,.08);
+	-webkit-box-shadow: inset 0 1px 0 #fff, 0 1px 0 rgba( 0, 0, 0, 0.08 );
+	box-shadow: inset 0 1px 0 #fff, 0 1px 0 rgba( 0, 0, 0, 0.08 );
 	background-image: none;
 }
 
@@ -427,28 +427,34 @@ div.mce-menu .mce-menu-item-sep,
 	padding: 0;
 }
 
-.mce-window .mce-btn:hover {
+.mce-window .mce-btn:hover,
+.mce-window .mce-btn:focus {
 	background: #fafafa;
 	border-color: #999;
 	color: #222;
 }
 
 .mce-window .mce-btn:focus {
-	-webkit-box-shadow: 1px 1px 1px rgba(0,0,0,.2);
-	box-shadow: 1px 1px 1px rgba(0,0,0,.2);
+	-webkit-box-shadow:
+		0 0 0 1px #5b9dd9,
+		0 0 2px 1px rgba( 30, 140, 190, 0.8 );
+	box-shadow:
+		0 0 0 1px #5b9dd9,
+		0 0 2px 1px rgba( 30, 140, 190, 0.8 );
 }
 
 .mce-window .mce-btn:active {
 	background: #eee;
 	border-color: #999;
 	color: #333;
- 	-webkit-box-shadow: inset 0 2px 5px -3px rgba( 0, 0, 0, 0.5 );
- 	box-shadow: inset 0 2px 5px -3px rgba( 0, 0, 0, 0.5 );
+	-webkit-box-shadow: inset 0 2px 5px -3px rgba( 0, 0, 0, 0.5 );
+	box-shadow: inset 0 2px 5px -3px rgba( 0, 0, 0, 0.5 );
 }
 
 .mce-window .mce-btn.mce-disabled {
 	color: #aaa;
 	border-color: #ddd;
+	background: #f7f7f7;
 	-webkit-box-shadow: none;
 	box-shadow: none;
 	text-shadow: 0 1px 0 #fff;
@@ -458,39 +464,50 @@ div.mce-menu .mce-menu-item-sep,
 .mce-window .mce-btn.mce-primary {
 	background: #2ea2cc;
 	border-color: #0074a2;
-	-webkit-box-shadow: inset 0 1px 0 rgba(120,200,230,0.5), 0 1px 0 rgba(0,0,0,.15);
-	box-shadow: inset 0 1px 0 rgba(120,200,230,0.5), 0 1px 0 rgba(0,0,0,.15);
+	-webkit-box-shadow: inset 0 1px 0 rgba( 120, 200, 230, 0.5), 0 1px 0 rgba( 0, 0, 0, 0.15 );
+	box-shadow: inset 0 1px 0 rgba( 120, 200, 230, 0.5 ), 0 1px 0 rgba( 0, 0, 0, 0.15 );
 	color: #fff;
 	text-decoration: none;
 }
 
-.mce-window .mce-btn.mce-primary:hover {
+.mce-window .mce-btn.mce-primary:hover,
+.mce-window .mce-btn.mce-primary:focus {
 	background: #1e8cbe;
 	border-color: #0074a2;
-	-webkit-box-shadow: inset 0 1px 0 rgba(120,200,230,0.6);
-	box-shadow: inset 0 1px 0 rgba(120,200,230,0.6);
+	-webkit-box-shadow: inset 0 1px 0 rgba( 120, 200, 230, 0.6 );
+	box-shadow: inset 0 1px 0 rgba( 120, 200, 230, 0.6 );
 	color: #fff;
 }
 
 .mce-window .mce-btn.mce-primary:focus {
 	border-color: #0e3950;
-	-webkit-box-shadow: inset 0 1px 0 rgba(120,200,230,0.6), 1px 1px 2px rgba(0,0,0,0.4);
-	box-shadow: inset 0 1px 0 rgba(120,200,230,0.6), 1px 1px 2px rgba(0,0,0,0.4);
+	-webkit-box-shadow:
+		inset 0 1px 0 rgba( 120, 200, 230, 0.6 ),
+		0 0 0 1px #5b9dd9,
+		0 0 2px 1px rgba( 30, 140, 190, 0.8 );
+	box-shadow:
+		inset 0 1px 0 rgba( 120, 200, 230, 0.6 ),
+		0 0 0 1px #5b9dd9,
+		0 0 2px 1px rgba( 30, 140, 190, 0.8 );
 }
 
 .mce-window .mce-btn.mce-primary:active {
 	background: #1b7aa6;
 	border-color: #005684;
-	color: rgba(255,255,255,0.95);
-	-webkit-box-shadow: inset 0 1px 0 rgba(0,0,0,0.1);
-	box-shadow: inset 0 1px 0 rgba(0,0,0,0.1);
+	color: rgba( 255, 255, 255, 0.95 );
+	-webkit-box-shadow: inset 0 1px 0 rgba( 0, 0, 0, 0.1 );
+	box-shadow: inset 0 1px 0 rgba( 0, 0, 0, 0.1 );
+	vertical-align: top;
 }
 
 .mce-window .mce-btn.mce-primary.mce-disabled {
 	color: #94cde7;
 	background: #298cba;
 	border-color: #1b607f;
-	text-shadow: 0 -1px 0 rgba(0,0,0,0.1);
+	-webkit-box-shadow: none;
+	box-shadow: none;
+	text-shadow: 0 -1px 0 rgba( 0, 0, 0, 0.1 );
+	cursor: default;
 }
 
 .mce-menubtn.mce-fixed-width button span {
