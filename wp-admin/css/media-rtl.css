@@ -563,7 +563,7 @@ border color while dragging a file over the uploader drop area */
 }
 
 .media-frame.mode-grid .media-toolbar {
-	margin: 15px 0;
+	margin-bottom: 15px;
 	height: auto;
 }
 
