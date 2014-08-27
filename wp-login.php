@@ -838,7 +838,7 @@ default:
 		elseif	( isset($_GET['checkemail']) && 'registered' == $_GET['checkemail'] )
 			$errors->add('registered', __('Registration complete. Please check your e-mail.'), 'message');
 		elseif ( strpos( $redirect_to, 'about.php?updated' ) )
-			$errors->add('updated', __( '<strong>You have successfully updated WordPress!</strong> Please log back in to experience the awesomeness.' ), 'message' );
+			$errors->add('updated', __( '<strong>You have successfully updated WordPress!</strong> Please log back in to see what&#8217;s new.' ), 'message' );
 	}
 
 	/**
