@@ -32,7 +32,18 @@ if ( 'grid' === $mode ) {
 		'id'		=> 'overview',
 		'title'		=> __( 'Overview' ),
 		'content'	=>
-			'<p>' . __( 'All the files you&#8217;ve uploaded are listed in the Media Library, with the most recent uploads listed first.' ) . '</p>'
+			'<p>' . __( 'All the files you&#8217;ve uploaded are listed in the Media Library, with the most recent uploads listed first.' ) . '</p>' .
+			'<p>' . __( 'You can view your media in a simple visual grid or a list with columns. Switch between these views using the icons to the left above the media.' ) . '</p>' .
+			'<p>' . __( 'To delete media items, click the Bulk Select button at the top of the screen. Select any items you wish to delete, then click the Delete Selected button. Clicking the Cancel Selection button takes you back to viewing your media.' ) . '</p>'
+	) );
+
+	get_current_screen()->add_help_tab( array(
+		'id'		=> 'attachment-details',
+		'title'		=> __( 'Attachment Details' ),
+		'content'	=>
+			'<p>' . __( 'Clicking an item will display an Attachment Details dialog, which allows you to preview media and make quick edits. Any changes you make to the attachment details will be automatically saved.' ) . '</p>' .
+			'<p>' . __( 'Use the arrow buttons at the top of the dialog, or the left and right arrow keys on your keyboard, to navigate between between media items quickly.' ) . '</p>' .
+			'<p>' . __( 'You can also delete individual items and access the extended edit screen from the details dialog.' ) . '</p>'
 	) );
 
 	get_current_screen()->set_help_sidebar(
@@ -187,7 +198,8 @@ get_current_screen()->add_help_tab( array(
 'title'		=> __('Overview'),
 'content'	=>
 	'<p>' . __( 'All the files you&#8217;ve uploaded are listed in the Media Library, with the most recent uploads listed first. You can use the Screen Options tab to customize the display of this screen.' ) . '</p>' .
-	'<p>' . __( 'You can narrow the list by file type/status using the text link filters at the top of the screen. You also can refine the list by date using the dropdown menu above the media table.' ) . '</p>'
+	'<p>' . __( 'You can narrow the list by file type/status using the text link filters at the top of the screen. You also can refine the list by date using the dropdown menu above the media table.' ) . '</p>' .
+	'<p>' . __( 'You can view your media in a simple visual grid or a list with columns. Switch between these views using the icons to the left above the media.' ) . '</p>'
 ) );
 get_current_screen()->add_help_tab( array(
 'id'		=> 'actions-links',
