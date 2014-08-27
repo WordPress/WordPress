@@ -26,7 +26,7 @@ $wp_list_table = _get_list_table('WP_Plugin_Install_List_Table');
 $pagenum = $wp_list_table->get_pagenum();
 $wp_list_table->prepare_items();
 
-$title = __('Install Plugins');
+$title = __( 'Add Plugins' );
 $parent_file = 'plugins.php';
 
 wp_enqueue_script( 'plugin-install' );
@@ -75,16 +75,26 @@ include(ABSPATH . 'wp-admin/admin-header.php');
 <div class="wrap">
 <h2>
 	<?php
-		echo esc_html( $title );
-		$href = self_admin_url( 'plugin-install.php?tab=upload' );
+	echo esc_html( $title );
+	if ( ! empty( $tabs['upload'] ) && current_user_can( 'upload_plugins' ) ) {
+		if ( $tab === 'upload' ) {
+			$href = self_admin_url( 'plugin-install.php' );
+			$text = _x( 'Browse', 'plugins' );
+		} else {
+			$href = self_admin_url( 'plugin-install.php?tab=upload' );
+			$text = __( 'Upload Plugin' );
+		}
+		echo ' <a href="' . $href . '" class="upload add-new-h2">' . $text . '</a>';
+	}
 	?>
-	<a href="<?php echo $href; ?>" class="upload add-new-h2"><?php _e( 'Upload Plugin' ); ?></a>
 </h2>
 
-<?php $wp_list_table->views(); ?>
-
-<br class="clear" />
 <?php
+if ( $tab !== 'upload' ) {
+	$wp_list_table->views();
+	echo '<br class="clear" />';
+}
+
 /**
  * Fires after the plugins list table in each tab of the Install Plugins screen.
  *

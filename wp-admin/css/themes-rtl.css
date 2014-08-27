@@ -1091,7 +1091,8 @@ body.folded .theme-overlay .theme-wrap {
 .theme-install-php.show-upload-theme a.browse-themes {
 	display: inline;
 }
-.upload-theme {
+.upload-theme,
+.upload-plugin {
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
@@ -1103,17 +1104,20 @@ body.folded .theme-overlay .theme-wrap {
 	position: relative;
 	top: 10px;
 }
-body.show-upload-theme .upload-theme {
+body.show-upload-theme .upload-theme,
+.upload-plugin {
 	display: block;
 }
-.upload-theme .wp-upload-form {
+.upload-theme .wp-upload-form,
+.upload-plugin .wp-upload-form {
 	background: #fafafa;
 	border: 1px solid #e5e5e5;
 	padding: 30px;
 	margin: 30px auto;
 	max-width: 380px;
 }
-.upload-theme .install-help {
+.upload-theme .install-help,
+.upload-plugin .install-help {
 	color: #999;
 	font-size: 18px;
 	font-style: normal;

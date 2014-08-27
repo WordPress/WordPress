@@ -1262,18 +1262,25 @@ function map_meta_cap( $cap, $user_id ) {
 	case 'update_plugins':
 	case 'delete_plugins':
 	case 'install_plugins':
+	case 'upload_plugins':
 	case 'update_themes':
 	case 'delete_themes':
 	case 'install_themes':
+	case 'upload_themes':
 	case 'update_core':
 		// Disallow anything that creates, deletes, or updates core, plugin, or theme files.
 		// Files in uploads are excepted.
-		if ( defined( 'DISALLOW_FILE_MODS' ) && DISALLOW_FILE_MODS )
+		if ( defined( 'DISALLOW_FILE_MODS' ) && DISALLOW_FILE_MODS ) {
 			$caps[] = 'do_not_allow';
-		elseif ( is_multisite() && ! is_super_admin( $user_id ) )
+		} elseif ( is_multisite() && ! is_super_admin( $user_id ) ) {
 			$caps[] = 'do_not_allow';
-		else
+		} elseif ( 'upload_themes' === $cap ) {
+			$caps[] = 'install_themes';
+		} elseif ( 'upload_plugins' === $cap ) {
+			$caps[] = 'install_plugins';
+		} else {
 			$caps[] = $cap;
+		}
 		break;
 	case 'activate_plugins':
 		$caps[] = $cap;

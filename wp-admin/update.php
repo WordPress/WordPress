@@ -123,8 +123,9 @@ if ( isset($_GET['action']) ) {
 
 	} elseif ( 'upload-plugin' == $action ) {
 
-		if ( ! current_user_can('install_plugins') )
+		if ( ! current_user_can( 'upload_plugins' ) ) {
 			wp_die( __( 'You do not have sufficient permissions to install plugins on this site.' ) );
+		}
 
 		check_admin_referer('plugin-upload');
 
@@ -227,8 +228,9 @@ if ( isset($_GET['action']) ) {
 
 	} elseif ( 'upload-theme' == $action ) {
 
-		if ( ! current_user_can('install_themes') )
+		if ( ! current_user_can( 'upload_themes' ) ) {
 			wp_die( __( 'You do not have sufficient permissions to install themes on this site.' ) );
+		}
 
 		check_admin_referer('theme-upload');
 

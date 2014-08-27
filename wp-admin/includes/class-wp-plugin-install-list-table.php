@@ -69,8 +69,13 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 		if ( $tab === 'beta' || false !== strpos( $GLOBALS['wp_version'], '-' ) ) {
 			$tabs['beta']      = _x( 'Beta Testing', 'Plugin Installer' );
 		}
+		if ( current_user_can( 'upload_plugins' ) ) {
+			// No longer a real tab. Here for filter compatibility.
+			// Gets juggled into $nonmenu_tabs below.
+			$tabs['upload'] = __( 'Upload Plugin' );
+		}
 
-		$nonmenu_tabs = array( 'upload', 'plugin-information' ); //Valid actions to perform which do not have a Menu item.
+		$nonmenu_tabs = array( 'plugin-information' ); // Valid actions to perform which do not have a Menu item.
 
 		/**
 		 * Filter the tabs shown on the Plugin Install screen.
@@ -90,6 +95,11 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 		 * @param array $nonmenu_tabs The tabs that don't have a Menu item on the Plugin Install screen.
 		 */
 		$nonmenu_tabs = apply_filters( 'install_plugins_nonmenu_tabs', $nonmenu_tabs );
+
+		if ( isset( $tabs['upload'] ) ) {
+			unset( $tabs['upload'] );
+			$nonmenu_tabs[] = 'upload';
+		}
 
 		// If a non-valid menu tab has been selected, And it's not a non-menu action.
 		if ( empty( $tab ) || ( !isset( $tabs[ $tab ] ) && !in_array( $tab, (array) $nonmenu_tabs ) ) )

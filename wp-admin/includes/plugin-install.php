@@ -195,7 +195,7 @@ function install_search_form( $type_selector = true ) {
  */
 function install_plugins_upload( $page = 1 ) {
 ?>
-	<h4><?php _e('Install a plugin in .zip format'); ?></h4>
+<div class="upload-plugin">
 	<p class="install-help"><?php _e('If you have a plugin in a .zip format, you may install it by uploading it here.'); ?></p>
 	<form method="post" enctype="multipart/form-data" class="wp-upload-form" action="<?php echo self_admin_url('update.php?action=upload-plugin'); ?>">
 		<?php wp_nonce_field( 'plugin-upload'); ?>
@@ -203,6 +203,7 @@ function install_plugins_upload( $page = 1 ) {
 		<input type="file" id="pluginzip" name="pluginzip" />
 		<?php submit_button( __( 'Install Now' ), 'button', 'install-plugin-submit', false ); ?>
 	</form>
+</div>
 <?php
 }
 add_action('install_plugins_upload', 'install_plugins_upload', 10, 1);
