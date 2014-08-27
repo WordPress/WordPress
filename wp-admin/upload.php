@@ -32,7 +32,7 @@ if ( 'grid' === $mode ) {
 		'id'		=> 'overview',
 		'title'		=> __( 'Overview' ),
 		'content'	=>
-			'<p>' . __( 'All the files you&#8217;ve uploaded are listed in the Media Library, with the most recent uploads listed first. You can use the Screen Options tab to customize the display of this screen.' ) . '</p>'
+			'<p>' . __( 'All the files you&#8217;ve uploaded are listed in the Media Library, with the most recent uploads listed first.' ) . '</p>'
 	) );
 
 	get_current_screen()->set_help_sidebar(
