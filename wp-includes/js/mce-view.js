@@ -135,6 +135,7 @@ window.wp = window.wp || {};
 						iframe, iframeDoc, i, resize;
 
 					content.innerHTML = '';
+					head = head || '';
 
 					if ( importStyles ) {
 						if ( ! wp.mce.views.sandboxStyles ) {
