@@ -177,14 +177,12 @@
 	text-align: center;
 }
 
-.about-overview .wp-video {
-	margin: 0 auto;
-}
-
-.changelog .wp-playlist .wp-playlist-current-item img {
-	height: 64px;
-	width: auto;
-	max-width: 100%;
+.about-overview p {
+	margin: 1em auto 50px;
+	max-width: 770px;
+	font-size: 18px;
+	line-height: 1.5;
+	text-align: center;
 }
 
 .about-wrap .feature-section {
