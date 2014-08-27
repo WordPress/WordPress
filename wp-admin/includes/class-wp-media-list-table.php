@@ -194,7 +194,7 @@ class WP_Media_List_Table extends WP_List_Table {
 	$this->extra_tablenav( 'bar' );
 
 	/** This filter is documented in wp-admin/inclues/class-wp-list-table.php */
-	$views = apply_filters( "views_{$this->screen->id}", '' );
+	$views = apply_filters( "views_{$this->screen->id}", array() );
 
 	// Back compat for pre-4.0 view links.
 	if ( ! empty( $views ) ) {
