@@ -684,7 +684,7 @@ function wp_validate_auth_cookie($cookie = '', $scheme = '') {
 	}
 
 	$manager = WP_Session_Tokens::get_instance( $user->ID );
-	if ( ! $manager->verify_token( $token ) ) {
+	if ( ! $manager->verify( $token ) ) {
 		do_action( 'auth_cookie_bad_session_token', $cookie_elements );
 		return false;
 	}
@@ -728,7 +728,7 @@ function wp_generate_auth_cookie( $user_id, $expiration, $scheme = 'auth', $toke
 
 	if ( ! $token ) {
 		$manager = WP_Session_Tokens::get_instance( $user_id );
-		$token = $manager->create_token( $expiration );
+		$token = $manager->create( $expiration );
 	}
 
 	$pass_frag = substr($user->user_pass, 8, 4);
@@ -877,7 +877,7 @@ function wp_set_auth_cookie($user_id, $remember = false, $secure = '') {
 	}
 
 	$manager = WP_Session_Tokens::get_instance( $user_id );
-	$token = $manager->create_token( $expiration );
+	$token = $manager->create( $expiration );
 
 	$auth_cookie = wp_generate_auth_cookie( $user_id, $expiration, $scheme, $token );
 	$logged_in_cookie = wp_generate_auth_cookie( $user_id, $expiration, 'logged_in', $token );
