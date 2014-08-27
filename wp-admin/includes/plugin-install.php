@@ -128,11 +128,10 @@ function install_dashboard() {
 	?>
 	<p><?php printf( __( 'Plugins extend and expand the functionality of WordPress. You may automatically install plugins from the <a href="%1$s">WordPress Plugin Directory</a> or upload a plugin in .zip format via <a href="%2$s">this page</a>.' ), 'https://wordpress.org/plugins/', self_admin_url( 'plugin-install.php?tab=upload' ) ); ?></p>
 
-	<h4><?php _e('Search') ?></h4>
-	<?php install_search_form( false ); ?>
+	<?php display_plugins_table(); ?>
 
-	<h4><?php _e('Popular tags') ?></h4>
-	<p class="install-help"><?php _e('You may also browse based on the most popular tags in the Plugin Directory:') ?></p>
+	<h3><?php _e( 'Popular tags' ) ?></h3>
+	<p><?php _e( 'You may also browse based on the most popular tags in the Plugin Directory:' ) ?></p>
 	<?php
 
 	$api_tags = install_popular_tags();
@@ -153,7 +152,7 @@ function install_dashboard() {
 	}
 	echo '</p><br class="clear" />';
 }
-add_action('install_plugins_dashboard', 'install_dashboard');
+add_action( 'install_plugins_featured', 'install_dashboard' );
 
 /**
  * Display search form for searching plugins.
@@ -242,7 +241,6 @@ function display_plugins_table() {
 	$wp_list_table->display();
 }
 add_action( 'install_plugins_search',    'display_plugins_table' );
-add_action( 'install_plugins_featured',  'display_plugins_table' );
 add_action( 'install_plugins_popular',   'display_plugins_table' );
 add_action( 'install_plugins_new',       'display_plugins_table' );
 add_action( 'install_plugins_beta',      'display_plugins_table' );

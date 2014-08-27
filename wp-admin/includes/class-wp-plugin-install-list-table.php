@@ -64,7 +64,6 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 			$tabs['search']	= __( 'Search Results' );
 		$tabs['featured']  = _x( 'Featured', 'Plugin Installer' );
 		$tabs['popular']   = _x( 'Popular', 'Plugin Installer' );
-		$tabs['new']       = _x( 'Newest', 'Plugin Installer' );
 		$tabs['favorites'] = _x( 'Favorites', 'Plugin Installer' );
 		if ( $tab === 'beta' || false !== strpos( $GLOBALS['wp_version'], '-' ) ) {
 			$tabs['beta']      = _x( 'Beta Testing', 'Plugin Installer' );
@@ -273,6 +272,10 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 	}
 
 	protected function display_tablenav( $which ) {
+		if ( $GLOBALS['tab'] === 'featured' ) {
+			return;
+		}
+
 		if ( 'top' ==  $which ) { ?>
 			<div class="tablenav top">
 				<div class="alignleft actions">

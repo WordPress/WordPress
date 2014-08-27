@@ -1241,7 +1241,6 @@ tr.active + tr.plugin-update-tr .plugin-update .update-message {
 	margin-top: 1.5em;
 }
 
-.plugin-group:first-of-type,
 .plugin-group h3 {
 	margin-top: 0;
 }
