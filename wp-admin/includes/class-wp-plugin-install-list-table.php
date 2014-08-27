@@ -70,7 +70,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 		}
 		if ( current_user_can( 'upload_plugins' ) ) {
 			// No longer a real tab. Here for filter compatibility.
-			// Gets juggled into $nonmenu_tabs below.
+			// Gets skipped in get_views().
 			$tabs['upload'] = __( 'Upload Plugin' );
 		}
 
@@ -94,11 +94,6 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 		 * @param array $nonmenu_tabs The tabs that don't have a Menu item on the Plugin Install screen.
 		 */
 		$nonmenu_tabs = apply_filters( 'install_plugins_nonmenu_tabs', $nonmenu_tabs );
-
-		if ( isset( $tabs['upload'] ) ) {
-			unset( $tabs['upload'] );
-			$nonmenu_tabs[] = 'upload';
-		}
 
 		// If a non-valid menu tab has been selected, And it's not a non-menu action.
 		if ( empty( $tab ) || ( !isset( $tabs[ $tab ] ) && !in_array( $tab, (array) $nonmenu_tabs ) ) )
@@ -215,6 +210,8 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 			$href = self_admin_url('plugin-install.php?tab=' . $action);
 			$display_tabs['plugin-install-'.$action] = "<a href='$href' class='$class'>$text</a>";
 		}
+		// No longer a real tab.
+		unset( $display_tabs['plugin-install-upload'] );
 
 		return $display_tabs;
 	}
