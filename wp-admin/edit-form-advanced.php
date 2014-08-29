@@ -13,6 +13,13 @@ if ( !defined('ABSPATH') )
 wp_enqueue_script('post');
 $_wp_editor_expand = false;
 
+/**
+ * Filter whether to enable the 'expand' functionality in the post editor.
+ *
+ * @since 4.0.0
+ *
+ * @param bool $expand Whether to enable the 'expand' functionality. Default true.
+ */
 if ( post_type_supports( $post_type, 'editor' ) && ! wp_is_mobile() &&
 	 ! ( $is_IE && preg_match( '/MSIE [5678]/', $_SERVER['HTTP_USER_AGENT'] ) ) &&
 	 apply_filters( 'wp_editor_expand', true ) ) {
