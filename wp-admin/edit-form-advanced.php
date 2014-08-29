@@ -11,12 +11,14 @@ if ( !defined('ABSPATH') )
 	die('-1');
 
 wp_enqueue_script('post');
+$_wp_editor_expand = false;
 
 if ( post_type_supports( $post_type, 'editor' ) && ! wp_is_mobile() &&
-	 ! ( $is_IE && preg_match( '/MSIE [5678]/', $_SERVER['HTTP_USER_AGENT'] ) ) ) {
+	 ! ( $is_IE && preg_match( '/MSIE [5678]/', $_SERVER['HTTP_USER_AGENT'] ) ) &&
+	 apply_filters( 'wp_editor_expand', true ) ) {
 
 	wp_enqueue_script('editor-expand');
-	$_wp_autoresize_on = true;
+	$_wp_editor_expand = ( get_user_setting( 'editor_expand', 'on' ) === 'on' );
 }
 
 if ( wp_is_mobile() )
@@ -490,7 +492,7 @@ do_action( 'edit_form_after_title', $post );
 
 if ( post_type_supports($post_type, 'editor') ) {
 ?>
-<div id="postdivrich" class="postarea<?php if ( get_user_setting( 'editor_expand', 'on' ) === 'on' ) { echo ' wp-editor-expand'; } ?>">
+<div id="postdivrich" class="postarea<?php if ( $_wp_editor_expand ) { echo ' wp-editor-expand'; } ?>">
 
 <?php wp_editor( $post->post_content, 'content', array(
 	'dfw' => true,
@@ -499,7 +501,7 @@ if ( post_type_supports($post_type, 'editor') ) {
 	'editor_height' => 300,
 	'tinymce' => array(
 		'resize' => false,
-		'wp_autoresize_on' => ( ! empty( $_wp_autoresize_on ) && get_user_setting( 'editor_expand', 'on' ) === 'on' ),
+		'wp_autoresize_on' => $_wp_editor_expand,
 		'add_unload_trigger' => false,
 	),
 ) ); ?>
