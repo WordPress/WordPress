@@ -1817,6 +1817,8 @@ class WP_Query {
 	/**
 	 * Parses various taxonomy related query vars.
 	 *
+	 * For BC, this method is not marked as protected. See [28987].
+	 *
 	 * @access protected
 	 * @since 3.1.0
 	 *
