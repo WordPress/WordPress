@@ -7,7 +7,7 @@
 		initialize : function (options) {
 			this.index = 0;
 			this.settings = {};
-			this.data = options.metadata || $.parseJSON( this.$('script').html() );
+			this.data = options.metadata || $.parseJSON( this.$('script.wp-playlist-script').html() );
 			this.playerNode = this.$( this.data.type );
 
 			this.tracks = new Backbone.Collection( this.data.tracks );
