@@ -1223,9 +1223,16 @@ class Language_Pack_Upgrader extends WP_Upgrader {
 	}
 
 	public function upgrade( $update = false, $args = array() ) {
-		if ( $update )
+		if ( $update ) {
 			$update = array( $update );
+		}
+
 		$results = $this->bulk_upgrade( $update, $args );
+
+		if ( ! is_array( $results ) ) {
+			return $results;
+		}
+
 		return $results[0];
 	}
 
