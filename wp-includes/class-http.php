@@ -201,11 +201,7 @@ class WP_Http {
 
 		// Determine if this request is to OUR install of WordPress.
 		$homeURL = parse_url( get_bloginfo( 'url' ) );
-		if ( isset( $homeURL['host'] ) ) {
-			$r['local'] = ( $homeURL['host'] == $arrURL['host'] || 'localhost' == $arrURL['host'] );
-		} else {
-			$r['local'] = false;
-		}
+		$r['local'] = 'localhost' == $arrURL['host'] || ( isset( $homeURL['host'] ) && $homeURL['host'] == $arrURL['host'] );
 		unset( $homeURL );
 
 		/*
@@ -637,7 +633,7 @@ class WP_Http {
 		$home = parse_url( get_option('siteurl') );
 
 		// Don't block requests back to ourselves by default.
-		if ( $check['host'] == 'localhost' || $check['host'] == $home['host'] ) {
+		if ( 'localhost' == $check['host'] || ( isset( $home['host'] ) && $home['host'] == $check['host'] ) ) {
 			/**
 			 * Filter whether to block local requests through the proxy.
 			 *
@@ -1732,7 +1728,7 @@ class WP_HTTP_Proxy {
 		if ( ! is_null( $result ) )
 			return $result;
 
-		if ( $check['host'] == 'localhost' || $check['host'] == $home['host'] )
+		if ( 'localhost' == $check['host'] || ( isset( $home['host'] ) && $home['host'] == $check['host'] ) )
 			return false;
 
 		if ( !defined('WP_PROXY_BYPASS_HOSTS') )
