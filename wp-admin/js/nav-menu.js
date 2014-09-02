@@ -534,7 +534,7 @@ var wpNavMenu;
 
 		initPreviewing : function() {
 			// Update the item handle title when the navigation label is changed.
-			$( 'body' ).on( 'input', '.edit-menu-item-title', function(e) {
+			$( '#menu-to-edit' ).on( 'change input', '.edit-menu-item-title', function(e) {
 				var input = $( e.currentTarget ), title, titleEl;
 				title = input.val();
 				titleEl = input.closest( '.menu-item' ).find( '.menu-item-title' );
