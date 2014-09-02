@@ -474,11 +474,11 @@ class WP_Comments_List_Table extends WP_List_Table {
 			if ( 'spam' != $the_comment_status && 'trash' != $the_comment_status ) {
 				$actions['edit'] = "<a href='comment.php?action=editcomment&amp;c={$comment->comment_ID}' title='" . esc_attr__( 'Edit comment' ) . "'>". __( 'Edit' ) . '</a>';
 
-				$format = '<a data-comment-id="%d" data-post-id="%d" class="%s" title="%s" href="#">%s</a>';
+				$format = '<a data-comment-id="%d" data-post-id="%d" data-action="%s" class="%s" title="%s" href="#">%s</a>';
 
-				$actions['quickedit'] = sprintf( $format, $comment->comment_ID, $post->ID, 'vim-q edit-comment-inline', esc_attr__( 'Quick Edit' ), __( 'Quick Edit' ) );
+				$actions['quickedit'] = sprintf( $format, $comment->comment_ID, $post->ID, 'edit', 'vim-q comment-inline', esc_attr__( 'Quick Edit' ), __( 'Quick Edit' ) );
 
-				$actions['reply'] = sprintf( $format, $comment->comment_ID, $post->ID, 'vim-r reply-comment-inline', esc_attr__( 'Reply to this comment' ), __( 'Reply' ) );
+				$actions['reply'] = sprintf( $format, $comment->comment_ID, $post->ID, 'replyto', 'vim-r comment-inline', esc_attr__( 'Reply to this comment' ), __( 'Reply' ) );
 			}
 
 			/** This filter is documented in wp-admin/includes/dashboard.php */
