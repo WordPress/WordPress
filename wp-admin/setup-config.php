@@ -110,6 +110,7 @@ switch($step) {
 			$loaded_language = wp_download_language_pack( $language );
 			if ( $loaded_language ) {
 				load_default_textdomain( $loaded_language );
+				$GLOBALS['wp_locale'] = new WP_Locale();
 			}
 		}
 
@@ -144,6 +145,8 @@ switch($step) {
 
 	case 1:
 		load_default_textdomain( $language );
+		$GLOBALS['wp_locale'] = new WP_Locale();
+
 		setup_config_display_header();
 	?>
 <form method="post" action="setup-config.php?step=2">
@@ -184,6 +187,8 @@ switch($step) {
 
 	case 2:
 	load_default_textdomain( $language );
+	$GLOBALS['wp_locale'] = new WP_Locale();
+
 	$dbname = trim( wp_unslash( $_POST[ 'dbname' ] ) );
 	$uname = trim( wp_unslash( $_POST[ 'uname' ] ) );
 	$pwd = trim( wp_unslash( $_POST[ 'pwd' ] ) );

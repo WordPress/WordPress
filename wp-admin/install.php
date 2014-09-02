@@ -204,6 +204,7 @@ switch($step) {
 			$loaded_language = wp_download_language_pack( $langugage );
 			if ( $loaded_language ) {
 				load_default_textdomain( $loaded_language );
+				$GLOBALS['wp_locale'] = new WP_Locale();
 			}
 		}
 
@@ -221,6 +222,7 @@ switch($step) {
 	case 2:
 		if ( ! empty( $langugage ) && load_default_textdomain( $langugage ) ) {
 			$loaded_language = $langugage;
+			$GLOBALS['wp_locale'] = new WP_Locale();
 		} else {
 			$loaded_language = 'en_US';
 		}
