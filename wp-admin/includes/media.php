@@ -528,8 +528,9 @@ function media_buttons($editor_id = 'content') {
 
 	$img = '<span class="wp-media-buttons-icon"></span> ';
 
-	printf( '<a href="#" id="insert-media-button-%d" class="button insert-media add_media" data-editor="%s" title="%s">%s</a>',
-		$instance,
+	$id_attribute = $instance === 1 ? ' id="insert-media-button"' : '';
+	printf( '<a href="#"%s class="button insert-media add_media" data-editor="%s" title="%s">%s</a>',
+		$id_attribute,
 		esc_attr( $editor_id ),
 		esc_attr__( 'Add Media' ),
 		$img . __( 'Add Media' )

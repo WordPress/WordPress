@@ -504,7 +504,7 @@ if ( post_type_supports($post_type, 'editor') ) {
 <?php wp_editor( $post->post_content, 'content', array(
 	'dfw' => true,
 	'drag_drop_upload' => true,
-	'tabfocus_elements' => 'insert-media-button-1,save-post',
+	'tabfocus_elements' => 'insert-media-button,save-post',
 	'editor_height' => 300,
 	'tinymce' => array(
 		'resize' => false,
