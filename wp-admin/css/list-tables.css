@@ -1227,6 +1227,10 @@ tr.active + tr.plugin-update-tr .plugin-update .update-message {
 	background-color: #fcf3ef;
 }
 
+.plugin-install-php h3 {
+	clear: both;
+}
+
 .plugin-install-php h4 {
 	margin: 2.5em 0 8px;
 }
