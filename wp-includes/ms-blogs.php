@@ -235,10 +235,14 @@ function get_blog_details( $fields = null, $get_all = true ) {
  *
  * @since MU
  *
- * @param int $blog_id Blog ID
+ * @param int $blog_id Optional. Blog ID. Defaults to current blog.
  */
-function refresh_blog_details( $blog_id ) {
+function refresh_blog_details( $blog_id = 0 ) {
 	$blog_id = (int) $blog_id;
+	if ( ! $blog_id ) {
+		$blog_id = get_current_blog_id();
+	}
+
 	$details = get_blog_details( $blog_id, false );
 	if ( ! $details ) {
 		// Make sure clean_blog_cache() gets the blog ID
@@ -261,19 +265,6 @@ function refresh_blog_details( $blog_id ) {
 	 * @param int $blog_id Blog ID.
 	 */
 	do_action( 'refresh_blog_details', $blog_id );
-}
-
-/**
- * Refresh blog details when an option is updated.
- *
- * @access private
- * @param string $option_name
- */
-function _wp_refresh_blog_details_on_updated_option( $option_name ) {
-	$options = array( 'blogname', 'siteurl', 'post_count' );
-	if ( in_array( $option_name, $options ) ) {
-		refresh_blog_details( get_current_blog_id() );
-	}
 }
 
 /**
