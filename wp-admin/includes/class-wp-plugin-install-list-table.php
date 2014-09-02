@@ -179,7 +179,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 		$this->items = $api->plugins;
 
 		if ( $this->orderby ) {
-			uasort( $this->items, array( $this, '_order_callback' ) );
+			uasort( $this->items, array( $this, 'order_callback' ) );
 		}
 
 		$this->set_pagination_args( array(
@@ -304,7 +304,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 		return array();
 	}
 
-	public function _order_callback( $plugin_a, $plugin_b ) {
+	private function order_callback( $plugin_a, $plugin_b ) {
 		$orderby = $this->orderby;
 		if ( ! isset( $plugin_a->$orderby, $plugin_b->$orderby ) ) {
 			return 0;
