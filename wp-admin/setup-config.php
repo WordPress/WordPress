@@ -77,12 +77,10 @@ function setup_config_display_header( $body_classes = array() ) {
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"<?php if ( is_rtl() ) echo ' dir="rtl"'; ?>>
 <head>
-<meta name="viewport" content="width=device-width" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title><?php _e( 'WordPress &rsaquo; Setup Configuration File' ); ?></title>
-<link rel="stylesheet" href="css/install.css?ver=<?php echo preg_replace( '/[^0-9a-z\.-]/i', '', $wp_version ); ?>" type="text/css" />
-<link rel="stylesheet" href="../<?php echo WPINC ?>/css/buttons.css?ver=<?php echo preg_replace( '/[^0-9a-z\.-]/i', '', $wp_version ); ?>" type="text/css" />
-
+	<meta name="viewport" content="width=device-width" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title><?php _e( 'WordPress &rsaquo; Setup Configuration File' ); ?></title>
+	<?php wp_admin_css( 'install', true ); ?>
 </head>
 <body class="<?php echo implode( ' ', $body_classes ); ?>">
 <h1 id="logo"><a href="<?php esc_attr_e( 'https://wordpress.org/' ); ?>" tabindex="-1"><?php _e( 'WordPress' ); ?></a></h1>
