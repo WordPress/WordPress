@@ -105,7 +105,6 @@ input#s {
 }
 
 /* Assistive text */
-#access a.assistive-text:active,
 #access a.assistive-text:focus {
 	left: auto;
 	right: 7.6%;

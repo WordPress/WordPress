@@ -1,8 +1,10 @@
 <?php
 /**
- * The template for displaying posts in the Link Post Format on index and archive pages
+ * Template for displaying posts in the Link Post Format
  *
- * Learn more: http://codex.wordpress.org/Post_Formats
+ * Used on index and archive pages
+ *
+ * @link http://codex.wordpress.org/Post_Formats
  *
  * @package WordPress
  * @subpackage Twenty_Eleven
@@ -13,7 +15,7 @@
 	<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 		<header class="entry-header">
 			<hgroup>
-				<h2 class="entry-title"><a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( 'Permalink to %s', 'twentyeleven' ), the_title_attribute( 'echo=0' ) ); ?>" rel="bookmark"><?php the_title(); ?></a></h2>
+				<h2 class="entry-title"><a href="<?php the_permalink(); ?>" rel="bookmark"><?php the_title(); ?></a></h2>
 				<h3 class="entry-format"><?php _e( 'Link', 'twentyeleven' ); ?></h3>
 			</hgroup>
 

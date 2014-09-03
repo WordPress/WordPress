@@ -7,7 +7,7 @@
  *
  * @author Elias Torres <elias@torrez.us>
  * @version 0.4
- * @since 2.3
+ * @since 2.3.0
  */
 
 /**
@@ -131,8 +131,8 @@ class AtomParser {
 
             if(!xml_parse($parser, $data, feof($fp))) {
                 trigger_error(sprintf(__('XML error: %s at line %d')."\n",
-                    xml_error_string(xml_get_error_code($xml_parser)),
-                    xml_get_current_line_number($xml_parser)));
+                    xml_error_string(xml_get_error_code($parser)),
+                    xml_get_current_line_number($parser)));
                 $ret = false;
                 break;
             }

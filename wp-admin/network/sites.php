@@ -8,7 +8,7 @@
  */
 
 /** Load WordPress Administration Bootstrap */
-require_once( './admin.php' );
+require_once( dirname( __FILE__ ) . '/admin.php' );
 
 if ( ! is_multisite() )
 	wp_die( __( 'Multisite support is not enabled.' ) );
@@ -43,62 +43,56 @@ get_current_screen()->add_help_tab( array(
 get_current_screen()->set_help_sidebar(
 	'<p><strong>' . __('For more information:') . '</strong></p>' .
 	'<p>' . __('<a href="http://codex.wordpress.org/Network_Admin_Sites_Screen" target="_blank">Documentation on Site Management</a>') . '</p>' .
-	'<p>' . __('<a href="http://wordpress.org/support/forum/multisite/" target="_blank">Support Forums</a>') . '</p>'
+	'<p>' . __('<a href="https://wordpress.org/support/forum/multisite/" target="_blank">Support Forums</a>') . '</p>'
 );
 
 $id = isset( $_REQUEST['id'] ) ? intval( $_REQUEST['id'] ) : 0;
 
 if ( isset( $_GET['action'] ) ) {
-	do_action( 'wpmuadminedit' , '' );
+	/** This action is documented in wp-admin/network/edit.php */
+	do_action( 'wpmuadminedit' );
 
 	if ( 'confirm' === $_GET['action'] ) {
 		check_admin_referer( 'confirm' );
-		
+
 		if ( ! headers_sent() ) {
 			nocache_headers();
 			header( 'Content-Type: text/html; charset=utf-8' );
 		}
-		if ( $current_site->blog_id == $id )
-			wp_die( __( 'You are not allowed to change the current site.' ) );
-		?>
-		<!DOCTYPE html>
-		<html xmlns="http://www.w3.org/1999/xhtml" <?php language_attributes(); ?>>
-			<head>
-				<title><?php _e( 'WordPress &rsaquo; Confirm your action' ); ?></title>
 
-				<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-				<?php
-				wp_admin_css( 'install', true );
-				wp_admin_css( 'ie', true );
-				?>
-			</head>
-			<body>
-				<h1 id="logo"><img alt="WordPress" src="<?php echo esc_attr( admin_url( 'images/wordpress-logo.png?ver=20120216' ) ); ?>" /></h1>
+		if ( $current_site->blog_id == $id ) {
+			wp_die( __( 'You are not allowed to change the current site.' ) );
+		}
+
+		require_once( ABSPATH . 'wp-admin/admin-header.php' );
+		?>
+			<div class="wrap">
+				<h2><?php _e( 'Confirm your action' ); ?></h2>
 				<form action="sites.php?action=<?php echo esc_attr( $_GET['action2'] ) ?>" method="post">
 					<input type="hidden" name="action" value="<?php echo esc_attr( $_GET['action2'] ) ?>" />
 					<input type="hidden" name="id" value="<?php echo esc_attr( $id ); ?>" />
 					<input type="hidden" name="_wp_http_referer" value="<?php echo esc_attr( wp_get_referer() ); ?>" />
 					<?php wp_nonce_field( $_GET['action2'], '_wpnonce', false ); ?>
-					<p><?php echo esc_html( stripslashes( $_GET['msg'] ) ); ?></p>
-					<?php submit_button( __('Confirm'), 'button' ); ?>
+					<p><?php echo esc_html( wp_unslash( $_GET['msg'] ) ); ?></p>
+					<?php submit_button( __( 'Confirm' ), 'button' ); ?>
 				</form>
-			</body>
-		</html>
+			</div>
 		<?php
-		exit();	
+		require_once( ABSPATH . 'wp-admin/admin-footer.php' );
+		exit();
 	}
-	
+
 	$updated_action = '';
-	
+
 	$manage_actions = array( 'deleteblog', 'allblogs', 'archiveblog', 'unarchiveblog', 'activateblog', 'deactivateblog', 'unspamblog', 'spamblog', 'unmatureblog', 'matureblog' );
-	if ( in_array( $_GET['action'], $manage_actions ) ) {		
+	if ( in_array( $_GET['action'], $manage_actions ) ) {
 		$action = $_GET['action'];
 		if ( 'allblogs' === $action )
 			$action = 'bulk-sites';
 
 		check_admin_referer( $action );
-	} 
-		
+	}
+
 	switch ( $_GET['action'] ) {
 
 		case 'deleteblog':
@@ -108,21 +102,21 @@ if ( isset( $_GET['action'] ) ) {
 			$updated_action = 'not_deleted';
 			if ( $id != '0' && $id != $current_site->blog_id && current_user_can( 'delete_site', $id ) ) {
 				wpmu_delete_blog( $id, true );
-				$updated_action = 'delete';	
+				$updated_action = 'delete';
 			}
 		break;
 
 		case 'allblogs':
 			if ( ( isset( $_POST['action'] ) || isset( $_POST['action2'] ) ) && isset( $_POST['allblogs'] ) ) {
 				$doaction = $_POST['action'] != -1 ? $_POST['action'] : $_POST['action2'];
-				
+
 				foreach ( (array) $_POST['allblogs'] as $key => $val ) {
 					if ( $val != '0' && $val != $current_site->blog_id ) {
 						switch ( $doaction ) {
 							case 'delete':
 								if ( ! current_user_can( 'delete_site', $val ) )
 									wp_die( __( 'You are not allowed to delete the site.' ) );
-								
+
 								$updated_action = 'all_delete';
 								wpmu_delete_blog( $val, true );
 							break;
@@ -131,7 +125,6 @@ if ( isset( $_GET['action'] ) ) {
 							case 'notspam':
 								$updated_action = ( 'spam' === $doaction ) ? 'all_spam' : 'all_notspam';
 								update_blog_status( $val, 'spam', ( 'spam' === $doaction ) ? '1' : '0' );
-								set_time_limit( 60 );
 							break;
 						}
 					} else {
@@ -151,10 +144,25 @@ if ( isset( $_GET['action'] ) ) {
 
 		case 'activateblog':
 			update_blog_status( $id, 'deleted', '0' );
+
+			/**
+			 * Fires after a network site is activated.
+			 *
+			 * @since MU
+			 *
+			 * @param string $id The ID of the activated site.
+			 */
 			do_action( 'activate_blog', $id );
 		break;
 
 		case 'deactivateblog':
+			/**
+			 * Fires before a network site is deactivated.
+			 *
+			 * @since MU
+			 *
+			 * @param string $id The ID of the site being deactivated.
+			 */
 			do_action( 'deactivate_blog', $id );
 			update_blog_status( $id, 'deleted', '1' );
 		break;
@@ -163,16 +171,16 @@ if ( isset( $_GET['action'] ) ) {
 		case 'spamblog':
 			update_blog_status( $id, 'spam', ( 'spamblog' === $_GET['action'] ) ? '1' : '0' );
 		break;
-	
+
 		case 'unmatureblog':
 		case 'matureblog':
 			update_blog_status( $id, 'mature', ( 'matureblog' === $_GET['action'] ) ? '1' : '0' );
 		break;
 	}
-	
+
 	if ( empty( $updated_action ) && in_array( $_GET['action'], $manage_actions ) )
 		$updated_action = $_GET['action'];
-	
+
 	if ( ! empty( $updated_action ) ) {
 		wp_safe_redirect( add_query_arg( array( 'updated' => $updated_action ), wp_get_referer() ) );
 		exit();
@@ -216,23 +224,32 @@ if ( isset( $_GET['updated'] ) ) {
 			$msg = __( 'Site marked as spam.' );
 		break;
 		default:
+			/**
+			 * Filter a specific, non-default site-updated message in the Network admin.
+			 *
+			 * The dynamic portion of the hook name, $_GET['updated'], refers to the non-default
+			 * site update action.
+			 *
+			 * @since 3.1.0
+			 *
+			 * @param string $msg The update message. Default 'Settings saved'.
+			 */
 			$msg = apply_filters( 'network_sites_updated_message_' . $_GET['updated'], __( 'Settings saved.' ) );
 		break;
 	}
-	
+
 	if ( ! empty( $msg ) )
 		$msg = '<div class="updated" id="message"><p>' . $msg . '</p></div>';
 }
 
 $wp_list_table->prepare_items();
 
-require_once( '../admin-header.php' );
+require_once( ABSPATH . 'wp-admin/admin-header.php' );
 ?>
 
 <div class="wrap">
-<?php screen_icon( 'ms-admin' ); ?>
 <h2><?php _e( 'Sites' ) ?>
-	
+
 <?php if ( current_user_can( 'create_sites') ) : ?>
 	<a href="<?php echo network_admin_url('site-new.php'); ?>" class="add-new-h2"><?php echo esc_html_x( 'Add New', 'site' ); ?></a>
 <?php endif; ?>
@@ -242,8 +259,8 @@ require_once( '../admin-header.php' );
 } ?>
 </h2>
 
-<?php echo $msg; ?>	
-	
+<?php echo $msg; ?>
+
 <form action="" method="get" id="ms-search">
 <?php $wp_list_table->search_box( __( 'Search Sites' ), 'site' ); ?>
 <input type="hidden" name="action" value="blogs" />
@@ -255,4 +272,4 @@ require_once( '../admin-header.php' );
 </div>
 <?php
 
-require_once( '../admin-footer.php' ); ?>
+require_once( ABSPATH . 'wp-admin/admin-footer.php' ); ?>

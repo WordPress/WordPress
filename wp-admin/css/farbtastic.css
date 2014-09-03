@@ -39,14 +39,3 @@
   overflow: hidden;
   background: url(../images/marker.png) no-repeat;
 }
-
-/* farbtastic-rtl */
-.rtl .farbtastic .color,
-.rtl .farbtastic .overlay {
-	left: 0;
-	right: 47px;
-}
-
-.rtl .farbtastic .marker {
-	margin: -8px -8px 0 0;
-}

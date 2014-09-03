@@ -13,7 +13,7 @@
 define( 'WP_INSTALLING_NETWORK', true );
 
 /** WordPress Administration Bootstrap */
-require_once( './admin.php' );
+require_once( dirname( __FILE__ ) . '/admin.php' );
 
 if ( ! is_super_admin() )
 	wp_die( __( 'You do not have sufficient permissions to manage options for this site.' ) );
@@ -39,8 +39,11 @@ foreach ( $wpdb->tables( 'ms_global' ) as $table => $prefixed_table )
  */
 function network_domain_check() {
 	global $wpdb;
-	if ( $wpdb->get_var( "SHOW TABLES LIKE '$wpdb->site'" ) )
+
+	$sql = $wpdb->prepare( "SHOW TABLES LIKE %s", $wpdb->esc_like( $wpdb->site ) );
+	if ( $wpdb->get_var( $sql ) ) {
 		return $wpdb->get_var( "SELECT domain FROM $wpdb->site ORDER BY id ASC LIMIT 1" );
+	}
 	return false;
 }
 
@@ -58,13 +61,20 @@ function allow_subdomain_install() {
 	return true;
 }
 /**
- * Allow subdirectory install
+ * Allow subdirectory install.
  *
  * @since 3.0.0
  * @return bool Whether subdirectory install is allowed
  */
 function allow_subdirectory_install() {
 	global $wpdb;
+        /**
+         * Filter whether to enable the subdirectory install feature in Multisite.
+         *
+         * @since 3.0.0
+         *
+         * @param bool true Whether to enable the subdirectory install feature in Multisite. Default is false.
+         */
 	if ( apply_filters( 'allow_subdirectory_install', false ) )
 		return true;
 
@@ -123,13 +133,12 @@ get_current_screen()->set_help_sidebar(
 	'<p><strong>' . __('For more information:') . '</strong></p>' .
 	'<p>' . __('<a href="http://codex.wordpress.org/Create_A_Network" target="_blank">Documentation on Creating a Network</a>') . '</p>' .
 	'<p>' . __('<a href="http://codex.wordpress.org/Tools_Network_Screen" target="_blank">Documentation on the Network Screen</a>') . '</p>' .
-	'<p>' . __('<a href="http://wordpress.org/support/" target="_blank">Support Forums</a>') . '</p>'
+	'<p>' . __('<a href="https://wordpress.org/support/" target="_blank">Support Forums</a>') . '</p>'
 );
 
 include( ABSPATH . 'wp-admin/admin-header.php' );
 ?>
 <div class="wrap">
-<?php screen_icon('tools'); ?>
 <h2><?php echo esc_html( $title ); ?></h2>
 
 <?php
@@ -147,7 +156,7 @@ function network_step1( $errors = false ) {
 	if ( defined('DO_NOT_UPGRADE_GLOBAL_TABLES') ) {
 		echo '<div class="error"><p><strong>' . __('ERROR:') . '</strong> ' . __( 'The constant DO_NOT_UPGRADE_GLOBAL_TABLES cannot be defined when creating a network.' ) . '</p></div>';
 		echo '</div>';
-		include ( ABSPATH . 'wp-admin/admin-footer.php' );
+		include( ABSPATH . 'wp-admin/admin-footer.php' );
 		die();
 	}
 
@@ -213,11 +222,11 @@ function network_step1( $errors = false ) {
 		<?php // @todo: Link to an MS readme? ?>
 		<table class="form-table">
 			<tr>
-				<th><label><input type='radio' name='subdomain_install' value='1'<?php checked( $subdomain_install ); ?> /> <?php _e( 'Sub-domains' ); ?></label></th>
+				<th><label><input type="radio" name="subdomain_install" value="1"<?php checked( $subdomain_install ); ?> /> <?php _e( 'Sub-domains' ); ?></label></th>
 				<td><?php printf( _x( 'like <code>site1.%1$s</code> and <code>site2.%1$s</code>', 'subdomain examples' ), $hostname ); ?></td>
 			</tr>
 			<tr>
-				<th><label><input type='radio' name='subdomain_install' value='0'<?php checked( ! $subdomain_install ); ?> /> <?php _e( 'Sub-directories' ); ?></label></th>
+				<th><label><input type="radio" name="subdomain_install" value="0"<?php checked( ! $subdomain_install ); ?> /> <?php _e( 'Sub-directories' ); ?></label></th>
 				<td><?php printf( _x( 'like <code>%1$s/site1</code> and <code>%1$s/site2</code>', 'subdirectory examples' ), $hostname ); ?></td>
 			</tr>
 		</table>
@@ -285,14 +294,18 @@ function network_step1( $errors = false ) {
 				<th scope='row'><?php esc_html_e( 'Network Title' ); ?></th>
 				<td>
 					<input name='sitename' type='text' size='45' value='<?php echo esc_attr( $site_name ); ?>' />
-					<br /><?php _e( 'What would you like to call your network?' ); ?>
+					<p class="description">
+						<?php _e( 'What would you like to call your network?' ); ?>
+					</p>
 				</td>
 			</tr>
 			<tr>
-				<th scope='row'><?php esc_html_e( 'Admin E-mail Address' ); ?></th>
+				<th scope='row'><?php esc_html_e( 'Network Admin Email' ); ?></th>
 				<td>
 					<input name='email' type='text' size='45' value='<?php echo esc_attr( $admin_email ); ?>' />
-					<br /><?php _e( 'Your email address.' ); ?>
+					<p class="description">
+						<?php _e( 'Your email address.' ); ?>
+					</p>
 				</td>
 			</tr>
 		</table>
@@ -312,9 +325,18 @@ function network_step2( $errors = false ) {
 	$hostname          = get_clean_basedomain();
 	$slashed_home      = trailingslashit( get_option( 'home' ) );
 	$base              = parse_url( $slashed_home, PHP_URL_PATH );
-	$wp_dir_from_root  = preg_replace( '#^' . preg_quote( $_SERVER['DOCUMENT_ROOT'], '#' ) . '#', '', ABSPATH );
-	$wp_siteurl_subdir = trailingslashit( '/' . preg_replace( '#^' . preg_quote( $base, '#' ) . '#', '', $wp_dir_from_root ) );
+	$document_root_fix = str_replace( '\\', '/', realpath( $_SERVER['DOCUMENT_ROOT'] ) );
+	$abspath_fix       = str_replace( '\\', '/', ABSPATH );
+	$home_path         = 0 === strpos( $abspath_fix, $document_root_fix ) ? $document_root_fix . $base : get_home_path();
+	$wp_siteurl_subdir = preg_replace( '#^' . preg_quote( $home_path, '#' ) . '#', '', $abspath_fix );
 	$rewrite_base      = ! empty( $wp_siteurl_subdir ) ? ltrim( trailingslashit( $wp_siteurl_subdir ), '/' ) : '';
+
+
+	$location_of_wp_config = $abspath_fix;
+	if ( ! file_exists( ABSPATH . 'wp-config.php' ) && file_exists( dirname( ABSPATH ) . '/wp-config.php' ) ) {
+		$location_of_wp_config = dirname( $abspath_fix );
+	}
+	$location_of_wp_config = trailingslashit( $location_of_wp_config );
 
 	// Wildcard DNS message.
 	if ( is_wp_error( $errors ) )
@@ -340,7 +362,7 @@ function network_step2( $errors = false ) {
 		}
 	}
 
-	$subdir_match        = $subdomain_install ? '' : '([_0-9a-zA-Z-]+/)?';
+	$subdir_match          = $subdomain_install ? '' : '([_0-9a-zA-Z-]+/)?';
 	$subdir_replacement_01 = $subdomain_install ? '' : '$1';
 	$subdir_replacement_12 = $subdomain_install ? '$1' : '$2';
 
@@ -349,9 +371,9 @@ function network_step2( $errors = false ) {
 		<h3><?php esc_html_e( 'Enabling the Network' ); ?></h3>
 		<p><?php _e( 'Complete the following steps to enable the features for creating a network of sites.' ); ?></p>
 		<div class="updated inline"><p><?php
-			if ( file_exists( ABSPATH . '.htaccess' ) )
+			if ( file_exists( $home_path . '.htaccess' ) )
 				printf( __( '<strong>Caution:</strong> We recommend you back up your existing <code>wp-config.php</code> and <code>%s</code> files.' ), '.htaccess' );
-			elseif ( file_exists( ABSPATH . 'web.config' ) )
+			elseif ( file_exists( $home_path . 'web.config' ) )
 				printf( __( '<strong>Caution:</strong> We recommend you back up your existing <code>wp-config.php</code> and <code>%s</code> files.' ), 'web.config' );
 			else
 				_e( '<strong>Caution:</strong> We recommend you back up your existing <code>wp-config.php</code> file.' );
@@ -360,15 +382,14 @@ function network_step2( $errors = false ) {
 	}
 ?>
 		<ol>
-			<li><p><?php printf( __( 'Add the following to your <code>wp-config.php</code> file in <code>%s</code> <strong>above</strong> the line reading <code>/* That&#8217;s all, stop editing! Happy blogging. */</code>:' ), ABSPATH ); ?></p>
+			<li><p><?php printf( __( 'Add the following to your <code>wp-config.php</code> file in <code>%s</code> <strong>above</strong> the line reading <code>/* That&#8217;s all, stop editing! Happy blogging. */</code>:' ), $location_of_wp_config ); ?></p>
 				<textarea class="code" readonly="readonly" cols="100" rows="6">
 define('MULTISITE', true);
 define('SUBDOMAIN_INSTALL', <?php echo $subdomain_install ? 'true' : 'false'; ?>);
 define('DOMAIN_CURRENT_SITE', '<?php echo $hostname; ?>');
 define('PATH_CURRENT_SITE', '<?php echo $base; ?>');
 define('SITE_ID_CURRENT_SITE', 1);
-define('BLOG_ID_CURRENT_SITE', 1);
-</textarea>
+define('BLOG_ID_CURRENT_SITE', 1);</textarea>
 <?php
 	$keys_salts = array( 'AUTH_KEY' => '', 'SECURE_AUTH_KEY' => '', 'LOGGED_IN_KEY' => '', 'NONCE_KEY' => '', 'AUTH_SALT' => '', 'SECURE_AUTH_SALT' => '', 'LOGGED_IN_SALT' => '', 'NONCE_SALT' => '' );
 	foreach ( $keys_salts as $c => $v ) {
@@ -405,8 +426,7 @@ define('BLOG_ID_CURRENT_SITE', 1);
 		$iis_rewrite_base = ltrim( $base, '/' ) . $rewrite_base;
 		$iis_subdir_replacement = $subdomain_install ? '' : '{R:1}';
 
-		$web_config_file = <<<EOF
-<?xml version="1.0" encoding="UTF-8"?>
+		$web_config_file = '<?xml version="1.0" encoding="UTF-8"?>
 <configuration>
     <system.webServer>
         <rewrite>
@@ -418,14 +438,14 @@ define('BLOG_ID_CURRENT_SITE', 1);
 				if ( is_multisite() && get_site_option( 'ms_files_rewriting' ) ) {
 					$web_config_file .= '
                 <rule name="WordPress Rule for Files" stopProcessing="true">
-                    <match url="^{$iis_subdir_match}files/(.+)" ignoreCase="false" />
-                    <action type="Rewrite" url="{$iis_rewrite_base}wp-includes/ms-files.php?file={R:1}" appendQueryString="false" />
+                    <match url="^' . $iis_subdir_match . 'files/(.+)" ignoreCase="false" />
+                    <action type="Rewrite" url="' . $iis_rewrite_base . WPINC . '/ms-files.php?file={R:1}" appendQueryString="false" />
                 </rule>';
                 }
                 $web_config_file .= '
                 <rule name="WordPress Rule 2" stopProcessing="true">
-                    <match url="^{$iis_subdir_match}wp-admin$" ignoreCase="false" />
-                    <action type="Redirect" url="{$iis_subdir_replacement}wp-admin/" redirectType="Permanent" />
+                    <match url="^' . $iis_subdir_match . 'wp-admin$" ignoreCase="false" />
+                    <action type="Redirect" url="' . $iis_subdir_replacement . 'wp-admin/" redirectType="Permanent" />
                 </rule>
                 <rule name="WordPress Rule 3" stopProcessing="true">
                     <match url="^" ignoreCase="false" />
@@ -436,12 +456,12 @@ define('BLOG_ID_CURRENT_SITE', 1);
                     <action type="None" />
                 </rule>
                 <rule name="WordPress Rule 4" stopProcessing="true">
-                    <match url="^{$iis_subdir_match}(wp-(content|admin|includes).*)" ignoreCase="false" />
-                    <action type="Rewrite" url="{$iis_rewrite_base}{R:1}" />
+                    <match url="^' . $iis_subdir_match . '(wp-(content|admin|includes).*)" ignoreCase="false" />
+                    <action type="Rewrite" url="' . $iis_rewrite_base . '{R:1}" />
                 </rule>
                 <rule name="WordPress Rule 5" stopProcessing="true">
-                    <match url="^{$iis_subdir_match}([_0-9a-zA-Z-]+/)?(.*\.php)$" ignoreCase="false" />
-                    <action type="Rewrite" url="{$iis_rewrite_base}{R:2}" />
+                    <match url="^' . $iis_subdir_match . '([_0-9a-zA-Z-]+/)?(.*\.php)$" ignoreCase="false" />
+                    <action type="Rewrite" url="' . $iis_rewrite_base . '{R:2}" />
                 </rule>
                 <rule name="WordPress Rule 6" stopProcessing="true">
                     <match url="." ignoreCase="false" />
@@ -450,12 +470,13 @@ define('BLOG_ID_CURRENT_SITE', 1);
             </rules>
         </rewrite>
     </system.webServer>
-</configuration>
-EOF;
+</configuration>';
 
-	?>
-		<li><p><?php printf( __( 'Add the following to your <code>web.config</code> file in <code>%s</code>, replacing other WordPress rules:' ), trailingslashit( str_replace( trailingslashit( $wp_siteurl_subdir ), '', ABSPATH ) ) ); ?></p>
-		<?php
+		echo '<li><p>';
+		/* translators: 1: a filename like .htaccess. 2: a file path. */
+		printf( __( 'Add the following to your %1$s file in %2$s, <strong>replacing</strong> other WordPress rules:' ),
+			'<code>web.config</code>', '<code>' . $home_path . '</code>' );
+		echo '</p>';
 		if ( ! $subdomain_install && WP_CONTENT_DIR != ABSPATH . 'wp-content' )
 			echo '<p><strong>' . __('Warning:') . ' ' . __( 'Subdirectory networks may not be fully compatible with custom wp-content directories.' ) . '</strong></p>';
 		?>
@@ -468,7 +489,7 @@ EOF;
 		$ms_files_rewriting = '';
 		if ( is_multisite() && get_site_option( 'ms_files_rewriting' ) ) {
 			$ms_files_rewriting = "\n# uploaded files\nRewriteRule ^";
-			$ms_files_rewriting .= $subdir_match . "files/(.+) {$rewrite_base}wp-includes/ms-files.php?file={$subdir_replacement_12} [L]" . "\n";
+			$ms_files_rewriting .= $subdir_match . "files/(.+) {$rewrite_base}" . WPINC . "/ms-files.php?file={$subdir_replacement_12} [L]" . "\n";
 		}
 
 		$htaccess_file = <<<EOF
@@ -487,9 +508,11 @@ RewriteRule ^{$subdir_match}(.*\.php)$ {$rewrite_base}$subdir_replacement_12 [L]
 RewriteRule . index.php [L]
 EOF;
 
-		?>
-		<li><p><?php printf( __( 'Add the following to your <code>.htaccess</code> file in <code>%s</code>, replacing other WordPress rules:' ), ABSPATH ); ?></p>
-		<?php
+		echo '<li><p>';
+		/* translators: 1: a filename like .htaccess. 2: a file path. */
+		printf( __( 'Add the following to your %1$s file in %2$s, <strong>replacing</strong> other WordPress rules:' ),
+			'<code>.htaccess</code>', '<code>' . $home_path . '</code>' );
+		echo '</p>';
 		if ( ! $subdomain_install && WP_CONTENT_DIR != ABSPATH . 'wp-content' )
 			echo '<p><strong>' . __('Warning:') . ' ' . __( 'Subdirectory networks may not be fully compatible with custom wp-content directories.' ) . '</strong></p>';
 		?>
@@ -510,12 +533,12 @@ if ( $_POST ) {
 	check_admin_referer( 'install-network-1' );
 
 	require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
-	// create network tables
+	// Create network tables.
 	install_network();
 	$base              = parse_url( trailingslashit( get_option( 'home' ) ), PHP_URL_PATH );
 	$subdomain_install = allow_subdomain_install() ? !empty( $_POST['subdomain_install'] ) : false;
 	if ( ! network_domain_check() ) {
-		$result = populate_network( 1, get_clean_basedomain(), sanitize_email( $_POST['email'] ), stripslashes( $_POST['sitename'] ), $base, $subdomain_install );
+		$result = populate_network( 1, get_clean_basedomain(), sanitize_email( $_POST['email'] ), wp_unslash( $_POST['sitename'] ), $base, $subdomain_install );
 		if ( is_wp_error( $result ) ) {
 			if ( 1 == count( $result->get_error_codes() ) && 'no_wildcard_dns' == $result->get_error_code() )
 				network_step2( $result );

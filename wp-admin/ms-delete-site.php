@@ -7,7 +7,7 @@
  * @since 3.0.0
  */
 
-require_once( './admin.php' );
+require_once( dirname( __FILE__ ) . '/admin.php' );
 
 if ( !is_multisite() )
 	wp_die( __( 'Multisite support is not enabled.' ) );
@@ -25,12 +25,13 @@ if ( isset( $_GET['h'] ) && $_GET['h'] != '' && get_option( 'delete_blog_hash' )
 	}
 }
 
+$blog = get_blog_details();
+
 $title = __( 'Delete Site' );
 $parent_file = 'tools.php';
-require_once( './admin-header.php' );
+require_once( ABSPATH . 'wp-admin/admin-header.php' );
 
 echo '<div class="wrap">';
-screen_icon();
 echo '<h2>' . esc_html( $title ) . '</h2>';
 
 if ( isset( $_POST['action'] ) && $_POST['action'] == 'deleteblog' && isset( $_POST['confirmdelete'] ) && $_POST['confirmdelete'] == '1' ) {
@@ -41,7 +42,7 @@ if ( isset( $_POST['action'] ) && $_POST['action'] == 'deleteblog' && isset( $_P
 
 	$url_delete = esc_url( admin_url( 'ms-delete-site.php?h=' . $hash ) );
 
-	$content = apply_filters( 'delete_site_email_content', __( "Dear User,
+	$content = __( "Dear User,
 You recently clicked the 'Delete Site' link on your site and filled in a
 form on that page.
 If you really want to delete your site, click the link below. You will not
@@ -54,12 +55,20 @@ are gone forever.)
 
 Thanks for using the site,
 Webmaster
-###SITE_NAME###" ) );
+###SITE_NAME###" );
+	/**
+	 * Filter the email content sent when a site in a Multisite network is deleted.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param string $content The email content that will be sent to the user who deleted a site in a Multisite network.
+	 */
+	$content = apply_filters( 'delete_site_email_content', $content );
 
 	$content = str_replace( '###URL_DELETE###', $url_delete, $content );
 	$content = str_replace( '###SITE_NAME###', $current_site->site_name, $content );
 
-	wp_mail( get_option( 'admin_email' ), "[ " . get_option( 'blogname' ) . " ] ".__( 'Delete My Site' ), $content );
+	wp_mail( get_option( 'admin_email' ), "[ " . wp_specialchars_decode( get_option( 'blogname' ) ) . " ] ".__( 'Delete My Site' ), $content );
 	?>
 
 	<p><?php _e( 'Thank you. Please check your email for a link to confirm your action. Your site will not be deleted until this link is clicked. ') ?></p>
@@ -72,11 +81,11 @@ Webmaster
 	<form method="post" name="deletedirect">
 		<?php wp_nonce_field( 'delete-blog' ) ?>
 		<input type="hidden" name="action" value="deleteblog" />
-		<p><input id="confirmdelete" type="checkbox" name="confirmdelete" value="1" /> <label for="confirmdelete"><strong><?php printf( __( "I'm sure I want to permanently disable my site, and I am aware I can never get it back or use %s again." ), is_subdomain_install() ? $current_blog->domain : $current_blog->domain . $current_blog->path ); ?></strong></label></p>
+		<p><input id="confirmdelete" type="checkbox" name="confirmdelete" value="1" /> <label for="confirmdelete"><strong><?php printf( __( "I'm sure I want to permanently disable my site, and I am aware I can never get it back or use %s again." ), is_subdomain_install() ? $blog->domain : $blog->domain . $blog->path ); ?></strong></label></p>
 		<?php submit_button( __( 'Delete My Site Permanently' ) ); ?>
 	</form>
  	<?php
 }
 echo '</div>';
 
-include( './admin-footer.php' );
+include( ABSPATH . 'wp-admin/admin-footer.php' );

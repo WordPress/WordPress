@@ -57,7 +57,7 @@ if ( !function_exists('get_user_by_email') ) :
 /**
  * Retrieve user info by email.
  *
- * @since 2.5
+ * @since 2.5.0
  * @deprecated 3.3.0
  * @deprecated Use get_user_by('email')
  *
@@ -74,8 +74,8 @@ if ( !function_exists('wp_setcookie') ) :
 /**
  * Sets a cookie for a user who just logged in. This function is deprecated.
  *
- * @since 1.5
- * @deprecated 2.5
+ * @since 1.5.0
+ * @deprecated 2.5.0
  * @deprecated Use wp_set_auth_cookie()
  * @see wp_set_auth_cookie()
  *
@@ -99,8 +99,8 @@ if ( !function_exists('wp_clearcookie') ) :
 /**
  * Clears the authentication cookie, logging the user out. This function is deprecated.
  *
- * @since 1.5
- * @deprecated 2.5
+ * @since 1.5.0
+ * @deprecated 2.5.0
  * @deprecated Use wp_clear_auth_cookie()
  * @see wp_clear_auth_cookie()
  */
@@ -120,7 +120,7 @@ if ( !function_exists('wp_get_cookie_login') ):
  * used anywhere in WordPress. Also, plugins shouldn't use it either.
  *
  * @since 2.0.3
- * @deprecated 2.5
+ * @deprecated 2.5.0
  * @deprecated No alternative
  *
  * @return bool Always returns false
@@ -177,16 +177,16 @@ endif;
  *
  * @since 2.2.0
  * @deprecated 3.5.0
- * @link http://wordpress.org/extend/plugins/atom-publishing-protocol/
+ * @link https://wordpress.org/plugins/atom-publishing-protocol/
  */
 if ( ! class_exists( 'wp_atom_server' ) ) {
 	class wp_atom_server {
 		public function __call( $name, $arguments ) {
-			_deprecated_function( __CLASS__ . '::' . $name, '3.5', 'the Atom Publishing Platform plugin' );
+			_deprecated_function( __CLASS__ . '::' . $name, '3.5', 'the Atom Publishing Protocol plugin' );
 		}
 
 		public static function __callStatic( $name, $arguments ) {
-			_deprecated_function( __CLASS__ . '::' . $name, '3.5', 'the Atom Publishing Platform plugin' );
+			_deprecated_function( __CLASS__ . '::' . $name, '3.5', 'the Atom Publishing Protocol plugin' );
 		}
 	}
 }

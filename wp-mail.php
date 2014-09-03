@@ -10,11 +10,16 @@
 /** Make sure that the WordPress bootstrap has run before continuing. */
 require(dirname(__FILE__) . '/wp-load.php');
 
+/** This filter is documented in wp-admin/options.php */
 if ( ! apply_filters( 'enable_post_by_email_configuration', true ) )
 	wp_die( __( 'This action has been disabled by the administrator.' ) );
 
-/** Allow a plugin to do a complete takeover of Post by Email **/
-do_action('wp-mail.php');
+/**
+ * Fires to allow a plugin to do a complete takeover of Post by Email.
+ *
+ * @since 2.9.0
+ */
+do_action( 'wp-mail.php' );
 
 /** Get the POP3 class with which to access the mailbox. */
 require_once( ABSPATH . WPINC . '/class-pop3.php' );
@@ -63,7 +68,7 @@ for ( $i = 1; $i <= $count; $i++ ) {
 	$author_found = false;
 	$dmonths = array('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec');
 	foreach ($message as $line) {
-		// body signal
+		// Body signal.
 		if ( strlen($line) < 3 )
 			$bodysignal = true;
 		if ( $bodysignal ) {
@@ -103,8 +108,10 @@ for ( $i = 1; $i <= $count; $i++ ) {
 				$subject = $subject[0];
 			}
 
-			// Set the author using the email address (From or Reply-To, the last used)
-			// otherwise use the site admin
+			/*
+			 * Set the author using the email address (From or Reply-To, the last used)
+			 * otherwise use the site admin.
+			 */
 			if ( ! $author_found && preg_match( '/^(From|Reply-To): /', $line ) ) {
 				if ( preg_match('|[a-z0-9_.-]+@[a-z0-9_.-]+(?!.*<)|i', $line, $matches) )
 					$author = $matches[0];
@@ -166,7 +173,8 @@ for ( $i = 1; $i <= $count; $i++ ) {
 	if ( $content_type == 'multipart/alternative' ) {
 		$content = explode('--'.$boundary, $content);
 		$content = $content[2];
-		// match case-insensitive content-transfer-encoding
+
+		// Match case-insensitive content-transfer-encoding.
 		if ( preg_match( '/Content-Transfer-Encoding: quoted-printable/i', $content, $delim) ) {
 			$content = explode($delim[0], $content);
 			$content = $content[1];
@@ -175,9 +183,17 @@ for ( $i = 1; $i <= $count; $i++ ) {
 	}
 	$content = trim($content);
 
-	//Give Post-By-Email extending plugins full access to the content
-	//Either the raw content or the content of the last quoted-printable section
-	$content = apply_filters('wp_mail_original_content', $content);
+	/**
+	 * Filter the original content of the email.
+	 *
+	 * Give Post-By-Email extending plugins full access to the content, either
+	 * the raw content, or the content of the last quoted-printable section.
+	 *
+	 * @since 2.8.0
+	 *
+	 * @param string $content The original email content.
+	 */
+	$content = apply_filters( 'wp_mail_original_content', $content );
 
 	if ( false !== stripos($content_transfer_encoding, "quoted-printable") ) {
 		$content = quoted_printable_decode($content);
@@ -193,7 +209,14 @@ for ( $i = 1; $i <= $count; $i++ ) {
 
 	$content = trim($content);
 
-	$post_content = apply_filters('phone_content', $content);
+	/**
+	 * Filter the content of the post submitted by email before saving.
+	 *
+	 * @since 1.2.0
+	 *
+	 * @param string $content The email content.
+	 */
+	$post_content = apply_filters( 'phone_content', $content );
 
 	$post_title = xmlrpc_getposttitle($content);
 
@@ -202,7 +225,7 @@ for ( $i = 1; $i <= $count; $i++ ) {
 	$post_category = array(get_option('default_email_category'));
 
 	$post_data = compact('post_content','post_title','post_date','post_date_gmt','post_author','post_category', 'post_status');
-	$post_data = add_magic_quotes($post_data);
+	$post_data = wp_slash($post_data);
 
 	$post_ID = wp_insert_post($post_data);
 	if ( is_wp_error( $post_ID ) )
@@ -212,7 +235,14 @@ for ( $i = 1; $i <= $count; $i++ ) {
 	if ( empty( $post_ID ) )
 		continue;
 
-	do_action('publish_phone', $post_ID);
+	/**
+	 * Fires after a post submitted by email is published.
+	 *
+	 * @since 1.2.0
+	 *
+	 * @param int $post_ID The post ID.
+	 */
+	do_action( 'publish_phone', $post_ID );
 
 	echo "\n<p>" . sprintf(__('<strong>Author:</strong> %s'), esc_html($post_author)) . '</p>';
 	echo "\n<p>" . sprintf(__('<strong>Posted title:</strong> %s'), esc_html($post_title)) . '</p>';

@@ -29,13 +29,14 @@
  *
  * @package WordPress
  * @subpackage Shortcodes
- * @since 2.5
+ * @since 2.5.0
  */
 
 /**
  * Container for storing shortcode tags and their hook to call for the shortcode
  *
- * @since 2.5
+ * @since 2.5.0
+ *
  * @name $shortcode_tags
  * @var array
  * @global array $shortcode_tags
@@ -64,12 +65,12 @@ $shortcode_tags = array();
  * <code>
  * // [bartag foo="bar"]
  * function bartag_func($atts) {
- * 	extract(shortcode_atts(array(
+ * 	$args = shortcode_atts(array(
  * 		'foo' => 'no foo',
  * 		'baz' => 'default baz',
- * 	), $atts));
+ * 	), $atts);
  *
- * 	return "foo = {$foo}";
+ * 	return "foo = {$args['foo']}";
  * }
  * add_shortcode('bartag', 'bartag_func');
  * </code>
@@ -84,7 +85,8 @@ $shortcode_tags = array();
  * add_shortcode('baztag', 'baztag_func');
  * </code>
  *
- * @since 2.5
+ * @since 2.5.0
+ *
  * @uses $shortcode_tags
  *
  * @param string $tag Shortcode tag to be searched in post content.
@@ -100,7 +102,8 @@ function add_shortcode($tag, $func) {
 /**
  * Removes hook for shortcode.
  *
- * @since 2.5
+ * @since 2.5.0
+ *
  * @uses $shortcode_tags
  *
  * @param string $tag shortcode tag to remove hook for.
@@ -118,7 +121,8 @@ function remove_shortcode($tag) {
  * shortcodes global by a empty array. This is actually a very efficient method
  * for removing all shortcodes.
  *
- * @since 2.5
+ * @since 2.5.0
+ *
  * @uses $shortcode_tags
  */
 function remove_all_shortcodes() {
@@ -128,13 +132,58 @@ function remove_all_shortcodes() {
 }
 
 /**
+ * Whether a registered shortcode exists named $tag
+ *
+ * @since 3.6.0
+ *
+ * @global array $shortcode_tags
+ * @param string $tag
+ * @return boolean
+ */
+function shortcode_exists( $tag ) {
+	global $shortcode_tags;
+	return array_key_exists( $tag, $shortcode_tags );
+}
+
+/**
+ * Whether the passed content contains the specified shortcode
+ *
+ * @since 3.6.0
+ *
+ * @global array $shortcode_tags
+ * @param string $tag
+ * @return boolean
+ */
+function has_shortcode( $content, $tag ) {
+	if ( false === strpos( $content, '[' ) ) {
+		return false;
+	}
+
+	if ( shortcode_exists( $tag ) ) {
+		preg_match_all( '/' . get_shortcode_regex() . '/s', $content, $matches, PREG_SET_ORDER );
+		if ( empty( $matches ) )
+			return false;
+
+		foreach ( $matches as $shortcode ) {
+			if ( $tag === $shortcode[2] ) {
+				return true;
+			} elseif ( ! empty( $shortcode[5] ) && has_shortcode( $shortcode[5], $tag ) ) {
+				return true;
+			}
+		}
+	}
+	return false;
+}
+
+/**
  * Search content for shortcodes and filter shortcodes through their hooks.
  *
  * If there are no shortcode tags defined, then the content will be returned
  * without any filtering. This might cause issues when plugins are disabled but
  * the shortcode will still show up in the post or content.
  *
- * @since 2.5
+ * @since 2.5.0
+ *
  * @uses $shortcode_tags
  * @uses get_shortcode_regex() Gets the search pattern for searching shortcodes.
  *
@@ -143,6 +192,10 @@ function remove_all_shortcodes() {
  */
 function do_shortcode($content) {
 	global $shortcode_tags;
+
+	if ( false === strpos( $content, '[' ) ) {
+		return $content;
+	}
 
 	if (empty($shortcode_tags) || !is_array($shortcode_tags))
 		return $content;
@@ -166,7 +219,8 @@ function do_shortcode($content) {
  * 5 - The content of a shortcode when it wraps some content.
  * 6 - An extra ] to allow for escaping shortcodes with double [[]]
  *
- * @since 2.5
+ * @since 2.5.0
+ *
  * @uses $shortcode_tags
  *
  * @return string The shortcode search regular expression
@@ -182,7 +236,7 @@ function get_shortcode_regex() {
 		  '\\['                              // Opening bracket
 		. '(\\[?)'                           // 1: Optional second opening bracket for escaping shortcodes: [[tag]]
 		. "($tagregexp)"                     // 2: Shortcode name
-		. '\\b'                              // Word boundary
+		. '(?![\\w-])'                       // Not followed by word character or hyphen
 		. '('                                // 3: Unroll the loop: Inside the opening shortcode tag
 		.     '[^\\]\\/]*'                   // Not a closing bracket or forward slash
 		.     '(?:'
@@ -213,7 +267,7 @@ function get_shortcode_regex() {
  * Regular Expression callable for do_shortcode() for calling shortcode hook.
  * @see get_shortcode_regex for details of the match array contents.
  *
- * @since 2.5
+ * @since 2.5.0
  * @access private
  * @uses $shortcode_tags
  *
@@ -247,7 +301,7 @@ function do_shortcode_tag( $m ) {
  * attribute as the value in the key/value pair. This allows for easier
  * retrieval of the attributes, since all attributes have to be known.
  *
- * @since 2.5
+ * @since 2.5.0
  *
  * @param string $text
  * @return array List of attributes and their value.
@@ -285,13 +339,14 @@ function shortcode_parse_atts($text) {
  * If the $atts list has unsupported attributes, then they will be ignored and
  * removed from the final returned list.
  *
- * @since 2.5
+ * @since 2.5.0
  *
  * @param array $pairs Entire list of supported attributes and their defaults.
  * @param array $atts User defined attributes in shortcode tag.
+ * @param string $shortcode Optional. The name of the shortcode, provided for context to enable filtering
  * @return array Combined and filtered attribute list.
  */
-function shortcode_atts($pairs, $atts) {
+function shortcode_atts( $pairs, $atts, $shortcode = '' ) {
 	$atts = (array)$atts;
 	$out = array();
 	foreach($pairs as $name => $default) {
@@ -300,13 +355,29 @@ function shortcode_atts($pairs, $atts) {
 		else
 			$out[$name] = $default;
 	}
+	/**
+	 * Filter a shortcode's default attributes.
+	 *
+	 * If the third parameter of the shortcode_atts() function is present then this filter is available.
+	 * The third parameter, $shortcode, is the name of the shortcode.
+	 *
+	 * @since 3.6.0
+	 *
+	 * @param array $out The output array of shortcode attributes.
+	 * @param array $pairs The supported attributes and their defaults.
+	 * @param array $atts The user defined shortcode attributes.
+	 */
+	if ( $shortcode )
+		$out = apply_filters( "shortcode_atts_{$shortcode}", $out, $pairs, $atts );
+
 	return $out;
 }
 
 /**
  * Remove all shortcode tags from the given content.
  *
- * @since 2.5
+ * @since 2.5.0
+ *
  * @uses $shortcode_tags
  *
  * @param string $content Content to remove shortcode tags.
@@ -314,6 +385,10 @@ function shortcode_atts($pairs, $atts) {
  */
 function strip_shortcodes( $content ) {
 	global $shortcode_tags;
+
+	if ( false === strpos( $content, '[' ) ) {
+		return $content;
+	}
 
 	if (empty($shortcode_tags) || !is_array($shortcode_tags))
 		return $content;

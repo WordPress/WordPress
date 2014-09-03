@@ -33,7 +33,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package SimplePie
- * @version 1.3
+ * @version 1.3.1
  * @copyright 2004-2012 Ryan Parman, Geoffrey Sneddon, Ryan McCue
  * @author Ryan Parman
  * @author Geoffrey Sneddon
@@ -79,7 +79,7 @@ class SimplePie_Cache
 	 * @param string $extension 'spi' or 'spc'
 	 * @return SimplePie_Cache_Base Type of object depends on scheme of `$location`
 	 */
-	public static function create($location, $filename, $extension)
+	public static function get_handler($location, $filename, $extension)
 	{
 		$type = explode(':', $location, 2);
 		$type = $type[0];
@@ -90,6 +90,17 @@ class SimplePie_Cache
 		}
 
 		return new SimplePie_Cache_File($location, $filename, $extension);
+	}
+
+	/**
+	 * Create a new SimplePie_Cache object
+	 *
+	 * @deprecated Use {@see get_handler} instead
+	 */
+	public function create($location, $filename, $extension)
+	{
+		trigger_error('Cache::create() has been replaced with Cache::get_handler(). Switch to the registry system to use this.', E_USER_DEPRECATED);
+		return self::get_handler($location, $filename, $extension);
 	}
 
 	/**

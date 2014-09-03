@@ -33,7 +33,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package SimplePie
- * @version 1.3
+ * @version 1.3.1
  * @copyright 2004-2012 Ryan Parman, Geoffrey Sneddon, Ryan McCue
  * @author Ryan Parman
  * @author Geoffrey Sneddon
@@ -202,6 +202,22 @@ class SimplePie_Registry
 	public function &call($type, $method, $parameters = array())
 	{
 		$class = $this->get_class($type);
+
+		if (in_array($class, $this->legacy))
+		{
+			switch ($type)
+			{
+				case 'Cache':
+					// For backwards compatibility with old non-static
+					// Cache::create() methods
+					if ($method === 'get_handler')
+					{
+						$result = @call_user_func_array(array($class, 'create'), $parameters);
+						return $result;
+					}
+					break;
+			}
+		}
 
 		$result = call_user_func_array(array($class, $method), $parameters);
 		return $result;

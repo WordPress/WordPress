@@ -19,7 +19,17 @@ $self = preg_replace('|^.*/plugins/|i', '', $self);
 $self = preg_replace('|^.*/mu-plugins/|i', '', $self);
 
 global $menu, $submenu, $parent_file; //For when admin-header is included from within a function.
-$parent_file = apply_filters("parent_file", $parent_file); // For plugins to move submenu tabs around.
+
+/**
+ * Filter the parent file of an admin menu sub-menu item.
+ *
+ * Allows plugins to move sub-menu items around.
+ *
+ * @since MU
+ *
+ * @param string $parent_file The parent file.
+ */
+$parent_file = apply_filters( 'parent_file', $parent_file );
 
 get_admin_page_parent();
 
@@ -34,10 +44,10 @@ get_admin_page_parent();
  * @param bool $submenu_as_parent
  */
 function _wp_menu_output( $menu, $submenu, $submenu_as_parent = true ) {
-	global $self, $parent_file, $submenu_file, $plugin_page, $pagenow, $typenow;
+	global $self, $parent_file, $submenu_file, $plugin_page, $typenow;
 
 	$first = true;
-	// 0 = name, 1 = capability, 2 = file, 3 = class, 4 = id, 5 = icon src
+	// 0 = menu_title, 1 = capability, 2 = menu_slug, 3 = page_title, 4 = classes, 5 = hookname, 6 = icon_url
 	foreach ( $menu as $key => $item ) {
 		$admin_is_parent = false;
 		$class = array();
@@ -63,19 +73,36 @@ function _wp_menu_output( $menu, $submenu, $submenu_as_parent = true ) {
 		}
 
 		if ( ! empty( $item[4] ) )
-			$class[] = $item[4];
+			$class[] = esc_attr( $item[4] );
 
 		$class = $class ? ' class="' . join( ' ', $class ) . '"' : '';
 		$id = ! empty( $item[5] ) ? ' id="' . preg_replace( '|[^a-zA-Z0-9_:.]|', '-', $item[5] ) . '"' : '';
-		$img = '';
-		// if the string 'none' (previously 'div') is passed instead of an URL, don't output the default menu image
-		// so an icon can be added to div.wp-menu-image as background with CSS.
-		if ( ! empty( $item[6] ) )
-			$img = ( 'none' === $item[6] || 'div' === $item[6] ) ? '<br />' : '<img src="' . $item[6] . '" alt="" />';
+		$img = $img_style = '';
+		$img_class = ' dashicons-before';
+
+		/*
+		 * If the string 'none' (previously 'div') is passed instead of an URL, don't output
+		 * the default menu image so an icon can be added to div.wp-menu-image as background
+		 * with CSS. Dashicons and base64-encoded data:image/svg_xml URIs are also handled
+		 * as special cases.
+		 */
+		if ( ! empty( $item[6] ) ) {
+			$img = '<img src="' . $item[6] . '" alt="" />';
+
+			if ( 'none' === $item[6] || 'div' === $item[6] ) {
+				$img = '<br />';
+			} elseif ( 0 === strpos( $item[6], 'data:image/svg+xml;base64,' ) ) {
+				$img = '<br />';
+				$img_style = ' style="background-image:url(\'' . esc_attr( $item[6] ) . '\')"';
+				$img_class = ' svg';
+			} elseif ( 0 === strpos( $item[6], 'dashicons-' ) ) {
+				$img = '<br />';
+				$img_class = ' dashicons-before ' . sanitize_html_class( $item[6] );
+			}
+		}
 		$arrow = '<div class="wp-menu-arrow"><div></div></div>';
 
 		$title = wptexturize( $item[0] );
-		$aria_label = esc_attr( strip_tags( $item[0] ) ); // strip the comment/plugins/updates bubbles spans but keep the pending number if any
 
 		echo "\n\t<li$class$id>";
 
@@ -87,30 +114,32 @@ function _wp_menu_output( $menu, $submenu, $submenu_as_parent = true ) {
 			$menu_file = $submenu_items[0][2];
 			if ( false !== ( $pos = strpos( $menu_file, '?' ) ) )
 				$menu_file = substr( $menu_file, 0, $pos );
-			if ( ! empty( $menu_hook ) || ( ('index.php' != $submenu_items[0][2]) && file_exists( WP_PLUGIN_DIR . "/$menu_file" ) ) ) {
+			if ( ! empty( $menu_hook ) || ( ( 'index.php' != $submenu_items[0][2] ) && file_exists( WP_PLUGIN_DIR . "/$menu_file" ) && ! file_exists( ABSPATH . "/wp-admin/$menu_file" ) ) ) {
 				$admin_is_parent = true;
-				echo "<a href='admin.php?page={$submenu_items[0][2]}'$class $aria_attributes>$arrow<div class='wp-menu-image'>$img</div><div class='wp-menu-name'>$title</div></a>";
+				echo "<a href='admin.php?page={$submenu_items[0][2]}'$class $aria_attributes>$arrow<div class='wp-menu-image$img_class'$img_style>$img</div><div class='wp-menu-name'>$title</div></a>";
 			} else {
-				echo "\n\t<a href='{$submenu_items[0][2]}'$class $aria_attributes>$arrow<div class='wp-menu-image'>$img</div><div class='wp-menu-name'>$title</div></a>";
+				echo "\n\t<a href='{$submenu_items[0][2]}'$class $aria_attributes>$arrow<div class='wp-menu-image$img_class'$img_style>$img</div><div class='wp-menu-name'>$title</div></a>";
 			}
 		} elseif ( ! empty( $item[2] ) && current_user_can( $item[1] ) ) {
 			$menu_hook = get_plugin_page_hook( $item[2], 'admin.php' );
 			$menu_file = $item[2];
 			if ( false !== ( $pos = strpos( $menu_file, '?' ) ) )
 				$menu_file = substr( $menu_file, 0, $pos );
-			if ( ! empty( $menu_hook ) || ( ('index.php' != $item[2]) && file_exists( WP_PLUGIN_DIR . "/$menu_file" ) ) ) {
+			if ( ! empty( $menu_hook ) || ( ( 'index.php' != $item[2] ) && file_exists( WP_PLUGIN_DIR . "/$menu_file" ) && ! file_exists( ABSPATH . "/wp-admin/$menu_file" ) ) ) {
 				$admin_is_parent = true;
-				echo "\n\t<a href='admin.php?page={$item[2]}'$class $aria_attributes>$arrow<div class='wp-menu-image'>$img</div><div class='wp-menu-name'>{$item[0]}</div></a>";
+				echo "\n\t<a href='admin.php?page={$item[2]}'$class $aria_attributes>$arrow<div class='wp-menu-image$img_class'$img_style>$img</div><div class='wp-menu-name'>{$item[0]}</div></a>";
 			} else {
-				echo "\n\t<a href='{$item[2]}'$class $aria_attributes>$arrow<div class='wp-menu-image'>$img</div><div class='wp-menu-name'>{$item[0]}</div></a>";
+				echo "\n\t<a href='{$item[2]}'$class $aria_attributes>$arrow<div class='wp-menu-image$img_class'$img_style>$img</div><div class='wp-menu-name'>{$item[0]}</div></a>";
 			}
 		}
 
 		if ( ! empty( $submenu_items ) ) {
 			echo "\n\t<ul class='wp-submenu wp-submenu-wrap'>";
 			echo "<li class='wp-submenu-head'>{$item[0]}</li>";
-	
+
 			$first = true;
+
+			// 0 = menu_title, 1 = capability, 2 = menu_slug, 3 = page_title, 4 = classes
 			foreach ( $submenu_items as $sub_key => $sub_item ) {
 				if ( ! current_user_can( $sub_item[1] ) )
 					continue;
@@ -141,6 +170,10 @@ function _wp_menu_output( $menu, $submenu, $submenu_as_parent = true ) {
 					$class[] = 'current';
 				}
 
+				if ( ! empty( $sub_item[4] ) ) {
+					$class[] = esc_attr( $sub_item[4] );
+				}
+
 				$class = $class ? ' class="' . join( ' ', $class ) . '"' : '';
 
 				$menu_hook = get_plugin_page_hook($sub_item[2], $item[2]);
@@ -150,12 +183,12 @@ function _wp_menu_output( $menu, $submenu, $submenu_as_parent = true ) {
 
 				$title = wptexturize($sub_item[0]);
 
-				if ( ! empty( $menu_hook ) || ( ('index.php' != $sub_item[2]) && file_exists( WP_PLUGIN_DIR . "/$sub_file" ) ) ) {
+				if ( ! empty( $menu_hook ) || ( ( 'index.php' != $sub_item[2] ) && file_exists( WP_PLUGIN_DIR . "/$sub_file" ) && ! file_exists( ABSPATH . "/wp-admin/$sub_file" ) ) ) {
 					// If admin.php is the current page or if the parent exists as a file in the plugins or admin dir
-					if ( (!$admin_is_parent && file_exists(WP_PLUGIN_DIR . "/$menu_file") && !is_dir(WP_PLUGIN_DIR . "/{$item[2]}")) || file_exists($menu_file) )
-						$sub_item_url = add_query_arg( array('page' => $sub_item[2]), $item[2] );
+					if ( ( ! $admin_is_parent && file_exists( WP_PLUGIN_DIR . "/$menu_file" ) && ! is_dir( WP_PLUGIN_DIR . "/{$item[2]}" ) ) || file_exists( $menu_file ) )
+						$sub_item_url = add_query_arg( array( 'page' => $sub_item[2] ), $item[2] );
 					else
-						$sub_item_url = add_query_arg( array('page' => $sub_item[2]), 'admin.php' );
+						$sub_item_url = add_query_arg( array( 'page' => $sub_item[2] ), 'admin.php' );
 
 					$sub_item_url = esc_url( $sub_item_url );
 					echo "<li$class><a href='$sub_item_url'$class>$title</a></li>";
@@ -177,12 +210,16 @@ function _wp_menu_output( $menu, $submenu, $submenu_as_parent = true ) {
 
 <div id="adminmenuback"></div>
 <div id="adminmenuwrap">
-<div id="adminmenushadow"></div>
 <ul id="adminmenu" role="navigation">
 
 <?php
 
 _wp_menu_output( $menu, $submenu );
+/**
+ * Fires after the admin menu has been output.
+ *
+ * @since 2.5.0
+ */
 do_action( 'adminmenu' );
 
 ?>

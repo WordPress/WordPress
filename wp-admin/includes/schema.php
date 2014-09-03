@@ -101,7 +101,8 @@ CREATE TABLE $wpdb->comments (
   KEY comment_post_ID (comment_post_ID),
   KEY comment_approved_date_gmt (comment_approved,comment_date_gmt),
   KEY comment_date_gmt (comment_date_gmt),
-  KEY comment_parent (comment_parent)
+  KEY comment_parent (comment_parent),
+  KEY comment_author_email (comment_author_email(10))
 ) $charset_collate;
 CREATE TABLE $wpdb->links (
   link_id bigint(20) unsigned NOT NULL auto_increment,
@@ -204,7 +205,7 @@ CREATE TABLE $wpdb->posts (
   KEY user_nicename (user_nicename)
 ) $charset_collate;\n";
 
-	// usermeta
+	// Usermeta.
 	$usermeta_table = "CREATE TABLE $wpdb->usermeta (
   umeta_id bigint(20) unsigned NOT NULL auto_increment,
   user_id bigint(20) unsigned NOT NULL default '0',
@@ -230,7 +231,7 @@ CREATE TABLE $wpdb->posts (
   registered datetime NOT NULL default '0000-00-00 00:00:00',
   last_updated datetime NOT NULL default '0000-00-00 00:00:00',
   public tinyint(2) NOT NULL default '1',
-  archived enum('0','1') NOT NULL default '0',
+  archived tinyint(2) NOT NULL default '0',
   mature tinyint(2) NOT NULL default '0',
   spam tinyint(2) NOT NULL default '0',
   deleted tinyint(2) NOT NULL default '0',
@@ -272,6 +273,7 @@ CREATE TABLE $wpdb->sitemeta (
   KEY site_id (site_id)
 ) $charset_collate;
 CREATE TABLE $wpdb->signups (
+  signup_id bigint(20) NOT NULL auto_increment,
   domain varchar(200) NOT NULL default '',
   path varchar(100) NOT NULL default '',
   title longtext NOT NULL,
@@ -282,8 +284,11 @@ CREATE TABLE $wpdb->signups (
   active tinyint(1) NOT NULL default '0',
   activation_key varchar(50) NOT NULL default '',
   meta longtext,
+  PRIMARY KEY  (signup_id),
   KEY activation_key (activation_key),
-  KEY domain (domain)
+  KEY user_email (user_email),
+  KEY user_login_email (user_login,user_email),
+  KEY domain_path (domain,path)
 ) $charset_collate;";
 
 	switch ( $scope ) {
@@ -298,8 +303,8 @@ CREATE TABLE $wpdb->signups (
 		case 'ms_global' :
 			$queries = $ms_global_tables;
 			break;
-		default:
 		case 'all' :
+		default:
 			$queries = $global_tables . $blog_tables;
 			if ( $is_multisite )
 				$queries .= $ms_global_tables;
@@ -323,11 +328,15 @@ $wp_queries = wp_get_db_schema( 'all' );
  * @uses $wp_db_version
  */
 function populate_options() {
-	global $wpdb, $wp_db_version, $current_site, $wp_current_db_version;
+	global $wpdb, $wp_db_version, $wp_current_db_version;
 
 	$guessurl = wp_guess_url();
-
-	do_action('populate_options');
+	/**
+	 * Fires before creating WordPress options and populating their default values.
+	 *
+	 * @since 2.6.0
+	 */
+	do_action( 'populate_options' );
 
 	if ( ini_get('safe_mode') ) {
 		// Safe mode can break mkdir() so use a flat structure by default.
@@ -356,6 +365,7 @@ function populate_options() {
 
 	$options = array(
 	'siteurl' => $guessurl,
+	'home' => $guessurl,
 	'blogname' => __('My Site'),
 	/* translators: blog tagline */
 	'blogdescription' => __('Just another WordPress site'),
@@ -384,9 +394,6 @@ function populate_options() {
 	'time_format' => __('g:i a'),
 	/* translators: links last updated date format, see http://php.net/date */
 	'links_updated_date_format' => __('F j, Y g:i a'),
-	'links_recently_updated_prepend' => '<em>',
-	'links_recently_updated_append' => '</em>',
-	'links_recently_updated_time' => 120,
 	'comment_moderation' => 0,
 	'moderation_notify' => 1,
 	'permalink_structure' => '',
@@ -395,7 +402,6 @@ function populate_options() {
 	'blog_charset' => 'UTF-8',
 	'moderation_keys' => '',
 	'active_plugins' => array(),
-	'home' => $guessurl,
 	'category_base' => '',
 	'ping_sites' => 'http://rpc.pingomatic.com/',
 	'advanced_edit' => 0,
@@ -487,14 +493,15 @@ function populate_options() {
 	// 3.0 multisite
 	if ( is_multisite() ) {
 		/* translators: blog tagline */
-		$options[ 'blogdescription' ] = sprintf(__('Just another %s site'), $current_site->site_name );
+		$options[ 'blogdescription' ] = sprintf(__('Just another %s site'), get_current_site()->site_name );
 		$options[ 'permalink_structure' ] = '/%year%/%monthnum%/%day%/%postname%/';
 	}
 
 	// Set autoload to no for these options
 	$fat_options = array( 'moderation_keys', 'recently_edited', 'blacklist_keys', 'uninstall_plugins' );
 
-	$existing_options = $wpdb->get_col("SELECT option_name FROM $wpdb->options");
+	$keys = "'" . implode( "', '", array_keys( $options ) ) . "'";
+	$existing_options = $wpdb->get_col( "SELECT option_name FROM $wpdb->options WHERE option_name in ( $keys )" );
 
 	$insert = '';
 	foreach ( $options as $option => $value ) {
@@ -505,22 +512,20 @@ function populate_options() {
 		else
 			$autoload = 'yes';
 
-		$option = $wpdb->escape($option);
 		if ( is_array($value) )
 			$value = serialize($value);
-		$value = $wpdb->escape($value);
 		if ( !empty($insert) )
 			$insert .= ', ';
-		$insert .= "('$option', '$value', '$autoload')";
+		$insert .= $wpdb->prepare( "(%s, %s, %s)", $option, $value, $autoload );
 	}
 
 	if ( !empty($insert) )
 		$wpdb->query("INSERT INTO $wpdb->options (option_name, option_value, autoload) VALUES " . $insert);
 
-	// in case it is set, but blank, update "home"
+	// In case it is set, but blank, update "home".
 	if ( !__get_option('home') ) update_option('home', $guessurl);
 
-	// Delete unused options
+	// Delete unused options.
 	$unusedoptions = array(
 		'blodotgsping_url', 'bodyterminator', 'emailtestonly', 'phoneemail_separator', 'smilies_directory',
 		'subjectprefix', 'use_bbcode', 'use_blodotgsping', 'use_phoneemail', 'use_quicktags', 'use_weblogsping',
@@ -530,19 +535,42 @@ function populate_options() {
 		'links_rating_ignore_zero', 'links_rating_single_image', 'links_rating_image0', 'links_rating_image1',
 		'links_rating_image2', 'links_rating_image3', 'links_rating_image4', 'links_rating_image5',
 		'links_rating_image6', 'links_rating_image7', 'links_rating_image8', 'links_rating_image9',
+		'links_recently_updated_time', 'links_recently_updated_prepend', 'links_recently_updated_append',
 		'weblogs_cacheminutes', 'comment_allowed_tags', 'search_engine_friendly_urls', 'default_geourl_lat',
 		'default_geourl_lon', 'use_default_geourl', 'weblogs_xml_url', 'new_users_can_blog', '_wpnonce',
 		'_wp_http_referer', 'Update', 'action', 'rich_editing', 'autosave_interval', 'deactivated_plugins',
 		'can_compress_scripts', 'page_uris', 'update_core', 'update_plugins', 'update_themes', 'doing_cron',
 		'random_seed', 'rss_excerpt_length', 'secret', 'use_linksupdate', 'default_comment_status_page',
 		'wporg_popular_tags', 'what_to_show', 'rss_language', 'language', 'enable_xmlrpc', 'enable_app',
-		'autoembed_urls', 'default_post_edit_rows',
+		'embed_autourls', 'default_post_edit_rows',
 	);
 	foreach ( $unusedoptions as $option )
 		delete_option($option);
 
-	// delete obsolete magpie stuff
+	// Delete obsolete magpie stuff.
 	$wpdb->query("DELETE FROM $wpdb->options WHERE option_name REGEXP '^rss_[0-9a-f]{32}(_ts)?$'");
+
+	/*
+	 * Deletes all expired transients. The multi-table delete syntax is used
+	 * to delete the transient record from table a, and the corresponding
+	 * transient_timeout record from table b.
+	 */
+	$time = time();
+	$sql = "DELETE a, b FROM $wpdb->options a, $wpdb->options b
+		WHERE a.option_name LIKE %s
+		AND a.option_name NOT LIKE %s
+		AND b.option_name = CONCAT( '_transient_timeout_', SUBSTRING( a.option_name, 12 ) )
+		AND b.option_value < %d";
+	$wpdb->query( $wpdb->prepare( $sql, $wpdb->esc_like( '_transient_' ) . '%', $wpdb->esc_like( '_transient_timeout_' ) . '%', $time ) );
+
+	if ( is_main_site() && is_main_network() ) {
+		$sql = "DELETE a, b FROM $wpdb->options a, $wpdb->options b
+			WHERE a.option_name LIKE %s
+			AND a.option_name NOT LIKE %s
+			AND b.option_name = CONCAT( '_site_transient_timeout_', SUBSTRING( a.option_name, 17 ) )
+			AND b.option_value < %d";
+		$wpdb->query( $wpdb->prepare( $sql, $wpdb->esc_like( '_site_transient_' ) . '%', $wpdb->esc_like( '_site_transient_timeout_' ) . '%', $time ) );
+	}
 }
 
 /**
@@ -588,7 +616,7 @@ function populate_roles_160() {
 	add_role('subscriber', 'Subscriber');
 
 	// Add caps for Administrator role
-	$role =& get_role('administrator');
+	$role = get_role('administrator');
 	$role->add_cap('switch_themes');
 	$role->add_cap('edit_themes');
 	$role->add_cap('activate_plugins');
@@ -621,7 +649,7 @@ function populate_roles_160() {
 	$role->add_cap('level_0');
 
 	// Add caps for Editor role
-	$role =& get_role('editor');
+	$role = get_role('editor');
 	$role->add_cap('moderate_comments');
 	$role->add_cap('manage_categories');
 	$role->add_cap('manage_links');
@@ -643,7 +671,7 @@ function populate_roles_160() {
 	$role->add_cap('level_0');
 
 	// Add caps for Author role
-	$role =& get_role('author');
+	$role = get_role('author');
 	$role->add_cap('upload_files');
 	$role->add_cap('edit_posts');
 	$role->add_cap('edit_published_posts');
@@ -654,14 +682,14 @@ function populate_roles_160() {
 	$role->add_cap('level_0');
 
 	// Add caps for Contributor role
-	$role =& get_role('contributor');
+	$role = get_role('contributor');
 	$role->add_cap('edit_posts');
 	$role->add_cap('read');
 	$role->add_cap('level_1');
 	$role->add_cap('level_0');
 
 	// Add caps for Subscriber role
-	$role =& get_role('subscriber');
+	$role = get_role('subscriber');
 	$role->add_cap('read');
 	$role->add_cap('level_0');
 }
@@ -674,7 +702,7 @@ function populate_roles_160() {
 function populate_roles_210() {
 	$roles = array('administrator', 'editor');
 	foreach ($roles as $role) {
-		$role =& get_role($role);
+		$role = get_role($role);
 		if ( empty($role) )
 			continue;
 
@@ -695,19 +723,19 @@ function populate_roles_210() {
 		$role->add_cap('read_private_pages');
 	}
 
-	$role =& get_role('administrator');
+	$role = get_role('administrator');
 	if ( ! empty($role) ) {
 		$role->add_cap('delete_users');
 		$role->add_cap('create_users');
 	}
 
-	$role =& get_role('author');
+	$role = get_role('author');
 	if ( ! empty($role) ) {
 		$role->add_cap('delete_posts');
 		$role->add_cap('delete_published_posts');
 	}
 
-	$role =& get_role('contributor');
+	$role = get_role('contributor');
 	if ( ! empty($role) ) {
 		$role->add_cap('delete_posts');
 	}
@@ -719,7 +747,7 @@ function populate_roles_210() {
  * @since 2.3.0
  */
 function populate_roles_230() {
-	$role =& get_role( 'administrator' );
+	$role = get_role( 'administrator' );
 
 	if ( !empty( $role ) ) {
 		$role->add_cap( 'unfiltered_upload' );
@@ -732,7 +760,7 @@ function populate_roles_230() {
  * @since 2.5.0
  */
 function populate_roles_250() {
-	$role =& get_role( 'administrator' );
+	$role = get_role( 'administrator' );
 
 	if ( !empty( $role ) ) {
 		$role->add_cap( 'edit_dashboard' );
@@ -745,7 +773,7 @@ function populate_roles_250() {
  * @since 2.6.0
  */
 function populate_roles_260() {
-	$role =& get_role( 'administrator' );
+	$role = get_role( 'administrator' );
 
 	if ( !empty( $role ) ) {
 		$role->add_cap( 'update_plugins' );
@@ -759,7 +787,7 @@ function populate_roles_260() {
  * @since 2.7.0
  */
 function populate_roles_270() {
-	$role =& get_role( 'administrator' );
+	$role = get_role( 'administrator' );
 
 	if ( !empty( $role ) ) {
 		$role->add_cap( 'install_plugins' );
@@ -773,7 +801,7 @@ function populate_roles_270() {
  * @since 2.8.0
  */
 function populate_roles_280() {
-	$role =& get_role( 'administrator' );
+	$role = get_role( 'administrator' );
 
 	if ( !empty( $role ) ) {
 		$role->add_cap( 'install_themes' );
@@ -786,13 +814,19 @@ function populate_roles_280() {
  * @since 3.0.0
  */
 function populate_roles_300() {
-	$role =& get_role( 'administrator' );
+	$role = get_role( 'administrator' );
 
 	if ( !empty( $role ) ) {
 		$role->add_cap( 'update_core' );
 		$role->add_cap( 'list_users' );
 		$role->add_cap( 'remove_users' );
+
+		/*
+		 * Never used, will be removed. create_users or promote_users
+		 * is the capability you're looking for.
+		 */
 		$role->add_cap( 'add_users' );
+
 		$role->add_cap( 'promote_users' );
 		$role->add_cap( 'edit_theme_options' );
 		$role->add_cap( 'delete_themes' );
@@ -816,13 +850,13 @@ function install_network() {
 endif;
 
 /**
- * populate network settings
+ * Populate network settings.
  *
  * @since 3.0.0
  *
- * @param int $network_id id of network to populate
+ * @param int $network_id ID of network to populate.
  * @return bool|WP_Error True on success, or WP_Error on warning (with the install otherwise successful,
- * 	so the error code must be checked) or failure.
+ *                       so the error code must be checked) or failure.
  */
 function populate_network( $network_id = 1, $domain = '', $email = '', $site_name = '', $path = '/', $subdomain_install = false ) {
 	global $wpdb, $current_site, $wp_db_version, $wp_rewrite;
@@ -833,7 +867,7 @@ function populate_network( $network_id = 1, $domain = '', $email = '', $site_nam
 	if ( '' == $site_name )
 		$errors->add( 'empty_sitename', __( 'You must provide a name for your network of sites.' ) );
 
-	// check for network collision
+	// Check for network collision.
 	if ( $network_id == $wpdb->get_var( $wpdb->prepare( "SELECT id FROM $wpdb->site WHERE id = %d", $network_id ) ) )
 		$errors->add( 'siteid_exists', __( 'The network already exists.' ) );
 
@@ -844,7 +878,7 @@ function populate_network( $network_id = 1, $domain = '', $email = '', $site_nam
 	if ( $errors->get_error_code() )
 		return $errors;
 
-	// set up site tables
+	// Set up site tables.
 	$template = get_option( 'template' );
 	$stylesheet = get_option( 'stylesheet' );
 	$allowed_themes = array( $stylesheet => true );
@@ -859,6 +893,8 @@ function populate_network( $network_id = 1, $domain = '', $email = '', $site_nam
 	} else {
 		$wpdb->insert( $wpdb->site, array( 'domain' => $domain, 'path' => $path, 'id' => $network_id ) );
 	}
+
+	wp_cache_delete( 'networks_have_paths', 'site-options' );
 
 	if ( !is_multisite() ) {
 		$site_admins = array( $site_user->user_login );
@@ -887,12 +923,26 @@ We hope you enjoy your new site. Thanks!
 
 --The Team @ SITE_NAME' );
 
+	$misc_exts = array(
+		// Images.
+		'jpg', 'jpeg', 'png', 'gif',
+		// Video.
+		'mov', 'avi', 'mpg', '3gp', '3g2',
+		// "audio".
+		'midi', 'mid',
+		// Miscellaneous.
+		'pdf', 'doc', 'ppt', 'odt', 'pptx', 'docx', 'pps', 'ppsx', 'xls', 'xlsx', 'key',
+	);
+	$audio_exts = wp_get_audio_extensions();
+	$video_exts = wp_get_video_extensions();
+	$upload_filetypes = array_unique( array_merge( $misc_exts, $audio_exts, $video_exts ) );
+
 	$sitemeta = array(
 		'site_name' => $site_name,
 		'admin_email' => $site_user->user_email,
 		'admin_user_id' => $site_user->ID,
 		'registration' => 'none',
-		'upload_filetypes' => 'jpg jpeg png gif mp3 mov avi wmv midi mid pdf',
+		'upload_filetypes' => implode( ' ', $upload_filetypes ),
 		'blog_upload_space' => 100,
 		'fileupload_maxk' => 1500,
 		'site_admins' => $site_admins,
@@ -910,42 +960,58 @@ We hope you enjoy your new site. Thanks!
 		'ms_files_rewriting' => is_multisite() ? get_site_option( 'ms_files_rewriting' ) : '0',
 		'initial_db_version' => get_option( 'initial_db_version' ),
 		'active_sitewide_plugins' => array(),
+		'WPLANG' => get_locale(),
 	);
 	if ( ! $subdomain_install )
 		$sitemeta['illegal_names'][] = 'blog';
 
+	/**
+	 * Filter meta for a network on creation.
+	 *
+	 * @since 3.7.0
+	 *
+	 * @param array $sitemeta   Associative array of network meta keys and values to be inserted.
+	 * @param int   $network_id ID of network to populate.
+	 */
+	$sitemeta = apply_filters( 'populate_network_meta', $sitemeta, $network_id );
+
 	$insert = '';
 	foreach ( $sitemeta as $meta_key => $meta_value ) {
-		$meta_key = $wpdb->escape( $meta_key );
 		if ( is_array( $meta_value ) )
 			$meta_value = serialize( $meta_value );
-		$meta_value = $wpdb->escape( $meta_value );
 		if ( !empty( $insert ) )
 			$insert .= ', ';
-		$insert .= "( $network_id, '$meta_key', '$meta_value')";
+		$insert .= $wpdb->prepare( "( %d, %s, %s)", $network_id, $meta_key, $meta_value );
 	}
 	$wpdb->query( "INSERT INTO $wpdb->sitemeta ( site_id, meta_key, meta_value ) VALUES " . $insert );
 
-	$current_site = new stdClass;
-	$current_site->domain = $domain;
-	$current_site->path = $path;
-	$current_site->site_name = ucfirst( $domain );
-
-	if ( !is_multisite() ) {
-		$wpdb->insert( $wpdb->blogs, array( 'site_id' => $network_id, 'domain' => $domain, 'path' => $path, 'registered' => current_time( 'mysql' ) ) );
-		$blog_id = $wpdb->insert_id;
+	/*
+	 * When upgrading from single to multisite, assume the current site will
+	 * become the main site of the network. When using populate_network()
+	 * to create another network in an existing multisite environment, skip
+	 * these steps since the main site of the new network has not yet been
+	 * created.
+	 */
+	if ( ! is_multisite() ) {
+		$current_site = new stdClass;
+		$current_site->domain = $domain;
+		$current_site->path = $path;
+		$current_site->site_name = ucfirst( $domain );
+		$wpdb->insert( $wpdb->blogs, array( 'site_id' => $network_id, 'blog_id' => 1, 'domain' => $domain, 'path' => $path, 'registered' => current_time( 'mysql' ) ) );
+		$current_site->blog_id = $blog_id = $wpdb->insert_id;
 		update_user_meta( $site_user->ID, 'source_domain', $domain );
 		update_user_meta( $site_user->ID, 'primary_blog', $blog_id );
-	}
 
-	if ( $subdomain_install )
-		$wp_rewrite->set_permalink_structure( '/%year%/%monthnum%/%day%/%postname%/' );
-	else
-		$wp_rewrite->set_permalink_structure( '/blog/%year%/%monthnum%/%day%/%postname%/' );
+		if ( $subdomain_install )
+			$wp_rewrite->set_permalink_structure( '/%year%/%monthnum%/%day%/%postname%/' );
+		else
+			$wp_rewrite->set_permalink_structure( '/blog/%year%/%monthnum%/%day%/%postname%/' );
 
-	flush_rewrite_rules();
+		flush_rewrite_rules();
 
-	if ( $subdomain_install ) {
+		if ( ! $subdomain_install )
+			return true;
+
 		$vhost_ok = false;
 		$errstr = '';
 		$hostname = substr( md5( time() ), 0, 6 ) . '.' . $domain; // Very random hostname!

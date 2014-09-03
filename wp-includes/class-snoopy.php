@@ -910,7 +910,7 @@ class Snoopy
 			return false;
 		}
 
-		// check if there is a a redirect meta tag
+		// check if there is a redirect meta tag
 
 		if(preg_match("'<meta[\s]*http-equiv[^>]*?content[\s]*=[\s]*[\"\']?\d+;[\s]*URL[\s]*=[\s]*([^\"\']*?)[\"\']?>'i",$results,$match))
 
@@ -1010,7 +1010,7 @@ class Snoopy
 		if($this->read_timeout > 0)
 			$cmdline_params .= " -m ".$this->read_timeout;
 
-		$headerfile = tempnam($temp_dir, "sno");
+		$headerfile = tempnam($this->temp_dir, "sno");
 
 		exec($this->curl_path." -k -D \"$headerfile\"".$cmdline_params." \"".escapeshellcmd($URI)."\"",$results,$return);
 
@@ -1057,7 +1057,7 @@ class Snoopy
 			$this->headers[] = $result_headers[$currentHeader];
 		}
 
-		// check if there is a a redirect meta tag
+		// check if there is a redirect meta tag
 
 		if(preg_match("'<meta[\s]*http-equiv[^>]*?content[\s]*=[\s]*[\"\']?\d+;[\s]*URL[\s]*=[\s]*([^\"\']*?)[\"\']?>'i",$results,$match))
 		{

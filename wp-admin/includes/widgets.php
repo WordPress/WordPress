@@ -12,7 +12,7 @@
  * @since 2.5.0
  */
 function wp_list_widgets() {
-	global $wp_registered_widgets, $sidebars_widgets, $wp_registered_widget_controls;
+	global $wp_registered_widgets, $wp_registered_widget_controls;
 
 	$sort = $wp_registered_widgets;
 	usort( $sort, '_sort_name_callback' );
@@ -58,27 +58,40 @@ function _sort_name_callback( $a, $b ) {
 
 /**
  * Show the widgets and their settings for a sidebar.
- * Used in the the admin widget config screen.
+ * Used in the admin widget config screen.
  *
  * @since 2.5.0
  *
  * @param string $sidebar id slug of the sidebar
+ * @param string optional $sidebar_name Include the HTML for the sidebar name
  */
-function wp_list_widget_controls( $sidebar ) {
+function wp_list_widget_controls( $sidebar, $sidebar_name = '' ) {
 	add_filter( 'dynamic_sidebar_params', 'wp_list_widget_controls_dynamic_sidebar' );
-
-	echo "<div id='$sidebar' class='widgets-sortables'>\n";
 
 	$description = wp_sidebar_description( $sidebar );
 
-	if ( !empty( $description ) ) {
-		echo "<div class='sidebar-description'>\n";
-		echo "\t<p class='description'>$description</p>";
-		echo "</div>\n";
+	echo '<div id="' . esc_attr( $sidebar ) . '" class="widgets-sortables">';
+
+	if ( $sidebar_name ) {
+		?>
+		<div class="sidebar-name">
+			<div class="sidebar-name-arrow"><br /></div>
+			<h3><?php echo esc_html( $sidebar_name ); ?> <span class="spinner"></span></h3>
+		</div>
+		<?php
 	}
 
+	echo '<div class="sidebar-description">';
+
+	if ( ! empty( $description ) ) {
+		echo '<p class="description">' . $description . '</p>';
+	}
+
+	echo '</div>';
+
 	dynamic_sidebar( $sidebar );
-	echo "</div>\n";
+
+	echo '</div>';
 }
 
 /**
@@ -160,11 +173,14 @@ function wp_widget_control( $sidebar_args ) {
 		$query_arg['key'] = $key;
 	}
 
-	// We aren't showing a widget control, we're outputting a template for a multi-widget control
+	/*
+	 * We aren't showing a widget control, we're outputting a template
+	 * for a multi-widget control.
+	 */
 	if ( isset($sidebar_args['_display']) && 'template' == $sidebar_args['_display'] && $widget_number ) {
 		// number == -1 implies a template where id numbers are replaced by a generic '__i__'
 		$control['params'][0]['number'] = -1;
-		// with id_base widget id's are constructed like {$id_base}-{$id_number}
+		// With id_base widget id's are constructed like {$id_base}-{$id_number}.
 		if ( isset($control['id_base']) )
 			$id_format = $control['id_base'] . '-__i__';
 	}
@@ -224,5 +240,6 @@ function wp_widget_control( $sidebar_args ) {
 	</div>
 <?php
 	echo $sidebar_args['after_widget'];
+
 	return $sidebar_args;
 }

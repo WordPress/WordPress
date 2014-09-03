@@ -1,18 +1,17 @@
 <?php
 /**
  * Confirms that the activation key that is sent in an email after a user signs
- * up for a new blog matchs the key for that user and then displays confirmation.
- * 
+ * up for a new blog matches the key for that user and then displays confirmation.
+ *
  * @package WordPress
  */
 
-/** Define ABSPATH as this file's directory */
 define( 'WP_INSTALLING', true );
 
 /** Sets up the WordPress Environment. */
 require( dirname(__FILE__) . '/wp-load.php' );
 
-require( './wp-blog-header.php' );
+require( dirname( __FILE__ ) . '/wp-blog-header.php' );
 
 if ( !is_multisite() ) {
 	wp_redirect( site_url( '/wp-login.php?action=register' ) );
@@ -22,21 +21,34 @@ if ( !is_multisite() ) {
 if ( is_object( $wp_object_cache ) )
 	$wp_object_cache->cache_enabled = false;
 
+// Fix for page title
+$wp_query->is_404 = false;
+
+/**
+ * Fires before the Site Activation page is loaded.
+ *
+ * @since 3.0.0
+ */
 do_action( 'activate_header' );
 
 /**
  * Adds an action hook specific to this page that fires on wp_head
- * 
+ *
  * @since MU
  */
 function do_activate_header() {
-	do_action( 'activate_wp_head' );
+    /**
+     * Fires before the Site Activation page is loaded, but on the wp_head action.
+     *
+     * @since 3.0.0
+     */
+    do_action( 'activate_wp_head' );
 }
 add_action( 'wp_head', 'do_activate_header' );
 
 /**
  * Loads styles specific to this page.
- * 
+ *
  * @since MU
  */
 function wpmu_activate_stylesheet() {
@@ -72,7 +84,7 @@ get_header();
 	<?php } else {
 
 		$key = !empty($_GET['key']) ? $_GET['key'] : $_POST['key'];
-		$result = wpmu_activate_signup($key);
+		$result = wpmu_activate_signup( $key );
 		if ( is_wp_error($result) ) {
 			if ( 'already_active' == $result->get_error_code() || 'blog_taken' == $result->get_error_code() ) {
 			    $signup = $result->get_error_data();
@@ -93,18 +105,17 @@ get_header();
 			    echo '<p>'.$result->get_error_message().'</p>';
 			}
 		} else {
-			extract($result);
-			$url = get_blogaddress_by_id( (int) $blog_id);
-			$user = get_userdata( (int) $user_id);
+			$url = isset( $result['blog_id'] ) ? get_blogaddress_by_id( (int) $result['blog_id'] ) : '';
+			$user = get_userdata( (int) $result['user_id'] );
 			?>
 			<h2><?php _e('Your account is now active!'); ?></h2>
 
 			<div id="signup-welcome">
 				<p><span class="h3"><?php _e('Username:'); ?></span> <?php echo $user->user_login ?></p>
-				<p><span class="h3"><?php _e('Password:'); ?></span> <?php echo $password; ?></p>
+				<p><span class="h3"><?php _e('Password:'); ?></span> <?php echo $result['password']; ?></p>
 			</div>
 
-			<?php if ( $url != network_home_url('', 'http') ) : ?>
+			<?php if ( $url && $url != network_home_url( '', 'http' ) ) : ?>
 				<p class="view"><?php printf( __('Your account is now activated. <a href="%1$s">View your site</a> or <a href="%2$s">Log in</a>'), $url, $url . 'wp-login.php' ); ?></p>
 			<?php else: ?>
 				<p class="view"><?php printf( __('Your account is now activated. <a href="%1$s">Log in</a> or go back to the <a href="%2$s">homepage</a>.' ), network_site_url('wp-login.php', 'login'), network_home_url() ); ?></p>
@@ -117,4 +128,4 @@ get_header();
 	var key_input = document.getElementById('key');
 	key_input && key_input.focus();
 </script>
-<?php get_footer(); ?>
+<?php get_footer();

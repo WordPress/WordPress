@@ -18,56 +18,172 @@
  * @since 2.9.0
  */
 class WP_oEmbed {
-	var $providers = array();
+	public $providers = array();
+	public static $early_providers = array();
 
 	/**
 	 * Constructor
 	 *
-	 * @uses apply_filters() Filters a list of pre-defined oEmbed providers.
+	 * @since 2.9.0
 	 */
-	function __construct() {
-		// List out some popular sites that support oEmbed.
-		// The WP_Embed class disables discovery for non-unfiltered_html users, so only providers in this array will be used for them.
-		// Add to this list using the wp_oembed_add_provider() function (see its PHPDoc for details).
-		$this->providers = apply_filters( 'oembed_providers', array(
-			'#https?://(www\.)?youtube.com/watch.*#i'            => array( 'http://www.youtube.com/oembed',                     true  ),
-			'http://youtu.be/*'                                  => array( 'http://www.youtube.com/oembed',                     false ),
-			'http://blip.tv/*'                                   => array( 'http://blip.tv/oembed/',                            false ),
-			'#https?://(www\.)?vimeo\.com/.*#i'                  => array( 'http://vimeo.com/api/oembed.{format}',              true  ),
-			'#https?://(www\.)?dailymotion\.com/.*#i'            => array( 'http://www.dailymotion.com/services/oembed',        true  ),
-			'#https?://(www\.)?flickr\.com/.*#i'                 => array( 'http://www.flickr.com/services/oembed/',            true  ),
-			'#https?://(.+\.)?smugmug\.com/.*#i'                 => array( 'http://api.smugmug.com/services/oembed/',           true  ),
-			'#https?://(www\.)?hulu\.com/watch/.*#i'             => array( 'http://www.hulu.com/api/oembed.{format}',           true  ),
-			'#https?://(www\.)?viddler\.com/.*#i'                => array( 'http://lab.viddler.com/services/oembed/',           true  ),
-			'http://qik.com/*'                                   => array( 'http://qik.com/api/oembed.{format}',                false ),
-			'http://revision3.com/*'                             => array( 'http://revision3.com/api/oembed/',                  false ),
-			'http://i*.photobucket.com/albums/*'                 => array( 'http://photobucket.com/oembed',                     false ),
-			'http://gi*.photobucket.com/groups/*'                => array( 'http://photobucket.com/oembed',                     false ),
-			'#https?://(www\.)?scribd\.com/.*#i'                 => array( 'http://www.scribd.com/services/oembed',             true  ),
-			'http://wordpress.tv/*'                              => array( 'http://wordpress.tv/oembed/',                       false ),
-			'#https?://(.+\.)?polldaddy\.com/.*#i'               => array( 'http://polldaddy.com/oembed/',                      true  ),
-			'#https?://(www\.)?funnyordie\.com/videos/.*#i'      => array( 'http://www.funnyordie.com/oembed',                  true  ),
-			'#https?://(www\.)?twitter.com/.+?/status(es)?/.*#i' => array( 'http://api.twitter.com/1/statuses/oembed.{format}', true  ),
- 			'#https?://(www\.)?soundcloud\.com/.*#i'             => array( 'http://soundcloud.com/oembed',                      true  ),
-			'#https?://(www\.)?slideshare.net/*#'                => array( 'http://www.slideshare.net/api/oembed/2',            true  ),
-		) );
+	public function __construct() {
+		$providers = array(
+			'#http://(www\.)?youtube\.com/watch.*#i'              => array( 'http://www.youtube.com/oembed',                      true  ),
+			'#https://(www\.)?youtube\.com/watch.*#i'             => array( 'http://www.youtube.com/oembed?scheme=https',         true  ),
+			'#http://(www\.)?youtube\.com/playlist.*#i'           => array( 'http://www.youtube.com/oembed',                      true  ),
+			'#https://(www\.)?youtube\.com/playlist.*#i'          => array( 'http://www.youtube.com/oembed?scheme=https',         true  ),
+			'#http://youtu\.be/.*#i'                              => array( 'http://www.youtube.com/oembed',                      true  ),
+			'#https://youtu\.be/.*#i'                             => array( 'http://www.youtube.com/oembed?scheme=https',         true  ),
+			'http://blip.tv/*'                                    => array( 'http://blip.tv/oembed/',                             false ),
+			'#https?://(.+\.)?vimeo\.com/.*#i'                    => array( 'http://vimeo.com/api/oembed.{format}',               true  ),
+			'#https?://(www\.)?dailymotion\.com/.*#i'             => array( 'http://www.dailymotion.com/services/oembed',         true  ),
+			'http://dai.ly/*'                                     => array( 'http://www.dailymotion.com/services/oembed',         false ),
+			'#https?://(www\.)?flickr\.com/.*#i'                  => array( 'https://www.flickr.com/services/oembed/',            true  ),
+			'#https?://flic\.kr/.*#i'                             => array( 'https://www.flickr.com/services/oembed/',            true  ),
+			'#https?://(.+\.)?smugmug\.com/.*#i'                  => array( 'http://api.smugmug.com/services/oembed/',            true  ),
+			'#https?://(www\.)?hulu\.com/watch/.*#i'              => array( 'http://www.hulu.com/api/oembed.{format}',            true  ),
+			'http://revision3.com/*'                              => array( 'http://revision3.com/api/oembed/',                   false ),
+			'http://i*.photobucket.com/albums/*'                  => array( 'http://photobucket.com/oembed',                      false ),
+			'http://gi*.photobucket.com/groups/*'                 => array( 'http://photobucket.com/oembed',                      false ),
+			'#https?://(www\.)?scribd\.com/doc/.*#i'              => array( 'http://www.scribd.com/services/oembed',              true  ),
+			'#https?://wordpress.tv/.*#i'                         => array( 'http://wordpress.tv/oembed/',                        true ),
+			'#https?://(.+\.)?polldaddy\.com/.*#i'                => array( 'https://polldaddy.com/oembed/',                      true  ),
+			'#https?://poll\.fm/.*#i'                             => array( 'https://polldaddy.com/oembed/',                      true  ),
+			'#https?://(www\.)?funnyordie\.com/videos/.*#i'       => array( 'http://www.funnyordie.com/oembed',                   true  ),
+			'#https?://(www\.)?twitter\.com/.+?/status(es)?/.*#i' => array( 'https://api.twitter.com/1/statuses/oembed.{format}', true  ),
+ 			'#https?://(www\.)?soundcloud\.com/.*#i'              => array( 'http://soundcloud.com/oembed',                       true  ),
+			'#https?://(www\.)?slideshare\.net/.*#i'              => array( 'https://www.slideshare.net/api/oembed/2',            true  ),
+			'#http://instagr(\.am|am\.com)/p/.*#i'                => array( 'http://api.instagram.com/oembed',                    true  ),
+			'#https?://(www\.)?rdio\.com/.*#i'                    => array( 'http://www.rdio.com/api/oembed/',                    true  ),
+			'#https?://rd\.io/x/.*#i'                             => array( 'http://www.rdio.com/api/oembed/',                    true  ),
+			'#https?://(open|play)\.spotify\.com/.*#i'            => array( 'https://embed.spotify.com/oembed/',                  true  ),
+			'#https?://(.+\.)?imgur\.com/.*#i'                    => array( 'http://api.imgur.com/oembed',                        true  ),
+			'#https?://(www\.)?meetu(\.ps|p\.com)/.*#i'           => array( 'http://api.meetup.com/oembed',                       true  ),
+			'#https?://(www\.)?issuu\.com/.+/docs/.+#i'           => array( 'http://issuu.com/oembed_wp',                         true  ),
+			'#https?://(www\.)?collegehumor\.com/video/.*#i'      => array( 'http://www.collegehumor.com/oembed.{format}',        true  ),
+			'#https?://(www\.)?mixcloud\.com/.*#i'                => array( 'http://www.mixcloud.com/oembed',                     true  ),
+			'#https?://(www\.|embed\.)?ted\.com/talks/.*#i'       => array( 'http://www.ted.com/talks/oembed.{format}',           true  ),
+			'#https?://(www\.)?(animoto|video214)\.com/play/.*#i' => array( 'http://animoto.com/oembeds/create',                  true  ),
+		);
+
+		if ( ! empty( self::$early_providers['add'] ) ) {
+			foreach ( self::$early_providers['add'] as $format => $data ) {
+				$providers[ $format ] = $data;
+			}
+		}
+
+		if ( ! empty( self::$early_providers['remove'] ) ) {
+			foreach ( self::$early_providers['remove'] as $format ) {
+				unset( $providers[ $format ] );
+			}
+		}
+
+		self::$early_providers = array();
+
+		/**
+		 * Filter the list of oEmbed providers.
+		 *
+		 * Discovery is disabled for users lacking the unfiltered_html capability.
+		 * Only providers in this array will be used for those users.
+		 *
+		 * Supported providers:
+		 *
+		 * | ------------ | -------------------- | ----- | --------- |
+		 * |   Provider   |        Flavor        |  SSL  |   Since   |
+		 * | ------------ | -------------------- | ----- | --------- |
+		 * | Blip         | blip.tv              |       | 2.9.0     |
+		 * | Dailymotion  | dailymotion.com      |  Yes  | 2.9.0     |
+		 * | Flickr       | flickr.com           |  Yes  | 2.9.0     |
+		 * | Hulu         | hulu.com             |  Yes  | 2.9.0     |
+		 * | Photobucket  | photobucket.com      |       | 2.9.0     |
+		 * | Revision3    | revision3.com        |       | 2.9.0     |
+		 * | Scribd       | scribd.com           |  Yes  | 2.9.0     |
+		 * | Vimeo        | vimeo.com            |  Yes  | 2.9.0     |
+		 * | WordPress.tv | wordpress.tv         |  Yes  | 2.9.0     |
+		 * | YouTube      | youtube.com/watch    |  Yes  | 2.9.0     |
+		 * | ------------ | -------------------- | ----- | --------- |
+		 * | Funny or Die | funnyordie.com       |  Yes  | 3.0.0     |
+		 * | Polldaddy    | polldaddy.com        |  Yes  | 3.0.0     |
+		 * | SmugMug      | smugmug.com          |  Yes  | 3.0.0     |
+		 * | YouTube      | youtu.be             |  Yes  | 3.0.0     |
+		 * | ------------ | -------------------- | ----- | --------- |
+		 * | Twitter      | twitter.com          |  Yes  | 3.4.0     |
+		 * | ------------ | -------------------- | ----- | --------- |
+		 * | Instagram    | instagram.com        |       | 3.5.0     |
+		 * | Instagram    | instagr.am           |       | 3.5.0     |
+		 * | Slideshare   | slideshare.net       |  Yes  | 3.5.0     |
+		 * | SoundCloud   | soundcloud.com       |  Yes  | 3.5.0     |
+		 * | ------------ | -------------------- | ----- | --------- |
+		 * | Dailymotion  | dai.ly               |       | 3.6.0     |
+		 * | Flickr       | flic.kr              |  Yes  | 3.6.0     |
+		 * | Rdio         | rdio.com             |  Yes  | 3.6.0     |
+		 * | Rdio         | rd.io                |  Yes  | 3.6.0     |
+		 * | Spotify      | spotify.com          |  Yes  | 3.6.0     |
+		 * | ------------ | -------------------- | ----- | --------- |
+		 * | Imgur        | imgur.com            |  Yes  | 3.9.0     |
+		 * | Meetup.com   | meetup.com           |  Yes  | 3.9.0     |
+		 * | Meetup.com   | meetu.ps             |  Yes  | 3.9.0     |
+		 * | ------------ | -------------------- | ----- | --------- |
+		 * | Animoto      | animoto.com          |  Yes  | 4.0.0     |
+		 * | Animoto      | video214.com         |  Yes  | 4.0.0     |
+		 * | CollegeHumor | collegehumor.com     |  Yes  | 4.0.0     |
+		 * | Issuu        | issuu.com            |  Yes  | 4.0.0     |
+		 * | Mixcloud     | mixcloud.com         |  Yes  | 4.0.0     |
+		 * | Polldaddy    | poll.fm              |  Yes  | 4.0.0     |
+		 * | TED          | ted.com              |  Yes  | 4.0.0     |
+		 * | YouTube      | youtube.com/playlist |  Yes  | 4.0.0     |
+		 * | ------------ | -------------------- | ----- | --------- |
+		 *
+		 * No longer supported providers:
+		 *
+		 * | ------------ | -------------------- | ----- | --------- | --------- |
+		 * |   Provider   |        Flavor        |  SSL  |   Since   |  Removed  |
+		 * | ------------ | -------------------- | ----- | --------- | --------- |
+		 * | Qik          | qik.com              |  Yes  | 2.9.0     | 3.9.0     |
+		 * | ------------ | -------------------- | ----- | --------- | --------- |
+		 * | Viddler      | viddler.com          |  Yes  | 2.9.0     | 4.0.0     |
+		 * | ------------ | -------------------- | ----- | --------- | --------- |
+		 *
+		 * @see wp_oembed_add_provider()
+		 *
+		 * @since 2.9.0
+		 *
+		 * @param array $providers An array of popular oEmbed providers.
+		 */
+		$this->providers = apply_filters( 'oembed_providers', $providers );
 
 		// Fix any embeds that contain new lines in the middle of the HTML which breaks wpautop().
-		add_filter( 'oembed_dataparse', array(&$this, '_strip_newlines'), 10, 3 );
+		add_filter( 'oembed_dataparse', array($this, '_strip_newlines'), 10, 3 );
 	}
 
 	/**
-	 * The do-it-all function that takes a URL and attempts to return the HTML.
+	 * Make private/protected methods readable for backwards compatibility.
+	 *
+	 * @since 4.0.0
+	 * @access public
+	 *
+	 * @param callable $name      Method to call.
+	 * @param array    $arguments Arguments to pass when calling.
+	 * @return mixed|bool Return value of the callback, false otherwise.
+	 */
+	public function __call( $name, $arguments ) {
+		return call_user_func_array( array( $this, $name ), $arguments );
+	}
+
+	/**
+	 * Takes a URL and returns the corresponding oEmbed provider's URL, if there is one.
+	 *
+	 * @since 4.0.0
+	 * @access public
 	 *
 	 * @see WP_oEmbed::discover()
-	 * @see WP_oEmbed::fetch()
-	 * @see WP_oEmbed::data2html()
 	 *
-	 * @param string $url The URL to the content that should be attempted to be embedded.
-	 * @param array $args Optional arguments. Usually passed from a shortcode.
-	 * @return bool|string False on failure, otherwise the UNSANITIZED (and potentially unsafe) HTML that should be used to embed.
+	 * @param string        $url  The URL to the content.
+	 * @param string|array  $args Optional provider arguments.
+	 * @return bool|string False on failure, otherwise the oEmbed provider URL.
 	 */
-	function get_html( $url, $args = '' ) {
+	public function get_provider( $url, $args = '' ) {
+
 		$provider = false;
 
 		if ( !isset($args['discover']) )
@@ -91,9 +207,83 @@ class WP_oEmbed {
 		if ( !$provider && $args['discover'] )
 			$provider = $this->discover( $url );
 
+		return $provider;
+	}
+
+	/**
+	 * Add an oEmbed provider just-in-time when wp_oembed_add_provider() is called
+	 * before the 'plugins_loaded' hook.
+	 *
+	 * The just-in-time addition is for the benefit of the 'oembed_providers' filter.
+	 *
+	 * @since 4.0.0
+	 * @access public
+	 * @static
+	 *
+	 * @see wp_oembed_add_provider()
+	 *
+	 * @param string $format   Format of URL that this provider can handle. You can use
+	 *                         asterisks as wildcards.
+	 * @param string $provider The URL to the oEmbed provider..
+	 * @param bool   $regex    Optional. Whether the $format parameter is in a regex format.
+	 *                         Default false.
+	 */
+	public static function _add_provider_early( $format, $provider, $regex = false ) {
+		if ( empty( self::$early_providers['add'] ) ) {
+			self::$early_providers['add'] = array();
+		}
+
+		self::$early_providers['add'][ $format ] = array( $provider, $regex );
+	}
+
+	/**
+	 * Remove an oEmbed provider just-in-time when wp_oembed_remove_provider() is called
+	 * before the 'plugins_loaded' hook.
+	 *
+	 * The just-in-time removal is for the benefit of the 'oembed_providers' filter.
+	 *
+	 * @since 4.0.0
+	 * @access public
+	 * @static
+	 *
+	 * @see wp_oembed_remove_provider()
+	 *
+	 * @param string $format The format of URL that this provider can handle. You can use
+	 *                       asterisks as wildcards.
+	 */
+	public static function _remove_provider_early( $format ) {
+		if ( empty( self::$early_providers['remove'] ) ) {
+			self::$early_providers['remove'] = array();
+		}
+
+		self::$early_providers['remove'][] = $format;
+	}
+
+	/**
+	 * The do-it-all function that takes a URL and attempts to return the HTML.
+	 *
+	 * @see WP_oEmbed::fetch()
+	 * @see WP_oEmbed::data2html()
+	 *
+	 * @param string $url The URL to the content that should be attempted to be embedded.
+	 * @param array $args Optional arguments. Usually passed from a shortcode.
+	 * @return bool|string False on failure, otherwise the UNSANITIZED (and potentially unsafe) HTML that should be used to embed.
+	 */
+	function get_html( $url, $args = '' ) {
+		$provider = $this->get_provider( $url, $args );
+
 		if ( !$provider || false === $data = $this->fetch( $provider, $url, $args ) )
 			return false;
 
+		/**
+		 * Filter the HTML returned by the oEmbed provider.
+		 *
+		 * @since 2.9.0
+		 *
+		 * @param string $data The returned oEmbed HTML.
+		 * @param string $url  URL of the content to be embedded.
+		 * @param array  $args Optional arguments, usually passed from a shortcode.
+		 */
 		return apply_filters( 'oembed_result', $this->data2html( $data, $url ), $url, $args );
 	}
 
@@ -103,17 +293,38 @@ class WP_oEmbed {
 	 * @param string $url The URL that should be inspected for discovery <link> tags.
 	 * @return bool|string False on failure, otherwise the oEmbed provider URL.
 	 */
-	function discover( $url ) {
+	public function discover( $url ) {
 		$providers = array();
 
-		// Fetch URL content
-		if ( $html = wp_remote_retrieve_body( wp_remote_get( $url ) ) ) {
+		/**
+		 * Filter oEmbed remote get arguments.
+		 *
+		 * @since 4.0.0
+		 *
+		 * @see WP_Http::request()
+		 *
+		 * @param array  $args oEmbed remote get arguments.
+		 * @param string $url  URL to be inspected.
+		 */
+		$args = apply_filters( 'oembed_remote_get_args', array(), $url );
 
-			// <link> types that contain oEmbed provider URLs
+		// Fetch URL content
+		$request = wp_safe_remote_get( $url, $args );
+		if ( $html = wp_remote_retrieve_body( $request ) ) {
+
+			/**
+			 * Filter the link types that contain oEmbed provider URLs.
+			 *
+			 * @since 2.9.0
+			 *
+			 * @param array $format Array of oEmbed link types. Accepts 'application/json+oembed',
+			 *                      'text/xml+oembed', and 'application/xml+oembed' (incorrect,
+			 *                      used by at least Vimeo).
+			 */
 			$linktypes = apply_filters( 'oembed_linktypes', array(
 				'application/json+oembed' => 'json',
 				'text/xml+oembed' => 'xml',
-				'application/xml+oembed' => 'xml', // Incorrect, but used by at least Vimeo
+				'application/xml+oembed' => 'xml',
 			) );
 
 			// Strip <body>
@@ -160,13 +371,22 @@ class WP_oEmbed {
 	 * @param array $args Optional arguments. Usually passed from a shortcode.
 	 * @return bool|object False on failure, otherwise the result in the form of an object.
 	 */
-	function fetch( $provider, $url, $args = '' ) {
-		$args = wp_parse_args( $args, wp_embed_defaults() );
+	public function fetch( $provider, $url, $args = '' ) {
+		$args = wp_parse_args( $args, wp_embed_defaults( $url ) );
 
 		$provider = add_query_arg( 'maxwidth', (int) $args['width'], $provider );
 		$provider = add_query_arg( 'maxheight', (int) $args['height'], $provider );
 		$provider = add_query_arg( 'url', urlencode($url), $provider );
 
+		/**
+		 * Filter the oEmbed URL to be fetched.
+		 *
+		 * @since 2.9.0
+		 *
+		 * @param string $provider URL of the oEmbed provider.
+		 * @param string $url      URL of the content to be embedded.
+		 * @param array  $args     Optional arguments, usually passed from a shortcode.
+		 */
 		$provider = apply_filters( 'oembed_fetch_url', $provider, $url, $args );
 
 		foreach( array( 'json', 'xml' ) as $format ) {
@@ -187,9 +407,13 @@ class WP_oEmbed {
 	 * @param string $format Format to use
 	 * @return bool|object False on failure, otherwise the result in the form of an object.
 	 */
-	function _fetch_with_format( $provider_url_with_args, $format ) {
+	private function _fetch_with_format( $provider_url_with_args, $format ) {
 		$provider_url_with_args = add_query_arg( 'format', $format, $provider_url_with_args );
-		$response = wp_remote_get( $provider_url_with_args );
+
+		/** This filter is documented in wp-includes/class-oembed.php */
+		$args = apply_filters( 'oembed_remote_get_args', array(), $provider_url_with_args );
+
+		$response = wp_safe_remote_get( $provider_url_with_args, $args );
 		if ( 501 == wp_remote_retrieve_response_code( $response ) )
 			return new WP_Error( 'not-implemented' );
 		if ( ! $body = wp_remote_retrieve_body( $response ) )
@@ -204,7 +428,7 @@ class WP_oEmbed {
 	 * @since 3.0.0
 	 * @access private
 	 */
-	function _parse_json( $response_body ) {
+	private function _parse_json( $response_body ) {
 		return ( ( $data = json_decode( trim( $response_body ) ) ) && is_object( $data ) ) ? $data : false;
 	}
 
@@ -214,21 +438,54 @@ class WP_oEmbed {
 	 * @since 3.0.0
 	 * @access private
 	 */
-	function _parse_xml( $response_body ) {
-		if ( function_exists('simplexml_load_string') ) {
-			$errors = libxml_use_internal_errors( 'true' );
-			$data = simplexml_load_string( $response_body );
-			libxml_use_internal_errors( $errors );
-			if ( ! is_object( $data ) )
+	private function _parse_xml( $response_body ) {
+		if ( ! function_exists( 'libxml_disable_entity_loader' ) )
+			return false;
+
+		$loader = libxml_disable_entity_loader( true );
+		$errors = libxml_use_internal_errors( true );
+
+		$return = $this->_parse_xml_body( $response_body );
+
+		libxml_use_internal_errors( $errors );
+		libxml_disable_entity_loader( $loader );
+
+		return $return;
+	}
+
+	/**
+	 * Helper function for parsing an XML response body.
+	 *
+	 * @since 3.6.0
+	 * @access private
+	 */
+	private function _parse_xml_body( $response_body ) {
+		if ( ! function_exists( 'simplexml_import_dom' ) || ! class_exists( 'DOMDocument' ) )
+			return false;
+
+		$dom = new DOMDocument;
+		$success = $dom->loadXML( $response_body );
+		if ( ! $success )
+			return false;
+
+		if ( isset( $dom->doctype ) )
+			return false;
+
+		foreach ( $dom->childNodes as $child ) {
+			if ( XML_DOCUMENT_TYPE_NODE === $child->nodeType )
 				return false;
-
-			$return = new stdClass;
-			foreach ( $data as $key => $value )
-				$return->$key = (string) $value;
-
-			return $return;
 		}
-		return false;
+
+		$xml = simplexml_import_dom( $dom );
+		if ( ! $xml )
+			return false;
+
+		$return = new stdClass;
+		foreach ( $xml as $key => $value ) {
+			$return->$key = (string) $value;
+		}
+
+		return $return;
 	}
 
 	/**
@@ -238,7 +495,7 @@ class WP_oEmbed {
 	 * @param string $url The URL to the content that is desired to be embedded.
 	 * @return bool|string False on error, otherwise the HTML needed to embed.
 	 */
-	function data2html( $data, $url ) {
+	public function data2html( $data, $url ) {
 		if ( ! is_object( $data ) || empty( $data->type ) )
 			return false;
 
@@ -270,7 +527,17 @@ class WP_oEmbed {
 				$return = false;
 		}
 
-		// You can use this filter to add support for custom data types or to filter the result
+		/**
+		 * Filter the returned oEmbed HTML.
+		 *
+		 * Use this filter to add support for custom data types, or to filter the result.
+		 *
+		 * @since 2.9.0
+		 *
+		 * @param string $return The returned oEmbed HTML.
+		 * @param object $data   A data object result from an oEmbed provider.
+		 * @param string $url    The URL of the content to be embedded.
+		 */
 		return apply_filters( 'oembed_dataparse', $return, $data, $url );
 	}
 
@@ -283,7 +550,7 @@ class WP_oEmbed {
 	 * @param string $url The original URL passed to oEmbed.
 	 * @return string Possibly modified $html
 	 */
-	function _strip_newlines( $html, $data, $url ) {
+	private function _strip_newlines( $html, $data, $url ) {
 		if ( false !== strpos( $html, "\n" ) )
 			$html = str_replace( array( "\r\n", "\n" ), '', $html );
 

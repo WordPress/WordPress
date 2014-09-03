@@ -2,7 +2,7 @@
 /**
  * Class for a set of entries for translation and their associated headers
  *
- * @version $Id: translations.php 590 2010-12-20 19:58:37Z nbachiyski $
+ * @version $Id: translations.php 718 2012-10-31 00:32:02Z nbachiyski $
  * @package pomo
  * @subpackage translations
  */
@@ -29,7 +29,7 @@ class Translations {
 		$this->entries[$key] = &$entry;
 		return true;
 	}
-	
+
 	function add_entry_or_merge($entry) {
 		if (is_array($entry)) {
 			$entry = new Translation_Entry($entry);
@@ -57,7 +57,7 @@ class Translations {
 		$this->headers[$header] = $value;
 	}
 
-	function set_headers(&$headers) {
+	function set_headers($headers) {
 		foreach($headers as $header => $value) {
 			$this->set_header($header, $value);
 		}
@@ -121,7 +121,7 @@ class Translations {
 			$this->entries[$entry->key()] = $entry;
 		}
 	}
-	
+
 	function merge_originals_with(&$other) {
 		foreach( $other->entries as $entry ) {
 			if ( !isset( $this->entries[$entry->key()] ) )
@@ -134,7 +134,7 @@ class Translations {
 
 class Gettext_Translations extends Translations {
 	/**
-	 * The gettext implmentation of select_plural_form.
+	 * The gettext implementation of select_plural_form.
 	 *
 	 * It lives in this class, because there are more than one descendand, which will use it and
 	 * they can't share it effectively.
@@ -148,7 +148,7 @@ class Gettext_Translations extends Translations {
 		}
 		return call_user_func($this->_gettext_select_plural_form, $count);
 	}
-	
+
 	function nplurals_and_expression_from_header($header) {
 		if (preg_match('/^\s*nplurals\s*=\s*(\d+)\s*;\s+plural\s*=\s*(.+)$/', $header, $matches)) {
 			$nplurals = (int)$matches[1];
@@ -172,9 +172,9 @@ class Gettext_Translations extends Translations {
 	}
 
 	/**
-	 * Adds parantheses to the inner parts of ternary operators in
+	 * Adds parentheses to the inner parts of ternary operators in
 	 * plural expressions, because PHP evaluates ternary oerators from left to right
-	 * 
+	 *
 	 * @param string $expression the expression without parentheses
 	 * @return string the expression with parentheses added
 	 */
@@ -202,7 +202,7 @@ class Gettext_Translations extends Translations {
 		}
 		return rtrim($res, ';');
 	}
-	
+
 	function make_headers($translation) {
 		$headers = array();
 		// sometimes \ns are used instead of real new lines
@@ -215,7 +215,7 @@ class Gettext_Translations extends Translations {
 		}
 		return $headers;
 	}
-	
+
 	function set_header($header, $value) {
 		parent::set_header($header, $value);
 		if ('Plural-Forms' == $header) {
@@ -234,7 +234,7 @@ if ( !class_exists( 'NOOP_Translations' ) ):
 class NOOP_Translations {
 	var $entries = array();
 	var $headers = array();
-	
+
 	function add_entry($entry) {
 		return true;
 	}
@@ -242,7 +242,7 @@ class NOOP_Translations {
 	function set_header($header, $value) {
 	}
 
-	function set_headers(&$headers) {
+	function set_headers($headers) {
 	}
 
 	function get_header($header) {

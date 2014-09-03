@@ -7,10 +7,73 @@
  */
 
 /** WordPress Administration Bootstrap */
-require_once( './admin.php' );
+require_once( dirname( __FILE__ ) . '/admin.php' );
 
 if ( !current_user_can('upload_files') )
 	wp_die( __( 'You do not have permission to upload files.' ) );
+
+$mode = get_user_option( 'media_library_mode', get_current_user_id() ) ? get_user_option( 'media_library_mode', get_current_user_id() ) : 'grid';
+$modes = array( 'grid', 'list' );
+
+if ( isset( $_GET['mode'] ) && in_array( $_GET['mode'], $modes ) ) {
+	$mode = $_GET['mode'];
+	update_user_option( get_current_user_id(), 'media_library_mode', $mode );
+}
+
+if ( 'grid' === $mode ) {
+	wp_enqueue_media();
+	wp_enqueue_script( 'media-grid' );
+	wp_enqueue_script( 'media' );
+	wp_localize_script( 'media-grid', '_wpMediaGridSettings', array(
+		'adminUrl' => parse_url( self_admin_url(), PHP_URL_PATH ),
+	) );
+
+	get_current_screen()->add_help_tab( array(
+		'id'		=> 'overview',
+		'title'		=> __( 'Overview' ),
+		'content'	=>
+			'<p>' . __( 'All the files you&#8217;ve uploaded are listed in the Media Library, with the most recent uploads listed first.' ) . '</p>' .
+			'<p>' . __( 'You can view your media in a simple visual grid or a list with columns. Switch between these views using the icons to the left above the media.' ) . '</p>' .
+			'<p>' . __( 'To delete media items, click the Bulk Select button at the top of the screen. Select any items you wish to delete, then click the Delete Selected button. Clicking the Cancel Selection button takes you back to viewing your media.' ) . '</p>'
+	) );
+
+	get_current_screen()->add_help_tab( array(
+		'id'		=> 'attachment-details',
+		'title'		=> __( 'Attachment Details' ),
+		'content'	=>
+			'<p>' . __( 'Clicking an item will display an Attachment Details dialog, which allows you to preview media and make quick edits. Any changes you make to the attachment details will be automatically saved.' ) . '</p>' .
+			'<p>' . __( 'Use the arrow buttons at the top of the dialog, or the left and right arrow keys on your keyboard, to navigate between media items quickly.' ) . '</p>' .
+			'<p>' . __( 'You can also delete individual items and access the extended edit screen from the details dialog.' ) . '</p>'
+	) );
+
+	get_current_screen()->set_help_sidebar(
+		'<p><strong>' . __( 'For more information:' ) . '</strong></p>' .
+		'<p>' . __( '<a href="http://codex.wordpress.org/Media_Library_Screen" target="_blank">Documentation on Media Library</a>' ) . '</p>' .
+		'<p>' . __( '<a href="https://wordpress.org/support/" target="_blank">Support Forums</a>' ) . '</p>'
+	);
+
+	$title = __('Media Library');
+	$parent_file = 'upload.php';
+
+	require_once( ABSPATH . 'wp-admin/admin-header.php' );
+	?>
+	<div class="wrap">
+		<h2>
+		<?php
+		echo esc_html( $title );
+		if ( current_user_can( 'upload_files' ) ) { ?>
+			<a href="media-new.php" class="add-new-h2"><?php echo esc_html_x( 'Add New', 'file' ); ?></a><?php
+		}
+		?>
+		</h2>
+		<div class="error hide-if-js">
+			<p><?php _e( 'The grid view for the Media Library requires JavaScript. <a href="upload.php?mode=list">Switch to the list view</a>.' ); ?></p>
+		</div>
+	</div>
+	<?php
+	include( ABSPATH . 'wp-admin/admin-footer.php' );
+	exit;
+}
 
 $wp_list_table = _get_list_table('WP_Media_List_Table');
 $pagenum = $wp_list_table->get_pagenum();
@@ -37,21 +100,6 @@ if ( $doaction ) {
 	}
 
 	switch ( $doaction ) {
-		case 'find_detached':
-			if ( !current_user_can('edit_posts') )
-				wp_die( __('You are not allowed to scan for lost attachments.') );
-
-			$lost = $wpdb->get_col( "
-				SELECT ID FROM $wpdb->posts
-				WHERE post_type = 'attachment' AND post_parent > '0'
-				AND post_parent NOT IN (
-					SELECT ID FROM $wpdb->posts
-					WHERE post_type NOT IN ( 'attachment', '" . join( "', '", get_post_types( array( 'public' => false ) ) ) . "' )
-				)
-			" );
-
-			$_REQUEST['detached'] = 1;
-			break;
 		case 'attach':
 			$parent_id = (int) $_REQUEST['found_post_id'];
 			if ( !$parent_id )
@@ -99,7 +147,7 @@ if ( $doaction ) {
 					wp_die( __( 'You are not allowed to move this post to the trash.' ) );
 
 				if ( !wp_trash_post( $post_id ) )
-					wp_die( __( 'Error in moving to trash...' ) );
+					wp_die( __( 'Error in moving to trash.' ) );
 			}
 			$location = add_query_arg( array( 'trashed' => count( $post_ids ), 'ids' => join( ',', $post_ids ) ), $location );
 			break;
@@ -111,7 +159,7 @@ if ( $doaction ) {
 					wp_die( __( 'You are not allowed to move this post out of the trash.' ) );
 
 				if ( !wp_untrash_post( $post_id ) )
-					wp_die( __( 'Error in restoring from trash...' ) );
+					wp_die( __( 'Error in restoring from trash.' ) );
 			}
 			$location = add_query_arg( 'untrashed', count( $post_ids ), $location );
 			break;
@@ -123,7 +171,7 @@ if ( $doaction ) {
 					wp_die( __( 'You are not allowed to delete this post.' ) );
 
 				if ( !wp_delete_attachment( $post_id_del ) )
-					wp_die( __( 'Error in deleting...' ) );
+					wp_die( __( 'Error in deleting.' ) );
 			}
 			$location = add_query_arg( 'deleted', count( $post_ids ), $location );
 			break;
@@ -132,7 +180,7 @@ if ( $doaction ) {
 	wp_redirect( $location );
 	exit;
 } elseif ( ! empty( $_GET['_wp_http_referer'] ) ) {
-	 wp_redirect( remove_query_arg( array( '_wp_http_referer', '_wpnonce' ), stripslashes( $_SERVER['REQUEST_URI'] ) ) );
+	 wp_redirect( remove_query_arg( array( '_wp_http_referer', '_wpnonce' ), wp_unslash( $_SERVER['REQUEST_URI'] ) ) );
 	 exit;
 }
 
@@ -141,8 +189,6 @@ $wp_list_table->prepare_items();
 $title = __('Media Library');
 $parent_file = 'upload.php';
 
-wp_enqueue_script( 'wp-ajax-response' );
-wp_enqueue_script( 'jquery-ui-draggable' );
 wp_enqueue_script( 'media' );
 
 add_screen_option( 'per_page', array('label' => _x( 'Media items', 'items per page (screen options)' )) );
@@ -152,7 +198,8 @@ get_current_screen()->add_help_tab( array(
 'title'		=> __('Overview'),
 'content'	=>
 	'<p>' . __( 'All the files you&#8217;ve uploaded are listed in the Media Library, with the most recent uploads listed first. You can use the Screen Options tab to customize the display of this screen.' ) . '</p>' .
-	'<p>' . __( 'You can narrow the list by file type/status using the text link filters at the top of the screen. You also can refine the list by date using the dropdown menu above the media table.' ) . '</p>'
+	'<p>' . __( 'You can narrow the list by file type/status using the text link filters at the top of the screen. You also can refine the list by date using the dropdown menu above the media table.' ) . '</p>' .
+	'<p>' . __( 'You can view your media in a simple visual grid or a list with columns. Switch between these views using the icons to the left above the media.' ) . '</p>'
 ) );
 get_current_screen()->add_help_tab( array(
 'id'		=> 'actions-links',
@@ -170,14 +217,13 @@ get_current_screen()->add_help_tab( array(
 get_current_screen()->set_help_sidebar(
 	'<p><strong>' . __( 'For more information:' ) . '</strong></p>' .
 	'<p>' . __( '<a href="http://codex.wordpress.org/Media_Library_Screen" target="_blank">Documentation on Media Library</a>' ) . '</p>' .
-	'<p>' . __( '<a href="http://wordpress.org/support/" target="_blank">Support Forums</a>' ) . '</p>'
+	'<p>' . __( '<a href="https://wordpress.org/support/" target="_blank">Support Forums</a>' ) . '</p>'
 );
 
-require_once('./admin-header.php');
+require_once( ABSPATH . 'wp-admin/admin-header.php' );
 ?>
 
 <div class="wrap">
-<?php screen_icon(); ?>
 <h2>
 <?php
 echo esc_html( $title );
@@ -231,20 +277,16 @@ if ( !empty($message) ) { ?>
 <div id="message" class="updated"><p><?php echo $message; ?></p></div>
 <?php } ?>
 
-<?php $wp_list_table->views(); ?>
-
 <form id="posts-filter" action="" method="get">
 
-<?php $wp_list_table->search_box( __( 'Search Media' ), 'media' ); ?>
+<?php $wp_list_table->views(); ?>
 
 <?php $wp_list_table->display(); ?>
 
 <div id="ajax-response"></div>
 <?php find_posts_div(); ?>
-<br class="clear" />
-
 </form>
 </div>
 
 <?php
-include('./admin-footer.php');
+include( ABSPATH . 'wp-admin/admin-footer.php' );

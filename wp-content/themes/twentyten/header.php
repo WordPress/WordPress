@@ -1,8 +1,8 @@
 <?php
 /**
- * The Header for our theme.
+ * Header template for our theme
  *
- * Displays all of the <head> section and everything up till <div id="main">
+ * Displays all of the <head> section and everything up till <div id="main">.
  *
  * @package WordPress
  * @subpackage Twenty_Ten
@@ -29,7 +29,7 @@
 		echo " | $site_description";
 
 	// Add a page number if necessary:
-	if ( $paged >= 2 || $page >= 2 )
+	if ( ( $paged >= 2 || $page >= 2 ) && ! is_404() )
 		echo ' | ' . sprintf( __( 'Page %s', 'twentyten' ), max( $paged, $page ) );
 
 	?></title>
@@ -37,13 +37,15 @@
 <link rel="stylesheet" type="text/css" media="all" href="<?php bloginfo( 'stylesheet_url' ); ?>" />
 <link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>" />
 <?php
-	/* We add some JavaScript to pages with the comment form
+	/*
+	 * We add some JavaScript to pages with the comment form
 	 * to support sites with threaded comments (when in use).
 	 */
 	if ( is_singular() && get_option( 'thread_comments' ) )
 		wp_enqueue_script( 'comment-reply' );
 
-	/* Always have wp_head() just before the closing </head>
+	/*
+	 * Always have wp_head() just before the closing </head>
 	 * tag of your theme, or you will break many plugins, which
 	 * generally use this hook to add elements to <head> such
 	 * as styles, scripts, and meta tags.
@@ -68,8 +70,10 @@
 				<?php
 					// Compatibility with versions of WordPress prior to 3.4.
 					if ( function_exists( 'get_custom_header' ) ) {
-						// We need to figure out what the minimum width should be for our featured image.
-						// This result would be the suggested width if the theme were to implement flexible widths.
+						/*
+						 * We need to figure out what the minimum width should be for our featured image.
+						 * This result would be the suggested width if the theme were to implement flexible widths.
+						 */
 						$header_image_width = get_theme_support( 'custom-header', 'width' );
 					} else {
 						$header_image_width = HEADER_IMAGE_WIDTH;

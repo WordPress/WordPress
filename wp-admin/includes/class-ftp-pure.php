@@ -3,13 +3,13 @@
  * PemFTP - A Ftp implementation in pure PHP
  *
  * @package PemFTP
- * @since 2.5
+ * @since 2.5.0
  *
  * @version 1.0
  * @copyright Alexey Dotsenko
  * @author Alexey Dotsenko
  * @link http://www.phpclasses.org/browse/package/1743.html Site
- * @license LGPL License http://www.opensource.org/licenses/lgpl-license.html
+ * @license LGPL http://www.opensource.org/licenses/lgpl-license.html
  */
 
 /**
@@ -17,13 +17,13 @@
  *
  * @package PemFTP
  * @subpackage Pure
- * @since 2.5
+ * @since 2.5.0
  *
  * @version 1.0
  * @copyright Alexey Dotsenko
  * @author Alexey Dotsenko
  * @link http://www.phpclasses.org/browse/package/1743.html Site
- * @license LGPL License http://www.opensource.org/licenses/lgpl-license.html
+ * @license LGPL http://www.opensource.org/licenses/lgpl-license.html
  */
 class ftp extends ftp_base {
 

@@ -33,7 +33,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package SimplePie
- * @version 1.3
+ * @version 1.3.1
  * @copyright 2004-2012 Ryan Parman, Geoffrey Sneddon, Ryan McCue
  * @author Ryan Parman
  * @author Geoffrey Sneddon
@@ -247,6 +247,11 @@ class SimplePie_Sanitize
 			if ($type & (SIMPLEPIE_CONSTRUCT_HTML | SIMPLEPIE_CONSTRUCT_XHTML))
 			{
 
+				if (!class_exists('DOMDocument'))
+				{
+					$this->registry->call('Misc', 'error', array('DOMDocument not found, unable to use sanitizer', E_USER_WARNING, __FILE__, __LINE__));
+					return '';
+				}
 				$document = new DOMDocument();
 				$document->encoding = 'UTF-8';
 				$data = $this->preprocess($data, $type);
@@ -302,7 +307,7 @@ class SimplePie_Sanitize
 						if ($img->hasAttribute('src'))
 						{
 							$image_url = call_user_func($this->cache_name_function, $img->getAttribute('src'));
-							$cache = $this->registry->call('Cache', 'create', array($this->cache_location, $image_url, 'spi'));
+							$cache = $this->registry->call('Cache', 'get_handler', array($this->cache_location, $image_url, 'spi'));
 
 							if ($cache->load())
 							{
@@ -310,7 +315,7 @@ class SimplePie_Sanitize
 							}
 							else
 							{
-								$file = $this->registry->create('File', array($img['attribs']['src']['data'], $this->timeout, 5, array('X-FORWARDED-FOR' => $_SERVER['REMOTE_ADDR']), $this->useragent, $this->force_fsockopen));
+								$file = $this->registry->create('File', array($img->getAttribute('src'), $this->timeout, 5, array('X-FORWARDED-FOR' => $_SERVER['REMOTE_ADDR']), $this->useragent, $this->force_fsockopen));
 								$headers = $file->headers;
 
 								if ($file->success && ($file->method & SIMPLEPIE_FILE_SOURCE_REMOTE === 0 || ($file->status_code === 200 || $file->status_code > 206 && $file->status_code < 300)))
@@ -356,7 +361,11 @@ class SimplePie_Sanitize
 
 			if ($type & SIMPLEPIE_CONSTRUCT_IRI)
 			{
-				$data = $this->registry->call('Misc', 'absolutize_url', array($data, $base));
+				$absolute = $this->registry->call('Misc', 'absolutize_url', array($data, $base));
+				if ($absolute !== false)
+				{
+					$data = $absolute;
+				}
 			}
 
 			if ($type & (SIMPLEPIE_CONSTRUCT_TEXT | SIMPLEPIE_CONSTRUCT_IRI))
@@ -412,7 +421,10 @@ class SimplePie_Sanitize
 					if ($element->hasAttribute($attribute))
 					{
 						$value = $this->registry->call('Misc', 'absolutize_url', array($element->getAttribute($attribute), $this->base));
-						$element->setAttribute($attribute, $value);
+						if ($value !== false)
+						{
+							$element->setAttribute($attribute, $value);
+						}
 					}
 				}
 			}

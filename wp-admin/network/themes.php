@@ -8,7 +8,7 @@
  */
 
 /** Load WordPress Administration Bootstrap */
-require_once( './admin.php' );
+require_once( dirname( __FILE__ ) . '/admin.php' );
 
 if ( ! is_multisite() )
 	wp_die( __( 'Multisite support is not enabled.' ) );
@@ -40,14 +40,12 @@ if ( $action ) {
 			else
 				wp_safe_redirect( add_query_arg( 'enabled', 1, $referer ) );
 			exit;
-			break;
 		case 'disable':
 			check_admin_referer('disable-theme_' . $_GET['theme']);
 			unset( $allowed_themes[ $_GET['theme'] ] );
 			update_site_option( 'allowedthemes', $allowed_themes );
 			wp_safe_redirect( add_query_arg( 'disabled', '1', $referer ) );
 			exit;
-			break;
 		case 'enable-selected':
 			check_admin_referer('bulk-themes');
 			$themes = isset( $_POST['checked'] ) ? (array) $_POST['checked'] : array();
@@ -60,7 +58,6 @@ if ( $action ) {
 			update_site_option( 'allowedthemes', $allowed_themes );
 			wp_safe_redirect( add_query_arg( 'enabled', count( $themes ), $referer ) );
 			exit;
-			break;
 		case 'disable-selected':
 			check_admin_referer('bulk-themes');
 			$themes = isset( $_POST['checked'] ) ? (array) $_POST['checked'] : array();
@@ -73,7 +70,6 @@ if ( $action ) {
 			update_site_option( 'allowedthemes', $allowed_themes );
 			wp_safe_redirect( add_query_arg( 'disabled', count( $themes ), $referer ) );
 			exit;
-			break;
 		case 'update-selected' :
 			check_admin_referer( 'bulk-themes' );
 
@@ -90,7 +86,6 @@ if ( $action ) {
 			require_once(ABSPATH . 'wp-admin/admin-header.php');
 
 			echo '<div class="wrap">';
-			screen_icon();
 			echo '<h2>' . esc_html( $title ) . '</h2>';
 
 			$url = self_admin_url('update.php?action=update-selected-themes&amp;themes=' . urlencode( join(',', $themes) ));
@@ -100,7 +95,6 @@ if ( $action ) {
 			echo '</div>';
 			require_once(ABSPATH . 'wp-admin/admin-footer.php');
 			exit;
-			break;
 		case 'delete-selected':
 			if ( ! current_user_can( 'delete_themes' ) )
 				wp_die( __('You do not have sufficient permissions to delete themes for this site.') );
@@ -137,7 +131,6 @@ if ( $action ) {
 			<div class="wrap">
 				<?php
 					$themes_to_delete = count( $themes );
-					screen_icon();
 					echo '<h2>' . _n( 'Delete Theme', 'Delete Themes', $themes_to_delete ) . '</h2>';
 				?>
 				<div class="error"><p><strong><?php _e( 'Caution:' ); ?></strong> <?php echo _n( 'This theme may be active on other sites in the network.', 'These themes may be active on other sites in the network.', $themes_to_delete ); ?></p></div>
@@ -184,7 +177,7 @@ if ( $action ) {
 					'_wpnonce' => $_REQUEST['_wpnonce']
 				), network_admin_url( 'themes.php' ) ) ) );
 			}
-			
+
 			$paged = ( $_REQUEST['paged'] ) ? $_REQUEST['paged'] : 1;
 			wp_redirect( add_query_arg( array(
 				'deleted' => count( $themes ),
@@ -192,7 +185,6 @@ if ( $action ) {
 				's' => $s
 			), network_admin_url( 'themes.php' ) ) );
 			exit;
-			break;
 	}
 }
 
@@ -214,18 +206,19 @@ get_current_screen()->add_help_tab( array(
 get_current_screen()->set_help_sidebar(
 	'<p><strong>' . __('For more information:') . '</strong></p>' .
 	'<p>' . __('<a href="http://codex.wordpress.org/Network_Admin_Themes_Screen" target="_blank">Documentation on Network Themes</a>') . '</p>' .
-	'<p>' . __('<a href="http://wordpress.org/support/" target="_blank">Support Forums</a>') . '</p>'
+	'<p>' . __('<a href="https://wordpress.org/support/" target="_blank">Support Forums</a>') . '</p>'
 );
 
 $title = __('Themes');
 $parent_file = 'themes.php';
+
+wp_enqueue_script( 'theme-preview' );
 
 require_once(ABSPATH . 'wp-admin/admin-header.php');
 
 ?>
 
 <div class="wrap">
-<?php screen_icon('themes'); ?>
 <h2><?php echo esc_html( $title ); if ( current_user_can('install_themes') ) { ?> <a href="theme-install.php" class="add-new-h2"><?php echo esc_html_x('Add New', 'theme'); ?></a><?php }
 if ( $s )
 	printf( '<span class="subtitle">' . __('Search results for &#8220;%s&#8221;') . '</span>', esc_html( $s ) ); ?>

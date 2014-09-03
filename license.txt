@@ -1,6 +1,6 @@
 WordPress - Web publishing software
 
-Copyright 2011 by the contributors
+Copyright 2014 by the contributors
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -382,4 +382,4 @@ WRITTEN OFFER
 The source code for any program binaries or compressed scripts that are
 included with WordPress can be freely obtained at the following URL:
 
-	http://wordpress.org/download/source/
+	https://wordpress.org/download/source/

@@ -3,7 +3,7 @@
 /**
  * Disable error reporting
  *
- * Set this to error_reporting( E_ALL ) or error_reporting( E_ALL | E_STRICT ) for debugging
+ * Set this to error_reporting( -1 ) for debugging
  */
 error_reporting(0);
 
@@ -92,11 +92,11 @@ function get_file($path) {
 	return @file_get_contents($path);
 }
 
-require(ABSPATH . '/wp-includes/script-loader.php');
-require(ABSPATH . '/wp-includes/version.php');
+require( ABSPATH . WPINC . '/script-loader.php' );
+require( ABSPATH . WPINC . '/version.php' );
 
 $load = preg_replace( '/[^a-z0-9,_-]+/i', '', $_GET['load'] );
-$load = explode(',', $load);
+$load = array_unique( explode( ',', $load ) );
 
 if ( empty($load) )
 	exit;
@@ -104,7 +104,7 @@ if ( empty($load) )
 $compress = ( isset($_GET['c']) && $_GET['c'] );
 $force_gzip = ( $compress && 'gzip' == $_GET['c'] );
 $rtl = ( isset($_GET['dir']) && 'rtl' == $_GET['dir'] );
-$expires_offset = 31536000;
+$expires_offset = 31536000; // 1 year
 $out = '';
 
 $wp_styles = new WP_Styles();
@@ -117,22 +117,24 @@ foreach( $load as $handle ) {
 	$style = $wp_styles->registered[$handle];
 	$path = ABSPATH . $style->src;
 
-	$content = get_file($path) . "\n";
-
-	if ( $rtl && isset($style->extra['rtl']) && $style->extra['rtl'] ) {
-		$rtl_path = is_bool($style->extra['rtl']) ? str_replace( '.css', '-rtl.css', $path ) : ABSPATH . $style->extra['rtl'];
-		$content .= get_file($rtl_path) . "\n";
+	if ( $rtl && ! empty( $style->extra['rtl'] ) ) {
+		// All default styles have fully independent RTL files.
+		$path = str_replace( '.min.css', '-rtl.min.css', $path );
 	}
 
-	if ( strpos( $style->src, '/wp-includes/css/' ) === 0 ) {
-		$content = str_replace( '../images/', '../wp-includes/images/', $content );
-		$out .= str_replace( '../js/tinymce/', '../wp-includes/js/tinymce/', $content );
+	$content = get_file( $path ) . "\n";
+
+	if ( strpos( $style->src, '/' . WPINC . '/css/' ) === 0 ) {
+		$content = str_replace( '../images/', '../' . WPINC . '/images/', $content );
+		$content = str_replace( '../js/tinymce/', '../' . WPINC . '/js/tinymce/', $content );
+		$content = str_replace( '../fonts/', '../' . WPINC . '/fonts/', $content );
+		$out .= $content;
 	} else {
 		$out .= str_replace( '../images/', 'images/', $content );
 	}
 }
 
-header('Content-Type: text/css');
+header('Content-Type: text/css; charset=UTF-8');
 header('Expires: ' . gmdate( "D, d M Y H:i:s", time() + $expires_offset ) . ' GMT');
 header("Cache-Control: public, max-age=$expires_offset");
 

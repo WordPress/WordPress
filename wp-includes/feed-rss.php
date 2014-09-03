@@ -17,14 +17,29 @@ echo '<?xml version="1.0" encoding="'.get_option('blog_charset').'"?'.'>'; ?>
 	<lastBuildDate><?php echo mysql2date('D, d M Y H:i:s +0000', get_lastpostmodified('GMT'), false); ?></lastBuildDate>
 	<docs>http://backend.userland.com/rss092</docs>
 	<language><?php bloginfo_rss( 'language' ); ?></language>
-	<?php do_action('rss_head'); ?>
+
+	<?php
+	/**
+	 * Fires at the end of the RSS Feed Header.
+	 *
+	 * @since 2.0.0
+	 */
+	do_action( 'rss_head' );
+	?>
 
 <?php while (have_posts()) : the_post(); ?>
 	<item>
 		<title><?php the_title_rss() ?></title>
 		<description><![CDATA[<?php the_excerpt_rss() ?>]]></description>
 		<link><?php the_permalink_rss() ?></link>
-		<?php do_action('rss_item'); ?>
+		<?php
+		/**
+		 * Fires at the end of each RSS feed item.
+		 *
+		 * @since 2.0.0
+		 */
+		do_action( 'rss_item' );
+		?>
 	</item>
 <?php endwhile; ?>
 </channel>

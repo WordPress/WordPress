@@ -57,7 +57,7 @@ header( "Last-Modified: $last_modified GMT" );
 header( 'ETag: ' . $etag );
 header( 'Expires: ' . gmdate( 'D, d M Y H:i:s', time() + 100000000 ) . ' GMT' );
 
-// Support for Conditional GET
+// Support for Conditional GET - use stripslashes to avoid formatting.php dependency
 $client_etag = isset( $_SERVER['HTTP_IF_NONE_MATCH'] ) ? stripslashes( $_SERVER['HTTP_IF_NONE_MATCH'] ) : false;
 
 if( ! isset( $_SERVER['HTTP_IF_MODIFIED_SINCE'] ) )

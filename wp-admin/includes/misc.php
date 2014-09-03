@@ -7,15 +7,50 @@
  */
 
 /**
- * {@internal Missing Short Description}}
+ * Returns whether the server is running Apache with the mod_rewrite module loaded.
  *
  * @since 2.0.0
  *
- * @return unknown
+ * @return bool
  */
 function got_mod_rewrite() {
 	$got_rewrite = apache_mod_loaded('mod_rewrite', true);
-	return apply_filters('got_rewrite', $got_rewrite);
+
+	/**
+	 * Filter whether Apache and mod_rewrite are present.
+	 *
+	 * This filter was previously used to force URL rewriting for other servers,
+	 * like nginx. Use the got_url_rewrite filter in got_url_rewrite() instead.
+	 *
+	 * @since 2.5.0
+	 *
+	 * @see got_url_rewrite()
+	 *
+	 * @param bool $got_rewrite Whether Apache and mod_rewrite are present.
+	 */
+	return apply_filters( 'got_rewrite', $got_rewrite );
+}
+
+/**
+ * Returns whether the server supports URL rewriting.
+ *
+ * Detects Apache's mod_rewrite, IIS 7.0+ permalink support, and nginx.
+ *
+ * @since 3.7.0
+ *
+ * @return bool Whether the server supports URL rewriting.
+ */
+function got_url_rewrite() {
+	$got_url_rewrite = ( got_mod_rewrite() || $GLOBALS['is_nginx'] || iis7_supports_permalinks() );
+
+	/**
+	 * Filter whether URL rewriting is available.
+	 *
+	 * @since 3.7.0
+	 *
+	 * @param bool $got_url_rewrite Whether URL rewriting is available.
+	 */
+	return apply_filters( 'got_url_rewrite', $got_url_rewrite );
 }
 
 /**
@@ -128,8 +163,10 @@ function save_mod_rewrite_rules() {
 	$home_path = get_home_path();
 	$htaccess_file = $home_path.'.htaccess';
 
-	// If the file doesn't already exist check for write access to the directory and whether we have some rules.
-	// else check for write access to the file.
+	/*
+	 * If the file doesn't already exist check for write access to the directory
+	 * and whether we have some rules. Else check for write access to the file.
+	 */
 	if ((!file_exists($htaccess_file) && is_writable($home_path) && $wp_rewrite->using_mod_rewrite_permalinks()) || is_writable($htaccess_file)) {
 		if ( got_mod_rewrite() ) {
 			$rules = explode( "\n", $wp_rewrite->mod_rewrite_rules() );
@@ -192,7 +229,7 @@ function update_recently_edited( $file ) {
 }
 
 /**
- * If siteurl or home changed, flush rewrite rules.
+ * If siteurl, home or page_on_front changed, flush rewrite rules.
  *
  * @since 2.1.0
  *
@@ -209,21 +246,21 @@ function update_home_siteurl( $old_value, $value ) {
 
 add_action( 'update_option_home', 'update_home_siteurl', 10, 2 );
 add_action( 'update_option_siteurl', 'update_home_siteurl', 10, 2 );
+add_action( 'update_option_page_on_front', 'update_home_siteurl', 10, 2 );
 
 /**
  * Shorten an URL, to be used as link text
  *
- * @since 1.2.1
+ * @since 1.2.0
  *
  * @param string $url
  * @return string
  */
 function url_shorten( $url ) {
-	$short_url = str_replace( 'http://', '', stripslashes( $url ));
-	$short_url = str_replace( 'www.', '', $short_url );
+	$short_url = str_replace( array( 'http://', 'www.' ), '', $url );
 	$short_url = untrailingslashit( $short_url );
 	if ( strlen( $short_url ) > 35 )
-		$short_url = substr( $short_url, 0, 32 ) . '...';
+		$short_url = substr( $short_url, 0, 32 ) . '&hellip;';
 	return $short_url;
 }
 
@@ -239,17 +276,15 @@ function url_shorten( $url ) {
  * @param array $vars An array of globals to reset.
  */
 function wp_reset_vars( $vars ) {
-	for ( $i=0; $i<count( $vars ); $i += 1 ) {
-		$var = $vars[$i];
-		global $$var;
-
-		if ( empty( $_POST[$var] ) ) {
-			if ( empty( $_GET[$var] ) )
-				$$var = '';
-			else
-				$$var = $_GET[$var];
+	foreach ( $vars as $var ) {
+		if ( empty( $_POST[ $var ] ) ) {
+			if ( empty( $_GET[ $var ] ) ) {
+				$GLOBALS[ $var ] = '';
+			} else {
+				$GLOBALS[ $var ] = $_GET[ $var ];
+			}
 		} else {
-			$$var = $_POST[$var];
+			$GLOBALS[ $var ] = $_POST[ $var ];
 		}
 	}
 }
@@ -263,7 +298,7 @@ function wp_reset_vars( $vars ) {
  */
 function show_message($message) {
 	if ( is_wp_error($message) ){
-		if ( $message->get_error_data() )
+		if ( $message->get_error_data() && is_string( $message->get_error_data() ) )
 			$message = $message->get_error_message() . ': ' . $message->get_error_data();
 		else
 			$message = $message->get_error_message();
@@ -281,11 +316,15 @@ function wp_doc_link_parse( $content ) {
 		return array();
 
 	$tokens = token_get_all( $content );
+	$count = count( $tokens );
 	$functions = array();
 	$ignore_functions = array();
-	for ( $t = 0, $count = count( $tokens ); $t < $count; $t++ ) {
-		if ( !is_array( $tokens[$t] ) ) continue;
-		if ( T_STRING == $tokens[$t][0] && ( '(' == $tokens[ $t + 1 ] || '(' == $tokens[ $t + 2 ] ) ) {
+	for ( $t = 0; $t < $count - 2; $t++ ) {
+		if ( ! is_array( $tokens[ $t ] ) ) {
+			continue;
+		}
+
+		if ( T_STRING == $tokens[ $t ][0] && ( '(' == $tokens[ $t + 1 ] || '(' == $tokens[ $t + 2 ] ) ) {
 			// If it's a function or class defined locally, there's not going to be any docs available
 			if ( ( isset( $tokens[ $t - 2 ][1] ) && in_array( $tokens[ $t - 2 ][1], array( 'function', 'class' ) ) ) || ( isset( $tokens[ $t - 2 ][0] ) && T_OBJECT_OPERATOR == $tokens[ $t - 1 ][0] ) ) {
 				$ignore_functions[] = $tokens[$t][1];
@@ -297,7 +336,16 @@ function wp_doc_link_parse( $content ) {
 
 	$functions = array_unique( $functions );
 	sort( $functions );
+
+	/**
+	 * Filter the list of functions and classes to be ignored from the documentation lookup.
+	 *
+	 * @since 2.8.0
+	 *
+	 * @param array $ignore_functions Functions and classes to be ignored.
+	 */
 	$ignore_functions = apply_filters( 'documentation_ignore_functions', $ignore_functions );
+
 	$ignore_functions = array_unique( $ignore_functions );
 
 	$out = array();
@@ -313,8 +361,8 @@ function wp_doc_link_parse( $content ) {
 /**
  * Saves option for number of rows when listing posts, pages, comments, etc.
  *
- * @since 2.8
-**/
+ * @since 2.8.0
+ */
 function set_screen_options() {
 
 	if ( isset($_POST['wp_screen_options']) && is_array($_POST['wp_screen_options']) ) {
@@ -325,7 +373,7 @@ function set_screen_options() {
 		$option = $_POST['wp_screen_options']['option'];
 		$value = $_POST['wp_screen_options']['value'];
 
-		if ( !preg_match( '/^[a-z_-]+$/', $option ) )
+		if ( $option != sanitize_key( $option ) )
 			return;
 
 		$map_option = $option;
@@ -357,7 +405,25 @@ function set_screen_options() {
 					return;
 				break;
 			default:
-				$value = apply_filters('set-screen-option', false, $option, $value);
+
+				/**
+				 * Filter a screen option value before it is set.
+				 *
+				 * The filter can also be used to modify non-standard [items]_per_page
+				 * settings. See the parent function for a full list of standard options.
+				 *
+				 * Returning false to the filter will skip saving the current option.
+				 *
+				 * @since 2.8.0
+				 *
+				 * @see set_screen_options()
+				 *
+				 * @param bool|int $value  Screen option value. Default false to skip.
+				 * @param string   $option The option name.
+				 * @param int      $value  The number of rows to use.
+				 */
+				$value = apply_filters( 'set-screen-option', false, $option, $value );
+
 				if ( false === $value )
 					return;
 				break;
@@ -370,7 +436,7 @@ function set_screen_options() {
 }
 
 /**
- * Check if rewrite rule for WordPress already exists in the IIS 7 configuration file
+ * Check if rewrite rule for WordPress already exists in the IIS 7+ configuration file
  *
  * @since 2.8.0
  *
@@ -428,7 +494,7 @@ function iis7_delete_rewrite_rule($filename) {
 }
 
 /**
- * Add WordPress rewrite rule to the IIS 7 configuration file.
+ * Add WordPress rewrite rule to the IIS 7+ configuration file.
  *
  * @since 2.8.0
  *
@@ -528,29 +594,80 @@ function saveDomDocument($doc, $filename) {
  *
  * @since 3.0.0
  */
-function admin_color_scheme_picker() {
-	global $_wp_admin_css_colors, $user_id; ?>
-<fieldset><legend class="screen-reader-text"><span><?php _e('Admin Color Scheme')?></span></legend>
-<?php
-$current_color = get_user_option('admin_color', $user_id);
-if ( empty($current_color) )
-	$current_color = 'fresh';
-foreach ( $_wp_admin_css_colors as $color => $color_info ): ?>
-<div class="color-option"><input name="admin_color" id="admin_color_<?php echo $color; ?>" type="radio" value="<?php echo esc_attr($color) ?>" class="tog" <?php checked($color, $current_color); ?> />
-	<table class="color-palette">
-	<tr>
-	<?php foreach ( $color_info->colors as $html_color ): ?>
-	<td style="background-color: <?php echo $html_color ?>" title="<?php echo $color ?>">&nbsp;</td>
-	<?php endforeach; ?>
-	</tr>
-	</table>
+function admin_color_scheme_picker( $user_id ) {
+	global $_wp_admin_css_colors;
 
-	<label for="admin_color_<?php echo $color; ?>"><?php echo $color_info->name ?></label>
-</div>
-	<?php endforeach; ?>
-</fieldset>
-<?php
+	ksort( $_wp_admin_css_colors );
+
+	if ( isset( $_wp_admin_css_colors['fresh'] ) ) {
+		// Set Default ('fresh') and Light should go first.
+		$_wp_admin_css_colors = array_filter( array_merge( array( 'fresh' => '', 'light' => '' ), $_wp_admin_css_colors ) );
+	}
+
+	$current_color = get_user_option( 'admin_color', $user_id );
+
+	if ( empty( $current_color ) || ! isset( $_wp_admin_css_colors[ $current_color ] ) ) {
+		$current_color = 'fresh';
+	}
+
+	?>
+	<fieldset id="color-picker" class="scheme-list">
+		<legend class="screen-reader-text"><span><?php _e( 'Admin Color Scheme' ); ?></span></legend>
+		<?php
+		wp_nonce_field( 'save-color-scheme', 'color-nonce', false );
+		foreach ( $_wp_admin_css_colors as $color => $color_info ) :
+
+			?>
+			<div class="color-option <?php echo ( $color == $current_color ) ? 'selected' : ''; ?>">
+				<input name="admin_color" id="admin_color_<?php echo esc_attr( $color ); ?>" type="radio" value="<?php echo esc_attr( $color ); ?>" class="tog" <?php checked( $color, $current_color ); ?> />
+				<input type="hidden" class="css_url" value="<?php echo esc_url( $color_info->url ); ?>" />
+				<input type="hidden" class="icon_colors" value="<?php echo esc_attr( json_encode( array( 'icons' => $color_info->icon_colors ) ) ); ?>" />
+				<label for="admin_color_<?php echo esc_attr( $color ); ?>"><?php echo esc_html( $color_info->name ); ?></label>
+				<table class="color-palette">
+					<tr>
+					<?php
+
+					foreach ( $color_info->colors as $html_color ) {
+						?>
+						<td style="background-color: <?php echo esc_attr( $html_color ); ?>">&nbsp;</td>
+						<?php
+					}
+
+					?>
+					</tr>
+				</table>
+			</div>
+			<?php
+
+		endforeach;
+
+	?>
+	</fieldset>
+	<?php
 }
+
+function wp_color_scheme_settings() {
+	global $_wp_admin_css_colors;
+
+	$color_scheme = get_user_option( 'admin_color' );
+
+	// It's possible to have a color scheme set that is no longer registered.
+	if ( empty( $_wp_admin_css_colors[ $color_scheme ] ) ) {
+		$color_scheme = 'fresh';
+	}
+
+	if ( ! empty( $_wp_admin_css_colors[ $color_scheme ]->icon_colors ) ) {
+		$icon_colors = $_wp_admin_css_colors[ $color_scheme ]->icon_colors;
+	} elseif ( ! empty( $_wp_admin_css_colors['fresh']->icon_colors ) ) {
+		$icon_colors = $_wp_admin_css_colors['fresh']->icon_colors;
+	} else {
+		// Fall back to the default set of icon colors if the default scheme is missing.
+		$icon_colors = array( 'base' => '#999', 'focus' => '#2ea2cc', 'current' => '#fff' );
+	}
+
+	echo '<script type="text/javascript">var _wpColorScheme = ' . json_encode( array( 'icons' => $icon_colors ) ) . ";</script>\n";
+}
+add_action( 'admin_head', 'wp_color_scheme_settings' );
 
 function _ipad_meta() {
 	if ( wp_is_mobile() ) {
@@ -560,3 +677,169 @@ function _ipad_meta() {
 	}
 }
 add_action('admin_head', '_ipad_meta');
+
+/**
+ * Check lock status for posts displayed on the Posts screen
+ *
+ * @since 3.6.0
+ */
+function wp_check_locked_posts( $response, $data, $screen_id ) {
+	$checked = array();
+
+	if ( array_key_exists( 'wp-check-locked-posts', $data ) && is_array( $data['wp-check-locked-posts'] ) ) {
+		foreach ( $data['wp-check-locked-posts'] as $key ) {
+			if ( ! $post_id = absint( substr( $key, 5 ) ) )
+				continue;
+
+			if ( ( $user_id = wp_check_post_lock( $post_id ) ) && ( $user = get_userdata( $user_id ) ) && current_user_can( 'edit_post', $post_id ) ) {
+				$send = array( 'text' => sprintf( __( '%s is currently editing' ), $user->display_name ) );
+
+				if ( ( $avatar = get_avatar( $user->ID, 18 ) ) && preg_match( "|src='([^']+)'|", $avatar, $matches ) )
+					$send['avatar_src'] = $matches[1];
+
+				$checked[$key] = $send;
+			}
+		}
+	}
+
+	if ( ! empty( $checked ) )
+		$response['wp-check-locked-posts'] = $checked;
+
+	return $response;
+}
+add_filter( 'heartbeat_received', 'wp_check_locked_posts', 10, 3 );
+
+/**
+ * Check lock status on the New/Edit Post screen and refresh the lock
+ *
+ * @since 3.6.0
+ */
+function wp_refresh_post_lock( $response, $data, $screen_id ) {
+	if ( array_key_exists( 'wp-refresh-post-lock', $data ) ) {
+		$received = $data['wp-refresh-post-lock'];
+		$send = array();
+
+		if ( ! $post_id = absint( $received['post_id'] ) )
+			return $response;
+
+		if ( ! current_user_can('edit_post', $post_id) )
+			return $response;
+
+		if ( ( $user_id = wp_check_post_lock( $post_id ) ) && ( $user = get_userdata( $user_id ) ) ) {
+			$error = array(
+				'text' => sprintf( __( '%s has taken over and is currently editing.' ), $user->display_name )
+			);
+
+			if ( $avatar = get_avatar( $user->ID, 64 ) ) {
+				if ( preg_match( "|src='([^']+)'|", $avatar, $matches ) )
+					$error['avatar_src'] = $matches[1];
+			}
+
+			$send['lock_error'] = $error;
+		} else {
+			if ( $new_lock = wp_set_post_lock( $post_id ) )
+				$send['new_lock'] = implode( ':', $new_lock );
+		}
+
+		$response['wp-refresh-post-lock'] = $send;
+	}
+
+	return $response;
+}
+add_filter( 'heartbeat_received', 'wp_refresh_post_lock', 10, 3 );
+
+/**
+ * Check nonce expiration on the New/Edit Post screen and refresh if needed
+ *
+ * @since 3.6.0
+ */
+function wp_refresh_post_nonces( $response, $data, $screen_id ) {
+	if ( array_key_exists( 'wp-refresh-post-nonces', $data ) ) {
+		$received = $data['wp-refresh-post-nonces'];
+		$response['wp-refresh-post-nonces'] = array( 'check' => 1 );
+
+		if ( ! $post_id = absint( $received['post_id'] ) )
+			return $response;
+
+		if ( ! current_user_can( 'edit_post', $post_id ) || empty( $received['post_nonce'] ) )
+			return $response;
+
+		if ( 2 === wp_verify_nonce( $received['post_nonce'], 'update-post_' . $post_id ) ) {
+			$response['wp-refresh-post-nonces'] = array(
+				'replace' => array(
+					'getpermalinknonce' => wp_create_nonce('getpermalink'),
+					'samplepermalinknonce' => wp_create_nonce('samplepermalink'),
+					'closedpostboxesnonce' => wp_create_nonce('closedpostboxes'),
+					'_ajax_linking_nonce' => wp_create_nonce( 'internal-linking' ),
+					'_wpnonce' => wp_create_nonce( 'update-post_' . $post_id ),
+				),
+				'heartbeatNonce' => wp_create_nonce( 'heartbeat-nonce' ),
+			);
+		}
+	}
+
+	return $response;
+}
+add_filter( 'heartbeat_received', 'wp_refresh_post_nonces', 10, 3 );
+
+/**
+ * Disable suspension of Heartbeat on the Add/Edit Post screens.
+ *
+ * @since 3.8.0
+ *
+ * @param array $settings An array of Heartbeat settings.
+ * @return array Filtered Heartbeat settings.
+ */
+function wp_heartbeat_set_suspension( $settings ) {
+	global $pagenow;
+
+	if ( 'post.php' === $pagenow || 'post-new.php' === $pagenow ) {
+		$settings['suspension'] = 'disable';
+	}
+
+	return $settings;
+}
+add_filter( 'heartbeat_settings', 'wp_heartbeat_set_suspension' );
+
+/**
+ * Autosave with heartbeat
+ *
+ * @since 3.9.0
+ */
+function heartbeat_autosave( $response, $data ) {
+	if ( ! empty( $data['wp_autosave'] ) ) {
+		$saved = wp_autosave( $data['wp_autosave'] );
+
+		if ( is_wp_error( $saved ) ) {
+			$response['wp_autosave'] = array( 'success' => false, 'message' => $saved->get_error_message() );
+		} elseif ( empty( $saved ) ) {
+			$response['wp_autosave'] = array( 'success' => false, 'message' => __( 'Error while saving.' ) );
+		} else {
+			/* translators: draft saved date format, see http://php.net/date */
+			$draft_saved_date_format = __( 'g:i:s a' );
+			/* translators: %s: date and time */
+			$response['wp_autosave'] = array( 'success' => true, 'message' => sprintf( __( 'Draft saved at %s.' ), date_i18n( $draft_saved_date_format ) ) );
+		}
+	}
+
+	return $response;
+}
+// Run later as we have to set DOING_AUTOSAVE for back-compat
+add_filter( 'heartbeat_received', 'heartbeat_autosave', 500, 2 );
+
+/**
+ * Disables autocomplete on the 'post' form (Add/Edit Post screens) for WebKit browsers,
+ * as they disregard the autocomplete setting on the editor textarea. That can break the editor
+ * when the user navigates to it with the browser's Back button. See #28037
+ *
+ * @since 4.0 
+ */
+function post_form_autocomplete_off() {
+	global $is_safari, $is_chrome;
+
+	if ( $is_safari || $is_chrome ) {
+		echo ' autocomplete="off"';
+	}
+}
+
+add_action( 'post_edit_form_tag', 'post_form_autocomplete_off' );

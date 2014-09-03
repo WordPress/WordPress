@@ -17,22 +17,29 @@
  * @since r74
  */
 class WP_Styles extends WP_Dependencies {
-	var $base_url;
-	var $content_url;
-	var $default_version;
-	var $text_direction = 'ltr';
-	var $concat = '';
-	var $concat_version = '';
-	var $do_concat = false;
-	var $print_html = '';
-	var $print_code = '';
-	var $default_dirs;
+	public $base_url;
+	public $content_url;
+	public $default_version;
+	public $text_direction = 'ltr';
+	public $concat = '';
+	public $concat_version = '';
+	public $do_concat = false;
+	public $print_html = '';
+	public $print_code = '';
+	public $default_dirs;
 
-	function __construct() {
+	public function __construct() {
+		/**
+		 * Fires when the WP_Styles instance is initialized.
+		 *
+		 * @since 2.6.0
+		 *
+		 * @param WP_Styles &$this WP_Styles instance, passed by reference.
+		 */
 		do_action_ref_array( 'wp_default_styles', array(&$this) );
 	}
 
-	function do_item( $handle ) {
+	public function do_item( $handle ) {
 		if ( !parent::do_item($handle) )
 			return false;
 
@@ -50,7 +57,7 @@ class WP_Styles extends WP_Dependencies {
 				$this->concat .= "$handle,";
 				$this->concat_version .= "$handle$ver";
 
-				$this->print_code .= $this->get_data( $handle, 'after' );
+				$this->print_code .= $this->print_inline_style( $handle, false );
 
 				return true;
 			}
@@ -62,32 +69,48 @@ class WP_Styles extends WP_Dependencies {
 			$media = 'all';
 
 		$href = $this->_css_href( $obj->src, $ver, $handle );
+		if ( empty( $href ) ) {
+			// Turns out there is nothing to print.
+			return true;
+		}
 		$rel = isset($obj->extra['alt']) && $obj->extra['alt'] ? 'alternate stylesheet' : 'stylesheet';
 		$title = isset($obj->extra['title']) ? "title='" . esc_attr( $obj->extra['title'] ) . "'" : '';
 
-		$end_cond = $tag = '';
-		if ( isset($obj->extra['conditional']) && $obj->extra['conditional'] ) {
-			$tag .= "<!--[if {$obj->extra['conditional']}]>\n";
-			$end_cond = "<![endif]-->\n";
-		}
-
-		$tag .= apply_filters( 'style_loader_tag', "<link rel='$rel' id='$handle-css' $title href='$href' type='text/css' media='$media' />\n", $handle );
+		/**
+		 * Filter the HTML link tag of an enqueued style.
+		 *
+		 * @since 2.6.0
+		 *
+		 * @param string         The link tag for the enqueued style.
+		 * @param string $handle The style's registered handle.
+		 */
+		$tag = apply_filters( 'style_loader_tag', "<link rel='$rel' id='$handle-css' $title href='$href' type='text/css' media='$media' />\n", $handle );
 		if ( 'rtl' === $this->text_direction && isset($obj->extra['rtl']) && $obj->extra['rtl'] ) {
-			if ( is_bool( $obj->extra['rtl'] ) ) {
+			if ( is_bool( $obj->extra['rtl'] ) || 'replace' === $obj->extra['rtl'] ) {
 				$suffix = isset( $obj->extra['suffix'] ) ? $obj->extra['suffix'] : '';
 				$rtl_href = str_replace( "{$suffix}.css", "-rtl{$suffix}.css", $this->_css_href( $obj->src , $ver, "$handle-rtl" ));
 			} else {
 				$rtl_href = $this->_css_href( $obj->extra['rtl'], $ver, "$handle-rtl" );
 			}
 
-			$tag .= apply_filters( 'style_loader_tag', "<link rel='$rel' id='$handle-rtl-css' $title href='$rtl_href' type='text/css' media='$media' />\n", $handle );
+			/** This filter is documented in wp-includes/class.wp-styles.php */
+			$rtl_tag = apply_filters( 'style_loader_tag', "<link rel='$rel' id='$handle-rtl-css' $title href='$rtl_href' type='text/css' media='$media' />\n", $handle );
+
+			if ( $obj->extra['rtl'] === 'replace' ) {
+				$tag = $rtl_tag;
+			} else {
+				$tag .= $rtl_tag;
+			}
 		}
 
-		$tag .= $end_cond;
+		if ( isset($obj->extra['conditional']) && $obj->extra['conditional'] ) {
+			$tag = "<!--[if {$obj->extra['conditional']}]>\n" . $tag . "<![endif]-->\n";
+		}
 
 		if ( $this->do_concat ) {
 			$this->print_html .= $tag;
-			$this->print_html .= $this->print_inline_style( $handle, false );
+			if ( $inline_style = $this->print_inline_style( $handle, false ) )
+				$this->print_html .= sprintf( "<style type='text/css'>\n%s\n</style>\n", $inline_style );
 		} else {
 			echo $tag;
 			$this->print_inline_style( $handle );
@@ -96,7 +119,7 @@ class WP_Styles extends WP_Dependencies {
 		return true;
 	}
 
-	function add_inline_style( $handle, $code ) {
+	public function add_inline_style( $handle, $code ) {
 		if ( !$code )
 			return false;
 
@@ -109,7 +132,7 @@ class WP_Styles extends WP_Dependencies {
 		return $this->add_data( $handle, 'after', $after );
 	}
 
-	function print_inline_style( $handle, $echo = true ) {
+	public function print_inline_style( $handle, $echo = true ) {
 		$output = $this->get_data( $handle, 'after' );
 
 		if ( empty( $output ) )
@@ -127,25 +150,42 @@ class WP_Styles extends WP_Dependencies {
 		return true;
 	}
 
-	function all_deps( $handles, $recursion = false, $group = false ) {
+	public function all_deps( $handles, $recursion = false, $group = false ) {
 		$r = parent::all_deps( $handles, $recursion );
-		if ( !$recursion )
+		if ( !$recursion ) {
+			/**
+			 * Filter the array of enqueued styles before processing for output.
+			 *
+			 * @since 2.6.0
+			 *
+			 * @param array $to_do The list of enqueued styles about to be processed.
+			 */
 			$this->to_do = apply_filters( 'print_styles_array', $this->to_do );
+		}
 		return $r;
 	}
 
-	function _css_href( $src, $ver, $handle ) {
+	public function _css_href( $src, $ver, $handle ) {
 		if ( !is_bool($src) && !preg_match('|^(https?:)?//|', $src) && ! ( $this->content_url && 0 === strpos($src, $this->content_url) ) ) {
 			$src = $this->base_url . $src;
 		}
 
 		if ( !empty($ver) )
 			$src = add_query_arg('ver', $ver, $src);
+
+		/**
+		 * Filter an enqueued style's fully-qualified URL.
+		 *
+		 * @since 2.6.0
+		 *
+		 * @param string $src    The source URL of the enqueued style.
+		 * @param string $handle The style's registered handle.
+		 */
 		$src = apply_filters( 'style_loader_src', $src, $handle );
 		return esc_url( $src );
 	}
 
-	function in_default_dir($src) {
+	public function in_default_dir($src) {
 		if ( ! $this->default_dirs )
 			return true;
 
@@ -156,12 +196,12 @@ class WP_Styles extends WP_Dependencies {
 		return false;
 	}
 
-	function do_footer_items() { // HTML 5 allows styles in the body, grab late enqueued items and output them in the footer.
+	public function do_footer_items() { // HTML 5 allows styles in the body, grab late enqueued items and output them in the footer.
 		$this->do_items(false, 1);
 		return $this->done;
 	}
 
-	function reset() {
+	public function reset() {
 		$this->do_concat = false;
 		$this->concat = '';
 		$this->concat_version = '';

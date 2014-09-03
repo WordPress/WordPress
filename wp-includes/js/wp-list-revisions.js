@@ -14,9 +14,9 @@
 				else if ( 'left' == side || 'right' == side )
 					inputs[i].style.visibility = 'visible';
 			}
-		}
+		};
 		pr.onclick();
-	}
+	};
 	if ( w && w.addEventListener )
 		w.addEventListener('load', init, false);
 	else if ( w && w.attachEvent )

@@ -11,7 +11,7 @@
 // use. That means, you can include it in your product, or your web
 // site, or any other form where the code is actually being used. You
 // may not put the plain javascript up on your site for download or
-// include it in your javascript libraries for download. 
+// include it in your javascript libraries for download.
 // If you wish to share this code with others, please just point them
 // to the URL instead.
 // Please DO NOT link directly to my .js files from your site. Copy
@@ -21,7 +21,7 @@
 
 /* SOURCE FILE: AnchorPosition.js */
 
-/* 
+/*
 AnchorPosition.js
 Author: Matt Kruse
 Last modified: 10/11/02
@@ -30,7 +30,7 @@ DESCRIPTION: These functions find the position of an <A> tag in a document,
 so other elements can be positioned relative to it.
 
 COMPATABILITY: Netscape 4.x,6.x,Mozilla, IE 5.x,6.x on Windows. Some small
-positioning errors - usually with Window positioning - occur on the 
+positioning errors - usually with Window positioning - occur on the
 Macintosh platform.
 
 FUNCTIONS:
@@ -44,16 +44,16 @@ getAnchorWindowPosition(anchorname)
 
 NOTES:
 
-1) For popping up separate browser windows, use getAnchorWindowPosition. 
+1) For popping up separate browser windows, use getAnchorWindowPosition.
    Otherwise, use getAnchorPosition
 
-2) Your anchor tag MUST contain both NAME and ID attributes which are the 
+2) Your anchor tag MUST contain both NAME and ID attributes which are the
    same. For example:
    <A NAME="test" ID="test"> </A>
 
-3) There must be at least a space between <A> </A> for IE5.5 to see the 
+3) There must be at least a space between <A> </A> for IE5.5 to see the
    anchor tag correctly. Do not do <A></A> with no space.
-*/ 
+*/
 
 // getAnchorPosition(anchorname)
 //   This function returns an object having .x and .y properties which are the coordinates
@@ -151,7 +151,7 @@ function AnchorPosition_getWindowOffsetTop (el) {
 
 /* SOURCE FILE: PopupWindow.js */
 
-/* 
+/*
 PopupWindow.js
 Author: Matt Kruse
 Last modified: 02/16/04
@@ -161,20 +161,20 @@ in a certain place. The window can either be a DIV or a separate browser
 window.
 
 COMPATABILITY: Works with Netscape 4.x, 6.x, IE 5.x on Windows. Some small
-positioning errors - usually with Window positioning - occur on the 
-Macintosh platform. Due to bugs in Netscape 4.x, populating the popup 
+positioning errors - usually with Window positioning - occur on the
+Macintosh platform. Due to bugs in Netscape 4.x, populating the popup
 window with <STYLE> tags may cause errors.
 
 USAGE:
 // Create an object for a WINDOW popup
-var win = new PopupWindow(); 
+var win = new PopupWindow();
 
 // Create an object for a DIV window using the DIV named 'mydiv'
-var win = new PopupWindow('mydiv'); 
+var win = new PopupWindow('mydiv');
 
-// Set the window to automatically hide itself when the user clicks 
+// Set the window to automatically hide itself when the user clicks
 // anywhere else on the page except the popup
-win.autoHide(); 
+win.autoHide();
 
 // Show the window relative to the anchor name passed in
 win.showPopup(anchorname);
@@ -185,7 +185,7 @@ win.hidePopup();
 // Set the size of the popup window (only applies to WINDOW popups
 win.setSize(width,height);
 
-// Populate the contents of the popup window that will be shown. If you 
+// Populate the contents of the popup window that will be shown. If you
 // change the contents while it is displayed, you will need to refresh()
 win.populate(string);
 
@@ -205,18 +205,18 @@ win.offsetY = 100;
 NOTES:
 1) Requires the functions in AnchorPosition.js
 
-2) Your anchor tag MUST contain both NAME and ID attributes which are the 
+2) Your anchor tag MUST contain both NAME and ID attributes which are the
    same. For example:
    <A NAME="test" ID="test"> </A>
 
-3) There must be at least a space between <A> </A> for IE5.5 to see the 
+3) There must be at least a space between <A> </A> for IE5.5 to see the
    anchor tag correctly. Do not do <A></A> with no space.
 
 4) When a PopupWindow object is created, a handler for 'onmouseup' is
    attached to any event handler you may have already defined. Do NOT define
    an event handler for 'onmouseup' after you define a PopupWindow object or
    the autoHide() will not work correctly.
-*/ 
+*/
 
 // Set the position of the popup window based on the anchor
 function PopupWindow_getXYPosition(anchorname) {
@@ -255,11 +255,11 @@ function PopupWindow_refresh() {
 		if (this.use_gebi) {
 			document.getElementById(this.divName).innerHTML = this.contents;
 			}
-		else if (this.use_css) { 
+		else if (this.use_css) {
 			document.all[this.divName].innerHTML = this.contents;
 			}
-		else if (this.use_layers) { 
-			var d = document.layers[this.divName]; 
+		else if (this.use_layers) {
+			var d = document.layers[this.divName];
 			d.document.open();
 			d.document.writeln(this.contents);
 			d.document.close();
@@ -470,11 +470,11 @@ function PopupWindow() {
 
 /* SOURCE FILE: ColorPicker2.js */
 
-/* 
+/*
 Last modified: 02/24/2003
 
-DESCRIPTION: This widget is used to select a color, in hexadecimal #RRGGBB 
-form. It uses a color "swatch" to display the standard 216-color web-safe 
+DESCRIPTION: This widget is used to select a color, in hexadecimal #RRGGBB
+form. It uses a color "swatch" to display the standard 216-color web-safe
 palette. The user can then click on a color to select it.
 
 COMPATABILITY: See notes in AnchorPosition.js and PopupWindow.js.
@@ -500,7 +500,7 @@ var cp = new ColorPicker('window');
 
 // Write the 'pickColor' function that will be called when the user clicks
 // a color and do something with the value. This is only required if you
-// want to do something other than simply populate a form field, which is 
+// want to do something other than simply populate a form field, which is
 // what the 'select' function will give you.
 function pickColor(color) {
 	field.value = color;
@@ -509,18 +509,18 @@ function pickColor(color) {
 NOTES:
 1) Requires the functions in AnchorPosition.js and PopupWindow.js
 
-2) Your anchor tag MUST contain both NAME and ID attributes which are the 
+2) Your anchor tag MUST contain both NAME and ID attributes which are the
    same. For example:
    <A NAME="test" ID="test"> </A>
 
-3) There must be at least a space between <A> </A> for IE5.5 to see the 
+3) There must be at least a space between <A> </A> for IE5.5 to see the
    anchor tag correctly. Do not do <A></A> with no space.
 
 4) When a ColorPicker object is created, a handler for 'onmouseup' is
    attached to any event handler you may have already defined. Do NOT define
    an event handler for 'onmouseup' after you define a ColorPicker object or
    the color picker will not hide itself correctly.
-*/ 
+*/
 ColorPicker_targetInput = null;
 function ColorPicker_writeDiv() {
 	document.writeln("<DIV ID=\"colorPickerDiv\" STYLE=\"position:absolute;visibility:hidden;\"> </DIV>");
@@ -548,8 +548,8 @@ function pickColor(color) {
 // This function is the easiest way to popup the window, select a color, and
 // have the value populate a form field, which is what most people want to do.
 function ColorPicker_select(inputobj,linkname) {
-	if (inputobj.type!="text" && inputobj.type!="hidden" && inputobj.type!="textarea") { 
-		alert("colorpicker.select: Input object passed is not a valid form input object"); 
+	if (inputobj.type!="text" && inputobj.type!="hidden" && inputobj.type!="textarea") {
+		alert("colorpicker.select: Input object passed is not a valid form input object");
 		window.ColorPicker_targetInput=null;
 		return;
 		}
@@ -682,7 +682,7 @@ function ColorPicker() {
 		if (use_highlight) { var mo = 'onMouseOver="'+windowRef+'ColorPicker_highlightColor(\''+colors[i]+'\',window.document)"'; }
 		else { mo = ""; }
 		cp_contents += '<td style="background-color: '+colors[i]+';"><a href="javascript:void()" onclick="'+windowRef+'ColorPicker_pickColor(\''+colors[i]+'\','+windowRef+'window.popupWindowObjects['+cp.index+']);return false;" '+mo+'>&nbsp;</a></td>';
-		if ( ((i+1)>=total) || (((i+1) % width) == 0)) { 
+		if ( ((i+1)>=total) || (((i+1) % width) == 0)) {
 			cp_contents += "</tr>";
 			}
 		}

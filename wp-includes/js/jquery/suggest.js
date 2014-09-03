@@ -18,7 +18,7 @@
 		var $input, $results, timeout, prevLength, cache, cacheSize;
 
 		$input = $(input).attr("autocomplete", "off");
-		$results = $(document.createElement("ul"));
+		$results = $("<ul/>");
 
 		timeout = false;		// hold timeout ID for suggestion results to appear
 		prevLength = 0;			// last recorded length of $input.val()
@@ -37,22 +37,7 @@
 			setTimeout(function() { $results.hide() }, 200);
 		});
 
-
-		// help IE users if possible
-		if ( $.browser.msie ) {
-			try {
-				$results.bgiframe();
-			} catch(e) { }
-		}
-
-		// I really hate browser detection, but I don't see any other way
-		if ($.browser.mozilla)
-			$input.keypress(processKey);	// onkeypress repeats arrow keys in Mozilla/Opera
-		else
-			$input.keydown(processKey);		// onkeydown repeats arrow keys in IE/Safari
-
-
-
+		$input.keydown(processKey);
 
 		function resetPosition() {
 			// requires jquery.dimension plugin
@@ -255,16 +240,17 @@
 			if ($currentResult) {
 				if ( options.multiple ) {
 					if ( $input.val().indexOf(options.multipleSep) != -1 ) {
-						$currentVal = $input.val().substr( 0, ( $input.val().lastIndexOf(options.multipleSep) + options.multipleSep.length ) );
+						$currentVal = $input.val().substr( 0, ( $input.val().lastIndexOf(options.multipleSep) + options.multipleSep.length ) ) + ' ';
 					} else {
 						$currentVal = "";
 					}
-					$input.val( $currentVal + $currentResult.text() + options.multipleSep);
+					$input.val( $currentVal + $currentResult.text() + options.multipleSep + ' ' );
 					$input.focus();
 				} else {
 					$input.val($currentResult.text());
 				}
 				$results.hide();
+				$input.trigger('change');
 
 				if (options.onSelect)
 					options.onSelect.apply($input[0]);
@@ -308,7 +294,7 @@
 
 		options = options || {};
 		options.multiple = options.multiple || false;
-		options.multipleSep = options.multipleSep || ", ";
+		options.multipleSep = options.multipleSep || ",";
 		options.source = source;
 		options.delay = options.delay || 100;
 		options.resultsClass = options.resultsClass || 'ac_results';

@@ -1,6 +1,8 @@
 <?php
 /**
- * The default template for displaying content. Used for both single and index/archive/search.
+ * The default template for displaying content
+ *
+ * Used for both single and index/archive/search.
  *
  * @package WordPress
  * @subpackage Twenty_Twelve
@@ -15,12 +17,15 @@
 		</div>
 		<?php endif; ?>
 		<header class="entry-header">
-			<?php the_post_thumbnail(); ?>
+			<?php if ( ! post_password_required() && ! is_attachment() ) :
+				the_post_thumbnail();
+			endif; ?>
+
 			<?php if ( is_single() ) : ?>
 			<h1 class="entry-title"><?php the_title(); ?></h1>
 			<?php else : ?>
 			<h1 class="entry-title">
-				<a href="<?php the_permalink(); ?>" title="<?php echo esc_attr( sprintf( __( 'Permalink to %s', 'twentytwelve' ), the_title_attribute( 'echo=0' ) ) ); ?>" rel="bookmark"><?php the_title(); ?></a>
+				<a href="<?php the_permalink(); ?>" rel="bookmark"><?php the_title(); ?></a>
 			</h1>
 			<?php endif; // is_single() ?>
 			<?php if ( comments_open() ) : ?>
@@ -47,7 +52,11 @@
 			<?php if ( is_singular() && get_the_author_meta( 'description' ) && is_multi_author() ) : // If a user has filled out their description and this is a multi-author blog, show a bio on their entries. ?>
 				<div class="author-info">
 					<div class="author-avatar">
-						<?php echo get_avatar( get_the_author_meta( 'user_email' ), apply_filters( 'twentytwelve_author_bio_avatar_size', 68 ) ); ?>
+						<?php
+						/** This filter is documented in author.php */
+						$author_bio_avatar_size = apply_filters( 'twentytwelve_author_bio_avatar_size', 68 );
+						echo get_avatar( get_the_author_meta( 'user_email' ), $author_bio_avatar_size );
+						?>
 					</div><!-- .author-avatar -->
 					<div class="author-description">
 						<h2><?php printf( __( 'About %s', 'twentytwelve' ), get_the_author() ); ?></h2>
