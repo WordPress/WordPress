@@ -2638,7 +2638,7 @@ function wp_ajax_query_themes() {
 function wp_ajax_parse_embed() {
 	global $post, $wp_embed;
 
-	if ( ! $post = get_post( (int) $_REQUEST['post_ID'] ) ) {
+	if ( ! $post = get_post( (int) $_POST['post_ID'] ) ) {
 		wp_send_json_error();
 	}
 
@@ -2646,17 +2646,17 @@ function wp_ajax_parse_embed() {
 		wp_send_json_error();
 	}
 
-	$shortcode = $_POST['shortcode'];
+	$shortcode = wp_unslash( $_POST['shortcode'] );
 	$url = str_replace( '[embed]', '', str_replace( '[/embed]', '', $shortcode ) );
 	$parsed = false;
 	setup_postdata( $post );
 
 	$wp_embed->return_false_on_fail = true;
 
-	if ( is_ssl() && preg_match( '%^\\[embed\\]http://%i', $shortcode ) ) {
+	if ( is_ssl() && preg_match( '%^\\[embed[^\\]]*\\]http://%i', $shortcode ) ) {
 		// Admin is ssl and the user pasted non-ssl URL.
 		// Check if the provider supports ssl embeds and use that for the preview.
-		$ssl_shortcode = preg_replace( '%^\\[embed\\]http://%i', '[embed]https://', $shortcode );
+		$ssl_shortcode = preg_replace( '%^(\\[embed[^\\]]*\\])http://%i', '$1https://', $shortcode );
 		$parsed = $wp_embed->run_shortcode( $ssl_shortcode );
 
 		if ( ! $parsed ) {
@@ -2713,7 +2713,7 @@ function wp_ajax_parse_embed() {
 function wp_ajax_parse_media_shortcode() {
 	global $post, $wp_scripts;
 
-	if ( ! $post = get_post( (int) $_REQUEST['post_ID'] ) ) {
+	if ( ! $post = get_post( (int) $_POST['post_ID'] ) ) {
 		wp_send_json_error();
 	}
 
@@ -2722,7 +2722,7 @@ function wp_ajax_parse_media_shortcode() {
 	}
 
 	setup_postdata( $post );
-	$shortcode = do_shortcode( wp_unslash( $_REQUEST['shortcode'] ) );
+	$shortcode = do_shortcode( wp_unslash( $_POST['shortcode'] ) );
 
 	if ( empty( $shortcode ) ) {
 		wp_send_json_error( array(
