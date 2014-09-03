@@ -179,6 +179,7 @@ __( 'Core Contributors to WordPress %s' );
 __( 'Contributing Developers' );
 __( 'Cofounder, Project Lead' );
 __( 'Lead Developer' );
+__( 'Release Lead' );
 __( 'User Experience Lead' );
 __( 'Core Developer' );
 __( 'Core Committer' );
