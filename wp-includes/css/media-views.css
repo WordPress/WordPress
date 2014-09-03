@@ -2511,50 +2511,50 @@
 	}
 }
 
-.attachments[data-columns="1"] .attachment {
+.media-frame-content[data-columns="1"] .attachment {
 	width: 100%;
 }
 
-.attachments[data-columns="2"] .attachment {
+.media-frame-content[data-columns="2"] .attachment {
 	width: 50%;
 }
 
-.attachments[data-columns="3"] .attachment {
+.media-frame-content[data-columns="3"] .attachment {
 	width: 33.3%;
 }
 
-.attachments[data-columns="4"] .attachment {
+.media-frame-content[data-columns="4"] .attachment {
 	width: 25%;
 }
 
-.attachments[data-columns="5"] .attachment {
+.media-frame-content[data-columns="5"] .attachment {
 	width: 20%;
 }
 
-.attachments[data-columns="6"] .attachment {
+.media-frame-content[data-columns="6"] .attachment {
 	width: 16.6%;
 }
 
-.attachments[data-columns="7"] .attachment {
+.media-frame-content[data-columns="7"] .attachment {
 	width: 14.2%;
 }
 
-.attachments[data-columns="8"] .attachment {
+.media-frame-content[data-columns="8"] .attachment {
 	width: 12.5%;
 }
 
-.attachments[data-columns="9"] .attachment {
+.media-frame-content[data-columns="9"] .attachment {
 	width: 11.1%;
 }
 
-.attachments[data-columns="10"] .attachment {
+.media-frame-content[data-columns="10"] .attachment {
 	width: 10%;
 }
 
-.attachments[data-columns="11"] .attachment {
+.media-frame-content[data-columns="11"] .attachment {
 	width: 9%;
 }
 
-.attachments[data-columns="12"] .attachment {
+.media-frame-content[data-columns="12"] .attachment {
 	width: 8.3%;
 }
