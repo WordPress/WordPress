@@ -748,7 +748,6 @@
  */
 .attachments {
 	margin: 0;
-	padding: 8px;
 	-webkit-overflow-scrolling: touch;
 }
 
@@ -1036,6 +1035,10 @@
 .attachments-browser .media-toolbar-secondary > .media-button,
 .attachments-browser .media-toolbar-secondary > .media-button-group {
 	margin: 11px 0;
+}
+
+.attachments-browser .attachments {
+	padding: 2px 8px 8px;
 }
 
 .attachments-browser .attachments,
@@ -2520,7 +2523,7 @@
 }
 
 .media-frame-content[data-columns="3"] .attachment {
-	width: 33.3%;
+	width: 33.33%;
 }
 
 .media-frame-content[data-columns="4"] .attachment {
@@ -2532,11 +2535,11 @@
 }
 
 .media-frame-content[data-columns="6"] .attachment {
-	width: 16.6%;
+	width: 16.66%;
 }
 
 .media-frame-content[data-columns="7"] .attachment {
-	width: 14.2%;
+	width: 14.28%;
 }
 
 .media-frame-content[data-columns="8"] .attachment {
@@ -2544,7 +2547,7 @@
 }
 
 .media-frame-content[data-columns="9"] .attachment {
-	width: 11.1%;
+	width: 11.11%;
 }
 
 .media-frame-content[data-columns="10"] .attachment {
@@ -2552,9 +2555,9 @@
 }
 
 .media-frame-content[data-columns="11"] .attachment {
-	width: 9%;
+	width: 9.09%;
 }
 
 .media-frame-content[data-columns="12"] .attachment {
-	width: 8.3%;
+	width: 8.33%;
 }

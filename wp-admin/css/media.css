@@ -513,11 +513,6 @@ border color while dragging a file over the uploader drop area */
 	border: 4px dashed #bbb;
 }
 
-.media-frame.mode-grid .attachments,
-.media-frame.mode-select .attachments {
-	padding: 2px;
-}
-
 .media-frame.mode-select .attachments-browser.fixed .attachments {
 	position: relative;
 	top: 94px; /* prevent jumping up when the toolbar becomes fixed */
@@ -604,6 +599,10 @@ border color while dragging a file over the uploader drop area */
 
 .media-frame.mode-grid .attachments-browser {
 	padding: 0;
+}
+
+.media-frame.mode-grid .attachments-browser .attachments {
+	padding: 2px;
 }
 
 .media-frame.mode-grid .attachments-browser .no-media {
