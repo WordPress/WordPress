@@ -305,7 +305,10 @@ endfor;
 
 <?php
 $languages = get_available_languages();
-if ( ! empty( $languages ) ) {
+if ( ! is_multisite() && defined( 'WPLANG' ) && '' !== WPLANG && 'en_US' !== WPLANG && ! in_array( WPLANG, $languages ) ) {
+	$languages[] = WPLANG;
+}
+if ( $languages ) {
 	?>
 	<tr>
 		<th width="33%" scope="row"><label for="WPLANG"><?php _e( 'Site Language' ); ?></label></th>
