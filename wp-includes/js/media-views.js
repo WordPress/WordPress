@@ -6866,7 +6866,9 @@
 			} ).done( _.bind( this.renderoEmbed, this ) );
 		},
 
-		renderoEmbed: function(html) {
+		renderoEmbed: function( response ) {
+			var html = ( response && response.body ) || '';
+
 			this.spinner.hide();
 
 			this.$('.setting.title').hide();
