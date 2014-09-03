@@ -1196,20 +1196,51 @@ class Language_Pack_Upgrader extends WP_Upgrader {
 
 	public static function async_upgrade( $upgrader = false ) {
 		// Avoid recursion.
-		if ( $upgrader && $upgrader instanceof Language_Pack_Upgrader )
+		if ( $upgrader && $upgrader instanceof Language_Pack_Upgrader ) {
 			return;
+		}
 
 		// Nothing to do?
 		$language_updates = wp_get_translation_updates();
-		if ( ! $language_updates )
+		if ( ! $language_updates ) {
 			return;
+		}
+
+		// Avoid messing with VCS installs, at least for now.
+		// Noted: this is not the ideal way to accomplish this.
+		$check_vcs = new WP_Automatic_Updater;
+		if ( $check_vcs->is_vcs_checkout( WP_CONTENT_DIR ) ) {
+			return;
+		}
+
+		foreach ( $language_updates as $key => $language_update ) {
+			$update = ! empty( $language_update->autoupdate );
+
+			/**
+			 * Filter whether to asynchronously update translation for core, a plugin, or a theme.
+			 *
+			 * @since 4.0.0
+			 *
+			 * @param bool   $update          Whether to update.
+			 * @param object $language_update The update offer.
+			 */
+			$update = apply_filters( 'async_update_translation', $update, $language_update );
+
+			if ( ! $update ) {
+				unset( $language_updates[ $key ] );
+			}
+		}
+
+		if ( empty( $language_updates ) ) {
+			return;
+		}
 
 		$skin = new Language_Pack_Upgrader_Skin( array(
 			'skip_header_footer' => true,
 		) );
 
 		$lp_upgrader = new Language_Pack_Upgrader( $skin );
-		$lp_upgrader->upgrade();
+		$lp_upgrader->bulk_upgrade( $language_updates );
 	}
 
 	public function upgrade_strings() {
