@@ -1190,11 +1190,7 @@ function get_sample_permalink_html( $id, $new_title = null, $new_slug = null ) {
 
 	if ( current_user_can( 'read_post', $post->ID ) ) {
 		$ptype = get_post_type_object( $post->post_type );
-		if( 'draft' == $post->post_status ) {
-			$view_post = __( 'Preview' );
-		} else {
-			$view_post = $ptype->labels->view_item;
-		}
+		$view_post = $ptype->labels->view_item;
 	}
 
 	if ( 'publish' == get_post_status( $post ) ) {
