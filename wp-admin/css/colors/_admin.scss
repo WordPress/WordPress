@@ -402,12 +402,6 @@ ul#adminmenu > li.current > a.current:after {
 
 /* Media */
 
-.media-modal-close:hover .media-modal-icon:before,
-.edit-attachment-frame .edit-media-header .right:hover,
-.edit-attachment-frame .edit-media-header .left:hover {
-	color: $link-focus;
-}
-
 .media-item .bar,
 .media-progress-bar div {
 	background-color: $highlight-color;
@@ -445,12 +439,6 @@ ul#adminmenu > li.current > a.current:after {
 	color: $highlight-color;
 }
 
-.theme-overlay .theme-header .close:hover,
-.theme-overlay .theme-header .right:hover,
-.theme-overlay .theme-header .left:hover {
-	color: $link-focus;
-}
-
 .theme-section.current,
 .theme-filter.current {
 	border-bottom-color: $menu-background;
@@ -476,15 +464,6 @@ body.more-filters-opened .more-filters:focus:before {
 	color: $menu-highlight-text;
 }
 
-.theme-install-overlay .close-full-overlay:hover,
-.theme-install-overlay .close-full-overlay:focus,
-.theme-install-overlay .previous-theme:hover,
-.theme-install-overlay .previous-theme:focus,
-.theme-install-overlay .next-theme:hover,
-.theme-install-overlay .next-theme:focus {
-	color: $link-focus;
-}
-
 /* Widgets */
 
 .widgets-chooser li.widgets-chooser-selected {
@@ -502,13 +481,6 @@ body.more-filters-opened .more-filters:focus:before {
 #customize-theme-controls .widget-area-select .selected {
 	background-color: $menu-highlight-background;
 	color: $menu-highlight-text;
-}
-
-.customize-controls-close:focus,
-.customize-controls-close:hover,
-.control-panel-back:focus,
-.control-panel-back:hover {
-	color: $link-focus;
 }
 
 /* jQuery UI Slider */
