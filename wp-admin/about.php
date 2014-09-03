@@ -92,9 +92,6 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 		<div class="col-2 last-feature">
 			<h3><?php _e( 'Finding the right plugin' ); ?></h3>
 			<p><?php _e( 'There are more than 30,000 free and open source plugins in the WordPress plugin directory. WordPress 4.0 makes it easier to find the right one for your needs, with new metrics, improved search, and a more visual browsing experience.' ); ?></p>
-			<?php if ( ( $locale = get_locale() ) && 'en_' !== substr( $locale, 0, 3 ) ) : ?>
-				<p><?php _e( 'Search results will return plugins translated into your language first.' ); ?></p>
-			<?php endif; ?>
 			<a href="<?php echo admin_url( 'plugin-install.php' ); ?>" class="button button-large button-primary"><?php _e( 'Browse plugins' ); ?></a>
 		</div>
 	</div>
