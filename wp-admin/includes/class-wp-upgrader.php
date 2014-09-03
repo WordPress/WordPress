@@ -1264,8 +1264,12 @@ class Language_Pack_Upgrader extends WP_Upgrader {
 		if ( 'upgrader_process_complete' == current_filter() )
 			$this->skin->feedback( 'starting_upgrade' );
 
-		// Remove any existing package checks and then set the new one for translations, #WP29230.
+		// Remove any existing upgrade filters from the plugin/theme upgraders #WP29425 & #WP29230
+		remove_all_filters( 'upgrader_pre_install' );
+		remove_all_filters( 'upgrader_clear_destination' );
+		remove_all_filterS( 'upgrader_post_install' );
 		remove_all_filters( 'upgrader_source_selection' );
+
 		add_filter( 'upgrader_source_selection', array( $this, 'check_package' ), 10, 2 );
 
 		$this->skin->header();
