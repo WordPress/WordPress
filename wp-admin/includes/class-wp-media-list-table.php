@@ -37,7 +37,7 @@ class WP_Media_List_Table extends WP_List_Table {
 
 		list( $post_mime_types, $avail_post_mime_types ) = wp_edit_attachments_query( $_REQUEST );
 
- 		$this->is_trash = isset( $_REQUEST['status'] ) && 'trash' == $_REQUEST['status'];
+ 		$this->is_trash = isset( $_REQUEST['attachment-filter'] ) && 'trash' == $_REQUEST['attachment-filter'];
 
  		$mode = empty( $_REQUEST['mode'] ) ? 'list' : $_REQUEST['mode'];
 
@@ -63,8 +63,6 @@ class WP_Media_List_Table extends WP_List_Table {
 		$selected = empty( $_GET['attachment-filter'] ) ? ' selected="selected"' : '';
 		$type_links['all'] = "<option value=''$selected>" . sprintf( _nx( 'All (%s)', 'All (%s)', $_total_posts, 'uploaded files' ), number_format_i18n( $_total_posts ) ) . '</option>';
 		foreach ( $post_mime_types as $mime_type => $label ) {
-			$class = '';
-
 			if ( !wp_match_mime_types($mime_type, $avail_post_mime_types) )
 				continue;
 
@@ -98,8 +96,10 @@ class WP_Media_List_Table extends WP_List_Table {
 ?>
 		<div class="actions">
 <?php
-		if ( ! is_singular() && ! $this->is_trash ) {
-			$this->months_dropdown( 'attachment' );
+		if ( ! is_singular() ) {
+			if ( ! $this->is_trash ) {
+				$this->months_dropdown( 'attachment' );
+			}
 
 			/** This action is documented in wp-admin/includes/class-wp-posts-list-table.php */
 			do_action( 'restrict_manage_posts' );

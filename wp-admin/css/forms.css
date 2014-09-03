@@ -374,7 +374,8 @@ input[type="number"].small-text {
 
 .tablenav #changeit,
 .tablenav #delete_all,
-.tablenav #clear-recent-list {
+.tablenav #clear-recent-list,
+.wp-filter #delete_all {
 	margin-top: 1px;
 }
 
