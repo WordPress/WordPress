@@ -565,20 +565,6 @@ function wp_print_media_templates() {
 			<span class="name"><?php _e('Description'); ?></span>
 			<textarea {{ maybeReadOnly }}>{{ data.description }}</textarea>
 		</label>
-		<label class="setting">
-				<span class="name"><?php _e( 'Uploaded By' ); ?></span>
-				<span class="value">{{ data.authorName }}</span>
-			</label>
-		<# if ( data.uploadedTo ) { #>
-			<label class="setting">
-				<span class="name"><?php _e( 'Uploaded To' ); ?></span>
-				<# if ( data.uploadedToLink ) { #>
-					<span class="value"><a href="{{ data.uploadedToLink }}">{{ data.uploadedToTitle }}</a></span>
-				<# } else { #>
-					<span class="value">{{ data.uploadedToTitle }}</span>
-				<# } #>
-			</label>
-		<# } #>
 	</script>
 
 	<script type="text/html" id="tmpl-media-selection">
