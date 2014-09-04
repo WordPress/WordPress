@@ -181,15 +181,17 @@ if ( ! is_string( $wpdb->base_prefix ) || '' === $wpdb->base_prefix ) {
 	die( '<h1>' . __( 'Configuration Error' ) . '</h1><p>' . __( 'Your <code>wp-config.php</code> file has an empty database table prefix, which is not supported.' ) . '</p></body></html>' );
 }
 
-$langugage = '';
+$language = '';
 if ( ! empty( $_REQUEST['language'] ) ) {
-	$langugage = preg_replace( '/[^a-zA-Z_]/', '', $_REQUEST['language'] );
+	$language = preg_replace( '/[^a-zA-Z_]/', '', $_REQUEST['language'] );
+} elseif ( isset( $GLOBALS['wp_local_package'] ) ) {
+	$language = $GLOBALS['wp_local_package'];
 }
 
 switch($step) {
 	case 0: // Step 0
 
-		if ( wp_can_install_language_pack() && empty( $langugage ) && ( $languages = wp_get_available_translations() ) ) {
+		if ( wp_can_install_language_pack() && empty( $language ) && ( $languages = wp_get_available_translations() ) ) {
 			display_header( 'language-chooser' );
 			echo '<form id="setup" method="post" action="?step=1">';
 			wp_install_language_form( $languages );
@@ -200,8 +202,8 @@ switch($step) {
 		// Deliberately fall through if we can't reach the translations API.
 
 	case 1: // Step 1, direct link or from language chooser.
-		if ( ! empty( $langugage ) ) {
-			$loaded_language = wp_download_language_pack( $langugage );
+		if ( ! empty( $language ) ) {
+			$loaded_language = wp_download_language_pack( $language );
 			if ( $loaded_language ) {
 				load_default_textdomain( $loaded_language );
 				$GLOBALS['wp_locale'] = new WP_Locale();
@@ -211,7 +213,7 @@ switch($step) {
 		display_header();
 ?>
 <h1><?php _ex( 'Welcome', 'Howdy' ); ?></h1>
-<p><?php __( 'Welcome to the famous five-minute WordPress installation process! Just fill in the information below and you&#8217;ll be on your way to using the most extendable and powerful personal publishing platform in the world.' ); ?></p>
+<p><?php _e( 'Welcome to the famous five-minute WordPress installation process! Just fill in the information below and you&#8217;ll be on your way to using the most extendable and powerful personal publishing platform in the world.' ); ?></p>
 
 <h1><?php _e( 'Information needed' ); ?></h1>
 <p><?php _e( 'Please provide the following information. Don&#8217;t worry, you can always change these settings later.' ); ?></p>
@@ -220,8 +222,8 @@ switch($step) {
 		display_setup_form();
 		break;
 	case 2:
-		if ( ! empty( $langugage ) && load_default_textdomain( $langugage ) ) {
-			$loaded_language = $langugage;
+		if ( ! empty( $language ) && load_default_textdomain( $language ) ) {
+			$loaded_language = $language;
 			$GLOBALS['wp_locale'] = new WP_Locale();
 		} else {
 			$loaded_language = 'en_US';
