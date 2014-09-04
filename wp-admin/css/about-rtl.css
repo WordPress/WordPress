@@ -25,6 +25,7 @@
 .about-wrap img {
 	margin: 0;
 	max-width: 100%;
+	height: auto;
 	vertical-align: middle;
 }
 
