@@ -147,7 +147,7 @@ function wptexturize($text, $reset = false) {
 		$dynamic_characters['apos'] = array_keys( $dynamic );
 		$dynamic_replacements['apos'] = array_values( $dynamic );
 		$dynamic = array();
-		
+
 		// Quoted Numbers like "42"
 		if ( '"' !== $opening_quote && '"' !== $closing_quote ) {
 			$dynamic[ '/(?<=\A|' . $spaces . ')"(\d[.,\d]*)"/' ] = $opening_quote . '$1' . $closing_quote;
@@ -167,11 +167,11 @@ function wptexturize($text, $reset = false) {
 		if ( '"' !== $closing_quote ) {
 			$dynamic[ '/"/' ] = $closing_quote;
 		}
-		
+
 		$dynamic_characters['quote'] = array_keys( $dynamic );
 		$dynamic_replacements['quote'] = array_values( $dynamic );
 		$dynamic = array();
-		
+
 		// Dashes and spaces
 		$dynamic[ '/---/' ] = $em_dash;
 		$dynamic[ '/(?<=' . $spaces . ')--(?=' . $spaces . ')/' ] = $em_dash;

@@ -832,7 +832,7 @@ add_filter( 'heartbeat_received', 'heartbeat_autosave', 500, 2 );
  * as they disregard the autocomplete setting on the editor textarea. That can break the editor
  * when the user navigates to it with the browser's Back button. See #28037
  *
- * @since 4.0 
+ * @since 4.0
  */
 function post_form_autocomplete_off() {
 	global $is_safari, $is_chrome;
