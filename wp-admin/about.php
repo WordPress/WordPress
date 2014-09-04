@@ -11,7 +11,10 @@ require_once( dirname( __FILE__ ) . '/admin.php' );
 
 wp_enqueue_style( 'wp-mediaelement' );
 wp_enqueue_script( 'wp-mediaelement' );
-add_action( 'admin_footer', 'wp_underscore_playlist_templates', 0 );
+wp_localize_script( 'mediaelement', '_wpmejsSettings', array(
+	'pluginPath' => includes_url( 'js/mediaelement/', 'relative' ),
+	'pauseOtherPlayers' => ''
+) );
 
 $title = __( 'About' );
 
@@ -40,27 +43,42 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 
 <div class="changelog">
 	<div class="about-overview">
-		<h2 class="about-headline-callout"><?php _e( 'Manage your media with style' ); ?></h2>
-		<!-- media-grid-cropped.png -->
-		<img class="about-overview-img" src="https://i.cloudup.com/gFjdHZjkbI.png" />
-		<p><?php _e( 'Explore your uploads in a beautiful, endless grid. A new details preview makes viewing and editing any amount of media in sequence a snap.' ); ?></p>
+		<?php if ( ( $locale = get_locale() ) && 'en_' === substr( $locale, 0, 3 ) ) : ?>
+			<embed src="//v.wordpress.com/bUdzKMro" type="application/x-shockwave-flash" width="640" height="360" allowscriptaccess="always" allowfullscreen="true" wmode="transparent"></embed>
+		<?php else : ?>
+			<img class="about-overview-img" src="//s.w.org/images/core/4.0/wp40.png" width="640" height="360" />
+		<?php endif; ?>
 	</div>
 
 	<hr />
 
 	<div class="feature-section col two-col">
 		<div class="col-1">
-			<!-- oembed.mp4 -->
-			<?php
-				echo wp_video_shortcode( array(
-					'mp4'      => 'https://i.cloudup.com/IdZ7t3ixES.mp4',
-					// 'ogv'      => '//s.w.org/images/core/3.9/widgets.ogv',
-					// 'webm'     => '//s.w.org/images/core/3.9/widgets.webm',
-					'loop'     => true,
-					'autoplay' => true,
-					'width'    => 499
-				) );
-			?>
+			<h3><?php _e( 'Manage your media with style' ); ?></h3>
+			<p><?php _e( 'Explore your uploads in a beautiful, endless grid. A new details preview makes viewing and editing any amount of media in sequence a snap.' ); ?></p>
+		</div>
+		<div class="col-2 last-feature">
+			<img src="//s.w.org/images/core/4.0/media.jpg" />
+		</div>
+	</div>
+
+	<hr />
+
+	<div class="feature-section col two-col">
+		<div class="col-1">
+			<div class="about-video about-video-embed">
+				<?php
+					echo wp_video_shortcode( array(
+						'mp4'      => '//s.w.org/images/core/4.0/embed.mp4',
+						'ogv'      => '//s.w.org/images/core/4.0/embed.ogv',
+						'webm'      => '//s.w.org/images/core/4.0/embed.webm',
+						'loop'     => true,
+						'autoplay' => true,
+						'width'    => 500,
+						'height'   => 352
+					) );
+				?>
+			</div>
 		</div>
 		<div class="col-2 last-feature">
 			<h3><?php _e( 'Working with embeds has never been easier' ); ?></h3>
@@ -77,8 +95,19 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 			<p><?php _e( 'Writing and editing is smoother and more immersive with an editor that expands to fit your content as you write, and keeps the formatting tools available at all times.' ); ?></p>
 		</div>
 		<div class="col-2 last-feature">
-			<!-- focus.png -->
-			<img src="https://i.cloudup.com/DhokGXMLmR.png" />
+			<div class="about-video about-video-focus">
+				<?php
+					echo wp_video_shortcode( array(
+						'mp4'      => '//s.w.org/images/core/4.0/focus.mp4',
+						'ogv'      => '//s.w.org/images/core/4.0/focus.ogv',
+						'webm'      => '//s.w.org/images/core/4.0/focus.webm',
+						'loop'     => true,
+						'autoplay' => true,
+						'width'    => 500,
+						'height'   => 281
+					) );
+				?>
+			</div>
 		</div>
 	</div>
 
@@ -86,11 +115,10 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 
 	<div class="feature-section col two-col">
 		<div class="col-1">
-			<!-- plugins.png -->
-			<img src="https://i.cloudup.com/6hlYGuLiTq.png" />
+			<img src="//s.w.org/images/core/4.0/plugins.png" />
 		</div>
 		<div class="col-2 last-feature">
-			<h3><?php _e( 'Finding the right plugin' ); ?></h3>
+			<h3 class="higher"><?php _e( 'Finding the right plugin' ); ?></h3>
 			<p><?php _e( 'There are more than 30,000 free and open source plugins in the WordPress plugin directory. WordPress 4.0 makes it easier to find the right one for your needs, with new metrics, improved search, and a more visual browsing experience.' ); ?></p>
 			<a href="<?php echo admin_url( 'plugin-install.php' ); ?>" class="button button-large button-primary"><?php _e( 'Browse plugins' ); ?></a>
 		</div>

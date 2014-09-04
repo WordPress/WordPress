@@ -80,6 +80,10 @@
 	line-height: 1.5em;
 }
 
+.about-wrap h3.higher {
+	margin-top: .5em;
+}
+
 .customize h3 {
 	margin-top: 1.75em;
 	text-align: center;
@@ -174,6 +178,7 @@
 
 .about-overview {
 	margin-top: 40px;
+	margin-bottom: 40px;
 	text-align: center;
 }
 
@@ -192,8 +197,8 @@
 
 .about-wrap .feature-section.two-col > div {
 	position: relative;
-	width: 47.5%;
-	margin-left: 4.999999999%;
+	width: 47.6%;
+	margin-left: 4.799999999%;
 	float: right;
 }
 
@@ -224,6 +229,31 @@
 	float: left;
 	margin-right: 10px;
 	max-width: 20%;
+}
+
+/* responsive videos for 4.0 */
+.about-video {
+	position: relative;
+	width: 100%;
+	height: 0;
+}
+
+.about-video-embed {
+	padding-bottom: 70.4%; /* 352 / 500 */
+}
+
+.about-video-focus {
+	padding-bottom: 56.2%; /* 281 / 500 */
+}
+
+.about-video .wp-video,
+.about-video .mejs-container,
+.about-video video {
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 100% !important;
+	height: 100% !important;
 }
 
 .about-wrap .changelog li {
@@ -347,6 +377,24 @@
 
 }
 
+/* Responsive release video */
+@media screen and ( max-width: 710px ) {
+	.about-overview {
+		position: relative;
+		padding-bottom: 56.25%; /* 360 / 640 */
+		width: 100%;
+		height: 0;
+	}
+
+	.about-overview embed {
+		position: absolute;
+		top: 0;
+		right: 0;
+		width: 100%;
+		height: 100%;
+	}
+}
+
 @media only screen and (max-width: 500px) {
 	.about-wrap {
 		margin-left: 20px;
@@ -366,6 +414,17 @@
 		position: relative;
 		margin-bottom: 1.5em;
 		width: 100%;
+	}
+
+	.about-wrap h2.nav-tab-wrapper {
+		padding-right: 0;
+		border-bottom: 0;
+	}
+
+	.about-wrap h2 .nav-tab {
+		margin-top: 10px;
+		margin-left: 10px;
+		border-bottom: 1px solid #ccc;
 	}
 
 	.about-wrap .feature-section.three-col div {
