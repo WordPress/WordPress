@@ -677,7 +677,7 @@ classes exist in paginate_links() but not seen in list table output. */
 }
 
 .view-switch > .view-grid:before {
-	content: '\f180';
+	content: '\f509';
 }
 
 .filter {
