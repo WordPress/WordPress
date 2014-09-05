@@ -1045,6 +1045,7 @@ class Theme_Upgrader extends WP_Upgrader {
 				'destination' => get_theme_root( $theme ),
 				'clear_destination' => true,
 				'clear_working' => true,
+				'is_multi' => true,
 				'hook_extra' => array(
 					'theme' => $theme
 				),
@@ -1195,20 +1196,51 @@ class Language_Pack_Upgrader extends WP_Upgrader {
 
 	public static function async_upgrade( $upgrader = false ) {
 		// Avoid recursion.
-		if ( $upgrader && $upgrader instanceof Language_Pack_Upgrader )
+		if ( $upgrader && $upgrader instanceof Language_Pack_Upgrader ) {
 			return;
+		}
 
 		// Nothing to do?
 		$language_updates = wp_get_translation_updates();
-		if ( ! $language_updates )
+		if ( ! $language_updates ) {
 			return;
+		}
+
+		// Avoid messing with VCS installs, at least for now.
+		// Noted: this is not the ideal way to accomplish this.
+		$check_vcs = new WP_Automatic_Updater;
+		if ( $check_vcs->is_vcs_checkout( WP_CONTENT_DIR ) ) {
+			return;
+		}
+
+		foreach ( $language_updates as $key => $language_update ) {
+			$update = ! empty( $language_update->autoupdate );
+
+			/**
+			 * Filter whether to asynchronously update translation for core, a plugin, or a theme.
+			 *
+			 * @since 4.0.0
+			 *
+			 * @param bool   $update          Whether to update.
+			 * @param object $language_update The update offer.
+			 */
+			$update = apply_filters( 'async_update_translation', $update, $language_update );
+
+			if ( ! $update ) {
+				unset( $language_updates[ $key ] );
+			}
+		}
+
+		if ( empty( $language_updates ) ) {
+			return;
+		}
 
 		$skin = new Language_Pack_Upgrader_Skin( array(
 			'skip_header_footer' => true,
 		) );
 
 		$lp_upgrader = new Language_Pack_Upgrader( $skin );
-		$lp_upgrader->upgrade();
+		$lp_upgrader->bulk_upgrade( $language_updates );
 	}
 
 	public function upgrade_strings() {
@@ -1222,9 +1254,16 @@ class Language_Pack_Upgrader extends WP_Upgrader {
 	}
 
 	public function upgrade( $update = false, $args = array() ) {
-		if ( $update )
+		if ( $update ) {
 			$update = array( $update );
+		}
+
 		$results = $this->bulk_upgrade( $update, $args );
+
+		if ( ! is_array( $results ) ) {
+			return $results;
+		}
+
 		return $results[0];
 	}
 
@@ -1256,7 +1295,13 @@ class Language_Pack_Upgrader extends WP_Upgrader {
 		if ( 'upgrader_process_complete' == current_filter() )
 			$this->skin->feedback( 'starting_upgrade' );
 
-		add_filter( 'upgrader_source_selection', array( &$this, 'check_package' ), 10, 3 );
+		// Remove any existing upgrade filters from the plugin/theme upgraders #WP29425 & #WP29230
+		remove_all_filters( 'upgrader_pre_install' );
+		remove_all_filters( 'upgrader_clear_destination' );
+		remove_all_filterS( 'upgrader_post_install' );
+		remove_all_filters( 'upgrader_source_selection' );
+
+		add_filter( 'upgrader_source_selection', array( $this, 'check_package' ), 10, 2 );
 
 		$this->skin->header();
 
@@ -1320,7 +1365,7 @@ class Language_Pack_Upgrader extends WP_Upgrader {
 		$this->skin->footer();
 
 		// Clean up our hooks, in case something else does an upgrade on this connection.
-		remove_filter( 'upgrader_source_selection', array( &$this, 'check_package' ), 10, 2 );
+		remove_filter( 'upgrader_source_selection', array( $this, 'check_package' ) );
 
 		if ( $parsed_args['clear_update_cache'] ) {
 			wp_clean_themes_cache( true );

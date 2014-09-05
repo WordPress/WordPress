@@ -102,7 +102,7 @@ if ( isset( $_GET['updated'] ) ) {
 					<input name="admin_email" type="email" id="admin_email" class="regular-text" value="<?php echo esc_attr( get_site_option( 'admin_email' ) ) ?>" />
 					<p class="description">
 						<?php _e( 'This email address will receive notifications. Registration and support emails will also come from this address.' ); ?>
-					</p>	
+					</p>
 				</td>
 			</tr>
 		</table>
@@ -165,7 +165,7 @@ if ( isset( $_GET['updated'] ) ) {
 <?php echo esc_textarea( $limited_email_domains == '' ? '' : implode( "\n", (array) $limited_email_domains ) ); ?></textarea>
 					<p class="description">
 						<?php _e( 'If you want to limit site registrations to certain domains. One domain per line.' ) ?>
-					</p>	
+					</p>
 				</td>
 			</tr>
 
@@ -231,7 +231,7 @@ if ( isset( $_GET['updated'] ) ) {
 <?php echo esc_textarea( get_site_option( 'first_comment' ) ) ?></textarea>
 					<p class="description">
 						<?php _e( 'The first comment on a new site.' ) ?>
-					</p>	
+					</p>
 				</td>
 			</tr>
 			<tr>
@@ -273,25 +273,34 @@ if ( isset( $_GET['updated'] ) ) {
 			</tr>
 		</table>
 
-<?php
+		<?php
 		$languages = get_available_languages();
 		if ( ! empty( $languages ) ) {
-			$lang = get_site_option( 'WPLANG' );
-?>
-		<h3><?php _e( 'Language Settings' ); ?></h3>
-		<table class="form-table">
+			?>
+			<h3><?php _e( 'Language Settings' ); ?></h3>
+			<table class="form-table">
 				<tr>
 					<th><label for="WPLANG"><?php _e( 'Default Language' ); ?></label></th>
 					<td>
-						<select name="WPLANG" id="WPLANG">
-							<?php mu_dropdown_languages( $languages, get_site_option( 'WPLANG' ) ); ?>
-						</select>
+						<?php
+						$lang = get_site_option( 'WPLANG' );
+						if ( ! in_array( $lang, $languages ) ) {
+							$lang = '';
+						}
+
+						wp_dropdown_languages( array(
+							'name'      => 'WPLANG',
+							'id'        => 'WPLANG',
+							'selected'  => $lang,
+							'languages' => $languages,
+						) );
+						?>
 					</td>
 				</tr>
-		</table>
-<?php
-		} // languages
-?>
+			</table>
+			<?php
+		}
+		?>
 
 		<h3><?php _e( 'Menu Settings' ); ?></h3>
 		<table id="menu" class="form-table">
@@ -324,7 +333,7 @@ if ( isset( $_GET['updated'] ) ) {
 			</tr>
 		</table>
 
-		<?php 
+		<?php
 		/**
 		 * Fires at the end of the Network Settings form, before the submit button.
 		 *

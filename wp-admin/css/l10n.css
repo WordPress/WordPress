@@ -75,7 +75,8 @@ body.locale-he-il .press-this a.wp-switch-editor {
 .locale-ru-ru .inline-edit-row fieldset label span.input-text-wrap {
 	margin-left: 8em; /* default 5em */
 }
-.locale-ru-ru.post-php .tagsdiv .newtag {
+.locale-ru-ru.post-php .tagsdiv .newtag,
+.locale-ru-ru.post-new-php .tagsdiv .newtag {
 	width: 165px; /* default 180px - 15px */
 }
 .locale-ru-ru.press-this .posting {

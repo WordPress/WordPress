@@ -27,11 +27,6 @@ if ( ! is_network_admin() ) {
 	$submenu_file = 'themes.php';
 }
 
-$tabs = array(
-	'upload'        => __( 'Upload Theme' ),
-	'browse-themes' => _x( 'Browse', 'themes' ),
-);
-
 $sections = array(
 	'featured' => __( 'Featured Themes' ),
 	'popular'  => __( 'Popular Themes' ),
@@ -113,42 +108,46 @@ include(ABSPATH . 'wp-admin/admin-header.php');
 
 ?>
 <div class="wrap">
-	<h2>
-		<?php echo esc_html( $title ); ?>
-		<?php
-		/**
-		 * Filter the tabs shown on the Install Themes screen.
-		 * 
-		 * @since 2.8.0
-		 * @param array $tabs The tabs shown on the Install Themes screen. Defaults are
-		 *                    'upload' and 'browse-themes'.
-		 */
-		$tabs = apply_filters( 'install_themes_tabs', $tabs );
-		foreach ( $tabs as $tab_slug => $tab_name ) {
-			echo '<a href="#" class="' . esc_attr( $tab_slug ) . ' add-new-h2">' . $tab_name . '</a>';
-		}
-		?>
-	</h2>
+	<h2><?php
+	echo esc_html( $title );
+
+	/**
+	 * Filter the tabs shown on the Add Themes screen.
+	 *
+	 * This filter is for backwards compatibility only,
+	 * for the suppression of the upload tab.
+	 *
+	 * @since 2.8.0
+	 * @param array $tabs The tabs shown on the Add Themes screen. Default is 'upload'.
+	 */
+	$tabs = apply_filters( 'install_themes_tabs', array( 'upload' => __( 'Upload Theme' ) ) );
+	if ( ! empty( $tabs['upload'] ) && current_user_can( 'upload_themes' ) ) {
+		echo ' <a href="#" class="upload add-new-h2">' . __( 'Upload Theme' ) . '</a>';
+		echo ' <a href="#" class="browse-themes add-new-h2">' . _x( 'Browse', 'themes' ) . '</a>';
+	}
+	?></h2>
 
 	<div class="upload-theme">
 	<?php install_themes_upload(); ?>
 	</div>
 
 	<div class="wp-filter">
-		<div class="wp-filter-count">
+		<div class="filter-count">
 			<span class="count theme-count"></span>
 		</div>
 
-		<ul class="wp-filter-links">
-			<li><a class="wp-filter-link" href="#" data-sort="featured"><?php _ex( 'Featured', 'themes' ); ?></a></li>
-			<li><a class="wp-filter-link" href="#" data-sort="popular"><?php _ex( 'Popular', 'themes' ); ?></a></li>
-			<li><a class="wp-filter-link" href="#" data-sort="new"><?php _ex( 'Latest', 'themes' ); ?></a></li>
+		<ul class="filter-links">
+			<li><a href="#" data-sort="featured"><?php _ex( 'Featured', 'themes' ); ?></a></li>
+			<li><a href="#" data-sort="popular"><?php _ex( 'Popular', 'themes' ); ?></a></li>
+			<li><a href="#" data-sort="new"><?php _ex( 'Latest', 'themes' ); ?></a></li>
 		</ul>
 
-		<a class="wp-filter-drawer-toggle" href="#"><?php _e( 'Feature Filter' ); ?></a>
+		<a class="drawer-toggle" href="#"><?php _e( 'Feature Filter' ); ?></a>
 
-		<div class="wp-filter-drawer">
-			<div class="wp-filter-drawer-buttons">
+		<div class="search-form"></div>
+
+		<div class="filter-drawer">
+			<div class="buttons">
 				<a class="apply-filters button button-secondary" href="#"><?php _e( 'Apply Filters' ); ?><span></span></a>
 				<a class="clear-filters button button-secondary" href="#"><?php _e( 'Clear' ); ?></a>
 			</div>
@@ -156,12 +155,12 @@ include(ABSPATH . 'wp-admin/admin-header.php');
 		$feature_list = get_theme_feature_list();
 		foreach ( $feature_list as $feature_name => $features ) {
 			if ( $feature_name === 'Features' || $feature_name === __( 'Features' ) ) { // hack hack hack
-				echo '<div class="wp-filter-group wp-filter-group-wide">';
+				echo '<div class="filter-group wide">';
 			} else {
-				echo '<div class="wp-filter-group">';
+				echo '<div class="filter-group">';
 			}
 			$feature_name = esc_html( $feature_name );
-			echo '<h4 class="wp-filter-group-title">' . $feature_name . '</h4>';
+			echo '<h4>' . $feature_name . '</h4>';
 			echo '<ol class="feature-group">';
 			foreach ( $features as $feature => $feature_name ) {
 				$feature = esc_attr( $feature );
@@ -172,14 +171,14 @@ include(ABSPATH . 'wp-admin/admin-header.php');
 			echo '</div>';
 		}
 		?>
-			<div class="wp-filter-by">
+			<div class="filtered-by">
 				<span><?php _e( 'Filtering by:' ); ?></span>
 				<div class="tags"></div>
 				<a href="#"><?php _e( 'Edit' ); ?></a>
 			</div>
 		</div>
 	</div>
-	<div class="theme-browser wp-filter-content"></div>
+	<div class="theme-browser content-filterable"></div>
 	<div class="theme-install-overlay wp-full-overlay expanded"></div>
 
 	<p class="no-themes"><?php _e( 'No themes found. Try a different search.' ); ?></p>

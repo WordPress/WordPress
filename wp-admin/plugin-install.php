@@ -26,7 +26,7 @@ $wp_list_table = _get_list_table('WP_Plugin_Install_List_Table');
 $pagenum = $wp_list_table->get_pagenum();
 $wp_list_table->prepare_items();
 
-$title = __('Install Plugins');
+$title = __( 'Add Plugins' );
 $parent_file = 'plugins.php';
 
 wp_enqueue_script( 'plugin-install' );
@@ -56,7 +56,7 @@ get_current_screen()->add_help_tab( array(
 'title'		=> __('Adding Plugins'),
 'content'	=>
 	'<p>' . __('If you know what you&#8217;re looking for, Search is your best bet. The Search screen has options to search the WordPress.org Plugin Directory for a particular Term, Author, or Tag. You can also search the directory by selecting popular tags. Tags in larger type mean more plugins have been labeled with that tag.') . '</p>' .
-	'<p>' . __('If you just want to get an idea of what&#8217;s available, you can browse Featured, Popular, and Newest plugins by using the links in the upper left of the screen. These sections rotate regularly.') . '</p>' .
+	'<p>' . __('If you just want to get an idea of what&#8217;s available, you can browse Featured and Popular plugins by using the links in the upper left of the screen. These sections rotate regularly.') . '</p>' .
 	'<p>' . __('You can also browse a user&#8217;s favorite plugins, by using the Favorites link in the upper left of the screen and entering their WordPress.org username.') . '</p>' .
 	'<p>' . __('If you want to install a plugin that you&#8217;ve downloaded elsewhere, click the Upload link in the upper left. You will be prompted to upload the .zip package, and once uploaded, you can activate the new plugin.') . '</p>'
 ) );
@@ -75,16 +75,26 @@ include(ABSPATH . 'wp-admin/admin-header.php');
 <div class="wrap">
 <h2>
 	<?php
-		echo esc_html( $title );
-		$href = self_admin_url( 'plugin-install.php?tab=upload' );
+	echo esc_html( $title );
+	if ( ! empty( $tabs['upload'] ) && current_user_can( 'upload_plugins' ) ) {
+		if ( $tab === 'upload' ) {
+			$href = self_admin_url( 'plugin-install.php' );
+			$text = _x( 'Browse', 'plugins' );
+		} else {
+			$href = self_admin_url( 'plugin-install.php?tab=upload' );
+			$text = __( 'Upload Plugin' );
+		}
+		echo ' <a href="' . $href . '" class="upload add-new-h2">' . $text . '</a>';
+	}
 	?>
-	<a href="<?php echo $href; ?>" class="upload add-new-h2"><?php _e( 'Upload Plugin' ); ?></a>
 </h2>
 
-<?php $wp_list_table->views(); ?>
-
-<br class="clear" />
 <?php
+if ( $tab !== 'upload' ) {
+	$wp_list_table->views();
+	echo '<br class="clear" />';
+}
+
 /**
  * Fires after the plugins list table in each tab of the Install Plugins screen.
  *

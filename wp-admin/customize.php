@@ -121,6 +121,7 @@ do_action( 'customize_controls_print_scripts' );
 			<a class="customize-controls-close" href="<?php echo esc_url( $return ); ?>">
 				<span class="screen-reader-text"><?php _e( 'Cancel' ); ?></span>
 			</a>
+			<span class="control-panel-back" tabindex="-1"><span class="screen-reader-text"><?php _e( 'Back' ); ?></span></span>
 		</div>
 
 		<?php

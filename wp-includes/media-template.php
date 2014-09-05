@@ -176,7 +176,7 @@ function wp_print_media_templates() {
 			<h3 class="upload-message">{{ data.message }}</h3>
 		<# } #>
 		<?php if ( ! _device_can_upload() ) : ?>
-			<h3 class="upload-instructions"><?php printf( __('The web browser on your device cannot be used to upload files. You may be able to use the <a href="%s">native app for your device</a> instead.'), 'https://wordpress.org/mobile/' ); ?></h3>
+			<h3 class="upload-instructions"><?php printf( __('The web browser on your device cannot be used to upload files. You may be able to use the <a href="%s">native app for your device</a> instead.'), 'http://apps.wordpress.org/' ); ?></h3>
 		<?php elseif ( is_multisite() && ! is_upload_space_available() ) : ?>
 			<h3 class="upload-instructions"><?php _e( 'Upload Limit Exceeded' ); ?></h3>
 			<?php
@@ -185,9 +185,9 @@ function wp_print_media_templates() {
 
 		<?php else : ?>
 			<div class="upload-ui">
-				<h3 class="upload-instructions drop-instructions"><?php _e( 'Drop files here' ); ?></h3>
+				<h3 class="upload-instructions drop-instructions"><?php _e( 'Drop files anywhere to upload' ); ?></h3>
 				<p class="upload-instructions drop-instructions"><?php _ex( 'or', 'Uploader: Drop files here - or - Select Files' ); ?></p>
-				<a href="#" class="browser button"><?php _e( 'Select Files' ); ?></a>
+				<a href="#" class="browser button button-hero"><?php _e( 'Select Files' ); ?></a>
 			</div>
 
 			<div class="upload-inline-status"></div>
@@ -276,6 +276,8 @@ function wp_print_media_templates() {
 			<div class="thumbnail thumbnail-{{ data.type }}">
 				<# if ( data.uploading ) { #>
 					<div class="media-progress-bar"><div></div></div>
+				<# } else if ( 'image' === data.type && data.sizes && data.sizes.large ) { #>
+					<img class="details-image" src="{{ data.sizes.large.url }}" draggable="false" />
 				<# } else if ( 'image' === data.type && data.sizes && data.sizes.full ) { #>
 					<img class="details-image" src="{{ data.sizes.full.url }}" draggable="false" />
 				<# } else if ( -1 === jQuery.inArray( data.type, [ 'audio', 'video' ] ) ) { #>
@@ -395,7 +397,11 @@ function wp_print_media_templates() {
 				<# if ( data.uploadedTo ) { #>
 					<label class="setting">
 						<span class="name"><?php _e( 'Uploaded To' ); ?></span>
-						<span class="value"><a href="{{ data.uploadedToLink }}">{{ data.uploadedToTitle }}</a></span>
+						<# if ( data.uploadedToLink ) { #>
+							<span class="value"><a href="{{ data.uploadedToLink }}">{{ data.uploadedToTitle }}</a></span>
+						<# } else { #>
+							<span class="value">{{ data.uploadedToTitle }}</span>
+						<# } #>
 					</label>
 				<# } #>
 				<div class="attachment-compat"></div>
@@ -424,7 +430,7 @@ function wp_print_media_templates() {
 		<div class="attachment-preview js--select-attachment type-{{ data.type }} subtype-{{ data.subtype }} {{ data.orientation }}">
 			<div class="thumbnail">
 				<# if ( data.uploading ) { #>
-					<div class="media-progress-bar"><div>
+					<div class="media-progress-bar"><div style="width: {{ data.percent }}%"></div></div>
 				<# } else if ( 'image' === data.type && data.sizes ) { #>
 					<div class="centered">
 						<img src="{{ data.size.url }}" draggable="false" alt="" />
@@ -561,16 +567,6 @@ function wp_print_media_templates() {
 			<span class="name"><?php _e('Description'); ?></span>
 			<textarea {{ maybeReadOnly }}>{{ data.description }}</textarea>
 		</label>
-		<label class="setting">
-				<span class="name"><?php _e( 'Uploaded By' ); ?></span>
-				<span class="value">{{ data.authorName }}</span>
-			</label>
-		<# if ( data.uploadedTo ) { #>
-			<label class="setting">
-				<span class="name"><?php _e('Uploaded To'); ?></span>
-				<span class="value"><a href="{{ data.uploadedToLink }}">{{ data.uploadedToTitle }}</a></span>
-			</label>
-		<# } #>
 	</script>
 
 	<script type="text/html" id="tmpl-media-selection">

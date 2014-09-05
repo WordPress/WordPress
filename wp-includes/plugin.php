@@ -105,6 +105,7 @@ function add_filter( $tag, $function_to_add, $priority = 10, $accepted_args = 1 
  *                  return value.
  */
 function has_filter($tag, $function_to_check = false) {
+	// Don't reset the internal array pointer
 	$wp_filter = $GLOBALS['wp_filter'];
 
 	$has = ! empty( $wp_filter[ $tag ] );

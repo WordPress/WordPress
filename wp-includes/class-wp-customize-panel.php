@@ -174,7 +174,6 @@ class WP_Customize_Panel {
 				<?php echo esc_html( $this->title ); ?>
 				<span class="screen-reader-text"><?php _e( 'Press return or enter to open this panel' ); ?></span>
 			</h3>
-			<span class="control-panel-back" tabindex="-1"><span class="screen-reader-text"><?php _e( 'Back' ); ?></span></span>
 			<ul class="accordion-sub-container control-panel-content">
 				<li class="accordion-section control-section<?php if ( empty( $this->description ) ) echo ' cannot-expand'; ?>">
 					<div class="accordion-section-title" tabindex="0">

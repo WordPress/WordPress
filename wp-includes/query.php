@@ -1475,10 +1475,10 @@ class WP_Query {
 	 *                                                 Default all fields. Accepts 'ids', 'id=>parent'.
 	 *     @type int          $hour                    Hour of the day. Default empty. Accepts numbers 0-23.
 	 *     @type bool         $ignore_sticky_posts     Whether to ignore sticky posts or not. Setting this to false
-	 *                                                 excludes stickies from 'post__in'. Default 0|false. Accepts
-	 *                                                 1|true, 0|false.
-	 *     @type int          $m                       Combination YearMonth. Default empty. Accepts any four-digit
-	 *                                                 year and month numbers 1-12.
+	 *                                                 excludes stickies from 'post__in'. Accepts 1|true, 0|false.
+	 *                                                 Default 0|false.
+	 *     @type int          $m                       Combination YearMonth. Accepts any four-digit year and month
+	 *                                                 numbers 1-12. Default empty.
 	 *     @type string       $meta_compare            Comparison operator to test the 'meta_value'.
 	 *     @type string       $meta_key                Custom field key.
 	 *     @type array        $meta_query              An associative array of WP_Meta_Query arguments.
@@ -1489,8 +1489,8 @@ class WP_Query {
 	 *     @type int          $monthnum                The two-digit month. Default empty. Accepts numbers 1-12.
 	 *     @type string       $name                    Post slug.
 	 *     @type bool         $nopaging                Show all posts (true) or paginate (false). Default false.
-	 *     @type bool         $no_found_rows           Whether to count the total rows found. Disabling can improve
-	 *                                                 performance. Default true.
+	 *     @type bool         $no_found_rows           Whether to skip counting the total rows found. Enabling can improve
+	 *                                                 performance. Default false.
 	 *     @type int          $offset                  The number of posts to offset before retrieval.
 	 *     @type string       $order                   Designates ascending or descending order of posts. Default 'DESC'.
 	 *                                                 Accepts 'ASC', 'DESC'.
@@ -1509,11 +1509,11 @@ class WP_Query {
 	 *     @type array        $post__in                An array of post IDs to retrieve, sticky posts will be included
 	 *     @type string       $post_mime_type          The mime type of the post. Used for 'attachment' post_type.
 	 *     @type array        $post__not_in            An array of post IDs not to retrieve. Note: a string of comma-
+	 *                                                 separated IDs will NOT work.
 	 *     @type int          $post_parent             Page ID to retrieve child pages for. Use 0 to only retrieve
 	 *                                                 top-level pages.
 	 *     @type array        $post_parent__in         An array containing parent page IDs to query child pages from.
 	 *     @type array        $post_parent__not_in     An array containing parent page IDs not to query child pages from.
-	 *                                                 separated IDs will NOT work.
 	 *     @type string|array $post_type               A post type slug (string) or array of post type slugs.
 	 *                                                 Default 'any' if using 'tax_query'.
 	 *     @type string|array $post_status             A post status (string) or array of post statuses.
@@ -1816,6 +1816,8 @@ class WP_Query {
 
 	/**
 	 * Parses various taxonomy related query vars.
+	 *
+	 * For BC, this method is not marked as protected. See [28987].
 	 *
 	 * @access protected
 	 * @since 3.1.0

@@ -499,7 +499,7 @@ function wp_admin_bar_edit_menu( $wp_admin_bar ) {
 				$preview_link = apply_filters( 'preview_post_link', add_query_arg( 'preview', 'true', $preview_link ), $post );
 				$wp_admin_bar->add_menu( array(
 					'id' => 'preview',
-					'title' => __( 'Preview' ),
+					'title' => $post_type_object->labels->view_item,
 					'href' => esc_url( $preview_link ),
 					'meta' => array( 'target' => 'wp-preview-' . $post->ID ),
 				) );

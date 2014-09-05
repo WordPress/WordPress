@@ -188,13 +188,17 @@
 	-webkit-transition: opacity 0.1s ease-in-out;
 	transition: opacity 0.1s ease-in-out;
 }
+
 .theme-browser .theme:focus {
-	outline: 1px dotted #222;
+	border-color: #5b9dd9;
+	-webkit-box-shadow: 0 0 2px rgba( 30, 140, 190, 0.8 );
+	box-shadow: 0 0 2px rgba( 30, 140, 190, 0.8 );
 }
 
 .theme-browser .theme:focus .more-details {
 	opacity: 1;
 }
+
 /* Current theme needs to have its action always on view */
 .theme-browser .theme.active:focus .theme-actions {
 	display: block;
@@ -431,13 +435,8 @@
 	transition: color .1s ease-in-out, background .1s ease-in-out;
 }
 
-.theme-overlay .theme-header .close:hover:before,
-.theme-overlay .theme-header .close:focus:before {
-	color: #fff;
-}
-
 .theme-overlay .theme-header .close:before {
-	font: normal 30px/50px 'dashicons' !important;
+	font: normal 22px/50px 'dashicons' !important;
 	color: #777;
 	display: inline-block;
 	content: '\f335';
@@ -460,17 +459,28 @@
 	transition: color .1s ease-in-out, background .1s ease-in-out;
 }
 
+.theme-overlay .theme-header .close:focus,
 .theme-overlay .theme-header .close:hover,
+.theme-overlay .theme-header .right:focus,
 .theme-overlay .theme-header .right:hover,
-.theme-overlay .theme-header .left:hover,
+.theme-overlay .theme-header .left:focus,
+.theme-overlay .theme-header .left:hover {
+	background: #ddd;
+	border-color: #ccc;
+	color: #000;
+}
+
+.theme-overlay .theme-header .close:focus:before,
+.theme-overlay .theme-header .close:hover:before {
+	color: #000;
+}
+
 .theme-overlay .theme-header .close:focus,
 .theme-overlay .theme-header .right:focus,
 .theme-overlay .theme-header .left:focus {
-	background: #0074a2;
-	color: #fff;
-	outline: none;
-	-webkit-box-shadow: none;
-	box-shadow: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    outline: none;
 }
 
 .theme-overlay .theme-header .left.disabled,
@@ -489,21 +499,17 @@
 	font-weight: 300;
 }
 
-.theme-overlay .theme-header .left:before {
-	content: '\f340';
+.theme-overlay .theme-header .left:before,
+.rtl .theme-overlay .theme-header .right:before {
+	content: '\f341';
 }
 
-.theme-overlay .theme-header .right:before {
-	content: '\f344';
-}
-
+.theme-overlay .theme-header .right:before,
 .rtl .theme-overlay .theme-header .left:before {
 	content: '\f345';
 }
 
-.rtl .theme-overlay .theme-header .right:before {
-	content: '\f341';
-}
+
 
 .theme-overlay .theme-wrap {
 	clear: both;
@@ -1082,7 +1088,8 @@ body.folded .theme-overlay .theme-wrap {
 .theme-install-php.show-upload-theme a.browse-themes {
 	display: inline;
 }
-.upload-theme {
+.upload-theme,
+.upload-plugin {
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
@@ -1094,17 +1101,20 @@ body.folded .theme-overlay .theme-wrap {
 	position: relative;
 	top: 10px;
 }
-body.show-upload-theme .upload-theme {
+body.show-upload-theme .upload-theme,
+.upload-plugin {
 	display: block;
 }
-.upload-theme .wp-upload-form {
+.upload-theme .wp-upload-form,
+.upload-plugin .wp-upload-form {
 	background: #fafafa;
 	border: 1px solid #e5e5e5;
 	padding: 30px;
 	margin: 30px auto;
 	max-width: 380px;
 }
-.upload-theme .install-help {
+.upload-theme .install-help,
+.upload-plugin .install-help {
 	color: #999;
 	font-size: 18px;
 	font-style: normal;
@@ -1400,24 +1410,25 @@ body.full-overlay-active {
 .theme-install-overlay .previous-theme:focus,
 .theme-install-overlay .next-theme:hover,
 .theme-install-overlay .next-theme:focus {
-	background-color: #0074a2;
-	color: #fff;
+	background: #ddd;
+	border-color: #ccc;
+	color: #000;
 	outline: none;
 	-webkit-box-shadow: none;
 	box-shadow: none;
 }
 
 .theme-install-overlay .close-full-overlay:before {
-	font: normal 30px/1 dashicons;
+	font: normal 22px/1 dashicons;
 	content: "\f335";
 	position: relative;
-	top: 9px;
-	right: 9px;
+	top: 7px;
+	right: 13px;
 }
 
 .theme-install-overlay .previous-theme:before {
 	font: normal 20px/1 dashicons;
-	content: "\f340";
+	content: "\f341";
 	position: relative;
 	top: 6px;
 	right: 14px;
@@ -1425,7 +1436,7 @@ body.full-overlay-active {
 
 .theme-install-overlay .next-theme:before {
 	font: normal 20px/1 dashicons;
-	content: "\f344";
+	content: "\f345";
 	position: relative;
 	top: 6px;
 	right: 13px;
@@ -1440,14 +1451,15 @@ body.full-overlay-active {
 	color: #bbb;
 	background: #eee;
 	cursor: default;
+	pointer-events: none;
 }
 
 .rtl .theme-install-overlay .previous-theme:before {
-	content: "\f344";
+	content: "\f345";
 }
 
 .rtl .theme-install-overlay .next-theme:before {
-	content: "\f340";
+	content: "\f341";
 }
 
 /* Collapse Button */

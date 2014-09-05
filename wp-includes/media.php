@@ -1399,7 +1399,7 @@ function wp_playlist_shortcode( $attr ) {
 	}
 	?></ol>
 	</noscript>
-	<script type="application/json"><?php echo json_encode( $data ) ?></script>
+	<script type="application/json" class="wp-playlist-script"><?php echo json_encode( $data ) ?></script>
 </div>
 	<?php
 	return ob_get_clean();
@@ -3020,7 +3020,7 @@ function wp_enqueue_media( $args = array() ) {
 
  		// Media Library
  		'editMetadata' => __( 'Edit Metadata' ),
- 		'noMedia'      => __( 'No media found. Try a different search.' ),
+ 		'noMedia'      => __( 'No media attachments found.' ),
 	);
 
 	/**
@@ -3045,9 +3045,11 @@ function wp_enqueue_media( $args = array() ) {
 
 	$strings['settings'] = $settings;
 
+	// Ensure we enqueue media-editor first, that way media-views is
+	// registered internally before we try to localize it. see #24724.
+	wp_enqueue_script( 'media-editor' );
 	wp_localize_script( 'media-views', '_wpMediaViewsL10n', $strings );
 
-	wp_enqueue_script( 'media-editor' );
 	wp_enqueue_script( 'media-audiovideo' );
 	wp_enqueue_style( 'media-views' );
 	if ( is_admin() ) {
@@ -3308,20 +3310,10 @@ function attachment_url_to_postid( $url ) {
  *
  * @return array The relevant CSS file URLs.
  */
-function wp_media_mce_styles() {
+function wpview_media_sandbox_styles() {
  	$version = 'ver=' . $GLOBALS['wp_version'];
- 	$tinymce = includes_url( "js/tinymce/skins/lightgray/content.min.css?$version" );
-	$dashicons = includes_url( "css/dashicons.css?$version" );
- 	$skin = includes_url( "js/tinymce/skins/wordpress/wp-content.css?$version" );
  	$mediaelement = includes_url( "js/mediaelement/mediaelementplayer.min.css?$version" );
  	$wpmediaelement = includes_url( "js/mediaelement/wp-mediaelement.css?$version" );
 
- 	$mce_styles = array( $tinymce, $dashicons, $skin, $mediaelement, $wpmediaelement );
- 	$editor_styles = get_editor_stylesheets();
-	if ( ! empty( $editor_styles ) ) {
-		foreach ( $editor_styles as $style ) {
-			$mce_styles[] = $style;
-		}
-	}
-	return $mce_styles;
+	return array( $mediaelement, $wpmediaelement );
 }

@@ -818,7 +818,8 @@ h3:hover .edit-box {
 	position: relative;
 }
 
-#activity-widget #the-comment-list .comment {
+#activity-widget #the-comment-list .comment,
+#activity-widget #the-comment-list .pingback {
 	-webkit-box-shadow: inset 0 1px 0 rgba(0, 0, 0, 0.06);
 	box-shadow: inset 0 1px 0 rgba(0, 0, 0, 0.06);
 }

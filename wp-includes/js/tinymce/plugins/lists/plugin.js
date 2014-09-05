@@ -624,13 +624,24 @@ tinymce.PluginManager.add('lists', function(editor) {
 		self.backspaceDelete = function(isForward) {
 			function findNextCaretContainer(rng, isForward) {
 				var node = rng.startContainer, offset = rng.startOffset;
+				var nonEmptyBlocks, walker;
 
 				if (node.nodeType == 3 && (isForward ? offset < node.data.length : offset > 0)) {
 					return node;
 				}
 
-				var walker = new tinymce.dom.TreeWalker(rng.startContainer);
+				nonEmptyBlocks = editor.schema.getNonEmptyElements();
+				walker = new tinymce.dom.TreeWalker(rng.startContainer);
+
 				while ((node = walker[isForward ? 'next' : 'prev']())) {
+					if (node.nodeName == 'LI' && !node.hasChildNodes()) {
+						return node;
+					}
+
+					if (nonEmptyBlocks[node.nodeName]) {
+						return node;
+					}
+
 					if (node.nodeType == 3 && node.data.length > 0) {
 						return node;
 					}
@@ -649,8 +660,14 @@ tinymce.PluginManager.add('lists', function(editor) {
 					dom.remove(node);
 				}
 
-				while ((node = fromElm.firstChild)) {
-					toElm.appendChild(node);
+				if (dom.isEmpty(toElm)) {
+					dom.$(toElm).empty();
+				}
+
+				if (!dom.isEmpty(fromElm)) {
+					while ((node = fromElm.firstChild)) {
+						toElm.appendChild(node);
+					}
 				}
 
 				if (listNode) {

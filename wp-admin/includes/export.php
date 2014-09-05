@@ -473,7 +473,23 @@ function export_wp( $args = array() ) {
 			<wp:comment_parent><?php echo $c->comment_parent; ?></wp:comment_parent>
 			<wp:comment_user_id><?php echo $c->user_id; ?></wp:comment_user_id>
 <?php		$c_meta = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $wpdb->commentmeta WHERE comment_id = %d", $c->comment_ID ) );
-			foreach ( $c_meta as $meta ) : ?>
+			foreach ( $c_meta as $meta ) :
+				/**
+				 * Filter whether to selectively skip comment meta used for WXR exports.
+				 *
+				 * Returning a truthy value to the filter will skip the current meta
+				 * object from being exported.
+				 *
+				 * @since 4.0.0
+				 *
+				 * @param bool   $skip     Whether to skip the current comment meta. Default false.
+				 * @param string $meta_key Current meta key.
+				 * @param object $meta     Current meta object.
+				 */
+				if ( apply_filters( 'wxr_export_skip_commentmeta', false, $meta->meta_key, $meta ) ) {
+					continue;
+				}
+			?>
 			<wp:commentmeta>
 				<wp:meta_key><?php echo $meta->meta_key; ?></wp:meta_key>
 				<wp:meta_value><?php echo wxr_cdata( $meta->meta_value ); ?></wp:meta_value>

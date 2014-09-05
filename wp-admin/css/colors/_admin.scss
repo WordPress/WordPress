@@ -400,7 +400,7 @@ ul#adminmenu > li.current > a.current:after {
 }
 
 
-/* Media Uploader */
+/* Media */
 
 .media-item .bar,
 .media-progress-bar div {
@@ -408,12 +408,23 @@ ul#adminmenu > li.current > a.current:after {
 }
 
 .details.attachment {
-	box-shadow: 0 0 0 1px #fff, 0 0 0 5px $highlight-color;
+	box-shadow:
+		inset 0 0 0 3px #fff,
+		inset 0 0 0 7px $highlight-color;
 }
 
 .attachment.details .check {
 	background-color: $highlight-color;
 	box-shadow: 0 0 0 1px #fff, 0 0 0 2px $highlight-color;
+}
+
+.media-selection .attachment.selection.details .thumbnail {
+	-webkit-box-shadow:
+		0px 0px 0px 1px #fff,
+		0px 0px 0px 3px $highlight-color;
+	box-shadow:
+		0px 0px 0px 1px #fff,
+		0px 0px 0px 3px $highlight-color;
 }
 
 
@@ -426,12 +437,6 @@ ul#adminmenu > li.current > a.current:after {
 
 .theme-browser .theme.add-new-theme:hover span:after {
 	color: $highlight-color;
-}
-
-.theme-overlay .theme-header .close:hover,
-.theme-overlay .theme-header .right:hover,
-.theme-overlay .theme-header .left:hover {
-	background: $highlight-color;
 }
 
 .theme-section.current,
@@ -459,16 +464,6 @@ body.more-filters-opened .more-filters:focus:before {
 	color: $menu-highlight-text;
 }
 
-.theme-install-overlay .close-full-overlay:hover,
-.theme-install-overlay .close-full-overlay:focus,
-.theme-install-overlay .previous-theme:hover,
-.theme-install-overlay .previous-theme:focus,
-.theme-install-overlay .next-theme:hover,
-.theme-install-overlay .next-theme:focus {
-	background-color: $menu-highlight-background;
-	color: $menu-highlight-text;
-}
-
 /* Widgets */
 
 .widgets-chooser li.widgets-chooser-selected {
@@ -484,14 +479,6 @@ body.more-filters-opened .more-filters:focus:before {
 /* Customize */
 
 #customize-theme-controls .widget-area-select .selected {
-	background-color: $menu-highlight-background;
-	color: $menu-highlight-text;
-}
-
-.customize-controls-close:focus,
-.customize-controls-close:hover,
-.control-panel-back:focus,
-.control-panel-back:hover {
 	background-color: $menu-highlight-background;
 	color: $menu-highlight-text;
 }

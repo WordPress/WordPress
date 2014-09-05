@@ -1011,7 +1011,6 @@ class WP_Meta_Query {
 				$where["key-only-$key"] = $wpdb->prepare( "$meta_table.meta_key = %s", trim( $q['key'] ) );
 		}
 
-		$where_meta_key = array();
 		foreach ( $queries as $k => $q ) {
 			$meta_key = isset( $q['key'] ) ? trim( $q['key'] ) : '';
 			$meta_type = $this->get_cast_for_type( isset( $q['type'] ) ? $q['type'] : '' );
@@ -1054,18 +1053,12 @@ class WP_Meta_Query {
 			$join[$i] .= " ON ($primary_table.$primary_id_column = $alias.$meta_id_column)";
 
 			$where[$k] = '';
-			if ( ! empty( $meta_key ) ) {
-				if ( isset( $q['compare'] ) ) {
-					$where_meta_key[$k] = $wpdb->prepare( "$alias.meta_key = %s", $meta_key );
-				} else {
-					$where[$k] = $wpdb->prepare( "$alias.meta_key = %s", $meta_key );
-				}
-			}
+			if ( !empty( $meta_key ) )
+				$where[$k] = $wpdb->prepare( "$alias.meta_key = %s", $meta_key );
 
 			if ( is_null( $meta_value ) ) {
-				if ( empty( $where[$k] ) && empty( $where_meta_key ) ) {
+				if ( empty( $where[$k] ) )
 					unset( $join[$i] );
-				}
 				continue;
 			}
 
@@ -1105,10 +1098,6 @@ class WP_Meta_Query {
 			$where = '';
 		else
 			$where = ' AND (' . implode( "\n{$this->relation} ", $where ) . ' )';
-
-		if ( ! empty( $where_meta_key ) ) {
-			$where .= "\nAND (" . implode( "\nAND ", $where_meta_key ) . ' )';
-		}
 
 		$join = implode( "\n", $join );
 		if ( ! empty( $join ) )

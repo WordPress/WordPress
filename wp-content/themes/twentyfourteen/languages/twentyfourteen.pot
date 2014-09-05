@@ -2,9 +2,9 @@
 # This file is distributed under the GNU General Public License v2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Twenty Fourteen 1.1\n"
+"Project-Id-Version: Twenty Fourteen 1.2\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tags/twentyfourteen\n"
-"POT-Creation-Date: 2014-04-16 18:29:37+00:00\n"
+"POT-Creation-Date: 2014-09-03 00:45:47+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -141,7 +141,7 @@ msgid ""
 "searching can help."
 msgstr ""
 
-#. #-#-#-#-#  twentyfourteen.pot (Twenty Fourteen 1.0)  #-#-#-#-#
+#. #-#-#-#-#  twentyfourteen.pot (Twenty Fourteen 1.2)  #-#-#-#-#
 #. Author URI of the plugin/theme
 #: footer.php:21
 msgid "http://wordpress.org/"
@@ -202,7 +202,7 @@ msgid_plural "%d Articles"
 msgstr[0] ""
 msgstr[1] ""
 
-#: functions.php:488
+#: functions.php:491
 msgid "Page %s"
 msgstr ""
 
@@ -244,18 +244,18 @@ msgstr ""
 msgid "Display Site Title &amp; Tagline"
 msgstr ""
 
-#: inc/customizer.php:35 inc/featured-content.php:408
+#: inc/customizer.php:35 inc/featured-content.php:405
 msgid "Featured Content"
 msgstr ""
 
-#: inc/customizer.php:36 inc/featured-content.php:409
+#: inc/customizer.php:36 inc/featured-content.php:406
 msgid ""
 "Use a <a href=\"%1$s\">tag</a> to feature your posts. If no posts match the "
 "tag, <a href=\"%2$s\">sticky posts</a> will be displayed instead."
 msgstr ""
 
-#: inc/customizer.php:37 inc/customizer.php:102 inc/featured-content.php:410
-#: inc/featured-content.php:419 inc/featured-content.php:479
+#: inc/customizer.php:37 inc/customizer.php:102 inc/featured-content.php:407
+#: inc/featured-content.php:416 inc/featured-content.php:476
 msgctxt "featured content default tag slug"
 msgid "featured"
 msgstr ""
@@ -272,7 +272,7 @@ msgstr ""
 msgid "Slider"
 msgstr ""
 
-#. #-#-#-#-#  twentyfourteen.pot (Twenty Fourteen 1.0)  #-#-#-#-#
+#. #-#-#-#-#  twentyfourteen.pot (Twenty Fourteen 1.2)  #-#-#-#-#
 #. Theme Name of the plugin/theme
 #: inc/customizer.php:99
 msgid "Twenty Fourteen"
@@ -302,43 +302,43 @@ msgid ""
 "\">Twenty Fourteen documentation</a>."
 msgstr ""
 
-#: inc/featured-content.php:431
+#: inc/featured-content.php:428
 msgid "Tag Name"
 msgstr ""
 
-#: inc/featured-content.php:436
+#: inc/featured-content.php:433
 msgid "Don&rsquo;t display tag on front end."
 msgstr ""
 
-#: inc/template-tags.php:45
+#: inc/template-tags.php:50
 msgid "&larr; Previous"
 msgstr ""
 
-#: inc/template-tags.php:46
+#: inc/template-tags.php:51
 msgid "Next &rarr;"
 msgstr ""
 
-#: inc/template-tags.php:53
+#: inc/template-tags.php:58
 msgid "Posts navigation"
 msgstr ""
 
-#: inc/template-tags.php:80
+#: inc/template-tags.php:85
 msgid "Post navigation"
 msgstr ""
 
-#: inc/template-tags.php:84
+#: inc/template-tags.php:89
 msgid "<span class=\"meta-nav\">Published In</span>%title"
 msgstr ""
 
-#: inc/template-tags.php:86
+#: inc/template-tags.php:91
 msgid "<span class=\"meta-nav\">Previous Post</span>%title"
 msgstr ""
 
-#: inc/template-tags.php:87
+#: inc/template-tags.php:92
 msgid "<span class=\"meta-nav\">Next Post</span>%title"
 msgstr ""
 
-#: inc/template-tags.php:104
+#: inc/template-tags.php:109
 msgid "Sticky"
 msgstr ""
 

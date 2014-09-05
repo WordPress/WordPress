@@ -89,7 +89,7 @@ class WP_List_Table {
 	 *                            screen. If left null, the current screen will be automatically set.
 	 *                            Default null.
 	 * }
-	 */	
+	 */
 	public function __construct( $args = array() ) {
 		$args = wp_parse_args( $args, array(
 			'plural' => '',

@@ -248,7 +248,7 @@ case 'delete':
 	/**
 	 * Fires at the end of the delete users form prior to the confirm button.
 	 *
-	 * @since 4.0.0 
+	 * @since 4.0.0
 	 *
 	 * @param WP_User $current_user WP_User object for the user being deleted.
 	 */

@@ -112,7 +112,7 @@ final class _WP_Editors {
 		if ( empty( $set['editor_height'] ) )
 			return $set;
 
-		if ( 'content' === $editor_id ) {
+		if ( 'content' === $editor_id && empty( $set['tinymce']['wp_autoresize_on'] ) ) {
 			// A cookie (set when a user resizes the editor) overrides the height.
 			$cookie = (int) get_user_setting( 'ed_size' );
 

@@ -608,24 +608,18 @@ $(document).ready(function(){
 		);
 	}
 
-	if ( typeof commentReply != 'undefined' ) {
+	// Quick Edit and Reply have an inline comment editor.
+	$( '#the-comment-list' ).on( 'click', '.comment-inline', function (e) {
+		e.preventDefault();
+		var $el = $( this ),
+			action = 'replyto';
 
-		// Each "Quick Edit" link, open the comment editor
-		$( 'body' ).on( 'click', '.comment .row-actions .quickedit .edit-comment-inline', function (e) {
-			e.preventDefault();
+		if ( 'undefined' !== typeof $el.data( 'action' ) ) {
+			action = $el.data( 'action' );
+		}
 
-			var $el = $( e.currentTarget );
-			commentReply.open( $el.data( 'comment-id' ), $el.data( 'post-id' ), 'edit' );
-		} );
-
-		// Each "Reply" link, open the comment reply
-		$( 'body' ).on( 'click', '.comment .row-actions .reply .reply-comment-inline', function (e) {
-			e.preventDefault();
-
-			var $el = $( e.currentTarget );
-			commentReply.open( $el.data('comment-id'), $el.data('post-id') );
-		} );
-	}
+		commentReply.open( $el.data( 'commentId' ), $el.data( 'postId' ), action );
+	} );
 });
 
 })(jQuery);

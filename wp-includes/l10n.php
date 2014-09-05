@@ -24,7 +24,7 @@
  * @return string The locale of the blog or from the 'locale' hook.
  */
 function get_locale() {
-	global $locale;
+	global $locale, $wp_local_package;
 
 	if ( isset( $locale ) ) {
 		/**
@@ -37,27 +37,35 @@ function get_locale() {
 		return apply_filters( 'locale', $locale );
 	}
 
-	// WPLANG is defined in wp-config.
-	if ( defined( 'WPLANG' ) )
+	if ( isset( $wp_local_package ) ) {
+		$locale = $wp_local_package;
+	}
+
+	// WPLANG was defined in wp-config.
+	if ( defined( 'WPLANG' ) ) {
 		$locale = WPLANG;
+	}
 
 	// If multisite, check options.
 	if ( is_multisite() ) {
 		// Don't check blog option when installing.
-		if ( defined( 'WP_INSTALLING' ) || ( false === $ms_locale = get_option( 'WPLANG' ) ) )
-			$ms_locale = get_site_option('WPLANG');
+		if ( defined( 'WP_INSTALLING' ) || ( false === $ms_locale = get_option( 'WPLANG' ) ) ) {
+			$ms_locale = get_site_option( 'WPLANG' );
+		}
 
-		if ( $ms_locale !== false )
+		if ( $ms_locale !== false ) {
 			$locale = $ms_locale;
-	} elseif ( ! defined( 'WP_INSTALLING' ) ) {
+		}
+	} else {
 		$db_locale = get_option( 'WPLANG' );
-		if ( $db_locale ) {
+		if ( $db_locale !== false ) {
 			$locale = $db_locale;
 		}
 	}
 
-	if ( empty( $locale ) )
+	if ( empty( $locale ) ) {
 		$locale = 'en_US';
+	}
 
 	/** This filter is documented in wp-includes/l10n.php */
 	return apply_filters( 'locale', $locale );
@@ -523,23 +531,32 @@ function unload_textdomain( $domain ) {
  * @see load_textdomain()
  *
  * @since 1.5.0
+ *
+ * @param string $locale Optional. Locale to load. Defaults to get_locale().
  */
-function load_default_textdomain() {
-	$locale = get_locale();
+function load_default_textdomain( $locale = null ) {
+	if ( null === $locale ) {
+		$locale = get_locale();
+	}
 
-	load_textdomain( 'default', WP_LANG_DIR . "/$locale.mo" );
+	// Unload previously loaded strings so we can switch translations.
+	unload_textdomain( 'default' );
+
+	$return = load_textdomain( 'default', WP_LANG_DIR . "/$locale.mo" );
 
 	if ( ( is_multisite() || ( defined( 'WP_INSTALLING_NETWORK' ) && WP_INSTALLING_NETWORK ) ) && ! file_exists(  WP_LANG_DIR . "/admin-$locale.mo" ) ) {
 		load_textdomain( 'default', WP_LANG_DIR . "/ms-$locale.mo" );
-		return;
+		return $return;
 	}
 
-	if ( is_admin() || ( defined( 'WP_REPAIRING' ) && WP_REPAIRING ) )
+	if ( is_admin() || defined( 'WP_INSTALLING' ) || ( defined( 'WP_REPAIRING' ) && WP_REPAIRING ) ) {
 		load_textdomain( 'default', WP_LANG_DIR . "/admin-$locale.mo" );
+	}
 
 	if ( is_network_admin() || ( defined( 'WP_INSTALLING_NETWORK' ) && WP_INSTALLING_NETWORK ) )
 		load_textdomain( 'default', WP_LANG_DIR . "/admin-network-$locale.mo" );
 
+	return $return;
 }
 
 /**
@@ -818,26 +835,67 @@ function wp_get_pomo_file_data( $po_file ) {
 }
 
 /**
- * Language selector. More to come.
+ * Language selector.
  *
  * @since 4.0.0
  *
  * @see get_available_languages()
+ * @see wp_get_available_translations()
  *
  * @param array $args Optional arguments. Default empty array.
  */
 function wp_dropdown_languages( $args = array() ) {
-	if ( isset( $args['languages'] ) ) {
-		$languages = $args['languages'];
-	} else {
-		$languages = get_available_languages();
+	require_once( ABSPATH . 'wp-admin/includes/translation-install.php' );
+
+	$args = wp_parse_args( $args, array(
+		'id'        => '',
+		'name'      => '',
+		'languages' => array(),
+		'selected'  => ''
+	) );
+
+	if ( empty( $args['languages'] ) ) {
+		return false;
+	}
+
+	$translations = wp_get_available_translations();
+
+	/*
+	 * $args['languages'] should only contain the locales. Find the locale in
+	 * $translations to get the native name. Fall back to locale.
+	 */
+	$languages = array();
+	foreach ( $args['languages'] as $locale ) {
+		if ( isset( $translations[ $locale ] ) ) {
+			$translation = $translations[ $locale ];
+			$languages[] = array(
+				'language'    => $translation['language'],
+				'native_name' => $translation['native_name'],
+				'lang'        => $translation['iso'][1],
+			);
+		} else {
+			$languages[] = array(
+				'language'    => $locale,
+				'native_name' => $locale,
+				'lang'        => '',
+			);
+		}
 	}
 
 	printf( '<select name="%s" id="%s">', esc_attr( $args['name'] ), esc_attr( $args['id'] ) );
-	echo '<option value="">en_US</option>';
+
+	// List installed languages.
+	echo '<option value="" lang="en">English (United States)</option>';
 	foreach ( $languages as $language ) {
-		$selected = selected( $language, $args['selected'], false );
-		echo '<option value="' . esc_attr( $language ) .'"' . $selected . '>' . $language . '</option>';
+		$selected = selected( $language['language'], $args['selected'], false );
+		printf(
+			'<option value="%s" lang="%s"%s>%s</option>',
+			esc_attr( $language['language'] ),
+			esc_attr( $language['lang'] ),
+			$selected,
+			esc_html( $language['native_name'] )
+		);
 	}
+
 	echo '</select>';
 }

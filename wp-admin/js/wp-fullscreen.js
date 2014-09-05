@@ -198,9 +198,6 @@
 			s.$dfwTitle = null;
 		}
 
-		$( '#fullscreen-overlay' ).css( 'background-color', s.editor.dom.getStyle( s.editor.getBody(), 'background-color', true ) );
-		s.$dfwTitle.add( s.$editorContainer ).css( 'color', s.editor.dom.getStyle( s.editor.getBody(), 'color', true ) );
-
 		api.ui.fade( 'show', 'showing', 'shown' );
 	};
 
@@ -416,8 +413,6 @@
 	});
 
 	ps.subscribe( 'hiding', function() { // This event occurs while the overlay blocks the DFW UI.
-		s.$dfwTitle.add( s.$editorContainer ).css( 'color', '' );
-
 		$body.removeClass( 'wp-fullscreen-active' );
 
 		if ( s.$dfwTitle ) {

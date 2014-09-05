@@ -2,9 +2,9 @@
 # This file is distributed under the GNU General Public License v2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Twenty Eleven 1.8\n"
+"Project-Id-Version: Twenty Eleven 1.9\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tags/twentyeleven\n"
-"POT-Creation-Date: 2014-04-16 18:26:59+00:00\n"
+"POT-Creation-Date: 2014-09-03 00:45:45+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -137,7 +137,7 @@ msgstr ""
 #: content-aside.php:36 content-featured.php:23 content-gallery.php:52
 #: content-image.php:30 content-intro.php:18 content-link.php:36
 #: content-page.php:18 content-quote.php:36 content-single.php:24
-#: content-status.php:49 content.php:42 image.php:97
+#: content-status.php:49 content.php:42 image.php:98
 msgid "Pages:"
 msgstr ""
 
@@ -266,7 +266,7 @@ msgstr ""
 msgid "Featured"
 msgstr ""
 
-#. #-#-#-#-#  twentyeleven.pot (Twenty Eleven 1.7)  #-#-#-#-#
+#. #-#-#-#-#  twentyeleven.pot (Twenty Eleven 1.9)  #-#-#-#-#
 #. Author URI of the plugin/theme
 #: footer.php:28
 msgid "http://wordpress.org/"

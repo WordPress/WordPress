@@ -1,4 +1,4 @@
-/* global getUserSetting, tinymce, QTags, wpActiveEditor */
+/* global getUserSetting, tinymce, QTags */
 
 // WordPress, TinyMCE, and Media
 // -----------------------------
@@ -757,10 +757,15 @@
 		 * @param {string} html Content to send to the editor
 		 */
 		insert: function( html ) {
-			var editor,
+			var editor, wpActiveEditor,
 				hasTinymce = ! _.isUndefined( window.tinymce ),
-				hasQuicktags = ! _.isUndefined( window.QTags ),
+				hasQuicktags = ! _.isUndefined( window.QTags );
+
+			if ( this.activeEditor ) {
+				wpActiveEditor = window.wpActiveEditor = this.activeEditor;
+			} else {
 				wpActiveEditor = window.wpActiveEditor;
+			}
 
 			// Delegate to the global `send_to_editor` if it exists.
 			// This attempts to play nice with any themes/plugins that have
@@ -921,7 +926,7 @@
 			}
 
 			// If an empty `id` is provided, default to `wpActiveEditor`.
-			id = wpActiveEditor;
+			id = window.wpActiveEditor;
 
 			// If that doesn't work, fall back to `tinymce.activeEditor.id`.
 			if ( ! id && ! _.isUndefined( window.tinymce ) && tinymce.activeEditor ) {
@@ -1053,6 +1058,7 @@
 			options = options || {};
 
 			id = this.id( id );
+			this.activeEditor = id;
 
 			workflow = this.get( id );
 

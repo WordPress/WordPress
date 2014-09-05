@@ -2,9 +2,9 @@
 # This file is distributed under the GNU General Public License v2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Twenty Ten 1.6\n"
+"Project-Id-Version: Twenty Ten 1.7\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tags/twentyten\n"
-"POT-Creation-Date: 2014-03-18 19:16:24+00:00\n"
+"POT-Creation-Date: 2014-09-03 00:45:44+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -83,7 +83,7 @@ msgstr ""
 msgid "Comments are closed."
 msgstr ""
 
-#. #-#-#-#-#  twentyten.pot (Twenty Ten 1.6)  #-#-#-#-#
+#. #-#-#-#-#  twentyten.pot (Twenty Ten 1.7)  #-#-#-#-#
 #. Author URI of the plugin/theme
 #: footer.php:40
 msgid "http://wordpress.org/"
@@ -141,7 +141,7 @@ msgstr ""
 msgid "Sunset"
 msgstr ""
 
-#: functions.php:280 loop-attachment.php:118 loop.php:116 loop.php:144
+#: functions.php:280 loop-attachment.php:119 loop.php:116 loop.php:144
 msgid "Continue reading <span class=\"meta-nav\">&rarr;</span>"
 msgstr ""
 
@@ -265,12 +265,12 @@ msgstr ""
 msgid "Link to full-size image"
 msgstr ""
 
-#: loop-attachment.php:63 loop-attachment.php:125 loop-page.php:30
+#: loop-attachment.php:63 loop-attachment.php:126 loop-page.php:30
 #: loop-single.php:59 loop.php:101 loop.php:124 loop.php:166
 msgid "Edit"
 msgstr ""
 
-#: loop-attachment.php:119 loop-page.php:29 loop-single.php:34 loop.php:145
+#: loop-attachment.php:120 loop-page.php:29 loop-single.php:34 loop.php:145
 msgid "Pages:"
 msgstr ""
 

@@ -2207,7 +2207,7 @@ function wp_get_session_token() {
  */
 function wp_get_all_sessions() {
 	$manager = WP_Session_Tokens::get_instance( get_current_user_id() );
-	return $manager->get_all_sessions();
+	return $manager->get_all();
 }
 
 /**
@@ -2219,7 +2219,7 @@ function wp_destroy_current_session() {
 	$token = wp_get_session_token();
 	if ( $token ) {
 		$manager = WP_Session_Tokens::get_instance( get_current_user_id() );
-		$manager->destroy_token( $token );
+		$manager->destroy( $token );
 	}
 }
 
@@ -2232,7 +2232,7 @@ function wp_destroy_other_sessions() {
 	$token = wp_get_session_token();
 	if ( $token ) {
 		$manager = WP_Session_Tokens::get_instance( get_current_user_id() );
-		$manager->destroy_other_tokens( $token );
+		$manager->destroy_others( $token );
 	}
 }
 
@@ -2243,5 +2243,5 @@ function wp_destroy_other_sessions() {
  */
 function wp_destroy_all_sessions() {
 	$manager = WP_Session_Tokens::get_instance( get_current_user_id() );
-	$manager->destroy_all_tokens();
+	$manager->destroy_all();
 }

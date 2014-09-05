@@ -462,6 +462,7 @@
 				mode = this.get('menu'),
 				view;
 
+			this.frame.$el.toggleClass( 'hide-menu', ! mode );
 			if ( ! mode ) {
 				return;
 			}
@@ -595,6 +596,7 @@
 			filterable:         false,
 			sortable:           true,
 
+			autoSelect:         true,
 			describe:           false,
 			// Uses a user setting to override the content mode.
 			contentUserSetting: true,
@@ -751,10 +753,11 @@
 			if ( 'upload' === content.mode() ) {
 				this.frame.content.mode('browse');
 			}
-			this.get('selection').add( attachment );
 
-			// Set focus back to where it goes when an attachment is selected.
-			$( '.attachments-browser .attachments .attachment' ).first().focus();
+			if ( this.get( 'autoSelect' ) ) {
+				this.get('selection').add( attachment );
+				this.frame.trigger( 'library:selection:add' );
+			}
 		},
 
 		/**
@@ -789,7 +792,7 @@
 			title:    l10n.imageDetailsTitle,
 			// Initial region modes.
 			content:  'image-details',
-			menu:     'image-details',
+			menu:     false,
 			router:   false,
 			toolbar:  'image-details',
 
@@ -1242,6 +1245,7 @@
 			filterable:    'uploaded',
 			// Region mode defaults.
 			toolbar:       'replace',
+			menu:          false,
 
 			priority:      60,
 			syncSelection: true
@@ -1774,12 +1778,6 @@
 			this.activeModes.add( [ { id: mode } ] );
 			// Add a CSS class to the frame so elements can be styled for the mode.
 			this.$el.addClass( 'mode-' + mode );
-			/**
-			 * Frame mode activation event.
-			 *
-			 * @event this#{mode}:activate
-			 */
-			this.trigger( mode + ':activate' );
 
 			return this;
 		},
@@ -2502,9 +2500,7 @@
 
 						// Keep focus inside media modal
 						// after canceling a gallery
-						new media.view.FocusManager({
-							el: this.el
-						}).focus();
+						this.controller.modal.focusManager.focus();
 					}
 				},
 				separateCancel: new media.View({
@@ -2693,9 +2689,7 @@
 
 					// Keep focus inside media modal
 					// after jumping to gallery view
-					new media.view.FocusManager({
-						el: this.el
-					}).focus();
+					this.controller.modal.focusManager.focus();
 				}
 			});
 		},
@@ -2725,9 +2719,7 @@
 
 					// Keep focus inside media modal
 					// after jumping to playlist view
-					new media.view.FocusManager({
-						el: this.el
-					}).focus();
+					this.controller.modal.focusManager.focus();
 				}
 			});
 		},
@@ -2757,9 +2749,7 @@
 
 					// Keep focus inside media modal
 					// after jumping to video playlist view
-					new media.view.FocusManager({
-						el: this.el
-					}).focus();
+					this.controller.modal.focusManager.focus();
 				}
 			});
 		},
@@ -2981,7 +2971,6 @@
 			this.on( 'menu:create:image-details', this.createMenu, this );
 			this.on( 'content:create:image-details', this.imageDetailsContent, this );
 			this.on( 'content:render:edit-image', this.editImageContent, this );
-			this.on( 'menu:render:image-details', this.renderMenu, this );
 			this.on( 'toolbar:render:image-details', this.renderImageDetailsToolbar, this );
 			// override the select toolbar
 			this.on( 'toolbar:render:replace', this.renderReplaceImageToolbar, this );
@@ -2991,8 +2980,7 @@
 			this.states.add([
 				new media.controller.ImageDetails({
 					image: this.image,
-					editable: false,
-					menu: 'image-details'
+					editable: false
 				}),
 				new media.controller.ReplaceImage({
 					id: 'replace-image',
@@ -3000,7 +2988,6 @@
 					image: this.image,
 					multiple:  false,
 					title:     l10n.imageReplaceTitle,
-					menu: 'image-details',
 					toolbar: 'replace',
 					priority:  80,
 					displaySettings: true
@@ -3035,31 +3022,6 @@
 
 			// after bringing in the frame, load the actual editor via an ajax call
 			view.loadEditor();
-
-		},
-
-		renderMenu: function( view ) {
-			var lastState = this.lastState(),
-				previous = lastState && lastState.id,
-				frame = this;
-
-			view.set({
-				cancel: {
-					text:     l10n.imageDetailsCancel,
-					priority: 20,
-					click:    function() {
-						if ( previous ) {
-							frame.setState( previous );
-						} else {
-							frame.close();
-						}
-					}
-				},
-				separateCancel: new media.View({
-					className: 'separator',
-					priority: 40
-				})
-			});
 
 		},
 
@@ -3257,7 +3219,7 @@
 				}
 			}
 
-			$el.find( '.media-modal-close' ).focus();
+			this.$el.focus();
 
 			return this.propagate('open');
 		},
@@ -3355,42 +3317,37 @@
 	 * @augments Backbone.View
 	 */
 	media.view.FocusManager = media.View.extend({
+
 		events: {
-			keydown: 'recordTab',
-			focusin: 'updateIndex'
+			'keydown': 'constrainTabbing'
 		},
 
-		focus: function() {
-			// Reset focus on first left menu item
-			$('.media-menu-item').first().focus();
+		focus: function() { // Reset focus on first left menu item
+			this.$('.media-menu-item').first().focus();
 		},
 		/**
 		 * @param {Object} event
 		 */
-		recordTab: function( event ) {
+		constrainTabbing: function( event ) {
+			var tabbables;
+
 			// Look for the tab key.
 			if ( 9 !== event.keyCode ) {
 				return;
 			}
 
+			tabbables = this.$( ':tabbable' );
+
 			// Keep tab focus within media modal while it's open
-			if ( event.target === this.tabbableLast[0] && !event.shiftKey ) {
-				this.tabbableFirst.focus();
+			if ( tabbables.last()[0] === event.target && ! event.shiftKey ) {
+				tabbables.first().focus();
 				return false;
-			} else if ( event.target === this.tabbableFirst[0] && event.shiftKey ) {
-				this.tabbableLast.focus();
+			} else if ( tabbables.first()[0] === event.target && event.shiftKey ) {
+				tabbables.last().focus();
 				return false;
 			}
-		},
-		/**
-		 * @param {Object} event
-		 */
-		updateIndex: function() {
-			// Resets tabbable elements
-			this.tabbables = $( ':tabbable', this.$el );
-			this.tabbableFirst = this.tabbables.filter( ':first' );
-			this.tabbableLast = this.tabbables.filter( ':last' );
 		}
+
 	});
 
 	/**
@@ -3966,7 +3923,7 @@
 			// The toolbar is composed of two `PriorityList` views.
 			this.primary   = new media.view.PriorityList();
 			this.secondary = new media.view.PriorityList();
-			this.primary.$el.addClass('media-toolbar-primary');
+			this.primary.$el.addClass('media-toolbar-primary search-form');
 			this.secondary.$el.addClass('media-toolbar-secondary');
 
 			this.views.set([ this.secondary, this.primary ]);
@@ -4665,9 +4622,14 @@
 		className: 'attachment',
 		template:  media.template('attachment'),
 
-		attributes: {
-			tabIndex: 0,
-			role: 'checkbox'
+		attributes: function() {
+			return {
+				'tabIndex':     0,
+				'role':         'checkbox',
+				'aria-label':   this.model.get( 'title' ),
+				'aria-checked': false,
+				'data-id':      this.model.get( 'id' )
+			};
 		},
 
 		events: {
@@ -4689,20 +4651,16 @@
 				options = _.defaults( this.options, {
 					rerenderOnModelChange: true
 				} );
-			this.$el.attr( {
-				'aria-label'  : this.model.get( 'title' ),
-				'aria-checked': false,
-				'data-id'     : this.model.get( 'id' )
-			} );
 
 			if ( options.rerenderOnModelChange ) {
 				this.model.on( 'change', this.render, this );
+			} else {
+				this.model.on( 'change:percent', this.progress, this );
 			}
 			this.model.on( 'change:title', this._syncTitle, this );
 			this.model.on( 'change:caption', this._syncCaption, this );
 			this.model.on( 'change:artist', this._syncArtist, this );
 			this.model.on( 'change:album', this._syncAlbum, this );
-			this.model.on( 'change:percent', this.progress, this );
 
 			// Update the selection.
 			this.model.on( 'add', this.select, this );
@@ -4770,10 +4728,15 @@
 				options.allowLocalEdits = true;
 			}
 
+			if ( options.uploading && ! options.percent ) {
+				options.percent = 0;
+			}
+
 			this.views.detach();
 			this.$el.html( this.template( options ) );
 
 			this.$el.toggleClass( 'uploading', options.uploading );
+
 			if ( options.uploading ) {
 				this.$bar = this.$('.media-progress-bar div');
 			} else {
@@ -4810,7 +4773,7 @@
 
 			// Catch arrow events
 			if ( 37 === event.keyCode || 38 === event.keyCode || 39 === event.keyCode || 40 === event.keyCode ) {
-				this.arrowEvent(event);
+				this.controller.trigger( 'attachment:keydown:arrow', event );
 				return;
 			}
 
@@ -4851,54 +4814,6 @@
 			event.stopPropagation();
 		},
 		/**
-		 * @param {Object} event
-		 */
-		arrowEvent: function( event ) {
-			var attachment = $('.attachments-browser .attachment'),
-				attachmentsWidth = $('.attachments-browser .attachments').width(),
-				thumbnailWidth = attachment.first().outerWidth(),
-				thumbnailsPerRow = Math.round( attachmentsWidth / thumbnailWidth ),
-				totalThumnails = attachment.length,
-				totalRows = Math.ceil(totalThumnails/thumbnailsPerRow),
-				thisIndex = attachment.filter( ':focus' ).index(),
-				thisIndexAdjusted = thisIndex + 1,
-				thisRow = thisIndexAdjusted <= thumbnailsPerRow ? 1 : Math.ceil(thisIndexAdjusted/thumbnailsPerRow);
-
-				// Left arrow
-				if ( 37 === event.keyCode ) {
-					if ( 0 === thisIndex ) {
-						return;
-					}
-					attachment.eq( thisIndex - 1 ).focus();
-				}
-
-				// Up arrow
-				if ( 38 === event.keyCode ) {
-					if ( 1 === thisRow ) {
-						return;
-					}
-					attachment.eq( thisIndex - thumbnailsPerRow ).focus();
-				}
-
-				// Right arrow
-				if ( 39 === event.keyCode ) {
-					if ( totalThumnails === thisIndex ) {
-						return;
-					}
-					attachment.eq( thisIndex + 1 ).focus();
-				}
-
-				// Down arrow
-				if ( 40 === event.keyCode ) {
-					if ( totalRows === thisRow ) {
-						return;
-					}
-					attachment.eq( thisIndex + thumbnailsPerRow ).focus();
-				}
-
-				return false;
-		},
-		/**
 		 * @param {Object} options
 		 */
 		toggleSelection: function( options ) {
@@ -4934,12 +4849,6 @@
 
 				selection.add( models );
 				selection.single( model );
-
-				// When selecting attachments, focus should be transferred to the right details panel
-				if ( ! isTouchDevice ) {
-					$('.attachment-details input').first().focus();
-				}
-
 				return;
 
 			// If the `method` is set to `toggle`, just flip the selection
@@ -4947,12 +4856,6 @@
 			} else if ( 'toggle' === method ) {
 				selection[ this.selected() ? 'remove' : 'add' ]( model );
 				selection.single( model );
-
-				if ( ! isTouchDevice && this.selected() ) {
-					// When selecting an attachment, focus should be transferred to the right details panel
-					$('.attachment-details input').first().focus();
-				}
-
 				return;
 			} else if ( 'add' === method ) {
 				selection.add( model );
@@ -5000,7 +4903,8 @@
 		 * @param {Backbone.Collection} collection
 		 */
 		select: function( model, collection ) {
-			var selection = this.options.selection;
+			var selection = this.options.selection,
+				controller = this.controller;
 
 			// Check if a selection exists and if it's the collection provided.
 			// If they're not the same collection, bail; we're in another
@@ -5009,12 +4913,16 @@
 				return;
 			}
 
-			this.$el.addClass( 'selected' ).attr( 'aria-checked', true )
-					.find( '.check' ).attr( 'tabindex', '0' );
+			// Bail if the model is already selected.
+			if ( this.$el.hasClass( 'selected' ) ) {
+				return;
+			}
 
-			// When selecting an attachment, focus should be transferred to the right details panel
-			if ( ! isTouchDevice ) {
-				$('.attachment-details input').first().focus();
+			// Add 'selected' class to model, set aria-checked to true.
+			this.$el.addClass( 'selected' ).attr( 'aria-checked', true );
+			//  Make the checkbox tabable, except in media grid (bulk select mode).
+			if ( ! ( controller.isModeActive( 'grid' ) && controller.isModeActive( 'select' ) ) ) {
+				this.$( '.check' ).attr( 'tabindex', '0' );
 			}
 		},
 		/**
@@ -5031,7 +4939,7 @@
 				return;
 			}
 			this.$el.removeClass( 'selected' ).attr( 'aria-checked', false )
-					.find( '.check' ).attr( 'tabindex', '-1' );
+				.find( '.check' ).attr( 'tabindex', '-1' );
 		},
 		/**
 		 * @param {Backbone.Model} model
@@ -5291,6 +5199,8 @@
 			});
 
 			this._viewsByCid = {};
+			this.$window = $( window );
+			this.resizeEvent = 'resize.media-modal-columns';
 
 			this.collection.on( 'add', function( attachment ) {
 				this.views.add( this.createAttachmentView( attachment ), {
@@ -5309,6 +5219,8 @@
 
 			this.collection.on( 'reset', this.render, this );
 
+			this.listenTo( this.controller, 'library:selection:add',    this.attachmentFocus );
+
 			// Throttle the scroll handler and bind this.
 			this.scroll = _.chain( this.scroll ).bind( this ).throttle( this.options.refreshSensitivity ).value();
 
@@ -5320,18 +5232,75 @@
 			_.bindAll( this, 'setColumns' );
 
 			if ( this.options.resize ) {
-				$( window ).on( 'resize.media-modal-columns', this.setColumns );
+				this.on( 'ready', this.bindEvents );
 				this.controller.on( 'open', this.setColumns );
+
+				// Call this.setColumns() after this view has been rendered in the DOM so
+				// attachments get proper width applied.
+				_.defer( this.setColumns, this );
+			}
+		},
+
+		bindEvents: function() {
+			this.$window.off( this.resizeEvent ).on( this.resizeEvent, _.debounce( this.setColumns, 50 ) );
+		},
+
+		attachmentFocus: function() {
+			this.$( 'li:first' ).focus();
+		},
+
+		restoreFocus: function() {
+			this.$( 'li.selected:first' ).focus();
+		},
+
+		arrowEvent: function( event ) {
+			var attachments = this.$el.children( 'li' ),
+				perRow = this.columns,
+				index = attachments.filter( ':focus' ).index(),
+				row = ( index + 1 ) <= perRow ? 1 : Math.ceil( ( index + 1 ) / perRow );
+
+			if ( index === -1 ) {
+				return;
 			}
 
-			// Call this.setColumns() after this view has been rendered in the DOM so
-			// attachments get proper width applied.
-			_.defer( this.setColumns, this );
+			// Left arrow
+			if ( 37 === event.keyCode ) {
+				if ( 0 === index ) {
+					return;
+				}
+				attachments.eq( index - 1 ).focus();
+			}
+
+			// Up arrow
+			if ( 38 === event.keyCode ) {
+				if ( 1 === row ) {
+					return;
+				}
+				attachments.eq( index - perRow ).focus();
+			}
+
+			// Right arrow
+			if ( 39 === event.keyCode ) {
+				if ( attachments.length === index ) {
+					return;
+				}
+				attachments.eq( index + 1 ).focus();
+			}
+
+			// Down arrow
+			if ( 40 === event.keyCode ) {
+				if ( Math.ceil( attachments.length / perRow ) === row ) {
+					return;
+				}
+				attachments.eq( index + perRow ).focus();
+			}
 		},
 
 		dispose: function() {
 			this.collection.props.off( null, null, this );
-			$( window ).off( 'resize.media-modal-columns' );
+			if ( this.options.resize ) {
+				this.$window.off( this.resizeEvent );
+			}
 
 			/**
 			 * call 'dispose' directly on the parent class
@@ -5344,10 +5313,10 @@
 				width = this.$el.width();
 
 			if ( width ) {
-				this.columns = Math.round( width / this.options.idealColumnWidth ) || 1;
+				this.columns = Math.min( Math.round( width / this.options.idealColumnWidth ), 12 ) || 1;
 
 				if ( ! prev || prev !== this.columns ) {
-					this.$el.attr( 'data-columns', this.columns );
+					this.$el.closest( '.media-frame-content' ).attr( 'data-columns', this.columns );
 				}
 			}
 		},
@@ -5719,7 +5688,7 @@
 			};
 
 			if ( media.view.settings.mediaTrash &&
-				this.controller.activeModes.where( { id: 'grid' } ).length ) {
+				this.controller.isModeActive( 'grid' ) ) {
 
 				filters.trash = {
 					text:  l10n.trash,
@@ -5762,12 +5731,12 @@
 			this.listenTo( this.controller, 'toggle:upload:attachment', _.bind( this.toggleUploader, this ) );
 
 			this.createToolbar();
-			this.createUploader();
-			this.createAttachments();
-			this.updateContent();
 			if ( this.options.sidebar ) {
 				this.createSidebar();
 			}
+			this.createUploader();
+			this.createAttachments();
+			this.updateContent();
 
 			if ( ! this.options.sidebar || 'errors' === this.options.sidebar ) {
 				this.$el.addClass( 'hide-sidebar' );
@@ -5789,14 +5758,20 @@
 		},
 
 		createToolbar: function() {
-			var LibraryViewSwitcher, Filters;
+			var LibraryViewSwitcher, Filters, toolbarOptions;
+
+			toolbarOptions = {
+				controller: this.controller
+			};
+
+			if ( this.controller.isModeActive( 'grid' ) ) {
+				toolbarOptions.className = 'media-toolbar wp-filter';
+			}
 
 			/**
-			 * @member {wp.media.view.Toolbar}
-			 */
-			this.toolbar = new media.view.Toolbar({
-				controller: this.controller
-			});
+			* @member {wp.media.view.Toolbar}
+			*/
+			this.toolbar = new media.view.Toolbar( toolbarOptions );
 
 			this.views.add( this.toolbar );
 
@@ -5835,7 +5810,7 @@
 			// Feels odd to bring the global media library switcher into the Attachment
 			// browser view. Is this a use case for doAction( 'add:toolbar-items:attachments-browser', this.toolbar );
 			// which the controller can tap into and add this view?
-			if ( this.controller.activeModes.where( { id: 'grid' } ).length ) {
+			if ( this.controller.isModeActive( 'grid' ) ) {
 				LibraryViewSwitcher = media.View.extend({
 					className: 'view-switch media-grid-view-switch',
 					template: media.template( 'media-library-view-switcher')
@@ -5875,7 +5850,7 @@
 					controller: this.controller,
 					priority: -60,
 					click: function() {
-						var model, changed = [],
+						var model, changed = [], self = this,
 							selection = this.controller.state().get( 'selection' ),
 							library = this.controller.state().get( 'library' );
 
@@ -5912,7 +5887,10 @@
 						if ( changed.length ) {
 							$.when.apply( null, changed ).then( function() {
 								library._requery( true );
+								self.controller.trigger( 'selection:action:done' );
 							} );
+						} else {
+							this.controller.trigger( 'selection:action:done' );
 						}
 					}
 				}).render() );
@@ -5979,7 +5957,7 @@
 			this.uploader = new media.view.UploaderInline({
 				controller: this.controller,
 				status:     false,
-				message:    l10n.noItemsFound,
+				message:    this.controller.isModeActive( 'grid' ) ? '' : l10n.noItemsFound,
 				canClose:   this.controller.isModeActive( 'grid' )
 			});
 
@@ -6009,17 +5987,24 @@
 				AttachmentView: this.options.AttachmentView
 			});
 
+			// Add keydown listener to the instance of the Attachments view
+			this.attachments.listenTo( this.controller, 'attachment:keydown:arrow',     this.attachments.arrowEvent );
+			this.attachments.listenTo( this.controller, 'attachment:details:shift-tab', this.attachments.restoreFocus );
+
 			this.views.add( this.attachments );
 
-			this.attachmentsNoResults = new media.View({
-				controller: this.controller,
-				tagName: 'p'
-			});
 
-			this.attachmentsNoResults.$el.addClass( 'hidden no-media' );
-			this.attachmentsNoResults.$el.html( l10n.noMedia );
+			if ( this.controller.isModeActive( 'grid' ) ) {
+				this.attachmentsNoResults = new media.View({
+					controller: this.controller,
+					tagName: 'p'
+				});
 
-			this.views.add( this.attachmentsNoResults );
+				this.attachmentsNoResults.$el.addClass( 'hidden no-media' );
+				this.attachmentsNoResults.$el.html( l10n.noMedia );
+
+				this.views.add( this.attachmentsNoResults );
+			}
 		},
 
 		createSidebar: function() {
@@ -6161,9 +6146,7 @@
 
 			// Keep focus inside media modal
 			// after clear link is selected
-			new media.view.FocusManager({
-				el: this.el
-			}).focus();
+			this.controller.modal.focusManager.focus();
 		}
 	});
 
@@ -6493,10 +6476,18 @@
 			this.options = _.defaults( this.options, {
 				rerenderOnModelChange: false
 			});
+
+			this.on( 'ready', this.initialFocus );
 			/**
 			 * call 'initialize' directly on the parent class
 			 */
 			media.view.Attachment.prototype.initialize.apply( this, arguments );
+		},
+
+		initialFocus: function() {
+			if ( ! isTouchDevice ) {
+				this.$( ':input' ).eq( 0 ).focus();
+			}
 		},
 		/**
 		 * @param {Object} event
@@ -6508,9 +6499,7 @@
 				this.model.destroy();
 				// Keep focus inside media modal
 				// after image is deleted
-				new media.view.FocusManager({
-					el: this.el
-				}).focus();
+				this.controller.modal.focusManager.focus();
 			}
 		},
 		/**
@@ -6572,12 +6561,16 @@
 		 * @param {Object} event
 		 */
 		toggleSelectionHandler: function( event ) {
-			if ( 'keydown' === event.type && 9 === event.keyCode && event.shiftKey && event.target === $( ':tabbable', this.$el ).filter( ':first' )[0] ) {
-				$('.attachments-browser .details').focus();
+			if ( 'keydown' === event.type && 9 === event.keyCode && event.shiftKey && event.target === this.$( ':tabbable' ).get( 0 ) ) {
+				this.controller.trigger( 'attachment:details:shift-tab', event );
 				return false;
 			}
-		}
 
+			if ( 37 === event.keyCode || 38 === event.keyCode || 39 === event.keyCode || 40 === event.keyCode ) {
+				this.controller.trigger( 'attachment:keydown:arrow', event );
+				return;
+			}
+		}
 	});
 
 	/**
@@ -6778,7 +6771,7 @@
 		initialize: function() {
 			var self = this;
 
-			this.$input = $('<input id="embed-url-field" type="text" />').val( this.model.get('url') );
+			this.$input = $('<input id="embed-url-field" type="url" />').val( this.model.get('url') );
 			this.input = this.$input[0];
 
 			this.spinner = $('<span class="spinner" />')[0];
@@ -6881,7 +6874,9 @@
 			} ).done( _.bind( this.renderoEmbed, this ) );
 		},
 
-		renderoEmbed: function(html) {
+		renderoEmbed: function( response ) {
+			var html = ( response && response.body ) || '';
+
 			this.spinner.hide();
 
 			this.$('.setting.title').hide();
@@ -7155,7 +7150,12 @@
 		},
 
 		loadEditor: function() {
-			this.editor.open( this.model.get('id'), this.model.get('nonces').edit, this );
+			var dfd = this.editor.open( this.model.get('id'), this.model.get('nonces').edit, this );
+			dfd.done( _.bind( this.focus, this ) );
+		},
+
+		focus: function() {
+			this.$( '.imgedit-submit .button' ).eq( 0 ).focus();
 		},
 
 		back: function() {

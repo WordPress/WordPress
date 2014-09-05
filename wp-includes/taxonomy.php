@@ -2957,6 +2957,7 @@ function wp_update_term( $term_id, $taxonomy, $args = array() ) {
 
 	$parsed_args['slug'] = $slug;
 
+	$term_group = isset( $parsed_args['term_group'] ) ? $parsed_args['term_group'] : 0;
 	if ( $args['alias_of'] ) {
 		$alias = $wpdb->get_row( $wpdb->prepare( "SELECT term_id, term_group FROM $wpdb->terms WHERE slug = %s", $args['alias_of'] ) );
 		if ( $alias->term_group ) {

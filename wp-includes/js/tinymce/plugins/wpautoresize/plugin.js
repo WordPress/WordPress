@@ -22,7 +22,7 @@
  */
 tinymce.PluginManager.add( 'wpautoresize', function( editor ) {
 	var settings = editor.settings,
-		oldSize = 0,
+		oldSize = 300,
 		isActive = false;
 
 	function isFullscreen() {

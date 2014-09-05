@@ -528,8 +528,9 @@ function media_buttons($editor_id = 'content') {
 
 	$img = '<span class="wp-media-buttons-icon"></span> ';
 
-	printf( '<a href="#" id="insert-media-button-%d" class="button insert-media add_media" data-editor="%s" title="%s">%s</a>',
-		$instance,
+	$id_attribute = $instance === 1 ? ' id="insert-media-button"' : '';
+	printf( '<a href="#"%s class="button insert-media add_media" data-editor="%s" title="%s">%s</a>',
+		$id_attribute,
 		esc_attr( $editor_id ),
 		esc_attr__( 'Add Media' ),
 		$img . __( 'Add Media' )
@@ -1701,7 +1702,7 @@ function media_upload_form( $errors = null ) {
 	global $type, $tab, $is_IE, $is_opera;
 
 	if ( ! _device_can_upload() ) {
-		echo '<p>' . sprintf( __('The web browser on your device cannot be used to upload files. You may be able to use the <a href="%s">native app for your device</a> instead.'), 'https://wordpress.org/mobile/' ) . '</p>';
+		echo '<p>' . sprintf( __('The web browser on your device cannot be used to upload files. You may be able to use the <a href="%s">native app for your device</a> instead.'), 'http://apps.wordpress.org/' ) . '</p>';
 		return;
 	}
 
