@@ -235,10 +235,8 @@ class Featured_Content {
 			return;
 		}
 
-		$page_on_front = get_option( 'page_on_front' );
-
 		// Bail if the blog page is not the front page.
-		if ( ! empty( $page_on_front ) ) {
+		if ( 'posts' !== get_option( 'show_on_front' ) ) {
 			return;
 		}
 
