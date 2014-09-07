@@ -234,14 +234,9 @@ $structures = array(
 </table>
 
 <h3 class="title"><?php _e('Optional'); ?></h3>
-<?php
-$suffix = $prefix;
-if ( $suffix )
-	$suffix = ltrim( $suffix, '/' ) . '/';
-?>
 <p><?php
-/* translators: %s is a placeholder that must come at the start of the URL path. */
-printf( __('If you like, you may enter custom structures for your category and tag <abbr title="Universal Resource Locator">URL</abbr>s here. For example, using <code>topics</code> as your category base would make your category links like <code>http://example.org/%stopics/uncategorized/</code>. If you leave these blank the defaults will be used.'), $suffix ); ?></p>
+/* translators: %s is a placeholder that must come at the start of the URL. */
+printf( __('If you like, you may enter custom structures for your category and tag <abbr title="Universal Resource Locator">URL</abbr>s here. For example, using <code>topics</code> as your category base would make your category links like <code>%s/topics/uncategorized/</code>. If you leave these blank the defaults will be used.'), get_option('home') . $blog_prefix . $prefix ); ?></p>
 
 <table class="form-table">
 	<tr>
