@@ -264,7 +264,7 @@ if ( isset( $_GET['updated'] ) ) {
 
 			<tr>
 				<th scope="row"><label for="upload_filetypes"><?php _e( 'Upload file types' ) ?></label></th>
-				<td><input name="upload_filetypes" type="text" id="upload_filetypes" class="large-text" value="<?php echo esc_attr( get_site_option('upload_filetypes', 'jpg jpeg png gif') ) ?>" size="45" /></td>
+				<td><input name="upload_filetypes" type="text" id="upload_filetypes" class="large-text" value="<?php echo esc_attr( get_site_option( 'upload_filetypes', 'jpg jpeg png gif' ) ) ?>" size="45" /></td>
 			</tr>
 
 			<tr>

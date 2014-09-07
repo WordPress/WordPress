@@ -1745,7 +1745,8 @@ function recurse_dirsize( $directory ) {
  * @return array
  */
 function check_upload_mimes( $mimes ) {
-	$site_exts = explode( ' ', get_site_option( 'upload_filetypes' ) );
+	$site_exts = explode( ' ', get_site_option( 'upload_filetypes', 'jpg jpeg png gif' ) );
+	$site_mimes = array();
 	foreach ( $site_exts as $ext ) {
 		foreach ( $mimes as $ext_pattern => $mime ) {
 			if ( $ext != '' && strpos( $ext_pattern, $ext ) !== false )
