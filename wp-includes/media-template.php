@@ -394,7 +394,7 @@ function wp_print_media_templates() {
 					<span class="name"><?php _e( 'Uploaded By' ); ?></span>
 					<span class="value">{{ data.authorName }}</span>
 				</label>
-				<# if ( data.uploadedTo ) { #>
+				<# if ( data.uploadedToTitle ) { #>
 					<label class="setting">
 						<span class="name"><?php _e( 'Uploaded To' ); ?></span>
 						<# if ( data.uploadedToLink ) { #>
