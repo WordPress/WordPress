@@ -5618,6 +5618,16 @@
 						order:   'ASC'
 					},
 					priority: 20
+				},
+
+				unattached: {
+					text:  l10n.unattached,
+					props: {
+						uploadedTo: 0,
+						orderby: 'menuOrder',
+						order:   'ASC'
+					},
+					priority: 50
 				}
 			};
 		}
