@@ -7,6 +7,14 @@
 	box-sizing: content-box;
 }
 
+.media-frame input,
+.media-frame select,
+.media-frame textarea {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
 .media-modal,
 .media-frame {
 	font-family: "Open Sans", sans-serif;
@@ -56,9 +64,6 @@
 .media-frame select {
 	font-family: "Open Sans", sans-serif;
 	font-size: 12px;
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
 	border-width: 1px;
 	border-style: solid;
 	border-color: #dfdfdf;
