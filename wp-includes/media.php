@@ -2542,6 +2542,12 @@ function wp_plupload_default_settings() {
 		),
 	);
 
+	// Currently only iOS Safari supports multiple files uploading but has a bug that prevents uploading of videos
+	// when enabled. See #29602.
+	if ( wp_is_mobile() ) {
+		$defaults['multi_selection'] = false;
+	}
+
 	/**
 	 * Filter the Plupload default settings.
 	 *
