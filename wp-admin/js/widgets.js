@@ -66,7 +66,9 @@ wpWidgets = {
 				wpWidgets.save( target.closest('div.widget'), 1, 1, 0 );
 				e.preventDefault();
 			} else if ( target.hasClass('widget-control-close') ) {
-				wpWidgets.close( target.closest('div.widget') );
+				widget = target.closest('div.widget');
+				widget.removeClass( 'open' );
+				wpWidgets.close( widget );
 				e.preventDefault();
 			}
 		});
