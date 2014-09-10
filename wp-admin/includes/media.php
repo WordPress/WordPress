@@ -2860,7 +2860,7 @@ function wp_add_id3_tag_data( &$metadata, $data ) {
 	foreach ( array( 'id3v2', 'id3v1' ) as $version ) {
 		if ( ! empty( $data[$version]['comments'] ) ) {
 			foreach ( $data[$version]['comments'] as $key => $list ) {
-				if ( ! empty( $list ) ) {
+				if ( 'length' !== $key && ! empty( $list ) ) {
 					$metadata[$key] = reset( $list );
 					// Fix bug in byte stream analysis.
 					if ( 'terms_of_use' === $key && 0 === strpos( $metadata[$key], 'yright notice.' ) )
@@ -2922,7 +2922,7 @@ function wp_read_video_metadata( $file ) {
 	if ( ! empty( $data['mime_type'] ) )
 		$metadata['mime_type'] = $data['mime_type'];
 	if ( ! empty( $data['playtime_seconds'] ) )
-		$metadata['length'] = (int) ceil( $data['playtime_seconds'] );
+		$metadata['length'] = (int) round( $data['playtime_seconds'] );
 	if ( ! empty( $data['playtime_string'] ) )
 		$metadata['length_formatted'] = $data['playtime_string'];
 	if ( ! empty( $data['video']['resolution_x'] ) )
@@ -2978,7 +2978,7 @@ function wp_read_audio_metadata( $file ) {
 	if ( ! empty( $data['mime_type'] ) )
 		$metadata['mime_type'] = $data['mime_type'];
 	if ( ! empty( $data['playtime_seconds'] ) )
-		$metadata['length'] = (int) ceil( $data['playtime_seconds'] );
+		$metadata['length'] = (int) round( $data['playtime_seconds'] );
 	if ( ! empty( $data['playtime_string'] ) )
 		$metadata['length_formatted'] = $data['playtime_string'];
 
