@@ -245,9 +245,10 @@ function spawn_cron( $gmt_time = 0 ) {
 	if ( isset($keys[0]) && $keys[0] > $gmt_time )
 		return;
 
-	if ( defined('ALTERNATE_WP_CRON') && ALTERNATE_WP_CRON ) {
-		if ( !empty($_POST) || defined('DOING_AJAX') )
+	if ( defined( 'ALTERNATE_WP_CRON' ) && ALTERNATE_WP_CRON ) {
+		if ( ! empty( $_POST ) || defined( 'DOING_AJAX' ) ||  defined( 'XMLRPC_REQUEST' ) ) {
 			return;
+		}
 
 		$doing_wp_cron = sprintf( '%.22F', $gmt_time );
 		set_transient( 'doing_cron', $doing_wp_cron );
