@@ -911,8 +911,10 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		// Pull the categories info together.
 		$categories = array();
-		foreach ( wp_get_post_categories( $page->ID ) as $cat_id ) {
-			$categories[] = get_cat_name( $cat_id );
+		if ( is_object_in_taxonomy( 'page', 'category' ) ) {
+			foreach ( wp_get_post_categories( $page->ID ) as $cat_id ) {
+				$categories[] = get_cat_name( $cat_id );
+			}
 		}
 
 		// Get the author info.
