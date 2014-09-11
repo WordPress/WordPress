@@ -3,6 +3,7 @@
 /// getID3() by James Heinrich <info@getid3.org>               //
 //  available at http://getid3.sourceforge.net                 //
 //            or http://www.getid3.org                         //
+//          also https://github.com/JamesHeinrich/getID3       //
 /////////////////////////////////////////////////////////////////
 // See readme.txt for more details                             //
 /////////////////////////////////////////////////////////////////
@@ -25,9 +26,9 @@ class getid3_id3v1 extends getid3_handler
 			return false;
 		}
 
-		fseek($this->getid3->fp, -256, SEEK_END);
-		$preid3v1 = fread($this->getid3->fp, 128);
-		$id3v1tag = fread($this->getid3->fp, 128);
+		$this->fseek(-256, SEEK_END);
+		$preid3v1 = $this->fread(128);
+		$id3v1tag = $this->fread(128);
 
 		if (substr($id3v1tag, 0, 3) == 'TAG') {
 

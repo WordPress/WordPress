@@ -3,6 +3,7 @@
 /// getID3() by James Heinrich <info@getid3.org>               //
 //  available at http://getid3.sourceforge.net                 //
 //            or http://www.getid3.org                         //
+//          also https://github.com/JamesHeinrich/getID3       //
 /////////////////////////////////////////////////////////////////
 // See readme.txt for more details                             //
 /////////////////////////////////////////////////////////////////
@@ -26,8 +27,9 @@ getid3_lib::IncludeDependency(GETID3_INCLUDEPATH.'module.audio.mp3.php', __FILE_
 getid3_lib::IncludeDependency(GETID3_INCLUDEPATH.'module.audio.ac3.php', __FILE__, true);
 getid3_lib::IncludeDependency(GETID3_INCLUDEPATH.'module.audio.dts.php', __FILE__, true);
 
-class getid3_riff extends getid3_handler
-{
+class getid3_riff extends getid3_handler {
+
+	protected $container = 'riff'; // default
 
 	public function Analyze() {
 		$info = &$this->getid3->info;
@@ -58,7 +60,8 @@ class getid3_riff extends getid3_handler
 		switch ($RIFFtype) {
 
 			case 'FORM':  // AIFF, AIFC
-				$info['fileformat']   = 'aiff';
+				//$info['fileformat']   = 'aiff';
+				$this->container = 'aiff';
 				$thisfile_riff['header_size'] = $this->EitherEndian2Int($RIFFsize);
 				$thisfile_riff[$RIFFsubtype]  = $this->ParseRIFF($offset, ($offset + $thisfile_riff['header_size'] - 4));
 				break;
@@ -66,13 +69,18 @@ class getid3_riff extends getid3_handler
 			case 'RIFF':  // AVI, WAV, etc
 			case 'SDSS':  // SDSS is identical to RIFF, just renamed. Used by SmartSound QuickTracks (www.smartsound.com)
 			case 'RMP3':  // RMP3 is identical to RIFF, just renamed. Used by [unknown program] when creating RIFF-MP3s
-				$info['fileformat']   = 'riff';
+				//$info['fileformat']   = 'riff';
+				$this->container = 'riff';
 				$thisfile_riff['header_size'] = $this->EitherEndian2Int($RIFFsize);
 				if ($RIFFsubtype == 'RMP3') {
 					// RMP3 is identical to WAVE, just renamed. Used by [unknown program] when creating RIFF-MP3s
 					$RIFFsubtype = 'WAVE';
 				}
-				$thisfile_riff[$RIFFsubtype]  = $this->ParseRIFF($offset, ($offset + $thisfile_riff['header_size'] - 4));
+				if ($RIFFsubtype != 'AMV ') {
+					// AMV files are RIFF-AVI files with parts of the spec deliberately broken, such as chunk size fields hardcoded to zero (because players known in hardware that these fields are always a certain size
+					// Handled separately in ParseRIFFAMV()
+					$thisfile_riff[$RIFFsubtype]  = $this->ParseRIFF($offset, ($offset + $thisfile_riff['header_size'] - 4));
+				}
 				if (($info['avdataend'] - $info['filesize']) == 1) {
 					// LiteWave appears to incorrectly *not* pad actual output file
 					// to nearest WORD boundary so may appear to be short by one
@@ -110,14 +118,17 @@ class getid3_riff extends getid3_handler
 					$nextRIFFoffset = $chunkdata['offset'] + $chunkdata['size'];
 
 					switch ($nextRIFFheaderID) {
-
 						case 'RIFF':
 							$chunkdata['chunks'] = $this->ParseRIFF($chunkdata['offset'] + 4, $nextRIFFoffset);
-
 							if (!isset($thisfile_riff[$nextRIFFtype])) {
 								$thisfile_riff[$nextRIFFtype] = array();
 							}
 							$thisfile_riff[$nextRIFFtype][] = $chunkdata;
+							break;
+
+						case 'AMV ':
+							unset($info['riff']);
+							$info['amv'] = $this->ParseRIFFAMV($chunkdata['offset'] + 4, $nextRIFFoffset);
 							break;
 
 						case 'JUNK':
@@ -152,13 +163,17 @@ class getid3_riff extends getid3_handler
 
 			default:
 				$this->error('Cannot parse RIFF (this is maybe not a RIFF / WAV / AVI file?) - expecting "FORM|RIFF|SDSS|RMP3" found "'.$RIFFsubtype.'" instead');
-				unset($info['fileformat']);
+				//unset($info['fileformat']);
 				return false;
 		}
 
 		$streamindex = 0;
 		switch ($RIFFsubtype) {
+
+			// http://en.wikipedia.org/wiki/Wav
 			case 'WAVE':
+				$info['fileformat'] = 'wav';
+
 				if (empty($thisfile_audio['bitrate_mode'])) {
 					$thisfile_audio['bitrate_mode'] = 'cbr';
 				}
@@ -588,10 +603,13 @@ class getid3_riff extends getid3_handler
 				}
 				break;
 
+			// http://en.wikipedia.org/wiki/Audio_Video_Interleave
 			case 'AVI ':
+				$info['fileformat'] = 'avi';
+				$info['mime_type']  = 'video/avi';
+
 				$thisfile_video['bitrate_mode'] = 'vbr'; // maybe not, but probably
 				$thisfile_video['dataformat']   = 'avi';
-				$info['mime_type']      = 'video/avi';
 
 				if (isset($thisfile_riff[$RIFFsubtype]['movi']['offset'])) {
 					$info['avdataoffset'] = $thisfile_riff[$RIFFsubtype]['movi']['offset'] + 8;
@@ -825,7 +843,7 @@ class getid3_riff extends getid3_handler
 
 											switch ($strhfccType) {
 												case 'vids':
-													$thisfile_riff_raw_strf_strhfccType_streamindex = self::ParseBITMAPINFOHEADER(substr($strfData, 0, 40), ($info['fileformat'] == 'riff'));
+													$thisfile_riff_raw_strf_strhfccType_streamindex = self::ParseBITMAPINFOHEADER(substr($strfData, 0, 40), ($this->container == 'riff'));
 													$thisfile_video['bits_per_sample'] = $thisfile_riff_raw_strf_strhfccType_streamindex['biBitCount'];
 
 													if ($thisfile_riff_video_current['codec'] == 'DV') {
@@ -875,11 +893,28 @@ class getid3_riff extends getid3_handler
 				}
 				break;
 
+
+			case 'AMV ':
+				$info['fileformat'] = 'amv';
+				$info['mime_type']  = 'video/amv';
+
+				$thisfile_video['bitrate_mode']    = 'vbr'; // it's MJPEG, presumably contant-quality encoding, thereby VBR
+				$thisfile_video['dataformat']      = 'mjpeg';
+				$thisfile_video['codec']           = 'mjpeg';
+				$thisfile_video['lossless']        = false;
+				$thisfile_video['bits_per_sample'] = 24;
+
+				$thisfile_audio['dataformat']   = 'adpcm';
+				$thisfile_audio['lossless']     = false;
+				break;
+
+
+			// http://en.wikipedia.org/wiki/CD-DA
 			case 'CDDA':
-				$thisfile_audio['bitrate_mode'] = 'cbr';
+				$info['fileformat'] = 'cda';
+			    unset($info['mime_type']);
+
 				$thisfile_audio_dataformat      = 'cda';
-				$thisfile_audio['lossless']     = true;
-				unset($info['mime_type']);
 
 				$info['avdataoffset'] = 44;
 
@@ -901,6 +936,7 @@ class getid3_riff extends getid3_handler
 					$info['playtime_seconds']                 = $thisfile_riff_CDDA_fmt_0['playtime_seconds'];
 
 					// hardcoded data for CD-audio
+					$thisfile_audio['lossless']        = true;
 					$thisfile_audio['sample_rate']     = 44100;
 					$thisfile_audio['channels']        = 2;
 					$thisfile_audio['bits_per_sample'] = 16;
@@ -909,13 +945,15 @@ class getid3_riff extends getid3_handler
 				}
 				break;
 
-
+            // http://en.wikipedia.org/wiki/AIFF
 			case 'AIFF':
 			case 'AIFC':
+				$info['fileformat'] = 'aiff';
+				$info['mime_type']  = 'audio/x-aiff';
+
 				$thisfile_audio['bitrate_mode'] = 'cbr';
 				$thisfile_audio_dataformat      = 'aiff';
 				$thisfile_audio['lossless']     = true;
-				$info['mime_type']      = 'audio/x-aiff';
 
 				if (isset($thisfile_riff[$RIFFsubtype]['SSND'][0]['offset'])) {
 					$info['avdataoffset'] = $thisfile_riff[$RIFFsubtype]['SSND'][0]['offset'] + 8;
@@ -1028,12 +1066,15 @@ class getid3_riff extends getid3_handler
 */
 				break;
 
+			// http://en.wikipedia.org/wiki/8SVX
 			case '8SVX':
+				$info['fileformat'] = '8svx';
+				$info['mime_type']  = 'audio/8svx';
+
 				$thisfile_audio['bitrate_mode']    = 'cbr';
 				$thisfile_audio_dataformat         = '8svx';
 				$thisfile_audio['bits_per_sample'] = 8;
 				$thisfile_audio['channels']        = 1; // overridden below, if need be
-				$info['mime_type']                = 'audio/x-aiff';
 
 				if (isset($thisfile_riff[$RIFFsubtype]['BODY'][0]['offset'])) {
 					$info['avdataoffset'] = $thisfile_riff[$RIFFsubtype]['BODY'][0]['offset'] + 8;
@@ -1108,31 +1149,31 @@ class getid3_riff extends getid3_handler
 				}
 				break;
 
-
 			case 'CDXA':
-				$info['mime_type'] = 'video/mpeg';
+				$info['fileformat'] = 'vcd'; // Asume Video CD
+				$info['mime_type']  = 'video/mpeg';
+
 				if (!empty($thisfile_riff['CDXA']['data'][0]['size'])) {
-					if (getid3_lib::IncludeDependency(GETID3_INCLUDEPATH.'module.audio-video.mpeg.php', __FILE__, false)) {
-						$getid3_temp = new getID3();
-						$getid3_temp->openfile($this->getid3->filename);
-						$getid3_mpeg = new getid3_mpeg($getid3_temp);
-						$getid3_mpeg->Analyze();
-						if (empty($getid3_temp->info['error'])) {
-							$info['audio']   = $getid3_temp->info['audio'];
-							$info['video']   = $getid3_temp->info['video'];
-							$info['mpeg']    = $getid3_temp->info['mpeg'];
-							$info['warning'] = $getid3_temp->info['warning'];
-						}
-						unset($getid3_temp, $getid3_mpeg);
+					getid3_lib::IncludeDependency(GETID3_INCLUDEPATH.'module.audio-video.mpeg.php', __FILE__, true);
+
+					$getid3_temp = new getID3();
+					$getid3_temp->openfile($this->getid3->filename);
+					$getid3_mpeg = new getid3_mpeg($getid3_temp);
+					$getid3_mpeg->Analyze();
+					if (empty($getid3_temp->info['error'])) {
+						$info['audio']   = $getid3_temp->info['audio'];
+						$info['video']   = $getid3_temp->info['video'];
+						$info['mpeg']    = $getid3_temp->info['mpeg'];
+						$info['warning'] = $getid3_temp->info['warning'];
 					}
+					unset($getid3_temp, $getid3_mpeg);
 				}
 				break;
 
 
 			default:
 				$info['error'][] = 'Unknown RIFF type: expecting one of (WAVE|RMP3|AVI |CDDA|AIFF|AIFC|8SVX|CDXA), found "'.$RIFFsubtype.'" instead';
-				unset($info['fileformat']);
-				break;
+				//unset($info['fileformat']);
 		}
 
 		switch ($RIFFsubtype) {
@@ -1150,6 +1191,7 @@ class getid3_riff extends getid3_handler
 
 				if (isset($thisfile_riff[$RIFFsubtype]['id3 '])) {
 					getid3_lib::IncludeDependency(GETID3_INCLUDEPATH.'module.tag.id3v2.php', __FILE__, true);
+
 					$getid3_temp = new getID3();
 					$getid3_temp->openfile($this->getid3->filename);
 					$getid3_id3v2 = new getid3_id3v2($getid3_temp);
@@ -1278,6 +1320,115 @@ class getid3_riff extends getid3_handler
 		return true;
 	}
 
+	public function ParseRIFFAMV($startoffset, $maxoffset) {
+		// AMV files are RIFF-AVI files with parts of the spec deliberately broken, such as chunk size fields hardcoded to zero (because players known in hardware that these fields are always a certain size
+
+		// https://code.google.com/p/amv-codec-tools/wiki/AmvDocumentation
+		//typedef struct _amvmainheader {
+		//FOURCC fcc; // 'amvh'
+		//DWORD cb;
+		//DWORD dwMicroSecPerFrame;
+		//BYTE reserve[28];
+		//DWORD dwWidth;
+		//DWORD dwHeight;
+		//DWORD dwSpeed;
+		//DWORD reserve0;
+		//DWORD reserve1;
+		//BYTE bTimeSec;
+		//BYTE bTimeMin;
+		//WORD wTimeHour;
+		//} AMVMAINHEADER;
+
+		$info = &$this->getid3->info;
+		$RIFFchunk = false;
+
+		try {
+
+			$this->fseek($startoffset);
+			$maxoffset = min($maxoffset, $info['avdataend']);
+			$AMVheader = $this->fread(284);
+			if (substr($AMVheader,   0,  8) != 'hdrlamvh') {
+				throw new Exception('expecting "hdrlamv" at offset '.($startoffset +   0).', found "'.substr($AMVheader,   0, 8).'"');
+			}
+			if (substr($AMVheader,   8,  4) != "\x38\x00\x00\x00") { // "amvh" chunk size, hardcoded to 0x38 = 56 bytes
+				throw new Exception('expecting "0x38000000" at offset '.($startoffset +   8).', found "'.getid3_lib::PrintHexBytes(substr($AMVheader,   8, 4)).'"');
+			}
+			$RIFFchunk = array();
+			$RIFFchunk['amvh']['us_per_frame']   = getid3_lib::LittleEndian2Int(substr($AMVheader,  12,  4));
+			$RIFFchunk['amvh']['reserved28']     =                              substr($AMVheader,  16, 28);  // null? reserved?
+			$RIFFchunk['amvh']['resolution_x']   = getid3_lib::LittleEndian2Int(substr($AMVheader,  44,  4));
+			$RIFFchunk['amvh']['resolution_y']   = getid3_lib::LittleEndian2Int(substr($AMVheader,  48,  4));
+			$RIFFchunk['amvh']['frame_rate_int'] = getid3_lib::LittleEndian2Int(substr($AMVheader,  52,  4));
+			$RIFFchunk['amvh']['reserved0']      = getid3_lib::LittleEndian2Int(substr($AMVheader,  56,  4)); // 1? reserved?
+			$RIFFchunk['amvh']['reserved1']      = getid3_lib::LittleEndian2Int(substr($AMVheader,  60,  4)); // 0? reserved?
+			$RIFFchunk['amvh']['runtime_sec']    = getid3_lib::LittleEndian2Int(substr($AMVheader,  64,  1));
+			$RIFFchunk['amvh']['runtime_min']    = getid3_lib::LittleEndian2Int(substr($AMVheader,  65,  1));
+			$RIFFchunk['amvh']['runtime_hrs']    = getid3_lib::LittleEndian2Int(substr($AMVheader,  66,  2));
+
+			$info['video']['frame_rate']   = 1000000 / $RIFFchunk['amvh']['us_per_frame'];
+			$info['video']['resolution_x'] = $RIFFchunk['amvh']['resolution_x'];
+			$info['video']['resolution_y'] = $RIFFchunk['amvh']['resolution_y'];
+			$info['playtime_seconds']      = ($RIFFchunk['amvh']['runtime_hrs'] * 3600) + ($RIFFchunk['amvh']['runtime_min'] * 60) + $RIFFchunk['amvh']['runtime_sec'];
+
+			// the rest is all hardcoded(?) and does not appear to be useful until you get to audio info at offset 256, even then everything is probably hardcoded
+
+			if (substr($AMVheader,  68, 20) != 'LIST'."\x00\x00\x00\x00".'strlstrh'."\x38\x00\x00\x00") {
+				throw new Exception('expecting "LIST<0x00000000>strlstrh<0x38000000>" at offset '.($startoffset +  68).', found "'.getid3_lib::PrintHexBytes(substr($AMVheader,  68, 20)).'"');
+			}
+			// followed by 56 bytes of null: substr($AMVheader,  88, 56) -> 144
+			if (substr($AMVheader, 144,  8) != 'strf'."\x24\x00\x00\x00") {
+				throw new Exception('expecting "strf<0x24000000>" at offset '.($startoffset + 144).', found "'.getid3_lib::PrintHexBytes(substr($AMVheader, 144,  8)).'"');
+			}
+			// followed by 36 bytes of null: substr($AMVheader, 144, 36) -> 180
+
+			if (substr($AMVheader, 188, 20) != 'LIST'."\x00\x00\x00\x00".'strlstrh'."\x30\x00\x00\x00") {
+				throw new Exception('expecting "LIST<0x00000000>strlstrh<0x30000000>" at offset '.($startoffset + 188).', found "'.getid3_lib::PrintHexBytes(substr($AMVheader, 188, 20)).'"');
+			}
+			// followed by 48 bytes of null: substr($AMVheader, 208, 48) -> 256
+			if (substr($AMVheader, 256,  8) != 'strf'."\x14\x00\x00\x00") {
+				throw new Exception('expecting "strf<0x14000000>" at offset '.($startoffset + 256).', found "'.getid3_lib::PrintHexBytes(substr($AMVheader, 256,  8)).'"');
+			}
+			// followed by 20 bytes of a modified WAVEFORMATEX:
+			// typedef struct {
+			// WORD wFormatTag;       //(Fixme: this is equal to PCM's 0x01 format code)
+			// WORD nChannels;        //(Fixme: this is always 1)
+			// DWORD nSamplesPerSec;  //(Fixme: for all known sample files this is equal to 22050)
+			// DWORD nAvgBytesPerSec; //(Fixme: for all known sample files this is equal to 44100)
+			// WORD nBlockAlign;      //(Fixme: this seems to be 2 in AMV files, is this correct ?)
+			// WORD wBitsPerSample;   //(Fixme: this seems to be 16 in AMV files instead of the expected 4)
+			// WORD cbSize;           //(Fixme: this seems to be 0 in AMV files)
+			// WORD reserved;
+			// } WAVEFORMATEX;
+			$RIFFchunk['strf']['wformattag']      = getid3_lib::LittleEndian2Int(substr($AMVheader,  264,  2));
+			$RIFFchunk['strf']['nchannels']       = getid3_lib::LittleEndian2Int(substr($AMVheader,  266,  2));
+			$RIFFchunk['strf']['nsamplespersec']  = getid3_lib::LittleEndian2Int(substr($AMVheader,  268,  4));
+			$RIFFchunk['strf']['navgbytespersec'] = getid3_lib::LittleEndian2Int(substr($AMVheader,  272,  4));
+			$RIFFchunk['strf']['nblockalign']     = getid3_lib::LittleEndian2Int(substr($AMVheader,  276,  2));
+			$RIFFchunk['strf']['wbitspersample']  = getid3_lib::LittleEndian2Int(substr($AMVheader,  278,  2));
+			$RIFFchunk['strf']['cbsize']          = getid3_lib::LittleEndian2Int(substr($AMVheader,  280,  2));
+			$RIFFchunk['strf']['reserved']        = getid3_lib::LittleEndian2Int(substr($AMVheader,  282,  2));
+
+
+			$info['audio']['lossless']        = false;
+			$info['audio']['sample_rate']     = $RIFFchunk['strf']['nsamplespersec'];
+			$info['audio']['channels']        = $RIFFchunk['strf']['nchannels'];
+			$info['audio']['bits_per_sample'] = $RIFFchunk['strf']['wbitspersample'];
+			$info['audio']['bitrate']         = $info['audio']['sample_rate'] * $info['audio']['channels'] * $info['audio']['bits_per_sample'];
+			$info['audio']['bitrate_mode']    = 'cbr';
+
+
+		} catch (getid3_exception $e) {
+			if ($e->getCode() == 10) {
+				$this->warning('RIFFAMV parser: '.$e->getMessage());
+			} else {
+				throw $e;
+			}
+		}
+
+		return $RIFFchunk;
+	}
+
+
 	public function ParseRIFF($startoffset, $maxoffset) {
 		$info = &$this->getid3->info;
 
@@ -1329,7 +1480,7 @@ class getid3_riff extends getid3_handler
 											$getid3_temp->openfile($this->getid3->filename);
 											$getid3_temp->info['avdataoffset'] = $this->ftell() - 4;
 											$getid3_temp->info['avdataend']    = $this->ftell() + $AudioChunkSize;
-											$getid3_mp3 = new getid3_mp3($getid3_temp);
+											$getid3_mp3 = new getid3_mp3($getid3_temp, __CLASS__);
 											$getid3_mp3->getOnlyMPEGaudioInfo($getid3_temp->info['avdataoffset'], false);
 											if (isset($getid3_temp->info['mpeg']['audio'])) {
 												$info['mpeg']['audio']         = $getid3_temp->info['mpeg']['audio'];
@@ -1412,7 +1563,7 @@ class getid3_riff extends getid3_handler
 										$getid3_temp->openfile($this->getid3->filename);
 										$getid3_temp->info['avdataoffset'] = $info['avdataoffset'];
 										$getid3_temp->info['avdataend']    = $info['avdataend'];
-										$getid3_mp3 = new getid3_mp3($getid3_temp);
+										$getid3_mp3 = new getid3_mp3($getid3_temp, __CLASS__);
 										$getid3_mp3->getOnlyMPEGaudioInfo($info['avdataoffset'], false);
 										if (empty($getid3_temp->info['error'])) {
 											$info['audio'] = $getid3_temp->info['audio'];
@@ -2426,7 +2577,7 @@ class getid3_riff extends getid3_handler
 	}
 
 	private function EitherEndian2Int($byteword, $signed=false) {
-		if ($this->getid3->info['fileformat'] == 'riff') {
+		if ($this->container == 'riff') {
 			return getid3_lib::LittleEndian2Int($byteword, $signed);
 		}
 		return getid3_lib::BigEndian2Int($byteword, false, $signed);

@@ -3,6 +3,7 @@
 /// getID3() by James Heinrich <info@getid3.org>               //
 //  available at http://getid3.sourceforge.net                 //
 //            or http://www.getid3.org                         //
+//          also https://github.com/JamesHeinrich/getID3       //
 /////////////////////////////////////////////////////////////////
 // See readme.txt for more details                             //
 /////////////////////////////////////////////////////////////////
@@ -27,8 +28,8 @@ class getid3_lyrics3 extends getid3_handler
 			return false;
 		}
 
-		fseek($this->getid3->fp, (0 - 128 - 9 - 6), SEEK_END);          // end - ID3v1 - "LYRICSEND" - [Lyrics3size]
-		$lyrics3_id3v1 = fread($this->getid3->fp, 128 + 9 + 6);
+		$this->fseek((0 - 128 - 9 - 6), SEEK_END);          // end - ID3v1 - "LYRICSEND" - [Lyrics3size]
+		$lyrics3_id3v1 = $this->fread(128 + 9 + 6);
 		$lyrics3lsz    = substr($lyrics3_id3v1,  0,   6); // Lyrics3size
 		$lyrics3end    = substr($lyrics3_id3v1,  6,   9); // LYRICSEND or LYRICS200
 		$id3v1tag      = substr($lyrics3_id3v1, 15, 128); // ID3v1
@@ -68,9 +69,9 @@ class getid3_lyrics3 extends getid3_handler
 
 			if (isset($info['ape']['tag_offset_start']) && ($info['ape']['tag_offset_start'] > 15)) {
 
-				fseek($this->getid3->fp, $info['ape']['tag_offset_start'] - 15, SEEK_SET);
-				$lyrics3lsz = fread($this->getid3->fp, 6);
-				$lyrics3end = fread($this->getid3->fp, 9);
+				$this->fseek($info['ape']['tag_offset_start'] - 15);
+				$lyrics3lsz = $this->fread(6);
+				$lyrics3end = $this->fread(9);
 
 				if ($lyrics3end == 'LYRICSEND') {
 					// Lyrics3v1, APE, maybe ID3v1
@@ -101,20 +102,19 @@ class getid3_lyrics3 extends getid3_handler
 
 			if (!isset($info['ape'])) {
 				$GETID3_ERRORARRAY = &$info['warning'];
-				if (getid3_lib::IncludeDependency(GETID3_INCLUDEPATH.'module.tag.apetag.php', __FILE__, false)) {
-					$getid3_temp = new getID3();
-					$getid3_temp->openfile($this->getid3->filename);
-					$getid3_apetag = new getid3_apetag($getid3_temp);
-					$getid3_apetag->overrideendoffset = $info['lyrics3']['tag_offset_start'];
-					$getid3_apetag->Analyze();
-					if (!empty($getid3_temp->info['ape'])) {
-						$info['ape'] = $getid3_temp->info['ape'];
-					}
-					if (!empty($getid3_temp->info['replay_gain'])) {
-						$info['replay_gain'] = $getid3_temp->info['replay_gain'];
-					}
-					unset($getid3_temp, $getid3_apetag);
+				getid3_lib::IncludeDependency(GETID3_INCLUDEPATH.'module.tag.apetag.php', __FILE__, true);
+				$getid3_temp = new getID3();
+				$getid3_temp->openfile($this->getid3->filename);
+				$getid3_apetag = new getid3_apetag($getid3_temp);
+				$getid3_apetag->overrideendoffset = $info['lyrics3']['tag_offset_start'];
+				$getid3_apetag->Analyze();
+				if (!empty($getid3_temp->info['ape'])) {
+					$info['ape'] = $getid3_temp->info['ape'];
 				}
+				if (!empty($getid3_temp->info['replay_gain'])) {
+					$info['replay_gain'] = $getid3_temp->info['replay_gain'];
+				}
+				unset($getid3_temp, $getid3_apetag);
 			}
 
 		}
@@ -132,11 +132,11 @@ class getid3_lyrics3 extends getid3_handler
 			return false;
 		}
 
-		fseek($this->getid3->fp, $endoffset, SEEK_SET);
+		$this->fseek($endoffset);
 		if ($length <= 0) {
 			return false;
 		}
-		$rawdata = fread($this->getid3->fp, $length);
+		$rawdata = $this->fread($length);
 
 		$ParsedLyrics3['raw']['lyrics3version'] = $version;
 		$ParsedLyrics3['raw']['lyrics3tagsize'] = $length;
@@ -169,7 +169,7 @@ class getid3_lyrics3 extends getid3_handler
 					$ParsedLyrics3['raw']['LYR'] = trim(substr($rawdata, 11, strlen($rawdata) - 11 - 9));
 					$this->Lyrics3LyricsTimestampParse($ParsedLyrics3);
 				} else {
-					$info['error'][] = '"LYRICSEND" expected at '.(ftell($this->getid3->fp) - 11 + $length - 9).' but found "'.substr($rawdata, strlen($rawdata) - 9, 9).'" instead';
+					$info['error'][] = '"LYRICSEND" expected at '.($this->ftell() - 11 + $length - 9).' but found "'.substr($rawdata, strlen($rawdata) - 9, 9).'" instead';
 					return false;
 				}
 				break;
@@ -217,7 +217,7 @@ class getid3_lyrics3 extends getid3_handler
 						$this->Lyrics3LyricsTimestampParse($ParsedLyrics3);
 					}
 				} else {
-					$info['error'][] = '"LYRICS200" expected at '.(ftell($this->getid3->fp) - 11 + $length - 9).' but found "'.substr($rawdata, strlen($rawdata) - 9, 9).'" instead';
+					$info['error'][] = '"LYRICS200" expected at '.($this->ftell() - 11 + $length - 9).' but found "'.substr($rawdata, strlen($rawdata) - 9, 9).'" instead';
 					return false;
 				}
 				break;

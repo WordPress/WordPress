@@ -3,6 +3,7 @@
 /// getID3() by James Heinrich <info@getid3.org>               //
 //  available at http://getid3.sourceforge.net                 //
 //            or http://www.getid3.org                         //
+//          also https://github.com/JamesHeinrich/getID3       //
 /////////////////////////////////////////////////////////////////
 // See readme.txt for more details                             //
 /////////////////////////////////////////////////////////////////
@@ -32,8 +33,8 @@ class getid3_apetag extends getid3_handler
 
 		if ($this->overrideendoffset == 0) {
 
-			fseek($this->getid3->fp, 0 - $id3v1tagsize - $apetagheadersize - $lyrics3tagsize, SEEK_END);
-			$APEfooterID3v1 = fread($this->getid3->fp, $id3v1tagsize + $apetagheadersize + $lyrics3tagsize);
+			$this->fseek(0 - $id3v1tagsize - $apetagheadersize - $lyrics3tagsize, SEEK_END);
+			$APEfooterID3v1 = $this->fread($id3v1tagsize + $apetagheadersize + $lyrics3tagsize);
 
 			//if (preg_match('/APETAGEX.{24}TAG.{125}$/i', $APEfooterID3v1)) {
 			if (substr($APEfooterID3v1, strlen($APEfooterID3v1) - $id3v1tagsize - $apetagheadersize, 8) == 'APETAGEX') {
@@ -51,8 +52,8 @@ class getid3_apetag extends getid3_handler
 
 		} else {
 
-			fseek($this->getid3->fp, $this->overrideendoffset - $apetagheadersize, SEEK_SET);
-			if (fread($this->getid3->fp, 8) == 'APETAGEX') {
+			$this->fseek($this->overrideendoffset - $apetagheadersize);
+			if ($this->fread(8) == 'APETAGEX') {
 				$info['ape']['tag_offset_end'] = $this->overrideendoffset;
 			}
 
@@ -68,21 +69,21 @@ class getid3_apetag extends getid3_handler
 		// shortcut
 		$thisfile_ape = &$info['ape'];
 
-		fseek($this->getid3->fp, $thisfile_ape['tag_offset_end'] - $apetagheadersize, SEEK_SET);
-		$APEfooterData = fread($this->getid3->fp, 32);
+		$this->fseek($thisfile_ape['tag_offset_end'] - $apetagheadersize);
+		$APEfooterData = $this->fread(32);
 		if (!($thisfile_ape['footer'] = $this->parseAPEheaderFooter($APEfooterData))) {
 			$info['error'][] = 'Error parsing APE footer at offset '.$thisfile_ape['tag_offset_end'];
 			return false;
 		}
 
 		if (isset($thisfile_ape['footer']['flags']['header']) && $thisfile_ape['footer']['flags']['header']) {
-			fseek($this->getid3->fp, $thisfile_ape['tag_offset_end'] - $thisfile_ape['footer']['raw']['tagsize'] - $apetagheadersize, SEEK_SET);
-			$thisfile_ape['tag_offset_start'] = ftell($this->getid3->fp);
-			$APEtagData = fread($this->getid3->fp, $thisfile_ape['footer']['raw']['tagsize'] + $apetagheadersize);
+			$this->fseek($thisfile_ape['tag_offset_end'] - $thisfile_ape['footer']['raw']['tagsize'] - $apetagheadersize);
+			$thisfile_ape['tag_offset_start'] = $this->ftell();
+			$APEtagData = $this->fread($thisfile_ape['footer']['raw']['tagsize'] + $apetagheadersize);
 		} else {
 			$thisfile_ape['tag_offset_start'] = $thisfile_ape['tag_offset_end'] - $thisfile_ape['footer']['raw']['tagsize'];
-			fseek($this->getid3->fp, $thisfile_ape['tag_offset_start'], SEEK_SET);
-			$APEtagData = fread($this->getid3->fp, $thisfile_ape['footer']['raw']['tagsize']);
+			$this->fseek($thisfile_ape['tag_offset_start']);
+			$APEtagData = $this->fread($thisfile_ape['footer']['raw']['tagsize']);
 		}
 		$info['avdataend'] = $thisfile_ape['tag_offset_start'];
 
