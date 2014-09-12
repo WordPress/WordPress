@@ -807,7 +807,7 @@ function _thickbox_path_admin_subfolder() {
 ?>
 <script type="text/javascript">
 //<![CDATA[
-var tb_pathToImage = "../../wp-includes/js/thickbox/loadingAnimation.gif";
+var tb_pathToImage = "<?php echo includes_url( 'js/thickbox/loadingAnimation.gif', 'relative' ); ?>";
 //]]>
 </script>
 <?php
