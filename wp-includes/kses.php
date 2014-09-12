@@ -119,6 +119,14 @@ if ( ! CUSTOM_TAGS ) {
 			'valign' => true,
 			'width' => true,
 		),
+                'colgroup' => array(
+			'align' => true,
+			'char' => true,
+			'charoff' => true,
+			'span' => true,
+			'valign' => true,
+			'width' => true,
+		),
 		'del' => array(
 			'datetime' => true,
 		),
