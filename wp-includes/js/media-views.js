@@ -96,6 +96,8 @@
 		/**
 		 * Activate a mode.
 		 *
+		 * @since 3.5.0
+		 *
 		 * @param {string} mode
 		 *
 		 * @fires this.view#{this.id}:activate:{this._mode}
@@ -136,6 +138,8 @@
 		},
 		/**
 		 * Render a mode.
+		 *
+		 * @since 3.5.0
 		 *
 		 * @param {string} mode
 		 *
@@ -184,6 +188,8 @@
 		/**
 		 * Get the region's view.
 		 *
+		 * @since 3.5.0
+		 *
 		 * @returns {wp.media.View}
 		 */
 		get: function() {
@@ -192,6 +198,8 @@
 
 		/**
 		 * Set the region's view as a subview of the frame.
+		 *
+		 * @since 3.5.0
 		 *
 		 * @param {Array|Object} views
 		 * @param {Object} [options={}]
@@ -206,6 +214,8 @@
 
 		/**
 		 * Trigger regional view events on the frame.
+		 *
+		 * @since 3.5.0
 		 *
 		 * @param {string} event
 		 * @returns {undefined|wp.media.controller.Region} Returns itself to allow chaining.
@@ -234,6 +244,8 @@
 	/**
 	 * wp.media.controller.StateMachine
 	 *
+	 * @since 3.5.0
+	 *
 	 * @constructor
 	 * @augments Backbone.Model
 	 * @mixin
@@ -259,6 +271,8 @@
 		 * Ensure that the `states` collection exists so the `StateMachine`
 		 *   can be used as a mixin.
 		 *
+		 * @since 3.5.0
+		 *
 		 * @param {string} id
 		 * @returns {wp.media.controller.State} Returns a State model
 		 *   from the StateMachine collection
@@ -281,6 +295,8 @@
 		 * Bail if we're trying to select the current state, if we haven't
 		 * created the `states` collection, or are trying to select a state
 		 * that does not exist.
+		 *
+		 * @since 3.5.0
 		 *
 		 * @param {string} id
 		 *
@@ -312,6 +328,8 @@
 		 *
 		 * Call the `state()` method with no parameters to retrieve the current
 		 * active state.
+		 *
+		 * @since 3.5.0
 		 *
 		 * @returns {wp.media.controller.State} Returns a State model
 		 *    from the StateMachine collection
@@ -349,6 +367,11 @@
 	 * @augments Backbone.Model
 	 */
 	media.controller.State = Backbone.Model.extend({
+		/**
+		 * Constructor.
+		 *
+		 * @since 3.5.0
+		 */
 		constructor: function() {
 			this.on( 'activate', this._preActivate, this );
 			this.on( 'activate', this.activate, this );
@@ -366,34 +389,47 @@
 		},
 		/**
 		 * @abstract
+		 * @since 3.5.0
 		 */
 		ready: function() {},
+
 		/**
 		 * @abstract
+		 * @since 3.5.0
 		 */
 		activate: function() {},
+
 		/**
 		 * @abstract
+		 * @since 3.5.0
 		 */
 		deactivate: function() {},
+
 		/**
 		 * @abstract
+		 * @since 3.5.0
 		 */
 		reset: function() {},
+
 		/**
 		 * @access private
+		 * @since 4.0.0
 		 */
 		_ready: function() {
 			this._updateMenu();
 		},
+
 		/**
 		 * @access private
+		 * @since 3.5.0
 		*/
 		_preActivate: function() {
 			this.active = true;
 		},
+
 		/**
 		 * @access private
+		 * @since 3.5.0
 		 */
 		_postActivate: function() {
 			this.on( 'change:menu', this._menu, this );
@@ -409,8 +445,10 @@
 			this._content();
 			this._router();
 		},
+
 		/**
 		 * @access private
+		 * @since 3.5.0
 		 */
 		_deactivate: function() {
 			this.active = false;
@@ -422,20 +460,26 @@
 			this.off( 'change:content', this._content, this );
 			this.off( 'change:toolbar', this._toolbar, this );
 		},
+
 		/**
 		 * @access private
+		 * @since 3.5.0
 		 */
 		_title: function() {
 			this.frame.title.render( this.get('titleMode') || 'default' );
 		},
+
 		/**
 		 * @access private
+		 * @since 3.5.0
 		 */
 		_renderTitle: function( view ) {
 			view.$el.text( this.get('title') || '' );
 		},
+
 		/**
 		 * @access private
+		 * @since 3.5.0
 		 */
 		_router: function() {
 			var router = this.frame.router,
@@ -454,8 +498,10 @@
 				view.select( this.frame.content.mode() );
 			}
 		},
+
 		/**
 		 * @access private
+		 * @since 3.5.0
 		 */
 		_menu: function() {
 			var menu = this.frame.menu,
@@ -474,8 +520,10 @@
 				view.select( this.id );
 			}
 		},
+
 		/**
 		 * @access private
+		 * @since 3.5.0
 		 */
 		_updateMenu: function() {
 			var previous = this.previous('menu'),
@@ -489,8 +537,10 @@
 				this.frame.on( 'menu:render:' + menu, this._renderMenu, this );
 			}
 		},
+
 		/**
 		 * @access private
+		 * @since 3.5.0
 		 */
 		_renderMenu: function( view ) {
 			var menuItem = this.get('menuItem'),
@@ -526,6 +576,9 @@
 	});
 
 	media.selectionSync = {
+		/**
+		 * @since 3.5.0
+		 */
 		syncSelection: function() {
 			var selection = this.get('selection'),
 				manager = this.frame._selection;
@@ -553,6 +606,8 @@
 		 * of the selection's attachments and the set of selected
 		 * attachments that this specific selection considered invalid.
 		 * Reset the difference and record the single attachment.
+		 *
+		 * @since 3.5.0
 		 */
 		recordSelection: function() {
 			var selection = this.get('selection'),
@@ -607,6 +662,8 @@
 		/**
 		 * If a library isn't provided, query all media items.
 		 * If a selection instance isn't provided, create one.
+		 *
+		 * @since 3.5.0
 		 */
 		initialize: function() {
 			var selection = this.get('selection'),
@@ -637,6 +694,9 @@
 			this.resetDisplays();
 		},
 
+		/**
+		 * @since 3.5.0
+		 */
 		activate: function() {
 			this.syncSelection();
 
@@ -650,6 +710,9 @@
 			}
 		},
 
+		/**
+		 * @since 3.5.0
+		 */
 		deactivate: function() {
 			this.recordSelection();
 
@@ -662,12 +725,18 @@
 			wp.Uploader.queue.off( null, null, this );
 		},
 
+		/**
+		 * @since 3.5.0
+		 */
 		reset: function() {
 			this.get('selection').reset();
 			this.resetDisplays();
 			this.refreshContent();
 		},
 
+		/**
+		 * @since 3.5.0
+		 */
 		resetDisplays: function() {
 			var defaultProps = media.view.settings.defaultProps;
 			this._displays = [];
@@ -679,6 +748,8 @@
 		},
 
 		/**
+		 * @since 3.5.0
+		 *
 		 * @param {wp.media.model.Attachment} attachment
 		 * @returns {Backbone.Model}
 		 */
@@ -692,6 +763,8 @@
 		},
 
 		/**
+		 * @since 3.6.0
+		 *
 		 * @param {wp.media.model.Attachment} attachment
 		 * @returns {Object}
 		 */
@@ -704,6 +777,8 @@
 		},
 
 		/**
+		 * @since 3.6.0
+		 *
 		 * @param {wp.media.model.Attachment} attachment
 		 * @returns {Boolean}
 		 */
@@ -724,6 +799,8 @@
 		 * If the state is active, no items are selected, and the current
 		 * content mode is not an option in the state's router (provided
 		 * the state has a router), reset the content mode to the default.
+		 *
+		 * @since 3.5.0
 		 */
 		refreshContent: function() {
 			var selection = this.get('selection'),
@@ -745,6 +822,8 @@
 		 * limit themselves to one attachment (in this case, the last
 		 * attachment in the upload queue).
 		 *
+		 * @since 3.5.0
+		 *
 		 * @param {wp.media.model.Attachment} attachment
 		 */
 		uploading: function( attachment ) {
@@ -762,6 +841,8 @@
 
 		/**
 		 * Only track the browse router on library states.
+		 *
+		 * @since 3.5.0
 		 */
 		saveContentMode: function() {
 			if ( 'browse' !== this.get('router') ) {
@@ -800,11 +881,19 @@
 			priority: 60
 		}, media.controller.Library.prototype.defaults ),
 
+		/**
+		 * @since 3.9.0
+		 *
+		 * @param options Attributes
+		 */
 		initialize: function( options ) {
 			this.image = options.image;
 			media.controller.State.prototype.initialize.apply( this, arguments );
 		},
 
+		/**
+		 * @since 3.9.0
+		 */
 		activate: function() {
 			this.frame.modal.$el.addClass('image-details');
 		}
@@ -844,6 +933,9 @@
 			syncSelection: false
 		},
 
+		/**
+		 * @since 3.9.0
+		 */
 		initialize: function() {
 			// If we haven't been provided a `library`, create a `Selection`.
 			if ( ! this.get('library') )
@@ -855,6 +947,9 @@
 			media.controller.Library.prototype.initialize.apply( this, arguments );
 		},
 
+		/**
+		 * since 3.9.0
+		 */
 		activate: function() {
 			var library = this.get('library');
 
@@ -869,6 +964,9 @@
 			media.controller.Library.prototype.activate.apply( this, arguments );
 		},
 
+		/**
+		 * @since 3.9.0
+		 */
 		deactivate: function() {
 			// Stop watching for uploaded attachments.
 			this.get('library').unobserve( wp.Uploader.queue );
@@ -878,6 +976,11 @@
 			media.controller.Library.prototype.deactivate.apply( this, arguments );
 		},
 
+		/**
+		 * @since 3.9.0
+		 *
+		 * @param browser
+		 */
 		gallerySettings: function( browser ) {
 			if ( ! this.get('displaySettings') ) {
 				return;
@@ -936,6 +1039,9 @@
 			syncSelection: false
 		}, media.controller.Library.prototype.defaults ),
 
+		/**
+		 * @since 3.9.0
+		 */
 		initialize: function() {
 			// If we haven't been provided a `library`, create a `Selection`.
 			if ( ! this.get('library') )
@@ -944,6 +1050,9 @@
 			media.controller.Library.prototype.initialize.apply( this, arguments );
 		},
 
+		/**
+		 * @since 3.9.0
+		 */
 		activate: function() {
 			var library = this.get('library'),
 				edit    = this.frame.state('gallery-edit').get('library');
@@ -998,6 +1107,9 @@
 			syncSelection: false
 		},
 
+		/**
+		 * @since 3.9.0
+		 */
 		initialize: function() {
 			var collectionType = this.get('collectionType');
 
@@ -1019,6 +1131,9 @@
 			media.controller.Library.prototype.initialize.apply( this, arguments );
 		},
 
+		/**
+		 * @since 3.9.0
+		 */
 		activate: function() {
 			var library = this.get('library');
 
@@ -1033,6 +1148,9 @@
 			media.controller.Library.prototype.activate.apply( this, arguments );
 		},
 
+		/**
+		 * @since 3.9.0
+		 */
 		deactivate: function() {
 			// Stop watching for uploaded attachments.
 			this.get('library').unobserve( wp.Uploader.queue );
@@ -1042,6 +1160,11 @@
 			media.controller.Library.prototype.deactivate.apply( this, arguments );
 		},
 
+		/**
+		 * @since 3.9.0
+		 *
+		 * @param browser
+		 */
 		renderSettings: function( browser ) {
 			var library = this.get('library'),
 				collectionType = this.get('collectionType'),
@@ -1100,6 +1223,9 @@
 			syncSelection: false
 		}, media.controller.Library.prototype.defaults ),
 
+		/**
+		 * @since 3.9.0
+		 */
 		initialize: function() {
 			var collectionType = this.get('collectionType');
 
@@ -1118,6 +1244,9 @@
 			media.controller.Library.prototype.initialize.apply( this, arguments );
 		},
 
+		/**
+		 * @since 3.9.0
+		 */
 		activate: function() {
 			var library = this.get('library'),
 				editLibrary = this.get('editLibrary'),
@@ -1167,6 +1296,9 @@
 			syncSelection: true
 		}, media.controller.Library.prototype.defaults ),
 
+		/**
+		 * @since 3.5.0
+		 */
 		initialize: function() {
 			var library, comparator;
 
@@ -1200,6 +1332,9 @@
 			library.observe( this.get('selection') );
 		},
 
+		/**
+		 * @since 3.5.0
+		 */
 		activate: function() {
 			this.updateSelection();
 			this.frame.on( 'open', this.updateSelection, this );
@@ -1207,12 +1342,18 @@
 			media.controller.Library.prototype.activate.apply( this, arguments );
 		},
 
+		/**
+		 * @since 3.5.0
+		 */
 		deactivate: function() {
 			this.frame.off( 'open', this.updateSelection, this );
 
 			media.controller.Library.prototype.deactivate.apply( this, arguments );
 		},
 
+		/**
+		 * @since 3.5.0
+		 */
 		updateSelection: function() {
 			var selection = this.get('selection'),
 				id = media.view.settings.post.featuredImageId,
@@ -1251,6 +1392,11 @@
 			syncSelection: true
 		}, media.controller.Library.prototype.defaults ),
 
+		/**
+		 * @since 3.9.0
+		 *
+		 * @param options
+		 */
 		initialize: function( options ) {
 			var library, comparator;
 
@@ -1285,11 +1431,17 @@
 			library.observe( this.get('selection') );
 		},
 
+		/**
+		 * @since 3.9.0
+		 */
 		activate: function() {
 			this.updateSelection();
 			media.controller.Library.prototype.activate.apply( this, arguments );
 		},
 
+		/**
+		 * @since 3.9.0
+		 */
 		updateSelection: function() {
 			var selection = this.get('selection'),
 				attachment = this.image.attachment;
@@ -1317,14 +1469,23 @@
 			url:     ''
 		},
 
+		/**
+		 * @since 3.9.0
+		 */
 		activate: function() {
 			this.listenTo( this.frame, 'toolbar:render:edit-image', this.toolbar );
 		},
 
+		/**
+		 * @since 3.9.0
+		 */
 		deactivate: function() {
 			this.stopListening( this.frame );
 		},
 
+		/**
+		 * @since 3.9.0
+		 */
 		toolbar: function() {
 			var frame = this.frame,
 				lastState = frame.lastState(),
@@ -1368,6 +1529,11 @@
 			syncSelection:   false
 		}, media.controller.Library.prototype.defaults ),
 
+		/**
+		 * @since 3.9.0
+		 *
+		 * @param options
+		 */
 		initialize: function( options ) {
 			this.media = options.media;
 			this.type = options.type;
@@ -1376,6 +1542,9 @@
 			media.controller.Library.prototype.initialize.apply( this, arguments );
 		},
 
+		/**
+		 * @since 3.9.0
+		 */
 		activate: function() {
 			if ( media.frame.lastMime ) {
 				this.set( 'library', media.query({ type: media.frame.lastMime }) );
