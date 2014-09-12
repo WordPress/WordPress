@@ -544,13 +544,13 @@ class WP_oEmbed {
 	/**
 	 * Strip any new lines from the HTML.
 	 *
-	 * @access private
+	 * @access public
 	 * @param string $html Existing HTML.
 	 * @param object $data Data object from WP_oEmbed::data2html()
 	 * @param string $url The original URL passed to oEmbed.
 	 * @return string Possibly modified $html
 	 */
-	private function _strip_newlines( $html, $data, $url ) {
+	public function _strip_newlines( $html, $data, $url ) {
 		if ( false !== strpos( $html, "\n" ) )
 			$html = str_replace( array( "\r\n", "\n" ), '', $html );
 
