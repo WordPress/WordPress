@@ -2,7 +2,7 @@
 
 window.wp = window.wp || {};
 
-jQuery( document ).ready( function($) {
+jQuery( document ).ready( function( $ ) {
 	var $window = $( window ),
 		$document = $( document ),
 		$adminBar = $( '#wpadminbar' ),
@@ -148,6 +148,11 @@ jQuery( document ).ready( function($) {
 
 	// We need to wait for TinyMCE to initialize.
 	$document.on( 'tinymce-editor-init.editor-expand', function( event, editor ) {
+		var hideFloatPanels = _.debounce( function() {
+			! $( '.mce-floatpanel:hover' ).length && tinymce.ui.FloatPanel.hideAll();
+			$( '.mce-tooltip' ).hide();
+		}, 1000, true );
+
 		// Make sure it's the main editor.
 		if ( editor.id !== 'content' ) {
 			return;
@@ -224,6 +229,8 @@ jQuery( document ).ready( function($) {
 
 		// Adjust when switching editor modes.
 		function mceShow() {
+			$window.on( 'scroll.mce-float-panels', hideFloatPanels );
+
 			setTimeout( function() {
 				editor.execCommand( 'wpAutoResize' );
 				adjust();
@@ -231,6 +238,8 @@ jQuery( document ).ready( function($) {
 		}
 
 		function mceHide() {
+			$window.off( 'scroll.mce-float-panels' );
+
 			setTimeout( function() {
 				var top = $contentWrap.offset().top;
 
@@ -251,6 +260,8 @@ jQuery( document ).ready( function($) {
 			editor.on( 'hide', mceHide );
 			// Adjust when the editor resizes.
 			editor.on( 'setcontent wp-autoresize wp-toolbar-toggle', adjust );
+
+			$window.off( 'scroll.mce-float-panels' ).on( 'scroll.mce-float-panels', hideFloatPanels );
 		};
 
 		mceUnbind = function() {
@@ -258,6 +269,8 @@ jQuery( document ).ready( function($) {
 			editor.off( 'show', mceShow );
 			editor.off( 'hide', mceHide );
 			editor.off( 'setcontent wp-autoresize wp-toolbar-toggle', adjust );
+
+			$window.off( 'scroll.mce-float-panels' );
 		};
 
 		if ( $wrap.hasClass( 'wp-editor-expand' ) ) {
