@@ -846,7 +846,7 @@ class WP_User_Query {
 	 * @since 3.1.0
 	 * @access public
 	 *
-	 * @return array Array of total users.
+	 * @return int Number of total users.
 	 */
 	public function get_total() {
 		return $this->total_users;
