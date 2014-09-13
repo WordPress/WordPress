@@ -413,7 +413,7 @@
 
 		/**
 		 * @access private
-		 * @since 4.0.0
+		 * @since 3.5.0
 		 */
 		_ready: function() {
 			this._updateMenu();
@@ -934,7 +934,7 @@
 		},
 
 		/**
-		 * @since 3.9.0
+		 * @since 3.5.0
 		 */
 		initialize: function() {
 			// If we haven't been provided a `library`, create a `Selection`.
@@ -948,7 +948,7 @@
 		},
 
 		/**
-		 * since 3.9.0
+		 * @since 3.5.0
 		 */
 		activate: function() {
 			var library = this.get('library');
@@ -965,7 +965,7 @@
 		},
 
 		/**
-		 * @since 3.9.0
+		 * @since 3.5.0
 		 */
 		deactivate: function() {
 			// Stop watching for uploaded attachments.
@@ -977,7 +977,7 @@
 		},
 
 		/**
-		 * @since 3.9.0
+		 * @since 3.5.0
 		 *
 		 * @param browser
 		 */
@@ -1040,7 +1040,7 @@
 		}, media.controller.Library.prototype.defaults ),
 
 		/**
-		 * @since 3.9.0
+		 * @since 3.5.0
 		 */
 		initialize: function() {
 			// If we haven't been provided a `library`, create a `Selection`.
@@ -1051,7 +1051,7 @@
 		},
 
 		/**
-		 * @since 3.9.0
+		 * @since 3.5.0
 		 */
 		activate: function() {
 			var library = this.get('library'),
