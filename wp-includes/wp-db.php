@@ -203,7 +203,7 @@ class wpdb {
 	var $ready = false;
 
 	/**
-	 * {@internal Missing Description}}
+	 * Unique blog identification number.
 	 *
 	 * @since 3.0.0
 	 * @access public
@@ -212,7 +212,7 @@ class wpdb {
 	public $blogid = 0;
 
 	/**
-	 * {@internal Missing Description}}
+	 * Unique site identification number.
 	 *
 	 * @since 3.0.0
 	 * @access public
