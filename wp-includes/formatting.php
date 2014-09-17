@@ -28,7 +28,7 @@
  * @return string The string replaced with html entities
  */
 function wptexturize($text, $reset = false) {
-	global $wp_cockneyreplace;
+	global $wp_cockneyreplace, $shortcode_tags;
 	static $static_characters, $static_replacements, $dynamic_characters, $dynamic_replacements,
 		$default_no_texturize_tags, $default_no_texturize_shortcodes, $run_texturize = true;
 
@@ -205,6 +205,10 @@ function wptexturize($text, $reset = false) {
 
 	// Look for shortcodes and HTML elements.
 
+	$tagnames = array_keys( $shortcode_tags );
+	$tagregexp = join( '|', array_map( 'preg_quote', $tagnames ) );
+	$tagregexp = "(?:$tagregexp)(?![\\w-])"; // Excerpt of get_shortcode_regex().
+	
 	$regex =  '/('			// Capture the entire match.
 		.	'<'		// Find start of element.
 		.	'(?(?=!--)'	// Is this a comment?
@@ -215,11 +219,9 @@ function wptexturize($text, $reset = false) {
 		. '|'
 		.	'\['		// Find start of shortcode.
 		.	'\[?'		// Shortcodes may begin with [[
-		.	'(?:'
-		.		'[^\[\]<>]'	// Shortcodes do not contain other shortcodes.
-		.	'|'
-		.		'<[^>]+>' 	// HTML elements permitted. Prevents matching ] before >.
-		.	')++'
+		.	'\/?'		// Closing slash may precede name.
+		.	$tagregexp	// Only match registered shortcodes, because performance.
+		.	'[^\[\]]*'	// Shortcodes do not contain other shortcodes.
 		.	'\]'		// Find end of shortcode.
 		.	'\]?'		// Shortcodes may end with ]]
 		. ')/s';
@@ -241,18 +243,18 @@ function wptexturize($text, $reset = false) {
 
 			continue;
 
-		} elseif ( '[' === $first && 1 === preg_match( '/^\[(?:[^\[\]<>]|<[^>]+>)++\]$/', $curl ) ) {
+		} elseif ( '[' === $first && 1 === preg_match( '/^\[\[?\/?' . $tagregexp . '[^\[\]]*\]\]?$/', $curl ) ) {
 			// This is a shortcode delimiter.
 
-			_wptexturize_pushpop_element( $curl, $no_texturize_shortcodes_stack, $no_texturize_shortcodes );
-
-		} elseif ( '[' === $first && 1 === preg_match( '/^\[\[?(?:[^\[\]<>]|<[^>]+>)++\]\]?$/', $curl ) ) {
-			// This is an escaped shortcode delimiter.
-
-			// Do not texturize.
-			// Do not push to the shortcodes stack.
-
-			continue;
+			if ( '[[' !== substr( $curl, 0, 2 ) && ']]' !== substr( $curl, -2 ) ) {
+				// Looks like a normal shortcode.
+				_wptexturize_pushpop_element( $curl, $no_texturize_shortcodes_stack, $no_texturize_shortcodes );
+			} else {
+				// Looks like an escaped shortcode.
+				// Do not texturize.
+				// Do not push to the shortcodes stack.
+				continue;
+			}
 
 		} elseif ( empty( $no_texturize_shortcodes_stack ) && empty( $no_texturize_tags_stack ) ) {
 			// This is neither a delimiter, nor is this content inside of no_texturize pairs.  Do texturize.
@@ -313,7 +315,7 @@ function _wptexturize_pushpop_element($text, &$stack, $disabled_elements) {
 
 	// Parse out the tag name.
 	$space = strpos( $text, ' ' );
-	if ( FALSE === $space ) {
+	if ( false === $space ) {
 		$space = -1;
 	} else {
 		$space -= $name_offset;

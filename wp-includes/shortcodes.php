@@ -231,7 +231,7 @@ function get_shortcode_regex() {
 	$tagregexp = join( '|', array_map('preg_quote', $tagnames) );
 
 	// WARNING! Do not change this regex without changing do_shortcode_tag() and strip_shortcode_tag()
-	// Also, see shortcode_unautop() and shortcode.js.
+	// Also, see shortcode_unautop() and shortcode.js and wptexturize().
 	return
 		  '\\['                              // Opening bracket
 		. '(\\[?)'                           // 1: Optional second opening bracket for escaping shortcodes: [[tag]]
