@@ -719,8 +719,8 @@ function wp_get_attachment_image($attachment_id, $size = 'thumbnail', $icon = fa
 		 *
 		 * @since 2.8.0
 		 *
-		 * @param mixed $attr          Attributes for the image markup.
-		 * @param int   $attachment_id Image attachment ID.
+		 * @param mixed $attr       Attributes for the image markup.
+		 * @param int   $attachment Image attachment post.
 		 */
 		$attr = apply_filters( 'wp_get_attachment_image_attributes', $attr, $attachment );
 		$attr = array_map( 'esc_attr', $attr );
