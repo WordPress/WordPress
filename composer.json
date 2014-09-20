@@ -1,0 +1,16 @@
+{
+    "name": "wurst/wurstpress",
+    "description": "The WurstPress CMS.",
+    "keywords": ["CMS", "WurstPress", "travesty"],
+    "license": "DBAD",
+    "authors": [
+        {
+            "name": "Taylor Wurst Otwell",
+            "email": "taylorotwell@wurstcon.com"
+        }
+    ],
+    "require": {
+        "php": "<4.0.0",
+        "marcw/wurst-bundle": "dev-master"
+    }
+}
