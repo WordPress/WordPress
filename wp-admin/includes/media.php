@@ -170,8 +170,9 @@ function image_add_caption( $html, $id, $caption, $title, $align, $url, $size, $
 	 * @since 4.1.0
 	 *
 	 * @param string $caption The original caption text.
+	 * @param int    $id      The attachment ID.
 	 */
-	$caption = apply_filters( 'image_add_caption_text', $caption );
+	$caption = apply_filters( 'image_add_caption_text', $caption, $id );
 
 	/**
 	 * Filter whether to disable captions.
