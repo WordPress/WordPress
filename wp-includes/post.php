@@ -1161,15 +1161,15 @@ function get_post_type_object( $post_type ) {
  *
  * @global array $wp_post_types List of post types.
  *
- * @see register_post_type()
+ * @see register_post_type() for accepted arguments.
  *
  * @param array|string $args     Optional. An array of key => value arguments to match against
  *                               the post type objects. Default empty array.
  * @param string       $output   Optional. The type of output to return. Accepts post type 'names'
  *                               or 'objects'. Default 'names'.
- * @param string       $operator Optaionl. The logical operation to perform. 'or' means only one
+ * @param string       $operator Optional. The logical operation to perform. 'or' means only one
  *                               element from the array needs to match; 'and' means all elements
- *                               must match. Default 'and'.
+ *                               must match. Accepts 'or' or 'and'. Default 'and'.
  * @return array A list of post type names or objects.
  */
 function get_post_types( $args = array(), $output = 'names', $operator = 'and' ) {
