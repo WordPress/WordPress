@@ -159,6 +159,21 @@ function get_image_send_to_editor($id, $caption, $title, $align, $url='', $rel =
 function image_add_caption( $html, $id, $caption, $title, $align, $url, $size, $alt = '' ) {
 
 	/**
+	 * Filter the caption text.
+	 *
+	 * Note: If the caption text is empty, the caption shortcode will not be appended
+	 * to the image HTML when inserted into the editor.
+	 *
+	 * Passing an empty value also prevents the 'image_add_caption_shortcode' filter
+	 * from being evaluated at the end of {@see image_add_caption()}.
+	 *
+	 * @since 4.1.0
+	 *
+	 * @param string $caption The original caption text.
+	 */
+	$caption = apply_filters( 'image_add_caption_text', $caption );
+
+	/**
 	 * Filter whether to disable captions.
 	 *
 	 * Prevents image captions from being appended to image HTML when inserted into the editor.
