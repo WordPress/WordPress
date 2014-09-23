@@ -198,16 +198,21 @@ class WP_Posts_List_Table extends WP_List_Table {
 
 	protected function get_bulk_actions() {
 		$actions = array();
+		$post_type_obj = get_post_type_object( $this->screen->post_type );
 
-		if ( $this->is_trash )
+		if ( $this->is_trash ) {
 			$actions['untrash'] = __( 'Restore' );
-		else
+		} else {
 			$actions['edit'] = __( 'Edit' );
+		}
 
-		if ( $this->is_trash || !EMPTY_TRASH_DAYS )
-			$actions['delete'] = __( 'Delete Permanently' );
-		else
-			$actions['trash'] = __( 'Move to Trash' );
+		if ( current_user_can( $post_type_obj->cap->delete_posts ) ) {
+			if ( $this->is_trash || ! EMPTY_TRASH_DAYS ) {
+				$actions['delete'] = __( 'Delete Permanently' );
+			} else {
+				$actions['trash'] = __( 'Move to Trash' );
+			}
+		}
 
 		return $actions;
 	}
