@@ -935,7 +935,8 @@ function wp_ajax_replyto_comment( $action ) {
 		$comment_author       = wp_slash( $user->display_name );
 		$comment_author_email = wp_slash( $user->user_email );
 		$comment_author_url   = wp_slash( $user->user_url );
-		$comment_content      = trim($_POST['content']);
+		$comment_content      = trim( $_POST['content'] );
+		$comment_type         = isset( $_POST['comment_type'] ) ? trim( $_POST['comment_type'] ) : '';
 		if ( current_user_can( 'unfiltered_html' ) ) {
 			if ( ! isset( $_POST['_wp_unfiltered_html_comment'] ) )
 				$_POST['_wp_unfiltered_html_comment'] = '';
