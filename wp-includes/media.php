@@ -959,9 +959,6 @@ function gallery_shortcode( $attr ) {
 	), $attr, 'gallery' );
 
 	$id = intval( $atts['id'] );
-	if ( 'RAND' == $atts['order'] ) {
-		$atts['orderby'] = 'none';
-	}
 
 	if ( ! empty( $atts['include'] ) ) {
 		$_attachments = get_posts( array( 'include' => $atts['include'], 'post_status' => 'inherit', 'post_type' => 'attachment', 'post_mime_type' => 'image', 'order' => $atts['order'], 'orderby' => $atts['orderby'] ) );
@@ -1166,7 +1163,7 @@ add_action( 'wp_playlist_scripts', 'wp_playlist_scripts' );
  *
  *     @type string  $type         Type of playlist to display. Accepts 'audio' or 'video'. Default 'audio'.
  *     @type string  $order        Designates ascending or descending order of items in the playlist.
- *                                 Accepts 'ASC', 'DESC', or 'RAND'. Default 'ASC'.
+ *                                 Accepts 'ASC', 'DESC'. Default 'ASC'.
  *     @type string  $orderby      Any column, or columns, to sort the playlist. If $ids are
  *                                 passed, this defaults to the order of the $ids array ('post__in').
  *                                 Otherwise default is 'menu_order ID'.
@@ -1243,9 +1240,6 @@ function wp_playlist_shortcode( $attr ) {
 	), $attr, 'playlist' );
 
 	$id = intval( $atts['id'] );
-	if ( 'RAND' == $atts['order'] ) {
-		$atts['orderby'] = 'none';
-	}
 
 	$args = array(
 		'post_status' => 'inherit',

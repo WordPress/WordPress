@@ -2795,10 +2795,11 @@ class WP_Query {
 
 		$where .= $search . $whichauthor . $whichmimetype;
 
+		$rand = ( isset( $q['orderby'] ) && 'rand' === $q['orderby'] );
 		if ( ! isset( $q['order'] ) ) {
-			$q['order'] = 'DESC';
+			$q['order'] = $rand ? '' : 'DESC';
 		} else {
-			$q['order'] = $this->parse_order( $q['order'] );
+			$q['order'] = $rand ? '' : $this->parse_order( $q['order'] );
 		}
 
 		// Order by.
@@ -2849,8 +2850,8 @@ class WP_Query {
 				$orderby = implode( ' ' . $q['order'] . ', ', $orderby_array );
 
 				if ( empty( $orderby ) ) {
-					$orderby = "$wpdb->posts.post_date ".$q['order'];
-				} else {
+					$orderby = "$wpdb->posts.post_date " . $q['order'];
+				} elseif ( ! empty( $q['order'] ) ) {
 					$orderby .= " {$q['order']}";
 				}
 			}
