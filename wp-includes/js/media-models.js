@@ -1164,7 +1164,9 @@ window.wp = window.wp || {};
 			'perPage':   'posts_per_page',
 			'menuOrder': 'menu_order',
 			'uploadedTo': 'post_parent',
-			'status':     'post_status'
+			'status':     'post_status',
+			'include':    'post__in',
+			'exclude':    'post__not_in'
 		},
 		/**
 		 * @static
@@ -1210,6 +1212,12 @@ window.wp = window.wp || {};
 				if ( ! _.contains( orderby.allowed, props.orderby ) ) {
 					props.orderby = defaults.orderby;
 				}
+
+				_.each( [ 'include', 'exclude' ], function( prop ) {
+					if ( props[ prop ] && ! _.isArray( props[ prop ] ) ) {
+						props[ prop ] = [ props[ prop ] ];
+					}
+				} );
 
 				// Generate the query `args` object.
 				// Correct any differing property names.
