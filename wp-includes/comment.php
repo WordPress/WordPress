@@ -7,36 +7,34 @@
  */
 
 /**
- * Checks whether a comment passes internal checks to be allowed to add.
+ * Check whether a comment passes internal checks to be allowed to add.
  *
- * If comment moderation is set in the administration, then all comments,
- * regardless of their type and whitelist will be set to false. If the number of
- * links exceeds the amount in the administration, then the check fails. If any
- * of the parameter contents match the blacklist of words, then the check fails.
+ * If manual comment moderation is set in the administration, then all checks,
+ * regardless of their type and whitelist, will fail and the function will
+ * return false.
  *
  * If the number of links exceeds the amount in the administration, then the
  * check fails. If any of the parameter contents match the blacklist of words,
  * then the check fails.
  *
- * If the comment author was approved before, then the comment is
- * automatically whitelisted.
+ * If the comment author was approved before, then the comment is automatically
+ * whitelisted.
  *
- * If none of the checks fail, then the failback is to set the check to pass
- * (return true).
+ * If all checks pass, the function will return true.
  *
  * @since 1.2.0
- * @uses $wpdb
  *
- * @param string $author Comment Author's name
- * @param string $email Comment Author's email
- * @param string $url Comment Author's URL
- * @param string $comment Comment contents
- * @param string $user_ip Comment Author's IP address
- * @param string $user_agent Comment Author's User Agent
- * @param string $comment_type Comment type, either user submitted comment,
- *		trackback, or pingback
- * @return bool Whether the checks passed (true) and the comments should be
- *		displayed or set to moderated
+ * @global wpdb $wpdb WordPress database access abstraction object.
+ *
+ * @param string $author       Comment author name.
+ * @param string $email        Comment author email.
+ * @param string $url          Comment author URL.
+ * @param string $comment      Content of the comment.
+ * @param string $user_ip      Comment author IP address.
+ * @param string $user_agent   Comment author User-Agent.
+ * @param string $comment_type Comment type, either user-submitted comment,
+ *		                       trackback, or pingback.
+ * @return bool If all checks pass, true, otherwise false.
  */
 function check_comment($author, $email, $url, $comment, $user_ip, $user_agent, $comment_type) {
 	global $wpdb;
