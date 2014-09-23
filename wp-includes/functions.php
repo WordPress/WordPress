@@ -457,23 +457,23 @@ function xmlrpc_removepostdata( $content ) {
  */
 function wp_extract_urls( $content ) {
 	preg_match_all(
-		"#("
+		"#([\"']?)("
 			. "(?:([\w-]+:)?//?)"
 			. "[^\s()<>]+"
 			. "[.]"
 			. "(?:"
 				. "\([\w\d]+\)|"
 				. "(?:"
-					. "[^`!()\[\]{};:'\".,<>?«»“”‘’\s]|"
+					. "[^`!()\[\]{};:'\".,<>«»“”‘’\s]|"
 					. "(?:[:]\d+)?/?"
 				. ")+"
 			. ")"
-		. ")#",
+		. ")\\1#",
 		$content,
 		$post_links
 	);
 
-	$post_links = array_unique( array_map( 'html_entity_decode', $post_links[0] ) );
+	$post_links = array_unique( array_map( 'html_entity_decode', $post_links[2] ) );
 
 	return array_values( $post_links );
 }
