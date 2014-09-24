@@ -417,7 +417,7 @@ function wp_print_media_templates() {
 						<# if ( 'trash' === data.status ) { #>
 							<a class="untrash-attachment" href="#"><?php _e( 'Untrash' ); ?></a>
 						<# } else { #>
-							<a class="trash-attachment" href="#"><?php _e( 'Trash' ); ?></a>
+							<a class="trash-attachment" href="#"><?php _ex( 'Trash', 'verb' ); ?></a>
 						<# } #>
 					<?php else: ?>
 						<a class="delete-attachment" href="#"><?php _e( 'Delete Permanently' ); ?></a>
@@ -520,7 +520,7 @@ function wp_print_media_templates() {
 					<# if ( 'trash' === data.status ) { #>
 						<a class="untrash-attachment" href="#"><?php _e( 'Untrash' ); ?></a>
 					<# } else { #>
-						<a class="trash-attachment" href="#"><?php _e( 'Trash' ); ?></a>
+						<a class="trash-attachment" href="#"><?php _ex( 'Trash', 'verb' ); ?></a>
 					<# } #>
 					<?php else: ?>
 						<a class="delete-attachment" href="#"><?php _e( 'Delete Permanently' ); ?></a>
