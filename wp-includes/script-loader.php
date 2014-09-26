@@ -358,7 +358,7 @@ function wp_default_scripts( &$scripts ) {
 		'update' => __('Update'),
 		'save' => __('Add Link'),
 		'noTitle' => __('(no title)'),
-		'noMatchesFound' => __('No matches found.')
+		'noMatchesFound' => __('No results found.')
 	) );
 
 	$scripts->add( 'wpdialogs', "/wp-includes/js/wpdialog$suffix.js", array( 'jquery-ui-dialog' ), false, 1 );
@@ -534,7 +534,7 @@ function wp_default_scripts( &$scripts ) {
 		// Navigation Menus
 		$scripts->add( 'nav-menu', "/wp-admin/js/nav-menu$suffix.js", array( 'jquery-ui-sortable', 'jquery-ui-draggable', 'jquery-ui-droppable', 'wp-lists', 'postbox' ) );
 		did_action( 'init' ) && $scripts->localize( 'nav-menu', 'navMenuL10n', array(
-			'noResultsFound' => _x('No results found.', 'search results'),
+			'noResultsFound' => _x( 'No results found.' ),
 			'warnDeleteMenu' => __( "You are about to permanently delete this menu. \n 'Cancel' to stop, 'OK' to delete." ),
 			'saveAlert' => __( 'The changes you made will be lost if you navigate away from this page.' ),
 			'untitled' => _x( '(no label)', 'missing menu item navigation label' )
