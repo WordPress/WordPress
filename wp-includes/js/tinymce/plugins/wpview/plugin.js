@@ -12,7 +12,7 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 		firstFocus = true,
 		_noop = function() { return false; },
 		isios = /iPad|iPod|iPhone/.test( navigator.userAgent ),
-		cursorInterval, lastKeyDownNode, setViewCursorTries, focus, execCommandView;
+		cursorInterval, lastKeyDownNode, setViewCursorTries, focus, execCommandView, execCommandBefore;
 
 	function getView( node ) {
 		return getParent( node, 'wpview-wrap' );
@@ -368,7 +368,7 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 	// Ref: https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent.keyCode
 	function isSpecialKey( key ) {
 		return ( ( key <= 47 && key !== VK.SPACEBAR && key !== VK.ENTER && key !== VK.DELETE && key !== VK.BACKSPACE && ( key < 37 || key > 40 ) ) ||
-			key >= 224 || // OEM or non-printable 
+			key >= 224 || // OEM or non-printable
 			( key >= 144 && key <= 150 ) || // Num Lock, Scroll Lock, OEM
 			( key >= 91 && key <= 93 ) || // Windows keys
 			( key >= 112 && key <= 135 ) ); // F keys
@@ -649,8 +649,8 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 		var node = editor.selection.getNode(),
 			view;
 
-		if ( node && ( node.className === 'wpview-selection-before' || node.className === 'wpview-selection-after' ) && ( view = getView( node ) ) ) {
-			handleEnter( view );
+		if ( node && ( ( execCommandBefore = node.className === 'wpview-selection-before' ) || node.className === 'wpview-selection-after' ) && ( view = getView( node ) ) ) {
+			handleEnter( view, execCommandBefore );
 			execCommandView = view;
 		}
 	});
@@ -665,11 +665,11 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 		}
 
 		if ( execCommandView ) {
-			node = execCommandView.nextSibling;
+			node = execCommandView[ execCommandBefore ? 'previousSibling' : 'nextSibling' ];
 
 			if ( node && node.nodeName === 'P' && editor.dom.isEmpty( node ) ) {
 				editor.dom.remove( node );
-				setViewCursor( false, execCommandView );
+				setViewCursor( execCommandBefore, execCommandView );
 			}
 
 			execCommandView = false;
