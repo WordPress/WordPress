@@ -768,6 +768,9 @@ a:hover {
 .entry-summary {
 	padding: 1.625em 0 0;
 }
+.entry-content .more-link {
+	white-space: nowrap;
+}
 .entry-content h1,
 .entry-content h2,
 .comment-content h1,

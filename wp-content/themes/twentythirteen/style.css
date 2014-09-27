@@ -1139,6 +1139,10 @@ ul.nav-menu .focus > ul,
 	color: #ea9629;
 }
 
+.entry-content .more-link {
+	white-space: nowrap;
+}
+
 .entry-content blockquote {
 	font-size: 24px;
 }

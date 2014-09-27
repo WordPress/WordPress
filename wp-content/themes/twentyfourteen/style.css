@@ -1336,6 +1336,10 @@ a.post-thumbnail:hover {
 	color: #41a62a;
 }
 
+.entry-content .more-link {
+	white-space: nowrap;
+}
+
 /* Mediaelements */
 
 .hentry .mejs-container {

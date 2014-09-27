@@ -605,6 +605,9 @@ div.menu li {
 	clear: both;
 	padding: 12px 0 0 0;
 }
+.entry-content .more-link {
+	white-space: nowrap;
+}
 #content .entry-summary p:last-child {
 	margin-bottom: 12px;
 }

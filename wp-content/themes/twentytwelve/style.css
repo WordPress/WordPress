@@ -805,6 +805,9 @@ article.sticky .featured-post {
 .comment-content a:visited {
 	color: #9f9f9f;
 }
+.entry-content .more-link {
+	white-space: nowrap;
+}
 .entry-content ol,
 .comment-content ol,
 .entry-content ul,
