@@ -600,6 +600,8 @@ final class _WP_Editors {
 				}
 			}
 
+			$body_class .= ' locale-' . sanitize_html_class( strtolower( str_replace( '_', '-', get_locale() ) ) );
+
 			if ( !empty($set['tinymce']['body_class']) ) {
 				$body_class .= ' ' . $set['tinymce']['body_class'];
 				unset($set['tinymce']['body_class']);

@@ -807,6 +807,14 @@ i.mce-i-hr:before {
 	box-sizing: border-box;
 }
 
+.rtl .wp-editor-area {
+	font-family: Tahoma, Monaco, monospace;
+}
+
+.locale-he-il .wp-editor-area {
+	font-family: Arial, Monaco, monospace;
+}
+
 .wp-editor-container textarea.wp-editor-area {
 	width: 100%;
 	margin: 0;

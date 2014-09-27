@@ -17,6 +17,14 @@ body {
 	margin: 9px 10px;
 }
 
+body.rtl {
+	font-family: Tahoma, "Times New Roman", "Bitstream Charter", Times, serif;
+}
+
+body.locale-he-il {
+	font-family: Arial, "Times New Roman", "Bitstream Charter", Times, serif;
+}
+
 body.wp-autoresize {
 	max-width: 100%;
 	overflow: visible !important;
