@@ -1408,10 +1408,6 @@ div.action-links,
 	content: '\f147';
 }
 
-.plugin-card .compatibility-untested strong {
-	font-weight: normal;
-}
-
 .plugin-icon {
 	position: absolute;
 	top: 20px;
