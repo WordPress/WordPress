@@ -525,14 +525,15 @@ class WP_Comments_List_Table extends WP_List_Table {
 				comment_author_email_link();
 				echo '<br />';
 			}
-			echo '<a href="edit-comments.php?s=';
-			comment_author_IP();
-			echo '&amp;mode=detail';
-			if ( 'spam' == $comment_status )
-				echo '&amp;comment_status=spam';
-			echo '">';
-			comment_author_IP();
-			echo '</a>';
+
+			$author_ip = get_comment_author_IP();
+			if ( $author_ip ) {
+				$author_ip_url = add_query_arg( array( 's' => $author_ip, 'mode' => 'detail' ), 'edit-comments.php' );
+				if ( 'spam' == $comment_status ) {
+					$author_ip_url = add_query_arg( 'comment_status', 'spam', $author_ip_url );
+				}
+				printf( '<a href="%s">%s</a>', esc_url( $author_ip_url ), $author_ip );
+			}
 		}
 	}
 
