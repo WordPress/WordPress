@@ -437,8 +437,9 @@ window.wp = window.wp || {};
 		 *
 		 * @param view {object} being refreshed
 		 * @param text {string} textual representation of the view
+		 * @param force {Boolean} whether to force rendering
 		 */
-		refreshView: function( view, text ) {
+		refreshView: function( view, text, force ) {
 			var encodedText = window.encodeURIComponent( text ),
 				viewOptions,
 				result, instance;
@@ -454,7 +455,7 @@ window.wp = window.wp || {};
 				instances[ encodedText ] = instance;
 			}
 
-			instance.render();
+			instance.render( force );
 		},
 
 		getInstance: function( encodedText ) {
@@ -525,7 +526,9 @@ window.wp = window.wp || {};
 
 					_.each( attachments, function( attachment ) {
 						if ( attachment.sizes ) {
-							if ( attachment.sizes.thumbnail ) {
+							if ( attrs.size && attachment.sizes[ attrs.size ] ) {
+								attachment.thumbnail = attachment.sizes[ attrs.size ];
+							} else if ( attachment.sizes.thumbnail ) {
 								attachment.thumbnail = attachment.sizes.thumbnail;
 							} else if ( attachment.sizes.full ) {
 								attachment.thumbnail = attachment.sizes.full;
@@ -552,9 +555,10 @@ window.wp = window.wp || {};
 			frame = gallery.edit( data );
 
 			frame.state('gallery-edit').on( 'update', function( selection ) {
-				var shortcode = gallery.shortcode( selection ).string();
+				var shortcode = gallery.shortcode( selection ).string(), force;
 				$( node ).attr( 'data-wpview-text', window.encodeURIComponent( shortcode ) );
-				wp.mce.views.refreshView( self, shortcode );
+				force = ( data !== shortcode );
+				wp.mce.views.refreshView( self, shortcode, force );
 			});
 
 			frame.on( 'close', function() {

@@ -734,6 +734,31 @@ function wp_print_media_templates() {
 			<span><?php _e( 'Random Order' ); ?></span>
 			<input type="checkbox" data-setting="_orderbyRandom" />
 		</label>
+
+		<label class="setting size">
+			<span><?php _e( 'Size' ); ?></span>
+			<select class="size" name="size"
+				data-setting="size"
+				<# if ( data.userSettings ) { #>
+					data-user-setting="imgsize"
+				<# } #>
+				>
+				<?php
+				// This filter is documented in wp-admin/includes/media.php
+				$size_names = apply_filters( 'image_size_names_choose', array(
+					'thumbnail' => __( 'Thumbnail' ),
+					'medium'    => __( 'Medium' ),
+					'large'     => __( 'Large' ),
+					'full'      => __( 'Full Size' ),
+				) );
+
+				foreach ( $size_names as $size => $label ) : ?>
+					<option value="<?php echo esc_attr( $size ); ?>">
+						<?php echo esc_html( $label ); ?>
+					</option>
+				<?php endforeach; ?>
+			</select>
+		</label>
 	</script>
 
 	<script type="text/html" id="tmpl-playlist-settings">
