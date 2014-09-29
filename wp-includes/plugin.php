@@ -865,7 +865,7 @@ function _wp_call_all_hook($args) {
  * Functions and static method callbacks are just returned as strings and
  * shouldn't have any speed penalty.
  *
- * @link http://trac.wordpress.org/ticket/3875
+ * @link https://core.trac.wordpress.org/ticket/3875
  *
  * @since 2.2.3
  * @access private

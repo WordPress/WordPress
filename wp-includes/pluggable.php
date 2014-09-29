@@ -360,7 +360,7 @@ function wp_mail( $to, $subject, $message, $headers = '', $attachments = array()
 	 * Some hosts will block outgoing mail from this address if it doesn't exist but
 	 * there's no easy alternative. Defaulting to admin_email might appear to be another
 	 * option but some hosts may refuse to relay mail from an unknown domain. See
-	 * http://trac.wordpress.org/ticket/5007.
+	 * https://core.trac.wordpress.org/ticket/5007.
 	 */
 
 	if ( !isset( $from_email ) ) {

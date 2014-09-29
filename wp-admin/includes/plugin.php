@@ -60,8 +60,8 @@
  * the file. This is not checked however and the file is only opened for
  * reading.
  *
- * @link http://trac.wordpress.org/ticket/5651 Previous Optimizations.
- * @link http://trac.wordpress.org/ticket/7372 Further and better Optimizations.
+ * @link https://core.trac.wordpress.org/ticket/5651 Previous Optimizations.
+ * @link https://core.trac.wordpress.org/ticket/7372 Further and better Optimizations.
  * @since 1.5.0
  *
  * @param string $plugin_file Path to the plugin file

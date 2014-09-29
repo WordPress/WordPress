@@ -4,7 +4,7 @@
  *
  * Will eventually replace and standardize the WordPress HTTP requests made.
  *
- * @link http://trac.wordpress.org/ticket/4779 HTTP API Proposal
+ * @link https://core.trac.wordpress.org/ticket/4779 HTTP API Proposal
  *
  * @package WordPress
  * @subpackage HTTP
