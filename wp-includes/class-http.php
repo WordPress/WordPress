@@ -615,8 +615,8 @@ class WP_Http {
 	 * are supported, eg *.wordpress.org will allow for all subdomains of wordpress.org to be contacted.
 	 *
 	 * @since 2.8.0
-	 * @link http://core.trac.wordpress.org/ticket/8927 Allow preventing external requests.
-	 * @link http://core.trac.wordpress.org/ticket/14636 Allow wildcard domains in WP_ACCESSIBLE_HOSTS
+	 * @link https://core.trac.wordpress.org/ticket/8927 Allow preventing external requests.
+	 * @link https://core.trac.wordpress.org/ticket/14636 Allow wildcard domains in WP_ACCESSIBLE_HOSTS
 	 *
 	 * @param string $uri URI of url.
 	 * @return bool True to block, false to allow.
@@ -1573,8 +1573,8 @@ class WP_Http_Curl {
  * define('WP_PROXY_BYPASS_HOSTS', 'localhost, www.example.com, *.wordpress.org');
  * </code>
  *
- * @link http://core.trac.wordpress.org/ticket/4011 Proxy support ticket in WordPress.
- * @link http://core.trac.wordpress.org/ticket/14636 Allow wildcard domains in WP_PROXY_BYPASS_HOSTS
+ * @link https://core.trac.wordpress.org/ticket/4011 Proxy support ticket in WordPress.
+ * @link https://core.trac.wordpress.org/ticket/14636 Allow wildcard domains in WP_PROXY_BYPASS_HOSTS
  * @since 2.8.0
  */
 class WP_HTTP_Proxy {
@@ -2041,10 +2041,10 @@ class WP_Http_Encoding {
 	 * Warning: Magic numbers within. Due to the potential different formats that the compressed
 	 * data may be returned in, some "magic offsets" are needed to ensure proper decompression
 	 * takes place. For a simple progmatic way to determine the magic offset in use, see:
-	 * http://core.trac.wordpress.org/ticket/18273
+	 * https://core.trac.wordpress.org/ticket/18273
 	 *
 	 * @since 2.8.1
-	 * @link http://core.trac.wordpress.org/ticket/18273
+	 * @link https://core.trac.wordpress.org/ticket/18273
 	 * @link http://au2.php.net/manual/en/function.gzinflate.php#70875
 	 * @link http://au2.php.net/manual/en/function.gzinflate.php#77336
 	 *

@@ -666,7 +666,7 @@ class WP_Rewrite {
 	 * Now it tells {@link WP::parse_request()} to check if a URL matching the
 	 * page permastruct is actually a page before accepting it.
 	 *
-	 * @link http://core.trac.wordpress.org/ticket/16687
+	 * @link https://core.trac.wordpress.org/ticket/16687
 	 * @see WP_Rewrite::init()
 	 * @since 2.5.0
 	 * @access public

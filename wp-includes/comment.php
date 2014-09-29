@@ -1771,7 +1771,7 @@ function wp_throttle_comment_flood($block, $time_lastcomment, $time_newcomment) 
  *
  * We use REMOTE_ADDR here directly. If you are behind a proxy, you should ensure
  * that it is properly set, such as in wp-config.php, for your environment.
- * See {@link http://core.trac.wordpress.org/ticket/9235}
+ * See {@link https://core.trac.wordpress.org/ticket/9235}
  *
  * @since 1.5.0
  * @param array $commentdata Contains information on the comment.

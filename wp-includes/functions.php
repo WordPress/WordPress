@@ -100,7 +100,7 @@ function date_i18n( $dateformatstring, $unixtimestamp = false, $gmt = false ) {
 
 	/*
 	 * Store original value for language with untypical grammars.
-	 * See http://core.trac.wordpress.org/ticket/9396
+	 * See https://core.trac.wordpress.org/ticket/9396
 	 */
 	$req_format = $dateformatstring;
 
@@ -377,7 +377,7 @@ function maybe_serialize( $data ) {
 		return serialize( $data );
 
 	// Double serialization is required for backward compatibility.
-	// See http://core.trac.wordpress.org/ticket/12930
+	// See https://core.trac.wordpress.org/ticket/12930
 	if ( is_serialized( $data, false ) )
 		return serialize( $data );
 
@@ -3926,7 +3926,7 @@ function wp_timezone_choice( $selected_zone ) {
  * @since 2.8.0
  * @access private
  *
- * @see http://core.trac.wordpress.org/ticket/8497
+ * @see https://core.trac.wordpress.org/ticket/8497
  *
  * @param string $str Header comment to clean up.
  * @return string
@@ -4275,7 +4275,7 @@ function wp_allowed_protocols() {
  *
  * @since 3.4.0
  *
- * @see http://core.trac.wordpress.org/ticket/19589
+ * @see https://core.trac.wordpress.org/ticket/19589
  *
  * @param string $ignore_class Optional. A class to ignore all function calls within - useful
  *                             when you want to just give info about the callee. Default null.
@@ -4536,7 +4536,7 @@ function get_tag_regex( $tag ) {
  * @since 3.6.0
  * @access private
  *
- * @see http://core.trac.wordpress.org/ticket/23688
+ * @see https://core.trac.wordpress.org/ticket/23688
  *
  * @param string $charset A charset name.
  * @return string The canonical form of the charset.

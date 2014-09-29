@@ -2596,7 +2596,7 @@ This debugging email is sent when you are using a development version of WordPre
 
 If you think these failures might be due to a bug in WordPress, could you report it?
  * Open a thread in the support forums: https://wordpress.org/support/forum/alphabeta
- * Or, if you're comfortable writing a bug report: http://core.trac.wordpress.org/
+ * Or, if you're comfortable writing a bug report: https://core.trac.wordpress.org/
 
 Thanks! -- The WordPress Team" ) );
 			$body[] = '';

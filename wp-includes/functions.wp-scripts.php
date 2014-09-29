@@ -99,7 +99,7 @@ function wp_register_script( $handle, $src, $deps = array(), $ver = false, $in_f
  * </code>
  *
  * @see WP_Dependencies::localize()
- * @link http://core.trac.wordpress.org/ticket/11520
+ * @link https://core.trac.wordpress.org/ticket/11520
  * @global WP_Scripts $wp_scripts The WP_Scripts object for printing scripts.
  *
  * @since 2.6.0

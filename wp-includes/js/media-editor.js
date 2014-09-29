@@ -1093,7 +1093,7 @@
 					// Prevents Opera from showing the outline of the button
 					// above the modal.
 					//
-					// See: http://core.trac.wordpress.org/ticket/22445
+					// See: https://core.trac.wordpress.org/ticket/22445
 					elem.blur();
 
 					if ( elem.hasClass( 'gallery' ) ) {
