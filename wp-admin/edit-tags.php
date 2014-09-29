@@ -38,6 +38,8 @@ if ( 'post' != $post_type ) {
 
 add_screen_option( 'per_page', array( 'label' => $title, 'default' => 20, 'option' => 'edit_' . $tax->name . '_per_page' ) );
 
+$location = false;
+
 switch ( $wp_list_table->current_action() ) {
 
 case 'add-tag':
@@ -61,8 +63,8 @@ case 'add-tag':
 		$location = add_query_arg( 'message', 1, $location );
 	else
 		$location = add_query_arg( 'message', 4, $location );
-	wp_redirect( $location );
-	exit;
+
+	break;
 
 case 'delete':
 	$location = 'edit-tags.php?taxonomy=' . $taxonomy;
@@ -73,9 +75,8 @@ case 'delete':
 			$location = $referer;
 	}
 
-	if ( !isset( $_REQUEST['tag_ID'] ) ) {
-		wp_redirect( $location );
-		exit;
+	if ( ! isset( $_REQUEST['tag_ID'] ) ) {
+		break;
 	}
 
 	$tag_ID = (int) $_REQUEST['tag_ID'];
@@ -87,8 +88,8 @@ case 'delete':
 	wp_delete_term( $tag_ID, $taxonomy );
 
 	$location = add_query_arg( 'message', 2, $location );
-	wp_redirect( $location );
-	exit;
+
+	break;
 
 case 'bulk-delete':
 	check_admin_referer( 'bulk-tags' );
@@ -110,8 +111,8 @@ case 'bulk-delete':
 	}
 
 	$location = add_query_arg( 'message', 6, $location );
-	wp_redirect( $location );
-	exit;
+
+	break;
 
 case 'edit':
 	$title = $tax->labels->edit_item;
@@ -123,8 +124,9 @@ case 'edit':
 		wp_die( __( 'You attempted to edit an item that doesn&#8217;t exist. Perhaps it was deleted?' ) );
 	require_once( ABSPATH . 'wp-admin/admin-header.php' );
 	include( ABSPATH . 'wp-admin/edit-tag-form.php' );
+	include( ABSPATH . 'wp-admin/admin-footer.php' );
 
-break;
+	exit;
 
 case 'editedtag':
 	$tag_ID = (int) $_POST['tag_ID'];
@@ -152,17 +154,17 @@ case 'editedtag':
 		$location = add_query_arg( 'message', 3, $location );
 	else
 		$location = add_query_arg( 'message', 5, $location );
+	break;
+}
 
-	wp_redirect( $location );
-	exit;
-
-default:
-if ( ! empty($_REQUEST['_wp_http_referer']) ) {
+if ( ! $location && ! empty( $_REQUEST['_wp_http_referer'] ) ) {
 	$location = remove_query_arg( array('_wp_http_referer', '_wpnonce'), wp_unslash($_SERVER['REQUEST_URI']) );
+}
 
-	if ( ! empty( $_REQUEST['paged'] ) )
-		$location = add_query_arg( 'paged', (int) $_REQUEST['paged'] );
-
+if ( $location ) {
+	if ( ! empty( $_REQUEST['paged'] ) ) {
+		$location = add_query_arg( 'paged', (int) $_REQUEST['paged'], $location );
+	}
 	wp_redirect( $location );
 	exit;
 }
@@ -583,10 +585,7 @@ do_action( "{$taxonomy}_add_form", $taxonomy );
 <script type="text/javascript">
 try{document.forms.addtag['tag-name'].focus();}catch(e){}
 </script>
-<?php $wp_list_table->inline_edit(); ?>
-
 <?php
-break;
-}
+$wp_list_table->inline_edit();
 
 include( ABSPATH . 'wp-admin/admin-footer.php' );
