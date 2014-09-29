@@ -2750,7 +2750,7 @@ img {
 	margin: 4px 0;
 }
 
-#templateside a,
+#templateside li a,
 .theme-editor-php .highlight {
 	display: block;
 	padding: 3px 12px 3px 3px;
