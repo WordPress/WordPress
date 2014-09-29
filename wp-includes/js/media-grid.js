@@ -580,7 +580,7 @@
 		 * Respond to the keyboard events: right arrow, left arrow, escape.
 		 */
 		keyEvent: function( event ) {
-			if ( 'INPUT' === event.target.tagName && ! ( event.target.readOnly || event.target.disabled ) ) {
+			if ( ( 'INPUT' === event.target.nodeName || 'TEXTAREA' === event.target.nodeName ) && ! ( event.target.readOnly || event.target.disabled ) ) {
 				return;
 			}
 
