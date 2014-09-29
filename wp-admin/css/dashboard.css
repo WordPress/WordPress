@@ -163,7 +163,11 @@
 }
 
 .wp-core-ui .welcome-panel .button.button-hero {
-	margin: 15px 0 3px;
+	margin: 15px 13px 3px 0;
+	padding: 12px 36px;
+	height: auto;
+	line-height: 20px;
+	white-space: normal;
 }
 
 .welcome-panel-content {
