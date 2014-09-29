@@ -1796,9 +1796,11 @@ $plupload_init = array(
 	'multipart_params'    => $post_params,
 );
 
-// Currently only iOS Safari supports multiple files uploading but has a bug that prevents uploading of videos
+// Currently only iOS Safari supports multiple files uploading but iOS 7.x has a bug that prevents uploading of videos
 // when enabled. See #29602.
-if ( wp_is_mobile() ) {
+if ( wp_is_mobile() && strpos( $_SERVER['HTTP_USER_AGENT'], 'OS 7_' ) !== false &&
+	strpos( $_SERVER['HTTP_USER_AGENT'], 'like Mac OS X' ) !== false ) {
+
 	$plupload_init['multi_selection'] = false;
 }
 
