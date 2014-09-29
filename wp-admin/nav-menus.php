@@ -380,7 +380,7 @@ switch ( $action ) {
 }
 
 // Get all nav menus.
-$nav_menus = wp_get_nav_menus( array('orderby' => 'name') );
+$nav_menus = wp_get_nav_menus();
 $menu_count = count( $nav_menus );
 
 // Are we on the add new screen?
