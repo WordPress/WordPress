@@ -409,7 +409,7 @@ class SMTP
         // RFC 2104 HMAC implementation for php.
         // Creates an md5 HMAC.
         // Eliminates the need to install mhash to compute a HMAC
-        // Hacked by Lance Rushing
+        // by Lance Rushing
 
         $b = 64; // byte length for md5
         if (strlen($key) > $b) {
