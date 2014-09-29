@@ -460,6 +460,7 @@ function wp_update_nav_menu_item( $menu_id = 0, $menu_item_db_id = 0, $menu_item
  * Returns all navigation menu objects.
  *
  * @since 3.0.0
+ * @since 4.1.0 Default 'orderby' argument changed from 'none' to 'name'.
  *
  * @param array $args Array of arguments passed on to get_terms().
  * @return array menu objects
