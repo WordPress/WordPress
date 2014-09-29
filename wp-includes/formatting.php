@@ -28,7 +28,7 @@
  * @return string The string replaced with html entities
  */
 function wptexturize($text, $reset = false) {
-	global $wp_cockneyreplace, $shortcode_tags;
+	global $wp_cockneyreplace;
 	static $static_characters, $static_replacements, $dynamic_characters, $dynamic_replacements,
 		$default_no_texturize_tags, $default_no_texturize_shortcodes, $run_texturize = true;
 
@@ -205,45 +205,55 @@ function wptexturize($text, $reset = false) {
 
 	// Look for shortcodes and HTML elements.
 
-	$tagnames = array_keys( $shortcode_tags );
-	$tagregexp = join( '|', array_map( 'preg_quote', $tagnames ) );
-	$tagregexp = "(?:$tagregexp)(?![\\w-])"; // Excerpt of get_shortcode_regex().
+	$comment_regex = 
+			'!'				// Start of comment, after the <.
+		.	'(?:'			// Unroll the loop: Consume everything until --> is found.
+		.		'-(?!->)'	// Dash not followed by end of comment.
+		.		'[^\-]*+'	// Consume non-dashes.
+		.	')*+'			// Loop possessively.
+		.	'(?:-->)?';		// End of comment. If not found, match all input.
 	
-	$regex =  '/('			// Capture the entire match.
-		.	'<'		// Find start of element.
-		.	'(?(?=!--)'	// Is this a comment?
-		.		'.+?--\s*>'	// Find end of comment
+	$shortcode_regex =
+			'\['			// Find start of shortcode.
+		.	'[\/\[]?'		// Shortcodes may begin with [/ or [[
+		.	'[^\s\/\[\]]'	// No whitespace before name.
+		.	'[^\[\]]*+'		// Shortcodes do not contain other shortcodes. Possessive critical.
+		.	'\]'			// Find end of shortcode.
+		.	'\]?';			// Shortcodes may end with ]]
+	
+	$regex = 
+			'/('					// Capture the entire match.
+		.		'<'					// Find start of element.
+		.		'(?(?=!--)'			// Is this a comment?
+		.			$comment_regex	// Find end of comment.
+		.		'|'
+		.			'[^>]+>'		// Find end of element.
+		.		')'
 		.	'|'
-		.		'[^>]+>'	// Find end of element
-		.	')'
-		. '|'
-		.	'\['		// Find start of shortcode.
-		.	'\[?'		// Shortcodes may begin with [[
-		.	'\/?'		// Closing slash may precede name.
-		.	$tagregexp	// Only match registered shortcodes, because performance.
-		.	'[^\[\]]*'	// Shortcodes do not contain other shortcodes.
-		.	'\]'		// Find end of shortcode.
-		.	'\]?'		// Shortcodes may end with ]]
-		. ')/s';
+		.		$shortcode_regex	// Find shortcodes.
+		.	')/s';
 
 	$textarr = preg_split( $regex, $text, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY );
 
 	foreach ( $textarr as &$curl ) {
 		// Only call _wptexturize_pushpop_element if $curl is a delimiter.
 		$first = $curl[0];
-		if ( '<' === $first && '>' === substr( $curl, -1 ) ) {
-			// This is an HTML delimiter.
+		if ( '<' === $first && '<!--' === substr( $curl, 0, 4 ) ) {
+			// This is an HTML comment delimeter.
 
-			if ( '<!--' !== substr( $curl, 0, 4 ) ) {
-				_wptexturize_pushpop_element( $curl, $no_texturize_tags_stack, $no_texturize_tags );
-			}
+			continue;
+
+		} elseif ( '<' === $first && '>' === substr( $curl, -1 ) ) {
+			// This is an HTML element delimiter.
+
+			_wptexturize_pushpop_element( $curl, $no_texturize_tags_stack, $no_texturize_tags );
 
 		} elseif ( '' === trim( $curl ) ) {
 			// This is a newline between delimiters.  Performance improves when we check this.
 
 			continue;
 
-		} elseif ( '[' === $first && 1 === preg_match( '/^\[\[?\/?' . $tagregexp . '[^\[\]]*\]\]?$/', $curl ) ) {
+		} elseif ( '[' === $first && 1 === preg_match( '/^' . $shortcode_regex . '$/', $curl ) ) {
 			// This is a shortcode delimiter.
 
 			if ( '[[' !== substr( $curl, 0, 2 ) && ']]' !== substr( $curl, -2 ) ) {
