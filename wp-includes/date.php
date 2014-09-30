@@ -313,18 +313,41 @@ class WP_Date_Query {
 		switch ( $compare ) {
 			case 'IN':
 			case 'NOT IN':
-				return '(' . implode( ',', array_map( 'intval', (array) $value ) ) . ')';
+				$value = (array) $value;
+
+				// Remove non-numeric values.
+				$value = array_filter( $value, 'is_numeric' );
+
+				if ( empty( $value ) ) {
+					return false;
+				}
+
+				return '(' . implode( ',', array_map( 'intval', $value ) ) . ')';
 
 			case 'BETWEEN':
 			case 'NOT BETWEEN':
-				if ( ! is_array( $value ) || 2 != count( $value ) || ! isset( $value[0] ) || ! isset( $value[1] ) )
+				if ( ! is_array( $value ) || 2 != count( $value ) ) {
 					$value = array( $value, $value );
+				} else {
+					$value = array_values( $value );
+				}
+
+				// If either value is non-numeric, bail.
+				foreach ( $value as $v ) {
+					if ( ! is_numeric( $v ) ) {
+						return false;
+					}
+				}
 
 				$value = array_map( 'intval', $value );
 
 				return $value[0] . ' AND ' . $value[1];
 
 			default;
+				if ( ! is_numeric( $value ) ) {
+					return false;
+				}
+
 				return (int) $value;
 		}
 	}
