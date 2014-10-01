@@ -1077,7 +1077,7 @@
 		 */
 		init: function() {
 			$(document.body)
-				.on( 'click', '.insert-media', function( event ) {
+				.on( 'click.add-media-button', '.insert-media', function( event ) {
 					var elem = $( event.currentTarget ),
 						editor = elem.data('editor'),
 						options = {
