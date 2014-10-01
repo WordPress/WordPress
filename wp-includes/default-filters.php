@@ -191,6 +191,7 @@ add_filter( 'editable_slug',            'esc_textarea'                        );
 add_filter( 'nav_menu_meta_box_object', '_wp_nav_menu_meta_box_object'        );
 add_filter( 'pingback_ping_source_uri', 'pingback_ping_source_uri'            );
 add_filter( 'xmlrpc_pingback_error',    'xmlrpc_pingback_error'               );
+add_filter( 'title_save_pre',           'trim'                                );
 
 add_filter( 'http_request_host_is_external', 'allowed_http_request_hosts', 10, 2 );
 
