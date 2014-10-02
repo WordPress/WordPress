@@ -67,7 +67,7 @@ $user_can_edit = current_user_can( 'edit_posts' ) || current_user_can( 'edit_pag
  */
 function use_ssl_preference($user) {
 ?>
-	<tr>
+	<tr class="user-use-ssl-wrap">
 		<th scope="row"><?php _e('Use https')?></th>
 		<td><label for="use_ssl"><input name="use_ssl" type="checkbox" id="use_ssl" value="1" <?php checked('1', $user->use_ssl); ?> /> <?php _e('Always use https when visiting the admin'); ?></label></td>
 	</tr>
@@ -242,13 +242,13 @@ if ( ! IS_PROFILE_PAGE ) {
 
 <table class="form-table">
 <?php if ( ! ( IS_PROFILE_PAGE && ! $user_can_edit ) ) : ?>
-	<tr>
+	<tr class="user-rich-editing-wrap">
 		<th scope="row"><?php _e('Visual Editor')?></th>
 		<td><label for="rich_editing"><input name="rich_editing" type="checkbox" id="rich_editing" value="false" <?php if ( ! empty( $profileuser->rich_editing ) ) checked( 'false', $profileuser->rich_editing ); ?> /> <?php _e( 'Disable the visual editor when writing' ); ?></label></td>
 	</tr>
 <?php endif; ?>
 <?php if ( count($_wp_admin_css_colors) > 1 && has_action('admin_color_scheme_picker') ) : ?>
-<tr>
+<tr class="user-admin-color-wrap">
 <th scope="row"><?php _e('Admin Color Scheme')?></th>
 <?php
 /**
@@ -265,12 +265,12 @@ if ( ! IS_PROFILE_PAGE ) {
 <?php
 endif; // $_wp_admin_css_colors
 if ( !( IS_PROFILE_PAGE && !$user_can_edit ) ) : ?>
-<tr>
+<tr class="user-comment-shortcuts-wrap">
 <th scope="row"><?php _e( 'Keyboard Shortcuts' ); ?></th>
 <td><label for="comment_shortcuts"><input type="checkbox" name="comment_shortcuts" id="comment_shortcuts" value="true" <?php if ( ! empty( $profileuser->comment_shortcuts ) ) checked( 'true', $profileuser->comment_shortcuts ); ?> /> <?php _e('Enable keyboard shortcuts for comment moderation.'); ?></label> <?php _e('<a href="http://codex.wordpress.org/Keyboard_Shortcuts" target="_blank">More information</a>'); ?></td>
 </tr>
 <?php endif; ?>
-<tr class="show-admin-bar">
+<tr class="show-admin-bar user-admin-bar-front-wrap">
 <th scope="row"><?php _e('Toolbar')?></th>
 <td><fieldset><legend class="screen-reader-text"><span><?php _e('Toolbar') ?></span></legend>
 <label for="admin_bar_front">
@@ -308,13 +308,13 @@ do_action( 'personal_options', $profileuser );
 <h3><?php _e('Name') ?></h3>
 
 <table class="form-table">
-	<tr>
+	<tr class="user-user-login-wrap">
 		<th><label for="user_login"><?php _e('Username'); ?></label></th>
 		<td><input type="text" name="user_login" id="user_login" value="<?php echo esc_attr($profileuser->user_login); ?>" disabled="disabled" class="regular-text" /> <span class="description"><?php _e('Usernames cannot be changed.'); ?></span></td>
 	</tr>
 
 <?php if ( !IS_PROFILE_PAGE && !is_network_admin() ) : ?>
-<tr><th><label for="role"><?php _e('Role') ?></label></th>
+<tr class="user-role-wrap"><th><label for="role"><?php _e('Role') ?></label></th>
 <td><select name="role" id="role">
 <?php
 // Compare user role against currently editable roles
@@ -334,7 +334,7 @@ else
 <?php endif; //!IS_PROFILE_PAGE
 
 if ( is_multisite() && is_network_admin() && ! IS_PROFILE_PAGE && current_user_can( 'manage_network_options' ) && !isset($super_admins) ) { ?>
-<tr><th><?php _e('Super Admin'); ?></th>
+<tr class="user-super-admin-wrap"><th><?php _e('Super Admin'); ?></th>
 <td>
 <?php if ( $profileuser->user_email != get_site_option( 'admin_email' ) || ! is_super_admin( $profileuser->ID ) ) : ?>
 <p><label><input type="checkbox" id="super_admin" name="super_admin"<?php checked( is_super_admin( $profileuser->ID ) ); ?> /> <?php _e( 'Grant this user super admin privileges for the Network.' ); ?></label></p>
@@ -344,22 +344,22 @@ if ( is_multisite() && is_network_admin() && ! IS_PROFILE_PAGE && current_user_c
 </td></tr>
 <?php } ?>
 
-<tr>
+<tr class="user-first-name-wrap">
 	<th><label for="first_name"><?php _e('First Name') ?></label></th>
 	<td><input type="text" name="first_name" id="first_name" value="<?php echo esc_attr($profileuser->first_name) ?>" class="regular-text" /></td>
 </tr>
 
-<tr>
+<tr class="user-last-name-wrap">
 	<th><label for="last_name"><?php _e('Last Name') ?></label></th>
 	<td><input type="text" name="last_name" id="last_name" value="<?php echo esc_attr($profileuser->last_name) ?>" class="regular-text" /></td>
 </tr>
 
-<tr>
+<tr class="user-nickname-wrap">
 	<th><label for="nickname"><?php _e('Nickname'); ?> <span class="description"><?php _e('(required)'); ?></span></label></th>
 	<td><input type="text" name="nickname" id="nickname" value="<?php echo esc_attr($profileuser->nickname) ?>" class="regular-text" /></td>
 </tr>
 
-<tr>
+<tr class="user-display-name-wrap">
 	<th><label for="display_name"><?php _e('Display name publicly as') ?></label></th>
 	<td>
 		<select name="display_name" id="display_name">
@@ -399,7 +399,7 @@ if ( is_multisite() && is_network_admin() && ! IS_PROFILE_PAGE && current_user_c
 <h3><?php _e('Contact Info') ?></h3>
 
 <table class="form-table">
-<tr>
+<tr class="user-email-wrap">
 	<th><label for="email"><?php _e('E-mail'); ?> <span class="description"><?php _e('(required)'); ?></span></label></th>
 	<td><input type="email" name="email" id="email" value="<?php echo esc_attr( $profileuser->user_email ) ?>" class="regular-text ltr" />
 	<?php
@@ -412,7 +412,7 @@ if ( is_multisite() && is_network_admin() && ! IS_PROFILE_PAGE && current_user_c
 	</td>
 </tr>
 
-<tr>
+<tr class="user-url-wrap">
 	<th><label for="url"><?php _e('Website') ?></label></th>
 	<td><input type="url" name="url" id="url" value="<?php echo esc_attr( $profileuser->user_url ) ?>" class="regular-text code" /></td>
 </tr>
@@ -420,7 +420,7 @@ if ( is_multisite() && is_network_admin() && ! IS_PROFILE_PAGE && current_user_c
 <?php
 	foreach ( wp_get_user_contact_methods( $profileuser ) as $name => $desc ) {
 ?>
-<tr>
+<tr class="user-<?php echo $name; ?>-wrap">
 	<?php
 	/**
 	 * Filter a user contactmethod label.
@@ -444,7 +444,7 @@ if ( is_multisite() && is_network_admin() && ! IS_PROFILE_PAGE && current_user_c
 <h3><?php IS_PROFILE_PAGE ? _e('About Yourself') : _e('About the user'); ?></h3>
 
 <table class="form-table">
-<tr>
+<tr class="user-description-wrap">
 	<th><label for="description"><?php _e('Biographical Info'); ?></label></th>
 	<td><textarea name="description" id="description" rows="5" cols="30"><?php echo $profileuser->description; // textarea_escaped ?></textarea><br />
 	<span class="description"><?php _e('Share a little biographical information to fill out your profile. This may be shown publicly.'); ?></span></td>
@@ -455,7 +455,7 @@ if ( is_multisite() && is_network_admin() && ! IS_PROFILE_PAGE && current_user_c
 $show_password_fields = apply_filters( 'show_password_fields', true, $profileuser );
 if ( $show_password_fields ) :
 ?>
-<tr id="password">
+<tr id="password" class="user-pass1-wrap">
 	<th><label for="pass1"><?php _e( 'New Password' ); ?></label></th>
 	<td>
 		<input class="hidden" value=" " /><!-- #24364 workaround -->
@@ -463,7 +463,7 @@ if ( $show_password_fields ) :
 		<span class="description"><?php _e( 'If you would like to change the password type a new one. Otherwise leave this blank.' ); ?></span>
 	</td>
 </tr>
-<tr>
+<tr class="user-pass2-wrap">
 	<th scope="row"><label for="pass2"><?php _e( 'Repeat New Password' ); ?></label></th>
 	<td>
 	<input name="pass2" type="password" id="pass2" class="regular-text" size="16" value="" autocomplete="off" /><br />
@@ -518,7 +518,7 @@ if ( count( $profileuser->caps ) > count( $profileuser->roles )
 ) : ?>
 <h3><?php _e( 'Additional Capabilities' ); ?></h3>
 <table class="form-table">
-<tr>
+<tr class="user-capabilities-wrap">
 	<th scope="row"><?php _e( 'Capabilities' ); ?></th>
 	<td>
 <?php
