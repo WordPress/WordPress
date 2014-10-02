@@ -1321,14 +1321,12 @@ function get_comment_reply_link( $args = array(), $comment = null, $post = null 
 		return;
 	}
 
-	$add_below = $args['add_below'];
-	$respond_id = $args['respond_id'];
-	$reply_text = $args['reply_text'];
-
 	$comment = get_comment( $comment );
+
 	if ( empty( $post ) ) {
 		$post = $comment->comment_post_ID;
 	}
+
 	$post = get_post( $post );
 
 	if ( ! comments_open( $post->ID ) ) {
@@ -1336,9 +1334,21 @@ function get_comment_reply_link( $args = array(), $comment = null, $post = null 
 	}
 
 	if ( get_option( 'comment_registration' ) && ! is_user_logged_in() ) {
-		$link = '<a rel="nofollow" class="comment-reply-login" href="' . esc_url( wp_login_url( get_permalink() ) ) . '">' . $args['login_text'] . '</a>';
+		$link = sprintf( '<a rel="nofollow" class="comment-reply-login" href="%s">%s</a>',
+			esc_url( wp_login_url( get_permalink() ) ),
+			$args['login_text']
+		);
 	} else {
-		$link = "<a class='comment-reply-link' href='" . esc_url( add_query_arg( 'replytocom', $comment->comment_ID ) ) . "#" . $respond_id . "' onclick='return addComment.moveForm(\"$add_below-$comment->comment_ID\", \"$comment->comment_ID\", \"$respond_id\", \"$post->ID\")' aria-label='" . esc_attr( sprintf( $args['reply_to_text'], $comment->comment_author ) ) . "'>$reply_text</a>";
+		$onclick = sprintf( 'return addComment.moveForm( "%1$s-%2$s", "%2$s", "%3$s", "%4$s" )',
+			$args['add_below'], $comment->comment_ID, $args['respond_id'], $post->ID
+		);
+
+		$link = sprintf( "<a class='comment-reply-link' href='%s' onclick='%s' aria-label='%s'>%s</a>",
+			esc_url( add_query_arg( 'replytocom', $comment->comment_ID ) ) . "#" . $args['respond_id'],
+			$onclick,
+			esc_attr( sprintf( $args['reply_to_text'], $comment->comment_author ) ),
+			$args['reply_text']
+		);
 	}
 	/**
 	 * Filter the comment reply link.
@@ -1404,9 +1414,7 @@ function get_post_reply_link($args = array(), $post = null) {
 	);
 
 	$args = wp_parse_args($args, $defaults);
-	$add_below = $args['add_below'];
-	$respond_id = $args['respond_id'];
-	$reply_text = $args['reply_text'];
+
 	$post = get_post($post);
 
 	if ( ! comments_open( $post->ID ) ) {
@@ -1414,9 +1422,20 @@ function get_post_reply_link($args = array(), $post = null) {
 	}
 
 	if ( get_option('comment_registration') && ! is_user_logged_in() ) {
-		$link = '<a rel="nofollow" href="' . wp_login_url( get_permalink() ) . '">' . $args['login_text'] . '</a>';
+		$link = sprintf( '<a rel="nofollow" href="%s">%s</a>',
+			wp_login_url( get_permalink() ),
+			$args['login_text']
+		);
 	} else {
-		$link = "<a rel='nofollow' class='comment-reply-link' href='" . get_permalink($post->ID) . "#$respond_id' onclick='return addComment.moveForm(\"$add_below-$post->ID\", \"0\", \"$respond_id\", \"$post->ID\")'>$reply_text</a>";
+		$onclick = sprintf( 'return addComment.moveForm( "%1$s-%2$s", "0", "%3$s", "%2$s" )',
+			$args['add_below'], $post->ID, $args['respond_id']
+		);
+
+		$link = sprintf( "<a rel='nofollow' class='comment-reply-link' href='%s' onclick='%s'>%s</a>",
+			get_permalink( $post->ID ) . '#' . $args['respond_id'],
+			$onclick,
+			$args['reply_text']
+		);
 	}
 	$formatted_link = $args['before'] . $link . $args['after'];
 	/**
