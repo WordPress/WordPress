@@ -6079,6 +6079,41 @@
 						}
 					}
 				}).render() );
+
+				if ( media.view.settings.mediaTrash ) {
+					this.toolbar.set( 'deleteSelectedPermanentlyButton', new media.view.DeleteSelectedPermanentlyButton({
+						filters: Filters,
+						style: 'primary',
+						disabled: true,
+						text: l10n.deleteSelected,
+						controller: this.controller,
+						priority: -55,
+						click: function() {
+							var removed = [], selection = this.controller.state().get( 'selection' );
+
+							if ( ! selection.length ) {
+								return;
+							}
+
+							if ( ! confirm( l10n.warnBulkDelete ) ) {
+								return;
+							}
+
+							selection.each( function( model ) {
+								if ( ! model.get( 'nonces' )['delete'] ) {
+									removed.push( model );
+									return;
+								}
+
+								model.destroy();
+							} );
+
+							selection.remove( removed );
+							this.controller.trigger( 'selection:action:done' );
+						}
+					}).render() );
+				}
+
 			}
 
 			if ( this.options.search ) {

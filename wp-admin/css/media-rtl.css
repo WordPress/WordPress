@@ -585,7 +585,7 @@ border color while dragging a file over the uploader drop area */
 	margin-top: 15px;
 }
 
-.attachments-browser .media-toolbar-secondary > .select-mode-toggle-button {
+.attachments-browser .media-toolbar-secondary > .media-button {
 	margin-left: 10px;
 }
 

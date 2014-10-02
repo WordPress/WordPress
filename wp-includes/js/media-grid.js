@@ -630,22 +630,32 @@
 
 			children = toolbar.$( '.media-toolbar-secondary > *, .media-toolbar-primary > *');
 
+			// TODO: the Frame should be doing all of this.
 			if ( this.controller.isModeActive( 'select' ) ) {
 				this.model.set( 'text', l10n.cancelSelection );
-				children.not( '.delete-selected-button' ).hide();
-				toolbar.$( '.select-mode-toggle-button' ).show();
+				children.not( '.media-button' ).hide();
+				this.$el.show();
 				toolbar.$( '.delete-selected-button' ).removeClass( 'hidden' );
 			} else {
 				this.model.set( 'text', l10n.bulkSelect );
-				this.controller.content.get().$el.removeClass('fixed');
-				toolbar.$el.css('width', '');
+				this.controller.content.get().$el.removeClass( 'fixed' );
+				toolbar.$el.css( 'width', '' );
 				toolbar.$( '.delete-selected-button' ).addClass( 'hidden' );
-				children.not( '.spinner, .delete-selected-button' ).show();
+				children.not( '.spinner, .media-button' ).show();
 				this.controller.state().get( 'selection' ).reset();
 			}
 		}
 	});
 
+	/**
+	 * A button that handles bulk Delete/Trash logic
+	 *
+	 * @constructor
+	 * @augments wp.media.view.Button
+	 * @augments wp.media.View
+	 * @augments wp.Backbone.View
+	 * @augments Backbone.View
+	 */
 	media.view.DeleteSelectedButton = media.view.Button.extend({
 		initialize: function() {
 			media.view.Button.prototype.initialize.apply( this, arguments );
@@ -676,6 +686,45 @@
 			} else {
 				this.$el.addClass( 'delete-selected-button hidden' );
 			}
+			this.toggleDisabled();
+			return this;
+		}
+	});
+
+	/**
+	 * When MEDIA_TRASH is true, a button that handles bulk Delete Permanently logic
+	 *
+	 * @constructor
+	 * @augments wp.media.view.DeleteSelectedButton
+	 * @augments wp.media.view.Button
+	 * @augments wp.media.View
+	 * @augments wp.Backbone.View
+	 * @augments Backbone.View
+	 */
+	media.view.DeleteSelectedPermanentlyButton = media.view.DeleteSelectedButton.extend({
+		initialize: function() {
+			media.view.DeleteSelectedButton.prototype.initialize.apply( this, arguments );
+			this.listenTo( this.controller, 'select:activate', this.selectActivate );
+			this.listenTo( this.controller, 'select:deactivate', this.selectDeactivate );
+		},
+
+		filterChange: function( model ) {
+			this.canShow = ( 'trash' === model.get( 'status' ) );
+		},
+
+		selectActivate: function() {
+			this.toggleDisabled();
+			this.$el.toggleClass( 'hidden', ! this.canShow );
+		},
+
+		selectDeactivate: function() {
+			this.toggleDisabled();
+			this.$el.addClass( 'hidden' );
+		},
+
+		render: function() {
+			media.view.Button.prototype.render.apply( this, arguments );
+			this.selectActivate();
 			return this;
 		}
 	});
