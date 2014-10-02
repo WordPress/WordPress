@@ -6091,11 +6091,7 @@
 						click: function() {
 							var removed = [], selection = this.controller.state().get( 'selection' );
 
-							if ( ! selection.length ) {
-								return;
-							}
-
-							if ( ! confirm( l10n.warnBulkDelete ) ) {
+							if ( ! selection.length || ! confirm( l10n.warnBulkDelete ) ) {
 								return;
 							}
 
