@@ -4771,12 +4771,6 @@ function wp_delete_attachment( $post_id, $force_delete = false ) {
 	$backup_sizes = get_post_meta( $post->ID, '_wp_attachment_backup_sizes', true );
 	$file = get_attached_file( $post_id );
 
-	$intermediate_sizes = array();
-	foreach ( get_intermediate_image_sizes() as $size ) {
-		if ( $intermediate = image_get_intermediate_size( $post_id, $size ) )
-			$intermediate_sizes[] = $intermediate;
-	}
-
 	if ( is_multisite() )
 		delete_transient( 'dirsize_cache' );
 
@@ -4825,10 +4819,13 @@ function wp_delete_attachment( $post_id, $force_delete = false ) {
 	}
 
 	// Remove intermediate and backup images if there are any.
-	foreach ( $intermediate_sizes as $intermediate ) {
-		/** This filter is documented in wp-admin/custom-header.php */
-		$intermediate_file = apply_filters( 'wp_delete_file', $intermediate['path'] );
-		@ unlink( path_join($uploadpath['basedir'], $intermediate_file) );
+	if ( isset( $meta['sizes'] ) && is_array( $meta['sizes'] ) ) {
+		foreach ( $meta['sizes'] as $size => $sizeinfo ) {
+			$intermediate_file = str_replace( basename( $file ), $sizeinfo['file'], $file );
+			/** This filter is documented in wp-admin/custom-header.php */
+			$intermediate_file = apply_filters( 'wp_delete_file', $intermediate_file );
+			@ unlink( path_join( $uploadpath['basedir'], $intermediate_file ) );
+		}
 	}
 
 	if ( is_array($backup_sizes) ) {
