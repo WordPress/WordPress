@@ -218,11 +218,11 @@ video.wp-video-shortcode,
 	border-bottom: 0;
 }
 
-.wp-playlist-light .wp-playlist-item {
+.wp-playlist-light .wp-playlist-caption {
 	color: #333;
 }
 
-.wp-playlist-dark .wp-playlist-item {
+.wp-playlist-dark .wp-playlist-caption {
 	color: #dedede;
 }
 
