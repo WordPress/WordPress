@@ -915,9 +915,10 @@ Your new SITE_NAME site has been successfully set up at:
 BLOG_URL
 
 You can log in to the administrator account with the following information:
+
+Log in here: BLOG_URLwp-login.php
 Username: USERNAME
 Password: PASSWORD
-Log in here: BLOG_URLwp-login.php
 
 We hope you enjoy your new site. Thanks!
 
