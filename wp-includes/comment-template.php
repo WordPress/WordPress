@@ -2054,6 +2054,7 @@ function wp_list_comments( $args = array(), $comments = null ) {
  *                                        Default 'You may use these HTML tags and attributes ...'.
  *     @type string $id_form              The comment form element id attribute. Default 'commentform'.
  *     @type string $id_submit            The comment submit element id attribute. Default 'submit'.
+ *     @type string $class_submit         The comment submit element class attribute. Default 'submit'.
  *     @type string $name_submit          The comment submit element name attribute. Default 'submit'.
  *     @type string $title_reply          The translatable 'reply' button label. Default 'Leave a Reply'.
  *     @type string $title_reply_to       The translatable 'reply-to' button label. Default 'Leave a Reply to %s',
@@ -2109,6 +2110,7 @@ function comment_form( $args = array(), $post_id = null ) {
 		'comment_notes_after'  => '<p class="form-allowed-tags">' . sprintf( __( 'You may use these <abbr title="HyperText Markup Language">HTML</abbr> tags and attributes: %s' ), ' <code>' . allowed_tags() . '</code>' ) . '</p>',
 		'id_form'              => 'commentform',
 		'id_submit'            => 'submit',
+		'class_submit'         => 'submit',
 		'name_submit'          => 'submit',
 		'title_reply'          => __( 'Leave a Reply' ),
 		'title_reply_to'       => __( 'Leave a Reply to %s' ),
@@ -2230,7 +2232,7 @@ function comment_form( $args = array(), $post_id = null ) {
 						?>
 						<?php echo $args['comment_notes_after']; ?>
 						<p class="form-submit">
-							<input name="<?php echo esc_attr( $args['name_submit'] ); ?>" type="submit" id="<?php echo esc_attr( $args['id_submit'] ); ?>" value="<?php echo esc_attr( $args['label_submit'] ); ?>" />
+							<input name="<?php echo esc_attr( $args['name_submit'] ); ?>" type="submit" id="<?php echo esc_attr( $args['id_submit'] ); ?>" class="<?php echo esc_attr( $args['class_submit'] ); ?>" value="<?php echo esc_attr( $args['label_submit'] ); ?>" />
 							<?php comment_id_fields( $post_id ); ?>
 						</p>
 						<?php
