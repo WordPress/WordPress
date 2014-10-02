@@ -1676,11 +1676,16 @@ function wp_insert_user( $userdata ) {
 	if ( ! $update && username_exists( $user_login ) ) {
 		return new WP_Error( 'existing_user_login', __( 'Sorry, that username already exists!' ) );
 	}
-	if ( empty( $userdata['user_nicename'] ) ) {
-		$user_nicename = sanitize_title( $user_login );
+
+	// If a nicename is provided, remove unsafe user characters before
+	// using it. Otherwise build a nicename from the user_login.
+	if ( ! empty( $userdata['user_nicename'] ) ) {
+		$user_nicename = sanitize_user( $userdata['user_nicename'], true );
 	} else {
-		$user_nicename = $userdata['user_nicename'];
+		$user_nicename = $user_login;
 	}
+
+	$user_nicename = sanitize_title( $user_nicename );
 
 	// Store values to save in user meta.
 	$meta = array();
