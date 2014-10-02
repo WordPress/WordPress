@@ -448,20 +448,20 @@ if ( current_user_can($tax->cap->edit_terms) ) {
 <?php wp_nonce_field('add-tag', '_wpnonce_add-tag'); ?>
 
 <div class="form-field form-required term-name-wrap">
-	<label for="tag-name"><?php _ex('Name', 'Taxonomy Name'); ?></label>
+	<label for="tag-name"><?php _ex( 'Name', 'term name' ); ?></label>
 	<input name="tag-name" id="tag-name" type="text" value="" size="40" aria-required="true" />
 	<p><?php _e('The name is how it appears on your site.'); ?></p>
 </div>
 <?php if ( ! global_terms_enabled() ) : ?>
 <div class="form-field term-slug-wrap">
-	<label for="tag-slug"><?php _ex('Slug', 'Taxonomy Slug'); ?></label>
+	<label for="tag-slug"><?php _e( 'Slug' ); ?></label>
 	<input name="slug" id="tag-slug" type="text" value="" size="40" />
 	<p><?php _e('The &#8220;slug&#8221; is the URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens.'); ?></p>
 </div>
 <?php endif; // global_terms_enabled() ?>
 <?php if ( is_taxonomy_hierarchical($taxonomy) ) : ?>
 <div class="form-field term-parent-wrap">
-	<label for="parent"><?php _ex('Parent', 'Taxonomy Parent'); ?></label>
+	<label for="parent"><?php _ex( 'Parent', 'term parent' ); ?></label>
 	<?php
 	$dropdown_args = array(
 		'hide_empty'       => 0,
@@ -501,7 +501,7 @@ if ( current_user_can($tax->cap->edit_terms) ) {
 </div>
 <?php endif; // is_taxonomy_hierarchical() ?>
 <div class="form-field term-description-wrap">
-	<label for="tag-description"><?php _ex('Description', 'Taxonomy Description'); ?></label>
+	<label for="tag-description"><?php _e( 'Description' ); ?></label>
 	<textarea name="description" id="tag-description" rows="5" cols="40"></textarea>
 	<p><?php _e('The description is not prominent by default; however, some themes may show it.'); ?></p>
 </div>
