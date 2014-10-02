@@ -82,7 +82,17 @@ class WP_Media_List_Table extends WP_List_Table {
 
 	protected function get_bulk_actions() {
 		$actions = array();
-		$actions['delete'] = __( 'Delete Permanently' );
+		if ( MEDIA_TRASH ) {
+			if ( $this->is_trash ) {
+				$actions['untrash'] = __( 'Restore' );
+				$actions['delete'] = __( 'Delete Permanently' );
+			} else {
+				$actions['trash'] = __( 'Trash' );
+			}
+		} else {
+			$actions['delete'] = __( 'Delete Permanently' );
+		}
+
 		if ( $this->detached )
 			$actions['attach'] = __( 'Attach to a post' );
 
