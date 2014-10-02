@@ -284,15 +284,15 @@ function wp_new_blog_notification($blog_title, $blog_url, $user_id, $password) {
 
 You can log in to the administrator account with the following information:
 
-Log in here: %4\$s
-Username: %2\$s
-Password: %3\$s
+Log in here: %2\$s
+Username: %3\$s
+Password: %4\$s
 
 We hope you enjoy your new site. Thanks!
 
 --The WordPress Team
 https://wordpress.org/
-"), $blog_url, $name, $password, $login_url );
+"), $blog_url, $login_url, $name, $password );
 
 	@wp_mail($email, __('New WordPress Site'), $message);
 }
