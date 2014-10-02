@@ -1305,13 +1305,14 @@ function comments_popup_link( $zero = false, $one = false, $more = false, $css_c
 function get_comment_reply_link( $args = array(), $comment = null, $post = null ) {
 
 	$defaults = array(
-		'add_below'  => 'comment',
-		'respond_id' => 'respond',
-		'reply_text' => __('Reply'),
-		'login_text' => __('Log in to Reply'),
-		'depth'      => 0,
-		'before'     => '',
-		'after'      => ''
+		'add_below'     => 'comment',
+		'respond_id'    => 'respond',
+		'reply_text'    => __( 'Reply' ),
+		'reply_to_text' => __( 'Reply to %s' ),
+		'login_text'    => __( 'Log in to Reply' ),
+		'depth'         => 0,
+		'before'        => '',
+		'after'         => ''
 	);
 
 	$args = wp_parse_args( $args, $defaults );
@@ -1337,7 +1338,7 @@ function get_comment_reply_link( $args = array(), $comment = null, $post = null 
 	if ( get_option( 'comment_registration' ) && ! is_user_logged_in() ) {
 		$link = '<a rel="nofollow" class="comment-reply-login" href="' . esc_url( wp_login_url( get_permalink() ) ) . '">' . $args['login_text'] . '</a>';
 	} else {
-		$link = "<a class='comment-reply-link' href='" . esc_url( add_query_arg( 'replytocom', $comment->comment_ID ) ) . "#" . $respond_id . "' onclick='return addComment.moveForm(\"$add_below-$comment->comment_ID\", \"$comment->comment_ID\", \"$respond_id\", \"$post->ID\")'>$reply_text</a>";
+		$link = "<a class='comment-reply-link' href='" . esc_url( add_query_arg( 'replytocom', $comment->comment_ID ) ) . "#" . $respond_id . "' onclick='return addComment.moveForm(\"$add_below-$comment->comment_ID\", \"$comment->comment_ID\", \"$respond_id\", \"$post->ID\")' aria-label='" . esc_attr( sprintf( $args['reply_to_text'], $comment->comment_author ) ) . "'>$reply_text</a>";
 	}
 	/**
 	 * Filter the comment reply link.
