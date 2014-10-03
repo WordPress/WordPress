@@ -24,7 +24,26 @@ if ( is_multisite() && ! is_network_admin() ) {
 
 $wp_list_table = _get_list_table('WP_Plugin_Install_List_Table');
 $pagenum = $wp_list_table->get_pagenum();
+
+if ( ! empty( $_REQUEST['_wp_http_referer'] ) ) {
+	$location = remove_query_arg( '_wp_http_referer', wp_unslash( $_SERVER['REQUEST_URI'] ) );
+
+	if ( ! empty( $_REQUEST['paged'] ) ) {
+		$location = add_query_arg( 'paged', (int) $_REQUEST['paged'], $location );
+	}
+
+	wp_redirect( $location );
+	exit;
+}
+
 $wp_list_table->prepare_items();
+
+$total_pages = $wp_list_table->get_pagination_arg( 'total_pages' );
+
+if ( $pagenum > $total_pages && $total_pages > 0 ) {
+	wp_redirect( add_query_arg( 'paged', $total_pages ) );
+	exit;
+}
 
 $title = __( 'Add Plugins' );
 $parent_file = 'plugins.php';
