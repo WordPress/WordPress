@@ -454,7 +454,8 @@ function install_plugin_information() {
 				$_rating = $api->num_ratings ? ( $ratecount / $api->num_ratings ) : 0;
 				?>
 				<div class="counter-container">
-					<a href="<?php echo esc_url( self_admin_url( 'plugin-install.php?tab=plugin-information&amp;plugin=' . $api->slug . '&amp;section=reviews' ) ); ?>"
+					<a href="https://wordpress.org/support/view/plugin-reviews/<?php echo $api->slug; ?>?filter=<?php echo $key; ?>"
+					   target="_blank"
 					   title="<?php echo esc_attr( sprintf( _n( 'Click to see reviews that provided a rating of %d star', 'Click to see reviews that provided a rating of %d stars', $key ), $key ) ); ?>">
 						<span class="counter-label"><?php printf( _n( '%d star', '%d stars', $key ), $key ); ?></span>
 						<span class="counter-back">
