@@ -4840,6 +4840,8 @@
 				this.model.on( 'selection:single selection:unsingle', this.details, this );
 				this.details( this.model, this.controller.state().get('selection') );
 			}
+
+			this.listenTo( this.controller, 'attachment:compat:waiting attachment:compat:ready', this.updateSave );
 		},
 		/**
 		 * @returns {wp.media.view.Attachment} Returns itself to allow chaining
@@ -6908,7 +6910,12 @@
 				data[ pair.name ] = pair.value;
 			});
 
-			this.model.saveCompat( data );
+			this.controller.trigger( 'attachment:compat:waiting', ['waiting'] );
+			this.model.saveCompat( data ).always( _.bind( this.postSave, this ) );
+		},
+
+		postSave: function() {
+			this.controller.trigger( 'attachment:compat:ready', ['ready'] );
 		}
 	});
 
