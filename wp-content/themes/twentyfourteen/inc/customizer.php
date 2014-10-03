@@ -15,10 +15,6 @@
  * @param WP_Customize_Manager $wp_customize Theme Customizer object.
  */
 function twentyfourteen_customize_register( $wp_customize ) {
-	// Add custom description to Colors and Background sections.
-	$wp_customize->get_section( 'colors' )->description           = __( 'Background may only be visible on wide screens.', 'twentyfourteen' );
-	$wp_customize->get_section( 'background_image' )->description = __( 'Background may only be visible on wide screens.', 'twentyfourteen' );
-
 	// Add postMessage support for site title and description.
 	$wp_customize->get_setting( 'blogname' )->transport         = 'postMessage';
 	$wp_customize->get_setting( 'blogdescription' )->transport  = 'postMessage';
@@ -29,6 +25,15 @@ function twentyfourteen_customize_register( $wp_customize ) {
 
 	// Rename the label to "Display Site Title & Tagline" in order to make this option extra clear.
 	$wp_customize->get_control( 'display_header_text' )->label = __( 'Display Site Title &amp; Tagline', 'twentyfourteen' );
+
+	// Add custom description to Colors and Background controls or sections.
+	if ( property_exists( $wp_customize->get_control( 'background_color' ), 'description' ) ) {
+		$wp_customize->get_control( 'background_color' )->description = __( 'May only be visible on wide screens.', 'twentyfourteen' );
+		$wp_customize->get_control( 'background_image' )->description = __( 'May only be visible on wide screens.', 'twentyfourteen' );
+	} else {
+		$wp_customize->get_section( 'colors' )->description           = __( 'Background may only be visible on wide screens.', 'twentyfourteen' );
+		$wp_customize->get_section( 'background_image' )->description = __( 'Background may only be visible on wide screens.', 'twentyfourteen' );
+	}
 
 	// Add the featured content section in case it's not already there.
 	$wp_customize->add_section( 'featured_content', array(
