@@ -1967,6 +1967,8 @@ td.media-icon {
 td.media-icon img {
 	max-width: 80px;
 	max-height: 60px;
+	width: auto;
+	height: auto;
 }
 
 td.image-icon img {

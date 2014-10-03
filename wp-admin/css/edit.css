@@ -290,6 +290,7 @@ ul.wp-tab-bar li {
 #postimagediv .inside img {
 	max-width: 100%;
 	height: auto;
+	width: auto;
 }
 
 form#tags-filter {
