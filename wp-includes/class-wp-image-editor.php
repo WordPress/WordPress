@@ -236,10 +236,10 @@ abstract class WP_Image_Editor {
 				 * @param string $context Context of the filter.
 				 */
 				$quality = apply_filters( 'jpeg_quality', $quality, 'image_resize' );
+			}
 
-				if ( ! $this->set_quality( $quality ) ) {
-					$this->quality = $this->default_quality;
-				}
+			if ( ! $this->set_quality( $quality ) ) {
+				$this->quality = $this->default_quality;
 			}
 		}
 
@@ -256,8 +256,12 @@ abstract class WP_Image_Editor {
 	 * @return boolean|WP_Error True if set successfully; WP_Error on failure.
 	 */
 	public function set_quality( $quality = null ) {
+		if ( null === $quality ) {
+			$quality = $this->default_quality;
+		}
+
 		// Allow 0, but squash to 1 due to identical images in GD, and for backwards compatibility.
-		if ( $quality == 0 ) {
+		if ( 0 === $quality ) {
 			$quality = 1;
 		}
 

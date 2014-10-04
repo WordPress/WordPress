@@ -114,7 +114,7 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 		$this->update_size( $size[0], $size[1] );
 		$this->mime_type = $size['mime'];
 
-		return true;
+		return $this->set_quality();
 	}
 
 	/**
