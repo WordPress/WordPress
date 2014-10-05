@@ -550,48 +550,109 @@ $(document).ready( function() {
 		$window = $( window ),
 		$body = $( document.body ),
 		$adminMenuWrap = $( '#adminmenuwrap' ),
-		$collapseMenu = $( '#collapse-menu' ),
 		$wpwrap = $( '#wpwrap' ),
 		$adminmenu = $( '#adminmenu' ),
 		$overlay = $( '#wp-responsive-overlay' ),
 		$toolbar = $( '#wp-toolbar' ),
 		$toolbarPopups = $toolbar.find( 'a[aria-haspopup="true"]' ),
 		$sortables = $('.meta-box-sortables'),
-		stickyMenuActive = false,
-		wpResponsiveActive = false;
+		wpResponsiveActive = false,
+		$adminbar = $( '#wpadminbar' ),
+		lastScrollPosition = 0,
+		fixedMenuTop = false,
+		fixedMenuBottom = false,
+		menuTop = 0,
+		height = {
+			window: $window.height(),
+			adminbar: $adminbar.height(),
+			menu: $adminMenuWrap.height()
+		};
 
-	window.stickyMenu = {
-		enable: function() {
-			if ( ! stickyMenuActive ) {
-				$document.on( 'wp-window-resized.sticky-menu', $.proxy( this.update, this ) );
-				$collapseMenu.on( 'click.sticky-menu', $.proxy( this.update, this ) );
-				this.update();
-				stickyMenuActive = true;
-			}
-		},
+	function pinMenu() {
+		var windowPos = $window.scrollTop();
 
-		disable: function() {
-			if ( stickyMenuActive ) {
-				$window.off( 'resize.sticky-menu' );
-				$collapseMenu.off( 'click.sticky-menu' );
-				$body.removeClass( 'sticky-menu' );
-				stickyMenuActive = false;
-			}
-		},
+		if ( $adminmenu.data('wp-responsive') ) {
+			return;
+		}
 
-		update: function() {
-			// Make the admin menu sticky if the viewport is taller than it
-			if ( $window.height() > $adminMenuWrap.height() + 32 ) {
-				if ( ! $body.hasClass( 'sticky-menu' ) ) {
-					$body.addClass( 'sticky-menu' );
+		if ( height.menu + height.adminbar > height.window ) {
+			if ( windowPos > lastScrollPosition ) {
+				// Scrolling down
+				if ( fixedMenuTop ) {
+					// let it scroll
+					fixedMenuTop = false;
+					menuTop = $adminMenuWrap.offset().top - height.adminbar;
+
+					$adminMenuWrap.css({
+						position: 'absolute',
+						top: menuTop,
+						bottom: ''
+					});
+				} else if ( ! fixedMenuBottom && $adminMenuWrap.offset().top + height.menu < windowPos + height.window ) {
+					// pin the bottom
+					fixedMenuBottom = true;
+
+					$adminMenuWrap.css({
+						position: 'fixed',
+						top: '',
+						bottom: 0
+					});
 				}
-			} else {
-				if ( $body.hasClass( 'sticky-menu' ) ) {
-					$body.removeClass( 'sticky-menu' );
+			} else if ( windowPos < lastScrollPosition ) {
+				// Scrolling up
+				if ( fixedMenuBottom ) {
+					// let it scroll
+					fixedMenuBottom = false;
+					menuTop = $adminMenuWrap.offset().top - height.adminbar;
+
+					$adminMenuWrap.css({
+						position: 'absolute',
+						top: menuTop,
+						bottom: ''
+					});
+				} else if ( ! fixedMenuTop && $adminMenuWrap.offset().top >= windowPos + height.adminbar ) {
+					// pin the top
+					fixedMenuTop = true;
+
+					$adminMenuWrap.css({
+						position: 'fixed',
+						top: '',
+						bottom: ''
+					});
 				}
 			}
 		}
-	};
+
+		lastScrollPosition = windowPos;
+	}
+
+	function setPinMenu() {
+		if ( $adminmenu.data('wp-responsive') ) {
+			$body.removeClass( 'sticky-menu' );
+			$adminMenuWrap.css({
+				position: '',
+				top: '',
+				bottom: ''
+			});
+		} else if ( height.menu + height.adminbar > height.window ) {
+			$body.removeClass( 'sticky-menu' );
+			pinMenu();
+		} else {
+			$body.addClass( 'sticky-menu' );
+		}
+	}
+
+	setPinMenu();
+	$window.on( 'scroll.pin-menu', pinMenu );
+
+	$document.on( 'wp-window-resized.pin-menu', function() {
+		height.window = $window.height();
+		height.adminbar = $adminbar.height();
+		setPinMenu();
+	}).on( 'wp-collapse-menu.pin-menu', function() {
+		height.menu = $adminMenuWrap.height();
+		setPinMenu();
+	});
 
 	window.wpResponsive = {
 		init: function() {
@@ -642,7 +703,7 @@ $(document).ready( function() {
 		},
 
 		activate: function() {
-			window.stickyMenu.disable();
+			setPinMenu();
 
 			if ( ! $body.hasClass( 'auto-fold' ) ) {
 				$body.addClass( 'auto-fold' );
@@ -653,7 +714,7 @@ $(document).ready( function() {
 		},
 
 		deactivate: function() {
-			window.stickyMenu.enable();
+			setPinMenu();
 			$adminmenu.removeData('wp-responsive');
 			this.enableSortables();
 		},
@@ -726,7 +787,6 @@ $(document).ready( function() {
 		}
 	};
 
-	window.stickyMenu.enable();
 	window.wpResponsive.init();
 });
 
