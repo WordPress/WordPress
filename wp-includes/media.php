@@ -686,10 +686,10 @@ function wp_get_attachment_image_src($attachment_id, $size='thumbnail', $icon = 
  * @see add_image_size()
  * @uses wp_get_attachment_image_src() Gets attachment file URL and dimensions
  *
- * @param int $attachment_id Image attachment ID.
- * @param string $size Optional, default is 'thumbnail'.
- * @param bool $icon Optional, default is false. Whether it is an icon.
- * @param mixed $attr Optional, attributes for the image markup.
+ * @param int          $attachment_id Image attachment ID.
+ * @param string|array $size          Optional. Default 'thumbnail'.
+ * @param bool         $icon          Optional. Whether it is an icon. Default false.
+ * @param string|array $attr          Optional. Attributes for the image markup. Default empty string.
  * @return string HTML img element or empty string on failure.
  */
 function wp_get_attachment_image($attachment_id, $size = 'thumbnail', $icon = false, $attr = '') {
