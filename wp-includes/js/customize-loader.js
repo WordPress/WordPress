@@ -14,9 +14,9 @@ window.wp = window.wp || {};
 	 * Allows the Customizer to be overlayed on any page.
 	 *
 	 * By default, any element in the body with the load-customize class will open
-	 * the Customizer overlay with the URL specified.
+	 * an iframe overlay with the URL specified.
 	 *
-	 *     e.g. <a class="load-customize" href="http://siteurl.com/2014/01/02/post">Open customizer</a>
+	 *     e.g. <a class="load-customize" href="<?php echo wp_customize_url(); ?>">Open customizer</a>
 	 *
 	 * @augments wp.customize.Events
 	 */
