@@ -102,10 +102,15 @@ if ( $action ) {
 
 			$themes = isset( $_REQUEST['checked'] ) ? (array) $_REQUEST['checked'] : array();
 
-			unset( $themes[ get_option( 'stylesheet' ) ], $themes[ get_option( 'template' ) ] );
-
 			if ( empty( $themes ) ) {
 				wp_safe_redirect( add_query_arg( 'error', 'none', $referer ) );
+				exit;
+			}
+
+			$themes = array_diff( $themes, array( get_option( 'stylesheet' ), get_option( 'template' ) ) );
+
+			if ( empty( $themes ) ) {
+				wp_safe_redirect( add_query_arg( 'error', 'main', $referer ) );
 				exit;
 			}
 
@@ -113,11 +118,6 @@ if ( $action ) {
 			foreach ( $themes as $key => $theme ) {
 				$theme_info[ $theme ] = wp_get_theme( $theme );
 				$files_to_delete = array_merge( $files_to_delete, list_files( $theme_info[ $theme ]->get_stylesheet_directory() ) );
-			}
-
-			if ( empty( $themes ) ) {
-				wp_safe_redirect( add_query_arg( 'error', 'main', $referer ) );
-				exit;
 			}
 
 			include(ABSPATH . 'wp-admin/update.php');
