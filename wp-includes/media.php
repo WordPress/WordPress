@@ -699,12 +699,14 @@ function wp_get_attachment_image($attachment_id, $size = 'thumbnail', $icon = fa
 	if ( $image ) {
 		list($src, $width, $height) = $image;
 		$hwstring = image_hwstring($width, $height);
-		if ( is_array($size) )
-			$size = join('x', $size);
+		$size_class = $size;
+		if ( is_array( $size_class ) ) {
+			$size_class = join( 'x', $size_class );
+		}
 		$attachment = get_post($attachment_id);
 		$default_attr = array(
 			'src'	=> $src,
-			'class'	=> "attachment-$size",
+			'class'	=> "attachment-$size_class",
 			'alt'	=> trim(strip_tags( get_post_meta($attachment_id, '_wp_attachment_image_alt', true) )), // Use Alt field first
 		);
 		if ( empty($default_attr['alt']) )
@@ -719,10 +721,11 @@ function wp_get_attachment_image($attachment_id, $size = 'thumbnail', $icon = fa
 		 *
 		 * @since 2.8.0
 		 *
-		 * @param mixed $attr       Attributes for the image markup.
-		 * @param int   $attachment Image attachment post.
+		 * @param array        $attr       Attributes for the image markup.
+		 * @param WP_Post      $attachment Image attachment post.
+		 * @param string|array $size       Requested size.
 		 */
-		$attr = apply_filters( 'wp_get_attachment_image_attributes', $attr, $attachment );
+		$attr = apply_filters( 'wp_get_attachment_image_attributes', $attr, $attachment, $size );
 		$attr = array_map( 'esc_attr', $attr );
 		$html = rtrim("<img $hwstring");
 		foreach ( $attr as $name => $value ) {
