@@ -141,6 +141,7 @@
 #adminmenuwrap {
 	position: relative;
 	float: left;
+	z-index: 9990;
 }
 
 /* side admin menu */
@@ -406,7 +407,6 @@ div.wp-menu-image:before {
 /* Sticky admin menu */
 .sticky-menu #adminmenuwrap {
 	position: fixed;
-	z-index: 9999; /* Match the z-index of .wp-submenu to ensure flyout menus don't appear underneath main column elements */
 }
 
 /* A new arrow */
