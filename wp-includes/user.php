@@ -439,6 +439,8 @@ function delete_user_option( $user_id, $option_name, $global = false ) {
  * WordPress User Query class.
  *
  * @since 3.1.0
+ *
+ * @see WP_User_Query::prepare_query() for information on accepted arguments.
  */
 class WP_User_Query {
 
@@ -495,8 +497,45 @@ class WP_User_Query {
 	 * Prepare the query variables.
 	 *
 	 * @since 3.1.0
+	 * @access public
 	 *
-	 * @param string|array $args Optional. The query variables.
+	 * @param string|array $query {
+	 *     Optional. Array or string of Query parameters.
+	 *
+	 *     @type int          $blog_id         The site ID. Default is the global blog id.
+	 *     @type string       $role            Role name. Default empty.
+	 *     @type string       $meta_key        User meta key. Default empty.
+	 *     @type string       $meta_value      User meta value. Default empty.
+	 *     @type string       $meta_compare    Comparison operator to test the `$meta_value`. Accepts '=', '!=',
+	 *                                         '>', '>=', '<', '<=', 'LIKE', 'NOT LIKE', 'IN', 'NOT IN', 'BETWEEN',
+	 *                                         'NOT BETWEEN', 'EXISTS', 'NOT EXISTS', 'REGEXP', 'NOT REGEXP',
+	 *                                         or 'RLIKE'. Default '='.
+	 *     @type array        $include         An array of user IDs to include. Default empty array.
+	 *     @type array        $exclude         An array of user IDs to exclude. Default empty array.
+	 *     @type string       $search          Search keyword. Searches for possible string matches on columns.
+	 *                                         When `$search_columns` is left empty, it tries to determine which
+	 *                                         column to search in based on search string. Default empty.
+	 *     @type array        $search_columns  Array of column names to be searched. Accepts 'ID', 'login',
+	 *                                         'nicename', 'email', 'url'. Default empty array.
+	 *     @type string       $orderby         Field to sort the retrieved users by. Accepts 'ID', 'display_name',
+	 *                                         'login', 'nicename', 'email', 'url', 'registered', 'post_count', or
+	 *                                         'meta_value'. To use 'meta_value', `$meta_key` must be also be defined.
+	 *                                         Default 'user_login'.
+	 *     @type string       $order           Designates ascending or descending order of users. Accepts 'ASC',
+	 *                                         'DESC'. Default 'ASC'.
+	 *     @type int          $offset          Number of users to offset in retrieved results. Can be used in
+	 *                                         conjunction with pagination. Default 0.
+	 *     @type int          $number          Number of users to limit the query for. Can be used in conjunction
+	 *                                         with pagination. Value -1 (all) is not supported.
+	 *                                         Default empty (all users).
+	 *     @type bool         $count_total     Whether to count the total number of users found. If pagination is not
+	 *                                         needed, setting this to false can improve performance. Default true.
+	 *     @type string|array $fields          Which fields to return. Single or all fields (string), or array
+	 *                                         of fields. Accepts 'ID', 'display_name', 'login', 'nicename', 'email',
+	 *                                         'url', 'registered'. Use 'all' for all fields and 'all_with_meta' to
+	 *                                         include meta fields. Default 'all'.
+	 *     @type string       $who             Type of users to query. Accepts 'authors'. Default empty (all users).
+	 * }
 	 */
 	public function prepare_query( $query = array() ) {
 		global $wpdb;
@@ -924,9 +963,10 @@ class WP_User_Query {
  *
  * @since 3.1.0
  *
- * @uses WP_User_Query See for default arguments and information.
+ * @see WP_User_Query
  *
- * @param array $args Optional. Array of arguments.
+ * @param array $args Optional. Arguments to retrieve users. See {@see WP_User_Query::prepare_query()}
+ *                    for more information on accepted arguments.
  * @return array List of users.
  */
 function get_users( $args = array() ) {
