@@ -1512,10 +1512,10 @@ function get_terms( $taxonomies, $args = '' ) {
 			$selects = array( 'COUNT(*)' );
 			break;
 		case 'id=>name':
-			$selects = array( 't.term_id', 't.name' );
+			$selects = array( 't.term_id', 't.name', 'tt.count' );
 			break;
 		case 'id=>slug':
-			$selects = array( 't.term_id', 't.slug' );
+			$selects = array( 't.term_id', 't.slug', 'tt.count' );
 			break;
 	}
 
