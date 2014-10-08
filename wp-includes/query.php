@@ -2223,9 +2223,16 @@ class WP_Query {
 			'parent', 'type', 'ID', 'menu_order', 'comment_count', 'rand',
 		);
 
-		$meta_key = $this->get( 'meta_key' );
-		if ( ! empty( $meta_key ) ) {
-			$allowed_keys[] = $meta_key;
+		$primary_meta_key = '';
+		$primary_meta_query = false;
+		if ( ! empty( $this->meta_query->queries ) ) {
+			$primary_meta_query = reset( $this->meta_query->queries );
+
+			if ( ! empty( $primary_meta_query['key'] ) ) {
+				$primary_meta_key = $primary_meta_query['key'];
+				$allowed_keys[] = $primary_meta_key;
+			}
+
 			$allowed_keys[] = 'meta_value';
 			$allowed_keys[] = 'meta_value_num';
 		}
@@ -2250,12 +2257,11 @@ class WP_Query {
 			case 'rand':
 				$orderby = 'RAND()';
 				break;
-			case $meta_key:
+			case $primary_meta_key:
 			case 'meta_value':
-				$type = $this->get( 'meta_type' );
-				if ( ! empty( $type ) ) {
-					$meta_type = $this->meta_query->get_cast_for_type( $type );
-					$orderby = "CAST($wpdb->postmeta.meta_value AS {$meta_type})";
+				if ( ! empty( $primary_meta_query['type'] ) ) {
+					$sql_type = $this->meta_query->get_cast_for_type( $primary_meta_query['type'] );
+					$orderby = "CAST($wpdb->postmeta.meta_value AS {$sql_type})";
 				} else {
 					$orderby = "$wpdb->postmeta.meta_value";
 				}
