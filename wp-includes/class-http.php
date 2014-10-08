@@ -524,6 +524,9 @@ class WP_Http {
 				$cookies[] = new WP_Http_Cookie( $value, $url );
 		}
 
+		// Cast the Response Code to an int
+		$response['code'] = intval( $response['code'] );
+
 		return array('response' => $response, 'headers' => $newheaders, 'cookies' => $cookies);
 	}
 
