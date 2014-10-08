@@ -797,16 +797,23 @@ function wp_get_installed_translations( $type ) {
 	$language_data = array();
 
 	foreach ( $files as $file ) {
-		if ( '.' === $file[0] || is_dir( $file ) )
+		if ( '.' === $file[0] || is_dir( $file ) ) {
 			continue;
-		if ( substr( $file, -3 ) !== '.po' )
+		}
+		if ( substr( $file, -3 ) !== '.po' ) {
 			continue;
-		if ( ! preg_match( '/(?:(.+)-)?([A-Za-z_]{2,6}).po/', $file, $match ) )
+		}
+		if ( ! preg_match( '/(?:(.+)-)?([A-Za-z_]{2,6}).po/', $file, $match ) ) {
 			continue;
+		}
+		if ( ! in_array( substr( $file, 0, -3 ) . '.mo', $files ) )  {
+			continue;
+		}
 
 		list( , $textdomain, $language ) = $match;
-		if ( '' === $textdomain )
+		if ( '' === $textdomain ) {
 			$textdomain = 'default';
+		}
 		$language_data[ $textdomain ][ $language ] = wp_get_pomo_file_data( WP_LANG_DIR . "$dir/$file" );
 	}
 	return $language_data;

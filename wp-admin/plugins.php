@@ -207,8 +207,9 @@ if ( $action ) {
 			exit;
 
 		case 'delete-selected':
-			if ( ! current_user_can('delete_plugins') )
+			if ( ! current_user_can('delete_plugins') ) {
 				wp_die(__('You do not have sufficient permissions to delete plugins for this site.'));
+			}
 
 			check_admin_referer('bulk-plugins');
 
@@ -237,28 +238,44 @@ if ( $action ) {
 				<?php
 					$files_to_delete = $plugin_info = array();
 					$have_non_network_plugins = false;
+					$plugin_translations = wp_get_installed_translations( 'plugins' );
 					foreach ( (array) $plugins as $plugin ) {
-						if ( '.' == dirname($plugin) ) {
+						$plugin_slug = dirname( $plugin );
+
+						if ( '.' == $plugin_slug ) {
 							$files_to_delete[] = WP_PLUGIN_DIR . '/' . $plugin;
-							if( $data = get_plugin_data(WP_PLUGIN_DIR . '/' . $plugin) ) {
+							if ( $data = get_plugin_data( WP_PLUGIN_DIR . '/' . $plugin ) ) {
 								$plugin_info[ $plugin ] = $data;
 								$plugin_info[ $plugin ]['is_uninstallable'] = is_uninstallable_plugin( $plugin );
-								if ( ! $plugin_info[ $plugin ]['Network'] )
+								if ( ! $plugin_info[ $plugin ]['Network'] ) {
 									$have_non_network_plugins = true;
+								}
 							}
 						} else {
-							// Locate all the files in that folder
-							$files = list_files( WP_PLUGIN_DIR . '/' . dirname($plugin) );
+							// Locate all the files in that folder.
+							$files = list_files( WP_PLUGIN_DIR . '/' . $plugin_slug );
 							if ( $files ) {
-								$files_to_delete = array_merge($files_to_delete, $files);
+								$files_to_delete = array_merge( $files_to_delete, $files );
 							}
-							// Get plugins list from that folder
-							if ( $folder_plugins = get_plugins( '/' . dirname($plugin)) ) {
+
+							// Get plugins list from that folder.
+							if ( $folder_plugins = get_plugins( '/' . $plugin_slug ) ) {
 								foreach( $folder_plugins as $plugin_file => $data ) {
 									$plugin_info[ $plugin_file ] = _get_plugin_data_markup_translate( $plugin_file, $data );
 									$plugin_info[ $plugin_file ]['is_uninstallable'] = is_uninstallable_plugin( $plugin );
-									if ( ! $plugin_info[ $plugin_file ]['Network'] )
+									if ( ! $plugin_info[ $plugin_file ]['Network'] ) {
 										$have_non_network_plugins = true;
+									}
+								}
+							}
+
+							// Add translation files.
+							if ( ! empty( $plugin_translations[ $plugin_slug ] ) ) {
+								$translations = $plugin_translations[ $plugin_slug ];
+
+								foreach ( $translations as $translation => $data ) {
+									$files_to_delete[] = $plugin_slug . '-' . $translation . '.po';
+									$files_to_delete[] = $plugin_slug . '-' . $translation . '.mo';
 								}
 							}
 						}
@@ -295,8 +312,9 @@ if ( $action ) {
 					<input type="hidden" name="verify-delete" value="1" />
 					<input type="hidden" name="action" value="delete-selected" />
 					<?php
-						foreach ( (array) $plugins as $plugin )
-							echo '<input type="hidden" name="checked[]" value="' . esc_attr($plugin) . '" />';
+						foreach ( (array) $plugins as $plugin ) {
+							echo '<input type="hidden" name="checked[]" value="' . esc_attr( $plugin ) . '" />';
+						}
 					?>
 					<?php wp_nonce_field('bulk-plugins') ?>
 					<?php submit_button( $data_to_delete ? __( 'Yes, Delete these files and data' ) : __( 'Yes, Delete these files' ), 'button', 'submit', false ); ?>
@@ -309,8 +327,9 @@ if ( $action ) {
 				<div id="files-list" style="display:none;">
 					<ul class="code">
 					<?php
-						foreach ( (array)$files_to_delete as $file )
-							echo '<li>' . esc_html(str_replace(WP_PLUGIN_DIR, '', $file)) . '</li>';
+						foreach ( (array) $files_to_delete as $file ) {
+							echo '<li>' . esc_html( str_replace( WP_PLUGIN_DIR, '', $file ) ) . '</li>';
+						}
 					?>
 					</ul>
 				</div>
