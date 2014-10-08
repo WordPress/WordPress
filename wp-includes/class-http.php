@@ -970,10 +970,17 @@ class WP_Http_Streams {
 
 		$strHeaders = strtoupper($r['method']) . ' ' . $requestPath . ' HTTP/' . $r['httpversion'] . "\r\n";
 
-		if ( $proxy->is_enabled() && $proxy->send_through_proxy( $url ) )
+		$include_port_in_host_header = (
+			( $proxy->is_enabled() && $proxy->send_through_proxy( $url ) ) ||
+			( 'http'  == $arrURL['scheme'] && 80  != $arrURL['port'] ) ||
+			( 'https' == $arrURL['scheme'] && 443 != $arrURL['port'] )
+		);
+
+		if ( $include_port_in_host_header ) {
 			$strHeaders .= 'Host: ' . $arrURL['host'] . ':' . $arrURL['port'] . "\r\n";
-		else
+		} else {
 			$strHeaders .= 'Host: ' . $arrURL['host'] . "\r\n";
+		}
 
 		if ( isset($r['user-agent']) )
 			$strHeaders .= 'User-agent: ' . $r['user-agent'] . "\r\n";
