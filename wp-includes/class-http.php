@@ -675,15 +675,16 @@ class WP_Http {
 		if ( empty( $url ) )
 			return $maybe_relative_path;
 
-		// Check for a scheme.
-		if ( false !== strpos( $maybe_relative_path, '://' ) )
-			return $maybe_relative_path;
-
 		if ( ! $url_parts = @parse_url( $url ) )
 			return $maybe_relative_path;
 
 		if ( ! $relative_url_parts = @parse_url( $maybe_relative_path ) )
 			return $maybe_relative_path;
+
+		// Check for a scheme on the 'relative' url
+		if ( ! empty( $relative_url_parts['scheme'] ) ) {
+			return $maybe_relative_path;
+		}
 
 		$absolute_path = $url_parts['scheme'] . '://' . $url_parts['host'];
 		if ( isset( $url_parts['port'] ) )
