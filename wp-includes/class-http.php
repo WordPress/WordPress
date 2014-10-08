@@ -686,9 +686,18 @@ class WP_Http {
 			return $maybe_relative_path;
 		}
 
-		$absolute_path = $url_parts['scheme'] . '://' . $url_parts['host'];
-		if ( isset( $url_parts['port'] ) )
-			$absolute_path .= ':' . $url_parts['port'];
+		$absolute_path = $url_parts['scheme'] . '://';
+
+		// Schemeless URL's will make it this far, so we check for a host in the relative url and convert it to a protocol-url
+		if ( isset( $relative_url_parts['host'] ) ) {
+			$absolute_path .= $relative_url_parts['host'];
+			if ( isset( $relative_url_parts['port'] ) )
+				$absolute_path .= ':' . $relative_url_parts['port'];
+		} else {
+			$absolute_path .= $url_parts['host'];
+			if ( isset( $url_parts['port'] ) )
+				$absolute_path .= ':' . $url_parts['port'];
+		}
 
 		// Start off with the Absolute URL path.
 		$path = ! empty( $url_parts['path'] ) ? $url_parts['path'] : '/';
