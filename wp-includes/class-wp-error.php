@@ -242,6 +242,21 @@ class WP_Error {
 
 		$this->error_data[$code] = $data;
 	}
+	
+	/**
+	 * Removes the specified error.
+	 *
+	 * This function removes all error messages associated with the specified
+	 * error code, along with any error data for that code.
+	 *
+	 * @since 4.1.0
+	 *
+	 * @param string|int $code Error code.
+	 */
+	public function remove( $code ) {
+		unset( $this->errors[ $code ] );
+		unset( $this->error_data[ $code ] );
+	}
 }
 
 /**
