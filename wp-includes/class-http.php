@@ -861,6 +861,11 @@ class WP_Http_Streams {
 			}
 		}
 
+		// Always pass a Path, defaulting to the root in cases such as http://example.com
+		if ( ! isset( $arrURL['path'] ) ) {
+			$arrURL['path'] = '/';
+		}
+
 		if ( isset( $r['headers']['Host'] ) || isset( $r['headers']['host'] ) ) {
 			if ( isset( $r['headers']['Host'] ) )
 				$arrURL['host'] = $r['headers']['Host'];
@@ -964,9 +969,6 @@ class WP_Http_Streams {
 			$requestPath = $url;
 		else
 			$requestPath = $arrURL['path'] . ( isset($arrURL['query']) ? '?' . $arrURL['query'] : '' );
-
-		if ( empty($requestPath) )
-			$requestPath .= '/';
 
 		$strHeaders = strtoupper($r['method']) . ' ' . $requestPath . ' HTTP/' . $r['httpversion'] . "\r\n";
 
