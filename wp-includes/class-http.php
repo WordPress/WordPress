@@ -671,15 +671,69 @@ class WP_Http {
 
 	}
 
+	/**
+	 * A wrapper for PHP's parse_url() function that handles edgecases in < PHP 5.4.7
+	 *
+	 * PHP 5.4.7 expanded parse_url()'s ability to handle non-absolute url's, including
+	 * schemeless and relative url's with :// in the path, this works around those limitations
+	 * providing a standard output on PHP 5.2~5.4+.
+	 *
+	 * Error suppression is used as prior to PHP 5.3.3, an E_WARNING would be generated when URL parsing failed.
+	 *
+	 * @since 4.1.0
+	 *
+	 * @access private
+	 * @param  string $url The URL to parse
+	 * @return bool|array False on failure; Array of URL components on success; See parse_url()'s return values.
+	 */
+	private static function parse_url( $url ) {
+		$parts = @parse_url( $url );
+		if ( ! $parts ) {
+			// < PHP 5.4.7 compat, trouble with relative paths including a scheme break in the path
+			if ( '/' == $url[0] && false !== strpos( $url, '://' ) ) {
+				// Since we know it's a relative path, prefix with a scheme/host placeholder and try again
+				if ( ! $parts = @parse_url( 'placeholder://placeholder' . $url ) ) {
+					return $parts;
+				}
+				// Remove the placeholder values
+				unset( $parts['scheme'], $parts['host'] );
+			} else {
+				return $parts;
+			}
+		}
+
+		// < PHP 5.4.7 compat, doesn't detect schemeless URL's host field
+		if ( '//' == substr( $url, 0, 2 ) && ! isset( $parts['host'] ) ) {
+			list( $parts['host'], $slashless_path ) = explode( '/', substr( $parts['path'], 2 ), 2 );
+			$parts['path'] = "/{$slashless_path}";
+		}
+
+		return $parts;
+	}
+
+	/**
+	 * Converts a relative URL to an absolute URL relative to a given URL.
+	 *
+	 * If an Absolute URL is provided, no processing of that URL is done.
+	 *
+	 * @since 3.4.0
+	 *
+	 * @access public
+	 * @param string $maybe_relative_path The URL which might be relative
+	 * @param string $url                 The URL which $maybe_relative_path is relative to
+	 * @return string An Absolute URL, in a failure condition where the URL cannot be parsed, the relative URL will be returned.
+	 */
 	public static function make_absolute_url( $maybe_relative_path, $url ) {
 		if ( empty( $url ) )
 			return $maybe_relative_path;
 
-		if ( ! $url_parts = @parse_url( $url ) )
+		if ( ! $url_parts = WP_HTTP::parse_url( $url ) ) {
 			return $maybe_relative_path;
+		}
 
-		if ( ! $relative_url_parts = @parse_url( $maybe_relative_path ) )
+		if ( ! $relative_url_parts = WP_HTTP::parse_url( $maybe_relative_path ) ) {
 			return $maybe_relative_path;
+		}
 
 		// Check for a scheme on the 'relative' url
 		if ( ! empty( $relative_url_parts['scheme'] ) ) {
