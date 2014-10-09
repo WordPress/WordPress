@@ -1655,12 +1655,12 @@ function get_terms( $taxonomies, $args = '' ) {
  *
  * @param int|string $term The term to check
  * @param string $taxonomy The taxonomy name to use
- * @param int $parent ID of parent term under which to confine the exists search.
+ * @param int $parent Optional. ID of parent term under which to confine the exists search.
  * @return mixed Returns 0 if the term does not exist. Returns the term ID if no taxonomy is specified
  *               and the term ID exists. Returns an array of the term ID and the term taxonomy ID
  *               if the taxonomy is specified and the pairing exists.
  */
-function term_exists($term, $taxonomy = '', $parent = 0) {
+function term_exists( $term, $taxonomy = '', $parent = null ) {
 	global $wpdb;
 
 	$select = "SELECT term_id FROM $wpdb->terms as t WHERE ";
@@ -1686,8 +1686,8 @@ function term_exists($term, $taxonomy = '', $parent = 0) {
 	$where_fields = array($slug);
 	$else_where_fields = array($term);
 	if ( !empty($taxonomy) ) {
-		$parent = (int) $parent;
-		if ( $parent > 0 ) {
+		if ( is_numeric( $parent ) ) {
+			$parent = (int) $parent;
 			$where_fields[] = $parent;
 			$else_where_fields[] = $parent;
 			$where .= ' AND tt.parent = %d';
