@@ -682,11 +682,11 @@ class WP_Http {
 	 *
 	 * @since 4.1.0
 	 *
-	 * @access private
+	 * @access protected
 	 * @param  string $url The URL to parse
 	 * @return bool|array False on failure; Array of URL components on success; See parse_url()'s return values.
 	 */
-	private static function parse_url( $url ) {
+	protected static function parse_url( $url ) {
 		$parts = @parse_url( $url );
 		if ( ! $parts ) {
 			// < PHP 5.4.7 compat, trouble with relative paths including a scheme break in the path
