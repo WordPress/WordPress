@@ -41,6 +41,7 @@ function create_initial_taxonomies() {
 				'ep_mask' => EP_CATEGORIES,
 			),
 			'post_tag' => array(
+				'hierarchical' => false,
 				'slug' => get_option('tag_base') ? get_option('tag_base') : 'tag',
 				'with_front' => ! get_option('tag_base') || $wp_rewrite->using_index_permalinks(),
 				'ep_mask' => EP_TAGS,
