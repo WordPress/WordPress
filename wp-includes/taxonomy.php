@@ -2933,6 +2933,10 @@ function wp_update_term( $term_id, $taxonomy, $args = array() ) {
 	if ( '' == trim($name) )
 		return new WP_Error('empty_term_name', __('A name is required for this term'));
 
+	if ( $parsed_args['parent'] > 0 && ! term_exists( (int) $parsed_args['parent'] ) ) {
+		return new WP_Error( 'missing_parent', __( 'Parent term does not exist.' ) );
+	}
+
 	$empty_slug = false;
 	if ( empty( $args['slug'] ) ) {
 		$empty_slug = true;
