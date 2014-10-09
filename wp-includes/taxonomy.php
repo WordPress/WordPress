@@ -3633,12 +3633,12 @@ function _update_generic_term_count( $terms, $taxonomy ) {
 }
 
 /**
- * Generates a permalink for a taxonomy term archive.
+ * Generate a permalink for a taxonomy term archive.
  *
  * @since 2.5.0
  *
- * @param object|int|string $term
- * @param string $taxonomy (optional if $term is object)
+ * @param object|int|string $term     The term object, ID, or slug whose link will be retrieved.
+ * @param string            $taxonomy Optional. Taxonomy. Default empty.
  * @return string|WP_Error HTML link to taxonomy term archive on success, WP_Error if term does not exist.
  */
 function get_term_link( $term, $taxonomy = '') {
