@@ -2448,34 +2448,20 @@ function wp_insert_term( $term, $taxonomy, $args = array() ) {
 
 	$term_group = 0;
 	if ( $args['alias_of'] ) {
-		$alias = $wpdb->get_row( $wpdb->prepare( "SELECT term_id, term_group FROM $wpdb->terms WHERE slug = %s", $args['alias_of'] ) );
-		if ( $alias->term_group ) {
+		$alias = get_term_by( 'slug', $args['alias_of'], $taxonomy );
+		if ( ! empty( $alias->term_group ) ) {
 			// The alias we want is already in a group, so let's use that one.
 			$term_group = $alias->term_group;
-		} else {
-			// The alias isn't in a group, so let's create a new one and firstly add the alias term to it.
+		} else if ( ! empty( $alias->term_id ) ) {
+			/*
+			 * The alias is not in a group, so we create a new one
+			 * and add the alias to it.
+			 */
 			$term_group = $wpdb->get_var("SELECT MAX(term_group) FROM $wpdb->terms") + 1;
 
-			/**
-			 * Fires immediately before the given terms are edited.
-			 *
-			 * @since 2.9.0
-			 *
-			 * @param int    $term_id  Term ID.
-			 * @param string $taxonomy Taxonomy slug.
-			 */
-			do_action( 'edit_terms', $alias->term_id, $taxonomy );
-			$wpdb->update($wpdb->terms, compact('term_group'), array('term_id' => $alias->term_id) );
-
-			/**
-			 * Fires immediately after the given terms are edited.
-			 *
-			 * @since 2.9.0
-			 *
-			 * @param int    $term_id  Term ID
-			 * @param string $taxonomy Taxonomy slug.
-			 */
-			do_action( 'edited_terms', $alias->term_id, $taxonomy );
+			wp_update_term( $alias->term_id, $taxonomy, array(
+				'term_group' => $term_group,
+			) );
 		}
 	}
 
@@ -2960,20 +2946,20 @@ function wp_update_term( $term_id, $taxonomy, $args = array() ) {
 
 	$term_group = isset( $parsed_args['term_group'] ) ? $parsed_args['term_group'] : 0;
 	if ( $args['alias_of'] ) {
-		$alias = $wpdb->get_row( $wpdb->prepare( "SELECT term_id, term_group FROM $wpdb->terms WHERE slug = %s", $args['alias_of'] ) );
-		if ( $alias->term_group ) {
+		$alias = get_term_by( 'slug', $args['alias_of'], $taxonomy );
+		if ( ! empty( $alias->term_group ) ) {
 			// The alias we want is already in a group, so let's use that one.
 			$term_group = $alias->term_group;
-		} else {
-			// The alias isn't in a group, so let's create a new one and firstly add the alias term to it.
+		} else if ( ! empty( $alias->term_id ) ) {
+			/*
+			 * The alias is not in a group, so we create a new one
+			 * and add the alias to it.
+			 */
 			$term_group = $wpdb->get_var("SELECT MAX(term_group) FROM $wpdb->terms") + 1;
 
-			/** This action is documented in wp-includes/taxonomy.php */
-			do_action( 'edit_terms', $alias->term_id, $taxonomy );
-			$wpdb->update( $wpdb->terms, compact('term_group'), array( 'term_id' => $alias->term_id ) );
-
-			/** This action is documented in wp-includes/taxonomy.php */
-			do_action( 'edited_terms', $alias->term_id, $taxonomy );
+			wp_update_term( $alias->term_id, $taxonomy, array(
+				'term_group' => $term_group,
+			) );
 		}
 
 		$parsed_args['term_group'] = $term_group;
@@ -3005,7 +2991,14 @@ function wp_update_term( $term_id, $taxonomy, $args = array() ) {
 			return new WP_Error('duplicate_term_slug', sprintf(__('The slug &#8220;%s&#8221; is already in use by another term'), $slug));
 	}
 
-	/** This action is documented in wp-includes/taxonomy.php */
+	/**
+	 * Fires immediately before the given terms are edited.
+	 *
+	 * @since 2.9.0
+	 *
+	 * @param int    $term_id  Term ID.
+	 * @param string $taxonomy Taxonomy slug.
+	 */
 	do_action( 'edit_terms', $term_id, $taxonomy );
 	$wpdb->update($wpdb->terms, compact( 'name', 'slug', 'term_group' ), compact( 'term_id' ) );
 	if ( empty($slug) ) {
@@ -3013,7 +3006,14 @@ function wp_update_term( $term_id, $taxonomy, $args = array() ) {
 		$wpdb->update( $wpdb->terms, compact( 'slug' ), compact( 'term_id' ) );
 	}
 
-	/** This action is documented in wp-includes/taxonomy.php */
+	/**
+	 * Fires immediately after the given terms are edited.
+	 *
+	 * @since 2.9.0
+	 *
+	 * @param int    $term_id  Term ID
+	 * @param string $taxonomy Taxonomy slug.
+	 */
 	do_action( 'edited_terms', $term_id, $taxonomy );
 
 	$tt_id = $wpdb->get_var( $wpdb->prepare( "SELECT tt.term_taxonomy_id FROM $wpdb->term_taxonomy AS tt INNER JOIN $wpdb->terms AS t ON tt.term_id = t.term_id WHERE tt.taxonomy = %s AND t.term_id = %d", $taxonomy, $term_id) );
