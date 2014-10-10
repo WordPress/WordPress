@@ -513,13 +513,15 @@ function _sort_nav_menu_items( $a, $b ) {
 }
 
 /**
- * Returns if a menu item is valid. Bug #13958
+ * Return if a menu item is valid.
+ *
+ * @link https://core.trac.wordpress.org/ticket/13958
  *
  * @since 3.2.0
  * @access private
  *
- * @param object $menu_item The menu item to check
- * @return bool false if invalid, else true.
+ * @param object $item The menu item to check.
+ * @return bool False if invalid, otherwise true.
  */
 function _is_valid_nav_menu_item( $item ) {
 	if ( ! empty( $item->_invalid ) )
@@ -529,13 +531,13 @@ function _is_valid_nav_menu_item( $item ) {
 }
 
 /**
- * Returns all menu items of a navigation menu.
+ * Return all menu items of a navigation menu.
  *
  * @since 3.0.0
  *
- * @param string $menu menu name, id, or slug
- * @param string $args
- * @return mixed $items array of menu items, else false.
+ * @param string $menu Menu name, ID, or slug.
+ * @param array  $args Optional. Arguments to pass to {@see get_posts()}.
+ * @return mixed $items Array of menu items, otherwise false.
  */
 function wp_get_nav_menu_items( $menu, $args = array() ) {
 	$menu = wp_get_nav_menu_object( $menu );
