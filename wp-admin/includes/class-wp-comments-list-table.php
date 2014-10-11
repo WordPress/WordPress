@@ -242,7 +242,8 @@ class WP_Comments_List_Table extends WP_List_Table {
 <?php
 		if ( 'top' == $which ) {
 ?>
-			<select name="comment_type">
+			<label class="screen-reader-text" for="filter-by-comment-type"><?php _e( 'Filter by comment type' ); ?></label>
+			<select id="filter-by-comment-type" name="comment_type">
 				<option value=""><?php _e( 'All comment types' ); ?></option>
 <?php
 				/**
