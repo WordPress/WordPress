@@ -235,6 +235,8 @@ class WP_Posts_List_Table extends WP_List_Table {
 					'orderby' => 'name',
 					'selected' => $cat
 				);
+
+				echo '<label class="screen-reader-text" for="cat">' . __( 'Filter by category' ) . '</label>';
 				wp_dropdown_categories( $dropdown_options );
 			}
 
