@@ -228,7 +228,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 
 			if ( is_object_in_taxonomy( $this->screen->post_type, 'category' ) ) {
 				$dropdown_options = array(
-					'show_option_all' => __( 'View all categories' ),
+					'show_option_all' => __( 'All categories' ),
 					'hide_empty' => 0,
 					'hierarchical' => 1,
 					'show_count' => 0,
