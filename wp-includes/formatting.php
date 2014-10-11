@@ -205,33 +205,33 @@ function wptexturize($text, $reset = false) {
 
 	// Look for shortcodes and HTML elements.
 
-	$comment_regex = 
-			'!'				// Start of comment, after the <.
-		.	'(?:'			// Unroll the loop: Consume everything until --> is found.
-		.		'-(?!->)'	// Dash not followed by end of comment.
-		.		'[^\-]*+'	// Consume non-dashes.
-		.	')*+'			// Loop possessively.
-		.	'(?:-->)?';		// End of comment. If not found, match all input.
-	
+	$comment_regex =
+		  '!'           // Start of comment, after the <.
+		. '(?:'         // Unroll the loop: Consume everything until --> is found.
+		.     '-(?!->)' // Dash not followed by end of comment.
+		.     '[^\-]*+' // Consume non-dashes.
+		. ')*+'         // Loop possessively.
+		. '(?:-->)?';   // End of comment. If not found, match all input.
+
 	$shortcode_regex =
-			'\['			// Find start of shortcode.
-		.	'[\/\[]?'		// Shortcodes may begin with [/ or [[
-		.	'[^\s\/\[\]]'	// No whitespace before name.
-		.	'[^\[\]]*+'		// Shortcodes do not contain other shortcodes. Possessive critical.
-		.	'\]'			// Find end of shortcode.
-		.	'\]?';			// Shortcodes may end with ]]
-	
-	$regex = 
-			'/('					// Capture the entire match.
-		.		'<'					// Find start of element.
-		.		'(?(?=!--)'			// Is this a comment?
-		.			$comment_regex	// Find end of comment.
-		.		'|'
-		.			'[^>]+>'		// Find end of element.
-		.		')'
-		.	'|'
-		.		$shortcode_regex	// Find shortcodes.
-		.	')/s';
+		  '\['          // Find start of shortcode.
+		. '[\/\[]?'     // Shortcodes may begin with [/ or [[
+		. '[^\s\/\[\]]' // No whitespace before name.
+		. '[^\[\]]*+'   // Shortcodes do not contain other shortcodes. Possessive critical.
+		. '\]'          // Find end of shortcode.
+		. '\]?';        // Shortcodes may end with ]]
+
+	$regex =
+		  '/('                   // Capture the entire match.
+		.     '<'                // Find start of element.
+		.     '(?(?=!--)'        // Is this a comment?
+		.         $comment_regex // Find end of comment.
+		.     '|'
+		.         '[^>]+>'       // Find end of element.
+		.     ')'
+		. '|'
+		.     $shortcode_regex   // Find shortcodes.
+		. ')/s';
 
 	$textarr = preg_split( $regex, $text, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY );
 
@@ -261,8 +261,6 @@ function wptexturize($text, $reset = false) {
 				_wptexturize_pushpop_element( $curl, $no_texturize_shortcodes_stack, $no_texturize_shortcodes );
 			} else {
 				// Looks like an escaped shortcode.
-				// Do not texturize.
-				// Do not push to the shortcodes stack.
 				continue;
 			}
 
