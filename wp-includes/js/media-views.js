@@ -5503,10 +5503,6 @@
 				// If the `collection` has a `comparator`, disable sorting.
 				disabled: !! collection.comparator,
 
-				// Prevent attachments from being dragged outside the bounding
-				// box of the list.
-				containment: this.$el,
-
 				// Change the position of the attachment as soon as the
 				// mouse pointer overlaps a thumbnail.
 				tolerance: 'pointer',

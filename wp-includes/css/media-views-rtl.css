@@ -1426,18 +1426,18 @@
 }
 
 .media-selection .attachment {
-	width: 48px;
+	width: 40px;
 	padding: 0;
-	margin: 0;
+	margin: 4px;
 	-webkit-box-shadow: none;
 	box-shadow: none;
 }
 
 .media-selection .attachment .thumbnail {
-	top: 4px;
-	left: 4px;
-	bottom: 4px;
-	right: 4px;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
 }
 
 .media-selection .attachment .icon {
