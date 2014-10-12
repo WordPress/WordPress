@@ -50,7 +50,7 @@
 
 			el.iris( {
 				target: self.pickerContainer,
-				hide: true,
+				hide: self.options.hide,
 				width: 255,
 				mode: 'hsv',
 				palettes: self.options.palettes,
