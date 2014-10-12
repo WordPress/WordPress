@@ -320,7 +320,7 @@ function edButton(id, display, tagStart, tagEnd, access) {
 	 * @param string display Required. Button's value="..."
 	 * @param string|function arg1 Required. Either a starting tag to be inserted like "<span>" or a callback that is executed when the button is clicked.
 	 * @param string arg2 Optional. Ending tag like "</span>"
-	 * @param string access_key Optional. Access key for the button.
+	 * @param string access_key Deprecated Not used
 	 * @param string title Optional. Button's title="..."
 	 * @param int priority Optional. Number representing the desired position of the button in the toolbar. 1 - 9 = first, 11 - 19 = second, 21 - 29 = third, etc.
 	 * @param string instance Optional. Limit the button to a specifric instance of Quicktags, add to all instances if not present.
@@ -400,16 +400,17 @@ function edButton(id, display, tagStart, tagEnd, access) {
 		var t = this;
 		t.id = id;
 		t.display = display;
-		t.access = access;
+		t.access = '';
 		t.title = title || '';
 		t.instance = instance || '';
 	};
 	qt.Button.prototype.html = function(idPrefix) {
-		var access = this.access ? ' accesskey="' + this.access + '"' : '';
+		var title = this.title ? ' title="' + this.title + '"' : '';
+
 		if ( this.id === 'fullscreen' ) {
-			return '<button type="button" id="' + idPrefix + this.id + '"' + access + ' class="ed_button qt-fullscreen" title="' + this.title + '"></button>';
+			return '<button type="button" id="' + idPrefix + this.id + '" class="ed_button qt-fullscreen"' + title + '></button>';
 		}
-		return '<input type="button" id="' + idPrefix + this.id + '"' + access + ' class="ed_button button button-small" title="' + this.title + '" value="' + this.display + '" />';
+		return '<input type="button" id="' + idPrefix + this.id + '" class="ed_button button button-small"' + title + ' value="' + this.display + '" />';
 	};
 	qt.Button.prototype.callback = function(){};
 
@@ -563,7 +564,7 @@ function edButton(id, display, tagStart, tagEnd, access) {
 
 	// the link button
 	qt.LinkButton = function() {
-		qt.TagButton.call(this, 'link', 'link', '', '</a>', 'a');
+		qt.TagButton.call(this, 'link', 'link', '', '</a>');
 	};
 	qt.LinkButton.prototype = new qt.TagButton();
 	qt.LinkButton.prototype.callback = function(e, c, ed, defaultValue) {
@@ -591,7 +592,7 @@ function edButton(id, display, tagStart, tagEnd, access) {
 
 	// the img button
 	qt.ImgButton = function() {
-		qt.TagButton.call(this, 'img', 'img', '', '', 'm');
+		qt.TagButton.call(this, 'img', 'img', '', '');
 	};
 	qt.ImgButton.prototype = new qt.TagButton();
 	qt.ImgButton.prototype.callback = function(e, c, ed, defaultValue) {
@@ -635,18 +636,18 @@ function edButton(id, display, tagStart, tagEnd, access) {
 	};
 
 	// ensure backward compatibility
-	edButtons[10] = new qt.TagButton('strong','b','<strong>','</strong>','b');
-	edButtons[20] = new qt.TagButton('em','i','<em>','</em>','i'),
+	edButtons[10] = new qt.TagButton('strong','b','<strong>','</strong>');
+	edButtons[20] = new qt.TagButton('em','i','<em>','</em>'),
 	edButtons[30] = new qt.LinkButton(), // special case
-	edButtons[40] = new qt.TagButton('block','b-quote','\n\n<blockquote>','</blockquote>\n\n','q'),
-	edButtons[50] = new qt.TagButton('del','del','<del datetime="' + _datetime + '">','</del>','d'),
-	edButtons[60] = new qt.TagButton('ins','ins','<ins datetime="' + _datetime + '">','</ins>','s'),
+	edButtons[40] = new qt.TagButton('block','b-quote','\n\n<blockquote>','</blockquote>\n\n'),
+	edButtons[50] = new qt.TagButton('del','del','<del datetime="' + _datetime + '">','</del>'),
+	edButtons[60] = new qt.TagButton('ins','ins','<ins datetime="' + _datetime + '">','</ins>'),
 	edButtons[70] = new qt.ImgButton(), // special case
-	edButtons[80] = new qt.TagButton('ul','ul','<ul>\n','</ul>\n\n','u'),
-	edButtons[90] = new qt.TagButton('ol','ol','<ol>\n','</ol>\n\n','o'),
-	edButtons[100] = new qt.TagButton('li','li','\t<li>','</li>\n','l'),
-	edButtons[110] = new qt.TagButton('code','code','<code>','</code>','c'),
-	edButtons[120] = new qt.TagButton('more','more','<!--more-->\n\n','','t'),
+	edButtons[80] = new qt.TagButton('ul','ul','<ul>\n','</ul>\n\n'),
+	edButtons[90] = new qt.TagButton('ol','ol','<ol>\n','</ol>\n\n'),
+	edButtons[100] = new qt.TagButton('li','li','\t<li>','</li>\n'),
+	edButtons[110] = new qt.TagButton('code','code','<code>','</code>'),
+	edButtons[120] = new qt.TagButton('more','more','<!--more-->\n\n',''),
 	edButtons[140] = new qt.CloseButton();
 
 })();
