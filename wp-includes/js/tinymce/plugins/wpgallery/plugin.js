@@ -61,25 +61,7 @@ tinymce.PluginManager.add('wpgallery', function( editor ) {
 	editor.addCommand( 'WP_Gallery', function() {
 		editMedia( editor.selection.getNode() );
 	});
-/*
-	editor.on( 'init', function( e ) {
-	//	_createButtons()
 
-		// iOS6 doesn't show the buttons properly on click, show them on 'touchstart'
-		if ( 'ontouchstart' in window ) {
-			editor.dom.events.bind( editor.getBody(), 'touchstart', function( e ) {
-				var target = e.target;
-
-				if ( target.nodeName == 'IMG' && editor.dom.hasClass( target, 'wp-gallery' ) ) {
-					editor.selection.select( target );
-					editor.dom.events.cancel( e );
-					editor.plugins.wordpress._hideButtons();
-					editor.plugins.wordpress._showButtons( target, 'wp_gallerybtns' );
-				}
-			});
-		}
-	});
-*/
 	editor.on( 'mouseup', function( event ) {
 		var dom = editor.dom,
 			node = event.target;
@@ -117,7 +99,7 @@ tinymce.PluginManager.add('wpgallery', function( editor ) {
 
 	editor.on( 'BeforeSetContent', function( event ) {
 		// 'wpview' handles the gallery shortcode when present
-		if ( ! editor.plugins.wpview ) {
+		if ( ! editor.plugins.wpview || typeof wp === 'undefined' || ! wp.mce ) {
 			event.content = replaceGalleryShortcodes( event.content );
 		}
 	});
