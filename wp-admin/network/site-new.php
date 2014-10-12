@@ -49,15 +49,19 @@ if ( isset($_REQUEST['action']) && 'add-site' == $_REQUEST['action'] ) {
 			wp_die( sprintf( __('The following words are reserved for use by WordPress functions and cannot be used as blog names: <code>%s</code>' ), implode( '</code>, <code>', $subdirectory_reserved_names ) ) );
 	}
 
-	$email = sanitize_email( $blog['email'] );
 	$title = $blog['title'];
 
 	if ( empty( $domain ) )
 		wp_die( __( 'Missing or invalid site address.' ) );
-	if ( empty( $email ) )
+
+	if ( isset( $blog['email'] ) && '' === trim( $blog['email'] ) ) {
 		wp_die( __( 'Missing email address.' ) );
-	if ( !is_email( $email ) )
+	}
+
+	$email = sanitize_email( $blog['email'] );
+	if ( ! is_email( $email ) ) {
 		wp_die( __( 'Invalid email address.' ) );
+	}
 
 	if ( is_subdomain_install() ) {
 		$newdomain = $domain . '.' . preg_replace( '|^www\.|', '', $current_site->domain );
