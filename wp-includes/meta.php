@@ -849,27 +849,24 @@ function get_meta_sql( $meta_query, $type, $primary_table, $primary_id_column, $
 }
 
 /**
- * Container class for a multiple metadata query
+ * Class for generating SQL clauses that filter a primary query according to metadata keys and values.
+ *
+ * `WP_Meta_Query` is a helper that allows primary query classes, such as {@see WP_Query} and {@see WP_User_Query},
+ * to filter their results by object metadata, by generating `JOIN` and `WHERE` subclauses to be attached
+ * to the primary SQL query string.
  *
  * @since 3.2.0
  */
 class WP_Meta_Query {
 	/**
-	* List of metadata queries. A single query is an associative array:
-	* - 'key' string The meta key
-	* - 'value' string|array The meta value
-	* - 'compare' (optional) string How to compare the key to the value.
-	*              Possible values: '=', '!=', '>', '>=', '<', '<=', 'LIKE', 'NOT LIKE', 'IN', 'NOT IN',
-	*              'BETWEEN', 'NOT BETWEEN', 'REGEXP', 'NOT REGEXP', 'RLIKE'.
-	*              Default: '='
-	* - 'type' string (optional) The type of the value.
-	*              Possible values: 'NUMERIC', 'BINARY', 'CHAR', 'DATE', 'DATETIME', 'DECIMAL', 'SIGNED', 'TIME', 'UNSIGNED'.
-	*              Default: 'CHAR'
-	*
-	* @since 3.2.0
-	* @access public
-	* @var array
-	*/
+	 * Array of metadata queries.
+	 *
+	 * See {@see WP_Meta_Query::__construct()} for information on meta query arguments.
+	 *
+	 * @since 3.2.0
+	 * @access public
+	 * @var array
+	 */
 	public $queries = array();
 
 	/**
@@ -882,9 +879,76 @@ class WP_Meta_Query {
 	public $relation;
 
 	/**
-	 * Constructor
+	 * Database table to query for the metadata.
 	 *
-	 * @param array $meta_query (optional) A meta query
+	 * @since 4.1.0
+	 * @access public
+	 * @var string
+	 */
+	public $meta_table;
+
+	/**
+	 * Column in meta_table that represents the ID of the object the metadata belongs to.
+	 *
+	 * @since 4.1.0
+	 * @access public
+	 * @var string
+	 */
+	public $meta_id_column;
+
+	/**
+	 * Database table that where the metadata's objects are stored (eg $wpdb->users).
+	 *
+	 * @since 4.1.0
+	 * @access public
+	 * @var string
+	 */
+	public $primary_table;
+
+	/**
+	 * Column in primary_table that represents the ID of the object.
+	 *
+	 * @since 4.1.0
+	 * @access public
+	 * @var string
+	 */
+	public $primary_id_column;
+
+	/**
+	 * A flat list of table aliases used in JOIN clauses.
+	 *
+	 * @since 4.1.0
+	 * @access protected
+	 * @var array
+	 */
+	protected $table_aliases = array();
+
+	/**
+	 * Constructor.
+	 *
+	 * @since 3.2.0
+	 * @access public
+	 *
+	 * @param array $meta_query {
+	 *     Array of meta query clauses.
+	 *
+	 *     @type string $relation Optional. The MySQL keyword used to join
+	 *                            the clauses of the query. Accepts 'AND', or 'OR'. Default 'AND'.
+	 *     @type array {
+	 *         Optional. An array of first-order clause parameters, or another fully-formed meta query.
+	 *
+	 *         @type string $key     Meta key to filter by.
+	 *         @type string $value   Meta value to filter by.
+	 *         @type string $compare MySQL operator used for comparing the $value. Accepts '=',
+	 *                               '!=', '>', '>=', '<', '<=', 'LIKE', 'NOT LIKE', 'IN', 'NOT IN',
+	 *                               'BETWEEN', 'NOT BETWEEN', 'REGEXP', 'NOT REGEXP', or 'RLIKE'.
+	 *                               Default is 'IN' when `$value` is an array, '=' otherwise.
+	 *         @type string $type    MySQL data type that the meta_value column will be CAST to for
+	 *                               comparisons. Accepts 'NUMERIC', 'BINARY', 'CHAR', 'DATE',
+	 *                               'DATETIME', 'DECIMAL', 'SIGNED', 'TIME', or 'UNSIGNED'.
+	 *                               Default is 'CHAR'.
+	 *     }
+	 * }
 	 */
 	public function __construct( $meta_query = false ) {
 		if ( !$meta_query )
@@ -896,14 +960,83 @@ class WP_Meta_Query {
 			$this->relation = 'AND';
 		}
 
-		$this->queries = array();
+		$this->queries = $this->sanitize_query( $meta_query );
+	}
 
-		foreach ( $meta_query as $key => $query ) {
-			if ( ! is_array( $query ) )
-				continue;
+	/**
+	 * Ensure the `meta_query` argument passed to the class constructor is well-formed.
+	 *
+	 * Eliminates empty items and ensures that a 'relation' is set.
+	 *
+	 * @since 4.1.0
+	 * @access public
+	 *
+	 * @param array $queries Array of query clauses.
+	 * @return array Sanitized array of query clauses.
+	 */
+	public function sanitize_query( $queries ) {
+		$clean_queries = array();
 
-			$this->queries[] = $query;
+		if ( ! is_array( $queries ) ) {
+			return $clean_queries;
 		}
+
+		foreach ( $queries as $key => $query ) {
+			if ( 'relation' === $key ) {
+				$relation = $query;
+
+			// First-order clause.
+			} else if ( $this->is_first_order_clause( $query ) ) {
+				$clean_queries[] = $query;
+
+			// Otherwise, it's a nested query, so we recurse.
+			} else {
+				$cleaned_query = $this->sanitize_query( $query );
+
+				if ( ! empty( $cleaned_query ) ) {
+					$clean_queries[] = $cleaned_query;
+				}
+			}
+		}
+
+		if ( empty( $clean_queries ) ) {
+			return $clean_queries;
+		}
+
+		// Sanitize the 'relation' key provided in the query.
+		if ( isset( $relation ) && 'OR' === strtoupper( $relation ) ) {
+			$clean_queries['relation'] = 'OR';
+
+		/*
+		 * If there is only a single clause, call the relation 'OR'.
+		 * This value will not actually be used to join clauses, but it
+		 * simplifies the logic around combining key-only queries.
+		 */
+		} else if ( 1 === count( $clean_queries ) ) {
+			$clean_queries['relation'] = 'OR';
+
+		// Default to AND.
+		} else {
+			$clean_queries['relation'] = 'AND';
+		}
+
+		return $clean_queries;
+	}
+
+	/**
+	 * Determine whether a query clause is first-order.
+	 *
+	 * A first-order meta query clause is one that has either a 'key' or
+	 * a 'value' array key.
+	 *
+	 * @since 4.1.0
+	 * @access protected
+	 *
+	 * @param array $query Meta query arguments.
+	 * @return bool Whether the query clause is a first-order clause.
+	 */
+	protected function is_first_order_clause( $query ) {
+		return isset( $query['key'] ) || isset( $query['value'] );
 	}
 
 	/**
@@ -917,13 +1050,13 @@ class WP_Meta_Query {
 	public function parse_query_vars( $qv ) {
 		$meta_query = array();
 
-		// Simple query needs to be first for orderby=meta_value to work correctly
+		// Simple query needs to be first for orderby=meta_value to work correctly.
 		foreach ( array( 'key', 'compare', 'type' ) as $key ) {
 			if ( !empty( $qv[ "meta_$key" ] ) )
 				$meta_query[0][ $key ] = $qv[ "meta_$key" ];
 		}
 
-		// WP_Query sets 'meta_value' = '' by default
+		// WP_Query sets 'meta_value' = '' by default.
 		if ( isset( $qv[ 'meta_value' ] ) && '' !== $qv[ 'meta_value' ] && ( ! is_array( $qv[ 'meta_value' ] ) || $qv[ 'meta_value' ] ) )
 			$meta_query[0]['value'] = $qv[ 'meta_value' ];
 
@@ -935,12 +1068,13 @@ class WP_Meta_Query {
 	}
 
 	/**
-	 * Given a meta type, return the appropriate alias if applicable
+	 * Return the appropriate alias for the given meta type if applicable.
 	 *
 	 * @since 3.7.0
+	 * @access public
 	 *
-	 * @param string $type MySQL type to cast meta_value
-	 * @return string MySQL type
+	 * @param string $type MySQL type to cast meta_value.
+	 * @return string MySQL type.
 	 */
 	public function get_cast_for_type( $type = '' ) {
 		if ( empty( $type ) )
@@ -963,145 +1097,31 @@ class WP_Meta_Query {
 	 * @since 3.2.0
 	 * @access public
 	 *
-	 * @param string $type Type of meta
-	 * @param string $primary_table
-	 * @param string $primary_id_column
-	 * @param object $context (optional) The main query object
-	 * @return array( 'join' => $join_sql, 'where' => $where_sql )
+	 * @param string $type              Type of meta, eg 'user', 'post'.
+	 * @param string $primary_table     Database table where the object being filtered is stored (eg wp_users).
+	 * @param string $primary_id_column ID column for the filtered object in $primary_table.
+	 * @param object $context           Optional. The main query object.
+	 * @return array {
+	 *     Array containing JOIN and WHERE SQL clauses to append to the main query.
+	 *
+	 *     @type string $join  SQL fragment to append to the main JOIN clause.
+	 *     @type string $where SQL fragment to append to the main WHERE clause.
+	 * }
 	 */
 	public function get_sql( $type, $primary_table, $primary_id_column, $context = null ) {
 		global $wpdb;
 
-		if ( ! $meta_table = _get_meta_table( $type ) )
+		if ( ! $meta_table = _get_meta_table( $type ) ) {
 			return false;
-
-		$meta_id_column = sanitize_key( $type . '_id' );
-
-		$join = array();
-		$where = array();
-
-		$key_only_queries = array();
-		$queries = array();
-
-		// Split out the queries with empty arrays as value
-		foreach ( $this->queries as $k => $q ) {
-			if ( isset( $q['value'] ) && is_array( $q['value'] ) && empty( $q['value'] ) ) {
-				$key_only_queries[$k] = $q;
-				unset( $this->queries[$k] );
-			}
 		}
 
-		// Split out the meta_key only queries (we can only do this for OR)
-		if ( 'OR' == $this->relation ) {
-			foreach ( $this->queries as $k => $q ) {
-				if ( ( empty( $q['compare'] ) || 'NOT EXISTS' != $q['compare'] ) && ! array_key_exists( 'value', $q ) && ! empty( $q['key'] ) )
-					$key_only_queries[$k] = $q;
-				else
-					$queries[$k] = $q;
-			}
-		} else {
-			$queries = $this->queries;
-		}
+		$this->meta_table     = $meta_table;
+		$this->meta_id_column = sanitize_key( $type . '_id' );
 
-		// Specify all the meta_key only queries in one go
-		if ( $key_only_queries ) {
-			$join[]  = "INNER JOIN $meta_table ON $primary_table.$primary_id_column = $meta_table.$meta_id_column";
+		$this->primary_table     = $primary_table;
+		$this->primary_id_column = $primary_id_column;
 
-			foreach ( $key_only_queries as $key => $q )
-				$where["key-only-$key"] = $wpdb->prepare( "$meta_table.meta_key = %s", trim( $q['key'] ) );
-		}
-
-		foreach ( $queries as $k => $q ) {
-			$meta_key = isset( $q['key'] ) ? trim( $q['key'] ) : '';
-			$meta_type = $this->get_cast_for_type( isset( $q['type'] ) ? $q['type'] : '' );
-
-			if ( array_key_exists( 'value', $q ) && is_null( $q['value'] ) )
-				$q['value'] = '';
-
-			$meta_value = isset( $q['value'] ) ? $q['value'] : null;
-
-			if ( isset( $q['compare'] ) )
-				$meta_compare = strtoupper( $q['compare'] );
-			else
-				$meta_compare = is_array( $meta_value ) ? 'IN' : '=';
-
-			if ( ! in_array( $meta_compare, array(
-				'=', '!=', '>', '>=', '<', '<=',
-				'LIKE', 'NOT LIKE',
-				'IN', 'NOT IN',
-				'BETWEEN', 'NOT BETWEEN',
-				'NOT EXISTS',
-				'REGEXP', 'NOT REGEXP', 'RLIKE'
-			) ) )
-				$meta_compare = '=';
-
-			$i = count( $join );
-			$alias = $i ? 'mt' . $i : $meta_table;
-
-			if ( 'NOT EXISTS' == $meta_compare ) {
-				$join[$i]  = "LEFT JOIN $meta_table";
-				$join[$i] .= $i ? " AS $alias" : '';
-				$join[$i] .= " ON ($primary_table.$primary_id_column = $alias.$meta_id_column AND $alias.meta_key = '$meta_key')";
-
-				$where[$k] = ' ' . $alias . '.' . $meta_id_column . ' IS NULL';
-
-				continue;
-			}
-
-			$join[$i]  = "INNER JOIN $meta_table";
-			$join[$i] .= $i ? " AS $alias" : '';
-			$join[$i] .= " ON ($primary_table.$primary_id_column = $alias.$meta_id_column)";
-
-			$where[$k] = '';
-			if ( !empty( $meta_key ) )
-				$where[$k] = $wpdb->prepare( "$alias.meta_key = %s", $meta_key );
-
-			if ( is_null( $meta_value ) ) {
-				if ( empty( $where[$k] ) )
-					unset( $join[$i] );
-				continue;
-			}
-
-			if ( in_array( $meta_compare, array( 'IN', 'NOT IN', 'BETWEEN', 'NOT BETWEEN' ) ) ) {
-				if ( ! is_array( $meta_value ) )
-					$meta_value = preg_split( '/[,\s]+/', $meta_value );
-
-				if ( empty( $meta_value ) ) {
-					unset( $join[$i] );
-					continue;
-				}
-			} else {
-				$meta_value = trim( $meta_value );
-			}
-
-			if ( 'IN' == substr( $meta_compare, -2) ) {
-				$meta_compare_string = '(' . substr( str_repeat( ',%s', count( $meta_value ) ), 1 ) . ')';
-			} elseif ( 'BETWEEN' == substr( $meta_compare, -7) ) {
-				$meta_value = array_slice( $meta_value, 0, 2 );
-				$meta_compare_string = '%s AND %s';
-			} elseif ( 'LIKE' == $meta_compare || 'NOT LIKE' == $meta_compare ) {
-				$meta_value = '%' . $wpdb->esc_like( $meta_value ) . '%';
-				$meta_compare_string = '%s';
-			} else {
-				$meta_compare_string = '%s';
-			}
-
-			if ( ! empty( $where[$k] ) )
-				$where[$k] .= ' AND ';
-
-			$where[$k] = ' (' . $where[$k] . $wpdb->prepare( "CAST($alias.meta_value AS {$meta_type}) {$meta_compare} {$meta_compare_string})", $meta_value );
-		}
-
-		$where = array_filter( $where );
-
-		if ( empty( $where ) )
-			$where = '';
-		else
-			$where = ' AND (' . implode( "\n{$this->relation} ", $where ) . ' )';
-
-		$join = implode( "\n", $join );
-		if ( ! empty( $join ) )
-			$join = ' ' . $join;
+		$sql = $this->get_sql_clauses();
 
 		/**
 		 * Filter the meta query's generated SQL.
@@ -1109,7 +1129,7 @@ class WP_Meta_Query {
 		 * @since 3.1.0
 		 *
 		 * @param array $args {
-		 *     An array of arguments.
+		 *     An array of meta query SQL arguments.
 		 *
 		 *     @type array  $clauses           Array containing the query's JOIN and WHERE clauses.
 		 *     @type array  $queries           Array of meta queries.
@@ -1119,7 +1139,249 @@ class WP_Meta_Query {
 		 *     @type object $context           The main query object.
 		 * }
 		 */
-		return apply_filters_ref_array( 'get_meta_sql', array( compact( 'join', 'where' ), $this->queries, $type, $primary_table, $primary_id_column, $context ) );
+		return apply_filters_ref_array( 'get_meta_sql', array( $sql, $this->queries, $type, $primary_table, $primary_id_column, $context ) );
+	}
+
+	/**
+	 * Generate SQL clauses to be appended to a main query.
+	 *
+	 * Called by the public {@see WP_Meta_Query::get_sql()}, this method
+	 * is abstracted out to maintain parity with the other Query classes.
+	 *
+	 * @since 4.1.0
+	 * @access protected
+	 *
+	 * @return array {
+	 *     Array containing JOIN and WHERE SQL clauses to append to the main query.
+	 *
+	 *     @type string $join  SQL fragment to append to the main JOIN clause.
+	 *     @type string $where SQL fragment to append to the main WHERE clause.
+	 * }
+	 */
+	protected function get_sql_clauses() {
+		$sql = $this->get_sql_for_query( $this->queries );
+
+		if ( ! empty( $sql['where'] ) ) {
+			$sql['where'] = ' AND ' . $sql['where'];
+		}
+
+		return $sql;
+	}
+
+	/**
+	 * Generate SQL clauses for a single query array.
+	 *
+	 * If nested subqueries are found, this method recurses the tree to
+	 * produce the properly nested SQL.
+	 *
+	 * @since 4.1.0
+	 * @access protected
+	 *
+	 * @param array $query Query to parse.
+	 * @param int   $depth Optional. Number of tree levels deep we currently are.
+	 *               Used to calculate indentation.
+	 * @return array {
+	 *     Array containing JOIN and WHERE SQL clauses to append to a single query array.
+	 *
+	 *     @type string $join  SQL fragment to append to the main JOIN clause.
+	 *     @type string $where SQL fragment to append to the main WHERE clause.
+	 * }
+	 */
+	protected function get_sql_for_query( $query, $depth = 0 ) {
+		$sql_chunks = array(
+			'join'  => array(),
+			'where' => array(),
+		);
+
+		$sql = array(
+			'join'  => '',
+			'where' => '',
+		);
+
+		$indent = '';
+		for ( $i = 0; $i < $depth; $i++ ) {
+			$indent .= "  ";
+		}
+
+		foreach ( $query as $key => $clause ) {
+			if ( 'relation' === $key ) {
+				$relation = $query['relation'];
+			} else if ( is_array( $clause ) ) {
+
+				// This is a first-order clause.
+				if ( $this->is_first_order_clause( $clause ) ) {
+					$clause_sql = $this->get_sql_for_clause( $clause, $query );
+
+					$where_count = count( $clause_sql['where'] );
+					if ( ! $where_count ) {
+						$sql_chunks['where'][] = '';
+					} else if ( 1 === $where_count ) {
+						$sql_chunks['where'][] = $clause_sql['where'][0];
+					} else {
+						$sql_chunks['where'][] = '( ' . implode( ' AND ', $clause_sql['where'] ) . ' )';
+					}
+
+					$sql_chunks['join'] = array_merge( $sql_chunks['join'], $clause_sql['join'] );
+				// This is a subquery, so we recurse.
+				} else {
+					$clause_sql = $this->get_sql_for_query( $clause, $depth + 1 );
+
+					$sql_chunks['where'][] = $clause_sql['where'];
+					$sql_chunks['join'][]  = $clause_sql['join'];
+				}
+			}
+		}
+
+		// Filter to remove empties.
+		$sql_chunks['join']  = array_filter( $sql_chunks['join'] );
+		$sql_chunks['where'] = array_filter( $sql_chunks['where'] );
+
+		if ( empty( $relation ) ) {
+			$relation = 'AND';
+		}
+
+		// Filter duplicate JOIN clauses and combine into a single string.
+		if ( ! empty( $sql_chunks['join'] ) ) {
+			$sql['join'] = implode( ' ', array_unique( $sql_chunks['join'] ) );
+		}
+
+		// Generate a single WHERE clause with proper brackets and indentation.
+		if ( ! empty( $sql_chunks['where'] ) ) {
+			$sql['where'] = '( ' . "\n  " . $indent . implode( ' ' . "\n  " . $indent . $relation . ' ' . "\n  " . $indent, $sql_chunks['where'] ) . "\n" . $indent . ')';
+		}
+
+		return $sql;
+	}
+
+	/**
+	 * Generate SQL JOIN and WHERE clauses for a first-order query clause.
+	 *
+	 * "First-order" means that it's an array with a 'key' or 'value'.
+	 *
+	 * @since 4.1.0
+	 * @access public
+	 *
+	 * @param array $clause       Query clause.
+	 * @param array $parent_query Parent query array.
+	 * @return array {
+	 *     Array containing JOIN and WHERE SQL clauses to append to a first-order query.
+	 *
+	 *     @type string $join  SQL fragment to append to the main JOIN clause.
+	 *     @type string $where SQL fragment to append to the main WHERE clause.
+	 * }
+	 */
+	public function get_sql_for_clause( $clause, $parent_query ) {
+		global $wpdb;
+
+		$sql_chunks = array(
+			'where' => array(),
+			'join' => array(),
+		);
+
+		$i = count( $this->table_aliases );
+		$alias = $i ? 'mt' . $i : $this->meta_table;
+
+		if ( isset( $clause['compare'] ) ) {
+			$meta_compare = strtoupper( $clause['compare'] );
+		} else {
+			$meta_compare = isset( $clause['value'] ) && is_array( $clause['value'] ) ? 'IN' : '=';
+		}
+
+		if ( ! in_array( $meta_compare, array(
+			'=', '!=', '>', '>=', '<', '<=',
+			'LIKE', 'NOT LIKE',
+			'IN', 'NOT IN',
+			'BETWEEN', 'NOT BETWEEN',
+			'EXISTS', 'NOT EXISTS',
+			'REGEXP', 'NOT REGEXP', 'RLIKE'
+		) ) ) {
+			$meta_compare = '=';
+		}
+
+		/*
+		 * There are a number of different query structures that get
+		 * built in different ways.
+		 * 1. Key-only clauses - (a) clauses without a 'value' key that
+		 *    appear in the context of an OR relation and do not use
+		 *    'NOT EXISTS' as the 'compare', or (b) clauses with an
+		 *    empty array for 'value'.
+		 */
+		if ( ! empty( $clause['key'] ) && (
+			( ! array_key_exists( 'value', $clause ) && 'NOT EXISTS' !== $meta_compare && 'OR' === $parent_query['relation'] ) ||
+			( isset( $clause['value'] ) && is_array( $clause['value'] ) && empty( $clause['value'] ) )
+		) ) {
+
+			$alias = $this->meta_table;
+			$sql_chunks['join'][] = " INNER JOIN $this->meta_table ON ($this->primary_table.$this->primary_id_column = $alias.$this->meta_id_column)";
+			$sql_chunks['where'][] = $wpdb->prepare( "$this->meta_table.meta_key = %s", trim( $clause['key'] ) );
+
+		// 2. NOT EXISTS.
+		} else if ( 'NOT EXISTS' === $meta_compare ) {
+			$join  = " LEFT JOIN $this->meta_table";
+			$join .= $i ? " AS $alias" : '';
+			$join .= $wpdb->prepare( " ON ($this->primary_table.$this->primary_id_column = $alias.$this->meta_id_column AND $alias.meta_key = %s )", $clause['key'] );
+			$sql_chunks['join'][] = $join;
+
+			$sql_chunks['where'][] = $alias . '.' . $this->meta_id_column . ' IS NULL';
+
+		// 3. EXISTS and other key-only queries.
+		} else if ( 'EXISTS' === $meta_compare || ( ! empty( $clause['key'] ) && ! array_key_exists( 'value', $clause ) ) ) {
+			$join  = " INNER JOIN $this->meta_table";
+			$join .= $i ? " AS $alias" : '';
+			$join .= " ON ( $this->primary_table.$this->primary_id_column = $alias.$this->meta_id_column )";
+			$sql_chunks['join'][] = $join;
+
+			$sql_chunks['where'][] = $wpdb->prepare( $alias . '.meta_key = %s', trim( $clause['key'] ) );
+
+		// 4. Clauses that have a value.
+		} else if ( array_key_exists( 'value', $clause ) ) {
+			$join  = " INNER JOIN $this->meta_table";
+			$join .= $i ? " AS $alias" : '';
+			$join .= " ON ($this->primary_table.$this->primary_id_column = $alias.$this->meta_id_column)";
+			$sql_chunks['join'][] = $join;
+
+			if ( ! empty( $clause['key'] ) ) {
+				$sql_chunks['where'][] = $wpdb->prepare( "$alias.meta_key = %s", trim( $clause['key'] ) );
+			}
+
+			$meta_type = $this->get_cast_for_type( isset( $clause['type'] ) ? $clause['type'] : '' );
+
+			$meta_value = isset( $clause['value'] ) ? $clause['value'] : '';
+
+			if ( in_array( $meta_compare, array( 'IN', 'NOT IN', 'BETWEEN', 'NOT BETWEEN' ) ) ) {
+				if ( ! is_array( $meta_value ) ) {
+					$meta_value = preg_split( '/[,\s]+/', $meta_value );
+				}
+			} else {
+				$meta_value = trim( $meta_value );
+			}
+
+			if ( 'IN' == substr( $meta_compare, -2 ) ) {
+				$meta_compare_string = '(' . substr( str_repeat( ',%s', count( $meta_value ) ), 1 ) . ')';
+			} elseif ( 'BETWEEN' == substr( $meta_compare, -7 ) ) {
+				$meta_value = array_slice( $meta_value, 0, 2 );
+				$meta_compare_string = '%s AND %s';
+			} elseif ( 'LIKE' == $meta_compare || 'NOT LIKE' == $meta_compare ) {
+				$meta_value = '%' . $wpdb->esc_like( $meta_value ) . '%';
+				$meta_compare_string = '%s';
+			} else {
+				$meta_compare_string = '%s';
+			}
+
+			$sql_chunks['where'][] = $wpdb->prepare( "CAST($alias.meta_value AS {$meta_type}) {$meta_compare} {$meta_compare_string}", $meta_value );
+		}
+
+		/*
+		 * Multiple WHERE clauses (for meta_key and meta_value) should
+		 * be joined in parentheses.
+		 */
+		if ( 1 < count( $sql_chunks['where'] ) ) {
+			$sql_chunks['where'] = array( '( ' . implode( ' AND ', $sql_chunks['where'] ) . ' )' );
+		}
+
+		$this->table_aliases[] = $alias;
+
+		return $sql_chunks;
 	}
 }
 
