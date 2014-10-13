@@ -603,6 +603,12 @@ jQuery( document ).ready( function( $ ) {
 				}
 
 				adjust();
+			}).on( 'wp-window-resized.editor-expand', function() {
+				if ( mceEditor && ! mceEditor.isHidden() ) {
+					mceEditor.execCommand( 'wpAutoResize' );
+				} else {
+					textEditorResize();
+				}
 			});
 
 		$textEditor.on( 'focus.editor-expand input.editor-expand propertychange.editor-expand', textEditorResize );
