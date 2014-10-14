@@ -1672,7 +1672,11 @@ class WP_Query {
 			$this->parse_tax_query( $qv );
 
 			foreach ( $this->tax_query->queries as $tax_query ) {
-				if ( 'NOT IN' != $tax_query['operator'] ) {
+				if ( ! is_array( $tax_query ) ) {
+					continue;
+				}
+
+				if ( isset( $tax_query['operator'] ) && 'NOT IN' != $tax_query['operator'] ) {
 					switch ( $tax_query['taxonomy'] ) {
 						case 'category':
 							$this->is_category = true;
@@ -2687,7 +2691,7 @@ class WP_Query {
 			if ( empty($post_type) ) {
 				// Do a fully inclusive search for currently registered post types of queried taxonomies
 				$post_type = array();
-				$taxonomies = wp_list_pluck( $this->tax_query->queries, 'taxonomy' );
+				$taxonomies = array_keys( $this->tax_query->queried_terms );
 				foreach ( get_post_types( array( 'exclude_from_search' => false ) ) as $pt ) {
 					$object_taxonomies = $pt === 'attachment' ? get_taxonomies_for_attachments() : get_object_taxonomies( $pt );
 					if ( array_intersect( $taxonomies, $object_taxonomies ) )
@@ -2704,51 +2708,56 @@ class WP_Query {
 			}
 		}
 
-		// Back-compat
-		if ( !empty($this->tax_query->queries) ) {
-			$tax_query_in_and = wp_list_filter( $this->tax_query->queries, array( 'operator' => 'NOT IN' ), 'NOT' );
-			if ( !empty( $tax_query_in_and ) ) {
-				if ( !isset( $q['taxonomy'] ) ) {
-					foreach ( $tax_query_in_and as $a_tax_query ) {
-						if ( !in_array( $a_tax_query['taxonomy'], array( 'category', 'post_tag' ) ) ) {
-							$q['taxonomy'] = $a_tax_query['taxonomy'];
-							if ( 'slug' == $a_tax_query['field'] )
-								$q['term'] = $a_tax_query['terms'][0];
-							else
-								$q['term_id'] = $a_tax_query['terms'][0];
+		/*
+		 * Ensure that 'taxonomy', 'term', 'term_id', 'cat', and
+		 * 'category_name' vars are set for backward compatibility.
+		 */
+		if ( ! empty( $this->tax_query->queried_terms ) ) {
 
-							break;
+			/*
+			 * Set 'taxonomy', 'term', and 'term_id' to the
+			 * first taxonomy other than 'post_tag' or 'category'.
+			 */
+			if ( ! isset( $q['taxonomy'] ) ) {
+				foreach ( $this->tax_query->queried_terms as $queried_taxonomy => $queried_items ) {
+					if ( empty( $queried_items['terms'][0] ) ) {
+						continue;
+					}
+
+					if ( ! in_array( $queried_taxonomy, array( 'category', 'post_tag' ) ) ) {
+						$q['taxonomy'] = $queried_taxonomy;
+
+						if ( 'slug' === $queried_items['field'] ) {
+							$q['term'] = $queried_items['terms'][0];
+						} else {
+							$q['term_id'] = $queried_items['terms'][0];
 						}
 					}
 				}
+			}
 
-				$cat_query = wp_list_filter( $tax_query_in_and, array( 'taxonomy' => 'category' ) );
-				if ( ! empty( $cat_query ) ) {
-					$cat_query = reset( $cat_query );
-
-					if ( ! empty( $cat_query['terms'][0] ) ) {
-						$the_cat = get_term_by( $cat_query['field'], $cat_query['terms'][0], 'category' );
-						if ( $the_cat ) {
-							$this->set( 'cat', $the_cat->term_id );
-							$this->set( 'category_name', $the_cat->slug );
-						}
-						unset( $the_cat );
-					}
+			// 'cat', 'category_name', 'tag_id'
+			foreach ( $this->tax_query->queried_terms as $queried_taxonomy => $queried_items ) {
+				if ( empty( $queried_items['terms'][0] ) ) {
+					continue;
 				}
-				unset( $cat_query );
 
-				$tag_query = wp_list_filter( $tax_query_in_and, array( 'taxonomy' => 'post_tag' ) );
-				if ( ! empty( $tag_query ) ) {
-					$tag_query = reset( $tag_query );
-
-					if ( ! empty( $tag_query['terms'][0] ) ) {
-						$the_tag = get_term_by( $tag_query['field'], $tag_query['terms'][0], 'post_tag' );
-						if ( $the_tag )
-							$this->set( 'tag_id', $the_tag->term_id );
-						unset( $the_tag );
+				if ( 'category' === $queried_taxonomy ) {
+					$the_cat = get_term_by( $queried_items['field'], $queried_items['terms'][0], 'category' );
+					if ( $the_cat ) {
+						$this->set( 'cat', $the_cat->term_id );
+						$this->set( 'category_name', $the_cat->slug );
 					}
+					unset( $the_cat );
 				}
-				unset( $tag_query );
+
+				if ( 'post_tag' === $queried_taxonomy ) {
+					$the_tag = get_term_by( $queried_items['field'], $queried_items['terms'][0], 'post_tag' );
+					if ( $the_tag ) {
+						$this->set( 'tag_id', $the_tag->term_id );
+					}
+					unset( $the_tag );
+				}
 			}
 		}
 

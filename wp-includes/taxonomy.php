@@ -627,24 +627,20 @@ function get_tax_sql( $tax_query, $primary_table, $primary_id_column ) {
 }
 
 /**
- * Container class for a multiple taxonomy query.
+ * Class for generating SQL clauses that filter a primary query according to object taxonomy terms.
+ *
+ * `WP_Tax_Query` is a helper that allows primary query classes, such as {@see WP_Query}, to filter
+ * their results by object metadata, by generating `JOIN` and `WHERE` subclauses to be attached
+ * to the primary SQL query string.
  *
  * @since 3.1.0
  */
 class WP_Tax_Query {
 
 	/**
-	 * List of taxonomy queries. A single taxonomy query is an associative array:
-	 * - 'taxonomy' string The taxonomy being queried. Optional when using the term_taxonomy_id field.
-	 * - 'terms' string|array The list of terms
-	 * - 'field' string (optional) Which term field is being used.
-	 *		Possible values: 'term_id', 'slug', 'name', or 'term_taxonomy_id'
-	 *		Default: 'term_id'
-	 * - 'operator' string (optional)
-	 *		Possible values: 'AND', 'IN' or 'NOT IN'.
-	 *		Default: 'IN'
-	 * - 'include_children' bool (optional) Whether to include child terms. Requires that a taxonomy be specified.
-	 *		Default: true
+	 * Array of taxonomy queries.
+	 *
+	 * See {@see WP_Tax_Query::__construct()} for information on tax query arguments.
 	 *
 	 * @since 3.1.0
 	 * @access public
@@ -668,30 +664,53 @@ class WP_Tax_Query {
 	 * @access private
 	 * @var string
 	 */
-	private static $no_results = array( 'join' => '', 'where' => ' AND 0 = 1' );
+	private static $no_results = array( 'join' => array( '' ), 'where' => array( '0 = 1' ) );
+
+	/**
+	 * A flat list of table aliases used in the JOIN clauses.
+	 *
+	 * @since 4.1.0
+	 * @access protected
+	 * @var array
+	 */
+	protected $table_aliases = array();
+
+	/**
+	 * Terms and taxonomies fetched by this query.
+	 *
+	 * We store this data in a flat array because they are referenced in a
+	 * number of places by WP_Query.
+	 *
+	 * @since 4.1.0
+	 * @access public
+	 * @var array
+	 */
+	public $queried_terms = array();
 
 	/**
 	 * Constructor.
 	 *
-	 * Parses a compact tax query and sets defaults.
-	 *
 	 * @since 3.1.0
 	 * @access public
 	 *
-	 * @param array $tax_query A compact tax query:
-	 *  array(
-	 *    'relation' => 'OR',
-	 *    array(
-	 *      'taxonomy' => 'tax1',
-	 *      'terms' => array( 'term1', 'term2' ),
-	 *      'field' => 'slug',
-	 *    ),
-	 *    array(
-	 *      'taxonomy' => 'tax2',
-	 *      'terms' => array( 'term-a', 'term-b' ),
-	 *      'field' => 'slug',
-	 *    ),
-	 *  )
+	 * @param array $tax_query {
+	 *     Array of taxonoy query clauses.
+	 *
+	 *     @type string $relation Optional. The MySQL keyword used to join
+	 *                            the clauses of the query. Accepts 'AND', or 'OR'. Default 'AND'.
+	 *     @type array {
+	 *         Optional. An array of first-order clause parameters, or another fully-formed tax query.
+	 *
+	 *         @type string           $taxonomy         Taxonomy being queried. Optional when field=term_taxonomy_id.
+	 *         @type string|int|array $terms            Term or terms to filter by.
+	 *         @type string           $field            Field to match $terms against. Accepts 'term_id', 'slug',
+	 *                                                 'name', or 'term_taxonomy_id'. Default: 'term_id'.
+	 *         @type string           $operator         MySQL operator to be used with $terms in the WHERE clause.
+	 *                                                  Accepts 'AND', 'IN', or 'OR. Default: 'IN'.
+	 *         @type bool             $include_children Optional. Whether to include child terms.
+	 *                                                  Requires a $taxonomy. Default: true.
+	 *     }
+	 * }
 	 */
 	public function __construct( $tax_query ) {
 		if ( isset( $tax_query['relation'] ) && strtoupper( $tax_query['relation'] ) == 'OR' ) {
@@ -700,24 +719,96 @@ class WP_Tax_Query {
 			$this->relation = 'AND';
 		}
 
+		$this->queries = $this->sanitize_query( $tax_query );
+	}
+
+	/**
+	 * Ensure the `tax_query` argument passed to the class constructor is well-formed.
+	 *
+	 * Ensures that each query-level clause has a 'relation' key, and that
+	 * each first-order clause contains all the necessary keys from $defaults.
+	 *
+	 * @since 4.1.0
+	 * @access public
+	 *
+	 * @param  array $queries Array of queries clauses.
+	 * @return array Sanitized array of query clauses.
+	 */
+	public function sanitize_query( $queries ) {
+		$cleaned_query = array();
+
 		$defaults = array(
 			'taxonomy' => '',
 			'terms' => array(),
-			'include_children' => true,
 			'field' => 'term_id',
 			'operator' => 'IN',
+			'include_children' => true,
 		);
 
-		foreach ( $tax_query as $query ) {
-			if ( ! is_array( $query ) )
-				continue;
+		foreach ( $queries as $key => $query ) {
+			if ( 'relation' === $key ) {
+				$cleaned_query['relation'] = $query;
 
-			$query = array_merge( $defaults, $query );
+			// First-order clause.
+			} else if ( self::is_first_order_clause( $query ) ) {
 
-			$query['terms'] = (array) $query['terms'];
+				$cleaned_clause = array_merge( $defaults, $query );
+				$cleaned_clause['terms'] = (array) $cleaned_clause['terms'];
+				$cleaned_query[] = $cleaned_clause;
 
-			$this->queries[] = $query;
+				/*
+				 * Keep a copy of the clause in the flate
+				 * $queried_terms array, for use in WP_Query.
+				 */
+				if ( ! empty( $cleaned_clause['taxonomy'] ) && 'NOT IN' !== $cleaned_clause['operator'] ) {
+					$taxonomy = $cleaned_clause['taxonomy'];
+					if ( ! isset( $this->queried_terms[ $taxonomy ] ) ) {
+						$this->queried_terms[ $taxonomy ] = array();
+					}
+
+					/*
+					 * Backward compatibility: Only store the first
+					 * 'terms' and 'field' found for a given taxonomy.
+					 */
+					if ( ! empty( $cleaned_clause['terms'] ) && ! isset( $this->queried_terms[ $taxonomy ]['terms'] ) ) {
+						$this->queried_terms[ $taxonomy ]['terms'] = $cleaned_clause['terms'];
+					}
+
+					if ( ! empty( $cleaned_clause['field'] ) && ! isset( $this->queried_terms[ $taxonomy ]['field'] ) ) {
+						$this->queried_terms[ $taxonomy ]['field'] = $cleaned_clause['field'];
+					}
+				}
+
+			// Otherwise, it's a nested query, so we recurse.
+			} else if ( is_array( $query ) ) {
+				$cleaned_subquery = $this->sanitize_query( $query );
+
+				if ( ! empty( $cleaned_subquery ) ) {
+					$cleaned_query[] = $cleaned_subquery;
+				}
+			}
 		}
+
+		return $cleaned_query;
+	}
+
+	/**
+	 * Determine whether a clause is first-order.
+	 *
+	 * A "first-order" clause is one that contains any of the first-order
+	 * clause keys ('terms', 'taxonomy', 'include_children', 'field',
+	 * 'operator'). An empty clause also counts as a first-order clause,
+	 * for backward compatibility. Any clause that doesn't meet this is
+	 * determined, by process of elimination, to be a higher-order query.
+	 *
+	 * @since 4.1.0
+	 * @access protected
+	 *
+	 * @param  array $query Tax query arguments.
+	 * @return bool  Whether the query clause is a first-order clause.
+	 */
+	protected static function is_first_order_clause( $query ) {
+		return empty( $query ) || array_key_exists( 'terms', $query ) || array_key_exists( 'taxonomy', $query ) || array_key_exists( 'include_children', $query ) || array_key_exists( 'field', $query ) || array_key_exists( 'operator', $query );
 	}
 
 	/**
@@ -726,91 +817,222 @@ class WP_Tax_Query {
 	 * @since 3.1.0
 	 * @access public
 	 *
-	 * @param string $primary_table
-	 * @param string $primary_id_column
-	 * @return array
+	 * @param string $primary_table     Database table where the object being filtered is stored (eg wp_users).
+	 * @param string $primary_id_column ID column for the filtered object in $primary_table.
+	 * @return array {
+	 *     Array containing JOIN and WHERE SQL clauses to append to the main query.
+	 *
+	 *     @type string $join  SQL fragment to append to the main JOIN clause.
+	 *     @type string $where SQL fragment to append to the main WHERE clause.
+	 * }
 	 */
 	public function get_sql( $primary_table, $primary_id_column ) {
+		$this->primary_table = $primary_table;
+		$this->primary_id_column = $primary_id_column;
+
+		return $this->get_sql_clauses();
+	}
+
+	/**
+	 * Generate SQL clauses to be appended to a main query.
+	 *
+	 * Called by the public {@see WP_Tax_Query::get_sql()}, this method
+	 * is abstracted out to maintain parity with the other Query classes.
+	 *
+	 * @since 4.1.0
+	 * @access protected
+	 *
+	 * @return array {
+	 *     Array containing JOIN and WHERE SQL clauses to append to the main query.
+	 *
+	 *     @type string $join  SQL fragment to append to the main JOIN clause.
+	 *     @type string $where SQL fragment to append to the main WHERE clause.
+	 * }
+	 */
+	protected function get_sql_clauses() {
+		$sql = $this->get_sql_for_query( $this->queries );
+
+		if ( ! empty( $sql['where'] ) ) {
+			$sql['where'] = ' AND ' . $sql['where'];
+		}
+
+		return $sql;
+	}
+
+	/**
+	 * Generate SQL clauses for a single query array.
+	 *
+	 * If nested subqueries are found, this method recurses the tree to
+	 * produce the properly nested SQL.
+	 *
+	 * @since 4.1.0
+	 * @access protected
+	 *
+	 * @param array $query Query to parse.
+	 * @param int   $depth Optional. Number of tree levels deep we currently are.
+	 *              Used to calculate indentation.
+	 * @return array {
+	 *     Array containing JOIN and WHERE SQL clauses to append to a single query array.
+	 *
+	 *     @type string $join  SQL fragment to append to the main JOIN clause.
+	 *     @type string $where SQL fragment to append to the main WHERE clause.
+	 * }
+	 */
+	protected function get_sql_for_query( $query, $depth = 0 ) {
+		$sql_chunks = array(
+			'join'  => array(),
+			'where' => array(),
+		);
+
+		$sql = array(
+			'join'  => '',
+			'where' => '',
+		);
+
+		$indent = '';
+		for ( $i = 0; $i < $depth; $i++ ) {
+			$indent .= "  ";
+		}
+
+		foreach ( $query as $key => $clause ) {
+			if ( 'relation' === $key ) {
+				$relation = $query['relation'];
+			} else if ( is_array( $clause ) ) {
+
+				// This is a first-order clause.
+				if ( $this->is_first_order_clause( $clause ) ) {
+					$clause_sql = $this->get_sql_for_clause( $clause, $query );
+
+					$where_count = count( $clause_sql['where'] );
+					if ( ! $where_count ) {
+						$sql_chunks['where'][] = '';
+					} else if ( 1 === $where_count ) {
+						$sql_chunks['where'][] = $clause_sql['where'][0];
+					} else {
+						$sql_chunks['where'][] = '( ' . implode( ' AND ', $clause_sql['where'] ) . ' )';
+					}
+
+					$sql_chunks['join'] = array_merge( $sql_chunks['join'], $clause_sql['join'] );
+				// This is a subquery, so we recurse.
+				} else {
+					$clause_sql = $this->get_sql_for_query( $clause, $depth + 1 );
+
+					$sql_chunks['where'][] = $clause_sql['where'];
+					$sql_chunks['join'][]  = $clause_sql['join'];
+				}
+			}
+		}
+
+		// Filter to remove empties.
+		$sql_chunks['join']  = array_filter( $sql_chunks['join'] );
+		$sql_chunks['where'] = array_filter( $sql_chunks['where'] );
+
+		if ( empty( $relation ) ) {
+			$relation = 'AND';
+		}
+
+		// Filter duplicate JOIN clauses and combine into a single string.
+		if ( ! empty( $sql_chunks['join'] ) ) {
+			$sql['join'] = implode( ' ', array_unique( $sql_chunks['join'] ) );
+		}
+
+		// Generate a single WHERE clause with proper brackets and indentation.
+		if ( ! empty( $sql_chunks['where'] ) ) {
+			$sql['where'] = '( ' . "\n  " . $indent . implode( ' ' . "\n  " . $indent . $relation . ' ' . "\n  " . $indent, $sql_chunks['where'] ) . "\n" . $indent . ')';
+		}
+
+		return $sql;
+	}
+
+	/**
+	 * Generate SQL JOIN and WHERE clauses for a first-order query clause.
+
+	 * @since 4.1.0
+	 * @access public
+	 *
+	 * @param  array $clause       Query clause.
+	 * @param  array $parent_query Parent query array.
+	 * @return array {
+	 *     Array containing JOIN and WHERE SQL clauses to append to a first-order query.
+	 *
+	 *     @type string $join  SQL fragment to append to the main JOIN clause.
+	 *     @type string $where SQL fragment to append to the main WHERE clause.
+	 * }
+	 */
+	public function get_sql_for_clause( $clause, $parent_query ) {
 		global $wpdb;
 
+		$sql = array(
+			'where' => array(),
+			'join'  => array(),
+		);
+
 		$join = '';
-		$where = array();
-		$i = 0;
-		$count = count( $this->queries );
 
-		foreach ( $this->queries as $index => $query ) {
-			$this->clean_query( $query );
+		$this->clean_query( $clause );
 
-			if ( is_wp_error( $query ) ) {
+		if ( is_wp_error( $clause ) ) {
+			return self::$no_results;
+		}
+
+		$terms = $clause['terms'];
+		$operator = strtoupper( $clause['operator'] );
+
+		if ( 'IN' == $operator ) {
+
+			if ( empty( $terms ) ) {
 				return self::$no_results;
 			}
 
-			$terms = $query['terms'];
-			$operator = strtoupper( $query['operator'] );
+			$terms = implode( ',', $terms );
 
-			if ( 'IN' == $operator ) {
+			$i = count( $this->table_aliases );
+			$alias = $i ? 'tt' . $i : $wpdb->term_relationships;
+			$this->table_aliases[] = $alias;
 
-				if ( empty( $terms ) ) {
-					if ( 'OR' == $this->relation ) {
-						if ( ( $index + 1 === $count ) && empty( $where ) ) {
-							return self::$no_results;
-						}
-						continue;
-					} else {
-						return self::$no_results;
-					}
-				}
+			$join .= " INNER JOIN $wpdb->term_relationships";
+			$join .= $i ? " AS $alias" : '';
+			$join .= " ON ($this->primary_table.$this->primary_id_column = $alias.object_id)";
 
-				$terms = implode( ',', $terms );
+			$where = "$alias.term_taxonomy_id $operator ($terms)";
 
-				$alias = $i ? 'tt' . $i : $wpdb->term_relationships;
+		} elseif ( 'NOT IN' == $operator ) {
 
-				$join .= " INNER JOIN $wpdb->term_relationships";
-				$join .= $i ? " AS $alias" : '';
-				$join .= " ON ($primary_table.$primary_id_column = $alias.object_id)";
-
-				$where[] = "$alias.term_taxonomy_id $operator ($terms)";
-			} elseif ( 'NOT IN' == $operator ) {
-
-				if ( empty( $terms ) ) {
-					continue;
-				}
-
-				$terms = implode( ',', $terms );
-
-				$where[] = "$primary_table.$primary_id_column NOT IN (
-					SELECT object_id
-					FROM $wpdb->term_relationships
-					WHERE term_taxonomy_id IN ($terms)
-				)";
-			} elseif ( 'AND' == $operator ) {
-
-				if ( empty( $terms ) ) {
-					continue;
-				}
-
-				$num_terms = count( $terms );
-
-				$terms = implode( ',', $terms );
-
-				$where[] = "(
-					SELECT COUNT(1)
-					FROM $wpdb->term_relationships
-					WHERE term_taxonomy_id IN ($terms)
-					AND object_id = $primary_table.$primary_id_column
-				) = $num_terms";
+			if ( empty( $terms ) ) {
+				continue;
 			}
 
-			$i++;
+			$terms = implode( ',', $terms );
+
+			$where = "$this->primary_table.$this->primary_id_column NOT IN (
+				SELECT object_id
+				FROM $wpdb->term_relationships
+				WHERE term_taxonomy_id IN ($terms)
+			)";
+
+		} elseif ( 'AND' == $operator ) {
+
+			if ( empty( $terms ) ) {
+				continue;
+			}
+
+			$num_terms = count( $terms );
+
+			$terms = implode( ',', $terms );
+
+			$where = "(
+				SELECT COUNT(1)
+				FROM $wpdb->term_relationships
+				WHERE term_taxonomy_id IN ($terms)
+				AND object_id = $this->primary_table.$this->primary_id_column
+			) = $num_terms";
 		}
 
-		if ( ! empty( $where ) ) {
-			$where = ' AND ( ' . implode( " $this->relation ", $where ) . ' )';
-		} else {
-			$where = '';
-		}
-		return compact( 'join', 'where' );
+		$sql['join'][]  = $join;
+		$sql['where'][] = $where;
+		return $sql;
 	}
+
 
 	/**
 	 * Validates a single query.
@@ -818,7 +1040,7 @@ class WP_Tax_Query {
 	 * @since 3.2.0
 	 * @access private
 	 *
-	 * @param array &$query The single query
+	 * @param array &$query The single query.
 	 */
 	private function clean_query( &$query ) {
 		if ( empty( $query['taxonomy'] ) ) {
@@ -858,8 +1080,9 @@ class WP_Tax_Query {
 	 *
 	 * @since 3.2.0
 	 *
-	 * @param array &$query The single query
-	 * @param string $resulting_field The resulting field
+	 * @param array  &$query          The single query.
+	 * @param string $resulting_field The resulting field. Accepts 'slug', 'name', 'term_taxonomy_id',
+	 *                                or 'term_id'. Default: 'term_id'.
 	 */
 	public function transform_query( &$query, $resulting_field ) {
 		global $wpdb;
