@@ -1123,6 +1123,14 @@ class WP_Meta_Query {
 
 		$sql = $this->get_sql_clauses();
 
+		/*
+		 * If any JOINs are LEFT JOINs (as in the case of NOT EXISTS), then all JOINs should
+		 * be LEFT. Otherwise posts with no metadata will be excluded from results.
+		 */
+		if ( false !== strpos( $sql['join'], 'LEFT JOIN' ) ) {
+			$sql['join'] = str_replace( 'INNER JOIN', 'LEFT JOIN', $sql['join'] );
+		}
+
 		/**
 		 * Filter the meta query's generated SQL.
 		 *
