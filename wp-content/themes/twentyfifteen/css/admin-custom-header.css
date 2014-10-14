@@ -1,0 +1,105 @@
+/*
+Theme Name: Twenty Fifteen
+Description: Used to style the header image displayed on the Appearance > Header screen.
+*/
+
+.appearance_page_custom-header #headimg {
+	background: #fff no-repeat 50% 50%;
+	background-size: cover;
+	border: none;
+	box-sizing: border-box;
+	padding: 7.6923%;
+}
+
+#headimg h1,
+#desc {
+	color: #333;
+	font-family: "Noto Sans", sans-serif;
+}
+
+#headimg h1 {
+	font-size: 22px;
+	line-height: 1.0909;
+	margin: 0;
+}
+
+#headimg h1 a {
+	text-decoration: none;
+}
+
+#desc {
+	font-size: 12px;
+	line-height: 1.5;
+	margin-top: 0.5em;
+	opacity: 0.7;
+}
+
+@media screen and (min-width: 772px) {
+	#headimg h1 {
+		font-size: 29px;
+		line-height: 1.2069;
+		margin: 0;
+	}
+
+	#desc {
+		font-size: 14px;
+	}
+}
+
+@media screen and (min-width: 783px) {
+	#headimg h1 {
+		font-size: 22px;
+		line-height: 1.0909;
+	}
+
+	#desc {
+		font-size: 12px;
+		line-height: 1.5;
+		margin-top: 0.5em;
+	}
+}
+
+@media screen and (min-width: 1172px) {
+	#headimg h1 {
+		font-size: 29px;
+		line-height: 1.2069;
+	}
+
+	#desc {
+		font-size: 14px;
+	}
+}
+
+@media screen and (min-width: 1313px) {
+	#headimg h1 {
+		font-size: 32px;
+		line-height: 1.25;
+	}
+
+	#desc {
+		font-size: 16px;
+	}
+}
+
+@media screen and (min-width: 1383px) {
+	.appearance_page_custom-header #headimg {
+		background-position: 100% 50%;
+		height: 1300px;
+		max-width: 954px;
+		padding: 83px 83px 0 0;
+		width: 42%;
+	}
+
+	#headimg h1 {
+		float: right;
+		font-size: 27px;
+		line-height: 1.1852;
+		width: 248px;
+	}
+
+	#desc {
+		clear: right;
+		float: right;
+		width: 248px;
+	}
+}

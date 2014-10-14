@@ -1,0 +1,386 @@
+# Copyright (C) 2014 the WordPress team
+# This file is distributed under the GNU General Public License v2 or later.
+msgid ""
+msgstr ""
+"Project-Id-Version: Twenty Fifteen 0.1\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tags/twentyfifteen\n"
+"POT-Creation-Date: 2014-10-14 01:12:14+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2014-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+
+#: 404.php:17
+msgid "Oops! That page can&rsquo;t be found."
+msgstr ""
+
+#: 404.php:21
+msgid ""
+"It looks like nothing was found at this location. Maybe try one of the links "
+"below or a search?"
+msgstr ""
+
+#: archive.php:37
+msgid "Author: %s"
+msgstr ""
+
+#: archive.php:40
+msgid "Day: %s"
+msgstr ""
+
+#: archive.php:43
+msgid "Month: %s"
+msgstr ""
+
+#: archive.php:43
+msgctxt "monthly archives date format"
+msgid "F Y"
+msgstr ""
+
+#: archive.php:46
+msgid "Year: %s"
+msgstr ""
+
+#: archive.php:46
+msgctxt "yearly archives date format"
+msgid "Y"
+msgstr ""
+
+#: archive.php:49
+msgid "Asides"
+msgstr ""
+
+#: archive.php:52
+msgid "Galleries"
+msgstr ""
+
+#: archive.php:55
+msgid "Images"
+msgstr ""
+
+#: archive.php:58
+msgid "Videos"
+msgstr ""
+
+#: archive.php:61
+msgid "Quotes"
+msgstr ""
+
+#: archive.php:64
+msgid "Links"
+msgstr ""
+
+#: archive.php:67
+msgid "Statuses"
+msgstr ""
+
+#: archive.php:70
+msgid "Audios"
+msgstr ""
+
+#: archive.php:73
+msgid "Chats"
+msgstr ""
+
+#: archive.php:76
+msgid "Archives"
+msgstr ""
+
+#: author-bio.php:12
+msgid "Published by"
+msgstr ""
+
+#: author-bio.php:31
+msgid "View all posts by %s"
+msgstr ""
+
+#: comments.php:28
+msgctxt "comments title"
+msgid "One thought on &ldquo;%2$s&rdquo;"
+msgid_plural "%1$s thoughts on &ldquo;%2$s&rdquo;"
+msgstr[0] ""
+msgstr[1] ""
+
+#: comments.php:53
+msgid "Comments are closed."
+msgstr ""
+
+#: content-link.php:22
+msgid "Continue reading <span class=\"meta-nav\">&rarr;</span>"
+msgstr ""
+
+#: content-link.php:25 content-page.php:22 content.php:35 image.php:51
+msgid "Pages:"
+msgstr ""
+
+#: content-link.php:42 content-page.php:30 content-search.php:27
+#: content-search.php:30 content.php:51 image.php:61
+msgid "Edit"
+msgstr ""
+
+#: content-none.php:15
+msgid "Nothing Found"
+msgstr ""
+
+#: content-none.php:21
+msgid ""
+"Ready to publish your first post? <a href=\"%1$s\">Get started here</a>."
+msgstr ""
+
+#: content-none.php:25
+msgid ""
+"Sorry, but nothing matched your search terms. Please try again with some "
+"different keywords."
+msgstr ""
+
+#: content-none.php:30
+msgid ""
+"It seems we can&rsquo;t find what you&rsquo;re looking for. Perhaps "
+"searching can help."
+msgstr ""
+
+#. translators: %s: Name of current post
+#: content.php:30
+msgid "Continue reading %s"
+msgstr ""
+
+#. #-#-#-#-#  twentyfifteen.pot (Twenty Fifteen 0.1)  #-#-#-#-#
+#. Author URI of the plugin/theme
+#: footer.php:17
+msgid "http://wordpress.org/"
+msgstr ""
+
+#: footer.php:17
+msgid "Proudly powered by %s"
+msgstr ""
+
+#: functions.php:70
+msgid "Primary Menu"
+msgstr ""
+
+#: functions.php:71
+msgid "Social Links Menu"
+msgstr ""
+
+#: functions.php:117
+msgid "Widget Area"
+msgstr ""
+
+#: functions.php:119
+msgid "Add widgets here to appear in your sidebar."
+msgstr ""
+
+#: functions.php:144
+msgctxt "Noto Sans font: on or off"
+msgid "on"
+msgstr ""
+
+#: functions.php:152
+msgctxt "Noto Serif font: on or off"
+msgid "on"
+msgstr ""
+
+#: functions.php:160
+msgctxt "Inconsolata font: on or off"
+msgid "on"
+msgstr ""
+
+#: functions.php:168
+msgctxt "Add new subset (greek, cyrillic, devanagari, vietnamese)"
+msgid "no-subset"
+msgstr ""
+
+#: functions.php:222
+msgid "Expand"
+msgstr ""
+
+#: functions.php:223
+msgid "Collapse"
+msgstr ""
+
+#: functions.php:253
+msgid "Page %s"
+msgstr ""
+
+#: header.php:27
+msgid "Skip to content"
+msgstr ""
+
+#: header.php:34
+msgid "Menu and widgets"
+msgstr ""
+
+#: image.php:20
+msgid "Previous Image"
+msgstr ""
+
+#: image.php:20
+msgid "Next Image"
+msgstr ""
+
+#: inc/customizer.php:31
+msgid "Color Scheme"
+msgstr ""
+
+#: inc/customizer.php:44
+msgid "Sidebar Text Color"
+msgstr ""
+
+#: inc/customizer.php:55
+msgid "Header & Sidebar Background Color"
+msgstr ""
+
+#: inc/customizer.php:128
+msgid "Default"
+msgstr ""
+
+#: inc/customizer.php:139
+msgid "Dark"
+msgstr ""
+
+#: inc/customizer.php:150
+msgid "Yellow"
+msgstr ""
+
+#: inc/customizer.php:161
+msgid "Pink"
+msgstr ""
+
+#: inc/customizer.php:172
+msgid "Purple"
+msgstr ""
+
+#: inc/customizer.php:183
+msgid "Blue"
+msgstr ""
+
+#: inc/template-tags.php:29
+msgid "Previous"
+msgstr ""
+
+#: inc/template-tags.php:30
+msgid "Next"
+msgstr ""
+
+#: inc/template-tags.php:31
+msgid "Page"
+msgstr ""
+
+#: inc/template-tags.php:37
+msgid "Posts navigation"
+msgstr ""
+
+#: inc/template-tags.php:74
+msgid "Post navigation"
+msgstr ""
+
+#: inc/template-tags.php:78
+msgctxt "Parent post link"
+msgid ""
+"<span class=\"meta-nav\">Published In</span><span class=\"post-title\">"
+"%title</span>"
+msgstr ""
+
+#: inc/template-tags.php:80
+msgctxt "Previous post link"
+msgid ""
+"<span class=\"meta-nav\">Previous</span><span class=\"post-title\">%title</"
+"span>"
+msgstr ""
+
+#: inc/template-tags.php:81
+msgctxt "Next post link"
+msgid ""
+"<span class=\"meta-nav\">Next</span><span class=\"post-title\">%title</span>"
+msgstr ""
+
+#: inc/template-tags.php:101
+msgid "Comment navigation"
+msgstr ""
+
+#: inc/template-tags.php:104
+msgid "Older Comments"
+msgstr ""
+
+#: inc/template-tags.php:108
+msgid "Newer Comments"
+msgstr ""
+
+#: inc/template-tags.php:127
+msgid "Featured"
+msgstr ""
+
+#: inc/template-tags.php:133
+msgctxt "Used before post format."
+msgid "Format"
+msgstr ""
+
+#: inc/template-tags.php:154
+msgctxt "Used before publish date."
+msgid "<span class=\"screen-reader-text\">Posted on</span>"
+msgstr ""
+
+#: inc/template-tags.php:163
+msgctxt "Used before post author name."
+msgid "<span class=\"screen-reader-text\">Author</span>"
+msgstr ""
+
+#: inc/template-tags.php:169 inc/template-tags.php:177
+msgctxt "Used between list items, there is a space after the comma."
+msgid ", "
+msgstr ""
+
+#: inc/template-tags.php:172
+msgctxt "Used before category names."
+msgid "<span class=\"screen-reader-text\">Categories</span>"
+msgstr ""
+
+#: inc/template-tags.php:180
+msgctxt "Used before tag names."
+msgid "<span class=\"screen-reader-text\">Tags</span>"
+msgstr ""
+
+#: inc/template-tags.php:191
+msgctxt "Used before full size attachment link."
+msgid "<span class=\"screen-reader-text\">Full size</span>"
+msgstr ""
+
+#: inc/template-tags.php:200
+msgid "Leave a comment"
+msgstr ""
+
+#: inc/template-tags.php:200
+msgid "1 Comment"
+msgstr ""
+
+#: inc/template-tags.php:200
+msgid "% Comments"
+msgstr ""
+
+#: search.php:18
+msgid "Search Results for: %s"
+msgstr ""
+
+#. Theme Name of the plugin/theme
+msgid "Twenty Fifteen"
+msgstr ""
+
+#. Theme URI of the plugin/theme
+msgid "http://wordpress.org/themes/twentyfifteen"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid ""
+"Our 2015 default theme is clean, blog-focused, and designed for clarity. "
+"Twenty Fifteen's simple, straightforward typography is readable on a wide "
+"variety of screen sizes, and suitable for multiple languages. We designed it "
+"using a mobile-first approach, meaning your content takes center-stage, "
+"regardless of whether your visitors arrive by smartphone, tablet, laptop, or "
+"desktop computer."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "the WordPress team"
+msgstr ""

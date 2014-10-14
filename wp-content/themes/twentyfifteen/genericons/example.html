@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Genericons</title>
+<link rel="stylesheet" href="genericons.css">
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<style type="text/css">
+/**
+ * Example page CSS
+ */
+
+body {
+	font-family: sans-serif;
+	line-height: 1.5;
+	margin: 0;
+	color: #2f2d2c;
+	background: #fff;
+	font-size: 11pt;
+}
+
+a {
+	color: #2f2d2c;
+}
+
+h4 {
+	margin-top: 40px;
+}
+
+#iconlist {
+	clear: both;
+	margin-bottom: 20px;
+}
+
+#iconlist div {
+	padding: 10px;
+	overflow: hidden;
+	white-space: nowrap;
+	font-size: 32px;
+	line-height: 1;
+	position: relative;
+	width: 32px;
+	height: 32px;
+}
+
+#iconlist div:before {
+	margin-right: 20px;
+}
+
+#iconlist div:hover {
+	cursor: pointer;
+	color: #e4c05c;
+}
+
+#primary {
+	background: #e4c05c;
+	overflow: hidden;
+}
+
+#content {
+	position: relative;
+	color: #fff;
+	max-width: 980px;
+	padding: 0 10px;
+	margin: 0 auto;
+}
+
+#icons {
+	background: #fbfbfb;
+}
+
+#icons #iconlist {
+	max-width: 980px;
+	box-sizing: border-box;
+	-moz-box-sizing:border-box;
+	-webkit-box-sizing:border-box;
+	padding: 20px 0;
+	margin: 0 auto;
+}
+
+#glyph {
+	float: left;
+	width: 50%;
+	box-sizing: border-box;
+	-moz-box-sizing:border-box;
+	-webkit-box-sizing:border-box;
+	-ms-box-sizing:border-box;
+	padding: 20px 0;
+}
+
+#glyph .info {
+	float: right;
+	width: 180px;
+	padding: 36px 0 0 0;
+}
+
+#glyph .info a {
+	color: #2f2d2c;
+	display: block;
+	padding: 8px 0 8px 15px;
+}
+
+#glyph .info strong {
+	font-weight: normal;
+	display: block;
+	padding: 8px 0;
+}
+
+#glyph .genericon {
+	font-size: 256px;
+	width: 256px;
+	height: 256px;
+	overflow: visible;
+	float: left;
+}
+
+.description {
+	margin-top: 50px;
+	width: 48%;
+	float: right;
+	padding-left: 40px;
+	margin-left: 2%;
+	box-sizing: border-box;
+	-moz-box-sizing:border-box;
+	-webkit-box-sizing:border-box;
+	-ms-box-sizing:border-box;
+	background-size: 4px 4px;
+}
+
+#primary h2 {
+	color: white;
+	margin: 0 auto;
+	padding: 22px 0 0 20px;
+	max-width: 980px;
+	font-size: 2em;
+}
+
+#primary h2 span {
+	display: block;
+	font-weight: normal;
+	font-size: 12pt;
+}
+
+#footer {
+	clear: both;
+	max-width: 980px;
+	margin: 80px auto;
+	text-align: center;
+	text-transform: uppercase;
+	letter-spacing: .1em;
+	font-size: 7pt;
+	color: #ddd;
+}
+
+#footer a {
+	color: #ccc;
+	display: inline-block;
+	width: 150px;
+	overflow: hidden;
+	text-indent: 100%;
+	position: relative;
+	top: 2px;
+	opacity: .3;
+	background-repeat: no-repeat;
+	background-position: center top;
+	background-image: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhLS0gR2VuZXJhdG9yOiBBZG9iZSBJbGx1c3RyYXRvciAxNi4wLjQsIFNWRyBFeHBvcnQgUGx1Zy1JbiAuIFNWRyBWZXJzaW9uOiA2LjAwIEJ1aWxkIDApICAtLT4NCjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+DQo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4Ig0KCSB3aWR0aD0iMTUwcHgiIGhlaWdodD0iMTRweCIgdmlld0JveD0iMTAgMCAxNTAgMTQiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMTAgMCAxNTAgMTQiIHhtbDpzcGFjZT0icHJlc2VydmUiPg0KPGc+DQoJPHBhdGggZmlsbD0iIzQ0NDQ0NCIgZD0iTTY1LjQzOCwxMi41Yy0zLjYyNiwwLTUuOTc2LTIuNjEyLTUuOTc2LTUuMzMxVjYuODMxYzAtMi43NjUsMi4zNTEtNS4zMyw1Ljk3Ni01LjMzDQoJCWMzLjY0MSwwLDUuOTksMi41NjUsNS45OSw1LjMzdjAuMzM5QzcxLjQyOCw5Ljg4OCw2OS4wNzksMTIuNSw2NS40MzgsMTIuNXogTTY5LjQ5Miw2Ljg2MWMwLTEuOTgtMS40NDQtMy43NDgtNC4wNTUtMy43NDgNCgkJcy00LjA0LDEuNzY4LTQuMDQsMy43NDh2MC4yNDZjMCwxLjk4MSwxLjQyOSwzLjc3OSw0LjA0LDMuNzc5czQuMDU1LTEuNzk4LDQuMDU1LTMuNzc5VjYuODYxeiIvPg0KCTxwYXRoIGZpbGw9IiM0NDQ0NDQiIGQ9Ik0yNC40OTgsMTIuMWwtMS4zNTItMi41MzVoLTYuMDA3TDE1LjgzNCwxMi4xaC0yLjAyOGw1LjUzMS0xMC4yM2gxLjU5N2w1LjYyMiwxMC4yM0gyNC40OThMMjQuNDk4LDEyLjF6DQoJCSBNMjAuMDksMy44NjZsLTIuMjI4LDQuMzAxaDQuNTMxTDIwLjA5LDMuODY2eiIvPg0KCTxwYXRoIGZpbGw9IiM0NDQ0NDQiIGQ9Ik0zNS4yODEsMTIuNWMtMy42NzEsMC01LjM3Ni0xLjk5Ni01LjM3Ni00LjY1NFYxLjg3aDEuOTA0djYuMDA2YzAsMS44OTEsMS4yNDUsMy4wMTMsMy42MSwzLjAxMw0KCQljMi40MjgsMCwzLjQyNi0xLjEyMiwzLjQyNi0zLjAxM1YxLjg3aDEuOTJ2NS45NzZDNDAuNzY3LDEwLjM4LDM5LjEzOCwxMi41LDM1LjI4MSwxMi41eiIvPg0KCTxwYXRoIGZpbGw9IiM0NDQ0NDQiIGQ9Ik01MS40NTgsMy40NjdWMTIuMWgtMS45MTlWMy40NjdoLTQuNDcxVjEuODdoMTAuODZ2MS41OThMNTEuNDU4LDMuNDY3TDUxLjQ1OCwzLjQ2N3oiLz4NCgk8cGF0aCBmaWxsPSIjNDQ0NDQ0IiBkPSJNODguNTQzLDEyLjFWNC4wMDRsLTAuNTA5LDAuODkxTDgzLjc0OSwxMi4xaC0wLjkzN2wtNC4yNC03LjIwNWwtMC41MDYtMC44OTFWMTIuMWgtMS44NzVWMS44N2gyLjY1OA0KCQlsNC4wNCw3LjAyMWwwLjQ3NiwwLjg2bDAuNDc3LTAuODZsMy45OTQtNy4wMjFoMi42MjdWMTIuMUg4OC41NDNMODguNTQzLDEyLjF6Ii8+DQoJPHBhdGggZmlsbD0iIzQ0NDQ0NCIgZD0iTTEwNC45NzgsMTIuMWwtMS4zNTItMi41MzVoLTYuMDA4TDk2LjMxMywxMi4xaC0yLjAyOGw1LjUzMS0xMC4yMzFoMS41OTlsNS42MjIsMTAuMjMxSDEwNC45Nzh6DQoJCSBNMTAwLjU3LDMuODY2bC0yLjIyOCw0LjMwMWg0LjUyOUwxMDAuNTcsMy44NjZ6Ii8+DQoJPHBhdGggZmlsbD0iIzQ0NDQ0NCIgZD0iTTExNC43NzgsMy40NjdWMTIuMWgtMS45MlYzLjQ2N2gtNC40N1YxLjg3aDEwLjg2djEuNTk4TDExNC43NzgsMy40NjdMMTE0Ljc3OCwzLjQ2N3oiLz4NCgk8cGF0aCBmaWxsPSIjNDQ0NDQ0IiBkPSJNMTI4Ljg2NiwzLjQ2N1YxMi4xaC0xLjkxOVYzLjQ2N2gtNC40NzJWMS44N2gxMC44NnYxLjU5OEwxMjguODY2LDMuNDY3TDEyOC44NjYsMy40Njd6Ii8+DQoJPHBhdGggZmlsbD0iIzQ0NDQ0NCIgZD0iTTEzOC4wNjcsMTIuMVYyLjgzN2MwLjc2OSwwLDEuMDc2LTAuNDE1LDEuMDc2LTAuOTY4aDAuODE0VjEyLjFIMTM4LjA2N0wxMzguMDY3LDEyLjF6Ii8+DQoJPHBhdGggZmlsbD0iIzQ0NDQ0NCIgZD0iTTE1NC45OTYsNC43NTdjLTAuOTIxLTAuODQ1LTIuMjc0LTEuNjQ0LTQuMTAyLTEuNjQ0Yy0yLjczMywwLTQuMjcsMS44NzUtNC4yNywzLjgyNXYwLjINCgkJYzAsMS45MzcsMS41NTEsMy43NDgsNC40MDgsMy43NDhjMS43MDUsMCwzLjExOC0wLjgxNCw0LjAwOS0xLjY0NGwxLjE1MiwxLjIxNWMtMS4xMjEsMS4xMDctMy4wMjYsMi4wNDMtNS4yODUsMi4wNDMNCgkJYy0zLjg3LDAtNi4yMjMtMi41MjEtNi4yMjMtNS4yODRWNi44NzdjMC0yLjc2NiwyLjU2Ni01LjM3Nyw2LjMxNC01LjM3N2MyLjE2NywwLDQuMTM2LDAuOTA2LDUuMTk0LDIuMDQzTDE1NC45OTYsNC43NTd6Ii8+DQoJPHBhdGggZmlsbD0iIzQ0NDQ0NCIgZD0iTTY2LjcwMiw1LjA2YzAuMzQ3LDAuMjI0LDAuNDQ0LDAuNjg3LDAuMjE5LDEuMDM3TDY1LjE2OSw4LjgxYy0wLjIyNSwwLjM0Ny0wLjY4OCwwLjQ0OC0xLjAzMywwLjIyOWwwLDANCgkJQzYzLjc5LDguODEyLDYzLjY5Miw4LjM1MSw2My45MTcsOGwxLjc1MS0yLjcxM0M2NS44OTMsNC45MzgsNjYuMzU1LDQuODM3LDY2LjcwMiw1LjA2TDY2LjcwMiw1LjA2eiIvPg0KPC9nPg0KPC9zdmc+DQo=');
+}
+
+#footer a:hover {
+	opacity: 1;
+}
+
+pre, code {
+	font: 14px/1.5 monospace;
+}
+
+.code {
+	display: block;
+	font: 14px/1.5 monospace;
+	width: 600px;
+	white-space: pre;
+	border: 1px solid #ccc;
+	padding: 10px;
+	overflow: auto;
+	min-height: 110px;
+}
+
+#iconlist .new, #iconlist .update {
+	position: relative;
+}
+
+#iconlist .new:after, #iconlist .update:after {
+	color: #e4c05c;
+	display: block;
+	content: "NEW";
+	font: bold 8px/1 sans-serif;
+	position: absolute;
+	top: 0px;
+	text-align: center;
+	z-index: 10;
+	width: 100%;
+}
+
+#iconlist .update:after {
+	content: "UPDATE";
+	left: -1px;
+}
+
+body.searching #iconlist span.update:after, body.searching #iconlist span.new:after {
+	display: none;
+}
+
+#search {
+	border: 0;
+	border-radius: 2px;
+	position: absolute;
+	right: 20px;
+	font: 11pt sans-serif;
+	padding: 10px;
+	top: 20px;
+	background: rgba(255,255,255,.8);
+}
+
+#search:focus {
+	background: #fff;
+	outline: none;
+}
+
+.genericon-404 {
+	display: none !important; /* This is an easter egg */
+}
+
+.genericon:after {
+	content: attr(alt);
+	display: block;
+	font-size: 9px;
+	color: #999;
+	text-align: center;
+}
+
+.hideUACs.genericon:after {
+	content: none;
+}
+
+
+@media only screen and ( max-width: 900px ) {
+
+	#glyph {
+		float: none;
+		width: 100%;
+	}
+	
+	#glyph .info {
+		width: 30%;
+	}
+	#glyph .genericon {
+		width: 70%;
+	}
+
+	.description {
+		clear: both;
+		width: 100%;
+		background: none;
+		padding-left: 0;
+		float: none;
+	}
+
+}
+</style>
+<script type="text/javascript">
+/**
+ * Example page JS
+ */
+
+function copyToClipboard ( text, copyMode ) {
+	if ( copyMode == "css" ) {
+		window.prompt( "Copy this, then paste in your CSS :before selector.", text );
+	} else if ( copyMode == "html" ) {
+		window.prompt( "Copy this, then paste in your HTML.", text );
+	} else {
+		window.prompt( "Copy this, then paste in your Photoshop textfield.", text );
+	}
+}
+
+function pickRandomIcon() {
+	var divs = jQuery("#iconlist div").get().sort(function(){
+			return Math.round(Math.random())-0.5;
+		}).slice(0,1);
+
+	attr = jQuery(divs).attr('alt');
+	cssclass = jQuery(divs).attr('class');
+	displayGlyph( attr, cssclass );
+
+}
+
+function displayGlyph( attr, cssclass ) {
+
+	// set permalink
+	var permalink = cssclass.split(' genericon-')[1];
+	window.location.hash = permalink;
+
+	// css copy string
+	csstext = "content: \'\\" + attr + "';";
+
+	// html copy string
+	htmltext = '<span class="' + cssclass + '"></span>';
+
+	// glyph copy string
+	glyphtemp = "&#x" + attr + ";";
+	jQuery('#temp').html( glyphtemp );
+	glyphtext = jQuery('#temp').text();
+
+	// final output
+	output = '<div class="' + cssclass + '"></div>'
+	+ '<div class="info">'
+		+ '<strong>&larr; ' + cssclass.split( ' ' )[1] + '</strong>'
+		+ '<a href="javascript:copyToClipboard(csstext, \'css\')">Copy CSS</a>'
+		+ '<a href="javascript:copyToClipboard(htmltext, \'html\')">Copy HTML</a>'
+		+ '<a href="javascript:copyToClipboard(glyphtext)">Copy Glyph</a>'
+	+ '</div>';
+
+	jQuery( '#glyph' ).html( output );
+
+}
+
+function sortUnicode ( a, b ) {
+	var numberA = jQuery(a).attr('alt').replace('f', '');
+	var numberB = jQuery(b).attr('alt').replace('f', '');
+	var contentA =parseInt( numberA, 16 );
+	var contentB =parseInt( numberB, 16 );
+	return (contentA < contentB) ? -1 : (contentA > contentB) ? 1 : 0;
+}
+
+jQuery(document).ready(function() {
+
+	// pick random icon if no permalink, otherwise go to permalink
+	if ( window.location.hash ) {
+		permalink = "genericon-" + window.location.hash.split('#')[1];
+		attr = jQuery( '.' + permalink ).attr( 'alt' );
+		cssclass = jQuery( '.' + permalink ).attr('class');
+		displayGlyph( attr, cssclass );
+	} else {
+		pickRandomIcon();
+	}
+
+	jQuery( '#iconlist div' ).click(function() {
+
+		attr = jQuery( this ).attr( 'alt' );
+		cssclass = jQuery( this ).attr( 'class' );
+
+		displayGlyph( attr, cssclass );
+
+	});
+
+	var $rows = jQuery('#iconlist div');
+	jQuery('#search').keyup(function() {
+	
+		// remove update text when using search
+		jQuery('body').addClass('searching');
+	
+	    var val = jQuery.trim(jQuery(this).val()).replace(/ +/g, ' ').toLowerCase();
+	
+	    $rows.show().filter(function() {
+	        var text = jQuery(this).text().replace(/\s+/g, ' ').toLowerCase();
+	        return !~text.indexOf(val);
+	    }).hide();
+	});
+	
+	jQuery('input#search').focus();
+
+	// sort based on number
+	jQuery('#iconlist div').sort( sortUnicode ).appendTo('#iconlist');
+
+});
+
+function toggleUACs() {
+	jQuery('.genericon').toggleClass('hideUACs');
+}
+</script>
+</head>
+
+<body>
+
+<div id="main">
+
+	<div id="primary">
+		<div id="content">
+
+			<h2>Genericons <span>&mdash; A free, GPL, flexible icon font for blogs!</span></h2>
+
+			<input placeholder="Filter..." name="search" id="search" type="text" value="" maxlength="150" />
+
+			<div id="glyph">
+			</div>
+			
+			<div class="description">
+				<p>Genericons are vector icons embedded in a webfont designed to be clean and simple keeping with a generic aesthetic. Use for instant HiDPI or to easily change colors on the fly.</p>
+			</div>
+			
+		</div>
+	</div>
+
+	<div id="icons">
+		<div id="iconlist">
+		
+			<!-- note, the text inside the HTML elements is purely for the seach -->
+			
+			<div alt="f423" class="genericon genericon-404" title="genericon-404">404</div>
+			
+			<div alt="f508" class="genericon genericon-activity" title="genericon-activity">activity</div>
+			
+			<div alt="f509" class="genericon genericon-anchor" title="genericon-anchor">anchor</div>
+			
+			<div alt="f101" class="genericon genericon-aside" title="genericon-aside">aside</div>
+			
+			<div alt="f416" class="genericon genericon-attachment" title="genericon-attachment">attachment</div>
+			
+			<div alt="f109" class="genericon genericon-audio" title="genericon-audio">audio</div>
+			
+			<div alt="f471" class="genericon genericon-bold" title="genericon-bold">bold</div>
+			
+			<div alt="f444" class="genericon genericon-book" title="genericon-book">book</div>
+			
+			<div alt="f50a" class="genericon genericon-bug" title="genericon-bug">bug</div>
+			
+			<div alt="f447" class="genericon genericon-cart" title="genericon-cart">cart</div>
+			
+			<div alt="f301" class="genericon genericon-category" title="genericon-category">category</div>
+			
+			<div alt="f108" class="genericon genericon-chat" title="genericon-chat">chat</div>
+			
+			<div alt="f418" class="genericon genericon-checkmark" title="genericon-checkmark">checkmark</div>
+			
+			<div alt="f405" class="genericon genericon-close" title="genericon-close">close</div>
+			
+			<div alt="f406" class="genericon genericon-close-alt" title="genericon-close-alt">close-alt</div>
+			
+			<div alt="f426" class="genericon genericon-cloud" title="genericon-cloud">cloud</div>
+			
+			<div alt="f440" class="genericon genericon-cloud-download" title="genericon-cloud-download">cloud-download</div>
+			
+			<div alt="f441" class="genericon genericon-cloud-upload" title="genericon-cloud-upload">cloud-upload</div>
+			
+			<div alt="f462" class="genericon genericon-code" title="genericon-code">code</div>
+			
+			<div alt="f216" class="genericon genericon-codepen" title="genericon-codepen">codepen</div>
+			
+			<div alt="f445" class="genericon genericon-cog" title="genericon-cog">cog</div>
+			
+			<div alt="f432" class="genericon genericon-collapse" title="genericon-collapse">collapse</div>
+			
+			<div alt="f300" class="genericon genericon-comment" title="genericon-comment">comment</div>
+			
+			<div alt="f305" class="genericon genericon-day" title="genericon-day">day</div>
+			
+			<div alt="f221" class="genericon genericon-digg" title="genericon-digg">digg</div>
+			
+			<div alt="f443" class="genericon genericon-document" title="genericon-document">document</div>
+			
+			<div alt="f428" class="genericon genericon-dot" title="genericon-dot">dot</div>
+			
+			<div alt="f502" class="genericon genericon-downarrow" title="genericon-downarrow">downarrow</div>
+			
+			<div alt="f50b" class="genericon genericon-download" title="genericon-download">download</div>
+			
+			<div alt="f436" class="genericon genericon-draggable" title="genericon-draggable">draggable</div>
+			
+			<div alt="f201" class="genericon genericon-dribbble" title="genericon-dribbble">dribbble</div>
+			
+			<div alt="f225" class="genericon genericon-dropbox" title="genericon-dropbox">dropbox</div>
+			
+			<div alt="f433" class="genericon genericon-dropdown" title="genericon-dropdown">dropdown</div>
+			
+			<div alt="f434" class="genericon genericon-dropdown-left" title="genericon-dropdown-left">dropdown-left</div>
+			
+			<div alt="f411" class="genericon genericon-edit" title="genericon-edit">edit</div>
+			
+			<div alt="f476" class="genericon genericon-ellipsis" title="genericon-ellipsis">ellipsis</div>
+			
+			<div alt="f431" class="genericon genericon-expand" title="genericon-expand">expand</div>
+			
+			<div alt="f442" class="genericon genericon-external" title="genericon-external">external</div>
+			
+			<div alt="f203" class="genericon genericon-facebook" title="genericon-facebook">facebook</div>
+			
+			<div alt="f204" class="genericon genericon-facebook-alt" title="genericon-facebook-alt">facebook-alt</div>
+			
+			<div alt="f458" class="genericon genericon-fastforward" title="genericon-fastforward">fastforward</div>
+			
+			<div alt="f413" class="genericon genericon-feed" title="genericon-feed">feed</div>
+			
+			<div alt="f468" class="genericon genericon-flag" title="genericon-flag">flag</div>
+			
+			<div alt="f211" class="genericon genericon-flickr" title="genericon-flickr">flickr</div>
+			
+			<div alt="f226" class="genericon genericon-foursquare" title="genericon-foursquare">foursquare</div>
+			
+			<div alt="f474" class="genericon genericon-fullscreen" title="genericon-fullscreen">fullscreen</div>
+			
+			<div alt="f103" class="genericon genericon-gallery" title="genericon-gallery">gallery</div>
+			
+			<div alt="f200" class="genericon genericon-github" title="genericon-github">github</div>
+			
+			<div alt="f206" class="genericon genericon-googleplus" title="genericon-googleplus">googleplus</div>
+			
+			<div alt="f218" class="genericon genericon-googleplus-alt" title="genericon-googleplus-alt">googleplus-alt</div>
+			
+			<div alt="f50c" class="genericon genericon-handset" title="genericon-handset">handset</div>
+			
+			<div alt="f461" class="genericon genericon-heart" title="genericon-heart">heart</div>
+			
+			<div alt="f457" class="genericon genericon-help" title="genericon-help">help</div>
+			
+			<div alt="f404" class="genericon genericon-hide" title="genericon-hide">hide</div>
+			
+			<div alt="f505" class="genericon genericon-hierarchy" title="genericon-hierarchy">hierarchy</div>
+			
+			<div alt="f409" class="genericon genericon-home" title="genericon-home">home</div>
+			
+			<div alt="f102" class="genericon genericon-image" title="genericon-image">image</div>
+			
+			<div alt="f455" class="genericon genericon-info" title="genericon-info">info</div>
+			
+			<div alt="f215" class="genericon genericon-instagram" title="genericon-instagram">instagram</div>
+			
+			<div alt="f472" class="genericon genericon-italic" title="genericon-italic">italic</div>
+			
+			<div alt="f427" class="genericon genericon-key" title="genericon-key">key</div>
+			
+			<div alt="f503" class="genericon genericon-leftarrow" title="genericon-leftarrow">leftarrow</div>
+			
+			<div alt="f107" class="genericon genericon-link" title="genericon-link">link</div>
+			
+			<div alt="f207" class="genericon genericon-linkedin" title="genericon-linkedin">linkedin</div>
+			
+			<div alt="f208" class="genericon genericon-linkedin-alt" title="genericon-linkedin-alt">linkedin-alt</div>
+			
+			<div alt="f417" class="genericon genericon-location" title="genericon-location">location</div>
+			
+			<div alt="f470" class="genericon genericon-lock" title="genericon-lock">lock</div>
+			
+			<div alt="f410" class="genericon genericon-mail" title="genericon-mail">mail</div>
+			
+			<div alt="f422" class="genericon genericon-maximize" title="genericon-maximize">maximize</div>
+			
+			<div alt="f419" class="genericon genericon-menu" title="genericon-menu">menu</div>
+			
+			<div alt="f50d" class="genericon genericon-microphone" title="genericon-microphone">microphone</div>
+			
+			<div alt="f421" class="genericon genericon-minimize" title="genericon-minimize">minimize</div>
+			
+			<div alt="f50e" class="genericon genericon-minus" title="genericon-minus">minus</div>
+			
+			<div alt="f307" class="genericon genericon-month" title="genericon-month">month</div>
+			
+			<div alt="f50f" class="genericon genericon-move" title="genericon-move">move</div>
+			
+			<div alt="f429" class="genericon genericon-next" title="genericon-next">next</div>
+			
+			<div alt="f456" class="genericon genericon-notice" title="genericon-notice">notice</div>
+			
+			<div alt="f506" class="genericon genericon-paintbrush" title="genericon-paintbrush">paintbrush</div>
+			
+			<div alt="f219" class="genericon genericon-path" title="genericon-path">path</div>
+			
+			<div alt="f448" class="genericon genericon-pause" title="genericon-pause">pause</div>
+			
+			<div alt="f437" class="genericon genericon-phone" title="genericon-phone">phone</div>
+			
+			<div alt="f473" class="genericon genericon-picture" title="genericon-picture">picture</div>
+			
+			<div alt="f308" class="genericon genericon-pinned" title="genericon-pinned">pinned</div>
+			
+			<div alt="f209" class="genericon genericon-pinterest" title="genericon-pinterest">pinterest</div>
+			
+			<div alt="f210" class="genericon genericon-pinterest-alt" title="genericon-pinterest-alt">pinterest-alt</div>
+			
+			<div alt="f452" class="genericon genericon-play" title="genericon-play">play</div>
+			
+			<div alt="f439" class="genericon genericon-plugin" title="genericon-plugin">plugin</div>
+			
+			<div alt="f510" class="genericon genericon-plus" title="genericon-plus">plus</div>
+			
+			<div alt="f224" class="genericon genericon-pocket" title="genericon-pocket">pocket</div>
+			
+			<div alt="f217" class="genericon genericon-polldaddy" title="genericon-polldaddy">polldaddy</div>
+			
+			<div alt="f460" class="genericon genericon-portfolio" title="genericon-portfolio">portfolio</div>
+			
+			<div alt="f430" class="genericon genericon-previous" title="genericon-previous">previous</div>
+			
+			<div alt="f469" class="genericon genericon-print" title="genericon-print">print</div>
+			
+			<div alt="f106" class="genericon genericon-quote" title="genericon-quote">quote</div>
+			
+			<div alt="f511" class="genericon genericon-rating-empty" title="genericon-rating-empty">rating-empty</div>
+			
+			<div alt="f512" class="genericon genericon-rating-full" title="genericon-rating-full">rating-full</div>
+			
+			<div alt="f513" class="genericon genericon-rating-half" title="genericon-rating-half">rating-half</div>
+			
+			<div alt="f222" class="genericon genericon-reddit" title="genericon-reddit">reddit</div>
+			
+			<div alt="f420" class="genericon genericon-refresh" title="genericon-refresh">refresh</div>
+			
+			<div alt="f412" class="genericon genericon-reply" title="genericon-reply">reply</div>
+			
+			<div alt="f466" class="genericon genericon-reply-alt" title="genericon-reply-alt">reply-alt</div>
+			
+			<div alt="f467" class="genericon genericon-reply-single" title="genericon-reply-single">reply-single</div>
+			
+			<div alt="f459" class="genericon genericon-rewind" title="genericon-rewind">rewind</div>
+			
+			<div alt="f501" class="genericon genericon-rightarrow" title="genericon-rightarrow">rightarrow</div>
+			
+			<div alt="f400" class="genericon genericon-search" title="genericon-search">search</div>
+			
+			<div alt="f438" class="genericon genericon-send-to-phone" title="genericon-send-to-phone">send-to-phone</div>
+			
+			<div alt="f454" class="genericon genericon-send-to-tablet" title="genericon-send-to-tablet">send-to-tablet</div>
+			
+			<div alt="f415" class="genericon genericon-share" title="genericon-share">share</div>
+			
+			<div alt="f403" class="genericon genericon-show" title="genericon-show">show</div>
+			
+			<div alt="f514" class="genericon genericon-shuffle" title="genericon-shuffle">shuffle</div>
+			
+			<div alt="f507" class="genericon genericon-sitemap" title="genericon-sitemap">sitemap</div>
+			
+			<div alt="f451" class="genericon genericon-skip-ahead" title="genericon-skip-ahead">skip-ahead</div>
+			
+			<div alt="f450" class="genericon genericon-skip-back" title="genericon-skip-back">skip-back</div>
+			
+			<div alt="f220" class="genericon genericon-skype" title="genericon-skype">skype</div>
+			
+			<div alt="f424" class="genericon genericon-spam" title="genericon-spam">spam</div>
+			
+			<div alt="f515" class="genericon genericon-spotify" title="genericon-spotify">spotify</div>
+			
+			<div alt="f100" class="genericon genericon-standard" title="genericon-standard">standard</div>
+			
+			<div alt="f408" class="genericon genericon-star" title="genericon-star">star</div>
+			
+			<div alt="f105" class="genericon genericon-status" title="genericon-status">status</div>
+			
+			<div alt="f449" class="genericon genericon-stop" title="genericon-stop">stop</div>
+			
+			<div alt="f223" class="genericon genericon-stumbleupon" title="genericon-stumbleupon">stumbleupon</div>
+			
+			<div alt="f463" class="genericon genericon-subscribe" title="genericon-subscribe">subscribe</div>
+			
+			<div alt="f465" class="genericon genericon-subscribed" title="genericon-subscribed">subscribed</div>
+			
+			<div alt="f425" class="genericon genericon-summary" title="genericon-summary">summary</div>
+			
+			<div alt="f453" class="genericon genericon-tablet" title="genericon-tablet">tablet</div>
+			
+			<div alt="f302" class="genericon genericon-tag" title="genericon-tag">tag</div>
+			
+			<div alt="f303" class="genericon genericon-time" title="genericon-time">time</div>
+			
+			<div alt="f435" class="genericon genericon-top" title="genericon-top">top</div>
+			
+			<div alt="f407" class="genericon genericon-trash" title="genericon-trash">trash</div>
+			
+			<div alt="f214" class="genericon genericon-tumblr" title="genericon-tumblr">tumblr</div>
+			
+			<div alt="f516" class="genericon genericon-twitch" title="genericon-twitch">twitch</div>
+			
+			<div alt="f202" class="genericon genericon-twitter" title="genericon-twitter">twitter</div>
+			
+			<div alt="f446" class="genericon genericon-unapprove" title="genericon-unapprove">unapprove</div>
+			
+			<div alt="f464" class="genericon genericon-unsubscribe" title="genericon-unsubscribe">unsubscribe</div>
+			
+			<div alt="f401" class="genericon genericon-unzoom" title="genericon-unzoom">unzoom</div>
+			
+			<div alt="f500" class="genericon genericon-uparrow" title="genericon-uparrow">uparrow</div>
+			
+			<div alt="f304" class="genericon genericon-user" title="genericon-user">user</div>
+			
+			<div alt="f104" class="genericon genericon-video" title="genericon-video">video</div>
+			
+			<div alt="f517" class="genericon genericon-videocamera" title="genericon-videocamera">videocamera</div>
+			
+			<div alt="f212" class="genericon genericon-vimeo" title="genericon-vimeo">vimeo</div>
+			
+			<div alt="f414" class="genericon genericon-warning" title="genericon-warning">warning</div>
+			
+			<div alt="f475" class="genericon genericon-website" title="genericon-website">website</div>
+			
+			<div alt="f306" class="genericon genericon-week" title="genericon-week">week</div>
+			
+			<div alt="f205" class="genericon genericon-wordpress" title="genericon-wordpress">wordpress</div>
+			
+			<div alt="f504" class="genericon genericon-xpost" title="genericon-xpost">xpost</div>
+			
+			<div alt="f213" class="genericon genericon-youtube" title="genericon-youtube">youtube</div>
+			
+			<div alt="f402" class="genericon genericon-zoom" title="genericon-zoom">zoom</div>
+			
+
+		</div>
+		
+		<div id="temp" style="display: none;"></div>
+		
+	</div>
+
+	<div id="footer">
+
+		<p>An <a href="http://automattic.com" rel="nofollow">Automattic</a> Portrayal</p>
+		<p>No designers were harmed in the making of this icon font.</p>
+		
+
+	</div>
+
+</div>
+
+</body>
+</html>
