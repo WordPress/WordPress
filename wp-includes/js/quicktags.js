@@ -230,8 +230,8 @@ function edButton(id, display, tagStart, tagEnd, access) {
 
 		qt.instances[id] = t;
 
-		if ( !qt.instances[0] ) {
-			qt.instances[0] = qt.instances[id];
+		if ( ! qt.instances['0'] ) {
+			qt.instances['0'] = qt.instances[id];
 			_domReady( function(){ qt._buttonsInit(); } );
 		}
 	};
@@ -247,7 +247,7 @@ function edButton(id, display, tagStart, tagEnd, access) {
 			defaults = ',strong,em,link,block,del,ins,img,ul,ol,li,code,more,close,';
 
 		for ( inst in t.instances ) {
-			if ( inst === 0 ) {
+			if ( '0' === inst ) {
 				continue;
 			}
 
@@ -323,7 +323,7 @@ function edButton(id, display, tagStart, tagEnd, access) {
 	 * @param string access_key Deprecated Not used
 	 * @param string title Optional. Button's title="..."
 	 * @param int priority Optional. Number representing the desired position of the button in the toolbar. 1 - 9 = first, 11 - 19 = second, 21 - 29 = third, etc.
-	 * @param string instance Optional. Limit the button to a specifric instance of Quicktags, add to all instances if not present.
+	 * @param string instance Optional. Limit the button to a specific instance of Quicktags, add to all instances if not present.
 	 * @return mixed null or the button object that is needed for back-compat.
 	 */
 	qt.addButton = function( id, display, arg1, arg2, access_key, title, priority, instance ) {
