@@ -194,7 +194,7 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 		} elseif ( is_category() || is_tag() || is_tax() ) { // Terms (Tags/categories)
 
 			$term_count = 0;
-			foreach ( $wp_query->tax_query->queries as $tax_query )
+			foreach ( $wp_query->tax_query->queried_terms as $tax_query )
 				$term_count += count( $tax_query['terms'] );
 
 			$obj = $wp_query->get_queried_object();
