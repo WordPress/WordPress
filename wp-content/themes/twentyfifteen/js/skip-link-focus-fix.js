@@ -6,16 +6,16 @@
  */
 
 ( function() {
-	var is_webkit = navigator.userAgent.toLowerCase().indexOf( 'webkit' ) > -1,
-	    is_opera  = navigator.userAgent.toLowerCase().indexOf( 'opera' )  > -1,
-	    is_ie     = navigator.userAgent.toLowerCase().indexOf( 'msie' )   > -1;
+	var ua = navigator.userAgent.toLowerCase();
 
-	if ( ( is_webkit || is_opera || is_ie ) && document.getElementById && window.addEventListener ) {
+	if ( ( ua.indexOf( 'webkit' ) > -1 || ua.indexOf( 'opera' ) > -1 || ua.indexOf( 'msie' ) > -1 ) &&
+		document.getElementById && window.addEventListener ) {
+
 		window.addEventListener( 'hashchange', function() {
 			var element = document.getElementById( location.hash.substring( 1 ) );
 
 			if ( element ) {
-				if ( ! /^(?:a|select|input|button|textarea)$/i.test( element.tagName ) ) {
+				if ( ! /^(?:a|select|input|button|textarea)$/i.test( element.nodeName ) ) {
 					element.tabIndex = -1;
 				}
 
