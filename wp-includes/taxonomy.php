@@ -715,8 +715,8 @@ class WP_Tax_Query {
 	 * }
 	 */
 	public function __construct( $tax_query ) {
-		if ( isset( $tax_query['relation'] ) && strtoupper( $tax_query['relation'] ) == 'OR' ) {
-			$this->relation = 'OR';
+		if ( isset( $tax_query['relation'] ) ) {
+			$this->relation = $this->sanitize_relation( $tax_query['relation'] );
 		} else {
 			$this->relation = 'AND';
 		}
@@ -749,7 +749,7 @@ class WP_Tax_Query {
 
 		foreach ( $queries as $key => $query ) {
 			if ( 'relation' === $key ) {
-				$cleaned_query['relation'] = $query;
+				$cleaned_query['relation'] = $this->sanitize_relation( $query );
 
 			// First-order clause.
 			} else if ( self::is_first_order_clause( $query ) ) {
@@ -786,12 +786,34 @@ class WP_Tax_Query {
 				$cleaned_subquery = $this->sanitize_query( $query );
 
 				if ( ! empty( $cleaned_subquery ) ) {
+					// All queries with children must have a relation.
+					if ( ! isset( $cleaned_subquery['relation'] ) ) {
+						$cleaned_subquery['relation'] = 'AND';
+					}
+
 					$cleaned_query[] = $cleaned_subquery;
 				}
 			}
 		}
 
 		return $cleaned_query;
+	}
+
+	/**
+	 * Sanitize a 'relation' operator.
+	 *
+	 * @since 4.1.0
+	 * @access public
+	 *
+	 * @param string $relation Raw relation key from the query argument.
+	 * @return Sanitized relation ('AND' or 'OR').
+	 */
+	public function sanitize_relation( $relation ) {
+		if ( 'OR' === strtoupper( $relation ) ) {
+			return 'OR';
+		} else {
+			return 'AND';
+		}
 	}
 
 	/**
@@ -852,7 +874,12 @@ class WP_Tax_Query {
 	 * }
 	 */
 	protected function get_sql_clauses() {
-		$sql = $this->get_sql_for_query( $this->queries );
+		/*
+		 * $queries are passed by reference to get_sql_for_query() for recursion.
+		 * To keep $this->queries unaltered, pass a copy.
+		 */
+		$queries = $this->queries;
+		$sql = $this->get_sql_for_query( $queries );
 
 		if ( ! empty( $sql['where'] ) ) {
 			$sql['where'] = ' AND ' . $sql['where'];
@@ -880,7 +907,7 @@ class WP_Tax_Query {
 	 *     @type string $where SQL fragment to append to the main WHERE clause.
 	 * }
 	 */
-	protected function get_sql_for_query( $query, $depth = 0 ) {
+	protected function get_sql_for_query( &$query, $depth = 0 ) {
 		$sql_chunks = array(
 			'join'  => array(),
 			'where' => array(),
@@ -896,7 +923,7 @@ class WP_Tax_Query {
 			$indent .= "  ";
 		}
 
-		foreach ( $query as $key => $clause ) {
+		foreach ( $query as $key => &$clause ) {
 			if ( 'relation' === $key ) {
 				$relation = $query['relation'];
 			} else if ( is_array( $clause ) ) {
@@ -961,7 +988,7 @@ class WP_Tax_Query {
 	 *     @type string $where SQL fragment to append to the main WHERE clause.
 	 * }
 	 */
-	public function get_sql_for_clause( $clause, $parent_query ) {
+	public function get_sql_for_clause( &$clause, $parent_query ) {
 		global $wpdb;
 
 		$sql = array(
@@ -988,13 +1015,26 @@ class WP_Tax_Query {
 
 			$terms = implode( ',', $terms );
 
-			$i = count( $this->table_aliases );
-			$alias = $i ? 'tt' . $i : $wpdb->term_relationships;
-			$this->table_aliases[] = $alias;
+			/*
+			 * Before creating another table join, see if this clause has a
+			 * sibling with an existing join that can be shared.
+			 */
+			$alias = $this->find_compatible_table_alias( $clause, $parent_query );
+			if ( false === $alias ) {
+				$i = count( $this->table_aliases );
+				$alias = $i ? 'tt' . $i : $wpdb->term_relationships;
 
-			$join .= " INNER JOIN $wpdb->term_relationships";
-			$join .= $i ? " AS $alias" : '';
-			$join .= " ON ($this->primary_table.$this->primary_id_column = $alias.object_id)";
+				// Store the alias as part of a flat array to build future iterators.
+				$this->table_aliases[] = $alias;
+
+				// Store the alias with this clause, so later siblings can use it.
+				$clause['alias'] = $alias;
+
+				$join .= " INNER JOIN $wpdb->term_relationships";
+				$join .= $i ? " AS $alias" : '';
+				$join .= " ON ($this->primary_table.$this->primary_id_column = $alias.object_id)";
+			}
+
 
 			$where = "$alias.term_taxonomy_id $operator ($terms)";
 
@@ -1047,6 +1087,57 @@ class WP_Tax_Query {
 		return $sql;
 	}
 
+	/**
+	 * Identify an existing table alias that is compatible with the current query clause.
+	 *
+	 * We avoid unnecessary table joins by allowing each clause to look for
+	 * an existing table alias that is compatible with the query that it
+	 * needs to perform. An existing alias is compatible if (a) it is a
+	 * sibling of $clause (ie, it's under the scope of the same relation),
+	 * and (b) the combination of operator and relation between the clauses
+	 * allows for a shared table join. In the case of WP_Tax_Query, this
+	 * only applies to IN clauses that are connected by the relation OR.
+	 *
+	 * @since 4.1.0
+	 * @access protected
+	 *
+	 * @param  array       $clause       Query clause.
+	 * @param  array       $parent_query Parent query of $clause.
+	 * @return string|bool Table alias if found, otherwise false.
+	 */
+	protected function find_compatible_table_alias( $clause, $parent_query ) {
+		$alias = false;
+
+		// Sanity check. Only IN queries use the JOIN syntax .
+		if ( ! isset( $clause['operator'] ) || 'IN' !== $clause['operator'] ) {
+			return $alias;
+		}
+
+		// Since we're only checking IN queries, we're only concerned with OR relations.
+		if ( ! isset( $parent_query['relation'] ) || 'OR' !== $parent_query['relation'] ) {
+			return $alias;
+		}
+
+		$compatible_operators = array( 'IN' );
+
+		foreach ( $parent_query as $sibling ) {
+			if ( ! is_array( $sibling ) || ! $this->is_first_order_clause( $sibling ) ) {
+				continue;
+			}
+
+			if ( empty( $sibling['alias'] ) || empty( $sibling['operator'] ) ) {
+				continue;
+			}
+
+			// The sibling must both have compatible operator to share its alias.
+			if ( in_array( strtoupper( $sibling['operator'] ), $compatible_operators ) ) {
+				$alias = $sibling['alias'];
+				break;
+			}
+		}
+
+		return $alias;
+	}
 
 	/**
 	 * Validates a single query.
