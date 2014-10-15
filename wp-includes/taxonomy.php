@@ -691,10 +691,11 @@ class WP_Tax_Query {
 	 * Constructor.
 	 *
 	 * @since 3.1.0
+	 * @since 4.1.0 Added support for $operator 'NOT EXISTS' and 'EXISTS'.
 	 * @access public
 	 *
 	 * @param array $tax_query {
-	 *     Array of taxonoy query clauses.
+	 *     Array of taxonomy query clauses.
 	 *
 	 *     @type string $relation Optional. The MySQL keyword used to join
 	 *                            the clauses of the query. Accepts 'AND', or 'OR'. Default 'AND'.
@@ -706,7 +707,8 @@ class WP_Tax_Query {
 	 *         @type string           $field            Field to match $terms against. Accepts 'term_id', 'slug',
 	 *                                                 'name', or 'term_taxonomy_id'. Default: 'term_id'.
 	 *         @type string           $operator         MySQL operator to be used with $terms in the WHERE clause.
-	 *                                                  Accepts 'AND', 'IN', or 'OR. Default: 'IN'.
+	 *                                                  Accepts 'AND', 'IN', 'NOT IN', 'EXISTS', 'NOT EXISTS'.
+	 *                                                  Default: 'IN'.
 	 *         @type bool             $include_children Optional. Whether to include child terms.
 	 *                                                  Requires a $taxonomy. Default: true.
 	 *     }
@@ -1026,6 +1028,18 @@ class WP_Tax_Query {
 				WHERE term_taxonomy_id IN ($terms)
 				AND object_id = $this->primary_table.$this->primary_id_column
 			) = $num_terms";
+
+		} elseif ( 'NOT EXISTS' === $operator || 'EXISTS' === $operator ) {
+
+			$where = $wpdb->prepare( "$operator (
+				SELECT 1
+				FROM $wpdb->term_relationships
+				INNER JOIN $wpdb->term_taxonomy
+				ON $wpdb->term_taxonomy.term_taxonomy_id = $wpdb->term_relationships.term_taxonomy_id
+				WHERE $wpdb->term_taxonomy.taxonomy = %s
+				AND $wpdb->term_relationships.object_id = $this->primary_table.$this->primary_id_column
+			)", $clause['taxonomy'] );
+
 		}
 
 		$sql['join'][]  = $join;
