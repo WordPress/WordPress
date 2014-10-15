@@ -1839,9 +1839,16 @@ class Walker_Comment extends Walker {
 
 		<?php comment_text( get_comment_id(), array_merge( $args, array( 'add_below' => $add_below, 'depth' => $depth, 'max_depth' => $args['max_depth'] ) ) ); ?>
 
-		<div class="reply">
-			<?php comment_reply_link( array_merge( $args, array( 'add_below' => $add_below, 'depth' => $depth, 'max_depth' => $args['max_depth'] ) ) ); ?>
-		</div>
+		<?php
+		comment_reply_link( array_merge( $args, array(
+			'add_below' => $add_below,
+			'depth'     => $depth,
+			'max_depth' => $args['max_depth'],
+			'before'    => '<div class="reply">',
+			'after'     => '</div>'
+		) ) );
+		?>
+
 		<?php if ( 'div' != $args['style'] ) : ?>
 		</div>
 		<?php endif; ?>
@@ -1889,9 +1896,15 @@ class Walker_Comment extends Walker {
 					<?php comment_text(); ?>
 				</div><!-- .comment-content -->
 
-				<div class="reply">
-					<?php comment_reply_link( array_merge( $args, array( 'add_below' => 'div-comment', 'depth' => $depth, 'max_depth' => $args['max_depth'] ) ) ); ?>
-				</div><!-- .reply -->
+				<?php
+				comment_reply_link( array_merge( $args, array(
+					'add_below' => 'div-comment',
+					'depth'     => $depth,
+					'max_depth' => $args['max_depth'],
+					'before'    => '<div class="reply">',
+					'after'     => '</div>'
+				) ) );
+				?>
 			</article><!-- .comment-body -->
 <?php
 	}
