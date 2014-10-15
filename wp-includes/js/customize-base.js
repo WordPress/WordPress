@@ -184,7 +184,7 @@ window.wp = window.wp || {};
 			to = this.validate( to );
 
 			// Bail if the sanitized value is null or unchanged.
-			if ( null === to || this._value === to )
+			if ( null === to || _.isEqual( from, to ) )
 				return this;
 
 			this._value = to;
