@@ -24,7 +24,6 @@ Description: Used to style the TinyMCE editor.
 
 html .mce-content-body {
 	font-size: 17px;
-	font-size: 1.7rem;
 	max-width: 660px;
 }
 
