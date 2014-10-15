@@ -722,6 +722,7 @@ $_new_bundled_files = array(
 	'themes/twentytwelve/'   => '3.5',
 	'themes/twentythirteen/' => '3.6',
 	'themes/twentyfourteen/' => '3.8',
+	'themes/twentyfifteen/'  => '4.1',
 );
 
 /**
