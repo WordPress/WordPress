@@ -22,8 +22,9 @@ Description: Used to style the TinyMCE editor.
  * 1.0 Body
  */
 
-html .mceContentBody {
-	font-size: 19px;
+html .mce-content-body {
+	font-size: 17px;
+	font-size: 1.7rem;
 	max-width: 660px;
 }
 
@@ -31,8 +32,7 @@ body {
 	color: #333;
 	font-family: "Noto Serif", sans-serif;
 	font-weight: 400;
-	line-height: 1.6842;
-	margin: 83px 0 83px 83px;
+	line-height: 1.6471;
 	vertical-align: baseline;
 }
 
