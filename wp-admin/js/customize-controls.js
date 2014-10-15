@@ -1021,10 +1021,17 @@
 			nonce: api.settings.nonce,
 
 			query: function() {
+				var dirtyCustomized = {};
+				api.each( function ( value, key ) {
+					if ( value._dirty ) {
+						dirtyCustomized[ key ] = value();
+					}
+				} );
+
 				return {
 					wp_customize: 'on',
 					theme:      api.settings.theme.stylesheet,
-					customized: JSON.stringify( api.get() ),
+					customized: JSON.stringify( dirtyCustomized ),
 					nonce:      this.nonce.preview
 				};
 			},
@@ -1067,6 +1074,10 @@
 							return;
 						}
 
+						// Clear setting dirty states
+						api.each( function ( value ) {
+							value._dirty = false;
+						} );
 						api.trigger( 'saved' );
 					} );
 				};

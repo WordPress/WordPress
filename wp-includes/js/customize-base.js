@@ -158,6 +158,7 @@ window.wp = window.wp || {};
 		initialize: function( initial, options ) {
 			this._value = initial; // @todo: potentially change this to a this.set() call.
 			this.callbacks = $.Callbacks();
+			this._dirty = false;
 
 			$.extend( this, options || {} );
 
@@ -187,6 +188,7 @@ window.wp = window.wp || {};
 				return this;
 
 			this._value = to;
+			this._dirty = true;
 
 			this.callbacks.fireWith( this, [ to, from ] );
 
