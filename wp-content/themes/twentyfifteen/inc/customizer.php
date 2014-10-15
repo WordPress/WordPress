@@ -1,6 +1,6 @@
 <?php
 /**
- * Twenty Fifteen Theme Customizer.
+ * Twenty Fifteen Customizer.
  *
  * @package WordPress
  * @subpackage Twenty_Fifteen
@@ -8,11 +8,11 @@
  */
 
 /**
- * Add postMessage support for site title and description for the Theme Customizer.
+ * Add postMessage support for site title and description for the Customizer.
  *
  * @since Twenty Fifteen 1.0
  *
- * @param WP_Customize_Manager $wp_customize Theme Customizer object.
+ * @param WP_Customize_Manager $wp_customize Customizer object.
  */
 function twentyfifteen_customize_register( $wp_customize ) {
 	$color_scheme = twentyfifteen_get_color_scheme();
@@ -650,7 +650,7 @@ function twentyfifteen_color_scheme_css() {
 add_action( 'wp_enqueue_scripts', 'twentyfifteen_color_scheme_css' );
 
 /**
- * Binds JS handlers to make Theme Customizer preview reload changes asynchronously.
+ * Binds JS handlers to make Customizer preview reload changes asynchronously.
  *
  * @since Twenty Fifteen 1.0
  */

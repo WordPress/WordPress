@@ -804,9 +804,9 @@ function switch_theme( $stylesheet ) {
 		add_option( "theme_mods_$stylesheet", $default_theme_mods );
 	} else {
 		/*
-		 * Since retrieve_widgets() is called when initializing the customizer theme,
+		 * Since retrieve_widgets() is called when initializing a theme in the Customizer,
 		 * we need to to remove the theme mods to avoid overwriting changes made via
-		 * the widget customizer when accessing wp-admin/widgets.php.
+		 * the Customizer when accessing wp-admin/widgets.php.
 		 */
 		if ( 'wp_ajax_customize_save' === current_action() ) {
 			remove_theme_mod( 'sidebars_widgets' );
@@ -1946,7 +1946,7 @@ function _wp_customize_loader_settings() {
 add_action( 'admin_enqueue_scripts', '_wp_customize_loader_settings' );
 
 /**
- * Returns a URL to load the theme customizer.
+ * Returns a URL to load the Customizer.
  *
  * @since 3.4.0
  *
@@ -1961,7 +1961,7 @@ function wp_customize_url( $stylesheet = null ) {
 }
 
 /**
- * Prints a script to check whether or not the customizer is supported,
+ * Prints a script to check whether or not the Customizer is supported,
  * and apply either the no-customize-support or customize-support class
  * to the body.
  *

@@ -116,7 +116,7 @@ final class WP_Customize_Widgets {
 	/**
 	 * Set up widget addition previews.
 	 *
-	 * Since the widgets get registered on 'widgets_init' before the customizer
+	 * Since the widgets get registered on 'widgets_init' before the Customizer
 	 * settings are set up on 'customize_register', we have to filter the options
 	 * similarly to how the setting previewer will filter the options later.
 	 *
@@ -146,7 +146,7 @@ final class WP_Customize_Widgets {
 			return;
 		}
 
-		// Input from customizer preview.
+		// Input from Customizer preview.
 		if ( isset( $_POST['customized'] ) ) {
 			$this->_customized = json_decode( $this->get_post_value( 'customized' ), true );
 		} else { // Input from ajax widget update request.
@@ -201,7 +201,7 @@ final class WP_Customize_Widgets {
 	/**
 	 * Ensure that newly-added widgets will appear in the widgets_sidebars.
 	 *
-	 * This is necessary because the customizer's setting preview filters
+	 * This is necessary because the Customizer's setting preview filters
 	 * are added after the widgets_init action, which is too late for the
 	 * widgets to be set up properly.
 	 *
@@ -225,7 +225,7 @@ final class WP_Customize_Widgets {
 	 * Ensure newly-added widgets have empty instances so they
 	 * will be recognized.
 	 *
-	 * This is necessary because the customizer's setting preview
+	 * This is necessary because the Customizer's setting preview
 	 * filters are added after the widgets_init action, which is
 	 * too late for the widgets to be set up properly.
 	 *
@@ -287,7 +287,7 @@ final class WP_Customize_Widgets {
 	/**
 	 * Override sidebars_widgets for theme switch.
 	 *
-	 * When switching a theme via the customizer, supply any previously-configured
+	 * When switching a theme via the Customizer, supply any previously-configured
 	 * sidebars_widgets from the target theme as the initial sidebars_widgets
 	 * setting. Also store the old theme's existing settings so that they can
 	 * be passed along for storing in the sidebars_widgets theme_mod when the
@@ -313,7 +313,7 @@ final class WP_Customize_Widgets {
 	}
 
 	/**
-	 * Filter old_sidebars_widgets_data customizer setting.
+	 * Filter old_sidebars_widgets_data Customizer setting.
 	 *
 	 * When switching themes, filter the Customizer setting
 	 * old_sidebars_widgets_data to supply initial $sidebars_widgets before they
@@ -388,7 +388,7 @@ final class WP_Customize_Widgets {
 	}
 
 	/**
-	 * Register customizer settings and controls for all sidebars and widgets.
+	 * Register Customizer settings and controls for all sidebars and widgets.
 	 *
 	 * @since 3.9.0
 	 * @access public
@@ -534,7 +534,7 @@ final class WP_Customize_Widgets {
 	}
 
 	/**
-	 * Covert a widget_id into its corresponding customizer setting ID (option name).
+	 * Covert a widget_id into its corresponding Customizer setting ID (option name).
 	 *
 	 * @since 3.9.0
 	 * @access public
@@ -556,9 +556,9 @@ final class WP_Customize_Widgets {
 	 * Determine whether the widget is considered "wide".
 	 *
 	 * Core widgets which may have controls wider than 250, but can
-	 * still be shown in the narrow customizer panel. The RSS and Text
+	 * still be shown in the narrow Customizer panel. The RSS and Text
 	 * widgets in Core, for example, have widths of 400 and yet they
-	 * still render fine in the customizer panel. This method will
+	 * still render fine in the Customizer panel. This method will
 	 * return all Core widgets as being not wide, but this can be
 	 * overridden with the is_wide_widget_in_customizer filter.
 	 *
@@ -664,7 +664,7 @@ final class WP_Customize_Widgets {
 	}
 
 	/**
-	 * Enqueue scripts and styles for customizer panel and export data to JavaScript.
+	 * Enqueue scripts and styles for Customizer panel and export data to JavaScript.
 	 *
 	 * @since 3.9.0
 	 * @access public
@@ -964,7 +964,7 @@ final class WP_Customize_Widgets {
 	}
 
 	/**
-	 * Add hooks for the customizer preview.
+	 * Add hooks for the Customizer preview.
 	 *
 	 * @since 3.9.0
 	 * @access public
@@ -982,7 +982,7 @@ final class WP_Customize_Widgets {
 	 * Because wp_get_sidebars_widgets() gets called early at init
 	 * (via wp_convert_widget_settings()) and can set global variable
 	 * $_wp_sidebars_widgets to the value of get_option( 'sidebars_widgets' )
-	 * before the customizer preview filter is added, we have to reset
+	 * before the Customizer preview filter is added, we have to reset
 	 * it after the filter has been added.
 	 *
 	 * @since 3.9.0
@@ -1039,7 +1039,7 @@ final class WP_Customize_Widgets {
 	 */
 	public function export_preview_data() {
 
-		// Prepare customizer settings to pass to Javascript.
+		// Prepare Customizer settings to pass to Javascript.
 		$settings = array(
 			'renderedSidebars'   => array_fill_keys( array_unique( $this->rendered_sidebars ), true ),
 			'renderedWidgets'    => array_fill_keys( array_keys( $this->rendered_widgets ), true ),

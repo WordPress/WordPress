@@ -1,6 +1,6 @@
 /* global colorScheme */
 /**
- * Theme Customizer enhancements for a better user experience.
+ * Customizer enhancements for a better user experience.
  *
  * Adds listener to Color Scheme control to update other color controls with new values/defaults
  */

@@ -1,6 +1,6 @@
 <?php
 /**
- * Twenty Fourteen Theme Customizer support
+ * Twenty Fourteen Customizer support
  *
  * @package WordPress
  * @subpackage Twenty_Fourteen
@@ -8,11 +8,11 @@
  */
 
 /**
- * Implement Theme Customizer additions and adjustments.
+ * Implement Customizer additions and adjustments.
  *
  * @since Twenty Fourteen 1.0
  *
- * @param WP_Customize_Manager $wp_customize Theme Customizer object.
+ * @param WP_Customize_Manager $wp_customize Customizer object.
  */
 function twentyfourteen_customize_register( $wp_customize ) {
 	// Add postMessage support for site title and description.
@@ -80,7 +80,7 @@ function twentyfourteen_sanitize_layout( $layout ) {
 }
 
 /**
- * Bind JS handlers to make Theme Customizer preview reload changes asynchronously.
+ * Bind JS handlers to make Customizer preview reload changes asynchronously.
  *
  * @since Twenty Fourteen 1.0
  */

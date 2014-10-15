@@ -499,11 +499,11 @@ function twentyeleven_layout_classes( $existing_classes ) {
 add_filter( 'body_class', 'twentyeleven_layout_classes' );
 
 /**
- * Implements Twenty Eleven theme options into Theme Customizer
+ * Implements Twenty Eleven theme options into Customizer
  *
  * @since Twenty Eleven 1.3
  *
- * @param object $wp_customize Theme Customizer object.
+ * @param object $wp_customize Customizer object.
  */
 function twentyeleven_customize_register( $wp_customize ) {
 	$wp_customize->get_setting( 'blogname' )->transport = 'postMessage';
@@ -533,7 +533,7 @@ function twentyeleven_customize_register( $wp_customize ) {
 		'priority' => 5,
 	) );
 
-	// Link Color (added to Color Scheme section in Theme Customizer)
+	// Link Color (added to Color Scheme section in Customizer)
 	$wp_customize->add_setting( 'twentyeleven_theme_options[link_color]', array(
 		'default'           => twentyeleven_get_default_link_color( $options['color_scheme'] ),
 		'type'              => 'option',
@@ -574,7 +574,7 @@ function twentyeleven_customize_register( $wp_customize ) {
 add_action( 'customize_register', 'twentyeleven_customize_register' );
 
 /**
- * Bind JS handlers to make Theme Customizer preview reload changes asynchronously.
+ * Bind JS handlers to make Customizer preview reload changes asynchronously.
  *
  * Used with blogname and blogdescription.
  *

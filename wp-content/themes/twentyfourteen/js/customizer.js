@@ -1,7 +1,7 @@
 /**
- * Twenty Fourteen Theme Customizer enhancements for a better user experience.
+ * Twenty Fourteen Customizer enhancements for a better user experience.
  *
- * Contains handlers to make Theme Customizer preview reload changes asynchronously.
+ * Contains handlers to make Customizer preview reload changes asynchronously.
  */
 ( function( $ ) {
 	// Site title and description.

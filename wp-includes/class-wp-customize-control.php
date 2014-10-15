@@ -152,7 +152,7 @@ class WP_Customize_Control {
 	public function enqueue() {}
 
 	/**
-	 * Check whether control is active to current customizer preview.
+	 * Check whether control is active to current Customizer preview.
 	 *
 	 * @since 4.0.0
 	 * @access public

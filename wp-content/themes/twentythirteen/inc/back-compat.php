@@ -39,7 +39,7 @@ function twentythirteen_upgrade_notice() {
 }
 
 /**
- * Prevent the Theme Customizer from being loaded on WordPress versions prior to 3.6.
+ * Prevent the Customizer from being loaded on WordPress versions prior to 3.6.
  *
  * @since Twenty Thirteen 1.0
  */

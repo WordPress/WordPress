@@ -37,7 +37,7 @@ final class WP_Customize_Manager {
 	protected $previewing = false;
 
 	/**
-	 * Methods and properties deailing with managing widgets in the customizer.
+	 * Methods and properties deailing with managing widgets in the Customizer.
 	 *
 	 * @var WP_Customize_Widgets
 	 */
@@ -82,7 +82,7 @@ final class WP_Customize_Manager {
 		// Run wp_redirect_status late to make sure we override the status last.
 		add_action( 'wp_redirect_status', array( $this, 'wp_redirect_status' ), 1000 );
 
-		// Do not spawn cron (especially the alternate cron) while running the customizer.
+		// Do not spawn cron (especially the alternate cron) while running the Customizer.
 		remove_action( 'init', 'wp_cron' );
 
 		// Do not run update checks when rendering the controls.
@@ -516,7 +516,7 @@ final class WP_Customize_Manager {
 	}
 
 	/**
-	 * Prints a signature so we can ensure the customizer was properly executed.
+	 * Prints a signature so we can ensure the Customizer was properly executed.
 	 *
 	 * @since 3.4.0
 	 */
@@ -525,7 +525,7 @@ final class WP_Customize_Manager {
 	}
 
 	/**
-	 * Removes the signature in case we experience a case where the customizer was not properly executed.
+	 * Removes the signature in case we experience a case where the Customizer was not properly executed.
 	 *
 	 * @since 3.4.0
 	 */

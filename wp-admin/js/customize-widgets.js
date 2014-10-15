@@ -691,7 +691,7 @@
 		},
 
 		/**
-		 * Highlight widgets in preview when interacted with in the customizer
+		 * Highlight widgets in preview when interacted with in the Customizer
 		 */
 		_setupHighlightEffects: function() {
 			var self = this;
@@ -1494,7 +1494,7 @@
 			} );
 
 			/**
-			 * Expand other customizer sidebar section when dragging a control widget over it,
+			 * Expand other Customizer sidebar section when dragging a control widget over it,
 			 * allowing the control to be dropped into another section
 			 */
 			this.$controlSection.find( '.accordion-section-title' ).droppable({

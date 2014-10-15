@@ -16,7 +16,7 @@ window.wp = window.wp || {};
 	 * By default, any element in the body with the load-customize class will open
 	 * an iframe overlay with the URL specified.
 	 *
-	 *     e.g. <a class="load-customize" href="<?php echo wp_customize_url(); ?>">Open customizer</a>
+	 *     e.g. <a class="load-customize" href="<?php echo wp_customize_url(); ?>">Open Customizer</a>
 	 *
 	 * @augments wp.customize.Events
 	 */
@@ -45,7 +45,7 @@ window.wp = window.wp || {};
 			$('#wpbody').on( 'click', '.load-customize', function( event ) {
 				event.preventDefault();
 
-				// Store a reference to the link that opened the customizer.
+				// Store a reference to the link that opened the Customizer.
 				Loader.link = $(this);
 				// Load the theme.
 				Loader.open( Loader.link.attr('href') );
@@ -90,7 +90,7 @@ window.wp = window.wp || {};
 		},
 
 		/**
-		 * Open the customizer overlay for a specific URL.
+		 * Open the Customizer overlay for a specific URL.
 		 *
 		 * @param  string src URL to load in the Customizer.
 		 */
@@ -108,7 +108,7 @@ window.wp = window.wp || {};
 			this.active = true;
 			this.body.addClass('customize-loading');
 
-			// Dirty state of customizer in iframe
+			// Dirty state of Customizer in iframe
 			this.saved = new api.Value( true );
 
 			this.iframe = $( '<iframe />', { src: src }).appendTo( this.element );
@@ -170,7 +170,7 @@ window.wp = window.wp || {};
 		},
 
 		/**
-		 * Callback after the customizer has been opened.
+		 * Callback after the Customizer has been opened.
 		 */
 		opened: function() {
 			Loader.body.addClass( 'customize-active full-overlay-active' );
@@ -184,7 +184,7 @@ window.wp = window.wp || {};
 				return;
 			}
 
-			// Display AYS dialog if customizer is dirty
+			// Display AYS dialog if Customizer is dirty
 			if ( ! this.saved() && ! confirm( Loader.settings.l10n.saveAlert ) ) {
 				// Go forward since Customizer is exited by history.back()
 				history.forward();
@@ -202,7 +202,7 @@ window.wp = window.wp || {};
 		},
 
 		/**
-		 * Callback after the customizer has been closed.
+		 * Callback after the Customizer has been closed.
 		 */
 		closed: function() {
 			Loader.iframe.remove();
