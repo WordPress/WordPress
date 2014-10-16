@@ -1041,7 +1041,7 @@ class WP_Tax_Query {
 		} elseif ( 'NOT IN' == $operator ) {
 
 			if ( empty( $terms ) ) {
-				continue;
+				return $sql;
 			}
 
 			$terms = implode( ',', $terms );
@@ -1055,7 +1055,7 @@ class WP_Tax_Query {
 		} elseif ( 'AND' == $operator ) {
 
 			if ( empty( $terms ) ) {
-				continue;
+				return $sql;
 			}
 
 			$num_terms = count( $terms );
