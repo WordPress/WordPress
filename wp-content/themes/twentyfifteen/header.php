@@ -32,7 +32,7 @@
 				<h1 class="site-title"><a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></h1>
 				<h2 class="site-description"><?php bloginfo( 'description' ); ?></h2>
 				<button class="secondary-toggle"><?php esc_html_e( 'Menu and widgets', 'twentyfifteen' ); ?></button>
-			</div>
+			</div><!-- .site-branding -->
 		</header><!-- .site-header -->
 
 		<?php get_sidebar(); ?>
