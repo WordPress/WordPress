@@ -1,8 +1,10 @@
 <?php
 /**
- * WP_Date_Query will generate a MySQL WHERE clause for the specified date-based parameters.
+ * Class for generating SQL clauses that filter a primary query according to date.
  *
- * Initialize the class by passing an array of arrays of parameters.
+ * `WP_Date_Query` is a helper that allows primary query classes, such as {@see WP_Query},
+ * to filter their results by date columns, by generating `WHERE` subclauses to be attached
+ * to the primary SQL query string.
  *
  * @link http://codex.wordpress.org/Function_Reference/WP_Query Codex page.
  *
@@ -10,7 +12,9 @@
  */
 class WP_Date_Query {
 	/**
-	 * List of date queries.
+	 * Array of date queries.
+	 *
+	 * See {@see WP_Date_Query::__construct()} for information on date query arguments.
 	 *
 	 * @since 3.7.0
 	 * @access public
@@ -19,7 +23,7 @@ class WP_Date_Query {
 	public $queries = array();
 
 	/**
-	 * The relation between the queries. Can be either 'AND' or 'OR' and can be changed via the query arguments.
+	 * The default relation between top-level queries. Can be either 'AND' or 'OR'.
 	 *
 	 * @since 3.7.0
 	 * @access public
@@ -46,13 +50,23 @@ class WP_Date_Query {
 	public $compare = '=';
 
 	/**
+	 * Supported time-related parameter keys.
+	 *
+	 * @since 4.1.0
+	 * @access public
+	 * @var array
+	 */
+	public $time_keys = array( 'after', 'before', 'year', 'month', 'monthnum', 'week', 'w', 'dayofyear', 'day', 'dayofweek', 'hour', 'minute', 'second' );
+
+	/**
 	 * Constructor.
 	 *
 	 * @since 3.7.0
 	 * @since 4.0.0 The $inclusive logic was updated to include all times within the date range.
+	 * @access public
 	 *
 	 * @param array $date_query {
-	 *     One or more associative arrays of date query parameters.
+	 *     Array of date query clauses.
 	 *
 	 *     @type array {
 	 *         @type string $column   Optional. The column to query against. If undefined, inherits the value of
@@ -60,11 +74,12 @@ class WP_Date_Query {
 	 *                                'post_date_gmt', 'post_modified','post_modified_gmt', 'comment_date',
 	 *                                'comment_date_gmt'.
 	 *         @type string $compare  Optional. The comparison operator.
-	 *                                Default '='. Accepts '=', '!=', '>', '>=', '<', '<=', 'IN', 'NOT IN',
+	 *                                Accepts '=', '!=', '>', '>=', '<', '<=', 'IN', 'NOT IN'. Default '='.
 	 *                                'BETWEEN', 'NOT BETWEEN'.
-	 *         @type string $relation Optional. The boolean relationship between the date queryies.
-	 *                                Default 'OR'. Accepts 'OR', 'AND'.
+	 *         @type string $relation Optional. The boolean relationship between the date queries.
+	 *                                Accepts 'OR', 'AND'. Default 'OR'.
 	 *         @type array {
+		       Optional. An array of first-order clause parameters, or another fully-formed date query.
 	 *             @type string|array $before Optional. Date to retrieve posts before. Accepts strtotime()-compatible
 	 *                                        string, or array of 'year', 'month', 'day' values. {
 	 *
@@ -109,34 +124,108 @@ class WP_Date_Query {
 	 *                              'comment_date', 'comment_date_gmt'.
 	 */
 	public function __construct( $date_query, $default_column = 'post_date' ) {
-		if ( empty( $date_query ) || ! is_array( $date_query ) )
-			return;
 
-		if ( isset( $date_query['relation'] ) && strtoupper( $date_query['relation'] ) == 'OR' )
+		if ( isset( $date_query['relation'] ) && 'OR' === strtoupper( $date_query['relation'] ) ) {
 			$this->relation = 'OR';
-		else
+		} else {
 			$this->relation = 'AND';
+		}
 
-		if ( ! empty( $date_query['column'] ) )
-			$this->column = esc_sql( $date_query['column'] );
-		else
-			$this->column = esc_sql( $default_column );
+		if ( ! is_array( $date_query ) ) {
+			return;
+		}
+
+		// Support for passing time-based keys in the top level of the $date_query array.
+		if ( ! isset( $date_query[0] ) && ! empty( $date_query ) ) {
+			$date_query = array( $date_query );
+		}
+
+		if ( empty( $date_query ) ) {
+			return;
+		}
+
+		if ( ! empty( $date_query['column'] ) ) {
+			$date_query['column'] = esc_sql( $date_query['column'] );
+		} else {
+			$date_query['column'] = esc_sql( $default_column );
+		}
 
 		$this->column = $this->validate_column( $this->column );
 
 		$this->compare = $this->get_compare( $date_query );
 
-		// If an array of arrays wasn't passed, fix it
-		if ( ! isset( $date_query[0] ) )
-			$date_query = array( $date_query );
+		$this->queries = $this->sanitize_query( $date_query );
 
-		$this->queries = array();
-		foreach ( $date_query as $key => $query ) {
-			if ( ! is_array( $query ) )
-				continue;
+		return;
+	}
 
-			$this->queries[$key] = $query;
+	/**
+	 * Recursive-friendly query sanitizer.
+	 *
+	 * Ensures that each query-level clause has a 'relation' key, and that
+	 * each first-order clause contains all the necessary keys from
+	 * $defaults.
+	 *
+	 * @since 4.1.0
+	 * @access public
+	 *
+	 * @param  array $query A tax_query query clause.
+	 * @return array Sanitized queries.
+	 */
+	public function sanitize_query( $queries, $parent_query = null ) {
+		$cleaned_query = array();
+
+		$defaults = array(
+			'column'   => 'post_date',
+			'compare'  => '=',
+			'relation' => 'AND',
+		);
+
+		// Numeric keys should always have array values.
+		foreach ( $queries as $qkey => $qvalue ) {
+			if ( is_numeric( $qkey ) && ! is_array( $qvalue ) ) {
+				unset( $queries[ $qkey ] );
+			}
 		}
+
+		// Each query should have a value for each default key. Inherit from the parent when possible.
+		foreach ( $defaults as $dkey => $dvalue ) {
+			if ( isset( $queries[ $dkey ] ) ) {
+				continue;
+			}
+
+			if ( isset( $parent_query[ $dkey ] ) ) {
+				$queries[ $dkey ] = $parent_query[ $dkey ];
+			} else {
+				$queries[ $dkey ] = $dvalue;
+			}
+		}
+
+		foreach ( $queries as $key => $q ) {
+			if ( ! is_array( $q ) || in_array( $key, $this->time_keys, true ) ) {
+				// This is a first-order query. Trust the values and sanitize when building SQL.
+				$cleaned_query[ $key ] = $q;
+			} else {
+				// Any array without a time key is another query, so we recurse.
+				$cleaned_query[] = $this->sanitize_query( $q, $queries );
+			}
+		}
+
+		return $cleaned_query;
+	}
+
+	/**
+	 * Determine whether this is a first-order clause.
+	 *
+	 * Checks to see if the current clause has any time-related keys.
+	 * If so, it's first-order.
+	 *
+	 * @param  array $query Query clause.
+	 * @return bool True if this is a first-order clause.
+	 */
+	protected function is_first_order_clause( $query ) {
+		$time_keys = array_intersect( $this->time_keys, array_keys( $query ) );
+		return ! empty( $time_keys );
 	}
 
 	/**
@@ -145,8 +234,8 @@ class WP_Date_Query {
 	 * @since 3.7.0
 	 * @access public
 	 *
-	 * @param array $query A date query or a date subquery
-	 * @return string The comparison operator
+	 * @param array $query A date query or a date subquery.
+	 * @return string The comparison operator.
 	 */
 	public function get_compare( $query ) {
 		if ( ! empty( $query['compare'] ) && in_array( $query['compare'], array( '=', '!=', '>', '>=', '<', '<=', 'IN', 'NOT IN', 'BETWEEN', 'NOT BETWEEN' ) ) )
@@ -184,30 +273,17 @@ class WP_Date_Query {
 	}
 
 	/**
-	 * Turns an array of date query parameters into a MySQL string.
+	 * Generate WHERE clause to be appended to a main query.
 	 *
 	 * @since 3.7.0
 	 * @access public
 	 *
-	 * @return string MySQL WHERE parameters
+	 * @return string MySQL WHERE clause.
 	 */
 	public function get_sql() {
-		// The parts of the final query
-		$where = array();
+		$sql = $this->get_sql_clauses();
 
-		foreach ( $this->queries as $key => $query ) {
-			$where_parts = $this->get_sql_for_subquery( $query );
-			if ( $where_parts ) {
-				// Combine the parts of this subquery into a single string
-				$where[ $key ] = '( ' . implode( ' AND ', $where_parts ) . ' )';
-			}
-		}
-
-		// Combine the subquery strings into a single string
-		if ( $where )
-			$where = ' AND ( ' . implode( " {$this->relation} ", $where ) . ' )';
-		else
-			$where = '';
+		$where = $sql['where'];
 
 		/**
 		 * Filter the date query WHERE clause.
@@ -221,15 +297,156 @@ class WP_Date_Query {
 	}
 
 	/**
-	 * Turns a single date subquery into pieces for a WHERE clause.
+	 * Generate SQL clauses to be appended to a main query.
 	 *
-	 * @since 3.7.0
-	 * return array
+	 * Called by the public {@see WP_Date_Query::get_sql()}, this method
+	 * is abstracted out to maintain parity with the other Query classes.
+	 *
+	 * @since 4.1.0
+	 * @access protected
+	 *
+	 * @return array {
+	 *     Array containing JOIN and WHERE SQL clauses to append to the main query.
+	 *
+	 *     @type string $join  SQL fragment to append to the main JOIN clause.
+	 *     @type string $where SQL fragment to append to the main WHERE clause.
+	 * }
+	 */
+	protected function get_sql_clauses() {
+		$sql = $this->get_sql_for_query( $this->queries );
+
+		if ( ! empty( $sql['where'] ) ) {
+			$sql['where'] = ' AND ' . $sql['where'];
+		}
+
+		return $sql;
+	}
+
+	/**
+	 * Generate SQL clauses for a single query array.
+	 *
+	 * If nested subqueries are found, this method recurses the tree to
+	 * produce the properly nested SQL.
+	 *
+	 * @since 4.1.0
+	 * @access protected
+	 *
+	 * @param array $query Query to parse.
+	 * @param int   $depth Optional. Number of tree levels deep we currently are.
+	 *                     Used to calculate indentation.
+	 * @return array {
+	 *     Array containing JOIN and WHERE SQL clauses to append to a single query array.
+	 *
+	 *     @type string $join  SQL fragment to append to the main JOIN clause.
+	 *     @type string $where SQL fragment to append to the main WHERE clause.
+	 * }
+	 */
+	protected function get_sql_for_query( $query, $depth = 0 ) {
+		$sql_chunks = array(
+			'join'  => array(),
+			'where' => array(),
+		);
+
+		$sql = array(
+			'join'  => '',
+			'where' => '',
+		);
+
+		$indent = '';
+		for ( $i = 0; $i < $depth; $i++ ) {
+			$indent .= "  ";
+		}
+
+		foreach ( $query as $key => $clause ) {
+			if ( 'relation' === $key ) {
+				$relation = $query['relation'];
+			} else if ( is_array( $clause ) ) {
+
+				// This is a first-order clause.
+				if ( $this->is_first_order_clause( $clause ) ) {
+					$clause_sql = $this->get_sql_for_clause( $clause, $query );
+
+					$where_count = count( $clause_sql['where'] );
+					if ( ! $where_count ) {
+						$sql_chunks['where'][] = '';
+					} else if ( 1 === $where_count ) {
+						$sql_chunks['where'][] = $clause_sql['where'][0];
+					} else {
+						$sql_chunks['where'][] = '( ' . implode( ' AND ', $clause_sql['where'] ) . ' )';
+					}
+
+					$sql_chunks['join'] = array_merge( $sql_chunks['join'], $clause_sql['join'] );
+				// This is a subquery, so we recurse.
+				} else {
+					$clause_sql = $this->get_sql_for_query( $clause, $depth + 1 );
+
+					$sql_chunks['where'][] = $clause_sql['where'];
+					$sql_chunks['join'][]  = $clause_sql['join'];
+				}
+			}
+		}
+
+		// Filter to remove empties.
+		$sql_chunks['join']  = array_filter( $sql_chunks['join'] );
+		$sql_chunks['where'] = array_filter( $sql_chunks['where'] );
+
+		if ( empty( $relation ) ) {
+			$relation = 'AND';
+		}
+
+		// Filter duplicate JOIN clauses and combine into a single string.
+		if ( ! empty( $sql_chunks['join'] ) ) {
+			$sql['join'] = implode( ' ', array_unique( $sql_chunks['join'] ) );
+		}
+
+		// Generate a single WHERE clause with proper brackets and indentation.
+		if ( ! empty( $sql_chunks['where'] ) ) {
+			$sql['where'] = '( ' . "\n  " . $indent . implode( ' ' . "\n  " . $indent . $relation . ' ' . "\n  " . $indent, $sql_chunks['where'] ) . "\n" . $indent . ')';
+		}
+
+		return $sql;
+	}
+
+	/**
+	 * Turns a single date clause into pieces for a WHERE clause.
+	 *
+	 * A wrapper for get_sql_for_clause(), included here for backward
+	 * compatibility while retaining the naming convention across Query classes.
+	 *
+	 * @since  3.7.0
+	 * @access protected
+	 *
+	 * @param  array $query Date query arguments.
+	 * @return array {
+	 *     Array containing JOIN and WHERE SQL clauses to append to the main query.
+	 *
+	 *     @type string $join  SQL fragment to append to the main JOIN clause.
+	 *     @type string $where SQL fragment to append to the main WHERE clause.
+	 * }
 	 */
 	protected function get_sql_for_subquery( $query ) {
+		return $this->get_sql_for_clause( $query, '' );
+	}
+
+	/**
+	 * Turns a first-order date query into SQL for a WHERE clause.
+	 *
+	 * @since  4.1.0
+	 * @access protected
+	 *
+	 * @param  array $query        Date query clause.
+	 * @param  array $parent_query Parent query of the current date query.
+	 * @return array {
+	 *     Array containing JOIN and WHERE SQL clauses to append to the main query.
+	 *
+	 *     @type string $join  SQL fragment to append to the main JOIN clause.
+	 *     @type string $where SQL fragment to append to the main WHERE clause.
+	 * }
+	 */
+	protected function get_sql_for_clause( $query, $parent_query ) {
 		global $wpdb;
 
-		// The sub-parts of a $where part
+		// The sub-parts of a $where part.
 		$where_parts = array();
 
 		$column = ( ! empty( $query['column'] ) ) ? esc_sql( $query['column'] ) : $this->column;
@@ -249,14 +466,14 @@ class WP_Date_Query {
 			$gt .= '=';
 		}
 
-		// Range queries
+		// Range queries.
 		if ( ! empty( $query['after'] ) )
 			$where_parts[] = $wpdb->prepare( "$column $gt %s", $this->build_mysql_datetime( $query['after'], ! $inclusive ) );
 
 		if ( ! empty( $query['before'] ) )
 			$where_parts[] = $wpdb->prepare( "$column $lt %s", $this->build_mysql_datetime( $query['before'], $inclusive ) );
 
-		// Specific value queries
+		// Specific value queries.
 
 		if ( isset( $query['year'] ) && $value = $this->build_value( $compare, $query['year'] ) )
 			$where_parts[] = "YEAR( $column ) $compare $value";
@@ -281,10 +498,10 @@ class WP_Date_Query {
 			$where_parts[] = "DAYOFWEEK( $column ) $compare $value";
 
 		if ( isset( $query['hour'] ) || isset( $query['minute'] ) || isset( $query['second'] ) ) {
-			// Avoid notices
+			// Avoid notices.
 			foreach ( array( 'hour', 'minute', 'second' ) as $unit ) {
-				if ( ! isset( $query[$unit] ) ) {
-					$query[$unit] = null;
+				if ( ! isset( $query[ $unit ] ) ) {
+					$query[ $unit ] = null;
 				}
 			}
 
@@ -293,7 +510,14 @@ class WP_Date_Query {
 			}
 		}
 
-		return $where_parts;
+		/*
+		 * Return an array of 'join' and 'where' for compatibility
+		 * with other query classes.
+		 */
+		return array(
+			'where' => $where_parts,
+			'join'  => array(),
+		);
 	}
 
 	/**
