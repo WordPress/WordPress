@@ -3793,6 +3793,14 @@ span > video {
  */
 
 @media screen and (min-width: 59.6875em) {
+	body:before,
+	.site-header,
+	.main-navigation,
+	.social-navigation,
+	.widget {
+		-webkit-transform: translateZ(0); /* Fixes flashing bug with scrolling on iOS Safari */
+	}
+
 	body:before {
 		background-color: #fff;
 		box-shadow: 0 0 1px rgba(0, 0, 0, 0.15);
@@ -3814,10 +3822,10 @@ span > video {
 	.sidebar {
 		float: left;
 		height: 100%;
-		overflow-y: auto;
 		margin-right: -100%;
 		max-width: 413px;
-		-webkit-overflow-scrolling: touch;
+		overflow-y: scroll;
+		-webkit-overflow-scrolling: touch; /* Enable momentum scrolling on iOS Safari */
 		position: fixed;
 		width: 29.4118%;
 	}
@@ -3832,7 +3840,6 @@ span > video {
 		display: block;
 		margin: 0;
 		padding: 0;
-		-webkit-transform: translateZ(0);
 	}
 
 	.site-main {
@@ -4072,7 +4079,6 @@ span > video {
 		border-bottom: 0;
 		margin: 20% 0;
 		padding: 0 20%;
-		-webkit-transform: translateZ(0);
 	}
 
 	.site-branding {
