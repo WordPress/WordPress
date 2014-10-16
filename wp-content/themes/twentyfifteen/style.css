@@ -3993,6 +3993,10 @@ span > video {
 		padding: 5% 10%;
 	}
 
+	.pagination {
+		margin: 8.333% 8.333% 0;
+	}
+
 	.pagination .nav-links {
 		min-height: 3.2em;
 	}
