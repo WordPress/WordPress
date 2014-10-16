@@ -378,7 +378,6 @@ ol {
 li > ul,
 li > ol {
 	margin-bottom: 0;
-	margin-left: 1.3333em;
 }
 
 dl {
@@ -2503,6 +2502,11 @@ span > video {
 		margin-left: 0;
 	}
 
+	li > ul,
+	li > ol {
+		margin-left: 1.3333em;
+	}
+
 	blockquote {
 		margin-left: -1em;
 	}
@@ -2664,6 +2668,11 @@ span > video {
 	.comment-content ul,
 	.comment-content ol {
 		margin-left: 0;
+	}
+
+	.comment-content li > ul,
+	.comment-content li > ol {
+		margin-left: 1.3333em;
 	}
 }
 
