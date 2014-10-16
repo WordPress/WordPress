@@ -4629,3 +4629,21 @@ function wp_validate_boolean( $var ) {
 
 	return (bool) $var;
 }
+
+/**
+ * Helper function to retrieve an incrementer identified by $group
+ *
+ * @since 4.1.0
+ *
+ * @param string $group The cache group for the incrementer.
+ * @param bool $force Whether or not to generate a new incrementor.
+ * @return int The timestamp representing 'last_changed'.
+ */
+function wp_get_last_changed( $group, $force = false ) {
+	$last_changed = wp_cache_get( 'last_changed', $group );
+	if ( ! $last_changed || true === $force ) {
+		$last_changed = microtime();
+		wp_cache_set( 'last_changed', $last_changed, $group );
+	}
+	return $last_changed;
+}
