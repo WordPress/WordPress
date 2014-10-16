@@ -1462,9 +1462,10 @@ function the_attachment_link( $id = 0, $fullsize = false, $deprecated = false, $
  * @param bool $permalink Optional, default is false. Whether to add permalink to image.
  * @param bool $icon Optional, default is false. Whether to include icon.
  * @param string|bool $text Optional, default is false. If string, then will be link text.
+ * @param array|string $attr Optional. Array or string of attributes.
  * @return string HTML content.
  */
-function wp_get_attachment_link( $id = 0, $size = 'thumbnail', $permalink = false, $icon = false, $text = false ) {
+function wp_get_attachment_link( $id = 0, $size = 'thumbnail', $permalink = false, $icon = false, $text = false, $attr = '' ) {
 	$id = intval( $id );
 	$_post = get_post( $id );
 
@@ -1474,12 +1475,13 @@ function wp_get_attachment_link( $id = 0, $size = 'thumbnail', $permalink = fals
 	if ( $permalink )
 		$url = get_attachment_link( $_post->ID );
 
-	if ( $text )
+	if ( $text ) {
 		$link_text = $text;
-	elseif ( $size && 'none' != $size )
-		$link_text = wp_get_attachment_image( $id, $size, $icon );
-	else
+	} elseif ( $size && 'none' != $size ) {
+		$link_text = wp_get_attachment_image( $id, $size, $icon, $attr );
+	} else {
 		$link_text = '';
+	}
 
 	if ( trim( $link_text ) == '' )
 		$link_text = $_post->post_title;
