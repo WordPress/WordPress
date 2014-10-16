@@ -422,7 +422,8 @@ function twentyfifteen_color_scheme_css() {
 		.site-info,
 		.site-info a,
 		.wp-caption-text,
-		.gallery-caption {
+		.gallery-caption,
+		.comment-list .reply a {
 			color: %4$s; /* Fallback for IE7 and IE8 */
 			color: %5$s;
 		}
