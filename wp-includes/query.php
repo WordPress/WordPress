@@ -1574,8 +1574,9 @@ class WP_Query {
 		if ( '' !== $qv['menu_order'] ) $qv['menu_order'] = absint($qv['menu_order']);
 
 		// Fairly insane upper bound for search string lengths.
-		if ( ! empty( $qv['s'] ) && strlen( $qv['s'] ) > 1600 )
+		if ( ! is_scalar( $qv['s'] ) || ( ! empty( $qv['s'] ) && strlen( $qv['s'] ) > 1600 ) ) {
 			$qv['s'] = '';
+		}
 
 		// Compat. Map subpost to attachment.
 		if ( '' != $qv['subpost'] )
