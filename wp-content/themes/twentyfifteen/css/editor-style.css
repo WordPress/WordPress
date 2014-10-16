@@ -22,16 +22,14 @@ Description: Used to style the TinyMCE editor.
  * 1.0 Body
  */
 
-html .mce-content-body {
-	font-size: 17px;
-	max-width: 660px;
-}
-
 body {
 	color: #333;
 	font-family: "Noto Serif", sans-serif;
 	font-weight: 400;
+	font-size: 19px;
 	line-height: 1.6471;
+	max-width: 660px;
+	margin: 83px 0 83px 83px;
 	vertical-align: baseline;
 }
 
@@ -449,12 +447,7 @@ a {
  * 8.0 RTL
  */
 
-html .mceContentBody.rtl {
-	direction: rtl;
-	unicode-bidi: embed;
-}
-
-.rtl body {
+body.rtl {
 	margin: 83px 83px 83px 0;
 }
 
