@@ -3724,7 +3724,7 @@
 		},
 
 		drop: function( event ) {
-			var $wrap = null;
+			var $wrap = null, uploadView;
 
 			this.containerDragleave( event );
 			this.dropzoneDragleave( event );
@@ -3747,7 +3747,12 @@
 					title:    wp.media.view.l10n.addMedia,
 					multiple: true
 				});
-				this.workflow.on( 'uploader:ready', this.addFiles, this );
+				uploadView = this.workflow.uploader;
+				if ( uploadView.uploader && uploadView.uploader.ready ) {
+					this.addFiles.apply( this );
+				} else {
+					this.workflow.on( 'uploader:ready', this.addFiles, this );
+				}
 			} else {
 				this.workflow.state().reset();
 				this.addFiles.apply( this );
