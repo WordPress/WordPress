@@ -1659,6 +1659,10 @@ $( document ).ready(function() {
 	} else {
 		themes.Run.init();
 	}
+
+	$( '.broken-themes .delete-theme' ).on( 'click', function() {
+		return confirm( _wpThemeSettings.settings.confirmDelete );
+	});
 });
 
 })( jQuery );

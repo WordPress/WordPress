@@ -580,11 +580,9 @@ body.folded .theme-overlay .theme-wrap {
 	margin-bottom: 5px;
 }
 
+.broken-themes a.delete-theme,
 .theme-overlay .theme-actions .delete-theme {
 	color: #a00;
-	position: absolute;
-	right: 10px;
-	bottom: 5px;
 	text-decoration: none;
 	border-color: transparent;
 	-webkit-box-shadow: none;
@@ -592,6 +590,14 @@ body.folded .theme-overlay .theme-wrap {
 	background: transparent;
 }
 
+.theme-overlay .theme-actions .delete-theme {
+	position: absolute;
+	right: 10px;
+	bottom: 5px;
+}
+
+.broken-themes a.delete-theme:hover,
+.broken-themes a.delete-theme:focus,
 .theme-overlay .theme-actions .delete-theme:hover,
 .theme-overlay .theme-actions .delete-theme:focus {
 	background: #d54e21;
@@ -1728,5 +1734,9 @@ body.full-overlay-active {
 
 	.available-theme .action-links .delete-theme a {
 		padding: 0;
+	}
+
+	.broken-themes table {
+		width: 100%;
 	}
 }

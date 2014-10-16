@@ -246,20 +246,37 @@ if ( ! is_multisite() && current_user_can('edit_themes') && $broken_themes = wp_
 <h3><?php _e('Broken Themes'); ?></h3>
 <p><?php _e('The following themes are installed but incomplete. Themes must have a stylesheet and a template.'); ?></p>
 
+<?php
+$can_delete = current_user_can( 'delete_themes' );
+?>
 <table>
 	<tr>
 		<th><?php _ex('Name', 'theme name'); ?></th>
 		<th><?php _e('Description'); ?></th>
+		<?php if ( $can_delete ) { ?>
+			<th></th>
+		<?php } ?>
+		</tr>
 	</tr>
-<?php
-	foreach ( $broken_themes as $broken_theme ) {
-		echo "
+	<?php foreach ( $broken_themes as $broken_theme ) : ?>
 		<tr>
-			 <td>" . ( $broken_theme->get( 'Name' ) ? $broken_theme->get( 'Name' ) : $broken_theme->get_stylesheet() ) . "</td>
-			 <td>" . $broken_theme->errors()->get_error_message() . "</td>
-		</tr>";
-	}
-?>
+			<td><?php echo $broken_theme->get( 'Name' ) ? $broken_theme->display( 'Name' ) : $broken_theme->get_stylesheet(); ?></td>
+			<td><?php echo $broken_theme->errors()->get_error_message(); ?></td>
+			<?php
+			if ( $can_delete ) {
+				$stylesheet = $broken_theme->get_stylesheet();
+				$delete_url = add_query_arg( array(
+					'action'     => 'delete',
+					'stylesheet' => urlencode( $stylesheet ),
+				), admin_url( 'themes.php' ) );
+				$delete_url = wp_nonce_url( $delete_url, 'delete-theme_' . $stylesheet );
+				?>
+				<td><a href="<?php echo esc_url( $delete_url ); ?>" class="button button-secondary delete-theme"><?php _e( 'Delete' ); ?></a></td>
+				<?php
+			}
+			?>
+		</tr>
+	<?php endforeach; ?>
 </table>
 </div>
 
