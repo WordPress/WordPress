@@ -124,7 +124,7 @@ class WP_Customize_Setting {
 			default :
 
 				/**
-				 * Fires when the WP_Customize_Setting::preview() method is called for settings
+				 * Fires when the {@see WP_Customize_Setting::preview()} method is called for settings
 				 * not handled as theme_mods or options.
 				 *
 				 * The dynamic portion of the hook name, $this->id, refers to the setting ID.
@@ -133,7 +133,19 @@ class WP_Customize_Setting {
 				 *
 				 * @param WP_Customize_Setting $this WP_Customize_Setting instance.
 				 */
-				do_action( 'customize_preview_' . $this->id, $this );
+				do_action( "customize_preview_{$this->id}", $this );
+
+				/**
+				 * Fires when the {@see WP_Customize_Setting::preview()} method is called for settings
+				 * not handled as theme_mods or options.
+				 *
+				 * The dynamic portion of the hook name, $this->type, refers to the setting type.
+				 *
+				 * @since 4.1.0
+				 *
+				 * @param WP_Customize_Setting $this WP_Customize_Setting instance.
+				 */
+				do_action( "customize_preview_{$this->type}", $this );
 		}
 	}
 
