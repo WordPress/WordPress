@@ -27,12 +27,13 @@ function twentyfifteen_customize_register( $wp_customize ) {
 		'sanitize_callback' => 'twentyfifteen_sanitize_color_scheme',
 	) );
 
-	$wp_customize->add_control( new Twentyfifteen_Customize_Color_Scheme_Control( $wp_customize, 'color_scheme', array(
+	$wp_customize->add_control( 'color_scheme', array(
 		'label'    => esc_html__( 'Color Scheme', 'twentyfifteen' ),
 		'section'  => 'colors',
+		'type'     => 'select',
 		'choices'  => twentyfifteen_get_color_scheme_choices(),
 		'priority' => 1,
-	) ) );
+	) );
 
 	// Add custom sidebar text color setting and control.
 	$wp_customize->add_setting( 'sidebar_textcolor', array(
@@ -57,46 +58,6 @@ function twentyfifteen_customize_register( $wp_customize ) {
 	) ) );
 }
 add_action( 'customize_register', 'twentyfifteen_customize_register', 11 );
-
-/**
- * Custom control for Color Schemes
- *
- * @since Twenty Fifteen 1.0
- */
-function twentyfifteen_customize_color_scheme_control() {
-	class Twentyfifteen_Customize_Color_Scheme_Control extends WP_Customize_Control {
-		public $type = 'colorScheme';
-
-		function enqueue() {
-	 		wp_enqueue_script( 'color-scheme-control', get_template_directory_uri() . '/js/color-scheme-control.js', array( 'customize-controls' ), '', true  );
-	 		wp_localize_script( 'color-scheme-control', 'colorScheme', twentyfifteen_get_color_schemes() );
-	 	}
-
-		public function render_content() {
-			if ( empty( $this->choices ) )
-				return;
-
-			?>
-			<label>
-				<?php if ( ! empty( $this->label ) ) : ?>
-					<span class="customize-control-title"><?php echo esc_html( $this->label ); ?></span>
-				<?php endif;
-				if ( ! empty( $this->description ) ) : ?>
-					<span class="description customize-control-description"><?php echo $this->description; ?></span>
-				<?php endif; ?>
-
-				<select <?php $this->link(); ?>>
-					<?php
-					foreach ( $this->choices as $value => $label )
-						echo '<option value="' . esc_attr( $value ) . '"' . selected( $this->value(), $value, false ) . '>' . $label . '</option>';
-					?>
-				</select>
-			</label>
-			<?php
-		}
-	}
-}
-add_action( 'customize_register', 'twentyfifteen_customize_color_scheme_control', 10 );
 
 /**
  * Register color schemes for Twenty Fifteen.
@@ -659,6 +620,18 @@ function twentyfifteen_color_scheme_css() {
 	) );
 }
 add_action( 'wp_enqueue_scripts', 'twentyfifteen_color_scheme_css' );
+
+/**
+ * Binds JS listener to make Customizer color_scheme control.
+ * Passes color scheme data as colorScheme global
+ *
+ * @since Twenty Fifteen 1.0
+ */
+function twentyfifteen_customize_control_js() {
+	wp_enqueue_script( 'color-scheme-control', get_template_directory_uri() . '/js/color-scheme-control.js', array( 'customize-controls' ), '', true  );
+	wp_localize_script( 'color-scheme-control', 'colorScheme', twentyfifteen_get_color_schemes() );
+}
+add_action( 'customize_controls_enqueue_scripts', 'twentyfifteen_customize_control_js' );
 
 /**
  * Binds JS handlers to make Customizer preview reload changes asynchronously.
