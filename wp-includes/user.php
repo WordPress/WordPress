@@ -742,6 +742,12 @@ class WP_User_Query {
 			$this->query_where .= " AND $wpdb->users.ID NOT IN ($ids)";
 		}
 
+		// Date queries are allowed for the user_registered field.
+		if ( ! empty( $qv['date_query'] ) && is_array( $qv['date_query'] ) ) {
+			$date_query = new WP_Date_Query( $qv['date_query'], 'user_registered' );
+			$this->query_where .= $date_query->get_sql();
+		}
+
 		/**
 		 * Fires after the WP_User_Query has been parsed, and before
 		 * the query is executed.

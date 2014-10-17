@@ -451,7 +451,8 @@ class WP_Date_Query {
 
 		$valid_columns = array(
 			'post_date', 'post_date_gmt', 'post_modified',
-			'post_modified_gmt', 'comment_date', 'comment_date_gmt'
+			'post_modified_gmt', 'comment_date', 'comment_date_gmt',
+			'user_registered',
 		);
 
 		// Attempt to detect a table prefix.
@@ -463,7 +464,8 @@ class WP_Date_Query {
 			 *
 			 * @param array $valid_columns An array of valid date query columns. Defaults
 			 *			       are 'post_date', 'post_date_gmt', 'post_modified',
-			 *			       'post_modified_gmt', 'comment_date', 'comment_date_gmt'
+			 *			       'post_modified_gmt', 'comment_date', 'comment_date_gmt',
+			 *			       'user_registered'
 			 */
 			if ( ! in_array( $column, apply_filters( 'date_query_valid_columns', $valid_columns ) ) ) {
 				$column = 'post_date';
@@ -479,6 +481,9 @@ class WP_Date_Query {
 				$wpdb->comments => array(
 					'comment_date',
 					'comment_date_gmt',
+				),
+				$wpdb->users => array(
+					'user_registered',
 				),
 			);
 
