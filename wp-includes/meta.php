@@ -985,6 +985,9 @@ class WP_Meta_Query {
 			if ( 'relation' === $key ) {
 				$relation = $query;
 
+			} else if ( ! is_array( $query ) ) {
+				continue;
+
 			// First-order clause.
 			} else if ( $this->is_first_order_clause( $query ) ) {
 				if ( isset( $query['value'] ) && array() === $query['value'] ) {
