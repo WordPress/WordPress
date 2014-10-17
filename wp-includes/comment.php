@@ -257,7 +257,8 @@ class WP_Comment_Query {
 	 * Execute the query
 	 *
 	 * @since 3.1.0
-	 * @since 4.1.0 Introduced 'comment__in', 'comment__not_in',
+	 * @since 4.1.0 Introduced 'comment__in', 'comment__not_in', 'post_author__in',
+	 *              'post_author__not_in', 'author__in', 'author__not_in',
 	 *              'post__in', and 'post__not_in' to $query_vars.
 	 *
 	 * @param string|array $query_vars
@@ -268,6 +269,8 @@ class WP_Comment_Query {
 
 		$defaults = array(
 			'author_email' => '',
+			'author__in' => '',
+			'author__not_in' => '',
 			'fields' => '',
 			'ID' => '',
 			'comment__in' => '',
@@ -278,6 +281,8 @@ class WP_Comment_Query {
 			'orderby' => '',
 			'order' => 'DESC',
 			'parent' => '',
+			'post_author__in' => '',
+			'post_author__not_in' => '',
 			'post_ID' => '',
 			'post_id' => 0,
 			'post__in' => '',
@@ -467,13 +472,42 @@ class WP_Comment_Query {
 			);
 		}
 
+		// If any post-related query vars are passed, join the posts table.
+		$join_posts_table = false;
 		$plucked = wp_array_slice_assoc( $this->query_vars, array( 'post_author', 'post_name', 'post_parent', 'post_status', 'post_type' ) );
 		$post_fields = array_filter( $plucked );
 
 		if ( ! empty( $post_fields ) ) {
-			$join = "JOIN $wpdb->posts ON $wpdb->posts.ID = $wpdb->comments.comment_post_ID";
-			foreach( $post_fields as $field_name => $field_value )
+			$join_posts_table = true;
+			foreach ( $post_fields as $field_name => $field_value ) {
 				$where .= $wpdb->prepare( " AND {$wpdb->posts}.{$field_name} = %s", $field_value );
+			}
+		}
+
+		// Comment author IDs for an IN clause.
+		if ( ! empty( $this->query_vars['author__in'] ) ) {
+			$where .= ' AND user_id IN ( ' . implode( ',', wp_parse_id_list( $this->query_vars['author__in'] ) ) . ' )';
+		}
+
+		// Comment author IDs for a NOT IN clause.
+		if ( ! empty( $this->query_vars['author__not_in'] ) ) {
+			$where .= ' AND user_id NOT IN ( ' . implode( ',', wp_parse_id_list( $this->query_vars['author__not_in'] ) ) . ' )';
+		}
+
+		// Post author IDs for an IN clause.
+		if ( ! empty( $this->query_vars['post_author__in'] ) ) {
+			$join_posts_table = true;
+			$where .= ' AND post_author IN ( ' . implode( ',', wp_parse_id_list( $this->query_vars['post_author__in'] ) ) . ' )';
+		}
+
+		// Post author IDs for a NOT IN clause.
+		if ( ! empty( $this->query_vars['post_author__not_in'] ) ) {
+			$join_posts_table = true;
+			$where .= ' AND post_author NOT IN ( ' . implode( ',', wp_parse_id_list( $this->query_vars['post_author__not_in'] ) ) . ' )';
+		}
+
+		if ( $join_posts_table ) {
+			$join = "JOIN $wpdb->posts ON $wpdb->posts.ID = $wpdb->comments.comment_post_ID";
 		}
 
 		if ( ! empty( $this->meta_query->queries ) ) {
