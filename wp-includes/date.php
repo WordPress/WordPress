@@ -815,16 +815,59 @@ class WP_Date_Query {
 	 * @since 3.7.0
 	 * @access public
 	 *
-	 * @param string|array $datetime An array of parameters or a strotime() string
-	 * @param string $default_to Controls what values default to if they are missing from $datetime. Pass "min" or "max".
+	 * @param string|array $datetime       An array of parameters or a strotime() string
+	 * @param bool         $default_to_max Whether to round up incomplete dates. Supported by values
+	 *                                     of $datetime that are arrays, or string values that are a
+	 *                                     subset of MySQL date format ('Y', 'Y-m', 'Y-m-d', 'Y-m-d H:i').
+	 *                                     Default: false.
 	 * @return string|false A MySQL format date/time or false on failure
 	 */
 	public function build_mysql_datetime( $datetime, $default_to_max = false ) {
 		$now = current_time( 'timestamp' );
 
 		if ( ! is_array( $datetime ) ) {
-			// @todo Timezone issues here possibly
-			return gmdate( 'Y-m-d H:i:s', strtotime( $datetime, $now ) );
+
+			/*
+			 * Try to parse some common date formats, so we can detect
+			 * the level of precision and support the 'inclusive' parameter.
+			 */
+			if ( preg_match( '/^(\d{4})$/', $datetime, $matches ) ) {
+				// Y
+				$datetime = array(
+					'year' => intval( $matches[1] ),
+				);
+
+			} else if ( preg_match( '/^(\d{4})\-(\d{2})$/', $datetime, $matches ) ) {
+				// Y-m
+				$datetime = array(
+					'year'  => intval( $matches[1] ),
+					'month' => intval( $matches[2] ),
+				);
+
+			} else if ( preg_match( '/^(\d{4})\-(\d{2})\-(\d{2})$/', $datetime, $matches ) ) {
+				// Y-m-d
+				$datetime = array(
+					'year'  => intval( $matches[1] ),
+					'month' => intval( $matches[2] ),
+					'day'   => intval( $matches[3] ),
+				);
+
+			} else if ( preg_match( '/^(\d{4})\-(\d{2})\-(\d{2}) (\d{2}):(\d{2})$/', $datetime, $matches ) ) {
+				// Y-m-d H:i
+				$datetime = array(
+					'year'   => intval( $matches[1] ),
+					'month'  => intval( $matches[2] ),
+					'day'    => intval( $matches[3] ),
+					'hour'   => intval( $matches[4] ),
+					'minute' => intval( $matches[5] ),
+				);
+			}
+
+			// If no match is found, we don't support default_to_max.
+			if ( ! is_array( $datetime ) ) {
+				// @todo Timezone issues here possibly
+				return gmdate( 'Y-m-d H:i:s', strtotime( $datetime, $now ) );
+			}
 		}
 
 		$datetime = array_map( 'absint', $datetime );
