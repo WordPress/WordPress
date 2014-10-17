@@ -461,6 +461,7 @@ class WP_Date_Query {
 			 * Filter the list of valid date query columns.
 			 *
 			 * @since 3.7.0
+			 * @since 4.1.0 Added 'user_registered' to the default recognized columns.
 			 *
 			 * @param array $valid_columns An array of valid date query columns. Defaults
 			 *			       are 'post_date', 'post_date_gmt', 'post_modified',
