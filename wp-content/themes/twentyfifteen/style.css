@@ -2457,6 +2457,10 @@ span > video {
 	max-width: 11.11%;
 }
 
+.gallery-icon img {
+	margin: 0 auto;
+}
+
 .gallery-caption {
 	color: #707070;
 	color: rgba(51, 51, 51, 0.7);
