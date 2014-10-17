@@ -435,6 +435,11 @@ class WP_Date_Query {
 	/**
 	 * Validates a column name parameter.
 	 *
+	 * Column names without a table prefix (like 'post_date') are checked against a whitelist of
+	 * known tables, and then, if found, have a table prefix (such as 'wp_posts.') prepended.
+	 * Prefixed column names (such as 'wp_posts.post_date') bypass this whitelist check,
+	 * and are only sanitized to remove illegal characters.
+	 *
 	 * @since 3.7.0
 	 * @access public
 	 *
@@ -442,22 +447,53 @@ class WP_Date_Query {
 	 * @return string A validated column name value.
 	 */
 	public function validate_column( $column ) {
+		global $wpdb;
+
 		$valid_columns = array(
 			'post_date', 'post_date_gmt', 'post_modified',
 			'post_modified_gmt', 'comment_date', 'comment_date_gmt'
 		);
-		/**
-		 * Filter the list of valid date query columns.
-		 *
-		 * @since 3.7.0
-		 *
-		 * @param array $valid_columns An array of valid date query columns. Defaults are 'post_date', 'post_date_gmt',
-		 *                             'post_modified', 'post_modified_gmt', 'comment_date', 'comment_date_gmt'
-		 */
-		if ( ! in_array( $column, apply_filters( 'date_query_valid_columns', $valid_columns ) ) )
-			$column = 'post_date';
 
-		return $column;
+		// Attempt to detect a table prefix.
+		if ( false === strpos( $column, '.' ) ) {
+			/**
+			 * Filter the list of valid date query columns.
+			 *
+			 * @since 3.7.0
+			 *
+			 * @param array $valid_columns An array of valid date query columns. Defaults
+			 *			       are 'post_date', 'post_date_gmt', 'post_modified',
+			 *			       'post_modified_gmt', 'comment_date', 'comment_date_gmt'
+			 */
+			if ( ! in_array( $column, apply_filters( 'date_query_valid_columns', $valid_columns ) ) ) {
+				$column = 'post_date';
+			}
+
+			$known_columns = array(
+				$wpdb->posts => array(
+					'post_date',
+					'post_date_gmt',
+					'post_modified',
+					'post_modified_gmt',
+				),
+				$wpdb->comments => array(
+					'comment_date',
+					'comment_date_gmt',
+				),
+			);
+
+			// If it's a known column name, add the appropriate table prefix.
+			foreach ( $known_columns as $table_name => $table_columns ) {
+				if ( in_array( $column, $table_columns ) ) {
+					$column = $table_name . '.' . $column;
+					break;
+				}
+			}
+
+		}
+
+		// Remove unsafe characters.
+		return preg_replace( '/[^a-zA-Z0-9_$\.]/', '', $column );
 	}
 
 	/**
