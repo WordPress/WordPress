@@ -26,27 +26,28 @@ get_header(); ?>
 					</header><!-- .entry-header -->
 
 					<div class="entry-content">
-						<?php
-							/**
-							 * Filter the default Twenty Fifteen image attachment size.
-							 *
-							 * @since Twenty Fifteen 1.0
-							 *
-							 * @param string $image_size Image size. Default 'large'.
-							 */
-							$image_size = apply_filters( 'twentyfifteen_attachment_size', 'large' );
-							echo wp_get_attachment_image( get_the_ID(), $image_size );
+						<div class="entry-attachment">
+							<?php
+								/**
+								 * Filter the default Twenty Fifteen image attachment size.
+								 *
+								 * @since Twenty Fifteen 1.0
+								 *
+								 * @param string $image_size Image size. Default 'large'.
+								 */
+								$image_size = apply_filters( 'twentyfifteen_attachment_size', 'large' );
+								echo wp_get_attachment_image( get_the_ID(), $image_size );
+							?>
 
+							<?php if ( has_excerpt() ) : ?>
+								<div class="entry-caption">
+									<?php the_excerpt(); ?>
+								</div><!-- .entry-caption -->
+							<?php endif; ?>
+						</div><!-- .entry-attachment -->
+
+						<?php
 							the_content();
-						?>
-
-						<?php if ( has_excerpt() ) : ?>
-							<div class="entry-caption">
-								<?php the_excerpt(); ?>
-							</div><!-- .entry-caption -->
-						<?php endif; ?>
-
-						<?php
 							wp_link_pages( array(
 								'before'      => '<div class="page-links"><span class="page-links-title">' . esc_html__( 'Pages:', 'twentyfifteen' ) . '</span>',
 								'after'       => '</div>',
