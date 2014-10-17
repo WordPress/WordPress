@@ -162,7 +162,7 @@ class WP_Customize_Panel {
 	}
 
 	/**
-	 * Render the panel, and the sections that have been added to it.
+	 * Render the panel container, and then its contents.
 	 *
 	 * @since 4.0.0
 	 * @access protected
@@ -175,26 +175,36 @@ class WP_Customize_Panel {
 				<span class="screen-reader-text"><?php _e( 'Press return or enter to open this panel' ); ?></span>
 			</h3>
 			<ul class="accordion-sub-container control-panel-content">
-				<li class="accordion-section control-section<?php if ( empty( $this->description ) ) echo ' cannot-expand'; ?>">
-					<div class="accordion-section-title" tabindex="0">
-						<span class="preview-notice"><?php
-							/* translators: %s is the site/panel title in the Customizer */
-							echo sprintf( __( 'You are customizing %s' ), '<strong class="panel-title">' . esc_html( $this->title ) . '</strong>' );
-						?></span>
-					</div>
-					<?php if ( ! empty( $this->description ) ) : ?>
-						<div class="accordion-section-content description">
-							<?php echo $this->description; ?>
-						</div>
-					<?php endif; ?>
-				</li>
-				<?php
-				foreach ( $this->sections as $section ) {
-					$section->maybe_render();
-				}
-				?>
+				<?php $this->render_content(); ?>
 			</ul>
 		</li>
 		<?php
+	}
+
+	/**
+	 * Render the sections that have been added to the panel.
+	 *
+	 * @since 4.1.0
+	 * @access protected
+	 */
+	protected function render_content() {
+		?>
+		<li class="accordion-section control-section<?php if ( empty( $this->description ) ) echo ' cannot-expand'; ?>">
+			<div class="accordion-section-title" tabindex="0">
+				<span class="preview-notice"><?php
+					/* translators: %s is the site/panel title in the Customizer */
+					echo sprintf( __( 'You are customizing %s' ), '<strong class="panel-title">' . esc_html( $this->title ) . '</strong>' );
+				?></span>
+			</div>
+			<?php if ( ! empty( $this->description ) ) : ?>
+				<div class="accordion-section-content description">
+					<?php echo $this->description; ?>
+				</div>
+			<?php endif; ?>
+		</li>
+		<?php
+		foreach ( $this->sections as $section ) {
+			$section->maybe_render();
+		}
 	}
 }
