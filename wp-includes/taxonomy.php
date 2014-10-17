@@ -2414,7 +2414,8 @@ function wp_delete_term( $term, $taxonomy, $args = array() ) {
 			return $term_obj;
 		$parent = $term_obj->parent;
 
-		$edit_tt_ids = $wpdb->get_col( "SELECT `term_taxonomy_id` FROM $wpdb->term_taxonomy WHERE `parent` = " . (int)$term_obj->term_id );
+		$edit_ids = $wpdb->get_results( "SELECT term_id, term_taxonomy_id FROM $wpdb->term_taxonomy WHERE `parent` = " . (int)$term_obj->term_id );
+		$edit_tt_ids = wp_list_pluck( $edit_ids, 'term_taxonomy_id' );
 
 		/**
 		 * Fires immediately before a term to delete's children are reassigned a parent.
@@ -2425,6 +2426,10 @@ function wp_delete_term( $term, $taxonomy, $args = array() ) {
 		 */
 		do_action( 'edit_term_taxonomies', $edit_tt_ids );
 		$wpdb->update( $wpdb->term_taxonomy, compact( 'parent' ), array( 'parent' => $term_obj->term_id) + compact( 'taxonomy' ) );
+
+		// Clean the cache for all child terms.
+		$edit_term_ids = wp_list_pluck( $edit_ids, 'term_id' );
+		clean_term_cache( $edit_term_ids, $taxonomy );
 
 		/**
 		 * Fires immediately after a term to delete's children are reassigned a parent.
