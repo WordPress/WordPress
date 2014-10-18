@@ -2071,6 +2071,27 @@ function _wp_get_user_contactmethods( $user = null ) {
 }
 
 /**
+ * Gets the text suggesting how to create strong passwords.
+ *
+ * @since 4.1.0
+ * @access private
+ *
+ * @return string The password hint text.
+ */
+function _wp_password_hint() {
+	$hint = __( 'Hint: The password should be at least seven characters long. To make it stronger, use upper and lower case letters, numbers, and symbols like ! " ? $ % ^ &amp; ).' );
+
+	/**
+	 * Filter the text describing the site's password complexity policy.
+	 *
+	 * @since 4.1.0
+	 *
+	 * @param string $hint The password hint text.
+	 */
+	return apply_filters( 'password_hint', $hint );
+}
+
+/**
  * Retrieves a user row based on password reset key and login
  *
  * A key is considered 'expired' if it exactly matches the value of the

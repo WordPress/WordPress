@@ -470,7 +470,7 @@ if ( $show_password_fields ) :
 	<p class="description"><?php _e( 'Type your new password again.' ); ?></p>
 	<br />
 	<div id="pass-strength-result"><?php _e( 'Strength indicator' ); ?></div>
-	<p class="description indicator-hint"><?php _e( 'Hint: The password should be at least seven characters long. To make it stronger, use upper and lower case letters, numbers, and symbols like ! " ? $ % ^ &amp; ).' ); ?></p>
+	<p class="description indicator-hint"><?php echo _wp_password_hint(); ?></p>
 	</td>
 </tr>
 <?php endif; ?>
