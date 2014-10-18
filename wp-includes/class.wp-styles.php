@@ -110,7 +110,7 @@ class WP_Styles extends WP_Dependencies {
 		if ( $this->do_concat ) {
 			$this->print_html .= $tag;
 			if ( $inline_style = $this->print_inline_style( $handle, false ) )
-				$this->print_html .= sprintf( "<style type='text/css'>\n%s\n</style>\n", $inline_style );
+				$this->print_html .= sprintf( "<style id='%s-inline-css' type='text/css'>\n%s\n</style>\n", esc_attr( $handle ), $inline_style );
 		} else {
 			echo $tag;
 			$this->print_inline_style( $handle );
@@ -147,9 +147,7 @@ class WP_Styles extends WP_Dependencies {
 			return $output;
 		}
 
-		echo "<style id='wp-inline-style-" . esc_attr( $handle ) . "' type='text/css'>\n";
-		echo "$output\n";
-		echo "</style>\n";
+		printf( "<style id='%s-inline-css' type='text/css'>\n%s\n</style>\n", esc_attr( $handle ), $output );
 
 		return true;
 	}
