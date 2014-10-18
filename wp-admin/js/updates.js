@@ -15,7 +15,7 @@ window.wp = window.wp || {};
 		$elem = $( '#wp-admin-bar-updates .ab-label' );
 		count = $elem.text();
 		count = parseInt( count, 10 ) - 1;
-		if ( count < 0 ) {
+		if ( count < 0 || isNaN( count ) ) {
 			return;
 		}
 		$( '#wp-admin-bar-updates .ab-item' ).removeAttr( 'title' );
@@ -32,7 +32,7 @@ window.wp = window.wp || {};
 			$elem = $( '#menu-plugins' );
 			pluginCount = $elem.find( '.plugin-count' ).eq(0).text();
 			pluginCount = parseInt( pluginCount, 10 ) - 1;
-			if ( pluginCount < 0 ) {
+			if ( pluginCount < 0 || isNaN( pluginCount ) ) {
 				return;
 			}
 			$elem.find( '.plugin-count' ).text( pluginCount );
