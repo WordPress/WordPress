@@ -1166,7 +1166,7 @@ body.show-upload-theme p.no-themes {
 }
 
 .rating {
-	margin: 30px 0;
+	margin: 15px 0 0;
 }
 .rating span:before {
 	color: #e6b800;
@@ -1221,8 +1221,7 @@ body.show-upload-theme p.no-themes {
 	content: "\f155";
 }
 .rating .ratings {
-	display: inline;
-	margin-left: 10px;
+	display: block;
 	line-height: 20px;
 	color: #999;
 }
@@ -1738,5 +1737,10 @@ body.full-overlay-active {
 
 	.broken-themes table {
 		width: 100%;
+	}
+
+	.theme-install-overlay .wp-full-overlay-header .theme-install {
+		margin-top: 6px;
+		line-height: normal;
 	}
 }

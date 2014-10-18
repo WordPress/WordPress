@@ -243,9 +243,9 @@ if ( $tab ) {
 						<span class="four"></span>
 						<span class="five"></span>
 					<# if ( data.num_ratings ) { #>
-						<p class="ratings">{{ data.num_ratings }}</p>
+						<small class="ratings">{{ data.num_ratings }}</small>
 					<# } else { #>
-						<p class="ratings"><?php _e( 'No ratings.' ); ?></p>
+						<small class="ratings"><?php _e( 'No ratings.' ); ?></small>
 					<# } #>
 					</div>
 					<div class="theme-version"><?php printf( __( 'Version: %s' ), '{{ data.version }}' ); ?></div>
