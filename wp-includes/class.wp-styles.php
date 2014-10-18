@@ -120,12 +120,14 @@ class WP_Styles extends WP_Dependencies {
 	}
 
 	public function add_inline_style( $handle, $code ) {
-		if ( !$code )
+		if ( ! $code ) {
 			return false;
+		}
 
 		$after = $this->get_data( $handle, 'after' );
-		if ( !$after )
+		if ( ! $after ) {
 			$after = array();
+		}
 
 		$after[] = $code;
 
@@ -135,15 +137,17 @@ class WP_Styles extends WP_Dependencies {
 	public function print_inline_style( $handle, $echo = true ) {
 		$output = $this->get_data( $handle, 'after' );
 
-		if ( empty( $output ) )
+		if ( empty( $output ) ) {
 			return false;
+		}
 
 		$output = implode( "\n", $output );
 
-		if ( !$echo )
+		if ( ! $echo ) {
 			return $output;
+		}
 
-		echo "<style type='text/css'>\n";
+		echo "<style id='wp-inline-style-" . esc_attr( $handle ) . "' type='text/css'>\n";
 		echo "$output\n";
 		echo "</style>\n";
 
