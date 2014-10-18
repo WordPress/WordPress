@@ -86,15 +86,15 @@ function wp_default_scripts( &$scripts ) {
 
 	$scripts->add( 'quicktags', "/wp-includes/js/quicktags$suffix.js", array(), false, 1 );
 	did_action( 'init' ) && $scripts->localize( 'quicktags', 'quicktagsL10n', array(
-		'closeAllOpenTags' => esc_attr(__('Close all open tags')),
-		'closeTags' => esc_attr(__('close tags')),
-		'enterURL' => __('Enter the URL'),
-		'enterImageURL' => __('Enter the URL of the image'),
-		'enterImageDescription' => __('Enter a description of the image'),
-		'fullscreen' => __('fullscreen'),
-		'toggleFullscreen' => esc_attr( __('Toggle fullscreen mode') ),
-		'textdirection' => esc_attr( __('text direction') ),
-		'toggleTextdirection' => esc_attr( __('Toggle Editor Text Direction') )
+		'closeAllOpenTags'      => esc_attr__( 'Close all open tags' ),
+		'closeTags'             => esc_attr__( 'close tags' ),
+		'enterURL'              => __( 'Enter the URL' ),
+		'enterImageURL'         => __( 'Enter the URL of the image' ),
+		'enterImageDescription' => __( 'Enter a description of the image' ),
+		'fullscreen'            => __( 'fullscreen' ),
+		'toggleFullscreen'      => esc_attr__( 'Toggle fullscreen mode' ),
+		'textdirection'         => esc_attr__( 'text direction' ),
+		'toggleTextdirection'   => esc_attr__( 'Toggle Editor Text Direction' )
 	) );
 
 	$scripts->add( 'colorpicker', "/wp-includes/js/colorpicker$suffix.js", array('prototype'), '3517m' );

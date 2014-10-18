@@ -149,9 +149,9 @@ if ( !empty($_REQUEST['ajax']) ) {
 			</div>
 
 			<p class="centered">
-				<input type="hidden" name="this_photo" value="<?php echo esc_attr($image); ?>" id="tb_this_photo" class="tb_this_photo" />
+				<input type="hidden" name="this_photo" value="<?php echo esc_attr( $image ); ?>" id="tb_this_photo" class="tb_this_photo" />
 				<a href="#" class="select">
-					<img src="<?php echo esc_url($image); ?>" alt="<?php echo esc_attr(__('Click to insert.')); ?>" title="<?php echo esc_attr(__('Click to insert.')); ?>" />
+					<img src="<?php echo esc_url( $image ); ?>" alt="<?php esc_attr_e( 'Click to insert.' ); ?>" title="<?php esc_attr_e( 'Click to insert.' ); ?>" />
 				</a>
 			</p>
 
