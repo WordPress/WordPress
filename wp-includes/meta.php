@@ -1331,18 +1331,12 @@ class WP_Meta_Query {
 				$join .= " LEFT JOIN $this->meta_table";
 				$join .= $i ? " AS $alias" : '';
 				$join .= $wpdb->prepare( " ON ($this->primary_table.$this->primary_id_column = $alias.$this->meta_id_column AND $alias.meta_key = %s )", $clause['key'] );
-				$sql_chunks['join'][] = $join;
 
 			// All other JOIN clauses.
 			} else {
-				$alias = $this->find_compatible_table_alias( $clause, $parent_query );
-				if ( false === $alias ) {
-					$alias = $i ? 'mt' . $i : $this->meta_table;
-
-					$join .= " INNER JOIN $this->meta_table";
-					$join .= $i ? " AS $alias" : '';
-					$join .= " ON ( $this->primary_table.$this->primary_id_column = $alias.$this->meta_id_column )";
-				}
+				$join .= " INNER JOIN $this->meta_table";
+				$join .= $i ? " AS $alias" : '';
+				$join .= " ON ( $this->primary_table.$this->primary_id_column = $alias.$this->meta_id_column )";
 			}
 
 			$this->table_aliases[] = $alias;
@@ -1469,6 +1463,16 @@ class WP_Meta_Query {
 			}
 		}
 
+		/**
+		 * Filter the table alias identified as compatible with the current clause.
+		 *
+		 * @since 4.1.0
+		 *
+		 * @param string|bool $alias        Table alias, or false if none was found.
+		 * @param array       $clause       First-order query clause.
+		 * @param array       $parent_query Parent of $clause.
+		 * @param object      $this         WP_Meta_Query object.
+		 */
 		return apply_filters( 'meta_query_find_compatible_table_alias', $alias, $clause, $parent_query, $this ) ;
 	}
 }
