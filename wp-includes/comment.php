@@ -259,7 +259,7 @@ class WP_Comment_Query {
 	 * @since 3.1.0
 	 * @since 4.1.0 Introduced 'comment__in', 'comment__not_in', 'post_author__in',
 	 *              'post_author__not_in', 'author__in', 'author__not_in',
-	 *              'post__in', and 'post__not_in' to $query_vars.
+	 *              'post__in', 'post__not_in', and 'include_unapproved' to $query_vars.
 	 *
 	 * @param string|array $query_vars
 	 * @return int|array
@@ -271,6 +271,7 @@ class WP_Comment_Query {
 			'author_email' => '',
 			'author__in' => '',
 			'author__not_in' => '',
+			'include_unapproved' => '',
 			'fields' => '',
 			'ID' => '',
 			'comment__in' => '',
@@ -333,16 +334,48 @@ class WP_Comment_Query {
 			return $cache;
 		}
 
+		// Assemble clauses related to 'comment_approved'.
+		$approved_clauses = array();
 		$status = $this->query_vars['status'];
 		if ( 'hold' == $status ) {
-			$approved = "comment_approved = '0'";
+			$approved_clauses[] = "comment_approved = '0'";
 		} elseif ( 'approve' == $status ) {
-			$approved = "comment_approved = '1'";
+			$approved_clauses[] = "comment_approved = '1'";
 		} elseif ( ! empty( $status ) && 'all' != $status ) {
-			$approved = $wpdb->prepare( "comment_approved = %s", $status );
+			$approved_clauses[] = $wpdb->prepare( "comment_approved = %s", $status );
 		} else {
-			$approved = "( comment_approved = '0' OR comment_approved = '1' )";
+			$approved_clauses[] = "( comment_approved = '0' OR comment_approved = '1' )";
 		}
+
+		// User IDs or emails whose unapproved comments are included, regardless of $status.
+		if ( ! empty( $this->query_vars['include_unapproved'] ) ) {
+			$include_unapproved = $this->query_vars['include_unapproved'];
+
+			// Accepts arrays or comma-separated strings.
+			if ( ! is_array( $include_unapproved ) ) {
+				$include_unapproved = preg_split( '/[\s,]+/', $include_unapproved );
+			}
+
+			$unapproved_ids = $unapproved_emails = array();
+			foreach ( $include_unapproved as $unapproved_identifier ) {
+				// Numeric values are assumed to be user ids.
+				if ( is_numeric( $unapproved_identifier ) ) {
+					$approved_clauses[] = $wpdb->prepare( "( user_id = %d AND comment_approved = '0' )", $unapproved_identifier );
+
+				// Otherwise we match against email addresses.
+				} else {
+					$approved_clauses[] = $wpdb->prepare( "( comment_author_email = %s AND comment_approved = '0' )", $unapproved_identifier );
+				}
+			}
+		}
+
+		// Collapse comment_approved clauses into a single OR-separated clause.
+		if ( 1 === count( $approved_clauses ) ) {
+			$approved = $approved_clauses[0];
+		} else {
+			$approved = '( ' . implode( ' OR ', $approved_clauses ) . ' )';
+		}
+
 		$order = ( 'ASC' == strtoupper( $this->query_vars['order'] ) ) ? 'ASC' : 'DESC';
 
 		if ( ! empty( $this->query_vars['orderby'] ) ) {

@@ -1112,14 +1112,20 @@ function comments_template( $file = '/comments.php', $separate_comments = false 
 	 */
 	$comment_author_url = esc_url($commenter['comment_author_url']);
 
-	/** @todo Use API instead of SELECTs. */
-	if ( $user_ID) {
-		$comments = $wpdb->get_results($wpdb->prepare("SELECT * FROM $wpdb->comments WHERE comment_post_ID = %d AND (comment_approved = '1' OR ( user_id = %d AND comment_approved = '0' ) )  ORDER BY comment_date_gmt", $post->ID, $user_ID));
-	} else if ( empty($comment_author) ) {
-		$comments = get_comments( array('post_id' => $post->ID, 'status' => 'approve', 'order' => 'ASC') );
-	} else {
-		$comments = $wpdb->get_results($wpdb->prepare("SELECT * FROM $wpdb->comments WHERE comment_post_ID = %d AND ( comment_approved = '1' OR ( comment_author = %s AND comment_author_email = %s AND comment_approved = '0' ) ) ORDER BY comment_date_gmt", $post->ID, wp_specialchars_decode($comment_author,ENT_QUOTES), $comment_author_email));
+	$comment_args = array(
+		'order'   => 'ASC',
+		'orderby' => 'comment_date_gmt',
+		'status'  => 'approve',
+		'post_id' => $post->ID,
+	);
+
+	if ( $user_ID ) {
+		$comment_args['include_unapproved'] = array( $user_ID );
+	} else if ( ! empty( $comment_author ) ) {
+		$comment_args['include_unapproved'] = array( $comment_author_email );
 	}
+
+	$comments = get_comments( $comment_args );
 
 	/**
 	 * Filter the comments array.
