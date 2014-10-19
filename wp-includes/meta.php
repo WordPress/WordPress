@@ -1057,18 +1057,38 @@ class WP_Meta_Query {
 	public function parse_query_vars( $qv ) {
 		$meta_query = array();
 
-		// Simple query needs to be first for orderby=meta_value to work correctly.
+		/*
+		 * For orderby=meta_value to work correctly, simple query needs to be
+		 * first (so that its table join is against an unaliased meta table) and
+		 * needs to be its own clause (so it doesn't interfere with the logic of
+		 * the rest of the meta_query).
+		 */
+		$primary_meta_query = array();
 		foreach ( array( 'key', 'compare', 'type' ) as $key ) {
-			if ( !empty( $qv[ "meta_$key" ] ) )
-				$meta_query[0][ $key ] = $qv[ "meta_$key" ];
+			if ( ! empty( $qv[ "meta_$key" ] ) ) {
+				$primary_meta_query[ $key ] = $qv[ "meta_$key" ];
+			}
 		}
 
 		// WP_Query sets 'meta_value' = '' by default.
-		if ( isset( $qv[ 'meta_value' ] ) && '' !== $qv[ 'meta_value' ] && ( ! is_array( $qv[ 'meta_value' ] ) || $qv[ 'meta_value' ] ) )
-			$meta_query[0]['value'] = $qv[ 'meta_value' ];
+		if ( isset( $qv['meta_value'] ) && '' !== $qv['meta_value'] && ( ! is_array( $qv['meta_value'] ) || $qv['meta_value'] ) ) {
+			$primary_meta_query['value'] = $qv['meta_value'];
+		}
 
-		if ( !empty( $qv['meta_query'] ) && is_array( $qv['meta_query'] ) ) {
-			$meta_query = array_merge( $meta_query, $qv['meta_query'] );
+		$existing_meta_query = isset( $qv['meta_query'] ) && is_array( $qv['meta_query'] ) ? $qv['meta_query'] : array();
+
+		if ( ! empty( $primary_meta_query ) && ! empty( $existing_meta_query ) ) {
+			$meta_query = array(
+				'relation' => 'AND',
+				$primary_meta_query,
+				$existing_meta_query,
+			);
+		} else if ( ! empty( $primary_meta_query ) ) {
+			$meta_query = array(
+				$primary_meta_query,
+			);
+		} else if ( ! empty( $existing_meta_query ) ) {
+			$meta_query = $existing_meta_query;
 		}
 
 		$this->__construct( $meta_query );
