@@ -27,6 +27,19 @@ function options_general_add_js() {
 <script type="text/javascript">
 //<![CDATA[
 	jQuery(document).ready(function($){
+		var $siteName = $( '#wp-admin-bar-site-name' ).children( 'a' ).first();
+
+		$( '#blogname' ).on( 'input', function() {
+			var title = $( this ).val();
+
+			// Truncate to 40 characters.
+			if ( 40 < title.length ) {
+				title = title.substring( 0, 40 ) + '\u2026';
+			}
+
+			$siteName.text( title );
+		});
+
 		$("input[name='date_format']").click(function(){
 			if ( "date_format_custom_radio" != $(this).attr("id") )
 				$("input[name='date_format_custom']").val( $(this).val() ).siblings('.example').text( $(this).siblings('span').text() );
