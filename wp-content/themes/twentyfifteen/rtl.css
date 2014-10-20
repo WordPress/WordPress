@@ -332,7 +332,8 @@ img.alignleft {
 }
 
 .comment-author .avatar {
-	margin-right: auto;
+	float: right;
+	margin-right: 0;
 	margin-left: 0.4em;
 }
 
@@ -487,19 +488,8 @@ img.alignleft {
 		padding-left: 0;
 	}
 
-	.comment-author {
-		padding-right: 4.1176em;
-		padding-left: 0;
-	}
-
 	.comment-author .avatar {
-		right: 0;
-		left: auto;
-	}
-
-	.comment-metadata {
-		padding-right: 5em;
-		padding-left: 0;
+		margin-left: 1.64705em;
 	}
 
 	.bypostauthor > article .fn:after {
@@ -566,14 +556,8 @@ img.alignleft {
 		padding-left: 0;
 	}
 
-	.comment-author {
-		padding-right: 4.6315em;
-		padding-left: 0;
-	}
-
-	.comment-metadata {
-		padding-right: 5.5em;
-		padding-left: 0;
+	.comment-author .avatar {
+		margin-left: 1.6842em;
 	}
 }
 
@@ -647,19 +631,8 @@ img.alignleft {
 		padding-left: 0;
 	}
 
-	.comment-author {
-		padding-right: 0;
-		padding-left: 0;
-	}
-
 	.comment-author .avatar {
-		margin-right: auto;
-		margin-left: 0.4em;
-	}
-
-	.comment-metadata {
-		padding-right: 0;
-		padding-left: 0;
+		margin-left: 0.8em;
 	}
 
 	.bypostauthor > article .fn:after {
@@ -728,24 +701,13 @@ img.alignleft {
 		padding-left: 0;
 	}
 
-	.comment-author {
-		padding-right: 4.1176em;
-		padding-left: 0;
-	}
-
 	.comment-author .avatar {
-		right: 0;
-		left: auto;
+		margin-left: 1.64705em;
 	}
 
 	.bypostauthor > article .fn:after {
 		right: 6px;
 		left: auto;
-	}
-
-	.comment-metadata {
-		padding-right: 5em;
-		padding-left: 0;
 	}
 }
 
@@ -800,14 +762,8 @@ img.alignleft {
 		padding-left: 0;
 	}
 
-	.comment-author {
-		padding-right: 4.6315em;
-		padding-left: 0;
-	}
-
-	.comment-metadata {
-		padding-right: 5.5em;
-		padding-left: 0;
+	.comment-author .avatar {
+		margin-left: 1.64705em;
 	}
 }
 

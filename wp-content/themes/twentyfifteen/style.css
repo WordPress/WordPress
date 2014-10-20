@@ -2137,8 +2137,9 @@ a.post-thumbnail:focus {
 
 .comment-author .avatar {
 	border-radius: 50%;
+	float: left;
 	height: 24px;
-	margin-right: 0.4em;
+	margin-right: 0.8em;
 	width: 24px;
 }
 
@@ -3210,20 +3211,14 @@ span > video {
 
 	.comment-author {
 		margin-bottom: 0;
-		padding-left: 4.1176em;
 	}
 
 	.comment-author .avatar {
 		height: 42px;
-		margin: 0;
-		position: absolute;
-		top: 3px;
-		left: 0;
+		margin-right: 1.64705em;
+		position: relative;
+		top: 5px;
 		width: 42px;
-	}
-
-	.comment-metadata {
-		padding-left: 5em;
 	}
 
 	.comment-metadata .edit-link a:before {
@@ -3740,18 +3735,15 @@ span > video {
 		padding-left: 1.4737em;
 	}
 
-	.comment-author {
-		padding-left: 4.6315em;
-	}
-
 	.comment-author .avatar {
 		height: 56px;
+		margin-right: 1.6842em;
+		top: 3px;
 		width: 56px;
 	}
 
 	.comment-metadata {
 		line-height: 2;
-		padding-left: 5.5em;
 	}
 
 	.comment-metadata .edit-link a:before {
@@ -4408,18 +4400,13 @@ span > video {
 
 	.comment-author {
 		margin-bottom: 0.4em;
-		padding-left: 0;
 	}
 
 	.comment-author .avatar {
 		height: 24px;
-		margin-right: 0.4em;
-		position: static;
+		margin-right: 0.8em;
+		top: 0;
 		width: 24px;
-	}
-
-	.comment-metadata {
-		padding-left: 0;
 	}
 
 	.comment-metadata .edit-link a:before {
@@ -4925,25 +4912,18 @@ span > video {
 
 	.comment-author {
 		margin-bottom: 0;
-		padding-left: 4.1176em;
 	}
 
 	.comment-author .avatar {
 		height: 42px;
-		margin: 0;
-		position: absolute;
-		top: 3px;
-		left: 0;
+		margin-right: 1.64705em;
+		top: 5px;
 		width: 42px;
 	}
 
 	.bypostauthor > article .fn:after {
 		top: 7px;
 		left: 6px;
-	}
-
-	.comment-metadata {
-		padding-left: 5em;
 	}
 
 	.comment-metadata .edit-link a:before {
@@ -5441,21 +5421,15 @@ span > video {
 		padding-left: 1.4737em;
 	}
 
-	.comment-author {
-		padding-left: 4.6315em;
-	}
-
 	.comment-author .avatar {
 		height: 56px;
+		margin-right: 1.6842em;
+		top: 3px;
 		width: 56px;
 	}
 
 	.bypostauthor > article .fn:after {
 		top: 8px;
-	}
-
-	.comment-metadata {
-		padding-left: 5.5em;
 	}
 
 	.comment-metadata .edit-link a:before {
