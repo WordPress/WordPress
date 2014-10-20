@@ -276,6 +276,7 @@ img.aligncenter {
 }
 
 .site-branding {
+	background-color: inherit;
 	margin: 0 auto;
 	max-width: 954px;
 	padding: 0;
@@ -288,6 +289,7 @@ img.aligncenter {
 }
 
 .site-description {
+	background-color: inherit;
 	display: block;
 	font-size: 16px;
 	margin: 0.5em 7.6897% 7.6897%;
