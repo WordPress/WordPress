@@ -254,7 +254,7 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 	}
 
 	public function move($source, $destination, $overwrite = false) {
-		return @ssh2_sftp_rename($this->link, $source, $destination);
+		return @ssh2_sftp_rename( $this->sftp_link, $source, $destination );
 	}
 
 	public function delete($file, $recursive = false, $type = false) {
