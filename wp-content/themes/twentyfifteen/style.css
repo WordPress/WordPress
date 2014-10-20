@@ -1155,23 +1155,31 @@ a:focus {
 	width: 1px;
 }
 
-.screen-reader-text:hover,
-.screen-reader-text:focus {
+/* must have higher specificity than alternative color schemes inline styles */
+.site .skip-link {
 	background-color: #f1f1f1;
-	border-radius: 0;
 	box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.2);
-	clip: auto;
 	color: #21759b;
 	display: block;
-	font: bold 14px/normal "Open Sans", sans-serif;
-	height: auto;
+	font: bold 14px/normal "Noto Sans", sans-serif;
+	left: -9999em;
 	outline: none;
 	padding: 15px 23px 14px;
-	position: absolute;
-	top: 5px;
-	left: 5px;
 	text-decoration: none;
 	text-transform: none;
+	top: -9999em;
+}
+
+.logged-in .site .skip-link {
+	box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.6);
+	font: bold 14px/normal "Open Sans", sans-serif;
+}
+
+.site .skip-link:focus {
+	clip: auto;
+	height: auto;
+	left: 6px;
+	top: 7px;
 	width: auto;
 	z-index: 100000;
 }
