@@ -208,8 +208,9 @@ class WP_Http {
 		 * If we are streaming to a file but no filename was given drop it in the WP temp dir
 		 * and pick its name using the basename of the $url.
 		 */
-		if ( $r['stream']  && empty( $r['filename'] ) )
-			$r['filename'] = get_temp_dir() . basename( $url );
+		if ( $r['stream']  && empty( $r['filename'] ) ) {
+			$r['filename'] = wp_unique_filename( get_temp_dir(), basename( $url ) );
+		}
 
 		/*
 		 * Force some settings if we are streaming to a file and check for existence and perms
@@ -1096,8 +1097,10 @@ class WP_Http_Streams {
 
 				$this_block_size = strlen( $block );
 
-				if ( isset( $r['limit_response_size'] ) && ( $bytes_written + $this_block_size ) > $r['limit_response_size'] )
-					$block = substr( $block, 0, ( $r['limit_response_size'] - $bytes_written ) );
+				if ( isset( $r['limit_response_size'] ) && ( $bytes_written + $this_block_size ) > $r['limit_response_size'] ) {
+					$this_block_size = ( $r['limit_response_size'] - $bytes_written );
+					$block = substr( $block, 0, $this_block_size );
+				}
 
 				$bytes_written_to_file = fwrite( $stream_handle, $block );
 
@@ -1325,6 +1328,15 @@ class WP_Http_Curl {
 	private $stream_handle = false;
 
 	/**
+	 * The total bytes written in the current request.
+	 *
+	 * @since 4.1.0
+	 * @access prviate
+	 * @var int
+	 */
+	private $bytes_written_total = 0;
+
+	/**
 	 * Send a HTTP request to a URI using cURL extension.
 	 *
 	 * @access public
@@ -1496,21 +1508,26 @@ class WP_Http_Curl {
 		curl_exec( $handle );
 		$theHeaders = WP_Http::processHeaders( $this->headers, $url );
 		$theBody = $this->body;
+		$bytes_written_total = $this->bytes_written_total;
 
 		$this->headers = '';
 		$this->body = '';
+		$this->bytes_written_total = 0;
 
 		$curl_error = curl_errno( $handle );
 
 		// If an error occurred, or, no response.
 		if ( $curl_error || ( 0 == strlen( $theBody ) && empty( $theHeaders['headers'] ) ) ) {
-			if ( CURLE_WRITE_ERROR /* 23 */ == $curl_error &&  $r['stream'] ) {
-				fclose( $this->stream_handle );
-				return new WP_Error( 'http_request_failed', __( 'Failed to write request to temporary file.' ) );
-			}
-			if ( $curl_error = curl_error( $handle ) ) {
-				curl_close( $handle );
-				return new WP_Error( 'http_request_failed', $curl_error );
+			if ( CURLE_WRITE_ERROR /* 23 */ == $curl_error && $r['stream'] ) {
+				if ( ! $this->max_body_length || $this->max_body_length != $bytes_written_total ) {
+					fclose( $this->stream_handle );
+					return new WP_Error( 'http_request_failed', __( 'Failed to write request to temporary file.' ) );
+				}
+			} else {
+				if ( $curl_error = curl_error( $handle ) ) {
+					curl_close( $handle );
+					return new WP_Error( 'http_request_failed', $curl_error );
+				}
 			}
 			if ( in_array( curl_getinfo( $handle, CURLINFO_HTTP_CODE ), array( 301, 302 ) ) ) {
 				curl_close( $handle );
@@ -1561,7 +1578,7 @@ class WP_Http_Curl {
 	 * Grab the body of the cURL request
 	 *
 	 * The contents of the document are passed in chunks, so we append to the $body property for temporary storage.
-	 * Returning a length shorter than the length of $data passed in will cause cURL to abort the request as "completed"
+	 * Returning a length shorter than the length of $data passed in will cause cURL to abort the request with CURLE_WRITE_ERROR
 	 *
 	 * @since 3.6.0
 	 * @access private
@@ -1570,8 +1587,10 @@ class WP_Http_Curl {
 	private function stream_body( $handle, $data ) {
 		$data_length = strlen( $data );
 
-		if ( $this->max_body_length && ( strlen( $this->body ) + $data_length ) > $this->max_body_length )
-			$data = substr( $data, 0, ( $this->max_body_length - $data_length ) );
+		if ( $this->max_body_length && ( $this->bytes_written_total + $data_length ) > $this->max_body_length ) {
+			$data_length = ( $this->max_body_length - $this->bytes_written_total );
+			$data = substr( $data, 0, $data_length );
+		}
 
 		if ( $this->stream_handle ) {
 			$bytes_written = fwrite( $this->stream_handle, $data );
@@ -1579,6 +1598,8 @@ class WP_Http_Curl {
 			$this->body .= $data;
 			$bytes_written = $data_length;
 		}
+
+		$this->bytes_written_total += $bytes_written;
 
 		// Upon event of this function returning less than strlen( $data ) curl will error with CURLE_WRITE_ERROR.
 		return $bytes_written;
