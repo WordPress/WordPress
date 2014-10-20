@@ -275,6 +275,9 @@ function twentyfifteen_color_scheme_css() {
 		.pagination .next,
 		.pagination .prev:before,
 		.pagination .next:before,
+		.widget_calendar tbody a,
+		.widget_calendar tbody a:hover,
+		.widget_calendar tbody a:focus,
 		.entry-content .page-links a,
 		.entry-content .page-links a:hover,
 		.entry-content .page-links a:focus,
@@ -289,6 +292,7 @@ function twentyfifteen_color_scheme_css() {
 		input[type="submit"],
 		.pagination .prev,
 		.pagination .next,
+		.widget_calendar tbody a,
 		.page-links a,
 		.sticky-post {
 			background-color: %4$s;
@@ -299,10 +303,12 @@ function twentyfifteen_color_scheme_css() {
 		blockquote cite,
 		blockquote small,
 		a,
+		.dropdown-toggle:after,
 		.image-navigation a:hover,
 		.image-navigation a:focus,
 		.comment-navigation a:hover,
 		.comment-navigation a:focus,
+		.widget-title,
 		.entry-footer a:hover,
 		.entry-footer a:focus,
 		.comment-metadata a:hover,
@@ -340,6 +346,8 @@ function twentyfifteen_color_scheme_css() {
 		.pagination .prev:focus,
 		.pagination .next:hover,
 		.pagination .next:focus,
+		.widget_calendar tbody a:hover,
+		.widget_calendar tbody a:focus,
 		.page-links a:hover,
 		.page-links a:focus {
 			background-color: %4$s; /* Fallback for IE7 and IE8 */
@@ -348,14 +356,9 @@ function twentyfifteen_color_scheme_css() {
 
 		/* Secondary Text Color */
 		blockquote,
-		input[type="text"],
-		input[type="email"],
-		input[type="url"],
-		input[type="password"],
-		input[type="search"],
-		textarea,
 		a:hover,
 		a:focus,
+		.main-navigation .menu-item-description,
 		.post-navigation .meta-nav,
 		.post-navigation a:hover .post-title,
 		.post-navigation a:focus .post-title,
@@ -363,6 +366,7 @@ function twentyfifteen_color_scheme_css() {
 		.image-navigation a,
 		.comment-navigation,
 		.comment-navigation a,
+		.widget,
 		.entry-content a:hover,
 		.entry-content a:focus,
 		.entry-summary a:hover,
@@ -416,7 +420,9 @@ function twentyfifteen_color_scheme_css() {
 		}
 
 		/* Border Color */
-		hr {
+		hr,
+		.dropdown-toggle:hover,
+		.dropdown-toggle:focus {
 			background-color: %4$s; /* Fallback for IE7 and IE8 */
 			background-color: %6$s;
 		}
@@ -429,10 +435,16 @@ function twentyfifteen_color_scheme_css() {
 		td,
 		input,
 		textarea,
+		.main-navigation ul,
+		.main-navigation li,
 		.post-navigation,
 		.post-navigation .nav-previous:not(.has-post-thumbnail) + .nav-next:not(.has-post-thumbnail),
 		.pagination,
 		.comment-navigation,
+		.widget li,
+		.widget_categories .children,
+		.widget_nav_menu .sub-menu,
+		.widget_pages .children,
 		.site-header,
 		.site-footer,
 		.hentry + .hentry,
@@ -546,8 +558,8 @@ function twentyfifteen_color_scheme_css() {
 			/* Sidebar Text Color */
 			.secondary a:hover,
 			.secondary a:focus,
-			.widget,
 			.main-navigation .menu-item-description,
+			.widget,
 			.widget blockquote,
 			.widget .wp-caption-text,
 			.widget .gallery-caption {
