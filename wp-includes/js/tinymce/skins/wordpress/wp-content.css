@@ -11,10 +11,11 @@ html.ios {
 
 body {
 	font-family: Georgia, "Times New Roman", "Bitstream Charter", Times, serif;
-	font-size: 13px;
-	line-height: 19px;
+	font-size: 100%;
+	line-height: 1.5;
 	color: #333;
 	margin: 9px 10px;
+	max-width: 100%;
 }
 
 body.rtl {
@@ -26,7 +27,6 @@ body.locale-he-il {
 }
 
 body.wp-autoresize {
-	max-width: 100%;
 	overflow: visible !important;
 	/* The padding ensures margins of the children are contained in the body. */
 	padding-top: 1px !important;
@@ -40,6 +40,16 @@ Chrome and Safari replace <strong> and <b> with spans with inline styles on past
 body.webkit strong,
 body.webkit b {
 	font-weight: bold !important;
+}
+
+pre {
+	font-family: Consolas, Monaco, monospace;
+}
+
+td,
+th {
+	font-family: inherit;
+	font-size: inherit;
 }
 
 /* DFW mode */
@@ -108,16 +118,6 @@ dl.wp-caption * {
 	line-height: 17px;
 	padding: 0 4px 5px;
 	margin: 0;
-}
-
-pre {
-	font: 12px/18px Consolas, Monaco, monospace;
-}
-
-td {
-	color: #000;
-	font-size: 11px;
-	margin: 8px;
 }
 
 /* Remove blue highlighting of selected images in WebKit */
