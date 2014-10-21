@@ -177,6 +177,7 @@ $(document).ready( function() {
 		currentPage = pageInput.val(),
 		isIOS = /iPhone|iPad|iPod/.test( navigator.userAgent ),
 		isAndroid = navigator.userAgent.indexOf( 'Android' ) !== -1,
+		isIE8 = $( document.documentElement ).hasClass( 'ie8' ),
 		$document = $( document ),
 		$window = $( window ),
 		$body = $( document.body ),
@@ -195,6 +196,7 @@ $(document).ready( function() {
 		menuTop = 0,
 		height = {
 			window: $window.height(),
+			wpwrap: $wpwrap.height(),
 			adminbar: $adminbar.height(),
 			menu: $adminMenuWrap.height()
 		};
@@ -535,7 +537,12 @@ $(document).ready( function() {
 	function pinMenu() {
 		var windowPos = $window.scrollTop();
 
-		if ( isIOS || $adminmenu.data('wp-responsive') ) {
+		if ( isIOS || isIE8 || $adminmenu.data( 'wp-responsive' ) ) {
+			return;
+		}
+
+		if ( height.menu + height.adminbar + 20 > height.wpwrap ) { // 20px "buffer"
+			unpinMenu();
 			return;
 		}
 
@@ -545,7 +552,11 @@ $(document).ready( function() {
 				if ( pinnedMenuTop ) {
 					// let it scroll
 					pinnedMenuTop = false;
-					menuTop = $adminMenuWrap.offset().top - height.adminbar;
+					menuTop = $adminMenuWrap.offset().top - height.adminbar - ( windowPos - lastScrollPosition );
+
+					if ( menuTop + height.menu + height.adminbar < windowPos + height.window ) {
+						menuTop = windowPos + height.window - height.menu - height.adminbar;
+					}
 
 					$adminMenuWrap.css({
 						position: 'absolute',
@@ -567,7 +578,11 @@ $(document).ready( function() {
 				if ( pinnedMenuBottom ) {
 					// let it scroll
 					pinnedMenuBottom = false;
-					menuTop = $adminMenuWrap.offset().top - height.adminbar;
+					menuTop = $adminMenuWrap.offset().top - height.adminbar + ( lastScrollPosition - windowPos );
+
+					if ( menuTop + height.menu > windowPos + height.window ) {
+						menuTop = windowPos;
+					}
 
 					$adminMenuWrap.css({
 						position: 'absolute',
@@ -587,13 +602,17 @@ $(document).ready( function() {
 			} else {
 				// Resizing
 				pinnedMenuTop = pinnedMenuBottom = false;
-				menuTop = $adminMenuWrap.offset().top - height.adminbar;
+				menuTop = windowPos + height.window - height.menu - height.adminbar - 1;
 
-				$adminMenuWrap.css({
-					position: 'absolute',
-					top: menuTop,
-					bottom: ''
-				});
+				if ( menuTop > 0 ) {
+					$adminMenuWrap.css({
+						position: 'absolute',
+						top: menuTop,
+						bottom: ''
+					});
+				} else {
+					unpinMenu();
+				}
 			}
 		}
 
@@ -626,20 +645,9 @@ $(document).ready( function() {
 		}
 	}
 
-	setPinMenu();
-
 	if ( ! isIOS ) {
 		$window.on( 'scroll.pin-menu', pinMenu );
 	}
-
-	$document.on( 'wp-window-resized.pin-menu', function() {
-		height.window = $window.height();
-		height.adminbar = $adminbar.height();
-		setPinMenu();
-	}).on( 'wp-collapse-menu.pin-menu', function() {
-		height.menu = $adminMenuWrap.height();
-		setPinMenu();
-	});
 
 	window.wpResponsive = {
 		init: function() {
@@ -775,6 +783,19 @@ $(document).ready( function() {
 	};
 
 	window.wpResponsive.init();
+	setPinMenu();
+
+	$document.on( 'wp-window-resized.pin-menu postboxes-columnchange.pin-menu postbox-toggled.pin-menu', function() {
+		height.wpwrap = $wpwrap.height();
+		height.window = $window.height();
+		height.adminbar = $adminbar.height();
+		setPinMenu();
+	}).on( 'wp-collapse-menu.pin-menu', function() {
+		height.wpwrap = $wpwrap.height();
+		height.menu = $adminMenuWrap.height();
+		setPinMenu();
+	});
+
 });
 
 // Fire a custom jQuery event at the end of window resize
