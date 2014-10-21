@@ -661,7 +661,7 @@ function load_theme_textdomain( $domain, $path = false ) {
 		$path = get_template_directory();
 
 	// Load the textdomain according to the theme
-	$mofile = "{$path}/{$locale}.mo";
+	$mofile = untrailingslashit( $path ) . "/{$locale}.mo";
 	if ( $loaded = load_textdomain( $domain, $mofile ) )
 		return $loaded;
 
