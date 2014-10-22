@@ -26,10 +26,10 @@ body {
 	color: #333;
 	font-family: "Noto Serif", serif;
 	font-weight: 400;
-	font-size: 19px;
+	font-size: 17px;
 	line-height: 1.6471;
 	max-width: 660px;
-	margin: 83px 0 83px 83px;
+	margin: 8% 10%;
 	vertical-align: baseline;
 }
 
@@ -46,34 +46,34 @@ h5,
 h6 {
 	clear: both;
 	font-weight: 700;
-	margin: 64px 0 32px;
+	margin: 56px 0 28px;
 }
 
 h1 {
-	font-size: 39px;
+	font-size: 35px;
 	line-height: 1.2308;
 }
 
 h2 {
-	font-size: 32px;
-	line-height: 1.25;
+	font-size: 29px;
+	line-height: 1.2069;
 }
 
 h3 {
-	font-size: 27px;
-	line-height: 1.1852;
+	font-size: 24px;
+	line-height: 1.1667;
 }
 
 h4 {
-	font-size: 22px;
-	line-height: 1.4545;
+	font-size: 20px;
+	line-height: 1.4;
 }
 
 h5,
 h6 {
-	font-size: 19px;
+	font-size: 17px;
 	letter-spacing: 0.1em;
-	line-height: 1.2632;
+	line-height: 1.2353;
 	text-transform: uppercase;
 }
 
@@ -87,7 +87,7 @@ h6:first-child {
 }
 
 p {
-	margin: 0 0 32px;
+	margin: 0 0 28px;
 }
 
 b,
@@ -105,11 +105,11 @@ i {
 blockquote {
 	border-left: 4px solid #707070;
 	color: #707070;
-	font-size: 22px;
+	font-size: 20px;
 	font-style: italic;
 	line-height: 1.8182;
-	margin: 0 0 40px -24px;
-	padding-left: 20px;
+	margin: 0 0 35px -21px;
+	padding-left: 17px;
 }
 
 blockquote > blockquote {
@@ -117,7 +117,7 @@ blockquote > blockquote {
 }
 
 blockquote p {
-	margin-bottom: 40px;
+	margin-bottom: 35px;
 }
 
 blockquote > p:last-child {
@@ -127,9 +127,9 @@ blockquote > p:last-child {
 blockquote cite,
 blockquote small {
 	color: #333;
-	font-size: 19px;
+	font-size: 17px;
 	font-family: "Noto Sans", sans-serif;
-	line-height: 1.6842;
+	line-height: 1.6471;
 }
 
 blockquote em,
@@ -145,7 +145,7 @@ blockquote b {
 
 address {
 	font-style: italic;
-	margin: 0 0 32px;
+	margin: 0 0 28px;
 }
 
 code,
@@ -160,12 +160,12 @@ pre {
 pre {
 	background-color: #fcfcfc;
 	border: 1px solid #eaeaea;
-	font-size: 19px;
-	line-height: 1.2632;
-	margin-bottom: 32px;
+	font-size: 17px;
+	line-height: 1.2353;
+	margin-bottom: 28px;
 	max-width: 100%;
 	overflow: auto;
-	padding: 15px;
+	padding: 14px;
 	white-space: pre;
 	white-space: pre-wrap;
 	word-wrap: break-word;
@@ -216,12 +216,12 @@ hr {
 	background-color: #eaeaea;
 	border: 0;
 	height: 1px;
-	margin-bottom: 32px;
+	margin-bottom: 28px;
 }
 
 ul,
 ol {
-	margin: 0 0 32px 0;
+	margin: 0 0 28px 0;
 	padding: 0;
 }
 
@@ -235,11 +235,11 @@ ol {
 
 li > ul,
 li > ol {
-	margin: 0 0 0 25px;
+	margin: 0 0 0 23px;
 }
 
 dl {
-	margin: 0 0 32px;
+	margin: 0 0 28px;
 }
 
 dt {
@@ -247,43 +247,49 @@ dt {
 }
 
 dd {
-	margin: 0 0 32px;
+	margin: 0 0 28px;
 }
 
+table,
+th,
+td,
 .mce-item-table,
 .mce-item-table th,
 .mce-item-table td {
 	border: 1px solid #eaeaea;
 }
 
-.mce-item-table a {
+table a {
 	color: #333;
 }
 
+table,
 .mce-item-table {
 	border-collapse: separate;
 	border-spacing: 0;
 	border-width: 1px 0 0 1px;
-	margin: 0 0 32px;
+	margin: 0 0 28px;
 	width: 100%;
 }
 
+table th,
 .mce-item-table th,
-.mce-item-table caption {
+table caption {
 	border-width: 0 1px 1px 0;
 	font-family: "Noto Serif", serif;
-	font-size: 19px;
+	font-size: 17px;
 	font-weight: 700;
-	padding: 8px;
+	padding: 7px;
 	text-align: left;
 	vertical-align: baseline;
 }
 
+table td,
 .mce-item-table td {
 	border-width: 0 1px 1px 0;
 	font-family: "Noto Serif", serif;
-	font-size: 19px;
-	padding: 8px;
+	font-size: 17px;
+	padding: 7px;
 	vertical-align: baseline;
 }
 
@@ -292,6 +298,10 @@ img {
 	height: auto;
 	max-width: 660px;
 	vertical-align: middle;
+}
+
+a img {
+	display: block;
 }
 
 figure {
@@ -315,18 +325,18 @@ a {
 
 .alignleft {
 	float: left;
-	margin: 8px 32px 32px 0;
+	margin: 7px 28px 28px 0;
 }
 
 .alignright {
 	float: right;
-	margin: 8px 0 32px 32px;
+	margin: 7px 0 28px 28px;
 }
 
 .aligncenter {
 	clear: both;
 	display: block;
-	margin: 8px auto;
+	margin: 7px auto;
 }
 
 
@@ -339,29 +349,29 @@ a {
 	border: none;
 	color: #707070;
 	font-family: "Noto Sans", sans-serif;
-	margin: 0 0 32px 0;
+	margin: 0 0 28px 0;
 	max-width: 660px;
 	padding: 0;
 	text-align: center;
 }
 
 .wp-caption.alignleft {
-	margin: 8px 32px 8px 0;
+	margin: 7px 28px 21px 0;
 }
 
 .wp-caption.alignright {
-	margin: 8px 0 8px 32px;
+	margin: 7px 0 21px 28px;
 }
 
 .wp-caption.aligncenter {
-	margin: 8px auto;
+	margin: 7px auto;
 }
 
 .wp-caption .wp-caption-text,
 .wp-caption-dd {
-	font-size: 16px;
+	font-size: 14px;
 	line-height: 1.5;
-	padding: 8px 0;
+	padding: 7px 0;
 }
 
 
@@ -370,7 +380,7 @@ a {
  */
 
 .gallery {
-	margin-bottom: 32px;
+	margin-bottom: 28px;
 }
 
 .gallery-item {
@@ -417,9 +427,9 @@ a {
 	color: #707070;
 	display: block;
 	font-family: "Noto Sans", sans-serif;
-	font-size: 16px;
+	font-size: 14px;
 	line-height: 1.5;
-	padding: 8px 0;
+	padding: 7px 0;
 }
 
 .gallery-columns-6 .gallery-caption,
@@ -447,15 +457,11 @@ a {
  * 8.0 RTL
  */
 
-body.rtl {
-	margin: 83px 83px 83px 0;
-}
-
 .rtl blockquote {
 	border-right: 4px solid #707070;
 	border-left: none;
-	margin: 0 -24px 40px 0;
-	padding-right: 20px;
+	margin: 0 -21px 35px 0;
+	padding-right: 17px;
 	padding-left: 0;
 }
 
@@ -466,18 +472,10 @@ body.rtl {
 
 .rtl li > ul,
 .rtl li > ol {
-	margin: 0 25px 0 0;
+	margin: 0 23px 0 0;
 }
 
-.rtl .mce-item-table th,
-.rtl .mce-item-table caption {
+.rtl table th,
+.rtl table caption {
 	text-align: right;
-}
-
-.rtl .wp-caption.alignright {
-	margin: 8px 0 8px 32px;
-}
-
-.rtl .wp-caption.alignleft {
-	margin: 8px 32px 8px 0;
 }
