@@ -158,6 +158,7 @@ if ( $doaction ) {
 $wp_list_table->prepare_items();
 
 wp_enqueue_script('inline-edit-post');
+wp_enqueue_script('heartbeat');
 
 $title = $post_type_object->labels->name;
 
