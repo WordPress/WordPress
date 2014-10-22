@@ -19,8 +19,13 @@
 	<!-- .entry-header -->
 
 	<div class="entry-content">
-		<?php the_content( __( 'Continue reading <span class="meta-nav">&rarr;</span>', 'twentyfifteen' ) ); ?>
 		<?php
+			/* translators: %s: Name of current post */
+			the_content( sprintf(
+				esc_html__( 'Continue reading %s', 'twentyfifteen' ),
+				the_title( '<span class="screen-reader-text">', '</span>', false )
+			) );
+
 			wp_link_pages( array(
 				'before'      => '<div class="page-links"><span class="page-links-title">' . esc_html__( 'Pages:', 'twentyfifteen' ) . '</span>',
 				'after'       => '</div>',
