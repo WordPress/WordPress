@@ -235,7 +235,7 @@ textarea {
 }
 
 blockquote.alignleft,
-.wp-caption.alignleft
+.wp-caption.alignleft,
 img.alignleft {
 	margin: 0.4211em 1.6842em 1.6842em 0;
 }
