@@ -339,19 +339,21 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 
 				// should create a new function for generating the caption markup
 				html =  '<dl ' + id + 'class="' + className +'" style="width: '+ width +'px">' +
-					'<dt class="wp-caption-dt">' + dom.getOuterHTML( node ) + '</dt><dd class="wp-caption-dd">'+ imageData.caption +'</dd></dl>';
+					'<dt class="wp-caption-dt"></dt><dd class="wp-caption-dd">'+ imageData.caption +'</dd></dl>';
+
+				wrap = dom.create( 'div', { 'class': 'mceTemp' }, html );
 
 				if ( parent = dom.getParent( node, 'p' ) ) {
-					wrap = dom.create( 'div', { 'class': 'mceTemp' }, html );
 					parent.parentNode.insertBefore( wrap, parent );
-					dom.remove( node );
 
 					if ( dom.isEmpty( parent ) ) {
 						dom.remove( parent );
 					}
 				} else {
-					dom.setOuterHTML( node, '<div class="mceTemp">' + html + '</div>' );
+					node.parentNode.insertBefore( wrap, node );
 				}
+
+				editor.$( wrap ).find( 'dt.wp-caption-dt' ).append( node );
 			}
 		} else if ( captionNode ) {
 			// Remove the caption wrapper and place the image in new paragraph
@@ -734,31 +736,27 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 						}
 
 						if ( imgNode.parentNode && imgNode.parentNode.nodeName === 'A' ) {
-							html = dom.getOuterHTML( imgNode.parentNode );
 							node = imgNode.parentNode;
 						} else {
-							html = dom.getOuterHTML( imgNode );
 							node = imgNode;
 						}
 
 						html = '<dl ' + captionId + captionAlign + captionWidth + '>' +
-							'<dt class="wp-caption-dt">'+ html +'</dt><dd class="wp-caption-dd">'+ caption +'</dd></dl>';
+							'<dt class="wp-caption-dt"></dt><dd class="wp-caption-dd">'+ caption +'</dd></dl>';
 
-						if ( parent = dom.getParent( imgNode, 'p' ) ) {
-							wrap = dom.create( 'div', { 'class': 'mceTemp' }, html );
-							dom.insertAfter( wrap, parent );
-							editor.selection.select( wrap );
-							editor.nodeChanged();
+						wrap = dom.create( 'div', { 'class': 'mceTemp' }, html );
 
-							// Delete the old image node
-							dom.remove( node );
+						if ( parent = dom.getParent( node, 'p' ) ) {
+							parent.parentNode.insertBefore( wrap, parent );
 
 							if ( dom.isEmpty( parent ) ) {
 								dom.remove( parent );
 							}
 						} else {
-							editor.selection.setContent( '<div class="mceTemp">' + html + '</div>' );
+							node.parentNode.insertBefore( wrap, node );
 						}
+
+						editor.$( wrap ).find( 'dt.wp-caption-dt' ).append( node );
 					}
 				} else {
 					if ( wrap ) {

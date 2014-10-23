@@ -345,15 +345,63 @@ define("tinymce/pasteplugin/Clipboard", [
 				}
 			}
 
+			/**
+			 * Returns the rect of the current caret if the caret is in an empty block before a
+			 * BR we insert a temporary invisible character that we get the rect this way we always get a proper rect.
+			 *
+			 * TODO: This might be useful in core.
+			 */
+			function getCaretRect(rng) {
+				var rects, textNode, node, container = rng.startContainer;
+
+				rects = rng.getClientRects();
+				if (rects.length) {
+					return rects[0];
+				}
+
+				if (!rng.collapsed || container.nodeType != 1) {
+					return;
+				}
+
+				node = container.childNodes[lastRng.startOffset];
+
+				// Skip empty whitespace nodes
+				while (node && node.nodeType == 3 && !node.data.length) {
+					node = node.nextSibling;
+				}
+
+				if (!node) {
+					return;
+				}
+
+				// Check if the location is |<br>
+				// TODO: Might need to expand this to say |<table>
+				if (node.tagName == 'BR') {
+					textNode = dom.doc.createTextNode('\uFEFF');
+					node.parentNode.insertBefore(textNode, node);
+
+					rng = dom.createRng();
+					rng.setStartBefore(textNode);
+					rng.setEndAfter(textNode);
+
+					rects = rng.getClientRects();
+					dom.remove(textNode);
+				}
+
+				if (rects.length) {
+					return rects[0];
+				}
+			}
+
 			// Calculate top cordinate this is needed to avoid scrolling to top of document
 			// We want the paste bin to be as close to the caret as possible to avoid scrolling
 			if (lastRng.getClientRects) {
-				var rects = lastRng.getClientRects();
+				var rect = getCaretRect(lastRng);
 
-				if (rects.length) {
+				if (rect) {
 					// Client rects gets us closes to the actual
 					// caret location in for example a wrapped paragraph block
-					top = scrollTop + (rects[0].top - dom.getPos(body).y);
+					top = scrollTop + (rect.top - dom.getPos(body).y);
 				} else {
 					top = scrollTop;
 
@@ -531,12 +579,12 @@ define("tinymce/pasteplugin/Clipboard", [
 		}
 
 		/**
-		 * Chrome on Andoid doesn't support proper clipboard access so we have no choice but to allow the browser default behavior.
+		 * Chrome on Android doesn't support proper clipboard access so we have no choice but to allow the browser default behavior.
 		 *
 		 * @param {Event} e Paste event object to check if it contains any data.
 		 * @return {Boolean} true/false if the clipboard is empty or not.
 		 */
-		function isBrokenAndoidClipboardEvent(e) {
+		function isBrokenAndroidClipboardEvent(e) {
 			var clipboardData = e.clipboardData;
 
 			return navigator.userAgent.indexOf('Android') != -1 && clipboardData && clipboardData.items && clipboardData.items.length === 0;
@@ -630,7 +678,7 @@ define("tinymce/pasteplugin/Clipboard", [
 
 				keyboardPastePlainTextState = false;
 
-				if (e.isDefaultPrevented() || isBrokenAndoidClipboardEvent(e)) {
+				if (e.isDefaultPrevented() || isBrokenAndroidClipboardEvent(e)) {
 					removePasteBin();
 					return;
 				}
@@ -984,10 +1032,22 @@ define("tinymce/pasteplugin/WordFilter", [
 					trimListStart(paragraphNode, /^\u00a0+/);
 				}
 
-				var paragraphs = node.getAll('p');
+				// Build a list of all root level elements before we start
+				// altering them in the loop below.
+				var elements = [], child = node.firstChild;
+				while (typeof child !== 'undefined' && child !== null) {
+					elements.push(child);
 
-				for (var i = 0; i < paragraphs.length; i++) {
-					node = paragraphs[i];
+					child = child.walk();
+					if (child !== null) {
+						while (typeof child !== 'undefined' && child.parent !== node) {
+							child = child.walk();
+						}
+					}
+				}
+
+				for (var i = 0; i < elements.length; i++) {
+					node = elements[i];
 
 					if (node.name == 'p' && node.firstChild) {
 						// Find first text node in paragraph
@@ -1002,7 +1062,7 @@ define("tinymce/pasteplugin/WordFilter", [
 						// Detect ordered lists 1., a. or ixv.
 						if (isNumericList(nodeText)) {
 							// Parse OL start number
-							var matches = /([0-9])\./.exec(nodeText);
+							var matches = /([0-9]+)\./.exec(nodeText);
 							var start = 1;
 							if (matches) {
 								start = parseInt(matches[1], 10);
@@ -1018,6 +1078,13 @@ define("tinymce/pasteplugin/WordFilter", [
 							continue;
 						}
 
+						currentListNode = null;
+					} else {
+						// If the root level element isn't a p tag which can be
+						// processed by convertParagraphToLi, it interrupts the
+						// lists, causing a new list to start instead of having
+						// elements from the next list inserted above this tag.
+						prevListNode = currentListNode;
 						currentListNode = null;
 					}
 				}
@@ -1152,8 +1219,11 @@ define("tinymce/pasteplugin/WordFilter", [
 
 				var validElements = settings.paste_word_valid_elements;
 				if (!validElements) {
-					validElements = '-strong/b,-em/i,-span,-p,-ol,-ul,-li,-h1,-h2,-h3,-h4,-h5,-h6,-p/div,' +
-						'-table[width],-tr,-td[colspan|rowspan|width],-th,-thead,-tfoot,-tbody,-a[href|name],sub,sup,strike,br,del';
+					validElements = (
+						'-strong/b,-em/i,-u,-span,-p,-ol,-ul,-li,-h1,-h2,-h3,-h4,-h5,-h6,' +
+						'-p/div,-a[href|name],sub,sup,strike,br,del,table[width],tr,' +
+						'td[colspan|rowspan|width],th[colspan|rowspan|width],thead,tfoot,tbody'
+					);
 				}
 
 				// Setup strict schema

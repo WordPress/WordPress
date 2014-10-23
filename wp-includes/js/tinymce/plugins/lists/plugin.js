@@ -738,7 +738,12 @@ tinymce.PluginManager.add('lists', function(editor) {
 		editor.addQueryStateHandler('InsertDefinitionList', queryListCommandState('DL'));
 
 		editor.on('keydown', function(e) {
-			if (e.keyCode == 9 && editor.dom.getParent(editor.selection.getStart(), 'LI,DT,DD')) {
+			// Check for tab but not ctrl/cmd+tab since it switches browser tabs
+			if (e.keyCode != 9 || tinymce.util.VK.metaKeyPressed(e)) {
+				return;
+			}
+
+			if (editor.dom.getParent(editor.selection.getStart(), 'LI,DT,DD')) {
 				e.preventDefault();
 
 				if (e.shiftKey) {
