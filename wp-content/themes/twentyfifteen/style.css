@@ -1839,7 +1839,10 @@ a.post-thumbnail:focus {
 	text-transform: uppercase;
 }
 
-.updated:not(.published),
+.updated:not(.published) {
+	display: none;
+}
+
 .sticky .posted-on,
 .sticky .posted-on + .byline:before {
 	display: none;

@@ -438,7 +438,6 @@ function twentyfifteen_color_scheme_css() {
 		.main-navigation ul,
 		.main-navigation li,
 		.post-navigation,
-		.post-navigation .nav-previous:not(.has-post-thumbnail) + .nav-next:not(.has-post-thumbnail),
 		.pagination,
 		.comment-navigation,
 		.widget li,
@@ -460,6 +459,10 @@ function twentyfifteen_color_scheme_css() {
 		.comment-list .reply a,
 		.no-comments {
 			border-color: %4$s; /* Fallback for IE7 and IE8 */
+			border-color: %6$s;
+		}
+
+		.post-navigation .nav-previous:not(.has-post-thumbnail) + .nav-next:not(.has-post-thumbnail) {
 			border-color: %6$s;
 		}
 

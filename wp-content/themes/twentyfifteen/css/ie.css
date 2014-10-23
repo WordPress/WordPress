@@ -548,9 +548,7 @@ img.aligncenter {
 	top: 4px;
 }
 
-.updated,
-.sticky .posted-on,
-.sticky .posted-on + .byline:before {
+.updated {
 	display: none;
 }
 
