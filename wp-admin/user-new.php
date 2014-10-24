@@ -31,10 +31,6 @@ Please click the following link to activate your user account:
 %%s' ), get_bloginfo( 'name' ), home_url(), wp_specialchars_decode( translate_user_role( $role['name'] ) ) );
 	}
 	add_filter( 'wpmu_signup_user_notification_email', 'admin_created_user_email' );
-
-	function admin_created_user_subject( $text ) {
-		return sprintf( __( '[%s] Your site invite' ), get_bloginfo( 'name' ) );
-	}
 }
 
 if ( isset($_REQUEST['action']) && 'adduser' == $_REQUEST['action'] ) {

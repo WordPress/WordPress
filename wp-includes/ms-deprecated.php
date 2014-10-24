@@ -345,3 +345,18 @@ function get_blogaddress_by_domain( $domain, $path ) {
 	}
 	return esc_url_raw( $url );
 }
+
+/**
+ * Supply a subject for a site invitation email. Added via filter in MU.
+ * Never used after the WPMU merge.
+ *
+ * @since MU
+ * @deprecated 4.1.0
+ *
+ * @return string
+ */
+function admin_created_user_subject() {
+	_deprecated_function( __FUNCTION__, '4.1' );
+
+	return sprintf( __( '[%s] Your site invite' ), get_bloginfo( 'name' ) );
+}
