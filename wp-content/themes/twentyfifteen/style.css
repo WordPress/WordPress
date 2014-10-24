@@ -818,11 +818,6 @@ a:focus {
 	content: "\f222";
 }
 
-.social-navigation a[href*="skype.com"]:before,
-.social-navigation a[href*="skype:"]:before:before {
-	content: "\f220";
-}
-
 .social-navigation a[href*="stumbleupon.com"]:before {
 	content: "\f223";
 }
