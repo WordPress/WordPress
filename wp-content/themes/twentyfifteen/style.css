@@ -692,17 +692,12 @@ a:focus {
 	-moz-box-sizing: content-box;
 	box-sizing: content-box;
 	content: "";
-	display: block;
-	font-size: 15px;
-	font-size: 1.5rem;
 	height: 42px;
 	padding: 0;
 	position: absolute;
-	top: 50%;
+	text-transform: lowercase; /* Stop screen readers to read the text as capital letters */
+	top: 3px;
 	right: 0;
-	-webkit-transform: translateY(-50%);
-	-ms-transform: translateY(-50%);
-	transform: translateY(-50%);
 	width: 42px;
 }
 
@@ -2552,9 +2547,7 @@ span > video {
 	}
 
 	.main-navigation ul {
-		border-top: 1px solid #eaeaea;
 		border-top: 1px solid rgba(51, 51, 51, 0.1);
-		border-bottom: 1px solid #eaeaea;
 		border-bottom: 1px solid rgba(51, 51, 51, 0.1);
 	}
 
@@ -5078,6 +5071,7 @@ span > video {
 
 	.dropdown-toggle {
 		height: 32px;
+		top: 4px;
 		width: 32px;
 	}
 
