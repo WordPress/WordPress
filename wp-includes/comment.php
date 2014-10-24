@@ -387,7 +387,10 @@ class WP_Comment_Query {
 
 		$order = ( 'ASC' == strtoupper( $this->query_vars['order'] ) ) ? 'ASC' : 'DESC';
 
-		if ( ! empty( $this->query_vars['orderby'] ) ) {
+		// Disable ORDER BY with 'none', an empty array, or boolean false.
+		if ( in_array( $this->query_vars['orderby'], array( 'none', array(), false ), true ) ) {
+			$orderby = '';
+		} else if ( ! empty( $this->query_vars['orderby'] ) ) {
 			$ordersby = is_array( $this->query_vars['orderby'] ) ?
 				$this->query_vars['orderby'] :
 				preg_split( '/[,\s]/', $this->query_vars['orderby'] );
@@ -588,7 +591,11 @@ class WP_Comment_Query {
 			$groupby = 'GROUP BY ' . $groupby;
 		}
 
-		$this->request = "SELECT $fields FROM $wpdb->comments $join WHERE $where $groupby $orderby $order $limits";
+		if ( $orderby ) {
+			$orderby = "ORDER BY $orderby $order";
+		}
+
+		$this->request = "SELECT $fields FROM $wpdb->comments $join WHERE $where $groupby $orderby $limits";
 
 		if ( $this->query_vars['count'] ) {
 			return $wpdb->get_var( $this->request );
