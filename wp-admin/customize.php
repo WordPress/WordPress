@@ -180,6 +180,9 @@ do_action( 'customize_controls_print_scripts' );
 	<div id="customize-preview" class="wp-full-overlay-main"></div>
 	<?php
 
+	// Render control templates.
+	$wp_customize->render_control_templates();
+
 	/**
 	 * Print Customizer control scripts in the footer.
 	 *

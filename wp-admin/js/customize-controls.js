@@ -60,7 +60,10 @@
 				}
 
 				control.setting = control.settings['default'] || null;
-				control.ready();
+				control.renderContent( function() {
+					// Don't call ready() until the content has rendered.
+					control.ready();
+				} );
 			}) );
 
 			control.elements = [];
@@ -149,6 +152,24 @@
 
 			this.setting.bind( update );
 			update( this.setting() );
+		},
+
+		/**
+		 * Render the control from its JS template, if it exists.
+		 *
+		 * The control's container must alreasy exist in the DOM.
+		 */
+		renderContent: function( callback ) {
+			var template,
+			    selector = 'customize-control-' + this.params.type + '-content',
+			    callback = callback || function(){};
+			if ( 0 !== $( '#tmpl-' + selector ).length ) {
+				template = wp.template( selector );
+				if ( template && this.container ) {
+					this.container.append( template( this.params ) );
+				}
+			}
+			callback();
 		}
 	});
 

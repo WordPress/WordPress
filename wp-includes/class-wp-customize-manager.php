@@ -54,6 +54,13 @@ final class WP_Customize_Manager {
 	protected $customized;
 
 	/**
+	 * Controls that may be rendered from JS templates.
+	 *
+	 * @since 4.1.0
+	 */
+	protected $registered_control_types = array();
+
+	/** 
 	 * $_POST values for Customize Settings.
 	 *
 	 * @var array
@@ -822,6 +829,32 @@ final class WP_Customize_Manager {
 	}
 
 	/**
+	 * Register a customize control type.
+	 *
+	 * Registered types are eligible to be rendered
+	 * via JS and created dynamically.
+	 *
+	 * @since 4.1.0
+	 *
+	 * @param string $control Name of a custom control which is a subclass of {@see WP_Customize_Control}.
+	 */
+	public function register_control_type( $control ) {
+		$this->registered_control_types[] = $control;
+	}
+
+	/**
+	 * Render JS templates for all registered control types.
+	 *
+	 * @since 4.1.0
+	 */
+	public function render_control_templates() {
+		foreach( $this->registered_control_types as $control_type ) {
+			$control = new $control_type( $this, 'temp', array() );
+			$control->print_template();
+		}
+	}
+
+    /** 
 	 * Helper function to compare two objects by priority.
 	 *
 	 * @since 3.4.0
@@ -926,6 +959,9 @@ final class WP_Customize_Manager {
 	 * @since 3.4.0
 	 */
 	public function register_controls() {
+
+		/* Control Types (custom control classes) */
+		$this->register_control_type( 'WP_Customize_Color_Control' );
 
 		/* Site Title & Tagline */
 
