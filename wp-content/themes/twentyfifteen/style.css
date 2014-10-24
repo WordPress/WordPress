@@ -951,7 +951,7 @@ a:focus {
 }
 
 .post-navigation .has-post-thumbnail a:before {
-	background-color: rgba(0, 0, 0, 0.3);
+	background-color: rgba(0, 0, 0, 0.4);
 	content: "";
 	display: block;
 	height: 100%;
