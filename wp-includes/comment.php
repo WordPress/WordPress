@@ -222,6 +222,15 @@ function get_comments( $args = '' ) {
  */
 class WP_Comment_Query {
 	/**
+	 * SQL for database query.
+	 *
+	 * @since 4.0.1
+	 * @access public
+	 * @var string
+	 */
+	public $request;
+
+	/**
 	 * Metadata query container
 	 *
 	 * @since 3.5.0
@@ -578,18 +587,19 @@ class WP_Comment_Query {
 		if ( $groupby ) {
 			$groupby = 'GROUP BY ' . $groupby;
 		}
-		$query = "SELECT $fields FROM $wpdb->comments $join WHERE $where $groupby ORDER BY $orderby $order $limits";
+
+		$this->request = "SELECT $fields FROM $wpdb->comments $join WHERE $where $groupby $orderby $order $limits";
 
 		if ( $this->query_vars['count'] ) {
-			return $wpdb->get_var( $query );
+			return $wpdb->get_var( $this->request );
 		}
 
 		if ( 'ids' == $this->query_vars['fields'] ) {
-			$this->comments = $wpdb->get_col( $query );
+			$this->comments = $wpdb->get_col( $this->request );
 			return array_map( 'intval', $this->comments );
 		}
 
-		$results = $wpdb->get_results( $query );
+		$results = $wpdb->get_results( $this->request );
 		/**
 		 * Filter the comment query results.
 		 *
