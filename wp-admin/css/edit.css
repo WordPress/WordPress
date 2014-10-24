@@ -1432,11 +1432,11 @@ table.links-table {
 		padding: 10px 20px;
 	}
 
-	a.wp-switch-editor {
+	button.wp-switch-editor {
 		font-size: 16px;
 		line-height: 1em;
-		margin: 3px 0 0 7px;
-		padding: 12px 15px;
+		margin: 7px 0 0 7px;
+		padding: 8px 12px;
 	}
 
 	#wp-content-media-buttons a {

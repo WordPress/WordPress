@@ -827,26 +827,42 @@ i.mce-i-hr:before {
 }
 
 .wp-switch-editor {
-	background: #ebebeb;
-	border: 1px solid #dedede;
-	color: #777;
-	cursor: pointer;
-	float: right;
-	font: 13px/19px "Open Sans", sans-serif;
-	height: 19px;
-	margin: 5px 0 0 5px;
-	padding: 3px 8px 4px;
+	float: left;
+	box-sizing: content-box;
 	position: relative;
 	top: 1px;
+	background: #ebebeb;
+	color: #777;
+	cursor: pointer;
+	font: 13px/19px "Open Sans", sans-serif;
+	height: 20px;
+	margin: 5px 0 0 5px;
+	padding: 3px 8px 4px;
+	border: 1px solid #e5e5e5;
+}
+
+.wp-switch-editor:focus {
+	-webkit-box-shadow:
+		0 0 0 1px #5b9dd9,
+		0 0 2px 1px rgba(30, 140, 190, .8);
+	box-shadow:
+		0 0 0 1px #5b9dd9,
+		0 0 2px 1px rgba(30, 140, 190, .8);
+	outline: none;
+	color: #222;
+}
+
+.wp-switch-editor:active,
+.html-active .switch-html:focus,
+.tmce-active .switch-tmce:focus {
+	-webkit-box-shadow: none;
+	box-shadow: none;
 }
 
 .wp-switch-editor:active {
-	background-color: #f1f1f1;
-}
-
-.wp-switch-editor:hover {
-	text-decoration: none !important;
-	background: #fff;
+	background-color: #f5f5f5;
+	-webkit-box-shadow: none;
+	box-shadow: none;
 }
 
 .js .tmce-active .wp-editor-area {
@@ -861,8 +877,7 @@ i.mce-i-hr:before {
 .html-active .switch-html {
 	background: #f5f5f5;
 	color: #555;
-	height: 20px;
-	border-bottom: none;
+	border-bottom-color: #f5f5f5;
 }
 
 .wp-media-buttons {
