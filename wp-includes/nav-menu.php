@@ -81,8 +81,7 @@ function register_nav_menus( $locations = array() ) {
 /**
  * Unregisters a navigation menu for a theme.
  *
- * @param array $location the menu location identifier
- *
+ * @param string $location The menu location identifier.
  * @return bool True on success, false on failure.
  */
 function unregister_nav_menu( $location ) {
