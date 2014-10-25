@@ -1272,7 +1272,7 @@ function do_settings_sections( $page ) {
  * @since 2.7.0
  *
  * @param string $page Slug title of the admin page who's settings fields you want to show.
- * @param section $section Slug title of the settings section who's fields you want to show.
+ * @param string $section Slug title of the settings section who's fields you want to show.
  */
 function do_settings_fields($page, $section) {
 	global $wp_settings_fields;
