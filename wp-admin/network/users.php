@@ -30,9 +30,9 @@ function confirm_delete_users( $users ) {
 	$site_admins = get_super_admins();
 	$admin_out = '<option value="' . $current_user->ID . '">' . $current_user->user_login . '</option>';
 
-	foreach ( ( $allusers = (array) $_POST['allusers'] ) as $key => $val ) {
-		if ( $val != '' && $val != '0' ) {
-			$delete_user = get_userdata( $val );
+	foreach ( ( $allusers = (array) $_POST['allusers'] ) as $user_id ) {
+		if ( $user_id != '' && $user_id != '0' ) {
+			$delete_user = get_userdata( $user_id );
 
 			if ( ! current_user_can( 'delete_user', $delete_user->ID ) )
 				wp_die( sprintf( __( 'Warning! User %s cannot be deleted.' ), $delete_user->user_login ) );
@@ -40,8 +40,8 @@ function confirm_delete_users( $users ) {
 			if ( in_array( $delete_user->user_login, $site_admins ) )
 				wp_die( sprintf( __( 'Warning! User cannot be deleted. The user %s is a network administrator.' ), $delete_user->user_login ) );
 
-			echo "<input type='hidden' name='user[]' value='{$val}'/>\n";
-			$blogs = get_blogs_of_user( $val, true );
+			echo "<input type='hidden' name='user[]' value='{$user_id}'/>\n";
+			$blogs = get_blogs_of_user( $user_id, true );
 
 			if ( !empty( $blogs ) ) {
 				?>
@@ -51,7 +51,7 @@ function confirm_delete_users( $users ) {
 					$blog_users = get_users( array( 'blog_id' => $details->userblog_id, 'fields' => array( 'ID', 'user_login' ) ) );
 					if ( is_array( $blog_users ) && !empty( $blog_users ) ) {
 						$user_site = "<a href='" . esc_url( get_home_url( $details->userblog_id ) ) . "'>{$details->blogname}</a>";
-						$user_dropdown = "<select name='blog[$val][{$key}]'>";
+						$user_dropdown = "<select name='blog[$user_id][$key]'>";
 						$user_list = '';
 						foreach ( $blog_users as $user ) {
 							if ( ! in_array( $user->ID, $allusers ) )
@@ -123,8 +123,8 @@ if ( isset( $_GET['action'] ) ) {
 				$doaction = $_POST['action'] != -1 ? $_POST['action'] : $_POST['action2'];
 				$userfunction = '';
 
-				foreach ( (array) $_POST['allusers'] as $key => $val ) {
-					if ( !empty( $val ) ) {
+				foreach ( (array) $_POST['allusers'] as $user_id ) {
+					if ( !empty( $user_id ) ) {
 						switch ( $doaction ) {
 							case 'delete':
 								if ( ! current_user_can( 'delete_users' ) )
@@ -139,26 +139,26 @@ if ( isset( $_GET['action'] ) ) {
 								exit();
 
 							case 'spam':
-								$user = get_userdata( $val );
+								$user = get_userdata( $user_id );
 								if ( is_super_admin( $user->ID ) )
 									wp_die( sprintf( __( 'Warning! User cannot be modified. The user %s is a network administrator.' ), esc_html( $user->user_login ) ) );
 
 								$userfunction = 'all_spam';
-								$blogs = get_blogs_of_user( $val, true );
-								foreach ( (array) $blogs as $key => $details ) {
+								$blogs = get_blogs_of_user( $user_id, true );
+								foreach ( (array) $blogs as $details ) {
 									if ( $details->userblog_id != $current_site->blog_id ) // main blog not a spam !
 										update_blog_status( $details->userblog_id, 'spam', '1' );
 								}
-								update_user_status( $val, 'spam', '1' );
+								update_user_status( $user_id, 'spam', '1' );
 							break;
 
 							case 'notspam':
 								$userfunction = 'all_notspam';
-								$blogs = get_blogs_of_user( $val, true );
-								foreach ( (array) $blogs as $key => $details )
+								$blogs = get_blogs_of_user( $user_id, true );
+								foreach ( (array) $blogs as $details )
 									update_blog_status( $details->userblog_id, 'spam', '0' );
 
-								update_user_status( $val, 'spam', '0' );
+								update_user_status( $user_id, 'spam', '0' );
 							break;
 						}
 					}
