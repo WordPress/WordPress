@@ -1111,13 +1111,11 @@ function do_accordion_sections( $screen, $context, $object ) {
 	<?php
 	$i = 0;
 	$first_open = false;
-	do {
-		if ( ! isset( $wp_meta_boxes ) || ! isset( $wp_meta_boxes[$page] ) || ! isset( $wp_meta_boxes[$page][$context] ) )
-			break;
 
+	if ( isset( $wp_meta_boxes[ $page ][ $context ] ) ) {
 		foreach ( array( 'high', 'core', 'default', 'low' ) as $priority ) {
-			if ( isset( $wp_meta_boxes[$page][$context][$priority] ) ) {
-				foreach ( $wp_meta_boxes[$page][$context][$priority] as $box ) {
+			if ( isset( $wp_meta_boxes[ $page ][ $context ][ $priority ] ) ) {
+				foreach ( $wp_meta_boxes[ $page ][ $context ][ $priority ] as $box ) {
 					if ( false == $box || ! $box['title'] )
 						continue;
 					$i++;
@@ -1144,7 +1142,7 @@ function do_accordion_sections( $screen, $context, $object ) {
 				}
 			}
 		}
-	} while(0);
+	}
 	?>
 		</ul><!-- .outer-border -->
 	</div><!-- .accordion-container -->
