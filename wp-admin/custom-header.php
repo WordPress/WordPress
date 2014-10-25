@@ -1107,7 +1107,7 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 		$has_flex_width = current_theme_supports( 'custom-header', 'flex-width' );
 		$has_flex_height = current_theme_supports( 'custom-header', 'flex-height' );
 		$has_max_width = current_theme_supports( 'custom-header', 'max-width' ) ;
-		$dst = array( 'dst_height' => null, 'dst_height' => null );
+		$dst = array( 'dst_height' => null, 'dst_width' => null );
 
 		// For flex, limit size of image displayed to 1500px unless theme says otherwise
 		if ( $has_flex_width ) {
