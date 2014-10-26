@@ -559,7 +559,10 @@ class WP_Comment_Query {
 			$clauses = $this->meta_query->get_sql( 'comment', $wpdb->comments, 'comment_ID', $this );
 			$join .= $clauses['join'];
 			$where .= $clauses['where'];
-			$groupby = "{$wpdb->comments}.comment_ID";
+
+			if ( ! $this->query_vars['count'] ) {
+				$groupby = "{$wpdb->comments}.comment_ID";
+			}
 		}
 
 		$date_query = $this->query_vars['date_query'];
