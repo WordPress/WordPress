@@ -161,8 +161,9 @@
 		 */
 		renderContent: function( callback ) {
 			var template,
-			    selector = 'customize-control-' + this.params.type + '-content',
-			    callback = callback || function(){};
+				selector = 'customize-control-' + this.params.type + '-content';
+
+			callback = callback || function(){};
 			if ( 0 !== $( '#tmpl-' + selector ).length ) {
 				template = wp.template( selector );
 				if ( template && this.container ) {
