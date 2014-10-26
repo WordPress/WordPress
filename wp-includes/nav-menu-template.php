@@ -95,7 +95,7 @@ class Walker_Nav_Menu extends Walker {
 		 * @param object $item    The current menu item.
 		 * @param array  $args    An array of wp_nav_menu() arguments.
 		 */
-		$class_names = join( ' ', apply_filters( 'nav_menu_css_class', array_filter( $classes ), $item, $args ) );
+		$class_names = join( ' ', (array) apply_filters( 'nav_menu_css_class', array_filter( $classes ), $item, $args ) );
 		$class_names = $class_names ? ' class="' . esc_attr( $class_names ) . '"' : '';
 
 		/**
