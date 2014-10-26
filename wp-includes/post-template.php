@@ -787,7 +787,10 @@ function wp_link_pages( $args = '' ) {
 				 * @param int    $i    Page number for paginated posts' page links.
 				 */
 				$link = apply_filters( 'wp_link_pages_link', $link, $i );
-				$output .= $r['separator'] . $link;
+
+				// Use the custom links separator beginning with the second link.
+				$output .= ( 1 === $i ) ? ' ' : $r['separator'];
+				$output .= $link;
 			}
 			$output .= $r['after'];
 		} elseif ( $more ) {
@@ -797,16 +800,17 @@ function wp_link_pages( $args = '' ) {
 				$link = _wp_link_page( $prev ) . $r['link_before'] . $r['previouspagelink'] . $r['link_after'] . '</a>';
 
 				/** This filter is documented in wp-includes/post-template.php */
-				$link = apply_filters( 'wp_link_pages_link', $link, $prev );
-				$output .= $r['separator'] . $link;
+				$output .= apply_filters( 'wp_link_pages_link', $link, $prev );
 			}
 			$next = $page + 1;
 			if ( $next <= $numpages ) {
+				if ( $prev ) {
+					$output .= $r['separator'];
+				}
 				$link = _wp_link_page( $next ) . $r['link_before'] . $r['nextpagelink'] . $r['link_after'] . '</a>';
 
 				/** This filter is documented in wp-includes/post-template.php */
-				$link = apply_filters( 'wp_link_pages_link', $link, $next );
-				$output .= $r['separator'] . $link;
+				$output .= apply_filters( 'wp_link_pages_link', $link, $next );
 			}
 			$output .= $r['after'];
 		}
