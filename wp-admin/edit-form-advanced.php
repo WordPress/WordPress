@@ -461,6 +461,16 @@ do_action( 'edit_form_top', $post ); ?>
 	<label class="screen-reader-text" id="title-prompt-text" for="title"><?php echo apply_filters( 'enter_title_here', __( 'Enter title here' ), $post ); ?></label>
 	<input type="text" name="post_title" size="30" value="<?php echo esc_attr( htmlspecialchars( $post->post_title ) ); ?>" id="title" autocomplete="off" />
 </div>
+<?php
+/**
+ * Fires before the permalink field.
+ *
+ * @since 4.1.0
+ *
+ * @param WP_Post $post Post object.
+ */
+do_action( 'edit_form_before_permalink', $post );
+?>
 <div class="inside">
 <?php
 $sample_permalink_html = $post_type_object->public ? get_sample_permalink_html($post->ID) : '';
