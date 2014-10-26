@@ -470,7 +470,7 @@ if ( $show_password_fields ) :
 	<p class="description"><?php _e( 'Type your new password again.' ); ?></p>
 	<br />
 	<div id="pass-strength-result"><?php _e( 'Strength indicator' ); ?></div>
-	<p class="description indicator-hint"><?php echo _wp_password_hint(); ?></p>
+	<p class="description indicator-hint"><?php echo _wp_get_password_hint(); ?></p>
 	</td>
 </tr>
 <?php endif; ?>

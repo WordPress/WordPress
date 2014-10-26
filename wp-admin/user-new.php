@@ -396,7 +396,7 @@ if ( apply_filters( 'show_password_fields', true ) ) : ?>
 		<input name="pass2" type="password" id="pass2" autocomplete="off" />
 		<br />
 		<div id="pass-strength-result"><?php _e('Strength indicator'); ?></div>
-		<p class="description indicator-hint"><?php echo _wp_password_hint(); ?></p>
+		<p class="description indicator-hint"><?php echo _wp_get_password_hint(); ?></p>
 		</td>
 	</tr>
 	<tr>

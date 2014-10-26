@@ -626,7 +626,7 @@ case 'rp' :
 	</p>
 
 	<div id="pass-strength-result" class="hide-if-no-js"><?php _e('Strength indicator'); ?></div>
-	<p class="description indicator-hint"><?php echo _wp_password_hint(); ?></p>
+	<p class="description indicator-hint"><?php echo _wp_get_password_hint(); ?></p>
 	<br class="clear" />
 
 	<?php

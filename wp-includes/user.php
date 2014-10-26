@@ -2090,7 +2090,7 @@ function _wp_get_user_contactmethods( $user = null ) {
  *
  * @return string The password hint text.
  */
-function _wp_password_hint() {
+function _wp_get_password_hint() {
 	$hint = __( 'Hint: The password should be at least seven characters long. To make it stronger, use upper and lower case letters, numbers, and symbols like ! " ? $ % ^ &amp; ).' );
 
 	/**
