@@ -781,6 +781,10 @@ a:focus {
 	content: "\f211";
 }
 
+.social-navigation a[href*="foursquare.com"]:before {
+	content: "\f226";
+}
+
 .social-navigation a[href*="plus.google.com"]:before {
 	content: "\f206";
 }

@@ -53,6 +53,7 @@ Available icons: (Linking to any of the following sites will automatically displ
 * Dropbox
 * Facebook
 * Flickr
+* Foursquare
 * GitHub
 * Google+
 * Instagram
