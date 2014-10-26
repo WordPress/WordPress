@@ -832,7 +832,7 @@ class WP_Tax_Query {
 	 * @return bool  Whether the query clause is a first-order clause.
 	 */
 	protected static function is_first_order_clause( $query ) {
-		return empty( $query ) || array_key_exists( 'terms', $query ) || array_key_exists( 'taxonomy', $query ) || array_key_exists( 'include_children', $query ) || array_key_exists( 'field', $query ) || array_key_exists( 'operator', $query );
+		return is_array( $query ) && ( empty( $query ) || array_key_exists( 'terms', $query ) || array_key_exists( 'taxonomy', $query ) || array_key_exists( 'include_children', $query ) || array_key_exists( 'field', $query ) || array_key_exists( 'operator', $query ) );
 	}
 
 	/**
