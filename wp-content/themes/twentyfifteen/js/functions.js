@@ -6,6 +6,8 @@
  */
 
 ( function( $ ) {
+	var $body, $window, sidebar, toolbarOffset;
+
 	$( 'html' ).removeClass( 'no-js' );
 
 	// Add dropdown toggle that display child menu items.
@@ -47,4 +49,37 @@
 			$( this ).toggleClass( 'toggled-on' );
 		} );
 	} )();
+
+
+	// Sidebar (un)fixing: fix when short, un-fix when scroll needed
+	$body         = $( 'body' );
+	$window       = $( window );
+	sidebar       = $( '#sidebar' )[0];
+	toolbarOffset = $body.is( '.admin-bar' ) ? $( '#wpadminbar' ).height() : 0;
+
+	function fixedOrScrolledSidebar() {
+		if ( $window.width() >= 955 ) {
+			if ( sidebar.scrollHeight < ( $window.height() - toolbarOffset ) ) {
+				$body.addClass( 'sidebar-fixed' );
+			} else {
+				$body.removeClass( 'sidebar-fixed' );
+			}
+		} else {
+			$body.removeClass( 'sidebar-fixed' );
+		}
+	}
+
+	function debouncedFixedOrScrolledSidebar() {
+		var timeout;
+		return function() {
+			clearTimeout( timeout );
+			timeout = setTimeout( function() {
+				timeout = null;
+				fixedOrScrolledSidebar();
+			}, 150 );
+		};
+	}
+
+	$window.on( 'load.twentyfifteen', fixedOrScrolledSidebar ).on( 'resize.twentyfifteen', debouncedFixedOrScrolledSidebar() );
+
 } )( jQuery );

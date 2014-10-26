@@ -3803,11 +3803,15 @@ span > video {
 
 @media screen and (min-width: 59.6875em) {
 	body:before,
-	.site-header,
-	.main-navigation,
-	.social-navigation,
-	.widget {
+	.sidebar-fixed .site-header,
+	.sidebar-fixed .main-navigation,
+	.sidebar-fixed .social-navigation,
+	.sidebar-fixed .widget {
 		-webkit-transform: translateZ(0); /* Fixes flashing bug with scrolling on iOS Safari */
+	}
+
+	.sidebar-fixed .sidebar {
+		position: fixed;
 	}
 
 	body:before {
@@ -3830,18 +3834,10 @@ span > video {
 
 	.sidebar {
 		float: left;
-		height: 100%;
 		margin-right: -100%;
 		max-width: 413px;
-		overflow-y: scroll;
-		-webkit-overflow-scrolling: touch; /* Enable momentum scrolling on iOS Safari */
-		position: fixed;
+		position: relative;
 		width: 29.4118%;
-	}
-
-	.admin-bar .sidebar {
-		height: -webkit-calc(100% - 32px);
-		height: calc(100% - 32px);
 	}
 
 	.secondary {
