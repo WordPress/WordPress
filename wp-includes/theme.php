@@ -1472,8 +1472,12 @@ function add_theme_support( $feature ) {
 
 	switch ( $feature ) {
 		case 'post-formats' :
-			if ( is_array( $args[0] ) )
-				$args[0] = array_intersect( $args[0], array_keys( get_post_format_slugs() ) );
+			if ( is_array( $args[0] ) ) {
+				$post_formats = get_post_format_slugs();
+				unset( $post_formats['standard'] );
+
+				$args[0] = array_intersect( $args[0], array_keys( $post_formats ) );
+			}
 			break;
 
 		case 'html5' :
