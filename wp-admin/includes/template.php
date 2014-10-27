@@ -1004,25 +1004,25 @@ function do_meta_boxes( $screen, $context, $object ) {
 
 	printf('<div id="%s-sortables" class="meta-box-sortables">', htmlspecialchars($context));
 
-	$i = 0;
-	do {
-		// Grab the ones the user has manually sorted. Pull them out of their previous context/priority and into the one the user chose
-		if ( !$already_sorted && $sorted = get_user_option( "meta-box-order_$page" ) ) {
-			foreach ( $sorted as $box_context => $ids ) {
-				foreach ( explode(',', $ids ) as $id ) {
-					if ( $id && 'dashboard_browser_nag' !== $id )
-						add_meta_box( $id, null, null, $screen, $box_context, 'sorted' );
+	// Grab the ones the user has manually sorted. Pull them out of their previous context/priority and into the one the user chose
+	if ( ! $already_sorted && $sorted = get_user_option( "meta-box-order_$page" ) ) {
+		foreach ( $sorted as $box_context => $ids ) {
+			foreach ( explode( ',', $ids ) as $id ) {
+				if ( $id && 'dashboard_browser_nag' !== $id ) {
+					add_meta_box( $id, null, null, $screen, $box_context, 'sorted' );
 				}
 			}
 		}
-		$already_sorted = true;
+	}
 
-		if ( !isset($wp_meta_boxes) || !isset($wp_meta_boxes[$page]) || !isset($wp_meta_boxes[$page][$context]) )
-			break;
+	$already_sorted = true;
 
-		foreach ( array('high', 'sorted', 'core', 'default', 'low') as $priority ) {
-			if ( isset($wp_meta_boxes[$page][$context][$priority]) ) {
-				foreach ( (array) $wp_meta_boxes[$page][$context][$priority] as $box ) {
+	$i = 0;
+
+	if ( isset( $wp_meta_boxes[ $page ][ $context ] ) ) {
+		foreach ( array( 'high', 'sorted', 'core', 'default', 'low' ) as $priority ) {
+			if ( isset( $wp_meta_boxes[ $page ][ $context ][ $priority ]) ) {
+				foreach ( (array) $wp_meta_boxes[ $page ][ $context ][ $priority ] as $box ) {
 					if ( false == $box || ! $box['title'] )
 						continue;
 					$i++;
@@ -1038,7 +1038,7 @@ function do_meta_boxes( $screen, $context, $object ) {
 				}
 			}
 		}
-	} while(0);
+	}
 
 	echo "</div>";
 
