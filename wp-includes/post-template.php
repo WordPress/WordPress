@@ -437,7 +437,7 @@ function get_post_class( $class = '', $post_id = null ) {
 
 	// sticky for Sticky Posts
 	if ( is_sticky( $post->ID ) ) {
-		if ( is_home() && ! is_paged() ) {
+		if ( is_home() && ! is_paged() && ! get_query_var( 'ignore_sticky_posts' ) ) {
 			$classes[] = 'sticky';
 		} elseif ( is_admin() ) {
 			$classes[] = 'status-sticky';
