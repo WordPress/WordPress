@@ -293,7 +293,8 @@
 }
 
 .about-wrap li.wp-person {
-	float: left;
+	display: inline-block;
+	vertical-align: top;
 	margin-right: 10px;
 }
 
