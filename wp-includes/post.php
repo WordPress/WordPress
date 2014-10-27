@@ -1352,7 +1352,7 @@ function register_post_type( $post_type, $args = array() ) {
 
 	// If not set, default to the whether the full UI is shown.
 	if ( null === $args->show_in_admin_bar )
-		$args->show_in_admin_bar = true === $args->show_in_menu;
+		$args->show_in_admin_bar = (bool) $args->show_in_menu;
 
 	// If not set, default to the setting for public.
 	if ( null === $args->show_in_nav_menus )
