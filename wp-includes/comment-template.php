@@ -1339,6 +1339,18 @@ function get_comment_reply_link( $args = array(), $comment = null, $post = null 
 		return false;
 	}
 
+	/**
+	 * Filter the comment reply link arguments.
+	 *
+	 * @since 4.1.0
+	 *
+	 * @param array   $args    Comment reply link arguments. See {@see get_comment_reply_link()}
+	 *                         for more information on accepted arguments.
+	 * @param object  $comment The object of the comment being replied to.
+	 * @param WP_Post $post    The WP_Post object.
+	 */
+	$args = apply_filters( 'comment_reply_link_args', $args, $comment, $post );
+
 	if ( get_option( 'comment_registration' ) && ! is_user_logged_in() ) {
 		$link = sprintf( '<a rel="nofollow" class="comment-reply-login" href="%s">%s</a>',
 			esc_url( wp_login_url( get_permalink() ) ),
