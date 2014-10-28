@@ -159,7 +159,7 @@ function twentyfifteen_get_color_scheme() {
 	$color_schemes       = twentyfifteen_get_color_schemes();
 
 	if ( array_key_exists( $color_scheme_option, $color_schemes ) ) {
-		return $color_schemes[$color_scheme_option]['colors'];
+		return $color_schemes[ $color_scheme_option ]['colors'];
 	}
 
 	return $color_schemes['default']['colors'];
