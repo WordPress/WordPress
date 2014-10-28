@@ -149,13 +149,13 @@ if ( ! function_exists( 'twentyfifteen_admin_header_image' ) ) :
  * @see twentyfifteen_custom_header_setup().
  */
 function twentyfifteen_admin_header_image() {
-	$style                   = sprintf( ' style="color:#%s;"', get_header_textcolor() );
+	$style                   = sprintf( ' style="color: #%s;"', get_header_textcolor() );
 	$color_scheme            = twentyfifteen_get_color_scheme();
 	$header_background_color = get_theme_mod( 'header_background_color', $color_scheme[1] );
 ?>
 	<div id="headimg" style="background-image: url(<?php header_image(); ?>); background-color: <?php echo esc_attr( $header_background_color ); ?>;">
-		<h1 class="displaying-header-text"><a id="name"<?php echo $style; ?> onclick="return false;" href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php bloginfo( 'name' ); ?></a></h1>
-		<div id="desc" class="displaying-header-text"<?php echo $style; ?>><?php bloginfo( 'description' ); ?></div>
+		<h1 class="displaying-header-text"><a id="name"<?php echo esc_attr( $style ); ?> onclick="return false;" href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php bloginfo( 'name' ); ?></a></h1>
+		<div id="desc" class="displaying-header-text"<?php echo esc_attr( $style ); ?>><?php bloginfo( 'description' ); ?></div>
 	</div>
 <?php
 }
