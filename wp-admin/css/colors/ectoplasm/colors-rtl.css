@@ -27,21 +27,21 @@ input[type=radio]:checked:before {
 /* Core UI */
 .wp-core-ui .button-primary {
   background: #a3b745;
-  border-color: #839237;
+  border-color: #829237;
   color: white;
-  -webkit-box-shadow: inset 0 1px 0 #c0cd7b, 0 1px 0 rgba(0, 0, 0, 0.15);
-          box-shadow: inset 0 1px 0 #c0cd7b, 0 1px 0 rgba(0, 0, 0, 0.15); }
+  -webkit-box-shadow: inset 0 1px 0 #bfcd7b, 0 1px 0 rgba(0, 0, 0, 0.15);
+          box-shadow: inset 0 1px 0 #bfcd7b, 0 1px 0 rgba(0, 0, 0, 0.15); }
   .wp-core-ui .button-primary:hover, .wp-core-ui .button-primary:focus {
     background: #93a43e;
     border-color: #727f30;
     color: white;
-    -webkit-box-shadow: inset 0 1px 0 #b7c669;
-            box-shadow: inset 0 1px 0 #b7c669; }
+    -webkit-box-shadow: inset 0 1px 0 #b6c669;
+            box-shadow: inset 0 1px 0 #b6c669; }
   .wp-core-ui .button-primary:focus {
-    -webkit-box-shadow: inset 0 1px 0 #b7c669, 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, 0.8);
-            box-shadow: inset 0 1px 0 #b7c669, 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, 0.8); }
+    -webkit-box-shadow: inset 0 1px 0 #b6c669, 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, 0.8);
+            box-shadow: inset 0 1px 0 #b6c669, 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, 0.8); }
   .wp-core-ui .button-primary:active {
-    background: #839237;
+    background: #829237;
     border-color: #727f30;
     color: white;
     -webkit-box-shadow: inset 0 2px 5px -3px rgba(0, 0, 0, 0.5), 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, 0.8);
@@ -214,7 +214,7 @@ ul#adminmenu a.wp-has-current-submenu:after, ul#adminmenu > li.current > a.curre
 
 #wpadminbar > #wp-toolbar > #wp-admin-bar-top-secondary > #wp-admin-bar-search #adminbarsearch input.adminbar-input:focus {
   color: #fff;
-  background: #624c84; }
+  background: #634c84; }
 
 #wpadminbar #adminbarsearch .adminbar-input::-webkit-input-placeholder {
   color: #fff;
@@ -234,8 +234,8 @@ ul#adminmenu a.wp-has-current-submenu:after, ul#adminmenu > li.current > a.curre
 
 /* Admin Bar: my account */
 #wpadminbar .quicklinks li#wp-admin-bar-my-account.with-avatar > a img {
-  border-color: #624c84;
-  background-color: #624c84; }
+  border-color: #634c84;
+  background-color: #634c84; }
 
 #wpadminbar #wp-admin-bar-user-info .display-name {
   color: #fff; }
@@ -314,9 +314,9 @@ body.more-filters-opened .more-filters:hover:before, body.more-filters-opened .m
 /* jQuery UI Slider */
 .wp-slider .ui-slider-handle, .wp-slider .ui-slider-handle.ui-state-hover, .wp-slider .ui-slider-handle.focus {
   background: #a3b745;
-  border-color: #839237;
-  -webkit-box-shadow: inset 0 1px 0 #c0cd7b, 0 1px 0 rgba(0, 0, 0, 0.15);
-          box-shadow: inset 0 1px 0 #c0cd7b, 0 1px 0 rgba(0, 0, 0, 0.15); }
+  border-color: #829237;
+  -webkit-box-shadow: inset 0 1px 0 #bfcd7b, 0 1px 0 rgba(0, 0, 0, 0.15);
+          box-shadow: inset 0 1px 0 #bfcd7b, 0 1px 0 rgba(0, 0, 0, 0.15); }
 
 /* Thickbox: Plugin information */
 #sidemenu a.current {
