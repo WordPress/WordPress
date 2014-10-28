@@ -1939,7 +1939,7 @@ function _wp_customize_loader_settings() {
 		),
 	);
 
-	$script = 'var _wpCustomizeLoaderSettings = ' . json_encode( $settings ) . ';';
+	$script = 'var _wpCustomizeLoaderSettings = ' . wp_json_encode( $settings ) . ';';
 
 	$data = $wp_scripts->get_data( 'customize-loader', 'data' );
 	if ( $data )

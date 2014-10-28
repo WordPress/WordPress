@@ -740,7 +740,7 @@ final class WP_Customize_Widgets {
 		$wp_scripts->add_data(
 			'customize-widgets',
 			'data',
-			sprintf( 'var _wpCustomizeWidgetsSettings = %s;', json_encode( $settings ) )
+			sprintf( 'var _wpCustomizeWidgetsSettings = %s;', wp_json_encode( $settings ) )
 		);
 	}
 
@@ -1055,7 +1055,7 @@ final class WP_Customize_Widgets {
 
 		?>
 		<script type="text/javascript">
-			var _wpWidgetCustomizerPreviewSettings = <?php echo json_encode( $settings ); ?>;
+			var _wpWidgetCustomizerPreviewSettings = <?php echo wp_json_encode( $settings ); ?>;
 		</script>
 		<?php
 	}

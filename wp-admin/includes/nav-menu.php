@@ -356,7 +356,7 @@ function _wp_ajax_menu_quick_search( $request = array() ) {
 				if ( 'markup' == $response_format ) {
 					echo walk_nav_menu_tree( array_map('wp_setup_nav_menu_item', array( get_post( $object_id ) ) ), 0, (object) $args );
 				} elseif ( 'json' == $response_format ) {
-					echo json_encode(
+					echo wp_json_encode(
 						array(
 							'ID' => $object_id,
 							'post_title' => get_the_title( $object_id ),
@@ -373,7 +373,7 @@ function _wp_ajax_menu_quick_search( $request = array() ) {
 					echo walk_nav_menu_tree( array_map('wp_setup_nav_menu_item', array( get_term( $object_id, $object_type ) ) ), 0, (object) $args );
 				} elseif ( 'json' == $response_format ) {
 					$post_obj = get_term( $object_id, $object_type );
-					echo json_encode(
+					echo wp_json_encode(
 						array(
 							'ID' => $object_id,
 							'post_title' => $post_obj->name,
@@ -401,7 +401,7 @@ function _wp_ajax_menu_quick_search( $request = array() ) {
 					$var_by_ref = get_the_ID();
 					echo walk_nav_menu_tree( array_map('wp_setup_nav_menu_item', array( get_post( $var_by_ref ) ) ), 0, (object) $args );
 				} elseif ( 'json' == $response_format ) {
-					echo json_encode(
+					echo wp_json_encode(
 						array(
 							'ID' => get_the_ID(),
 							'post_title' => get_the_title(),
@@ -422,7 +422,7 @@ function _wp_ajax_menu_quick_search( $request = array() ) {
 				if ( 'markup' == $response_format ) {
 					echo walk_nav_menu_tree( array_map('wp_setup_nav_menu_item', array( $term ) ), 0, (object) $args );
 				} elseif ( 'json' == $response_format ) {
-					echo json_encode(
+					echo wp_json_encode(
 						array(
 							'ID' => $term->term_id,
 							'post_title' => $term->name,

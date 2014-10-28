@@ -500,7 +500,7 @@ final class _WP_Editors {
 				);
 
 				if ( ! empty( $mce_external_plugins ) ) {
-					self::$first_init['external_plugins'] = json_encode( $mce_external_plugins );
+					self::$first_init['external_plugins'] = wp_json_encode( $mce_external_plugins );
 				}
 
 				$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
@@ -986,7 +986,7 @@ final class _WP_Editors {
 			$mce_translation['_dir'] = 'rtl';
 		}
 
-		return "tinymce.addI18n( '$mce_locale', " . json_encode( $mce_translation ) . ");\n" .
+		return "tinymce.addI18n( '$mce_locale', " . wp_json_encode( $mce_translation ) . ");\n" .
 			"tinymce.ScriptLoader.markDone( '$baseurl/langs/$mce_locale.js' );\n";
 	}
 

@@ -286,7 +286,7 @@ function wp_ajax_autocomplete_user() {
 		);
 	}
 
-	wp_die( json_encode( $return ) );
+	wp_die( wp_json_encode( $return ) );
 }
 
 /**
@@ -1365,7 +1365,7 @@ function wp_ajax_menu_get_metabox() {
 
 		$markup = ob_get_clean();
 
-		echo json_encode(array(
+		echo wp_json_encode(array(
 			'replace-id' => $type . '-' . $item->name,
 			'markup' => $markup,
 		));
@@ -1394,7 +1394,7 @@ function wp_ajax_wp_link_ajax() {
 	if ( ! isset( $results ) )
 		wp_die( 0 );
 
-	echo json_encode( $results );
+	echo wp_json_encode( $results );
 	echo "\n";
 
 	wp_die();
@@ -1840,7 +1840,7 @@ function wp_ajax_upload_attachment() {
 	if ( isset( $post_data['context'] ) && in_array( $post_data['context'], array( 'custom-header', 'custom-background' ) ) ) {
 		$wp_filetype = wp_check_filetype_and_ext( $_FILES['async-upload']['tmp_name'], $_FILES['async-upload']['name'], false );
 		if ( ! wp_match_mime_types( 'image', $wp_filetype['type'] ) ) {
-			echo json_encode( array(
+			echo wp_json_encode( array(
 				'success' => false,
 				'data'    => array(
 					'message'  => __( 'The uploaded file is not a valid image. Please try again.' ),
@@ -1855,7 +1855,7 @@ function wp_ajax_upload_attachment() {
 	$attachment_id = media_handle_upload( 'async-upload', $post_id, $post_data );
 
 	if ( is_wp_error( $attachment_id ) ) {
-		echo json_encode( array(
+		echo wp_json_encode( array(
 			'success' => false,
 			'data'    => array(
 				'message'  => $attachment_id->get_error_message(),
@@ -1877,7 +1877,7 @@ function wp_ajax_upload_attachment() {
 	if ( ! $attachment = wp_prepare_attachment_for_js( $attachment_id ) )
 		wp_die();
 
-	echo json_encode( array(
+	echo wp_json_encode( array(
 		'success' => true,
 		'data'    => $attachment,
 	) );
@@ -1902,7 +1902,7 @@ function wp_ajax_image_editor() {
 	switch ( $_POST['do'] ) {
 		case 'save' :
 			$msg = wp_save_image($attachment_id);
-			$msg = json_encode($msg);
+			$msg = wp_json_encode($msg);
 			wp_die( $msg );
 			break;
 		case 'scale' :

@@ -1826,7 +1826,7 @@ if( !$large_size_w )
 	$large_size_w = 1024;
 ?>
 var resize_height = <?php echo $large_size_h; ?>, resize_width = <?php echo $large_size_w; ?>,
-wpUploaderInit = <?php echo json_encode($plupload_init); ?>;
+wpUploaderInit = <?php echo wp_json_encode( $plupload_init ); ?>;
 </script>
 
 <div id="plupload-upload-ui" class="hide-if-no-js">

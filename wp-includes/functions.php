@@ -2613,6 +2613,119 @@ function _scalar_wp_die_handler( $message = '' ) {
 }
 
 /**
+ * Encode a variable into JSON, with some sanity checks
+ *
+ * @since 4.1.0
+ *
+ * @param mixed $data    Variable (usually an array or object) to encode as JSON
+ * @param int   $options Options to be passed to json_encode(). Default 0.
+ * @param int   $depth   Maximum depth to walk through $data. Must be greater than 0, default 512.t
+ *
+ * @return bool|string The JSON encoded string, or false if it cannot be encoded
+ */
+function wp_json_encode( $data, $options = 0, $depth = 512 ) {
+	// json_encode has had extra params added over the years.
+	// $options was added in 5.3, and $depth in 5.5.
+	// We need to make sure we call it with the correct arguments.
+	if ( version_compare( PHP_VERSION, '5.5', '>=' ) ) {
+		$args = array( $data, $options, $depth );
+	} else if ( version_compare( PHP_VERSION, '5.3', '>=' ) ) {
+		$args = array( $data, $options );
+	} else {
+		$args = array( $data );
+	}
+
+	$json = call_user_func_array( 'json_encode', $args );
+
+	if ( false !== $json ) {
+		// If json_encode was successful, no need to do more sanity checking
+		return $json;
+	}
+
+	try {
+		$args[0] = _wp_json_sanity_check( $data, $depth );
+	} catch ( Exception $e ) {
+		return false;
+	}
+
+	return call_user_func_array( 'json_encode', $args );
+}
+
+/**
+ * @ignore
+ */
+function _wp_json_sanity_check( $data, $depth ) {
+	if ( $depth < 0 ) {
+		throw new Exception( 'Reached depth limit' );
+	}
+
+	if ( is_array( $data ) ) {
+		$output = array();
+		foreach ( $data as $id => $el ) {
+			// Don't forget to sanitize the ID!
+			if ( is_string( $id ) ) {
+				$clean_id = _wp_json_convert_string( $id );
+			} else {
+				$clean_id = $id;
+			}
+
+			// Check the element type, so that we're only recursing if we really have to
+			if ( is_array( $el ) || is_object( $el ) ) {
+				$output[ $clean_id ] = _wp_json_sanity_check( $el, $depth - 1 );
+			} else if ( is_string( $el ) ) {
+				$output[ $clean_id ] = _wp_json_convert_string( $el );
+			} else {
+				$output[ $clean_id ] = $el;
+			}
+		}
+	} else if ( is_object( $data ) ) {
+		$output = new stdClass;
+		foreach ( $data as $id => $el ) {
+			if ( is_string( $id ) ) {
+				$clean_id = _wp_json_convert_string( $id );
+			} else {
+				$clean_id = $id;
+			}
+
+			if ( is_array( $el ) || is_object( $el ) ) {
+				$output->$clean_id = _wp_json_sanity_check( $el, $depth - 1 );
+			} else if ( is_string( $el ) ) {
+				$output->$clean_id = _wp_json_convert_string( $el );
+			} else {
+				$output->$clean_id = $el;
+			}
+		}
+	} else if ( is_string( $data ) ) {
+		return _wp_json_convert_string( $data );
+	} else {
+		return $data;
+	}
+
+	return $output;
+}
+
+/**
+ * @ignore
+ */
+function _wp_json_convert_string( $string ) {
+	static $use_mb = null;
+	if ( is_null( $use_mb ) ) {
+		$use_mb = function_exists( 'mb_convert_encoding' );
+	}
+
+	if ( $use_mb ) {
+		$encoding = mb_detect_encoding( $string, mb_detect_order(), true );
+		if ( $encoding ) {
+			return mb_convert_encoding( $string, 'UTF-8', $encoding );
+		} else {
+			return mb_convert_encoding( $string, 'UTF-8', 'UTF-8' );
+		}
+	} else {
+		return wp_check_invalid_utf8( $data, true );
+	}
+}
+
+/**
  * Send a JSON response back to an Ajax request.
  *
  * @since 3.5.0
@@ -2622,7 +2735,7 @@ function _scalar_wp_die_handler( $message = '' ) {
  */
 function wp_send_json( $response ) {
 	@header( 'Content-Type: application/json; charset=' . get_option( 'blog_charset' ) );
-	echo json_encode( $response );
+	echo wp_json_encode( $response );
 	if ( defined( 'DOING_AJAX' ) && DOING_AJAX )
 		wp_die();
 	else

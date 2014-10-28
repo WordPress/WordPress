@@ -1058,7 +1058,7 @@ class WP_List_Table {
 			$response['total_pages_i18n'] = number_format_i18n( $this->_pagination_args['total_pages'] );
 		}
 
-		die( json_encode( $response ) );
+		die( wp_json_encode( $response ) );
 	}
 
 	/**
@@ -1075,6 +1075,6 @@ class WP_List_Table {
 			)
 		);
 
-		printf( "<script type='text/javascript'>list_args = %s;</script>\n", json_encode( $args ) );
+		printf( "<script type='text/javascript'>list_args = %s;</script>\n", wp_json_encode( $args ) );
 	}
 }

@@ -517,7 +517,7 @@ final class WP_Customize_Manager {
 
 		?>
 		<script type="text/javascript">
-			var _wpCustomizeSettings = <?php echo json_encode( $settings ); ?>;
+			var _wpCustomizeSettings = <?php echo wp_json_encode( $settings ); ?>;
 		</script>
 		<?php
 	}

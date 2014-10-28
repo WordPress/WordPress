@@ -1398,7 +1398,7 @@ function wp_playlist_shortcode( $attr ) {
 	}
 	?></ol>
 	</noscript>
-	<script type="application/json" class="wp-playlist-script"><?php echo json_encode( $data ) ?></script>
+	<script type="application/json" class="wp-playlist-script"><?php echo wp_json_encode( $data ) ?></script>
 </div>
 	<?php
 	return ob_get_clean();
@@ -2582,7 +2582,7 @@ function wp_plupload_default_settings() {
 		'limitExceeded' => is_multisite() && ! is_upload_space_available()
 	);
 
-	$script = 'var _wpPluploadSettings = ' . json_encode( $settings ) . ';';
+	$script = 'var _wpPluploadSettings = ' . wp_json_encode( $settings ) . ';';
 
 	if ( $data )
 		$script = "$data\n$script";
