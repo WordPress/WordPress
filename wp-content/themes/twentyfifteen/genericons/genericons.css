@@ -5,7 +5,7 @@
 */
 
 
-/* IE8 and below use EOT and allow cross-site embedding. 
+/* IE8 and below use EOT and allow cross-site embedding.
    IE9 uses WOFF which is base64 encoded to allow cross-site embedding.
    So unfortunately, IE9 will throw a console error, but it'll still work.
    When the font is base64 encoded, cross-site embedding works in Firefox */
