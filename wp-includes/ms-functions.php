@@ -2474,3 +2474,14 @@ function wp_get_sites( $args = array() ) {
 
 	return $site_results;
 }
+
+/**
+ * Determine if the current network should be treated as a trusted network.
+ *
+ * @since 4.1.0
+ *
+ * @return bool False.
+ */
+function wp_is_trusted_network() {
+	return false;
+}
