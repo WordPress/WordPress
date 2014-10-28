@@ -938,14 +938,6 @@ function gallery_shortcode( $attr ) {
 		return $output;
 	}
 
-	// We're trusting author input, so let's at least make sure it looks like a valid orderby statement
-	if ( isset( $attr['orderby'] ) ) {
-		$attr['orderby'] = sanitize_sql_orderby( $attr['orderby'] );
-		if ( ! $attr['orderby'] ) {
-			unset( $attr['orderby'] );
-		}
-	}
-
 	$html5 = current_theme_supports( 'html5', 'gallery' );
 	$atts = shortcode_atts( array(
 		'order'      => 'ASC',
@@ -1056,7 +1048,7 @@ function gallery_shortcode( $attr ) {
 
 	$i = 0;
 	foreach ( $attachments as $id => $attachment ) {
-		
+
 		$attr = ( trim( $attachment->post_excerpt ) ) ? array( 'aria-describedby' => "$selector-$id" ) : '';
 		if ( ! empty( $atts['link'] ) && 'file' === $atts['link'] ) {
 			$image_output = wp_get_attachment_link( $id, $atts['size'], false, false, $attr );
@@ -1218,16 +1210,6 @@ function wp_playlist_shortcode( $attr ) {
 	$output = apply_filters( 'post_playlist', '', $attr );
 	if ( $output != '' ) {
 		return $output;
-	}
-
-	/*
-	 * We're trusting author input, so let's at least make sure it looks
-	 * like a valid orderby statement.
-	 */
-	if ( isset( $attr['orderby'] ) ) {
-		$attr['orderby'] = sanitize_sql_orderby( $attr['orderby'] );
-		if ( ! $attr['orderby'] )
-			unset( $attr['orderby'] );
 	}
 
 	$atts = shortcode_atts( array(
