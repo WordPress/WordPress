@@ -30,22 +30,22 @@ input[type=radio]:checked:before {
   border-color: #829237;
   color: white;
   -webkit-box-shadow: inset 0 1px 0 #bfcd7b, 0 1px 0 rgba(0, 0, 0, 0.15);
-          box-shadow: inset 0 1px 0 #bfcd7b, 0 1px 0 rgba(0, 0, 0, 0.15); }
+  box-shadow: inset 0 1px 0 #bfcd7b, 0 1px 0 rgba(0, 0, 0, 0.15); }
   .wp-core-ui .button-primary:hover, .wp-core-ui .button-primary:focus {
     background: #93a43e;
     border-color: #727f30;
     color: white;
     -webkit-box-shadow: inset 0 1px 0 #b6c669;
-            box-shadow: inset 0 1px 0 #b6c669; }
+    box-shadow: inset 0 1px 0 #b6c669; }
   .wp-core-ui .button-primary:focus {
     -webkit-box-shadow: inset 0 1px 0 #b6c669, 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, 0.8);
-            box-shadow: inset 0 1px 0 #b6c669, 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, 0.8); }
+    box-shadow: inset 0 1px 0 #b6c669, 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, 0.8); }
   .wp-core-ui .button-primary:active {
     background: #829237;
     border-color: #727f30;
     color: white;
     -webkit-box-shadow: inset 0 2px 5px -3px rgba(0, 0, 0, 0.5), 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, 0.8);
-            box-shadow: inset 0 2px 5px -3px rgba(0, 0, 0, 0.5), 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, 0.8); }
+    box-shadow: inset 0 2px 5px -3px rgba(0, 0, 0, 0.5), 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, 0.8); }
   .wp-core-ui .button-primary[disabled], .wp-core-ui .button-primary:disabled, .wp-core-ui .button-primary.button-primary-disabled, .wp-core-ui .button-primary.disabled {
     color: #cfd1c7 !important;
     background: #89993a !important;
@@ -263,12 +263,12 @@ ul#adminmenu a.wp-has-current-submenu:after, ul#adminmenu > li.current > a.curre
 
 .details.attachment {
   -webkit-box-shadow: inset 0 0 0 3px #fff, inset 0 0 0 7px #a3b745;
-          box-shadow: inset 0 0 0 3px #fff, inset 0 0 0 7px #a3b745; }
+  box-shadow: inset 0 0 0 3px #fff, inset 0 0 0 7px #a3b745; }
 
 .attachment.details .check {
   background-color: #a3b745;
   -webkit-box-shadow: 0 0 0 1px #fff, 0 0 0 2px #a3b745;
-          box-shadow: 0 0 0 1px #fff, 0 0 0 2px #a3b745; }
+  box-shadow: 0 0 0 1px #fff, 0 0 0 2px #a3b745; }
 
 .media-selection .attachment.selection.details .thumbnail {
   -webkit-box-shadow: 0px 0px 0px 1px #fff, 0px 0px 0px 3px #a3b745;
@@ -316,7 +316,7 @@ body.more-filters-opened .more-filters:hover:before, body.more-filters-opened .m
   background: #a3b745;
   border-color: #829237;
   -webkit-box-shadow: inset 0 1px 0 #bfcd7b, 0 1px 0 rgba(0, 0, 0, 0.15);
-          box-shadow: inset 0 1px 0 #bfcd7b, 0 1px 0 rgba(0, 0, 0, 0.15); }
+  box-shadow: inset 0 1px 0 #bfcd7b, 0 1px 0 rgba(0, 0, 0, 0.15); }
 
 /* Thickbox: Plugin information */
 #sidemenu a.current {
