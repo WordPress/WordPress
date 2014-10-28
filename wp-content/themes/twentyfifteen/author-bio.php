@@ -24,7 +24,7 @@
 		?>
 	</div><!-- .author-avatar -->
 	<div class="author-description">
-		<h2 class="author-title"><?php echo get_the_author(); ?></h2>
+		<h3 class="author-title"><?php echo get_the_author(); ?></h3>
 		<p class="author-bio">
 			<?php the_author_meta( 'description' ); ?>
 			<a class="author-link" href="<?php echo esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ); ?>" rel="author">

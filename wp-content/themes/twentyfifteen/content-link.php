@@ -14,7 +14,13 @@
 	<?php twentyfifteen_post_thumbnail(); ?>
 
 	<header class="entry-header">
-		<?php the_title( sprintf( '<h1 class="entry-title"><a href="%s" rel="bookmark">', esc_url( twentyfifteen_get_link_url() ) ), '</a></h1>' ); ?>
+		<?php
+			if ( is_single() ) :
+				the_title( sprintf( '<h1 class="entry-title"><a href="%s">', esc_url( twentyfifteen_get_link_url() ) ), '</a></h1>' );
+			else :
+				the_title( sprintf( '<h2 class="entry-title"><a href="%s">', esc_url( twentyfifteen_get_link_url() ) ), '</a></h2>' );
+			endif;
+		?>
 	</header>
 	<!-- .entry-header -->
 

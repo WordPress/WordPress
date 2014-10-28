@@ -1284,7 +1284,9 @@ img.aligncenter {
 	font-family: "Noto Sans", sans-serif;
 	font-size: 22px;
 	font-size: 2.2rem;
+	font-weight: 700;
 	line-height: 1.3636;
+	margin-bottom: 0;
 }
 
 .site-description {
