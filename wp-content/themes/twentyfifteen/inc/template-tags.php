@@ -24,7 +24,7 @@ function twentyfifteen_paging_nav() {
 		return;
 	}
 
- 	// Set up paginated links.
+	// Set up paginated links.
 	$links = paginate_links( array(
 		'prev_text'          => esc_html__( 'Previous', 'twentyfifteen' ),
 		'next_text'          => esc_html__( 'Next', 'twentyfifteen' ),
@@ -62,11 +62,11 @@ function twentyfifteen_post_nav() {
 	$prev_class = $next_class = '';
 
 	if ( $previous && has_post_thumbnail( $previous->ID ) ) {
-		$prev_class = " has-post-thumbnail";
+		$prev_class = ' has-post-thumbnail';
 	}
 
 	if ( $next && has_post_thumbnail( $next->ID ) ) {
-		$next_class = " has-post-thumbnail";
+		$next_class = ' has-post-thumbnail';
 	}
 
 	?>
