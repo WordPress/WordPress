@@ -2619,7 +2619,7 @@ function _scalar_wp_die_handler( $message = '' ) {
  *
  * @param mixed $data    Variable (usually an array or object) to encode as JSON
  * @param int   $options Options to be passed to json_encode(). Default 0.
- * @param int   $depth   Maximum depth to walk through $data. Must be greater than 0, default 512.t
+ * @param int   $depth   Maximum depth to walk through $data. Must be greater than 0, default 512.
  *
  * @return bool|string The JSON encoded string, or false if it cannot be encoded
  */
