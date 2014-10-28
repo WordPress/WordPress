@@ -28,8 +28,8 @@ body {
 	font-weight: 400;
 	font-size: 17px;
 	line-height: 1.6471;
-	max-width: 660px;
 	margin: 8% 10%;
+	max-width: 660px;
 	vertical-align: baseline;
 }
 
@@ -127,8 +127,8 @@ blockquote > p:last-child {
 blockquote cite,
 blockquote small {
 	color: #333;
-	font-size: 17px;
 	font-family: "Noto Sans", sans-serif;
+	font-size: 17px;
 	line-height: 1.6471;
 }
 
@@ -458,16 +458,16 @@ a {
  */
 
 .rtl blockquote {
-	border-right: 4px solid #707070;
 	border-left: none;
+	border-right: 4px solid #707070;
 	margin: 0 -21px 35px 0;
-	padding-right: 17px;
 	padding-left: 0;
+	padding-right: 17px;
 }
 
 .rtl blockquote > blockquote {
-	margin-right: 0;
 	margin-left: auto;
+	margin-right: 0;
 }
 
 .rtl li > ul,

@@ -112,8 +112,8 @@ textarea {
 }
 
 .main-navigation ul ul {
-	border-top: 0;
 	border-bottom: 0;
+	border-top: 0;
 	margin-left: 1em;
 }
 
@@ -292,9 +292,9 @@ img.aligncenter {
 .site-description {
 	background-color: inherit;
 	display: block;
+	filter: alpha(opacity=70);
 	font-size: 16px;
 	margin: 0.5em 7.6897% 7.6897%;
-	filter: alpha(opacity=70);
 }
 
 .widget-area {
