@@ -1712,6 +1712,9 @@ function get_terms( $taxonomies, $args = '' ) {
 		$orderby = 't.name';
 	} else if ( 'slug' == $_orderby ) {
 		$orderby = 't.slug';
+	} else if ( 'include' == $_orderby && ! empty( $args['include'] ) ) {
+		$include = implode( ',', array_map( 'absint', $args['include'] ) );
+		$orderby = "FIELD( t.term_id, $include )";
 	} else if ( 'term_group' == $_orderby ) {
 		$orderby = 't.term_group';
 	} else if ( 'none' == $_orderby ) {
