@@ -311,6 +311,20 @@ function twentyfifteen_nav_description( $item_output, $item, $depth, $args ) {
 add_filter( 'walker_nav_menu_start_el', 'twentyfifteen_nav_description', 10, 4 );
 
 /**
+ * Add a `screen-reader-text` class to the search form's submit button
+ *
+ * @since Twenty Fifteen 1.0
+ *
+ * @param string $html Search form HTML
+ *
+ * @return string Modified search form HTML
+ */
+function twentyfifteen_search_form_modify( $html ) {
+	return str_replace( 'class="search-submit"', 'class="search-submit screen-reader-text"', $html );
+}
+add_filter( 'get_search_form', 'twentyfifteen_search_form_modify' );
+
+/**
  * Implement the Custom Header feature.
  *
  * @since Twenty Fifteen 1.0
