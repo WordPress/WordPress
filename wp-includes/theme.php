@@ -1611,6 +1611,15 @@ function add_theme_support( $feature ) {
 				define( 'BACKGROUND_IMAGE', $args[0]['default-image'] );
 
 			break;
+
+		// Ensure that 'title-tag' is accessible in the admin.
+		case 'title-tag' :
+			// Can be called in functions.php but must happen before wp_loaded, i.e. not in header.php.
+			if ( did_action( 'wp_loaded' ) ) {
+				_doing_it_wrong( "add_theme_support( 'title-tag' )", sprintf( _x( 'You need to add theme support before %s.', 'action name' ), '<code>wp_loaded</code>' ), '4.1.0' );
+
+				return false;
+			}
 	}
 
 	$_wp_theme_features[ $feature ] = $args;
@@ -1762,6 +1771,14 @@ function current_theme_supports( $feature ) {
 
 	if ( !isset( $_wp_theme_features[$feature] ) )
 		return false;
+
+	if ( 'title-tag' == $feature ) {
+		// Don't confirm support unless called internally.
+		$trace = debug_backtrace();
+		if ( ! in_array( $trace[1]['function'], array( '_wp_render_title_tag', 'wp_title' ) ) ) {
+			return false;
+		}
+	}
 
 	// If no args passed then no extra checks need be performed
 	if ( func_num_args() <= 1 )

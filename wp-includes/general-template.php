@@ -731,6 +731,25 @@ function get_bloginfo( $show = '', $filter = 'raw' ) {
 }
 
 /**
+ * Display <title> tag with contents.
+ *
+ * @since 4.1.0
+ * @access private
+ */
+function _wp_render_title_tag() {
+	if ( ! current_theme_supports( 'title-tag' ) ) {
+		return;
+	}
+
+	// This can only work internally on wp_head.
+	if ( ! did_action( 'wp_head' ) && ! doing_action( 'wp_head' ) ) {
+		return;
+	}
+
+	echo '<title>' . wp_title( '|', false, 'right' ) . "</title>\n";
+}
+
+/**
  * Display or retrieve page title for all areas of blog.
  *
  * By default, the page title will display the separator before the page title,
@@ -753,7 +772,7 @@ function get_bloginfo( $show = '', $filter = 'raw' ) {
  * @return string|null String on retrieve, null when displaying.
  */
 function wp_title($sep = '&raquo;', $display = true, $seplocation = '') {
-	global $wp_locale;
+	global $wp_locale, $page, $paged;
 
 	$m = get_query_var('m');
 	$year = get_query_var('year');
@@ -851,6 +870,19 @@ function wp_title($sep = '&raquo;', $display = true, $seplocation = '') {
 		$title = implode( " $sep ", $title_array ) . $prefix;
 	} else {
 		$title = $prefix . implode( " $sep ", $title_array );
+	}
+
+	if ( current_theme_supports( 'title-tag' ) && ! is_feed() ) {
+		$title .= get_bloginfo( 'name', 'display' );
+
+		$site_description = get_bloginfo( 'description', 'display' );
+		if ( $site_description && ( is_home() || is_front_page() ) ) {
+			$title .= " $sep $site_description";
+		}
+
+		if ( ( $paged >= 2 || $page >= 2 ) && ! is_404() ) {
+			$title .= " $sep " . sprintf( __( 'Page %s' ), max( $paged, $page ) );
+		}
 	}
 
 	/**

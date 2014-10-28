@@ -196,6 +196,7 @@ add_filter( 'title_save_pre',           'trim'                                );
 add_filter( 'http_request_host_is_external', 'allowed_http_request_hosts', 10, 2 );
 
 // Actions
+add_action( 'wp_head',             '_wp_render_title_tag',            1     );
 add_action( 'wp_head',             'wp_enqueue_scripts',              1     );
 add_action( 'wp_head',             'feed_links',                      2     );
 add_action( 'wp_head',             'feed_links_extra',                3     );
