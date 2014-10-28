@@ -2188,6 +2188,200 @@ function posts_nav_link( $sep = '', $prelabel = '', $nxtlabel = '' ) {
 }
 
 /**
+ * Return navigation to next/previous post when applicable.
+ *
+ * @since 4.1.0
+ *
+ * @param array $args {
+ *     Optional. Default post navigation arguments.
+ *
+ *     @type string $prev_text Anchor text to display in the previous post link.
+ *                             Default: `<span class="meta-nav">&larr;</span> %title`.
+ *     @type string $next_text Anchor text to display in the next post link.
+ *                             Default: `%title <span class="meta-nav">&rarr;</span>`.
+ * }
+ * @return string Markup for post links.
+ */
+function get_the_post_navigation( $args = array() ) {
+	$args = wp_parse_args( $args, array(
+		'prev_text' => _x( '<span class="meta-nav">&larr;</span> %title', 'Previous post link' ),
+		'next_text' => _x( '%title <span class="meta-nav">&rarr;</span>', 'Next post link' ),
+	) );
+
+	$navigation = '';
+	$previous   = get_previous_post_link( '<div class="nav-previous">%link</div>', $args['prev_text'] );
+	$next       = get_next_post_link( '<div class="nav-next">%link</div>', $args['next_text'] );
+
+	// Only add markup if there's somewhere to navigate to.
+	if ( $next || $previous ) {
+		$navigation = _navigation_markup( $next . $previous, 'post-navigation', __( 'Post navigation' ) );
+	}
+
+	return $navigation;
+}
+
+/**
+ * Display navigation to next/previous post when applicable.
+ *
+ * @since 4.1.0
+ *
+ * @param array $args See {@see get_the_post_navigation()} for available arguments.
+ */
+function the_post_navigation( $args = array() ) {
+	echo get_the_post_navigation( $args );
+}
+
+/**
+ * Return navigation to next/previous set of posts when applicable.
+ *
+ * @since 4.1.0
+ *
+ * @global WP_Query $wp_query WordPress Query object.
+ *
+ * @param array $args {
+ *     Optional. Default paging navigation arguments.
+ *
+ *     @type string $prev_text Anchor text to display in the previous posts link.
+ *                             Default: `<span class="meta-nav">&larr;</span> Older posts`.
+ *     @type string $next_text Anchor text to display in the next posts link.
+ *                             Default: `Newer posts <span class="meta-nav">&rarr;</span>`.
+ * }
+ * @return string Markup for paging links.
+ */
+function get_the_posts_navigation( $args = array() ) {
+	$navigation = '';
+
+	// Don't print empty markup if there's only one page.
+	if ( $GLOBALS['wp_query']->max_num_pages > 1 ) {
+		$args = wp_parse_args( $args, array(
+			'prev_text' => __( '<span class="meta-nav">&larr;</span> Older posts' ),
+			'next_text' => __( 'Newer posts <span class="meta-nav">&rarr;</span>' ),
+		) );
+
+		$next_link = get_next_posts_link( $args['prev_text'] );
+		$prev_link = get_previous_posts_link( $args['next_text'] );
+
+		if ( $next_link ) {
+			$navigation .= '<div class="nav-previous">' . $next_link . '</div>';
+		}
+
+		if ( $prev_link ) {
+			$navigation .= '<div class="nav-next">' . $prev_link . '</div>';
+		}
+
+		$navigation = _navigation_markup( $navigation );
+	}
+
+	return $navigation;
+}
+
+/**
+ * Display navigation to next/previous set of posts when applicable.
+ *
+ * @since 4.1.0
+ *
+ * @param array $args See {@see get_the_posts_navigation()} for available arguments.
+ */
+function the_posts_navigation( $args = array() ) {
+	echo get_the_posts_navigation( $args );
+}
+
+/**
+ * Return a paginated navigation to next/previous set of posts,
+ * when applicable.
+ *
+ * @since 4.1.0
+ *
+ * @param array $args {
+ *     Optional. Default pagination arguments.
+ *
+ *     @type string $base               URL to be used to create the paginated links.
+ *                                      Example: `http://example.com/all_posts.php%_%`
+ *                                      The `%_%` is required and will be replaced by the contents of the
+ *                                      'format' argument.
+ *                                      Default: Current page number link with appended `%_%`.
+ *     @type string $format             Used to replace the page number. Example: `?page=%#%`
+ *                                      The `%#%` is required and will be replaced with the page number.
+ *                                      Default: Current permalink format with appended `%#%`.
+ *     @type int    $total              The total amount of pages. Default: Value of 'max_num_pages' of current query.
+ *     @type int    $current            The current page number. Default: Value of 'paged' query var.
+ *     @type bool   $prev_next          Whether to include previous and next links. Default: true.
+ *     @type string $prev_text          Anchor text to display in the previous posts link. Default: `&larr; Previous`.
+ *     @type string $next_text          Anchor text to display in the next posts link. Default: `Next &rarr;`.
+ *     @type bool   $show_all           Whether to show all pages.
+ *                                      Default: false, shows short list of the pages near the current page.
+ *     @type int    $end_size           Amount of numbers on either the start and the end list edges. Default: 1.
+ *     @type int    $mid_size           Amount of numbers to either side of current page but not including current page.
+ *                                      Default: 1.
+ *     @type array  $add_args           Query vars to be added to the links. Accepts an associative array of arguments.
+ *                                      Default: Empty array.
+ *     @type string $before_page_number Text to prepend to the anchor text. Default: Empty string.
+ *     @type string $after_page_number  Text to append to the anchor text. Default: Empty string.
+ * }
+ * @return string Markup for pagination links.
+ */
+function get_the_pagination( $args = array() ) {
+	$navigation = '';
+
+	// Don't print empty markup if there's only one page.
+	if ( $GLOBALS['wp_query']->max_num_pages > 1 ) {
+		$args = wp_parse_args( $args, array(
+			'mid_size'  => 1,
+			'prev_text' => __( '&larr; Previous' ),
+			'next_text' => __( 'Next &rarr;' ),
+		) );
+		// Make sure we get plain links, so we can work with it.
+		$args['type'] = 'plain';
+
+		// Set up paginated links.
+		$links = paginate_links( $args );
+
+		if ( $links ) {
+			$navigation = _navigation_markup( $links, 'pagination' );
+		}
+	}
+
+	return $navigation;
+}
+
+/**
+ * Display a paginated navigation to next/previous set of posts,
+ * when applicable.
+ *
+ * @since 4.1.0
+ *
+ * @param array $args See {@see get_the_pagination()} for available arguments.
+ */
+function the_pagination( $args = array() ) {
+	echo get_the_pagination( $args );
+}
+
+/**
+ * Wraps passed links in navigational markup.
+ *
+ * @since 4.1.0
+ * @access private
+ *
+ * @param string $links              Navigational links.
+ * @param string $class              Optional. Custom class for nav element. Default: 'paging-navigation'.
+ * @param string $screen_reader_text Optional. Screen reader text for nav element. Default: 'Posts navigation'.
+ * @return string Navigation template tag.
+ */
+function _navigation_markup( $links, $class = 'paging-navigation', $screen_reader_text = '' ) {
+	if ( empty( $screen_reader_text ) ) {
+		$screen_reader_text = __( 'Posts navigation' );
+	}
+
+	$template = '
+	<nav class="navigation %1$s" role="navigation">
+		<h1 class="screen-reader-text">%2$s</h1>
+		<div class="nav-links">%3$s</div>
+	</nav>';
+
+	return sprintf( $template, sanitize_html_class( $class ), esc_html( $screen_reader_text ), $links );
+}
+
+/**
  * Retrieve comments page number link.
  *
  * @since 2.7.0
