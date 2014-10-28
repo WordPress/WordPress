@@ -269,8 +269,6 @@ function _wp_handle_upload( &$file, $overrides, $time, $action ) {
 	$test_type = isset( $overrides['test_type'] ) ? $overrides['test_type'] : true;
 	$mimes = isset( $overrides['mimes'] ) ? $overrides['mimes'] : false;
 
-	$test_upload = isset( $overrides['test_upload'] ) ? $overrides['test_upload'] : true;
-
 	// A correct form post will pass this test.
 	if ( $test_form && ( ! isset( $_POST['action'] ) || ( $_POST['action'] != $action ) ) ) {
 		return call_user_func( $upload_error_handler, $file, __( 'Invalid form submission.' ) );
@@ -293,7 +291,7 @@ function _wp_handle_upload( &$file, $overrides, $time, $action ) {
 
 	// A properly uploaded file will pass this test. There should be no reason to override this one.
 	$test_uploaded_file = 'wp_handle_upload' === $action ? @ is_uploaded_file( $file['tmp_name'] ) : @ is_file( $file['tmp_name'] );
-	if ( $test_upload && ! $test_uploaded_file ) {
+	if ( ! $test_uploaded_file ) {
 		return call_user_func( $upload_error_handler, $file, __( 'Specified file failed upload test.' ) );
 	}
 
