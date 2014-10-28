@@ -88,6 +88,14 @@ if ( ! CUSTOM_TAGS ) {
 			'lang' => true,
 			'xml:lang' => true,
 		),
+		'audio' => array(
+			'autoplay' => true,
+			'controls' => true,
+			'loop' => true,
+			'muted' => true,
+			'preload' => true,
+			'src' => true,
+		),
 		'b' => array(),
 		'big' => array(),
 		'blockquote' => array(
@@ -119,7 +127,7 @@ if ( ! CUSTOM_TAGS ) {
 			'valign' => true,
 			'width' => true,
 		),
-                'colgroup' => array(
+		'colgroup' => array(
 			'align' => true,
 			'char' => true,
 			'charoff' => true,
@@ -372,6 +380,13 @@ if ( ! CUSTOM_TAGS ) {
 			'charoff' => true,
 			'valign' => true,
 		),
+		'track' => array(
+			'default' => true,
+			'kind' => true,
+			'label' => true,
+			'src' => true,
+			'srclang' => true,
+		),
 		'tt' => array(),
 		'u' => array(),
 		'ul' => array(
@@ -382,6 +397,17 @@ if ( ! CUSTOM_TAGS ) {
 			'type' => true,
 		),
 		'var' => array(),
+		'video' => array(
+			'autoplay' => true,
+			'controls' => true,
+			'height' => true,
+			'loop' => true,
+			'muted' => true,
+			'poster' => true,
+			'preload' => true,
+			'src' => true,
+			'width' => true,
+		),
 	);
 
 	/**
