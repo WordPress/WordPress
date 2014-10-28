@@ -828,6 +828,8 @@ i.mce-i-hr:before {
 
 .wp-switch-editor {
 	float: left;
+	-webkit-box-sizing: content-box;
+	-moz-box-sizing: content-box;
 	box-sizing: content-box;
 	position: relative;
 	top: 1px;
