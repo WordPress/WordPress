@@ -2613,23 +2613,24 @@ function _scalar_wp_die_handler( $message = '' ) {
 }
 
 /**
- * Encode a variable into JSON, with some sanity checks
+ * Encode a variable into JSON, with some sanity checks.
  *
  * @since 4.1.0
  *
- * @param mixed $data    Variable (usually an array or object) to encode as JSON
+ * @param mixed $data    Variable (usually an array or object) to encode as JSON.
  * @param int   $options Options to be passed to json_encode(). Default 0.
  * @param int   $depth   Maximum depth to walk through $data. Must be greater than 0, default 512.
- *
- * @return bool|string The JSON encoded string, or false if it cannot be encoded
+ * @return bool|string The JSON encoded string, or false if it cannot be encoded.
  */
 function wp_json_encode( $data, $options = 0, $depth = 512 ) {
-	// json_encode has had extra params added over the years.
-	// $options was added in 5.3, and $depth in 5.5.
-	// We need to make sure we call it with the correct arguments.
+	/*
+	 * json_encode() has had extra params added over the years.
+	 * $options was added in 5.3, and $depth in 5.5.
+	 * We need to make sure we call it with the correct arguments.
+	 */
 	if ( version_compare( PHP_VERSION, '5.5', '>=' ) ) {
 		$args = array( $data, $options, $depth );
-	} else if ( version_compare( PHP_VERSION, '5.3', '>=' ) ) {
+	} elseif ( version_compare( PHP_VERSION, '5.3', '>=' ) ) {
 		$args = array( $data, $options );
 	} else {
 		$args = array( $data );
@@ -2637,8 +2638,8 @@ function wp_json_encode( $data, $options = 0, $depth = 512 ) {
 
 	$json = call_user_func_array( 'json_encode', $args );
 
+	// If json_encode() was successful, no need to do more sanity checking.
 	if ( false !== $json ) {
-		// If json_encode was successful, no need to do more sanity checking
 		return $json;
 	}
 
@@ -2652,7 +2653,17 @@ function wp_json_encode( $data, $options = 0, $depth = 512 ) {
 }
 
 /**
- * @ignore
+ * Perform sanity checks on data that shall be encoded to JSON.
+ *
+ * @see wp_json_encode()
+ *
+ * @since 4.1.0
+ * @access private
+ * @internal
+ *
+ * @param mixed $data  Variable (usually an array or object) to encode as JSON.
+ * @param int   $depth Maximum depth to walk through $data. Must be greater than 0.
+ * @return mixed The sanitized data that shall be encoded to JSON.
  */
 function _wp_json_sanity_check( $data, $depth ) {
 	if ( $depth < 0 ) {
@@ -2669,16 +2680,16 @@ function _wp_json_sanity_check( $data, $depth ) {
 				$clean_id = $id;
 			}
 
-			// Check the element type, so that we're only recursing if we really have to
+			// Check the element type, so that we're only recursing if we really have to.
 			if ( is_array( $el ) || is_object( $el ) ) {
 				$output[ $clean_id ] = _wp_json_sanity_check( $el, $depth - 1 );
-			} else if ( is_string( $el ) ) {
+			} elseif ( is_string( $el ) ) {
 				$output[ $clean_id ] = _wp_json_convert_string( $el );
 			} else {
 				$output[ $clean_id ] = $el;
 			}
 		}
-	} else if ( is_object( $data ) ) {
+	} elseif ( is_object( $data ) ) {
 		$output = new stdClass;
 		foreach ( $data as $id => $el ) {
 			if ( is_string( $id ) ) {
@@ -2689,13 +2700,13 @@ function _wp_json_sanity_check( $data, $depth ) {
 
 			if ( is_array( $el ) || is_object( $el ) ) {
 				$output->$clean_id = _wp_json_sanity_check( $el, $depth - 1 );
-			} else if ( is_string( $el ) ) {
+			} elseif ( is_string( $el ) ) {
 				$output->$clean_id = _wp_json_convert_string( $el );
 			} else {
 				$output->$clean_id = $el;
 			}
 		}
-	} else if ( is_string( $data ) ) {
+	} elseif ( is_string( $data ) ) {
 		return _wp_json_convert_string( $data );
 	} else {
 		return $data;
@@ -2705,7 +2716,16 @@ function _wp_json_sanity_check( $data, $depth ) {
 }
 
 /**
- * @ignore
+ * Convert a string to UTF-8, so that it can be safely encoded to JSON.
+ *
+ * @see _wp_json_sanity_check()
+ *
+ * @since 4.1.0
+ * @access private
+ * @internal
+ *
+ * @param string $string The string which is to be converted.
+ * @return string The checked string.
  */
 function _wp_json_convert_string( $string ) {
 	static $use_mb = null;
