@@ -1681,7 +1681,7 @@
 				widgetNumber = parsedWidgetId.number,
 				widgetIdBase = parsedWidgetId.id_base,
 				widget = api.Widgets.availableWidgets.findWhere( {id_base: widgetIdBase} ),
-				settingId, isExistingWidget, widgetFormControl,	sidebarWidgets,	settingArgs;
+				settingId, isExistingWidget, widgetFormControl, sidebarWidgets, settingArgs, setting;
 
 			if ( ! widget ) {
 				return false;
@@ -1738,7 +1738,8 @@
 					transport: 'refresh',
 					previewer: this.setting.previewer
 				};
-				api.create( settingId, settingId, {}, settingArgs );
+				setting = api.create( settingId, settingId, '', settingArgs );
+				setting.set( {} ); // mark dirty, changing from '' to {}
 			}
 
 			controlConstructor = api.controlConstructor[controlType];
