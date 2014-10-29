@@ -11,7 +11,7 @@
 			settings = _wpmejsSettings;
 		}
 
-		settings.success = function (mejs) {
+		settings.success = settings.success || function (mejs) {
 			var autoplay, loop;
 
 			if ( 'flash' === mejs.pluginType ) {
