@@ -97,6 +97,10 @@
 	height: auto;
 }
 
+.wp_attachment_holder .wp-video {
+	margin-top: 18px;
+}
+
 video.wp-video-shortcode,
 .wp-video-shortcode video {
 	max-width: 100%;
