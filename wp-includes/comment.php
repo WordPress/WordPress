@@ -304,6 +304,8 @@ class WP_Comment_Query {
 			'post_type' => '',
 			'status' => 'all',
 			'type' => '',
+			'type__in' => '',
+			'type__not_in' => '',
 			'user_id' => '',
 			'search' => '',
 			'count' => false,
@@ -520,12 +522,43 @@ class WP_Comment_Query {
 			$where[] = $wpdb->prepare( 'comment_karma = %d', $this->query_vars['karma'] );
 		}
 
-		if ( 'comment' == $this->query_vars['type'] ) {
-			$where[] = "comment_type = ''";
-		} elseif( 'pings' == $this->query_vars['type'] ) {
-			$where[] = 'comment_type IN ("pingback", "trackback")';
-		} elseif ( ! empty( $this->query_vars['type'] ) ) {
-			$where[] = $wpdb->prepare( 'comment_type = %s', $this->query_vars['type'] );
+		// Filtering by comment_type: 'type', 'type__in', 'type__not_in'.
+		$raw_types = array(
+			'IN' => array_merge( (array) $this->query_vars['type'], (array) $this->query_vars['type__in'] ),
+			'NOT IN' => (array) $this->query_vars['type__not_in'],
+		);
+
+		$comment_types = array();
+		foreach ( $raw_types as $operator => $_raw_types ) {
+			$_raw_types = array_unique( $_raw_types );
+
+			foreach ( $_raw_types as $type ) {
+				switch ( $type ) {
+					// An empty translates to 'all', for backward compatibility
+					case '':
+					case 'all' :
+						break;
+
+					case 'comment':
+					case 'comments':
+						$comment_types[ $operator ][] = "''";
+						break;
+
+					case 'pings':
+						$comment_types[ $operator ][] = "'pingback'";
+						$comment_types[ $operator ][] = "'trackback'";
+						break;
+
+					default:
+						$comment_types[ $operator ][] = $wpdb->prepare( '%s', $type );
+						break;
+				}
+			}
+
+			if ( ! empty( $comment_types[ $operator ] ) ) {
+				$types_sql = implode( ', ', $comment_types[ $operator ] );
+				$where[] = "comment_type $operator ($types_sql)";
+			}
 		}
 
 		if ( '' !== $this->query_vars['parent'] ) {
