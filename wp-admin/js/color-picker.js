@@ -16,6 +16,7 @@
 			clear: false,
 			hide: true,
 			palettes: true,
+			width: 255,
 			mode: 'hsv'
 		},
 		_create: function() {
@@ -52,7 +53,7 @@
 			el.iris( {
 				target: self.pickerContainer,
 				hide: self.options.hide,
-				width: 255,
+				width: self.options.width,
 				mode: self.options.mode,
 				palettes: self.options.palettes,
 				change: function( event, ui ) {
