@@ -2417,6 +2417,16 @@ function wp_delete_term( $term, $taxonomy, $args = array() ) {
 		$force_default = $args['force_default'];
 	}
 
+	/**
+	 * Fires when deleting a term, before any modifications are made to posts or terms.
+	 *
+	 * @since 4.1.0
+	 *
+	 * @param int $term Term ID
+	 * @param string $taxonomy Taxonomy Name
+	 */
+	do_action( 'pre_delete_term', $term, $taxonomy );
+
 	// Update children to point to new parent
 	if ( is_taxonomy_hierarchical($taxonomy) ) {
 		$term_obj = get_term($term, $taxonomy);
