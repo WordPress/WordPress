@@ -74,6 +74,7 @@ class WP_Customize_Control {
 	public $input_attrs = array();
 
 	/**
+	 * @deprecated It is better to just call the json() method
 	 * @access public
 	 * @var array
 	 */
@@ -218,9 +219,24 @@ class WP_Customize_Control {
 		}
 
 		$this->json['type']        = $this->type;
+		$this->json['priority']    = $this->priority;
+		$this->json['active']      = $this->active();
+		$this->json['section']     = $this->section;
+		$this->json['content']     = $this->get_content();
 		$this->json['label']       = $this->label;
 		$this->json['description'] = $this->description;
-		$this->json['active']      = $this->active();
+	}
+
+	/**
+	 * Get the data to export to the client via JSON.
+	 *
+	 * @since 4.1.0
+	 *
+	 * @return array
+	 */
+	public function json() {
+		$this->to_json();
+		return $this->json;
 	}
 
 	/**
@@ -241,6 +257,21 @@ class WP_Customize_Control {
 			return false;
 
 		return true;
+	}
+
+	/**
+	 * Get the control's content for insertion into the Customizer pane.
+	 *
+	 * @since 4.1.0
+	 *
+	 * @return string
+	 */
+	public final function get_content() {
+		ob_start();
+		$this->maybe_render();
+		$template = trim( ob_get_contents() );
+		ob_end_clean();
+		return $template;
 	}
 
 	/**
@@ -1073,6 +1104,7 @@ class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control {
 /**
  * Widget Area Customize Control Class
  *
+ * @since 3.9.0
  */
 class WP_Widget_Area_Customize_Control extends WP_Customize_Control {
 	public $type = 'sidebar_widgets';
@@ -1114,6 +1146,8 @@ class WP_Widget_Area_Customize_Control extends WP_Customize_Control {
 
 /**
  * Widget Form Customize Control Class
+ *
+ * @since 3.9.0
  */
 class WP_Widget_Form_Customize_Control extends WP_Customize_Control {
 	public $type = 'widget_form';

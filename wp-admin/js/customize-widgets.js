@@ -404,6 +404,23 @@
 	 * @augments wp.customize.Control
 	 */
 	api.Widgets.WidgetControl = api.Control.extend({
+		defaultExpandedArguments: {
+			duration: 'fast'
+		},
+
+		initialize: function ( id, options ) {
+			var control = this;
+			api.Control.prototype.initialize.call( control, id, options );
+			control.expanded = new api.Value();
+			control.expandedArgumentsQueue = [];
+			control.expanded.bind( function ( expanded ) {
+				var args = control.expandedArgumentsQueue.shift();
+				args = $.extend( {}, control.defaultExpandedArguments, args );
+				control.onChangeExpanded( expanded, args );
+			});
+			control.expanded.set( false );
+		},
+
 		/**
 		 * Set up the control
 		 */
@@ -529,13 +546,13 @@
 				if ( sidebarWidgetsControl.isReordering ) {
 					return;
 				}
-				self.toggleForm();
+				self.expanded( ! self.expanded() );
 			} );
 
 			$closeBtn = this.container.find( '.widget-control-close' );
 			$closeBtn.on( 'click', function( e ) {
 				e.preventDefault();
-				self.collapseForm();
+				self.collapse();
 				self.container.find( '.widget-top .widget-action:first' ).focus(); // keyboard accessibility
 			} );
 		},
@@ -777,9 +794,14 @@
 		 * Overrides api.Control.toggle()
 		 *
 		 * @param {Boolean} active
+		 * @param {Object} args
 		 */
-		toggle: function ( active ) {
+		onChangeActive: function ( active, args ) {
+			// Note: there is a second 'args' parameter being passed, merged on top of this.defaultActiveArguments
 			this.container.toggleClass( 'widget-rendered', active );
+			if ( args.completeCallback ) {
+				args.completeCallback();
+			}
 		},
 
 		/**
@@ -1101,51 +1123,90 @@
 		 * Expand the accordion section containing a control
 		 */
 		expandControlSection: function() {
-			var $section = this.container.closest( '.accordion-section' );
-
-			if ( ! $section.hasClass( 'open' ) ) {
-				$section.find( '.accordion-section-title:first' ).trigger( 'click' );
-			}
+			api.Control.prototype.expand.call( this );
 		},
+
+		/**
+		 * @param {Boolean} expanded
+		 * @param {Object} [params]
+		 * @returns {Boolean} false if state already applied
+		 */
+		_toggleExpanded: api.Section.prototype._toggleExpanded,
+
+		/**
+		 * @param {Object} [params]
+		 * @returns {Boolean} false if already expanded
+		 */
+		expand: api.Section.prototype.expand,
 
 		/**
 		 * Expand the widget form control
+		 *
+		 * @deprecated alias of expand()
 		 */
 		expandForm: function() {
-			this.toggleForm( true );
+			this.expand();
 		},
 
 		/**
+		 * @param {Object} [params]
+		 * @returns {Boolean} false if already collapsed
+		 */
+		collapse: api.Section.prototype.collapse,
+
+		/**
 		 * Collapse the widget form control
+		 *
+		 * @deprecated alias of expand()
 		 */
 		collapseForm: function() {
-			this.toggleForm( false );
+			this.collapse();
 		},
 
 		/**
 		 * Expand or collapse the widget control
 		 *
+		 * @deprecated this is poor naming, and it is better to directly set control.expanded( showOrHide )
+		 *
 		 * @param {boolean|undefined} [showOrHide] If not supplied, will be inverse of current visibility
 		 */
 		toggleForm: function( showOrHide ) {
-			var self = this, $widget, $inside, complete;
-
-			$widget = this.container.find( 'div.widget:first' );
-			$inside = $widget.find( '.widget-inside:first' );
 			if ( typeof showOrHide === 'undefined' ) {
-				showOrHide = ! $inside.is( ':visible' );
+				showOrHide = ! this.expanded();
 			}
+			this.expanded( showOrHide );
+		},
 
-			// Already expanded or collapsed, so noop
-			if ( $inside.is( ':visible' ) === showOrHide ) {
+		/**
+		 * Respond to change in the expanded state.
+		 *
+		 * @param {Boolean} expanded
+		 * @param {Object} args  merged on top of this.defaultActiveArguments
+		 */
+		onChangeExpanded: function ( expanded, args ) {
+			var self = this, $widget, $inside, complete, prevComplete;
+
+			// If the expanded state is unchanged only manipulate container expanded states
+			if ( args.unchanged ) {
+				if ( expanded ) {
+					api.Control.prototype.expand.call( self, {
+						completeCallback:  args.completeCallback
+					});
+				}
 				return;
 			}
 
-			if ( showOrHide ) {
+			$widget = this.container.find( 'div.widget:first' );
+			$inside = $widget.find( '.widget-inside:first' );
+
+			if ( expanded ) {
+
+				self.expandControlSection();
+
 				// Close all other widget controls before expanding this one
 				api.control.each( function( otherControl ) {
 					if ( self.params.type === otherControl.params.type && self !== otherControl ) {
-						otherControl.collapseForm();
+						otherControl.collapse();
 					}
 				} );
 
@@ -1154,44 +1215,49 @@
 					self.container.addClass( 'expanded' );
 					self.container.trigger( 'expanded' );
 				};
+				if ( args.completeCallback ) {
+					prevComplete = complete;
+					complete = function () {
+						prevComplete();
+						args.completeCallback();
+					};
+				}
 
 				if ( self.params.is_wide ) {
-					$inside.fadeIn( 'fast', complete );
+					$inside.fadeIn( args.duration, complete );
 				} else {
-					$inside.slideDown( 'fast', complete );
+					$inside.slideDown( args.duration, complete );
 				}
 
 				self.container.trigger( 'expand' );
 				self.container.addClass( 'expanding' );
 			} else {
+
 				complete = function() {
 					self.container.removeClass( 'collapsing' );
 					self.container.removeClass( 'expanded' );
 					self.container.trigger( 'collapsed' );
 				};
+				if ( args.completeCallback ) {
+					prevComplete = complete;
+					complete = function () {
+						prevComplete();
+						args.completeCallback();
+					};
+				}
 
 				self.container.trigger( 'collapse' );
 				self.container.addClass( 'collapsing' );
 
 				if ( self.params.is_wide ) {
-					$inside.fadeOut( 'fast', complete );
+					$inside.fadeOut( args.duration, complete );
 				} else {
-					$inside.slideUp( 'fast', function() {
+					$inside.slideUp( args.duration, function() {
 						$widget.css( { width:'', margin:'' } );
 						complete();
 					} );
 				}
 			}
-		},
-
-		/**
-		 * Expand the containing sidebar section, expand the form, and focus on
-		 * the first input in the control
-		 */
-		focus: function() {
-			this.expandControlSection();
-			this.expandForm();
-			this.container.find( '.widget-content :focusable:first' ).focus();
 		},
 
 		/**
@@ -1304,6 +1370,7 @@
 	 * @augments wp.customize.Control
 	 */
 	api.Widgets.SidebarControl = api.Control.extend({
+
 		/**
 		 * Set up the control
 		 */
@@ -1325,7 +1392,7 @@
 				registeredSidebar = api.Widgets.registeredSidebars.get( this.params.sidebar_id );
 
 			this.setting.bind( function( newWidgetIds, oldWidgetIds ) {
-				var widgetFormControls, $sidebarWidgetsAddControl, finalControlContainers, removedWidgetIds;
+				var widgetFormControls, removedWidgetIds, priority;
 
 				removedWidgetIds = _( oldWidgetIds ).difference( newWidgetIds );
 
@@ -1350,21 +1417,16 @@
 				widgetFormControls.sort( function( a, b ) {
 					var aIndex = _.indexOf( newWidgetIds, a.params.widget_id ),
 						bIndex = _.indexOf( newWidgetIds, b.params.widget_id );
+					return aIndex - bIndex;
+				});
 
-					if ( aIndex === bIndex ) {
-						return 0;
-					}
-
-					return aIndex < bIndex ? -1 : 1;
-				} );
-
-				// Append the controls to put them in the right order
-				finalControlContainers = _( widgetFormControls ).map( function( widgetFormControls ) {
-					return widgetFormControls.container[0];
-				} );
-
-				$sidebarWidgetsAddControl = self.$sectionContent.find( '.customize-control-sidebar_widgets' );
-				$sidebarWidgetsAddControl.before( finalControlContainers );
+				priority = 0;
+				_( widgetFormControls ).each( function ( control ) {
+					control.priority( priority );
+					control.section( self.section() );
+					priority += 1;
+				});
+				self.priority( priority ); // Make sure sidebar control remains at end
 
 				// Re-sort widget form controls (including widgets form other sidebars newly moved here)
 				self._applyCardinalOrderClassNames();
@@ -1434,36 +1496,9 @@
 			// Update the model with whether or not the sidebar is rendered
 			self.active.bind( function ( active ) {
 				registeredSidebar.set( 'is_rendered', active );
+				api.section( self.section.get() ).active( active );
 			} );
-		},
-
-		/**
-		 * Show the sidebar section when it becomes visible.
-		 *
-		 * Overrides api.Control.toggle()
-		 *
-		 * @param {Boolean} active
-		 */
-		toggle: function ( active ) {
-			var $section, sectionSelector;
-
-			sectionSelector = '#accordion-section-sidebar-widgets-' + this.params.sidebar_id;
-			$section = $( sectionSelector );
-
-			if ( active ) {
-				$section.stop().slideDown( function() {
-					$( this ).css( 'height', 'auto' ); // so that the .accordion-section-content won't overflow
-				} );
-
-			} else {
-				// Make sure that hidden sections get closed first
-				if ( $section.hasClass( 'open' ) ) {
-					// it would be nice if accordionSwitch() in accordion.js was public
-					$section.find( '.accordion-section-title' ).trigger( 'click' );
-				}
-
-				$section.stop().slideUp();
-			}
+			api.section( self.section.get() ).active( self.active() );
 		},
 
 		/**
@@ -1500,12 +1535,18 @@
 			this.$controlSection.find( '.accordion-section-title' ).droppable({
 				accept: '.customize-control-widget_form',
 				over: function() {
-					if ( ! self.$controlSection.hasClass( 'open' ) ) {
-						self.$controlSection.addClass( 'open' );
-						self.$sectionContent.toggle( false ).slideToggle( 150, function() {
-							self.$sectionContent.sortable( 'refreshPositions' );
-						} );
-					}
+					var section = api.section( self.section.get() );
+					section.expand({
+						allowMultiple: true, // Prevent the section being dragged from to be collapsed
+						completeCallback: function () {
+							// @todo It is not clear when refreshPositions should be called on which sections, or if it is even needed
+							api.section.each( function ( otherSection ) {
+								if ( otherSection.container.find( '.customize-control-sidebar_widgets' ).length ) {
+									otherSection.container.find( '.accordion-section-content:first' ).sortable( 'refreshPositions' );
+								}
+							} );
+						}
+					});
 				}
 			});
 
@@ -1548,16 +1589,30 @@
 		 * Add classes to the widget_form controls to assist with styling
 		 */
 		_applyCardinalOrderClassNames: function() {
-			this.$sectionContent.find( '.customize-control-widget_form' )
-				.removeClass( 'first-widget' )
-				.removeClass( 'last-widget' )
-				.find( '.move-widget-down, .move-widget-up' ).prop( 'tabIndex', 0 );
+			var widgetControls = [];
+			_.each( this.setting(), function ( widgetId ) {
+				var widgetControl = api.Widgets.getWidgetFormControlForWidget( widgetId );
+				if ( widgetControl ) {
+					widgetControls.push( widgetControl );
+				}
+			});
 
-			this.$sectionContent.find( '.customize-control-widget_form:first' )
+			if ( ! widgetControls.length ) {
+				return;
+			}
+
+			$( widgetControls ).each( function () {
+				$( this.container )
+					.removeClass( 'first-widget' )
+					.removeClass( 'last-widget' )
+					.find( '.move-widget-down, .move-widget-up' ).prop( 'tabIndex', 0 );
+			});
+
+			_.first( widgetControls ).container
 				.addClass( 'first-widget' )
 				.find( '.move-widget-up' ).prop( 'tabIndex', -1 );
 
-			this.$sectionContent.find( '.customize-control-widget_form:last' )
+			_.last( widgetControls ).container
 				.addClass( 'last-widget' )
 				.find( '.move-widget-down' ).prop( 'tabIndex', -1 );
 		},
@@ -1571,6 +1626,8 @@
 		 * Enable/disable the reordering UI
 		 *
 		 * @param {Boolean} showOrHide to enable/disable reordering
+		 *
+		 * @todo We should have a reordering state instead and rename this to onChangeReordering
 		 */
 		toggleReordering: function( showOrHide ) {
 			showOrHide = Boolean( showOrHide );
@@ -1584,7 +1641,7 @@
 
 			if ( showOrHide ) {
 				_( this.getWidgetFormControls() ).each( function( formControl ) {
-					formControl.collapseForm();
+					formControl.collapse();
 				} );
 
 				this.$sectionContent.find( '.first-widget .move-widget' ).focus();
@@ -1619,7 +1676,7 @@
 		 * @returns {object|false} widget_form control instance, or false on error
 		 */
 		addWidget: function( widgetId ) {
-			var self = this, controlHtml, $widget, controlType = 'widget_form', $control, controlConstructor,
+			var self = this, controlHtml, $widget, controlType = 'widget_form', controlContainer, controlConstructor,
 				parsedWidgetId = parseWidgetId( widgetId ),
 				widgetNumber = parsedWidgetId.number,
 				widgetIdBase = parsedWidgetId.id_base,
@@ -1651,30 +1708,28 @@
 
 			$widget = $( controlHtml );
 
-			$control = $( '<li/>' )
+			controlContainer = $( '<li/>' )
 				.addClass( 'customize-control' )
 				.addClass( 'customize-control-' + controlType )
 				.append( $widget );
 
 			// Remove icon which is visible inside the panel
-			$control.find( '> .widget-icon' ).remove();
+			controlContainer.find( '> .widget-icon' ).remove();
 
 			if ( widget.get( 'is_multi' ) ) {
-				$control.find( 'input[name="widget_number"]' ).val( widgetNumber );
-				$control.find( 'input[name="multi_number"]' ).val( widgetNumber );
+				controlContainer.find( 'input[name="widget_number"]' ).val( widgetNumber );
+				controlContainer.find( 'input[name="multi_number"]' ).val( widgetNumber );
 			}
 
-			widgetId = $control.find( '[name="widget-id"]' ).val();
+			widgetId = controlContainer.find( '[name="widget-id"]' ).val();
 
-			$control.hide(); // to be slid-down below
+			controlContainer.hide(); // to be slid-down below
 
 			settingId = 'widget_' + widget.get( 'id_base' );
 			if ( widget.get( 'is_multi' ) ) {
 				settingId += '[' + widgetNumber + ']';
 			}
-			$control.attr( 'id', 'customize-control-' + settingId.replace( /\]/g, '' ).replace( /\[/g, '-' ) );
-
-			this.container.after( $control );
+			controlContainer.attr( 'id', 'customize-control-' + settingId.replace( /\]/g, '' ).replace( /\[/g, '-' ) );
 
 			// Only create setting if it doesn't already exist (if we're adding a pre-existing inactive widget)
 			isExistingWidget = api.has( settingId );
@@ -1692,6 +1747,7 @@
 					settings: {
 						'default': settingId
 					},
+					content: controlContainer,
 					sidebar_id: self.params.sidebar_id,
 					widget_id: widgetId,
 					widget_id_base: widget.get( 'id_base' ),
@@ -1731,9 +1787,9 @@
 				this.setting( sidebarWidgets );
 			}
 
-			$control.slideDown( function() {
+			controlContainer.slideDown( function() {
 				if ( isExistingWidget ) {
-					widgetFormControl.expandForm();
+					widgetFormControl.expand();
 					widgetFormControl.updateWidget( {
 						instance: widgetFormControl.setting(),
 						complete: function( error ) {

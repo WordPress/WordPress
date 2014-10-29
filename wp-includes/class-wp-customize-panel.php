@@ -83,6 +83,28 @@ class WP_Customize_Panel {
 	public $sections;
 
 	/**
+	 * @since 4.1.0
+	 * @access public
+	 * @var string
+	 */
+	public $type;
+
+	/**
+	 * Callback.
+	 *
+	 * @since 4.1.0
+	 * @access public
+	 *
+	 * @see WP_Customize_Section::active()
+	 *
+	 * @var callable Callback is called with one argument, the instance of
+	 *               WP_Customize_Section, and returns bool to indicate whether
+	 *               the section is active (such as it relates to the URL
+	 *               currently being previewed).
+	 */
+	public $active_callback = '';
+
+	/**
 	 * Constructor.
 	 *
 	 * Any supplied $args override class property defaults.
@@ -103,10 +125,67 @@ class WP_Customize_Panel {
 
 		$this->manager = $manager;
 		$this->id = $id;
+		if ( empty( $this->active_callback ) ) {
+			$this->active_callback = array( $this, 'active_callback' );
+		}
 
 		$this->sections = array(); // Users cannot customize the $sections array.
 
 		return $this;
+	}
+
+	/**
+	 * Check whether panel is active to current Customizer preview.
+	 *
+	 * @since 4.1.0
+	 * @access public
+	 *
+	 * @return bool Whether the panel is active to the current preview.
+	 */
+	public final function active() {
+		$panel = $this;
+		$active = call_user_func( $this->active_callback, $this );
+
+		/**
+		 * Filter response of WP_Customize_Panel::active().
+		 *
+		 * @since 4.1.0
+		 *
+		 * @param bool                 $active  Whether the Customizer panel is active.
+		 * @param WP_Customize_Panel $panel WP_Customize_Panel instance.
+		 */
+		$active = apply_filters( 'customize_panel_active', $active, $panel );
+
+		return $active;
+	}
+
+	/**
+	 * Default callback used when invoking WP_Customize_Panel::active().
+	 *
+	 * Subclasses can override this with their specific logic, or they may
+	 * provide an 'active_callback' argument to the constructor.
+	 *
+	 * @since 4.1.0
+	 * @access public
+	 *
+	 * @return bool Always true.
+	 */
+	public function active_callback() {
+		return true;
+	}
+
+	/**
+	 * Gather the parameters passed to client JavaScript via JSON.
+	 *
+	 * @since 4.1.0
+	 *
+	 * @return array The array to be exported to the client as JSON
+	 */
+	public function json() {
+		$array = wp_array_slice_assoc( (array) $this, array( 'title', 'description', 'priority', 'type' ) );
+		$array['content'] = $this->get_content();
+		$array['active'] = $this->active();
+		return $array;
 	}
 
 	/**
@@ -127,6 +206,21 @@ class WP_Customize_Panel {
 		}
 
 		return true;
+	}
+
+	/**
+	 * Get the panel's content template for insertion into the Customizer pane.
+	 *
+	 * @since 4.1.0
+	 *
+	 * @return string
+	 */
+	public final function get_content() {
+		ob_start();
+		$this->maybe_render();
+		$template = trim( ob_get_contents() );
+		ob_end_clean();
+		return $template;
 	}
 
 	/**
@@ -189,7 +283,7 @@ class WP_Customize_Panel {
 	 */
 	protected function render_content() {
 		?>
-		<li class="accordion-section control-section<?php if ( empty( $this->description ) ) echo ' cannot-expand'; ?>">
+		<li class="panel-meta accordion-section control-section<?php if ( empty( $this->description ) ) { echo ' cannot-expand'; } ?>">
 			<div class="accordion-section-title" tabindex="0">
 				<span class="preview-notice"><?php
 					/* translators: %s is the site/panel title in the Customizer */
@@ -203,8 +297,5 @@ class WP_Customize_Panel {
 			<?php endif; ?>
 		</li>
 		<?php
-		foreach ( $this->sections as $section ) {
-			$section->maybe_render();
-		}
 	}
 }

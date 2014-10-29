@@ -498,6 +498,8 @@ final class WP_Customize_Manager {
 		$settings = array(
 			'values'  => array(),
 			'channel' => wp_unslash( $_POST['customize_messenger_channel'] ),
+			'activePanels' => array(),
+			'activeSections' => array(),
 			'activeControls' => array(),
 		);
 
@@ -510,6 +512,12 @@ final class WP_Customize_Manager {
 
 		foreach ( $this->settings as $id => $setting ) {
 			$settings['values'][ $id ] = $setting->js_value();
+		}
+		foreach ( $this->panels as $id => $panel ) {
+			$settings['activePanels'][ $id ] = $panel->active();
+		}
+		foreach ( $this->sections as $id => $section ) {
+			$settings['activeSections'][ $id ] = $section->active();
 		}
 		foreach ( $this->controls as $id => $control ) {
 			$settings['activeControls'][ $id ] = $control->active();
@@ -911,11 +919,11 @@ final class WP_Customize_Manager {
 
 			if ( ! $section->panel ) {
 				// Top-level section.
-				$sections[] = $section;
+				$sections[ $section->id ] = $section;
 			} else {
 				// This section belongs to a panel.
 				if ( isset( $this->panels [ $section->panel ] ) ) {
-					$this->panels[ $section->panel ]->sections[] = $section;
+					$this->panels[ $section->panel ]->sections[ $section->id ] = $section;
 				}
 			}
 		}
@@ -932,8 +940,8 @@ final class WP_Customize_Manager {
 				continue;
 			}
 
-			usort( $panel->sections, array( $this, '_cmp_priority' ) );
-			$panels[] = $panel;
+			uasort( $panel->sections, array( $this, '_cmp_priority' ) );
+			$panels[ $panel->id ] = $panel;
 		}
 		$this->panels = $panels;
 
