@@ -128,14 +128,21 @@ function check_comment($author, $email, $url, $comment, $user_ip, $user_agent, $
  * Retrieve the approved comments for post $post_id.
  *
  * @since 2.0.0
- * @uses $wpdb
  *
- * @param int $post_id The ID of the post
- * @return array $comments The approved comments
+ * @param  int   $post_id  The ID of the post.
+ * @param  array $args     Optional. WP_Comment_Query args.
+ * @return array $comments The approved comments.
  */
-function get_approved_comments($post_id) {
-	global $wpdb;
-	return $wpdb->get_results($wpdb->prepare("SELECT * FROM $wpdb->comments WHERE comment_post_ID = %d AND comment_approved = '1' ORDER BY comment_date", $post_id));
+function get_approved_comments( $post_id = 0, $args = array() ) {
+	$defaults = array(
+		'status'  => 1,
+		'post_id' => $post_id,
+		'order'   => 'ASC',
+	);
+	$r = wp_parse_args( $args, $defaults );
+
+	$query = new WP_Comment_Query;
+	return $query->query( $r );
 }
 
 /**
