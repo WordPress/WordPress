@@ -36,9 +36,11 @@ function get_comment_author( $comment_ID = 0 ) {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @param string $author The comment author's username.
+	 * @param string $author     The comment author's username.
+	 * @param int    $comment_ID The comment ID
+	 * @param object $comment    The comment
 	 */
-	return apply_filters( 'get_comment_author', $author );
+	return apply_filters( 'get_comment_author', $author, $comment_ID, $comment );
 }
 
 /**
@@ -56,8 +58,9 @@ function comment_author( $comment_ID = 0 ) {
 	 * @since 1.2.0
 	 *
 	 * @param string $author The comment author's username.
+	 * @param int    $comment_ID The comment ID
 	 */
-	$author = apply_filters( 'comment_author', $author );
+	$author = apply_filters( 'comment_author', $author, $comment_ID );
 	echo $author;
 }
 
@@ -77,8 +80,10 @@ function get_comment_author_email( $comment_ID = 0 ) {
 	 * @since 1.5.0
 	 *
 	 * @param string $comment_author_email The comment author's email address.
+	 * @param int    $comment_ID           The comment ID
+	 * @param object $comment              The comment
 	 */
-	return apply_filters( 'get_comment_author_email', $comment->comment_author_email );
+	return apply_filters( 'get_comment_author_email', $comment->comment_author_email, $comment_ID, $comment );
 }
 
 /**
@@ -102,8 +107,9 @@ function comment_author_email( $comment_ID = 0 ) {
 	 * @since 1.2.0
 	 *
 	 * @param string $author_email The comment author's email address.
+	 * @param int    $comment_ID   The comment ID
 	 */
-	echo apply_filters( 'author_email', $author_email );
+	echo apply_filters( 'author_email', $author_email, $comment_ID );
 }
 
 /**
@@ -156,8 +162,9 @@ function get_comment_author_email_link( $linktext = '', $before = '', $after = '
 	 * @since 1.2.0
 	 *
 	 * @param string $comment_author_email The comment author's email address.
+	 * @param object $comment              The comment
 	 */
-	$email = apply_filters( 'comment_email', $comment->comment_author_email );
+	$email = apply_filters( 'comment_email', $comment->comment_author_email, $comment );
 	if ((!empty($email)) && ($email != '@')) {
 	$display = ($linktext != '') ? $linktext : $email;
 		$return  = $before;
@@ -195,10 +202,11 @@ function get_comment_author_link( $comment_ID = 0 ) {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @param string $return The HTML-formatted comment author link.
-	 *                       Empty for an invalid URL.
+	 * @param string $return      The HTML-formatted comment author link.
+	 *                            Empty for an invalid URL.
+	 * @param int    $comment_ID  The comment ID
 	 */
-	return apply_filters( 'get_comment_author_link', $return );
+	return apply_filters( 'get_comment_author_link', $return, $author, $comment_ID );
 }
 
 /**
@@ -233,8 +241,10 @@ function get_comment_author_IP( $comment_ID = 0 ) {
 	 * @since 1.5.0
 	 *
 	 * @param string $comment_author_IP The comment author's IP address.
+	 * @param int    $comment_ID        The comment ID
+	 * @param object $comment           The comment
 	 */
-	return apply_filters( 'get_comment_author_IP', $comment->comment_author_IP );
+	return apply_filters( 'get_comment_author_IP', $comment->comment_author_IP, $comment_ID, $comment );
 }
 
 /**
@@ -267,9 +277,11 @@ function get_comment_author_url( $comment_ID = 0 ) {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @param string $url The comment author's URL.
+	 * @param string $url 			The comment author's URL.
+	 * @param int    $comment_ID 	The comment ID
+	 * @param object $comment 		The comment
 	 */
-	return apply_filters( 'get_comment_author_url', $url );
+	return apply_filters( 'get_comment_author_url', $url, $comment_ID, $comment );
 }
 
 /**
@@ -288,8 +300,9 @@ function comment_author_url( $comment_ID = 0 ) {
 	 * @since 1.2.0
 	 *
 	 * @param string $author_url The comment author's URL.
+	 * @param int    $comment_ID The comment ID
 	 */
-	echo apply_filters( 'comment_url', $author_url );
+	echo apply_filters( 'comment_url', $author_url, $comment_ID );
 }
 
 /**
@@ -317,8 +330,11 @@ function get_comment_author_url_link( $linktext = '', $before = '', $after = '' 
 	$display = ($linktext != '') ? $linktext : $url;
 	$display = str_replace( 'http://www.', '', $display );
 	$display = str_replace( 'http://', '', $display );
-	if ( '/' == substr($display, -1) )
+
+	if ( '/' == substr($display, -1) ) {
 		$display = substr($display, 0, -1);
+	}
+
 	$return = "$before<a href='$url' rel='external'>$display</a>$after";
 
 	/**
@@ -445,9 +461,10 @@ function get_comment_class( $class = '', $comment_id = null, $post_id = null ) {
 	 * @param array       $classes    An array of comment classes.
 	 * @param string      $class      A comma-separated list of additional classes added to the list.
 	 * @param int         $comment_id The comment id.
+	 * @param object   	  $comment    The comment
 	 * @param int|WP_Post $post_id    The post ID or WP_Post object.
 	 */
-	return apply_filters( 'comment_class', $classes, $class, $comment_id, $post_id );
+	return apply_filters( 'comment_class', $classes, $class, $comment_id, $comment, $post_id );
 }
 
 /**
@@ -506,6 +523,7 @@ function get_comment_excerpt( $comment_ID = 0 ) {
 	$comment = get_comment( $comment_ID );
 	$comment_text = strip_tags($comment->comment_content);
 	$blah = explode(' ', $comment_text);
+
 	if (count($blah) > 20) {
 		$k = 20;
 		$use_dotdotdot = 1;
@@ -513,6 +531,7 @@ function get_comment_excerpt( $comment_ID = 0 ) {
 		$k = count($blah);
 		$use_dotdotdot = 0;
 	}
+
 	$excerpt = '';
 	for ($i=0; $i<$k; $i++) {
 		$excerpt .= $blah[$i] . ' ';
@@ -524,9 +543,11 @@ function get_comment_excerpt( $comment_ID = 0 ) {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @param string $excerpt The comment excerpt text.
+	 * @param string $excerpt 		The comment excerpt text.
+	 * @param int    $comment_ID 	The comment ID
+	 * @param object $comment 		The comment
 	 */
-	return apply_filters( 'get_comment_excerpt', $excerpt );
+	return apply_filters( 'get_comment_excerpt', $excerpt, $comment_ID, $comment );
 }
 
 /**
@@ -544,9 +565,10 @@ function comment_excerpt( $comment_ID = 0 ) {
 	 *
 	 * @since 1.2.0
 	 *
-	 * @param string $comment_excerpt The comment excerpt text.
+	 * @param string $comment_excerpt 	The comment excerpt text.
+	 * @param int    $comment_ID 		The comment ID
 	 */
-	echo apply_filters( 'comment_excerpt', $comment_excerpt );
+	echo apply_filters( 'comment_excerpt', $comment_excerpt, $comment_ID );
 }
 
 /**
@@ -563,9 +585,10 @@ function get_comment_ID() {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @param int $comment_ID The current comment ID.
+	 * @param int 		$comment_ID The current comment ID.
+	 * @param object    $comment 	The comment
 	 */
-	return apply_filters( 'get_comment_ID', $comment->comment_ID );
+	return apply_filters( 'get_comment_ID', $comment->comment_ID, $comment );
 }
 
 /**
@@ -870,9 +893,11 @@ function get_comment_type( $comment_ID = 0 ) {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @param string $comment_type The type of comment, such as 'comment', 'pingback', or 'trackback'.
+	 * @param string  $comment_type The type of comment, such as 'comment', 'pingback', or 'trackback'.
+	 * @param int 	  $comment_ID   The comment ID
+	 * @param object  $comment      The comment
 	 */
-	return apply_filters( 'get_comment_type', $comment->comment_type );
+	return apply_filters( 'get_comment_type', $comment->comment_type, $comment_ID, $comment );
 }
 
 /**
