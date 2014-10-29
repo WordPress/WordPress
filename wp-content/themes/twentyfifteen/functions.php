@@ -34,6 +34,13 @@ if ( ! isset( $content_width ) ) {
 	$content_width = 660;
 }
 
+/**
+ * Twenty Fifteen only works in WordPress 4.1 or later.
+ */
+if ( version_compare( $GLOBALS['wp_version'], '4.1', '<' ) ) {
+	require get_template_directory() . '/inc/back-compat.php';
+}
+
 if ( ! function_exists( 'twentyfifteen_setup' ) ) :
 /**
  * Sets up theme defaults and registers support for various WordPress features.
