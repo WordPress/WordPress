@@ -3710,7 +3710,7 @@ class WP_Query {
 			do_action_ref_array( 'loop_start', array( &$this ) );
 
 		$post = $this->next_post();
-		setup_postdata($post);
+		$this->setup_postdata( $post );
 	}
 
 	/**
@@ -4545,6 +4545,68 @@ class WP_Query {
 	}
 
 	/**
+	 * Set up global post data.
+	 *
+	 * @since 4.1.0
+	 *
+	 * @param object $post Post data.
+	 * @return bool True when finished.
+	 */
+	public function setup_postdata( $post ) {
+		global $id, $authordata, $currentday, $currentmonth, $page, $pages, $multipage, $more, $numpages;
+
+		$id = (int) $post->ID;
+
+		$authordata = get_userdata($post->post_author);
+
+		$currentday = mysql2date('d.m.y', $post->post_date, false);
+		$currentmonth = mysql2date('m', $post->post_date, false);
+		$numpages = 1;
+		$multipage = 0;
+		$page = $this->get( 'page' );
+		if ( ! $page )
+			$page = 1;
+
+		// Force full post content when viewing the permalink for the $post, or
+		// when on an RSS feed. Otherwise respect the 'more' tag.
+		if ( $post->ID === get_queried_object_id() && ( $this->is_page() || $this->is_single() ) ) {
+			$more = 1;
+		} else if ( $this->is_feed() ) {
+			$more = 1;
+		} else {
+			$more = 0;
+		}
+
+		$content = $post->post_content;
+		if ( false !== strpos( $content, '<!--nextpage-->' ) ) {
+			if ( $page > 1 )
+				$more = 1;
+			$content = str_replace( "\n<!--nextpage-->\n", '<!--nextpage-->', $content );
+			$content = str_replace( "\n<!--nextpage-->", '<!--nextpage-->', $content );
+			$content = str_replace( "<!--nextpage-->\n", '<!--nextpage-->', $content );
+			// Ignore nextpage at the beginning of the content.
+			if ( 0 === strpos( $content, '<!--nextpage-->' ) )
+				$content = substr( $content, 15 );
+			$pages = explode('<!--nextpage-->', $content);
+			$numpages = count($pages);
+			if ( $numpages > 1 )
+				$multipage = 1;
+		} else {
+			$pages = array( $post->post_content );
+		}
+
+		/**
+		 * Fires once the post data has been setup.
+		 *
+		 * @since 2.8.0
+		 *
+		 * @param WP_Post &$post The Post object (passed by reference).
+		 */
+		do_action_ref_array( 'the_post', array( &$post ) );
+
+		return true;
+	}
+	/**
 	 * After looping through a nested query, this function
 	 * restores the $post global to the current post in this query.
 	 *
@@ -4630,47 +4692,11 @@ function wp_old_slug_redirect() {
  * @return bool True when finished.
  */
 function setup_postdata( $post ) {
-	global $id, $authordata, $currentday, $currentmonth, $page, $pages, $multipage, $more, $numpages;
+	global $wp_query;
 
-	$id = (int) $post->ID;
-
-	$authordata = get_userdata($post->post_author);
-
-	$currentday = mysql2date('d.m.y', $post->post_date, false);
-	$currentmonth = mysql2date('m', $post->post_date, false);
-	$numpages = 1;
-	$multipage = 0;
-	$page = get_query_var('page');
-	if ( ! $page )
-		$page = 1;
-	if ( is_single() || is_page() || is_feed() )
-		$more = 1;
-	$content = $post->post_content;
-	if ( false !== strpos( $content, '<!--nextpage-->' ) ) {
-		if ( $page > 1 )
-			$more = 1;
-		$content = str_replace( "\n<!--nextpage-->\n", '<!--nextpage-->', $content );
-		$content = str_replace( "\n<!--nextpage-->", '<!--nextpage-->', $content );
-		$content = str_replace( "<!--nextpage-->\n", '<!--nextpage-->', $content );
-		// Ignore nextpage at the beginning of the content.
-		if ( 0 === strpos( $content, '<!--nextpage-->' ) )
-			$content = substr( $content, 15 );
-		$pages = explode('<!--nextpage-->', $content);
-		$numpages = count($pages);
-		if ( $numpages > 1 )
-			$multipage = 1;
-	} else {
-		$pages = array( $post->post_content );
+	if ( ! empty( $wp_query ) && $wp_query instanceof WP_Query ) {
+		return $wp_query->setup_postdata( $post );
 	}
 
-	/**
-	 * Fires once the post data has been setup.
-	 *
-	 * @since 2.8.0
-	 *
-	 * @param WP_Post &$post The Post object (passed by reference).
-	 */
-	do_action_ref_array( 'the_post', array( &$post ) );
-
-	return true;
+	return false;
 }
