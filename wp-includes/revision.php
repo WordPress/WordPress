@@ -133,9 +133,26 @@ function wp_save_post_revision( $post_id ) {
 					break;
 				}
 			}
+
+			/**
+			 * Filter whether a post has changed.
+			 *
+			 * By default a revision is saved only if one of the revisioned fields has changed.
+			 * This filter allows for additional checks to determine if there were changes.
+			 *
+			 * @since 4.1.0
+			 *
+			 * @param bool    $post_has_changed Whether the post has changed.
+			 * @param WP_Post $last_revision    The the last revision post object.
+			 * @param WP_Post $post             The post object.
+			 *
+			 */
+			$post_has_changed = (bool) apply_filters( 'wp_save_post_revision_post_has_changed', $post_has_changed, $last_revision, $post );
+
 			//don't save revision if post unchanged
-			if( ! $post_has_changed )
+			if( ! $post_has_changed ) {
 				return;
+			}
 		}
 	}
 

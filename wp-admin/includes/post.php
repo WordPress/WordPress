@@ -1541,6 +1541,15 @@ function wp_create_post_autosave( $post_data ) {
 			return 0;
 		}
 
+		/**
+		 * Fires before an autosave is stored.
+		 *
+		 * @since 4.1.0
+		 *
+		 * @param array $new_autosave Post array - the autosave that is about to be saved.
+		 */
+		do_action( 'wp_creating_autosave', $new_autosave );
+
 		return wp_update_post( $new_autosave );
 	}
 
