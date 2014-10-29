@@ -715,6 +715,9 @@ class WP_User_Query {
 			$qv['blog_id'] = $blog_id = 0; // Prevent extra meta query
 		}
 
+		$meta_query = new WP_Meta_Query();
+		$meta_query->parse_query_vars( $qv );
+
 		$role = '';
 		if ( isset( $qv['role'] ) )
 			$role = trim( $qv['role'] );
@@ -728,13 +731,18 @@ class WP_User_Query {
 				$cap_meta_query['compare'] = 'like';
 			}
 
-			if ( empty( $qv['meta_query'] ) || ! in_array( $cap_meta_query, $qv['meta_query'], true ) ) {
-				$qv['meta_query'][] = $cap_meta_query;
+			if ( empty( $meta_query->queries ) ) {
+				$meta_query->queries = array( $cap_meta_query );
+			} elseif ( ! in_array( $cap_meta_query, $meta_query->queries, true ) ) {
+				// Append the cap query to the original queries and reparse the query.
+				$meta_query->queries = array(
+					'relation' => 'AND',
+					array( $meta_query->queries, $cap_meta_query ),
+				);
 			}
-		}
 
-		$meta_query = new WP_Meta_Query();
-		$meta_query->parse_query_vars( $qv );
+			$meta_query->parse_query_vars( $meta_query->queries );
+		}
 
 		if ( !empty( $meta_query->queries ) ) {
 			$clauses = $meta_query->get_sql( 'user', $wpdb->users, 'ID', $this );
