@@ -615,7 +615,14 @@ function get_body_class( $class = '' ) {
 		}
 		if ( is_page_template() ) {
 			$classes[] = 'page-template';
-			$classes[] = 'page-template-' . sanitize_html_class( str_replace( '.', '-', get_page_template_slug( $page_id ) ) );
+
+			$template_slug  = get_page_template_slug( $page_id );
+			$template_parts = explode( '/', $template_slug );
+
+			foreach ( $template_parts as $part ) {
+				$classes[] = 'page-template-' . sanitize_html_class( str_replace( array( '.', '/' ), '-', basename( $part, '.php' ) ) );
+			}
+			$classes[] = 'page-template-' . sanitize_html_class( str_replace( '.', '-', $template_slug ) );
 		} else {
 			$classes[] = 'page-template-default';
 		}
