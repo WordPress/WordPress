@@ -554,6 +554,8 @@ class WP_Customize_Color_Control extends WP_Customize_Control {
 		if ( data.defaultValue ) {
 			if ( '#' !== data.defaultValue.substring( 0, 1 ) ) {
 				defaultValue = '#' + data.defaultValue;
+			} else {
+				defaultValue = data.defaultValue;
 			}
 			defaultValue = ' data-default-color=' + defaultValue; // Quotes added automatically.
 		} #>
