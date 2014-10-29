@@ -615,6 +615,7 @@ class Custom_Image_Header {
 </table>
 
 <form method="post" action="<?php echo esc_url( add_query_arg( 'step', 1 ) ) ?>">
+<?php submit_button( null, 'screen-reader-text', 'save-header-options', false ); ?>
 <table class="form-table">
 <tbody>
 	<?php if ( get_uploaded_header_images() ) : ?>
