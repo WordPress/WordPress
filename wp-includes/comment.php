@@ -355,9 +355,6 @@ class WP_Comment_Query {
 			$statuses = preg_split( '/[\s,]+/', $statuses );
 		}
 
-		// Remove empty statuses.
-		$statuses = array_filter( $statuses );
-
 		// 'any' overrides other statuses.
 		if ( ! in_array( 'any', $statuses ) ) {
 			foreach ( $statuses as $status ) {
@@ -371,6 +368,7 @@ class WP_Comment_Query {
 						break;
 
 					case 'all' :
+					case '' :
 						$status_clauses[] = "( comment_approved = '0' OR comment_approved = '1' )";
 						break;
 
