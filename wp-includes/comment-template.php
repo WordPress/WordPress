@@ -35,10 +35,11 @@ function get_comment_author( $comment_ID = 0 ) {
 	 * Filter the returned comment author name.
 	 *
 	 * @since 1.5.0
+	 * @since 4.1.0 The `$comment_ID` and `$comment` parameters were added.
 	 *
 	 * @param string $author     The comment author's username.
-	 * @param int    $comment_ID The comment ID
-	 * @param object $comment    The comment
+	 * @param int    $comment_ID The comment ID.
+	 * @param object $comment    The comment object.
 	 */
 	return apply_filters( 'get_comment_author', $author, $comment_ID, $comment );
 }
@@ -56,9 +57,10 @@ function comment_author( $comment_ID = 0 ) {
 	 * Filter the comment author's name for display.
 	 *
 	 * @since 1.2.0
+	 * @since 4.1.0 The `$comment_ID` parameter was added.
 	 *
-	 * @param string $author The comment author's username.
-	 * @param int    $comment_ID The comment ID
+	 * @param string $author     The comment author's username.
+	 * @param int    $comment_ID The comment ID.
 	 */
 	$author = apply_filters( 'comment_author', $author, $comment_ID );
 	echo $author;
@@ -78,10 +80,11 @@ function get_comment_author_email( $comment_ID = 0 ) {
 	 * Filter the comment author's returned email address.
 	 *
 	 * @since 1.5.0
+	 * @since 4.1.0 The `$comment_ID` and `$comment` parameters were added.
 	 *
 	 * @param string $comment_author_email The comment author's email address.
-	 * @param int    $comment_ID           The comment ID
-	 * @param object $comment              The comment
+	 * @param int    $comment_ID           The comment ID.
+	 * @param object $comment              The comment object.
 	 */
 	return apply_filters( 'get_comment_author_email', $comment->comment_author_email, $comment_ID, $comment );
 }
@@ -105,9 +108,10 @@ function comment_author_email( $comment_ID = 0 ) {
 	 * Filter the comment author's email for display.
 	 *
 	 * @since 1.2.0
+	 * @since 4.1.0 The `$comment_ID` parameter was added.
 	 *
 	 * @param string $author_email The comment author's email address.
-	 * @param int    $comment_ID   The comment ID
+	 * @param int    $comment_ID   The comment ID.
 	 */
 	echo apply_filters( 'author_email', $author_email, $comment_ID );
 }
@@ -160,9 +164,10 @@ function get_comment_author_email_link( $linktext = '', $before = '', $after = '
 	 * harvesters do not capture your commenters' email address.
 	 *
 	 * @since 1.2.0
+	 * @since 4.1.0 The `$comment` parameter was added.
 	 *
 	 * @param string $comment_author_email The comment author's email address.
-	 * @param object $comment              The comment
+	 * @param object $comment              The comment object.
 	 */
 	$email = apply_filters( 'comment_email', $comment->comment_author_email, $comment );
 	if ((!empty($email)) && ($email != '@')) {
@@ -201,10 +206,12 @@ function get_comment_author_link( $comment_ID = 0 ) {
 	 * Filter the comment author's link for display.
 	 *
 	 * @since 1.5.0
+	 * @since 4.1.0 The `$author` and `$comment_ID` parameters were added.
 	 *
-	 * @param string $return      The HTML-formatted comment author link.
-	 *                            Empty for an invalid URL.
-	 * @param int    $comment_ID  The comment ID
+	 * @param string $return     The HTML-formatted comment author link.
+	 *                           Empty for an invalid URL.
+	 * @param string $author     The comment author's username.
+	 * @param int    $comment_ID The comment ID.
 	 */
 	return apply_filters( 'get_comment_author_link', $return, $author, $comment_ID );
 }
@@ -239,10 +246,11 @@ function get_comment_author_IP( $comment_ID = 0 ) {
 	 * Filter the comment author's returned IP address.
 	 *
 	 * @since 1.5.0
+	 * @since 4.1.0 The `$comment_ID` and `$comment` parameters were added.
 	 *
 	 * @param string $comment_author_IP The comment author's IP address.
-	 * @param int    $comment_ID        The comment ID
-	 * @param object $comment           The comment
+	 * @param int    $comment_ID        The comment ID.
+	 * @param object $comment           The comment object.
 	 */
 	return apply_filters( 'get_comment_author_IP', $comment->comment_author_IP, $comment_ID, $comment );
 }
@@ -276,10 +284,11 @@ function get_comment_author_url( $comment_ID = 0 ) {
 	 * Filter the comment author's URL.
 	 *
 	 * @since 1.5.0
+	 * @since 4.1.0 The `$comment_ID` and `$comment` parameters were added.
 	 *
-	 * @param string $url 			The comment author's URL.
-	 * @param int    $comment_ID 	The comment ID
-	 * @param object $comment 		The comment
+	 * @param string $url        The comment author's URL.
+	 * @param int    $comment_ID The comment ID.
+	 * @param object $comment    The comment object.
 	 */
 	return apply_filters( 'get_comment_author_url', $url, $comment_ID, $comment );
 }
@@ -298,9 +307,10 @@ function comment_author_url( $comment_ID = 0 ) {
 	 * Filter the comment author's URL for display.
 	 *
 	 * @since 1.2.0
+	 * @since 4.1.0 The `$comment_ID` parameter was added.
 	 *
 	 * @param string $author_url The comment author's URL.
-	 * @param int    $comment_ID The comment ID
+	 * @param int    $comment_ID The comment ID.
 	 */
 	echo apply_filters( 'comment_url', $author_url, $comment_ID );
 }
@@ -542,10 +552,11 @@ function get_comment_excerpt( $comment_ID = 0 ) {
 	 * Filter the retrieved comment excerpt.
 	 *
 	 * @since 1.5.0
+	 * @since 4.1.0 The `$comment_ID` and `$comment` parameters were added.
 	 *
-	 * @param string $excerpt 		The comment excerpt text.
-	 * @param int    $comment_ID 	The comment ID
-	 * @param object $comment 		The comment
+	 * @param string $excerpt    The comment excerpt text.
+	 * @param int    $comment_ID The comment ID.
+	 * @param object $comment    The comment object.
 	 */
 	return apply_filters( 'get_comment_excerpt', $excerpt, $comment_ID, $comment );
 }
@@ -564,9 +575,10 @@ function comment_excerpt( $comment_ID = 0 ) {
 	 * Filter the comment excerpt for display.
 	 *
 	 * @since 1.2.0
+	 * @since 4.1.0 The `$comment_ID` parameter was added.
 	 *
-	 * @param string $comment_excerpt 	The comment excerpt text.
-	 * @param int    $comment_ID 		The comment ID
+	 * @param string $comment_excerpt The comment excerpt text.
+	 * @param int    $comment_ID      The comment ID.
 	 */
 	echo apply_filters( 'comment_excerpt', $comment_excerpt, $comment_ID );
 }
@@ -584,9 +596,10 @@ function get_comment_ID() {
 	 * Filter the returned comment ID.
 	 *
 	 * @since 1.5.0
+	 * @since 4.1.0 The `$comment_ID` parameter was added.
 	 *
-	 * @param int 		$comment_ID The current comment ID.
-	 * @param object    $comment 	The comment
+	 * @param int    $comment_ID The current comment ID.
+	 * @param object $comment    The comment object.
 	 */
 	return apply_filters( 'get_comment_ID', $comment->comment_ID, $comment );
 }
@@ -892,10 +905,11 @@ function get_comment_type( $comment_ID = 0 ) {
 	 * Filter the returned comment type.
 	 *
 	 * @since 1.5.0
+	 * @since 4.1.0 The `$comment_ID` and `$comment` parameters were added.
 	 *
-	 * @param string  $comment_type The type of comment, such as 'comment', 'pingback', or 'trackback'.
-	 * @param int 	  $comment_ID   The comment ID
-	 * @param object  $comment      The comment
+	 * @param string $comment_type The type of comment, such as 'comment', 'pingback', or 'trackback'.
+	 * @param int 	 $comment_ID   The comment ID.
+	 * @param object $comment      The comment object.
 	 */
 	return apply_filters( 'get_comment_type', $comment->comment_type, $comment_ID, $comment );
 }
