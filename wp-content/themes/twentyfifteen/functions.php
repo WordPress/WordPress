@@ -37,9 +37,9 @@ if ( ! isset( $content_width ) ) {
 /**
  * Twenty Fifteen only works in WordPress 4.1 or later.
  */
-//if ( version_compare( $GLOBALS['wp_version'], '4.1', '<' ) ) {
-//	require get_template_directory() . '/inc/back-compat.php';
-//}
+if ( version_compare( $GLOBALS['wp_version'], '4.1-alpha', '<' ) ) {
+	require get_template_directory() . '/inc/back-compat.php';
+}
 
 if ( ! function_exists( 'twentyfifteen_setup' ) ) :
 /**
