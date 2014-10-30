@@ -66,7 +66,6 @@ function get_category_parents( $id, $link = false, $separator = '/', $nicename =
  * Retrieve post categories.
  *
  * @since 0.71
- * @uses $post
  *
  * @param int $id Optional, default to current post ID. The post ID.
  * @return array
@@ -248,7 +247,6 @@ function get_the_category_list( $separator = '', $parents='', $post_id = false )
  * As of 2.7, the function can be used anywhere if it is provided a post ID or post object.
  *
  * @since 1.2.0
- * @uses has_category()
  *
  * @param int|string|array $category Category ID, name or slug, or array of said.
  * @param int|object $post Optional. Post to check instead of the current post. (since 2.7.0)

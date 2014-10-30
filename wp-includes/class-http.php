@@ -1785,7 +1785,6 @@ class WP_HTTP_Proxy {
 	 * some proxies can not handle this. We also have the constant available for defining other
 	 * hosts that won't be sent through the proxy.
 	 *
-	 * @uses WP_PROXY_BYPASS_HOSTS
 	 * @since 2.8.0
 	 *
 	 * @param string $uri URI to check.

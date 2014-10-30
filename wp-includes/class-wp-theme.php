@@ -855,8 +855,6 @@ final class WP_Theme implements ArrayAccess {
 	 * for all other URLs returned by WP_Theme, so we pass it to the public function
 	 * get_theme_root_uri() and allow it to run the theme_root_uri filter.
 	 *
-	 * @uses get_theme_root_uri()
-	 *
 	 * @since 3.4.0
 	 * @access public
 	 *

@@ -406,8 +406,6 @@ function is_comment_feed() {
  *
  * @see WP_Query::is_front_page()
  * @since 2.5.0
- * @uses is_home()
- * @uses get_option()
  *
  * @return bool True, if front of site.
  */
@@ -2357,7 +2355,6 @@ class WP_Query {
 	 *
 	 * @since 1.5.0
 	 * @access public
-	 * @uses do_action_ref_array() Calls 'pre_get_posts' hook before retrieving posts.
 	 *
 	 * @return array List of posts.
 	 */
@@ -3692,8 +3689,6 @@ class WP_Query {
 	 *
 	 * @since 1.5.0
 	 * @access public
-	 * @uses $post
-	 * @uses do_action_ref_array() Calls 'loop_start' if loop has just started
 	 */
 	public function the_post() {
 		global $post;
@@ -3720,7 +3715,6 @@ class WP_Query {
 	 *
 	 * @since 1.5.0
 	 * @access public
-	 * @uses do_action_ref_array() Calls 'loop_end' if loop is ended
 	 *
 	 * @return bool True if posts are available, false if end of loop.
 	 */
@@ -3778,7 +3772,6 @@ class WP_Query {
 	 * @since 2.2.0
 	 * @access public
 	 * @global object $comment Current comment.
-	 * @uses do_action() Calls 'comment_loop_start' hook when first comment is processed.
 	 */
 	public function the_comment() {
 		global $comment;
@@ -4280,8 +4273,6 @@ class WP_Query {
 	 * Otherwise the same as @see WP_Query::is_home()
 	 *
 	 * @since 3.1.0
-	 * @uses is_home()
-	 * @uses get_option()
 	 *
 	 * @return bool True, if front of site.
 	 */
@@ -4688,7 +4679,6 @@ function wp_old_slug_redirect() {
  * @since 1.5.0
  *
  * @param object $post Post data.
- * @uses do_action_ref_array() Calls 'the_post'
  * @return bool True when finished.
  */
 function setup_postdata( $post ) {

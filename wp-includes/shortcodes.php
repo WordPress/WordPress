@@ -185,7 +185,6 @@ function has_shortcode( $content, $tag ) {
  * @since 2.5.0
  *
  * @uses $shortcode_tags
- * @uses get_shortcode_regex() Gets the search pattern for searching shortcodes.
  *
  * @param string $content Content to search for shortcodes
  * @return string Content with shortcodes filtered out.

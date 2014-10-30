@@ -395,9 +395,6 @@ function display_space_usage() {
  * Get the remaining upload space for this blog.
  *
  * @since MU
- * @uses upload_is_user_over_quota()
- * @uses get_space_allowed()
- * @uses get_upload_space_available()
  *
  * @param int $size Current max size in bytes
  * @return int Max size in bytes

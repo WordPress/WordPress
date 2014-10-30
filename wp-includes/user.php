@@ -316,8 +316,6 @@ function count_many_users_posts( $users, $post_type = 'post', $public_only = fal
  *
  * @since MU
  *
- * @uses wp_get_current_user
- *
  * @return int The current user's ID
  */
 function get_current_user_id() {
@@ -1111,7 +1109,6 @@ function get_blogs_of_user( $user_id, $all = false ) {
  * Find out whether a user is a member of a given blog.
  *
  * @since MU 1.1
- * @uses get_blogs_of_user()
  *
  * @param int $user_id Optional. The unique ID of the user. Defaults to the current user.
  * @param int $blog_id Optional. ID of the blog to check. Defaults to the current site.
@@ -1137,7 +1134,6 @@ function is_user_member_of_blog( $user_id = 0, $blog_id = 0 ) {
  * Post meta data is called "Custom Fields" on the Administration Screens.
  *
  * @since 3.0.0
- * @uses add_metadata()
  * @link http://codex.wordpress.org/Function_Reference/add_user_meta
  *
  * @param int $user_id User ID.
@@ -1158,7 +1154,6 @@ function add_user_meta($user_id, $meta_key, $meta_value, $unique = false) {
  * allows removing all metadata matching key, if needed.
  *
  * @since 3.0.0
- * @uses delete_metadata()
  * @link http://codex.wordpress.org/Function_Reference/delete_user_meta
  *
  * @param int $user_id user ID
@@ -1174,7 +1169,6 @@ function delete_user_meta($user_id, $meta_key, $meta_value = '') {
  * Retrieve user meta field for a user.
  *
  * @since 3.0.0
- * @uses get_metadata()
  * @link http://codex.wordpress.org/Function_Reference/get_user_meta
  *
  * @param int $user_id User ID.
@@ -1196,7 +1190,6 @@ function get_user_meta($user_id, $key = '', $single = false) {
  * If the meta field for the user does not exist, it will be added.
  *
  * @since 3.0.0
- * @uses update_metadata
  * @link http://codex.wordpress.org/Function_Reference/update_user_meta
  *
  * @param int $user_id User ID.
@@ -1639,7 +1632,6 @@ function email_exists( $email ) {
  * Checks whether an username is valid.
  *
  * @since 2.0.1
- * @uses apply_filters() Calls 'validate_username' hook on $valid check and $username as parameters
  *
  * @param string $username Username.
  * @return bool Whether username given is valid

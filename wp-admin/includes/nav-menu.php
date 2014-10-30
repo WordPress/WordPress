@@ -550,7 +550,6 @@ function wp_nav_menu_taxonomy_meta_boxes() {
  * @since 3.6.0
  *
  * @uses global $one_theme_location_no_menus to determine if no menus exist
- * @uses disabled() to output the disabled attribute in $other_attributes param in submit_button()
  *
  * @param int|string $nav_menu_selected_id (id, name or slug) of the currently-selected menu
  * @return string Disabled attribute if at least one menu exists, false if not
@@ -1246,9 +1245,6 @@ add_action('admin_head-nav-menus.php', '_wp_delete_orphaned_draft_menu_items');
  * Saves nav menu items
  *
  * @since 3.6.0
- *
- * @uses wp_get_nav_menu_items() to retrieve the nav menu's menu items
- * @uses wp_defer_term_counter() to enable then disable term counting
  *
  * @param int|string $nav_menu_selected_id (id, slug, or name ) of the currently-selected menu
  * @param string $nav_menu_selected_title Title of the currently-selected menu

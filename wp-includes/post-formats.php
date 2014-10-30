@@ -36,8 +36,6 @@ function get_post_format( $post = null ) {
  *
  * @since 3.1.0
  *
- * @uses has_term()
- *
  * @param string|array $format Optional. The format or formats to check.
  * @param object|int $post Optional. The post to check. If not supplied, defaults to the current post if used in the loop.
  * @return bool True if the post has any of the given formats (or any format, if no format specified), false otherwise.
@@ -108,8 +106,6 @@ function get_post_format_strings() {
  *
  * @since 3.1.0
  *
- * @uses get_post_format_strings()
- *
  * @return array The array of post format slugs.
  */
 function get_post_format_slugs() {
@@ -121,8 +117,6 @@ function get_post_format_slugs() {
  * Returns a pretty, translated version of a post format slug
  *
  * @since 3.1.0
- *
- * @uses get_post_format_strings()
  *
  * @param string $slug A post format slug.
  * @return string The translated post format name.

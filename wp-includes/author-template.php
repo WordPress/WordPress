@@ -16,7 +16,6 @@
  * @since 1.5.0
  *
  * @uses $authordata The current author's DB object.
- * @uses apply_filters() Calls 'the_author' hook on the author display name.
  *
  * @param string $deprecated Deprecated.
  * @return string The author's display name.
@@ -71,10 +70,6 @@ function the_author( $deprecated = '', $deprecated_echo = true ) {
  *
  * @since 2.8.0
  *
- * @uses $post The current post's DB object.
- * @uses get_post_meta() Retrieves the ID of the author who last edited the current post.
- * @uses get_userdata() Retrieves the author's DB object.
- * @uses apply_filters() Calls 'the_modified_author' hook on the author display name.
  * @return string The author's display name.
  */
 function get_the_modified_author() {
@@ -108,7 +103,6 @@ function the_modified_author() {
  * Retrieve the requested data of the author of the current post.
  * @link http://codex.wordpress.org/Template_Tags/the_author_meta
  * @since 2.8.0
- * @uses $authordata The current author's DB object (if $user_id not specified).
  * @param string $field selects the field of the users record.
  * @param int $user_id Optional. User ID.
  * @return string The author's field from the current author's DB object.
@@ -168,9 +162,6 @@ function the_author_meta( $field = '', $user_id = false ) {
  *
  * If the author has a home page set, return an HTML link, otherwise just return the
  * author's name.
- *
- * @uses get_the_author_meta()
- * @uses get_the_author()
  */
 function get_the_author_link() {
 	if ( get_the_author_meta('url') ) {
@@ -189,8 +180,6 @@ function get_the_author_link() {
  * @link http://codex.wordpress.org/Template_Tags/the_author_link
  *
  * @since 2.1.0
- *
- * @uses get_the_author_link()
  */
 function the_author_link() {
 	echo get_the_author_link();
@@ -201,8 +190,6 @@ function the_author_link() {
  *
  * @since 1.5.0
  *
- * @uses $post The current post in the Loop's DB object.
- * @uses count_user_posts()
  * @return int The number of posts by the author.
  */
 function get_the_author_posts() {
@@ -218,7 +205,6 @@ function get_the_author_posts() {
  *
  * @link http://codex.wordpress.org/Template_Tags/the_author_posts
  * @since 0.71
- * @uses get_the_author_posts() Echoes returned value from function.
  */
 function the_author_posts() {
 	echo get_the_author_posts();
@@ -233,9 +219,6 @@ function the_author_posts() {
  *
  * @link http://codex.wordpress.org/Template_Tags/the_author_posts_link
  * @since 1.2.0
- * @uses $authordata The current author's DB object.
- * @uses get_author_posts_url()
- * @uses get_the_author()
  * @param string $deprecated Deprecated.
  */
 function the_author_posts_link($deprecated = '') {

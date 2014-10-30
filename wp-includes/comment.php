@@ -853,7 +853,6 @@ function get_comment_count( $post_id = 0 ) {
  * Add meta data field to a comment.
  *
  * @since 2.9.0
- * @uses add_metadata
  * @link http://codex.wordpress.org/Function_Reference/add_comment_meta
  *
  * @param int $comment_id Comment ID.
@@ -874,7 +873,6 @@ function add_comment_meta($comment_id, $meta_key, $meta_value, $unique = false) 
  * allows removing all metadata matching key, if needed.
  *
  * @since 2.9.0
- * @uses delete_metadata
  * @link http://codex.wordpress.org/Function_Reference/delete_comment_meta
  *
  * @param int $comment_id comment ID
@@ -890,7 +888,6 @@ function delete_comment_meta($comment_id, $meta_key, $meta_value = '') {
  * Retrieve comment meta field for a comment.
  *
  * @since 2.9.0
- * @uses get_metadata
  * @link http://codex.wordpress.org/Function_Reference/get_comment_meta
  *
  * @param int $comment_id Comment ID.
@@ -912,7 +909,6 @@ function get_comment_meta($comment_id, $key = '', $single = false) {
  * If the meta field for the comment does not exist, it will be added.
  *
  * @since 2.9.0
- * @uses update_metadata
  * @link http://codex.wordpress.org/Function_Reference/update_comment_meta
  *
  * @param int $comment_id Comment ID.
@@ -1250,9 +1246,6 @@ function get_comment_pages_count( $comments = null, $per_page = null, $threaded 
  * Calculate what page number a comment will appear on for comment paging.
  *
  * @since 2.7.0
- * @uses get_comment() Gets the full comment of the $comment_ID parameter.
- * @uses get_option() Get various settings to control function and defaults.
- * @uses get_page_of_comment() Used to loop up to top level comment.
  *
  * @param int $comment_ID Comment ID.
  * @param array $args Optional args.
@@ -1440,7 +1433,6 @@ function wp_count_comments( $post_id = 0 ) {
  *
  * @since 2.0.0
  * @uses $wpdb
- * @uses wp_transition_comment_status() Passes new and old comment status along with $comment object
  *
  * @param int $comment_id Comment ID
  * @param bool $force_delete Whether to bypass trash and force deletion. Default is false.
@@ -1506,8 +1498,6 @@ function wp_delete_comment($comment_id, $force_delete = false) {
  * If trash is disabled, comment is permanently deleted.
  *
  * @since 2.9.0
- *
- * @uses wp_delete_comment() if trash is disabled
  *
  * @param int $comment_id Comment ID.
  * @return bool True on success, false on failure.
@@ -2043,7 +2033,6 @@ function wp_new_comment( $commentdata ) {
  * If the comment status is not in the list, then false is returned.
  *
  * @since 1.0.0
- * @uses wp_transition_comment_status() Passes new and old comment status along with $comment object
  *
  * @param int $comment_id Comment ID.
  * @param string $comment_status New comment status, either 'hold', 'approve', 'spam', or 'trash'.
@@ -2114,7 +2103,6 @@ function wp_set_comment_status($comment_id, $comment_status, $wp_error = false) 
  *
  * @since 2.0.0
  * @uses $wpdb
- * @uses wp_transition_comment_status() Passes new and old comment status along with $comment object
  *
  * @param array $commentarr Contains information on the comment.
  * @return int Comment was updated if value is 1, or was not updated if value is 0.
@@ -2466,7 +2454,6 @@ function generic_ping( $post_id = 0 ) {
  *
  * @since 0.71
  * @uses $wp_version
- * @uses IXR_Client
  *
  * @param string $content Post content to check for links.
  * @param int $post_ID Post ID.
@@ -2609,7 +2596,6 @@ function trackback($trackback_url, $title, $excerpt, $ID) {
  *
  * @since 1.2.0
  * @uses $wp_version
- * @uses IXR_Client
  *
  * @param string $server Host of blog to connect to.
  * @param string $path Path to send the ping.

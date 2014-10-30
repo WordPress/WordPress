@@ -1283,7 +1283,6 @@ function sanitize_hex_color( $color ) {
  * Returns either '', a 3 or 6 digit hex color (without a #), or null.
  *
  * @since 3.4.0
- * @uses sanitize_hex_color()
  *
  * @param string $color
  * @return string|null

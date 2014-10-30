@@ -554,9 +554,6 @@ function unregister_widget($widget_class) {
  * @since 2.2.0
  *
  * @see register_sidebar() The second parameter is documented by register_sidebar() and is the same here.
- * @uses parse_str() Converts a string to an array to be used in the rest of the function.
- * @uses register_sidebar() Sends single sidebar information [name, id] to this
- *	function to handle building the sidebar.
  *
  * @param int $number Number of sidebars to create.
  * @param string|array $args Builds Sidebar based off of 'name' and 'id' values.
@@ -631,7 +628,6 @@ function register_sidebars($number = 1, $args = array()) {
  *
  * @since 2.2.0
  * @uses $wp_registered_sidebars Stores the new sidebar in this array by sidebar ID.
- * @uses add_theme_support() to ensure widget support has been added.
  *
  * @param string|array $args Arguments for the sidebar being registered.
  * @return string Sidebar ID added to $wp_registered_sidebars global.
@@ -932,7 +928,6 @@ function _register_widget_form_callback($id, $name, $form_callback, $options = a
  * Remove control callback for widget.
  *
  * @since 2.2.0
- * @uses wp_register_widget_control() Unregisters by using empty callback.
  *
  * @param int|string $id Widget ID.
  */

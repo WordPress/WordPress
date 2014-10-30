@@ -141,7 +141,6 @@ function wp_protect_special_option( $option ) {
 /**
  * Print option value after sanitizing for forms.
  *
- * @uses attr Sanitizes value.
  * @since 1.5.0
  *
  * @param string $option Option name.

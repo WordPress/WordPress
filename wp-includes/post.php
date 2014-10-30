@@ -2942,8 +2942,6 @@ function wp_get_post_categories( $post_id = 0, $args = array() ) {
  *
  * @since 2.3.0
  *
- * @uses wp_get_object_terms()
- *
  * @param int   $post_id Optional. The Post ID. Does not default to the ID of the
  *                       global $post. Defualt 0.
  * @param array $args Optional. Overwrite the defaults
@@ -2961,8 +2959,6 @@ function wp_get_post_tags( $post_id = 0, $args = array() ) {
  * {@link wp_get_object_terms()}.
  *
  * @since 2.8.0
- *
- * @uses wp_get_object_terms()
  *
  * @param int    $post_id  Optional. The Post ID. Does not default to the ID of the
  *                         global $post. Default 0.

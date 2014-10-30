@@ -576,9 +576,6 @@ function get_metadata_by_mid( $meta_type, $meta_id ) {
  *
  * @since 3.3.0
  *
- * @uses get_metadata_by_mid() Calls get_metadata_by_mid() to fetch the meta key, value
- *		and object_id of the given meta_id.
- *
  * @param string $meta_type Type of object metadata is for (e.g., comment, post, or user)
  * @param int $meta_id ID for a specific meta row
  * @param string $meta_value Metadata value
@@ -669,9 +666,6 @@ function update_metadata_by_mid( $meta_type, $meta_id, $meta_value, $meta_key = 
  * Delete meta data by meta ID
  *
  * @since 3.3.0
- *
- * @uses get_metadata_by_mid() Calls get_metadata_by_mid() to fetch the meta key, value
- *		and object_id of the given meta_id.
  *
  * @param string $meta_type Type of object metadata is for (e.g., comment, post, or user)
  * @param int $meta_id ID for a specific meta row

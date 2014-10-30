@@ -1466,7 +1466,6 @@ function find_posts_div($found_action = '') {
  * The password is passed through {@link esc_attr()} to ensure that it
  * is safe for placing in an html attribute.
  *
- * @uses attr
  * @since 2.7.0
  */
 function the_post_password() {
@@ -1499,7 +1498,6 @@ function _draft_or_post_title( $post = 0 ) {
  * A simple wrapper to display the "s" parameter in a GET URI. This function
  * should only be used when {@link the_search_query()} cannot.
  *
- * @uses attr
  * @since 2.7.0
  *
  */

@@ -153,8 +153,6 @@ function show_blog_form( $blogname = '', $blog_title = '', $errors = '' ) {
  *
  * @since MU
  *
- * @uses wp_get_current_user() to retrieve the current user
- * @uses wpmu_validate_blog_signup() to validate new site signup for the current user
  * @return array Contains the new site data and error messages.
  */
 function validate_blog_form() {
@@ -208,7 +206,6 @@ function show_user_form($user_name = '', $user_email = '', $errors = '') {
  *
  * @since MU
  *
- * @uses wpmu_validate_user_signup() to retrieve an array of user data
  * @return array Contains username, email, and error messages.
  */
 function validate_user_form() {
@@ -220,7 +217,6 @@ function validate_user_form() {
  *
  * @since MU
  *
- * @uses wp_get_current_user() to get the current user
  * @param string $blogname The new site name
  * @param string $blog_title The new blog title
  * @param array $errors
@@ -303,9 +299,6 @@ function signup_another_blog( $blogname = '', $blog_title = '', $errors = '' ) {
  *
  * @since MU
  *
- * @uses wp_get_current_user() to retrieve the current user
- * @uses wpmu_create_blog() to add a new site
- * @uses confirm_another_blog_signup() to confirm the user's new site signup
  * @return bool True if blog signup was validated, false if error
  */
 function validate_another_blog_signup() {
@@ -394,8 +387,6 @@ function confirm_another_blog_signup( $domain, $path, $blog_title, $user_name, $
  *
  * @since MU
  *
- * @uses apply_filters() filter $filtered_results
- * @uses show_user_form() to display the user registration form
  * @param string $user_name The username
  * @param string $user_email The user's email
  * @param array $errors
@@ -467,9 +458,6 @@ function signup_user( $user_name = '', $user_email = '', $errors = '' ) {
  *
  * @since MU
  *
- * @uses validate_user_form() to retrieve an array of the user data
- * @uses wpmu_signup_user() to signup the new user
- * @uses confirm_user_signup() to confirm the new user signup
  * @return bool True if new user signup was validated, false if error
  */
 function validate_user_signup() {
@@ -519,8 +507,6 @@ function confirm_user_signup($user_name, $user_email) {
  *
  * @since MU
  *
- * @uses apply_filters() to filter $filtered_results
- * @uses show_blog_form() to display the blog signup form
  * @param string $user_name The username
  * @param string $user_email The user's email address
  * @param string $blogname The site name
@@ -584,11 +570,6 @@ function signup_blog($user_name = '', $user_email = '', $blogname = '', $blog_ti
  *
  * @since MU
  *
- * @uses wpmu_validate_user_signup() to retrieve an array of the new user data and errors
- * @uses wpmu_validate_blog_signup() to retrieve an array of the new site data and errors
- * @uses apply_filters() to make signup $meta filterable
- * @uses signup_user() to signup a new user
- * @uses signup_blog() to signup a the new user to a new site
  * @return bool True if the site signup was validated, false if error
  */
 function validate_blog_signup() {

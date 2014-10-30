@@ -72,7 +72,6 @@ if ( !function_exists('get_currentuserinfo') ) :
  * @since 0.71
  *
  * @uses $current_user Checks if the current user is set
- * @uses wp_validate_auth_cookie() Retrieves current logged in user.
  *
  * @return bool|null False on XML-RPC Request and invalid auth cookie. Null when current user set.
  */
@@ -1215,8 +1214,6 @@ if ( !function_exists('wp_safe_redirect') ) :
  *
  * @since 2.3.0
  *
- * @uses wp_validate_redirect() To validate the redirect is to an allowed host.
- *
  * @return void Does not return anything
  **/
 function wp_safe_redirect($location, $status = 302) {
@@ -1872,7 +1869,6 @@ if ( !function_exists('wp_hash') ) :
  * Get hash of given string.
  *
  * @since 2.0.3
- * @uses wp_salt() Get WordPress salt
  *
  * @param string $data Plain text to hash
  * @return string Hash of $data
@@ -2069,7 +2065,6 @@ if ( !function_exists('wp_set_password') ) :
  * @since 2.5.0
  *
  * @uses $wpdb WordPress database object for queries
- * @uses wp_hash_password() Used to encrypt the user's password before passing to the database
  *
  * @param string $password The plaintext new user password
  * @param int $user_id User ID

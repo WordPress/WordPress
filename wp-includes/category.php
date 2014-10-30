@@ -63,7 +63,6 @@ function get_categories( $args = '' ) {
  * The category will converted to maintain backwards compatibility.
  *
  * @since 1.5.1
- * @uses get_term() Used to get the category data from the taxonomy.
  *
  * @param int|object $category Category ID or Category row object
  * @param string $output Optional. Constant OBJECT, ARRAY_A, or ARRAY_N
@@ -210,7 +209,6 @@ function cat_is_ancestor_of( $cat1, $cat2 ) {
  * Sanitizes category data based on context.
  *
  * @since 2.3.0
- * @uses sanitize_term() See this function for what context are supported.
  *
  * @param object|array $category Category data
  * @param string $context Optional. Default is 'display'.
@@ -224,7 +222,6 @@ function sanitize_category( $category, $context = 'display' ) {
  * Sanitizes data in single category key field.
  *
  * @since 2.3.0
- * @uses sanitize_term_field() See function for more details.
  *
  * @param string $field Category key to sanitize
  * @param mixed $value Category value to sanitize
@@ -243,7 +240,6 @@ function sanitize_category_field( $field, $value, $cat_id, $context ) {
  *
  * @since 2.3.0
  * @see get_terms() For list of arguments to pass.
- * @uses apply_filters() Calls 'get_tags' hook on array of tags and with $args.
  *
  * @param string|array $args Tag arguments to use when retrieving tags.
  * @return array List of tags.
@@ -297,7 +293,6 @@ function get_tag( $tag, $output = OBJECT, $filter = 'raw' ) {
  * Remove the category cache data based on ID.
  *
  * @since 2.1.0
- * @uses clean_term_cache() Clears the cache for the category based on ID
  *
  * @param int $id Category ID
  */

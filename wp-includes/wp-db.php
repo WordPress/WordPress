@@ -867,7 +867,6 @@ class wpdb {
 	/**
 	 * Gets blog prefix.
 	 *
-	 * @uses is_multisite()
 	 * @since 3.0.0
 	 * @param int $blog_id Optional.
 	 * @return string Blog prefix.
@@ -906,7 +905,6 @@ class wpdb {
 	 * @uses wpdb::$old_tables
 	 * @uses wpdb::$global_tables
 	 * @uses wpdb::$ms_global_tables
-	 * @uses is_multisite()
 	 *
 	 * @param string $scope Optional. Can be all, global, ms_global, blog, or old tables. Defaults to all.
 	 * @param bool $prefix Optional. Whether to include table prefixes. Default true. If blog

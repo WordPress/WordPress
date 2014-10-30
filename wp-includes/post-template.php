@@ -21,7 +21,6 @@ function the_ID() {
  * Retrieve the ID of the current item in the WordPress Loop.
  *
  * @since 2.1.0
- * @uses $post
  *
  * @return int|bool The ID of the current item in the WordPress Loop. False if $post is not set.
  */
@@ -907,7 +906,6 @@ function post_custom( $key = '' ) {
  *
  * @internal This will probably change at some point...
  * @since 1.2.0
- * @uses apply_filters() Calls 'the_meta_key' on list item HTML content, with key and value as separate parameters.
  */
 function the_meta() {
 	if ( $keys = get_post_custom_keys() ) {
@@ -1466,7 +1464,6 @@ function the_attachment_link( $id = 0, $fullsize = false, $deprecated = false, $
  * Retrieve an attachment page link using an image or icon, if possible.
  *
  * @since 2.5.0
- * @uses apply_filters() Calls 'wp_get_attachment_link' filter on HTML content with same parameters as function.
  *
  * @param int|WP_Post $id Optional. Post ID or post object.
  * @param string $size Optional, default is 'thumbnail'. Size of image, either array or string.
@@ -1602,7 +1599,6 @@ function get_the_password_form( $post = 0 ) {
  * specific to that template.
  *
  * @since 2.5.0
- * @uses $wp_query
  *
  * @param string $template The specific template name if specific matching is required.
  * @return bool True on success, false on failure.
@@ -1649,8 +1645,6 @@ function get_page_template_slug( $post_id = null ) {
  *
  * @since 2.6.0
  *
- * @uses date_i18n()
- *
  * @param int|object $revision Revision ID or revision object.
  * @param bool $link Optional, default is true. Link to revisions's page?
  * @return string i18n formatted datetimestamp or localized 'Current Revision'.
@@ -1685,8 +1679,6 @@ function wp_post_revision_title( $revision, $link = true ) {
  * Retrieve formatted date timestamp of a revision (linked to that revisions's page).
  *
  * @since 3.6.0
- *
- * @uses date_i18n()
  *
  * @param int|object $revision Revision ID or revision object.
  * @param bool $link Optional, default is true. Link to revisions's page?
@@ -1736,11 +1728,6 @@ function wp_post_revision_title_expanded( $revision, $link = true ) {
  * restore action links.
  *
  * @since 2.6.0
- *
- * @uses wp_get_post_revisions()
- * @uses wp_post_revision_title_expanded()
- * @uses get_edit_post_link()
- * @uses get_the_author_meta()
  *
  * @param int|WP_Post $post_id Optional. Post ID or WP_Post object. Default is global $post.
  * @param string $type 'all' (default), 'revision' or 'autosave'

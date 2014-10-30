@@ -25,7 +25,6 @@
  * height as the second element.
  *
  * @since 2.5.0
- * @uses wp_constrain_dimensions() This function passes the widths and the heights.
  *
  * @param int $width Width of the image
  * @param int $height Height of the image
@@ -684,7 +683,6 @@ function wp_get_attachment_image_src($attachment_id, $size='thumbnail', $icon = 
  * @since 2.5.0
  *
  * @see add_image_size()
- * @uses wp_get_attachment_image_src() Gets attachment file URL and dimensions
  *
  * @param int          $attachment_id Image attachment ID.
  * @param string|array $size          Optional. Default 'thumbnail'.
@@ -1995,7 +1993,6 @@ function get_attachment_taxonomies($attachment) {
  *
  * @since 3.5.0
  * @see get_attachment_taxonomies()
- * @uses get_taxonomies()
  *
  * @param string $output The type of output to return, either taxonomy 'names' or 'objects'. 'names' is the default.
  * @return array The names of all taxonomy of $object_type.
@@ -2099,7 +2096,6 @@ function wp_embed_defaults( $url = '' ) {
  * Based on a supplied width/height example, return the biggest possible dimensions based on the max width/height.
  *
  * @since 2.9.0
- * @uses wp_constrain_dimensions() This function passes the widths and the heights.
  *
  * @param int $example_width The width of an example embed.
  * @param int $example_height The height of an example embed.
@@ -2122,9 +2118,6 @@ function wp_expand_dimensions( $example_width, $example_height, $max_width, $max
  * @since 2.9.0
  * @see WP_oEmbed
  *
- * @uses _wp_oembed_get_object()
- * @uses WP_oEmbed::get_html()
- *
  * @param string $url The URL that should be embedded.
  * @param array $args Additional arguments and parameters.
  * @return bool|string False on failure or the embed HTML on success.
@@ -2140,8 +2133,6 @@ function wp_oembed_get( $url, $args = '' ) {
  *
  * @since 2.9.0
  * @see WP_oEmbed
- *
- * @uses _wp_oembed_get_object()
  *
  * @param string $format The format of URL that this provider can handle. You can use asterisks as wildcards.
  * @param string $provider The URL to the oEmbed provider.
@@ -2163,8 +2154,6 @@ function wp_oembed_add_provider( $format, $provider, $regex = false ) {
  *
  * @since 3.5.0
  * @see WP_oEmbed
- *
- * @uses _wp_oembed_get_object()
  *
  * @param string $format The URL format for the oEmbed provider to remove.
  */

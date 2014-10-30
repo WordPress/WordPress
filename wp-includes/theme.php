@@ -271,7 +271,6 @@ function get_locale_stylesheet_uri() {
  * Retrieve name of the current theme.
  *
  * @since 1.5.0
- * @uses apply_filters() Calls 'template' filter on template option.
  *
  * @return string Template name.
  */

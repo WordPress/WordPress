@@ -532,7 +532,6 @@ class WP {
 	/**
 	 * Set up the Loop based on the query variables.
 	 *
-	 * @uses WP::$query_vars
 	 * @since 2.0.0
 	 */
 	public function query_posts() {

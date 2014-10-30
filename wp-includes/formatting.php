@@ -1226,7 +1226,6 @@ function sanitize_title( $title, $fallback_title = '', $context = 'save' ) {
  * Used for querying the database for a value from URL.
  *
  * @since 3.1.0
- * @uses sanitize_title()
  *
  * @param string $title The string to be sanitized.
  * @return string The sanitized string.
@@ -2230,7 +2229,6 @@ function _wp_iso_convert( $match ) {
  *
  * @since 1.2.0
  *
- * @uses get_option() to retrieve the value of 'gmt_offset'.
  * @param string $string The date to be converted.
  * @param string $format The format string for the returned date (default is Y-m-d H:i:s)
  * @return string GMT version of the date provided.
@@ -3023,8 +3021,6 @@ function esc_sql( $data ) {
  * is applied to the returned cleaned URL.
  *
  * @since 2.8.0
- * @uses wp_kses_bad_protocol() To only permit protocols in the URL set
- *		via $protocols or the common ones set in the function.
  *
  * @param string $url The URL to be cleaned.
  * @param array $protocols Optional. An array of acceptable protocols.
@@ -3082,7 +3078,6 @@ function esc_url( $url, $protocols = null, $_context = 'display' ) {
  * Performs esc_url() for database usage.
  *
  * @since 2.8.0
- * @uses esc_url()
  *
  * @param string $url The URL to be cleaned.
  * @param array $protocols An array of acceptable protocols.
@@ -3478,7 +3473,6 @@ function wp_parse_str( $string, &$array ) {
  *
  * KSES already converts lone greater than signs.
  *
- * @uses wp_pre_kses_less_than_callback in the callback function.
  * @since 2.3.0
  *
  * @param string $text Text to be converted.
@@ -3491,7 +3485,6 @@ function wp_pre_kses_less_than( $text ) {
 /**
  * Callback function used by preg_replace.
  *
- * @uses esc_html to format the $matches text.
  * @since 2.3.0
  *
  * @param array $matches Populated by matches to preg_replace.

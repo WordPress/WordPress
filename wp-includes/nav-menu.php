@@ -12,9 +12,6 @@
  *
  * @since 3.0.0
  *
- * @uses get_term
- * @uses get_term_by
- *
  * @param string $menu Menu ID, slug, or name.
  * @return mixed false if $menu param isn't supplied or term does not exist, menu object if successful.
  */

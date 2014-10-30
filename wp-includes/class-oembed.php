@@ -565,7 +565,6 @@ class WP_oEmbed {
  * @access private
  *
  * @see WP_oEmbed
- * @uses WP_oEmbed
  *
  * @return WP_oEmbed object.
  */

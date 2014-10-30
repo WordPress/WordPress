@@ -184,7 +184,6 @@ class WP_List_Table {
 
 	/**
 	 * Checks the current user's permissions
-	 * @uses wp_die()
 	 *
 	 * @since 3.1.0
 	 * @access public

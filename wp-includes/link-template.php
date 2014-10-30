@@ -1880,7 +1880,6 @@ function get_adjacent_post_link( $format, $link, $in_same_term = false, $exclude
  * Can be either next post link or previous.
  *
  * @since 2.5.0
- * @uses get_adjacent_post_link()
  *
  * @param string       $format         Link anchor format.
  * @param string       $link           Link permalink format.
@@ -2048,7 +2047,6 @@ function get_next_posts_link( $label = null, $max_page = 0 ) {
  * Display the next posts page link.
  *
  * @since 0.71
- * @uses get_next_posts_link()
  *
  * @param string $label Content for link text.
  * @param int $max_page Optional. Max pages.
@@ -2126,7 +2124,6 @@ function get_previous_posts_link( $label = null ) {
  * Display the previous posts page link.
  *
  * @since 0.71
- * @uses get_previous_posts_link()
  *
  * @param string $label Optional. Previous page link text.
  */
@@ -2606,8 +2603,6 @@ function get_shortcut_link() {
  *
  * @since 3.0.0
  *
- * @uses get_home_url()
- *
  * @param  string $path   (optional) Path relative to the home url.
  * @param  string $scheme (optional) Scheme to give the home url context. Currently 'http', 'https', or 'relative'.
  * @return string Home url link with optional path appended.
@@ -2674,8 +2669,6 @@ function get_home_url( $blog_id = null, $path = '', $scheme = null ) {
  * overridden.
  *
  * @since 3.0.0
- *
- * @uses get_site_url()
  *
  * @param string $path Optional. Path relative to the site url.
  * @param string $scheme Optional. Scheme to give the site url context. See set_url_scheme().
@@ -3258,8 +3251,6 @@ function wp_get_shortlink($id = 0, $context = 'post', $allow_slugs = true) {
  *  Attached to the wp_head action.
  *
  * @since 3.0.0
- *
- * @uses wp_get_shortlink()
  */
 function wp_shortlink_wp_head() {
 	$shortlink = wp_get_shortlink( 0, 'query' );
@@ -3276,8 +3267,6 @@ function wp_shortlink_wp_head() {
  * Attached to the wp action.
  *
  * @since 3.0.0
- *
- * @uses wp_get_shortlink()
  */
 function wp_shortlink_header() {
 	if ( headers_sent() )

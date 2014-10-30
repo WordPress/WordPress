@@ -2274,8 +2274,6 @@ function wp_get_mime_types() {
  *
  * @since 2.8.6
  *
- * @uses wp_get_upload_mime_types() to fetch the list of mime types
- *
  * @param int|WP_User $user Optional. User to check. Defaults to current user.
  * @return array Array of mime types keyed by the file extension regex corresponding
  *               to those types.
@@ -3200,8 +3198,6 @@ function wp_maybe_load_widgets() {
  * Append the Widgets menu to the themes main menu.
  *
  * @since 2.2.0
- *
- * @uses $submenu The administration submenu list.
  */
 function wp_widgets_add_menu() {
 	global $submenu;

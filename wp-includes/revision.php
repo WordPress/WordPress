@@ -77,8 +77,6 @@ function _wp_post_revision_fields( $post = null, $autosave = false ) {
  *
  * @since 2.6.0
  *
- * @uses _wp_put_post_revision()
- *
  * @param int $post_id The ID of the post to save as a revision.
  * @return mixed Null or 0 if error, new revision ID, if success.
  */
@@ -192,8 +190,6 @@ function wp_save_post_revision( $post_id ) {
  *
  * @since 2.6.0
  *
- * @uses wp_get_post_revisions()
- *
  * @param int $post_id The post ID.
  * @param int $user_id optional The post author ID.
  * @return object|bool The autosaved data or false on failure or when no autosave exists.
@@ -252,8 +248,6 @@ function wp_is_post_autosave( $post ) {
  * @since 2.6.0
  * @access private
  *
- * @uses wp_insert_post()
- *
  * @param int|object|array $post Post ID, post object OR post array.
  * @param bool $autosave Optional. Is the revision an autosave?
  * @return mixed WP_Error or 0 if error, new revision ID if success.
@@ -296,8 +290,6 @@ function _wp_put_post_revision( $post = null, $autosave = false ) {
  *
  * @since 2.6.0
  *
- * @uses get_post()
- *
  * @param int|object $post The post ID or object.
  * @param string $output Optional. OBJECT, ARRAY_A, or ARRAY_N.
  * @param string $filter Optional sanitation filter. @see sanitize_post().
@@ -328,9 +320,6 @@ function wp_get_post_revision(&$post, $output = OBJECT, $filter = 'raw') {
  * Can restore a past revision using all fields of the post revision, or only selected fields.
  *
  * @since 2.6.0
- *
- * @uses wp_get_post_revision()
- * @uses wp_update_post()
  *
  * @param int|object $revision_id Revision ID or revision object.
  * @param array $fields Optional. What fields to restore from. Defaults to all.
@@ -390,9 +379,6 @@ function wp_restore_post_revision( $revision_id, $fields = null ) {
  *
  * @since 2.6.0
  *
- * @uses wp_get_post_revision()
- * @uses wp_delete_post()
- *
  * @param int|object $revision_id Revision ID or revision object.
  * @return mixed Null or WP_Error if error, deleted post if success.
  */
@@ -424,8 +410,6 @@ function wp_delete_post_revision( $revision_id ) {
  *
  * @since 2.6.0
  *
- * @uses get_children()
- *
  * @param int|WP_Post $post_id Optional. Post ID or WP_Post object. Default is global $post.
  * @return array An array of revisions, or an empty array if none.
  */
@@ -453,8 +437,6 @@ function wp_get_post_revisions( $post_id = 0, $args = null ) {
  *
  * @since 3.6.0
  *
- * @uses wp_revisions_to_keep()
- *
  * @param object $post The post object.
  * @return bool True if number of revisions to keep isn't zero, false otherwise.
  */
@@ -467,8 +449,6 @@ function wp_revisions_enabled( $post ) {
  * By default, an infinite number of revisions are stored if a post type supports revisions.
  *
  * @since 3.6.0
- *
- * @uses post_type_supports()
  *
  * @param object $post The post object.
  * @return int The number of revisions to keep.
@@ -586,8 +566,6 @@ function _wp_get_post_revision_version( $revision ) {
  *
  * @since 3.6.0
  * @access private
- *
- * @uses wp_get_post_revisions()
  *
  * @param object $post Post object
  * @param array $revisions Current revisions of the post

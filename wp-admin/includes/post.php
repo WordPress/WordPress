@@ -1069,7 +1069,6 @@ function wp_edit_attachments_query( $q = false ) {
 /**
  * Returns the list of classes to be used by a metabox
  *
- * @uses get_user_option()
  * @since 2.5.0
  *
  * @param unknown_type $id
@@ -1500,9 +1499,6 @@ function _admin_notice_post_locked() {
  * @subpackage Post_Revisions
  * @since 2.6.0
  *
- * @uses _wp_translate_postdata()
- * @uses _wp_post_revision_fields()
- *
  * @param mixed $post_data Associative array containing the post data or int post ID.
  * @return mixed The autosave revision ID. WP_Error or 0 on error.
  */
@@ -1565,15 +1561,6 @@ function wp_create_post_autosave( $post_data ) {
  *
  * @package WordPress
  * @since 2.7.0
- *
- * @uses get_post_status()
- * @uses edit_post()
- * @uses get_post()
- * @uses current_user_can()
- * @uses wp_die()
- * @uses wp_create_post_autosave()
- * @uses add_query_arg()
- * @uses wp_create_nonce()
  *
  * @return str URL to redirect to show the preview
  */

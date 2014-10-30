@@ -661,7 +661,6 @@ function _wp_kses_split_callback( $match ) {
  *
  * @access private
  * @since 1.0.0
- * @uses wp_kses_attr()
  *
  * @param string $string Content to filter
  * @param array $allowed_html Allowed HTML elements
@@ -1318,7 +1317,6 @@ function _wp_kses_decode_entities_chr_hexdec( $match ) {
  * Sanitize content with allowed HTML Kses rules.
  *
  * @since 1.0.0
- * @uses $allowedtags
  *
  * @param string $data Content to filter, expected to be escaped with slashes
  * @return string Filtered content
@@ -1331,7 +1329,6 @@ function wp_filter_kses( $data ) {
  * Sanitize content with allowed HTML Kses rules.
  *
  * @since 2.9.0
- * @uses $allowedtags
  *
  * @param string $data Content to filter, expected to not be escaped
  * @return string Filtered content
@@ -1392,7 +1389,6 @@ function wp_filter_nohtml_kses( $data ) {
  * 'excerpt_save_pre', and 'content_filtered_save_pre' hooks.
  *
  * @since 2.0.0
- * @uses add_filter() See description for what functions are added to what hooks.
  */
 function kses_init_filters() {
 	// Normal filtering
@@ -1447,9 +1443,6 @@ function kses_remove_filters() {
  * to have Kses filter the content. If the user does not have unfiltered_html
  * capability, then Kses filters are added.
  *
- * @uses kses_remove_filters() Removes the Kses filters
- * @uses kses_init_filters() Adds the Kses filters back if the user
- *		does not have unfiltered HTML capability.
  * @since 2.0.0
  */
 function kses_init() {

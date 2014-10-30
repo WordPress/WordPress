@@ -50,7 +50,6 @@ $wp_file_descriptions = array(
  *
  * @since 1.5.0
  *
- * @uses _cleanup_header_comment
  * @uses $wp_file_descriptions
  * @param string $file Filesystem path or filename
  * @return string Description of file from $wp_file_descriptions or basename of $file if description doesn't exist
@@ -75,7 +74,6 @@ function get_file_description( $file ) {
  *
  * @since 1.5.0
  *
- * @uses get_option
  * @return string Full filesystem path to the root of the WordPress installation
  */
 function get_home_path() {
@@ -163,8 +161,6 @@ function wp_tempnam($filename = '', $dir = '') {
  *
  * @since 1.5.0
  *
- * @uses wp_die
- * @uses validate_file
  * @param string $file file the users is attempting to edit
  * @param array $allowed_files Array of allowed files to edit, $file must match an entry exactly
  * @return null
