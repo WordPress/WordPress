@@ -276,8 +276,9 @@ class WP_Comment_Query {
 	 *
 	 * @since 3.1.0
 	 * @since 4.1.0 Introduced 'comment__in', 'comment__not_in', 'post_author__in',
-	 *              'post_author__not_in', 'author__in', 'author__not_in',
-	 *              'post__in', 'post__not_in', and 'include_unapproved' to $query_vars.
+	 *              'post_author__not_in', 'author__in', 'author__not_in', 'post__in',
+	 *              'post__not_in', 'include_unapproved', 'type__in', and 'type__not_in'
+	 *              to $query_vars.
 	 *
 	 * @param string|array $query_vars
 	 * @return int|array
