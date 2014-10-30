@@ -116,10 +116,10 @@ function wp_save_post_revision( $post_id ) {
 		 *
 		 * @since 3.6.0
 		 *
-		 * @param bool $check_for_changes Whether to check for changes before saving a new revision.
-		 *                                Default true.
-		 * @param int  $last_revision     ID of the last revision.
-		 * @param int  $post              Post ID.
+		 * @param bool    $check_for_changes Whether to check for changes before saving a new revision.
+		 *                                   Default true.
+		 * @param WP_Post $last_revision     The the last revision post object.
+		 * @param WP_Post $post              The post object.
 		 *
 		 */
 		if ( isset( $last_revision ) && apply_filters( 'wp_save_post_revision_check_for_changes', $check_for_changes = true, $last_revision, $post ) ) {
