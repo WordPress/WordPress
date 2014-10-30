@@ -1628,11 +1628,17 @@ function get_terms( $taxonomies, $args = '' ) {
 	$args = wp_parse_args( $args, $defaults );
 	$args['number'] = absint( $args['number'] );
 	$args['offset'] = absint( $args['offset'] );
-	if ( !$single_taxonomy || ! is_taxonomy_hierarchical( reset( $taxonomies ) ) ||
-		( '' !== $args['parent'] && 0 !== $args['parent'] ) ) {
-		$args['child_of'] = 0;
+
+	// Save queries by not crawling the tree in the case of multiple taxes or a flat tax.
+	if ( ! $single_taxonomy || ! is_taxonomy_hierarchical( reset( $taxonomies ) ) ) {
+		$args['child_of'] = false;
 		$args['hierarchical'] = false;
 		$args['pad_counts'] = false;
+	}
+
+	// 'parent' overrides 'child_of'.
+	if ( 0 < intval( $args['parent'] ) ) {
+		$args['child_of'] = false;
 	}
 
 	if ( 'all' == $args['get'] ) {
