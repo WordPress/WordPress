@@ -151,7 +151,7 @@ if ( $action ) {
 				include( WP_PLUGIN_DIR . '/' . $plugin );
 			}
 			plugin_sandbox_scrape( $plugin );
-			/** This action is documented in wp-admin/includes/plugins.php */
+			/** This action is documented in wp-admin/includes/plugin.php */
 			do_action( "activate_{$plugin}" );
 			exit;
 
