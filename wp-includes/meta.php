@@ -478,8 +478,13 @@ function get_metadata($meta_type, $object_id, $meta_key = '', $single = false) {
 		$meta_cache = $meta_cache[$object_id];
 	}
 
-	if ( !$meta_key )
+	if ( ! $meta_key ) {
+		foreach ( $meta_cache as &$meta_values ) {
+			$meta_values = array_map( 'maybe_unserialize', $meta_values );
+		}
+
 		return $meta_cache;
+	}
 
 	if ( isset($meta_cache[$meta_key]) ) {
 		if ( $single )
