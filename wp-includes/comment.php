@@ -128,9 +128,11 @@ function check_comment($author, $email, $url, $comment, $user_ip, $user_agent, $
  * Retrieve the approved comments for post $post_id.
  *
  * @since 2.0.0
+ * @since 4.1.0 Refactored to leverage {@see WP_Comment_Query} over a direct query.
  *
- * @param  int   $post_id  The ID of the post.
- * @param  array $args     Optional. WP_Comment_Query args.
+ * @param  int   $post_id The ID of the post.
+ * @param  array $args    Optional. See {@see WP_Comment_Query} for information
+ *                        on accepted arguments.
  * @return array $comments The approved comments.
  */
 function get_approved_comments( $post_id = 0, $args = array() ) {
