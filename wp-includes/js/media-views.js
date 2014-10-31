@@ -1308,7 +1308,7 @@
 		 *
 		 * @param {wp.media.view.attachmentsBrowser} The attachments browser view.
 		 */
-		renderSettings: function( browser ) {
+		renderSettings: function( attachmentsBrowserView ) {
 			var library = this.get('library'),
 				collectionType = this.get('collectionType'),
 				dragInfoText = this.get('dragInfoText'),
