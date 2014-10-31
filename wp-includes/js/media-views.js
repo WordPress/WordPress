@@ -1315,7 +1315,7 @@
 				SettingsView = this.get('SettingsView'),
 				obj = {};
 
-			if ( ! library || ! browser ) {
+			if ( ! library || ! attachmentsBrowserView ) {
 				return;
 			}
 
@@ -1327,17 +1327,17 @@
 				priority:   40
 			});
 
-			browser.sidebar.set( obj );
+			attachmentsBrowserView.sidebar.set( obj );
 
 			if ( dragInfoText ) {
-				browser.toolbar.set( 'dragInfo', new media.View({
+				attachmentsBrowserView.toolbar.set( 'dragInfo', new media.View({
 					el: $( '<div class="instructions">' + dragInfoText + '</div>' )[0],
 					priority: -40
 				}) );
 			}
 
 			// Add the 'Reverse order' button to the toolbar.
-			browser.toolbar.set( 'reverse', {
+			attachmentsBrowserView.toolbar.set( 'reverse', {
 				text:     l10n.reverseOrder,
 				priority: 80,
 
@@ -3383,7 +3383,6 @@
 		},
 
 		initialize: function( options ) {
-			debugger;
 			this.image = new media.model.PostImage( options.metadata );
 			this.options.selection = new media.model.Selection( this.image.attachment, { multiple: false } );
 			media.view.MediaFrame.Select.prototype.initialize.apply( this, arguments );
