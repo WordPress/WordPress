@@ -1,9 +1,17 @@
 /* global _wpRevisionsSettings, isRtl */
+/**
+ * @file Revisions interface functions, Backbone classes and
+ * the revisions.php document.ready bootstrap.
+ *
+ */
+
 window.wp = window.wp || {};
 
 (function($) {
 	var revisions;
-
+	/**
+	 * Expose the module in window.wp.revisions.
+	 */
 	revisions = wp.revisions = { model: {}, view: {}, controller: {} };
 
 	// Link settings.
@@ -12,6 +20,12 @@ window.wp = window.wp || {};
 	// For debugging
 	revisions.debug = false;
 
+	/**
+	 * wp.revisions.log
+	 *
+	 * A debugging utility for revisions. Works only when a
+	 * debug flag is on and the browser supports it.
+	 */
 	revisions.log = function() {
 		if ( window.console && revisions.debug ) {
 			window.console.log.apply( window.console, arguments );
@@ -179,6 +193,11 @@ window.wp = window.wp || {};
 
 	revisions.model.Revision = Backbone.Model.extend({});
 
+	/**
+	 * wp.revisions.model.Revisions
+	 *
+	 * A collection of post revisions.
+	 */
 	revisions.model.Revisions = Backbone.Collection.extend({
 		model: revisions.model.Revision,
 
@@ -352,6 +371,17 @@ window.wp = window.wp || {};
 	});
 
 
+	/**
+	 * wp.revisions.model.FrameState
+	 *
+	 * The frame state.
+	 *
+	 * @see wp.revisions.view.Frame
+	 *
+	 * @param {object}                    attributes        Model attributes - none are required.
+	 * @param {object}                    options           Options for the model.
+	 * @param {revisions.model.Revisions} options.revisions A collection of revisions.
+	 */
 	revisions.model.FrameState = Backbone.Model.extend({
 		defaults: {
 			loading: false,
@@ -499,7 +529,14 @@ window.wp = window.wp || {};
 	 * ========================================================================
 	 */
 
-	// The frame view. This contains the entire page.
+	/**
+	 * wp.revisions.view.Frame
+	 *
+	 * Top level frame that orchestrates the revisions experience.
+	 *
+	 * @param {object}                     options       The options hash for the view.
+	 * @param {revisions.model.FrameState} options.model The frame state model.
+	 */
 	revisions.view.Frame = wp.Backbone.View.extend({
 		className: 'revisions',
 		template: wp.template('revisions-frame'),
@@ -546,8 +583,13 @@ window.wp = window.wp || {};
 		}
 	});
 
-	// The control view.
-	// This contains the revision slider, previous/next buttons, the meta info and the compare checkbox.
+	/**
+	 * wp.revisions.view.Controls
+	 *
+	 * The controls view.
+	 *
+	 * Contains the revision slider, previous/next buttons, the meta info and the compare checkbox.
+	 */
 	revisions.view.Controls = wp.Backbone.View.extend({
 		className: 'revisions-controls',
 
