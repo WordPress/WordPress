@@ -1308,7 +1308,7 @@
 		 *
 		 * @param {wp.media.view.attachmentsBrowser} The attachments browser view.
 		 */
-		renderSettings: function( attachmentsBrowserView ) {
+		renderSettings: function( browser ) {
 			var library = this.get('library'),
 				collectionType = this.get('collectionType'),
 				dragInfoText = this.get('dragInfoText'),
@@ -1566,7 +1566,7 @@
 	 * @augments wp.media.controller.State
 	 * @augments Backbone.Model
 	 *
- 	 * @param {object}                     [attributes]                         The attributes hash passed to the state.
+	 * @param {object}                     [attributes]                         The attributes hash passed to the state.
 	 * @param {string}                     [attributes.id=replace-image]        Unique identifier.
 	 * @param {string}                     [attributes.title=Replace Image]     Title for the state. Displays in the media menu and the frame's title region.
 	 * @param {wp.media.model.Attachments} [attributes.library]                 The attachments collection to browse.
