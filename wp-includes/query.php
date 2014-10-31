@@ -2211,7 +2211,7 @@ class WP_Query {
 	 * @since 4.0.0
 	 * @access protected
 	 *
-	 * @global wpdb $wpdb WordPress database access abstraction object.
+	 * @global wpdb $wpdb WordPress database abstraction object.
 	 *
 	 * @param string $orderby Alias for the field to order by.
 	 * @return string|bool Table-prefixed value to used in the ORDER clause. False otherwise.
@@ -4619,8 +4619,9 @@ class WP_Query {
  * Attempts to find the current slug from the past slugs.
  *
  * @since 2.1.0
+ *
  * @uses $wp_query
- * @uses $wpdb
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @return null If no link is found, null is returned.
  */

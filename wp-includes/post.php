@@ -1789,7 +1789,7 @@ function post_type_supports( $post_type, $feature ) {
  *
  * @since 2.5.0
  *
- * @global wpdb $wpdb WordPress database access abstraction object.
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param int    $post_id   Optional. Post ID to change post type. Default 0.
  * @param string $post_type Optional. Post type. Accepts 'post' or 'page' to
@@ -2554,7 +2554,7 @@ function wp_post_mime_type_where( $post_mime_types, $table_alias = '' ) {
  *
  * @since 1.0.0
  *
- * @global wpdb $wpdb WordPress database access abstraction object.
+ * @global wpdb $wpdb WordPress database abstraction object.
  * @see wp_delete_attachment()
  * @see wp_trash_post()
  *
@@ -2799,7 +2799,7 @@ function wp_untrash_post( $post_id = 0 ) {
  *
  * @since 2.9.0
  *
- * @global wpdb $wpdb WordPress database access abstraction object.
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param int|WP_Post $post Optional. Post ID or post object. Defaults to global $post.
  * @return mixed False on failure.
@@ -4741,7 +4741,7 @@ function wp_insert_attachment( $args, $file = false, $parent = 0 ) {
  *
  * @since 2.0.0
  *
- * @global wpdb $wpdb WordPress database access abstraction object.
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param int  $post_id      Attachment ID.
  * @param bool $force_delete Optional. Whether to bypass trash and force deletion.
@@ -5430,7 +5430,7 @@ function update_post_cache( &$posts ) {
  *
  * @since 2.0.0
  *
- * @global wpdb $wpdb WordPress database access abstraction object.
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param int|WP_Post $post Post ID or post object to remove from the cache.
  */
@@ -5588,7 +5588,7 @@ function clean_attachment_cache( $id, $clean_terms = false ) {
  * @access private
  *
  * @see wp_clear_scheduled_hook()
- * @global wpdb $wpdb WordPress database access abstraction object.
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param string  $new_status New post status.
  * @param string  $old_status Previous post status.
@@ -5780,7 +5780,7 @@ function delete_post_thumbnail( $post ) {
  *
  * @since 3.4.0
  *
- * @global wpdb $wpdb WordPress database access abstraction object.
+ * @global wpdb $wpdb WordPress database abstraction object.
  */
 function wp_delete_auto_drafts() {
 	global $wpdb;

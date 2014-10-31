@@ -3260,7 +3260,7 @@ function wp_maybe_generate_attachment_metadata( $attachment ) {
  *
  * @since 4.0.0
  *
- * @global wpdb $wpdb WordPress database access abstraction object.
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param string $url The URL to resolve.
  * @return int The found post ID.

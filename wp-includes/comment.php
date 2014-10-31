@@ -24,7 +24,7 @@
  *
  * @since 1.2.0
  *
- * @global wpdb $wpdb WordPress database access abstraction object.
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param string $author       Comment author name.
  * @param string $email        Comment author email.
@@ -155,7 +155,8 @@ function get_approved_comments( $post_id = 0, $args = array() ) {
  * comment variable will be used, if it is set.
  *
  * @since 2.0.0
- * @uses $wpdb
+ *
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param object|string|int $comment Comment to retrieve.
  * @param string $output Optional. OBJECT or ARRAY_A or ARRAY_N constants.
@@ -214,7 +215,8 @@ function get_comment(&$comment, $output = OBJECT) {
  * 'order', 'number', 'offset', and 'post_id'.
  *
  * @since 2.7.0
- * @uses $wpdb
+ *
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param mixed $args Optional. Array or string of options to override defaults.
  * @return array List of comments.
@@ -757,7 +759,8 @@ function get_comment_statuses() {
  * The date the last comment was modified.
  *
  * @since 1.5.0
- * @uses $wpdb
+ *
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param string $timezone Which timezone to use in reference to 'gmt', 'blog',
  *		or 'server' locations.
@@ -797,7 +800,8 @@ function get_lastcommentmodified($timezone = 'server') {
  * caches, but this function does not.
  *
  * @since 2.0.0
- * @uses $wpdb
+ *
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param int $post_id Optional. Comment amount in post if > 0, else total comments blog wide.
  * @return array The amount of spam, approved, awaiting moderation, and total comments.
@@ -1015,7 +1019,8 @@ function sanitize_comment_cookies() {
  * Validates whether this comment is allowed to be made.
  *
  * @since 2.0.0
- * @uses $wpdb
+ *
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param array $commentdata Contains information on the comment
  * @return mixed Signifies the approval status (0|1|'spam')
@@ -1132,7 +1137,8 @@ function wp_allow_comment( $commentdata ) {
  * administrators.
  *
  * @since 2.3.0
- * @uses $wpdb
+ *
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param string $ip Comment IP.
  * @param string $email Comment author email address.
@@ -1435,7 +1441,8 @@ function wp_count_comments( $post_id = 0 ) {
  * post ID available.
  *
  * @since 2.0.0
- * @uses $wpdb
+ *
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param int $comment_id Comment ID
  * @param bool $force_delete Whether to bypass trash and force deletion. Default is false.
@@ -1810,7 +1817,8 @@ function wp_get_current_commenter() {
  * 'comment_date_gmt', 'comment_parent', 'comment_approved', and 'user_id'.
  *
  * @since 2.0.0
- * @uses $wpdb
+ *
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param array $commentdata Contains information on the comment.
  * @return int|bool The new comment's ID on success, false on failure.
@@ -2105,7 +2113,8 @@ function wp_set_comment_status($comment_id, $comment_status, $wp_error = false) 
  * Filters the comment and makes sure certain fields are valid before updating.
  *
  * @since 2.0.0
- * @uses $wpdb
+ *
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param array $commentarr Contains information on the comment.
  * @return int Comment was updated if value is 1, or was not updated if value is 0.
@@ -2243,7 +2252,8 @@ function wp_update_comment_count($post_id, $do_deferred=false) {
  * Updates the comment count for the post.
  *
  * @since 2.5.0
- * @uses $wpdb
+ *
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param int $post_id Post ID
  * @return bool True on success, false on '0' $post_id or if post with ID does not exist.
@@ -2357,7 +2367,8 @@ function discover_pingback_server_uri( $url, $deprecated = '' ) {
  * Perform all pingbacks, enclosures, trackbacks, and send to pingback services.
  *
  * @since 2.1.0
- * @uses $wpdb
+ *
+ * @global wpdb $wpdb WordPress database abstraction object.
  */
 function do_all_pings() {
 	global $wpdb;
@@ -2388,7 +2399,8 @@ function do_all_pings() {
  * Perform trackbacks.
  *
  * @since 1.5.0
- * @uses $wpdb
+ *
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param int $post_id Post ID to do trackbacks on.
  */
@@ -2562,7 +2574,8 @@ function privacy_ping_filter($sites) {
  * Updates database when sending trackback to prevent duplicates.
  *
  * @since 0.71
- * @uses $wpdb
+ *
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param string $trackback_url URL to send trackbacks.
  * @param string $title Title of post.

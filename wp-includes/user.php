@@ -806,7 +806,7 @@ class WP_User_Query {
 		 *
 		 * @since 3.2.0
 		 *
-		 * @global wpdb $wpdb WordPress database object.
+		 * @global wpdb $wpdb WordPress database abstraction object.
 		 *
 		 * @param string $sql The SELECT FOUND_ROWS() query for the current WP_User_Query.
 		 */

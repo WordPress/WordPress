@@ -562,7 +562,7 @@ function unregister_taxonomy_for_object_type( $taxonomy, $object_type ) {
  *
  * @since 2.3.0
  *
- * @uses $wpdb
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param int|array $term_ids Term id or array of term ids of terms that will be used
  * @param string|array $taxonomies String of taxonomy name or Array of string values of taxonomy names
@@ -1261,7 +1261,7 @@ class WP_Tax_Query {
  *
  * @since 2.3.0
  *
- * @uses $wpdb
+ * @global wpdb $wpdb WordPress database abstraction object.
  * @see sanitize_term_field() The $context param lists the available values for get_term_by() $filter param.
  *
  * @param int|object $term If integer, will get from database. If object will apply filters and return $term.
@@ -1356,7 +1356,7 @@ function get_term($term, $taxonomy, $output = OBJECT, $filter = 'raw') {
  *
  * @since 2.3.0
  *
- * @uses $wpdb
+ * @global wpdb $wpdb WordPress database abstraction object.
  * @see sanitize_term_field() The $context param lists the available values for get_term_by() $filter param.
  *
  * @param string $field Either 'slug', 'name', 'id' (term_id), or 'term_taxonomy_id'
@@ -1446,7 +1446,7 @@ function get_term_by($field, $value, $taxonomy, $output = OBJECT, $filter = 'raw
  *
  * @since 2.3.0
  *
- * @uses $wpdb
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param string $term_id ID of Term to get children
  * @param string $taxonomy Taxonomy Name
@@ -1553,7 +1553,7 @@ function get_term_to_edit( $id, $taxonomy ) {
  *
  * @since 2.3.0
  *
- * @global wpdb $wpdb WordPress database access abstraction object.
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param string|array $taxonomies Taxonomy name or list of Taxonomy names.
  * @param array|string $args {
@@ -2003,7 +2003,7 @@ function get_terms( $taxonomies, $args = '' ) {
  *
  * @since 3.0.0
  *
- * @uses $wpdb
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param int|string $term The term to check
  * @param string $taxonomy The taxonomy name to use
@@ -2143,7 +2143,7 @@ function sanitize_term($term, $taxonomy, $context = 'display') {
  *
  * @since 2.3.0
  *
- * @uses $wpdb
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param string $field Term field to sanitize
  * @param string $value Search for this term value
@@ -2363,7 +2363,7 @@ function wp_delete_object_term_relationships( $object_id, $taxonomies ) {
  *
  * @since 2.3.0
  *
- * @uses $wpdb
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param int $term Term ID
  * @param string $taxonomy Taxonomy Name
@@ -2562,7 +2562,8 @@ function wp_delete_category( $cat_ID ) {
  * array of all matching term ids or term names will be returned respectively.
  *
  * @since 2.3.0
- * @uses $wpdb
+ *
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param int|array $object_ids The ID(s) of the object(s) to retrieve.
  * @param string|array $taxonomies The taxonomies to retrieve terms from.
@@ -2733,7 +2734,7 @@ function wp_get_object_terms($object_ids, $taxonomies, $args = array()) {
  * If the term already exists on the same hierarchical level,
  * or the term slug and name are not unique, a WP_Error object will be returned.
  *
- * @global wpdb $wpdb The WordPress database object.
+ * @global wpdb $wpdb WordPress database abstraction object.
 
  * @since 2.3.0
  *
@@ -3089,7 +3090,8 @@ function wp_add_object_terms( $object_id, $terms, $taxonomy ) {
  * Remove term(s) associated with a given object.
  *
  * @since 3.6.0
- * @uses $wpdb
+ *
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param int $object_id The ID of the object from which the terms will be removed.
  * @param array|int|string $terms The slug(s) or ID(s) of the term(s) to remove.
@@ -3177,7 +3179,8 @@ function wp_remove_object_terms( $object_id, $terms, $taxonomy ) {
  * The only purpose for $term is for appending a parent, if one exists.
  *
  * @since 2.3.0
- * @uses $wpdb
+ *
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param string $slug The string that will be tried for a unique slug
  * @param object $term The term object that the $slug will belong too
@@ -3249,7 +3252,7 @@ function wp_unique_term_slug($slug, $term) {
  *
  * @since 2.3.0
  *
- * @uses $wpdb
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param int $term_id The ID of the term
  * @param string $taxonomy The context in which to relate the term to the object.
@@ -3494,7 +3497,8 @@ function wp_defer_term_counting($defer=null) {
  * of term ID. Once that is done, then update the database.
  *
  * @since 2.3.0
- * @uses $wpdb
+ *
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param int|array $terms The term_taxonomy_id of the terms
  * @param string $taxonomy The context of the term.
@@ -3607,7 +3611,8 @@ function clean_object_term_cache($object_ids, $object_type) {
  * Will remove all of the term ids from the cache.
  *
  * @since 2.3.0
- * @uses $wpdb
+ *
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param int|array $ids Single or list of Term IDs
  * @param string $taxonomy Can be empty and will assume tt_ids, else will use for context.
@@ -3870,7 +3875,8 @@ function _get_term_children($term_id, $terms, $taxonomy) {
  *
  * @access private
  * @since 2.3.0
- * @uses $wpdb
+ *
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param array $terms List of Term IDs
  * @param string $taxonomy Term Context
@@ -3934,7 +3940,8 @@ function _pad_term_counts(&$terms, $taxonomy) {
  *
  * @access private
  * @since 2.3.0
- * @uses $wpdb
+ *
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param array $terms List of Term taxonomy IDs
  * @param object $taxonomy Current taxonomy object of terms
@@ -3982,7 +3989,8 @@ function _update_post_term_count( $terms, $taxonomy ) {
  * Default callback for the link_category taxonomy.
  *
  * @since 3.3.0
- * @uses $wpdb
+ *
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param array $terms List of Term taxonomy IDs
  * @param object $taxonomy Current taxonomy object of terms

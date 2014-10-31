@@ -44,7 +44,7 @@ if ( ! function_exists('maybe_create_table') ) :
  *
  * @since 1.0.0
  *
- * @uses $wpdb
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param string $table_name Database table name.
  * @param string $create_ddl Create database table SQL.
@@ -76,7 +76,7 @@ if ( ! function_exists('maybe_add_column') ) :
  *
  * @since 1.0.0
  *
- * @uses $wpdb
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param string $table_name Database table name
  * @param string $column_name Table column name
@@ -110,7 +110,7 @@ endif;
  *
  * @since 1.0.0
  *
- * @uses $wpdb
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param string $table_name Table name
  * @param string $column_name Column name

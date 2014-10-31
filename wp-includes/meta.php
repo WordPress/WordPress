@@ -15,7 +15,8 @@
  * Add metadata for the specified object.
  *
  * @since 2.9.0
- * @uses $wpdb WordPress database object for queries.
+ *
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param string $meta_type Type of object metadata is for (e.g., comment, post, or user)
  * @param int $object_id ID of the object metadata is for
@@ -128,7 +129,8 @@ function add_metadata($meta_type, $object_id, $meta_key, $meta_value, $unique = 
  * ID and metadata key, the metadata will be added.
  *
  * @since 2.9.0
- * @uses $wpdb WordPress database object for queries.
+ *
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param string $meta_type Type of object metadata is for (e.g., comment, post, or user)
  * @param int $object_id ID of the object metadata is for
@@ -278,7 +280,8 @@ function update_metadata($meta_type, $object_id, $meta_key, $meta_value, $prev_v
  * Delete metadata for the specified object.
  *
  * @since 2.9.0
- * @uses $wpdb WordPress database object for queries.
+ *
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param string $meta_type Type of object metadata is for (e.g., comment, post, or user)
  * @param int $object_id ID of the object metadata is for
@@ -756,7 +759,8 @@ function delete_metadata_by_mid( $meta_type, $meta_id ) {
  * Update the metadata cache for the specified objects.
  *
  * @since 2.9.0
- * @uses $wpdb WordPress database object for queries.
+ *
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param string $meta_type Type of object metadata is for (e.g., comment, post, or user)
  * @param int|array $object_ids array or comma delimited list of object IDs to update cache for
@@ -1500,7 +1504,8 @@ class WP_Meta_Query {
  * Retrieve the name of the metadata table for the specified object type.
  *
  * @since 2.9.0
- * @uses $wpdb WordPress database object for queries.
+ *
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param string $type Type of object to get metadata table for (e.g., comment, post, or user)
  * @return mixed Metadata table name, or false if no metadata table exists

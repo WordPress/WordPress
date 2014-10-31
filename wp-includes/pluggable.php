@@ -1484,7 +1484,7 @@ if ( !function_exists('wp_notify_moderator') ) :
  *
  * @since 1.0.0
  *
- * @uses $wpdb
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param int $comment_id Comment ID
  * @return bool Always returns true
@@ -2064,7 +2064,7 @@ if ( !function_exists('wp_set_password') ) :
  *
  * @since 2.5.0
  *
- * @uses $wpdb WordPress database object for queries
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param string $password The plaintext new user password
  * @param int $user_id User ID

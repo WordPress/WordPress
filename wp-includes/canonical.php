@@ -512,7 +512,8 @@ function _remove_qs_args_if_not_in_url( $query_string, Array $args_to_check, $ur
  * Attempts to guess the correct URL based on query vars
  *
  * @since 2.3.0
- * @uses $wpdb
+ *
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @return bool|string The correct URL if one is found. False on failure.
  */

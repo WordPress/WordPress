@@ -2424,7 +2424,8 @@ function update_usermeta( $user_id, $meta_key, $meta_value ) {
  *
  * @since 2.2.0
  * @deprecated 3.1.0
- * @uses $wpdb WordPress database object for queries
+ *
+ * @global wpdb $wpdb WordPress database abstraction object.
  * @uses $blog_id The Blog id of the blog for those that use more than one blog
  *
  * @param int $id Blog ID.

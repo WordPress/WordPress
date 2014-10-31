@@ -10,7 +10,8 @@
  * Retrieve Bookmark data
  *
  * @since 2.1.0
- * @uses $wpdb Database Object
+ *
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param mixed $bookmark
  * @param string $output Optional. Either OBJECT, ARRAY_N, or ARRAY_A constant
@@ -91,7 +92,7 @@ function get_bookmark_field( $field, $bookmark, $context = 'display' ) {
  *
  * @since 2.1.0
  *
- * @global wpdb $wpdb WordPress database access abstraction object.
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param string|array $args {
  *     Optional. String or array of arguments to retrieve bookmarks.

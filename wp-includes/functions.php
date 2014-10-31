@@ -1087,7 +1087,7 @@ function cache_javascript_headers() {
  *
  * @since 2.0.0
  *
- * @global wpdb $wpdb WordPress database access abstraction object.
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @return int Number of database queries.
  */
@@ -1253,7 +1253,7 @@ function do_robots() {
  *
  * @since 2.1.0
  *
- * @global wpdb $wpdb WordPress database access abstraction object.
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @return bool Whether the blog is already installed.
  */
@@ -3238,7 +3238,7 @@ function wp_ob_end_flush_all() {
  *
  * @since 2.3.2
  *
- * @global wpdb $wpdb WordPress database access abstraction object.
+ * @global wpdb $wpdb WordPress database abstraction object.
  */
 function dead_db() {
 	global $wpdb;

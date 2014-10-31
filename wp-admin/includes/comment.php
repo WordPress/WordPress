@@ -10,7 +10,8 @@
  * Determine if a comment exists based on author and date.
  *
  * @since 2.0.0
- * @uses $wpdb
+ *
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param string $comment_author Author of the comment
  * @param string $comment_date Date of the comment
@@ -110,7 +111,8 @@ function get_comment_to_edit( $id ) {
  * Get the number of pending comments on a post or posts
  *
  * @since 2.3.0
- * @uses $wpdb
+ *
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param int|array $post_id Either a single Post ID or an array of Post IDs
  * @return int|array Either a single Posts pending comments as an int or an array of ints keyed on the Post IDs
