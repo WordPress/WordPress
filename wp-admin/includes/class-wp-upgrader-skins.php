@@ -20,6 +20,7 @@ class WP_Upgrader_Skin {
 	public $done_header = false;
 	public $done_footer = false;
 	public $result = false;
+	public $options = array();
 
 	public function __construct($args = array()) {
 		$defaults = array( 'url' => '', 'nonce' => '', 'title' => '', 'context' => false );
