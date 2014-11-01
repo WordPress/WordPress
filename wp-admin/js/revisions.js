@@ -1139,8 +1139,15 @@ window.wp = window.wp || {};
 		}
 	});
 
-	// Initialize the revisions UI.
+	/**
+	 * Initialize the revisions UI for revision.php.
+	 */
 	revisions.init = function() {
+		// Bail if the current page is not revision.php.
+		if ( ! window.adminpage || 'revision-php' !== window.adminpage ) {
+			return;
+		}
+
 		revisions.view.frame = new revisions.view.Frame({
 			model: new revisions.model.FrameState({}, {
 				revisions: new revisions.model.Revisions( revisions.settings.revisionData )
