@@ -24,6 +24,8 @@ class WP_Upgrader {
 	public $strings = array();
 	public $skin = null;
 	public $result = array();
+	public $update_count = 0;
+	public $update_current = 0;
 
 	public function __construct($skin = null) {
 		if ( null == $skin )
