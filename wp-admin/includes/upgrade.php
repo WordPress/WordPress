@@ -442,9 +442,6 @@ function upgrade_all() {
 	if ( $wp_current_db_version < 29630 )
 		upgrade_400();
 
-	if ( $wp_current_db_version < 30056 )
-		upgrade_410();
-
 	maybe_disable_link_manager();
 
 	maybe_disable_automattic_widgets();
@@ -1332,18 +1329,6 @@ function upgrade_400() {
 }
 
 /**
- * Execute changes made in WordPress 4.1.0.
- *
- * @since 4.1.0
- */
-function upgrade_410() {
-	global $wp_current_db_version, $wpdb;
-	if ( $wp_current_db_version < 30056 ) {
-		add_clean_index( $wpdb->terms, 'slug' );
-	}
-}
-
-/**
  * Execute network level changes
  *
  * @since 3.0.0
@@ -2204,6 +2189,11 @@ function pre_schema_upgrade() {
 			$wpdb->query( "ALTER TABLE $wpdb->blogs CHANGE COLUMN archived archived varchar(1) NOT NULL default '0'" );
 			$wpdb->query( "ALTER TABLE $wpdb->blogs CHANGE COLUMN archived archived tinyint(2) NOT NULL default 0" );
 		}
+	}
+
+	if ( $wp_current_db_version < 30133 ) {
+		// dbDelta() can recreate but can't drop the index.
+		$wpdb->query( "ALTER TABLE $wpdb->terms DROP INDEX slug" );
 	}
 }
 
