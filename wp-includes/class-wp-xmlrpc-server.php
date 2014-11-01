@@ -1066,7 +1066,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	 * @since 3.4.0
 	 *
 	 * @param array $args Method parameters. Contains:
-	 *  - int     $blog_id
+	 *  - int     $blog_id (unused)
 	 *  - string  $username
 	 *  - string  $password
 	 *  - array   $content_struct
@@ -1097,7 +1097,6 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		$this->escape( $args );
 
-		$blog_id        = (int) $args[0];
 		$username       = $args[1];
 		$password       = $args[2];
 		$content_struct = $args[3];
@@ -1393,7 +1392,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	 * @since 3.4.0
 	 *
 	 * @param array $args Method parameters. Contains:
-	 *  - int     $blog_id
+	 *  - int     $blog_id (unused)
 	 *  - string  $username
 	 *  - string  $password
 	 *  - int     $post_id
@@ -1406,7 +1405,6 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		$this->escape( $args );
 
-		$blog_id        = (int) $args[0];
 		$username       = $args[1];
 		$password       = $args[2];
 		$post_id        = (int) $args[3];
@@ -1457,7 +1455,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	 *
 	 * @uses wp_delete_post()
 	 * @param array $args Method parameters. Contains:
-	 *  - int     $blog_id
+	 *  - int     $blog_id (unused)
 	 *  - string  $username
 	 *  - string  $password
 	 *  - int     $post_id
@@ -1469,7 +1467,6 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		$this->escape( $args );
 
-		$blog_id    = (int) $args[0];
 		$username   = $args[1];
 		$password   = $args[2];
 		$post_id    = (int) $args[3];
@@ -1511,9 +1508,10 @@ class wp_xmlrpc_server extends IXR_Server {
 	 *
 	 * @uses get_post()
 	 * @param array $args Method parameters. Contains:
-	 *  - int     $post_id
+	 *  - int     $blog_id (unset)
 	 *  - string  $username
 	 *  - string  $password
+	 *  - int     $post_id
 	 *  - array   $fields optional
 	 * @return array contains (based on $fields parameter):
 	 *  - 'post_id'
@@ -1545,7 +1543,6 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		$this->escape( $args );
 
-		$blog_id            = (int) $args[0];
 		$username           = $args[1];
 		$password           = $args[2];
 		$post_id            = (int) $args[3];
@@ -1598,7 +1595,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	 * @see get_posts() for more on $filter values
 	 *
 	 * @param array $args Method parameters. Contains:
-	 *  - int     $blog_id
+	 *  - int     $blog_id (unused)
 	 *  - string  $username
 	 *  - string  $password
 	 *  - array   $filter optional
@@ -1611,7 +1608,6 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		$this->escape( $args );
 
-		$blog_id    = (int) $args[0];
 		$username   = $args[1];
 		$password   = $args[2];
 		$filter     = isset( $args[3] ) ? $args[3] : array();
@@ -1689,7 +1685,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	 *
 	 * @uses wp_insert_term()
 	 * @param array $args Method parameters. Contains:
-	 *  - int     $blog_id
+	 *  - int     $blog_id (unused)
 	 *  - string  $username
 	 *  - string  $password
 	 *  - array   $content_struct
@@ -1708,7 +1704,6 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		$this->escape( $args );
 
-		$blog_id            = (int) $args[0];
 		$username           = $args[1];
 		$password           = $args[2];
 		$content_struct     = $args[3];
@@ -1776,7 +1771,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	 *
 	 * @uses wp_update_term()
 	 * @param array $args Method parameters. Contains:
-	 *  - int     $blog_id
+	 *  - int     $blog_id (unused)
 	 *  - string  $username
 	 *  - string  $password
 	 *  - string  $term_id
@@ -1796,7 +1791,6 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		$this->escape( $args );
 
-		$blog_id            = (int) $args[0];
 		$username           = $args[1];
 		$password           = $args[2];
 		$term_id            = (int) $args[3];
@@ -1876,7 +1870,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	 *
 	 * @uses wp_delete_term()
 	 * @param array $args Method parameters. Contains:
-	 *  - int     $blog_id
+	 *  - int     $blog_id (unused)
 	 *  - string  $username
 	 *  - string  $password
 	 *  - string  $taxnomy_name
@@ -1889,7 +1883,6 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		$this->escape( $args );
 
-		$blog_id            = (int) $args[0];
 		$username           = $args[1];
 		$password           = $args[2];
 		$taxonomy           = $args[3];
@@ -1935,7 +1928,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	 *
 	 * @uses get_term()
 	 * @param array $args Method parameters. Contains:
-	 *  - int     $blog_id
+	 *  - int     $blog_id (unused)
 	 *  - string  $username
 	 *  - string  $password
 	 *  - string  $taxonomy
@@ -1957,7 +1950,6 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		$this->escape( $args );
 
-		$blog_id            = (int) $args[0];
 		$username           = $args[1];
 		$password           = $args[2];
 		$taxonomy           = $args[3];
@@ -1998,7 +1990,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	 *
 	 * @uses get_terms()
 	 * @param array $args Method parameters. Contains:
-	 *  - int     $blog_id
+	 *  - int     $blog_id (unused)
 	 *  - string  $username
 	 *  - string  $password
 	 *  - string  $taxonomy
@@ -2011,7 +2003,6 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		$this->escape( $args );
 
-		$blog_id        = (int) $args[0];
 		$username       = $args[1];
 		$password       = $args[2];
 		$taxonomy       = $args[3];
@@ -2075,7 +2066,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	 *
 	 * @uses get_taxonomy()
 	 * @param array $args Method parameters. Contains:
-	 *  - int     $blog_id
+	 *  - int     $blog_id (unused)
 	 *  - string  $username
 	 *  - string  $password
 	 *  - string  $taxonomy
@@ -2087,7 +2078,6 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		$this->escape( $args );
 
-		$blog_id        = (int) $args[0];
 		$username       = $args[1];
 		$password       = $args[2];
 		$taxonomy       = $args[3];
@@ -2130,7 +2120,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	 *
 	 * @uses get_taxonomies()
 	 * @param array $args Method parameters. Contains:
-	 *  - int     $blog_id
+	 *  - int     $blog_id (unused)
 	 *  - string  $username
 	 *  - string  $password
 	 * @return array taxonomies
@@ -2141,7 +2131,6 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		$this->escape( $args );
 
-		$blog_id            = (int) $args[0];
 		$username           = $args[1];
 		$password           = $args[2];
 		$filter             = isset( $args[3] ) ? $args[3] : array( 'public' => true );
@@ -2188,7 +2177,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	 *
 	 * @uses get_userdata()
 	 * @param array $args Method parameters. Contains:
-	 *  - int     $blog_id
+	 *  - int     $blog_id (unused)
 	 *  - string  $username
 	 *  - string  $password
 	 *  - int     $user_id
@@ -2213,7 +2202,6 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		$this->escape( $args );
 
-		$blog_id    = (int) $args[0];
 		$username   = $args[1];
 		$password   = $args[2];
 		$user_id    = (int) $args[3];
@@ -2263,7 +2251,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	 * @see wp_getUser() for more on $fields and return values
 	 *
 	 * @param array $args Method parameters. Contains:
-	 *  - int     $blog_id
+	 *  - int     $blog_id (unused)
 	 *  - string  $username
 	 *  - string  $password
 	 *  - array   $filter optional
@@ -2276,7 +2264,6 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		$this->escape( $args );
 
-		$blog_id    = (int) $args[0];
 		$username   = $args[1];
 		$password   = $args[2];
 		$filter     = isset( $args[3] ) ? $args[3] : array();
@@ -2335,7 +2322,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	 *
 	 * @uses get_userdata()
 	 * @param array $args Method parameters. Contains:
-	 *  - int     $blog_id
+	 *  - int     $blog_id (unused)
 	 *  - string  $username
 	 *  - string  $password
 	 *  - array   $fields optional
@@ -2347,7 +2334,6 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		$this->escape( $args );
 
-		$blog_id    = (int) $args[0];
 		$username   = $args[1];
 		$password   = $args[2];
 
@@ -2377,7 +2363,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	 *
 	 * @uses wp_update_user()
 	 * @param array $args Method parameters. Contains:
-	 *  - int     $blog_id
+	 *  - int     $blog_id (unused)
 	 *  - string  $username
 	 *  - string  $password
 	 *  - array   $content_struct
@@ -2397,7 +2383,6 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		$this->escape( $args );
 
-		$blog_id        = (int) $args[0];
 		$username       = $args[1];
 		$password       = $args[2];
 		$content_struct = $args[3];
@@ -2454,7 +2439,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	 * @since 2.2.0
 	 *
 	 * @param array $args Method parameters. Contains:
-	 *  - blog_id
+	 *  - blog_id (unused)
 	 *  - page_id
 	 *  - username
 	 *  - password
@@ -2463,7 +2448,6 @@ class wp_xmlrpc_server extends IXR_Server {
 	public function wp_getPage($args) {
 		$this->escape($args);
 
-		$blog_id	= (int) $args[0];
 		$page_id	= (int) $args[1];
 		$username	= $args[2];
 		$password	= $args[3];
@@ -2498,7 +2482,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	 * @since 2.2.0
 	 *
 	 * @param array $args Method parameters. Contains:
-	 *  - blog_id
+	 *  - blog_id (unused)
 	 *  - username
 	 *  - password
 	 *  - num_pages
@@ -2507,7 +2491,6 @@ class wp_xmlrpc_server extends IXR_Server {
 	public function wp_getPages($args) {
 		$this->escape($args);
 
-		$blog_id	= (int) $args[0];
 		$username	= $args[1];
 		$password	= $args[2];
 		$num_pages	= isset($args[3]) ? (int) $args[3] : 10;
@@ -2580,7 +2563,6 @@ class wp_xmlrpc_server extends IXR_Server {
 	public function wp_deletePage($args) {
 		$this->escape($args);
 
-		$blog_id	= (int) $args[0];
 		$username	= $args[1];
 		$password	= $args[2];
 		$page_id	= (int) $args[3];
@@ -2629,7 +2611,6 @@ class wp_xmlrpc_server extends IXR_Server {
 	 */
 	public function wp_editPage($args) {
 		// Items not escaped here will be escaped in editPost.
-		$blog_id	= (int) $args[0];
 		$page_id	= (int) $this->escape($args[1]);
 		$username	= $this->escape($args[2]);
 		$password	= $this->escape($args[3]);
@@ -2680,7 +2661,6 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		$this->escape($args);
 
-		$blog_id				= (int) $args[0];
 		$username				= $args[1];
 		$password				= $args[2];
 
@@ -2732,7 +2712,6 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		$this->escape($args);
 
-		$blog_id	= (int) $args[0];
 		$username	= $args[1];
 		$password	= $args[2];
 
@@ -2768,7 +2747,6 @@ class wp_xmlrpc_server extends IXR_Server {
 	public function wp_getTags( $args ) {
 		$this->escape( $args );
 
-		$blog_id		= (int) $args[0];
 		$username		= $args[1];
 		$password		= $args[2];
 
@@ -2810,7 +2788,6 @@ class wp_xmlrpc_server extends IXR_Server {
 	public function wp_newCategory($args) {
 		$this->escape($args);
 
-		$blog_id				= (int) $args[0];
 		$username				= $args[1];
 		$password				= $args[2];
 		$category				= $args[3];
@@ -2880,7 +2857,6 @@ class wp_xmlrpc_server extends IXR_Server {
 	public function wp_deleteCategory($args) {
 		$this->escape($args);
 
-		$blog_id		= (int) $args[0];
 		$username		= $args[1];
 		$password		= $args[2];
 		$category_id	= (int) $args[3];
@@ -2922,7 +2898,6 @@ class wp_xmlrpc_server extends IXR_Server {
 	public function wp_suggestCategories($args) {
 		$this->escape($args);
 
-		$blog_id				= (int) $args[0];
 		$username				= $args[1];
 		$password				= $args[2];
 		$category				= $args[3];
@@ -2960,7 +2935,6 @@ class wp_xmlrpc_server extends IXR_Server {
 	public function wp_getComment($args) {
 		$this->escape($args);
 
-		$blog_id	= (int) $args[0];
 		$username	= $args[1];
 		$password	= $args[2];
 		$comment_id	= (int) $args[3];
@@ -2983,7 +2957,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	/**
 	 * Retrieve comments.
 	 *
-	 * Besides the common blog_id, username, and password arguments, it takes a filter
+	 * Besides the common blog_id (unused), username, and password arguments, it takes a filter
 	 * array as last argument.
 	 *
 	 * Accepted 'filter' keys are 'status', 'post_id', 'offset', and 'number'.
@@ -3002,7 +2976,6 @@ class wp_xmlrpc_server extends IXR_Server {
 	public function wp_getComments($args) {
 		$this->escape($args);
 
-		$blog_id	= (int) $args[0];
 		$username	= $args[1];
 		$password	= $args[2];
 		$struct		= isset( $args[3] ) ? $args[3] : array();
@@ -3054,7 +3027,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	 * @since 2.7.0
 	 *
 	 * @param array $args Method parameters. Contains:
-	 *  - blog_id
+	 *  - blog_id (unused)
 	 *  - username
 	 *  - password
 	 *  - comment_id
@@ -3063,7 +3036,6 @@ class wp_xmlrpc_server extends IXR_Server {
 	public function wp_deleteComment($args) {
 		$this->escape($args);
 
-		$blog_id	= (int) $args[0];
 		$username	= $args[1];
 		$password	= $args[2];
 		$comment_ID	= (int) $args[3];
@@ -3103,7 +3075,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	/**
 	 * Edit comment.
 	 *
-	 * Besides the common blog_id, username, and password arguments, it takes a
+	 * Besides the common blog_id (unused), username, and password arguments, it takes a
 	 * comment_id integer and a content_struct array as last argument.
 	 *
 	 * The allowed keys in the content_struct array are:
@@ -3117,7 +3089,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	 * @since 2.7.0
 	 *
 	 * @param array $args. Contains:
-	 *  - blog_id
+	 *  - blog_id (unused)
 	 *  - username
 	 *  - password
 	 *  - comment_id
@@ -3127,7 +3099,6 @@ class wp_xmlrpc_server extends IXR_Server {
 	public function wp_editComment($args) {
 		$this->escape($args);
 
-		$blog_id	= (int) $args[0];
 		$username	= $args[1];
 		$password	= $args[2];
 		$comment_ID	= (int) $args[3];
@@ -3211,7 +3182,6 @@ class wp_xmlrpc_server extends IXR_Server {
 	public function wp_newComment($args) {
 		$this->escape($args);
 
-		$blog_id	= (int) $args[0];
 		$username	= $args[1];
 		$password	= $args[2];
 		$post		= $args[3];
@@ -3313,7 +3283,6 @@ class wp_xmlrpc_server extends IXR_Server {
 	public function wp_getCommentStatusList($args) {
 		$this->escape( $args );
 
-		$blog_id	= (int) $args[0];
 		$username	= $args[1];
 		$password	= $args[2];
 
@@ -3340,7 +3309,6 @@ class wp_xmlrpc_server extends IXR_Server {
 	public function wp_getCommentCount( $args ) {
 		$this->escape($args);
 
-		$blog_id	= (int) $args[0];
 		$username	= $args[1];
 		$password	= $args[2];
 		$post_id	= (int) $args[3];
@@ -3374,7 +3342,6 @@ class wp_xmlrpc_server extends IXR_Server {
 	public function wp_getPostStatusList( $args ) {
 		$this->escape( $args );
 
-		$blog_id	= (int) $args[0];
 		$username	= $args[1];
 		$password	= $args[2];
 
@@ -3401,7 +3368,6 @@ class wp_xmlrpc_server extends IXR_Server {
 	public function wp_getPageStatusList( $args ) {
 		$this->escape( $args );
 
-		$blog_id	= (int) $args[0];
 		$username	= $args[1];
 		$password	= $args[2];
 
@@ -3428,7 +3394,6 @@ class wp_xmlrpc_server extends IXR_Server {
 	public function wp_getPageTemplates( $args ) {
 		$this->escape( $args );
 
-		$blog_id	= (int) $args[0];
 		$username	= $args[1];
 		$password	= $args[2];
 
@@ -3455,7 +3420,6 @@ class wp_xmlrpc_server extends IXR_Server {
 	public function wp_getOptions( $args ) {
 		$this->escape( $args );
 
-		$blog_id	= (int) $args[0];
 		$username	= $args[1];
 		$password	= $args[2];
 		$options	= isset( $args[3] ) ? (array) $args[3] : array();
@@ -3509,7 +3473,6 @@ class wp_xmlrpc_server extends IXR_Server {
 	public function wp_setOptions( $args ) {
 		$this->escape( $args );
 
-		$blog_id	= (int) $args[0];
 		$username	= $args[1];
 		$password	= $args[2];
 		$options	= (array) $args[3];
@@ -3541,7 +3504,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	 * @since 3.1.0
 	 *
 	 * @param array $args Method parameters. Contains:
-	 *  - blog_id
+	 *  - blog_id (unused)
 	 *  - username
 	 *  - password
 	 *  - attachment_id
@@ -3558,7 +3521,6 @@ class wp_xmlrpc_server extends IXR_Server {
 	public function wp_getMediaItem($args) {
 		$this->escape($args);
 
-		$blog_id		= (int) $args[0];
 		$username		= $args[1];
 		$password		= $args[2];
 		$attachment_id	= (int) $args[3];
@@ -3581,7 +3543,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	/**
 	 * Retrieves a collection of media library items (or attachments)
 	 *
-	 * Besides the common blog_id, username, and password arguments, it takes a filter
+	 * Besides the common blog_id (unused), username, and password arguments, it takes a filter
 	 * array as last argument.
 	 *
 	 * Accepted 'filter' keys are 'parent_id', 'mime_type', 'offset', and 'number'.
@@ -3595,7 +3557,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	 * @since 3.1.0
 	 *
 	 * @param array $args Method parameters. Contains:
-	 *  - blog_id
+	 *  - blog_id (unused)
 	 *  - username
 	 *  - password
 	 *  - filter
@@ -3604,7 +3566,6 @@ class wp_xmlrpc_server extends IXR_Server {
 	public function wp_getMediaLibrary($args) {
 		$this->escape($args);
 
-		$blog_id	= (int) $args[0];
 		$username	= $args[1];
 		$password	= $args[2];
 		$struct		= isset( $args[3] ) ? $args[3] : array() ;
@@ -3639,7 +3600,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	  * @since 3.1.0
 	  *
 	  * @param array $args Method parameters. Contains:
-	  *  - blog_id
+	  *  - blog_id (unused)
 	  *  - username
 	  *  - password
 	  * @return array
@@ -3647,7 +3608,6 @@ class wp_xmlrpc_server extends IXR_Server {
 	public function wp_getPostFormats( $args ) {
 		$this->escape( $args );
 
-		$blog_id = (int) $args[0];
 		$username = $args[1];
 		$password = $args[2];
 
@@ -3686,7 +3646,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	 *
 	 * @uses get_post_type_object()
 	 * @param array $args Method parameters. Contains:
-	 *  - int     $blog_id
+	 *  - int     $blog_id (unused)
 	 *  - string  $username
 	 *  - string  $password
 	 *  - string  $post_type_name
@@ -3708,7 +3668,6 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		$this->escape( $args );
 
-		$blog_id        = (int) $args[0];
 		$username       = $args[1];
 		$password       = $args[2];
 		$post_type_name = $args[3];
@@ -3751,7 +3710,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	 *
 	 * @uses get_post_types()
 	 * @param array $args Method parameters. Contains:
-	 *  - int     $blog_id
+	 *  - int     $blog_id (unused)
 	 *  - string  $username
 	 *  - string  $password
 	 *  - array   $filter
@@ -3764,7 +3723,6 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		$this->escape( $args );
 
-		$blog_id            = (int) $args[0];
 		$username           = $args[1];
 		$password           = $args[2];
 		$filter             = isset( $args[3] ) ? $args[3] : array( 'public' => true );
@@ -3808,7 +3766,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	 * @see wp_getPost() for more on $fields
 	 *
 	 * @param array $args Method parameters. Contains:
-	 *  - int     $blog_id
+	 *  - int     $blog_id (unused)
 	 *  - string  $username
 	 *  - string  $password
 	 *  - int     $post_id
@@ -3821,7 +3779,6 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		$this->escape( $args );
 
-		$blog_id    = (int) $args[0];
 		$username   = $args[1];
 		$password   = $args[2];
 		$post_id    = (int) $args[3];
@@ -3885,7 +3842,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	 * @uses wp_restore_post_revision()
 	 *
 	 * @param array $args Method parameters. Contains:
-	 *  - int     $blog_id
+	 *  - int     $blog_id (unused)
 	 *  - string  $username
 	 *  - string  $password
 	 *  - int     $post_id
@@ -3897,7 +3854,6 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		$this->escape( $args );
 
-		$blog_id     = (int) $args[0];
 		$username    = $args[1];
 		$password    = $args[2];
 		$revision_id = (int) $args[3];
@@ -4095,7 +4051,6 @@ class wp_xmlrpc_server extends IXR_Server {
 		$this->escape($args);
 
 		// $args[0] = appkey - ignored
-		$blog_ID    = (int) $args[1]; /* though we don't use it yet */
 		$username = $args[2];
 		$password  = $args[3];
 		if ( isset( $args[4] ) )
@@ -4179,7 +4134,6 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		$this->escape($args);
 
-		$blog_ID    = (int) $args[1]; /* though we don't use it yet */
 		$username = $args[2];
 		$password  = $args[3];
 		$content    = $args[4];
@@ -4206,7 +4160,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		$post_date = current_time('mysql');
 		$post_date_gmt = current_time('mysql', 1);
 
-		$post_data = compact('blog_ID', 'post_author', 'post_date', 'post_date_gmt', 'post_content', 'post_title', 'post_category', 'post_status');
+		$post_data = compact('post_author', 'post_date', 'post_date_gmt', 'post_content', 'post_title', 'post_category', 'post_status');
 
 		$post_ID = wp_insert_post($post_data);
 		if ( is_wp_error( $post_ID ) )
@@ -4378,7 +4332,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	 * @since 1.5.0
 	 *
 	 * @param array $args Method parameters. Contains:
-	 *  - blog_id
+	 *  - blog_id (unused)
 	 *  - username
 	 *  - password
 	 *  - content_struct
@@ -4388,7 +4342,6 @@ class wp_xmlrpc_server extends IXR_Server {
 	public function mw_newPost($args) {
 		$this->escape($args);
 
-		$blog_ID     = (int) $args[0];
 		$username  = $args[1];
 		$password   = $args[2];
 		$content_struct = $args[3];
@@ -5128,7 +5081,6 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		$this->escape($args);
 
-		$blog_ID     = (int) $args[0];
 		$username  = $args[1];
 		$password   = $args[2];
 		if ( isset( $args[3] ) )
@@ -5248,7 +5200,6 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		$this->escape($args);
 
-		$blog_ID     = (int) $args[0];
 		$username  = $args[1];
 		$password   = $args[2];
 
@@ -5295,7 +5246,6 @@ class wp_xmlrpc_server extends IXR_Server {
 	public function mw_newMediaObject($args) {
 		global $wpdb;
 
-		$blog_ID     = (int) $args[0];
 		$username  = $this->escape($args[1]);
 		$password   = $this->escape($args[2]);
 		$data        = $args[3];
@@ -5410,7 +5360,6 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		$this->escape($args);
 
-		$blog_ID     = (int) $args[0];
 		$username  = $args[1];
 		$password   = $args[2];
 		if ( isset( $args[3] ) )
@@ -5471,7 +5420,6 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		$this->escape($args);
 
-		$blog_ID     = (int) $args[0];
 		$username  = $args[1];
 		$password   = $args[2];
 
