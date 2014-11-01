@@ -1063,7 +1063,7 @@ function wpmu_activate_signup($key) {
  * @param string $user_name The new user's login name.
  * @param string $password The new user's password.
  * @param string $email The new user's email address.
- * @return mixed Returns false on failure, or int $user_id on success
+ * @return int|bool Returns false on failure, or int $user_id on success
  */
 function wpmu_create_user( $user_name, $password, $email ) {
 	$user_name = preg_replace( '/\s+/', '', sanitize_user( $user_name, true ) );
