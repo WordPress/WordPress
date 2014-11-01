@@ -1,4 +1,4 @@
-/* global _wpRevisionsSettings, isRtl */
+/* global isRtl */
 /**
  * @file Revisions interface functions, Backbone classes and
  * the revisions.php document.ready bootstrap.
@@ -14,8 +14,8 @@ window.wp = window.wp || {};
 	 */
 	revisions = wp.revisions = { model: {}, view: {}, controller: {} };
 
-	// Link settings.
-	revisions.settings = _.isUndefined( _wpRevisionsSettings ) ? {} : _wpRevisionsSettings;
+	// Link post revisions data served from the back-end.
+	revisions.settings = window._wpRevisionsSettings || {};
 
 	// For debugging
 	revisions.debug = false;
