@@ -253,7 +253,7 @@ class WP_List_Table {
 	 * @access public
 	 *
 	 * @param string $key
-	 * @return array
+	 * @return int
 	 */
 	public function get_pagination_arg( $key ) {
 		if ( 'page' == $key )
