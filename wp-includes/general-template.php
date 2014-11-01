@@ -2475,6 +2475,7 @@ function paginate_links( $args = '' ) {
 
 	if ( isset( $url_parts[1] ) ) {
 		wp_parse_str( $url_parts[1], $query_args );
+		$query_args = urlencode_deep( $query_args );
 	}
 
 	$pagenum_link = remove_query_arg( array_keys( $query_args ), $pagenum_link );
