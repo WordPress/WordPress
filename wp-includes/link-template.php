@@ -2333,7 +2333,9 @@ function get_the_pagination( $args = array() ) {
 		// Set up paginated links.
 		$links = paginate_links( $args );
 
-		if ( $links ) {
+		// _navigation_markup() expects string,
+		// paginate_links() can return an array
+		if ( $links && ! is_array( $links ) ) {
 			$navigation = _navigation_markup( $links, 'pagination' );
 		}
 	}
