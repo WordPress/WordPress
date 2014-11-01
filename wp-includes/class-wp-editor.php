@@ -418,7 +418,7 @@ final class _WP_Editors {
 							$url = set_url_scheme( $url );
 							$mce_external_plugins[ $name ] = $url;
 							$plugurl = dirname( $url );
-							$strings = $str1 = $str2 = '';
+							$strings = '';
 
 							// Try to load langs/[locale].js and langs/[locale]_dlg.js
 							if ( ! in_array( $name, $loaded_langs, true ) ) {
