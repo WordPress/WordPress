@@ -60,13 +60,14 @@ class WP_Date_Query {
 	 * @access public
 	 * @var array
 	 */
-	public $time_keys = array( 'after', 'before', 'year', 'month', 'monthnum', 'week', 'w', 'dayofyear', 'day', 'dayofweek', 'hour', 'minute', 'second' );
+	public $time_keys = array( 'after', 'before', 'year', 'month', 'monthnum', 'week', 'w', 'dayofyear', 'day', 'dayofweek', 'dayofweek_iso', 'hour', 'minute', 'second' );
 
 	/**
 	 * Constructor.
 	 *
 	 * @since 3.7.0
 	 * @since 4.0.0 The $inclusive logic was updated to include all times within the date range.
+	 * @since 4.1.0 Introduced 'dayofweek_iso' time type parameter.
 	 * @access public
 	 *
 	 * @param array $date_query {
@@ -116,7 +117,9 @@ class WP_Date_Query {
 	 *             @type int          $week      Optional. The week number of the year. Default empty. Accepts numbers 0-53.
 	 *             @type int          $dayofyear Optional. The day number of the year. Default empty. Accepts numbers 1-366.
 	 *             @type int          $day       Optional. The day of the month. Default empty. Accepts numbers 1-31.
-	 *             @type int          $dayofweek Optional. The day number of the week. Default empty. Accepts numbers 1-7.
+	 *             @type int          $dayofweek Optional. The day number of the week. Default empty. Accepts numbers 1-7 (1 is Sunday).
+	 *             @type int          $dayofweek_iso Optional. The day number of the week (ISO). Default empty.
+	 *						 Accepts numbers 1-7 (1 is Monday).
 	 *             @type int          $hour      Optional. The hour of the day. Default empty. Accepts numbers 0-23.
 	 *             @type int          $minute    Optional. The minute of the hour. Default empty. Accepts numbers 0-60.
 	 *             @type int          $second    Optional. The second of the minute. Default empty. Accepts numbers 0-60.
@@ -309,6 +312,12 @@ class WP_Date_Query {
 
 		// Days per week.
 		$min_max_checks['dayofweek'] = array(
+			'min' => 1,
+			'max' => 7
+		);
+
+		// Days per week.
+		$min_max_checks['dayofweek_iso'] = array(
 			'min' => 1,
 			'max' => 7
 		);
@@ -726,6 +735,9 @@ class WP_Date_Query {
 
 		if ( isset( $query['dayofweek'] ) && $value = $this->build_value( $compare, $query['dayofweek'] ) )
 			$where_parts[] = "DAYOFWEEK( $column ) $compare $value";
+
+		if ( isset( $query['dayofweek_iso'] ) && $value = $this->build_value( $compare, $query['dayofweek_iso'] ) )
+			$where_parts[] = "WEEKDAY( $column ) + 1 $compare $value";
 
 		if ( isset( $query['hour'] ) || isset( $query['minute'] ) || isset( $query['second'] ) ) {
 			// Avoid notices.
