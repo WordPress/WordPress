@@ -749,7 +749,6 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 			$attachment_id = $data['attachment_id'];
 			$file = $data['file'];
 			$url = $data['url'];
-			$type = $data['type'];
 		}
 
 		if ( file_exists( $file ) ) {
