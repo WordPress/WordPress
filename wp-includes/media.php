@@ -1049,7 +1049,7 @@ function gallery_shortcode( $attr ) {
 
 		$attr = ( trim( $attachment->post_excerpt ) ) ? array( 'aria-describedby' => "$selector-$id" ) : '';
 		if ( ! empty( $atts['link'] ) && 'file' === $atts['link'] ) {
-			$image_output = wp_get_attachment_link( $id, $atts['size'], false, false, $attr );
+			$image_output = wp_get_attachment_link( $id, $atts['size'], false, false, false, $attr );
 		} elseif ( ! empty( $atts['link'] ) && 'none' === $atts['link'] ) {
 			$image_output = wp_get_attachment_image( $id, $atts['size'], false, $attr );
 		} else {
