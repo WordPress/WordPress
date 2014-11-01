@@ -1381,7 +1381,6 @@ class WP_Meta_Query {
 		$clause['alias'] = $alias;
 
 		// Next, build the WHERE clause.
-		$where = '';
 
 		// meta_key.
 		if ( array_key_exists( 'key', $clause ) ) {
