@@ -788,7 +788,7 @@ function wp_ajax_add_tag() {
 
 	$level = 0;
 	if ( is_taxonomy_hierarchical($taxonomy) ) {
-		$level = count( get_ancestors( $tag->term_id, $taxonomy ) );
+		$level = count( get_ancestors( $tag->term_id, $taxonomy, 'taxonomy' ) );
 		ob_start();
 		$wp_list_table->single_row( $tag, $level );
 		$noparents = ob_get_clean();
