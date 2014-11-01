@@ -103,15 +103,18 @@ function wp_ajax_fetch_list() {
  * @since 3.1.0
  */
 function wp_ajax_ajax_tag_search() {
-	if ( isset( $_GET['tax'] ) ) {
-		$taxonomy = sanitize_key( $_GET['tax'] );
-		$tax = get_taxonomy( $taxonomy );
-		if ( ! $tax )
-			wp_die( 0 );
-		if ( ! current_user_can( $tax->cap->assign_terms ) )
-			wp_die( -1 );
-	} else {
+	if ( ! isset( $_GET['tax'] ) ) {
 		wp_die( 0 );
+	}
+
+	$taxonomy = sanitize_key( $_GET['tax'] );
+	$tax = get_taxonomy( $taxonomy );
+	if ( ! $tax ) {
+		wp_die( 0 );
+	}
+
+	if ( ! current_user_can( $tax->cap->assign_terms ) ) {
+		wp_die( -1 );
 	}
 
 	$s = wp_unslash( $_GET['q'] );
@@ -1142,7 +1145,7 @@ function wp_ajax_add_meta() {
 			wp_die( -1 );
 		if ( isset($_POST['metakeyselect']) && '#NONE#' == $_POST['metakeyselect'] && empty($_POST['metakeyinput']) )
 			wp_die( 1 );
-		
+
 		// If the post is an autodraft, save the post as a draft and then
 		// attempt to save the meta.
 		if ( $post->post_status == 'auto-draft' ) {
