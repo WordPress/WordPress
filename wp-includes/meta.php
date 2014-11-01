@@ -196,8 +196,10 @@ function update_metadata($meta_type, $object_id, $meta_key, $meta_value, $prev_v
 		}
 	}
 
-	if ( ! $meta_id = $wpdb->get_var( $wpdb->prepare( "SELECT $id_column FROM $table WHERE meta_key = %s AND $column = %d", $meta_key, $object_id ) ) )
+	$meta_ids = $wpdb->get_col( $wpdb->prepare( "SELECT $id_column FROM $table WHERE meta_key = %s AND $column = %d", $meta_key, $object_id ) );
+	if ( empty( $meta_ids ) ) {
 		return add_metadata($meta_type, $object_id, $meta_key, $passed_value);
+	}
 
 	$_meta_value = $meta_value;
 	$meta_value = maybe_serialize( $meta_value );
@@ -223,9 +225,11 @@ function update_metadata($meta_type, $object_id, $meta_key, $meta_value, $prev_v
 	 * @param string $meta_key   Meta key.
 	 * @param mixed  $meta_value Meta value.
 	 */
-	do_action( "update_{$meta_type}_meta", $meta_id, $object_id, $meta_key, $_meta_value );
+	foreach ( $meta_ids as $meta_id ) {
+		do_action( "update_{$meta_type}_meta", $meta_id, $object_id, $meta_key, $_meta_value );
+	}
 
-	if ( 'post' == $meta_type )
+	if ( 'post' == $meta_type ) {
 		/**
 		 * Fires immediately before updating a post's metadata.
 		 *
@@ -236,7 +240,10 @@ function update_metadata($meta_type, $object_id, $meta_key, $meta_value, $prev_v
 		 * @param string $meta_key   Meta key.
 		 * @param mixed  $meta_value Meta value.
 		 */
-		do_action( 'update_postmeta', $meta_id, $object_id, $meta_key, $meta_value );
+		foreach ( $meta_ids as $meta_id ) {
+			do_action( 'update_postmeta', $meta_id, $object_id, $meta_key, $meta_value );
+		}
+	}
 
 	$result = $wpdb->update( $table, $data, $where );
 	if ( ! $result )
@@ -257,7 +264,9 @@ function update_metadata($meta_type, $object_id, $meta_key, $meta_value, $prev_v
 	 * @param string $meta_key   Meta key.
 	 * @param mixed  $meta_value Meta value.
 	 */
-	do_action( "updated_{$meta_type}_meta", $meta_id, $object_id, $meta_key, $_meta_value );
+	foreach ( $meta_ids as $meta_id ) {
+		do_action( "updated_{$meta_type}_meta", $meta_id, $object_id, $meta_key, $_meta_value );
+	}
 
 	if ( 'post' == $meta_type ) {
 		/**
@@ -270,7 +279,9 @@ function update_metadata($meta_type, $object_id, $meta_key, $meta_value, $prev_v
 		 * @param string $meta_key   Meta key.
 		 * @param mixed  $meta_value Meta value.
 		 */
-		do_action( 'updated_postmeta', $meta_id, $object_id, $meta_key, $meta_value );
+		foreach ( $meta_ids as $meta_id ) {
+			do_action( 'updated_postmeta', $meta_id, $object_id, $meta_key, $meta_value );
+		}
 	}
 
 	return true;
