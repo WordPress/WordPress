@@ -22,6 +22,11 @@ class WP_Media_List_Table extends WP_List_Table {
 	public function __construct( $args = array() ) {
 		$this->detached = ( isset( $_REQUEST['attachment-filter'] ) && 'detached' === $_REQUEST['attachment-filter'] );
 
+		$this->modes = array(
+			'list' => __( 'List View' ),
+			'grid' => __( 'Grid View' )
+		);
+
 		parent::__construct( array(
 			'plural' => 'media',
 			'screen' => isset( $args['screen'] ) ? $args['screen'] : null,
@@ -145,38 +150,6 @@ class WP_Media_List_Table extends WP_List_Table {
 		global $mode;
 
 		parent::pagination( $which );
-	}
-
-	/**
-	 * Display a view switcher
-	 *
-	 * @since 3.1.0
-	 * @access protected
-	 */
-	protected function view_switcher( $current_mode ) {
-		$modes = array(
-			'list'    => __( 'List View' ),
-			'grid' => __( 'Grid View' )
-		);
-
-?>
-		<input type="hidden" name="mode" value="<?php echo esc_attr( $current_mode ); ?>" />
-		<div class="view-switch">
-<?php
-			foreach ( $modes as $mode => $title ) {
-				$classes = array( 'view-' . $mode );
-				if ( $current_mode == $mode )
-					$classes[] = 'current';
-				printf(
-					"<a href='%s' class='%s' id='view-switch-$mode'><span class='screen-reader-text'>%s</span></a>\n",
-					esc_url( add_query_arg( 'mode', $mode ) ),
-					implode( ' ', $classes ),
-					$title
-				);
-			}
-		?>
-		</div>
-<?php
 	}
 
 	/**
