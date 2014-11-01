@@ -2763,6 +2763,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		if ( $all_tags = get_tags() ) {
 			foreach( (array) $all_tags as $tag ) {
+				$struct = array();
 				$struct['tag_id']			= $tag->term_id;
 				$struct['name']				= $tag->name;
 				$struct['count']			= $tag->count;
@@ -3220,6 +3221,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		if ( ! get_post($post_id) )
 			return new IXR_Error( 404, __( 'Invalid post ID.' ) );
 
+		$comment = array();
 		$comment['comment_post_ID'] = $post_id;
 
 		if ( $logged_in ) {
@@ -3483,6 +3485,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		if ( !current_user_can( 'manage_options' ) )
 			return new IXR_Error( 403, __( 'You are not allowed to update options.' ) );
 
+		$option_names = array();
 		foreach ( $options as $o_name => $o_value ) {
 			$option_names[] = $o_name;
 			if ( !array_key_exists( $o_name, $this->blog_options ) )
@@ -3628,6 +3631,7 @@ class wp_xmlrpc_server extends IXR_Server {
 				if ( current_theme_supports( 'post-formats' ) ) {
 					$supported = get_theme_support( 'post-formats' );
 
+					$data = array();
 					$data['all'] = $formats;
 					$data['supported'] = $supported[0];
 
@@ -4074,6 +4078,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			return $this->error;
 		}
 
+		$recent_posts = array();
 		foreach ($posts_list as $entry) {
 			if ( !current_user_can( 'edit_post', $entry['ID'] ) )
 				continue;
@@ -4085,18 +4090,12 @@ class wp_xmlrpc_server extends IXR_Server {
 			$content .= '<category>'.$categories.'</category>';
 			$content .= wp_unslash($entry['post_content']);
 
-			$struct[] = array(
+			$recent_posts[] = array(
 				'userid' => $entry['post_author'],
 				'dateCreated' => $post_date,
 				'content' => $content,
 				'postid' => (string) $entry['ID'],
 			);
-
-		}
-
-		$recent_posts = array();
-		for ( $j=0; $j<count($struct); $j++ ) {
-			array_push($recent_posts, $struct[$j]);
 		}
 
 		return $recent_posts;
@@ -5102,7 +5101,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		if ( !$posts_list )
 			return array();
 
-		$struct = array();
+		$recent_posts = array();
 		foreach ($posts_list as $entry) {
 			if ( !current_user_can( 'edit_post', $entry['ID'] ) )
 				continue;
@@ -5146,7 +5145,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			if ( empty( $post_format ) )
 				$post_format = 'standard';
 
-			$struct[] = array(
+			$recent_posts[] = array(
 				'dateCreated' => $post_date,
 				'userid' => $entry['post_author'],
 				'postid' => (string) $entry['ID'],
@@ -5174,15 +5173,8 @@ class wp_xmlrpc_server extends IXR_Server {
 				'date_modified' => $post_modified,
 				'date_modified_gmt' => $post_modified_gmt,
 				'sticky' => ( $entry['post_type'] === 'post' && is_sticky( $entry['ID'] ) ),
+				'wp_post_thumbnail' => get_post_thumbnail_id( $entry['ID'] )
 			);
-
-			$entry_index = count( $struct ) - 1;
-			$struct[ $entry_index ][ 'wp_post_thumbnail' ] = get_post_thumbnail_id( $entry['ID'] );
-		}
-
-		$recent_posts = array();
-		for ( $j=0; $j<count($struct); $j++ ) {
-			array_push($recent_posts, $struct[$j]);
 		}
 
 		return $recent_posts;
@@ -5216,6 +5208,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		if ( $cats = get_categories(array('get' => 'all')) ) {
 			foreach ( $cats as $cat ) {
+				$struct = array();
 				$struct['categoryId'] = $cat->term_id;
 				$struct['parentId'] = $cat->parent;
 				$struct['description'] = $cat->name;
@@ -5436,6 +5429,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		if ( $cats = get_categories(array('hide_empty' => 0, 'hierarchical' => 0)) ) {
 			foreach ( $cats as $cat ) {
+				$struct = array();
 				$struct['categoryId'] = $cat->term_id;
 				$struct['categoryName'] = $cat->name;
 
