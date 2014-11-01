@@ -819,15 +819,18 @@ function wp_ajax_add_tag() {
  * @since 3.1.0
  */
 function wp_ajax_get_tagcloud() {
-	if ( isset( $_POST['tax'] ) ) {
-		$taxonomy = sanitize_key( $_POST['tax'] );
-		$tax = get_taxonomy( $taxonomy );
-		if ( ! $tax )
-			wp_die( 0 );
-		if ( ! current_user_can( $tax->cap->assign_terms ) )
-			wp_die( -1 );
-	} else {
+	if ( ! isset( $_POST['tax'] ) ) {
 		wp_die( 0 );
+	}
+
+	$taxonomy = sanitize_key( $_POST['tax'] );
+	$tax = get_taxonomy( $taxonomy );
+	if ( ! $tax ) {
+		wp_die( 0 );
+	}
+	
+	if ( ! current_user_can( $tax->cap->assign_terms ) ) {
+		wp_die( -1 );
 	}
 
 	$tags = get_terms( $taxonomy, array( 'number' => 45, 'orderby' => 'count', 'order' => 'DESC' ) );
