@@ -915,6 +915,8 @@ class WP_Customize_Background_Image_Control extends WP_Customize_Image_Control {
 
 class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control {
 	public $type = 'header';
+	public $uploaded_headers;
+	public $default_headers;
 
 	public function __construct( $manager ) {
 		parent::__construct( $manager, 'header_image', array(
