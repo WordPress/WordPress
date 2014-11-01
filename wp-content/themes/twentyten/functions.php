@@ -295,7 +295,10 @@ endif;
  * @return string An ellipsis.
  */
 function twentyten_auto_excerpt_more( $more ) {
-	return ' &hellip;' . twentyten_continue_reading_link();
+	if ( ! is_admin() ) {
+		return ' &hellip;' . twentyten_continue_reading_link();
+	}
+	return $more;
 }
 add_filter( 'excerpt_more', 'twentyten_auto_excerpt_more' );
 
@@ -311,7 +314,7 @@ add_filter( 'excerpt_more', 'twentyten_auto_excerpt_more' );
  * @return string Excerpt with a pretty "Continue Reading" link.
  */
 function twentyten_custom_excerpt_more( $output ) {
-	if ( has_excerpt() && ! is_attachment() ) {
+	if ( has_excerpt() && ! is_attachment() && ! is_admin() ) {
 		$output .= twentyten_continue_reading_link();
 	}
 	return $output;
