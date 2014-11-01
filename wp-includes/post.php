@@ -4285,7 +4285,7 @@ function get_page_by_title( $page_title, $output = OBJECT, $post_type = 'page' )
 function get_page_children($page_id, $pages) {
 	$page_list = array();
 	foreach ( (array) $pages as $page ) {
-		if ( $page->post_parent == $page_id ) {
+		if ( $page->post_parent == $page_id || in_array( $page_id, $page->ancestors ) ) {
 			$page_list[] = $page;
 			if ( $children = get_page_children($page->ID, $pages) )
 				$page_list = array_merge($page_list, $children);
@@ -4619,6 +4619,9 @@ function get_pages( $args = array() ) {
 	// Update cache.
 	update_post_cache( $pages );
 
+	// Convert to WP_Post instances
+	$pages = array_map( 'get_post', $pages );
+
 	if ( $child_of || $hierarchical ) {
 		$pages = get_page_children($child_of, $pages);
 	}
@@ -4646,9 +4649,6 @@ function get_pages( $args = array() ) {
 	}
 
 	wp_cache_set( $cache_key, $page_structure, 'posts' );
-
-	// Convert to WP_Post instances.
-	$pages = array_map( 'get_post', $pages );
 
 	/**
 	 * Filter the retrieved list of pages.
