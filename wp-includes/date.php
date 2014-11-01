@@ -84,7 +84,8 @@ class WP_Date_Query {
 	 *         @type string $relation Optional. The boolean relationship between the date queries.
 	 *                                Accepts 'OR', 'AND'. Default 'OR'.
 	 *         @type array {
-		       Optional. An array of first-order clause parameters, or another fully-formed date query.
+	 *             Optional. An array of first-order clause parameters, or another fully-formed date query.
+	 *
 	 *             @type string|array $before Optional. Date to retrieve posts before. Accepts strtotime()-compatible
 	 *                                        string, or array of 'year', 'month', 'day' values. {
 	 *
@@ -113,7 +114,7 @@ class WP_Date_Query {
 	 *             @type bool         $inclusive     Optional. Include results from dates specified in 'before' or
 	 *                                               'after'. Default false.
 	 *             @type int          $year          Optional. The four-digit year number. Default empty. Accepts
-	 *						 any four-digit year.
+	 *                                               any four-digit year.
 	 *             @type int          $month         Optional. The two-digit month number. Default empty.
 	 *                                               Accepts numbers 1-12.
 	 *             @type int          $week          Optional. The week number of the year. Default empty.
@@ -124,8 +125,8 @@ class WP_Date_Query {
 	 *                                               Accepts numbers 1-31.
 	 *             @type int          $dayofweek     Optional. The day number of the week. Default empty.
 	 *                                               Accepts numbers 1-7 (1 is Sunday).
-	 *             @type int          $dayofweek_iso Optional. The day number of the week (ISO). Default empty.
-	 *						 Accepts numbers 1-7 (1 is Monday).
+	 *             @type int          $dayofweek_iso Optional. The day number of the week (ISO). Accepts numbers 1-7
+	 *                                               (1 is Monday).Default empty.
 	 *             @type int          $hour          Optional. The hour of the day. Default empty. Accepts numbers 0-23.
 	 *             @type int          $minute        Optional. The minute of the hour. Default empty. Accepts
 	 *                                               numbers 0-60.
