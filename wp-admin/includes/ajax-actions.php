@@ -1142,6 +1142,9 @@ function wp_ajax_add_meta() {
 			wp_die( -1 );
 		if ( isset($_POST['metakeyselect']) && '#NONE#' == $_POST['metakeyselect'] && empty($_POST['metakeyinput']) )
 			wp_die( 1 );
+		
+		// If the post is an autodraft, save the post as a draft and then
+		// attempt to save the meta.
 		if ( $post->post_status == 'auto-draft' ) {
 			$save_POST = $_POST; // Backup $_POST
 			$_POST = array(); // Make it empty for edit_post()
@@ -1486,7 +1489,7 @@ function wp_ajax_sample_permalink() {
 }
 
 /**
- * Ajax handler for quick edit saving for a post.
+ * Ajax handler for Quick Edit saving a post from a list table.
  *
  * @since 3.1.0
  */
@@ -1617,7 +1620,9 @@ function wp_ajax_inline_save_tax() {
 }
 
 /**
- * Ajax handler for finding posts.
+ * Ajax handler for querying posts for the Find Posts modal.
+ *
+ * @see window.findPosts
  *
  * @since 3.1.0
  */
@@ -2147,7 +2152,7 @@ function wp_ajax_get_attachment() {
 }
 
 /**
- * Ajax handler for querying for attachments.
+ * Ajax handler for querying attachments.
  *
  * @since 3.5.0
  */
@@ -2193,7 +2198,7 @@ function wp_ajax_query_attachments() {
 }
 
 /**
- * Ajax handler for saving attachment attributes.
+ * Ajax handler for updating attachment attributes.
  *
  * @since 3.5.0
  */

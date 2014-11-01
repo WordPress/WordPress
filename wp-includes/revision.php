@@ -70,14 +70,14 @@ function _wp_post_revision_fields( $post = null, $autosave = false ) {
 }
 
 /**
- * Saves an already existing post as a post revision.
+ * Creates a revision for the current version of a post.
  *
- * Typically used immediately after post updates.
- * Adds a copy of the current post as a revision, so latest revision always matches current post
+ * Typically used immediately after a post update, as every update is a revision,
+ * and the most recent revision always matches the current post.
  *
  * @since 2.6.0
  *
- * @param int $post_id The ID of the post to save as a revision.
+ * @param  int   $post_id The ID of the post to save as a revision.
  * @return mixed Null or 0 if error, new revision ID, if success.
  */
 function wp_save_post_revision( $post_id ) {
@@ -156,12 +156,13 @@ function wp_save_post_revision( $post_id ) {
 
 	$return = _wp_put_post_revision( $post );
 
+	// If a limit for the number of revisions to keep has been set,
+	// delete the oldest ones.
 	$revisions_to_keep = wp_revisions_to_keep( $post );
 
 	if ( $revisions_to_keep < 0 )
 		return $return;
 
-	// all revisions and autosaves
 	$revisions = wp_get_post_revisions( $post_id, array( 'order' => 'ASC' ) );
 
 	$delete = count($revisions) - $revisions_to_keep;
@@ -446,11 +447,15 @@ function wp_revisions_enabled( $post ) {
 
 /**
  * Determine how many revisions to retain for a given post.
- * By default, an infinite number of revisions are stored if a post type supports revisions.
+ *
+ * By default, an infinite number of revisions are kept.
+ *
+ * The constant WP_POST_REVISIONS can be set in wp-config to specify the limit
+ * of revisions to keep.
  *
  * @since 3.6.0
  *
- * @param object $post The post object.
+ * @param  object $post The post object.
  * @return int The number of revisions to keep.
  */
 function wp_revisions_to_keep( $post ) {

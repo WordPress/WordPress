@@ -56,6 +56,7 @@ get_current_screen()->set_help_sidebar(
 	'<p>' . __('<a href="https://wordpress.org/support/" target="_blank">Support Forums</a>') . '</p>'
 );
 
+// If the 'download' URL parameter is set, a WXR export file is baked and returned.
 if ( isset( $_GET['download'] ) ) {
 	$args = array();
 

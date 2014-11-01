@@ -62,9 +62,12 @@ if ( $doaction ) {
 		$sendback = admin_url($post_new_file);
 
 	if ( 'delete_all' == $doaction ) {
+		// Prepare for deletion of all posts with a specified post status (i.e. Empty trash).
 		$post_status = preg_replace('/[^a-z0-9_-]+/i', '', $_REQUEST['post_status']);
-		if ( get_post_status_object($post_status) ) // Check the post status exists first
+		// Validate the post status exists.
+		if ( get_post_status_object( $post_status ) ) {
 			$post_ids = $wpdb->get_col( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_type=%s AND post_status = %s", $post_type, $post_status ) );
+		}
 		$doaction = 'delete';
 	} elseif ( isset( $_REQUEST['media'] ) ) {
 		$post_ids = $_REQUEST['media'];

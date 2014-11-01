@@ -16,11 +16,11 @@
 define( 'WXR_VERSION', '1.2' );
 
 /**
- * Generates the WXR export file for download
+ * Generates the WXR export file for download.
  *
  * @since 2.1.0
  *
- * @param array $args Filters defining what should be included in the export
+ * @param array $args Filters defining what should be included in the export.
  */
 function export_wp( $args = array() ) {
 	global $wpdb, $post;
