@@ -2739,7 +2739,7 @@ function _wp_json_convert_string( $string ) {
 			return mb_convert_encoding( $string, 'UTF-8', 'UTF-8' );
 		}
 	} else {
-		return wp_check_invalid_utf8( $data, true );
+		return wp_check_invalid_utf8( $string, true );
 	}
 }
 
