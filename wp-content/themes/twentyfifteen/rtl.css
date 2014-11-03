@@ -645,8 +645,8 @@ img.alignleft {
 	}
 
 	.site-footer {
-		margin-right: 35.2941%;
-		margin-left: auto;
+		float: right;
+		margin: 0 35.2941% 0 0;
 	}
 }
 

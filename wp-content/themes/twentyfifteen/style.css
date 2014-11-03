@@ -1272,8 +1272,6 @@ img.aligncenter {
 .comment-content:after,
 .site-content:before,
 .site-content:after,
-.site-footer:before,
-.site-footer:after,
 .nav-links:before,
 .nav-links:after,
 .comment-navigation:before,
@@ -1291,7 +1289,6 @@ img.aligncenter {
 .entry-content:after,
 .comment-content:after,
 .site-content:after,
-.site-footer:after,
 .nav-links:after,
 .comment-navigation:after,
 .social-navigation ul:after,
@@ -4535,8 +4532,8 @@ span > video {
 	}
 
 	.site-footer {
-		clear: both;
-		margin-left: 35.2941%;
+		float: left;
+		margin: 0 0 0 35.2941%;
 		padding: 0;
 		width: 58.8235%;
 	}
