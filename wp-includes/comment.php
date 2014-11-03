@@ -260,6 +260,16 @@ class WP_Comment_Query {
 	public $date_query = false;
 
 	/**
+	 * @var array
+	 */
+	public $query_vars;
+
+	/**
+	 * @var array
+	 */
+	public $comments;
+
+	/**
 	 * Make private/protected methods readable for backwards compatibility.
 	 *
 	 * @since 4.0.0
