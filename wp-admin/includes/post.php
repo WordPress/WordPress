@@ -724,8 +724,8 @@ function write_post() {
  *
  * @since 1.2.0
  *
- * @param unknown_type $post_ID
- * @return unknown
+ * @param int $post_ID
+ * @return int|bool
  */
 function add_meta( $post_ID ) {
 	$post_ID = (int) $post_ID;
@@ -763,8 +763,8 @@ function add_meta( $post_ID ) {
  *
  * @since 1.2.0
  *
- * @param unknown_type $mid
- * @return unknown
+ * @param int $mid
+ * @return bool
  */
 function delete_meta( $mid ) {
 	return delete_metadata_by_mid( 'post' , $mid );
@@ -794,8 +794,8 @@ function get_meta_keys() {
  *
  * @since 2.1.0
  *
- * @param unknown_type $mid
- * @return unknown
+ * @param int $mid
+ * @return object|bool
  */
 function get_post_meta_by_id( $mid ) {
 	return get_metadata_by_mid( 'post', $mid );
@@ -808,8 +808,8 @@ function get_post_meta_by_id( $mid ) {
  *
  * @since 1.2.0
  *
- * @param unknown_type $postid
- * @return unknown
+ * @param int $postid
+ * @return mixed
  */
 function has_meta( $postid ) {
 	global $wpdb;
@@ -824,10 +824,10 @@ function has_meta( $postid ) {
  *
  * @since 1.2.0
  *
- * @param unknown_type $meta_id
- * @param unknown_type $meta_key Expect Slashed
- * @param unknown_type $meta_value Expect Slashed
- * @return unknown
+ * @param int    $meta_id
+ * @param string $meta_key Expect Slashed
+ * @param string $meta_value Expect Slashed
+ * @return bool
  */
 function update_meta( $meta_id, $meta_key, $meta_value ) {
 	$meta_key = wp_unslash( $meta_key );
@@ -997,8 +997,8 @@ function wp_edit_posts_query( $q = false ) {
  *
  * @since 2.5.0
  *
- * @param unknown_type $type
- * @return unknown
+ * @param string $type
+ * @return mixed
  */
 function get_available_post_mime_types($type = 'attachment') {
 	global $wpdb;
@@ -1071,8 +1071,8 @@ function wp_edit_attachments_query( $q = false ) {
  *
  * @since 2.5.0
  *
- * @param unknown_type $id
- * @param unknown_type $page
+ * @param string $id
+ * @param string $page
  * @return unknown
  */
 function postbox_classes( $id, $page ) {
