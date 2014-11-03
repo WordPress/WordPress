@@ -43,6 +43,11 @@ class Custom_Background {
 	private $page = '';
 
 	/**
+	 * @var bool
+	 */
+	private $updated;
+
+	/**
 	 * Constructor - Register administration header callback.
 	 *
 	 * @since 3.0.0
