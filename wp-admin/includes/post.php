@@ -636,7 +636,7 @@ function post_exists($title, $content = '', $date = '') {
  *
  * @since 2.1.0
  *
- * @return unknown
+ * @return int|WP_Error
  */
 function wp_write_post() {
 	if ( isset($_POST['post_type']) )
@@ -705,7 +705,7 @@ function wp_write_post() {
  *
  * @since 2.0.0
  *
- * @return unknown
+ * @return int|null
  */
 function write_post() {
 	$result = wp_write_post();
@@ -775,7 +775,7 @@ function delete_meta( $mid ) {
  *
  * @since 1.2.0
  *
- * @return unknown
+ * @return mixed
  */
 function get_meta_keys() {
 	global $wpdb;
@@ -1073,7 +1073,7 @@ function wp_edit_attachments_query( $q = false ) {
  *
  * @param string $id
  * @param string $page
- * @return unknown
+ * @return string
  */
 function postbox_classes( $id, $page ) {
 	if ( isset( $_GET['edit'] ) && $_GET['edit'] == $id ) {

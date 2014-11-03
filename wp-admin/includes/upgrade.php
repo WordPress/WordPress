@@ -2039,7 +2039,7 @@ function make_site_theme_from_default($theme_name, $template) {
  *
  * @since 1.5.0
  *
- * @return unknown
+ * @return string|bool
  */
 function make_site_theme() {
 	// Name the theme after the blog.

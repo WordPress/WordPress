@@ -468,7 +468,7 @@ function wp_get_linksbyname($category, $args = '') {
  *		Or maybe owner. If you start the name with an underscore the order will be reversed. You can also
  *		specify 'rand' as the order which will return links in a random order.
  * @param int $limit Limit to X entries. If not specified, all entries are shown.
- * @return unknown
+ * @return array
  */
 function get_linkobjectsbyname($cat_name = "noname" , $orderby = 'name', $limit = -1) {
 	_deprecated_function( __FUNCTION__, '2.1', 'get_bookmarks()' );
@@ -522,7 +522,7 @@ function get_linkobjectsbyname($cat_name = "noname" , $orderby = 'name', $limit 
  *		underscore the order will be reversed. You can also specify 'rand' as the
  *		order which will return links in a random order.
  * @param int $limit Limit to X entries. If not specified, all entries are shown.
- * @return unknown
+ * @return array
  */
 function get_linkobjects($category = 0, $orderby = 'name', $limit = 0) {
 	_deprecated_function( __FUNCTION__, '2.1', 'get_bookmarks()' );
@@ -631,7 +631,7 @@ function get_autotoggle($id = 0) {
  * @param string $feed_image
  * @param string $exclude
  * @param bool $hierarchical
- * @return unknown
+ * @return string
  */
 function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_order = 'asc', $file = '', $list = true, $optiondates = 0,
 				   $optioncount = 0, $hide_empty = 1, $use_desc_for_title = 1, $children=false, $child_of=0, $categories=0,
@@ -650,7 +650,7 @@ function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_orde
  * @see wp_list_categories()
  *
  * @param string|array $args
- * @return unknown
+ * @return string
  */
 function wp_list_cats($args = '') {
 	_deprecated_function( __FUNCTION__, '2.1', 'wp_list_categories()' );
@@ -691,7 +691,7 @@ function wp_list_cats($args = '') {
  * @param bool $optionnone
  * @param int $selected
  * @param int $exclude
- * @return unknown
+ * @return string
  */
 function dropdown_cats($optionall = 1, $all = 'All', $orderby = 'ID', $order = 'asc',
 		$show_last_update = 0, $show_count = 0, $hide_empty = 1, $optionnone = false,
@@ -726,7 +726,7 @@ function dropdown_cats($optionall = 1, $all = 'All', $orderby = 'ID', $order = '
  * @param bool $hide_empty
  * @param string $feed
  * @param string $feed_image
- * @return unknown
+ * @return null|string
  */
 function list_authors($optioncount = false, $exclude_admin = true, $show_fullname = false, $hide_empty = true, $feed = '', $feed_image = '') {
 	_deprecated_function( __FUNCTION__, '2.1', 'wp_list_authors()' );
@@ -743,7 +743,7 @@ function list_authors($optioncount = false, $exclude_admin = true, $show_fullnam
  *
  * @param int $blogid Not Used
  * @param int $post_ID
- * @return unknown
+ * @return array
  */
 function wp_get_post_cats($blogid = '1', $post_ID = 0) {
 	_deprecated_function( __FUNCTION__, '2.1', 'wp_get_post_categories()' );
@@ -761,7 +761,7 @@ function wp_get_post_cats($blogid = '1', $post_ID = 0) {
  * @param int $blogid Not used
  * @param int $post_ID
  * @param array $post_categories
- * @return unknown
+ * @return bool|mixed
  */
 function wp_set_post_cats($blogid = '1', $post_ID = 0, $post_categories = array()) {
 	_deprecated_function( __FUNCTION__, '2.1', 'wp_set_post_categories()' );
@@ -780,7 +780,7 @@ function wp_set_post_cats($blogid = '1', $post_ID = 0, $post_categories = array(
  * @param string $before
  * @param string $after
  * @param bool $show_post_count
- * @return unknown
+ * @return string|null
  */
 function get_archives($type='', $limit='', $format='html', $before = '', $after = '', $show_post_count = false) {
 	_deprecated_function( __FUNCTION__, '2.1', 'wp_get_archives()' );
@@ -1098,7 +1098,7 @@ function links_popup_script($text = 'Links', $width=400, $height=400, $file='lin
  * @see sanitize_bookmark_field()
  *
  * @param object $link
- * @return unknown
+ * @return mixed
  */
 function get_linkrating($link) {
 	_deprecated_function( __FUNCTION__, '2.1', 'sanitize_bookmark_field()' );

@@ -195,7 +195,7 @@ function edit_user( $user_id = 0 ) {
  *
  * @since 2.8.0
  *
- * @return unknown
+ * @return array
  */
 function get_editable_roles() {
 	global $wp_roles;

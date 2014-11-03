@@ -274,7 +274,7 @@ function get_editable_authors( $user_id ) {
  *
  * @param int $user_id User ID.
  * @param bool $exclude_zeros Optional, default is true. Whether to exclude zeros.
- * @return unknown
+ * @return mixed
  */
 function get_editable_user_ids( $user_id, $exclude_zeros = true, $post_type = 'post' ) {
 	_deprecated_function( __FUNCTION__, '3.1', 'get_users()' );
@@ -607,7 +607,7 @@ class WP_User_Search {
 	 * @since 2.1.0
 	 * @access public
 	 *
-	 * @return unknown
+	 * @return array
 	 */
 	function get_results() {
 		return (array) $this->results;
@@ -940,7 +940,7 @@ function get_allowed_themes() {
  * @since 1.5.0
  * @deprecated 3.4.0
  *
- * @return unknown
+ * @return array
  */
 function get_broken_themes() {
 	_deprecated_function( __FUNCTION__, '3.4', "wp_get_themes( array( 'errors' => true )" );
@@ -964,7 +964,7 @@ function get_broken_themes() {
  * @since 2.0.0
  * @deprecated 3.4.0
  *
- * @return unknown
+ * @return WP_Theme
  */
 function current_theme_info() {
 	_deprecated_function( __FUNCTION__, '3.4', 'wp_get_theme()' );

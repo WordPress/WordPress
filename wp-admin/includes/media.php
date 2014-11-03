@@ -864,7 +864,7 @@ function media_sideload_image( $file, $post_id, $desc = null ) {
  *
  * @since 2.5.0
  *
- * @return unknown
+ * @return string|null
  */
 function media_upload_gallery() {
 	$errors = array();
@@ -887,7 +887,7 @@ function media_upload_gallery() {
  *
  * @since 2.5.0
  *
- * @return unknown
+ * @return string|null
  */
 function media_upload_library() {
 	$errors = array();

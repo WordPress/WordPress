@@ -2204,7 +2204,7 @@ function wp_update_comment($commentarr) {
  * @staticvar bool $_defer
  *
  * @param bool $defer
- * @return unknown
+ * @return bool
  */
 function wp_defer_comment_counting($defer=null) {
 	static $_defer = false;
