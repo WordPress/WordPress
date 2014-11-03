@@ -1668,7 +1668,7 @@ add_action( 'wp_loaded', '_custom_header_background_just_in_time' );
  * @since 3.1.0
  *
  * @param string $feature the feature to check
- * @return mixed The array of extra arguments or value of registered featured.
+ * @return mixed The array of extra arguments or the value for the registered feature.
  */
 function get_theme_support( $feature ) {
 	global $_wp_theme_features;
