@@ -1985,6 +1985,11 @@ a.post-thumbnail:focus {
 	content: "\f411";
 }
 
+.comments-link,
+.edit-link {
+	white-space: nowrap;
+}
+
 .page-header {
 	background-color: #fff;
 	border-bottom: 1px solid rgba(51, 51, 51, 0.1);
