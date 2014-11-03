@@ -803,7 +803,7 @@ function add_query_arg() {
  * @since 1.5.0
  *
  * @param string|array $key   Query key or keys to remove.
- * @param bool         $query Optional. When false uses the $_SERVER value. Default false.
+ * @param bool|string  $query Optional. When false uses the $_SERVER value. Default false.
  * @return string New URL query string.
  */
 function remove_query_arg( $key, $query = false ) {
