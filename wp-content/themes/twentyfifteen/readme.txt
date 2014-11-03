@@ -73,6 +73,8 @@ Available icons: (Linking to any of the following sites will automatically displ
 * WordPress
 * YouTube
 
+Social networks that aren't currently supported will be indicated by a circular icon with a diagonal line through the center.
+
 = How do I add a description for my menu link in navigation? =
 
 Twenty Fifteen allows you to not only show a menu link title but also add a description for each menu item.
