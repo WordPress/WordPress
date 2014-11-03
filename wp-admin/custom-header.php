@@ -61,6 +61,11 @@ class Custom_Image_Header {
 	private $page = '';
 
 	/**
+	 * @var bool
+	 */
+	private $updated;
+
+	/**
 	 * Constructor - Register administration header callback.
 	 *
 	 * @since 2.1.0
@@ -299,9 +304,6 @@ class Custom_Image_Header {
 	 */
 	public function process_default_headers() {
 		global $_wp_default_headers;
-
-		if ( !empty($this->headers) )
-			return;
 
 		if ( !isset($_wp_default_headers) )
 			return;
