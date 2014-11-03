@@ -1890,9 +1890,9 @@ function make_db_current_silent( $tables = 'all' ) {
  *
  * @since 1.5.0
  *
- * @param unknown_type $theme_name
- * @param unknown_type $template
- * @return unknown
+ * @param string $theme_name
+ * @param string $template
+ * @return bool
  */
 function make_site_theme_from_oldschool($theme_name, $template) {
 	$home_path = get_home_path();
