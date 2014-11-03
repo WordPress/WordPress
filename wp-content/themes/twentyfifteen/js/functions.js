@@ -8,8 +8,6 @@
 ( function( $ ) {
 	var $body, $window, sidebar, toolbarOffset;
 
-	$( 'html' ).removeClass( 'no-js' );
-
 	// Add dropdown toggle that display child menu items.
 	$( '.main-navigation .page_item_has_children > a, .main-navigation .menu-item-has-children > a' ).after( '<button class="dropdown-toggle" aria-expanded="false">' + screenReaderText.expand + '</button>' );
 
