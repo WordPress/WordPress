@@ -4131,16 +4131,20 @@ function get_term_link( $term, $taxonomy = '') {
  * post without specifying the Post ID. You can also use it outside the Loop to
  * display the taxonomies for a specific post.
  *
- * The available defaults are:
- * 'post' : default is 0. The post ID to get taxonomies of.
- * 'before' : default is empty string. Display before taxonomies list.
- * 'sep' : default is empty string. Separate every taxonomy with value in this.
- * 'after' : default is empty string. Display this after the taxonomies list.
- * 'template' : The template to use for displaying the taxonomy terms.
- *
  * @since 2.5.0
  *
- * @param array $args Override the defaults.
+ * @param array $args {
+ *     Arguments about which post to use and how to format the output.
+ *
+ *     @type  int|WP_Post $post          Post ID or object to get taxonomies of. Default current post.
+ *     @type  string      $before        Displays before the taxonomies. Default empty string.
+ *     @type  string      $sep           Separates each taxonomy. Default is a space.
+ *     @type  string      $after         Displays after the taxonomies. Default empty string.
+ *     @type  string      $template      Template for displaying a taxonomy label and list of
+ *                                       terms. Default is "Label: Terms."
+ *     @type  string      $term_template Template for displaying a single term in the list.
+ *                                       Default is the term name linked to its archive.
+ * }
  */
 function the_taxonomies( $args = array() ) {
 	$defaults = array(
@@ -4148,8 +4152,10 @@ function the_taxonomies( $args = array() ) {
 		'before' => '',
 		'sep' => ' ',
 		'after' => '',
-		/* translators: %s: taxonomy label, %l: list of term links */
-		'template' => __( '%s: %l.' )
+		/* translators: %s: taxonomy label, %l: list of terms formatted as per $term_template */
+		'template' => __( '%s: %l.' ),
+		/* translators: %1$s: term link, %2$s: term name */
+		'term_template' => '<a href="%1$s">%2$s</a>',
 	);
 
 	$r = wp_parse_args( $args, $defaults );
@@ -4173,8 +4179,10 @@ function get_the_taxonomies( $post = 0, $args = array() ) {
 	$post = get_post( $post );
 
 	$args = wp_parse_args( $args, array(
-		/* translators: %s: taxonomy label, %l: list of term links */
+		/* translators: %s: taxonomy label, %l: list of terms formatted as per $term_template */
 		'template' => __( '%s: %l.' ),
+		/* translators: %1$s: term link, %2$s: term name */
+		'term_template' => '<a href="%1$s">%2$s</a>',
 	) );
 
 	$taxonomies = array();
@@ -4194,6 +4202,9 @@ function get_the_taxonomies( $post = 0, $args = array() ) {
 		if ( empty( $t['template'] ) ) {
 			$t['template'] = $args['template'];
 		}
+		if ( empty( $t['term_template'] ) ) {
+			$t['term_template'] = $args['term_template'];
+		}
 
 		$terms = get_object_term_cache( $post->ID, $taxonomy );
 		if ( false === $terms ) {
@@ -4202,7 +4213,7 @@ function get_the_taxonomies( $post = 0, $args = array() ) {
 		$links = array();
 
 		foreach ( $terms as $term ) {
-			$links[] = "<a href='" . esc_attr( get_term_link( $term ) ) . "'>$term->name</a>";
+			$links[] = wp_sprintf( $t['term_template'], esc_attr( get_term_link( $term ) ), $term->name );
 		}
 		if ( $links ) {
 			$taxonomies[$taxonomy] = wp_sprintf( $t['template'], $t['label'], $links, $terms );
