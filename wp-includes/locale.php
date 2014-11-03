@@ -85,6 +85,11 @@ class WP_Locale {
 	var $text_direction = 'ltr';
 
 	/**
+	 * @var array
+	 */
+	var $number_format;
+	
+	/**
 	 * Sets up the translated strings and object properties.
 	 *
 	 * The method creates the translatable strings for various
