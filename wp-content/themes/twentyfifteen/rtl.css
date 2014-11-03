@@ -267,6 +267,13 @@ img.alignleft {
 	content: "\f430";
 }
 
+.entry-content a,
+.entry-summary a,
+.page-content a,
+.comment-content a {
+	display: inline;
+}
+
 .author-link:after {
 	content: "\f430";
 }
