@@ -1712,7 +1712,7 @@ function media_upload_header() {
  *
  * @since 2.5.0
  *
- * @param unknown_type $errors
+ * @param array $errors
  */
 function media_upload_form( $errors = null ) {
 	global $type, $tab, $is_IE, $is_opera;

@@ -579,8 +579,8 @@ function _fetch_remote_file($url, $headers = "" ) {
  * @package External
  * @subpackage MagpieRSS
  *
- * @param unknown_type $resp
- * @return unknown
+ * @param array $resp
+ * @return MagpieRSS|bool
  */
 function _response_to_rss ($resp) {
 	$rss = new MagpieRSS( $resp->results );
