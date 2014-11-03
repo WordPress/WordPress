@@ -289,7 +289,7 @@ function wp_popular_terms_checklist( $taxonomy, $default = 0, $number = 10, $ech
  *
  * @since 2.5.1
  *
- * @param unknown_type $link_id
+ * @param int $link_id
  */
 function wp_link_category_checklist( $link_id = 0 ) {
 	$default = 1;
@@ -324,7 +324,7 @@ function wp_link_category_checklist( $link_id = 0 ) {
  *
  * @since 2.7.0
  *
- * @param unknown_type $post
+ * @param WP_Post $post
  */
 function get_inline_data($post) {
 	$post_type_object = get_post_type_object($post->post_type);
@@ -519,7 +519,7 @@ function wp_comment_trashnotice() {
  *
  * @since 1.2.0
  *
- * @param unknown_type $meta
+ * @param array $meta
  */
 function list_meta( $meta ) {
 	// Exit if no meta
@@ -562,9 +562,9 @@ function list_meta( $meta ) {
  *
  * @since 2.5.0
  *
- * @param unknown_type $entry
- * @param unknown_type $count
- * @return unknown
+ * @param array $entry
+ * @param int   $count
+ * @return string
  */
 function _list_meta_row( $entry, &$count ) {
 	static $update_nonce = false;
@@ -1429,7 +1429,7 @@ function settings_errors( $setting = '', $sanitize = false, $hide_on_update = fa
  *
  * @since 2.7.0
  *
- * @param unknown_type $found_action
+ * @param string $found_action
  */
 function find_posts_div($found_action = '') {
 ?>
