@@ -70,7 +70,11 @@ get_header(); ?>
 					endif;
 				?>
 
-				<?php twentyfifteen_post_nav(); ?>
+				<?php
+					the_post_navigation( array(
+						'prev_text' => _x( '<span class="meta-nav">Published in</span><span class="post-title">%title</span>', 'Parent post link', 'twentyfifteen' ),
+					) );
+				?>
 
 			<?php endwhile; // end of the loop. ?>
 

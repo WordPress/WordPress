@@ -32,7 +32,11 @@ get_header(); ?>
 
 			<?php endwhile; ?>
 
-			<?php twentyfifteen_paging_nav(); ?>
+			<?php
+				the_pagination( array(
+					'before_page_number' => '<span class="meta-nav">' . __( 'Page', 'twentyfifteen' ) . '</span>',
+				) );
+			?>
 
 		<?php else : ?>
 

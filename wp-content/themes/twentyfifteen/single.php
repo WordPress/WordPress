@@ -23,7 +23,12 @@ get_header(); ?>
 				endif;
 			?>
 
-			<?php twentyfifteen_post_nav(); ?>
+			<?php
+				the_post_navigation( array(
+					'next_text' => _x( '<span class="meta-nav">Previous</span><span class="post-title">%title</span>', 'Previous post link', 'twentyfifteen' ),
+					'prev_text' => _x( '<span class="meta-nav">Next</span><span class="post-title">%title</span>', 'Next post link', 'twentyfifteen' ),
+				) );
+			?>
 
 		<?php endwhile; // end of the loop. ?>
 

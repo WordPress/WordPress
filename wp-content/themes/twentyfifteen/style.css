@@ -981,20 +981,14 @@ a:focus {
 	z-index: 2;
 }
 
-.post-navigation a:hover .post-title,
-.post-navigation a:focus .post-title {
-	color: #707070;
-	color: rgba(51, 51, 51, 0.7);
-}
-
-.post-navigation .has-post-thumbnail {
+.post-navigation .nav-next,
+.post-navigation .nav-previous {
 	background-position: center;
 	background-size: cover;
 	position: relative;
 }
 
-.post-navigation .has-post-thumbnail a:before {
-	background-color: rgba(0, 0, 0, 0.4);
+.post-navigation a:before {
 	content: "";
 	display: block;
 	height: 100%;
@@ -1005,26 +999,16 @@ a:focus {
 	z-index: 1;
 }
 
-.post-navigation .has-post-thumbnail a:hover:before,
-.post-navigation .has-post-thumbnail a:focus:before {
-	background-color: rgba(0, 0, 0, 0.2);
+.post-navigation a:hover:before,
+.post-navigation a:focus:before {
+	opacity: 0.5;
 }
 
-.post-navigation .has-post-thumbnail a:hover .post-title,
-.post-navigation .has-post-thumbnail a:focus .post-title {
-	color: #fff;
-}
-
-.post-navigation .has-post-thumbnail .post-title,
-.post-navigation .has-post-thumbnail .meta-nav {
-	color: #fff;
-}
-
-.post-navigation .has-post-thumbnail .meta-nav {
+.post-navigation .meta-nav {
 	opacity: 0.8;
 }
 
-.post-navigation .nav-previous:not(.has-post-thumbnail) + .nav-next:not(.has-post-thumbnail) {
+.post-navigation .nav-previous + .nav-next {
 	border-top: 1px solid #eaeaea;
 	border-top: 1px solid rgba(51, 51, 51, 0.1);
 }
