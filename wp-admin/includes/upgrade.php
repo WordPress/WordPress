@@ -1973,9 +1973,9 @@ function make_site_theme_from_oldschool($theme_name, $template) {
  *
  * @since 1.5.0
  *
- * @param unknown_type $theme_name
- * @param unknown_type $template
- * @return unknown
+ * @param string $theme_name
+ * @param string $template
+ * @return bool|null
  */
 function make_site_theme_from_default($theme_name, $template) {
 	$site_dir = WP_CONTENT_DIR . "/themes/$template";
