@@ -1614,9 +1614,9 @@ function deslash($content) {
  *
  * @since 1.5.0
  *
- * @param unknown_type $queries
- * @param unknown_type $execute
- * @return unknown
+ * @param string $queries
+ * @param bool   $execute
+ * @return array
  */
 function dbDelta( $queries = '', $execute = true ) {
 	global $wpdb;
