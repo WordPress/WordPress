@@ -163,7 +163,7 @@ function wp_tempnam($filename = '', $dir = '') {
  *
  * @param string $file file the users is attempting to edit
  * @param array $allowed_files Array of allowed files to edit, $file must match an entry exactly
- * @return null
+ * @return string|null
  */
 function validate_file_to_edit( $file, $allowed_files = '' ) {
 	$code = validate_file( $file, $allowed_files );
@@ -809,7 +809,7 @@ function copy_dir($from, $to, $skip_list = array() ) {
  *
  * @param array $args (optional) Connection args, These are passed directly to the WP_Filesystem_*() classes.
  * @param string $context (optional) Context for get_filesystem_method(), See function declaration for more information.
- * @return boolean false on failure, true on success
+ * @return null|boolean false on failure, true on success
  */
 function WP_Filesystem( $args = false, $context = false ) {
 	global $wp_filesystem;

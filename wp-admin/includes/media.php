@@ -570,6 +570,14 @@ function media_buttons($editor_id = 'content') {
 }
 add_action( 'media_buttons', 'media_buttons' );
 
+/**
+ *
+ * @global int $post_ID
+ * @param string $type
+ * @param int $post_id
+ * @param string $tab
+ * @return string
+ */
 function get_upload_iframe_src( $type = null, $post_id = null, $tab = null ) {
 	global $post_ID;
 
@@ -717,7 +725,7 @@ function media_upload_form_handler() {
  *
  * @since 2.5.0
  *
- * @return mixed
+ * @return null|string
  */
 function wp_media_upload_handler() {
 	$errors = array();
@@ -1091,8 +1099,8 @@ function media_post_single_attachment_fields_to_edit( $form_fields, $post ) {
  *
  * @since 2.5.0
  *
- * @param WP_Post $post       The WP_Post attachment object.
- * @param array   $attachment An array of attachment metadata.
+ * @param array $post       The WP_Post attachment object converted to an array.
+ * @param array $attachment An array of attachment metadata.
  * @return array Filtered attachment post object.
  */
 function image_attachment_fields_to_save( $post, $attachment ) {
@@ -1117,7 +1125,7 @@ add_filter( 'attachment_fields_to_save', 'image_attachment_fields_to_save', 10, 
  * @param string $html
  * @param integer $attachment_id
  * @param array $attachment
- * @return array
+ * @return string
  */
 function image_media_send_to_editor($html, $attachment_id, $attachment) {
 	$post = get_post($attachment_id);
@@ -1141,7 +1149,7 @@ add_filter('media_send_to_editor', 'image_media_send_to_editor', 10, 3);
  *
  * @since 2.5.0
  *
- * @param object $post
+ * @param WP_Post $post
  * @param array $errors
  * @return array
  */

@@ -6,6 +6,10 @@
  * @subpackage Administration
  */
 
+/**
+ * @param int $post_id
+ * @param bool|object $msg
+ */
 function wp_image_editor($post_id, $msg = false) {
 	$nonce = wp_create_nonce("image_editor-$post_id");
 	$meta = wp_get_attachment_metadata($post_id);
@@ -554,6 +558,10 @@ function stream_preview_image( $post_id ) {
 	return wp_stream_image( $img, $post->post_mime_type, $post_id );
 }
 
+/**
+ * @param int $post_id
+ * @return stdClass
+ */
 function wp_restore_image($post_id) {
 	$meta = wp_get_attachment_metadata($post_id);
 	$file = get_attached_file($post_id);
