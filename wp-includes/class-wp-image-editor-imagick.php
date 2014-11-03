@@ -15,8 +15,10 @@
  * @uses WP_Image_Editor Extends class
  */
 class WP_Image_Editor_Imagick extends WP_Image_Editor {
-
-	protected $image = null; // Imagick Object
+	/**
+	 * @var Imagick
+	 */
+	protected $image; // Imagick Object
 
 	public function __destruct() {
 		if ( $this->image instanceof Imagick ) {
