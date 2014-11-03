@@ -167,10 +167,12 @@ endif; // twentyfifteen_admin_header_image
  * @since Twenty Fifteen 1.0
  */
 function twentyfifteen_header_background_color_css() {
+	$color_scheme            = twentyfifteen_get_color_scheme();
+	$default_color           = $color_scheme[1];
 	$header_background_color = get_theme_mod( 'header_background_color', '#ffffff' );
 
 	// Don't do anything if the current color is the default.
-	if ( '#ffffff' === $header_background_color ) {
+	if ( $header_background_color === $default_color ) {
 		return;
 	}
 
@@ -209,10 +211,12 @@ add_action( 'wp_enqueue_scripts', 'twentyfifteen_header_background_color_css', 1
  * @since Twenty Fifteen 1.0
  */
 function twentyfifteen_sidebar_text_color_css() {
+	$color_scheme       = twentyfifteen_get_color_scheme();
+	$default_color      = $color_scheme[4];
 	$sidebar_link_color = get_theme_mod( 'sidebar_textcolor', '#333333' );
 
 	// Don't do anything if the current color is the default.
-	if ( '#333333' === $sidebar_link_color ) {
+	if ( $sidebar_link_color === $default_color ) {
 		return;
 	}
 
