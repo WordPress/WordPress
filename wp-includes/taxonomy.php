@@ -682,6 +682,24 @@ class WP_Tax_Query {
 	public $queried_terms = array();
 
 	/**
+	 * Database table that where the metadata's objects are stored (eg $wpdb->users).
+	 *
+	 * @since 4.1.0
+	 * @access public
+	 * @var string
+	 */
+	public $primary_table;
+
+	/**
+	 * Column in primary_table that represents the ID of the object.
+	 *
+	 * @since 4.1.0
+	 * @access public
+	 * @var string
+	 */
+	public $primary_id_column;
+
+	/**
 	 * Constructor.
 	 *
 	 * @since 3.1.0
