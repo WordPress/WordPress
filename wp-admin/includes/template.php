@@ -396,9 +396,10 @@ function get_inline_data($post) {
  *
  * @since 2.7.0
  *
- * @param unknown_type $position
- * @param unknown_type $checkbox
- * @param unknown_type $mode
+ * @param string|int $position
+ * @param bool $checkbox
+ * @param string $mode
+ * @param bool $table_row
  */
 function wp_comment_reply($position = '1', $checkbox = false, $mode = 'single', $table_row = true) {
 
