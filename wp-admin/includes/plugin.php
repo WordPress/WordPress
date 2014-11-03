@@ -1744,8 +1744,7 @@ function user_can_access_admin_page() {
  * @param string $option_group A settings group name. Should correspond to a whitelisted option key name.
  * 	Default whitelisted option key names include "general," "discussion," and "reading," among others.
  * @param string $option_name The name of an option to sanitize and save.
- * @param unknown_type $sanitize_callback A callback function that sanitizes the option's value.
- * @return unknown
+ * @param callable $sanitize_callback A callback function that sanitizes the option's value.
  */
 function register_setting( $option_group, $option_name, $sanitize_callback = '' ) {
 	global $new_whitelist_options;
@@ -1770,10 +1769,9 @@ function register_setting( $option_group, $option_name, $sanitize_callback = '' 
  *
  * @since 2.7.0
  *
- * @param unknown_type $option_group
- * @param unknown_type $option_name
- * @param unknown_type $sanitize_callback
- * @return unknown
+ * @param string   $option_group
+ * @param string   $option_name
+ * @param callable $sanitize_callback
  */
 function unregister_setting( $option_group, $option_name, $sanitize_callback = '' ) {
 	global $new_whitelist_options;
@@ -1800,8 +1798,8 @@ function unregister_setting( $option_group, $option_name, $sanitize_callback = '
  *
  * @since 2.7.0
  *
- * @param unknown_type $options
- * @return unknown
+ * @param array $options
+ * @return array
  */
 function option_update_filter( $options ) {
 	global $new_whitelist_options;
@@ -1818,9 +1816,9 @@ add_filter( 'whitelist_options', 'option_update_filter' );
  *
  * @since 2.7.0
  *
- * @param unknown_type $new_options
- * @param unknown_type $options
- * @return unknown
+ * @param array        $new_options
+ * @param string|array $options
+ * @return array
  */
 function add_option_whitelist( $new_options, $options = '' ) {
 	if ( $options == '' )
@@ -1849,9 +1847,9 @@ function add_option_whitelist( $new_options, $options = '' ) {
  *
  * @since 2.7.0
  *
- * @param unknown_type $del_options
- * @param unknown_type $options
- * @return unknown
+ * @param array        $del_options
+ * @param string|array $options
+ * @return array
  */
 function remove_option_whitelist( $del_options, $options = '' ) {
 	if ( $options == '' )
