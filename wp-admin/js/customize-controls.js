@@ -1,6 +1,6 @@
 /* globals _wpCustomizeHeader, _wpMediaViewsL10n */
 (function( exports, $ ){
-	var bubbleChildValueChanges, Container, focus, isKeydownButNotEnterEvent, areElementListsEqual, api = wp.customize;
+	var bubbleChildValueChanges, Container, focus, isKeydownButNotEnterEvent, areElementListsEqual, prioritySort, api = wp.customize;
 
 	// @todo Move private helper functions to wp.customize.utils so they can be unit tested
 
@@ -74,6 +74,23 @@
 			construct.expand( params );
 		} else {
 			params.completeCallback();
+		}
+	};
+
+	/**
+	 * Stable sort for Panels, Sections, and Controls.
+	 *
+	 * If a.priority() === b.priority(), then sort by their respective params.instanceNumber.
+	 *
+	 * @param {(wp.customize.Panel|wp.customize.Section|wp.customize.Control)} a
+	 * @param {(wp.customize.Panel|wp.customize.Section|wp.customize.Control)} b
+	 * @returns {Number}
+	 */
+	prioritySort = function ( a, b ) {
+		if ( a.priority() === b.priority() && typeof a.params.instanceNumber === 'number' && typeof b.params.instanceNumber === 'number' ) {
+			return a.params.instanceNumber - b.params.instanceNumber;
+		} else {
+			return a.priority() - b.priority();
 		}
 	};
 
@@ -176,9 +193,7 @@
 					children.push( child );
 				}
 			} );
-			children.sort( function ( a, b ) {
-				return a.priority() - b.priority();
-			} );
+			children.sort( prioritySort );
 			return children;
 		},
 
@@ -1952,9 +1967,7 @@
 			} );
 
 			// Sort the root panels and sections
-			rootNodes.sort( function ( a, b ) {
-				return a.priority() - b.priority();
-			} );
+			rootNodes.sort( prioritySort );
 			rootContainers = _.pluck( rootNodes, 'container' );
 			appendContainer = $( '#customize-theme-controls' ).children( 'ul' ); // @todo This should be defined elsewhere, and to be configurable
 			if ( ! areElementListsEqual( rootContainers, appendContainer.children() ) ) {

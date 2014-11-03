@@ -856,28 +856,27 @@ final class WP_Customize_Manager {
 	 * @since 4.1.0
 	 */
 	public function render_control_templates() {
-		foreach( $this->registered_control_types as $control_type ) {
+		foreach ( $this->registered_control_types as $control_type ) {
 			$control = new $control_type( $this, 'temp', array() );
 			$control->print_template();
 		}
 	}
 
-    /** 
-	 * Helper function to compare two objects by priority.
+	/**
+	 * Helper function to compare two objects by priority, ensuring sort stability via instance_number.
 	 *
 	 * @since 3.4.0
 	 *
-	 * @param object $a Object A.
-	 * @param object $b Object B.
+	 * @param {WP_Customize_Panel|WP_Customize_Section|WP_Customize_Control} $a Object A.
+	 * @param {WP_Customize_Panel|WP_Customize_Section|WP_Customize_Control} $b Object B.
 	 * @return int
 	 */
 	protected final function _cmp_priority( $a, $b ) {
-		$ap = $a->priority;
-		$bp = $b->priority;
-
-		if ( $ap == $bp )
-			return 0;
-		return ( $ap > $bp ) ? 1 : -1;
+		if ( $a->priority === $b->priority ) {
+			return $a->instance_number - $a->instance_number;
+		} else {
+			return $a->priority - $b->priority;
+		}
 	}
 
 	/**
@@ -891,8 +890,8 @@ final class WP_Customize_Manager {
 	 */
 	public function prepare_controls() {
 
-		$this->controls = array_reverse( $this->controls );
 		$controls = array();
+		uasort( $this->controls, array( $this, '_cmp_priority' ) );
 
 		foreach ( $this->controls as $id => $control ) {
 			if ( ! isset( $this->sections[ $control->section ] ) || ! $control->check_capabilities() ) {
@@ -905,8 +904,6 @@ final class WP_Customize_Manager {
 		$this->controls = $controls;
 
 		// Prepare sections.
-		// Reversing makes uasort sort by time added when conflicts occur.
-		$this->sections = array_reverse( $this->sections );
 		uasort( $this->sections, array( $this, '_cmp_priority' ) );
 		$sections = array();
 
@@ -930,8 +927,6 @@ final class WP_Customize_Manager {
 		$this->sections = $sections;
 
 		// Prepare panels.
-		// Reversing makes uasort sort by time added when conflicts occur.
-		$this->panels = array_reverse( $this->panels );
 		uasort( $this->panels, array( $this, '_cmp_priority' ) );
 		$panels = array();
 

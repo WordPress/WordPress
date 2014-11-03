@@ -7,6 +7,27 @@
  * @since 3.4.0
  */
 class WP_Customize_Control {
+
+	/**
+	 * Incremented with each new class instantiation, then stored in $instance_number.
+	 *
+	 * Used when sorting two instances whose priorities are equal.
+	 *
+	 * @since 4.1.0
+	 * @access protected
+	 * @var int
+	 */
+	protected static $instance_count = 0;
+
+	/**
+	 * Order in which this instance was created in relation to other instances.
+	 *
+	 * @since 4.1.0
+	 * @access public
+	 * @var int
+	 */
+	public $instance_number;
+
 	/**
 	 * @access public
 	 * @var WP_Customize_Manager
@@ -127,6 +148,8 @@ class WP_Customize_Control {
 		if ( empty( $this->active_callback ) ) {
 			$this->active_callback = array( $this, 'active_callback' );
 		}
+		self::$instance_count += 1;
+		$this->instance_number = self::$instance_count;
 
 		// Process settings.
 		if ( empty( $this->settings ) ) {
@@ -218,13 +241,14 @@ class WP_Customize_Control {
 			$this->json['settings'][ $key ] = $setting->id;
 		}
 
-		$this->json['type']        = $this->type;
-		$this->json['priority']    = $this->priority;
-		$this->json['active']      = $this->active();
-		$this->json['section']     = $this->section;
-		$this->json['content']     = $this->get_content();
-		$this->json['label']       = $this->label;
+		$this->json['type'] = $this->type;
+		$this->json['priority'] = $this->priority;
+		$this->json['active'] = $this->active();
+		$this->json['section'] = $this->section;
+		$this->json['content'] = $this->get_content();
+		$this->json['label'] = $this->label;
 		$this->json['description'] = $this->description;
+		$this->json['instanceNumber'] = $this->instance_number;
 	}
 
 	/**

@@ -11,6 +11,26 @@
 class WP_Customize_Section {
 
 	/**
+	 * Incremented with each new class instantiation, then stored in $instance_number.
+	 *
+	 * Used when sorting two instances whose priorities are equal.
+	 *
+	 * @since 4.1.0
+	 * @access protected
+	 * @var int
+	 */
+	protected static $instance_count = 0;
+
+	/**
+	 * Order in which this instance was created in relation to other instances.
+	 *
+	 * @since 4.1.0
+	 * @access public
+	 * @var int
+	 */
+	public $instance_number;
+
+	/**
 	 * WP_Customize_Manager instance.
 	 *
 	 * @since 3.4.0
@@ -137,6 +157,8 @@ class WP_Customize_Section {
 		if ( empty( $this->active_callback ) ) {
 			$this->active_callback = array( $this, 'active_callback' );
 		}
+		self::$instance_count += 1;
+		$this->instance_number = self::$instance_count;
 
 		$this->controls = array(); // Users cannot customize the $controls array.
 
@@ -194,6 +216,7 @@ class WP_Customize_Section {
 		$array = wp_array_slice_assoc( (array) $this, array( 'title', 'description', 'priority', 'panel', 'type' ) );
 		$array['content'] = $this->get_content();
 		$array['active'] = $this->active();
+		$array['instanceNumber'] = $this->instance_number;
 		return $array;
 	}
 
