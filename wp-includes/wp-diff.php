@@ -309,9 +309,9 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
 	 *
 	 * @since 2.6.0
 	 *
-	 * @param unknown_type $orig
-	 * @param unknown_type $final
-	 * @return unknown
+	 * @param array $orig
+	 * @param array $final
+	 * @return array
 	 */
 	public function interleave_changed_lines( $orig, $final ) {
 
