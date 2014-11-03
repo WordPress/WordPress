@@ -4134,17 +4134,15 @@ function get_term_link( $term, $taxonomy = '') {
  * @since 2.5.0
  *
  * @param array $args {
- *     Arguments about which post to use and how to format the output.
+ *     Arguments about which post to use and how to format the output. Shares all of the arguments supported by
+ *     {@link get_the_taxonomies()}, in addition to the following.
  *
- *     @type  int|WP_Post $post          Post ID or object to get taxonomies of. Default current post.
- *     @type  string      $before        Displays before the taxonomies. Default empty string.
- *     @type  string      $sep           Separates each taxonomy. Default is a space.
- *     @type  string      $after         Displays after the taxonomies. Default empty string.
- *     @type  string      $template      Template for displaying a taxonomy label and list of
- *                                       terms. Default is "Label: Terms."
- *     @type  string      $term_template Template for displaying a single term in the list.
- *                                       Default is the term name linked to its archive.
+ *     @type  int|WP_Post $post   Post ID or object to get taxonomies of. Default current post.
+ *     @type  string      $before Displays before the taxonomies. Default empty string.
+ *     @type  string      $sep    Separates each taxonomy. Default is a space.
+ *     @type  string      $after  Displays after the taxonomies. Default empty string.
  * }
+ * @param array $args See {@link get_the_taxonomies()} for a description of arguments and their defaults.
  */
 function the_taxonomies( $args = array() ) {
 	$defaults = array(
@@ -4152,10 +4150,6 @@ function the_taxonomies( $args = array() ) {
 		'before' => '',
 		'sep' => ' ',
 		'after' => '',
-		/* translators: %s: taxonomy label, %l: list of terms formatted as per $term_template */
-		'template' => __( '%s: %l.' ),
-		/* translators: %1$s: term link, %2$s: term name */
-		'term_template' => '<a href="%1$s">%2$s</a>',
 	);
 
 	$r = wp_parse_args( $args, $defaults );
@@ -4172,7 +4166,14 @@ function the_taxonomies( $args = array() ) {
  * @since 2.5.0
  *
  * @param int|WP_Post $post Optional. Post ID or WP_Post object. Default is global $post.
- * @param array $args Override the defaults.
+ * @param array $args {
+ *     Arguments about how to format the list of taxonomies.
+ *
+ *     @type string $template      Template for displaying a taxonomy label and list of terms.
+ *                                 Default is "Label: Terms."
+ *     @type string $term_template Template for displaying a single term in the list. Default is the term name
+ *                                 linked to its archive.
+ * }
  * @return array List of taxonomies.
  */
 function get_the_taxonomies( $post = 0, $args = array() ) {
