@@ -327,9 +327,15 @@ function twentyfifteen_color_scheme_css() {
 		.entry-summary a,
 		.page-content a,
 		.comment-content a,
+		.pingback .comment-body > a,
 		.author-description a,
+		.taxonomy-description a,
+		.textwidget a,
+		.entry-footer a:hover,
+		.comment-metadata a:hover,
+		.pingback .edit-link a:hover,
 		.comment-list .reply a:hover,
-		.comment-list .reply a:focus {
+		.site-info a:hover {
 			border-color: %4$s;
 		}
 
@@ -367,16 +373,6 @@ function twentyfifteen_color_scheme_css() {
 		.comment-navigation,
 		.comment-navigation a,
 		.widget,
-		.entry-content a:hover,
-		.entry-content a:focus,
-		.entry-summary a:hover,
-		.entry-summary a:focus,
-		.page-content a:hover,
-		.page-content a:focus,
-		.comment-content a:hover,
-		.comment-content a:focus,
-		.author-description a:hover,
-		.author-description a:focus,
 		.author-heading,
 		.entry-footer,
 		.entry-footer a,
@@ -386,7 +382,8 @@ function twentyfifteen_color_scheme_css() {
 		.comment-author,
 		.comment-metadata,
 		.comment-metadata a,
-		.pingback .comment-edit-link,
+		.pingback .edit-link,
+		.pingback .edit-link a,
 		.post-password-form label,
 		.comment-form label,
 		.comment-notes,
@@ -405,16 +402,8 @@ function twentyfifteen_color_scheme_css() {
 
 		/* Secondary Text Color */
 		blockquote,
-		.entry-content a:hover,
-		.entry-content a:focus,
-		.entry-summary a:hover,
-		.entry-summary a:focus,
-		.page-content a:hover,
-		.page-content a:focus,
-		.comment-content a:hover,
-		.comment-content a:focus,
-		.author-description a:hover,
-		.author-description a:focus {
+		.logged-in-as a:hover,
+		.comment-author a:hover {
 			border-color: %4$s; /* Fallback for IE7 and IE8 */
 			border-color: %5$s;
 		}
@@ -467,6 +456,13 @@ function twentyfifteen_color_scheme_css() {
 		}
 
 		/* Border Focus Color */
+		a:focus,
+		button:focus,
+		input:focus {
+			outline-color: %4$s; /* Fallback for IE7 and IE8 */
+			outline-color: %7$s;
+		}
+
 		input:focus,
 		textarea:focus {
 			border-color: %4$s; /* Fallback for IE7 and IE8 */
@@ -474,16 +470,8 @@ function twentyfifteen_color_scheme_css() {
 		}
 
 		/* Sidebar Link Color */
-		.secondary-toggle:hover {
-			border-color: %8$s;
-		}
-
 		.secondary-toggle:before {
 			color: %8$s;
-		}
-
-		.secondary-toggle:focus {
-			outline-color: %8$s;
 		}
 
 		.site-title a,
@@ -501,6 +489,18 @@ function twentyfifteen_color_scheme_css() {
 		.secondary-toggle {
 			border-color: %8$s; /* Fallback for IE7 and IE8 */
 			border-color: %10$s;
+		}
+
+		/* Sidebar Border Focus Color */
+		.secondary-toggle:hover,
+		.secondary-toggle:focus {
+			border-color: %8$s; /* Fallback for IE7 and IE8 */
+			border-color: %11$s;
+		}
+
+		.site-title a {
+			outline-color: %8$s; /* Fallback for IE7 and IE8 */
+			outline-color: %11$s;
 		}
 
 		/* Meta Background Color */
@@ -529,23 +529,11 @@ function twentyfifteen_color_scheme_css() {
 			.widget input[type="submit"],
 			.widget_calendar tbody a,
 			.widget_calendar tbody a:hover,
-			.widget_calendar tbody a:focus,
-			.widget mark,
-			.widget ins {
+			.widget_calendar tbody a:focus {
 				color: %2$s;
 			}
 
 			/* Sidebar Link Color */
-			.widget button,
-			.widget input[type="button"],
-			.widget input[type="reset"],
-			.widget input[type="submit"],
-			.widget_calendar tbody a,
-			.widget mark,
-			.widget ins {
-				background-color: %8$s;
-			}
-
 			.secondary a,
 			.dropdown-toggle:after,
 			.widget-title,
@@ -554,8 +542,16 @@ function twentyfifteen_color_scheme_css() {
 				color: %8$s;
 			}
 
-			.dropdown-toggle:focus {
-				outline-color: %8$s;
+			.widget button,
+			.widget input[type="button"],
+			.widget input[type="reset"],
+			.widget input[type="submit"],
+			.widget_calendar tbody a {
+				background-color: %8$s;
+			}
+
+			.textwidget a {
+				border-color: %8$s;
 			}
 
 			/* Sidebar Text Color */
@@ -569,8 +565,6 @@ function twentyfifteen_color_scheme_css() {
 				color: %9$s;
 			}
 
-			.dropdown-toggle:hover,
-			.dropdown-toggle:focus,
 			.widget button:hover,
 			.widget button:focus,
 			.widget input[type="button"]:hover,
@@ -596,8 +590,6 @@ function twentyfifteen_color_scheme_css() {
 			.widget table,
 			.widget th,
 			.widget td,
-			.widget input,
-			.widget textarea,
 			.widget pre,
 			.widget li,
 			.widget_categories .children,
@@ -607,14 +599,20 @@ function twentyfifteen_color_scheme_css() {
 				border-color: %10$s;
 			}
 
+			.dropdown-toggle:hover,
+			.dropdown-toggle:focus,
 			.widget hr {
 				background-color: %10$s;
 			}
 
-			/* Sidebar Border Focus Color */
 			.widget input:focus,
 			.widget textarea:focus {
 				border-color: %11$s;
+			}
+
+			.sidebar a:focus,
+			.dropdown-toggle:focus {
+				outline-color: %11$s;
 			}
 		}
 	';

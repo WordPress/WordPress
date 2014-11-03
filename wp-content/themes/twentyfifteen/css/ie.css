@@ -538,14 +538,14 @@ img.aligncenter {
 	padding: 4.5454% 9.0909%;
 }
 
-.posted-on a:before,
-.byline a:before,
-.cat-links span + a:before,
-.tags-links span + a:before,
-.comments-link a:before,
-.entry-format a:before,
-.edit-link a:before,
-.full-size-link a:before {
+.posted-on:before,
+.byline:before,
+.cat-links:before,
+.tags-links:before,
+.comments-link:before,
+.entry-format:before,
+.edit-link:before,
+.full-size-link:before {
 	top: 4px;
 }
 
@@ -649,8 +649,8 @@ img.aligncenter {
 	padding-left: 5.5em;
 }
 
-.comment-metadata .edit-link a:before,
-.pingback .edit-link a:before {
+.comment-metadata .edit-link:before,
+.pingback .edit-link:before {
 	top: 8px;
 }
 

@@ -182,7 +182,8 @@ function twentyfifteen_header_background_color_css() {
 		}
 
 		@media screen and (min-width: 59.6875em) {
-			.site-header {
+			.site-header,
+			.secondary {
 				background-color: transparent;
 			}
 
@@ -227,25 +228,29 @@ function twentyfifteen_sidebar_text_color_css() {
 			color: %1$s;
 		}
 
-		.secondary-toggle:focus {
-			outline-color: %1$s;
+		.secondary-toggle {
+			border-color: %1$s; /* Fallback for IE7 and IE8 */
+			border-color: %3$s;
 		}
 
-		.secondary-toggle:hover {
+		.secondary-toggle:hover,
+		.secondary-toggle:focus {
+			border-color: %1$s; /* Fallback for IE7 and IE8 */
 			border-color: %4$s;
 		}
 
-		@media screen and (min-width: 59.6875em) {
-			.dropdown-toggle:after,
-			.main-navigation a,
-			.social-navigation a,
-			.widget-title,
-			.widget a {
-				color: %1$s;
-			}
+		.site-title a {
+			outline-color: %1$s; /* Fallback for IE7 and IE8 */
+			outline-color: %4$s;
+		}
 
-			.dropdown-toggle:focus {
-				outline-color: %1$s;
+		@media screen and (min-width: 59.6875em) {
+			.secondary a,
+			.dropdown-toggle:after,
+			.widget-title,
+			.widget blockquote cite,
+			.widget blockquote small {
+				color: %1$s;
 			}
 
 			.widget button,
@@ -256,26 +261,30 @@ function twentyfifteen_sidebar_text_color_css() {
 				background-color: %1$s;
 			}
 
+			.textwidget a {
+				border-color: %1$s;
+			}
+
+			.secondary a:hover,
+			.secondary a:focus,
 			.main-navigation .menu-item-description,
-			.main-navigation a:hover,
-			.main-navigation a:focus,
-			.social-navigation a:hover:before,
-			.social-navigation a:focus:before,
 			.widget,
-			.widget a:hover,
-			.widget a:focus,
 			.widget blockquote,
-			.widget blockquote cite,
-			.widget blockquote small,
 			.widget .wp-caption-text,
 			.widget .gallery-caption {
-				color: %1$s; /* Fallback for IE7 and IE8 */
 				color: %2$s;
 			}
 
+			.widget button:hover,
+			.widget button:focus,
+			.widget input[type="button"]:hover,
+			.widget input[type="button"]:focus,
+			.widget input[type="reset"]:hover,
+			.widget input[type="reset"]:focus,
+			.widget input[type="submit"]:hover,
+			.widget input[type="submit"]:focus,
 			.widget_calendar tbody a:hover,
 			.widget_calendar tbody a:focus {
-				background-color: %1$s; /* Fallback for IE7 and IE8 */
 				background-color: %2$s;
 			}
 
@@ -286,32 +295,34 @@ function twentyfifteen_sidebar_text_color_css() {
 			.main-navigation ul,
 			.main-navigation li,
 			.secondary-toggle,
-			.widget_categories .children,
-			.widget_nav_menu .sub-menu,
-			.widget_pages .children,
+			.widget input,
+			.widget textarea,
 			.widget table,
 			.widget th,
 			.widget td,
-			.widget input,
-			.widget textarea,
 			.widget pre,
 			.widget li,
+			.widget_categories .children,
+			.widget_nav_menu .sub-menu,
+			.widget_pages .children,
 			.widget abbr[title] {
-				border-color: %1$s; /* Fallback for IE7 and IE8 */
 				border-color: %3$s;
 			}
 
 			.dropdown-toggle:hover,
 			.dropdown-toggle:focus,
 			.widget hr {
-				background-color: %1$s; /* Fallback for IE7 and IE8 */
 				background-color: %3$s;
 			}
 
 			.widget input:focus,
 			.widget textarea:focus {
-				border-color: %1$s; /* Fallback for IE7 and IE8 */
 				border-color: %4$s;
+			}
+
+			.sidebar a:focus,
+			.dropdown-toggle:focus {
+				outline-color: %4$s;
 			}
 		}
 	';
