@@ -151,7 +151,7 @@ function twentyfifteen_get_color_schemes() {
 
 if ( ! function_exists( 'twentyfifteen_get_color_scheme' ) ) :
 /**
- * Returns an array of either the current or default color scheme hex values
+ * Returns an array of either the current or default color scheme hex values.
  *
  * @since Twenty Fifteen 1.0
  *
@@ -639,7 +639,7 @@ add_action( 'wp_enqueue_scripts', 'twentyfifteen_color_scheme_css' );
 
 /**
  * Binds JS listener to make Customizer color_scheme control.
- * Passes color scheme data as colorScheme global
+ * Passes color scheme data as colorScheme global.
  *
  * @since Twenty Fifteen 1.0
  */

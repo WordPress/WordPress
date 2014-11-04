@@ -1,6 +1,6 @@
 <?php
 /**
- * Twenty Fifteen functions and definitions
+ * Twenty Fifteen functions and definitions.
  *
  * Set up the theme and provides some helper functions, which are used in the
  * theme as custom template tags. Others are attached to action and filter
@@ -241,7 +241,7 @@ function twentyfifteen_scripts() {
 add_action( 'wp_enqueue_scripts', 'twentyfifteen_scripts' );
 
 /**
- * Add featured image as background image to post navs.
+ * Add featured image as background image to post navigation elements.
  *
  * @since Twenty Fifteen 1.0
  */
@@ -302,7 +302,7 @@ function twentyfifteen_nav_description( $item_output, $item, $depth, $args ) {
 add_filter( 'walker_nav_menu_start_el', 'twentyfifteen_nav_description', 10, 4 );
 
 /**
- * Add a `screen-reader-text` class to the search form's submit button
+ * Add a `screen-reader-text` class to the search form's submit button.
  *
  * @since Twenty Fifteen 1.0
  *

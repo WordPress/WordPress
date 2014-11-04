@@ -2,7 +2,7 @@
 /**
  * The header for our theme.
  *
- * Displays all of the <head> section and everything up till <div id="content">
+ * Displays all of the <head> section and everything up until the "site-content" div.
  *
  * @package WordPress
  * @subpackage Twenty_Fifteen
