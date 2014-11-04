@@ -91,10 +91,6 @@ html {
 
 body {
 	background: #f1f1f1;
-	-webkit-font-feature-settings: "kern";
-	-moz-font-feature-settings: "kern";
-	font-feature-settings: "kern";
-	font-kerning: normal;
 }
 
 article,
