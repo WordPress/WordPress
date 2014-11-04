@@ -3880,6 +3880,9 @@
 	});
 
 	/**
+	 * Creates a dropzone on WP editor instances (elements with .wp-editor-wrap
+	 * or #wp-fullscreen-body) and relays drag'n'dropped files to a media workflow.
+	 *
 	 * wp.media.view.EditorUploader
 	 *
 	 * @class
@@ -3897,6 +3900,9 @@
 		overDropzone: false,
 		draggingFile: null,
 
+		/**
+		 * Bind drag'n'drop events to callbacks.
+		 */
 		initialize: function() {
 			var self = this;
 
@@ -3927,6 +3933,11 @@
 			return this;
 		},
 
+		/**
+		 * Check browser support for drag'n'drop.
+		 *
+		 * @return Boolean
+		 */
 		browserSupport: function() {
 			var supports = false, div = document.createElement('div');
 
