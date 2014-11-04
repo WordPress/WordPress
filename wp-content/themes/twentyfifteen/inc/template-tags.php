@@ -195,7 +195,7 @@ function twentyfifteen_post_thumbnail() {
 
 	<a class="post-thumbnail" href="<?php the_permalink(); ?>" aria-hidden="true">
 		<?php
-			the_post_thumbnail( 'post-thumbnail', array( 'alt'=>get_the_title() ) ); 
+			the_post_thumbnail( 'post-thumbnail', array( 'alt' => get_the_title() ) ); 
 		?>
 	</a>
 
