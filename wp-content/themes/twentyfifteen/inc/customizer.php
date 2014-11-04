@@ -35,25 +35,28 @@ function twentyfifteen_customize_register( $wp_customize ) {
 		'priority' => 1,
 	) );
 
-	// Add custom sidebar text color setting and control.
+	// Add custom header and sidebar text color setting and control.
 	$wp_customize->add_setting( 'sidebar_textcolor', array(
 		'default'           => $color_scheme[4],
 		'sanitize_callback' => 'sanitize_hex_color',
 	) );
 
 	$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'sidebar_textcolor', array(
-		'label'   => __( 'Sidebar Text Color', 'twentyfifteen' ),
+		'label'   => esc_html__( 'Header &amp; Sidebar Text Color', 'twentyfifteen' ),
 		'section' => 'colors',
 	) ) );
 
-	// Add custom header background color setting and control.
+	// Remove the core header textcolor control, as it shares the sidebar text color.
+	$wp_customize->remove_control( 'header_textcolor' );
+
+	// Add custom header and sidebar background color setting and control.
 	$wp_customize->add_setting( 'header_background_color', array(
 		'default'           => $color_scheme[1],
 		'sanitize_callback' => 'sanitize_hex_color',
 	) );
 
 	$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'header_background_color', array(
-		'label'   => esc_html__( 'Header & Sidebar Background Color', 'twentyfifteen' ),
+		'label'   => esc_html__( 'Header &amp; Sidebar Background Color', 'twentyfifteen' ),
 		'section' => 'colors',
 	) ) );
 }

@@ -34,6 +34,11 @@ Description: Used to style the header image displayed on the Appearance > Header
 	opacity: 0.7;
 }
 
+/* Hide the header text color option */
+.appearance_page_custom-header tr.displaying-header-text {
+	display: none;
+}
+
 @media screen and (min-width: 772px) {
 	#headimg h1 {
 		font-size: 29px;

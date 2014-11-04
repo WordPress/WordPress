@@ -79,10 +79,9 @@ if ( ! function_exists( 'twentyfifteen_header_style' ) ) :
  */
 function twentyfifteen_header_style() {
 	$header_image = get_header_image();
-	$text_color   = get_header_textcolor();
 
 	// If no custom options for text are set, let's bail.
-	if ( empty( $header_image ) && $text_color == get_theme_support( 'custom-header', 'default-text-color' ) ) {
+	if ( empty( $header_image ) && display_header_text() ) {
 		return;
 	}
 
@@ -124,16 +123,6 @@ function twentyfifteen_header_style() {
 		.site-description {
 			clip: rect(1px, 1px, 1px, 1px);
 			position: absolute;
-		}
-	<?php
-		// If the user has set a custom color for the text use that
-		elseif ( $text_color != get_theme_support( 'custom-header', 'default-text-color' ) ) :
-	?>
-		.site-title a,
-		.site-title a:hover,
-		.site-title a:focus,
-		.site-description {
-			color: #<?php echo esc_attr( $text_color ); ?>;
 		}
 	<?php endif; ?>
 	</style>
@@ -228,8 +217,16 @@ function twentyfifteen_sidebar_text_color_css() {
 
 	$css = '
 		/* Custom Sidebar Text Color */
+		.site-title a,
+		.site-description,
 		.secondary-toggle:before {
 			color: %1$s;
+		}
+
+		.site-title a:hover,
+		.site-title a:focus {
+			color: %1$s; /* Fallback for IE7 and IE8 */
+			color: %2$s;
 		}
 
 		.secondary-toggle {
