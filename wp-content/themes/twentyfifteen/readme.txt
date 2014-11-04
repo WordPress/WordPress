@@ -18,6 +18,9 @@ Our 2015 default theme is clean, blog-focused, and designed for clarity. Twenty 
 * Post Formats
 * The GPL v2.0 or later license. :) Use it to make something cool.
 
+== Credits ==
+* screenshot.png image is from https://unsplash.imgix.net/29/fly.jpg released under the CC0 license https://unsplash.com/license
+
 == Installation ==
 
 1. In your admin panel, go to Appearance -> Themes and click the Add New button.
