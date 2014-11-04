@@ -247,13 +247,14 @@ class WP_List_Table {
 	}
 
 	/**
-	 * Access the pagination args
+	 * Access the pagination args.
 	 *
 	 * @since 3.1.0
 	 * @access public
 	 *
-	 * @param string $key
-	 * @return int
+	 * @param string $key Pagination argument to retrieve. Common values include 'total_items',
+	 *                    'total_pages', 'per_page', or 'infinite_scroll'.
+	 * @return int Number of items that correspond to the given pagination argument.
 	 */
 	public function get_pagination_arg( $key ) {
 		if ( 'page' == $key )
