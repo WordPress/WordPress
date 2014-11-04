@@ -1115,8 +1115,10 @@ function single_month_title($prefix = '', $display = true ) {
  *
  * @since 4.1.0
  *
- * @param string $before Optional. Content to prepend to the title.
- * @param string $after  Optional. Content to append to the title.
+ * @see get_the_archive_title()
+ *
+ * @param string $before Optional. Content to prepend to the title. Default empty.
+ * @param string $after  Optional. Content to append to the title. Default empty.
  */
 function the_archive_title( $before = '', $after = '' ) {
 	$title = get_the_archive_title();
@@ -1189,8 +1191,10 @@ function get_the_archive_title() {
  *
  * @since 4.1.0
  *
- * @param string $before Optional. Content to prepend to the description.
- * @param string $after  Optional. Content to append to the description.
+ * @see get_the_archive_description()
+ *
+ * @param string $before Optional. Content to prepend to the description. Default empty.
+ * @param string $after  Optional. Content to append to the description. Default empty.
  */
 function the_archive_description( $before = '', $after = '' ) {
 	$description = get_the_archive_description();
@@ -1213,6 +1217,8 @@ function get_the_archive_description() {
 	 * Filter the archive description.
 	 *
 	 * @since 4.1.0
+	 *
+	 * @see term_description()
 	 *
 	 * @param string $description Archive description to be displayed.
 	 */
