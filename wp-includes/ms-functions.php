@@ -1352,7 +1352,9 @@ function install_blog( $blog_id, $blog_title = '' ) {
 	make_db_current_silent( 'blog' );
 	populate_options();
 	populate_roles();
-	$wp_roles->_init();
+
+	// populate_roles() clears previous role definitions so we start over.
+	$wp_roles = new WP_Roles();
 
 	$url = untrailingslashit( $url );
 
