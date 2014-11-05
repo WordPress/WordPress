@@ -65,7 +65,9 @@ window.wp = window.wp || {};
 	 */
 
 	/**
-	 * A basic comparator.
+	 * A basic equality comparator for Backbone models.
+	 *
+	 * Used to order models within a collection - @see wp.media.model.Attachments.comparator().
 	 *
 	 * @param  {mixed}  a  The primary parameter to compare.
 	 * @param  {mixed}  b  The primary parameter to compare.
@@ -87,7 +89,8 @@ window.wp = window.wp || {};
 		/**
 		 * media.template( id )
 		 *
-		 * Fetches a template by id.
+		 * Fetch a JavaScript template for an id, and return a templating function for it.
+		 *
 		 * See wp.template() in `wp-includes/js/wp-util.js`.
 		 *
 		 * @borrows wp.template as template
@@ -197,7 +200,7 @@ window.wp = window.wp || {};
 	/**
 	 * wp.media.model.Attachment
 	 *
-	 * @constructor
+	 * @class
 	 * @augments Backbone.Model
 	 */
 	Attachment = media.model.Attachment = Backbone.Model.extend({
@@ -329,7 +332,7 @@ window.wp = window.wp || {};
 		}
 	}, {
 		/**
-		 * Add a model to the end of the static 'all' collection and return it.
+		 * Create a new model on the static 'all' attachments collection and return it.
 		 *
 		 * @static
 		 * @param {Object} attrs
@@ -339,7 +342,10 @@ window.wp = window.wp || {};
 			return Attachments.all.push( attrs );
 		},
 		/**
-		 * Retrieve a model, or add it to the end of the static 'all' collection before returning it.
+		 * Create a new model on the static 'all' attachments collection and return it.
+		 *
+		 * If this function has already been called for the id,
+		 * it returns the specified attachment.
 		 *
 		 * @static
 		 * @param {string} id A string used to identify a model.
@@ -354,8 +360,15 @@ window.wp = window.wp || {};
 	/**
 	 * wp.media.model.PostImage
 	 *
-	 * @constructor
+	 * An instance of an image that's been embedded into a post.
+	 *
+	 * Used in the embedded image attachment display settings modal - @see wp.media.view.MediaFrame.ImageDetails.
+	 *
+	 * @class
 	 * @augments Backbone.Model
+	 *
+	 * @param {int} [attributes]               Initial model attributes.
+	 * @param {int} [attributes.attachment_id] ID of the attachment.
 	 **/
 	PostImage = media.model.PostImage = Backbone.Model.extend({
 
@@ -497,8 +510,24 @@ window.wp = window.wp || {};
 	/**
 	 * wp.media.model.Attachments
 	 *
-	 * @constructor
+	 * A collection of attachments.
+	 *
+	 * This collection has no persistence with the server without supplying
+	 * 'options.props.query = true', which will mirror the collection
+	 * to an Attachments Query collection - @see wp.media.model.Attachments.mirror().
+	 *
+	 * @class
 	 * @augments Backbone.Collection
+	 *
+	 * @param {array}  [models]                Models to initialize with the collection.
+	 * @param {object} [options]               Options hash for the collection.
+	 * @param {string} [options.props]         Options hash for the initial query properties.
+	 * @param {string} [options.props.order]   Initial order (ASC or DESC) for the collection.
+	 * @param {string} [options.props.orderby] Initial attribute key to order the collection by.
+	 * @param {string} [options.props.query]   Whether the collection is linked to an attachments query.
+	 * @param {string} [options.observe]
+	 * @param {string} [options.filters]
+	 *
 	 */
 	Attachments = media.model.Attachments = Backbone.Collection.extend({
 		/**
@@ -522,16 +551,14 @@ window.wp = window.wp || {};
 			this.props.on( 'change:orderby', this._changeOrderby, this );
 			this.props.on( 'change:query',   this._changeQuery,   this );
 
-			// Set the `props` model and fill the default property values.
 			this.props.set( _.defaults( options.props || {} ) );
 
-			// Observe another `Attachments` collection if one is provided.
 			if ( options.observe ) {
 				this.observe( options.observe );
 			}
 		},
 		/**
-		 * Automatically sort the collection when the order changes.
+		 * Sort the collection when the order attribute changes.
 		 *
 		 * @access private
 		 */
@@ -625,6 +652,8 @@ window.wp = window.wp || {};
 
 		validateDestroyed: false,
 		/**
+		 * Checks whether an attachment is valid.
+		 *
 		 * @param {wp.media.model.Attachment} attachment
 		 * @returns {Boolean}
 		 */
@@ -637,6 +666,8 @@ window.wp = window.wp || {};
 			}, this );
 		},
 		/**
+		 * Add or remove an attachment to the collection depending on its validity.
+		 *
 		 * @param {wp.media.model.Attachment} attachment
 		 * @param {Object} options
 		 * @returns {wp.media.model.Attachments} Returns itself to allow chaining
@@ -655,6 +686,8 @@ window.wp = window.wp || {};
 		},
 
 		/**
+		 * Add or remove all attachments from another collection depending on each one's validity.
+		 *
 		 * @param {wp.media.model.Attachments} attachments
 		 * @param {object} [options={}]
 		 *
@@ -675,8 +708,11 @@ window.wp = window.wp || {};
 			return this;
 		},
 		/**
-		 * @param {wp.media.model.Attachments} attachments
-		 * @returns {wp.media.model.Attachments} Returns itself to allow chaining
+		 * Start observing another attachments collection change events
+		 * and replicate them on this collection.
+		 *
+		 * @param {wp.media.model.Attachments} The attachments collection to observe.
+		 * @returns {wp.media.model.Attachments} Returns itself to allow chaining.
 		 */
 		observe: function( attachments ) {
 			this.observers = this.observers || [];
@@ -688,7 +724,9 @@ window.wp = window.wp || {};
 			return this;
 		},
 		/**
-		 * @param {wp.media.model.Attachments} attachments
+		 * Stop replicating collection change events from another attachments collection.
+		 *
+		 * @param {wp.media.model.Attachments} The attachments collection to stop observing.
 		 * @returns {wp.media.model.Attachments} Returns itself to allow chaining
 		 */
 		unobserve: function( attachments ) {
@@ -734,7 +772,10 @@ window.wp = window.wp || {};
 			return this.validateAll( attachments, options );
 		},
 		/**
-		 * @param {wp.media.model.Attachments} attachments
+		 * Start mirroring another attachments collection, clearing out any models already
+		 * in the collection.
+		 *
+		 * @param {wp.media.model.Attachments} The attachments collection to mirror.
 		 * @returns {wp.media.model.Attachments} Returns itself to allow chaining
 		 */
 		mirror: function( attachments ) {
@@ -752,6 +793,9 @@ window.wp = window.wp || {};
 
 			return this;
 		},
+		/**
+		 * Stop mirroring another attachments collection.
+		 */
 		unmirror: function() {
 			if ( ! this.mirroring ) {
 				return;
@@ -761,7 +805,13 @@ window.wp = window.wp || {};
 			delete this.mirroring;
 		},
 		/**
-		 * @param {Object} options
+		 * Retrive more attachments from the server for the collection.
+		 *
+		 * Only works if the collection is mirroring a Query Attachments collection,
+		 * and forwards to its `more` method. This collection class doesn't have
+		 * server persistence by itself.
+		 *
+		 * @param {object} options
 		 * @returns {Promise}
 		 */
 		more: function( options ) {
@@ -784,13 +834,22 @@ window.wp = window.wp || {};
 			return deferred.promise();
 		},
 		/**
-		 * @returns {Boolean}
+		 * Whether there are more attachments that haven't been sync'd from the server
+		 * that match the collection's query.
+		 *
+		 * Only works if the collection is mirroring a Query Attachments collection,
+		 * and forwards to its `hasMore` method. This collection class doesn't have
+		 * server persistence by itself.
+		 *
+		 * @returns {boolean}
 		 */
 		hasMore: function() {
 			return this.mirroring ? this.mirroring.hasMore() : false;
 		},
 		/**
-		 * Overrides Backbone.Collection.parse
+		 * A custom AJAX-response parser.
+		 *
+		 * See trac ticket #24753
 		 *
 		 * @param {Object|Array} resp The raw response Object/Array.
 		 * @param {Object} xhr
@@ -822,6 +881,8 @@ window.wp = window.wp || {};
 			});
 		},
 		/**
+		 * If the collection is a query, create and mirror an Attachments Query collection.
+		 *
 		 * @access private
 		 */
 		_requery: function( refresh ) {
@@ -867,8 +928,12 @@ window.wp = window.wp || {};
 		}
 	}, {
 		/**
+		 * A function to compare two attachment models in an attachments collection.
+		 *
+		 * Used as the default comparator for instances of wp.media.model.Attachments
+		 * and its subclasses. @see wp.media.model.Attachments._changeOrderby().
+		 *
 		 * @static
-		 * Overrides Backbone.Collection.comparator
 		 *
 		 * @param {Backbone.Model} a
 		 * @param {Backbone.Model} b
@@ -971,6 +1036,8 @@ window.wp = window.wp || {};
 	});
 
 	/**
+	 * A collection of all attachments that have been fetched from the server.
+	 *
 	 * @static
 	 * @member {wp.media.model.Attachments}
 	 */
@@ -979,7 +1046,9 @@ window.wp = window.wp || {};
 	/**
 	 * wp.media.query
 	 *
-	 * @static
+	 * Shorthand for creating a new Attachments Query.
+	 *
+	 * @param {object} [props]
 	 * @returns {wp.media.model.Attachments}
 	 */
 	media.query = function( props ) {
@@ -991,22 +1060,26 @@ window.wp = window.wp || {};
 	/**
 	 * wp.media.model.Query
 	 *
-	 * A set of attachments that corresponds to a set of consecutively paged
-	 * queries on the server.
+	 * A collection of attachments that match the supplied query arguments.
 	 *
 	 * Note: Do NOT change this.args after the query has been initialized.
 	 *       Things will break.
 	 *
-	 * @constructor
+	 * @class
 	 * @augments wp.media.model.Attachments
 	 * @augments Backbone.Collection
+	 *
+	 * @param {array}  [models]                      Models to initialize with the collection.
+	 * @param {object} [options]                     Options hash.
+	 * @param {object} [options.args]                Attachments query arguments.
+	 * @param {object} [options.args.posts_per_page]
 	 */
 	Query = media.model.Query = Attachments.extend({
 		/**
 		 * @global wp.Uploader
 		 *
-		 * @param {Array} [models=[]] Array of models used to populate the collection.
-		 * @param {Object} [options={}]
+		 * @param {array}  [models=[]]  Array of initial models to populate the collection.
+		 * @param {object} [options={}]
 		 */
 		initialize: function( models, options ) {
 			var allowed;
@@ -1060,18 +1133,24 @@ window.wp = window.wp || {};
 			}
 		},
 		/**
-		 * @returns {Boolean}
+		 * Whether there are more attachments that haven't been sync'd from the server
+		 * that match the collection's query.
+		 *
+		 * @returns {boolean}
 		 */
 		hasMore: function() {
 			return this._hasMore;
 		},
 		/**
-		 * @param {Object} [options={}]
+		 * Fetch more attachments from the server for the collection.
+		 *
+		 * @param   {object}  [options={}]
 		 * @returns {Promise}
 		 */
 		more: function( options ) {
 			var query = this;
 
+			// If there is already a request pending, return early with the Deferred object.
 			if ( this._more && 'pending' === this._more.state() ) {
 				return this._more;
 			}
@@ -1149,6 +1228,10 @@ window.wp = window.wp || {};
 		 */
 		orderby: {
 			allowed:  [ 'name', 'author', 'date', 'title', 'modified', 'uploadedTo', 'id', 'post__in', 'menuOrder' ],
+			/**
+			 * A map of JavaScript orderby values to their WP_Query equivalents.
+			 * @type {Object}
+			 */
 			valuemap: {
 				'id':         'ID',
 				'uploadedTo': 'parent',
@@ -1156,6 +1239,8 @@ window.wp = window.wp || {};
 			}
 		},
 		/**
+		 * A map of JavaScript query properties to their WP_Query equivalents.
+		 *
 		 * @readonly
 		 */
 		propmap: {
@@ -1169,12 +1254,29 @@ window.wp = window.wp || {};
 			'exclude':    'post__not_in'
 		},
 		/**
+		 * Creates and returns an Attachments Query collection given the properties.
+		 *
+		 * Caches query objects and reuses where possible.
+		 *
 		 * @static
 		 * @method
 		 *
-		 * @returns {wp.media.model.Query} A new query.
+		 * @param {object} [props]
+		 * @param {Object} [props.cache=true]   Whether to use the query cache or not.
+		 * @param {Object} [props.order]
+		 * @param {Object} [props.orderby]
+		 * @param {Object} [props.include]
+		 * @param {Object} [props.exclude]
+		 * @param {Object} [props.s]
+		 * @param {Object} [props.post_mime_type]
+		 * @param {Object} [props.posts_per_page]
+		 * @param {Object} [props.menu_order]
+		 * @param {Object} [props.post_parent]
+		 * @param {Object} [props.post_status]
+		 * @param {Object} [options]
+		 *
+		 * @returns {wp.media.model.Query} A new Attachments Query collection.
 		 */
-		// Caches query objects so queries can be easily reused.
 		get: (function(){
 			/**
 			 * @static
@@ -1183,8 +1285,6 @@ window.wp = window.wp || {};
 			var queries = [];
 
 			/**
-			 * @param {Object} props
-			 * @param {Object} options
 			 * @returns {Query}
 			 */
 			return function( props, options ) {
@@ -1236,7 +1336,7 @@ window.wp = window.wp || {};
 				// Substitute exceptions specified in orderby.keymap.
 				args.orderby = orderby.valuemap[ props.orderby ] || props.orderby;
 
-				// Search the query cache for matches.
+				// Search the query cache for a matching query.
 				if ( cache ) {
 					query = _.find( queries, function( query ) {
 						return _.isEqual( query.args, args );
@@ -1262,9 +1362,9 @@ window.wp = window.wp || {};
 	/**
 	 * wp.media.model.Selection
 	 *
-	 * Used to manage a selection of attachments in the views.
+	 * A selection of attachments.
 	 *
-	 * @constructor
+	 * @class
 	 * @augments wp.media.model.Attachments
 	 * @augments Backbone.Collection
 	 */
@@ -1288,12 +1388,8 @@ window.wp = window.wp || {};
 		},
 
 		/**
-		 * Override the selection's add method.
-		 * If the workflow does not support multiple
-		 * selected attachments, reset the selection.
-		 *
-		 * Overrides Backbone.Collection.add
-		 * Overrides wp.media.model.Attachments.add
+		 * If the workflow does not support multi-select, clear out the selection
+		 * before adding a new attachment to it.
 		 *
 		 * @param {Array} models
 		 * @param {Object} options
@@ -1310,7 +1406,7 @@ window.wp = window.wp || {};
 		},
 
 		/**
-		 * Triggered when toggling (clicking on) an attachment in the modal
+		 * Fired when toggling (clicking on) an attachment in the modal.
 		 *
 		 * @param {undefined|boolean|wp.media.model.Attachment} model
 		 *

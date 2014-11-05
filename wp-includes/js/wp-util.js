@@ -8,7 +8,7 @@ window.wp = window.wp || {};
 	/**
 	 * wp.template( id )
 	 *
-	 * Fetches a template by id.
+	 * Fetch a JavaScript template for an id, and return a templating function for it.
 	 *
 	 * @param  {string} id   A string that corresponds to a DOM element with an id prefixed with "tmpl-".
 	 *                       For example, "attachment" maps to "tmpl-attachment".
@@ -16,6 +16,12 @@ window.wp = window.wp || {};
 	 */
 	wp.template = _.memoize(function ( id ) {
 		var compiled,
+			/*
+			 * Underscore's default ERB-style templates are incompatible with PHP
+			 * when asp_tags is enabled, so WordPress uses Mustache-inspired templating syntax.
+			 *
+			 * @see trac ticket #22344.
+			 */
 			options = {
 				evaluate:    /<#([\s\S]+?)#>/g,
 				interpolate: /\{\{\{([\s\S]+?)\}\}\}/g,

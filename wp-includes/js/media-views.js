@@ -679,25 +679,29 @@
 	 * @augments Backbone.Model
 	 * @mixes media.selectionSync
 	 *
-	 * @param {object}                     [attributes]                         The attributes hash passed to the state.
-	 * @param {string}                     [attributes.id=library]              Unique identifier.
-	 * @param {string}                     [attributes.title=Media library]     Title for the state. Displays in the media menu and the frame's title region.
-	 * @param {wp.media.model.Attachments} [attributes.library]                 The attachments collection to browse.
-	 *                                                                          If one is not supplied, a collection of all attachments will be created.
-	 * @param {boolean}                    [attributes.multiple=false]          Whether multi-select is enabled.
-	 * @param {string}                     [attributes.content=upload]          Initial mode for the content region.
-	 *                                                                          Overridden by persistent user setting if 'contentUserSetting' is true.
-	 * @param {string}                     [attributes.menu=default]            Initial mode for the menu region.
-	 * @param {string}                     [attributes.router=browse]           Initial mode for the router region.
-	 * @param {string}                     [attributes.toolbar=select]          Initial mode for the toolbar region.
-	 * @param {boolean}                    [attributes.searchable=true]         Whether the library is searchable.
-	 * @param {boolean|string}             [attributes.filterable=false]        Whether the library is filterable, and if so what filters should be shown.
-	 *                                                                          Accepts 'all', 'uploaded', or 'unattached'.
-	 * @param {boolean}                    [attributes.sortable=true]           Whether the Attachments should be sortable. Depends on the orderby property being set to menuOrder on the attachments collection.
-	 * @param {boolean}                    [attributes.autoSelect=true]         Whether an uploaded attachment should be automatically added to the selection.
-	 * @param {boolean}                    [attributes.describe=false]          Whether to offer UI to describe attachments - e.g. captioning images in a gallery.
-	 * @param {boolean}                    [attributes.contentUserSetting=true] Whether the content region's mode should be set and persisted per user.
-	 * @param {boolean}                    [attributes.syncSelection=true]      Whether the Attachments selection should be persisted from the last state.
+	 * @param {object}                          [attributes]                         The attributes hash passed to the state.
+	 * @param {string}                          [attributes.id=library]              Unique identifier.
+	 * @param {string}                          [attributes.title=Media library]     Title for the state. Displays in the media menu and the frame's title region.
+	 * @param {wp.media.model.Attachments}      [attributes.library]                 The attachments collection to browse.
+	 *                                                                               If one is not supplied, a collection of all attachments will be created.
+	 * @param {wp.media.model.Selection|object} [attributes.selection]               A collection to contain attachment selections within the state.
+	 *                                                                               If the 'selection' attribute is a plain JS object,
+	 *                                                                               a Selection will be created using its values as the selection instance's `props` model.
+	 *                                                                               Otherwise, it will copy the library's `props` model.
+	 * @param {boolean}                         [attributes.multiple=false]          Whether multi-select is enabled.
+	 * @param {string}                          [attributes.content=upload]          Initial mode for the content region.
+	 *                                                                               Overridden by persistent user setting if 'contentUserSetting' is true.
+	 * @param {string}                          [attributes.menu=default]            Initial mode for the menu region.
+	 * @param {string}                          [attributes.router=browse]           Initial mode for the router region.
+	 * @param {string}                          [attributes.toolbar=select]          Initial mode for the toolbar region.
+	 * @param {boolean}                         [attributes.searchable=true]         Whether the library is searchable.
+	 * @param {boolean|string}                  [attributes.filterable=false]        Whether the library is filterable, and if so what filters should be shown.
+	 *                                                                               Accepts 'all', 'uploaded', or 'unattached'.
+	 * @param {boolean}                         [attributes.sortable=true]           Whether the Attachments should be sortable. Depends on the orderby property being set to menuOrder on the attachments collection.
+	 * @param {boolean}                         [attributes.autoSelect=true]         Whether an uploaded attachment should be automatically added to the selection.
+	 * @param {boolean}                         [attributes.describe=false]          Whether to offer UI to describe attachments - e.g. captioning images in a gallery.
+	 * @param {boolean}                         [attributes.contentUserSetting=true] Whether the content region's mode should be set and persisted per user.
+	 * @param {boolean}                         [attributes.syncSelection=true]      Whether the Attachments selection should be persisted from the last state.
 	 */
 	media.controller.Library = media.controller.State.extend({
 		defaults: {
@@ -739,10 +743,6 @@
 					props = _.omit( props, 'orderby', 'query' );
 				}
 
-				// If the `selection` attribute is set to an object,
-				// it will use those values as the selection instance's
-				// `props` model. Otherwise, it will copy the library's
-				// `props` model.
 				this.set( 'selection', new media.model.Selection( null, {
 					multiple: this.get('multiple'),
 					props: props
@@ -2482,9 +2482,7 @@
 	 */
 	media.view.MediaFrame.Select = media.view.MediaFrame.extend({
 		initialize: function() {
-			/**
-			 * call 'initialize' directly on the parent class
-			 */
+			// Call 'initialize' directly on the parent class.
 			media.view.MediaFrame.prototype.initialize.apply( this, arguments );
 
 			_.defaults( this.options, {
@@ -2664,9 +2662,8 @@
 				state:    'insert',
 				metadata:  {}
 			});
-			/**
-			 * call 'initialize' directly on the parent class
-			 */
+
+			// Call 'initialize' directly on the parent class.
 			media.view.MediaFrame.Select.prototype.initialize.apply( this, arguments );
 			this.createIframeStates();
 
@@ -4553,9 +4550,7 @@
 					requires: options.requires
 				}
 			});
-			/**
-			 * call 'initialize' directly on the parent class
-			 */
+			// Call 'initialize' directly on the parent class.
 			media.view.Toolbar.prototype.initialize.apply( this, arguments );
 		},
 
@@ -4597,9 +4592,7 @@
 				text: l10n.insertIntoPost,
 				requires: false
 			});
-			/**
-			 * call 'initialize' directly on the parent class
-			 */
+			// Call 'initialize' directly on the parent class.
 			media.view.Toolbar.Select.prototype.initialize.apply( this, arguments );
 		},
 
@@ -5046,9 +5039,7 @@
 
 		initialize: function() {
 			this.controller.on( 'content:render', this.update, this );
-			/**
-			 * call 'initialize' directly on the parent class
-			 */
+			// Call 'initialize' directly on the parent class.
 			media.view.Menu.prototype.initialize.apply( this, arguments );
 		},
 
@@ -6013,8 +6004,7 @@
 		},
 
 		/**
-		 * When the selection changes, set the Query properties
-		 * accordingly for the selected filter.
+		 * When the selected filter changes, update the Attachment Query properties to match.
 		 */
 		change: function() {
 			var filter = this.filters[ this.el.value ];
@@ -6221,6 +6211,16 @@
 	 * @augments wp.media.View
 	 * @augments wp.Backbone.View
 	 * @augments Backbone.View
+	 *
+	 * @param {object}      options
+	 * @param {object}      [options.filters=false] Which filters to show in the browser's toolbar.
+	 *                                              Accepts 'uploaded' and 'all'.
+	 * @param {object}      [options.search=true]   Whether to show the search interface in the
+	 *                                              browser's toolbar.
+	 * @param {object}      [options.display=false] Whether to show the attachments display settings
+	 *                                              view in the sidebar.
+	 * @param {bool|string} [options.sidebar=true]  Whether to create a sidebar for the browser.
+	 *                                              Accepts true, false, and 'errors'.
 	 */
 	media.view.AttachmentsBrowser = media.View.extend({
 		tagName:   'div',
@@ -6747,9 +6747,7 @@
 				// The single `Attachment` view to be used in the `Attachments` view.
 				AttachmentView: media.view.Attachment.Selection
 			});
-			/**
-			 * call 'initialize' directly on the parent class
-			 */
+			// Call 'initialize' directly on the parent class.
 			return media.view.Attachments.prototype.initialize.apply( this, arguments );
 		}
 	});
@@ -6904,9 +6902,7 @@
 			_.defaults( this.options, {
 				userSettings: false
 			});
-			/**
-			 * call 'initialize' directly on the parent class
-			 */
+			// Call 'initialize' directly on the parent class.
 			media.view.Settings.prototype.initialize.apply( this, arguments );
 			this.model.on( 'change:link', this.updateLinkTo, this );
 
@@ -7036,9 +7032,7 @@
 			});
 
 			this.on( 'ready', this.initialFocus );
-			/**
-			 * call 'initialize' directly on the parent class
-			 */
+			// Call 'initialize' directly on the parent class.
 			media.view.Attachment.prototype.initialize.apply( this, arguments );
 		},
 
