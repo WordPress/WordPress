@@ -25,8 +25,8 @@ get_header(); ?>
 
 			<?php
 				the_post_navigation( array(
-					'next_text' => _x( '<span class="meta-nav">Previous</span><span class="post-title">%title</span>', 'Previous post link', 'twentyfifteen' ),
-					'prev_text' => _x( '<span class="meta-nav">Next</span><span class="post-title">%title</span>', 'Next post link', 'twentyfifteen' ),
+					'next_text' => _x( '<span class="meta-nav">Next</span><span class="post-title">%title</span>', 'Next post link', 'twentyfifteen' ),
+					'prev_text' => _x( '<span class="meta-nav">Previous</span><span class="post-title">%title</span>', 'Previous post link', 'twentyfifteen' ),
 				) );
 			?>
 
