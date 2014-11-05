@@ -10,18 +10,19 @@ window.wp = window.wp || {};
 	}
 
 	/**
-	 * An object that helps create a WordPress uploader using plupload.
+	 * A WordPress uploader.
 	 *
-	 * @param options - object - The options passed to the new plupload instance.
-	 *    Accepts the following parameters:
-	 *    - container - The id of uploader container.
-	 *    - browser   - The id of button to trigger the file select.
-	 *    - dropzone  - The id of file drop target.
-	 *    - plupload  - An object of parameters to pass to the plupload instance.
-	 *    - params    - An object of parameters to pass to $_POST when uploading the file.
-	 *                  Extends this.plupload.multipart_params under the hood.
+	 * The Plupload library provides cross-browser uploader UI integration.
+	 * This object bridges the Plupload API to integrate uploads into the
+	 * WordPress back-end and the WordPress media experience.
 	 *
-	 * @param attributes - object - Attributes and methods for this specific instance.
+	 * @param {object} options           The options passed to the new plupload instance.
+	 * @param {object} options.container The id of uploader container.
+	 * @param {object} options.browser   The id of button to trigger the file select.
+	 * @param {object} options.dropzone  The id of file drop target.
+	 * @param {object} options.plupload  An object of parameters to pass to the plupload instance.
+	 * @param {object} options.params    An object of parameters to pass to $_POST when uploading the file.
+	 *                                   Extends this.plupload.multipart_params under the hood.
 	 */
 	Uploader = function( options ) {
 		var self = this,
@@ -43,11 +44,12 @@ window.wp = window.wp || {};
 			return;
 		}
 
+		// Arguments to send to pluplad.Uploader().
 		// Use deep extend to ensure that multipart_params and other objects are cloned.
 		this.plupload = $.extend( true, { multipart_params: {} }, Uploader.defaults );
 		this.container = document.body; // Set default container.
 
-		// Extend the instance with options
+		// Extend the instance with options.
 		//
 		// Use deep extend to allow options.plupload to override individual
 		// default plupload keys.
@@ -60,8 +62,8 @@ window.wp = window.wp || {};
 			}
 		}
 
-		// Ensure all elements are jQuery elements and have id attributes
-		// Then set the proper plupload arguments to the ids.
+		// Ensure all elements are jQuery elements and have id attributes,
+		// then set the proper plupload arguments to the ids.
 		for ( key in elements ) {
 			if ( ! this[ key ] ) {
 				continue;
@@ -94,6 +96,7 @@ window.wp = window.wp || {};
 			this.plupload.required_features.send_binary_string = true;
 		}
 
+		// Initialize the plupload instance.
 		this.uploader = new plupload.Uploader( this.plupload );
 		delete this.plupload;
 
@@ -101,6 +104,16 @@ window.wp = window.wp || {};
 		this.param( this.params || {} );
 		delete this.params;
 
+		/**
+		 * Custom error callback.
+		 *
+		 * Add a new error to the errors collection, so other modules can track
+		 * and display errors. @see wp.Uploader.errors.
+		 *
+		 * @param  {string}        message
+		 * @param  {object}        data
+		 * @param  {plupload.File} file     File that was uploaded.
+		 */
 		error = function( message, data, file ) {
 			if ( file.attachment ) {
 				file.attachment.destroy();
@@ -115,6 +128,11 @@ window.wp = window.wp || {};
 			self.error( message, data, file );
 		};
 
+		/**
+		 * After the Uploader has been initialized, initialize some behaviors for the dropzone.
+		 *
+		 * @param {plupload.Uploader} uploader Uploader instance.
+		 */
 		this.uploader.bind( 'init', function( uploader ) {
 			var timer, active, dragdrop,
 				dropzone = self.dropzone;
@@ -132,8 +150,7 @@ window.wp = window.wp || {};
 				return dropzone.unbind('.wp-uploader');
 			}
 
-			// 'dragenter' doesn't fire correctly,
-			// simulate it with a limited 'dragover'
+			// 'dragenter' doesn't fire correctly, simulate it with a limited 'dragover'.
 			dropzone.bind( 'dragover.wp-uploader', function() {
 				if ( timer ) {
 					clearTimeout( timer );
@@ -152,13 +169,13 @@ window.wp = window.wp || {};
 				// being quickly removed and re-added when elements inside the
 				// dropzone are repositioned.
 				//
-				// See https://core.trac.wordpress.org/ticket/21705
+				// @see https://core.trac.wordpress.org/ticket/21705
 				timer = setTimeout( function() {
 					active = false;
 					dropzone.trigger('dropzone:leave').removeClass('drag-over');
 				}, 0 );
 			});
-			
+
 			self.ready = true;
 			$(self).trigger( 'uploader:ready' );
 		});
@@ -173,6 +190,13 @@ window.wp = window.wp || {};
 			$('#' + this.uploader.id + '_html5_container').hide();
 		}
 
+		/**
+		 * After files were filtered and added to the queue, create a model for each.
+		 *
+		 * @event FilesAdded
+		 * @param {plupload.Uploader} uploader Uploader instance.
+		 * @param {Array}             files    Array of file objects that were added to queue by the user.
+		 */
 		this.uploader.bind( 'FilesAdded', function( up, files ) {
 			_.each( files, function( file ) {
 				var attributes, image;
@@ -195,7 +219,7 @@ window.wp = window.wp || {};
 				// Handle early mime type scanning for images.
 				image = /(?:jpe?g|png|gif)$/i.exec( file.name );
 
-				// Did we find an image?
+				// For images set the model's type and subtype attributes.
 				if ( image ) {
 					attributes.type = 'image';
 
@@ -204,9 +228,9 @@ window.wp = window.wp || {};
 					attributes.subtype = ( 'jpg' === image[0] ) ? 'jpeg' : image[0];
 				}
 
-				// Create the `Attachment`.
+				// Create a model for the attachment, and add it to the Upload queue collection
+				// so listeners to the upload queue can track and display upload progress.
 				file.attachment = wp.media.model.Attachment.create( attributes );
-
 				Uploader.queue.add( file.attachment );
 
 				self.added( file.attachment );
@@ -221,6 +245,14 @@ window.wp = window.wp || {};
 			self.progress( file.attachment );
 		});
 
+		/**
+		 * After a file is successfully uploaded, update its model.
+		 *
+		 * @param {plupload.Uploader} uploader Uploader instance.
+		 * @param {plupload.File}     file     File that was uploaded.
+		 * @param {Object}            response Object with response properties.
+		 * @return {mixed}
+		 */
 		this.uploader.bind( 'FileUploaded', function( up, file, response ) {
 			var complete;
 
@@ -252,6 +284,12 @@ window.wp = window.wp || {};
 			self.success( file.attachment );
 		});
 
+		/**
+		 * When plupload surfaces an error, send it to the error handler.
+		 *
+		 * @param {plupload.Uploader} uploader Uploader instance.
+		 * @param {Object}            error    Contains code, message and sometimes file and other details.
+		 */
 		this.uploader.bind( 'Error', function( up, pluploadError ) {
 			var message = pluploadL10n.default_error,
 				key;
@@ -283,6 +321,7 @@ window.wp = window.wp || {};
 
 	Uploader.uuid = 0;
 
+	// Map Plupload error codes to user friendly error messages.
 	Uploader.errorMap = {
 		'FAILED':                 pluploadL10n.upload_failed,
 		'FILE_EXTENSION_ERROR':   pluploadL10n.invalid_filetype,
@@ -324,6 +363,10 @@ window.wp = window.wp || {};
 			}
 		},
 
+		/**
+		 * Make a few internal event callbacks available on the wp.Uploader object
+		 * to change the Uploader internals if absolutely necessary.
+		 */
 		init:     function() {},
 		error:    function() {},
 		success:  function() {},
@@ -370,7 +413,11 @@ window.wp = window.wp || {};
 		}
 	});
 
+	// Create a collection of attachments in the upload queue,
+	// so that other modules can track and display upload progress.
 	Uploader.queue = new wp.media.model.Attachments( [], { query: false });
+
+	// Create a collection to collect errors incurred while attempting upload.
 	Uploader.errors = new Backbone.Collection();
 
 	exports.Uploader = Uploader;

@@ -1,6 +1,6 @@
 <?php
 /**
- * Accepts file uploads from swfupload or other asynchronous upload methods.
+ * Server-side file upload handler from wp-plupload, swfupload or other asynchronous upload methods.
  *
  * @package WordPress
  * @subpackage Administration
