@@ -2902,6 +2902,24 @@ function wp_insert_term( $term, $taxonomy, $args = array() ) {
 	$wpdb->insert( $wpdb->term_taxonomy, compact( 'term_id', 'taxonomy', 'description', 'parent') + array( 'count' => 0 ) );
 	$tt_id = (int) $wpdb->insert_id;
 
+	/*
+	 * Sanity check: if we just created a term with the same parent + taxonomy + slug but a higher term_id than
+	 * an existing term, then we have unwittingly created a duplicate term. Delete the dupe, and use the term_id
+	 * and term_taxonomy_id of the older term instead. Then return out of the function so that the "create" hooks
+	 * are not fired.
+	 */
+	$duplicate_term = $wpdb->get_row( $wpdb->prepare( "SELECT t.term_id, tt.term_taxonomy_id FROM $wpdb->terms t INNER JOIN $wpdb->term_taxonomy tt ON ( tt.term_id = t.term_id ) WHERE t.slug = %s AND tt.parent = %d AND tt.taxonomy = %s AND t.term_id < %d AND tt.term_taxonomy_id != %d", $slug, $parent, $taxonomy, $term_id, $tt_id ) );
+	if ( $duplicate_term ) {
+		$wpdb->delete( $wpdb->terms, array( 'term_id' => $term_id ) );
+		$wpdb->delete( $wpdb->term_taxonomy, array( 'term_taxonomy_id' => $tt_id ) );
+
+		$term_id = (int) $duplicate_term->term_id;
+		$tt_id   = (int) $duplicate_term->term_taxonomy_id;
+
+		clean_term_cache( $term_id, $taxonomy );
+		return array( 'term_id' => $term_id, 'term_taxonomy_id' => $tt_id );
+	}
+
 	/**
 	 * Fires immediately after a new term is created, before the term cache is cleaned.
 	 *
