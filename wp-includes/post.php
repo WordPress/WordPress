@@ -4278,17 +4278,19 @@ function get_page_by_title( $page_title, $output = OBJECT, $post_type = 'page' )
  *
  * @since 1.5.1
  *
- * @param int   $page_id Page ID.
- * @param array $pages   List of pages' objects.
+ * @param int   $page_id    Page ID.
+ * @param array $pages      List of pages' objects.
+ * @param bool  $ancestors  Whether to check a page's ancestors.
  * @return array List of page children.
  */
-function get_page_children($page_id, $pages) {
+function get_page_children( $page_id, $pages, $ancestors = true ) {
 	$page_list = array();
 	foreach ( (array) $pages as $page ) {
-		if ( $page->post_parent == $page_id || in_array( $page_id, $page->ancestors ) ) {
+		if ( $page->post_parent == $page_id || ( $ancestors && in_array( $page_id, $page->ancestors ) ) ) {
 			$page_list[] = $page;
-			if ( $children = get_page_children($page->ID, $pages) )
-				$page_list = array_merge($page_list, $children);
+			if ( $children = get_page_children( $page->ID, $pages, false ) ) {
+				$page_list = array_merge( $page_list, $children );
+			}
 		}
 	}
 	return $page_list;
