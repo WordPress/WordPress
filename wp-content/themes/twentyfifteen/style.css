@@ -2633,7 +2633,7 @@ span > video {
 	}
 
 	.secondary {
-		margin: 0 7.6923%;
+		margin: 7.6923% 7.6923% 0;
 		padding: 7.6923% 7.6923% 0;
 	}
 
