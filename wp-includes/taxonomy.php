@@ -1649,7 +1649,6 @@ function get_terms( $taxonomies, $args = '' ) {
 
 	// Save queries by not crawling the tree in the case of multiple taxes or a flat tax.
 	if ( ! $single_taxonomy || ! is_taxonomy_hierarchical( reset( $taxonomies ) ) ) {
-		$args['child_of'] = false;
 		$args['hierarchical'] = false;
 		$args['pad_counts'] = false;
 	}
