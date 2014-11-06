@@ -2643,6 +2643,11 @@ function wp_prepare_attachment_for_js( $attachment ) {
 
 	if ( $attachment->post_parent ) {
 		$post_parent = get_post( $attachment->post_parent );
+	} else {
+		$post_parent = false;
+	}
+
+	if ( $post_parent ) {
 		$parent_type = get_post_type_object( $post_parent->post_type );
 		if ( $parent_type && $parent_type->show_ui && current_user_can( 'edit_post', $attachment->post_parent ) ) {
 			$response['uploadedToLink'] = get_edit_post_link( $attachment->post_parent, 'raw' );
