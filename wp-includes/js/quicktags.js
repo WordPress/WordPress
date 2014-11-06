@@ -384,10 +384,10 @@ function edButton(id, display, tagStart, tagEnd, access) {
 
 			canvas.value = text.substring(0, startPos) + content + text.substring(endPos, text.length);
 
-			canvas.focus();
 			canvas.selectionStart = startPos + content.length;
 			canvas.selectionEnd = startPos + content.length;
 			canvas.scrollTop = scrollTop;
+			canvas.focus();
 		} else {
 			canvas.value += content;
 			canvas.focus();
@@ -509,10 +509,10 @@ function edButton(id, display, tagStart, tagEnd, access) {
 				}
 			}
 
-			canvas.focus();
 			canvas.selectionStart = cursorPos;
 			canvas.selectionEnd = cursorPos;
 			canvas.scrollTop = scrollTop;
+			canvas.focus();
 		} else { // other browsers?
 			if ( !endTag ) {
 				canvas.value += t.tagStart;
