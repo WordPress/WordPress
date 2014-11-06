@@ -72,11 +72,15 @@ var findPosts;
 	};
 
 	$( document ).ready( function() {
+		var $mediaGridWrap = $( '#wp-media-grid' );
+
 		// Open up a manage media frame into the grid.
-		wp.media && wp.media({
-			frame: 'manage',
-			container: $('#wpbody-content > .wrap')
-		}).open();
+		if ( $mediaGridWrap.length && window.wp && window.wp.media ) {
+			window.wp.media({
+				frame: 'manage',
+				container: $mediaGridWrap
+			}).open();
+		}
 
 		$( '#find-posts-submit' ).click( function( event ) {
 			if ( ! $( '#find-posts-response input[type="radio"]:checked' ).length )
