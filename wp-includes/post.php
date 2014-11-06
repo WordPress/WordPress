@@ -4719,9 +4719,14 @@ function is_local_attachment($url) {
 function wp_insert_attachment( $args, $file = false, $parent = 0 ) {
 	$defaults = array(
 		'file'        => $file,
-		'post_parent' => $parent
+		'post_parent' => 0
 	);
+
 	$data = wp_parse_args( $args, $defaults );
+
+	if ( ! empty( $parent ) ) {
+		$data['post_parent'] = $parent;
+	}
 
 	$data['post_type'] = 'attachment';
 
