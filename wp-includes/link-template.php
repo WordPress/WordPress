@@ -257,10 +257,12 @@ function get_post_permalink( $id = 0, $leavename = false, $sample = false ) {
 
 	$post_type = get_post_type_object($post->post_type);
 
+	if ( $post_type->hierarchical ) {
+		$slug = get_page_uri( $id );
+	}
+
 	if ( !empty($post_link) && ( !$draft_or_pending || $sample ) ) {
 		if ( ! $leavename ) {
-			if ( $post_type->hierarchical )
-				$slug = get_page_uri($id);
 			$post_link = str_replace("%$post->post_type%", $slug, $post_link);
 		}
 		$post_link = home_url( user_trailingslashit($post_link) );
