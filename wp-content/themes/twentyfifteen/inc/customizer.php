@@ -19,12 +19,18 @@ function twentyfifteen_customize_register( $wp_customize ) {
 
 	$wp_customize->get_setting( 'blogname' )->transport         = 'postMessage';
 	$wp_customize->get_setting( 'blogdescription' )->transport  = 'postMessage';
-	$wp_customize->get_setting( 'background_color' )->transport = 'refresh';
 
 	// Add color scheme setting and control.
 	$wp_customize->add_setting( 'color_scheme', array(
 		'default'           => 'default',
 		'sanitize_callback' => 'twentyfifteen_sanitize_color_scheme',
+		'transport'         => 'postMessage',
+	) );
+
+	$wp_customize->add_setting( 'color_scheme_css', array(
+		'default'           => '',
+		'sanitize_callback' => 'esc_html',
+		'transport'         => 'postMessage',
 	) );
 
 	$wp_customize->add_control( 'color_scheme', array(
@@ -39,6 +45,7 @@ function twentyfifteen_customize_register( $wp_customize ) {
 	$wp_customize->add_setting( 'sidebar_textcolor', array(
 		'default'           => $color_scheme[4],
 		'sanitize_callback' => 'sanitize_hex_color',
+		'transport'         => 'postMessage',
 	) );
 
 	$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'sidebar_textcolor', array(
@@ -54,6 +61,7 @@ function twentyfifteen_customize_register( $wp_customize ) {
 	$wp_customize->add_setting( 'header_background_color', array(
 		'default'           => $color_scheme[1],
 		'sanitize_callback' => 'sanitize_hex_color',
+		'transport'         => 'postMessage',
 	) );
 
 	$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'header_background_color', array(
@@ -222,423 +230,14 @@ endif; // twentyfifteen_sanitize_color_scheme
  */
 function twentyfifteen_color_scheme_css() {
 	$color_scheme_option = get_theme_mod( 'color_scheme', 'default' );
+	$color_scheme_css    = get_theme_mod( 'color_scheme_css', '' );
 
 	// Don't do anything if the default color scheme is selected.
-	if ( 'default' === $color_scheme_option ) {
+	if ( 'default' === $color_scheme_option || empty( $color_scheme_css ) ) {
 		return;
 	}
 
-	// If we get this far, we have custom styles. Let's do this.
-	$color_scheme = twentyfifteen_get_color_scheme();
-
-	// Convert main and sidebar text hex color to rgba.
-	$color_main_text_rgb        = twentyfifteen_hex2rgb( $color_scheme[3] );
-	$color_sidebar_link_rgb     = twentyfifteen_hex2rgb( $color_scheme[4] );
-
-	$color_background           = $color_scheme[0];
-	$color_sidebar_background   = $color_scheme[1];
-	$color_box_background       = $color_scheme[2];
-	$color_main_text            = $color_scheme[3];
-	$color_secondary_text       = vsprintf( 'rgba( %1$s, %2$s, %3$s, 0.7)', $color_main_text_rgb );
-	$color_border               = vsprintf( 'rgba( %1$s, %2$s, %3$s, 0.1)', $color_main_text_rgb );
-	$color_border_focus         = vsprintf( 'rgba( %1$s, %2$s, %3$s, 0.3)', $color_main_text_rgb );
-	$color_sidebar_link         = $color_scheme[4];
-	$color_sidebar_text         = vsprintf( 'rgba( %1$s, %2$s, %3$s, 0.7)', $color_sidebar_link_rgb );
-	$color_sidebar_border       = vsprintf( 'rgba( %1$s, %2$s, %3$s, 0.1)', $color_sidebar_link_rgb );
-	$color_sidebar_border_focus = vsprintf( 'rgba( %1$s, %2$s, %3$s, 0.3)', $color_sidebar_link_rgb );
-	$color_meta_box             = $color_scheme[5];
-
-	$css = '
-		/* Color Scheme */
-
-		/* Background Color */
-		body {
-			background-color: %1$s;
-		}
-
-		/* Sidebar Background Color */
-		body:before,
-		.site-header {
-			background-color: %2$s;
-		}
-
-		/* Box Background Color */
-		.post-navigation,
-		.pagination,
-		.secondary,
-		.site-footer,
-		.hentry,
-		.page-header,
-		.page-content,
-		.comments-area {
-			background-color: %3$s;
-		}
-
-		/* Box Background Color */
-		button,
-		input[type="button"],
-		input[type="reset"],
-		input[type="submit"],
-		.pagination .prev,
-		.pagination .next,
-		.pagination .prev:before,
-		.pagination .next:before,
-		.widget_calendar tbody a,
-		.widget_calendar tbody a:hover,
-		.widget_calendar tbody a:focus,
-		.entry-content .page-links a,
-		.entry-content .page-links a:hover,
-		.entry-content .page-links a:focus,
-		.sticky-post {
-			color: %3$s;
-		}
-
-		/* Main Text Color */
-		button,
-		input[type="button"],
-		input[type="reset"],
-		input[type="submit"],
-		.pagination .prev,
-		.pagination .next,
-		.widget_calendar tbody a,
-		.page-links a,
-		.sticky-post {
-			background-color: %4$s;
-		}
-
-		/* Main Text Color */
-		body,
-		blockquote cite,
-		blockquote small,
-		a,
-		.dropdown-toggle:after,
-		.image-navigation a:hover,
-		.image-navigation a:focus,
-		.comment-navigation a:hover,
-		.comment-navigation a:focus,
-		.widget-title,
-		.entry-footer a:hover,
-		.entry-footer a:focus,
-		.comment-metadata a:hover,
-		.comment-metadata a:focus,
-		.pingback .edit-link a:hover,
-		.pingback .edit-link a:focus,
-		.comment-list .reply a:hover,
-		.comment-list .reply a:focus,
-		.site-info a:hover,
-		.site-info a:focus {
-			color: %4$s;
-		}
-
-		/* Main Text Color */
-		.entry-content a,
-		.entry-summary a,
-		.page-content a,
-		.comment-content a,
-		.pingback .comment-body > a,
-		.author-description a,
-		.taxonomy-description a,
-		.textwidget a,
-		.entry-footer a:hover,
-		.comment-metadata a:hover,
-		.pingback .edit-link a:hover,
-		.comment-list .reply a:hover,
-		.site-info a:hover {
-			border-color: %4$s;
-		}
-
-		/* Secondary Text Color */
-		button:hover,
-		button:focus,
-		input[type="button"]:hover,
-		input[type="button"]:focus,
-		input[type="reset"]:hover,
-		input[type="reset"]:focus,
-		input[type="submit"]:hover,
-		input[type="submit"]:focus,
-		.pagination .prev:hover,
-		.pagination .prev:focus,
-		.pagination .next:hover,
-		.pagination .next:focus,
-		.widget_calendar tbody a:hover,
-		.widget_calendar tbody a:focus,
-		.page-links a:hover,
-		.page-links a:focus {
-			background-color: %4$s; /* Fallback for IE7 and IE8 */
-			background-color: %5$s;
-		}
-
-		/* Secondary Text Color */
-		blockquote,
-		a:hover,
-		a:focus,
-		.main-navigation .menu-item-description,
-		.post-navigation .meta-nav,
-		.post-navigation a:hover .post-title,
-		.post-navigation a:focus .post-title,
-		.image-navigation,
-		.image-navigation a,
-		.comment-navigation,
-		.comment-navigation a,
-		.widget,
-		.author-heading,
-		.entry-footer,
-		.entry-footer a,
-		.taxonomy-description,
-		.page-links > .page-links-title,
-		.entry-caption,
-		.comment-author,
-		.comment-metadata,
-		.comment-metadata a,
-		.pingback .edit-link,
-		.pingback .edit-link a,
-		.post-password-form label,
-		.comment-form label,
-		.comment-notes,
-		.comment-awaiting-moderation,
-		.logged-in-as,
-		.form-allowed-tags,
-		.no-comments,
-		.site-info,
-		.site-info a,
-		.wp-caption-text,
-		.gallery-caption,
-		.comment-list .reply a {
-			color: %4$s; /* Fallback for IE7 and IE8 */
-			color: %5$s;
-		}
-
-		/* Secondary Text Color */
-		blockquote,
-		.logged-in-as a:hover,
-		.comment-author a:hover {
-			border-color: %4$s; /* Fallback for IE7 and IE8 */
-			border-color: %5$s;
-		}
-
-		/* Border Color */
-		hr,
-		.dropdown-toggle:hover,
-		.dropdown-toggle:focus {
-			background-color: %4$s; /* Fallback for IE7 and IE8 */
-			background-color: %6$s;
-		}
-
-		/* Border Color */
-		pre,
-		abbr[title],
-		table,
-		th,
-		td,
-		input,
-		textarea,
-		.main-navigation ul,
-		.main-navigation li,
-		.post-navigation,
-		.pagination,
-		.comment-navigation,
-		.widget li,
-		.widget_categories .children,
-		.widget_nav_menu .sub-menu,
-		.widget_pages .children,
-		.site-header,
-		.site-footer,
-		.hentry + .hentry,
-		.author-info,
-		.entry-content .page-links a,
-		.page-links > span,
-		.page-header,
-		.comments-area,
-		.comment-list + .comment-respond,
-		.comment-list article,
-		.comment-list .pingback,
-		.comment-list .trackback,
-		.comment-list .reply a,
-		.no-comments {
-			border-color: %4$s; /* Fallback for IE7 and IE8 */
-			border-color: %6$s;
-		}
-
-		.post-navigation .nav-previous:not(.has-post-thumbnail) + .nav-next:not(.has-post-thumbnail) {
-			border-color: %6$s;
-		}
-
-		/* Border Focus Color */
-		a:focus,
-		button:focus,
-		input:focus {
-			outline-color: %4$s; /* Fallback for IE7 and IE8 */
-			outline-color: %7$s;
-		}
-
-		input:focus,
-		textarea:focus {
-			border-color: %4$s; /* Fallback for IE7 and IE8 */
-			border-color: %7$s;
-		}
-
-		/* Sidebar Link Color */
-		.secondary-toggle:before {
-			color: %8$s;
-		}
-
-		.site-title a,
-		.site-description {
-			color: %8$s;
-		}
-
-		/* Sidebar Text Color */
-		.site-title a:hover,
-		.site-title a:focus {
-			color: %9$s;
-		}
-
-		/* Sidebar Border Color */
-		.secondary-toggle {
-			border-color: %8$s; /* Fallback for IE7 and IE8 */
-			border-color: %10$s;
-		}
-
-		/* Sidebar Border Focus Color */
-		.secondary-toggle:hover,
-		.secondary-toggle:focus {
-			border-color: %8$s; /* Fallback for IE7 and IE8 */
-			border-color: %11$s;
-		}
-
-		.site-title a {
-			outline-color: %8$s; /* Fallback for IE7 and IE8 */
-			outline-color: %11$s;
-		}
-
-		/* Meta Background Color */
-		.entry-footer {
-			background-color: %12$s;
-		}
-
-		@media screen and (min-width: 38.75em) {
-			/* Main Text Color */
-			.page-header {
-				border-color: %4$s;
-			}
-		}
-
-		@media screen and (min-width: 59.6875em) {
-			/* Make sure its transparent on desktop */
-			.site-header,
-			.secondary {
-				background-color: transparent;
-			}
-
-			/* Sidebar Background Color */
-			.widget button,
-			.widget input[type="button"],
-			.widget input[type="reset"],
-			.widget input[type="submit"],
-			.widget_calendar tbody a,
-			.widget_calendar tbody a:hover,
-			.widget_calendar tbody a:focus {
-				color: %2$s;
-			}
-
-			/* Sidebar Link Color */
-			.secondary a,
-			.dropdown-toggle:after,
-			.widget-title,
-			.widget blockquote cite,
-			.widget blockquote small {
-				color: %8$s;
-			}
-
-			.widget button,
-			.widget input[type="button"],
-			.widget input[type="reset"],
-			.widget input[type="submit"],
-			.widget_calendar tbody a {
-				background-color: %8$s;
-			}
-
-			.textwidget a {
-				border-color: %8$s;
-			}
-
-			/* Sidebar Text Color */
-			.secondary a:hover,
-			.secondary a:focus,
-			.main-navigation .menu-item-description,
-			.widget,
-			.widget blockquote,
-			.widget .wp-caption-text,
-			.widget .gallery-caption {
-				color: %9$s;
-			}
-
-			.widget button:hover,
-			.widget button:focus,
-			.widget input[type="button"]:hover,
-			.widget input[type="button"]:focus,
-			.widget input[type="reset"]:hover,
-			.widget input[type="reset"]:focus,
-			.widget input[type="submit"]:hover,
-			.widget input[type="submit"]:focus,
-			.widget_calendar tbody a:hover,
-			.widget_calendar tbody a:focus {
-				background-color: %9$s;
-			}
-
-			.widget blockquote {
-				border-color: %9$s;
-			}
-
-			/* Sidebar Border Color */
-			.main-navigation ul,
-			.main-navigation li,
-			.widget input,
-			.widget textarea,
-			.widget table,
-			.widget th,
-			.widget td,
-			.widget pre,
-			.widget li,
-			.widget_categories .children,
-			.widget_nav_menu .sub-menu,
-			.widget_pages .children,
-			.widget abbr[title] {
-				border-color: %10$s;
-			}
-
-			.dropdown-toggle:hover,
-			.dropdown-toggle:focus,
-			.widget hr {
-				background-color: %10$s;
-			}
-
-			.widget input:focus,
-			.widget textarea:focus {
-				border-color: %11$s;
-			}
-
-			.sidebar a:focus,
-			.dropdown-toggle:focus {
-				outline-color: %11$s;
-			}
-		}
-	';
-
-	wp_add_inline_style( 'twentyfifteen-style', sprintf( $css,
-		$color_background,
-		$color_sidebar_background,
-		$color_box_background,
-		$color_main_text,
-		$color_secondary_text,
-		$color_border,
-		$color_border_focus,
-		$color_sidebar_link,
-		$color_sidebar_text,
-		$color_sidebar_border,
-		$color_sidebar_border_focus,
-		$color_meta_box
-	) );
+	wp_add_inline_style( 'twentyfifteen-style', $color_scheme_css );
 }
 add_action( 'wp_enqueue_scripts', 'twentyfifteen_color_scheme_css' );
 
@@ -649,7 +248,7 @@ add_action( 'wp_enqueue_scripts', 'twentyfifteen_color_scheme_css' );
  * @since Twenty Fifteen 1.0
  */
 function twentyfifteen_customize_control_js() {
-	wp_enqueue_script( 'color-scheme-control', get_template_directory_uri() . '/js/color-scheme-control.js', array( 'customize-controls' ), '', true  );
+	wp_enqueue_script( 'color-scheme-control', get_template_directory_uri() . '/js/color-scheme-control.js', array( 'customize-controls', 'iris', 'underscore', 'wp-util' ), '', true  );
 	wp_localize_script( 'color-scheme-control', 'colorScheme', twentyfifteen_get_color_schemes() );
 }
 add_action( 'customize_controls_enqueue_scripts', 'twentyfifteen_customize_control_js' );
@@ -663,3 +262,390 @@ function twentyfifteen_customize_preview_js() {
 	wp_enqueue_script( 'twentyfifteen-customize-preview', get_template_directory_uri() . '/js/customize-preview.js', array( 'customize-preview' ), '20141029', true );
 }
 add_action( 'customize_preview_init', 'twentyfifteen_customize_preview_js' );
+
+/**
+ * Output an Underscore template for generating CSS for the color scheme.
+ *
+ * @since Twenty Fifteen 1.0
+ */
+function twentyfifteen_color_scheme_css_template() {
+	?>
+	<script type="text/html" id="tmpl-twentyfifteen-color-scheme">
+	/* Color Scheme */
+
+	/* Background Color */
+	body {
+		background-color: {{ data.background_color }};
+	}
+
+	/* Sidebar Background Color */
+	body:before,
+	.site-header {
+		background-color: {{ data.header_background_color }};
+	}
+
+	/* Box Background Color */
+	.post-navigation,
+	.pagination,
+	.secondary,
+	.site-footer,
+	.hentry,
+	.page-header,
+	.page-content,
+	.comments-area {
+		background-color: {{ data.box_background_color }};
+	}
+
+	/* Box Background Color */
+	button,
+	input[type="button"],
+	input[type="reset"],
+	input[type="submit"],
+	.pagination .prev,
+	.pagination .next,
+	.pagination .prev:before,
+	.pagination .next:before,
+	.widget_calendar tbody a,
+	.widget_calendar tbody a:hover,
+	.widget_calendar tbody a:focus,
+	.entry-content .page-links a,
+	.entry-content .page-links a:hover,
+	.entry-content .page-links a:focus,
+	.sticky-post {
+		color: {{ data.box_background_color }};
+	}
+
+	/* Main Text Color */
+	button,
+	input[type="button"],
+	input[type="reset"],
+	input[type="submit"],
+	.pagination .prev,
+	.pagination .next,
+	.widget_calendar tbody a,
+	.page-links a,
+	.sticky-post {
+		background-color: {{ data.textcolor }};
+	}
+
+	/* Main Text Color */
+	body,
+	blockquote cite,
+	blockquote small,
+	a,
+	.dropdown-toggle:after,
+	.image-navigation a:hover,
+	.image-navigation a:focus,
+	.comment-navigation a:hover,
+	.comment-navigation a:focus,
+	.widget-title,
+	.entry-footer a:hover,
+	.entry-footer a:focus,
+	.comment-metadata a:hover,
+	.comment-metadata a:focus,
+	.pingback .edit-link a:hover,
+	.pingback .edit-link a:focus,
+	.comment-list .reply a:hover,
+	.comment-list .reply a:focus,
+	.site-info a:hover,
+	.site-info a:focus {
+		color: {{ data.textcolor }};
+	}
+
+	/* Main Text Color */
+	.entry-content a,
+	.entry-summary a,
+	.page-content a,
+	.comment-content a,
+	.pingback .comment-body > a,
+	.author-description a,
+	.taxonomy-description a,
+	.textwidget a,
+	.entry-footer a:hover,
+	.comment-metadata a:hover,
+	.pingback .edit-link a:hover,
+	.comment-list .reply a:hover,
+	.site-info a:hover {
+		border-color: {{ data.textcolor }};
+	}
+
+	/* Secondary Text Color */
+	button:hover,
+	button:focus,
+	input[type="button"]:hover,
+	input[type="button"]:focus,
+	input[type="reset"]:hover,
+	input[type="reset"]:focus,
+	input[type="submit"]:hover,
+	input[type="submit"]:focus,
+	.pagination .prev:hover,
+	.pagination .prev:focus,
+	.pagination .next:hover,
+	.pagination .next:focus,
+	.widget_calendar tbody a:hover,
+	.widget_calendar tbody a:focus,
+	.page-links a:hover,
+	.page-links a:focus {
+		background-color: {{ data.textcolor }}; /* Fallback for IE7 and IE8 */
+		background-color: {{ data.secondary_textcolor }};
+	}
+
+	/* Secondary Text Color */
+	blockquote,
+	a:hover,
+	a:focus,
+	.main-navigation .menu-item-description,
+	.post-navigation .meta-nav,
+	.post-navigation a:hover .post-title,
+	.post-navigation a:focus .post-title,
+	.image-navigation,
+	.image-navigation a,
+	.comment-navigation,
+	.comment-navigation a,
+	.widget,
+	.author-heading,
+	.entry-footer,
+	.entry-footer a,
+	.taxonomy-description,
+	.page-links > .page-links-title,
+	.entry-caption,
+	.comment-author,
+	.comment-metadata,
+	.comment-metadata a,
+	.pingback .edit-link,
+	.pingback .edit-link a,
+	.post-password-form label,
+	.comment-form label,
+	.comment-notes,
+	.comment-awaiting-moderation,
+	.logged-in-as,
+	.form-allowed-tags,
+	.no-comments,
+	.site-info,
+	.site-info a,
+	.wp-caption-text,
+	.gallery-caption,
+	.comment-list .reply a {
+		color: {{ data.textcolor }}; /* Fallback for IE7 and IE8 */
+		color: {{ data.secondary_textcolor }};
+	}
+
+	/* Secondary Text Color */
+	blockquote,
+	.logged-in-as a:hover,
+	.comment-author a:hover {
+		border-color: {{ data.textcolor }}; /* Fallback for IE7 and IE8 */
+		border-color: {{ data.secondary_textcolor }};
+	}
+
+	/* Border Color */
+	hr,
+	.dropdown-toggle:hover,
+	.dropdown-toggle:focus {
+		background-color: {{ data.textcolor }}; /* Fallback for IE7 and IE8 */
+		background-color: {{ data.border_color }};
+	}
+
+	/* Border Color */
+	pre,
+	abbr[title],
+	table,
+	th,
+	td,
+	input,
+	textarea,
+	.main-navigation ul,
+	.main-navigation li,
+	.post-navigation,
+	.pagination,
+	.comment-navigation,
+	.widget li,
+	.widget_categories .children,
+	.widget_nav_menu .sub-menu,
+	.widget_pages .children,
+	.site-header,
+	.site-footer,
+	.hentry .hentry,
+	.author-info,
+	.entry-content .page-links a,
+	.page-links > span,
+	.page-header,
+	.comments-area,
+	.comment-list .comment-respond,
+	.comment-list article,
+	.comment-list .pingback,
+	.comment-list .trackback,
+	.comment-list .reply a,
+	.no-comments {
+		border-color: {{ data.textcolor }}; /* Fallback for IE7 and IE8 */
+		border-color: {{ data.border_color }};
+	}
+
+	.post-navigation .nav-previous:not(.has-post-thumbnail) .nav-next:not(.has-post-thumbnail) {
+		border-color: {{ data.border_color }};
+	}
+
+	/* Border Focus Color */
+	a:focus,
+	button:focus,
+	input:focus {
+		outline-color: {{ data.textcolor }}; /* Fallback for IE7 and IE8 */
+		outline-color: {{ data.border_focus_color }};
+	}
+
+	input:focus,
+	textarea:focus {
+		border-color: {{ data.textcolor }}; /* Fallback for IE7 and IE8 */
+		border-color: {{ data.border_focus_color }};
+	}
+
+	/* Sidebar Link Color */
+	.secondary-toggle:before {
+		color: {{ data.sidebar_textcolor }};
+	}
+
+	.site-title a,
+	.site-description {
+		color: {{ data.sidebar_textcolor }};
+	}
+
+	/* Sidebar Text Color */
+	.site-title a:hover,
+	.site-title a:focus {
+		color: {{ data.sidebar_textcolor2 }};
+	}
+
+	/* Sidebar Border Color */
+	.secondary-toggle {
+		border-color: {{ data.sidebar_textcolor }}; /* Fallback for IE7 and IE8 */
+		border-color: {{ data.sidebar_border_color }};
+	}
+
+	/* Sidebar Border Focus Color */
+	.secondary-toggle:hover,
+	.secondary-toggle:focus {
+		border-color: {{ data.sidebar_textcolor }}; /* Fallback for IE7 and IE8 */
+		border-color: {{ data.sidebar_border_focus_color }};
+	}
+
+	.site-title a {
+		outline-color: {{ data.sidebar_textcolor }}; /* Fallback for IE7 and IE8 */
+		outline-color: {{ data.sidebar_border_focus_color }};
+	}
+
+	/* Meta Background Color */
+	.entry-footer {
+		background-color: {{ data.meta_box_background_color }};
+	}
+
+	@media screen and (min-width: 38.75em) {
+		/* Main Text Color */
+		.page-header {
+			border-color: {{ data.textcolor }};
+		}
+	}
+
+	@media screen and (min-width: 59.6875em) {
+		/* Make sure its transparent on desktop */
+		.site-header,
+		.secondary {
+			background-color: transparent;
+		}
+
+		/* Sidebar Background Color */
+		.widget button,
+		.widget input[type="button"],
+		.widget input[type="reset"],
+		.widget input[type="submit"],
+		.widget_calendar tbody a,
+		.widget_calendar tbody a:hover,
+		.widget_calendar tbody a:focus {
+			color: {{ data.header_background_color }};
+		}
+
+		/* Sidebar Link Color */
+		.secondary a,
+		.dropdown-toggle:after,
+		.widget-title,
+		.widget blockquote cite,
+		.widget blockquote small {
+			color: {{ data.sidebar_textcolor }};
+		}
+
+		.widget button,
+		.widget input[type="button"],
+		.widget input[type="reset"],
+		.widget input[type="submit"],
+		.widget_calendar tbody a {
+			background-color: {{ data.sidebar_textcolor }};
+		}
+
+		.textwidget a {
+			border-color: {{ data.sidebar_textcolor }};
+		}
+
+		/* Sidebar Text Color */
+		.secondary a:hover,
+		.secondary a:focus,
+		.main-navigation .menu-item-description,
+		.widget,
+		.widget blockquote,
+		.widget .wp-caption-text,
+		.widget .gallery-caption {
+			color: {{ data.sidebar_textcolor2 }};
+		}
+
+		.widget button:hover,
+		.widget button:focus,
+		.widget input[type="button"]:hover,
+		.widget input[type="button"]:focus,
+		.widget input[type="reset"]:hover,
+		.widget input[type="reset"]:focus,
+		.widget input[type="submit"]:hover,
+		.widget input[type="submit"]:focus,
+		.widget_calendar tbody a:hover,
+		.widget_calendar tbody a:focus {
+			background-color: {{ data.sidebar_textcolor2 }};
+		}
+
+		.widget blockquote {
+			border-color: {{ data.sidebar_textcolor2 }};
+		}
+
+		/* Sidebar Border Color */
+		.main-navigation ul,
+		.main-navigation li,
+		.widget input,
+		.widget textarea,
+		.widget table,
+		.widget th,
+		.widget td,
+		.widget pre,
+		.widget li,
+		.widget_categories .children,
+		.widget_nav_menu .sub-menu,
+		.widget_pages .children,
+		.widget abbr[title] {
+			border-color: {{ data.sidebar_border_color }};
+		}
+
+		.dropdown-toggle:hover,
+		.dropdown-toggle:focus,
+		.widget hr {
+			background-color: {{ data.sidebar_border_color }};
+		}
+
+		.widget input:focus,
+		.widget textarea:focus {
+			border-color: {{ data.sidebar_border_focus_color }};
+		}
+
+		.sidebar a:focus,
+		.dropdown-toggle:focus {
+			outline-color: {{ data.sidebar_border_focus_color }};
+		}
+	}
+	</script>
+	<?php
+}
+add_action( 'customize_controls_print_footer_scripts', 'twentyfifteen_color_scheme_css_template' );

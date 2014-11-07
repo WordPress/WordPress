@@ -35,7 +35,9 @@ Description: Used to style the header image displayed on the Appearance > Header
 }
 
 /* Hide the header text color option */
-.appearance_page_custom-header tr.displaying-header-text {
+.appearance_page_custom-header tr.displaying-header-text,
+.appearance_page_custom-header tr.displaying-header-text td,
+.appearance_page_custom-header tr.displaying-header-text th {
 	display: none;
 }
 
