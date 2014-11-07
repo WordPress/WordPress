@@ -151,7 +151,6 @@ a:active {
 
 a img {
 	border: 0;
-	display: block;
 }
 
 
@@ -1755,6 +1754,13 @@ a.post-thumbnail:focus {
 .pingback .comment-body > a:hover,
 .pingback .comment-body > a:focus {
 	border-bottom: 0;
+}
+
+.entry-content a img,
+.entry-summary a img,
+.page-content a img,
+.comment-content a img {
+	display: block;
 }
 
 .entry-content .more-link,
