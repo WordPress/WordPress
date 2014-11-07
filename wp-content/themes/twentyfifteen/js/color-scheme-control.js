@@ -1,8 +1,6 @@
 /* global colorScheme */
 /**
- * Customizer enhancements for a better user experience.
- *
- * Adds listener to Color Scheme control to update other color controls with new values/defaults
+ * Add a listener to the Color Scheme control to update other color controls to new values/defaults.
  */
 
 ( function( api ) {
