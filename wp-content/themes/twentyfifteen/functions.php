@@ -302,6 +302,27 @@ function twentyfifteen_nav_description( $item_output, $item, $depth, $args ) {
 add_filter( 'walker_nav_menu_start_el', 'twentyfifteen_nav_description', 10, 4 );
 
 /**
+* Encode email address of mailto: links in social navigation
+*
+* @since Twenty Fifteen 1.0
+*
+* @param array   $atts        HTML attributes in an associative array
+* @param WP_Post $item        Menu item object
+* @param array   $args        Array containing config with desired markup of nav
+*
+* @return array HTML attributes for Menu item
+*/
+function twentyfifteen_nav_encode_email( $atts, $item, $args ) {
+	if ( 'social' == $args->theme_location ) {
+		if ( preg_match( '/^mailto:(.+)/', $atts['href'], $match ) ) {
+			$atts['href'] = 'mailto:' . antispambot( $match[1] );
+		} 
+	}
+	return $atts;
+}
+add_filter( 'nav_menu_link_attributes', 'twentyfifteen_nav_encode_email', 10, 3 );
+
+/**
  * Add a `screen-reader-text` class to the search form's submit button.
  *
  * @since Twenty Fifteen 1.0
