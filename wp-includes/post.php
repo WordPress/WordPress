@@ -5327,7 +5327,7 @@ function get_lastpostdate( $timezone = 'server' ) {
 }
 
 /**
- * Retrieve last post modified date depending on timezone.
+ * Get the timestamp of the last time any post was modified.
  *
  * The server timezone is the default and is the difference between GMT and
  * server time. The 'blog' value is just when the last post was modified. The
@@ -5335,9 +5335,12 @@ function get_lastpostdate( $timezone = 'server' ) {
  *
  * @since 1.2.0
  *
- * @param string $timezone The location to get the time. Accepts 'gmt', 'blog', or 'server'.
+ * @param string $timezone Optional. The timezone for the timestamp. Uses the server's internal timezone.
+ *                         Accepts 'server', 'blog', 'gmt'. or 'server'. 'server' uses the server's
+ *                         internal timezone. 'blog' uses the `post_modified` field, which proxies
+ *                         to the timezone set for the site. 'gmt' uses the `post_modified_gmt` field.
  *                         Default 'server'.
- * @return string The date the post was last modified.
+ * @return string The timestamp.
  */
 function get_lastpostmodified( $timezone = 'server' ) {
 	$lastpostmodified = _get_last_post_time( $timezone, 'modified' );
@@ -5353,19 +5356,21 @@ function get_lastpostmodified( $timezone = 'server' ) {
 	 *
 	 * @param string $lastpostmodified Date the last post was modified.
 	 * @param string $timezone         Location to use for getting the post modified date.
+	 *                                 See {@see get_lastpostmodified()} for accepted `$timezone` values.
 	 */
 	return apply_filters( 'get_lastpostmodified', $lastpostmodified, $timezone );
 }
 
 /**
- * Retrieve latest post date data based on timezone.
+ * Get the timestamp of the last time any post was modified or published.
  *
- * @access private
  * @since 3.1.0
+ * @access private
  *
- * @param string $timezone The location to get the time. Accepts 'gmt', 'blog', or 'server'.
- * @param string $field Field to check. Can be 'date' or 'modified'.
- * @return string The date.
+ * @param string $timezone The timezone for the timestamp. See {@see get_lastpostmodified()}
+ *                         for information on accepted values.
+ * @param string $field    Post field to check. Accepts 'date' or 'modified'.
+ * @return string The timestamp.
  */
 function _get_last_post_time( $timezone, $field ) {
 	global $wpdb;
