@@ -849,7 +849,7 @@ class WP_Widget_Recent_Comments extends WP_Widget {
 		 *
 		 * @since 3.4.0
 		 *
-		 * @see get_comments()
+		 * @see WP_Comment_Query::query() for information on accepted arguments.
 		 *
 		 * @param array $comment_args An array of arguments used to retrieve the recent comments.
 		 */

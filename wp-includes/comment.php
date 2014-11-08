@@ -131,9 +131,10 @@ function check_comment($author, $email, $url, $comment, $user_ip, $user_agent, $
  * @since 4.1.0 Refactored to leverage {@see WP_Comment_Query} over a direct query.
  *
  * @param  int   $post_id The ID of the post.
- * @param  array $args    Optional. See {@see WP_Comment_Query} for information
+ * @param  array $args    Optional. See {@see WP_Comment_Query::query()} for information
  *                        on accepted arguments.
- * @return array $comments The approved comments.
+ * @return int|array $comments The approved comments, or number of comments if `$count`
+ *                             argument is true.
  */
 function get_approved_comments( $post_id = 0, $args = array() ) {
 	$defaults = array(
@@ -211,15 +212,13 @@ function get_comment(&$comment, $output = OBJECT) {
  *
  * The comment list can be for the blog as a whole or for an individual post.
  *
- * The list of comment arguments are 'status', 'orderby', 'comment_date_gmt',
- * 'order', 'number', 'offset', and 'post_id'.
- *
  * @since 2.7.0
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
- * @param mixed $args Optional. Array or string of options to override defaults.
- * @return array List of comments.
+ * @param string|array $args Optional. Array or string of arguments. See {@see WP_Comment_Query::query()}
+ *                           for information on accepted arguments. Default empty.
+ * @return int|array List of comments or number of found comments if `$count` argument is true.
  */
 function get_comments( $args = '' ) {
 	$query = new WP_Comment_Query;
@@ -228,6 +227,8 @@ function get_comments( $args = '' ) {
 
 /**
  * WordPress Comment Query class.
+ *
+ * See {@see WP_Comment_Query::query()} for accepted arguments.
  *
  * @since 3.1.0
  */
