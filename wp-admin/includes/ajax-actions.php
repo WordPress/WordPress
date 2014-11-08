@@ -1149,8 +1149,7 @@ function wp_ajax_add_meta() {
 		if ( isset($_POST['metakeyselect']) && '#NONE#' == $_POST['metakeyselect'] && empty($_POST['metakeyinput']) )
 			wp_die( 1 );
 
-		// If the post is an autodraft, save the post as a draft and then
-		// attempt to save the meta.
+		// If the post is an autodraft, save the post as a draft and then attempt to save the meta.
 		if ( $post->post_status == 'auto-draft' ) {
 			$save_POST = $_POST; // Backup $_POST
 			$_POST = array(); // Make it empty for edit_post()

@@ -77,8 +77,8 @@ function _wp_post_revision_fields( $post = null, $autosave = false ) {
  *
  * @since 2.6.0
  *
- * @param  int   $post_id The ID of the post to save as a revision.
- * @return mixed Null or 0 if error, new revision ID, if success.
+ * @param  int $post_id The ID of the post to save as a revision.
+ * @return null|int Null or 0 if error, new revision ID, if success.
  */
 function wp_save_post_revision( $post_id ) {
 	if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE )
@@ -455,7 +455,7 @@ function wp_revisions_enabled( $post ) {
  *
  * @since 3.6.0
  *
- * @param  object $post The post object.
+ * @param WP_Post $post The post object.
  * @return int The number of revisions to keep.
  */
 function wp_revisions_to_keep( $post ) {
