@@ -976,6 +976,12 @@ final class _WP_Editors {
 		$mce_translation = apply_filters( 'wp_mce_translation', $mce_translation, $mce_locale );
 
 		foreach ( $mce_translation as $key => $value ) {
+			// Remove strings that are not translated.
+			if ( $key === $value ) {
+				unset( $mce_translation[$key] );
+				continue;
+			}
+
 			if ( false !== strpos( $value, '&' ) ) {
 				$mce_translation[$key] = html_entity_decode( $value, ENT_QUOTES, 'UTF-8' );
 			}
