@@ -736,7 +736,15 @@ final class _WP_Editors {
 		) );
 	}
 
-	public static function wp_mce_translation() {
+	/**
+	 * Translates the default TinyMCE strings and returns them as JSON encoded object ready to be loaded with tinymce.addI18n().
+	 * Can be used directly (_WP_Editors::wp_mce_translation()) by passing the same locale as set in the TinyMCE init object.
+	 *
+	 * @param string $mce_locale The locale used for the editor.
+	 * @param bool $json_only optional Whether to include the Javascript calls to tinymce.addI18n() and tinymce.ScriptLoader.markDone().
+	 * @return The translation object, JSON encoded.
+	 */
+	public static function wp_mce_translation( $mce_locale = '', $json_only = false ) {
 
 		$mce_translation = array(
 			// Default TinyMCE strings
@@ -962,8 +970,9 @@ final class _WP_Editors {
 		 *	Url
 		 */
 
-		$baseurl = self::$baseurl;
-		$mce_locale = self::$mce_locale;
+		if ( ! $mce_locale ) {
+			$mce_locale = self::$mce_locale;
+		}
 
 		/**
 		 * Filter translated strings prepared for TinyMCE.
@@ -991,6 +1000,12 @@ final class _WP_Editors {
 		if ( is_rtl() ) {
 			$mce_translation['_dir'] = 'rtl';
 		}
+
+		if ( $json_only ) {
+			return wp_json_encode( $mce_translation );
+		}
+
+		$baseurl = self::$baseurl ? self::$baseurl : includes_url( 'js/tinymce' );
 
 		return "tinymce.addI18n( '$mce_locale', " . wp_json_encode( $mce_translation ) . ");\n" .
 			"tinymce.ScriptLoader.markDone( '$baseurl/langs/$mce_locale.js' );\n";
