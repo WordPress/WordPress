@@ -131,8 +131,8 @@
 	 * @augments wp.customize.Class
 	 */
 	Container = api.Class.extend({
-		defaultActiveArguments: { duration: 'fast' },
-		defaultExpandedArguments: { duration: 'fast' },
+		defaultActiveArguments: { duration: 'fast', completeCallback: $.noop },
+		defaultExpandedArguments: { duration: 'fast', completeCallback: $.noop },
 
 		initialize: function ( id, options ) {
 			var container = this;
@@ -217,7 +217,11 @@
 		 */
 		onChangeActive: function ( active, args ) {
 			var duration = ( 'resolved' === api.previewer.deferred.active.state() ? args.duration : 0 );
-			if ( active ) {
+			if ( ! $.contains( document, this.container ) ) {
+				// jQuery.fn.slideUp is not hiding an element if it is not in the DOM
+				this.container.toggle( active );
+				args.completeCallback();
+			} else if ( active ) {
 				this.container.stop( true, true ).slideDown( duration, args.completeCallback );
 			} else {
 				this.container.stop( true, true ).slideUp( duration, args.completeCallback );
@@ -640,7 +644,7 @@
 	 * @augments wp.customize.Class
 	 */
 	api.Control = api.Class.extend({
-		defaultActiveArguments: { duration: 'fast' },
+		defaultActiveArguments: { duration: 'fast', completeCallback: $.noop },
 
 		initialize: function( id, options ) {
 			var control = this,
@@ -781,7 +785,11 @@
 		 * @param {Object} args  merged on top of this.defaultActiveArguments
 		 */
 		onChangeActive: function ( active, args ) {
-			if ( active ) {
+			if ( ! $.contains( document, this.container ) ) {
+				// jQuery.fn.slideUp is not hiding an element if it is not in the DOM
+				this.container.toggle( active );
+				args.completeCallback();
+			} else if ( active ) {
 				this.container.slideDown( args.duration, args.completeCallback );
 			} else {
 				this.container.slideUp( args.duration, args.completeCallback );

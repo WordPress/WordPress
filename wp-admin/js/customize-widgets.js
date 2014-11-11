@@ -405,7 +405,8 @@
 	 */
 	api.Widgets.WidgetControl = api.Control.extend({
 		defaultExpandedArguments: {
-			duration: 'fast'
+			duration: 'fast',
+			completeCallback: $.noop
 		},
 
 		initialize: function ( id, options ) {
