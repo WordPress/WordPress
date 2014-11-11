@@ -298,10 +298,6 @@ class WP_Date_Query {
 			$valid = $this->validate_date_values( $date_query['after'] );
 		}
 
-		// Message template for the min-max-check.
-		/* translators: Date query invalid date message: 1: invalid value, 2: type of value, 3: minimum valid value, 4: maximum valid value */
-		$min_max_msg = __( 'Invalid value <code>%1$s</code> for <strong>%2$s</strong>. Excepted value should between <code>%3$d</code> and </code>%4$d</code>.' );
-
 		// Array containing all min-max checks.
 		$min_max_checks = array();
 
@@ -387,12 +383,14 @@ class WP_Date_Query {
 			$is_between = $date_query[ $key ] >= $check['min'] && $date_query[ $key ] <= $check['max'];
 
 			if ( ! $is_between ) {
+
 				$error = sprintf(
-					$min_max_msg,
-					esc_html( $date_query[ $key ] ),
-					$key,
-					$check['min'],
-					$check['max']
+					/* translators: Date query invalid date message: 1: invalid value, 2: type of value, 3: minimum valid value, 4: maximum valid value */
+					__( 'Invalid value %1$s for %2$s. Expected value should between %3$s and %4$s.' ),
+					'<code>' . esc_html( $date_query[ $key ] ) . '</code>',
+					'<code>' . esc_html( $key ) . '</code>',
+					'<code>' . esc_html( $check['min'] ) . '</code>',
+					'<code>' . esc_html( $check['max'] ) . '</code>'
 				);
 
 				_doing_it_wrong( __CLASS__, $error, '4.1.0' );
@@ -417,10 +415,10 @@ class WP_Date_Query {
 			if ( ! checkdate( $date_query['month'], $date_query['day'], $date_query['year'] ) ) {
 				/* translators: 1: year, 2: month, 3: day of month */
 				$day_month_year_error_msg = sprintf(
-					__( 'The following values do not describe a valid date: year <code>%1$s</code>, month <code>%2$s</code>, day <code>%3$s</code>.' ),
-					esc_html( $date_query['year'] ),
-					esc_html( $date_query['month'] ),
-					esc_html( $date_query['day'] )
+					__( 'The following values do not describe a valid date: year %1$s, month %2$s, day %3$s.' ),
+					'<code>' . esc_html( $date_query['year'] ) . '</code>',
+					'<code>' . esc_html( $date_query['month'] ) . '</code>',
+					'<code>' . esc_html( $date_query['day'] ) . '</code>'
 				);
 
 				$valid = false;
