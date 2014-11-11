@@ -434,6 +434,12 @@
 			this._setupHighlightEffects();
 			this._setupUpdateUI();
 			this._setupRemoveUI();
+
+			/*
+			 * Trigger widget-added event so that plugins can attach any event
+			 * listeners and dynamic UI elements.
+			 */
+			$( document ).trigger( 'widget-added', [ this.container.find( '.widget:first' ) ] );
 		},
 
 		/**
@@ -1805,8 +1811,6 @@
 					widgetFormControl.focus();
 				}
 			} );
-
-			$( document ).trigger( 'widget-added', [ $widget ] );
 
 			return widgetFormControl;
 		}
