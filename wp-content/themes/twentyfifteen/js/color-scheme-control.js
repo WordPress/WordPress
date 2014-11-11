@@ -1,6 +1,7 @@
 /* global colorScheme */
 /**
  * Add a listener to the Color Scheme control to update other color controls to new values/defaults.
+ * Also trigger an update of the Color Scheme CSS when a color is changed.
  */
 
 ( function( api ) {
@@ -45,6 +46,7 @@
 		}
 	} );
 
+	// Generate the CSS for the current Color Scheme.
 	function getCSS() {
 		var scheme = api( 'color_scheme' )(),
 			colors = _.object( colorSchemeKeys, colorScheme[ scheme ].colors );
@@ -58,7 +60,7 @@
 		colors['secondary_textcolor'] = Color( colors.textcolor ).toCSS( 'rgba', 0.7 );
 		colors['border_color'] = Color( colors.textcolor ).toCSS( 'rgba', 0.1 );
 		colors['border_focus_color'] = Color( colors.textcolor ).toCSS( 'rgba', 0.3 );
-		colors['sidebar_textcolor2'] = Color( colors.sidebar_textcolor ).toCSS( 'rgba', 0.7 );
+		colors['secondary_sidebar_textcolor'] = Color( colors.sidebar_textcolor ).toCSS( 'rgba', 0.7 );
 		colors['sidebar_border_color'] = Color( colors.sidebar_textcolor ).toCSS( 'rgba', 0.1 );
 		colors['sidebar_border_focus_color'] = Color( colors.sidebar_textcolor ).toCSS( 'rgba', 0.3 );
 

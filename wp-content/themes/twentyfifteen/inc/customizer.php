@@ -17,8 +17,8 @@
 function twentyfifteen_customize_register( $wp_customize ) {
 	$color_scheme = twentyfifteen_get_color_scheme();
 
-	$wp_customize->get_setting( 'blogname' )->transport         = 'postMessage';
-	$wp_customize->get_setting( 'blogdescription' )->transport  = 'postMessage';
+	$wp_customize->get_setting( 'blogname' )->transport        = 'postMessage';
+	$wp_customize->get_setting( 'blogdescription' )->transport = 'postMessage';
 
 	// Add color scheme setting and control.
 	$wp_customize->add_setting( 'color_scheme', array(
@@ -254,7 +254,7 @@ function twentyfifteen_customize_control_js() {
 add_action( 'customize_controls_enqueue_scripts', 'twentyfifteen_customize_control_js' );
 
 /**
- * Binds JS handlers to make Customizer preview reload changes asynchronously.
+ * Binds JS handlers to make the Customizer preview reload changes asynchronously.
  *
  * @since Twenty Fifteen 1.0
  */
@@ -265,6 +265,9 @@ add_action( 'customize_preview_init', 'twentyfifteen_customize_preview_js' );
 
 /**
  * Output an Underscore template for generating CSS for the color scheme.
+ *
+ * The template generates the css dynamically for instant display in the Customizer preview,
+ * and to be saved in a `theme_mod` for display on the front-end.
  *
  * @since Twenty Fifteen 1.0
  */
@@ -512,7 +515,7 @@ function twentyfifteen_color_scheme_css_template() {
 	/* Sidebar Text Color */
 	.site-title a:hover,
 	.site-title a:focus {
-		color: {{ data.sidebar_textcolor2 }};
+		color: {{ data.secondary_sidebar_textcolor }};
 	}
 
 	/* Sidebar Border Color */
@@ -592,7 +595,7 @@ function twentyfifteen_color_scheme_css_template() {
 		.widget blockquote,
 		.widget .wp-caption-text,
 		.widget .gallery-caption {
-			color: {{ data.sidebar_textcolor2 }};
+			color: {{ data.secondary_sidebar_textcolor }};
 		}
 
 		.widget button:hover,
@@ -605,11 +608,11 @@ function twentyfifteen_color_scheme_css_template() {
 		.widget input[type="submit"]:focus,
 		.widget_calendar tbody a:hover,
 		.widget_calendar tbody a:focus {
-			background-color: {{ data.sidebar_textcolor2 }};
+			background-color: {{ data.secondary_sidebar_textcolor }};
 		}
 
 		.widget blockquote {
-			border-color: {{ data.sidebar_textcolor2 }};
+			border-color: {{ data.secondary_sidebar_textcolor }};
 		}
 
 		/* Sidebar Border Color */
