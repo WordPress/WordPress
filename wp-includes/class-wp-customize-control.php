@@ -637,10 +637,34 @@ class WP_Customize_Color_Control extends WP_Customize_Control {
  * @since 3.4.0
  */
 class WP_Customize_Upload_Control extends WP_Customize_Control {
-	public $type    = 'upload';
-	public $removed = '';
-	public $context;
-	public $extensions = array();
+	public $type          = 'upload';
+	public $mime_type     = '';
+	public $button_labels = array();
+	public $removed = ''; // unused
+	public $context; // unused
+	public $extensions = array(); // unused
+
+	/**
+	 * Constructor.
+	 *
+	 * @since 4.1.0
+	 * @uses WP_Customize_Control::__construct()
+	 *
+	 * @param WP_Customize_Manager $manager
+	 */
+	public function __construct( $manager, $id, $args = array() ) {
+		parent::__construct( $manager, $id, $args );
+
+		$this->button_labels = array(
+			'select'       => __( 'Select File' ),
+			'change'       => __( 'Change File' ),
+			'default'      => __( 'Default' ),
+			'remove'       => __( 'Remove' ),
+			'placeholder'  => __( 'No file selected' ),
+			'frame_title'  => __( 'Select File' ),
+			'frame_button' => __( 'Choose File' ),
+		);
+	}
 
 	/**
 	 * Enqueue control related scripts/styles.
@@ -648,7 +672,7 @@ class WP_Customize_Upload_Control extends WP_Customize_Control {
 	 * @since 3.4.0
 	 */
 	public function enqueue() {
-		wp_enqueue_script( 'wp-plupload' );
+		wp_enqueue_media();
 	}
 
 	/**
@@ -659,35 +683,122 @@ class WP_Customize_Upload_Control extends WP_Customize_Control {
 	 */
 	public function to_json() {
 		parent::to_json();
+		$this->json['mime_type'] = $this->mime_type;
+		$this->json['button_labels'] = $this->button_labels;
 
-		$this->json['removed'] = $this->removed;
+		if ( is_object( $this->setting ) ) {
+			if ( $this->setting->default ) {
+				// Fake an attachment model - needs all fields used by template.
+				$type = in_array( substr( $this->setting->default, -3 ), array( 'jpg', 'png', 'gif', 'bmp' ) ) ? 'image' : 'document';
+				$default_attachment = array(
+					'id' => 1,
+					'url' => $this->setting->default,
+					'type' => $type,
+					'sizes' => array(
+						'full' => array( 'url' => $this->setting->default ),
+					),
+					'icon' => wp_mime_type_icon( $type ),
+					'title' => basename( $this->setting->default ),
+				);
+				$this->json['defaultAttachment'] = $default_attachment;
+			}
 
-		if ( $this->context )
-			$this->json['context'] = $this->context;
-
-		if ( $this->extensions )
-			$this->json['extensions'] = implode( ',', $this->extensions );
+			// Get the attachment model for the existing file.
+			if ( $this->value() ) {
+				$attachment_id = attachment_url_to_postid( $this->value() );
+				if ( $attachment_id ) {
+					$this->json['attachment'] = wp_prepare_attachment_for_js( $attachment_id);
+				}
+			} else if ( $this->setting->default ) {
+				// Set the default as the attachment.
+				$this->json['attachment'] = $default_attachment;
+			}
+		}
 	}
 
 	/**
-	 * Render the control's content.
+	 * Don't render any content for this control from PHP.
 	 *
+	 * @see WP_Customize_Upload_Control::content_template()
 	 * @since 3.4.0
 	 */
-	public function render_content() {
+	public function render_content() {}
+
+	/**
+	 * Render a JS template for the content of the upload control.
+	 *
+	 * @since 4.1.0
+	 */
+	public function content_template() {
 		?>
-		<label>
-			<?php if ( ! empty( $this->label ) ) : ?>
-				<span class="customize-control-title"><?php echo esc_html( $this->label ); ?></span>
-			<?php endif;
-			if ( ! empty( $this->description ) ) : ?>
-				<span class="description customize-control-description"><?php echo $this->description; ?></span>
-			<?php endif; ?>
-			<div>
-				<a href="#" class="button-secondary upload"><?php _e( 'Upload' ); ?></a>
-				<a href="#" class="remove"><?php _e( 'Remove' ); ?></a>
-			</div>
+		<label for="{{ data.settings.default }}-button">
+			<# if ( data.label ) { #>
+				<span class="customize-control-title">{{ data.label }}</span>
+			<# } #>
+			<# if ( data.description ) { #>
+				<span class="description customize-control-description">{{ data.description }}</span>
+			<# } #>
 		</label>
+
+		<# // Ensure that the default attachment is used if it exists.
+		if ( _.isEmpty( data.attachment ) && data.defaultAttachment ) {
+			data.attachment = data.defaultAttachment;
+		}
+
+		if ( data.attachment && data.attachment.id ) { #>
+			<div class="attachment-media-view {{ data.attachment.orientation }}">
+				<div class="thumbnail thumbnail-{{ data.attachment.type }}">
+					<# if ( 'image' === data.attachment.type && data.attachment.sizes && data.attachment.sizes.medium ) { #>
+						<img class="attachment-thumb" src="{{ data.attachment.sizes.medium.url }}" draggable="false" />
+					<# } else if ( 'image' === data.attachment.type && data.attachment.sizes && data.attachment.sizes.full ) { #>
+						<img class="attachment-thumb" src="{{ data.attachment.sizes.full.url }}" draggable="false" />
+					<# } else if ( -1 === jQuery.inArray( data.attachment.type, [ 'audio', 'video' ] ) ) { #>
+						<img class="attachment-thumb type-icon" src="{{ data.attachment.icon }}" class="icon" draggable="false" />
+						<p class="attachment-title">{{ data.attachment.title }}</p>
+					<# } #>
+
+					<# if ( 'audio' === data.attachment.type ) { #>
+					<div class="wp-media-wrapper">
+						<p class="attachment-title">{{ data.attachment.title }}</p>
+						<audio style="visibility: hidden" controls class="wp-audio-shortcode" width="100%" preload="none">
+							<source type="{{ data.attachment.mime }}" src="{{ data.attachment.url }}"/>
+						</audio>
+					</div>
+					<# } else if ( 'video' === data.attachment.type ) {
+						var w_rule = h_rule = '';
+						if ( data.attachment.width ) {
+							w_rule = 'width: ' + data.attachment.width + 'px;';
+						} else if ( wp.media.view.settings.contentWidth ) {
+							w_rule = 'width: ' + wp.media.view.settings.contentWidth + 'px;';
+						}
+						if ( data.attachment.height ) {
+							h_rule = 'height: ' + data.attachment.height + 'px;';
+						}
+						#>
+						<div style="{{ w_rule }}{{ h_rule }}" class="wp-media-wrapper wp-video">
+							<video controls="controls" class="wp-video-shortcode" preload="metadata"
+								<# if ( data.attachment.width ) { #>width="{{ data.attachment.width }}"<# } #>
+								<# if ( data.attachment.height ) { #>height="{{ data.attachment.height }}"<# } #>
+								<# if ( data.attachment.image && data.attachment.image.src !== data.attachment.icon ) { #>poster="{{ data.attachment.image.src }}"<# } #>>
+								<source type="{{ data.attachment.mime }}" src="{{ data.attachment.url }}"/>
+							</video>
+						</div>
+					<# } #>
+				</div>
+			</div>
+			<a class="button upload-button" id="{{ data.settings.default }}-button" href="#"><?php echo $this->button_labels['change']; ?></a>
+			<# if ( data.defaultAttachment && data.defaultAttachment.id !== data.attachment.id ) { #>
+				<a class="default-button remove-button" href="#"><?php echo $this->button_labels['default']; ?></a>
+			<# } else { #>
+				<a class="remove-button" href="#"><?php echo $this->button_labels['remove']; ?></a>
+			<# } #>
+		<# } else { #>
+			<p class="placeholder-text"><?php echo $this->button_labels['placeholder']; ?></p>
+			<a class="button upload-button" id="{{ data.settings.default }}-button" href="#"><?php echo $this->button_labels['select']; ?></a>
+			<# if ( ! data.defaultAttachment ) { #>
+				<a class="default-button remove-button" href="#"><?php echo $this->button_labels['default']; ?></a>
+			<# } #>
+		<# } #>
 		<?php
 	}
 }
@@ -701,11 +812,7 @@ class WP_Customize_Upload_Control extends WP_Customize_Control {
  */
 class WP_Customize_Image_Control extends WP_Customize_Upload_Control {
 	public $type = 'image';
-	public $get_url;
-	public $statuses;
-	public $extensions = array( 'jpg', 'jpeg', 'gif', 'png' );
-
-	protected $tabs = array();
+	public $mime_type = 'image';
 
 	/**
 	 * Constructor.
@@ -714,168 +821,53 @@ class WP_Customize_Image_Control extends WP_Customize_Upload_Control {
 	 * @uses WP_Customize_Upload_Control::__construct()
 	 *
 	 * @param WP_Customize_Manager $manager
-	 * @param string $id
-	 * @param array $args
 	 */
-	public function __construct( $manager, $id, $args ) {
-		$this->statuses = array( '' => __('No Image') );
-
+	public function __construct( $manager, $id, $args = array() ) {
 		parent::__construct( $manager, $id, $args );
 
-		$this->add_tab( 'upload-new', __('Upload New'), array( $this, 'tab_upload_new' ) );
-		$this->add_tab( 'uploaded',   __('Uploaded'),   array( $this, 'tab_uploaded' ) );
-
-		// Early priority to occur before $this->manager->prepare_controls();
-		add_action( 'customize_controls_init', array( $this, 'prepare_control' ), 5 );
+		$this->button_labels = array(
+			'select'       => __( 'Select Image' ),
+			'change'       => __( 'Change Image' ),
+			'remove'       => __( 'Remove' ),
+			'default'      => __( 'Default' ),
+			'placeholder'  => __( 'No image selected' ),
+			'frame_title'  => __( 'Select Image' ),
+			'frame_button' => __( 'Choose Image' ),
+		);
 	}
 
 	/**
-	 * Prepares the control.
-	 *
-	 * If no tabs exist, removes the control from the manager.
-	 *
 	 * @since 3.4.2
+	 * @deprecated 4.1.0
 	 */
-	public function prepare_control() {
-		if ( ! $this->tabs )
-			$this->manager->remove_control( $this->id );
-	}
+	public function prepare_control() {}
 
 	/**
-	 * Refresh the parameters passed to the JavaScript via JSON.
-	 *
 	 * @since 3.4.0
-	 * @uses WP_Customize_Upload_Control::to_json()
-	 */
-	public function to_json() {
-		parent::to_json();
-		$this->json['statuses'] = $this->statuses;
-	}
-
-	/**
-	 * Render the control's content.
-	 *
-	 * @since 3.4.0
-	 */
-	public function render_content() {
-		$src = $this->value();
-		if ( isset( $this->get_url ) )
-			$src = call_user_func( $this->get_url, $src );
-
-		?>
-		<div class="customize-image-picker">
-			<?php if ( ! empty( $this->label ) ) : ?>
-				<span class="customize-control-title"><?php echo esc_html( $this->label ); ?></span>
-			<?php endif;
-			if ( ! empty( $this->description ) ) : ?>
-				<span class="description customize-control-description"><?php echo $this->description; ?></span>
-			<?php endif; ?>
-
-			<div class="customize-control-content">
-				<div class="dropdown preview-thumbnail" tabindex="0">
-					<div class="dropdown-content">
-						<?php if ( empty( $src ) ): ?>
-							<img style="display:none;" />
-						<?php else: ?>
-							<img src="<?php echo esc_url( set_url_scheme( $src ) ); ?>" />
-						<?php endif; ?>
-						<div class="dropdown-status"></div>
-					</div>
-					<div class="dropdown-arrow"></div>
-				</div>
-			</div>
-
-			<div class="library">
-				<ul>
-					<?php foreach ( $this->tabs as $id => $tab ): ?>
-						<li data-customize-tab='<?php echo esc_attr( $id ); ?>' tabindex='0'>
-							<?php echo esc_html( $tab['label'] ); ?>
-						</li>
-					<?php endforeach; ?>
-				</ul>
-				<?php foreach ( $this->tabs as $id => $tab ): ?>
-					<div class="library-content" data-customize-tab='<?php echo esc_attr( $id ); ?>'>
-						<?php call_user_func( $tab['callback'] ); ?>
-					</div>
-				<?php endforeach; ?>
-			</div>
-
-			<div class="actions">
-				<a href="#" class="remove"><?php _e( 'Remove Image' ); ?></a>
-			</div>
-		</div>
-		<?php
-	}
-
-	/**
-	 * Add a tab to the control.
-	 *
-	 * @since 3.4.0
+	 * @deprecated 4.1.0
 	 *
 	 * @param string $id
 	 * @param string $label
 	 * @param mixed $callback
 	 */
-	public function add_tab( $id, $label, $callback ) {
-		$this->tabs[ $id ] = array(
-			'label'    => $label,
-			'callback' => $callback,
-		);
-	}
+	public function add_tab( $id, $label, $callback ) {}
 
 	/**
-	 * Remove a tab from the control.
-	 *
 	 * @since 3.4.0
+	 * @deprecated 4.1.0
 	 *
 	 * @param string $id
 	 */
-	public function remove_tab( $id ) {
-		unset( $this->tabs[ $id ] );
-	}
+	public function remove_tab( $id ) {}
 
 	/**
 	 * @since 3.4.0
-	 */
-	public function tab_upload_new() {
-		if ( ! _device_can_upload() ) {
-			echo '<p>' . sprintf( __('The web browser on your device cannot be used to upload files. You may be able to use the <a href="%s">native app for your device</a> instead.'), 'https://apps.wordpress.org/' ) . '</p>';
-		} else {
-			?>
-			<div class="upload-dropzone">
-				<?php _e('Drop a file here or <a href="#" class="upload">select a file</a>.'); ?>
-			</div>
-			<div class="upload-fallback">
-				<span class="button-secondary"><?php _e('Select File'); ?></span>
-			</div>
-			<?php
-		}
-	}
-
-	/**
-	 * @since 3.4.0
-	 */
-	public function tab_uploaded() {
-		?>
-		<div class="uploaded-target"></div>
-		<?php
-	}
-
-	/**
-	 * @since 3.4.0
+	 * @deprecated 4.1.0
 	 *
 	 * @param string $url
 	 * @param string $thumbnail_url
 	 */
-	public function print_tab_image( $url, $thumbnail_url = null ) {
-		$url = set_url_scheme( $url );
-		$thumbnail_url = ( $thumbnail_url ) ? set_url_scheme( $thumbnail_url ) : $url;
-		?>
-		<a href="#" class="thumbnail" data-customize-image-value="<?php echo esc_url( $url ); ?>">
-			<img src="<?php echo esc_url( $thumbnail_url ); ?>" />
-		</a>
-		<?php
-	}
+	public function print_tab_image( $url, $thumbnail_url = null ) {}
 }
 
 /**
@@ -899,41 +891,7 @@ class WP_Customize_Background_Image_Control extends WP_Customize_Image_Control {
 		parent::__construct( $manager, 'background_image', array(
 			'label'    => __( 'Background Image' ),
 			'section'  => 'background_image',
-			'context'  => 'custom-background',
-			'get_url'  => 'get_background_image',
 		) );
-
-		if ( $this->setting->default )
-			$this->add_tab( 'default',  __('Default'),  array( $this, 'tab_default_background' ) );
-	}
-
-	/**
-	 * @since 3.4.0
-	 */
-	public function tab_uploaded() {
-		$backgrounds = get_posts( array(
-			'post_type'  => 'attachment',
-			'meta_key'   => '_wp_attachment_is_custom_background',
-			'meta_value' => $this->manager->get_stylesheet(),
-			'orderby'    => 'none',
-			'nopaging'   => true,
-		) );
-
-		?><div class="uploaded-target"></div><?php
-
-		if ( empty( $backgrounds ) )
-			return;
-
-		foreach ( (array) $backgrounds as $background )
-			$this->print_tab_image( esc_url_raw( $background->guid ) );
-	}
-
-	/**
-	 * @since 3.4.0
-	 * @uses WP_Customize_Image_Control::print_tab_image()
-	 */
-	public function tab_default_background() {
-		$this->print_tab_image( $this->setting->default );
 	}
 }
 

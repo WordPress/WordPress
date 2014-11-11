@@ -5,7 +5,7 @@
 	// @todo Move private helper functions to wp.customize.utils so they can be unit tested
 
 	/**
-	 * @constructor
+	 * @class
 	 * @augments wp.customize.Value
 	 * @augments wp.customize.Class
 	 *
@@ -127,7 +127,7 @@
 	/**
 	 * Base class for Panel and Section
 	 *
-	 * @constructor
+	 * @class
 	 * @augments wp.customize.Class
 	 */
 	Container = api.Class.extend({
@@ -316,7 +316,7 @@
 	});
 
 	/**
-	 * @constructor
+	 * @class
 	 * @augments wp.customize.Class
 	 */
 	api.Section = Container.extend({
@@ -471,7 +471,7 @@
 	});
 
 	/**
-	 * @constructor
+	 * @class
 	 * @augments wp.customize.Class
 	 */
 	api.Panel = Container.extend({
@@ -640,8 +640,26 @@
 	});
 
 	/**
-	 * @constructor
+	 * A Customizer Control.
+	 *
+	 * A control provides a UI element that allows a user to modify a Customizer Setting.
+	 *
+	 * @see PHP class WP_Customize_Control.
+	 *
+	 * @class
 	 * @augments wp.customize.Class
+	 *
+	 * @param {string} id                            Unique identifier for the control instance.
+	 * @param {object} options                       Options hash for the control instance.
+	 * @param {object} options.params
+	 * @param {object} options.params.type           Type of control (e.g. text, radio, dropdown-pages, etc.)
+	 * @param {string} options.params.content        The HTML content for the control.
+	 * @param {string} options.params.priority       Order of priority to show the control within the section.
+	 * @param {string} options.params.active
+	 * @param {string} options.params.section
+	 * @param {string} options.params.label
+	 * @param {string} options.params.description
+	 * @param {string} options.params.instanceNumber Order in which this instance was created in relation to other instances.
 	 */
 	api.Control = api.Class.extend({
 		defaultActiveArguments: { duration: 'fast', completeCallback: $.noop },
@@ -652,7 +670,6 @@
 
 			control.params = {};
 			$.extend( control, options || {} );
-
 			control.id = id;
 			control.selector = '#customize-control-' + id.replace( /\]/g, '' ).replace( /\[/g, '-' );
 			control.templateSelector = 'customize-control-' + control.params.type + '-content';
@@ -728,7 +745,7 @@
 		},
 
 		/**
-		 *
+		 * Embed the control into the page.
 		 */
 		embed: function () {
 			var control = this,
@@ -758,6 +775,8 @@
 		},
 
 		/**
+		 * Triggered when the control's markup has been injected into the DOM.
+		 *
 		 * @abstract
 		 */
 		ready: function() {},
@@ -865,17 +884,20 @@
 			var template,
 				control = this;
 
+			// Replace the container element's content with the control.
 			if ( 0 !== $( '#tmpl-' + control.templateSelector ).length ) {
 				template = wp.template( control.templateSelector );
 				if ( template && control.container ) {
-					control.container.append( template( control.params ) );
+					control.container.html( template( control.params ) );
 				}
 			}
 		}
 	});
 
 	/**
-	 * @constructor
+	 * A colorpicker control.
+	 *
+	 * @class
 	 * @augments wp.customize.Control
 	 * @augments wp.customize.Class
 	 */
@@ -901,192 +923,141 @@
 	});
 
 	/**
-	 * @constructor
+	 * An upload control, which utilizes the media modal.
+	 *
+	 * @class
 	 * @augments wp.customize.Control
 	 * @augments wp.customize.Class
 	 */
 	api.UploadControl = api.Control.extend({
-		ready: function() {
+
+		/**
+		 * When the control's DOM structure is ready,
+		 * set up internal event bindings.
+		 */
+ 		ready: function() {
 			var control = this;
+			// Shortcut so that we don't have to use _.bind every time we add a callback.
+			_.bindAll( control, 'restoreDefault', 'removeFile', 'openFrame', 'select' );
 
-			this.params.removed = this.params.removed || '';
+			// Bind events, with delegation to facilitate re-rendering.
+			control.container.on( 'click keydown', '.upload-button', control.openFrame );
+			control.container.on( 'click keydown', '.thumbnail-image img', control.openFrame );
+			control.container.on( 'click keydown', '.default-button', control.restoreDefault );
+			control.container.on( 'click keydown', '.remove-button', control.removeFile );
 
-			this.success = $.proxy( this.success, this );
+			// Re-render whenever the control's setting changes.
+			control.setting.bind( function () { control.renderContent(); } );
+		},
 
-			this.uploader = $.extend({
-				container: this.container,
-				browser:   this.container.find('.upload'),
-				dropzone:  this.container.find('.upload-dropzone'),
-				success:   this.success,
-				plupload:  {},
-				params:    {}
-			}, this.uploader || {} );
+		/**
+		 * Open the media modal.
+		 */
+		openFrame: function( event ) {
+			if ( event.type === 'keydown' &&  13 !== event.which ) { // enter
+				return;
+ 			}
 
-			if ( control.params.extensions ) {
-				control.uploader.plupload.filters = [{
-					title:      api.l10n.allowedFiles,
-					extensions: control.params.extensions
-				}];
+			event.preventDefault();
+
+			if ( ! this.frame ) {
+				this.initFrame();
 			}
 
-			if ( control.params.context )
-				control.uploader.params['post_data[context]'] = this.params.context;
-
-			if ( api.settings.theme.stylesheet )
-				control.uploader.params['post_data[theme]'] = api.settings.theme.stylesheet;
-
-			this.uploader = new wp.Uploader( this.uploader );
-
-			this.remover = this.container.find('.remove');
-			this.remover.on( 'click keydown', function( event ) {
-				if ( isKeydownButNotEnterEvent( event ) ) {
-					return;
-				}
-
-				control.setting.set( control.params.removed );
-				event.preventDefault();
-			});
-
-			this.removerVisibility = $.proxy( this.removerVisibility, this );
-			this.setting.bind( this.removerVisibility );
-			this.removerVisibility( this.setting.get() );
+			this.frame.open();
 		},
-		success: function( attachment ) {
-			this.setting.set( attachment.get('url') );
+
+		/**
+		 * Create a media modal select frame, and store it so the instance can be reused when needed.
+		 */
+		initFrame: function() {
+			this.frame = wp.media({
+				// The title of the media modal.
+				title: this.params.button_labels.frame_title,
+
+				// Restrict the library to specified mime type.
+				library: {
+					type: this.params.mime_type
+				},
+				button: {
+					// Change the submit button label.
+					text: this.params.button_labels.frame_button
+				},
+				multiple: false
+ 			});
+
+			// When a file is selected, run a callback.
+			this.frame.on( 'select', this.select );
+ 		},
+
+		/**
+		 * Callback handler for when an attachment is selected in the media modal.
+		 * Gets the selected image information, and sets it within the control.
+		 */
+		select: function() {
+			// Get the attachment from the modal frame.
+			var attachment = this.frame.state().get( 'selection' ).first().toJSON();
+
+			this.params.attachment = attachment;
+
+			// Set the Customizer setting; the callback takes care of rendering.
+			this.setting( attachment.url );
 		},
-		removerVisibility: function( to ) {
-			this.remover.toggle( to != this.params.removed );
-		}
-	});
+
+		/**
+		 * Reset the setting to the default value.
+		 */
+		restoreDefault: function( event ) {
+			if ( event.type === 'keydown' &&  13 !== event.which ) { // enter
+				return;
+			}
+			event.preventDefault();
+
+			this.params.attachment = this.params.defaultAttachment;
+			this.setting( this.params.defaultAttachment.url );
+ 		},
+
+		/**
+		 * Called when the "Remove" link is clicked. Empties the setting.
+		 *
+		 * @param {object} event jQuery Event object
+		 */
+		removeFile: function( event ) {
+			if ( event.type === 'keydown' &&  13 !== event.which ) { // enter
+				return;
+ 			}
+			event.preventDefault();
+
+			this.params.attachment = {};
+			this.setting( '' );
+			this.renderContent(); // Not bound to setting change when emptying.
+ 		},
+
+		// @deprecated
+		success: function() {},
+
+		// @deprecated
+		removerVisibility: function() {}
+ 	});
 
 	/**
-	 * @constructor
+	 * A control for uploading images.
+	 *
+	 * This control no longer needs to do anything more
+	 * than what the upload control does in JS.
+	 *
+	 * @class
 	 * @augments wp.customize.UploadControl
 	 * @augments wp.customize.Control
 	 * @augments wp.customize.Class
 	 */
 	api.ImageControl = api.UploadControl.extend({
-		ready: function() {
-			var control = this,
-				panels;
-
-			this.uploader = {
-				init: function() {
-					var fallback, button;
-
-					if ( this.supports.dragdrop )
-						return;
-
-					// Maintain references while wrapping the fallback button.
-					fallback = control.container.find( '.upload-fallback' );
-					button   = fallback.children().detach();
-
-					this.browser.detach().empty().append( button );
-					fallback.append( this.browser ).show();
-				}
-			};
-
-			api.UploadControl.prototype.ready.call( this );
-
-			this.thumbnail    = this.container.find('.preview-thumbnail img');
-			this.thumbnailSrc = $.proxy( this.thumbnailSrc, this );
-			this.setting.bind( this.thumbnailSrc );
-
-			this.library = this.container.find('.library');
-
-			// Generate tab objects
-			this.tabs = {};
-			panels    = this.library.find('.library-content');
-
-			this.library.children('ul').children('li').each( function() {
-				var link  = $(this),
-					id    = link.data('customizeTab'),
-					panel = panels.filter('[data-customize-tab="' + id + '"]');
-
-				control.tabs[ id ] = {
-					both:  link.add( panel ),
-					link:  link,
-					panel: panel
-				};
-			});
-
-			// Bind tab switch events
-			this.library.children('ul').on( 'click keydown', 'li', function( event ) {
-				if ( isKeydownButNotEnterEvent( event ) ) {
-					return;
-				}
-
-				var id  = $(this).data('customizeTab'),
-					tab = control.tabs[ id ];
-
-				event.preventDefault();
-
-				if ( tab.link.hasClass('library-selected') )
-					return;
-
-				control.selected.both.removeClass('library-selected');
-				control.selected = tab;
-				control.selected.both.addClass('library-selected');
-			});
-
-			// Bind events to switch image urls.
-			this.library.on( 'click keydown', 'a', function( event ) {
-				if ( isKeydownButNotEnterEvent( event ) ) {
-					return;
-				}
-
-				var value = $(this).data('customizeImageValue');
-
-				if ( value ) {
-					control.setting.set( value );
-					event.preventDefault();
-				}
-			});
-
-			if ( this.tabs.uploaded ) {
-				this.tabs.uploaded.target = this.library.find('.uploaded-target');
-				if ( ! this.tabs.uploaded.panel.find('.thumbnail').length )
-					this.tabs.uploaded.both.addClass('hidden');
-			}
-
-			// Select a tab
-			panels.each( function() {
-				var tab = control.tabs[ $(this).data('customizeTab') ];
-
-				// Select the first visible tab.
-				if ( ! tab.link.hasClass('hidden') ) {
-					control.selected = tab;
-					tab.both.addClass('library-selected');
-					return false;
-				}
-			});
-
-			this.dropdownInit();
-		},
-		success: function( attachment ) {
-			api.UploadControl.prototype.success.call( this, attachment );
-
-			// Add the uploaded image to the uploaded tab.
-			if ( this.tabs.uploaded && this.tabs.uploaded.target.length ) {
-				this.tabs.uploaded.both.removeClass('hidden');
-
-				// @todo: Do NOT store this on the attachment model. That is bad.
-				attachment.element = $( '<a href="#" class="thumbnail"></a>' )
-					.data( 'customizeImageValue', attachment.get('url') )
-					.append( '<img src="' +  attachment.get('url')+ '" />' )
-					.appendTo( this.tabs.uploaded.target );
-			}
-		},
-		thumbnailSrc: function( to ) {
-			if ( /^(https?:)?\/\//.test( to ) )
-				this.thumbnail.prop( 'src', to ).show();
-			else
-				this.thumbnail.hide();
-		}
+		// @deprecated
+		thumbnailSrc: function() {}
 	});
 
 	/**
-	 * @constructor
+	 * @class
 	 * @augments wp.customize.Control
 	 * @augments wp.customize.Class
 	 */
@@ -1233,9 +1204,19 @@
 			this.frame.open();
 		},
 
+		/**
+		 * After an image is selected in the media modal,
+		 * switch to the cropper state.
+		 */
 		onSelect: function() {
 			this.frame.setState('cropper');
 		},
+
+		/**
+		 * After the image has been cropped, apply the cropped image data to the setting.
+		 *
+		 * @param {object} croppedImage Cropped attachment data.
+		 */
 		onCropped: function(croppedImage) {
 			var url = croppedImage.post_content,
 				attachmentId = croppedImage.attachment_id,
@@ -1243,6 +1224,12 @@
 				h = croppedImage.height;
 			this.setImageFromURL(url, attachmentId, w, h);
 		},
+
+		/**
+		 * If cropping was skipped, apply the image data directly to the setting.
+		 *
+		 * @param {object} selection
+		 */
 		onSkippedCrop: function(selection) {
 			var url = selection.get('url'),
 				w = selection.get('width'),
@@ -1309,7 +1296,7 @@
 	api.panel = new api.Values({ defaultConstructor: api.Panel });
 
 	/**
-	 * @constructor
+	 * @class
 	 * @augments wp.customize.Messenger
 	 * @augments wp.customize.Class
 	 * @mixes wp.customize.Events
@@ -1523,7 +1510,7 @@
 	};
 
 	/**
-	 * @constructor
+	 * @class
 	 * @augments wp.customize.Messenger
 	 * @augments wp.customize.Class
 	 * @mixes wp.customize.Events

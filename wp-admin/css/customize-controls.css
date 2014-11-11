@@ -10,6 +10,10 @@ body {
 	font-size: 14px;
 }
 
+#customize-controls img {
+	max-width: 100%;
+}
+
 #customize-controls .submit {
 	text-align: center;
 }
@@ -412,6 +416,40 @@ p.customize-section-description {
 
 .customize-control-radio input {
 	margin-right: 5px;
+}
+
+.customize-control .attachment-thumb.type-icon {
+	float: left;
+	margin-right: 12px;
+}
+
+.customize-control .attachment-title {
+	font-weight: bold;
+	margin: 0 0 12px 0;
+}
+
+.customize-control .remove-button {
+	margin-left: 8px;
+	vertical-align: middle;
+}
+
+.customize-control .thumbnail-audio .attachment-title,
+.customize-control .thumbnail.thumbnail-audio,
+.customize-control .thumbnail.thumbnail-video,
+.customize-control .thumbnail.thumbnail-image {
+	margin-bottom: 8px;
+}
+
+.customize-control .placeholder-text {
+	font-size: 18px;
+	font-weight: 300;
+	text-align: center;
+	color: #aaa;
+	cursor: default;
+}
+
+.customize-control .thumbnail-image img {
+	cursor: pointer;
 }
 
 #customize-preview iframe {
