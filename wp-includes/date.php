@@ -386,7 +386,7 @@ class WP_Date_Query {
 
 				$error = sprintf(
 					/* translators: Date query invalid date message: 1: invalid value, 2: type of value, 3: minimum valid value, 4: maximum valid value */
-					__( 'Invalid value %1$s for %2$s. Expected value should between %3$s and %4$s.' ),
+					__( 'Invalid value %1$s for %2$s. Expected value should be between %3$s and %4$s.' ),
 					'<code>' . esc_html( $date_query[ $key ] ) . '</code>',
 					'<code>' . esc_html( $key ) . '</code>',
 					'<code>' . esc_html( $check['min'] ) . '</code>',
