@@ -76,14 +76,23 @@ endif;
 
 $is_ios = wp_is_mobile() && preg_match( '/iPad|iPod|iPhone/', $_SERVER['HTTP_USER_AGENT'] );
 
-if ( $is_ios )
+if ( $is_ios ) {
 	$body_class .= ' ios';
+}
 
-if ( is_rtl() )
-	$body_class .=  ' rtl';
+if ( is_rtl() ) {
+	$body_class .= ' rtl';
+}
 $body_class .= ' locale-' . sanitize_html_class( strtolower( str_replace( '_', '-', get_locale() ) ) );
 
-$admin_title = sprintf( __( '%1$s &#8212; WordPress' ), strip_tags( sprintf( __( 'Customize %s' ), $wp_customize->theme()->display('Name') ) ) );
+if ( $wp_customize->is_theme_active() ) {
+	$document_title_tmpl = _x( 'Customize: %s', 'Placeholder is the document title from the preview' );
+} else {
+	$document_title_tmpl = _x( 'Live Preview: %s', 'Placeholder is the document title from the preview' );
+}
+$document_title_tmpl = html_entity_decode( $document_title_tmpl, ENT_QUOTES, 'UTF-8' ); // because exported to JS and assigned to document.title
+$admin_title = sprintf( $document_title_tmpl, __( 'Loading&hellip;' ) );
+
 ?><title><?php echo $admin_title; ?></title>
 
 <script type="text/javascript">
@@ -253,6 +262,7 @@ do_action( 'customize_controls_print_scripts' );
 			'preview' => wp_create_nonce( 'preview-customize_' . $wp_customize->get_stylesheet() )
 		),
 		'autofocus' => array(),
+		'documentTitleTmpl' => $document_title_tmpl,
 	);
 
 	// Prepare Customize Setting objects to pass to Javascript.

@@ -78,7 +78,7 @@ window.wp = window.wp || {};
 				Loader.open( Loader.settings.url + '?' + hash );
 			}
 
-			if ( ! hash && ! $.support.history ){
+			if ( ! hash && ! $.support.history ) {
 				Loader.close();
 			}
 		},
@@ -104,6 +104,9 @@ window.wp = window.wp || {};
 			if ( Loader.settings.browser.mobile ) {
 				return window.location = src;
 			}
+
+			// Store the document title prior to opening the Live Preview
+			this.originalDocumentTitle = document.title;
 
 			this.active = true;
 			this.body.addClass('customize-loading');
@@ -134,7 +137,7 @@ window.wp = window.wp || {};
 				} else {
 					Loader.close();
 				}
-			} );
+			});
 
 			// Prompt AYS dialog when navigating away
 			$( window ).on( 'beforeunload', this.beforeunload );
@@ -158,15 +161,16 @@ window.wp = window.wp || {};
 		},
 
 		pushState: function ( src ) {
-			var hash;
+			var hash = src.split( '?' )[1];
 
 			// Ensure we don't call pushState if the user hit the forward button.
 			if ( $.support.history && window.location.href !== src ) {
 				history.pushState( { customize: src }, '', src );
 			} else if ( ! $.support.history && $.support.hashchange && hash ) {
-				hash = src.split( '?' )[1];
 				window.location.hash = 'wp_customize=on&' + hash;
 			}
+
+			this.trigger( 'open' );
 		},
 
 		/**
@@ -194,6 +198,11 @@ window.wp = window.wp || {};
 			this.active = false;
 
 			this.trigger( 'close' );
+
+			// Restore document title prior to opening the Live Preview
+			if ( this.originalDocumentTitle ) {
+				document.title = this.originalDocumentTitle;
+			}
 
 			// Return focus to link that was originally clicked.
 			if ( this.link ) {

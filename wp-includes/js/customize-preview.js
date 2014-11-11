@@ -101,10 +101,13 @@
 			preview.send( 'synced' );
 		});
 
-        preview.bind( 'active', function() {
-            if ( api.settings.nonce )
-                preview.send( 'nonce', api.settings.nonce );
-        });
+		preview.bind( 'active', function() {
+			if ( api.settings.nonce ) {
+				preview.send( 'nonce', api.settings.nonce );
+			}
+
+			preview.send( 'documentTitle', document.title );
+		});
 
 		preview.send( 'ready', {
 			activePanels: api.settings.activePanels,

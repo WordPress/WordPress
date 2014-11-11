@@ -1500,6 +1500,21 @@
 	}());
 
 	/**
+	 * Set the document title of the customizer
+	 *
+	 * @param {string} documentTitle
+	 */
+	api.setDocumentTitle = function ( documentTitle ) {
+		var tmpl, title;
+		tmpl = api.settings.documentTitleTmpl;
+		title = tmpl.replace( '%s', documentTitle );
+		document.title = title;
+		if ( window !== window.parent ) {
+			window.parent.document.title = document.title;
+		}
+	};
+
+	/**
 	 * @constructor
 	 * @augments wp.customize.Messenger
 	 * @augments wp.customize.Class
@@ -1617,6 +1632,11 @@
 
 			// Update the URL when the iframe sends a URL message.
 			this.bind( 'url', this.previewUrl );
+
+			// Update the document title when the preview changes
+			this.bind( 'documentTitle', function ( title ) {
+				api.setDocumentTitle( title );
+			} );
 		},
 
 		query: function() {},
