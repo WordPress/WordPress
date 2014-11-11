@@ -2446,6 +2446,7 @@ object,
 video {
 	margin-bottom: 1.6em;
 	max-width: 100%;
+	vertical-align: middle;
 }
 
 p > embed,
