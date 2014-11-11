@@ -1326,6 +1326,11 @@ class wpdb {
 			mysqli_free_result( $this->result );
 			$this->result = null;
 
+			// Sanity check before using the handle
+			if ( empty( $this->dbh ) || !( $this->dbh instanceof mysqli ) ) {
+				return;
+			}
+
 			// Clear out any results from a multi-query
 			while ( mysqli_more_results( $this->dbh ) ) {
 				mysqli_next_result( $this->dbh );
