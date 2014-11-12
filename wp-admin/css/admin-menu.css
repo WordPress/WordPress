@@ -178,7 +178,7 @@
 #adminmenu li.menu-top > a:focus,
 #adminmenu .wp-submenu a:hover,
 #adminmenu .wp-submenu a:focus {
-	color: #2ea2cc;
+	color: #45bbe6;
 }
 
 #adminmenu li.menu-top {
@@ -376,7 +376,7 @@ div.wp-menu-image:before {
 }
 
 #adminmenu li:hover div.wp-menu-image:before {
-	color: #2ea2cc;
+	color: #45bbe6;
 }
 
 .folded #adminmenu div.wp-menu-image {
@@ -524,7 +524,7 @@ ul#adminmenu > li.current > a.current:after {
 
 #adminmenu li.current a .awaiting-mod,
 #adminmenu	li a.wp-has-current-submenu .update-plugins {
-	background-color: #2ea2cc;
+	background-color: #45bbe6;
 	color: #fff;
 }
 
@@ -544,7 +544,7 @@ ul#adminmenu > li.current > a.current:after {
 
 #collapse-menu:hover,
 #collapse-menu:hover #collapse-button div:after {
-	color: #2ea2cc;
+	color: #45bbe6;
 }
 
 .folded #collapse-menu span {
