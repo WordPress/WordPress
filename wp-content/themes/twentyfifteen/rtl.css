@@ -269,6 +269,11 @@ img.alignleft {
 	display: inline;
 }
 
+.entry-content .page-links a,
+.page-content .page-links a {
+	display: inline-block;
+}
+
 .author-link:after {
 	content: "\f430";
 }
@@ -303,7 +308,7 @@ img.alignleft {
 
 .page-links a,
 .page-links > span {
-	margin: 0 0 2px 1px;
+	margin: 0 0 0.3333em 0.3333em;
 }
 
 .page-links > .page-links-title {
@@ -481,6 +486,11 @@ img.alignleft {
 		margin: 0.9643em 1em 0 0;
 	}
 
+	.page-links a,
+	.page-links > span {
+		margin: 0 0 0.2857em 0.2857em;
+	}
+
 	.author-info .avatar {
 		margin: 0 0 1.6471em 1.6471em;
 	}
@@ -547,6 +557,11 @@ img.alignleft {
 	.widget_nav_menu .sub-menu,
 	.widget_pages .children {
 		margin: 0.7188em 1em 0 0;
+	}
+
+	.page-links a,
+	.page-links > span {
+		margin: 0 0 0.25em 0.25em;
 	}
 
 	.author-info .avatar {
@@ -624,6 +639,11 @@ img.alignleft {
 		margin: 0.4583em 1em 0 0;
 	}
 
+	.page-links a,
+	.page-links > span {
+		margin: 0 0 0.3333em 0.3333em;
+	}
+
 	.author-info .avatar {
 		margin: 0 0 1.5em 1.5em;
 	}
@@ -694,6 +714,11 @@ img.alignleft {
 		margin: 0.4643em 1em 0 0;
 	}
 
+	.page-links a,
+	.page-links > span {
+		margin: 0 0 0.2857em 0.2857em;
+	}
+
 	.author-info .avatar {
 		margin: 0 0 1.6471em 1.6471em;
 	}
@@ -753,6 +778,11 @@ img.alignleft {
 	.widget_nav_menu .sub-menu,
 	.widget_pages .children {
 		margin: 0.4688em 1em 0 0;
+	}
+
+	.page-links a,
+	.page-links > span {
+		margin: 0 0 0.25em 0.25em;
 	}
 
 	.author-info .avatar {

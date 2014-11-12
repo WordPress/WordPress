@@ -2027,7 +2027,7 @@ a.post-thumbnail:focus {
 .page-links {
 	clear: both;
 	font-family: "Noto Sans", sans-serif;
-	margin: 0 0 1.4667em;
+	margin-bottom: 1.3333em;
 }
 
 .page-links a,
@@ -2039,7 +2039,7 @@ a.post-thumbnail:focus {
 	font-size: 1.2rem;
 	height: 2em;
 	line-height: 2;
-	margin: 0 6px 2px 0;
+	margin: 0 0.3333em 0.3333em 0;
 	text-align: center;
 	width: 2em;
 }
@@ -3266,7 +3266,12 @@ span > video {
 	}
 
 	.page-links {
-		margin-bottom: 1.5294em;
+		margin-bottom: 1.4117em;
+	}
+
+	.page-links a,
+	.page-links > span {
+		margin: 0 0.2857em 0.2857em 0;
 	}
 
 	.entry-attachment {
@@ -3797,7 +3802,12 @@ span > video {
 	}
 
 	.page-links {
-		margin-bottom: 1.5789em;
+		margin-bottom: 1.4736em;
+	}
+
+	.page-links a,
+	.page-links > span {
+		margin: 0 0.25em 0.25em 0;
 	}
 
 	.entry-attachment {
@@ -4452,7 +4462,12 @@ span > video {
 	}
 
 	.page-links {
-		margin-bottom: 1.4667em;
+		margin-bottom: 1.3333em;
+	}
+
+	.page-links a,
+	.page-links > span {
+		margin: 0 0.3333em 0.3333em 0;
 	}
 
 	.entry-attachment {
@@ -4970,7 +4985,12 @@ span > video {
 	}
 
 	.page-links {
-		margin-bottom: 1.5294em;
+		margin-bottom: 1.4117em;
+	}
+
+	.page-links a,
+	.page-links > span {
+		margin: 0 0.2857em 0.2857em 0;
 	}
 
 	.entry-attachment {
@@ -5483,7 +5503,12 @@ span > video {
 	}
 
 	.page-links {
-		margin-bottom: 1.5789em;
+		margin-bottom: 1.4736em;
+	}
+
+	.page-links a,
+	.page-links > span {
+		margin: 0 0.25em 0.25em 0;
 	}
 
 	.entry-attachment {
