@@ -72,8 +72,8 @@ function twentyfifteen_entry_meta() {
 			esc_html( get_the_modified_date() )
 		);
 
-		printf( '<span class="posted-on">%1$s<a href="%2$s" rel="bookmark">%3$s</a></span>',
-			sprintf( _x( '<span class="screen-reader-text">Posted on</span>', 'Used before publish date.', 'twentyfifteen' ) ),
+		printf( '<span class="posted-on"><span class="screen-reader-text">%1$s</span><a href="%2$s" rel="bookmark">%3$s</a></span>',
+			esc_html_x( 'Posted on', 'Used before publish date.', 'twentyfifteen' ),
 			esc_url( get_permalink() ),
 			$time_string
 		);
@@ -81,8 +81,8 @@ function twentyfifteen_entry_meta() {
 
 	if ( 'post' == get_post_type() ) {
 		if ( is_singular() || is_multi_author() ) {
-			printf( '<span class="byline"><span class="author vcard">%1$s<a class="url fn n" href="%2$s">%3$s</a></span></span>',
-				sprintf( _x( '<span class="screen-reader-text">Author</span>', 'Used before post author name.', 'twentyfifteen' ) ),
+			printf( '<span class="byline"><span class="author vcard"><span class="screen-reader-text">%1$s</span><a class="url fn n" href="%2$s">%3$s</a></span></span>',
+				esc_html_x( 'Author', 'Used before post author name.', 'twentyfifteen' ),
 				esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ),
 				esc_html( get_the_author() )
 			);
@@ -90,16 +90,16 @@ function twentyfifteen_entry_meta() {
 
 		$categories_list = get_the_category_list( _x( ', ', 'Used between list items, there is a space after the comma.', 'twentyfifteen' ) );
 		if ( $categories_list && twentyfifteen_categorized_blog() ) {
-			printf( '<span class="cat-links">%1$s%2$s</span>',
-				sprintf( _x( '<span class="screen-reader-text">Categories</span>', 'Used before category names.', 'twentyfifteen' ) ),
+			printf( '<span class="cat-links"><span class="screen-reader-text">%1$s</span>%2$s</span>',
+				esc_html_x( 'Categories', 'Used before category names.', 'twentyfifteen' ),
 				$categories_list
 			);
 		}
 
 		$tags_list = get_the_tag_list( '', _x( ', ', 'Used between list items, there is a space after the comma.', 'twentyfifteen' ) );
 		if ( $tags_list ) {
-			printf( '<span class="tags-links">%1$s%2$s</span>',
-				sprintf( _x( '<span class="screen-reader-text">Tags</span>', 'Used before tag names.', 'twentyfifteen' ) ),
+			printf( '<span class="tags-links"><span class="screen-reader-text">%1$s</span>%2$s</span>',
+				esc_html_x( 'Tags', 'Used before tag names.', 'twentyfifteen' ),
 				$tags_list
 			);
 		}
@@ -109,8 +109,8 @@ function twentyfifteen_entry_meta() {
 		// Retrieve attachment metadata.
 		$metadata = wp_get_attachment_metadata();
 
-		printf( '<span class="full-size-link">%1$s<a href="%2$s">%3$s &times; %4$s</a></span>',
-			sprintf( _x( '<span class="screen-reader-text">Full size</span>', 'Used before full size attachment link.', 'twentyfifteen' ) ),
+		printf( '<span class="full-size-link"><span class="screen-reader-text">%1$s</span><a href="%2$s">%3$s &times; %4$s</a></span>',
+			esc_html_x( 'Full size', 'Used before full size attachment link.', 'twentyfifteen' ),
 			esc_url( wp_get_attachment_url() ),
 			$metadata['width'],
 			$metadata['height']
