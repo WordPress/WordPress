@@ -1025,14 +1025,18 @@ a:focus {
 	text-align: center;
 }
 
-.pagination .meta-nav {
-	margin-right: 0.3333em;
+/* reset screen-reader-text */
+.pagination .current .screen-reader-text {
+	position: static !important;
 }
 
 .pagination .page-numbers {
 	display: none;
 	line-height: 3.2em;
 	padding: 0 0.6667em;
+}
+
+.pagination .page-numbers.current {
 	text-transform: uppercase;
 }
 
@@ -2754,12 +2758,13 @@ span > video {
 		padding: 0;
 	}
 
-	.pagination .page-numbers {
-		display: inline-block;
+	/* restore screen-reader-text */
+	.pagination .current .screen-reader-text {
+		position: absolute !important;
 	}
 
-	.pagination .meta-nav {
-		display: none;
+	.pagination .page-numbers {
+		display: inline-block;
 	}
 
 	.image-navigation {
