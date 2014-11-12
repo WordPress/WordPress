@@ -34,7 +34,7 @@ function twentyfifteen_customize_register( $wp_customize ) {
 	) );
 
 	$wp_customize->add_control( 'color_scheme', array(
-		'label'    => esc_html__( 'Color Scheme', 'twentyfifteen' ),
+		'label'    => esc_html__( 'Base Color Scheme', 'twentyfifteen' ),
 		'section'  => 'colors',
 		'type'     => 'select',
 		'choices'  => twentyfifteen_get_color_scheme_choices(),
