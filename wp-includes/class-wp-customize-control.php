@@ -616,10 +616,10 @@ class WP_Customize_Color_Control extends WP_Customize_Control {
 		} #>
 		<label>
 			<# if ( data.label ) { #>
-				<span class="customize-control-title">{{ data.label }}</span>
+				<span class="customize-control-title">{{{ data.label }}}</span>
 			<# } #>
 			<# if ( data.description ) { #>
-				<span class="description customize-control-description">{{ data.description }}</span>
+				<span class="description customize-control-description">{{{ data.description }}}</span>
 			<# } #>
 			<div class="customize-control-content">
 				<input class="color-picker-hex" type="text" maxlength="7" placeholder="<?php esc_attr_e( 'Hex Value' ); ?>" {{ defaultValue }} />
