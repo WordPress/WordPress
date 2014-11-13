@@ -2032,7 +2032,7 @@ final class WP_Internal_Pointers {
 			$selector = '.theme.active .customize';
 			$position = array( 'edge' => is_rtl() ? 'right' : 'left', 'align' => 'center' );
 		} else {
-			$selector = 'a[href="customize.php"]';
+			$selector = 'a[href^="customize.php"]';
 			if ( is_rtl() ) {
 				$position = array( 'edge' => 'right', 'align' => 'center', 'my' => 'right-5px' );
 			} else {
