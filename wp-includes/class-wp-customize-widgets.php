@@ -468,6 +468,7 @@ final class WP_Customize_Widgets {
 						'description' => $GLOBALS['wp_registered_sidebars'][ $sidebar_id ]['description'],
 						'priority' => array_search( $sidebar_id, array_keys( $wp_registered_sidebars ) ),
 						'panel' => 'widgets',
+						'sidebar_id' => $sidebar_id,
 					);
 
 					/**
@@ -481,7 +482,8 @@ final class WP_Customize_Widgets {
 					 */
 					$section_args = apply_filters( 'customizer_widgets_section_args', $section_args, $section_id, $sidebar_id );
 
-					$this->manager->add_section( $section_id, $section_args );
+					$section = new WP_Customize_Sidebar_Section( $this->manager, $section_id, $section_args );
+					$this->manager->add_section( $section );
 
 					$control = new WP_Widget_Area_Customize_Control( $this->manager, $setting_id, array(
 						'section'    => $section_id,

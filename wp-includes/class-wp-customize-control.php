@@ -1115,17 +1115,6 @@ class WP_Widget_Area_Customize_Control extends WP_Customize_Control {
 		<?php
 	}
 
-	/**
-	 * Whether the current sidebar is rendered on the page.
-	 *
-	 * @since 4.0.0
-	 * @access public
-	 *
-	 * @return bool Whether sidebar is rendered.
-	 */
-	public function active_callback() {
-		return $this->manager->widgets->is_sidebar_rendered( $this->sidebar_id );
-	}
 }
 
 /**

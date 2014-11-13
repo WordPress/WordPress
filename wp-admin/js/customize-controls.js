@@ -1348,23 +1348,22 @@
 					return;
 				}
 
+				/*
+				 * Walk over all panels, sections, and controls and set their
+				 * respective active states to true if the preview explicitly
+				 * indicates as such.
+				 */
 				var constructs = {
 					panel: data.activePanels,
 					section: data.activeSections,
 					control: data.activeControls
 				};
-
-				$.each( constructs, function ( type, activeConstructs ) {
-					if ( activeConstructs ) {
-						$.each( activeConstructs, function ( id, active ) {
-							var construct = api[ type ]( id );
-							if ( construct ) {
-								construct.active( active );
-							}
-						} );
-					}
+				_( constructs ).each( function ( activeConstructs, type ) {
+					api[ type ].each( function ( construct, id ) {
+						var active = !! ( activeConstructs && activeConstructs[ id ] );
+						construct.active( active );
+					} );
 				} );
-
 			} );
 
 			this.request = $.ajax( this.previewUrl(), {

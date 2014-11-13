@@ -1368,10 +1368,53 @@
 	} );
 
 	/**
+	 * wp.customize.Widgets.SidebarSection
+	 *
+	 * Customizer section representing a widget area widget
+	 *
+	 * @since 4.1.0
+	 */
+	api.Widgets.SidebarSection = api.Section.extend({
+
+		/**
+		 * Sync the section's active state back to the Backbone model's is_rendered attribute
+		 */
+		ready: function () {
+			var section = this, registeredSidebar;
+			api.Section.prototype.ready.call( this );
+			registeredSidebar = api.Widgets.registeredSidebars.get( section.params.sidebarId );
+			section.active.bind( function ( active ) {
+				registeredSidebar.set( 'is_rendered', active );
+			});
+			registeredSidebar.set( 'is_rendered', section.active() );
+		},
+
+		/**
+		 * Override Section.isContextuallyActive() to skip considering
+		 * SidebarControl  as opposed to a WidgetControl.
+		 *
+		 * @returns {boolean}
+		 */
+		isContextuallyActive: function () {
+			var section, activeCount;
+			section = this;
+			activeCount = 0;
+			_( section.controls() ).each( function ( control ) {
+				if ( control.active() && ! control.extended( api.Widgets.SidebarControl ) ) {
+					activeCount += 1;
+				}
+			});
+			return ( activeCount !== 0 );
+		}
+	});
+
+	/**
 	 * wp.customize.Widgets.SidebarControl
 	 *
 	 * Customizer control for widgets.
 	 * Note that 'sidebar_widgets' must match the WP_Widget_Area_Customize_Control::$type
+	 *
+	 * @since 3.9.0
 	 *
 	 * @constructor
 	 * @augments wp.customize.Control
@@ -1395,8 +1438,7 @@
 		 * Update ordering of widget control forms when the setting is updated
 		 */
 		_setupModel: function() {
-			var self = this,
-				registeredSidebar = api.Widgets.registeredSidebars.get( this.params.sidebar_id );
+			var self = this;
 
 			this.setting.bind( function( newWidgetIds, oldWidgetIds ) {
 				var widgetFormControls, removedWidgetIds, priority;
@@ -1499,13 +1541,6 @@
 
 				} );
 			} );
-
-			// Update the model with whether or not the sidebar is rendered
-			self.active.bind( function ( active ) {
-				registeredSidebar.set( 'is_rendered', active );
-				api.section( self.section.get() ).active( active );
-			} );
-			api.section( self.section.get() ).active( self.active() );
 		},
 
 		/**
@@ -1816,10 +1851,10 @@
 		}
 	} );
 
-	/**
-	 * Extends wp.customizer.controlConstructor with control constructor for
-	 * widget_form and sidebar_widgets.
-	 */
+	// Register models for custom section and control types
+	$.extend( api.sectionConstructor, {
+		sidebar: api.Widgets.SidebarSection
+	});
 	$.extend( api.controlConstructor, {
 		widget_form: api.Widgets.WidgetControl,
 		sidebar_widgets: api.Widgets.SidebarControl
