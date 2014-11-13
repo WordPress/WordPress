@@ -143,7 +143,7 @@ function twentyfifteen_admin_header_image() {
 	$header_background_color = get_theme_mod( 'header_background_color', $color_scheme[1] );
 ?>
 	<div id="headimg" style="background-image: url(<?php header_image(); ?>); background-color: <?php echo esc_attr( $header_background_color ); ?>;">
-		<h1 class="displaying-header-text"><a id="name"<?php echo $style; ?> onclick="return false;" href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php bloginfo( 'name' ); ?></a></h1>
+		<h1 class="displaying-header-text"><a id="name"<?php echo $style; ?> onclick="return false;" href="<?php echo esc_url( home_url( '/' ) ); ?>" tabindex="-1"><?php bloginfo( 'name' ); ?></a></h1>
 		<div id="desc" class="displaying-header-text"<?php echo $style; ?>><?php bloginfo( 'description' ); ?></div>
 	</div>
 <?php

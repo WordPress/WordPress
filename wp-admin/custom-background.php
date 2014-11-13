@@ -317,9 +317,9 @@ class Custom_Background {
 	</p>
 	<p>
 		<label for="choose-from-library-link"><?php _e( 'Or choose an image from your media library:' ); ?></label><br />
-		<a id="choose-from-library-link" class="button"
+		<button id="choose-from-library-link" class="button"
 			data-choose="<?php esc_attr_e( 'Choose a Background Image' ); ?>"
-			data-update="<?php esc_attr_e( 'Set as background' ); ?>"><?php _e( 'Choose Image' ); ?></a>
+			data-update="<?php esc_attr_e( 'Set as background' ); ?>"><?php _e( 'Choose Image' ); ?></button>
 	</p>
 	</form>
 </td>
