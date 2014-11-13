@@ -61,7 +61,7 @@ $core_actions_post = array(
 	'query-attachments', 'save-attachment', 'save-attachment-compat', 'send-link-to-editor',
 	'send-attachment-to-editor', 'save-attachment-order', 'heartbeat', 'get-revision-diffs',
 	'save-user-color-scheme', 'update-widget', 'query-themes', 'parse-embed', 'set-attachment-thumbnail',
-	'parse-media-shortcode'
+	'parse-media-shortcode', 'destroy-sessions'
 );
 
 // Register core Ajax calls.

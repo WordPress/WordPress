@@ -2770,3 +2770,54 @@ function wp_ajax_parse_media_shortcode() {
 		'body' => ob_get_clean()
 	) );
 }
+
+/**
+ * AJAX handler for destroying multiple open sessions for a user.
+ *
+ * @since 4.1.0
+ *
+ */
+function wp_ajax_destroy_sessions() {
+
+	if ( empty( $_POST['user_id'] ) ) {
+		$user = new WP_Error();
+	} else {
+		$user = new WP_User( absint( $_POST['user_id'] ) );
+
+		if ( ! $user->exists() ) {
+			$user = new WP_Error();
+		} elseif ( ! current_user_can( 'edit_user', $user->ID ) ) {
+			$user = new WP_Error();
+		} elseif ( ! check_ajax_referer( sprintf( 'destroy_sessions_%d', $user->ID ), false, false ) ) {
+			$user = new WP_Error();
+		}
+	}
+
+	if ( is_wp_error( $user ) ) {
+		wp_send_json_error( array(
+			'message' => __( 'Could not log out user sessions. Please try again.' ),
+		) );
+	}
+
+	if ( isset( $_POST['token'] ) ) {
+		$keep = wp_unslash( $_POST['token'] );
+	} else {
+		$keep = null;
+	}
+
+	$sessions = WP_Session_Tokens::get_instance( $user->ID );
+
+	if ( is_string( $keep ) ) {
+		$sessions->destroy_others( $keep );
+		$message = __( 'You are now logged out everywhere else' );
+	} else {
+		$sessions->destroy_all();
+		/* translators: 1: User's display name. */ 
+		$message = sprintf( __( '%s has been logged out' ), $user->display_name );
+	}
+
+	wp_send_json_success( array(
+		'message' => $message
+	) );
+
+}
