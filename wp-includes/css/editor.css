@@ -171,6 +171,7 @@ div.mce-inline-toolbar-grp {
 	-webkit-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
+	z-index: 10001; /* Above the DFW v.2 editor */
 }
 
 div.mce-wp-image-toolbar > div.mce-stack-layout {
