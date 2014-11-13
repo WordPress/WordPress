@@ -957,7 +957,7 @@ final class _WP_Editors {
 			'Insert Read More tag' => __( 'Insert Read More tag' ),
 			'Read more...' => __( 'Read more...' ), // Title on the placeholder inside the editor
 			'Distraction Free Writing' => __( 'Distraction Free Writing' ),
-			'Remove Alignment' => __( 'Remove alignment' ), // Tooltip for the 'alignnone' button in the image toolbar
+			'Remove alignment' => __( 'Remove alignment' ), // Tooltip for the 'alignnone' button in the image toolbar
 		);
 
 		/**
