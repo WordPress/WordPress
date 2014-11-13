@@ -3386,12 +3386,6 @@ function wp_update_term( $term_id, $taxonomy, $args = array() ) {
 
 	$tt_id = $wpdb->get_var( $wpdb->prepare( "SELECT tt.term_taxonomy_id FROM $wpdb->term_taxonomy AS tt INNER JOIN $wpdb->terms AS t ON tt.term_id = t.term_id WHERE tt.taxonomy = %s AND t.term_id = %d", $taxonomy, $term_id) );
 
-	// Check whether this is a shared term that needs splitting.
-	$_term_id = _split_shared_term( $term_id, $tt_id );
-	if ( ! is_wp_error( $_term_id ) ) {
-		$term_id = $_term_id;
-	}
-
 	/**
 	 * Fires immediately before the given terms are edited.
 	 *
@@ -4043,62 +4037,6 @@ function _update_generic_term_count( $terms, $taxonomy ) {
 		/** This action is documented in wp-includes/taxonomy.php */
 		do_action( 'edited_term_taxonomy', $term, $taxonomy );
 	}
-}
-
-/**
- * Create a new term for a term_taxonomy item that currently shares its term.
- *
- * @since 4.1.0
- * @access private
- *
- * @param int   $term_id          ID of the shared term.
- * @param int   $term_taxonomy_id ID of the term taxonomy item to receive a new term.
- * @param array $shared_tts       Sibling term taxonomies, used for busting caches.
- * @return int  Term ID.
- */
-function _split_shared_term( $term_id, $term_taxonomy_id ) {
-	global $wpdb;
-
-	// Don't try to split terms if database schema does not support shared slugs.
-	$current_db_version = get_option( 'db_version' );
-	if ( $current_db_version < 30133 ) {
-		return $term_id;
-	}
-
-	// If there are no shared term_taxonomy rows, there's nothing to do here.
-	$shared_tt_count = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM $wpdb->term_taxonomy tt WHERE tt.term_id = %d AND tt.term_taxonomy_id != %d", $term_id, $term_taxonomy_id ) );
-	if ( ! $shared_tt_count ) {
-		return $term_id;
-	}
-
-	// Pull up data about the currently shared slug, which we'll use to populate the new one.
-	$shared_term = $wpdb->get_row( $wpdb->prepare( "SELECT t.* FROM $wpdb->terms t WHERE t.term_id = %d", $term_id ) );
-
-	$new_term_data = array(
-		'name' => $shared_term->name,
-		'slug' => $shared_term->slug,
-		'term_group' => $shared_term->term_group,
-	);
-
-	if ( false === $wpdb->insert( $wpdb->terms, $new_term_data ) ) {
-		return new WP_Error( 'db_insert_error', __( 'Could not split shared term.' ), $wpdb->last_error );
-	}
-
-	$new_term_id = (int) $wpdb->insert_id;
-
-	// Update the existing term_taxonomy to point to the newly created term.
-	$wpdb->update( $wpdb->term_taxonomy,
-		array( 'term_id' => $new_term_id ),
-		array( 'term_taxonomy_id' => $term_taxonomy_id )
-	);
-
-	// Clean the cache for term taxonomies formerly shared with the current term.
-	$shared_term_taxonomies = $wpdb->get_row( $wpdb->prepare( "SELECT taxonomy FROM $wpdb->term_taxonomy WHERE term_id = %d", $term_id ) );
-	foreach ( (array) $shared_term_taxonomies as $shared_term_taxonomy ) {
-		clean_term_cache( $term_id, $shared_term_taxonomy );
-	}
-
-	return $new_term_id;
 }
 
 /**
