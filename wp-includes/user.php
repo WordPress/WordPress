@@ -250,16 +250,18 @@ function wp_validate_logged_in_cookie( $user_id ) {
  * Number of posts user has written.
  *
  * @since 3.0.0
+ * @since 4.0.0 Added $post_type parameter.
  *
  * @global wpdb $wpdb WordPress database object for queries.
  *
- * @param int $userid User ID.
- * @return int Amount of posts user has written.
+ * @param int    $userid    User ID.
+ * @param string $post_type Optional. Post type to count the number of posts for. Default 'post'.
+ * @return int Number of posts the user has written in this post type.
  */
-function count_user_posts($userid) {
+function count_user_posts( $userid, $post_type = 'post' ) {
 	global $wpdb;
 
-	$where = get_posts_by_author_sql('post', true, $userid);
+	$where = get_posts_by_author_sql( $post_type, true, $userid );
 
 	$count = $wpdb->get_var( "SELECT COUNT(*) FROM $wpdb->posts $where" );
 
@@ -267,11 +269,13 @@ function count_user_posts($userid) {
 	 * Filter the number of posts a user has written.
 	 *
 	 * @since 2.7.0
+	 * @since 4.0.0 Added $post_type parameter.
 	 *
-	 * @param int $count  The user's post count.
-	 * @param int $userid User ID.
+	 * @param int    $count     The user's post count.
+	 * @param int    $userid    User ID.
+	 * @param string $post_type Post type to count the number of posts for.
 	 */
-	return apply_filters( 'get_usernumposts', $count, $userid );
+	return apply_filters( 'get_usernumposts', $count, $userid, $post_type );
 }
 
 /**
