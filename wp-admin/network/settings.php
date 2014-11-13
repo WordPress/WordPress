@@ -10,6 +10,9 @@
 /** Load WordPress Administration Bootstrap */
 require_once( dirname( __FILE__ ) . '/admin.php' );
 
+/** WordPress Translation Install API */
+require_once( ABSPATH . 'wp-admin/includes/translation-install.php' );
+
 if ( ! is_multisite() )
 	wp_die( __( 'Multisite support is not enabled.' ) );
 
@@ -18,6 +21,29 @@ if ( ! current_user_can( 'manage_network_options' ) )
 
 $title = __( 'Network Settings' );
 $parent_file = 'settings.php';
+
+/**
+ * Display JavaScript on the page.
+ *
+ * @since 4.1.0
+*/
+function network_settings_add_js() {
+?>
+<script type="text/javascript">
+jQuery(document).ready( function($) {
+	var languageSelect = $( '#WPLANG' );
+	$( 'form' ).submit( function() {
+		// Don't show a spinner for English and installed languages,
+		// as there is nothing to download.
+		if ( ! languageSelect.find( 'option:selected' ).data( 'installed' ) ) {
+			$( '#submit', this ).after( '<span class="spinner language-install-spinner" />' );
+		}
+	});
+});
+</script>
+<?php
+}
+add_action( 'admin_head', 'network_settings_add_js' );
 
 get_current_screen()->add_help_tab( array(
 		'id'      => 'overview',
@@ -57,6 +83,14 @@ if ( $_POST ) {
 		'welcome_email', 'welcome_user_email', 'fileupload_maxk', 'global_terms_enabled',
 		'illegal_names', 'limited_email_domains', 'banned_email_domains', 'WPLANG', 'admin_email',
 	);
+
+	// Handle translation install.
+	if ( ! empty( $_POST['WPLANG'] ) && wp_can_install_language_pack() ) {  // @todo: Skip if already installed
+		$language = wp_download_language_pack( $_POST['WPLANG'] );
+		if ( $language ) {
+			$_POST['WPLANG'] = $language;
+		}
+	}
 
 	foreach ( $options as $option_name ) {
 		if ( ! isset($_POST[$option_name]) )
@@ -275,7 +309,8 @@ if ( isset( $_GET['updated'] ) ) {
 
 		<?php
 		$languages = get_available_languages();
-		if ( ! empty( $languages ) ) {
+		$translations = wp_get_available_translations();
+		if ( ! empty( $languages ) || ! empty( $translations ) ) {
 			?>
 			<h3><?php _e( 'Language Settings' ); ?></h3>
 			<table class="form-table">
@@ -289,10 +324,12 @@ if ( isset( $_GET['updated'] ) ) {
 						}
 
 						wp_dropdown_languages( array(
-							'name'      => 'WPLANG',
-							'id'        => 'WPLANG',
-							'selected'  => $lang,
-							'languages' => $languages,
+							'name'         => 'WPLANG',
+							'id'           => 'WPLANG',
+							'selected'     => $lang,
+							'languages'    => $languages,
+							'translations' => $translations,
+							'show_available_translations' => wp_can_install_language_pack(),
 						) );
 						?>
 					</td>

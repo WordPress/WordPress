@@ -151,8 +151,8 @@ if ( 'update' == $action ) {
 		$options = $whitelist_options[ $option_page ];
 	}
 
-	// Handle custom date/time formats.
 	if ( 'general' == $option_page ) {
+		// Handle custom date/time formats.
 		if ( !empty($_POST['date_format']) && isset($_POST['date_format_custom']) && '\c\u\s\t\o\m' == wp_unslash( $_POST['date_format'] ) )
 			$_POST['date_format'] = $_POST['date_format_custom'];
 		if ( !empty($_POST['time_format']) && isset($_POST['time_format_custom']) && '\c\u\s\t\o\m' == wp_unslash( $_POST['time_format'] ) )
@@ -162,6 +162,18 @@ if ( 'update' == $action ) {
 			$_POST['gmt_offset'] = $_POST['timezone_string'];
 			$_POST['gmt_offset'] = preg_replace('/UTC\+?/', '', $_POST['gmt_offset']);
 			$_POST['timezone_string'] = '';
+		}
+
+		// Handle translation install.
+		if ( ! empty( $_POST['WPLANG'] ) && ( ! is_multisite() || is_super_admin() ) ) { // @todo: Skip if already installed
+			require_once( ABSPATH . 'wp-admin/includes/translation-install.php' );
+
+			if ( wp_can_install_language_pack() ) {
+				$language = wp_download_language_pack( $_POST['WPLANG'] );
+				if ( $language ) {
+					$_POST['WPLANG'] = $language;
+				}
+			}
 		}
 	}
 

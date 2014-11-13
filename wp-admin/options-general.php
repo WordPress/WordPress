@@ -9,6 +9,9 @@
 /** WordPress Administration Bootstrap */
 require_once( dirname( __FILE__ ) . '/admin.php' );
 
+/** WordPress Translation Install API */
+require_once( ABSPATH . 'wp-admin/includes/translation-install.php' );
+
 if ( ! current_user_can( 'manage_options' ) )
 	wp_die( __( 'You do not have sufficient permissions to manage options for this site.' ) );
 
@@ -62,6 +65,15 @@ function options_general_add_js() {
 					action: 'date_format_custom' == format.attr('name') ? 'date_format' : 'time_format',
 					date : format.val()
 				}, function(d) { format.siblings('.spinner').hide(); format.siblings('.example').text(d); } );
+		});
+
+		var languageSelect = $( '#WPLANG' );
+		$( 'form' ).submit( function() {
+			// Don't show a spinner for English and installed languages,
+			// as there is nothing to download.
+			if ( ! languageSelect.find( 'option:selected' ).data( 'installed' ) ) {
+				$( '#submit', this ).after( '<span class="spinner language-install-spinner" />' );
+			}
 		});
 	});
 //]]>
@@ -318,10 +330,11 @@ endfor;
 
 <?php
 $languages = get_available_languages();
+$translations = wp_get_available_translations();
 if ( ! is_multisite() && defined( 'WPLANG' ) && '' !== WPLANG && 'en_US' !== WPLANG && ! in_array( WPLANG, $languages ) ) {
 	$languages[] = WPLANG;
 }
-if ( $languages ) {
+if ( ! empty( $languages ) || ! empty( $translations ) ) {
 	?>
 	<tr>
 		<th width="33%" scope="row"><label for="WPLANG"><?php _e( 'Site Language' ); ?></label></th>
@@ -333,10 +346,12 @@ if ( $languages ) {
 			}
 
 			wp_dropdown_languages( array(
-				'name'      => 'WPLANG',
-				'id'        => 'WPLANG',
-				'selected'  => $locale,
-				'languages' => $languages,
+				'name'         => 'WPLANG',
+				'id'           => 'WPLANG',
+				'selected'     => $locale,
+				'languages'    => $languages,
+				'translations' => $translations,
+				'show_available_translations' => ( ! is_multisite() || is_super_admin() ) && wp_can_install_language_pack(),
 			) );
 
 			// Add note about deprecated WPLANG constant.

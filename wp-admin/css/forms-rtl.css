@@ -611,9 +611,9 @@ table.form-table td .updated {
 	font-size: 13px;
 }
 
-table.form-table td .updated p { 
-	font-size: 13px; 
-	margin: 0.3em 0; 
+table.form-table td .updated p {
+	font-size: 13px;
+	margin: 0.3em 0;
 }
 
 /*------------------------------------------------------------------------------
@@ -765,6 +765,14 @@ table.form-table td .updated p {
 .options-general-php .spinner {
 	float: none;
 	margin: -3px 3px;
+}
+
+.settings-php .language-install-spinner,
+.options-general-php .language-install-spinner {
+	display: inline-block;
+	float: none;
+	margin: -3px 5px 0;
+	vertical-align: middle;
 }
 
 /* =Media Queries
