@@ -124,7 +124,7 @@
 		});
 	});
 
-	$('#destroy-sessions').on('click',function(e){
+	$( '#destroy-sessions' ).on( 'click', function( e ) {
 
 		var $this = $(this);
 		var data = {
@@ -146,7 +146,6 @@
 		}, 'json' );
 
 		e.preventDefault();
-
 	});
 
 })(jQuery);

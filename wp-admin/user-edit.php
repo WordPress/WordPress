@@ -488,22 +488,25 @@ if ( $show_password_fields ) :
 <?php endif; ?>
 
 <?php if ( IS_PROFILE_PAGE && ( count( $sessions->get_all() ) > 1 ) ) { ?>
-	<tr>
+	<tr class="user-sessions-wrap hide-if-no-js">
 		<th>&nbsp;</th>
 		<td>
-			<p><button class="button button-secondary hide-if-no-js" id="destroy-sessions" data-token="<?php echo esc_attr( wp_get_session_token() ); ?>"><?php _e( 'Log Out of All Other Sessions' ); ?></button></p>
-			<p class="description hide-if-no-js">
+			<p><button class="button button-secondary" id="destroy-sessions" data-token="<?php echo esc_attr( wp_get_session_token() ); ?>"><?php _e( 'Log Out of All Other Sessions' ); ?></button></p>
+			<p class="description">
 				<?php _e( 'Left your account logged in at a public computer? Lost your phone? This will log you out everywhere except your current browser.' ); ?>
 			</p>
 		</td>
 	</tr>
 <?php } else if ( ! IS_PROFILE_PAGE && ( count( $sessions->get_all() ) > 0 ) ) { ?>
-	<tr>
+	<tr class="user-sessions-wrap hide-if-no-js">
 		<th>&nbsp;</th>
 		<td>
-			<p><button class="button button-secondary hide-if-no-js" id="destroy-sessions"><?php _e( 'Log Out of All Sessions' ); ?></button></p>
-			<p class="description hide-if-no-js">
-				<?php printf( __( 'Log %s out of all sessions' ), $profileuser->display_name ); ?>
+			<p><button class="button button-secondary" id="destroy-sessions"><?php _e( 'Log Out of All Sessions' ); ?></button></p>
+			<p class="description">
+				<?php
+				/* translators: 1: User's display name. */
+				printf( __( 'Log %s out of all sessions' ), $profileuser->display_name );
+				?>
 			</p>
 		</td>
 	</tr>
