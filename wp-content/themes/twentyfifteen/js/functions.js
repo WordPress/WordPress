@@ -50,11 +50,6 @@
 
 
 	// Sidebar (un)fixing: fix when short, un-fix when scroll needed
-	$body         = $( 'body' );
-	$window       = $( window );
-	sidebar       = $( '#sidebar' )[0];
-	toolbarOffset = $body.is( '.admin-bar' ) ? $( '#wpadminbar' ).height() : 0;
-
 	function fixedOrScrolledSidebar() {
 		if ( $window.width() >= 955 ) {
 			if ( sidebar.scrollHeight < ( $window.height() - toolbarOffset ) ) {
@@ -78,6 +73,22 @@
 		};
 	}
 
-	$window.on( 'load.twentyfifteen', fixedOrScrolledSidebar ).on( 'resize.twentyfifteen', debouncedFixedOrScrolledSidebar() );
+
+	$( document ).ready( function() {
+		// But! We only want to allow fixed sidebars when there are no submenus.
+		if ( $( '#site-navigation .sub-menu' ).length ) {
+			return;
+		}
+
+		// only initialize 'em if we need 'em
+		$body         = $( 'body' );
+		$window       = $( window );
+		sidebar       = $( '#sidebar' )[0];
+		toolbarOffset = $body.is( '.admin-bar' ) ? $( '#wpadminbar' ).height() : 0;
+
+		$window
+			.on( 'load.twentyfifteen', fixedOrScrolledSidebar )
+			.on( 'resize.twentyfifteen', debouncedFixedOrScrolledSidebar() );
+	} );
 
 } )( jQuery );
