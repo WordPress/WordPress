@@ -16,6 +16,7 @@ body {
 	color: #333;
 	margin: 9px 10px;
 	max-width: 100%;
+	-webkit-font-smoothing: antialiased !important;
 }
 
 body.rtl {

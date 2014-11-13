@@ -288,6 +288,10 @@ function edButton(id, display, tagStart, tagEnd, access) {
 				html += theButtons.fullscreen.html(name + '_');
 			}
 
+			if ( use && use.indexOf(',dfw,') !== -1 ) {
+				theButtons.dfw = new qt.DFWButton();
+				html += theButtons.dfw.html( name + '_' );
+			}
 
 			if ( 'rtl' === document.getElementsByTagName('html')[0].dir ) {
 				theButtons.textdirection = new qt.TextDirectionButton();
@@ -296,6 +300,8 @@ function edButton(id, display, tagStart, tagEnd, access) {
 
 			ed.toolbar.innerHTML = html;
 			ed.theButtons = theButtons;
+
+			window.jQuery && window.jQuery( document ).trigger( 'quicktags-init', [ ed ] );
 		}
 		t.buttonsInitDone = true;
 	};
@@ -405,11 +411,19 @@ function edButton(id, display, tagStart, tagEnd, access) {
 		t.instance = instance || '';
 	};
 	qt.Button.prototype.html = function(idPrefix) {
-		var title = this.title ? ' title="' + this.title + '"' : '';
+		var title = this.title ? ' title="' + this.title + '"' : '',
+			active, on, wp,
+			dfw = ( wp = window.wp ) && wp.editor && wp.editor.dfw;
 
 		if ( this.id === 'fullscreen' ) {
-			return '<button type="button" id="' + idPrefix + this.id + '" class="ed_button qt-fullscreen"' + title + '></button>';
+			return '<button type="button" id="' + idPrefix + this.id + '" class="ed_button qt-dfw"' + title + '></button>';
+		} else if ( this.id === 'dfw' ) {
+			active = dfw && dfw.isActive() ? '' : ' disabled="disabled"';
+			on = dfw && dfw.isOn() ? ' active' : '';
+
+			return '<button type="button" id="' + idPrefix + this.id + '" class="ed_button qt-dfw' + on + '"' + title + active + '></button>';
 		}
+
 		return '<input type="button" id="' + idPrefix + this.id + '" class="ed_button button button-small"' + title + ' value="' + this.display + '" />';
 	};
 	qt.Button.prototype.callback = function(){};
@@ -617,6 +631,20 @@ function edButton(id, display, tagStart, tagEnd, access) {
 		}
 
 		wp.editor.fullscreen.on();
+	};
+
+	qt.DFWButton = function() {
+		qt.Button.call( this, 'dfw', '', 'f', quicktagsL10n.dfw );
+	};
+	qt.DFWButton.prototype = new qt.Button();
+	qt.DFWButton.prototype.callback = function() {
+		var wp;
+
+		if ( ! ( wp = window.wp ) || ! wp.editor || ! wp.editor.dfw ) {
+			return;
+		}
+
+		window.wp.editor.dfw.toggle();
 	};
 
 	qt.TextDirectionButton = function() {

@@ -278,6 +278,9 @@ final class _WP_Editors {
 			if ( $set['dfw'] )
 				$qtInit['buttons'] .= ',fullscreen';
 
+			if ( $editor_id === 'content' && ! wp_is_mobile() )
+				$qtInit['buttons'] .= ',dfw';
+
 			/**
 			 * Filter the Quicktags settings.
 			 *
@@ -546,6 +549,13 @@ final class _WP_Editors {
 				$mce_buttons = apply_filters( 'teeny_mce_buttons', array('bold', 'italic', 'underline', 'blockquote', 'strikethrough', 'bullist', 'numlist', 'alignleft', 'aligncenter', 'alignright', 'undo', 'redo', 'link', 'unlink', 'fullscreen'), $editor_id );
 				$mce_buttons_2 = $mce_buttons_3 = $mce_buttons_4 = array();
 			} else {
+				$mce_buttons = array( 'bold', 'italic', 'strikethrough', 'bullist', 'numlist', 'blockquote', 'hr', 'alignleft', 'aligncenter', 'alignright', 'link', 'unlink', 'wp_more', 'spellchecker', 'wp_adv' );
+
+				if ( $editor_id ) {
+					$mce_buttons[] = 'dfw';
+				} else {
+					$mce_buttons[] = 'fullscreen';
+				}
 
 				/**
 				 * Filter the first-row list of TinyMCE buttons (Visual tab).
@@ -555,7 +565,7 @@ final class _WP_Editors {
 				 * @param array  $buttons   First-row list of buttons.
 				 * @param string $editor_id Unique editor identifier, e.g. 'content'.
 				 */
-				$mce_buttons = apply_filters( 'mce_buttons', array('bold', 'italic', 'strikethrough', 'bullist', 'numlist', 'blockquote', 'hr', 'alignleft', 'aligncenter', 'alignright', 'link', 'unlink', 'wp_more', 'spellchecker', 'fullscreen', 'wp_adv' ), $editor_id );
+				$mce_buttons = apply_filters( 'mce_buttons', $mce_buttons, $editor_id );
 
 				/**
 				 * Filter the second-row list of TinyMCE buttons (Visual tab).
