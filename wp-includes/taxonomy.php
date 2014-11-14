@@ -4096,12 +4096,17 @@ function _split_shared_term( $term_id, $term_taxonomy_id ) {
 	$term_taxonomy = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $wpdb->term_taxonomy WHERE term_taxonomy_id = %d", $term_taxonomy_id ) );
 	$children_tt_ids = $wpdb->get_col( $wpdb->prepare( "SELECT term_taxonomy_id FROM $wpdb->term_taxonomy WHERE taxonomy = %s AND parent = %d", $term_taxonomy->taxonomy, $term_id ) );
 
-	foreach ( $children_tt_ids as $child_tt_id ) {
-		$wpdb->update( $wpdb->term_taxonomy,
-			array( 'parent' => $new_term_id ),
-			array( 'term_taxonomy_id' => $child_tt_id )
-		);
-		clean_term_cache( $term_id, $term_taxonomy->taxonomy );
+	if ( ! empty( $children_tt_ids ) ) {
+		foreach ( $children_tt_ids as $child_tt_id ) {
+			$wpdb->update( $wpdb->term_taxonomy,
+				array( 'parent' => $new_term_id ),
+				array( 'term_taxonomy_id' => $child_tt_id )
+			);
+			clean_term_cache( $term_id, $term_taxonomy->taxonomy );
+		}
+	} else {
+		// If the term has no children, we must force its taxonomy cache to be rebuilt separately.
+		clean_term_cache( $new_term_id, $term_taxonomy->taxonomy );
 	}
 
 	// Clean the cache for term taxonomies formerly shared with the current term.
