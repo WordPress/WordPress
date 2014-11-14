@@ -2907,7 +2907,6 @@ function wp_enqueue_media( $args = array() ) {
 		'createNewVideoPlaylist' => __( 'Create a new video playlist' ),
 		'returnToLibrary'        => __( '&#8592; Return to library' ),
 		'allMediaItems'          => __( 'All media items' ),
-		'allMediaTypes'          => __( 'All media types' ),
 		'allDates'               => __( 'All dates' ),
 		'noItemsFound'           => __( 'No items found.' ),
 		'insertIntoPost'         => $hier ? __( 'Insert into page' ) : __( 'Insert into post' ),
