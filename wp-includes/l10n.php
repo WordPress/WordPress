@@ -910,7 +910,9 @@ function wp_dropdown_languages( $args = array() ) {
 	$structure = array();
 
 	// List installed languages.
-	$structure[] = '<optgroup label="' . esc_attr_x( 'Installed', 'translations' ) . '">';
+	if ( $args['show_available_translations'] ) {
+		$structure[] = '<optgroup label="' . esc_attr_x( 'Installed', 'translations' ) . '">';
+	}
 	$structure[] = '<option value="" lang="en" data-installed="1">English (United States)</option>';
 	foreach ( $languages as $language ) {
 		$structure[] = sprintf(
@@ -921,7 +923,9 @@ function wp_dropdown_languages( $args = array() ) {
 			esc_html( $language['native_name'] )
 		);
 	}
-	$structure[] = '</optgroup>';
+	if ( $args['show_available_translations'] ) {
+		$structure[] = '</optgroup>';
+	}
 
 	// List available translations.
 	if ( ! empty( $translations ) && $args['show_available_translations'] ) {
