@@ -2927,6 +2927,7 @@ function wp_enqueue_media( $args = array() ) {
 		'filterByDate'           => __( 'Filter by date' ),
 		'filterByType'           => __( 'Filter by type' ),
 		'searchMediaLabel'       => __( 'Search Media' ),
+		'noMedia'                => __( 'No media attachments found.' ),
 
 		// Library Details
 		'attachmentDetails'  => __( 'Attachment Details' ),
@@ -2997,10 +2998,6 @@ function wp_enqueue_media( $args = array() ) {
  		'updateVideoPlaylist'      => __( 'Update video playlist' ),
  		'addToVideoPlaylist'       => __( 'Add to video playlist' ),
  		'addToVideoPlaylistTitle'  => __( 'Add to Video Playlist' ),
-
- 		// Media Library
- 		'editMetadata' => __( 'Edit Metadata' ),
- 		'noMedia'      => __( 'No media attachments found.' ),
 	);
 
 	/**
