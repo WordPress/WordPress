@@ -450,7 +450,7 @@ div.revisions-controls > .wp-slider > .ui-slider-handle {
 	margin-right: -10px;
 }
 
- /* jQuery UI Slider */
+/* jQuery UI Slider */
 .wp-slider.ui-slider {
 	position: relative;
 	border: 1px solid #d7d7d7;
@@ -467,6 +467,8 @@ div.revisions-controls > .wp-slider > .ui-slider-handle {
 	position: absolute;
 	width: 18px;
 	z-index: 2;
+	-ms-touch-action: none;
+	touch-action: none;
 }
 
 .wp-slider .ui-slider-handle,
