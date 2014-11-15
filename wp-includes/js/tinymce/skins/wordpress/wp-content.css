@@ -1,5 +1,9 @@
 /* Additional default styles for the editor */
 
+html {
+	cursor: text;
+}
+
 html.ios {
 	height: 100%;
 }
