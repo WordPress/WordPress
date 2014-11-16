@@ -355,7 +355,7 @@ $(document).ready( function() {
 			}
 
 			$( event.target ).closest( 'li.menu-top' ).removeClass( 'opensub' );
-		}).find( 'li.wp-has-submenu' ).on( 'focusin.adminmenu', function() {
+		}).find( 'li.wp-has-submenu.wp-not-current-submenu' ).on( 'focusin.adminmenu', function() {
 			adjustSubmenu( $( this ) );
 		});
 	}
