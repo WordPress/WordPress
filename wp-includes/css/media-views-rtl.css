@@ -323,6 +323,11 @@
 	margin-left: 4%;
 	font-size: 12px;
 	text-align: left;
+	word-wrap: break-word;
+}
+
+.media-sidebar .setting .name {
+	max-width: 80px;
 }
 
 .media-sidebar .setting select,
