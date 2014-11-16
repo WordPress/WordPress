@@ -384,15 +384,19 @@ function retrieve_password() {
 	 * @param string $title Default email title.
 	 */
 	$title = apply_filters( 'retrieve_password_title', $title );
+
 	/**
 	 * Filter the message body of the password reset mail.
 	 *
 	 * @since 2.8.0
+	 * @since 4.1.0 Added `$user_login` and `$user_data` parameters.
 	 *
-	 * @param string $message Default mail message.
-	 * @param string $key     The activation key.
+	 * @param string  $message    Default mail message.
+	 * @param string  $key        The activation key.
+	 * @param string  $user_login The username for the user.
+	 * @param WP_User $user_data  WP_User object.
 	 */
-	$message = apply_filters( 'retrieve_password_message', $message, $key );
+	$message = apply_filters( 'retrieve_password_message', $message, $key, $user_login, $user_data );
 
 	if ( $message && !wp_mail( $user_email, wp_specialchars_decode( $title ), $message ) )
 		wp_die( __('The e-mail could not be sent.') . "<br />\n" . __('Possible reason: your host may have disabled the mail() function.') );
