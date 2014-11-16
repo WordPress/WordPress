@@ -18,7 +18,7 @@ if ( ! $tax )
 	wp_die( __( 'Invalid taxonomy' ) );
 
 if ( ! current_user_can( $tax->cap->manage_terms ) )
-	wp_die( __( 'Cheatin&#8217; uh?' ) );
+	wp_die( __( 'Cheatin&#8217; uh?' ), 403 );
 
 $wp_list_table = _get_list_table('WP_Terms_List_Table');
 $pagenum = $wp_list_table->get_pagenum();
@@ -47,7 +47,7 @@ case 'add-tag':
 	check_admin_referer( 'add-tag', '_wpnonce_add-tag' );
 
 	if ( !current_user_can( $tax->cap->edit_terms ) )
-		wp_die( __( 'Cheatin&#8217; uh?' ) );
+		wp_die( __( 'Cheatin&#8217; uh?' ), 403 );
 
 	$ret = wp_insert_term( $_POST['tag-name'], $taxonomy, $_POST );
 	$location = 'edit-tags.php?taxonomy=' . $taxonomy;
@@ -83,7 +83,7 @@ case 'delete':
 	check_admin_referer( 'delete-tag_' . $tag_ID );
 
 	if ( !current_user_can( $tax->cap->delete_terms ) )
-		wp_die( __( 'Cheatin&#8217; uh?' ) );
+		wp_die( __( 'Cheatin&#8217; uh?' ), 403 );
 
 	wp_delete_term( $tag_ID, $taxonomy );
 
@@ -95,7 +95,7 @@ case 'bulk-delete':
 	check_admin_referer( 'bulk-tags' );
 
 	if ( !current_user_can( $tax->cap->delete_terms ) )
-		wp_die( __( 'Cheatin&#8217; uh?' ) );
+		wp_die( __( 'Cheatin&#8217; uh?' ), 403 );
 
 	$tags = (array) $_REQUEST['delete_tags'];
 	foreach ( $tags as $tag_ID ) {
@@ -133,7 +133,7 @@ case 'editedtag':
 	check_admin_referer( 'update-tag_' . $tag_ID );
 
 	if ( !current_user_can( $tax->cap->edit_terms ) )
-		wp_die( __( 'Cheatin&#8217; uh?' ) );
+		wp_die( __( 'Cheatin&#8217; uh?' ), 403 );
 
 	$tag = get_term( $tag_ID, $taxonomy );
 	if ( ! $tag )

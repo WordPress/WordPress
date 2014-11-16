@@ -2312,7 +2312,6 @@ function get_allowed_mime_types( $user = null ) {
  * @param string $action The nonce action.
  */
 function wp_nonce_ays( $action ) {
-	$title = __( 'WordPress Failure Notice' );
 	if ( 'log-out' == $action ) {
 		$html = sprintf( __( 'You are attempting to log out of %s' ), get_bloginfo( 'name' ) ) . '</p><p>';
 		$redirect_to = isset( $_REQUEST['redirect_to'] ) ? $_REQUEST['redirect_to'] : '';
@@ -2323,7 +2322,7 @@ function wp_nonce_ays( $action ) {
 			$html .= "</p><p><a href='" . esc_url( remove_query_arg( 'updated', wp_get_referer() ) ) . "'>" . __( 'Please try again.' ) . "</a>";
 	}
 
-	wp_die( $html, $title, array('response' => 403) );
+	wp_die( $html, __( 'WordPress Failure Notice' ), 403 );
 }
 
 /**

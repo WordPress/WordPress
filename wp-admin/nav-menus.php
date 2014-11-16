@@ -20,7 +20,7 @@ if ( ! current_theme_supports( 'menus' ) && ! current_theme_supports( 'widgets' 
 
 // Permissions Check
 if ( ! current_user_can('edit_theme_options') )
-	wp_die( __( 'Cheatin&#8217; uh?' ) );
+	wp_die( __( 'Cheatin&#8217; uh?' ), 403 );
 
 wp_enqueue_script( 'nav-menu' );
 

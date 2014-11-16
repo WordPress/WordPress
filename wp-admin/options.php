@@ -45,7 +45,7 @@ if ( empty($option_page) ) {
 }
 
 if ( !current_user_can( $capability ) )
-	wp_die(__('Cheatin&#8217; uh?'));
+	wp_die( __( 'Cheatin&#8217; uh?' ), 403 );
 
 // Handle admin email change requests
 if ( is_multisite() ) {
@@ -69,7 +69,7 @@ if ( is_multisite() ) {
 }
 
 if ( is_multisite() && !is_super_admin() && 'update' != $action )
-	wp_die(__('Cheatin&#8217; uh?'));
+	wp_die( __( 'Cheatin&#8217; uh?' ), 403 );
 
 $whitelist_options = array(
 	'general' => array( 'blogname', 'blogdescription', 'gmt_offset', 'date_format', 'time_format', 'start_of_week', 'timezone_string', 'WPLANG' ),

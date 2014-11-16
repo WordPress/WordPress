@@ -10,14 +10,14 @@
 require_once( dirname( __FILE__ ) . '/admin.php' );
 
 if ( !current_user_can('switch_themes') && !current_user_can('edit_theme_options') )
-	wp_die( __( 'Cheatin&#8217; uh?' ) );
+	wp_die( __( 'Cheatin&#8217; uh?' ), 403 );
 
 if ( current_user_can( 'switch_themes' ) && isset($_GET['action'] ) ) {
 	if ( 'activate' == $_GET['action'] ) {
 		check_admin_referer('switch-theme_' . $_GET['stylesheet']);
 		$theme = wp_get_theme( $_GET['stylesheet'] );
 		if ( ! $theme->exists() || ! $theme->is_allowed() )
-			wp_die( __( 'Cheatin&#8217; uh?' ) );
+			wp_die( __( 'Cheatin&#8217; uh?' ), 403 );
 		switch_theme( $theme->get_stylesheet() );
 		wp_redirect( admin_url('themes.php?activated=true') );
 		exit;
@@ -25,7 +25,7 @@ if ( current_user_can( 'switch_themes' ) && isset($_GET['action'] ) ) {
 		check_admin_referer('delete-theme_' . $_GET['stylesheet']);
 		$theme = wp_get_theme( $_GET['stylesheet'] );
 		if ( !current_user_can('delete_themes') || ! $theme->exists() )
-			wp_die( __( 'Cheatin&#8217; uh?' ) );
+			wp_die( __( 'Cheatin&#8217; uh?' ), 403 );
 		delete_theme($_GET['stylesheet']);
 		wp_redirect( admin_url('themes.php?deleted=true') );
 		exit;

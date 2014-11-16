@@ -11,9 +11,9 @@ require_once( dirname( __FILE__ ) . '/admin.php' );
 
 if ( is_multisite() ) {
 	if ( ! current_user_can( 'create_users' ) && ! current_user_can( 'promote_users' ) )
-		wp_die( __( 'Cheatin&#8217; uh?' ) );
+		wp_die( __( 'Cheatin&#8217; uh?' ), 403 );
 } elseif ( ! current_user_can( 'create_users' ) ) {
-	wp_die( __( 'Cheatin&#8217; uh?' ) );
+	wp_die( __( 'Cheatin&#8217; uh?' ), 403 );
 }
 
 if ( is_multisite() ) {
@@ -55,7 +55,7 @@ if ( isset($_REQUEST['action']) && 'adduser' == $_REQUEST['action'] ) {
 	}
 
 	if ( ! current_user_can('promote_user', $user_details->ID) )
-		wp_die(__('Cheatin&#8217; uh?'));
+		wp_die( __( 'Cheatin&#8217; uh?' ), 403 );
 
 	// Adding an existing user to this blog
 	$new_user_email = $user_details->user_email;
@@ -92,7 +92,7 @@ Please click the following link to confirm the invite:
 	check_admin_referer( 'create-user', '_wpnonce_create-user' );
 
 	if ( ! current_user_can('create_users') )
-		wp_die(__('Cheatin&#8217; uh?'));
+		wp_die( __( 'Cheatin&#8217; uh?' ), 403 );
 
 	if ( ! is_multisite() ) {
 		$user_id = edit_user();

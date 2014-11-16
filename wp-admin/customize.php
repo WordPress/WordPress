@@ -13,7 +13,7 @@ define( 'IFRAME_REQUEST', true );
 require_once( dirname( __FILE__ ) . '/admin.php' );
 
 if ( ! current_user_can( 'customize' ) ) {
-	wp_die( __( 'Cheatin&#8217; uh?' ) );
+	wp_die( __( 'Cheatin&#8217; uh?' ), 403 );
 }
 
 wp_reset_vars( array( 'url', 'return' ) );

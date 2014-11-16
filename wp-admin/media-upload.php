@@ -32,10 +32,10 @@ $post_id = isset($post_id)? (int) $post_id : 0;
 
 // Require an ID for the edit screen.
 if ( isset($action) && $action == 'edit' && !$ID )
-	wp_die( __( 'Cheatin&#8217; uh?' ) );
+	wp_die( __( 'Cheatin&#8217; uh?' ), 403 );
 
 	if ( ! empty( $_REQUEST['post_id'] ) && ! current_user_can( 'edit_post' , $_REQUEST['post_id'] ) )
-		wp_die( __( 'Cheatin&#8217; uh?' ) );
+		wp_die( __( 'Cheatin&#8217; uh?' ), 403 );
 
 	// Upload type: image, video, file, ..?
 	if ( isset($_GET['type']) ) {

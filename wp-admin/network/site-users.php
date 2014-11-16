@@ -133,7 +133,7 @@ if ( $action ) {
 
 					// If the user doesn't already belong to the blog, bail.
 					if ( !is_user_member_of_blog( $user_id ) )
-						wp_die(__('Cheatin&#8217; uh?'));
+						wp_die( __( 'Cheatin&#8217; uh?' ), 403 );
 
 					$user = get_userdata( $user_id );
 					$user->set_role( $_REQUEST['new_role'] );

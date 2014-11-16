@@ -27,7 +27,7 @@ function add_link() {
  */
 function edit_link( $link_id = 0 ) {
 	if ( !current_user_can( 'manage_links' ) )
-		wp_die( __( 'Cheatin&#8217; uh?' ) );
+		wp_die( __( 'Cheatin&#8217; uh?' ), 403 );
 
 	$_POST['link_url'] = esc_html( $_POST['link_url'] );
 	$_POST['link_url'] = esc_url($_POST['link_url']);
