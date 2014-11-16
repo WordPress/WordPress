@@ -271,7 +271,7 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 	editor.on( 'nodechange', function( event ) {
 		var delay = iOS ? 350 : 100;
 
-		if ( event.element.nodeName !== 'IMG' || isPlaceholder( event.element.nodeName ) ) {
+		if ( event.element.nodeName !== 'IMG' || isPlaceholder( event.element ) ) {
 			tb.hide();
 			return;
 		}
