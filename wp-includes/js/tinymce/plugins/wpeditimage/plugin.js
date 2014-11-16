@@ -9,6 +9,10 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 		editorWrapParent = tinymce.$( '#postdivrich' ),
 		tb;
 
+	function isPlaceholder( node ) {
+		return !! ( editor.dom.getAttrib( node, 'data-mce-placeholder' ) || editor.dom.getAttrib( node, 'data-mce-object' ) );
+	}
+
 	editor.addButton( 'wp_img_remove', {
 		tooltip: 'Remove',
 		icon: 'dashicon dashicons-no',
@@ -267,7 +271,7 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 	editor.on( 'nodechange', function( event ) {
 		var delay = iOS ? 350 : 100;
 
-		if ( event.element.nodeName !== 'IMG' ) {
+		if ( event.element.nodeName !== 'IMG' || isPlaceholder( event.element.nodeName ) ) {
 			tb.hide();
 			return;
 		}
@@ -275,7 +279,7 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 		setTimeout( function() {
 			var element = editor.selection.getNode();
 
-			if ( element.nodeName === 'IMG' ) {
+			if ( element.nodeName === 'IMG' && ! isPlaceholder( element ) ) {
 				if ( tb._visible ) {
 					tb.reposition();
 				} else {
