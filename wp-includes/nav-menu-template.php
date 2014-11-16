@@ -94,8 +94,9 @@ class Walker_Nav_Menu extends Walker {
 		 * @param array  $classes The CSS classes that are applied to the menu item's <li>.
 		 * @param object $item    The current menu item.
 		 * @param array  $args    An array of wp_nav_menu() arguments.
+		 * @param int    $depth   Depth of menu item. Used for padding.
 		 */
-		$class_names = join( ' ', (array) apply_filters( 'nav_menu_css_class', array_filter( $classes ), $item, $args ) );
+		$class_names = join( ' ', (array) apply_filters( 'nav_menu_css_class', array_filter( $classes ), $item, $args, $depth ) );
 		$class_names = $class_names ? ' class="' . esc_attr( $class_names ) . '"' : '';
 
 		/**
@@ -108,8 +109,9 @@ class Walker_Nav_Menu extends Walker {
 		 * @param string $menu_id The ID that is applied to the menu item's <li>.
 		 * @param object $item    The current menu item.
 		 * @param array  $args    An array of wp_nav_menu() arguments.
+		 * @param int    $depth   Depth of menu item. Used for padding.
 		 */
-		$id = apply_filters( 'nav_menu_item_id', 'menu-item-'. $item->ID, $item, $args );
+		$id = apply_filters( 'nav_menu_item_id', 'menu-item-'. $item->ID, $item, $args, $depth );
 		$id = $id ? ' id="' . esc_attr( $id ) . '"' : '';
 
 		$output .= $indent . '<li' . $id . $class_names .'>';
@@ -135,10 +137,11 @@ class Walker_Nav_Menu extends Walker {
 		 *     @type string $rel    The rel attribute.
 		 *     @type string $href   The href attribute.
 		 * }
-		 * @param object $item The current menu item.
-		 * @param array  $args An array of wp_nav_menu() arguments.
+		 * @param object $item  The current menu item.
+		 * @param array  $args  An array of wp_nav_menu() arguments.
+		 * @param int    $depth Depth of menu item. Used for padding.
 		 */
-		$atts = apply_filters( 'nav_menu_link_attributes', $atts, $item, $args );
+		$atts = apply_filters( 'nav_menu_link_attributes', $atts, $item, $args, $depth );
 
 		$attributes = '';
 		foreach ( $atts as $attr => $value ) {
