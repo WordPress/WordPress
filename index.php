@@ -4,11 +4,6 @@
  * wp-blog-header.php which does and tells WordPress to load the theme.
  *
  * @package WordPress
-<<<<<<< HEAD
- * testnyrad
-=======
- * *hmm
->>>>>>> c78c52b16b418a7ac72226c8642eb324f2123f9b
  */
 
 /**
