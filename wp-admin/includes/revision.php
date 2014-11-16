@@ -188,6 +188,25 @@ function wp_prepare_revisions_for_js( $post, $selected_revision_id, $from = null
 		);
 	}
 
+	/**
+	 * If we only have one revision, the initial revision is missing; This happens
+	 * when we have an autsosave and the user has clicked 'View the Autosave'
+	 */
+	if ( 1 === sizeof( $revisions ) ) {
+		$revisions[ $post->ID ] = array(
+			'id'         => $post->ID,
+			'title'      => get_the_title( $post->ID ),
+			'author'     => $authors[ $post->post_author ],
+			'date'       => date_i18n( __( 'M j, Y @ G:i' ), strtotime( $post->modified ) ),
+			'dateShort'  => date_i18n( _x( 'j M @ G:i', 'revision date short format' ), strtotime( $post->modified ) ),
+			'timeAgo'    => sprintf( __( '%s ago' ), human_time_diff( strtotime( $post->post_modified_gmt ), $now_gmt ) ),
+			'autosave'   => false,
+			'current'    => true,
+			'restoreUrl' => false,
+		);
+		$current_id = $post->ID;
+	}
+
 	/*
 	 * If a post has been saved since the last revision (no revisioned fields
 	 * were changed), we may not have a "current" revision. Mark the latest
