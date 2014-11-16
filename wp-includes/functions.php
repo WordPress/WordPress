@@ -2331,17 +2331,40 @@ function wp_nonce_ays( $action ) {
  *
  * This function complements the die() PHP function. The difference is that
  * HTML will be displayed to the user. It is recommended to use this function
- * only, when the execution should not continue any further. It is not
+ * only when the execution should not continue any further. It is not
  * recommended to call this function very often and try to handle as many errors
- * as possible silently.
+ * as possible silently or more gracefully.
+ *
+ * As a shorthand, the desired HTTP response code may be passed as an integer to
+ * the $title parameter (the default title would apply) or the $args parameter.
  *
  * @since 2.0.4
  *
- * @param string       $message Optional. Error message. Default empty.
- * @param string       $title   Optional. Error title. Default empty.
- * @param string|array $args    Optional. Arguments to control behavior. Default empty array.
+ * @param string|WP_Error  $message Optional. Error message. Default empty.
+ *                                  If this is a WP_Error object, the error's messages are used.
+ * @param string           $title   Optional. Error title. Default is a generic title.
+ *                                  If $message is a WP_Error object, error data with the key
+ *                                  'title' may be used to specify the title.
+ * @param string|array|int $args {
+ *     Optional. Arguments to control behavior. Default empty array.
+ *     If $args is an integer, then it is treated as the response code.
+ *
+ *     @type int    $response       The HTTP response code. Default 500.
+ *     @type bool   $back_link      Whether to include a link to go back. Default false.
+ *     @type string $text_direction The text direction. Defaults to the value of is_rtl().
+ *                                  Accepts 'rtl'. This is only useful internally, when WordPress
+ *                                  is still loading and the site's locale is not set up yet.
+ * }
  */
 function wp_die( $message = '', $title = '', $args = array() ) {
+
+	if ( is_int( $args ) ) {
+		$args = array( 'response' => $args );
+	} elseif ( is_int( $title ) ) {
+		$args  = array( 'response' => $title );
+		$title = '';
+	}
+
 	if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
 		/**
 		 * Filter callback for killing WordPress execution for AJAX requests.
