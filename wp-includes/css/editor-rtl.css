@@ -237,13 +237,28 @@ div.mce-inline-toolbar-grp.mce-arrow-down:after {
 
 div.mce-inline-toolbar-grp.mce-arrow-left:before,
 div.mce-inline-toolbar-grp.mce-arrow-left:after {
+	margin: 0;
+}
+
+div.mce-inline-toolbar-grp.mce-arrow-left:before {
 	right: 20px;
+}
+div.mce-inline-toolbar-grp.mce-arrow-left:after {
+	right: 21px;
 }
 
 div.mce-inline-toolbar-grp.mce-arrow-right:before,
 div.mce-inline-toolbar-grp.mce-arrow-right:after {
-	left: 11px;
 	right: auto;
+	margin: 0;
+}
+
+div.mce-inline-toolbar-grp.mce-arrow-right:before {
+	left: 20px;
+}
+
+div.mce-inline-toolbar-grp.mce-arrow-right:after {
+	left: 21px;
 }
 
 div.mce-inline-toolbar-grp.mce-arrow-full {
