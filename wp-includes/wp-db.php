@@ -2411,7 +2411,7 @@ class wpdb {
 						|   [\xE1-\xEC][\x80-\xBF]{2}
 						|   \xED[\x80-\x9F][\x80-\xBF]
 						|   [\xEE-\xEF][\x80-\xBF]{2}
-						){1,100}                         # ...one or more times
+						){1,50}                          # ...one or more times
 					)
 					| .                                  # anything else
 					/x';
