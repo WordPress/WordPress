@@ -4283,7 +4283,6 @@ function get_the_taxonomies( $post = 0, $args = array() ) {
 	$args = wp_parse_args( $args, array(
 		/* translators: %s: taxonomy label, %l: list of terms formatted as per $term_template */
 		'template' => __( '%s: %l.' ),
-		/* translators: %1$s: term link, %2$s: term name */
 		'term_template' => '<a href="%1$s">%2$s</a>',
 	) );
 
