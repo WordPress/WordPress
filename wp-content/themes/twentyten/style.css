@@ -725,7 +725,12 @@ body.page .edit-link {
 #content .video-player {
 	padding: 0;
 }
-
+.format-standard .wp-video,
+.format-standard .wp-audio-shortcode,
+.format-audio .wp-audio-shortcode,
+.format-standard .video-player {
+	margin-bottom: 24px;
+}
 
 /* =Asides
 -------------------------------------------------------------- */

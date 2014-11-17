@@ -1559,6 +1559,14 @@ footer.entry-meta {
 	display: inline;
 }
 
+/* Standard */
+.format-standard .wp-video,
+.format-standard .wp-audio-shortcode,
+.format-audio .wp-audio-shortcode,
+.format-standard .video-player {
+	margin-bottom: 24px;
+}
+
 /* Quote */
 .format-quote {
 	background-color: #210d10;

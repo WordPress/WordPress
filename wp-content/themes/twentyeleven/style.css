@@ -1241,6 +1241,15 @@ blockquote.pull.alignright {
 	padding: 0;
 }
 
+/* =Standard
+----------------------------------------------- */
+
+.format-standard .wp-video,
+.format-standard .wp-audio-shortcode,
+.format-audio .wp-audio-shortcode,
+.format-standard .video-player {
+	margin-bottom: 24px;
+}
 
 /* =Quote
 ----------------------------------------------- */
