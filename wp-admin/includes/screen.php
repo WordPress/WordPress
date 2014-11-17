@@ -648,7 +648,8 @@ final class WP_Screen {
 	 * @since 3.3.0
 	 *
 	 * @param string $option Option ID.
-	 * @param mixed $key Optional. Specific array key for when the option is an array.
+	 * @param string $key    Optional. Specific array key for when the option is an array. Default false.
+	 * @return mixed The option value if set, null otherwise.
 	 */
 	public function get_option( $option, $key = false ) {
 		if ( ! isset( $this->_options[ $option ] ) )
