@@ -1947,9 +1947,10 @@ function wp_check_password($password, $hash, $user_id = '') {
 		 *
 		 * @since 2.5.0
 		 *
-		 * @param bool   $check   Whether the passwords match.
-		 * @param string $hash    The hashed password.
-		 * @param int    $user_id User ID.
+		 * @param bool   $check    Whether the passwords match.
+		 * @param string $password The plaintext password.
+		 * @param string $hash     The hashed password.
+		 * @param int    $user_id  User ID.
 		 */
 		return apply_filters( 'check_password', $check, $password, $hash, $user_id );
 	}
