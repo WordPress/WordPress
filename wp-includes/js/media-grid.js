@@ -387,8 +387,7 @@
 
 		events: {
 			'click .left':  'previousMediaItem',
-			'click .right': 'nextMediaItem',
-			'keydown':      'keyEvent'
+			'click .right': 'nextMediaItem'
 		},
 
 		initialize: function() {
