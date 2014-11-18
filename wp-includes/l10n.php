@@ -532,7 +532,8 @@ function unload_textdomain( $domain ) {
  *
  * @since 1.5.0
  *
- * @param string $locale Optional. Locale to load. Defaults to get_locale().
+ * @param string $locale Optional. Locale to load. Default is the value of {@see get_locale()}.
+ * @return bool Whether the textdomain was loaded.
  */
 function load_default_textdomain( $locale = null ) {
 	if ( null === $locale ) {
@@ -849,8 +850,8 @@ function wp_get_pomo_file_data( $po_file ) {
  * @see get_available_languages()
  * @see wp_get_available_translations()
  *
- * @param string|array $query {
- *     Optional. Array of arguments.
+ * @param string|array $args {
+ *     Optional. Array or string of arguments for outputting the language selector.
  *
  *     @type string  $id                           ID attribute of the select element. Default empty.
  *     @type string  $name                         Name attribute of the select element. Default empty.
