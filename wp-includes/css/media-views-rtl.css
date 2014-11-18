@@ -925,7 +925,7 @@
 }
 
 .attachment .close {
-	display: none;
+	display: block;
 	position: absolute;
 	top: 5px;
 	left: 5px;
@@ -944,15 +944,16 @@
 	border-radius: 3px;
 	-webkit-box-shadow: 0 0 0 1px rgba( 0, 0, 0, 0.3 );
 	box-shadow: 0 0 0 1px rgba( 0, 0, 0, 0.3 );
+	transition-duration: none;
+	transition-property: none;
 }
 
-.attachment .close:hover {
+.attachment a.close:hover,
+.attachment a.close:focus {
 	-webkit-box-shadow: 0 0 0 1px rgba( 0, 0, 0, 0.6 );
 	box-shadow: 0 0 0 1px rgba( 0, 0, 0, 0.6 );
-}
+	background-position: -36px 4px;
 
-.attachment:hover .close {
-	display: block;
 }
 
 .attachment .check {
