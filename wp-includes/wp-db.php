@@ -2211,7 +2211,7 @@ class wpdb {
 		$this->col_meta[ $table ] = $columns;
 
 		foreach ( $columns as $column ) {
-			if ( $column->Collation ) {
+			if ( ! empty( $column->Collation ) ) {
 				list( $charset ) = explode( '_', $column->Collation );
 				$charsets[ strtolower( $charset ) ] = true;
 			}
@@ -2237,7 +2237,7 @@ class wpdb {
 			$charset = key( $charsets );
 		} elseif ( 0 === $count ) {
 			// No charsets, assume this table can store whatever.
-			$charset = 'latin1';
+			$charset = false;
 		} else {
 			// More than one charset. Remove latin1 if present and recalculate.
 			unset( $charsets['latin1'] );
@@ -2289,6 +2289,11 @@ class wpdb {
 		$charset = apply_filters( 'pre_get_col_charset', null, $table, $column );
 		if ( null !== $charset ) {
 			return $charset;
+		}
+
+		// Skip this entirely if this isn't a MySQL database.
+		if ( false === $this->is_mysql ) {
+			return false;
 		}
 
 		if ( empty( $this->table_charset[ $table ] ) ) {
@@ -2378,13 +2383,12 @@ class wpdb {
 		foreach ( $data as &$value ) {
 			$charset = $value['charset'];
 
-			// latin1 will happily store anything.
-			if ( 'latin1' === $charset ) {
+			// Column isn't a string, or is latin1, which will will happily store anything.
+			if ( false === $charset || 'latin1' === $charset ) {
 				continue;
 			}
 
-			// Column or value isn't a string.
-			if ( false === $charset || ! is_string( $value['value'] ) ) {
+			if ( ! is_string( $value['value'] ) ) {
 				continue;
 			}
 
