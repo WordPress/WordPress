@@ -1,8 +1,8 @@
 <?php
 /**
- * The template part for displaying results in search pages.
+ * The template part for displaying results in search pages
  *
- * Learn more: http://codex.wordpress.org/Template_Hierarchy
+ * Learn more: {@link https://codex.wordpress.org/Template_Hierarchy}
  *
  * @package WordPress
  * @subpackage Twenty_Fifteen
@@ -22,11 +22,16 @@
 	</div><!-- .entry-summary -->
 
 	<?php if ( 'post' == get_post_type() ) : ?>
+
 		<footer class="entry-footer">
 			<?php twentyfifteen_entry_meta(); ?>
 			<?php edit_post_link( esc_html__( 'Edit', 'twentyfifteen' ), '<span class="edit-link">', '</span>' ); ?>
 		</footer><!-- .entry-footer -->
+
 	<?php else : ?>
+
 		<?php edit_post_link( esc_html__( 'Edit', 'twentyfifteen' ), '<footer class="entry-footer"><span class="edit-link">', '</span></footer><!-- .entry-footer -->' ); ?>
+
 	<?php endif; ?>
+
 </article><!-- #post-## -->

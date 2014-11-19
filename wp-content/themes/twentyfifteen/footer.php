@@ -1,6 +1,6 @@
 <?php
 /**
- * The template for displaying the footer.
+ * The template for displaying the footer
  *
  * Contains the closing of the "site-content" div and all content after.
  *
@@ -22,9 +22,10 @@
 				 */
 				do_action( 'twentyfifteen_credits' );
 			?>
-			<a href="<?php echo esc_url( __( 'http://wordpress.org/', 'twentyfifteen' ) ); ?>"><?php printf( esc_html__( 'Proudly powered by %s', 'twentyfifteen' ), 'WordPress' ); ?></a>
+			<a href="<?php echo esc_url( __( 'https://wordpress.org/', 'twentyfifteen' ) ); ?>"><?php printf( esc_html__( 'Proudly powered by %s', 'twentyfifteen' ), 'WordPress' ); ?></a>
 		</div><!-- .site-info -->
 	</footer><!-- .site-footer -->
+
 </div><!-- .site -->
 
 <?php wp_footer(); ?>

@@ -1,8 +1,8 @@
 <?php
 /**
- * The header for our theme.
+ * The template for displaying the header
  *
- * Displays all of the <head> section and everything up until the "site-content" div.
+ * Displays all of the &lt;head&gt; section and everything up until the "site-content" div.
  *
  * @package WordPress
  * @subpackage Twenty_Fifteen

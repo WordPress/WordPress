@@ -1,6 +1,6 @@
 <?php
 /**
- * The template for displaying all single posts and attachments.
+ * The template for displaying all single posts and attachments
  *
  * @package WordPress
  * @subpackage Twenty_Fifteen
@@ -12,25 +12,31 @@ get_header(); ?>
 	<div id="primary" class="content-area">
 		<main id="main" class="site-main" role="main">
 
-		<?php while ( have_posts() ) : the_post(); ?>
+		<?php
+		// Start the loop.
+		while ( have_posts() ) : the_post();
 
-			<?php get_template_part( 'content', get_post_format() ); ?>
+			/*
+			 * Include the post format-specific template for the content. If you want to
+			 * use this in a child theme, then include a file called called content-___.php
+			 * (where ___ is the post format) and that will be used instead.
+			 */
+			get_template_part( 'content', get_post_format() );
 
-			<?php
-				// If comments are open or we have at least one comment, load up the comment template
-				if ( comments_open() || get_comments_number() ) :
-					comments_template();
-				endif;
-			?>
+			// If comments are open or we have at least one comment, load up the comment template.
+			if ( comments_open() || get_comments_number() ) :
+				comments_template();
+			endif;
 
-			<?php
-				the_post_navigation( array(
-					'next_text' => _x( '<span class="meta-nav">Next <span class="screen-reader-text">post:</span></span><span class="post-title">%title</span>', 'Next post link', 'twentyfifteen' ),
-					'prev_text' => _x( '<span class="meta-nav">Previous <span class="screen-reader-text">post:</span></span><span class="post-title">%title</span>', 'Previous post link', 'twentyfifteen' )
-				) );
-			?>
+			// Previous/next post navigation.
+			the_post_navigation( array(
+				'next_text' => _x( '<span class="meta-nav">Next <span class="screen-reader-text">post:</span></span><span class="post-title">%title</span>', 'Next post link', 'twentyfifteen' ),
+				'prev_text' => _x( '<span class="meta-nav">Previous <span class="screen-reader-text">post:</span></span><span class="post-title">%title</span>', 'Previous post link', 'twentyfifteen' )
+			) );
 
-		<?php endwhile; // end of the loop. ?>
+		// End the loop.
+		endwhile;
+		?>
 
 		</main><!-- .site-main -->
 	</div><!-- .content-area -->
