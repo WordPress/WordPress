@@ -6,7 +6,9 @@
  */
 
 ( function( $ ) {
-	var $body, $window, sidebar, toolbarOffset;
+	var $body, $window, $document, $sidebar, adminbarOffset, top = false,
+		bottom = false, windowWidth, windowHeight, lastWindowPos = 0,
+		topOffset = 0, documentHeight, sidebarWidth, sidebarHeight, resizeTimer;
 
 	// Add dropdown toggle that display child menu items.
 	$( '.main-navigation .page_item_has_children > a, .main-navigation .menu-item-has-children > a' ).after( '<button class="dropdown-toggle" aria-expanded="false">' + screenReaderText.expand + '</button>' );
@@ -32,7 +34,7 @@
 			return;
 		}
 
-		// Hide button if there is no widgets and menu is missing or empty.
+		// Hide button if there are no widgets and the menus are missing or empty.
 		menu    = secondary.find( '.nav-menu' );
 		widgets = secondary.find( '#widget-area' );
 		social  = secondary.find( '#social-navigation' );
@@ -48,47 +50,81 @@
 		} );
 	} )();
 
+	// Sidebar scrolling.
+	function resize() {
+		windowWidth = $window.width();
+		windowHeight = $window.height();
+		documentHeight = $document.height();
+		sidebarHeight = $sidebar.height();
 
-	// Sidebar (un)fixing: fix when short, un-fix when scroll needed
-	function fixedOrScrolledSidebar() {
-		if ( $window.width() >= 955 ) {
-			if ( sidebar.scrollHeight < ( $window.height() - toolbarOffset ) ) {
-				$body.addClass( 'sidebar-fixed' );
-			} else {
-				$body.removeClass( 'sidebar-fixed' );
-			}
-		} else {
-			$body.removeClass( 'sidebar-fixed' );
+		if ( 955 >= windowWidth ) {
+			top = bottom = false;
+			$sidebar.removeAttr( 'style' );
 		}
 	}
 
-	function debouncedFixedOrScrolledSidebar() {
-		var timeout;
-		return function() {
-			clearTimeout( timeout );
-			timeout = setTimeout( function() {
-				timeout = null;
-				fixedOrScrolledSidebar();
-			}, 150 );
-		};
+	function scroll() {
+		var windowPos = $window.scrollTop();
+
+		if ( 955 <= windowWidth && sidebarHeight + adminbarOffset < documentHeight ) {
+			if ( sidebarHeight + adminbarOffset > windowHeight ) {
+				if ( windowPos > lastWindowPos ) {
+					if ( top ) {
+						top = false;
+						topOffset = ( $sidebar.offset().top > 0 ) ? $sidebar.offset().top - adminbarOffset : 0;
+						$sidebar.attr( 'style', 'top: ' + topOffset + 'px;' );
+					} else if ( ! bottom && windowPos + windowHeight > sidebarHeight + $sidebar.offset().top ) {
+						bottom = true;
+						$sidebar.attr( 'style', 'position: fixed;bottom: 0;' );
+					}
+				} else if ( windowPos < lastWindowPos ) {
+					if ( bottom ) {
+						bottom = false;
+						topOffset = ( $sidebar.offset().top > 0 ) ? $sidebar.offset().top - adminbarOffset : 0;
+						$sidebar.attr( 'style', 'top: ' + topOffset + 'px;' );
+					} else if ( ! top && windowPos + adminbarOffset < $sidebar.offset().top ) {
+						top = true;
+						$sidebar.attr( 'style', 'position: fixed;' );
+					}
+				} else {
+					top = bottom = false;
+					topOffset = ( $sidebar.offset().top > 0 ) ? $sidebar.offset().top - adminbarOffset : 0;
+					$sidebar.attr( 'style', 'top: ' + topOffset + 'px;' );
+				}
+			} else if ( ! top ) {
+				top = true;
+				$sidebar.attr( 'style', 'position: fixed;' );
+			}
+		}
+
+		lastWindowPos = windowPos;
 	}
 
+	function resizeAndScroll() {
+		resize();
+		scroll();
+	}
 
 	$( document ).ready( function() {
-		// But! We only want to allow fixed sidebars when there are no submenus.
-		if ( $( '#site-navigation .sub-menu' ).length ) {
-			return;
-		}
-
-		// only initialize 'em if we need 'em
-		$body         = $( 'body' );
-		$window       = $( window );
-		sidebar       = $( '#sidebar' )[0];
-		toolbarOffset = $body.is( '.admin-bar' ) ? $( '#wpadminbar' ).height() : 0;
+		$body          = $( 'body' );
+		$window        = $( window );
+		$document      = $( document );
+		$sidebar        = $( '#sidebar' ).first();
+		adminbarOffset = $body.is( '.admin-bar' ) ? $( '#wpadminbar' ).height() : 0;
 
 		$window
-			.on( 'load.twentyfifteen', fixedOrScrolledSidebar )
-			.on( 'resize.twentyfifteen', debouncedFixedOrScrolledSidebar() );
+			.on( 'scroll.twentyfifteen', scroll )
+			.on( 'resize.twentyfifteen', function() {
+				clearTimeout( resizeTimer );
+				resizeTimer = setTimeout( resizeAndScroll, 500 );
+			} );
+		$sidebar.on( 'click keydown', 'button', resizeAndScroll );
+
+		resizeAndScroll();
+
+		for ( var i = 1; i < 6; i++ ) {
+			setTimeout( resizeAndScroll, 100 * i );
+		}
 	} );
 
 } )( jQuery );
