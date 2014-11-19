@@ -33,7 +33,7 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 		alignleft: 'Align left',
 		aligncenter: 'Align center',
 		alignright: 'Align right',
-		alignnone: 'Remove alignment'
+		alignnone: 'No alignment'
 	}, function( tooltip, name ) {
 		var direction = name.slice( 5 );
 
