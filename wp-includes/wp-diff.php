@@ -153,8 +153,25 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
 	public function _added( $lines, $encode = true ) {
 		$r = '';
 		foreach ($lines as $line) {
-			if ( $encode )
-				$line = htmlspecialchars( $line );
+			if ( $encode ) {
+				$processed_line = htmlspecialchars( $line );
+
+				/**
+				 * Contextually filter a diffed line.
+				 *
+				 * Filters TextDiff processing of diffed line. By default, diffs are processed with
+				 * htmlspecialchars. Use this filter to remove or change the processing. Passes a context
+				 * indicating if the line is added, deleted or unchanged.
+				 *
+				 * @since 4.1.0
+				 *
+				 * @param String $processed_line The processed diffed line.
+				 * @param String $line           The unprocessed diffed line.
+		 		 * @param string null            The line context. Values are 'added', 'deleted' or 'unchanged'.
+				 */
+				$line = apply_filters( 'process_text_diff_html', $processed_line, $line, 'added' );
+			}
+
 			if ( $this->_show_split_view ) {
 				$r .= '<tr>' . $this->emptyLine() . $this->emptyLine() . $this->addedLine( $line ) . "</tr>\n";
 			} else {
@@ -175,8 +192,11 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
 	public function _deleted( $lines, $encode = true ) {
 		$r = '';
 		foreach ($lines as $line) {
-			if ( $encode )
-				$line = htmlspecialchars( $line );
+			if ( $encode ) {
+				$processed_line = htmlspecialchars( $line );
+				/** This filter is documented in wp-includes/wp-diff.php */
+				$line = apply_filters( 'process_text_diff_html', $processed_line, $line, 'deleted' );
+			}
 			if ( $this->_show_split_view ) {
 				$r .= '<tr>' . $this->deletedLine( $line ) . $this->emptyLine() . $this->emptyLine() . "</tr>\n";
 			} else {
@@ -198,8 +218,11 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
 	public function _context( $lines, $encode = true ) {
 		$r = '';
 		foreach ($lines as $line) {
-			if ( $encode )
-				$line = htmlspecialchars( $line );
+			if ( $encode ) {
+				$processed_line = htmlspecialchars( $line );
+				/** This filter is documented in wp-includes/wp-diff.php */
+				$line = apply_filters( 'process_text_diff_html', $processed_line, $line, 'unchanged' );
+			}
 			if (  $this->_show_split_view ) {
 				$r .= '<tr>' . $this->contextLine( $line ) . $this->emptyLine() . $this->contextLine( $line )  . "</tr>\n";
 			} else {

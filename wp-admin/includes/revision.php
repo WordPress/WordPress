@@ -73,7 +73,28 @@ function wp_get_revision_ui_diff( $post, $compare_from, $compare_to ) {
 		/** This filter is documented in wp-admin/includes/revision.php */
 		$content_to = apply_filters( "_wp_post_revision_field_$field", $compare_to->$field, $field, $compare_to, 'to' );
 
-		$diff = wp_text_diff( $content_from, $content_to, array( 'show_split_view' => true ) );
+		$args = array(
+			'show_split_view' => false
+		);
+		/**
+		 * Filter revisions text diff options.
+		 *
+		 * Filter the options passed to `wp_text_diff()` when viewing a post revision.
+		 *
+		 * @since 4.1.0
+		 *
+		 * @param array   $args {
+		 *     Associative array of options to pass to `wp_text_diff()`.
+		 *
+		 *     @type bool $show_split_view False for split view (two columns), true for
+		 *                                 un-split view (single column). Default false.
+		 * }
+		 * @param string  $field        The current revision field.
+		 * @param WP_Post $compare_from The revision post to compare from.
+		 * @param WP_Post $compare_to   The revision post to compare to.
+		 */
+		$args = apply_filters( 'revision_text_diff_options', $args, $field, $compare_from, $compare_to );
+		$diff = wp_text_diff( $content_from, $content_to, $args );
 
 		if ( ! $diff && 'post_title' === $field ) {
 			// It's a better user experience to still show the Title, even if it didn't change.
