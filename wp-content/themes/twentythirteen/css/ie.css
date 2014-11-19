@@ -2,9 +2,7 @@
 Styles for older IE versions (previous to IE9).
 */
 
-.site {
-	min-width: 1040px;
-}
+
 
 .genericon:before:hover,
 .menu-toggle:after:hover,
