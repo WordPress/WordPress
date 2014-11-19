@@ -3239,7 +3239,7 @@ function tag_escape($tag_name) {
  * @return string Absolute path.
  */
 function wp_make_link_relative( $link ) {
-	return preg_replace( '|https?://[^/]+(/.*)|i', '$1', $link );
+	return preg_replace( '|^(https?:)?//[^/]+(/.*)|i', '$2', $link );
 }
 
 /**
