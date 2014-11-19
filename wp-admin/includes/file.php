@@ -809,14 +809,15 @@ function copy_dir($from, $to, $skip_list = array() ) {
  *
  * @param array $args (optional) Connection args, These are passed directly to the WP_Filesystem_*() classes.
  * @param string $context (optional) Context for get_filesystem_method(), See function declaration for more information.
+ * @param bool $allow_relaxed_file_ownership Whether to allow Group/World writable.
  * @return null|boolean false on failure, true on success
  */
-function WP_Filesystem( $args = false, $context = false ) {
+function WP_Filesystem( $args = false, $context = false, $allow_relaxed_file_ownership = false ) {
 	global $wp_filesystem;
 
 	require_once(ABSPATH . 'wp-admin/includes/class-wp-filesystem-base.php');
 
-	$method = get_filesystem_method($args, $context);
+	$method = get_filesystem_method( $args, $context, $allow_relaxed_file_ownership );
 
 	if ( ! $method )
 		return false;
@@ -879,25 +880,46 @@ function WP_Filesystem( $args = false, $context = false ) {
  *
  * @param array $args Connection details.
  * @param string $context Full path to the directory that is tested for being writable.
+ * @param bool $allow_relaxed_file_ownership Whether to allow Group/World writable.
  * @return string The transport to use, see description for valid return values.
  */
-function get_filesystem_method($args = array(), $context = false) {
+function get_filesystem_method( $args = array(), $context = false, $allow_relaxed_file_ownership = false ) {
 	$method = defined('FS_METHOD') ? FS_METHOD : false; // Please ensure that this is either 'direct', 'ssh2', 'ftpext' or 'ftpsockets'
 
-	if ( ! $method && function_exists('getmyuid') && function_exists('fileowner') ){
-		if ( !$context )
-			$context = WP_CONTENT_DIR;
+	if ( ! $context ) {
+		$context = WP_CONTENT_DIR;
+	}
 
-		// If the directory doesn't exist (wp-content/languages) then use the parent directory as we'll create it.
-		if ( WP_LANG_DIR == $context && ! is_dir( $context ) )
-			$context = dirname( $context );
+	// If the directory doesn't exist (wp-content/languages) then use the parent directory as we'll create it.
+	if ( WP_LANG_DIR == $context && ! is_dir( $context ) ) {
+		$context = dirname( $context );
+	}
 
-		$context = trailingslashit($context);
+	$context = trailingslashit( $context );
+
+	if ( ! $method ) {
+
 		$temp_file_name = $context . 'temp-write-test-' . time();
 		$temp_handle = @fopen($temp_file_name, 'w');
 		if ( $temp_handle ) {
-			if ( getmyuid() == @fileowner($temp_file_name) )
+
+			// Attempt to determine the file owner of the WordPress files, and that of newly created files
+			$wp_file_owner = $temp_file_owner = false;
+			if ( function_exists('fileowner') ) {
+				$wp_file_owner = @fileowner( __FILE__ );
+				$temp_file_owner = @fileowner( $temp_file_name );
+			}
+
+			if ( $wp_file_owner !== false && $wp_file_owner === $temp_file_owner ) {
+				// WordPress is creating files as the same owner as the WordPress files, 
+				// this means it's safe to modify & create new files via PHP.
 				$method = 'direct';
+			} else if ( $allow_relaxed_file_ownership ) {
+				// The $context directory is writable, and $allow_relaxed_file_ownership is set, this means we can modify files
+				// safely in this directory. This mode doesn't create new files, only alter existing ones.
+				$method = 'direct';
+			}
+
 			@fclose($temp_handle);
 			@unlink($temp_file_name);
 		}
@@ -912,10 +934,12 @@ function get_filesystem_method($args = array(), $context = false) {
 	 *
 	 * @since 2.6.0
 	 *
-	 * @param string $method Filesystem method to return.
-	 * @param array  $args   An array of connection details for the method.
+	 * @param string $method  Filesystem method to return.
+	 * @param array  $args    An array of connection details for the method.
+	 * @param string $context Full path to the directory that is tested for being writable.
+	 * @param bool   $allow_relaxed_file_ownership Whether to allow Group/World writable.
 	 */
-	return apply_filters( 'filesystem_method', $method, $args );
+	return apply_filters( 'filesystem_method', $method, $args, $context, $allow_relaxed_file_ownership );
 }
 
 /**
@@ -933,9 +957,10 @@ function get_filesystem_method($args = array(), $context = false) {
  * @param boolean $error if the current request has failed to connect
  * @param string $context The directory which is needed access to, The write-test will be performed on this directory by get_filesystem_method()
  * @param string $extra_fields Extra POST fields which should be checked for to be included in the post.
+ * @param bool $allow_relaxed_file_ownership Whether to allow Group/World writable.
  * @return boolean False on failure. True on success.
  */
-function request_filesystem_credentials($form_post, $type = '', $error = false, $context = false, $extra_fields = null) {
+function request_filesystem_credentials($form_post, $type = '', $error = false, $context = false, $extra_fields = null, $allow_relaxed_file_ownership = false ) {
 
 	/**
 	 * Filter the filesystem credentials form output.
@@ -952,14 +977,16 @@ function request_filesystem_credentials($form_post, $type = '', $error = false, 
 	 *                             Default false.
 	 * @param string $context      Full path to the directory that is tested for
 	 *                             being writable.
+	 * @param bool $allow_relaxed_file_ownership Whether to allow Group/World writable.
 	 * @param array  $extra_fields Extra POST fields.
 	 */
-	$req_cred = apply_filters( 'request_filesystem_credentials', '', $form_post, $type, $error, $context, $extra_fields );
+	$req_cred = apply_filters( 'request_filesystem_credentials', '', $form_post, $type, $error, $context, $extra_fields, $allow_relaxed_file_ownership );
 	if ( '' !== $req_cred )
 		return $req_cred;
 
-	if ( empty($type) )
-		$type = get_filesystem_method(array(), $context);
+	if ( empty($type) ) {
+		$type = get_filesystem_method( array(), $context, $allow_relaxed_file_ownership );
+	}
 
 	if ( 'direct' == $type )
 		return true;

@@ -381,19 +381,23 @@ function do_core_upgrade( $reinstall = false ) {
 	if ( !$update )
 		return;
 
+	// Allow relaxed file ownership writes for User-initiated upgrades when the API specifies
+	// that it's safe to do so. This only happens when there are no new files to create.
+	$allow_relaxed_file_ownership = ! $reinstall && isset( $update->new_files ) && ! $update->new_files;
+
 ?>
 	<div class="wrap">
 	<h2><?php _e('Update WordPress'); ?></h2>
 <?php
 
-	if ( false === ( $credentials = request_filesystem_credentials( $url, '', false, ABSPATH ) ) ) {
+	if ( false === ( $credentials = request_filesystem_credentials( $url, '', false, ABSPATH, array(), $allow_relaxed_file_ownership ) ) ) {
 		echo '</div>';
 		return;
 	}
 
-	if ( ! WP_Filesystem( $credentials, ABSPATH ) ) {
+	if ( ! WP_Filesystem( $credentials, ABSPATH, $allow_relaxed_file_ownership ) ) {
 		// Failed to connect, Error and request again
-		request_filesystem_credentials( $url, '', true, ABSPATH );
+		request_filesystem_credentials( $url, '', true, ABSPATH, array(), $allow_relaxed_file_ownership );
 		echo '</div>';
 		return;
 	}
@@ -411,7 +415,9 @@ function do_core_upgrade( $reinstall = false ) {
 	add_filter( 'update_feedback', 'show_message' );
 
 	$upgrader = new Core_Upgrader();
-	$result = $upgrader->upgrade( $update );
+	$result = $upgrader->upgrade( $update, array(
+		'allow_relaxed_file_ownership' => $allow_relaxed_file_ownership
+	) );
 
 	if ( is_wp_error($result) ) {
 		show_message($result);
