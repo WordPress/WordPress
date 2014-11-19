@@ -37,7 +37,7 @@
 					<?php endif;
 
 					$description = get_bloginfo( 'description', 'display' );
-					if ( ! empty( $description ) ) : ?>
+					if ( ! empty( $description ) || is_customize_preview() ) : ?>
 						<p class="site-description"><?php echo esc_html( $description ); ?></p>
 					<?php endif;
 				?>
