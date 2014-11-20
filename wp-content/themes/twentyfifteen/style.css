@@ -1007,7 +1007,7 @@ a:focus {
 	opacity: 0.8;
 }
 
-.post-navigation .nav-previous + .nav-next {
+.post-navigation div + div {
 	border-top: 1px solid #eaeaea;
 	border-top: 1px solid rgba(51, 51, 51, 0.1);
 }
