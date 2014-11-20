@@ -42,10 +42,6 @@ body {
 	unicode-bidi: embed;
 }
 
-a {
-	display: inline-block;
-}
-
 caption,
 th,
 td {
@@ -260,18 +256,6 @@ img.alignleft {
 
 .entry-content .more-link:after {
 	content: "\f430";
-}
-
-.entry-content a,
-.entry-summary a,
-.page-content a,
-.comment-content a {
-	display: inline;
-}
-
-.entry-content .page-links a,
-.page-content .page-links a {
-	display: inline-block;
 }
 
 .author-link:after {
