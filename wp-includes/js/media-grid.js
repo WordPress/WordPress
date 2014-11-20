@@ -577,10 +577,11 @@
 			return ( this.getCurrentIndex() - 1 ) > -1;
 		},
 		/**
-		 * Respond to the keyboard events: right arrow, left arrow, escape.
+		 * Respond to the keyboard events: right arrow, left arrow, except when
+		 * focus is in a textarea or input field.
 		 */
 		keyEvent: function( event ) {
-			if ( 'INPUT' === event.target.tagName && ! ( event.target.readOnly || event.target.disabled ) ) {
+			if ( ( 'INPUT' === event.target.nodeName || 'TEXTAREA' === event.target.nodeName ) && ! ( event.target.readOnly || event.target.disabled ) ) {
 				return;
 			}
 
