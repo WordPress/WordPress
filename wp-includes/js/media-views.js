@@ -7027,6 +7027,13 @@
 		className: 'attachment-details',
 		template:  media.template('attachment-details'),
 
+		attributes: function() {
+			return {
+				'tabIndex':     0,
+				'data-id':      this.model.get( 'id' )
+			};
+		},
+
 		events: {
 			'change [data-setting]':          'updateSetting',
 			'change [data-setting] input':    'updateSetting',
