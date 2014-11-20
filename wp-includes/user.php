@@ -1818,6 +1818,9 @@ function wp_insert_user( $userdata ) {
 	$data = wp_unslash( $compacted );
 
 	if ( $update ) {
+		if ( $user_email !== $old_user_data->user_email ) {
+			$data['user_activation_key'] = '';
+		}
 		$wpdb->update( $wpdb->users, $data, compact( 'ID' ) );
 		$user_id = (int) $ID;
 	} else {
