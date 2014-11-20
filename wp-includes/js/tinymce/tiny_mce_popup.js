@@ -249,18 +249,21 @@ var tinyMCEPopup = {
 	 * @param {string} element_id Element id to be filled with the color value from the picker.
 	 */
 	pickColor : function(e, element_id) {
-		this.execCommand('mceColorPicker', true, {
-			color : document.getElementById(element_id).value,
-			func : function(c) {
-				document.getElementById(element_id).value = c;
-
-				try {
-					document.getElementById(element_id).onchange();
-				} catch (ex) {
-					// Try fire event, ignore errors
-				}
-			}
-		});
+		var el = document.getElementById(element_id), colorPickerCallback = this.editor.settings.color_picker_callback;
+		if (colorPickerCallback) {
+			colorPickerCallback.call(
+				this.editor,
+				function (value) {
+					el.value = value;
+					try {
+						el.onchange();
+					} catch (ex) {
+						// Try fire event, ignore errors
+					}
+				},
+				el.value
+			);
+		}
 	},
 
 	/**
