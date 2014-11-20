@@ -610,6 +610,11 @@ li#wp-admin-bar-menu-toggle {
 	display: none;
 }
 
+/* Hide-if-customize for items we can't add classes to */
+.customize-support #menu-appearance a[href="themes.php?page=custom-header"],
+.customize-support #menu-appearance a[href="themes.php?page=custom-background"] {
+	display: none;
+}
 
 /* Auto-folding of the admin menu */
 @media only screen and (max-width: 960px) {

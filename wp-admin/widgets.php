@@ -310,7 +310,18 @@ $errors = array(
 require_once( ABSPATH . 'wp-admin/admin-header.php' ); ?>
 
 <div class="wrap">
-<h2><?php echo esc_html( $title ); ?></h2>
+<h2>
+<?php
+	echo esc_html( $title );
+	if ( current_user_can( 'customize' ) ) {
+		printf(
+			' <a class="add-new-h2 hide-if-no-customize" href="%1$s">%2$s</a>',
+			admin_url( 'customize.php?autofocus[panel]=widgets' ),
+			__( 'Manage in Customizer' )
+		);
+	}
+?>
+</h2>
 
 <?php if ( isset($_GET['message']) && isset($messages[$_GET['message']]) ) { ?>
 <div id="message" class="updated"><p><?php echo $messages[$_GET['message']]; ?></p></div>
