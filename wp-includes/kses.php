@@ -1407,7 +1407,7 @@ function safecss_filter_attr( $css, $deprecated = '' ) {
 	$css = wp_kses_no_null($css);
 	$css = str_replace(array("\n","\r","\t"), '', $css);
 
-	if ( preg_match( '%[\\(&=}]|/\*%', $css ) ) // remove any inline css containing \ ( & } = or comments
+	if ( preg_match( '%[\\\\(&=}]|/\*%', $css ) ) // remove any inline css containing \ ( & } = or comments
 		return '';
 
 	$css_array = explode( ';', trim( $css ) );
