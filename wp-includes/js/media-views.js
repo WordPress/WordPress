@@ -5850,7 +5850,7 @@
 					controller: this.controller,
 					priority: -60,
 					click: function() {
-						var model, changed = [], self = this,
+						var changed = [], removed = [], self = this,
 							selection = this.controller.state().get( 'selection' ),
 							library = this.controller.state().get( 'library' );
 
@@ -5869,22 +5869,28 @@
 							return;
 						}
 
-						while ( selection.length > 0 ) {
-							model = selection.at( 0 );
+						selection.each( function( model ) {
+							if ( ! model.get( 'nonces' )['delete'] ) {
+								removed.push( model );
+								return;
+							}
+
 							if ( media.view.settings.mediaTrash && 'trash' === model.get( 'status' ) ) {
 								model.set( 'status', 'inherit' );
 								changed.push( model.save() );
-								selection.remove( model );
+								removed.push( model );
 							} else if ( media.view.settings.mediaTrash ) {
 								model.set( 'status', 'trash' );
 								changed.push( model.save() );
-								selection.remove( model );
+								removed.push( model );
 							} else {
 								model.destroy();
 							}
-						}
+						} );
 
 						if ( changed.length ) {
+							selection.remove( removed );
+
 							$.when.apply( null, changed ).then( function() {
 								library._requery( true );
 								self.controller.trigger( 'selection:action:done' );
