@@ -451,8 +451,9 @@ function send_origin_headers() {
  * @return mixed URL or false on failure.
  */
 function wp_http_validate_url( $url ) {
+	$original_url = $url;
 	$url = wp_kses_bad_protocol( $url, array( 'http', 'https' ) );
-	if ( ! $url )
+	if ( ! $url || strtolower( $url ) !== strtolower( $original_url ) )
 		return false;
 
 	$parsed_url = @parse_url( $url );
@@ -462,7 +463,7 @@ function wp_http_validate_url( $url ) {
 	if ( isset( $parsed_url['user'] ) || isset( $parsed_url['pass'] ) )
 		return false;
 
-	if ( false !== strpos( $parsed_url['host'], ':' ) )
+	if ( false !== strpbrk( $parsed_url['host'], ':#?[]' ) )
 		return false;
 
 	$parsed_home = @parse_url( get_option( 'home' ) );
@@ -480,8 +481,7 @@ function wp_http_validate_url( $url ) {
 		}
 		if ( $ip ) {
 			$parts = array_map( 'intval', explode( '.', $ip ) );
-			if ( '127.0.0.1' === $ip
-				|| ( 10 === $parts[0] )
+			if ( 127 === $parts[0] || 10 === $parts[0]
 				|| ( 172 === $parts[0] && 16 <= $parts[1] && 31 >= $parts[1] )
 				|| ( 192 === $parts[0] && 168 === $parts[1] )
 			) {
