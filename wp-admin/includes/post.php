@@ -1205,12 +1205,18 @@ function get_sample_permalink_html( $id, $new_title = null, $new_slug = null ) {
 			$return .= '<span id="change-permalinks"><a href="options-permalink.php" class="button button-small" target="_blank">' . __('Change Permalinks') . "</a></span>\n";
 		}
 	} else {
-		if ( function_exists( 'mb_strlen' ) && mb_strlen( $post_name ) > 30 ) {
-			$post_name_abridged = mb_substr( $post_name, 0, 14 ) . '&hellip;' . mb_substr( $post_name, -14 );
-		} elseif ( strlen( $post_name ) > 30 ) {
-			$post_name_abridged = substr( $post_name, 0, 14 ) . '&hellip;' . substr( $post_name, -14 );
+		if ( function_exists( 'mb_strlen' ) ) {
+			if ( mb_strlen( $post_name ) > 30 ) {
+				$post_name_abridged = mb_substr( $post_name, 0, 14 ) . '&hellip;' . mb_substr( $post_name, -14 );
+			} else {
+				$post_name_abridged = $post_name;
+			}
 		} else {
-			$post_name_abridged = $post_name;
+			if ( strlen( $post_name ) > 30 ) {
+				$post_name_abridged = substr( $post_name, 0, 14 ) . '&hellip;' . substr( $post_name, -14 );
+			} else {
+				$post_name_abridged = $post_name;
+			}
 		}
 
 		$post_name_html = '<span id="editable-post-name" title="' . $title . '">' . $post_name_abridged . '</span>';
