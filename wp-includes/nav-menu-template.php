@@ -88,6 +88,7 @@ class Walker_Nav_Menu extends Walker {
 		 * Filter the CSS class(es) applied to a menu item's <li>.
 		 *
 		 * @since 3.0.0
+		 * @since 4.1.0 The `$depth` parameter was added.
 		 *
 		 * @see wp_nav_menu()
 		 *
@@ -103,6 +104,7 @@ class Walker_Nav_Menu extends Walker {
 		 * Filter the ID applied to a menu item's <li>.
 		 *
 		 * @since 3.0.1
+		 * @since 4.1.0 The `$depth` parameter was added.
 		 *
 		 * @see wp_nav_menu()
 		 *
@@ -126,6 +128,7 @@ class Walker_Nav_Menu extends Walker {
 		 * Filter the HTML attributes applied to a menu item's <a>.
 		 *
 		 * @since 3.6.0
+		 * @since 4.1.0 The `$depth` parameter was added.
 		 *
 		 * @see wp_nav_menu()
 		 *
