@@ -3018,7 +3018,7 @@
 			this.content.set( view );
 
 			// Trigger the controller to set focus
-			view.controller.trigger( 'edit:selection', this );
+			this.trigger( 'edit:selection', this );
 		},
 
 		editImageContent: function() {
@@ -6266,7 +6266,7 @@
 		},
 
 		editSelection: function( modal ) {
-			modal.$el.find( '.media-button-backToLibrary' ).focus();
+			modal.$( '.media-button-backToLibrary' ).focus();
 		},
 
 		/**
