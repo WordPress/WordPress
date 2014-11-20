@@ -566,8 +566,16 @@ class wpdb {
 	 * @access protected
 	 * @var array
 	 */
-	protected $incompatible_modes = array( 'NO_ZERO_DATE', 'ONLY_FULL_GROUP_BY',
-		'STRICT_TRANS_TABLES', 'STRICT_ALL_TABLES', 'TRADITIONAL' );
+	protected $incompatible_modes = array( 'NO_ZERO_DATE', 'ONLY_FULL_GROUP_BY', 'TRADITIONAL' );
+
+	/**
+	 * A list of required SQL modes.
+	 *
+	 * @since 4.1.0
+	 * @access protected
+	 * @var array
+	 */
+	protected $required_modes = array( 'STRICT_ALL_TABLES' );
 
 	/**
 	 * Whether to use mysqli over mysql.
@@ -778,31 +786,12 @@ class wpdb {
 	 */
 	public function set_sql_mode( $modes = array() ) {
 		if ( empty( $modes ) ) {
-			if ( $this->use_mysqli ) {
-				$res = mysqli_query( $this->dbh, 'SELECT @@SESSION.sql_mode' );
+			$modes = $this->get_var( "SELECT @@SESSION.sql_mode" );
+			if ( $modes ) {
+				$modes = $original_modes = explode( ',', $modes );
 			} else {
-				$res = mysql_query( 'SELECT @@SESSION.sql_mode', $this->dbh );
+				$modes = $original_modes = array();
 			}
-
-			if ( empty( $res ) ) {
-				return;
-			}
-
-			if ( $this->use_mysqli ) {
-				$modes_array = mysqli_fetch_array( $res );
-				if ( empty( $modes_array[0] ) ) {
-					return;
-				}
-				$modes_str = $modes_array[0];
-			} else {
-				$modes_str = mysql_result( $res, 0 );
-			}
-
-			if ( empty( $modes_str ) ) {
-				return;
-			}
-
-			$modes = explode( ',', $modes_str );
 		}
 
 		$modes = array_change_key_case( $modes, CASE_UPPER );
@@ -812,24 +801,36 @@ class wpdb {
 		 *
 		 * @since 3.9.0
 		 *
-		 * @see wpdb::$incompatible_modes
-		 *
 		 * @param array $incompatible_modes An array of incompatible modes.
 		 */
 		$incompatible_modes = (array) apply_filters( 'incompatible_sql_modes', $this->incompatible_modes );
 
-		foreach( $modes as $i => $mode ) {
-			if ( in_array( $mode, $incompatible_modes ) ) {
-				unset( $modes[ $i ] );
+		/**
+		 * Filter the list of required SQL modes to include.
+		 *
+		 * @since 4.1.0
+		 *
+		 * @param array $required_modes An array of required modes.
+		 */
+		$required_modes = (array) apply_filters( 'required_sql_modes', $this->required_modes );
+
+		$modes = array_diff( $modes, $incompatible_modes );
+		$modes = array_unique( array_merge( $modes, $required_modes ) );
+
+		// Don't run SET SESSION if we have nothing to change.
+		if ( isset( $original_modes ) ) {
+			sort( $original_modes );
+			sort( $modes );
+			if ( $original_modes === $modes ) {
+				return;
 			}
 		}
 
 		$modes_str = implode( ',', $modes );
 
-		if ( $this->use_mysqli ) {
-			mysqli_query( $this->dbh, "SET SESSION sql_mode='$modes_str'" );
-		} else {
-			mysql_query( "SET SESSION sql_mode='$modes_str'", $this->dbh );
+		$this->query( "SET SESSION sql_mode='$modes_str'" );
+		if ( $this->last_error ) {
+			dead_db();
 		}
 	}
 
@@ -1482,8 +1483,8 @@ class wpdb {
 		} else if ( $this->dbh ) {
 			$this->has_connected = true;
 			$this->set_charset( $this->dbh );
-			$this->set_sql_mode();
 			$this->ready = true;
+			$this->set_sql_mode();
 			$this->select( $this->dbname, $this->dbh );
 
 			return true;
