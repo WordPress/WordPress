@@ -1226,6 +1226,10 @@ function wp_playlist_shortcode( $attr ) {
 
 	$id = intval( $atts['id'] );
 
+	if ( $atts['type'] !== 'audio' ) {
+		$atts['type'] = 'video';
+	}
+
 	$args = array(
 		'post_status' => 'inherit',
 		'post_type' => 'attachment',
