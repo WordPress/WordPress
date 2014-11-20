@@ -85,11 +85,26 @@ function wpmu_delete_blog( $blog_id, $drop = false ) {
 
 	$current_site = get_current_site();
 
-	// Don't destroy the initial, main, or root blog.
-	if ( $drop && ( 1 == $blog_id || is_main_site( $blog_id ) || ( $blog->path == $current_site->path && $blog->domain == $current_site->domain ) ) )
+	// If a full blog object is not available, do not destroy anything.
+	if ( $drop && ! $blog ) {
 		$drop = false;
+	}
+
+	// Don't destroy the initial, main, or root blog.
+	if ( $drop && ( 1 == $blog_id || is_main_site( $blog_id ) || ( $blog->path == $current_site->path && $blog->domain == $current_site->domain ) ) ) {
+		$drop = false;
+	}
+
+	$upload_path = trim( get_option( 'upload_path' ) );
+
+	// If ms_files_rewriting is enabled and upload_path is empty, wp_upload_dir is not reliable.
+	if ( $drop && get_site_option( 'ms_files_rewriting' ) && empty( $upload_path ) ) {
+		$drop = false;
+	}
 
 	if ( $drop ) {
+		$uploads = wp_upload_dir();
+
 		$tables = $wpdb->tables( 'blog' );
 		/**
 		 * Filter the tables to drop when the blog is deleted.
@@ -107,7 +122,6 @@ function wpmu_delete_blog( $blog_id, $drop = false ) {
 
 		$wpdb->delete( $wpdb->blogs, array( 'blog_id' => $blog_id ) );
 
-		$uploads = wp_upload_dir();
 		/**
 		 * Filter the upload base directory to delete when the blog is deleted.
 		 *
