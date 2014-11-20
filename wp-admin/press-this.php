@@ -65,7 +65,7 @@ function press_it() {
 	// error handling for media_sideload
 	if ( is_wp_error($upload) ) {
 		wp_delete_post($post_ID);
-		wp_die($upload);
+		wp_die( esc_html( $upload->get_error_message() ) );
 	} else {
 		// Post formats
 		if ( isset( $_POST['post_format'] ) ) {
