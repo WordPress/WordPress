@@ -82,7 +82,7 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 				return '';
 			}
 
-			out = b.replace( /<dl ([^>]+)>\s*<dt [^>]+>([\s\S]+?)<\/dt>\s*<dd [^>]+>([\s\S]*?)<\/dd>\s*<\/dl>/gi, function( a, b, c, caption ) {
+			out = b.replace( /\s*<dl ([^>]+)>\s*<dt [^>]+>([\s\S]+?)<\/dt>\s*<dd [^>]+>([\s\S]*?)<\/dd>\s*<\/dl>\s*/gi, function( a, b, c, caption ) {
 				var id, classes, align, width;
 
 				width = c.match( /width="([0-9]*)"/ );
@@ -116,7 +116,7 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 				return '[caption id="' + id + '" align="' + align + '" width="' + width + '"' + classes + ']' + c + ' ' + caption + '[/caption]';
 			});
 
-			if ( out.indexOf('[caption') !== 0 ) {
+			if ( out.indexOf('[caption') === -1 ) {
 				// the caption html seems broken, try to find the image that may be wrapped in a link
 				// and may be followed by <p> with the caption text.
 				out = b.replace( /[\s\S]*?((?:<a [^>]+>)?<img [^>]+>(?:<\/a>)?)(<p>[\s\S]*<\/p>)?[\s\S]*/gi, '<p>$1</p>$2' );
