@@ -136,7 +136,11 @@ function check_comment($author, $email, $url, $comment, $user_ip, $user_agent, $
  * @return int|array $comments The approved comments, or number of comments if `$count`
  *                             argument is true.
  */
-function get_approved_comments( $post_id = 0, $args = array() ) {
+function get_approved_comments( $post_id, $args = array() ) {
+	if ( ! $post_id ) {
+		return array();
+	}
+
 	$defaults = array(
 		'status'  => 1,
 		'post_id' => $post_id,
