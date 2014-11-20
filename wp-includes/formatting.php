@@ -28,7 +28,7 @@
  * @return string The string replaced with html entities
  */
 function wptexturize($text, $reset = false) {
-	global $wp_cockneyreplace;
+	global $wp_cockneyreplace, $shortcode_tags;
 	static $static_characters, $static_replacements, $dynamic_characters, $dynamic_replacements,
 		$default_no_texturize_tags, $default_no_texturize_shortcodes, $run_texturize = true;
 
@@ -205,6 +205,10 @@ function wptexturize($text, $reset = false) {
 
 	// Look for shortcodes and HTML elements.
 
+	$tagnames = array_keys( $shortcode_tags );
+	$tagregexp = join( '|', array_map( 'preg_quote', $tagnames ) );
+	$tagregexp = "(?:$tagregexp)(?![\\w-])"; // Excerpt of get_shortcode_regex().
+
 	$comment_regex =
 		  '!'           // Start of comment, after the <.
 		. '(?:'         // Unroll the loop: Consume everything until --> is found.
@@ -214,12 +218,16 @@ function wptexturize($text, $reset = false) {
 		. '(?:-->)?';   // End of comment. If not found, match all input.
 
 	$shortcode_regex =
-		  '\['          // Find start of shortcode.
-		. '[\/\[]?'     // Shortcodes may begin with [/ or [[
-		. '[^\s\/\[\]]' // No whitespace before name.
-		. '[^\[\]]*+'   // Shortcodes do not contain other shortcodes. Possessive critical.
-		. '\]'          // Find end of shortcode.
-		. '\]?';        // Shortcodes may end with ]]
+		  '\['              // Find start of shortcode.
+		. '[\/\[]?'         // Shortcodes may begin with [/ or [[
+		. $tagregexp        // Only match registered shortcodes, because performance.
+		. '(?:'
+		.     '[^\[\]<>]+'  // Shortcodes do not contain other shortcodes. Quantifier critical.
+		. '|'
+		.     '<[^\[\]>]*>' // HTML elements permitted. Prevents matching ] before >.
+		. ')*+'             // Possessive critical.
+		. '\]'              // Find end of shortcode.
+		. '\]?';            // Shortcodes may end with ]]
 
 	$regex =
 		  '/('                   // Capture the entire match.
