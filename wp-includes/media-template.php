@@ -312,7 +312,7 @@ function wp_print_media_templates() {
 				<# } #>
 
 				<div class="attachment-actions">
-					<# if ( 'image' === data.type && ! data.uploading && data.sizes ) { #>
+					<# if ( 'image' === data.type && ! data.uploading && data.sizes && data.can.save ) { #>
 						<a class="button edit-attachment" href="#"><?php _e( 'Edit Image' ); ?></a>
 					<# } #>
 				</div>
@@ -408,19 +408,21 @@ function wp_print_media_templates() {
 			</div>
 
 			<div class="actions">
-				<a class="view-attachment" href="{{ data.link }}"><?php _e( 'View attachment page' ); ?></a> |
-				<a href="post.php?post={{ data.id }}&action=edit"><?php _e( 'Edit more details' ); ?></a>
+				<a class="view-attachment" href="{{ data.link }}"><?php _e( 'View attachment page' ); ?></a>
+				<# if ( data.can.save ) { #> |
+					<a href="post.php?post={{ data.id }}&action=edit"><?php _e( 'Edit more details' ); ?></a>
+				<# } #>
 				<# if ( ! data.uploading && data.can.remove ) { #> |
-						<?php if ( MEDIA_TRASH ): ?>
+					<?php if ( MEDIA_TRASH ): ?>
 						<# if ( 'trash' === data.status ) { #>
 							<a class="untrash-attachment" href="#"><?php _e( 'Untrash' ); ?></a>
 						<# } else { #>
 							<a class="trash-attachment" href="#"><?php _e( 'Trash' ); ?></a>
 						<# } #>
-						<?php else: ?>
-							<a class="delete-attachment" href="#"><?php _e( 'Delete Permanently' ); ?></a>
-						<?php endif; ?>
-					<# } #>
+					<?php else: ?>
+						<a class="delete-attachment" href="#"><?php _e( 'Delete Permanently' ); ?></a>
+					<?php endif; ?>
+				<# } #>
 			</div>
 
 		</div>
