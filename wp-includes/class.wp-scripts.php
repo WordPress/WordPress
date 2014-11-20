@@ -138,10 +138,24 @@ class WP_Scripts extends WP_Dependencies {
 		if ( ! $src )
 			return true;
 
-		if ( $this->do_concat )
-			$this->print_html .= "<script type='text/javascript' src='$src'></script>\n";
-		else
-			echo "<script type='text/javascript' src='$src'></script>\n";
+		$tag = "<script type='text/javascript' src='$src'></script>\n";
+
+		/** 
+		 * Filter the HTML script tag of an enqueued script.
+		 *
+		 * @since 4.1.0
+		 *
+		 * @param string $tag    The `<script>` tag for the enqueued script.
+		 * @param string $handle The script's registered handle.
+		 * @param string $src    The script's source URL.
+		 */
+		$tag = apply_filters( 'script_loader_tag', $tag, $handle, $src );
+
+		if ( $this->do_concat ) {
+			$this->print_html .= $tag;
+		} else {
+			echo $tag;
+		}
 
 		return true;
 	}
