@@ -3269,7 +3269,11 @@ function attachment_url_to_postid( $url ) {
 	global $wpdb;
 
 	$dir = wp_upload_dir();
-	$path = ltrim( $url, $dir['baseurl'] . '/' );
+	$path = $url;
+
+	if ( 0 === strpos( $path, $dir['baseurl'] . '/' ) ) {
+		$path = substr( $path, strlen( $dir['baseurl'] . '/' ) );
+	}
 
 	$sql = $wpdb->prepare(
 		"SELECT post_id FROM $wpdb->postmeta WHERE meta_key = '_wp_attached_file' AND meta_value = %s",
