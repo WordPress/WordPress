@@ -4136,6 +4136,61 @@ function _split_shared_term( $term_id, $term_taxonomy_id ) {
 }
 
 /**
+ * Check default categories when a term gets split to see if any of them need
+ * to be updated.
+ *
+ * @since 4.1.0
+ * @access private
+ *
+ * @param int    $term_id          ID of the formerly shared term.
+ * @param int    $new_term_id      ID of the new term created for the $term_taxonomy_id.
+ * @param int    $term_taxonomy_id ID for the term_taxonomy row affected by the split.
+ * @param string $taxonomy         Taxonomy for the split term.
+ */
+function _wp_check_split_default_terms( $term_id, $new_term_id, $term_taxonomy_id, $taxonomy ) {
+	if ( 'category' == $taxonomy ) {
+		foreach ( array( 'default_category', 'default_link_category', 'default_email_category' ) as $option ) {
+			if ( $term_id == get_option( $option, -1 ) ) {
+				update_option( $option, $new_term_id );
+			}
+		}
+	}
+}
+
+/**
+ * Check menu items when a term gets split to see if any of them need to be
+ * updated.
+ *
+ * @since 4.1.0
+ * @access private
+ *
+ * @param int    $term_id          ID of the formerly shared term.
+ * @param int    $new_term_id      ID of the new term created for the $term_taxonomy_id.
+ * @param int    $term_taxonomy_id ID for the term_taxonomy row affected by the split.
+ * @param string $taxonomy         Taxonomy for the split term.
+ */
+function _wp_check_split_terms_in_menus( $term_id, $new_term_id, $term_taxonomy_id, $taxonomy ) {
+	global $wpdb;
+	$post_ids = $wpdb->get_col( $wpdb->prepare(
+		"SELECT m1.post_id
+		FROM {$wpdb->postmeta} AS m1
+			INNER JOIN {$wpdb->postmeta} AS m2 ON m2.post_id=m1.post_id
+			INNER JOIN {$wpdb->postmeta} AS m3 ON m3.post_id=m1.post_id
+		WHERE ( m1.meta_key = '_menu_item_type' AND m1.meta_value = 'taxonomy' )
+			AND ( m2.meta_key = '_menu_item_object' AND m2.meta_value = '%s' )
+			AND ( m3.meta_key = '_menu_item_object_id' AND m3.meta_value = %d )",
+		$taxonomy,
+		$term_id
+	) );
+
+	if ( $post_ids ) {
+		foreach ( $post_ids as $post_id ) {
+			update_post_meta( $post_id, '_menu_item_object_id', $new_term_id, $term_id );
+		}
+	}
+}
+
+/**
  * Generate a permalink for a taxonomy term archive.
  *
  * @since 2.5.0
