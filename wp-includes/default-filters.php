@@ -1,4 +1,4 @@
-<?php
+	<?php
 /**
  * Sets up the default filters and actions for most
  * of the WordPress hooks.
@@ -307,7 +307,7 @@ add_filter( 'determine_current_user', 'wp_validate_auth_cookie'          );
 add_filter( 'determine_current_user', 'wp_validate_logged_in_cookie', 20 );
 
 // Split term updates
-add_filter( 'split_shared_term', '_wp_check_split_default_terms',  10, 4 );
-add_filter( 'split_shared_term', '_wp_check_split_terms_in_menus', 10, 4 );
+add_action( 'split_shared_term', '_wp_check_split_default_terms',  10, 4 );
+add_action( 'split_shared_term', '_wp_check_split_terms_in_menus', 10, 4 );
 
 unset($filter, $action);
