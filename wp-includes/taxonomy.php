@@ -4115,6 +4115,11 @@ function _split_shared_term( $term_id, $term_taxonomy_id ) {
 		clean_term_cache( $term_id, $shared_term_taxonomy );
 	}
 
+	// Keep a record of term_ids that have been split, keyed by old term_id.
+	$split_term_data = get_option( '_split_terms_' . $term_taxonomy->taxonomy, array() );
+	$split_term_data[ $term_id ] = $new_term_id;
+	update_option( '_split_terms_' . $term_taxonomy->taxonomy, $split_term_data );
+
 	/**
 	 * Fires after a previously shared taxonomy term is split into two separate terms.
 	 *
