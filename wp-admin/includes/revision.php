@@ -76,15 +76,16 @@ function wp_get_revision_ui_diff( $post, $compare_from, $compare_to ) {
 		$args = array(
 			'show_split_view' => false
 		);
+
 		/**
 		 * Filter revisions text diff options.
 		 *
-		 * Filter the options passed to `wp_text_diff()` when viewing a post revision.
+		 * Filter the options passed to {@see wp_text_diff()} when viewing a post revision.
 		 *
 		 * @since 4.1.0
 		 *
 		 * @param array   $args {
-		 *     Associative array of options to pass to `wp_text_diff()`.
+		 *     Associative array of options to pass to {@see wp_text_diff()}.
 		 *
 		 *     @type bool $show_split_view False for split view (two columns), true for
 		 *                                 un-split view (single column). Default false.
@@ -94,6 +95,7 @@ function wp_get_revision_ui_diff( $post, $compare_from, $compare_to ) {
 		 * @param WP_Post $compare_to   The revision post to compare to.
 		 */
 		$args = apply_filters( 'revision_text_diff_options', $args, $field, $compare_from, $compare_to );
+
 		$diff = wp_text_diff( $content_from, $content_to, $args );
 
 		if ( ! $diff && 'post_title' === $field ) {
