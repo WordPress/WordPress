@@ -763,7 +763,7 @@ themes.view.Preview = themes.view.Details.extend({
 
 		this.$el.html( this.html( data ) );
 
-		themes.router.navigate( themes.router.baseUrl( '?theme=' + this.model.get( 'id' ) ), { replace: true } );
+		themes.router.navigate( themes.router.baseUrl( themes.router.themePath + this.model.get( 'id' ) ), { replace: true } );
 
 		this.$el.fadeIn( 200, function() {
 			$( 'body' ).addClass( 'theme-installer-active full-overlay-active' );
@@ -996,7 +996,7 @@ themes.view.Themes = wp.Backbone.View.extend({
 		this.model = self.collection.get( id );
 
 		// Trigger a route update for the current model
-		themes.router.navigate( themes.router.baseUrl( '?theme=' + this.model.id ) );
+		themes.router.navigate( themes.router.baseUrl( themes.router.themePath + this.model.id ) );
 
 		// Sets this.view to 'detail'
 		this.setView( 'detail' );
@@ -1132,7 +1132,7 @@ themes.view.Search = wp.Backbone.View.extend({
 
 		// Update the URL hash
 		if ( event.target.value ) {
-			themes.router.navigate( themes.router.baseUrl( '?search=' + event.target.value ), options );
+			themes.router.navigate( themes.router.baseUrl( themes.router.searchPath + event.target.value ), options );
 		} else {
 			themes.router.navigate( themes.router.baseUrl( '' ) );
 		}
@@ -1142,7 +1142,7 @@ themes.view.Search = wp.Backbone.View.extend({
 		var url = themes.router.baseUrl( '' );
 
 		if ( event.target.value ) {
-			url = themes.router.baseUrl( '?search=' + event.target.value );
+			url = themes.router.baseUrl( themes.router.searchPath + event.target.value );
 		}
 
 		this.searching = false;
@@ -1166,6 +1166,9 @@ themes.Router = Backbone.Router.extend({
 	baseUrl: function( url ) {
 		return 'themes.php' + url;
 	},
+
+	themePath: '?theme=',
+	searchPath: '?search=',
 
 	search: function( query ) {
 		$( '.wp-filter-search' ).val( query );
@@ -1296,7 +1299,7 @@ themes.view.InstallerSearch =  themes.view.Search.extend({
 		this.collection.query( request );
 
 		// Set route
-		themes.router.navigate( themes.router.baseUrl( '?search=' + value ), { replace: true } );
+		themes.router.navigate( themes.router.baseUrl( themes.router.searchPath + value ), { replace: true } );
 	}, 300 )
 });
 
@@ -1395,7 +1398,7 @@ themes.view.Installer = themes.view.Appearance.extend({
 		this.sort( sort );
 
 		// Trigger a router.naviagte update
-		themes.router.navigate( themes.router.baseUrl( '?browse=' + sort ) );
+		themes.router.navigate( themes.router.baseUrl( themes.router.browsePath + sort ) );
 	},
 
 	sort: function( sort ) {
@@ -1567,6 +1570,10 @@ themes.InstallerRouter = Backbone.Router.extend({
 	baseUrl: function( url ) {
 		return 'theme-install.php' + url;
 	},
+
+	themePath: '?theme=',
+	browsePath: '?browse=',
+	searchPath: '?search=',
 
 	search: function( query ) {
 		$( '.wp-filter-search' ).val( query );
