@@ -905,13 +905,15 @@ function wp_dropdown_languages( $args = array() ) {
 		}
 	}
 
+	$translations_available = ( ! empty( $translations ) && $args['show_available_translations'] );
+
 	printf( '<select name="%s" id="%s">', esc_attr( $args['name'] ), esc_attr( $args['id'] ) );
 
 	// Holds the HTML markup.
 	$structure = array();
 
 	// List installed languages.
-	if ( $args['show_available_translations'] ) {
+	if ( $translations_available ) {
 		$structure[] = '<optgroup label="' . esc_attr_x( 'Installed', 'translations' ) . '">';
 	}
 	$structure[] = '<option value="" lang="en" data-installed="1">English (United States)</option>';
@@ -924,12 +926,12 @@ function wp_dropdown_languages( $args = array() ) {
 			esc_html( $language['native_name'] )
 		);
 	}
-	if ( $args['show_available_translations'] ) {
+	if ( $translations_available ) {
 		$structure[] = '</optgroup>';
 	}
 
 	// List available translations.
-	if ( ! empty( $translations ) && $args['show_available_translations'] ) {
+	if ( $translations_available ) {
 		$structure[] = '<optgroup label="' . esc_attr_x( 'Available', 'translations' ) . '">';
 		foreach ( $translations as $translation ) {
 			$structure[] = sprintf(
