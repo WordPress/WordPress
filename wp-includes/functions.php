@@ -2338,12 +2338,15 @@ function wp_nonce_ays( $action ) {
  * the `$title` parameter (the default title would apply) or the `$args` parameter.
  *
  * @since 2.0.4
+ * @since 4.1.0 The `$title` and `$args` parameters were changed to optionally accept
+ *              an integer to be used as the response code.
  *
  * @param string|WP_Error  $message Optional. Error message. If this is a {@see WP_Error} object,
  *                                  the error's messages are used. Default empty.
  * @param string|int       $title   Optional. Error title. If `$message` is a `WP_Error` object,
  *                                  error data with the key 'title' may be used to specify the title.
- *                                  Default empty.
+ *                                  If `$title` is an integer, then it is treated as the response
+ *                                  code. Default empty.
  * @param string|array|int $args {
  *     Optional. Arguments to control behavior. If `$args` is an integer, then it is treated
  *     as the response code. Default empty array.
