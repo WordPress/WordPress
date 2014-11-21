@@ -550,40 +550,6 @@ code {
 	margin: 10px 2px 0 20px;
 }
 
-div.updated,
-div.error {
-	padding: 0 0.6em;
-	margin: 5px 15px 2px;
-}
-
-div.updated p,
-div.error p {
-	margin: 0.5em 0;
-	padding: 2px;
-}
-
-.wrap div.updated,
-.wrap div.error,
-.media-upload-form div.error {
-	margin: 5px 0 15px;
-}
-
-div.updated {
-	border-right: 4px solid #7ad03a;
-	padding: 1px 12px;
-	background-color: #fff;
-	-webkit-box-shadow: 0 1px 1px 0 rgba(0,0,0,0.1);
-	box-shadow: 0 1px 1px 0 rgba(0,0,0,0.1);
-}
-
-div.error {
-	border-right: 4px solid #dd3d36;
-	background: #fff;
-	-webkit-box-shadow: 0 1px 1px 0 rgba(0,0,0,0.1);
-	box-shadow: 0 1px 1px 0 rgba(0,0,0,0.1);
-	padding: 1px 12px;
-}
-
 .attention {
 	color: #2ea2cc;
 }
@@ -1247,10 +1213,53 @@ th.action-links {
 
 }
 
-
 /*------------------------------------------------------------------------------
   4.0 - Notifications
 ------------------------------------------------------------------------------*/
+
+.notice,
+div.updated,
+div.error {
+	background: #fff;
+	border-right: 4px solid #fff;
+	-webkit-box-shadow: 0 1px 1px 0 rgba( 0, 0, 0, 0.1 );
+	box-shadow: 0 1px 1px 0 rgba( 0, 0, 0, 0.1 );
+	margin: 5px 15px 2px;
+	padding: 1px 12px;
+}
+
+.notice p,
+div.updated p,
+div.error p {
+	margin: 0.5em 0;
+	padding: 2px;
+}
+
+.notice-success,
+div.updated {
+     border-color: #7ad03a;
+}
+
+.notice-warning {
+    border-color: #ffba00;
+}
+
+.notice-error,
+div.error {
+    border-color: #dd3d36;
+}
+
+.notice-info {
+    border-color: #2ea2cc;
+}
+
+.wrap .notice,
+.wrap div.updated,
+.wrap div.error,
+.media-upload-form .notice,
+.media-upload-form div.error {
+	margin: 5px 0 15px;
+}
 
 #update-nag,
 .update-nag {

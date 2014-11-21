@@ -2084,7 +2084,7 @@ function convert_to_screen( $hook_name ) {
  */
 function _local_storage_notice() {
 	?>
-	<div id="local-storage-notice" class="hidden">
+	<div id="local-storage-notice" class="hidden notice">
 	<p class="local-restore">
 		<?php _e('The backup of this post in your browser is different from the version below.'); ?>
 		<a class="restore-backup" href="#"><?php _e('Restore the backup.'); ?></a>

@@ -388,7 +388,7 @@ if ( isset( $post_new_file ) && current_user_can( $post_type_object->cap->create
 	echo ' <a href="' . esc_url( admin_url( $post_new_file ) ) . '" class="add-new-h2">' . esc_html( $post_type_object->labels->add_new ) . '</a>';
 ?></h2>
 <?php if ( $notice ) : ?>
-<div id="notice" class="error"><p id="has-newer-autosave"><?php echo $notice ?></p></div>
+<div id="notice" class="notice notice-warning"><p id="has-newer-autosave"><?php echo $notice ?></p></div>
 <?php endif; ?>
 <?php if ( $message ) : ?>
 <div id="message" class="updated"><p><?php echo $message; ?></p></div>
