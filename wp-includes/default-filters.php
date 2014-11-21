@@ -1,4 +1,4 @@
-	<?php
+<?php
 /**
  * Sets up the default filters and actions for most
  * of the WordPress hooks.
