@@ -3242,6 +3242,7 @@ function tag_escape($tag_name) {
  * beginning, so it isn't a true relative link, but from the web root base.
  *
  * @since 2.1.0
+ * @since 4.1.0 Support was added for relative URLs.
  *
  * @param string $link Full URL path.
  * @return string Absolute path.
