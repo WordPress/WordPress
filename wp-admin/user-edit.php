@@ -490,8 +490,8 @@ if ( $show_password_fields ) :
 <?php if ( IS_PROFILE_PAGE && ( count( $sessions->get_all() ) > 1 ) ) { ?>
 	<tr class="user-sessions-wrap hide-if-no-js">
 		<th>&nbsp;</th>
-		<td>
-			<p><button class="button button-secondary" id="destroy-sessions" data-token="<?php echo esc_attr( wp_get_session_token() ); ?>"><?php _e( 'Log Out of All Other Sessions' ); ?></button></p>
+		<td aria-live="assertive">
+			<div class="destroy-sessions"><button class="button button-secondary" id="destroy-sessions" data-token="<?php echo esc_attr( wp_get_session_token() ); ?>"><?php _e( 'Log Out of All Other Sessions' ); ?></button></div>
 			<p class="description">
 				<?php _e( 'Left your account logged in at a public computer? Lost your phone? This will log you out everywhere except your current browser.' ); ?>
 			</p>
