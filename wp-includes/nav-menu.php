@@ -661,6 +661,11 @@ function wp_setup_nav_menu_item( $menu_item ) {
 
 				$original_object = get_post( $menu_item->object_id );
 				$original_title = $original_object->post_title;
+
+				if ( '' === $original_title ) {
+					$original_title = sprintf( __( '#%d (no title)' ), $original_object->ID );
+				}
+
 				$menu_item->title = '' == $menu_item->post_title ? $original_title : $menu_item->post_title;
 
 			} elseif ( 'taxonomy' == $menu_item->type ) {

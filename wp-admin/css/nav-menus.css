@@ -471,6 +471,7 @@ ul.add-menu-item-tabs li {
 	position: relative;
 	padding: 10px 15px;
 	height: auto;
+	min-height: 20px;
 	width: 382px;
 	line-height: 30px;
 	overflow: hidden;
