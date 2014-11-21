@@ -34,7 +34,7 @@ else
 	$admin_title = sprintf( __( '%1$s &lsaquo; %2$s &#8212; WordPress' ), $title, $admin_title );
 
 /**
- * Filter the <title> content for an admin page.
+ * Filter the title tag content for an admin page.
  *
  * @since 3.1.0
  *
