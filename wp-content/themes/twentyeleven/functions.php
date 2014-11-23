@@ -740,3 +740,16 @@ function twentyeleven_get_gallery_images() {
 
 	return $images;
 }
+
+/*-----------------------------------------------------------------------------------*/
+# All images to alt tag
+
+function replace_content($text)
+{
+$alt = get_comment_author($id_or_email);
+$text = str_replace('alt=\'\'', 'alt=\''.$alt.'\'',$text);
+return $text;
+}
+add_filter('get_avatar','replace_content');
+
+/*-----------------------------------------------------------------------------------*/
