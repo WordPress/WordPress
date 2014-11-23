@@ -4163,13 +4163,15 @@ function wp_scheduled_delete() {
  * If the file data is not within that first 8kiB, then the author should correct
  * their plugin file and move the data headers to the top.
  *
- * @see http://codex.wordpress.org/File_Header
+ * @link http://codex.wordpress.org/File_Header
  *
  * @since 2.9.0
+ *
  * @param string $file            Path to the file.
  * @param array  $default_headers List of headers, in the format array('HeaderKey' => 'Header Name').
  * @param string $context         Optional. If specified adds filter hook "extra_{$context}_headers".
  *                                Default empty.
+ * @return array Array of file headers in `HeaderKey => Header Value` format.
  */
 function get_file_data( $file, $default_headers, $context = '' ) {
 	// We don't need to write to the file, so just open for reading.
