@@ -3445,11 +3445,11 @@ function _deprecated_file( $file, $version, $replacement = null, $message = '' )
  * Before this function is called, the argument must be checked for whether it was
  * used by comparing it to its default value or evaluating whether it is empty.
  * For example:
- * <code>
- * if ( ! empty( $deprecated ) ) {
- * 	_deprecated_argument( __FUNCTION__, '3.0' );
- * }
- * </code>
+ *
+ *     if ( ! empty( $deprecated ) ) {
+ *         _deprecated_argument( __FUNCTION__, '3.0' );
+ *     }
+ *
  *
  * There is a hook deprecated_argument_run that will be called that can be used
  * to get the backtrace up to what file and function used the deprecated

@@ -90,19 +90,21 @@ function wp_register_script( $handle, $src, $deps = array(), $ver = false, $in_f
  * Works only if the script has already been added.
  *
  * Accepts an associative array $l10n and creates a JavaScript object:
- * <code>
- * "$object_name" = {
- *       key: value,
- *       key: value,
- *       ...
- * }
- * </code>
+ *
+ *     "$object_name" = {
+ *         key: value,
+ *         key: value,
+ *         ...
+ *     }
+ *
  *
  * @see WP_Dependencies::localize()
  * @link https://core.trac.wordpress.org/ticket/11520
  * @global WP_Scripts $wp_scripts The WP_Scripts object for printing scripts.
  *
  * @since 2.6.0
+ *
+ * @todo Documentation cleanup
  *
  * @param string $handle      Script handle the data will be attached to.
  * @param string $object_name Name for the JavaScript object. Passed directly, so it should be qualified JS variable.
