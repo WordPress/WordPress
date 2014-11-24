@@ -648,8 +648,20 @@ function wp_schedule_update_checks() {
 	}
 }
 
-if ( ( ! is_main_site() && ! is_network_admin() ) || ( defined( 'DOING_AJAX' ) && DOING_AJAX ) )
+/**
+ * Clear existing update caches for plugins, themes, and core.
+ *
+ * @since 4.1.0
+ */
+function _wp_clear_update_cache() {
+	wp_clean_plugins_cache();
+	wp_clean_themes_cache();
+	delete_site_transient( 'update_core' );
+}
+
+if ( ( ! is_main_site() && ! is_network_admin() ) || ( defined( 'DOING_AJAX' ) && DOING_AJAX ) ) {
 	return;
+}
 
 add_action( 'admin_init', '_maybe_update_core' );
 add_action( 'wp_version_check', 'wp_version_check' );
@@ -668,6 +680,8 @@ add_action( 'load-update-core.php', 'wp_update_themes' );
 add_action( 'admin_init', '_maybe_update_themes' );
 add_action( 'wp_update_themes', 'wp_update_themes' );
 add_action( 'upgrader_process_complete', 'wp_update_themes', 10, 0 );
+
+add_action( 'update_option_WPLANG', '_wp_clear_update_cache' , 10, 0 );
 
 add_action( 'wp_maybe_auto_update', 'wp_maybe_auto_update' );
 

@@ -1372,9 +1372,7 @@ class Language_Pack_Upgrader extends WP_Upgrader {
 		remove_filter( 'upgrader_source_selection', array( $this, 'check_package' ) );
 
 		if ( $parsed_args['clear_update_cache'] ) {
-			wp_clean_themes_cache( true );
-			wp_clean_plugins_cache( true );
-			delete_site_transient( 'update_core' );
+			_wp_clear_update_cache();
 		}
 
 		return $results;
@@ -2217,9 +2215,7 @@ class WP_Automatic_Updater {
 			}
 
 			// Clear existing caches
-			wp_clean_plugins_cache();
-			wp_clean_themes_cache();
-			delete_site_transient( 'update_core' );
+			_wp_clear_update_cache();
 
 			wp_version_check();  // check for Core updates
 			wp_update_themes();  // Check for Theme updates
