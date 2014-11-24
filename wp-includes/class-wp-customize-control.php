@@ -795,7 +795,7 @@ class WP_Customize_Upload_Control extends WP_Customize_Control {
 		<# } else { #>
 			<p class="placeholder-text"><?php echo $this->button_labels['placeholder']; ?></p>
 			<a class="button upload-button" id="{{ data.settings.default }}-button" href="#"><?php echo $this->button_labels['select']; ?></a>
-			<# if ( ! data.defaultAttachment ) { #>
+			<# if ( data.defaultAttachment ) { #>
 				<a class="default-button remove-button" href="#"><?php echo $this->button_labels['default']; ?></a>
 			<# } #>
 		<# } #>
