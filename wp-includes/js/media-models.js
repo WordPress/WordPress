@@ -7,9 +7,7 @@ window.wp = window.wp || {};
 	/**
 	 * Create and return a media frame.
 	 *
-	 * Handles the default media experience. Automatically creates
-	 * and opens a media frame, and returns the result.
-	 * Does nothing if the controllers do not exist.
+	 * Handles the default media experience.
 	 *
 	 * @param  {object} attributes The properties passed to the main media controller.
 	 * @return {wp.media.view.MediaFrame} A media workflow.
