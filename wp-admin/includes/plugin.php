@@ -14,39 +14,38 @@
  * must not have any newlines or only parts of the description will be displayed
  * and the same goes for the plugin data. The below is formatted for printing.
  *
- * <code>
- * /*
- * Plugin Name: Name of Plugin
- * Plugin URI: Link to plugin information
- * Description: Plugin Description
- * Author: Plugin author's name
- * Author URI: Link to the author's web site
- * Version: Must be set in the plugin for WordPress 2.3+
- * Text Domain: Optional. Unique identifier, should be same as the one used in
- *		plugin_text_domain()
- * Domain Path: Optional. Only useful if the translations are located in a
- *		folder above the plugin's base path. For example, if .mo files are
- *		located in the locale folder then Domain Path will be "/locale/" and
- *		must have the first slash. Defaults to the base folder the plugin is
- *		located in.
- * Network: Optional. Specify "Network: true" to require that a plugin is activated
- *		across all sites in an installation. This will prevent a plugin from being
- *		activated on a single site when Multisite is enabled.
- *  * / # Remove the space to close comment
- * </code>
+ *     /*
+ *     Plugin Name: Name of Plugin
+ *     Plugin URI: Link to plugin information
+ *     Description: Plugin Description
+ *     Author: Plugin author's name
+ *     Author URI: Link to the author's web site
+ *     Version: Must be set in the plugin for WordPress 2.3+
+ *     Text Domain: Optional. Unique identifier, should be same as the one used in
+ *    		plugin_text_domain()
+ *     Domain Path: Optional. Only useful if the translations are located in a
+ *    		folder above the plugin's base path. For example, if .mo files are
+ *    		located in the locale folder then Domain Path will be "/locale/" and
+ *    		must have the first slash. Defaults to the base folder the plugin is
+ *    		located in.
+ *     Network: Optional. Specify "Network: true" to require that a plugin is activated
+ *    		across all sites in an installation. This will prevent a plugin from being
+ *    		activated on a single site when Multisite is enabled.
+ *      * / # Remove the space to close comment
  *
  * Plugin data returned array contains the following:
- *		'Name' - Name of the plugin, must be unique.
- *		'Title' - Title of the plugin and the link to the plugin's web site.
- *		'Description' - Description of what the plugin does and/or notes
- *		from the author.
- *		'Author' - The author's name
- *		'AuthorURI' - The authors web site address.
- *		'Version' - The plugin version number.
- *		'PluginURI' - Plugin web site address.
- *		'TextDomain' - Plugin's text domain for localization.
- *		'DomainPath' - Plugin's relative directory path to .mo files.
- *		'Network' - Boolean. Whether the plugin can only be activated network wide.
+ *
+ * - 'Name' - Name of the plugin, must be unique.
+ * - 'Title' - Title of the plugin and the link to the plugin's web site.
+ * - 'Description' - Description of what the plugin does and/or notes
+ * - from the author.
+ * - 'Author' - The author's name
+ * - 'AuthorURI' - The authors web site address.
+ * - 'Version' - The plugin version number.
+ * - 'PluginURI' - Plugin web site address.
+ * - 'TextDomain' - Plugin's text domain for localization.
+ * - 'DomainPath' - Plugin's relative directory path to .mo files.
+ * - 'Network' - Boolean. Whether the plugin can only be activated network wide.
  *
  * Some users have issues with opening large files and manipulating the contents
  * for want is usually the first 1kiB or 2kiB. This function stops pulling in
@@ -62,6 +61,7 @@
  *
  * @link https://core.trac.wordpress.org/ticket/5651 Previous Optimizations.
  * @link https://core.trac.wordpress.org/ticket/7372 Further and better Optimizations.
+ *
  * @since 1.5.0
  *
  * @param string $plugin_file Path to the plugin file
