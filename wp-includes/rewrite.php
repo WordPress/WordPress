@@ -226,22 +226,20 @@ define( 'EP_ALL', EP_PERMALINK | EP_ATTACHMENT | EP_ROOT | EP_COMMENTS | EP_SEAR
  * Adding an endpoint creates extra rewrite rules for each of the matching
  * places specified by the provided bitmask. For example:
  *
- * <code>
- * add_rewrite_endpoint( 'json', EP_PERMALINK | EP_PAGES );
- * </code>
+ *     add_rewrite_endpoint( 'json', EP_PERMALINK | EP_PAGES );
  *
  * will add a new rewrite rule ending with "json(/(.*))?/?$" for every permastruct
  * that describes a permalink (post) or page. This is rewritten to "json=$match"
  * where $match is the part of the URL matched by the endpoint regex (e.g. "foo" in
- * "<permalink>/json/foo/").
+ * "[permalink]/json/foo/").
  *
  * A new query var with the same name as the endpoint will also be created.
  *
  * When specifying $places ensure that you are using the EP_* constants (or a
  * combination of them using the bitwise OR operator) as their values are not
- * guaranteed to remain static (especially EP_ALL).
+ * guaranteed to remain static (especially `EP_ALL`).
  *
- * Be sure to flush the rewrite rules - flush_rewrite_rules() - when your plugin gets
+ * Be sure to flush the rewrite rules - {@see flush_rewrite_rules()} - when your plugin gets
  * activated and deactivated.
  *
  * @since 2.1.0

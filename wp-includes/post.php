@@ -372,8 +372,8 @@ function get_children( $args = '', $output = OBJECT ) {
  * referenced.
  *
  * The returned array has 'main', 'extended', and 'more_text' keys. Main has the text before
- * the <code><!--more--></code>. The 'extended' key has the content after the
- * <code><!--more--></code> comment. The 'more_text' key has the custom "Read More" text.
+ * the `<!--more-->`. The 'extended' key has the content after the
+ * `<!--more-->` comment. The 'more_text' key has the custom "Read More" text.
  *
  * @since 1.0.0
  *
@@ -1594,8 +1594,8 @@ function _post_type_meta_capabilities( $capabilities = null ) {
  * - singular_name - name for one object of this post type. Default is Post/Page
  * - add_new - Default is Add New for both hierarchical and non-hierarchical types.
  *             When internationalizing this string, please use a gettext context
- *             {@see http://codex.wordpress.org/I18n_for_WordPress_Developers#Disambiguation_by_context}
- *             matching your post type. Example: <code>_x('Add New', 'product');</code>.
+ *             {@link http://codex.wordpress.org/I18n_for_WordPress_Developers#Disambiguation_by_context}
+ *             matching your post type. Example: `_x( 'Add New', 'product' );`.
  * - add_new_item - Default is Add New Post/Add New Page.
  * - edit_item - Default is Edit Post/Edit Page.
  * - new_item - Default is New Post/New Page.
@@ -1606,7 +1606,7 @@ function _post_type_meta_capabilities( $capabilities = null ) {
  * - parent_item_colon - This string isn't used on non-hierarchical types. In hierarchical
  *                       ones the default is 'Parent Page:'.
  * - all_items - String for the submenu. Default is All Posts/All Pages.
- * - menu_name - Default is the same as <code>name</code>.
+ * - menu_name - Default is the same as `name`.
  *
  * Above, the first default value is for non-hierarchical post types (like posts)
  * and the second one is for hierarchical post types (like pages).

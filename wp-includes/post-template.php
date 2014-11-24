@@ -730,11 +730,11 @@ function post_password_required( $post = null ) {
  * @param string|array $args {
  *     Optional. Array or string of default arguments.
  *
- *     @type string       $before           HTML or text to prepend to each link. Default is '<p> Pages:'.
- *     @type string       $after            HTML or text to append to each link. Default is '</p>'.
- *     @type string       $link_before      HTML or text to prepend to each link, inside the <a> tag.
+ *     @type string       $before           HTML or text to prepend to each link. Default is `<p> Pages:`.
+ *     @type string       $after            HTML or text to append to each link. Default is `</p>`.
+ *     @type string       $link_before      HTML or text to prepend to each link, inside the `<a>` tag.
  *                                          Also prepended to the current item, which is not linked. Default empty.
- *     @type string       $link_after       HTML or text to append to each Pages link inside the <a> tag.
+ *     @type string       $link_after       HTML or text to append to each Pages link inside the `<a>` tag.
  *                                          Also appended to the current item, which is not linked. Default empty.
  *     @type string       $next_or_number   Indicates whether page numbers should be used. Valid values are number
  *                                          and next. Default is 'number'.
@@ -1510,7 +1510,7 @@ function wp_get_attachment_link( $id = 0, $size = 'thumbnail', $permalink = fals
 }
 
 /**
- * Wrap attachment in <<p>> element before content.
+ * Wrap attachment in paragraph tag before content.
  *
  * @since 2.0.0
  *
