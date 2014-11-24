@@ -11,13 +11,13 @@
  * Replaces common plain text characters into formatted entities
  *
  * As an example,
- * <code>
- * 'cause today's effort makes it worth tomorrow's "holiday"...
- * </code>
+ *
+ *     'cause today's effort makes it worth tomorrow's "holiday" ...
+ *
  * Becomes:
- * <code>
- * &#8217;cause today&#8217;s effort makes it worth tomorrow&#8217;s &#8220;holiday&#8221;&#8230;
- * </code>
+ *
+ *     &#8217;cause today&#8217;s effort makes it worth tomorrow&#8217;s &#8220;holiday&#8221; &#8230;
+ *
  * Code within certain html blocks are skipped.
  *
  * @since 0.71
@@ -312,7 +312,7 @@ function wptexturize($text, $reset = false) {
  * @since 2.9.0
  * @access private
  *
- * @param string $text Text to check. Must be a tag like <html> or [shortcode].
+ * @param string $text Text to check. Must be a tag like `<html>` or `[shortcode]`.
  * @param array $stack List of open tag elements.
  * @param array $disabled_elements The tag names to match against. Spaces are not allowed in tag names.
  */
@@ -480,7 +480,7 @@ function _autop_newline_preservation_helper( $matches ) {
 /**
  * Don't auto-p wrap shortcodes that stand alone
  *
- * Ensures that shortcodes are not wrapped in <<p>>...<</p>>.
+ * Ensures that shortcodes are not wrapped in `<p>...</p>`.
  *
  * @since 2.9.0
  *
@@ -1366,7 +1366,7 @@ function sanitize_html_class( $class, $fallback = '' ) {
 /**
  * Converts a number of characters from a string.
  *
- * Metadata tags <<title>> and <<category>> are removed, <<br>> and <<hr>> are
+ * Metadata tags `<title>` and `<category>` are removed, `<br>` and `<hr>` are
  * converted into correct XHTML and Unicode characters are converted to the
  * valid range.
  *
@@ -1935,19 +1935,17 @@ function make_clickable( $text ) {
  *
  * Input string must have no null characters (or eventual transformations on output chunks must not care about null characters)
  *
- * <code>
- * _split_str_by_whitespace( "1234 67890 1234 67890a cd 1234   890 123456789 1234567890a    45678   1 3 5 7 90 ", 10 ) ==
- * array (
- *   0 => '1234 67890 ',  // 11 characters: Perfect split
- *   1 => '1234 ',        //  5 characters: '1234 67890a' was too long
- *   2 => '67890a cd ',   // 10 characters: '67890a cd 1234' was too long
- *   3 => '1234   890 ',  // 11 characters: Perfect split
- *   4 => '123456789 ',   // 10 characters: '123456789 1234567890a' was too long
- *   5 => '1234567890a ', // 12 characters: Too long, but no inner whitespace on which to split
- *   6 => '   45678   ',  // 11 characters: Perfect split
- *   7 => '1 3 5 7 9',    //  9 characters: End of $string
- * );
- * </code>
+ *     _split_str_by_whitespace( "1234 67890 1234 67890a cd 1234   890 123456789 1234567890a    45678   1 3 5 7 90 ", 10 ) ==
+ *     array (
+ *         0 => '1234 67890 ',  // 11 characters: Perfect split
+ *         1 => '1234 ',        //  5 characters: '1234 67890a' was too long
+ *         2 => '67890a cd ',   // 10 characters: '67890a cd 1234' was too long
+ *         3 => '1234   890 ',  // 11 characters: Perfect split
+ *         4 => '123456789 ',   // 10 characters: '123456789 1234567890a' was too long
+ *         5 => '1234567890a ', // 12 characters: Too long, but no inner whitespace on which to split
+ *         6 => '   45678   ',  // 11 characters: Perfect split
+ *         7 => '1 3 5 7 9',    //  9 characters: End of $string
+ *     );
  *
  * @since 3.4.0
  * @access private
@@ -2021,7 +2019,7 @@ function wp_rel_nofollow_callback( $matches ) {
  *
  * Callback handler for {@link convert_smilies()}.
  * Looks up one smiley code in the $wpsmiliestrans global array and returns an
- * <img> string for that smiley.
+ * `<img>` string for that smiley.
  *
  * @global array $wpsmiliestrans
  * @since 2.8.0
@@ -3703,10 +3701,10 @@ function _links_add_base($m) {
 /**
  * Adds a Target attribute to all links in passed content.
  *
- * This function by default only applies to <a> tags, however this can be
+ * This function by default only applies to `<a>` tags, however this can be
  * modified by the 3rd param.
  *
- * <b>NOTE:</b> Any current target attributed will be stripped and replaced.
+ * *NOTE:* Any current target attributed will be stripped and replaced.
  *
  * @since 2.7.0
  *
@@ -3757,7 +3755,7 @@ function normalize_whitespace( $str ) {
  * Properly strip all HTML tags including script and style
  *
  * This differs from strip_tags() because it removes the contents of
- * the <script> and <style> tags. E.g. strip_tags( '<script>something</script>' )
+ * the `<script>` and `<style>` tags. E.g. `strip_tags( '<script>something</script>' )`
  * will return 'something'. wp_strip_all_tags will return ''
  *
  * @since 2.9.0
