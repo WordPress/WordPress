@@ -398,16 +398,16 @@ if ( isset( $post_new_file ) && current_user_can( $post_type_object->cap->create
 	<span class="hide-if-no-sessionstorage"><?php _e( 'We&#8217;re backing up this post in your browser, just in case.' ); ?></span>
 	</p>
 </div>
-<?php
+<form name="post" action="post.php" method="post" id="post"<?php
 /**
- * Fires inside the post editor <form> tag.
+ * Fires inside the post editor form tag.
  *
  * @since 3.0.0
  *
  * @param WP_Post $post Post object.
  */
-?>
-<form name="post" action="post.php" method="post" id="post"<?php do_action( 'post_edit_form_tag', $post ); ?>>
+do_action( 'post_edit_form_tag', $post );
+?>>
 <?php wp_nonce_field($nonce_action); ?>
 <input type="hidden" id="user-id" name="user_ID" value="<?php echo (int) $user_ID ?>" />
 <input type="hidden" id="hiddenaction" name="action" value="<?php echo esc_attr( $form_action ) ?>" />
