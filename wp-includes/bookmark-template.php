@@ -34,8 +34,8 @@
  *                                      or 0|false. Default 1|true.
  *     @type int|bool $show_name        Whether to show link name if available. Accepts 1|true or
  *                                      0|false. Default 0|false.
- *     @type string   $before           The HTML or text to prepend to each bookmark. Default '<li>'.
- *     @type string   $after            The HTML or text to append to each bookmark. Default '</li>'.
+ *     @type string   $before           The HTML or text to prepend to each bookmark. Default `<li>`.
+ *     @type string   $after            The HTML or text to append to each bookmark. Default `</li>`.
  *     @type string   $link_before      The HTML or text to prepend to each bookmark inside the anchor
  *                                      tags. Default empty.
  *     @type string   $link_after       The HTML or text to append to each bookmark inside the anchor

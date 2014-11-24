@@ -48,7 +48,7 @@ final class _WP_Editors {
 	 *     @type string     $tabfocus_elements The previous and next element ID to move the focus to
 	 *                                         when pressing the Tab key in TinyMCE. Defualt ':prev,:next'.
 	 *     @type string     $editor_css        Intended for extra styles for both Visual and Text editors.
-	 *                                         Should include <style> tags, and can use "scoped". Default empty.
+	 *                                         Should include `<style>` tags, and can use "scoped". Default empty.
 	 *     @type string     $editor_class      Extra classes to add to the editor textarea elemen. Default empty.
 	 *     @type bool       $teeny             Whether to output the minimal editor config. Examples include
 	 *                                         Press This and the Comment editor. Default false.

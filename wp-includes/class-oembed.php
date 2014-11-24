@@ -291,9 +291,9 @@ class WP_oEmbed {
 	}
 
 	/**
-	 * Attempts to find oEmbed provider discovery <link> tags at the given URL.
+	 * Attempts to discover link tags at the given URL for an oEmbed provider.
 	 *
-	 * @param string $url The URL that should be inspected for discovery <link> tags.
+	 * @param string $url The URL that should be inspected for discovery `<link>` tags.
 	 * @return bool|string False on failure, otherwise the oEmbed provider URL.
 	 */
 	public function discover( $url ) {
