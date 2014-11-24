@@ -108,14 +108,17 @@ do_action( "admin_print_scripts-$hook_suffix" );
 do_action( 'admin_print_scripts' );
 
 /**
- * Fires in <head> for a specific admin page based on $hook_suffix.
+ * Fires in head section for a specific admin page.
+ *
+ * The dynamic portion of the hook, `$hook_suffix`, refers to the hook suffix
+ * for the admin page.
  *
  * @since 2.1.0
  */
 do_action( "admin_head-$hook_suffix" );
 
 /**
- * Fires in <head> for all admin pages.
+ * Fires in head section for all admin pages.
  *
  * @since 2.1.0
  */
@@ -159,7 +162,7 @@ $admin_body_class .= ' no-customize-support no-svg';
 </head>
 <?php
 /**
- * Filter the admin <body> CSS classes.
+ * Filter the CSS classes for the body tag in the admin.
  *
  * This filter differs from the post_class or body_class filters in two important ways:
  * 1. $classes is a space-separated string of class names instead of an array.
