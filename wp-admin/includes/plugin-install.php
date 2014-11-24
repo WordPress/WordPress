@@ -463,14 +463,12 @@ function install_plugin_information() {
 				$_rating = $api->num_ratings ? ( $ratecount / $api->num_ratings ) : 0;
 				?>
 				<div class="counter-container">
-					<a href="https://wordpress.org/support/view/plugin-reviews/<?php echo $api->slug; ?>?filter=<?php echo $key; ?>"
-					   target="_blank"
-					   title="<?php echo esc_attr( sprintf( _n( 'Click to see reviews that provided a rating of %d star', 'Click to see reviews that provided a rating of %d stars', $key ), $key ) ); ?>">
-						<span class="counter-label"><?php printf( _n( '%d star', '%d stars', $key ), $key ); ?></span>
-						<span class="counter-back">
-							<span class="counter-bar" style="width: <?php echo 92 * $_rating; ?>px;"></span>
-						</span>
-					</a>
+					<span class="counter-label"><a href="https://wordpress.org/support/view/plugin-reviews/<?php echo $api->slug; ?>?filter=<?php echo $key; ?>"
+						target="_blank"
+						title="<?php echo esc_attr( sprintf( _n( 'Click to see reviews that provided a rating of %d star', 'Click to see reviews that provided a rating of %d stars', $key ), $key ) ); ?>"><?php printf( _n( '%d star', '%d stars', $key ), $key ); ?></a></span>
+					<span class="counter-back">
+						<span class="counter-bar" style="width: <?php echo 92 * $_rating; ?>px;"></span>
+					</span>
 					<span class="counter-count"><?php echo number_format_i18n( $ratecount ); ?></span>
 				</div>
 				<?php
