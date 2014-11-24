@@ -11,7 +11,7 @@ $more = 1;
 echo '<?xml version="1.0" encoding="'.get_option('blog_charset').'"?'.'>';
 
 /**
- * Fires between the <xml> and <rss> tags in a feed.
+ * Fires between the xml and rss tags in a feed.
  *
  * @since 4.0.0
  *

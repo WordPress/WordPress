@@ -2137,7 +2137,7 @@ function wp_list_comments( $args = array(), $comments = null ) {
  *     }
  *     @type string $comment_field        The comment textarea field HTML.
  *     @type string $must_log_in          HTML element for a 'must be logged in to comment' message.
- *     @type string $logged_in_as         HTML element for a 'logged in as <user>' message.
+ *     @type string $logged_in_as         HTML element for a 'logged in as [user]' message.
  *     @type string $comment_notes_before HTML element for a message displayed before the comment form.
  *                                        Default 'Your email address will not be published.'.
  *     @type string $comment_notes_after  HTML element for a message displayed after the comment form.
@@ -2246,7 +2246,7 @@ function comment_form( $args = array(), $post_id = null ) {
 					<form action="<?php echo site_url( '/wp-comments-post.php' ); ?>" method="post" id="<?php echo esc_attr( $args['id_form'] ); ?>" class="comment-form"<?php echo $html5 ? ' novalidate' : ''; ?>>
 						<?php
 						/**
-						 * Fires at the top of the comment form, inside the <form> tag.
+						 * Fires at the top of the comment form, inside the form tag.
 						 *
 						 * @since 3.0.0
 						 */

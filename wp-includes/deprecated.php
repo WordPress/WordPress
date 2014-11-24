@@ -451,12 +451,10 @@ function wp_get_linksbyname($category, $args = '') {
 /**
  * Gets an array of link objects associated with category $cat_name.
  *
- * <code>
- *	$links = get_linkobjectsbyname('fred');
- *	foreach ($links as $link) {
- * 		echo '<li>'.$link->link_name.'</li>';
- *	}
- * </code>
+ *     $links = get_linkobjectsbyname( 'fred' );
+ *     foreach ( $links as $link ) {
+ *      	echo '<li>' . $link->link_name . '</li>';
+ *     }
  *
  * @since 1.0.1
  * @deprecated 2.1.0
@@ -485,31 +483,29 @@ function get_linkobjectsbyname($cat_name = "noname" , $orderby = 'name', $limit 
  * Gets an array of link objects associated with category n.
  *
  * Usage:
- * <code>
- *	$links = get_linkobjects(1);
- *	if ($links) {
- *		foreach ($links as $link) {
- *			echo '<li>'.$link->link_name.'<br />'.$link->link_description.'</li>';
- *		}
- *	}
- * </code>
+ *
+ *     $links = get_linkobjects(1);
+ *     if ($links) {
+ *     	foreach ($links as $link) {
+ *     		echo '<li>'.$link->link_name.'<br />'.$link->link_description.'</li>';
+ *     	}
+ *     }
  *
  * Fields are:
- * <ol>
- *	<li>link_id</li>
- *	<li>link_url</li>
- *	<li>link_name</li>
- *	<li>link_image</li>
- *	<li>link_target</li>
- *	<li>link_category</li>
- *	<li>link_description</li>
- *	<li>link_visible</li>
- *	<li>link_owner</li>
- *	<li>link_rating</li>
- *	<li>link_updated</li>
- *	<li>link_rel</li>
- *	<li>link_notes</li>
- * </ol>
+ *
+ * - link_id
+ * - link_url
+ * - link_name
+ * - link_image
+ * - link_target
+ * - link_category
+ * - link_description
+ * - link_visible
+ * - link_owner
+ * - link_rating
+ * - link_updated
+ * - link_rel
+ * - link_notes
  *
  * @since 1.0.1
  * @deprecated 2.1.0
@@ -2989,7 +2985,7 @@ function get_current_theme() {
 /**
  * Accepts matches array from preg_replace_callback in wpautop() or a string.
  *
- * Ensures that the contents of a <<pre>>...<</pre>> HTML block are not
+ * Ensures that the contents of a `<pre>...</pre>` HTML block are not
  * converted into paragraphs or line-breaks.
  *
  * @since 1.2.0

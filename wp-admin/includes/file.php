@@ -868,15 +868,23 @@ function WP_Filesystem( $args = false, $context = false, $allow_relaxed_file_own
 
 /**
  * Determines which Filesystem Method to use.
- * The priority of the Transports are: Direct, SSH2, FTP PHP Extension, FTP Sockets (Via Sockets class, or fsockopen())
+ *
+ * The priority of the Transports are: Direct, SSH2, FTP PHP Extension,
+ * FTP Sockets (Via Sockets class, or `fsockopen()`).
  *
  * Note that the return value of this function can be overridden in 2 ways
- *  - By defining FS_METHOD in your <code>wp-config.php</code> file
+ *
+ *  - By defining FS_METHOD in your `wp-config.php` file
  *  - By using the filesystem_method filter
- * Valid values for these are: 'direct', 'ssh2', 'ftpext' or 'ftpsockets'
- * Plugins may also define a custom transport handler, See the WP_Filesystem function for more information.
+ *
+ * Valid values for these are: 'direct', 'ssh2', 'ftpext' or 'ftpsockets'.
+ *
+ * Plugins may also define a custom transport handler, See the WP_Filesystem
+ * function for more information.
  *
  * @since 2.5.0
+ *
+ * @todo Properly mark arguments as optional.
  *
  * @param array $args Connection details.
  * @param string $context Full path to the directory that is tested for being writable.
@@ -943,14 +951,20 @@ function get_filesystem_method( $args = array(), $context = false, $allow_relaxe
 }
 
 /**
- * Displays a form to the user to request for their FTP/SSH details in order to connect to the filesystem.
+ * Displays a form to the user to request for their FTP/SSH details in order
+ * to connect to the filesystem.
+ *
  * All chosen/entered details are saved, Excluding the Password.
  *
- * Hostnames may be in the form of hostname:portnumber (eg: wordpress.org:2467) to specify an alternate FTP/SSH port.
+ * Hostnames may be in the form of hostname:portnumber (eg: wordpress.org:2467)
+ * to specify an alternate FTP/SSH port.
  *
- * Plugins may override this form by returning true|false via the <code>request_filesystem_credentials</code> filter.
+ * Plugins may override this form by returning true|false via the
+ * {@see 'request_filesystem_credentials'} filter.
  *
- * @since 2.5.0
+ * @since 2.5.
+ *
+ * @todo Properly mark optional arguments as such
  *
  * @param string $form_post the URL to post the form to
  * @param string $type the chosen Filesystem method in use
