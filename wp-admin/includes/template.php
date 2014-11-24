@@ -13,12 +13,13 @@
 //
 
 /**
- * Walker to output an unordered list of category checkbox <input> elements.
+ * Walker to output an unordered list of category checkbox input elements.
+ *
+ * @since 2.5.1
  *
  * @see Walker
  * @see wp_category_checklist()
  * @see wp_terms_checklist()
- * @since 2.5.1
  */
 class Walker_Category_Checklist extends Walker {
 	public $tree_type = 'category';
@@ -112,11 +113,14 @@ class Walker_Category_Checklist extends Walker {
 }
 
 /**
- * Output an unordered list of checkbox <input> elements labelled
+ * Output an unordered list of checkbox input elements labelled
  * with category names.
  *
- * @see wp_terms_checklist()
  * @since 2.5.1
+ *
+ * @todo Properly document optional arguments as such.
+ *
+ * @see wp_terms_checklist()
  *
  * @param int $post_id Mark categories associated with this post as checked. $selected_cats must not be an array.
  * @param int $descendants_and_self ID of the category to output along with its descendents.
@@ -137,13 +141,16 @@ function wp_category_checklist( $post_id = 0, $descendants_and_self = 0, $select
 }
 
 /**
- * Output an unordered list of checkbox <input> elements labelled
- * with term names. Taxonomy independent version of wp_category_checklist().
+ * Output an unordered list of checkbox input elements labelled with term names.
+ *
+ * Taxonomy independent version of {@see wp_category_checklist()}.
  *
  * @since 3.0.0
  *
- * @param int $post_id
- * @param array $args
+ * @todo Properly document optional default arguments.
+ *
+ * @param int   $post_id Post ID.
+ * @param array $args    Arguments to form the terms checklist.
  */
 function wp_terms_checklist( $post_id = 0, $args = array() ) {
  	$defaults = array(
@@ -236,7 +243,7 @@ function wp_terms_checklist( $post_id = 0, $args = array() ) {
  * Retrieve a list of the most popular terms from the specified taxonomy.
  *
  * If the $echo argument is true then the elements for a list of checkbox
- * <input> elements labelled with the names of the selected terms is output.
+ * `<input>` elements labelled with the names of the selected terms is output.
  * If the $post_ID global isn't empty then the terms associated with that
  * post will be marked as checked.
  *
@@ -782,7 +789,7 @@ function touch_time( $edit = 1, $for_post = 1, $tab_index = 0, $multi = 0 ) {
 }
 
 /**
- * Print out <option> HTML elements for the page templates drop-down.
+ * Print out option HTML elements for the page templates drop-down.
  *
  * @since 1.5.0
  *
@@ -798,7 +805,7 @@ function page_template_dropdown( $default = '' ) {
 }
 
 /**
- * Print out <option> HTML elements for the page parents drop-down.
+ * Print out option HTML elements for the page parents drop-down.
  *
  * @since 1.5.0
  *
@@ -831,7 +838,7 @@ function parent_dropdown( $default = 0, $parent = 0, $level = 0 ) {
 }
 
 /**
- * Print out <option> html elements for role selectors
+ * Print out option html elements for role selectors.
  *
  * @since 2.1.0
  *
@@ -1307,12 +1314,15 @@ function do_settings_fields($page, $section) {
  *
  * @since 3.0.0
  *
+ * @todo Properly document optional arguments as such.
+ *
  * @global array $wp_settings_errors Storage array of errors registered during this pageload
  *
  * @param string $setting Slug title of the setting to which this error applies
- * @param string $code Slug-name to identify the error. Used as part of 'id' attribute in HTML output.
- * @param string $message The formatted message text to display to the user (will be shown inside styled <div> and <p>)
- * @param string $type The type of message it is, controls HTML class. Use 'error' or 'updated'.
+ * @param string $code    Slug-name to identify the error. Used as part of 'id' attribute in HTML output.
+ * @param string $message The formatted message text to display to the user (will be shown inside styled
+ *                        `<div>` and `<p>` tags).
+ * @param string $type    The type of message it is, controls HTML class. Use 'error' or 'updated'.
  */
 function add_settings_error( $setting, $code, $message, $type = 'error' ) {
 	global $wp_settings_errors;
@@ -1382,20 +1392,24 @@ function get_settings_errors( $setting = '', $sanitize = false ) {
 }
 
 /**
- * Display settings errors registered by add_settings_error()
+ * Display settings errors registered by {@see add_settings_error()}.
  *
- * Part of the Settings API. Outputs a <div> for each error retrieved by get_settings_errors().
+ * Part of the Settings API. Outputs a div for each error retrieved by
+ * {@see get_settings_errors()}.
  *
- * This is called automatically after a settings page based on the Settings API is submitted.
- * Errors should be added during the validation callback function for a setting defined in register_setting()
+ * This is called automatically after a settings page based on the
+ * Settings API is submitted. Errors should be added during the validation
+ * callback function for a setting defined in {@see register_setting()}
  *
- * The $sanitize option is passed into get_settings_errors() and will re-run the setting sanitization
+ * The $sanitize option is passed into {@see get_settings_errors()} and will
+ * re-run the setting sanitization
  * on its current value.
  *
- * The $hide_on_update option will cause errors to only show when the settings page is first loaded.
- * if the user has already saved new values it will be hidden to avoid repeating messages already
- * shown in the default error reporting after submission. This is useful to show general errors like missing
- * settings when the user arrives at the settings page.
+ * The $hide_on_update option will cause errors to only show when the settings
+ * page is first loaded. if the user has already saved new values it will be
+ * hidden to avoid repeating messages already shown in the default error
+ * reporting after submission. This is useful to show general errors like
+ * missing settings when the user arrives at the settings page.
  *
  * @since 3.0.0
  *

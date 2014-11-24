@@ -19,7 +19,7 @@ if ( is_array( get_site_option( 'illegal_names' )) && isset( $_GET[ 'new' ] ) &&
  */
 function do_signup_header() {
 	/**
-	 * Fires within the <head> section of the site sign-up screen.
+	 * Fires within the head section of the site sign-up screen.
 	 *
 	 * @since 3.0.0
 	 */

@@ -155,8 +155,8 @@ function get_taxonomies( $args = array(), $output = 'names', $operator = 'and' )
  * It appears that this function can be used to find all of the names inside of
  * $wp_taxonomies global variable.
  *
- * <code><?php $taxonomies = get_object_taxonomies('post'); ?></code> Should
- * result in <code>Array('category', 'post_tag')</code>
+ * `<?php $taxonomies = get_object_taxonomies('post'); ?>` Should
+ * result in `Array( 'category', 'post_tag' )`
  *
  * @since 2.3.0
  *
@@ -434,13 +434,14 @@ function register_taxonomy( $taxonomy, $object_type, $args = array() ) {
  * Builds an object with all taxonomy labels out of a taxonomy object
  *
  * Accepted keys of the label array in the taxonomy object:
+ *
  * - name - general name for the taxonomy, usually plural. The same as and overridden by $tax->label. Default is Tags/Categories
  * - singular_name - name for one object of this taxonomy. Default is Tag/Category
  * - search_items - Default is Search Tags/Search Categories
  * - popular_items - This string isn't used on hierarchical taxonomies. Default is Popular Tags
  * - all_items - Default is All Tags/All Categories
  * - parent_item - This string isn't used on non-hierarchical taxonomies. In hierarchical ones the default is Parent Category
- * - parent_item_colon - The same as <code>parent_item</code>, but with colon <code>:</code> in the end
+ * - parent_item_colon - The same as `parent_item`, but with colon `:ё in the end
  * - edit_item - Default is Edit Tag/Edit Category
  * - view_item - Default is View Tag/View Category
  * - update_item - Default is Update Tag/Update Category

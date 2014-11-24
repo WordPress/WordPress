@@ -25,7 +25,8 @@ if ( force_ssl_admin() && ! is_ssl() ) {
 /**
  * Output the login page header.
  *
- * @param string   $title    Optional. WordPress Log In Page title to display in <title> element. Default 'Log In'.
+ * @param string   $title    Optional. WordPress login Page title to display in the `<title>` element.
+ *                           Default 'Log In'.
  * @param string   $message  Optional. Message to display in header. Default empty.
  * @param WP_Error $wp_error Optional. The error to pass. Default empty.
  */
@@ -537,7 +538,7 @@ case 'retrievepassword' :
 	</p>
 	<?php
 	/**
-	 * Fires inside the lostpassword <form> tags, before the hidden fields.
+	 * Fires inside the lostpassword form tags, before the hidden fields.
 	 *
 	 * @since 2.1.0
 	 */
