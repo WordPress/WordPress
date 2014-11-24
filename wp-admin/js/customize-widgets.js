@@ -1387,24 +1387,6 @@
 				registeredSidebar.set( 'is_rendered', active );
 			});
 			registeredSidebar.set( 'is_rendered', section.active() );
-		},
-
-		/**
-		 * Override Section.isContextuallyActive() to skip considering
-		 * SidebarControl  as opposed to a WidgetControl.
-		 *
-		 * @returns {boolean}
-		 */
-		isContextuallyActive: function () {
-			var section, activeCount;
-			section = this;
-			activeCount = 0;
-			_( section.controls() ).each( function ( control ) {
-				if ( control.active() && ! control.extended( api.Widgets.SidebarControl ) ) {
-					activeCount += 1;
-				}
-			});
-			return ( activeCount !== 0 );
 		}
 	});
 
