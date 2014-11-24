@@ -913,12 +913,12 @@ class WP_List_Table {
 	}
 
 	/**
-	 * Get a list of CSS classes for the <table> tag
+	 * Get a list of CSS classes for the list table table tag.
 	 *
 	 * @since 3.1.0
 	 * @access protected
 	 *
-	 * @return array
+	 * @return array List of CSS classes for the table tag.
 	 */
 	protected function get_table_classes() {
 		return array( 'widefat', 'fixed', $this->_args['plural'] );
@@ -958,7 +958,7 @@ class WP_List_Table {
 	protected function extra_tablenav( $which ) {}
 
 	/**
-	 * Generate the <tbody> part of the table
+	 * Generate the tbody element for the list table.
 	 *
 	 * @since 3.1.0
 	 * @access public

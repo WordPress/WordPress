@@ -229,7 +229,7 @@ class WP_Embed {
 			 *
 			 * @see WP_oEmbed::discover()
 			 *
-			 * @param bool $enable Whether to enable link tag discovery. Default false.
+			 * @param bool $enable Whether to enable `<link>` tag discovery. Default false.
 			 */
 			$attr['discover'] = ( apply_filters( 'embed_oembed_discover', false ) && author_can( $post_ID, 'unfiltered_html' ) );
 

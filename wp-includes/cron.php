@@ -349,17 +349,17 @@ function wp_cron() {
  * 60*60*24*7 or 604800. The value of 'interval' would then be 604800.
  *
  * The 'display' is the description. For the 'weekly' key, the 'display' would
- * be <code>__('Once Weekly')</code>.
+ * be `__( 'Once Weekly' )`.
  *
  * For your plugin, you will be passed an array. you can easily add your
  * schedule by doing the following.
- * <code>
- * // filter parameter variable name is 'array'
- *	$array['weekly'] = array(
- *		'interval' => 604800,
- *		'display' => __('Once Weekly')
- *	);
- * </code>
+ *
+ *     // Filter parameter variable name is 'array'.
+ *     $array['weekly'] = array(
+ *         'interval' => 604800,
+ *     	   'display'  => __( 'Once Weekly' )
+ *     );
+ *
  *
  * @since 2.1.0
  *
