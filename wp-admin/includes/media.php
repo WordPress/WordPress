@@ -2349,7 +2349,7 @@ foreach ( $post_mime_types as $mime_type => $label ) {
 /**
  * Filter the media upload mime type list items.
  *
- * Returned values should begin with an <li> tag.
+ * Returned values should begin with an `<li>` tag.
  *
  * @since 3.1.0
  *
