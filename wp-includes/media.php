@@ -3100,7 +3100,7 @@ function get_attached_media( $type, $post = 0 ) {
 }
 
 /**
- * Check the content blob for an <audio>, <video> <object>, <embed>, or <iframe>
+ * Check the content blob for an audio, video, object, embed, or iframe tags.
  *
  * @since 3.6.0
  *
@@ -3286,7 +3286,7 @@ function attachment_url_to_postid( $url ) {
 }
 
 /**
- * Return the URls for CSS files used in an <iframe>-sandbox'd TinyMCE media view
+ * Return the URLs for CSS files used in an iframe-sandbox'd TinyMCE media view.
  *
  * @since 4.0.0
  *

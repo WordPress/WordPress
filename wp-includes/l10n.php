@@ -76,7 +76,7 @@ function get_locale() {
  *
  * If there is no translation, or the text domain isn't loaded, the original text is returned.
  *
- * <strong>Note:</strong> Don't use translate() directly, use __() or related functions.
+ * *Note:* Don't use {@see translate()} directly, use `{@see __()} or related functions.
  *
  * @since 2.2.0
  *
@@ -87,6 +87,7 @@ function get_locale() {
 function translate( $text, $domain = 'default' ) {
 	$translations = get_translations_for_domain( $domain );
 	$translations = $translations->translate( $text );
+
 	/**
 	 * Filter text with its translation.
 	 *
@@ -364,15 +365,14 @@ function _nx($single, $plural, $number, $context, $domain = 'default') {
  * strings and use them later.
  *
  * Example:
- * <code>
- * $messages = array(
- *  	'post' => _n_noop('%s post', '%s posts'),
- *  	'page' => _n_noop('%s pages', '%s pages')
- * );
- * ...
- * $message = $messages[$type];
- * $usable_text = sprintf( translate_nooped_plural( $message, $count ), $count );
- * </code>
+ *
+ *     $messages = array(
+ *      	'post' => _n_noop( '%s post', '%s posts' ),
+ *      	'page' => _n_noop( '%s pages', '%s pages' ),
+ *     );
+ *     ...
+ *     $message = $messages[ $type ];
+ *     $usable_text = sprintf( translate_nooped_plural( $message, $count ), $count );
  *
  * @since 2.5.0
  *
