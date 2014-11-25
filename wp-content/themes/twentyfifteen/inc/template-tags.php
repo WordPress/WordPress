@@ -1,6 +1,6 @@
 <?php
 /**
- * Custom template tags for this theme.
+ * Custom template tags for Twenty Fifteen
  *
  * Eventually, some of the functionality here could be replaced by core features.
  *
@@ -126,11 +126,11 @@ function twentyfifteen_entry_meta() {
 endif;
 
 /**
- * Returns true if a blog has more than 1 category.
+ * Determine whether blog/site has more than one category.
  *
  * @since Twenty Fifteen 1.0
  *
- * @return bool
+ * @return bool True of there is more than one category, false otherwise.
  */
 function twentyfifteen_categorized_blog() {
 	if ( false === ( $all_the_cool_cats = get_transient( 'twentyfifteen_categories' ) ) ) {
@@ -159,7 +159,7 @@ function twentyfifteen_categorized_blog() {
 }
 
 /**
- * Flush out the transients used in twentyfifteen_categorized_blog.
+ * Flush out the transients used in {@see twentyfifteen_categorized_blog()}.
  *
  * @since Twenty Fifteen 1.0
  */
@@ -210,7 +210,8 @@ if ( ! function_exists( 'twentyfifteen_get_link_url' ) ) :
  * Falls back to the post permalink if no URL is found in the post.
  *
  * @since Twenty Fifteen 1.0
- * @uses get_url_in_content()
+ *
+ * @see get_url_in_content()
  *
  * @return string The Link format URL.
  */
@@ -223,10 +224,11 @@ endif;
 
 if ( ! function_exists( 'twentyfifteen_excerpt_more' ) && ! is_admin() ) :
 /**
- * Replaces "[...]" (appended to automatically generated excerpts) with ... and a Continue reading link.
+ * Replaces "[...]" (appended to automatically generated excerpts) with ... and a 'Continue reading' link.
  *
  * @since Twenty Fifteen 1.0
  *
+ * @return string 'Continue reading' link prepended with an ellipsis.
  */
 function twentyfifteen_excerpt_more( $more ) {
 	$link = sprintf( '<a href="%1$s" class="more-link">%2$s</a>',

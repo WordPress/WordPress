@@ -147,7 +147,7 @@ if ( ! function_exists( 'twentyfifteen_fonts_url' ) ) :
  *
  * @since Twenty Fifteen 1.0
  *
- * @return string
+ * @return string Google fonts URL for the theme.
  */
 function twentyfifteen_fonts_url() {
 	$fonts   = array();
@@ -245,6 +245,8 @@ add_action( 'wp_enqueue_scripts', 'twentyfifteen_scripts' );
  * Add featured image as background image to post navigation elements.
  *
  * @since Twenty Fifteen 1.0
+ *
+ * @see wp_add_inline_style()
  */
 function twentyfifteen_post_nav_background() {
 	if ( ! is_single() ) {
@@ -290,7 +292,6 @@ add_action( 'wp_enqueue_scripts', 'twentyfifteen_post_nav_background' );
  * @param WP_Post $item        Menu item object.
  * @param int     $depth       Depth of the menu.
  * @param array   $args        wp_nav_menu() arguments.
- *
  * @return string Menu item with possible description.
  */
 function twentyfifteen_nav_description( $item_output, $item, $depth, $args ) {
@@ -307,9 +308,8 @@ add_filter( 'walker_nav_menu_start_el', 'twentyfifteen_nav_description', 10, 4 )
  *
  * @since Twenty Fifteen 1.0
  *
- * @param string $html Search form HTML
- *
- * @return string Modified search form HTML
+ * @param string $html Search form HTML.
+ * @return string Modified search form HTML.
  */
 function twentyfifteen_search_form_modify( $html ) {
 	return str_replace( 'class="search-submit"', 'class="search-submit screen-reader-text"', $html );

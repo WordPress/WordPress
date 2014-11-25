@@ -1,6 +1,6 @@
 <?php
 /**
- * Twenty Fifteen Customizer.
+ * Twenty Fifteen Customizer functionality
  *
  * @package WordPress
  * @subpackage Twenty_Fifteen
@@ -76,7 +76,8 @@ add_action( 'customize_register', 'twentyfifteen_customize_register', 11 );
 
 /**
  * Register color schemes for Twenty Fifteen.
- * Can be filtered with twentyfifteen_color_schemes.
+ *
+ * Can be filtered with {@see 'twentyfifteen_color_schemes'}.
  *
  * The order of colors in a colors array:
  * 1. Main Background Color.
@@ -163,11 +164,11 @@ function twentyfifteen_get_color_schemes() {
 
 if ( ! function_exists( 'twentyfifteen_get_color_scheme' ) ) :
 /**
- * Returns an array of either the current or default color scheme hex values.
+ * Get the current Twenty Fifteen color scheme.
  *
  * @since Twenty Fifteen 1.0
  *
- * @return array
+ * @return array An associative array of either the current or default color scheme hex values.
  */
 function twentyfifteen_get_color_scheme() {
 	$color_scheme_option = get_theme_mod( 'color_scheme', 'default' );
@@ -187,7 +188,7 @@ if ( ! function_exists( 'twentyfifteen_get_color_scheme_control_options' ) ) :
  *
  * @since Twenty Fifteen 1.0
  *
- * @return array
+ * @return array Array of color schemes.
  */
 function twentyfifteen_get_color_scheme_choices() {
 	$color_schemes                = twentyfifteen_get_color_schemes();
@@ -208,7 +209,6 @@ if ( ! function_exists( 'twentyfifteen_sanitize_color_scheme' ) ) :
  * @since Twenty Fifteen 1.0
  *
  * @param string $value Color scheme name value.
- *
  * @return string Color scheme name.
  */
 function twentyfifteen_sanitize_color_scheme( $value ) {
@@ -226,6 +226,8 @@ endif; // twentyfifteen_sanitize_color_scheme
  * Enqueues front-end CSS for color scheme.
  *
  * @since Twenty Fifteen 1.0
+ *
+ * @see wp_add_inline_style()
  */
 function twentyfifteen_color_scheme_css() {
 	$color_scheme_option = get_theme_mod( 'color_scheme', 'default' );
@@ -242,6 +244,7 @@ add_action( 'wp_enqueue_scripts', 'twentyfifteen_color_scheme_css' );
 
 /**
  * Binds JS listener to make Customizer color_scheme control.
+ *
  * Passes color scheme data as colorScheme global.
  *
  * @since Twenty Fifteen 1.0
@@ -265,8 +268,8 @@ add_action( 'customize_preview_init', 'twentyfifteen_customize_preview_js' );
 /**
  * Output an Underscore template for generating CSS for the color scheme.
  *
- * The template generates the css dynamically for instant display in the Customizer preview,
- * and to be saved in a `theme_mod` for display on the front-end.
+ * The template generates the css dynamically for instant display in the Customizer
+ * preview, and to be saved in a `theme_mod` for display on the front-end.
  *
  * @since Twenty Fifteen 1.0
  */

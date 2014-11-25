@@ -1,6 +1,6 @@
 <?php
 /**
- * Implement Custom Header functionality for Twenty Fifteen.
+ * Custom Header functionality for Twenty Fifteen
  *
  * @package WordPress
  * @subpackage Twenty_Fifteen
@@ -46,7 +46,8 @@ add_action( 'after_setup_theme', 'twentyfifteen_custom_header_setup' );
  * @since Twenty Fifteen 1.0
  *
  * @param string $color The original color, in 3- or 6-digit hexadecimal form.
- * @return array
+ * @return array Array containing RGB (red, green, and blue) values for the given
+ *               HEX code, empty array otherwise.
  */
 function twentyfifteen_hex2rgb( $color ) {
 	$color = trim( $color, '#' );
@@ -71,7 +72,8 @@ if ( ! function_exists( 'twentyfifteen_header_style' ) ) :
  * Styles the header image and text displayed on the blog.
  *
  * @since Twenty Fifteen 1.0
- * @see twentyfifteen_custom_header_setup().
+ *
+ * @see twentyfifteen_custom_header_setup()
  */
 function twentyfifteen_header_style() {
 	$header_image = get_header_image();
@@ -173,6 +175,8 @@ endif; // twentyfifteen_header_style
  * Enqueues front-end CSS for the header background color.
  *
  * @since Twenty Fifteen 1.0
+ *
+ * @see wp_add_inline_style()
  */
 function twentyfifteen_header_background_color_css() {
 	$color_scheme            = twentyfifteen_get_color_scheme();
