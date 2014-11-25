@@ -11,7 +11,6 @@
  * Set up the WordPress core custom header feature.
  *
  * @uses twentyfifteen_header_style()
- * @uses twentyfifteen_admin_header_image()
  */
 function twentyfifteen_custom_header_setup() {
 	$color_scheme        = twentyfifteen_get_color_scheme();
@@ -30,8 +29,6 @@ function twentyfifteen_custom_header_setup() {
 	 *     @type int    $height                 Height in pixels of the custom header image. Default 1300.
 	 *     @type string $wp-head-callback       Callback function used to styles the header image and text
 	 *                                          displayed on the blog.
-	 *     @type string $admin-preview-callback Callback function used to create the custom header markup in
-	 *                                          the Appearance > Header screen.
 	 * }
 	 */
 	add_theme_support( 'custom-header', apply_filters( 'twentyfifteen_custom_header_args', array(
@@ -39,7 +36,6 @@ function twentyfifteen_custom_header_setup() {
 		'width'                  => 954,
 		'height'                 => 1300,
 		'wp-head-callback'       => 'twentyfifteen_header_style',
-		'admin-preview-callback' => 'twentyfifteen_admin_header_image',
 	) ) );
 }
 add_action( 'after_setup_theme', 'twentyfifteen_custom_header_setup' );
@@ -172,26 +168,6 @@ function twentyfifteen_header_style() {
 	<?php
 }
 endif; // twentyfifteen_header_style
-
-if ( ! function_exists( 'twentyfifteen_admin_header_image' ) ) :
-/**
- * Custom header image markup displayed on the Appearance > Header admin panel.
- *
- * @since Twenty Fifteen 1.0
- * @see twentyfifteen_custom_header_setup().
- */
-function twentyfifteen_admin_header_image() {
-	$style                   = sprintf( ' style="color: #%s;"', esc_attr( get_header_textcolor() ) );
-	$color_scheme            = twentyfifteen_get_color_scheme();
-	$header_background_color = get_theme_mod( 'header_background_color', $color_scheme[1] );
-?>
-	<div id="headimg" style="background-image: url(<?php header_image(); ?>); background-color: <?php echo esc_attr( $header_background_color ); ?>;">
-		<h1 class="displaying-header-text"><a id="name"<?php echo $style; ?> onclick="return false;" href="<?php echo esc_url( home_url( '/' ) ); ?>" tabindex="-1"><?php bloginfo( 'name' ); ?></a></h1>
-		<div id="desc" class="displaying-header-text"<?php echo $style; ?>><?php bloginfo( 'description' ); ?></div>
-	</div>
-<?php
-}
-endif; // twentyfifteen_admin_header_image
 
 /**
  * Enqueues front-end CSS for the header background color.
@@ -374,14 +350,3 @@ function twentyfifteen_sidebar_text_color_css() {
 	wp_add_inline_style( 'twentyfifteen-style', sprintf( $css, $sidebar_link_color, $sidebar_text_color, $sidebar_border_color, $sidebar_border_focus_color ) );
 }
 add_action( 'wp_enqueue_scripts', 'twentyfifteen_sidebar_text_color_css', 11 );
-
-/**
- * Enqueue styles to admin screen for custom header display.
- *
- * @since Twenty Fifteen 1.0
- */
-function twentyfifteen_admin_fonts() {
-	wp_enqueue_style( 'twentyfifteen-fonts', twentyfifteen_fonts_url(), array(), null );
-	wp_enqueue_style( 'twentyfifteen-custom-header', get_template_directory_uri() . '/css/admin-custom-header.css', array(), '20141010' );
-}
-add_action( 'admin_print_scripts-appearance_page_custom-header', 'twentyfifteen_admin_fonts' );
