@@ -166,7 +166,7 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 			adminbar = tinymce.$( '#wpadminbar' )[0],
 			mceToolbar = tinymce.$( '.mce-tinymce .mce-toolbar-grp' )[0],
 			adminbarHeight = 0,
-			boundary = editor.selection.getRng().getBoundingClientRect(),
+			boundary = editor.selection.getNode().getBoundingClientRect(),
 			boundaryMiddle = ( boundary.left + boundary.right ) / 2,
 			boundaryVerticalMiddle = ( boundary.top + boundary.bottom ) / 2,
 			spaceTop = boundary.top,
