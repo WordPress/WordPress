@@ -905,7 +905,7 @@ a:focus {
 	background-color: transparent;
 	border: 1px solid #eaeaea;
 	border: 1px solid rgba(51, 51, 51, 0.1);
-	height: 48px;
+	height: 42px;
 	overflow: hidden;
 	padding: 0;
 	position: absolute;
@@ -915,13 +915,13 @@ a:focus {
 	-webkit-transform: translateY(-50%);
 	-ms-transform: translateY(-50%);
 	transform: translateY(-50%);
-	width: 48px;
+	width: 42px;
 }
 
 .secondary-toggle:before {
 	color: #333;
 	content: "\f419";
-	line-height: 48px;
+	line-height: 42px;
 	position: relative;
 	top: -1px;
 	left: 0;
