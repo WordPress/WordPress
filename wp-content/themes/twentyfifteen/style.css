@@ -1173,6 +1173,7 @@ a:focus {
  */
 
 /* Text meant only for screen readers */
+.says,
 .screen-reader-text {
 	clip: rect(1px, 1px, 1px, 1px);
 	height: 1px;
@@ -2216,10 +2217,6 @@ a.post-thumbnail:focus {
 	height: 24px;
 	margin-right: 0.8em;
 	width: 24px;
-}
-
-.says {
-	display: none;
 }
 
 .bypostauthor > article .fn:after {
