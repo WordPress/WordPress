@@ -3918,18 +3918,6 @@ span > video {
  */
 
 @media screen and (min-width: 59.6875em) {
-	body:before,
-	.sidebar-fixed .site-header,
-	.sidebar-fixed .main-navigation,
-	.sidebar-fixed .social-navigation,
-	.sidebar-fixed .widget {
-		-webkit-transform: translateZ(0); /* Fixes flashing bug with scrolling on iOS Safari */
-	}
-
-	.sidebar-fixed .sidebar {
-		position: fixed;
-	}
-
 	body:before {
 		background-color: #fff;
 		box-shadow: 0 0 1px rgba(0, 0, 0, 0.15);
@@ -3941,6 +3929,7 @@ span > video {
 		top: 0;
 		left: 0;
 		width: 29.4118%;
+		z-index: 0; /* Fixes flashing bug with scrolling on Safari */
 	}
 
 	.site {
