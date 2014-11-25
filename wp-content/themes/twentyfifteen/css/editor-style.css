@@ -352,7 +352,7 @@ a {
 	margin: 0 0 28px 0;
 	max-width: 660px;
 	padding: 0;
-	text-align: center;
+	text-align: inherit;
 }
 
 .wp-caption.alignleft {

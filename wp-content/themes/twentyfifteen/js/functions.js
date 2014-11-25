@@ -8,7 +8,7 @@
 ( function( $ ) {
 	var $body, $window, $document, $sidebar, adminbarOffset, top = false,
 		bottom = false, windowWidth, windowHeight, lastWindowPos = 0,
-		topOffset = 0, documentHeight, sidebarWidth, sidebarHeight, resizeTimer;
+		topOffset = 0, documentHeight, sidebarHeight, resizeTimer;
 
 	// Add dropdown toggle that display child menu items.
 	$( '.main-navigation .page_item_has_children > a, .main-navigation .menu-item-has-children > a' ).after( '<button class="dropdown-toggle" aria-expanded="false">' + screenReaderText.expand + '</button>' );
