@@ -1,6 +1,6 @@
 /* global tinymce */
 tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
-	var tb, serializer,
+	var floatingToolbar, serializer,
 		DOM = tinymce.DOM,
 		settings = editor.settings,
 		Factory = tinymce.ui.Factory,
@@ -155,31 +155,42 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 		};
 	}
 
-	tb = Factory.create( toolbarConfig() ).renderTo( document.body ).hide();
+	floatingToolbar = Factory.create( toolbarConfig() ).renderTo( document.body ).hide();
 
-	tb.reposition = function() {
+	floatingToolbar.reposition = function() {
 		var top, left, minTop, className,
+			windowPos, adminbar, mceToolbar, boundary,
+			boundaryMiddle, boundaryVerticalMiddle, spaceTop,
+			spaceBottom, windowWidth, toolbarWidth, toolbarHalf,
+			iframe, iframePos, iframeWidth, iframeHeigth,
+			toolbarNodeHeight, verticalSpaceNeeded,
 			toolbarNode = this.getEl(),
 			buffer = 5,
 			margin = 8,
-			windowPos = window.pageYOffset || document.documentElement.scrollTop,
-			adminbar = tinymce.$( '#wpadminbar' )[0],
-			mceToolbar = tinymce.$( '.mce-tinymce .mce-toolbar-grp' )[0],
 			adminbarHeight = 0,
-			boundary = editor.selection.getNode().getBoundingClientRect(),
-			boundaryMiddle = ( boundary.left + boundary.right ) / 2,
-			boundaryVerticalMiddle = ( boundary.top + boundary.bottom ) / 2,
-			spaceTop = boundary.top,
-			spaceBottom = iframeHeigth - boundary.bottom,
-			windowWidth = window.innerWidth,
-			toolbarWidth = toolbarNode.offsetWidth,
-			toolbarHalf = toolbarWidth / 2,
-			iframe = editor.getContentAreaContainer().firstChild,
-			iframePos = DOM.getPos( iframe ),
-			iframeWidth = iframe.offsetWidth,
-			iframeHeigth = iframe.offsetHeight,
-			toolbarNodeHeight = toolbarNode.offsetHeight,
-			verticalSpaceNeeded = toolbarNodeHeight + margin + buffer;
+			imageNode = editor.selection.getNode();
+
+		if ( ! imageNode || imageNode.nodeName !== 'IMG' ) {
+			return this;
+		}
+
+		windowPos = window.pageYOffset || document.documentElement.scrollTop;
+		adminbar = tinymce.$( '#wpadminbar' )[0];
+		mceToolbar = tinymce.$( '.mce-tinymce .mce-toolbar-grp' )[0];
+		boundary = imageNode.getBoundingClientRect();
+		boundaryMiddle = ( boundary.left + boundary.right ) / 2;
+		boundaryVerticalMiddle = ( boundary.top + boundary.bottom ) / 2;
+		spaceTop = boundary.top;
+		spaceBottom = iframeHeigth - boundary.bottom;
+		windowWidth = window.innerWidth;
+		toolbarWidth = toolbarNode.offsetWidth;
+		toolbarHalf = toolbarWidth / 2;
+		iframe = editor.getContentAreaContainer().firstChild;
+		iframePos = DOM.getPos( iframe );
+		iframeWidth = iframe.offsetWidth;
+		iframeHeigth = iframe.offsetHeight;
+		toolbarNodeHeight = toolbarNode.offsetHeight;
+		verticalSpaceNeeded = toolbarNodeHeight + margin + buffer;
 
 		if ( iOS ) {
 			top = boundary.top + iframePos.y + margin;
@@ -263,7 +274,7 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 					editor.selection.select( node );
 				}, 200 );
 			} else {
-				tb.hide();
+				floatingToolbar.hide();
 			}
 		});
 	}
@@ -272,7 +283,7 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 		var delay = iOS ? 350 : 100;
 
 		if ( event.element.nodeName !== 'IMG' || isPlaceholder( event.element ) ) {
-			tb.hide();
+			floatingToolbar.hide();
 			return;
 		}
 
@@ -280,18 +291,18 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 			var element = editor.selection.getNode();
 
 			if ( element.nodeName === 'IMG' && ! isPlaceholder( element ) ) {
-				if ( tb._visible ) {
-					tb.reposition();
+				if ( floatingToolbar._visible ) {
+					floatingToolbar.reposition();
 				} else {
-					tb.show();
+					floatingToolbar.show();
 				}
 			} else {
-				tb.hide();
+				floatingToolbar.hide();
 			}
 		}, delay );
 	} );
 
-	tb.on( 'show', function() {
+	floatingToolbar.on( 'show', function() {
 		var self = this;
 
 		toolbarIsHidden = false;
@@ -304,14 +315,14 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 		}, 100 );
 	} );
 
-	tb.on( 'hide', function() {
+	floatingToolbar.on( 'hide', function() {
 		toolbarIsHidden = true;
 		DOM.removeClass( this.getEl(), 'mce-inline-toolbar-grp-active' );
 	} );
 
 	function hide() {
 		if ( ! toolbarIsHidden ) {
-			tb.hide();
+			floatingToolbar.hide();
 		}
 	}
 
@@ -322,19 +333,19 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 	});
 
 	editor.on( 'init', function() {
-		DOM.bind( editor.getWin(), 'resize scroll', hide );
-	} );
-
+		editor.dom.bind( editor.getWin(), 'scroll', hide );
+	});
+	
 	editor.on( 'blur hide', hide );
 
 	// 119 = F8
 	editor.shortcuts.add( 'Alt+119', '', function() {
-		var node = tb.find( 'toolbar' )[0];
+		var node = floatingToolbar.find( 'toolbar' )[0];
 
 		if ( node ) {
 			node.focus( true );
 		}
-	} );
+	});
 
 	function parseShortcode( content ) {
 		return content.replace( /(?:<p>)?\[(?:wp_)?caption([^\]]+)\]([\s\S]+?)\[\/(?:wp_)?caption\](?:<\/p>)?/g, function( a, b, c ) {
@@ -1110,8 +1121,8 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 			editor.nodeChanged();
 			event.preventDefault();
 
-			if ( tb ) {
-				tb.reposition();
+			if ( floatingToolbar ) {
+				floatingToolbar.reposition();
 			}
 		}
 	});
