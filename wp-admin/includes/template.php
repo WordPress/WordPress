@@ -1905,8 +1905,8 @@ final class WP_Internal_Pointers {
 		 */
 
 		$registered_pointers = array(
-			'post-new.php' => 'wp350_media',
-			'post.php'     => array( 'wp350_media', 'wp360_revisions' ),
+			'post-new.php' => 'wp410_dfw',
+			'post.php'     => 'wp410_dfw',
 			'edit.php'     => 'wp360_locks',
 			'widgets.php'  => 'wp390_widgets',
 			'themes.php'   => 'wp390_widgets',
@@ -1919,7 +1919,6 @@ final class WP_Internal_Pointers {
 		$pointers = (array) $registered_pointers[ $hook_suffix ];
 
 		$caps_required = array(
-			'wp350_media' => array( 'upload_files' ),
 			'wp390_widgets' => array( 'edit_theme_options' ),
 		);
 
@@ -1999,26 +1998,8 @@ final class WP_Internal_Pointers {
 	public static function pointer_wp330_saving_widgets() {}
 	public static function pointer_wp340_customize_current_theme_link() {}
 	public static function pointer_wp340_choose_image_from_library() {}
-
-	public static function pointer_wp350_media() {
-		$content  = '<h3>' . __( 'New Media Manager' ) . '</h3>';
-		$content .= '<p>' . __( 'Uploading files and creating image galleries has a whole new look. Check it out!' ) . '</p>';
-
-		self::print_js( 'wp350_media', '.insert-media', array(
-			'content'  => $content,
-			'position' => array( 'edge' => is_rtl() ? 'right' : 'left', 'align' => 'center' ),
-		) );
-	}
-
-	public static function pointer_wp360_revisions() {
-		$content  = '<h3>' . __( 'Compare Revisions' ) . '</h3>';
-		$content .= '<p>' . __( 'View, compare, and restore other versions of this content on the improved revisions screen.' ) . '</p>';
-
-		self::print_js( 'wp360_revisions', '.misc-pub-section.misc-pub-revisions', array(
-			'content' => $content,
-			'position' => array( 'edge' => is_rtl() ? 'left' : 'right', 'align' => 'center' ),
-		) );
-	}
+	public static function pointer_wp350_media() {}
+	public static function pointer_wp360_revisions() {}
 
 	public static function pointer_wp360_locks() {
 		if ( ! is_multi_author() ) {
@@ -2060,13 +2041,30 @@ final class WP_Internal_Pointers {
 		) );
 	}
 
+	public static function pointer_wp410_dfw() {
+		$content  = '<h3>' . __( 'Distraction Free Writing' ) . '</h3>';
+		$content .= '<p>' . __( 'Enable distraction free writing; everything fades away so you can focus. '
+			. 'Bring your admin back by moving your mouse, then start typing and it fades away.' ) . '</p>';
+
+		if ( is_rtl() ) {
+			$position = array( 'edge' => 'left', 'align' => 'left', 'my' => 'left-5 top-60' );
+		} else {
+			$position = array( 'edge' => 'right', 'align' => 'right', 'my' => 'right+5 top-60' );
+		}
+
+		self::print_js( 'wp410_dfw', '#content-html', array(
+			'content' => $content,
+			'position' => $position,
+		) );
+	}
+
 	/**
 	 * Prevents new users from seeing existing 'new feature' pointers.
 	 *
 	 * @since 3.3.0
 	 */
 	public static function dismiss_pointers_for_new_users( $user_id ) {
-		add_user_meta( $user_id, 'dismissed_wp_pointers', 'wp350_media,wp360_revisions,wp360_locks,wp390_widgets' );
+		add_user_meta( $user_id, 'dismissed_wp_pointers', 'wp360_locks,wp390_widgets' );
 	}
 }
 
