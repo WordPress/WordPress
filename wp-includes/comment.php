@@ -1131,7 +1131,7 @@ function wp_allow_comment( $commentdata ) {
 		if ( defined( 'DOING_AJAX' ) ) {
 			die( __('Duplicate comment detected; it looks as though you&#8217;ve already said that!') );
 		}
-		wp_die( __('Duplicate comment detected; it looks as though you&#8217;ve already said that!') );
+		wp_die( __( 'Duplicate comment detected; it looks as though you&#8217;ve already said that!' ), 409 );
 	}
 
 	/**
@@ -1249,7 +1249,7 @@ function check_comment_flood_db( $ip, $email, $date ) {
 			if ( defined('DOING_AJAX') )
 				die( __('You are posting comments too quickly. Slow down.') );
 
-			wp_die( __('You are posting comments too quickly. Slow down.'), '', array('response' => 403) );
+			wp_die( __( 'You are posting comments too quickly. Slow down.' ), 429 );
 		}
 	}
 }
