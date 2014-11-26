@@ -131,13 +131,6 @@ if ( navigator.userAgent.indexOf( 'Mac OS' ) > -1 ) {
 		<tr><th>p</th><td><?php _e('Insert Page Break tag'); ?></td><th>h</th><td><?php _e('Help'); ?></td></tr>
 		<tr><th>x</th><td><?php _e('Add/remove code tag'); ?></td><th> </th><td>&nbsp;</td></tr>
 	</table>
-
-	<p style="padding: 15px 10px 10px;"><?php _e('Editor width in Distraction Free Writing mode:'); ?></p>
-	<table class="keys">
-		<tr><th><span class="win">Alt +</span><span class="mac">Ctrl +</span></th><td><?php _e('Wider'); ?></td>
-			<th><span class="win">Alt -</span><span class="mac">Ctrl -</span></th><td><?php _e('Narrower'); ?></td></tr>
-		<tr><th><span class="win">Alt 0</span><span class="mac">Ctrl 0</span></th><td><?php _e('Default width'); ?></td><th></th><td></td></tr>
-	</table>
 </div>
 
 </div>
