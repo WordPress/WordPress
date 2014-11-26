@@ -1695,7 +1695,8 @@ if ( !function_exists('wp_verify_nonce') ) :
  * @param string|int $action Should give context to what is taking place and be the same when nonce was created.
  * @return bool Whether the nonce check passed or failed.
  */
-function wp_verify_nonce($nonce, $action = -1) {
+function wp_verify_nonce( $nonce, $action = -1 ) {
+	$nonce = (string) $nonce;
 	$user = wp_get_current_user();
 	$uid = (int) $user->ID;
 	if ( ! $uid ) {
