@@ -76,20 +76,21 @@ final class _WP_Editors {
 		$settings = apply_filters( 'wp_editor_settings', $settings, $editor_id );
 
 		$set = wp_parse_args( $settings, array(
-			'wpautop'           => true,
-			'media_buttons'     => true,
-			'default_editor'    => '',
-			'drag_drop_upload'  => false,
-			'textarea_name'     => $editor_id,
-			'textarea_rows'     => 20,
-			'tabindex'          => '',
-			'tabfocus_elements' => ':prev,:next',
-			'editor_css'        => '',
-			'editor_class'      => '',
-			'teeny'             => false,
-			'dfw'               => false,
-			'tinymce'           => true,
-			'quicktags'         => true
+			'wpautop'             => true,
+			'media_buttons'       => true,
+			'default_editor'      => '',
+			'drag_drop_upload'    => false,
+			'textarea_name'       => $editor_id,
+			'textarea_rows'       => 20,
+			'tabindex'            => '',
+			'tabfocus_elements'   => ':prev,:next',
+			'editor_css'          => '',
+			'editor_class'        => '',
+			'teeny'               => false,
+			'dfw'                 => false,
+			'_content_editor_dfw' => false,
+			'tinymce'             => true,
+			'quicktags'           => true
 		) );
 
 		self::$this_tinymce = ( $set['tinymce'] && user_can_richedit() );
