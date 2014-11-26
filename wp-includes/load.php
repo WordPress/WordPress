@@ -471,7 +471,7 @@ function wp_not_installed() {
 
 			wp_die( __( 'The site you have requested is not installed properly. Please contact the system administrator.' ) );
 		}
-	} elseif ( ! is_blog_installed() && false === strpos( $_SERVER['PHP_SELF'], 'install.php' ) && !defined( 'WP_INSTALLING' ) ) {
+	} elseif ( ! is_blog_installed() && ! defined( 'WP_INSTALLING' ) ) {
 		nocache_headers();
 
 		require( ABSPATH . WPINC . '/kses.php' );
