@@ -242,6 +242,12 @@
 				}
 			}
 
+			function mceFullscreenToggled( event ) {
+				if ( ! event.state ) {
+					adjust();
+				}
+			}
+
 			// Adjust when switching editor modes.
 			function mceShow() {
 				$window.on( 'scroll.mce-float-panels', hideFloatPanels );
@@ -280,8 +286,10 @@
 				editor.on( 'wp-toolbar-toggle', toggleAdvanced );
 				// Adjust when the editor resizes.
 				editor.on( 'setcontent wp-autoresize wp-toolbar-toggle', adjust );
-				// Don't hide the caret after undo/redo
+				// Don't hide the caret after undo/redo.
 				editor.on( 'undo redo', mceScroll );
+				// Adjust when exiting TinyMCE's fullscreen mode.
+				editor.on( 'FullscreenStateChanged', mceFullscreenToggled );
 
 				$window.off( 'scroll.mce-float-panels' ).on( 'scroll.mce-float-panels', hideFloatPanels );
 			};
@@ -293,6 +301,7 @@
 				editor.off( 'wp-toolbar-toggle', toggleAdvanced );
 				editor.off( 'setcontent wp-autoresize wp-toolbar-toggle', adjust );
 				editor.off( 'undo redo', mceScroll );
+				editor.off( 'FullscreenStateChanged', mceFullscreenToggled );
 
 				$window.off( 'scroll.mce-float-panels' );
 			};
@@ -765,7 +774,7 @@
 			$editorWindow = $(),
 			$editorIframe = $(),
 			_isActive = window.getUserSetting( 'editor_expand', 'on' ) === 'on',
-			_isOn = _isActive ? !! parseInt( window.getUserSetting( 'dfw', '1' ), 10 ) : false,
+			_isOn = _isActive ? window.getUserSetting( 'post_dfw' ) === 'on' : false,
 			traveledX = 0,
 			traveledY = 0,
 			buffer = 20,
@@ -825,7 +834,7 @@
 
 				fadeOut();
 
-				window.setUserSetting( 'dfw', '1' );
+				window.setUserSetting( 'post_dfw', 'on' );
 
 				$document.trigger( 'dfw-on' );
 			}
@@ -841,7 +850,7 @@
 
 				$editor.off( '.focus' );
 
-				window.setUserSetting( 'dfw', '0' );
+				window.setUserSetting( 'post_dfw', 'off' );
 
 				$document.trigger( 'dfw-off' );
 			}

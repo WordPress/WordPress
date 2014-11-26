@@ -435,6 +435,26 @@ td.plugin-title p {
 	z-index: 999;
 }
 
+/* TinyMCE native fullscreen mode override */
+.mce-fullscreen #wp-content-wrap .mce-menubar,
+.mce-fullscreen #wp-content-wrap .mce-toolbar-grp,
+.mce-fullscreen #wp-content-wrap .mce-edit-area,
+.mce-fullscreen #wp-content-wrap .mce-statusbar {
+	position: static !important;
+	width: auto !important;
+	padding: 0 !important;
+}
+
+.mce-fullscreen #wp-content-wrap .mce-statusbar {
+	visibility: visible !important;
+}
+
+.post-php.mce-fullscreen #wpadminbar,
+.mce-fullscreen #wp-content-wrap .mce-wp-dfw {
+	display: none;
+}
+/* End TinyMCE native fullscreen mode override */
+
 #wp-content-editor-tools {
 	background-color: #f1f1f1;
 	padding-top: 20px;

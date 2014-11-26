@@ -65,7 +65,7 @@ tinymce.PluginManager.add( 'wpfullscreen', function( editor ) {
 		tooltip: 'Distraction Free Writing',
 		shortcut: 'Alt+Shift+W',
 		onclick: toggleFullscreen,
-		classes: 'wp-dfw btn widget' // This overwrites all classes on the container!
+		classes: 'wp-fullscreen btn widget' // This overwrites all classes on the container!
 	});
 
 	editor.addMenuItem( 'wp_fullscreen', {

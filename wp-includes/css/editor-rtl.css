@@ -1099,6 +1099,11 @@ i.mce-i-hr:before {
 	margin: 5px 0 0 5px;
 }
 
+.qt-fullscreen {
+	position: static;
+	margin: 2px;
+}
+
 @media screen and ( max-width: 782px ) {
 	.mce-toolbar .mce-btn button,
 	.qt-dfw {

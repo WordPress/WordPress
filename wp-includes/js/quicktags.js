@@ -301,7 +301,9 @@ function edButton(id, display, tagStart, tagEnd, access) {
 			ed.toolbar.innerHTML = html;
 			ed.theButtons = theButtons;
 
-			window.jQuery && window.jQuery( document ).trigger( 'quicktags-init', [ ed ] );
+			if ( typeof jQuery !== 'undefined' ) {
+				jQuery( document ).triggerHandler( 'quicktags-init', [ ed ] );
+			}
 		}
 		t.buttonsInitDone = true;
 	};
@@ -416,7 +418,7 @@ function edButton(id, display, tagStart, tagEnd, access) {
 			dfw = ( wp = window.wp ) && wp.editor && wp.editor.dfw;
 
 		if ( this.id === 'fullscreen' ) {
-			return '<button type="button" id="' + idPrefix + this.id + '" class="ed_button qt-dfw"' + title + '></button>';
+			return '<button type="button" id="' + idPrefix + this.id + '" class="ed_button qt-dfw qt-fullscreen"' + title + '></button>';
 		} else if ( this.id === 'dfw' ) {
 			active = dfw && dfw.isActive() ? '' : ' disabled="disabled"';
 			on = dfw && dfw.isOn() ? ' active' : '';

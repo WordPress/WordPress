@@ -11,7 +11,7 @@ if ( !defined('ABSPATH') )
 	die('-1');
 
 wp_enqueue_script('post');
-$_wp_editor_expand = false;
+$_wp_editor_expand = $_content_editor_dfw = false;
 
 /**
  * Filter whether to enable the 'expand' functionality in the post editor.
@@ -25,6 +25,7 @@ if ( post_type_supports( $post_type, 'editor' ) && ! wp_is_mobile() &&
 	 apply_filters( 'wp_editor_expand', true ) ) {
 
 	wp_enqueue_script('editor-expand');
+	$_content_editor_dfw = true;
 	$_wp_editor_expand = ( get_user_setting( 'editor_expand', 'on' ) === 'on' );
 }
 
@@ -512,6 +513,7 @@ if ( post_type_supports($post_type, 'editor') ) {
 <div id="postdivrich" class="postarea<?php if ( $_wp_editor_expand ) { echo ' wp-editor-expand'; } ?>">
 
 <?php wp_editor( $post->post_content, 'content', array(
+	'_content_editor_dfw' => $_content_editor_dfw,
 	'drag_drop_upload' => true,
 	'tabfocus_elements' => 'content-html,save-post',
 	'editor_height' => 300,
