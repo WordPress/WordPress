@@ -1944,7 +1944,7 @@ function make_clickable( $text ) {
  *         4 => '123456789 ',   // 10 characters: '123456789 1234567890a' was too long
  *         5 => '1234567890a ', // 12 characters: Too long, but no inner whitespace on which to split
  *         6 => '   45678   ',  // 11 characters: Perfect split
- *         7 => '1 3 5 7 9',    //  9 characters: End of $string
+ *         7 => '1 3 5 7 90 ',  // 11 characters: End of $string
  *     );
  *
  * @since 3.4.0
