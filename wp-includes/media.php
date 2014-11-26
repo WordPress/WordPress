@@ -29,7 +29,7 @@
  * @param int $width Width of the image
  * @param int $height Height of the image
  * @param string|array $size Size of what the result image should be.
- * @param context Could be 'display' (like in a theme) or 'edit' (like inserting into an editor)
+ * @param string $context Could be 'display' (like in a theme) or 'edit' (like inserting into an editor)
  * @return array Width and height of what the result image should resize to.
  */
 function image_constrain_size_for_editor($width, $height, $size = 'medium', $context = null ) {
