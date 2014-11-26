@@ -72,12 +72,6 @@ header('Content-Type: text/html; charset=' . get_bloginfo('charset'));
 	.keys .right {
 		text-align: right;
 	}
-
-	.macos .win,
-	.windows .mac {
-		display: none;
-	}
-
 </style>
 <?php if ( is_rtl() ) : ?>
 <style type="text/css">
@@ -94,11 +88,6 @@ header('Content-Type: text/html; charset=' . get_bloginfo('charset'));
 <?php endif; ?>
 </head>
 <body class="windows wp-core-ui">
-<script type="text/javascript">
-if ( navigator.userAgent.indexOf( 'Mac OS' ) > -1 ) {
-	document.body.className = document.body.className.replace( /windows/, 'macos' );
-}
-</script>
 
 <div class="wrap">
 
