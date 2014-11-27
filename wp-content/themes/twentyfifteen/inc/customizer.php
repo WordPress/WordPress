@@ -486,7 +486,7 @@ function twentyfifteen_color_scheme_css_template() {
 		border-color: {{ data.border_color }};
 	}
 
-	.post-navigation .nav-previous:not(.has-post-thumbnail) .nav-next:not(.has-post-thumbnail) {
+	.post-navigation div + div {
 		border-color: {{ data.border_color }};
 	}
 
