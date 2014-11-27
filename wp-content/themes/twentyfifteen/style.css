@@ -1017,7 +1017,6 @@ a:focus {
 	background-color: #fff;
 	border-top: 1px solid rgba(51, 51, 51, 0.1);
 	font-family: "Noto Sans", sans-serif;
-	overflow: hidden;
 }
 
 .pagination .nav-links {
