@@ -2705,7 +2705,7 @@ function wp_ajax_parse_embed() {
 		// Admin is ssl and the embed is not. Iframes, scripts, and other "active content" will be blocked.
 		wp_send_json_error( array(
 			'type' => 'not-ssl',
-			'message' => sprintf( __( 'Preview not available. %s cannot be embedded securely.' ), '<code>' . esc_html( $url ) . '</code>' ),
+			'message' => __( 'This preview is unavailable in the editor.' ),
 		) );
 	}
 
