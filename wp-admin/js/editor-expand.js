@@ -315,14 +315,13 @@
 
 		// Adjust the toolbars based on the active editor mode.
 		function adjust( event ) {
-			var type = event && event.type;
-
 			// Make sure we're not in fullscreen mode.
 			if ( fullscreen && fullscreen.settings.visible ) {
 				return;
 			}
 
 			var windowPos = $window.scrollTop(),
+				type = event && event.type,
 				resize = type !== 'scroll',
 				visual = ( mceEditor && ! mceEditor.isHidden() ),
 				buffer = autoresizeMinHeight,
@@ -467,7 +466,7 @@
 						// +[n] for the border around the .wp-editor-container.
 						( windowPos + heights.windowHeight ) <= ( editorPos + editorHeight + heights.bottomHeight + heights.statusBarHeight + borderWidth ) ) {
 
-					if ( event && event.deltaHeight > 0 ) {
+					if ( event && event.deltaHeight > 0 && event.deltaHeight < 100 ) {
 						window.scrollBy( 0, event.deltaHeight );
 					} else if ( advanced ) {
 						fixedBottom = true;
@@ -492,7 +491,9 @@
 
 					$statusBar.add( $bottom ).attr( 'style', '' );
 
-					! advanced && $statusBar.css( 'visibility', 'hidden' );
+					if ( ! advanced ) {
+						$statusBar.css( 'visibility', 'hidden' );
+					}
 				}
 			}
 
