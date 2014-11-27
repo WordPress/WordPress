@@ -1047,6 +1047,7 @@ a:focus {
 
 .pagination .prev,
 .pagination .next {
+	-webkit-tap-highlight-color: rgba(255, 255, 255, 0.3);
 	background-color: #333;
 	color: #fff;
 	display: inline-block;
@@ -1418,6 +1419,7 @@ img.aligncenter {
 }
 
 .widget_calendar tbody a {
+	-webkit-tap-highlight-color: rgba(255, 255, 255, 0.3);
 	background-color: #333;
 	color: #fff;
 	display: block;
@@ -2046,6 +2048,7 @@ a.post-thumbnail:focus {
 }
 
 .page-links a {
+	-webkit-tap-highlight-color: rgba(255, 255, 255, 0.3);
 	background-color: #333;
 	border-color: #333;
 	color: #fff;
