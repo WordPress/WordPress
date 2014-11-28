@@ -270,8 +270,9 @@ function wp_admin_bar_site_menu( $wp_admin_bar ) {
 
 	$blogname = get_bloginfo('name');
 
-	if ( empty( $blogname ) )
+	if ( ! $blogname ) {
 		$blogname = preg_replace( '#^(https?://)?(www.)?#', '', get_home_url() );
+	}
 
 	if ( is_network_admin() ) {
 		$blogname = sprintf( __('Network Admin: %s'), esc_html( get_current_site()->site_name ) );
@@ -402,7 +403,12 @@ function wp_admin_bar_my_sites_menu( $wp_admin_bar ) {
 
 		$blavatar = '<div class="blavatar"></div>';
 
-		$blogname = empty( $blog->blogname ) ? $blog->domain : $blog->blogname;
+		$blogname = $blog->blogname;
+
+		if ( ! $blogname ) {
+			$blogname = preg_replace( '#^(https?://)?(www.)?#', '', get_home_url() );
+		}
+
 		$menu_id  = 'blog-' . $blog->userblog_id;
 
 		$wp_admin_bar->add_menu( array(
