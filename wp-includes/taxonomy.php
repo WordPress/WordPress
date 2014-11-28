@@ -674,7 +674,7 @@ class WP_Tax_Query {
 	 * Terms and taxonomies fetched by this query.
 	 *
 	 * We store this data in a flat array because they are referenced in a
-	 * number of places by WP_Query.
+	 * number of places by {@see WP_Query}.
 	 *
 	 * @since 4.1.0
 	 * @access public
@@ -692,7 +692,7 @@ class WP_Tax_Query {
 	public $primary_table;
 
 	/**
-	 * Column in primary_table that represents the ID of the object.
+	 * Column in 'primary_table' that represents the ID of the object.
 	 *
 	 * @since 4.1.0
 	 * @access public
@@ -704,7 +704,7 @@ class WP_Tax_Query {
 	 * Constructor.
 	 *
 	 * @since 3.1.0
-	 * @since 4.1.0 Added support for $operator 'NOT EXISTS' and 'EXISTS'.
+	 * @since 4.1.0 Added support for `$operator` 'NOT EXISTS' and 'EXISTS' values.
 	 * @access public
 	 *
 	 * @param array $tax_query {
@@ -738,15 +738,15 @@ class WP_Tax_Query {
 	}
 
 	/**
-	 * Ensure the `tax_query` argument passed to the class constructor is well-formed.
+	 * Ensure the 'tax_query' argument passed to the class constructor is well-formed.
 	 *
 	 * Ensures that each query-level clause has a 'relation' key, and that
-	 * each first-order clause contains all the necessary keys from $defaults.
+	 * each first-order clause contains all the necessary keys from `$defaults`.
 	 *
 	 * @since 4.1.0
 	 * @access public
 	 *
-	 * @param  array $queries Array of queries clauses.
+	 * @param array $queries Array of queries clauses.
 	 * @return array Sanitized array of query clauses.
 	 */
 	public function sanitize_query( $queries ) {
@@ -841,8 +841,8 @@ class WP_Tax_Query {
 	 * @since 4.1.0
 	 * @access protected
 	 *
-	 * @param  array $query Tax query arguments.
-	 * @return bool  Whether the query clause is a first-order clause.
+	 * @param array $query Tax query arguments.
+	 * @return bool Whether the query clause is a first-order clause.
 	 */
 	protected static function is_first_order_clause( $query ) {
 		return is_array( $query ) && ( empty( $query ) || array_key_exists( 'terms', $query ) || array_key_exists( 'taxonomy', $query ) || array_key_exists( 'include_children', $query ) || array_key_exists( 'field', $query ) || array_key_exists( 'operator', $query ) );
@@ -910,9 +910,9 @@ class WP_Tax_Query {
 	 * @since 4.1.0
 	 * @access protected
 	 *
-	 * @param array $query Query to parse.
+	 * @param array $query Query to parse, passed by reference.
 	 * @param int   $depth Optional. Number of tree levels deep we currently are.
-	 *              Used to calculate indentation.
+	 *                     Used to calculate indentation. Default 0.
 	 * @return array {
 	 *     Array containing JOIN and WHERE SQL clauses to append to a single query array.
 	 *
@@ -987,13 +987,13 @@ class WP_Tax_Query {
 	}
 
 	/**
-	 * Generate SQL JOIN and WHERE clauses for a first-order query clause.
+	 * Generate SQL JOIN and WHERE clauses for a "first-order" query clause.
 
 	 * @since 4.1.0
 	 * @access public
 	 *
-	 * @param  array $clause       Query clause.
-	 * @param  array $parent_query Parent query array.
+	 * @param array $clause       Query clause, passed by reference
+	 * @param array $parent_query Parent query array.
 	 * @return array {
 	 *     Array containing JOIN and WHERE SQL clauses to append to a first-order query.
 	 *
@@ -1105,17 +1105,19 @@ class WP_Tax_Query {
 	 *
 	 * We avoid unnecessary table joins by allowing each clause to look for
 	 * an existing table alias that is compatible with the query that it
-	 * needs to perform. An existing alias is compatible if (a) it is a
-	 * sibling of $clause (ie, it's under the scope of the same relation),
-	 * and (b) the combination of operator and relation between the clauses
-	 * allows for a shared table join. In the case of WP_Tax_Query, this
-	 * only applies to IN clauses that are connected by the relation OR.
+	 * needs to perform.
+	 *
+	 * An existing alias is compatible if (a) it is a sibling of `$clause`
+	 * (ie, it's under the scope of the same relation), and (b) the combination
+	 * of operator and relation between the clauses allows for a shared table
+	 * join. In the case of {@see WP_Tax_Query}, this only applies to 'IN'
+	 * clauses that are connected by the relation 'OR'.
 	 *
 	 * @since 4.1.0
 	 * @access protected
 	 *
-	 * @param  array       $clause       Query clause.
-	 * @param  array       $parent_query Parent query of $clause.
+	 * @param array       $clause       Query clause.
+	 * @param array       $parent_query Parent query of $clause.
 	 * @return string|bool Table alias if found, otherwise false.
 	 */
 	protected function find_compatible_table_alias( $clause, $parent_query ) {
@@ -2428,8 +2430,8 @@ function wp_delete_term( $term, $taxonomy, $args = array() ) {
 	 *
 	 * @since 4.1.0
 	 *
-	 * @param int $term Term ID
-	 * @param string $taxonomy Taxonomy Name
+	 * @param int    $term     Term ID.
+	 * @param string $taxonomy Taxonomy Name.
 	 */
 	do_action( 'pre_delete_term', $term, $taxonomy );
 
@@ -4330,12 +4332,13 @@ function is_object_in_taxonomy($object_type, $taxonomy) {
  * Get an array of ancestor IDs for a given object.
  *
  * @since 3.1.0
- * @since 4.1.0 Introduced the 'resource_type' parameter.
+ * @since 4.1.0 Introduced the `$resource_type` argument.
  *
- * @param int    $object_id     The ID of the object.
- * @param string $object_type   The type of object for which we'll be retrieving ancestors.
- *                              Accepts a post type or a taxonomy name.
- * @param string $resource_type Optional. Type of resource $object_type is. Accepts 'post_type' or 'taxonomy'.
+ * @param int    $object_id     Optional. The ID of the object. Default 0.
+ * @param string $object_type   Optional. The type of object for which we'll be retrieving
+ *                              ancestors. Accepts a post type or a taxonomy name. Default empty.
+ * @param string $resource_type Optional. Type of resource $object_type is. Accepts 'post_type'
+ *                              or 'taxonomy'. Default empty.
  * @return array An array of ancestors from lowest to highest in the hierarchy.
  */
 function get_ancestors( $object_id = 0, $object_type = '', $resource_type = '' ) {
