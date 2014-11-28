@@ -4558,8 +4558,10 @@ class WP_Query {
 		if ( ! $page )
 			$page = 1;
 
-		// Force full post content when viewing the permalink for the $post, or
-		// when on an RSS feed. Otherwise respect the 'more' tag.
+		/*
+		 * Force full post content when viewing the permalink for the $post,
+		 * or when on an RSS feed. Otherwise respect the 'more' tag.
+		 */
 		if ( $post->ID === get_queried_object_id() && ( $this->is_page() || $this->is_single() ) ) {
 			$more = 1;
 		} else if ( $this->is_feed() ) {
@@ -4575,9 +4577,11 @@ class WP_Query {
 			$content = str_replace( "\n<!--nextpage-->\n", '<!--nextpage-->', $content );
 			$content = str_replace( "\n<!--nextpage-->", '<!--nextpage-->', $content );
 			$content = str_replace( "<!--nextpage-->\n", '<!--nextpage-->', $content );
+
 			// Ignore nextpage at the beginning of the content.
 			if ( 0 === strpos( $content, '<!--nextpage-->' ) )
 				$content = substr( $content, 15 );
+
 			$pages = explode('<!--nextpage-->', $content);
 			$numpages = count($pages);
 			if ( $numpages > 1 )
@@ -4590,7 +4594,7 @@ class WP_Query {
 		 * Fires once the post data has been setup.
 		 *
 		 * @since 2.8.0
-		 * @since 4.1.0 Introduced $this parameter.
+		 * @since 4.1.0 Introduced `$this` parameter.
 		 *
 		 * @param WP_Post  &$post The Post object (passed by reference).
 		 * @param WP_Query &$this The current Query object (passed by reference).
