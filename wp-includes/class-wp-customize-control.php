@@ -256,7 +256,7 @@ class WP_Customize_Control {
 	 *
 	 * @since 4.1.0
 	 *
-	 * @return array
+	 * @return array Array of parameters passed to the JavaScript.
 	 */
 	public function json() {
 		$this->to_json();
@@ -288,7 +288,7 @@ class WP_Customize_Control {
 	 *
 	 * @since 4.1.0
 	 *
-	 * @return string
+	 * @return string Contents of the control.
 	 */
 	public final function get_content() {
 		ob_start();
@@ -506,9 +506,11 @@ class WP_Customize_Control {
 	/**
 	 * Render the control's JS template.
 	 *
-	 * This function is only run for control types that have been registered with {@see WP_Customize_Manager::register_control_type()}.
+	 * This function is only run for control types that have been registered with
+	 * {@see WP_Customize_Manager::register_control_type()}.
 	 *
-	 * In the future, this will also print the template for the control's container element and be overridable.
+	 * In the future, this will also print the template for the control's container
+	 * element and be override-able.
 	 *
 	 * @since 4.1.0
 	 */
@@ -648,9 +650,8 @@ class WP_Customize_Upload_Control extends WP_Customize_Control {
 	 * Constructor.
 	 *
 	 * @since 4.1.0
-	 * @uses WP_Customize_Control::__construct()
 	 *
-	 * @param WP_Customize_Manager $manager
+	 * @param WP_Customize_Manager $manager {@see WP_Customize_Manager} instance.
 	 */
 	public function __construct( $manager, $id, $args = array() ) {
 		parent::__construct( $manager, $id, $args );
