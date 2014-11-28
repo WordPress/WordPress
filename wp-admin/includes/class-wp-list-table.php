@@ -65,7 +65,7 @@ class WP_List_Table {
 	private $_pagination;
 
 	/**
-	 * The view switcher modes
+	 * The view switcher modes.
 	 *
 	 * @since 4.1.0
 	 * @var array

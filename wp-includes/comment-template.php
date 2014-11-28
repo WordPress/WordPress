@@ -53,6 +53,7 @@ function get_comment_author( $comment_ID = 0 ) {
  */
 function comment_author( $comment_ID = 0 ) {
 	$author = get_comment_author( $comment_ID );
+
 	/**
 	 * Filter the comment author's name for display.
 	 *
@@ -76,6 +77,7 @@ function comment_author( $comment_ID = 0 ) {
  */
 function get_comment_author_email( $comment_ID = 0 ) {
 	$comment = get_comment( $comment_ID );
+
 	/**
 	 * Filter the comment author's returned email address.
 	 *
@@ -104,6 +106,7 @@ function get_comment_author_email( $comment_ID = 0 ) {
  */
 function comment_author_email( $comment_ID = 0 ) {
 	$author_email = get_comment_author_email( $comment_ID );
+
 	/**
 	 * Filter the comment author's email for display.
 	 *
@@ -157,11 +160,12 @@ function comment_author_email_link( $linktext = '', $before = '', $after = '' ) 
  */
 function get_comment_author_email_link( $linktext = '', $before = '', $after = '' ) {
 	global $comment;
+
 	/**
 	 * Filter the comment author's email for display.
 	 *
 	 * Care should be taken to protect the email address and assure that email
-	 * harvesters do not capture your commenters' email address.
+	 * harvesters do not capture your commenter's email address.
 	 *
 	 * @since 1.2.0
 	 * @since 4.1.0 The `$comment` parameter was added.
@@ -280,6 +284,7 @@ function get_comment_author_url( $comment_ID = 0 ) {
 	$comment = get_comment( $comment_ID );
 	$url = ('http://' == $comment->comment_author_url) ? '' : $comment->comment_author_url;
 	$url = esc_url( $url, array('http', 'https') );
+
 	/**
 	 * Filter the comment author's URL.
 	 *
@@ -303,6 +308,7 @@ function get_comment_author_url( $comment_ID = 0 ) {
  */
 function comment_author_url( $comment_ID = 0 ) {
 	$author_url = get_comment_author_url( $comment_ID );
+
 	/**
 	 * Filter the comment author's URL for display.
 	 *
@@ -571,6 +577,7 @@ function get_comment_excerpt( $comment_ID = 0 ) {
  */
 function comment_excerpt( $comment_ID = 0 ) {
 	$comment_excerpt = get_comment_excerpt($comment_ID);
+
 	/**
 	 * Filter the comment excerpt for display.
 	 *
@@ -592,6 +599,7 @@ function comment_excerpt( $comment_ID = 0 ) {
  */
 function get_comment_ID() {
 	global $comment;
+
 	/**
 	 * Filter the returned comment ID.
 	 *
@@ -1386,7 +1394,7 @@ function get_comment_reply_link( $args = array(), $comment = null, $post = null 
 	 * @param array   $args    Comment reply link arguments. See {@see get_comment_reply_link()}
 	 *                         for more information on accepted arguments.
 	 * @param object  $comment The object of the comment being replied to.
-	 * @param WP_Post $post    The WP_Post object.
+	 * @param WP_Post $post    The {@see WP_Post} object.
 	 */
 	$args = apply_filters( 'comment_reply_link_args', $args, $comment, $post );
 
