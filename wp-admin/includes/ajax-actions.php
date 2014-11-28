@@ -2768,7 +2768,6 @@ function wp_ajax_parse_media_shortcode() {
  * AJAX handler for destroying multiple open sessions for a user.
  *
  * @since 4.1.0
- *
  */
 function wp_ajax_destroy_sessions() {
 
@@ -2792,6 +2791,7 @@ function wp_ajax_destroy_sessions() {
 		) );
 	}
 
+	// 'token' is only set if the initiating user is viewing their own profile-editing screen.
 	if ( isset( $_POST['token'] ) ) {
 		$keep = wp_unslash( $_POST['token'] );
 	} else {
@@ -2800,6 +2800,11 @@ function wp_ajax_destroy_sessions() {
 
 	$sessions = WP_Session_Tokens::get_instance( $user->ID );
 
+	/*
+	 * If $keep is a string, then the current user is destroying all of their own sessions
+	 * except the current one. If $keep is not a string, the current user is destroying all
+	 * of another user's sessions with no exceptions.
+	 */
 	if ( is_string( $keep ) ) {
 		$sessions->destroy_others( $keep );
 		$message = __( 'You are now logged out everywhere else' );
