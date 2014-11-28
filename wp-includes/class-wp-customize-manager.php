@@ -57,6 +57,8 @@ final class WP_Customize_Manager {
 	 * Controls that may be rendered from JS templates.
 	 *
 	 * @since 4.1.0
+	 * @access protected
+	 * @var array
 	 */
 	protected $registered_control_types = array();
 
@@ -842,12 +844,13 @@ final class WP_Customize_Manager {
 	/**
 	 * Register a customize control type.
 	 *
-	 * Registered types are eligible to be rendered
-	 * via JS and created dynamically.
+	 * Registered types are eligible to be rendered via JS and created dynamically.
 	 *
 	 * @since 4.1.0
+	 * @access public
 	 *
-	 * @param string $control Name of a custom control which is a subclass of {@see WP_Customize_Control}.
+	 * @param string $control Name of a custom control which is a subclass of
+	 *                        {@see WP_Customize_Control}.
 	 */
 	public function register_control_type( $control ) {
 		$this->registered_control_types[] = $control;
@@ -857,6 +860,7 @@ final class WP_Customize_Manager {
 	 * Render JS templates for all registered control types.
 	 *
 	 * @since 4.1.0
+	 * @access public
 	 */
 	public function render_control_templates() {
 		foreach ( $this->registered_control_types as $control_type ) {
