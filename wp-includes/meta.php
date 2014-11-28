@@ -978,7 +978,7 @@ class WP_Meta_Query {
 	}
 
 	/**
-	 * Ensure the `meta_query` argument passed to the class constructor is well-formed.
+	 * Ensure the 'meta_query' argument passed to the class constructor is well-formed.
 	 *
 	 * Eliminates empty items and ensures that a 'relation' is set.
 	 *
@@ -1231,9 +1231,9 @@ class WP_Meta_Query {
 	 * @since 4.1.0
 	 * @access protected
 	 *
-	 * @param array $query Query to parse.
+	 * @param array $query Query to parse, passed by reference.
 	 * @param int   $depth Optional. Number of tree levels deep we currently are.
-	 *               Used to calculate indentation.
+	 *                     Used to calculate indentation. Default 0.
 	 * @return array {
 	 *     Array containing JOIN and WHERE SQL clauses to append to a single query array.
 	 *
@@ -1315,7 +1315,7 @@ class WP_Meta_Query {
 	 * @since 4.1.0
 	 * @access public
 	 *
-	 * @param array $clause       Query clause.
+	 * @param array $clause       Query clause, passed by reference.
 	 * @param array $parent_query Parent query array.
 	 * @return array {
 	 *     Array containing JOIN and WHERE SQL clauses to append to a first-order query.
@@ -1446,15 +1446,18 @@ class WP_Meta_Query {
 	}
 
 	/**
-	 * Identify an existing table alias that is compatible with the current query clause.
+	 * Identify an existing table alias that is compatible with the current
+	 * query clause.
 	 *
 	 * We avoid unnecessary table joins by allowing each clause to look for
 	 * an existing table alias that is compatible with the query that it
-	 * needs to perform. An existing alias is compatible if (a) it is a
-	 * sibling of $clause (ie, it's under the scope of the same relation),
-	 * and (b) the combination of operator and relation between the clauses
-	 * allows for a shared table join. In the case of WP_Meta_Query, this
-	 * only applies to IN clauses that are connected by the relation OR.
+	 * needs to perform.
+	 *
+	 * An existing alias is compatible if (a) it is a sibling of `$clause`
+	 * (ie, it's under the scope of the same relation), and (b) the combination
+	 * of operator and relation between the clauses allows for a shared table join.
+	 * In the case of {@see WP_Meta_Query}, this only applies to 'IN' clauses that
+	 * are connected by the relation 'OR'.
 	 *
 	 * @since 4.1.0
 	 * @access protected
