@@ -30,10 +30,11 @@ function options_general_add_js() {
 <script type="text/javascript">
 //<![CDATA[
 	jQuery(document).ready(function($){
-		var $siteName = $( '#wp-admin-bar-site-name' ).children( 'a' ).first();
+		var $siteName = $( '#wp-admin-bar-site-name' ).children( 'a' ).first(),
+			homeURL = ( <?php echo wp_json_encode( get_home_url() ); ?> || '' ).replace( /^(https?:\/\/)?(www\.)?/, '' );
 
 		$( '#blogname' ).on( 'input', function() {
-			var title = $( this ).val();
+			var title = $.trim( $( this ).val() ) || homeURL;
 
 			// Truncate to 40 characters.
 			if ( 40 < title.length ) {
