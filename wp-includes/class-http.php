@@ -676,16 +676,18 @@ class WP_Http {
 	 * A wrapper for PHP's parse_url() function that handles edgecases in < PHP 5.4.7
 	 *
 	 * PHP 5.4.7 expanded parse_url()'s ability to handle non-absolute url's, including
-	 * schemeless and relative url's with :// in the path, this works around those limitations
-	 * providing a standard output on PHP 5.2~5.4+.
+	 * schemeless and relative url's with :// in the path, this works around those
+	 * limitations providing a standard output on PHP 5.2~5.4+.
 	 *
-	 * Error suppression is used as prior to PHP 5.3.3, an E_WARNING would be generated when URL parsing failed.
+	 * Error suppression is used as prior to PHP 5.3.3, an E_WARNING would be generated
+	 * when URL parsing failed.
 	 *
 	 * @since 4.1.0
-	 *
 	 * @access protected
-	 * @param  string $url The URL to parse
-	 * @return bool|array False on failure; Array of URL components on success; See parse_url()'s return values.
+	 *
+	 * @param string $url The URL to parse.
+	 * @return bool|array False on failure; Array of URL components on success;
+	 *                    See parse_url()'s return values.
 	 */
 	protected static function parse_url( $url ) {
 		$parts = @parse_url( $url );
