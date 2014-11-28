@@ -2190,11 +2190,11 @@ function posts_nav_link( $sep = '', $prelabel = '', $nxtlabel = '' ) {
  * @since 4.1.0
  *
  * @param array $args {
- *     Optional. Default post navigation arguments.
+ *     Optional. Default post navigation arguments. Default empty array.
  *
- *     @type string $prev_text          Anchor text to display in the previous post link. Default: `%title`.
- *     @type string $next_text          Anchor text to display in the next post link. Default: `%title`.
- *     @type string $screen_reader_text Screen reader text for nav element. Default: 'Post navigation'.
+ *     @type string $prev_text          Anchor text to display in the previous post link. Default `%title`.
+ *     @type string $next_text          Anchor text to display in the next post link. Default `%title`.
+ *     @type string $screen_reader_text Screen reader text for nav element. Default 'Post navigation'.
  * }
  * @return string Markup for post links.
  */
@@ -2222,7 +2222,8 @@ function get_the_post_navigation( $args = array() ) {
  *
  * @since 4.1.0
  *
- * @param array $args See {@see get_the_post_navigation()} for available arguments.
+ * @param array $args Optional. See {@see get_the_post_navigation()} for available
+ *                    arguments. Default empty array.
  */
 function the_post_navigation( $args = array() ) {
 	echo get_the_post_navigation( $args );
@@ -2236,11 +2237,14 @@ function the_post_navigation( $args = array() ) {
  * @global WP_Query $wp_query WordPress Query object.
  *
  * @param array $args {
- *     Optional. Default paging navigation arguments.
+ *     Optional. Default paging navigation arguments. Default empty array.
  *
- *     @type string $prev_text          Anchor text to display in the previous posts link. Default: `Older posts`.
- *     @type string $next_text          Anchor text to display in the next posts link. Default: `Newer posts`.
- *     @type string $screen_reader_text Screen reader text for nav element. Default: 'Posts navigation'.
+ *     @type string $prev_text          Anchor text to display in the previous posts link.
+ *                                      Default 'Older posts'.
+ *     @type string $next_text          Anchor text to display in the next posts link.
+ *                                      Default 'Newer posts'.
+ *     @type string $screen_reader_text Screen reader text for nav element.
+ *                                      Default 'Posts navigation'.
  * }
  * @return string Markup for paging links.
  */
@@ -2277,7 +2281,8 @@ function get_the_posts_navigation( $args = array() ) {
  *
  * @since 4.1.0
  *
- * @param array $args See {@see get_the_posts_navigation()} for available arguments.
+ * @param array $args Optional. See {@see get_the_posts_navigation()} for available
+ *                    arguments. Default empty array.
  */
 function the_posts_navigation( $args = array() ) {
 	echo get_the_posts_navigation( $args );
@@ -2290,9 +2295,10 @@ function the_posts_navigation( $args = array() ) {
  * @since 4.1.0
  *
  * @param array $args {
- *     Optional. Default pagination arguments. {@see paginate_links()}
+ *     Optional. Default pagination arguments, {@see paginate_links()}.
  *
- *     @type string $screen_reader_text Screen reader text for navigation element. Default: 'Posts navigation'.
+ *     @type string $screen_reader_text Screen reader text for navigation element.
+ *                                      Default 'Posts navigation'.
  * }
  * @return string Markup for pagination links.
  */
@@ -2327,7 +2333,8 @@ function get_the_pagination( $args = array() ) {
  *
  * @since 4.1.0
  *
- * @param array $args See {@see get_the_pagination()} for available arguments.
+ * @param array $args Optional. See {@see get_the_pagination()} for available arguments.
+ *                    Default empty array.
  */
 function the_pagination( $args = array() ) {
 	echo get_the_pagination( $args );
