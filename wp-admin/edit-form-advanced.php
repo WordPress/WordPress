@@ -464,7 +464,7 @@ do_action( 'edit_form_top', $post ); ?>
 </div>
 <?php
 /**
- * Fires before the permalink field.
+ * Fires before the permalink field in the edit form.
  *
  * @since 4.1.0
  *
