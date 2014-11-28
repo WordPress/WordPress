@@ -456,10 +456,12 @@ function wp_update_nav_menu_item( $menu_id = 0, $menu_item_db_id = 0, $menu_item
  * Returns all navigation menu objects.
  *
  * @since 3.0.0
- * @since 4.1.0 Default 'orderby' argument changed from 'none' to 'name'.
+ * @since 4.1.0 Default value of the 'orderby' argument was changed from 'none'
+ *              to 'name'.
  *
- * @param array $args Array of arguments passed on to get_terms().
- * @return array menu objects
+ * @param array $args Optional. Array of arguments passed on to {@see get_terms()}.
+ *                    Default empty array.
+ * @return array Menu objects.
  */
 function wp_get_nav_menus( $args = array() ) {
 	$defaults = array( 'hide_empty' => false, 'orderby' => 'name' );
