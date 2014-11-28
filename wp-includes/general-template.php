@@ -718,6 +718,9 @@ function get_bloginfo( $show = '', $filter = 'raw' ) {
  *
  * @since 4.1.0
  * @access private
+ * @internal
+ *
+ * @see wp_title()
  */
 function _wp_render_title_tag() {
 	if ( ! current_theme_supports( 'title-tag' ) ) {
