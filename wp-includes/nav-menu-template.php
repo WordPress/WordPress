@@ -95,7 +95,7 @@ class Walker_Nav_Menu extends Walker {
 		 * @param array  $args    An array of {@see wp_nav_menu()} arguments.
 		 * @param int    $depth   Depth of menu item. Used for padding.
 		 */
-		$class_names = join( ' ', (array) apply_filters( 'nav_menu_css_class', array_filter( $classes ), $item, $args, $depth ) );
+		$class_names = join( ' ', apply_filters( 'nav_menu_css_class', array_filter( $classes ), $item, $args, $depth ) );
 		$class_names = $class_names ? ' class="' . esc_attr( $class_names ) . '"' : '';
 
 		/**
