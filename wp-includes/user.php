@@ -250,7 +250,7 @@ function wp_validate_logged_in_cookie( $user_id ) {
  * Number of posts user has written.
  *
  * @since 3.0.0
- * @since 4.1.0 Added $post_type parameter.
+ * @since 4.1.0 Added `$post_type` argument.
  *
  * @global wpdb $wpdb WordPress database object for queries.
  *
@@ -269,7 +269,7 @@ function count_user_posts( $userid, $post_type = 'post' ) {
 	 * Filter the number of posts a user has written.
 	 *
 	 * @since 2.7.0
-	 * @since 4.1.0 Added $post_type parameter.
+	 * @since 4.1.0 Added `$post_type` argument.
 	 *
 	 * @param int    $count     The user's post count.
 	 * @param int    $userid    User ID.
