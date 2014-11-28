@@ -141,7 +141,7 @@ function wp_save_post_revision( $post_id ) {
 			 * @since 4.1.0
 			 *
 			 * @param bool    $post_has_changed Whether the post has changed.
-			 * @param WP_Post $last_revision    The the last revision post object.
+			 * @param WP_Post $last_revision    The last revision post object.
 			 * @param WP_Post $post             The post object.
 			 *
 			 */
