@@ -808,6 +808,7 @@
 				_isActive = true;
 
 				$document.trigger( 'dfw-activate' );
+				$content.on( 'keydown.focus-shortcut', toggleViaKeyboard );
 			}
 		}
 
@@ -818,6 +819,7 @@
 				_isActive = false;
 
 				$document.trigger( 'dfw-deactivate' );
+				$content.off( 'keydown.focus-shortcut' );
 			}
 		}
 
@@ -858,7 +860,11 @@
 		}
 
 		function toggle() {
-			( _isOn ? off : on )();
+			if ( _isOn ) {
+				off();
+			} else {
+				on();
+			}
 		}
 
 		function isOn() {
@@ -868,7 +874,8 @@
 		function fadeOut( event ) {
 			var key = event && event.keyCode;
 
-			if ( key === 27 ) {
+			// fadeIn and return on Escape and keyboard shortcut Alt+Shift+W.
+			if ( key === 27 || ( key === 87 && event.altKey && event.shiftKey ) ) {
 				fadeIn();
 				return;
 			}
@@ -1027,7 +1034,7 @@
 					return $.contains( $el.get( 0 ), document.activeElement );
 				}
 
-				// The focussed node is before or behind the editor area, and not ouside the wrap.
+				// The focused node is before or behind the editor area, and not outside the wrap.
 				if ( ( position === 2 || position === 4 ) && ( hasFocus( $menuWrap ) || hasFocus( $wrap ) || hasFocus( $footer ) ) ) {
 					fadeIn();
 				}
@@ -1076,6 +1083,16 @@
 			}
 		}
 
+		function toggleViaKeyboard( event ) {
+			if ( event.altKey && event.shiftKey && 87 === event.keyCode ) {
+				toggle();
+			}
+		}
+
+		if ( $( '#postdivrich' ).hasClass( 'wp-editor-expand' ) ) {
+			$content.on( 'keydown.focus-shortcut', toggleViaKeyboard );
+		}
+
 		$document.on( 'tinymce-editor-setup.focus', function( event, editor ) {
 			editor.addButton( 'dfw', {
 				active: _isOn,
@@ -1099,8 +1116,12 @@
 						button.active( false );
 					} );
 				},
-				tooltip: 'Distraction Free Writing'
+				tooltip: 'Distraction Free Writing',
+				shortcut: 'Alt+Shift+W'
 			} );
+
+			editor.addCommand( 'wpToggleDFW', toggle );
+			editor.addShortcut( 'alt+shift+w', '', 'wpToggleDFW' );
 		} );
 
 		$document.on( 'tinymce-editor-init.focus', function( event, editor ) {
@@ -1138,7 +1159,7 @@
 
 				$document.on( 'dfw-on.focus', mceBind ).on( 'dfw-off.focus', mceUnbind );
 
-				// Make sure the body focusses when clicking outside it.
+				// Make sure the body focuses when clicking outside it.
 				editor.on( 'click', function( event ) {
 					if ( event.target === editor.getDoc().documentElement ) {
 						editor.focus();

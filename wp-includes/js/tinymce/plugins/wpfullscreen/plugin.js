@@ -56,8 +56,6 @@ tinymce.PluginManager.add( 'wpfullscreen', function( editor ) {
 		if ( editor.getParam('wp_fullscreen') ) {
 			fullscreenOn();
 		}
-
-		editor.addShortcut( 'alt+shift+w', '', 'wpFullScreen' );
 	});
 
 	// Register buttons
