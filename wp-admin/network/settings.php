@@ -23,7 +23,7 @@ $title = __( 'Network Settings' );
 $parent_file = 'settings.php';
 
 /**
- * Display JavaScript on the page.
+ * Print JavaScript in the header on the Network Settings screen.
  *
  * @since 4.1.0
 */
