@@ -85,7 +85,7 @@ class Walker_Nav_Menu extends Walker {
 		$classes[] = 'menu-item-' . $item->ID;
 
 		/**
-		 * Filter the CSS class(es) applied to a menu item's li element.
+		 * Filter the CSS class(es) applied to a menu item's list item element.
 		 *
 		 * @since 3.0.0
 		 * @since 4.1.0 The `$depth` parameter was added.
@@ -99,7 +99,7 @@ class Walker_Nav_Menu extends Walker {
 		$class_names = $class_names ? ' class="' . esc_attr( $class_names ) . '"' : '';
 
 		/**
-		 * Filter the ID applied to a menu item's li element.
+		 * Filter the ID applied to a menu item's list item element.
 		 *
 		 * @since 3.0.1
 		 * @since 4.1.0 The `$depth` parameter was added.
@@ -121,7 +121,7 @@ class Walker_Nav_Menu extends Walker {
 		$atts['href']   = ! empty( $item->url )        ? $item->url        : '';
 
 		/**
-		 * Filter the HTML attributes applied to a menu item's 'a' element.
+		 * Filter the HTML attributes applied to a menu item's anchor element.
 		 *
 		 * @since 3.6.0
 		 * @since 4.1.0 The `$depth` parameter was added.
