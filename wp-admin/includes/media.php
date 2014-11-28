@@ -164,8 +164,8 @@ function image_add_caption( $html, $id, $caption, $title, $align, $url, $size, $
 	 * Note: If the caption text is empty, the caption shortcode will not be appended
 	 * to the image HTML when inserted into the editor.
 	 *
-	 * Passing an empty value also prevents the 'image_add_caption_shortcode' filter
-	 * from being evaluated at the end of {@see image_add_caption()}.
+	 * Passing an empty value also prevents the {@see 'image_add_caption_shortcode'}
+	 * filter from being evaluated at the end of {@see image_add_caption()}.
 	 *
 	 * @since 4.1.0
 	 *
