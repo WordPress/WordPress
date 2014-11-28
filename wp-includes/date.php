@@ -480,9 +480,9 @@ class WP_Date_Query {
 			 * @since 4.1.0 Added 'user_registered' to the default recognized columns.
 			 *
 			 * @param array $valid_columns An array of valid date query columns. Defaults
-			 *			                   are 'post_date', 'post_date_gmt', 'post_modified',
-			 *			                   'post_modified_gmt', 'comment_date', 'comment_date_gmt',
-			 *			                   'user_registered'
+			 *                             are 'post_date', 'post_date_gmt', 'post_modified',
+			 *                             'post_modified_gmt', 'comment_date', 'comment_date_gmt',
+			 *	                           'user_registered'
 			 */
 			if ( ! in_array( $column, apply_filters( 'date_query_valid_columns', $valid_columns ) ) ) {
 				$column = 'post_date';
