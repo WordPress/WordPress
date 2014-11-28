@@ -126,7 +126,7 @@ class WP_Date_Query {
 	 *             @type int          $dayofweek     Optional. The day number of the week. Default empty.
 	 *                                               Accepts numbers 1-7 (1 is Sunday).
 	 *             @type int          $dayofweek_iso Optional. The day number of the week (ISO). Accepts numbers 1-7
-	 *                                               (1 is Monday).Default empty.
+	 *                                               (1 is Monday). Default empty.
 	 *             @type int          $hour          Optional. The hour of the day. Default empty. Accepts numbers 0-23.
 	 *             @type int          $minute        Optional. The minute of the hour. Default empty. Accepts
 	 *                                               numbers 0-60.
@@ -180,12 +180,12 @@ class WP_Date_Query {
 	 *
 	 * Ensures that each query-level clause has a 'relation' key, and that
 	 * each first-order clause contains all the necessary keys from
-	 * $defaults.
+	 * `$defaults`.
 	 *
 	 * @since 4.1.0
 	 * @access public
 	 *
-	 * @param  array $query A tax_query query clause.
+	 * @param array $query A tax_query query clause.
 	 * @return array Sanitized queries.
 	 */
 	public function sanitize_query( $queries, $parent_query = null ) {
@@ -480,9 +480,9 @@ class WP_Date_Query {
 			 * @since 4.1.0 Added 'user_registered' to the default recognized columns.
 			 *
 			 * @param array $valid_columns An array of valid date query columns. Defaults
-			 *			       are 'post_date', 'post_date_gmt', 'post_modified',
-			 *			       'post_modified_gmt', 'comment_date', 'comment_date_gmt',
-			 *			       'user_registered'
+			 *			                   are 'post_date', 'post_date_gmt', 'post_modified',
+			 *			                   'post_modified_gmt', 'comment_date', 'comment_date_gmt',
+			 *			                   'user_registered'
 			 */
 			if ( ! in_array( $column, apply_filters( 'date_query_valid_columns', $valid_columns ) ) ) {
 				$column = 'post_date';
@@ -579,7 +579,7 @@ class WP_Date_Query {
 	 *
 	 * @param array $query Query to parse.
 	 * @param int   $depth Optional. Number of tree levels deep we currently are.
-	 *                     Used to calculate indentation.
+	 *                     Used to calculate indentation. Default 0.
 	 * @return array {
 	 *     Array containing JOIN and WHERE SQL clauses to append to a single query array.
 	 *
