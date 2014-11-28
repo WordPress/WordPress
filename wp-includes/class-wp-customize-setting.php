@@ -139,11 +139,11 @@ class WP_Customize_Setting {
 				 * Fires when the {@see WP_Customize_Setting::preview()} method is called for settings
 				 * not handled as theme_mods or options.
 				 *
-				 * The dynamic portion of the hook name, $this->type, refers to the setting type.
+				 * The dynamic portion of the hook name, `$this->type`, refers to the setting type.
 				 *
 				 * @since 4.1.0
 				 *
-				 * @param WP_Customize_Setting $this WP_Customize_Setting instance.
+				 * @param WP_Customize_Setting $this {@see WP_Customize_Setting} instance.
 				 */
 				do_action( "customize_preview_{$this->type}", $this );
 		}
