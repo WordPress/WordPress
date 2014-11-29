@@ -156,11 +156,11 @@ div#widgets-left .sidebar-name .sidebar-name-arrow:before {
 #widgets-left #available-widgets,
 div#widgets-left .widget-holder {
 	background: transparent;
-	border: none;
+	border: 0;
 }
 
 #widgets-left .widgets-holder-wrap {
-	border: none;
+	border: 0;
 	-webkit-box-shadow: none;
 	box-shadow: none;
 }
@@ -224,7 +224,7 @@ div#widgets-left .inactive-sidebar .widgets-sortables {
 /* Widgets Right */
 
 div#widgets-right:after {
-	content: ".";
+	content: '.';
 	display: block;
 	height: 0;
 	clear: both;
@@ -307,10 +307,10 @@ div#widgets-right .closed .widgets-sortables {
 .widget-control-edit {
 	display: block;
 	color: #666;
-	background: #EEE;
+	background: #eee;
 	padding: 0 15px;
 	line-height: 43px;
-	border-left: 1px solid #DDD;
+	border-left: 1px solid #ddd;
 }
 
 #widgets-left .widget-control-edit:hover,
@@ -365,7 +365,7 @@ div#widgets-right .closed .widgets-sortables {
 	padding-left: 15px;
 	font-size: 12px;
 	line-height: 1;
-	color: black;
+	color: #000;
 }
 
 .js #removing-widget {
@@ -471,7 +471,7 @@ div#widgets-right .widget-top:hover,
 }
 
 .widgets-chooser li:last-child {
-	border: none;
+	border: 0;
 }
 
 .widgets-chooser li.widgets-chooser-selected {
@@ -511,7 +511,7 @@ div#widgets-right .widget-top:hover,
 	div.widget-liquid-left {
 		width: 100%;
 		float: none;
-		border-right: none;
+		border-right: 0;
 		padding-right: 0;
 	}
 
