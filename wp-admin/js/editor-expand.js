@@ -876,7 +876,7 @@
 
 			// fadeIn and return on Escape and keyboard shortcut Alt+Shift+W.
 			if ( key === 27 || ( key === 87 && event.altKey && event.shiftKey ) ) {
-				fadeIn();
+				fadeIn( event );
 				return;
 			}
 
@@ -994,7 +994,7 @@
 			fadeOutSlug();
 		}
 
-		function fadeIn() {
+		function fadeIn( event ) {
 			if ( faded ) {
 				faded = false;
 
@@ -1008,11 +1008,18 @@
 
 				$overlay.off( 'mouseenter.focus mouseleave.focus mousemove.focus touchstart.focus' );
 
-				$editor.on( 'mouseenter.focus', function() {
-					if ( $.contains( $editor.get( 0 ), document.activeElement ) || editorHasFocus ) {
-						fadeOut();
-					}
-				} );
+				/*
+				 * When fading in, temporarily watch for refocus and fade back out - helps
+				 * with 'accidental' editor exits with the mouse. When fading in and the event
+				 * is a key event (Escape or Alt+Shift+W) don't watch for refocus.
+				 */
+				if ( 'undefined' === typeof event ) {
+					$editor.on( 'mouseenter.focus', function() {
+						if ( $.contains( $editor.get( 0 ), document.activeElement ) || editorHasFocus ) {
+							fadeOut();
+						}
+					} );
+				}
 
 				focusLostTimer = setTimeout( function() {
 					focusLostTimer = null;
