@@ -32,7 +32,7 @@ function get_option( $option, $default = false ) {
 	/**
 	 * Filter the value of an existing option before it is retrieved.
 	 *
-	 * The dynamic portion of the hook name, $option, refers to the option name.
+	 * The dynamic portion of the hook name, `$option`, refers to the option name.
 	 *
 	 * Passing a truthy value to the filter will short-circuit retrieving
 	 * the option value, returning the passed value instead.
@@ -57,13 +57,12 @@ function get_option( $option, $default = false ) {
 			/**
 			 * Filter the default value for an option.
 			 *
-			 * The dynamic portion of the hook name, $option, refers
-			 * to the option name.
+			 * The dynamic portion of the hook name, `$option`, refers to the option name.
 			 *
 			 * @since 3.4.0
 			 *
-			 * @param mixed $default The default value to return if the option
-			 *                       does not exist in the database.
+			 * @param mixed $default The default value to return if the option does not exist
+			 *                       in the database.
 			 */
 			return apply_filters( 'default_option_' . $option, $default );
 
@@ -112,7 +111,7 @@ function get_option( $option, $default = false ) {
 	/**
 	 * Filter the value of an existing option.
 	 *
-	 * The dynamic portion of the hook name, $option, refers to the option name.
+	 * The dynamic portion of the hook name, `$option`, refers to the option name.
 	 *
 	 * @since 1.5.0 As 'option_' . $setting
 	 * @since 3.0.0
@@ -245,7 +244,7 @@ function update_option( $option, $value ) {
 	/**
 	 * Filter a specific option before its value is (maybe) serialized and updated.
 	 *
-	 * The dynamic portion of the hook name, $option, refers to the option name.
+	 * The dynamic portion of the hook name, `$option`, refers to the option name.
 	 *
 	 * @since 2.6.0
 	 *
@@ -308,7 +307,7 @@ function update_option( $option, $value ) {
 	/**
 	 * Fires after the value of a specific option has been successfully updated.
 	 *
-	 * The dynamic portion of the hook name, $option, refers to the option name.
+	 * The dynamic portion of the hook name, `$option`, refers to the option name.
 	 *
 	 * @since 2.0.1
 	 *
@@ -410,7 +409,7 @@ function add_option( $option, $value = '', $deprecated = '', $autoload = 'yes' )
 	/**
 	 * Fires after a specific option has been added.
 	 *
-	 * The dynamic portion of the hook name, $option, refers to the option name.
+	 * The dynamic portion of the hook name, `$option`, refers to the option name.
 	 *
 	 * @since 2.5.0 As "add_option_{$name}"
 	 * @since 3.0.0
@@ -480,7 +479,7 @@ function delete_option( $option ) {
 		/**
 		 * Fires after a specific option has been deleted.
 		 *
-		 * The dynamic portion of the hook name, $option, refers to the option name.
+		 * The dynamic portion of the hook name, `$option`, refers to the option name.
 		 *
 		 * @since 3.0.0
 		 *
@@ -514,7 +513,7 @@ function delete_transient( $transient ) {
 	/**
 	 * Fires immediately before a specific transient is deleted.
 	 *
-	 * The dynamic portion of the hook name, $transient, refers to the transient name.
+	 * The dynamic portion of the hook name, `$transient`, refers to the transient name.
 	 *
 	 * @since 3.0.0
 	 *
@@ -563,7 +562,7 @@ function get_transient( $transient ) {
  	/**
 	 * Filter the value of an existing transient.
 	 *
-	 * The dynamic portion of the hook name, $transient, refers to the transient name.
+	 * The dynamic portion of the hook name, `$transient`, refers to the transient name.
 	 *
 	 * Passing a truthy value to the filter will effectively short-circuit retrieval
 	 * of the transient, returning the passed value instead.
@@ -602,7 +601,7 @@ function get_transient( $transient ) {
 	/**
 	 * Filter an existing transient's value.
 	 *
-	 * The dynamic portion of the hook name, $transient, refers to the transient name.
+	 * The dynamic portion of the hook name, `$transient`, refers to the transient name.
 	 *
 	 * @since 2.8.0
 	 *
@@ -631,7 +630,7 @@ function set_transient( $transient, $value, $expiration = 0 ) {
 	/**
 	 * Filter a specific transient before its value is set.
 	 *
-	 * The dynamic portion of the hook name, $transient, refers to the transient name.
+	 * The dynamic portion of the hook name, `$transient`, refers to the transient name.
 	 *
 	 * @since 3.0.0
 	 *
@@ -678,7 +677,7 @@ function set_transient( $transient, $value, $expiration = 0 ) {
 		/**
 		 * Fires after the value for a specific transient has been set.
 		 *
-		 * The dynamic portion of the hook name, $transient, refers to the transient name.
+		 * The dynamic portion of the hook name, `$transient`, refers to the transient name.
 		 *
 		 * @since 3.0.0
 		 *
@@ -933,7 +932,7 @@ function get_site_option( $option, $default = false, $use_cache = true ) {
 	/**
 	 * Filter an existing site option before it is retrieved.
 	 *
-	 * The dynamic portion of the hook name, $option, refers to the option name.
+	 * The dynamic portion of the hook name, `$option`, refers to the option name.
 	 *
 	 * Passing a truthy value to the filter will effectively short-circuit retrieval,
 	 * returning the passed value instead.
@@ -957,7 +956,7 @@ function get_site_option( $option, $default = false, $use_cache = true ) {
 		/**
 		 * Filter a specific default site option.
 		 *
-		 * The dynamic portion of the hook name, $option, refers to the option name.
+		 * The dynamic portion of the hook name, `$option`, refers to the option name.
 		 *
 		 * @since 3.4.0
 		 *
@@ -998,7 +997,7 @@ function get_site_option( $option, $default = false, $use_cache = true ) {
 	/**
 	 * Filter the value of an existing site option.
 	 *
-	 * The dynamic portion of the hook name, $option, refers to the option name.
+	 * The dynamic portion of the hook name, `$option`, refers to the option name.
 	 *
 	 * @since 2.9.0 As 'site_option_' . $key
 	 * @since 3.0.0
@@ -1029,7 +1028,7 @@ function add_site_option( $option, $value ) {
 	/**
 	 * Filter the value of a specific site option before it is added.
 	 *
-	 * The dynamic portion of the hook name, $option, refers to the option name.
+	 * The dynamic portion of the hook name, `$option`, refers to the option name.
 	 *
 	 * @since 2.9.0 As 'pre_add_site_option_' . $key
 	 * @since 3.0.0
@@ -1074,7 +1073,7 @@ function add_site_option( $option, $value ) {
 		/**
 		 * Fires after a specific site option has been successfully added.
 		 *
-		 * The dynamic portion of the hook name, $option, refers to the option name.
+		 * The dynamic portion of the hook name, `$option`, refers to the option name.
 		 *
 		 * @since 2.9.0 As "add_site_option_{$key}"
 		 * @since 3.0.0
@@ -1117,7 +1116,7 @@ function delete_site_option( $option ) {
 	/**
 	 * Fires immediately before a specific site option is deleted.
 	 *
-	 * The dynamic portion of the hook name, $option, refers to the option name.
+	 * The dynamic portion of the hook name, `$option`, refers to the option name.
 	 *
 	 * @since 3.0.0
 	 */
@@ -1140,7 +1139,7 @@ function delete_site_option( $option ) {
 		/**
 		 * Fires after a specific site option has been deleted.
 		 *
-		 * The dynamic portion of the hook name, $option, refers to the option name.
+		 * The dynamic portion of the hook name, `$option`, refers to the option name.
 		 *
 		 * @since 2.9.0 As "delete_site_option_{$key}"
 		 * @since 3.0.0
@@ -1184,7 +1183,7 @@ function update_site_option( $option, $value ) {
 	/**
 	 * Filter a specific site option before its value is updated.
 	 *
-	 * The dynamic portion of the hook name, $option, refers to the option name.
+	 * The dynamic portion of the hook name, `$option`, refers to the option name.
 	 *
 	 * @since 2.9.0 As 'pre_update_site_option_' . $key
 	 * @since 3.0.0
@@ -1226,7 +1225,7 @@ function update_site_option( $option, $value ) {
 		/**
 		 * Fires after the value of a specific site option has been successfully updated.
 		 *
-		 * The dynamic portion of the hook name, $option, refers to the option name.
+		 * The dynamic portion of the hook name, `$option`, refers to the option name.
 		 *
 		 * @since 2.9.0 As "update_site_option_{$key}"
 		 * @since 3.0.0
@@ -1266,7 +1265,7 @@ function delete_site_transient( $transient ) {
 	/**
 	 * Fires immediately before a specific site transient is deleted.
 	 *
-	 * The dynamic portion of the hook name, $transient, refers to the transient name.
+	 * The dynamic portion of the hook name, `$transient`, refers to the transient name.
 	 *
 	 * @since 3.0.0
 	 *
@@ -1316,7 +1315,7 @@ function get_site_transient( $transient ) {
 	/**
 	 * Filter the value of an existing site transient.
 	 *
-	 * The dynamic portion of the hook name, $transient, refers to the transient name.
+	 * The dynamic portion of the hook name, `$transient`, refers to the transient name.
 	 *
 	 * Passing a truthy value to the filter will effectively short-circuit retrieval,
 	 * returning the passed value instead.
@@ -1355,7 +1354,7 @@ function get_site_transient( $transient ) {
 	/**
 	 * Filter the value of an existing site transient.
 	 *
-	 * The dynamic portion of the hook name, $transient, refers to the transient name.
+	 * The dynamic portion of the hook name, `$transient`, refers to the transient name.
 	 *
 	 * @since 2.9.0
 	 *
@@ -1385,7 +1384,7 @@ function set_site_transient( $transient, $value, $expiration = 0 ) {
 	/**
 	 * Filter the value of a specific site transient before it is set.
 	 *
-	 * The dynamic portion of the hook name, $transient, refers to the transient name.
+	 * The dynamic portion of the hook name, `$transient`, refers to the transient name.
 	 *
 	 * @since 3.0.0
 	 *
@@ -1415,7 +1414,7 @@ function set_site_transient( $transient, $value, $expiration = 0 ) {
 		/**
 		 * Fires after the value for a specific site transient has been set.
 		 *
-		 * The dynamic portion of the hook name, $transient, refers to the transient name.
+		 * The dynamic portion of the hook name, `$transient`, refers to the transient name.
 		 *
 		 * @since 3.0.0
 		 *
