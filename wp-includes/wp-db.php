@@ -877,7 +877,7 @@ class wpdb {
 	 * @access public
 	 * @param int $blog_id
 	 * @param int $site_id Optional.
-	 * @return string previous blog id
+	 * @return int previous blog id
 	 */
 	public function set_blog_id( $blog_id, $site_id = 0 ) {
 		if ( ! empty( $site_id ) )
@@ -1239,7 +1239,7 @@ class wpdb {
 	 * @global array $EZSQL_ERROR Stores error information of query and error string
 	 *
 	 * @param string $str The error to display
-	 * @return bool False if the showing of errors is disabled.
+	 * @return false|null False if the showing of errors is disabled.
 	 */
 	public function print_error( $str = '' ) {
 		global $EZSQL_ERROR;
@@ -1381,7 +1381,7 @@ class wpdb {
 	 * @since 3.9.0 $allow_bail parameter added.
 	 *
 	 * @param bool $allow_bail Optional. Allows the function to bail. Default true.
-	 * @return bool True with a successful connection, false on failure.
+	 * @return null|bool True with a successful connection, false on failure.
 	 */
 	public function db_connect( $allow_bail = true ) {
 
@@ -1500,7 +1500,7 @@ class wpdb {
 	 * @since 3.9.0
 	 *
 	 * @param bool $allow_bail Optional. Allows the function to bail. Default true.
-	 * @return bool True if the connection is up.
+	 * @return bool|null True if the connection is up.
 	 */
 	public function check_connection( $allow_bail = true ) {
 		if ( $this->use_mysqli ) {
@@ -2548,7 +2548,7 @@ class wpdb {
 	 * @access protected
 	 *
 	 * @param string $query The query to search.
-	 * @return string|bool $table The table name found, or false if a table couldn't be found.
+	 * @return string|false $table The table name found, or false if a table couldn't be found.
 	 */
 	protected function get_table_from_query( $query ) {
 		// Remove characters that can legally trail the table name.
@@ -2658,7 +2658,7 @@ class wpdb {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @return true
+	 * @return bool
 	 */
 	public function timer_start() {
 		$this->time_start = microtime( true );
@@ -2793,7 +2793,7 @@ class wpdb {
 	 *
 	 * @since 2.7.0
 	 *
-	 * @return false|string false on failure, version number on success
+	 * @return null|string Null on failure, version number on success.
 	 */
 	public function db_version() {
 		if ( $this->use_mysqli ) {
