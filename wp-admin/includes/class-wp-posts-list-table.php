@@ -301,7 +301,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 		/**
 		 * Filter the taxonomy columns in the Posts list table.
 		 *
-		 * The dynamic portion of the hook name, $post_type, refers to the post
+		 * The dynamic portion of the hook name, `$post_type`, refers to the post
 		 * type slug.
 		 *
 		 * @since 3.5.0
@@ -355,7 +355,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 		/**
 		 * Filter the columns displayed in the Posts list table for a specific post type.
 		 *
-		 * The dynamic portion of the hook name, $post_type, refers to the post type slug.
+		 * The dynamic portion of the hook name, `$post_type`, refers to the post type slug.
 		 *
 		 * @since 3.0.0
 		 *
@@ -877,7 +877,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 				/**
 				 * Fires for each custom column of a specific post type in the Posts list table.
 				 *
-				 * The dynamic portion of the hook name, $post->post_type, refers to the post type.
+				 * The dynamic portion of the hook name, `$post->post_type`, refers to the post type.
 				 *
 				 * @since 3.1.0
 				 *

@@ -561,8 +561,8 @@ function activate_plugin( $plugin, $redirect = '', $network_wide = false, $silen
 			 * Fires as a specific plugin is being activated.
 			 *
 			 * This hook is the "activation" hook used internally by
-			 * register_activation_hook(). The dynamic portion of the
-			 * hook name, $plugin, refers to the plugin basename.
+			 * {@see register_activation_hook()}. The dynamic portion of the
+			 * hook name, `$plugin`, refers to the plugin basename.
 			 *
 			 * If a plugin is silently activated (such as during an update),
 			 * this hook does not fire.
@@ -674,8 +674,8 @@ function deactivate_plugins( $plugins, $silent = false, $network_wide = null ) {
 			 * Fires as a specific plugin is being deactivated.
 			 *
 			 * This hook is the "deactivation" hook used internally by
-			 * register_deactivation_hook(). The dynamic portion of the
-			 * hook name, $plugin, refers to the plugin basename.
+			 * {@see register_deactivation_hook()}. The dynamic portion of the
+			 * hook name, `$plugin`, refers to the plugin basename.
 			 *
 			 * If a plugin is silently deactivated (such as during an update),
 			 * this hook does not fire.

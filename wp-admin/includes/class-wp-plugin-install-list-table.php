@@ -156,7 +156,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 		/**
 		 * Filter API request arguments for each Plugin Install screen tab.
 		 *
-		 * The dynamic portion of the hook name, $tab, refers to the plugin install tabs.
+		 * The dynamic portion of the hook name, `$tab`, refers to the plugin install tabs.
 		 * Default tabs are 'dashboard', 'search', 'upload', 'featured', 'popular', 'new',
 		 * and 'favorites'.
 		 *

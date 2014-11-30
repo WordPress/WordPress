@@ -208,10 +208,12 @@ function _wp_handle_upload( &$file, $overrides, $time, $action ) {
 	}
 
 	/**
-	 * The dynamic portion of the hook name, $action, refers to the post action.
+	 * Filter the data for a file before it is uploaded to WordPress.
 	 *
-	 * @since 2.9.0 as 'wp_handle_upload_prefilter'
-	 * @since 4.0.0 Converted to a dynamic hook with $action
+	 * The dynamic portion of the hook name, `$action`, refers to the post action.
+	 *
+	 * @since 2.9.0 as 'wp_handle_upload_prefilter'.
+	 * @since 4.0.0 Converted to a dynamic hook with `$action`.
 	 *
 	 * @param array $file An array of data for a single file.
 	 */

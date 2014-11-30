@@ -965,7 +965,7 @@ function wp_edit_posts_query( $q = false ) {
 	/**
 	 * Filter the number of items per page to show for a specific 'per_page' type.
 	 *
-	 * The dynamic portion of the hook name, $post_type, refers to the post type.
+	 * The dynamic portion of the hook name, `$post_type`, refers to the post type.
 	 *
 	 * Some examples of filter hooks generated here include: 'edit_attachment_per_page',
 	 * 'edit_post_per_page', 'edit_page_per_page', etc.
@@ -1104,8 +1104,8 @@ function postbox_classes( $id, $page ) {
 	/**
 	 * Filter the postbox classes for a specific screen and screen ID combo.
 	 *
-	 * The dynamic portions of the hook name, $page, and $id, refer to
-	 * the screen, and screen ID, respectively.
+	 * The dynamic portions of the hook name, `$page` and `$id`, refer to
+	 * the screen and screen ID, respectively.
 	 *
 	 * @since 3.2.0
 	 *

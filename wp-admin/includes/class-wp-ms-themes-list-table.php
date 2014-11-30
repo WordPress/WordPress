@@ -331,7 +331,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 		 * Filter the action links of a specific theme in the Multisite themes
 		 * list table.
 		 *
-		 * The dynamic portion of the hook name, $stylesheet, refers to the
+		 * The dynamic portion of the hook name, `$stylesheet`, refers to the
 		 * directory name of the theme, which in most cases is synonymous
 		 * with the template name.
 		 *
@@ -444,7 +444,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 		/**
 		 * Fires after each specific row in the Multisite themes list table.
 		 *
-		 * The dynamic portion of the hook name, $stylesheet, refers to the
+		 * The dynamic portion of the hook name, `$stylesheet`, refers to the
 		 * directory name of the theme, most often synonymous with the template
 		 * name of the theme.
 		 *

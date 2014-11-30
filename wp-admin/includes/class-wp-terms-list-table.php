@@ -327,7 +327,7 @@ class WP_Terms_List_Table extends WP_List_Table {
 		/**
 		 * Filter the action links displayed for each term in the terms list table.
 		 *
-		 * The dynamic portion of the hook name, $taxonomy, refers to the taxonomy slug.
+		 * The dynamic portion of the hook name, `$taxonomy`, refers to the taxonomy slug.
 		 *
 		 * @since 3.0.0
 		 *
@@ -392,7 +392,7 @@ class WP_Terms_List_Table extends WP_List_Table {
 		/**
 		 * Filter the displayed columns in the terms list table.
 		 *
-		 * The dynamic portion of the hook name, $this->screen->taxonomy,
+		 * The dynamic portion of the hook name, `$this->screen->taxonomy`,
 		 * refers to the slug of the current taxonomy.
 		 *
 		 * @since 2.8.0

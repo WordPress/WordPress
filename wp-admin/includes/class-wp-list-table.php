@@ -342,7 +342,7 @@ class WP_List_Table {
 		/**
 		 * Filter the list of available list table views.
 		 *
-		 * The dynamic portion of the hook name, $this->screen->id, refers
+		 * The dynamic portion of the hook name, `$this->screen->id`, refers
 		 * to the ID of the current screen, usually a string.
 		 *
 		 * @since 3.5.0
@@ -390,7 +390,7 @@ class WP_List_Table {
 			/**
 			 * Filter the list table Bulk Actions drop-down.
 			 *
-			 * The dynamic portion of the hook name, $this->screen->id, refers
+			 * The dynamic portion of the hook name, `$this->screen->id`, refers
 			 * to the ID of the current screen, usually a string.
 			 *
 			 * This filter can currently only be used to remove bulk actions.
@@ -766,7 +766,7 @@ class WP_List_Table {
 		/**
 		 * Filter the list table sortable columns for a specific screen.
 		 *
-		 * The dynamic portion of the hook name, $this->screen->id, refers
+		 * The dynamic portion of the hook name, `$this->screen->id`, refers
 		 * to the ID of the current screen, usually a string.
 		 *
 		 * @since 3.5.0

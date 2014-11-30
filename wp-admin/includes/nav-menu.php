@@ -792,8 +792,8 @@ function wp_nav_menu_item_post_type_meta_box( $object, $post_type ) {
 				 * Filter the posts displayed in the 'View All' tab of the current
 				 * post type's menu items meta box.
 				 *
-				 * The dynamic portion of the hook name, $post_type_name,
-				 * refers to the slug of the current post type.
+				 * The dynamic portion of the hook name, `$post_type_name`, refers
+				 * to the slug of the current post type.
 				 *
 				 * @since 3.2.0
 				 *

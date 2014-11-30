@@ -424,7 +424,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 		/**
 		 * Filter the action links displayed for each plugin in the Plugins list table.
 		 *
-		 * The dynamic portion of the hook name, $prefix, refers to the context the
+		 * The dynamic portion of the hook name, `$prefix`, refers to the context the
 		 * action links are displayed in. The 'network_admin_' prefix is used if the
 		 * current screen is the Network plugins list table. The prefix is empty ('')
 		 * if the current screen is the site plugins list table.
@@ -589,7 +589,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 		/**
 		 * Fires after each specific row in the Plugins list table.
 		 *
-		 * The dynamic portion of the hook name, $plugin_file, refers to the path
+		 * The dynamic portion of the hook name, `$plugin_file`, refers to the path
 		 * to the plugin file, relative to the plugins directory.
 		 *
 		 * @since 2.7.0

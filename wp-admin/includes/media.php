@@ -494,7 +494,7 @@ if ( is_string( $content_func ) ) {
 	 * Fires in the admin header for each specific form tab in the legacy
 	 * (pre-3.5.0) media upload popup.
 	 *
-	 * The dynamic portion of the hook, $content_func, refers to the form
+	 * The dynamic portion of the hook, `$content_func`, refers to the form
 	 * callback for the media upload type. Possible values include
 	 * 'media_upload_type_form', 'media_upload_type_url_form', and
 	 * 'media_upload_library_form'.
@@ -595,7 +595,7 @@ function get_upload_iframe_src( $type = null, $post_id = null, $tab = null ) {
 	/**
 	 * Filter the upload iframe source URL for a specific media type.
 	 *
-	 * The dynamic portion of the hook name, $type, refers to the type
+	 * The dynamic portion of the hook name, `$type`, refers to the type
 	 * of media uploaded.
 	 *
 	 * @since 3.0.0
@@ -763,7 +763,7 @@ function wp_media_upload_handler() {
 			/**
 			 * Filter the URL sent to the editor for a specific media type.
 			 *
-			 * The dynamic portion of the hook name, $type, refers to the type
+			 * The dynamic portion of the hook name, `$type`, refers to the type
 			 * of media being sent.
 			 *
 			 * @since 3.3.0
