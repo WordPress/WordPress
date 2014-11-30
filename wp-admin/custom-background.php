@@ -239,7 +239,7 @@ class Custom_Background {
 <h2><?php _e( 'Custom Background' ); ?></h2>
 
 <?php if ( current_user_can( 'customize' ) ) { ?>
-<div class="update-nag hide-if-no-customize">
+<div class="notice notice-info hide-if-no-customize">
 	<p>
 		<?php
 		printf(
