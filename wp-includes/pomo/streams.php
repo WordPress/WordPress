@@ -58,7 +58,12 @@ class POMO_Reader {
 		return unpack($endian_letter.$count, $bytes);
 	}
 
-
+	/**
+	 * @param string $string
+	 * @param int    $start
+	 * @param int    $length
+	 * @return string
+	 */
 	function substr($string, $start, $length) {
 		if ($this->is_overloaded) {
 			return mb_substr($string, $start, $length, 'ascii');
@@ -67,6 +72,10 @@ class POMO_Reader {
 		}
 	}
 
+	/**
+	 * @param string $string
+	 * @return int
+	 */
 	function strlen($string) {
 		if ($this->is_overloaded) {
 			return mb_strlen($string, 'ascii');
@@ -75,6 +84,11 @@ class POMO_Reader {
 		}
 	}
 
+	/**
+	 * @param string $string
+	 * @param int    $chunk_size
+	 * @return array
+	 */
 	function str_split($string, $chunk_size) {
 		if (!function_exists('str_split')) {
 			$length = $this->strlen($string);
@@ -104,15 +118,26 @@ endif;
 
 if ( !class_exists( 'POMO_FileReader' ) ):
 class POMO_FileReader extends POMO_Reader {
+
+	/**
+	 * @param string $filename
+	 */
 	function POMO_FileReader($filename) {
 		parent::POMO_Reader();
 		$this->_f = fopen($filename, 'rb');
 	}
 
+	/**
+	 * @param int $bytes
+	 */
 	function read($bytes) {
 		return fread($this->_f, $bytes);
 	}
 
+	/**
+	 * @param int $pos
+	 * @return boolean
+	 */
 	function seekto($pos) {
 		if ( -1 == fseek($this->_f, $pos, SEEK_SET)) {
 			return false;
@@ -157,7 +182,10 @@ class POMO_StringReader extends POMO_Reader {
 		$this->_pos = 0;
 	}
 
-
+	/**
+	 * @param string $bytes
+	 * @return string
+	 */
 	function read($bytes) {
 		$data = $this->substr($this->_str, $this->_pos, $bytes);
 		$this->_pos += $bytes;
@@ -165,6 +193,10 @@ class POMO_StringReader extends POMO_Reader {
 		return $data;
 	}
 
+	/**
+	 * @param int $pos
+	 * @return int
+	 */
 	function seekto($pos) {
 		$this->_pos = $pos;
 		if ($this->strlen($this->_str) < $this->_pos) $this->_pos = $this->strlen($this->_str);
