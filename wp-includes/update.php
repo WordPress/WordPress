@@ -18,7 +18,7 @@
  *
  * @param array $extra_stats Extra statistics to report to the WordPress.org API.
  * @param bool $force_check Whether to bypass the transient cache and force a fresh update check. Defaults to false, true if $extra_stats is set.
- * @return mixed Returns null if update is unsupported. Returns false if check is too soon.
+ * @return null|false Returns null if update is unsupported. Returns false if check is too soon.
  */
 function wp_version_check( $extra_stats = array(), $force_check = false ) {
 	if ( defined('WP_INSTALLING') )
@@ -180,7 +180,7 @@ function wp_version_check( $extra_stats = array(), $force_check = false ) {
  * @uses $wp_version Used to notify the WordPress version.
  *
  * @param array $extra_stats Extra statistics to report to the WordPress.org API.
- * @return mixed Returns null if update is unsupported. Returns false if check is too soon.
+ * @return false|null Returns null if update is unsupported. Returns false if check is too soon.
  */
 function wp_update_plugins( $extra_stats = array() ) {
 	include( ABSPATH . WPINC . '/version.php' ); // include an unmodified $wp_version
@@ -334,7 +334,7 @@ function wp_update_plugins( $extra_stats = array() ) {
  * @uses $wp_version Used to notify the WordPress version.
  *
  * @param array $extra_stats Extra statistics to report to the WordPress.org API.
- * @return mixed Returns null if update is unsupported. Returns false if check is too soon.
+ * @return false|null Returns null if update is unsupported. Returns false if check is too soon.
  */
 function wp_update_themes( $extra_stats = array() ) {
 	include( ABSPATH . WPINC . '/version.php' ); // include an unmodified $wp_version

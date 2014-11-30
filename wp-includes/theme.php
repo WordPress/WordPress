@@ -871,7 +871,7 @@ function validate_current_theme() {
  *
  * @since 3.1.0
  *
- * @return array Theme modifications.
+ * @return array|null Theme modifications.
  */
 function get_theme_mods() {
 	$theme_slug = get_option( 'stylesheet' );
@@ -1364,7 +1364,7 @@ body.custom-background { <?php echo trim( $style ); ?> }
  *
  * @since 3.0.0
  *
- * @param mixed $stylesheet Optional. Stylesheet name or array thereof, relative to theme root.
+ * @param array|string $stylesheet Optional. Stylesheet name or array thereof, relative to theme root.
  * 	Defaults to 'editor-style.css'
  */
 function add_editor_style( $stylesheet = 'editor-style.css' ) {
@@ -1700,7 +1700,7 @@ function get_theme_support( $feature ) {
  * @since 3.0.0
  * @see add_theme_support()
  * @param string $feature the feature being added
- * @return bool Whether feature was removed.
+ * @return null|bool Whether feature was removed.
  */
 function remove_theme_support( $feature ) {
 	// Blacklist: for internal registrations not used directly by themes.
@@ -1715,6 +1715,7 @@ function remove_theme_support( $feature ) {
  *
  * @access private
  * @since 3.1.0
+ * @param string $feature
  */
 function _remove_theme_support( $feature ) {
 	global $_wp_theme_features;
