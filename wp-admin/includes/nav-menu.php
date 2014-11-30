@@ -1148,7 +1148,7 @@ function _wp_nav_menu_meta_box_object( $object = null ) {
  *
  * @since 3.0.0
  *
- * @param string $menu_id The ID of the menu to format.
+ * @param int $menu_id Optional. The ID of the menu to format. Default 0.
  * @return string|WP_Error $output The menu formatted to edit or error object on failure.
  */
 function wp_get_nav_menu_to_edit( $menu_id = 0 ) {
