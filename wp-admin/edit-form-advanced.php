@@ -17,8 +17,9 @@ $_wp_editor_expand = $_content_editor_dfw = false;
  * Filter whether to enable the 'expand' functionality in the post editor.
  *
  * @since 4.0.0
+ * @since 4.1.0 Added the `$post_type` parameter.
  *
- * @param bool $expand Whether to enable the 'expand' functionality. Default true.
+ * @param bool   $expand    Whether to enable the 'expand' functionality. Default true.
  * @param string $post_type Post type.
  */
 if ( post_type_supports( $post_type, 'editor' ) && ! wp_is_mobile() &&
