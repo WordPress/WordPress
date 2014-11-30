@@ -1040,8 +1040,8 @@ function gallery_shortcode( $attr ) {
 	 *
 	 * @since 2.5.0
 	 *
-	 * @param string $gallery_style Default gallery shortcode CSS styles.
-	 * @param string $gallery_div   Opening HTML div container for the gallery shortcode output.
+	 * @param string $gallery_style Default CSS styles and opening HTML div container
+	 *                              for the gallery shortcode output.
 	 */
 	$output = apply_filters( 'gallery_style', $gallery_style . $gallery_div );
 
