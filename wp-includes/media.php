@@ -379,26 +379,33 @@ function wp_constrain_dimensions( $current_width, $current_height, $max_width=0,
 	$smaller_ratio = min( $width_ratio, $height_ratio );
 	$larger_ratio  = max( $width_ratio, $height_ratio );
 
-	if ( intval( $current_width * $larger_ratio ) > $max_width || intval( $current_height * $larger_ratio ) > $max_height )
+	if ( (int) round( $current_width * $larger_ratio ) > $max_width || (int) round( $current_height * $larger_ratio ) > $max_height ) {
  		// The larger ratio is too big. It would result in an overflow.
 		$ratio = $smaller_ratio;
-	else
+	} else {
 		// The larger ratio fits, and is likely to be a more "snug" fit.
 		$ratio = $larger_ratio;
+	}
 
 	// Very small dimensions may result in 0, 1 should be the minimum.
-	$w = max ( 1, intval( $current_width  * $ratio ) );
-	$h = max ( 1, intval( $current_height * $ratio ) );
+	$w = max ( 1, (int) round( $current_width  * $ratio ) );
+	$h = max ( 1, (int) round( $current_height * $ratio ) );
 
 	// Sometimes, due to rounding, we'll end up with a result like this: 465x700 in a 177x177 box is 117x176... a pixel short
 	// We also have issues with recursive calls resulting in an ever-changing result. Constraining to the result of a constraint should yield the original result.
 	// Thus we look for dimensions that are one pixel shy of the max value and bump them up
-	if ( $did_width && $w == $max_width - 1 )
-		$w = $max_width; // Round it up
-	if ( $did_height && $h == $max_height - 1 )
-		$h = $max_height; // Round it up
 
-	return array( $w, $h );
+	// Note: $did_width means it is possible $smaller_ratio == $width_ratio.
+	if ( $did_width && $w == $max_width - 1 ) {
+		$w = $max_width; // Round it up
+	}
+
+	// Note: $did_height means it is possible $smaller_ratio == $height_ratio.
+	if ( $did_height && $h == $max_height - 1 ) {
+		$h = $max_height; // Round it up
+	}
+
+	return apply_filters( 'wp_constrain_dimensions', array( $w, $h ), $current_width, $current_height, $max_width, $max_height );
 }
 
 /**
@@ -459,12 +466,12 @@ function image_resize_dimensions($orig_w, $orig_h, $dest_w, $dest_h, $crop = fal
 		$new_w = min($dest_w, $orig_w);
 		$new_h = min($dest_h, $orig_h);
 
-		if ( !$new_w ) {
-			$new_w = intval($new_h * $aspect_ratio);
+		if ( ! $new_w ) {
+			$new_w = (int) round( $new_h * $aspect_ratio );
 		}
 
-		if ( !$new_h ) {
-			$new_h = intval($new_w / $aspect_ratio);
+		if ( ! $new_h ) {
+			$new_h = (int) round( $new_w / $aspect_ratio );
 		}
 
 		$size_ratio = max($new_w / $orig_w, $new_h / $orig_h);
