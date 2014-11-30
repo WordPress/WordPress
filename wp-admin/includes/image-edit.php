@@ -403,9 +403,11 @@ function _crop_image_resource($img, $x, $y, $w, $h) {
 /**
  * Performs group of changes on Editor specified.
  *
- * @param WP_Image_Editor $image
- * @param type $changes
- * @return WP_Image_Editor
+ * @since 2.9.0
+ *
+ * @param WP_Image_Editor $image   {@see WP_Image_Editor} instance.
+ * @param array           $changes Array of change operations.
+ * @return WP_Image_Editor {@see WP_Image_Editor} instance with changes applied.
  */
 function image_edit_apply_changes( $image, $changes ) {
 	if ( is_resource( $image ) )
