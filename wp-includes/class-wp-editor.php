@@ -877,6 +877,11 @@ final class _WP_Editors {
 			'Insert/edit link' => __( 'Insert/edit link' ),
 			'Remove link' => __( 'Remove link' ),
 
+			'Color' => __( 'Color' ),
+			'Custom color' => __( 'Custom color' ),
+			'Custom...' => _x( 'Custom...', 'label for custom color' ),
+			'No color' => __( 'No color' ),
+
 			// Spelling, search/replace plugins
 			'Could not find the specified string.' => __( 'Could not find the specified string.' ),
 			'Replace' => _x( 'Replace', 'find/replace' ),
@@ -893,6 +898,7 @@ final class _WP_Editors {
 			'Finish' => _x( 'Finish', 'spellcheck' ),
 			'Ignore all' => _x( 'Ignore all', 'spellcheck' ),
 			'Ignore' => _x( 'Ignore', 'spellcheck' ),
+			'Add to Dictionary' => __( 'Add to Dictionary' ),
 
 			// TinyMCE tables
 			'Insert table' => __( 'Insert table' ),
@@ -900,6 +906,7 @@ final class _WP_Editors {
 			'Table properties' => __( 'Table properties' ),
 			'Row properties' => __( 'Table row properties' ),
 			'Cell properties' => __( 'Table cell properties' ),
+			'Border color' => __( 'Border color' ),
 
 			'Row' => __( 'Row' ),
 			'Rows' => __( 'Rows' ),
@@ -928,10 +935,15 @@ final class _WP_Editors {
 			'Width' => __( 'Width' ),
 			'Caption' => __( 'Caption' ),
 			'Alignment' => __( 'Alignment' ),
+			'H Align' => _x( 'H Align', 'horizontal table cell alignment' ),
 			'Left' => __( 'Left' ),
 			'Center' => __( 'Center' ),
 			'Right' => __( 'Right' ),
 			'None' => _x( 'None', 'table cell alignment attribute' ),
+			'V Align' => _x( 'V Align', 'vertical table cell alignment' ),
+			'Top' => __( 'Top' ),
+			'Middle' => __( 'Middle' ),
+			'Bottom' => __( 'Bottom' ),
 
 			'Row group' => __( 'Row group' ),
 			'Column group' => __( 'Column group' ),
