@@ -6405,7 +6405,7 @@
 								changed.push( model.save() );
 								removed.push( model );
 							} else {
-								model.destroy();
+								model.destroy({wait: true});
 							}
 						} );
 
