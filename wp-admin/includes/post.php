@@ -1629,7 +1629,7 @@ function post_preview() {
  *
  * @since 3.9.0
  *
- * @param $post_data Associative array of the submitted post data.
+ * @param array $post_data Associative array of the submitted post data.
  * @return mixed The value 0 or WP_Error on failure. The saved post ID on success.
  *               Te ID can be the draft post_id or the autosave revision post_id.
  */
