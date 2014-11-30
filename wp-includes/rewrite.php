@@ -909,7 +909,7 @@ class WP_Rewrite {
 	 * @since 1.5.0
 	 * @access public
 	 *
-	 * @return bool|string False on no permalink structure. Date permalink structure.
+	 * @return string|false False on no permalink structure. Date permalink structure.
 	 */
 	public function get_date_permastruct() {
 		if ( isset($this->date_structure) )
@@ -963,7 +963,7 @@ class WP_Rewrite {
 	 * @since 1.5.0
 	 * @access public
 	 *
-	 * @return bool|string False on failure. Year structure on success.
+	 * @return false|string False on failure. Year structure on success.
 	 */
 	public function get_year_permastruct() {
 		$structure = $this->get_date_permastruct();
@@ -988,7 +988,7 @@ class WP_Rewrite {
 	 * @since 1.5.0
 	 * @access public
 	 *
-	 * @return bool|string False on failure. Year/Month structure on success.
+	 * @return false|string False on failure. Year/Month structure on success.
 	 */
 	public function get_month_permastruct() {
 		$structure = $this->get_date_permastruct();
@@ -1011,7 +1011,7 @@ class WP_Rewrite {
 	 * @since 1.5.0
 	 * @access public
 	 *
-	 * @return bool|string False on failure. Year/Month/Day structure on success.
+	 * @return string|false False on failure. Year/Month/Day structure on success.
 	 */
 	public function get_day_permastruct() {
 		return $this->get_date_permastruct();
@@ -1080,7 +1080,7 @@ class WP_Rewrite {
 	 * @since 1.5.0
 	 * @access public
 	 *
-	 * @return string|bool False if not found. Permalink structure string.
+	 * @return string|false False if not found. Permalink structure string.
 	 */
 	public function get_author_permastruct() {
 		if ( isset($this->author_structure) )
@@ -1106,7 +1106,7 @@ class WP_Rewrite {
 	 * @since 1.5.0
 	 * @access public
 	 *
-	 * @return string|bool False if not found. Permalink structure string.
+	 * @return string|false False if not found. Permalink structure string.
 	 */
 	public function get_search_permastruct() {
 		if ( isset($this->search_structure) )
@@ -1132,7 +1132,7 @@ class WP_Rewrite {
 	 * @since 1.5.0
 	 * @access public
 	 *
-	 * @return string|bool False if not found. Permalink structure string.
+	 * @return string|false False if not found. Permalink structure string.
 	 */
 	public function get_page_permastruct() {
 		if ( isset($this->page_structure) )
@@ -1158,7 +1158,7 @@ class WP_Rewrite {
 	 * @since 1.5.0
 	 * @access public
 	 *
-	 * @return string|bool False if not found. Permalink structure string.
+	 * @return string|false False if not found. Permalink structure string.
 	 */
 	public function get_feed_permastruct() {
 		if ( isset($this->feed_structure) )
