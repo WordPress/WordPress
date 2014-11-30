@@ -168,7 +168,7 @@ class WP_Customize_Setting {
 	 *
 	 * @since 3.4.0
 	 *
-	 * @return bool False if cap check fails or value isn't set.
+	 * @return false|null False if cap check fails or value isn't set.
 	 */
 	public final function save() {
 		$value = $this->post_value();
@@ -294,7 +294,7 @@ class WP_Customize_Setting {
 	 * @since 3.4.0
 	 *
 	 * @param mixed $value The value to update.
-	 * @return mixed The result of saving the value.
+	 * @return bool|null The result of saving the value.
 	 */
 	protected function _update_option( $value ) {
 		// Handle non-array option.
@@ -469,7 +469,7 @@ class WP_Customize_Setting {
 	 *
 	 * @param $root
 	 * @param $keys
-	 * @param $default A default value which is used as a fallback. Default is null.
+	 * @param mixed $default A default value which is used as a fallback. Default is null.
 	 * @return mixed The requested value or the default value.
 	 */
 	final protected function multidimensional_get( $root, $keys, $default = null ) {

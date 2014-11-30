@@ -822,6 +822,8 @@ class WP_Customize_Image_Control extends WP_Customize_Upload_Control {
 	 * @uses WP_Customize_Upload_Control::__construct()
 	 *
 	 * @param WP_Customize_Manager $manager
+	 * @param string $id
+	 * @param array  $args
 	 */
 	public function __construct( $manager, $id, $args = array() ) {
 		parent::__construct( $manager, $id, $args );
@@ -901,6 +903,9 @@ class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control {
 	public $uploaded_headers;
 	public $default_headers;
 
+	/**
+	 * @param WP_Customize_Manager $manager
+	 */
 	public function __construct( $manager ) {
 		parent::__construct( $manager, 'header_image', array(
 			'label'    => __( 'Header Image' ),

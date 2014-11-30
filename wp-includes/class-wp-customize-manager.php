@@ -62,7 +62,7 @@ final class WP_Customize_Manager {
 	 */
 	protected $registered_control_types = array();
 
-	/** 
+	/**
 	 * $_POST values for Customize Settings.
 	 *
 	 * @var array
@@ -403,7 +403,7 @@ final class WP_Customize_Manager {
 	 *
 	 * @since 3.4.0
 	 *
-	 * @param mixed $setting A WP_Customize_Setting derived object
+	 * @param WP_Customize_Setting $setting A WP_Customize_Setting derived object
 	 * @return string $post_value Sanitized value
 	 */
 	public function post_value( $setting ) {
