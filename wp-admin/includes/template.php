@@ -2042,6 +2042,11 @@ final class WP_Internal_Pointers {
 	}
 
 	public static function pointer_wp410_dfw() {
+		// Don't show when editor-scrolling is not used.
+		if ( empty( $GLOBALS['_content_editor_dfw'] ) ) {
+			return;
+		}
+
 		$content  = '<h3>' . __( 'Distraction Free Writing' ) . '</h3>';
 		$content .= '<p>' . __( 'Enable distraction free writing; everything fades away so you can focus. '
 			. 'Bring your admin back by moving your mouse, then start typing and it fades away.' ) . '</p>';

@@ -19,10 +19,11 @@ $_wp_editor_expand = $_content_editor_dfw = false;
  * @since 4.0.0
  *
  * @param bool $expand Whether to enable the 'expand' functionality. Default true.
+ * @param string $post_type Post type.
  */
 if ( post_type_supports( $post_type, 'editor' ) && ! wp_is_mobile() &&
 	 ! ( $is_IE && preg_match( '/MSIE [5678]/', $_SERVER['HTTP_USER_AGENT'] ) ) &&
-	 apply_filters( 'wp_editor_expand', true ) ) {
+	 apply_filters( 'wp_editor_expand', true, $post_type ) ) {
 
 	wp_enqueue_script('editor-expand');
 	$_content_editor_dfw = true;
