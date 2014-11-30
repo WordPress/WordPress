@@ -1524,7 +1524,7 @@ function get_adjacent_post( $in_same_term = false, $excluded_terms = '', $previo
 	/**
 	 * Filter the JOIN clause in the SQL for an adjacent post query.
 	 *
-	 * The dynamic portion of the hook name, $adjacent, refers to the type
+	 * The dynamic portion of the hook name, `$adjacent`, refers to the type
 	 * of adjacency, 'next' or 'previous'.
 	 *
 	 * @since 2.5.0
@@ -1538,12 +1538,12 @@ function get_adjacent_post( $in_same_term = false, $excluded_terms = '', $previo
 	/**
 	 * Filter the WHERE clause in the SQL for an adjacent post query.
 	 *
-	 * The dynamic portion of the hook name, $adjacent, refers to the type
+	 * The dynamic portion of the hook name, `$adjacent`, refers to the type
 	 * of adjacency, 'next' or 'previous'.
 	 *
 	 * @since 2.5.0
 	 *
-	 * @param string $where          The WHERE clause in the SQL.
+	 * @param string $where          The `WHERE` clause in the SQL.
 	 * @param bool   $in_same_term   Whether post should be in a same taxonomy term.
 	 * @param array  $excluded_terms Array of excluded term IDs.
 	 */
@@ -1552,12 +1552,12 @@ function get_adjacent_post( $in_same_term = false, $excluded_terms = '', $previo
 	/**
 	 * Filter the ORDER BY clause in the SQL for an adjacent post query.
 	 *
-	 * The dynamic portion of the hook name, $adjacent, refers to the type
+	 * The dynamic portion of the hook name, `$adjacent`, refers to the type
 	 * of adjacency, 'next' or 'previous'.
 	 *
 	 * @since 2.5.0
 	 *
-	 * @param string $order_by The ORDER BY clause in the SQL.
+	 * @param string $order_by The `ORDER BY` clause in the SQL.
 	 */
 	$sort  = apply_filters( "get_{$adjacent}_post_sort", "ORDER BY p.post_date $order LIMIT 1" );
 
@@ -1624,7 +1624,7 @@ function get_adjacent_post_rel_link( $title = '%title', $in_same_term = false, $
 	/**
 	 * Filter the adjacent post relational link.
 	 *
-	 * The dynamic portion of the hook name, $adjacent, refers to the type
+	 * The dynamic portion of the hook name, `$adjacent`, refers to the type
 	 * of adjacency, 'next' or 'previous'.
 	 *
 	 * @since 2.8.0
@@ -1861,7 +1861,7 @@ function get_adjacent_post_link( $format, $link, $in_same_term = false, $exclude
 	/**
 	 * Filter the adjacent post link.
 	 *
-	 * The dynamic portion of the hook name, $adjacent, refers to the type
+	 * The dynamic portion of the hook name, `$adjacent`, refers to the type
 	 * of adjacency, 'next' or 'previous'.
 	 *
 	 * @since 2.6.0

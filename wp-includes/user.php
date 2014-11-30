@@ -371,7 +371,7 @@ function get_user_option( $option, $user = 0, $deprecated = '' ) {
 	/**
 	 * Filter a specific user option value.
 	 *
-	 * The dynamic portion of the hook name, $option, refers to the user option name.
+	 * The dynamic portion of the hook name, `$option`, refers to the user option name.
 	 *
 	 * @since 2.5.0
 	 *
@@ -1499,7 +1499,7 @@ function sanitize_user_field($field, $value, $user_id, $context) {
 			/**
 			 * Filter a user field value in the 'edit' context.
 			 *
-			 * The dynamic portion of the hook name, $field, refers to the prefixed user
+			 * The dynamic portion of the hook name, `$field`, refers to the prefixed user
 			 * field being filtered, such as 'user_login', 'user_email', 'first_name', etc.
 			 *
 			 * @since 2.9.0
@@ -1523,7 +1523,7 @@ function sanitize_user_field($field, $value, $user_id, $context) {
 			/**
 			 * Filter the value of a user field in the 'db' context.
 			 *
-			 * The dynamic portion of the hook name, $field, refers to the prefixed user
+			 * The dynamic portion of the hook name, `$field`, refers to the prefixed user
 			 * field being filtered, such as 'user_login', 'user_email', 'first_name', etc.
  			 *
 			 * @since 2.9.0
@@ -1543,7 +1543,7 @@ function sanitize_user_field($field, $value, $user_id, $context) {
 			/**
 			 * Filter the value of a user field in a standard context.
 			 *
-			 * The dynamic portion of the hook name, $field, refers to the prefixed user
+			 * The dynamic portion of the hook name, `$field`, refers to the prefixed user
 			 * field being filtered, such as 'user_login', 'user_email', 'first_name', etc.
 			 *
 			 * @since 2.9.0

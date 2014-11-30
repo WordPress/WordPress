@@ -1676,7 +1676,7 @@ class WP_Rewrite {
 			/**
 			 * Filter rewrite rules used for individual permastructs.
 			 *
-			 * The dynamic portion of the hook name, $permastructname, refers
+			 * The dynamic portion of the hook name, `$permastructname`, refers
 			 * to the name of the registered permastruct, e.g. 'post_tag' (tags),
 			 * 'category' (categories), etc.
 			 *

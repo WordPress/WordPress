@@ -1942,7 +1942,7 @@ function adjacent_image_link($prev = true, $size = 'thumbnail', $text = false) {
 	/**
 	 * Filter the adjacent image link.
 	 *
-	 * The dynamic portion of the hook name, $adjacent, refers to the type of adjacency,
+	 * The dynamic portion of the hook name, `$adjacent`, refers to the type of adjacency,
 	 * either 'next', or 'previous'.
 	 *
 	 * @since 3.5.0

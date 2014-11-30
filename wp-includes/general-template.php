@@ -151,7 +151,7 @@ function get_template_part( $slug, $name = null ) {
 	/**
 	 * Fires before the specified template part file is loaded.
 	 *
-	 * The dynamic portion of the hook name, $slug, refers to the slug name
+	 * The dynamic portion of the hook name, `$slug`, refers to the slug name
 	 * for the generic template part.
 	 *
 	 * @since 3.0.0
@@ -3009,11 +3009,11 @@ function get_the_generator( $type = '' ) {
 	/**
 	 * Filter the HTML for the retrieved generator type.
 	 *
-	 * The dynamic portion of the hook name, $type, refers to the generator type.
+	 * The dynamic portion of the hook name, `$type`, refers to the generator type.
 	 *
 	 * @since 2.5.0
 	 *
-	 * @param string $gen  The HTML markup output to 'wp_head()'.
+	 * @param string $gen  The HTML markup output to {@see wp_head()}.
 	 * @param string $type The type of generator. Accepts 'html', 'xhtml', 'atom',
 	 *                     'rss2', 'rdf', 'comment', 'export'.
 	 */

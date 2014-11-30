@@ -4194,8 +4194,8 @@ function get_file_data( $file, $default_headers, $context = '' ) {
 	/**
 	 * Filter extra file headers by context.
 	 *
-	 * The dynamic portion of the hook name, $context, refers to the context
-	 * where extra headers might be loaded.
+	 * The dynamic portion of the hook name, `$context`, refers to
+	 * the context where extra headers might be loaded.
 	 *
 	 * @since 2.9.0
 	 *

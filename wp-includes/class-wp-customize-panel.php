@@ -268,8 +268,8 @@ class WP_Customize_Panel {
 		/**
 		 * Fires before rendering a specific Customizer panel.
 		 *
-		 * The dynamic portion of the hook name, $this->id, refers to the ID
-		 * of the specific Customizer panel to be rendered.
+		 * The dynamic portion of the hook name, `$this->id`, refers to
+		 * the ID of the specific Customizer panel to be rendered.
 		 *
 		 * @since 4.0.0
 		 */

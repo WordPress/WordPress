@@ -127,11 +127,11 @@ class WP_Customize_Setting {
 				 * Fires when the {@see WP_Customize_Setting::preview()} method is called for settings
 				 * not handled as theme_mods or options.
 				 *
-				 * The dynamic portion of the hook name, $this->id, refers to the setting ID.
+				 * The dynamic portion of the hook name, `$this->id`, refers to the setting ID.
 				 *
 				 * @since 3.4.0
 				 *
-				 * @param WP_Customize_Setting $this WP_Customize_Setting instance.
+				 * @param WP_Customize_Setting $this {@see WP_Customize_Setting} instance.
 				 */
 				do_action( "customize_preview_{$this->id}", $this );
 
@@ -179,12 +179,12 @@ class WP_Customize_Setting {
 		/**
 		 * Fires when the WP_Customize_Setting::save() method is called.
 		 *
-		 * The dynamic portion of the hook name, $this->id_data['base'] refers to
+		 * The dynamic portion of the hook name, `$this->id_data['base']` refers to
 		 * the base slug of the setting name.
 		 *
 		 * @since 3.4.0
 		 *
-		 * @param WP_Customize_Setting $this WP_Customize_Setting instance.
+		 * @param WP_Customize_Setting $this {@see WP_Customize_Setting} instance.
 		 */
 		do_action( 'customize_save_' . $this->id_data[ 'base' ], $this );
 
@@ -254,10 +254,10 @@ class WP_Customize_Setting {
 			default :
 
 				/**
-				 * Fires when the WP_Customize_Setting::update() method is called for settings
+				 * Fires when the {@see WP_Customize_Setting::update()} method is called for settings
 				 * not handled as theme_mods or options.
 				 *
-				 * The dynamic portion of the hook name, $this->type, refers to the type of setting.
+				 * The dynamic portion of the hook name, `$this->type`, refers to the type of setting.
 				 *
 				 * @since 3.4.0
 				 *
@@ -329,7 +329,7 @@ class WP_Customize_Setting {
 				/**
 				 * Filter a Customize setting value not handled as a theme_mod or option.
 				 *
-				 * The dynamic portion of the hook name, $this->id_date['base'], refers to
+				 * The dynamic portion of the hook name, `$this->id_date['base']`, refers to
 				 * the base slug of the setting name.
 				 *
 				 * For settings handled as theme_mods or options, see those corresponding
@@ -363,12 +363,12 @@ class WP_Customize_Setting {
 		/**
 		 * Filter a Customize setting value for use in JavaScript.
 		 *
-		 * The dynamic portion of the hook name, $this->id, refers to the setting ID.
+		 * The dynamic portion of the hook name, `$this->id`, refers to the setting ID.
 		 *
 		 * @since 3.4.0
 		 *
 		 * @param mixed                $value The setting value.
-		 * @param WP_Customize_Setting $this  WP_Customize_Setting instance.
+		 * @param WP_Customize_Setting $this  {@see WP_Customize_Setting} instance.
 		 */
 		$value = apply_filters( "customize_sanitize_js_{$this->id}", $this->value(), $this );
 

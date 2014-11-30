@@ -320,12 +320,12 @@ class WP_Customize_Control {
 		/**
 		 * Fires just before a specific Customizer control is rendered.
 		 *
-		 * The dynamic portion of the hook name, $this->id, refers to
+		 * The dynamic portion of the hook name, `$this->id`, refers to
 		 * the control ID.
 		 *
 		 * @since 3.4.0
 		 *
-		 * @param WP_Customize_Control $this WP_Customize_Control instance.
+		 * @param WP_Customize_Control $this {@see WP_Customize_Control} instance.
 		 */
 		do_action( 'customize_render_control_' . $this->id, $this );
 

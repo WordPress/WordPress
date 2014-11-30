@@ -1299,7 +1299,7 @@ function get_the_term_list( $id, $taxonomy, $before = '', $sep = '', $after = ''
 	/**
 	 * Filter the term links for a given taxonomy.
 	 *
-	 * The dynamic portion of the filter name, $taxonomy, refers
+	 * The dynamic portion of the filter name, `$taxonomy`, refers
 	 * to the taxonomy slug.
 	 *
 	 * @since 2.5.0

@@ -1204,8 +1204,8 @@ function map_meta_cap( $cap, $user_id ) {
 			/**
 			 * Filter whether the user is allowed to add post meta to a post.
 			 *
-			 * The dynamic portion of the hook name, $meta_key, refers to the
-			 * meta key passed to map_meta_cap().
+			 * The dynamic portion of the hook name, `$meta_key`, refers to the
+			 * meta key passed to {@see map_meta_cap()}.
 			 *
 			 * @since 3.3.0
 			 *

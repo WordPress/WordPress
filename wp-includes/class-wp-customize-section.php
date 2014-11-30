@@ -276,7 +276,7 @@ class WP_Customize_Section {
 		/**
 		 * Fires before rendering a specific Customizer section.
 		 *
-		 * The dynamic portion of the hook name, $this->id, refers to the ID
+		 * The dynamic portion of the hook name, `$this->id`, refers to the ID
 		 * of the specific Customizer section to be rendered.
 		 *
 		 * @since 3.4.0

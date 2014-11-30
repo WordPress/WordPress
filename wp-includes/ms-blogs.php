@@ -460,7 +460,7 @@ function get_blog_option( $id, $option, $default = false ) {
 	/**
 	 * Filter a blog option value.
 	 *
-	 * The dynamic portion of the hook name, $option, refers to the blog option name.
+	 * The dynamic portion of the hook name, `$option`, refers to the blog option name.
 	 *
 	 * @since 3.5.0
 	 *

@@ -909,7 +909,7 @@ function get_theme_mod( $name, $default = false ) {
 		/**
 		 * Filter the theme modification, or 'theme_mod', value.
 		 *
-		 * The dynamic portion of the hook name, $name, refers to
+		 * The dynamic portion of the hook name, `$name`, refers to
 		 * the key name of the modification array. For example,
 		 * 'header_textcolor', 'header_image', and so on depending
 		 * on the theme options.
@@ -943,7 +943,7 @@ function set_theme_mod( $name, $value ) {
 	/**
 	 * Filter the theme mod value on save.
 	 *
-	 * The dynamic portion of the hook name, $name, refers to the key name of
+	 * The dynamic portion of the hook name, `$name`, refers to the key name of
 	 * the modification array. For example, 'header_textcolor', 'header_image',
 	 * and so on depending on the theme options.
 	 *
@@ -1816,10 +1816,9 @@ function current_theme_supports( $feature ) {
 	/**
 	 * Filter whether the current theme supports a specific feature.
 	 *
-	 * The dynamic portion of the hook name, $feature, refers to
-	 * the specific theme feature. Possible values include 'post-formats',
-	 * 'post-thumbnails', 'custom-background', 'custom-header', 'menus',
-	 * 'automatic-feed-links', and 'html5'.
+	 * The dynamic portion of the hook name, `$feature`, refers to the specific theme
+	 * feature. Possible values include 'post-formats', 'post-thumbnails', 'custom-background',
+	 * 'custom-header', 'menus', 'automatic-feed-links', and 'html5'.
 	 *
 	 * @since 3.4.0
 	 *

@@ -1818,7 +1818,7 @@ function wp_transition_comment_status($new_status, $old_status, $comment) {
 		/**
 		 * Fires when the comment status is in transition from one specific status to another.
 		 *
-		 * The dynamic portions of the hook name, $old_status, and $new_status,
+		 * The dynamic portions of the hook name, `$old_status`, and `$new_status`,
 		 * refer to the old and new comment statuses, respectively.
 		 *
 		 * @since 2.7.0
@@ -1830,7 +1830,7 @@ function wp_transition_comment_status($new_status, $old_status, $comment) {
 	/**
 	 * Fires when the status of a specific comment type is in transition.
 	 *
-	 * The dynamic portions of the hook name, $new_status, and $comment->comment_type,
+	 * The dynamic portions of the hook name, `$new_status`, and `$comment->comment_type`,
 	 * refer to the new comment status, and the type of comment, respectively.
 	 *
 	 * Typical comment types include an empty string (standard comment), 'pingback',

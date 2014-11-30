@@ -2301,7 +2301,7 @@ function comment_form( $args = array(), $post_id = null ) {
 								/**
 								 * Filter a comment form field for display.
 								 *
-								 * The dynamic portion of the filter hook, $name, refers to the name
+								 * The dynamic portion of the filter hook, `$name`, refers to the name
 								 * of the comment form field. Such as 'author', 'email', or 'url'.
 								 *
 								 * @since 3.0.0
