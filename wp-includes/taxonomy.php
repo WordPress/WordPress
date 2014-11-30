@@ -1339,7 +1339,7 @@ function get_term($term, $taxonomy, $output = OBJECT, $filter = 'raw') {
 	/**
 	 * Filter a taxonomy.
 	 *
-	 * The dynamic portion of the filter name, $taxonomy, refers
+	 * The dynamic portion of the filter name, `$taxonomy`, refers
 	 * to the taxonomy slug.
 	 *
 	 * @since 2.3.0
@@ -2190,7 +2190,7 @@ function sanitize_term_field($field, $value, $term_id, $taxonomy, $context) {
 		/**
 		 * Filter a term field to edit before it is sanitized.
 		 *
-		 * The dynamic portion of the filter name, $field, refers to the term field.
+		 * The dynamic portion of the filter name, `$field`, refers to the term field.
 		 *
 		 * @since 2.3.0
 		 *
@@ -2203,7 +2203,7 @@ function sanitize_term_field($field, $value, $term_id, $taxonomy, $context) {
 		/**
 		 * Filter the taxonomy field to edit before it is sanitized.
 		 *
-		 * The dynamic portions of the filter name, $taxonomy, and $field, refer
+		 * The dynamic portions of the filter name, `$taxonomy` and `$field`, refer
 		 * to the taxonomy slug and taxonomy field, respectively.
 		 *
 		 * @since 2.3.0
@@ -2221,7 +2221,7 @@ function sanitize_term_field($field, $value, $term_id, $taxonomy, $context) {
 		/**
 		 * Filter a term field value before it is sanitized.
 		 *
-		 * The dynamic portion of the filter name, $field, refers to the term field.
+		 * The dynamic portion of the filter name, `$field`, refers to the term field.
 		 *
 		 * @since 2.3.0
 		 *
@@ -2233,7 +2233,7 @@ function sanitize_term_field($field, $value, $term_id, $taxonomy, $context) {
 		/**
 		 * Filter a taxonomy field before it is sanitized.
 		 *
-		 * The dynamic portions of the filter name, $taxonomy, and $field, refer
+		 * The dynamic portions of the filter name, `$taxonomy` and `$field`, refer
 		 * to the taxonomy slug and field name, respectively.
 		 *
 		 * @since 2.3.0
@@ -2260,7 +2260,7 @@ function sanitize_term_field($field, $value, $term_id, $taxonomy, $context) {
 		/**
 		 * Filter the term field for use in RSS.
 		 *
-		 * The dynamic portion of the filter name, $field, refers to the term field.
+		 * The dynamic portion of the filter name, `$field`, refers to the term field.
 		 *
 		 * @since 2.3.0
 		 *
@@ -2272,7 +2272,7 @@ function sanitize_term_field($field, $value, $term_id, $taxonomy, $context) {
 		/**
 		 * Filter the taxonomy field for use in RSS.
 		 *
-		 * The dynamic portions of the hook name, $taxonomy, and $field, refer
+		 * The dynamic portions of the hook name, `$taxonomy`, and $field, refer
 		 * to the taxonomy slug and field name, respectively.
 		 *
 		 * @since 2.3.0
@@ -2286,7 +2286,7 @@ function sanitize_term_field($field, $value, $term_id, $taxonomy, $context) {
 		/**
 		 * Filter the term field sanitized for display.
 		 *
-		 * The dynamic portion of the filter name, $field, refers to the term field name.
+		 * The dynamic portion of the filter name, `$field`, refers to the term field name.
 		 *
 		 * @since 2.3.0
 		 *
@@ -2300,7 +2300,7 @@ function sanitize_term_field($field, $value, $term_id, $taxonomy, $context) {
 		/**
 		 * Filter the taxonomy field sanitized for display.
 		 *
-		 * The dynamic portions of the filter name, $taxonomy, and $field, refer
+		 * The dynamic portions of the filter name, `$taxonomy`, and $field, refer
 		 * to the taxonomy slug and taxonomy field, respectively.
 		 *
 		 * @since 2.3.0
@@ -2533,7 +2533,7 @@ function wp_delete_term( $term, $taxonomy, $args = array() ) {
 	/**
 	 * Fires after a term in a specific taxonomy is deleted.
 	 *
-	 * The dynamic portion of the hook name, $taxonomy, refers to the specific
+	 * The dynamic portion of the hook name, `$taxonomy`, refers to the specific
 	 * taxonomy the term belonged to.
 	 *
 	 * @since 2.3.0
@@ -2541,7 +2541,7 @@ function wp_delete_term( $term, $taxonomy, $args = array() ) {
 	 * @param int     $term         Term ID.
 	 * @param int     $tt_id        Term taxonomy ID.
 	 * @param mixed   $deleted_term Copy of the already-deleted term, in the form specified
-	 *                              by the parent function. WP_Error otherwise.
+	 *                              by the parent function. {@see WP_Error} otherwise.
 	 */
 	do_action( "delete_$taxonomy", $term, $tt_id, $deleted_term );
 
@@ -2925,7 +2925,7 @@ function wp_insert_term( $term, $taxonomy, $args = array() ) {
 	/**
 	 * Fires after a new term is created for a specific taxonomy.
 	 *
-	 * The dynamic portion of the hook name, $taxonomy, refers
+	 * The dynamic portion of the hook name, `$taxonomy`, refers
 	 * to the slug of the taxonomy the term was created for.
 	 *
 	 * @since 2.3.0
@@ -3457,7 +3457,7 @@ function wp_update_term( $term_id, $taxonomy, $args = array() ) {
 	 * Fires after a term in a specific taxonomy has been updated, but before the term
 	 * cache has been cleaned.
 	 *
-	 * The dynamic portion of the hook name, $taxonomy, refers to the taxonomy slug.
+	 * The dynamic portion of the hook name, `$taxonomy`, refers to the taxonomy slug.
 	 *
 	 * @since 2.3.0
 	 *
@@ -3486,7 +3486,7 @@ function wp_update_term( $term_id, $taxonomy, $args = array() ) {
 	 * Fires after a term for a specific taxonomy has been updated, and the term
 	 * cache has been cleaned.
 	 *
-	 * The dynamic portion of the hook name, $taxonomy, refers to the taxonomy slug.
+	 * The dynamic portion of the hook name, `$taxonomy`, refers to the taxonomy slug.
 	 *
 	 * @since 2.3.0
 	 *
