@@ -227,8 +227,8 @@ if ( isset( $_GET['updated'] ) ) {
 			/**
 			 * Filter a specific, non-default site-updated message in the Network admin.
 			 *
-			 * The dynamic portion of the hook name, $_GET['updated'], refers to the non-default
-			 * site update action.
+			 * The dynamic portion of the hook name, `$_GET['updated']`, refers to the
+			 * non-default site update action.
 			 *
 			 * @since 3.1.0
 			 *
