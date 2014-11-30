@@ -1641,7 +1641,7 @@ function get_post_type_labels( $post_type_object ) {
 	/**
 	 * Filter the labels of a specific post type.
 	 *
-	 * The dynamic portion of the hook name, $post_type, refers to
+	 * The dynamic portion of the hook name, `$post_type`, refers to
 	 * the post type slug.
 	 *
 	 * @since 3.5.0
@@ -2145,7 +2145,7 @@ function sanitize_post_field($field, $value, $post_id, $context) {
 			/**
 			 * Filter the value of a specific post field to edit.
 			 *
-			 * The dynamic portion of the hook name, $field, refers to the post
+			 * The dynamic portion of the hook name, `$field`, refers to the post
 			 * field name.
 			 *
 			 * @since 2.3.0
@@ -2158,7 +2158,7 @@ function sanitize_post_field($field, $value, $post_id, $context) {
 			/**
 			 * Filter the value of a specific post field to edit.
 			 *
-			 * The dynamic portion of the hook name, $field_no_prefix, refers to
+			 * The dynamic portion of the hook name, `$field_no_prefix`, refers to
 			 * the post field name.
 			 *
 			 * @since 2.3.0
@@ -2185,7 +2185,7 @@ function sanitize_post_field($field, $value, $post_id, $context) {
 			/**
 			 * Filter the value of a specific post field before saving.
 			 *
-			 * The dynamic portion of the hook name, $field, refers to the post
+			 * The dynamic portion of the hook name, `$field`, refers to the post
 			 * field name.
 			 *
 			 * @since 2.3.0
@@ -2197,7 +2197,7 @@ function sanitize_post_field($field, $value, $post_id, $context) {
 			/**
 			 * Filter the value of a specific field before saving.
 			 *
-			 * The dynamic portion of the hook name, $field_no_prefix, refers
+			 * The dynamic portion of the hook name, `$field_no_prefix`, refers
 			 * to the post field name.
 			 *
 			 * @since 2.3.0
@@ -2211,7 +2211,7 @@ function sanitize_post_field($field, $value, $post_id, $context) {
 			/**
 			 * Filter the value of a specific post field before saving.
 			 *
-			 * The dynamic portion of the hook name, $field, refers to the post
+			 * The dynamic portion of the hook name, `$field`, refers to the post
 			 * field name.
 			 *
 			 * @since 2.3.0
@@ -2228,7 +2228,7 @@ function sanitize_post_field($field, $value, $post_id, $context) {
 			/**
 			 * Filter the value of a specific post field for display.
 			 *
-			 * The dynamic portion of the hook name, $field, refers to the post
+			 * The dynamic portion of the hook name, `$field`, refers to the post
 			 * field name.
 			 *
 			 * @since 2.3.0
@@ -3477,7 +3477,7 @@ function wp_insert_post( $postarr, $wp_error = false ) {
 	/**
 	 * Fires once a post has been saved.
 	 *
-	 * The dynamic portion of the hook name, $post->post_type, refers to
+	 * The dynamic portion of the hook name, `$post->post_type`, refers to
 	 * the post type slug.
 	 *
 	 * @since 3.7.0
@@ -3935,7 +3935,7 @@ function wp_transition_post_status( $new_status, $old_status, $post ) {
 	/**
 	 * Fires when a post is transitioned from one status to another.
 	 *
-	 * The dynamic portions of the hook name, $new_status and $old status,
+	 * The dynamic portions of the hook name, `$new_status` and `$old status`,
 	 * refer to the old and new post statuses, respectively.
 	 *
 	 * @since 2.3.0
@@ -3947,7 +3947,7 @@ function wp_transition_post_status( $new_status, $old_status, $post ) {
 	/**
 	 * Fires when a post is transitioned from one status to another.
 	 *
-	 * The dynamic portions of the hook name, $new_status and $post->post_type,
+	 * The dynamic portions of the hook name, `$new_status` and `$post->post_type`,
 	 * refer to the new post status and post type, respectively.
 	 *
 	 * @since 2.3.0
