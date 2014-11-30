@@ -214,12 +214,13 @@ function image_downsize($id, $size = 'medium') {
  *
  * @since 2.9.0
  *
+ * @global array $_wp_additional_image_sizes Associative array of additional image sizes.
+ *
  * @param string     $name   Image size identifier.
  * @param int        $width  Image width in pixels.
  * @param int        $height Image height in pixels.
  * @param bool|array $crop   Optional. Whether to crop images to specified height and width or resize.
  *                           An array can specify positioning of the crop area. Default false.
- * @return bool|array False, if no image was created. Metadata array on success.
  */
 function add_image_size( $name, $width = 0, $height = 0, $crop = false ) {
 	global $_wp_additional_image_sizes;
@@ -268,13 +269,13 @@ function remove_image_size( $name ) {
  * Registers an image size for the post thumbnail.
  *
  * @since 2.9.0
+ *
  * @see add_image_size() for details on cropping behavior.
  *
  * @param int        $width  Image width in pixels.
  * @param int        $height Image height in pixels.
  * @param bool|array $crop   Optional. Whether to crop images to specified height and width or resize.
  *                           An array can specify positioning of the crop area. Default false.
- * @return bool|array False, if no image was created. Metadata array on success.
  */
 function set_post_thumbnail_size( $width = 0, $height = 0, $crop = false ) {
 	add_image_size( 'post-thumbnail', $width, $height, $crop );
