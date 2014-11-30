@@ -21,7 +21,7 @@
  *
  * @since 2.6.0
  *
- * @param array|bool $handles Optional. Scripts to be printed. Default 'false'.
+ * @param string|bool|array $handles Optional. Scripts to be printed. Default 'false'.
  * @return array On success, a processed array of WP_Dependencies items; otherwise, an empty array.
  */
 function wp_print_scripts( $handles = false ) {

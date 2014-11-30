@@ -389,6 +389,11 @@ function _n_noop( $singular, $plural, $domain = null ) {
  * Register plural strings with context in POT file, but don't translate them.
  *
  * @since 2.8.0
+ * @param string $singular
+ * @param string $plural
+ * @param string $context
+ * @param string|null $domain
+ * @return array
  */
 function _nx_noop( $singular, $plural, $context, $domain = null ) {
 	return array( 0 => $singular, 1 => $plural, 2 => $context, 'singular' => $singular, 'plural' => $plural, 'context' => $context, 'domain' => $domain );
@@ -700,7 +705,7 @@ function load_child_theme_textdomain( $domain, $path = false ) {
  * @since 2.8.0
  *
  * @param string $domain Text domain. Unique identifier for retrieving translated strings.
- * @return Translations A Translations instance.
+ * @return NOOP_Translations A Translations instance.
  */
 function get_translations_for_domain( $domain ) {
 	global $l10n;

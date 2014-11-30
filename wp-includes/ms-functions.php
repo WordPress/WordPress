@@ -2024,7 +2024,6 @@ function is_user_spammy( $user = null ) {
  *
  * @param int $old_value
  * @param int $value The new public value
- * @return bool
  */
 function update_blog_public( $old_value, $value ) {
 	update_blog_status( get_current_blog_id(), 'public', (int) $value );

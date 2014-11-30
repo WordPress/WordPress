@@ -2037,7 +2037,7 @@ function get_taxonomies_for_attachments( $output = 'names' ) {
  *
  * @param int $width Image width
  * @param int $height Image height
- * @return image resource
+ * @return resource resource
  */
 function wp_imagecreatetruecolor($width, $height) {
 	$img = imagecreatetruecolor($width, $height);
@@ -2053,6 +2053,12 @@ function wp_imagecreatetruecolor($width, $height) {
  *
  * @since 2.9.0
  * @see WP_Embed::register_handler()
+ *
+ * @global WP_Embed $wp_embed
+ * @param string   $id
+ * @param string   $regex
+ * @param callable $callback
+ * @param int      $priority
  */
 function wp_embed_register_handler( $id, $regex, $callback, $priority = 10 ) {
 	global $wp_embed;
@@ -2064,6 +2070,10 @@ function wp_embed_register_handler( $id, $regex, $callback, $priority = 10 ) {
  *
  * @since 2.9.0
  * @see WP_Embed::unregister_handler()
+ *
+ * @global WP_Embed $wp_embed
+ * @param string $id
+ * @param int    $priority
  */
 function wp_embed_unregister_handler( $id, $priority = 10 ) {
 	global $wp_embed;
@@ -2135,7 +2145,7 @@ function wp_expand_dimensions( $example_width, $example_height, $max_width, $max
  *
  * @param string $url The URL that should be embedded.
  * @param array $args Additional arguments and parameters.
- * @return bool|string False on failure or the embed HTML on success.
+ * @return false|string False on failure or the embed HTML on success.
  */
 function wp_oembed_get( $url, $args = '' ) {
 	require_once( ABSPATH . WPINC . '/class-oembed.php' );

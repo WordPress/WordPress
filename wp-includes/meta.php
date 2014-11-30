@@ -1539,7 +1539,8 @@ function _get_meta_table($type) {
  *
  * @since 3.1.3
  *
- * @param string $meta_key Meta key
+ * @param string      $meta_key Meta key
+ * @param string|null $meta_type
  * @return bool True if the key is protected, false otherwise.
  */
 function is_protected_meta( $meta_key, $meta_type = null ) {
@@ -1595,7 +1596,6 @@ function sanitize_meta( $meta_key, $meta_value, $meta_type ) {
  * @param string $meta_key Meta key
  * @param string|array $sanitize_callback A function or method to call when sanitizing the value of $meta_key.
  * @param string|array $auth_callback Optional. A function or method to call when performing edit_post_meta, add_post_meta, and delete_post_meta capability checks.
- * @param array $args Arguments
  */
 function register_meta( $meta_type, $meta_key, $sanitize_callback, $auth_callback = null ) {
 	if ( is_callable( $sanitize_callback ) )

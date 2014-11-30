@@ -381,8 +381,8 @@ function get_allowed_http_origins() {
  *
  * @since 3.4.0
  *
- * @param string Origin URL. If not provided, the value of get_http_origin() is used.
- * @return bool True if the origin is allowed. False otherwise.
+ * @param null|string $origin Origin URL. If not provided, the value of get_http_origin() is used.
+ * @return bool|null True if the origin is allowed. False otherwise.
  */
 function is_allowed_http_origin( $origin = null ) {
 	$origin_arg = $origin;
@@ -441,7 +441,8 @@ function send_origin_headers() {
  *
  * @since 3.5.2
  *
- * @return mixed URL or false on failure.
+ * @param string $url
+ * @return false|string URL or false on failure.
  */
 function wp_http_validate_url( $url ) {
 	$original_url = $url;
