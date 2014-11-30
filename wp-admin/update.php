@@ -261,7 +261,7 @@ if ( isset($_GET['action']) ) {
 		/**
 		 * Fires when a custom plugin or theme update request is received.
 		 *
-		 * The dynamic portion of the hook name, $action, refers to the action
+		 * The dynamic portion of the hook name, `$action`, refers to the action
 		 * provided in the request for wp-admin/update.php. Can be used to
 		 * provide custom update functionality for themes and plugins.
 		 *

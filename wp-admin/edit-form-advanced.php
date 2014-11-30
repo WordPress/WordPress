@@ -244,7 +244,7 @@ do_action( 'add_meta_boxes', $post_type, $post );
 /**
  * Fires after all built-in meta boxes have been added, contextually for the given post type.
  *
- * The dynamic portion of the hook, $post_type, refers to the post type of the post.
+ * The dynamic portion of the hook, `$post_type`, refers to the post type of the post.
  *
  * @since 3.0.0
  *

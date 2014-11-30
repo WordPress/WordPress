@@ -649,7 +649,7 @@ if ( 'upgrade-core' == $action ) {
 	/**
 	 * Fires for each custom update action on the WordPress Updates screen.
 	 *
-	 * The dynamic portion of the hook name, $action, refers to the
+	 * The dynamic portion of the hook name, `$action`, refers to the
 	 * passed update action. The hook fires in lieu of all available
 	 * default update actions.
 	 *

@@ -57,7 +57,7 @@ $body_id = $tab;
 /**
  * Fires before each tab on the Install Plugins screen is loaded.
  *
- * The dynamic portion of the action hook, $tab, allows for targeting
+ * The dynamic portion of the action hook, `$tab`, allows for targeting
  * individual tabs, for instance 'install_plugins_pre_plugin-information'.
  *
  * @since 2.7.0
@@ -117,15 +117,14 @@ if ( $tab !== 'upload' ) {
 /**
  * Fires after the plugins list table in each tab of the Install Plugins screen.
  *
- * The dynamic portion of the action hook, $tab, allows for targeting
+ * The dynamic portion of the action hook, `$tab`, allows for targeting
  * individual tabs, for instance 'install_plugins_plugin-information'.
  *
  * @since 2.7.0
  *
  * @param int $paged The current page number of the plugins list table.
  */
-?>
-<?php do_action( "install_plugins_$tab", $paged ); ?>
+do_action( "install_plugins_$tab", $paged ); ?>
 </div>
 <?php
 /**

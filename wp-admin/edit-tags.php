@@ -351,7 +351,7 @@ endif; ?>
 /**
  * Fires after the taxonomy list table.
  *
- * The dynamic portion of the hook name, $taxonomy, refers to the taxonomy slug.
+ * The dynamic portion of the hook name, `$taxonomy`, refers to the taxonomy slug.
  *
  * @since 3.0.0
  *
@@ -420,7 +420,7 @@ if ( current_user_can($tax->cap->edit_terms) ) {
 	/**
 	 * Fires before the Add Term form for all taxonomies.
 	 *
-	 * The dynamic portion of the hook name, $taxonomy, refers to the taxonomy slug.
+	 * The dynamic portion of the hook name, `$taxonomy`, refers to the taxonomy slug.
 	 *
 	 * @since 3.0.0
 	 *
@@ -431,16 +431,17 @@ if ( current_user_can($tax->cap->edit_terms) ) {
 
 <div class="form-wrap">
 <h3><?php echo $tax->labels->add_new_item; ?></h3>
+<form id="addtag" method="post" action="edit-tags.php" class="validate"
 <?php
 /**
  * Fires at the beginning of the Add Tag form.
  *
- * The dynamic portion of the hook name, $taxonomy, refers to the taxonomy slug.
+ * The dynamic portion of the hook name, `$taxonomy`, refers to the taxonomy slug.
  *
  * @since 3.7.0
  */
-?>
-<form id="addtag" method="post" action="edit-tags.php" class="validate"<?php do_action( "{$taxonomy}_term_new_form_tag" ); ?>>
+do_action( "{$taxonomy}_term_new_form_tag" );
+?>>
 <input type="hidden" name="action" value="add-tag" />
 <input type="hidden" name="screen" value="<?php echo esc_attr($current_screen->id); ?>" />
 <input type="hidden" name="taxonomy" value="<?php echo esc_attr($taxonomy); ?>" />
@@ -521,7 +522,7 @@ if ( ! is_taxonomy_hierarchical( $taxonomy ) ) {
 /**
  * Fires after the Add Term form fields for hierarchical taxonomies.
  *
- * The dynamic portion of the hook name, $taxonomy, refers to the taxonomy slug.
+ * The dynamic portion of the hook name, `$taxonomy`, refers to the taxonomy slug.
  *
  * @since 3.0.0
  *
@@ -566,7 +567,7 @@ if ( 'category' == $taxonomy ) {
 /**
  * Fires at the end of the Add Term form for all taxonomies.
  *
- * The dynamic portion of the hook name, $taxonomy, refers to the taxonomy slug.
+ * The dynamic portion of the hook name, `$taxonomy`, refers to the taxonomy slug.
  *
  * @since 3.0.0
  *

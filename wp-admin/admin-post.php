@@ -42,7 +42,7 @@ if ( ! wp_validate_auth_cookie() ) {
 		/**
 		 * Fires on a non-authenticated admin post request for the given action.
 		 *
-		 * The dynamic portion of the hook name, $action, refers to the given
+		 * The dynamic portion of the hook name, `$action`, refers to the given
 		 * request action.
 		 *
 		 * @since 2.6.0
@@ -61,7 +61,7 @@ if ( ! wp_validate_auth_cookie() ) {
 		/**
 		 * Fires on an authenticated admin post request for the given action.
 		 *
-		 * The dynamic portion of the hook name, $action, refers to the given
+		 * The dynamic portion of the hook name, `$action`, refers to the given
 		 * request action.
 		 *
 		 * @since 2.6.0

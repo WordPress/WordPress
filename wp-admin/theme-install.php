@@ -55,16 +55,16 @@ wp_localize_script( 'theme', '_wpThemeSettings', array(
 
 wp_enqueue_script( 'theme' );
 
-/**
- * Fires before each of the tabs are rendered on the Install Themes page.
- *
- * The dynamic portion of the hook name, $tab, refers to the current
- * theme install tab. Possible values are 'dashboard', 'search', 'upload',
- * 'featured', 'new', or 'updated'.
- *
- * @since 2.8.0
- */
 if ( $tab ) {
+	/**
+	 * Fires before each of the tabs are rendered on the Install Themes page.
+	 *
+	 * The dynamic portion of the hook name, `$tab`, refers to the current
+	 * theme install tab. Possible values are 'dashboard', 'search', 'upload',
+	 * 'featured', 'new', or 'updated'.
+	 *
+	 * @since 2.8.0
+	 */
 	do_action( "install_themes_pre_{$tab}" );
 }
 
@@ -177,18 +177,18 @@ include(ABSPATH . 'wp-admin/admin-header.php');
 
 	<br class="clear" />
 <?php
-/**
- * Fires at the top of each of the tabs on the Install Themes page.
- *
- * The dynamic portion of the hook name, $tab, refers to the current
- * theme install tab. Possible values are 'dashboard', 'search', 'upload',
- * 'featured', 'new', or 'updated'.
- *
- * @since 2.8.0
- *
- * @param int $paged Number of the current page of results being viewed.
- */
 if ( $tab ) {
+	/**
+	 * Fires at the top of each of the tabs on the Install Themes page.
+	 *
+	 * The dynamic portion of the hook name, `$tab`, refers to the current
+	 * theme install tab. Possible values are 'dashboard', 'search', 'upload',
+	 * 'featured', 'new', or 'updated'.
+	 *
+	 * @since 2.8.0
+	 *
+	 * @param int $paged Number of the current page of results being viewed.
+	 */
 	do_action( "install_themes_{$tab}", $paged );
 }
 ?>

@@ -51,7 +51,7 @@ if ( 'category' == $taxonomy ) {
 /**
  * Fires before the Edit Term form for all taxonomies.
  *
- * The dynamic portion of the hook name, $taxonomy, refers to
+ * The dynamic portion of the hook name, `$taxonomy`, refers to
  * the taxonomy slug.
  *
  * @since 3.0.0
@@ -64,17 +64,18 @@ do_action( "{$taxonomy}_pre_edit_form", $tag, $taxonomy ); ?>
 <div class="wrap">
 <h2><?php echo $tax->labels->edit_item; ?></h2>
 <div id="ajax-response"></div>
+<form name="edittag" id="edittag" method="post" action="edit-tags.php" class="validate"
 <?php
 /**
  * Fires inside the Edit Term form tag.
  *
- * The dynamic portion of the hook name, $taxonomy, refers to
+ * The dynamic portion of the hook name, `$taxonomy`, refers to
  * the taxonomy slug.
  *
  * @since 3.7.0
  */
-?>
-<form name="edittag" id="edittag" method="post" action="edit-tags.php" class="validate"<?php do_action( "{$taxonomy}_term_edit_form_tag" ); ?>>
+do_action( "{$taxonomy}_term_edit_form_tag" );
+?>>
 <input type="hidden" name="action" value="editedtag" />
 <input type="hidden" name="tag_ID" value="<?php echo esc_attr($tag->term_id) ?>" />
 <input type="hidden" name="taxonomy" value="<?php echo esc_attr($taxonomy) ?>" />
@@ -153,7 +154,7 @@ do_action( "{$taxonomy}_pre_edit_form", $tag, $taxonomy ); ?>
 		/**
 		 * Fires after the Edit Term form fields are displayed.
 		 *
-		 * The dynamic portion of the hook name, $taxonomy, refers to
+		 * The dynamic portion of the hook name, `$taxonomy`, refers to
 		 * the taxonomy slug.
 		 *
 		 * @since 3.0.0
@@ -186,7 +187,7 @@ if ( 'category' == $taxonomy ) {
 /**
  * Fires at the end of the Edit Term form for all taxonomies.
  *
- * The dynamic portion of the hook name, $taxonomy, refers to the taxonomy slug.
+ * The dynamic portion of the hook name, `$taxonomy`, refers to the taxonomy slug.
  *
  * @since 3.0.0
  *
