@@ -343,10 +343,10 @@ function update_option( $option, $value ) {
  *
  * @since 1.0.0
  *
- * @param string $option Name of option to add. Expected to not be SQL-escaped.
- * @param mixed $value Optional. Option value. Must be serializable if non-scalar. Expected to not be SQL-escaped.
- * @param mixed $deprecated Optional. Description. Not used anymore.
- * @param bool $autoload Optional. Default is enabled. Whether to load the option when WordPress starts up.
+ * @param string         $option      Name of option to add. Expected to not be SQL-escaped.
+ * @param mixed          $value       Optional. Option value. Must be serializable if non-scalar. Expected to not be SQL-escaped.
+ * @param string         $deprecated  Optional. Description. Not used anymore.
+ * @param string|bool    $autoload    Optional. Default is enabled. Whether to load the option when WordPress starts up.
  * @return bool False if option was not added and true if option was added.
  */
 function add_option( $option, $value = '', $deprecated = '', $autoload = 'yes' ) {
@@ -775,7 +775,7 @@ function get_user_setting( $name, $default = false ) {
  *
  * @param string $name The name of the setting.
  * @param string $value The value for the setting.
- * @return bool true if set successfully/false if not.
+ * @return null|bool true if set successfully/false if not.
  */
 function set_user_setting( $name, $value ) {
 
@@ -797,8 +797,8 @@ function set_user_setting( $name, $value ) {
  *
  * @since 2.7.0
  *
- * @param mixed $names The name or array of names of the setting to be deleted.
- * @return bool true if deleted successfully/false if not.
+ * @param string $names The name or array of names of the setting to be deleted.
+ * @return null|bool true if deleted successfully/false if not.
  */
 function delete_user_setting( $names ) {
 
@@ -868,7 +868,7 @@ function get_all_user_settings() {
  * @since 2.8.0
  *
  * @param array $user_settings
- * @return bool
+ * @return null|bool
  */
 function wp_set_all_user_settings( $user_settings ) {
 	global $_updated_user_settings;

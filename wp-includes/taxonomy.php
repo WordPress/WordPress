@@ -819,7 +819,7 @@ class WP_Tax_Query {
 	 * @access public
 	 *
 	 * @param string $relation Raw relation key from the query argument.
-	 * @return Sanitized relation ('AND' or 'OR').
+	 * @return string Sanitized relation ('AND' or 'OR').
 	 */
 	public function sanitize_relation( $relation ) {
 		if ( 'OR' === strtoupper( $relation ) ) {
@@ -3736,7 +3736,7 @@ function get_object_term_cache($id, $taxonomy) {
  *
  * @param string|array $object_ids Single or list of term object ID(s)
  * @param array|string $object_type The taxonomy object type
- * @return null|bool Null value is given with empty $object_ids. False if
+ * @return null|false Null value is given with empty $object_ids. False if
  */
 function update_object_term_cache($object_ids, $object_type) {
 	if ( empty($object_ids) )

@@ -438,7 +438,7 @@ function wp_get_post_revisions( $post_id = 0, $args = null ) {
  *
  * @since 3.6.0
  *
- * @param object $post The post object.
+ * @param WP_Post $post The post object.
  * @return bool True if number of revisions to keep isn't zero, false otherwise.
  */
 function wp_revisions_enabled( $post ) {
@@ -572,7 +572,7 @@ function _wp_get_post_revision_version( $revision ) {
  * @since 3.6.0
  * @access private
  *
- * @param object $post Post object
+ * @param WP_Post $post Post object
  * @param array $revisions Current revisions of the post
  * @return bool true if the revisions were upgraded, false if problems
  */
