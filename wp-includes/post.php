@@ -4280,20 +4280,30 @@ function get_page_by_title( $page_title, $output = OBJECT, $post_type = 'page' )
  *
  * @param int   $page_id    Page ID.
  * @param array $pages      List of pages' objects.
- * @param bool  $ancestors  Whether to check a page's ancestors.
  * @return array List of page children.
  */
-function get_page_children( $page_id, $pages, $ancestors = true ) {
+function get_page_children( $page_id, $pages ) {
 	$page_list = array();
 	foreach ( (array) $pages as $page ) {
-		if ( $page->post_parent == $page_id || ( $ancestors && in_array( $page_id, $page->ancestors ) ) ) {
+		if ( $page->post_parent == $page_id || in_array( $page_id, $page->ancestors ) ) {
 			$page_list[] = $page;
 			if ( $children = get_page_children( $page->ID, $pages, false ) ) {
 				$page_list = array_merge( $page_list, $children );
 			}
 		}
 	}
-	return $page_list;
+
+	// Ensure uniqueness.
+	$page_ids = array();
+	$unique_page_list = array();
+	foreach ( $page_list as $page_list_item ) {
+		if ( ! in_array( $page_list_item->ID, $page_ids ) ) {
+			$unique_page_list[] = $page_list_item;
+			$page_ids[] = $page_list_item->ID;
+		}
+	}
+
+	return $unique_page_list;
 }
 
 /**
