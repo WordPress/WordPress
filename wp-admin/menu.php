@@ -206,19 +206,21 @@ else
 if ( current_user_can('list_users') ) {
 	$_wp_real_parent_file['profile.php'] = 'users.php'; // Back-compat for plugins adding submenus to profile.php.
 	$submenu['users.php'][5] = array(__('All Users'), 'list_users', 'users.php');
-	if ( current_user_can('create_users') )
+	if ( current_user_can( 'create_users' ) ) {
 		$submenu['users.php'][10] = array(_x('Add New', 'user'), 'create_users', 'user-new.php');
-	else
+	} elseif ( is_multisite() ) {
 		$submenu['users.php'][10] = array(_x('Add New', 'user'), 'promote_users', 'user-new.php');
+	}
 
 	$submenu['users.php'][15] = array(__('Your Profile'), 'read', 'profile.php');
 } else {
 	$_wp_real_parent_file['users.php'] = 'profile.php';
 	$submenu['profile.php'][5] = array(__('Your Profile'), 'read', 'profile.php');
-	if ( current_user_can('create_users') )
+	if ( current_user_can( 'create_users' ) ) {
 		$submenu['profile.php'][10] = array(__('Add New User'), 'create_users', 'user-new.php');
-	else
+	} elseif ( is_multisite() ) {
 		$submenu['profile.php'][10] = array(__('Add New User'), 'promote_users', 'user-new.php');
+	}
 }
 
 $menu[75] = array( __('Tools'), 'edit_posts', 'tools.php', '', 'menu-top menu-icon-tools', 'menu-tools', 'dashicons-admin-tools' );
