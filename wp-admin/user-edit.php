@@ -269,6 +269,9 @@ if ( ! IS_PROFILE_PAGE ) {
  * and if there is more than one defined color scheme for the admin.
  *
  * @since 3.0.0
+ * @since 3.8.1 Added `$user_id` parameter.
+ *
+ * @param int $user_id The user ID.
  */
 ?>
 <td><?php do_action( 'admin_color_scheme_picker', $user_id ); ?></td>
