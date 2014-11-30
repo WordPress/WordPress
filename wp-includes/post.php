@@ -839,7 +839,7 @@ function get_post_field( $field, $post, $context = 'display' ) {
  * @since 2.0.0
  *
  * @param int|WP_Post $ID Optional. Post ID or post object. Default empty.
- * @return string|bool The mime type on success, false on failure.
+ * @return string|false The mime type on success, false on failure.
  */
 function get_post_mime_type( $ID = '' ) {
 	$post = get_post($ID);
@@ -859,7 +859,7 @@ function get_post_mime_type( $ID = '' ) {
  * @since 2.0.0
  *
  * @param int|WP_Post $ID Optional. Post ID or post object. Default empty.
- * @return string|bool Post status on success, false on failure.
+ * @return string|false Post status on success, false on failure.
  */
 function get_post_status( $ID = '' ) {
 	$post = get_post($ID);
@@ -1124,7 +1124,7 @@ function post_type_exists( $post_type ) {
  * @since 2.1.0
  *
  * @param int|WP_Post $post Optional. Post ID or post object. Default is global $post.
- * @return string|bool Post type on success, false on failure.
+ * @return string|false Post type on success, false on failure.
  */
 function get_post_type( $post = null ) {
 	if ( $post = get_post( $post ) )
@@ -2856,7 +2856,7 @@ function wp_trash_post_comments( $post = null ) {
  * @since 2.9.0
  *
  * @param int|WP_Post $post Optional. Post ID or post object. Defaults to global $post.
- * @return mixed False on failure.
+ * @return null|bool Null on failure.
  */
 function wp_untrash_post_comments( $post = null ) {
 	global $wpdb;
@@ -2984,7 +2984,6 @@ function wp_get_post_terms( $post_id = 0, $taxonomy = 'post_tag', $args = array(
  *
  * @see get_posts()
  *
- * @param string $deprecated Not used.
  * @param array  $args       Optional. Arguments to retrieve posts. Default empty array.
  * @param string $output     Optional. Type of output. Accepts ARRAY_A or ''. Default ARRAY_A.
  * @return array|bool Associative array if $output equals ARRAY_A, array or false if no results.
@@ -3720,7 +3719,7 @@ function wp_unique_post_slug( $slug, $post_ID, $post_status, $post_type, $post_p
 			$suffix = 2;
 			do {
 				$alt_post_name = _truncate_post_slug( $slug, 200 - ( strlen( $suffix ) + 1 ) ) . "-$suffix";
-				$post_name_check = $wpdb->get_var( $wpdb->prepare( $check_sql, $alt_post_name, $post_type, $post_ID, $post_parent ) );	
+				$post_name_check = $wpdb->get_var( $wpdb->prepare( $check_sql, $alt_post_name, $post_type, $post_ID, $post_parent ) );
 				$suffix++;
 			} while ( $post_name_check );
 			$slug = $alt_post_name;
@@ -3916,9 +3915,9 @@ function wp_set_post_categories( $post_ID = 0, $post_categories = array(), $appe
  *
  * @since 2.3.0
  *
- * @param string $new_status Transition to this post status.
- * @param string $old_status Previous post status.
- * @param object $post Post data.
+ * @param string  $new_status Transition to this post status.
+ * @param string  $old_status Previous post status.
+ * @param WP_Post $post Post data.
  */
 function wp_transition_post_status( $new_status, $old_status, $post ) {
 	/**
@@ -5702,7 +5701,7 @@ function _publish_post_hook( $post_id ) {
  *
  * @since 3.1.0
  *
- * @param int $post_id
+ * @param int $post_ID
  *
  * @return int|bool Post parent ID, otherwise false.
  */
@@ -5838,7 +5837,7 @@ function _update_term_count_on_transition_post_status( $new_status, $old_status,
  *
  * @see update_post_caches()
  *
- * @param array $post_ids          ID list
+ * @param array $ids               ID list
  * @param bool  $update_term_cache Optional. Whether to update the term cache. Default true.
  * @param bool  $update_meta_cache Optional. Whether to update the meta cache. Default true.
  */

@@ -206,7 +206,7 @@ function get_the_guid( $id = 0 ) {
  * @since 0.71
  *
  * @param string $more_link_text Optional. Content for when there is more text.
- * @param bool $strip_teaser Optional. Strip teaser content before the more text. Default is false.
+ * @param bool   $strip_teaser   Optional. Strip teaser content before the more text. Default is false.
  */
 function the_content( $more_link_text = null, $strip_teaser = false) {
 	$content = get_the_content( $more_link_text, $strip_teaser );
@@ -229,7 +229,7 @@ function the_content( $more_link_text = null, $strip_teaser = false) {
  * @since 0.71
  *
  * @param string $more_link_text Optional. Content for when there is more text.
- * @param bool $stripteaser Optional. Strip teaser content before the more text. Default is false.
+ * @param bool $strip_teaser Optional. Strip teaser content before the more text. Default is false.
  * @return string
  */
 function get_the_content( $more_link_text = null, $strip_teaser = false ) {
@@ -1446,9 +1446,9 @@ class Walker_PageDropdown extends Walker {
  * @since 2.0.0
  *
  * @param int|WP_Post $id Optional. Post ID or post object.
- * @param bool $fullsize Optional, default is false. Whether to use full size.
- * @param bool $deprecated Deprecated. Not used.
- * @param bool $permalink Optional, default is false. Whether to include permalink.
+ * @param bool        $fullsize     Optional, default is false. Whether to use full size.
+ * @param bool        $deprecated   Deprecated. Not used.
+ * @param bool        $permalink    Optional, default is false. Whether to include permalink.
  */
 function the_attachment_link( $id = 0, $fullsize = false, $deprecated = false, $permalink = false ) {
 	if ( !empty( $deprecated ) )
@@ -1465,12 +1465,12 @@ function the_attachment_link( $id = 0, $fullsize = false, $deprecated = false, $
  *
  * @since 2.5.0
  *
- * @param int|WP_Post $id Optional. Post ID or post object.
- * @param string $size Optional, default is 'thumbnail'. Size of image, either array or string.
- * @param bool $permalink Optional, default is false. Whether to add permalink to image.
- * @param bool $icon Optional, default is false. Whether to include icon.
- * @param string|bool $text Optional, default is false. If string, then will be link text.
- * @param array|string $attr Optional. Array or string of attributes.
+ * @param int|WP_Post  $id        Optional. Post ID or post object.
+ * @param string       $size      Optional, default is 'thumbnail'. Size of image, either array or string.
+ * @param bool         $permalink Optional, default is false. Whether to add permalink to image.
+ * @param bool         $icon      Optional, default is false. Whether to include icon.
+ * @param string|bool  $text      Optional, default is false. If string, then will be link text.
+ * @param array|string $attr      Optional. Array or string of attributes.
  * @return string HTML content.
  */
 function wp_get_attachment_link( $id = 0, $size = 'thumbnail', $permalink = false, $icon = false, $text = false, $attr = '' ) {
@@ -1730,7 +1730,7 @@ function wp_post_revision_title_expanded( $revision, $link = true ) {
  * @since 2.6.0
  *
  * @param int|WP_Post $post_id Optional. Post ID or WP_Post object. Default is global $post.
- * @param string $type 'all' (default), 'revision' or 'autosave'
+ * @param string      $type    'all' (default), 'revision' or 'autosave'
  * @return null
  */
 function wp_list_post_revisions( $post_id = 0, $type = 'all' ) {
