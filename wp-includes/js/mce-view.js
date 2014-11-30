@@ -14,6 +14,9 @@ window.wp = window.wp || {};
 	var views = {},
 		instances = {},
 		media = wp.media,
+		mediaWindows = [],
+		windowIdx = 0,
+		waitInterval = 50,
 		viewOptions = ['encodedText'];
 
 	// Create the `wp.mce` object if necessary.
@@ -228,7 +231,7 @@ window.wp = window.wp || {};
 								iframeDoc.body.className = editor.getBody().className;
 							});
 						}
-					}, 50 );
+					}, waitInterval );
 				});
 			} else {
 				this.setContent( body );
@@ -591,13 +594,68 @@ window.wp = window.wp || {};
 				this.fetch();
 
 				this.getEditors( function( editor ) {
-					editor.on( 'hide', self.stopPlayers );
+					editor.on( 'hide', function () {
+						mediaWindows = [];
+						windowIdx = 0;
+						self.stopPlayers();
+					} );
 				});
+			},
+
+			pauseOtherWindows: function ( win ) {
+				_.each( mediaWindows, function ( mediaWindow ) {
+					if ( mediaWindow.sandboxId !== win.sandboxId ) {
+						_.each( mediaWindow.mejs.players, function ( player ) {
+							player.pause();
+						} );
+					}
+				} );
+			},
+
+			iframeLoaded: function (win) {
+				return _.bind( function () {
+					var callback;
+					if ( ! win.mejs || _.isEmpty( win.mejs.players ) ) {
+						return;
+					}
+
+					win.sandboxId = windowIdx;
+					windowIdx++;
+					mediaWindows.push( win );
+
+					callback = _.bind( function () {
+						this.pauseOtherWindows( win );
+					}, this );
+
+					if ( ! _.isEmpty( win.mejs.MediaPluginBridge.pluginMediaElements ) ) {
+						_.each( win.mejs.MediaPluginBridge.pluginMediaElements, function ( mediaElement ) {
+							mediaElement.addEventListener( 'play', callback );
+						} );
+					}
+
+					_.each( win.mejs.players, function ( player ) {
+						$( player.node ).on( 'play', callback );
+					}, this );
+				}, this );
+			},
+
+			listenToSandboxes: function () {
+				_.each( this.getNodes(), function ( node ) {
+					var win, iframe = $( '.wpview-sandbox', node ).get( 0 );
+					if ( iframe && ( win = iframe.contentWindow ) ) {
+						$( win ).load( _.bind( this.iframeLoaded( win ), this ) );
+					}
+				}, this );
+			},
+
+			deferredListen: function () {
+				window.setTimeout( _.bind( this.listenToSandboxes, this ), this.getNodes().length * waitInterval );
 			},
 
 			setNodes: function () {
 				if ( this.parsed ) {
 					this.setIframes( this.parsed.head, this.parsed.body );
+					this.deferredListen();
 				} else {
 					this.fail();
 				}
@@ -617,6 +675,7 @@ window.wp = window.wp || {};
 					if ( response ) {
 						self.parsed = response;
 						self.setIframes( response.head, response.body );
+						self.deferredListen();
 					} else {
 						self.fail( true );
 					}
