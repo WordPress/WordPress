@@ -11,28 +11,30 @@
  *
  * This is so that the image is a better fit for the editor and theme.
  *
- * The $size parameter accepts either an array or a string. The supported string
+ * The `$size` parameter accepts either an array or a string. The supported string
  * values are 'thumb' or 'thumbnail' for the given thumbnail size or defaults at
  * 128 width and 96 height in pixels. Also supported for the string value is
  * 'medium' and 'full'. The 'full' isn't actually supported, but any value other
  * than the supported will result in the content_width size or 500 if that is
  * not set.
  *
- * Finally, there is a filter named 'editor_max_image_size', that will be called
- * on the calculated array for width and height, respectively. The second
+ * Finally, there is a filter named {@see 'editor_max_image_size'}, that will be
+ * called on the calculated array for width and height, respectively. The second
  * parameter will be the value that was in the $size parameter. The returned
  * type for the hook is an array with the width as the first element and the
  * height as the second element.
  *
  * @since 2.5.0
  *
- * @param int $width Width of the image
- * @param int $height Height of the image
- * @param string|array $size Size of what the result image should be.
- * @param context Could be 'display' (like in a theme) or 'edit' (like inserting into an editor)
+ * @param int          $width   Width of the image in pixels.
+ * @param int          $height  Height of the image in pixels.
+ * @param string|array $size    Optional. Size or array of sizes of what the result image
+ *                              should be. Accepts any valid image size name. Default 'medium'.
+ * @param string       $context Optional. Could be 'display' (like in a theme) or 'edit'
+ *                              (like inserting into an editor). Default null.
  * @return array Width and height of what the result image should resize to.
  */
-function image_constrain_size_for_editor($width, $height, $size = 'medium', $context = null ) {
+function image_constrain_size_for_editor( $width, $height, $size = 'medium', $context = null ) {
 	global $content_width, $_wp_additional_image_sizes;
 
 	if ( ! $context )
