@@ -28,7 +28,7 @@ if ( !function_exists('set_current_user') ) :
  *
  * @param int|null $id User ID.
  * @param string $name Optional. The user's username
- * @return object returns wp_set_current_user()
+ * @return WP_User returns wp_set_current_user()
  */
 function set_current_user($id, $name = '') {
 	_deprecated_function( __FUNCTION__, '3.0', 'wp_set_current_user()' );
@@ -148,9 +148,9 @@ if ( !function_exists('wp_login') ) :
  * @deprecated Use wp_signon()
  * @global string $error Error when false is returned
  *
- * @param string $username User's username
- * @param string $password User's password
- * @param bool $deprecated Not used
+ * @param string $username   User's username
+ * @param string $password   User's password
+ * @param string $deprecated Not used
  * @return bool False on login failure, true on successful check
  */
 function wp_login($username, $password, $deprecated = '') {
