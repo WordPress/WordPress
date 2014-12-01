@@ -123,7 +123,7 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 	/**
 	 * @param string $file
 	 * @param string $contents
-	 * @param bool|string $mode
+	 * @param bool|int $mode
 	 * @return bool
 	 */
 	public function put_contents($file, $contents, $mode = false ) {

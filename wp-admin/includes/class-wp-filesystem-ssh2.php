@@ -169,7 +169,7 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 	/**
 	 * @param string $file
 	 * @param string $contents
-	 * @param int $mode
+	 * @param bool|int $mode
 	 * @return bool
 	 */
 	public function put_contents($file, $contents, $mode = false ) {
@@ -200,7 +200,7 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 
 	/**
 	 * @param string $file
-	 * @param bool $group
+	 * @param string $group
 	 * @param bool $recursive
 	 */
 	public function chgrp($file, $group, $recursive = false ) {
@@ -240,9 +240,9 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 	 *
 	 * @since Unknown
 	 *
-	 * @param string $file    Path to the file.
-	 * @param bool   $owner   A user name or number.
-	 * @param bool   $recursive Optional. If set True changes file owner recursivly. Defaults to False.
+	 * @param string     $file    Path to the file.
+	 * @param string|int $owner   A user name or number.
+	 * @param bool       $recursive Optional. If set True changes file owner recursivly. Defaults to False.
 	 * @return bool|string Returns true on success or false on failure.
 	 */
 	public function chown( $file, $owner, $recursive = false ) {

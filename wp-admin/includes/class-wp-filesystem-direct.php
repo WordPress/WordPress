@@ -202,7 +202,7 @@ class WP_Filesystem_Direct extends WP_Filesystem_Base {
 
 	/**
 	 * @param string $file
-	 * @return string
+	 * @return string|false
 	 */
 	public function group($file) {
 		$gid = @filegroup($file);

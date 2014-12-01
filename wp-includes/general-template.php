@@ -2014,7 +2014,7 @@ function get_the_time( $d = '', $post = null ) {
  * @param bool        $gmt       Optional. Whether to retrieve the GMT time. Default false.
  * @param int|WP_Post $post      WP_Post object or ID. Default is global $post object.
  * @param bool        $translate Whether to translate the time string. Default false.
- * @return false|string Formatted date string or Unix timestamp. False on failure.
+ * @return false|string|int Formatted date string or Unix timestamp. False on failure.
  */
 function get_post_time( $d = 'U', $gmt = false, $post = null, $translate = false ) {
 	$post = get_post($post);

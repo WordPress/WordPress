@@ -176,7 +176,7 @@ function is_post_type_archive( $post_types = '' ) {
  * @since 2.0.0
  * @uses $wp_query
  *
- * @param int|string|array $attachment Attachment ID, title, slug, or array of such.
+ * @param int|string|array|object $attachment Attachment ID, title, slug, or array of such.
  * @return bool
  */
 function is_attachment( $attachment = '' ) {
