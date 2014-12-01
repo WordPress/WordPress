@@ -1668,12 +1668,12 @@ class wpdb {
 			$return_val = $this->rows_affected;
 		} else {
 			$num_rows = 0;
-			if ( $this->use_mysqli ) {
+			if ( $this->use_mysqli && $this->result instanceof mysqli_result ) {
 				while ( $row = @mysqli_fetch_object( $this->result ) ) {
 					$this->last_result[$num_rows] = $row;
 					$num_rows++;
 				}
-			} else {
+			} else if ( is_resource( $this->result ) ) {
 				while ( $row = @mysql_fetch_object( $this->result ) ) {
 					$this->last_result[$num_rows] = $row;
 					$num_rows++;
