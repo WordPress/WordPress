@@ -146,6 +146,9 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 		return $actions;
 	}
 
+	/**
+	 * @param string $which
+	 */
 	protected function pagination( $which ) {
 		global $mode;
 

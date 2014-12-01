@@ -479,6 +479,8 @@ class WP_List_Table {
 	 *
 	 * @since 3.1.0
 	 * @access protected
+	 *
+	 * @param string $post_type
 	 */
 	protected function months_dropdown( $post_type ) {
 		global $wpdb, $wp_locale;
@@ -535,6 +537,8 @@ class WP_List_Table {
 	 *
 	 * @since 3.1.0
 	 * @access protected
+	 *
+	 * @param string $current_mode
 	 */
 	protected function view_switcher( $current_mode ) {
 ?>
@@ -601,6 +605,8 @@ class WP_List_Table {
 	 * @since 3.1.0
 	 * @access protected
 	 *
+	 * @param string $option
+	 * @param int    $default
 	 * @return int
 	 */
 	protected function get_items_per_page( $option, $default = 20 ) {
@@ -629,6 +635,8 @@ class WP_List_Table {
 	 *
 	 * @since 3.1.0
 	 * @access protected
+	 *
+	 * @param string $which
 	 */
 	protected function pagination( $which ) {
 		if ( empty( $this->_pagination_args ) ) {
@@ -929,6 +937,7 @@ class WP_List_Table {
 	 *
 	 * @since 3.1.0
 	 * @access protected
+	 * @param string $which
 	 */
 	protected function display_tablenav( $which ) {
 		if ( 'top' == $which )
@@ -954,6 +963,8 @@ class WP_List_Table {
 	 *
 	 * @since 3.1.0
 	 * @access protected
+	 *
+	 * @param string $which
 	 */
 	protected function extra_tablenav( $which ) {}
 

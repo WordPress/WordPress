@@ -191,6 +191,11 @@ class WP_Plugins_List_Table extends WP_List_Table {
 		) );
 	}
 
+	/**
+	 * @staticvar string $term
+	 * @param array $plugin
+	 * @return boolean
+	 */
 	public function _search_callback( $plugin ) {
 		static $term;
 		if ( is_null( $term ) )
@@ -205,6 +210,13 @@ class WP_Plugins_List_Table extends WP_List_Table {
 		return false;
 	}
 
+	/**
+	 * @global string $orderby
+	 * @global string $order
+	 * @param array $plugin_a
+	 * @param array $plugin_b
+	 * @return int
+	 */
 	public function _order_callback( $plugin_a, $plugin_b ) {
 		global $orderby, $order;
 
@@ -308,6 +320,11 @@ class WP_Plugins_List_Table extends WP_List_Table {
 		return $actions;
 	}
 
+	/**
+	 * @global string $status
+	 * @param string $which
+	 * @return null
+	 */
 	public function bulk_actions( $which = '' ) {
 		global $status;
 
@@ -317,6 +334,11 @@ class WP_Plugins_List_Table extends WP_List_Table {
 		parent::bulk_actions( $which );
 	}
 
+	/**
+	 * @global string $status
+	 * @param string $which
+	 * @return null
+	 */
 	protected function extra_tablenav( $which ) {
 		global $status;
 
@@ -352,6 +374,13 @@ class WP_Plugins_List_Table extends WP_List_Table {
 			$this->single_row( array( $plugin_file, $plugin_data ) );
 	}
 
+	/**
+	 * @global string $status
+	 * @global int $page
+	 * @global string $s
+	 * @global array $totals
+	 * @param array $item
+	 */
 	public function single_row( $item ) {
 		global $status, $page, $s, $totals;
 

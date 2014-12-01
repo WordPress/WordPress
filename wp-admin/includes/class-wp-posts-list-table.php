@@ -217,6 +217,10 @@ class WP_Posts_List_Table extends WP_List_Table {
 		return $actions;
 	}
 
+	/**
+	 * @global int $cat
+	 * @param string $which
+	 */
 	protected function extra_tablenav( $which ) {
 		global $cat;
 ?>
@@ -268,6 +272,10 @@ class WP_Posts_List_Table extends WP_List_Table {
 		return parent::current_action();
 	}
 
+	/**
+	 * @global string $mode
+	 * @param string $which
+	 */
 	protected function pagination( $which ) {
 		global $mode;
 
@@ -375,6 +383,12 @@ class WP_Posts_List_Table extends WP_List_Table {
 		);
 	}
 
+	/**
+	 * @global WP_Query $wp_query
+	 * @global int $per_page
+	 * @param array $posts
+	 * @param int $level
+	 */
 	public function display_rows( $posts = array(), $level = 0 ) {
 		global $wp_query, $per_page;
 
@@ -390,6 +404,11 @@ class WP_Posts_List_Table extends WP_List_Table {
 		}
 	}
 
+	/**
+	 * @global string $mode
+	 * @param array $posts
+	 * @param int $level
+	 */
 	private function _display_rows( $posts, $level = 0 ) {
 		global $mode;
 
@@ -405,6 +424,13 @@ class WP_Posts_List_Table extends WP_List_Table {
 			$this->single_row( $post, $level );
 	}
 
+	/**
+	 * @global wpdb $wpdb
+	 * @param array $pages
+	 * @param int $pagenum
+	 * @param int $per_page
+	 * @return bool|null
+	 */
 	private function _display_rows_hierarchical( $pages, $pagenum = 1, $per_page = 20 ) {
 		global $wpdb;
 
@@ -542,6 +568,12 @@ class WP_Posts_List_Table extends WP_List_Table {
 		unset( $children_pages[$parent] ); //required in order to keep track of orphans
 	}
 
+	/**
+	 * @global string $mode
+	 * @staticvar string $alternate
+	 * @param WP_Post $post
+	 * @param int $level
+	 */
 	public function single_row( $post, $level = 0 ) {
 		global $mode;
 		static $alternate;

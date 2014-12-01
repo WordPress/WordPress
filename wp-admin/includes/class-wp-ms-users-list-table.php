@@ -102,6 +102,10 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 		return $role_links;
 	}
 
+	/**
+	 * @global string $mode
+	 * @param string $which
+	 */
 	protected function pagination( $which ) {
 		global $mode;
 

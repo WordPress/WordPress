@@ -104,6 +104,9 @@ class WP_Media_List_Table extends WP_List_Table {
 		return $actions;
 	}
 
+	/**
+	 * @param string $which
+	 */
 	protected function extra_tablenav( $which ) {
 		if ( 'bar' !== $which ) {
 			return;
@@ -146,9 +149,10 @@ class WP_Media_List_Table extends WP_List_Table {
 		_e( 'No media attachments found.' );
 	}
 
+	/**
+	 * @param string $which
+	 */
 	protected function pagination( $which ) {
-		global $mode;
-
 		parent::pagination( $which );
 	}
 
@@ -493,6 +497,10 @@ foreach ( $columns as $column_name => $column_display_name ) {
 <?php endwhile;
 	}
 
+	/**
+	 * @param WP_Post $post
+	 * @param string  $att_title
+	 */
 	private function _get_row_actions( $post, $att_title ) {
 		$actions = array();
 
