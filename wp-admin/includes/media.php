@@ -432,7 +432,7 @@ function media_handle_sideload($file_array, $post_id, $desc = null, $post_data =
  *
  * @since 2.5.0
  *
- * @param array $content_func
+ * @param string|callable $content_func
  */
 function wp_iframe($content_func /* ... */) {
 	_wp_admin_html_begin();
@@ -916,7 +916,7 @@ function media_upload_library() {
  *
  * @since 2.7.0
  *
- * @param object $post
+ * @param WP_Post $post
  * @param string $checked
  * @return string
  */
@@ -944,7 +944,7 @@ function image_align_input_fields( $post, $checked = '' ) {
  *
  * @since 2.7.0
  *
- * @param object $post
+ * @param WP_Post $post
  * @param bool|string $check
  * @return array
  */
@@ -1016,7 +1016,7 @@ function image_size_input_fields( $post, $check = '' ) {
  *
  * @since 2.7.0
  *
- * @param object $post
+ * @param WP_Post $post
  * @param string $url_type
  * @return string
  */
@@ -2930,7 +2930,7 @@ function wp_add_id3_tag_data( &$metadata, $data ) {
  * @since 3.6.0
  *
  * @param string $file Path to file.
- * @return array|boolean Returns array of metadata, if found.
+ * @return array|bool Returns array of metadata, if found.
  */
 function wp_read_video_metadata( $file ) {
 	if ( ! file_exists( $file ) )

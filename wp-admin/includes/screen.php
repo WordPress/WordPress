@@ -60,7 +60,7 @@ function get_hidden_columns( $screen ) {
  *
  * @since 2.7.0
  *
- * @param string|WP_Screen $screen
+ * @param WP_Screen $screen
  */
 function meta_box_prefs( $screen ) {
 	global $wp_meta_boxes;
@@ -650,7 +650,7 @@ final class WP_Screen {
 	 * @param string $option Option name.
 	 * @param string $key    Optional. Specific array key for when the option is an array.
 	 *                       Default false.
-	 * @return mixed The option value if set, null otherwise.
+	 * @return string The option value if set, null otherwise.
 	 */
 	public function get_option( $option, $key = false ) {
 		if ( ! isset( $this->_options[ $option ] ) )

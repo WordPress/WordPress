@@ -138,7 +138,7 @@ function theme_update_available( $theme ) {
  * @since 3.8.0
  *
  * @param WP_Theme $theme WP_Theme object.
- * @return string|bool HTML for the update link, or false if invalid info was passed.
+ * @return false|string HTML for the update link, or false if invalid info was passed.
  */
 function get_theme_update_available( $theme ) {
 	static $themes_update;

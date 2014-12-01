@@ -190,7 +190,7 @@ function install_search_form( $type_selector = true ) {
  * Upload from zip
  * @since 2.8.0
  *
- * @param string $page
+ * @param integer $page
  */
 function install_plugins_upload( $page = 1 ) {
 ?>

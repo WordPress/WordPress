@@ -1120,7 +1120,7 @@ function postbox_classes( $id, $page ) {
  *
  * @since 2.5.0
  *
- * @param int|object $id    Post ID or post object.
+ * @param integer $id    Post ID or post object.
  * @param string $title (optional) Title
  * @param string $name (optional) Name
  * @return array With two entries of type string
@@ -1185,7 +1185,7 @@ function get_sample_permalink($id, $title = null, $name = null) {
  *
  * @since 2.5.0
  *
- * @param int|object $id Post ID or post object.
+ * @param integer $id Post ID or post object.
  * @param string $new_title Optional. New title.
  * @param string $new_slug Optional. New slug.
  * @return string The HTML of the sample permalink slug editor.
@@ -1308,7 +1308,7 @@ function _wp_post_thumbnail_html( $thumbnail_id = null, $post = null ) {
  * @since 2.5.0
  *
  * @param int $post_id ID of the post to check for editing
- * @return bool|int False: not locked or locked by current user. Int: user ID of user with lock.
+ * @return integer False: not locked or locked by current user. Int: user ID of user with lock.
  */
 function wp_check_post_lock( $post_id ) {
 	if ( !$post = get_post( $post_id ) )

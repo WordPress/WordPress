@@ -30,7 +30,7 @@ if ( !function_exists('wp_install') ) :
  * @param string $user_name User's username.
  * @param string $user_email User's email.
  * @param bool $public Whether blog is public.
- * @param null $deprecated Optional. Not used.
+ * @param string $deprecated Optional. Not used.
  * @param string $user_password Optional. User's chosen password. Will default to a random password.
  * @param string $language Optional. Language chosen.
  * @return array Array keys 'url', 'user_id', 'password', 'password_message'.
@@ -1532,7 +1532,7 @@ function maybe_add_column($table_name, $column_name, $create_ddl) {
  *
  * @since 1.2.0
  *
- * @return array List of options.
+ * @return stdClass List of options.
  */
 function get_alloptions_110() {
 	global $wpdb;
@@ -1975,7 +1975,7 @@ function make_site_theme_from_oldschool($theme_name, $template) {
  *
  * @param string $theme_name
  * @param string $template
- * @return bool|null
+ * @return null|false
  */
 function make_site_theme_from_default($theme_name, $template) {
 	$site_dir = WP_CONTENT_DIR . "/themes/$template";
@@ -2039,7 +2039,7 @@ function make_site_theme_from_default($theme_name, $template) {
  *
  * @since 1.5.0
  *
- * @return string|bool
+ * @return false|string
  */
 function make_site_theme() {
 	// Name the theme after the blog.

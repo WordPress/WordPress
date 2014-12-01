@@ -27,6 +27,9 @@ class WP_Upgrader_Skin {
 		$this->options = wp_parse_args($args, $defaults);
 	}
 
+	/**
+	 * @param WP_Upgrader $upgrader
+	 */
 	public function set_upgrader(&$upgrader) {
 		if ( is_object($upgrader) )
 			$this->upgrader =& $upgrader;
@@ -216,6 +219,9 @@ class Bulk_Upgrader_Skin extends WP_Upgrader_Skin {
 		$this->upgrader->strings['skin_upgrade_end'] = __('All updates have been completed.');
 	}
 
+	/**
+	 * @param string $string
+	 */
 	public function feedback($string) {
 		if ( isset( $this->upgrader->strings[$string] ) )
 			$string = $this->upgrader->strings[$string];
@@ -721,6 +727,9 @@ class Automatic_Upgrader_Skin extends WP_Upgrader_Skin {
 		return $this->messages;
 	}
 
+	/**
+	 * @param string|array|WP_Error $data
+	 */
 	public function feedback( $data ) {
 		if ( is_wp_error( $data ) )
 			$string = $data->get_error_message();
