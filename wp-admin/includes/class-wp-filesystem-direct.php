@@ -200,6 +200,10 @@ class WP_Filesystem_Direct extends WP_Filesystem_Base {
 		return substr( decoct( @fileperms( $file ) ), -3 );
 	}
 
+	/**
+	 * @param string $file
+	 * @return string
+	 */
 	public function group($file) {
 		$gid = @filegroup($file);
 		if ( ! $gid )
@@ -210,6 +214,13 @@ class WP_Filesystem_Direct extends WP_Filesystem_Base {
 		return $grouparray['name'];
 	}
 
+	/**
+	 * @param string $source
+	 * @param string $destination
+	 * @param bool   $overwrite
+	 * @param int    $mode
+	 * @return bool
+	 */
 	public function copy($source, $destination, $overwrite = false, $mode = false) {
 		if ( ! $overwrite && $this->exists($destination) )
 			return false;
@@ -220,6 +231,12 @@ class WP_Filesystem_Direct extends WP_Filesystem_Base {
 		return $rtval;
 	}
 
+	/**
+	 * @param string $source
+	 * @param string $destination
+	 * @param bool $overwrite
+	 * @return bool
+	 */
 	public function move($source, $destination, $overwrite = false) {
 		if ( ! $overwrite && $this->exists($destination) )
 			return false;
@@ -236,6 +253,12 @@ class WP_Filesystem_Direct extends WP_Filesystem_Base {
 		}
 	}
 
+	/**
+	 * @param string $file
+	 * @param bool $recursive
+	 * @param string $type
+	 * @return bool
+	 */
 	public function delete($file, $recursive = false, $type = false) {
 		if ( empty( $file ) ) // Some filesystems report this as /, which can cause non-expected recursive deletion of all files in the filesystem.
 			return false;
@@ -263,39 +286,74 @@ class WP_Filesystem_Direct extends WP_Filesystem_Base {
 
 		return $retval;
 	}
-
+	/**
+	 * @param string $file
+	 * @return bool
+	 */
 	public function exists($file) {
 		return @file_exists($file);
 	}
-
+	/**
+	 * @param string $file
+	 * @return bool
+	 */
 	public function is_file($file) {
 		return @is_file($file);
 	}
-
+	/**
+	 * @param string $path
+	 * @return bool
+	 */
 	public function is_dir($path) {
 		return @is_dir($path);
 	}
 
+	/**
+	 * @param string $file
+	 * @return bool
+	 */
 	public function is_readable($file) {
 		return @is_readable($file);
 	}
 
+	/**
+	 * @param string $file
+	 * @return bool
+	 */
 	public function is_writable($file) {
 		return @is_writable($file);
 	}
 
+	/**
+	 * @param string $file
+	 * @return int
+	 */
 	public function atime($file) {
 		return @fileatime($file);
 	}
 
+	/**
+	 * @param string $file
+	 * @return int
+	 */
 	public function mtime($file) {
 		return @filemtime($file);
 	}
 
+	/**
+	 * @param string $file
+	 * @return int
+	 */
 	public function size($file) {
 		return @filesize($file);
 	}
 
+	/**
+	 * @param string $file
+	 * @param int $time
+	 * @param int $atime
+	 * @return bool
+	 */
 	public function touch($file, $time = 0, $atime = 0) {
 		if ($time == 0)
 			$time = time();
@@ -304,6 +362,13 @@ class WP_Filesystem_Direct extends WP_Filesystem_Base {
 		return @touch($file, $time, $atime);
 	}
 
+	/**
+	 * @param string $path
+	 * @param mixed  $chmod
+	 * @param mixed  $chown
+	 * @param mixed  $chgrp
+	 * @return bool
+	 */
 	public function mkdir($path, $chmod = false, $chown = false, $chgrp = false) {
 		// Safe mode fails with a trailing slash under certain PHP versions.
 		$path = untrailingslashit($path);
@@ -323,10 +388,21 @@ class WP_Filesystem_Direct extends WP_Filesystem_Base {
 		return true;
 	}
 
+	/**
+	 * @param string $path
+	 * @param bool $recursive
+	 * @return type
+	 */
 	public function rmdir($path, $recursive = false) {
 		return $this->delete($path, $recursive);
 	}
 
+	/**
+	 * @param string $path
+	 * @param bool $include_hidden
+	 * @param bool $recursive
+	 * @return bool|array
+	 */
 	public function dirlist($path, $include_hidden = true, $recursive = false) {
 		if ( $this->is_file($path) ) {
 			$limit_file = basename($path);
