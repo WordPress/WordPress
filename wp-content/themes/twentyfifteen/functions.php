@@ -213,10 +213,10 @@ function twentyfifteen_scripts() {
 	wp_enqueue_style( 'genericons', get_template_directory_uri() . '/genericons/genericons.css', array(), '3.2' );
 
 	// Load our main stylesheet.
-	wp_enqueue_style( 'twentyfifteen-style', get_stylesheet_uri() );
+	wp_enqueue_style( 'twentyfifteen-style', get_stylesheet_uri(), array( 'twentyfifteen-fonts', 'genericons' ) );
 
 	// Load the Internet Explorer specific stylesheet.
-	wp_enqueue_style( 'twentyfifteen-ie', get_template_directory_uri() . '/css/ie.css', array( 'twentyfifteen-style', 'genericons' ), '20141010' );
+	wp_enqueue_style( 'twentyfifteen-ie', get_template_directory_uri() . '/css/ie.css', array( 'twentyfifteen-style' ), '20141010' );
 	wp_style_add_data( 'twentyfifteen-ie', 'conditional', 'lt IE 9' );
 
 	// Load the Internet Explorer 7 specific stylesheet.
