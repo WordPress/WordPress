@@ -577,7 +577,7 @@ function seems_utf8($str) {
  * @access private
  *
  * @param string $string The text which is to be encoded.
- * @param mixed $quote_style Optional. Converts double quotes if set to ENT_COMPAT, both single and double if set to ENT_QUOTES or none if set to ENT_NOQUOTES. Also compatible with old values; converting single quotes if set to 'single', double if set to 'double' or both if otherwise set. Default is ENT_NOQUOTES.
+ * @param int $quote_style Optional. Converts double quotes if set to ENT_COMPAT, both single and double if set to ENT_QUOTES or none if set to ENT_NOQUOTES. Also compatible with old values; converting single quotes if set to 'single', double if set to 'double' or both if otherwise set. Default is ENT_NOQUOTES.
  * @param string $charset Optional. The character encoding of the string. Default is false.
  * @param boolean $double_encode Optional. Whether to encode existing html entities. Default is false.
  * @return string The encoded text with HTML entities.
@@ -1317,7 +1317,7 @@ function sanitize_title_with_dashes( $title, $raw_title = '', $context = 'displa
  * @since 2.5.1
  *
  * @param string $orderby Order by string to be checked.
- * @return string|bool Returns the order by clause if it is a match, false otherwise.
+ * @return false|string Returns the order by clause if it is a match, false otherwise.
  */
 function sanitize_sql_orderby( $orderby ){
 	preg_match('/^\s*([a-z0-9_]+(\s+(ASC|DESC))?(\s*,\s*|\s*$))+|^\s*RAND\(\s*\)\s*$/i', $orderby, $obmatches);
@@ -2219,7 +2219,7 @@ function wp_iso_descrambler($string) {
  * @access private
  *
  * @param array $match The preg_replace_callback matches array
- * @return array Converted chars
+ * @return string Converted chars
  */
 function _wp_iso_convert( $match ) {
 	return chr( hexdec( strtolower( $match[1] ) ) );

@@ -270,7 +270,7 @@ class WP_oEmbed {
 	 *
 	 * @param string $url The URL to the content that should be attempted to be embedded.
 	 * @param array $args Optional arguments. Usually passed from a shortcode.
-	 * @return bool|string False on failure, otherwise the UNSANITIZED (and potentially unsafe) HTML that should be used to embed.
+	 * @return false|string False on failure, otherwise the UNSANITIZED (and potentially unsafe) HTML that should be used to embed.
 	 */
 	function get_html( $url, $args = '' ) {
 		$provider = $this->get_provider( $url, $args );
@@ -496,7 +496,7 @@ class WP_oEmbed {
 	 *
 	 * @param object $data A data object result from an oEmbed provider.
 	 * @param string $url The URL to the content that is desired to be embedded.
-	 * @return bool|string False on error, otherwise the HTML needed to embed.
+	 * @return false|string False on error, otherwise the HTML needed to embed.
 	 */
 	public function data2html( $data, $url ) {
 		if ( ! is_object( $data ) || empty( $data->type ) )

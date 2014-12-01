@@ -242,7 +242,7 @@ class WP_Error {
 
 		$this->error_data[$code] = $data;
 	}
-	
+
 	/**
 	 * Removes the specified error.
 	 *

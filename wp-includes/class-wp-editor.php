@@ -250,6 +250,10 @@ final class _WP_Editors {
 		self::editor_settings($editor_id, $set);
 	}
 
+	/**
+	 * @param string $editor_id
+	 * @param array  $set
+	 */
 	public static function editor_settings($editor_id, $set) {
 		$first_run = false;
 
@@ -756,7 +760,7 @@ final class _WP_Editors {
 	 *
 	 * @param string $mce_locale The locale used for the editor.
 	 * @param bool $json_only optional Whether to include the Javascript calls to tinymce.addI18n() and tinymce.ScriptLoader.markDone().
-	 * @return The translation object, JSON encoded.
+	 * @return string Translation object, JSON encoded.
 	 */
 	public static function wp_mce_translation( $mce_locale = '', $json_only = false ) {
 
@@ -1328,7 +1332,7 @@ final class _WP_Editors {
 	 * @since 3.1.0
 	 *
 	 * @param array $args Optional. Accepts 'pagenum' and 's' (search) arguments.
-	 * @return array Results.
+	 * @return false|array Results.
 	 */
 	public static function wp_link_query( $args = array() ) {
 		$pts = get_post_types( array( 'public' => true ), 'objects' );

@@ -13,6 +13,12 @@ class WP_HTTP_IXR_Client extends IXR_Client {
 	 */
 	public $error;
 
+	/**
+	 * @param string $server
+	 * @param string|bool $path
+	 * @param int|bool $port
+	 * @param int $timeout
+	 */
 	public function __construct($server, $path = false, $port = false, $timeout = 15) {
 		if ( ! $path ) {
 			// Assume we have been given a URL instead

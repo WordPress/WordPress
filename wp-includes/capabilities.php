@@ -611,6 +611,8 @@ class WP_User {
 	 * Magic method for checking the existence of a certain custom field
 	 *
 	 * @since 3.3.0
+	 * @param string $key
+	 * @return bool
 	 */
 	public function __isset( $key ) {
 		if ( 'id' == $key ) {
@@ -631,6 +633,8 @@ class WP_User {
 	 * Magic method for accessing custom fields
 	 *
 	 * @since 3.3.0
+	 * @param string $key
+	 * @return mixed
 	 */
 	public function __get( $key ) {
 		if ( 'id' == $key ) {

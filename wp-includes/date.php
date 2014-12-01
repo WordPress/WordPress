@@ -185,7 +185,9 @@ class WP_Date_Query {
 	 * @since 4.1.0
 	 * @access public
 	 *
-	 * @param array $query A tax_query query clause.
+	 * @param array $queries
+	 * @param array $parent_query
+	 *
 	 * @return array Sanitized queries.
 	 */
 	public function sanitize_query( $queries, $parent_query = null ) {
@@ -777,7 +779,7 @@ class WP_Date_Query {
 	 *
 	 * @param string $compare The compare operator to use
 	 * @param string|array $value The value
-	 * @return string|int|false The value to be used in SQL or false on error.
+	 * @return string|false|int The value to be used in SQL or false on error.
 	 */
 	public function build_value( $compare, $value ) {
 		if ( ! isset( $value ) )

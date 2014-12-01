@@ -4630,6 +4630,10 @@ class wp_xmlrpc_server extends IXR_Server {
 		return strval($post_ID);
 	}
 
+	/**
+	 * @param integer $post_ID
+	 * @param array   $enclosure
+	 */
 	public function add_enclosure_if_new( $post_ID, $enclosure ) {
 		if ( is_array( $enclosure ) && isset( $enclosure['url'] ) && isset( $enclosure['length'] ) && isset( $enclosure['type'] ) ) {
 			$encstring = $enclosure['url'] . "\n" . $enclosure['length'] . "\n" . $enclosure['type'] . "\n";
@@ -5914,6 +5918,10 @@ class wp_xmlrpc_server extends IXR_Server {
 		return $pingbacks;
 	}
 
+	/**
+	 * @param integer $code
+	 * @param string $message
+	 */
 	protected function pingback_error( $code, $message ) {
 		/**
 		 * Filter the XML-RPC pingback error return.

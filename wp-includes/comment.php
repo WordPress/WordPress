@@ -1745,7 +1745,7 @@ function wp_unspam_comment($comment_id) {
  * @since 1.0.0
  *
  * @param int $comment_id Comment ID
- * @return string|bool Status might be 'trash', 'approved', 'unapproved', 'spam'. False on failure.
+ * @return false|string Status might be 'trash', 'approved', 'unapproved', 'spam'. False on failure.
  */
 function wp_get_comment_status($comment_id) {
 	$comment = get_comment($comment_id);
@@ -2298,7 +2298,7 @@ function wp_defer_comment_counting($defer=null) {
  *
  * @param int $post_id Post ID
  * @param bool $do_deferred Whether to process previously deferred post comment counts
- * @return bool True on success, false on failure
+ * @return bool|null True on success, false on failure
  */
 function wp_update_comment_count($post_id, $do_deferred=false) {
 	static $_deferred = array();
@@ -2376,7 +2376,7 @@ function wp_update_comment_count_now($post_id) {
  *
  * @param string $url URL to ping.
  * @param int $deprecated Not Used.
- * @return bool|string False on failure, string containing URI on success.
+ * @return false|string False on failure, string containing URI on success.
  */
 function discover_pingback_server_uri( $url, $deprecated = '' ) {
 	if ( !empty( $deprecated ) )

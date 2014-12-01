@@ -13,7 +13,7 @@
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
- * @param mixed $bookmark
+ * @param int|stdClass $bookmark
  * @param string $output Optional. Either OBJECT, ARRAY_N, or ARRAY_A constant
  * @param string $filter Optional, default is 'raw'.
  * @return array|object Type returned depends on $output value.
