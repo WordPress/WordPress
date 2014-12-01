@@ -132,14 +132,18 @@ class WP_Widget {
 	}
 
 	/**
-	 * Constructs id attributes for use in form() fields
+	 * Constructs id attributes for use in {@see WP_Widget::form()} fields.
 	 *
-	 * This function should be used in form() methods to create id attributes for fields to be saved by update()
+	 * This function should be used in form() methods to create id attributes
+	 * for fields to be saved by {@see WP_Widget::update()}.
 	 *
-	 * @param string $field_name Field name
-	 * @return string ID attribute for $field_name
+	 * @since 2.8.0
+	 * @access public
+	 *
+	 * @param string $field_name Field name.
+	 * @return string ID attribute for `$field_name`.
 	 */
-	public function get_field_id($field_name) {
+	public function get_field_id( $field_name ) {
 		return 'widget-' . $this->id_base . '-' . $this->number . '-' . $field_name;
 	}
 
@@ -220,6 +224,7 @@ class WP_Widget {
 	 *
 	 * Finds the instance and calls {@see WP_Widget::widget()}.
 	 *
+	 * @since 2.8.0
 	 * @access public
 	 *
 	 * @param array     $args        Display arguments. See {@see WP_Widget::widget()} for information
@@ -273,9 +278,10 @@ class WP_Widget {
 	}
 
 	/**
-	 * Deal with changed settings.
+	 * Deal with changed settings (Do NOT override).
 	 *
-	 * Do NOT over-ride this function.
+	 * @since 2.8.0
+	 * @access public
 	 *
 	 * @param int $deprecated Not used.
 	 */
@@ -355,9 +361,12 @@ class WP_Widget {
 	}
 
 	/**
-	 * Generate the control form.
+	 * Generate the widget control form (Do NOT override).
 	 *
-	 * Do NOT over-ride this function.
+	 * @since 2.8.0
+	 * @access public
+	 *
+	 * @param int|array $widget_args Widget instance number or array of widget arguments.
 	 */
 	public function form_callback( $widget_args = 1 ) {
 		if ( is_numeric($widget_args) )
