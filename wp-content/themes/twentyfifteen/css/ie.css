@@ -35,7 +35,9 @@ ol {
 }
 
 li > ul,
-li > ol {
+li > ol,
+blockquote > ul,
+blockquote > ol {
 	margin-left: 1.3333em;
 }
 
@@ -670,7 +672,9 @@ img.aligncenter {
 }
 
 .comment-content li > ul,
-.comment-content li > ol {
+.comment-content li > ol,
+.comment-content blockquote > ul,
+.comment-content blockquote > ol {
 	margin-left: 1.3333em;
 }
 
@@ -771,7 +775,9 @@ video {
 }
 
 .rtl li > ul,
-.rtl li > ol {
+.rtl li > ol,
+.rtl blockquote > ul,
+.rtl blockquote > ol {
 	margin-right: 1.3333em;
 	margin-left: auto;
 }
@@ -887,7 +893,9 @@ video {
 }
 
 .rtl .comment-content li > ul,
-.rtl .comment-content li > ol {
+.rtl .comment-content li > ol,
+.rtl .comment-content blockquote > ul,
+.rtl .comment-content blockquote > ol {
 	margin-right: 1.3333em;
 	margin-left: auto;
 }

@@ -70,12 +70,6 @@ ol {
 	margin: 0 1.3333em 1.6em 0;
 }
 
-li > ul,
-li > ol {
-	margin-right: 1.3333em;
-	margin-left: auto;
-}
-
 caption,
 th,
 td {
@@ -369,6 +363,14 @@ img.alignleft {
 		margin-left: auto;
 	}
 
+	li > ul,
+	li > ol,
+	blockquote > ul,
+	blockquote > ol {
+		margin-right: 1.3333em;
+		margin-left: auto;
+	}
+
 	blockquote {
 		margin-right: -1em;
 		margin-left: auto;
@@ -393,8 +395,16 @@ img.alignleft {
 	}
 
 	.comment-content ul,
-		.comment-content ol {
+	.comment-content ol {
 		margin-right: 0;
+		margin-left: auto;
+	}
+
+	.comment-content li > ul,
+	.comment-content li > ol,
+	.comment-content blockquote > ul,
+	.comment-content blockquote > ol {
+		margin-right: 1.3333em;
 		margin-left: auto;
 	}
 }
