@@ -575,7 +575,7 @@ function wp_print_media_templates() {
 		<div class="selection-info">
 			<span class="count"></span>
 			<# if ( data.editable ) { #>
-				<a class="edit-selection" href="#"><?php _e('Edit'); ?></a>
+				<a class="edit-selection" href="#"><?php _e( 'Edit Selection' ); ?></a>
 			<# } #>
 			<# if ( data.clearable ) { #>
 				<a class="clear-selection" href="#"><?php _e('Clear'); ?></a>
