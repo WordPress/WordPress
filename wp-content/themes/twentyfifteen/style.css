@@ -1790,7 +1790,6 @@ a.post-thumbnail:focus {
 }
 
 .author-info .avatar {
-	border-radius: 50%;
 	float: left;
 	height: 36px;
 	margin: 0 1.6em 1.6em 0;
@@ -2214,7 +2213,6 @@ a.post-thumbnail:focus {
 }
 
 .comment-author .avatar {
-	border-radius: 50%;
 	float: left;
 	height: 24px;
 	margin-right: 0.8em;
@@ -2430,6 +2428,10 @@ a.post-thumbnail:focus {
 /**
  * 14.0 Media
  */
+
+.site .avatar {
+	border-radius: 50%;
+}
 
 .page-content img.wp-smiley,
 .entry-content img.wp-smiley,
