@@ -642,8 +642,10 @@ html:lang(he-il) .rtl #wpadminbar *  {
  */
 .no-customize-support .hide-if-no-customize,
 .customize-support .hide-if-customize,
+.no-customize-support #wpadminbar .hide-if-no-customize,
 .no-customize-support.wp-core-ui .hide-if-no-customize,
 .no-customize-support .wp-core-ui .hide-if-no-customize,
+.customize-support #wpadminbar .hide-if-customize,
 .customize-support.wp-core-ui .hide-if-customize,
 .customize-support .wp-core-ui .hide-if-customize {
 	display: none;
