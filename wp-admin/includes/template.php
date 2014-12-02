@@ -2049,13 +2049,13 @@ final class WP_Internal_Pointers {
 		}
 
 		$content  = '<h3>' . __( 'Distraction Free Writing' ) . '</h3>';
-		$content .= '<p>' . __( 'Enable distraction free writing; everything fades away so you can focus. '
-			. 'Bring your admin back by moving your mouse, then start typing and it fades away.' ) . '</p>';
+		$content .= '<p>' . __( 'Start typing, and the other elements fade away so you can focus. '
+			. 'Move your mouse out of the editor to reveal everything again.' ) . '</p>';
 
 		if ( is_rtl() ) {
-			$position = array( 'edge' => 'left', 'align' => 'left', 'my' => 'left-5 top-60' );
+			$position = array( 'edge' => 'left', 'align' => 'left', 'my' => 'left-5 top-30%' );
 		} else {
-			$position = array( 'edge' => 'right', 'align' => 'right', 'my' => 'right+5 top-60' );
+			$position = array( 'edge' => 'right', 'align' => 'right', 'my' => 'right+5 top-30%' );
 		}
 
 		self::print_js( 'wp410_dfw', '#content-html', array(
