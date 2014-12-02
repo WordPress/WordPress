@@ -2164,7 +2164,7 @@ class wpdb {
 	 * @return string|WP_Error Table character set, {@see WP_Error} object if it couldn't be found.
 	 */
 	protected function get_table_charset( $table ) {
-		$table = strtolower( $table );
+		$tablekey = strtolower( $table );
 
 		/**
 		 * Filter the table charset value before the DB is checked.
@@ -2182,8 +2182,8 @@ class wpdb {
 			return $charset;
 		}
 
-		if ( isset( $this->table_charset[ $table ] ) ) {
-			return $this->table_charset[ $table ];
+		if ( isset( $this->table_charset[ $tablekey ] ) ) {
+			return $this->table_charset[ $tablekey ];
 		}
 
 		$charsets = $columns = array();
@@ -2196,7 +2196,7 @@ class wpdb {
 			$columns[ strtolower( $column->Field ) ] = $column;
 		}
 
-		$this->col_meta[ $table ] = $columns;
+		$this->col_meta[ $tablekey ] = $columns;
 
 		foreach ( $columns as $column ) {
 			if ( ! empty( $column->Collation ) ) {
@@ -2208,7 +2208,7 @@ class wpdb {
 
 			// A binary/blob means the whole query gets treated like this.
 			if ( in_array( strtoupper( $type ), array( 'BINARY', 'VARBINARY', 'TINYBLOB', 'MEDIUMBLOB', 'BLOB', 'LONGBLOB' ) ) ) {
-				$this->table_charset[ $table ] = 'binary';
+				$this->table_charset[ $tablekey ] = 'binary';
 				return 'binary';
 			}
 		}
@@ -2242,7 +2242,7 @@ class wpdb {
 			}
 		}
 
-		$this->table_charset[ $table ] = $charset;
+		$this->table_charset[ $tablekey ] = $charset;
 		return $charset;
 	}
 
@@ -2258,8 +2258,8 @@ class wpdb {
 	 *               character set. {@see WP_Error} object if there was an error.
 	 */
 	protected function get_col_charset( $table, $column ) {
-		$table = strtolower( $table );
-		$column = strtolower( $column );
+		$tablekey = strtolower( $table );
+		$columnkey = strtolower( $column );
 
 		/**
 		 * Filter the column charset value before the DB is checked.
@@ -2283,7 +2283,7 @@ class wpdb {
 			return false;
 		}
 
-		if ( empty( $this->table_charset[ $table ] ) ) {
+		if ( empty( $this->table_charset[ $tablekey ] ) ) {
 			// This primes column information for us.
 			$table_charset = $this->get_table_charset( $table );
 			if ( is_wp_error( $table_charset ) ) {
@@ -2292,21 +2292,21 @@ class wpdb {
 		}
 
 		// If still no column information, return the table charset.
-		if ( empty( $this->col_meta[ $table ] ) ) {
-			return $this->table_charset[ $table ];
+		if ( empty( $this->col_meta[ $tablekey ] ) ) {
+			return $this->table_charset[ $tablekey ];
 		}
 
 		// If this column doesn't exist, return the table charset.
-		if ( empty( $this->col_meta[ $table ][ $column ] ) ) {
-			return $this->table_charset[ $table ];
+		if ( empty( $this->col_meta[ $tablekey ][ $columnkey ] ) ) {
+			return $this->table_charset[ $tablekey ];
 		}
 
 		// Return false when it's not a string column.
-		if ( empty( $this->col_meta[ $table ][ $column ]->Collation ) ) {
+		if ( empty( $this->col_meta[ $tablekey ][ $columnkey ]->Collation ) ) {
 			return false;
 		}
 
-		list( $charset ) = explode( '_', $this->col_meta[ $table ][ $column ]->Collation );
+		list( $charset ) = explode( '_', $this->col_meta[ $tablekey ][ $columnkey ]->Collation );
 		return $charset;
 	}
 
