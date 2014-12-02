@@ -1008,7 +1008,7 @@
 		 * Reset the setting to the default value.
 		 */
 		restoreDefault: function( event ) {
-			if ( event.type === 'keydown' &&  13 !== event.which ) { // enter
+			if ( event.type === 'keydown' && 13 !== event.which ) { // enter
 				return;
 			}
 			event.preventDefault();
@@ -1023,7 +1023,7 @@
 		 * @param {object} event jQuery Event object
 		 */
 		removeFile: function( event ) {
-			if ( event.type === 'keydown' &&  13 !== event.which ) { // enter
+			if ( event.type === 'keydown' && 13 !== event.which ) { // enter
 				return;
  			}
 			event.preventDefault();
@@ -1075,17 +1075,17 @@
 
 			new api.HeaderTool.CurrentView({
 				model: api.HeaderTool.currentHeader,
-				el: '.current .container'
+				el: '#customize-control-header_image .current .container'
 			});
 
 			new api.HeaderTool.ChoiceListView({
 				collection: api.HeaderTool.UploadsList = new api.HeaderTool.ChoiceList(),
-				el: '.choices .uploaded .list'
+				el: '#customize-control-header_image .choices .uploaded .list'
 			});
 
 			new api.HeaderTool.ChoiceListView({
 				collection: api.HeaderTool.DefaultsList = new api.HeaderTool.DefaultsList(),
-				el: '.choices .default .list'
+				el: '#customize-control-header_image .choices .default .list'
 			});
 
 			api.HeaderTool.combinedList = api.HeaderTool.CombinedList = new api.HeaderTool.CombinedList([
@@ -2098,11 +2098,6 @@
 			event.preventDefault();
 		});
 
-		$('.upload-dropzone a.upload').keydown( function( event ) {
-			if ( 13 === event.which ) // enter
-				this.click();
-		});
-
 		$('.collapse-sidebar').on( 'click keydown', function( event ) {
 			if ( isKeydownButNotEnterEvent( event ) ) {
 				return;
@@ -2115,7 +2110,7 @@
 		// Bind site title display to the corresponding field.
 		if ( title.length ) {
 			$( '#customize-control-blogname input' ).on( 'input', function() {
-				title.text(  this.value );
+				title.text( this.value );
 			} );
 		}
 

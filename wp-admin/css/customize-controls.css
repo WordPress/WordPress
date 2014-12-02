@@ -420,32 +420,18 @@ p.customize-section-description {
 
 .customize-control .attachment-thumb.type-icon {
 	float: left;
-	margin-right: 12px;
+	margin: 10px;
+	width: auto;
 }
 
 .customize-control .attachment-title {
 	font-weight: bold;
-	margin: 0 0 12px 0;
+	margin: 0;
+	padding: 5px 10px;
 }
 
-.customize-control .remove-button {
-	margin-left: 8px;
-	vertical-align: middle;
-}
-
-.customize-control .thumbnail-audio .attachment-title,
-.customize-control .thumbnail.thumbnail-audio,
-.customize-control .thumbnail.thumbnail-video,
-.customize-control .thumbnail.thumbnail-image {
-	margin-bottom: 8px;
-}
-
-.customize-control .placeholder-text {
-	font-size: 18px;
-	font-weight: 300;
-	text-align: center;
-	color: #aaa;
-	cursor: default;
+.customize-control .thumbnail-image {
+	line-height: 0;
 }
 
 .customize-control .thumbnail-image img {
@@ -563,129 +549,6 @@ p.customize-section-description {
 	border-color: rgba(0, 0, 0, 0.25);
 }
 
-/*
- * Image Picker
- */
-.customize-control-image .library,
-.customize-control-image .actions {
-	display: none;
-	float: left;
-	width: 100%;
-}
-
-.customize-control-image.open .library,
-.customize-control-image.open .actions {
-	display: block;
-}
-
-.accordion-section .customize-control-image .dropdown-content {
-	height: auto;
-	min-height: 24px;
-	min-width: 40px;
-	padding: 0;
-}
-
-.accordion-section .customize-control-image .dropdown-status {
-	padding: 4px 5px;
-}
-
-.accordion-section .customize-control-image .preview-thumbnail img {
-	display: block;
-	width: 100%;
-	max-width: 122px;
-	max-height: 98px;
-	margin: 0 auto;
-}
-
-.accordion-section .customize-control-image .actions {
-	text-align: right;
-}
-
-.accordion-section .customize-control-image .library ul {
-	border-bottom: 1px solid #ddd;
-	float: left;
-	width: 100%;
-	margin: 10px 0 0;
-}
-
-.accordion-section .customize-control-image .library li {
-	color: #ccc;
-	float: left;
-	padding: 3px 15px;
-	margin: 0;
-	border: 1px solid transparent;
-}
-
-.accordion-section .customize-control-image .library li.library-selected {
-	margin-bottom: -1px;
-	padding-bottom: 4px;
-	color: #666666;
-	border-color: #ddd;
-	border-bottom-color: #fff;
-}
-
-.accordion-section .customize-control-image .library .thumbnail {
-	display: block;
-	width: 100%;
-}
-
-.accordion-section .customize-control-image .library .thumbnail img {
-	display: block;
-	max-width: 90%;
-	max-height: 80px;
-	margin: 5px auto;
-	padding: 2px;
-	background: #666666;
-}
-
-.accordion-section .customize-control-image .library .thumbnail:hover img {
-	background-color: #2ea2cc;
-}
-
-.accordion-section .customize-control-image .library-content {
-	display: none;
-	width: 100%;
-	float: left;
-	padding: 10px 0;
-}
-
-.accordion-section .customize-control-image .library-content.library-selected {
-	display: block;
-}
-
-.accordion-section .customize-control-upload .upload-fallback,
-.accordion-section .customize-control-image .upload-fallback {
-	display: none;
-}
-
-.accordion-section .customize-control-upload .upload-dropzone,
-.accordion-section .customize-control-image .upload-dropzone {
-	display: none;
-	padding: 15px 10px;
-	border: 3px dashed #dfdfdf;
-	margin: 5px auto;
-	text-align: center;
-	position: relative;
-	cursor: default;
-}
-
-.accordion-section .customize-control-upload .upload-dropzone.supports-drag-drop,
-.accordion-section .customize-control-image .upload-dropzone.supports-drag-drop {
-	display: block;
-	-webkit-transition: border-color 0.1s;
-	transition: border-color 0.1s;
-}
-
-.accordion-section .customize-control-upload .library ul li,
-.accordion-section .customize-control-image .library ul li {
-	cursor: pointer;
-}
-
-.accordion-section .customize-control-upload .upload-dropzone.supports-drag-drop.drag-over,
-.accordion-section .customize-control-image .upload-dropzone.supports-drag-drop.drag-over {
-	border-color: #83b4d8;
-}
-
 /**
  * iOS can't scroll iframes,
  * instead it expands the iframe size to match the size of the content
@@ -704,16 +567,18 @@ p.customize-section-description {
 
 /** Header control **/
 
-#customize-control-header_image .current {
+.customize-control-upload .current,
+.customize-control-image .current,
+.customize-control-header .current {
 	margin-bottom: 8px;
 }
 
-#customize-control-header_image .uploaded {
+.customize-control-header .uploaded {
 	margin-bottom: 18px;
 }
 
-#customize-control-header_image .uploaded button:not(.random),
-#customize-control-header_image .default button:not(.random) {
+.customize-control-header .uploaded button:not(.random),
+.customize-control-header .default button:not(.random) {
 	width: 100%;
 	padding: 0;
 	margin: 0;
@@ -723,21 +588,24 @@ p.customize-section-description {
 	cursor: pointer;
 }
 
-#customize-control-header_image button img {
+.customize-control-header button img {
 	display: block;
 }
 
-#customize-control-header_image button.new,
-#customize-control-header_image button.remove {
+.customize-control-upload .remove-button,
+.customize-control-upload .upload-button,
+.customize-control-image .remove-button,
+.customize-control-image .upload-button,
+.customize-control-header button.new,
+.customize-control-header button.remove {
 	white-space: normal;
 	width: 48%;
 	height: auto;
 }
 
-
-/* Header control: current image container */
-
-#customize-control-header_image .current .container {
+.customize-control-upload .current .container,
+.customize-control-image .current .container,
+.customize-control-header .current .container {
 	overflow: hidden;
 	-webkit-border-radius: 2px;
 	border: 1px solid #eee;
@@ -745,14 +613,23 @@ p.customize-section-description {
 	border-radius: 2px;
 }
 
-#customize-control-header_image .placeholder {
+.customize-control-upload .current .container,
+.customize-control-image .current .container {
+	min-height: 40px;
+}
+
+.customize-control-upload .placeholder,
+.customize-control-image .placeholder,
+.customize-control-header .placeholder {
 	width: 100%;
 	position: relative;
 	text-align: center;
 	cursor: default;
 }
 
-#customize-control-header_image .inner {
+.customize-control-upload .inner,
+.customize-control-image .inner,
+.customize-control-header .inner {
 	display: none;
 	position: absolute;
 	width: 100%;
@@ -762,31 +639,40 @@ p.customize-section-description {
 	overflow: hidden;
 }
 
-#customize-control-header_image .inner,
-#customize-control-header_image .inner .dashicons {
+.customize-control-upload .inner,
+.customize-control-image .inner {
+	display: block;
+	min-height: 40px;
+}
+
+.customize-control-upload .inner,
+.customize-control-image .inner,
+.customize-control-header .inner,
+.customize-control-header .inner .dashicons {
 	line-height: 20px;
 	top: 10px;
 }
-#customize-control-header_image .list .inner,
-#customize-control-header_image .list .inner .dashicons {
+
+.customize-control-header .list .inner,
+.customize-control-header .list .inner .dashicons {
 	top: 9px;
 }
 
-#customize-control-header_image .header-view {
+.customize-control-header .header-view {
 	position: relative;
 	width: 100%;
 	margin-bottom: 5px;
 }
 
-#customize-control-header_image .header-view:last-child {
+.customize-control-header .header-view:last-child {
 	margin-bottom: 0px;
 }
 
 /* Convoluted, but 'outline' support isn't good enough yet */
-#customize-control-header_image .header-view:after {
+.customize-control-header .header-view:after {
 	border: 0;
 }
-#customize-control-header_image .header-view.selected:after {
+.customize-control-header .header-view.selected:after {
 	content: '';
 	position: absolute;
 	height: auto;
@@ -795,13 +681,13 @@ p.customize-section-description {
 	-webkit-border-radius: 2px;
 	border-radius: 2px;
 }
-#customize-control-header_image .header-view.button.selected {
+.customize-control-header .header-view.button.selected {
 	border: 0;
 }
 
 /* Header control: overlay "close" button */
 
-#customize-control-header_image .uploaded .header-view .close {
+.customize-control-header .uploaded .header-view .close {
 	font-size: 2em;
 	color: grey;
 	position: absolute;
@@ -814,7 +700,7 @@ p.customize-section-description {
 	cursor: pointer;
 }
 
-#customize-control-header_image .uploaded .header-view .close:hover {
+.customize-control-header .uploaded .header-view .close:hover {
  color: black;
  text-shadow:
     -1px -1px 0 #fff,
@@ -823,32 +709,32 @@ p.customize-section-description {
     1px 1px 0 #fff;
 }
 
-#customize-control-header_image .header-view:hover .close {
+.customize-control-header .header-view:hover .close {
 	visibility: visible;
 }
 
 /* Header control: randomiz(s)er */
 
-#customize-control-header_image .random.placeholder {
+.customize-control-header .random.placeholder {
 	cursor: pointer;
 	-webkit-border-radius: 2px;
 	border-radius: 2px;
 	height: 40px;
 }
 
-#customize-control-header_image button.random {
+.customize-control-header button.random {
 	width: 100%;
 	height: auto;
 	min-height: 40px;
 	white-space: normal;
 }
 
-#customize-control-header_image button.random .dice {
+.customize-control-header button.random .dice {
 	margin-top: 4px;
 }
 
-#customize-control-header_image .placeholder:hover .dice,
-#customize-control-header_image .header-view:hover > button.random .dice {
+.customize-control-header .placeholder:hover .dice,
+.customize-control-header .header-view:hover > button.random .dice {
 	-webkit-animation: dice-color-change 3s infinite;
 	-ms-animation: dice-color-change 3s infinite;
 	animation: dice-color-change 3s infinite;
@@ -875,34 +761,40 @@ p.customize-section-description {
 	100% { color: #d4b146; }
 }
 
-/* Header control: actions and choices */
-
-#customize-control-header_image .actions {
+.customize-control-upload .actions,
+.customize-control-image .actions,
+.customize-control-header .actions {
 	margin-bottom: 32px;
 }
 
-#customize-control-header_image .choice {
+.customize-control-header .choice {
 	position: relative;
 	display: block;
 	margin-bottom: 9px;
 }
 
-#customize-control-header_image .uploaded div:last-child > .choice {
+.customize-control-header .uploaded div:last-child > .choice {
 	margin-bottom: 0;
 }
 
-#customize-control-header_image img {
+.customize-control-upload img,
+.customize-control-image img,
+.customize-control-header img {
 	width: 100%;
 	-webkit-border-radius: 2px;
 	border-radius: 2px;
 }
 
-#customize-control-header_image .remove {
+.customize-control-upload .remove-button
+.customize-control-image .remove-button
+.customize-control-header .remove {
 	float: left;
 	margin-right: 3px;
 }
 
-#customize-control-header_image .new {
+.customize-control-upload .upload-button,
+.customize-control-image .upload-button,
+.customize-control-header .new {
 	float: right;
 }
 

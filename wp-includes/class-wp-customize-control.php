@@ -747,58 +747,50 @@ class WP_Customize_Upload_Control extends WP_Customize_Control {
 		}
 
 		if ( data.attachment && data.attachment.id ) { #>
-			<div class="attachment-media-view {{ data.attachment.orientation }}">
-				<div class="thumbnail thumbnail-{{ data.attachment.type }}">
-					<# if ( 'image' === data.attachment.type && data.attachment.sizes && data.attachment.sizes.medium ) { #>
-						<img class="attachment-thumb" src="{{ data.attachment.sizes.medium.url }}" draggable="false" />
-					<# } else if ( 'image' === data.attachment.type && data.attachment.sizes && data.attachment.sizes.full ) { #>
-						<img class="attachment-thumb" src="{{ data.attachment.sizes.full.url }}" draggable="false" />
-					<# } else if ( -1 === jQuery.inArray( data.attachment.type, [ 'audio', 'video' ] ) ) { #>
-						<img class="attachment-thumb type-icon" src="{{ data.attachment.icon }}" class="icon" draggable="false" />
-						<p class="attachment-title">{{ data.attachment.title }}</p>
-					<# } #>
-
-					<# if ( 'audio' === data.attachment.type ) { #>
-					<div class="wp-media-wrapper">
-						<p class="attachment-title">{{ data.attachment.title }}</p>
-						<audio style="visibility: hidden" controls class="wp-audio-shortcode" width="100%" preload="none">
-							<source type="{{ data.attachment.mime }}" src="{{ data.attachment.url }}"/>
-						</audio>
-					</div>
-					<# } else if ( 'video' === data.attachment.type ) {
-						var w_rule = h_rule = '';
-						if ( data.attachment.width ) {
-							w_rule = 'width: ' + data.attachment.width + 'px;';
-						} else if ( wp.media.view.settings.contentWidth ) {
-							w_rule = 'width: ' + wp.media.view.settings.contentWidth + 'px;';
-						}
-						if ( data.attachment.height ) {
-							h_rule = 'height: ' + data.attachment.height + 'px;';
-						}
-						#>
-						<div style="{{ w_rule }}{{ h_rule }}" class="wp-media-wrapper wp-video">
-							<video controls="controls" class="wp-video-shortcode" preload="metadata"
-								<# if ( data.attachment.width ) { #>width="{{ data.attachment.width }}"<# } #>
-								<# if ( data.attachment.height ) { #>height="{{ data.attachment.height }}"<# } #>
-								<# if ( data.attachment.image && data.attachment.image.src !== data.attachment.icon ) { #>poster="{{ data.attachment.image.src }}"<# } #>>
-								<source type="{{ data.attachment.mime }}" src="{{ data.attachment.url }}"/>
-							</video>
+			<div class="current">
+				<div class="container">
+					<div class="attachment-media-view {{ data.attachment.orientation }}">
+						<div class="thumbnail thumbnail-{{ data.attachment.type }}">
+							<# if ( 'image' === data.attachment.type && data.attachment.sizes && data.attachment.sizes.medium ) { #>
+								<img class="attachment-thumb" src="{{ data.attachment.sizes.medium.url }}" draggable="false" />
+							<# } else if ( 'image' === data.attachment.type && data.attachment.sizes && data.attachment.sizes.full ) { #>
+								<img class="attachment-thumb" src="{{ data.attachment.sizes.full.url }}" draggable="false" />
+							<# } else { #>
+								<img class="attachment-thumb type-icon" src="{{ data.attachment.icon }}" class="icon" draggable="false" />
+								<p class="attachment-title">{{ data.attachment.title }}</p>
+							<# } #>
 						</div>
-					<# } #>
+					</div>
 				</div>
 			</div>
-			<a class="button upload-button" id="{{ data.settings.default }}-button" href="#"><?php echo $this->button_labels['change']; ?></a>
-			<# if ( data.defaultAttachment && data.defaultAttachment.id !== data.attachment.id ) { #>
-				<a class="default-button remove-button" href="#"><?php echo $this->button_labels['default']; ?></a>
-			<# } else { #>
-				<a class="remove-button" href="#"><?php echo $this->button_labels['remove']; ?></a>
-			<# } #>
+			<div class="actions">
+				<# if ( data.defaultAttachment && data.defaultAttachment.id !== data.attachment.id ) { #>
+					<button type="button" class="button default-button remove-button"><?php echo $this->button_labels['default']; ?></button>
+				<# } else if ( ! data.defaultAttachment ) { #>
+					<button type="button" class="button remove-button"><?php echo $this->button_labels['remove']; ?></button>
+				<# } #>
+				<button type="button" class="button upload-button" id="{{ data.settings.default }}-button"><?php echo $this->button_labels['change']; ?></button>
+				<div style="clear:both"></div>
+			</div>
 		<# } else { #>
-			<p class="placeholder-text"><?php echo $this->button_labels['placeholder']; ?></p>
-			<a class="button upload-button" id="{{ data.settings.default }}-button" href="#"><?php echo $this->button_labels['select']; ?></a>
-			<# if ( data.defaultAttachment ) { #>
-				<a class="default-button remove-button" href="#"><?php echo $this->button_labels['default']; ?></a>
-			<# } #>
+			<div class="current">
+				<div class="container">
+					<div class="placeholder">
+						<div class="inner">
+							<span>
+								<?php echo $this->button_labels['placeholder']; ?>
+							</span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="actions">
+				<# if ( data.defaultAttachment ) { #>
+					<button type="button" class="button default-button remove-button"><?php echo $this->button_labels['default']; ?></button>
+				<# } #>
+				<button type="button" class="button upload-button" id="{{ data.settings.default }}-button"><?php echo $this->button_labels['select']; ?></button>
+				<div style="clear:both"></div>
+			</div>
 		<# } #>
 		<?php
 	}
