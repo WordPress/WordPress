@@ -362,7 +362,7 @@ class Custom_Image_Header {
 	}
 
 	/**
-	 * Execute Javascript depending on step.
+	 * Execute JavaScript depending on step.
 	 *
 	 * @since 2.1.0
 	 */
@@ -375,7 +375,7 @@ class Custom_Image_Header {
 	}
 
 	/**
-	 * Display Javascript based on Step 1 and 3.
+	 * Display JavaScript based on Step 1 and 3.
 	 *
 	 * @since 2.6.0
 	 */
@@ -439,7 +439,7 @@ class Custom_Image_Header {
 	}
 
 	/**
-	 * Display Javascript based on Step 2.
+	 * Display JavaScript based on Step 2.
 	 *
 	 * @since 2.6.0
 	 */

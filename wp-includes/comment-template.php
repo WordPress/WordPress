@@ -1610,7 +1610,7 @@ function comment_id_fields( $id = 0 ) {
 /**
  * Display text based on comment reply status.
  *
- * Only affects users with Javascript disabled.
+ * Only affects users with JavaScript disabled.
  *
  * @since 2.7.0
  *

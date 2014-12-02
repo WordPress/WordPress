@@ -419,7 +419,7 @@ final class WP_Customize_Manager {
 	}
 
 	/**
-	 * Print javascript settings.
+	 * Print JavaScript settings.
 	 *
 	 * @since 3.4.0
 	 */
@@ -492,7 +492,7 @@ final class WP_Customize_Manager {
 	}
 
 	/**
-	 * Print javascript settings for preview frame.
+	 * Print JavaScript settings for preview frame.
 	 *
 	 * @since 3.4.0
 	 */

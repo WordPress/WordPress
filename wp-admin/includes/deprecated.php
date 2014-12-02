@@ -208,7 +208,7 @@ function codepress_get_lang( $filename ) {
 }
 
 /**
- * Adds Javascript required to make CodePress work on the theme/plugin editors.
+ * Adds JavaScript required to make CodePress work on the theme/plugin editors.
  *
  * @since 2.8.0
  * @deprecated 3.0.0

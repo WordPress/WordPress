@@ -1608,7 +1608,7 @@ document.body.className = c;
 function iframe_footer() {
 	/*
 	 * We're going to hide any footer output on iFrame pages,
-	 * but run the hooks anyway since they output Javascript
+	 * but run the hooks anyway since they output JavaScript
 	 * or other needed content.
 	 */
 	 ?>
@@ -1949,7 +1949,7 @@ final class WP_Internal_Pointers {
 	}
 
 	/**
-	 * Print the pointer javascript data.
+	 * Print the pointer JavaScript data.
 	 *
 	 * @since 3.3.0
 	 *

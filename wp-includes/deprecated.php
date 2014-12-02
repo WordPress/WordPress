@@ -2501,7 +2501,7 @@ function funky_javascript_callback($matches) {
 }
 
 /**
- * Fixes javascript bugs in browsers.
+ * Fixes JavaScript bugs in browsers.
  *
  * Converts unicode characters to HTML numbered entities.
  *
@@ -2515,7 +2515,7 @@ function funky_javascript_callback($matches) {
  */
 function funky_javascript_fix($text) {
 	_deprecated_function( __FUNCTION__, '3.0' );
-	// Fixes for browsers' javascript bugs
+	// Fixes for browsers' JavaScript bugs.
 	global $is_macIE, $is_winIE;
 
 	if ( $is_winIE || $is_macIE )

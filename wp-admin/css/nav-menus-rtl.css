@@ -527,7 +527,7 @@ li.menu-item.ui-sortable-helper .menu-item-transport dl {
 	margin-top: 13px;
 }
 
-/* WARNING: The factor of 30px is hardcoded into the nav-menus javascript. */
+/* WARNING: The factor of 30px is hardcoded into the nav-menus JavaScript. */
 .menu-item-depth-0 { margin-right: 0px; }
 .menu-item-depth-1 { margin-right: 30px; }
 .menu-item-depth-2 { margin-right: 60px; }
