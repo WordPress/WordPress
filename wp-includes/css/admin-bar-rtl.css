@@ -1054,7 +1054,6 @@ html:lang(he-il) .rtl #wpadminbar *  {
 	}
 
 	#wpadminbar .ab-top-menu > .menupop > .ab-sub-wrapper {
-		position: fixed;
 		width: 100%;
 		right: 0;
 	}
