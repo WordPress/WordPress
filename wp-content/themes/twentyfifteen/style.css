@@ -2459,13 +2459,8 @@ video {
 p > embed,
 p > iframe,
 p > object,
-p > video,
-span > embed,
-span > iframe,
-span > object,
-span > video {
+p > video {
 	margin-bottom: 0;
-	max-width: 100%;
 }
 
 .wp-audio-shortcode,
