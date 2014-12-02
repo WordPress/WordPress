@@ -112,11 +112,13 @@ class WP_Customize_Section {
 	public $controls;
 
 	/**
+	 * Type of this section.
+	 *
 	 * @since 4.1.0
 	 * @access public
 	 * @var string
 	 */
-	public $type;
+	public $type = 'default';
 
 	/**
 	 * Active callback.
@@ -292,7 +294,7 @@ class WP_Customize_Section {
 	 * @since 3.4.0
 	 */
 	protected function render() {
-		$classes = 'control-section accordion-section';
+		$classes = 'accordion-section control-section control-section-' . $this->type;
 		?>
 		<li id="accordion-section-<?php echo esc_attr( $this->id ); ?>" class="<?php echo esc_attr( $classes ); ?>">
 			<h3 class="accordion-section-title" tabindex="0">
@@ -324,6 +326,8 @@ class WP_Customize_Section {
 class WP_Customize_Sidebar_Section extends WP_Customize_Section {
 
 	/**
+	 * Type of this section.
+	 *
 	 * @since 4.1.0
 	 * @access public
 	 * @var string

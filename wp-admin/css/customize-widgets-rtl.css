@@ -7,11 +7,11 @@
  * preview loads and we know whether the sidebars are used in the template.
  */
 
-.control-section[id^="accordion-section-sidebar-widgets-"],
+.control-section.control-section-sidebar,
 .customize-control-sidebar_widgets label,
 .customize-control-sidebar_widgets .hide-if-js {
 	/* The link in .customize-control-sidebar_widgets .hide-if-js will fail if it ever gets used. */
-	display:none;
+	display: none;
 }
 
 .customize-control-widget_form .widget-top {

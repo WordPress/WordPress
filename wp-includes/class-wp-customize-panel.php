@@ -103,11 +103,13 @@ class WP_Customize_Panel {
 	public $sections;
 
 	/**
+	 * Type of this panel.
+	 *
 	 * @since 4.1.0
 	 * @access public
 	 * @var string
 	 */
-	public $type;
+	public $type = 'default';
 
 	/**
 	 * Active callback.
@@ -285,8 +287,9 @@ class WP_Customize_Panel {
 	 * @access protected
 	 */
 	protected function render() {
+		$classes = 'accordion-section control-section control-panel control-panel-' . $this->type;
 		?>
-		<li id="accordion-panel-<?php echo esc_attr( $this->id ); ?>" class="control-section control-panel accordion-section">
+		<li id="accordion-panel-<?php echo esc_attr( $this->id ); ?>" class="<?php echo esc_attr( $classes ); ?>">
 			<h3 class="accordion-section-title" tabindex="0">
 				<?php echo esc_html( $this->title ); ?>
 				<span class="screen-reader-text"><?php _e( 'Press return or enter to open this panel' ); ?></span>
