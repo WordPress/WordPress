@@ -91,7 +91,8 @@ if ( ! is_multisite() ) {
 		'<p>' . __('If you want site visitors to be able to register themselves, as opposed to by the site administrator, check the membership box. A default user role can be set for all new users, whether self-registered or registered by the site admin.') . '</p>';
 }
 
-$options_help .= '<p>' . __('UTC means Coordinated Universal Time.') . '</p>' .
+$options_help .= '<p>' . __( 'You can set the language, and the translation files will be automatically downloaded and installed (available if your filesystem is writable).' ) . '</p>' .
+	'<p>' . __( 'UTC means Coordinated Universal Time.' ) . '</p>' .
 	'<p>' . __( 'You must click the Save Changes button at the bottom of the screen for new settings to take effect.' ) . '</p>';
 
 get_current_screen()->add_help_tab( array(

@@ -281,7 +281,11 @@ if ( 'post' == $post_type ) {
 	) );
 
 	$title_and_editor  = '<p>' . __('<strong>Title</strong> - Enter a title for your post. After you enter a title, you&#8217;ll see the permalink below, which you can edit.') . '</p>';
-	$title_and_editor .= '<p>' . __('<strong>Post editor</strong> - Enter the text for your post. There are two modes of editing: Visual and Text. Choose the mode by clicking on the appropriate tab. Visual mode gives you a WYSIWYG editor. Click the last icon in the row to get a second row of controls. The Text mode allows you to enter HTML along with your post text. Line breaks will be converted to paragraphs automatically. You can insert media files by clicking the icons above the post editor and following the directions. You can go to the distraction-free writing screen via the Fullscreen icon in Visual mode (second to last in the top row) or the Fullscreen button in Text mode (last in the row). Once there, you can make buttons visible by hovering over the top area. Exit Fullscreen back to the regular post editor.') . '</p>';
+	$title_and_editor .= '<p>' . __( '<strong>Post editor</strong> - Enter the text for your post. There are two modes of editing: Visual and Text. Choose the mode by clicking on the appropriate tab.' ) . '</p>';
+	$title_and_editor .= '<p>' . __( 'Visual mode gives you a WYSIWYG editor. Click the last icon in the row to get a second row of controls. ') . '</p>';
+	$title_and_editor .= '<p>' . __( 'The Text mode allows you to enter HTML along with your post text. Line breaks will be converted to paragraphs automatically.' ) . '</p>';
+	$title_and_editor .= '<p>' . __( 'You can insert media files by clicking the icons above the post editor and following the directions. You can align or edit images using the inline formatting toolbar available in Visual mode.' ) . '</p>';
+	$title_and_editor .= '<p>' . __( 'You can enable distraction-free writing via the Fullscreen icon (last in the top row). This feature is not available for old browsers or devices with small screens, and requires that Editor Expand be enabled in Screen Options.' ) . '</p>';
 	$title_and_editor .= '<p>' . __( 'Keyboard users: When you&#8217;re working in the visual editor, you can use <kbd>Alt + F10</kbd> to access the toolbar.' ) . '</p>';
 
 	get_current_screen()->add_help_tab( array(
