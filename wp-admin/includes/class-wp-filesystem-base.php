@@ -317,7 +317,7 @@ class WP_Filesystem_Base {
 			 */
 			if ( isset($files[ $key ]) ){
 
-				// Lets try that folder:
+				// Let's try that folder:
 				$newdir = trailingslashit(path_join($base, $key));
 				if ( $this->verbose )
 					printf( "\n" . __('Changing to %s') . "<br/>\n", $newdir );

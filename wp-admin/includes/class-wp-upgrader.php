@@ -707,7 +707,7 @@ class Plugin_Upgrader extends WP_Upgrader {
 			return $source;
 
 		$working_directory = str_replace( $wp_filesystem->wp_content_dir(), trailingslashit(WP_CONTENT_DIR), $source);
-		if ( ! is_dir($working_directory) ) // Sanity check, if the above fails, lets not prevent installation.
+		if ( ! is_dir($working_directory) ) // Sanity check, if the above fails, let's not prevent installation.
 			return $source;
 
 		// Check the folder contains at least 1 valid plugin.
@@ -850,7 +850,7 @@ class Theme_Upgrader extends WP_Upgrader {
 			return $install_result;
 		}
 
-		// We don't have the parent theme, lets install it
+		// We don't have the parent theme, let's install it.
 		$api = themes_api('theme_information', array('slug' => $theme_info->get('Template'), 'fields' => array('sections' => false, 'tags' => false) ) ); //Save on a bit of bandwidth.
 
 		if ( ! $api || is_wp_error($api) ) {
@@ -1095,7 +1095,7 @@ class Theme_Upgrader extends WP_Upgrader {
 
 		// Check the folder contains a valid theme
 		$working_directory = str_replace( $wp_filesystem->wp_content_dir(), trailingslashit(WP_CONTENT_DIR), $source);
-		if ( ! is_dir($working_directory) ) // Sanity check, if the above fails, lets not prevent installation.
+		if ( ! is_dir($working_directory) ) // Sanity check, if the above fails, let's not prevent installation.
 			return $source;
 
 		// A proper archive should have a style.css file in the single subdirectory
@@ -2101,7 +2101,7 @@ class WP_Automatic_Updater {
 			$upgrade_result = new WP_Error( 'fs_unavailable', __( 'Could not access filesystem.' ) );
 		}
 
-		// Core doesn't output this, so lets append it so we don't get confused.
+		// Core doesn't output this, so let's append it so we don't get confused.
 		if ( 'core' == $type ) {
 			if ( is_wp_error( $upgrade_result ) ) {
 				$skin->error( __( 'Installation Failed' ), $upgrade_result );
