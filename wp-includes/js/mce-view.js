@@ -56,9 +56,9 @@ window.wp = window.wp || {};
 				this.setContent(
 					'<p class="wpview-selection-before">\u00a0</p>' +
 					'<div class="wpview-body" contenteditable="false">' +
-						'<div class="toolbar">' +
+						'<div class="toolbar mce-arrow-down">' +
 							( _.isFunction( views[ this.type ].edit ) ? '<div class="dashicons dashicons-edit edit"></div>' : '' ) +
-							'<div class="dashicons dashicons-no-alt remove"></div>' +
+							'<div class="dashicons dashicons-no remove"></div>' +
 						'</div>' +
 						'<div class="wpview-content wpview-type-' + this.type + '">' +
 							( this.getHtml() || this.loadingPlaceholder() ) +
