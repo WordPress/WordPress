@@ -26,8 +26,13 @@ if ( current_user_can( 'switch_themes' ) && isset($_GET['action'] ) ) {
 		$theme = wp_get_theme( $_GET['stylesheet'] );
 		if ( !current_user_can('delete_themes') || ! $theme->exists() )
 			wp_die( __( 'Cheatin&#8217; uh?' ), 403 );
-		delete_theme($_GET['stylesheet']);
-		wp_redirect( admin_url('themes.php?deleted=true') );
+		$active = wp_get_theme();
+		if ( $active->get( 'Template' ) == $_GET['stylesheet'] ) {
+			wp_redirect( admin_url( 'themes.php?delete-active-child=true' ) );
+		} else {
+			delete_theme( $_GET['stylesheet'] );
+			wp_redirect( admin_url( 'themes.php?deleted=true' ) );
+		}
 		exit;
 	}
 }
@@ -133,6 +138,8 @@ if ( ! validate_current_theme() || isset( $_GET['broken'] ) ) : ?>
 		}
 	elseif ( isset($_GET['deleted']) ) : ?>
 <div id="message3" class="updated"><p><?php _e('Theme deleted.') ?></p></div>
+<?php elseif ( isset( $_GET['delete-active-child'] ) ) : ?>
+	<div id="message4" class="error"><p><?php _e( 'You cannot delete a theme while it has an active child theme.' ); ?></p></div>
 <?php
 endif;
 
