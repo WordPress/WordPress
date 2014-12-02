@@ -2044,7 +2044,7 @@ final class WP_Internal_Pointers {
 
 	public static function pointer_wp410_dfw() {
 		// Don't show when editor-scrolling is not used.
-		if ( empty( $GLOBALS['_content_editor_dfw'] ) ) {
+		if ( empty( $GLOBALS['_wp_editor_expand'] ) ) {
 			return;
 		}
 
