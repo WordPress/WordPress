@@ -1283,6 +1283,7 @@ table.links-table {
 	transition-property: opacity;
 	-webkit-transition-timing-function: ease-in-out;
 	transition-timing-function: ease-in-out;
+	transform: translateZ(0);
 }
 
 .focus-on #adminmenuback,
