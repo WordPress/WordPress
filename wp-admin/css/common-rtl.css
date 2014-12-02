@@ -223,6 +223,11 @@ body.modal-open {
 	overflow: hidden;
 }
 
+body.mobile.modal-open #wpwrap {
+	overflow: hidden;
+	height: 100%;
+}
+
 iframe,
 img {
 	border: 0;
