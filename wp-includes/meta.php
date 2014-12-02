@@ -493,10 +493,6 @@ function get_metadata($meta_type, $object_id, $meta_key = '', $single = false) {
 	}
 
 	if ( ! $meta_key ) {
-		foreach ( $meta_cache as &$meta_values ) {
-			$meta_values = array_map( 'maybe_unserialize', $meta_values );
-		}
-
 		return $meta_cache;
 	}
 
