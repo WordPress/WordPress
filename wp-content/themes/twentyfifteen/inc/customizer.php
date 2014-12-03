@@ -308,14 +308,12 @@ function twentyfifteen_color_scheme_css_template() {
 	input[type="submit"],
 	.pagination .prev,
 	.pagination .next,
-	.pagination .prev:before,
-	.pagination .next:before,
 	.widget_calendar tbody a,
 	.widget_calendar tbody a:hover,
 	.widget_calendar tbody a:focus,
-	.entry-content .page-links a,
-	.entry-content .page-links a:hover,
-	.entry-content .page-links a:focus,
+	.page-links a,
+	.page-links a:hover,
+	.page-links a:focus,
 	.sticky-post {
 		color: {{ data.box_background_color }};
 	}

@@ -2196,11 +2196,6 @@ a.post-thumbnail:focus {
 	padding-left: 0.8em;
 }
 
-.comment-list .children article {
-	border-color: #f5f5f5;
-	border-color: rgba(51, 51, 51, 0.05);
-}
-
 .comment-author {
 	color: #707070;
 	color: rgba(51, 51, 51, 0.7);
@@ -2243,7 +2238,7 @@ a.post-thumbnail:focus {
 }
 
 .comment-metadata a:hover,
-.pingback .edit-link a:hover{
+.pingback .edit-link a:hover {
 	border-bottom: 1px solid #333;
 }
 
@@ -3525,12 +3520,6 @@ p > video {
 	.entry-caption {
 		font-size: 16px;
 		font-size: 1.6rem;
-	}
-
-	.post-navigation .post-title {
-		font-size: 24px;
-		font-size: 2.4rem;
-		line-height: 1.1667;
 	}
 
 	.pagination .nav-links {
