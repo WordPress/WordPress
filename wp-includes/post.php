@@ -4392,32 +4392,35 @@ function get_page_uri( $page ) {
  * @param array|string $args {
  *     Optional. Array or string of arguments to retrieve pages.
  *
- *     @type int    $child_of     Page ID to return child and grandchild pages of. Default 0, or no restriction.
- *     @type string $sort_order   How to sort retrieved pages.
- *                                Default 'ASC'. Accepts 'ASC', 'DESC'.
- *     @type string $sort_column  What columns to sort pages by, comma-separated.
- *                                Default 'post_title'. Accepts 'post_author', 'post_date', 'post_title', 'post_name',
- *                                'post_modified', 'post_modified_gmt', 'menu_order', 'post_parent', 'ID', 'rand',
- *                                'comment_count'. 'post_' can be omitted for any values that start with it.
- *     @type bool   $hierarchical Whether to return pages hierarchically. Default true.
- *     @type array  $exclude      Array of page IDs to exclude.
- *     @type array  $include      Array of page IDs to include. Cannot be used with 'child_of', 'parent', 'exclude',
- *                                'meta_key', 'meta_value', or 'hierarchical'.
- *     @type string $meta_key     Only include pages with this meta key.
- *     @type string $meta_value   Only include pages with this meta value.
- *     @type string $authors      A comma-separated list of author IDs.
- *     @type int    $parent       Page ID to return direct children of. 'hierarchical' must be false.
- *                                Default -1, or no restriction.
- *     @type int    $exclude_tree Remove all children of the given ID from returned pages.
- *     @type int    $number       The number of pages to return. Default 0, or all pages.
- *     @type int    $offset       The number of pages to skip before returning. Requires 'number'.
- *                                Default 0.
- *     @type string $post_type    The post type to query.
- *                                Default 'page'.
- *     @type string $post_status  A comma-separated list of post status types to include.
- *                                Default 'publish'.
+ *     @type int          $child_of     Page ID to return child and grandchild pages of.
+ *                                      Default 0, or no restriction.
+ *     @type string       $sort_order   How to sort retrieved pages. Accepts 'ASC', 'DESC'. Default 'ASC'.
+ *     @type string       $sort_column  What columns to sort pages by, comma-separated. Accepts 'post_author',
+ *                                      'post_date', 'post_title', 'post_name', 'post_modified', 'menu_order',
+ *                                      'post_modified_gmt', 'post_parent', 'ID', 'rand', 'comment_count'.
+ *                                      'post_' can be omitted for any values that start with it.
+ *                                      Default 'post_title'.
+ *     @type bool         $hierarchical Whether to return pages hierarchically. Default true.
+ *     @type array        $exclude      Array of page IDs to exclude. Default empty array.
+ *     @type array        $include      Array of page IDs to include. Cannot be used with `$child_of`,
+ *                                      `$parent`, `$exclude`, `$meta_key`, `$meta_value`, or `$hierarchical`.
+ *                                      Default empty array.
+ *     @type string       $meta_key     Only include pages with this meta key. Default empty.
+ *     @type string       $meta_value   Only include pages with this meta value. Requires `$meta_key`.
+ *                                      Default empty.
+ *     @type string       $authors      A comma-separated list of author IDs. Default empty.
+ *     @type int          $parent       Page ID to return direct children of. `$hierarchical` must be false.
+ *                                      Default -1, or no restriction.
+ *     @type string|array $exclude_tree Comma-separated string or array of page IDs to exclude.
+ *                                      Default empty array.
+ *     @type int          $number       The number of pages to return. Default 0, or all pages.
+ *     @type int          $offset       The number of pages to skip before returning. Requires `$number`.
+ *                                      Default 0.
+ *     @type string       $post_type    The post type to query. Default 'page'.
+ *     @type string       $post_status  A comma-separated list of post status types to include.
+ *                                      Default 'publish'.
  * }
- * @return array List of pages matching defaults or $args.
+ * @return array List of pages matching defaults or `$args`.
  */
 function get_pages( $args = array() ) {
 	global $wpdb;
