@@ -2053,12 +2053,12 @@ final class WP_Internal_Pointers {
 			. 'Move your mouse out of the editor to reveal everything again.' ) . '</p>';
 
 		if ( is_rtl() ) {
-			$position = array( 'edge' => 'left', 'align' => 'left', 'my' => 'left-5 top-30%' );
+			$position = array( 'edge' => 'left', 'align' => 'center', 'my' => 'left+40 top-11', 'at' => 'left top' );
 		} else {
-			$position = array( 'edge' => 'right', 'align' => 'right', 'my' => 'right+5 top-30%' );
+			$position = array( 'edge' => 'right', 'align' => 'center', 'my' => 'right-40 top-11', 'at' => 'right top' );
 		}
 
-		self::print_js( 'wp410_dfw', '#content-html', array(
+		self::print_js( 'wp410_dfw', '#wp-content-wrap', array(
 			'content' => $content,
 			'position' => $position,
 		) );
