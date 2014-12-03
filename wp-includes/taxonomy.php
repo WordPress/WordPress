@@ -2761,20 +2761,18 @@ function wp_get_object_terms($object_ids, $taxonomies, $args = array()) {
  * @since 2.3.0
  *
  * @param string       $term     The term to add or update.
- * @param string       $taxonomy The taxonomy to which to add the term
+ * @param string       $taxonomy The taxonomy to which to add the term.
  * @param array|string $args {
- *     Arguments to change values of the inserted term.
+ *     Optional. Array or string of arguments for inserting a term.
  *
- *     @type string 'alias_of'    Slug of the term to make this term an alias of.
- *                                Default empty string. Accepts a term slug.
- *     @type string 'description' The term description.
- *                                Default empty string.
- *     @type int    'parent'      The id of the parent term.
- *                                Default 0.
- *     @type string 'slug'        The term slug to use.
- *                                Default empty string.
+ *     @type string $alias_of    Slug of the term to make this term an alias of.
+ *                               Default empty string. Accepts a term slug.
+ *     @type string $description The term description. Default empty string.
+ *     @type int    $parent      The id of the parent term. Default 0.
+ *     @type string $slug        The term slug to use. Default empty string.
  * }
- * @return array|WP_Error An array containing the term_id and term_taxonomy_id, WP_Error otherwise.
+ * @return array|WP_Error An array containing the `term_id` and `term_taxonomy_id`,
+ *                        {@see WP_Error} otherwise.
  */
 function wp_insert_term( $term, $taxonomy, $args = array() ) {
 	global $wpdb;
