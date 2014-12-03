@@ -1172,8 +1172,8 @@ function wp_kses_bad_protocol_once2( $string, $allowed_protocols ) {
 /**
  * Converts and fixes HTML entities.
  *
- * This function normalizes HTML entities. It will convert "AT&T" to the correct
- * "AT&amp;T", "&#00058;" to "&#58;", "&#XYZZY;" to "&amp;#XYZZY;" and so on.
+ * This function normalizes HTML entities. It will convert `AT&T` to the correct
+ * `AT&amp;T", "&#00058;" to "&#58;", "&#XYZZY;" to "&amp;#XYZZY;` and so on.
  *
  * @since 1.0.0
  *
@@ -1218,8 +1218,8 @@ function wp_kses_named_entities($matches) {
 /**
  * Callback for wp_kses_normalize_entities() regular expression.
  *
- * This function helps wp_kses_normalize_entities() to only accept 16-bit values
- * and nothing more for &#number; entities.
+ * This function helps {@see wp_kses_normalize_entities()} to only accept 16-bit
+ * values and nothing more for `&#number;` entities.
  *
  * @access private
  * @since 1.0.0
@@ -1277,9 +1277,9 @@ function valid_unicode($i) {
 /**
  * Convert all entities to their character counterparts.
  *
- * This function decodes numeric HTML entities (&#65; and &#x41;). It doesn't do
- * anything with other entities like &auml;, but we don't need them in the URL
- * protocol whitelisting system anyway.
+ * This function decodes numeric HTML entities (`&#65;` and `&#x41;`).
+ * It doesn't do anything with other entities like &auml;, but we don't
+ * need them in the URL protocol whitelisting system anyway.
  *
  * @since 1.0.0
  *
