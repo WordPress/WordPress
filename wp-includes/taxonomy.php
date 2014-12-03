@@ -441,7 +441,7 @@ function register_taxonomy( $taxonomy, $object_type, $args = array() ) {
  * - popular_items - This string isn't used on hierarchical taxonomies. Default is Popular Tags
  * - all_items - Default is All Tags/All Categories
  * - parent_item - This string isn't used on non-hierarchical taxonomies. In hierarchical ones the default is Parent Category
- * - parent_item_colon - The same as `parent_item`, but with colon `:ё in the end
+ * - parent_item_colon - The same as `parent_item`, but with colon `:` in the end
  * - edit_item - Default is Edit Tag/Edit Category
  * - view_item - Default is View Tag/View Category
  * - update_item - Default is Update Tag/Update Category
