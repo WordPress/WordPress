@@ -975,7 +975,7 @@ final class WP_Screen {
 			case 'post' :
 				$expand = '<div class="editor-expand hidden"><label for="editor-expand-toggle">';
 				$expand .= '<input type="checkbox" id="editor-expand-toggle"' . checked( get_user_setting( 'editor_expand', 'on' ), 'on', false ) . ' />';
-				$expand .= __( 'Expand the editor to match the window height, and enable distraction-free writing.' ) . '</label></div>';
+				$expand .= __( 'Enable full-height editor and distraction-free functionality.' ) . '</label></div>';
 				$this->_screen_settings = $expand;
 				break;
 			default:
