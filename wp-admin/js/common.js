@@ -247,6 +247,13 @@ $(document).ready( function() {
 		$( document ).trigger( 'wp-collapse-menu', { state: state } );
 	});
 
+	/**
+	 * Ensure an admin submenu is within the visual viewport.
+	 *
+	 * @since 4.1.0
+	 *
+	 * @param {jQuery} $menuItem The parent menu item containing the submenu.
+	 */
 	function adjustSubmenu( $menuItem ) {
 		var bottomOffset, pageHeight, adjustment, theFold, menutop, wintop, maxtop,
 			$submenu = $menuItem.find( '.wp-submenu' );

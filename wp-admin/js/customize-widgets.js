@@ -409,6 +409,9 @@
 			completeCallback: $.noop
 		},
 
+		/**
+		 * @since 4.1.0
+		 */
 		initialize: function ( id, options ) {
 			var control = this;
 			api.Control.prototype.initialize.call( control, id, options );
@@ -800,8 +803,11 @@
 		 *
 		 * Overrides api.Control.toggle()
 		 *
-		 * @param {Boolean} active
-		 * @param {Object} args
+		 * @since 4.1.0
+		 *
+		 * @param {Boolean}   active
+		 * @param {Object}    args
+		 * @param {Callback}  args.completeCallback
 		 */
 		onChangeActive: function ( active, args ) {
 			// Note: there is a second 'args' parameter being passed, merged on top of this.defaultActiveArguments
@@ -1134,6 +1140,8 @@
 		},
 
 		/**
+		 * @since 4.1.0
+		 *
 		 * @param {Boolean} expanded
 		 * @param {Object} [params]
 		 * @returns {Boolean} false if state already applied
@@ -1141,6 +1149,8 @@
 		_toggleExpanded: api.Section.prototype._toggleExpanded,
 
 		/**
+		 * @since 4.1.0
+		 *
 		 * @param {Object} [params]
 		 * @returns {Boolean} false if already expanded
 		 */
@@ -1149,13 +1159,15 @@
 		/**
 		 * Expand the widget form control
 		 *
-		 * @deprecated alias of expand()
+		 * @deprecated 4.1.0 Use this.expand() instead.
 		 */
 		expandForm: function() {
 			this.expand();
 		},
 
 		/**
+		 * @since 4.1.0
+		 *
 		 * @param {Object} [params]
 		 * @returns {Boolean} false if already collapsed
 		 */
@@ -1164,7 +1176,7 @@
 		/**
 		 * Collapse the widget form control
 		 *
-		 * @deprecated alias of expand()
+		 * @deprecated 4.1.0 Use this.collapse() instead.
 		 */
 		collapseForm: function() {
 			this.collapse();
@@ -1378,6 +1390,8 @@
 
 		/**
 		 * Sync the section's active state back to the Backbone model's is_rendered attribute
+		 *
+		 * @since 4.1.0
 		 */
 		ready: function () {
 			var section = this, registeredSidebar;

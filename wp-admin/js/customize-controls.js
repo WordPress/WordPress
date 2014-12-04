@@ -38,8 +38,10 @@
 	/**
 	 * Watch all changes to Value properties, and bubble changes to parent Values instance
 	 *
+	 * @since 4.1.0
+	 *
 	 * @param {wp.customize.Class} instance
-	 * @param {Array} properties  The names of the Value instances to watch.
+	 * @param {Array}              properties  The names of the Value instances to watch.
 	 */
 	api.utils.bubbleChildValueChanges = function ( instance, properties ) {
 		$.each( properties, function ( i, key ) {
@@ -54,7 +56,10 @@
 	/**
 	 * Expand a panel, section, or control and focus on the first focusable element.
 	 *
-	 * @param {Object} [params]
+	 * @since 4.1.0
+	 *
+	 * @param {Object}   [params]
+	 * @param {Callback} [params.completeCallback]
 	 */
 	focus = function ( params ) {
 		var construct, completeCallback, focus;
@@ -85,6 +90,8 @@
 	 *
 	 * If a.priority() === b.priority(), then sort by their respective params.instanceNumber.
 	 *
+	 * @since 4.1.0
+	 *
 	 * @param {(wp.customize.Panel|wp.customize.Section|wp.customize.Control)} a
 	 * @param {(wp.customize.Panel|wp.customize.Section|wp.customize.Control)} b
 	 * @returns {Number}
@@ -100,6 +107,8 @@
 	/**
 	 * Return whether the supplied Event object is for a keydown event but not the Enter key.
 	 *
+	 * @since 4.1.0
+	 *
 	 * @param {jQuery.Event} event
 	 * @returns {boolean}
 	 */
@@ -109,6 +118,8 @@
 
 	/**
 	 * Return whether the two lists of elements are the same and are in the same order.
+	 *
+	 * @since 4.1.0
 	 *
 	 * @param {Array|jQuery} listA
 	 * @param {Array|jQuery} listB
@@ -128,7 +139,9 @@
 	};
 
 	/**
-	 * Base class for Panel and Section
+	 * Base class for Panel and Section.
+	 *
+	 * @since 4.1.0
 	 *
 	 * @class
 	 * @augments wp.customize.Class
@@ -137,6 +150,12 @@
 		defaultActiveArguments: { duration: 'fast', completeCallback: $.noop },
 		defaultExpandedArguments: { duration: 'fast', completeCallback: $.noop },
 
+		/**
+		 * @since 4.1.0
+		 *
+		 * @param {String} id
+		 * @param {Object} options
+		 */
 		initialize: function ( id, options ) {
 			var container = this;
 			container.id = id;
@@ -175,12 +194,16 @@
 		},
 
 		/**
+		 * @since 4.1.0
+		 *
 		 * @abstract
 		 */
 		ready: function() {},
 
 		/**
 		 * Get the child models associated with this parent, sorting them by their priority Value.
+		 *
+		 * @since 4.1.0
 		 *
 		 * @param {String} parentType
 		 * @param {String} childType
@@ -200,6 +223,9 @@
 
 		/**
 		 * To override by subclass, to return whether the container has active children.
+		 *
+		 * @since 4.1.0
+		 *
 		 * @abstract
 		 */
 		isContextuallyActive: function () {
@@ -208,13 +234,18 @@
 
 		/**
 		 * Handle changes to the active state.
+		 *
 		 * This does not change the active state, it merely handles the behavior
 		 * for when it does change.
 		 *
 		 * To override by subclass, update the container's UI to reflect the provided active state.
 		 *
+		 * @since 4.1.0
+		 *
 		 * @param {Boolean} active
-		 * @param {Object} args  merged on top of this.defaultActiveArguments
+		 * @param {Object}  args
+		 * @param {Object}  args.duration
+		 * @param {Object}  args.completeCallback
 		 */
 		onChangeActive: function ( active, args ) {
 			var duration = ( 'resolved' === api.previewer.deferred.active.state() ? args.duration : 0 );
@@ -230,8 +261,10 @@
 		},
 
 		/**
+		 * @since 4.1.0
+		 *
 		 * @params {Boolean} active
-		 * @param {Object} [params]
+		 * @param {Object}   [params]
 		 * @returns {Boolean} false if state already applied
 		 */
 		_toggleActive: function ( active, params ) {
@@ -317,14 +350,18 @@
 	});
 
 	/**
+	 * @since 4.1.0
+	 *
 	 * @class
 	 * @augments wp.customize.Class
 	 */
 	api.Section = Container.extend({
 
 		/**
+		 * @since 4.1.0
+		 *
 		 * @param {String} id
-		 * @param {Array} options
+		 * @param {Array}  options
 		 */
 		initialize: function ( id, options ) {
 			var section = this;
@@ -346,6 +383,8 @@
 
 		/**
 		 * Embed the container in the DOM when any parent panel is ready.
+		 *
+		 * @since 4.1.0
 		 */
 		embed: function () {
 			var section = this, inject;
@@ -379,7 +418,9 @@
 		},
 
 		/**
-		 * Add behaviors for the accordion section
+		 * Add behaviors for the accordion section.
+		 *
+		 * @since 4.1.0
 		 */
 		attachEvents: function () {
 			var section = this;
@@ -402,7 +443,9 @@
 		/**
 		 * Return whether this section has any active controls.
 		 *
-		 * @returns {boolean}
+		 * @since 4.1.0
+		 *
+		 * @returns {Boolean}
 		 */
 		isContextuallyActive: function () {
 			var section = this,
@@ -419,6 +462,8 @@
 		/**
 		 * Get the controls that are associated with this section, sorted by their priority Value.
 		 *
+		 * @since 4.1.0
+		 *
 		 * @returns {Array}
 		 */
 		controls: function () {
@@ -426,10 +471,12 @@
 		},
 
 		/**
-		 * Update UI to reflect expanded state
+		 * Update UI to reflect expanded state.
+		 *
+		 * @since 4.1.0
 		 *
 		 * @param {Boolean} expanded
-		 * @param {Object} args
+		 * @param {Object}  args
 		 */
 		onChangeExpanded: function ( expanded, args ) {
 			var section = this,
@@ -472,10 +519,18 @@
 	});
 
 	/**
+	 * @since 4.1.0
+	 *
 	 * @class
 	 * @augments wp.customize.Class
 	 */
 	api.Panel = Container.extend({
+		/**
+		 * @since 4.1.0
+		 *
+		 * @param  {String} id
+		 * @param  {Object} options
+		 */
 		initialize: function ( id, options ) {
 			var panel = this;
 			Container.prototype.initialize.call( panel, id, options );
@@ -487,6 +542,8 @@
 
 		/**
 		 * Embed the container in the DOM when any parent panel is ready.
+		 *
+		 * @since 4.1.0
 		 */
 		embed: function () {
 			var panel = this,
@@ -499,7 +556,7 @@
 		},
 
 		/**
-		 *
+		 * @since 4.1.0
 		 */
 		attachEvents: function () {
 			var meta, panel = this;
@@ -543,6 +600,8 @@
 		/**
 		 * Get the sections that are associated with this panel, sorted by their priority Value.
 		 *
+		 * @since 4.1.0
+		 *
 		 * @returns {Array}
 		 */
 		sections: function () {
@@ -551,6 +610,8 @@
 
 		/**
 		 * Return whether this panel has any active sections.
+		 *
+		 * @since 4.1.0
 		 *
 		 * @returns {boolean}
 		 */
@@ -569,8 +630,12 @@
 		/**
 		 * Update UI to reflect expanded state
 		 *
-		 * @param {Boolean} expanded
-		 * @param {Object} args  merged with this.defaultExpandedArguments
+		 * @since 4.1.0
+		 *
+		 * @param {Boolean}  expanded
+		 * @param {Object}   args
+		 * @param {Boolean}  args.unchanged
+		 * @param {Callback} args.completeCallback
 		 */
 		onChangeExpanded: function ( expanded, args ) {
 
@@ -792,7 +857,8 @@
 		},
 
 		/**
-		 * Bring the containing section and panel into view and then this control into view, focusing on the first input
+		 * Bring the containing section and panel into view and then
+		 * this control into view, focusing on the first input.
 		 */
 		focus: focus,
 
@@ -801,8 +867,12 @@
 		 * This does not change the active state, it merely handles the behavior
 		 * for when it does change.
 		 *
-		 * @param {Boolean} active
-		 * @param {Object} args  merged on top of this.defaultActiveArguments
+		 * @since 4.1.0
+		 *
+		 * @param {Boolean}  active
+		 * @param {Object}   args
+		 * @param {Number}   args.duration
+		 * @param {Callback} args.completeCallback
 		 */
 		onChangeActive: function ( active, args ) {
 			if ( ! $.contains( document, this.container ) ) {
@@ -817,7 +887,7 @@
 		},
 
 		/**
-		 * @deprecated alias of onChangeActive
+		 * @deprecated 4.1.0 Use this.onChangeActive() instead.
 		 */
 		toggle: function ( active ) {
 			return this.onChangeActive( active, this.defaultActiveArguments );
@@ -826,6 +896,8 @@
 		/**
 		 * Shorthand way to enable the active state.
 		 *
+		 * @since 4.1.0
+		 *
 		 * @param {Object} [params]
 		 * @returns {Boolean} false if already active
 		 */
@@ -833,6 +905,8 @@
 
 		/**
 		 * Shorthand way to disable the active state.
+		 *
+		 * @since 4.1.0
 		 *
 		 * @param {Object} [params]
 		 * @returns {Boolean} false if already inactive
@@ -880,6 +954,8 @@
 		 * Render the control from its JS template, if it exists.
 		 *
 		 * The control's container must already exist in the DOM.
+		 *
+		 * @since 4.1.0
 		 */
 		renderContent: function () {
 			var template,
@@ -1291,7 +1367,7 @@
 	// Change objects contained within the main customize object to Settings.
 	api.defaultConstructor = api.Setting;
 
-	// Create the collection of Control objects.
+	// Create the collections for Controls, Sections and Panels.
 	api.control = new api.Values({ defaultConstructor: api.Control });
 	api.section = new api.Values({ defaultConstructor: api.Section });
 	api.panel = new api.Values({ defaultConstructor: api.Panel });
@@ -1495,7 +1571,9 @@
 	}());
 
 	/**
-	 * Set the document title of the customizer
+	 * Set the document title of the customizer.
+	 *
+	 * @since 4.1.0
 	 *
 	 * @param {string} documentTitle
 	 */
@@ -1628,7 +1706,7 @@
 			// Update the URL when the iframe sends a URL message.
 			this.bind( 'url', this.previewUrl );
 
-			// Update the document title when the preview changes
+			// Update the document title when the preview changes.
 			this.bind( 'documentTitle', function ( title ) {
 				api.setDocumentTitle( title );
 			} );
@@ -1768,7 +1846,7 @@
 			}
 		});
 
-		// Expand/Collapse the main customizer customize info
+		// Expand/Collapse the main customizer customize info.
 		$( '#customize-info' ).find( '> .accordion-section-title' ).on( 'click keydown', function( event ) {
 			if ( api.utils.isKeydownButNotEnterEvent( event ) ) {
 				return;
@@ -1943,6 +2021,8 @@
 
 		/**
 		 * Sort panels, sections, controls by priorities. Hide empty sections and panels.
+		 *
+		 * @since 4.1.0
 		 */
 		api.reflowPaneContents = _.bind( function () {
 
