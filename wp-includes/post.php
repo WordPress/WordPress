@@ -4284,25 +4284,15 @@ function get_page_by_title( $page_title, $output = OBJECT, $post_type = 'page' )
 function get_page_children( $page_id, $pages ) {
 	$page_list = array();
 	foreach ( (array) $pages as $page ) {
-		if ( $page->post_parent == $page_id || in_array( $page_id, $page->ancestors ) ) {
+		if ( $page->post_parent == $page_id ) {
 			$page_list[] = $page;
-			if ( $children = get_page_children( $page->ID, $pages, false ) ) {
+			if ( $children = get_page_children( $page->ID, $pages ) ) {
 				$page_list = array_merge( $page_list, $children );
 			}
 		}
 	}
 
-	// Ensure uniqueness.
-	$page_ids = array();
-	$unique_page_list = array();
-	foreach ( $page_list as $page_list_item ) {
-		if ( ! in_array( $page_list_item->ID, $page_ids ) ) {
-			$unique_page_list[] = $page_list_item;
-			$page_ids[] = $page_list_item->ID;
-		}
-	}
-
-	return $unique_page_list;
+	return $page_list;
 }
 
 /**
@@ -4633,9 +4623,6 @@ function get_pages( $args = array() ) {
 	// Update cache.
 	update_post_cache( $pages );
 
-	// Convert to WP_Post instances
-	$pages = array_map( 'get_post', $pages );
-
 	if ( $child_of || $hierarchical ) {
 		$pages = get_page_children($child_of, $pages);
 	}
@@ -4663,6 +4650,9 @@ function get_pages( $args = array() ) {
 	}
 
 	wp_cache_set( $cache_key, $page_structure, 'posts' );
+
+	// Convert to WP_Post instances
+	$pages = array_map( 'get_post', $pages );
 
 	/**
 	 * Filter the retrieved list of pages.
