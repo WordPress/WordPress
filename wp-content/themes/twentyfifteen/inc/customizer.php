@@ -49,7 +49,7 @@ function twentyfifteen_customize_register( $wp_customize ) {
 
 	$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'sidebar_textcolor', array(
 		'label'       => esc_html__( 'Header and Sidebar Text Color', 'twentyfifteen' ),
-		'description' => esc_html__( 'Only applied to the sidebar on wider screens. On small screens the sidebar will become the header.', 'twentyfifteen' ),
+		'description' => esc_html__( 'Applied to the header on small screens and the sidebar on wide screens.', 'twentyfifteen' ),
 		'section'     => 'colors',
 	) ) );
 
@@ -65,12 +65,12 @@ function twentyfifteen_customize_register( $wp_customize ) {
 
 	$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'header_background_color', array(
 		'label'       => esc_html__( 'Header and Sidebar Background Color', 'twentyfifteen' ),
-		'description' => esc_html__( 'Only applied to the sidebar on wider screens. On small screens the sidebar will become the header.', 'twentyfifteen' ),
+		'description' => esc_html__( 'Applied to the header on small screens and the sidebar on wide screens.', 'twentyfifteen' ),
 		'section'     => 'colors',
 	) ) );
 
 	// Add an additional description to the header image section.
-	$wp_customize->get_section( 'header_image' )->description = esc_html__( 'Only applied to the sidebar on wide screens. On small screens it will be applied to the header.', 'twentyfifteen' );
+	$wp_customize->get_section( 'header_image' )->description = esc_html__( 'Applied to the header on small screens and the sidebar on wide screens.', 'twentyfifteen' );
 }
 add_action( 'customize_register', 'twentyfifteen_customize_register', 11 );
 
