@@ -2148,7 +2148,6 @@
 }
 
 @media only screen and (max-width: 940px) {
-	.media-frame-content .media-toolbar-primary .search,
 	.media-frame-content .media-toolbar-secondary .attachment-filters {
 		max-width: 134px;
 	}
@@ -2467,7 +2466,6 @@
 }
 
 @media only screen and (max-width: 480px) {
-	.media-frame-content .media-toolbar .search,
 	.media-frame-content .media-toolbar .attachment-filters {
 		max-width: 90px;
 	}

@@ -31,7 +31,8 @@
 	top: -2px;
 	right: 20px;
 	margin: 0;
-	width: 280px;
+	max-width: 280px;
+	width: 100%;
 	font-size: 16px;
 	font-weight: 300;
 	line-height: 1.5;
@@ -1719,6 +1720,10 @@ body.full-overlay-active {
 	.customize-loading #customize-container,
 	.theme-install-overlay .wp-full-overlay-main {
 		background-image: url(../images/spinner-2x.gif);
+	}
+
+	.theme-install-overlay .wp-full-overlay-header .theme-install {
+		margin-top: 2px;
 	}
 }
 

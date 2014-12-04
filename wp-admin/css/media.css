@@ -1129,6 +1129,11 @@ audio, video {
 	.media-frame.mode-grid .attachments-browser .media-toolbar-secondary {
 		float: none;
 	}
+
+	/* override for media-views.css */
+	#wp-media-grid .wp-filter .attachment-filters {
+		max-width: 100%;
+	}
 }
 
 @media only screen and ( max-width: 782px ) {

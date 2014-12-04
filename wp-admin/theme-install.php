@@ -145,11 +145,7 @@ include(ABSPATH . 'wp-admin/admin-header.php');
 		<?php
 		$feature_list = get_theme_feature_list();
 		foreach ( $feature_list as $feature_name => $features ) {
-			if ( $feature_name === 'Features' || $feature_name === __( 'Features' ) ) { // hack hack hack
-				echo '<div class="filter-group wide">';
-			} else {
-				echo '<div class="filter-group">';
-			}
+			echo '<div class="filter-group">';
 			$feature_name = esc_html( $feature_name );
 			echo '<h4>' . $feature_name . '</h4>';
 			echo '<ol class="feature-group">';

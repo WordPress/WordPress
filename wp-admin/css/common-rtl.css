@@ -988,14 +988,17 @@ th.action-links {
 }
 
 .wp-filter .search-form {
-	float: left;
-	margin-top: 9px;
+	margin: 10px;
+	position: absolute;
+	left: 0;
+	top: 0;
 }
 
 .wp-filter .search-form input[type="search"] {
 	margin: 0;
 	padding: 3px 5px;
-	width: 280px;
+	max-width: 280px;
+	width: 100%;
 	font-size: 16px;
 	font-weight: 300;
 	line-height: 1.5;
@@ -1054,6 +1057,7 @@ th.action-links {
 .show-filters .filter-drawer {
 	display: block;
 	overflow: hidden;
+	width: 100%;
 }
 
 .show-filters .wp-filter .drawer-toggle:hover,
@@ -1084,15 +1088,11 @@ th.action-links {
 	float: right;
 	margin: 0 0 0 1%;
 	padding: 10px;
-	width: 19%;
+	width: 24%;
 	background: #fff;
 	border: 1px solid #e5e5e5;
 	-webkit-box-shadow: 0 1px 1px rgba(0,0,0,0.04);
 	box-shadow: 0 1px 1px rgba(0,0,0,0.04);
-}
-
-.filter-group.wide {
-	width: 38%;
 }
 
 .filter-group h4 {
@@ -1190,11 +1190,6 @@ th.action-links {
 }
 
 @media only screen and (max-width: 1120px) {
-	.wp-filter .search-form {
-		float: none;
-		margin: 20px 0;
-	}
-
 	.filter-drawer {
 		border-bottom: 1px solid #eee;
 	}
@@ -1210,12 +1205,34 @@ th.action-links {
 	}
 }
 
+@media only screen and (max-width: 910px) {
+	.wp-filter .search-form {
+		float: none; /* Remove float from media-views.css */
+		position: relative;
+		margin: 20px 0;
+	}
+}
+
 @media only screen and (max-width: 782px) {
-	.filter-group,
 	.filter-group li {
-		width: 100%;
+		padding: 0;
+		width: 50%;
+	}
+}
+
+@media only screen and (max-width: 320px) {
+	.filter-count {
+		display: none;
 	}
 
+	.wp-filter .drawer-toggle {
+		margin: 10px 0;
+	}
+
+	.filter-group li,
+	.wp-filter .search-form input[type="search"] {
+		width: 100%;
+	}
 }
 
 /*------------------------------------------------------------------------------
