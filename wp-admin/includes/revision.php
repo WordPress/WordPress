@@ -75,7 +75,7 @@ function wp_get_revision_ui_diff( $post, $compare_from, $compare_to ) {
 		$content_to = apply_filters( "_wp_post_revision_field_$field", $compare_to->$field, $field, $compare_to, 'to' );
 
 		$args = array(
-			'show_split_view' => false
+			'show_split_view' => true
 		);
 
 		/**
@@ -88,8 +88,8 @@ function wp_get_revision_ui_diff( $post, $compare_from, $compare_to ) {
 		 * @param array   $args {
 		 *     Associative array of options to pass to {@see wp_text_diff()}.
 		 *
-		 *     @type bool $show_split_view False for split view (two columns), true for
-		 *                                 un-split view (single column). Default false.
+		 *     @type bool $show_split_view True for split view (two columns), false for
+		 *                                 un-split view (single column). Default true.
 		 * }
 		 * @param string  $field        The current revision field.
 		 * @param WP_Post $compare_from The revision post to compare from.
