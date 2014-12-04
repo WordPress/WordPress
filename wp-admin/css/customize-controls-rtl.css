@@ -430,6 +430,18 @@ p.customize-section-description {
 	padding: 5px 10px;
 }
 
+.customize-control .attachment-meta {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	margin: 0;
+	padding: 5px 10px 0;
+}
+
+.customize-control .attachment-meta-title {
+	padding-top: 7px;
+}
+
 .customize-control .thumbnail-image {
 	line-height: 0;
 }
