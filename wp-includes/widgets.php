@@ -689,31 +689,30 @@ function register_sidebars($number = 1, $args = array()) {
  * If theme support for 'widgets' has not yet been added when this function is
  * called, it will be automatically enabled through the use of add_theme_support()
  *
- * Arguments passed as a string should be separated by '&':
- *
- *     e.g. 'name=Sidebar&id=my_prefix_sidebar'
- *
- * The same arguments passed as an array:
- *
- *     array(
- *         'name' => 'Sidebar',
- *         'id'   => 'my_prefix_sidebar',
- *     )
- *
- * Arguments:
- *     name          - The name or title of the sidebar displayed in the admin dashboard.
- *     id            - The unique identifier by which the sidebar will be called.
- *     before_widget - HTML content that will be prepended to each widget's HTML output
- *                     when assigned to this sidebar.
- *     after_widget  - HTML content that will be appended to each widget's HTML output
- *                     when assigned to this sidebar.
- *     before_title  - HTML content that will be prepended to the sidebar title when displayed.
- *     after_title   - HTML content that will be appended to the sidebar title when displayed.
- *
  * @since 2.2.0
- * @uses $wp_registered_sidebars Stores the new sidebar in this array by sidebar ID.
  *
- * @param string|array $args Arguments for the sidebar being registered.
+ * @global array $wp_registered_sidebars Stores the new sidebar in this array by sidebar ID.
+ *
+ * @param array|string $args {
+ *     Optional. Array or string of arguments for the sidebar being registered.
+ *
+ *     @type string $name          The name or title of the sidebar displayed in the Widgets
+ *                                 interface. Default 'Sidebar $instance'.
+ *     @type string $id            The unique identifier by which the sidebar will be called.
+ *                                 Default 'sidebar-$instance'.
+ *     @type string $description   Description of the sidebar, displayed in the Widgets interface.
+ *                                 Default empty string.
+ *     @type string $class         Extra CSS class to assign to the sidebar in the Widgets interface.
+ *                                 Default empty.
+ *     @type string $before_widget HTML content to prepend to each widget's HTML output when
+ *                                 assigned to this sidebar. Default is an opening list item element.
+ *     @type string $after_widget  HTML content to append to each widget's HTML output when
+ *                                 assigned to this sidebar. Default is a closing list item element.
+ *     @type string $before_title  HTML content to prepend to the sidebar title when displayed.
+ *                                 Default is an opening h2 element.
+ *     @type string $after_title   HTML content to append to the sidebar title when displayed.
+ *                                 Default is a closing h2 element.
+ * }
  * @return string Sidebar ID added to $wp_registered_sidebars global.
  */
 function register_sidebar($args = array()) {
