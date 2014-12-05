@@ -36,7 +36,7 @@
 			pinnedToolsTop = 56,
 			sidebarBottom = 20,
 			autoresizeMinHeight = 300,
-			initialMode = window.getUserSetting( 'editor' ),
+			initialMode = $contentWrap.hasClass( 'tmce-active' ) ? 'tinymce' : 'html',
 			advanced = !! parseInt( window.getUserSetting( 'hidetb' ), 10 ),
 			// These are corrected when adjust() runs, except on scrolling if already set.
 			heights = {
