@@ -31,8 +31,7 @@
 	top: -2px;
 	right: 20px;
 	margin: 0;
-	max-width: 280px;
-	width: 100%;
+	width: 280px;
 	font-size: 16px;
 	font-weight: 300;
 	line-height: 1.5;
@@ -1029,6 +1028,7 @@ body.folded .theme-overlay .theme-wrap {
 		left: 0;
 		margin: 10px 0;
 		width: 100%;
+		max-width: 280px;
 	}
 
 	.theme-browser .theme.add-new-theme span:after {
