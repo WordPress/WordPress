@@ -434,9 +434,9 @@ class WP_Date_Query {
 			if ( ! wp_checkdate( $date_query['month'], $date_query['day'], 2012, sprintf( '2012-%s-%s', $date_query['month'], $date_query['day'] ) ) ) {
 				/* translators: 1: month, 2: day of month */
 				$day_month_year_error_msg = sprintf(
-					__( 'The following values do not describe a valid date: month <code>%1$d</code>, day <code>%2$d</code>.' ),
-					esc_html( $date_query['month'] ),
-					esc_html( $date_query['day'] )
+					__( 'The following values do not describe a valid date: month %1$s, day %2$s.' ),
+					'<code>' . esc_html( $date_query['month'] ) . '</code>',
+					'<code>' . esc_html( $date_query['day'] ) . '</code>'
 				);
 
 				$valid = false;
