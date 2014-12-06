@@ -1259,7 +1259,10 @@ table.links-table {
 .focus-on .postbox-container,
 .focus-on div.updated,
 .focus-on div.error,
-.focus-on div.notice {
+.focus-on div.notice,
+.focus-on #wp-toolbar,
+.focus-on #screen-meta-links,
+.focus-on #screen-meta {
 	opacity: 0;
 	-webkit-transition-duration: 0.6s;
 	transition-duration: 0.6s;
@@ -1271,12 +1274,6 @@ table.links-table {
 
 .focus-on #wp-toolbar {
 	opacity: 0.3;
-	-webkit-transition-duration: 0.6s;
-	transition-duration: 0.6s;
-	-webkit-transition-property: opacity;
-	transition-property: opacity;
-	-webkit-transition-timing-function: ease-in-out;
-	transition-timing-function: ease-in-out;
 }
 
 .focus-off .wrap > h2,
@@ -1285,7 +1282,9 @@ table.links-table {
 .focus-off div.updated,
 .focus-off div.error,
 .focus-off div.notice,
-.focus-off #wp-toolbar {
+.focus-off #wp-toolbar,
+.focus-off #screen-meta-links,
+.focus-off #screen-meta {
 	opacity: 1;
 	-webkit-transition-duration: 0.2s;
 	transition-duration: 0.2s;
@@ -1300,8 +1299,7 @@ table.links-table {
 }
 
 .focus-on #adminmenuback,
-.focus-on #adminmenuwrap,
-.focus-on .screen-meta-toggle {
+.focus-on #adminmenuwrap {
 	-webkit-transition-duration: 0.6s;
 	transition-duration: 0.6s;
 	-webkit-transition-property: -webkit-transform;
@@ -1326,15 +1324,8 @@ table.links-table {
 	transform: translateX( 100% );
 }
 
-.focus-on .screen-meta-toggle {
-	-webkit-transform: translateY( -100% );
-	-ms-transform: translateY( -100% );
-	transform: translateY( -100% );
-}
-
 .focus-off #adminmenuback,
-.focus-off #adminmenuwrap,
-.focus-off .screen-meta-toggle {
+.focus-off #adminmenuwrap {
 	-webkit-transform: translateX( 0 );
 	-ms-transform: translateX( 0 );
 	transform: translateX( 0 );
