@@ -335,7 +335,7 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 	editor.on( 'init', function() {
 		editor.dom.bind( editor.getWin(), 'scroll', hide );
 	});
-	
+
 	editor.on( 'blur hide', hide );
 
 	// 119 = F8
@@ -1124,6 +1124,12 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 			if ( floatingToolbar ) {
 				floatingToolbar.reposition();
 			}
+
+			editor.fire( 'ExecCommand', {
+				command: cmd,
+				ui: event.ui,
+				value: event.value
+			} );
 		}
 	});
 
