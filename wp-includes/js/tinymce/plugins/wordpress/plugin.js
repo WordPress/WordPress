@@ -193,8 +193,8 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 			title: 'Keyboard Shortcuts',
 			width: 450,
 			height: 420,
-			inline: 1,
-			classes: 'wp-help'
+			classes: 'wp-help',
+			buttons: { text: 'Close', onclick: 'close' }
 		});
 	});
 

@@ -103,8 +103,7 @@ header('Content-Type: text/html; charset=' . get_bloginfo('charset'));
 		<tr><th>u</th><td><?php _e('Underline'); ?></td><th>1</th><td><?php _e('Heading 1'); ?></td></tr>
 		<tr><th>2</th><td><?php _e('Heading 2'); ?></td><th>3</th><td><?php _e('Heading 3'); ?></td></tr>
 		<tr><th>4</th><td><?php _e('Heading 4'); ?></td><th>5</th><td><?php _e('Heading 5'); ?></td></tr>
-		<tr><th>6</th><td><?php _e('Heading 6'); ?></td><th>9</th><td><?php _e('Address'); ?></td></tr>
-		<tr><th>k</th><td><?php _e('Insert/edit link'); ?></td><th> </th><td>&nbsp;</td></tr>
+		<tr><th>6</th><td><?php _e('Heading 6'); ?></td><th>k</th><td><?php _e('Insert/edit link'); ?></td></tr>
 	</table>
 
 	<p><?php _e('The following shortcuts use different access keys: Alt + Shift + letter.'); ?></p>
@@ -120,6 +119,17 @@ header('Content-Type: text/html; charset=' . get_bloginfo('charset'));
 		<tr><th>p</th><td><?php _e('Insert Page Break tag'); ?></td><th>h</th><td><?php _e('Help'); ?></td></tr>
 		<tr><th>x</th><td><?php _e('Add/remove code tag'); ?></td><th> </th><td>&nbsp;</td></tr>
 	</table>
+
+	<p><?php _e('Focus shortcuts:'); ?></p>
+
+	<table class="keys focus">
+		<tr><th class="left">Alt + F8</th><td><?php _e('Image toolbar (when an image is selected)'); ?></td></tr>
+		<tr><th class="left">Alt + F9</th><td><?php _e('Editor menu (when enabled)'); ?></td></tr>
+		<tr><th class="left">Alt + F10</th><td><?php _e('Editor toolbar'); ?></td></tr>
+		<tr><th class="left">Alt + F11</th><td><?php _e('Elements path'); ?></td></tr>
+	</table>
+
+	<p><?php _e('To move focus to other buttons use Tab or the arrow keys. To return focus to the editor press Escape or use one of the buttons.'); ?></p>
 </div>
 
 </div>
