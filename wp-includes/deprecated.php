@@ -1214,7 +1214,7 @@ function comments_rss() {
  *
  * @param string $username The user's username.
  * @param string $password The user's password.
- * @param string $email The user's email (optional).
+ * @param string $email    The user's email.
  * @return int The new user's ID.
  */
 function create_user($username, $password, $email) {

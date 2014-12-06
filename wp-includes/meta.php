@@ -840,18 +840,18 @@ function update_meta_cache($meta_type, $object_ids) {
 }
 
 /**
- * Given a meta query, generates SQL clauses to be appended to a main query
+ * Given a meta query, generates SQL clauses to be appended to a main query.
  *
  * @since 3.2.0
  *
  * @see WP_Meta_Query
  *
- * @param array $meta_query A meta query
- * @param string $type Type of meta
- * @param string $primary_table
- * @param string $primary_id_column
- * @param object $context (optional) The main query object
- * @return array( 'join' => $join_sql, 'where' => $where_sql )
+ * @param array $meta_query         A meta query.
+ * @param string $type              Type of meta.
+ * @param string $primary_table     Primary database table name.
+ * @param string $primary_id_column Primary ID column name.
+ * @param object $context           Optional. The main query object
+ * @return array Associative array of `JOIN` and `WHERE` SQL.
  */
 function get_meta_sql( $meta_query, $type, $primary_table, $primary_id_column, $context = null ) {
 	$meta_query_obj = new WP_Meta_Query( $meta_query );

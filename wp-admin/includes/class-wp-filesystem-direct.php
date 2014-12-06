@@ -49,10 +49,11 @@ class WP_Filesystem_Direct extends WP_Filesystem_Base {
 	/**
 	 * Write a string to a file
 	 *
-	 * @param string $file Remote path to the file where to write the data.
+	 * @param string $file     Remote path to the file where to write the data.
 	 * @param string $contents The data to write.
-	 * @param int $mode (optional) The file permissions as octal number, usually 0644.
-	 * @return bool False upon failure.
+	 * @param int    $mode     Optional. The file permissions as octal number, usually 0644.
+	 *                         Default false.
+	 * @return bool False upon failure, true otherwise.
 	 */
 	public function put_contents( $file, $contents, $mode = false ) {
 		$fp = @fopen( $file, 'wb' );
@@ -99,9 +100,9 @@ class WP_Filesystem_Direct extends WP_Filesystem_Base {
 	/**
 	 * Changes file group
 	 *
-	 * @param string $file Path to the file.
-	 * @param mixed $group A group name or number.
-	 * @param bool $recursive (optional) If set True changes file group recursively. Defaults to False.
+	 * @param string $file      Path to the file.
+	 * @param mixed  $group     A group name or number.
+	 * @param bool   $recursive Optional. If set True changes file group recursively. Default false.
 	 * @return bool Returns true on success or false on failure.
 	 */
 	public function chgrp($file, $group, $recursive = false) {
@@ -123,9 +124,10 @@ class WP_Filesystem_Direct extends WP_Filesystem_Base {
 	/**
 	 * Changes filesystem permissions
 	 *
-	 * @param string $file Path to the file.
-	 * @param int $mode (optional) The permissions as octal number, usually 0644 for files, 0755 for dirs.
-	 * @param bool $recursive (optional) If set True changes file group recursively. Defaults to False.
+	 * @param string $file      Path to the file.
+	 * @param int    $mode      Optional. The permissions as octal number, usually 0644 for files,
+	 *                          0755 for dirs. Default false.
+	 * @param bool   $recursive Optional. If set True changes file group recursively. Default false.
 	 * @return bool Returns true on success or false on failure.
 	 */
 	public function chmod($file, $mode = false, $recursive = false) {
@@ -152,9 +154,10 @@ class WP_Filesystem_Direct extends WP_Filesystem_Base {
 	/**
 	 * Changes file owner
 	 *
-	 * @param string $file Path to the file.
-	 * @param mixed $owner A user name or number.
-	 * @param bool $recursive (optional) If set True changes file owner recursively. Defaults to False.
+	 * @param string $file      Path to the file.
+	 * @param mixed  $owner     A user name or number.
+	 * @param bool   $recursive Optional. If set True changes file owner recursively.
+	 *                          Default false.
 	 * @return bool Returns true on success or false on failure.
 	 */
 	public function chown($file, $owner, $recursive = false) {

@@ -47,13 +47,15 @@ class WP_Scripts extends WP_Dependencies {
 	}
 
 	/**
-	 * Prints scripts
+	 * Prints scripts.
 	 *
 	 * Prints the scripts passed to it or the print queue. Also prints all necessary dependencies.
 	 *
-	 * @param mixed $handles (optional) Scripts to be printed. (void) prints queue, (string) prints that script, (array of strings) prints those scripts.
-	 * @param int $group (optional) If scripts were queued in groups prints this group number.
-	 * @return array Scripts that have been printed
+	 * @param mixed $handles Optional. Scripts to be printed. (void) prints queue, (string) prints
+	 *                       that script, (array of strings) prints those scripts. Default false.
+	 * @param int   $group   Optional. If scripts were queued in groups prints this group number.
+	 *                       Default false.
+	 * @return array Scripts that have been printed.
 	 */
 	public function print_scripts( $handles = false, $group = false ) {
 		return $this->do_items( $handles, $group );

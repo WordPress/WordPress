@@ -1116,14 +1116,14 @@ function postbox_classes( $id, $page ) {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Get a sample permalink based off of the post name.
  *
  * @since 2.5.0
  *
- * @param integer $id    Post ID or post object.
- * @param string $title (optional) Title
- * @param string $name (optional) Name
- * @return array With two entries of type string
+ * @param int    $id    Post ID or post object.
+ * @param string $title Optional. Title. Default null.
+ * @param string $name  Optional. Name. Default null.
+ * @return array Arra yith two entries of type string.
  */
 function get_sample_permalink($id, $title = null, $name = null) {
 	$post = get_post( $id );
@@ -1185,9 +1185,9 @@ function get_sample_permalink($id, $title = null, $name = null) {
  *
  * @since 2.5.0
  *
- * @param integer $id Post ID or post object.
- * @param string $new_title Optional. New title.
- * @param string $new_slug Optional. New slug.
+ * @param int    $id        Post ID or post object.
+ * @param string $new_title Optional. New title. Default null.
+ * @param string $new_slug  Optional. New slug. Default null.
  * @return string The HTML of the sample permalink slug editor.
  */
 function get_sample_permalink_html( $id, $new_title = null, $new_slug = null ) {

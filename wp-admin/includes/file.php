@@ -97,8 +97,8 @@ function get_home_path() {
  *
  * @since 2.6.0
  *
- * @param string $folder Full path to folder
- * @param int $levels (optional) Levels of folders to follow, Default: 100 (PHP Loop limit).
+ * @param string $folder Optional. Full path to folder. Default empty.
+ * @param int    $levels Optional. Levels of folders to follow, Default 100 (PHP Loop limit).
  * @return bool|array False on failure, Else array of files
  */
 function list_files( $folder = '', $levels = 100 ) {
@@ -137,8 +137,8 @@ function list_files( $folder = '', $levels = 100 ) {
  *
  * @since 2.6.0
  *
- * @param string $filename (optional) Filename to base the Unique file off
- * @param string $dir (optional) Directory to store the file in
+ * @param string $filename Optional. Filename to base the Unique file off. Default empty.
+ * @param string $dir      Optional. Directory to store the file in. Default empty.
  * @return string a writable filename
  */
 function wp_tempnam($filename = '', $dir = '') {
@@ -805,14 +805,18 @@ function copy_dir($from, $to, $skip_list = array() ) {
  * Initialises and connects the WordPress Filesystem Abstraction classes.
  * This function will include the chosen transport and attempt connecting.
  *
- * Plugins may add extra transports, And force WordPress to use them by returning the filename via the 'filesystem_method_file' filter.
+ * Plugins may add extra transports, And force WordPress to use them by returning
+ * the filename via the {@see 'filesystem_method_file'} filter.
  *
  * @since 2.5.0
  *
- * @param array $args (optional) Connection args, These are passed directly to the WP_Filesystem_*() classes.
- * @param string $context (optional) Context for get_filesystem_method(), See function declaration for more information.
- * @param bool $allow_relaxed_file_ownership Whether to allow Group/World writable.
- * @return null|boolean false on failure, true on success
+ * @param array  $args                         Optional. Connection args, These are passed directly to
+ *                                             the `WP_Filesystem_*()` classes. Default false.
+ * @param string $context                      Optional. Context for {@see get_filesystem_method()}.
+ *                                             Default false.
+ * @param bool   $allow_relaxed_file_ownership Optional. Whether to allow Group/World writable.
+ *                                             Default false.
+ * @return null|boolean false on failure, true on success.
  */
 function WP_Filesystem( $args = false, $context = false, $allow_relaxed_file_ownership = false ) {
 	global $wp_filesystem;
