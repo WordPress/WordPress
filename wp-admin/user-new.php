@@ -280,14 +280,14 @@ if ( is_multisite() ) {
 		$type  = 'text';
 	}
 ?>
-<?php
-/**
- * Fires inside the adduser form tag.
- *
- * @since 3.0.0
- */
-?>
-<form action="" method="post" name="adduser" id="adduser" class="validate" novalidate="novalidate"<?php do_action( 'user_new_form_tag' );?>>
+<form action="" method="post" name="adduser" id="adduser" class="validate" novalidate="novalidate"<?php
+	/**
+	 * Fires inside the adduser form tag.
+	 *
+	 * @since 3.0.0
+	 */
+	do_action( 'user_new_form_tag' );
+?>>
 <input name="action" type="hidden" value="adduser" />
 <?php wp_nonce_field( 'add-user', '_wpnonce_add-user' ) ?>
 
@@ -334,8 +334,10 @@ if ( current_user_can( 'create_users') ) {
 		echo '<h3 id="create-new-user">' . __( 'Add New User' ) . '</h3>';
 ?>
 <p><?php _e('Create a brand new user and add them to this site.'); ?></p>
-<?php /** This action is documented in wp-admin/user-new.php */ ?>
-<form action="" method="post" name="createuser" id="createuser" class="validate" novalidate="novalidate"<?php do_action( 'user_new_form_tag' );?>>
+<form action="" method="post" name="createuser" id="createuser" class="validate" novalidate="novalidate"<?php
+	/** This action is documented in wp-admin/user-new.php */
+	do_action( 'user_new_form_tag' );
+?>>
 <input name="action" type="hidden" value="createuser" />
 <?php wp_nonce_field( 'create-user', '_wpnonce_create-user' ); ?>
 <?php

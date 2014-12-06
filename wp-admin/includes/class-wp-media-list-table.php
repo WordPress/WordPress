@@ -473,21 +473,19 @@ foreach ( $columns as $column_name => $column_display_name ) {
 			break;
 		}
 ?>
-		<td <?php echo $attributes ?>>
-			<?php
-				/**
-				 * Fires for each custom column in the Media list table.
-				 *
-				 * Custom columns are registered using the 'manage_media_columns' filter.
-				 *
-				 * @since 2.5.0
-				 *
-				 * @param string $column_name Name of the custom column.
-				 * @param int    $post_id     Attachment ID.
-				 */
-			?>
-			<?php do_action( 'manage_media_custom_column', $column_name, $post->ID ); ?>
-		</td>
+		<td <?php echo $attributes ?>><?php
+			/**
+			 * Fires for each custom column in the Media list table.
+			 *
+			 * Custom columns are registered using the 'manage_media_columns' filter.
+			 *
+			 * @since 2.5.0
+			 *
+			 * @param string $column_name Name of the custom column.
+			 * @param int    $post_id     Attachment ID.
+			 */
+			do_action( 'manage_media_custom_column', $column_name, $post->ID );
+		?></td>
 <?php
 		break;
 	}

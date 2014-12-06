@@ -96,7 +96,10 @@ if ( post_password_required($post) ) {  // and it doesn't match the cookie
 	  <input type="hidden" name="redirect_to" value="<?php echo esc_attr($_SERVER["REQUEST_URI"]); ?>" />
 	  <input name="submit" type="submit" tabindex="5" value="<?php esc_attr_e('Say It!' ); ?>" />
 	</p>
-	<?php do_action('comment_form', $post->ID); ?>
+	<?php
+	/** This filter is documented in wp-includes/comment-template.php */
+	do_action( 'comment_form', $post->ID );
+	?>
 </form>
 <?php } else { // comments are closed ?>
 <p><?php _e('Sorry, the comment form is closed at this time.'); ?></p>

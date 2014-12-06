@@ -233,14 +233,14 @@ if ( ! IS_PROFILE_PAGE ) {
 	<?php }
 } ?>
 </h2>
-<?php
-/**
- * Fires inside the your-profile form tag on the user editing screen.
- *
- * @since 3.0.0
- */
-?>
-<form id="your-profile" action="<?php echo esc_url( self_admin_url( IS_PROFILE_PAGE ? 'profile.php' : 'user-edit.php' ) ); ?>" method="post" novalidate="novalidate"<?php do_action( 'user_edit_form_tag' ); ?>>
+<form id="your-profile" action="<?php echo esc_url( self_admin_url( IS_PROFILE_PAGE ? 'profile.php' : 'user-edit.php' ) ); ?>" method="post" novalidate="novalidate"<?php
+	/**
+	 * Fires inside the your-profile form tag on the user editing screen.
+	 *
+	 * @since 3.0.0
+	 */
+	do_action( 'user_edit_form_tag' );
+?>>
 <?php wp_nonce_field('update-user_' . $user_id) ?>
 <?php if ( $wp_http_referer ) : ?>
 	<input type="hidden" name="wp_http_referer" value="<?php echo esc_url($wp_http_referer); ?>" />
@@ -262,20 +262,20 @@ if ( ! IS_PROFILE_PAGE ) {
 <?php if ( count($_wp_admin_css_colors) > 1 && has_action('admin_color_scheme_picker') ) : ?>
 <tr class="user-admin-color-wrap">
 <th scope="row"><?php _e('Admin Color Scheme')?></th>
-<?php
-/**
- * Fires in the 'Admin Color Scheme' section of the user editing screen.
- *
- * The section is only enabled if a callback is hooked to the action,
- * and if there is more than one defined color scheme for the admin.
- *
- * @since 3.0.0
- * @since 3.8.1 Added `$user_id` parameter.
- *
- * @param int $user_id The user ID.
- */
-?>
-<td><?php do_action( 'admin_color_scheme_picker', $user_id ); ?></td>
+<td><?php
+	/**
+	 * Fires in the 'Admin Color Scheme' section of the user editing screen.
+	 *
+	 * The section is only enabled if a callback is hooked to the action,
+	 * and if there is more than one defined color scheme for the admin.
+	 *
+	 * @since 3.0.0
+	 * @since 3.8.1 Added `$user_id` parameter.
+	 *
+	 * @param int $user_id The user ID.
+	 */
+	do_action( 'admin_color_scheme_picker', $user_id );
+?></td>
 </tr>
 <?php
 endif; // $_wp_admin_css_colors
