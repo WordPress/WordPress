@@ -1123,7 +1123,7 @@ function postbox_classes( $id, $page ) {
  * @param int    $id    Post ID or post object.
  * @param string $title Optional. Title. Default null.
  * @param string $name  Optional. Name. Default null.
- * @return array Arra yith two entries of type string.
+ * @return array Array with two entries of type string.
  */
 function get_sample_permalink($id, $title = null, $name = null) {
 	$post = get_post( $id );
