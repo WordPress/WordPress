@@ -1392,7 +1392,7 @@ function is_active_sidebar( $index ) {
 /* Internal Functions */
 
 /**
- * Retrieve full list of sidebars and their widgets.
+ * Retrieve full list of sidebars and their widget instance IDs.
  *
  * Will upgrade sidebar widget list, if needed. Will also save updated list, if
  * needed.
@@ -1400,10 +1400,10 @@ function is_active_sidebar( $index ) {
  * @since 2.2.0
  * @access private
  *
- * @param bool $deprecated Not used (deprecated).
+ * @param bool $deprecated Not used (argument deprecated).
  * @return array Upgraded list of widgets to version 3 array format when called from the admin.
  */
-function wp_get_sidebars_widgets($deprecated = true) {
+function wp_get_sidebars_widgets( $deprecated = true ) {
 	if ( $deprecated !== true )
 		_deprecated_argument( __FUNCTION__, '2.8.1' );
 
