@@ -23,14 +23,71 @@
  */
 class WP_Widget {
 
-	public $id_base;			// Root id for all widgets of this type.
-	public $name;				// Name for this widget type.
-	public $widget_options;	// Option array passed to wp_register_sidebar_widget()
-	public $control_options;	// Option array passed to wp_register_widget_control()
+	/**
+	 * Root ID for all widgets of this type.
+	 *
+	 * @since 2.8.0
+	 * @access public
+	 * @var mixed|string
+	 */
+	public $id_base;
 
-	public $number = false;	// Unique ID number of the current instance.
-	public $id = false;		// Unique ID string of the current instance (id_base-number)
-	public $updated = false;	// Set true when we update the data after a POST submit - makes sure we don't do it twice.
+	/**
+	 * Name for this widget type.
+	 *
+	 * @since 2.8.0
+	 * @access public
+	 * @var string
+	 */
+	public $name;
+
+	/**
+	 * Option array passed to {@see wp_register_sidebar_widget()}.
+	 *
+	 * @since 2.8.0
+	 * @access public
+	 * @var array
+	 */
+	public $widget_options;
+
+	/**
+	 * Option array passed to {@see wp_register_widget_control()}.
+	 *
+	 * @since 2.8.0
+	 * @access public
+	 * @var array
+	 */
+	public $control_options;
+
+	/**
+	 * Unique ID number of the current instance.
+	 *
+	 * @since 2.8.0
+	 * @access public
+	 * @var bool|int
+	 */
+	public $number = false;
+
+	/**
+	 * Unique ID string of the current instance (id_base-number).
+	 *
+	 * @since 2.8.0
+	 * @access public
+	 * @var bool|string
+	 */
+	public $id = false;
+
+	/**
+	 * Whether the widget data has been updated.
+	 *
+	 * Set to true when the data is updated after a POST submit - ensures it does
+	 * not happen twice.
+	 *
+	 * @since 2.8.0
+	 * @access public
+	 * @var bool
+	 */
+	public $updated = false;
 
 	// Member functions that you must over-ride.
 
