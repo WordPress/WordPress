@@ -671,8 +671,10 @@
 
 					if ( isMoveUp ) {
 						self.moveUp();
+						$( '#screen-reader-messages' ).text( l10n.widgetMovedUp );
 					} else {
 						self.moveDown();
+						$( '#screen-reader-messages' ).text( l10n.widgetMovedDown );
 					}
 
 					$( this ).focus(); // re-focus after the container was moved

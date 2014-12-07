@@ -728,6 +728,8 @@ final class WP_Customize_Widgets {
 				'removeBtnLabel'   => __( 'Remove' ),
 				'removeBtnTooltip' => __( 'Trash widget by moving it to the inactive widgets sidebar.' ),
 				'error'            => __( 'An error has occurred. Please reload the page and try again.' ),
+				'widgetMovedUp'    => __( 'Widget moved up' ),
+				'widgetMovedDown'  => __( 'Widget moved down' ),
 			),
 			'tpl' => array(
 				'widgetReorderNav' => $widget_reorder_nav_tpl,
