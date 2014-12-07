@@ -746,8 +746,6 @@ html:lang(he-il) .rtl #wpadminbar *  {
 @media screen and ( max-width: 782px ) {
 	/* Toolbar Touchification*/
 	html #wpadminbar {
-		left: 0 !important;
-		z-index: 500 !important;
 		height: 46px;
 		min-width: 300px;
 
