@@ -1036,6 +1036,8 @@ class Plugin_Upgrader extends WP_Upgrader {
 			//Deactivate the plugin silently, Prevent deactivation hooks from running.
 			deactivate_plugins($plugin, true);
 		}
+
+		return $return;
 	}
 
 	/**
