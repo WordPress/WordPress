@@ -329,6 +329,7 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 	floatingToolbar.on( 'keydown', function( event ) {
 		if ( event.keyCode === 27 ) {
 			hide();
+			editor.focus();
 		}
 	} );
 
