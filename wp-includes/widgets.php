@@ -992,16 +992,19 @@ function wp_unregister_sidebar_widget($id) {
  * control form, but try hard to use the default width. The 'id_base' is for
  * multi-widgets (widgets which allow multiple instances such as the text
  * widget), an id_base must be provided. The widget id will end up looking like
- * {$id_base}-{$unique_number}.
+ * `{$id_base}-{$unique_number}`.
  *
  * @since 2.2.0
  *
- * @param int|string $id Sidebar ID.
- * @param string $name Sidebar display name.
- * @param callback $control_callback Run when sidebar is displayed.
- * @param array|string $options Optional. Widget options. See above long description.
+ * @todo Document `$options` as a hash notation, re: WP_Widget::__construct() cross-reference.
+ * @todo `$params` parameter?
+ *
+ * @param int|string   $id               Sidebar ID.
+ * @param string       $name             Sidebar display name.
+ * @param callback     $control_callback Run when sidebar is displayed.
+ * @param array|string $options          Optional. Widget options. See description above. Default empty array.
  */
-function wp_register_widget_control($id, $name, $control_callback, $options = array()) {
+function wp_register_widget_control( $id, $name, $control_callback, $options = array() ) {
 	global $wp_registered_widget_controls, $wp_registered_widget_updates, $wp_registered_widgets, $_wp_deprecated_widgets_callbacks;
 
 	$id = strtolower($id);
