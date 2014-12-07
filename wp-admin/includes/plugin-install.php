@@ -245,11 +245,12 @@ function display_plugins_table() {
 	</form>
 	<?php
 }
-add_action( 'install_plugins_search',    'display_plugins_table' );
-add_action( 'install_plugins_popular',   'display_plugins_table' );
-add_action( 'install_plugins_new',       'display_plugins_table' );
-add_action( 'install_plugins_beta',      'display_plugins_table' );
-add_action( 'install_plugins_favorites', 'display_plugins_table' );
+add_action( 'install_plugins_search',      'display_plugins_table' );
+add_action( 'install_plugins_popular',     'display_plugins_table' );
+add_action( 'install_plugins_recommended', 'display_plugins_table' );
+add_action( 'install_plugins_new',         'display_plugins_table' );
+add_action( 'install_plugins_beta',        'display_plugins_table' );
+add_action( 'install_plugins_favorites',   'display_plugins_table' );
 
 /**
  * Determine the status we can perform on a plugin.
