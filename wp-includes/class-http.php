@@ -1333,7 +1333,7 @@ class WP_Http_Curl {
 	 * The total bytes written in the current request.
 	 *
 	 * @since 4.1.0
-	 * @access prviate
+	 * @access private
 	 * @var int
 	 */
 	private $bytes_written_total = 0;
