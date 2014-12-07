@@ -105,10 +105,11 @@ include(ABSPATH . 'wp-admin/admin-header.php');
 	/**
 	 * Filter the tabs shown on the Add Themes screen.
 	 *
-	 * This filter is for backwards compatibility only,
-	 * for the suppression of the upload tab.
+	 * This filter is for backwards compatibility only, for the suppression
+	 * of the upload tab.
 	 *
 	 * @since 2.8.0
+	 *
 	 * @param array $tabs The tabs shown on the Add Themes screen. Default is 'upload'.
 	 */
 	$tabs = apply_filters( 'install_themes_tabs', array( 'upload' => __( 'Upload Theme' ) ) );
