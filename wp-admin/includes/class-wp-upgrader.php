@@ -1015,9 +1015,11 @@ class Plugin_Upgrader extends WP_Upgrader {
 	 * Hooked to the {@see 'upgrader_pre_install'} filter by {@see Plugin_Upgrader::upgrade()}.
 	 *
 	 * @since 2.8.0
+	 * @since 4.1.0 Added a return value.
 	 *
-	 * @param bool|WP_Error $return Upgrade offer return.
-	 * @param array         $plugin Plugin package arguments.
+	 * @param bool|WP_Error  $return Upgrade offer return.
+	 * @param array          $plugin Plugin package arguments.
+	 * @return bool|WP_Error The passed in $return param or {@see WP_Error}.
 	 */
 	public function deactivate_plugin_before_upgrade($return, $plugin) {
 
