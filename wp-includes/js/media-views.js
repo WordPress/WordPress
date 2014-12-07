@@ -2395,6 +2395,7 @@
 			}, this );
 
 			this.on( 'content:create:iframe', this.iframeContent, this );
+			this.on( 'content:deactivate:iframe', this.iframeContentCleanup, this );
 			this.on( 'menu:render:default', this.iframeMenu, this );
 			this.on( 'open', this.hijackThickbox, this );
 			this.on( 'close', this.restoreThickbox, this );
@@ -2409,6 +2410,10 @@
 			content.view = new media.view.Iframe({
 				controller: this
 			});
+		},
+
+		iframeContentCleanup: function( content ) {
+			this.$el.removeClass('hide-toolbar');
 		},
 
 		iframeMenu: function( view ) {
