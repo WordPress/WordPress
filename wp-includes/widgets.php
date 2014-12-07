@@ -548,15 +548,37 @@ class WP_Widget_Factory {
 		add_action( 'widgets_init', array( $this, '_register_widgets' ), 100 );
 	}
 
-	public function register($widget_class) {
+	/**
+	 * Register a widget subclass.
+	 *
+	 * @since 2.8.0
+	 * @access public
+	 *
+	 * @param string $widget_class The name of a {@see WP_Widget} subclass.
+	 */
+	public function register( $widget_class ) {
 		$this->widgets[$widget_class] = new $widget_class();
 	}
 
-	public function unregister($widget_class) {
+	/**
+	 * Un-register a widget subclass.
+	 *
+	 * @since 2.8.0
+	 * @access public
+	 *
+	 * @param string $widget_class The name of a {@see WP_Widget} subclass.
+	 */
+	public function unregister( $widget_class ) {
 		if ( isset($this->widgets[$widget_class]) )
 			unset($this->widgets[$widget_class]);
 	}
 
+	/**
+	 * Utility method for adding widgets to the registered widgets global.
+	 *
+	 * @since 2.8.0
+	 * @access public
+	 */
 	public function _register_widgets() {
 		global $wp_registered_widgets;
 		$keys = array_keys($this->widgets);
