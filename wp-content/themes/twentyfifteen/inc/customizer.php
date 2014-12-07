@@ -82,7 +82,7 @@ add_action( 'customize_register', 'twentyfifteen_customize_register', 11 );
  * The order of colors in a colors array:
  * 1. Main Background Color.
  * 2. Sidebar Background Color.
- * 3. Box Background Bolor.
+ * 3. Box Background Color.
  * 4. Main Text and Link Color.
  * 5. Sidebar Text and Link Color.
  * 6. Meta Box Background Color.
@@ -460,6 +460,7 @@ function twentyfifteen_color_scheme_css_template() {
 	.main-navigation ul,
 	.main-navigation li,
 	.post-navigation,
+	.post-navigation div + div,
 	.pagination,
 	.comment-navigation,
 	.widget li,
@@ -468,23 +469,19 @@ function twentyfifteen_color_scheme_css_template() {
 	.widget_pages .children,
 	.site-header,
 	.site-footer,
-	.hentry .hentry,
+	.hentry + .hentry,
 	.author-info,
 	.entry-content .page-links a,
 	.page-links > span,
 	.page-header,
 	.comments-area,
-	.comment-list .comment-respond,
+	.comment-list + .comment-respond,
 	.comment-list article,
 	.comment-list .pingback,
 	.comment-list .trackback,
 	.comment-list .reply a,
 	.no-comments {
 		border-color: {{ data.textcolor }}; /* Fallback for IE7 and IE8 */
-		border-color: {{ data.border_color }};
-	}
-
-	.post-navigation div + div {
 		border-color: {{ data.border_color }};
 	}
 
