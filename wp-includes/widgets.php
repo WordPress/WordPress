@@ -849,26 +849,32 @@ function unregister_sidebar( $name ) {
 }
 
 /**
- * Register widget for use in sidebars.
+ * Register an instance of a widget.
  *
  * The default widget option is 'classname' that can be overridden.
  *
- * The function can also be used to un-register widgets when $output_callback
+ * The function can also be used to un-register widgets when `$output_callback`
  * parameter is an empty string.
  *
  * @since 2.2.0
  *
- * @uses $wp_registered_widgets Uses stored registered widgets.
- * @uses $wp_register_widget_defaults Retrieves widget defaults.
+ * @global array $wp_registered_widgets       Uses stored registered widgets.
+ * @global array $wp_register_widget_defaults Retrieves widget defaults.
  *
- * @param int|string $id Widget ID.
- * @param string $name Widget display title.
- * @param callback $output_callback Run when widget is called.
- * @param array|string $options Optional. Widget Options.
- * @param mixed $params,... Widget parameters to add to widget.
- * @return null Will return if $output_callback is empty after removing widget.
+ * @param int|string $id              Widget ID.
+ * @param string     $name            Widget display title.
+ * @param callback   $output_callback Run when widget is called.
+ * @param array      $options {
+ *     Optional. An array of supplementary widget options for the instance.
+ *
+ *     @type string $classname   Class name for the widget's HTML container. Default is a shortened
+ *                               version of the output callback name.
+ *     @type string $description Widget description for display in the widget administration
+ *                               panel and/or theme.
+ * }
+ * @return null Will return if `$output_callback` is empty after removing widget.
  */
-function wp_register_sidebar_widget($id, $name, $output_callback, $options = array()) {
+function wp_register_sidebar_widget( $id, $name, $output_callback, $options = array() ) {
 	global $wp_registered_widgets, $wp_registered_widget_controls, $wp_registered_widget_updates, $_wp_deprecated_widgets_callbacks;
 
 	$id = strtolower($id);
