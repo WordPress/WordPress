@@ -988,7 +988,7 @@ class WP_Tax_Query {
 
 	/**
 	 * Generate SQL JOIN and WHERE clauses for a "first-order" query clause.
-
+	 *
 	 * @since 4.1.0
 	 * @access public
 	 *
