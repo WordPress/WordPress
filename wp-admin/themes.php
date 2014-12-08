@@ -164,22 +164,33 @@ if ( ! $ct->errors() || ( 1 == count( $ct->errors()->get_error_codes() )
 				continue;
 			// 0 = name, 1 = capability, 2 = file
 			if ( ( strcmp($self, $item[2]) == 0 && empty($parent_file)) || ($parent_file && ($item[2] == $parent_file)) )
-				$class = ' class="current"';
+				$class = ' current';
 			if ( !empty($submenu[$item[2]]) ) {
 				$submenu[$item[2]] = array_values($submenu[$item[2]]); // Re-index.
 				$menu_hook = get_plugin_page_hook($submenu[$item[2]][0][2], $item[2]);
 				if ( file_exists(WP_PLUGIN_DIR . "/{$submenu[$item[2]][0][2]}") || !empty($menu_hook))
-					$current_theme_actions[] = "<a class='button button-secondary' href='admin.php?page={$submenu[$item[2]][0][2]}'$class>{$item[0]}</a>";
+					$current_theme_actions[] = "<a class='button button-secondary$class' href='admin.php?page={$submenu[$item[2]][0][2]}'>{$item[0]}</a>";
 				else
-					$current_theme_actions[] = "<a class='button button-secondary' href='{$submenu[$item[2]][0][2]}'$class>{$item[0]}</a>";
-			} else if ( current_user_can($item[1]) ) {
+					$current_theme_actions[] = "<a class='button button-secondary$class' href='{$submenu[$item[2]][0][2]}'>{$item[0]}</a>";
+			} elseif ( ! empty( $item[2] ) && current_user_can( $item[1] ) ) {
 				$menu_file = $item[2];
-				if ( false !== ( $pos = strpos( $menu_file, '?' ) ) )
+
+				if ( current_user_can( 'customize' ) ) {
+					if ( 'custom-header' === $menu_file ) {
+						$current_theme_actions[] = "<a class='button button-secondary hide-if-no-customize$class' href='customize.php?autofocus[control]=header_image'>{$item[0]}</a>";
+					} elseif ( 'custom-background' === $menu_file ) {
+						$current_theme_actions[] = "<a class='button button-secondary hide-if-no-customize$class' href='customize.php?autofocus[control]=background_image'>{$item[0]}</a>";
+					}
+				}
+
+				if ( false !== ( $pos = strpos( $menu_file, '?' ) ) ) {
 					$menu_file = substr( $menu_file, 0, $pos );
+				}
+
 				if ( file_exists( ABSPATH . "wp-admin/$menu_file" ) ) {
-					$current_theme_actions[] = "<a class='button button-secondary' href='{$item[2]}'$class>{$item[0]}</a>";
+					$current_theme_actions[] = "<a class='button button-secondary$class' href='{$item[2]}'>{$item[0]}</a>";
 				} else {
-					$current_theme_actions[] = "<a class='button button-secondary' href='themes.php?page={$item[2]}'$class>{$item[0]}</a>";
+					$current_theme_actions[] = "<a class='button button-secondary$class' href='themes.php?page={$item[2]}'$>{$item[0]}</a>";
 				}
 			}
 		}

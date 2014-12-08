@@ -580,6 +580,12 @@ body.folded .theme-overlay .theme-wrap {
 	margin-bottom: 5px;
 }
 
+/* Hide-if-customize for items we can't add classes to */
+.customize-support .theme-overlay .theme-actions a[href="themes.php?page=custom-header"],
+.customize-support .theme-overlay .theme-actions a[href="themes.php?page=custom-background"] {
+	display: none;
+}
+
 .broken-themes a.delete-theme,
 .theme-overlay .theme-actions .delete-theme {
 	color: #a00;
