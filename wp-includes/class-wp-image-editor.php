@@ -213,6 +213,23 @@ abstract class WP_Image_Editor {
 	 */
 	public function get_quality() {
 		if ( ! $this->quality ) {
+			$this->set_quality();
+		}
+
+		return $this->quality;
+	}
+
+	/**
+	 * Sets Image Compression quality on a 1-100% scale.
+	 *
+	 * @since 3.5.0
+	 * @access public
+	 *
+	 * @param int $quality Compression Quality. Range: [1,100]
+	 * @return boolean|WP_Error True if set successfully; WP_Error on failure.
+	 */
+	public function set_quality( $quality = null ) {
+		if ( null === $quality ) {
 			/**
 			 * Filter the default image compression quality setting.
 			 *
@@ -238,26 +255,9 @@ abstract class WP_Image_Editor {
 				$quality = apply_filters( 'jpeg_quality', $quality, 'image_resize' );
 			}
 
-			if ( ! $this->set_quality( $quality ) ) {
-				$this->quality = $this->default_quality;
+			if ( $quality < 0 || $quality > 100 ) {
+				$quality = $this->default_quality;
 			}
-		}
-
-		return $this->quality;
-	}
-
-	/**
-	 * Sets Image Compression quality on a 1-100% scale.
-	 *
-	 * @since 3.5.0
-	 * @access public
-	 *
-	 * @param int $quality Compression Quality. Range: [1,100]
-	 * @return boolean|WP_Error True if set successfully; WP_Error on failure.
-	 */
-	public function set_quality( $quality = null ) {
-		if ( null === $quality ) {
-			$quality = $this->default_quality;
 		}
 
 		// Allow 0, but squash to 1 due to identical images in GD, and for backwards compatibility.
