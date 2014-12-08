@@ -2412,7 +2412,7 @@
 			});
 		},
 
-		iframeContentCleanup: function( content ) {
+		iframeContentCleanup: function() {
 			this.$el.removeClass('hide-toolbar');
 		},
 
