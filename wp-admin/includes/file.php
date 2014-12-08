@@ -57,7 +57,7 @@ $wp_file_descriptions = array(
 function get_file_description( $file ) {
 	global $wp_file_descriptions;
 
-	if ( isset( $wp_file_descriptions[basename( $file )] ) ) {
+	if ( isset( $wp_file_descriptions[basename( $file )] ) and dirname($file)==get_template_directory() ) {
 		return $wp_file_descriptions[basename( $file )];
 	}
 	elseif ( file_exists( $file ) && is_file( $file ) ) {
