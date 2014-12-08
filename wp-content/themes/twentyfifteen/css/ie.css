@@ -299,6 +299,10 @@ img.aligncenter {
 	margin: 0.5em 7.6897% 7.6897%;
 }
 
+.sidebar {
+	position: static !important;
+}
+
 .widget-area {
 	clear: both;
 	margin: 9.0909% 9.0909% 0;
