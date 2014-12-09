@@ -190,7 +190,7 @@ if ( ! $ct->errors() || ( 1 == count( $ct->errors()->get_error_codes() )
 				if ( file_exists( ABSPATH . "wp-admin/$menu_file" ) ) {
 					$current_theme_actions[] = "<a class='button button-secondary$class' href='{$item[2]}'>{$item[0]}</a>";
 				} else {
-					$current_theme_actions[] = "<a class='button button-secondary$class' href='themes.php?page={$item[2]}'$>{$item[0]}</a>";
+					$current_theme_actions[] = "<a class='button button-secondary$class' href='themes.php?page={$item[2]}'>{$item[0]}</a>";
 				}
 			}
 		}
