@@ -475,7 +475,7 @@ function twentythirteen_excerpt_more( $more ) {
 	$link = sprintf( '<a href="%1$s" class="more-link">%2$s</a>',
 		esc_url( get_permalink( get_the_ID() ) ),
 			/* translators: %s: Name of current post */
-			sprintf( esc_html__( 'Continue reading %s', 'twentythirteen' ), '<span class="screen-reader-text">' . get_the_title( get_the_ID() ) . '</span> <span class="meta-nav">&rarr;</span>' )
+			sprintf( __( 'Continue reading %s <span class="meta-nav">&rarr;</span>', 'twentythirteen' ), '<span class="screen-reader-text">' . get_the_title( get_the_ID() ) . '</span>' )
 		);
 	return ' &hellip; ' . $link;
 }

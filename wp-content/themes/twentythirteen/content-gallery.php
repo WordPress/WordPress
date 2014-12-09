@@ -24,8 +24,8 @@
 			<?php
 			/* translators: %s: Name of current post */
 			the_content( sprintf(
-				esc_html__( 'Continue reading %s', 'twentythirteen' ),
-				the_title( '<span class="screen-reader-text">', '</span> <span class="meta-nav">&rarr;</span>', false )
+				__( 'Continue reading %s <span class="meta-nav">&rarr;</span>', 'twentythirteen' ),
+				the_title( '<span class="screen-reader-text">', '</span>', false )
 			) );
 
 			wp_link_pages( array( 'before' => '<div class="page-links"><span class="page-links-title">' . __( 'Pages:', 'twentythirteen' ) . '</span>', 'after' => '</div>', 'link_before' => '<span>', 'link_after' => '</span>' ) );
