@@ -45,8 +45,8 @@
 		<?php
 			/* translators: %s: Name of current post */
 			the_content( sprintf(
-				esc_html__( 'Continue reading %s', 'twentyfourteen' ),
-				the_title( '<span class="screen-reader-text">', '</span> <span class="meta-nav">&rarr;</span>', false )
+				__( 'Continue reading %s <span class="meta-nav">&rarr;</span>', 'twentyfourteen' ),
+				the_title( '<span class="screen-reader-text">', '</span>', false )
 			) );
 
 			wp_link_pages( array(
