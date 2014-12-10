@@ -57,7 +57,7 @@
 		documentHeight = $document.height();
 		sidebarHeight = $sidebar.height();
 
-		if ( 955 >= windowWidth ) {
+		if ( 955 > windowWidth ) {
 			top = bottom = false;
 			$sidebar.removeAttr( 'style' );
 		}
