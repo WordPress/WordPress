@@ -6,9 +6,9 @@
  */
 
 ( function( $ ) {
-	var $body, $window, $document, $sidebar, adminbarOffset, top = false,
-		bottom = false, windowWidth, windowHeight, lastWindowPos = 0,
-		topOffset = 0, documentHeight, sidebarHeight, resizeTimer;
+	var $body, $window, $sidebar, adminbarOffset, top = false,
+	    bottom = false, windowWidth, windowHeight, lastWindowPos = 0,
+	    topOffset = 0, bodyHeight, sidebarHeight, resizeTimer;
 
 	// Add dropdown toggle that display child menu items.
 	$( '.main-navigation .page_item_has_children > a, .main-navigation .menu-item-has-children > a' ).after( '<button class="dropdown-toggle" aria-expanded="false">' + screenReaderText.expand + '</button>' );
@@ -52,9 +52,9 @@
 
 	// Sidebar scrolling.
 	function resize() {
-		windowWidth = $window.width();
-		windowHeight = $window.height();
-		documentHeight = $document.height();
+		windowWidth   = $window.width();
+		windowHeight  = $window.height();
+		bodyHeight    = $body.height();
 		sidebarHeight = $sidebar.height();
 
 		if ( 955 > windowWidth ) {
@@ -66,7 +66,7 @@
 	function scroll() {
 		var windowPos = $window.scrollTop();
 
-		if ( 955 <= windowWidth && sidebarHeight + adminbarOffset < documentHeight ) {
+		if ( 955 <= windowWidth && sidebarHeight + adminbarOffset < bodyHeight ) {
 			if ( sidebarHeight + adminbarOffset > windowHeight ) {
 				if ( windowPos > lastWindowPos ) {
 					if ( top ) {
@@ -106,10 +106,9 @@
 	}
 
 	$( document ).ready( function() {
-		$body          = $( 'body' );
+		$body          = $( document.body );
 		$window        = $( window );
-		$document      = $( document );
-		$sidebar        = $( '#sidebar' ).first();
+		$sidebar       = $( '#sidebar' ).first();
 		adminbarOffset = $body.is( '.admin-bar' ) ? $( '#wpadminbar' ).height() : 0;
 
 		$window
