@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Twenty Fifteen 1.0\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tags/twentyfifteen\n"
-"POT-Creation-Date: 2014-12-04 12:59:53+00:00\n"
+"POT-Creation-Date: 2014-12-10 23:27:35+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -113,31 +113,43 @@ msgstr ""
 msgid "Add widgets here to appear in your sidebar."
 msgstr ""
 
-#: functions.php:160
+#. translators: If there are characters in your language that are not supported
+#. by Noto Sans, translate this to 'off'. Do not translate into your own
+#. language.
+#: functions.php:157
 msgctxt "Noto Sans font: on or off"
 msgid "on"
 msgstr ""
 
-#: functions.php:168
+#. translators: If there are characters in your language that are not supported
+#. by Noto Serif, translate this to 'off'. Do not translate into your own
+#. language.
+#: functions.php:162
 msgctxt "Noto Serif font: on or off"
 msgid "on"
 msgstr ""
 
-#: functions.php:176
+#. translators: If there are characters in your language that are not supported
+#. by Inconsolata, translate this to 'off'. Do not translate into your own
+#. language.
+#: functions.php:167
 msgctxt "Inconsolata font: on or off"
 msgid "on"
 msgstr ""
 
-#: functions.php:184
+#. translators: To add an additional character subset specific to your
+#. language, translate this to 'greek', 'cyrillic', 'devanagari' or
+#. 'vietnamese'. Do not translate into your own language.
+#: functions.php:172
 msgctxt "Add new subset (greek, cyrillic, devanagari, vietnamese)"
 msgid "no-subset"
 msgstr ""
 
-#: functions.php:238
+#: functions.php:226
 msgid "expand child menu"
 msgstr ""
 
-#: functions.php:239
+#: functions.php:227
 msgid "collapse child menu"
 msgstr ""
 
@@ -280,14 +292,14 @@ msgstr ""
 #: single.php:33
 msgctxt "Next post link"
 msgid ""
-"<span class=\"meta-nav\">Next <span class=\"screen-reader-text\">post:</"
+"<span class=\"meta-nav\">Next <span class=\"screen-reader-text\">post: </"
 "span></span><span class=\"post-title\">%title</span>"
 msgstr ""
 
 #: single.php:34
 msgctxt "Previous post link"
 msgid ""
-"<span class=\"meta-nav\">Previous <span class=\"screen-reader-text\">post:</"
+"<span class=\"meta-nav\">Previous <span class=\"screen-reader-text\">post: </"
 "span></span><span class=\"post-title\">%title</span>"
 msgstr ""
 
