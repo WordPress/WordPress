@@ -182,7 +182,7 @@ function twentyfifteen_get_color_scheme() {
 }
 endif; // twentyfifteen_get_color_scheme
 
-if ( ! function_exists( 'twentyfifteen_get_color_scheme_control_options' ) ) :
+if ( ! function_exists( 'twentyfifteen_get_color_scheme_choices' ) ) :
 /**
  * Returns an array of color scheme choices registered for Twenty Fifteen.
  *
@@ -200,7 +200,7 @@ function twentyfifteen_get_color_scheme_choices() {
 
 	return $color_scheme_control_options;
 }
-endif; // twentyfifteen_get_color_scheme_control_options
+endif; // twentyfifteen_get_color_scheme_choices
 
 if ( ! function_exists( 'twentyfifteen_sanitize_color_scheme' ) ) :
 /**
