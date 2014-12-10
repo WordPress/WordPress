@@ -158,15 +158,13 @@ div.mce-inline-toolbar-grp {
 	border: 1px solid #aaa;
 	-webkit-border-radius: 2px;
 	border-radius: 2px;
-	-webkit-box-shadow: 0 1px 4px rgba( 0, 0, 0, 0.2 );
-	box-shadow: 0 1px 4px rgba( 0, 0, 0, 0.2 );
+	-webkit-box-shadow: 0 1px 3px rgba( 0, 0, 0, 0.15 );
+	box-shadow: 0 1px 3px rgba( 0, 0, 0, 0.15 );
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
-	-webkit-box-sizing: border-box;
 	box-sizing: border-box;
 	margin-bottom: 8px;
 	position: absolute;
-	opacity: 0;
 	-moz-user-select: none;
 	-webkit-user-select: none;
 	-ms-user-select: none;
@@ -181,18 +179,6 @@ div.mce-wp-image-toolbar > div.mce-stack-layout {
 div.mce-inline-toolbar-grp.mce-arrow-up {
 	margin-bottom: 0;
 	margin-top: 8px;
-}
-
-div.mce-inline-toolbar-grp.mce-inline-toolbar-grp-active {
-	-webkit-transition:
-		top 0.1s ease-out,
-		left 0.1s ease-out,
-		opacity 0.1s ease-in-out;
-	transition:
-		top 0.1s ease-out,
-		left 0.1s ease-out,
-		opacity 0.1s ease-in-out;
-	opacity: 1;
 }
 
 div.mce-inline-toolbar-grp:before,
