@@ -2238,7 +2238,7 @@ function the_post_navigation( $args = array() ) {
  * @global WP_Query $wp_query WordPress Query object.
  *
  * @param array $args {
- *     Optional. Default paging navigation arguments. Default empty array.
+ *     Optional. Default posts navigation arguments. Default empty array.
  *
  *     @type string $prev_text          Anchor text to display in the previous posts link.
  *                                      Default 'Older posts'.
@@ -2247,7 +2247,7 @@ function the_post_navigation( $args = array() ) {
  *     @type string $screen_reader_text Screen reader text for nav element.
  *                                      Default 'Posts navigation'.
  * }
- * @return string Markup for paging links.
+ * @return string Markup for posts links.
  */
 function get_the_posts_navigation( $args = array() ) {
 	$navigation = '';
@@ -2271,7 +2271,7 @@ function get_the_posts_navigation( $args = array() ) {
 			$navigation .= '<div class="nav-next">' . $next_link . '</div>';
 		}
 
-		$navigation = _navigation_markup( $navigation, 'paging-navigation', $args['screen_reader_text'] );
+		$navigation = _navigation_markup( $navigation, 'posts-navigation', $args['screen_reader_text'] );
 	}
 
 	return $navigation;
@@ -2303,7 +2303,7 @@ function the_posts_navigation( $args = array() ) {
  * }
  * @return string Markup for pagination links.
  */
-function get_the_pagination( $args = array() ) {
+function get_the_posts_pagination( $args = array() ) {
 	$navigation = '';
 
 	// Don't print empty markup if there's only one page.
@@ -2337,11 +2337,11 @@ function get_the_pagination( $args = array() ) {
  *
  * @since 4.1.0
  *
- * @param array $args Optional. See {@see get_the_pagination()} for available arguments.
+ * @param array $args Optional. See {@see get_the_posts_pagination()} for available arguments.
  *                    Default empty array.
  */
-function the_pagination( $args = array() ) {
-	echo get_the_pagination( $args );
+function the_posts_pagination( $args = array() ) {
+	echo get_the_posts_pagination( $args );
 }
 
 /**
@@ -2351,11 +2351,11 @@ function the_pagination( $args = array() ) {
  * @access private
  *
  * @param string $links              Navigational links.
- * @param string $class              Optional. Custom class for nav element. Default: 'paging-navigation'.
+ * @param string $class              Optional. Custom class for nav element. Default: 'posts-navigation'.
  * @param string $screen_reader_text Optional. Screen reader text for nav element. Default: 'Posts navigation'.
  * @return string Navigation template tag.
  */
-function _navigation_markup( $links, $class = 'paging-navigation', $screen_reader_text = '' ) {
+function _navigation_markup( $links, $class = 'posts-navigation', $screen_reader_text = '' ) {
 	if ( empty( $screen_reader_text ) ) {
 		$screen_reader_text = __( 'Posts navigation' );
 	}
