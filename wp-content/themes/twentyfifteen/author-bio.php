@@ -9,7 +9,7 @@
 ?>
 
 <div class="author-info">
-	<h2 class="author-heading"><?php _e( 'Published by', 'twentyfifteen' ); ?></h2>
+	<h2 class="author-heading"><?php esc_html_e( 'Published by', 'twentyfifteen' ); ?></h2>
 	<div class="author-avatar">
 		<?php
 		/**
