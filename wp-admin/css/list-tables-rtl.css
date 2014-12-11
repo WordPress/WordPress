@@ -630,7 +630,7 @@ classes exist in paginate_links() but not seen in list table output. */
 .wp-filter .view-switch {
 	display: inline-block;
 	vertical-align: middle;
-	padding: 14px 0;
+	padding: 15px 0;
 	margin: 0 0 0 20px;
 }
 

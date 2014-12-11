@@ -954,6 +954,10 @@ th.action-links {
 	margin-right: 20px;
 }
 
+.filter-items {
+	float: left;
+}
+
 .filter-links {
 	display: inline-block;
 	margin: 0;
@@ -988,23 +992,22 @@ th.action-links {
 }
 
 .wp-filter .search-form {
-	margin: 10px;
-	position: absolute;
-	right: 0;
-	top: 0;
+	float: right;
+	margin: 10px 0;
 }
 
 .wp-filter .search-form input[type="search"] {
 	margin: 0;
 	padding: 3px 5px;
-	max-width: 280px;
-	width: 100%;
+	width: 280px;
+	max-width: 100%;
 	font-size: 16px;
 	font-weight: 300;
 	line-height: 1.5;
 }
 
 .wp-filter .search-form select {
+	margin: 0;
 	height: 33px;
 	vertical-align: top;
 }
@@ -1205,11 +1208,17 @@ th.action-links {
 	}
 }
 
-@media only screen and (max-width: 910px) {
+@media only screen and (max-width: 1000px) {
+	.filter-items {
+		float: none;
+	}
+
+	.wp-filter .media-toolbar-primary,
+	.wp-filter .media-toolbar-secondary,
 	.wp-filter .search-form {
 		float: none; /* Remove float from media-views.css */
 		position: relative;
-		margin: 20px 0;
+		max-width: 100%;
 	}
 }
 
