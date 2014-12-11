@@ -2314,8 +2314,11 @@ function get_the_pagination( $args = array() ) {
 			'next_text'          => __( 'Next' ),
 			'screen_reader_text' => __( 'Posts navigation' ),
 		) );
-		// Make sure we get plain links, so we can work with it.
-		$args['type'] = 'plain';
+
+		// Make sure we get a string back. Plain is the next best thing.
+		if ( isset( $args['type'] ) && 'array' == $args['type'] ) {
+			$args['type'] = 'plain';
+		}
 
 		// Set up paginated links.
 		$links = paginate_links( $args );
