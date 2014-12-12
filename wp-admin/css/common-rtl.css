@@ -1012,6 +1012,10 @@ th.action-links {
 	vertical-align: top;
 }
 
+.wp-filter .search-form.search-plugins {
+	display: inline-block;
+}
+
 .wp-filter .drawer-toggle {
 	display: inline-block;
 	margin: 0 10px;
