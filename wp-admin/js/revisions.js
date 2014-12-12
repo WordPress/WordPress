@@ -405,7 +405,7 @@ window.wp = window.wp || {};
 			this.set( {
 				to : this.revisions.get( state.to ),
 				from : this.revisions.get( state.from ),
-				compareTwoMode : this.revisions.get( state.compareTwoMode )
+				compareTwoMode : state.compareTwoMode
 			} );
 
 			// Start the router if browser supports History API
