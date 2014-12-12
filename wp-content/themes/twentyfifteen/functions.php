@@ -150,8 +150,9 @@ if ( ! function_exists( 'twentyfifteen_fonts_url' ) ) :
  * @return string Google fonts URL for the theme.
  */
 function twentyfifteen_fonts_url() {
-	$fonts   = array();
-	$subsets = 'latin,latin-ext';
+	$fonts_url = '';
+	$fonts     = array();
+	$subsets   = 'latin,latin-ext';
 
 	/* translators: If there are characters in your language that are not supported by Noto Sans, translate this to 'off'. Do not translate into your own language. */
 	if ( 'off' !== _x( 'on', 'Noto Sans font: on or off', 'twentyfifteen' ) ) {
@@ -181,10 +182,14 @@ function twentyfifteen_fonts_url() {
 		$subsets .= ',vietnamese';
 	}
 
-	return add_query_arg( array(
-		'family' => urlencode( implode( '|', $fonts ) ),
-		'subset' => urlencode( $subsets ),
-	), '//fonts.googleapis.com/css' );
+	if ( $fonts ) {
+		$fonts_url = add_query_arg( array(
+			'family' => urlencode( implode( '|', $fonts ) ),
+			'subset' => urlencode( $subsets ),
+		), '//fonts.googleapis.com/css' );
+	}
+
+	return $fonts_url;
 }
 endif;
 
@@ -201,7 +206,7 @@ function twentyfifteen_scripts() {
 	wp_enqueue_style( 'genericons', get_template_directory_uri() . '/genericons/genericons.css', array(), '3.2' );
 
 	// Load our main stylesheet.
-	wp_enqueue_style( 'twentyfifteen-style', get_stylesheet_uri(), array( 'twentyfifteen-fonts', 'genericons' ) );
+	wp_enqueue_style( 'twentyfifteen-style', get_stylesheet_uri(), array( 'genericons' ) );
 
 	// Load the Internet Explorer specific stylesheet.
 	wp_enqueue_style( 'twentyfifteen-ie', get_template_directory_uri() . '/css/ie.css', array( 'twentyfifteen-style' ), '20141010' );
