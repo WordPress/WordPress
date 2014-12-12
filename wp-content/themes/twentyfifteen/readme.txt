@@ -1,9 +1,9 @@
 === Twenty Fifteen ===
 Contributors: the WordPress team
 Tags: black, blue, gray, pink, purple, white, yellow, dark, light, two-columns, left-sidebar, fixed-layout, responsive-layout, accessibility-ready, custom-background, custom-colors, custom-header, custom-menu, editor-style, featured-images, microformats, post-formats, rtl-language-support, sticky-post, threaded-comments, translation-ready
-Requires at least: 3.4
+Requires at least: 4.1
 Tested up to: 4.1
-Stable tag:
+Stable tag: 4.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -32,11 +32,10 @@ Our 2015 default theme is clean, blog-focused, and designed for clarity. Twenty 
 = How do I change the color scheme? =
 
 You can change the colors of your site really easily using Twenty Fifteen.
-1. Go to your Dashboard.
-2. Click Appearance.
-3. Click Customize.
+
+1. In your admin panel, go to Appearance -> Customize.
 4. Now you will see the Customizer and a tab called 'Colors'. Click this tab.
-5. You can now change your color scheme by selecting one of the predefined ones. Simple click on the radio button by the side of the scheme you want. You can preview the change in the Customizer.
+5. You can now change your color scheme by selecting one of the predefined ones. Choose a color scheme you want from Base Color Scheme dropdown. You can preview the change in the Customizer.
 6. Should you wish to create your own color scheme or modify an existing one, you can by selecting the colors for each area listed.
 7. Once you are happy with your color changes you can click save and your changes will be reflected on your live site.
 
@@ -80,15 +79,17 @@ Social networks that aren't currently supported will be indicated by a generic s
 
 = How do I add a description for my menu link in navigation? =
 
-Twenty Fifteen allows you to not only show a menu link title but also add a description for each menu item.
+Twenty Fifteen sports a menu design that’s easy to navigate — especially when you add menu descriptions.
 
-1. First up select the menu you want to add links and descriptions to.
-2. Make sure under Screen Options you turn on Description. Without this you won't be able to add descriptions.
-2. When in the Menu Structure section, you can click open the link and add a description.
-3. Once you save the menu with your link, the new description should show up.
+1. Visit the Menus page in your admin.
+2. Use the Screen Options tab to “Show advanced menu properties”.
+3. Select “Description” there to start editing menu descriptions.
+4. Select the menu you want to add links and descriptions to.
+5. When in the Menu Structure section, you can click open the link and add a description.
+6. Once you save the menu with your link, the new description should show up.
 
 = Quick Specs =
 
 1. The main content width is 660px.
-2. The sidebar width is 247px.
+2. The sidebar width is 248px.
 3. Featured Images are 825px wide by 510px high.
