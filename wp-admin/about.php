@@ -49,13 +49,16 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 
 	<div class="feature-section col three-col">
 		<div class="col-1">
-			<p><?php echo ( 'Our 2015 default theme is blog-focused and designed for clarity. Twenty Fifteen&#8127;s straightforward typography is readable on any screen size.' ); ?></p>
+			<p><?php _e( 'Our newest default theme, Twenty Fifteen, is a blog-focused theme designed for clarity.' ); ?></p>
 		</div>
 		<div class="col-2">
-			<p><?php _e( 'Your content always takes center stage, whether viewed on a phone, tablet, laptop, or desktop computer.' ); ?></p>
+			<p>
+				<?php printf( __( 'Twenty Fifteen has flawless language support, with help from <a href="%s">Google&#8217;s Noto font family</a>.' ), 'https://www.google.com/get/noto/' ); ?>
+				<?php _e( 'The straightforward typography is readable on any screen size.' ); ?>
+			</p>
 		</div>
 		<div class="col-3 last-feature">
-			<p><?php printf( ( 'Twenty Fifteen has great language support, with help from <a href="%s">Google&#8217;s Noto font family</a>.' ), 'https://www.google.com/get/noto/' ); ?></p>
+			<p><?php _e( 'Your content always takes center stage, whether viewed on a phone, tablet, laptop, or desktop computer.' ); ?></p>
 		</div>
 	</div>
 
@@ -66,7 +69,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 <div class="changelog">
 	<h2 class="about-headline-callout"><?php _e( 'Distraction-free writing' ); ?></h2>
 	<div class="feature-section">
-		<p><?php echo ( '<em>Just write.</em> Sometimes, you just need to concentrate on putting your thoughts into words. Try turning on <strong>writing mode</strong>. When you start typing, all the distractions will fade away, letting you focus solely on your writing. All your editing tools instantly return when you need them.' ); ?></p>
+		<p><em><?php _e( 'Just write.' ); ?></em> <?php _e( 'Sometimes, you just need to concentrate on putting your thoughts into words. Try turning on <strong>distraction-free writing mode</strong>. When you start typing, all the distractions will fade away, letting you focus solely on your writing. All your editing tools instantly return when you need them.' ); ?></p>
 	</div>
 </div>
 
