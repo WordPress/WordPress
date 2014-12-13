@@ -647,7 +647,7 @@ if ( post_type_supports( $post_type, 'comments' ) )
 	wp_comment_reply();
 ?>
 
-<?php if ( post_type_supports( $post_type, 'title' ) && '' === $post->post_title ) : ?>
+<?php if ( ! wp_is_mobile() && post_type_supports( $post_type, 'title' ) && '' === $post->post_title ) : ?>
 <script type="text/javascript">
 try{document.post.title.focus();}catch(e){}
 </script>

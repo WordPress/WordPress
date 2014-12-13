@@ -583,10 +583,14 @@ do_action( "{$taxonomy}_add_form", $taxonomy );
 
 </div><!-- /col-container -->
 </div><!-- /wrap -->
+
+<?php if ( ! wp_is_mobile() ) : ?>
 <script type="text/javascript">
 try{document.forms.addtag['tag-name'].focus();}catch(e){}
 </script>
 <?php
+endif;
+
 $wp_list_table->inline_edit();
 
 include( ABSPATH . 'wp-admin/admin-footer.php' );

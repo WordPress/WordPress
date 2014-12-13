@@ -200,6 +200,9 @@ submit_button( __('Update') );
 ?>
 </form>
 </div>
+
+<?php if ( ! wp_is_mobile() ) : ?>
 <script type="text/javascript">
 try{document.forms.edittag.name.focus();}catch(e){}
 </script>
+<?php endif;
