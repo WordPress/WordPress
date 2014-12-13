@@ -42,7 +42,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 </h2>
 
 <div class="changelog">
-	<h2 class="about-headline-callout"><?php echo ( 'Introducing Twenty Fifteen' ); ?></h2>
+	<h2 class="about-headline-callout"><?php _e( 'Introducing Twenty Fifteen' ); ?></h2>
 	<div class="about-overview">
 		<img class="about-overview-img" src="//s.w.org/images/core/3.8/twentyfourteen.jpg?1" />
 	</div>
@@ -52,7 +52,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 			<p><?php echo ( 'Our 2015 default theme is blog-focused and designed for clarity. Twenty Fifteen&#8127;s straightforward typography is readable on any screen size.' ); ?></p>
 		</div>
 		<div class="col-2">
-			<p><?php echo ( 'Your content always takes center stage, whether viewed on a phone, tablet, laptop, or desktop computer.' ); ?></p>
+			<p><?php _e( 'Your content always takes center stage, whether viewed on a phone, tablet, laptop, or desktop computer.' ); ?></p>
 		</div>
 		<div class="col-3 last-feature">
 			<p><?php printf( ( 'Twenty Fifteen has great language support, with help from <a href="%s">Google&#8217;s Noto font family</a>.' ), 'https://www.google.com/get/noto/' ); ?></p>
@@ -64,7 +64,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 <hr />
 
 <div class="changelog">
-	<h2 class="about-headline-callout"><?php echo ( 'Distraction-free writing' ); ?></h2>
+	<h2 class="about-headline-callout"><?php _e( 'Distraction-free writing' ); ?></h2>
 	<div class="feature-section">
 		<p><?php echo ( '<em>Just write.</em> Sometimes, you just need to concentrate on putting your thoughts into words. Try turning on <strong>writing mode</strong>. When you start typing, all the distractions will fade away, letting you focus solely on your writing. All your editing tools instantly return when you need them.' ); ?></p>
 	</div>
@@ -73,22 +73,36 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 <hr />
 
 <div class="changelog under-the-hood">
-	<h3><?php echo ( 'The Finer Points' ); ?></h3>
+	<h3><?php _e( 'The Finer Points' ); ?></h3>
 
 	<div class="feature-section col two-col">
 		<div>
-			<h4><?php echo ( 'Choose a language' ); ?></h4>
-			<p><?php printf( ( 'Right now, WordPress %1$s is already translated into %2$d languages, with more always in progress. You can switch to any translation on the <a href="%3$s">General Settings</a> screen.' ), $display_version, 40, admin_url( 'options-general.php' ) ); ?></p>
+			<h4><?php _e( 'Choose a language' ); ?></h4>
+			<p><?php
+				$count = '<span id="translations-count">' . 40 . '</span>';
+				$string = __( 'Right now, WordPress %1$s is already translated into %2$s languages, with more always in progress. You can switch to any translation on the <a href="%3$s">General Settings</a> screen.' );
+				if ( ! current_user_can( 'manage_options' ) ) {
+					$string = strip_tags( $string );
+				}
+				echo sprintf( $string, $display_version, $count, admin_url( 'options-general.php' ) );
+			?></p>
 
-			<h4><?php echo ( 'Log out everywhere' ); ?></h4>
+			<h4><?php _e( 'Log out everywhere' ); ?></h4>
 			<p><?php printf( ( 'There&#8217;s a new tool on <a href="%s">your profile</a> that logs you out everywhere, for those times you forget to log off a shared computer.' ), get_edit_profile_url() ); ?></p>
 		</div>
+
 		<div class="last-feature">
-			<h4><?php echo ( 'Vine embeds' ); ?></h4>
+			<h4><?php _e( 'Vine embeds' ); ?></h4>
 			<p><?php printf( ( 'Embedding videos from Vine is as simple as pasting a URL onto its own line in a post. For more, see the Codex article on <a href="%s">Embeds</a>.' ), 'http://codex.wordpress.org/Embeds' ); ?></p>
 
-			<h4><?php echo ( 'Plugin recommendations' ); ?></h4>
-			<p><?php printf( ( 'The <a href="%s">plugin installer</a> now offers a list of plugins you may want to try, based on others who have similar plugins installed as you.' ), network_admin_url( 'plugin-install.php?tab=recommended' ) ); ?></p>
+			<h4><?php _e( 'Plugin recommendations' ); ?></h4>
+			<p><?php
+				$string = ( 'The <a href="%s">plugin installer</a> now offers a list of plugins you may want to try, based on others who have similar plugins installed as you.' );
+				if ( ! current_user_can( 'install_plugins' ) ) {
+					$string = strip_tags( $string );
+				}
+				echo sprintf( $string, network_admin_url( 'plugin-install.php?tab=recommended' ) );
+			?></p>
 		</div>
 	</div>
 </div>
@@ -100,20 +114,23 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 
 	<div class="feature-section col two-col">
 		<div>
-			<h4><?php echo ( 'Complex Queries' ); ?></h4>
-			<p><?php printf( ( 'Metadata, date, and term queries now support advanced conditional logic, like nested clauses and multiple operators &mdash; <code>%s</code>.' ), 'A&nbsp;AND&nbsp;(&nbsp;B&nbsp;OR&nbsp;C&nbsp;)' ); ?></p>
+			<h4><?php _e( 'Complex Queries' ); ?></h4>
+			<p><?php printf( __( 'Metadata, date, and term queries now support advanced conditional logic, like nested clauses and multiple operators &mdash; <code>%s</code>.' ), 'A&nbsp;AND&nbsp;(&nbsp;B&nbsp;OR&nbsp;C&nbsp;)' ); ?></p>
 
-			<h4><?php echo ( 'Customizer API' ); ?></h4>
+			<h4><?php _e( 'Customizer API' ); ?></h4>
 			<p><?php echo ( 'The customizer now supports conditionally showing panels and sections based on the page being previewed.' ); ?></p>
 		</div>
 		<div class="last-feature">
-			<h4><?php printf( ( '%s tags in themes' ), '<code>&lt;title&gt;</code>' ); ?></h4>
+			<h4><?php
+				/* translators: %s: "<title>" tag */
+				printf( __( '%s tags in themes' ), '<code>&lt;title&gt;</code>' );
+			?></h4>
 			<p><?php
-				printf( ( '%s tells WordPress to handle the complexities of document titles.' ), "<code>add_theme_support( 'title-tag' )</code>" );
+				printf( __( '%s tells WordPress to handle the complexities of document titles.' ), "<code>add_theme_support( 'title-tag' )</code>" );
 			?></p>
 
-			<h4><?php echo ( 'Developer Reference' ); ?></h4>
-			<p><?php printf( ( 'Continued improvements to inline code documentation have made the <a href="%s">developer reference</a> more complete than ever.' ), 'https://developer.wordpress.org/reference/' ); ?></p>
+			<h4><?php _e( 'Developer Reference' ); ?></h4>
+			<p><?php printf( __( 'Continued improvements to inline code documentation have made the <a href="%s">developer reference</a> more complete than ever.' ), 'https://developer.wordpress.org/reference/' ); ?></p>
 		</div>
 	</div>
 
@@ -132,6 +149,18 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 </div>
 
 </div>
+
+<script>
+jQuery(document).ready( function($) {
+	$.ajax( 'https://api.wordpress.org/translations/core/1.0/?version=4.1',
+		{ 'type' : 'HEAD' } ).done( function( data, textStatus, jqXHR ) {
+			var count = jqXHR.getResponseHeader( 'X-Translations-Count' );
+			if ( count ) {
+				$( '#translations-count' ).text( count );
+			}
+	});
+});
+</script>
 <?php
 
 include( ABSPATH . 'wp-admin/admin-footer.php' );
