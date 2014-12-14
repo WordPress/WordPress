@@ -193,8 +193,11 @@ $(document).ready( function() {
 		lastScrollPosition = 0,
 		pinnedMenuTop = false,
 		pinnedMenuBottom = false,
+		isScrolling = false,
+		scrollTimer,
 		menuTop = 0,
 		height = {
+			document: $document.height(),
 			window: $window.height(),
 			wpwrap: $wpwrap.height(),
 			adminbar: $adminbar.height(),
@@ -554,6 +557,35 @@ $(document).ready( function() {
 		}
 
 		if ( height.menu + height.adminbar > height.window ) {
+			// Check for overscrolling
+			if ( windowPos < 0 ) {
+				if ( ! pinnedMenuTop ) {
+					pinnedMenuTop = true;
+					pinnedMenuBottom = false;
+
+					$adminMenuWrap.css({
+						position: 'fixed',
+						top: '',
+						bottom: ''
+					});
+				}
+
+				return;
+			} else if ( windowPos + height.window > height.document - 1 ) {
+				if ( ! pinnedMenuBottom ) {
+					pinnedMenuBottom = true;
+					pinnedMenuTop = false;
+
+					$adminMenuWrap.css({
+						position: 'fixed',
+						top: '',
+						bottom: 0
+					});
+				}
+
+				return;
+			}
+
 			if ( windowPos > lastScrollPosition ) {
 				// Scrolling down
 				if ( pinnedMenuTop ) {
@@ -626,6 +658,16 @@ $(document).ready( function() {
 		lastScrollPosition = windowPos;
 	}
 
+	function resetHeights() {
+		height = {
+			document: $document.height(),
+			window: $window.height(),
+			wpwrap: $wpwrap.height(),
+			adminbar: $adminbar.height(),
+			menu: $adminMenuWrap.height()
+		};
+	}
+
 	function unpinMenu() {
 		if ( isIOS ) {
 			return;
@@ -640,6 +682,8 @@ $(document).ready( function() {
 	}
 
 	function setPinMenu() {
+		resetHeights();
+
 		if ( $adminmenu.data('wp-responsive') ) {
 			$body.removeClass( 'sticky-menu' );
 			unpinMenu();
@@ -652,8 +696,24 @@ $(document).ready( function() {
 		}
 	}
 
+	function scrollStart() {
+		if ( isScrolling ) {
+			window.clearTimeout( scrollTimer );
+
+			scrollTimer = window.setTimeout( function() {
+				isScrolling = false;
+			}, 200 );
+		} else {
+			isScrolling = true;
+			$document.triggerHandler( 'wp-scroll-start' );
+		}
+	}
+
 	if ( ! isIOS ) {
-		$window.on( 'scroll.pin-menu', pinMenu );
+		$window.on( 'scroll.pin-menu', function() {
+			scrollStart();
+			pinMenu();
+		});
 	}
 
 	window.wpResponsive = {
@@ -792,17 +852,7 @@ $(document).ready( function() {
 	window.wpResponsive.init();
 	setPinMenu();
 
-	$document.on( 'wp-window-resized.pin-menu postboxes-columnchange.pin-menu postbox-toggled.pin-menu', function() {
-		height.wpwrap = $wpwrap.height();
-		height.window = $window.height();
-		height.adminbar = $adminbar.height();
-		setPinMenu();
-	}).on( 'wp-collapse-menu.pin-menu', function() {
-		height.wpwrap = $wpwrap.height();
-		height.menu = $adminMenuWrap.height();
-		setPinMenu();
-	});
-
+	$document.on( 'wp-window-resized.pin-menu postboxes-columnchange.pin-menu postbox-toggled.pin-menu wp-collapse-menu.pin-menu wp-scroll-start.pin-menu', setPinMenu );
 });
 
 // Fire a custom jQuery event at the end of window resize
