@@ -1419,6 +1419,17 @@ class WP_Meta_Query {
 					$where = $wpdb->prepare( '%s', $meta_value );
 					break;
 
+				// EXISTS with a value is interpreted as '='.
+				case 'EXISTS' :
+					$meta_compare = '=';
+					$where = $wpdb->prepare( '%s', $meta_value );
+					break;
+
+				// 'value' is ignored for NOT EXISTS.
+				case 'NOT EXISTS' :
+					$where = '';
+					break;
+
 				default :
 					$where = $wpdb->prepare( '%s', $meta_value );
 					break;
