@@ -193,11 +193,9 @@ $(document).ready( function() {
 		lastScrollPosition = 0,
 		pinnedMenuTop = false,
 		pinnedMenuBottom = false,
-		isScrolling = false,
-		scrollTimer,
 		menuTop = 0,
+		menuIsPinned = false,
 		height = {
-			document: $document.height(),
 			window: $window.height(),
 			wpwrap: $wpwrap.height(),
 			adminbar: $adminbar.height(),
@@ -544,17 +542,21 @@ $(document).ready( function() {
 		input.on('change', toggleUploadButton);
 	})();
 
-	function pinMenu() {
-		var windowPos = $window.scrollTop();
+	function pinMenu( event ) {
+		var windowPos = $window.scrollTop(),
+			resizing = ! event || event.type !== 'scroll';
 
 		if ( isIOS || isIE8 || $adminmenu.data( 'wp-responsive' ) ) {
 			return;
 		}
 
-		if ( height.menu + height.adminbar + 20 > height.wpwrap ) { // 20px "buffer"
+		if ( height.menu + height.adminbar < height.window ||
+			height.menu + height.adminbar + 20 > height.wpwrap ) {
 			unpinMenu();
 			return;
 		}
+
+		menuIsPinned = true;
 
 		if ( height.menu + height.adminbar > height.window ) {
 			// Check for overscrolling
@@ -571,7 +573,7 @@ $(document).ready( function() {
 				}
 
 				return;
-			} else if ( windowPos + height.window > height.document - 1 ) {
+			} else if ( windowPos + height.window > $document.height() - 1 ) {
 				if ( ! pinnedMenuBottom ) {
 					pinnedMenuBottom = true;
 					pinnedMenuTop = false;
@@ -638,7 +640,7 @@ $(document).ready( function() {
 						bottom: ''
 					});
 				}
-			} else {
+			} else if ( resizing ) {
 				// Resizing
 				pinnedMenuTop = pinnedMenuBottom = false;
 				menuTop = windowPos + height.window - height.menu - height.adminbar - 1;
@@ -660,7 +662,6 @@ $(document).ready( function() {
 
 	function resetHeights() {
 		height = {
-			document: $document.height(),
 			window: $window.height(),
 			wpwrap: $wpwrap.height(),
 			adminbar: $adminbar.height(),
@@ -669,11 +670,11 @@ $(document).ready( function() {
 	}
 
 	function unpinMenu() {
-		if ( isIOS ) {
+		if ( isIOS || ! menuIsPinned ) {
 			return;
 		}
 
-		pinnedMenuTop = pinnedMenuBottom = false;
+		pinnedMenuTop = pinnedMenuBottom = menuIsPinned = false;
 		$adminMenuWrap.css({
 			position: '',
 			top: '',
@@ -696,23 +697,10 @@ $(document).ready( function() {
 		}
 	}
 
-	function scrollStart() {
-		if ( isScrolling ) {
-			window.clearTimeout( scrollTimer );
-
-			scrollTimer = window.setTimeout( function() {
-				isScrolling = false;
-			}, 200 );
-		} else {
-			isScrolling = true;
-			$document.triggerHandler( 'wp-scroll-start' );
-		}
-	}
-
 	if ( ! isIOS ) {
-		$window.on( 'scroll.pin-menu', function() {
-			scrollStart();
-			pinMenu();
+		$window.on( 'scroll.pin-menu', pinMenu );
+		$document.on( 'tinymce-editor-init.pin-menu', function( event, editor ) {
+			editor.on( 'wp-autoresize', resetHeights );
 		});
 	}
 
