@@ -984,7 +984,7 @@ final class _WP_Editors {
 			// TinyMCE menus
 			'Insert' => _x( 'Insert', 'TinyMCE menu' ),
 			'File' => _x( 'File', 'TinyMCE menu' ),
-			'Edit' => _x( 'Edit', 'TinyMCE menu' ),
+			'Edit' => _x( 'Edit', 'TinyMCE menu and tooltip for the Edit button in the image toolbar' ),
 			'Tools' => _x( 'Tools', 'TinyMCE menu' ),
 			'View' => _x( 'View', 'TinyMCE menu' ),
 			'Table' => _x( 'Table', 'TinyMCE menu' ),
@@ -997,6 +997,7 @@ final class _WP_Editors {
 			'Read more...' => __( 'Read more...' ), // Title on the placeholder inside the editor
 			'Distraction Free Writing' => __( 'Distraction Free Writing' ),
 			'No alignment' => __( 'No alignment' ), // Tooltip for the 'alignnone' button in the image toolbar
+			'Remove' => __( 'Remove' ), // Tooltip for the 'remove' button in the image toolbar
 		);
 
 		/**
