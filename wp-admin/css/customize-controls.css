@@ -581,6 +581,7 @@ p.customize-section-description {
 
 .customize-control-upload .current,
 .customize-control-image .current,
+.customize-control-background .current,
 .customize-control-header .current {
 	margin-bottom: 8px;
 }
@@ -610,6 +611,9 @@ p.customize-section-description {
 .customize-control-image .remove-button,
 .customize-control-image .default-button,
 .customize-control-image .upload-button,
+.customize-control-background .remove-button,
+.customize-control-background .default-button,
+.customize-control-background .upload-button,
 .customize-control-header button.new,
 .customize-control-header button.remove {
 	white-space: normal;
@@ -619,6 +623,7 @@ p.customize-section-description {
 
 .customize-control-upload .current .container,
 .customize-control-image .current .container,
+.customize-control-background .current .container,
 .customize-control-header .current .container {
 	overflow: hidden;
 	-webkit-border-radius: 2px;
@@ -628,12 +633,14 @@ p.customize-section-description {
 }
 
 .customize-control-upload .current .container,
+.customize-control-background .current .container,
 .customize-control-image .current .container {
 	min-height: 40px;
 }
 
 .customize-control-upload .placeholder,
 .customize-control-image .placeholder,
+.customize-control-background .placeholder,
 .customize-control-header .placeholder {
 	width: 100%;
 	position: relative;
@@ -643,6 +650,7 @@ p.customize-section-description {
 
 .customize-control-upload .inner,
 .customize-control-image .inner,
+.customize-control-background .inner,
 .customize-control-header .inner {
 	display: none;
 	position: absolute;
@@ -654,6 +662,7 @@ p.customize-section-description {
 }
 
 .customize-control-upload .inner,
+.customize-control-background .inner,
 .customize-control-image .inner {
 	display: block;
 	min-height: 40px;
@@ -661,6 +670,7 @@ p.customize-section-description {
 
 .customize-control-upload .inner,
 .customize-control-image .inner,
+.customize-control-background .inner,
 .customize-control-header .inner,
 .customize-control-header .inner .dashicons {
 	line-height: 20px;
@@ -777,6 +787,7 @@ p.customize-section-description {
 
 .customize-control-upload .actions,
 .customize-control-image .actions,
+.customize-control-background .actions,
 .customize-control-header .actions {
 	margin-bottom: 32px;
 }
@@ -793,6 +804,7 @@ p.customize-section-description {
 
 .customize-control-upload img,
 .customize-control-image img,
+.customize-control-background img,
 .customize-control-header img {
 	width: 100%;
 	-webkit-border-radius: 2px;
@@ -803,6 +815,8 @@ p.customize-section-description {
 .customize-control-upload .default-button,
 .customize-control-image .remove-button,
 .customize-control-image .default-button,
+.customize-control-background .remove-button,
+.customize-control-background .default-button,
 .customize-control-header .remove {
 	float: left;
 	margin-right: 3px;
@@ -810,6 +824,7 @@ p.customize-section-description {
 
 .customize-control-upload .upload-button,
 .customize-control-image .upload-button,
+.customize-control-background .upload-button,
 .customize-control-header .new {
 	float: right;
 }
