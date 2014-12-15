@@ -1060,18 +1060,17 @@
 		 */
 		initFrame: function() {
 			this.frame = wp.media({
-				// The title of the media modal.
-				title: this.params.button_labels.frame_title,
-
-				// Restrict the library to specified mime type.
-				library: {
-					type: this.params.mime_type
-				},
 				button: {
-					// Change the submit button label.
 					text: this.params.button_labels.frame_button
 				},
-				multiple: false
+				states: [
+					new wp.media.controller.Library({
+						title:     this.params.button_labels.frame_title,
+						library:   wp.media.query({ type: this.params.mime_type }),
+						multiple:  false,
+						date:      false
+					})
+				]
 			});
 
 			// When a file is selected, run a callback.
@@ -1275,6 +1274,7 @@
 						title:     l10n.chooseImage,
 						library:   wp.media.query({ type: 'image' }),
 						multiple:  false,
+						date:      false,
 						priority:  20,
 						suggestedWidth: _wpCustomizeHeader.data.width,
 						suggestedHeight: _wpCustomizeHeader.data.height

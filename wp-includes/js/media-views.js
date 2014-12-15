@@ -2598,6 +2598,7 @@
 				sortable:   state.get('sortable'),
 				search:     state.get('searchable'),
 				filters:    state.get('filterable'),
+				date:       state.get('date'),
 				display:    state.has('display') ? state.get('display') : state.get('displaySettings'),
 				dragInfo:   state.get('dragInfo'),
 
@@ -6227,6 +6228,8 @@
 	 *                                              Accepts 'uploaded' and 'all'.
 	 * @param {object}      [options.search=true]   Whether to show the search interface in the
 	 *                                              browser's toolbar.
+	 * @param {object}      [options.date=true]     Whether to show the date filter in the
+	 *                                              browser's toolbar.
 	 * @param {object}      [options.display=false] Whether to show the attachments display settings
 	 *                                              view in the sidebar.
 	 * @param {bool|string} [options.sidebar=true]  Whether to create a sidebar for the browser.
@@ -6240,6 +6243,7 @@
 			_.defaults( this.options, {
 				filters: false,
 				search:  true,
+				date:    true,
 				display: false,
 				sidebar: true,
 				AttachmentView: media.view.Attachment.Library
@@ -6453,7 +6457,7 @@
 					}).render() );
 				}
 
-			} else {
+			} else if ( this.options.date ) {
 				// DateFilter is a <select>, screen reader text needs to be rendered before
 				this.toolbar.set( 'dateFilterLabel', new media.view.Label({
 					value: l10n.filterByDate,
