@@ -1256,7 +1256,7 @@ table.links-table {
 
 .focus-on .wrap > h2,
 .focus-on #wpfooter,
-.focus-on .postbox-container,
+.focus-on .postbox-container > *,
 .focus-on div.updated,
 .focus-on div.error,
 .focus-on div.notice,
@@ -1278,7 +1278,7 @@ table.links-table {
 
 .focus-off .wrap > h2,
 .focus-off #wpfooter,
-.focus-off .postbox-container,
+.focus-off .postbox-container > *,
 .focus-off div.updated,
 .focus-off div.error,
 .focus-off div.notice,
