@@ -37,8 +37,8 @@
 					<?php endif;
 
 					$description = get_bloginfo( 'description', 'display' );
-					if ( ! empty( $description ) || is_customize_preview() ) : ?>
-						<p class="site-description"><?php echo esc_html( $description ); ?></p>
+					if ( $description || is_customize_preview() ) : ?>
+						<p class="site-description"><?php echo $description; ?></p>
 					<?php endif;
 				?>
 				<button class="secondary-toggle"><?php _e( 'Menu and widgets', 'twentyfifteen' ); ?></button>
