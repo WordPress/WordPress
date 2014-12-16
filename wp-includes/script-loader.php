@@ -95,7 +95,7 @@ function wp_default_scripts( &$scripts ) {
 		'toggleFullscreen'      => esc_attr__( 'Toggle fullscreen mode' ),
 		'textdirection'         => esc_attr__( 'text direction' ),
 		'toggleTextdirection'   => esc_attr__( 'Toggle Editor Text Direction' ),
-		'dfw'                   => esc_attr__( 'Distraction Free Writing' )
+		'dfw'                   => esc_attr__( 'Distraction-free writing mode' )
 	) );
 
 	$scripts->add( 'colorpicker', "/wp-includes/js/colorpicker$suffix.js", array('prototype'), '3517m' );

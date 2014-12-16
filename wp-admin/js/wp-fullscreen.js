@@ -1,6 +1,6 @@
 /* global deleteUserSetting, setUserSetting, switchEditors, tinymce, tinyMCEPreInit */
 /**
- * Distraction Free Writing
+ * Distraction-Free Writing
  * (wp-fullscreen)
  *
  * Access the API globally using the window.wp.editor.fullscreen variable.

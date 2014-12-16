@@ -478,7 +478,7 @@
 		add_audio: "Add Audio",
 		editgallery: "Edit Gallery",
 		delgallery: "Delete Gallery",
-		wp_fullscreen_desc: "Distraction Free Writing mode (Alt + Shift + W)"
+		wp_fullscreen_desc: "Distraction-free writing mode (Alt + Shift + W)"
 	});
 
 	tinyMCE.addI18n( lang + ".wpeditimage", {

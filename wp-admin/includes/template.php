@@ -2055,7 +2055,7 @@ final class WP_Internal_Pointers {
 			return;
 		}
 
-		$content  = '<h3>' . __( 'Distraction Free Writing' ) . '</h3>';
+		$content  = '<h3>' . __( 'Distraction-Free Writing' ) . '</h3>';
 		$content .= '<p>' . __( 'Enable distraction-free writing mode, and everything surrounding the editor will fade away when you start typing. Move your mouse out of the editor to reveal everything again.' ) . '</p>';
 
 		if ( is_rtl() ) {
