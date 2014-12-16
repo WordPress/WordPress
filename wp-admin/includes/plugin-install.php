@@ -28,11 +28,17 @@
  */
 function plugins_api($action, $args = null) {
 
-	if ( is_array($args) )
-		$args = (object)$args;
+	if ( is_array( $args ) ) {
+		$args = (object) $args;
+	}
 
-	if ( !isset($args->per_page) )
+	if ( ! isset( $args->per_page ) ) {
 		$args->per_page = 24;
+	}
+
+	if ( ! isset( $args->locale ) ) {
+		$args->locale = get_locale();
+	}
 
 	/**
 	 * Override the Plugin Install API arguments.
