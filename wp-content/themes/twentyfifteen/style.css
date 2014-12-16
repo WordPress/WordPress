@@ -2324,8 +2324,8 @@ a.post-thumbnail:focus {
 .no-comments {
 	border-top: 1px solid #eaeaea;
 	border-top: 1px solid rgba(51, 51, 51, 0.1);
-	color: rgba(51, 51, 51, 0.7);
 	color: #707070;
+	color: rgba(51, 51, 51, 0.7);
 	font-family: "Noto Sans", sans-serif;
 	font-weight: 700;
 	padding-top: 1.6em;
