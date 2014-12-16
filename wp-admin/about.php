@@ -100,13 +100,13 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 		<div class="last-feature">
 			<svg viewBox="-30 -30 160 160"><path d="M35.3,26.5H5.9c-1.5,0-2.9-0.6-4.1-1.7C0.6,23.6,0,22.2,0,20.6c0-1.6,0.6-3,1.7-4.1c1.2-1.2,2.5-1.7,4.1-1.7h29.4 c1.6,0,3,0.6,4.1,1.7c1.2,1.2,1.7,2.5,1.7,4.1c0,1.6-0.6,3-1.7,4.1C38.3,25.9,36.9,26.5,35.3,26.5z M68.9,77.7 c-1.2,1.2-2.5,1.7-4.1,1.7H17.6c-1.6,0-3-0.6-4.1-1.7c-1.2-1.2-1.7-2.5-1.7-4.1V38.2c0-1.6,0.6-3,1.7-4.1c1.2-1.2,2.5-1.7,4.1-1.7 h47.1c1.6,0,3,0.6,4.1,1.7c1.2,1.2,1.7,2.5,1.7,4.1v35.3C70.6,75.1,70,76.5,68.9,77.7z M76.5,61.8L100,85.3V26.5L76.5,50V61.8z"/></svg>
 			<h4><?php _e( 'Vine embeds' ); ?></h4>
-			<p><?php printf( ( 'Embedding videos from Vine is as simple as pasting a URL onto its own line in a post. For more, see the Codex article on <a href="%s">Embeds</a>.' ), 'http://codex.wordpress.org/Embeds' ); ?></p>
+			<p><?php printf( ( 'Embedding videos from Vine is as simple as pasting a URL onto its own line in a post. See the <a href="%s">full list</a> of supported embeds.' ), 'http://codex.wordpress.org/Embeds' ); ?></p>
 		</div>
 
 		<div>
 			<svg viewBox="-30 -30 160 160"><path d="M61.4,78.6V61.4L72.9,50v40H10V27.1h45.7L44.3,38.6H21.4v40H61.4z M44.3,10H90v45.7L78.6,50V32.4l-32,31.9l-8.1-8.1 l34.8-34.9H50L44.3,10z"/></svg>
 			<h4><?php _e( 'Log out everywhere' ); ?></h4>
-			<p><?php printf( ( 'There&#8217;s a new tool on <a href="%s">your profile</a> that logs you out everywhere, for those times you forget to log off a shared computer.' ), get_edit_profile_url() ); ?></p>
+			<p><?php printf( __( 'If you&#8217;ve ever worried you forgot to sign out from a shared computer, you can now go to <a href="%s">your profile</a> and log out everywhere.' ), get_edit_profile_url() ); ?></p>
 		</div>
 
 		<div class="last-feature">
