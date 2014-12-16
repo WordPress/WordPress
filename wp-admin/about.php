@@ -131,7 +131,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 	<div class="feature-section col two-col">
 		<div>
 			<h4><?php _e( 'Complex Queries' ); ?></h4>
-			<p><?php printf( __( 'Metadata, date, and term queries now support advanced conditional logic, like nested clauses and multiple operators &mdash; <code>%s</code>.' ), 'A&nbsp;AND&nbsp;(&nbsp;B&nbsp;OR&nbsp;C&nbsp;)' ); ?></p>
+			<p><?php printf( __( 'Metadata, date, and term queries now support advanced conditional logic, like nested clauses and multiple operators &mdash; %s.' ), '<code>A&nbsp;AND&nbsp;(&nbsp;B&nbsp;OR&nbsp;C&nbsp;)</code>' ); ?></p>
 
 			<h4><?php _e( 'Customizer API' ); ?></h4>
 			<p><?php echo ( 'The customizer now supports conditionally showing panels and sections based on the page being previewed.' ); ?></p>
