@@ -252,7 +252,9 @@
 			if ( ! $.contains( document, this.container ) ) {
 				// jQuery.fn.slideUp is not hiding an element if it is not in the DOM
 				this.container.toggle( active );
-				args.completeCallback();
+				if ( args.completeCallback ) {
+					args.completeCallback();
+				}
 			} else if ( active ) {
 				this.container.stop( true, true ).slideDown( duration, args.completeCallback );
 			} else {
@@ -820,7 +822,7 @@
 			// Watch for changes to the section state
 			inject = function ( sectionId ) {
 				var parentContainer;
-				if ( ! sectionId ) { // @todo allow a control to be embeded without a section, for instance a control embedded in the frontend
+				if ( ! sectionId ) { // @todo allow a control to be embedded without a section, for instance a control embedded in the frontend
 					return;
 				}
 				// Wait for the section to be registered
@@ -878,7 +880,9 @@
 			if ( ! $.contains( document, this.container ) ) {
 				// jQuery.fn.slideUp is not hiding an element if it is not in the DOM
 				this.container.toggle( active );
-				args.completeCallback();
+				if ( args.completeCallback ) {
+					args.completeCallback();
+				}
 			} else if ( active ) {
 				this.container.slideDown( args.duration, args.completeCallback );
 			} else {
@@ -912,6 +916,13 @@
 		 * @returns {Boolean} false if already inactive
 		 */
 		deactivate: Container.prototype.deactivate,
+
+		/**
+		 * Re-use _toggleActive from Container class.
+		 *
+		 * @access private
+		 */
+		_toggleActive: Container.prototype._toggleActive,
 
 		dropdownInit: function() {
 			var control      = this,
