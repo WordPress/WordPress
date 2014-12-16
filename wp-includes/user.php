@@ -2093,11 +2093,10 @@ function _wp_get_user_contactmethods( $user = null ) {
  * Gets the text suggesting how to create strong passwords.
  *
  * @since 4.1.0
- * @access private
  *
  * @return string The password hint text.
  */
-function _wp_get_password_hint() {
+function wp_get_password_hint() {
 	$hint = __( 'Hint: The password should be at least seven characters long. To make it stronger, use upper and lower case letters, numbers, and symbols like ! " ? $ % ^ &amp; ).' );
 
 	/**
