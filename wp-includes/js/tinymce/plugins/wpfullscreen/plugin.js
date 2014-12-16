@@ -1,6 +1,6 @@
 /* global tinymce */
 /**
- * WP Fullscreen (Distraction Free Writing) TinyMCE plugin
+ * WP Fullscreen (Distraction-Free Writing) TinyMCE plugin
  */
 tinymce.PluginManager.add( 'wpfullscreen', function( editor ) {
 	var settings = editor.settings;
@@ -60,14 +60,14 @@ tinymce.PluginManager.add( 'wpfullscreen', function( editor ) {
 
 	// Register buttons
 	editor.addButton( 'wp_fullscreen', {
-		tooltip: 'Distraction Free Writing',
+		tooltip: 'Distraction-free writing mode',
 		shortcut: 'Alt+Shift+W',
 		onclick: toggleFullscreen,
 		classes: 'wp-fullscreen btn widget' // This overwrites all classes on the container!
 	});
 
 	editor.addMenuItem( 'wp_fullscreen', {
-		text: 'Distraction Free Writing',
+		text: 'Distraction-free writing mode',
 		icon: 'wp_fullscreen',
 		shortcut: 'Alt+Shift+W',
 		context: 'view',

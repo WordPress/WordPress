@@ -1129,7 +1129,7 @@
 						button.active( false );
 					} );
 				},
-				tooltip: 'Distraction Free Writing',
+				tooltip: 'Distraction-free writing mode',
 				shortcut: 'Alt+Shift+W'
 			} );
 

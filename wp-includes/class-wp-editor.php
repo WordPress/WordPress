@@ -995,7 +995,7 @@ final class _WP_Editors {
 			'Toolbar Toggle' => __( 'Toolbar Toggle' ),
 			'Insert Read More tag' => __( 'Insert Read More tag' ),
 			'Read more...' => __( 'Read more...' ), // Title on the placeholder inside the editor
-			'Distraction Free Writing' => __( 'Distraction Free Writing' ),
+			'Distraction-free writing mode' => __( 'Distraction-free writing mode' ),
 			'No alignment' => __( 'No alignment' ), // Tooltip for the 'alignnone' button in the image toolbar
 			'Remove' => __( 'Remove' ), // Tooltip for the 'remove' button in the image toolbar
 			'Edit ' => __( 'Edit' ), // Tooltip for the 'edit' button in the image toolbar
@@ -1285,7 +1285,7 @@ final class _WP_Editors {
 
 		/**
 		 * Filter the list of TinyMCE buttons for the fullscreen
-		 * 'Distraction Free Writing' editor.
+		 * 'Distraction-Free Writing' editor.
 		 *
 		 * @since 3.2.0
 		 *
