@@ -66,35 +66,37 @@
 	function scroll() {
 		var windowPos = $window.scrollTop();
 
-		if ( 955 <= windowWidth && sidebarHeight + adminbarOffset < bodyHeight ) {
-			if ( sidebarHeight + adminbarOffset > windowHeight ) {
-				if ( windowPos > lastWindowPos ) {
-					if ( top ) {
-						top = false;
-						topOffset = ( $sidebar.offset().top > 0 ) ? $sidebar.offset().top - adminbarOffset : 0;
-						$sidebar.attr( 'style', 'top: ' + topOffset + 'px;' );
-					} else if ( ! bottom && windowPos + windowHeight > sidebarHeight + $sidebar.offset().top ) {
-						bottom = true;
-						$sidebar.attr( 'style', 'position: fixed;bottom: 0;' );
-					}
-				} else if ( windowPos < lastWindowPos ) {
-					if ( bottom ) {
-						bottom = false;
-						topOffset = ( $sidebar.offset().top > 0 ) ? $sidebar.offset().top - adminbarOffset : 0;
-						$sidebar.attr( 'style', 'top: ' + topOffset + 'px;' );
-					} else if ( ! top && windowPos + adminbarOffset < $sidebar.offset().top ) {
-						top = true;
-						$sidebar.attr( 'style', 'position: fixed;' );
-					}
-				} else {
-					top = bottom = false;
+		if ( 955 > windowWidth ) {
+			return;
+		}
+
+		if ( sidebarHeight + adminbarOffset > windowHeight ) {
+			if ( windowPos > lastWindowPos ) {
+				if ( top ) {
+					top = false;
 					topOffset = ( $sidebar.offset().top > 0 ) ? $sidebar.offset().top - adminbarOffset : 0;
 					$sidebar.attr( 'style', 'top: ' + topOffset + 'px;' );
+				} else if ( ! bottom && windowPos + windowHeight > sidebarHeight + $sidebar.offset().top && sidebarHeight + adminbarOffset < bodyHeight ) {
+					bottom = true;
+					$sidebar.attr( 'style', 'position: fixed; bottom: 0;' );
 				}
-			} else if ( ! top ) {
-				top = true;
-				$sidebar.attr( 'style', 'position: fixed;' );
+			} else if ( windowPos < lastWindowPos ) {
+				if ( bottom ) {
+					bottom = false;
+					topOffset = ( $sidebar.offset().top > 0 ) ? $sidebar.offset().top - adminbarOffset : 0;
+					$sidebar.attr( 'style', 'top: ' + topOffset + 'px;' );
+				} else if ( ! top && windowPos + adminbarOffset < $sidebar.offset().top ) {
+					top = true;
+					$sidebar.attr( 'style', 'position: fixed;' );
+				}
+			} else {
+				top = bottom = false;
+				topOffset = ( $sidebar.offset().top > 0 ) ? $sidebar.offset().top - adminbarOffset : 0;
+				$sidebar.attr( 'style', 'top: ' + topOffset + 'px;' );
 			}
+		} else if ( ! top ) {
+			top = true;
+			$sidebar.attr( 'style', 'position: fixed;' );
 		}
 
 		lastWindowPos = windowPos;
