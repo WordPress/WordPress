@@ -134,7 +134,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 			<p><?php printf( __( 'Metadata, date, and term queries now support advanced conditional logic, like nested clauses and multiple operators &mdash; %s.' ), '<code>A&nbsp;AND&nbsp;(&nbsp;B&nbsp;OR&nbsp;C&nbsp;)</code>' ); ?></p>
 
 			<h4><?php _e( 'Customizer API' ); ?></h4>
-			<p><?php echo ( 'The customizer now supports conditionally showing panels and sections based on the page being previewed.' ); ?></p>
+			<p><?php _e( 'Expanded JavaScript APIs in the customizer enable a new media experience as well as dynamic and contextual controls, sections, and panels.' ); ?></p>
 		</div>
 		<div class="last-feature">
 			<h4><?php
