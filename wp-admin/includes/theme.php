@@ -314,13 +314,20 @@ function get_theme_feature_list( $api = true ) {
  * @param array|object $args   Optional. Arguments to serialize for the Theme Info API.
  * @return mixed
  */
-	function themes_api( $action, $args = null ) {
+function themes_api( $action, $args = null ) {
 
-	if ( is_array($args) )
-		$args = (object)$args;
+	if ( is_array( $args ) ) {
+		$args = (object) $args;
+	}
 
-	if ( !isset($args->per_page) )
+	if ( ! isset( $args->per_page ) ) {
 		$args->per_page = 24;
+	}
+
+	if ( ! isset( $args->locale ) ) {
+		$args->locale = get_locale();
+	}
+
 	/**
 	 * Filter arguments used to query for installer pages from the WordPress.org Themes API.
 	 *
@@ -331,7 +338,7 @@ function get_theme_feature_list( $api = true ) {
 	 * @param object $args   Arguments used to query for installer pages from the WordPress.org Themes API.
 	 * @param string $action Requested action. Likely values are 'theme_information',
 	 *                       'feature_list', or 'query_themes'.
- 	*/
+	 */
 	$args = apply_filters( 'themes_api_args', $args, $action );
 
 	/**
