@@ -20,14 +20,14 @@ function twentyfifteen_comment_nav() {
 	if ( get_comment_pages_count() > 1 && get_option( 'page_comments' ) ) :
 	?>
 	<nav class="navigation comment-navigation" role="navigation">
-		<h2 class="screen-reader-text"><?php esc_html_e( 'Comment navigation', 'twentyfifteen' ); ?></h2>
+		<h2 class="screen-reader-text"><?php _e( 'Comment navigation', 'twentyfifteen' ); ?></h2>
 		<div class="nav-links">
 			<?php
-				if ( $prev_link = get_previous_comments_link( esc_html__( 'Older Comments', 'twentyfifteen' ) ) ) :
+				if ( $prev_link = get_previous_comments_link( __( 'Older Comments', 'twentyfifteen' ) ) ) :
 					printf( '<div class="nav-previous">%s</div>', $prev_link );
 				endif;
 
-				if ( $next_link = get_next_comments_link( esc_html__( 'Newer Comments', 'twentyfifteen' ) ) ) :
+				if ( $next_link = get_next_comments_link( __( 'Newer Comments', 'twentyfifteen' ) ) ) :
 					printf( '<div class="nav-next">%s</div>', $next_link );
 				endif;
 			?>
@@ -46,7 +46,7 @@ if ( ! function_exists( 'twentyfifteen_entry_meta' ) ) :
  */
 function twentyfifteen_entry_meta() {
 	if ( is_sticky() && is_home() && ! is_paged() ) {
-		printf( '<span class="sticky-post">%s</span>', esc_html__( 'Featured', 'twentyfifteen' ) );
+		printf( '<span class="sticky-post">%s</span>', __( 'Featured', 'twentyfifteen' ) );
 	}
 
 	$format = get_post_format();
@@ -119,7 +119,7 @@ function twentyfifteen_entry_meta() {
 
 	if ( ! is_single() && ! post_password_required() && ( comments_open() || get_comments_number() ) ) {
 		echo '<span class="comments-link">';
-		comments_popup_link( esc_html__( 'Leave a comment', 'twentyfifteen' ), esc_html__( '1 Comment', 'twentyfifteen' ), esc_html__( '% Comments', 'twentyfifteen' ) );
+		comments_popup_link( __( 'Leave a comment', 'twentyfifteen' ), __( '1 Comment', 'twentyfifteen' ), __( '% Comments', 'twentyfifteen' ) );
 		echo '</span>';
 	}
 }
@@ -234,7 +234,7 @@ function twentyfifteen_excerpt_more( $more ) {
 	$link = sprintf( '<a href="%1$s" class="more-link">%2$s</a>',
 		esc_url( get_permalink( get_the_ID() ) ),
 		/* translators: %s: Name of current post */
-		sprintf( esc_html__( 'Continue reading %s', 'twentyfifteen' ), '<span class="screen-reader-text">' . get_the_title( get_the_ID() ) . '</span>' )
+		sprintf( __( 'Continue reading %s', 'twentyfifteen' ), '<span class="screen-reader-text">' . get_the_title( get_the_ID() ) . '</span>' )
 		);
 	return ' &hellip; ' . $link;
 }
