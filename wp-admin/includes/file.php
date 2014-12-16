@@ -928,10 +928,12 @@ function get_filesystem_method( $args = array(), $context = false, $allow_relaxe
 				// WordPress is creating files as the same owner as the WordPress files, 
 				// this means it's safe to modify & create new files via PHP.
 				$method = 'direct';
+				$GLOBALS['_wp_filesystem_direct_method'] = 'file_owner';
 			} else if ( $allow_relaxed_file_ownership ) {
 				// The $context directory is writable, and $allow_relaxed_file_ownership is set, this means we can modify files
 				// safely in this directory. This mode doesn't create new files, only alter existing ones.
 				$method = 'direct';
+				$GLOBALS['_wp_filesystem_direct_method'] = 'relaxed_ownership';
 			}
 
 			@fclose($temp_handle);

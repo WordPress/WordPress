@@ -2076,6 +2076,7 @@ class Core_Upgrader extends WP_Upgrader {
 				'success'          => true,
 				'fs_method'        => $wp_filesystem->method,
 				'fs_method_forced' => defined( 'FS_METHOD' ) || has_filter( 'filesystem_method' ),
+				'fs_method_direct' => !empty( $GLOBALS['_wp_filesystem_direct_method'] ) ? $GLOBALS['_wp_filesystem_direct_method'] : '',
 				'time_taken'       => time() - $start_time,
 				'reported'         => $wp_version,
 				'attempted'        => $current->version,
