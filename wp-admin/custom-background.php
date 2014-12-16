@@ -60,6 +60,10 @@ class Custom_Background {
 		$this->admin_image_div_callback = $admin_image_div_callback;
 
 		add_action( 'admin_menu', array( $this, 'init' ) );
+
+		add_action( 'wp_ajax_custom-background-add', array( $this, 'ajax_background_add' ) );
+
+		// Unused since 3.5.0.
 		add_action( 'wp_ajax_set-background-image', array( $this, 'wp_set_background_image' ) );
 	}
 
@@ -464,23 +468,53 @@ if ( current_theme_supports( 'custom-background', 'default-color' ) )
 	}
 
 	/**
-	 * Unused since 3.5.0.
+	 * AJAX handler for adding custom background context to an attachment.
+	 *
+	 * Triggered when the user adds a new background image from the
+	 * Media Manager.
+	 *
+	 * @since 4.1.0
+	 */
+	public function ajax_background_add() {
+		check_ajax_referer( 'background-add', 'nonce' );
+
+		if ( ! current_user_can( 'edit_theme_options' ) ) {
+			wp_send_json_error();
+		}
+
+		$attachment_id = absint( $_POST['attachment_id'] );
+		if ( $attachment_id < 1 ) {
+			wp_send_json_error();
+		}
+
+		update_post_meta( $attachment_id, '_wp_attachment_is_custom_background', get_stylesheet() );
+
+		wp_send_json_success();
+	}
+
+	/**
 	 *
 	 * @since 3.4.0
+	 * @deprecated 3.5.0
 	 */
 	public function attachment_fields_to_edit( $form_fields ) {
 		return $form_fields;
 	}
 
 	/**
-	 * Unused since 3.5.0.
 	 *
 	 * @since 3.4.0
+	 * @deprecated 3.5.0
 	 */
 	public function filter_upload_tabs( $tabs ) {
 		return $tabs;
 	}
 
+	/**
+	 *
+	 * @since 3.4.0
+	 * @deprecated 3.5.0
+	 */
 	public function wp_set_background_image() {
 		if ( ! current_user_can('edit_theme_options') || ! isset( $_POST['attachment_id'] ) ) exit;
 		$attachment_id = absint($_POST['attachment_id']);

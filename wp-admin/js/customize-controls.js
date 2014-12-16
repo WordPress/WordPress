@@ -1,4 +1,4 @@
-/* globals _wpCustomizeHeader, _wpMediaViewsL10n */
+/* globals _wpCustomizeHeader, _wpCustomizeBackground, _wpMediaViewsL10n */
 (function( exports, $ ){
 	var Container, focus, api = wp.customize;
 
@@ -1144,6 +1144,40 @@
 	});
 
 	/**
+	 * A control for uploading background images.
+	 *
+	 * @class
+	 * @augments wp.customize.UploadControl
+	 * @augments wp.customize.Control
+	 * @augments wp.customize.Class
+	 */
+	api.BackgroundControl = api.UploadControl.extend({
+
+		/**
+		 * When the control's DOM structure is ready,
+		 * set up internal event bindings.
+		 */
+		ready: function() {
+			api.UploadControl.prototype.ready.apply( this, arguments );
+		},
+
+		/**
+		 * Callback handler for when an attachment is selected in the media modal.
+		 * Does an additional AJAX request for setting the background context.
+		 */
+		select: function() {
+			api.UploadControl.prototype.select.apply( this, arguments );
+
+			wp.ajax.post( 'custom-background-add', {
+				nonce: _wpCustomizeBackground.nonces.add,
+				wp_customize: 'on',
+				theme: api.settings.theme.stylesheet,
+				attachment_id: this.params.attachment.id
+			} );
+		}
+	});
+
+	/**
 	 * @class
 	 * @augments wp.customize.Control
 	 * @augments wp.customize.Class
@@ -1822,7 +1856,8 @@
 		color:  api.ColorControl,
 		upload: api.UploadControl,
 		image:  api.ImageControl,
-		header: api.HeaderControl
+		header: api.HeaderControl,
+		background: api.BackgroundControl
 	};
 	api.panelConstructor = {};
 	api.sectionConstructor = {};
