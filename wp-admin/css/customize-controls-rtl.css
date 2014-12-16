@@ -605,8 +605,10 @@ p.customize-section-description {
 }
 
 .customize-control-upload .remove-button,
+.customize-control-upload .default-button,
 .customize-control-upload .upload-button,
 .customize-control-image .remove-button,
+.customize-control-image .default-button,
 .customize-control-image .upload-button,
 .customize-control-header button.new,
 .customize-control-header button.remove {
@@ -797,8 +799,10 @@ p.customize-section-description {
 	border-radius: 2px;
 }
 
-.customize-control-upload .remove-button
-.customize-control-image .remove-button
+.customize-control-upload .remove-button,
+.customize-control-upload .default-button,
+.customize-control-image .remove-button,
+.customize-control-image .default-button,
 .customize-control-header .remove {
 	float: right;
 	margin-left: 3px;
