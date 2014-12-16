@@ -181,7 +181,7 @@ endif; // twentyfifteen_header_style
 function twentyfifteen_header_background_color_css() {
 	$color_scheme            = twentyfifteen_get_color_scheme();
 	$default_color           = $color_scheme[1];
-	$header_background_color = get_theme_mod( 'header_background_color', '#ffffff' );
+	$header_background_color = get_theme_mod( 'header_background_color', $default_color );
 
 	// Don't do anything if the current color is the default.
 	if ( $header_background_color === $default_color ) {
@@ -225,7 +225,7 @@ add_action( 'wp_enqueue_scripts', 'twentyfifteen_header_background_color_css', 1
 function twentyfifteen_sidebar_text_color_css() {
 	$color_scheme       = twentyfifteen_get_color_scheme();
 	$default_color      = $color_scheme[4];
-	$sidebar_link_color = get_theme_mod( 'sidebar_textcolor', '#333333' );
+	$sidebar_link_color = get_theme_mod( 'sidebar_textcolor', $default_color );
 
 	// Don't do anything if the current color is the default.
 	if ( $sidebar_link_color === $default_color ) {
