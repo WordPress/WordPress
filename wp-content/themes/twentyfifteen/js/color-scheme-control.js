@@ -47,8 +47,8 @@
 	} );
 
 	// Generate the CSS for the current Color Scheme.
-	function getCSS() {
-		var scheme = api( 'color_scheme' )(),
+	function updateCSS() {
+		var scheme = api( 'color_scheme' )(), css,
 			colors = _.object( colorSchemeKeys, colorScheme[ scheme ].colors );
 
 		// Merge in color scheme overrides.
@@ -64,15 +64,15 @@
 		colors.sidebar_border_color = Color( colors.sidebar_textcolor ).toCSS( 'rgba', 0.1 );
 		colors.sidebar_border_focus_color = Color( colors.sidebar_textcolor ).toCSS( 'rgba', 0.3 );
 
-		return cssTemplate( colors );
+		css = cssTemplate( colors );
+
+		api.previewer.send( 'update-color-scheme-css', css );
 	}
 
 	// Update the CSS whenever a color setting is changed.
 	_.each( colorSettings, function( setting ) {
 		api( setting, function( setting ) {
-			setting.bind( _.throttle( function() {
-				api( 'color_scheme_css' ).set( getCSS() );
-			}, 250 ) );
+			setting.bind( updateCSS );
 		} );
 	} );
 } )( wp.customize );
