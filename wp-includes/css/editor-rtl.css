@@ -165,6 +165,7 @@ div.mce-inline-toolbar-grp {
 	box-sizing: border-box;
 	margin-bottom: 8px;
 	position: absolute;
+	visibility: hidden;
 	-moz-user-select: none;
 	-webkit-user-select: none;
 	-ms-user-select: none;
@@ -254,6 +255,10 @@ div.mce-inline-toolbar-grp.mce-arrow-full {
 div.mce-inline-toolbar-grp.mce-arrow-full > div {
 	width: 100%;
 	overflow-x: auto;
+}
+
+div.mce-inline-toolbar-grp-active {
+	visibility: visible;
 }
 
 div.mce-toolbar-grp > div {

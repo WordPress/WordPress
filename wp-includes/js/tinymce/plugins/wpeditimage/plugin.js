@@ -309,16 +309,12 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 	}
 
 	floatingToolbar.on( 'show', function() {
-		var self = this;
-
 		toolbarIsHidden = false;
 
-		setTimeout( function() {
-			if ( self._visible ) {
-				DOM.addClass( self.getEl(), 'mce-inline-toolbar-grp-active' );
-				self.reposition();
-			}
-		}, 100 );
+		if ( this._visible ) {
+			this.reposition();
+			DOM.addClass( this.getEl(), 'mce-inline-toolbar-grp-active' );
+		}
 	} );
 
 	floatingToolbar.on( 'hide', function() {
