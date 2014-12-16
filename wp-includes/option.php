@@ -52,8 +52,7 @@ function get_option( $option, $default = false ) {
 	if ( ! defined( 'WP_INSTALLING' ) ) {
 		// prevent non-existent options from triggering multiple queries
 		$notoptions = wp_cache_get( 'notoptions', 'options' );
-		if ( isset( $notoptions[$option] ) )
-
+		if ( isset( $notoptions[ $option ] ) ) {
 			/**
 			 * Filter the default value for an option.
 			 *
@@ -65,6 +64,7 @@ function get_option( $option, $default = false ) {
 			 *                       in the database.
 			 */
 			return apply_filters( 'default_option_' . $option, $default );
+		}
 
 		$alloptions = wp_load_alloptions();
 
