@@ -235,8 +235,15 @@ function install_plugins_favorites_form() {
 function display_plugins_table() {
 	global $wp_list_table;
 
-	if ( current_filter() == 'install_plugins_favorites' && empty( $_GET['user'] ) && ! get_user_option( 'wporg_favorites' ) ) {
-		return;
+	switch ( current_filter() ) {
+		case 'install_plugins_favorites' :
+			if ( empty( $_GET['user'] ) && ! get_user_option( 'wporg_favorites' ) ) {
+				return;
+			}
+			break;
+		case 'install_plugins_recommended' :
+			echo '<p>' . __( 'These suggestions are based on the plugins you and other users have installed.' ) . '</p>';
+			break;
 	}
 
 	?>

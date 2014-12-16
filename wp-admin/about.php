@@ -100,7 +100,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 		<div class="last-feature">
 			<svg viewBox="-30 -30 160 160"><path d="M35.3,26.5H5.9c-1.5,0-2.9-0.6-4.1-1.7C0.6,23.6,0,22.2,0,20.6c0-1.6,0.6-3,1.7-4.1c1.2-1.2,2.5-1.7,4.1-1.7h29.4 c1.6,0,3,0.6,4.1,1.7c1.2,1.2,1.7,2.5,1.7,4.1c0,1.6-0.6,3-1.7,4.1C38.3,25.9,36.9,26.5,35.3,26.5z M68.9,77.7 c-1.2,1.2-2.5,1.7-4.1,1.7H17.6c-1.6,0-3-0.6-4.1-1.7c-1.2-1.2-1.7-2.5-1.7-4.1V38.2c0-1.6,0.6-3,1.7-4.1c1.2-1.2,2.5-1.7,4.1-1.7 h47.1c1.6,0,3,0.6,4.1,1.7c1.2,1.2,1.7,2.5,1.7,4.1v35.3C70.6,75.1,70,76.5,68.9,77.7z M76.5,61.8L100,85.3V26.5L76.5,50V61.8z"/></svg>
 			<h4><?php _e( 'Vine embeds' ); ?></h4>
-			<p><?php printf( ( 'Embedding videos from Vine is as simple as pasting a URL onto its own line in a post. See the <a href="%s">full list</a> of supported embeds.' ), 'http://codex.wordpress.org/Embeds' ); ?></p>
+			<p><?php printf( __( 'Embedding videos from Vine is as simple as pasting a URL onto its own line in a post. See the <a href="%s">full list</a> of supported embeds.' ), 'http://codex.wordpress.org/Embeds' ); ?></p>
 		</div>
 
 		<div>
@@ -113,7 +113,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 			<svg viewBox="-30 -30 160 160"><path d="M35.1,30.1l4.7-5.8l46.4,46.4L80,75c-1.7,1.7-4.6,3.1-8.6,4.3c-4,1.1-7.7,1.7-11,1.7h-20L34,87.4 c-1.5,1.5-3.3,2.3-5.5,2.3c-2.1,0-3.9-0.8-5.5-2.3c-1.5-1.5-2.3-3.3-2.3-5.4c0-2.1,0.8-4,2.3-5.5l6.4-6.4v-20 c0-3.3,0.5-7,1.6-11.2C32.1,34.7,33.4,31.8,35.1,30.1z M76.2,21L59.6,37.7L49.9,28l16.7-16.7c0.9-0.9,2.1-1.2,3.7-0.8 c1.6,0.3,3,1.2,4.3,2.5c1.3,1.3,2.2,2.7,2.5,4.3C77.4,18.9,77.1,20.1,76.2,21z M72.4,50.5l16.7-16.7c0.9-0.9,2.1-1.2,3.7-0.9 c1.6,0.3,3,1.1,4.3,2.5c1.3,1.3,2.2,2.7,2.5,4.3c0.3,1.6,0,2.8-0.9,3.7L82,60.1L72.4,50.5z"/><path d="M10.9,40.4l3.4,6.8L21,48l-4.7,5.2l1.3,7.5l-6.8-3.4l-6.8,3.4l1.3-7.5L0.7,48l6.8-0.8L10.9,40.4z"/></svg>
 			<h4><?php _e( 'Plugin recommendations' ); ?></h4>
 			<p><?php
-				$string = ( 'The <a href="%s">plugin installer</a> now offers a list of plugins you may want to try, based on others who have similar plugins installed as you.' );
+				$string = __( 'The <a href="%s">plugin installer</a> suggests plugins for you to try. Recommendations are based on the plugins you and other users have installed.' );
 				if ( ! current_user_can( 'install_plugins' ) ) {
 					$string = strip_tags( $string );
 				}
