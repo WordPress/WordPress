@@ -1,4 +1,4 @@
-/* global ajaxurl, pwsL10n, _wpSessionMangager */
+/* global ajaxurl, pwsL10n */
 (function($){
 
 	function check_pass_strength() {
@@ -125,25 +125,19 @@
 	});
 
 	$( '#destroy-sessions' ).on( 'click', function( e ) {
-
 		var $this = $(this);
-		var data = {
-			action      : 'destroy-sessions',
-			_ajax_nonce : _wpSessionMangager.nonce,
-			user_id     : _wpSessionMangager.user_id,
-			token       : $(this).data('token')
-		};
 
-		$.post( ajaxurl, data, function( response ) {
-
-			if ( response.success ) {
-				$this.prop( 'disabled', true );
-				$this.before( '<div class="updated inline"><p>' + response.data.message + '</p></div>' );
-			} else {
-				$this.before( '<div class="error inline"><p>' + response.data.message + '</p></div>' );
-			}
-
-		}, 'json' );
+		wp.ajax.post( 'destroy-sessions', {
+			nonce: $( '#_wpnonce' ).val(),
+			user_id: $( '#user_id' ).val()
+		}).done( function( response ) {
+			$this.prop( 'disabled', true );
+			$this.siblings( '.notice' ).remove();
+			$this.before( '<div class="notice notice-success inline"><p>' + response.message + '</p></div>' );
+		}).fail( function( response ) {
+			$this.siblings( '.notice' ).remove();
+			$this.before( '<div class="notice notice-error inline"><p>' + response.message + '</p></div>' );
+		});
 
 		e.preventDefault();
 	});

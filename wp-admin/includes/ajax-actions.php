@@ -2771,42 +2771,25 @@ function wp_ajax_parse_media_shortcode() {
  */
 function wp_ajax_destroy_sessions() {
 
-	if ( empty( $_POST['user_id'] ) ) {
-		$user = new WP_Error();
-	} else {
-		$user = new WP_User( absint( $_POST['user_id'] ) );
-
-		if ( ! $user->exists() ) {
-			$user = new WP_Error();
-		} elseif ( ! current_user_can( 'edit_user', $user->ID ) ) {
-			$user = new WP_Error();
-		} elseif ( ! check_ajax_referer( sprintf( 'destroy_sessions_%d', $user->ID ), false, false ) ) {
-			$user = new WP_Error();
+	$user = get_userdata( (int) $_POST['user_id'] );
+	if ( $user ) {
+		if ( ! current_user_can( 'edit_user', $user->ID ) ) {
+			$user = false;
+		} elseif ( ! wp_verify_nonce( $_POST['nonce'], 'update-user_' . $user->ID ) ) {
+			$user = false;
 		}
 	}
 
-	if ( is_wp_error( $user ) ) {
+	if ( ! $user ) {
 		wp_send_json_error( array(
 			'message' => __( 'Could not log out user sessions. Please try again.' ),
 		) );
 	}
 
-	// 'token' is only set if the initiating user is viewing their own profile-editing screen.
-	if ( isset( $_POST['token'] ) ) {
-		$keep = wp_unslash( $_POST['token'] );
-	} else {
-		$keep = null;
-	}
-
 	$sessions = WP_Session_Tokens::get_instance( $user->ID );
 
-	/*
-	 * If $keep is a string, then the current user is destroying all of their own sessions
-	 * except the current one. If $keep is not a string, the current user is destroying all
-	 * of another user's sessions with no exceptions.
-	 */
-	if ( is_string( $keep ) ) {
-		$sessions->destroy_others( $keep );
+	if ( $user->ID === get_current_user_id() ) {
+		$sessions->destroy_others( wp_get_session_token() );
 		$message = __( 'You are now logged out everywhere else.' );
 	} else {
 		$sessions->destroy_all();
@@ -2814,8 +2797,5 @@ function wp_ajax_destroy_sessions() {
 		$message = sprintf( __( '%s has been logged out.' ), $user->display_name );
 	}
 
-	wp_send_json_success( array(
-		'message' => $message
-	) );
-
+	wp_send_json_success( array( 'message' => $message ) );
 }

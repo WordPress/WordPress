@@ -1265,7 +1265,8 @@ div.error {
 
 .notice p,
 div.updated p,
-div.error p {
+div.error p,
+.form-table td .notice p {
 	margin: 0.5em 0;
 	padding: 2px;
 }
