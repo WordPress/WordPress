@@ -27,11 +27,6 @@ function twentyfifteen_customize_register( $wp_customize ) {
 		'transport'         => 'postMessage',
 	) );
 
-	$wp_customize->add_setting( 'color_scheme_css', array(
-		'default'   => '',
-		'transport' => 'postMessage',
-	) );
-
 	$wp_customize->add_control( 'color_scheme', array(
 		'label'    => esc_html__( 'Base Color Scheme', 'twentyfifteen' ),
 		'section'  => 'colors',
@@ -231,12 +226,33 @@ endif; // twentyfifteen_sanitize_color_scheme
  */
 function twentyfifteen_color_scheme_css() {
 	$color_scheme_option = get_theme_mod( 'color_scheme', 'default' );
-	$color_scheme_css    = get_theme_mod( 'color_scheme_css', '' );
 
 	// Don't do anything if the default color scheme is selected.
-	if ( 'default' === $color_scheme_option || empty( $color_scheme_css ) ) {
+	if ( 'default' === $color_scheme_option ) {
 		return;
 	}
+
+	$color_scheme = twentyfifteen_get_color_scheme();
+
+	// Convert main and sidebar text hex color to rgba.
+	$color_textcolor_rgb         = twentyfifteen_hex2rgb( $color_scheme[3] );
+	$color_sidebar_textcolor_rgb = twentyfifteen_hex2rgb( $color_scheme[4] );
+	$colors = array(
+		'background_color'            => $color_scheme[0],
+		'header_background_color'     => $color_scheme[1],
+		'box_background_color'        => $color_scheme[2],
+		'textcolor'                   => $color_scheme[3],
+		'secondary_textcolor'         => vsprintf( 'rgba( %1$s, %2$s, %3$s, 0.7)', $color_textcolor_rgb ),
+		'border_color'                => vsprintf( 'rgba( %1$s, %2$s, %3$s, 0.1)', $color_textcolor_rgb ),
+		'border_focus_color'          => vsprintf( 'rgba( %1$s, %2$s, %3$s, 0.3)', $color_textcolor_rgb ),
+		'sidebar_textcolor'           => $color_scheme[4],
+		'sidebar_border_color'        => vsprintf( 'rgba( %1$s, %2$s, %3$s, 0.1)', $color_sidebar_textcolor_rgb ),
+		'sidebar_border_focus_color'  => vsprintf( 'rgba( %1$s, %2$s, %3$s, 0.3)', $color_sidebar_textcolor_rgb ),
+		'secondary_sidebar_textcolor' => vsprintf( 'rgba( %1$s, %2$s, %3$s, 0.7)', $color_sidebar_textcolor_rgb ),
+		'meta_box_background_color'   => $color_scheme[5],
+	);
+
+	$color_scheme_css = twentyfifteen_get_color_scheme_css( $colors );
 
 	wp_add_inline_style( 'twentyfifteen-style', $color_scheme_css );
 }
@@ -250,7 +266,7 @@ add_action( 'wp_enqueue_scripts', 'twentyfifteen_color_scheme_css' );
  * @since Twenty Fifteen 1.0
  */
 function twentyfifteen_customize_control_js() {
-	wp_enqueue_script( 'color-scheme-control', get_template_directory_uri() . '/js/color-scheme-control.js', array( 'customize-controls', 'iris', 'underscore', 'wp-util' ), '', true  );
+	wp_enqueue_script( 'color-scheme-control', get_template_directory_uri() . '/js/color-scheme-control.js', array( 'customize-controls', 'iris', 'underscore', 'wp-util' ), '20141216', true );
 	wp_localize_script( 'color-scheme-control', 'colorScheme', twentyfifteen_get_color_schemes() );
 }
 add_action( 'customize_controls_enqueue_scripts', 'twentyfifteen_customize_control_js' );
@@ -261,32 +277,46 @@ add_action( 'customize_controls_enqueue_scripts', 'twentyfifteen_customize_contr
  * @since Twenty Fifteen 1.0
  */
 function twentyfifteen_customize_preview_js() {
-	wp_enqueue_script( 'twentyfifteen-customize-preview', get_template_directory_uri() . '/js/customize-preview.js', array( 'customize-preview' ), '20141029', true );
+	wp_enqueue_script( 'twentyfifteen-customize-preview', get_template_directory_uri() . '/js/customize-preview.js', array( 'customize-preview' ), '20141216', true );
 }
 add_action( 'customize_preview_init', 'twentyfifteen_customize_preview_js' );
 
 /**
- * Output an Underscore template for generating CSS for the color scheme.
- *
- * The template generates the css dynamically for instant display in the Customizer
- * preview, and to be saved in a `theme_mod` for display on the front-end.
+ * Returns CSS for the color schemes.
  *
  * @since Twenty Fifteen 1.0
+ *
+ * @param array $colors Color scheme colors.
+ * @return string Color scheme CSS.
  */
-function twentyfifteen_color_scheme_css_template() {
-	?>
-	<script type="text/html" id="tmpl-twentyfifteen-color-scheme">
+function twentyfifteen_get_color_scheme_css( $colors ) {
+	$colors = wp_parse_args( $colors, array(
+		'background_color'            => '',
+		'header_background_color'     => '',
+		'box_background_color'        => '',
+		'textcolor'                   => '',
+		'secondary_textcolor'         => '',
+		'border_color'                => '',
+		'border_focus_color'          => '',
+		'sidebar_textcolor'           => '',
+		'sidebar_border_color'        => '',
+		'sidebar_border_focus_color'  => '',
+		'secondary_sidebar_textcolor' => '',
+		'meta_box_background_color'   => '',
+	) );
+
+	$css = <<<CSS
 	/* Color Scheme */
 
 	/* Background Color */
 	body {
-		background-color: {{ data.background_color }};
+		background-color: {$colors['background_color']};
 	}
 
 	/* Sidebar Background Color */
 	body:before,
 	.site-header {
-		background-color: {{ data.header_background_color }};
+		background-color: {$colors['header_background_color']};
 	}
 
 	/* Box Background Color */
@@ -298,7 +328,7 @@ function twentyfifteen_color_scheme_css_template() {
 	.page-header,
 	.page-content,
 	.comments-area {
-		background-color: {{ data.box_background_color }};
+		background-color: {$colors['box_background_color']};
 	}
 
 	/* Box Background Color */
@@ -315,7 +345,7 @@ function twentyfifteen_color_scheme_css_template() {
 	.page-links a:hover,
 	.page-links a:focus,
 	.sticky-post {
-		color: {{ data.box_background_color }};
+		color: {$colors['box_background_color']};
 	}
 
 	/* Main Text Color */
@@ -328,7 +358,7 @@ function twentyfifteen_color_scheme_css_template() {
 	.widget_calendar tbody a,
 	.page-links a,
 	.sticky-post {
-		background-color: {{ data.textcolor }};
+		background-color: {$colors['textcolor']};
 	}
 
 	/* Main Text Color */
@@ -352,7 +382,7 @@ function twentyfifteen_color_scheme_css_template() {
 	.comment-list .reply a:focus,
 	.site-info a:hover,
 	.site-info a:focus {
-		color: {{ data.textcolor }};
+		color: {$colors['textcolor']};
 	}
 
 	/* Main Text Color */
@@ -369,7 +399,7 @@ function twentyfifteen_color_scheme_css_template() {
 	.pingback .edit-link a:hover,
 	.comment-list .reply a:hover,
 	.site-info a:hover {
-		border-color: {{ data.textcolor }};
+		border-color: {$colors['textcolor']};
 	}
 
 	/* Secondary Text Color */
@@ -389,8 +419,8 @@ function twentyfifteen_color_scheme_css_template() {
 	.widget_calendar tbody a:focus,
 	.page-links a:hover,
 	.page-links a:focus {
-		background-color: {{ data.textcolor }}; /* Fallback for IE7 and IE8 */
-		background-color: {{ data.secondary_textcolor }};
+		background-color: {$colors['textcolor']}; /* Fallback for IE7 and IE8 */
+		background-color: {$colors['secondary_textcolor']};
 	}
 
 	/* Secondary Text Color */
@@ -429,24 +459,24 @@ function twentyfifteen_color_scheme_css_template() {
 	.wp-caption-text,
 	.gallery-caption,
 	.comment-list .reply a {
-		color: {{ data.textcolor }}; /* Fallback for IE7 and IE8 */
-		color: {{ data.secondary_textcolor }};
+		color: {$colors['textcolor']}; /* Fallback for IE7 and IE8 */
+		color: {$colors['secondary_textcolor']};
 	}
 
 	/* Secondary Text Color */
 	blockquote,
 	.logged-in-as a:hover,
 	.comment-author a:hover {
-		border-color: {{ data.textcolor }}; /* Fallback for IE7 and IE8 */
-		border-color: {{ data.secondary_textcolor }};
+		border-color: {$colors['textcolor']}; /* Fallback for IE7 and IE8 */
+		border-color: {$colors['secondary_textcolor']};
 	}
 
 	/* Border Color */
 	hr,
 	.dropdown-toggle:hover,
 	.dropdown-toggle:focus {
-		background-color: {{ data.textcolor }}; /* Fallback for IE7 and IE8 */
-		background-color: {{ data.border_color }};
+		background-color: {$colors['textcolor']}; /* Fallback for IE7 and IE8 */
+		background-color: {$colors['border_color']};
 	}
 
 	/* Border Color */
@@ -481,67 +511,67 @@ function twentyfifteen_color_scheme_css_template() {
 	.comment-list .trackback,
 	.comment-list .reply a,
 	.no-comments {
-		border-color: {{ data.textcolor }}; /* Fallback for IE7 and IE8 */
-		border-color: {{ data.border_color }};
+		border-color: {$colors['textcolor']}; /* Fallback for IE7 and IE8 */
+		border-color: {$colors['border_color']};
 	}
 
 	/* Border Focus Color */
 	a:focus,
 	button:focus,
 	input:focus {
-		outline-color: {{ data.textcolor }}; /* Fallback for IE7 and IE8 */
-		outline-color: {{ data.border_focus_color }};
+		outline-color: {$colors['textcolor']}; /* Fallback for IE7 and IE8 */
+		outline-color: {$colors['border_focus_color']};
 	}
 
 	input:focus,
 	textarea:focus {
-		border-color: {{ data.textcolor }}; /* Fallback for IE7 and IE8 */
-		border-color: {{ data.border_focus_color }};
+		border-color: {$colors['textcolor']}; /* Fallback for IE7 and IE8 */
+		border-color: {$colors['border_focus_color']};
 	}
 
 	/* Sidebar Link Color */
 	.secondary-toggle:before {
-		color: {{ data.sidebar_textcolor }};
+		color: {$colors['sidebar_textcolor']};
 	}
 
 	.site-title a,
 	.site-description {
-		color: {{ data.sidebar_textcolor }};
+		color: {$colors['sidebar_textcolor']};
 	}
 
 	/* Sidebar Text Color */
 	.site-title a:hover,
 	.site-title a:focus {
-		color: {{ data.secondary_sidebar_textcolor }};
+		color: {$colors['secondary_sidebar_textcolor']};
 	}
 
 	/* Sidebar Border Color */
 	.secondary-toggle {
-		border-color: {{ data.sidebar_textcolor }}; /* Fallback for IE7 and IE8 */
-		border-color: {{ data.sidebar_border_color }};
+		border-color: {$colors['sidebar_textcolor']}; /* Fallback for IE7 and IE8 */
+		border-color: {$colors['sidebar_border_color']};
 	}
 
 	/* Sidebar Border Focus Color */
 	.secondary-toggle:hover,
 	.secondary-toggle:focus {
-		border-color: {{ data.sidebar_textcolor }}; /* Fallback for IE7 and IE8 */
-		border-color: {{ data.sidebar_border_focus_color }};
+		border-color: {$colors['sidebar_textcolor']}; /* Fallback for IE7 and IE8 */
+		border-color: {$colors['sidebar_border_focus_color']};
 	}
 
 	.site-title a {
-		outline-color: {{ data.sidebar_textcolor }}; /* Fallback for IE7 and IE8 */
-		outline-color: {{ data.sidebar_border_focus_color }};
+		outline-color: {$colors['sidebar_textcolor']}; /* Fallback for IE7 and IE8 */
+		outline-color: {$colors['sidebar_border_focus_color']};
 	}
 
 	/* Meta Background Color */
 	.entry-footer {
-		background-color: {{ data.meta_box_background_color }};
+		background-color: {$colors['meta_box_background_color']};
 	}
 
 	@media screen and (min-width: 38.75em) {
 		/* Main Text Color */
 		.page-header {
-			border-color: {{ data.textcolor }};
+			border-color: {$colors['textcolor']};
 		}
 	}
 
@@ -560,7 +590,7 @@ function twentyfifteen_color_scheme_css_template() {
 		.widget_calendar tbody a,
 		.widget_calendar tbody a:hover,
 		.widget_calendar tbody a:focus {
-			color: {{ data.header_background_color }};
+			color: {$colors['header_background_color']};
 		}
 
 		/* Sidebar Link Color */
@@ -569,7 +599,7 @@ function twentyfifteen_color_scheme_css_template() {
 		.widget-title,
 		.widget blockquote cite,
 		.widget blockquote small {
-			color: {{ data.sidebar_textcolor }};
+			color: {$colors['sidebar_textcolor']};
 		}
 
 		.widget button,
@@ -577,11 +607,11 @@ function twentyfifteen_color_scheme_css_template() {
 		.widget input[type="reset"],
 		.widget input[type="submit"],
 		.widget_calendar tbody a {
-			background-color: {{ data.sidebar_textcolor }};
+			background-color: {$colors['sidebar_textcolor']};
 		}
 
 		.textwidget a {
-			border-color: {{ data.sidebar_textcolor }};
+			border-color: {$colors['sidebar_textcolor']};
 		}
 
 		/* Sidebar Text Color */
@@ -592,7 +622,7 @@ function twentyfifteen_color_scheme_css_template() {
 		.widget blockquote,
 		.widget .wp-caption-text,
 		.widget .gallery-caption {
-			color: {{ data.secondary_sidebar_textcolor }};
+			color: {$colors['secondary_sidebar_textcolor']};
 		}
 
 		.widget button:hover,
@@ -605,11 +635,11 @@ function twentyfifteen_color_scheme_css_template() {
 		.widget input[type="submit"]:focus,
 		.widget_calendar tbody a:hover,
 		.widget_calendar tbody a:focus {
-			background-color: {{ data.secondary_sidebar_textcolor }};
+			background-color: {$colors['secondary_sidebar_textcolor']};
 		}
 
 		.widget blockquote {
-			border-color: {{ data.secondary_sidebar_textcolor }};
+			border-color: {$colors['secondary_sidebar_textcolor']};
 		}
 
 		/* Sidebar Border Color */
@@ -626,25 +656,56 @@ function twentyfifteen_color_scheme_css_template() {
 		.widget_nav_menu .sub-menu,
 		.widget_pages .children,
 		.widget abbr[title] {
-			border-color: {{ data.sidebar_border_color }};
+			border-color: {$colors['sidebar_border_color']};
 		}
 
 		.dropdown-toggle:hover,
 		.dropdown-toggle:focus,
 		.widget hr {
-			background-color: {{ data.sidebar_border_color }};
+			background-color: {$colors['sidebar_border_color']};
 		}
 
 		.widget input:focus,
 		.widget textarea:focus {
-			border-color: {{ data.sidebar_border_focus_color }};
+			border-color: {$colors['sidebar_border_focus_color']};
 		}
 
 		.sidebar a:focus,
 		.dropdown-toggle:focus {
-			outline-color: {{ data.sidebar_border_focus_color }};
+			outline-color: {$colors['sidebar_border_focus_color']};
 		}
 	}
+CSS;
+
+	return $css;
+}
+
+/**
+ * Output an Underscore template for generating CSS for the color scheme.
+ *
+ * The template generates the css dynamically for instant display in the Customizer
+ * preview.
+ *
+ * @since Twenty Fifteen 1.0
+ */
+function twentyfifteen_color_scheme_css_template() {
+	$colors = array(
+		'background_color'            => '{{ data.background_color }}',
+		'header_background_color'     => '{{ data.header_background_color }}',
+		'box_background_color'        => '{{ data.box_background_color }}',
+		'textcolor'                   => '{{ data.textcolor }}',
+		'secondary_textcolor'         => '{{ data.secondary_textcolor }}',
+		'border_color'                => '{{ data.border_color }}',
+		'border_focus_color'          => '{{ data.border_focus_color }}',
+		'sidebar_textcolor'           => '{{ data.sidebar_textcolor }}',
+		'sidebar_border_color'        => '{{ data.sidebar_border_color }}',
+		'sidebar_border_focus_color'  => '{{ data.sidebar_border_focus_color }}',
+		'secondary_sidebar_textcolor' => '{{ data.secondary_sidebar_textcolor }}',
+		'meta_box_background_color'   => '{{ data.meta_box_background_color }}',
+	);
+	?>
+	<script type="text/html" id="tmpl-twentyfifteen-color-scheme">
+		<?php echo twentyfifteen_get_color_scheme_css( $colors ); ?>
 	</script>
 	<?php
 }
