@@ -1912,6 +1912,9 @@ function get_terms( $taxonomies, $args = '' ) {
 	}
 
 	$terms = $wpdb->get_results($query);
+	if ( 'all' == $_fields ) {
+		update_term_cache( $terms );
+	}
 
 	if ( empty($terms) ) {
 		wp_cache_add( $cache_key, array(), 'terms', DAY_IN_SECONDS );
