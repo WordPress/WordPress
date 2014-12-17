@@ -454,7 +454,7 @@ a {
  */
 
 body.rtl {
-	font-family: "Noto Serif", Tahoma, serif;
+	font-family: Arial, Tahoma, sans-serif;
 }
 
 .rtl blockquote {
