@@ -400,6 +400,7 @@ ol.ol-decimal > li {
 code {
 	font-family: Consolas, Monaco, monospace;
 	direction: ltr;
+	unicode-bidi: embed;
 }
 
 kbd,
