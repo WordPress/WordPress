@@ -53,6 +53,66 @@ td {
  * 2.0 Typography
  */
 
+body,
+button,
+input[type="button"],
+input[type="reset"],
+input[type="submit"],
+input,
+select,
+textarea,
+blockquote cite,
+blockquote small,
+.post-password-form label,
+.main-navigation .menu-item-description,
+.post-navigation .meta-nav,
+.post-navigation .post-title,
+.pagination,
+.image-navigation,
+.comment-navigation,
+.site-title,
+.site-description,
+.widget-title,
+.widget_calendar caption,
+.widget_rss .rss-date,
+.widget_rss cite,
+.author-heading,
+.entry-footer,
+.page-title,
+.page-links,
+.entry-caption,
+.comments-title,
+.comment-reply-title,
+.comment-metadata,
+.pingback .edit-link,
+.comment-list .reply a,
+.comment-form label,
+.comment-notes,
+.comment-awaiting-moderation,
+.logged-in-as,
+.form-allowed-tags,
+.no-comments,
+.wp-caption-text,
+.gallery-caption {
+	font-family: Arial, Tahoma, sans-serif;
+}
+
+::-webkit-input-placeholder {
+	font-family: Arial, Tahoma, sans-serif;
+}
+
+:-moz-placeholder {
+	font-family: Arial, Tahoma, sans-serif;
+}
+
+::-moz-placeholder {
+	font-family: Arial, Tahoma, sans-serif;
+}
+
+:-ms-input-placeholder {
+	font-family: Arial, Tahoma, sans-serif;
+}
+
 blockquote {
 	border-right: 4px solid rgba(51, 51, 51, 0.7);
 	border-left: 0;
