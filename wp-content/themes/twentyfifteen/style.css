@@ -622,6 +622,11 @@ input[type="radio"] {
 	padding: 0;
 }
 
+.search-form input[type="submit"],
+.widget .search-form input[type="submit"] {
+	padding: 0;
+}
+
 
 /**
  * 6.0 Navigations
