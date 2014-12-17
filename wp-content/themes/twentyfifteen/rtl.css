@@ -126,16 +126,6 @@ td {
 	left: 0;
 }
 
-.secondary-toggle:before {
-	right: 0;
-	left: auto;
-}
-
-.secondary-toggle.toggled-on:before {
-	right: 0;
-	left: auto;
-}
-
 .post-navigation .has-post-thumbnail a:before {
 	right: 0;
 	left: auto;

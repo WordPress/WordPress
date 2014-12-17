@@ -902,10 +902,8 @@ a:focus {
 .secondary-toggle:before {
 	color: #333;
 	content: "\f419";
-	line-height: 42px;
-	position: relative;
-	top: -1px;
-	left: 0;
+	line-height: 40px;
+	width: 40px;
 }
 
 .secondary-toggle:hover,
@@ -919,7 +917,8 @@ a:focus {
 .secondary-toggle.toggled-on:before {
 	content: "\f405";
 	font-size: 32px;
-	top: 0;
+	position: relative;
+	top: 1px;
 	left: -1px;
 }
 
@@ -2883,7 +2882,8 @@ p > video {
 	}
 
 	.secondary-toggle:before {
-		line-height: 56px;
+		line-height: 54px;
+		width: 54px;
 	}
 
 	.post-password-form label,
@@ -3475,7 +3475,8 @@ p > video {
 	}
 
 	.secondary-toggle:before {
-		line-height: 64px;
+		line-height: 62px;
+		width: 62px;
 	}
 
 	.post-password-form label,
