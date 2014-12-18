@@ -44,7 +44,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 <div class="changelog headline-feature">
 	<h2><?php _e( 'Introducing Twenty&nbsp;Fifteen' ); ?></h2>
 	<div class="featured-image">
-		<img src="//s.w.org/images/core/4.1/theme.png" />
+		<img src="//s.w.org/images/core/4.1/theme.png?0" />
 	</div>
 
 	<div class="feature-section">
@@ -55,7 +55,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 			 <p><?php _e( 'Your content always takes center stage, whether viewed on a phone, tablet, laptop, or desktop computer.' ); ?></p>
 		</div>
 		<div class="col">
-			<img class="" src="//s.w.org/images/core/4.1/mobile.png" />
+			<img class="" src="//s.w.org/images/core/4.1/mobile.png?0" />
 		</div>
 	</div>
 
@@ -68,10 +68,10 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 	<h2><?php _e( 'Distraction-free writing' ); ?></h2>
 	<div class="feature-section">
 		<div class="dfw-container">
-			<img src="//s.w.org/images/core/4.1/focus.png" class="base-image" />
-			<img src="//s.w.org/images/core/4.1/focus1.png" class="overlay-image fade-in" />
-			<img src="//s.w.org/images/core/4.1/focus2.png" class="overlay-image fade-in" />
-			<img src="//s.w.org/images/core/4.1/focus3.png" class="overlay-image from-left" />
+			<img src="//s.w.org/images/core/4.1/focus.png?0" class="base-image" />
+			<img src="//s.w.org/images/core/4.1/focus1.png?0" class="overlay-image fade-in" />
+			<img src="//s.w.org/images/core/4.1/focus2.png?0" class="overlay-image fade-in" />
+			<img src="//s.w.org/images/core/4.1/focus3.png?0" class="overlay-image from-left" />
 		</div>
 		<h3><em><?php _e( 'Just write.' ); ?></em></h3>
 		<p><?php _e( 'Sometimes, you just need to concentrate on putting your thoughts into words. Try turning on <strong>distraction-free writing mode</strong>. When you start typing, all the distractions will fade away, letting you focus solely on your writing. All your editing tools instantly return when you need them.' ); ?></p>
