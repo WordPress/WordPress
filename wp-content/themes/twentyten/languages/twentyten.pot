@@ -2,9 +2,9 @@
 # This file is distributed under the GNU General Public License v2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Twenty Ten 1.7\n"
+"Project-Id-Version: Twenty Ten 1.8\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tags/twentyten\n"
-"POT-Creation-Date: 2014-12-18 01:26:36+00:00\n"
+"POT-Creation-Date: 2014-12-18 16:59:46+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -83,7 +83,7 @@ msgstr ""
 msgid "Comments are closed."
 msgstr ""
 
-#. #-#-#-#-#  twentyten.pot (Twenty Ten 1.7)  #-#-#-#-#
+#. #-#-#-#-#  twentyten.pot (Twenty Ten 1.8)  #-#-#-#-#
 #. Author URI of the plugin/theme
 #: footer.php:40
 msgid "http://wordpress.org/"
