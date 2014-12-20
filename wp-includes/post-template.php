@@ -1111,15 +1111,15 @@ function wp_list_pages( $args = '' ) {
  *     Optional. Arguments to generate a page menu. {@see wp_list_pages()}
  *     for additional arguments.
  *
- * @type string     $sort_column How to short the list of pages. Accepts post column names.
- *                               Default 'menu_order, post_title'.
- * @type string     $menu_class  Class to use for the div ID containing the page list. Default 'menu'.
- * @type bool       $echo        Whether to echo the list or return it. Accepts true (echo) or false (return).
- *                               Default true.
- * @type string     $link_before The HTML or text to prepend to $show_home text. Default empty.
- * @type string     $link_after  The HTML or text to append to $show_home text. Default empty.
- * @type int|string $show_home   Whether to display the link to the home page. Can just enter the text
- *                               you'd like shown for the home link. 1|true defaults to 'Home'.
+ * @type string          $sort_column How to short the list of pages. Accepts post column names.
+ *                                    Default 'menu_order, post_title'.
+ * @type string          $menu_class  Class to use for the div ID containing the page list. Default 'menu'.
+ * @type bool            $echo        Whether to echo the list or return it. Accepts true (echo) or false (return).
+ *                                    Default true.
+ * @type string          $link_before The HTML or text to prepend to $show_home text. Default empty.
+ * @type string          $link_after  The HTML or text to append to $show_home text. Default empty.
+ * @type int|bool|string $show_home   Whether to display the link to the home page. Can just enter the text
+ *                                    you'd like shown for the home link. 1|true defaults to 'Home'.
  * }
  * @return string html menu
  */

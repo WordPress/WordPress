@@ -1472,7 +1472,7 @@ class WP_Query {
 	 *                                                 or array of fields. 'id=>parent' uses 'id' and 'post_parent'.
 	 *                                                 Default all fields. Accepts 'ids', 'id=>parent'.
 	 *     @type int          $hour                    Hour of the day. Default empty. Accepts numbers 0-23.
-	 *     @type bool         $ignore_sticky_posts     Whether to ignore sticky posts or not. Setting this to false
+	 *     @type int|bool     $ignore_sticky_posts     Whether to ignore sticky posts or not. Setting this to false
 	 *                                                 excludes stickies from 'post__in'. Accepts 1|true, 0|false.
 	 *                                                 Default 0|false.
 	 *     @type int          $m                       Combination YearMonth. Accepts any four-digit year and month
