@@ -21,6 +21,8 @@ class WP_Comments_List_Table extends WP_List_Table {
 
 	public $pending_count = array();
 
+	public $extra_items;
+
 	/**
 	 * Constructor.
 	 *
@@ -379,12 +381,10 @@ class WP_Comments_List_Table extends WP_List_Table {
 		global $comment_status;
 		$post = get_post();
 
-		$user_can = $this->user_can;
-
 		$comment_url = esc_url( get_comment_link( $comment->comment_ID ) );
 		$the_comment_status = wp_get_comment_status( $comment->comment_ID );
 
-		if ( $user_can ) {
+		if ( $this->user_can ) {
 			$del_nonce = esc_html( '_wpnonce=' . wp_create_nonce( "delete-comment_$comment->comment_ID" ) );
 			$approve_nonce = esc_html( '_wpnonce=' . wp_create_nonce( "approve-comment_$comment->comment_ID" ) );
 
@@ -420,7 +420,7 @@ class WP_Comments_List_Table extends WP_List_Table {
 
 		echo '</div>';
 		comment_text();
-		if ( $user_can ) { ?>
+		if ( $this->user_can ) { ?>
 		<div id="inline-<?php echo $comment->comment_ID; ?>" class="hidden">
 		<textarea class="comment" rows="1" cols="1"><?php
 			/** This filter is documented in wp-admin/includes/comment.php */
@@ -434,7 +434,7 @@ class WP_Comments_List_Table extends WP_List_Table {
 		<?php
 		}
 
-		if ( $user_can ) {
+		if ( $this->user_can ) {
 			// Preorder it: Approve | Reply | Quick Edit | Edit | Spam | Trash.
 			$actions = array(
 				'approve' => '', 'unapprove' => '',
@@ -596,16 +596,14 @@ class WP_Comments_List_Table extends WP_List_Table {
 class WP_Post_Comments_List_Table extends WP_Comments_List_Table {
 
 	protected function get_column_info() {
-		$this->_column_headers = array(
+		return array(
 			array(
-			'author'   => __( 'Author' ),
-			'comment'  => _x( 'Comment', 'column name' ),
+				'author'   => __( 'Author' ),
+				'comment'  => _x( 'Comment', 'column name' ),
 			),
 			array(),
 			array(),
 		);
-
-		return $this->_column_headers;
 	}
 
 	protected function get_table_classes() {

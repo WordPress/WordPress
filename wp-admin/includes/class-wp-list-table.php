@@ -24,9 +24,9 @@ class WP_List_Table {
 	 *
 	 * @since 3.1.0
 	 * @var array
-	 * @access private
+	 * @access protected
 	 */
-	private $_args;
+	protected $_args;
 
 	/**
 	 * Various information needed for displaying the pagination
