@@ -368,7 +368,7 @@ final class WP_Screen {
 	 * @since 3.3.0
 	 * @access public
 	 *
-	 * @param string $hook_name Optional. The hook name (also known as the hook suffix) used to determine the screen.
+	 * @param string|WP_Screen $hook_name Optional. The hook name (also known as the hook suffix) used to determine the screen.
 	 * 	Defaults to the current $hook_suffix global.
 	 * @return WP_Screen Screen object.
 	 */

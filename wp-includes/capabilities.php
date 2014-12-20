@@ -550,7 +550,7 @@ class WP_User {
 	 *
 	 * @param string $field The field to query against: 'id', 'slug', 'email' or 'login'
 	 * @param string|int $value The field value
-	 * @return object Raw user object
+	 * @return object|false Raw user object
 	 */
 	public static function get_data_by( $field, $value ) {
 		global $wpdb;
