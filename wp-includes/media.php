@@ -586,6 +586,8 @@ function image_get_intermediate_size($post_id, $size='thumbnail') {
 
 	// get the best one for a specified set of dimensions
 	if ( is_array($size) && !empty($imagedata['sizes']) ) {
+		$areas = array();
+
 		foreach ( $imagedata['sizes'] as $_size => $data ) {
 			// already cropped to width or height; so use this size
 			if ( ( $data['width'] == $size[0] && $data['height'] <= $size[1] ) || ( $data['height'] == $size[1] && $data['width'] <= $size[0] ) ) {

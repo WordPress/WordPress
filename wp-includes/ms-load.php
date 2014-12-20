@@ -308,6 +308,8 @@ function get_site_by_path( $domain, $path, $segments = null ) {
 		$path_segments = array_slice( $path_segments, 0, $segments );
 	}
 
+	$paths = array();
+
 	while ( count( $path_segments ) ) {
 		$paths[] = '/' . implode( '/', $path_segments ) . '/';
 		array_pop( $path_segments );

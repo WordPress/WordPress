@@ -166,20 +166,21 @@ function get_blog_list( $start = 0, $num = 10, $deprecated = '' ) {
 	global $wpdb;
 	$blogs = $wpdb->get_results( $wpdb->prepare("SELECT blog_id, domain, path FROM $wpdb->blogs WHERE site_id = %d AND public = '1' AND archived = '0' AND mature = '0' AND spam = '0' AND deleted = '0' ORDER BY registered DESC", $wpdb->siteid), ARRAY_A );
 
+	$blog_list = array();
 	foreach ( (array) $blogs as $details ) {
 		$blog_list[ $details['blog_id'] ] = $details;
 		$blog_list[ $details['blog_id'] ]['postcount'] = $wpdb->get_var( "SELECT COUNT(ID) FROM " . $wpdb->get_blog_prefix( $details['blog_id'] ). "posts WHERE post_status='publish' AND post_type='post'" );
 	}
-	unset( $blogs );
-	$blogs = $blog_list;
 
-	if ( false == is_array( $blogs ) )
+	if ( ! $blog_list ) {
 		return array();
+	}
 
-	if ( $num == 'all' )
-		return array_slice( $blogs, $start, count( $blogs ) );
-	else
-		return array_slice( $blogs, $start, $num );
+	if ( $num == 'all' ) {
+		return array_slice( $blog_list, $start, count( $blog_list ) );
+	} else {
+		return array_slice( $blog_list, $start, $num );
+	}
 }
 
 /**

@@ -301,11 +301,14 @@ function wp_popular_terms_checklist( $taxonomy, $default = 0, $number = 10, $ech
 function wp_link_category_checklist( $link_id = 0 ) {
 	$default = 1;
 
+	$checked_categories = array();
+
 	if ( $link_id ) {
 		$checked_categories = wp_get_link_cats( $link_id );
 		// No selected categories, strange
-		if ( ! count( $checked_categories ) )
+		if ( ! count( $checked_categories ) ) {
 			$checked_categories[] = $default;
+		}
 	} else {
 		$checked_categories[] = $default;
 	}

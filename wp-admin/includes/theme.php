@@ -430,6 +430,9 @@ function wp_prepare_themes_for_js( $themes = null ) {
 	}
 
 	WP_Theme::sort_by_name( $themes );
+
+	$parents = array();
+
 	foreach ( $themes as $theme ) {
 		$slug = $theme->get_stylesheet();
 		$encoded_slug = urlencode( $slug );
@@ -469,7 +472,7 @@ function wp_prepare_themes_for_js( $themes = null ) {
 	}
 
 	// Remove 'delete' action if theme has an active child
-	if ( isset( $parents ) && array_key_exists( $current_theme, $parents ) ) {
+	if ( ! empty( $parents ) && array_key_exists( $current_theme, $parents ) ) {
 		unset( $prepared_themes[ $parents[ $current_theme ] ]['actions']['delete'] );
 	}
 

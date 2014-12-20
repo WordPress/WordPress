@@ -1252,7 +1252,7 @@ add_action('admin_head-nav-menus.php', '_wp_delete_orphaned_draft_menu_items');
  */
 function wp_nav_menu_update_menu_items ( $nav_menu_selected_id, $nav_menu_selected_title ) {
 	$unsorted_menu_items = wp_get_nav_menu_items( $nav_menu_selected_id, array( 'orderby' => 'ID', 'output' => ARRAY_A, 'output_key' => 'ID', 'post_status' => 'draft,publish' ) );
-
+	$messages = array();
 	$menu_items = array();
 	// Index menu items by db ID
 	foreach ( $unsorted_menu_items as $_item )

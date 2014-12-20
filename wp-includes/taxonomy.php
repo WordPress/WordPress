@@ -3889,6 +3889,8 @@ function _pad_term_counts(&$terms, $taxonomy) {
 		return;
 
 	$term_items = array();
+	$terms_by_id = array();
+	$term_ids = array();
 
 	foreach ( (array) $terms as $key => $term ) {
 		$terms_by_id[$term->term_id] = & $terms[$key];

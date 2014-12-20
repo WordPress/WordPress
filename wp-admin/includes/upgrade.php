@@ -1786,7 +1786,7 @@ function dbDelta( $queries = '', $execute = true ) {
 
 		if ($tableindices) {
 			// Clear the index array.
-			unset($index_ary);
+			$index_ary = array();
 
 			// For every index in the table.
 			foreach ($tableindices as $tableindex) {

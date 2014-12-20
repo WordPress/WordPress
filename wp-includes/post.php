@@ -352,12 +352,16 @@ function get_children( $args = '', $output = OBJECT ) {
 	if ( $output == OBJECT ) {
 		return $kids;
 	} elseif ( $output == ARRAY_A ) {
-		foreach ( (array) $kids as $kid )
+		$weeuns = array();
+		foreach ( (array) $kids as $kid ) {
 			$weeuns[$kid->ID] = get_object_vars($kids[$kid->ID]);
+		}
 		return $weeuns;
 	} elseif ( $output == ARRAY_N ) {
-		foreach ( (array) $kids as $kid )
+		$babes = array();
+		foreach ( (array) $kids as $kid ) {
 			$babes[$kid->ID] = array_values(get_object_vars($kids[$kid->ID]));
+		}
 		return $babes;
 	} else {
 		return $kids;
@@ -1681,9 +1685,10 @@ function _get_custom_object_labels( $object, $nohier_vs_hier_defaults ) {
 	if ( !isset( $object->labels['all_items'] ) && isset( $object->labels['menu_name'] ) )
 		$object->labels['all_items'] = $object->labels['menu_name'];
 
-	foreach ( $nohier_vs_hier_defaults as $key => $value )
-			$defaults[$key] = $object->hierarchical ? $value[1] : $value[0];
-
+	$defaults = array();
+	foreach ( $nohier_vs_hier_defaults as $key => $value ) {
+		$defaults[$key] = $object->hierarchical ? $value[1] : $value[0];
+	}
 	$labels = array_merge( $defaults, $object->labels );
 	return (object)$labels;
 }
@@ -2510,6 +2515,9 @@ function wp_post_mime_type_where( $post_mime_types, $table_alias = '' ) {
 	$wildcards = array('', '%', '%/%');
 	if ( is_string($post_mime_types) )
 		$post_mime_types = array_map('trim', explode(',', $post_mime_types));
+
+	$wheres = array();
+
 	foreach ( (array) $post_mime_types as $mime_type ) {
 		$mime_type = preg_replace('/\s/', '', $mime_type);
 		$slashpos = strpos($mime_type, '/');
@@ -5140,6 +5148,7 @@ function wp_mime_type_icon( $mime = 0 ) {
 			wp_cache_add( 'icon_files', $icon_files, 'default', 600 );
 		}
 
+		$types = array();
 		// Icon basename - extension = MIME wildcard.
 		foreach ( $icon_files as $file => $uri )
 			$types[ preg_replace('/^([^.]*).*$/', '$1', basename($file)) ] =& $icon_files[$file];
@@ -5513,9 +5522,11 @@ function update_post_caches( &$posts, $post_type = 'post', $update_term_cache = 
 		if ( is_array($post_type) ) {
 			$ptypes = $post_type;
 		} elseif ( 'any' == $post_type ) {
+			$ptypes = array();
 			// Just use the post_types in the supplied posts.
-			foreach ( $posts as $post )
+			foreach ( $posts as $post ) {
 				$ptypes[] = $post->post_type;
+			}
 			$ptypes = array_unique($ptypes);
 		} else {
 			$ptypes = array($post_type);

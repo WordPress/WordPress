@@ -1289,11 +1289,14 @@ function get_the_term_list( $id, $taxonomy, $before = '', $sep = '', $after = ''
 	if ( empty( $terms ) )
 		return false;
 
+	$links = array();
+
 	foreach ( $terms as $term ) {
 		$link = get_term_link( $term, $taxonomy );
-		if ( is_wp_error( $link ) )
+		if ( is_wp_error( $link ) ) {
 			return $link;
-		$term_links[] = '<a href="' . esc_url( $link ) . '" rel="tag">' . $term->name . '</a>';
+		}
+		$links[] = '<a href="' . esc_url( $link ) . '" rel="tag">' . $term->name . '</a>';
 	}
 
 	/**
@@ -1304,9 +1307,9 @@ function get_the_term_list( $id, $taxonomy, $before = '', $sep = '', $after = ''
 	 *
 	 * @since 2.5.0
 	 *
-	 * @param array $term_links An array of term links.
+	 * @param array $links An array of term links.
 	 */
-	$term_links = apply_filters( "term_links-$taxonomy", $term_links );
+	$term_links = apply_filters( "term_links-$taxonomy", $links );
 
 	return $before . join( $sep, $term_links ) . $after;
 }
