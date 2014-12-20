@@ -429,7 +429,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 	 * @param array $pages
 	 * @param int $pagenum
 	 * @param int $per_page
-	 * @return bool|null
+	 * @return false|null
 	 */
 	private function _display_rows_hierarchical( $pages, $pagenum = 1, $per_page = 20 ) {
 		global $wpdb;

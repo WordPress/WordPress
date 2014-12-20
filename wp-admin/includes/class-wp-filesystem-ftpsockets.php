@@ -83,7 +83,7 @@ class WP_Filesystem_ftpsockets extends WP_Filesystem_Base {
 
 	/**
 	 * @param string $file
-	 * @return bool|string
+	 * @return false|string
 	 */
 	public function get_contents( $file ) {
 		if ( ! $this->exists($file) )

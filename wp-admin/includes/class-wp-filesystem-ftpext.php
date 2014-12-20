@@ -89,7 +89,7 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 
 	/**
 	 * @param string $file
-	 * @return bool|string
+	 * @return false|string
 	 */
 	public function get_contents( $file ) {
 		$tempfile = wp_tempnam($file);
