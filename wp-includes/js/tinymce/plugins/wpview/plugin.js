@@ -330,8 +330,13 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 
 				if ( ( event.type === 'touchend' || event.type === 'mousedown' ) && ! event.metaKey && ! event.ctrlKey ) {
 					if ( editor.dom.hasClass( event.target, 'edit' ) ) {
+
+						// In IE need to transfer focus from the non-editable view back to the editor.
+						if ( Env.ie ) {
+							editor.focus();
+						}
+
 						wp.mce.views.edit( view );
-						editor.focus();
 						return false;
 					} else if ( editor.dom.hasClass( event.target, 'remove' ) ) {
 						removeView( view );
