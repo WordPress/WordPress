@@ -128,12 +128,12 @@
 	api.utils.areElementListsEqual = function ( listA, listB ) {
 		var equal = (
 			listA.length === listB.length && // if lists are different lengths, then naturally they are not equal
-			-1 === _.map( // are there any false values in the list returned by map?
+			-1 === _.indexOf( _.map( // are there any false values in the list returned by map?
 				_.zip( listA, listB ), // pair up each element between the two lists
 				function ( pair ) {
 					return $( pair[0] ).is( pair[1] ); // compare to see if each pair are equal
 				}
-			).indexOf( false ) // check for presence of false in map's return value
+			), false ) // check for presence of false in map's return value
 		);
 		return equal;
 	};
