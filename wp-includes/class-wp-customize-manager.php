@@ -57,10 +57,12 @@ final class WP_Customize_Manager {
 	 * Controls that may be rendered from JS templates.
 	 *
 	 * @since 4.1.0
+	 * @access protected
+	 * @var array
 	 */
 	protected $registered_control_types = array();
 
-	/** 
+	/**
 	 * $_POST values for Customize Settings.
 	 *
 	 * @var array
@@ -401,7 +403,7 @@ final class WP_Customize_Manager {
 	 *
 	 * @since 3.4.0
 	 *
-	 * @param mixed $setting A WP_Customize_Setting derived object
+	 * @param WP_Customize_Setting $setting A WP_Customize_Setting derived object
 	 * @return string $post_value Sanitized value
 	 */
 	public function post_value( $setting ) {
@@ -417,7 +419,7 @@ final class WP_Customize_Manager {
 	}
 
 	/**
-	 * Print javascript settings.
+	 * Print JavaScript settings.
 	 *
 	 * @since 3.4.0
 	 */
@@ -490,7 +492,7 @@ final class WP_Customize_Manager {
 	}
 
 	/**
-	 * Print javascript settings for preview frame.
+	 * Print JavaScript settings for preview frame.
 	 *
 	 * @since 3.4.0
 	 */
@@ -515,6 +517,9 @@ final class WP_Customize_Manager {
 		}
 		foreach ( $this->panels as $id => $panel ) {
 			$settings['activePanels'][ $id ] = $panel->active();
+			foreach ( $panel->sections as $id => $section ) {
+				$settings['activeSections'][ $id ] = $section->active();
+			}
 		}
 		foreach ( $this->sections as $id => $section ) {
 			$settings['activeSections'][ $id ] = $section->active();
@@ -839,12 +844,13 @@ final class WP_Customize_Manager {
 	/**
 	 * Register a customize control type.
 	 *
-	 * Registered types are eligible to be rendered
-	 * via JS and created dynamically.
+	 * Registered types are eligible to be rendered via JS and created dynamically.
 	 *
 	 * @since 4.1.0
+	 * @access public
 	 *
-	 * @param string $control Name of a custom control which is a subclass of {@see WP_Customize_Control}.
+	 * @param string $control Name of a custom control which is a subclass of
+	 *                        {@see WP_Customize_Control}.
 	 */
 	public function register_control_type( $control ) {
 		$this->registered_control_types[] = $control;
@@ -854,6 +860,7 @@ final class WP_Customize_Manager {
 	 * Render JS templates for all registered control types.
 	 *
 	 * @since 4.1.0
+	 * @access public
 	 */
 	public function render_control_templates() {
 		foreach ( $this->registered_control_types as $control_type ) {
@@ -965,6 +972,9 @@ final class WP_Customize_Manager {
 
 		/* Control Types (custom control classes) */
 		$this->register_control_type( 'WP_Customize_Color_Control' );
+		$this->register_control_type( 'WP_Customize_Upload_Control' );
+		$this->register_control_type( 'WP_Customize_Image_Control' );
+		$this->register_control_type( 'WP_Customize_Background_Image_Control' );
 
 		/* Site Title & Tagline */
 

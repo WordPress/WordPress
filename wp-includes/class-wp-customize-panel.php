@@ -103,14 +103,16 @@ class WP_Customize_Panel {
 	public $sections;
 
 	/**
+	 * Type of this panel.
+	 *
 	 * @since 4.1.0
 	 * @access public
 	 * @var string
 	 */
-	public $type;
+	public $type = 'default';
 
 	/**
-	 * Callback.
+	 * Active callback.
 	 *
 	 * @since 4.1.0
 	 * @access public
@@ -118,8 +120,8 @@ class WP_Customize_Panel {
 	 * @see WP_Customize_Section::active()
 	 *
 	 * @var callable Callback is called with one argument, the instance of
-	 *               WP_Customize_Section, and returns bool to indicate whether
-	 *               the section is active (such as it relates to the URL
+	 *               {@see WP_Customize_Section}, and returns bool to indicate
+	 *               whether the section is active (such as it relates to the URL
 	 *               currently being previewed).
 	 */
 	public $active_callback = '';
@@ -173,8 +175,8 @@ class WP_Customize_Panel {
 		 *
 		 * @since 4.1.0
 		 *
-		 * @param bool                 $active  Whether the Customizer panel is active.
-		 * @param WP_Customize_Panel $panel WP_Customize_Panel instance.
+		 * @param bool               $active  Whether the Customizer panel is active.
+		 * @param WP_Customize_Panel $panel   {@see WP_Customize_Panel} instance.
 		 */
 		$active = apply_filters( 'customize_panel_active', $active, $panel );
 
@@ -182,7 +184,7 @@ class WP_Customize_Panel {
 	}
 
 	/**
-	 * Default callback used when invoking WP_Customize_Panel::active().
+	 * Default callback used when invoking {@see WP_Customize_Panel::active()}.
 	 *
 	 * Subclasses can override this with their specific logic, or they may
 	 * provide an 'active_callback' argument to the constructor.
@@ -201,7 +203,7 @@ class WP_Customize_Panel {
 	 *
 	 * @since 4.1.0
 	 *
-	 * @return array The array to be exported to the client as JSON
+	 * @return array The array to be exported to the client as JSON.
 	 */
 	public function json() {
 		$array = wp_array_slice_assoc( (array) $this, array( 'title', 'description', 'priority', 'type' ) );
@@ -236,7 +238,7 @@ class WP_Customize_Panel {
 	 *
 	 * @since 4.1.0
 	 *
-	 * @return string
+	 * @return string Content for the panel.
 	 */
 	public final function get_content() {
 		ob_start();
@@ -268,8 +270,8 @@ class WP_Customize_Panel {
 		/**
 		 * Fires before rendering a specific Customizer panel.
 		 *
-		 * The dynamic portion of the hook name, $this->id, refers to the ID
-		 * of the specific Customizer panel to be rendered.
+		 * The dynamic portion of the hook name, `$this->id`, refers to
+		 * the ID of the specific Customizer panel to be rendered.
 		 *
 		 * @since 4.0.0
 		 */
@@ -285,8 +287,9 @@ class WP_Customize_Panel {
 	 * @access protected
 	 */
 	protected function render() {
+		$classes = 'accordion-section control-section control-panel control-panel-' . $this->type;
 		?>
-		<li id="accordion-panel-<?php echo esc_attr( $this->id ); ?>" class="control-section control-panel accordion-section">
+		<li id="accordion-panel-<?php echo esc_attr( $this->id ); ?>" class="<?php echo esc_attr( $classes ); ?>">
 			<h3 class="accordion-section-title" tabindex="0">
 				<?php echo esc_html( $this->title ); ?>
 				<span class="screen-reader-text"><?php _e( 'Press return or enter to open this panel' ); ?></span>

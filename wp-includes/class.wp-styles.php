@@ -39,6 +39,10 @@ class WP_Styles extends WP_Dependencies {
 		do_action_ref_array( 'wp_default_styles', array(&$this) );
 	}
 
+	/**
+	 * @param string $handle
+	 * @return bool
+	 */
 	public function do_item( $handle ) {
 		if ( !parent::do_item($handle) )
 			return false;
@@ -119,6 +123,10 @@ class WP_Styles extends WP_Dependencies {
 		return true;
 	}
 
+	/**
+	 * @param string $handle
+	 * @param string $code
+	 */
 	public function add_inline_style( $handle, $code ) {
 		if ( ! $code ) {
 			return false;
@@ -134,6 +142,11 @@ class WP_Styles extends WP_Dependencies {
 		return $this->add_data( $handle, 'after', $after );
 	}
 
+	/**
+	 * @param string $handle
+	 * @param bool $echo
+	 * @return bool
+	 */
 	public function print_inline_style( $handle, $echo = true ) {
 		$output = $this->get_data( $handle, 'after' );
 
@@ -152,6 +165,12 @@ class WP_Styles extends WP_Dependencies {
 		return true;
 	}
 
+	/**
+	 * @param mixed $handles
+	 * @param bool $recursion
+	 * @param mixed $group
+	 * @return bool
+	 */
 	public function all_deps( $handles, $recursion = false, $group = false ) {
 		$r = parent::all_deps( $handles, $recursion );
 		if ( !$recursion ) {
@@ -167,6 +186,12 @@ class WP_Styles extends WP_Dependencies {
 		return $r;
 	}
 
+	/**
+	 * @param string $src
+	 * @param string $ver
+	 * @param string $handle
+	 * @return string
+	 */
 	public function _css_href( $src, $ver, $handle ) {
 		if ( !is_bool($src) && !preg_match('|^(https?:)?//|', $src) && ! ( $this->content_url && 0 === strpos($src, $this->content_url) ) ) {
 			$src = $this->base_url . $src;
@@ -187,6 +212,10 @@ class WP_Styles extends WP_Dependencies {
 		return esc_url( $src );
 	}
 
+	/**
+	 * @param string $src
+	 * @return bool
+	 */
 	public function in_default_dir($src) {
 		if ( ! $this->default_dirs )
 			return true;

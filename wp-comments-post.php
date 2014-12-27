@@ -47,7 +47,7 @@ if ( ! comments_open( $comment_post_ID ) ) {
 	 * @param int $comment_post_ID Post ID.
 	 */
 	do_action( 'comment_closed', $comment_post_ID );
-	wp_die( __('Sorry, comments are closed for this item.') );
+	wp_die( __( 'Sorry, comments are closed for this item.' ), 403 );
 } elseif ( 'trash' == $status ) {
 	/**
 	 * Fires when a comment is attempted on a trashed post.
@@ -111,21 +111,24 @@ if ( $user->exists() ) {
 		}
 	}
 } else {
-	if ( get_option('comment_registration') || 'private' == $status )
-		wp_die( __('Sorry, you must be logged in to post a comment.') );
+	if ( get_option( 'comment_registration' ) || 'private' == $status ) {
+		wp_die( __( 'Sorry, you must be logged in to post a comment.' ), 403 );
+	}
 }
 
 $comment_type = '';
 
 if ( get_option('require_name_email') && !$user->exists() ) {
-	if ( 6 > strlen($comment_author_email) || '' == $comment_author )
-		wp_die( __('<strong>ERROR</strong>: please fill the required fields (name, email).') );
-	elseif ( !is_email($comment_author_email))
-		wp_die( __('<strong>ERROR</strong>: please enter a valid email address.') );
+	if ( 6 > strlen( $comment_author_email ) || '' == $comment_author ) {
+		wp_die( __( '<strong>ERROR</strong>: please fill the required fields (name, email).' ), 200 );
+	} else if ( ! is_email( $comment_author_email ) ) {
+		wp_die( __( '<strong>ERROR</strong>: please enter a valid email address.' ), 200 );
+	}
 }
 
-if ( '' == $comment_content )
-	wp_die( __('<strong>ERROR</strong>: please type a comment.') );
+if ( '' == $comment_content ) {
+	wp_die( __( '<strong>ERROR</strong>: please type a comment.' ), 200 );
+}
 
 $comment_parent = isset($_POST['comment_parent']) ? absint($_POST['comment_parent']) : 0;
 

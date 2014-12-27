@@ -395,7 +395,9 @@ ul#adminmenu > li.current > a.current:after {
 }
 
 .wp-pointer.wp-pointer-top .wp-pointer-arrow,
-.wp-pointer.wp-pointer-undefined .wp-pointer-arrow {
+.wp-pointer.wp-pointer-top .wp-pointer-arrow-inner,
+.wp-pointer.wp-pointer-undefined .wp-pointer-arrow,
+.wp-pointer.wp-pointer-undefined .wp-pointer-arrow-inner {
 	border-bottom-color: $highlight-color;
 }
 

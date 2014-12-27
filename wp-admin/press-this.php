@@ -14,7 +14,7 @@ require_once( dirname( __FILE__ ) . '/admin.php' );
 header('Content-Type: ' . get_option('html_type') . '; charset=' . get_option('blog_charset'));
 
 if ( ! current_user_can( 'edit_posts' ) || ! current_user_can( get_post_type_object( 'post' )->cap->create_posts ) )
-	wp_die( __( 'Cheatin&#8217; uh?' ) );
+	wp_die( __( 'Cheatin&#8217; uh?' ), 403 );
 
 /**
  * Press It form handler.
@@ -63,7 +63,7 @@ function press_it() {
 	// Error handling for media_sideload.
 	if ( is_wp_error($upload) ) {
 		wp_delete_post($post_ID);
-		wp_die($upload);
+		wp_die( esc_html( $upload->get_error_message() ) );
 	} else {
 		// Post formats.
 		if ( isset( $_POST['post_format'] ) ) {

@@ -2,9 +2,9 @@
 # This file is distributed under the GNU General Public License v2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Twenty Thirteen 1.3\n"
+"Project-Id-Version: Twenty Thirteen 1.4\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tags/twentythirteen\n"
-"POT-Creation-Date: 2014-09-03 00:45:47+00:00\n"
+"POT-Creation-Date: 2014-12-18 16:59:50+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -89,38 +89,40 @@ msgstr ""
 msgid "Comments are closed."
 msgstr ""
 
-#: content-aside.php:13 content-audio.php:24 content-gallery.php:24
-#: content-image.php:23 content-link.php:24 content-quote.php:13
-#: content-status.php:13 content-video.php:23 content.php:41
-msgid "Continue reading <span class=\"meta-nav\">&rarr;</span>"
+#. translators: %s: Name of current post
+#: content-aside.php:16 content-audio.php:27 content-chat.php:26
+#: content-gallery.php:27 content-image.php:26 content-link.php:27
+#: content-quote.php:16 content-status.php:16 content-video.php:26
+#: content.php:44 functions.php:478
+msgid "Continue reading %s <span class=\"meta-nav\">&rarr;</span>"
 msgstr ""
 
-#: content-aside.php:14 content-audio.php:25 content-chat.php:24
-#: content-gallery.php:25 content-image.php:24 content-link.php:25
-#: content-quote.php:14 content-status.php:14 content-video.php:24
-#: content.php:42 image.php:70 page.php:35
+#: content-aside.php:20 content-audio.php:31 content-chat.php:30
+#: content-gallery.php:31 content-image.php:30 content-link.php:31
+#: content-quote.php:20 content-status.php:20 content-video.php:30
+#: content.php:48 image.php:70 page.php:35
 msgid "Pages:"
 msgstr ""
 
-#: content-aside.php:20 content-aside.php:28 content-audio.php:31
-#: content-chat.php:29 content-gallery.php:39 content-image.php:35
-#: content-link.php:19 content-quote.php:25 content-status.php:19
-#: content-video.php:35 content.php:31 image.php:44 page.php:39
+#: content-aside.php:27 content-aside.php:35 content-audio.php:38
+#: content-chat.php:36 content-gallery.php:46 content-image.php:42
+#: content-link.php:19 content-quote.php:32 content-status.php:26
+#: content-video.php:42 content.php:31 image.php:44 page.php:39
 msgid "Edit"
 msgstr ""
 
-#: content-gallery.php:36 content-image.php:32 content-quote.php:22
-#: content-video.php:32 content.php:49
+#: content-gallery.php:43 content-image.php:39 content-quote.php:29
+#: content-video.php:39 content.php:56
 msgid "Leave a comment"
 msgstr ""
 
-#: content-gallery.php:36 content-image.php:32 content-quote.php:22
-#: content-video.php:32 content.php:49
+#: content-gallery.php:43 content-image.php:39 content-quote.php:29
+#: content-video.php:39 content.php:56
 msgid "One comment so far"
 msgstr ""
 
-#: content-gallery.php:36 content-image.php:32 content-quote.php:22
-#: content-video.php:32 content.php:49
+#: content-gallery.php:43 content-image.php:39 content-quote.php:29
+#: content-video.php:39 content.php:56
 msgid "View all % comments"
 msgstr ""
 
@@ -145,7 +147,7 @@ msgid ""
 "searching can help."
 msgstr ""
 
-#. #-#-#-#-#  twentythirteen.pot (Twenty Thirteen 1.3)  #-#-#-#-#
+#. #-#-#-#-#  twentythirteen.pot (Twenty Thirteen 1.4)  #-#-#-#-#
 #. Author URI of the plugin/theme
 #: footer.php:19
 msgid "http://wordpress.org/"

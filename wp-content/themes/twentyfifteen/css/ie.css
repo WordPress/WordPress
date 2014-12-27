@@ -35,7 +35,9 @@ ol {
 }
 
 li > ul,
-li > ol {
+li > ol,
+blockquote > ul,
+blockquote > ol {
 	margin-left: 1.3333em;
 }
 
@@ -295,6 +297,10 @@ img.aligncenter {
 	filter: alpha(opacity=70);
 	font-size: 16px;
 	margin: 0.5em 7.6897% 7.6897%;
+}
+
+.sidebar {
+	position: static !important;
 }
 
 .widget-area {
@@ -586,7 +592,12 @@ img.aligncenter {
 }
 
 .page-links {
-	margin-bottom: 1.5789em;
+	margin-bottom: 1.4736em;
+}
+
+.page-links a,
+.page-links > span {
+	margin: 0 0.25em 0.25em 0;
 }
 
 .format-aside .entry-title,
@@ -665,7 +676,9 @@ img.aligncenter {
 }
 
 .comment-content li > ul,
-.comment-content li > ol {
+.comment-content li > ol,
+.comment-content blockquote > ul,
+.comment-content blockquote > ol {
 	margin-left: 1.3333em;
 }
 
@@ -687,7 +700,8 @@ img.aligncenter {
 }
 
 .site-footer {
-	border-top: 0;
+	border-top: 1px solid transparent;
+	border-bottom: 1px solid transparent;
 	margin: 0 auto;
 	max-width: 806px;
 	padding: 0;
@@ -765,7 +779,9 @@ video {
 }
 
 .rtl li > ul,
-.rtl li > ol {
+.rtl li > ol,
+.rtl blockquote > ul,
+.rtl blockquote > ol {
 	margin-right: 1.3333em;
 	margin-left: auto;
 }
@@ -840,6 +856,11 @@ video {
 	margin: 0.7188em 1em 0 0;
 }
 
+.rtl .page-links a,
+.rtl .page-links > span {
+	margin: 0 0 0.25em 0.25em;
+}
+
 .rtl .author-info .avatar {
 	margin: 0 0 1.6842em 1.6842em;
 }
@@ -876,7 +897,9 @@ video {
 }
 
 .rtl .comment-content li > ul,
-.rtl .comment-content li > ol {
+.rtl .comment-content li > ol,
+.rtl .comment-content blockquote > ul,
+.rtl .comment-content blockquote > ol {
 	margin-right: 1.3333em;
 	margin-left: auto;
 }

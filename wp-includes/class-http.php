@@ -299,7 +299,7 @@ class WP_Http {
 	 * @param array $args Request arguments
 	 * @param string $url URL to Request
 	 *
-	 * @return string|bool Class name for the first transport that claims to support the request. False if no transport claims to support the request.
+	 * @return string|false Class name for the first transport that claims to support the request. False if no transport claims to support the request.
 	 */
 	public function _get_first_available_transport( $args, $url = null ) {
 		/**
@@ -676,16 +676,18 @@ class WP_Http {
 	 * A wrapper for PHP's parse_url() function that handles edgecases in < PHP 5.4.7
 	 *
 	 * PHP 5.4.7 expanded parse_url()'s ability to handle non-absolute url's, including
-	 * schemeless and relative url's with :// in the path, this works around those limitations
-	 * providing a standard output on PHP 5.2~5.4+.
+	 * schemeless and relative url's with :// in the path, this works around those
+	 * limitations providing a standard output on PHP 5.2~5.4+.
 	 *
-	 * Error suppression is used as prior to PHP 5.3.3, an E_WARNING would be generated when URL parsing failed.
+	 * Error suppression is used as prior to PHP 5.3.3, an E_WARNING would be generated
+	 * when URL parsing failed.
 	 *
 	 * @since 4.1.0
-	 *
 	 * @access protected
-	 * @param  string $url The URL to parse
-	 * @return bool|array False on failure; Array of URL components on success; See parse_url()'s return values.
+	 *
+	 * @param string $url The URL to parse.
+	 * @return bool|array False on failure; Array of URL components on success;
+	 *                    See parse_url()'s return values.
 	 */
 	protected static function parse_url( $url ) {
 		$parts = @parse_url( $url );
@@ -1331,7 +1333,7 @@ class WP_Http_Curl {
 	 * The total bytes written in the current request.
 	 *
 	 * @since 4.1.0
-	 * @access prviate
+	 * @access private
 	 * @var int
 	 */
 	private $bytes_written_total = 0;
@@ -1660,11 +1662,10 @@ class WP_Http_Curl {
  * </ol>
  *
  * An example can be as seen below.
- * <code>
- * define('WP_PROXY_HOST', '192.168.84.101');
- * define('WP_PROXY_PORT', '8080');
- * define('WP_PROXY_BYPASS_HOSTS', 'localhost, www.example.com, *.wordpress.org');
- * </code>
+ *
+ *     define('WP_PROXY_HOST', '192.168.84.101');
+ *     define('WP_PROXY_PORT', '8080');
+ *     define('WP_PROXY_BYPASS_HOSTS', 'localhost, www.example.com, *.wordpress.org');
  *
  * @link https://core.trac.wordpress.org/ticket/4011 Proxy support ticket in WordPress.
  * @link https://core.trac.wordpress.org/ticket/14636 Allow wildcard domains in WP_PROXY_BYPASS_HOSTS
@@ -2079,7 +2080,7 @@ class WP_Http_Encoding {
 	 * @param string $raw String to compress.
 	 * @param int $level Optional, default is 9. Compression level, 9 is highest.
 	 * @param string $supports Optional, not used. When implemented it will choose the right compression based on what the server supports.
-	 * @return string|bool False on failure.
+	 * @return string|false False on failure.
 	 */
 	public static function compress( $raw, $level = 9, $supports = null ) {
 		return gzdeflate( $raw, $level );
@@ -2179,6 +2180,8 @@ class WP_Http_Encoding {
 	 *
 	 * @since 2.8.0
 	 *
+	 * @param string $url
+	 * @param array  $args
 	 * @return string Types of encoding to accept.
 	 */
 	public static function accept_encoding( $url, $args ) {

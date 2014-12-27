@@ -64,6 +64,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 			$tabs['search']	= __( 'Search Results' );
 		$tabs['featured']  = _x( 'Featured', 'Plugin Installer' );
 		$tabs['popular']   = _x( 'Popular', 'Plugin Installer' );
+		$tabs['recommended']   = _x( 'Recommended', 'Plugin Installer' );
 		$tabs['favorites'] = _x( 'Favorites', 'Plugin Installer' );
 		if ( $tab === 'beta' || false !== strpos( $GLOBALS['wp_version'], '-' ) ) {
 			$tabs['beta']      = _x( 'Beta Testing', 'Plugin Installer' );
@@ -134,6 +135,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 			case 'popular':
 			case 'new':
 			case 'beta':
+			case 'recommended':
 				$args['browse'] = $tab;
 				break;
 
@@ -156,7 +158,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 		/**
 		 * Filter API request arguments for each Plugin Install screen tab.
 		 *
-		 * The dynamic portion of the hook name, $tab, refers to the plugin install tabs.
+		 * The dynamic portion of the hook name, `$tab`, refers to the plugin install tabs.
 		 * Default tabs are 'dashboard', 'search', 'upload', 'featured', 'popular', 'new',
 		 * and 'favorites'.
 		 *
@@ -268,6 +270,9 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 		$this->display_tablenav( 'bottom' );
 	}
 
+	/**
+	 * @param string $which
+	 */
 	protected function display_tablenav( $which ) {
 		if ( $GLOBALS['tab'] === 'featured' ) {
 			return;
@@ -306,6 +311,11 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 		return array();
 	}
 
+	/**
+	 * @param object $plugin_a
+	 * @param object $plugin_b
+	 * @return int
+	 */
 	private function order_callback( $plugin_a, $plugin_b ) {
 		$orderby = $this->orderby;
 		if ( ! isset( $plugin_a->$orderby, $plugin_b->$orderby ) ) {

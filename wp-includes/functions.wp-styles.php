@@ -19,7 +19,7 @@
  *
  * @since 2.6.0
  *
- * @param array|bool $handles Styles to be printed. Default 'false'.
+ * @param string|bool|array $handles Styles to be printed. Default 'false'.
  * @return array On success, a processed array of WP_Dependencies items; otherwise, an empty array.
  */
 function wp_print_styles( $handles = false ) {
@@ -236,7 +236,7 @@ function wp_style_is( $handle, $list = 'enqueued' ) {
  * @param string $handle Name of the stylesheet.
  * @param string $key    Name of data point for which we're storing a value.
  *                       Accepts 'conditional', 'rtl' and 'suffix', 'alt' and 'title'.
- * @param mixed  $data   String containing the CSS data to be added.
+ * @param mixed  $value  String containing the CSS data to be added.
  * @return bool True on success, false on failure.
  */
 function wp_style_add_data( $handle, $key, $value ) {

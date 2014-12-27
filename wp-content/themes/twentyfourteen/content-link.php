@@ -43,7 +43,12 @@
 
 	<div class="entry-content">
 		<?php
-			the_content( __( 'Continue reading <span class="meta-nav">&rarr;</span>', 'twentyfourteen' ) );
+			/* translators: %s: Name of current post */
+			the_content( sprintf(
+				__( 'Continue reading %s <span class="meta-nav">&rarr;</span>', 'twentyfourteen' ),
+				the_title( '<span class="screen-reader-text">', '</span>', false )
+			) );
+
 			wp_link_pages( array(
 				'before'      => '<div class="page-links"><span class="page-links-title">' . __( 'Pages:', 'twentyfourteen' ) . '</span>',
 				'after'       => '</div>',

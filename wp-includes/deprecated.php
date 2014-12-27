@@ -427,7 +427,7 @@ function get_linksbyname($cat_name = "noname", $before = '', $after = '<br />', 
  *
  * @param string $category The category to use.
  * @param string $args
- * @return bool|null
+ * @return string|null
  */
 function wp_get_linksbyname($category, $args = '') {
 	_deprecated_function(__FUNCTION__, '2.1', 'wp_list_bookmarks()');
@@ -451,12 +451,10 @@ function wp_get_linksbyname($category, $args = '') {
 /**
  * Gets an array of link objects associated with category $cat_name.
  *
- * <code>
- *	$links = get_linkobjectsbyname('fred');
- *	foreach ($links as $link) {
- * 		echo '<li>'.$link->link_name.'</li>';
- *	}
- * </code>
+ *     $links = get_linkobjectsbyname( 'fred' );
+ *     foreach ( $links as $link ) {
+ *      	echo '<li>' . $link->link_name . '</li>';
+ *     }
  *
  * @since 1.0.1
  * @deprecated 2.1.0
@@ -485,31 +483,29 @@ function get_linkobjectsbyname($cat_name = "noname" , $orderby = 'name', $limit 
  * Gets an array of link objects associated with category n.
  *
  * Usage:
- * <code>
- *	$links = get_linkobjects(1);
- *	if ($links) {
- *		foreach ($links as $link) {
- *			echo '<li>'.$link->link_name.'<br />'.$link->link_description.'</li>';
- *		}
- *	}
- * </code>
+ *
+ *     $links = get_linkobjects(1);
+ *     if ($links) {
+ *     	foreach ($links as $link) {
+ *     		echo '<li>'.$link->link_name.'<br />'.$link->link_description.'</li>';
+ *     	}
+ *     }
  *
  * Fields are:
- * <ol>
- *	<li>link_id</li>
- *	<li>link_url</li>
- *	<li>link_name</li>
- *	<li>link_image</li>
- *	<li>link_target</li>
- *	<li>link_category</li>
- *	<li>link_description</li>
- *	<li>link_visible</li>
- *	<li>link_owner</li>
- *	<li>link_rating</li>
- *	<li>link_updated</li>
- *	<li>link_rel</li>
- *	<li>link_notes</li>
- * </ol>
+ *
+ * - link_id
+ * - link_url
+ * - link_name
+ * - link_image
+ * - link_target
+ * - link_category
+ * - link_description
+ * - link_visible
+ * - link_owner
+ * - link_rating
+ * - link_updated
+ * - link_rel
+ * - link_notes
  *
  * @since 1.0.1
  * @deprecated 2.1.0
@@ -582,7 +578,7 @@ function get_linksbyname_withrating($cat_name = "noname", $before = '', $after =
  *		underscore the order will be reversed. You can also specify 'rand' as the
  *		order which will return links in a random order.
  * @param bool $show_description Whether to show the description if show_images=false/not defined.
- * @param string $limit Limit to X entries. If not specified, all entries are shown.
+ * @param int $limit Limit to X entries. If not specified, all entries are shown.
  * @param int $show_updated Whether to show last updated timestamp
  */
 function get_links_withrating($category = -1, $before = '', $after = '<br />', $between = " ", $show_images = true,
@@ -631,7 +627,7 @@ function get_autotoggle($id = 0) {
  * @param string $feed_image
  * @param string $exclude
  * @param bool $hierarchical
- * @return string
+ * @return false|null
  */
 function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_order = 'asc', $file = '', $list = true, $optiondates = 0,
 				   $optioncount = 0, $hide_empty = 1, $use_desc_for_title = 1, $children=false, $child_of=0, $categories=0,
@@ -650,7 +646,7 @@ function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_orde
  * @see wp_list_categories()
  *
  * @param string|array $args
- * @return string
+ * @return false|null|string
  */
 function wp_list_cats($args = '') {
 	_deprecated_function( __FUNCTION__, '2.1', 'wp_list_categories()' );
@@ -1160,7 +1156,7 @@ function comments_rss_link($link_text = 'Comments RSS') {
  *
  * @param bool $echo
  * @param int $cat_ID
- * @return string|null
+ * @return string
  */
 function get_category_rss_link($echo = false, $cat_ID = 1) {
 	_deprecated_function( __FUNCTION__, '2.5', 'get_category_feed_link()' );
@@ -1182,7 +1178,7 @@ function get_category_rss_link($echo = false, $cat_ID = 1) {
  *
  * @param bool $echo
  * @param int $author_id
- * @return string|null
+ * @return string
  */
 function get_author_rss_link($echo = false, $author_id = 1) {
 	_deprecated_function( __FUNCTION__, '2.5', 'get_author_feed_link()' );
@@ -1218,7 +1214,7 @@ function comments_rss() {
  *
  * @param string $username The user's username.
  * @param string $password The user's password.
- * @param string $email The user's email (optional).
+ * @param string $email    The user's email.
  * @return int The new user's ID.
  */
 function create_user($username, $password, $email) {
@@ -1661,7 +1657,7 @@ function the_author_url() {
  * @deprecated Use get_the_author_meta('ID')
  * @see get_the_author_meta()
  *
- * @return int The author's ID.
+ * @return string|int The author's ID.
  */
 function get_the_author_ID() {
 	_deprecated_function( __FUNCTION__, '2.8', 'get_the_author_meta(\'ID\')' );
@@ -1705,7 +1701,7 @@ function the_author_ID() {
  * @see the_content_feed()
  *
  * @param string $more_link_text Optional. Text to display when more content is available but not displayed.
- * @param int|bool $stripteaser Optional. Default is 0.
+ * @param int $stripteaser Optional. Default is 0.
  * @param string $more_file Optional.
  * @param int $cut Optional. Amount of words to keep for the content.
  * @param int $encode_html Optional. How to encode the content.
@@ -1964,7 +1960,7 @@ function get_attachment_icon_src( $id = 0, $fullsize = false ) {
  * @param int $id Optional. Post ID.
  * @param bool $fullsize Optional, default to false. Whether to have full size image.
  * @param array $max_dims Optional. Dimensions of image.
- * @return string HTML content.
+ * @return false|string HTML content.
  */
 function get_attachment_icon( $id = 0, $fullsize = false, $max_dims = false ) {
 	_deprecated_function( __FUNCTION__, '2.5', 'wp_get_attachment_image()' );
@@ -2021,7 +2017,7 @@ function get_attachment_icon( $id = 0, $fullsize = false, $max_dims = false ) {
  * @param int $id Optional. Post ID.
  * @param bool $fullsize Optional, default to false. Whether to have full size image.
  * @param array $max_dims Optional. Dimensions of image.
- * @return string
+ * @return false|string
  */
 function get_attachment_innerHTML($id = 0, $fullsize = false, $max_dims = false) {
 	_deprecated_function( __FUNCTION__, '2.5', 'wp_get_attachment_image()' );
@@ -2505,7 +2501,7 @@ function funky_javascript_callback($matches) {
 }
 
 /**
- * Fixes javascript bugs in browsers.
+ * Fixes JavaScript bugs in browsers.
  *
  * Converts unicode characters to HTML numbered entities.
  *
@@ -2519,7 +2515,7 @@ function funky_javascript_callback($matches) {
  */
 function funky_javascript_fix($text) {
 	_deprecated_function( __FUNCTION__, '3.0' );
-	// Fixes for browsers' javascript bugs
+	// Fixes for browsers' JavaScript bugs.
 	global $is_macIE, $is_winIE;
 
 	if ( $is_winIE || $is_macIE )
@@ -2989,7 +2985,7 @@ function get_current_theme() {
 /**
  * Accepts matches array from preg_replace_callback in wpautop() or a string.
  *
- * Ensures that the contents of a <<pre>>...<</pre>> HTML block are not
+ * Ensures that the contents of a `<pre>...</pre>` HTML block are not
  * converted into paragraphs or line-breaks.
  *
  * @since 1.2.0
@@ -3045,7 +3041,7 @@ function add_custom_image_header( $wp_head_callback, $admin_head_callback, $admi
  * @deprecated Use remove_theme_support('custom-header')
  * @see remove_theme_support()
  *
- * @return bool Whether support was removed.
+ * @return null|bool Whether support was removed.
  */
 function remove_custom_image_header() {
 	_deprecated_function( __FUNCTION__, '3.4', 'remove_theme_support( \'custom-header\' )' );
@@ -3082,7 +3078,7 @@ function add_custom_background( $wp_head_callback = '', $admin_head_callback = '
  * @since 3.1.0
  * @see add_custom_background()
  *
- * @return bool Whether support was removed.
+ * @return null|bool Whether support was removed.
  */
 function remove_custom_background() {
 	_deprecated_function( __FUNCTION__, '3.4', 'remove_theme_support( \'custom-background\' )' );
@@ -3296,7 +3292,7 @@ function image_resize( $file, $max_w, $max_h, $crop = false, $suffix = null, $de
  *
  * @param int $postid Post ID.
  * @param string $mode How to return result, either OBJECT, ARRAY_N, or ARRAY_A.
- * @return object|array Post object or array holding post contents and information
+ * @return WP_Post|null Post object or array holding post contents and information
  */
 function wp_get_single_post( $postid = 0, $mode = OBJECT ) {
 	_deprecated_function( __FUNCTION__, '3.5', 'get_post()' );

@@ -611,6 +611,11 @@ table.form-table td .updated {
 	font-size: 13px;
 }
 
+table.form-table td .updated p {
+	font-size: 13px;
+	margin: 0.3em 0;
+}
+
 /*------------------------------------------------------------------------------
   18.0 - Users
 ------------------------------------------------------------------------------*/
@@ -762,6 +767,38 @@ table.form-table td .updated {
 	margin: -3px 3px;
 }
 
+.settings-php .language-install-spinner,
+.options-general-php .language-install-spinner {
+	display: inline-block;
+	float: none;
+	margin: -3px 5px 0;
+	vertical-align: middle;
+}
+
+/*------------------------------------------------------------------------------
+  21.0 - Network Admin
+------------------------------------------------------------------------------*/
+
+.form-field #site-address {
+	max-width: 25em;
+}
+
+.form-field #domain {
+	max-width: 22em;
+}
+
+.form-field #site-title,
+.form-field #admin-email,
+.form-field #path,
+.form-field #blog_registered,
+.form-field #blog_last_updated {
+	max-width: 25em;
+}
+
+.form-field #path {
+	margin-bottom: 5px;
+}
+
 /* =Media Queries
 -------------------------------------------------------------- */
 
@@ -771,8 +808,11 @@ table.form-table td .updated {
 		-webkit-appearance: none;
 	}
 
-	input[type=text], input[type="search"],
-	input[type=password], input[type="number"] {
+	input[type="text"],
+	input[type="email"],
+	input[type="search"],
+	input[type="password"],
+	input[type="number"] {
 		-webkit-appearance: none;
 		padding: 6px 10px;
 	}
@@ -861,6 +901,7 @@ table.form-table td .updated {
 	}
 
 	.form-table td input[type="text"],
+	.form-table td input[type="email"],
 	.form-table td input[type="password"],
 	.form-table td select,
 	.form-table td textarea,
@@ -963,10 +1004,17 @@ table.form-table td .updated {
 		padding: 0;
 		line-height: 2;
 	}
+
+	.form-field #domain {
+		max-width: none;
+	}
 }
 
 @media only screen and (max-width: 768px) {
-	.form-field input,
+	.form-field input[type="text"],
+	.form-field input[type="email"],
+	.form-field input[type="password"],
+	.form-field select,
 	.form-field textarea {
 		width: 99%;
 	}

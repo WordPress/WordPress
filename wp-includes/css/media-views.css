@@ -104,21 +104,18 @@
 	display: none;
 }
 
-/* Enable draggable on IE10 touch events until it's rolled into jQuery UI core */
-.ui-sortable,
-.ui-draggable {
+/*!
+ * jQuery UI Draggable/Sortable 1.11.2
+ * http://jqueryui.com
+ *
+ * Copyright 2014 jQuery Foundation and other contributors
+ * Released under the MIT license.
+ * http://jquery.org/license
+ */
+.ui-draggable-handle,
+.ui-sortable-handle {
 	-ms-touch-action: none;
-	touch-action: none;
-}
-
-.meta-box-sortables.ui-sortable {
-	-ms-touch-action: auto;
-	touch-action: auto;
-}
-
-.meta-box-sortables.ui-sortable .hndle {
-	-ms-touch-action: none;
-	touch-action: none;
+	touch-action:     none;
 }
 
 /**
@@ -234,11 +231,13 @@
 .media-toolbar-primary {
 	float: right;
 	height: 100%;
+	max-width: 33%;
 }
 
 .media-toolbar-secondary {
 	float: left;
 	height: 100%;
+	max-width: 66%;
 }
 
 .media-toolbar-primary > .media-button,
@@ -326,6 +325,11 @@
 	margin-right: 4%;
 	font-size: 12px;
 	text-align: right;
+	word-wrap: break-word;
+}
+
+.media-sidebar .setting .name {
+	max-width: 80px;
 }
 
 .media-sidebar .setting select,
@@ -729,7 +733,8 @@
  */
 .media-frame select.attachment-filters {
 	margin-top: 11px;
-	margin-right: 10px;
+	margin-right: 2%;
+	max-width: 47%;
 }
 
 /**
@@ -744,8 +749,8 @@
 	-webkit-appearance: none;
 }
 
-.media-toolbar-secondary .search {
-	margin-right: 16px;
+.media-toolbar-primary .search {
+	max-width: 100%;
 }
 
 /**
@@ -923,7 +928,7 @@
 }
 
 .attachment .close {
-	display: none;
+	display: block;
 	position: absolute;
 	top: 5px;
 	right: 5px;
@@ -942,15 +947,18 @@
 	border-radius: 3px;
 	-webkit-box-shadow: 0 0 0 1px rgba( 0, 0, 0, 0.3 );
 	box-shadow: 0 0 0 1px rgba( 0, 0, 0, 0.3 );
+	-webkit-transition-duration: none;
+	transition-duration: none;
+	-webkit-transition-property: none;
+	transition-property: none;
 }
 
-.attachment .close:hover {
+.attachment a.close:hover,
+.attachment a.close:focus {
 	-webkit-box-shadow: 0 0 0 1px rgba( 0, 0, 0, 0.6 );
 	box-shadow: 0 0 0 1px rgba( 0, 0, 0, 0.6 );
-}
+	background-position: -36px 4px;
 
-.attachment:hover .close {
-	display: block;
 }
 
 .attachment .check {
@@ -2142,13 +2150,6 @@
 	font-family: Arial, sans-serif;
 }
 
-@media only screen and (max-width: 940px) {
-	.media-frame-content .media-toolbar-primary .search,
-	.media-frame-content .media-toolbar-secondary .attachment-filters {
-		max-width: 134px;
-	}
-}
-
 /**
  * Responsive layout
  */
@@ -2342,11 +2343,6 @@
 		display: none;
 	}
 
-	.media-modal .attachments-browser .media-toolbar-primary,
-	.media-modal .attachments-browser .media-toolbar-secondary {
-		width: 50%;
-	}
-
 	.media-modal .attachments-browser .media-toolbar .search {
 		max-width: 100%;
 		height: auto;
@@ -2354,11 +2350,7 @@
 	}
 
 	.media-modal .attachments-browser .media-toolbar .attachment-filters {
-		margin: 11px 0 0;
 		height: auto;
-		max-width: 65%;
-		max-width: -webkit-calc(100% - 38px);
-		max-width: calc(100% - 38px);
 	}
 
 	.media-modal .attachments-browser .media-toolbar .spinner {
@@ -2462,11 +2454,6 @@
 }
 
 @media only screen and (max-width: 480px) {
-	.media-frame-content .media-toolbar .search,
-	.media-frame-content .media-toolbar .attachment-filters {
-		max-width: 90px;
-	}
-
 	.media-modal-close {
 		top: 5px;
 		right: 5px;

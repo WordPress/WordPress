@@ -1,6 +1,6 @@
 <?php
 /**
- * Implement Custom Header functionality for Twenty Fifteen.
+ * Custom Header functionality for Twenty Fifteen
  *
  * @package WordPress
  * @subpackage Twenty_Fifteen
@@ -11,7 +11,6 @@
  * Set up the WordPress core custom header feature.
  *
  * @uses twentyfifteen_header_style()
- * @uses twentyfifteen_admin_header_image()
  */
 function twentyfifteen_custom_header_setup() {
 	$color_scheme        = twentyfifteen_get_color_scheme();
@@ -30,8 +29,6 @@ function twentyfifteen_custom_header_setup() {
 	 *     @type int    $height                 Height in pixels of the custom header image. Default 1300.
 	 *     @type string $wp-head-callback       Callback function used to styles the header image and text
 	 *                                          displayed on the blog.
-	 *     @type string $admin-preview-callback Callback function used to create the custom header markup in
-	 *                                          the Appearance > Header screen.
 	 * }
 	 */
 	add_theme_support( 'custom-header', apply_filters( 'twentyfifteen_custom_header_args', array(
@@ -39,7 +36,6 @@ function twentyfifteen_custom_header_setup() {
 		'width'                  => 954,
 		'height'                 => 1300,
 		'wp-head-callback'       => 'twentyfifteen_header_style',
-		'admin-preview-callback' => 'twentyfifteen_admin_header_image',
 	) ) );
 }
 add_action( 'after_setup_theme', 'twentyfifteen_custom_header_setup' );
@@ -50,7 +46,8 @@ add_action( 'after_setup_theme', 'twentyfifteen_custom_header_setup' );
  * @since Twenty Fifteen 1.0
  *
  * @param string $color The original color, in 3- or 6-digit hexadecimal form.
- * @return array
+ * @return array Array containing RGB (red, green, and blue) values for the given
+ *               HEX code, empty array otherwise.
  */
 function twentyfifteen_hex2rgb( $color ) {
 	$color = trim( $color, '#' );
@@ -75,7 +72,8 @@ if ( ! function_exists( 'twentyfifteen_header_style' ) ) :
  * Styles the header image and text displayed on the blog.
  *
  * @since Twenty Fifteen 1.0
- * @see twentyfifteen_custom_header_setup().
+ *
+ * @see twentyfifteen_custom_header_setup()
  */
 function twentyfifteen_header_style() {
 	$header_image = get_header_image();
@@ -89,6 +87,49 @@ function twentyfifteen_header_style() {
 	?>
 	<style type="text/css" id="twentyfifteen-header-css">
 	<?php
+		// Short header for when there is no Custom Header and Header Text is hidden.
+		if ( empty( $header_image ) && ! display_header_text() ) :
+	?>
+		.site-header {
+			padding-top: 14px;
+			padding-bottom: 14px;
+		}
+
+		.site-branding {
+			min-height: 42px;
+		}
+
+		@media screen and (min-width: 46.25em) {
+			.site-header {
+				padding-top: 21px;
+				padding-bottom: 21px;
+			}
+			.site-branding {
+				min-height: 56px;
+			}
+		}
+		@media screen and (min-width: 55em) {
+			.site-header {
+				padding-top: 25px;
+				padding-bottom: 25px;
+			}
+			.site-branding {
+				min-height: 62px;
+			}
+		}
+		@media screen and (min-width: 59.6875em) {
+			.site-header {
+				padding-top: 0;
+				padding-bottom: 0;
+			}
+			.site-branding {
+				min-height: 0;
+			}
+		}
+	<?php
+		endif;
+
+		// Has a Custom Header been added?
 		if ( ! empty( $header_image ) ) :
 	?>
 		.site-header {
@@ -130,35 +171,17 @@ function twentyfifteen_header_style() {
 }
 endif; // twentyfifteen_header_style
 
-if ( ! function_exists( 'twentyfifteen_admin_header_image' ) ) :
-/**
- * Custom header image markup displayed on the Appearance > Header admin panel.
- *
- * @since Twenty Fifteen 1.0
- * @see twentyfifteen_custom_header_setup().
- */
-function twentyfifteen_admin_header_image() {
-	$style                   = sprintf( ' style="color: #%s;"', esc_attr( get_header_textcolor() ) );
-	$color_scheme            = twentyfifteen_get_color_scheme();
-	$header_background_color = get_theme_mod( 'header_background_color', $color_scheme[1] );
-?>
-	<div id="headimg" style="background-image: url(<?php header_image(); ?>); background-color: <?php echo esc_attr( $header_background_color ); ?>;">
-		<h1 class="displaying-header-text"><a id="name"<?php echo $style; ?> onclick="return false;" href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php bloginfo( 'name' ); ?></a></h1>
-		<div id="desc" class="displaying-header-text"<?php echo $style; ?>><?php bloginfo( 'description' ); ?></div>
-	</div>
-<?php
-}
-endif; // twentyfifteen_admin_header_image
-
 /**
  * Enqueues front-end CSS for the header background color.
  *
  * @since Twenty Fifteen 1.0
+ *
+ * @see wp_add_inline_style()
  */
 function twentyfifteen_header_background_color_css() {
 	$color_scheme            = twentyfifteen_get_color_scheme();
 	$default_color           = $color_scheme[1];
-	$header_background_color = get_theme_mod( 'header_background_color', '#ffffff' );
+	$header_background_color = get_theme_mod( 'header_background_color', $default_color );
 
 	// Don't do anything if the current color is the default.
 	if ( $header_background_color === $default_color ) {
@@ -202,7 +225,7 @@ add_action( 'wp_enqueue_scripts', 'twentyfifteen_header_background_color_css', 1
 function twentyfifteen_sidebar_text_color_css() {
 	$color_scheme       = twentyfifteen_get_color_scheme();
 	$default_color      = $color_scheme[4];
-	$sidebar_link_color = get_theme_mod( 'sidebar_textcolor', '#333333' );
+	$sidebar_link_color = get_theme_mod( 'sidebar_textcolor', $default_color );
 
 	// Don't do anything if the current color is the default.
 	if ( $sidebar_link_color === $default_color ) {
@@ -331,14 +354,3 @@ function twentyfifteen_sidebar_text_color_css() {
 	wp_add_inline_style( 'twentyfifteen-style', sprintf( $css, $sidebar_link_color, $sidebar_text_color, $sidebar_border_color, $sidebar_border_focus_color ) );
 }
 add_action( 'wp_enqueue_scripts', 'twentyfifteen_sidebar_text_color_css', 11 );
-
-/**
- * Enqueue styles to admin screen for custom header display.
- *
- * @since Twenty Fifteen 1.0
- */
-function twentyfifteen_admin_fonts() {
-	wp_enqueue_style( 'twentyfifteen-fonts', twentyfifteen_fonts_url(), array(), null );
-	wp_enqueue_style( 'twentyfifteen-custom-header', get_template_directory_uri() . '/css/admin-custom-header.css', array(), '20141010' );
-}
-add_action( 'admin_print_scripts-appearance_page_custom-header', 'twentyfifteen_admin_fonts' );

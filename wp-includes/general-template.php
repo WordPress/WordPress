@@ -151,7 +151,7 @@ function get_template_part( $slug, $name = null ) {
 	/**
 	 * Fires before the specified template part file is loaded.
 	 *
-	 * The dynamic portion of the hook name, $slug, refers to the slug name
+	 * The dynamic portion of the hook name, `$slug`, refers to the slug name
 	 * for the generic template part.
 	 *
 	 * @since 3.0.0
@@ -511,8 +511,8 @@ function wp_lostpassword_url( $redirect = '' ) {
  *
  * @since 1.5.0
  *
- * @param string $before Text to output before the link (defaults to <li>).
- * @param string $after Text to output after the link (defaults to </li>).
+ * @param string $before Text to output before the link. Default `<li>`.
+ * @param string $after Text to output after the link. Default `</li>`.
  * @param boolean $echo Default to echo and not return the link.
  * @return string|null String when retrieving, null when displaying.
  */
@@ -581,15 +581,15 @@ function bloginfo( $show='' ) {
  * Retrieve information about the blog.
  *
  * Some show parameter values are deprecated and will be removed in future
- * versions. These options will trigger the _deprecated_argument() function.
- * The deprecated blog info options are listed in the function contents.
+ * versions. These options will trigger the {@see _deprecated_argument()}
+ * function. The deprecated blog info options are listed in the function
+ * contents.
  *
  * The possible values for the 'show' parameter are listed below.
- * <ol>
- * <li><strong>url</strong> - Blog URI to homepage.</li>
- * <li><strong>wpurl</strong> - Blog URI path to WordPress.</li>
- * <li><strong>description</strong> - Secondary title</li>
- * </ol>
+ *
+ * 1. url - Blog URI to homepage.
+ * 2. wpurl - Blog URI path to WordPress.
+ * 3. description - Secondary title
  *
  * The feed URL options can be retrieved from 'rdf_url' (RSS 0.91),
  * 'rss_url' (RSS 1.0), 'rss2_url' (RSS 2.0), or 'atom_url' (Atom feed). The
@@ -714,10 +714,13 @@ function get_bloginfo( $show = '', $filter = 'raw' ) {
 }
 
 /**
- * Display <title> tag with contents.
+ * Display title tag with contents.
  *
  * @since 4.1.0
  * @access private
+ * @internal
+ *
+ * @see wp_title()
  */
 function _wp_render_title_tag() {
 	if ( ! current_theme_supports( 'title-tag' ) ) {
@@ -1148,24 +1151,26 @@ function get_the_archive_title() {
 		$title = sprintf( __( 'Month: %s' ), get_the_date( _x( 'F Y', 'monthly archives date format' ) ) );
 	} elseif ( is_day() ) {
 		$title = sprintf( __( 'Day: %s' ), get_the_date( _x( 'F j, Y', 'daily archives date format' ) ) );
-	} elseif ( is_tax( 'post_format', 'post-format-aside' ) ) {
-		$title = _x( 'Asides', 'post format archive title' );
-	} elseif ( is_tax( 'post_format', 'post-format-gallery' ) ) {
-		$title = _x( 'Galleries', 'post format archive title' );
-	} elseif ( is_tax( 'post_format', 'post-format-image' ) ) {
-		$title = _x( 'Images', 'post format archive title' );
-	} elseif ( is_tax( 'post_format', 'post-format-video' ) ) {
-		$title = _x( 'Videos', 'post format archive title' );
-	} elseif ( is_tax( 'post_format', 'post-format-quote' ) ) {
-		$title = _x( 'Quotes', 'post format archive title' );
-	} elseif ( is_tax( 'post_format', 'post-format-link' ) ) {
-		$title = _x( 'Links', 'post format archive title' );
-	} elseif ( is_tax( 'post_format', 'post-format-status' ) ) {
-		$title = _x( 'Statuses', 'post format archive title' );
-	} elseif ( is_tax( 'post_format', 'post-format-audio' ) ) {
-		$title = _x( 'Audio', 'post format archive title' );
-	} elseif ( is_tax( 'post_format', 'post-format-chat' ) ) {
-		$title = _x( 'Chats', 'post format archive title' );
+	} elseif ( is_tax( 'post_format' ) ) {
+		if ( is_tax( 'post_format', 'post-format-aside' ) ) {
+			$title = _x( 'Asides', 'post format archive title' );
+		} elseif ( is_tax( 'post_format', 'post-format-gallery' ) ) {
+			$title = _x( 'Galleries', 'post format archive title' );
+		} elseif ( is_tax( 'post_format', 'post-format-image' ) ) {
+			$title = _x( 'Images', 'post format archive title' );
+		} elseif ( is_tax( 'post_format', 'post-format-video' ) ) {
+			$title = _x( 'Videos', 'post format archive title' );
+		} elseif ( is_tax( 'post_format', 'post-format-quote' ) ) {
+			$title = _x( 'Quotes', 'post format archive title' );
+		} elseif ( is_tax( 'post_format', 'post-format-link' ) ) {
+			$title = _x( 'Links', 'post format archive title' );
+		} elseif ( is_tax( 'post_format', 'post-format-status' ) ) {
+			$title = _x( 'Statuses', 'post format archive title' );
+		} elseif ( is_tax( 'post_format', 'post-format-audio' ) ) {
+			$title = _x( 'Audio', 'post format archive title' );
+		} elseif ( is_tax( 'post_format', 'post-format-chat' ) ) {
+			$title = _x( 'Chats', 'post format archive title' );
+		}
 	} elseif ( is_post_type_archive() ) {
 		$title = sprintf( __( 'Archives: %s' ), post_type_archive_title( '', false ) );
 	} elseif ( is_tax() ) {
@@ -1198,8 +1203,7 @@ function get_the_archive_title() {
  */
 function the_archive_description( $before = '', $after = '' ) {
 	$description = get_the_archive_description();
-
-	if ( ! empty( $description ) ) {
+	if ( $description ) {
 		echo $before . $description . $after;
 	}
 }
@@ -1212,7 +1216,6 @@ function the_archive_description( $before = '', $after = '' ) {
  * @return string Archive description.
  */
 function get_the_archive_description() {
-
 	/**
 	 * Filter the archive description.
 	 *
@@ -1233,7 +1236,7 @@ function get_the_archive_description() {
  * elements). Custom content is also supported using the before and after
  * parameters.
  *
- * The 'link' format uses the link HTML element with the <em>archives</em>
+ * The 'link' format uses the `<link>` HTML element with the **archives**
  * relationship. The before and after parameters are not used. The text
  * parameter is used to describe the link.
  *
@@ -1250,6 +1253,8 @@ function get_the_archive_description() {
  * three values for the format are not used, then custom format is assumed.
  *
  * @since 1.0.0
+ *
+ * @todo Properly document optional arguments as such
  *
  * @param string $url URL to archive.
  * @param string $text Archive text description.
@@ -1307,7 +1312,7 @@ function get_archives_link($url, $text, $format = 'html', $before = '', $after =
  *     @type string     $before          Markup to prepend to the beginning of each link. Default empty.
  *     @type string     $after           Markup to append to the end of each link. Default empty.
  *     @type bool       $show_post_count Whether to display the post count alongside the link. Default false.
- *     @type bool       $echo            Whether to echo or return the links list. Default 1|true to echo.
+ *     @type bool|int   $echo            Whether to echo or return the links list. Default 1|true to echo.
  *     @type string     $order           Whether to use ascending or descending order. Accepts 'ASC', or 'DESC'.
  *                                       Default 'DESC'.
  * }
@@ -1433,7 +1438,6 @@ function wp_get_archives( $args = '' ) {
 		$key = "wp_get_archives:$key:$last_changed";
 		if ( ! $results = wp_cache_get( $key, 'posts' ) ) {
 			$results = $wpdb->get_results( $query );
-			$cache[ $key ] = $results;
 			wp_cache_set( $key, $results, 'posts' );
 		}
 		if ( $results ) {
@@ -1652,6 +1656,8 @@ function get_calendar($initial = true, $echo = true) {
 	<tbody>
 	<tr>';
 
+	$daywithpost = array();
+
 	// Get days with posts
 	$dayswithposts = $wpdb->get_results("SELECT DISTINCT DAYOFMONTH(post_date)
 		FROM $wpdb->posts WHERE post_date >= '{$thisyear}-{$thismonth}-01 00:00:00'
@@ -1661,8 +1667,6 @@ function get_calendar($initial = true, $echo = true) {
 		foreach ( (array) $dayswithposts as $daywith ) {
 			$daywithpost[] = $daywith[0];
 		}
-	} else {
-		$daywithpost = array();
 	}
 
 	if (strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== false || stripos($_SERVER['HTTP_USER_AGENT'], 'camino') !== false || stripos($_SERVER['HTTP_USER_AGENT'], 'safari') !== false)
@@ -1853,7 +1857,7 @@ function the_date( $d = '', $before = '', $after = '', $echo = true ) {
  *
  * @param  string      $d    Optional. PHP date format defaults to the date_format option if not specified.
  * @param  int|WP_Post $post Optional. Post ID or WP_Post object. Default current post.
- * @return string|bool Date the current post was written. False on failure.
+ * @return false|string Date the current post was written. False on failure.
  */
 function get_the_date( $d = '', $post = null ) {
 	$post = get_post( $post );
@@ -1971,7 +1975,7 @@ function the_time( $d = '' ) {
  *                          was written. Either 'G', 'U', or php date format defaults
  *                          to the value specified in the time_format option. Default empty.
  * @param int|WP_Post $post WP_Post object or ID. Default is global $post object.
- * @return string|int|bool Formatted date string or Unix timestamp. False on failure.
+ * @return false|string Formatted date string or Unix timestamp. False on failure.
  */
 function get_the_time( $d = '', $post = null ) {
 	$post = get_post($post);
@@ -2009,7 +2013,7 @@ function get_the_time( $d = '', $post = null ) {
  * @param bool        $gmt       Optional. Whether to retrieve the GMT time. Default false.
  * @param int|WP_Post $post      WP_Post object or ID. Default is global $post object.
  * @param bool        $translate Whether to translate the time string. Default false.
- * @return string|int|bool Formatted date string or Unix timestamp. False on failure.
+ * @return false|string|int Formatted date string or Unix timestamp. False on failure.
  */
 function get_post_time( $d = 'U', $gmt = false, $post = null, $translate = false ) {
 	$post = get_post($post);
@@ -2096,7 +2100,7 @@ function get_the_modified_time($d = '') {
  * @param bool        $gmt       Optional. Whether to retrieve the GMT time. Default false.
  * @param int|WP_Post $post      WP_Post object or ID. Default is global $post object.
  * @param bool        $translate Whether to translate the time string. Default false.
- * @return string|int|bool Formatted date string or Unix timestamp. False on failure.
+ * @return false|string Formatted date string or Unix timestamp. False on failure.
  */
 function get_post_modified_time( $d = 'U', $gmt = false, $post = null, $translate = false ) {
 	$post = get_post($post);
@@ -2706,12 +2710,14 @@ function paginate_links( $args = '' ) {
  * Registers an admin colour scheme css file.
  *
  * Allows a plugin to register a new admin colour scheme. For example:
- * <code>
- * wp_admin_css_color('classic', __('Classic'), admin_url("css/colors-classic.css"),
- * array('#07273E', '#14568A', '#D54E21', '#2683AE'));
- * </code>
+ *
+ *     wp_admin_css_color( 'classic', __( 'Classic' ), admin_url( "css/colors-classic.css" ), array(
+ *         '#07273E', '#14568A', '#D54E21', '#2683AE'
+ *     ) );
  *
  * @since 2.5.0
+ *
+ * @todo Properly document optional arguments as such
  *
  * @param string $key The unique key for this theme.
  * @param string $name The name of the theme.
@@ -3002,11 +3008,11 @@ function get_the_generator( $type = '' ) {
 	/**
 	 * Filter the HTML for the retrieved generator type.
 	 *
-	 * The dynamic portion of the hook name, $type, refers to the generator type.
+	 * The dynamic portion of the hook name, `$type`, refers to the generator type.
 	 *
 	 * @since 2.5.0
 	 *
-	 * @param string $gen  The HTML markup output to 'wp_head()'.
+	 * @param string $gen  The HTML markup output to {@see wp_head()}.
 	 * @param string $type The type of generator. Accepts 'html', 'xhtml', 'atom',
 	 *                     'rss2', 'rdf', 'comment', 'export'.
 	 */

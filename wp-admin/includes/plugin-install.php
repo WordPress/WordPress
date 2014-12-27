@@ -28,11 +28,17 @@
  */
 function plugins_api($action, $args = null) {
 
-	if ( is_array($args) )
-		$args = (object)$args;
+	if ( is_array( $args ) ) {
+		$args = (object) $args;
+	}
 
-	if ( !isset($args->per_page) )
+	if ( ! isset( $args->per_page ) ) {
 		$args->per_page = 24;
+	}
+
+	if ( ! isset( $args->locale ) ) {
+		$args->locale = get_locale();
+	}
 
 	/**
 	 * Override the Plugin Install API arguments.
@@ -190,7 +196,7 @@ function install_search_form( $type_selector = true ) {
  * Upload from zip
  * @since 2.8.0
  *
- * @param string $page
+ * @param integer $page
  */
 function install_plugins_upload( $page = 1 ) {
 ?>
@@ -235,8 +241,15 @@ function install_plugins_favorites_form() {
 function display_plugins_table() {
 	global $wp_list_table;
 
-	if ( current_filter() == 'install_plugins_favorites' && empty( $_GET['user'] ) && ! get_user_option( 'wporg_favorites' ) ) {
-		return;
+	switch ( current_filter() ) {
+		case 'install_plugins_favorites' :
+			if ( empty( $_GET['user'] ) && ! get_user_option( 'wporg_favorites' ) ) {
+				return;
+			}
+			break;
+		case 'install_plugins_recommended' :
+			echo '<p>' . __( 'These suggestions are based on the plugins you and other users have installed.' ) . '</p>';
+			break;
 	}
 
 	?>
@@ -245,11 +258,12 @@ function display_plugins_table() {
 	</form>
 	<?php
 }
-add_action( 'install_plugins_search',    'display_plugins_table' );
-add_action( 'install_plugins_popular',   'display_plugins_table' );
-add_action( 'install_plugins_new',       'display_plugins_table' );
-add_action( 'install_plugins_beta',      'display_plugins_table' );
-add_action( 'install_plugins_favorites', 'display_plugins_table' );
+add_action( 'install_plugins_search',      'display_plugins_table' );
+add_action( 'install_plugins_popular',     'display_plugins_table' );
+add_action( 'install_plugins_recommended', 'display_plugins_table' );
+add_action( 'install_plugins_new',         'display_plugins_table' );
+add_action( 'install_plugins_beta',        'display_plugins_table' );
+add_action( 'install_plugins_favorites',   'display_plugins_table' );
 
 /**
  * Determine the status we can perform on a plugin.
@@ -463,14 +477,12 @@ function install_plugin_information() {
 				$_rating = $api->num_ratings ? ( $ratecount / $api->num_ratings ) : 0;
 				?>
 				<div class="counter-container">
-					<a href="https://wordpress.org/support/view/plugin-reviews/<?php echo $api->slug; ?>?filter=<?php echo $key; ?>"
-					   target="_blank"
-					   title="<?php echo esc_attr( sprintf( _n( 'Click to see reviews that provided a rating of %d star', 'Click to see reviews that provided a rating of %d stars', $key ), $key ) ); ?>">
-						<span class="counter-label"><?php printf( _n( '%d star', '%d stars', $key ), $key ); ?></span>
-						<span class="counter-back">
-							<span class="counter-bar" style="width: <?php echo 92 * $_rating; ?>px;"></span>
-						</span>
-					</a>
+					<span class="counter-label"><a href="https://wordpress.org/support/view/plugin-reviews/<?php echo $api->slug; ?>?filter=<?php echo $key; ?>"
+						target="_blank"
+						title="<?php echo esc_attr( sprintf( _n( 'Click to see reviews that provided a rating of %d star', 'Click to see reviews that provided a rating of %d stars', $key ), $key ) ); ?>"><?php printf( _n( '%d star', '%d stars', $key ), $key ); ?></a></span>
+					<span class="counter-back">
+						<span class="counter-bar" style="width: <?php echo 92 * $_rating; ?>px;"></span>
+					</span>
 					<span class="counter-count"><?php echo number_format_i18n( $ratecount ); ?></span>
 				</div>
 				<?php
@@ -504,9 +516,9 @@ function install_plugin_information() {
 	<div id="section-holder" class="wrap">
 	<?php
 		if ( ! empty( $api->tested ) && version_compare( substr( $GLOBALS['wp_version'], 0, strlen( $api->tested ) ), $api->tested, '>' ) ) {
-			echo '<div class="error"><p>' . __('<strong>Warning:</strong> This plugin has <strong>not been tested</strong> with your current version of WordPress.') . '</p></div>';
+			echo '<div class="notice notice-warning"><p>' . __('<strong>Warning:</strong> This plugin has <strong>not been tested</strong> with your current version of WordPress.') . '</p></div>';
 		} else if ( ! empty( $api->requires ) && version_compare( substr( $GLOBALS['wp_version'], 0, strlen( $api->requires ) ), $api->requires, '<' ) ) {
-			echo '<div class="error"><p>' . __('<strong>Warning:</strong> This plugin has <strong>not been marked as compatible</strong> with your version of WordPress.') . '</p></div>';
+			echo '<div class="notice notice-warning"><p>' . __('<strong>Warning:</strong> This plugin has <strong>not been marked as compatible</strong> with your version of WordPress.') . '</p></div>';
 		}
 
 		foreach ( (array) $api->sections as $section_name => $content ) {

@@ -155,7 +155,7 @@ function twentytwelve_admin_header_image() {
 		else
 			$style = ' style="color:#' . get_header_textcolor() . ';"';
 		?>
-		<h1 class="displaying-header-text"><a id="name"<?php echo $style; ?> onclick="return false;" href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php bloginfo( 'name' ); ?></a></h1>
+		<h1 class="displaying-header-text"><a id="name"<?php echo $style; ?> onclick="return false;" href="<?php echo esc_url( home_url( '/' ) ); ?>"  tabindex="-1"><?php bloginfo( 'name' ); ?></a></h1>
 		<h2 id="desc" class="displaying-header-text"<?php echo $style; ?>><?php bloginfo( 'description' ); ?></h2>
 		<?php $header_image = get_header_image();
 		if ( ! empty( $header_image ) ) : ?>

@@ -345,7 +345,7 @@ window.autosave = function() {
 				};
 
 				$notice = $( '#local-storage-notice' );
-				$('.wrap h2').first().after( $notice.addClass( 'updated' ).show() );
+				$('.wrap h2').first().after( $notice.addClass( 'notice-warning' ).show() );
 
 				$notice.on( 'click.autosave-local', function( event ) {
 					var $target = $( event.target );
@@ -354,10 +354,12 @@ window.autosave = function() {
 						restorePost( restorePostData );
 						$target.parent().hide();
 						$(this).find( 'p.undo-restore' ).show();
+						$notice.removeClass( 'notice-warning' ).addClass( 'notice-success' );
 					} else if ( $target.hasClass( 'undo-restore-backup' ) ) {
 						restorePost( undoPostData );
 						$target.parent().hide();
 						$(this).find( 'p.local-restore' ).show();
+						$notice.removeClass( 'notice-success' ).addClass( 'notice-warning' );
 					}
 
 					event.preventDefault();

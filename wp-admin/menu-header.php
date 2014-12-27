@@ -52,6 +52,8 @@ function _wp_menu_output( $menu, $submenu, $submenu_as_parent = true ) {
 		$admin_is_parent = false;
 		$class = array();
 		$aria_attributes = '';
+		$aria_hidden = '';
+		$is_separator = false;
 
 		if ( $first ) {
 			$class[] = 'wp-first-item';
@@ -80,6 +82,10 @@ function _wp_menu_output( $menu, $submenu, $submenu_as_parent = true ) {
 		$img = $img_style = '';
 		$img_class = ' dashicons-before';
 
+		if ( false !== strpos( $class, 'wp-menu-separator' ) ) {
+			$is_separator = true;
+		}
+
 		/*
 		 * If the string 'none' (previously 'div') is passed instead of an URL, don't output
 		 * the default menu image so an icon can be added to div.wp-menu-image as background
@@ -104,9 +110,14 @@ function _wp_menu_output( $menu, $submenu, $submenu_as_parent = true ) {
 
 		$title = wptexturize( $item[0] );
 
-		echo "\n\t<li$class$id>";
+		// hide separators from screen readers
+		if ( $is_separator ) {
+			$aria_hidden = ' aria-hidden="true"';
+		}
 
-		if ( false !== strpos( $class, 'wp-menu-separator' ) ) {
+		echo "\n\t<li$class$id$aria_hidden>";
+
+		if ( $is_separator ) {
 			echo '<div class="separator"></div>';
 		} elseif ( $submenu_as_parent && ! empty( $submenu_items ) ) {
 			$submenu_items = array_values( $submenu_items );  // Re-index.

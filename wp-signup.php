@@ -19,7 +19,7 @@ if ( is_array( get_site_option( 'illegal_names' )) && isset( $_GET[ 'new' ] ) &&
  */
 function do_signup_header() {
 	/**
-	 * Fires within the <head> section of the site sign-up screen.
+	 * Fires within the head section of the site sign-up screen.
 	 *
 	 * @since 3.0.0
 	 */
@@ -299,13 +299,15 @@ function signup_another_blog( $blogname = '', $blog_title = '', $errors = '' ) {
  *
  * @since MU
  *
- * @return bool True if blog signup was validated, false if error
+ * @return null|boolean True if blog signup was validated, false if error.
+ *                      The function halts all execution if the user is not logged in.
  */
 function validate_another_blog_signup() {
 	global $wpdb, $blogname, $blog_title, $errors, $domain, $path;
 	$current_user = wp_get_current_user();
-	if ( !is_user_logged_in() )
+	if ( ! is_user_logged_in() ) {
 		die();
+	}
 
 	$result = validate_blog_form();
 

@@ -1,10 +1,10 @@
 /*
 Theme Name: Twenty Fifteen
-Theme URI: http://wordpress.org/themes/twentyfifteen
+Theme URI: https://wordpress.org/themes/twentyfifteen
 Author: the WordPress team
-Author URI: http://wordpress.org/
+Author URI: https://wordpress.org/
 Description: Our 2015 default theme is clean, blog-focused, and designed for clarity. Twenty Fifteen's simple, straightforward typography is readable on a wide variety of screen sizes, and suitable for multiple languages. We designed it using a mobile-first approach, meaning your content takes center-stage, regardless of whether your visitors arrive by smartphone, tablet, laptop, or desktop computer.
-Version: 0.1
+Version: 1.0
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: black, blue, gray, pink, purple, white, yellow, dark, light, two-columns, left-sidebar, fixed-layout, responsive-layout, accessibility-ready, custom-background, custom-colors, custom-header, custom-menu, editor-style, featured-images, microformats, post-formats, rtl-language-support, sticky-post, threaded-comments, translation-ready
@@ -406,6 +406,7 @@ table {
 	border-spacing: 0;
 	border-width: 1px 0 0 1px;
 	margin: 0 0 1.6em;
+	table-layout: fixed; /* Prevents HTML tables from becoming too wide */
 	width: 100%;
 }
 
@@ -557,6 +558,7 @@ input[type="search"] {
 	-webkit-appearance: textfield;
 }
 
+input[type="search"]::-webkit-search-cancel-button,
 input[type="search"]::-webkit-search-decoration {
 	-webkit-appearance: none;
 }
@@ -617,6 +619,11 @@ textarea:focus {
 
 input[type="checkbox"],
 input[type="radio"] {
+	padding: 0;
+}
+
+.search-form input[type="submit"],
+.widget .search-form input[type="submit"] {
 	padding: 0;
 }
 
@@ -692,7 +699,6 @@ a:focus {
 .main-navigation .menu-item-description {
 	color: #707070;
 	color: rgba(51, 51, 51, 0.7);
-	display: block;
 	font-family: "Noto Sans", sans-serif;
 	font-size: 12px;
 	font-size: 1.2rem;
@@ -768,9 +774,8 @@ a:focus {
 }
 
 .social-navigation a:before {
-	content: "\f446";
+	content: "\f415";
 	font-size: 24px;
-	opacity: 0.3;
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -778,135 +783,110 @@ a:focus {
 
 .social-navigation a[href$="/feed/"]:before {
 	content: "\f413";
-	opacity: 1;
 }
 
 .social-navigation a[href*="codepen.io"]:before {
 	content: "\f216";
-	opacity: 1;
 }
 
 .social-navigation a[href*="digg.com"]:before {
 	content: "\f221";
-	opacity: 1;
 }
 
 .social-navigation a[href*="dribbble.com"]:before {
 	content: "\f201";
-	opacity: 1;
 }
 
 .social-navigation a[href*="dropbox.com"]:before {
 	content: "\f225";
-	opacity: 1;
 }
 
 .social-navigation a[href*="facebook.com"]:before {
 	content: "\f203";
-	opacity: 1;
 }
 
 .social-navigation a[href*="flickr.com"]:before {
 	content: "\f211";
-	opacity: 1;
 }
 
 .social-navigation a[href*="foursquare.com"]:before {
 	content: "\f226";
-	opacity: 1;
 }
 
 .social-navigation a[href*="plus.google.com"]:before {
 	content: "\f206";
-	opacity: 1;
 }
 
 .social-navigation a[href*="github.com"]:before {
 	content: "\f200";
-	opacity: 1;
 }
 
 .social-navigation a[href*="instagram.com"]:before {
 	content: "\f215";
-	opacity: 1;
 }
 
 .social-navigation a[href*="linkedin.com"]:before {
 	content: "\f208";
-	opacity: 1;
 }
 
 .social-navigation a[href*="pinterest.com"]:before {
 	content: "\f210";
-	opacity: 1;
 }
 
 .social-navigation a[href*="getpocket.com"]:before {
 	content: "\f224";
-	opacity: 1;
 }
 
 .social-navigation a[href*="polldaddy.com"]:before {
 	content: "\f217";
-	opacity: 1;
 }
 
 .social-navigation a[href*="reddit.com"]:before {
 	content: "\f222";
-	opacity: 1;
 }
 
 .social-navigation a[href*="stumbleupon.com"]:before {
 	content: "\f223";
-	opacity: 1;
 }
 
 .social-navigation a[href*="tumblr.com"]:before {
 	content: "\f214";
-	opacity: 1;
 }
 
 .social-navigation a[href*="twitter.com"]:before {
 	content: "\f202";
-	opacity: 1;
 }
 
 .social-navigation a[href*="vimeo.com"]:before {
 	content: "\f212";
-	opacity: 1;
 }
 
 .social-navigation a[href*="wordpress.com"]:before,
 .social-navigation a[href*="wordpress.org"]:before {
 	content: "\f205";
-	opacity: 1;
 }
 
 .social-navigation a[href*="youtube.com"]:before {
 	content: "\f213";
-	opacity: 1;
 }
 
 .social-navigation a[href*="mailto:"]:before {
 	content: "\f410";
-	opacity: 1;
 }
 
 .social-navigation a[href*="spotify.com"]:before {
 	content: "\f515";
-	opacity: 1;
 }
 
 .social-navigation a[href*="twitch.tv"]:before {
 	content: "\f516";
-	opacity: 1;
 }
 
 .secondary-toggle {
 	background-color: transparent;
 	border: 1px solid #eaeaea;
 	border: 1px solid rgba(51, 51, 51, 0.1);
-	height: 48px;
+	height: 42px;
 	overflow: hidden;
 	padding: 0;
 	position: absolute;
@@ -916,16 +896,14 @@ a:focus {
 	-webkit-transform: translateY(-50%);
 	-ms-transform: translateY(-50%);
 	transform: translateY(-50%);
-	width: 48px;
+	width: 42px;
 }
 
 .secondary-toggle:before {
 	color: #333;
 	content: "\f419";
-	line-height: 48px;
-	position: relative;
-	top: -1px;
-	left: 0;
+	line-height: 40px;
+	width: 40px;
 }
 
 .secondary-toggle:hover,
@@ -939,7 +917,8 @@ a:focus {
 .secondary-toggle.toggled-on:before {
 	content: "\f405";
 	font-size: 32px;
-	top: 0;
+	position: relative;
+	top: 1px;
 	left: -1px;
 }
 
@@ -1008,7 +987,7 @@ a:focus {
 	opacity: 0.8;
 }
 
-.post-navigation .nav-previous + .nav-next {
+.post-navigation div + div {
 	border-top: 1px solid #eaeaea;
 	border-top: 1px solid rgba(51, 51, 51, 0.1);
 }
@@ -1017,7 +996,6 @@ a:focus {
 	background-color: #fff;
 	border-top: 1px solid rgba(51, 51, 51, 0.1);
 	font-family: "Noto Sans", sans-serif;
-	overflow: hidden;
 }
 
 .pagination .nav-links {
@@ -1026,14 +1004,18 @@ a:focus {
 	text-align: center;
 }
 
-.pagination .meta-nav {
-	margin-right: 0.3333em;
+/* reset screen-reader-text */
+.pagination .current .screen-reader-text {
+	position: static !important;
 }
 
 .pagination .page-numbers {
 	display: none;
 	line-height: 3.2em;
 	padding: 0 0.6667em;
+}
+
+.pagination .page-numbers.current {
 	text-transform: uppercase;
 }
 
@@ -1044,6 +1026,7 @@ a:focus {
 
 .pagination .prev,
 .pagination .next {
+	-webkit-tap-highlight-color: rgba(255, 255, 255, 0.3);
 	background-color: #333;
 	color: #fff;
 	display: inline-block;
@@ -1169,6 +1152,7 @@ a:focus {
  */
 
 /* Text meant only for screen readers */
+.says,
 .screen-reader-text {
 	clip: rect(1px, 1px, 1px, 1px);
 	height: 1px;
@@ -1414,6 +1398,7 @@ img.aligncenter {
 }
 
 .widget_calendar tbody a {
+	-webkit-tap-highlight-color: rgba(255, 255, 255, 0.3);
 	background-color: #333;
 	color: #fff;
 	display: block;
@@ -1784,7 +1769,6 @@ a.post-thumbnail:focus {
 }
 
 .author-info .avatar {
-	border-radius: 50%;
 	float: left;
 	height: 36px;
 	margin: 0 1.6em 1.6em 0;
@@ -1857,6 +1841,7 @@ a.post-thumbnail:focus {
 }
 
 .entry-footer a {
+	border-bottom: 1px solid transparent;
 	color: #707070;
 	color: rgba(51, 51, 51, 0.7);
 }
@@ -2024,7 +2009,7 @@ a.post-thumbnail:focus {
 .page-links {
 	clear: both;
 	font-family: "Noto Sans", sans-serif;
-	margin: 0 0 1.4667em;
+	margin-bottom: 1.3333em;
 }
 
 .page-links a,
@@ -2036,12 +2021,13 @@ a.post-thumbnail:focus {
 	font-size: 1.2rem;
 	height: 2em;
 	line-height: 2;
-	margin: 0 1px 2px 0;
+	margin: 0 0.3333em 0.3333em 0;
 	text-align: center;
 	width: 2em;
 }
 
 .page-links a {
+	-webkit-tap-highlight-color: rgba(255, 255, 255, 0.3);
 	background-color: #333;
 	border-color: #333;
 	color: #fff;
@@ -2190,11 +2176,6 @@ a.post-thumbnail:focus {
 	padding-left: 0.8em;
 }
 
-.comment-list .children article {
-	border-color: #f5f5f5;
-	border-color: rgba(51, 51, 51, 0.05);
-}
-
 .comment-author {
 	color: #707070;
 	color: rgba(51, 51, 51, 0.7);
@@ -2207,15 +2188,10 @@ a.post-thumbnail:focus {
 }
 
 .comment-author .avatar {
-	border-radius: 50%;
 	float: left;
 	height: 24px;
 	margin-right: 0.8em;
 	width: 24px;
-}
-
-.says {
-	display: none;
 }
 
 .bypostauthor > article .fn:after {
@@ -2242,7 +2218,7 @@ a.post-thumbnail:focus {
 }
 
 .comment-metadata a:hover,
-.pingback .edit-link a:hover{
+.pingback .edit-link a:hover {
 	border-bottom: 1px solid #333;
 }
 
@@ -2353,8 +2329,8 @@ a.post-thumbnail:focus {
 .no-comments {
 	border-top: 1px solid #eaeaea;
 	border-top: 1px solid rgba(51, 51, 51, 0.1);
-	color: rgba(51, 51, 51, 0.7);
 	color: #707070;
+	color: rgba(51, 51, 51, 0.7);
 	font-family: "Noto Sans", sans-serif;
 	font-weight: 700;
 	padding-top: 1.6em;
@@ -2409,6 +2385,7 @@ a.post-thumbnail:focus {
 }
 
 .site-info a {
+	border-bottom: 1px solid transparent;
 	color: #707070;
 	color: rgba(51, 51, 51, 0.7);
 }
@@ -2426,6 +2403,10 @@ a.post-thumbnail:focus {
 /**
  * 14.0 Media
  */
+
+.site .avatar {
+	border-radius: 50%;
+}
 
 .page-content img.wp-smiley,
 .entry-content img.wp-smiley,
@@ -2447,18 +2428,14 @@ object,
 video {
 	margin-bottom: 1.6em;
 	max-width: 100%;
+	vertical-align: middle;
 }
 
 p > embed,
 p > iframe,
 p > object,
-p > video,
-span > embed,
-span > iframe,
-span > object,
-span > video {
+p > video {
 	margin-bottom: 0;
-	max-width: 100%;
 }
 
 .wp-audio-shortcode,
@@ -2588,10 +2565,11 @@ span > video {
  * 15.0 Media Queries
  */
 
-/* Does the same thing as <meta name="viewport" content="width=device-width">,
+/*
+ * Does the same thing as <meta name="viewport" content="width=device-width">,
  * but in the future W3C standard way. -ms- prefix is required for IE10+ to
  * render responsive styling in Windows 8 "snapped" views; IE10+ does not honor
- * the meta tag. See http://core.trac.wordpress.org/ticket/25888.
+ * the meta tag. See https://core.trac.wordpress.org/ticket/25888.
  */
 @-ms-viewport {
 	width: device-width;
@@ -2612,7 +2590,9 @@ span > video {
 	}
 
 	li > ul,
-	li > ol {
+	li > ol,
+	blockquote > ul,
+	blockquote > ol {
 		margin-left: 1.3333em;
 	}
 
@@ -2754,12 +2734,13 @@ span > video {
 		padding: 0;
 	}
 
-	.pagination .page-numbers {
-		display: inline-block;
+	/* restore screen-reader-text */
+	.pagination .current .screen-reader-text {
+		position: absolute !important;
 	}
 
-	.pagination .meta-nav {
-		display: none;
+	.pagination .page-numbers {
+		display: inline-block;
 	}
 
 	.image-navigation {
@@ -2778,7 +2759,9 @@ span > video {
 	}
 
 	.comment-content li > ul,
-	.comment-content li > ol {
+	.comment-content li > ol,
+	.comment-content blockquote > ul,
+	.comment-content blockquote > ol {
 		margin-left: 1.3333em;
 	}
 }
@@ -2899,7 +2882,8 @@ span > video {
 	}
 
 	.secondary-toggle:before {
-		line-height: 56px;
+		line-height: 54px;
+		width: 54px;
 	}
 
 	.post-password-form label,
@@ -3261,7 +3245,12 @@ span > video {
 	}
 
 	.page-links {
-		margin-bottom: 1.5294em;
+		margin-bottom: 1.4117em;
+	}
+
+	.page-links a,
+	.page-links > span {
+		margin: 0 0.2857em 0.2857em 0;
 	}
 
 	.entry-attachment {
@@ -3486,7 +3475,8 @@ span > video {
 	}
 
 	.secondary-toggle:before {
-		line-height: 64px;
+		line-height: 62px;
+		width: 62px;
 	}
 
 	.post-password-form label,
@@ -3512,12 +3502,6 @@ span > video {
 	.entry-caption {
 		font-size: 16px;
 		font-size: 1.6rem;
-	}
-
-	.post-navigation .post-title {
-		font-size: 24px;
-		font-size: 2.4rem;
-		line-height: 1.1667;
 	}
 
 	.pagination .nav-links {
@@ -3792,7 +3776,12 @@ span > video {
 	}
 
 	.page-links {
-		margin-bottom: 1.5789em;
+		margin-bottom: 1.4736em;
+	}
+
+	.page-links a,
+	.page-links > span {
+		margin: 0 0.25em 0.25em 0;
 	}
 
 	.entry-attachment {
@@ -3901,18 +3890,6 @@ span > video {
  */
 
 @media screen and (min-width: 59.6875em) {
-	body:before,
-	.sidebar-fixed .site-header,
-	.sidebar-fixed .main-navigation,
-	.sidebar-fixed .social-navigation,
-	.sidebar-fixed .widget {
-		-webkit-transform: translateZ(0); /* Fixes flashing bug with scrolling on iOS Safari */
-	}
-
-	.sidebar-fixed .sidebar {
-		position: fixed;
-	}
-
 	body:before {
 		background-color: #fff;
 		box-shadow: 0 0 1px rgba(0, 0, 0, 0.15);
@@ -3924,6 +3901,7 @@ span > video {
 		top: 0;
 		left: 0;
 		width: 29.4118%;
+		z-index: 0; /* Fixes flashing bug with scrolling on Safari */
 	}
 
 	.site {
@@ -4447,7 +4425,12 @@ span > video {
 	}
 
 	.page-links {
-		margin-bottom: 1.4667em;
+		margin-bottom: 1.3333em;
+	}
+
+	.page-links a,
+	.page-links > span {
+		margin: 0 0.3333em 0.3333em 0;
 	}
 
 	.entry-attachment {
@@ -4965,7 +4948,12 @@ span > video {
 	}
 
 	.page-links {
-		margin-bottom: 1.5294em;
+		margin-bottom: 1.4117em;
+	}
+
+	.page-links a,
+	.page-links > span {
+		margin: 0 0.2857em 0.2857em 0;
 	}
 
 	.entry-attachment {
@@ -5478,7 +5466,12 @@ span > video {
 	}
 
 	.page-links {
-		margin-bottom: 1.5789em;
+		margin-bottom: 1.4736em;
+	}
+
+	.page-links a,
+	.page-links > span {
+		margin: 0 0.25em 0.25em 0;
 	}
 
 	.entry-attachment {

@@ -492,6 +492,9 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
  * @since 3.4.0
  * @access private
  *
+ * @param string $query_string
+ * @param array $args_to_check
+ * @param string $url
  * @return string The altered query string
  */
 function _remove_qs_args_if_not_in_url( $query_string, Array $args_to_check, $url ) {

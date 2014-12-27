@@ -270,8 +270,9 @@ function wp_admin_bar_site_menu( $wp_admin_bar ) {
 
 	$blogname = get_bloginfo('name');
 
-	if ( empty( $blogname ) )
+	if ( ! $blogname ) {
 		$blogname = preg_replace( '#^(https?://)?(www.)?#', '', get_home_url() );
+	}
 
 	if ( is_network_admin() ) {
 		$blogname = sprintf( __('Network Admin: %s'), esc_html( get_current_site()->site_name ) );
@@ -402,7 +403,12 @@ function wp_admin_bar_my_sites_menu( $wp_admin_bar ) {
 
 		$blavatar = '<div class="blavatar"></div>';
 
-		$blogname = empty( $blog->blogname ) ? $blog->domain : $blog->blogname;
+		$blogname = $blog->blogname;
+
+		if ( ! $blogname ) {
+			$blogname = preg_replace( '#^(https?://)?(www.)?#', '', get_home_url() );
+		}
+
 		$menu_id  = 'blog-' . $blog->userblog_id;
 
 		$wp_admin_bar->add_menu( array(
@@ -662,13 +668,14 @@ function wp_admin_bar_appearance_menu( $wp_admin_bar ) {
 	if ( ! current_user_can( 'edit_theme_options' ) )
 		return;
 
+	$current_url = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+	$customize_url = add_query_arg( 'url', urlencode( $current_url ), wp_customize_url() );
 	if ( current_user_can( 'customize' ) ) {
-		$current_url = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 		$wp_admin_bar->add_menu( array(
 			'parent' => 'appearance',
 			'id'     => 'customize',
 			'title'  => __('Customize'),
-			'href'   => add_query_arg( 'url', urlencode( $current_url ), wp_customize_url() ),
+			'href'   => $customize_url,
 			'meta'   => array(
 				'class' => 'hide-if-no-customize',
 			),
@@ -682,11 +689,54 @@ function wp_admin_bar_appearance_menu( $wp_admin_bar ) {
 	if ( current_theme_supports( 'menus' ) || current_theme_supports( 'widgets' ) )
 		$wp_admin_bar->add_menu( array( 'parent' => 'appearance', 'id' => 'menus', 'title' => __('Menus'), 'href' => admin_url('nav-menus.php') ) );
 
-	if ( current_theme_supports( 'custom-background' ) )
-		$wp_admin_bar->add_menu( array( 'parent' => 'appearance', 'id' => 'background', 'title' => __('Background'), 'href' => admin_url('themes.php?page=custom-background') ) );
+	if ( current_theme_supports( 'custom-background' ) ) {
+		$wp_admin_bar->add_menu( array(
+			'parent' => 'appearance',
+			'id'     => 'background',
+			'title'  => __( 'Background' ),
+			'href'   => admin_url( 'themes.php?page=custom-background' ),
+			'meta'   => array(
+				'class' => 'hide-if-customize',
+			),
+		) );
 
-	if ( current_theme_supports( 'custom-header' ) )
-		$wp_admin_bar->add_menu( array( 'parent' => 'appearance', 'id' => 'header', 'title' => __('Header'), 'href' => admin_url('themes.php?page=custom-header') ) );
+		if ( current_user_can( 'customize' ) ) {
+			$wp_admin_bar->add_menu( array(
+				'parent' => 'appearance',
+				'id'     => 'customize-background',
+				'title'  => __( 'Background' ),
+				'href'   => add_query_arg( urlencode( 'autofocus[control]' ), 'background_image', $customize_url ), // urlencode() needed due to #16859
+				'meta'   => array(
+					'class' => 'hide-if-no-customize',
+				),
+			) );
+		}
+	}
+
+	if ( current_theme_supports( 'custom-header' ) ) {
+		$wp_admin_bar->add_menu( array(
+			'parent' => 'appearance',
+			'id'     => 'header',
+			'title'  => __( 'Header' ),
+			'href'   => admin_url( 'themes.php?page=custom-header' ),
+			'meta'   => array(
+				'class' => 'hide-if-customize',
+			),
+		) );
+
+		if ( current_user_can( 'customize' ) ) {
+			$wp_admin_bar->add_menu( array(
+				'parent' => 'appearance',
+				'id'     => 'customize-header',
+				'title'  => __( 'Header' ),
+				'href'   => add_query_arg( urlencode( 'autofocus[control]' ), 'header_image', $customize_url ), // urlencode() needed due to #16859
+				'meta'   => array(
+					'class' => 'hide-if-no-customize',
+				),
+			) );
+		}
+	}
+
 }
 
 /**

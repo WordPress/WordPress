@@ -194,6 +194,7 @@ abstract class WP_Image_Editor {
 	 *
 	 * @param int $width
 	 * @param int $height
+	 * @return true
 	 */
 	protected function update_size( $width = null, $height = null ) {
 		$this->size = array(
@@ -213,34 +214,7 @@ abstract class WP_Image_Editor {
 	 */
 	public function get_quality() {
 		if ( ! $this->quality ) {
-			/**
-			 * Filter the default image compression quality setting.
-			 *
-			 * @since 3.5.0
-			 *
-			 * @param int    $quality   Quality level between 1 (low) and 100 (high).
-			 * @param string $mime_type Image mime type.
-			 */
-			$quality = apply_filters( 'wp_editor_set_quality', $this->default_quality, $this->mime_type );
-
-			if ( 'image/jpeg' == $this->mime_type ) {
-				/**
-				 * Filter the JPEG compression quality for backward-compatibility.
-				 *
-				 * The filter is evaluated under two contexts: 'image_resize', and 'edit_image',
-				 * (when a JPEG image is saved to file).
-				 *
-				 * @since 2.5.0
-				 *
-				 * @param int    $quality Quality level between 0 (low) and 100 (high) of the JPEG.
-				 * @param string $context Context of the filter.
-				 */
-				$quality = apply_filters( 'jpeg_quality', $quality, 'image_resize' );
-			}
-
-			if ( ! $this->set_quality( $quality ) ) {
-				$this->quality = $this->default_quality;
-			}
+			$this->set_quality();
 		}
 
 		return $this->quality;
@@ -257,7 +231,44 @@ abstract class WP_Image_Editor {
 	 */
 	public function set_quality( $quality = null ) {
 		if ( null === $quality ) {
-			$quality = $this->default_quality;
+			/**
+			 * Filter the default image compression quality setting.
+			 *
+			 * Applies only during initial editor instantiation, or when set_quality() is run
+			 * manually without the `$quality` argument.
+			 *
+			 * set_quality() has priority over the filter.
+			 *
+			 * @since 3.5.0
+			 *
+			 * @param int    $quality   Quality level between 1 (low) and 100 (high).
+			 * @param string $mime_type Image mime type.
+			 */
+			$quality = apply_filters( 'wp_editor_set_quality', $this->default_quality, $this->mime_type );
+
+			if ( 'image/jpeg' == $this->mime_type ) {
+				/**
+				 * Filter the JPEG compression quality for backward-compatibility.
+				 *
+				 * Applies only during initial editor instantiation, or when set_quality() is run
+				 * manually without the `$quality` argument.
+				 *
+				 * set_quality() has priority over the filter.
+				 *
+				 * The filter is evaluated under two contexts: 'image_resize', and 'edit_image',
+				 * (when a JPEG image is saved to file).
+				 *
+				 * @since 2.5.0
+				 *
+				 * @param int    $quality Quality level between 0 (low) and 100 (high) of the JPEG.
+				 * @param string $context Context of the filter.
+				 */
+				$quality = apply_filters( 'jpeg_quality', $quality, 'image_resize' );
+			}
+
+			if ( $quality < 0 || $quality > 100 ) {
+				$quality = $this->default_quality;
+			}
 		}
 
 		// Allow 0, but squash to 1 due to identical images in GD, and for backwards compatibility.
@@ -378,7 +389,7 @@ abstract class WP_Image_Editor {
 	 * @since 3.5.0
 	 * @access public
 	 *
-	 * @return string suffix
+	 * @return false|string suffix
 	 */
 	public function get_suffix() {
 		if ( ! $this->get_size() )

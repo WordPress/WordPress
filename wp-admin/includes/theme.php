@@ -138,7 +138,7 @@ function theme_update_available( $theme ) {
  * @since 3.8.0
  *
  * @param WP_Theme $theme WP_Theme object.
- * @return string|bool HTML for the update link, or false if invalid info was passed.
+ * @return false|string HTML for the update link, or false if invalid info was passed.
  */
 function get_theme_update_available( $theme ) {
 	static $themes_update;
@@ -314,13 +314,20 @@ function get_theme_feature_list( $api = true ) {
  * @param array|object $args   Optional. Arguments to serialize for the Theme Info API.
  * @return mixed
  */
-	function themes_api( $action, $args = null ) {
+function themes_api( $action, $args = null ) {
 
-	if ( is_array($args) )
-		$args = (object)$args;
+	if ( is_array( $args ) ) {
+		$args = (object) $args;
+	}
 
-	if ( !isset($args->per_page) )
+	if ( ! isset( $args->per_page ) ) {
 		$args->per_page = 24;
+	}
+
+	if ( ! isset( $args->locale ) ) {
+		$args->locale = get_locale();
+	}
+
 	/**
 	 * Filter arguments used to query for installer pages from the WordPress.org Themes API.
 	 *
@@ -331,7 +338,7 @@ function get_theme_feature_list( $api = true ) {
 	 * @param object $args   Arguments used to query for installer pages from the WordPress.org Themes API.
 	 * @param string $action Requested action. Likely values are 'theme_information',
 	 *                       'feature_list', or 'query_themes'.
- 	*/
+	 */
 	$args = apply_filters( 'themes_api_args', $args, $action );
 
 	/**
@@ -423,14 +430,18 @@ function wp_prepare_themes_for_js( $themes = null ) {
 	}
 
 	WP_Theme::sort_by_name( $themes );
+
+	$parents = array();
+
 	foreach ( $themes as $theme ) {
+		$slug = $theme->get_stylesheet();
+		$encoded_slug = urlencode( $slug );
+
 		$parent = false;
 		if ( $theme->parent() ) {
 			$parent = $theme->parent()->display( 'Name' );
+			$parents[ $slug ] = $theme->parent()->get_stylesheet();
 		}
-
-		$slug = $theme->get_stylesheet();
-		$encoded_slug = urlencode( $slug );
 
 		$prepared_themes[ $slug ] = array(
 			'id'           => $slug,
@@ -458,6 +469,11 @@ function wp_prepare_themes_for_js( $themes = null ) {
 				'delete'   => current_user_can( 'delete_themes' ) ? wp_nonce_url( admin_url( 'themes.php?action=delete&amp;stylesheet=' . $encoded_slug ), 'delete-theme_' . $slug ) : null,
 			),
 		);
+	}
+
+	// Remove 'delete' action if theme has an active child
+	if ( ! empty( $parents ) && array_key_exists( $current_theme, $parents ) ) {
+		unset( $prepared_themes[ $parents[ $current_theme ] ]['actions']['delete'] );
 	}
 
 	/**

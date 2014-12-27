@@ -75,7 +75,7 @@ class WP_Media_List_Table extends WP_List_Table {
 			if ( !empty( $_GET['attachment-filter'] ) && strpos( $_GET['attachment-filter'], 'post_mime_type:' ) === 0 && wp_match_mime_types( $mime_type, str_replace( 'post_mime_type:', '', $_GET['attachment-filter'] ) ) )
 				$selected = ' selected="selected"';
 			if ( !empty( $num_posts[$mime_type] ) )
-				$type_links[$mime_type] = '<option value="post_mime_type:' . urlencode( $mime_type ) . '"' . $selected . '>' . sprintf( translate_nooped_plural( $label[2], $num_posts[$mime_type] ), number_format_i18n( $num_posts[$mime_type] )) . '</option>';
+				$type_links[$mime_type] = '<option value="post_mime_type:' . sanitize_mime_type( $mime_type ) . '"' . $selected . '>' . sprintf( translate_nooped_plural( $label[2], $num_posts[$mime_type] ), number_format_i18n( $num_posts[$mime_type] )) . '</option>';
 		}
 		$type_links['detached'] = '<option value="detached"' . ( $this->detached ? ' selected="selected"' : '' ) . '>' . sprintf( _nx( 'Unattached (%s)', 'Unattached (%s)', $total_orphans, 'detached files' ), number_format_i18n( $total_orphans ) ) . '</option>';
 
@@ -104,6 +104,9 @@ class WP_Media_List_Table extends WP_List_Table {
 		return $actions;
 	}
 
+	/**
+	 * @param string $which
+	 */
 	protected function extra_tablenav( $which ) {
 		if ( 'bar' !== $which ) {
 			return;
@@ -146,9 +149,10 @@ class WP_Media_List_Table extends WP_List_Table {
 		_e( 'No media attachments found.' );
 	}
 
+	/**
+	 * @param string $which
+	 */
 	protected function pagination( $which ) {
-		global $mode;
-
 		parent::pagination( $which );
 	}
 
@@ -161,33 +165,35 @@ class WP_Media_List_Table extends WP_List_Table {
 		$views = $this->get_views();
 ?>
 <div class="wp-filter">
-	<?php $this->view_switcher( $mode ); ?>
+	<div class="filter-items">
+		<?php $this->view_switcher( $mode ); ?>
 
-	<select class="attachment-filters" name="attachment-filter">
-		<?php
-		if ( ! empty( $views ) ) {
-			foreach ( $views as $class => $view ) {
-				echo "\t$view\n";
+		<select class="attachment-filters" name="attachment-filter">
+			<?php
+			if ( ! empty( $views ) ) {
+				foreach ( $views as $class => $view ) {
+					echo "\t$view\n";
+				}
 			}
-		}
-		?>
-	</select>
+			?>
+		</select>
 
 <?php
-	$this->extra_tablenav( 'bar' );
+		$this->extra_tablenav( 'bar' );
 
-	/** This filter is documented in wp-admin/inclues/class-wp-list-table.php */
-	$views = apply_filters( "views_{$this->screen->id}", array() );
+		/** This filter is documented in wp-admin/inclues/class-wp-list-table.php */
+		$views = apply_filters( "views_{$this->screen->id}", array() );
 
-	// Back compat for pre-4.0 view links.
-	if ( ! empty( $views ) ) {
-		echo '<ul class="filter-links">';
-		foreach ( $views as $class => $view ) {
-			echo "<li class='$class'>$view</li>";
+		// Back compat for pre-4.0 view links.
+		if ( ! empty( $views ) ) {
+			echo '<ul class="filter-links">';
+			foreach ( $views as $class => $view ) {
+				echo "<li class='$class'>$view</li>";
+			}
+			echo '</ul>';
 		}
-		echo '</ul>';
-	}
 ?>
+	</div>
 
 	<div class="search-form">
 		<label for="media-search-input" class="screen-reader-text"><?php esc_html_e( 'Search Media' ); ?></label>
@@ -469,21 +475,19 @@ foreach ( $columns as $column_name => $column_display_name ) {
 			break;
 		}
 ?>
-		<td <?php echo $attributes ?>>
-			<?php
-				/**
-				 * Fires for each custom column in the Media list table.
-				 *
-				 * Custom columns are registered using the 'manage_media_columns' filter.
-				 *
-				 * @since 2.5.0
-				 *
-				 * @param string $column_name Name of the custom column.
-				 * @param int    $post_id     Attachment ID.
-				 */
-			?>
-			<?php do_action( 'manage_media_custom_column', $column_name, $post->ID ); ?>
-		</td>
+		<td <?php echo $attributes ?>><?php
+			/**
+			 * Fires for each custom column in the Media list table.
+			 *
+			 * Custom columns are registered using the 'manage_media_columns' filter.
+			 *
+			 * @since 2.5.0
+			 *
+			 * @param string $column_name Name of the custom column.
+			 * @param int    $post_id     Attachment ID.
+			 */
+			do_action( 'manage_media_custom_column', $column_name, $post->ID );
+		?></td>
 <?php
 		break;
 	}
@@ -493,6 +497,10 @@ foreach ( $columns as $column_name => $column_display_name ) {
 <?php endwhile;
 	}
 
+	/**
+	 * @param WP_Post $post
+	 * @param string  $att_title
+	 */
 	private function _get_row_actions( $post, $att_title ) {
 		$actions = array();
 

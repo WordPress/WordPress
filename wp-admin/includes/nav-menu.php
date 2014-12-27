@@ -792,8 +792,8 @@ function wp_nav_menu_item_post_type_meta_box( $object, $post_type ) {
 				 * Filter the posts displayed in the 'View All' tab of the current
 				 * post type's menu items meta box.
 				 *
-				 * The dynamic portion of the hook name, $post_type_name,
-				 * refers to the slug of the current post type.
+				 * The dynamic portion of the hook name, `$post_type_name`, refers
+				 * to the slug of the current post type.
 				 *
 				 * @since 3.2.0
 				 *
@@ -1148,7 +1148,7 @@ function _wp_nav_menu_meta_box_object( $object = null ) {
  *
  * @since 3.0.0
  *
- * @param string $menu_id The ID of the menu to format.
+ * @param int $menu_id Optional. The ID of the menu to format. Default 0.
  * @return string|WP_Error $output The menu formatted to edit or error object on failure.
  */
 function wp_get_nav_menu_to_edit( $menu_id = 0 ) {
@@ -1252,7 +1252,7 @@ add_action('admin_head-nav-menus.php', '_wp_delete_orphaned_draft_menu_items');
  */
 function wp_nav_menu_update_menu_items ( $nav_menu_selected_id, $nav_menu_selected_title ) {
 	$unsorted_menu_items = wp_get_nav_menu_items( $nav_menu_selected_id, array( 'orderby' => 'ID', 'output' => ARRAY_A, 'output_key' => 'ID', 'post_status' => 'draft,publish' ) );
-
+	$messages = array();
 	$menu_items = array();
 	// Index menu items by db ID
 	foreach ( $unsorted_menu_items as $_item )

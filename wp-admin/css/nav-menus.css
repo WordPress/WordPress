@@ -471,6 +471,7 @@ ul.add-menu-item-tabs li {
 	position: relative;
 	padding: 10px 15px;
 	height: auto;
+	min-height: 20px;
 	width: 382px;
 	line-height: 30px;
 	overflow: hidden;
@@ -526,7 +527,7 @@ li.menu-item.ui-sortable-helper .menu-item-transport dl {
 	margin-top: 13px;
 }
 
-/* WARNING: The factor of 30px is hardcoded into the nav-menus javascript. */
+/* WARNING: The factor of 30px is hardcoded into the nav-menus JavaScript. */
 .menu-item-depth-0 { margin-left: 0px; }
 .menu-item-depth-1 { margin-left: 30px; }
 .menu-item-depth-2 { margin-left: 60px; }

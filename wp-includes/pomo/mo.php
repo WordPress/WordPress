@@ -139,6 +139,9 @@ class MO extends Gettext_Translations {
 		}
 	}
 
+	/**
+	 * @param POMO_FileReader $reader
+	 */
 	function import_from_reader($reader) {
 		$endian_string = MO::get_byteorder($reader->readint32());
 		if (false === $endian_string) {

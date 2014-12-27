@@ -48,7 +48,7 @@ $title = $post_type_object->labels->add_new_item;
 $editing = true;
 
 if ( ! current_user_can( $post_type_object->cap->edit_posts ) || ! current_user_can( $post_type_object->cap->create_posts ) )
-	wp_die( __( 'Cheatin&#8217; uh?' ) );
+	wp_die( __( 'Cheatin&#8217; uh?' ), 403 );
 
 // Schedule auto-draft cleanup
 if ( ! wp_next_scheduled( 'wp_scheduled_auto_draft_delete' ) )

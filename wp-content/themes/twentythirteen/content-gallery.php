@@ -21,8 +21,15 @@
 
 	<div class="entry-content">
 		<?php if ( is_single() || ! get_post_gallery() ) : ?>
-			<?php the_content( __( 'Continue reading <span class="meta-nav">&rarr;</span>', 'twentythirteen' ) ); ?>
-			<?php wp_link_pages( array( 'before' => '<div class="page-links"><span class="page-links-title">' . __( 'Pages:', 'twentythirteen' ) . '</span>', 'after' => '</div>', 'link_before' => '<span>', 'link_after' => '</span>' ) ); ?>
+			<?php
+			/* translators: %s: Name of current post */
+			the_content( sprintf(
+				__( 'Continue reading %s <span class="meta-nav">&rarr;</span>', 'twentythirteen' ),
+				the_title( '<span class="screen-reader-text">', '</span>', false )
+			) );
+
+			wp_link_pages( array( 'before' => '<div class="page-links"><span class="page-links-title">' . __( 'Pages:', 'twentythirteen' ) . '</span>', 'after' => '</div>', 'link_before' => '<span>', 'link_after' => '</span>' ) );
+		?>
 		<?php else : ?>
 			<?php echo get_post_gallery(); ?>
 		<?php endif; // is_single() ?>

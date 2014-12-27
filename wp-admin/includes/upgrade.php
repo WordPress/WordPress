@@ -30,7 +30,7 @@ if ( !function_exists('wp_install') ) :
  * @param string $user_name User's username.
  * @param string $user_email User's email.
  * @param bool $public Whether blog is public.
- * @param null $deprecated Optional. Not used.
+ * @param string $deprecated Optional. Not used.
  * @param string $user_password Optional. User's chosen password. Will default to a random password.
  * @param string $language Optional. Language chosen.
  * @return array Array keys 'url', 'user_id', 'password', 'password_message'.
@@ -284,15 +284,15 @@ function wp_new_blog_notification($blog_title, $blog_url, $user_id, $password) {
 
 You can log in to the administrator account with the following information:
 
-Log in here: %2\$s
-Username: %3\$s
-Password: %4\$s
+Username: %2\$s
+Password: %3\$s
+Log in here: %4\$s
 
 We hope you enjoy your new site. Thanks!
 
 --The WordPress Team
 https://wordpress.org/
-"), $blog_url, $login_url, $name, $password );
+"), $blog_url, $name, $password, $login_url );
 
 	@wp_mail($email, __('New WordPress Site'), $message);
 }
@@ -1532,7 +1532,7 @@ function maybe_add_column($table_name, $column_name, $create_ddl) {
  *
  * @since 1.2.0
  *
- * @return array List of options.
+ * @return stdClass List of options.
  */
 function get_alloptions_110() {
 	global $wpdb;
@@ -1786,7 +1786,7 @@ function dbDelta( $queries = '', $execute = true ) {
 
 		if ($tableindices) {
 			// Clear the index array.
-			unset($index_ary);
+			$index_ary = array();
 
 			// For every index in the table.
 			foreach ($tableindices as $tableindex) {
@@ -1975,7 +1975,7 @@ function make_site_theme_from_oldschool($theme_name, $template) {
  *
  * @param string $theme_name
  * @param string $template
- * @return bool|null
+ * @return null|false
  */
 function make_site_theme_from_default($theme_name, $template) {
 	$site_dir = WP_CONTENT_DIR . "/themes/$template";
@@ -2039,7 +2039,7 @@ function make_site_theme_from_default($theme_name, $template) {
  *
  * @since 1.5.0
  *
- * @return string|bool
+ * @return false|string
  */
 function make_site_theme() {
 	// Name the theme after the blog.

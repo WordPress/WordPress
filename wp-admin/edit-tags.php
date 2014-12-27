@@ -18,7 +18,7 @@ if ( ! $tax )
 	wp_die( __( 'Invalid taxonomy' ) );
 
 if ( ! current_user_can( $tax->cap->manage_terms ) )
-	wp_die( __( 'Cheatin&#8217; uh?' ) );
+	wp_die( __( 'Cheatin&#8217; uh?' ), 403 );
 
 $wp_list_table = _get_list_table('WP_Terms_List_Table');
 $pagenum = $wp_list_table->get_pagenum();
@@ -47,7 +47,7 @@ case 'add-tag':
 	check_admin_referer( 'add-tag', '_wpnonce_add-tag' );
 
 	if ( !current_user_can( $tax->cap->edit_terms ) )
-		wp_die( __( 'Cheatin&#8217; uh?' ) );
+		wp_die( __( 'Cheatin&#8217; uh?' ), 403 );
 
 	$ret = wp_insert_term( $_POST['tag-name'], $taxonomy, $_POST );
 	$location = 'edit-tags.php?taxonomy=' . $taxonomy;
@@ -83,7 +83,7 @@ case 'delete':
 	check_admin_referer( 'delete-tag_' . $tag_ID );
 
 	if ( !current_user_can( $tax->cap->delete_terms ) )
-		wp_die( __( 'Cheatin&#8217; uh?' ) );
+		wp_die( __( 'Cheatin&#8217; uh?' ), 403 );
 
 	wp_delete_term( $tag_ID, $taxonomy );
 
@@ -95,7 +95,7 @@ case 'bulk-delete':
 	check_admin_referer( 'bulk-tags' );
 
 	if ( !current_user_can( $tax->cap->delete_terms ) )
-		wp_die( __( 'Cheatin&#8217; uh?' ) );
+		wp_die( __( 'Cheatin&#8217; uh?' ), 403 );
 
 	$tags = (array) $_REQUEST['delete_tags'];
 	foreach ( $tags as $tag_ID ) {
@@ -133,7 +133,7 @@ case 'editedtag':
 	check_admin_referer( 'update-tag_' . $tag_ID );
 
 	if ( !current_user_can( $tax->cap->edit_terms ) )
-		wp_die( __( 'Cheatin&#8217; uh?' ) );
+		wp_die( __( 'Cheatin&#8217; uh?' ), 403 );
 
 	$tag = get_term( $tag_ID, $taxonomy );
 	if ( ! $tag )
@@ -351,7 +351,7 @@ endif; ?>
 /**
  * Fires after the taxonomy list table.
  *
- * The dynamic portion of the hook name, $taxonomy, refers to the taxonomy slug.
+ * The dynamic portion of the hook name, `$taxonomy`, refers to the taxonomy slug.
  *
  * @since 3.0.0
  *
@@ -420,7 +420,7 @@ if ( current_user_can($tax->cap->edit_terms) ) {
 	/**
 	 * Fires before the Add Term form for all taxonomies.
 	 *
-	 * The dynamic portion of the hook name, $taxonomy, refers to the taxonomy slug.
+	 * The dynamic portion of the hook name, `$taxonomy`, refers to the taxonomy slug.
 	 *
 	 * @since 3.0.0
 	 *
@@ -431,16 +431,17 @@ if ( current_user_can($tax->cap->edit_terms) ) {
 
 <div class="form-wrap">
 <h3><?php echo $tax->labels->add_new_item; ?></h3>
+<form id="addtag" method="post" action="edit-tags.php" class="validate"
 <?php
 /**
  * Fires at the beginning of the Add Tag form.
  *
- * The dynamic portion of the hook name, $taxonomy, refers to the taxonomy slug.
+ * The dynamic portion of the hook name, `$taxonomy`, refers to the taxonomy slug.
  *
  * @since 3.7.0
  */
-?>
-<form id="addtag" method="post" action="edit-tags.php" class="validate"<?php do_action( "{$taxonomy}_term_new_form_tag" ); ?>>
+do_action( "{$taxonomy}_term_new_form_tag" );
+?>>
 <input type="hidden" name="action" value="add-tag" />
 <input type="hidden" name="screen" value="<?php echo esc_attr($current_screen->id); ?>" />
 <input type="hidden" name="taxonomy" value="<?php echo esc_attr($taxonomy); ?>" />
@@ -521,7 +522,7 @@ if ( ! is_taxonomy_hierarchical( $taxonomy ) ) {
 /**
  * Fires after the Add Term form fields for hierarchical taxonomies.
  *
- * The dynamic portion of the hook name, $taxonomy, refers to the taxonomy slug.
+ * The dynamic portion of the hook name, `$taxonomy`, refers to the taxonomy slug.
  *
  * @since 3.0.0
  *
@@ -566,7 +567,7 @@ if ( 'category' == $taxonomy ) {
 /**
  * Fires at the end of the Add Term form for all taxonomies.
  *
- * The dynamic portion of the hook name, $taxonomy, refers to the taxonomy slug.
+ * The dynamic portion of the hook name, `$taxonomy`, refers to the taxonomy slug.
  *
  * @since 3.0.0
  *
@@ -582,10 +583,14 @@ do_action( "{$taxonomy}_add_form", $taxonomy );
 
 </div><!-- /col-container -->
 </div><!-- /wrap -->
+
+<?php if ( ! wp_is_mobile() ) : ?>
 <script type="text/javascript">
 try{document.forms.addtag['tag-name'].focus();}catch(e){}
 </script>
 <?php
+endif;
+
 $wp_list_table->inline_edit();
 
 include( ABSPATH . 'wp-admin/admin-footer.php' );

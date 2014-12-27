@@ -206,7 +206,7 @@ function get_the_guid( $id = 0 ) {
  * @since 0.71
  *
  * @param string $more_link_text Optional. Content for when there is more text.
- * @param bool $strip_teaser Optional. Strip teaser content before the more text. Default is false.
+ * @param bool   $strip_teaser   Optional. Strip teaser content before the more text. Default is false.
  */
 function the_content( $more_link_text = null, $strip_teaser = false) {
 	$content = get_the_content( $more_link_text, $strip_teaser );
@@ -229,7 +229,7 @@ function the_content( $more_link_text = null, $strip_teaser = false) {
  * @since 0.71
  *
  * @param string $more_link_text Optional. Content for when there is more text.
- * @param bool $stripteaser Optional. Strip teaser content before the more text. Default is false.
+ * @param bool $strip_teaser Optional. Strip teaser content before the more text. Default is false.
  * @return string
  */
 function get_the_content( $more_link_text = null, $strip_teaser = false ) {
@@ -290,14 +290,14 @@ function get_the_content( $more_link_text = null, $strip_teaser = false ) {
 		}
 	}
 
-	if ( $preview ) // preview fix for javascript bug with foreign languages
+	if ( $preview ) // Preview fix for JavaScript bug with foreign languages.
 		$output =	preg_replace_callback( '/\%u([0-9A-F]{4})/', '_convert_urlencoded_to_entities', $output );
 
 	return $output;
 }
 
 /**
- * Preview fix for javascript bug with foreign languages
+ * Preview fix for JavaScript bug with foreign languages.
  *
  * @since 3.1.0
  * @access private
@@ -436,7 +436,7 @@ function get_post_class( $class = '', $post_id = null ) {
 
 	// sticky for Sticky Posts
 	if ( is_sticky( $post->ID ) ) {
-		if ( is_home() && ! is_paged() && ! get_query_var( 'ignore_sticky_posts' ) ) {
+		if ( is_home() && ! is_paged() ) {
 			$classes[] = 'sticky';
 		} elseif ( is_admin() ) {
 			$classes[] = 'status-sticky';
@@ -730,11 +730,11 @@ function post_password_required( $post = null ) {
  * @param string|array $args {
  *     Optional. Array or string of default arguments.
  *
- *     @type string       $before           HTML or text to prepend to each link. Default is '<p> Pages:'.
- *     @type string       $after            HTML or text to append to each link. Default is '</p>'.
- *     @type string       $link_before      HTML or text to prepend to each link, inside the <a> tag.
+ *     @type string       $before           HTML or text to prepend to each link. Default is `<p> Pages:`.
+ *     @type string       $after            HTML or text to append to each link. Default is `</p>`.
+ *     @type string       $link_before      HTML or text to prepend to each link, inside the `<a>` tag.
  *                                          Also prepended to the current item, which is not linked. Default empty.
- *     @type string       $link_after       HTML or text to append to each Pages link inside the <a> tag.
+ *     @type string       $link_after       HTML or text to append to each Pages link inside the `<a>` tag.
  *                                          Also appended to the current item, which is not linked. Default empty.
  *     @type string       $next_or_number   Indicates whether page numbers should be used. Valid values are number
  *                                          and next. Default is 'number'.
@@ -1111,15 +1111,15 @@ function wp_list_pages( $args = '' ) {
  *     Optional. Arguments to generate a page menu. {@see wp_list_pages()}
  *     for additional arguments.
  *
- * @type string     $sort_column How to short the list of pages. Accepts post column names.
- *                               Default 'menu_order, post_title'.
- * @type string     $menu_class  Class to use for the div ID containing the page list. Default 'menu'.
- * @type bool       $echo        Whether to echo the list or return it. Accepts true (echo) or false (return).
- *                               Default true.
- * @type string     $link_before The HTML or text to prepend to $show_home text. Default empty.
- * @type string     $link_after  The HTML or text to append to $show_home text. Default empty.
- * @type int|string $show_home   Whether to display the link to the home page. Can just enter the text
- *                               you'd like shown for the home link. 1|true defaults to 'Home'.
+ * @type string          $sort_column How to short the list of pages. Accepts post column names.
+ *                                    Default 'menu_order, post_title'.
+ * @type string          $menu_class  Class to use for the div ID containing the page list. Default 'menu'.
+ * @type bool            $echo        Whether to echo the list or return it. Accepts true (echo) or false (return).
+ *                                    Default true.
+ * @type string          $link_before The HTML or text to prepend to $show_home text. Default empty.
+ * @type string          $link_after  The HTML or text to append to $show_home text. Default empty.
+ * @type int|bool|string $show_home   Whether to display the link to the home page. Can just enter the text
+ *                                    you'd like shown for the home link. 1|true defaults to 'Home'.
  * }
  * @return string html menu
  */
@@ -1446,9 +1446,9 @@ class Walker_PageDropdown extends Walker {
  * @since 2.0.0
  *
  * @param int|WP_Post $id Optional. Post ID or post object.
- * @param bool $fullsize Optional, default is false. Whether to use full size.
- * @param bool $deprecated Deprecated. Not used.
- * @param bool $permalink Optional, default is false. Whether to include permalink.
+ * @param bool        $fullsize     Optional, default is false. Whether to use full size.
+ * @param bool        $deprecated   Deprecated. Not used.
+ * @param bool        $permalink    Optional, default is false. Whether to include permalink.
  */
 function the_attachment_link( $id = 0, $fullsize = false, $deprecated = false, $permalink = false ) {
 	if ( !empty( $deprecated ) )
@@ -1465,12 +1465,12 @@ function the_attachment_link( $id = 0, $fullsize = false, $deprecated = false, $
  *
  * @since 2.5.0
  *
- * @param int|WP_Post $id Optional. Post ID or post object.
- * @param string $size Optional, default is 'thumbnail'. Size of image, either array or string.
- * @param bool $permalink Optional, default is false. Whether to add permalink to image.
- * @param bool $icon Optional, default is false. Whether to include icon.
- * @param string|bool $text Optional, default is false. If string, then will be link text.
- * @param array|string $attr Optional. Array or string of attributes.
+ * @param int|WP_Post  $id        Optional. Post ID or post object.
+ * @param string       $size      Optional, default is 'thumbnail'. Size of image, either array or string.
+ * @param bool         $permalink Optional, default is false. Whether to add permalink to image.
+ * @param bool         $icon      Optional, default is false. Whether to include icon.
+ * @param string|bool  $text      Optional, default is false. If string, then will be link text.
+ * @param array|string $attr      Optional. Array or string of attributes.
  * @return string HTML content.
  */
 function wp_get_attachment_link( $id = 0, $size = 'thumbnail', $permalink = false, $icon = false, $text = false, $attr = '' ) {
@@ -1510,7 +1510,7 @@ function wp_get_attachment_link( $id = 0, $size = 'thumbnail', $permalink = fals
 }
 
 /**
- * Wrap attachment in <<p>> element before content.
+ * Wrap attachment in paragraph tag before content.
  *
  * @since 2.0.0
  *
@@ -1730,7 +1730,7 @@ function wp_post_revision_title_expanded( $revision, $link = true ) {
  * @since 2.6.0
  *
  * @param int|WP_Post $post_id Optional. Post ID or WP_Post object. Default is global $post.
- * @param string $type 'all' (default), 'revision' or 'autosave'
+ * @param string      $type    'all' (default), 'revision' or 'autosave'
  * @return null
  */
 function wp_list_post_revisions( $post_id = 0, $type = 'all' ) {

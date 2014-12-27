@@ -580,6 +580,12 @@ body.folded .theme-overlay .theme-wrap {
 	margin-bottom: 5px;
 }
 
+/* Hide-if-customize for items we can't add classes to */
+.customize-support .theme-overlay .theme-actions a[href="themes.php?page=custom-header"],
+.customize-support .theme-overlay .theme-actions a[href="themes.php?page=custom-background"] {
+	display: none;
+}
+
 .broken-themes a.delete-theme,
 .theme-overlay .theme-actions .delete-theme {
 	color: #a00;
@@ -1028,6 +1034,7 @@ body.folded .theme-overlay .theme-wrap {
 		right: 0;
 		margin: 10px 0;
 		width: 100%;
+		max-width: 280px;
 	}
 
 	.theme-browser .theme.add-new-theme span:after {
@@ -1719,6 +1726,10 @@ body.full-overlay-active {
 	.customize-loading #customize-container,
 	.theme-install-overlay .wp-full-overlay-main {
 		background-image: url(../images/spinner-2x.gif);
+	}
+
+	.theme-install-overlay .wp-full-overlay-header .theme-install {
+		margin-top: 2px;
 	}
 }
 

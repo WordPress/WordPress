@@ -131,6 +131,19 @@ abstract class WP_Session_Tokens {
 		$session = apply_filters( 'attach_session_information', array(), $this->user_id );
 		$session['expiration'] = $expiration;
 
+		// IP address.
+		if ( !empty( $_SERVER['REMOTE_ADDR'] ) ) {
+			$session['ip'] = $_SERVER['REMOTE_ADDR'];
+		}
+
+		// User-agent.
+		if ( ! empty( $_SERVER['HTTP_USER_AGENT'] ) ) {
+			$session['ua'] = wp_unslash( $_SERVER['HTTP_USER_AGENT'] );
+		}
+
+		// Timestamp
+		$session['login'] = time();
+
 		$token = wp_generate_password( 43, false, false );
 
 		$this->update( $token, $session );
@@ -383,10 +396,6 @@ class WP_User_Meta_Session_Tokens extends WP_Session_Tokens {
 	 * @param array $sessions Sessions.
 	 */
 	protected function update_sessions( $sessions ) {
-		if ( ! has_filter( 'attach_session_information' ) ) {
-			$sessions = wp_list_pluck( $sessions, 'expiration' );
-		}
-
 		if ( $sessions ) {
 			update_user_meta( $this->user_id, 'session_tokens', $sessions );
 		} else {

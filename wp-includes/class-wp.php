@@ -205,7 +205,7 @@ class WP {
 						preg_match("#^$match#", urldecode($request_match), $matches) ) {
 
 						if ( $wp_rewrite->use_verbose_page_rules && preg_match( '/pagename=\$matches\[([0-9]+)\]/', $query, $varmatch ) ) {
-							// this is a verbose page match, lets check to be sure about it
+							// This is a verbose page match, let's check to be sure about it.
 							if ( ! get_page_by_path( $matches[ $varmatch[1] ] ) )
 						 		continue;
 						}

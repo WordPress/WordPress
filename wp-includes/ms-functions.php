@@ -1444,9 +1444,9 @@ BLOG_URL
 
 You can log in to the administrator account with the following information:
 
-Log in here: BLOG_URLwp-login.php
 Username: USERNAME
 Password: PASSWORD
+Log in here: BLOG_URLwp-login.php
 
 We hope you enjoy your new site. Thanks!
 
@@ -2024,7 +2024,6 @@ function is_user_spammy( $user = null ) {
  *
  * @param int $old_value
  * @param int $value The new public value
- * @return bool
  */
 function update_blog_public( $old_value, $value ) {
 	update_blog_status( get_current_blog_id(), 'public', (int) $value );
@@ -2434,15 +2433,4 @@ function wp_get_sites( $args = array() ) {
 	$site_results = $wpdb->get_results( $query, ARRAY_A );
 
 	return $site_results;
-}
-
-/**
- * Determine if the current network should be treated as a trusted network.
- *
- * @since 4.1.0
- *
- * @return bool False.
- */
-function wp_is_trusted_network() {
-	return false;
 }

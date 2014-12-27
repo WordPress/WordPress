@@ -14,39 +14,38 @@
  * must not have any newlines or only parts of the description will be displayed
  * and the same goes for the plugin data. The below is formatted for printing.
  *
- * <code>
- * /*
- * Plugin Name: Name of Plugin
- * Plugin URI: Link to plugin information
- * Description: Plugin Description
- * Author: Plugin author's name
- * Author URI: Link to the author's web site
- * Version: Must be set in the plugin for WordPress 2.3+
- * Text Domain: Optional. Unique identifier, should be same as the one used in
- *		plugin_text_domain()
- * Domain Path: Optional. Only useful if the translations are located in a
- *		folder above the plugin's base path. For example, if .mo files are
- *		located in the locale folder then Domain Path will be "/locale/" and
- *		must have the first slash. Defaults to the base folder the plugin is
- *		located in.
- * Network: Optional. Specify "Network: true" to require that a plugin is activated
- *		across all sites in an installation. This will prevent a plugin from being
- *		activated on a single site when Multisite is enabled.
- *  * / # Remove the space to close comment
- * </code>
+ *     /*
+ *     Plugin Name: Name of Plugin
+ *     Plugin URI: Link to plugin information
+ *     Description: Plugin Description
+ *     Author: Plugin author's name
+ *     Author URI: Link to the author's web site
+ *     Version: Must be set in the plugin for WordPress 2.3+
+ *     Text Domain: Optional. Unique identifier, should be same as the one used in
+ *    		plugin_text_domain()
+ *     Domain Path: Optional. Only useful if the translations are located in a
+ *    		folder above the plugin's base path. For example, if .mo files are
+ *    		located in the locale folder then Domain Path will be "/locale/" and
+ *    		must have the first slash. Defaults to the base folder the plugin is
+ *    		located in.
+ *     Network: Optional. Specify "Network: true" to require that a plugin is activated
+ *    		across all sites in an installation. This will prevent a plugin from being
+ *    		activated on a single site when Multisite is enabled.
+ *      * / # Remove the space to close comment
  *
  * Plugin data returned array contains the following:
- *		'Name' - Name of the plugin, must be unique.
- *		'Title' - Title of the plugin and the link to the plugin's web site.
- *		'Description' - Description of what the plugin does and/or notes
- *		from the author.
- *		'Author' - The author's name
- *		'AuthorURI' - The authors web site address.
- *		'Version' - The plugin version number.
- *		'PluginURI' - Plugin web site address.
- *		'TextDomain' - Plugin's text domain for localization.
- *		'DomainPath' - Plugin's relative directory path to .mo files.
- *		'Network' - Boolean. Whether the plugin can only be activated network wide.
+ *
+ * - 'Name' - Name of the plugin, must be unique.
+ * - 'Title' - Title of the plugin and the link to the plugin's web site.
+ * - 'Description' - Description of what the plugin does and/or notes
+ * - from the author.
+ * - 'Author' - The author's name
+ * - 'AuthorURI' - The authors web site address.
+ * - 'Version' - The plugin version number.
+ * - 'PluginURI' - Plugin web site address.
+ * - 'TextDomain' - Plugin's text domain for localization.
+ * - 'DomainPath' - Plugin's relative directory path to .mo files.
+ * - 'Network' - Boolean. Whether the plugin can only be activated network wide.
  *
  * Some users have issues with opening large files and manipulating the contents
  * for want is usually the first 1kiB or 2kiB. This function stops pulling in
@@ -62,6 +61,7 @@
  *
  * @link https://core.trac.wordpress.org/ticket/5651 Previous Optimizations.
  * @link https://core.trac.wordpress.org/ticket/7372 Further and better Optimizations.
+ *
  * @since 1.5.0
  *
  * @param string $plugin_file Path to the plugin file
@@ -561,8 +561,8 @@ function activate_plugin( $plugin, $redirect = '', $network_wide = false, $silen
 			 * Fires as a specific plugin is being activated.
 			 *
 			 * This hook is the "activation" hook used internally by
-			 * register_activation_hook(). The dynamic portion of the
-			 * hook name, $plugin, refers to the plugin basename.
+			 * {@see register_activation_hook()}. The dynamic portion of the
+			 * hook name, `$plugin`, refers to the plugin basename.
 			 *
 			 * If a plugin is silently activated (such as during an update),
 			 * this hook does not fire.
@@ -674,8 +674,8 @@ function deactivate_plugins( $plugins, $silent = false, $network_wide = null ) {
 			 * Fires as a specific plugin is being deactivated.
 			 *
 			 * This hook is the "deactivation" hook used internally by
-			 * register_deactivation_hook(). The dynamic portion of the
-			 * hook name, $plugin, refers to the plugin basename.
+			 * {@see register_deactivation_hook()}. The dynamic portion of the
+			 * hook name, `$plugin`, refers to the plugin basename.
 			 *
 			 * If a plugin is silently deactivated (such as during an update),
 			 * this hook does not fire.
@@ -1119,7 +1119,7 @@ function add_utility_page( $page_title, $menu_title, $capability, $menu_slug, $f
  * @param string $menu_slug The slug name to refer to this menu by (should be unique for this menu)
  * @param callback $function The function to be called to output the content for this page.
  *
- * @return string|bool The resulting page's hook_suffix, or false if the user does not have the capability required.
+ * @return false|string The resulting page's hook_suffix, or false if the user does not have the capability required.
  */
 function add_submenu_page( $parent_slug, $page_title, $menu_title, $capability, $menu_slug, $function = '' ) {
 	global $submenu;
@@ -1189,7 +1189,7 @@ function add_submenu_page( $parent_slug, $page_title, $menu_title, $capability, 
  * @param string $menu_slug The slug name to refer to this menu by (should be unique for this menu)
  * @param callback $function The function to be called to output the content for this page.
  *
- * @return string|bool The resulting page's hook_suffix, or false if the user does not have the capability required.
+ * @return false|string The resulting page's hook_suffix, or false if the user does not have the capability required.
  */
 function add_management_page( $page_title, $menu_title, $capability, $menu_slug, $function = '' ) {
 	return add_submenu_page( 'tools.php', $page_title, $menu_title, $capability, $menu_slug, $function );
@@ -1210,7 +1210,7 @@ function add_management_page( $page_title, $menu_title, $capability, $menu_slug,
  * @param string $menu_slug The slug name to refer to this menu by (should be unique for this menu)
  * @param callback $function The function to be called to output the content for this page.
  *
- * @return string|bool The resulting page's hook_suffix, or false if the user does not have the capability required.
+ * @return false|string The resulting page's hook_suffix, or false if the user does not have the capability required.
  */
 function add_options_page( $page_title, $menu_title, $capability, $menu_slug, $function = '' ) {
 	return add_submenu_page( 'options-general.php', $page_title, $menu_title, $capability, $menu_slug, $function );
@@ -1231,7 +1231,7 @@ function add_options_page( $page_title, $menu_title, $capability, $menu_slug, $f
  * @param string $menu_slug The slug name to refer to this menu by (should be unique for this menu)
  * @param callback $function The function to be called to output the content for this page.
  *
- * @return string|bool The resulting page's hook_suffix, or false if the user does not have the capability required.
+ * @return false|string The resulting page's hook_suffix, or false if the user does not have the capability required.
  */
 function add_theme_page( $page_title, $menu_title, $capability, $menu_slug, $function = '' ) {
 	return add_submenu_page( 'themes.php', $page_title, $menu_title, $capability, $menu_slug, $function );
@@ -1252,7 +1252,7 @@ function add_theme_page( $page_title, $menu_title, $capability, $menu_slug, $fun
  * @param string $menu_slug The slug name to refer to this menu by (should be unique for this menu)
  * @param callback $function The function to be called to output the content for this page.
  *
- * @return string|bool The resulting page's hook_suffix, or false if the user does not have the capability required.
+ * @return false|string The resulting page's hook_suffix, or false if the user does not have the capability required.
  */
 function add_plugins_page( $page_title, $menu_title, $capability, $menu_slug, $function = '' ) {
 	return add_submenu_page( 'plugins.php', $page_title, $menu_title, $capability, $menu_slug, $function );
@@ -1273,7 +1273,7 @@ function add_plugins_page( $page_title, $menu_title, $capability, $menu_slug, $f
  * @param string $menu_slug The slug name to refer to this menu by (should be unique for this menu)
  * @param callback $function The function to be called to output the content for this page.
  *
- * @return string|bool The resulting page's hook_suffix, or false if the user does not have the capability required.
+ * @return false|string The resulting page's hook_suffix, or false if the user does not have the capability required.
  */
 function add_users_page( $page_title, $menu_title, $capability, $menu_slug, $function = '' ) {
 	if ( current_user_can('edit_users') )
@@ -1297,7 +1297,7 @@ function add_users_page( $page_title, $menu_title, $capability, $menu_slug, $fun
  * @param string $menu_slug The slug name to refer to this menu by (should be unique for this menu)
  * @param callback $function The function to be called to output the content for this page.
  *
- * @return string|bool The resulting page's hook_suffix, or false if the user does not have the capability required.
+ * @return false|string The resulting page's hook_suffix, or false if the user does not have the capability required.
  */
 function add_dashboard_page( $page_title, $menu_title, $capability, $menu_slug, $function = '' ) {
 	return add_submenu_page( 'index.php', $page_title, $menu_title, $capability, $menu_slug, $function );
@@ -1318,7 +1318,7 @@ function add_dashboard_page( $page_title, $menu_title, $capability, $menu_slug, 
  * @param string $menu_slug The slug name to refer to this menu by (should be unique for this menu)
  * @param callback $function The function to be called to output the content for this page.
  *
- * @return string|bool The resulting page's hook_suffix, or false if the user does not have the capability required.
+ * @return false|string The resulting page's hook_suffix, or false if the user does not have the capability required.
  */
 function add_posts_page( $page_title, $menu_title, $capability, $menu_slug, $function = '' ) {
 	return add_submenu_page( 'edit.php', $page_title, $menu_title, $capability, $menu_slug, $function );
@@ -1339,7 +1339,7 @@ function add_posts_page( $page_title, $menu_title, $capability, $menu_slug, $fun
  * @param string $menu_slug The slug name to refer to this menu by (should be unique for this menu)
  * @param callback $function The function to be called to output the content for this page.
  *
- * @return string|bool The resulting page's hook_suffix, or false if the user does not have the capability required.
+ * @return false|string The resulting page's hook_suffix, or false if the user does not have the capability required.
  */
 function add_media_page( $page_title, $menu_title, $capability, $menu_slug, $function = '' ) {
 	return add_submenu_page( 'upload.php', $page_title, $menu_title, $capability, $menu_slug, $function );
@@ -1360,7 +1360,7 @@ function add_media_page( $page_title, $menu_title, $capability, $menu_slug, $fun
  * @param string $menu_slug The slug name to refer to this menu by (should be unique for this menu)
  * @param callback $function The function to be called to output the content for this page.
  *
- * @return string|bool The resulting page's hook_suffix, or false if the user does not have the capability required.
+ * @return false|string The resulting page's hook_suffix, or false if the user does not have the capability required.
  */
 function add_links_page( $page_title, $menu_title, $capability, $menu_slug, $function = '' ) {
 	return add_submenu_page( 'link-manager.php', $page_title, $menu_title, $capability, $menu_slug, $function );
@@ -1381,7 +1381,7 @@ function add_links_page( $page_title, $menu_title, $capability, $menu_slug, $fun
  * @param string $menu_slug The slug name to refer to this menu by (should be unique for this menu)
  * @param callback $function The function to be called to output the content for this page.
  *
- * @return string|bool The resulting page's hook_suffix, or false if the user does not have the capability required.
+ * @return false|string The resulting page's hook_suffix, or false if the user does not have the capability required.
 */
 function add_pages_page( $page_title, $menu_title, $capability, $menu_slug, $function = '' ) {
 	return add_submenu_page( 'edit.php?post_type=page', $page_title, $menu_title, $capability, $menu_slug, $function );
@@ -1402,7 +1402,7 @@ function add_pages_page( $page_title, $menu_title, $capability, $menu_slug, $fun
  * @param string $menu_slug The slug name to refer to this menu by (should be unique for this menu)
  * @param callback $function The function to be called to output the content for this page.
  *
- * @return string|bool The resulting page's hook_suffix, or false if the user does not have the capability required.
+ * @return false|string The resulting page's hook_suffix, or false if the user does not have the capability required.
 */
 function add_comments_page( $page_title, $menu_title, $capability, $menu_slug, $function = '' ) {
 	return add_submenu_page( 'edit-comments.php', $page_title, $menu_title, $capability, $menu_slug, $function );

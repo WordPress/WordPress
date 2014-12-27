@@ -903,5 +903,4 @@ if ( ! $mod_sockets && function_exists( 'dl' ) && is_callable( 'dl' ) ) {
 	$mod_sockets = extension_loaded( 'sockets' );
 }
 
-require_once "class-ftp-" . ( $mod_sockets ? "sockets" : "pure" ) . ".php";
-?>
+require_once dirname( __FILE__ ) . "/class-ftp-" . ( $mod_sockets ? "sockets" : "pure" ) . ".php";

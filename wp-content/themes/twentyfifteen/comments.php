@@ -1,6 +1,6 @@
 <?php
 /**
- * The template for displaying comments.
+ * The template for displaying comments
  *
  * The area of the page that contains both current comments
  * and the comment form.
@@ -50,7 +50,7 @@ if ( post_password_required() ) {
 		// If comments are closed and there are comments, let's leave a little note, shall we?
 		if ( ! comments_open() && get_comments_number() && post_type_supports( get_post_type(), 'comments' ) ) :
 	?>
-		<p class="no-comments"><?php esc_html_e( 'Comments are closed.', 'twentyfifteen' ); ?></p>
+		<p class="no-comments"><?php _e( 'Comments are closed.', 'twentyfifteen' ); ?></p>
 	<?php endif; ?>
 
 	<?php comment_form(); ?>

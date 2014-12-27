@@ -744,7 +744,19 @@ function page_attributes_meta_box($post) {
 		?>
 <p><strong><?php _e('Template') ?></strong></p>
 <label class="screen-reader-text" for="page_template"><?php _e('Page Template') ?></label><select name="page_template" id="page_template">
-<option value='default'><?php _e('Default Template'); ?></option>
+<?php
+/**
+ * Filter the title of the default page template displayed in the drop-down.
+ *
+ * @since 4.1.0
+ *
+ * @param string $label   The display value for the default page template title.
+ * @param string $context Where the option label is displayed. Possible values
+ *                        include 'meta-box' or 'quick-edit'.
+ */
+$default_title = apply_filters( 'default_page_template_title',  __( 'Default Template' ), 'meta-box' );
+?> 
+<option value="default"><?php echo esc_html( $default_title ); ?></option>
 <?php page_template_dropdown($template); ?>
 </select>
 <?php

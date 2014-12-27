@@ -136,7 +136,11 @@ function check_comment($author, $email, $url, $comment, $user_ip, $user_agent, $
  * @return int|array $comments The approved comments, or number of comments if `$count`
  *                             argument is true.
  */
-function get_approved_comments( $post_id = 0, $args = array() ) {
+function get_approved_comments( $post_id, $args = array() ) {
+	if ( ! $post_id ) {
+		return array();
+	}
+
 	$defaults = array(
 		'status'  => 1,
 		'post_id' => $post_id,
@@ -1127,7 +1131,7 @@ function wp_allow_comment( $commentdata ) {
 		if ( defined( 'DOING_AJAX' ) ) {
 			die( __('Duplicate comment detected; it looks as though you&#8217;ve already said that!') );
 		}
-		wp_die( __('Duplicate comment detected; it looks as though you&#8217;ve already said that!') );
+		wp_die( __( 'Duplicate comment detected; it looks as though you&#8217;ve already said that!' ), 409 );
 	}
 
 	/**
@@ -1245,7 +1249,7 @@ function check_comment_flood_db( $ip, $email, $date ) {
 			if ( defined('DOING_AJAX') )
 				die( __('You are posting comments too quickly. Slow down.') );
 
-			wp_die( __('You are posting comments too quickly. Slow down.'), '', array('response' => 403) );
+			wp_die( __( 'You are posting comments too quickly. Slow down.' ), 429 );
 		}
 	}
 }
@@ -1741,7 +1745,7 @@ function wp_unspam_comment($comment_id) {
  * @since 1.0.0
  *
  * @param int $comment_id Comment ID
- * @return string|bool Status might be 'trash', 'approved', 'unapproved', 'spam'. False on failure.
+ * @return false|string Status might be 'trash', 'approved', 'unapproved', 'spam'. False on failure.
  */
 function wp_get_comment_status($comment_id) {
 	$comment = get_comment($comment_id);
@@ -1814,7 +1818,7 @@ function wp_transition_comment_status($new_status, $old_status, $comment) {
 		/**
 		 * Fires when the comment status is in transition from one specific status to another.
 		 *
-		 * The dynamic portions of the hook name, $old_status, and $new_status,
+		 * The dynamic portions of the hook name, `$old_status`, and `$new_status`,
 		 * refer to the old and new comment statuses, respectively.
 		 *
 		 * @since 2.7.0
@@ -1826,7 +1830,7 @@ function wp_transition_comment_status($new_status, $old_status, $comment) {
 	/**
 	 * Fires when the status of a specific comment type is in transition.
 	 *
-	 * The dynamic portions of the hook name, $new_status, and $comment->comment_type,
+	 * The dynamic portions of the hook name, `$new_status`, and `$comment->comment_type`,
 	 * refer to the new comment status, and the type of comment, respectively.
 	 *
 	 * Typical comment types include an empty string (standard comment), 'pingback',
@@ -2294,7 +2298,7 @@ function wp_defer_comment_counting($defer=null) {
  *
  * @param int $post_id Post ID
  * @param bool $do_deferred Whether to process previously deferred post comment counts
- * @return bool True on success, false on failure
+ * @return bool|null True on success, false on failure
  */
 function wp_update_comment_count($post_id, $do_deferred=false) {
 	static $_deferred = array();
@@ -2372,7 +2376,7 @@ function wp_update_comment_count_now($post_id) {
  *
  * @param string $url URL to ping.
  * @param int $deprecated Not Used.
- * @return bool|string False on failure, string containing URI on success.
+ * @return false|string False on failure, string containing URI on success.
  */
 function discover_pingback_server_uri( $url, $deprecated = '' ) {
 	if ( !empty( $deprecated ) )

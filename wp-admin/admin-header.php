@@ -34,7 +34,7 @@ else
 	$admin_title = sprintf( __( '%1$s &lsaquo; %2$s &#8212; WordPress' ), $title, $admin_title );
 
 /**
- * Filter the <title> content for an admin page.
+ * Filter the title tag content for an admin page.
  *
  * @since 3.1.0
  *
@@ -108,14 +108,17 @@ do_action( "admin_print_scripts-$hook_suffix" );
 do_action( 'admin_print_scripts' );
 
 /**
- * Fires in <head> for a specific admin page based on $hook_suffix.
+ * Fires in head section for a specific admin page.
+ *
+ * The dynamic portion of the hook, `$hook_suffix`, refers to the hook suffix
+ * for the admin page.
  *
  * @since 2.1.0
  */
 do_action( "admin_head-$hook_suffix" );
 
 /**
- * Fires in <head> for all admin pages.
+ * Fires in head section for all admin pages.
  *
  * @since 2.1.0
  */
@@ -159,18 +162,22 @@ $admin_body_class .= ' no-customize-support no-svg';
 </head>
 <?php
 /**
- * Filter the admin <body> CSS classes.
+ * Filter the CSS classes for the body tag in the admin.
  *
- * This filter differs from the post_class or body_class filters in two important ways:
- * 1. $classes is a space-separated string of class names instead of an array.
- * 2. Not all core admin classes are filterable, notably: wp-admin, wp-core-ui, and no-js cannot be removed.
+ * This filter differs from the {@see 'post_class'} and {@see 'body_class'} filters
+ * in two important ways:
+ *
+ * 1. `$classes` is a space-separated string of class names instead of an array.
+ * 2. Not all core admin classes are filterable, notably: wp-admin, wp-core-ui,
+ *    and no-js cannot be removed.
  *
  * @since 2.3.0
  *
- * @param string $classes Space-separated string of CSS classes.
+ * @param string $classes Space-separated list of CSS classes.
  */
+$admin_body_classes = apply_filters( 'admin_body_class', '' );
 ?>
-<body class="wp-admin wp-core-ui no-js <?php echo apply_filters( 'admin_body_class', '' ) . " $admin_body_class"; ?>">
+<body class="wp-admin wp-core-ui no-js <?php echo $admin_body_classes . ' ' . $admin_body_class; ?>">
 <script type="text/javascript">
 	document.body.className = document.body.className.replace('no-js','js');
 </script>

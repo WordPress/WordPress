@@ -117,7 +117,7 @@ tinymce.PluginManager.add( 'wpautoresize', function( editor ) {
 				resize( e );
 			}
 
-			editor.fire( 'wp-autoresize', { height: resizeHeight } );
+			editor.fire( 'wp-autoresize', { height: resizeHeight, deltaHeight: e.type === 'nodechange' ? deltaSize : null } );
 		}
 	}
 

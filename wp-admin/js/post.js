@@ -415,7 +415,7 @@ jQuery(document).ready( function($) {
 	}
 
 	// The form is being submitted by the user
-	$submitButtons = $submitpost.find( ':button, :submit, a.submitdelete, #post-preview' ).on( 'click.edit-post', function( event ) {
+	$submitButtons = $submitpost.find( ':submit, a.submitdelete, #post-preview' ).on( 'click.edit-post', function( event ) {
 		var $button = $(this);
 
 		if ( $button.hasClass('disabled') ) {

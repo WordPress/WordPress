@@ -337,7 +337,7 @@ function twentyeleven_admin_header_image() { ?>
 		else
 			$style = ' style="display:none"';
 		?>
-		<h1 class="displaying-header-text"><a id="name"<?php echo $style; ?> onclick="return false;" href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php bloginfo( 'name' ); ?></a></h1>
+		<h1 class="displaying-header-text"><a id="name"<?php echo $style; ?> onclick="return false;" href="<?php echo esc_url( home_url( '/' ) ); ?>" tabindex="-1"><?php bloginfo( 'name' ); ?></a></h1>
 		<div id="desc" class="displaying-header-text"<?php echo $style; ?>><?php bloginfo( 'description' ); ?></div>
 		<?php if ( $image ) : ?>
 			<img src="<?php echo esc_url( $image ); ?>" alt="" />

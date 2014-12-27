@@ -401,6 +401,12 @@ function wp_read_image_metadata( $file ) {
 		}
 	}
 
+	foreach ( $meta as &$value ) {
+		if ( is_string( $value ) ) {
+			$value = wp_kses_post( $value );
+		}
+	}
+
 	/**
 	 * Filter the array of meta data read from an image's exif data.
 	 *

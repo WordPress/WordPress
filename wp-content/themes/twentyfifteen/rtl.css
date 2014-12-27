@@ -4,7 +4,7 @@ Description: Adds support for languages written in a Right To Left (RTL) directi
 It's easy, just a matter of overwriting all the horizontal positioning attributes
 of your CSS stylesheet in a separate stylesheet file named rtl.css.
 
-See http://codex.wordpress.org/Right_to_Left_Language_Support
+See: https://codex.wordpress.org/Right_to_Left_Language_Support
 */
 
 /**
@@ -42,10 +42,6 @@ body {
 	unicode-bidi: embed;
 }
 
-a {
-	display: inline-block;
-}
-
 caption,
 th,
 td {
@@ -56,6 +52,66 @@ td {
 /**
  * 2.0 Typography
  */
+
+body,
+button,
+input[type="button"],
+input[type="reset"],
+input[type="submit"],
+input,
+select,
+textarea,
+blockquote cite,
+blockquote small,
+.post-password-form label,
+.main-navigation .menu-item-description,
+.post-navigation .meta-nav,
+.post-navigation .post-title,
+.pagination,
+.image-navigation,
+.comment-navigation,
+.site-title,
+.site-description,
+.widget-title,
+.widget_calendar caption,
+.widget_rss .rss-date,
+.widget_rss cite,
+.author-heading,
+.entry-footer,
+.page-title,
+.page-links,
+.entry-caption,
+.comments-title,
+.comment-reply-title,
+.comment-metadata,
+.pingback .edit-link,
+.comment-list .reply a,
+.comment-form label,
+.comment-notes,
+.comment-awaiting-moderation,
+.logged-in-as,
+.form-allowed-tags,
+.no-comments,
+.wp-caption-text,
+.gallery-caption {
+	font-family: Arial, Tahoma, sans-serif;
+}
+
+::-webkit-input-placeholder {
+	font-family: Arial, Tahoma, sans-serif;
+}
+
+:-moz-placeholder {
+	font-family: Arial, Tahoma, sans-serif;
+}
+
+::-moz-placeholder {
+	font-family: Arial, Tahoma, sans-serif;
+}
+
+:-ms-input-placeholder {
+	font-family: Arial, Tahoma, sans-serif;
+}
 
 blockquote {
 	border-right: 4px solid rgba(51, 51, 51, 0.7);
@@ -72,12 +128,6 @@ blockquote {
 ul,
 ol {
 	margin: 0 1.3333em 1.6em 0;
-}
-
-li > ul,
-li > ol {
-	margin-right: 1.3333em;
-	margin-left: auto;
 }
 
 caption,
@@ -136,24 +186,9 @@ td {
 	left: 0;
 }
 
-.secondary-toggle:before {
-	right: 0;
-	left: auto;
-}
-
-.secondary-toggle.toggled-on:before {
-	right: 0;
-	left: auto;
-}
-
 .post-navigation .has-post-thumbnail a:before {
 	right: 0;
 	left: auto;
-}
-
-.pagination .meta-nav {
-	margin-right: auto;
-	margin-left: 0.3333em;
 }
 
 .pagination .prev {
@@ -267,13 +302,6 @@ img.alignleft {
 	content: "\f430";
 }
 
-.entry-content a,
-.entry-summary a,
-.page-content a,
-.comment-content a {
-	display: inline;
-}
-
 .author-link:after {
 	content: "\f430";
 }
@@ -308,7 +336,7 @@ img.alignleft {
 
 .page-links a,
 .page-links > span {
-	margin: 0 0 2px 1px;
+	margin: 0 0 0.3333em 0.3333em;
 }
 
 .page-links > .page-links-title {
@@ -385,6 +413,14 @@ img.alignleft {
 		margin-left: auto;
 	}
 
+	li > ul,
+	li > ol,
+	blockquote > ul,
+	blockquote > ol {
+		margin-right: 1.3333em;
+		margin-left: auto;
+	}
+
 	blockquote {
 		margin-right: -1em;
 		margin-left: auto;
@@ -409,8 +445,16 @@ img.alignleft {
 	}
 
 	.comment-content ul,
-		.comment-content ol {
+	.comment-content ol {
 		margin-right: 0;
+		margin-left: auto;
+	}
+
+	.comment-content li > ul,
+	.comment-content li > ol,
+	.comment-content blockquote > ul,
+	.comment-content blockquote > ol {
+		margin-right: 1.3333em;
 		margin-left: auto;
 	}
 }
@@ -486,6 +530,11 @@ img.alignleft {
 		margin: 0.9643em 1em 0 0;
 	}
 
+	.page-links a,
+	.page-links > span {
+		margin: 0 0 0.2857em 0.2857em;
+	}
+
 	.author-info .avatar {
 		margin: 0 0 1.6471em 1.6471em;
 	}
@@ -552,6 +601,11 @@ img.alignleft {
 	.widget_nav_menu .sub-menu,
 	.widget_pages .children {
 		margin: 0.7188em 1em 0 0;
+	}
+
+	.page-links a,
+	.page-links > span {
+		margin: 0 0 0.25em 0.25em;
 	}
 
 	.author-info .avatar {
@@ -629,6 +683,11 @@ img.alignleft {
 		margin: 0.4583em 1em 0 0;
 	}
 
+	.page-links a,
+	.page-links > span {
+		margin: 0 0 0.3333em 0.3333em;
+	}
+
 	.author-info .avatar {
 		margin: 0 0 1.5em 1.5em;
 	}
@@ -699,6 +758,11 @@ img.alignleft {
 		margin: 0.4643em 1em 0 0;
 	}
 
+	.page-links a,
+	.page-links > span {
+		margin: 0 0 0.2857em 0.2857em;
+	}
+
 	.author-info .avatar {
 		margin: 0 0 1.6471em 1.6471em;
 	}
@@ -758,6 +822,11 @@ img.alignleft {
 	.widget_nav_menu .sub-menu,
 	.widget_pages .children {
 		margin: 0.4688em 1em 0 0;
+	}
+
+	.page-links a,
+	.page-links > span {
+		margin: 0 0 0.25em 0.25em;
 	}
 
 	.author-info .avatar {

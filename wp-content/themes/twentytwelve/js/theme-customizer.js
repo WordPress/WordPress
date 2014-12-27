@@ -53,12 +53,13 @@
 		value.bind( function( to ) {
 			var body = $( 'body' );
 
-			if ( '' != to )
+			if ( '' !== to ) {
 				body.removeClass( 'custom-background-empty custom-background-white' );
-			else if ( 'rgb(255, 255, 255)' == body.css( 'background-color' ) )
+			} else if ( 'rgb(255, 255, 255)' === body.css( 'background-color' ) ) {
 				body.addClass( 'custom-background-white' );
-			else if ( 'rgb(230, 230, 230)' == body.css( 'background-color' ) && '' == _wpCustomizeSettings.values.background_color )
+			} else if ( 'rgb(230, 230, 230)' === body.css( 'background-color' ) && '' === wp.customize.instance( 'background_color' ).get() ) {
 				body.addClass( 'custom-background-empty' );
+			}
 		} );
 	} );
 } )( jQuery );

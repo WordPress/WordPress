@@ -13,7 +13,7 @@ define( 'IFRAME_REQUEST', true );
 require_once( dirname( __FILE__ ) . '/admin.php' );
 
 if ( ! current_user_can( 'customize' ) ) {
-	wp_die( __( 'Cheatin&#8217; uh?' ) );
+	wp_die( __( 'Cheatin&#8217; uh?' ), 403 );
 }
 
 wp_reset_vars( array( 'url', 'return' ) );
@@ -76,14 +76,23 @@ endif;
 
 $is_ios = wp_is_mobile() && preg_match( '/iPad|iPod|iPhone/', $_SERVER['HTTP_USER_AGENT'] );
 
-if ( $is_ios )
+if ( $is_ios ) {
 	$body_class .= ' ios';
+}
 
-if ( is_rtl() )
-	$body_class .=  ' rtl';
+if ( is_rtl() ) {
+	$body_class .= ' rtl';
+}
 $body_class .= ' locale-' . sanitize_html_class( strtolower( str_replace( '_', '-', get_locale() ) ) );
 
-$admin_title = sprintf( __( '%1$s &#8212; WordPress' ), strip_tags( sprintf( __( 'Customize %s' ), $wp_customize->theme()->display('Name') ) ) );
+if ( $wp_customize->is_theme_active() ) {
+	$document_title_tmpl = _x( 'Customize: %s', 'Placeholder is the document title from the preview' );
+} else {
+	$document_title_tmpl = _x( 'Live Preview: %s', 'Placeholder is the document title from the preview' );
+}
+$document_title_tmpl = html_entity_decode( $document_title_tmpl, ENT_QUOTES, 'UTF-8' ); // because exported to JS and assigned to document.title
+$admin_title = sprintf( $document_title_tmpl, __( 'Loading&hellip;' ) );
+
 ?><title><?php echo $admin_title; ?></title>
 
 <script type="text/javascript">
@@ -109,6 +118,7 @@ do_action( 'customize_controls_print_scripts' );
 <body class="<?php echo esc_attr( $body_class ); ?>">
 <div class="wp-full-overlay expanded">
 	<form id="customize-controls" class="wrap wp-full-overlay-sidebar">
+		<div id="screen-reader-messages" aria-live="polite" aria-relevant="all" aria-role="status" aria-atomic="true" class="screen-reader-text"></div>
 
 		<div id="customize-header-actions" class="wp-full-overlay-header">
 			<?php
@@ -223,7 +233,7 @@ do_action( 'customize_controls_print_scripts' );
 		'customize-login' => 1
 	), wp_login_url() );
 
-	// Prepare Customizer settings to pass to Javascript.
+	// Prepare Customizer settings to pass to JavaScript.
 	$settings = array(
 		'theme'    => array(
 			'stylesheet' => $wp_customize->get_stylesheet(),
@@ -253,9 +263,10 @@ do_action( 'customize_controls_print_scripts' );
 			'preview' => wp_create_nonce( 'preview-customize_' . $wp_customize->get_stylesheet() )
 		),
 		'autofocus' => array(),
+		'documentTitleTmpl' => $document_title_tmpl,
 	);
 
-	// Prepare Customize Setting objects to pass to Javascript.
+	// Prepare Customize Setting objects to pass to JavaScript.
 	foreach ( $wp_customize->settings() as $id => $setting ) {
 		$settings['settings'][ $id ] = array(
 			'value'     => $setting->js_value(),

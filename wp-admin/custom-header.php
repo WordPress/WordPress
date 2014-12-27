@@ -362,7 +362,7 @@ class Custom_Image_Header {
 	}
 
 	/**
-	 * Execute Javascript depending on step.
+	 * Execute JavaScript depending on step.
 	 *
 	 * @since 2.1.0
 	 */
@@ -375,7 +375,7 @@ class Custom_Image_Header {
 	}
 
 	/**
-	 * Display Javascript based on Step 1 and 3.
+	 * Display JavaScript based on Step 1 and 3.
 	 *
 	 * @since 2.6.0
 	 */
@@ -439,7 +439,7 @@ class Custom_Image_Header {
 	}
 
 	/**
-	 * Display Javascript based on Step 2.
+	 * Display JavaScript based on Step 2.
 	 *
 	 * @since 2.6.0
 	 */
@@ -524,6 +524,19 @@ class Custom_Image_Header {
 <div class="wrap">
 <h2><?php _e( 'Custom Header' ); ?></h2>
 
+<?php if ( current_user_can( 'customize' ) ) { ?>
+<div class="notice notice-info hide-if-no-customize">
+	<p>
+		<?php
+		printf(
+			__( 'You can now manage and live-preview Custom Header in the <a href="%1$s">Customizer</a>.' ),
+			admin_url( 'customize.php?autofocus[control]=header_image' )
+		);
+		?>
+	</p>
+</div>
+<?php } ?>
+
 <?php if ( ! empty( $this->updated ) ) { ?>
 <div id="message" class="updated">
 <p><?php printf( __( 'Header updated. <a href="%s">Visit your site</a> to see how it looks.' ), home_url( '/' ) ); ?></p>
@@ -557,7 +570,7 @@ class Custom_Image_Header {
 		else
 			$style = ' style="display:none;"';
 		?>
-		<h1><a id="name" class="displaying-header-text" <?php echo $style; ?> onclick="return false;" href="<?php bloginfo('url'); ?>"><?php bloginfo( 'name' ); ?></a></h1>
+		<h1><a id="name" class="displaying-header-text" <?php echo $style; ?> onclick="return false;" href="<?php bloginfo('url'); ?>" tabindex="-1"><?php bloginfo( 'name' ); ?></a></h1>
 		<div id="desc" class="displaying-header-text" <?php echo $style; ?>><?php bloginfo( 'description' ); ?></div>
 	</div>
 	<?php } ?>
@@ -604,10 +617,10 @@ class Custom_Image_Header {
 	?>
 	<p>
 		<label for="choose-from-library-link"><?php _e( 'Or choose an image from your media library:' ); ?></label><br />
-		<a id="choose-from-library-link" class="button"
+		<button id="choose-from-library-link" class="button"
 			data-update-link="<?php echo esc_attr( $modal_update_href ); ?>"
 			data-choose="<?php esc_attr_e( 'Choose a Custom Header' ); ?>"
-			data-update="<?php esc_attr_e( 'Set as header' ); ?>"><?php _e( 'Choose Image' ); ?></a>
+			data-update="<?php esc_attr_e( 'Set as header' ); ?>"><?php _e( 'Choose Image' ); ?></button>
 	</p>
 	</form>
 </td>
@@ -739,7 +752,7 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 	public function step_2() {
 		check_admin_referer('custom-header-upload', '_wpnonce-custom-header-upload');
 		if ( ! current_theme_supports( 'custom-header', 'uploads' ) )
-			wp_die( __( 'Cheatin&#8217; uh?' ) );
+			wp_die( __( 'Cheatin&#8217; uh?' ), 403 );
 
 		if ( empty( $_POST ) && isset( $_GET['file'] ) ) {
 			$attachment_id = absint( $_GET['file'] );
@@ -890,10 +903,10 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 		check_admin_referer( 'custom-header-crop-image' );
 
 		if ( ! current_theme_supports( 'custom-header', 'uploads' ) )
-			wp_die( __( 'Cheatin&#8217; uh?' ) );
+			wp_die( __( 'Cheatin&#8217; uh?' ), 403 );
 
 		if ( ! empty( $_POST['skip-cropping'] ) && ! ( current_theme_supports( 'custom-header', 'flex-height' ) || current_theme_supports( 'custom-header', 'flex-width' ) ) )
-			wp_die( __( 'Cheatin&#8217; uh?' ) );
+			wp_die( __( 'Cheatin&#8217; uh?' ), 403 );
 
 		if ( $_POST['oitar'] > 1 ) {
 			$_POST['x1'] = $_POST['x1'] * $_POST['oitar'];

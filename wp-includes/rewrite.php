@@ -226,22 +226,20 @@ define( 'EP_ALL', EP_PERMALINK | EP_ATTACHMENT | EP_ROOT | EP_COMMENTS | EP_SEAR
  * Adding an endpoint creates extra rewrite rules for each of the matching
  * places specified by the provided bitmask. For example:
  *
- * <code>
- * add_rewrite_endpoint( 'json', EP_PERMALINK | EP_PAGES );
- * </code>
+ *     add_rewrite_endpoint( 'json', EP_PERMALINK | EP_PAGES );
  *
  * will add a new rewrite rule ending with "json(/(.*))?/?$" for every permastruct
  * that describes a permalink (post) or page. This is rewritten to "json=$match"
  * where $match is the part of the URL matched by the endpoint regex (e.g. "foo" in
- * "<permalink>/json/foo/").
+ * "[permalink]/json/foo/").
  *
  * A new query var with the same name as the endpoint will also be created.
  *
  * When specifying $places ensure that you are using the EP_* constants (or a
  * combination of them using the bitwise OR operator) as their values are not
- * guaranteed to remain static (especially EP_ALL).
+ * guaranteed to remain static (especially `EP_ALL`).
  *
- * Be sure to flush the rewrite rules - flush_rewrite_rules() - when your plugin gets
+ * Be sure to flush the rewrite rules - {@see flush_rewrite_rules()} - when your plugin gets
  * activated and deactivated.
  *
  * @since 2.1.0
@@ -365,7 +363,7 @@ function url_to_postid($url) {
 		if ( preg_match("#^$match#", $request_match, $matches) ) {
 
 			if ( $wp_rewrite->use_verbose_page_rules && preg_match( '/pagename=\$matches\[([0-9]+)\]/', $query, $varmatch ) ) {
-				// this is a verbose page match, lets check to be sure about it
+				// This is a verbose page match, let's check to be sure about it.
 				if ( ! get_page_by_path( $matches[ $varmatch[1] ] ) )
 					continue;
 			}
@@ -911,7 +909,7 @@ class WP_Rewrite {
 	 * @since 1.5.0
 	 * @access public
 	 *
-	 * @return bool|string False on no permalink structure. Date permalink structure.
+	 * @return string|false False on no permalink structure. Date permalink structure.
 	 */
 	public function get_date_permastruct() {
 		if ( isset($this->date_structure) )
@@ -965,7 +963,7 @@ class WP_Rewrite {
 	 * @since 1.5.0
 	 * @access public
 	 *
-	 * @return bool|string False on failure. Year structure on success.
+	 * @return false|string False on failure. Year structure on success.
 	 */
 	public function get_year_permastruct() {
 		$structure = $this->get_date_permastruct();
@@ -990,7 +988,7 @@ class WP_Rewrite {
 	 * @since 1.5.0
 	 * @access public
 	 *
-	 * @return bool|string False on failure. Year/Month structure on success.
+	 * @return false|string False on failure. Year/Month structure on success.
 	 */
 	public function get_month_permastruct() {
 		$structure = $this->get_date_permastruct();
@@ -1013,7 +1011,7 @@ class WP_Rewrite {
 	 * @since 1.5.0
 	 * @access public
 	 *
-	 * @return bool|string False on failure. Year/Month/Day structure on success.
+	 * @return string|false False on failure. Year/Month/Day structure on success.
 	 */
 	public function get_day_permastruct() {
 		return $this->get_date_permastruct();
@@ -1082,7 +1080,7 @@ class WP_Rewrite {
 	 * @since 1.5.0
 	 * @access public
 	 *
-	 * @return string|bool False if not found. Permalink structure string.
+	 * @return string|false False if not found. Permalink structure string.
 	 */
 	public function get_author_permastruct() {
 		if ( isset($this->author_structure) )
@@ -1108,7 +1106,7 @@ class WP_Rewrite {
 	 * @since 1.5.0
 	 * @access public
 	 *
-	 * @return string|bool False if not found. Permalink structure string.
+	 * @return string|false False if not found. Permalink structure string.
 	 */
 	public function get_search_permastruct() {
 		if ( isset($this->search_structure) )
@@ -1134,7 +1132,7 @@ class WP_Rewrite {
 	 * @since 1.5.0
 	 * @access public
 	 *
-	 * @return string|bool False if not found. Permalink structure string.
+	 * @return string|false False if not found. Permalink structure string.
 	 */
 	public function get_page_permastruct() {
 		if ( isset($this->page_structure) )
@@ -1160,7 +1158,7 @@ class WP_Rewrite {
 	 * @since 1.5.0
 	 * @access public
 	 *
-	 * @return string|bool False if not found. Permalink structure string.
+	 * @return string|false False if not found. Permalink structure string.
 	 */
 	public function get_feed_permastruct() {
 		if ( isset($this->feed_structure) )
@@ -1290,6 +1288,7 @@ class WP_Rewrite {
 		$trackbackindex = $index;
 		//build a list from the rewritecode and queryreplace arrays, that will look something like
 		//tagname=$matches[i] where i is the current $i
+		$queries = array();
 		for ( $i = 0; $i < $num_tokens; ++$i ) {
 			if ( 0 < $i )
 				$queries[$i] = $queries[$i - 1] . '&';
@@ -1330,7 +1329,7 @@ class WP_Rewrite {
 			$num_toks = preg_match_all('/%.+?%/', $struct, $toks);
 
 			//get the 'tagname=$matches[i]'
-			$query = ( isset($queries) && is_array($queries) && !empty($num_toks) ) ? $queries[$num_toks - 1] : '';
+			$query = ( ! empty( $num_toks ) && isset( $queries[$num_toks - 1] ) ) ? $queries[$num_toks - 1] : '';
 
 			//set up $ep_mask_specific which is used to match more specific URL types
 			switch ( $dirs[$j] ) {
@@ -1678,7 +1677,7 @@ class WP_Rewrite {
 			/**
 			 * Filter rewrite rules used for individual permastructs.
 			 *
-			 * The dynamic portion of the hook name, $permastructname, refers
+			 * The dynamic portion of the hook name, `$permastructname`, refers
 			 * to the name of the registered permastruct, e.g. 'post_tag' (tags),
 			 * 'category' (categories), etc.
 			 *

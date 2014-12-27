@@ -24,9 +24,9 @@ class WP_List_Table {
 	 *
 	 * @since 3.1.0
 	 * @var array
-	 * @access private
+	 * @access protected
 	 */
-	private $_args;
+	protected $_args;
 
 	/**
 	 * Various information needed for displaying the pagination
@@ -65,7 +65,7 @@ class WP_List_Table {
 	private $_pagination;
 
 	/**
-	 * The view switcher modes
+	 * The view switcher modes.
 	 *
 	 * @since 4.1.0
 	 * @var array
@@ -342,7 +342,7 @@ class WP_List_Table {
 		/**
 		 * Filter the list of available list table views.
 		 *
-		 * The dynamic portion of the hook name, $this->screen->id, refers
+		 * The dynamic portion of the hook name, `$this->screen->id`, refers
 		 * to the ID of the current screen, usually a string.
 		 *
 		 * @since 3.5.0
@@ -390,7 +390,7 @@ class WP_List_Table {
 			/**
 			 * Filter the list table Bulk Actions drop-down.
 			 *
-			 * The dynamic portion of the hook name, $this->screen->id, refers
+			 * The dynamic portion of the hook name, `$this->screen->id`, refers
 			 * to the ID of the current screen, usually a string.
 			 *
 			 * This filter can currently only be used to remove bulk actions.
@@ -479,6 +479,8 @@ class WP_List_Table {
 	 *
 	 * @since 3.1.0
 	 * @access protected
+	 *
+	 * @param string $post_type
 	 */
 	protected function months_dropdown( $post_type ) {
 		global $wpdb, $wp_locale;
@@ -535,6 +537,8 @@ class WP_List_Table {
 	 *
 	 * @since 3.1.0
 	 * @access protected
+	 *
+	 * @param string $current_mode
 	 */
 	protected function view_switcher( $current_mode ) {
 ?>
@@ -601,6 +605,8 @@ class WP_List_Table {
 	 * @since 3.1.0
 	 * @access protected
 	 *
+	 * @param string $option
+	 * @param int    $default
 	 * @return int
 	 */
 	protected function get_items_per_page( $option, $default = 20 ) {
@@ -629,6 +635,8 @@ class WP_List_Table {
 	 *
 	 * @since 3.1.0
 	 * @access protected
+	 *
+	 * @param string $which
 	 */
 	protected function pagination( $which ) {
 		if ( empty( $this->_pagination_args ) ) {
@@ -766,7 +774,7 @@ class WP_List_Table {
 		/**
 		 * Filter the list table sortable columns for a specific screen.
 		 *
-		 * The dynamic portion of the hook name, $this->screen->id, refers
+		 * The dynamic portion of the hook name, `$this->screen->id`, refers
 		 * to the ID of the current screen, usually a string.
 		 *
 		 * @since 3.5.0
@@ -913,12 +921,12 @@ class WP_List_Table {
 	}
 
 	/**
-	 * Get a list of CSS classes for the <table> tag
+	 * Get a list of CSS classes for the list table table tag.
 	 *
 	 * @since 3.1.0
 	 * @access protected
 	 *
-	 * @return array
+	 * @return array List of CSS classes for the table tag.
 	 */
 	protected function get_table_classes() {
 		return array( 'widefat', 'fixed', $this->_args['plural'] );
@@ -929,6 +937,7 @@ class WP_List_Table {
 	 *
 	 * @since 3.1.0
 	 * @access protected
+	 * @param string $which
 	 */
 	protected function display_tablenav( $which ) {
 		if ( 'top' == $which )
@@ -954,11 +963,13 @@ class WP_List_Table {
 	 *
 	 * @since 3.1.0
 	 * @access protected
+	 *
+	 * @param string $which
 	 */
 	protected function extra_tablenav( $which ) {}
 
 	/**
-	 * Generate the <tbody> part of the table
+	 * Generate the tbody element for the list table.
 	 *
 	 * @since 3.1.0
 	 * @access public

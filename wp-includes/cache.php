@@ -664,6 +664,9 @@ class WP_Object_Cache {
 	 * @since 3.4.0
 	 *
 	 * @access protected
+	 * @param string $key
+	 * @param string $group
+	 * @return bool
 	 */
 	protected function _exists( $key, $group ) {
 		return isset( $this->cache[ $group ] ) && ( isset( $this->cache[ $group ][ $key ] ) || array_key_exists( $key, $this->cache[ $group ] ) );

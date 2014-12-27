@@ -25,7 +25,7 @@ function get_column_headers( $screen ) {
 		/**
 		 * Filter the column headers for a list table on a specific screen.
 		 *
-		 * The dynamic portion of the hook name, $screen->id, refers to the
+		 * The dynamic portion of the hook name, `$screen->id`, refers to the
 		 * ID of a specific screen. For example, the screen ID for the Posts
 		 * list table is edit-post, so the filter for that screen would be
 		 * manage_edit-post_columns.
@@ -60,7 +60,7 @@ function get_hidden_columns( $screen ) {
  *
  * @since 2.7.0
  *
- * @param string|WP_Screen $screen
+ * @param WP_Screen $screen
  */
 function meta_box_prefs( $screen ) {
 	global $wp_meta_boxes;
@@ -368,7 +368,7 @@ final class WP_Screen {
 	 * @since 3.3.0
 	 * @access public
 	 *
-	 * @param string $hook_name Optional. The hook name (also known as the hook suffix) used to determine the screen.
+	 * @param string|WP_Screen $hook_name Optional. The hook name (also known as the hook suffix) used to determine the screen.
 	 * 	Defaults to the current $hook_suffix global.
 	 * @return WP_Screen Screen object.
 	 */
@@ -647,8 +647,10 @@ final class WP_Screen {
 	 *
 	 * @since 3.3.0
 	 *
-	 * @param string $option Option ID.
-	 * @param mixed $key Optional. Specific array key for when the option is an array.
+	 * @param string $option Option name.
+	 * @param string $key    Optional. Specific array key for when the option is an array.
+	 *                       Default false.
+	 * @return string The option value if set, null otherwise.
 	 */
 	public function get_option( $option, $key = false ) {
 		if ( ! isset( $this->_options[ $option ] ) )
@@ -973,7 +975,7 @@ final class WP_Screen {
 			case 'post' :
 				$expand = '<div class="editor-expand hidden"><label for="editor-expand-toggle">';
 				$expand .= '<input type="checkbox" id="editor-expand-toggle"' . checked( get_user_setting( 'editor_expand', 'on' ), 'on', false ) . ' />';
-				$expand .= __( 'Expand the editor to match the window height.' ) . '</label></div>';
+				$expand .= __( 'Enable full-height editor and distraction-free functionality.' ) . '</label></div>';
 				$this->_screen_settings = $expand;
 				break;
 			default:

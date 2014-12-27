@@ -21,9 +21,7 @@
  *
  * To apply shortcode tags to content:
  *
- * <code>
- * $out = do_shortcode($content);
- * </code>
+ *     $out = do_shortcode( $content );
  *
  * @link http://codex.wordpress.org/Shortcode_API
  *
@@ -52,38 +50,34 @@ $shortcode_tags = array();
  *
  * Simplest example of a shortcode tag using the API:
  *
- * <code>
- * // [footag foo="bar"]
- * function footag_func($atts) {
- * 	return "foo = {$atts[foo]}";
- * }
- * add_shortcode('footag', 'footag_func');
- * </code>
+ *     // [footag foo="bar"]
+ *     function footag_func( $atts ) {
+ *         return "foo = {
+ *             $atts[foo]
+ *         }";
+ *     }
+ *     add_shortcode( 'footag', 'footag_func' );
  *
  * Example with nice attribute defaults:
  *
- * <code>
- * // [bartag foo="bar"]
- * function bartag_func($atts) {
- * 	$args = shortcode_atts(array(
- * 		'foo' => 'no foo',
- * 		'baz' => 'default baz',
- * 	), $atts);
+ *     // [bartag foo="bar"]
+ *     function bartag_func( $atts ) {
+ *         $args = shortcode_atts( array(
+ *             'foo' => 'no foo',
+ *             'baz' => 'default baz',
+ *         ), $atts );
  *
- * 	return "foo = {$args['foo']}";
- * }
- * add_shortcode('bartag', 'bartag_func');
- * </code>
+ *         return "foo = {$args['foo']}";
+ *     }
+ *     add_shortcode( 'bartag', 'bartag_func' );
  *
  * Example with enclosed content:
  *
- * <code>
- * // [baztag]content[/baztag]
- * function baztag_func($atts, $content='') {
- * 	return "content = $content";
- * }
- * add_shortcode('baztag', 'baztag_func');
- * </code>
+ *     // [baztag]content[/baztag]
+ *     function baztag_func( $atts, $content = '' ) {
+ *         return "content = $content";
+ *     }
+ *     add_shortcode( 'baztag', 'baztag_func' );
  *
  * @since 2.5.0
  *

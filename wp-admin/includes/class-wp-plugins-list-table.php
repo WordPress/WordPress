@@ -191,6 +191,11 @@ class WP_Plugins_List_Table extends WP_List_Table {
 		) );
 	}
 
+	/**
+	 * @staticvar string $term
+	 * @param array $plugin
+	 * @return boolean
+	 */
 	public function _search_callback( $plugin ) {
 		static $term;
 		if ( is_null( $term ) )
@@ -205,6 +210,13 @@ class WP_Plugins_List_Table extends WP_List_Table {
 		return false;
 	}
 
+	/**
+	 * @global string $orderby
+	 * @global string $order
+	 * @param array $plugin_a
+	 * @param array $plugin_b
+	 * @return int
+	 */
 	public function _order_callback( $plugin_a, $plugin_b ) {
 		global $orderby, $order;
 
@@ -308,6 +320,11 @@ class WP_Plugins_List_Table extends WP_List_Table {
 		return $actions;
 	}
 
+	/**
+	 * @global string $status
+	 * @param string $which
+	 * @return null
+	 */
 	public function bulk_actions( $which = '' ) {
 		global $status;
 
@@ -317,6 +334,11 @@ class WP_Plugins_List_Table extends WP_List_Table {
 		parent::bulk_actions( $which );
 	}
 
+	/**
+	 * @global string $status
+	 * @param string $which
+	 * @return null
+	 */
 	protected function extra_tablenav( $which ) {
 		global $status;
 
@@ -352,6 +374,13 @@ class WP_Plugins_List_Table extends WP_List_Table {
 			$this->single_row( array( $plugin_file, $plugin_data ) );
 	}
 
+	/**
+	 * @global string $status
+	 * @global int $page
+	 * @global string $s
+	 * @global array $totals
+	 * @param array $item
+	 */
 	public function single_row( $item ) {
 		global $status, $page, $s, $totals;
 
@@ -424,7 +453,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 		/**
 		 * Filter the action links displayed for each plugin in the Plugins list table.
 		 *
-		 * The dynamic portion of the hook name, $prefix, refers to the context the
+		 * The dynamic portion of the hook name, `$prefix`, refers to the context the
 		 * action links are displayed in. The 'network_admin_' prefix is used if the
 		 * current screen is the Network plugins list table. The prefix is empty ('')
 		 * if the current screen is the site plugins list table.
@@ -589,7 +618,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 		/**
 		 * Fires after each specific row in the Plugins list table.
 		 *
-		 * The dynamic portion of the hook name, $plugin_file, refers to the path
+		 * The dynamic portion of the hook name, `$plugin_file`, refers to the path
 		 * to the plugin file, relative to the plugins directory.
 		 *
 		 * @since 2.7.0

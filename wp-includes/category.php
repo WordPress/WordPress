@@ -24,13 +24,14 @@ function get_categories( $args = '' ) {
 	$args = wp_parse_args( $args, $defaults );
 
 	$taxonomy = $args['taxonomy'];
+
 	/**
-	 * Filter the taxonomy used to retrieve terms when calling get_categories().
+	 * Filter the taxonomy used to retrieve terms when calling {@see get_categories()}.
 	 *
 	 * @since 2.7.0
 	 *
 	 * @param string $taxonomy Taxonomy to retrieve terms from.
-	 * @param array  $args     An array of arguments. @see get_terms()
+	 * @param array  $args     An array of arguments. See {@see get_terms()}.
 	 */
 	$taxonomy = apply_filters( 'get_categories_taxonomy', $taxonomy, $args );
 

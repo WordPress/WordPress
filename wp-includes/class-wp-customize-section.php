@@ -112,14 +112,16 @@ class WP_Customize_Section {
 	public $controls;
 
 	/**
+	 * Type of this section.
+	 *
 	 * @since 4.1.0
 	 * @access public
 	 * @var string
 	 */
-	public $type;
+	public $type = 'default';
 
 	/**
-	 * Callback.
+	 * Active callback.
 	 *
 	 * @since 4.1.0
 	 * @access public
@@ -127,8 +129,8 @@ class WP_Customize_Section {
 	 * @see WP_Customize_Section::active()
 	 *
 	 * @var callable Callback is called with one argument, the instance of
-	 *               WP_Customize_Section, and returns bool to indicate whether
-	 *               the section is active (such as it relates to the URL
+	 *               {@see WP_Customize_Section}, and returns bool to indicate
+	 *               whether the section is active (such as it relates to the URL
 	 *               currently being previewed).
 	 */
 	public $active_callback = '';
@@ -178,12 +180,12 @@ class WP_Customize_Section {
 		$active = call_user_func( $this->active_callback, $this );
 
 		/**
-		 * Filter response of WP_Customize_Section::active().
+		 * Filter response of {@see WP_Customize_Section::active()}.
 		 *
 		 * @since 4.1.0
 		 *
 		 * @param bool                 $active  Whether the Customizer section is active.
-		 * @param WP_Customize_Section $section WP_Customize_Section instance.
+		 * @param WP_Customize_Section $section {@see WP_Customize_Section} instance.
 		 */
 		$active = apply_filters( 'customize_section_active', $active, $section );
 
@@ -191,10 +193,10 @@ class WP_Customize_Section {
 	}
 
 	/**
-	 * Default callback used when invoking WP_Customize_Section::active().
+	 * Default callback used when invoking {@see WP_Customize_Section::active()}.
 	 *
-	 * Subclasses can override this with their specific logic, or they may
-	 * provide an 'active_callback' argument to the constructor.
+	 * Subclasses can override this with their specific logic, or they may provide
+	 * an 'active_callback' argument to the constructor.
 	 *
 	 * @since 4.1.0
 	 * @access public
@@ -210,7 +212,7 @@ class WP_Customize_Section {
 	 *
 	 * @since 4.1.0
 	 *
-	 * @return array The array to be exported to the client as JSON
+	 * @return array The array to be exported to the client as JSON.
 	 */
 	public function json() {
 		$array = wp_array_slice_assoc( (array) $this, array( 'title', 'description', 'priority', 'panel', 'type' ) );
@@ -245,7 +247,7 @@ class WP_Customize_Section {
 	 *
 	 * @since 4.1.0
 	 *
-	 * @return string
+	 * @return string Contents of the section.
 	 */
 	public final function get_content() {
 		ob_start();
@@ -276,7 +278,7 @@ class WP_Customize_Section {
 		/**
 		 * Fires before rendering a specific Customizer section.
 		 *
-		 * The dynamic portion of the hook name, $this->id, refers to the ID
+		 * The dynamic portion of the hook name, `$this->id`, refers to the ID
 		 * of the specific Customizer section to be rendered.
 		 *
 		 * @since 3.4.0
@@ -292,7 +294,7 @@ class WP_Customize_Section {
 	 * @since 3.4.0
 	 */
 	protected function render() {
-		$classes = 'control-section accordion-section';
+		$classes = 'accordion-section control-section control-section-' . $this->type;
 		?>
 		<li id="accordion-section-<?php echo esc_attr( $this->id ); ?>" class="<?php echo esc_attr( $classes ); ?>">
 			<h3 class="accordion-section-title" tabindex="0">
@@ -308,5 +310,61 @@ class WP_Customize_Section {
 			</ul>
 		</li>
 		<?php
+	}
+}
+
+/**
+ * Customizer section representing widget area (sidebar).
+ *
+ * @package WordPress
+ * @subpackage Customize
+ *
+ * @since 4.1.0
+ *
+ * @see WP_Customize_Section
+ */
+class WP_Customize_Sidebar_Section extends WP_Customize_Section {
+
+	/**
+	 * Type of this section.
+	 *
+	 * @since 4.1.0
+	 * @access public
+	 * @var string
+	 */
+	public $type = 'sidebar';
+
+	/**
+	 * Unique identifier.
+	 *
+	 * @since 4.1.0
+	 * @access public
+	 * @var string
+	 */
+	public $sidebar_id;
+
+	/**
+	 * Gather the parameters passed to client JavaScript via JSON.
+	 *
+	 * @since 4.1.0
+	 *
+	 * @return array The array to be exported to the client as JSON.
+	 */
+	public function json() {
+		$json = parent::json();
+		$json['sidebarId'] = $this->sidebar_id;
+		return $json;
+	}
+
+	/**
+	 * Whether the current sidebar is rendered on the page.
+	 *
+	 * @since 4.1.0
+	 * @access public
+	 *
+	 * @return bool Whether sidebar is rendered.
+	 */
+	public function active_callback() {
+		return $this->manager->widgets->is_sidebar_rendered( $this->sidebar_id );
 	}
 }

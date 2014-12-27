@@ -34,10 +34,14 @@ do_action( 'rss_tag_pre', 'rdf' );
 	<link><?php bloginfo_rss('url') ?></link>
 	<description><?php bloginfo_rss('description') ?></description>
 	<dc:date><?php echo mysql2date('Y-m-d\TH:i:s\Z', get_lastpostmodified('GMT'), false); ?></dc:date>
-	<?php /** This filter is documented in wp-includes/feed-rss2.php */ ?>
-	<sy:updatePeriod><?php echo apply_filters( 'rss_update_period', 'hourly' ); ?></sy:updatePeriod>
-	<?php /** This filter is documented in wp-includes/feed-rss2.php */ ?>
-	<sy:updateFrequency><?php echo apply_filters( 'rss_update_frequency', '1' ); ?></sy:updateFrequency>
+	<sy:updatePeriod><?php
+		/** This filter is documented in wp-includes/feed-rss2.php */
+		echo apply_filters( 'rss_update_period', 'hourly' );
+	?></sy:updatePeriod>
+	<sy:updateFrequency><?php
+		/** This filter is documented in wp-includes/feed-rss2.php */
+		echo apply_filters( 'rss_update_frequency', '1' );
+	?></sy:updateFrequency>
 	<sy:updateBase>2000-01-01T12:00+00:00</sy:updateBase>
 	<?php
 	/**

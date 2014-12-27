@@ -223,6 +223,11 @@ body.modal-open {
 	overflow: hidden;
 }
 
+body.mobile.modal-open #wpwrap {
+	overflow: hidden;
+	height: 100%;
+}
+
 iframe,
 img {
 	border: 0;
@@ -395,6 +400,7 @@ ol.ol-decimal > li {
 code {
 	font-family: Consolas, Monaco, monospace;
 	direction: ltr;
+	unicode-bidi: embed;
 }
 
 kbd,
@@ -548,40 +554,6 @@ code {
 
 .wrap {
 	margin: 10px 20px 0 2px;
-}
-
-div.updated,
-div.error {
-	padding: 0 0.6em;
-	margin: 5px 15px 2px;
-}
-
-div.updated p,
-div.error p {
-	margin: 0.5em 0;
-	padding: 2px;
-}
-
-.wrap div.updated,
-.wrap div.error,
-.media-upload-form div.error {
-	margin: 5px 0 15px;
-}
-
-div.updated {
-	border-left: 4px solid #7ad03a;
-	padding: 1px 12px;
-	background-color: #fff;
-	-webkit-box-shadow: 0 1px 1px 0 rgba(0,0,0,0.1);
-	box-shadow: 0 1px 1px 0 rgba(0,0,0,0.1);
-}
-
-div.error {
-	border-left: 4px solid #dd3d36;
-	background: #fff;
-	-webkit-box-shadow: 0 1px 1px 0 rgba(0,0,0,0.1);
-	box-shadow: 0 1px 1px 0 rgba(0,0,0,0.1);
-	padding: 1px 12px;
 }
 
 .attention {
@@ -983,6 +955,10 @@ th.action-links {
 	margin-right: 20px;
 }
 
+.filter-items {
+	float: left;
+}
+
 .filter-links {
 	display: inline-block;
 	margin: 0;
@@ -1018,21 +994,27 @@ th.action-links {
 
 .wp-filter .search-form {
 	float: right;
-	margin-top: 9px;
+	margin: 10px 0;
 }
 
 .wp-filter .search-form input[type="search"] {
 	margin: 0;
 	padding: 3px 5px;
 	width: 280px;
+	max-width: 100%;
 	font-size: 16px;
 	font-weight: 300;
 	line-height: 1.5;
 }
 
 .wp-filter .search-form select {
-	height: 33px;
+	margin: 0;
+	height: 32px;
 	vertical-align: top;
+}
+
+.wp-filter .search-form.search-plugins {
+	display: inline-block;
 }
 
 .wp-filter .drawer-toggle {
@@ -1083,6 +1065,7 @@ th.action-links {
 .show-filters .filter-drawer {
 	display: block;
 	overflow: hidden;
+	width: 100%;
 }
 
 .show-filters .wp-filter .drawer-toggle:hover,
@@ -1113,15 +1096,11 @@ th.action-links {
 	float: left;
 	margin: 0 1% 0 0;
 	padding: 10px;
-	width: 19%;
+	width: 24%;
 	background: #fff;
 	border: 1px solid #e5e5e5;
 	-webkit-box-shadow: 0 1px 1px rgba(0,0,0,0.04);
 	box-shadow: 0 1px 1px rgba(0,0,0,0.04);
-}
-
-.filter-group.wide {
-	width: 38%;
 }
 
 .filter-group h4 {
@@ -1219,11 +1198,6 @@ th.action-links {
 }
 
 @media only screen and (max-width: 1120px) {
-	.wp-filter .search-form {
-		float: none;
-		margin: 20px 0;
-	}
-
 	.filter-drawer {
 		border-bottom: 1px solid #eee;
 	}
@@ -1239,18 +1213,90 @@ th.action-links {
 	}
 }
 
-@media only screen and (max-width: 782px) {
-	.filter-group,
-	.filter-group li {
-		width: 100%;
+@media only screen and (max-width: 1000px) {
+	.filter-items {
+		float: none;
 	}
 
+	.wp-filter .media-toolbar-primary,
+	.wp-filter .media-toolbar-secondary,
+	.wp-filter .search-form {
+		float: none; /* Remove float from media-views.css */
+		position: relative;
+		max-width: 100%;
+	}
 }
 
+@media only screen and (max-width: 782px) {
+	.filter-group li {
+		padding: 0;
+		width: 50%;
+	}
+}
+
+@media only screen and (max-width: 320px) {
+	.filter-count {
+		display: none;
+	}
+
+	.wp-filter .drawer-toggle {
+		margin: 10px 0;
+	}
+
+	.filter-group li,
+	.wp-filter .search-form input[type="search"] {
+		width: 100%;
+	}
+}
 
 /*------------------------------------------------------------------------------
   4.0 - Notifications
 ------------------------------------------------------------------------------*/
+
+.notice,
+div.updated,
+div.error {
+	background: #fff;
+	border-left: 4px solid #fff;
+	-webkit-box-shadow: 0 1px 1px 0 rgba( 0, 0, 0, 0.1 );
+	box-shadow: 0 1px 1px 0 rgba( 0, 0, 0, 0.1 );
+	margin: 5px 15px 2px;
+	padding: 1px 12px;
+}
+
+.notice p,
+div.updated p,
+div.error p,
+.form-table td .notice p {
+	margin: 0.5em 0;
+	padding: 2px;
+}
+
+.notice-success,
+div.updated {
+     border-color: #7ad03a;
+}
+
+.notice-warning {
+    border-color: #ffba00;
+}
+
+.notice-error,
+div.error {
+    border-color: #dd3d36;
+}
+
+.notice-info {
+    border-color: #2ea2cc;
+}
+
+.wrap .notice,
+.wrap div.updated,
+.wrap div.error,
+.media-upload-form .notice,
+.media-upload-form div.error {
+	margin: 5px 0 15px;
+}
 
 #update-nag,
 .update-nag {
@@ -2194,7 +2240,7 @@ div.action-links {
 	float: right;
 	top: 0;
 	height: 250px;
-	width: 830px;
+	width: 772px;
 	margin: 0 -20px;
 	background: transparent;
 	-webkit-box-shadow: inset 0 0 50px 4px rgba( 0, 0, 0, 0.2 ), inset 0 -1px 0 rgba( 0, 0, 0, 0.1 );
@@ -2854,29 +2900,21 @@ img {
 	content: '\f142';
 }
 
-/* Enable draggable on IE10 touch events until it's rolled into jQuery UI core */
-.ui-sortable,
-.ui-draggable {
-	-ms-touch-action: none;
-	touch-action:     none;
-}
-
-.meta-box-sortables.ui-sortable,
-.widgets-holder-wrap .ui-draggable,
-.widgets-holder-wrap .ui-sortable,
-.menu.ui-sortable {
-	-ms-touch-action: auto;
-	touch-action:     auto;
-}
-
-.meta-box-sortables.ui-sortable .hndle,
-.menu.ui-sortable .menu-item-handle {
+/*!
+ * jQuery UI Draggable/Sortable 1.11.2
+ * http://jqueryui.com
+ *
+ * Copyright 2014 jQuery Foundation and other contributors
+ * Released under the MIT license.
+ * http://jquery.org/license
+ */
+.ui-draggable-handle,
+.ui-sortable-handle {
 	-ms-touch-action: none;
 	touch-action:     none;
 }
 
 /* Accordion */
-
 .accordion-section {
 	border-bottom: 1px solid #dfdfdf;
 	margin: 0;

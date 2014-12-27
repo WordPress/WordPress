@@ -94,7 +94,8 @@ function wp_default_scripts( &$scripts ) {
 		'fullscreen'            => __( 'fullscreen' ),
 		'toggleFullscreen'      => esc_attr__( 'Toggle fullscreen mode' ),
 		'textdirection'         => esc_attr__( 'text direction' ),
-		'toggleTextdirection'   => esc_attr__( 'Toggle Editor Text Direction' )
+		'toggleTextdirection'   => esc_attr__( 'Toggle Editor Text Direction' ),
+		'dfw'                   => esc_attr__( 'Distraction-free writing mode' )
 	) );
 
 	$scripts->add( 'colorpicker', "/wp-includes/js/colorpicker$suffix.js", array('prototype'), '3517m' );
@@ -307,7 +308,7 @@ function wp_default_scripts( &$scripts ) {
 
 	$scripts->add( 'mediaelement', "/wp-includes/js/mediaelement/mediaelement-and-player.min.js", array('jquery'), '2.15.1', 1 );
 	did_action( 'init' ) && $scripts->localize( 'mediaelement', 'mejsL10n', array(
-		'language' => substr( get_bloginfo( 'language' ), 0, 2 ),
+		'language' => get_bloginfo( 'language' ),
 		'strings'  => array(
 			'Close'               => __( 'Close' ),
 			'Fullscreen'          => __( 'Fullscreen' ),
@@ -348,7 +349,7 @@ function wp_default_scripts( &$scripts ) {
 		'mismatch' => __('Mismatch')
 	) );
 
-	$scripts->add( 'user-profile', "/wp-admin/js/user-profile$suffix.js", array( 'jquery', 'password-strength-meter' ), false, 1 );
+	$scripts->add( 'user-profile', "/wp-admin/js/user-profile$suffix.js", array( 'jquery', 'password-strength-meter', 'wp-util' ), false, 1 );
 	$scripts->add( 'language-chooser', "/wp-admin/js/language-chooser$suffix.js", array( 'jquery' ), false, 1 );
 
 	$scripts->add( 'user-suggest', "/wp-admin/js/user-suggest$suffix.js", array( 'jquery-ui-autocomplete' ), false, 1 );
@@ -502,7 +503,7 @@ function wp_default_scripts( &$scripts ) {
 
 		$scripts->add( 'farbtastic', '/wp-admin/js/farbtastic.js', array('jquery'), '1.2' );
 
-		$scripts->add( 'iris', '/wp-admin/js/iris.min.js', array( 'jquery-ui-draggable', 'jquery-ui-slider', 'jquery-touch-punch' ), false, 1 );
+		$scripts->add( 'iris', '/wp-admin/js/iris.min.js', array( 'jquery-ui-draggable', 'jquery-ui-slider', 'jquery-touch-punch' ), '1.0.7', 1 );
 		$scripts->add( 'wp-color-picker', "/wp-admin/js/color-picker$suffix.js", array( 'iris' ), false, 1 );
 		did_action( 'init' ) && $scripts->localize( 'wp-color-picker', 'wpColorPickerL10n', array(
 			'clear' => __( 'Clear' ),

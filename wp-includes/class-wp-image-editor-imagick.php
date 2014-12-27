@@ -190,6 +190,8 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 	 *
 	 * @param int $width
 	 * @param int $height
+	 *
+	 * @return true|WP_Error
 	 */
 	protected function update_size( $width = null, $height = null ) {
 		$size = null;

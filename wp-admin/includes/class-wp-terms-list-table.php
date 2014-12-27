@@ -202,6 +202,16 @@ class WP_Terms_List_Table extends WP_List_Table {
 		}
 	}
 
+	/**
+	 * @param string $taxonomy
+	 * @param array $terms
+	 * @param array $children
+	 * @param int $start
+	 * @param int $per_page
+	 * @param int $count
+	 * @param int $parent
+	 * @param int $level
+	 */
 	private function _rows( $taxonomy, $terms, &$children, $start, $per_page, &$count, $parent = 0, $level = 0 ) {
 
 		$end = $start + $per_page;
@@ -250,6 +260,12 @@ class WP_Terms_List_Table extends WP_List_Table {
 		}
 	}
 
+	/**
+	 * @global string $taxonomy
+	 * @staticvar string $row_class
+	 * @param object $tag
+	 * @param int $level
+	 */
 	public function single_row( $tag, $level = 0 ) {
 		global $taxonomy;
  		$tag = sanitize_term( $tag, $taxonomy );
@@ -264,6 +280,10 @@ class WP_Terms_List_Table extends WP_List_Table {
 		echo '</tr>';
 	}
 
+	/**
+	 * @param object $tag
+	 * @return string
+	 */
 	public function column_cb( $tag ) {
 		$default_term = get_option( 'default_' . $this->screen->taxonomy );
 
@@ -274,6 +294,10 @@ class WP_Terms_List_Table extends WP_List_Table {
 		return '&nbsp;';
 	}
 
+	/**
+	 * @param object $tag
+	 * @return string
+	 */
 	public function column_name( $tag ) {
 		$taxonomy = $this->screen->taxonomy;
 		$tax = get_taxonomy( $taxonomy );
@@ -327,7 +351,7 @@ class WP_Terms_List_Table extends WP_List_Table {
 		/**
 		 * Filter the action links displayed for each term in the terms list table.
 		 *
-		 * The dynamic portion of the hook name, $taxonomy, refers to the taxonomy slug.
+		 * The dynamic portion of the hook name, `$taxonomy`, refers to the taxonomy slug.
 		 *
 		 * @since 3.0.0
 		 *
@@ -348,15 +372,27 @@ class WP_Terms_List_Table extends WP_List_Table {
 		return $out;
 	}
 
+	/**
+	 * @param object $tag
+	 * @return string
+	 */
 	public function column_description( $tag ) {
 		return $tag->description;
 	}
 
+	/**
+	 * @param object $tag
+	 * @return string
+	 */
 	public function column_slug( $tag ) {
 		/** This filter is documented in wp-admin/edit-tag-form.php */
 		return apply_filters( 'editable_slug', $tag->slug );
 	}
 
+	/**
+	 * @param object $tag
+	 * @return string
+	 */
 	public function column_posts( $tag ) {
 		$count = number_format_i18n( $tag->count );
 
@@ -381,6 +417,10 @@ class WP_Terms_List_Table extends WP_List_Table {
 		return "<a href='" . esc_url ( add_query_arg( $args, 'edit.php' ) ) . "'>$count</a>";
 	}
 
+	/**
+	 * @param object $tag
+	 * @return string
+	 */
 	public function column_links( $tag ) {
 		$count = number_format_i18n( $tag->count );
 		if ( $count )
@@ -388,11 +428,16 @@ class WP_Terms_List_Table extends WP_List_Table {
 		return $count;
 	}
 
+	/**
+	 * @param object $tag
+	 * @param string $column_name
+	 * @return string
+	 */
 	public function column_default( $tag, $column_name ) {
 		/**
 		 * Filter the displayed columns in the terms list table.
 		 *
-		 * The dynamic portion of the hook name, $this->screen->taxonomy,
+		 * The dynamic portion of the hook name, `$this->screen->taxonomy`,
 		 * refers to the slug of the current taxonomy.
 		 *
 		 * @since 2.8.0

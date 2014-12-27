@@ -1,12 +1,12 @@
 /*!
- * jQuery UI CSS Framework 1.10.1
+ * jQuery UI CSS Framework 1.11.2
  * http://jqueryui.com
  *
- * Copyright 2013 jQuery Foundation and other contributors
+ * Copyright 2014 jQuery Foundation and other contributors
  * Released under the MIT license.
  * http://jquery.org/license
  *
- * http://docs.jquery.com/UI/Theming/API
+ * http://api.jqueryui.com/category/theming/
  */
 
 /* Layout helpers
@@ -53,14 +53,20 @@
 	left: 0;
 	position: absolute;
 	opacity: 0;
-	filter:Alpha(Opacity=0);
+	filter:Alpha(Opacity=0); /* support: IE8 */
 }
+
+.ui-front {
+	z-index: 100;
+}
+
 
 /* Interaction Cues
 ----------------------------------*/
 .ui-state-disabled {
 	cursor: default !important;
 }
+
 
 /* Icons
 ----------------------------------*/
@@ -73,15 +79,26 @@
 	background-repeat: no-repeat;
 }
 
+
+/* Misc visuals
+----------------------------------*/
+
+/* Overlays */
+.ui-widget-overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+
 /*!
- * jQuery UI Resizable 1.10.1
+ * jQuery UI Resizable 1.11.2
  * http://jqueryui.com
  *
- * Copyright 2013 jQuery Foundation and other contributors
+ * Copyright 2014 jQuery Foundation and other contributors
  * Released under the MIT license.
  * http://jquery.org/license
- *
- * http://docs.jquery.com/UI/Resizable#theming
  */
 .ui-resizable {
 	position: relative;
@@ -90,6 +107,8 @@
 	position: absolute;
 	font-size: 0.1px;
 	display: block;
+	-ms-touch-action: none;
+	touch-action: none;
 }
 .ui-resizable-disabled .ui-resizable-handle,
 .ui-resizable-autohide .ui-resizable-handle {
@@ -128,10 +147,10 @@
 /* @noflip */
 .ui-resizable-se {
 	cursor: se-resize;
-	width: 9px;
-	height: 9px;
-	right: -5px;
-	bottom: -5px;
+	width: 12px;
+	height: 12px;
+	right: 1px;
+	bottom: 1px;
 }
 /* @noflip */
 .ui-resizable-sw {

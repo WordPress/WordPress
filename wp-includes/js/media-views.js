@@ -2395,6 +2395,7 @@
 			}, this );
 
 			this.on( 'content:create:iframe', this.iframeContent, this );
+			this.on( 'content:deactivate:iframe', this.iframeContentCleanup, this );
 			this.on( 'menu:render:default', this.iframeMenu, this );
 			this.on( 'open', this.hijackThickbox, this );
 			this.on( 'close', this.restoreThickbox, this );
@@ -2409,6 +2410,10 @@
 			content.view = new media.view.Iframe({
 				controller: this
 			});
+		},
+
+		iframeContentCleanup: function() {
+			this.$el.removeClass('hide-toolbar');
 		},
 
 		iframeMenu: function( view ) {
@@ -2593,6 +2598,7 @@
 				sortable:   state.get('sortable'),
 				search:     state.get('searchable'),
 				filters:    state.get('filterable'),
+				date:       state.get('date'),
 				display:    state.has('display') ? state.get('display') : state.get('displaySettings'),
 				dragInfo:   state.get('dragInfo'),
 
@@ -3016,6 +3022,9 @@
 
 			// Browse our library of attachments.
 			this.content.set( view );
+
+			// Trigger the controller to set focus
+			this.trigger( 'edit:selection', this );
 		},
 
 		editImageContent: function() {
@@ -5096,6 +5105,7 @@
 			'click .close':                   'removeFromLibrary',
 			'click .check':                   'checkClickHandler',
 			'click a':                        'preventDefault',
+			'keydown .close':                 'removeFromLibrary',
 			'keydown':                        'toggleSelectionHandler'
 		},
 
@@ -5239,14 +5249,13 @@
 				return;
 			}
 
+			event.preventDefault();
+
 			// In the grid view, bubble up an edit:attachment event to the controller.
 			if ( this.controller.isModeActive( 'grid' ) ) {
 				if ( this.controller.isModeActive( 'edit' ) ) {
 					// Pass the current target to restore focus when closing
 					this.controller.trigger( 'edit:attachment', this.model, event.currentTarget );
-
-					// Don't scroll the view and don't attempt to submit anything.
-					event.stopPropagation();
 					return;
 				}
 
@@ -5266,9 +5275,6 @@
 			});
 
 			this.controller.trigger( 'selection:toggle' );
-
-			// Don't scroll the view and don't attempt to submit anything.
-			event.stopPropagation();
 		},
 		/**
 		 * @param {Object} options
@@ -5537,6 +5543,11 @@
 		 * @param {Object} event
 		 */
 		removeFromLibrary: function( event ) {
+			// Catch enter and space events
+			if ( 'keydown' === event.type && 13 !== event.keyCode && 32 !== event.keyCode ) {
+				return;
+			}
+
 			// Stop propagation so the model isn't selected.
 			event.stopPropagation();
 
@@ -6217,6 +6228,8 @@
 	 *                                              Accepts 'uploaded' and 'all'.
 	 * @param {object}      [options.search=true]   Whether to show the search interface in the
 	 *                                              browser's toolbar.
+	 * @param {object}      [options.date=true]     Whether to show the date filter in the
+	 *                                              browser's toolbar.
 	 * @param {object}      [options.display=false] Whether to show the attachments display settings
 	 *                                              view in the sidebar.
 	 * @param {bool|string} [options.sidebar=true]  Whether to create a sidebar for the browser.
@@ -6230,13 +6243,14 @@
 			_.defaults( this.options, {
 				filters: false,
 				search:  true,
+				date:    true,
 				display: false,
 				sidebar: true,
 				AttachmentView: media.view.Attachment.Library
 			});
 
 			this.listenTo( this.controller, 'toggle:upload:attachment', _.bind( this.toggleUploader, this ) );
-
+			this.controller.on( 'edit:selection', this.editSelection );
 			this.createToolbar();
 			if ( this.options.sidebar ) {
 				this.createSidebar();
@@ -6255,6 +6269,11 @@
 
 			this.collection.on( 'add remove reset', this.updateContent, this );
 		},
+
+		editSelection: function( modal ) {
+			modal.$( '.media-button-backToLibrary' ).focus();
+		},
+
 		/**
 		 * @returns {wp.media.view.AttachmentsBrowser} Returns itself to allow chaining
 		 */
@@ -6391,7 +6410,7 @@
 								changed.push( model.save() );
 								removed.push( model );
 							} else {
-								model.destroy();
+								model.destroy({wait: true});
 							}
 						} );
 
@@ -6438,7 +6457,7 @@
 					}).render() );
 				}
 
-			} else {
+			} else if ( this.options.date ) {
 				// DateFilter is a <select>, screen reader text needs to be rendered before
 				this.toolbar.set( 'dateFilterLabel', new media.view.Label({
 					value: l10n.filterByDate,
@@ -6741,7 +6760,7 @@
 		events: {},
 		initialize: function() {
 			_.defaults( this.options, {
-				sortable:   true,
+				sortable:   false,
 				resize:     false,
 
 				// The single `Attachment` view to be used in the `Attachments` view.
@@ -7012,6 +7031,13 @@
 		tagName:   'div',
 		className: 'attachment-details',
 		template:  media.template('attachment-details'),
+
+		attributes: function() {
+			return {
+				'tabIndex':     0,
+				'data-id':      this.model.get( 'id' )
+			};
+		},
 
 		events: {
 			'change [data-setting]':          'updateSetting',

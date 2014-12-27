@@ -32,10 +32,10 @@ $post_id = isset($post_id)? (int) $post_id : 0;
 
 // Require an ID for the edit screen.
 if ( isset($action) && $action == 'edit' && !$ID )
-	wp_die( __( 'Cheatin&#8217; uh?' ) );
+	wp_die( __( 'Cheatin&#8217; uh?' ), 403 );
 
 	if ( ! empty( $_REQUEST['post_id'] ) && ! current_user_can( 'edit_post' , $_REQUEST['post_id'] ) )
-		wp_die( __( 'Cheatin&#8217; uh?' ) );
+		wp_die( __( 'Cheatin&#8217; uh?' ), 403 );
 
 	// Upload type: image, video, file, ..?
 	if ( isset($_GET['type']) ) {
@@ -74,13 +74,13 @@ if ( isset($action) && $action == 'edit' && !$ID )
 		 * Fires inside specific upload-type views in the legacy (pre-3.5.0)
 		 * media popup based on the current tab.
 		 *
-		 * The dynamic portion of the hook name, $type, refers to the specific
+		 * The dynamic portion of the hook name, `$type`, refers to the specific
 		 * media upload type. Possible values include 'image', 'audio', 'video',
 		 * 'file', etc.
 		 *
-		 * The hook only fires if the current $tab is 'type' (From Computer),
+		 * The hook only fires if the current `$tab` is 'type' (From Computer),
 		 * 'type_url' (From URL), or, if the tab does not exist (i.e., has not
-		 * been registered via the 'media_upload_tabs' filter.
+		 * been registered via the {@see 'media_upload_tabs'} filter.
 		 *
 		 * @since 2.5.0
 		 */
@@ -90,9 +90,9 @@ if ( isset($action) && $action == 'edit' && !$ID )
 		 * Fires inside limited and specific upload-tab views in the legacy
 		 * (pre-3.5.0) media popup.
 		 *
-		 * The dynamic portion of the hook name, $tab, refers to the specific
+		 * The dynamic portion of the hook name, `$tab`, refers to the specific
 		 * media upload tab. Possible values include 'library' (Media Library),
-		 * or any custom tab registered via the 'media_upload_tabs' filter.
+		 * or any custom tab registered via the {@see 'media_upload_tabs'} filter.
 		 *
 		 * @since 2.5.0
 		 */

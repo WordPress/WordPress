@@ -77,6 +77,8 @@ var wpLink;
 		open: function( editorId ) {
 			var ed;
 
+			$( document.body ).addClass( 'modal-open' );
+
 			wpLink.range = null;
 
 			if ( editorId ) {
@@ -166,6 +168,8 @@ var wpLink;
 		},
 
 		close: function() {
+			$( document.body ).removeClass( 'modal-open' );
+
 			if ( ! wpLink.isMCE() ) {
 				wpLink.textarea.focus();
 

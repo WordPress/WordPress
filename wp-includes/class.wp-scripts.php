@@ -47,13 +47,15 @@ class WP_Scripts extends WP_Dependencies {
 	}
 
 	/**
-	 * Prints scripts
+	 * Prints scripts.
 	 *
 	 * Prints the scripts passed to it or the print queue. Also prints all necessary dependencies.
 	 *
-	 * @param mixed $handles (optional) Scripts to be printed. (void) prints queue, (string) prints that script, (array of strings) prints those scripts.
-	 * @param int $group (optional) If scripts were queued in groups prints this group number.
-	 * @return array Scripts that have been printed
+	 * @param mixed $handles Optional. Scripts to be printed. (void) prints queue, (string) prints
+	 *                       that script, (array of strings) prints those scripts. Default false.
+	 * @param int   $group   Optional. If scripts were queued in groups prints this group number.
+	 *                       Default false.
+	 * @return array Scripts that have been printed.
 	 */
 	public function print_scripts( $handles = false, $group = false ) {
 		return $this->do_items( $handles, $group );
@@ -138,10 +140,24 @@ class WP_Scripts extends WP_Dependencies {
 		if ( ! $src )
 			return true;
 
-		if ( $this->do_concat )
-			$this->print_html .= "<script type='text/javascript' src='$src'></script>\n";
-		else
-			echo "<script type='text/javascript' src='$src'></script>\n";
+		$tag = "<script type='text/javascript' src='$src'></script>\n";
+
+		/** 
+		 * Filter the HTML script tag of an enqueued script.
+		 *
+		 * @since 4.1.0
+		 *
+		 * @param string $tag    The `<script>` tag for the enqueued script.
+		 * @param string $handle The script's registered handle.
+		 * @param string $src    The script's source URL.
+		 */
+		$tag = apply_filters( 'script_loader_tag', $tag, $handle, $src );
+
+		if ( $this->do_concat ) {
+			$this->print_html .= $tag;
+		} else {
+			echo $tag;
+		}
 
 		return true;
 	}

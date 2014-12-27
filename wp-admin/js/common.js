@@ -194,6 +194,7 @@ $(document).ready( function() {
 		pinnedMenuTop = false,
 		pinnedMenuBottom = false,
 		menuTop = 0,
+		menuIsPinned = false,
 		height = {
 			window: $window.height(),
 			wpwrap: $wpwrap.height(),
@@ -247,6 +248,13 @@ $(document).ready( function() {
 		$( document ).trigger( 'wp-collapse-menu', { state: state } );
 	});
 
+	/**
+	 * Ensure an admin submenu is within the visual viewport.
+	 *
+	 * @since 4.1.0
+	 *
+	 * @param {jQuery} $menuItem The parent menu item containing the submenu.
+	 */
 	function adjustSubmenu( $menuItem ) {
 		var bottomOffset, pageHeight, adjustment, theFold, menutop, wintop, maxtop,
 			$submenu = $menuItem.find( '.wp-submenu' );
@@ -355,7 +363,7 @@ $(document).ready( function() {
 			}
 
 			$( event.target ).closest( 'li.menu-top' ).removeClass( 'opensub' );
-		}).find( 'li.wp-has-submenu' ).on( 'focusin.adminmenu', function() {
+		}).find( 'li.wp-has-submenu.wp-not-current-submenu' ).on( 'focusin.adminmenu', function() {
 			adjustSubmenu( $( this ) );
 		});
 	}
@@ -534,19 +542,52 @@ $(document).ready( function() {
 		input.on('change', toggleUploadButton);
 	})();
 
-	function pinMenu() {
-		var windowPos = $window.scrollTop();
+	function pinMenu( event ) {
+		var windowPos = $window.scrollTop(),
+			resizing = ! event || event.type !== 'scroll';
 
 		if ( isIOS || isIE8 || $adminmenu.data( 'wp-responsive' ) ) {
 			return;
 		}
 
-		if ( height.menu + height.adminbar + 20 > height.wpwrap ) { // 20px "buffer"
+		if ( height.menu + height.adminbar < height.window ||
+			height.menu + height.adminbar + 20 > height.wpwrap ) {
 			unpinMenu();
 			return;
 		}
 
+		menuIsPinned = true;
+
 		if ( height.menu + height.adminbar > height.window ) {
+			// Check for overscrolling
+			if ( windowPos < 0 ) {
+				if ( ! pinnedMenuTop ) {
+					pinnedMenuTop = true;
+					pinnedMenuBottom = false;
+
+					$adminMenuWrap.css({
+						position: 'fixed',
+						top: '',
+						bottom: ''
+					});
+				}
+
+				return;
+			} else if ( windowPos + height.window > $document.height() - 1 ) {
+				if ( ! pinnedMenuBottom ) {
+					pinnedMenuBottom = true;
+					pinnedMenuTop = false;
+
+					$adminMenuWrap.css({
+						position: 'fixed',
+						top: '',
+						bottom: 0
+					});
+				}
+
+				return;
+			}
+
 			if ( windowPos > lastScrollPosition ) {
 				// Scrolling down
 				if ( pinnedMenuTop ) {
@@ -599,7 +640,7 @@ $(document).ready( function() {
 						bottom: ''
 					});
 				}
-			} else {
+			} else if ( resizing ) {
 				// Resizing
 				pinnedMenuTop = pinnedMenuBottom = false;
 				menuTop = windowPos + height.window - height.menu - height.adminbar - 1;
@@ -619,12 +660,21 @@ $(document).ready( function() {
 		lastScrollPosition = windowPos;
 	}
 
+	function resetHeights() {
+		height = {
+			window: $window.height(),
+			wpwrap: $wpwrap.height(),
+			adminbar: $adminbar.height(),
+			menu: $adminMenuWrap.height()
+		};
+	}
+
 	function unpinMenu() {
-		if ( isIOS ) {
+		if ( isIOS || ! menuIsPinned ) {
 			return;
 		}
 
-		pinnedMenuTop = pinnedMenuBottom = false;
+		pinnedMenuTop = pinnedMenuBottom = menuIsPinned = false;
 		$adminMenuWrap.css({
 			position: '',
 			top: '',
@@ -633,6 +683,8 @@ $(document).ready( function() {
 	}
 
 	function setPinMenu() {
+		resetHeights();
+
 		if ( $adminmenu.data('wp-responsive') ) {
 			$body.removeClass( 'sticky-menu' );
 			unpinMenu();
@@ -647,6 +699,9 @@ $(document).ready( function() {
 
 	if ( ! isIOS ) {
 		$window.on( 'scroll.pin-menu', pinMenu );
+		$document.on( 'tinymce-editor-init.pin-menu', function( event, editor ) {
+			editor.on( 'wp-autoresize', resetHeights );
+		});
 	}
 
 	window.wpResponsive = {
@@ -785,17 +840,7 @@ $(document).ready( function() {
 	window.wpResponsive.init();
 	setPinMenu();
 
-	$document.on( 'wp-window-resized.pin-menu postboxes-columnchange.pin-menu postbox-toggled.pin-menu', function() {
-		height.wpwrap = $wpwrap.height();
-		height.window = $window.height();
-		height.adminbar = $adminbar.height();
-		setPinMenu();
-	}).on( 'wp-collapse-menu.pin-menu', function() {
-		height.wpwrap = $wpwrap.height();
-		height.menu = $adminMenuWrap.height();
-		setPinMenu();
-	});
-
+	$document.on( 'wp-window-resized.pin-menu postboxes-columnchange.pin-menu postbox-toggled.pin-menu wp-collapse-menu.pin-menu wp-scroll-start.pin-menu', setPinMenu );
 });
 
 // Fire a custom jQuery event at the end of window resize

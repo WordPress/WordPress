@@ -405,9 +405,13 @@
 	 */
 	api.Widgets.WidgetControl = api.Control.extend({
 		defaultExpandedArguments: {
-			duration: 'fast'
+			duration: 'fast',
+			completeCallback: $.noop
 		},
 
+		/**
+		 * @since 4.1.0
+		 */
 		initialize: function ( id, options ) {
 			var control = this;
 			api.Control.prototype.initialize.call( control, id, options );
@@ -433,6 +437,12 @@
 			this._setupHighlightEffects();
 			this._setupUpdateUI();
 			this._setupRemoveUI();
+
+			/*
+			 * Trigger widget-added event so that plugins can attach any event
+			 * listeners and dynamic UI elements.
+			 */
+			$( document ).trigger( 'widget-added', [ this.container.find( '.widget:first' ) ] );
 		},
 
 		/**
@@ -661,8 +671,10 @@
 
 					if ( isMoveUp ) {
 						self.moveUp();
+						$( '#screen-reader-messages' ).text( l10n.widgetMovedUp );
 					} else {
 						self.moveDown();
+						$( '#screen-reader-messages' ).text( l10n.widgetMovedDown );
 					}
 
 					$( this ).focus(); // re-focus after the container was moved
@@ -672,11 +684,11 @@
 			/**
 			 * Handle selecting a sidebar to move to
 			 */
-			this.container.find( '.widget-area-select' ).on( 'click keypress', 'li', function( e ) {
+			this.container.find( '.widget-area-select' ).on( 'click keypress', 'li', function( event ) {
 				if ( event.type === 'keypress' && ( event.which !== 13 && event.which !== 32 ) ) {
 					return;
 				}
-				e.preventDefault();
+				event.preventDefault();
 				selectSidebarItem( $( this ) );
 			} );
 
@@ -793,8 +805,11 @@
 		 *
 		 * Overrides api.Control.toggle()
 		 *
-		 * @param {Boolean} active
-		 * @param {Object} args
+		 * @since 4.1.0
+		 *
+		 * @param {Boolean}   active
+		 * @param {Object}    args
+		 * @param {Callback}  args.completeCallback
 		 */
 		onChangeActive: function ( active, args ) {
 			// Note: there is a second 'args' parameter being passed, merged on top of this.defaultActiveArguments
@@ -1127,6 +1142,8 @@
 		},
 
 		/**
+		 * @since 4.1.0
+		 *
 		 * @param {Boolean} expanded
 		 * @param {Object} [params]
 		 * @returns {Boolean} false if state already applied
@@ -1134,6 +1151,8 @@
 		_toggleExpanded: api.Section.prototype._toggleExpanded,
 
 		/**
+		 * @since 4.1.0
+		 *
 		 * @param {Object} [params]
 		 * @returns {Boolean} false if already expanded
 		 */
@@ -1142,13 +1161,15 @@
 		/**
 		 * Expand the widget form control
 		 *
-		 * @deprecated alias of expand()
+		 * @deprecated 4.1.0 Use this.expand() instead.
 		 */
 		expandForm: function() {
 			this.expand();
 		},
 
 		/**
+		 * @since 4.1.0
+		 *
 		 * @param {Object} [params]
 		 * @returns {Boolean} false if already collapsed
 		 */
@@ -1157,7 +1178,7 @@
 		/**
 		 * Collapse the widget form control
 		 *
-		 * @deprecated alias of expand()
+		 * @deprecated 4.1.0 Use this.collapse() instead.
 		 */
 		collapseForm: function() {
 			this.collapse();
@@ -1361,10 +1382,37 @@
 	} );
 
 	/**
+	 * wp.customize.Widgets.SidebarSection
+	 *
+	 * Customizer section representing a widget area widget
+	 *
+	 * @since 4.1.0
+	 */
+	api.Widgets.SidebarSection = api.Section.extend({
+
+		/**
+		 * Sync the section's active state back to the Backbone model's is_rendered attribute
+		 *
+		 * @since 4.1.0
+		 */
+		ready: function () {
+			var section = this, registeredSidebar;
+			api.Section.prototype.ready.call( this );
+			registeredSidebar = api.Widgets.registeredSidebars.get( section.params.sidebarId );
+			section.active.bind( function ( active ) {
+				registeredSidebar.set( 'is_rendered', active );
+			});
+			registeredSidebar.set( 'is_rendered', section.active() );
+		}
+	});
+
+	/**
 	 * wp.customize.Widgets.SidebarControl
 	 *
 	 * Customizer control for widgets.
 	 * Note that 'sidebar_widgets' must match the WP_Widget_Area_Customize_Control::$type
+	 *
+	 * @since 3.9.0
 	 *
 	 * @constructor
 	 * @augments wp.customize.Control
@@ -1388,8 +1436,7 @@
 		 * Update ordering of widget control forms when the setting is updated
 		 */
 		_setupModel: function() {
-			var self = this,
-				registeredSidebar = api.Widgets.registeredSidebars.get( this.params.sidebar_id );
+			var self = this;
 
 			this.setting.bind( function( newWidgetIds, oldWidgetIds ) {
 				var widgetFormControls, removedWidgetIds, priority;
@@ -1492,13 +1539,6 @@
 
 				} );
 			} );
-
-			// Update the model with whether or not the sidebar is rendered
-			self.active.bind( function ( active ) {
-				registeredSidebar.set( 'is_rendered', active );
-				api.section( self.section.get() ).active( active );
-			} );
-			api.section( self.section.get() ).active( self.active() );
 		},
 
 		/**
@@ -1805,16 +1845,14 @@
 				}
 			} );
 
-			$( document ).trigger( 'widget-added', [ $widget ] );
-
 			return widgetFormControl;
 		}
 	} );
 
-	/**
-	 * Extends wp.customizer.controlConstructor with control constructor for
-	 * widget_form and sidebar_widgets.
-	 */
+	// Register models for custom section and control types
+	$.extend( api.sectionConstructor, {
+		sidebar: api.Widgets.SidebarSection
+	});
 	$.extend( api.controlConstructor, {
 		widget_form: api.Widgets.WidgetControl,
 		sidebar_widgets: api.Widgets.SidebarControl

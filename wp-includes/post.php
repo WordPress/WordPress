@@ -352,12 +352,16 @@ function get_children( $args = '', $output = OBJECT ) {
 	if ( $output == OBJECT ) {
 		return $kids;
 	} elseif ( $output == ARRAY_A ) {
-		foreach ( (array) $kids as $kid )
+		$weeuns = array();
+		foreach ( (array) $kids as $kid ) {
 			$weeuns[$kid->ID] = get_object_vars($kids[$kid->ID]);
+		}
 		return $weeuns;
 	} elseif ( $output == ARRAY_N ) {
-		foreach ( (array) $kids as $kid )
+		$babes = array();
+		foreach ( (array) $kids as $kid ) {
 			$babes[$kid->ID] = array_values(get_object_vars($kids[$kid->ID]));
+		}
 		return $babes;
 	} else {
 		return $kids;
@@ -372,8 +376,8 @@ function get_children( $args = '', $output = OBJECT ) {
  * referenced.
  *
  * The returned array has 'main', 'extended', and 'more_text' keys. Main has the text before
- * the <code><!--more--></code>. The 'extended' key has the content after the
- * <code><!--more--></code> comment. The 'more_text' key has the custom "Read More" text.
+ * the `<!--more-->`. The 'extended' key has the content after the
+ * `<!--more-->` comment. The 'more_text' key has the custom "Read More" text.
  *
  * @since 1.0.0
  *
@@ -839,7 +843,7 @@ function get_post_field( $field, $post, $context = 'display' ) {
  * @since 2.0.0
  *
  * @param int|WP_Post $ID Optional. Post ID or post object. Default empty.
- * @return string|bool The mime type on success, false on failure.
+ * @return string|false The mime type on success, false on failure.
  */
 function get_post_mime_type( $ID = '' ) {
 	$post = get_post($ID);
@@ -859,7 +863,7 @@ function get_post_mime_type( $ID = '' ) {
  * @since 2.0.0
  *
  * @param int|WP_Post $ID Optional. Post ID or post object. Default empty.
- * @return string|bool Post status on success, false on failure.
+ * @return string|false Post status on success, false on failure.
  */
 function get_post_status( $ID = '' ) {
 	$post = get_post($ID);
@@ -1124,7 +1128,7 @@ function post_type_exists( $post_type ) {
  * @since 2.1.0
  *
  * @param int|WP_Post $post Optional. Post ID or post object. Default is global $post.
- * @return string|bool Post type on success, false on failure.
+ * @return string|false Post type on success, false on failure.
  */
 function get_post_type( $post = null ) {
 	if ( $post = get_post( $post ) )
@@ -1594,8 +1598,8 @@ function _post_type_meta_capabilities( $capabilities = null ) {
  * - singular_name - name for one object of this post type. Default is Post/Page
  * - add_new - Default is Add New for both hierarchical and non-hierarchical types.
  *             When internationalizing this string, please use a gettext context
- *             {@see http://codex.wordpress.org/I18n_for_WordPress_Developers#Disambiguation_by_context}
- *             matching your post type. Example: <code>_x('Add New', 'product');</code>.
+ *             {@link http://codex.wordpress.org/I18n_for_WordPress_Developers#Disambiguation_by_context}
+ *             matching your post type. Example: `_x( 'Add New', 'product' );`.
  * - add_new_item - Default is Add New Post/Add New Page.
  * - edit_item - Default is Edit Post/Edit Page.
  * - new_item - Default is New Post/New Page.
@@ -1606,7 +1610,7 @@ function _post_type_meta_capabilities( $capabilities = null ) {
  * - parent_item_colon - This string isn't used on non-hierarchical types. In hierarchical
  *                       ones the default is 'Parent Page:'.
  * - all_items - String for the submenu. Default is All Posts/All Pages.
- * - menu_name - Default is the same as <code>name</code>.
+ * - menu_name - Default is the same as `name`.
  *
  * Above, the first default value is for non-hierarchical post types (like posts)
  * and the second one is for hierarchical post types (like pages).
@@ -1641,7 +1645,7 @@ function get_post_type_labels( $post_type_object ) {
 	/**
 	 * Filter the labels of a specific post type.
 	 *
-	 * The dynamic portion of the hook name, $post_type, refers to
+	 * The dynamic portion of the hook name, `$post_type`, refers to
 	 * the post type slug.
 	 *
 	 * @since 3.5.0
@@ -1681,9 +1685,10 @@ function _get_custom_object_labels( $object, $nohier_vs_hier_defaults ) {
 	if ( !isset( $object->labels['all_items'] ) && isset( $object->labels['menu_name'] ) )
 		$object->labels['all_items'] = $object->labels['menu_name'];
 
-	foreach ( $nohier_vs_hier_defaults as $key => $value )
-			$defaults[$key] = $object->hierarchical ? $value[1] : $value[0];
-
+	$defaults = array();
+	foreach ( $nohier_vs_hier_defaults as $key => $value ) {
+		$defaults[$key] = $object->hierarchical ? $value[1] : $value[0];
+	}
 	$labels = array_merge( $defaults, $object->labels );
 	return (object)$labels;
 }
@@ -2145,7 +2150,7 @@ function sanitize_post_field($field, $value, $post_id, $context) {
 			/**
 			 * Filter the value of a specific post field to edit.
 			 *
-			 * The dynamic portion of the hook name, $field, refers to the post
+			 * The dynamic portion of the hook name, `$field`, refers to the post
 			 * field name.
 			 *
 			 * @since 2.3.0
@@ -2158,7 +2163,7 @@ function sanitize_post_field($field, $value, $post_id, $context) {
 			/**
 			 * Filter the value of a specific post field to edit.
 			 *
-			 * The dynamic portion of the hook name, $field_no_prefix, refers to
+			 * The dynamic portion of the hook name, `$field_no_prefix`, refers to
 			 * the post field name.
 			 *
 			 * @since 2.3.0
@@ -2185,7 +2190,7 @@ function sanitize_post_field($field, $value, $post_id, $context) {
 			/**
 			 * Filter the value of a specific post field before saving.
 			 *
-			 * The dynamic portion of the hook name, $field, refers to the post
+			 * The dynamic portion of the hook name, `$field`, refers to the post
 			 * field name.
 			 *
 			 * @since 2.3.0
@@ -2197,7 +2202,7 @@ function sanitize_post_field($field, $value, $post_id, $context) {
 			/**
 			 * Filter the value of a specific field before saving.
 			 *
-			 * The dynamic portion of the hook name, $field_no_prefix, refers
+			 * The dynamic portion of the hook name, `$field_no_prefix`, refers
 			 * to the post field name.
 			 *
 			 * @since 2.3.0
@@ -2211,7 +2216,7 @@ function sanitize_post_field($field, $value, $post_id, $context) {
 			/**
 			 * Filter the value of a specific post field before saving.
 			 *
-			 * The dynamic portion of the hook name, $field, refers to the post
+			 * The dynamic portion of the hook name, `$field`, refers to the post
 			 * field name.
 			 *
 			 * @since 2.3.0
@@ -2228,7 +2233,7 @@ function sanitize_post_field($field, $value, $post_id, $context) {
 			/**
 			 * Filter the value of a specific post field for display.
 			 *
-			 * The dynamic portion of the hook name, $field, refers to the post
+			 * The dynamic portion of the hook name, `$field`, refers to the post
 			 * field name.
 			 *
 			 * @since 2.3.0
@@ -2510,6 +2515,9 @@ function wp_post_mime_type_where( $post_mime_types, $table_alias = '' ) {
 	$wildcards = array('', '%', '%/%');
 	if ( is_string($post_mime_types) )
 		$post_mime_types = array_map('trim', explode(',', $post_mime_types));
+
+	$wheres = array();
+
 	foreach ( (array) $post_mime_types as $mime_type ) {
 		$mime_type = preg_replace('/\s/', '', $mime_type);
 		$slashpos = strpos($mime_type, '/');
@@ -2856,7 +2864,7 @@ function wp_trash_post_comments( $post = null ) {
  * @since 2.9.0
  *
  * @param int|WP_Post $post Optional. Post ID or post object. Defaults to global $post.
- * @return mixed False on failure.
+ * @return null|bool Null on failure.
  */
 function wp_untrash_post_comments( $post = null ) {
 	global $wpdb;
@@ -2984,7 +2992,6 @@ function wp_get_post_terms( $post_id = 0, $taxonomy = 'post_tag', $args = array(
  *
  * @see get_posts()
  *
- * @param string $deprecated Not used.
  * @param array  $args       Optional. Arguments to retrieve posts. Default empty array.
  * @param string $output     Optional. Type of output. Accepts ARRAY_A or ''. Default ARRAY_A.
  * @return array|bool Associative array if $output equals ARRAY_A, array or false if no results.
@@ -3477,7 +3484,7 @@ function wp_insert_post( $postarr, $wp_error = false ) {
 	/**
 	 * Fires once a post has been saved.
 	 *
-	 * The dynamic portion of the hook name, $post->post_type, refers to
+	 * The dynamic portion of the hook name, `$post->post_type`, refers to
 	 * the post type slug.
 	 *
 	 * @since 3.7.0
@@ -3703,7 +3710,7 @@ function wp_unique_post_slug( $slug, $post_ID, $post_status, $post_type, $post_p
 		 * Page slugs must be unique within their own trees. Pages are in a separate
 		 * namespace than posts so page slugs are allowed to overlap post slugs.
 		 */
-		$check_sql = "SELECT post_name FROM $wpdb->posts WHERE post_name = %s AND post_type = %s AND ID != %d AND post_parent = %d LIMIT 1";
+		$check_sql = "SELECT post_name FROM $wpdb->posts WHERE post_name = %s AND post_type IN ( %s, 'attachment' ) AND ID != %d AND post_parent = %d LIMIT 1";
 		$post_name_check = $wpdb->get_var( $wpdb->prepare( $check_sql, $slug, $post_type, $post_ID, $post_parent ) );
 
 		/**
@@ -3720,7 +3727,7 @@ function wp_unique_post_slug( $slug, $post_ID, $post_status, $post_type, $post_p
 			$suffix = 2;
 			do {
 				$alt_post_name = _truncate_post_slug( $slug, 200 - ( strlen( $suffix ) + 1 ) ) . "-$suffix";
-				$post_name_check = $wpdb->get_var( $wpdb->prepare( $check_sql, $alt_post_name, $post_ID, $post_parent ) );
+				$post_name_check = $wpdb->get_var( $wpdb->prepare( $check_sql, $alt_post_name, $post_type, $post_ID, $post_parent ) );
 				$suffix++;
 			} while ( $post_name_check );
 			$slug = $alt_post_name;
@@ -3916,9 +3923,9 @@ function wp_set_post_categories( $post_ID = 0, $post_categories = array(), $appe
  *
  * @since 2.3.0
  *
- * @param string $new_status Transition to this post status.
- * @param string $old_status Previous post status.
- * @param object $post Post data.
+ * @param string  $new_status Transition to this post status.
+ * @param string  $old_status Previous post status.
+ * @param WP_Post $post Post data.
  */
 function wp_transition_post_status( $new_status, $old_status, $post ) {
 	/**
@@ -3935,7 +3942,7 @@ function wp_transition_post_status( $new_status, $old_status, $post ) {
 	/**
 	 * Fires when a post is transitioned from one status to another.
 	 *
-	 * The dynamic portions of the hook name, $new_status and $old status,
+	 * The dynamic portions of the hook name, `$new_status` and `$old status`,
 	 * refer to the old and new post statuses, respectively.
 	 *
 	 * @since 2.3.0
@@ -3947,7 +3954,7 @@ function wp_transition_post_status( $new_status, $old_status, $post ) {
 	/**
 	 * Fires when a post is transitioned from one status to another.
 	 *
-	 * The dynamic portions of the hook name, $new_status and $post->post_type,
+	 * The dynamic portions of the hook name, `$new_status` and `$post->post_type`,
 	 * refer to the new post status and post type, respectively.
 	 *
 	 * @since 2.3.0
@@ -4280,19 +4287,19 @@ function get_page_by_title( $page_title, $output = OBJECT, $post_type = 'page' )
  *
  * @param int   $page_id    Page ID.
  * @param array $pages      List of pages' objects.
- * @param bool  $ancestors  Whether to check a page's ancestors.
  * @return array List of page children.
  */
-function get_page_children( $page_id, $pages, $ancestors = true ) {
+function get_page_children( $page_id, $pages ) {
 	$page_list = array();
 	foreach ( (array) $pages as $page ) {
-		if ( $page->post_parent == $page_id || ( $ancestors && in_array( $page_id, $page->ancestors ) ) ) {
+		if ( $page->post_parent == $page_id ) {
 			$page_list[] = $page;
-			if ( $children = get_page_children( $page->ID, $pages, false ) ) {
+			if ( $children = get_page_children( $page->ID, $pages ) ) {
 				$page_list = array_merge( $page_list, $children );
 			}
 		}
 	}
+
 	return $page_list;
 }
 
@@ -4380,35 +4387,38 @@ function get_page_uri( $page ) {
  *
  * @since 1.5.0
  *
- * @param mixed $args {
- *     Array or string of arguments. Optional.
+ * @param array|string $args {
+ *     Optional. Array or string of arguments to retrieve pages.
  *
- *     @type int    'child_of'     Page ID to return child and grandchild pages of. Default 0, or no restriction.
- *     @type string 'sort_order'   How to sort retrieved pages.
- *                                 Default 'ASC'. Accepts 'ASC', 'DESC'.
- *     @type string 'sort_column'  What columns to sort pages by, comma-separated.
- *                                 Default 'post_title'. Accepts 'post_author', 'post_date', 'post_title', 'post_name',
- *                                 'post_modified', 'post_modified_gmt', 'menu_order', 'post_parent', 'ID', 'rand',
- *                                 'comment_count'. 'post_' can be omitted for any values that start with it.
- *     @type bool   'hierarchical' Whether to return pages hierarchically. Default true.
- *     @type array  'exclude'      Array of page IDs to exclude.
- *     @type array  'include'      Array of page IDs to include. Cannot be used with 'child_of', 'parent', 'exclude',
- *                                 'meta_key', 'meta_value', or 'hierarchical'.
- *     @type string 'meta_key'     Only include pages with this meta key.
- *     @type string 'meta_value'   Only include pages with this meta value.
- *     @type string 'authors'      A comma-separated list of author IDs.
- *     @type int    'parent'       Page ID to return direct children of. 'hierarchical' must be false.
- *                                 Default -1, or no restriction.
- *     @type int    'exclude_tree' Remove all children of the given ID from returned pages.
- *     @type int    'number'       The number of pages to return. Default 0, or all pages.
- *     @type int    'offset'       The number of pages to skip before returning. Requires 'number'.
- *                                 Default 0.
- *     @type string 'post_type'    The post type to query.
- *                                 Default 'page'.
- *     @type string 'post_status'  A comma-separated list of post status types to include.
- *                                 Default 'publish'.
+ *     @type int          $child_of     Page ID to return child and grandchild pages of.
+ *                                      Default 0, or no restriction.
+ *     @type string       $sort_order   How to sort retrieved pages. Accepts 'ASC', 'DESC'. Default 'ASC'.
+ *     @type string       $sort_column  What columns to sort pages by, comma-separated. Accepts 'post_author',
+ *                                      'post_date', 'post_title', 'post_name', 'post_modified', 'menu_order',
+ *                                      'post_modified_gmt', 'post_parent', 'ID', 'rand', 'comment_count'.
+ *                                      'post_' can be omitted for any values that start with it.
+ *                                      Default 'post_title'.
+ *     @type bool         $hierarchical Whether to return pages hierarchically. Default true.
+ *     @type array        $exclude      Array of page IDs to exclude. Default empty array.
+ *     @type array        $include      Array of page IDs to include. Cannot be used with `$child_of`,
+ *                                      `$parent`, `$exclude`, `$meta_key`, `$meta_value`, or `$hierarchical`.
+ *                                      Default empty array.
+ *     @type string       $meta_key     Only include pages with this meta key. Default empty.
+ *     @type string       $meta_value   Only include pages with this meta value. Requires `$meta_key`.
+ *                                      Default empty.
+ *     @type string       $authors      A comma-separated list of author IDs. Default empty.
+ *     @type int          $parent       Page ID to return direct children of. `$hierarchical` must be false.
+ *                                      Default -1, or no restriction.
+ *     @type string|array $exclude_tree Comma-separated string or array of page IDs to exclude.
+ *                                      Default empty array.
+ *     @type int          $number       The number of pages to return. Default 0, or all pages.
+ *     @type int          $offset       The number of pages to skip before returning. Requires `$number`.
+ *                                      Default 0.
+ *     @type string       $post_type    The post type to query. Default 'page'.
+ *     @type string       $post_status  A comma-separated list of post status types to include.
+ *                                      Default 'publish'.
  * }
- * @return array List of pages matching defaults or $args.
+ * @return array List of pages matching defaults or `$args`.
  */
 function get_pages( $args = array() ) {
 	global $wpdb;
@@ -4621,9 +4631,6 @@ function get_pages( $args = array() ) {
 	// Update cache.
 	update_post_cache( $pages );
 
-	// Convert to WP_Post instances
-	$pages = array_map( 'get_post', $pages );
-
 	if ( $child_of || $hierarchical ) {
 		$pages = get_page_children($child_of, $pages);
 	}
@@ -4651,6 +4658,9 @@ function get_pages( $args = array() ) {
 	}
 
 	wp_cache_set( $cache_key, $page_structure, 'posts' );
+
+	// Convert to WP_Post instances
+	$pages = array_map( 'get_post', $pages );
 
 	/**
 	 * Filter the retrieved list of pages.
@@ -5138,6 +5148,7 @@ function wp_mime_type_icon( $mime = 0 ) {
 			wp_cache_add( 'icon_files', $icon_files, 'default', 600 );
 		}
 
+		$types = array();
 		// Icon basename - extension = MIME wildcard.
 		foreach ( $icon_files as $file => $uri )
 			$types[ preg_replace('/^([^.]*).*$/', '$1', basename($file)) ] =& $icon_files[$file];
@@ -5511,9 +5522,11 @@ function update_post_caches( &$posts, $post_type = 'post', $update_term_cache = 
 		if ( is_array($post_type) ) {
 			$ptypes = $post_type;
 		} elseif ( 'any' == $post_type ) {
+			$ptypes = array();
 			// Just use the post_types in the supplied posts.
-			foreach ( $posts as $post )
+			foreach ( $posts as $post ) {
 				$ptypes[] = $post->post_type;
+			}
 			$ptypes = array_unique($ptypes);
 		} else {
 			$ptypes = array($post_type);
@@ -5692,7 +5705,7 @@ function _publish_post_hook( $post_id ) {
  *
  * @since 3.1.0
  *
- * @param int $post_id
+ * @param int $post_ID
  *
  * @return int|bool Post parent ID, otherwise false.
  */
@@ -5828,7 +5841,7 @@ function _update_term_count_on_transition_post_status( $new_status, $old_status,
  *
  * @see update_post_caches()
  *
- * @param array $post_ids          ID list
+ * @param array $ids               ID list
  * @param bool  $update_term_cache Optional. Whether to update the term cache. Default true.
  * @param bool  $update_meta_cache Optional. Whether to update the meta cache. Default true.
  */

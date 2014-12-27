@@ -28,7 +28,7 @@ body {
 	font-weight: 400;
 	font-size: 17px;
 	line-height: 1.6471;
-	margin: 8% 10%;
+	margin: 20px 40px;
 	max-width: 660px;
 	vertical-align: baseline;
 }
@@ -352,7 +352,7 @@ a {
 	margin: 0 0 28px 0;
 	max-width: 660px;
 	padding: 0;
-	text-align: center;
+	text-align: inherit;
 }
 
 .wp-caption.alignleft {
@@ -378,10 +378,6 @@ a {
 /**
  * 6.0 Galleries
  */
-
-.gallery {
-	margin-bottom: 28px;
-}
 
 .gallery-item {
 	display: inline-block;
@@ -456,6 +452,10 @@ a {
 /**
  * 8.0 RTL
  */
+
+body.rtl {
+	font-family: Arial, Tahoma, sans-serif;
+}
 
 .rtl blockquote {
 	border-left: none;

@@ -19,8 +19,8 @@
  *
  * @since 2.5.0
  *
- * @param array $credentials Optional. User info in order to sign on.
- * @param bool $secure_cookie Optional. Whether to use secure cookie.
+ * @param array       $credentials   Optional. User info in order to sign on.
+ * @param string|bool $secure_cookie Optional. Whether to use secure cookie.
  * @return WP_User|WP_Error WP_User on success, WP_Error on failure.
  */
 function wp_signon( $credentials = array(), $secure_cookie = '' ) {
@@ -229,7 +229,7 @@ function wp_authenticate_spam_check( $user ) {
  *
  * @since 3.9.0
  *
- * @param int|bool $user The user ID (or false) as received from the
+ * @param int|bool $user_id The user ID (or false) as received from the
  *                       determine_current_user filter.
  * @return int|bool User ID if validated, false otherwise. If a user ID from
  *                  an earlier filter callback is received, that value is returned.
@@ -250,16 +250,18 @@ function wp_validate_logged_in_cookie( $user_id ) {
  * Number of posts user has written.
  *
  * @since 3.0.0
+ * @since 4.1.0 Added `$post_type` argument.
  *
  * @global wpdb $wpdb WordPress database object for queries.
  *
- * @param int $userid User ID.
- * @return int Amount of posts user has written.
+ * @param int    $userid    User ID.
+ * @param string $post_type Optional. Post type to count the number of posts for. Default 'post'.
+ * @return int Number of posts the user has written in this post type.
  */
-function count_user_posts($userid) {
+function count_user_posts( $userid, $post_type = 'post' ) {
 	global $wpdb;
 
-	$where = get_posts_by_author_sql('post', true, $userid);
+	$where = get_posts_by_author_sql( $post_type, true, $userid );
 
 	$count = $wpdb->get_var( "SELECT COUNT(*) FROM $wpdb->posts $where" );
 
@@ -267,11 +269,13 @@ function count_user_posts($userid) {
 	 * Filter the number of posts a user has written.
 	 *
 	 * @since 2.7.0
+	 * @since 4.1.0 Added `$post_type` argument.
 	 *
-	 * @param int $count  The user's post count.
-	 * @param int $userid User ID.
+	 * @param int    $count     The user's post count.
+	 * @param int    $userid    User ID.
+	 * @param string $post_type Post type to count the number of posts for.
 	 */
-	return apply_filters( 'get_usernumposts', $count, $userid );
+	return apply_filters( 'get_usernumposts', $count, $userid, $post_type );
 }
 
 /**
@@ -341,7 +345,7 @@ function get_current_user_id() {
  *
  * @param string $option     User option name.
  * @param int    $user       Optional. User ID.
- * @param bool   $deprecated Use get_option() to check for an option in the options table.
+ * @param string $deprecated Use get_option() to check for an option in the options table.
  * @return mixed User option value on success, false on failure.
  */
 function get_user_option( $option, $user = 0, $deprecated = '' ) {
@@ -367,7 +371,7 @@ function get_user_option( $option, $user = 0, $deprecated = '' ) {
 	/**
 	 * Filter a specific user option value.
 	 *
-	 * The dynamic portion of the hook name, $option, refers to the user option name.
+	 * The dynamic portion of the hook name, `$option`, refers to the user option name.
 	 *
 	 * @since 2.5.0
 	 *
@@ -481,7 +485,7 @@ class WP_User_Query {
 	 *
 	 * @since 3.1.0
 	 *
-	 * @param string|array $args Optional. The query variables.
+	 * @param null|string|array $args Optional. The query variables.
 	 * @return WP_User_Query
 	 */
 	public function __construct( $query = null ) {
@@ -1495,7 +1499,7 @@ function sanitize_user_field($field, $value, $user_id, $context) {
 			/**
 			 * Filter a user field value in the 'edit' context.
 			 *
-			 * The dynamic portion of the hook name, $field, refers to the prefixed user
+			 * The dynamic portion of the hook name, `$field`, refers to the prefixed user
 			 * field being filtered, such as 'user_login', 'user_email', 'first_name', etc.
 			 *
 			 * @since 2.9.0
@@ -1519,7 +1523,7 @@ function sanitize_user_field($field, $value, $user_id, $context) {
 			/**
 			 * Filter the value of a user field in the 'db' context.
 			 *
-			 * The dynamic portion of the hook name, $field, refers to the prefixed user
+			 * The dynamic portion of the hook name, `$field`, refers to the prefixed user
 			 * field being filtered, such as 'user_login', 'user_email', 'first_name', etc.
  			 *
 			 * @since 2.9.0
@@ -1539,7 +1543,7 @@ function sanitize_user_field($field, $value, $user_id, $context) {
 			/**
 			 * Filter the value of a user field in a standard context.
 			 *
-			 * The dynamic portion of the hook name, $field, refers to the prefixed user
+			 * The dynamic portion of the hook name, `$field`, refers to the prefixed user
 			 * field being filtered, such as 'user_login', 'user_email', 'first_name', etc.
 			 *
 			 * @since 2.9.0
@@ -1881,6 +1885,9 @@ function wp_insert_user( $userdata ) {
 	$data = wp_unslash( $compacted );
 
 	if ( $update ) {
+		if ( $user_email !== $old_user_data->user_email ) {
+			$data['user_activation_key'] = '';
+		}
 		$wpdb->update( $wpdb->users, $data, compact( 'ID' ) );
 		$user_id = (int) $ID;
 	} else {
@@ -2008,14 +2015,14 @@ function wp_update_user($userdata) {
  * A simpler way of inserting an user into the database.
  *
  * Creates a new user with just the username, password, and email. For more
- * complex user creation use wp_insert_user() to specify more information.
+ * complex user creation use {@see wp_insert_user()} to specify more information.
  *
  * @since 2.0.0
  * @see wp_insert_user() More complete way to create a new user
  *
  * @param string $username The user's username.
  * @param string $password The user's password.
- * @param string $email The user's email (optional).
+ * @param string $email    Optional. The user's email. Default empty.
  * @return int The new user's ID.
  */
 function wp_create_user($username, $password, $email = '') {
@@ -2033,7 +2040,7 @@ function wp_create_user($username, $password, $email = '') {
  * @since 3.3.0
  * @access private
  *
- * @param object $user WP_User instance.
+ * @param WP_User $user WP_User instance.
  * @return array
  */
 function _get_additional_user_keys( $user ) {
@@ -2086,11 +2093,10 @@ function _wp_get_user_contactmethods( $user = null ) {
  * Gets the text suggesting how to create strong passwords.
  *
  * @since 4.1.0
- * @access private
  *
  * @return string The password hint text.
  */
-function _wp_get_password_hint() {
+function wp_get_password_hint() {
 	$hint = __( 'Hint: The password should be at least seven characters long. To make it stronger, use upper and lower case letters, numbers, and symbols like ! " ? $ % ^ &amp; ).' );
 
 	/**

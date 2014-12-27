@@ -211,13 +211,13 @@ html:lang(he-il) .rtl #wpadminbar *  {
 #wpadminbar .ab-top-menu > li:hover > .ab-item,
 #wpadminbar .ab-top-menu > li.hover > .ab-item {
 	background: #333;
-	color: #2ea2cc;
+	color: #45bbe6;
 }
 
 #wpadminbar > #wp-toolbar li:hover span.ab-label,
 #wpadminbar > #wp-toolbar li.hover span.ab-label,
 #wpadminbar > #wp-toolbar a:focus span.ab-label {
-	color: #2ea2cc;
+	color: #45bbe6;
 }
 
 #wpadminbar > #wp-toolbar > #wp-admin-bar-root-default .ab-icon,
@@ -279,7 +279,7 @@ html:lang(he-il) .rtl #wpadminbar *  {
 #wpadminbar li.hover .ab-icon:before,
 #wpadminbar li.hover .ab-item:before,
 #wpadminbar li:hover #adminbarsearch:before {
-	color: #2ea2cc;
+	color: #45bbe6;
 }
 
 #wpadminbar .menupop .menupop > .ab-item:before,
@@ -330,7 +330,7 @@ html:lang(he-il) .rtl #wpadminbar *  {
 
 #wpadminbar .quicklinks .menupop .ab-sub-secondary > li > a:hover,
 #wpadminbar .quicklinks .menupop .ab-sub-secondary > li .ab-item:focus a {
-	color: #2ea2cc;
+	color: #45bbe6;
 }
 
 #wpadminbar .quicklinks a span#ab-updates {
@@ -477,7 +477,7 @@ html:lang(he-il) .rtl #wpadminbar *  {
 }
 
 #wpadminbar .quicklinks li a:hover .blavatar {
-	color: #2ea2cc;
+	color: #45bbe6;
 }
 
 #wpadminbar .quicklinks li .blavatar:before {
@@ -642,8 +642,10 @@ html:lang(he-il) .rtl #wpadminbar *  {
  */
 .no-customize-support .hide-if-no-customize,
 .customize-support .hide-if-customize,
+.no-customize-support #wpadminbar .hide-if-no-customize,
 .no-customize-support.wp-core-ui .hide-if-no-customize,
 .no-customize-support .wp-core-ui .hide-if-no-customize,
+.customize-support #wpadminbar .hide-if-customize,
 .customize-support.wp-core-ui .hide-if-customize,
 .customize-support .wp-core-ui .hide-if-customize {
 	display: none;
@@ -744,8 +746,6 @@ html:lang(he-il) .rtl #wpadminbar *  {
 @media screen and ( max-width: 782px ) {
 	/* Toolbar Touchification*/
 	html #wpadminbar {
-		right: 0 !important;
-		z-index: 500 !important;
 		height: 46px;
 		min-width: 300px;
 
@@ -1054,7 +1054,6 @@ html:lang(he-il) .rtl #wpadminbar *  {
 	}
 
 	#wpadminbar .ab-top-menu > .menupop > .ab-sub-wrapper {
-		position: fixed;
 		width: 100%;
 		right: 0;
 	}

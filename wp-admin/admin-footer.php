@@ -76,7 +76,7 @@ do_action( 'admin_print_footer_scripts' );
 /**
  * Print scripts or data after the default footer scripts.
  *
- * The dynamic portion of the hook name, $GLOBALS['hook_suffix'],
+ * The dynamic portion of the hook name, `$GLOBALS['hook_suffix']`,
  * refers to the global hook suffix of the current page.
  *
  * @since 2.8.0

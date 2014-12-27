@@ -76,7 +76,7 @@ function get_locale() {
  *
  * If there is no translation, or the text domain isn't loaded, the original text is returned.
  *
- * <strong>Note:</strong> Don't use translate() directly, use __() or related functions.
+ * *Note:* Don't use {@see translate()} directly, use `{@see __()} or related functions.
  *
  * @since 2.2.0
  *
@@ -87,6 +87,7 @@ function get_locale() {
 function translate( $text, $domain = 'default' ) {
 	$translations = get_translations_for_domain( $domain );
 	$translations = $translations->translate( $text );
+
 	/**
 	 * Filter text with its translation.
 	 *
@@ -364,15 +365,14 @@ function _nx($single, $plural, $number, $context, $domain = 'default') {
  * strings and use them later.
  *
  * Example:
- * <code>
- * $messages = array(
- *  	'post' => _n_noop('%s post', '%s posts'),
- *  	'page' => _n_noop('%s pages', '%s pages')
- * );
- * ...
- * $message = $messages[$type];
- * $usable_text = sprintf( translate_nooped_plural( $message, $count ), $count );
- * </code>
+ *
+ *     $messages = array(
+ *      	'post' => _n_noop( '%s post', '%s posts' ),
+ *      	'page' => _n_noop( '%s pages', '%s pages' ),
+ *     );
+ *     ...
+ *     $message = $messages[ $type ];
+ *     $usable_text = sprintf( translate_nooped_plural( $message, $count ), $count );
  *
  * @since 2.5.0
  *
@@ -389,6 +389,11 @@ function _n_noop( $singular, $plural, $domain = null ) {
  * Register plural strings with context in POT file, but don't translate them.
  *
  * @since 2.8.0
+ * @param string $singular
+ * @param string $plural
+ * @param string $context
+ * @param string|null $domain
+ * @return array
  */
 function _nx_noop( $singular, $plural, $context, $domain = null ) {
 	return array( 0 => $singular, 1 => $plural, 2 => $context, 'singular' => $singular, 'plural' => $plural, 'context' => $context, 'domain' => $domain );
@@ -532,7 +537,8 @@ function unload_textdomain( $domain ) {
  *
  * @since 1.5.0
  *
- * @param string $locale Optional. Locale to load. Defaults to get_locale().
+ * @param string $locale Optional. Locale to load. Default is the value of {@see get_locale()}.
+ * @return bool Whether the textdomain was loaded.
  */
 function load_default_textdomain( $locale = null ) {
 	if ( null === $locale ) {
@@ -699,7 +705,7 @@ function load_child_theme_textdomain( $domain, $path = false ) {
  * @since 2.8.0
  *
  * @param string $domain Text domain. Unique identifier for retrieving translated strings.
- * @return Translations A Translations instance.
+ * @return NOOP_Translations A Translations instance.
  */
 function get_translations_for_domain( $domain ) {
 	global $l10n;
@@ -849,23 +855,35 @@ function wp_get_pomo_file_data( $po_file ) {
  * @see get_available_languages()
  * @see wp_get_available_translations()
  *
- * @param array $args Optional arguments. Default empty array.
+ * @param string|array $args {
+ *     Optional. Array or string of arguments for outputting the language selector.
+ *
+ *     @type string  $id                           ID attribute of the select element. Default empty.
+ *     @type string  $name                         Name attribute of the select element. Default empty.
+ *     @type array   $languages                    List of installed languages, contain only the locales.
+ *                                                 Default empty array.
+ *     @type array   $translations                 List of available translations. Default result of
+ *                                                 {@see wp_get_available_translations()}.
+ *     @type string  $selected                     Language which should be selected. Default empty.
+ *     @type bool    $show_available_translations  Whether to show available translations. Default true.
+ * }
  */
 function wp_dropdown_languages( $args = array() ) {
-	require_once( ABSPATH . 'wp-admin/includes/translation-install.php' );
 
 	$args = wp_parse_args( $args, array(
-		'id'        => '',
-		'name'      => '',
-		'languages' => array(),
-		'selected'  => ''
+		'id'           => '',
+		'name'         => '',
+		'languages'    => array(),
+		'translations' => array(),
+		'selected'     => '',
+		'show_available_translations' => true,
 	) );
 
-	if ( empty( $args['languages'] ) ) {
-		return false;
+	$translations = $args['translations'];
+	if ( empty( $translations ) ) {
+		require_once( ABSPATH . 'wp-admin/includes/translation-install.php' );
+		$translations = wp_get_available_translations();
 	}
-
-	$translations = wp_get_available_translations();
 
 	/*
 	 * $args['languages'] should only contain the locales. Find the locale in
@@ -880,6 +898,9 @@ function wp_dropdown_languages( $args = array() ) {
 				'native_name' => $translation['native_name'],
 				'lang'        => $translation['iso'][1],
 			);
+
+			// Remove installed language from available translations.
+			unset( $translations[ $locale ] );
 		} else {
 			$languages[] = array(
 				'language'    => $locale,
@@ -889,20 +910,47 @@ function wp_dropdown_languages( $args = array() ) {
 		}
 	}
 
+	$translations_available = ( ! empty( $translations ) && $args['show_available_translations'] );
+
 	printf( '<select name="%s" id="%s">', esc_attr( $args['name'] ), esc_attr( $args['id'] ) );
 
+	// Holds the HTML markup.
+	$structure = array();
+
 	// List installed languages.
-	echo '<option value="" lang="en">English (United States)</option>';
+	if ( $translations_available ) {
+		$structure[] = '<optgroup label="' . esc_attr_x( 'Installed', 'translations' ) . '">';
+	}
+	$structure[] = '<option value="" lang="en" data-installed="1">English (United States)</option>';
 	foreach ( $languages as $language ) {
-		$selected = selected( $language['language'], $args['selected'], false );
-		printf(
-			'<option value="%s" lang="%s"%s>%s</option>',
+		$structure[] = sprintf(
+			'<option value="%s" lang="%s"%s data-installed="1">%s</option>',
 			esc_attr( $language['language'] ),
 			esc_attr( $language['lang'] ),
-			$selected,
+			selected( $language['language'], $args['selected'], false ),
 			esc_html( $language['native_name'] )
 		);
 	}
+	if ( $translations_available ) {
+		$structure[] = '</optgroup>';
+	}
+
+	// List available translations.
+	if ( $translations_available ) {
+		$structure[] = '<optgroup label="' . esc_attr_x( 'Available', 'translations' ) . '">';
+		foreach ( $translations as $translation ) {
+			$structure[] = sprintf(
+				'<option value="%s" lang="%s"%s>%s</option>',
+				esc_attr( $translation['language'] ),
+				esc_attr( $translation['iso'][1] ),
+				selected( $translation['language'], $args['selected'], false ),
+				esc_html( $translation['native_name'] )
+			);
+		}
+		$structure[] = '</optgroup>';
+	}
+
+	echo join( "\n", $structure );
 
 	echo '</select>';
 }

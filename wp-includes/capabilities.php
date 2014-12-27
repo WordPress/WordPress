@@ -13,14 +13,12 @@
  * the name in value of the 'name' key. The capabilities are stored as an array
  * in the value of the 'capability' key.
  *
- * <code>
- * array (
- *		'rolename' => array (
- *			'name' => 'rolename',
- *			'capabilities' => array()
- *		)
- * )
- * </code>
+ *     array (
+ *    		'rolename' => array (
+ *    			'name' => 'rolename',
+ *    			'capabilities' => array()
+ *    		)
+ *     )
  *
  * @since 2.0.0
  * @package WordPress
@@ -552,7 +550,7 @@ class WP_User {
 	 *
 	 * @param string $field The field to query against: 'id', 'slug', 'email' or 'login'
 	 * @param string|int $value The field value
-	 * @return object Raw user object
+	 * @return object|false Raw user object
 	 */
 	public static function get_data_by( $field, $value ) {
 		global $wpdb;
@@ -613,6 +611,8 @@ class WP_User {
 	 * Magic method for checking the existence of a certain custom field
 	 *
 	 * @since 3.3.0
+	 * @param string $key
+	 * @return bool
 	 */
 	public function __isset( $key ) {
 		if ( 'id' == $key ) {
@@ -633,6 +633,8 @@ class WP_User {
 	 * Magic method for accessing custom fields
 	 *
 	 * @since 3.3.0
+	 * @param string $key
+	 * @return mixed
 	 */
 	public function __get( $key ) {
 		if ( 'id' == $key ) {
@@ -1206,8 +1208,8 @@ function map_meta_cap( $cap, $user_id ) {
 			/**
 			 * Filter whether the user is allowed to add post meta to a post.
 			 *
-			 * The dynamic portion of the hook name, $meta_key, refers to the
-			 * meta key passed to map_meta_cap().
+			 * The dynamic portion of the hook name, `$meta_key`, refers to the
+			 * meta key passed to {@see map_meta_cap()}.
 			 *
 			 * @since 3.3.0
 			 *

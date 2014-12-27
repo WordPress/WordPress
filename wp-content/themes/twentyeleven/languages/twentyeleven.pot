@@ -2,9 +2,9 @@
 # This file is distributed under the GNU General Public License v2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Twenty Eleven 1.9\n"
+"Project-Id-Version: Twenty Eleven 2.0\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tags/twentyeleven\n"
-"POT-Creation-Date: 2014-09-03 00:45:45+00:00\n"
+"POT-Creation-Date: 2014-12-18 16:59:47+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -162,7 +162,7 @@ msgstr ""
 #: content-aside.php:46 content-featured.php:45 content-gallery.php:88
 #: content-image.php:70 content-intro.php:19 content-link.php:46
 #: content-page.php:21 content-quote.php:72 content-single.php:52
-#: content-status.php:59 content.php:82 functions.php:606 functions.php:634
+#: content-status.php:59 content.php:82 functions.php:609 functions.php:637
 #: image.php:41
 msgid "Edit"
 msgstr ""
@@ -223,7 +223,7 @@ msgid ""
 "\" rel=\"author\">%6$s</a></span></span>"
 msgstr ""
 
-#: content-image.php:41 functions.php:672
+#: content-image.php:41 functions.php:675
 msgid "View all posts by %s"
 msgstr ""
 
@@ -266,7 +266,7 @@ msgstr ""
 msgid "Featured"
 msgstr ""
 
-#. #-#-#-#-#  twentyeleven.pot (Twenty Eleven 1.9)  #-#-#-#-#
+#. #-#-#-#-#  twentyeleven.pot (Twenty Eleven 2.0)  #-#-#-#-#
 #. Author URI of the plugin/theme
 #: footer.php:28
 msgid "http://wordpress.org/"
@@ -324,69 +324,69 @@ msgstr ""
 msgid "Hanoi Plant"
 msgstr ""
 
-#: functions.php:443
+#: functions.php:446
 msgid "Main Sidebar"
 msgstr ""
 
-#: functions.php:452
+#: functions.php:455
 msgid "Showcase Sidebar"
 msgstr ""
 
-#: functions.php:454
+#: functions.php:457
 msgid "The sidebar for the optional Showcase Template"
 msgstr ""
 
-#: functions.php:462
+#: functions.php:465
 msgid "Footer Area One"
 msgstr ""
 
-#: functions.php:464 functions.php:474 functions.php:484
+#: functions.php:467 functions.php:477 functions.php:487
 msgid "An optional widget area for your site footer"
 msgstr ""
 
-#: functions.php:472
+#: functions.php:475
 msgid "Footer Area Two"
 msgstr ""
 
-#: functions.php:482
+#: functions.php:485
 msgid "Footer Area Three"
 msgstr ""
 
-#: functions.php:506 single.php:18
+#: functions.php:509 single.php:18
 msgid "Post navigation"
 msgstr ""
 
-#: functions.php:507
+#: functions.php:510
 msgid "<span class=\"meta-nav\">&larr;</span> Older posts"
 msgstr ""
 
-#: functions.php:508
+#: functions.php:511
 msgid "Newer posts <span class=\"meta-nav\">&rarr;</span>"
 msgstr ""
 
-#: functions.php:606
+#: functions.php:609
 msgid "Pingback:"
 msgstr ""
 
 #. translators: 1: comment author, 2: date and time
-#: functions.php:623
+#: functions.php:626
 msgid "%1$s on %2$s <span class=\"says\">said:</span>"
 msgstr ""
 
 #. translators: 1: date, 2: time
-#: functions.php:629
+#: functions.php:632
 msgid "%1$s at %2$s"
 msgstr ""
 
-#: functions.php:638
+#: functions.php:641
 msgid "Your comment is awaiting moderation."
 msgstr ""
 
-#: functions.php:647
+#: functions.php:650
 msgid "Reply <span>&darr;</span>"
 msgstr ""
 
-#: functions.php:666
+#: functions.php:669
 msgid ""
 "<span class=\"sep\">Posted on </span><a href=\"%1$s\" title=\"%2$s\" rel="
 "\"bookmark\"><time class=\"entry-date\" datetime=\"%3$s\">%4$s</time></"

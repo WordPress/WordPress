@@ -31,7 +31,7 @@ do_action( 'wpmuadminedit' );
 /**
  * Fires the requested handler action.
  *
- * The dynamic portion of the hook name, $_GET['action'], refers to the name
+ * The dynamic portion of the hook name, `$_GET['action']`, refers to the name
  * of the requested action.
  *
  * @since 3.1.0

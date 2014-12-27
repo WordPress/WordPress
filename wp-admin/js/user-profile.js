@@ -124,4 +124,22 @@
 		});
 	});
 
+	$( '#destroy-sessions' ).on( 'click', function( e ) {
+		var $this = $(this);
+
+		wp.ajax.post( 'destroy-sessions', {
+			nonce: $( '#_wpnonce' ).val(),
+			user_id: $( '#user_id' ).val()
+		}).done( function( response ) {
+			$this.prop( 'disabled', true );
+			$this.siblings( '.notice' ).remove();
+			$this.before( '<div class="notice notice-success inline"><p>' + response.message + '</p></div>' );
+		}).fail( function( response ) {
+			$this.siblings( '.notice' ).remove();
+			$this.before( '<div class="notice notice-error inline"><p>' + response.message + '</p></div>' );
+		});
+
+		e.preventDefault();
+	});
+
 })(jQuery);
