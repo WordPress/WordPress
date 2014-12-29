@@ -2631,6 +2631,7 @@ p > video {
 	}
 
 	.secondary {
+		box-shadow: 0 0 1px rgba(0, 0, 0, 0.15);
 		margin: 7.6923% 7.6923% 0;
 		padding: 7.6923% 7.6923% 0;
 	}
@@ -3936,6 +3937,7 @@ p > video {
 
 	.secondary {
 		background-color: transparent;
+		box-shadow: none;
 		display: block;
 		margin: 0;
 		padding: 0;
