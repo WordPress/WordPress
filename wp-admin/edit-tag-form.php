@@ -106,7 +106,22 @@ do_action( "{$taxonomy}_term_edit_form_tag" );
 		<tr class="form-field term-parent-wrap">
 			<th scope="row"><label for="parent"><?php _ex( 'Parent', 'term parent' ); ?></label></th>
 			<td>
-				<?php wp_dropdown_categories(array('hide_empty' => 0, 'hide_if_empty' => false, 'name' => 'parent', 'orderby' => 'name', 'taxonomy' => $taxonomy, 'selected' => $tag->parent, 'exclude_tree' => $tag->term_id, 'hierarchical' => true, 'show_option_none' => __('None'))); ?>
+				<?php
+				$dropdown_args = array(
+					'hide_empty'       => 0,
+					'hide_if_empty'    => false,
+					'taxonomy'         => $taxonomy,
+					'name'             => 'parent',
+					'orderby'          => 'name',
+					'selected'         => $tag->parent,
+					'exclude_tree'     => $tag->term_id,
+					'hierarchical'     => true,
+					'show_option_none' => __( 'None' ),
+				);
+
+				/** This filter is documented in wp-admin/edit-tags.php */
+				$dropdown_args = apply_filters( 'taxonomy_parent_dropdown_args', $dropdown_args, $taxonomy, 'edit' );
+				wp_dropdown_categories( $dropdown_args ); ?>
 				<?php if ( 'category' == $taxonomy ) : ?>
 				<p class="description"><?php _e('Categories, unlike tags, can have a hierarchy. You might have a Jazz category, and under that have children categories for Bebop and Big Band. Totally optional.'); ?></p>
 				<?php endif; ?>

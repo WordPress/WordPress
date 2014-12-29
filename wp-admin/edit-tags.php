@@ -478,6 +478,7 @@ do_action( "{$taxonomy}_term_new_form_tag" );
 	 * Filter the taxonomy parent drop-down on the Edit Term page.
 	 *
 	 * @since 3.7.0
+	 * @since 4.1.0 Added $context parameter.
 	 *
 	 * @param array  $dropdown_args {
 	 *     An array of taxonomy parent drop-down arguments.
@@ -492,8 +493,9 @@ do_action( "{$taxonomy}_term_new_form_tag" );
 	 *     @type string   $show_option_none Label to display if there are no terms. Default 'None'.
 	 * }
 	 * @param string $taxonomy The taxonomy slug.
+	 * @param string $context  Filter context. Accepts 'new' or 'edit'.
 	 */
-	$dropdown_args = apply_filters( 'taxonomy_parent_dropdown_args', $dropdown_args, $taxonomy );
+	$dropdown_args = apply_filters( 'taxonomy_parent_dropdown_args', $dropdown_args, $taxonomy, 'new' );
 	wp_dropdown_categories( $dropdown_args );
 	?>
 	<?php if ( 'category' == $taxonomy ) : // @todo: Generic text for hierarchical taxonomies ?>
