@@ -39,14 +39,15 @@ Use it to make something cool, have fun, and share what you've learned with othe
  * 14.0 - Media
  *    14.1 - Captions
  *    14.2 - Galleries
- * 15.0 - Media Queries
- *    15.1 - Mobile Large
- *    15.2 - Tablet Small
- *    15.3 - Tablet Large
- *    15.4 - Desktop Small
- *    15.5 - Desktop Medium
- *    15.6 - Desktop Large
- *    15.7 - Desktop X-Large
+ * 15.0 - Multisite
+ * 16.0 - Media Queries
+ *    16.1 - Mobile Large
+ *    16.2 - Tablet Small
+ *    16.3 - Tablet Large
+ *    16.4 - Desktop Small
+ *    16.5 - Desktop Medium
+ *    16.6 - Desktop Large
+ *    16.7 - Desktop X-Large
  */
 
 
@@ -2562,7 +2563,18 @@ p > video {
 
 
 /**
- * 15.0 Media Queries
+ * 15.0 Multisite
+ */
+
+.site-content .mu_register {
+	background-color: #fff;
+	margin: 0;
+	padding: 7.6923%;
+	width: auto;
+}
+
+/**
+ * 16.0 Media Queries
  */
 
 /*
@@ -2580,7 +2592,7 @@ p > video {
 }
 
 /**
- * 15.1 Mobile Large 620px
+ * 16.1 Mobile Large 620px
  */
 
 @media screen and (min-width: 38.75em) {
@@ -2764,11 +2776,16 @@ p > video {
 	.comment-content blockquote > ol {
 		margin-left: 1.3333em;
 	}
+	
+	.site-content .mu_register {
+		box-shadow: 0 0 1px rgba(0, 0, 0, 0.15);
+		margin: 7.6923%;
+	}
 }
 
 
 /**
- * 15.2 Tablet Small 740px
+ * 16.2 Tablet Small 740px
  */
 
 @media screen and (min-width: 46.25em) {
@@ -3365,7 +3382,7 @@ p > video {
 
 
 /**
- * 15.3 Tablet Large 880px
+ * 16.3 Tablet Large 880px
  */
 
 @media screen and (min-width: 55em) {
@@ -3886,7 +3903,7 @@ p > video {
 
 
 /**
- * 15.4 Desktop Small 955px
+ * 16.4 Desktop Small 955px
  */
 
 @media screen and (min-width: 59.6875em) {
@@ -4552,11 +4569,16 @@ p > video {
 	.gallery {
 		margin-bottom: 1.6em;
 	}
+	
+	.site-content .mu_register {
+		margin: 8.3333%;
+		padding: 8.3333%;
+	}
 }
 
 
 /**
- * 15.5 Desktop Medium 1100px
+ * 16.5 Desktop Medium 1100px
  */
 
 @media screen and (min-width: 68.75em) {
@@ -5063,7 +5085,7 @@ p > video {
 
 
 /**
- * 15.6 Desktop Large 1240px
+ * 16.6 Desktop Large 1240px
  */
 
 @media screen and (min-width: 77.5em) {
@@ -5572,7 +5594,7 @@ p > video {
 
 
 /**
- * 15.7 Desktop X-Large 1403px
+ * 16.7 Desktop X-Large 1403px
  */
 
 @media screen and (min-width: 87.6875em) {
@@ -5614,7 +5636,8 @@ p > video {
 	.entry-footer,
 	.page-header,
 	.page-content,
-	.comments-area {
+	.comments-area,
+	.site-content .mu_register {
 		background: none !important; /* Make sure color schemes dont't affect to print */
 	}
 
@@ -5727,5 +5750,9 @@ p > video {
 	.site-footer {
 		margin-top: 7.6923%;
 		padding: 3.84615% 0;
+	}
+	
+	.site-content .mu_register {
+		padding: 7.6923%;
 	}
 }
