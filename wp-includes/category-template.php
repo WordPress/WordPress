@@ -293,6 +293,7 @@ function category_description( $category = 0 ) {
  * the 'depth' argument.
  *
  * @since 2.1.0
+ * @since 4.2.0 Introduced the 'value_field' parameter.
  *
  * @param string|array $args {
  *     Array of arguments.
@@ -327,7 +328,11 @@ function category_description( $category = 0 ) {
  *     @type string       $id                Optional. Value for the 'id' attribute of the select element.
  *                                           Defaults to the value of $name.
  *     @type string       $class             Optional. Value for the 'class' attribute of the select element.
- *     @type int          $selected          Optional. ID of the category to be selected.
+ *     @type int|string   $selected          Optional. Value of the option that should be selected.
+ *     @type string       $value_field       Optional. Term field that should be used to populate the 'value' attribute
+ *                                           of the option elements. Accepts any valid term field: 'term_id', 'name',
+ *                                           'slug', 'term_group', 'term_taxonomy_id', 'taxonomy', 'description',
+ *                                           'parent', 'count'. Default 'term_id'.
  *     @type string       $taxonomy          Optional. Name of the category to retrieve. Default 'category'.
  *     @type bool         $hide_if_empty     Optional. True to skip generating markup if no categories are found.
  *                                           Default false (create select element even if no categories are found).
@@ -346,7 +351,8 @@ function wp_dropdown_categories( $args = '' ) {
 		'name' => 'cat', 'id' => '',
 		'class' => 'postform', 'depth' => 0,
 		'tab_index' => 0, 'taxonomy' => 'category',
-		'hide_if_empty' => false, 'option_none_value' => -1
+		'hide_if_empty' => false, 'option_none_value' => -1,
+		'value_field' => 'term_id',
 	);
 
 	$defaults['selected'] = ( is_category() ) ? get_query_var( 'cat' ) : 0;
@@ -1106,7 +1112,8 @@ class Walker_CategoryDropdown extends Walker {
 	 * @param string $output   Passed by reference. Used to append additional content.
 	 * @param object $category Category data object.
 	 * @param int    $depth    Depth of category. Used for padding.
-	 * @param array  $args     Uses 'selected' and 'show_count' keys, if they exist. @see wp_dropdown_categories()
+	 * @param array  $args     Uses 'selected', 'show_count', and 'value_field' keys, if they exist.
+	 *                         See {@see wp_dropdown_categories()}.
 	 */
 	public function start_el( &$output, $category, $depth = 0, $args = array(), $id = 0 ) {
 		$pad = str_repeat('&nbsp;', $depth * 3);
@@ -1114,7 +1121,12 @@ class Walker_CategoryDropdown extends Walker {
 		/** This filter is documented in wp-includes/category-template.php */
 		$cat_name = apply_filters( 'list_cats', $category->name, $category );
 
-		$output .= "\t<option class=\"level-$depth\" value=\"".$category->term_id."\"";
+		if ( ! isset( $args['value_field'] ) || ! isset( $category->{$args['value_field']} ) ) {
+			$args['value_field'] = 'term_id';
+		}
+
+		$output .= "\t<option class=\"level-$depth\" value=\"" . esc_attr( $category->{$args['value_field']} ) . "\"";
+
 		if ( $category->term_id == $args['selected'] )
 			$output .= ' selected="selected"';
 		$output .= '>';
