@@ -1865,13 +1865,15 @@ function get_adjacent_post_link( $format, $link, $in_same_term = false, $exclude
 	 * of adjacency, 'next' or 'previous'.
 	 *
 	 * @since 2.6.0
+	 * @since 4.2.0 Added the `$adjacent` parameter.
 	 *
-	 * @param string  $output The adjacent post link.
-	 * @param string  $format Link anchor format.
-	 * @param string  $link   Link permalink format.
-	 * @param WP_Post $post   The adjacent post.
+	 * @param string  $output   The adjacent post link.
+	 * @param string  $format   Link anchor format.
+	 * @param string  $link     Link permalink format.
+	 * @param WP_Post $post     The adjacent post.
+	 * @param string  $adjacent Whether the post is previous or next.
 	 */
-	return apply_filters( "{$adjacent}_post_link", $output, $format, $link, $post );
+	return apply_filters( "{$adjacent}_post_link", $output, $format, $link, $post, $adjacent );
 }
 
 /**
