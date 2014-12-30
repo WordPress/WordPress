@@ -884,7 +884,7 @@ function validate_active_plugins() {
 	}
 
 	if ( empty( $plugins ) )
-		return;
+		return array();
 
 	$invalid = array();
 
