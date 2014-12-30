@@ -287,28 +287,6 @@ function category_description( $category = 0 ) {
 /**
  * Display or retrieve the HTML dropdown list of categories.
  *
- * The list of arguments is below:
- *     'show_option_all' (string) - Text to display for showing all categories.
- *     'show_option_none' (string) - Text to display for showing no categories.
- *     'option_none_value' (mixed) - Value to use when no category is selected.
- *     'orderby' (string) default is 'ID' - What column to use for ordering the
- * categories.
- *     'order' (string) default is 'ASC' - What direction to order categories.
- *     'show_count' (bool|int) default is 0 - Whether to show how many posts are
- * in the category.
- *     'hide_empty' (bool|int) default is 1 - Whether to hide categories that
- * don't have any posts attached to them.
- *     'child_of' (int) default is 0 - See {@link get_categories()}.
- *     'exclude' (string) - See {@link get_categories()}.
- *     'echo' (bool|int) default is 1 - Whether to display or retrieve content.
- *     'depth' (int) - The max depth.
- *     'tab_index' (int) - Tab index for select element.
- *     'name' (string) - The name attribute value for select element.
- *     'id' (string) - The ID attribute value for select element. Defaults to name if omitted.
- *     'class' (string) - The class attribute value for select element.
- *     'selected' (int) - Which category ID is selected.
- *     'taxonomy' (string) - The name of the taxonomy to retrieve. Defaults to category.
- *
  * The 'hierarchical' argument, which is disabled by default, will override the
  * depth argument, unless it is true. When the argument is false, it will
  * display all of the categories. When it is enabled it will use the value in
@@ -316,7 +294,45 @@ function category_description( $category = 0 ) {
  *
  * @since 2.1.0
  *
- * @param string|array $args Optional. Override default arguments.
+ * @param string|array $args {
+ *     Array of arguments.
+ *     @type string       $show_option_all   Optional. Text to display for showing all categories.
+ *                                           Default is an empty string.
+ *     @type string       $show_option_none  Optional. Text to display for showing no categories.
+ *                                           Default is an empty string.
+ *     @type string       $option_none_value Optional. Value to use when no category is selected.
+ *                                           Default is an empty string.
+ *     @type string       $orderby           Optional. Which column to use for ordering categories.
+ *                                           See {@see get_terms()} for list of accepted values. Default: 'id' (term_id).
+ *     @type string       $order             Optional. Whether to order terms in ascending or descending order.
+ *                                           Accepts 'ASC' or 'DESC'. Default 'ASC'.
+ *     @type bool         $pad_counts        Optional. See {@see get_terms()} for description. Default: false.
+ *     @type bool|int     $show_count        Optional. Whether to include post counts. Accepts 0, 1, or their bool
+ *                                           equivalents. Default 0.
+ *     @type bool|int     $hide_empty        Optional. Whether to hide categories that don't have any posts.
+ *                                           Accepts 0, 1, or their bool equivalents. Default 1.
+ *     @type int          $child_of          Optional. Term ID to retrieve child terms of. See {@see get_terms()}.
+ *                                           Default 0.
+ *     @type array|string $exclude           Optional. Array or comma/space-separated string of term ids to exclude.
+ *                                           If $include is non-empty, $exclude is ignored.
+ *                                           Default empty array.
+ *     @type bool|int     $echo              Optional. Whether to echo or return the generated markup. Accepts 0, 1,
+ *                                           or their bool equivalents. Default 1.
+ *     @type bool|int     $hierarchical      Optional. Whether to traverse the taxonomy hierarchy. Accepts 0, 1, or
+ *                                           their bool equivalents. Default: 0.
+ *     @type int          $depth             Optional. Maximum depth. Default 0.
+ *     @type int          $tab_index         Optional. Tab index for the select element. Default 0 (no tabindex).
+ *     @type string       $name              Optional. Value for the 'name' attribute of the select element.
+ *                                           Default: 'cat'.
+ *     @type string       $id                Optional. Value for the 'id' attribute of the select element.
+ *                                           Defaults to the value of $name.
+ *     @type string       $class             Optional. Value for the 'class' attribute of the select element.
+ *     @type int          $selected          Optional. ID of the category to be selected.
+ *     @type string       $taxonomy          Optional. Name of the category to retrieve. Default 'category'.
+ *     @type bool         $hide_if_empty     Optional. True to skip generating markup if no categories are found.
+ *                                           Default false (create select element even if no categories are found).
+ *
+ * }
  * @return string HTML content only if 'echo' argument is 0.
  */
 function wp_dropdown_categories( $args = '' ) {
