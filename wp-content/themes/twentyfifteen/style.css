@@ -2566,12 +2566,94 @@ p > video {
  * 15.0 Multisite
  */
 
-.site-content .mu_register {
+.widecolumn {
 	background-color: #fff;
-	margin: 0;
 	padding: 7.6923%;
+}
+
+.widecolumn .mu_register {
 	width: auto;
 }
+
+.widecolumn .mu_alert {
+	margin-bottom: 1.6em;
+}
+
+.widecolumn form,
+.widecolumn .mu_register form {
+	margin-top: 0;
+}
+
+.widecolumn h2 {
+	font-size: 26px;
+	font-size: 2.6rem;
+	line-height: 1.1538;
+	margin-bottom: 0.9231em;
+}
+
+.widecolumn p {
+	margin: 1.6em 0;
+}
+
+.widecolumn p + h2 {
+	margin-top: 1.8462em;
+}
+
+.widecolumn label,
+.widecolumn .mu_register label {
+	color: #707070;
+	color: rgba(51, 51, 51, 0.7);
+	font-family: "Noto Sans", sans-serif;
+	font-size: 12px;
+	font-size: 1.2rem;
+	font-weight: 700;
+	letter-spacing: 0.04em;
+	line-height: 1.5;
+	text-transform: uppercase;
+}
+
+.widecolumn .mu_register label {
+	margin: 2em 0 0;
+}
+
+.widecolumn #key,
+.widecolumn .mu_register #blog_title,
+.widecolumn .mu_register #user_email,
+.widecolumn .mu_register #blogname,
+.widecolumn .mu_register #user_name {
+	font-size: 16px;
+	font-size: 1.6rem;
+	width: 100%;
+}
+
+.widecolumn .mu_register #blogname {
+	margin: 0;
+}
+
+.widecolumn .mu_register #blog_title,
+.widecolumn .mu_register #user_email,
+.widecolumn .mu_register #user_name {
+	margin: 0 0 0.375em;
+}
+
+.widecolumn #submit,
+.widecolumn .mu_register input[type="submit"] {
+	font-size: 12px;
+	font-size: 1.2rem;
+	margin: 0;
+	width: 100%;
+}
+
+.widecolumn .mu_register .prefix_address,
+.widecolumn .mu_register .suffix_address {
+	font-size: inherit;
+}
+
+.widecolumn .mu_register > :last-child,
+.widecolumn form > :last-child {
+	margin-bottom: 0;
+}
+
 
 /**
  * 16.0 Media Queries
@@ -2778,7 +2860,7 @@ p > video {
 		margin-left: 1.3333em;
 	}
 
-	.site-content .mu_register {
+	.widecolumn {
 		box-shadow: 0 0 1px rgba(0, 0, 0, 0.15);
 		margin: 7.6923%;
 	}
@@ -2845,7 +2927,9 @@ p > video {
 	input[type="button"],
 	input[type="reset"],
 	input[type="submit"],
-	.post-password-form input[type="submit"] {
+	.post-password-form input[type="submit"],
+	.widecolumn #submit,
+	.widecolumn .mu_register input[type="submit"] {
 		font-size: 14px;
 		font-size: 1.4rem;
 		padding: 0.8214em 1.6429em;
@@ -2924,7 +3008,9 @@ p > video {
 	.site-info,
 	.wp-caption-text,
 	.gallery-caption,
-	.entry-caption {
+	.entry-caption,
+	.widecolumn label,
+	.widecolumn .mu_register label {
 		font-size: 14px;
 		font-size: 1.4rem;
 	}
@@ -3151,7 +3237,8 @@ p > video {
 		margin-bottom: 3em;
 	}
 
-	.entry-title {
+	.entry-title,
+	.widecolumn h2 {
 		font-size: 35px;
 		font-size: 3.5rem;
 		line-height: 1.2;
@@ -3379,6 +3466,34 @@ p > video {
 	.gallery {
 		margin-bottom: 1.6471em;
 	}
+
+	.widecolumn .mu_alert {
+		margin-bottom: 1.6471em;
+	}
+
+	.widecolumn p {
+		margin: 1.6471em 0;
+	}
+
+	.widecolumn p + h2 {
+		margin-top: 1.6em;
+	}
+
+	.widecolumn #key,
+	.widecolumn .mu_register #blog_title,
+	.widecolumn .mu_register #user_email,
+	.widecolumn .mu_register #blogname,
+	.widecolumn .mu_register #user_name {
+		font-size: 17px;
+		font-size: 1.7rem;
+		line-height: normal;
+	}
+
+	.widecolumn .mu_register #blog_title,
+	.widecolumn .mu_register #user_email,
+	.widecolumn .mu_register #user_name {
+		margin: 0 0 0.4117em;
+	}
 }
 
 
@@ -3442,7 +3557,9 @@ p > video {
 	input[type="button"],
 	input[type="reset"],
 	input[type="submit"],
-	.post-password-form input[type="submit"] {
+	.post-password-form input[type="submit"],
+	.widecolumn #submit,
+	.widecolumn .mu_register input[type="submit"] {
 		font-size: 16px;
 		font-size: 1.6rem;
 		padding: 0.8125em 1.625em;
@@ -3517,7 +3634,9 @@ p > video {
 	.site-info,
 	.wp-caption-text,
 	.gallery-caption,
-	.entry-caption {
+	.entry-caption,
+	.widecolumn label,
+	.widecolumn .mu_register label {
 		font-size: 16px;
 		font-size: 1.6rem;
 	}
@@ -3687,7 +3806,8 @@ p > video {
 		margin-bottom: 2.9474em;
 	}
 
-	.entry-title {
+	.entry-title,
+	.widecolumn h2 {
 		font-size: 39px;
 		font-size: 3.9rem;
 		line-height: 1.2308;
@@ -3900,6 +4020,33 @@ p > video {
 	.gallery {
 		margin-bottom: 1.6842em;
 	}
+
+	.widecolumn .mu_alert {
+		margin-bottom: 1.6842em;
+	}
+
+	.widecolumn p {
+		margin: 1.6842em 0;
+	}
+
+	.widecolumn p + h2 {
+		margin-top: 1.641em;
+	}
+
+	.widecolumn #key,
+	.widecolumn .mu_register #blog_title,
+	.widecolumn .mu_register #user_email,
+	.widecolumn .mu_register #blogname,
+	.widecolumn .mu_register #user_name {
+		font-size: 19px;
+		font-size: 1.9rem;
+	}
+
+	.widecolumn .mu_register #blog_title,
+	.widecolumn .mu_register #user_email,
+	.widecolumn .mu_register #user_name {
+		margin: 0 0 0.421em;
+	}
 }
 
 
@@ -4010,7 +4157,9 @@ p > video {
 	input[type="button"],
 	input[type="reset"],
 	input[type="submit"],
-	.post-password-form input[type="submit"] {
+	.post-password-form input[type="submit"],
+	.widecolumn #submit,
+	.widecolumn .mu_register input[type="submit"] {
 		font-size: 12px;
 		font-size: 1.2rem;
 		padding: 0.7917em 1.5833em;
@@ -4097,7 +4246,9 @@ p > video {
 	.site-info,
 	.wp-caption-text,
 	.gallery-caption,
-	.entry-caption {
+	.entry-caption,
+	.widecolumn label,
+	.widecolumn .mu_register label {
 		font-size: 12px;
 		font-size: 1.2rem;
 	}
@@ -4314,7 +4465,8 @@ p > video {
 		padding: 0 10%;
 	}
 
-	.entry-title {
+	.entry-title,
+	.widecolumn h2 {
 		font-size: 31px;
 		font-size: 3.1rem;
 		line-height: 1.1613;
@@ -4572,9 +4724,36 @@ p > video {
 		margin-bottom: 1.6em;
 	}
 
-	.site-content .mu_register {
+	.widecolumn {
 		margin: 8.3333%;
 		padding: 8.3333%;
+	}
+
+	.widecolumn .mu_alert {
+		margin-bottom: 1.6em;
+	}
+
+	.widecolumn p {
+		margin: 1.6em 0;
+	}
+
+	.widecolumn p + h2 {
+		margin-top: 1.5484em;
+	}
+
+	.widecolumn #key,
+	.widecolumn .mu_register #blog_title,
+	.widecolumn .mu_register #user_email,
+	.widecolumn .mu_register #blogname,
+	.widecolumn .mu_register #user_name {
+		font-size: 16px;
+		font-size: 1.6rem;
+	}
+
+	.widecolumn .mu_register #blog_title,
+	.widecolumn .mu_register #user_email,
+	.widecolumn .mu_register #user_name {
+		margin: 0 0 0.375em;
 	}
 }
 
@@ -4639,7 +4818,9 @@ p > video {
 	input[type="button"],
 	input[type="reset"],
 	input[type="submit"],
-	.post-password-form input[type="submit"] {
+	.post-password-form input[type="submit"],
+	.widecolumn #submit,
+	.widecolumn .mu_register input[type="submit"] {
 		font-size: 14px;
 		font-size: 1.4rem;
 		padding: 0.8214em 1.5714em;
@@ -4715,7 +4896,9 @@ p > video {
 	.site-info,
 	.wp-caption-text,
 	.gallery-caption,
-	.entry-caption {
+	.entry-caption,
+	.widecolumn label,
+	.widecolumn .mu_register label {
 		font-size: 14px;
 		font-size: 1.4rem;
 	}
@@ -4865,7 +5048,8 @@ p > video {
 		margin-bottom: 2.4706em;
 	}
 
-	.entry-title {
+	.entry-title,
+	.widecolumn h2 {
 		font-size: 35px;
 		font-size: 3.5rem;
 		line-height: 1.2;
@@ -5083,6 +5267,33 @@ p > video {
 	.gallery {
 		margin-bottom: 1.6471em;
 	}
+
+	.widecolumn .mu_alert {
+		margin-bottom: 1.6471em;
+	}
+
+	.widecolumn p {
+		margin: 1.6471em 0;
+	}
+
+	.widecolumn p + h2 {
+		margin-top: 1.6em;
+	}
+
+	.widecolumn #key,
+	.widecolumn .mu_register #blog_title,
+	.widecolumn .mu_register #user_email,
+	.widecolumn .mu_register #blogname,
+	.widecolumn .mu_register #user_name {
+		font-size: 17px;
+		font-size: 1.7rem;
+	}
+
+	.widecolumn .mu_register #blog_title,
+	.widecolumn .mu_register #user_email,
+	.widecolumn .mu_register #user_name {
+		margin: 0 0 0.4117em;
+	}
 }
 
 
@@ -5146,7 +5357,9 @@ p > video {
 	input[type="button"],
 	input[type="reset"],
 	input[type="submit"],
-	.post-password-form input[type="submit"] {
+	.post-password-form input[type="submit"],
+	.widecolumn #submit,
+	.widecolumn .mu_register input[type="submit"] {
 		font-size: 16px;
 		font-size: 1.6rem;
 		padding: 0.8125em 1.625em;
@@ -5221,7 +5434,9 @@ p > video {
 	.site-info,
 	.wp-caption-text,
 	.gallery-caption,
-	.entry-caption {
+	.entry-caption,
+	.widecolumn label,
+	.widecolumn .mu_register label {
 		font-size: 16px;
 		font-size: 1.6rem;
 	}
@@ -5383,7 +5598,8 @@ p > video {
 		margin-bottom: 2.9474em;
 	}
 
-	.entry-title {
+	.entry-title,
+	.widecolumn h2 {
 		font-size: 39px;
 		font-size: 3.9rem;
 		line-height: 1.2308;
@@ -5592,6 +5808,33 @@ p > video {
 	.gallery {
 		margin-bottom: 1.6842em;
 	}
+
+	.widecolumn .mu_alert {
+		margin-bottom: 1.6842em;
+	}
+
+	.widecolumn p {
+		margin: 1.6842em 0;
+	}
+
+	.widecolumn p + h2 {
+		margin-top: 1.641em;
+	}
+
+	.widecolumn #key,
+	.widecolumn .mu_register #blog_title,
+	.widecolumn .mu_register #user_email,
+	.widecolumn .mu_register #blogname,
+	.widecolumn .mu_register #user_name {
+		font-size: 19px;
+		font-size: 1.9rem;
+	}
+
+	.widecolumn .mu_register #blog_title,
+	.widecolumn .mu_register #user_email,
+	.widecolumn .mu_register #user_name {
+		margin: 0 0 0.421em;
+	}
 }
 
 
@@ -5628,7 +5871,9 @@ p > video {
 	button,
 	input,
 	textarea,
-	select {
+	select,
+	.widecolumn form,
+	.widecolumn .mu_register form {
 		display: none;
 	}
 
@@ -5639,7 +5884,7 @@ p > video {
 	.page-header,
 	.page-content,
 	.comments-area,
-	.site-content .mu_register {
+	.widecolumn {
 		background: none !important; /* Make sure color schemes dont't affect to print */
 	}
 
@@ -5691,6 +5936,10 @@ p > video {
 
 	.site {
 		margin: 0 7.6923%;
+	}
+
+	.sidebar {
+		position: relative !important; /* Make sure sticky sidebar doesn't affect to print */
 	}
 
 	.site-branding {
@@ -5754,7 +6003,8 @@ p > video {
 		padding: 3.84615% 0;
 	}
 
-	.site-content .mu_register {
-		padding: 7.6923%;
+	.widecolumn {
+		margin: 7.6923% 0 0;
+		padding: 0;
 	}
 }
