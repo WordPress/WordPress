@@ -674,7 +674,9 @@ class WP_Comment_Query {
 		if ( ! empty( $post_fields ) ) {
 			$join_posts_table = true;
 			foreach ( $post_fields as $field_name => $field_value ) {
-				$where[] = $wpdb->prepare( " {$wpdb->posts}.{$field_name} = %s", $field_value );
+				// $field_value may be an array.
+				$esses = array_fill( 0, count( (array) $field_value ), '%s' );
+				$where[] = $wpdb->prepare( " {$wpdb->posts}.{$field_name} IN (" . implode( ',', $esses ) . ')', $field_value );
 			}
 		}
 
