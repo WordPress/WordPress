@@ -50,9 +50,14 @@ function wp_underscore_audio_template() {
 function wp_underscore_video_template() {
 	$video_types = wp_get_video_extensions();
 ?>
-<#  var w_rule = h_rule = '',
+<#  var w_rule = h_rule = '', classes = [],
 		w, h, settings = wp.media.view.settings,
-		isYouTube = ! _.isEmpty( data.model.src ) && data.model.src.match(/youtube|youtu\.be/);
+		isYouTube = isVimeo = false;
+
+	if ( ! _.isEmpty( data.model.src ) ) {
+		isYouTube = data.model.src.match(/youtube|youtu\.be/);
+		isVimeo = -1 !== data.model.src.indexOf('vimeo');
+	}
 
 	if ( settings.contentWidth && data.model.width >= settings.contentWidth ) {
 		w = settings.contentWidth;
@@ -72,10 +77,19 @@ function wp_underscore_video_template() {
 	if ( h ) {
 		h_rule = 'height: ' + h + 'px;';
 	}
+
+	if ( isYouTube ) {
+		classes.push( 'youtube-video' );
+	}
+
+	if ( isVimeo ) {
+		classes.push( 'vimeo-video' );
+	}
+
 #>
 <div style="{{ w_rule }}{{ h_rule }}" class="wp-video">
 <video controls
-	class="wp-video-shortcode{{ isYouTube ? ' youtube-video' : '' }}"
+	class="wp-video-shortcode {{ classes.join( ' ' ) }}"
 	<# if ( w ) { #>width="{{ w }}"<# } #>
 	<# if ( h ) { #>height="{{ h }}"<# } #>
 	<?php
@@ -100,6 +114,8 @@ function wp_underscore_video_template() {
 	<# if ( ! _.isEmpty( data.model.src ) ) {
 		if ( isYouTube ) { #>
 		<source src="{{ data.model.src }}" type="video/youtube" />
+		<# } else if ( isVimeo ) { #>
+		<source src="{{ data.model.src }}" type="video/vimeo" />
 		<# } else { #>
 		<source src="{{ data.model.src }}" type="{{ settings.embedMimes[ data.model.src.split('.').pop() ] }}" />
 		<# }
@@ -1092,8 +1108,7 @@ function wp_print_media_templates() {
 			<div class="embed-media-settings embed-video-settings">
 				<div class="wp-video-holder">
 				<#
-				var isYouTube = ! _.isEmpty( data.model.src ) && data.model.src.match(/youtube|youtu\.be/);
-					w = ! data.model.width || data.model.width > 640 ? 640 : data.model.width,
+				var w = ! data.model.width || data.model.width > 640 ? 640 : data.model.width,
 					h = ! data.model.height ? 360 : data.model.height;
 
 				if ( data.model.width && w !== data.model.width ) {

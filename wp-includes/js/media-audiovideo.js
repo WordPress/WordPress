@@ -688,12 +688,23 @@
 			this.controller.setState( 'add-' + this.controller.defaults.id + '-source' );
 		},
 
+		loadPlayer: function () {
+			this.players.push( new MediaElementPlayer( this.media, this.settings ) );
+			this.scriptXhr = false;
+		},
+
 		/**
 		 * @global MediaElementPlayer
 		 */
 		setPlayer : function() {
-			if ( ! this.players.length && this.media ) {
-				this.players.push( new MediaElementPlayer( this.media, this.settings ) );
+			if ( this.players.length || ! this.media ) {
+				return;
+			}
+
+			if ( this.media.src.indexOf( 'vimeo' ) && ! ( 'Froogaloop' in window ) && ! this.scriptXhr ) {
+				this.scriptXhr = $.getScript( baseSettings.pluginPath + 'froogaloop.min.js', _.bind( this.loadPlayer, this ) );
+			} else if ( ! this.scriptXhr ) {
+				this.loadPlayer();
 			}
 		},
 
@@ -814,7 +825,7 @@
 					video.show();
 				}
 
-				if ( ! video.hasClass('youtube-video') ) {
+				if ( ! video.hasClass('youtube-video') && ! video.hasClass('vimeo-video') ) {
 					this.media = media.view.MediaDetails.prepareSrc( video.get(0) );
 				} else {
 					this.media = video.get(0);
