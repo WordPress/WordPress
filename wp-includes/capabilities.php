@@ -985,7 +985,7 @@ class WP_User {
 		 * @since 2.0.0
 		 * @since 3.7.0 Added the user object.
 		 *
-		 * @param array   $allcaps An array of all the role's capabilities.
+		 * @param array   $allcaps An array of all the user's capabilities.
 		 * @param array   $caps    Actual capabilities for meta capability.
 		 * @param array   $args    Optional parameters passed to has_cap(), typically object ID.
 		 * @param WP_User $user    The user object.
