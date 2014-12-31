@@ -22,7 +22,7 @@
  *     Author URI: Link to the author's web site
  *     Version: Must be set in the plugin for WordPress 2.3+
  *     Text Domain: Optional. Unique identifier, should be same as the one used in
- *    		plugin_text_domain()
+ *    		load_plugin_textdomain()
  *     Domain Path: Optional. Only useful if the translations are located in a
  *    		folder above the plugin's base path. For example, if .mo files are
  *    		located in the locale folder then Domain Path will be "/locale/" and
