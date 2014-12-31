@@ -3692,23 +3692,21 @@ function get_object_term_cache($id, $taxonomy) {
 }
 
 /**
- * Updates the cache for Term ID(s).
+ * Updates the cache for the given term object ID(s).
  *
- * Will only update the cache for terms not already cached.
+ * Note: Due to performance concerns, great care should be taken to only update
+ * term caches when necessary. Processing time can increase exponentially depending
+ * on both the number of passed term IDs and the number of taxonomies those terms
+ * belong to.
  *
- * The $object_ids expects that the ids be separated by commas, if it is a
- * string.
- *
- * It should be noted that update_object_term_cache() is very time extensive. It
- * is advised that the function is not called very often or at least not for a
- * lot of terms that exist in a lot of taxonomies. The amount of time increases
- * for each term and it also increases for each taxonomy the term belongs to.
+ * Caches will only be updated for terms not already cached.
  *
  * @since 2.3.0
  *
- * @param string|array $object_ids Single or list of term object ID(s)
- * @param array|string $object_type The taxonomy object type
- * @return null|false Null value is given with empty $object_ids. False if
+ * @param string|array $object_ids  Comma-separated list or array of term object IDs..
+ * @param array|string $object_type The taxonomy object type.
+ * @return null|false Null if `$object_ids` is empty, false if all of the terms in
+ *                    `$object_ids` are already cached.
  */
 function update_object_term_cache($object_ids, $object_type) {
 	if ( empty($object_ids) )
