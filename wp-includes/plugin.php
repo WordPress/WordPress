@@ -325,10 +325,10 @@ function remove_all_filters( $tag, $priority = false ) {
 	global $wp_filter, $merged_filters;
 
 	if ( isset( $wp_filter[ $tag ]) ) {
-		if ( false !== $priority && isset( $wp_filter[ $tag ][ $priority ] ) ) {
-			$wp_filter[ $tag ][ $priority ] = array();
-		} else {
+		if ( false === $priority ) {
 			$wp_filter[ $tag ] = array();
+		} else if ( isset( $wp_filter[ $tag ][ $priority ] ) ) {
+			$wp_filter[ $tag ][ $priority ] = array();
 		}
 	}
 
