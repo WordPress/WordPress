@@ -2293,9 +2293,9 @@ function wp_embed_handler_googlevideo( $matches, $attr, $url, $rawattr ) {
 }
 
 /**
- * YouTube embed handler callback.
+ * YouTube iframe embed handler callback.
  *
- * Catches URLs that can be parsed but aren't supported by oEmbed.
+ * Catches YouTube iframe embed URLs that are not parsable by oEmbed but can be translated into a URL that is.
  *
  * @since 4.0.0
  *
