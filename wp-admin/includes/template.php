@@ -412,7 +412,7 @@ function get_inline_data($post) {
  * @param bool $table_row
  */
 function wp_comment_reply($position = '1', $checkbox = false, $mode = 'single', $table_row = true) {
-
+	global $wp_list_table;
 	/**
 	 * Filter the in-line comment reply-to form output in the Comments
 	 * list table.
@@ -435,10 +435,12 @@ function wp_comment_reply($position = '1', $checkbox = false, $mode = 'single', 
 		return;
 	}
 
-	if ( $mode == 'single' ) {
-		$wp_list_table = _get_list_table('WP_Post_Comments_List_Table');
-	} else {
-		$wp_list_table = _get_list_table('WP_Comments_List_Table');
+	if ( ! $wp_list_table ) {
+		if ( $mode == 'single' ) {
+			$wp_list_table = _get_list_table('WP_Post_Comments_List_Table');
+		} else {
+			$wp_list_table = _get_list_table('WP_Comments_List_Table');
+		}
 	}
 
 ?>
