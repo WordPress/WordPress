@@ -3423,11 +3423,11 @@ function wp_insert_post( $postarr, $wp_error = false ) {
 		if ( 'default' != $postarr['page_template'] && ! isset( $page_templates[ $postarr['page_template'] ] ) ) {
 			if ( $wp_error ) {
 				return new WP_Error('invalid_page_template', __('The page template is invalid.'));
-			} else {
-				return 0;
 			}
+			update_post_meta( $post_ID, '_wp_page_template', 'default' );
+		} else {
+			update_post_meta( $post_ID, '_wp_page_template', $postarr['page_template'] );
 		}
-		update_post_meta( $post_ID, '_wp_page_template', $postarr['page_template'] );
 	}
 
 	if ( 'attachment' !== $postarr['post_type'] ) {
