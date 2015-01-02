@@ -376,7 +376,12 @@ function wp_dropdown_categories( $args = '' ) {
 	if ( (int) $tab_index > 0 ) {
 		$tab_index_attribute = " tabindex=\"$tab_index\"";
 	}
-	$categories = get_terms( $r['taxonomy'], $r );
+
+	// Avoid clashes with the 'name' param of get_terms().
+	$get_terms_args = $r;
+	unset( $get_terms_args['name'] );
+	$categories = get_terms( $r['taxonomy'], $get_terms_args );
+
 	$name = esc_attr( $r['name'] );
 	$class = esc_attr( $r['class'] );
 	$id = $r['id'] ? esc_attr( $r['id'] ) : $name;

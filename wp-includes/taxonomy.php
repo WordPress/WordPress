@@ -1548,6 +1548,7 @@ function get_term_to_edit( $id, $taxonomy ) {
  * along with the $args array.
  *
  * @since 2.3.0
+ * @since 4.2.0 Introduced 'name' parameter.
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
@@ -1578,6 +1579,7 @@ function get_term_to_edit( $id, $taxonomy ) {
  *     @type string       $fields            Term fields to query for. Accepts 'all' (returns an array of
  *                                           term objects), 'ids' or 'names' (returns an array of integers
  *                                           or strings, respectively. Default 'all'.
+ *     @type string|array $name              Optional. Name or array of names to return term(s) for. Default empty.
  *     @type string|array $slug              Optional. Slug or array of slugs to return term(s) for. Default empty.
  *     @type bool         $hierarchical      Whether to include terms that have non-empty descendants (even
  *                                           if $hide_empty is set to true). Default true.
@@ -1618,7 +1620,7 @@ function get_terms( $taxonomies, $args = '' ) {
 
 	$defaults = array('orderby' => 'name', 'order' => 'ASC',
 		'hide_empty' => true, 'exclude' => array(), 'exclude_tree' => array(), 'include' => array(),
-		'number' => '', 'fields' => 'all', 'slug' => '', 'parent' => '',
+		'number' => '', 'fields' => 'all', 'name' => '', 'slug' => '', 'parent' => '',
 		'hierarchical' => true, 'child_of' => 0, 'get' => '', 'name__like' => '', 'description__like' => '',
 		'pad_counts' => false, 'offset' => '', 'search' => '', 'cache_domain' => 'core' );
 	$args = wp_parse_args( $args, $defaults );
@@ -1793,6 +1795,16 @@ function get_terms( $taxonomies, $args = '' ) {
 
 	if ( ! empty( $exclusions ) ) {
 		$where .= $exclusions;
+	}
+
+	if ( ! empty( $args['name'] ) ) {
+		if ( is_array( $args['name'] ) ) {
+			$name = array_map( 'sanitize_text_field', $args['name'] );
+			$where .= " AND t.name IN ('" . implode( "', '", $name ) . "')";
+		} else {
+			$name = sanitize_text_field( $args['name'] );
+			$where .= $wpdb->prepare( " AND t.name = %s", $name );
+		}
 	}
 
 	if ( ! empty( $args['slug'] ) ) {
