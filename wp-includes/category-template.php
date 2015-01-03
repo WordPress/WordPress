@@ -996,6 +996,11 @@ class Walker_Category extends Walker {
 			$category
 		);
 
+		// Don't generate an element if the category name is empty.
+		if ( ! $cat_name ) {
+			return;
+		}
+
 		$link = '<a href="' . esc_url( get_term_link( $category ) ) . '" ';
 		if ( $args['use_desc_for_title'] && ! empty( $category->description ) ) {
 			/**
