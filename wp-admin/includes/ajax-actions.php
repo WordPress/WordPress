@@ -2159,11 +2159,17 @@ function wp_ajax_query_attachments() {
 		wp_send_json_error();
 
 	$query = isset( $_REQUEST['query'] ) ? (array) $_REQUEST['query'] : array();
-	$query = array_intersect_key( $query, array_flip( array(
+	$keys = array(
 		's', 'order', 'orderby', 'posts_per_page', 'paged', 'post_mime_type',
 		'post_parent', 'post__in', 'post__not_in', 'year', 'monthnum'
-	) ) );
+	);
+	foreach ( get_taxonomies_for_attachments( 'objects' ) as $t ) {
+		if ( $t->query_var && isset( $query[ $t->query_var ] ) ) {
+			$keys[] = $t->query_var;
+		}
+	}
 
+	$query = array_intersect_key( $query, array_flip( $keys ) );
 	$query['post_type'] = 'attachment';
 	if ( MEDIA_TRASH
 		&& ! empty( $_REQUEST['query']['post_status'] )
