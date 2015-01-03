@@ -109,7 +109,6 @@ if ( !empty($_REQUEST['ajax']) ) {
 	switch ($_REQUEST['ajax']) {
 		case 'video': ?>
 			<script type="text/javascript">
-			/* <![CDATA[ */
 				jQuery('.select').click(function() {
 					append_editor(jQuery('#embed-code').val());
 					jQuery('#extra-fields').hide();
@@ -119,7 +118,6 @@ if ( !empty($_REQUEST['ajax']) ) {
 					jQuery('#extra-fields').hide();
 					jQuery('#extra-fields').html('');
 				});
-			/* ]]> */
 			</script>
 			<div class="postbox">
 				<h2><label for="embed-code"><?php _e('Embed Code') ?></label></h2>
@@ -132,14 +130,12 @@ if ( !empty($_REQUEST['ajax']) ) {
 
 		case 'photo_thickbox': ?>
 			<script type="text/javascript">
-				/* <![CDATA[ */
 				jQuery('.cancel').click(function() {
 					tb_remove();
 				});
 				jQuery('.select').click(function() {
 					image_selector(this);
 				});
-				/* ]]> */
 			</script>
 			<h3 class="tb"><label for="tb_this_photo_description"><?php _e('Description') ?></label></h3>
 			<div class="titlediv">
@@ -299,11 +295,9 @@ die;
 ?>
 <title><?php _e('Press This') ?></title>
 <script type="text/javascript">
-//<![CDATA[
 addLoadEvent = function(func){if(typeof jQuery!="undefined")jQuery(document).ready(func);else if(typeof wpOnload!='function'){wpOnload=func;}else{var oldonload=wpOnload;wpOnload=function(){oldonload();func();}}};
 var ajaxurl = '<?php echo admin_url( 'admin-ajax.php', 'relative' ); ?>', pagenow = 'press-this', isRtl = <?php echo (int) is_rtl(); ?>;
 var photostorage = false;
-//]]>
 </script>
 
 <?php

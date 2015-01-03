@@ -28,7 +28,6 @@ $timezone_format = _x('Y-m-d G:i:s', 'timezone date format');
 function options_general_add_js() {
 ?>
 <script type="text/javascript">
-//<![CDATA[
 	jQuery(document).ready(function($){
 		var $siteName = $( '#wp-admin-bar-site-name' ).children( 'a' ).first(),
 			homeURL = ( <?php echo wp_json_encode( get_home_url() ); ?> || '' ).replace( /^(https?:\/\/)?(www\.)?/, '' );
@@ -77,7 +76,6 @@ function options_general_add_js() {
 			}
 		});
 	});
-//]]>
 </script>
 <?php
 }

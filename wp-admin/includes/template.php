@@ -1549,7 +1549,6 @@ function iframe_header( $title = '', $limit_styles = false ) {
 wp_enqueue_style( 'colors' );
 ?>
 <script type="text/javascript">
-//<![CDATA[
 addLoadEvent = function(func){if(typeof jQuery!="undefined")jQuery(document).ready(func);else if(typeof wpOnload!='function'){wpOnload=func;}else{var oldonload=wpOnload;wpOnload=function(){oldonload();func();}}};
 function tb_close(){var win=window.dialogArguments||opener||parent||top;win.tb_remove();}
 var ajaxurl = '<?php echo admin_url( 'admin-ajax.php', 'relative' ); ?>',
@@ -1559,7 +1558,6 @@ var ajaxurl = '<?php echo admin_url( 'admin-ajax.php', 'relative' ); ?>',
 	thousandsSeparator = '<?php echo addslashes( $wp_locale->number_format['thousands_sep'] ); ?>',
 	decimalPoint = '<?php echo addslashes( $wp_locale->number_format['decimal_point'] ); ?>',
 	isRtl = <?php echo (int) is_rtl(); ?>;
-//]]>
 </script>
 <?php
 /** This action is documented in wp-admin/admin-header.php */
@@ -1596,13 +1594,11 @@ $admin_body_classes = apply_filters( 'admin_body_class', '' );
 ?>
 <body<?php if ( isset($GLOBALS['body_id']) ) echo ' id="' . $GLOBALS['body_id'] . '"'; ?> class="wp-admin wp-core-ui no-js iframe <?php echo $admin_body_classes . ' ' . $admin_body_class; ?>">
 <script type="text/javascript">
-//<![CDATA[
 (function(){
 var c = document.body.className;
 c = c.replace(/no-js/, 'js');
 document.body.className = c;
 })();
-//]]>
 </script>
 <?php
 }
@@ -1729,7 +1725,6 @@ function _media_states( $post ) {
 function compression_test() {
 ?>
 	<script type="text/javascript">
-	/* <![CDATA[ */
 	var testCompression = {
 		get : function(test) {
 			var x;
@@ -1776,7 +1771,6 @@ function compression_test() {
 		}
 	};
 	testCompression.check();
-	/* ]]> */
 	</script>
 <?php
 }
@@ -1975,7 +1969,6 @@ final class WP_Internal_Pointers {
 
 		?>
 		<script type="text/javascript">
-		//<![CDATA[
 		(function($){
 			var options = <?php echo wp_json_encode( $args ); ?>, setup;
 
@@ -2001,7 +1994,6 @@ final class WP_Internal_Pointers {
 				$(document).ready( setup );
 
 		})( jQuery );
-		//]]>
 		</script>
 		<?php
 	}

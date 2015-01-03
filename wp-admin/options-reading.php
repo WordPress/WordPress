@@ -23,7 +23,6 @@ $parent_file = 'options-general.php';
 function options_reading_add_js() {
 ?>
 <script type="text/javascript">
-//<![CDATA[
 	jQuery(document).ready(function($){
 		var section = $('#front-static-pages'),
 			staticPage = section.find('input:radio[value="page"]'),
@@ -34,7 +33,6 @@ function options_reading_add_js() {
 		check_disabled();
  		section.find('input:radio').change(check_disabled);
 	});
-//]]>
 </script>
 <?php
 }

@@ -955,9 +955,7 @@ function can_edit_network( $site_id ) {
 function _thickbox_path_admin_subfolder() {
 ?>
 <script type="text/javascript">
-//<![CDATA[
 var tb_pathToImage = "<?php echo includes_url( 'js/thickbox/loadingAnimation.gif', 'relative' ); ?>";
-//]]>
 </script>
 <?php
 }

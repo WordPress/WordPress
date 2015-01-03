@@ -54,7 +54,6 @@ get_current_screen()->set_help_sidebar(
 function options_permalink_add_js() {
 	?>
 <script type="text/javascript">
-//<![CDATA[
 jQuery(document).ready(function() {
 	jQuery('.permalink-structure input:radio').change(function() {
 		if ( 'custom' == this.value )
@@ -65,7 +64,6 @@ jQuery(document).ready(function() {
 		jQuery("#custom_selection").attr('checked', 'checked');
 	});
 });
-//]]>
 </script>
 <?php
 }
