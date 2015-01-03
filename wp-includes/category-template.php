@@ -1053,16 +1053,36 @@ class Walker_Category extends Walker {
 		}
 		if ( 'list' == $args['style'] ) {
 			$output .= "\t<li";
-			$class = 'cat-item cat-item-' . $category->term_id;
+			$css_classes = array(
+				'cat-item',
+				'cat-item-' . $category->term_id,
+			);
+
 			if ( ! empty( $args['current_category'] ) ) {
 				$_current_category = get_term( $args['current_category'], $category->taxonomy );
 				if ( $category->term_id == $args['current_category'] ) {
-					$class .=  ' current-cat';
+					$css_classes[] = 'current-cat';
 				} elseif ( $category->term_id == $_current_category->parent ) {
-					$class .=  ' current-cat-parent';
+					$css_classes[] = 'current-cat-parent';
 				}
 			}
-			$output .=  ' class="' . $class . '"';
+
+			/**
+			 * Filter the list of CSS classes to include with each category in the list.
+			 *
+			 * @since 4.2.0
+			 *
+			 * @see wp_list_categories()
+			 *
+			 * @param array  $css_classes    An array of CSS classes to be applied
+			 *                               to each list item.
+			 * @param object $category       Category data object.
+			 * @param int    $depth          Depth of page, used for padding.
+			 * @param array  $args           An array of arguments.
+			 */
+			$css_classes = implode( ' ', apply_filters( 'category_css_class', $css_classes, $category, $depth, $args ) );
+
+			$output .=  ' class="' . $css_classes . '"';
 			$output .= ">$link\n";
 		} else {
 			$output .= "\t$link<br />\n";
