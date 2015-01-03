@@ -203,12 +203,16 @@ function wp_enqueue_script( $handle, $src = false, $deps = array(), $ver = false
 		$wp_scripts = new WP_Scripts();
 	}
 
+	$_handle = explode( '?', $handle );
+
 	if ( $src ) {
-		$_handle = explode('?', $handle);
 		$wp_scripts->add( $_handle[0], $src, $deps, $ver );
-		if ( $in_footer )
-			$wp_scripts->add_data( $_handle[0], 'group', 1 );
 	}
+
+	if ( $in_footer ) {
+		$wp_scripts->add_data( $_handle[0], 'group', 1 );
+	}
+
 	$wp_scripts->enqueue( $handle );
 }
 
