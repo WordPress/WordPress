@@ -306,9 +306,12 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 	 */
 	public function rotate( $angle ) {
 		if ( function_exists('imagerotate') ) {
-			$rotated = imagerotate( $this->image, $angle, 0 );
+			$transparency = imagecolorallocatealpha( $this->image, 255, 255, 255, 127 );
+			$rotated = imagerotate( $this->image, $angle, $transparency );
 
 			if ( is_resource( $rotated ) ) {
+				imagealphablending( $rotated, true );
+				imagesavealpha( $rotated, true );
 				imagedestroy( $this->image );
 				$this->image = $rotated;
 				$this->update_size();
