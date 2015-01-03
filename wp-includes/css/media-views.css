@@ -449,7 +449,8 @@
 
 .compat-item .field {
 	float: right;
-	width: 66%;
+	width: 65%;
+	margin: 1px;
 }
 
 .compat-item .field input[type="text"],
@@ -458,9 +459,11 @@
 .compat-item .field input[type="number"],
 .compat-item .field input[type="search"],
 .compat-item .field input[type="tel"],
-.compat-item .field input[type="url"] {
+.compat-item .field input[type="url"],
+.compat-item .field textarea {
 	width: 100%;
 	margin: 0;
+	box-sizing: border-box;
 }
 
 .sidebar-for-errors .attachment-details,
