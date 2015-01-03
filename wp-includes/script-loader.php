@@ -857,8 +857,21 @@ function _print_scripts() {
 		echo "<script type='text/javascript' src='" . esc_attr($src) . "'></script>\n";
 	}
 
-	if ( !empty($wp_scripts->print_html) )
+	if ( ! empty( $wp_scripts->print_html ) ) {
 		echo $wp_scripts->print_html;
+	}
+
+	if ( ! empty( $wp_scripts->print_after_html ) ) {
+		if ( $wp_scripts->do_concat ) {
+			echo "<script type='text/javascript'>\n";
+			echo "/* <![CDATA[ */\n"; // not needed in HTML 5
+			echo trim( $wp_scripts->print_after_html ) . "\n";
+			echo "/* ]]> */\n";
+			echo "</script>\n";
+		} else {
+			echo $wp_scripts->print_after_html;
+		}
+	}
 }
 
 /**
