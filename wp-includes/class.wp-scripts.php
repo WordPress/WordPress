@@ -142,7 +142,7 @@ class WP_Scripts extends WP_Dependencies {
 
 		$tag = "<script type='text/javascript' src='$src'></script>\n";
 
-		/** 
+		/**
 		 * Filter the HTML script tag of an enqueued script.
 		 *
 		 * @since 4.1.0
@@ -170,6 +170,10 @@ class WP_Scripts extends WP_Dependencies {
 	public function localize( $handle, $object_name, $l10n ) {
 		if ( $handle === 'jquery' )
 			$handle = 'jquery-core';
+
+		if ( is_callable( $l10n ) ) {
+			$l10n = call_user_func( $l10n );
+		}
 
 		if ( is_array($l10n) && isset($l10n['l10n_print_after']) ) { // back compat, preserve the code in 'l10n_print_after' if present
 			$after = $l10n['l10n_print_after'];
