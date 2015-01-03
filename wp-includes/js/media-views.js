@@ -5430,21 +5430,33 @@
 		 * @returns {Object}
 		 */
 		imageSize: function( size ) {
-			var sizes = this.model.get('sizes');
+			var sizes = this.model.get('sizes'), matched = false;
 
 			size = size || 'medium';
 
 			// Use the provided image size if possible.
-			if ( sizes && sizes[ size ] ) {
-				return _.clone( sizes[ size ] );
-			} else {
-				return {
-					url:         this.model.get('url'),
-					width:       this.model.get('width'),
-					height:      this.model.get('height'),
-					orientation: this.model.get('orientation')
-				};
+			if ( sizes ) {
+				if ( sizes[ size ] ) {
+					matched = sizes[ size ];
+				} else if ( sizes.large ) {
+					matched = sizes.large;
+				} else if ( sizes.thumbnail ) {
+					matched = sizes.thumbnail;
+				} else if ( sizes.full ) {
+					matched = sizes.full;
+				}
+
+				if ( matched ) {
+					return _.clone( matched );
+				}
 			}
+
+			return {
+				url:         this.model.get('url'),
+				width:       this.model.get('width'),
+				height:      this.model.get('height'),
+				orientation: this.model.get('orientation')
+			};
 		},
 		/**
 		 * @param {Object} event
