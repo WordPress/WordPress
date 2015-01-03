@@ -112,6 +112,10 @@ class WP_Terms_List_Table extends WP_List_Table {
 		return true;
 	}
 
+	public function no_items() {
+		echo get_taxonomy( $this->screen->taxonomy )->labels->not_found;
+	}
+
 	protected function get_bulk_actions() {
 		$actions = array();
 		$actions['delete'] = __( 'Delete' );
