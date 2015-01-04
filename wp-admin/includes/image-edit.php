@@ -748,7 +748,7 @@ function wp_save_image( $post_id ) {
 		if ( $tag )
 			$backup_sizes[$tag] = array('width' => $meta['width'], 'height' => $meta['height'], 'file' => $path_parts['basename']);
 
-		$success = update_attached_file( $post_id, $new_path );
+		$success = ( $path === $new_path ) || update_attached_file( $post_id, $new_path );
 
 		$meta['file'] = _wp_relative_upload_path( $new_path );
 
