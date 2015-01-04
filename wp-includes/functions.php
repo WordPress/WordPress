@@ -2174,7 +2174,7 @@ function wp_get_mime_types() {
 	'gif' => 'image/gif',
 	'png' => 'image/png',
 	'bmp' => 'image/bmp',
-	'tif|tiff' => 'image/tiff',
+	'tiff|tif' => 'image/tiff',
 	'ico' => 'image/x-icon',
 	// Video formats.
 	'asf|asx' => 'video/x-ms-asf',
