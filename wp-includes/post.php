@@ -2478,11 +2478,14 @@ function wp_match_mime_types( $wildcard_mime_types, $real_mime_types ) {
 	$wild = '[-._a-z0-9]*';
 
 	foreach ( (array) $wildcard_mime_types as $type ) {
-		$regex = str_replace( '__wildcard__', $wild, preg_quote( str_replace( '*', '__wildcard__', $type ) ) );
-		$patternses[1][$type] = "^$regex$";
-		if ( false === strpos($type, '/') ) {
-			$patternses[2][$type] = "^$regex/";
-			$patternses[3][$type] = $regex;
+		$mimes = array_map( 'trim', explode( ',', $type ) );
+		foreach ( $mimes as $mime ) {
+			$regex = str_replace( '__wildcard__', $wild, preg_quote( str_replace( '*', '__wildcard__', $mime ) ) );
+			$patternses[][$type] = "^$regex$";
+			if ( false === strpos( $mime, '/' ) ) {
+				$patternses[][$type] = "^$regex/";
+				$patternses[][$type] = $regex;
+			}
 		}
 	}
 	asort( $patternses );
