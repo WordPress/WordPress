@@ -4659,7 +4659,7 @@
 				delete this.options[ key ];
 			}, this );
 
-			this.model.on( 'change', this.render, this );
+			this.listenTo( this.model, 'change', this.render );
 		},
 		/**
 		 * @returns {wp.media.view.Button} Returns itself to allow chaining
@@ -5118,22 +5118,22 @@
 				} );
 
 			if ( options.rerenderOnModelChange ) {
-				this.model.on( 'change', this.render, this );
+				this.listenTo( this.model, 'change', this.render );
 			} else {
-				this.model.on( 'change:percent', this.progress, this );
+				this.listenTo( this.model, 'change:percent', this.progress );
 			}
-			this.model.on( 'change:title', this._syncTitle, this );
-			this.model.on( 'change:caption', this._syncCaption, this );
-			this.model.on( 'change:artist', this._syncArtist, this );
-			this.model.on( 'change:album', this._syncAlbum, this );
+			this.listenTo( this.model, 'change:title', this._syncTitle );
+			this.listenTo( this.model, 'change:caption', this._syncCaption );
+			this.listenTo( this.model, 'change:artist', this._syncArtist );
+			this.listenTo( this.model, 'change:album', this._syncAlbum );
 
 			// Update the selection.
-			this.model.on( 'add', this.select, this );
-			this.model.on( 'remove', this.deselect, this );
+			this.listenTo( this.model, 'add', this.select );
+			this.listenTo( this.model, 'remove', this.deselect );
 			if ( selection ) {
 				selection.on( 'reset', this.updateSelect, this );
 				// Update the model's details view.
-				this.model.on( 'selection:single selection:unsingle', this.details, this );
+				this.listenTo( this.model, 'selection:single selection:unsingle', this.details );
 				this.details( this.model, this.controller.state().get('selection') );
 			}
 
@@ -6015,7 +6015,7 @@
 				};
 			}, this ).sortBy('priority').pluck('el').value() );
 
-			this.model.on( 'change', this.select, this );
+			this.listenTo( this.model, 'change', this.select );
 			this.select();
 		},
 
@@ -6818,7 +6818,7 @@
 
 		initialize: function() {
 			this.model = this.model || new Backbone.Model();
-			this.model.on( 'change', this.updateChanges, this );
+			this.listenTo( this.model, 'change', this.updateChanges );
 		},
 
 		prepare: function() {
@@ -6935,7 +6935,7 @@
 			});
 			// Call 'initialize' directly on the parent class.
 			media.view.Settings.prototype.initialize.apply( this, arguments );
-			this.model.on( 'change:link', this.updateLinkTo, this );
+			this.listenTo( this.model, 'change:link', this.updateLinkTo );
 
 			if ( attachment ) {
 				attachment.on( 'change:uploading', this.render, this );
@@ -7185,7 +7185,7 @@
 		},
 
 		initialize: function() {
-			this.model.on( 'change:compat', this.render, this );
+			this.listenTo( this.model, 'change:compat', this.render );
 		},
 		/**
 		 * @returns {wp.media.view.AttachmentCompat} Returns itself to allow chaining
@@ -7285,8 +7285,8 @@
 
 			this.views.set([ this.url ]);
 			this.refresh();
-			this.model.on( 'change:type', this.refresh, this );
-			this.model.on( 'change:loading', this.loading, this );
+			this.listenTo( this.model, 'change:type', this.refresh );
+			this.listenTo( this.model, 'change:loading', this.loading );
 		},
 
 		/**
@@ -7372,7 +7372,7 @@
 			this.spinner = $('<span class="spinner" />')[0];
 			this.$el.append([ this.input, this.spinner ]);
 
-			this.model.on( 'change:url', this.render, this );
+			this.listenTo( this.model, 'change:url', this.render );
 
 			if ( this.model.get( 'url' ) ) {
 				_.delay( function () {
@@ -7498,7 +7498,7 @@
 			 * Call `initialize` directly on parent class with passed arguments
 			 */
 			media.view.Settings.AttachmentDisplay.prototype.initialize.apply( this, arguments );
-			this.model.on( 'change:url', this.updateImage, this );
+			this.listenTo( this.model, 'change:url', this.updateImage );
 		},
 
 		updateImage: function() {
