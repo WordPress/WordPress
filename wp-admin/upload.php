@@ -26,11 +26,16 @@ if ( 'grid' === $mode ) {
 	wp_enqueue_script( 'media' );
 
 	$vars = wp_edit_attachments_query_vars();
-	unset( $vars['mode'], $vars['post_type'], $vars['post_status'], $vars['posts_per_page'] );
+	$ignore = array( 'mode', 'post_type', 'post_status', 'posts_per_page' );
+	foreach ( $vars as $key => $value ) {
+		if ( ! $value || in_array( $key, $ignore ) ) {
+			unset( $vars[ $key ] );
+		}
+	}
 
 	wp_localize_script( 'media-grid', '_wpMediaGridSettings', array(
 		'adminUrl' => parse_url( self_admin_url(), PHP_URL_PATH ),
-		'queryVars' => $vars
+		'queryVars' => (object) $vars
 	) );
 
 	get_current_screen()->add_help_tab( array(
