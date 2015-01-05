@@ -422,7 +422,7 @@ class WP_User {
 	 *
 	 * @since 2.0.0
 	 * @access private
-	 * @var array
+	 * @var object
 	 */
 	var $data;
 
@@ -521,13 +521,17 @@ class WP_User {
 			$id = 0;
 		}
 
-		if ( $id )
+		if ( $id ) {
 			$data = self::get_data_by( 'id', $id );
-		else
+		} else {
 			$data = self::get_data_by( 'login', $name );
+		}
 
-		if ( $data )
+		if ( $data ) {
 			$this->init( $data, $blog_id );
+		} else {
+			$this->data = new stdClass;
+		}
 	}
 
 	/**
