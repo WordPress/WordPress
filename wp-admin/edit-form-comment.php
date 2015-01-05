@@ -48,8 +48,9 @@ if ( !defined('ABSPATH') )
 	<?php
 		if ( ! empty( $comment->comment_author_url ) && 'http://' != $comment->comment_author_url ) {
 			$link = '<a href="' . $comment->comment_author_url . '" rel="external nofollow" target="_blank">' . __('visit site') . '</a>';
+			$author = get_comment_author( $comment->comment_ID );
 			/** This filter is documented in wp-includes/comment-template.php */
-			printf( __( 'URL (%s):' ), apply_filters( 'get_comment_author_link', $link ) );
+			printf( __( 'URL (%s):' ), apply_filters( 'get_comment_author_link', $link, $author, $comment->comment_ID ) );
 		} else {
 			_e( 'URL:' );
 		} ?></td>
