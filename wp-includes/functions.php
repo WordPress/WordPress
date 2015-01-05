@@ -182,7 +182,7 @@ function number_format_i18n( $number, $decimals = 0 ) {
 /**
  * Convert number of bytes largest unit bytes will fit into.
  *
- * It is easier to read 1kB than 1024 bytes and 1MB than 1048576 bytes. Converts
+ * It is easier to read 1 kB than 1024 bytes and 1 MB than 1048576 bytes. Converts
  * number of bytes to human readable number by taking the number of that unit
  * that the bytes will go into it. Supports TB value.
  *
@@ -206,11 +206,14 @@ function size_format( $bytes, $decimals = 0 ) {
 		'GB' => 1073741824,     // pow( 1024, 3)
 		'MB' => 1048576,        // pow( 1024, 2)
 		'kB' => 1024,           // pow( 1024, 1)
-		'B ' => 1,              // pow( 1024, 0)
+		'B'  => 1,              // pow( 1024, 0)
 	);
-	foreach ( $quant as $unit => $mag )
-		if ( doubleval($bytes) >= $mag )
+
+	foreach ( $quant as $unit => $mag ) {
+		if ( doubleval( $bytes ) >= $mag ) {
 			return number_format_i18n( $bytes / $mag, $decimals ) . ' ' . $unit;
+		}
+	}
 
 	return false;
 }
