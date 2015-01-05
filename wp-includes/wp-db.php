@@ -2017,7 +2017,6 @@ class wpdb {
 		$this->func_call = "\$db->get_var(\"$query\", $x, $y)";
 
 		if ( $query ) {
-			$this->check_current_query = false;
 			$this->query( $query );
 		}
 
@@ -2046,7 +2045,6 @@ class wpdb {
 	public function get_row( $query = null, $output = OBJECT, $y = 0 ) {
 		$this->func_call = "\$db->get_row(\"$query\",$output,$y)";
 		if ( $query ) {
-			$this->check_current_query = false;
 			$this->query( $query );
 		} else {
 			return null;
@@ -2084,7 +2082,6 @@ class wpdb {
 	 */
 	public function get_col( $query = null , $x = 0 ) {
 		if ( $query ) {
-			$this->check_current_query = false;
 			$this->query( $query );
 		}
 
@@ -2113,7 +2110,6 @@ class wpdb {
 		$this->func_call = "\$db->get_results(\"$query\", $output)";
 
 		if ( $query ) {
-			$this->check_current_query = false;
 			$this->query( $query );
 		} else {
 			return null;
@@ -2438,6 +2434,8 @@ class wpdb {
 				if ( $charset !== $this->charset ) {
 					$this->set_charset( $this->dbh, $charset );
 				}
+
+				$this->check_current_query = false;
 
 				$row = $this->get_row( "SELECT " . implode( ', ', $query ), ARRAY_N );
 				if ( ! $row ) {
