@@ -444,6 +444,9 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 			 * @param array $plugin       The plugin currently being listed.
 			 */
 			$action_links = apply_filters( 'plugin_install_action_links', $action_links, $plugin );
+
+			$date_format = __( 'M j, Y @ G:i' );
+			$last_updated_timestamp = strtotime( $plugin['last_updated'] );
 		?>
 		<div class="plugin-card">
 			<div class="plugin-card-top">
@@ -469,8 +472,8 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 					<span class="num-ratings">(<?php echo number_format_i18n( $plugin['num_ratings'] ); ?>)</span>
 				</div>
 				<div class="column-updated">
-					<strong><?php _e( 'Last Updated:' ); ?></strong> <span title="<?php echo esc_attr( $plugin['last_updated'] ); ?>">
-						<?php printf( __( '%s ago' ), human_time_diff( strtotime( $plugin['last_updated'] ) ) ); ?>
+					<strong><?php _e( 'Last Updated:' ); ?></strong> <span title="<?php echo esc_attr( date_i18n( $date_format, $last_updated_timestamp ) ); ?>">
+						<?php printf( __( '%s ago' ), human_time_diff( $last_updated_timestamp ) ); ?>
 					</span>
 				</div>
 				<div class="column-downloaded">
