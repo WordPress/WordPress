@@ -78,11 +78,10 @@ class WP_Date_Query {
 	 *                                the $default_column parameter. Default 'post_date'. Accepts 'post_date',
 	 *                                'post_date_gmt', 'post_modified','post_modified_gmt', 'comment_date',
 	 *                                'comment_date_gmt'.
-	 *         @type string $compare  Optional. The comparison operator.
-	 *                                Accepts '=', '!=', '>', '>=', '<', '<=', 'IN', 'NOT IN'. Default '='.
-	 *                                'BETWEEN', 'NOT BETWEEN'.
-	 *         @type string $relation Optional. The boolean relationship between the date queries.
-	 *                                Accepts 'OR', 'AND'. Default 'OR'.
+	 *         @type string $compare  Optional. The comparison operator. Default '='.
+	 *                                Accepts '=', '!=', '>', '>=', '<', '<=', 'IN', 'NOT IN', 'BETWEEN', 'NOT BETWEEN'.
+	 *         @type string $relation Optional. The boolean relationship between the date queries. Default 'OR'.
+	 *                                Accepts 'OR', 'AND'.
 	 *         @type array {
 	 *             Optional. An array of first-order clause parameters, or another fully-formed date query.
 	 *
