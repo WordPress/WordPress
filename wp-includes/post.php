@@ -2351,6 +2351,12 @@ function wp_count_posts( $type = 'post', $perm = '' ) {
 
 	$cache_key = _count_posts_cache_key( $type, $perm );
 
+	$counts = wp_cache_get( $cache_key, 'counts' );
+	if ( false !== $counts ) {
+		/** This filter is documented in wp-includes/post.php */
+		return apply_filters( 'wp_count_posts', $counts, $type, $perm );
+	}
+
 	$query = "SELECT post_status, COUNT( * ) AS num_posts FROM {$wpdb->posts} WHERE post_type = %s";
 	if ( 'readable' == $perm && is_user_logged_in() ) {
 		$post_type_object = get_post_type_object($type);
@@ -2362,17 +2368,15 @@ function wp_count_posts( $type = 'post', $perm = '' ) {
 	}
 	$query .= ' GROUP BY post_status';
 
-	$counts = wp_cache_get( $cache_key, 'counts' );
-	if ( false === $counts ) {
-		$results = (array) $wpdb->get_results( $wpdb->prepare( $query, $type ), ARRAY_A );
-		$counts = array_fill_keys( get_post_stati(), 0 );
+	$results = (array) $wpdb->get_results( $wpdb->prepare( $query, $type ), ARRAY_A );
+	$counts = array_fill_keys( get_post_stati(), 0 );
 
-		foreach ( $results as $row )
-			$counts[ $row['post_status'] ] = $row['num_posts'];
-
-		$counts = (object) $counts;
-		wp_cache_set( $cache_key, $counts, 'counts' );
+	foreach ( $results as $row ) {
+		$counts[ $row['post_status'] ] = $row['num_posts'];
 	}
+
+	$counts = (object) $counts;
+	wp_cache_set( $cache_key, $counts, 'counts' );
 
 	/**
 	 * Modify returned post counts by status for the current post type.
