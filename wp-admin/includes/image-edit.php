@@ -567,7 +567,7 @@ function stream_preview_image( $post_id ) {
 function wp_restore_image($post_id) {
 	$meta = wp_get_attachment_metadata($post_id);
 	$file = get_attached_file($post_id);
-	$backup_sizes = get_post_meta( $post_id, '_wp_attachment_backup_sizes', true );
+	$backup_sizes = $old_backup_sizes = get_post_meta( $post_id, '_wp_attachment_backup_sizes', true );
 	$restored = false;
 	$msg = new stdClass;
 
@@ -629,7 +629,9 @@ function wp_restore_image($post_id) {
 		}
 	}
 
-	if ( !wp_update_attachment_metadata($post_id, $meta) || !update_post_meta( $post_id, '_wp_attachment_backup_sizes', $backup_sizes) ) {
+	if ( ! wp_update_attachment_metadata( $post_id, $meta ) ||
+		( $old_backup_sizes !== $backup_sizes && ! update_post_meta( $post_id, '_wp_attachment_backup_sizes', $backup_sizes ) ) ) {
+
 		$msg->error = __('Cannot save image metadata.');
 		return $msg;
 	}
