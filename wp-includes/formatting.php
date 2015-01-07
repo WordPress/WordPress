@@ -3264,10 +3264,12 @@ function wp_make_link_relative( $link ) {
  * @return string Sanitized value.
  */
 function sanitize_option($option, $value) {
+	global $wpdb;
 
 	switch ( $option ) {
 		case 'admin_email' :
 		case 'new_admin_email' :
+			$value = $wpdb->strip_invalid_text_for_column( $wpdb->options, 'option_value', $value );
 			$value = sanitize_email( $value );
 			if ( ! is_email( $value ) ) {
 				$value = get_option( $option ); // Resets option to stored value in the case of failed sanitization
@@ -3316,6 +3318,7 @@ function sanitize_option($option, $value) {
 
 		case 'blogdescription':
 		case 'blogname':
+			$value = $wpdb->strip_invalid_text_for_column( $wpdb->options, 'option_value', $value );
 			$value = wp_kses_post( $value );
 			$value = esc_html( $value );
 			break;
@@ -3338,6 +3341,7 @@ function sanitize_option($option, $value) {
 		case 'mailserver_login':
 		case 'mailserver_pass':
 		case 'upload_path':
+			$value = $wpdb->strip_invalid_text_for_column( $wpdb->options, 'option_value', $value );
 			$value = strip_tags( $value );
 			$value = wp_kses_data( $value );
 			break;
@@ -3354,6 +3358,7 @@ function sanitize_option($option, $value) {
 			break;
 
 		case 'siteurl':
+			$value = $wpdb->strip_invalid_text_for_column( $wpdb->options, 'option_value', $value );
 			if ( (bool)preg_match( '#http(s?)://(.+)#i', $value) ) {
 				$value = esc_url_raw($value);
 			} else {
@@ -3364,6 +3369,7 @@ function sanitize_option($option, $value) {
 			break;
 
 		case 'home':
+			$value = $wpdb->strip_invalid_text_for_column( $wpdb->options, 'option_value', $value );
 			if ( (bool)preg_match( '#http(s?)://(.+)#i', $value) ) {
 				$value = esc_url_raw($value);
 			} else {
@@ -3384,6 +3390,7 @@ function sanitize_option($option, $value) {
 			break;
 
 		case 'illegal_names':
+			$value = $wpdb->strip_invalid_text_for_column( $wpdb->options, 'option_value', $value );
 			if ( ! is_array( $value ) )
 				$value = explode( ' ', $value );
 
@@ -3395,6 +3402,7 @@ function sanitize_option($option, $value) {
 
 		case 'limited_email_domains':
 		case 'banned_email_domains':
+			$value = $wpdb->strip_invalid_text_for_column( $wpdb->options, 'option_value', $value );
 			if ( ! is_array( $value ) )
 				$value = explode( "\n", $value );
 
@@ -3421,6 +3429,7 @@ function sanitize_option($option, $value) {
 		case 'permalink_structure':
 		case 'category_base':
 		case 'tag_base':
+			$value = $wpdb->strip_invalid_text_for_column( $wpdb->options, 'option_value', $value );
 			$value = esc_url_raw( $value );
 			$value = str_replace( 'http://', '', $value );
 			break;
@@ -3432,6 +3441,7 @@ function sanitize_option($option, $value) {
 
 		case 'moderation_keys':
 		case 'blacklist_keys':
+			$value = $wpdb->strip_invalid_text_for_column( $wpdb->options, 'option_value', $value );
 			$value = explode( "\n", $value );
 			$value = array_filter( array_map( 'trim', $value ) );
 			$value = array_unique( $value );
