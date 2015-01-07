@@ -311,7 +311,7 @@ class WP_Embed {
 	 * @return string Potentially modified $content.
 	 */
 	public function autoembed( $content ) {
-		return preg_replace_callback( '|^\s*(https?://[^\s"]+)\s*$|im', array( $this, 'autoembed_callback' ), $content );
+		return preg_replace_callback( '|^(\s*)(https?://[^\s"]+)(\s*)$|im', array( $this, 'autoembed_callback' ), $content );
 	}
 
 	/**
@@ -323,10 +323,10 @@ class WP_Embed {
 	public function autoembed_callback( $match ) {
 		$oldval = $this->linkifunknown;
 		$this->linkifunknown = false;
-		$return = $this->shortcode( array(), $match[1] );
+		$return = $this->shortcode( array(), $match[2] );
 		$this->linkifunknown = $oldval;
 
-		return "\n$return\n";
+		return $match[1] . $return . $match[3];
 	}
 
 	/**
