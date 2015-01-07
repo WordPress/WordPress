@@ -229,6 +229,7 @@ function wp_can_install_language_pack() {
 	require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
 	$skin = new Automatic_Upgrader_Skin;
 	$upgrader = new Language_Pack_Upgrader( $skin );
+	$upgrader->init();
 
 	$check = $upgrader->fs_connect( array( WP_CONTENT_DIR, WP_LANG_DIR ) );
 
