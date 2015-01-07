@@ -677,7 +677,8 @@ final class WP_Customize_Manager {
 		 *
 		 * @since 4.2.0
 		 *
-		 * @param array $data
+		 * @param array                $data Additional information passed back to the 'saved'
+		 *                                   event on `wp.customize`.
 		 * @param WP_Customize_Manager $this WP_Customize_Manager instance.
 		 */
 		$response = apply_filters( 'customize_save_response', array(), $this );
