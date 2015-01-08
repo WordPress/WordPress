@@ -2513,7 +2513,7 @@ class wpdb {
 	 * @return string|WP_Error The converted string, or a `WP_Error` object if the conversion fails.
 	 */
 	public function strip_invalid_text_for_column( $table, $column, $value ) {
-		if ( $this->check_ascii( $value ) || ! is_string( $value ) ) {
+		if ( ! is_string( $value ) || $this->check_ascii( $value ) ) {
 			return $value;
 		}
 
