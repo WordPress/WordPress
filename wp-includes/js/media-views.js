@@ -3006,6 +3006,7 @@
 				model:      state,
 				sortable:   true,
 				search:     false,
+				date:       false,
 				dragInfo:   true,
 
 				AttachmentView: media.view.Attachment.EditSelection
