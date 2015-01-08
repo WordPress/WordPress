@@ -894,7 +894,7 @@ final class WP_Customize_Manager {
 	 * @param {WP_Customize_Panel|WP_Customize_Section|WP_Customize_Control} $b Object B.
 	 * @return int
 	 */
-	protected final function _cmp_priority( $a, $b ) {
+	protected function _cmp_priority( $a, $b ) {
 		if ( $a->priority === $b->priority ) {
 			return $a->instance_number - $a->instance_number;
 		} else {
