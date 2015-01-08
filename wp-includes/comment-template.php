@@ -1138,7 +1138,6 @@ function comments_template( $file = '/comments.php', $separate_comments = false 
 
 	/*
 	 * Comment author information fetched from the comment cookies.
-	 * Uuses wp_get_current_commenter().
 	 */
 	$commenter = wp_get_current_commenter();
 
