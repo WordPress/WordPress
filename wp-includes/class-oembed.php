@@ -272,7 +272,7 @@ class WP_oEmbed {
 	 * @param array $args Optional arguments. Usually passed from a shortcode.
 	 * @return false|string False on failure, otherwise the UNSANITIZED (and potentially unsafe) HTML that should be used to embed.
 	 */
-	function get_html( $url, $args = '' ) {
+	public function get_html( $url, $args = '' ) {
 		$provider = $this->get_provider( $url, $args );
 
 		if ( !$provider || false === $data = $this->fetch( $provider, $url, $args ) )

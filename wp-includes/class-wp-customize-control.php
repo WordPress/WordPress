@@ -183,7 +183,7 @@ class WP_Customize_Control {
 	 *
 	 * @return bool Whether the control is active to the current preview.
 	 */
-	public final function active() {
+	final public function active() {
 		$control = $this;
 		$active = call_user_func( $this->active_callback, $this );
 
@@ -224,7 +224,7 @@ class WP_Customize_Control {
 	 * @param string $setting_key
 	 * @return mixed The requested setting's value, if the setting exists.
 	 */
-	public final function value( $setting_key = 'default' ) {
+	final public function value( $setting_key = 'default' ) {
 		if ( isset( $this->settings[ $setting_key ] ) ) {
 			return $this->settings[ $setting_key ]->value();
 		}
@@ -270,7 +270,7 @@ class WP_Customize_Control {
 	 *
 	 * @return bool False if theme doesn't support the control or user doesn't have the required permissions, otherwise true.
 	 */
-	public final function check_capabilities() {
+	final public function check_capabilities() {
 		foreach ( $this->settings as $setting ) {
 			if ( ! $setting->check_capabilities() )
 				return false;
@@ -290,7 +290,7 @@ class WP_Customize_Control {
 	 *
 	 * @return string Contents of the control.
 	 */
-	public final function get_content() {
+	final public function get_content() {
 		ob_start();
 		$this->maybe_render();
 		$template = trim( ob_get_contents() );
@@ -304,7 +304,7 @@ class WP_Customize_Control {
 	 * @since 3.4.0
 	 * @uses WP_Customize_Control::render()
 	 */
-	public final function maybe_render() {
+	final public function maybe_render() {
 		if ( ! $this->check_capabilities() )
 			return;
 
@@ -975,7 +975,7 @@ class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control {
 		$this->uploaded_headers = $custom_image_header->get_uploaded_header_images();
 	}
 
-	function print_header_image_template() {
+	public function print_header_image_template() {
 		?>
 		<script type="text/template" id="tmpl-header-choice">
 			<# if (data.random) { #>
@@ -1185,7 +1185,7 @@ class WP_Widget_Form_Customize_Control extends WP_Customize_Control {
 	 *
 	 * @return bool Whether the widget is rendered.
 	 */
-	function active_callback() {
+	public function active_callback() {
 		return $this->manager->widgets->is_widget_rendered( $this->widget_id );
 	}
 }

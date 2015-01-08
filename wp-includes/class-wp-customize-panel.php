@@ -166,7 +166,7 @@ class WP_Customize_Panel {
 	 *
 	 * @return bool Whether the panel is active to the current preview.
 	 */
-	public final function active() {
+	final public function active() {
 		$panel = $this;
 		$active = call_user_func( $this->active_callback, $this );
 
@@ -221,7 +221,7 @@ class WP_Customize_Panel {
 	 *
 	 * @return bool False if theme doesn't support the panel or the user doesn't have the capability.
 	 */
-	public final function check_capabilities() {
+	final public function check_capabilities() {
 		if ( $this->capability && ! call_user_func_array( 'current_user_can', (array) $this->capability ) ) {
 			return false;
 		}
@@ -240,7 +240,7 @@ class WP_Customize_Panel {
 	 *
 	 * @return string Content for the panel.
 	 */
-	public final function get_content() {
+	final public function get_content() {
 		ob_start();
 		$this->maybe_render();
 		$template = trim( ob_get_contents() );
@@ -253,7 +253,7 @@ class WP_Customize_Panel {
 	 *
 	 * @since 4.0.0
 	 */
-	public final function maybe_render() {
+	final public function maybe_render() {
 		if ( ! $this->check_capabilities() ) {
 			return;
 		}

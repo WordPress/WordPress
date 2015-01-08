@@ -170,7 +170,7 @@ class WP_Customize_Setting {
 	 *
 	 * @return false|null False if cap check fails or value isn't set.
 	 */
-	public final function save() {
+	final public function save() {
 		$value = $this->post_value();
 
 		if ( ! $this->check_capabilities() || ! isset( $value ) )
@@ -199,7 +199,7 @@ class WP_Customize_Setting {
 	 * @param mixed $default A default value which is used as a fallback. Default is null.
 	 * @return mixed The default value on failure, otherwise the sanitized value.
 	 */
-	public final function post_value( $default = null ) {
+	final public function post_value( $default = null ) {
 		// Check for a cached value
 		if ( isset( $this->_post_value ) )
 			return $this->_post_value;
@@ -385,7 +385,7 @@ class WP_Customize_Setting {
 	 *
 	 * @return bool False if theme doesn't support the setting or user can't change setting, otherwise true.
 	 */
-	public final function check_capabilities() {
+	final public function check_capabilities() {
 		if ( $this->capability && ! call_user_func_array( 'current_user_can', (array) $this->capability ) )
 			return false;
 
