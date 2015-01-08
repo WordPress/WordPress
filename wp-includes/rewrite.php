@@ -2036,6 +2036,12 @@ class WP_Rewrite {
 	 * @param bool $hard Whether to update .htaccess (hard flush) or just update rewrite_rules option (soft flush). Default is true (hard).
 	 */
 	public function flush_rules($hard = true) {
+		// Prevent this action from running before everyone has registered their rewrites
+		if ( ! did_action( 'wp_loaded' ) ) {
+			add_action( 'wp_loaded', array( $this, 'flush_rules' ) );
+			return;
+		}
+
 		delete_option('rewrite_rules');
 		$this->wp_rewrite_rules();
 		/**
