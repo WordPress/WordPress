@@ -9,9 +9,9 @@
  */
 class WP_Plugin_Install_List_Table extends WP_List_Table {
 
-	var $order = 'ASC';
-	var $orderby = null;
-	var $groups = array();
+	public $order = 'ASC';
+	public $orderby = null;
+	public $groups = array();
 
 	public function ajax_user_can() {
 		return current_user_can('install_plugins');

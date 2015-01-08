@@ -421,10 +421,9 @@ class WP_User {
 	 * User data container.
 	 *
 	 * @since 2.0.0
-	 * @access private
 	 * @var object
 	 */
-	var $data;
+	public $data;
 
 	/**
 	 * The user's ID.
