@@ -135,11 +135,11 @@ class WP {
 		$this->query_vars = array();
 		$post_type_query_vars = array();
 
-		if ( is_array($extra_query_vars) )
+		if ( is_array( $extra_query_vars ) ) {
 			$this->extra_query_vars = & $extra_query_vars;
-		else if (! empty($extra_query_vars))
-			parse_str($extra_query_vars, $this->extra_query_vars);
-
+		} elseif ( ! empty( $extra_query_vars ) ) {
+			parse_str( $extra_query_vars, $this->extra_query_vars );
+		}
 		// Process PATH_INFO, REQUEST_URI, and 404 for permalinks.
 
 		// Fetch the rewrite rules.
@@ -357,7 +357,7 @@ class WP {
 			} elseif ( in_array( $status, array( 403, 500, 502, 503 ) ) ) {
 				$exit_required = true;
 			}
-		} else if ( empty($this->query_vars['feed']) ) {
+		} elseif ( empty( $this->query_vars['feed'] ) ) {
 			$headers['Content-Type'] = get_option('html_type') . '; charset=' . get_option('blog_charset');
 		} else {
 			// We're showing a feed, so WP is indeed the only thing that last changed

@@ -167,12 +167,13 @@ if ( isset($plugin_page) ) {
 }
 
 $hook_suffix = '';
-if ( isset($page_hook) )
+if ( isset( $page_hook ) ) {
 	$hook_suffix = $page_hook;
-else if ( isset($plugin_page) )
+} elseif ( isset( $plugin_page ) ) {
 	$hook_suffix = $plugin_page;
-else if ( isset($pagenow) )
+} elseif ( isset( $pagenow ) ) {
 	$hook_suffix = $pagenow;
+}
 
 set_current_screen();
 
@@ -243,7 +244,7 @@ if ( isset($plugin_page) ) {
 	include(ABSPATH . 'wp-admin/admin-footer.php');
 
 	exit();
-} else if (isset($_GET['import'])) {
+} elseif ( isset( $_GET['import'] ) ) {
 
 	$importer = $_GET['import'];
 

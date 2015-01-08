@@ -806,7 +806,7 @@ function wp_get_associated_nav_menu_items( $object_id = 0, $object_type = 'post_
 				'post_type' == $menu_item_type
 			) {
 				$menu_item_ids[] = (int) $menu_item->ID;
-			} else if (
+			} elseif (
 				'taxonomy' == $object_type &&
 				'taxonomy' == $menu_item_type &&
 				get_post_meta( $menu_item->ID, '_menu_item_object', true ) == $taxonomy

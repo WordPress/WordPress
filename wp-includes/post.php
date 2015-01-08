@@ -2184,7 +2184,7 @@ function sanitize_post_field($field, $value, $post_id, $context) {
 		} else {
 			$value = esc_attr($value);
 		}
-	} else if ( 'db' == $context ) {
+	} elseif ( 'db' == $context ) {
 		if ( $prefixed ) {
 
 			/**
@@ -2252,7 +2252,7 @@ function sanitize_post_field($field, $value, $post_id, $context) {
 
 	if ( 'attribute' == $context )
 		$value = esc_attr($value);
-	else if ( 'js' == $context )
+	elseif ( 'js' == $context )
 		$value = esc_js($value);
 
 	return $value;
@@ -3907,7 +3907,7 @@ function wp_set_post_categories( $post_ID = 0, $post_categories = array(), $appe
 		} else {
 			$post_categories = array();
 		}
-	} else if ( 1 == count($post_categories) && '' == reset($post_categories) ) {
+	} elseif ( 1 == count( $post_categories ) && '' == reset( $post_categories ) ) {
 		return true;
 	}
 

@@ -422,10 +422,11 @@ function _wp_ajax_add_hierarchical_term() {
 			continue;
 		if ( !$cat_id = term_exists( $cat_name, $taxonomy->name, $parent ) )
 			$cat_id = wp_insert_term( $cat_name, $taxonomy->name, array( 'parent' => $parent ) );
-		if ( is_wp_error( $cat_id ) )
+		if ( is_wp_error( $cat_id ) ) {
 			continue;
-		else if ( is_array( $cat_id ) )
+		} elseif ( is_array( $cat_id ) ) {
 			$cat_id = $cat_id['term_id'];
+		}
 		$checked_categories[] = $cat_id;
 		if ( $parent ) // Do these all at once in a second
 			continue;
@@ -741,10 +742,11 @@ function wp_ajax_add_link_category( $action ) {
 			continue;
 		if ( !$cat_id = term_exists( $cat_name, 'link_category' ) )
 			$cat_id = wp_insert_term( $cat_name, 'link_category' );
-		if ( is_wp_error( $cat_id ) )
+		if ( is_wp_error( $cat_id ) ) {
 			continue;
-		else if ( is_array( $cat_id ) )
+		} elseif ( is_array( $cat_id ) ) {
 			$cat_id = $cat_id['term_id'];
+		}
 		$cat_name = esc_html( $cat_name );
 		$x->add( array(
 			'what' => 'link-category',
@@ -1174,7 +1176,7 @@ function wp_ajax_add_meta() {
 			} else {
 				wp_die( 0 );
 			}
-		} else if ( !$mid = add_meta( $pid ) ) {
+		} elseif ( ! $mid = add_meta( $pid ) ) {
 			wp_die( __( 'Please provide a custom field value.' ) );
 		}
 

@@ -425,7 +425,7 @@ class WP_Date_Query {
 				$valid = false;
 			}
 
-		} else if ( $day_exists && $month_exists ) {
+		} elseif ( $day_exists && $month_exists ) {
 			/*
 			 * 2. checking day, month combination
 			 * We use 2012 because, as a leap year, it's the most permissive.
@@ -607,7 +607,7 @@ class WP_Date_Query {
 		foreach ( $query as $key => $clause ) {
 			if ( 'relation' === $key ) {
 				$relation = $query['relation'];
-			} else if ( is_array( $clause ) ) {
+			} elseif ( is_array( $clause ) ) {
 
 				// This is a first-order clause.
 				if ( $this->is_first_order_clause( $clause ) ) {
@@ -616,7 +616,7 @@ class WP_Date_Query {
 					$where_count = count( $clause_sql['where'] );
 					if ( ! $where_count ) {
 						$sql_chunks['where'][] = '';
-					} else if ( 1 === $where_count ) {
+					} elseif ( 1 === $where_count ) {
 						$sql_chunks['where'][] = $clause_sql['where'][0];
 					} else {
 						$sql_chunks['where'][] = '( ' . implode( ' AND ', $clause_sql['where'] ) . ' )';
@@ -725,16 +725,16 @@ class WP_Date_Query {
 		if ( isset( $query['year'] ) && $value = $this->build_value( $compare, $query['year'] ) )
 			$where_parts[] = "YEAR( $column ) $compare $value";
 
-		if ( isset( $query['month'] ) && $value = $this->build_value( $compare, $query['month'] ) )
+		if ( isset( $query['month'] ) && $value = $this->build_value( $compare, $query['month'] ) ) {
 			$where_parts[] = "MONTH( $column ) $compare $value";
-		else if ( isset( $query['monthnum'] ) && $value = $this->build_value( $compare, $query['monthnum'] ) )
+		} elseif ( isset( $query['monthnum'] ) && $value = $this->build_value( $compare, $query['monthnum'] ) ) {
 			$where_parts[] = "MONTH( $column ) $compare $value";
-
-		if ( isset( $query['week'] ) && false !== ( $value = $this->build_value( $compare, $query['week'] ) ) )
+		}
+		if ( isset( $query['week'] ) && false !== ( $value = $this->build_value( $compare, $query['week'] ) ) ) {
 			$where_parts[] = _wp_mysql_week( $column ) . " $compare $value";
-		else if ( isset( $query['w'] ) && false !== ( $value = $this->build_value( $compare, $query['w'] ) ) )
+		} elseif ( isset( $query['w'] ) && false !== ( $value = $this->build_value( $compare, $query['w'] ) ) ) {
 			$where_parts[] = _wp_mysql_week( $column ) . " $compare $value";
-
+		}
 		if ( isset( $query['dayofyear'] ) && $value = $this->build_value( $compare, $query['dayofyear'] ) )
 			$where_parts[] = "DAYOFYEAR( $column ) $compare $value";
 
@@ -858,14 +858,14 @@ class WP_Date_Query {
 					'year' => intval( $matches[1] ),
 				);
 
-			} else if ( preg_match( '/^(\d{4})\-(\d{2})$/', $datetime, $matches ) ) {
+			} elseif ( preg_match( '/^(\d{4})\-(\d{2})$/', $datetime, $matches ) ) {
 				// Y-m
 				$datetime = array(
 					'year'  => intval( $matches[1] ),
 					'month' => intval( $matches[2] ),
 				);
 
-			} else if ( preg_match( '/^(\d{4})\-(\d{2})\-(\d{2})$/', $datetime, $matches ) ) {
+			} elseif ( preg_match( '/^(\d{4})\-(\d{2})\-(\d{2})$/', $datetime, $matches ) ) {
 				// Y-m-d
 				$datetime = array(
 					'year'  => intval( $matches[1] ),
@@ -873,7 +873,7 @@ class WP_Date_Query {
 					'day'   => intval( $matches[3] ),
 				);
 
-			} else if ( preg_match( '/^(\d{4})\-(\d{2})\-(\d{2}) (\d{2}):(\d{2})$/', $datetime, $matches ) ) {
+			} elseif ( preg_match( '/^(\d{4})\-(\d{2})\-(\d{2}) (\d{2}):(\d{2})$/', $datetime, $matches ) ) {
 				// Y-m-d H:i
 				$datetime = array(
 					'year'   => intval( $matches[1] ),

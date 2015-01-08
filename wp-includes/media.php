@@ -1984,11 +1984,11 @@ function adjacent_image_link($prev = true, $size = 'thumbnail', $text = false) {
  * @return array Empty array on failure. List of taxonomies on success.
  */
 function get_attachment_taxonomies($attachment) {
-	if ( is_int( $attachment ) )
-		$attachment = get_post($attachment);
-	else if ( is_array($attachment) )
+	if ( is_int( $attachment ) ) {
+		$attachment = get_post( $attachment );
+	} elseif ( is_array( $attachment ) ) {
 		$attachment = (object) $attachment;
-
+	}
 	if ( ! is_object($attachment) )
 		return array();
 

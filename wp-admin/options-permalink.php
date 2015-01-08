@@ -151,12 +151,13 @@ if ( ! empty( $_GET['settings-updated'] ) ) : ?>
 <div id="message" class="updated"><p><?php
 if ( ! is_multisite() ) {
 	if ( $iis7_permalinks ) {
-		if ( $permalink_structure && ! $usingpi && ! $writable )
+		if ( $permalink_structure && ! $usingpi && ! $writable ) {
 			_e('You should update your web.config now.');
-		else if ( $permalink_structure && ! $usingpi && $writable )
+		} elseif ( $permalink_structure && ! $usingpi && $writable ) {
 			_e('Permalink structure updated. Remove write access on web.config file now!');
-		else
+		} else {
 			_e('Permalink structure updated.');
+		}
 	} elseif ( $is_nginx ) {
 		_e('Permalink structure updated.');
 	} else {

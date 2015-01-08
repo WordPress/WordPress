@@ -276,7 +276,7 @@ function retrieve_password() {
 
 	if ( empty( $_POST['user_login'] ) ) {
 		$errors->add('empty_username', __('<strong>ERROR</strong>: Enter a username or e-mail address.'));
-	} else if ( strpos( $_POST['user_login'], '@' ) ) {
+	} elseif ( strpos( $_POST['user_login'], '@' ) ) {
 		$user_data = get_user_by( 'email', trim( $_POST['user_login'] ) );
 		if ( empty( $user_data ) )
 			$errors->add('invalid_email', __('<strong>ERROR</strong>: There is no user registered with that email address.'));
@@ -333,10 +333,11 @@ function retrieve_password() {
 	 */
 	$allow = apply_filters( 'allow_password_reset', true, $user_data->ID );
 
-	if ( ! $allow )
-		return new WP_Error('no_password_reset', __('Password reset is not allowed for this user'));
-	else if ( is_wp_error($allow) )
+	if ( ! $allow ) {
+		return new WP_Error( 'no_password_reset', __('Password reset is not allowed for this user') );
+	} elseif ( is_wp_error( $allow ) ) {
 		return $allow;
+	}
 
 	// Generate something random for a password reset key.
 	$key = wp_generate_password( 20, false );

@@ -447,12 +447,13 @@ class Plugin_Installer_Skin extends WP_Upgrader_Skin {
 			unset( $install_actions['activate_plugin'] );
 		}
 
-		if ( 'import' == $from )
+		if ( 'import' == $from ) {
 			$install_actions['importers_page'] = '<a href="' . admin_url('import.php') . '" title="' . esc_attr__('Return to Importers') . '" target="_parent">' . __('Return to Importers') . '</a>';
-		else if ( $this->type == 'web' )
+		} elseif ( $this->type == 'web' ) {
 			$install_actions['plugins_page'] = '<a href="' . self_admin_url('plugin-install.php') . '" title="' . esc_attr__('Return to Plugin Installer') . '" target="_parent">' . __('Return to Plugin Installer') . '</a>';
-		else
+		} else {
 			$install_actions['plugins_page'] = '<a href="' . self_admin_url('plugins.php') . '" title="' . esc_attr__('Return to Plugins page') . '" target="_parent">' . __('Return to Plugins page') . '</a>';
+		}
 
 		if ( ! $this->result || is_wp_error($this->result) ) {
 			unset( $install_actions['activate_plugin'], $install_actions['network_activate'] );
@@ -731,13 +732,13 @@ class Automatic_Upgrader_Skin extends WP_Upgrader_Skin {
 	 * @param string|array|WP_Error $data
 	 */
 	public function feedback( $data ) {
-		if ( is_wp_error( $data ) )
+		if ( is_wp_error( $data ) ) {
 			$string = $data->get_error_message();
-		else if ( is_array( $data ) )
+		} elseif ( is_array( $data ) ) {
 			return;
-		else
+		} else {
 			$string = $data;
-
+		}
 		if ( ! empty( $this->upgrader->strings[ $string ] ) )
 			$string = $this->upgrader->strings[ $string ];
 

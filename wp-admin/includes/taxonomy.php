@@ -66,12 +66,12 @@ function wp_create_category( $cat_name, $parent = 0 ) {
  */
 function wp_create_categories( $categories, $post_id = '' ) {
 	$cat_ids = array ();
-	foreach ($categories as $category) {
-		if ($id = category_exists($category))
+	foreach ( $categories as $category ) {
+		if ( $id = category_exists( $category ) ) {
 			$cat_ids[] = $id;
-		else
-			if ($id = wp_create_category($category))
-				$cat_ids[] = $id;
+		} elseif ( $id = wp_create_category( $category ) ) {
+			$cat_ids[] = $id;
+		}
 	}
 
 	if ( $post_id )

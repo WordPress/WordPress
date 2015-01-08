@@ -59,7 +59,7 @@ function wp_fix_server_vars() {
 			$_SERVER['REQUEST_URI'] = $_SERVER['HTTP_X_ORIGINAL_URL'];
 		}
 		// IIS Isapi_Rewrite
-		else if ( isset( $_SERVER['HTTP_X_REWRITE_URL'] ) ) {
+		elseif ( isset( $_SERVER['HTTP_X_REWRITE_URL'] ) ) {
 			$_SERVER['REQUEST_URI'] = $_SERVER['HTTP_X_REWRITE_URL'];
 		} else {
 			// Use ORIG_PATH_INFO if there is no PATH_INFO
@@ -427,7 +427,7 @@ function wp_start_object_cache() {
 		}
 
 		$first_init = true;
-	} else if ( ! wp_using_ext_object_cache() && file_exists( WP_CONTENT_DIR . '/object-cache.php' ) ) {
+	} elseif ( ! wp_using_ext_object_cache() && file_exists( WP_CONTENT_DIR . '/object-cache.php' ) ) {
 		/*
 		 * Sometimes advanced-cache.php can load object-cache.php before
 		 * it is loaded here. This breaks the function_exists check above

@@ -431,7 +431,7 @@ class WP_Upgrader {
 
 			if ( is_wp_error($removed) ) {
 				return $removed;
-			} else if ( ! $removed ) {
+			} elseif ( ! $removed ) {
 				return new WP_Error('remove_old_failed', $this->strings['remove_old_failed']);
 			}
 		} elseif ( $args['abort_if_destination_exists'] && $wp_filesystem->exists($remote_destination) ) {
@@ -637,7 +637,7 @@ class WP_Upgrader {
 			$maintenance_string = '<?php $upgrading = ' . time() . '; ?>';
 			$wp_filesystem->delete($file);
 			$wp_filesystem->put_contents($file, $maintenance_string, FS_CHMOD_FILE);
-		} else if ( !$enable && $wp_filesystem->exists($file) ) {
+		} elseif ( ! $enable && $wp_filesystem->exists( $file ) ) {
 			$this->skin->feedback('maintenance_end');
 			$wp_filesystem->delete($file);
 		}

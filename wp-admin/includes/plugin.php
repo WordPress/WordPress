@@ -1652,7 +1652,7 @@ function get_plugin_page_hookname( $plugin_page, $parent_page ) {
 		else
 			if ( isset( $admin_page_hooks[$parent] ))
 				$page_type = $admin_page_hooks[$parent];
-	} else if ( isset( $admin_page_hooks[$parent] ) ) {
+	} elseif ( isset( $admin_page_hooks[$parent] ) ) {
 		$page_type = $admin_page_hooks[$parent];
 	}
 
@@ -1713,7 +1713,7 @@ function user_can_access_admin_page() {
 					return true;
 				else
 					return false;
-			} else if ( $submenu_array[2] == $pagenow ) {
+			} elseif ( $submenu_array[2] == $pagenow ) {
 				if ( current_user_can( $submenu_array[1] ))
 					return true;
 				else

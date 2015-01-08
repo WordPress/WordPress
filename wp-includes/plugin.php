@@ -327,7 +327,7 @@ function remove_all_filters( $tag, $priority = false ) {
 	if ( isset( $wp_filter[ $tag ]) ) {
 		if ( false === $priority ) {
 			$wp_filter[ $tag ] = array();
-		} else if ( isset( $wp_filter[ $tag ][ $priority ] ) ) {
+		} elseif ( isset( $wp_filter[ $tag ][ $priority ] ) ) {
 			$wp_filter[ $tag ][ $priority ] = array();
 		}
 	}
@@ -900,7 +900,7 @@ function _wp_filter_build_unique_id($tag, $function, $priority) {
 
 			return $obj_idx;
 		}
-	} else if ( is_string($function[0]) ) {
+	} elseif ( is_string( $function[0] ) ) {
 		// Static Calling
 		return $function[0] . '::' . $function[1];
 	}

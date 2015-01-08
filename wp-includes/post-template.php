@@ -129,7 +129,7 @@ function get_the_title( $post = 0 ) {
 			 */
 			$protected_title_format = apply_filters( 'protected_title_format', __( 'Protected: %s' ), $post );
 			$title = sprintf( $protected_title_format, $title );
-		} else if ( isset( $post->post_status ) && 'private' == $post->post_status ) {
+		} elseif ( isset( $post->post_status ) && 'private' == $post->post_status ) {
 
 			/**
 			 * Filter the text prepended to the post title of private posts.
@@ -566,7 +566,7 @@ function get_body_class( $class = '' ) {
 			if ( is_array( $post_type ) )
 				$post_type = reset( $post_type );
 			$classes[] = 'post-type-archive-' . sanitize_html_class( $post_type );
-		} else if ( is_author() ) {
+		} elseif ( is_author() ) {
 			$author = $wp_query->get_queried_object();
 			$classes[] = 'author';
 			if ( isset( $author->user_nicename ) ) {

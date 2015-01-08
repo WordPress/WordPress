@@ -145,10 +145,11 @@ function wpmu_delete_blog( $blog_id, $drop = false ) {
 					if ( $file == '.' || $file == '..' )
 						continue;
 
-					if ( @is_dir( $dir . DIRECTORY_SEPARATOR . $file ) )
+					if ( @is_dir( $dir . DIRECTORY_SEPARATOR . $file ) ) {
 						$stack[] = $dir . DIRECTORY_SEPARATOR . $file;
-					else if ( @is_file( $dir . DIRECTORY_SEPARATOR . $file ) )
+					} elseif ( @is_file( $dir . DIRECTORY_SEPARATOR . $file ) ) {
 						@unlink( $dir . DIRECTORY_SEPARATOR . $file );
+					}
 				}
 				@closedir( $dh );
 			}

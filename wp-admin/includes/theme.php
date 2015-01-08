@@ -167,7 +167,7 @@ function get_theme_update_available( $theme ) {
 			if ( ! current_user_can('update_themes') ) {
 				$html = sprintf( '<p><strong>' . __( 'There is a new version of %1$s available. <a href="%2$s" class="thickbox" title="%3$s">View version %4$s details</a>.' ) . '</strong></p>',
 					$theme_name, esc_url( $details_url ), esc_attr( $theme['Name'] ), $update['new_version'] );
-			} else if ( empty( $update['package'] ) ) {
+			} elseif ( empty( $update['package'] ) ) {
 				$html = sprintf( '<p><strong>' . __( 'There is a new version of %1$s available. <a href="%2$s" class="thickbox" title="%3$s">View version %4$s details</a>. <em>Automatic update is unavailable for this theme.</em>' ) . '</strong></p>',
 					$theme_name, esc_url( $details_url ), esc_attr( $theme['Name'] ), $update['new_version'] );
 			} else {

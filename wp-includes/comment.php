@@ -506,7 +506,7 @@ class WP_Comment_Query {
 		// Disable ORDER BY with 'none', an empty array, or boolean false.
 		if ( in_array( $this->query_vars['orderby'], array( 'none', array(), false ), true ) ) {
 			$orderby = '';
-		} else if ( ! empty( $this->query_vars['orderby'] ) ) {
+		} elseif ( ! empty( $this->query_vars['orderby'] ) ) {
 			$ordersby = is_array( $this->query_vars['orderby'] ) ?
 				$this->query_vars['orderby'] :
 				preg_split( '/[,\s]/', $this->query_vars['orderby'] );
@@ -2228,9 +2228,9 @@ function wp_update_comment($commentarr) {
 
 	if ( ! isset( $data['comment_approved'] ) ) {
 		$data['comment_approved'] = 1;
-	} else if ( 'hold' == $data['comment_approved'] ) {
+	} elseif ( 'hold' == $data['comment_approved'] ) {
 		$data['comment_approved'] = 0;
-	} else if ( 'approve' == $data['comment_approved'] ) {
+	} elseif ( 'approve' == $data['comment_approved'] ) {
 		$data['comment_approved'] = 1;
 	}
 

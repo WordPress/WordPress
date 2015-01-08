@@ -1654,9 +1654,9 @@ class WP_Query {
 				$this->is_date = true;
 				if ( strlen($qv['m']) > 9 ) {
 					$this->is_time = true;
-				} else if ( strlen($qv['m']) > 7 ) {
+				} elseif ( strlen( $qv['m'] ) > 7 ) {
 					$this->is_day = true;
-				} else if ( strlen($qv['m']) > 5 ) {
+				} elseif ( strlen( $qv['m'] ) > 5 ) {
 					$this->is_month = true;
 				} else {
 					$this->is_year = true;
@@ -1956,7 +1956,7 @@ class WP_Query {
 					$tag = sanitize_term_field('slug', $tag, 0, 'post_tag', 'db');
 					$q['tag_slug__in'][] = $tag;
 				}
-			} else if ( preg_match('/[+\r\n\t ]+/', $q['tag']) || !empty($q['cat']) ) {
+			} elseif ( preg_match('/[+\r\n\t ]+/', $q['tag'] ) || ! empty( $q['cat'] ) ) {
 				$tags = preg_split('/[+\r\n\t ]+/', $q['tag']);
 				foreach ( (array) $tags as $tag ) {
 					$tag = sanitize_term_field('slug', $tag, 0, 'post_tag', 'db');
@@ -2467,7 +2467,7 @@ class WP_Query {
 		$q['posts_per_page'] = (int) $q['posts_per_page'];
 		if ( $q['posts_per_page'] < -1 )
 			$q['posts_per_page'] = abs($q['posts_per_page']);
-		else if ( $q['posts_per_page'] == 0 )
+		elseif ( $q['posts_per_page'] == 0 )
 			$q['posts_per_page'] = 1;
 
 		if ( !isset($q['comments_per_page']) || $q['comments_per_page'] == 0 )
@@ -4350,7 +4350,7 @@ class WP_Query {
 			return true;
 		} elseif ( in_array( $page_obj->post_title, $page ) ) {
 			return true;
-		} else if ( in_array( $page_obj->post_name, $page ) ) {
+		} elseif ( in_array( $page_obj->post_name, $page ) ) {
 			return true;
 		} else {
 			foreach ( $page as $pagepath ) {
@@ -4568,7 +4568,7 @@ class WP_Query {
 		 */
 		if ( $post->ID === get_queried_object_id() && ( $this->is_page() || $this->is_single() ) ) {
 			$more = 1;
-		} else if ( $this->is_feed() ) {
+		} elseif ( $this->is_feed() ) {
 			$more = 1;
 		} else {
 			$more = 0;
