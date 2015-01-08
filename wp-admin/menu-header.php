@@ -66,7 +66,7 @@ function _wp_menu_output( $menu, $submenu, $submenu_as_parent = true ) {
 			$submenu_items = $submenu[$item[2]];
 		}
 
-		if ( ( $parent_file && $item[2] == $parent_file ) || ( empty($typenow) && $self == $item[2] ) ) {
+		if ( ( $parent_file && $item[2] == $parent_file ) || ( ! $typenow && $self == $item[2] ) ) {
 			$class[] = ! empty( $submenu_items ) ? 'wp-has-current-submenu wp-menu-open' : 'current';
 		} else {
 			$class[] = 'wp-not-current-submenu';
@@ -167,7 +167,7 @@ function _wp_menu_output( $menu, $submenu, $submenu_as_parent = true ) {
 					$menu_file = substr( $menu_file, 0, $pos );
 
 				// Handle current for post_type=post|page|foo pages, which won't match $self.
-				$self_type = ! empty( $typenow ) ? $self . '?post_type=' . $typenow : 'nothing';
+				$self_type = $typenow ? $self . '?post_type=' . $typenow : 'nothing';
 
 				if ( isset( $submenu_file ) ) {
 					if ( $submenu_file == $sub_item[2] )
@@ -175,8 +175,8 @@ function _wp_menu_output( $menu, $submenu, $submenu_as_parent = true ) {
 				// If plugin_page is set the parent must either match the current page or not physically exist.
 				// This allows plugin pages with the same hook to exist under different parents.
 				} elseif (
-					( ! isset( $plugin_page ) && $self == $sub_item[2] ) ||
-					( isset( $plugin_page ) && $plugin_page == $sub_item[2] && ( $item[2] == $self_type || $item[2] == $self || file_exists($menu_file) === false ) )
+					( ! $plugin_page && $self == $sub_item[2] ) ||
+					( $plugin_page && $plugin_page == $sub_item[2] && ( $item[2] == $self_type || $item[2] == $self || file_exists($menu_file) === false ) )
 				) {
 					$class[] = 'current';
 				}
