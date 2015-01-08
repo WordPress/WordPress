@@ -14,6 +14,26 @@ if ( ! current_user_can( 'manage_options' ) )
 $title = __('Discussion Settings');
 $parent_file = 'options-general.php';
 
+/**
+ * Display JavaScript on the page.
+ *
+ * @since 4.2.0
+ */
+function options_discussion_add_js() {
+?>
+	<script>
+	(function($){
+		var parent = $( '#show_avatars' ),
+			children = $( '.avatar-settings' );
+		parent.change(function(){
+			children.toggleClass( 'hide-if-js', ! this.checked );
+		});
+	})(jQuery);
+	</script>
+<?php
+}
+add_action( 'admin_print_footer_scripts', 'options_discussion_add_js' );
+
 get_current_screen()->add_help_tab( array(
 	'id'      => 'overview',
 	'title'   => __('Overview'),
@@ -172,19 +192,23 @@ printf( __('Comments should be displayed with the %s comments at the top of each
 
 <p><?php _e('An avatar is an image that follows you from weblog to weblog appearing beside your name when you comment on avatar enabled sites. Here you can enable the display of avatars for people who comment on your site.'); ?></p>
 
-<?php // the above would be a good place to link to codex documentation on the gravatar functions, for putting it in themes. anything like that? ?>
+<?php
+// the above would be a good place to link to codex documentation on the gravatar functions, for putting it in themes. anything like that?
+
+$show_avatars = get_option( 'show_avatars' );
+?>
 
 <table class="form-table">
 <tr>
 <th scope="row"><?php _e('Avatar Display'); ?></th>
 <td><fieldset><legend class="screen-reader-text"><span><?php _e('Avatar Display'); ?></span></legend>
 	<label for="show_avatars">
-		<input type="checkbox" id="show_avatars" name="show_avatars" value="1" <?php checked( get_option('show_avatars'), 1 ); ?> />
+		<input type="checkbox" id="show_avatars" name="show_avatars" value="1" <?php checked( $show_avatars, 1 ); ?> />
 		<?php _e( 'Show Avatars' ); ?>
 	</label>
 </fieldset></td>
 </tr>
-<tr>
+<tr class="avatar-settings<?php if ( ! $show_avatars ) echo ' hide-if-js'; ?>">
 <th scope="row"><?php _e('Maximum Rating'); ?></th>
 <td><fieldset><legend class="screen-reader-text"><span><?php _e('Maximum Rating'); ?></span></legend>
 
@@ -207,7 +231,7 @@ endforeach;
 
 </fieldset></td>
 </tr>
-<tr>
+<tr class="avatar-settings<?php if ( ! $show_avatars ) echo ' hide-if-js'; ?>">
 <th scope="row"><?php _e('Default Avatar'); ?></th>
 <td class="defaultavatarpicker"><fieldset><legend class="screen-reader-text"><span><?php _e('Default Avatar'); ?></span></legend>
 
@@ -239,6 +263,10 @@ if ( empty($default) )
 	$default = 'mystery';
 $size = 32;
 $avatar_list = '';
+
+// Force avatars on to display these choices
+add_filter( 'pre_option_show_avatars', '__return_true', 100 );
+
 foreach ( $avatar_defaults as $default_key => $default_name ) {
 	$selected = ($default == $default_key) ? 'checked="checked" ' : '';
 	$avatar_list .= "\n\t<label><input type='radio' name='avatar_default' id='avatar_{$default_key}' value='" . esc_attr($default_key) . "' {$selected}/> ";
@@ -249,6 +277,9 @@ foreach ( $avatar_defaults as $default_key => $default_name ) {
 	$avatar_list .= ' ' . $default_name . '</label>';
 	$avatar_list .= '<br />';
 }
+
+remove_filter( 'pre_option_show_avatars', '__return_true', 100 );
+
 /**
  * Filter the HTML output of the default avatar list.
  *
