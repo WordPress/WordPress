@@ -715,15 +715,12 @@ function wp_dashboard_recent_posts( $args ) {
 				$relative = date_i18n( __( 'M jS' ), $time );
 			}
 
-			if ( current_user_can( 'edit_post', get_the_ID() ) ) {
-				/* translators: 1: relative date, 2: time, 3: post edit link, 4: post title */
-				$format = __( '<span>%1$s, %2$s</span> <a href="%3$s">%4$s</a>' );
-				printf( "<li>$format</li>", $relative, get_the_time(), get_edit_post_link(), _draft_or_post_title() );
-			} else {
-				/* translators: 1: relative date, 2: time, 3: post title */
-				$format = __( '<span>%1$s, %2$s</span> %3$s' );
-				printf( "<li>$format</li>", $relative, get_the_time(), _draft_or_post_title() );
-			}
+			// Use the post edit link for those who can edit, the permalink otherwise.
+			$recent_post_link = current_user_can( 'edit_post', get_the_ID() ) ? get_edit_post_link() : get_permalink();
+
+			/* translators: 1: relative date, 2: time, 3: post edit link or permalink, 4: post title */
+			$format = __( '<span>%1$s, %2$s</span> <a href="%3$s">%4$s</a>' );
+			printf( "<li>$format</li>", $relative, get_the_time(), $recent_post_link, _draft_or_post_title() );
 		}
 
 		echo '</ul>';
