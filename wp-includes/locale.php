@@ -88,7 +88,7 @@ class WP_Locale {
 	 * @var array
 	 */
 	var $number_format;
-	
+
 	/**
 	 * Sets up the translated strings and object properties.
 	 *

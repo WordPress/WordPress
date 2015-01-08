@@ -672,7 +672,7 @@ final class WP_Customize_Manager {
 
 		/**
 		 * Filter response data for a successful customize_save Ajax request.
-		 * 
+		 *
 		 * This filter does not apply if there was a nonce or authentication failure.
 		 *
 		 * @since 4.2.0

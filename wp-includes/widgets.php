@@ -166,7 +166,7 @@ class WP_Widget {
 
 	/**
 	 * PHP4 constructor
-	 * 
+	 *
 	 * @param string $id_base
 	 * @param string $name
 	 * @param array  $widget_options

@@ -245,7 +245,7 @@ if ( $tab ) {
 					<# } else { #>
 						<div class="rating">
 							<small class="ratings"><?php _e( 'This theme has not been rated yet.' ); ?></small>
-						</div> 
+						</div>
 					<# } #>
 					<div class="theme-version"><?php printf( __( 'Version: %s' ), '{{ data.version }}' ); ?></div>
 					<div class="theme-description">{{{ data.description }}}</div>

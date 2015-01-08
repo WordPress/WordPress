@@ -755,7 +755,7 @@ function page_attributes_meta_box($post) {
  *                        include 'meta-box' or 'quick-edit'.
  */
 $default_title = apply_filters( 'default_page_template_title',  __( 'Default Template' ), 'meta-box' );
-?> 
+?>
 <option value="default"><?php echo esc_html( $default_title ); ?></option>
 <?php page_template_dropdown($template); ?>
 </select>
