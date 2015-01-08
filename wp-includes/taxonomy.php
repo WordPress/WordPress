@@ -765,7 +765,7 @@ class WP_Tax_Query {
 				$cleaned_query['relation'] = $this->sanitize_relation( $query );
 
 			// First-order clause.
-			} else if ( self::is_first_order_clause( $query ) ) {
+			} elseif ( self::is_first_order_clause( $query ) ) {
 
 				$cleaned_clause = array_merge( $defaults, $query );
 				$cleaned_clause['terms'] = (array) $cleaned_clause['terms'];
@@ -795,7 +795,7 @@ class WP_Tax_Query {
 				}
 
 			// Otherwise, it's a nested query, so we recurse.
-			} else if ( is_array( $query ) ) {
+			} elseif ( is_array( $query ) ) {
 				$cleaned_subquery = $this->sanitize_query( $query );
 
 				if ( ! empty( $cleaned_subquery ) ) {
@@ -939,7 +939,7 @@ class WP_Tax_Query {
 		foreach ( $query as $key => &$clause ) {
 			if ( 'relation' === $key ) {
 				$relation = $query['relation'];
-			} else if ( is_array( $clause ) ) {
+			} elseif ( is_array( $clause ) ) {
 
 				// This is a first-order clause.
 				if ( $this->is_first_order_clause( $clause ) ) {
@@ -948,7 +948,7 @@ class WP_Tax_Query {
 					$where_count = count( $clause_sql['where'] );
 					if ( ! $where_count ) {
 						$sql_chunks['where'][] = '';
-					} else if ( 1 === $where_count ) {
+					} elseif ( 1 === $where_count ) {
 						$sql_chunks['where'][] = $clause_sql['where'][0];
 					} else {
 						$sql_chunks['where'][] = '( ' . implode( ' AND ', $clause_sql['where'] ) . ' )';
@@ -1393,11 +1393,11 @@ function get_term_by($field, $value, $taxonomy, $output = OBJECT, $filter = 'raw
 		$value = sanitize_title($value);
 		if ( empty($value) )
 			return false;
-	} else if ( 'name' == $field ) {
+	} elseif ( 'name' == $field ) {
 		// Assume already escaped
 		$value = wp_unslash($value);
 		$field = 't.name';
-	} else if ( 'term_taxonomy_id' == $field ) {
+	} elseif ( 'term_taxonomy_id' == $field ) {
 		$value = (int) $value;
 		$field = 'tt.term_taxonomy_id';
 	} else {
@@ -1699,16 +1699,16 @@ function get_terms( $taxonomies, $args = '' ) {
 	$_orderby = strtolower( $args['orderby'] );
 	if ( 'count' == $_orderby ) {
 		$orderby = 'tt.count';
-	} else if ( 'name' == $_orderby ) {
+	} elseif ( 'name' == $_orderby ) {
 		$orderby = 't.name';
-	} else if ( 'slug' == $_orderby ) {
+	} elseif ( 'slug' == $_orderby ) {
 		$orderby = 't.slug';
-	} else if ( 'include' == $_orderby && ! empty( $args['include'] ) ) {
+	} elseif ( 'include' == $_orderby && ! empty( $args['include'] ) ) {
 		$include = implode( ',', array_map( 'absint', $args['include'] ) );
 		$orderby = "FIELD( t.term_id, $include )";
-	} else if ( 'term_group' == $_orderby ) {
+	} elseif ( 'term_group' == $_orderby ) {
 		$orderby = 't.term_group';
-	} else if ( 'none' == $_orderby ) {
+	} elseif ( 'none' == $_orderby ) {
 		$orderby = '';
 	} elseif ( empty($_orderby) || 'id' == $_orderby ) {
 		$orderby = 't.term_id';
@@ -2206,7 +2206,7 @@ function sanitize_term_field($field, $value, $term_id, $taxonomy, $context) {
 			$value = esc_html($value); // textarea_escaped
 		else
 			$value = esc_attr($value);
-	} else if ( 'db' == $context ) {
+	} elseif ( 'db' == $context ) {
 
 		/**
 		 * Filter a term field value before it is sanitized.
@@ -2245,7 +2245,7 @@ function sanitize_term_field($field, $value, $term_id, $taxonomy, $context) {
 			$value = apply_filters( 'pre_category_nicename', $value );
 		}
 
-	} else if ( 'rss' == $context ) {
+	} elseif ( 'rss' == $context ) {
 
 		/**
 		 * Filter the term field for use in RSS.
@@ -2302,11 +2302,11 @@ function sanitize_term_field($field, $value, $term_id, $taxonomy, $context) {
 		$value = apply_filters( "{$taxonomy}_{$field}", $value, $term_id, $context );
 	}
 
-	if ( 'attribute' == $context )
+	if ( 'attribute' == $context ) {
 		$value = esc_attr($value);
-	else if ( 'js' == $context )
+	} elseif ( 'js' == $context ) {
 		$value = esc_js($value);
-
+	}
 	return $value;
 }
 
@@ -2622,17 +2622,17 @@ function wp_get_object_terms($object_ids, $taxonomies, $args = array()) {
 	$order = $args['order'];
 	$fields = $args['fields'];
 
-	if ( 'count' == $orderby )
+	if ( 'count' == $orderby ) {
 		$orderby = 'tt.count';
-	else if ( 'name' == $orderby )
+	} elseif ( 'name' == $orderby ) {
 		$orderby = 't.name';
-	else if ( 'slug' == $orderby )
+	} elseif ( 'slug' == $orderby ) {
 		$orderby = 't.slug';
-	else if ( 'term_group' == $orderby )
+	} elseif ( 'term_group' == $orderby ) {
 		$orderby = 't.term_group';
-	else if ( 'term_order' == $orderby )
+	} elseif ( 'term_order' == $orderby ) {
 		$orderby = 'tr.term_order';
-	else if ( 'none' == $orderby ) {
+	} elseif ( 'none' == $orderby ) {
 		$orderby = '';
 		$order = '';
 	} else {
@@ -2654,17 +2654,17 @@ function wp_get_object_terms($object_ids, $taxonomies, $args = array()) {
 	$object_ids = implode(', ', $object_ids);
 
 	$select_this = '';
-	if ( 'all' == $fields )
+	if ( 'all' == $fields ) {
 		$select_this = 't.*, tt.*';
-	else if ( 'ids' == $fields )
+	} elseif ( 'ids' == $fields ) {
 		$select_this = 't.term_id';
-	else if ( 'names' == $fields )
+	} elseif ( 'names' == $fields ) {
 		$select_this = 't.name';
-	else if ( 'slugs' == $fields )
+	} elseif ( 'slugs' == $fields ) {
 		$select_this = 't.slug';
-	else if ( 'all_with_object_id' == $fields )
+	} elseif ( 'all_with_object_id' == $fields ) {
 		$select_this = 't.*, tt.*, tr.object_id';
-
+	}
 	$query = "SELECT $select_this FROM $wpdb->terms AS t INNER JOIN $wpdb->term_taxonomy AS tt ON tt.term_id = t.term_id INNER JOIN $wpdb->term_relationships AS tr ON tr.term_taxonomy_id = tt.term_taxonomy_id WHERE tt.taxonomy IN ($taxonomies) AND tr.object_id IN ($object_ids) $orderby $order";
 
 	$objects = false;
@@ -2676,14 +2676,14 @@ function wp_get_object_terms($object_ids, $taxonomies, $args = array()) {
 		$terms = array_merge( $terms, $_terms );
 		update_term_cache( $terms );
 		$objects = true;
-	} else if ( 'ids' == $fields || 'names' == $fields || 'slugs' == $fields ) {
+	} elseif ( 'ids' == $fields || 'names' == $fields || 'slugs' == $fields ) {
 		$_terms = $wpdb->get_col( $query );
 		$_field = ( 'ids' == $fields ) ? 'term_id' : 'name';
 		foreach ( $_terms as $key => $term ) {
 			$_terms[$key] = sanitize_term_field( $_field, $term, $term, $taxonomy, 'raw' );
 		}
 		$terms = array_merge( $terms, $_terms );
-	} else if ( 'tt_ids' == $fields ) {
+	} elseif ( 'tt_ids' == $fields ) {
 		$terms = $wpdb->get_col("SELECT tr.term_taxonomy_id FROM $wpdb->term_relationships AS tr INNER JOIN $wpdb->term_taxonomy AS tt ON tr.term_taxonomy_id = tt.term_taxonomy_id WHERE tr.object_id IN ($object_ids) AND tt.taxonomy IN ($taxonomies) $orderby $order");
 		foreach ( $terms as $key => $tt_id ) {
 			$terms[$key] = sanitize_term_field( 'term_taxonomy_id', $tt_id, 0, $taxonomy, 'raw' ); // 0 should be the term id, however is not needed when using raw context.
@@ -2822,7 +2822,7 @@ function wp_insert_term( $term, $taxonomy, $args = array() ) {
 		if ( ! empty( $alias->term_group ) ) {
 			// The alias we want is already in a group, so let's use that one.
 			$term_group = $alias->term_group;
-		} else if ( ! empty( $alias->term_id ) ) {
+		} elseif ( ! empty( $alias->term_id ) ) {
 			/*
 			 * The alias is not in a group, so we create a new one
 			 * and add the alias to it.
@@ -3334,7 +3334,7 @@ function wp_update_term( $term_id, $taxonomy, $args = array() ) {
 		if ( ! empty( $alias->term_group ) ) {
 			// The alias we want is already in a group, so let's use that one.
 			$term_group = $alias->term_group;
-		} else if ( ! empty( $alias->term_id ) ) {
+		} elseif ( ! empty( $alias->term_id ) ) {
 			/*
 			 * The alias is not in a group, so we create a new one
 			 * and add the alias to it.
@@ -4329,7 +4329,7 @@ function get_ancestors( $object_id = 0, $object_type = '', $resource_type = '' )
 	if ( ! $resource_type ) {
 		if ( is_taxonomy_hierarchical( $object_type ) ) {
 			$resource_type = 'taxonomy';
-		} else if ( post_type_exists( $object_type ) ) {
+		} elseif ( post_type_exists( $object_type ) ) {
 			$resource_type = 'post_type';
 		}
 	}
