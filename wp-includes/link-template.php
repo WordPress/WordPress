@@ -2310,8 +2310,8 @@ function get_the_posts_pagination( $args = array() ) {
 	if ( $GLOBALS['wp_query']->max_num_pages > 1 ) {
 		$args = wp_parse_args( $args, array(
 			'mid_size'           => 1,
-			'prev_text'          => __( 'Previous' ),
-			'next_text'          => __( 'Next' ),
+			'prev_text'          => _x( 'Previous', 'previous post' ),
+			'next_text'          => _x( 'Next', 'next post' ),
 			'screen_reader_text' => __( 'Posts navigation' ),
 		) );
 
