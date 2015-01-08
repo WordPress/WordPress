@@ -39,7 +39,8 @@
 
 /* Position admin messages */
 .themes-php div.updated,
-.themes-php div.error {
+.themes-php div.error,
+.themes-php div.notice {
 	margin: 0 0 20px 0;
 	clear: both;
 }
