@@ -703,7 +703,7 @@ function _http_build_query( $data, $prefix = null, $sep = null, $key = '', $urle
 			$k = $key . '%5B' . $k . '%5D';
 		if ( $v === null )
 			continue;
-		elseif ( $v === FALSE )
+		elseif ( $v === false )
 			$v = '0';
 
 		if ( is_array($v) || is_object($v) )
