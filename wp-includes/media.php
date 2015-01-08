@@ -2931,7 +2931,7 @@ function wp_enqueue_media( $args = array() ) {
 		   lack of plural support here, turn it into "selected: %d" then translate it.
 		 */
 		'selected'    => __( '%d selected' ),
-		'dragInfo'    => __( 'Drag and drop to reorder images.' ),
+		'dragInfo'    => __( 'Drag and drop to reorder media files.' ),
 
 		// Upload
 		'uploadFilesTitle'  => __( 'Upload Files' ),
