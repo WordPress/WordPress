@@ -87,6 +87,8 @@ function wp_install( $blog_title, $user_name, $user_email, $public, $deprecated 
 
 	wp_install_defaults($user_id);
 
+	wp_install_maybe_enable_pretty_permalinks();
+
 	flush_rewrite_rules();
 
 	wp_new_blog_notification($blog_title, $guessurl, $user_id, ($email_password ? $user_password : __('The password you chose during the install.') ) );
@@ -257,6 +259,75 @@ As a new WordPress user, you should go to <a href=\"%s\">your dashboard</a> to d
 		if ( !is_super_admin( $user_id ) && $user_id != 1 )
 			$wpdb->delete( $wpdb->usermeta, array( 'user_id' => $user_id , 'meta_key' => $wpdb->base_prefix.'1_capabilities' ) );
 	}
+}
+endif;
+
+if ( ! function_exists( 'wp_install_maybe_enable_pretty_permalinks' ) ) :
+/**
+ * Enable pretty permalinks if available.
+ *
+ * This function will enable pretty permalinks if it can verify they work.
+ * If all pretty permalinks formats fail to work, WordPress will fall back
+ * to ugly permalinks by setting an empty permalink structure.
+ *
+ * @since 4.2.0
+ *
+ * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
+ */
+function wp_install_maybe_enable_pretty_permalinks() {
+	global $wp_rewrite;
+
+	// Bail if we alredy have permalinks enabled (Multisite)
+	if ( get_option( 'permalink_structure' ) ) {
+		return;
+	}
+
+	/*
+	 * The Permalink structures which WordPress should attempt to use.
+	 * The first is designed for mod_rewrite or nginx rewriting.
+	 * The second is PATHINFO based permalinks offered under configurations 
+	 * without rewrites enabled.
+	 */
+	$permalink_structures = array(
+		'/%year%/%monthnum%/%day%/%postname%/',
+		'/index.php/%year%/%monthnum%/%day%/%postname%/'
+	);
+
+	foreach ( (array) $permalink_structures as $permalink_structure ) {
+		// Set the desired Permalink structure to try
+		$wp_rewrite->set_permalink_structure( $permalink_structure );
+
+		/*
+	 	 * Flush rules with the hard option to force refresh of the web-server's
+	 	 * rewrite config file (e.g. .htaccess or web.config).
+	 	 */
+		$wp_rewrite->flush_rules( true );
+
+		// Test against a real WordPress Post, or if none were created, a Page URI
+		$test_url = get_permalink( 1 );
+		if ( ! $test_url ) {
+			$test_url = home_url( '/wordpress-check-for-rewrites/' );
+		}
+
+		/*
+	 	 * Send a HEAD request to a random page on the site, and check whether
+	 	 * the 'x-pingback' header is returned as expected.
+	 	 */
+		$response          = wp_remote_get( $test_url, array( 'timeout' => 5 ) );
+		$x_pingback_header = wp_remote_retrieve_header( $response, 'x-pingback' );
+		$pretty_permalinks = $x_pingback_header && $x_pingback_header === get_bloginfo( 'pingback_url' );
+
+		if ( $pretty_permalinks ) {
+			return true;
+		}
+	}
+
+	/*
+	 * If it makes it this far, Pretty Permalinks failed to activate.
+	 * Reset and allow the user to select it themselves.
+	 */
+	$wp_rewrite->set_permalink_structure( '' );
+	$wp_rewrite->flush_rules( true );
 }
 endif;
 
