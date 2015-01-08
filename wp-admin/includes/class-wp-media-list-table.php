@@ -150,13 +150,6 @@ class WP_Media_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * @param string $which
-	 */
-	protected function pagination( $which ) {
-		parent::pagination( $which );
-	}
-
-	/**
 	 * Override parent views so we can use the filter bar display.
 	 */
 	public function views() {

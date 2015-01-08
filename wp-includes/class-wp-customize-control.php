@@ -934,10 +934,6 @@ class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control {
 
 	}
 
-	public function to_json() {
-		parent::to_json();
-	}
-
 	public function enqueue() {
 		wp_enqueue_media();
 		wp_enqueue_script( 'customize-views' );
