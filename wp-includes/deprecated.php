@@ -2576,7 +2576,7 @@ function is_plugin_page() {
 
 	global $plugin_page;
 
-	if ( $plugin_page )
+	if ( isset($plugin_page) )
 		return true;
 
 	return false;

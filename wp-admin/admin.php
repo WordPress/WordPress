@@ -95,26 +95,24 @@ wp_enqueue_script( 'common' );
 //     declared as globals here
 global $pagenow, $hook_suffix, $plugin_page, $typenow, $taxnow;
 
-$page_hook = '';
-$hook_suffix = '';
-$plugin_page = '';
-$typenow = '';
-$taxnow = '';
+$page_hook = null;
 
 $editing = false;
 
-if ( isset( $_GET['page'] ) ) {
+if ( isset($_GET['page']) ) {
 	$plugin_page = wp_unslash( $_GET['page'] );
-	$plugin_page = plugin_basename( $plugin_page );
+	$plugin_page = plugin_basename($plugin_page);
 }
 
-if ( isset( $_REQUEST['post_type'] ) && post_type_exists( $_REQUEST['post_type'] ) ) {
+if ( isset( $_REQUEST['post_type'] ) && post_type_exists( $_REQUEST['post_type'] ) )
 	$typenow = $_REQUEST['post_type'];
-}
+else
+	$typenow = '';
 
-if ( isset( $_REQUEST['taxonomy'] ) && taxonomy_exists( $_REQUEST['taxonomy'] ) ) {
+if ( isset( $_REQUEST['taxonomy'] ) && taxonomy_exists( $_REQUEST['taxonomy'] ) )
 	$taxnow = $_REQUEST['taxonomy'];
-}
+else
+	$taxnow = '';
 
 if ( WP_NETWORK_ADMIN )
 	require(ABSPATH . 'wp-admin/network/menu.php');
@@ -153,12 +151,11 @@ if ( current_user_can( 'manage_options' ) ) {
  */
 do_action( 'admin_init' );
 
-if ( $plugin_page ) {
-	if ( $typenow ) {
+if ( isset($plugin_page) ) {
+	if ( !empty($typenow) )
 		$the_parent = $pagenow . '?post_type=' . $typenow;
-	} else {
+	else
 		$the_parent = $pagenow;
-	}
 	if ( ! $page_hook = get_plugin_page_hook($plugin_page, $the_parent) ) {
 		$page_hook = get_plugin_page_hook($plugin_page, $plugin_page);
 
@@ -176,18 +173,19 @@ if ( $plugin_page ) {
 	unset($the_parent);
 }
 
-if ( $page_hook ) {
+$hook_suffix = '';
+if ( isset( $page_hook ) ) {
 	$hook_suffix = $page_hook;
-} elseif ( $plugin_page ) {
+} elseif ( isset( $plugin_page ) ) {
 	$hook_suffix = $plugin_page;
-} elseif ( $pagenow ) {
+} elseif ( isset( $pagenow ) ) {
 	$hook_suffix = $pagenow;
 }
 
 set_current_screen();
 
 // Handle plugin admin pages.
-if ( $plugin_page ) {
+if ( isset($plugin_page) ) {
 	if ( $page_hook ) {
 		/**
 		 * Fires before a particular screen is loaded.
