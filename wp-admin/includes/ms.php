@@ -136,7 +136,7 @@ function wpmu_delete_blog( $blog_id, $drop = false ) {
 		$index = 0;
 
 		while ( $index < count( $stack ) ) {
-			# Get indexed directory from stack
+			// Get indexed directory from stack
 			$dir = $stack[$index];
 
 			$dh = @opendir( $dir );
