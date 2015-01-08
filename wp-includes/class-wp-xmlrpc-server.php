@@ -2545,8 +2545,6 @@ class wp_xmlrpc_server extends IXR_Server {
 		// Items not escaped here will be escaped in newPost.
 		$username	= $this->escape($args[1]);
 		$password	= $this->escape($args[2]);
-		$page		= $args[3];
-		$publish	= $args[4];
 
 		if ( !$user = $this->login($username, $password) )
 			return $this->error;
@@ -4213,7 +4211,6 @@ class wp_xmlrpc_server extends IXR_Server {
 		$username  = $args[2];
 		$password   = $args[3];
 		$content     = $args[4];
-		$publish     = $args[5];
 
 		if ( ! $user = $this->login( $username, $password ) ) {
 			return $this->error;
@@ -4279,7 +4276,6 @@ class wp_xmlrpc_server extends IXR_Server {
 		$post_ID     = (int) $args[1];
 		$username  = $args[2];
 		$password   = $args[3];
-		$publish     = $args[4];
 
 		if ( !$user = $this->login($username, $password) )
 			return $this->error;
@@ -4449,7 +4445,6 @@ class wp_xmlrpc_server extends IXR_Server {
 					break;
 				default:
 					return new IXR_Error( 401, __( 'Invalid post type' ) );
-					break;
 			}
 			$author = get_userdata( $content_struct['wp_author_id'] );
 			if ( ! $author )
@@ -4737,7 +4732,6 @@ class wp_xmlrpc_server extends IXR_Server {
 		$menu_order = $postdata['menu_order'];
 
 		// Let WordPress manage slug if none was provided.
-		$post_name = "";
 		$post_name = $postdata['post_name'];
 		if ( isset($content_struct['wp_slug']) )
 			$post_name = $content_struct['wp_slug'];
@@ -4773,7 +4767,6 @@ class wp_xmlrpc_server extends IXR_Server {
 					break;
 				default:
 					return new IXR_Error( 401, __( 'Invalid post type' ) );
-					break;
 			}
 			$post_author = $content_struct['wp_author_id'];
 		}
@@ -5684,8 +5677,6 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		$pagelinkedfrom = $args[0];
 		$pagelinkedto   = $args[1];
-
-		$title = '';
 
 		$pagelinkedfrom = str_replace('&amp;', '&', $pagelinkedfrom);
 		$pagelinkedto = str_replace('&amp;', '&', $pagelinkedto);
