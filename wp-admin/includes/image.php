@@ -320,7 +320,7 @@ function wp_read_image_metadata( $file ) {
 			elseif ( ! empty( $iptc['2#080'][0] ) ) // creator / legacy byline
 				$meta['credit'] = trim( $iptc['2#080'][0] );
 
-			if ( ! empty( $iptc['2#055'][0] ) and ! empty( $iptc['2#060'][0] ) ) // created date and time
+			if ( ! empty( $iptc['2#055'][0] ) && ! empty( $iptc['2#060'][0] ) ) // created date and time
 				$meta['created_timestamp'] = strtotime( $iptc['2#055'][0] . ' ' . $iptc['2#060'][0] );
 
 			if ( ! empty( $iptc['2#116'][0] ) ) // copyright
