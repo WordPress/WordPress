@@ -1542,11 +1542,10 @@ function get_admin_page_parent( $parent = '' ) {
 			} elseif ( $submenu_array[2] == $pagenow && empty($typenow) && ( empty($parent_file) || false === strpos($parent_file, '?') ) ) {
 				$parent_file = $parent;
 				return $parent;
-			} else
-				if ( isset( $plugin_page ) && ($plugin_page == $submenu_array[2] ) ) {
-					$parent_file = $parent;
-					return $parent;
-				}
+			} elseif ( isset( $plugin_page ) && ($plugin_page == $submenu_array[2] ) ) {
+				$parent_file = $parent;
+				return $parent;
+			}
 		}
 	}
 
@@ -1576,11 +1575,10 @@ function get_admin_page_title() {
 				if ( $menu_array[2] == $pagenow ) {
 					$title = $menu_array[3];
 					return $menu_array[3];
-				} else
-					if ( isset( $plugin_page ) && ($plugin_page == $menu_array[2] ) && ($hook == $menu_array[3] ) ) {
-						$title = $menu_array[3];
-						return $menu_array[3];
-					}
+				} elseif ( isset( $plugin_page ) && ($plugin_page == $menu_array[2] ) && ($hook == $menu_array[3] ) ) {
+					$title = $menu_array[3];
+					return $menu_array[3];
+				}
 			} else {
 				$title = $menu_array[0];
 				return $title;
@@ -1647,11 +1645,11 @@ function get_plugin_page_hookname( $plugin_page, $parent_page ) {
 
 	$page_type = 'admin';
 	if ( empty ( $parent_page ) || 'admin.php' == $parent_page || isset( $admin_page_hooks[$plugin_page] ) ) {
-		if ( isset( $admin_page_hooks[$plugin_page] ) )
+		if ( isset( $admin_page_hooks[$plugin_page] ) ) {
 			$page_type = 'toplevel';
-		else
-			if ( isset( $admin_page_hooks[$parent] ))
-				$page_type = $admin_page_hooks[$parent];
+		} elseif ( isset( $admin_page_hooks[$parent] )) {
+			$page_type = $admin_page_hooks[$parent];
+		}
 	} elseif ( isset( $admin_page_hooks[$parent] ) ) {
 		$page_type = $admin_page_hooks[$parent];
 	}
