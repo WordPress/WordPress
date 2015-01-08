@@ -556,22 +556,22 @@ function wp_kses_allowed_html( $context = '' ) {
 		case 'post':
 			/** This filter is documented in wp-includes/kses.php */
 			return apply_filters( 'wp_kses_allowed_html', $allowedposttags, $context );
-			break;
+
 		case 'user_description':
 		case 'pre_user_description':
 			$tags = $allowedtags;
 			$tags['a']['rel'] = true;
 			/** This filter is documented in wp-includes/kses.php */
 			return apply_filters( 'wp_kses_allowed_html', $tags, $context );
-			break;
+
 		case 'strip':
 			/** This filter is documented in wp-includes/kses.php */
 			return apply_filters( 'wp_kses_allowed_html', array(), $context );
-			break;
+
 		case 'entities':
 			/** This filter is documented in wp-includes/kses.php */
 			return apply_filters( 'wp_kses_allowed_html', $allowedentitynames, $context);
-			break;
+
 		case 'data':
 		default:
 			/** This filter is documented in wp-includes/kses.php */
