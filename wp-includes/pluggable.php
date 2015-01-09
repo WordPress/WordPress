@@ -2082,123 +2082,127 @@ endif;
 
 if ( !function_exists( 'get_avatar' ) ) :
 /**
- * Retrieve the avatar for a user who provided a user ID or email address.
+ * Retrieve the avatar `<img>` tag for a user, email address, MD5 hash, comment, or post.
  *
  * @since 2.5.0
+ * @since 4.2.0 Optional $args parameter added.
  *
- * @param int|string|object $id_or_email A user ID,  email address, or comment object
- * @param int $size Size of the avatar image
- * @param string $default URL to a default image to use if no avatar is available
- * @param string $alt Alternative text to use in image tag. Defaults to blank
- * @return false|string `<img>` tag for the user's avatar.
-*/
-function get_avatar( $id_or_email, $size = '96', $default = '', $alt = false ) {
-	if ( ! get_option('show_avatars') )
+ * @param mixed $id_or_email The Gravatar to retrieve. Accepts a user_id, gravatar md5 hash,
+ *                           user email, WP_User object, WP_Post object, or comment object.
+ * @param int    $size       Optional. Height and width of the avatar in pixels. Default 96.
+ * @param string $default    Optional. URL for the default image or a default type. Accepts '404'
+ *                           (return a 404 instead of a default image), 'retro' (8bit), 'monsterid'
+ *                           (monster), 'wavatar' (cartoon face), 'indenticon' (the "quilt"),
+ *                           'mystery', 'mm', or 'mysterman' (The Oyster Man), 'blank' (transparent GIF),
+ *                           or 'gravatar_default' (the Gravatar logo). Default is the value of the
+ *                           'avatar_default' option, with a fallback of 'mystery'.
+ * @param string $alt        Optional. Alternative text to use in &lt;img&gt; tag. Default empty.
+ * @param array  $args       {
+ *     Optional. Extra arguments to retrieve the avatar.
+ *
+ *     @type bool         $force_default Whether to always show the default image, never the Gravatar. Default false.
+ *     @type string       $rating        What rating to display avatars up to. Accepts 'G', 'PG', 'R', 'X', and are
+ *                                       judged in that order. Default is the value of the 'avatar_rating' option.
+ *     @type string       $scheme        URL scheme to use. See {@see set_url_scheme()} for accepted values.
+ *                                       Default null.
+ *     @type array|string $class         Array or string of additional classes to add to the &lt;img&gt; element.
+ *                                       Default null.
+ *     @type bool         $force_display Whether to always show the avatar - ignores the show_avatars option.
+ *                                       Default false.
+ * }
+ *
+ * @return false|string `<img>` tag for the user's avatar. False on failure.
+ */
+function get_avatar( $id_or_email, $size = 96, $default = '', $alt = '', $args = null ) {
+	$defaults = array(
+		// get_avatar_data() args.
+		'size'          => 96,
+		'default'       => get_option( 'avatar_default', 'mystery' ),
+		'force_default' => false,
+		'rating'        => get_option( 'avatar_rating' ),
+		'scheme'        => null,
+		'alt'           => '',
+		'class'         => null,
+		'force_display' => false,
+	);
+
+	if ( empty( $args ) ) {
+		$args = array();
+	}
+
+	$args['size']    = $size;
+	$args['default'] = $default;
+	$args['alt']     = $alt;
+
+	$args = wp_parse_args( $args, $defaults );
+
+	/**
+	 * Filter whether to retrieve the avatar URL early.
+	 *
+	 * Passing a non-null value will effectively short-circuit {@see get_avatar()},
+	 * passing the value through the 'pre_get_avatar' filter and returning early.
+	 *
+	 * @since 4.2.0
+	 *
+	 * @param string            $avatar        HTML for the user's avatar. Default null.
+	 * @param int|object|string $id_or_email   A user ID, email address, or comment object.
+	 * @param array             $args          Arguments passed to get_avatar_url(), after processing.
+	 */
+	$avatar = apply_filters( 'pre_get_avatar', null, $id_or_email, $args );
+	if ( ! is_null( $avatar ) ) {
+		/** This filter is documented in src/wp-include/pluggable.php */
+		return apply_filters( 'get_avatar', $avatar, $id_or_email, $args['size'], $args['default'], $args['alt'], $args );
+	}
+
+	if ( ! $args['force_display'] && ! get_option( 'show_avatars' ) ) {
 		return false;
+	}
 
-	if ( false === $alt)
-		$safe_alt = '';
-	else
-		$safe_alt = esc_attr( $alt );
+	$args = get_avatar_data( $id_or_email, $args );
 
-	if ( !is_numeric($size) )
-		$size = '96';
+	$url = $args['url'];
 
-	$email = '';
-	if ( is_numeric($id_or_email) ) {
-		$id = (int) $id_or_email;
-		$user = get_userdata($id);
-		if ( $user )
-			$email = $user->user_email;
-	} elseif ( is_object($id_or_email) ) {
-		// No avatar for pingbacks or trackbacks
+	if ( ! $url || is_wp_error( $url ) ) {
+        return false;
+	}
 
-		/**
-		 * Filter the list of allowed comment types for retrieving avatars.
-		 *
-		 * @since 3.0.0
-		 *
-		 * @param array $types An array of content types. Default only contains 'comment'.
-		 */
-		$allowed_comment_types = apply_filters( 'get_avatar_comment_types', array( 'comment' ) );
-		if ( ! empty( $id_or_email->comment_type ) && ! in_array( $id_or_email->comment_type, (array) $allowed_comment_types ) )
-			return false;
+	$class = array( 'avatar', 'avatar-' . (int) $args['size'], 'photo' );
 
-		if ( ! empty( $id_or_email->user_id ) ) {
-			$id = (int) $id_or_email->user_id;
-			$user = get_userdata($id);
-			if ( $user )
-				$email = $user->user_email;
+	if ( ! $args['found_avatar'] || $args['force_default'] ) {
+        $class[] = 'avatar-default';
+	}
+
+	if ( $args['class'] ) {
+		if ( is_array( $args['class'] ) ) {
+			$class = array_merge( $class, $args['class'] );
+		} else {
+			$class[] = $args['class'];
 		}
-
-		if ( ! $email && ! empty( $id_or_email->comment_author_email ) )
-			$email = $id_or_email->comment_author_email;
-	} else {
-		$email = $id_or_email;
 	}
 
-	if ( empty($default) ) {
-		$avatar_default = get_option('avatar_default');
-		if ( empty($avatar_default) )
-			$default = 'mystery';
-		else
-			$default = $avatar_default;
-	}
-
-	if ( !empty($email) )
-		$email_hash = md5( strtolower( trim( $email ) ) );
-
-	if ( is_ssl() ) {
-		$host = 'https://secure.gravatar.com';
-	} else {
-		if ( !empty($email) )
-			$host = sprintf( "http://%d.gravatar.com", ( hexdec( $email_hash[0] ) % 2 ) );
-		else
-			$host = 'http://0.gravatar.com';
-	}
-
-	if ( 'mystery' == $default )
-		$default = "$host/avatar/ad516503a11cd5ca435acc9bb6523536?s={$size}"; // ad516503a11cd5ca435acc9bb6523536 == md5('unknown@gravatar.com')
-	elseif ( 'blank' == $default )
-		$default = $email ? 'blank' : includes_url( 'images/blank.gif' );
-	elseif ( !empty($email) && 'gravatar_default' == $default )
-		$default = '';
-	elseif ( 'gravatar_default' == $default )
-		$default = "$host/avatar/?s={$size}";
-	elseif ( empty($email) )
-		$default = "$host/avatar/?d=$default&amp;s={$size}";
-	elseif ( strpos($default, 'http://') === 0 )
-		$default = add_query_arg( 's', $size, $default );
-
-	if ( !empty($email) ) {
-		$out = "$host/avatar/";
-		$out .= $email_hash;
-		$out .= '?s='.$size;
-		$out .= '&amp;d=' . urlencode( $default );
-
-		$rating = get_option('avatar_rating');
-		if ( !empty( $rating ) )
-			$out .= "&amp;r={$rating}";
-
-		$out = str_replace( '&#038;', '&amp;', esc_url( $out ) );
-		$avatar = "<img alt='{$safe_alt}' src='{$out}' class='avatar avatar-{$size} photo' height='{$size}' width='{$size}' />";
-	} else {
-		$out = esc_url( $default );
-		$avatar = "<img alt='{$safe_alt}' src='{$out}' class='avatar avatar-{$size} photo avatar-default' height='{$size}' width='{$size}' />";
-	}
+	$avatar = sprintf(
+		'<img alt="%s" src="%s" class="%s" height="%d" width="%d" />',
+		esc_attr( $args['alt'] ),
+		esc_url( $url ),
+		esc_attr( join( ' ', $class ) ),
+		(int) $args['size'],
+		(int) $args['size']
+	);
 
 	/**
 	 * Filter the avatar to retrieve.
 	 *
 	 * @since 2.5.0
+	 * @since 4.2.0 $args parameter added
 	 *
-	 * @param string            $avatar      Image tag for the user's avatar.
-	 * @param int|object|string $id_or_email A user ID, email address, or comment object.
-	 * @param int               $size        Square avatar width and height in pixels to retrieve.
-	 * @param string            $alt         Alternative text to use in the avatar image tag.
-	 *                                       Default empty.
+	 * @param string            $avatar         &lt;img&gt; tag for the user's avatar.
+	 * @param int|object|string $id_or_email    A user ID, email address, or comment object.
+	 * @param int               $size           Square avatar width and height in pixels to retrieve.
+	 * @param string            $alt            Alternative text to use in the avatar image tag.
+	 *                                          Default empty.
+	 * @param array             $args           Arguments passed to get_avatar_data(), after processing.
 	 */
-	return apply_filters( 'get_avatar', $avatar, $id_or_email, $size, $default, $alt );
+	return apply_filters( 'get_avatar', $avatar, $id_or_email, $args['size'], $args['default'], $args['alt'], $args );
 }
 endif;
 

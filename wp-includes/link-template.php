@@ -3324,3 +3324,235 @@ function the_shortlink( $text = '', $title = '', $before = '', $after = '' ) {
 		echo $before, $link, $after;
 	}
 }
+
+
+/**
+ * Retrieve the avatar URL.
+ *
+ * @since 4.2.0
+ *
+ * @param mixed $id_or_email The Gravatar to retrieve a URL for. Accepts a user_id, gravatar md5 hash,
+ *                           user email, WP_User object, WP_Post object, or comment object.
+ * @param array $args        {
+ *     Optional. Arguments to return instead of the default arguments.
+ *
+ *     @type int    $size           Height and width of the avatar in pixels. Default 96.
+ *     @type string $default        URL for the default image or a default type. Accepts '404' (return
+ *                                  a 404 instead of a default image), 'retro' (8bit), 'monsterid' (monster),
+ *                                  'wavatar' (cartoon face), 'indenticon' (the "quilt"), 'mystery', 'mm',
+ *                                  or 'mysterman' (The Oyster Man), 'blank' (transparent GIF), or
+ *                                  'gravatar_default' (the Gravatar logo). Default is the value of the
+ *                                  'avatar_default' option, with a fallback of 'mystery'.
+ *     @type bool   $force_default  Whether to always show the default image, never the Gravatar. Default false.
+ *     @type string $rating         What rating to display avatars up to. Accepts 'G', 'PG', 'R', 'X', and are
+ *                                  judged in that order. Default is the value of the 'avatar_rating' option.
+ *     @type string $scheme         URL scheme to use. See {@see set_url_scheme()} for accepted values.
+ *                                  Default null.
+ *     @type array  $processed_args When the function returns, the value will be the processed/sanitized $args
+ *                                  plus a "found_avatar" guess. Pass as a reference. Default null.
+ * }
+ *
+ * @return false|string The URL of the avatar we found, or false if we couldn't find an avatar.
+ */
+function get_avatar_url( $id_or_email, $args = null ) {
+	$args = get_avatar_data( $id_or_email, $args );
+	return $args['url'];
+}
+
+/**
+ * Retrieve default data about the avatar.
+ *
+ * @since 4.2.0
+ *
+ * @param mixed $id_or_email The Gravatar to check the data against. Accepts a user_id, gravatar md5 hash,
+ *                           user email, WP_User object, WP_Post object, or comment object.
+ * @param array $args        {
+ *     Optional. Arguments to return instead of the default arguments.
+ *
+ *     @type int    $size           Height and width of the avatar in pixels. Default 96.
+ *     @type string $default        URL for the default image or a default type. Accepts '404' (return
+ *                                  a 404 instead of a default image), 'retro' (8bit), 'monsterid' (monster),
+ *                                  'wavatar' (cartoon face), 'indenticon' (the "quilt"), 'mystery', 'mm',
+ *                                  or 'mysterman' (The Oyster Man), 'blank' (transparent GIF), or
+ *                                  'gravatar_default' (the Gravatar logo). Default is the value of the
+ *                                  'avatar_default' option, with a fallback of 'mystery'.
+ *     @type bool   $force_default  Whether to always show the default image, never the Gravatar. Default false.
+ *     @type string $rating         What rating to display avatars up to. Accepts 'G', 'PG', 'R', 'X', and are
+ *                                  judged in that order. Default is the value of the 'avatar_rating' option.
+ *     @type string $scheme         URL scheme to use. See {@see set_url_scheme()} for accepted values.
+ *                                  Default null.
+ *     @type array  $processed_args When the function returns, the value will be the processed/sanitized $args
+ *                                  plus a "found_avatar" guess. Pass as a reference. Default null.
+ * }
+ *
+ * @return array $processed_args {
+ *     Along with the arguments passed in $args, this will contain a couple of extra arguments.
+ *
+ *     @type bool         $found_avatar True if we were able to find an avatar for this user,
+ *                                      false or not set if we couldn't.
+ *     @type false|string $url          The URL of the avatar we found, or false if we couldn't find an avatar.
+ * }
+ */
+function get_avatar_data( $id_or_email, $args = null ) {
+	$args = wp_parse_args( $args, array(
+		'size'           => 96,
+		'default'        => get_option( 'avatar_default', 'mystery' ),
+		'force_default'  => false,
+		'rating'         => get_option( 'avatar_rating' ),
+		'scheme'         => null,
+		'processed_args' => null, // if used, should be a reference
+	) );
+
+	if ( is_numeric( $args['size'] ) ) {
+		$args['size'] = absint( $args['size'] );
+		if ( ! $args['size'] ) {
+			$args['size'] = 96;
+		}
+	} else {
+		$args['size'] = 96;
+	}
+
+	if ( empty( $args['default'] ) ) {
+		$args['default'] = 'mystery';
+	}
+
+	switch ( $args['default'] ) {
+		case 'mm' :
+		case 'mystery' :
+		case 'mysteryman' :
+			$args['default'] = 'mm';
+			break;
+		case 'gravatar_default' :
+			$args['default'] = false;
+			break;
+	}
+
+	$args['force_default'] = (bool) $args['force_default'];
+
+	$args['rating'] = strtolower( $args['rating'] );
+
+	$args['found_avatar'] = false;
+
+	/**
+	 * Filter whether to retrieve the avatar URL early.
+	 *
+	 * Passing a non-null value in the 'url' member of the return array will
+	 * effectively short circuit {@see get_avatar_data()}, passing the value
+	 * through the 'get_avatar_data' filter and returning early.
+	 *
+	 * @since 4.2.0
+	 *
+	 * @param array             $args          Arguments passed to get_avatar_data(), after processing.
+	 * @param int|object|string $id_or_email   A user ID, email address, or comment object.
+	 */
+	$args = apply_filters( 'pre_get_avatar_data', $args, $id_or_email );
+
+	if ( isset( $args['url'] ) && ! is_null( $args['url'] ) ) {
+		/** This filter is documented in src/wp-includes/link-template.php */
+		return apply_filters( 'get_avatar_data', $args, $id_or_email );
+	}
+
+	$email_hash = '';
+	$user = $email = false;
+
+	// Process the user identifier.
+	if ( is_numeric( $id_or_email ) ) {
+		$user = get_user_by( 'id', absint( $id_or_email ) );
+	} elseif ( is_string( $id_or_email ) ) {
+		if ( strpos( $id_or_email, '@md5.gravatar.com' ) ) {
+			// md5 hash
+			list( $email_hash ) = explode( '@', $id_or_email );
+		} else {
+			// email address
+			$email = $id_or_email;
+		}
+	} elseif ( $id_or_email instanceof WP_User ) {
+		// User Object
+		$user = $id_or_email;
+	} elseif ( $id_or_email instanceof WP_Post ) {
+		// Post Object
+		$user = get_user_by( 'id', (int) $id_or_email->post_author );
+	} elseif ( is_object( $id_or_email ) && isset( $id_or_email->comment_ID ) ) {
+		// Comment Object
+
+		/**
+		 * Filter the list of allowed comment types for retrieving avatars.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @param array $types An array of content types. Default only contains 'comment'.
+		 */
+		$allowed_comment_types = apply_filters( 'get_avatar_comment_types', array( 'comment' ) );
+		if ( ! empty( $id_or_email->comment_type ) && ! in_array( $id_or_email->comment_type, (array) $allowed_comment_types ) ) {
+			$args['url'] = false;
+			/** This filter is documented in src/wp-includes/link-template.php */
+			return apply_filters( 'get_avatar_data', $args, $id_or_email );
+		}
+
+		if ( ! empty( $id_or_email->user_id ) ) {
+			$user = get_user_by( 'id', (int) $id_or_email->user_id );
+		}
+		if ( ( ! $user || is_wp_error( $user ) ) && ! empty( $id_or_email->comment_author_email ) ) {
+			$email = $id_or_email->comment_author_email;
+		}
+	}
+
+	if ( ! $email_hash ) {
+		if ( $user ) {
+			$email = $user->user_email;
+		}
+
+		if ( $email ) {
+			$email_hash = md5( strtolower( trim( $email ) ) );
+		}
+	}
+
+	if ( $email_hash ) {
+		$args['found_avatar'] = true;
+		$gravatar_server = hexdec( $email_hash[0] ) % 3;
+	} else {
+		$gravatar_server = rand( 0, 2 );
+	}
+
+	$url_args = array(
+		's' => $args['size'],
+		'd' => $args['default'],
+		'f' => $args['force_default'] ? 'y' : false,
+		'r' => $args['rating'],
+	);
+
+	$url = sprintf( 'http://%d.gravatar.com/avatar/%s', $gravatar_server, $email_hash );
+
+	$url = add_query_arg(
+		rawurlencode_deep( array_filter( $url_args ) ),
+		set_url_scheme( $url, $args['scheme'] )
+	);
+
+	/**
+	 * Filter the avatar URL.
+	 *
+	 * @since 4.2.0
+	 *
+	 * @param string            $url           The URL of the avatar.
+	 * @param int|object|string $id_or_email   A user ID, email address, or comment object.
+	 * @param array             $args          Arguments passed to get_avatar_data(), after processing.
+	 */
+	$args['url'] = apply_filters( 'get_avatar_url', $url, $id_or_email, $args );
+
+	/**
+	 * Filter the avatar data.
+	 *
+	 * @since 4.2.0
+	 *
+	 * @param array             $args          Arguments passed to get_avatar_data(), after processing.
+	 * @param int|object|string $id_or_email   A user ID, email address, or comment object.
+	 */
+	$args = apply_filters( 'get_avatar_data', $args, $id_or_email );
+
+	// Don't return a broken URL if we couldn't find the email hash, and none of the filters returned a different URL.
+	if ( ! $email_hash && $url === $args['url'] ) {
+		$args['url'] = false;
+	}
+
+	return $args;
+}
