@@ -1033,8 +1033,8 @@ final class WP_Theme implements ArrayAccess {
 	 * @since 3.4.0
 	 * @access public
 	 *
-	 * @return bool If the textdomain was successfully loaded or has already been loaded. False if
-	 * 	no textdomain was specified in the file headers, or if the domain could not be loaded.
+	 * @return bool True if the textdomain was successfully loaded or has already been loaded.
+	 * 	False if no textdomain was specified in the file headers, or if the domain could not be loaded.
 	 */
 	public function load_textdomain() {
 		if ( isset( $this->textdomain_loaded ) )
