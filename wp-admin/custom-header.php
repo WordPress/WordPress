@@ -143,19 +143,21 @@ class Custom_Image_Header {
 	 * @since 2.1.0
 	 */
 	public function init() {
-		if ( ! current_user_can('edit_theme_options') )
+		$page = add_theme_page( __( 'Header' ), __( 'Header' ), 'edit_theme_options', 'custom-header', array( $this, 'admin_page' ) );
+		if ( ! $page ) {
 			return;
+		}
 
-		$this->page = $page = add_theme_page(__('Header'), __('Header'), 'edit_theme_options', 'custom-header', array($this, 'admin_page'));
+		$this->page = $page;
 
-		add_action("admin_print_scripts-$page", array($this, 'js_includes'));
-		add_action("admin_print_styles-$page", array($this, 'css_includes'));
-		add_action("admin_head-$page", array($this, 'help') );
-		add_action("admin_head-$page", array($this, 'take_action'), 50);
-		add_action("admin_head-$page", array($this, 'js'), 50);
-		if ( $this->admin_header_callback )
-			add_action("admin_head-$page", $this->admin_header_callback, 51);
-
+		add_action( "admin_print_scripts-$page", array( $this, 'js_includes' ) );
+		add_action( "admin_print_styles-$page", array( $this, 'css_includes' ) );
+		add_action( "admin_head-$page", array( $this, 'help' ) );
+		add_action( "admin_head-$page", array( $this, 'take_action' ), 50 );
+		add_action( "admin_head-$page", array( $this, 'js' ), 50 );
+		if ( $this->admin_header_callback ) {
+			add_action( "admin_head-$page", $this->admin_header_callback, 51 );
+		}
 	}
 
 	/**
@@ -862,7 +864,7 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 		$overrides = array('test_form' => false);
 
 		$uploaded_file = $_FILES['import'];
-		$wp_filetype = wp_check_filetype_and_ext( $uploaded_file['tmp_name'], $uploaded_file['name'], false );
+		$wp_filetype = wp_check_filetype_and_ext( $uploaded_file['tmp_name'], $uploaded_file['name'] );
 		if ( ! wp_match_mime_types( 'image', $wp_filetype['type'] ) )
 			wp_die( __( 'The uploaded file is not a valid image. Please try again.' ) );
 
