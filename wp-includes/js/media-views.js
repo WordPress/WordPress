@@ -3767,7 +3767,8 @@
 				return;
 			}
 
-			tabbables = this.$( ':tabbable' );
+			// Skip the file input added by Plupload.
+			tabbables = this.$( ':tabbable' ).not( '.moxie-shim input[type="file"]' );
 
 			// Keep tab focus within media modal while it's open
 			if ( tabbables.last()[0] === event.target && ! event.shiftKey ) {
