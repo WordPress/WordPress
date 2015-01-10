@@ -380,7 +380,8 @@
 						width: contentWrapWidth - ( borderWidth * 2 ) - ( visual ? 0 : ( $top.outerWidth() - $top.width() ) )
 					} );
 
-					$statusBar.add( $bottom ).attr( 'style', '' );
+					$statusBar.attr( 'style', advanced ? '' : 'visibility: hidden;' );
+					$bottom.attr( 'style', '' );
 				}
 			} else {
 				// Maybe pin the top.
@@ -489,11 +490,8 @@
 						( windowPos + heights.windowHeight ) > ( editorPos + editorHeight + heights.bottomHeight + heights.statusBarHeight - borderWidth ) ) ) {
 					fixedBottom = false;
 
-					$statusBar.add( $bottom ).attr( 'style', '' );
-
-					if ( ! advanced ) {
-						$statusBar.css( 'visibility', 'hidden' );
-					}
+					$statusBar.attr( 'style', advanced ? '' : 'visibility: hidden;' );
+					$bottom.attr( 'style', '' );
 				}
 			}
 
