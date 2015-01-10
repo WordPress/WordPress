@@ -554,7 +554,14 @@ class Custom_Image_Header {
 		call_user_func( $this->admin_image_div_callback );
 	} else {
 		$custom_header = get_custom_header();
-		$header_image_style = 'background-image:url(' . esc_url( get_header_image() ) . ');';
+		$header_image = get_header_image();
+
+		if ( $header_image ) {
+			$header_image_style = 'background-image:url(' . esc_url( $header_image ) . ');';
+		}  else {
+			$header_image_style = '';
+		}
+
 		if ( $custom_header->width )
 			$header_image_style .= 'max-width:' . $custom_header->width . 'px;';
 		if ( $custom_header->height )
