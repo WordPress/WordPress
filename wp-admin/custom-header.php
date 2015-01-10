@@ -20,18 +20,16 @@ class Custom_Image_Header {
 	 *
 	 * @var callback
 	 * @since 2.1.0
-	 * @access private
 	 */
-	private $admin_header_callback;
+	public $admin_header_callback;
 
 	/**
 	 * Callback for header div.
 	 *
 	 * @var callback
 	 * @since 3.0.0
-	 * @access private
 	 */
-	private $admin_image_div_callback;
+	public $admin_image_div_callback;
 
 	/**
 	 * Holds default headers.
@@ -40,25 +38,7 @@ class Custom_Image_Header {
 	 * @since 3.0.0
 	 * @access private
 	 */
-	private $default_headers = array();
-
-	/**
-	 * Holds custom headers uploaded by the user.
-	 *
-	 * @var array
-	 * @since 3.2.0
-	 * @access private
-	 */
-	private $uploaded_headers = array();
-
-	/**
-	 * Holds the page menu hook.
-	 *
-	 * @var string
-	 * @since 3.0.0
-	 * @access private
-	 */
-	private $page = '';
+	public $default_headers = array();
 
 	/**
 	 * @var bool
@@ -85,58 +65,6 @@ class Custom_Image_Header {
 	}
 
 	/**
-	 * Make private properties readable for backwards compatibility.
-	 *
-	 * @since 4.0.0
-	 * @access public
-	 *
-	 * @param string $name Property to get.
-	 * @return mixed Property.
-	 */
-	public function __get( $name ) {
-		return $this->$name;
-	}
-
-	/**
-	 * Make private properties settable for backwards compatibility.
-	 *
-	 * @since 4.0.0
-	 * @access public
-	 *
-	 * @param string $name  Property to set.
-	 * @param mixed  $value Property value.
-	 * @return mixed Newly-set property.
-	 */
-	public function __set( $name, $value ) {
-		return $this->$name = $value;
-	}
-
-	/**
-	 * Make private properties checkable for backwards compatibility.
-	 *
-	 * @since 4.0.0
-	 * @access public
-	 *
-	 * @param string $name Property to check if set.
-	 * @return bool Whether the property is set.
-	 */
-	public function __isset( $name ) {
-		return isset( $this->$name );
-	}
-
-	/**
-	 * Make private properties un-settable for backwards compatibility.
-	 *
-	 * @since 4.0.0
-	 * @access public
-	 *
-	 * @param string $name Property to unset.
-	 */
-	public function __unset( $name ) {
-		unset( $this->$name );
-	}
-
-	/**
 	 * Set up the hooks for the Custom Header admin page.
 	 *
 	 * @since 2.1.0
@@ -146,8 +74,6 @@ class Custom_Image_Header {
 		if ( ! $page ) {
 			return;
 		}
-
-		$this->page = $page;
 
 		add_action( "admin_print_scripts-$page", array( $this, 'js_includes' ) );
 		add_action( "admin_print_styles-$page", array( $this, 'css_includes' ) );
