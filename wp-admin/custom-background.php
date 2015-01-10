@@ -278,8 +278,9 @@ class Custom_Background {
 		if ( $bgcolor = get_background_color() )
 			$background_styles .= 'background-color: #' . $bgcolor . ';';
 
-		if ( get_background_image() ) {
-			$background_image_thumb = esc_url( set_url_scheme( get_theme_mod( 'background_image_thumb', str_replace( '%', '%%', get_background_image() ) ) ) );
+		$background_image_thumb = get_background_image();
+		if ( $background_image_thumb ) {
+			$background_image_thumb = esc_url( set_url_scheme( get_theme_mod( 'background_image_thumb', str_replace( '%', '%%', $background_image_thumb ) ) ) );
 
 			// Background-image URL must be single quote, see below.
 			$background_styles .= ' background-image: url(\'' . $background_image_thumb . '\');'
@@ -288,7 +289,7 @@ class Custom_Background {
 		}
 	?>
 	<div id="custom-background-image" style="<?php echo $background_styles; ?>"><?php // must be double quote, see above ?>
-		<?php if ( get_background_image() ) { ?>
+		<?php if ( $background_image_thumb ) { ?>
 		<img class="custom-background-image" src="<?php echo $background_image_thumb; ?>" style="visibility:hidden;" alt="" /><br />
 		<img class="custom-background-image" src="<?php echo $background_image_thumb; ?>" style="visibility:hidden;" alt="" />
 		<?php } ?>
