@@ -137,6 +137,9 @@ class WP_Upgrader_Skin {
 				</script>';
 		}
 	}
+
+	public function bulk_header() {}
+	public function bulk_footer() {}
 }
 
 /**
