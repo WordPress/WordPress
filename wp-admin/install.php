@@ -159,6 +159,8 @@ if ( is_blog_installed() ) {
 	die( '<h1>' . __( 'Already Installed' ) . '</h1><p>' . __( 'You appear to have already installed WordPress. To reinstall please clear your old database tables first.' ) . '</p><p class="step"><a href="../wp-login.php" class="button button-large">' . __( 'Log In' ) . '</a></p></body></html>' );
 }
 
+global $wp_version, $required_php_version, $required_mysql_version;
+
 $php_version    = phpversion();
 $mysql_version  = $wpdb->db_version();
 $php_compat     = version_compare( $php_version, $required_php_version, '>=' );
