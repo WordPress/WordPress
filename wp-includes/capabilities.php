@@ -415,6 +415,17 @@ class WP_Role {
  * @since 2.0.0
  * @package WordPress
  * @subpackage User
+ *
+ * @property string $display_name
+ * @property string $nickname
+ * @property string $user_description
+ * @property string $user_email
+ * @property string $user_firstname
+ * @property string $user_lastname
+ * @property string $user_nicename
+ * @property string $user_pass
+ * @property string $user_registered
+ * @property string $user_url
  */
 class WP_User {
 	/**
@@ -492,7 +503,6 @@ class WP_User {
 	 * @param int|string|stdClass|WP_User $id User's ID, a WP_User object, or a user object from the DB.
 	 * @param string $name Optional. User's username
 	 * @param int $blog_id Optional Blog ID, defaults to current blog.
-	 * @return WP_User
 	 */
 	public function __construct( $id = 0, $name = '', $blog_id = '' ) {
 		if ( ! isset( self::$back_compat_keys ) ) {

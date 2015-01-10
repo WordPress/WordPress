@@ -74,6 +74,13 @@ class WP_List_Table {
 	protected $modes = array();
 
 	/**
+	 * Stores the value returned by ->get_column_info()
+	 *
+	 * @var array
+	 */
+	protected $_column_headers;
+
+	/**
 	 * Constructor.
 	 *
 	 * The child class should call this constructor from its own constructor to override
