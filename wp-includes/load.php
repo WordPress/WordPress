@@ -52,7 +52,7 @@ function wp_fix_server_vars() {
 	$_SERVER = array_merge( $default_server_values, $_SERVER );
 
 	// Fix for IIS when running with PHP ISAPI
-	if ( empty( $_SERVER['REQUEST_URI'] ) || ( php_sapi_name() != 'cgi-fcgi' && preg_match( '/^Microsoft-IIS\//', $_SERVER['SERVER_SOFTWARE'] ) ) ) {
+	if ( empty( $_SERVER['REQUEST_URI'] ) || ( PHP_SAPI != 'cgi-fcgi' && preg_match( '/^Microsoft-IIS\//', $_SERVER['SERVER_SOFTWARE'] ) ) ) {
 
 		// IIS Mod-Rewrite
 		if ( isset( $_SERVER['HTTP_X_ORIGINAL_URL'] ) ) {
