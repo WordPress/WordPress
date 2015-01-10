@@ -26,7 +26,7 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 		// Check if possible to use ftp functions.
 		if ( ! extension_loaded('ftp') ) {
 			$this->errors->add('no_ftp_ext', __('The ftp PHP extension is not available'));
-			return false;
+			return;
 		}
 
 		// This Class uses the timeout on a per-connection basis, Others use it on a per-action basis.

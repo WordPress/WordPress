@@ -6,7 +6,6 @@ class WP_Importer {
 	/**
 	 * Class Constructor
 	 *
-	 * @return void
 	 */
 	public function __construct() {}
 

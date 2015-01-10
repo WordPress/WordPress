@@ -71,7 +71,6 @@ class Custom_Image_Header {
 	 * @since 2.1.0
 	 * @param callback $admin_header_callback
 	 * @param callback $admin_image_div_callback Optional custom image div output callback.
-	 * @return Custom_Image_Header
 	 */
 	public function __construct($admin_header_callback, $admin_image_div_callback = '') {
 		$this->admin_header_callback = $admin_header_callback;

@@ -48,11 +48,11 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 		//Check if possible to use ssh2 functions.
 		if ( ! extension_loaded('ssh2') ) {
 			$this->errors->add('no_ssh2_ext', __('The ssh2 PHP extension is not available'));
-			return false;
+			return;
 		}
 		if ( !function_exists('stream_get_contents') ) {
 			$this->errors->add('ssh2_php_requirement', __('The ssh2 PHP extension is available, however, we require the PHP5 function <code>stream_get_contents()</code>'));
-			return false;
+			return;
 		}
 
 		// Set defaults:
