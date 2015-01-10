@@ -3939,7 +3939,6 @@ class WP_Query {
 	 * @access public
 	 *
 	 * @param string $query URL query string.
-	 * @return WP_Query
 	 */
 	public function __construct($query = '') {
 		if ( ! empty($query) ) {
@@ -4172,7 +4171,7 @@ class WP_Query {
 	 * @since 3.1.0
 	 *
 	 * @param mixed $taxonomy Optional. Taxonomy slug or slugs.
-	 * @param mixed $term. Optional. Term ID, name, slug or array of Term IDs, names, and slugs.
+	 * @param mixed $term     Optional. Term ID, name, slug or array of Term IDs, names, and slugs.
 	 * @return bool
 	 */
 	public function is_tax( $taxonomy = '', $term = '' ) {

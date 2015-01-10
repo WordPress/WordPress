@@ -676,7 +676,6 @@ class WP_Object_Cache {
 	 * Sets up object properties; PHP 5 style constructor
 	 *
 	 * @since 2.0.8
-	 * @return null|WP_Object_Cache If cache is disabled, returns null.
 	 */
 	public function __construct() {
 		global $blog_id;

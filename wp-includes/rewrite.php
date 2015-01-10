@@ -2171,7 +2171,6 @@ class WP_Rewrite {
 	 * @since 1.5.0
 	 * @access public
 	 *
-	 * @return WP_Rewrite
 	 */
 	public function __construct() {
 		$this->init();

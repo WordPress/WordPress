@@ -318,7 +318,6 @@ class WP_Locale {
 	 * @uses WP_Locale::register_globals()
 	 * @since 2.1.0
 	 *
-	 * @return WP_Locale
 	 */
 	function __construct() {
 		$this->init();

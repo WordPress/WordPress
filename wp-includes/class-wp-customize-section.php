@@ -163,8 +163,6 @@ class WP_Customize_Section {
 		$this->instance_number = self::$instance_count;
 
 		$this->controls = array(); // Users cannot customize the $controls array.
-
-		return $this;
 	}
 
 	/**

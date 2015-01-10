@@ -41,8 +41,6 @@ class wp_xmlrpc_server extends IXR_Server {
 	 * or replace XMLRPC methods.
 	 *
 	 * @since 1.5.0
-	 *
-	 * @return wp_xmlrpc_server
 	 */
 	public function __construct() {
 		$this->methods = array(
@@ -3096,7 +3094,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	 *
 	 * @since 2.7.0
 	 *
-	 * @param array $args. Contains:
+	 * @param array $args Contains:
 	 *  - blog_id (unused)
 	 *  - username
 	 *  - password

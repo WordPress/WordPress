@@ -1961,7 +1961,7 @@ class WP_Http_Cookie {
 			}
 		} else {
 			if ( !isset( $data['name'] ) )
-				return false;
+				return;
 
 			// Set properties based directly on parameters.
 			foreach ( array( 'name', 'value', 'path', 'domain', 'port' ) as $field ) {
