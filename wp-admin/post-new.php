@@ -9,13 +9,15 @@
 /** Load WordPress Administration Bootstrap */
 require_once( dirname( __FILE__ ) . '/admin.php' );
 
-if ( !isset($_GET['post_type']) )
-	$post_type = 'post';
-elseif ( in_array( $_GET['post_type'], get_post_types( array('show_ui' => true ) ) ) )
-	$post_type = $_GET['post_type'];
-else
-	wp_die( __('Invalid post type') );
+global $post_type, $post_type_object, $post;
 
+if ( ! isset( $_GET['post_type'] ) ) {
+	$post_type = 'post';
+} elseif ( in_array( $_GET['post_type'], get_post_types( array('show_ui' => true ) ) ) ) {
+	$post_type = $_GET['post_type'];
+} else {
+	wp_die( __('Invalid post type') );
+}
 $post_type_object = get_post_type_object( $post_type );
 
 if ( 'post' == $post_type ) {

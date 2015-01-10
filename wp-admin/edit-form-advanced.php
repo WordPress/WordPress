@@ -10,6 +10,8 @@
 if ( !defined('ABSPATH') )
 	die('-1');
 
+global $post_type, $post_type_object, $post;
+
 wp_enqueue_script('post');
 $_wp_editor_expand = $_content_editor_dfw = false;
 
