@@ -416,7 +416,8 @@ function get_extended( $post ) {
  *                            Default OBJECT.
  * @param string      $filter Optional. Type of filter to apply. Accepts 'raw', 'edit', 'db',
  *                            or 'display'. Default 'raw'.
- * @return WP_Post|null WP_Post on success or null on failure.
+ * @return WP_Post|array|null Type corresponding to $output on success or null on failure.
+ *                            When $output is OBJECT, a `WP_Post` instance is returned.
  */
 function get_post( $post = null, $output = OBJECT, $filter = 'raw' ) {
 	if ( empty( $post ) && isset( $GLOBALS['post'] ) )
