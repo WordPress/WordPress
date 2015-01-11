@@ -1300,6 +1300,10 @@ class WP_Query {
 	 */
 	private $stopwords;
 
+	private $compat_fields = array( 'query_vars_hash', 'query_vars_changed' );
+
+	private $compat_methods = array( 'init_query_flags', 'parse_tax_query' );
+
 	/**
 	 * Resets query flags to false.
 	 *
@@ -3956,11 +3960,13 @@ class WP_Query {
 	 * @return mixed Property.
 	 */
 	public function __get( $name ) {
-		return $this->$name;
+		if ( in_array( $name, $this->compat_fields ) ) {
+			return $this->$name;
+		}
 	}
 
 	/**
-	 * Make private properties settable for backwards compatibility.
+	 * Make private properties checkable for backwards compatibility.
 	 *
 	 * @since 4.0.0
 	 * @access public
@@ -3969,19 +3975,9 @@ class WP_Query {
 	 * @return bool Whether the property is set.
 	 */
 	public function __isset( $name ) {
-		return isset( $this->$name );
-	}
-
-	/**
-	 * Make private properties settable for backwards compatibility.
-	 *
-	 * @since 4.0.0
-	 * @access public
-	 *
-	 * @param string $name Property to unset.
-	 */
-	public function __unset( $name ) {
-		unset( $this->$name );
+		if ( in_array( $name, $this->compat_fields ) ) {
+			return isset( $this->$name );
+		}
 	}
 
 	/**
@@ -3992,10 +3988,13 @@ class WP_Query {
 	 *
 	 * @param callable $name      Method to call.
 	 * @param array    $arguments Arguments to pass when calling.
-	 * @return mixed|bool Return value of the callback, otherwise false.
+	 * @return mixed|bool Return value of the callback, false otherwise.
 	 */
 	public function __call( $name, $arguments ) {
-		return call_user_func_array( array( $this, $name ), $arguments );
+		if ( in_array( $name, $this->compat_methods ) ) {
+			return call_user_func_array( array( $this, $name ), $arguments );
+		}
+		return false;
 	}
 
 	/**
