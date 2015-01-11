@@ -884,6 +884,15 @@ i.mce-i-hr:before {
 	content: '\f475';
 }
 
+/* RTL button icons */
+.rtl i.mce-i-outdent:before {
+	content: '\f222';
+}
+
+.rtl i.mce-i-indent:before {
+	content: '\f221';
+}
+
 /* Editors */
 .wp-editor-wrap {
 	position: relative;
