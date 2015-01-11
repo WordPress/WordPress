@@ -162,7 +162,7 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 			toolbar = editor.$( viewNode ).find( '.toolbar' ),
 			editorToolbar = tinymce.$( editor.editorContainer ).find( '.mce-toolbar-grp' )[0],
 			editorToolbarBottom = ( editorToolbar && editorToolbar.getBoundingClientRect().bottom ) || 0;
-		
+
 		if ( toolbar.length && editor.iframeElement ) {
 			// 48 = 43 for the toolbar + 5 buffer
 			delta = viewNode.getBoundingClientRect().top + editor.iframeElement.getBoundingClientRect().top - editorToolbarBottom - 48;
@@ -264,9 +264,13 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 		} else if ( y > lastRect.bottom && ( view = getView( last ) ) ) {
 			setViewCursor( false, view );
 			event.preventDefault();
-		} else {
+		} else if ( x < bodyRect.left || x > bodyRect.right ) {
 			tinymce.each( editor.dom.select( '.wpview-wrap' ), function( view ) {
 				var rect = view.getBoundingClientRect();
+
+				if ( y < rect.top ) {
+					return false;
+				}
 
 				if ( y >= rect.top && y <= rect.bottom ) {
 					if ( x < bodyRect.left ) {
@@ -276,7 +280,8 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 						setViewCursor( false, view );
 						event.preventDefault();
 					}
-					return;
+
+					return false;
 				}
 			});
 		}
