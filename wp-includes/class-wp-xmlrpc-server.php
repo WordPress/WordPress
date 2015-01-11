@@ -161,7 +161,10 @@ class wp_xmlrpc_server extends IXR_Server {
 	 * @return mixed|bool Return value of the callback, false otherwise.
 	 */
 	public function __call( $name, $arguments ) {
-		return call_user_func_array( array( $this, $name ), $arguments );
+		if ( '_multisite_getUsersBlogs' === $name ) {
+			return call_user_func_array( array( $this, $name ), $arguments );
+		}
+		return false;
 	}
 
 	public function serve_request() {
