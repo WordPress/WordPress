@@ -285,7 +285,10 @@ class WP_Comment_Query {
 	 * @return mixed|bool Return value of the callback, false otherwise.
 	 */
 	public function __call( $name, $arguments ) {
-		return call_user_func_array( array( $this, $name ), $arguments );
+		if ( 'get_search_sql' === $name ) {
+			return call_user_func_array( array( $this, $name ), $arguments );
+		}
+		return false;
 	}
 
 	/**
