@@ -24,18 +24,16 @@ class WP_Error {
 	 *
 	 * @since 2.1.0
 	 * @var array
-	 * @access private
 	 */
-	private $errors = array();
+	public $errors = array();
 
 	/**
 	 * Stores the list of data for error codes.
 	 *
 	 * @since 2.1.0
 	 * @var array
-	 * @access private
 	 */
-	private $error_data = array();
+	public $error_data = array();
 
 	/**
 	 * Initialize the error.
@@ -62,58 +60,6 @@ class WP_Error {
 
 		if ( ! empty($data) )
 			$this->error_data[$code] = $data;
-	}
-
-	/**
-	 * Make private properties readable for backwards compatibility.
-	 *
-	 * @since 4.0.0
-	 * @access public
-	 *
-	 * @param string $name Property to get.
-	 * @return mixed Property.
-	 */
-	public function __get( $name ) {
-		return $this->$name;
-	}
-
-	/**
-	 * Make private properties settable for backwards compatibility.
-	 *
-	 * @since 4.0.0
-	 * @access public
-	 *
-	 * @param string $name  Property to set.
-	 * @param mixed  $value Property value.
-	 * @return mixed Newly-set property.
-	 */
-	public function __set( $name, $value ) {
-		return $this->$name = $value;
-	}
-
-	/**
-	 * Make private properties checkable for backwards compatibility.
-	 *
-	 * @since 4.0.0
-	 * @access public
-	 *
-	 * @param string $name Property to check if set.
-	 * @return bool Whether the property is set.
-	 */
-	public function __isset( $name ) {
-		return isset( $this->$name );
-	}
-
-	/**
-	 * Make private properties un-settable for backwards compatibility.
-	 *
-	 * @since 4.0.0
-	 * @access public
-	 *
-	 * @param string $name Property to unset.
-	 */
-	public function __unset( $name ) {
-		unset( $this->$name );
 	}
 
 	/**
