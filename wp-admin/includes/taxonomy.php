@@ -11,14 +11,17 @@
 //
 
 /**
- * {@internal Missing Short Description}}
+ * Check whether a category exists.
  *
  * @since 2.0.0
  *
- * @param int|string $cat_name
- * @return int
+ * @see term_exists()
+ *
+ * @param int|string $cat_name Category name.
+ * @param int        $parent   Optional. ID of parent term.
+ * @return mixed
  */
-function category_exists($cat_name, $parent = 0) {
+function category_exists( $cat_name, $parent = null ) {
 	$id = term_exists($cat_name, 'category', $parent);
 	if ( is_array($id) )
 		$id = $id['term_id'];
