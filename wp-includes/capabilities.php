@@ -90,7 +90,10 @@ class WP_Roles {
 	 * @return mixed|bool Return value of the callback, false otherwise.
 	 */
 	public function __call( $name, $arguments ) {
-		return call_user_func_array( array( $this, $name ), $arguments );
+		if ( '_init' === $name ) {
+			return call_user_func_array( array( $this, $name ), $arguments );
+		}
+		return false;
 	}
 
 	/**
