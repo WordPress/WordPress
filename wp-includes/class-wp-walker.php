@@ -43,10 +43,9 @@ class Walker {
 	 * To be used in start_el().
 	 *
 	 * @since 4.0.0
-	 * @access protected
 	 * @var bool
 	 */
-	protected $has_children;
+	public $has_children;
 
 	/**
 	 * Starts the list before the elements are added.
