@@ -262,7 +262,6 @@ As a new WordPress user, you should go to <a href=\"%s\">your dashboard</a> to d
 }
 endif;
 
-if ( ! function_exists( 'wp_install_maybe_enable_pretty_permalinks' ) ) :
 /**
  * Enable pretty permalinks if available.
  *
@@ -329,7 +328,6 @@ function wp_install_maybe_enable_pretty_permalinks() {
 	$wp_rewrite->set_permalink_structure( '' );
 	$wp_rewrite->flush_rules( true );
 }
-endif;
 
 if ( !function_exists('wp_new_blog_notification') ) :
 /**
