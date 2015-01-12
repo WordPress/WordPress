@@ -33,9 +33,8 @@ class WP_List_Table {
 	 *
 	 * @since 3.1.0
 	 * @var array
-	 * @access private
 	 */
-	private $_pagination_args = array();
+	protected $_pagination_args = array();
 
 	/**
 	 * The current screen
