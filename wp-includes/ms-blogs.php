@@ -33,11 +33,11 @@ function wpmu_update_blogs_date() {
  * @since MU
  *
  * @param int $blog_id Blog ID
- * @return string
+ * @return string Full URL of the blog if found. Empty string if not.
  */
 function get_blogaddress_by_id( $blog_id ) {
 	$bloginfo = get_blog_details( (int) $blog_id, false ); // only get bare details!
-	return esc_url( 'http://' . $bloginfo->domain . $bloginfo->path );
+	return isset( $bloginfo->domain ) && isset( $bloginfo->path ) ?  esc_url( 'http://' . $bloginfo->domain . $bloginfo->path ) : '';
 }
 
 /**
