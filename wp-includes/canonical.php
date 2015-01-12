@@ -553,8 +553,6 @@ function redirect_guess_404_permalink() {
 	return false;
 }
 
-add_action('template_redirect', 'redirect_canonical');
-
 function wp_redirect_admin_locations() {
 	global $wp_rewrite;
 	if ( ! ( is_404() && $wp_rewrite->using_permalinks() ) )
@@ -582,5 +580,3 @@ function wp_redirect_admin_locations() {
 		exit;
 	}
 }
-
-add_action( 'template_redirect', 'wp_redirect_admin_locations', 1000 );

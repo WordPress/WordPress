@@ -127,7 +127,6 @@ function create_initial_taxonomies() {
 		'show_in_nav_menus' => current_theme_supports( 'post-formats' ),
 	) );
 }
-add_action( 'init', 'create_initial_taxonomies', 0 ); // highest priority
 
 /**
  * Get a list of registered taxonomy objects.

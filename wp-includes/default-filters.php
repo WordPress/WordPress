@@ -306,4 +306,92 @@ add_filter( 'authenticate', 'wp_authenticate_spam_check',         99    );
 add_filter( 'determine_current_user', 'wp_validate_auth_cookie'          );
 add_filter( 'determine_current_user', 'wp_validate_logged_in_cookie', 20 );
 
-unset($filter, $action);
+/**
+ * Filters formerly mixed into wp-includes
+ */
+// Theme
+add_action( 'setup_theme', 'preview_theme' );
+add_action( 'wp_loaded', '_custom_header_background_just_in_time' );
+add_action( 'plugins_loaded', '_wp_customize_include' );
+add_action( 'admin_enqueue_scripts', '_wp_customize_loader_settings' );
+add_action( 'delete_attachment', '_delete_attachment_theme_mod' );
+
+// Calendar widget cache
+add_action( 'save_post', 'delete_get_calendar_cache' );
+add_action( 'delete_post', 'delete_get_calendar_cache' );
+add_action( 'update_option_start_of_week', 'delete_get_calendar_cache' );
+add_action( 'update_option_gmt_offset', 'delete_get_calendar_cache' );
+
+// Author
+add_action( 'transition_post_status', '__clear_multi_author_cache' );
+
+// Post
+add_action( 'init', 'create_initial_post_types', 0 ); // highest priority
+add_action( 'admin_menu', '_add_post_type_submenus' );
+add_action( 'before_delete_post', '_reset_front_page_settings_for_post' );
+add_action( 'wp_trash_post',      '_reset_front_page_settings_for_post' );
+
+// Post Formats
+add_filter( 'request', '_post_format_request' );
+add_filter( 'term_link', '_post_format_link', 10, 3 );
+add_filter( 'get_post_format', '_post_format_get_term' );
+add_filter( 'get_terms', '_post_format_get_terms', 10, 3 );
+add_filter( 'wp_get_object_terms', '_post_format_wp_get_object_terms' );
+
+// KSES
+add_action( 'init', 'kses_init' );
+add_action( 'set_current_user', 'kses_init' );
+
+// Script Loader
+add_action( 'wp_default_scripts', 'wp_default_scripts' );
+add_filter( 'wp_print_scripts', 'wp_just_in_time_script_localization' );
+add_filter( 'print_scripts_array', 'wp_prototype_before_jquery' );
+
+add_action( 'wp_default_styles', 'wp_default_styles' );
+add_filter( 'style_loader_src', 'wp_style_loader_src', 10, 2 );
+
+// Taxonomy
+add_action( 'init', 'create_initial_taxonomies', 0 ); // highest priority
+
+// Update
+add_action( 'admin_init', '_maybe_update_core' );
+add_action( 'wp_version_check', 'wp_version_check' );
+add_action( 'upgrader_process_complete', 'wp_version_check', 10, 0 );
+add_action( 'load-plugins.php', 'wp_update_plugins' );
+add_action( 'load-update.php', 'wp_update_plugins' );
+add_action( 'load-update-core.php', 'wp_update_plugins' );
+add_action( 'admin_init', '_maybe_update_plugins' );
+add_action( 'wp_update_plugins', 'wp_update_plugins' );
+add_action( 'upgrader_process_complete', 'wp_update_plugins', 10, 0 );
+add_action( 'load-themes.php', 'wp_update_themes' );
+add_action( 'load-update.php', 'wp_update_themes' );
+add_action( 'load-update-core.php', 'wp_update_themes' );
+add_action( 'admin_init', '_maybe_update_themes' );
+add_action( 'wp_update_themes', 'wp_update_themes' );
+add_action( 'upgrader_process_complete', 'wp_update_themes', 10, 0 );
+add_action( 'update_option_WPLANG', 'wp_clean_update_cache' , 10, 0 );
+add_action( 'wp_maybe_auto_update', 'wp_maybe_auto_update' );
+add_action( 'init', 'wp_schedule_update_checks' );
+
+// Canonical
+add_action( 'template_redirect', 'redirect_canonical' );
+add_action( 'template_redirect', 'wp_redirect_admin_locations', 1000 );
+
+// Shortcodes
+add_filter( 'the_content', 'do_shortcode', 11 ); // AFTER wpautop()
+
+// Media
+add_action( 'wp_playlist_scripts', 'wp_playlist_scripts' );
+add_action( 'customize_controls_enqueue_scripts', 'wp_plupload_default_settings' );
+
+// Nav menu
+add_filter( 'nav_menu_item_id', '_nav_menu_item_id_use_once', 10, 2 );
+
+// Admin Bar
+// Don't remove. Wrong way to disable.
+add_action( 'template_redirect', '_wp_admin_bar_init', 0 );
+add_action( 'admin_init', '_wp_admin_bar_init' );
+add_action( 'wp_footer', 'wp_admin_bar_render', 1000 );
+add_action( 'in_admin_header', 'wp_admin_bar_render', 0 );
+
+unset( $filter, $action );

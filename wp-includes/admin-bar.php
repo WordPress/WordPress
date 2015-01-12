@@ -44,9 +44,6 @@ function _wp_admin_bar_init() {
 
 	return true;
 }
-// Don't remove. Wrong way to disable.
-add_action( 'template_redirect', '_wp_admin_bar_init', 0 );
-add_action( 'admin_init', '_wp_admin_bar_init' );
 
 /**
  * Render the admin bar to the page based on the $wp_admin_bar->menu member var.
@@ -92,8 +89,6 @@ function wp_admin_bar_render() {
 	 */
 	do_action( 'wp_after_admin_bar_render' );
 }
-add_action( 'wp_footer', 'wp_admin_bar_render', 1000 );
-add_action( 'in_admin_header', 'wp_admin_bar_render', 0 );
 
 /**
  * Add the WordPress logo menu.

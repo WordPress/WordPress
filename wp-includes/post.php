@@ -164,7 +164,6 @@ function create_initial_post_types() {
 		'exclude_from_search' => false,
 	) );
 }
-add_action( 'init', 'create_initial_post_types', 0 ); // highest priority
 
 /**
  * Retrieve attached file path based on attachment ID.
@@ -1714,7 +1713,6 @@ function _add_post_type_submenus() {
 		add_submenu_page( $ptype_obj->show_in_menu, $ptype_obj->labels->name, $ptype_obj->labels->all_items, $ptype_obj->cap->edit_posts, "edit.php?post_type=$ptype" );
 	}
 }
-add_action( 'admin_menu', '_add_post_type_submenus' );
 
 /**
  * Register support of certain features for a post type.
@@ -2713,8 +2711,6 @@ function _reset_front_page_settings_for_post( $post_id ) {
 	}
 	unstick_post( $post->ID );
 }
-add_action( 'before_delete_post', '_reset_front_page_settings_for_post' );
-add_action( 'wp_trash_post',      '_reset_front_page_settings_for_post' );
 
 /**
  * Move a post or page to the Trash

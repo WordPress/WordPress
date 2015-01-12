@@ -1156,7 +1156,6 @@ function wp_playlist_scripts( $type ) {
 	add_action( 'wp_footer', 'wp_underscore_playlist_templates', 0 );
 	add_action( 'admin_footer', 'wp_underscore_playlist_templates', 0 );
 }
-add_action( 'wp_playlist_scripts', 'wp_playlist_scripts' );
 
 /**
  * The playlist shortcode.
@@ -2595,7 +2594,6 @@ function wp_plupload_default_settings() {
 
 	$wp_scripts->add_data( 'wp-plupload', 'data', $script );
 }
-add_action( 'customize_controls_enqueue_scripts', 'wp_plupload_default_settings' );
 
 /**
  * Prepares an attachment post object for JS, where it is expected

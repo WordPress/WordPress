@@ -13,6 +13,11 @@
  * @since 3.0.0
  */
 
+// Functions
+add_action( 'update_option_blog_public', 'update_blog_public', 10, 2 );
+add_filter( 'option_users_can_register', 'users_can_register_signup_filter' );
+add_filter( 'site_option_welcome_user_email', 'welcome_user_msg_filter' );
+
 // Users
 add_filter( 'wpmu_validate_user_signup', 'signup_nonce_check' );
 add_action( 'init', 'maybe_add_existing_user_to_blog' );
