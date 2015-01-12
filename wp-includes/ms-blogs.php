@@ -298,8 +298,7 @@ function update_blog_details( $blog_id, $details = array() ) {
 	$fields = array( 'site_id', 'domain', 'path', 'registered', 'last_updated', 'public', 'archived', 'mature', 'spam', 'deleted', 'lang_id');
 	foreach ( array_intersect( array_keys( $details ), $fields ) as $field ) {
 		if ( 'path' === $field ) {
-			$details[ $field ] = array_filter( explode( '/', $details[ $field ] ) );
-			$details[ $field ] = trailingslashit( '/' . implode( '/', $details[ $field ] ) );
+			$details[ $field ] = trailingslashit( '/' . trim( $details[ $field ], '/' ) );
 		}
 
 		$update_details[ $field ] = $details[ $field ];
