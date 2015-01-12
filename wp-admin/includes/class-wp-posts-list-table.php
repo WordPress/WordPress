@@ -45,6 +45,8 @@ class WP_Posts_List_Table extends WP_List_Table {
 	 */
 	private $sticky_posts_count = 0;
 
+	private $is_trash;
+
 	/**
 	 * Constructor.
 	 *
