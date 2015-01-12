@@ -50,15 +50,6 @@ if ( isset($_REQUEST['action']) && 'update-site' == $_REQUEST['action'] ) {
 
 	switch_to_blog( $id );
 
-	if ( isset( $_POST['update_home_url'] ) && $_POST['update_home_url'] == 'update' ) {
-		$blog_address = esc_url_raw( $_POST['blog']['domain'] . $_POST['blog']['path'] );
-		if ( get_option( 'siteurl' ) != $blog_address )
-			update_option( 'siteurl', $blog_address );
-
-		if ( get_option( 'home' ) != $blog_address )
-			update_option( 'home', $blog_address );
-	}
-
 	// Rewrite rules can't be flushed during switch to blog.
 	delete_option( 'rewrite_rules' );
 
@@ -73,6 +64,17 @@ if ( isset($_REQUEST['action']) && 'update-site' == $_REQUEST['action'] ) {
 			$blog_data[ $c ] = isset( $_POST['blog'][ $c ] ) ? 1 : 0;
 	}
 	update_blog_details( $id, $blog_data );
+
+	if ( isset( $_POST['update_home_url'] ) && $_POST['update_home_url'] == 'update' ) {
+		$new_details = get_blog_details( $id, false );
+		$blog_address = esc_url_raw( $new_details->domain . $new_details->path );
+		if ( get_option( 'siteurl' ) != $blog_address ) {
+			update_option( 'siteurl', $blog_address );
+		}
+		if ( get_option( 'home' ) != $blog_address ) {
+			update_option( 'home', $blog_address );
+		}
+	}
 
 	restore_current_blog();
 	wp_redirect( add_query_arg( array( 'update' => 'updated', 'id' => $id ), 'site-info.php') );
