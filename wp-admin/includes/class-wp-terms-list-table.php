@@ -11,6 +11,8 @@ class WP_Terms_List_Table extends WP_List_Table {
 
 	public $callback_args;
 
+	private $level;
+
 	/**
 	 * Constructor.
 	 *
