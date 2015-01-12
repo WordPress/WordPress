@@ -2181,7 +2181,7 @@ function get_avatar( $id_or_email, $size = 96, $default = '', $alt = '', $args =
 	}
 
 	$avatar = sprintf(
-		'<img alt="%s" src="%s" class="%s" height="%d" width="%d" />',
+		"<img alt='%s' src='%s' class='%s' height='%d' width='%d' />",
 		esc_attr( $args['alt'] ),
 		esc_url( $url ),
 		esc_attr( join( ' ', $class ) ),
