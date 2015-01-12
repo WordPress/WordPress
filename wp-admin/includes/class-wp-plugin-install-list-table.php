@@ -13,6 +13,8 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 	public $orderby = null;
 	public $groups = array();
 
+	private $error;
+
 	public function ajax_user_can() {
 		return current_user_can('install_plugins');
 	}
