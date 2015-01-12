@@ -9,6 +9,10 @@
  */
 class WP_Media_List_Table extends WP_List_Table {
 
+	private $detached;
+
+	private $is_trash;
+
 	/**
 	 * Constructor.
 	 *
