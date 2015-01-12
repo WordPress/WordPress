@@ -23,6 +23,8 @@ class WP_Comments_List_Table extends WP_List_Table {
 
 	public $extra_items;
 
+	private $user_can;
+
 	/**
 	 * Constructor.
 	 *
