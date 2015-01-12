@@ -12,6 +12,8 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 	public $site_id;
 	public $is_site_themes;
 
+	private $has_items;
+
 	/**
 	 * Constructor.
 	 *
