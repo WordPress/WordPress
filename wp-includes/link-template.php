@@ -3388,9 +3388,9 @@ function get_avatar_url( $id_or_email, $args = null ) {
  * @return array $processed_args {
  *     Along with the arguments passed in $args, this will contain a couple of extra arguments.
  *
- *     @type bool         $found_avatar True if we were able to find an avatar for this user,
- *                                      false or not set if we couldn't.
- *     @type false|string $url          The URL of the avatar we found, or false if we couldn't find an avatar.
+ *     @type bool   $found_avatar True if we were able to find an avatar for this user,
+ *                                false or not set if we couldn't.
+ *     @type string $url          The URL of the avatar we found.
  * }
  */
 function get_avatar_data( $id_or_email, $args = null ) {
@@ -3547,12 +3547,5 @@ function get_avatar_data( $id_or_email, $args = null ) {
 	 * @param array             $args          Arguments passed to get_avatar_data(), after processing.
 	 * @param int|object|string $id_or_email   A user ID, email address, or comment object.
 	 */
-	$args = apply_filters( 'get_avatar_data', $args, $id_or_email );
-
-	// Don't return a broken URL if we couldn't find the email hash, and none of the filters returned a different URL.
-	if ( ! $email_hash && $url === $args['url'] ) {
-		$args['url'] = false;
-	}
-
-	return $args;
+	return apply_filters( 'get_avatar_data', $args, $id_or_email );
 }
