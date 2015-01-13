@@ -678,8 +678,29 @@ function wp_admin_bar_appearance_menu( $wp_admin_bar ) {
 		add_action( 'wp_before_admin_bar_render', 'wp_customize_support_script' );
 	}
 
-	if ( current_theme_supports( 'widgets' )  )
-		$wp_admin_bar->add_menu( array( 'parent' => 'appearance', 'id' => 'widgets', 'title' => __('Widgets'), 'href' => admin_url('widgets.php') ) );
+	if ( current_theme_supports( 'widgets' )  ) {
+		$wp_admin_bar->add_menu( array( 
+			'parent' => 'appearance', 
+			'id'     => 'widgets', 
+			'title'  => __( 'Widgets' ), 
+			'href'   => admin_url( 'widgets.php' ),
+			'meta'   => array(
+				'class' => 'hide-if-customize',
+			),
+		) );
+
+		if ( current_user_can( 'customize' ) ) {
+			$wp_admin_bar->add_menu( array( 
+				'parent' => 'appearance', 
+				'id'     => 'customize-widgets', 
+				'title'  => __( 'Widgets' ), 
+				'href'   => add_query_arg( urlencode( 'autofocus[panel]' ), 'widgets', $customize_url ), // urlencode() needed due to #16859
+				'meta'   => array(
+					'class' => 'hide-if-no-customize',
+				),
+			) );
+		}
+	}
 
 	if ( current_theme_supports( 'menus' ) || current_theme_supports( 'widgets' ) )
 		$wp_admin_bar->add_menu( array( 'parent' => 'appearance', 'id' => 'menus', 'title' => __('Menus'), 'href' => admin_url('nav-menus.php') ) );
