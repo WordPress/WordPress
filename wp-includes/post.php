@@ -303,10 +303,10 @@ function _wp_relative_upload_path( $path ) {
  * post types are 'post', 'pages', and 'attachments'. The 'post_status'
  * argument will accept any post status within the write administration panels.
  *
- * @internal Claims made in the long description might be inaccurate.
  * @since 2.0.0
  *
  * @see get_posts()
+ * @todo Check validity of description.
  *
  * @param mixed  $args   Optional. User defined arguments for replacing the defaults. Default empty.
  * @param string $output Optional. Constant for return type. Accepts OBJECT, ARRAY_A, ARRAY_N.
