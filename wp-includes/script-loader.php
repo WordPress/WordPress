@@ -831,7 +831,9 @@ function print_footer_scripts() {
 }
 
 /**
- * @internal use
+ * Print scripts (internal use only)
+ *
+ * @ignore
  */
 function _print_scripts() {
 	global $wp_scripts, $compress_scripts;
@@ -997,7 +999,9 @@ function print_late_styles() {
 }
 
 /**
- * @internal use
+ * Print styles (internal use only)
+ *
+ * @ignore
  */
 function _print_styles() {
 	global $wp_styles, $compress_css;

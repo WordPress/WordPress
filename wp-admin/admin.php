@@ -216,7 +216,7 @@ if ( isset($plugin_page) ) {
 		/**
 		 * Used to call the registered callback for a plugin screen.
 		 *
-		 * @internal
+		 * @ignore
 		 * @since 1.5.0
 		 */
 		do_action( $page_hook );

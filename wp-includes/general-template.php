@@ -716,9 +716,9 @@ function get_bloginfo( $show = '', $filter = 'raw' ) {
 /**
  * Display title tag with contents.
  *
+ * @ignore
  * @since 4.1.0
  * @access private
- * @internal
  *
  * @see wp_title()
  */

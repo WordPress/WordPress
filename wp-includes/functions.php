@@ -2684,11 +2684,11 @@ function wp_json_encode( $data, $options = 0, $depth = 512 ) {
 /**
  * Perform sanity checks on data that shall be encoded to JSON.
  *
- * @see wp_json_encode()
- *
+ * @ignore
  * @since 4.1.0
  * @access private
- * @internal
+ *
+ * @see wp_json_encode()
  *
  * @param mixed $data  Variable (usually an array or object) to encode as JSON.
  * @param int   $depth Maximum depth to walk through $data. Must be greater than 0.
@@ -2747,11 +2747,11 @@ function _wp_json_sanity_check( $data, $depth ) {
 /**
  * Convert a string to UTF-8, so that it can be safely encoded to JSON.
  *
- * @see _wp_json_sanity_check()
- *
+ * @ignore
  * @since 4.1.0
  * @access private
- * @internal
+ *
+ * @see _wp_json_sanity_check()
  *
  * @param string $string The string which is to be converted.
  * @return string The checked string.
@@ -4320,7 +4320,7 @@ function send_nosniff_header() {
 /**
  * Return a MySQL expression for selecting the week number based on the start_of_week option.
  *
- * @internal
+ * @ignore
  * @since 3.0.0
  *
  * @param string $column Database column.
