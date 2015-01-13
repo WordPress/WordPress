@@ -442,7 +442,7 @@ $(document).ready( function() {
 	});
 
 	// Show row actions on keyboard focus of its parent container element or any other elements contained within
-	$( 'td.post-title, td.title, td.comment, td.column-name, td.blogname, td.username, .dashboard-comment-wrap' ).focusin(function(){
+	$( 'td.post-title, td.title, td.comment, .tags td.column-name, .bookmarks td.column-name, td.blogname, td.username, .dashboard-comment-wrap' ).focusin(function(){
 		clearTimeout( transitionTimeout );
 		focusedRowActions = $(this).find( '.row-actions' );
 		focusedRowActions.addClass( 'visible' );
