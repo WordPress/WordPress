@@ -48,6 +48,7 @@ Use it to make something cool, have fun, and share what you've learned with othe
  *    16.5 - Desktop Medium
  *    16.6 - Desktop Large
  *    16.7 - Desktop X-Large
+ * 17.0 - Print
  */
 
 
@@ -5851,7 +5852,7 @@ p > video {
 
 
 /**
- * 16.0 Print
+ * 17.0 Print
  */
 
 @media print {
