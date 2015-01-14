@@ -268,7 +268,6 @@ class WP_Media_List_Table extends WP_List_Table {
 		global $post;
 
 		add_filter( 'the_title','esc_html' );
-		$alt = '';
 
 		while ( have_posts() ) : the_post();
 			$user_can_edit = current_user_can( 'edit_post', $post->ID );
@@ -277,11 +276,10 @@ class WP_Media_List_Table extends WP_List_Table {
 			||  !$this->is_trash && $post->post_status == 'trash' )
 				continue;
 
-			$alt = ( 'alternate' == $alt ) ? '' : 'alternate';
 			$post_owner = ( get_current_user_id() == $post->post_author ) ? 'self' : 'other';
 			$att_title = _draft_or_post_title();
 ?>
-	<tr id="post-<?php echo $post->ID; ?>" class="<?php echo trim( $alt . ' author-' . $post_owner . ' status-' . $post->post_status ); ?>">
+	<tr id="post-<?php echo $post->ID; ?>" class="<?php echo trim( ' author-' . $post_owner . ' status-' . $post->post_status ); ?>">
 <?php
 
 list( $columns, $hidden ) = $this->get_column_info();

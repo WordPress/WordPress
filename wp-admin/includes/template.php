@@ -589,10 +589,6 @@ function _list_meta_row( $entry, &$count ) {
 
 	$r = '';
 	++ $count;
-	if ( $count % 2 )
-		$style = 'alternate';
-	else
-		$style = '';
 
 	if ( is_serialized( $entry['meta_value'] ) ) {
 		if ( is_serialized_string( $entry['meta_value'] ) ) {
@@ -611,7 +607,7 @@ function _list_meta_row( $entry, &$count ) {
 
 	$delete_nonce = wp_create_nonce( 'delete-meta_' . $entry['meta_id'] );
 
-	$r .= "\n\t<tr id='meta-{$entry['meta_id']}' class='$style'>";
+	$r .= "\n\t<tr id='meta-{$entry['meta_id']}'>";
 	$r .= "\n\t\t<td class='left'><label class='screen-reader-text' for='meta-{$entry['meta_id']}-key'>" . __( 'Key' ) . "</label><input name='meta[{$entry['meta_id']}][key]' id='meta-{$entry['meta_id']}-key' type='text' size='20' value='{$entry['meta_key']}' />";
 
 	$r .= "\n\t\t<div class='submit'>";

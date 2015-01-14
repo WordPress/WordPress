@@ -306,7 +306,6 @@ class WP_Users_List_Table extends WP_List_Table {
 
 		$editable_roles = array_keys( get_editable_roles() );
 
-		$style = '';
 		foreach ( $this->items as $userid => $user_object ) {
 			if ( count( $user_object->roles ) <= 1 ) {
 				$role = reset( $user_object->roles );
@@ -319,8 +318,7 @@ class WP_Users_List_Table extends WP_List_Table {
 			if ( is_multisite() && empty( $user_object->allcaps ) )
 				continue;
 
-			$style = ( ' class="alternate"' == $style ) ? '' : ' class="alternate"';
-			echo "\n\t" . $this->single_row( $user_object, $style, $role, isset( $post_counts ) ? $post_counts[ $userid ] : 0 );
+			echo "\n\t" . $this->single_row( $user_object, $style = '', $role, isset( $post_counts ) ? $post_counts[ $userid ] : 0 );
 		}
 	}
 
@@ -328,11 +326,11 @@ class WP_Users_List_Table extends WP_List_Table {
 	 * Generate HTML for a single row on the users.php admin panel.
 	 *
 	 * @since 3.1.0
+	 * @since 4.2.0 `$style` argument was deprecated.
 	 * @access public
 	 *
 	 * @param object $user_object The current user object.
-	 * @param string $style       Optional. Style attributes added to the `<tr>` element.
-	 *                            Must be sanitized. Default empty.
+	 * @param string $style       Deprecated. Not used.
 	 * @param string $role        Optional. Key for the $wp_roles array. Default empty.
 	 * @param int    $numposts    Optional. Post count to display for this user. Defaults
 	 *                            to zero, as in, a new user has made zero posts.
@@ -395,7 +393,7 @@ class WP_Users_List_Table extends WP_List_Table {
 		$role_name = isset( $wp_roles->role_names[$role] ) ? translate_user_role( $wp_roles->role_names[$role] ) : __( 'None' );
 		$avatar = get_avatar( $user_object->ID, 32 );
 
-		$r = "<tr id='user-$user_object->ID'$style>";
+		$r = "<tr id='user-$user_object->ID'>";
 
 		list( $columns, $hidden ) = $this->get_column_info();
 

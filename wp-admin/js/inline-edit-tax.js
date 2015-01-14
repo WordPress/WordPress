@@ -56,11 +56,7 @@ inlineEditTax = {
 		editRow = $('#inline-edit').clone(true), rowData = $('#inline_'+id);
 		$('td', editRow).attr('colspan', $('.widefat:first thead th:visible').length);
 
-		if ( $( t.what + id ).hasClass( 'alternate' ) ) {
-			$(editRow).addClass('alternate');
-		}
-
-		$(t.what+id).hide().after(editRow);
+		$(t.what+id).hide().before(editRow).before('<tr class="hidden"></tr>');
 
 		$(':input[name="name"]', editRow).val( $('.name', rowData).text() );
 		$(':input[name="slug"]', editRow).val( $('.slug', rowData).text() );
@@ -98,7 +94,7 @@ inlineEditTax = {
 
 				if (r) {
 					if ( -1 !== r.indexOf( '<tr' ) ) {
-						$(inlineEditTax.what+id).remove();
+						$(inlineEditTax.what+id).siblings('tr.hidden').addBack().remove();
 						new_id = $(r).attr('id');
 
 						$('#edit-'+id).before(r).remove();
@@ -110,10 +106,6 @@ inlineEditTax = {
 				} else {
 					$('#edit-'+id+' .inline-edit-save .error').html(inlineEditL10n.error).show();
 				}
-
-				if ( $( row ).prev( 'tr' ).hasClass( 'alternate' ) ) {
-					$(row).removeClass('alternate');
-				}
 			}
 		);
 		return false;
@@ -124,7 +116,7 @@ inlineEditTax = {
 
 		if ( id ) {
 			$('table.widefat .spinner').hide();
-			$('#'+id).remove();
+			$('#'+id).siblings('tr.hidden').addBack().remove();
 			id = id.substr( id.lastIndexOf('-') + 1 );
 			$(this.what+id).show();
 		}

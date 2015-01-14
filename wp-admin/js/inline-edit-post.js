@@ -82,7 +82,8 @@ inlineEditPost = {
 		this.revert();
 
 		$('#bulk-edit td').attr('colspan', $('.widefat:first thead th:visible').length);
-		$('table.widefat tbody').prepend( $('#bulk-edit') );
+		// Insert the editor at the top of the table with an empty row above to maintain zebra striping.
+		$('table.widefat tbody').prepend( $('#bulk-edit') ).prepend('<tr class="hidden"></tr>');
 		$('#bulk-edit').addClass('inline-editor').show();
 
 		$( 'tbody th.check-column input[type="checkbox"]' ).each( function() {
@@ -128,14 +129,11 @@ inlineEditPost = {
 			fields.push('post_parent', 'page_template');
 		}
 
-		// add the new blank row
+		// add the new edit row with an extra blank row underneath to maintain zebra striping.
 		editRow = $('#inline-edit').clone(true);
 		$('td', editRow).attr('colspan', $('.widefat:first thead th:visible').length);
 
-		if ( $( t.what + id ).hasClass( 'alternate' ) ) {
-			$(editRow).addClass('alternate');
-		}
-		$(t.what+id).hide().after(editRow);
+		$(t.what+id).hide().before(editRow).before('<tr class="hidden"></tr>');
 
 		// populate the data
 		rowData = $('#inline_'+id);
@@ -265,7 +263,7 @@ inlineEditPost = {
 
 				if (r) {
 					if ( -1 !== r.indexOf( '<tr' ) ) {
-						$(inlineEditPost.what+id).remove();
+						$(inlineEditPost.what+id).siblings('tr.hidden').addBack().remove();
 						$('#edit-'+id).before(r).remove();
 						$(inlineEditPost.what+id).hide().fadeIn();
 					} else {
@@ -274,10 +272,6 @@ inlineEditPost = {
 					}
 				} else {
 					$('#edit-'+id+' .inline-edit-save .error').html(inlineEditL10n.error).show();
-				}
-
-				if ( $('#post-'+id).prev().hasClass('alternate') ) {
-					$('#post-'+id).removeClass('alternate');
 				}
 			},
 		'html');
@@ -291,11 +285,11 @@ inlineEditPost = {
 			$('table.widefat .spinner').hide();
 
 			if ( 'bulk-edit' === id ) {
-				$('table.widefat #bulk-edit').removeClass('inline-editor').hide();
+				$('table.widefat #bulk-edit').removeClass('inline-editor').hide().siblings('tr.hidden').remove();
 				$('#bulk-titles').html('');
 				$('#inlineedit').append( $('#bulk-edit') );
 			} else {
-				$('#'+id).remove();
+				$('#'+id).siblings('tr.hidden').addBack().remove();
 				id = id.substr( id.lastIndexOf('-') + 1 );
 				$(this.what+id).show();
 			}

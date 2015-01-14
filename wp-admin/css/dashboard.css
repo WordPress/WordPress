@@ -694,11 +694,6 @@ form.initial-form.quickpress-open input#title {
 	margin-left: 12px;
 }
 
-#activity-widget #the-comment-list .alternate,
-#activity-widget #the-comment-list .alt {
-	background: none;
-}
-
 #activity-widget #the-comment-list .comment-item {
 	background: #fafafa;
 	padding: 12px;

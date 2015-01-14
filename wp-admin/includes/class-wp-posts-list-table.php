@@ -288,7 +288,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 	}
 
 	protected function get_table_classes() {
-		return array( 'widefat', 'fixed', is_post_type_hierarchical( $this->screen->post_type ) ? 'pages' : 'posts' );
+		return array( 'widefat', 'fixed', 'striped', is_post_type_hierarchical( $this->screen->post_type ) ? 'pages' : 'posts' );
 	}
 
 	public function get_columns() {
@@ -572,13 +572,11 @@ class WP_Posts_List_Table extends WP_List_Table {
 
 	/**
 	 * @global string $mode
-	 * @staticvar string $alternate
 	 * @param WP_Post $post
 	 * @param int $level
 	 */
 	public function single_row( $post, $level = 0 ) {
 		global $mode;
-		static $alternate;
 
 		$global_post = get_post();
 		$GLOBALS['post'] = $post;
@@ -589,8 +587,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 		$post_type_object = get_post_type_object( $post->post_type );
 		$can_edit_post = current_user_can( 'edit_post', $post->ID );
 
-		$alternate = 'alternate' == $alternate ? '' : 'alternate';
-		$classes = $alternate . ' iedit author-' . ( get_current_user_id() == $post->post_author ? 'self' : 'other' );
+		$classes = 'iedit author-' . ( get_current_user_id() == $post->post_author ? 'self' : 'other' );
 
 		$lock_holder = wp_check_post_lock( $post->ID );
 		if ( $lock_holder ) {

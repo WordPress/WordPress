@@ -75,7 +75,7 @@ else :
 	do_action( 'myblogs_allblogs_options' );
 	?>
 	<br clear="all" />
-	<table class="widefat fixed">
+	<table class="widefat fixed striped">
 	<?php
 	/**
 	 * Enable the Global Settings section on the My Sites screen.
@@ -109,10 +109,8 @@ else :
 		$split = $split + $cols;
 	}
 
-	$c = '';
 	foreach ( $rows as $row ) {
-		$c = $c == 'alternate' ? '' : 'alternate';
-		echo "<tr class='$c'>";
+		echo "<tr>";
 		$i = 0;
 		foreach ( $row as $user_blog ) {
 			$s = $i == 3 ? '' : 'border-right: 1px solid #ccc;';

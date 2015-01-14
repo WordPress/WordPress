@@ -627,8 +627,8 @@ div#widgets-right .widget-top:hover,
 	color: #000;
 }
 
-.alternate,
-.alt {
+.striped > tbody > :nth-child(odd),
+.alternate {
 	background-color: #f9f9f9;
 }
 

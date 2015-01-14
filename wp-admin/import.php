@@ -76,10 +76,9 @@ if ( empty( $importers ) ) {
 } else {
 	uasort( $importers, '_usort_by_first_member' );
 ?>
-<table class="widefat importers">
+<table class="widefat importers striped">
 
 <?php
-	$alt = '';
 	foreach ($importers as $importer_id => $data) {
 		$action = '';
 		if ( isset( $data['install'] ) ) {
@@ -108,9 +107,8 @@ if ( empty( $importers ) ) {
 			$action = "<a href='" . esc_url( "admin.php?import=$importer_id" ) . "' title='" . esc_attr( wptexturize( strip_tags( $data[1] ) ) ) ."'>{$data[0]}</a>";
 		}
 
-		$alt = $alt ? '' : ' class="alternate"';
 		echo "
-			<tr$alt>
+			<tr>
 				<td class='import-system row-title'>$action</td>
 				<td class='desc'>{$data[1]}</td>
 			</tr>";
