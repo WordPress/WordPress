@@ -37,7 +37,7 @@ function wpmu_update_blogs_date() {
  */
 function get_blogaddress_by_id( $blog_id ) {
 	$bloginfo = get_blog_details( (int) $blog_id, false ); // only get bare details!
-	return isset( $bloginfo->domain ) && isset( $bloginfo->path ) ?  esc_url( 'http://' . $bloginfo->domain . $bloginfo->path ) : '';
+	return ( $bloginfo ) ? esc_url( 'http://' . $bloginfo->domain . $bloginfo->path ) : '';
 }
 
 /**
@@ -99,7 +99,7 @@ function get_id_from_blogname( $slug ) {
  *
  * @param int|string|array $fields A blog ID, a blog slug, or an array of fields to query against. Optional. If not specified the current blog ID is used.
  * @param bool $get_all Whether to retrieve all details or only the details in the blogs table. Default is true.
- * @return object Blog details.
+ * @return object|false Blog details on success. False on failure.
  */
 function get_blog_details( $fields = null, $get_all = true ) {
 	global $wpdb;
