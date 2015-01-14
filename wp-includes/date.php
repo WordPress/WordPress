@@ -304,8 +304,17 @@ class WP_Date_Query {
 
 		// Days per year.
 		if ( array_key_exists( 'year', $date_query ) ) {
-			// If a year exists in the date query, we can use it to get the days.
-			$max_days_of_year = date( 'z', mktime( 0, 0, 0, 12, 31, $date_query['year'] ) ) + 1;
+			/*
+			 * If a year exists in the date query, we can use it to get the days.
+			 * If multiple years are provided (as in a BETWEEN), use the first one.
+			 */
+			if ( is_array( $date_query['year'] ) ) {
+				$_year = reset( $date_query['year'] );
+			} else {
+				$_year = $date_query['year'];
+			}
+
+			$max_days_of_year = date( 'z', mktime( 0, 0, 0, 12, 31, $_year ) ) + 1;
 		} else {
 			// otherwise we use the max of 366 (leap-year)
 			$max_days_of_year = 366;
@@ -335,10 +344,10 @@ class WP_Date_Query {
 		);
 
 		// Weeks per year.
-		if ( array_key_exists( 'year', $date_query ) ) {
+		if ( isset( $_year ) ) {
 			// If we have a specific year, use it to calculate number of weeks.
 			$date = new DateTime();
-			$date->setISODate( $date_query['year'], 53 );
+			$date->setISODate( $_year, 53 );
 			$week_count = $date->format( "W" ) === "53" ? 53 : 52;
 
 		} else {
@@ -381,22 +390,25 @@ class WP_Date_Query {
 				continue;
 			}
 
-			$is_between = $date_query[ $key ] >= $check['min'] && $date_query[ $key ] <= $check['max'];
+			// Throw a notice for each failing value.
+			$is_between = true;
+			foreach ( (array) $date_query[ $key ] as $_value ) {
+				$is_between = $_value >= $check['min'] && $_value <= $check['max'];
 
-			if ( ! $is_between ) {
+				if ( ! $is_between ) {
+					$error = sprintf(
+						/* translators: Date query invalid date message: 1: invalid value, 2: type of value, 3: minimum valid value, 4: maximum valid value */
+						__( 'Invalid value %1$s for %2$s. Expected value should be between %3$s and %4$s.' ),
+						'<code>' . esc_html( $_value ) . '</code>',
+						'<code>' . esc_html( $key ) . '</code>',
+						'<code>' . esc_html( $check['min'] ) . '</code>',
+						'<code>' . esc_html( $check['max'] ) . '</code>'
+					);
 
-				$error = sprintf(
-					/* translators: Date query invalid date message: 1: invalid value, 2: type of value, 3: minimum valid value, 4: maximum valid value */
-					__( 'Invalid value %1$s for %2$s. Expected value should be between %3$s and %4$s.' ),
-					'<code>' . esc_html( $date_query[ $key ] ) . '</code>',
-					'<code>' . esc_html( $key ) . '</code>',
-					'<code>' . esc_html( $check['min'] ) . '</code>',
-					'<code>' . esc_html( $check['max'] ) . '</code>'
-				);
+					_doing_it_wrong( __CLASS__, $error, '4.1.0' );
 
-				_doing_it_wrong( __CLASS__, $error, '4.1.0' );
-
-				$valid = false;
+					$valid = false;
+				}
 			}
 		}
 
