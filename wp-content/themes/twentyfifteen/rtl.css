@@ -156,7 +156,6 @@ td {
 	margin-left: auto;
 }
 
-.main-navigation .page_item_has_children > a,
 .main-navigation .menu-item-has-children > a {
 	padding-right: 0;
 	padding-left: 48px;
@@ -477,12 +476,6 @@ img.alignleft {
 		margin-left: auto;
 	}
 
-	.main-navigation .page_item_has_children > a,
-	.main-navigation .main-navigation .menu-item-has-children > a {
-		padding-right: 0;
-		padding-left: 54px;
-	}
-
 	blockquote.alignright,
 	.wp-caption.alignright
 	img.alignright {
@@ -567,12 +560,6 @@ img.alignleft {
 		padding-left: 0;
 	}
 
-	.main-navigation .page_item_has_children > a,
-	.main-navigation .main-navigation .menu-item-has-children > a {
-		padding-right: 0;
-		padding-left: 53px;
-	}
-
 	blockquote.alignright,
 	.wp-caption.alignright
 	img.alignright {
@@ -652,10 +639,9 @@ img.alignleft {
 		padding-left: 0;
 	}
 
-	.main-navigation .page_item_has_children > a,
 	.main-navigation .menu-item-has-children > a {
 		padding-right: 0;
-		padding-left: 35px;
+		padding-left: 30px;
 	}
 
 	blockquote.alignright,
@@ -729,10 +715,9 @@ img.alignleft {
 		padding-left: 0;
 	}
 
-	.main-navigation .page_item_has_children > a,
 	.main-navigation .menu-item-has-children > a {
 		padding-right: 0;
-		padding-left: 33px;
+		padding-left: 34px;
 	}
 
 	blockquote.alignright,
@@ -795,10 +780,9 @@ img.alignleft {
 		padding-left: 0;
 	}
 
-	.main-navigation .page_item_has_children > a,
 	.main-navigation .menu-item-has-children > a {
 		padding-right: 0;
-		padding-left: 32px;
+		padding-left: 38px;
 	}
 
 	blockquote.alignright,

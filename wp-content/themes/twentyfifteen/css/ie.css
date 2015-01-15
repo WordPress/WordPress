@@ -125,9 +125,8 @@ textarea {
 	padding: 0.75em 0;
 }
 
-.main-navigation .page_item_has_children > a,
-.main-navigation .main-navigation .menu-item-has-children > a {
-	padding-right: 53px;
+.main-navigation .menu-item-has-children > a {
+	padding-right: 48px;
 }
 
 .main-navigation .menu-item-description {
@@ -839,10 +838,9 @@ video {
 	margin-left: auto;
 }
 
-.rtl .main-navigation .page_item_has_children > a,
-.rtl .main-navigation .main-navigation .menu-item-has-children > a {
+.rtl .main-navigation .menu-item-has-children > a {
 	padding-right: 0;
-	padding-left: 53px;
+	padding-left: 48px;
 }
 
 .rtl .secondary-toggle {
