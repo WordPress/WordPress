@@ -194,6 +194,18 @@ function twentyfifteen_fonts_url() {
 endif;
 
 /**
+ * JavaScript Detection.
+ *
+ * Adds a `js` class to the root `<html>` element when JavaScript is detected.
+ *
+ * @since Twenty Fifteen 1.1
+ */
+function twentyfifteen_javascript_detection() {
+	echo "<script>(function(html){html.className = html.className.replace(/\bno-js\b/,'js')})(document.documentElement);</script>\n";
+}
+add_action( 'wp_head', 'twentyfifteen_javascript_detection', 0 );
+
+/**
  * Enqueue scripts and styles.
  *
  * @since Twenty Fifteen 1.0
