@@ -888,9 +888,10 @@ function edit_tag_link( $link = '', $before = '', $after = '', $tag = null ) {
  *
  * @since 3.1.0
  *
- * @param int $term_id Term ID
- * @param string $taxonomy Taxonomy
- * @param string $object_type The object type
+ * @param int    $term_id     Term ID.
+ * @param string $taxonomy    Taxonomy.
+ * @param string $object_type The object type. Used to highlight the proper post type menu on the linked page.
+ *                            Defaults to the first object_type associated with the taxonomy.
  * @return string The edit term link URL for the given term.
  */
 function get_edit_term_link( $term_id, $taxonomy, $object_type = '' ) {
@@ -906,8 +907,11 @@ function get_edit_term_link( $term_id, $taxonomy, $object_type = '' ) {
 		'tag_ID' => $term->term_id,
 	);
 
-	if ( $object_type )
+	if ( $object_type ) {
 		$args['post_type'] = $object_type;
+	} else if ( ! empty( $tax->object_type ) ) {
+		$args['post_type'] = reset( $tax->object_type );
+	}
 
 	$location = add_query_arg( $args, admin_url( 'edit-tags.php' ) );
 
