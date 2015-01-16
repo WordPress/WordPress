@@ -805,9 +805,6 @@ function delete_plugins( $plugins, $deprecated = '' ) {
 
 	$plugins_dir = trailingslashit( $plugins_dir );
 
-	$translations_dir = $wp_filesystem->wp_lang_dir();
-	$translations_dir = trailingslashit( $translations_dir );
-
 	$plugin_translations = wp_get_installed_translations( 'plugins' );
 
 	$errors = array();

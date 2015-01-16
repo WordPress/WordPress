@@ -391,7 +391,6 @@ class WP_Date_Query {
 			}
 
 			// Throw a notice for each failing value.
-			$is_between = true;
 			foreach ( (array) $date_query[ $key ] as $_value ) {
 				$is_between = $_value >= $check['min'] && $_value <= $check['max'];
 

@@ -273,7 +273,7 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
 				$diff = $renderer->render( $text_diff );
 
 				// If they're too different, don't include any <ins> or <dels>
-				if ( $diff_count = preg_match_all( '!(<ins>.*?</ins>|<del>.*?</del>)!', $diff, $diff_matches ) ) {
+				if ( preg_match_all( '!(<ins>.*?</ins>|<del>.*?</del>)!', $diff, $diff_matches ) ) {
 					// length of all text between <ins> or <del>
 					$stripped_matches = strlen(strip_tags( join(' ', $diff_matches[0]) ));
 					// since we count lengith of text between <ins> or <del> (instead of picking just one),

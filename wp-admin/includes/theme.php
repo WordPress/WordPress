@@ -69,9 +69,6 @@ function delete_theme($stylesheet, $redirect = '') {
 		return new WP_Error( 'could_not_remove_theme', sprintf( __( 'Could not fully remove the theme %s.' ), $stylesheet ) );
 	}
 
-	$translations_dir = $wp_filesystem->wp_lang_dir();
-	$translations_dir = trailingslashit( $translations_dir );
-
 	$theme_translations = wp_get_installed_translations( 'themes' );
 
 	// Remove language files, silently.
