@@ -16,8 +16,6 @@
  */
 class WP_Filesystem_ftpsockets extends WP_Filesystem_Base {
 	public $ftp = false;
-	public $errors = null;
-	public $options = array();
 
 	public function __construct($opt = '') {
 		$this->method = 'ftpsockets';

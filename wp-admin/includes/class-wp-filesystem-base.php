@@ -38,6 +38,10 @@ class WP_Filesystem_Base {
 	 */
 	public $method = '';
 
+	public $errors = null;
+
+	public $options = array();
+
 	/**
 	 * Return the path on the remote filesystem of ABSPATH.
 	 *

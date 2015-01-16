@@ -16,8 +16,6 @@
  */
 class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 	public $link;
-	public $errors = null;
-	public $options = array();
 
 	public function __construct($opt='') {
 		$this->method = 'ftpext';
