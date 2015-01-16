@@ -173,15 +173,6 @@ class WP_Filesystem_ftpsockets extends WP_Filesystem_Base {
 
 	/**
 	 * @param string $file
-	 * @param bool $group
-	 * @param bool $recursive
-	 */
-	public function chgrp($file, $group, $recursive = false ) {
-		return false;
-	}
-
-	/**
-	 * @param string $file
 	 * @param int|bool $mode
 	 * @param bool $recursive
 	 * @return bool
@@ -375,10 +366,6 @@ class WP_Filesystem_ftpsockets extends WP_Filesystem_Base {
 		if ( ! $chmod )
 			$chmod = FS_CHMOD_DIR;
 		$this->chmod($path, $chmod);
-		if ( $chown )
-			$this->chown($path, $chown);
-		if ( $chgrp )
-			$this->chgrp($path, $chgrp);
 		return true;
 	}
 
