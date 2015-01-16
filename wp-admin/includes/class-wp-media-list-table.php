@@ -315,7 +315,7 @@ foreach ( $columns as $column_name => $column_display_name ) {
 					echo $thumb;
 				} else {
 ?>
-				<a href="<?php echo get_edit_post_link( $post->ID, true ); ?>" title="<?php echo esc_attr( sprintf( __( 'Edit &#8220;%s&#8221;' ), $att_title ) ); ?>">
+				<a href="<?php echo get_edit_post_link( $post->ID ); ?>" title="<?php echo esc_attr( sprintf( __( 'Edit &#8220;%s&#8221;' ), $att_title ) ); ?>">
 					<?php echo $thumb; ?>
 				</a>
 
@@ -332,7 +332,7 @@ foreach ( $columns as $column_name => $column_display_name ) {
 			<?php if ( $this->is_trash || ! $user_can_edit ) {
 				echo $att_title;
 			} else { ?>
-			<a href="<?php echo get_edit_post_link( $post->ID, true ); ?>"
+			<a href="<?php echo get_edit_post_link( $post->ID ); ?>"
 				title="<?php echo esc_attr( sprintf( __( 'Edit &#8220;%s&#8221;' ), $att_title ) ); ?>">
 				<?php echo $att_title; ?></a>
 			<?php };
@@ -501,7 +501,7 @@ foreach ( $columns as $column_name => $column_display_name ) {
 
 		if ( $this->detached ) {
 			if ( current_user_can( 'edit_post', $post->ID ) )
-				$actions['edit'] = '<a href="' . get_edit_post_link( $post->ID, true ) . '">' . __( 'Edit' ) . '</a>';
+				$actions['edit'] = '<a href="' . get_edit_post_link( $post->ID ) . '">' . __( 'Edit' ) . '</a>';
 			if ( current_user_can( 'delete_post', $post->ID ) )
 				if ( EMPTY_TRASH_DAYS && MEDIA_TRASH ) {
 					$actions['trash'] = "<a class='submitdelete' href='" . wp_nonce_url( "post.php?action=trash&amp;post=$post->ID", 'trash-post_' . $post->ID ) . "'>" . __( 'Trash' ) . "</a>";
@@ -515,7 +515,7 @@ foreach ( $columns as $column_name => $column_display_name ) {
 		}
 		else {
 			if ( current_user_can( 'edit_post', $post->ID ) && !$this->is_trash )
-				$actions['edit'] = '<a href="' . get_edit_post_link( $post->ID, true ) . '">' . __( 'Edit' ) . '</a>';
+				$actions['edit'] = '<a href="' . get_edit_post_link( $post->ID ) . '">' . __( 'Edit' ) . '</a>';
 			if ( current_user_can( 'delete_post', $post->ID ) ) {
 				if ( $this->is_trash )
 					$actions['untrash'] = "<a class='submitdelete' href='" . wp_nonce_url( "post.php?action=untrash&amp;post=$post->ID", 'untrash-post_' . $post->ID ) . "'>" . __( 'Restore' ) . "</a>";
