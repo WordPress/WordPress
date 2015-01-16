@@ -512,6 +512,7 @@ final class _WP_Editors {
 					// Limit the preview styles in the menu/toolbar
 					'preview_styles' => 'font-family font-size font-weight font-style text-decoration text-transform',
 
+					'end_container_on_empty_block' => true,
 					'wpeditimage_disable_captions' => $no_captions,
 					'wpeditimage_html5_captions' => current_theme_supports( 'html5', 'caption' ),
 					'plugins' => implode( ',', $plugins ),
