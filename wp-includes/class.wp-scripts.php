@@ -27,7 +27,6 @@ class WP_Scripts extends WP_Dependencies {
 	public $print_html = '';
 	public $print_code = '';
 	public $ext_handles = '';
-	public $print_after_html = '';
 	public $ext_version = '';
 	public $default_dirs;
 
@@ -68,14 +67,12 @@ class WP_Scripts extends WP_Dependencies {
 		return $this->print_extra_script( $handle, $echo );
 	}
 
-	public function print_extra_script( $handle, $echo = true, $key = 'data' ) {
-		if ( ! $output = $this->get_data( $handle, $key ) ) {
+	public function print_extra_script( $handle, $echo = true ) {
+		if ( !$output = $this->get_data( $handle, 'data' ) )
 			return;
-		}
 
-		if ( ! $echo ) {
+		if ( !$echo )
 			return $output;
-		}
 
 		echo "<script type='text/javascript'>\n"; // CDATA and type='text/javascript' is not needed for HTML 5
 		echo "/* <![CDATA[ */\n";
@@ -120,7 +117,6 @@ class WP_Scripts extends WP_Dependencies {
 			$srce = apply_filters( 'script_loader_src', $src, $handle );
 			if ( $this->in_default_dir($srce) ) {
 				$this->print_code .= $this->print_extra_script( $handle, false );
-				$this->print_after_html .= "\n" . $this->print_extra_script( $handle, false, 'data-after' );
 				$this->concat .= "$handle,";
 				$this->concat_version .= "$handle$ver";
 				return true;
@@ -159,10 +155,8 @@ class WP_Scripts extends WP_Dependencies {
 
 		if ( $this->do_concat ) {
 			$this->print_html .= $tag;
-			$this->print_after_html .= $this->print_extra_script( $handle, false, 'data-after' ) . "\n";
 		} else {
 			echo $tag;
-			$this->print_extra_script( $handle, true, 'data-after' );
 		}
 
 		return true;
@@ -267,7 +261,6 @@ class WP_Scripts extends WP_Dependencies {
 		$this->concat = '';
 		$this->concat_version = '';
 		$this->print_html = '';
-		$this->print_after_html = '';
 		$this->ext_version = '';
 		$this->ext_handles = '';
 	}
