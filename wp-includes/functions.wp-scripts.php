@@ -74,9 +74,13 @@ function wp_print_scripts( $handles = false ) {
 
 	wp_scripts_maybe_doing_it_wrong( __FUNCTION__ );
 
-	if ( ! $handles ) {
-		return array(); // No need to instantiate if nothing is there.
+	global $wp_scripts;
+	if ( ! ( $wp_scripts instanceof WP_Scripts ) ) {
+		if ( ! $handles ) {
+			return array(); // No need to instantiate if nothing is there.
+		}
 	}
+
 	return wp_scripts()->do_items( $handles );
 }
 
