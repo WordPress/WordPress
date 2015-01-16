@@ -224,7 +224,7 @@ if ( isset($_REQUEST['approved']) || isset($_REQUEST['deleted']) || isset($_REQU
 
 <?php $wp_list_table->views(); ?>
 
-<form id="comments-form" action="" method="get">
+<form id="comments-form" method="get">
 
 <?php $wp_list_table->search_box( __( 'Search Comments' ), 'comment' ); ?>
 

@@ -961,7 +961,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 
 	?>
 
-	<form method="get" action=""><table style="display: none"><tbody id="inlineedit">
+	<form method="get"><table style="display: none"><tbody id="inlineedit">
 		<?php
 		$hclass = count( $hierarchical_taxonomies ) ? 'post' : 'page';
 		$bulk = 0;

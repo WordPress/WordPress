@@ -261,7 +261,7 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 
 <?php echo $msg; ?>
 
-<form action="" method="get" id="ms-search">
+<form method="get" id="ms-search">
 <?php $wp_list_table->search_box( __( 'Search Sites' ), 'site' ); ?>
 <input type="hidden" name="action" value="blogs" />
 </form>

@@ -176,7 +176,7 @@ function install_search_form( $type_selector = true ) {
 		$input_attrs = 'class="wp-filter-search" placeholder="' . esc_attr__( 'Search Plugins' ) . '" ';
 	}
 
-	?><form class="search-form search-plugins" method="get" action="">
+	?><form class="search-form search-plugins" method="get">
 		<input type="hidden" name="tab" value="search" />
 		<?php if ( $type_selector ) : ?>
 		<select name="type" id="typeselector">
@@ -222,7 +222,7 @@ function install_plugins_favorites_form() {
 	$user = ! empty( $_GET['user'] ) ? wp_unslash( $_GET['user'] ) : get_user_option( 'wporg_favorites' );
 	?>
 	<p class="install-help"><?php _e( 'If you have marked plugins as favorites on WordPress.org, you can browse them here.' ); ?></p>
-	<form method="get" action="">
+	<form method="get">
 		<input type="hidden" name="tab" value="favorites" />
 		<p>
 			<label for="user"><?php _e( 'Your WordPress.org username:' ); ?></label>
@@ -253,7 +253,7 @@ function display_plugins_table() {
 	}
 
 	?>
-	<form id="plugin-filter" action="" method="post">
+	<form id="plugin-filter" method="post">
 		<?php $wp_list_table->display(); ?>
 	</form>
 	<?php

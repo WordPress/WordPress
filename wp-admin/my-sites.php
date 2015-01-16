@@ -64,7 +64,7 @@ if ( empty( $blogs ) ) :
 	echo '</p>';
 else :
 ?>
-<form id="myblogs" action="" method="post">
+<form id="myblogs" method="post">
 	<?php
 	choose_primary_blog();
 	/**

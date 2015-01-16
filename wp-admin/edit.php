@@ -309,7 +309,7 @@ $_SERVER['REQUEST_URI'] = remove_query_arg( array( 'locked', 'skipped', 'updated
 
 <?php $wp_list_table->views(); ?>
 
-<form id="posts-filter" action="" method="get">
+<form id="posts-filter" method="get">
 
 <?php $wp_list_table->search_box( $post_type_object->labels->search_items, 'post' ); ?>
 

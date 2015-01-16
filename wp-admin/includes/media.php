@@ -2293,7 +2293,7 @@ function media_upload_library_form($errors) {
 
 ?>
 
-<form id="filter" action="" method="get">
+<form id="filter" method="get">
 <input type="hidden" name="type" value="<?php echo esc_attr( $type ); ?>" />
 <input type="hidden" name="tab" value="<?php echo esc_attr( $tab ); ?>" />
 <input type="hidden" name="post_id" value="<?php echo (int) $post_id; ?>" />

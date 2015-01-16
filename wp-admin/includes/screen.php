@@ -1026,7 +1026,7 @@ final class WP_Screen {
 
 		?>
 		<div id="screen-options-wrap" class="hidden" tabindex="-1" aria-label="<?php esc_attr_e('Screen Options Tab'); ?>">
-		<form id="adv-settings" action="" method="post">
+		<form id="adv-settings" method="post">
 		<?php if ( isset( $wp_meta_boxes[ $this->id ] ) || $this->get_option( 'per_page' ) || ( $columns && empty( $columns['_title'] ) ) ) : ?>
 			<h5><?php _e( 'Show on screen' ); ?></h5>
 		<?php

@@ -287,7 +287,7 @@ if ( !empty($message) ) { ?>
 <div id="message" class="updated"><p><?php echo $message; ?></p></div>
 <?php } ?>
 
-<form id="posts-filter" action="" method="get">
+<form id="posts-filter" method="get">
 
 <?php $wp_list_table->views(); ?>
 

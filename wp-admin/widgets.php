@@ -428,7 +428,7 @@ foreach ( $theme_sidebars as $sidebar => $registered_sidebar ) {
 </div>
 </div>
 </div>
-<form action="" method="post">
+<form method="post">
 <?php wp_nonce_field( 'save-sidebar-widgets', '_wpnonce_widgets', false ); ?>
 </form>
 <br class="clear" />

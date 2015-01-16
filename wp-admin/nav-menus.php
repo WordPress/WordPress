@@ -684,7 +684,7 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 
 		<div class="clear"></div>
 
-		<form id="nav-menu-meta" action="" class="nav-menu-meta" method="post" enctype="multipart/form-data">
+		<form id="nav-menu-meta" class="nav-menu-meta" method="post" enctype="multipart/form-data">
 			<input type="hidden" name="menu" id="nav-menu-meta-object-id" value="<?php echo esc_attr( $nav_menu_selected_id ); ?>" />
 			<input type="hidden" name="action" value="add-menu-item" />
 			<?php wp_nonce_field( 'add-menu_item', 'menu-settings-column-nonce' ); ?>
@@ -694,7 +694,7 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 	</div><!-- /#menu-settings-column -->
 	<div id="menu-management-liquid">
 		<div id="menu-management">
-			<form id="update-nav-menu" action="" method="post" enctype="multipart/form-data">
+			<form id="update-nav-menu" method="post" enctype="multipart/form-data">
 				<div class="menu-edit <?php if ( $add_new_screen ) echo 'blank-slate'; ?>">
 					<?php
 					wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false );

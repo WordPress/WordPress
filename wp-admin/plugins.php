@@ -456,11 +456,11 @@ do_action( 'pre_current_active_plugins', $plugins['all'] );
 
 <?php $wp_list_table->views(); ?>
 
-<form method="get" action="">
+<form method="get">
 <?php $wp_list_table->search_box( __( 'Search Installed Plugins' ), 'plugin' ); ?>
 </form>
 
-<form method="post" action="">
+<form method="post">
 
 <input type="hidden" name="plugin_status" value="<?php echo esc_attr($status) ?>" />
 <input type="hidden" name="paged" value="<?php echo esc_attr($page) ?>" />

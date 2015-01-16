@@ -150,7 +150,7 @@ function export_date_options( $post_type = 'post' ) {
 <p><?php _e('Once you&#8217;ve saved the download file, you can use the Import function in another WordPress installation to import the content from this site.'); ?></p>
 
 <h3><?php _e( 'Choose what to export' ); ?></h3>
-<form action="" method="get" id="export-filters">
+<form method="get" id="export-filters">
 <input type="hidden" name="download" value="true" />
 <p><label><input type="radio" name="content" value="all" checked="checked" /> <?php _e( 'All content' ); ?></label></p>
 <p class="description"><?php _e( 'This will contain all of your posts, pages, comments, custom fields, terms, navigation menus and custom posts.' ); ?></p>

@@ -284,7 +284,7 @@ if ( isset( $_REQUEST['updated'] ) && $_REQUEST['updated'] == 'true' && ! empty(
 
 	<?php $wp_list_table->views(); ?>
 
-	<form action="" method="get" class="search-form">
+	<form method="get" class="search-form">
 		<?php $wp_list_table->search_box( __( 'Search Users' ), 'all-user' ); ?>
 	</form>
 

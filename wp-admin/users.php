@@ -209,7 +209,7 @@ case 'delete':
 
 	include( ABSPATH . 'wp-admin/admin-header.php' );
 ?>
-<form action="" method="post" name="updateusers" id="updateusers">
+<form method="post" name="updateusers" id="updateusers">
 <?php wp_nonce_field('delete-users') ?>
 <?php echo $referer; ?>
 
@@ -321,7 +321,7 @@ case 'remove':
 
 	include( ABSPATH . 'wp-admin/admin-header.php' );
 ?>
-<form action="" method="post" name="updateusers" id="updateusers">
+<form method="post" name="updateusers" id="updateusers">
 <?php wp_nonce_field('remove-users') ?>
 <?php echo $referer; ?>
 
@@ -443,7 +443,7 @@ if ( $usersearch )
 
 <?php $wp_list_table->views(); ?>
 
-<form action="" method="get">
+<form method="get">
 
 <?php $wp_list_table->search_box( __( 'Search Users' ), 'user' ); ?>
 

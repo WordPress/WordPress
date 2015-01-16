@@ -444,7 +444,7 @@ function wp_comment_reply($position = '1', $checkbox = false, $mode = 'single', 
 	}
 
 ?>
-<form method="get" action="">
+<form method="get">
 <?php if ( $table_row ) : ?>
 <table style="display:none;"><tbody id="com-reply"><tr id="replyrow" style="display:none;"><td colspan="<?php echo $wp_list_table->get_column_count(); ?>" class="colspanchange">
 <?php else : ?>

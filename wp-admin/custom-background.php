@@ -237,7 +237,7 @@ class Custom_Background {
 <tr>
 <th scope="row"><?php _e('Remove Image'); ?></th>
 <td>
-<form method="post" action="">
+<form method="post">
 <?php wp_nonce_field('custom-background-remove', '_wpnonce-custom-background-remove'); ?>
 <?php submit_button( __( 'Remove Background Image' ), 'button', 'remove-background', false ); ?><br/>
 <?php _e('This will remove the background image. You will not be able to restore any customizations.') ?>
@@ -251,7 +251,7 @@ class Custom_Background {
 <tr>
 <th scope="row"><?php _e('Restore Original Image'); ?></th>
 <td>
-<form method="post" action="">
+<form method="post">
 <?php wp_nonce_field('custom-background-reset', '_wpnonce-custom-background-reset'); ?>
 <?php submit_button( __( 'Restore Original Image' ), 'button', 'reset-background', false ); ?><br/>
 <?php _e('This will restore the original background image. You will not be able to restore any customizations.') ?>
@@ -262,7 +262,7 @@ class Custom_Background {
 
 <tr>
 <th scope="row"><?php _e('Select Image'); ?></th>
-<td><form enctype="multipart/form-data" id="upload-form" class="wp-upload-form" method="post" action="">
+<td><form enctype="multipart/form-data" id="upload-form" class="wp-upload-form" method="post">
 	<p>
 		<label for="upload"><?php _e( 'Choose an image from your computer:' ); ?></label><br />
 		<input type="file" id="upload" name="import" />
@@ -283,7 +283,7 @@ class Custom_Background {
 </table>
 
 <h3><?php _e('Display Options') ?></h3>
-<form method="post" action="">
+<form method="post">
 <table class="form-table">
 <tbody>
 <?php if ( get_background_image() ) : ?>

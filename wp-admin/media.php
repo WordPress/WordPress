@@ -111,7 +111,7 @@ if ( current_user_can( 'upload_files' ) ) { ?>
 <?php } ?>
 </h2>
 
-<form method="post" action="" class="media-upload-form" id="media-single-form">
+<form method="post" class="media-upload-form" id="media-single-form">
 <p class="submit" style="padding-bottom: 0;">
 <?php submit_button( __( 'Update Media' ), 'primary', 'save', false ); ?>
 </p>

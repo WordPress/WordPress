@@ -233,7 +233,7 @@ if ( isset($_GET['update']) ) :
 	}
 endif; ?>
 
-<form class="search-form" action="" method="get">
+<form class="search-form" method="get">
 <?php $wp_list_table->search_box( __( 'Search Users' ), 'user' ); ?>
 <input type="hidden" name="id" value="<?php echo esc_attr( $id ) ?>" />
 </form>

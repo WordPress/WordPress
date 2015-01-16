@@ -267,7 +267,7 @@ if ( isset( $_GET['enabled'] ) ) {
 
 ?>
 
-<form method="get" action="">
+<form method="get">
 <?php $wp_list_table->search_box( __( 'Search Installed Themes' ), 'theme' ); ?>
 </form>
 
@@ -278,7 +278,7 @@ if ( 'broken' == $status )
 	echo '<p class="clear">' . __('The following themes are installed but incomplete. Themes must have a stylesheet and a template.') . '</p>';
 ?>
 
-<form method="post" action="">
+<form method="post">
 <input type="hidden" name="theme_status" value="<?php echo esc_attr($status) ?>" />
 <input type="hidden" name="paged" value="<?php echo esc_attr($page) ?>" />
 

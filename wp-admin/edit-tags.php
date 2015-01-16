@@ -311,7 +311,7 @@ if ( !empty($_REQUEST['s']) )
 endif; ?>
 <div id="ajax-response"></div>
 
-<form class="search-form" action="" method="get">
+<form class="search-form" method="get">
 <input type="hidden" name="taxonomy" value="<?php echo esc_attr($taxonomy); ?>" />
 <input type="hidden" name="post_type" value="<?php echo esc_attr($post_type); ?>" />
 
@@ -324,7 +324,7 @@ endif; ?>
 
 <div id="col-right">
 <div class="col-wrap">
-<form id="posts-filter" action="" method="post">
+<form id="posts-filter" method="post">
 <input type="hidden" name="taxonomy" value="<?php echo esc_attr($taxonomy); ?>" />
 <input type="hidden" name="post_type" value="<?php echo esc_attr($post_type); ?>" />
 
