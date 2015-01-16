@@ -174,9 +174,9 @@ function wptexturize($text, $reset = false) {
 
 		// Dashes and spaces
 		$dynamic[ '/---/' ] = $em_dash;
-		$dynamic[ '/(?<=' . $spaces . ')--(?=' . $spaces . ')/' ] = $em_dash;
+		$dynamic[ '/(?<=^|' . $spaces . ')--(?=$|' . $spaces . ')/' ] = $em_dash;
 		$dynamic[ '/(?<!xn)--/' ] = $en_dash;
-		$dynamic[ '/(?<=' . $spaces . ')-(?=' . $spaces . ')/' ] = $en_dash;
+		$dynamic[ '/(?<=^|' . $spaces . ')-(?=$|' . $spaces . ')/' ] = $en_dash;
 
 		$dynamic_characters['dash'] = array_keys( $dynamic );
 		$dynamic_replacements['dash'] = array_values( $dynamic );
