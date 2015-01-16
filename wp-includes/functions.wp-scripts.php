@@ -30,6 +30,7 @@ function wp_scripts() {
  *
  * @since 4.2.0
  * @access private
+ * @ignore
  *
  * @param string $function
  */
