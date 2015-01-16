@@ -29,10 +29,11 @@ function wp_scripts() {
  * Helper function to output a _doing_it_wrong message when applicable
  *
  * @since 4.2.0
+ * @access private
  *
  * @param string $function
  */
-function wp_scripts_maybe_doing_it_wrong( $function ) {
+function _wp_scripts_maybe_doing_it_wrong( $function ) {
 	if ( did_action( 'init' ) ) {
 		return;
 	}
@@ -72,7 +73,7 @@ function wp_print_scripts( $handles = false ) {
 		$handles = false;
 	}
 
-	wp_scripts_maybe_doing_it_wrong( __FUNCTION__ );
+	_wp_scripts_maybe_doing_it_wrong( __FUNCTION__ );
 
 	global $wp_scripts;
 	if ( ! ( $wp_scripts instanceof WP_Scripts ) ) {
@@ -107,7 +108,7 @@ function wp_print_scripts( $handles = false ) {
  */
 function wp_register_script( $handle, $src, $deps = array(), $ver = false, $in_footer = false ) {
 	$wp_scripts = wp_scripts();
-	wp_scripts_maybe_doing_it_wrong( __FUNCTION__ );
+	_wp_scripts_maybe_doing_it_wrong( __FUNCTION__ );
 
 	$wp_scripts->add( $handle, $src, $deps, $ver );
 	if ( $in_footer ) {
@@ -147,7 +148,7 @@ function wp_register_script( $handle, $src, $deps = array(), $ver = false, $in_f
 function wp_localize_script( $handle, $object_name, $l10n ) {
 	global $wp_scripts;
 	if ( ! ( $wp_scripts instanceof WP_Scripts ) ) {
-		wp_scripts_maybe_doing_it_wrong( __FUNCTION__ );
+		_wp_scripts_maybe_doing_it_wrong( __FUNCTION__ );
 		return false;
 	}
 
@@ -168,7 +169,7 @@ function wp_localize_script( $handle, $object_name, $l10n ) {
  * @param string $handle Name of the script to be removed.
  */
 function wp_deregister_script( $handle ) {
-	wp_scripts_maybe_doing_it_wrong( __FUNCTION__ );
+	_wp_scripts_maybe_doing_it_wrong( __FUNCTION__ );
 
 	/**
 	 * Do not allow accidental or negligent de-registering of critical scripts in the admin.
@@ -220,7 +221,7 @@ function wp_deregister_script( $handle ) {
 function wp_enqueue_script( $handle, $src = false, $deps = array(), $ver = false, $in_footer = false ) {
 	$wp_scripts = wp_scripts();
 
-	wp_scripts_maybe_doing_it_wrong( __FUNCTION__ );
+	_wp_scripts_maybe_doing_it_wrong( __FUNCTION__ );
 
 	$_handle = explode( '?', $handle );
 
@@ -246,7 +247,7 @@ function wp_enqueue_script( $handle, $src = false, $deps = array(), $ver = false
  * @param string $handle Name of the script to be removed.
  */
 function wp_dequeue_script( $handle ) {
-	wp_scripts_maybe_doing_it_wrong( __FUNCTION__ );
+	_wp_scripts_maybe_doing_it_wrong( __FUNCTION__ );
 
 	wp_scripts()->dequeue( $handle );
 }
@@ -265,7 +266,7 @@ function wp_dequeue_script( $handle ) {
  * @return bool Whether the script script is queued.
  */
 function wp_script_is( $handle, $list = 'enqueued' ) {
-	wp_scripts_maybe_doing_it_wrong( __FUNCTION__ );
+	_wp_scripts_maybe_doing_it_wrong( __FUNCTION__ );
 
 	return (bool) wp_scripts()->query( $handle, $list );
 }
