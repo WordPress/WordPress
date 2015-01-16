@@ -168,7 +168,7 @@ class WP_Filesystem_Base {
 	 * @since 2.7.0
 	 *
 	 * @param string $folder the folder to locate.
-	 * @return string The location of the remote path.
+	 * @return string|false The location of the remote path, false on failure.
 	 */
 	public function find_folder( $folder ) {
 
@@ -236,7 +236,7 @@ class WP_Filesystem_Base {
 	 * @param string $folder The folder to locate.
 	 * @param string $base   The folder to start searching from.
 	 * @param bool   $loop   If the function has recursed, Internal use only.
-	 * @return string The location of the remote path.
+	 * @return string|false The location of the remote path, false to cease looping.
 	 */
 	public function search_for_folder( $folder, $base = '.', $loop = false ) {
 		if ( empty( $base ) || '.' == $base )

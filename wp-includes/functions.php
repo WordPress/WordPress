@@ -869,7 +869,7 @@ function wp_remote_fopen( $uri ) {
  *
  * @since 2.0.0
  *
- * @param string $query_vars Default WP_Query arguments.
+ * @param string|array $query_vars Default WP_Query arguments.
  */
 function wp( $query_vars = '' ) {
 	global $wp, $wp_query, $wp_the_query;

@@ -449,7 +449,7 @@ function delete_metadata($meta_type, $object_id, $meta_key, $meta_value = '', $d
  * 		the specified object.
  * @param bool $single Optional, default is false. If true, return only the first value of the
  * 		specified meta_key. This parameter has no effect if meta_key is not specified.
- * @return string|array Single metadata value, or array of values
+ * @return mixed Single metadata value, or array of values
  */
 function get_metadata($meta_type, $object_id, $meta_key = '', $single = false) {
 	if ( ! $meta_type || ! is_numeric( $object_id ) ) {

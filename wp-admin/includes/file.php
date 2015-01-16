@@ -191,11 +191,10 @@ function validate_file_to_edit( $file, $allowed_files = '' ) {
  *
  * @see wp_handle_upload_error
  *
- * @param array  $file      Reference to a single element of $_FILES. Call the function once for
- *                          each uploaded file.
- * @param array  $overrides An associative array of names => values to override default variables.
- * @param string $time      Time formatted in 'yyyy/mm'.
- * @param string $action    Expected value for $_POST['action'].
+ * @param array       $file      Reference to a single element of $_FILES. Call the function once for each uploaded file.
+ * @param array|false $overrides An associative array of names => values to override default variables. Default false.
+ * @param string      $time      Time formatted in 'yyyy/mm'.
+ * @param string      $action    Expected value for $_POST['action'].
  * @return array On success, returns an associative array of file attributes. On failure, returns
  *               $overrides['upload_error_handler'](&$file, $message ) or array( 'error'=>$message ).
 */

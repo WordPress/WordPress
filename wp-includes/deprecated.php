@@ -2161,7 +2161,7 @@ function attribute_escape( $text ) {
  * @param string|int $name Widget ID.
  * @param callback $output_callback Run when widget is called.
  * @param string $classname Classname widget option.
- * @param mixed $params,... Widget parameters.
+ * @param mixed $params ,... Widget parameters.
  */
 function register_sidebar_widget($name, $output_callback, $classname = '') {
 	_deprecated_function( __FUNCTION__, '2.8', 'wp_register_sidebar_widget()' );
