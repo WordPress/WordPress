@@ -1341,7 +1341,7 @@ function edit_comment_link( $text = null, $before = '', $after = '' ) {
  *
  * @since 2.7.0
  *
- * @param int $link Optional. Bookmark ID.
+ * @param int|stdClass $link Optional. Bookmark ID.
  * @return string The edit bookmark link URL.
  */
 function get_edit_bookmark_link( $link = 0 ) {

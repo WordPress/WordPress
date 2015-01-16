@@ -15,7 +15,10 @@
  * @uses WP_Filesystem_Base Extends class
  */
 class WP_Filesystem_ftpsockets extends WP_Filesystem_Base {
-	public $ftp = false;
+	/**
+	 * @var ftp
+	 */
+	public $ftp;
 
 	public function __construct($opt = '') {
 		$this->method = 'ftpsockets';

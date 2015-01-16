@@ -2971,7 +2971,7 @@ function wp_insert_term( $term, $taxonomy, $args = array() ) {
  * @param int              $object_id The object to relate to.
  * @param array|int|string $terms     A single term slug, single term id, or array of either term slugs or ids.
  *                                    Will replace all existing related terms in this taxonomy.
- * @param array|string     $taxonomy  The context in which to relate the term to the object.
+ * @param array            $taxonomy  The context in which to relate the term to the object.
  * @param bool             $append    Optional. If false will delete difference of terms. Default false.
  * @return array|WP_Error Affected Term IDs.
  */
@@ -3693,7 +3693,7 @@ function clean_term_cache($ids, $taxonomy = '', $clean_taxonomy = true) {
  *
  * @since 2.3.0
  *
- * @param int|array $id Term object ID
+ * @param int    $id       Term object ID
  * @param string $taxonomy Taxonomy Name
  * @return bool|array Empty array if $terms found, but not $taxonomy. False if nothing is in cache for $taxonomy and $id.
  */
@@ -4257,7 +4257,7 @@ function get_post_taxonomies( $post = 0 ) {
  * @param int $object_id ID of the object (post ID, link ID, ...)
  * @param string $taxonomy Single taxonomy name
  * @param int|string|array $terms Optional. Term term_id, name, slug or array of said
- * @return bool|WP_Error. WP_Error on input error.
+ * @return bool|WP_Error WP_Error on input error.
  */
 function is_object_in_term( $object_id, $taxonomy, $terms = null ) {
 	if ( !$object_id = (int) $object_id )

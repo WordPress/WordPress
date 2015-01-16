@@ -1271,6 +1271,7 @@ class WP_Query {
 	 *
 	 * @since 3.1.0
 	 * @access private
+	 * @var bool|string
 	 */
 	private $query_vars_hash = false;
 

@@ -977,7 +977,7 @@ function get_filesystem_method( $args = array(), $context = false, $allow_relaxe
  * @param string $type the chosen Filesystem method in use
  * @param boolean $error if the current request has failed to connect
  * @param string $context The directory which is needed access to, The write-test will be performed on this directory by get_filesystem_method()
- * @param string $extra_fields Extra POST fields which should be checked for to be included in the post.
+ * @param array $extra_fields Extra POST fields which should be checked for to be included in the post.
  * @param bool $allow_relaxed_file_ownership Whether to allow Group/World writable.
  * @return boolean False on failure. True on success.
  */

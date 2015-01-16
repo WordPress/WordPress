@@ -36,7 +36,10 @@
 class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 
 	public $link = false;
-	public $sftp_link = false;
+	/**
+	 * @var resource
+	 */
+	public $sftp_link;
 	public $keys = false;
 
 	public function __construct($opt='') {

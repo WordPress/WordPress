@@ -934,7 +934,7 @@ function get_theme_mod( $name, $default = false ) {
  * @since 2.1.0
  *
  * @param string $name Theme modification name.
- * @param string $value theme modification value.
+ * @param mixed  $value theme modification value.
  */
 function set_theme_mod( $name, $value ) {
 	$mods = get_theme_mods();

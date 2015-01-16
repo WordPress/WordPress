@@ -205,6 +205,9 @@ class Plugin_Upgrader_Skin extends WP_Upgrader_Skin {
  */
 class Bulk_Upgrader_Skin extends WP_Upgrader_Skin {
 	public $in_loop = false;
+	/**
+	 * @var string|false
+	 */
 	public $error = false;
 
 	public function __construct($args = array()) {
