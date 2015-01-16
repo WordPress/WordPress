@@ -40,7 +40,7 @@
 }
 
 #wp-auth-check-wrap #wp-auth-check-form {
-	background: url(../images/wpspin-2x.gif) no-repeat center center;
+	background: url(../images/spinner-2x.gif) no-repeat center center;
 	-webkit-background-size: 16px 16px;
 	background-size: 16px 16px;
 	height: 100%;
