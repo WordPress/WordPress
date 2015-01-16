@@ -172,15 +172,6 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 
 	/**
 	 * @param string $file
-	 * @param bool $group
-	 * @param bool $recursive
-	 */
-	public function chgrp($file, $group, $recursive = false ) {
-		return false;
-	}
-
-	/**
-	 * @param string $file
 	 * @param int $mode
 	 * @param bool $recursive
 	 * @return bool
@@ -365,10 +356,6 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 		if ( !@ftp_mkdir($this->link, $path) )
 			return false;
 		$this->chmod($path, $chmod);
-		if ( $chown )
-			$this->chown($path, $chown);
-		if ( $chgrp )
-			$this->chgrp($path, $chgrp);
 		return true;
 	}
 
