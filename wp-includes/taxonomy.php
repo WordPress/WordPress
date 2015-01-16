@@ -2971,7 +2971,7 @@ function wp_insert_term( $term, $taxonomy, $args = array() ) {
  * @param int              $object_id The object to relate to.
  * @param array|int|string $terms     A single term slug, single term id, or array of either term slugs or ids.
  *                                    Will replace all existing related terms in this taxonomy.
- * @param array            $taxonomy  The context in which to relate the term to the object.
+ * @param string           $taxonomy  The context in which to relate the term to the object.
  * @param bool             $append    Optional. If false will delete difference of terms. Default false.
  * @return array|WP_Error Affected Term IDs.
  */
