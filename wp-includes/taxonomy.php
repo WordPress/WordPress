@@ -3825,11 +3825,15 @@ function _get_term_hierarchy($taxonomy) {
  * @since 2.3.0
  *
  * @param int $term_id The ancestor term: all returned terms should be descendants of $term_id.
- * @param array $terms The set of terms---either an array of term objects or term IDs---from which those that are descendants of $term_id will be chosen.
- * @param string $taxonomy The taxonomy which determines the hierarchy of the terms.
+ * @param array  $terms     The set of terms - either an array of term objects or term IDs - from which those that
+ *                          are descendants of $term_id will be chosen.
+ * @param string $taxonomy  The taxonomy which determines the hierarchy of the terms.
+ * @param array  $ancestors Term ancestors that have already been identified. Passed by reference, to keep track of
+ *                          found terms when recursing the hierarchy. The array of located ancestors is used to prevent
+ *                          infinite recursion loops.
  * @return array The subset of $terms that are descendants of $term_id.
  */
-function _get_term_children($term_id, $terms, $taxonomy) {
+function _get_term_children( $term_id, $terms, $taxonomy, &$ancestors = array() ) {
 	$empty_array = array();
 	if ( empty($terms) )
 		return $empty_array;
@@ -3840,6 +3844,11 @@ function _get_term_children($term_id, $terms, $taxonomy) {
 	if  ( ( 0 != $term_id ) && ! isset($has_children[$term_id]) )
 		return $empty_array;
 
+	// Include the term itself in the ancestors array, so we can properly detect when a loop has occurred.
+	if ( empty( $ancestors ) ) {
+		$ancestors[] = $term_id;
+	}
+
 	foreach ( (array) $terms as $term ) {
 		$use_id = false;
 		if ( !is_object($term) ) {
@@ -3849,7 +3858,8 @@ function _get_term_children($term_id, $terms, $taxonomy) {
 			$use_id = true;
 		}
 
-		if ( $term->term_id == $term_id ) {
+		// Don't recurse if we've already identified the term as a child - this indicates a loop.
+		if ( in_array( $term->term_id, $ancestors ) ) {
 			continue;
 		}
 
@@ -3862,7 +3872,13 @@ function _get_term_children($term_id, $terms, $taxonomy) {
 			if ( !isset($has_children[$term->term_id]) )
 				continue;
 
-			if ( $children = _get_term_children($term->term_id, $terms, $taxonomy) )
+			if ( $use_id ) {
+				$ancestors = array_merge( $ancestors, $term_list );
+			} else {
+				$ancestors = array_merge( $ancestors, wp_list_pluck( $term_list, 'term_id' ) );
+			}
+
+			if ( $children = _get_term_children( $term->term_id, $terms, $taxonomy, $ancestors) )
 				$term_list = array_merge($term_list, $children);
 		}
 	}
