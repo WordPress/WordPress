@@ -37,9 +37,6 @@ class WP_Filesystem_ftpsockets extends WP_Filesystem_Base {
 		else
 			$this->options['hostname'] = $opt['hostname'];
 
-		if ( ! empty($opt['base']) )
-			$this->wp_base = $opt['base'];
-
 		// Check if the options provided are OK.
 		if ( empty ($opt['username']) )
 			$this->errors->add('empty_username', __('FTP username is required'));

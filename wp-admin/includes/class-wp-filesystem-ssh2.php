@@ -64,9 +64,6 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 		else
 			$this->options['hostname'] = $opt['hostname'];
 
-		if ( ! empty($opt['base']) )
-			$this->wp_base = $opt['base'];
-
 		// Check if the options provided are OK.
 		if ( !empty ($opt['public_key']) && !empty ($opt['private_key']) ) {
 			$this->options['public_key'] = $opt['public_key'];
