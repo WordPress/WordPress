@@ -2725,18 +2725,28 @@ function wp_ajax_parse_embed() {
 function wp_ajax_parse_media_shortcode() {
 	global $post, $wp_scripts;
 
-	if ( ! $post = get_post( (int) $_POST['post_ID'] ) ) {
+	if ( empty( $_POST['shortcode'] ) ) {
 		wp_send_json_error();
 	}
 
-	if ( empty( $_POST['shortcode'] ) || ! current_user_can( 'edit_post', $post->ID ) ) {
-		wp_send_json_error();
+	$shortcode = wp_unslash( $_POST['shortcode'] );
+
+	if ( ! empty( $_POST['post_ID'] ) ) {
+		$post = get_post( (int) $_POST['post_ID'] );
 	}
 
-	setup_postdata( $post );
-	$shortcode = do_shortcode( wp_unslash( $_POST['shortcode'] ) );
+	// the embed shortcode requires a post
+	if ( ! $post || ! current_user_can( 'edit_post', $post->ID ) ) {
+		if ( 'embed' === $shortcode ) {
+			wp_send_json_error();
+		}
+	} else {
+		setup_postdata( $post );
+	}
 
-	if ( empty( $shortcode ) ) {
+	$parsed = do_shortcode( $shortcode  );
+
+	if ( empty( $parsed ) ) {
 		wp_send_json_error( array(
 			'type' => 'no-items',
 			'message' => __( 'No items found.' ),
@@ -2756,7 +2766,7 @@ function wp_ajax_parse_media_shortcode() {
 
 	ob_start();
 
-	echo $shortcode;
+	echo $parsed;
 
 	if ( 'playlist' === $_REQUEST['type'] ) {
 		wp_underscore_playlist_templates();
