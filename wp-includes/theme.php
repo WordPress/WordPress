@@ -2027,5 +2027,5 @@ function wp_customize_support_script() {
 function is_customize_preview() {
 	global $wp_customize;
 
-	return is_a( $wp_customize, 'WP_Customize_Manager' ) && $wp_customize->is_preview();
+	return ( $wp_customize instanceof WP_Customize_Manager ) && $wp_customize->is_preview();
 }

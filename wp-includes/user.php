@@ -112,7 +112,7 @@ function wp_signon( $credentials = array(), $secure_cookie = '' ) {
  * @return WP_User|WP_Error WP_User on success, WP_Error on failure.
  */
 function wp_authenticate_username_password($user, $username, $password) {
-	if ( is_a( $user, 'WP_User' ) ) {
+	if ( $user instanceof WP_User ) {
 		return $user;
 	}
 
@@ -167,7 +167,7 @@ function wp_authenticate_username_password($user, $username, $password) {
  * @return WP_User|WP_Error WP_User on success, WP_Error on failure.
  */
 function wp_authenticate_cookie($user, $username, $password) {
-	if ( is_a( $user, 'WP_User' ) ) {
+	if ( $user instanceof WP_User ) {
 		return $user;
 	}
 
@@ -202,7 +202,7 @@ function wp_authenticate_cookie($user, $username, $password) {
  * @return WP_User|WP_Error WP_User on success, WP_Error if the user is considered a spammer.
  */
 function wp_authenticate_spam_check( $user ) {
-	if ( $user && is_a( $user, 'WP_User' ) && is_multisite() ) {
+	if ( $user instanceof WP_User && is_multisite() ) {
 		/**
 		 * Filter whether the user has been marked as a spammer.
 		 *
@@ -1710,9 +1710,9 @@ function validate_username( $username ) {
 function wp_insert_user( $userdata ) {
 	global $wpdb;
 
-	if ( is_a( $userdata, 'stdClass' ) ) {
+	if ( $userdata instanceof stdClass ) {
 		$userdata = get_object_vars( $userdata );
-	} elseif ( is_a( $userdata, 'WP_User' ) ) {
+	} elseif ( $userdata instanceof WP_User ) {
 		$userdata = $userdata->to_array();
 	}
 	// Are we updating or creating?
@@ -1969,10 +1969,11 @@ function wp_insert_user( $userdata ) {
  * @return int|WP_Error The updated user's ID or a WP_Error object if the user could not be updated.
  */
 function wp_update_user($userdata) {
-	if ( is_a( $userdata, 'stdClass' ) )
+	if ( $userdata instanceof stdClass ) {
 		$userdata = get_object_vars( $userdata );
-	elseif ( is_a( $userdata, 'WP_User' ) )
+	} elseif ( $userdata instanceof WP_User ) {
 		$userdata = $userdata->to_array();
+	}
 
 	$ID = (int) $userdata['ID'];
 

@@ -422,7 +422,7 @@ function get_post( $post = null, $output = OBJECT, $filter = 'raw' ) {
 	if ( empty( $post ) && isset( $GLOBALS['post'] ) )
 		$post = $GLOBALS['post'];
 
-	if ( is_a( $post, 'WP_Post' ) ) {
+	if ( $post instanceof WP_Post ) {
 		$_post = $post;
 	} elseif ( is_object( $post ) ) {
 		if ( empty( $post->filter ) ) {

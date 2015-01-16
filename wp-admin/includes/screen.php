@@ -374,8 +374,9 @@ final class WP_Screen {
 	 */
 	public static function get( $hook_name = '' ) {
 
-		if ( is_a( $hook_name, 'WP_Screen' ) )
+		if ( $hook_name instanceof WP_Screen ) {
 			return $hook_name;
+		}
 
 		$post_type = $taxonomy = null;
 		$in_admin = false;

@@ -37,8 +37,9 @@ class WP_Feed_Cache_Transient {
 	}
 
 	public function save($data) {
-		if ( is_a($data, 'SimplePie') )
+		if ( $data instanceof SimplePie ) {
 			$data = $data->data;
+		}
 
 		set_transient($this->name, $data, $this->lifetime);
 		set_transient($this->mod_name, time(), $this->lifetime);

@@ -1552,8 +1552,9 @@ function the_widget( $widget, $instance = array(), $args = array() ) {
 	global $wp_widget_factory;
 
 	$widget_obj = $wp_widget_factory->widgets[$widget];
-	if ( !is_a($widget_obj, 'WP_Widget') )
+	if ( ! ( $widget_obj instanceof WP_Widget ) ) {
 		return;
+	}
 
 	$before_widget = sprintf('<div class="widget %s">', $widget_obj->widget_options['classname'] );
 	$default_args = array( 'before_widget' => $before_widget, 'after_widget' => "</div>", 'before_title' => '<h2 class="widgettitle">', 'after_title' => '</h2>' );

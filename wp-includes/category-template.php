@@ -882,11 +882,11 @@ function _wp_object_count_sort_cb( $a, $b ) {
 function walk_category_tree() {
 	$args = func_get_args();
 	// the user's options are the third parameter
-	if ( empty($args[2]['walker']) || !is_a($args[2]['walker'], 'Walker') )
+	if ( empty( $args[2]['walker'] ) || ! ( $args[2]['walker'] instanceof Walker ) ) {
 		$walker = new Walker_Category;
-	else
+	} else {
 		$walker = $args[2]['walker'];
-
+	}
 	return call_user_func_array(array( &$walker, 'walk' ), $args );
 }
 

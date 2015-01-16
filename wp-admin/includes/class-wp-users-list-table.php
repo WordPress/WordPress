@@ -339,8 +339,9 @@ class WP_Users_List_Table extends WP_List_Table {
 	public function single_row( $user_object, $style = '', $role = '', $numposts = 0 ) {
 		global $wp_roles;
 
-		if ( !( is_object( $user_object ) && is_a( $user_object, 'WP_User' ) ) )
+		if ( ! ( $user_object instanceof WP_User ) ) {
 			$user_object = get_userdata( (int) $user_object );
+		}
 		$user_object->filter = 'display';
 		$email = $user_object->user_email;
 

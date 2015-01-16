@@ -214,8 +214,6 @@ class WP_Error {
  * @param mixed $thing Check if unknown variable is a WP_Error object.
  * @return bool True, if WP_Error. False, if not WP_Error.
  */
-function is_wp_error($thing) {
-	if ( is_object($thing) && is_a($thing, 'WP_Error') )
-		return true;
-	return false;
+function is_wp_error( $thing ) {
+	return ( $thing instanceof WP_Error );
 }

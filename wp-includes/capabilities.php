@@ -520,7 +520,7 @@ class WP_User {
 			);
 		}
 
-		if ( is_a( $id, 'WP_User' ) ) {
+		if ( $id instanceof WP_User ) {
 			$this->init( $id->data, $blog_id );
 			return;
 		} elseif ( is_object( $id ) ) {
