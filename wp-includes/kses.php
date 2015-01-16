@@ -441,6 +441,7 @@ if ( ! CUSTOM_TAGS ) {
 		'q' => array(
 			'cite' => true,
 		),
+		's' => array(),
 		'strike' => array(),
 		'strong' => array(),
 	);
