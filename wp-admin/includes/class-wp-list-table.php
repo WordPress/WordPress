@@ -1033,10 +1033,10 @@ class WP_List_Table {
 		echo '</tr>';
 	}
 
-	public function column_default( $item, $column_name ) {}
+	protected function column_default( $item, $column_name ) {}
 
-	public function column_cb( $item ) {}
-	
+	protected function column_cb( $item ) {}
+
 	/**
 	 * Generates the columns for a single row of the table
 	 *

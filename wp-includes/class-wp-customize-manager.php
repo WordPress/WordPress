@@ -889,8 +889,8 @@ final class WP_Customize_Manager {
 	 *
 	 * @since 3.4.0
 	 *
-	 * @param {WP_Customize_Panel|WP_Customize_Section|WP_Customize_Control} $a Object A.
-	 * @param {WP_Customize_Panel|WP_Customize_Section|WP_Customize_Control} $b Object B.
+	 * @param WP_Customize_Panel|WP_Customize_Section|WP_Customize_Control $a Object A.
+	 * @param WP_Customize_Panel|WP_Customize_Section|WP_Customize_Control $b Object B.
 	 * @return int
 	 */
 	protected function _cmp_priority( $a, $b ) {

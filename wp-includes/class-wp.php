@@ -541,7 +541,7 @@ class WP {
  	}
 
  	/**
- 	 * Set the Headers for 404, if nothing is found for requested URL.
+	 * Set the Headers for 404, if nothing is found for requested URL.
 	 *
 	 * Issue a 404 if a request doesn't match any posts and doesn't match
 	 * any object (e.g. an existing-but-empty category, tag, author) and a 404 was not already
@@ -666,7 +666,6 @@ class WP_MatchesMapRegex {
 	 *
 	 * @param string $subject subject if regex
 	 * @param array  $matches data to use in map
-	 * @return self
 	 */
 	public function __construct($subject, $matches) {
 		$this->_subject = $subject;

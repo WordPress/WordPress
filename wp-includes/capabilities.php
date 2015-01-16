@@ -429,6 +429,7 @@ class WP_Role {
  * @property string $user_pass
  * @property string $user_registered
  * @property string $user_url
+ * @property string $spam
  */
 class WP_User {
 	/**

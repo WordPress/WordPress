@@ -194,15 +194,18 @@ function get_most_active_blogs( $num = 10, $display = true ) {
 	$blogs = get_blog_list( 0, 'all', false ); // $blog_id -> $details
 	if ( is_array( $blogs ) ) {
 		reset( $blogs );
+		$most_active = array();
+		$blog_list = array();
 		foreach ( (array) $blogs as $key => $details ) {
 			$most_active[ $details['blog_id'] ] = $details['postcount'];
 			$blog_list[ $details['blog_id'] ] = $details; // array_slice() removes keys!!
 		}
 		arsort( $most_active );
 		reset( $most_active );
-		foreach ( (array) $most_active as $key => $details )
+		$t = array();
+		foreach ( (array) $most_active as $key => $details ) {
 			$t[ $key ] = $blog_list[ $key ];
-
+		}
 		unset( $most_active );
 		$most_active = $t;
 	}
