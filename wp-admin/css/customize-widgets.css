@@ -338,7 +338,7 @@ body.adding-widget .add-new-widget:before {
 #available-widgets {
 	position: absolute;
 	overflow: auto;
-	top: 0;
+	top: 46px;
 	bottom: 0;
 	left: -301px;
 	width: 300px;
@@ -351,7 +351,13 @@ body.adding-widget .add-new-widget:before {
 }
 
 #available-widgets-filter {
+	position: fixed;
+	top: 0;
+	z-index: 1;
+	width: 300px;
+	height: 46px;
 	padding: 8px 17px 7px 13px;
+	background: #eee;
 	border-bottom: 1px solid #e4e4e4;
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
