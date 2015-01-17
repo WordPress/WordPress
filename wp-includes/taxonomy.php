@@ -2552,7 +2552,7 @@ function wp_delete_category( $cat_ID ) {
 
 /**
  * Retrieves the terms associated with the given object(s), in the supplied taxonomies.
-
+ *
  * @since 2.3.0
  *
  * @global wpdb $wpdb WordPress database abstraction object.
@@ -2561,7 +2561,8 @@ function wp_delete_category( $cat_ID ) {
  * @param string|array $taxonomies The taxonomies to retrieve terms from.
  * @param array|string $args {
  *     Array of arguments.
- *     @type string $orderby Field by which results should be sorted. Accepts 'name' or 'count'. Default 'name'.
+ *     @type string $orderby Field by which results should be sorted. Accepts 'name', 'count', 'slug', 'term_group',
+ *                           or 'term_order'. Default 'name'.
  *     @type string $order   Sort order. Accepts 'ASC' or 'DESC'. Default 'ASC'.
  *     @type string $fields  Fields to return for matched terms. Accepts 'all', 'ids', 'names', and
  *                           'all_with_object_id'. Note that 'all' or 'all_with_object_id' will result in an array of
