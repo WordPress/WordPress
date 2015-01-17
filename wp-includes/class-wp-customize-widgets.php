@@ -956,7 +956,7 @@ final class WP_Customize_Widgets {
 
 		call_user_func_array( 'wp_widget_control', $args );
 		$replacements = array(
-			'<form action="" method="post">' => '<div class="form">',
+			'<form method="post">' => '<div class="form">',
 			'</form>' => '</div><!-- .form -->',
 		);
 
