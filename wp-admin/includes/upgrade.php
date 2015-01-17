@@ -142,9 +142,9 @@ function wp_install_defaults( $user_id ) {
 	$cat_tt_id = $wpdb->insert_id;
 
 	// First post
-	$now = date('Y-m-d H:i:s');
-	$now_gmt = gmdate('Y-m-d H:i:s');
-	$first_post_guid = get_option('home') . '/?p=1';
+	$now = current_time( 'mysql' );
+	$now_gmt = current_time( 'mysql', 1 );
+	$first_post_guid = get_option( 'home' ) . '/?p=1';
 
 	if ( is_multisite() ) {
 		$first_post = get_site_option( 'first_post' );
