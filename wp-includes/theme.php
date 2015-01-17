@@ -1035,6 +1035,17 @@ function display_header_text() {
 }
 
 /**
+ * Check whether a header image is set or not.
+ *
+ * @since 4.2.0
+ *
+ * @return bool
+ */
+function has_header_image() {
+	return (bool) get_header_image();
+}
+
+/**
  * Retrieve header image for custom header.
  *
  * @since 2.1.0
