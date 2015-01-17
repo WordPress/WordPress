@@ -346,6 +346,7 @@ function wp_login_url($redirect = '', $force_reauth = false) {
 	 * Filter the login URL.
 	 *
 	 * @since 2.8.0
+	 * @since 4.2.0 The `$force_reauth` parameter was added.
 	 *
 	 * @param string $login_url    The login URL.
 	 * @param string $redirect     The path to redirect to on login, if supplied.
