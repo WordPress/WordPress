@@ -271,3 +271,25 @@ function wp_script_is( $handle, $list = 'enqueued' ) {
 
 	return (bool) wp_scripts()->query( $handle, $list );
 }
+
+/**
+ * Add metadata to a script.
+ *
+ * Works only if the script has already been added.
+ *
+ * Possible values for $key and $value:
+ * 'conditional' string Comments for IE 6, lte IE 7, etc.
+ *
+ * @see WP_Dependency::add_data()
+ *
+ * @since 4.2.0
+ *
+ * @param string $handle Name of the script.
+ * @param string $key    Name of data point for which we're storing a value.
+ * @param mixed  $value  String containing the data to be added.
+ * @return bool True on success, false on failure.
+ */
+function wp_script_add_data( $handle, $key, $value ){
+	global $wp_scripts;
+	return $wp_scripts->add_data( $handle, $key, $value );
+}
