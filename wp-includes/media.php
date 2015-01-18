@@ -3295,7 +3295,7 @@ function wp_maybe_generate_attachment_metadata( $attachment ) {
  * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param string $url The URL to resolve.
- * @return int The found post ID.
+ * @return int The found post ID, or 0 on failure.
  */
 function attachment_url_to_postid( $url ) {
 	global $wpdb;
@@ -3312,9 +3312,8 @@ function attachment_url_to_postid( $url ) {
 		$path
 	);
 	$post_id = $wpdb->get_var( $sql );
-	if ( ! empty( $post_id ) ) {
-		return (int) $post_id;
-	}
+
+	return (int) $post_id;
 }
 
 /**
