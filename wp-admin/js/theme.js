@@ -165,7 +165,7 @@ themes.Collection = Backbone.Collection.extend({
 	// Performs a search within the collection
 	// @uses RegExp
 	search: function( term ) {
-		var match, results, haystack;
+		var match, results, haystack, name, description, author;
 
 		// Start with a full collection
 		this.reset( themes.data.themes, { silent: true } );
@@ -181,7 +181,11 @@ themes.Collection = Backbone.Collection.extend({
 		// Find results
 		// _.filter and .test
 		results = this.filter( function( data ) {
-			haystack = _.union( data.get( 'name' ), data.get( 'id' ), data.get( 'description' ), data.get( 'author' ), data.get( 'tags' ) );
+			name        = data.get( 'name' ).replace( /(<([^>]+)>)/ig, '' );
+			description = data.get( 'description' ).replace( /(<([^>]+)>)/ig, '' );
+			author      = data.get( 'author' ).replace( /(<([^>]+)>)/ig, '' );
+
+			haystack = _.union( name, data.get( 'id' ), description, author, data.get( 'tags' ) );
 
 			if ( match.test( data.get( 'author' ) ) && term.length > 2 ) {
 				data.set( 'displayAuthor', true );
