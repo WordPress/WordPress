@@ -2562,7 +2562,7 @@ function wp_delete_category( $cat_ID ) {
  * @param array|string $args {
  *     Array of arguments.
  *     @type string $orderby Field by which results should be sorted. Accepts 'name', 'count', 'slug', 'term_group',
- *                           or 'term_order'. Default 'name'.
+ *                           'term_order', 'taxonomy', 'parent', or 'term_taxonomy_id'. Default 'name'.
  *     @type string $order   Sort order. Accepts 'ASC' or 'DESC'. Default 'ASC'.
  *     @type string $fields  Fields to return for matched terms. Accepts 'all', 'ids', 'names', and
  *                           'all_with_object_id'. Note that 'all' or 'all_with_object_id' will result in an array of
@@ -2612,17 +2612,13 @@ function wp_get_object_terms($object_ids, $taxonomies, $args = array()) {
 	$order = $args['order'];
 	$fields = $args['fields'];
 
-	if ( 'count' == $orderby ) {
-		$orderby = 'tt.count';
-	} elseif ( 'name' == $orderby ) {
-		$orderby = 't.name';
-	} elseif ( 'slug' == $orderby ) {
-		$orderby = 't.slug';
-	} elseif ( 'term_group' == $orderby ) {
-		$orderby = 't.term_group';
-	} elseif ( 'term_order' == $orderby ) {
+	if ( in_array( $orderby, array( 'term_id', 'name', 'slug', 'term_group' ) ) ) {
+		$orderby = "t.$orderby";
+	} else if ( in_array( $orderby, array( 'count', 'parent', 'taxonomy', 'term_taxonomy_id' ) ) ) {
+		$orderby = "tt.$orderby";
+	} else if ( 'term_order' === $orderby ) {
 		$orderby = 'tr.term_order';
-	} elseif ( 'none' == $orderby ) {
+	} else if ( 'none' === $orderby ) {
 		$orderby = '';
 		$order = '';
 	} else {
