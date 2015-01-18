@@ -2554,7 +2554,7 @@ function wp_delete_category( $cat_ID ) {
  * Retrieves the terms associated with the given object(s), in the supplied taxonomies.
  *
  * @since 2.3.0
- * @since 4.2.0 Added support for 'taxonomy', 'parent', and 'term_taxonomy_id' values of $orderby.
+ * @since 4.2.0 Added support for 'taxonomy', 'parent', and 'term_taxonomy_id' values of `$orderby`.
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
