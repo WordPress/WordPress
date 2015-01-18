@@ -1199,53 +1199,56 @@ final class WP_Customize_Manager {
 		/* Static Front Page */
 		// #WP19627
 
-		$this->add_section( 'static_front_page', array(
-			'title'          => __( 'Static Front Page' ),
-		//	'theme_supports' => 'static-front-page',
-			'priority'       => 120,
-			'description'    => __( 'Your theme supports a static front page.' ),
-		) );
+		// Replicate behavior from options-reading.php and hide front page options if there are no pages
+		if ( get_pages() ) {
+			$this->add_section( 'static_front_page', array(
+				'title'          => __( 'Static Front Page' ),
+			//	'theme_supports' => 'static-front-page',
+				'priority'       => 120,
+				'description'    => __( 'Your theme supports a static front page.' ),
+			) );
 
-		$this->add_setting( 'show_on_front', array(
-			'default'        => get_option( 'show_on_front' ),
-			'capability'     => 'manage_options',
-			'type'           => 'option',
-		//	'theme_supports' => 'static-front-page',
-		) );
+			$this->add_setting( 'show_on_front', array(
+				'default'        => get_option( 'show_on_front' ),
+				'capability'     => 'manage_options',
+				'type'           => 'option',
+			//	'theme_supports' => 'static-front-page',
+			) );
 
-		$this->add_control( 'show_on_front', array(
-			'label'   => __( 'Front page displays' ),
-			'section' => 'static_front_page',
-			'type'    => 'radio',
-			'choices' => array(
-				'posts' => __( 'Your latest posts' ),
-				'page'  => __( 'A static page' ),
-			),
-		) );
+			$this->add_control( 'show_on_front', array(
+				'label'   => __( 'Front page displays' ),
+				'section' => 'static_front_page',
+				'type'    => 'radio',
+				'choices' => array(
+					'posts' => __( 'Your latest posts' ),
+					'page'  => __( 'A static page' ),
+				),
+			) );
 
-		$this->add_setting( 'page_on_front', array(
-			'type'       => 'option',
-			'capability' => 'manage_options',
-		//	'theme_supports' => 'static-front-page',
-		) );
+			$this->add_setting( 'page_on_front', array(
+				'type'       => 'option',
+				'capability' => 'manage_options',
+			//	'theme_supports' => 'static-front-page',
+			) );
 
-		$this->add_control( 'page_on_front', array(
-			'label'      => __( 'Front page' ),
-			'section'    => 'static_front_page',
-			'type'       => 'dropdown-pages',
-		) );
+			$this->add_control( 'page_on_front', array(
+				'label'      => __( 'Front page' ),
+				'section'    => 'static_front_page',
+				'type'       => 'dropdown-pages',
+			) );
 
-		$this->add_setting( 'page_for_posts', array(
-			'type'           => 'option',
-			'capability'     => 'manage_options',
-		//	'theme_supports' => 'static-front-page',
-		) );
+			$this->add_setting( 'page_for_posts', array(
+				'type'           => 'option',
+				'capability'     => 'manage_options',
+			//	'theme_supports' => 'static-front-page',
+			) );
 
-		$this->add_control( 'page_for_posts', array(
-			'label'      => __( 'Posts page' ),
-			'section'    => 'static_front_page',
-			'type'       => 'dropdown-pages',
-		) );
+			$this->add_control( 'page_for_posts', array(
+				'label'      => __( 'Posts page' ),
+				'section'    => 'static_front_page',
+				'type'       => 'dropdown-pages',
+			) );
+		}
 	}
 
 	/**
