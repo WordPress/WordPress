@@ -149,7 +149,7 @@ function shortcode_exists( $tag ) {
  *
  * @param string $content Content to search for shortcodes.
  * @param string $tag     Shortcode tag to check.
- * @return bool Whether the passed content contains. the given shortcode.
+ * @return bool Whether the passed content contains the given shortcode.
  */
 function has_shortcode( $content, $tag ) {
 	if ( false === strpos( $content, '[' ) ) {
