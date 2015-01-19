@@ -100,7 +100,7 @@ function add_shortcode($tag, $func) {
  *
  * @uses $shortcode_tags
  *
- * @param string $tag shortcode tag to remove hook for.
+ * @param string $tag Shortcode tag to remove hook for.
  */
 function remove_shortcode($tag) {
 	global $shortcode_tags;
@@ -130,9 +130,10 @@ function remove_all_shortcodes() {
  *
  * @since 3.6.0
  *
- * @global array $shortcode_tags
- * @param string $tag
- * @return boolean
+ * @global array $shortcode_tags List of shortcode tags and their callback hooks.
+ *
+ * @param string $tag Shortcode tag to check.
+ * @return bool Whether the given shortcode exists.
  */
 function shortcode_exists( $tag ) {
 	global $shortcode_tags;
@@ -180,9 +181,9 @@ function has_shortcode( $content, $tag ) {
  *
  * @since 2.5.0
  *
- * @uses $shortcode_tags
+ * @global array $shortcode_tags List of shortcode tags and their callback hooks.
  *
- * @param string $content Content to search for shortcodes
+ * @param string $content Content to search for shortcodes.
  * @return string Content with shortcodes filtered out.
  */
 function do_shortcode($content) {
