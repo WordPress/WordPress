@@ -2,7 +2,7 @@
 /**
  * WordPress Upgrade API
  *
- * Most of the functions are pluggable and can be overwritten
+ * Most of the functions are pluggable and can be overwritten.
  *
  * @package WordPress
  * @subpackage Administration
@@ -20,20 +20,21 @@ require_once(ABSPATH . 'wp-admin/includes/schema.php');
 
 if ( !function_exists('wp_install') ) :
 /**
- * Installs the blog
+ * Installs the site.
  *
- * {@internal Missing Long Description}}
+ * Runs the required functions to set up and populate the database,
+ * including primary admin user and initial options.
  *
  * @since 2.1.0
  *
- * @param string $blog_title Blog title.
- * @param string $user_name User's username.
- * @param string $user_email User's email.
- * @param bool $public Whether blog is public.
- * @param string $deprecated Optional. Not used.
- * @param string $user_password Optional. User's chosen password. Will default to a random password.
- * @param string $language Optional. Language chosen.
- * @return array Array keys 'url', 'user_id', 'password', 'password_message'.
+ * @param string $blog_title    Blog title.
+ * @param string $user_name     User's username.
+ * @param string $user_email    User's email.
+ * @param bool   $public        Whether blog is public.
+ * @param string $deprecated    Optional. Not used.
+ * @param string $user_password Optional. User's chosen password. Default empty (random password).
+ * @param string $language      Optional. Language chosen. Default empty.
+ * @return array Array keys 'url', 'user_id', 'password', and 'password_message'.
  */
 function wp_install( $blog_title, $user_name, $user_email, $public, $deprecated = '', $user_password = '', $language = '' ) {
 	if ( !empty( $deprecated ) )
@@ -110,9 +111,10 @@ endif;
 
 if ( !function_exists('wp_install_defaults') ) :
 /**
- * {@internal Missing Short Description}}
+ * Creates the initial content for a newly-installed site.
  *
- * {@internal Missing Long Description}}
+ * Adds the default "Uncategorized" category, the first post (with comment),
+ * first page, and default widgets for default theme for the current version.
  *
  * @since 2.1.0
  *
@@ -333,16 +335,17 @@ function wp_install_maybe_enable_pretty_permalinks() {
 
 if ( !function_exists('wp_new_blog_notification') ) :
 /**
- * {@internal Missing Short Description}}
+ * Notifies the site admin that the setup is complete.
  *
- * {@internal Missing Long Description}}
+ * Sends an email with wp_mail to the new administrator that the site setup is complete,
+ * and provides them with a record of their login credentials.
  *
  * @since 2.1.0
  *
  * @param string $blog_title Blog title.
- * @param string $blog_url Blog url.
- * @param int $user_id User ID.
- * @param string $password User's Password.
+ * @param string $blog_url   Blog url.
+ * @param int    $user_id    User ID.
+ * @param string $password   User's Password.
  */
 function wp_new_blog_notification($blog_title, $blog_url, $user_id, $password) {
 	$user = new WP_User( $user_id );
@@ -371,13 +374,13 @@ endif;
 
 if ( !function_exists('wp_upgrade') ) :
 /**
- * Run WordPress Upgrade functions.
+ * Runs WordPress Upgrade functions.
  *
- * {@internal Missing Long Description}}
+ * Upgrades the database if needed during a site update.
  *
  * @since 2.1.0
  *
- * @return null
+ * @return null If no update is necessary or site isn't completely installed, null.
  */
 function wp_upgrade() {
 	global $wp_current_db_version, $wp_db_version, $wpdb;
@@ -422,9 +425,12 @@ endif;
 /**
  * Functions to be called in install and upgrade scripts.
  *
- * {@internal Missing Long Description}}
+ * Contains conditional checks to determine which upgrade scripts to run,
+ * based on database version and WP version being updated-to.
  *
  * @since 1.0.1
+ *
+ * @return null If no update is necessary, null.
  */
 function upgrade_all() {
 	global $wp_current_db_version, $wp_db_version;
@@ -1401,7 +1407,7 @@ function upgrade_400() {
 }
 
 /**
- * Execute network level changes
+ * Executes network-level upgrade routines.
  *
  * @since 3.0.0
  */
@@ -1498,14 +1504,16 @@ function upgrade_network() {
 	}
 }
 
-// The functions we use to actually do stuff
-
-// General
+//
+// General functions we use to actually do stuff
+//
 
 /**
- * {@internal Missing Short Description}}
+ * Creates a table in the database if it doesn't already exist.
  *
- * {@internal Missing Long Description}}
+ * This method checks for an existing database and creates a new one if it's not
+ * already present. It doesn't rely on MySQL's "IF NOT EXISTS" statement, but chooses
+ * to query all tables first and then run the SQL statement creating the table.
  *
  * @since 1.0.0
  *
@@ -1533,9 +1541,7 @@ function maybe_create_table($table_name, $create_ddl) {
 }
 
 /**
- * {@internal Missing Short Description}}
- *
- * {@internal Missing Long Description}}
+ * Drops a specified index from a table.
  *
  * @since 1.0.1
  *
@@ -1556,9 +1562,7 @@ function drop_index($table, $index) {
 }
 
 /**
- * {@internal Missing Short Description}}
- *
- * {@internal Missing Long Description}}
+ * Adds an index to a specified table.
  *
  * @since 1.0.1
  *
@@ -1574,10 +1578,14 @@ function add_clean_index($table, $index) {
 }
 
 /**
- ** maybe_add_column()
- ** Add column to db table if it doesn't exist.
- ** Returns:  true if already exists or on successful completion
- **           false on error
+ * Adds column to a database table if it doesn't already exist.
+ *
+ * @since 1.3.0
+ *
+ * @param string $table_name  The table name to modify.
+ * @param string $column_name The column name to add to the table.
+ * @param string $create_ddl  The SQL statement used to add the column.
+ * @return True if already exists or on successful completion, false on error.
  */
 function maybe_add_column($table_name, $column_name, $create_ddl) {
 	global $wpdb;
@@ -1620,8 +1628,9 @@ function get_alloptions_110() {
 }
 
 /**
- * Version of get_option that is private to install/upgrade.
+ * Utility version of get_option that is private to install/upgrade.
  *
+ * @ignore
  * @since 1.5.1
  * @access private
  *
@@ -1649,14 +1658,12 @@ function __get_option($setting) {
 }
 
 /**
- * {@internal Missing Short Description}}
- *
- * {@internal Missing Long Description}}
+ * Filters for content to remove unnecessary slashes.
  *
  * @since 1.5.0
  *
- * @param string $content
- * @return string
+ * @param string $content The content to modify.
+ * @return string The de-slashed content.
  */
 function deslash($content) {
 	// Note: \\\ inside a regex denotes a single backslash.
@@ -1680,15 +1687,18 @@ function deslash($content) {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Modifies the database based on specified SQL statements.
  *
- * {@internal Missing Long Description}}
+ * Useful for creating new tables and updating existing tables to a new structure.
  *
  * @since 1.5.0
  *
- * @param string $queries
- * @param bool   $execute
- * @return array
+ * @param string|array $queries Optional. The query to run. Can be multiple queries
+ *                              in an array, or a string of queries separated by
+ *                              semicolons. Default empty.
+ * @param bool         $execute Optional. Whether or not to execute the query right away.
+ *                              Default true.
+ * @return array Strings containing the results of the various update queries.
  */
 function dbDelta( $queries = '', $execute = true ) {
 	global $wpdb;
@@ -1931,11 +1941,16 @@ function dbDelta( $queries = '', $execute = true ) {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Updates the database tables to a new schema.
  *
- * {@internal Missing Long Description}}
+ * By default, updates all the tables to use the latest defined schema, but can also
+ * be used to update a specific set of tables in wp_get_db_schema().
  *
  * @since 1.5.0
+ *
+ * @uses dbDelta
+ *
+ * @param string $tables Optional. Which set of tables to update. Default is 'all'.
  */
 function make_db_current( $tables = 'all' ) {
 	$alterations = dbDelta( $tables );
@@ -1945,25 +1960,30 @@ function make_db_current( $tables = 'all' ) {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Updates the database tables to a new schema, but without displaying results.
  *
- * {@internal Missing Long Description}}
+ * By default, updates all the tables to use the latest defined schema, but can
+ * also be used to update a specific set of tables in wp_get_db_schema().
  *
  * @since 1.5.0
+ *
+ * @see make_db_current()
+ *
+ * @param string $tables Optional. Which set of tables to update. Default is 'all'.
  */
 function make_db_current_silent( $tables = 'all' ) {
 	dbDelta( $tables );
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Creates a site theme from an existing theme.
  *
  * {@internal Missing Long Description}}
  *
  * @since 1.5.0
  *
- * @param string $theme_name
- * @param string $template
+ * @param string $theme_name The name of the theme.
+ * @param string $template   The directory name of the theme.
  * @return bool
  */
 function make_site_theme_from_oldschool($theme_name, $template) {
@@ -2039,14 +2059,14 @@ function make_site_theme_from_oldschool($theme_name, $template) {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Creates a site theme from the default theme.
  *
  * {@internal Missing Long Description}}
  *
  * @since 1.5.0
  *
- * @param string $theme_name
- * @param string $template
+ * @param string $theme_name The name of the theme.
+ * @param string $template   The directory name of the theme.
  * @return null|false
  */
 function make_site_theme_from_default($theme_name, $template) {
@@ -2103,9 +2123,8 @@ function make_site_theme_from_default($theme_name, $template) {
 	@closedir($images_dir);
 }
 
-// Create a site theme from the default theme.
 /**
- * {@internal Missing Short Description}}
+ * Creates a site theme.
  *
  * {@internal Missing Long Description}}
  *
@@ -2184,9 +2203,7 @@ function translate_level_to_role($level) {
 }
 
 /**
- * {@internal Missing Short Description}}
- *
- * {@internal Missing Long Description}}
+ * Checks the version of the installed MySQL binary.
  *
  * @since 2.1.0
  */
@@ -2215,7 +2232,7 @@ function maybe_disable_automattic_widgets() {
 }
 
 /**
- * Disables the Link Manager on upgrade, if at the time of upgrade, no links exist in the DB.
+ * Disables the Link Manager on upgrade if, at the time of upgrade, no links exist in the DB.
  *
  * @since 3.5.0
  */
