@@ -287,8 +287,6 @@ class WP_Widget_Archives extends WP_Widget {
 		if ( $d ) {
 ?>
 		<select name="archive-dropdown" onchange='document.location.href=this.options[this.selectedIndex].value;'>
-			<option value=""><?php esc_attr_e( 'Select Month' ); ?></option>
-
 			<?php
 			/**
 			 * Filter the arguments for the Archives widget drop-down.
@@ -299,12 +297,34 @@ class WP_Widget_Archives extends WP_Widget {
 			 *
 			 * @param array $args An array of Archives widget drop-down arguments.
 			 */
-			wp_get_archives( apply_filters( 'widget_archives_dropdown_args', array(
+			$dropdown_args = apply_filters( 'widget_archives_dropdown_args', array(
 				'type'            => 'monthly',
 				'format'          => 'option',
 				'show_post_count' => $c
-			) ) );
-?>
+			) );
+
+			switch ( $dropdown_args['type'] ) {
+				case 'yearly':
+					$label = __( 'Select Year' );
+					break;
+				case 'monthly':
+					$label = __( 'Select Month' );
+					break;
+				case 'daily':
+					$label = __( 'Select Day' );
+					break;
+				case 'weekly':
+					$label = __( 'Select Week' );
+					break;
+				default:
+					$label = __( 'Select Post' );
+					break;
+			}
+			?>
+
+			<option value=""><?php echo esc_attr( $label ); ?></option>
+			<?php wp_get_archives( $dropdown_args ); ?>
+
 		</select>
 <?php
 		} else {
