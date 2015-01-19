@@ -525,7 +525,7 @@ if ( ! is_taxonomy_hierarchical( $taxonomy ) ) {
 }
 
 /**
- * Fires after the Add Term form fields for hierarchical taxonomies.
+ * Fires after the Add Term form fields.
  *
  * The dynamic portion of the hook name, `$taxonomy`, refers to the taxonomy slug.
  *
