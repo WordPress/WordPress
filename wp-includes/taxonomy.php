@@ -3920,20 +3920,20 @@ function _pad_term_counts(&$terms, $taxonomy) {
 	}
 
 	// Touch every ancestor's lookup row for each post in each term
-	$ancestors = array();
 	foreach ( $term_ids as $term_id ) {
-		$ancestors[] = $term_id;
 		$child = $term_id;
+		$ancestors = array();
 		while ( !empty( $terms_by_id[$child] ) && $parent = $terms_by_id[$child]->parent ) {
-			if ( in_array( $parent, $ancestors ) ) {
-				break;
-			}
-
+			$ancestors[] = $child;
 			if ( !empty( $term_items[$term_id] ) )
 				foreach ( $term_items[$term_id] as $item_id => $touches ) {
 					$term_items[$parent][$item_id] = isset($term_items[$parent][$item_id]) ? ++$term_items[$parent][$item_id]: 1;
 				}
 			$child = $parent;
+
+			if ( in_array( $parent, $ancestors ) ) {
+				break;
+			}
 		}
 	}
 
