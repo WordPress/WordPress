@@ -84,8 +84,8 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 		 *
 		 * @since 2.7.0
 		 *
-		 * @param array $tabs The tabs shown on the Plugin Install screen. Defaults are 'dashboard', 'search',
-		 *                    'upload', 'featured', 'popular', 'new', and 'favorites'.
+		 * @param array $tabs The tabs shown on the Plugin Install screen. Defaults include 'featured', 'popular',
+		 *                    'recommended', 'favorites', and 'upload'.
 		 */
 		$tabs = apply_filters( 'install_plugins_tabs', $tabs );
 
@@ -161,8 +161,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 		 * Filter API request arguments for each Plugin Install screen tab.
 		 *
 		 * The dynamic portion of the hook name, `$tab`, refers to the plugin install tabs.
-		 * Default tabs are 'dashboard', 'search', 'upload', 'featured', 'popular', 'new',
-		 * and 'favorites'.
+		 * Default tabs include 'featured', 'popular', 'recommended', 'favorites', and 'upload'.
 		 *
 		 * @since 3.7.0
 		 *
