@@ -1644,7 +1644,10 @@
 			});
 
 			if ( ! widgetControls.length ) {
+				this.container.find( '.reorder-toggle' ).hide();
 				return;
+			} else {
+				this.container.find( '.reorder-toggle' ).show();
 			}
 
 			$( widgetControls ).each( function () {
