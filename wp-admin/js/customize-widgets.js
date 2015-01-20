@@ -641,6 +641,12 @@
 						selectSidebarItem( selfSidebarItem );
 					}
 				} );
+
+				if ( 1 === $sidebarItems.length ) {
+					self.container.find( '.move-widget' ).hide();
+				} else {
+					self.container.find( '.move-widget' ).show();
+				}
 			};
 
 			updateAvailableSidebars();
