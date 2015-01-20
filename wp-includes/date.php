@@ -368,7 +368,7 @@ class WP_Date_Query {
 
 		// Hours per day.
 		$min_max_checks['hour'] = array(
-			'min' => 1,
+			'min' => 0,
 			'max' => 23
 		);
 
@@ -394,7 +394,7 @@ class WP_Date_Query {
 			foreach ( (array) $date_query[ $key ] as $_value ) {
 				$is_between = $_value >= $check['min'] && $_value <= $check['max'];
 
-				if ( ! $is_between ) {
+				if ( ! is_numeric( $_value ) || ! $is_between ) {
 					$error = sprintf(
 						/* translators: Date query invalid date message: 1: invalid value, 2: type of value, 3: minimum valid value, 4: maximum valid value */
 						__( 'Invalid value %1$s for %2$s. Expected value should be between %3$s and %4$s.' ),
