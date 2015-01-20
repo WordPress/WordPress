@@ -107,7 +107,7 @@ class Twenty_Fourteen_Ephemera_Widget extends WP_Widget {
 			echo $args['before_widget'];
 			?>
 			<h1 class="widget-title <?php echo esc_attr( $format ); ?>">
-				<a class="entry-format" href="<?php echo esc_url( get_post_format_link( $format ) ); ?>"><?php echo $title; ?></a>
+				<a class="entry-format" href="<?php echo esc_url( get_post_format_link( $format ) ); ?>"><?php echo esc_html( $title ); ?></a>
 			</h1>
 			<ol>
 
@@ -261,7 +261,7 @@ class Twenty_Fourteen_Ephemera_Widget extends WP_Widget {
 			<p><label for="<?php echo esc_attr( $this->get_field_id( 'format' ) ); ?>"><?php _e( 'Post format to show:', 'twentyfourteen' ); ?></label>
 			<select id="<?php echo esc_attr( $this->get_field_id( 'format' ) ); ?>" class="widefat" name="<?php echo esc_attr( $this->get_field_name( 'format' ) ); ?>">
 				<?php foreach ( $this->formats as $slug ) : ?>
-				<option value="<?php echo esc_attr( $slug ); ?>"<?php selected( $format, $slug ); ?>><?php echo get_post_format_string( $slug ); ?></option>
+				<option value="<?php echo esc_attr( $slug ); ?>"<?php selected( $format, $slug ); ?>><?php echo esc_html( get_post_format_string( $slug ) ); ?></option>
 				<?php endforeach; ?>
 			</select>
 		<?php
