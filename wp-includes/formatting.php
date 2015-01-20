@@ -86,11 +86,11 @@ function wptexturize($text, $reset = false) {
 
 		// if a plugin has provided an autocorrect array, use it
 		if ( isset($wp_cockneyreplace) ) {
-			$cockney = array_keys($wp_cockneyreplace);
-			$cockneyreplace = array_values($wp_cockneyreplace);
+			$cockney = array_keys( $wp_cockneyreplace );
+			$cockneyreplace = array_values( $wp_cockneyreplace );
 		} elseif ( "'" != $apos ) { // Only bother if we're doing a replacement.
-			$cockney = array( "'tain't", "'twere", "'twas", "'tis", "'twill", "'til", "'bout", "'nuff", "'round", "'cause" );
-			$cockneyreplace = array( $apos . "tain" . $apos . "t", $apos . "twere", $apos . "twas", $apos . "tis", $apos . "twill", $apos . "til", $apos . "bout", $apos . "nuff", $apos . "round", $apos . "cause" );
+			$cockney = array( "'tain't", "'twere", "'twas", "'tis", "'twill", "'til", "'bout", "'nuff", "'round", "'cause", "'em" );
+			$cockneyreplace = array( $apos . "tain" . $apos . "t", $apos . "twere", $apos . "twas", $apos . "tis", $apos . "twill", $apos . "til", $apos . "bout", $apos . "nuff", $apos . "round", $apos . "cause", $apos . "em" );
 		} else {
 			$cockney = $cockneyreplace = array();
 		}
