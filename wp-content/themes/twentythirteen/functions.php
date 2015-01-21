@@ -146,7 +146,7 @@ function twentythirteen_fonts_url() {
 			'family' => urlencode( implode( '|', $font_families ) ),
 			'subset' => urlencode( 'latin,latin-ext' ),
 		);
-		$fonts_url = add_query_arg( $query_args, "//fonts.googleapis.com/css" );
+		$fonts_url = add_query_arg( $query_args, '//fonts.googleapis.com/css' );
 	}
 
 	return $fonts_url;
@@ -319,7 +319,7 @@ if ( ! function_exists( 'twentythirteen_entry_meta' ) ) :
  */
 function twentythirteen_entry_meta() {
 	if ( is_sticky() && is_home() && ! is_paged() )
-		echo '<span class="featured-post">' . __( 'Sticky', 'twentythirteen' ) . '</span>';
+		echo '<span class="featured-post">' . esc_html__( 'Sticky', 'twentythirteen' ) . '</span>';
 
 	if ( ! has_post_format( 'link' ) && 'post' == get_post_type() )
 		twentythirteen_entry_date();
@@ -413,7 +413,7 @@ function twentythirteen_the_attached_image() {
 		'post_type'      => 'attachment',
 		'post_mime_type' => 'image',
 		'order'          => 'ASC',
-		'orderby'        => 'menu_order ID'
+		'orderby'        => 'menu_order ID',
 	) );
 
 	// If there is more than 1 attachment in a gallery...
