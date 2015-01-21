@@ -1925,7 +1925,17 @@ function wp_insert_comment( $commentdata ) {
 
 	$compacted = compact( 'comment_post_ID', 'comment_author', 'comment_author_email', 'comment_author_url', 'comment_author_IP', 'comment_date', 'comment_date_gmt', 'comment_content', 'comment_karma', 'comment_approved', 'comment_agent', 'comment_type', 'comment_parent', 'user_id' );
 	if ( ! $wpdb->insert( $wpdb->comments, $compacted ) ) {
-		return false;
+		$fields = array( 'comment_author', 'comment_content' );
+
+		foreach( $fields as $field ) {
+			if ( isset( $compacted[ $field ] ) ) {
+				$post_data[ $field ] = $wpdb->strip_invalid_text_for_column( $wpdb->comments, $field, $compacted[ $field ] );
+			}
+		}
+
+		if ( ! $wpdb->insert( $wpdb->comments, $compacted ) ) {
+			return false;
+		}
 	}
 
 	$id = (int) $wpdb->insert_id;
