@@ -1975,12 +1975,16 @@ function wp_update_user($userdata) {
 		$userdata = $userdata->to_array();
 	}
 
-	$ID = (int) $userdata['ID'];
+	$ID = isset( $userdata['ID'] ) ? (int) $userdata['ID'] : 0;
+	if ( ! $ID ) {
+		return new WP_Error( 'invalid_user_id', __( 'Invalid user ID.' ) );
+	}
 
 	// First, get all of the original fields
 	$user_obj = get_userdata( $ID );
-	if ( ! $user_obj )
+	if ( ! $user_obj ) {
 		return new WP_Error( 'invalid_user_id', __( 'Invalid user ID.' ) );
+	}
 
 	$user = $user_obj->to_array();
 
