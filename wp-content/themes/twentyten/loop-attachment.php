@@ -80,7 +80,7 @@
 			$next_attachment_url = get_attachment_link( $attachments[ $k ]->ID );
 		else
 			// or get the URL of the first image attachment
-			$next_attachment_url = get_attachment_link( $attachments[ 0 ]->ID );
+			$next_attachment_url = get_attachment_link( $attachments[0]->ID );
 	} else {
 		// or, if there's only 1 image attachment, get the URL of the image
 		$next_attachment_url = wp_get_attachment_url();
@@ -111,10 +111,10 @@
 							<div class="nav-next"><?php next_image_link( false ); ?></div>
 						</div><!-- #nav-below -->
 <?php else : ?>
-						<a href="<?php echo esc_url( wp_get_attachment_url() ); ?>" title="<?php the_title_attribute(); ?>" rel="attachment"><?php echo basename( get_permalink() ); ?></a>
+						<a href="<?php echo esc_url( wp_get_attachment_url() ); ?>" title="<?php the_title_attribute(); ?>" rel="attachment"><?php echo esc_html( basename( get_permalink() ) ); ?></a>
 <?php endif; ?>
 						</div><!-- .entry-attachment -->
-						<div class="entry-caption"><?php if ( !empty( $post->post_excerpt ) ) the_excerpt(); ?></div>
+						<div class="entry-caption"><?php if ( ! empty( $post->post_excerpt ) ) the_excerpt(); ?></div>
 
 <?php the_content( __( 'Continue reading <span class="meta-nav">&rarr;</span>', 'twentyten' ) ); ?>
 <?php wp_link_pages( array( 'before' => '<div class="page-link">' . __( 'Pages:', 'twentyten' ), 'after' => '</div>' ) ); ?>

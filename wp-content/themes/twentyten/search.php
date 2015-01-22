@@ -20,7 +20,7 @@ get_header(); ?>
 				 * If you want to overload this in a child theme then include a file
 				 * called loop-search.php and that will be used instead.
 				 */
-				 get_template_part( 'loop', 'search' );
+				get_template_part( 'loop', 'search' );
 				?>
 <?php else : ?>
 				<div id="post-0" class="post no-results not-found">
