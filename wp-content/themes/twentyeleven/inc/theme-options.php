@@ -218,7 +218,7 @@ function twentyeleven_get_default_theme_options() {
 	);
 
 	if ( is_rtl() )
- 		$default_theme_options['theme_layout'] = 'sidebar-content';
+		$default_theme_options['theme_layout'] = 'sidebar-content';
 
 	/**
 	 * Filter the Twenty Eleven default options.
@@ -277,7 +277,7 @@ function twentyeleven_settings_field_color_scheme() {
 		<input type="hidden" id="default-color-<?php echo esc_attr( $scheme['value'] ); ?>" value="<?php echo esc_attr( $scheme['default_link_color'] ); ?>" />
 		<span>
 			<img src="<?php echo esc_url( $scheme['thumbnail'] ); ?>" width="136" height="122" alt="" />
-			<?php echo $scheme['label']; ?>
+			<?php echo esc_html( $scheme['label'] ); ?>
 		</span>
 	</label>
 	</div>
@@ -316,7 +316,7 @@ function twentyeleven_settings_field_layout() {
 			<input type="radio" name="twentyeleven_theme_options[theme_layout]" value="<?php echo esc_attr( $layout['value'] ); ?>" <?php checked( $options['theme_layout'], $layout['value'] ); ?> />
 			<span>
 				<img src="<?php echo esc_url( $layout['thumbnail'] ); ?>" width="136" height="122" alt="" />
-				<?php echo $layout['label']; ?>
+				<?php echo esc_html( $layout['label'] ); ?>
 			</span>
 		</label>
 		</div>
@@ -562,7 +562,7 @@ function twentyeleven_customize_register( $wp_customize ) {
 	$layouts = twentyeleven_layouts();
 	$choices = array();
 	foreach ( $layouts as $layout ) {
-		$choices[$layout['value']] = $layout['label'];
+		$choices[ $layout['value'] ] = $layout['label'];
 	}
 
 	$wp_customize->add_control( 'twentyeleven_theme_options[theme_layout]', array(

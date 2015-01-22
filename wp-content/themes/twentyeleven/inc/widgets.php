@@ -22,9 +22,9 @@ class Twenty_Eleven_Ephemera_Widget extends WP_Widget {
 		$this->WP_Widget( 'widget_twentyeleven_ephemera', __( 'Twenty Eleven Ephemera', 'twentyeleven' ), $widget_ops );
 		$this->alt_option_name = 'widget_twentyeleven_ephemera';
 
-		add_action( 'save_post', array(&$this, 'flush_widget_cache' ) );
-		add_action( 'deleted_post', array(&$this, 'flush_widget_cache' ) );
-		add_action( 'switch_theme', array(&$this, 'flush_widget_cache' ) );
+		add_action( 'save_post', array( &$this, 'flush_widget_cache' ) );
+		add_action( 'deleted_post', array( &$this, 'flush_widget_cache' ) );
+		add_action( 'switch_theme', array( &$this, 'flush_widget_cache' ) );
 	}
 
 	/**
@@ -38,14 +38,14 @@ class Twenty_Eleven_Ephemera_Widget extends WP_Widget {
 	function widget( $args, $instance ) {
 		$cache = wp_cache_get( 'widget_twentyeleven_ephemera', 'widget' );
 
-		if ( !is_array( $cache ) )
+		if ( ! is_array( $cache ) )
 			$cache = array();
 
 		if ( ! isset( $args['widget_id'] ) )
 			$args['widget_id'] = null;
 
-		if ( isset( $cache[$args['widget_id']] ) ) {
-			echo $cache[$args['widget_id']];
+		if ( isset( $cache[ $args['widget_id'] ] ) ) {
+			echo $cache[ $args['widget_id'] ];
 			return;
 		}
 
@@ -53,25 +53,25 @@ class Twenty_Eleven_Ephemera_Widget extends WP_Widget {
 		extract( $args, EXTR_SKIP );
 
 		/** This filter is documented in wp-includes/default-widgets.php */
-		$title = apply_filters( 'widget_title', empty( $instance['title'] ) ? __( 'Ephemera', 'twentyeleven' ) : $instance['title'], $instance, $this->id_base);
+		$args['title'] = apply_filters( 'widget_title', empty( $instance['title'] ) ? __( 'Ephemera', 'twentyeleven' ) : $instance['title'], $instance, $this->id_base );
 
 		if ( ! isset( $instance['number'] ) )
 			$instance['number'] = '10';
 
-		if ( ! $number = absint( $instance['number'] ) )
- 			$number = 10;
+		if ( ! $args['number'] = absint( $instance['number'] ) )
+			$args['number'] = 10;
 
 		$ephemera_args = array(
-			'order' => 'DESC',
-			'posts_per_page' => $number,
-			'no_found_rows' => true,
-			'post_status' => 'publish',
-			'post__not_in' => get_option( 'sticky_posts' ),
-			'tax_query' => array(
+			'order'          => 'DESC',
+			'posts_per_page' => $args['number'],
+			'no_found_rows'  => true,
+			'post_status'    => 'publish',
+			'post__not_in'   => get_option( 'sticky_posts' ),
+			'tax_query'      => array(
 				array(
 					'taxonomy' => 'post_format',
-					'terms' => array( 'post-format-aside', 'post-format-link', 'post-format-status', 'post-format-quote' ),
-					'field' => 'slug',
+					'terms'    => array( 'post-format-aside', 'post-format-link', 'post-format-status', 'post-format-quote' ),
+					'field'    => 'slug',
 					'operator' => 'IN',
 				),
 			),
@@ -79,10 +79,10 @@ class Twenty_Eleven_Ephemera_Widget extends WP_Widget {
 		$ephemera = new WP_Query( $ephemera_args );
 
 		if ( $ephemera->have_posts() ) :
-			echo $before_widget;
-			echo $before_title;
-			echo $title; // Can set this with a widget option, or omit altogether
-			echo $after_title;
+			echo $args['before_widget'];
+			echo $args['before_title'];
+			echo $args['title'];
+			echo $args['after_title'];
 			?>
 			<ol>
 			<?php while ( $ephemera->have_posts() ) : $ephemera->the_post(); ?>
@@ -111,7 +111,7 @@ class Twenty_Eleven_Ephemera_Widget extends WP_Widget {
 			</ol>
 			<?php
 
-			echo $after_widget;
+			echo $args['after_widget'];
 
 			// Reset the post globals as this query will have stomped on it
 			wp_reset_postdata();
@@ -119,7 +119,7 @@ class Twenty_Eleven_Ephemera_Widget extends WP_Widget {
 		// end check for ephemeral posts
 		endif;
 
-		$cache[$args['widget_id']] = ob_get_flush();
+		$cache[ $args['widget_id'] ] = ob_get_flush();
 		wp_cache_set( 'widget_twentyeleven_ephemera', $cache, 'widget' );
 	}
 
