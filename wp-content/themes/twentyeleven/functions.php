@@ -330,13 +330,13 @@ if ( ! function_exists( 'twentyeleven_admin_header_image' ) ) :
 function twentyeleven_admin_header_image() { ?>
 	<div id="headimg">
 		<?php
-  		$color = get_header_textcolor();
-  		$image = get_header_image();
+		$color = get_header_textcolor();
+		$image = get_header_image();
 		$style = 'display: none;';
-  		if ( $color && $color != 'blank' ) {
+		if ( $color && $color != 'blank' ) {
 			$style = 'color: #' . $color . ';';
-  		}
-  		?>
+		}
+		?>
 		<h1 class="displaying-header-text"><a id="name" style="<?php echo esc_attr( $style ); ?>" onclick="return false;" href="<?php echo esc_url( home_url( '/' ) ); ?>" tabindex="-1"><?php bloginfo( 'name' ); ?></a></h1>
 		<div id="desc" class="displaying-header-text" style="<?php echo esc_attr( $style ); ?>"><?php bloginfo( 'description' ); ?></div>
   		<?php if ( $image ) : ?>
