@@ -493,12 +493,16 @@ a:hover {
 }
 
 /* Assistive text */
-.assistive-text {
+.assistive-text,
+.screen-reader-text {
 	position: absolute !important;
 	clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
 	clip: rect(1px, 1px, 1px, 1px);
 }
-#access a.assistive-text:focus {
+#access a.assistive-text:focus,
+.screen-reader-text:hover,
+.screen-reader-text:active,
+.screen-reader-text:focus {
 	background: #eee;
 	border-bottom: 1px solid #ddd;
 	color: #1982d1;

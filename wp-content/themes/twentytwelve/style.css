@@ -507,7 +507,10 @@ a:hover {
 	position: absolute !important;
 	clip: rect(1px, 1px, 1px, 1px);
 }
-.main-navigation .assistive-text:focus {
+.main-navigation .assistive-text:focus,
+.site .screen-reader-text:hover,
+.site .screen-reader-text:active,
+.site .screen-reader-text:focus {
 	background: #fff;
 	border: 2px solid #333;
 	border-radius: 3px;
