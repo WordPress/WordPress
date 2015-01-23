@@ -389,14 +389,15 @@ function post_class( $class = '', $post_id = null ) {
  *
  * The class names are many. If the post is a sticky, then the 'sticky'
  * class name. The class 'hentry' is always added to each post. If the post has a
- * post thumbnail, 'has-post-thumbnail' is added as a class. For each
- * category, the class will be added with 'category-' with category slug is
- * added. The tags are the same way as the categories with 'tag-' before the tag
- * slug. All classes are passed through the filter, 'post_class' with the list
- * of classes, followed by $class parameter value, with the post ID as the last
- * parameter.
+ * post thumbnail, 'has-post-thumbnail' is added as a class. For each taxonomy that
+ * the post belongs to, a class will be added of the format '{$taxonomy}-{$slug}' -
+ * eg 'category-foo' or 'my_custom_taxonomy-bar'. The 'post_tag' taxonomy is a special
+ * case; the class has the 'tag-' prefix instead of 'post_tag-'. All classes are
+ * passed through the filter, 'post_class' with the list of classes, followed by
+ * $class parameter value, with the post ID as the last parameter.
  *
  * @since 2.7.0
+ * @since 4.2.0 Custom taxonomy classes were added.
  *
  * @param string|array $class One or more classes to add to the class list.
  * @param int|WP_Post $post_id Optional. Post ID or post object.
@@ -446,21 +447,22 @@ function get_post_class( $class = '', $post_id = null ) {
 	// hentry for hAtom compliance
 	$classes[] = 'hentry';
 
-	// Categories
-	if ( is_object_in_taxonomy( $post->post_type, 'category' ) ) {
-		foreach ( (array) get_the_category($post->ID) as $cat ) {
-			if ( empty($cat->slug ) )
-				continue;
-			$classes[] = 'category-' . sanitize_html_class($cat->slug, $cat->term_id);
-		}
-	}
+	// All public taxonomies
+	$taxonomies = get_taxonomies( array( 'public' => true ) );
+	foreach ( (array) $taxonomies as $taxonomy ) {
+		if ( is_object_in_taxonomy( $post->post_type, $taxonomy ) ) {
+			foreach ( (array) get_the_terms( $post->ID, $taxonomy ) as $term ) {
+				if ( empty( $term->slug ) ) {
+					continue;
+				}
 
-	// Tags
-	if ( is_object_in_taxonomy( $post->post_type, 'post_tag' ) ) {
-		foreach ( (array) get_the_tags($post->ID) as $tag ) {
-			if ( empty($tag->slug ) )
-				continue;
-			$classes[] = 'tag-' . sanitize_html_class($tag->slug, $tag->term_id);
+				// 'post_tag' uses the 'tag' prefix for backward compatibility.
+				if ( 'post_tag' == $taxonomy ) {
+					$classes[] = 'tag-' . sanitize_html_class( $term->slug, $term->term_id );
+				} else {
+					$classes[] = sanitize_html_class( $taxonomy . '-' . $term->slug, $taxonomy . '-' . $term->term_id );
+				}
+			}
 		}
 	}
 
