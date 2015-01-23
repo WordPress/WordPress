@@ -101,10 +101,6 @@ ul.add-menu-item-tabs li {
 	margin-top: 1px;
 }
 
-.menu-edit p {
-	margin: .3em 0 .6em;
-}
-
 .menu-edit #post-body-content h3 {
 	margin: 1em 0 10px;
 }
@@ -216,8 +212,16 @@ ul.add-menu-item-tabs li {
 	margin-top: -2px;
 }
 
-.widefat td.menu-location-menus {
-	padding-bottom: 5px;
+.widefat .menu-locations tr + tr td {
+	padding-top: 0;
+}
+
+.widefat .menu-locations td {
+	vertical-align: middle;
+}
+
+.menu-location-title label {
+	font-weight: bold;
 }
 
 .menu-location-menus select {

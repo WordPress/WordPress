@@ -581,8 +581,8 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 				</tfoot>-->
 				<tbody class="menu-locations">
 				<?php foreach ( $locations as $_location => $_name ) { ?>
-					<tr id="menu-locations-row">
-						<td class="menu-location-title"><strong><?php echo $_name; ?></strong></td>
+					<tr class="menu-locations-row">
+						<td class="menu-location-title"><label for="locations-<?php echo $_location; ?>"><?php echo $_name; ?></label></td>
 						<td class="menu-location-menus">
 							<select name="menu-locations[<?php echo $_location; ?>]" id="locations-<?php echo $_location; ?>">
 								<option value="0"><?php printf( '&mdash; %s &mdash;', esc_html__( 'Select a Menu' ) ); ?></option>
@@ -597,7 +597,7 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 								<?php if ( isset( $menu_locations[ $_location ] ) && 0 != $menu_locations[ $_location ] ) : ?>
 								<span class="locations-edit-menu-link">
 									<a href="<?php echo esc_url( add_query_arg( array( 'action' => 'edit', 'menu' => $menu_locations[$_location] ), admin_url( 'nav-menus.php' ) ) ); ?>">
-										<?php _ex( 'Edit', 'menu' ); ?>
+										<span aria-hidden="true"><?php _ex( 'Edit', 'menu' ); ?></span><span class="screen-reader-text"><?php _e( 'Edit selected menu' ); ?></span>
 									</a>
 								</span>
 								<?php endif; ?>
@@ -606,9 +606,9 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 										<?php _ex( 'Use new menu', 'menu' ); ?>
 									</a>
 								</span>
-							</div><!-- #locations-row-links -->
+							</div><!-- .locations-row-links -->
 						</td><!-- .menu-location-menus -->
-					</tr><!-- #menu-locations-row -->
+					</tr><!-- .menu-locations-row -->
 				<?php } // foreach ?>
 				</tbody>
 			</table>
