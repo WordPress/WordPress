@@ -2555,6 +2555,7 @@ function wp_delete_category( $cat_ID ) {
  *
  * @since 2.3.0
  * @since 4.2.0 Added support for 'taxonomy', 'parent', and 'term_taxonomy_id' values of `$orderby`.
+ *              Introduced `$parent` parameter.
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
@@ -2569,6 +2570,7 @@ function wp_delete_category( $cat_ID ) {
  *                           'all_with_object_id'. Note that 'all' or 'all_with_object_id' will result in an array of
  *                           term objects being returned, 'ids' will return an array of integers, and 'names' an array
  *                           of strings.
+ *     @type int    $parent  Optional. Limit results to the direct children of a given term ID.
  * }
  * @return array|WP_Error The requested term data or empty array if no terms found.
  *                        WP_Error if any of the $taxonomies don't exist.
@@ -2591,7 +2593,12 @@ function wp_get_object_terms($object_ids, $taxonomies, $args = array()) {
 		$object_ids = array($object_ids);
 	$object_ids = array_map('intval', $object_ids);
 
-	$defaults = array('orderby' => 'name', 'order' => 'ASC', 'fields' => 'all');
+	$defaults = array(
+		'orderby' => 'name',
+		'order'   => 'ASC',
+		'fields'  => 'all',
+		'parent'  => '',
+	);
 	$args = wp_parse_args( $args, $defaults );
 
 	$terms = array();
@@ -2652,7 +2659,19 @@ function wp_get_object_terms($object_ids, $taxonomies, $args = array()) {
 	} elseif ( 'all_with_object_id' == $fields ) {
 		$select_this = 't.*, tt.*, tr.object_id';
 	}
-	$query = "SELECT $select_this FROM $wpdb->terms AS t INNER JOIN $wpdb->term_taxonomy AS tt ON tt.term_id = t.term_id INNER JOIN $wpdb->term_relationships AS tr ON tr.term_taxonomy_id = tt.term_taxonomy_id WHERE tt.taxonomy IN ($taxonomies) AND tr.object_id IN ($object_ids) $orderby $order";
+
+	$where = array(
+		"tt.taxonomy IN ($taxonomies)",
+		"tr.object_id IN ($object_ids)",
+	);
+
+	if ( '' !== $args['parent'] ) {
+		$where[] = $wpdb->prepare( 'tt.parent = %d', $args['parent'] );
+	}
+
+	$where = implode( ' AND ', $where );
+
+	$query = "SELECT $select_this FROM $wpdb->terms AS t INNER JOIN $wpdb->term_taxonomy AS tt ON tt.term_id = t.term_id INNER JOIN $wpdb->term_relationships AS tr ON tr.term_taxonomy_id = tt.term_taxonomy_id WHERE $where $orderby $order";
 
 	$objects = false;
 	if ( 'all' == $fields || 'all_with_object_id' == $fields ) {
