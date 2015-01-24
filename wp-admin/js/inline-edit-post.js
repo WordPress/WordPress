@@ -29,7 +29,7 @@ inlineEditPost = {
 			return inlineEditPost.save(this);
 		});
 		$('td', qeRow).keydown(function(e){
-			if ( e.which === 13 ) {
+			if ( e.which === 13 && ! $( e.target ).hasClass( 'cancel' ) ) {
 				return inlineEditPost.save(this);
 			}
 		});
