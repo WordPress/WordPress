@@ -1547,7 +1547,7 @@ function get_term_to_edit( $id, $taxonomy ) {
  * along with the $args array.
  *
  * @since 2.3.0
- * @since 4.2.0 Introduced 'name' parameter.
+ * @since 4.2.0 Introduced 'name' and 'childless' parameters.
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
@@ -1595,6 +1595,8 @@ function get_term_to_edit( $id, $taxonomy ) {
  *     @type int          $child_of          Term ID to retrieve child terms of. If multiple taxonomies
  *                                           are passed, $child_of is ignored. Default 0.
  *     @type int|string   $parent            Parent term ID to retrieve direct-child terms of. Default empty.
+ *     @type bool         $childless         True to limit results to terms that have no children. This parameter has
+ *                                           no effect on non-hierarchical taxonomies. Default false.
  *     @type string       $cache_domain      Unique cache key to be produced when this query is stored in an
  *                                           object cache. Default is 'core'.
  * }
@@ -1619,7 +1621,7 @@ function get_terms( $taxonomies, $args = '' ) {
 
 	$defaults = array('orderby' => 'name', 'order' => 'ASC',
 		'hide_empty' => true, 'exclude' => array(), 'exclude_tree' => array(), 'include' => array(),
-		'number' => '', 'fields' => 'all', 'name' => '', 'slug' => '', 'parent' => '',
+		'number' => '', 'fields' => 'all', 'name' => '', 'slug' => '', 'parent' => '', 'childless' => false,
 		'hierarchical' => true, 'child_of' => 0, 'get' => '', 'name__like' => '', 'description__like' => '',
 		'pad_counts' => false, 'offset' => '', 'search' => '', 'cache_domain' => 'core' );
 	$args = wp_parse_args( $args, $defaults );
@@ -1638,6 +1640,7 @@ function get_terms( $taxonomies, $args = '' ) {
 	}
 
 	if ( 'all' == $args['get'] ) {
+		$args['childless'] = false;
 		$args['child_of'] = 0;
 		$args['hide_empty'] = 0;
 		$args['hierarchical'] = false;
@@ -1754,6 +1757,7 @@ function get_terms( $taxonomies, $args = '' ) {
 		$where .= $inclusions;
 	}
 
+	$exclusions = array();
 	if ( ! empty( $exclude_tree ) ) {
 		$exclude_tree = wp_parse_id_list( $exclude_tree );
 		$excluded_children = $exclude_tree;
@@ -1763,22 +1767,24 @@ function get_terms( $taxonomies, $args = '' ) {
 				(array) get_terms( $taxonomies[0], array( 'child_of' => intval( $extrunk ), 'fields' => 'ids', 'hide_empty' => 0 ) )
 			);
 		}
-		$exclusions = implode( ',', array_map( 'intval', $excluded_children ) );
-	} else {
-		$exclusions = '';
+		$exclusions = array_merge( $excluded_children, $exclusions );
 	}
 
 	if ( ! empty( $exclude ) ) {
-		$exterms = wp_parse_id_list( $exclude );
-		if ( empty( $exclusions ) ) {
-			$exclusions = implode( ',', $exterms );
-		} else {
-			$exclusions .= ', ' . implode( ',', $exterms );
+		$exclusions = array_merge( wp_parse_id_list( $exclude ), $exclusions );
+	}
+
+	// 'childless' terms are those without an entry in the flattened term hierarchy.
+	$childless = (bool) $args['childless'];
+	if ( $childless ) {
+		foreach ( $taxonomies as $_tax ) {
+			$term_hierarchy = _get_term_hierarchy( $_tax );
+			$exclusions = array_merge( array_keys( $term_hierarchy ), $exclusions );
 		}
 	}
 
 	if ( ! empty( $exclusions ) ) {
-		$exclusions = ' AND t.term_id NOT IN (' . $exclusions . ')';
+		$exclusions = ' AND t.term_id NOT IN (' . implode( ',', array_map( 'intval', $exclusions ) ) . ')';
 	}
 
 	/**
