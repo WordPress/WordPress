@@ -1657,18 +1657,29 @@ function get_terms( $taxonomies, $args = '' ) {
 	 */
 	$args = apply_filters( 'get_terms_args', $args, $taxonomies );
 
+	// Avoid the query if the queried parent/child_of term has no descendants.
 	$child_of = $args['child_of'];
+	$parent   = $args['parent'];
+
 	if ( $child_of ) {
-		$hierarchy = _get_term_hierarchy( reset( $taxonomies ) );
-		if ( ! isset( $hierarchy[ $child_of ] ) ) {
-			return $empty_array;
-		}
+		$_parent = $child_of;
+	} elseif ( $parent ) {
+		$_parent = $parent;
+	} else {
+		$_parent = false;
 	}
 
-	$parent = $args['parent'];
-	if ( $parent ) {
-		$hierarchy = _get_term_hierarchy( reset( $taxonomies ) );
-		if ( ! isset( $hierarchy[ $parent ] ) ) {
+	if ( $_parent ) {
+		$in_hierarchy = false;
+		foreach ( $taxonomies as $_tax ) {
+			$hierarchy = _get_term_hierarchy( $_tax );
+
+			if ( isset( $hierarchy[ $_parent ] ) ) {
+				$in_hierarchy = true;
+			}
+		}
+
+		if ( ! $in_hierarchy ) {
 			return $empty_array;
 		}
 	}
@@ -1942,9 +1953,11 @@ function get_terms( $taxonomies, $args = '' ) {
 	}
 
 	if ( $child_of ) {
-		$children = _get_term_hierarchy( reset( $taxonomies ) );
-		if ( ! empty( $children ) ) {
-			$terms = _get_term_children( $child_of, $terms, reset( $taxonomies ) );
+		foreach ( $taxonomies as $_tax ) {
+			$children = _get_term_hierarchy( $_tax );
+			if ( ! empty( $children ) ) {
+				$terms = _get_term_children( $child_of, $terms, $_tax );
+			}
 		}
 	}
 
