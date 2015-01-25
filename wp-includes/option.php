@@ -346,7 +346,8 @@ function update_option( $option, $value ) {
  * @param string         $option      Name of option to add. Expected to not be SQL-escaped.
  * @param mixed          $value       Optional. Option value. Must be serializable if non-scalar. Expected to not be SQL-escaped.
  * @param string         $deprecated  Optional. Description. Not used anymore.
- * @param string|bool    $autoload    Optional. Default is enabled. Whether to load the option when WordPress starts up.
+ * @param string|bool    $autoload    Optional. Whether to load the option when WordPress starts up.
+ *                                    Default is enabled. Accepts 'no' to disable for legacy reasons.
  * @return bool False if option was not added and true if option was added.
  */
 function add_option( $option, $value = '', $deprecated = '', $autoload = 'yes' ) {
@@ -373,7 +374,7 @@ function add_option( $option, $value = '', $deprecated = '', $autoload = 'yes' )
 			return false;
 
 	$serialized_value = maybe_serialize( $value );
-	$autoload = ( 'no' === $autoload ) ? 'no' : 'yes';
+	$autoload = ( 'no' === $autoload || false === $autoload ) ? 'no' : 'yes';
 
 	/**
 	 * Fires before an option is added.
