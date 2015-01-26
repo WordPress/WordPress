@@ -781,10 +781,6 @@ a:focus {
 	left: 0;
 }
 
-.social-navigation a[href$="/feed/"]:before {
-	content: "\f413";
-}
-
 .social-navigation a[href*="codepen.io"]:before {
 	content: "\f216";
 }
@@ -880,6 +876,10 @@ a:focus {
 
 .social-navigation a[href*="twitch.tv"]:before {
 	content: "\f516";
+}
+
+.social-navigation a[href$="/feed/"]:before {
+	content: "\f413";
 }
 
 .secondary-toggle {
