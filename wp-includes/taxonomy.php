@@ -1887,10 +1887,10 @@ function get_terms( $taxonomies, $args = '' ) {
 			break;
 		case 'ids':
 		case 'id=>parent':
-			$selects = array( 't.term_id', 'tt.parent', 'tt.count' );
+			$selects = array( 't.term_id', 'tt.parent', 'tt.count', 'tt.taxonomy' );
 			break;
 		case 'names':
-			$selects = array( 't.term_id', 'tt.parent', 'tt.count', 't.name' );
+			$selects = array( 't.term_id', 'tt.parent', 'tt.count', 't.name', 'tt.taxonomy' );
 			break;
 		case 'count':
 			$orderby = '';
@@ -1898,10 +1898,10 @@ function get_terms( $taxonomies, $args = '' ) {
 			$selects = array( 'COUNT(*)' );
 			break;
 		case 'id=>name':
-			$selects = array( 't.term_id', 't.name', 'tt.count' );
+			$selects = array( 't.term_id', 't.name', 'tt.count', 'tt.taxonomy' );
 			break;
 		case 'id=>slug':
-			$selects = array( 't.term_id', 't.slug', 'tt.count' );
+			$selects = array( 't.term_id', 't.slug', 'tt.count', 'tt.taxonomy' );
 			break;
 	}
 
@@ -1974,14 +1974,15 @@ function get_terms( $taxonomies, $args = '' ) {
 			_pad_term_counts( $terms, $_tax );
 		}
 	}
+
 	// Make sure we show empty categories that have children.
 	if ( $hierarchical && $args['hide_empty'] && is_array( $terms ) ) {
 		foreach ( $terms as $k => $term ) {
 			if ( ! $term->count ) {
-				$children = get_term_children( $term->term_id, reset( $taxonomies ) );
+				$children = get_term_children( $term->term_id, $term->taxonomy );
 				if ( is_array( $children ) ) {
 					foreach ( $children as $child_id ) {
-						$child = get_term( $child_id, reset( $taxonomies ) );
+						$child = get_term( $child_id, $term->taxonomy );
 						if ( $child->count ) {
 							continue 2;
 						}
