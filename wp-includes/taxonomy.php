@@ -3783,7 +3783,7 @@ function update_object_term_cache($object_ids, $object_type) {
 
 	$object_terms = array();
 	foreach ( (array) $terms as $term )
-		$object_terms[$term->object_id][$term->taxonomy][$term->term_id] = $term;
+		$object_terms[$term->object_id][$term->taxonomy][] = $term;
 
 	foreach ( $ids as $id ) {
 		foreach ( $taxonomies as $taxonomy ) {
