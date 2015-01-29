@@ -1520,10 +1520,16 @@ class WP_Http_Curl {
 
 		// If an error occurred, or, no response.
 		if ( $curl_error || ( 0 == strlen( $theBody ) && empty( $theHeaders['headers'] ) ) ) {
-			if ( CURLE_WRITE_ERROR /* 23 */ == $curl_error && $r['stream'] ) {
+			if ( CURLE_WRITE_ERROR /* 23 */ == $curl_error ) {
 				if ( ! $this->max_body_length || $this->max_body_length != $bytes_written_total ) {
-					fclose( $this->stream_handle );
-					return new WP_Error( 'http_request_failed', __( 'Failed to write request to temporary file.' ) );
+					if ( $r['stream'] ) {
+						curl_close( $handle );
+						fclose( $this->stream_handle );
+						return new WP_Error( 'http_request_failed', __( 'Failed to write request to temporary file.' ) );
+					} else {
+						curl_close( $handle );
+						return new WP_Error( 'http_request_failed', curl_error( $handle ) );
+					}
 				}
 			} else {
 				if ( $curl_error = curl_error( $handle ) ) {
