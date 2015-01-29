@@ -324,7 +324,7 @@ if ( is_multisite() ) {
  */
 do_action( 'user_new_form', 'add-existing-user' );
 ?>
-<?php submit_button( __( 'Add Existing User '), 'primary', 'adduser', true, array( 'id' => 'addusersub' ) ); ?>
+<?php submit_button( __( 'Add Existing User' ), 'primary', 'adduser', true, array( 'id' => 'addusersub' ) ); ?>
 </form>
 <?php
 } // is_multisite()
@@ -431,7 +431,7 @@ if ( apply_filters( 'show_password_fields', true ) ) : ?>
 do_action( 'user_new_form', 'add-new-user' );
 ?>
 
-<?php submit_button( __( 'Add New User '), 'primary', 'createuser', true, array( 'id' => 'createusersub' ) ); ?>
+<?php submit_button( __( 'Add New User' ), 'primary', 'createuser', true, array( 'id' => 'createusersub' ) ); ?>
 
 </form>
 <?php } // current_user_can('create_users') ?>
