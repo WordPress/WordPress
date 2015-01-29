@@ -42,7 +42,7 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
 	public $_trailing_context_lines = 10000;
 
 	/**
-	 * {@internal Missing Description}}
+	 * Threshold for when a diff should be saved or omitted.
 	 *
 	 * @var float
 	 * @access protected
