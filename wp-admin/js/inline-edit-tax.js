@@ -89,7 +89,7 @@ inlineEditTax = {
 		// make ajax request
 		$.post( ajaxurl, params,
 			function(r) {
-				var row, new_id;
+				var row, new_id, option_value;
 				$('table.widefat .spinner').hide();
 
 				if (r) {
@@ -98,7 +98,18 @@ inlineEditTax = {
 						new_id = $(r).attr('id');
 
 						$('#edit-'+id).before(r).remove();
-						row = new_id ? $('#'+new_id) : $(inlineEditTax.what+id);
+
+						if ( new_id ) {
+							option_value = new_id.replace( inlineEditTax.type + '-', '' );
+							row = $( '#' + new_id );
+						} else {
+							option_value = id;
+							row = $( inlineEditTax.what + id );
+						}
+
+						// Update the value in the Parent dropdown.
+						$( '#parent' ).find( 'option[value=' + option_value + ']' ).text( row.find( '.row-title' ).text() );
+
 						row.hide().fadeIn();
 					} else {
 						$('#edit-'+id+' .inline-edit-save .error').html(r).show();
