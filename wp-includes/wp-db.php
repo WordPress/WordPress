@@ -230,7 +230,7 @@ class wpdb {
 	var $ready = false;
 
 	/**
-	 * {@internal Missing Description}}
+	 * Blog ID.
 	 *
 	 * @since 3.0.0
 	 * @access public
@@ -239,7 +239,7 @@ class wpdb {
 	public $blogid = 0;
 
 	/**
-	 * {@internal Missing Description}}
+	 * Site ID.
 	 *
 	 * @since 3.0.0
 	 * @access public
