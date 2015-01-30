@@ -1521,6 +1521,36 @@ function get_adjacent_post( $in_same_term = false, $excluded_terms = '', $previo
 		}
 	}
 
+	// 'post_status' clause depends on the current user.
+	if ( is_user_logged_in() ) {
+		$user_id = get_current_user_id();
+
+		$post_type_object = get_post_type_object( $post->post_type );
+		if ( empty( $post_type_object ) ) {
+			$post_type_cap    = $post->post_type;
+			$read_private_cap = 'read_private_' . $post_type_cap . 's';
+		} else {
+			$read_private_cap = $post_type_object->cap->read_private_posts;
+		}
+
+		/*
+		 * Results should include private posts belonging to the current user, or private posts where the
+		 * current user has the 'read_private_posts' cap.
+		 */
+		$private_states = get_post_stati( array( 'private' => true ) );
+		$where .= " AND ( p.post_status = 'publish'";
+		foreach ( (array) $private_states as $state ) {
+			if ( current_user_can( $read_private_cap ) ) {
+				$where .= $wpdb->prepare( " OR p.post_status = %s", $state );
+			} else {
+				$where .= $wpdb->prepare( " OR (p.post_author = %d AND p.post_status = %s)", $user_id, $state );
+			}
+		}
+		$where .= " )";
+	} else {
+		$where .= " AND p.post_status = 'publish'";
+	}
+
 	$adjacent = $previous ? 'previous' : 'next';
 	$op = $previous ? '<' : '>';
 	$order = $previous ? 'DESC' : 'ASC';
@@ -1551,7 +1581,7 @@ function get_adjacent_post( $in_same_term = false, $excluded_terms = '', $previo
 	 * @param bool   $in_same_term   Whether post should be in a same taxonomy term.
 	 * @param array  $excluded_terms Array of excluded term IDs.
 	 */
-	$where = apply_filters( "get_{$adjacent}_post_where", $wpdb->prepare( "WHERE p.post_date $op %s AND p.post_type = %s AND p.post_status = 'publish' $where", $current_post_date, $post->post_type ), $in_same_term, $excluded_terms );
+	$where = apply_filters( "get_{$adjacent}_post_where", $wpdb->prepare( "WHERE p.post_date $op %s AND p.post_type = %s $where", $current_post_date, $post->post_type ), $in_same_term, $excluded_terms );
 
 	/**
 	 * Filter the ORDER BY clause in the SQL for an adjacent post query.
