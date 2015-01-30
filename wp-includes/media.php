@@ -941,10 +941,11 @@ function gallery_shortcode( $attr ) {
 	 *
 	 * @see gallery_shortcode()
 	 *
-	 * @param string $output The gallery output. Default empty.
-	 * @param array  $attr   Attributes of the gallery shortcode.
+	 * @param string $output   The gallery output. Default empty.
+	 * @param array  $attr     Attributes of the gallery shortcode.
+	 * @param int    $instance Unique numeric ID of this gallery shortcode instance.
 	 */
-	$output = apply_filters( 'post_gallery', '', $attr );
+	$output = apply_filters( 'post_gallery', '', $attr, $instance );
 	if ( $output != '' ) {
 		return $output;
 	}
@@ -1214,10 +1215,11 @@ function wp_playlist_shortcode( $attr ) {
 	 *
 	 * @since 3.9.0
 	 *
-	 * @param string $output Playlist output. Default empty.
-	 * @param array  $attr   An array of shortcode attributes.
+	 * @param string $output   Playlist output. Default empty.
+	 * @param array  $attr     An array of shortcode attributes.
+	 * @param int    $instance Unique numeric ID of this playlist shortcode instance.
 	 */
-	$output = apply_filters( 'post_playlist', '', $attr );
+	$output = apply_filters( 'post_playlist', '', $attr, $instance );
 	if ( $output != '' ) {
 		return $output;
 	}
