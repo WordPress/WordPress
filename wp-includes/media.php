@@ -1492,7 +1492,7 @@ function wp_get_attachment_id3_keys( $attachment, $context = 'display' ) {
  *     @type string $autoplay The 'autoplay' attribute for the `<audio>` element. Default empty.
  *     @type string $preload  The 'preload' attribute for the `<audio>` element. Default empty.
  *     @type string $class    The 'class' attribute for the `<audio>` element. Default 'wp-audio-shortcode'.
- *     @type string $id       The 'id' attribute for the `<audio>` element. Default 'audio-{$post_id}-{$instances}'.
+ *     @type string $id       The 'id' attribute for the `<audio>` element. Default 'audio-{$post_id}-{$instance}'.
  *     @type string $style    The 'style' attribute for the `<audio>` element. Default 'width: 100%'.
  * }
  * @param string $content Optional. Shortcode content.
@@ -1501,8 +1501,8 @@ function wp_get_attachment_id3_keys( $attachment, $context = 'display' ) {
 function wp_audio_shortcode( $attr, $content = '' ) {
 	$post_id = get_post() ? get_the_ID() : 0;
 
-	static $instances = 0;
-	$instances++;
+	static $instance = 0;
+	$instance++;
 
 	/**
 	 * Filter the default audio shortcode output.
@@ -1511,12 +1511,12 @@ function wp_audio_shortcode( $attr, $content = '' ) {
 	 *
 	 * @since 3.6.0
 	 *
-	 * @param string $html      Empty variable to be replaced with shortcode markup.
-	 * @param array  $attr      Attributes of the shortcode. @see wp_audio_shortcode()
-	 * @param string $content   Shortcode content.
-	 * @param int    $instances Unique numeric ID of this audio shortcode instance.
+	 * @param string $html     Empty variable to be replaced with shortcode markup.
+	 * @param array  $attr     Attributes of the shortcode. @see wp_audio_shortcode()
+	 * @param string $content  Shortcode content.
+	 * @param int    $instance Unique numeric ID of this audio shortcode instance.
 	 */
-	$override = apply_filters( 'wp_audio_shortcode_override', '', $attr, $content, $instances );
+	$override = apply_filters( 'wp_audio_shortcode_override', '', $attr, $content, $instance );
 	if ( '' !== $override ) {
 		return $override;
 	}
@@ -1592,7 +1592,7 @@ function wp_audio_shortcode( $attr, $content = '' ) {
 	 */
 	$html_atts = array(
 		'class'    => apply_filters( 'wp_audio_shortcode_class', 'wp-audio-shortcode' ),
-		'id'       => sprintf( 'audio-%d-%d', $post_id, $instances ),
+		'id'       => sprintf( 'audio-%d-%d', $post_id, $instance ),
 		'loop'     => wp_validate_boolean( $atts['loop'] ),
 		'autoplay' => wp_validate_boolean( $atts['autoplay'] ),
 		'preload'  => $atts['preload'],
@@ -1612,7 +1612,7 @@ function wp_audio_shortcode( $attr, $content = '' ) {
 	}
 
 	$html = '';
-	if ( 'mediaelement' === $library && 1 === $instances ) {
+	if ( 'mediaelement' === $library && 1 === $instance ) {
 		$html .= "<!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->\n";
 	}
 	$html .= sprintf( '<audio %s controls="controls">', join( ' ', $attr_strings ) );
@@ -1625,7 +1625,7 @@ function wp_audio_shortcode( $attr, $content = '' ) {
 				$fileurl = $atts[ $fallback ];
 			}
 			$type = wp_check_filetype( $atts[ $fallback ], wp_get_mime_types() );
-			$url = add_query_arg( '_', $instances, $atts[ $fallback ] );
+			$url = add_query_arg( '_', $instance, $atts[ $fallback ] );
 			$html .= sprintf( $source, $type['type'], esc_url( $url ) );
 		}
 	}
@@ -1690,7 +1690,7 @@ function wp_get_video_extensions() {
  *     @type string $class    The 'class' attribute for the `<video>` element.
  *                            Default 'wp-video-shortcode'.
  *     @type string $id       The 'id' attribute for the `<video>` element.
- *                            Default 'video-{$post_id}-{$instances}'.
+ *                            Default 'video-{$post_id}-{$instance}'.
  * }
  * @param string $content Optional. Shortcode content.
  * @return string HTML content to display video.
@@ -1699,8 +1699,8 @@ function wp_video_shortcode( $attr, $content = '' ) {
 	global $content_width;
 	$post_id = get_post() ? get_the_ID() : 0;
 
-	static $instances = 0;
-	$instances++;
+	static $instance = 0;
+	$instance++;
 
 	/**
 	 * Filter the default video shortcode output.
@@ -1712,12 +1712,12 @@ function wp_video_shortcode( $attr, $content = '' ) {
 	 *
 	 * @see wp_video_shortcode()
 	 *
-	 * @param string $html      Empty variable to be replaced with shortcode markup.
-	 * @param array  $attr      Attributes of the video shortcode.
-	 * @param string $content   Video shortcode content.
-	 * @param int    $instances Unique numeric ID of this video shortcode instance.
+	 * @param string $html     Empty variable to be replaced with shortcode markup.
+	 * @param array  $attr     Attributes of the video shortcode.
+	 * @param string $content  Video shortcode content.
+	 * @param int    $instance Unique numeric ID of this video shortcode instance.
 	 */
-	$override = apply_filters( 'wp_video_shortcode_override', '', $attr, $content, $instances );
+	$override = apply_filters( 'wp_video_shortcode_override', '', $attr, $content, $instance );
 	if ( '' !== $override ) {
 		return $override;
 	}
@@ -1824,7 +1824,7 @@ function wp_video_shortcode( $attr, $content = '' ) {
 	 */
 	$html_atts = array(
 		'class'    => apply_filters( 'wp_video_shortcode_class', 'wp-video-shortcode' ),
-		'id'       => sprintf( 'video-%d-%d', $post_id, $instances ),
+		'id'       => sprintf( 'video-%d-%d', $post_id, $instance ),
 		'width'    => absint( $atts['width'] ),
 		'height'   => absint( $atts['height'] ),
 		'poster'   => esc_url( $atts['poster'] ),
@@ -1846,7 +1846,7 @@ function wp_video_shortcode( $attr, $content = '' ) {
 	}
 
 	$html = '';
-	if ( 'mediaelement' === $library && 1 === $instances ) {
+	if ( 'mediaelement' === $library && 1 === $instance ) {
 		$html .= "<!--[if lt IE 9]><script>document.createElement('video');</script><![endif]-->\n";
 	}
 	$html .= sprintf( '<video %s controls="controls">', join( ' ', $attr_strings ) );
@@ -1865,7 +1865,7 @@ function wp_video_shortcode( $attr, $content = '' ) {
 			} else {
 				$type = wp_check_filetype( $atts[ $fallback ], wp_get_mime_types() );
 			}
-			$url = add_query_arg( '_', $instances, $atts[ $fallback ] );
+			$url = add_query_arg( '_', $instance, $atts[ $fallback ] );
 			$html .= sprintf( $source, $type['type'], esc_url( $url ) );
 		}
 	}
