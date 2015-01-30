@@ -185,7 +185,7 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 	public function cwd() {
 		$cwd = $this->run_command('pwd');
 		if ( $cwd )
-			$cwd = trailingslashit($cwd);
+			$cwd = trailingslashit(rtrim($cwd));
 		return $cwd;
 	}
 
