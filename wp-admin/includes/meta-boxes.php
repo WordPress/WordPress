@@ -763,8 +763,10 @@ $default_title = apply_filters( 'default_page_template_title',  __( 'Default Tem
 	} ?>
 <p><strong><?php _e('Order') ?></strong></p>
 <p><label class="screen-reader-text" for="menu_order"><?php _e('Order') ?></label><input name="menu_order" type="text" size="4" id="menu_order" value="<?php echo esc_attr($post->menu_order) ?>" /></p>
-<p><?php if ( 'page' == $post->post_type ) _e( 'Need help? Use the Help tab in the upper right of your screen.' ); ?></p>
+<?php if ( 'page' == $post->post_type && get_current_screen()->get_help_tabs() ) { ?>
+<p><?php _e( 'Need help? Use the Help tab in the upper right of your screen.' ); ?></p>
 <?php
+	}
 }
 
 // -- Link related Meta Boxes
