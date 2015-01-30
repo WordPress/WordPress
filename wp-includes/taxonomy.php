@@ -282,6 +282,8 @@ function is_taxonomy_hierarchical($taxonomy) {
  *     * If not set, the default is inherited from public.
  * - show_tagcloud - Whether to list the taxonomy in the Tag Cloud Widget.
  *     * If not set, the default is inherited from show_ui.
+ * - show_in_quick_edit - Whether to show the taxonomy in the quick/bulk edit panel.
+ *     * It not set, the default is inherited from show_ui.
  * - show_admin_column - Whether to display a column for the taxonomy on its post type listing screens.
  *     * Defaults to false.
  * - meta_box_cb - Provide a callback function for the meta box display.
@@ -308,6 +310,7 @@ function is_taxonomy_hierarchical($taxonomy) {
  * - _builtin - true if this taxonomy is a native or "built-in" taxonomy. THIS IS FOR INTERNAL USE ONLY!
  *
  * @since 2.3.0
+ * @since 4.2.0 Introduced 'show_in_quick_edit' parameter.
  * @uses $wp_taxonomies Inserts new taxonomy object into the list
  * @uses $wp Adds query vars
  *
@@ -331,6 +334,7 @@ function register_taxonomy( $taxonomy, $object_type, $args = array() ) {
 		'show_in_menu'          => null,
 		'show_in_nav_menus'     => null,
 		'show_tagcloud'         => null,
+		'show_in_quick_edit'	=> null,
 		'show_admin_column'     => false,
 		'meta_box_cb'           => null,
 		'capabilities'          => array(),
@@ -388,6 +392,11 @@ function register_taxonomy( $taxonomy, $object_type, $args = array() ) {
 	// If not set, default to the setting for show_ui.
 	if ( null === $args['show_tagcloud'] )
 		$args['show_tagcloud'] = $args['show_ui'];
+
+	// If not set, default to the setting for show_ui.
+	if ( null === $args['show_in_quick_edit'] ) {
+		$args['show_in_quick_edit'] = $args['show_ui'];
+	}
 
 	$default_caps = array(
 		'manage_terms' => 'manage_categories',

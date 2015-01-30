@@ -944,10 +944,26 @@ class WP_Posts_List_Table extends WP_List_Table {
 		$hierarchical_taxonomies = array();
 		$flat_taxonomies = array();
 		foreach ( $taxonomy_names as $taxonomy_name ) {
+
+			/**
+			 * Filters whether the current taxonomy should be shown in the Quick Edit panel.
+			 *
+			 * @since 4.2.0
+			 *
+			 * @param bool   $show          Whether to show the current taxonomy in Quick Edit.
+			 *                              Default: true.
+			 * @param string $taxonomy_name Taxonomy name.
+			 * @param string $post_type     Post type of current Quick Edit post.
+			 */
+			if ( ! apply_filters( 'quick_edit_show_taxonomy', true, $taxonomy_name, $screen->post_type ) ) {
+				continue;
+			}
+
 			$taxonomy = get_taxonomy( $taxonomy_name );
 
-			if ( !$taxonomy->show_ui )
+			if ( ! $taxonomy->show_in_quick_edit ) {
 				continue;
+			}
 
 			if ( $taxonomy->hierarchical )
 				$hierarchical_taxonomies[] = $taxonomy;
