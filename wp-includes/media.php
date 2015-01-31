@@ -938,6 +938,7 @@ function gallery_shortcode( $attr ) {
 	 * the default gallery template.
 	 *
 	 * @since 2.5.0
+	 * @since 4.2.0 The `$instance` parameter was added.
 	 *
 	 * @see gallery_shortcode()
 	 *
@@ -1214,6 +1215,7 @@ function wp_playlist_shortcode( $attr ) {
 	 * of the default playlist output, returning the passed value instead.
 	 *
 	 * @since 3.9.0
+	 * @since 4.2.0 The `$instance` parameter was added.
 	 *
 	 * @param string $output   Playlist output. Default empty.
 	 * @param array  $attr     An array of shortcode attributes.
