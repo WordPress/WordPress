@@ -1550,6 +1550,17 @@ function wp_ajax_inline_save() {
 	if ( empty($data['ping_status']) )
 		$data['ping_status'] = 'closed';
 
+	// Exclude terms from taxonomies that are not supposed to appear in Quick Edit.
+	if ( ! empty( $data['tax_input'] ) ) {
+		foreach ( $data['tax_input'] as $taxonomy => $terms ) {
+			$tax_object = get_taxonomy( $taxonomy );
+			/** This filter is documented in wp-admin/includes/class-wp-posts-list-table.php */
+			if ( ! apply_filters( 'quick_edit_show_taxonomy', $tax_object->show_in_quick_edit, $taxonomy, $post['post_type'] ) ) {
+				unset( $data['tax_input'][ $taxonomy ] );
+			}
+		}
+	}
+
 	// Hack: wp_unique_post_slug() doesn't work for drafts, so we will fake that our post is published.
 	if ( ! empty( $data['post_name'] ) && in_array( $post['post_status'], array( 'draft', 'pending' ) ) ) {
 		$post['post_status'] = 'publish';
