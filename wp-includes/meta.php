@@ -934,9 +934,19 @@ class WP_Meta_Query {
 	protected $table_aliases = array();
 
 	/**
+	 * A flat list of clauses, keyed by clause 'name'.
+	 *
+	 * @since 4.2.0
+	 * @var array
+	 */
+	protected $clauses = array();
+
+	/**
 	 * Constructor.
 	 *
 	 * @since 3.2.0
+	 * @since 4.2.0 Introduced the `$name` parameter, for improved `$orderby` support in the parent query.
+	 *
 	 * @access public
 	 *
 	 * @param array $meta_query {
@@ -957,6 +967,8 @@ class WP_Meta_Query {
 	 *                               comparisons. Accepts 'NUMERIC', 'BINARY', 'CHAR', 'DATE',
 	 *                               'DATETIME', 'DECIMAL', 'SIGNED', 'TIME', or 'UNSIGNED'.
 	 *                               Default is 'CHAR'.
+	 *         @type string $name    Optional. A unique identifier for the clause. If provided, `$name` can be
+	 *                               referenced in the `$orderby` parameter of the parent query.
 	 *     }
 	 * }
 	 */
@@ -1374,6 +1386,15 @@ class WP_Meta_Query {
 		// Save the alias to this clause, for future siblings to find.
 		$clause['alias'] = $alias;
 
+		// Determine the data type.
+		$_meta_type = isset( $clause['type'] ) ? $clause['type'] : '';
+		$meta_type  = $this->get_cast_for_type( $_meta_type );
+		$clause['cast'] = $meta_type;
+
+		// Store the clause in our flat array.
+		$clause_name = isset( $clause['name'] ) ? $clause['name'] : $clause['alias'];
+		$this->clauses[ $clause_name ] =& $clause;
+
 		// Next, build the WHERE clause.
 
 		// meta_key.
@@ -1388,7 +1409,6 @@ class WP_Meta_Query {
 		// meta_value.
 		if ( array_key_exists( 'value', $clause ) ) {
 			$meta_value = $clause['value'];
-			$meta_type = $this->get_cast_for_type( isset( $clause['type'] ) ? $clause['type'] : '' );
 
 			if ( in_array( $meta_compare, array( 'IN', 'NOT IN', 'BETWEEN', 'NOT BETWEEN' ) ) ) {
 				if ( ! is_array( $meta_value ) ) {
@@ -1448,6 +1468,21 @@ class WP_Meta_Query {
 		}
 
 		return $sql_chunks;
+	}
+
+	/**
+	 * Get a flattened list of sanitized meta clauses, indexed by clause 'name'.
+	 *
+	 * This array should be used for clause lookup, as when the table alias and CAST type must be determined for
+	 * a value of 'orderby' corresponding to a meta clause.
+	 *
+	 * @since 4.2.0
+	 * @access public
+	 *
+	 * @return array
+	 */
+	public function get_clauses() {
+		return $this->clauses;
 	}
 
 	/**

@@ -2233,8 +2233,9 @@ class WP_Query {
 
 		$primary_meta_key = '';
 		$primary_meta_query = false;
-		if ( ! empty( $this->meta_query->queries ) ) {
-			$primary_meta_query = reset( $this->meta_query->queries );
+		$meta_clauses = $this->meta_query->get_clauses();
+		if ( ! empty( $meta_clauses ) ) {
+			$primary_meta_query = reset( $meta_clauses );
 
 			if ( ! empty( $primary_meta_query['key'] ) ) {
 				$primary_meta_key = $primary_meta_query['key'];
@@ -2243,6 +2244,7 @@ class WP_Query {
 
 			$allowed_keys[] = 'meta_value';
 			$allowed_keys[] = 'meta_value_num';
+			$allowed_keys   = array_merge( $allowed_keys, array_keys( $meta_clauses ) );
 		}
 
 		if ( ! in_array( $orderby, $allowed_keys ) ) {
@@ -2260,29 +2262,36 @@ class WP_Query {
 			case 'ID':
 			case 'menu_order':
 			case 'comment_count':
-				$orderby = "$wpdb->posts.{$orderby}";
+				$orderby_clause = "$wpdb->posts.{$orderby}";
 				break;
 			case 'rand':
-				$orderby = 'RAND()';
+				$orderby_clause = 'RAND()';
 				break;
 			case $primary_meta_key:
 			case 'meta_value':
 				if ( ! empty( $primary_meta_query['type'] ) ) {
-					$sql_type = $this->meta_query->get_cast_for_type( $primary_meta_query['type'] );
-					$orderby = "CAST($wpdb->postmeta.meta_value AS {$sql_type})";
+					$orderby_clause = "CAST({$primary_meta_query['alias']}.meta_value AS {$primary_meta_query['cast']})";
 				} else {
-					$orderby = "$wpdb->postmeta.meta_value";
+					$orderby_clause = "{$primary_meta_query['alias']}.meta_value";
 				}
 				break;
 			case 'meta_value_num':
-				$orderby = "$wpdb->postmeta.meta_value+0";
+				$orderby_clause = "{$primary_meta_query['alias']}.meta_value+0";
 				break;
 			default:
-				$orderby = "$wpdb->posts.post_" . $orderby;
+				if ( array_key_exists( $orderby, $meta_clauses ) ) {
+					// $orderby corresponds to a meta_query clause.
+					$meta_clause = $meta_clauses[ $orderby ];
+					$orderby_clause = "CAST({$meta_clause['alias']}.meta_value AS {$meta_clause['cast']})";
+				} else {
+					// Default: order by post field.
+					$orderby_clause = "$wpdb->posts.post_" . sanitize_key( $orderby );
+				}
+
 				break;
 		}
 
-		return $orderby;
+		return $orderby_clause;
 	}
 
 	/**
@@ -2813,6 +2822,12 @@ class WP_Query {
 
 		$where .= $search . $whichauthor . $whichmimetype;
 
+		if ( ! empty( $this->meta_query->queries ) ) {
+			$clauses = $this->meta_query->get_sql( 'post', $wpdb->posts, 'ID', $this );
+			$join   .= $clauses['join'];
+			$where  .= $clauses['where'];
+		}
+
 		$rand = ( isset( $q['orderby'] ) && 'rand' === $q['orderby'] );
 		if ( ! isset( $q['order'] ) ) {
 			$q['order'] = $rand ? '' : 'DESC';
@@ -3028,12 +3043,6 @@ class WP_Query {
 			}
 
 			$where .= ')';
-		}
-
-		if ( !empty( $this->meta_query->queries ) ) {
-			$clauses = $this->meta_query->get_sql( 'post', $wpdb->posts, 'ID', $this );
-			$join .= $clauses['join'];
-			$where .= $clauses['where'];
 		}
 
 		/*
