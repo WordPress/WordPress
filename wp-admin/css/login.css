@@ -225,10 +225,6 @@ p {
 	margin-left: 8px;
 }
 
-.mobile #login h1 a {
-	width: auto;
-}
-
 body.interim-login {
 	height: auto;
 }
