@@ -153,8 +153,7 @@
 	left: 0;
 	top: 0;
 	width: 100%;
-	-webkit-transform: translateZ( 0 ); /* Prevents rendering bugs in Chrome */
-	-webkit-transition: opacity 0.2s ease-in-out; /* Prevents rendering bugs in Chrome */
+	-webkit-transition: opacity 0.2s ease-in-out;
 	transition: opacity 0.2s ease-in-out;
 }
 
