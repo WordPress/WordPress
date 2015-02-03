@@ -195,10 +195,8 @@ function install_search_form( $type_selector = true ) {
 /**
  * Upload from zip
  * @since 2.8.0
- *
- * @param integer $page
  */
-function install_plugins_upload( $page = 1 ) {
+function install_plugins_upload() {
 ?>
 <div class="upload-plugin">
 	<p class="install-help"><?php _e('If you have a plugin in a .zip format, you may install it by uploading it here.'); ?></p>
@@ -211,7 +209,7 @@ function install_plugins_upload( $page = 1 ) {
 </div>
 <?php
 }
-add_action('install_plugins_upload', 'install_plugins_upload', 10, 1);
+add_action('install_plugins_upload', 'install_plugins_upload' );
 
 /**
  * Show a username form for the favorites page
