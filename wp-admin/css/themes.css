@@ -748,10 +748,6 @@ body.folded .theme-overlay .theme-wrap {
 	float: none;
 	display: inline-block;
 	margin-left: 10px;
-	-webkit-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
 }
 
 .theme-overlay .theme-author {
