@@ -469,7 +469,7 @@ class WP_Upgrader {
 			$destination_name = '';
 		}
 
-		$this->result = compact('local_source', 'source', 'source_name', 'source_files', 'destination', 'destination_name', 'local_destination', 'remote_destination', 'clear_destination', 'delete_source_dir');
+		$this->result = compact( 'source', 'source_files', 'destination', 'destination_name', 'local_destination', 'remote_destination', 'clear_destination' );
 
 		/**
 		 * Filter the install response after the installation has finished.
