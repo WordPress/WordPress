@@ -1344,7 +1344,26 @@ class WP_Widget_Tag_Cloud extends WP_Widget {
 		if ( !empty($instance['title']) )
 			echo $args['before_title'] . $instance['title'] . $args['after_title'];
 
-		wp_nav_menu( array( 'fallback_cb' => '', 'menu' => $nav_menu ) );
+		$nav_menu_args = array(
+			'fallback_cb' => '',
+			'menu'        => $nav_menu
+		);
+
+		/**
+		 * Filter the arguments for the Custom Menu widget.
+		 *
+		 * @since 4.2.0
+		 *
+		 * @param array    $nav_menu_args {
+		 *     An array of arguments passed to wp_nav_menu() to retrieve a custom menu.
+		 *
+		 *     @type callback|bool $fallback_cb Callback to fire if the menu doesn't exist. Default empty.
+		 *     @type mixed         $menu        Menu ID, slug, or name.
+		 * }
+		 * @param stdClass $nav_menu      Nav menu object for the current menu.
+		 * @param array    $args          Display arguments for the current widget.
+		 */
+		wp_nav_menu( apply_filters( 'widget_nav_menu_args', $nav_menu_args, $nav_menu, $args ) );
 
 		echo $args['after_widget'];
 	}
