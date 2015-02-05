@@ -2835,19 +2835,20 @@ function wp_ajax_destroy_sessions() {
  * @since 4.2.0
  */
 function wp_ajax_install_plugin() {
+	$status = array(
+		'install' => 'plugin',
+		'slug'    => sanitize_key( $_POST['slug'] ),
+	);
+
 	if ( ! current_user_can( 'install_plugins' ) ) {
-		wp_die( __('You do not have sufficient permissions to install plugins on this site.') );
+		$status['error'] = __( 'You do not have sufficient permissions to install plugins on this site.' );
+ 		wp_send_json_error( $status );
 	}
 
 	check_ajax_referer( 'updates' );
 
 	include_once( ABSPATH . 'wp-admin/includes/class-wp-upgrader.php' );
 	include_once( ABSPATH . 'wp-admin/includes/plugin-install.php' );
-
-	$status = array(
-		'install' => 'plugin',
-		'slug'    => sanitize_key( $_POST['slug'] ),
-	);
 
 	$api = plugins_api( 'plugin_information', array(
 		'slug'   => sanitize_key( $_POST['slug'] ),
@@ -2879,14 +2880,6 @@ function wp_ajax_install_plugin() {
  * @since 4.2.0
  */
 function wp_ajax_update_plugin() {
-	if ( ! current_user_can( 'update_plugins' ) ) {
-		wp_die( __('You do not have sufficient permissions to install plugins on this site.') );
-	}
-
-	check_ajax_referer( 'updates' );
-
-	include_once( ABSPATH . 'wp-admin/includes/class-wp-upgrader.php' );
-
 	$plugin = urldecode( $_POST['plugin'] );
 
 	$status = array(
@@ -2894,6 +2887,15 @@ function wp_ajax_update_plugin() {
 		'plugin' => $plugin,
 		'slug'   => sanitize_key( $_POST['slug'] ),
 	);
+
+	if ( ! current_user_can( 'update_plugins' ) ) {
+		$status['error'] = __( 'You do not have sufficient permissions to update plugins on this site.' );
+ 		wp_send_json_error( $status );
+	}
+
+	check_ajax_referer( 'updates' );
+
+	include_once( ABSPATH . 'wp-admin/includes/class-wp-upgrader.php' );
 
 	$current = get_site_transient( 'update_plugins' );
 	if ( empty( $current ) ) {
