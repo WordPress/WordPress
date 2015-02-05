@@ -2835,6 +2835,10 @@ function wp_ajax_destroy_sessions() {
  * @since 4.2.0
  */
 function wp_ajax_install_plugin() {
+	if ( ! current_user_can( 'install_plugins' ) ) {
+		wp_die( __('You do not have sufficient permissions to install plugins on this site.') );
+	}
+
 	check_ajax_referer( 'updates' );
 
 	include_once( ABSPATH . 'wp-admin/includes/class-wp-upgrader.php' );
@@ -2875,6 +2879,10 @@ function wp_ajax_install_plugin() {
  * @since 4.2.0
  */
 function wp_ajax_update_plugin() {
+	if ( ! current_user_can( 'update_plugins' ) ) {
+		wp_die( __('You do not have sufficient permissions to install plugins on this site.') );
+	}
+
 	check_ajax_referer( 'updates' );
 
 	include_once( ABSPATH . 'wp-admin/includes/class-wp-upgrader.php' );
