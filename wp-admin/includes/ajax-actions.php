@@ -2828,3 +2828,81 @@ function wp_ajax_destroy_sessions() {
 
 	wp_send_json_success( array( 'message' => $message ) );
 }
+
+/**
+ * AJAX handler for installing a plugin.
+ *
+ * @since 4.2.0
+ */
+function wp_ajax_install_plugin() {
+	check_ajax_referer( 'updates' );
+
+	include_once( ABSPATH . 'wp-admin/includes/class-wp-upgrader.php' );
+	include_once( ABSPATH . 'wp-admin/includes/plugin-install.php' );
+
+	$status = array(
+		'install' => 'plugin',
+		'slug'    => sanitize_key( $_POST['slug'] ),
+	);
+
+	$api = plugins_api( 'plugin_information', array(
+		'slug'   => sanitize_key( $_POST['slug'] ),
+		'fields' => array( 'sections' => false )
+	) );
+
+	if ( is_wp_error( $api ) ) {
+		$status['error'] = $api->get_error_message();
+ 		wp_send_json_error( $status );
+	}
+
+	$upgrader = new Plugin_Upgrader( new Automatic_Upgrader_Skin() );
+	$result = $upgrader->install( $api->download_link );
+
+	if ( is_wp_error( $result ) ) {
+		$status['error'] = $result->get_error_message();
+ 		wp_send_json_error( $status );
+	}
+
+	$plugin_status = install_plugin_install_status( array( 'slug' => sanitize_key( $_POST['slug'] ) ) );
+	activate_plugin( $plugin_status['file'] );
+
+	wp_send_json_success( $status );
+}
+
+/**
+ * AJAX handler for updating a plugin.
+ *
+ * @since 4.2.0
+ */
+function wp_ajax_update_plugin() {
+	check_ajax_referer( 'updates' );
+
+	include_once( ABSPATH . 'wp-admin/includes/class-wp-upgrader.php' );
+
+	$plugin = urldecode( $_POST['plugin'] );
+
+	$status = array(
+		'update' => 'plugin',
+		'plugin' => $plugin,
+		'slug'   => sanitize_key( $_POST['slug'] ),
+	);
+
+	$current = get_site_transient( 'update_plugins' );
+	if ( empty( $current ) ) {
+		wp_update_plugins();
+	}
+
+	$upgrader = new Plugin_Upgrader( new Automatic_Upgrader_Skin() );
+	$result = $upgrader->bulk_upgrade( array( $plugin ) );
+
+	if ( is_array( $result ) ) {
+		$result = $result[ $plugin ];
+	}
+
+	if ( is_wp_error( $result ) ) {
+		$status['error'] = $result->get_error_message();
+ 		wp_send_json_error( $status );
+	}
+
+	wp_send_json_success( $status );
+}

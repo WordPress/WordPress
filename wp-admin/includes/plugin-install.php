@@ -276,6 +276,7 @@ function install_plugin_install_status($api, $loop = false) {
 	// Default to a "new" plugin
 	$status = 'install';
 	$url = false;
+	$update_file = false;
 
 	/*
 	 * Check to see if this plugin is known to be installed,
@@ -304,6 +305,7 @@ function install_plugin_install_status($api, $loop = false) {
 			} else {
 				$key = array_keys( $installed_plugin );
 				$key = array_shift( $key ); //Use the first plugin regardless of the name, Could have issues for multiple-plugins in one directory if they share different version numbers
+				$update_file = $api->slug . '/' . $key;
 				if ( version_compare($api->version, $installed_plugin[ $key ]['Version'], '=') ){
 					$status = 'latest_installed';
 				} elseif ( version_compare($api->version, $installed_plugin[ $key ]['Version'], '<') ) {
@@ -327,7 +329,8 @@ function install_plugin_install_status($api, $loop = false) {
 	if ( isset($_GET['from']) )
 		$url .= '&amp;from=' . urlencode( wp_unslash( $_GET['from'] ) );
 
-	return compact('status', 'url', 'version');
+	$file = $update_file;
+	return compact( 'status', 'url', 'version', 'file' );
 }
 
 /**

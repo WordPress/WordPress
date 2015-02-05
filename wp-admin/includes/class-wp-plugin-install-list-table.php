@@ -402,14 +402,14 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 					case 'install':
 						if ( $status['url'] ) {
 							/* translators: 1: Plugin name and version. */
-							$action_links[] = '<a class="install-now button" href="' . $status['url'] . '" aria-label="' . esc_attr( sprintf( __( 'Install %s now' ), $name ) ) . '">' . __( 'Install Now' ) . '</a>';
+							$action_links[] = '<a class="install-now button" data-slug="' . esc_attr( $plugin['slug'] ) . '" href="' . esc_url( $status['url'] ) . '" aria-label="' . esc_attr( sprintf( __( 'Install %s now' ), $name ) ) . '">' . __( 'Install Now' ) . '</a>';
 						}
 
 						break;
 					case 'update_available':
 						if ( $status['url'] ) {
 							/* translators: 1: Plugin name and version */
-							$action_links[] = '<a class="button" href="' . $status['url'] . '" aria-label="' . esc_attr( sprintf( __( 'Update %s now' ), $name ) ) . '">' . __( 'Update Now' ) . '</a>';
+							$action_links[] = '<a class="update-now button" data-plugin="' . esc_attr( $status['file'] ) . '" data-slug="' . esc_attr( $plugin['slug'] ) . '" href="' . esc_url( $status['url'] ) . '" aria-label="' . esc_attr( sprintf( __( 'Update %s now' ), $name ) ) . '">' . __( 'Update Now' ) . '</a>';
 						}
 
 						break;
@@ -449,7 +449,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 			$date_format = __( 'M j, Y @ G:i' );
 			$last_updated_timestamp = strtotime( $plugin['last_updated'] );
 		?>
-		<div class="plugin-card">
+		<div class="plugin-card plugin-card-<?php echo sanitize_html_class( $plugin['slug'] ); ?>">
 			<div class="plugin-card-top">
 				<a href="<?php echo esc_url( $details_link ); ?>" class="thickbox plugin-icon"><img src="<?php echo esc_attr( $plugin_icon_url ) ?>" /></a>
 				<div class="name column-name">

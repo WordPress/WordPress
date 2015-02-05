@@ -501,6 +501,18 @@ function wp_default_scripts( &$scripts ) {
 		) );
 
 		$scripts->add( 'updates', "/wp-admin/js/updates$suffix.js", array( 'jquery' ) );
+		did_action( 'init' ) && $scripts->localize( 'updates', '_wpUpdatesSettings', array(
+			'ajax_nonce' => wp_create_nonce( 'updates' ),
+			'l10n'       => array(
+				'updating'      => __( 'Updating...' ),
+				'updated'       => __( 'Updated!' ),
+				'updateFailed'  => __( 'Update failed' ),
+				'installNow'    => __( 'Install Now' ),
+				'installing'    => __( 'Installing...' ),
+				'installed'     => __( 'Installed!' ),
+				'installFailed' => __( 'Installation failed' ),
+			)
+		) );
 
 		$scripts->add( 'farbtastic', '/wp-admin/js/farbtastic.js', array('jquery'), '1.2' );
 

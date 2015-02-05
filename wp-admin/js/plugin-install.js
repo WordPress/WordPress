@@ -69,8 +69,4 @@ jQuery( document ).ready( function( $ ) {
 		$( '#section-holder div.section' ).hide(); // Hide 'em all.
 		$( '#section-' + tab ).show();
 	});
-
-	$( 'a.install-now' ).click( function() {
-		return confirm( plugininstallL10n.ays );
-	});
 });

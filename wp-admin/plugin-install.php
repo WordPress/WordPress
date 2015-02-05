@@ -54,6 +54,8 @@ if ( 'plugin-information' != $tab )
 
 $body_id = $tab;
 
+wp_enqueue_script( 'updates' );
+
 /**
  * Fires before each tab on the Install Plugins screen is loaded.
  *
