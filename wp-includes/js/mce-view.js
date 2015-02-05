@@ -558,10 +558,9 @@ window.wp = window.wp || {};
 			frame = gallery.edit( data );
 
 			frame.state('gallery-edit').on( 'update', function( selection ) {
-				var shortcode = gallery.shortcode( selection ).string(), force;
+				var shortcode = gallery.shortcode( selection ).string();
 				$( node ).attr( 'data-wpview-text', window.encodeURIComponent( shortcode ) );
-				force = ( data !== shortcode );
-				wp.mce.views.refreshView( self, shortcode, force );
+				wp.mce.views.refreshView( self, shortcode, true );
 			});
 
 			frame.on( 'close', function() {
