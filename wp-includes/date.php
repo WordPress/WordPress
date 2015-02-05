@@ -65,6 +65,11 @@ class WP_Date_Query {
 	/**
 	 * Constructor.
 	 *
+	 * Time-related parameters that normally require integer values ('year', 'month', 'week', 'dayofyear', 'day',
+	 * 'dayofweek', 'dayofweek_iso', 'hour', 'minute', 'second') accept arrays of integers for some values of
+	 * 'compare'. When 'compare' is 'IN' or 'NOT IN', arrays are accepted; when 'compare' is 'BETWEEN' or 'NOT
+	 * BETWEEN', arrays of two valid values are required. See individual argument descriptions for accepted values.
+	 *
 	 * @since 3.7.0
 	 * @since 4.0.0 The $inclusive logic was updated to include all times within the date range.
 	 * @since 4.1.0 Introduced 'dayofweek_iso' time type parameter.
@@ -75,18 +80,19 @@ class WP_Date_Query {
 	 *
 	 *     @type array {
 	 *         @type string $column   Optional. The column to query against. If undefined, inherits the value of
-	 *                                the $default_column parameter. Default 'post_date'. Accepts 'post_date',
-	 *                                'post_date_gmt', 'post_modified','post_modified_gmt', 'comment_date',
-	 *                                'comment_date_gmt'.
-	 *         @type string $compare  Optional. The comparison operator. Default '='.
-	 *                                Accepts '=', '!=', '>', '>=', '<', '<=', 'IN', 'NOT IN', 'BETWEEN', 'NOT BETWEEN'.
-	 *         @type string $relation Optional. The boolean relationship between the date queries. Default 'OR'.
-	 *                                Accepts 'OR', 'AND'.
+	 *                                the `$default_column` parameter. Accepts 'post_date', 'post_date_gmt',
+	 *                                'post_modified','post_modified_gmt', 'comment_date', 'comment_date_gmt'.
+	 *                                Default 'post_date'.
+	 *         @type string $compare  Optional. The comparison operator. Accepts '=', '!=', '>', '>=', '<', '<=',
+	 *                                'IN', 'NOT IN', 'BETWEEN', 'NOT BETWEEN'. Default '='.
+	 *         @type string $relation Optional. The boolean relationship between the date queries. Accepts 'OR' or 'AND'.
+	 *                                Default 'OR'.
 	 *         @type array {
 	 *             Optional. An array of first-order clause parameters, or another fully-formed date query.
 	 *
-	 *             @type string|array $before Optional. Date to retrieve posts before. Accepts strtotime()-compatible
-	 *                                        string, or array of 'year', 'month', 'day' values. {
+	 *             @type string|array $before {
+	 *                 Optional. Date to retrieve posts before. Accepts `strtotime()`-compatible string,
+	 *                 or array of 'year', 'month', 'day' values.
 	 *
 	 *                 @type string $year  The four-digit year. Default empty. Accepts any four-digit year.
 	 *                 @type string $month Optional when passing array.The month of the year.
@@ -94,43 +100,49 @@ class WP_Date_Query {
 	 *                 @type string $day   Optional when passing array.The day of the month.
 	 *                                     Default (string:empty)|(array:1). Accepts numbers 1-31.
 	 *             }
-	 *             @type string|array $after Optional. Date to retrieve posts after. Accepts strtotime()-compatible
-	 *                                       string, or array of 'year', 'month', 'day' values. {
+	 *             @type string|array $after {
+	 *                 Optional. Date to retrieve posts after. Accepts `strtotime()`-compatible string,
+	 *                 or array of 'year', 'month', 'day' values.
 	 *
-	 *                 @type string $year  The four-digit year. Default empty. Accepts any four-digit year.
-	 *                 @type string $month Optional when passing array.The month of the year.
-	 *                                     Default (string:empty)|(array:12). Accepts numbers 1-12.
-	 *                 @type string $day   Optional when passing array.The day of the month.
-	 *                                     Default (string:empty)|(array:last day of month). Accepts numbers 1-31.
+	 *                 @type string $year  The four-digit year. Accepts any four-digit year. Default empty.
+	 *                 @type string $month Optional when passing array. The month of the year. Accepts numbers 1-12.
+	 *                                     Default (string:empty)|(array:12).
+	 *                 @type string $day   Optional when passing array.The day of the month. Accepts numbers 1-31.
+	 *                                     Default (string:empty)|(array:last day of month).
 	 *             }
-	 *             @type string       $column    Optional. Used to add a clause comparing a column other than the column
-	 *                                           specified in the top-level $column parameter.  Default is the value
-	 *                                           of top-level $column. Accepts 'post_date', 'post_date_gmt',
-	 *                                           'post_modified', 'post_modified_gmt', 'comment_date', 'comment_date_gmt'.
-	 *             @type string       $compare       Optional. The comparison operator. Default '='.
-	 *                                               Accepts '=', '!=', '>', '>=', '<', '<=', 'IN', 'NOT IN',
-	 *                                               'BETWEEN', 'NOT BETWEEN'.
+	 *             @type string       $column        Optional. Used to add a clause comparing a column other than the
+	 *                                               column specified in the top-level `$column` parameter. Accepts
+	 *                                               'post_date', 'post_date_gmt', 'post_modified', 'post_modified_gmt',
+	 *                                               'comment_date', 'comment_date_gmt'. Default is the value of
+	 *                                               top-level `$column`.
+	 *             @type string       $compare       Optional. The comparison operator. Accepts '=', '!=', '>', '>=',
+	 *                                               '<', '<=', 'IN', 'NOT IN', 'BETWEEN', 'NOT BETWEEN'. 'IN',
+	 *                                               'NOT IN', 'BETWEEN', and 'NOT BETWEEN'. Comparisons support
+	 *                                               arrays in some time-related parameters. Default '='.
 	 *             @type bool         $inclusive     Optional. Include results from dates specified in 'before' or
 	 *                                               'after'. Default false.
-	 *             @type int          $year          Optional. The four-digit year number. Default empty. Accepts
-	 *                                               any four-digit year.
-	 *             @type int          $month         Optional. The two-digit month number. Default empty.
-	 *                                               Accepts numbers 1-12.
-	 *             @type int          $week          Optional. The week number of the year. Default empty.
-	 *                                               Accepts numbers 0-53.
-	 *             @type int          $dayofyear     Optional. The day number of the year. Default empty.
-	 *                                               Accepts numbers 1-366.
-	 *             @type int          $day           Optional. The day of the month. Default empty.
-	 *                                               Accepts numbers 1-31.
-	 *             @type int          $dayofweek     Optional. The day number of the week. Default empty.
-	 *                                               Accepts numbers 1-7 (1 is Sunday).
-	 *             @type int          $dayofweek_iso Optional. The day number of the week (ISO). Accepts numbers 1-7
-	 *                                               (1 is Monday). Default empty.
-	 *             @type int          $hour          Optional. The hour of the day. Default empty. Accepts numbers 0-23.
-	 *             @type int          $minute        Optional. The minute of the hour. Default empty. Accepts
-	 *                                               numbers 0-60.
-	 *             @type int          $second        Optional. The second of the minute. Default empty.
-	 *                                               Accepts numbers 0-60.
+	 *             @type int|array    $year          Optional. The four-digit year number. Accepts any four-digit year
+	 *                                               or an array of years if `$compare` supports it. Default empty.
+	 *             @type int|array    $month         Optional. The two-digit month number. Accepts numbers 1-12 or an
+	 *                                               array of valid numbers if `$compare` supports it. Default empty.
+	 *             @type int|array    $week          Optional. The week number of the year. Accepts numbers 0-53 or an
+	 *                                               array of valid numbers if `$compare` supports it. Default empty.
+	 *             @type int|array    $dayofyear     Optional. The day number of the year. Accepts numbers 1-366 or an
+	 *                                               array of valid numbers if `$compare` supports it.
+	 *             @type int|array    $day           Optional. The day of the month. Accepts numbers 1-31 or an array
+	 *                                               of valid numbers if `$compare` supports it. Default empty.
+	 *             @type int|array    $dayofweek     Optional. The day number of the week. Accepts numbers 1-7 (1 is
+	 *                                               Sunday) or an array of valid numbers if `$compare` supports it.
+	 *                                               Default empty.
+	 *             @type int|array    $dayofweek_iso Optional. The day number of the week (ISO). Accepts numbers 1-7
+	 *                                               (1 is Monday) or an array of valid numbers if `$compare` supports it.
+	 *                                               Default empty.
+	 *             @type int|array    $hour          Optional. The hour of the day. Accepts numbers 0-23 or an array
+	 *                                               of valid numbers if `$compare` supports it. Default empty.
+	 *             @type int|array    $minute        Optional. The minute of the hour. Accepts numbers 0-60 or an array
+	 *                                               of valid numbers if `$compare` supports it. Default empty.
+	 *             @type int|array    $second        Optional. The second of the minute. Accepts numbers 0-60 or an
+	 *                                               array of valid numbers if `$compare` supports it. Default empty.
 	 *         }
 	 *     }
 	 * }
