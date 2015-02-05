@@ -1450,6 +1450,8 @@ class WP_Query {
 	 * Parse a query string and set query type booleans.
 	 *
 	 * @since 1.5.0
+	 * @since 4.2.0 Introduced the ability to order by specific clauses of a `$meta_query`, by passing the clause's
+	 *              array key to `$orderby`.
 	 * @access public
 	 *
 	 * @param string|array $query {
@@ -1497,11 +1499,14 @@ class WP_Query {
 	 *     @type int          $offset                  The number of posts to offset before retrieval.
 	 *     @type string       $order                   Designates ascending or descending order of posts. Default 'DESC'.
 	 *                                                 Accepts 'ASC', 'DESC'.
-	 *     @type string       $orderby                 Sort retrieved posts by parameter. One or more options can be
+	 *     @type string|array $orderby                 Sort retrieved posts by parameter. One or more options may be
 	 *                                                 passed. To use 'meta_value', or 'meta_value_num',
-	 *                                                 'meta_key=keyname' must be also be defined. Default 'date'.
-	 *                                                 Accepts 'none', 'name', 'author', 'date', 'title', 'modified',
-	 *                                                 'menu_order', 'parent', 'ID', 'rand', 'comment_count'.
+	 *                                                 'meta_key=keyname' must be also be defined. To sort by a
+	 *                                                 specific `$meta_query` clause, use that clause's array key.
+	 *                                                 Default 'date'. Accepts 'none', 'name', 'author', 'date',
+	 *                                                 'title', 'modified', 'menu_order', 'parent', 'ID', 'rand',
+	 *                                                 'comment_count', 'meta_value', 'meta_value_num', and the
+	 *                                                 array keys of `$meta_query`.
 	 *     @type int          $p                       Post ID.
 	 *     @type int          $page                    Show the number of posts that would show up on page X of a
 	 *                                                 static front page.

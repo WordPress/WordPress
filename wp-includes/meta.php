@@ -945,12 +945,13 @@ class WP_Meta_Query {
 	 * Constructor.
 	 *
 	 * @since 3.2.0
-	 * @since 4.2.0 Introduced the `$name` parameter, for improved `$orderby` support in the parent query.
+	 * @since 4.2.0 Introduced support for naming query clauses by associative array keys.
 	 *
 	 * @access public
 	 *
 	 * @param array $meta_query {
-	 *     Array of meta query clauses.
+	 *     Array of meta query clauses. When first-order clauses use strings as their array keys, they may be
+	 *     referenced in the 'orderby' parameter of the parent query.
 	 *
 	 *     @type string $relation Optional. The MySQL keyword used to join
 	 *                            the clauses of the query. Accepts 'AND', or 'OR'. Default 'AND'.
@@ -967,8 +968,6 @@ class WP_Meta_Query {
 	 *                               comparisons. Accepts 'NUMERIC', 'BINARY', 'CHAR', 'DATE',
 	 *                               'DATETIME', 'DECIMAL', 'SIGNED', 'TIME', or 'UNSIGNED'.
 	 *                               Default is 'CHAR'.
-	 *         @type string $name    Optional. A unique identifier for the clause. If provided, `$name` can be
-	 *                               referenced in the `$orderby` parameter of the parent query.
 	 *     }
 	 * }
 	 */
@@ -1016,14 +1015,14 @@ class WP_Meta_Query {
 					unset( $query['value'] );
 				}
 
-				$clean_queries[] = $query;
+				$clean_queries[ $key ] = $query;
 
 			// Otherwise, it's a nested query, so we recurse.
 			} else {
 				$cleaned_query = $this->sanitize_query( $query );
 
 				if ( ! empty( $cleaned_query ) ) {
-					$clean_queries[] = $cleaned_query;
+					$clean_queries[ $key ] = $cleaned_query;
 				}
 			}
 		}
@@ -1270,7 +1269,7 @@ class WP_Meta_Query {
 
 				// This is a first-order clause.
 				if ( $this->is_first_order_clause( $clause ) ) {
-					$clause_sql = $this->get_sql_for_clause( $clause, $query );
+					$clause_sql = $this->get_sql_for_clause( $clause, $query, $key );
 
 					$where_count = count( $clause_sql['where'] );
 					if ( ! $where_count ) {
@@ -1321,8 +1320,10 @@ class WP_Meta_Query {
 	 * @since 4.1.0
 	 * @access public
 	 *
-	 * @param array $clause       Query clause, passed by reference.
-	 * @param array $parent_query Parent query array.
+	 * @param array  $clause       Query clause, passed by reference.
+	 * @param array  $parent_query Parent query array.
+	 * @param string $clause_key   Optional. The array key used to name the clause in the original `$meta_query`
+	 *                             parameters. If not provided, a key will be generated automatically.
 	 * @return array {
 	 *     Array containing JOIN and WHERE SQL clauses to append to a first-order query.
 	 *
@@ -1330,7 +1331,7 @@ class WP_Meta_Query {
 	 *     @type string $where SQL fragment to append to the main WHERE clause.
 	 * }
 	 */
-	public function get_sql_for_clause( &$clause, $parent_query ) {
+	public function get_sql_for_clause( &$clause, $parent_query, $clause_key = '' ) {
 		global $wpdb;
 
 		$sql_chunks = array(
@@ -1391,9 +1392,21 @@ class WP_Meta_Query {
 		$meta_type  = $this->get_cast_for_type( $_meta_type );
 		$clause['cast'] = $meta_type;
 
+		// Fallback for clause keys is the table alias.
+		if ( ! $clause_key ) {
+			$clause_key = $clause['alias'];
+		}
+
+		// Ensure unique clause keys, so none are overwritten.
+		$iterator = 1;
+		$clause_key_base = $clause_key;
+		while ( isset( $this->clauses[ $clause_key ] ) ) {
+			$clause_key = $clause_key_base . '-' . $iterator;
+			$iterator++;
+		}
+
 		// Store the clause in our flat array.
-		$clause_name = isset( $clause['name'] ) ? $clause['name'] : $clause['alias'];
-		$this->clauses[ $clause_name ] =& $clause;
+		$this->clauses[ $clause_key ] =& $clause;
 
 		// Next, build the WHERE clause.
 
@@ -1471,7 +1484,7 @@ class WP_Meta_Query {
 	}
 
 	/**
-	 * Get a flattened list of sanitized meta clauses, indexed by clause 'name'.
+	 * Get a flattened list of sanitized meta clauses.
 	 *
 	 * This array should be used for clause lookup, as when the table alias and CAST type must be determined for
 	 * a value of 'orderby' corresponding to a meta clause.
