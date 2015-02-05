@@ -971,7 +971,8 @@ function wp_dropdown_pages( $args = '' ) {
 		'selected' => 0, 'echo' => 1,
 		'name' => 'page_id', 'id' => '',
 		'show_option_none' => '', 'show_option_no_change' => '',
-		'option_none_value' => ''
+		'option_none_value' => '',
+		'value_field' => 'ID',
 	);
 
 	$r = wp_parse_args( $args, $defaults );
@@ -1425,15 +1426,20 @@ class Walker_PageDropdown extends Walker {
 	 * @since 2.1.0
 	 *
 	 * @param string $output Passed by reference. Used to append additional content.
-	 * @param object $page Page data object.
-	 * @param int $depth Depth of page in reference to parent pages. Used for padding.
-	 * @param array $args Uses 'selected' argument for selected page to set selected HTML attribute for option element.
+	 * @param object $page   Page data object.
+	 * @param int    $depth  Depth of page in reference to parent pages. Used for padding.
+	 * @param array  $args   Uses 'selected' argument for selected page to set selected HTML attribute for option
+	 *              element. Uses 'value_field' argument to fill "value" attribute. See {@see wp_dropdown_pages()}.
 	 * @param int $id
 	 */
 	public function start_el( &$output, $page, $depth = 0, $args = array(), $id = 0 ) {
 		$pad = str_repeat('&nbsp;', $depth * 3);
 
-		$output .= "\t<option class=\"level-$depth\" value=\"$page->ID\"";
+		if ( ! isset( $args['value_field'] ) || ! isset( $page->{$args['value_field']} ) ) {
+			$args['value_field'] = 'ID';
+		}
+
+		$output .= "\t<option class=\"level-$depth\" value=\"" . esc_attr( $page->{$args['value_field']} ) . "\"";
 		if ( $page->ID == $args['selected'] )
 			$output .= ' selected="selected"';
 		$output .= '>';
