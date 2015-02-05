@@ -943,7 +943,26 @@ function the_meta() {
  *
  * @since 2.1.0
  *
- * @param array|string $args Optional. Override default arguments.
+ * @param array|string $args {
+ *     Array of function arguments. Optional.
+ *
+ *     @type int          $depth                  Optional. Maximum depth. Default 0.
+ *     @type int          $child_of               Optional. Page ID to retrieve child pages of.
+ *                                                Default 0.
+ *     @type int|string   $selected               Optional. Value of the option that should be selected.
+ *     @type bool|int     $echo                   Optional. Whether to echo or return the generated markup.
+ *                                                Accepts 0, 1, or their bool equivalents. Default 1.
+ *     @type string       $name                   Optional. Value for the 'name' attribute of the select element.
+ *                                                Default: 'page_id'.
+ *     @type string       $id                     Optional. Value for the 'id' attribute of the select element.
+ *                                                Defaults to the value of $name.
+ *     @type string       $show_option_none       Optional. Text to display for showing no pages.
+ *                                                Default is an empty string (does not display).
+ *     @type string       $show_option_no_change  Optional. Text to display for "no change" option.
+ *                                                Default is an empty string (does not display).
+ *     @type string       $option_none_value      Optional. Value to use when no page is selected.
+ *                                                Default is an empty string.
+ * }
  * @return string HTML content, if not displaying.
  */
 function wp_dropdown_pages( $args = '' ) {
