@@ -1,7 +1,6 @@
 window.wp = window.wp || {};
 
-(function( $, wp ) {
-
+(function( $, wp, pagenow, ajaxurl ) {
 	wp.updates = {};
 
 	/**
@@ -52,7 +51,7 @@ window.wp = window.wp || {};
 		var count,
 		    pluginCount,
 		    $adminBarUpdateCount = $( '#wp-admin-bar-updates .ab-label' ),
-		    $dashboardNavMenuUpdateCount = $( 'a[href="update-core.php"] .update-plugins' )
+		    $dashboardNavMenuUpdateCount = $( 'a[href="update-core.php"] .update-plugins' ),
 		    $pluginsMenuItem = $( '#menu-plugins' );
 
 
@@ -153,7 +152,7 @@ window.wp = window.wp || {};
 			if ( jqxhr.responseJSON && jqxhr.responseJSON.data && jqxhr.responseJSON.data.error ) {
 				 alertText += ': ' + jqxhr.responseJSON.data.error;
 			}
-			alert( alertText );
+			window.alert( alertText );
 			if ( jqxhr.responseJSON && jqxhr.responseJSON.data && jqxhr.responseJSON.data.slug ) {
 				wp.updates.updateError( jqxhr.responseJSON );
 			}
@@ -162,7 +161,7 @@ window.wp = window.wp || {};
 		 * Check the queue.
 		 */
 		wp.updates.queueChecker();
-	}
+	};
 
 	/**
 	 * On a successful plugin update, update the UI with the result.
@@ -262,7 +261,7 @@ window.wp = window.wp || {};
 			if ( jqxhr.responseJSON && jqxhr.responseJSON.data && jqxhr.responseJSON.data.error ) {
 				 alertText += ': ' + jqxhr.responseJSON.data.error;
 			}
-			alert( alertText );
+			window.alert( alertText );
 			if ( jqxhr.responseJSON && jqxhr.responseJSON.data && jqxhr.responseJSON.data.slug ) {
 				wp.updates.installError( jqxhr.responseJSON );
 			}
@@ -322,8 +321,8 @@ window.wp = window.wp || {};
 				wp.updates.installPlugin( job.data.slug );
 				break;
 			default:
-				console.log( 'Failed to exect queued update job.' );
-				console.log( job );
+				window.console.log( 'Failed to exect queued update job.' );
+				window.console.log( job );
 				break;
 		}
 	};
@@ -336,7 +335,7 @@ window.wp = window.wp || {};
 		} );
 
 		$( '#bulk-action-form' ).on( 'submit', function( e ) {
-			var checkbox, plugin, slug;
+			var $checkbox, plugin, slug;
 
 			if ( $( '#bulk-action-selector-top' ).val() == 'update-selected' ) {
 				e.preventDefault();
@@ -355,13 +354,13 @@ window.wp = window.wp || {};
 
 		$( '.plugin-card .update-now' ).on( 'click', function( e ) {
 			e.preventDefault();
-			$button = $( e.target );
+			var $button = $( e.target );
 			wp.updates.updatePlugin( $button.data( 'plugin' ), $button.data( 'slug' ) );
 		} );
 
 		$( '.plugin-card .install-now' ).on( 'click', function( e ) {
 			e.preventDefault();
-			$button = $( e.target );
+			var $button = $( e.target );
 			if ( $button.hasClass( 'button-disabled' ) ) {
 				return;
 			}
@@ -389,4 +388,4 @@ window.wp = window.wp || {};
 
 	} );
 
-})( jQuery, window.wp );
+})( jQuery, window.wp, window.pagenow, window.ajaxurl );

@@ -1,4 +1,4 @@
-/* global plugininstallL10n, tb_click, confirm */
+/* global plugininstallL10n, tb_click */
 
 /* Plugin Browser Thickbox related JS*/
 var tb_position;
