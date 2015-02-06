@@ -2868,7 +2868,7 @@ function wp_ajax_install_plugin() {
  		wp_send_json_error( $status );
 	}
 
-	$plugin_status = install_plugin_install_status( array( 'slug' => sanitize_key( $_POST['slug'] ) ) );
+	$plugin_status = install_plugin_install_status( $api );
 	activate_plugin( $plugin_status['file'] );
 
 	wp_send_json_success( $status );
