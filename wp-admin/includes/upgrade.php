@@ -1662,23 +1662,15 @@ function maybe_convert_table_to_utf8mb4( $table ) {
 		return false;
 	}
 
-	$has_utf8 = false;
 	foreach ( $results as $column ) {
 		if ( $column->Collation ) {
 			list( $charset ) = explode( '_', $column->Collation );
 			$charset = strtolower( $charset );
-			if ( 'utf8' === $charset ) {
-				$has_utf8 = true;
-			} elseif ( 'utf8mb4' !== $charset ) {
+			if ( 'utf8' !== $charset && 'utf8mb4' !== $charset ) {
 				// Don't upgrade tables that have non-utf8 columns.
 				return false;
 			}
 		}
-	}
-
-	if ( ! $has_utf8 ) {
-		// Don't bother upgrading tables that don't have utf8 columns.
-		return false;
 	}
 
 	return $wpdb->query( "ALTER TABLE $table CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci" );
