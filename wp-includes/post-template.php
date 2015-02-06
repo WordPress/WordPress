@@ -942,6 +942,7 @@ function the_meta() {
  * Retrieve or display list of pages as a dropdown (select list).
  *
  * @since 2.1.0
+ * @since 4.2.0 The `$value_field` argument was added.
  *
  * @param array|string $args {
  *     Array of function arguments. Optional.
@@ -962,6 +963,8 @@ function the_meta() {
  *                                                Default is an empty string (does not display).
  *     @type string       $option_none_value      Optional. Value to use when no page is selected.
  *                                                Default is an empty string.
+ *     @type string       $value_field            Post field used to populate the 'value' attribute of the option
+ *                                                elements. Accepts any valid post field. Default 'ID'.
  * }
  * @return string HTML content, if not displaying.
  */
