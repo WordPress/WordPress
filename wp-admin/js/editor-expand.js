@@ -323,7 +323,7 @@
 			var windowPos = $window.scrollTop(),
 				type = event && event.type,
 				resize = type !== 'scroll',
-				visual = ( mceEditor && ! mceEditor.isHidden() ),
+				visual = mceEditor && ! mceEditor.isHidden(),
 				buffer = autoresizeMinHeight,
 				postBodyTop = $postBody.offset().top,
 				borderWidth = 1,
@@ -348,6 +348,11 @@
 				$top = $textTop;
 				$editor = $textEditor;
 				topHeight = heights.textTopHeight;
+			}
+
+			// TinyMCE still intializing.
+			if ( ! visual && ! $top.length ) {
+				return;
 			}
 
 			topPos = $top.parent().offset().top;
