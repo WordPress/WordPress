@@ -519,7 +519,7 @@ function upgrade_all() {
 	if ( $wp_current_db_version < 29630 )
 		upgrade_400();
 
-	if ( $wp_current_db_version < 31349 )
+	if ( $wp_current_db_version < 31351 )
 		upgrade_420();
 
 	maybe_disable_link_manager();
@@ -1417,7 +1417,7 @@ function upgrade_400() {
 function upgrade_420() {
 	global $wp_current_db_version, $wpdb;
 
-	if ( $wp_current_db_version < 31349 && $wpdb->charset === 'utf8mb4' ) {
+	if ( $wp_current_db_version < 31351 && $wpdb->charset === 'utf8mb4' ) {
 		if ( is_multisite() ) {
 			$tables = $wpdb->tables( 'blog' );
 		} else {
@@ -1528,7 +1528,7 @@ function upgrade_network() {
 	}
 
 	// 4.2
-	if ( $wp_current_db_version < 31349 && $wpdb->charset === 'utf8mb4' ) {
+	if ( $wp_current_db_version < 31351 && $wpdb->charset === 'utf8mb4' ) {
 		if ( ! ( defined( 'DO_NOT_UPGRADE_GLOBAL_TABLES' ) && DO_NOT_UPGRADE_GLOBAL_TABLES ) ) {
 			$wpdb->query( "ALTER TABLE $wpdb->site DROP INDEX domain, ADD INDEX domain(domain(140),path(51))" );
 			$wpdb->query( "ALTER TABLE $wpdb->sitemeta DROP INDEX meta_key, ADD INDEX meta_key(meta_key(191))" );
@@ -1665,9 +1665,11 @@ function maybe_convert_table_to_utf8mb4( $table ) {
 	$has_utf8 = false;
 	foreach ( $results as $column ) {
 		if ( $column->Collation ) {
-			if ( 'utf8' === $column->Collation ) {
+			list( $charset ) = explode( '_', $column->Collation );
+			$charset = strtolower( $charset );
+			if ( 'utf8' === $charset ) {
 				$has_utf8 = true;
-			} elseif ( 'utf8mb4' !== $column->Collation ) {
+			} elseif ( 'utf8mb4' !== $charset ) {
 				// Don't upgrade tables that have non-utf8 columns.
 				return false;
 			}
@@ -2361,7 +2363,7 @@ function pre_schema_upgrade() {
 	}
 
 	// Upgrade versions prior to 4.2.
-	if ( $wp_current_db_version < 31349 ) {
+	if ( $wp_current_db_version < 31351 ) {
 		// So that we can change tables to utf8mb4, we need to shorten the index lengths to less than 767 bytes
 		$wpdb->query( "ALTER TABLE $wpdb->usermeta DROP INDEX meta_key, ADD INDEX meta_key(meta_key(191))" );
 		$wpdb->query( "ALTER TABLE $wpdb->terms DROP INDEX slug, ADD INDEX slug(slug(191))" );
