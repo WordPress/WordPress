@@ -1530,6 +1530,7 @@ function upgrade_network() {
 	// 4.2
 	if ( $wp_current_db_version < 31351 && $wpdb->charset === 'utf8mb4' ) {
 		if ( ! ( defined( 'DO_NOT_UPGRADE_GLOBAL_TABLES' ) && DO_NOT_UPGRADE_GLOBAL_TABLES ) ) {
+			$wpdb->query( "ALTER TABLE $wpdb->usermeta DROP INDEX meta_key, ADD INDEX meta_key(meta_key(191))" );
 			$wpdb->query( "ALTER TABLE $wpdb->site DROP INDEX domain, ADD INDEX domain(domain(140),path(51))" );
 			$wpdb->query( "ALTER TABLE $wpdb->sitemeta DROP INDEX meta_key, ADD INDEX meta_key(meta_key(191))" );
 			$wpdb->query( "ALTER TABLE $wpdb->signups DROP INDEX domain, ADD INDEX domain(domain(140),path(51))" );
@@ -2356,8 +2357,9 @@ function pre_schema_upgrade() {
 
 	// Upgrade versions prior to 4.2.
 	if ( $wp_current_db_version < 31351 ) {
-		// So that we can change tables to utf8mb4, we need to shorten the index lengths to less than 767 bytes
-		$wpdb->query( "ALTER TABLE $wpdb->usermeta DROP INDEX meta_key, ADD INDEX meta_key(meta_key(191))" );
+		if ( ! is_multisite() ) {
+			$wpdb->query( "ALTER TABLE $wpdb->usermeta DROP INDEX meta_key, ADD INDEX meta_key(meta_key(191))" );
+		}
 		$wpdb->query( "ALTER TABLE $wpdb->terms DROP INDEX slug, ADD INDEX slug(slug(191))" );
 		$wpdb->query( "ALTER TABLE $wpdb->terms DROP INDEX name, ADD INDEX name(name(191))" );
 		$wpdb->query( "ALTER TABLE $wpdb->commentmeta DROP INDEX meta_key, ADD INDEX meta_key(meta_key(191))" );
