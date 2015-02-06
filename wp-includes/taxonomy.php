@@ -1226,7 +1226,17 @@ class WP_Tax_Query {
 		switch ( $query['field'] ) {
 			case 'slug':
 			case 'name':
-				$terms = "'" . implode( "','", array_map( 'sanitize_title_for_query', $query['terms'] ) ) . "'";
+				foreach ( $query['terms'] as &$term ) {
+					/*
+					 * 0 is the $term_id parameter. We don't have a term ID yet, but it doesn't
+					 * matter because `sanitize_term_field()` ignores the $term_id param when the
+					 * context is 'db'.
+					 */
+					$term = "'" . sanitize_term_field( $query['field'], $term, 0, $query['taxonomy'], 'db' ) . "'";
+				}
+
+				$terms = implode( ",", $query['terms'] );
+
 				$terms = $wpdb->get_col( "
 					SELECT $wpdb->term_taxonomy.$resulting_field
 					FROM $wpdb->term_taxonomy
