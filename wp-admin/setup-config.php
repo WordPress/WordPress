@@ -280,6 +280,11 @@ switch($step) {
 			case 'DB_HOST'     :
 				$config_file[ $line_num ] = "define('" . $constant . "'," . $padding . "'" . addcslashes( constant( $constant ), "\\'" ) . "');\r\n";
 				break;
+			case 'DB_CHARSET'  :
+				if ( 'utf8mb4' === $wpdb->charset || ( ! $wpdb->charset && $wpdb->has_cap( 'utf8mb4' ) ) ) {
+					$config_file[ $line_num ] = "define('" . $constant . "'," . $padding . "'utf8mb4');\r\n";
+				}
+				break;
 			case 'AUTH_KEY'         :
 			case 'SECURE_AUTH_KEY'  :
 			case 'LOGGED_IN_KEY'    :

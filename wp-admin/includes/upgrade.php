@@ -519,6 +519,9 @@ function upgrade_all() {
 	if ( $wp_current_db_version < 29630 )
 		upgrade_400();
 
+	if ( $wp_current_db_version < 31349 )
+		upgrade_420();
+
 	maybe_disable_link_manager();
 
 	maybe_disable_automattic_widgets();
@@ -1407,6 +1410,27 @@ function upgrade_400() {
 }
 
 /**
+ * Execute changes made in WordPress 4.2.0.
+ *
+ * @since 4.2.0
+ */
+function upgrade_420() {
+	global $wp_current_db_version, $wpdb;
+
+	if ( $wp_current_db_version < 31349 && $wpdb->charset === 'utf8mb4' ) {
+		if ( is_multisite() ) {
+			$tables = $wpdb->tables( 'blog' );
+		} else {
+			$tables = $wpdb->tables( 'all' );
+		}
+
+		foreach ( $tables as $table ) {
+			maybe_convert_table_to_utf8mb4( $table );
+		}
+	}
+}
+
+/**
  * Executes network-level upgrade routines.
  *
  * @since 3.0.0
@@ -1500,6 +1524,21 @@ function upgrade_network() {
 			$illegal_name = reset( $illegal_names );
 			$illegal_names = explode( ' ', $illegal_name );
 			update_site_option( 'illegal_names', $illegal_names );
+		}
+	}
+
+	// 4.2
+	if ( $wp_current_db_version < 31349 && $wpdb->charset === 'utf8mb4' ) {
+		if ( ! ( defined( 'DO_NOT_UPGRADE_GLOBAL_TABLES' ) && DO_NOT_UPGRADE_GLOBAL_TABLES ) ) {
+			$wpdb->query( "ALTER TABLE $wpdb->site DROP INDEX domain, ADD INDEX domain(domain(140),path(51))" );
+			$wpdb->query( "ALTER TABLE $wpdb->sitemeta DROP INDEX meta_key, ADD INDEX meta_key(meta_key(191))" );
+			$wpdb->query( "ALTER TABLE $wpdb->signups DROP INDEX domain, ADD INDEX domain(domain(140),path(51))" );
+
+			$tables = $wpdb->tables( 'global' );
+
+			foreach ( $tables as $table ) {
+				maybe_convert_table_to_utf8mb4( $table );
+			}
 		}
 	}
 }
@@ -1605,6 +1644,42 @@ function maybe_add_column($table_name, $column_name, $create_ddl) {
 		}
 	}
 	return false;
+}
+
+/**
+ * If a table only contains utf8 or utf8mb4 columns, convert it to utf8mb4.
+ *
+ * @since 4.2.0
+ *
+ * @param string $table The table to convert.
+ * @return bool true if the table was converted, false if it wasn't.
+ */
+function maybe_convert_table_to_utf8mb4( $table ) {
+	global $wpdb;
+
+	$results = $wpdb->get_results( "SHOW FULL COLUMNS FROM `$table`" );
+	if ( ! $results ) {
+		return false;
+	}
+
+	$has_utf8 = false;
+	foreach ( $results as $column ) {
+		if ( $column->Collation ) {
+			if ( 'utf8' === $column->Collation ) {
+				$has_utf8 = true;
+			} elseif ( 'utf8mb4' !== $column->Collation ) {
+				// Don't upgrade tables that have non-utf8 columns.
+				return false;
+			}
+		}
+	}
+
+	if ( ! $has_utf8 ) {
+		// Don't bother upgrading tables that don't have utf8 columns.
+		return false;
+	}
+
+	return $wpdb->query( "ALTER TABLE $table CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci" );
 }
 
 /**
@@ -2283,6 +2358,17 @@ function pre_schema_upgrade() {
 	if ( $wp_current_db_version < 30133 ) {
 		// dbDelta() can recreate but can't drop the index.
 		$wpdb->query( "ALTER TABLE $wpdb->terms DROP INDEX slug" );
+	}
+
+	// Upgrade versions prior to 4.2.
+	if ( $wp_current_db_version < 31349 ) {
+		// So that we can change tables to utf8mb4, we need to shorten the index lengths to less than 767 bytes
+		$wpdb->query( "ALTER TABLE $wpdb->usermeta DROP INDEX meta_key, ADD INDEX meta_key(meta_key(191))" );
+		$wpdb->query( "ALTER TABLE $wpdb->terms DROP INDEX slug, ADD INDEX slug(slug(191))" );
+		$wpdb->query( "ALTER TABLE $wpdb->terms DROP INDEX name, ADD INDEX name(name(191))" );
+		$wpdb->query( "ALTER TABLE $wpdb->commentmeta DROP INDEX meta_key, ADD INDEX meta_key(meta_key(191))" );
+		$wpdb->query( "ALTER TABLE $wpdb->postmeta DROP INDEX meta_key, ADD INDEX meta_key(meta_key(191))" );
+		$wpdb->query( "ALTER TABLE $wpdb->posts DROP INDEX post_name, ADD INDEX post_name(post_name(191))" );
 	}
 }
 

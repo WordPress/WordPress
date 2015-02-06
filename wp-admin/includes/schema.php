@@ -44,6 +44,13 @@ function wp_get_db_schema( $scope = 'all', $blog_id = null ) {
 	// Engage multisite if in the middle of turning it on from network.php.
 	$is_multisite = is_multisite() || ( defined( 'WP_INSTALLING_NETWORK' ) && WP_INSTALLING_NETWORK );
 
+	/*
+	 * Indexes have a maximum size of 767 bytes. Historically, we haven't need to be concerned about that.
+	 * As of 4.2, however, we moved to utf8mb4, which uses 4 bytes per character. This means that an index which
+	 * used to have room for floor(767/3) = 255 characters, now only has room for floor(767/4) = 191 characters.
+	 */
+	$max_index_length = 191;
+
 	// Blog specific tables.
 	$blog_tables = "CREATE TABLE $wpdb->terms (
  term_id bigint(20) unsigned NOT NULL auto_increment,
@@ -51,8 +58,8 @@ function wp_get_db_schema( $scope = 'all', $blog_id = null ) {
  slug varchar(200) NOT NULL default '',
  term_group bigint(10) NOT NULL default 0,
  PRIMARY KEY  (term_id),
- KEY slug (slug),
- KEY name (name)
+ KEY slug (slug($max_index_length)),
+ KEY name (name($max_index_length))
 ) $charset_collate;
 CREATE TABLE $wpdb->term_taxonomy (
  term_taxonomy_id bigint(20) unsigned NOT NULL auto_increment,
@@ -79,7 +86,7 @@ CREATE TABLE $wpdb->commentmeta (
   meta_value longtext,
   PRIMARY KEY  (meta_id),
   KEY comment_id (comment_id),
-  KEY meta_key (meta_key)
+  KEY meta_key (meta_key($max_index_length))
 ) $charset_collate;
 CREATE TABLE $wpdb->comments (
   comment_ID bigint(20) unsigned NOT NULL auto_increment,
@@ -136,7 +143,7 @@ CREATE TABLE $wpdb->postmeta (
   meta_value longtext,
   PRIMARY KEY  (meta_id),
   KEY post_id (post_id),
-  KEY meta_key (meta_key)
+  KEY meta_key (meta_key($max_index_length))
 ) $charset_collate;
 CREATE TABLE $wpdb->posts (
   ID bigint(20) unsigned NOT NULL auto_increment,
@@ -163,7 +170,7 @@ CREATE TABLE $wpdb->posts (
   post_mime_type varchar(100) NOT NULL default '',
   comment_count bigint(20) NOT NULL default '0',
   PRIMARY KEY  (ID),
-  KEY post_name (post_name),
+  KEY post_name (post_name($max_index_length)),
   KEY type_status_date (post_type,post_status,post_date,ID),
   KEY post_parent (post_parent),
   KEY post_author (post_author)
@@ -213,7 +220,7 @@ CREATE TABLE $wpdb->posts (
   meta_value longtext,
   PRIMARY KEY  (umeta_id),
   KEY user_id (user_id),
-  KEY meta_key (meta_key)
+  KEY meta_key (meta_key($max_index_length))
 ) $charset_collate;\n";
 
 	// Global tables
@@ -261,7 +268,7 @@ CREATE TABLE $wpdb->site (
   domain varchar(200) NOT NULL default '',
   path varchar(100) NOT NULL default '',
   PRIMARY KEY  (id),
-  KEY domain (domain,path)
+  KEY domain (domain(140),path(51))
 ) $charset_collate;
 CREATE TABLE $wpdb->sitemeta (
   meta_id bigint(20) NOT NULL auto_increment,
@@ -269,7 +276,7 @@ CREATE TABLE $wpdb->sitemeta (
   meta_key varchar(255) default NULL,
   meta_value longtext,
   PRIMARY KEY  (meta_id),
-  KEY meta_key (meta_key),
+  KEY meta_key (meta_key($max_index_length)),
   KEY site_id (site_id)
 ) $charset_collate;
 CREATE TABLE $wpdb->signups (
@@ -288,7 +295,7 @@ CREATE TABLE $wpdb->signups (
   KEY activation_key (activation_key),
   KEY user_email (user_email),
   KEY user_login_email (user_login,user_email),
-  KEY domain_path (domain,path)
+  KEY domain_path (domain(140),path(51))
 ) $charset_collate;";
 
 	switch ( $scope ) {
