@@ -426,6 +426,7 @@ final class WP_Customize_Manager {
 	 * Return the sanitized value for a given setting from the request's POST data.
 	 *
 	 * @since 3.4.0
+	 * @since 4.1.1 Introduced 'default' parameter.
 	 *
 	 * @param WP_Customize_Setting $setting A WP_Customize_Setting derived object
 	 * @param mixed $default value returned $setting has no post value (added in 4.2.0).
