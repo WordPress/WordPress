@@ -2013,28 +2013,27 @@ function get_terms( $taxonomies, $args = '' ) {
 			}
 		}
 	}
-	reset( $terms );
 
 	$_terms = array();
 	if ( 'id=>parent' == $_fields ) {
-		while ( $term = array_shift( $terms ) ) {
-			$_terms[$term->term_id] = $term->parent;
+		foreach ( $terms as $term ) {
+			$_terms[ $term->term_id ] = $term->parent;
 		}
 	} elseif ( 'ids' == $_fields ) {
-		while ( $term = array_shift( $terms ) ) {
+		foreach ( $terms as $term ) {
 			$_terms[] = $term->term_id;
 		}
 	} elseif ( 'names' == $_fields ) {
-		while ( $term = array_shift( $terms ) ) {
+		foreach ( $terms as $term ) {
 			$_terms[] = $term->name;
 		}
 	} elseif ( 'id=>name' == $_fields ) {
-		while ( $term = array_shift( $terms ) ) {
-			$_terms[$term->term_id] = $term->name;
+		foreach ( $terms as $term ) {
+			$_terms[ $term->term_id ] = $term->name;
 		}
 	} elseif ( 'id=>slug' == $_fields ) {
-		while ( $term = array_shift( $terms ) ) {
-			$_terms[$term->term_id] = $term->slug;
+		foreach ( $terms as $term ) {
+			$_terms[ $term->term_id ] = $term->slug;
 		}
 	}
 
