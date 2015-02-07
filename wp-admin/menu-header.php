@@ -60,7 +60,7 @@ function _wp_menu_output( $menu, $submenu, $submenu_as_parent = true ) {
 			$first = false;
 		}
 
-		$submenu_items = false;
+		$submenu_items = array();
 		if ( ! empty( $submenu[$item[2]] ) ) {
 			$class[] = 'wp-has-submenu';
 			$submenu_items = $submenu[$item[2]];
