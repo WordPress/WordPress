@@ -359,19 +359,19 @@ function themes_api( $action, $args = null ) {
 		if ( $ssl = wp_http_supports( array( 'ssl' ) ) )
 			$url = set_url_scheme( $url, 'https' );
 
-		$args = array(
+		$http_args = array(
 			'body' => array(
 				'action' => $action,
 				'request' => serialize( $args )
 			)
 		);
-		$request = wp_remote_post( $url, $args );
+		$request = wp_remote_post( $url, $http_args );
 
 		if ( $ssl && is_wp_error( $request ) ) {
 			if ( ! defined( 'DOING_AJAX' ) || ! DOING_AJAX ) {
 				trigger_error( __( 'An unexpected error occurred. Something may be wrong with WordPress.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="https://wordpress.org/support/">support forums</a>.' ) . ' ' . __( '(WordPress could not establish a secure connection to WordPress.org. Please contact your server administrator.)' ), headers_sent() || WP_DEBUG ? E_USER_WARNING : E_USER_NOTICE );
 			}
-			$request = wp_remote_post( $http_url, $args );
+			$request = wp_remote_post( $http_url, $http_args );
 		}
 
 		if ( is_wp_error($request) ) {
