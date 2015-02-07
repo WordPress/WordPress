@@ -3900,15 +3900,17 @@ class WP_Query {
 				// For other tax queries, grab the first term from the first clause.
 				$tax_query_in_and = wp_list_filter( $this->tax_query->queried_terms, array( 'operator' => 'NOT IN' ), 'NOT' );
 
-				$queried_taxonomies = array_keys( $tax_query_in_and );
-				$matched_taxonomy = reset( $queried_taxonomies );
-				$query = $tax_query_in_and[ $matched_taxonomy ];
+				if ( ! empty( $tax_query_in_and ) ) {
+					$queried_taxonomies = array_keys( $tax_query_in_and );
+					$matched_taxonomy = reset( $queried_taxonomies );
+					$query = $tax_query_in_and[ $matched_taxonomy ];
 
-				if ( $query['terms'] ) {
-					if ( 'term_id' == $query['field'] ) {
-						$term = get_term( reset( $query['terms'] ), $matched_taxonomy );
-					} else {
-						$term = get_term_by( $query['field'], reset( $query['terms'] ), $matched_taxonomy );
+					if ( $query['terms'] ) {
+						if ( 'term_id' == $query['field'] ) {
+							$term = get_term( reset( $query['terms'] ), $matched_taxonomy );
+						} else {
+							$term = get_term_by( $query['field'], reset( $query['terms'] ), $matched_taxonomy );
+						}
 					}
 				}
 			}
