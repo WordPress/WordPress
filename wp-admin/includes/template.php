@@ -328,9 +328,8 @@ function wp_link_category_checklist( $link_id = 0 ) {
 	}
 }
 
-// adds hidden fields with the data for use in the inline editor for posts and pages
 /**
- * {@internal Missing Short Description}}
+ * Adds hidden fields with the data for use in the inline editor for posts and pages.
  *
  * @since 2.7.0
  *
@@ -411,7 +410,7 @@ function get_inline_data($post) {
  * @param string $mode
  * @param bool $table_row
  */
-function wp_comment_reply($position = '1', $checkbox = false, $mode = 'single', $table_row = true) {
+function wp_comment_reply($position = 1, $checkbox = false, $mode = 'single', $table_row = true) {
 	global $wp_list_table;
 	/**
 	 * Filter the in-line comment reply-to form output in the Comments
@@ -582,7 +581,7 @@ function _list_meta_row( $entry, &$count ) {
 	static $update_nonce = false;
 
 	if ( is_protected_meta( $entry['meta_key'], 'post' ) )
-		return;
+		return '';
 
 	if ( !$update_nonce )
 		$update_nonce = wp_create_nonce( 'add-meta' );
@@ -597,7 +596,7 @@ function _list_meta_row( $entry, &$count ) {
 		} else {
 			// This is a serialized array/object so we should NOT display it.
 			--$count;
-			return;
+			return '';
 		}
 	}
 
@@ -845,7 +844,7 @@ function parent_dropdown( $default = 0, $parent = 0, $level = 0 ) {
  *
  * @param string $selected slug for the role that should be already selected
  */
-function wp_dropdown_roles( $selected = false ) {
+function wp_dropdown_roles( $selected = '' ) {
 	$p = '';
 	$r = '';
 
@@ -853,7 +852,7 @@ function wp_dropdown_roles( $selected = false ) {
 
 	foreach ( $editable_roles as $role => $details ) {
 		$name = translate_user_role($details['name'] );
-		if ( $selected == $role ) // preselect specified role
+		if ( $selected === $role ) // preselect specified role
 			$p = "\n\t<option selected='selected' value='" . esc_attr($role) . "'>$name</option>";
 		else
 			$r .= "\n\t<option value='" . esc_attr($role) . "'>$name</option>";
@@ -1527,12 +1526,11 @@ function _admin_search_query() {
  *
  * @since 2.7.0
  * @param string $title Title of the Iframe page.
- * @param bool $limit_styles Limit styles to colour-related styles only (unless others are enqueued).
  *
  */
-function iframe_header( $title = '', $limit_styles = false ) {
+function iframe_header( $title = '' ) {
 	show_admin_bar( false );
-	global $hook_suffix, $current_user, $admin_body_class, $wp_locale;
+	global $hook_suffix, $admin_body_class, $wp_locale;
 	$admin_body_class = preg_replace('/[^a-z0-9_-]+/i', '-', $hook_suffix);
 
 	$current_screen = get_current_screen();
@@ -1813,8 +1811,10 @@ function submit_button( $text = null, $type = 'primary', $name = 'submit', $wrap
  *                     These attributes will be output as attribute="value", such as tabindex="1".
  *                     Defaults to no other attributes. Other attributes can also be provided as a
  *                     string such as 'tabindex="1"', though the array format is typically cleaner.
+ *
+ * @return string Submit button HTML.
  */
-function get_submit_button( $text = null, $type = 'primary large', $name = 'submit', $wrap = true, $other_attributes = null ) {
+function get_submit_button( $text = '', $type = 'primary large', $name = 'submit', $wrap = true, $other_attributes = array() ) {
 	if ( ! is_array( $type ) )
 		$type = explode( ' ', $type );
 
@@ -1900,6 +1900,8 @@ final class WP_Internal_Pointers {
 	 *
 	 * Individual pointers (e.g. wp390_widgets) can be disabled using the following:
 	 *     remove_action( 'admin_print_footer_scripts', array( 'WP_Internal_Pointers', 'pointer_wp390_widgets' ) );
+	 *
+	 * @param string $hook_suffix The current admin page.
 	 */
 	public static function enqueue_scripts( $hook_suffix ) {
 		/*
@@ -2067,6 +2069,8 @@ final class WP_Internal_Pointers {
 	 * Prevents new users from seeing existing 'new feature' pointers.
 	 *
 	 * @since 3.3.0
+	 *
+	 * @param int $user_id User ID.
 	 */
 	public static function dismiss_pointers_for_new_users( $user_id ) {
 		add_user_meta( $user_id, 'dismissed_wp_pointers', 'wp360_locks,wp390_widgets' );
