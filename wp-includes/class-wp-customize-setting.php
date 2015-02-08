@@ -55,14 +55,6 @@ class WP_Customize_Setting {
 	protected $id_data = array();
 
 	/**
-	 * Cached and sanitized $_POST value for the setting.
-	 *
-	 * @access private
-	 * @var mixed
-	 */
-	private $_post_value;
-
-	/**
 	 * Constructor.
 	 *
 	 * Any supplied $args override class property defaults.
@@ -163,7 +155,7 @@ class WP_Customize_Setting {
 	 */
 	public function _preview_filter( $original ) {
 		$undefined = new stdClass(); // symbol hack
-		$post_value = $this->manager->post_value( $this, $undefined );
+		$post_value = $this->post_value( $undefined );
 		if ( $undefined === $post_value ) {
 			$value = $this->_original_value;
 		} else {
@@ -211,17 +203,7 @@ class WP_Customize_Setting {
 	 * @return mixed The default value on failure, otherwise the sanitized value.
 	 */
 	final public function post_value( $default = null ) {
-		// Check for a cached value
-		if ( isset( $this->_post_value ) )
-			return $this->_post_value;
-
-		// Call the manager for the post value
-		$result = $this->manager->post_value( $this );
-
-		if ( isset( $result ) )
-			return $this->_post_value = $result;
-		else
-			return $default;
+		return $this->manager->post_value( $this, $default );
 	}
 
 	/**

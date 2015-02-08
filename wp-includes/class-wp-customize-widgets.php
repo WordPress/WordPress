@@ -35,20 +35,6 @@ final class WP_Customize_Widgets {
 	/**
 	 * @since 3.9.0
 	 * @access protected
-	 * @var
-	 */
-	protected $_customized;
-
-	/**
-	 * @since 3.9.0
-	 * @access protected
-	 * @var array
-	 */
-	protected $_prepreview_added_filters = array();
-
-	/**
-	 * @since 3.9.0
-	 * @access protected
 	 * @var array
 	 */
 	protected $rendered_sidebars = array();
@@ -68,6 +54,18 @@ final class WP_Customize_Widgets {
 	protected $old_sidebars_widgets = array();
 
 	/**
+	 * Mapping of setting type to setting ID pattern.
+	 *
+	 * @since 4.2.0
+	 * @access protected
+	 * @var array
+	 */
+	protected $setting_id_patterns = array(
+		'widget_instance' => '/^(widget_.+?)(?:\[(\d+)\])?$/',
+		'sidebar_widgets' => '/^sidebars_widgets\[(.+?)\]$/',
+	);
+
+	/**
 	 * Initial loader.
 	 *
 	 * @since 3.9.0
@@ -78,7 +76,8 @@ final class WP_Customize_Widgets {
 	public function __construct( $manager ) {
 		$this->manager = $manager;
 
-		add_action( 'after_setup_theme',                       array( $this, 'setup_widget_addition_previews' ) );
+		add_filter( 'customize_dynamic_setting_args',          array( $this, 'filter_customize_dynamic_setting_args' ), 10, 2 );
+		add_action( 'after_setup_theme',                       array( $this, 'register_settings' ) );
 		add_action( 'wp_loaded',                               array( $this, 'override_sidebars_widgets_for_theme_switch' ) );
 		add_action( 'customize_controls_init',                 array( $this, 'customize_controls_init' ) );
 		add_action( 'customize_register',                      array( $this, 'schedule_customize_register' ), 1 );
@@ -92,6 +91,76 @@ final class WP_Customize_Widgets {
 		add_action( 'dynamic_sidebar',                         array( $this, 'tally_rendered_widgets' ) );
 		add_filter( 'is_active_sidebar',                       array( $this, 'tally_sidebars_via_is_active_sidebar_calls' ), 10, 2 );
 		add_filter( 'dynamic_sidebar_has_widgets',             array( $this, 'tally_sidebars_via_dynamic_sidebar_calls' ), 10, 2 );
+	}
+
+	/**
+	 * Get the widget setting type given a setting ID.
+	 *
+	 * @since 4.2.0
+	 *
+	 * @param $setting_id
+	 *
+	 * @return string|null
+	 */
+	protected function get_setting_type( $setting_id ) {
+		static $cache = array();
+		if ( isset( $cache[ $setting_id ] ) ) {
+			return $cache[ $setting_id ];
+		}
+		foreach ( $this->setting_id_patterns as $type => $pattern ) {
+			if ( preg_match( $pattern, $setting_id ) ) {
+				$cache[ $setting_id ] = $type;
+				return $type;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Inspect the incoming customized data for any widget settings, and dynamically add them up-front so widgets will be initialized properly.
+	 *
+	 * @since 4.2.0
+	 */
+	public function register_settings() {
+		$widget_setting_ids = array();
+		$incoming_setting_ids = array_keys( $this->manager->unsanitized_post_values() );
+		foreach ( $incoming_setting_ids as $setting_id ) {
+			if ( ! is_null( $this->get_setting_type( $setting_id ) ) ) {
+				$widget_setting_ids[] = $setting_id;
+			}
+		}
+		if ( $this->manager->doing_ajax( 'update-widget' ) && isset( $_REQUEST['widget-id'] ) ) {
+			$widget_setting_ids[] = $this->get_setting_id( wp_unslash( $_REQUEST['widget-id'] ) );
+		}
+
+		$settings = $this->manager->add_dynamic_settings( array_unique( $widget_setting_ids ) );
+
+		/*
+		 * Preview settings right away so that widgets and sidebars will get registered properly.
+		 * But don't do this if a customize_save because this will cause WP to think there is nothing
+		 * changed that needs to be saved.
+		 */
+		if ( ! $this->manager->doing_ajax( 'customize_save' ) ) {
+			foreach ( $settings as $setting ) {
+				$setting->preview();
+			}
+		}
+	}
+
+	/**
+	 * Determine the arguments for a dynamically-created setting.
+	 *
+	 * @since 4.2.0
+	 *
+	 * @param false|array $args
+	 * @param string $setting_id
+	 * @return false|array
+	 */
+	public function filter_customize_dynamic_setting_args( $args, $setting_id ) {
+		if ( $this->get_setting_type( $setting_id ) ) {
+			$args = $this->get_setting_args( $setting_id );
+		}
+		return $args;
 	}
 
 	/**
@@ -110,178 +179,7 @@ final class WP_Customize_Widgets {
 			return $default;
 		}
 
-		return wp_unslash( $_POST[$name] );
-	}
-
-	/**
-	 * Set up widget addition previews.
-	 *
-	 * Since the widgets get registered on 'widgets_init' before the Customizer
-	 * settings are set up on 'customize_register', we have to filter the options
-	 * similarly to how the setting previewer will filter the options later.
-	 *
-	 * @since 3.9.0
-	 *
-	 * @access public
-	 */
-	public function setup_widget_addition_previews() {
-		$is_customize_preview = false;
-
-		if ( ! empty( $this->manager ) && ! is_admin() && 'on' === $this->get_post_value( 'wp_customize' ) ) {
-			$is_customize_preview = check_ajax_referer( 'preview-customize_' . $this->manager->get_stylesheet(), 'nonce', false );
-		}
-
-		$is_ajax_widget_update = false;
-		if ( $this->manager->doing_ajax() && 'update-widget' === $this->get_post_value( 'action' ) ) {
-			$is_ajax_widget_update = check_ajax_referer( 'update-widget', 'nonce', false );
-		}
-
-		$is_ajax_customize_save = false;
-		if ( $this->manager->doing_ajax() && 'customize_save' === $this->get_post_value( 'action' ) ) {
-			$is_ajax_customize_save = check_ajax_referer( 'save-customize_' . $this->manager->get_stylesheet(), 'nonce', false );
-		}
-
-		$is_valid_request = ( $is_ajax_widget_update || $is_customize_preview || $is_ajax_customize_save );
-		if ( ! $is_valid_request ) {
-			return;
-		}
-
-		// Input from Customizer preview.
-		if ( isset( $_POST['customized'] ) ) {
-			$this->_customized = json_decode( $this->get_post_value( 'customized' ), true );
-		} else { // Input from ajax widget update request.
-			$this->_customized = array();
-			$id_base = $this->get_post_value( 'id_base' );
-			$widget_number = $this->get_post_value( 'widget_number', false );
-			$option_name = 'widget_' . $id_base;
-			$this->_customized[ $option_name ] = array();
-			if ( preg_match( '/^[0-9]+$/', $widget_number ) ) {
-				$option_name .= '[' . $widget_number . ']';
-				$this->_customized[ $option_name ][ $widget_number ] = array();
-			}
-		}
-
-		$function = array( $this, 'prepreview_added_sidebars_widgets' );
-
-		$hook = 'option_sidebars_widgets';
-		add_filter( $hook, $function );
-		$this->_prepreview_added_filters[] = compact( 'hook', 'function' );
-
-		$hook = 'default_option_sidebars_widgets';
-		add_filter( $hook, $function );
-		$this->_prepreview_added_filters[] = compact( 'hook', 'function' );
-
-		$function = array( $this, 'prepreview_added_widget_instance' );
-		foreach ( $this->_customized as $setting_id => $value ) {
-			if ( preg_match( '/^(widget_.+?)(?:\[(\d+)\])?$/', $setting_id, $matches ) ) {
-				$option = $matches[1];
-
-				$hook = sprintf( 'option_%s', $option );
-				if ( ! has_filter( $hook, $function ) ) {
-					add_filter( $hook, $function );
-					$this->_prepreview_added_filters[] = compact( 'hook', 'function' );
-				}
-
-				$hook = sprintf( 'default_option_%s', $option );
-				if ( ! has_filter( $hook, $function ) ) {
-					add_filter( $hook, $function );
-					$this->_prepreview_added_filters[] = compact( 'hook', 'function' );
-				}
-
-				/*
-				 * Make sure the option is registered so that the update_option()
-				 * won't fail due to the filters providing a default value, which
-				 * causes the update_option() to get confused.
-				 */
-				add_option( $option, array() );
-			}
-		}
-	}
-
-	/**
-	 * Ensure that newly-added widgets will appear in the widgets_sidebars.
-	 *
-	 * This is necessary because the Customizer's setting preview filters
-	 * are added after the widgets_init action, which is too late for the
-	 * widgets to be set up properly.
-	 *
-	 * @since 3.9.0
-	 * @access public
-	 *
-	 * @param array $sidebars_widgets Associative array of sidebars and their widgets.
-	 * @return array Filtered array of sidebars and their widgets.
-	 */
-	public function prepreview_added_sidebars_widgets( $sidebars_widgets ) {
-		foreach ( $this->_customized as $setting_id => $value ) {
-			if ( preg_match( '/^sidebars_widgets\[(.+?)\]$/', $setting_id, $matches ) ) {
-				$sidebar_id = $matches[1];
-				$sidebars_widgets[ $sidebar_id ] = $value;
-			}
-		}
-		return $sidebars_widgets;
-	}
-
-	/**
-	 * Ensure newly-added widgets have empty instances so they
-	 * will be recognized.
-	 *
-	 * This is necessary because the Customizer's setting preview
-	 * filters are added after the widgets_init action, which is
-	 * too late for the widgets to be set up properly.
-	 *
-	 * @since 3.9.0
-	 * @access public
-	 *
-	 * @param array|bool|mixed $value Widget instance(s), false if open was empty.
-	 * @return array|mixed Widget instance(s) with additions.
-	 */
-	public function prepreview_added_widget_instance( $value = false ) {
-		if ( ! preg_match( '/^(?:default_)?option_(widget_(.+))/', current_filter(), $matches ) ) {
-			return $value;
-		}
-		$id_base = $matches[2];
-
-		foreach ( $this->_customized as $setting_id => $setting ) {
-			$parsed_setting_id = $this->parse_widget_setting_id( $setting_id );
-			if ( is_wp_error( $parsed_setting_id ) || $id_base !== $parsed_setting_id['id_base'] ) {
-				continue;
-			}
-			$widget_number = $parsed_setting_id['number'];
-
-			if ( is_null( $widget_number ) ) {
-				// Single widget.
-				if ( false === $value ) {
-					$value = array();
-				}
-			} else {
-				// Multi widget.
-				if ( empty( $value ) ) {
-					$value = array( '_multiwidget' => 1 );
-				}
-				if ( ! isset( $value[ $widget_number ] ) ) {
-					$value[ $widget_number ] = array();
-				}
-			}
-		}
-
-		return $value;
-	}
-
-	/**
-	 * Remove pre-preview filters.
-	 *
-	 * Removes filters added in setup_widget_addition_previews()
-	 * to ensure widgets are populating the options during
-	 * 'widgets_init'.
-	 *
-	 * @since 3.9.0
-	 * @access public
-	 */
-	public function remove_prepreview_filters() {
-		foreach ( $this->_prepreview_added_filters as $prepreview_added_filter ) {
-			remove_filter( $prepreview_added_filter['hook'], $prepreview_added_filter['function'] );
-		}
-		$this->_prepreview_added_filters = array();
+		return wp_unslash( $_POST[ $name ] );
 	}
 
 	/**
@@ -380,7 +278,7 @@ final class WP_Customize_Widgets {
 	 * @access public
 	 */
 	public function schedule_customize_register() {
-		if ( is_admin() ) { // @todo for some reason, $wp_customize->is_preview() is true here?
+		if ( is_admin() ) {
 			$this->customize_register();
 		} else {
 			add_action( 'wp', array( $this, 'customize_register' ) );
@@ -412,12 +310,9 @@ final class WP_Customize_Widgets {
 		foreach ( array_keys( $wp_registered_widgets ) as $widget_id ) {
 			$setting_id   = $this->get_setting_id( $widget_id );
 			$setting_args = $this->get_setting_args( $setting_id );
-
-			$setting_args['sanitize_callback']    = array( $this, 'sanitize_widget_instance' );
-			$setting_args['sanitize_js_callback'] = array( $this, 'sanitize_widget_js_instance' );
-
-			$this->manager->add_setting( $setting_id, $setting_args );
-
+			if ( ! $this->manager->get_setting( $setting_id ) ) {
+				$this->manager->add_setting( $setting_id, $setting_args );
+			}
 			$new_setting_ids[] = $setting_id;
 		}
 
@@ -452,11 +347,9 @@ final class WP_Customize_Widgets {
 			if ( $is_registered_sidebar || $is_inactive_widgets ) {
 				$setting_id   = sprintf( 'sidebars_widgets[%s]', $sidebar_id );
 				$setting_args = $this->get_setting_args( $setting_id );
-
-				$setting_args['sanitize_callback']    = array( $this, 'sanitize_sidebar_widgets' );
-				$setting_args['sanitize_js_callback'] = array( $this, 'sanitize_sidebar_widgets_js_instance' );
-
-				$this->manager->add_setting( $setting_id, $setting_args );
+				if ( ! $this->manager->get_setting( $setting_id ) ) {
+					$this->manager->add_setting( $setting_id, $setting_args );
+				}
 				$new_setting_ids[] = $setting_id;
 
 				// Add section to contain controls.
@@ -523,16 +416,13 @@ final class WP_Customize_Widgets {
 			}
 		}
 
-		/*
-		 * We have to register these settings later than customize_preview_init
-		 * so that other filters have had a chance to run.
-		 */
-		if ( did_action( 'customize_preview_init' ) ) {
+		if ( ! $this->manager->doing_ajax( 'customize_save' ) ) {
 			foreach ( $new_setting_ids as $new_setting_id ) {
 				$this->manager->get_setting( $new_setting_id )->preview();
 			}
 		}
-		$this->remove_prepreview_filters();
+
+		add_filter( 'sidebars_widgets', array( $this, 'preview_sidebars_widgets' ), 1 );
 	}
 
 	/**
@@ -804,6 +694,15 @@ final class WP_Customize_Widgets {
 			'transport'  => 'refresh',
 			'default'    => array(),
 		);
+
+		if ( preg_match( $this->setting_id_patterns['sidebar_widgets'], $id, $matches ) ) {
+			$args['sanitize_callback'] = array( $this, 'sanitize_sidebar_widgets' );
+			$args['sanitize_js_callback'] = array( $this, 'sanitize_sidebar_widgets_js_instance' );
+		} else if ( preg_match( $this->setting_id_patterns['widget_instance'], $id, $matches ) ) {
+			$args['sanitize_callback'] = array( $this, 'sanitize_widget_instance' );
+			$args['sanitize_js_callback'] = array( $this, 'sanitize_widget_js_instance' );
+		}
+
 		$args = array_merge( $args, $overrides );
 
 		/**
@@ -831,15 +730,10 @@ final class WP_Customize_Widgets {
 	 * @return array Array of sanitized widget IDs.
 	 */
 	public function sanitize_sidebar_widgets( $widget_ids ) {
-		global $wp_registered_widgets;
-
-		$widget_ids           = array_map( 'strval', (array) $widget_ids );
+		$widget_ids = array_map( 'strval', (array) $widget_ids );
 		$sanitized_widget_ids = array();
-
 		foreach ( $widget_ids as $widget_id ) {
-			if ( array_key_exists( $widget_id, $wp_registered_widgets ) ) {
-				$sanitized_widget_ids[] = $widget_id;
-			}
+			$sanitized_widget_ids[] = preg_replace( '/[^a-z0-9_\-]/', '', $widget_id );
 		}
 		return $sanitized_widget_ids;
 	}
@@ -974,7 +868,6 @@ final class WP_Customize_Widgets {
 	 * @access public
 	 */
 	public function customize_preview_init() {
-		add_filter( 'sidebars_widgets',   array( $this, 'preview_sidebars_widgets' ), 1 );
 		add_action( 'wp_enqueue_scripts', array( $this, 'customize_preview_enqueue' ) );
 		add_action( 'wp_print_styles',    array( $this, 'print_preview_css' ), 1 );
 		add_action( 'wp_footer',          array( $this, 'export_preview_data' ), 20 );
@@ -1315,8 +1208,8 @@ final class WP_Customize_Widgets {
 
 		// Clean up any input vars that were manually added
 		foreach ( $added_input_vars as $key ) {
-			unset( $_POST[$key] );
-			unset( $_REQUEST[$key] );
+			unset( $_POST[ $key ] );
+			unset( $_REQUEST[ $key ] );
 		}
 
 		// Make sure the expected option was updated.
@@ -1333,24 +1226,30 @@ final class WP_Customize_Widgets {
 			}
 		}
 
-		// Obtain the widget control with the updated instance in place.
-		ob_start();
-
-		$form = $wp_registered_widget_controls[$widget_id];
-		if ( $form ) {
-			call_user_func_array( $form['callback'], $form['params'] );
-		}
-
-		$form = ob_get_clean();
-
 		// Obtain the widget instance.
-		$option = get_option( $option_name );
-
+		$option = $this->get_captured_option( $option_name );
 		if ( null !== $parsed_id['number'] ) {
-			$instance = $option[$parsed_id['number']];
+			$instance = $option[ $parsed_id['number'] ];
 		} else {
 			$instance = $option;
 		}
+
+		/*
+		 * Override the incoming $_POST['customized'] for a newly-created widget's
+		 * setting with the new $instance so that the preview filter currently
+		 * in place from WP_Customize_Setting::preview() will use this value
+		 * instead of the default widget instance value (an empty array).
+		 */
+		$setting_id = $this->get_setting_id( $widget_id );
+		$this->manager->set_post_value( $setting_id, $instance );
+
+		// Obtain the widget control with the updated instance in place.
+		ob_start();
+		$form = $wp_registered_widget_controls[ $widget_id ];
+		if ( $form ) {
+			call_user_func_array( $form['callback'], $form['params'] );
+		}
+		$form = ob_get_clean();
 
 		$this->stop_capturing_option_updates();
 
@@ -1383,8 +1282,8 @@ final class WP_Customize_Widgets {
 			wp_die( -1 );
 		}
 
-		if ( ! isset( $_POST['widget-id'] ) ) {
-			wp_send_json_error();
+		if ( empty( $_POST['widget-id'] ) ) {
+			wp_send_json_error( 'missing_widget-id' );
 		}
 
 		/** This action is documented in wp-admin/includes/ajax-actions.php */
@@ -1398,15 +1297,22 @@ final class WP_Customize_Widgets {
 
 		$widget_id = $this->get_post_value( 'widget-id' );
 		$parsed_id = $this->parse_widget_id( $widget_id );
-		$id_base   = $parsed_id['id_base'];
+		$id_base = $parsed_id['id_base'];
 
-		if ( isset( $_POST['widget-' . $id_base] ) && is_array( $_POST['widget-' . $id_base] ) && preg_match( '/__i__|%i%/', key( $_POST['widget-' . $id_base] ) ) ) {
-			wp_send_json_error();
+		$is_updating_widget_template = (
+			isset( $_POST[ 'widget-' . $id_base ] )
+			&&
+			is_array( $_POST[ 'widget-' . $id_base ] )
+			&&
+			preg_match( '/__i__|%i%/', key( $_POST[ 'widget-' . $id_base ] ) )
+		);
+		if ( $is_updating_widget_template ) {
+			wp_send_json_error( 'template_widget_not_updatable' );
 		}
 
 		$updated_widget = $this->call_widget_update( $widget_id ); // => {instance,form}
 		if ( is_wp_error( $updated_widget ) ) {
-			wp_send_json_error();
+			wp_send_json_error( $updated_widget->get_error_message() );
 		}
 
 		$form = $updated_widget['form'];
@@ -1463,6 +1369,25 @@ final class WP_Customize_Widgets {
 	}
 
 	/**
+	 * Get the option that was captured from being saved.
+	 *
+	 * @since 4.2.0
+	 * @access protected
+	 *
+	 * @param string $option_name Option name.
+	 * @param mixed  $default     Optional. Default value to return if the option does not exist.
+	 * @return mixed Value set for the option.
+	 */
+	protected function get_captured_option( $option_name, $default = false ) {
+		if ( array_key_exists( $option_name, $this->_captured_options ) ) {
+			$value = $this->_captured_options[ $option_name ];
+		} else {
+			$value = $default;
+		}
+		return $value;
+	}
+
+	/**
 	 * Get the number of captured widget option updates.
 	 *
 	 * @since 3.9.0
@@ -1496,21 +1421,21 @@ final class WP_Customize_Widgets {
 	 * @since 3.9.0
 	 * @access public
 	 *
-	 * @param mixed $new_value
-	 * @param string $option_name
-	 * @param mixed $old_value
-	 * @return mixed
+	 * @param mixed  $new_value   The new option value.
+	 * @param string $option_name Name of the option.
+	 * @param mixed  $old_value   The old option value.
+	 * @return mixed Filtered option value.
 	 */
 	public function capture_filter_pre_update_option( $new_value, $option_name, $old_value ) {
 		if ( $this->is_option_capture_ignored( $option_name ) ) {
 			return;
 		}
 
-		if ( ! isset( $this->_captured_options[$option_name] ) ) {
+		if ( ! isset( $this->_captured_options[ $option_name ] ) ) {
 			add_filter( "pre_option_{$option_name}", array( $this, 'capture_filter_pre_get_option' ) );
 		}
 
-		$this->_captured_options[$option_name] = $new_value;
+		$this->_captured_options[ $option_name ] = $new_value;
 
 		return $old_value;
 	}
@@ -1521,14 +1446,14 @@ final class WP_Customize_Widgets {
 	 * @since 3.9.0
 	 * @access public
 	 *
-	 * @param mixed $value Option
-	 * @return mixed
+	 * @param mixed $value Value to return instead of the option value.
+	 * @return mixed Filtered option value.
 	 */
 	public function capture_filter_pre_get_option( $value ) {
 		$option_name = preg_replace( '/^pre_option_/', '', current_filter() );
 
-		if ( isset( $this->_captured_options[$option_name] ) ) {
-			$value = $this->_captured_options[$option_name];
+		if ( isset( $this->_captured_options[ $option_name ] ) ) {
+			$value = $this->_captured_options[ $option_name ];
 
 			/** This filter is documented in wp-includes/option.php */
 			$value = apply_filters( 'option_' . $option_name, $value );
@@ -1556,5 +1481,37 @@ final class WP_Customize_Widgets {
 
 		$this->_captured_options = array();
 		$this->_is_capturing_option_updates = false;
+	}
+
+	/**
+	 * @since 3.9.0
+	 * @deprecated 4.2.0 Deprecated in favor of customize_dynamic_setting_args filter.
+	 */
+	public function setup_widget_addition_previews() {
+		_deprecated_function( __METHOD__, '4.2.0' );
+	}
+
+	/**
+	 * @since 3.9.0
+	 * @deprecated 4.2.0 Deprecated in favor of customize_dynamic_setting_args filter.
+	 */
+	public function prepreview_added_sidebars_widgets() {
+		_deprecated_function( __METHOD__, '4.2.0' );
+	}
+
+	/**
+	 * @since 3.9.0
+	 * @deprecated 4.2.0 Deprecated in favor of customize_dynamic_setting_args filter.
+	 */
+	public function prepreview_added_widget_instance() {
+		_deprecated_function( __METHOD__, '4.2.0' );
+	}
+
+	/**
+	 * @since 3.9.0
+	 * @deprecated 4.2.0 Deprecated in favor of customize_dynamic_setting_args filter.
+	 */
+	public function remove_prepreview_filters() {
+		_deprecated_function( __METHOD__, '4.2.0' );
 	}
 }
