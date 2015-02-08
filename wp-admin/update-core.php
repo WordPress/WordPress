@@ -350,7 +350,7 @@ function list_translation_updates() {
 	?>
 	<h3><?php _e( 'Translations' ); ?></h3>
 	<form method="post" action="<?php echo esc_url( $form_action ); ?>" name="upgrade-translations" class="upgrade">
-		<p><?php _e( 'Some of your translations are out of date.' ); ?></p>
+		<p><?php _e( 'New translations are available.' ); ?></p>
 		<?php wp_nonce_field( 'upgrade-translations' ); ?>
 		<p><input class="button" type="submit" value="<?php esc_attr_e( 'Update Translations' ); ?>" name="upgrade" /></p>
 	</form>
