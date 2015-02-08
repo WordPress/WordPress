@@ -1232,7 +1232,7 @@ class WP_Tax_Query {
 					 * matter because `sanitize_term_field()` ignores the $term_id param when the
 					 * context is 'db'.
 					 */
-					$term = "'" . sanitize_term_field( $query['field'], $term, 0, $query['taxonomy'], 'db' ) . "'";
+					$term = "'" . esc_sql( sanitize_term_field( $query['field'], $term, 0, $query['taxonomy'], 'db' ) ) . "'";
 				}
 
 				$terms = implode( ",", $query['terms'] );
@@ -1842,7 +1842,7 @@ function get_terms( $taxonomies, $args = '' ) {
 	if ( ! empty( $args['name'] ) ) {
 		if ( is_array( $args['name'] ) ) {
 			$name = array_map( 'sanitize_text_field', $args['name'] );
-			$where .= " AND t.name IN ('" . implode( "', '", $name ) . "')";
+			$where .= " AND t.name IN ('" . implode( "', '", array_map( 'esc_sql', $name ) ) . "')";
 		} else {
 			$name = sanitize_text_field( $args['name'] );
 			$where .= $wpdb->prepare( " AND t.name = %s", $name );
