@@ -500,6 +500,7 @@ class WP_User_Query {
 	 * Prepare the query variables.
 	 *
 	 * @since 3.1.0
+	 * @since 4.2.0 Added 'meta_value_num' support for `$orderby` parameter.
 	 * @access public
 	 *
 	 * @param string|array $query {
@@ -521,8 +522,9 @@ class WP_User_Query {
 	 *     @type array        $search_columns  Array of column names to be searched. Accepts 'ID', 'login',
 	 *                                         'nicename', 'email', 'url'. Default empty array.
 	 *     @type string       $orderby         Field to sort the retrieved users by. Accepts 'ID', 'display_name',
-	 *                                         'login', 'nicename', 'email', 'url', 'registered', 'post_count', or
-	 *                                         'meta_value'. To use 'meta_value', `$meta_key` must be also be defined.
+	 *                                         'login', 'nicename', 'email', 'url', 'registered', 'post_count',
+	 *                                         'meta_value' or 'meta_value_num'. To use 'meta_value' or
+	 *                                         'meta_value_num', `$meta_key` must be also be defined.
 	 *                                         Default 'user_login'.
 	 *     @type string       $order           Designates ascending or descending order of users. Accepts 'ASC',
 	 *                                         'DESC'. Default 'ASC'.
@@ -631,6 +633,8 @@ class WP_User_Query {
 				$orderby = 'ID';
 			} elseif ( 'meta_value' == $qv['orderby'] ) {
 				$orderby = "$wpdb->usermeta.meta_value";
+			} elseif ( 'meta_value_num' == $qv['orderby'] ) {
+				$orderby = "$wpdb->usermeta.meta_value+0";
 			} elseif ( 'include' === $qv['orderby'] && ! empty( $include ) ) {
 				// Sanitized earlier.
 				$include_sql = implode( ',', $include );
