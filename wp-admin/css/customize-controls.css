@@ -235,7 +235,9 @@ body {
 .customize-controls-close:focus,
 .customize-controls-close:hover,
 .control-panel-back:focus,
-.control-panel-back:hover {
+.control-panel-back:hover,
+.customize-controls-preview-toggle:focus,
+.customize-controls-preview-toggle:hover {
 	background: #ddd;
 	border-color: #ccc;
 	color: #000;
@@ -309,7 +311,7 @@ body {
 }
 
 #customize-theme-controls .control-section.current-panel > h3.accordion-section-title {
-	left: -300px;
+	left: -354px;
 	-webkit-transition: left ease-in-out .18s;
 	transition: left ease-in-out .18s;
 }
@@ -847,4 +849,77 @@ body.cheatin p {
 	font-size: 14px;
 	line-height: 1.5;
 	margin: 25px 0 20px;
+}
+
+/* Responsive */
+.customize-controls-preview-toggle {
+	display: none;
+}
+
+@media screen and ( max-width: 640px ) {
+	#customize-controls {
+		width: 100%;
+	}
+
+	.wp-full-overlay.expanded {
+		margin-left: 0;
+	}
+
+	.wp-full-overlay-sidebar .wp-full-overlay-sidebar-content {
+		bottom: 0;
+	}
+
+	.customize-controls-preview-toggle {
+		display: block;
+		position: absolute;
+		top: 0;
+		left: 48px;
+		line-height: 45px;
+		font-size: 14px;
+		padding: 0 12px 0 12px;
+		margin: 0;
+		height: 45px;
+		background: #eee;
+		border-right: 1px solid #ddd;
+		color: #444;
+		cursor: pointer;
+		-webkit-transition: color .1s ease-in-out, background .1s ease-in-out;
+		transition: color .1s ease-in-out, background .1s ease-in-out;
+	}
+
+	#customize-footer-actions,
+	#customize-preview,
+	.customize-controls-preview-toggle .controls,
+	.preview-only .wp-full-overlay-sidebar-content,
+	.preview-only .customize-controls-preview-toggle .preview {
+		display: none;
+	}
+
+	.customize-controls-preview-toggle .preview:before,
+	.customize-controls-preview-toggle .controls:before {
+		font: normal 20px/1 dashicons;
+		content: "\f177";
+		position: relative;
+		top: 4px;
+		margin-right: 6px;
+	}
+
+	.customize-controls-preview-toggle .controls:before {
+		content: "\f100";
+	}
+
+	.preview-only #customize-controls {
+		height: 45px;
+	}
+
+	.preview-only #customize-preview,
+	.preview-only .customize-controls-preview-toggle .controls {
+		display: block;
+	}
+
+	#customize-preview {
+		top: 45px;
+		bottom: 0;
+		height: auto;
+	}
 }

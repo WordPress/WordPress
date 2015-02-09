@@ -2239,6 +2239,15 @@
 			event.preventDefault();
 		});
 
+		$( '.customize-controls-preview-toggle' ).on( 'click keydown', function( event ) {
+			if ( api.utils.isKeydownButNotEnterEvent( event ) ) {
+				return;
+			}
+
+			overlay.toggleClass( 'preview-only' );
+			event.preventDefault();
+		});
+
 		// Bind site title display to the corresponding field.
 		if ( title.length ) {
 			$( '#customize-control-blogname input' ).on( 'input', function() {

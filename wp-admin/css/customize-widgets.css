@@ -344,7 +344,7 @@ body.adding-widget .add-new-widget:before {
 	width: 300px;
 	margin: 0;
 	z-index: 1;
-	background: #fff;
+	background: #fff !important;
 	-webkit-transition: all 0.2s;
 	transition: all 0.2s;
 	border-right: 1px solid #dddddd;
@@ -605,5 +605,19 @@ body.adding-widget #customize-preview {
 	}
 	#customize-theme-controls .widget-area-select li:before {
 		top: 8px;
+	}
+}
+
+@media screen and ( max-width: 640px ) {
+	body.adding-widget div#available-widgets {
+		left: 0;
+		z-index: 10;
+		width: 100%;
+	}
+
+	#available-widgets-filter {
+		position: static;
+		width: 100%;
+		height: auto;
 	}
 }

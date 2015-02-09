@@ -126,6 +126,10 @@ do_action( 'customize_controls_print_scripts' );
 				submit_button( $save_text, 'primary save', 'save', false );
 			?>
 			<span class="spinner"></span>
+			<a class="customize-controls-preview-toggle" href="#">
+				<span class="controls"><?php _e( 'Customize' ); ?></span>
+				<span class="preview"><?php _e( 'Preview' ); ?></span>
+			</a>
 			<a class="customize-controls-close" href="<?php echo esc_url( $return ); ?>">
 				<span class="screen-reader-text"><?php _e( 'Cancel' ); ?></span>
 			</a>
