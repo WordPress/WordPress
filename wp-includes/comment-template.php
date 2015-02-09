@@ -1277,13 +1277,25 @@ function comments_popup_link( $zero = false, $one = false, $more = false, $css_c
 	$span = '<span class="screen-reader-text">';
 	$title = get_the_title();
 	$span_close = '</span>';
-	
+
 	$number = get_comments_number( $id );
-	
-	if ( false === $zero ) $zero = sprintf( __( 'No Comments%1$s on %2$s%3$s' ), $span, $title, $span_close );
-	if ( false === $one ) $one = sprintf( __( '1 Comment%1$s on %2$s%3$s' ), $span, $title, $span_close );
-	if ( false === $more ) $more = sprintf( __( '%4$d Comments%1$s on %2$s%3$s' ), $span, $title, $span_close, $number );
-	if ( false === $none ) $none = sprintf( __( 'Comments Off%1$s on %2$s%3$s' ), $span, $title, $span_close );
+
+	if ( false === $zero ) {
+		/* translators: 1: Opening span tag with a class, 2: post title, 3: closing span tag */
+		$zero = sprintf( __( 'No Comments%1$s on %2$s%3$s' ), $span, $title, $span_close );
+	}
+	if ( false === $one ) {
+		/* translators: 1: Opening span tag with a class, 2: post title, 3: closing span tag */
+		$one = sprintf( __( '1 Comment%1$s on %2$s%3$s' ), $span, $title, $span_close );
+	}
+	if ( false === $more ) {
+		/* translators: 1: Opening span tag with a class, 2: post title, 3: closing span tag, 4: number of comments */
+		$more = sprintf( __( '%4$d Comments%1$s on %2$s%3$s' ), $span, $title, $span_close, $number );
+	}
+	if ( false === $none ) {
+		/* translators: 1: Opening span tag with a class, 2: post title, 3: closing span tag */
+		$none = sprintf( __( 'Comments Off%1$s on %2$s%3$s' ), $span, $title, $span_close );
+	}
 
 	if ( 0 == $number && !comments_open() && !pings_open() ) {
 		echo '<span' . ((!empty($css_class)) ? ' class="' . esc_attr( $css_class ) . '"' : '') . '>' . $none . '</span>';
