@@ -49,18 +49,19 @@ ImageDetails = AttachmentDisplay.extend({
 	},
 
 	render: function() {
-		var self = this,
-			args = arguments;
+		var args = arguments;
 
 		if ( this.model.attachment && 'pending' === this.model.dfd.state() ) {
-			this.model.dfd.done( function() {
-				AttachmentDisplay.prototype.render.apply( self, args );
-				self.postRender();
-			} ).fail( function() {
-				self.model.attachment = false;
-				AttachmentDisplay.prototype.render.apply( self, args );
-				self.postRender();
-			} );
+			this.model.dfd
+				.done( _.bind( function() {
+					AttachmentDisplay.prototype.render.apply( this, args );
+					this.postRender();
+				}, this ) )
+				.fail( _.bind( function() {
+					this.model.attachment = false;
+					AttachmentDisplay.prototype.render.apply( this, args );
+					this.postRender();
+				}, this ) );
 		} else {
 			AttachmentDisplay.prototype.render.apply( this, arguments );
 			this.postRender();

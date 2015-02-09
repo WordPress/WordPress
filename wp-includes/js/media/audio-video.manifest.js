@@ -129,7 +129,7 @@
 		},
 
 		shortcode : function( model ) {
-			var self = this, content;
+			var content;
 
 			_.each( this.defaults, function( value, key ) {
 				model[ key ] = self.coerce( model, key );
@@ -137,7 +137,7 @@
 				if ( value === model[ key ] ) {
 					delete model[ key ];
 				}
-			});
+			}, this );
 
 			content = model.content;
 			delete model.content;
@@ -190,15 +190,15 @@
 		},
 
 		shortcode : function( model ) {
-			var self = this, content;
+			var content;
 
 			_.each( this.defaults, function( value, key ) {
-				model[ key ] = self.coerce( model, key );
+				model[ key ] = this.coerce( model, key );
 
 				if ( value === model[ key ] ) {
 					delete model[ key ];
 				}
-			});
+			}, this );
 
 			content = model.content;
 			delete model.content;

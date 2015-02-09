@@ -15,11 +15,9 @@ Details = EditImage.extend({
 	},
 
 	save: function() {
-		var self = this;
-
-		this.model.fetch().done( function() {
-			self.frame.content.mode( 'edit-metadata' );
-		});
+		this.model.fetch().done( _.bind( function() {
+			this.frame.content.mode( 'edit-metadata' );
+		}, this ) );
 	}
 });
 

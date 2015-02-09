@@ -30,8 +30,6 @@ EditorUploader = View.extend({
 	 * Bind drag'n'drop events to callbacks.
 	 */
 	initialize: function() {
-		var self = this;
-
 		this.initialized = false;
 
 		// Bail if not enabled or UA does not support drag'n'drop or File API.
@@ -51,9 +49,9 @@ EditorUploader = View.extend({
 		this.$document.on( 'dragover', _.bind( this.containerDragover, this ) );
 		this.$document.on( 'dragleave', _.bind( this.containerDragleave, this ) );
 
-		this.$document.on( 'dragstart dragend drop', function( event ) {
-			self.localDrag = event.type === 'dragstart';
-		});
+		this.$document.on( 'dragstart dragend drop', _.bind( function( event ) {
+			this.localDrag = event.type === 'dragstart';
+		}, this ) );
 
 		this.initialized = true;
 		return this;

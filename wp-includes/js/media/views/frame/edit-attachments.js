@@ -74,8 +74,6 @@ EditAttachments = MediaFrame.extend({
 	},
 
 	createModal: function() {
-		var self = this;
-
 		// Initialize modal container view.
 		if ( this.options.modal ) {
 			this.modal = new Modal({
@@ -83,18 +81,18 @@ EditAttachments = MediaFrame.extend({
 				title:      this.options.title
 			});
 
-			this.modal.on( 'open', function () {
-				$( 'body' ).on( 'keydown.media-modal', _.bind( self.keyEvent, self ) );
-			} );
+			this.modal.on( 'open', _.bind( function () {
+				$( 'body' ).on( 'keydown.media-modal', _.bind( this.keyEvent, this ) );
+			}, this ) );
 
 			// Completely destroy the modal DOM element when closing it.
-			this.modal.on( 'close', function() {
-				self.modal.remove();
+			this.modal.on( 'close', _.bind( function() {
+				this.modal.remove();
 				$( 'body' ).off( 'keydown.media-modal' ); /* remove the keydown event */
 				// Restore the original focus item if possible
-				$( 'li.attachment[data-id="' + self.model.get( 'id' ) +'"]' ).focus();
-				self.resetRoute();
-			} );
+				$( 'li.attachment[data-id="' + this.model.get( 'id' ) +'"]' ).focus();
+				this.resetRoute();
+			}, this ) );
 
 			// Set this frame as the modal's content.
 			this.modal.content( this );

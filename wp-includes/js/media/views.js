@@ -333,18 +333,20 @@ Cropper = State.extend({
 					requires: { library: false, selection: false },
 
 					click: function() {
-						var self = this,
-							selection = this.controller.state().get('selection').first();
+						var controller = this.controller,
+							selection;
 
-						selection.set({cropDetails: this.controller.state().imgSelect.getSelection()});
+						selection = controller.state().get('selection').first();
+						selection.set({cropDetails: controller.state().imgSelect.getSelection()});
 
 						this.$el.text(l10n.cropping);
 						this.$el.attr('disabled', true);
-						this.controller.state().doCrop( selection ).done( function( croppedImage ) {
-							self.controller.trigger('cropped', croppedImage );
-							self.controller.close();
+						
+						controller.state().doCrop( selection ).done( function( croppedImage ) {
+							controller.trigger('cropped', croppedImage );
+							controller.close();
 						}).fail( function() {
-							self.controller.trigger('content:error:crop');
+							controller.trigger('content:error:crop');
 						});
 					}
 				}
@@ -3836,7 +3838,7 @@ AttachmentsBrowser = View.extend({
 				controller: this.controller,
 				priority: -60,
 				click: function() {
-					var changed = [], removed = [], self = this,
+					var changed = [], removed = [],
 						selection = this.controller.state().get( 'selection' ),
 						library = this.controller.state().get( 'library' );
 
@@ -3877,10 +3879,10 @@ AttachmentsBrowser = View.extend({
 					if ( changed.length ) {
 						selection.remove( removed );
 
-						$.when.apply( null, changed ).then( function() {
+						$.when.apply( null, changed ).then( _.bind( function() {
 							library._requery( true );
-							self.controller.trigger( 'selection:action:done' );
-						} );
+							this.controller.trigger( 'selection:action:done' );
+						}, this ) );
 					} else {
 						this.controller.trigger( 'selection:action:done' );
 					}
@@ -4395,12 +4397,11 @@ EditImage = View.extend({
 	},
 
 	save: function() {
-		var self = this,
-			lastState = this.controller.lastState();
+		var lastState = this.controller.lastState();
 
-		this.model.fetch().done( function() {
-			self.controller.setState( lastState );
-		});
+		this.model.fetch().done( _.bind( function() {
+			this.controller.setState( lastState );
+		}, this ) );
 	}
 
 });
@@ -4603,8 +4604,6 @@ EmbedUrl = View.extend({
 	},
 
 	initialize: function() {
-		var self = this;
-
 		this.$input = $('<input id="embed-url-field" type="url" />').val( this.model.get('url') );
 		this.input = this.$input[0];
 
@@ -4614,9 +4613,9 @@ EmbedUrl = View.extend({
 		this.listenTo( this.model, 'change:url', this.render );
 
 		if ( this.model.get( 'url' ) ) {
-			_.delay( function () {
-				self.model.trigger( 'change:url' );
-			}, 500 );
+			_.delay( _.bind( function () {
+				this.model.trigger( 'change:url' );
+			}, this ), 500 );
 		}
 	},
 	/**
@@ -6069,18 +6068,19 @@ ImageDetails = AttachmentDisplay.extend({
 	},
 
 	render: function() {
-		var self = this,
-			args = arguments;
+		var args = arguments;
 
 		if ( this.model.attachment && 'pending' === this.model.dfd.state() ) {
-			this.model.dfd.done( function() {
-				AttachmentDisplay.prototype.render.apply( self, args );
-				self.postRender();
-			} ).fail( function() {
-				self.model.attachment = false;
-				AttachmentDisplay.prototype.render.apply( self, args );
-				self.postRender();
-			} );
+			this.model.dfd
+				.done( _.bind( function() {
+					AttachmentDisplay.prototype.render.apply( this, args );
+					this.postRender();
+				}, this ) )
+				.fail( _.bind( function() {
+					this.model.attachment = false;
+					AttachmentDisplay.prototype.render.apply( this, args );
+					this.postRender();
+				}, this ) );
 		} else {
 			AttachmentDisplay.prototype.render.apply( this, arguments );
 			this.postRender();
@@ -7793,8 +7793,6 @@ EditorUploader = View.extend({
 	 * Bind drag'n'drop events to callbacks.
 	 */
 	initialize: function() {
-		var self = this;
-
 		this.initialized = false;
 
 		// Bail if not enabled or UA does not support drag'n'drop or File API.
@@ -7814,9 +7812,9 @@ EditorUploader = View.extend({
 		this.$document.on( 'dragover', _.bind( this.containerDragover, this ) );
 		this.$document.on( 'dragleave', _.bind( this.containerDragleave, this ) );
 
-		this.$document.on( 'dragstart dragend drop', function( event ) {
-			self.localDrag = event.type === 'dragstart';
-		});
+		this.$document.on( 'dragstart dragend drop', _.bind( function( event ) {
+			this.localDrag = event.type === 'dragstart';
+		}, this ) );
 
 		this.initialized = true;
 		return this;

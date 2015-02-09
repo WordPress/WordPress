@@ -130,7 +130,7 @@
 		},
 
 		shortcode : function( model ) {
-			var self = this, content;
+			var content;
 
 			_.each( this.defaults, function( value, key ) {
 				model[ key ] = self.coerce( model, key );
@@ -138,7 +138,7 @@
 				if ( value === model[ key ] ) {
 					delete model[ key ];
 				}
-			});
+			}, this );
 
 			content = model.content;
 			delete model.content;
@@ -191,15 +191,15 @@
 		},
 
 		shortcode : function( model ) {
-			var self = this, content;
+			var content;
 
 			_.each( this.defaults, function( value, key ) {
-				model[ key ] = self.coerce( model, key );
+				model[ key ] = this.coerce( model, key );
 
 				if ( value === model[ key ] ) {
 					delete model[ key ];
 				}
-			});
+			}, this );
 
 			content = model.content;
 			delete model.content;
@@ -1189,14 +1189,12 @@ var PostMedia = Backbone.Model.extend({
 	},
 
 	changeAttachment: function( attachment ) {
-		var self = this;
-
 		this.setSource( attachment );
 
 		this.unset( 'src' );
 		_.each( _.without( wp.media.view.settings.embedExts, this.extension ), function( ext ) {
-			self.unset( ext );
-		} );
+			this.unset( ext );
+		}, this );
 	}
 });
 
@@ -2831,7 +2829,7 @@ AttachmentsBrowser = View.extend({
 				controller: this.controller,
 				priority: -60,
 				click: function() {
-					var changed = [], removed = [], self = this,
+					var changed = [], removed = [],
 						selection = this.controller.state().get( 'selection' ),
 						library = this.controller.state().get( 'library' );
 
@@ -2872,10 +2870,10 @@ AttachmentsBrowser = View.extend({
 					if ( changed.length ) {
 						selection.remove( removed );
 
-						$.when.apply( null, changed ).then( function() {
+						$.when.apply( null, changed ).then( _.bind( function() {
 							library._requery( true );
-							self.controller.trigger( 'selection:action:done' );
-						} );
+							this.controller.trigger( 'selection:action:done' );
+						}, this ) );
 					} else {
 						this.controller.trigger( 'selection:action:done' );
 					}
@@ -4145,10 +4143,11 @@ MediaDetails = AttachmentDisplay.extend({
 	 * @returns {media.view.MediaDetails} Returns itself to allow chaining
 	 */
 	render: function() {
-		var self = this;
-
 		AttachmentDisplay.prototype.render.apply( this, arguments );
-		setTimeout( function() { self.resetFocus(); }, 10 );
+		
+		setTimeout( _.bind( function() {
+			this.resetFocus();
+		}, this ), 10 );
 
 		this.settings = _.defaults( {
 			success : this.success

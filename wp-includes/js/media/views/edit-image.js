@@ -41,12 +41,11 @@ EditImage = View.extend({
 	},
 
 	save: function() {
-		var self = this,
-			lastState = this.controller.lastState();
+		var lastState = this.controller.lastState();
 
-		this.model.fetch().done( function() {
-			self.controller.setState( lastState );
-		});
+		this.model.fetch().done( _.bind( function() {
+			this.controller.setState( lastState );
+		}, this ) );
 	}
 
 });

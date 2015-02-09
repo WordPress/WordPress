@@ -28,14 +28,12 @@ var PostMedia = Backbone.Model.extend({
 	},
 
 	changeAttachment: function( attachment ) {
-		var self = this;
-
 		this.setSource( attachment );
 
 		this.unset( 'src' );
 		_.each( _.without( wp.media.view.settings.embedExts, this.extension ), function( ext ) {
-			self.unset( ext );
-		} );
+			this.unset( ext );
+		}, this );
 	}
 });
 

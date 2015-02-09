@@ -182,7 +182,7 @@ AttachmentsBrowser = View.extend({
 				controller: this.controller,
 				priority: -60,
 				click: function() {
-					var changed = [], removed = [], self = this,
+					var changed = [], removed = [],
 						selection = this.controller.state().get( 'selection' ),
 						library = this.controller.state().get( 'library' );
 
@@ -223,10 +223,10 @@ AttachmentsBrowser = View.extend({
 					if ( changed.length ) {
 						selection.remove( removed );
 
-						$.when.apply( null, changed ).then( function() {
+						$.when.apply( null, changed ).then( _.bind( function() {
 							library._requery( true );
-							self.controller.trigger( 'selection:action:done' );
-						} );
+							this.controller.trigger( 'selection:action:done' );
+						}, this ) );
 					} else {
 						this.controller.trigger( 'selection:action:done' );
 					}

@@ -67,18 +67,20 @@ Cropper = State.extend({
 					requires: { library: false, selection: false },
 
 					click: function() {
-						var self = this,
-							selection = this.controller.state().get('selection').first();
+						var controller = this.controller,
+							selection;
 
-						selection.set({cropDetails: this.controller.state().imgSelect.getSelection()});
+						selection = controller.state().get('selection').first();
+						selection.set({cropDetails: controller.state().imgSelect.getSelection()});
 
 						this.$el.text(l10n.cropping);
 						this.$el.attr('disabled', true);
-						this.controller.state().doCrop( selection ).done( function( croppedImage ) {
-							self.controller.trigger('cropped', croppedImage );
-							self.controller.close();
+						
+						controller.state().doCrop( selection ).done( function( croppedImage ) {
+							controller.trigger('cropped', croppedImage );
+							controller.close();
 						}).fail( function() {
-							self.controller.trigger('content:error:crop');
+							controller.trigger('content:error:crop');
 						});
 					}
 				}

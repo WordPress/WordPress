@@ -23,8 +23,6 @@ EmbedUrl = View.extend({
 	},
 
 	initialize: function() {
-		var self = this;
-
 		this.$input = $('<input id="embed-url-field" type="url" />').val( this.model.get('url') );
 		this.input = this.$input[0];
 
@@ -34,9 +32,9 @@ EmbedUrl = View.extend({
 		this.listenTo( this.model, 'change:url', this.render );
 
 		if ( this.model.get( 'url' ) ) {
-			_.delay( function () {
-				self.model.trigger( 'change:url' );
-			}, 500 );
+			_.delay( _.bind( function () {
+				this.model.trigger( 'change:url' );
+			}, this ), 500 );
 		}
 	},
 	/**

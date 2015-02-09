@@ -2663,7 +2663,7 @@ AttachmentsBrowser = View.extend({
 				controller: this.controller,
 				priority: -60,
 				click: function() {
-					var changed = [], removed = [], self = this,
+					var changed = [], removed = [],
 						selection = this.controller.state().get( 'selection' ),
 						library = this.controller.state().get( 'library' );
 
@@ -2704,10 +2704,10 @@ AttachmentsBrowser = View.extend({
 					if ( changed.length ) {
 						selection.remove( removed );
 
-						$.when.apply( null, changed ).then( function() {
+						$.when.apply( null, changed ).then( _.bind( function() {
 							library._requery( true );
-							self.controller.trigger( 'selection:action:done' );
-						} );
+							this.controller.trigger( 'selection:action:done' );
+						}, this ) );
 					} else {
 						this.controller.trigger( 'selection:action:done' );
 					}
@@ -3198,11 +3198,9 @@ Details = EditImage.extend({
 	},
 
 	save: function() {
-		var self = this;
-
-		this.model.fetch().done( function() {
-			self.frame.content.mode( 'edit-metadata' );
-		});
+		this.model.fetch().done( _.bind( function() {
+			this.frame.content.mode( 'edit-metadata' );
+		}, this ) );
 	}
 });
 
@@ -3251,12 +3249,11 @@ EditImage = View.extend({
 	},
 
 	save: function() {
-		var self = this,
-			lastState = this.controller.lastState();
+		var lastState = this.controller.lastState();
 
-		this.model.fetch().done( function() {
-			self.controller.setState( lastState );
-		});
+		this.model.fetch().done( _.bind( function() {
+			this.controller.setState( lastState );
+		}, this ) );
 	}
 
 });
@@ -3560,8 +3557,6 @@ EditAttachments = MediaFrame.extend({
 	},
 
 	createModal: function() {
-		var self = this;
-
 		// Initialize modal container view.
 		if ( this.options.modal ) {
 			this.modal = new Modal({
@@ -3569,18 +3564,18 @@ EditAttachments = MediaFrame.extend({
 				title:      this.options.title
 			});
 
-			this.modal.on( 'open', function () {
-				$( 'body' ).on( 'keydown.media-modal', _.bind( self.keyEvent, self ) );
-			} );
+			this.modal.on( 'open', _.bind( function () {
+				$( 'body' ).on( 'keydown.media-modal', _.bind( this.keyEvent, this ) );
+			}, this ) );
 
 			// Completely destroy the modal DOM element when closing it.
-			this.modal.on( 'close', function() {
-				self.modal.remove();
+			this.modal.on( 'close', _.bind( function() {
+				this.modal.remove();
 				$( 'body' ).off( 'keydown.media-modal' ); /* remove the keydown event */
 				// Restore the original focus item if possible
-				$( 'li.attachment[data-id="' + self.model.get( 'id' ) +'"]' ).focus();
-				self.resetRoute();
-			} );
+				$( 'li.attachment[data-id="' + this.model.get( 'id' ) +'"]' ).focus();
+				this.resetRoute();
+			}, this ) );
 
 			// Set this frame as the modal's content.
 			this.modal.content( this );
@@ -4145,10 +4140,11 @@ MediaDetails = AttachmentDisplay.extend({
 	 * @returns {media.view.MediaDetails} Returns itself to allow chaining
 	 */
 	render: function() {
-		var self = this;
-
 		AttachmentDisplay.prototype.render.apply( this, arguments );
-		setTimeout( function() { self.resetFocus(); }, 10 );
+		
+		setTimeout( _.bind( function() {
+			this.resetFocus();
+		}, this ), 10 );
 
 		this.settings = _.defaults( {
 			success : this.success

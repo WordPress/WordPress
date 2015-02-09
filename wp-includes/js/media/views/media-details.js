@@ -110,10 +110,11 @@ MediaDetails = AttachmentDisplay.extend({
 	 * @returns {media.view.MediaDetails} Returns itself to allow chaining
 	 */
 	render: function() {
-		var self = this;
-
 		AttachmentDisplay.prototype.render.apply( this, arguments );
-		setTimeout( function() { self.resetFocus(); }, 10 );
+		
+		setTimeout( _.bind( function() {
+			this.resetFocus();
+		}, this ), 10 );
 
 		this.settings = _.defaults( {
 			success : this.success
