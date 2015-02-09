@@ -1064,10 +1064,13 @@ if ( !function_exists('check_admin_referer') ) :
  *
  * @since 1.2.0
  *
- * @param int|string $action    Action nonce
- * @param string     $query_arg Where to look for nonce in $_REQUEST (since 2.5)
+ * @param int|string $action    Action nonce.
+ * @param string     $query_arg Optional. Key to check for nonce in `$_REQUEST` (since 2.5).
+ *                              Default '_wpnonce'.
+ * @return false|int False if the nonce is invalid, 1 if the nonce is valid and generated between
+ *                   0-12 hours ago, 2 if the nonce is valid and generated between 12-24 hours ago.
  */
-function check_admin_referer($action = -1, $query_arg = '_wpnonce') {
+function check_admin_referer( $action = -1, $query_arg = '_wpnonce' ) {
 	if ( -1 == $action )
 		_doing_it_wrong( __FUNCTION__, __( 'You should specify a nonce action to be verified by using the first parameter.' ), '3.2' );
 
@@ -1084,8 +1087,9 @@ function check_admin_referer($action = -1, $query_arg = '_wpnonce') {
 	 *
 	 * @since 1.5.1
 	 *
-	 * @param string $action The nonce action.
-	 * @param bool   $result Whether the admin request nonce was validated.
+	 * @param string    $action The nonce action.
+	 * @param false|int $result False if the nonce is invalid, 1 if the nonce is valid and generated between
+	 *                          0-12 hours ago, 2 if the nonce is valid and generated between 12-24 hours ago.
 	 */
 	do_action( 'check_admin_referer', $action, $result );
 	return $result;
@@ -1098,8 +1102,14 @@ if ( !function_exists('check_ajax_referer') ) :
  *
  * @since 2.0.3
  *
- * @param int|string $action    Action nonce
- * @param string     $query_arg Where to look for nonce in $_REQUEST (since 2.5)
+ * @param int|string   $action    Action nonce.
+ * @param false|string $query_arg Optional. Key to check for the nonce in `$_REQUEST` (since 2.5). If false,
+ *                                `$_REQUEST` values will be evaluated for '_ajax_nonce', and '_wpnonce'
+ *                                (in that order). Default false.
+ * @param bool         $die       Optional. Whether to die early when the nonce cannot be verified.
+ *                                Default true.
+ * @return false|int False if the nonce is invalid, 1 if the nonce is valid and generated between
+ *                   0-12 hours ago, 2 if the nonce is valid and generated between 12-24 hours ago.
  */
 function check_ajax_referer( $action = -1, $query_arg = false, $die = true ) {
 	$nonce = '';
@@ -1125,8 +1135,9 @@ function check_ajax_referer( $action = -1, $query_arg = false, $die = true ) {
 	 *
 	 * @since 2.1.0
 	 *
-	 * @param string $action The AJAX nonce action.
-	 * @param bool   $result Whether the AJAX request nonce was validated.
+	 * @param string    $action The AJAX nonce action.
+	 * @param false|int $result False if the nonce is invalid, 1 if the nonce is valid and generated between
+	 *                          0-12 hours ago, 2 if the nonce is valid and generated between 12-24 hours ago.
 	 */
 	do_action( 'check_ajax_referer', $action, $result );
 
@@ -1693,7 +1704,8 @@ if ( !function_exists('wp_verify_nonce') ) :
  *
  * @param string     $nonce  Nonce that was used in the form to verify
  * @param string|int $action Should give context to what is taking place and be the same when nonce was created.
- * @return bool Whether the nonce check passed or failed.
+ * @return false|int False if the nonce is invalid, 1 if the nonce is valid and generated between
+ *                   0-12 hours ago, 2 if the nonce is valid and generated between 12-24 hours ago.
  */
 function wp_verify_nonce( $nonce, $action = -1 ) {
 	$nonce = (string) $nonce;
