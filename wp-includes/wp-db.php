@@ -2801,7 +2801,14 @@ class wpdb {
 			case 'set_charset' :
 				return version_compare( $version, '5.0.7', '>=' );
 			case 'utf8mb4' :      // @since 4.1.0
-				return version_compare( $version, '5.5.3', '>=' );
+				if ( version_compare( $version, '5.5.3', '<' ) ) {
+					return false;
+				}
+				if ( $this->use_mysqli ) {
+					return mysqli_get_client_version( $this->dbh ) >= 50503;
+				} else {
+					return mysql_get_client_version( $this->dbh ) >= 50503;
+				}
 		}
 
 		return false;
