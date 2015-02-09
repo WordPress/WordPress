@@ -2461,7 +2461,8 @@ class wpdb {
 				}
 
 				// Change the charset to match the string(s) we're converting
-				if ( $charset !== $this->charset ) {
+				if ( $charset !== $connection_charset ) {
+					$connection_charset = $charset;
 					$this->set_charset( $this->dbh, $charset );
 				}
 
@@ -2482,7 +2483,7 @@ class wpdb {
 
 			// Don't forget to change the charset back!
 			if ( $connection_charset !== $this->charset ) {
-				$this->set_charset( $this->dbh, $connection_charset );
+				$this->set_charset( $this->dbh );
 			}
 		}
 
