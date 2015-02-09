@@ -404,7 +404,7 @@ function wp_default_scripts( &$scripts ) {
 	$scripts->add( 'accordion', "/wp-admin/js/accordion$suffix.js", array( 'jquery' ), false, 1 );
 
 	$scripts->add( 'shortcode', "/wp-includes/js/shortcode$suffix.js", array( 'underscore' ), false, 1 );
-	$scripts->add( 'media-models', "/wp-includes/js/media-models$suffix.js", array( 'wp-backbone' ), false, 1 );
+	$scripts->add( 'media-models', "/wp-includes/js/media/models$suffix.js", array( 'wp-backbone' ), false, 1 );
 	did_action( 'init' ) && $scripts->localize( 'media-models', '_wpMediaModelsL10n', array(
 		'settings' => array(
 			'ajaxurl' => admin_url( 'admin-ajax.php', 'relative' ),
@@ -414,9 +414,9 @@ function wp_default_scripts( &$scripts ) {
 
 	// To enqueue media-views or media-editor, call wp_enqueue_media().
 	// Both rely on numerous settings, styles, and templates to operate correctly.
-	$scripts->add( 'media-views',  "/wp-includes/js/media-views$suffix.js",  array( 'utils', 'media-models', 'wp-plupload', 'jquery-ui-sortable', 'wp-mediaelement' ), false, 1 );
+	$scripts->add( 'media-views',  "/wp-includes/js/media/views$suffix.js",  array( 'utils', 'media-models', 'wp-plupload', 'jquery-ui-sortable', 'wp-mediaelement' ), false, 1 );
 	$scripts->add( 'media-editor', "/wp-includes/js/media-editor$suffix.js", array( 'shortcode', 'media-views' ), false, 1 );
-	$scripts->add( 'media-audiovideo', "/wp-includes/js/media-audiovideo$suffix.js", array( 'media-editor' ), false, 1 );
+	$scripts->add( 'media-audiovideo', "/wp-includes/js/media/audio-video$suffix.js", array( 'media-editor' ), false, 1 );
 	$scripts->add( 'mce-view', "/wp-includes/js/mce-view$suffix.js", array( 'shortcode', 'media-models', 'media-audiovideo', 'wp-playlist' ), false, 1 );
 
 	if ( is_admin() ) {
@@ -529,7 +529,7 @@ function wp_default_scripts( &$scripts ) {
 
 		$scripts->add( 'list-revisions', "/wp-includes/js/wp-list-revisions$suffix.js" );
 
-		$scripts->add( 'media-grid', "/wp-includes/js/media-grid$suffix.js", array( 'media-editor' ), false, 1 );
+		$scripts->add( 'media-grid', "/wp-includes/js/media/grid$suffix.js", array( 'media-editor' ), false, 1 );
 		$scripts->add( 'media', "/wp-admin/js/media$suffix.js", array( 'jquery' ), false, 1 );
 		did_action( 'init' ) && $scripts->localize( 'media', 'attachMediaBoxL10n', array(
 			'error' => __( 'An error has occurred. Please reload the page and try again.' ),
