@@ -31,7 +31,7 @@
  * @param {boolean}                    [attributes.contentUserSetting=true]  Whether the content region's mode should be set and persisted per user.
  * @param {boolean}                    [attributes.syncSelection=true]       Whether the Attachments selection should be persisted from the last state.
  */
-var Attachment = require( '../models/attachment.js' ),
+var Attachment = wp.media.model.Attachment,
 	Library = require( './library.js' ),
 	l10n = wp.media.view.l10n,
 	FeaturedImage;

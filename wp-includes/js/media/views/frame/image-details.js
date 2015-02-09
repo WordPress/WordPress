@@ -17,8 +17,6 @@
  */
 var Select = require( './select.js' ),
 	Toolbar = require( '../toolbar.js' ),
-	PostImage = require( '../../models/post-image.js' ),
-	Selection = require( '../../models/selection.js' ),
 	ImageDetailsController = require( '../../controllers/image-details.js' ),
 	ReplaceImageController = require( '../../controllers/replace-image.js' ),
 	EditImageController = require( '../../controllers/edit-image.js' ),
@@ -40,8 +38,8 @@ ImageDetails = Select.extend({
 	},
 
 	initialize: function( options ) {
-		this.image = new PostImage( options.metadata );
-		this.options.selection = new Selection( this.image.attachment, { multiple: false } );
+		this.image = new wp.media.model.PostImage( options.metadata );
+		this.options.selection = new wp.media.model.Selection( this.image.attachment, { multiple: false } );
 		Select.prototype.initialize.apply( this, arguments );
 	},
 

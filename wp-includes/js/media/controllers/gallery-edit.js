@@ -31,8 +31,7 @@
  * @param {view}                       [attributes.AttachmentView]        The single `Attachment` view to be used in the `Attachments`.
  *                                                                        If none supplied, defaults to wp.media.view.Attachment.EditLibrary.
  */
-var Selection = require( '../models/selection.js' ),
-	Library = require( './library.js' ),
+var Library = require( './library.js' ),
 	EditLibraryView = require( '../views/attachment/edit-library.js' ),
 	GallerySettingsView = require( '../views/settings/gallery.js' ),
 	l10n = wp.media.view.l10n,
@@ -63,7 +62,7 @@ GalleryEdit = Library.extend({
 	initialize: function() {
 		// If we haven't been provided a `library`, create a `Selection`.
 		if ( ! this.get('library') )
-			this.set( 'library', new Selection() );
+			this.set( 'library', new wp.media.model.Selection() );
 
 		// The single `Attachment` view to be used in the `Attachments` view.
 		if ( ! this.get('AttachmentView') )

@@ -29,7 +29,7 @@
  * @param {boolean}                    [attributes.syncSelection=false]     Whether the Attachments selection should be persisted from the last state.
  *                                                                          Defaults to false because for this state, because the library of the Edit Gallery state is the selection.
  */
-var Selection = require( '../models/selection.js' ),
+var Selection = wp.media.model.Selection,
 	Library = require( './library.js' ),
 	l10n = wp.media.view.l10n,
 	GalleryAdd;

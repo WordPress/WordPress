@@ -16,8 +16,6 @@
 
 var MediaFrame = require( '../media-frame.js' ),
 	Library = require( '../../controllers/library.js' ),
-	AttachmentsModel = require( '../../models/attachments.js' ),
-	SelectionModel = require( '../../models/selection.js' ),
 	AttachmentsBrowser = require( '../attachments/browser.js' ),
 	UploaderInline = require( '../uploader/inline.js' ),
 	ToolbarSelect = require( '../toolbar/select.js' ),
@@ -53,14 +51,14 @@ Select = MediaFrame.extend({
 	createSelection: function() {
 		var selection = this.options.selection;
 
-		if ( ! (selection instanceof SelectionModel) ) {
-			this.options.selection = new SelectionModel( selection, {
+		if ( ! (selection instanceof wp.media.model.Selection) ) {
+			this.options.selection = new wp.media.model.Selection( selection, {
 				multiple: this.options.multiple
 			});
 		}
 
 		this._selection = {
-			attachments: new AttachmentsModel(),
+			attachments: new wp.media.model.Attachments(),
 			difference: []
 		};
 	},

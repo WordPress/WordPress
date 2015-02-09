@@ -15,8 +15,6 @@
 var View = require( '../view.js' ),
 	Toolbar = require( '../toolbar.js' ),
 	Select = require( './select.js' ),
-	Selection = require( '../../models/selection.js' ),
-	PostMedia = require( '../../models/post-media.js' ),
 	l10n = wp.media.view.l10n,
 	MediaDetails;
 
@@ -36,8 +34,8 @@ MediaDetails = Select.extend({
 		this.cancelText = options.cancelText;
 		this.addText = options.addText;
 
-		this.media = new PostMedia( options.metadata );
-		this.options.selection = new Selection( this.media.attachment, { multiple: false } );
+		this.media = new wp.media.model.PostMedia( options.metadata );
+		this.options.selection = new wp.media.model.Selection( this.media.attachment, { multiple: false } );
 		Select.prototype.initialize.apply( this, arguments );
 	},
 

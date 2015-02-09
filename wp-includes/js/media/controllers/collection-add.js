@@ -33,7 +33,7 @@
  * @param {string}                     attributes.type                   The collection's media type. (e.g. 'video').
  * @param {string}                     attributes.collectionType         The collection type. (e.g. 'playlist').
  */
-var Selection = require( '../models/selection.js' ),
+var Selection = wp.media.model.Selection,
 	Library = require( './library.js' ),
 	CollectionAdd;
 

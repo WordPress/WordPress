@@ -35,7 +35,6 @@
  * @param {boolean}                         [attributes.syncSelection=true]      Whether the Attachments selection should be persisted from the last state.
  */
 var selectionSync = require( '../utils/selection-sync.js' ),
-	Selection = require( '../models/selection.js' ),
 	State = require( './state.js' ),
 	l10n = wp.media.view.l10n,
 	Library;
@@ -80,7 +79,7 @@ Library = State.extend({
 				props = _.omit( props, 'orderby', 'query' );
 			}
 
-			this.set( 'selection', new Selection( null, {
+			this.set( 'selection', new wp.media.model.Selection( null, {
 				multiple: this.get('multiple'),
 				props: props
 			}) );

@@ -24,7 +24,6 @@ var View = require( '../view.js' ),
 	ToolbarEmbed = require( '../toolbar/embed.js' ),
 	PlaylistSettings = require( '../settings/playlist.js' ),
 	AttachmentsBrowser = require( '../attachments/browser.js' ),
-	SelectionModel = require( '../../models/selection.js' ),
 	SelectionView = require( '../selection.js' ),
 	EmbedController = require( '../../controllers/embed.js' ),
 	EditImageController = require( '../../controllers/edit-image.js' ),
@@ -493,7 +492,7 @@ Post = Select.extend({
 					edit = controller.state('gallery-edit'),
 					models = selection.where({ type: 'image' });
 
-				edit.set( 'library', new SelectionModel( models, {
+				edit.set( 'library', new wp.media.model.Selection( models, {
 					props:    selection.props.toJSON(),
 					multiple: true
 				}) );
@@ -523,7 +522,7 @@ Post = Select.extend({
 					edit = controller.state('playlist-edit'),
 					models = selection.where({ type: 'audio' });
 
-				edit.set( 'library', new SelectionModel( models, {
+				edit.set( 'library', new wp.media.model.Selection( models, {
 					props:    selection.props.toJSON(),
 					multiple: true
 				}) );
@@ -553,7 +552,7 @@ Post = Select.extend({
 					edit = controller.state('video-playlist-edit'),
 					models = selection.where({ type: 'video' });
 
-				edit.set( 'library', new SelectionModel( models, {
+				edit.set( 'library', new wp.media.model.Selection( models, {
 					props:    selection.props.toJSON(),
 					multiple: true
 				}) );
