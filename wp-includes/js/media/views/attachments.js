@@ -1,5 +1,3 @@
-/*globals _, wp, jQuery */
-
 /**
  * wp.media.view.Attachments
  *
@@ -272,7 +270,7 @@ Attachments = View.extend({
 
 		// The scroll event occurs on the document, but the element
 		// that should be checked is the document body.
-		if ( el == document ) {
+		if ( el === document ) {
 			el = document.body;
 			scrollTop = $(document).scrollTop();
 		}

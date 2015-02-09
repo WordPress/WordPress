@@ -1,5 +1,3 @@
-/*globals _, Backbone */
-
 /**
  * wp.media.view.PriorityList
  *

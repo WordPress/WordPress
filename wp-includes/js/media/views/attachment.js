@@ -1,5 +1,3 @@
-/*globals _, wp, jQuery */
-
 /**
  * wp.media.view.Attachment
  *

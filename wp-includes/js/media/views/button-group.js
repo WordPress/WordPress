@@ -1,5 +1,3 @@
-/*globals _, Backbone, jQuery */
-
 /**
  * wp.media.view.ButtonGroup
  *

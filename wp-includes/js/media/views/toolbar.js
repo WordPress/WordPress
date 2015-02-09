@@ -1,5 +1,3 @@
-/*globals Backbone, _ */
-
 /**
  * wp.media.view.Toolbar
  *

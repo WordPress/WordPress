@@ -1,5 +1,3 @@
-/*globals _, wp, jQuery */
-
 /**
  * wp.media.view.ImageDetails
  *
@@ -73,7 +71,7 @@ ImageDetails = AttachmentDisplay.extend({
 	postRender: function() {
 		setTimeout( _.bind( this.resetFocus, this ), 10 );
 		this.toggleLinkSettings();
-		if ( getUserSetting( 'advImgDetails' ) === 'show' ) {
+		if ( window.getUserSetting( 'advImgDetails' ) === 'show' ) {
 			this.toggleAdvanced( true );
 		}
 		this.trigger( 'post-render' );
@@ -146,7 +144,7 @@ ImageDetails = AttachmentDisplay.extend({
 			mode = 'show';
 		}
 
-		setUserSetting( 'advImgDetails', mode );
+		window.setUserSetting( 'advImgDetails', mode );
 	},
 
 	editAttachment: function( event ) {

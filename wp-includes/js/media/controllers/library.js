@@ -1,5 +1,3 @@
-/*globals _, wp, Backbone, getUserSetting, setUserSetting */
-
 /**
  * wp.media.controller.Library
  *
@@ -37,6 +35,8 @@
 var selectionSync = require( '../utils/selection-sync.js' ),
 	State = require( './state.js' ),
 	l10n = wp.media.view.l10n,
+	getUserSetting = window.getUserSetting,
+	setUserSetting = window.setUserSetting,
 	Library;
 
 Library = State.extend({
@@ -71,7 +71,7 @@ Library = State.extend({
 			this.set( 'library', wp.media.query() );
 		}
 
-		if ( ! (selection instanceof Selection) ) {
+		if ( ! ( selection instanceof wp.media.model.Selection ) ) {
 			props = selection;
 
 			if ( ! props ) {

@@ -1,5 +1,3 @@
-/*globals wp, jQuery, Backbone */
-
 /**
  * wp.media.controller.CollectionEdit
  *

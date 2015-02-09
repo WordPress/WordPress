@@ -1,5 +1,3 @@
-/*globals _, wp */
-
 /**
  * A state for selecting more images to add to a gallery.
  *
@@ -51,8 +49,9 @@ GalleryAdd = Library.extend({
 	 */
 	initialize: function() {
 		// If a library wasn't supplied, create a library of images.
-		if ( ! this.get('library') )
+		if ( ! this.get('library') ) {
 			this.set( 'library', wp.media.query({ type: 'image' }) );
+		}
 
 		Library.prototype.initialize.apply( this, arguments );
 	},
@@ -64,8 +63,9 @@ GalleryAdd = Library.extend({
 		var library = this.get('library'),
 			edit    = this.frame.state('gallery-edit').get('library');
 
-		if ( this.editLibrary && this.editLibrary !== edit )
+		if ( this.editLibrary && this.editLibrary !== edit ) {
 			library.unobserve( this.editLibrary );
+		}
 
 		// Accepts attachments that exist in the original library and
 		// that do not exist in gallery's library.

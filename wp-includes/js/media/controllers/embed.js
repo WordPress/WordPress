@@ -1,5 +1,3 @@
-/*globals _, wp, jQuery, Backbone */
-
 /**
  * wp.media.controller.Embed
  *

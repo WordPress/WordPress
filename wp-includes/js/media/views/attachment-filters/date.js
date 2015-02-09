@@ -1,5 +1,3 @@
-/*globals _, wp */
-
 /**
  * A filter dropdown for month/dates.
  *

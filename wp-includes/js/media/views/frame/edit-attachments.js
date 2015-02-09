@@ -1,5 +1,3 @@
-/*globals _, wp, jQuery */
-
 /**
  * A frame for editing the details of a specific media item.
  *

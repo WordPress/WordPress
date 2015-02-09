@@ -1,5 +1,3 @@
-/*globals wp, Backbone */
-
 /**
  * wp.media.controller.GalleryEdit
  *
@@ -61,12 +59,15 @@ GalleryEdit = Library.extend({
 	 */
 	initialize: function() {
 		// If we haven't been provided a `library`, create a `Selection`.
-		if ( ! this.get('library') )
+		if ( ! this.get('library') ) {
 			this.set( 'library', new wp.media.model.Selection() );
+		}
 
 		// The single `Attachment` view to be used in the `Attachments` view.
-		if ( ! this.get('AttachmentView') )
+		if ( ! this.get('AttachmentView') ) {
 			this.set( 'AttachmentView', EditLibraryView );
+		}
+
 		Library.prototype.initialize.apply( this, arguments );
 	},
 

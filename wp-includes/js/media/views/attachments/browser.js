@@ -1,5 +1,3 @@
-/*globals _, wp, jQuery */
-
 /**
  * wp.media.view.AttachmentsBrowser
  *
@@ -190,13 +188,13 @@ AttachmentsBrowser = View.extend({
 						return;
 					}
 
-					if ( ! mediaTrash && ! confirm( l10n.warnBulkDelete ) ) {
+					if ( ! mediaTrash && ! window.confirm( l10n.warnBulkDelete ) ) {
 						return;
 					}
 
 					if ( mediaTrash &&
 						'trash' !== selection.at( 0 ).get( 'status' ) &&
-						! confirm( l10n.warnBulkTrash ) ) {
+						! window.confirm( l10n.warnBulkTrash ) ) {
 
 						return;
 					}
@@ -244,7 +242,7 @@ AttachmentsBrowser = View.extend({
 					click: function() {
 						var removed = [], selection = this.controller.state().get( 'selection' );
 
-						if ( ! selection.length || ! confirm( l10n.warnBulkDelete ) ) {
+						if ( ! selection.length || ! window.confirm( l10n.warnBulkDelete ) ) {
 							return;
 						}
 

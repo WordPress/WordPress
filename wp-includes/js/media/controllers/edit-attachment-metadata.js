@@ -1,5 +1,3 @@
-/*globals wp */
-
 /**
  * wp.media.controller.EditAttachmentMetadata
  *

@@ -1,5 +1,3 @@
-/*globals _, wp, jQuery */
-
 /**
  * wp.media.view.Cropper
  *
@@ -60,7 +58,7 @@ Cropper = View.extend({
 
 		this.views.add( '.upload-errors', new UploaderStatusError({
 			filename: UploaderStatus.prototype.filename(filename),
-			message: _wpMediaViewsL10n.cropError
+			message: window._wpMediaViewsL10n.cropError
 		}), { at: 0 });
 	}
 });

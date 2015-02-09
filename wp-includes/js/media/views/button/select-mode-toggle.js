@@ -1,5 +1,3 @@
-/*globals wp */
-
 var Button = require( '../button.js' ),
 	l10n = wp.media.view.l10n,
 	SelectModeToggle;

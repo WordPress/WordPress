@@ -1,5 +1,3 @@
-/*globals _, wp, Backbone */
-
 /**
  * wp.media.controller.Cropper
  *
@@ -75,7 +73,7 @@ Cropper = State.extend({
 
 						this.$el.text(l10n.cropping);
 						this.$el.attr('disabled', true);
-						
+
 						controller.state().doCrop( selection ).done( function( croppedImage ) {
 							controller.trigger('cropped', croppedImage );
 							controller.close();

@@ -1,5 +1,3 @@
-/*globals _, wp, jQuery */
-
 /**
  * wp.media.view.MediaDetails
  *
@@ -83,7 +81,7 @@ MediaDetails = AttachmentDisplay.extend({
 	 */
 	setPlayer : function() {
 		if ( ! this.players.length && this.media ) {
-			this.players.push( new MediaElementPlayer( this.media, this.settings ) );
+			this.players.push( new window.MediaElementPlayer( this.media, this.settings ) );
 		}
 	},
 
@@ -111,7 +109,7 @@ MediaDetails = AttachmentDisplay.extend({
 	 */
 	render: function() {
 		AttachmentDisplay.prototype.render.apply( this, arguments );
-		
+
 		setTimeout( _.bind( function() {
 			this.resetFocus();
 		}, this ), 10 );

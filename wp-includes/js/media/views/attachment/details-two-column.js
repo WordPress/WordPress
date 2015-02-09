@@ -1,5 +1,3 @@
-/*globals wp */
-
 /**
  * A similar view to media.view.Attachment.Details
  * for use in the Edit Attachment modal.
@@ -34,7 +32,7 @@ TwoColumn = Details.extend({
 		wp.media.mixin.removeAllPlayers();
 		this.$( 'audio, video' ).each( function (i, elem) {
 			var el = MediaDetails.prepareSrc( elem );
-			new MediaElementPlayer( el, wp.media.mixin.mejsSettings );
+			new window.MediaElementPlayer( el, wp.media.mixin.mejsSettings );
 		} );
 	}
 });

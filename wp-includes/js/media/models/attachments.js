@@ -1,5 +1,3 @@
-/*globals jQuery, Backbone, _, wp */
-
 /**
  * wp.media.model.Attachments
  *
@@ -323,8 +321,9 @@ Attachments = Backbone.Collection.extend({
 		// checking if we're still mirroring that collection when
 		// the request resolves.
 		mirroring.more( options ).done( function() {
-			if ( this === attachments.mirroring )
+			if ( this === attachments.mirroring ) {
 				deferred.resolveWith( this );
+			}
 		});
 
 		return deferred.promise();

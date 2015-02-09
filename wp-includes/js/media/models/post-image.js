@@ -1,5 +1,3 @@
-/*globals jQuery, Backbone */
-
 /**
  * wp.media.model.PostImage
  *

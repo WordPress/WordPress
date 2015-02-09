@@ -1,5 +1,3 @@
-/*globals _, wp */
-
 /**
  * wp.media.view.Attachment.Details
  *
@@ -59,7 +57,7 @@ Details = Attachment.extend({
 	deleteAttachment: function( event ) {
 		event.preventDefault();
 
-		if ( confirm( l10n.warnDelete ) ) {
+		if ( window.confirm( l10n.warnDelete ) ) {
 			this.model.destroy();
 			// Keep focus inside media modal
 			// after image is deleted

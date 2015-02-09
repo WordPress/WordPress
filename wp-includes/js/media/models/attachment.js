@@ -1,5 +1,3 @@
-/*globals jQuery, Backbone, _, wp */
-
 /**
  * wp.media.model.Attachment
  *
@@ -128,7 +126,7 @@ Attachment = Backbone.Model.extend({
 			return $.Deferred().rejectWith( this ).promise();
 		}
 
-		return media.post( 'save-attachment-compat', _.defaults({
+		return wp.media.post( 'save-attachment-compat', _.defaults({
 			id:      this.id,
 			nonce:   this.get('nonces').update,
 			post_id: wp.media.model.settings.post.id

@@ -1,5 +1,3 @@
-/*globals _ */
-
 /**
  * wp.media.selectionSync
  *

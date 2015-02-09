@@ -1,5 +1,3 @@
-/*globals wp */
-
 /**
  * The controller for the Video Details state
  *

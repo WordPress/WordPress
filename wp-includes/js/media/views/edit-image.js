@@ -1,5 +1,3 @@
-/*globals _, wp */
-
 var View = require( './view.js' ),
 	EditImage;
 

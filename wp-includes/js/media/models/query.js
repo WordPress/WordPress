@@ -1,5 +1,3 @@
-/*globals jQuery, _, wp */
-
 /**
  * wp.media.model.Query
  *

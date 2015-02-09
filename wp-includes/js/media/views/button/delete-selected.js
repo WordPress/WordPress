@@ -1,5 +1,3 @@
-/*globals wp */
-
 /**
  * A button that handles bulk Delete/Trash logic
  *

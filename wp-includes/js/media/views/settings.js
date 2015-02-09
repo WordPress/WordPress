@@ -1,5 +1,3 @@
-/*globals _, Backbone, jQuery */
-
 /**
  * wp.media.view.Settings
  *
@@ -107,7 +105,7 @@ Settings = View.extend({
 		// If the setting has a corresponding user setting,
 		// update that as well.
 		if ( userSetting = $setting.data('userSetting') ) {
-			setUserSetting( userSetting, value );
+			window.setUserSetting( userSetting, value );
 		}
 	},
 

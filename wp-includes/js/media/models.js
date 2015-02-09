@@ -1,239 +1,235 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-/* global _wpMediaModelsL10n:false */
+var $ = jQuery,
+	Attachment, Attachments, l10n, media;
+
 window.wp = window.wp || {};
 
-(function($){
-	var Attachment, Attachments, l10n, media;
+/**
+ * Create and return a media frame.
+ *
+ * Handles the default media experience.
+ *
+ * @param  {object} attributes The properties passed to the main media controller.
+ * @return {wp.media.view.MediaFrame} A media workflow.
+ */
+media = wp.media = function( attributes ) {
+	var MediaFrame = media.view.MediaFrame,
+		frame;
+
+	if ( ! MediaFrame ) {
+		return;
+	}
+
+	attributes = _.defaults( attributes || {}, {
+		frame: 'select'
+	});
+
+	if ( 'select' === attributes.frame && MediaFrame.Select ) {
+		frame = new MediaFrame.Select( attributes );
+	} else if ( 'post' === attributes.frame && MediaFrame.Post ) {
+		frame = new MediaFrame.Post( attributes );
+	} else if ( 'manage' === attributes.frame && MediaFrame.Manage ) {
+		frame = new MediaFrame.Manage( attributes );
+	} else if ( 'image' === attributes.frame && MediaFrame.ImageDetails ) {
+		frame = new MediaFrame.ImageDetails( attributes );
+	} else if ( 'audio' === attributes.frame && MediaFrame.AudioDetails ) {
+		frame = new MediaFrame.AudioDetails( attributes );
+	} else if ( 'video' === attributes.frame && MediaFrame.VideoDetails ) {
+		frame = new MediaFrame.VideoDetails( attributes );
+	} else if ( 'edit-attachments' === attributes.frame && MediaFrame.EditAttachments ) {
+		frame = new MediaFrame.EditAttachments( attributes );
+	}
+
+	delete attributes.frame;
+
+	media.frame = frame;
+
+	return frame;
+};
+
+_.extend( media, { model: {}, view: {}, controller: {}, frames: {} });
+
+// Link any localized strings.
+l10n = media.model.l10n = window._wpMediaModelsL10n || {};
+
+// Link any settings.
+media.model.settings = l10n.settings || {};
+delete l10n.settings;
+
+Attachments = media.model.Attachments = require( './models/attachments.js' );
+Attachment = media.model.Attachment = require( './models/attachment.js' );
+
+media.model.Query = require( './models/query.js' );
+media.model.PostImage = require( './models/post-image.js' );
+media.model.Selection = require( './models/selection.js' );
+
+/**
+ * ========================================================================
+ * UTILITIES
+ * ========================================================================
+ */
+
+/**
+ * A basic equality comparator for Backbone models.
+ *
+ * Used to order models within a collection - @see wp.media.model.Attachments.comparator().
+ *
+ * @param  {mixed}  a  The primary parameter to compare.
+ * @param  {mixed}  b  The primary parameter to compare.
+ * @param  {string} ac The fallback parameter to compare, a's cid.
+ * @param  {string} bc The fallback parameter to compare, b's cid.
+ * @return {number}    -1: a should come before b.
+ *                      0: a and b are of the same rank.
+ *                      1: b should come before a.
+ */
+media.compare = function( a, b, ac, bc ) {
+	if ( _.isEqual( a, b ) ) {
+		return ac === bc ? 0 : (ac > bc ? -1 : 1);
+	} else {
+		return a > b ? -1 : 1;
+	}
+};
+
+_.extend( media, {
+	/**
+	 * media.template( id )
+	 *
+	 * Fetch a JavaScript template for an id, and return a templating function for it.
+	 *
+	 * See wp.template() in `wp-includes/js/wp-util.js`.
+	 *
+	 * @borrows wp.template as template
+	 */
+	template: wp.template,
 
 	/**
-	 * Create and return a media frame.
+	 * media.post( [action], [data] )
 	 *
-	 * Handles the default media experience.
+	 * Sends a POST request to WordPress.
+	 * See wp.ajax.post() in `wp-includes/js/wp-util.js`.
 	 *
-	 * @param  {object} attributes The properties passed to the main media controller.
-	 * @return {wp.media.view.MediaFrame} A media workflow.
+	 * @borrows wp.ajax.post as post
 	 */
-	media = wp.media = function( attributes ) {
-		var MediaFrame = media.view.MediaFrame,
-			frame;
+	post: wp.ajax.post,
 
-		if ( ! MediaFrame ) {
-			return;
+	/**
+	 * media.ajax( [action], [options] )
+	 *
+	 * Sends an XHR request to WordPress.
+	 * See wp.ajax.send() in `wp-includes/js/wp-util.js`.
+	 *
+	 * @borrows wp.ajax.send as ajax
+	 */
+	ajax: wp.ajax.send,
+
+	/**
+	 * Scales a set of dimensions to fit within bounding dimensions.
+	 *
+	 * @param {Object} dimensions
+	 * @returns {Object}
+	 */
+	fit: function( dimensions ) {
+		var width     = dimensions.width,
+			height    = dimensions.height,
+			maxWidth  = dimensions.maxWidth,
+			maxHeight = dimensions.maxHeight,
+			constraint;
+
+		// Compare ratios between the two values to determine which
+		// max to constrain by. If a max value doesn't exist, then the
+		// opposite side is the constraint.
+		if ( ! _.isUndefined( maxWidth ) && ! _.isUndefined( maxHeight ) ) {
+			constraint = ( width / height > maxWidth / maxHeight ) ? 'width' : 'height';
+		} else if ( _.isUndefined( maxHeight ) ) {
+			constraint = 'width';
+		} else if (  _.isUndefined( maxWidth ) && height > maxHeight ) {
+			constraint = 'height';
 		}
 
-		attributes = _.defaults( attributes || {}, {
-			frame: 'select'
-		});
-
-		if ( 'select' === attributes.frame && MediaFrame.Select ) {
-			frame = new MediaFrame.Select( attributes );
-		} else if ( 'post' === attributes.frame && MediaFrame.Post ) {
-			frame = new MediaFrame.Post( attributes );
-		} else if ( 'manage' === attributes.frame && MediaFrame.Manage ) {
-			frame = new MediaFrame.Manage( attributes );
-		} else if ( 'image' === attributes.frame && MediaFrame.ImageDetails ) {
-			frame = new MediaFrame.ImageDetails( attributes );
-		} else if ( 'audio' === attributes.frame && MediaFrame.AudioDetails ) {
-			frame = new MediaFrame.AudioDetails( attributes );
-		} else if ( 'video' === attributes.frame && MediaFrame.VideoDetails ) {
-			frame = new MediaFrame.VideoDetails( attributes );
-		} else if ( 'edit-attachments' === attributes.frame && MediaFrame.EditAttachments ) {
-			frame = new MediaFrame.EditAttachments( attributes );
-		}
-
-		delete attributes.frame;
-
-		media.frame = frame;
-
-		return frame;
-	};
-
-	_.extend( media, { model: {}, view: {}, controller: {}, frames: {} });
-
-	// Link any localized strings.
-	l10n = media.model.l10n = typeof _wpMediaModelsL10n === 'undefined' ? {} : _wpMediaModelsL10n;
-
-	// Link any settings.
-	media.model.settings = l10n.settings || {};
-	delete l10n.settings;
-
-	Attachments = media.model.Attachments = require( './models/attachments.js' );
-	Attachment = media.model.Attachment = require( './models/attachment.js' );
-
-	media.model.Query = require( './models/query.js' );
-	media.model.PostImage = require( './models/post-image.js' );
-	media.model.Selection = require( './models/selection.js' );
-
-	/**
-	 * ========================================================================
-	 * UTILITIES
-	 * ========================================================================
-	 */
-
-	/**
-	 * A basic equality comparator for Backbone models.
-	 *
-	 * Used to order models within a collection - @see wp.media.model.Attachments.comparator().
-	 *
-	 * @param  {mixed}  a  The primary parameter to compare.
-	 * @param  {mixed}  b  The primary parameter to compare.
-	 * @param  {string} ac The fallback parameter to compare, a's cid.
-	 * @param  {string} bc The fallback parameter to compare, b's cid.
-	 * @return {number}    -1: a should come before b.
-	 *                      0: a and b are of the same rank.
-	 *                      1: b should come before a.
-	 */
-	media.compare = function( a, b, ac, bc ) {
-		if ( _.isEqual( a, b ) ) {
-			return ac === bc ? 0 : (ac > bc ? -1 : 1);
+		// If the value of the constrained side is larger than the max,
+		// then scale the values. Otherwise return the originals; they fit.
+		if ( 'width' === constraint && width > maxWidth ) {
+			return {
+				width : maxWidth,
+				height: Math.round( maxWidth * height / width )
+			};
+		} else if ( 'height' === constraint && height > maxHeight ) {
+			return {
+				width : Math.round( maxHeight * width / height ),
+				height: maxHeight
+			};
 		} else {
-			return a > b ? -1 : 1;
+			return {
+				width : width,
+				height: height
+			};
 		}
-	};
+	},
+	/**
+	 * Truncates a string by injecting an ellipsis into the middle.
+	 * Useful for filenames.
+	 *
+	 * @param {String} string
+	 * @param {Number} [length=30]
+	 * @param {String} [replacement=&hellip;]
+	 * @returns {String} The string, unless length is greater than string.length.
+	 */
+	truncate: function( string, length, replacement ) {
+		length = length || 30;
+		replacement = replacement || '&hellip;';
 
-	_.extend( media, {
-		/**
-		 * media.template( id )
-		 *
-		 * Fetch a JavaScript template for an id, and return a templating function for it.
-		 *
-		 * See wp.template() in `wp-includes/js/wp-util.js`.
-		 *
-		 * @borrows wp.template as template
-		 */
-		template: wp.template,
-
-		/**
-		 * media.post( [action], [data] )
-		 *
-		 * Sends a POST request to WordPress.
-		 * See wp.ajax.post() in `wp-includes/js/wp-util.js`.
-		 *
-		 * @borrows wp.ajax.post as post
-		 */
-		post: wp.ajax.post,
-
-		/**
-		 * media.ajax( [action], [options] )
-		 *
-		 * Sends an XHR request to WordPress.
-		 * See wp.ajax.send() in `wp-includes/js/wp-util.js`.
-		 *
-		 * @borrows wp.ajax.send as ajax
-		 */
-		ajax: wp.ajax.send,
-
-		/**
-		 * Scales a set of dimensions to fit within bounding dimensions.
-		 *
-		 * @param {Object} dimensions
-		 * @returns {Object}
-		 */
-		fit: function( dimensions ) {
-			var width     = dimensions.width,
-				height    = dimensions.height,
-				maxWidth  = dimensions.maxWidth,
-				maxHeight = dimensions.maxHeight,
-				constraint;
-
-			// Compare ratios between the two values to determine which
-			// max to constrain by. If a max value doesn't exist, then the
-			// opposite side is the constraint.
-			if ( ! _.isUndefined( maxWidth ) && ! _.isUndefined( maxHeight ) ) {
-				constraint = ( width / height > maxWidth / maxHeight ) ? 'width' : 'height';
-			} else if ( _.isUndefined( maxHeight ) ) {
-				constraint = 'width';
-			} else if (  _.isUndefined( maxWidth ) && height > maxHeight ) {
-				constraint = 'height';
-			}
-
-			// If the value of the constrained side is larger than the max,
-			// then scale the values. Otherwise return the originals; they fit.
-			if ( 'width' === constraint && width > maxWidth ) {
-				return {
-					width : maxWidth,
-					height: Math.round( maxWidth * height / width )
-				};
-			} else if ( 'height' === constraint && height > maxHeight ) {
-				return {
-					width : Math.round( maxHeight * width / height ),
-					height: maxHeight
-				};
-			} else {
-				return {
-					width : width,
-					height: height
-				};
-			}
-		},
-		/**
-		 * Truncates a string by injecting an ellipsis into the middle.
-		 * Useful for filenames.
-		 *
-		 * @param {String} string
-		 * @param {Number} [length=30]
-		 * @param {String} [replacement=&hellip;]
-		 * @returns {String} The string, unless length is greater than string.length.
-		 */
-		truncate: function( string, length, replacement ) {
-			length = length || 30;
-			replacement = replacement || '&hellip;';
-
-			if ( string.length <= length ) {
-				return string;
-			}
-
-			return string.substr( 0, length / 2 ) + replacement + string.substr( -1 * length / 2 );
+		if ( string.length <= length ) {
+			return string;
 		}
+
+		return string.substr( 0, length / 2 ) + replacement + string.substr( -1 * length / 2 );
+	}
+});
+
+/**
+ * ========================================================================
+ * MODELS
+ * ========================================================================
+ */
+/**
+ * wp.media.attachment
+ *
+ * @static
+ * @param {String} id A string used to identify a model.
+ * @returns {wp.media.model.Attachment}
+ */
+media.attachment = function( id ) {
+	return Attachment.get( id );
+};
+
+/**
+ * A collection of all attachments that have been fetched from the server.
+ *
+ * @static
+ * @member {wp.media.model.Attachments}
+ */
+Attachments.all = new Attachments();
+
+/**
+ * wp.media.query
+ *
+ * Shorthand for creating a new Attachments Query.
+ *
+ * @param {object} [props]
+ * @returns {wp.media.model.Attachments}
+ */
+media.query = function( props ) {
+	return new Attachments( null, {
+		props: _.extend( _.defaults( props || {}, { orderby: 'date' } ), { query: true } )
 	});
+};
 
-	/**
-	 * ========================================================================
-	 * MODELS
-	 * ========================================================================
-	 */
-	/**
-	 * wp.media.attachment
-	 *
-	 * @static
-	 * @param {String} id A string used to identify a model.
-	 * @returns {wp.media.model.Attachment}
-	 */
-	media.attachment = function( id ) {
-		return Attachment.get( id );
-	};
+// Clean up. Prevents mobile browsers caching
+$(window).on('unload', function(){
+	window.wp = null;
+});
 
-	/**
-	 * A collection of all attachments that have been fetched from the server.
-	 *
-	 * @static
-	 * @member {wp.media.model.Attachments}
-	 */
-	Attachments.all = new Attachments();
-
-	/**
-	 * wp.media.query
-	 *
-	 * Shorthand for creating a new Attachments Query.
-	 *
-	 * @param {object} [props]
-	 * @returns {wp.media.model.Attachments}
-	 */
-	media.query = function( props ) {
-		return new Attachments( null, {
-			props: _.extend( _.defaults( props || {}, { orderby: 'date' } ), { query: true } )
-		});
-	};
-
-	// Clean up. Prevents mobile browsers caching
-	$(window).on('unload', function(){
-		window.wp = null;
-	});
-
-}(jQuery));
 },{"./models/attachment.js":2,"./models/attachments.js":3,"./models/post-image.js":4,"./models/query.js":5,"./models/selection.js":6}],2:[function(require,module,exports){
-/*globals jQuery, Backbone, _, wp */
-
 /**
  * wp.media.model.Attachment
  *
@@ -362,7 +358,7 @@ Attachment = Backbone.Model.extend({
 			return $.Deferred().rejectWith( this ).promise();
 		}
 
-		return media.post( 'save-attachment-compat', _.defaults({
+		return wp.media.post( 'save-attachment-compat', _.defaults({
 			id:      this.id,
 			nonce:   this.get('nonces').update,
 			post_id: wp.media.model.settings.post.id
@@ -400,9 +396,8 @@ Attachment = Backbone.Model.extend({
 });
 
 module.exports = Attachment;
-},{"./attachments.js":3}],3:[function(require,module,exports){
-/*globals jQuery, Backbone, _, wp */
 
+},{"./attachments.js":3}],3:[function(require,module,exports){
 /**
  * wp.media.model.Attachments
  *
@@ -726,8 +721,9 @@ Attachments = Backbone.Collection.extend({
 		// checking if we're still mirroring that collection when
 		// the request resolves.
 		mirroring.more( options ).done( function() {
-			if ( this === attachments.mirroring )
+			if ( this === attachments.mirroring ) {
 				deferred.resolveWith( this );
+			}
 		});
 
 		return deferred.promise();
@@ -936,9 +932,8 @@ Attachments = Backbone.Collection.extend({
 });
 
 module.exports = Attachments;
-},{"./attachment.js":2,"./query.js":5}],4:[function(require,module,exports){
-/*globals jQuery, Backbone */
 
+},{"./attachment.js":2,"./query.js":5}],4:[function(require,module,exports){
 /**
  * wp.media.model.PostImage
  *
@@ -1093,9 +1088,8 @@ PostImage = Backbone.Model.extend({
 });
 
 module.exports = PostImage;
-},{"./attachment":2}],5:[function(require,module,exports){
-/*globals jQuery, _, wp */
 
+},{"./attachment":2}],5:[function(require,module,exports){
 /**
  * wp.media.model.Query
  *
@@ -1402,9 +1396,8 @@ Query = Attachments.extend({
 });
 
 module.exports = Query;
-},{"./attachments.js":3}],6:[function(require,module,exports){
-/*globals _ */
 
+},{"./attachments.js":3}],6:[function(require,module,exports){
 /**
  * wp.media.model.Selection
  *
@@ -1500,4 +1493,5 @@ Selection = Attachments.extend({
 });
 
 module.exports = Selection;
+
 },{"./attachments.js":3}]},{},[1]);

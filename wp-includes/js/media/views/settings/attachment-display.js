@@ -1,5 +1,3 @@
-/*globals _, wp */
-
 /**
  * wp.media.view.Settings.AttachmentDisplay
  *

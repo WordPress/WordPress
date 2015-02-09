@@ -1,5 +1,3 @@
-/*globals _, Backbone, wp, jQuery */
-
 /**
  * wp.media.view.MediaFrame.Manage
  *
@@ -237,7 +235,7 @@ Manage = MediaFrame.extend({
 		// Verify pushState support and activate
 		if ( window.history && window.history.pushState ) {
 			Backbone.history.start( {
-				root: _wpMediaGridSettings.adminUrl,
+				root: window._wpMediaGridSettings.adminUrl,
 				pushState: true
 			} );
 		}

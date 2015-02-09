@@ -1,5 +1,3 @@
-/*globals _, Backbone, wp */
-
 /**
  * wp.media.view.Selection
  *
