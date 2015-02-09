@@ -163,4 +163,4 @@ ImageDetails = AttachmentDisplay.extend({
 	}
 });
 
-module.exports = AttachmentDisplay;
+module.exports = ImageDetails;

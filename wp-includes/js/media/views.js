@@ -6157,7 +6157,7 @@ ImageDetails = AttachmentDisplay.extend({
 	}
 });
 
-module.exports = AttachmentDisplay;
+module.exports = ImageDetails;
 
 },{"./settings/attachment-display.js":58}],47:[function(require,module,exports){
 /**
