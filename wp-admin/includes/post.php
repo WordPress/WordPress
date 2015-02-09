@@ -337,6 +337,11 @@ function edit_post( $post_data = null ) {
 
 			$clean_terms = array();
 			foreach ( $terms as $term ) {
+				// Empty terms are invalid input.
+				if ( empty( $term ) ) {
+					continue;
+				}
+
 				$_term = get_terms( $taxonomy, array(
 					'name' => $term,
 					'fields' => 'ids',
