@@ -917,7 +917,7 @@ function populate_network( $network_id = 1, $domain = '', $email = '', $site_nam
 		$site_admins = get_site_option( 'site_admins' );
 	}
 
-	$welcome_email = __( 'Dear User,
+	$welcome_email = __( 'Howdy USERNAME,
 
 Your new SITE_NAME site has been successfully set up at:
 BLOG_URL

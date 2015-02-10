@@ -1434,7 +1434,7 @@ function wpmu_welcome_notification( $blog_id, $user_id, $password, $title, $meta
 
 	$welcome_email = get_site_option( 'welcome_email' );
 	if ( $welcome_email == false )
-		$welcome_email = __( 'Dear User,
+		$welcome_email = __( 'Howdy USERNAME,
 
 Your new SITE_NAME site has been successfully set up at:
 BLOG_URL
@@ -2080,7 +2080,7 @@ function users_can_register_signup_filter() {
 function welcome_user_msg_filter( $text ) {
 	if ( !$text ) {
 		remove_filter( 'site_option_welcome_user_email', 'welcome_user_msg_filter' );
-		$text = __( 'Dear User,
+		$text = __( 'Howdy USERNAME,
 
 Your new account is set up.
 
