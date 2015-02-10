@@ -738,7 +738,7 @@ class WP_Customize_Upload_Control extends WP_Customize_Control {
 	 */
 	public function content_template() {
 		?>
-		<label for="{{ data.settings.default }}-button">
+		<label for="{{ data.settings['default'] }}-button">
 			<# if ( data.label ) { #>
 				<span class="customize-control-title">{{ data.label }}</span>
 			<# } #>
@@ -775,7 +775,7 @@ class WP_Customize_Upload_Control extends WP_Customize_Control {
 			</div>
 			<div class="actions">
 				<button type="button" class="button remove-button"><?php echo $this->button_labels['remove']; ?></button>
-				<button type="button" class="button upload-button" id="{{ data.settings.default }}-button"><?php echo $this->button_labels['change']; ?></button>
+				<button type="button" class="button upload-button" id="{{ data.settings['default'] }}-button"><?php echo $this->button_labels['change']; ?></button>
 				<div style="clear:both"></div>
 			</div>
 		<# } else { #>
@@ -794,7 +794,7 @@ class WP_Customize_Upload_Control extends WP_Customize_Control {
 				<# if ( data.defaultAttachment ) { #>
 					<button type="button" class="button default-button"><?php echo $this->button_labels['default']; ?></button>
 				<# } #>
-				<button type="button" class="button upload-button" id="{{ data.settings.default }}-button"><?php echo $this->button_labels['select']; ?></button>
+				<button type="button" class="button upload-button" id="{{ data.settings['default'] }}-button"><?php echo $this->button_labels['select']; ?></button>
 				<div style="clear:both"></div>
 			</div>
 		<# } #>
