@@ -119,6 +119,10 @@
 					action:       'save-user-color-scheme',
 					color_scheme: $this.children( 'input[name="admin_color"]' ).val(),
 					nonce:        $('#color-nonce').val()
+				}).done( function( response ) {
+					if ( response.success ) {
+						$( 'body' ).removeClass( response.data.previousScheme ).addClass( response.data.currentScheme );
+					}
 				});
 			}
 		});

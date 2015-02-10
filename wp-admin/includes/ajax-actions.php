@@ -2600,8 +2600,13 @@ function wp_ajax_save_user_color_scheme() {
 		wp_send_json_error();
 	}
 
+	$previous_color_scheme = get_user_meta( get_current_user_id(), 'admin_color', true );
 	update_user_meta( get_current_user_id(), 'admin_color', $color_scheme );
-	wp_send_json_success();
+
+	wp_send_json_success( array(
+		'previousScheme' => 'admin-color-' . $previous_color_scheme,
+		'currentScheme'  => 'admin-color-' . $color_scheme
+	) );
 }
 
 /**
