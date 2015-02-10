@@ -1290,7 +1290,7 @@ function comments_popup_link( $zero = false, $one = false, $more = false, $css_c
 	}
 	if ( false === $more ) {
 		/* translators: 1: Opening span tag with a class, 2: post title, 3: closing span tag, 4: number of comments */
-		$more = sprintf( _n( '%4$d Comment%1$s on %2$s%3$s', '%4$d Comments%1$s on %2$s%3$s', $number ),
+		$more = sprintf( _n( '%4$s Comment%1$s on %2$s%3$s', '%4$s Comments%1$s on %2$s%3$s', $number ),
 			$span, $title, $span_close, number_format_i18n( $number )
 		);
 	}
