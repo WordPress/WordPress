@@ -275,7 +275,7 @@ All at ###SITENAME###
 	 *
 	 * The following strings have a special meaning and will get replaced dynamically:
 	 * ###USERNAME###  The current user's username.
-	 * ###ADMIN_URL### The link to click on to confirm the email change. Required otherwise this functunalty is will break.
+	 * ###ADMIN_URL### The link to click on to confirm the email change.
 	 * ###EMAIL###     The new email.
 	 * ###SITENAME###  The name of the site.
 	 * ###SITEURL###   The URL to the site.
@@ -355,10 +355,10 @@ All at ###SITENAME###
 		 *
 		 * The following strings have a special meaning and will get replaced dynamically:
 		 * ###USERNAME###  The current user's username.
-		 * ###ADMIN_URL### The link to click on to confirm the email change. Required otherwise this functunalty is will break.
-		 * ###EMAIL### The new email.
-		 * ###SITENAME### The name of the site.
-		 * ###SITEURL### The URL to the site.
+		 * ###ADMIN_URL### The link to click on to confirm the email change.
+		 * ###EMAIL###     The new email.
+		 * ###SITENAME###  The name of the site.
+		 * ###SITEURL###   The URL to the site.
 		 *
 		 * @since MU
 		 *
