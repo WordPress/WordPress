@@ -347,7 +347,7 @@ class WP_oEmbed {
 				}
 			}
 
-			if ( $tagfound && preg_match_all( '/<link([^<>]+)>/i', $html, $links ) ) {
+			if ( $tagfound && preg_match_all( '#<link([^<>]+)/?>#iU', $html, $links ) ) {
 				foreach ( $links[1] as $link ) {
 					$atts = shortcode_parse_atts( $link );
 
