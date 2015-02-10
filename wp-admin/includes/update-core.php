@@ -695,6 +695,15 @@ $_old_files = array(
 'wp-includes/js/jquery/ui/jquery.ui.tooltip.min.js',
 'wp-includes/js/jquery/ui/jquery.ui.widget.min.js',
 'wp-includes/js/tinymce/skins/wordpress/images/dashicon-no-alt.png',
+// 4.2
+'wp-includes/js/media-audiovideo.js',
+'wp-includes/js/media-audiovideo.min.js',
+'wp-includes/js/media-grid.js',
+'wp-includes/js/media-grid.min.js',
+'wp-includes/js/media-models.js',
+'wp-includes/js/media-models.min.js',
+'wp-includes/js/media-views.js',
+'wp-includes/js/media-views.min.js',
 );
 
 /**
