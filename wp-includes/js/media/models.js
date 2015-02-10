@@ -1230,7 +1230,7 @@ Query = Attachments.extend({
 
 			// Determine which page to query.
 			if ( -1 !== args.posts_per_page ) {
-				args.paged = Math.floor( this.length / args.posts_per_page ) + 1;
+				args.paged = Math.round( this.length / args.posts_per_page ) + 1;
 			}
 
 			options.data.query = args;
