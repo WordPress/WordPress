@@ -140,11 +140,13 @@ final class WP_Customize_Manager {
 	 * @param mixed $message UI message
 	 */
 	protected function wp_die( $ajax_message, $message = null ) {
-		if ( $this->doing_ajax() )
+		if ( $this->doing_ajax() || isset( $_POST['customized'] ) ) {
 			wp_die( $ajax_message );
+		}
 
-		if ( ! $message )
+		if ( ! $message ) {
 			$message = __( 'Cheatin&#8217; uh?' );
+		}
 
 		wp_die( $message );
 	}
@@ -157,8 +159,9 @@ final class WP_Customize_Manager {
 	 * @return string
 	 */
 	public function wp_die_handler() {
-		if ( $this->doing_ajax() )
+		if ( $this->doing_ajax() || isset( $_POST['customized'] ) ) {
 			return '_ajax_wp_die_handler';
+		}
 
 		return '_default_wp_die_handler';
 	}
@@ -173,10 +176,12 @@ final class WP_Customize_Manager {
 	public function setup_theme() {
 		send_origin_headers();
 
-		if ( is_admin() && ! $this->doing_ajax() )
-		    auth_redirect();
-		elseif ( $this->doing_ajax() && ! is_user_logged_in() )
-		    $this->wp_die( 0 );
+		$doing_ajax_or_is_customized = ( $this->doing_ajax() || isset( $_POST['customized'] ) );
+		if ( is_admin() && ! $doing_ajax_or_is_customized ) {
+			auth_redirect();
+		} elseif ( $doing_ajax_or_is_customized && ! is_user_logged_in() ) {
+			$this->wp_die( 0 );
+		}
 
 		show_admin_bar( false );
 
@@ -194,16 +199,19 @@ final class WP_Customize_Manager {
 		} else {
 			// If the requested theme is not the active theme and the user doesn't have the
 			// switch_themes cap, bail.
-			if ( ! current_user_can( 'switch_themes' ) )
+			if ( ! current_user_can( 'switch_themes' ) ) {
 				$this->wp_die( -1 );
+			}
 
 			// If the theme has errors while loading, bail.
-			if ( $this->theme()->errors() )
+			if ( $this->theme()->errors() ) {
 				$this->wp_die( -1 );
+			}
 
 			// If the theme isn't allowed per multisite settings, bail.
-			if ( ! $this->theme()->is_allowed() )
+			if ( ! $this->theme()->is_allowed() ) {
 				$this->wp_die( -1 );
+			}
 		}
 
 		$this->start_previewing_theme();
@@ -215,7 +223,8 @@ final class WP_Customize_Manager {
 	 * @since 3.4.0
 	 */
 	public function after_setup_theme() {
-		if ( ! $this->doing_ajax() && ! validate_current_theme() ) {
+		$doing_ajax_or_is_customized = ( $this->doing_ajax() || isset( $_SERVER['customized'] ) );
+		if ( ! $doing_ajax_or_is_customized && ! validate_current_theme() ) {
 			wp_redirect( 'themes.php?broken=true' );
 			exit;
 		}
@@ -229,8 +238,9 @@ final class WP_Customize_Manager {
 	 */
 	public function start_previewing_theme() {
 		// Bail if we're already previewing.
-		if ( $this->is_preview() )
+		if ( $this->is_preview() ) {
 			return;
+		}
 
 		$this->previewing = true;
 
@@ -266,8 +276,9 @@ final class WP_Customize_Manager {
 	 * @since 3.4.0
 	 */
 	public function stop_previewing_theme() {
-		if ( ! $this->is_preview() )
+		if ( ! $this->is_preview() ) {
 			return;
+		}
 
 		$this->previewing = false;
 
