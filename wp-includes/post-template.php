@@ -404,12 +404,20 @@ function post_class( $class = '', $post_id = null ) {
  * @return array Array of classes.
  */
 function get_post_class( $class = '', $post_id = null ) {
-	$post = get_post($post_id);
+	$post = get_post( $post_id );
 
 	$classes = array();
 
-	if ( empty($post) )
+	if ( $class ) {
+		if ( ! is_array( $class ) ) {
+			$class = preg_split( '#\s+#', $class );
+		}
+		$classes = array_map( 'esc_attr', $class );
+	}
+
+	if ( ! $post ) {
 		return $classes;
+	}
 
 	$classes[] = 'post-' . $post->ID;
 	if ( ! is_admin() )
@@ -466,13 +474,7 @@ function get_post_class( $class = '', $post_id = null ) {
 		}
 	}
 
-	if ( !empty($class) ) {
-		if ( !is_array( $class ) )
-			$class = preg_split('#\s+#', $class);
-		$classes = array_merge($classes, $class);
-	}
-
-	$classes = array_map('esc_attr', $classes);
+	$classes = array_map( 'esc_attr', $classes );
 
 	/**
 	 * Filter the list of CSS classes for the current post.
