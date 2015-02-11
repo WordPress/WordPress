@@ -238,6 +238,7 @@
 #adminmenu li > a.menu-top:focus {
 	position: relative;
 	background-color: #191e23;
+	color: #00b9eb;
 }
 
 .folded #adminmenu li.menu-top:hover,
