@@ -621,7 +621,8 @@
 			 * Update available sidebars when their rendered state changes
 			 */
 			updateAvailableSidebars = function() {
-				var $sidebarItems = $moveWidgetArea.find( 'li' ), selfSidebarItem;
+				var $sidebarItems = $moveWidgetArea.find( 'li' ), selfSidebarItem,
+					renderedSidebarCount = 0;
 
 				selfSidebarItem = $sidebarItems.filter( function(){
 					return $( this ).data( 'id' ) === self.params.sidebar_id;
@@ -629,23 +630,27 @@
 
 				$sidebarItems.each( function() {
 					var li = $( this ),
-						sidebarId,
-						sidebar;
+						sidebarId, sidebar, sidebarIsRendered;
 
 					sidebarId = li.data( 'id' );
 					sidebar = api.Widgets.registeredSidebars.get( sidebarId );
+					sidebarIsRendered = sidebar.get( 'is_rendered' );
 
-					li.toggle( sidebar.get( 'is_rendered' ) );
+					li.toggle( sidebarIsRendered );
 
-					if ( li.hasClass( 'selected' ) && ! sidebar.get( 'is_rendered' ) ) {
+					if ( sidebarIsRendered ) {
+						renderedSidebarCount += 1;
+					}
+
+					if ( li.hasClass( 'selected' ) && ! sidebarIsRendered ) {
 						selectSidebarItem( selfSidebarItem );
 					}
 				} );
 
-				if ( 1 === $sidebarItems.length ) {
-					self.container.find( '.move-widget' ).hide();
-				} else {
+				if ( renderedSidebarCount > 1 ) {
 					self.container.find( '.move-widget' ).show();
+				} else {
+					self.container.find( '.move-widget' ).hide();
 				}
 			};
 
