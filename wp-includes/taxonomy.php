@@ -3430,6 +3430,12 @@ function wp_update_term( $term_id, $taxonomy, $args = array() ) {
 
 	$tt_id = $wpdb->get_var( $wpdb->prepare( "SELECT tt.term_taxonomy_id FROM $wpdb->term_taxonomy AS tt INNER JOIN $wpdb->terms AS t ON tt.term_id = t.term_id WHERE tt.taxonomy = %s AND t.term_id = %d", $taxonomy, $term_id) );
 
+	// Check whether this is a shared term that needs splitting.
+	$_term_id = _split_shared_term( $term_id, $tt_id );
+	if ( ! is_wp_error( $_term_id ) ) {
+		$term_id = $_term_id;
+	}
+
 	/**
 	 * Fires immediately before the given terms are edited.
 	 *
@@ -4089,6 +4095,199 @@ function _update_generic_term_count( $terms, $taxonomy ) {
 		/** This action is documented in wp-includes/taxonomy.php */
 		do_action( 'edited_term_taxonomy', $term, $taxonomy );
 	}
+}
+
+/**
+ * Create a new term for a term_taxonomy item that currently shares its term with another term_taxonomy.
+ *
+ * @since 4.2.0
+ * @access private
+ *
+ * @param int  $term_id          ID of the shared term.
+ * @param int  $term_taxonomy_id ID of the term_taxonomy item to receive a new term.
+ * @return int|WP_Error When the current term does not need to be split (or cannot be split on the current database
+ *                      schema), `$term_id` is returned. When the term is successfully split, the new term_id is
+ *                      returned. A `WP_Error` is returned for miscellaneous errors.
+ */
+function _split_shared_term( $term_id, $term_taxonomy_id ) {
+	global $wpdb;
+
+	// Don't try to split terms if database schema does not support shared slugs.
+	$current_db_version = get_option( 'db_version' );
+	if ( $current_db_version < 30133 ) {
+		return $term_id;
+	}
+
+	// If there are no shared term_taxonomy rows, there's nothing to do here.
+	$shared_tt_count = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM $wpdb->term_taxonomy tt WHERE tt.term_id = %d AND tt.term_taxonomy_id != %d", $term_id, $term_taxonomy_id ) );
+	if ( ! $shared_tt_count ) {
+		return $term_id;
+	}
+
+	// Pull up data about the currently shared slug, which we'll use to populate the new one.
+	$shared_term = $wpdb->get_row( $wpdb->prepare( "SELECT t.* FROM $wpdb->terms t WHERE t.term_id = %d", $term_id ) );
+
+	$new_term_data = array(
+		'name' => $shared_term->name,
+		'slug' => $shared_term->slug,
+		'term_group' => $shared_term->term_group,
+	);
+
+	if ( false === $wpdb->insert( $wpdb->terms, $new_term_data ) ) {
+		return new WP_Error( 'db_insert_error', __( 'Could not split shared term.' ), $wpdb->last_error );
+	}
+
+	$new_term_id = (int) $wpdb->insert_id;
+
+	// Update the existing term_taxonomy to point to the newly created term.
+	$wpdb->update( $wpdb->term_taxonomy,
+		array( 'term_id' => $new_term_id ),
+		array( 'term_taxonomy_id' => $term_taxonomy_id )
+	);
+
+	// Reassign child terms to the new parent.
+	$term_taxonomy = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $wpdb->term_taxonomy WHERE term_taxonomy_id = %d", $term_taxonomy_id ) );
+	$children_tt_ids = $wpdb->get_col( $wpdb->prepare( "SELECT term_taxonomy_id FROM $wpdb->term_taxonomy WHERE taxonomy = %s AND parent = %d", $term_taxonomy->taxonomy, $term_id ) );
+
+	if ( ! empty( $children_tt_ids ) ) {
+		foreach ( $children_tt_ids as $child_tt_id ) {
+			$wpdb->update( $wpdb->term_taxonomy,
+				array( 'parent' => $new_term_id ),
+				array( 'term_taxonomy_id' => $child_tt_id )
+			);
+			clean_term_cache( $term_id, $term_taxonomy->taxonomy );
+		}
+	} else {
+		// If the term has no children, we must force its taxonomy cache to be rebuilt separately.
+		clean_term_cache( $new_term_id, $term_taxonomy->taxonomy );
+	}
+
+	// Clean the cache for term taxonomies formerly shared with the current term.
+	$shared_term_taxonomies = $wpdb->get_row( $wpdb->prepare( "SELECT taxonomy FROM $wpdb->term_taxonomy WHERE term_id = %d", $term_id ) );
+	if ( $shared_term_taxonomies ) {
+		foreach ( $shared_term_taxonomies as $shared_term_taxonomy ) {
+			clean_term_cache( $term_id, $shared_term_taxonomy );
+		}
+	}
+
+	// Keep a record of term_ids that have been split, keyed by old term_id. See {@see wp_get_split_term()}.
+	$split_term_data = get_option( '_split_terms', array() );
+	if ( ! isset( $split_term_data[ $term_id ] ) ) {
+		$split_term_data[ $term_id ] = array();
+	}
+
+	$split_term_data[ $term_id ][ $term_taxonomy->taxonomy ] = $new_term_id;
+
+	update_option( '_split_terms', $split_term_data );
+
+	/**
+	 * Fires after a previously shared taxonomy term is split into two separate terms.
+	 *
+	 * @since 4.2.0
+	 *
+	 * @param int    $term_id          ID of the formerly shared term.
+	 * @param int    $new_term_id      ID of the new term created for the $term_taxonomy_id.
+	 * @param int    $term_taxonomy_id ID for the term_taxonomy row affected by the split.
+	 * @param string $taxonomy         Taxonomy for the split term.
+	 */
+	do_action( 'split_shared_term', $term_id, $new_term_id, $term_taxonomy_id, $term_taxonomy->taxonomy );
+
+	return $new_term_id;
+}
+
+/**
+ * Check default categories when a term gets split to see if any of them need to be updated.
+ *
+ * @since 4.2.0
+ * @access private
+ *
+ * @param int    $term_id          ID of the formerly shared term.
+ * @param int    $new_term_id      ID of the new term created for the $term_taxonomy_id.
+ * @param int    $term_taxonomy_id ID for the term_taxonomy row affected by the split.
+ * @param string $taxonomy         Taxonomy for the split term.
+ */
+function _wp_check_split_default_terms( $term_id, $new_term_id, $term_taxonomy_id, $taxonomy ) {
+	if ( 'category' != $taxonomy ) {
+		return;
+	}
+
+	foreach ( array( 'default_category', 'default_link_category', 'default_email_category' ) as $option ) {
+		if ( $term_id == get_option( $option, -1 ) ) {
+			update_option( $option, $new_term_id );
+		}
+	}
+}
+
+/**
+ * Check menu items when a term gets split to see if any of them need to be updated.
+ *
+ * @since 4.2.0
+ * @access private
+ *
+ * @param int    $term_id          ID of the formerly shared term.
+ * @param int    $new_term_id      ID of the new term created for the $term_taxonomy_id.
+ * @param int    $term_taxonomy_id ID for the term_taxonomy row affected by the split.
+ * @param string $taxonomy         Taxonomy for the split term.
+ */
+function _wp_check_split_terms_in_menus( $term_id, $new_term_id, $term_taxonomy_id, $taxonomy ) {
+	global $wpdb;
+	$post_ids = $wpdb->get_col( $wpdb->prepare(
+		"SELECT m1.post_id
+		FROM {$wpdb->postmeta} AS m1
+			INNER JOIN {$wpdb->postmeta} AS m2 ON ( m2.post_id = m1.post_id )
+			INNER JOIN {$wpdb->postmeta} AS m3 ON ( m3.post_id = m1.post_id )
+		WHERE ( m1.meta_key = '_menu_item_type' AND m1.meta_value = 'taxonomy' )
+			AND ( m2.meta_key = '_menu_item_object' AND m2.meta_value = '%s' )
+			AND ( m3.meta_key = '_menu_item_object_id' AND m3.meta_value = %d )",
+		$taxonomy,
+		$term_id
+	) );
+
+	if ( $post_ids ) {
+		foreach ( $post_ids as $post_id ) {
+			update_post_meta( $post_id, '_menu_item_object_id', $new_term_id, $term_id );
+		}
+	}
+}
+
+/**
+ * Get data about terms that previously shared a single term_id, but have since been split.
+ *
+ * @since 4.2.0
+ *
+ * @param int $old_term_id Term ID. This is the old, pre-split term ID.
+ * @return array Array of new term IDs, keyed by taxonomy.
+ */
+function wp_get_split_terms( $old_term_id ) {
+	$split_terms = get_option( '_split_terms', array() );
+
+	$terms = array();
+	if ( isset( $split_terms[ $old_term_id ] ) ) {
+		$terms = $split_terms[ $old_term_id ];
+	}
+
+	return $terms;
+}
+
+/**
+ * Get the new term ID corresponding to a previously split term.
+ *
+ * @since 4.2.0
+ *
+ * @param int    $old_term_id Term ID. This is the old, pre-split term ID.
+ * @param string $taxonomy    Taxonomy that the term belongs to.
+ * @return bool|int If a previously split term is found corresponding to the old term_id and taxonomy, the new term_id
+ *                  will be returned. If no previously split term is found matching the parameters, returns false.
+ */
+function wp_get_split_term( $old_term_id, $taxonomy ) {
+	$split_terms = wp_get_split_terms( $old_term_id );
+
+	$term_id = false;
+	if ( isset( $split_terms[ $taxonomy ] ) ) {
+		$term_id = (int) $split_terms[ $taxonomy ];
+	}
+
+	return $term_id;
 }
 
 /**
