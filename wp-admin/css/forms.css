@@ -30,7 +30,7 @@ textarea {
 	-webkit-box-shadow: inset 0 1px 2px rgba( 0, 0, 0, 0.07 );
 	box-shadow: inset 0 1px 2px rgba( 0, 0, 0, 0.07 );
 	background-color: #fff;
-	color: #333;
+	color: #32373c;
 	outline: none;
 	-webkit-transition: 0.05s border-color ease-in-out;
 	transition: 0.05s border-color ease-in-out;
@@ -92,12 +92,12 @@ input[type="radio"] {
 }
 
 input[type="radio"]:checked + label:before {
-	color: #888;
+	color: #82878c;
 }
 
 .wp-core-ui input[type="reset"]:hover,
 .wp-core-ui input[type="reset"]:active {
-	color: #2ea2cc;
+	color: #00a0d2;
 }
 
 td > input[type="checkbox"],
@@ -559,7 +559,7 @@ ul#add-to-blog-users {
 
 .form-table th,
 .form-wrap label {
-	color: #222;
+	color: #23282d;
 	font-weight: normal;
 	text-shadow: none;
 	vertical-align: baseline;
@@ -693,7 +693,7 @@ table.form-table td .updated p {
 	display: inline-block;
 	position: relative;
 	cursor: move;
-	color: #333;
+	color: #32373c;
 	background: #e6e6e6;
 	-webkit-border-radius: 5px;
 	border-radius: 5px;

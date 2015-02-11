@@ -227,7 +227,7 @@ ul.category-tabs li,
 .wp-tab-bar .wp-tab-active a,
 #post-body ul.category-tabs li.tabs a,
 #post-body ul.add-menu-item-tabs li.tabs a {
-	color: #333;
+	color: #32373c;
 }
 
 .category-tabs {
@@ -496,7 +496,7 @@ td.plugin-title p {
 .curtime #timestamp:before,
 #post-body .misc-pub-revisions:before,
 span.wp-media-buttons-icon:before {
-	color: #888;
+	color: #82878c;
 }
 
 #post-body #visibility:before,
@@ -848,7 +848,7 @@ span.wp-media-buttons-icon:before {
 
 a.post-state-format:hover:before,
 a.post-format-icon:hover:before {
-	color: #2ea2cc;
+	color: #00a0d2;
 }
 
 #post-formats-select {

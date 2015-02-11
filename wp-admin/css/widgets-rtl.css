@@ -369,7 +369,7 @@ div#widgets-right .closed .widgets-sortables {
 }
 
 .js #removing-widget {
-	color: #2ea2cc;
+	color: #00a0d2;
 }
 
 .widget-control-noform,
@@ -475,7 +475,7 @@ div#widgets-right .widget-top:hover,
 }
 
 .widgets-chooser li.widgets-chooser-selected {
-	background: #2ea2cc;
+	background: #00a0d2;
 	color: #fff;
 }
 

@@ -3,7 +3,7 @@
 #adminmenu,
 #adminmenu .wp-submenu {
 	width: 160px;
-	background-color: #222;
+	background-color: #23282d;
 }
 
 #adminmenuback {
@@ -166,7 +166,8 @@
 }
 
 #adminmenu .wp-submenu a {
-	color: #bbb;
+	color: #b4b9be;
+	color: rgba(240,245,250,0.7);
 }
 
 #adminmenu .wp-submenu a:hover,
@@ -201,7 +202,7 @@
 .folded #adminmenu .wp-has-current-submenu .wp-submenu {
 	padding: 7px 0 8px;
 	z-index: 9999;
-	background-color: #333;
+	background-color: #32373c;
 	-webkit-box-shadow: 0 3px 5px rgba(0,0,0,0.2);
 	box-shadow: 0 3px 5px rgba(0,0,0,0.2);
 }
@@ -228,7 +229,7 @@
 	margin-top: 0;
 	-webkit-box-shadow: none;
 	box-shadow: none;
-	background-color: #333;
+	background-color: #32373c;
 }
 
 /* ensure that wp-submenu's box shadow doesn't appear on top of the focused menu item's background. */
@@ -236,7 +237,7 @@
 #adminmenu li.opensub > a.menu-top,
 #adminmenu li > a.menu-top:focus {
 	position: relative;
-	background-color: #111;
+	background-color: #191e23;
 }
 
 .folded #adminmenu li.menu-top:hover,
@@ -252,7 +253,7 @@
 #adminmenu .wp-menu-arrow,
 #adminmenu .wp-has-current-submenu .wp-submenu .wp-submenu-head,
 #adminmenu .wp-menu-arrow div {
-	background: #0074a2;
+	background: #0073aa;
 	color: #fff;
 }
 
@@ -364,7 +365,8 @@ div.wp-menu-image:before {
 }
 
 #adminmenu div.wp-menu-image:before {
-	color: #999;
+	color: #00b9eb;
+	color: rgba(240,245,250,0.6);
 }
 
 #adminmenu li.wp-has-current-submenu:hover div.wp-menu-image:before,
@@ -376,7 +378,7 @@ div.wp-menu-image:before {
 }
 
 #adminmenu li:hover div.wp-menu-image:before {
-	color: #45bbe6;
+	color: #00b9eb;
 }
 
 .folded #adminmenu div.wp-menu-image {
@@ -464,7 +466,7 @@ ul#adminmenu > li.current > a.current:after {
 }
 
 #adminmenu li.wp-has-submenu.wp-not-current-submenu.opensub:hover:after {
-	border-left-color: #333;
+	border-left-color: #32373c;
 }
 
 #adminmenu li.menu-top:hover .wp-menu-image img,
@@ -537,14 +539,15 @@ ul#adminmenu > li.current > a.current:after {
 	font-size: 13px;
 	line-height: 34px;
 	margin-top: 10px;
-	color: #aaa;
+	color: #00b9eb;
+	color: rgba(240,245,250,0.6);
 	-webkit-transition: all .1s ease-in-out;
 	transition: all .1s ease-in-out;
 }
 
 #collapse-menu:hover,
 #collapse-menu:hover #collapse-button div:after {
-	color: #45bbe6;
+	color: #00b9eb;
 }
 
 .folded #collapse-menu span {
@@ -576,7 +579,8 @@ ul#adminmenu > li.current > a.current:after {
 	line-height: 15px;
 	right: -3px;
 	top: -3px;
-	color: #aaa;
+	color: #00b9eb;
+	color: rgba(240,245,250,0.6);
 	font: normal 20px/1 'dashicons' !important;
 	speak: none;
 	margin: 0 auto;
@@ -870,7 +874,7 @@ li#wp-admin-bar-menu-toggle {
 	}
 
 	.wp-responsive-open #wpadminbar #wp-admin-bar-menu-toggle a {
-		background: #333;
+		background: #32373c;
 	}
 
 	li#wp-admin-bar-menu-toggle {

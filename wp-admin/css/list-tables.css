@@ -45,11 +45,11 @@
 }
 
 .post-com-count:hover span {
-	background-color: #2ea2cc;
+	background-color: #00a0d2;
 }
 
 .post-com-count:hover:after {
-	border-top: 5px solid #2ea2cc;
+	border-top: 5px solid #00a0d2;
 }
 
 strong .post-com-count {
@@ -57,11 +57,11 @@ strong .post-com-count {
 }
 
 strong .post-com-count span {
-	background-color: #0074a2;
+	background-color: #0073aa;
 }
 
 strong .post-com-count:after {
-	border-top: 5px solid #0074a2;
+	border-top: 5px solid #0073aa;
 }
 
 .column-response .post-com-count {
@@ -416,7 +416,7 @@ tr.wp-locked .locked-indicator {
 }
 
 tr.wp-locked .locked-indicator:before {
-	color: #888;
+	color: #82878c;
 	content: '\f160';
 	display: inline-block;
 	float: left;
@@ -479,7 +479,7 @@ th.manage-column a,
 th.sortable a:hover,
 th.sortable a:active,
 th.sortable a:focus {
-	color: #333;
+	color: #32373c;
 }
 
 th.sortable a:focus {
@@ -571,7 +571,7 @@ th.asc:hover span.sorting-indicator {
 .tablenav .tablenav-pages a:hover,
 .tablenav .tablenav-pages a:focus {
 	color: #fff;
-	background: #2ea2cc;
+	background: #00a0d2;
 }
 
 .tablenav .tablenav-pages a.disabled,
@@ -613,13 +613,13 @@ classes exist in paginate_links() but not seen in list table output. */
 .tablenav .next,
 .tablenav .prev {
 	border-color: transparent;
-	color: #0074a2;
+	color: #0073aa;
 }
 
 .tablenav .next:hover,
 .tablenav .prev:hover {
 	border-color: transparent;
-	color: #2ea2cc;
+	color: #00a0d2;
 }
 
 .tablenav .view-switch {
@@ -665,7 +665,7 @@ classes exist in paginate_links() but not seen in list table output. */
 }
 
 .view-switch a.current:before {
-	color: #0074a2;
+	color: #0073aa;
 }
 
 .view-switch > a + a {
@@ -1160,7 +1160,7 @@ tr.active.update + tr.plugin-update-tr .plugin-update {
 
 .plugins .active th.check-column,
 .plugin-update-tr.active td {
-	border-left: 4px solid #2ea2cc;
+	border-left: 4px solid #00a0d2;
 }
 
 .plugins .active.update th.check-column,

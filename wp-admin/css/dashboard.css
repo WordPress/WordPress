@@ -211,7 +211,7 @@
 }
 
 .welcome-panel .welcome-icon:before {
-	color: #888;
+	color: #82878c;
 	font: normal 20px/1 'dashicons';
 	speak: none;
 	display: inline-block;
@@ -370,7 +370,7 @@ body #dashboard-widgets .postbox form .submit {
 
 #dashboard_right_now li a:before,
 #dashboard_right_now li span:before {
-	color: #888;
+	color: #82878c;
 }
 
 #dashboard_right_now .sub {
@@ -800,7 +800,7 @@ h3:hover .edit-box {
 }
 
 #dashboard-widgets h4 {
-	color: #222;
+	color: #23282d;
 	font-weight: normal;
 	font-size: 14px;
 	margin: 0 0 .2em;

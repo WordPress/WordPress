@@ -177,7 +177,7 @@
 	margin-top: -22px;
 	-webkit-border-radius: 22px;
 	border-radius: 22px;
-	background-color: #0074a2;
+	background-color: #0073aa;
 	-webkit-box-shadow: inset 0 0 2px rgba(0,0,0,0.3);
 	box-shadow: inset 0 0 2px rgba(0,0,0,0.3);
 }
@@ -312,7 +312,7 @@
 }
 
 #find-posts-close:hover {
-	color: #2ea2cc;
+	color: #00a0d2;
 }
 
 #find-posts-close:before {
@@ -495,7 +495,7 @@ border color while dragging a file over the uploader drop area */
 
 .upload-php .mode-grid .media-sidebar .media-uploader-status .upload-dismiss-errors:focus:before,
 .upload-php .mode-grid .media-sidebar .media-uploader-status .upload-dismiss-errors:hover:before {
-	color: #2ea2cc;
+	color: #00a0d2;
 }
 
 .upload-php .mode-grid .media-sidebar .media-uploader-status.errors h3 {
@@ -944,7 +944,7 @@ border color while dragging a file over the uploader drop area */
 .imgedit-menu div:hover {
 	border-color: #c1c1c1;
 	background-color: #eaeaea;
-	color: #333;
+	color: #32373c;
 }
 
 .imgedit-menu div.disabled {

@@ -44,7 +44,7 @@
 /* WordPress Version Badge */
 
 .wp-badge {
-	background: #0074a2 url(../images/w-logo-white.png?ver=20131202) no-repeat;
+	background: #0073aa url(../images/w-logo-white.png?ver=20131202) no-repeat;
 	background-position: center 24px;
 	-webkit-background-size: 85px 85px;
 	background-size: 85px 85px;
@@ -96,7 +96,7 @@
 
 .about-wrap h1 {
 	margin: 0.2em 0 0 200px;
-	color: #333;
+	color: #32373c;
 	line-height: 1.2em;
 	font-size: 2.8em;
 	font-weight: 400;
@@ -109,7 +109,7 @@
 }
 
 .about-wrap h4 {
-	color: #222;
+	color: #23282d;
 }
 
 .about-wrap code,

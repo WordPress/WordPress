@@ -12,7 +12,7 @@
 }
 
 body.press-this ul.category-tabs li.tabs a {
-	color: #333;
+	color: #32373c;
 }
 
 .press-this #content-resize-handle {
@@ -20,7 +20,7 @@ body.press-this ul.category-tabs li.tabs a {
 }
 
 body.press-this {
-	color: #333;
+	color: #32373c;
 	margin: 0;
 	padding: 0;
 	min-width: 708px;

@@ -241,7 +241,7 @@ td {
 }
 
 a {
-	color: #0074a2;
+	color: #0073aa;
 	-webkit-transition-property: border, background, color;
 	transition-property: border, background, color;
 	-webkit-transition-duration: .05s;
@@ -257,7 +257,7 @@ div {
 
 a:hover,
 a:active {
-	color: #2ea2cc;
+	color: #00a0d2;
 }
 
 a:focus {
@@ -325,14 +325,14 @@ h1 {
 }
 
 h2 {
-	color: #222;
+	color: #23282d;
 	font-size: 1.5em;
 	margin: .83em 0;
 	font-weight: 400;
 }
 
 h3 {
-	color: #222;
+	color: #23282d;
 	font-size: 1.3em;
 	margin: 1em 0;
 }
@@ -557,7 +557,7 @@ code {
 }
 
 .attention {
-	color: #2ea2cc;
+	color: #00a0d2;
 }
 
 .wrap h2,
@@ -596,7 +596,7 @@ code {
 }
 
 .wrap .add-new-h2:hover {
-	background: #2ea2cc;
+	background: #00a0d2;
 	color: #fff;
 }
 
@@ -651,10 +651,10 @@ td.help {
 
 .wp-ui-primary {
 	color: #fff;
-	background-color: #333;
+	background-color: #32373c;
 }
 .wp-ui-text-primary {
-	color: #333;
+	color: #32373c;
 }
 
 .wp-ui-highlight {
@@ -700,7 +700,7 @@ td.help {
 .widget .widget-top,
 .menu-item-handle {
 	background: #fafafa;
-	color: #222;
+	color: #23282d;
 }
 
 .postbox .hndle,
@@ -982,14 +982,14 @@ th.action-links {
 	-webkit-box-shadow: none;
 	box-shadow: none;
 	border-bottom: 4px solid #666;
-	color: #222;
+	color: #23282d;
 }
 
 .filter-links li > a:hover,
 .filter-links li > a:focus,
 .show-filters .filter-links a.current:hover,
 .show-filters .filter-links a.current:focus {
-	color: #2ea2cc;
+	color: #00a0d2;
 }
 
 .wp-filter .search-form {
@@ -1047,7 +1047,7 @@ th.action-links {
 
 .wp-filter .drawer-toggle:hover,
 .wp-filter .drawer-toggle:hover:before {
-	color: #2ea2cc;
+	color: #00a0d2;
 }
 
 .wp-filter .drawer-toggle.current:before {
@@ -1287,7 +1287,7 @@ div.error {
 }
 
 .notice-info {
-    border-color: #2ea2cc;
+    border-color: #00a0d2;
 }
 
 .wrap .notice,
@@ -1426,7 +1426,7 @@ form.upgrade .hint {
 #screen-meta-links a:hover,
 #screen-meta-links a:active,
 #screen-meta-links a:focus {
-	color: #333;
+	color: #32373c;
 }
 
 #screen-meta-links a.show-settings {
@@ -1565,13 +1565,13 @@ form.upgrade .hint {
 }
 
 .contextual-help-tabs a:hover {
-	color: #333;
+	color: #32373c;
 }
 
 .contextual-help-tabs .active {
 	padding: 0;
 	margin: 0 -1px 0 0;
-	border-left: 2px solid #2ea2cc;
+	border-left: 2px solid #00a0d2;
 	background: #f6fbfd;
 	-webkit-box-shadow: 0 2px 0 rgba(0,0,0,0.02), 0 1px 0 rgba(0,0,0,0.02);
 	box-shadow: 0 2px 0 rgba(0,0,0,0.02), 0 1px 0 rgba(0,0,0,0.02);
@@ -1579,7 +1579,7 @@ form.upgrade .hint {
 
 .contextual-help-tabs .active a {
 	border-color: #e1e1e1;
-	color: #333;
+	color: #32373c;
 }
 
 .contextual-help-tabs-wrap {
@@ -1641,7 +1641,7 @@ html.wp-toolbar {
 
 .widefat thead tr th,
 .widefat tfoot tr th {
-	color: #333;
+	color: #32373c;
 }
 
 .widefat td p {
@@ -1651,7 +1651,7 @@ html.wp-toolbar {
 .widefat p,
 .widefat ol,
 .widefat ul {
-	color: #333;
+	color: #32373c;
 }
 
 .widefat .column-comment p {
@@ -2137,7 +2137,7 @@ div.star-holder .star-rating {
 	-webkit-transition: color .1s ease-in 0;
 	transition: color .1s ease-in 0;
 	text-align: center;
-	color: #0074a2;
+	color: #0073aa;
 }
 
 .star-rating .star-full:before {
@@ -2277,7 +2277,7 @@ div.action-links {
 	border: 1px solid #ddd;
 	border-bottom-color: #fff;
 	padding-top: 8px;
-	color: #333;
+	color: #32373c;
 }
 
 #plugin-information-tabs.with-banner a.current {
@@ -2654,7 +2654,7 @@ body.index-php #TB_closeWindowButton:focus,
 body.index-php #TB_closeWindowButton:focus .tb-close-icon,
 body.index-php .tb-close-icon:focus,
 body.index-php .tb-close-icon:hover {
-	color: #2ea2cc;
+	color: #00a0d2;
 	outline: none;
 	-webkit-box-shadow: none;
 	box-shadow: none;
@@ -2992,7 +2992,7 @@ img {
 .js .control-section .accordion-section-title:hover,
 .js .control-section.open .accordion-section-title,
 .js .control-section .accordion-section-title:focus {
-	color: #222;
+	color: #23282d;
 	background: #f5f5f5;
 }
 

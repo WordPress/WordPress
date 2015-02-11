@@ -81,7 +81,7 @@ html:lang(he-il) .rtl #wpadminbar *  {
 	width: 100%;
 	min-width: 600px; /* match the min-width of the body in wp-admin.css */
 	z-index: 99999;
-	background: #222;
+	background: #23282d;
 }
 
 #wpadminbar .ab-sub-wrapper,
@@ -136,7 +136,7 @@ html:lang(he-il) .rtl #wpadminbar *  {
 	padding: 0;
 	-webkit-box-shadow: 0 3px 5px rgba(0,0,0,0.2);
 	box-shadow: 0 3px 5px rgba(0,0,0,0.2);
-	background: #333;
+	background: #32373c;
 	display: none;
 	position: absolute;
 	float: none;
@@ -210,7 +210,7 @@ html:lang(he-il) .rtl #wpadminbar *  {
 #wpadminbar.nojq .quicklinks .ab-top-menu > li > .ab-item:focus,
 #wpadminbar .ab-top-menu > li:hover > .ab-item,
 #wpadminbar .ab-top-menu > li.hover > .ab-item {
-	background: #333;
+	background: #32373c;
 	color: #45bbe6;
 }
 
@@ -237,7 +237,8 @@ html:lang(he-il) .rtl #wpadminbar *  {
 #wpadminbar .ab-icon:before,
 #wpadminbar .ab-item:before,
 #wpadminbar #adminbarsearch:before {
-	color: #999;
+	color: #a0a5aa;
+	color: rgba(240,245,250,0.6);
 }
 
 #wpadminbar .ab-icon:before,
@@ -254,14 +255,16 @@ html:lang(he-il) .rtl #wpadminbar *  {
 }
 
 #wpadminbar .ab-submenu .ab-item {
-	color: #eee;
+	color: #b4b9be;
+	color: rgba(240,245,250,0.7);
 }
 
 #wpadminbar .quicklinks .menupop ul li a,
 #wpadminbar .quicklinks .menupop ul li a strong,
 #wpadminbar .quicklinks .menupop.hover ul li a,
 #wpadminbar.nojs .quicklinks .menupop:hover ul li a {
-	color: #eee;
+	color: #b4b9be;
+	color: rgba(240,245,250,0.7);
 }
 
 #wpadminbar .quicklinks .menupop ul li a:hover,
@@ -279,7 +282,7 @@ html:lang(he-il) .rtl #wpadminbar *  {
 #wpadminbar li.hover .ab-icon:before,
 #wpadminbar li.hover .ab-item:before,
 #wpadminbar li:hover #adminbarsearch:before {
-	color: #45bbe6;
+	color: #00b9eb;
 }
 
 #wpadminbar .menupop .menupop > .ab-item:before,
@@ -325,17 +328,17 @@ html:lang(he-il) .rtl #wpadminbar *  {
 
 #wpadminbar .quicklinks .menupop ul.ab-sub-secondary,
 #wpadminbar .quicklinks .menupop ul.ab-sub-secondary .ab-submenu {
-	background: #4b4b4b;
+	background: #464b50;
 }
 
 #wpadminbar .quicklinks .menupop .ab-sub-secondary > li > a:hover,
 #wpadminbar .quicklinks .menupop .ab-sub-secondary > li .ab-item:focus a {
-	color: #45bbe6;
+	color: #00b9eb;
 }
 
 #wpadminbar .quicklinks a span#ab-updates {
 	background: #eee;
-	color: #333;
+	color: #32373c;
 	display: inline;
 	padding: 2px 5px;
 	font-size: 10px;
@@ -436,7 +439,7 @@ html:lang(he-il) .rtl #wpadminbar *  {
 	width: 16px;
 	height: 16px;
 	padding: 0;
-	border: 1px solid #888;
+	border: 1px solid #82878c;
 	background: #eee;
 	line-height: 24px;
 	vertical-align: middle;

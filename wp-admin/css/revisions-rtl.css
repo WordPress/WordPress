@@ -474,8 +474,8 @@ div.revisions-controls > .wp-slider > .ui-slider-handle {
 .wp-slider .ui-slider-handle,
 .wp-slider .ui-slider-handle.ui-state-hover,
 .wp-slider .ui-slider-handle.focus {
-	background: #2ea2cc;
-	border: 1px solid #0074a2;
+	background: #00a0d2;
+	border: 1px solid #0073aa;
 	-webkit-box-shadow: inset 0 1px 0 #78c8e6, 0 1px 0 rgba(0,0,0,.15);
 	box-shadow: inset 0 1px 0 #78c8e6, 0 1px 0 rgba(0,0,0,.15);
 }

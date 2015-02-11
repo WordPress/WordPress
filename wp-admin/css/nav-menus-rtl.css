@@ -713,14 +713,14 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
 }
 
 .nav-menus-php .submitbox .submitcancel {
-	border-bottom: 1px solid #0074a2;
+	border-bottom: 1px solid #0073aa;
 	padding: 1px 2px;
-	color: #0074a2;
+	color: #0073aa;
 	text-decoration: none;
 }
 
 .nav-menus-php .submitbox .submitcancel:hover {
-	background: #0074a2;
+	background: #0073aa;
 	color: #fff;
 }
 
