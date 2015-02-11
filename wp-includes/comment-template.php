@@ -1502,7 +1502,7 @@ function get_post_reply_link($args = array(), $post = null) {
 	}
 
 	if ( get_option('comment_registration') && ! is_user_logged_in() ) {
-		$link = sprintf( '<a rel="nofollow" href="%s">%s</a>',
+		$link = sprintf( '<a rel="nofollow" class="comment-reply-login" href="%s">%s</a>',
 			wp_login_url( get_permalink() ),
 			$args['login_text']
 		);
