@@ -316,7 +316,13 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' ); ?>
 	if ( current_user_can( 'customize' ) ) {
 		printf(
 			' <a class="add-new-h2 hide-if-no-customize" href="%1$s">%2$s</a>',
-			admin_url( 'customize.php?autofocus[panel]=widgets' ),
+			esc_url( add_query_arg(
+				array(
+					array( 'autofocus' => array( 'panel' => 'widgets' ) ),
+					'return' => urlencode( wp_unslash( $_SERVER['REQUEST_URI'] ) )
+				),
+				admin_url( 'customize.php' )
+			) ),
 			__( 'Manage in Customizer' )
 		);
 	}
