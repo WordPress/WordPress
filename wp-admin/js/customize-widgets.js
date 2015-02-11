@@ -250,7 +250,7 @@
 
 		// Adds a selected widget to the sidebar
 		submit: function( widgetTpl ) {
-			var widgetId, widget;
+			var widgetId, widget, widgetFormControl;
 
 			if ( ! widgetTpl ) {
 				widgetTpl = this.selected;
@@ -268,7 +268,10 @@
 				return;
 			}
 
-			this.currentSidebarControl.addWidget( widget.get( 'id_base' ) );
+			widgetFormControl = this.currentSidebarControl.addWidget( widget.get( 'id_base' ) );
+			if ( widgetFormControl ) {
+				widgetFormControl.focus();
+			}
 
 			this.close();
 		},
@@ -1844,18 +1847,14 @@
 
 			controlContainer.slideDown( function() {
 				if ( isExistingWidget ) {
-					widgetFormControl.expand();
 					widgetFormControl.updateWidget( {
 						instance: widgetFormControl.setting(),
 						complete: function( error ) {
 							if ( error ) {
 								throw error;
 							}
-							widgetFormControl.focus();
 						}
 					} );
-				} else {
-					widgetFormControl.focus();
 				}
 			} );
 
