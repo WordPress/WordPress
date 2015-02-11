@@ -568,6 +568,8 @@ class WP_oEmbed {
 		if ( class_exists( 'DOMDocument' ) ) {
 			$token = '__PRE__';
 			$replace = array();
+			$count = 1;
+
 			$dom = new DOMDocument();
 			$dom->loadHTML( $html );
 			$tags = $dom->getElementsByTagName( 'pre' );
@@ -575,7 +577,8 @@ class WP_oEmbed {
 				$tag_html = $dom->saveHTML( $tag );
 				$tag_token = $token . $i;
 				$replace[ $tag_token ] = $tag_html;
-				$html = str_replace( $tag_html, $tag_token, $html );
+
+				$html = str_replace( $tag_html, $tag_token, $html, $count );
 			}
 			$pre = array_values( $replace );
 			$tokens = array_keys( $replace );
