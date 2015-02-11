@@ -63,9 +63,9 @@ final class WP_Customize_Manager {
 	protected $registered_control_types = array();
 
 	/**
-	 * $_POST values for Customize Settings.
+	 * Unsanitized values for Customize Settings parsed from $_POST['customized'].
 	 *
-	 * @var array
+	 * @var array|false
 	 */
 	private $_post_values;
 
@@ -75,11 +75,11 @@ final class WP_Customize_Manager {
 	 * @since 3.4.0
 	 */
 	public function __construct() {
-		require( ABSPATH . WPINC . '/class-wp-customize-setting.php' );
-		require( ABSPATH . WPINC . '/class-wp-customize-panel.php' );
-		require( ABSPATH . WPINC . '/class-wp-customize-section.php' );
-		require( ABSPATH . WPINC . '/class-wp-customize-control.php' );
-		require( ABSPATH . WPINC . '/class-wp-customize-widgets.php' );
+		require_once( ABSPATH . WPINC . '/class-wp-customize-setting.php' );
+		require_once( ABSPATH . WPINC . '/class-wp-customize-panel.php' );
+		require_once( ABSPATH . WPINC . '/class-wp-customize-section.php' );
+		require_once( ABSPATH . WPINC . '/class-wp-customize-control.php' );
+		require_once( ABSPATH . WPINC . '/class-wp-customize-widgets.php' );
 
 		$this->widgets = new WP_Customize_Widgets( $this );
 
@@ -399,23 +399,46 @@ final class WP_Customize_Manager {
 	}
 
 	/**
-	 * Decode the $_POST['customized'] values for a specific Customize Setting.
+	 * Parse the incoming $_POST['customized'] JSON data and store the unsanitized
+	 * settings for subsequent post_value() lookups.
+	 *
+	 * @since 4.1.1
+	 *
+	 * @return array
+	 */
+	public function unsanitized_post_values() {
+		if ( ! isset( $this->_post_values ) ) {
+			if ( isset( $_POST['customized'] ) ) {
+				$this->_post_values = json_decode( wp_unslash( $_POST['customized'] ), true );
+			}
+			if ( empty( $this->_post_values ) ) { // if not isset or of JSON error
+				$this->_post_values = false;
+			}
+		}
+		if ( empty( $this->_post_values ) ) {
+			return array();
+		} else {
+			return $this->_post_values;
+		}
+	}
+
+	/**
+	 * Return the sanitized value for a given setting from the request's POST data.
 	 *
 	 * @since 3.4.0
+	 * @since 4.1.1 Introduced 'default' parameter.
 	 *
 	 * @param WP_Customize_Setting $setting A WP_Customize_Setting derived object
-	 * @return string $post_value Sanitized value
+	 * @param mixed $default value returned $setting has no post value (added in 4.2.0).
+	 * @return string|mixed $post_value Sanitized value or the $default provided
 	 */
-	public function post_value( $setting ) {
-		if ( ! isset( $this->_post_values ) ) {
-			if ( isset( $_POST['customized'] ) )
-				$this->_post_values = json_decode( wp_unslash( $_POST['customized'] ), true );
-			else
-				$this->_post_values = false;
+	public function post_value( $setting, $default = null ) {
+		$post_values = $this->unsanitized_post_values();
+		if ( array_key_exists( $setting->id, $post_values ) ) {
+			return $setting->sanitize( $post_values[ $setting->id ] );
+		} else {
+			return $default;
 		}
-
-		if ( isset( $this->_post_values[ $setting->id ] ) )
-			return $setting->sanitize( $this->_post_values[ $setting->id ] );
 	}
 
 	/**
