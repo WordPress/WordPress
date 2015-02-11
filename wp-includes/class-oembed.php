@@ -563,28 +563,27 @@ class WP_oEmbed {
 			return $html;
 		}
 
-		$pre = array();
-		$tokens = array();
-		if ( class_exists( 'DOMDocument' ) ) {
-			$token = '__PRE__';
-			$replace = array();
-			$count = 1;
+		$count = 1;
+		$found = array();
+		$token = '__PRE__';
+		$search = array( "\t", "\n", "\r", ' ' );
+		$replace = array( '__TAB__', '__NL__', '__CR__', '__SPACE__' );
+		$tokenized = str_replace( $search, $replace, $html );
 
-			$dom = new DOMDocument();
-			$dom->loadHTML( $html );
-			$tags = $dom->getElementsByTagName( 'pre' );
-			foreach ( $tags as $i => $tag ) {
-				$tag_html = $dom->saveHTML( $tag );
-				$tag_token = $token . $i;
-				$replace[ $tag_token ] = $tag_html;
+		preg_match_all( '#(<pre[^>]*>.+?</pre>)#i', $tokenized, $matches, PREG_SET_ORDER );
+		foreach ( $matches as $i => $match ) {
+			$tag_html = str_replace( $replace, $search, $match[0] );
+			$tag_token = $token . $i;
 
-				$html = str_replace( $tag_html, $tag_token, $html, $count );
-			}
-			$pre = array_values( $replace );
-			$tokens = array_keys( $replace );
+			$found[ $tag_token ] = $tag_html;
+			$html = str_replace( $tag_html, $tag_token, $html, $count );
 		}
 
-		$stripped = str_replace( array( "\r\n", "\n" ), '', $html );
+		$replaced = str_replace( $replace, $search, $html );
+		$stripped = str_replace( array( "\r\n", "\n" ), '', $replaced );
+		$pre = array_values( $found );
+		$tokens = array_keys( $found );
+
 		return str_replace( $tokens, $pre, $stripped );
 	}
 }
