@@ -628,18 +628,20 @@ function get_transient( $transient ) {
  */
 function set_transient( $transient, $value, $expiration = 0 ) {
 
+	$expiration = (int) $expiration;
+
 	/**
 	 * Filter a specific transient before its value is set.
 	 *
 	 * The dynamic portion of the hook name, `$transient`, refers to the transient name.
 	 *
 	 * @since 3.0.0
+	 * @since 4.2.0 Added `$expiration` parameter.
 	 *
-	 * @param mixed $value New value of transient.
+	 * @param mixed $value      New value of transient.
+	 * @param int   $expiration Time until expiration in seconds.
 	 */
-	$value = apply_filters( 'pre_set_transient_' . $transient, $value );
-
-	$expiration = (int) $expiration;
+	$value = apply_filters( 'pre_set_transient_' . $transient, $value, $expiration );
 
 	if ( wp_using_ext_object_cache() ) {
 		$result = wp_cache_set( $transient, $value, 'transient', $expiration );
