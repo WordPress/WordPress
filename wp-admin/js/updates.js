@@ -1,6 +1,6 @@
 window.wp = window.wp || {};
 
-(function( $, wp, pagenow, ajaxurl ) {
+(function( $, wp, pagenow ) {
 	wp.updates = {};
 
 	/**
@@ -122,45 +122,15 @@ window.wp = window.wp || {};
 		wp.updates.updateLock = true;
 
 		var data = {
-			'action':      'update-plugin',
 			'_ajax_nonce': wp.updates.ajaxNonce,
 			'plugin':      plugin,
 			'slug':        slug
 		};
 
-		$.ajax( {
-			type:      'post',
-			url:       ajaxurl,
-			data:      data,
-			complete:  wp.updates.updateRequestComplete
-		} );
-	};
-
-	/**
-	 * After an update attempt has completed, deal with the response.
-	 *
-	 * @since 4.2.0
-	 *
-	 * @param  {jqXHR} jqxhr The jQuery XMLHttpRequest for the request.
-	 */
-	wp.updates.updateRequestComplete = function( jqxhr ) {
-		wp.updates.updateLock = false;
-		if ( jqxhr.responseJSON && jqxhr.responseJSON.success ) {
-			wp.updates.updateSuccess( jqxhr.responseJSON );
-		} else {
-			var alertText = wp.updates.l10n.updateFailed;
-			if ( jqxhr.responseJSON && jqxhr.responseJSON.data && jqxhr.responseJSON.data.error ) {
-				 alertText += ': ' + jqxhr.responseJSON.data.error;
-			}
-			window.alert( alertText );
-			if ( jqxhr.responseJSON && jqxhr.responseJSON.data && jqxhr.responseJSON.data.slug ) {
-				wp.updates.updateError( jqxhr.responseJSON );
-			}
-		}
-		/**
-		 * Check the queue.
-		 */
-		wp.updates.queueChecker();
+		wp.ajax.post( 'update-plugin', data )
+			.done( wp.updates.updateSuccess )
+			.fail( wp.updates.updateError )
+			.always( wp.updates.updateAlways );
 	};
 
 	/**
@@ -173,11 +143,11 @@ window.wp = window.wp || {};
 	wp.updates.updateSuccess = function( response ) {
 		var $message;
 		if ( 'plugins' === pagenow || 'plugins-network' === pagenow ) {
-			$message = $( '#' + response.data.slug ).next().find( '.update-message' );
-			$( '#' + response.data.slug ).addClass( 'updated' ).removeClass( 'update' );
-			$( '#' + response.data.slug + '-update' ).addClass( 'updated' ).removeClass( 'update' );
+			$message = $( '#' + response.slug ).next().find( '.update-message' );
+			$( '#' + response.slug ).addClass( 'updated' ).removeClass( 'update' );
+			$( '#' + response.slug + '-update' ).addClass( 'updated' ).removeClass( 'update' );
 		} else if ( 'plugin-install' === pagenow ) {
-			$message = $( '.plugin-card-' + response.data.slug ).find( '.update-now' );
+			$message = $( '.plugin-card-' + response.slug ).find( '.update-now' );
 			$message.addClass( 'button-disabled' );
 		}
 
@@ -197,13 +167,24 @@ window.wp = window.wp || {};
 	wp.updates.updateError = function( response ) {
 		var $message;
 		if ( 'plugins' === pagenow || 'plugins-network' === pagenow ) {
-			$message = $( '#' + response.data.slug ).next().find( '.update-message' );
+			$message = $( '#' + response.slug ).next().find( '.update-message' );
 		} else if ( 'plugin-install' === pagenow ) {
-			$message = $( '.plugin-card-' + response.data.slug ).find( '.update-now' );
+			$message = $( '.plugin-card-' + response.slug ).find( '.update-now' );
 		}
 		$message.removeClass( 'updating-message' );
 		$message.text( wp.updates.l10n.updateFailed );
 	};
+
+	/**
+	 * After an update attempt has completed, check the queue.
+	 *
+	 * @since 4.2.0
+	 */
+	wp.updates.updateAlways = function() {
+		wp.updates.updateLock = false;
+		wp.updates.queueChecker();
+	};
+
 
 	/**
 	 * Send an Ajax request to the server to install a plugin.
@@ -231,45 +212,14 @@ window.wp = window.wp || {};
 		wp.updates.updateLock = true;
 
 		var data = {
-			'action':      'install-plugin',
 			'_ajax_nonce': wp.updates.ajaxNonce,
 			'slug':        slug
 		};
 
-		$.ajax( {
-			type:     'post',
-			url:      ajaxurl,
-			data:     data,
-			complete: wp.updates.installRequestComplete
-		} );
-	};
-
-
-	/**
-	 * After an installation attempt has completed, deal with the response.
-	 *
-	 * @since 4.2.0
-	 *
-	 * @param {jqXHR} jqxhr The jQuery XMLHttpRequest for the request.
-	 */
-	wp.updates.installRequestComplete = function( jqxhr ) {
-		wp.updates.updateLock = false;
-		if ( jqxhr.responseJSON && jqxhr.responseJSON.success ) {
-			wp.updates.installSuccess( jqxhr.responseJSON );
-		} else {
-			var alertText = wp.updates.l10n.installFailed;
-			if ( jqxhr.responseJSON && jqxhr.responseJSON.data && jqxhr.responseJSON.data.error ) {
-				 alertText += ': ' + jqxhr.responseJSON.data.error;
-			}
-			window.alert( alertText );
-			if ( jqxhr.responseJSON && jqxhr.responseJSON.data && jqxhr.responseJSON.data.slug ) {
-				wp.updates.installError( jqxhr.responseJSON );
-			}
-		}
-		/**
-		 * Check the queue.
-		 */
-		wp.updates.queueChecker();
+		wp.ajax.post( 'install-plugin', data )
+			.done( wp.updates.installSuccess )
+			.fail( wp.updates.installError )
+			.always( wp.updates.updateAlways );
 	};
 
 	/**
@@ -280,7 +230,7 @@ window.wp = window.wp || {};
 	 * @param {object} response
 	 */
 	wp.updates.installSuccess = function( response ) {
-		var $message = $( '.plugin-card-' + response.data.slug ).find( '.install-now' );
+		var $message = $( '.plugin-card-' + response.slug ).find( '.install-now' );
 
 		$message.removeClass( 'updating-message' ).addClass( 'updated-message button-disabled' );
 		$message.text( wp.updates.l10n.installed );
@@ -294,7 +244,7 @@ window.wp = window.wp || {};
 	 * @param {object} response
 	 */
 	wp.updates.installError = function( response ) {
-		var $message = $( '.plugin-card-' + response.data.slug ).find( '.install-now' );
+		var $message = $( '.plugin-card-' + response.slug ).find( '.install-now' );
 
 		$message.removeClass( 'updating-message' );
 		$message.text( wp.updates.l10n.installNow );
