@@ -559,10 +559,30 @@ class WP_oEmbed {
 	 * @return string Possibly modified $html
 	 */
 	public function _strip_newlines( $html, $data, $url ) {
-		if ( false !== strpos( $html, "\n" ) )
-			$html = str_replace( array( "\r\n", "\n" ), '', $html );
+		if ( false === strpos( $html, "\n" ) ) {
+			return $html;
+		}
 
-		return $html;
+		$pre = array();
+		$tokens = array();
+		if ( class_exists( 'DOMDocument' ) ) {
+			$token = '__PRE__';
+			$replace = array();
+			$dom = new DOMDocument();
+			$dom->loadHTML( $html );
+			$tags = $dom->getElementsByTagName( 'pre' );
+			foreach ( $tags as $i => $tag ) {
+				$tag_html = $dom->saveHTML( $tag );
+				$tag_token = $token . $i;
+				$replace[ $tag_token ] = $tag_html;
+				$html = str_replace( $tag_html, $tag_token, $html );
+			}
+			$pre = array_values( $replace );
+			$tokens = array_keys( $replace );
+		}
+
+		$stripped = str_replace( array( "\r\n", "\n" ), '', $html );
+		return str_replace( $tokens, $pre, $stripped );
 	}
 }
 
