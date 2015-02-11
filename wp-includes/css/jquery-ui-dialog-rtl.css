@@ -249,7 +249,7 @@
 	background: #f7f7f7 !important;
 	-webkit-box-shadow: none !important;
 	box-shadow: none !important;
-	text-shadow: 0 1px 0 #fff !important;
+	text-shadow: 0 -1px 0 #fff !important;
 	cursor: default;
 }
 

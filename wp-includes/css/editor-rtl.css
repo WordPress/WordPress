@@ -356,7 +356,7 @@ div.mce-path {
 	color: #aaa;
 	background: none;
 	border-color: #ddd;
-	text-shadow: 0 1px 0 #fff;
+	text-shadow: 0 -1px 0 #fff;
 	-webkit-box-shadow: none;
 	box-shadow: none;
 }
@@ -571,7 +571,7 @@ div.mce-menu .mce-menu-item-sep,
 	background: #f7f7f7;
 	-webkit-box-shadow: none;
 	box-shadow: none;
-	text-shadow: 0 1px 0 #fff;
+	text-shadow: 0 -1px 0 #fff;
 	cursor: default;
 }
 
@@ -620,7 +620,7 @@ div.mce-menu .mce-menu-item-sep,
 	border-color: #1b607f;
 	-webkit-box-shadow: none;
 	box-shadow: none;
-	text-shadow: 0 -1px 0 rgba( 0, 0, 0, 0.1 );
+	text-shadow: 0 1px 0 rgba( 0, 0, 0, 0.1 );
 	cursor: default;
 }
 

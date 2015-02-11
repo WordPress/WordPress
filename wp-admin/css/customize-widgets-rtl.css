@@ -254,7 +254,7 @@
 
 #customize-theme-controls .widget-area-select .selected {
 	color: #fff;
-	text-shadow: 0 -1px 0 rgba(0,0,0,.4);
+	text-shadow: 0 1px 0 rgba(0,0,0,.4);
 	background: #2ea2cc;
 }
 

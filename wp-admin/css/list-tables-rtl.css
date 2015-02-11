@@ -781,7 +781,7 @@ tr.inline-edit-row td,
 
 #wpbody-content .quick-edit-row-page fieldset.inline-edit-col-right .inline-edit-col {
 	border-width: 0 1px 0 0;
-	border-style: none none none solid;
+	border-style: none solid none none;
 }
 
 #wpbody-content .quick-edit-row-post .inline-edit-col-left {

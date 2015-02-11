@@ -1775,8 +1775,8 @@
 	padding: 12px 14px;
 	width: 100%;
 	min-width: 200px;
-	-webkit-box-shadow: inset 2px 2px 4px -2px rgba( 0, 0, 0, 0.1 );
-	box-shadow: inset 2px 2px 4px -2px rgba( 0, 0, 0, 0.1 );
+	-webkit-box-shadow: inset -2px 2px 4px -2px rgba( 0, 0, 0, 0.1 );
+	box-shadow: inset -2px 2px 4px -2px rgba( 0, 0, 0, 0.1 );
 }
 
 .media-frame .embed-url .spinner {

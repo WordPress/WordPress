@@ -2224,7 +2224,7 @@ div.action-links {
 	margin: 174px 10px 0 0;
 	color: #fff;
 	background: rgba( 30, 30, 30, 0.9 );
-	text-shadow: 0 1px 3px rgba( 0, 0, 0, 0.4 );
+	text-shadow: 0 -1px 3px rgba( 0, 0, 0, 0.4 );
 	-webkit-box-shadow: 0 0 30px rgba( 255, 255, 255, 0.1 );
 	box-shadow: 0 0 30px rgba( 255, 255, 255, 0.1 );
 	-webkit-border-radius: 8px;
