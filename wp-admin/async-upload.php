@@ -32,6 +32,8 @@ if ( ! ( isset( $_REQUEST['action'] ) && 'upload-attachment' == $_REQUEST['actio
 
 require_once( ABSPATH . 'wp-admin/admin.php' );
 
+header( 'Content-Type: text/html; charset=' . get_option( 'blog_charset' ) );
+
 if ( isset( $_REQUEST['action'] ) && 'upload-attachment' === $_REQUEST['action'] ) {
 	include( ABSPATH . 'wp-admin/includes/ajax-actions.php' );
 
@@ -45,8 +47,6 @@ if ( isset( $_REQUEST['action'] ) && 'upload-attachment' === $_REQUEST['action']
 if ( ! current_user_can( 'upload_files' ) ) {
 	wp_die( __( 'You do not have permission to upload files.' ) );
 }
-
-header( 'Content-Type: text/html; charset=' . get_option( 'blog_charset' ) );
 
 // just fetch the detail form for that attachment
 if ( isset($_REQUEST['attachment_id']) && ($id = intval($_REQUEST['attachment_id'])) && $_REQUEST['fetch'] ) {
