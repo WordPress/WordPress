@@ -185,7 +185,7 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 		windowWidth = window.innerWidth;
 		toolbarWidth = toolbarNode.offsetWidth;
 		toolbarHalf = toolbarWidth / 2;
-		iframe = editor.getContentAreaContainer().firstChild;
+		iframe = document.getElementById( editor.id + '_ifr' );
 		iframePos = DOM.getPos( iframe );
 		iframeWidth = iframe.offsetWidth;
 		iframeHeigth = iframe.offsetHeight;
