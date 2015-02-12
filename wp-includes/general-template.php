@@ -2619,6 +2619,10 @@ function paginate_links( $args = '' ) {
 
 	$args = wp_parse_args( $args, $defaults );
 
+	if ( ! is_array( $args['add_args'] ) ) {
+		$args['add_args'] = array();
+	}
+
 	// Merge additional query vars found in the original URL into 'add_args' array.
 	if ( isset( $url_parts[1] ) ) {
 		// Find the format argument.
@@ -2644,7 +2648,7 @@ function paginate_links( $args = '' ) {
 	if ( $mid_size < 0 ) {
 		$mid_size = 2;
 	}
-	$add_args = is_array( $args['add_args'] ) ? $args['add_args'] : false;
+	$add_args = $args['add_args'];
 	$r = '';
 	$page_links = array();
 	$dots = false;
