@@ -171,7 +171,7 @@ $('.contextual-help-tabs').delegate('a', 'click', function(e) {
 });
 
 $(document).ready( function() {
-	var checks, first, last, checked, sliced, mobileEvent, transitionTimeout, focusedRowActions,
+	var checks, first, last, checked, sliced, mobileEvent, transitionTimeout, focusedRowActions, $firstHeading,
 		lastClicked = false,
 		pageInput = $('input.current-page'),
 		currentPage = pageInput.val(),
@@ -368,9 +368,10 @@ $(document).ready( function() {
 		});
 	}
 
-	// Move .updated and .error alert boxes. Don't move boxes designed to be inline.
-	$('div.wrap h2:first').nextAll('div.updated, div.error').addClass('below-h2');
-	$('div.updated, div.error').not('.below-h2, .inline').insertAfter( $('div.wrap h2:first') );
+	// Move .notice, .updated and .error alert boxes. Don't move boxes designed to be inline.
+	$firstHeading = $( 'div.wrap h2:first' );
+	$firstHeading.nextAll( 'div.updated, div.error, div.notice' ).addClass( 'below-h2' );
+	$( 'div.updated, div.error, div.notice' ).not( '.below-h2, .inline' ).insertAfter( $firstHeading );
 
 	// Init screen meta
 	screenMeta.init();
