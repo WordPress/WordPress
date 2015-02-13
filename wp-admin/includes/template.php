@@ -582,7 +582,7 @@ function _list_meta_row( $entry, &$count ) {
 	static $update_nonce = false;
 
 	if ( is_protected_meta( $entry['meta_key'], 'post' ) )
-		return;
+		return '';
 
 	if ( !$update_nonce )
 		$update_nonce = wp_create_nonce( 'add-meta' );
@@ -597,7 +597,7 @@ function _list_meta_row( $entry, &$count ) {
 		} else {
 			// This is a serialized array/object so we should NOT display it.
 			--$count;
-			return;
+			return '';
 		}
 	}
 
