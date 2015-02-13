@@ -100,11 +100,8 @@ function wp_admin_bar_render() {
 function wp_admin_bar_wp_menu( $wp_admin_bar ) {
 	$wp_admin_bar->add_menu( array(
 		'id'    => 'wp-logo',
-		'title' => '<span class="ab-icon"></span>',
+		'title' => '<span class="ab-icon"></span><span class="screen-reader-text">' . __( 'About WordPress' ) . '</span>',
 		'href'  => self_admin_url( 'about.php' ),
-		'meta'  => array(
-			'title' => __('About WordPress'),
-		),
 	) );
 
 	if ( is_user_logged_in() ) {
@@ -113,7 +110,7 @@ function wp_admin_bar_wp_menu( $wp_admin_bar ) {
 			'parent' => 'wp-logo',
 			'id'     => 'about',
 			'title'  => __('About WordPress'),
-			'href'  => self_admin_url( 'about.php' ),
+			'href'   => self_admin_url( 'about.php' ),
 		) );
 	}
 
@@ -193,7 +190,6 @@ function wp_admin_bar_my_account_item( $wp_admin_bar ) {
 		'href'      => $profile_url,
 		'meta'      => array(
 			'class'     => $class,
-			'title'     => __('My Account'),
 		),
 	) );
 }
@@ -604,9 +600,6 @@ function wp_admin_bar_new_content_menu( $wp_admin_bar ) {
 		'id'    => 'new-content',
 		'title' => $title,
 		'href'  => admin_url( current( array_keys( $actions ) ) ),
-		'meta'  => array(
-			'title' => _x( 'Add New', 'admin bar menu group label' ),
-		),
 	) );
 
 	foreach ( $actions as $link => $action ) {
