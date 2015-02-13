@@ -149,7 +149,7 @@ class Twenty_Fourteen_Ephemera_Widget extends WP_Widget {
 									if ( has_post_thumbnail() ) :
 										$post_thumbnail = get_the_post_thumbnail();
 									elseif ( $total_images > 0 ) :
-										$image          = array_shift( $images );
+										$image          = current( $images );
 										$post_thumbnail = wp_get_attachment_image( $image, 'post-thumbnail' );
 									endif;
 
