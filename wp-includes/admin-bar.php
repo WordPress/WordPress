@@ -333,13 +333,11 @@ function wp_admin_bar_my_sites_menu( $wp_admin_bar ) {
 	if ( count( $wp_admin_bar->user->blogs ) < 1 && ! is_super_admin() )
 		return;
 
-	switch_to_blog( $wp_admin_bar->user->active_blog->blog_id );
 	$wp_admin_bar->add_menu( array(
 		'id'    => 'my-sites',
 		'title' => __( 'My Sites' ),
-		'href'  => admin_url( 'my-sites.php' ),
+		'href'  => get_admin_url( $wp_admin_bar->user->active_blog->blog_id, 'my-sites.php' ),
 	) );
-	restore_current_blog();
 
 	if ( is_super_admin() ) {
 		$wp_admin_bar->add_group( array(
@@ -681,10 +679,10 @@ function wp_admin_bar_appearance_menu( $wp_admin_bar ) {
 	}
 
 	if ( current_theme_supports( 'widgets' )  ) {
-		$wp_admin_bar->add_menu( array( 
-			'parent' => 'appearance', 
-			'id'     => 'widgets', 
-			'title'  => __( 'Widgets' ), 
+		$wp_admin_bar->add_menu( array(
+			'parent' => 'appearance',
+			'id'     => 'widgets',
+			'title'  => __( 'Widgets' ),
 			'href'   => admin_url( 'widgets.php' ),
 			'meta'   => array(
 				'class' => 'hide-if-customize',
@@ -692,10 +690,10 @@ function wp_admin_bar_appearance_menu( $wp_admin_bar ) {
 		) );
 
 		if ( current_user_can( 'customize' ) ) {
-			$wp_admin_bar->add_menu( array( 
-				'parent' => 'appearance', 
-				'id'     => 'customize-widgets', 
-				'title'  => __( 'Widgets' ), 
+			$wp_admin_bar->add_menu( array(
+				'parent' => 'appearance',
+				'id'     => 'customize-widgets',
+				'title'  => __( 'Widgets' ),
 				'href'   => add_query_arg( urlencode( 'autofocus[panel]' ), 'widgets', $customize_url ), // urlencode() needed due to #16859
 				'meta'   => array(
 					'class' => 'hide-if-no-customize',
