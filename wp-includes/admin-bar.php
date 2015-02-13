@@ -333,11 +333,13 @@ function wp_admin_bar_my_sites_menu( $wp_admin_bar ) {
 	if ( count( $wp_admin_bar->user->blogs ) < 1 && ! is_super_admin() )
 		return;
 
+	switch_to_blog( $wp_admin_bar->user->active_blog->blog_id );
 	$wp_admin_bar->add_menu( array(
 		'id'    => 'my-sites',
 		'title' => __( 'My Sites' ),
 		'href'  => admin_url( 'my-sites.php' ),
 	) );
+	restore_current_blog();
 
 	if ( is_super_admin() ) {
 		$wp_admin_bar->add_group( array(
