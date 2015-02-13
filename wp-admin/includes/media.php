@@ -2084,7 +2084,7 @@ var addExtImage = {
 		t.preloadImg.onerror = t.resetImageData;
 		t.preloadImg.src = src;
 	}
-}
+};
 
 jQuery(document).ready( function($) {
 	$('.media-types input').click( function() {

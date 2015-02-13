@@ -1738,7 +1738,7 @@ function compression_test() {
 						h = x.getResponseHeader('Content-Encoding');
 						testCompression.check(r, h, test);
 					}
-				}
+				};
 
 				x.open('GET', ajaxurl + '?action=wp-compression-test&test='+test+'&'+(new Date()).getTime(), true);
 				x.send('');
