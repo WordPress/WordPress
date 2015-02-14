@@ -358,6 +358,10 @@ p.customize-section-description {
 	margin: 0;
 }
 
+.customize-control-hidden {
+	margin: 0;
+}
+
 .customize-control-textarea textarea {
 	width: 100%;
 	resize: vertical;
