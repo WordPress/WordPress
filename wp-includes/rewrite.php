@@ -504,6 +504,15 @@ class WP_Rewrite {
 	public $pagination_base = 'page';
 
 	/**
+	 * Comments pagination permalink base.
+	 *
+	 * @since 4.2.0
+	 * @access private
+	 * @var string
+	 */
+	var $comments_pagination_base = 'comment-page';
+
+	/**
 	 * Feed permalink base.
 	 *
 	 * @since 1.5.0
@@ -1256,7 +1265,7 @@ class WP_Rewrite {
 		//build a regex to match the trackback and page/xx parts of URLs
 		$trackbackregex = 'trackback/?$';
 		$pageregex = $this->pagination_base . '/?([0-9]{1,})/?$';
-		$commentregex = 'comment-page-([0-9]{1,})/?$';
+		$commentregex = $this->comments_pagination_base . '-([0-9]{1,})/?$';
 
 		//build up an array of endpoint regexes to append => queries to append
 		if ( $endpoints ) {
