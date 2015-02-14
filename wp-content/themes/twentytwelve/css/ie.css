@@ -17,7 +17,7 @@ body.custom-background-white .site {
 }
 .assistive-text,
 .site .screen-reader-text {
-	clip: rect(1px 1px 1px 1px); /* IE7 */
+	clip: rect(1px 1px 1px 1px);
 }
 .full-width .site-content {
 	float: none;

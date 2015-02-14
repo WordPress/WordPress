@@ -195,7 +195,7 @@ img.alignleft {
 }
 
 .ie7 .screen-reader-text {
-	clip: rect(1px 1px 1px 1px); /* IE7 */
+	clip: rect(1px 1px 1px 1px);
 }
 
 .ie7 .site-header {

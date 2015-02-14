@@ -506,6 +506,9 @@ a:hover {
 .site .screen-reader-text {
 	position: absolute !important;
 	clip: rect(1px, 1px, 1px, 1px);
+	overflow: hidden;
+	height: 1px;
+	width: 1px;
 }
 .main-navigation .assistive-text:focus,
 .site .screen-reader-text:hover,

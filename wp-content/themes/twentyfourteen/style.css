@@ -716,7 +716,10 @@ div.wp-caption.alignright .wp-caption-text {
 
 .screen-reader-text {
 	clip: rect(1px, 1px, 1px, 1px);
-	position: absolute;
+	overflow: hidden;
+	position: absolute !important;
+	height: 1px;
+	width: 1px;
 }
 
 .screen-reader-text:focus {
