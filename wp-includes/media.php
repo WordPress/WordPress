@@ -852,6 +852,8 @@ function img_caption_shortcode( $attr, $content = null ) {
 
 	$class = trim( 'wp-caption ' . $atts['align'] . ' ' . $atts['class'] );
 
+	$atts['caption'] = apply_filters( 'img_caption_shortcode_caption_markup', $atts['caption'], $atts, preg_replace('/\D/', '', $atts['id']) );
+
 	if ( current_theme_supports( 'html5', 'caption' ) ) {
 		return '<figure ' . $atts['id'] . 'style="width: ' . (int) $atts['width'] . 'px;" class="' . esc_attr( $class ) . '">'
 		. do_shortcode( $content ) . '<figcaption class="wp-caption-text">' . $atts['caption'] . '</figcaption></figure>';
