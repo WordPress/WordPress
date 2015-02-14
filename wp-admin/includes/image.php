@@ -338,10 +338,6 @@ function wp_read_image_metadata( $file ) {
 	if ( is_callable( 'exif_read_data' ) && in_array( $sourceImageType, apply_filters( 'wp_read_image_metadata_types', array( IMAGETYPE_JPEG, IMAGETYPE_TIFF_II, IMAGETYPE_TIFF_MM ) ) ) ) {
 		$exif = @exif_read_data( $file );
 
-		if ( empty( $meta['title'] ) && ! empty( $exif['Title'] ) ) {
-			$meta['title'] = trim( $exif['Title'] );
-		}
-
 		if ( ! empty( $exif['ImageDescription'] ) ) {
 			mbstring_binary_safe_encoding();
 			$description_length = strlen( $exif['ImageDescription'] );
