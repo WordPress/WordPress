@@ -4077,7 +4077,7 @@ class WP_Query {
 
 		$post_obj = $this->get_queried_object();
 
-		if ( in_array( $post_obj->ID, $attachment ) ) {
+		if ( in_array( (string) $post_obj->ID, $attachment ) ) {
 			return true;
 		} elseif ( in_array( $post_obj->post_title, $attachment ) ) {
 			return true;
@@ -4109,7 +4109,7 @@ class WP_Query {
 
 		$author = (array) $author;
 
-		if ( in_array( $author_obj->ID, $author ) )
+		if ( in_array( (string) $author_obj->ID, $author ) )
 			return true;
 		elseif ( in_array( $author_obj->nickname, $author ) )
 			return true;
@@ -4141,7 +4141,7 @@ class WP_Query {
 
 		$category = (array) $category;
 
-		if ( in_array( $cat_obj->term_id, $category ) )
+		if ( in_array( (string) $cat_obj->term_id, $category ) )
 			return true;
 		elseif ( in_array( $cat_obj->name, $category ) )
 			return true;
@@ -4173,7 +4173,7 @@ class WP_Query {
 
 		$tag = (array) $tag;
 
-		if ( in_array( $tag_obj->term_id, $tag ) )
+		if ( in_array( (string) $tag_obj->term_id, $tag ) )
 			return true;
 		elseif ( in_array( $tag_obj->name, $tag ) )
 			return true;
@@ -4370,7 +4370,7 @@ class WP_Query {
 
 		$page = (array) $page;
 
-		if ( in_array( $page_obj->ID, $page ) ) {
+		if ( in_array( (string) $page_obj->ID, $page ) ) {
 			return true;
 		} elseif ( in_array( $page_obj->post_title, $page ) ) {
 			return true;
@@ -4463,7 +4463,7 @@ class WP_Query {
 
 		$post = (array) $post;
 
-		if ( in_array( $post_obj->ID, $post ) ) {
+		if ( in_array( (string) $post_obj->ID, $post ) ) {
 			return true;
 		} elseif ( in_array( $post_obj->post_title, $post ) ) {
 			return true;
