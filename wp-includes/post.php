@@ -3919,16 +3919,14 @@ function wp_set_post_categories( $post_ID = 0, $post_categories = array(), $appe
 /**
  * Transition the post status of a post.
  *
- * Calls hooks to transition post status.
+ * When a post is saved, the post status is "transitioned" from one status to another,
+ * though this does not always mean the status has actually changed before and after
+ * the save.
  *
- * The first is 'transition_post_status' with new status, old status, and post data.
- *
- * The next action called is 'OLDSTATUS_to_NEWSTATUS' the 'NEWSTATUS' is the
- * $new_status parameter and the 'OLDSTATUS' is $old_status parameter; it has the
- * post data.
- *
- * The final action is named 'NEWSTATUS_POSTTYPE', 'NEWSTATUS' is from the $new_status
- * parameter and POSTTYPE is post_type post data.
+ * For instance: When publishing a post for the first time, the post status may transition
+ * from 'draft' – or some other status – to 'publish'. However, if a post is already
+ * published and is simply being updated, the "old" and "new" statuses may both be 'publish'
+ * before and after the transition.
  *
  * @since 2.3.0
  *
@@ -3965,6 +3963,14 @@ function wp_transition_post_status( $new_status, $old_status, $post ) {
 	 *
 	 * The dynamic portions of the hook name, `$new_status` and `$post->post_type`,
 	 * refer to the new post status and post type, respectively.
+	 *
+	 * Please note: When this action is hooked using a particular post status (like
+	 * 'publish', as `publish_{$post->post_type}`), it will fire both when a post is
+	 * first transitioned to that status from something else, as well as upon
+	 * subsequent post updates (old and new status are both the same).
+	 *
+	 * Therefore, if you are looking to only fire a callback when a post is first
+	 * transitioned to a status, use the {@see 'transition_post_status'} hook instead.
 	 *
 	 * @since 2.3.0
 	 *
