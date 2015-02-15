@@ -207,8 +207,18 @@ window.wp = window.wp || {};
 						iframeDoc.close();
 
 						resize = function() {
+							var $iframe, iframeDocHeight;
+
 							// Make sure the iframe still exists.
-							iframe.contentWindow && $( iframe ).height( $( iframeDoc.body ).height() );
+							if ( iframe.contentWindow ) {
+								$iframe = $( iframe );
+								iframeDocHeight = $( iframeDoc.body ).height();
+
+								if ( $iframe.height() !== iframeDocHeight ) {
+									$iframe.height( iframeDocHeight );
+									editor.nodeChanged();
+								}
+							}
 						};
 
 						if ( MutationObserver ) {
