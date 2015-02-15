@@ -1233,12 +1233,30 @@ tr.active.update + tr.plugin-update-tr .plugin-update {
 .plugin-update-tr .updating-message:before,
 .plugin-card .updating-message:before {
 	content: '\f463';
-   -webkit-animation: rotation 2s infinite linear;
+	-webkit-animation: rotation 2s infinite linear;
+	animation: rotation 2s infinite linear;
 }
 
 @-webkit-keyframes rotation {
-    from {-webkit-transform: rotate(0deg);}
-    to   {-webkit-transform: rotate(359deg);}
+	0% {
+		-webkit-transform: rotate(0deg);
+		transform: rotate(0deg);
+	}
+	100% {
+		-webkit-transform: rotate(359deg);
+		transform: rotate(359deg);
+	}
+}
+
+@keyframes rotation {
+	0% {
+		-webkit-transform: rotate(0deg);
+		transform: rotate(0deg);
+	}
+	100% {
+		-webkit-transform: rotate(359deg);
+		transform: rotate(359deg);
+	}
 }
 
 .plugin-update-tr .updated-message:before,
