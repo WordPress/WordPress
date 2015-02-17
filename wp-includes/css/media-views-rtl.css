@@ -235,20 +235,9 @@
 }
 
 .media-toolbar-secondary {
-	position: relative;
 	float: right;
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
-	padding-left: 20px;
 	height: 100%;
 	max-width: 66%;
-}
-
-.media-toolbar-secondary .spinner {
-	position: absolute;
-	top: 2px;
-	left: 0px;
 }
 
 .media-toolbar-primary > .media-button,
@@ -746,7 +735,6 @@
 	margin-top: 11px;
 	margin-left: 2%;
 	max-width: 47%;
-	width: 100%; /* prevents options from invisibly taking up horizontal space */
 }
 
 /**
@@ -2366,7 +2354,7 @@
 	}
 
 	.media-modal .attachments-browser .media-toolbar .spinner {
-		margin: 14px 0 0;
+		margin: 14px 8px 0;
 	}
 
 	/* Text inputs need to be 16px, or they force zooming on iOS */
