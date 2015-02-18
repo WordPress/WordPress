@@ -49,8 +49,6 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
  	</p>
 </div>
 
-_n_noop( 'Maintenance Release', 'Maintenance Releases' );
-
 <div class="changelog headline-feature">
 	<h2><?php _e( 'Introducing Twenty&nbsp;Fifteen' ); ?></h2>
 	<div class="featured-image">
