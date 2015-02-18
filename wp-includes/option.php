@@ -268,7 +268,8 @@ function update_option( $option, $value ) {
 	if ( $value === $old_value )
 		return false;
 
-	if ( false === $old_value )
+	/** This filter is documented in wp-includes/option.php */
+	if ( apply_filters( 'default_option_' . $option, false ) === $old_value )
 		return add_option( $option, $value );
 
 	$serialized_value = maybe_serialize( $value );
@@ -370,7 +371,8 @@ function add_option( $option, $value = '', $deprecated = '', $autoload = 'yes' )
 	// Make sure the option doesn't already exist. We can check the 'notoptions' cache before we ask for a db query
 	$notoptions = wp_cache_get( 'notoptions', 'options' );
 	if ( !is_array( $notoptions ) || !isset( $notoptions[$option] ) )
-		if ( false !== get_option( $option ) )
+		/** This filter is documented in wp-includes/option.php */
+		if ( apply_filters( 'default_option_' . $option, false ) !== get_option( $option ) )
 			return false;
 
 	$serialized_value = maybe_serialize( $value );
