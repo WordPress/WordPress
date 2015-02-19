@@ -161,6 +161,7 @@ function twentyfourteen_category_transient_flusher() {
 add_action( 'edit_category', 'twentyfourteen_category_transient_flusher' );
 add_action( 'save_post',     'twentyfourteen_category_transient_flusher' );
 
+if ( ! function_exists( 'twentyfourteen_post_thumbnail' ) ) :
 /**
  * Display an optional post thumbnail.
  *
@@ -201,6 +202,7 @@ function twentyfourteen_post_thumbnail() {
 
 	<?php endif; // End is_singular()
 }
+endif;
 
 if ( ! function_exists( 'twentyfourteen_excerpt_more' ) && ! is_admin() ) :
 /**
