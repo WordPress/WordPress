@@ -2162,7 +2162,7 @@ function get_avatar( $id_or_email, $size = 96, $default = '', $alt = '', $args =
 	 */
 	$avatar = apply_filters( 'pre_get_avatar', null, $id_or_email, $args );
 	if ( ! is_null( $avatar ) ) {
-		/** This filter is documented in src/wp-includes/pluggable.php */
+		/** This filter is documented in wp-includes/pluggable.php */
 		return apply_filters( 'get_avatar', $avatar, $id_or_email, $args['size'], $args['default'], $args['alt'], $args );
 	}
 
