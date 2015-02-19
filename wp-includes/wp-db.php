@@ -126,15 +126,6 @@ class wpdb {
 	var $last_query;
 
 	/**
-	 * Results of the last query made
-	 *
-	 * @since 0.71
-	 * @access private
-	 * @var array|null
-	 */
-	var $last_result;
-
-	/**
 	 * MySQL result, which is either a resource or boolean.
 	 *
 	 * @since 0.71
@@ -1360,7 +1351,6 @@ class wpdb {
 	 * @return void
 	 */
 	public function flush() {
-		$this->last_result = array();
 		$this->col_info    = null;
 		$this->last_query  = null;
 		$this->rows_affected = $this->num_rows = 0;
@@ -1691,15 +1681,9 @@ class wpdb {
 		} else {
 			$num_rows = 0;
 			if ( $this->use_mysqli && $this->result instanceof mysqli_result ) {
-				while ( $row = @mysqli_fetch_object( $this->result ) ) {
-					$this->last_result[$num_rows] = $row;
-					$num_rows++;
-				}
+				$num_rows = @mysql_num_rows( $this->result );
 			} elseif ( is_resource( $this->result ) ) {
-				while ( $row = @mysql_fetch_object( $this->result ) ) {
-					$this->last_result[$num_rows] = $row;
-					$num_rows++;
-				}
+				$num_rows = @mysql_num_rows( $this->result );
 			}
 
 			// Log number of rows the query returned
@@ -1731,6 +1715,7 @@ class wpdb {
 		} else {
 			$this->result = @mysql_query( $query, $this->dbh );
 		}
+		
 		$this->num_queries++;
 
 		if ( defined( 'SAVEQUERIES' ) && SAVEQUERIES ) {
@@ -2043,8 +2028,14 @@ class wpdb {
 		}
 
 		// Extract var out of cached results based x,y vals
-		if ( !empty( $this->last_result[$y] ) ) {
-			$values = array_values( get_object_vars( $this->last_result[$y] ) );
+		if ( $y < $this->num_rows ) {
+			if ( $this->use_mysqli ) {
+				@mysqli_data_seek( $this->result, $y );
+				$values = @mysqli_fetch_row( $this->result );
+			} else {
+				@mysql_data_seek( $this->result, $y );
+				$values = @mysql_fetch_row( $this->result );
+			}
 		}
 
 		// If there is a value return it else return null
@@ -2072,18 +2063,41 @@ class wpdb {
 			return null;
 		}
 
-		if ( !isset( $this->last_result[$y] ) )
+		if ( $this->num_rows <= $y ) {
 			return null;
+		}
+		
+		if ( $this->use_mysqli ) {
+			@mysqli_data_seek( $this->result, $y );
+		} else {
+			@mysql_data_seek( $this->result, $y );
+		}
 
-		if ( $output == OBJECT ) {
-			return $this->last_result[$y] ? $this->last_result[$y] : null;
+		if ( $output == OBJECT || strtoupper( $output ) === OBJECT ) {
+			if ( $this->use_mysqli ) {
+				return @mysqli_fetch_object( $this->result ); 
+			} else {
+				return @mysql_fetch_object( $this->result ); 
+			}
 		} elseif ( $output == ARRAY_A ) {
-			return $this->last_result[$y] ? get_object_vars( $this->last_result[$y] ) : null;
+			if ( $this->use_mysqli ) {
+				return @mysqli_fetch_object( $this->result ); 
+			} else {
+				return @mysql_fetch_object( $this->result ); 
+			}
 		} elseif ( $output == ARRAY_N ) {
-			return $this->last_result[$y] ? array_values( get_object_vars( $this->last_result[$y] ) ) : null;
+			if ( $this->use_mysqli ) {
+				return @mysqli_fetch_assoc( $this->result ); 
+			} else {
+				return @mysql_fetch_assoc( $this->result ); 
+			}
 		} elseif ( strtoupper( $output ) === OBJECT ) {
 			// Back compat for OBJECT being previously case insensitive.
-			return $this->last_result[$y] ? $this->last_result[$y] : null;
+			if ( $this->use_mysqli ) {
+				return @mysqli_fetch_row( $this->result ); 
+			} else {
+				return @mysql_fetch_row( $this->result ); 
+			}
 		} else {
 			$this->print_error( " \$db->get_row(string query, output type, int offset) -- Output type must be one of: OBJECT, ARRAY_A, ARRAY_N" );
 		}
@@ -2108,10 +2122,24 @@ class wpdb {
 		}
 
 		$new_array = array();
+		
+		@mysql_data_seek( $this->result, 0 ); 
+		
 		// Extract the column values
-		for ( $i = 0, $j = count( $this->last_result ); $i < $j; $i++ ) {
-			$new_array[$i] = $this->get_var( null, $x, $i );
+		for ( $i = 0, $j = $this->num_rows; $i < $j; $i++ ) {
+			if ( $this->use_mysqli ) {
+				$values = @mysqli_fetch_row( $this->result );
+			} else {
+				$values = @mysql_fetch_row( $this->result );
+			}
+			
+			if ( isset( $values[$x] ) && $values[$x] !== '' ) {
+				$new_array[$i] = $values[$x];
+			} else {
+				$new_array[$i] = null;
+			}
 		}
+		
 		return $new_array;
 	}
 
@@ -2133,42 +2161,72 @@ class wpdb {
 
 		if ( $query ) {
 			$this->query( $query );
-		} else {
-			return null;
 		}
+		
+		@mysql_data_seek( $this->result, 0 );
 
 		$new_array = array();
-		if ( $output == OBJECT ) {
+		
+		if ( $output == OBJECT || strtoupper( $output ) === OBJECT ) {
 			// Return an integer-keyed array of row objects
-			return $this->last_result;
+			for ( $i = 0, $j = $this->num_rows; $i < $j; $i++ ) {
+				if ( $this->use_mysqli ) {
+					$new_array[] = @mysqli_fetch_object( $this->result );
+				} else {
+					$new_array[] = @mysql_fetch_object( $this->result );
+				}
+			}
+			
+			return $new_array;
 		} elseif ( $output == OBJECT_K ) {
 			// Return an array of row objects with keys from column 1
 			// (Duplicates are discarded)
-			foreach ( $this->last_result as $row ) {
+			if ( $this->use_mysqi ) {
+				$row = @mysqli_fetch_object( $this->result );
+			} else {
+				$row = @mysql_fetch_object( $this->result );
+			}
+			
+			while ( $row ) {
 				$var_by_ref = get_object_vars( $row );
 				$key = array_shift( $var_by_ref );
-				if ( ! isset( $new_array[ $key ] ) )
+				
+				if ( ! isset( $new_array[ $key ] ) ) {
 					$new_array[ $key ] = $row;
-			}
-			return $new_array;
-		} elseif ( $output == ARRAY_A || $output == ARRAY_N ) {
-			// Return an integer-keyed array of...
-			if ( $this->last_result ) {
-				foreach( (array) $this->last_result as $row ) {
-					if ( $output == ARRAY_N ) {
-						// ...integer-keyed row arrays
-						$new_array[] = array_values( get_object_vars( $row ) );
-					} else {
-						// ...column name-keyed row arrays
-						$new_array[] = get_object_vars( $row );
-					}
+				}
+				
+				if ( $this->use_mysqi ) {
+					$row = @mysqli_fetch_object( $this->result );
+				} else {
+					$row = @mysql_fetch_object( $this->result );
 				}
 			}
+			
 			return $new_array;
-		} elseif ( strtoupper( $output ) === OBJECT ) {
-			// Back compat for OBJECT being previously case insensitive.
-			return $this->last_result;
+		} elseif ( $output == ARRAY_A ) {
+			// Return an integer-keyed array of column name-keyed row arrays
+			for ( $i = 0, $j = $this->num_rows; $i < $j; $i++ ) {
+				if ( $this->use_mysqli ) {
+					$new_array[] = @mysqli_fetch_assoc( $this->result );
+				} else {
+					$new_array[] = @mysql_fetch_assoc( $this->result );
+				}
+			}
+			
+			return $new_array;
+		} elseif ( $output == ARRAY_N ) {
+			// Return an integer-keyed array of integer-keyed row arrays
+			for ( $i = 0, $j = $this->num_rows; $i < $j; $i++ ) {
+				if ( $this->use_mysqli ) {
+					$new_array[] = @mysqli_fetch_row( $this->result );
+				} else {
+					$new_array[] = @mysql_fetch_row( $this->result );
+				}
+			}
+			
+			return $new_array;
 		}
+		
 		return null;
 	}
 
