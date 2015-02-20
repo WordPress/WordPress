@@ -169,6 +169,7 @@ if ( ! function_exists( 'twentyfourteen_post_thumbnail' ) ) :
  * views, or a div element when on single views.
  *
  * @since Twenty Fourteen 1.0
+ * @since Twenty Fourteen 1.4 Was made 'pluggable', or overridable.
  */
 function twentyfourteen_post_thumbnail() {
 	if ( post_password_required() || is_attachment() || ! has_post_thumbnail() ) {
