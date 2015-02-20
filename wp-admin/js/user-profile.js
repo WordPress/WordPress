@@ -34,8 +34,8 @@
 		var $colorpicker, $stylesheet, user_id, current_user_id,
 			select = $( '#display_name' );
 
-		$('#pass1').val('').keyup( check_pass_strength );
-		$('#pass2').val('').keyup( check_pass_strength );
+		$('#pass1').val('').on( 'input propertychange', check_pass_strength );
+		$('#pass2').val('').on( 'input propertychange', check_pass_strength );
 		$('#pass-strength-result').show();
 		$('.color-palette').click( function() {
 			$(this).siblings('input[name="admin_color"]').prop('checked', true);
