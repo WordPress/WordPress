@@ -877,7 +877,7 @@ window.wp = window.wp || {};
 
 	wp.mce.views.register( 'embedURL', _.extend( {}, wp.mce.embedMixin, {
 		toView: function( content ) {
-			var re = /(?:^|<p>)(https?:\/\/[^\s"]+?)(?:<\/p>\s*|$)/gi,
+			var re = /(^|<p>)(https?:\/\/[^\s"]+?)(<\/p>\s*|$)/gi,
 				match = re.exec( tinymce.trim( content ) );
 
 			if ( ! match ) {
@@ -885,10 +885,10 @@ window.wp = window.wp || {};
 			}
 
 			return {
-				index: match.index,
-				content: match[0],
+				index: match.index + match[1].length,
+				content: match[2],
 				options: {
-					url: match[1]
+					url: match[2]
 				}
 			};
 		}
