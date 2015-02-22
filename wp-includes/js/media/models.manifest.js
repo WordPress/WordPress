@@ -1,3 +1,5 @@
+/*globals wp, _, jQuery */
+
 var $ = jQuery,
 	Attachment, Attachments, l10n, media;
 

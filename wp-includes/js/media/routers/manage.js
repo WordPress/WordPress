@@ -1,3 +1,5 @@
+/*globals wp, Backbone */
+
 /**
  * A router for handling the browser history and application state.
  *

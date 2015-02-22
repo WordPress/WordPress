@@ -1,3 +1,5 @@
+/*globals Backbone, _ */
+
 /**
  * wp.media.controller.Region
  *

@@ -1,3 +1,5 @@
+/*globals wp, _ */
+
 /**
  * A state for selecting more images to add to a gallery.
  *

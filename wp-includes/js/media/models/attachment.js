@@ -1,3 +1,5 @@
+/*globals wp, _, jQuery, Backbone */
+
 /**
  * wp.media.model.Attachment
  *

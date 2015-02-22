@@ -1,4 +1,8 @@
+/*globals wp */
+
 /**
+ * wp.media.controller.AudioDetails
+ *
  * The controller for the Audio Details state
  *
  * @class

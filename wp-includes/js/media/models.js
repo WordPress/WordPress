@@ -1,4 +1,6 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+/*globals wp, _, jQuery */
+
 var $ = jQuery,
 	Attachment, Attachments, l10n, media;
 
@@ -230,6 +232,8 @@ $(window).on('unload', function(){
 });
 
 },{"./models/attachment.js":2,"./models/attachments.js":3,"./models/post-image.js":4,"./models/query.js":5,"./models/selection.js":6}],2:[function(require,module,exports){
+/*globals wp, _, jQuery, Backbone */
+
 /**
  * wp.media.model.Attachment
  *
@@ -398,6 +402,8 @@ Attachment = Backbone.Model.extend({
 module.exports = Attachment;
 
 },{"./attachments.js":3}],3:[function(require,module,exports){
+/*globals wp, _, Backbone */
+
 /**
  * wp.media.model.Attachments
  *
@@ -934,6 +940,8 @@ Attachments = Backbone.Collection.extend({
 module.exports = Attachments;
 
 },{"./attachment.js":2,"./query.js":5}],4:[function(require,module,exports){
+/*globals Backbone */
+
 /**
  * wp.media.model.PostImage
  *
@@ -1090,6 +1098,8 @@ PostImage = Backbone.Model.extend({
 module.exports = PostImage;
 
 },{"./attachment":2}],5:[function(require,module,exports){
+/*globals wp, _ */
+
 /**
  * wp.media.model.Query
  *
@@ -1398,6 +1408,8 @@ Query = Attachments.extend({
 module.exports = Query;
 
 },{"./attachments.js":3}],6:[function(require,module,exports){
+/*globals _ */
+
 /**
  * wp.media.model.Selection
  *

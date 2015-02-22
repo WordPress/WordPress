@@ -1,3 +1,5 @@
+/*globals wp, _ */
+
 /**
  * wp.media.controller.FeaturedImage
  *

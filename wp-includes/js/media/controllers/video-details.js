@@ -1,4 +1,8 @@
+/*globals wp */
+
 /**
+ * wp.media.controller.VideoDetails
+ *
  * The controller for the Video Details state
  *
  * @class

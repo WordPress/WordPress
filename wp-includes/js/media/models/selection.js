@@ -1,3 +1,5 @@
+/*globals _ */
+
 /**
  * wp.media.model.Selection
  *

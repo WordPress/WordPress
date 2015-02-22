@@ -1,3 +1,5 @@
+/*globals _, jQuery, Backbone */
+
 /**
  * wp.media.view.Settings
  *

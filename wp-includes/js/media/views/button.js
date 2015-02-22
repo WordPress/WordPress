@@ -1,3 +1,5 @@
+/*globals _, Backbone */
+
 /**
  * wp.media.view.Button
  *

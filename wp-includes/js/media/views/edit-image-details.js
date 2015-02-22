@@ -1,4 +1,4 @@
-/*globals wp */
+/*globals wp, _ */
 
 var View = require( './view.js' ),
 	EditImage = wp.media.view.EditImage,

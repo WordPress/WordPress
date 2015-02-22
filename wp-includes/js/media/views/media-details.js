@@ -1,4 +1,4 @@
-/*global wp, MediaElementPlayer */
+/*global wp, jQuery, _, MediaElementPlayer */
 
 /**
  * wp.media.view.MediaDetails

@@ -1,3 +1,5 @@
+/*globals wp */
+
 /**
  * wp.media.View
  *
