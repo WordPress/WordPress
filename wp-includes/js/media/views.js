@@ -387,6 +387,8 @@ Cropper = State.extend({
 module.exports = Cropper;
 
 },{"../views/cropper.js":34,"../views/toolbar.js":63,"./state.js":15}],4:[function(require,module,exports){
+/*globals wp */
+
 /**
  * wp.media.controller.EditImage
  *
@@ -731,6 +733,8 @@ module.exports = FeaturedImage;
 /*globals wp, _ */
 
 /**
+ * wp.media.controller.GalleryAdd
+ *
  * A state for selecting more images to add to a gallery.
  *
  * @class
@@ -819,6 +823,8 @@ GalleryAdd = Library.extend({
 module.exports = GalleryAdd;
 
 },{"./library.js":10}],8:[function(require,module,exports){
+/*globals wp */
+
 /**
  * wp.media.controller.GalleryEdit
  *
@@ -2317,7 +2323,7 @@ AttachmentCompat = View.extend({
 module.exports = AttachmentCompat;
 
 },{"./view.js":71}],19:[function(require,module,exports){
-/*globals _ */
+/*globals _, jQuery */
 
 /**
  * wp.media.view.AttachmentFilters
@@ -2397,6 +2403,8 @@ AttachmentFilters = View.extend({
 module.exports = AttachmentFilters;
 
 },{"./view.js":71}],20:[function(require,module,exports){
+/*globals wp */
+
 /**
  * wp.media.view.AttachmentFilters.All
  *
@@ -2532,6 +2540,8 @@ DateFilter = AttachmentFilters.extend({
 module.exports = DateFilter;
 
 },{"../attachment-filters.js":19}],22:[function(require,module,exports){
+/*globals wp */
+
 /**
  * wp.media.view.AttachmentFilters.Uploaded
  *
@@ -3379,7 +3389,7 @@ Selection = Attachment.extend({
 module.exports = Selection;
 
 },{"../attachment.js":23}],29:[function(require,module,exports){
-/*globals wp, _ */
+/*globals wp, _, jQuery */
 
 /**
  * wp.media.view.Attachments
@@ -4175,7 +4185,7 @@ Selection = Attachments.extend({
 module.exports = Selection;
 
 },{"../attachment/selection.js":28,"../attachments.js":29}],32:[function(require,module,exports){
-/*globals _, Backbone */
+/*globals _, Backbone, jQuery */
 
 /**
  * wp.media.view.ButtonGroup
@@ -4388,6 +4398,14 @@ module.exports = Cropper;
 },{"./uploader/status-error.js":68,"./uploader/status.js":69,"./view.js":71}],35:[function(require,module,exports){
 /*globals wp, _ */
 
+/**
+ * wp.media.view.EditImage
+ *
+ * @class
+ * @augments wp.media.View
+ * @augments wp.Backbone.View
+ * @augments Backbone.View
+ */
 var View = require( './view.js' ),
 	EditImage;
 
@@ -4506,6 +4524,8 @@ Embed = View.extend({
 module.exports = Embed;
 
 },{"./embed/image.js":37,"./embed/link.js":38,"./embed/url.js":39,"./view.js":71}],37:[function(require,module,exports){
+/*globals wp */
+
 /**
  * wp.media.view.EmbedImage
  *
@@ -4539,7 +4559,7 @@ EmbedImage = AttachmentDisplay.extend({
 module.exports = EmbedImage;
 
 },{"../settings/attachment-display.js":58}],38:[function(require,module,exports){
-/*globals wp, _ */
+/*globals wp, _, jQuery */
 
 /**
  * wp.media.view.EmbedLink
@@ -4608,7 +4628,7 @@ EmbedLink = Settings.extend({
 module.exports = EmbedLink;
 
 },{"../settings.js":57}],39:[function(require,module,exports){
-/*globals wp, _ */
+/*globals wp, _, jQuery */
 
 /**
  * wp.media.view.EmbedUrl
@@ -4912,6 +4932,8 @@ _.extend( Frame.prototype, StateMachine.prototype );
 module.exports = Frame;
 
 },{"../controllers/region.js":12,"../controllers/state-machine.js":14,"../controllers/state.js":15,"./view.js":71}],42:[function(require,module,exports){
+/*globals wp */
+
 /**
  * wp.media.view.MediaFrame.ImageDetails
  *
@@ -6051,7 +6073,7 @@ Iframe = View.extend({
 module.exports = Iframe;
 
 },{"./view.js":71}],46:[function(require,module,exports){
-/*globals wp, _ */
+/*globals wp, _, jQuery */
 
 /**
  * wp.media.view.ImageDetails
@@ -6222,6 +6244,8 @@ module.exports = ImageDetails;
 
 },{"./settings/attachment-display.js":58}],47:[function(require,module,exports){
 /**
+ * wp.media.view.Label
+ *
  * @class
  * @augments wp.media.View
  * @augments wp.Backbone.View
@@ -6504,6 +6528,8 @@ _.each(['open','close','attach','detach','escape'], function( method ) {
 module.exports = MediaFrame;
 
 },{"./frame.js":41,"./iframe.js":45,"./menu.js":50,"./modal.js":51,"./router.js":54,"./toolbar.js":63,"./uploader/window.js":70,"./view.js":71}],49:[function(require,module,exports){
+/*globals jQuery */
+
 /**
  * wp.media.view.MenuItem
  *
@@ -6694,7 +6720,7 @@ Menu = PriorityList.extend({
 module.exports = Menu;
 
 },{"./menu-item.js":49,"./priority-list.js":52}],51:[function(require,module,exports){
-/*globals wp, _ */
+/*globals wp, _, jQuery */
 
 /**
  * wp.media.view.Modal
@@ -7078,6 +7104,8 @@ Router = Menu.extend({
 module.exports = Router;
 
 },{"./menu.js":50,"./router-item.js":53}],55:[function(require,module,exports){
+/*globals wp */
+
 /**
  * wp.media.view.Search
  *
@@ -7433,6 +7461,8 @@ AttachmentDisplay = Settings.extend({
 module.exports = AttachmentDisplay;
 
 },{"../settings.js":57}],59:[function(require,module,exports){
+/*globals wp */
+
 /**
  * wp.media.view.Settings.Gallery
  *
@@ -7453,6 +7483,8 @@ Gallery = Settings.extend({
 module.exports = Gallery;
 
 },{"../settings.js":57}],60:[function(require,module,exports){
+/*globals wp */
+
 /**
  * wp.media.view.Settings.Playlist
  *
@@ -8162,6 +8194,8 @@ UploaderInline = View.extend({
 module.exports = UploaderInline;
 
 },{"../view.js":71,"./status.js":69}],68:[function(require,module,exports){
+/*globals wp */
+
 /**
  * wp.media.view.UploaderStatusError
  *

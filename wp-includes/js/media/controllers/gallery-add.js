@@ -1,6 +1,8 @@
 /*globals wp, _ */
 
 /**
+ * wp.media.controller.GalleryAdd
+ *
  * A state for selecting more images to add to a gallery.
  *
  * @class

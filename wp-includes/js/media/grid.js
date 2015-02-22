@@ -1,4 +1,6 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+/*globals wp */
+
 /**
  * wp.media.controller.EditAttachmentMetadata
  *
@@ -28,6 +30,8 @@ EditAttachmentMetadata = State.extend({
 module.exports = EditAttachmentMetadata;
 
 },{"./state.js":6}],2:[function(require,module,exports){
+/*globals wp */
+
 /**
  * wp.media.controller.EditImage
  *
@@ -932,6 +936,8 @@ _.each(['toolbar','content'], function( region ) {
 module.exports = State;
 
 },{}],7:[function(require,module,exports){
+/*globals wp */
+
 var media = wp.media;
 
 media.controller.EditAttachmentMetadata = require( './controllers/edit-attachment-metadata.js' );
@@ -948,6 +954,8 @@ media.view.DeleteSelectedPermanentlyButton = require( './views/button/delete-sel
 /*globals wp, Backbone */
 
 /**
+ * wp.media.view.MediaFrame.Manage.Router
+ *
  * A router for handling the browser history and application state.
  *
  * @class
@@ -1148,7 +1156,7 @@ AttachmentCompat = View.extend({
 module.exports = AttachmentCompat;
 
 },{"./view.js":49}],11:[function(require,module,exports){
-/*globals _ */
+/*globals _, jQuery */
 
 /**
  * wp.media.view.AttachmentFilters
@@ -1228,6 +1236,8 @@ AttachmentFilters = View.extend({
 module.exports = AttachmentFilters;
 
 },{"./view.js":49}],12:[function(require,module,exports){
+/*globals wp */
+
 /**
  * wp.media.view.AttachmentFilters.All
  *
@@ -1363,6 +1373,8 @@ DateFilter = AttachmentFilters.extend({
 module.exports = DateFilter;
 
 },{"../attachment-filters.js":11}],14:[function(require,module,exports){
+/*globals wp */
+
 /**
  * wp.media.view.AttachmentFilters.Uploaded
  *
@@ -1982,6 +1994,8 @@ module.exports = Attachment;
 /*globals wp */
 
 /**
+ * wp.media.view.Attachment.Details.TwoColumn
+ *
  * A similar view to media.view.Attachment.Details
  * for use in the Edit Attachment modal.
  *
@@ -2185,7 +2199,7 @@ Library = Attachment.extend({
 module.exports = Library;
 
 },{"../attachment.js":15}],19:[function(require,module,exports){
-/*globals wp, _ */
+/*globals wp, _, jQuery */
 
 /**
  * wp.media.view.Attachments
@@ -3040,6 +3054,8 @@ module.exports = Button;
 
 },{"./view.js":49}],22:[function(require,module,exports){
 /**
+ * wp.media.view.DeleteSelectedPermanentlyButton
+ *
  * When MEDIA_TRASH is true, a button that handles bulk Delete Permanently logic
  *
  * @class
@@ -3084,7 +3100,11 @@ DeleteSelectedPermanently = DeleteSelected.extend({
 module.exports = DeleteSelectedPermanently;
 
 },{"../button.js":21,"./delete-selected.js":23}],23:[function(require,module,exports){
+/*globals wp */
+
 /**
+ * wp.media.view.DeleteSelectedButton
+ *
  * A button that handles bulk Delete/Trash logic
  *
  * @class
@@ -3135,6 +3155,17 @@ DeleteSelected = Button.extend({
 module.exports = DeleteSelected;
 
 },{"../button.js":21}],24:[function(require,module,exports){
+/*globals wp */
+
+/**
+ * wp.media.view.SelectModeToggleButton
+ *
+ * @class
+ * @augments wp.media.view.Button
+ * @augments wp.media.View
+ * @augments wp.Backbone.View
+ * @augments Backbone.View
+ */
 var Button = require( '../button.js' ),
 	l10n = wp.media.view.l10n,
 	SelectModeToggle;
@@ -3192,6 +3223,15 @@ module.exports = SelectModeToggle;
 },{"../button.js":21}],25:[function(require,module,exports){
 /*globals wp, _ */
 
+/**
+ * wp.media.view.EditImage.Details
+ *
+ * @class
+ * @augments wp.media.view.EditImage.Details
+ * @augments wp.media.View
+ * @augments wp.Backbone.View
+ * @augments Backbone.View
+ */
 var View = require( './view.js' ),
 	EditImage = wp.media.view.EditImage,
 	Details;
@@ -3441,9 +3481,11 @@ _.extend( Frame.prototype, StateMachine.prototype );
 module.exports = Frame;
 
 },{"../controllers/region.js":4,"../controllers/state-machine.js":5,"../controllers/state.js":6,"./view.js":49}],28:[function(require,module,exports){
-/*globals wp, _ */
+/*globals wp, _, jQuery */
 
 /**
+ * wp.media.view.MediaFrame.EditAttachments
+ *
  * A frame for editing the details of a specific media item.
  *
  * Opens in a modal by default.
@@ -3966,6 +4008,8 @@ module.exports = Iframe;
 
 },{"./view.js":49}],31:[function(require,module,exports){
 /**
+ * wp.media.view.Label
+ *
  * @class
  * @augments wp.media.View
  * @augments wp.Backbone.View
@@ -4248,6 +4292,8 @@ _.each(['open','close','attach','detach','escape'], function( method ) {
 module.exports = MediaFrame;
 
 },{"./frame.js":27,"./iframe.js":30,"./menu.js":34,"./modal.js":35,"./router.js":38,"./toolbar.js":44,"./uploader/window.js":48,"./view.js":49}],33:[function(require,module,exports){
+/*globals jQuery */
+
 /**
  * wp.media.view.MenuItem
  *
@@ -4438,7 +4484,7 @@ Menu = PriorityList.extend({
 module.exports = Menu;
 
 },{"./menu-item.js":33,"./priority-list.js":36}],35:[function(require,module,exports){
-/*globals wp, _ */
+/*globals wp, _, jQuery */
 
 /**
  * wp.media.view.Modal
@@ -4822,6 +4868,8 @@ Router = Menu.extend({
 module.exports = Router;
 
 },{"./menu.js":34,"./router-item.js":37}],39:[function(require,module,exports){
+/*globals wp */
+
 /**
  * wp.media.view.Search
  *
@@ -5447,6 +5495,8 @@ UploaderInline = View.extend({
 module.exports = UploaderInline;
 
 },{"../view.js":49,"./status.js":47}],46:[function(require,module,exports){
+/*globals wp */
+
 /**
  * wp.media.view.UploaderStatusError
  *

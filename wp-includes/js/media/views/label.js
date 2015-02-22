@@ -1,4 +1,6 @@
 /**
+ * wp.media.view.Label
+ *
  * @class
  * @augments wp.media.View
  * @augments wp.Backbone.View

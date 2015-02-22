@@ -1365,7 +1365,7 @@ AttachmentCompat = View.extend({
 module.exports = AttachmentCompat;
 
 },{"./view.js":51}],12:[function(require,module,exports){
-/*globals _ */
+/*globals _, jQuery */
 
 /**
  * wp.media.view.AttachmentFilters
@@ -1445,6 +1445,8 @@ AttachmentFilters = View.extend({
 module.exports = AttachmentFilters;
 
 },{"./view.js":51}],13:[function(require,module,exports){
+/*globals wp */
+
 /**
  * wp.media.view.AttachmentFilters.All
  *
@@ -1580,6 +1582,8 @@ DateFilter = AttachmentFilters.extend({
 module.exports = DateFilter;
 
 },{"../attachment-filters.js":12}],15:[function(require,module,exports){
+/*globals wp */
+
 /**
  * wp.media.view.AttachmentFilters.Uploaded
  *
@@ -2359,7 +2363,7 @@ Library = Attachment.extend({
 module.exports = Library;
 
 },{"../attachment.js":16}],19:[function(require,module,exports){
-/*globals wp, _ */
+/*globals wp, _, jQuery */
 
 /**
  * wp.media.view.Attachments
@@ -4032,6 +4036,8 @@ module.exports = Iframe;
 
 },{"./view.js":51}],30:[function(require,module,exports){
 /**
+ * wp.media.view.Label
+ *
  * @class
  * @augments wp.media.View
  * @augments wp.Backbone.View
@@ -4482,6 +4488,8 @@ _.each(['open','close','attach','detach','escape'], function( method ) {
 module.exports = MediaFrame;
 
 },{"./frame.js":24,"./iframe.js":29,"./menu.js":34,"./modal.js":35,"./router.js":38,"./toolbar.js":44,"./uploader/window.js":49,"./view.js":51}],33:[function(require,module,exports){
+/*globals jQuery */
+
 /**
  * wp.media.view.MenuItem
  *
@@ -4672,7 +4680,7 @@ Menu = PriorityList.extend({
 module.exports = Menu;
 
 },{"./menu-item.js":33,"./priority-list.js":36}],35:[function(require,module,exports){
-/*globals wp, _ */
+/*globals wp, _, jQuery */
 
 /**
  * wp.media.view.Modal
@@ -5056,6 +5064,8 @@ Router = Menu.extend({
 module.exports = Router;
 
 },{"./menu.js":34,"./router-item.js":37}],39:[function(require,module,exports){
+/*globals wp */
+
 /**
  * wp.media.view.Search
  *
@@ -5753,6 +5763,8 @@ UploaderInline = View.extend({
 module.exports = UploaderInline;
 
 },{"../view.js":51,"./status.js":48}],47:[function(require,module,exports){
+/*globals wp */
+
 /**
  * wp.media.view.UploaderStatusError
  *

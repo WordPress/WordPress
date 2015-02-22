@@ -1,5 +1,13 @@
 /*globals wp, _ */
 
+/**
+ * wp.media.view.EditImage
+ *
+ * @class
+ * @augments wp.media.View
+ * @augments wp.Backbone.View
+ * @augments Backbone.View
+ */
 var View = require( './view.js' ),
 	EditImage;
 

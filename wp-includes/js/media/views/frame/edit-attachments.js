@@ -1,6 +1,8 @@
-/*globals wp, _ */
+/*globals wp, _, jQuery */
 
 /**
+ * wp.media.view.MediaFrame.EditAttachments
+ *
  * A frame for editing the details of a specific media item.
  *
  * Opens in a modal by default.

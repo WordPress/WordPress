@@ -1,4 +1,4 @@
-/*globals _, Backbone */
+/*globals _, Backbone, jQuery */
 
 /**
  * wp.media.view.ButtonGroup

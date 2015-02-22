@@ -1,4 +1,4 @@
-/*globals wp, _ */
+/*globals wp, _, jQuery */
 
 /**
  * wp.media.view.ImageDetails

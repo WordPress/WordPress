@@ -1,4 +1,8 @@
+/*globals wp */
+
 /**
+ * wp.media.view.DeleteSelectedButton
+ *
  * A button that handles bulk Delete/Trash logic
  *
  * @class

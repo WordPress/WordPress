@@ -1,6 +1,8 @@
 /*globals wp */
 
 /**
+ * wp.media.view.Attachment.Details.TwoColumn
+ *
  * A similar view to media.view.Attachment.Details
  * for use in the Edit Attachment modal.
  *

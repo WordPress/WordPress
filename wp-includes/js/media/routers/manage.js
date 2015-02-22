@@ -1,6 +1,8 @@
 /*globals wp, Backbone */
 
 /**
+ * wp.media.view.MediaFrame.Manage.Router
+ *
  * A router for handling the browser history and application state.
  *
  * @class
