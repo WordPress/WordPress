@@ -828,7 +828,7 @@ themes.view.Themes = wp.Backbone.View.extend({
 	index: 0,
 
 	// The theme count element
-	count: $( '.wp-filter .theme-count' ),
+	count: $( '.wp-core-ui .theme-count' ),
 
 	initialize: function( options ) {
 		var self = this;
