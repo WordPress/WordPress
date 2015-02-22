@@ -10,7 +10,7 @@
  * @augments wp.Backbone.View
  * @augments Backbone.View
  */
-var AttachmentDisplay = require( './settings/attachment-display.js' ),
+var AttachmentDisplay = wp.media.view.Settings.AttachmentDisplay,
 	$ = jQuery,
 	MediaDetails;
 
@@ -93,7 +93,7 @@ MediaDetails = AttachmentDisplay.extend({
 			return;
 		}
 
-		if ( this.media.src.indexOf( 'vimeo' ) && ! ( 'Froogaloop' in window ) ) {
+		if ( this.media.src.indexOf( 'vimeo' ) > -1 && ! ( 'Froogaloop' in window ) ) {
 			baseSettings = wp.media.mixin.mejsSettings;
 			this.scriptXhr = $.getScript( baseSettings.pluginPath + 'froogaloop.min.js', _.bind( this.loadPlayer, this ) );
 		} else {

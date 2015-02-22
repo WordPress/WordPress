@@ -12,9 +12,9 @@
  * @augments Backbone.View
  * @mixes wp.media.controller.StateMachine
  */
-var View = require( '../view.js' ),
-	Toolbar = require( '../toolbar.js' ),
-	Select = require( './select.js' ),
+var View = wp.media.View,
+	Toolbar = wp.media.view.Toolbar,
+	Select = wp.media.view.MediaFrame.Select,
 	l10n = wp.media.view.l10n,
 	MediaDetails;
 
