@@ -689,6 +689,15 @@ function wp_dashboard_recent_posts( $args ) {
 		'cache_results'  => false,
 		'perm'           => ( 'future' === $args['status'] ) ? 'editable' : 'readable',
 	);
+
+	/**
+	 * Filter the query arguments used for the Recent Posts widget.
+	 *
+	 * @since 4.2.0
+	 *
+	 * @param array $query_args The arguments passed to WP_Query to produce the list of posts.
+	 */
+	$query_args = apply_filters( 'dashboard_recent_posts_query_args', $query_args );
 	$posts = new WP_Query( $query_args );
 
 	if ( $posts->have_posts() ) {
