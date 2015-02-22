@@ -1,14 +1,14 @@
-# Copyright (C) 2014 the WordPress team
+# Copyright (C) 2015 the WordPress team
 # This file is distributed under the GNU General Public License v2 or later.
 msgid ""
 msgstr ""
 "Project-Id-Version: Twenty Fifteen 1.0\n"
-"Report-Msgid-Bugs-To: http://wordpress.org/tags/twentyfifteen\n"
-"POT-Creation-Date: 2014-12-14 12:26:59+00:00\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/support/theme/twentyfifteen\n"
+"POT-Creation-Date: 2015-02-22 13:29:51+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2014-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2015-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 
@@ -113,51 +113,51 @@ msgstr ""
 msgid "Add widgets here to appear in your sidebar."
 msgstr ""
 
-#. translators: If there are characters in your language that are not supported
+#. Translators: If there are characters in your language that are not supported
 #. by Noto Sans, translate this to 'off'. Do not translate into your own
 #. language.
-#: functions.php:158
+#: functions.php:161
 msgctxt "Noto Sans font: on or off"
 msgid "on"
 msgstr ""
 
-#. translators: If there are characters in your language that are not supported
+#. Translators: If there are characters in your language that are not supported
 #. by Noto Serif, translate this to 'off'. Do not translate into your own
 #. language.
-#: functions.php:163
+#: functions.php:169
 msgctxt "Noto Serif font: on or off"
 msgid "on"
 msgstr ""
 
-#. translators: If there are characters in your language that are not supported
+#. Translators: If there are characters in your language that are not supported
 #. by Inconsolata, translate this to 'off'. Do not translate into your own
 #. language.
-#: functions.php:168
+#: functions.php:177
 msgctxt "Inconsolata font: on or off"
 msgid "on"
 msgstr ""
 
-#. translators: To add an additional character subset specific to your
+#. Translators: To add an additional character subset specific to your
 #. language, translate this to 'greek', 'cyrillic', 'devanagari' or
 #. 'vietnamese'. Do not translate into your own language.
-#: functions.php:173
+#: functions.php:185
 msgctxt "Add new subset (greek, cyrillic, devanagari, vietnamese)"
 msgid "no-subset"
 msgstr ""
 
-#: functions.php:231
+#: functions.php:255
 msgid "expand child menu"
 msgstr ""
 
-#: functions.php:232
+#: functions.php:256
 msgid "collapse child menu"
 msgstr ""
 
-#: header.php:27
+#: header.php:26
 msgid "Skip to content"
 msgstr ""
 
-#: header.php:44
+#: header.php:43
 msgid "Menu and widgets"
 msgstr ""
 
@@ -182,43 +182,43 @@ msgid ""
 "version %s. Please upgrade and try again."
 msgstr ""
 
-#: inc/customizer.php:36
+#: inc/customizer.php:31
 msgid "Base Color Scheme"
 msgstr ""
 
-#: inc/customizer.php:51
+#: inc/customizer.php:46
 msgid "Header and Sidebar Text Color"
 msgstr ""
 
-#: inc/customizer.php:52 inc/customizer.php:68 inc/customizer.php:73
+#: inc/customizer.php:47 inc/customizer.php:63 inc/customizer.php:68
 msgid "Applied to the header on small screens and the sidebar on wide screens."
 msgstr ""
 
-#: inc/customizer.php:67
+#: inc/customizer.php:62
 msgid "Header and Sidebar Background Color"
 msgstr ""
 
-#: inc/customizer.php:97
+#: inc/customizer.php:92
 msgid "Default"
 msgstr ""
 
-#: inc/customizer.php:108
+#: inc/customizer.php:103
 msgid "Dark"
 msgstr ""
 
-#: inc/customizer.php:119
+#: inc/customizer.php:114
 msgid "Yellow"
 msgstr ""
 
-#: inc/customizer.php:130
+#: inc/customizer.php:125
 msgid "Pink"
 msgstr ""
 
-#: inc/customizer.php:141
+#: inc/customizer.php:136
 msgid "Purple"
 msgstr ""
 
-#: inc/customizer.php:152
+#: inc/customizer.php:147
 msgid "Blue"
 msgstr ""
 
