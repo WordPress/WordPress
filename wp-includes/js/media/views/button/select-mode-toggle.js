@@ -9,7 +9,7 @@
  * @augments wp.Backbone.View
  * @augments Backbone.View
  */
-var Button = require( '../button.js' ),
+var Button = wp.media.view.Button,
 	l10n = wp.media.view.l10n,
 	SelectModeToggle;
 

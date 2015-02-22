@@ -10,7 +10,7 @@
  * @augments wp.Backbone.View
  * @augments Backbone.View
  */
-var Button = require( '../button.js' ),
+var Button = wp.media.view.Button,
 	DeleteSelected = require( './delete-selected.js' ),
 	DeleteSelectedPermanently;
 

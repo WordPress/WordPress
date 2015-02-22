@@ -4,12 +4,12 @@
  * wp.media.view.EditImage.Details
  *
  * @class
- * @augments wp.media.view.EditImage.Details
+ * @augments wp.media.view.EditImage
  * @augments wp.media.View
  * @augments wp.Backbone.View
  * @augments Backbone.View
  */
-var View = require( './view.js' ),
+var View = wp.media.View,
 	EditImage = wp.media.view.EditImage,
 	Details;
 

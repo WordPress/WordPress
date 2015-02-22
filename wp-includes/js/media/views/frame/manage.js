@@ -15,11 +15,13 @@
  * @augments Backbone.View
  * @mixes wp.media.controller.StateMachine
  */
-var MediaFrame = require( '../media-frame.js' ),
-	UploaderWindow = require( '../uploader/window.js' ),
-	AttachmentsBrowser = require( '../attachments/browser.js' ),
+var MediaFrame = wp.media.view.MediaFrame,
+	UploaderWindow = wp.media.view.UploaderWindow,
+	AttachmentsBrowser = wp.media.view.AttachmentsBrowser,
+	Library = wp.media.controller.Library,
+
 	Router = require( '../../routers/manage.js' ),
-	Library = require( '../../controllers/library.js' ),
+
 	$ = jQuery,
 	Manage;
 

@@ -16,14 +16,16 @@
  * @augments Backbone.View
  * @mixes wp.media.controller.StateMachine
  */
-var Frame = require( '../frame.js' ),
-	MediaFrame = require( '../media-frame.js' ),
-	Modal = require( '../modal.js' ),
+var Frame = wp.media.view.Frame,
+	MediaFrame = wp.media.view.MediaFrame,
+	Modal = wp.media.view.Modal,
+	AttachmentCompat = wp.media.view.AttachmentCompat,
+	EditImageController = wp.media.controller.EditImage,
+
 	EditAttachmentMetadata = require( '../../controllers/edit-attachment-metadata.js' ),
 	TwoColumn = require( '../attachment/details-two-column.js' ),
-	AttachmentCompat = require( '../attachment-compat.js' ),
-	EditImageController = require( '../../controllers/edit-image.js' ),
 	DetailsView = require( '../edit-image-details.js' ),
+
 	$ = jQuery,
 	EditAttachments;
 

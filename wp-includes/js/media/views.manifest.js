@@ -92,7 +92,7 @@ media.controller.Embed = require( './controllers/embed.js' );
 media.controller.Cropper = require( './controllers/cropper.js' );
 
 media.View = require( './views/view.js' );
-media.view.Frame = require( './views/view.js' );
+media.view.Frame = require( './views/frame.js' );
 media.view.MediaFrame = require( './views/media-frame.js' );
 media.view.MediaFrame.Select = require( './views/frame/select.js' );
 media.view.MediaFrame.Post = require( './views/frame/post.js' );

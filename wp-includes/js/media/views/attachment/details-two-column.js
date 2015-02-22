@@ -13,7 +13,7 @@
  * @augments wp.Backbone.View
  * @augments Backbone.View
  */
-var Details = require( './details.js' ),
+var Details = wp.media.view.Attachment.Details,
 	TwoColumn;
 
 TwoColumn = Details.extend({
