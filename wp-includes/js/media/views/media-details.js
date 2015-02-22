@@ -76,12 +76,26 @@ MediaDetails = AttachmentDisplay.extend({
 		this.controller.setState( 'add-' + this.controller.defaults.id + '-source' );
 	},
 
+	loadPlayer: function () {
+		this.players.push( new MediaElementPlayer( this.media, this.settings ) );
+		this.scriptXhr = false;
+	},
+
 	/**
 	 * @global MediaElementPlayer
 	 */
 	setPlayer : function() {
-		if ( ! this.players.length && this.media ) {
-			this.players.push( new window.MediaElementPlayer( this.media, this.settings ) );
+		var baseSettings;
+
+		if ( this.players.length || ! this.media || this.scriptXhr ) {
+			return;
+		}
+
+		if ( this.media.src.indexOf( 'vimeo' ) && ! ( 'Froogaloop' in window ) ) {
+			baseSettings = wp.media.mixin.mejsSettings;
+			this.scriptXhr = $.getScript( baseSettings.pluginPath + 'froogaloop.min.js', _.bind( this.loadPlayer, this ) );
+		} else {
+			this.loadPlayer();
 		}
 	},
 

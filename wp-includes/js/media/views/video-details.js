@@ -24,7 +24,7 @@ VideoDetails = MediaDetails.extend({
 				video.show();
 			}
 
-			if ( ! video.hasClass('youtube-video') ) {
+			if ( ! video.hasClass( 'youtube-video' ) && ! video.hasClass( 'vimeo-video' ) ) {
 				this.media = MediaDetails.prepareSrc( video.get(0) );
 			} else {
 				this.media = video.get(0);
