@@ -2904,7 +2904,10 @@ function wp_ajax_install_plugin() {
 	}
 
 	$plugin_status = install_plugin_install_status( $api );
-	activate_plugin( $plugin_status['file'] );
+
+	if ( ! is_multisite() ) {
+		activate_plugin( $plugin_status['file'] );
+	}
 
 	wp_send_json_success( $status );
 }
