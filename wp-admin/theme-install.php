@@ -166,10 +166,10 @@ include(ABSPATH . 'wp-admin/admin-header.php');
 			</div>
 		</div>
 	</div>
-	<div class="theme-browser content-filterable"></div>
+	<div class="theme-browser content-filterable" aria-live="polite">
+		<p class="no-themes"><?php _e( 'No themes found. Try a different search.' ); ?></p>
+	</div>
 	<div class="theme-install-overlay wp-full-overlay expanded"></div>
-
-	<p class="no-themes"><?php _e( 'No themes found. Try a different search.' ); ?></p>
 	<span class="spinner"></span>
 
 	<br class="clear" />

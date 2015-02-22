@@ -198,7 +198,7 @@ if ( ! $ct->errors() || ( 1 == count( $ct->errors()->get_error_codes() )
 
 ?>
 
-<div class="theme-browser">
+<div class="theme-browser" aria-live="polite">
 	<div class="themes">
 
 <?php
@@ -250,10 +250,9 @@ foreach ( $themes as $theme ) :
 <?php endforeach; ?>
 	<br class="clear" />
 	</div>
+	<p class="no-themes"><?php _e( 'No themes found. Try a different search.' ); ?></p>
 </div>
 <div class="theme-overlay"></div>
-
-<p class="no-themes"><?php _e( 'No themes found. Try a different search.' ); ?></p>
 
 <?php
 // List broken themes, if any.

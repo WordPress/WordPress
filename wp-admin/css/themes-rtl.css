@@ -1137,11 +1137,12 @@ body.show-upload-theme .upload-theme + .wp-filter + .theme-browser {
 }
 
 p.no-themes {
+	clear: both;
 	color: #999;
 	font-size: 18px;
 	font-style: normal;
 	margin: 0;
-	padding: 0;
+	padding: 100px 0 0;
 	text-align: center;
 	display: none;
 }

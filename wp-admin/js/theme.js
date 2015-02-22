@@ -79,7 +79,8 @@ themes.view.Appearance = wp.Backbone.View.extend({
 
 		// Render and append
 		this.view.render();
-		this.$el.empty().append( this.view.el ).addClass('rendered');
+		this.$el.find( '.themes' ).remove();
+		this.$el.append( this.view.el ).addClass( 'rendered' );
 		this.$el.append( '<br class="clear"/>' );
 	},
 
