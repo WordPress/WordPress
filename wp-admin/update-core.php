@@ -231,12 +231,6 @@ function list_plugin_updates() {
 	</tr>
 	</thead>
 
-	<tfoot>
-	<tr>
-		<th scope="col" class="manage-column check-column"><input type="checkbox" id="plugins-select-all-2" /></th>
-		<th scope="col" class="manage-column"><label for="plugins-select-all-2"><?php _e('Select All'); ?></label></th>
-	</tr>
-	</tfoot>
 	<tbody class="plugins">
 <?php
 	foreach ( (array) $plugins as $plugin_file => $plugin_data) {
@@ -282,6 +276,13 @@ function list_plugin_updates() {
 	}
 ?>
 	</tbody>
+
+	<tfoot>
+	<tr>
+		<th scope="col" class="manage-column check-column"><input type="checkbox" id="plugins-select-all-2" /></th>
+		<th scope="col" class="manage-column"><label for="plugins-select-all-2"><?php _e( 'Select All' ); ?></label></th>
+	</tr>
+	</tfoot>
 </table>
 <p><input id="upgrade-plugins-2" class="button" type="submit" value="<?php esc_attr_e('Update Plugins'); ?>" name="upgrade" /></p>
 </form>
@@ -313,12 +314,6 @@ function list_theme_updates() {
 	</tr>
 	</thead>
 
-	<tfoot>
-	<tr>
-		<th scope="col" class="manage-column check-column"><input type="checkbox" id="themes-select-all-2" /></th>
-		<th scope="col" class="manage-column"><label for="themes-select-all-2"><?php _e('Select All'); ?></label></th>
-	</tr>
-	</tfoot>
 	<tbody class="plugins">
 <?php
 	foreach ( $themes as $stylesheet => $theme ) {
@@ -330,6 +325,13 @@ function list_theme_updates() {
 	}
 ?>
 	</tbody>
+
+	<tfoot>
+	<tr>
+		<th scope="col" class="manage-column check-column"><input type="checkbox" id="themes-select-all-2" /></th>
+		<th scope="col" class="manage-column"><label for="themes-select-all-2"><?php _e( 'Select All' ); ?></label></th>
+	</tr>
+	</tfoot>
 </table>
 <p><input id="upgrade-themes-2" class="button" type="submit" value="<?php esc_attr_e('Update Themes'); ?>" name="upgrade" /></p>
 </form>

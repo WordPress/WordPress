@@ -336,12 +336,6 @@ class WP_Comments_List_Table extends WP_List_Table {
 	</tr>
 	</thead>
 
-	<tfoot>
-	<tr>
-		<?php $this->print_column_headers( false ); ?>
-	</tr>
-	</tfoot>
-
 	<tbody id="the-comment-list" data-wp-lists="list:comment">
 		<?php $this->display_rows_or_placeholder(); ?>
 	</tbody>
@@ -349,6 +343,13 @@ class WP_Comments_List_Table extends WP_List_Table {
 	<tbody id="the-extra-comment-list" data-wp-lists="list:comment" style="display: none;">
 		<?php $this->items = $this->extra_items; $this->display_rows(); ?>
 	</tbody>
+
+	<tfoot>
+	<tr>
+		<?php $this->print_column_headers( false ); ?>
+	</tr>
+	</tfoot>
+
 </table>
 <?php
 

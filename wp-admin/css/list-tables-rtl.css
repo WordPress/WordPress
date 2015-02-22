@@ -475,17 +475,6 @@ th.sorted a {
 	padding: 7px 10px 8px 7px;
 }
 
-th.manage-column a,
-th.sortable a:hover,
-th.sortable a:active,
-th.sortable a:focus {
-	color: #32373c;
-}
-
-th.sortable a:focus {
-	background: #e1e1e1;
-}
-
 .fixed .column-comments.sortable a,
 .fixed .column-comments.sorted a {
 	padding: 8px 0;

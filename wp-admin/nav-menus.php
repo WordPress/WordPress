@@ -573,12 +573,6 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 					<th scope="col" class="manage-column column-menus"><?php _e( 'Assigned Menu' ); ?></th>
 				</tr>
 				</thead>
-				<!--<tfoot>
-				<tr>
-					<th scope="col" class="manage-column column-locations"><?php _e( 'Theme Location' ); ?></th>
-					<th scope="col" class="manage-column column-menus"><?php _e( 'Assigned Menu' ); ?></th>
-				</tr>
-				</tfoot>-->
 				<tbody class="menu-locations">
 				<?php foreach ( $locations as $_location => $_name ) { ?>
 					<tr class="menu-locations-row">
