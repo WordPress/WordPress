@@ -4004,6 +4004,8 @@ Label = View.extend({
 module.exports = Label;
 
 },{"./view.js":51}],31:[function(require,module,exports){
+/*global wp, MediaElementPlayer */
+
 /**
  * wp.media.view.MediaDetails
  *

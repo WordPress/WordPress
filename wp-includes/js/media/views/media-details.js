@@ -1,3 +1,5 @@
+/*global wp, MediaElementPlayer */
+
 /**
  * wp.media.view.MediaDetails
  *
