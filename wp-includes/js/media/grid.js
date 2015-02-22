@@ -4,7 +4,7 @@
  *
  * A state for editing an attachment's metadata.
  *
- * @constructor
+ * @class
  * @augments wp.media.controller.State
  * @augments Backbone.Model
  */
@@ -940,7 +940,7 @@ media.view.DeleteSelectedPermanentlyButton = require( './views/button/delete-sel
 /**
  * A router for handling the browser history and application state.
  *
- * @constructor
+ * @class
  * @augments Backbone.Router
  */
 var Router = Backbone.Router.extend({
@@ -1965,7 +1965,7 @@ module.exports = Attachment;
  * A similar view to media.view.Attachment.Details
  * for use in the Edit Attachment modal.
  *
- * @constructor
+ * @class
  * @augments wp.media.view.Attachment.Details
  * @augments wp.media.view.Attachment
  * @augments wp.media.View
@@ -3014,7 +3014,7 @@ module.exports = Button;
 /**
  * When MEDIA_TRASH is true, a button that handles bulk Delete Permanently logic
  *
- * @constructor
+ * @class
  * @augments wp.media.view.DeleteSelectedButton
  * @augments wp.media.view.Button
  * @augments wp.media.View
@@ -3059,7 +3059,7 @@ module.exports = DeleteSelectedPermanently;
 /**
  * A button that handles bulk Delete/Trash logic
  *
- * @constructor
+ * @class
  * @augments wp.media.view.Button
  * @augments wp.media.View
  * @augments wp.Backbone.View
@@ -3418,7 +3418,7 @@ module.exports = Frame;
  *
  * Requires an attachment model to be passed in the options hash under `model`.
  *
- * @constructor
+ * @class
  * @augments wp.media.view.Frame
  * @augments wp.media.View
  * @augments wp.Backbone.View
@@ -3664,7 +3664,7 @@ module.exports = EditAttachments;
  *
  * Used in the media grid view.
  *
- * @constructor
+ * @class
  * @augments wp.media.view.MediaFrame
  * @augments wp.media.view.Frame
  * @augments wp.media.View

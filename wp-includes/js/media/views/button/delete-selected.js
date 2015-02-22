@@ -1,7 +1,7 @@
 /**
  * A button that handles bulk Delete/Trash logic
  *
- * @constructor
+ * @class
  * @augments wp.media.view.Button
  * @augments wp.media.View
  * @augments wp.Backbone.View

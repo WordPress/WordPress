@@ -1,7 +1,7 @@
 /**
  * A router for handling the browser history and application state.
  *
- * @constructor
+ * @class
  * @augments Backbone.Router
  */
 var Router = Backbone.Router.extend({

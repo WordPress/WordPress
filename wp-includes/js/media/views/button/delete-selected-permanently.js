@@ -1,7 +1,7 @@
 /**
  * When MEDIA_TRASH is true, a button that handles bulk Delete Permanently logic
  *
- * @constructor
+ * @class
  * @augments wp.media.view.DeleteSelectedButton
  * @augments wp.media.view.Button
  * @augments wp.media.View

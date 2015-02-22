@@ -5,7 +5,7 @@
  *
  * Used in the media grid view.
  *
- * @constructor
+ * @class
  * @augments wp.media.view.MediaFrame
  * @augments wp.media.view.Frame
  * @augments wp.media.View

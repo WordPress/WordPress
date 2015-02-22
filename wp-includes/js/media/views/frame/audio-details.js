@@ -1,7 +1,7 @@
 /**
  * wp.media.view.MediaFrame.AudioDetails
  *
- * @constructor
+ * @class
  * @augments wp.media.view.MediaFrame.MediaDetails
  * @augments wp.media.view.MediaFrame.Select
  * @augments wp.media.view.MediaFrame

@@ -4,7 +4,7 @@
  * A similar view to media.view.Attachment.Details
  * for use in the Edit Attachment modal.
  *
- * @constructor
+ * @class
  * @augments wp.media.view.Attachment.Details
  * @augments wp.media.view.Attachment
  * @augments wp.media.View

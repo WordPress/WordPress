@@ -5,7 +5,7 @@
  *
  * Requires an attachment model to be passed in the options hash under `model`.
  *
- * @constructor
+ * @class
  * @augments wp.media.view.Frame
  * @augments wp.media.View
  * @augments wp.Backbone.View

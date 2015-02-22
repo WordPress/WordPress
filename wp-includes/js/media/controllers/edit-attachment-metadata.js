@@ -3,7 +3,7 @@
  *
  * A state for editing an attachment's metadata.
  *
- * @constructor
+ * @class
  * @augments wp.media.controller.State
  * @augments Backbone.Model
  */

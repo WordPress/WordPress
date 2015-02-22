@@ -3,7 +3,7 @@
 /**
  * wp.media.view.MediaDetails
  *
- * @constructor
+ * @class
  * @augments wp.media.view.Settings.AttachmentDisplay
  * @augments wp.media.view.Settings
  * @augments wp.media.View

@@ -219,7 +219,7 @@ media.view.VideoDetails = require( './views/video-details.js' );
 /**
  * The controller for the Audio Details state
  *
- * @constructor
+ * @class
  * @augments wp.media.controller.State
  * @augments Backbone.Model
  */
@@ -1118,7 +1118,7 @@ module.exports = State;
 /**
  * The controller for the Video Details state
  *
- * @constructor
+ * @class
  * @augments wp.media.controller.State
  * @augments Backbone.Model
  */
@@ -1150,7 +1150,7 @@ module.exports = VideoDetails;
  * Shared model class for audio and video. Updates the model after
  *   "Add Audio|Video Source" and "Replace Audio|Video" states return
  *
- * @constructor
+ * @class
  * @augments Backbone.Model
  */
 var PostMedia = Backbone.Model.extend({
@@ -3085,7 +3085,7 @@ module.exports = AttachmentsBrowser;
 /**
  * wp.media.view.AudioDetails
  *
- * @constructor
+ * @class
  * @augments wp.media.view.MediaDetails
  * @augments wp.media.view.Settings.AttachmentDisplay
  * @augments wp.media.view.Settings
@@ -3433,7 +3433,7 @@ module.exports = Frame;
 /**
  * wp.media.view.MediaFrame.AudioDetails
  *
- * @constructor
+ * @class
  * @augments wp.media.view.MediaFrame.MediaDetails
  * @augments wp.media.view.MediaFrame.Select
  * @augments wp.media.view.MediaFrame
@@ -3510,7 +3510,7 @@ module.exports = AudioDetails;
 /**
  * wp.media.view.MediaFrame.MediaDetails
  *
- * @constructor
+ * @class
  * @augments wp.media.view.MediaFrame.Select
  * @augments wp.media.view.MediaFrame
  * @augments wp.media.view.Frame
@@ -3816,7 +3816,7 @@ module.exports = Select;
 /**
  * wp.media.view.MediaFrame.VideoDetails
  *
- * @constructor
+ * @class
  * @augments wp.media.view.MediaFrame.MediaDetails
  * @augments wp.media.view.MediaFrame.Select
  * @augments wp.media.view.MediaFrame
@@ -4009,7 +4009,7 @@ module.exports = Label;
 /**
  * wp.media.view.MediaDetails
  *
- * @constructor
+ * @class
  * @augments wp.media.view.Settings.AttachmentDisplay
  * @augments wp.media.view.Settings
  * @augments wp.media.View
@@ -5954,7 +5954,7 @@ module.exports = UploaderWindow;
 /**
  * wp.media.view.VideoDetails
  *
- * @constructor
+ * @class
  * @augments wp.media.view.MediaDetails
  * @augments wp.media.view.Settings.AttachmentDisplay
  * @augments wp.media.view.Settings

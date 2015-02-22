@@ -1,7 +1,7 @@
 /**
  * The controller for the Video Details state
  *
- * @constructor
+ * @class
  * @augments wp.media.controller.State
  * @augments Backbone.Model
  */
