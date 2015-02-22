@@ -766,18 +766,10 @@ p.customize-section-description {
 .customize-control-header .placeholder:hover .dice,
 .customize-control-header .header-view:hover > button.random .dice {
 	-webkit-animation: dice-color-change 3s infinite;
-	-ms-animation: dice-color-change 3s infinite;
 	animation: dice-color-change 3s infinite;
 }
 
 @-webkit-keyframes dice-color-change {
-	0% { color: #d4b146; }
-	50% { color: #ef54b0; }
-	75% { color: #7190d3; }
-	100% { color: #d4b146; }
-}
-
-@-ms-keyframes dice-color-change {
 	0% { color: #d4b146; }
 	50% { color: #ef54b0; }
 	75% { color: #7190d3; }
