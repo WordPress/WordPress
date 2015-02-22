@@ -15,11 +15,6 @@ EditImage = View.extend({
 		return this.model.toJSON();
 	},
 
-	render: function() {
-		View.prototype.render.apply( this, arguments );
-		return this;
-	},
-
 	loadEditor: function() {
 		var dfd = this.editor.open( this.model.get('id'), this.model.get('nonces').edit, this );
 		dfd.done( _.bind( this.focus, this ) );

@@ -1,5 +1,7 @@
+/*globals wp */
+
 var View = require( './view.js' ),
-	EditImage = require( './edit-image.js' ),
+	EditImage = wp.media.view.EditImage,
 	Details;
 
 Details = EditImage.extend({
