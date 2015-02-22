@@ -126,7 +126,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 <hr />
 
 <div class="changelog feature-list">
-	<h2><?php _e( 'Under the Hood' ); ?></h3>
+	<h2><?php _e( 'Under the Hood' ); ?></h2>
 
 	<div class="feature-section col two-col">
 		<div>
