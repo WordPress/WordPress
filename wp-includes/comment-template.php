@@ -420,15 +420,21 @@ function get_comment_class( $class = '', $comment_id = null, $post_id = null ) {
 	// Get the comment type (comment, trackback),
 	$classes[] = ( empty( $comment->comment_type ) ) ? 'comment' : $comment->comment_type;
 
-	// If the comment author has an id (registered), then print the log in name
-	if ( $comment->user_id > 0 && $user = get_userdata($comment->user_id) ) {
-		// For all registered users, 'byuser'
+	// Add classes for comment authors that are registered users.
+	if ( $comment->user_id > 0 && $user = get_userdata( $comment->user_id ) ) {
 		$classes[] = 'byuser';
-		$classes[] = 'comment-author-' . sanitize_html_class($user->user_nicename, $comment->user_id);
+		$classes[] = 'comment-author-' . sanitize_html_class( $user->user_nicename, $comment->user_id );
+
+		// If a comment author is also a member of the site (multisite).
+		if ( is_user_member_of_blog( $comment->user_id ) ) {
+			$classes[] = 'comment-author-is-site-member';
+		}
+
 		// For comment authors who are the author of the post
 		if ( $post = get_post($post_id) ) {
-			if ( $comment->user_id === $post->post_author )
+			if ( $comment->user_id === $post->post_author ) {
 				$classes[] = 'bypostauthor';
+			}
 		}
 	}
 
