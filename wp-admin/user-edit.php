@@ -146,32 +146,21 @@ if ( IS_PROFILE_PAGE ) {
 	do_action( 'edit_user_profile_update', $user_id );
 }
 
-if ( !is_multisite() ) {
-	$errors = edit_user($user_id);
-} else {
+// Update the email address in signups, if present.
+if ( is_multisite() ) {
 	$user = get_userdata( $user_id );
 
-	// Update the email address in signups, if present.
-	if ( $user->user_login && isset( $_POST[ 'email' ] ) && is_email( $_POST[ 'email' ] ) && $wpdb->get_var( $wpdb->prepare( "SELECT user_login FROM {$wpdb->signups} WHERE user_login = %s", $user->user_login ) ) )
+	if ( $user->user_login && isset( $_POST[ 'email' ] ) && is_email( $_POST[ 'email' ] ) && $wpdb->get_var( $wpdb->prepare( "SELECT user_login FROM {$wpdb->signups} WHERE user_login = %s", $user->user_login ) ) ) {
 		$wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->signups} SET user_email = %s WHERE user_login = %s", $_POST[ 'email' ], $user_login ) );
-
-	// We must delete the user from the current blog if WP added them after editing.
-	$delete_role = false;
-	$blog_prefix = $wpdb->get_blog_prefix();
-	if ( $user_id != $current_user->ID ) {
-		$cap = $wpdb->get_var( "SELECT meta_value FROM {$wpdb->usermeta} WHERE user_id = '{$user_id}' AND meta_key = '{$blog_prefix}capabilities' AND meta_value = 'a:0:{}'" );
-		if ( !is_network_admin() && null == $cap && $_POST[ 'role' ] == '' ) {
-			$_POST[ 'role' ] = 'contributor';
-			$delete_role = true;
-		}
 	}
-	if ( !isset( $errors ) || ( isset( $errors ) && is_object( $errors ) && false == $errors->get_error_codes() ) )
-		$errors = edit_user($user_id);
-	if ( $delete_role ) // stops users being added to current blog when they are edited
-		delete_user_meta( $user_id, $blog_prefix . 'capabilities' );
+}
 
-	if ( is_multisite() && is_network_admin() && !IS_PROFILE_PAGE && current_user_can( 'manage_network_options' ) && !isset($super_admins) && empty( $_POST['super_admin'] ) == is_super_admin( $user_id ) )
-		empty( $_POST['super_admin'] ) ? revoke_super_admin( $user_id ) : grant_super_admin( $user_id );
+// Update the user.
+$errors = edit_user( $user_id );
+
+// Grant or revoke super admin status if requested.
+if ( is_multisite() && is_network_admin() && !IS_PROFILE_PAGE && current_user_can( 'manage_network_options' ) && !isset($super_admins) && empty( $_POST['super_admin'] ) == is_super_admin( $user_id ) ) {
+	empty( $_POST['super_admin'] ) ? revoke_super_admin( $user_id ) : grant_super_admin( $user_id );
 }
 
 if ( !is_wp_error( $errors ) ) {
