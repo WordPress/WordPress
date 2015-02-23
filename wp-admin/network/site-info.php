@@ -124,35 +124,37 @@ if ( ! empty( $messages ) ) {
 	<input type="hidden" name="id" value="<?php echo esc_attr( $id ) ?>" />
 	<table class="form-table">
 		<tr class="form-field form-required">
-			<th scope="row"><?php _e( 'Domain' ) ?></th>
 			<?php if ( $is_main_site ) { ?>
+				<th scope="row"><?php _e( 'Domain' ) ?></th>
 				<td><code><?php echo $parsed['scheme'] . '://' . esc_attr( $details->domain ) ?></code></td>
 			<?php } else { ?>
+				<th scope="row"><label for="domain"><?php _e( 'Domain' ) ?></label></th>
 				<td><?php echo $parsed['scheme'] . '://'; ?><input name="blog[domain]" type="text" id="domain" value="<?php echo esc_attr( $details->domain ) ?>" /></td>
 			<?php } ?>
 		</tr>
 		<tr class="form-field form-required">
-			<th scope="row"><?php _e( 'Path' ) ?></th>
 			<?php if ( $is_main_site ) { ?>
+			<th scope="row"><?php _e( 'Path' ) ?></th>
 			<td><code><?php echo esc_attr( $details->path ) ?></code></td>
 			<?php
 			} else {
 				switch_to_blog( $id );
 			?>
+			<th scope="row"><label for="path"><?php _e( 'Path' ) ?></label></th>
 			<td>
 				<input name="blog[path]" type="text" id="path" value="<?php echo esc_attr( $details->path ) ?>" /><br />
-				<label><input type="checkbox" name="update_home_url" value="update" <?php if ( get_option( 'siteurl' ) == untrailingslashit( get_blogaddress_by_id ($id ) ) || get_option( 'home' ) == untrailingslashit( get_blogaddress_by_id( $id ) ) ) echo 'checked="checked"'; ?> /> <?php _e( 'Update <code>siteurl</code> and <code>home</code> as well.' ); ?></label>
+				<input type="checkbox" name="update_home_url" id="update_home_url" value="update" <?php if ( get_option( 'siteurl' ) == untrailingslashit( get_blogaddress_by_id ($id ) ) || get_option( 'home' ) == untrailingslashit( get_blogaddress_by_id( $id ) ) ) echo 'checked="checked"'; ?> /> <label for="update_home_url"><?php _e( 'Update <code>siteurl</code> and <code>home</code> as well.' ); ?></label>
 			</td>
 			<?php
 				restore_current_blog();
 			} ?>
 		</tr>
 		<tr class="form-field">
-			<th scope="row"><?php _ex( 'Registered', 'site' ) ?></th>
+			<th scope="row"><label for="blog_registered"><?php _ex( 'Registered', 'site' ) ?></label></th>
 			<td><input name="blog[registered]" type="text" id="blog_registered" value="<?php echo esc_attr( $details->registered ) ?>" /></td>
 		</tr>
 		<tr class="form-field">
-			<th scope="row"><?php _e( 'Last Updated' ); ?></th>
+			<th scope="row"><label for="blog_last_updated"><?php _e( 'Last Updated' ); ?></label></th>
 			<td><input name="blog[last_updated]" type="text" id="blog_last_updated" value="<?php echo esc_attr( $details->last_updated ) ?>" /></td>
 		</tr>
 		<?php
@@ -167,10 +169,13 @@ if ( ! empty( $messages ) ) {
 		<tr>
 			<th scope="row"><?php _e( 'Attributes' ); ?></th>
 			<td>
+			<fieldset>
+			<legend class="screen-reader-text"><?php _e( 'Set site attributes' ) ?></legend>
 			<?php foreach ( $attribute_fields as $field_key => $field_label ) : ?>
 				<label><input type="checkbox" name="blog[<?php echo $field_key; ?>]" value="1" <?php checked( (bool) $details->$field_key, true ); disabled( ! in_array( $details->$field_key, array( 0, 1 ) ) ); ?> />
 				<?php echo $field_label; ?></label><br/>
 			<?php endforeach; ?>
+			<fieldset>
 			</td>
 		</tr>
 	</table>

@@ -127,24 +127,24 @@ if ( ! empty( $messages ) ) {
 <?php wp_nonce_field( 'add-blog', '_wpnonce_add-blog' ) ?>
 	<table class="form-table">
 		<tr class="form-field form-required">
-			<th scope="row"><?php _e( 'Site Address' ) ?></th>
+			<th scope="row"><label for="site-address"><?php _e( 'Site Address' ) ?></label></th>
 			<td>
 			<?php if ( is_subdomain_install() ) { ?>
-				<input name="blog[domain]" type="text" class="regular-text" id="site-address" title="<?php esc_attr_e( 'Domain' ) ?>"/><span class="no-break">.<?php echo preg_replace( '|^www\.|', '', $current_site->domain ); ?></span>
+				<input name="blog[domain]" type="text" class="regular-text" id="site-address" aria-describedby="site-address-desc" /><span class="no-break">.<?php echo preg_replace( '|^www\.|', '', $current_site->domain ); ?></span>
 			<?php } else {
-				echo $current_site->domain . $current_site->path ?><input name="blog[domain]" class="regular-text" id="site-address" type="text" title="<?php esc_attr_e( 'Domain' ) ?>"/>
+				echo $current_site->domain . $current_site->path ?><input name="blog[domain]" type="text" class="regular-text" id="site-address" aria-describedby="site-address-desc" />
 			<?php }
-			echo '<p>' . __( 'Only lowercase letters (a-z) and numbers are allowed.' ) . '</p>';
+			echo '<p id="site-address-desc">' . __( 'Only lowercase letters (a-z) and numbers are allowed.' ) . '</p>';
 			?>
 			</td>
 		</tr>
 		<tr class="form-field form-required">
-			<th scope="row"><?php _e( 'Site Title' ) ?></th>
-			<td><input name="blog[title]" type="text" class="regular-text" id="site-title" title="<?php esc_attr_e( 'Title' ) ?>"/></td>
+			<th scope="row"><label for="site-title"><?php _e( 'Site Title' ) ?></label></th>
+			<td><input name="blog[title]" type="text" class="regular-text" id="site-title" /></td>
 		</tr>
 		<tr class="form-field form-required">
-			<th scope="row"><?php _e( 'Admin Email' ) ?></th>
-			<td><input name="blog[email]" type="email" class="regular-text wp-suggest-user" id="admin-email" data-autocomplete-type="search" data-autocomplete-field="user_email" title="<?php esc_attr_e( 'Email' ) ?>"/></td>
+			<th scope="row"><label for="admin-email"><?php _e( 'Admin Email' ) ?></label></td>
+			<td><input name="blog[email]" type="email" class="regular-text wp-suggest-user" id="admin-email" data-autocomplete-type="search" data-autocomplete-field="user_email" /></td>
 		</tr>
 		<tr class="form-field">
 			<td colspan="2"><?php _e( 'A new user will be created if the above email address is not in the database.' ) ?><br /><?php _e( 'The username and password will be mailed to this email address.' ) ?></td>

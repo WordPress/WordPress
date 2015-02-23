@@ -134,8 +134,8 @@ if ( isset( $_GET['updated'] ) ) {
 			<tr>
 				<th scope="row"><label for="admin_email"><?php _e( 'Network Admin Email' ) ?></label></th>
 				<td>
-					<input name="admin_email" type="email" id="admin_email" class="regular-text" value="<?php echo esc_attr( get_site_option( 'admin_email' ) ) ?>" />
-					<p class="description">
+					<input name="admin_email" type="email" id="admin_email" aria-describedby="admin-email-desc" class="regular-text" value="<?php echo esc_attr( get_site_option( 'admin_email' ) ) ?>" />
+					<p class="description" id="admin-email-desc">
 						<?php _e( 'This email address will receive notifications. Registration and support emails will also come from this address.' ); ?>
 					</p>
 				</td>
@@ -151,15 +151,16 @@ if ( isset( $_GET['updated'] ) ) {
 				$reg = get_site_option( 'registration' );
 				?>
 				<td>
+					<fieldset>
+					<legend class="screen-reader-text"><?php _e( 'New registrations settings' ) ?></legend>
 					<label><input name="registration" type="radio" id="registration1" value="none"<?php checked( $reg, 'none') ?> /> <?php _e( 'Registration is disabled.' ); ?></label><br />
 					<label><input name="registration" type="radio" id="registration2" value="user"<?php checked( $reg, 'user') ?> /> <?php _e( 'User accounts may be registered.' ); ?></label><br />
 					<label><input name="registration" type="radio" id="registration3" value="blog"<?php checked( $reg, 'blog') ?> /> <?php _e( 'Logged in users may register new sites.' ); ?></label><br />
 					<label><input name="registration" type="radio" id="registration4" value="all"<?php checked( $reg, 'all') ?> /> <?php _e( 'Both sites and user accounts can be registered.' ); ?></label>
-					<p class="description">
-						<?php if ( is_subdomain_install() )
-						_e( 'If registration is disabled, please set <code>NOBLOGREDIRECT</code> in <code>wp-config.php</code> to a URL you will redirect visitors to if they visit a non-existent site.' );
-					?>
-					</p>
+					<?php if ( is_subdomain_install() ) {
+						echo '<p class="description">' . __( 'If registration is disabled, please set <code>NOBLOGREDIRECT</code> in <code>wp-config.php</code> to a URL you will redirect visitors to if they visit a non-existent site.' ) . '</p>';
+					} ?>
+					</fieldset>
 				</td>
 			</tr>
 
@@ -184,8 +185,8 @@ if ( isset( $_GET['updated'] ) ) {
 			<tr>
 				<th scope="row"><label for="illegal_names"><?php _e( 'Banned Names' ) ?></label></th>
 				<td>
-					<input name="illegal_names" type="text" id="illegal_names" class="large-text" value="<?php echo esc_attr( implode( " ", (array) get_site_option( 'illegal_names' ) ) ); ?>" size="45" />
-					<p class="description">
+					<input name="illegal_names" type="text" id="illegal_names" aria-describedby="illegal-names-desc" class="large-text" value="<?php echo esc_attr( implode( " ", (array) get_site_option( 'illegal_names' ) ) ); ?>" size="45" />
+					<p class="description" id="illegal-names-desc">
 						<?php _e( 'Users are not allowed to register these sites. Separate names by spaces.' ) ?>
 					</p>
 				</td>
@@ -196,9 +197,9 @@ if ( isset( $_GET['updated'] ) ) {
 				<td>
 					<?php $limited_email_domains = get_site_option( 'limited_email_domains' );
 					$limited_email_domains = str_replace( ' ', "\n", $limited_email_domains ); ?>
-					<textarea name="limited_email_domains" id="limited_email_domains" cols="45" rows="5">
+					<textarea name="limited_email_domains" id="limited_email_domains" aria-describedby="limited-email-domains-desc" cols="45" rows="5">
 <?php echo esc_textarea( $limited_email_domains == '' ? '' : implode( "\n", (array) $limited_email_domains ) ); ?></textarea>
-					<p class="description">
+					<p class="description" id="limited-email-domains-desc">
 						<?php _e( 'If you want to limit site registrations to certain domains. One domain per line.' ) ?>
 					</p>
 				</td>
@@ -207,9 +208,9 @@ if ( isset( $_GET['updated'] ) ) {
 			<tr>
 				<th scope="row"><label for="banned_email_domains"><?php _e('Banned Email Domains') ?></label></th>
 				<td>
-					<textarea name="banned_email_domains" id="banned_email_domains" cols="45" rows="5">
+					<textarea name="banned_email_domains" id="banned_email_domains" aria-describedby="banned-email-domains-desc" cols="45" rows="5">
 <?php echo esc_textarea( get_site_option( 'banned_email_domains' ) == '' ? '' : implode( "\n", (array) get_site_option( 'banned_email_domains' ) ) ); ?></textarea>
-					<p class="description">
+					<p class="description" id="banned-email-domains-desc">
 						<?php _e( 'If you want to ban domains from site registrations. One domain per line.' ) ?>
 					</p>
 				</td>
@@ -222,9 +223,9 @@ if ( isset( $_GET['updated'] ) ) {
 			<tr>
 				<th scope="row"><label for="welcome_email"><?php _e( 'Welcome Email' ) ?></label></th>
 				<td>
-					<textarea name="welcome_email" id="welcome_email" rows="5" cols="45" class="large-text">
+					<textarea name="welcome_email" id="welcome_email" aria-describedby="welcome-email-desc" rows="5" cols="45" class="large-text">
 <?php echo esc_textarea( get_site_option( 'welcome_email' ) ) ?></textarea>
-					<p class="description">
+					<p class="description" id="welcome-email-desc">
 						<?php _e( 'The welcome email sent to new site owners.' ) ?>
 					</p>
 				</td>
@@ -232,9 +233,9 @@ if ( isset( $_GET['updated'] ) ) {
 			<tr>
 				<th scope="row"><label for="welcome_user_email"><?php _e( 'Welcome User Email' ) ?></label></th>
 				<td>
-					<textarea name="welcome_user_email" id="welcome_user_email" rows="5" cols="45" class="large-text">
+					<textarea name="welcome_user_email" id="welcome_user_email" aria-describedby="welcome-user-email-desc" rows="5" cols="45" class="large-text">
 <?php echo esc_textarea( get_site_option( 'welcome_user_email' ) ) ?></textarea>
-					<p class="description">
+					<p class="description" id="welcome-user-email-desc">
 						<?php _e( 'The welcome email sent to new users.' ) ?>
 					</p>
 				</td>
@@ -242,9 +243,9 @@ if ( isset( $_GET['updated'] ) ) {
 			<tr>
 				<th scope="row"><label for="first_post"><?php _e( 'First Post' ) ?></label></th>
 				<td>
-					<textarea name="first_post" id="first_post" rows="5" cols="45" class="large-text">
+					<textarea name="first_post" id="first_post" aria-describedby="first-post-desc" rows="5" cols="45" class="large-text">
 <?php echo esc_textarea( get_site_option( 'first_post' ) ) ?></textarea>
-					<p class="description">
+					<p class="description" id="first-post-desc">
 						<?php _e( 'The first post on a new site.' ) ?>
 					</p>
 				</td>
@@ -252,9 +253,9 @@ if ( isset( $_GET['updated'] ) ) {
 			<tr>
 				<th scope="row"><label for="first_page"><?php _e( 'First Page' ) ?></label></th>
 				<td>
-					<textarea name="first_page" id="first_page" rows="5" cols="45" class="large-text">
+					<textarea name="first_page" id="first_page" aria-describedby="first-page-desc" rows="5" cols="45" class="large-text">
 <?php echo esc_textarea( get_site_option( 'first_page' ) ) ?></textarea>
-					<p class="description">
+					<p class="description" id="first-page-desc">
 						<?php _e( 'The first page on a new site.' ) ?>
 					</p>
 				</td>
@@ -262,9 +263,9 @@ if ( isset( $_GET['updated'] ) ) {
 			<tr>
 				<th scope="row"><label for="first_comment"><?php _e( 'First Comment' ) ?></label></th>
 				<td>
-					<textarea name="first_comment" id="first_comment" rows="5" cols="45" class="large-text">
+					<textarea name="first_comment" id="first_comment" aria-describedby="first-comment-desc" rows="5" cols="45" class="large-text">
 <?php echo esc_textarea( get_site_option( 'first_comment' ) ) ?></textarea>
-					<p class="description">
+					<p class="description" id="first-comment-desc">
 						<?php _e( 'The first comment on a new site.' ) ?>
 					</p>
 				</td>
@@ -272,8 +273,8 @@ if ( isset( $_GET['updated'] ) ) {
 			<tr>
 				<th scope="row"><label for="first_comment_author"><?php _e( 'First Comment Author' ) ?></label></th>
 				<td>
-					<input type="text" size="40" name="first_comment_author" id="first_comment_author" value="<?php echo get_site_option('first_comment_author') ?>" />
-					<p class="description">
+					<input type="text" size="40" name="first_comment_author" id="first_comment_author" aria-describedby="first-comment-author-desc" value="<?php echo get_site_option('first_comment_author') ?>" />
+					<p class="description" id="first-comment-author-desc">
 						<?php _e( 'The author of the first comment on a new site.' ) ?>
 					</p>
 				</td>
@@ -281,8 +282,8 @@ if ( isset( $_GET['updated'] ) ) {
 			<tr>
 				<th scope="row"><label for="first_comment_url"><?php _e( 'First Comment URL' ) ?></label></th>
 				<td>
-					<input type="text" size="40" name="first_comment_url" id="first_comment_url" value="<?php echo esc_attr( get_site_option( 'first_comment_url' ) ) ?>" />
-					<p class="description">
+					<input type="text" size="40" name="first_comment_url" id="first_comment_url" aria-describedby="first-comment-url-desc" value="<?php echo esc_attr( get_site_option( 'first_comment_url' ) ) ?>" />
+					<p class="description" id="first-comment-url-desc">
 						<?php _e( 'The URL for the first comment on a new site.' ) ?>
 					</p>
 				</td>
@@ -293,18 +294,31 @@ if ( isset( $_GET['updated'] ) ) {
 			<tr>
 				<th scope="row"><?php _e( 'Site upload space' ) ?></th>
 				<td>
-				<label><input type="checkbox" id="upload_space_check_disabled" name="upload_space_check_disabled" value="0"<?php checked( get_site_option( 'upload_space_check_disabled' ), 0 ) ?>/> <?php printf( __( 'Limit total size of files uploaded to %s MB' ), '</label><label><input name="blog_upload_space" type="number" min="0" style="width: 100px" id="blog_upload_space" value="' . esc_attr( get_site_option('blog_upload_space', 100) ) . '" />' ); ?></label><br />
+					<label><input type="checkbox" id="upload_space_check_disabled" name="upload_space_check_disabled" value="0"<?php checked( get_site_option( 'upload_space_check_disabled' ), 0 ) ?>/> <?php printf( __( 'Limit total size of files uploaded to %s MB' ), '</label><label><input name="blog_upload_space" type="number" min="0" style="width: 100px" id="blog_upload_space" aria-describedby="blog-upload-space-desc" value="' . esc_attr( get_site_option('blog_upload_space', 100) ) . '" />' ); ?></label><br />
+					<p class="screen-reader-text" id="blog-upload-space-desc">
+						<?php _e( 'Size in megabytes' ) ?>
+					</p>
 				</td>
 			</tr>
 
 			<tr>
 				<th scope="row"><label for="upload_filetypes"><?php _e( 'Upload file types' ) ?></label></th>
-				<td><input name="upload_filetypes" type="text" id="upload_filetypes" class="large-text" value="<?php echo esc_attr( get_site_option( 'upload_filetypes', 'jpg jpeg png gif' ) ) ?>" size="45" /></td>
+				<td>
+					<input name="upload_filetypes" type="text" id="upload_filetypes" aria-describedby="upload-filetypes-desc" class="large-text" value="<?php echo esc_attr( get_site_option( 'upload_filetypes', 'jpg jpeg png gif' ) ) ?>" size="45" />
+					<p class="description" id="upload-filetypes-desc">
+						<?php _e( 'Allowed file types. Separate types by spaces.' ) ?>
+					</p>
+				</td>
 			</tr>
 
 			<tr>
 				<th scope="row"><label for="fileupload_maxk"><?php _e( 'Max upload file size' ) ?></label></th>
-				<td><?php printf( _x( '%s KB', 'File size in kilobytes' ), '<input name="fileupload_maxk" type="number" min="0" style="width: 100px" id="fileupload_maxk" value="' . esc_attr( get_site_option( 'fileupload_maxk', 300 ) ) . '" />' ); ?></td>
+				<td>
+					<?php printf( _x( '%s KB', 'File size in kilobytes' ), '<input name="fileupload_maxk" type="number" min="0" style="width: 100px" id="fileupload_maxk" aria-describedby="fileupload-maxk-desc" value="' . esc_attr( get_site_option( 'fileupload_maxk', 300 ) ) . '" />' ); ?>
+					<p class="screen-reader-text" id="fileupload-maxk-desc">
+						<?php _e( 'Size in kilobytes' ) ?>
+					</p>
+				</td>
 			</tr>
 		</table>
 
@@ -363,9 +377,15 @@ if ( isset( $_GET['updated'] ) ) {
 			 * @param array $admin_menus The menu items available.
 			 */
 			$menu_items = apply_filters( 'mu_menu_items', array( 'plugins' => __( 'Plugins' ) ) );
+			$fieldset_end = '';
+			if ( count( (array) $menu_items ) > 1 ) {
+				echo '<fieldset><legend class="screen-reader-text">' . __( 'Enable menus' ) . '</legend>';
+				$fieldset_end = '</fieldset>';
+			}
 			foreach ( (array) $menu_items as $key => $val ) {
 				echo "<label><input type='checkbox' name='menu_items[" . $key . "]' value='1'" . ( isset( $menu_perms[$key] ) ? checked( $menu_perms[$key], '1', false ) : '' ) . " /> " . esc_html( $val ) . "</label><br/>";
 			}
+			echo $fieldset_end;
 			?>
 				</td>
 			</tr>

@@ -262,12 +262,12 @@ if ( current_user_can( 'promote_users' ) && apply_filters( 'show_network_site_us
 	<input type="hidden" name="id" value="<?php echo esc_attr( $id ) ?>" />
 	<table class="form-table">
 		<tr>
-			<th scope="row"><?php _e( 'Username' ); ?></th>
+			<th scope="row"><label for="newuser"><?php _e( 'Username' ); ?></label></th>
 			<td><input type="text" class="regular-text wp-suggest-user" name="newuser" id="newuser" /></td>
 		</tr>
 		<tr>
-			<th scope="row"><?php _e( 'Role' ); ?></th>
-			<td><select name="new_role" id="new_role_0">
+			<th scope="row"><label for="new_role_adduser"><?php _e( 'Role' ); ?></label></th>
+			<td><select name="new_role" id="new_role_adduser">
 			<?php wp_dropdown_roles( get_option( 'default_role' ) ); ?>
 			</select></td>
 		</tr>
@@ -291,16 +291,16 @@ if ( current_user_can( 'create_users' ) && apply_filters( 'show_network_site_use
 	<input type="hidden" name="id" value="<?php echo esc_attr( $id ) ?>" />
 	<table class="form-table">
 		<tr>
-			<th scope="row"><?php _e( 'Username' ) ?></th>
-			<td><input type="text" class="regular-text" name="user[username]" /></td>
+			<th scope="row"><label for="user_username"><?php _e( 'Username' ) ?></label></th>
+			<td><input type="text" class="regular-text" name="user[username]" id="user_username" /></td>
 		</tr>
 		<tr>
-			<th scope="row"><?php _e( 'Email' ) ?></th>
-			<td><input type="text" class="regular-text" name="user[email]" /></td>
+			<th scope="row"><label for="user_email"><?php _e( 'Email' ) ?></label></th>
+			<td><input type="text" class="regular-text" name="user[email]" id="user_email" /></td>
 		</tr>
 		<tr>
-			<th scope="row"><?php _e( 'Role' ); ?></th>
-			<td><select name="new_role" id="new_role_0">
+			<th scope="row"><label for="new_role_newuser"><?php _e( 'Role' ); ?></label></th>
+			<td><select name="new_role" id="new_role_newuser">
 			<?php wp_dropdown_roles( get_option( 'default_role' ) ); ?>
 			</select></td>
 		</tr>

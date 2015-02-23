@@ -385,7 +385,7 @@ class WP_Users_List_Table extends WP_List_Table {
 			$edit .= $this->row_actions( $actions );
 
 			// Set up the checkbox ( because the user is editable, otherwise it's empty )
-			$checkbox = '<label class="screen-reader-text" for="cb-select-' . $user_object->ID . '">' . sprintf( __( 'Select %s' ), $user_object->user_login ) . '</label>'
+			$checkbox = '<label class="screen-reader-text" for="user_' . $user_object->ID . '">' . sprintf( __( 'Select %s' ), $user_object->user_login ) . '</label>'
 						. "<input type='checkbox' name='users[]' id='user_{$user_object->ID}' class='$role' value='{$user_object->ID}' />";
 
 		} else {

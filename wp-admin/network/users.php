@@ -51,7 +51,8 @@ function confirm_delete_users( $users ) {
 					$blog_users = get_users( array( 'blog_id' => $details->userblog_id, 'fields' => array( 'ID', 'user_login' ) ) );
 					if ( is_array( $blog_users ) && !empty( $blog_users ) ) {
 						$user_site = "<a href='" . esc_url( get_home_url( $details->userblog_id ) ) . "'>{$details->blogname}</a>";
-						$user_dropdown = "<select name='blog[$user_id][$key]'>";
+						$user_dropdown = '<label for="reassign_user" class="screen-reader-text">' . __( 'Select a user' ) . '</label>';
+						$user_dropdown .= "<select name='blog[$user_id][$key]' id='reassign_user'>";
 						$user_list = '';
 						foreach ( $blog_users as $user ) {
 							if ( ! in_array( $user->ID, $allusers ) )
@@ -67,7 +68,7 @@ function confirm_delete_users( $users ) {
 							<li><label><input type="radio" id="delete_option0" name="delete[<?php echo $details->userblog_id . '][' . $delete_user->ID ?>]" value="delete" checked="checked" />
 							<?php _e( 'Delete all content.' ); ?></label></li>
 							<li><label><input type="radio" id="delete_option1" name="delete[<?php echo $details->userblog_id . '][' . $delete_user->ID ?>]" value="reassign" />
-							<?php echo __( 'Attribute all content to:' ) . '</label>' . $user_dropdown; ?></li>
+							<?php echo __( 'Attribute all content to:' ) . "</label>\n" . $user_dropdown; ?></li>
 						</ul>
 						<?php
 					}

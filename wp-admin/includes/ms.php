@@ -476,8 +476,11 @@ function upload_space_setting( $id ) {
 
 	?>
 	<tr>
-		<th><?php _e( 'Site Upload Space Quota '); ?></th>
-		<td><input type="number" step="1" min="0" style="width: 100px" name="option[blog_upload_space]" value="<?php echo $quota; ?>" /> <?php _e( 'MB (Leave blank for network default)' ); ?></td>
+		<th><label for="blog-upload-space-number"><?php _e( 'Site Upload Space Quota' ); ?></label></th>
+		<td>
+			<input type="number" step="1" min="0" style="width: 100px" name="option[blog_upload_space]" id="blog-upload-space-number" aria-describedby="blog-upload-space-desc" value="<?php echo $quota; ?>" />
+			<span id="blog-upload-space-desc"><span class="screen-reader-text"><?php _e( 'Size in megabytes' ); ?></span> <?php _e( 'MB (Leave blank for network default)' ); ?></span>
+		</td>
 	</tr>
 	<?php
 }
@@ -784,7 +787,7 @@ function choose_primary_blog() {
 	<table class="form-table">
 	<tr>
 	<?php /* translators: My sites label */ ?>
-		<th scope="row"><?php _e( 'Primary Site' ); ?></th>
+		<th scope="row"><label for="primary_blog"><?php _e( 'Primary Site' ); ?></label></th>
 		<td>
 		<?php
 		$all_blogs = get_blogs_of_user( get_current_user_id() );
@@ -792,7 +795,7 @@ function choose_primary_blog() {
 		if ( count( $all_blogs ) > 1 ) {
 			$found = false;
 			?>
-			<select name="primary_blog">
+			<select name="primary_blog" id="primary_blog">
 				<?php foreach( (array) $all_blogs as $blog ) {
 					if ( $primary_blog == $blog->userblog_id )
 						$found = true;
