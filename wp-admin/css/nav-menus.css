@@ -675,7 +675,6 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
 
 .description-thin {
 	width: 190px;
-	height: 40px;
 }
 
 .description-wide {
@@ -829,7 +828,6 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
 	.menu-item-settings .description-thin,
 	.menu-item-settings .description-wide {
 		width: 100%;
-		height: auto;
 	}
 
 	.menu-item-settings input {
