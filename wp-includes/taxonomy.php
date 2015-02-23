@@ -4062,11 +4062,11 @@ function _update_post_term_count( $terms, $taxonomy ) {
 			$count += (int) $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM $wpdb->term_relationships, $wpdb->posts WHERE $wpdb->posts.ID = $wpdb->term_relationships.object_id AND post_status = 'publish' AND post_type IN ('" . implode("', '", $object_types ) . "') AND term_taxonomy_id = %d", $term ) );
 
 		/** This action is documented in wp-includes/taxonomy.php */
-		do_action( 'edit_term_taxonomy', $term, $taxonomy );
+		do_action( 'edit_term_taxonomy', $term, $taxonomy->name );
 		$wpdb->update( $wpdb->term_taxonomy, compact( 'count' ), array( 'term_taxonomy_id' => $term ) );
 
 		/** This action is documented in wp-includes/taxonomy.php */
-		do_action( 'edited_term_taxonomy', $term, $taxonomy );
+		do_action( 'edited_term_taxonomy', $term, $taxonomy->name );
 	}
 }
 
@@ -4089,11 +4089,11 @@ function _update_generic_term_count( $terms, $taxonomy ) {
 		$count = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM $wpdb->term_relationships WHERE term_taxonomy_id = %d", $term ) );
 
 		/** This action is documented in wp-includes/taxonomy.php */
-		do_action( 'edit_term_taxonomy', $term, $taxonomy );
+		do_action( 'edit_term_taxonomy', $term, $taxonomy->name );
 		$wpdb->update( $wpdb->term_taxonomy, compact( 'count' ), array( 'term_taxonomy_id' => $term ) );
 
 		/** This action is documented in wp-includes/taxonomy.php */
-		do_action( 'edited_term_taxonomy', $term, $taxonomy );
+		do_action( 'edited_term_taxonomy', $term, $taxonomy->name );
 	}
 }
 
