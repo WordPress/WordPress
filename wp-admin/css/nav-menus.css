@@ -836,6 +836,11 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
 		width: 100%;
 	}
 
+	.menu-item-settings input[type="checkbox"],
+	.menu-item-settings input[type="radio"] {
+		width: 25px;
+	}
+
 	.menu-settings dl {
 		padding-left: 0;
 	}
