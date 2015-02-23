@@ -441,7 +441,7 @@ function wp_update_nav_menu_item( $menu_id = 0, $menu_item_db_id = 0, $menu_item
 	 *
 	 * @since 3.0.0
 	 *
-	 * @see wp_update_nav_menu_items()
+	 * @see wp_update_nav_menu_item()
 	 *
 	 * @param int   $menu_id         ID of the updated menu.
 	 * @param int   $menu_item_db_id ID of the updated menu item.
