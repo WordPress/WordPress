@@ -285,8 +285,10 @@ class WP_Widget_Archives extends WP_Widget {
 		}
 
 		if ( $d ) {
+			$dropdown_id = "{$this->id_base}-dropdown-{$this->number}";
 ?>
-		<select name="archive-dropdown" onchange='document.location.href=this.options[this.selectedIndex].value;'>
+		<label class="screen-reader-text" for="<?php echo esc_attr( $dropdown_id ); ?>"><?php echo $title; ?></label>
+		<select id="<?php echo esc_attr( $dropdown_id ); ?>" name="archive-dropdown" onchange='document.location.href=this.options[this.selectedIndex].value;'>
 			<?php
 			/**
 			 * Filter the arguments for the Archives widget drop-down.
@@ -576,10 +578,22 @@ class WP_Widget_Categories extends WP_Widget {
 			echo $args['before_title'] . $title . $args['after_title'];
 		}
 
-		$cat_args = array('orderby' => 'name', 'show_count' => $c, 'hierarchical' => $h);
+		$cat_args = array(
+			'orderby'      => 'name',
+			'show_count'   => $c,
+			'hierarchical' => $h
+		);
 
 		if ( $d ) {
-			$cat_args['show_option_none'] = __('Select Category');
+			static $first_dropdown = true;
+
+			$dropdown_id = ( $first_dropdown ) ? 'cat' : "{$this->id_base}-dropdown-{$this->number}";
+			$first_dropdown = false;
+
+			echo '<label class="screen-reader-text" for="' . esc_attr( $dropdown_id ) . '">' . $title . '</label>';
+
+			$cat_args['show_option_none'] = __( 'Select Category' );
+			$cat_args['id'] = $dropdown_id;
 
 			/**
 			 * Filter the arguments for the Categories widget drop-down.
@@ -595,13 +609,15 @@ class WP_Widget_Categories extends WP_Widget {
 
 <script type='text/javascript'>
 /* <![CDATA[ */
-	var dropdown = document.getElementById("cat");
+(function() {
+	var dropdown = document.getElementById( "<?php echo esc_js( $dropdown_id ); ?>" );
 	function onCatChange() {
-		if ( dropdown.options[dropdown.selectedIndex].value > 0 ) {
-			location.href = "<?php echo home_url(); ?>/?cat="+dropdown.options[dropdown.selectedIndex].value;
+		if ( dropdown.options[ dropdown.selectedIndex ].value > 0 ) {
+			location.href = "<?php echo home_url(); ?>/?cat=" + dropdown.options[ dropdown.selectedIndex ].value;
 		}
 	}
 	dropdown.onchange = onCatChange;
+})();
 /* ]]> */
 </script>
 
