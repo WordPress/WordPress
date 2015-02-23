@@ -1138,7 +1138,7 @@ body.show-upload-theme .upload-theme + .wp-filter + .theme-browser {
 
 p.no-themes {
 	clear: both;
-	color: #999;
+	color: #666;
 	font-size: 18px;
 	font-style: normal;
 	margin: 0;
