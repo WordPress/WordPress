@@ -7,8 +7,11 @@
  */
 
 /**
- * @param int $post_id
- * @param bool|object $msg
+ * Loads the WP image-editing interface.
+ *
+ * @param int         $post_id Post ID.
+ * @param bool|object $msg     Optional. Message to display for image editor updates or errors.
+ *                             Default false.
  */
 function wp_image_editor($post_id, $msg = false) {
 	$nonce = wp_create_nonce("image_editor-$post_id");
@@ -330,12 +333,31 @@ function wp_save_image_file( $filename, $image, $mime_type, $post_id ) {
 	}
 }
 
+/**
+ * Image preview ratio. Internal use only.
+ *
+ * @since 2.9.0
+ *
+ * @ignore
+ * @param int $w Image width in pixels.
+ * @param int $h Image height in pixels.
+ * @return float|int Image preview ratio.
+ */
 function _image_get_preview_ratio($w, $h) {
 	$max = max($w, $h);
 	return $max > 400 ? (400 / $max) : 1;
 }
 
-// @TODO: Returns GD resource, but is NOT public
+/**
+ * Returns an image resource. Internal use only.
+ *
+ * @since 2.9.0
+ *
+ * @ignore
+ * @param resource  $img   Image resource.
+ * @param float|int $angle Image rotation angle, in degrees.
+ * @return resource|false GD image resource, false otherwise.
+ */
 function _rotate_image_resource($img, $angle) {
 	_deprecated_function( __FUNCTION__, '3.5', __( 'Use WP_Image_Editor::rotate' ) );
 	if ( function_exists('imagerotate') ) {
@@ -349,14 +371,15 @@ function _rotate_image_resource($img, $angle) {
 }
 
 /**
- * @TODO: Only used within image_edit_apply_changes
- *		  and receives/returns GD Resource.
- *		  Consider removal.
+ * Flips an image resource. Internal use only.
  *
- * @param GD_Resource $img
- * @param boolean $horz
- * @param boolean $vert
- * @return GD_Resource
+ * @since 2.9.0
+ *
+ * @ignore
+ * @param resource $img  Image resource.
+ * @param bool     $horz Whether to flip horizontally.
+ * @param bool     $vert Whether to flip vertically.
+ * @return resource (maybe) flipped image resource.
  */
 function _flip_image_resource($img, $horz, $vert) {
 	_deprecated_function( __FUNCTION__, '3.5', __( 'Use WP_Image_Editor::flip' ) );
@@ -378,16 +401,17 @@ function _flip_image_resource($img, $horz, $vert) {
 }
 
 /**
- * @TODO: Only used within image_edit_apply_changes
- *		  and receives/returns GD Resource.
- *		  Consider removal.
+ * Crops an image resource. Internal use only.
  *
- * @param GD_Resource $img
- * @param float $x
- * @param float $y
- * @param float $w
- * @param float $h
- * @return GD_Resource
+ * @since 2.9.0
+ *
+ * @ignore
+ * @param resource $img Image resource.
+ * @param float    $x   Source point x-coordinate.
+ * @param float    $y   Source point y-cooredinate.
+ * @param float    $w   Source width.
+ * @param float    $h   Source height.
+ * @return resource (maybe) cropped image resource.
  */
 function _crop_image_resource($img, $x, $y, $w, $h) {
 	$dst = wp_imagecreatetruecolor($w, $h);
@@ -561,8 +585,12 @@ function stream_preview_image( $post_id ) {
 }
 
 /**
- * @param int $post_id
- * @return stdClass
+ * Restores the metadata for a given attachment.
+ *
+ * @since 2.9.0
+ *
+ * @param int $post_id Attachment post ID.
+ * @return stdClass Image restoration message object.
  */
 function wp_restore_image($post_id) {
 	$meta = wp_get_attachment_metadata($post_id);
