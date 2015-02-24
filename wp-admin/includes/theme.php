@@ -486,3 +486,58 @@ function wp_prepare_themes_for_js( $themes = null ) {
 	$prepared_themes = apply_filters( 'wp_prepare_themes_for_js', $prepared_themes );
 	return array_values( $prepared_themes );
 }
+
+/**
+ * Print JS templates for the theme-browsing UI in the Customizer.
+ *
+ * @since 4.2.0
+ */
+function customize_themes_print_templates() {
+	?>
+	<script type="text/html" id="tmpl-customize-themes-details-view">
+		<div class="theme-backdrop"></div>
+		<div class="theme-wrap">
+			<div class="theme-header">
+				<button type="button" class="left dashicons dashicons-no"><span class="screen-reader-text"><?php _e( 'Show previous theme' ); ?></span></button>
+				<button type="button" class="right dashicons dashicons-no"><span class="screen-reader-text"><?php _e( 'Show next theme' ); ?></span></button>
+				<button type="button" class="close dashicons dashicons-no"><span class="screen-reader-text"><?php _e( 'Close details dialog' ); ?></span></button>
+			</div>
+			<div class="theme-about">
+				<div class="theme-screenshots">
+				<# if ( data.screenshot[0] ) { #>
+					<div class="screenshot"><img src="{{ data.screenshot[0] }}" alt="" /></div>
+				<# } else { #>
+					<div class="screenshot blank"></div>
+				<# } #>
+				</div>
+
+				<div class="theme-info">
+					<# if ( data.active ) { #>
+						<span class="current-label"><?php _e( 'Current Theme' ); ?></span>
+					<# } #>
+					<h3 class="theme-name">{{{ data.name }}}<span class="theme-version"><?php printf( __( 'Version: %s' ), '{{ data.version }}' ); ?></span></h3>
+					<h4 class="theme-author"><?php printf( __( 'By %s' ), '{{{ data.authorAndUri }}}' ); ?></h4>
+					<p class="theme-description">{{{ data.description }}}</p>
+
+					<# if ( data.parent ) { #>
+						<p class="parent-theme"><?php printf( __( 'This is a child theme of %s.' ), '<strong>{{{ data.parent }}}</strong>' ); ?></p>
+					<# } #>
+
+					<# if ( data.tags ) { #>
+						<p class="theme-tags"><span><?php _e( 'Tags:' ); ?></span> {{ data.tags }}</p>
+					<# } #>
+				</div>
+			</div>
+
+			<div class="theme-actions">
+				<# if ( ! data.active ) { #>
+					<div class="inactive-theme">
+						<a href="<?php echo add_query_arg( 'theme', '{{ data.id }}', remove_query_arg( 'theme' ) ); ?>" target="_top" class="button button-primary"><?php _e( 'Live Preview' ); ?></a>
+					</div>
+				<# } #>
+			</div>
+		</div>
+	</script>
+	<?php
+}
+add_action( 'customize_controls_print_footer_scripts', 'customize_themes_print_templates' );
