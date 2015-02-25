@@ -1,9 +1,15 @@
 <?php
 /**
- * Customize Control Class
+ * WordPress Customize Control classes
  *
  * @package WordPress
  * @subpackage Customize
+ * @since 3.4.0
+ */
+
+/**
+ * Customize Control class.
+ *
  * @since 3.4.0
  */
 class WP_Customize_Control {
@@ -537,11 +543,11 @@ class WP_Customize_Control {
 }
 
 /**
- * Customize Color Control Class
+ * Customize Color Control class.
  *
- * @package WordPress
- * @subpackage Customize
  * @since 3.4.0
+ *
+ * @see WP_Customize_Control
  */
 class WP_Customize_Color_Control extends WP_Customize_Control {
 	/**
@@ -632,11 +638,11 @@ class WP_Customize_Color_Control extends WP_Customize_Control {
 }
 
 /**
- * Customize Upload Control Class
+ * Customize Upload Control class.
  *
- * @package WordPress
- * @subpackage Customize
  * @since 3.4.0
+ *
+ * @see WP_Customize_Control
  */
 class WP_Customize_Upload_Control extends WP_Customize_Control {
 	public $type          = 'upload';
@@ -803,11 +809,11 @@ class WP_Customize_Upload_Control extends WP_Customize_Control {
 }
 
 /**
- * Customize Image Control Class
+ * Customize Image Control class.
  *
- * @package WordPress
- * @subpackage Customize
  * @since 3.4.0
+ *
+ * @see WP_Customize_Upload_Control
  */
 class WP_Customize_Image_Control extends WP_Customize_Upload_Control {
 	public $type = 'image';
@@ -872,11 +878,11 @@ class WP_Customize_Image_Control extends WP_Customize_Upload_Control {
 }
 
 /**
- * Customize Background Image Control Class
+ * Customize Background Image Control class.
  *
- * @package WordPress
- * @subpackage Customize
  * @since 3.4.0
+ *
+ * @see WP_Customize_Image_Control
  */
 class WP_Customize_Background_Image_Control extends WP_Customize_Image_Control {
 	public $type = 'background';
@@ -912,6 +918,13 @@ class WP_Customize_Background_Image_Control extends WP_Customize_Image_Control {
 	}
 }
 
+/**
+ * Customize Header Image Control class.
+ *
+ * @since 3.4.0
+ *
+ * @see WP_Customize_Image_Control
+ */
 class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control {
 	public $type = 'header';
 	public $uploaded_headers;
@@ -1101,11 +1114,11 @@ class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control {
 }
 
 /**
- * Customize Theme Control Class
+ * Customize Theme Control class.
  *
- * @package WordPress
- * @subpackage Customize
  * @since 4.2.0
+ *
+ * @see WP_Customize_Control
  */
 class WP_Customize_Theme_Control extends WP_Customize_Control {
 
@@ -1165,11 +1178,11 @@ class WP_Customize_Theme_Control extends WP_Customize_Control {
 }
 
 /**
- * Customize New Theme Control Class
+ * Customize New Theme Control class.
  *
- * @package WordPress
- * @subpackage Customize
  * @since 4.2.0
+ *
+ * @see WP_Customize_Control
  */
 class WP_Customize_New_Theme_Control extends WP_Customize_Control {
 
@@ -1196,9 +1209,11 @@ class WP_Customize_New_Theme_Control extends WP_Customize_Control {
 }
 
 /**
- * Widget Area Customize Control Class
+ * Widget Area Customize Control class.
  *
  * @since 3.9.0
+ *
+ * @see WP_Customize_Control
  */
 class WP_Widget_Area_Customize_Control extends WP_Customize_Control {
 	public $type = 'sidebar_widgets';
@@ -1228,9 +1243,11 @@ class WP_Widget_Area_Customize_Control extends WP_Customize_Control {
 }
 
 /**
- * Widget Form Customize Control Class
+ * Widget Form Customize Control class.
  *
  * @since 3.9.0
+ *
+ * @see WP_Customize_Control
  */
 class WP_Widget_Form_Customize_Control extends WP_Customize_Control {
 	public $type = 'widget_form';
@@ -1280,4 +1297,3 @@ class WP_Widget_Form_Customize_Control extends WP_Customize_Control {
 		return $this->manager->widgets->is_widget_rendered( $this->widget_id );
 	}
 }
-
