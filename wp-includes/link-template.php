@@ -2608,26 +2608,21 @@ function get_shortcut_link() {
 		 * bookmarklet" notice when using PT in those browsers.
 		 */
 		$ua = $_SERVER['HTTP_USER_AGENT'];
-		
+
 		if ( ! empty( $ua ) && preg_match( '/\bMSIE (\d)/', $ua, $matches ) && (int) $matches[1] <= 8 ) {
-			$link = "javascript:
-				var d=document,
-				w=window,
-				e=w.getSelection,
-				k=d.getSelection,
-				x=d.selection,
-				s=(e?e():(k)?k():(x?x.createRange().text:0)),
-				f='" . admin_url('press-this.php') . "',
-				l=d.location,
-				e=encodeURIComponent,
-				u=f+'?u='+e(l.href)+'&t='+e(d.title)+'&s='+e(s)+'&v=" . $bookmarklet_version . "';
-				a=function(){if(!w.open(u,'t','toolbar=0,resizable=1,scrollbars=1,status=1,width=600,height=700'))l.href=u;};
-				if (/Firefox/.test(navigator.userAgent)) setTimeout(a, 0); else a();
-				void(0)";
+			$url = wp_json_encode( admin_url( 'press-this.php' ) );
+
+			$link = 'javascript:var d=document,w=window,e=w.getSelection,k=d.getSelection,x=d.selection,' .
+				's=(e?e():(k)?k():(x?x.createRange().text:0)),f=' . $url . ',l=d.location,e=encodeURIComponent,' .
+				'u=f+"?u="+e(l.href)+"&t="+e(d.title)+"&s="+e(s)+"&v=' . $bookmarklet_version . '";' .
+				'a=function(){if(!w.open(u,"t","toolbar=0,resizable=1,scrollbars=1,status=1,width=600,height=700"))l.href=u;};' .
+				'if(/Firefox/.test(navigator.userAgent))setTimeout(a,0);else a();void(0)';
 		}
 	}
 
 	if ( empty( $link ) ) {
+		$url = wp_json_encode( admin_url( 'press-this.php' ) . '?v=' . $bookmarklet_version );
+
 		/**
 		 * A non-minified version if this script is in /wp-admin/js/bookmarklet.js
 		 */		 		 		
@@ -2656,7 +2651,7 @@ function get_shortcut_link() {
 			'p.setAttribute("method","POST"),p.setAttribute("action",d),p.setAttribute("target",s),p.setAttribute("style","display: none;"),' .
 			'f=a.outerWidth||b.documentElement.clientWidth||600,g=a.outerHeight||b.documentElement.clientHeight||700,f=800>f||f>5e3?600:.7*f,' .
 			'g=800>g||g>3e3?700:.9*g,a.open("about:blank",s,"width="+f+",height="+g),b.body.appendChild(p),p.submit()}}' .
-			'(window,document,top.location.href,"' . admin_url( 'press-this.php' ) . '?v=' . $bookmarklet_version . '");';
+			'(window,document,top.location.href,' . $url . ');';
 	}
 
 	$link = str_replace( array( "\r", "\n", "\t" ),  '', $link );
