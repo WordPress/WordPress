@@ -1,12 +1,20 @@
 <?php
 /**
- * Customize Section Class.
- *
- * A UI container for controls, managed by the WP_Customize_Manager.
+ * WordPress Customize Section classes
  *
  * @package WordPress
  * @subpackage Customize
  * @since 3.4.0
+ */
+
+/**
+ * Customize Section class.
+ *
+ * A UI container for controls, managed by the WP_Customize_Manager class.
+ *
+ * @since 3.4.0
+ *
+ * @see WP_Customize_Manager
  */
 class WP_Customize_Section {
 
@@ -312,13 +320,13 @@ class WP_Customize_Section {
 }
 
 /**
- * Customize Themes Section Class.
+ * Customize Themes Section class.
  *
  * A UI container for theme controls, which behaves like a backwards Panel.
  *
- * @package WordPress
- * @subpackage Customize
  * @since 4.2.0
+ *
+ * @see WP_Customize_Section
  */
 class WP_Customize_Themes_Section extends WP_Customize_Section {
 
@@ -364,9 +372,6 @@ class WP_Customize_Themes_Section extends WP_Customize_Section {
 
 /**
  * Customizer section representing widget area (sidebar).
- *
- * @package WordPress
- * @subpackage Customize
  *
  * @since 4.1.0
  *
