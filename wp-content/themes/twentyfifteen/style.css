@@ -1880,7 +1880,7 @@ a.post-thumbnail:focus {
 .entry-format:before,
 .edit-link:before,
 .full-size-link:before {
-	margin-right: 2px;
+	margin-right: 6px;
 	position: relative;
 }
 
@@ -1891,7 +1891,7 @@ a.post-thumbnail:focus {
 .comments-link,
 .entry-format,
 .full-size-link {
-	margin-right: 1em;
+	margin-right: 1.5em;
 }
 
 .format-aside .entry-format:before {
@@ -5673,7 +5673,7 @@ p > video {
 	.entry-format:before,
 	.edit-link:before,
 	.full-size-link:before {
-		top: 6px;
+		top: 4px;
 	}
 
 	.taxonomy-description {
