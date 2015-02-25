@@ -237,7 +237,7 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 			return;
 		}
 
-		event.content = wp.mce.views.toViews( event.content );
+		event.content = wp.mce.views.setMarkers( event.content );
 	});
 
 	// When the editor's content has been updated and the DOM has been
@@ -341,7 +341,7 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 							editor.focus();
 						}
 
-						wp.mce.views.edit( view );
+						wp.mce.views.edit( editor, view );
 						return false;
 					} else if ( editor.dom.hasClass( event.target, 'remove' ) ) {
 						removeView( view );
