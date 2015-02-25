@@ -5673,7 +5673,7 @@ p > video {
 	.entry-format:before,
 	.edit-link:before,
 	.full-size-link:before {
-		top: 4px;
+		top: 6px;
 	}
 
 	.taxonomy-description {
