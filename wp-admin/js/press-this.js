@@ -636,7 +636,7 @@
 			}
 
 			// Prompt user to upgrade their bookmarklet if there is a version mismatch.
-			if ( data.v && data._version && data.v !== data._version ) {
+			if ( data.v && data._version && ( data.v + '' ) !== ( data._version + '' ) ) {
 				$( '.should-upgrade-bookmarklet' ).removeClass( 'is-hidden' );
 			}
 		}
