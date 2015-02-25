@@ -1,12 +1,20 @@
 <?php
 /**
- * Customize Widgets Class
- *
- * Implements widget management in the Customizer.
+ * WordPress Customize Widgets classes
  *
  * @package WordPress
  * @subpackage Customize
  * @since 3.9.0
+ */
+
+/**
+ * Customize Widgets class.
+ *
+ * Implements widget management in the Customizer.
+ *
+ * @since 3.9.0
+ *
+ * @see WP_Customize_Manager
  */
 final class WP_Customize_Widgets {
 
