@@ -2594,23 +2594,54 @@ function paginate_comments_links($args = array()) {
  * @return string The Press This bookmarklet link URL.
  */
 function get_shortcut_link() {
-	// In case of breaking changes, version this. #WP20071
-	$link = "javascript:
-			var d=document,
-			w=window,
-			e=w.getSelection,
-			k=d.getSelection,
-			x=d.selection,
-			s=(e?e():(k)?k():(x?x.createRange().text:0)),
-			f='" . admin_url('press-this.php') . "',
-			l=d.location,
-			e=encodeURIComponent,
-			u=f+'?u='+e(l.href)+'&t='+e(d.title)+'&s='+e(s)+'&v=4';
-			a=function(){if(!w.open(u,'t','toolbar=0,resizable=1,scrollbars=1,status=1,width=720,height=570'))l.href=u;};
-			if (/Firefox/.test(navigator.userAgent)) setTimeout(a, 0); else a();
-			void(0)";
+	global $is_IE, $wp_version;
 
-	$link = str_replace(array("\r", "\n", "\t"),  '', $link);
+	$bookmarklet_version = 5;
+	$link = '';
+
+	if ( $is_IE ) {
+		/**
+		 * Return the old/shorter bookmarklet code for MSIE 8 and lower,
+		 * since they only support a max length of ~2000 characters for
+		 * bookmark[let] URLs, which is way to small for our smarter one.
+		 * Do update the version number so users do not get the "upgrade your
+		 * bookmarklet" notice when using PT in those browsers.
+		 */
+		$ua = $_SERVER['HTTP_USER_AGENT'];
+		
+		if ( ! empty( $ua ) && preg_match( '/\bMSIE (\d)/', $ua, $matches ) && (int) $matches[1] <= 8 ) {
+			$link = "javascript:
+				var d=document,
+				w=window,
+				e=w.getSelection,
+				k=d.getSelection,
+				x=d.selection,
+				s=(e?e():(k)?k():(x?x.createRange().text:0)),
+				f='" . admin_url('press-this.php') . "',
+				l=d.location,
+				e=encodeURIComponent,
+				u=f+'?u='+e(l.href)+'&t='+e(d.title)+'&s='+e(s)+'&v=" . $bookmarklet_version . "';
+				a=function(){if(!w.open(u,'t','toolbar=0,resizable=1,scrollbars=1,status=1,width=600,height=700'))l.href=u;};
+				if (/Firefox/.test(navigator.userAgent)) setTimeout(a, 0); else a();
+				void(0)";
+		}
+	}
+
+	if ( empty( $link ) ) {
+		$suffix = '.min';
+		$develop_src = false !== strpos( $wp_version, '-src' );
+
+		if ( $develop_src || ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ) {
+			$suffix = '';
+		}
+
+		$url = admin_url( 'press-this.php' ) . '?v=' . $bookmarklet_version;
+
+		$link = 'javascript:' . file_get_contents( ABSPATH . "wp-admin/js/bookmarklet$suffix.js" );
+		$link = str_replace( 'window.pt_url', wp_json_encode( $url ), $link );
+	}
+
+	$link = str_replace( array( "\r", "\n", "\t" ),  '', $link );
 
 	/**
 	 * Filter the Press This bookmarklet link.

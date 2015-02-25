@@ -684,6 +684,9 @@ table.form-table td .updated p {
 
 .pressthis {
 	margin: 20px 0;
+	vertical-align: top;
+	position: relative;
+	z-index: 1;
 }
 
 .pressthis a,
@@ -747,6 +750,62 @@ table.form-table td .updated p {
 	-webkit-box-shadow: 0 10px 8px rgba(0, 0, 0, 0.6);
 	box-shadow: 0 10px 8px rgba(0, 0, 0, 0.6);
 }
+
+.pressthis .button {
+	margin-right: 10px;
+	padding: 0;
+	height: auto;
+	vertical-align: top;
+}
+
+.pressthis button .dashicons {
+	margin: 5px 7px 6px 8px;
+	color: #777;
+}
+
+.press-this-install {
+	margin: 20px 0 0 0;
+	padding: 0.7em 2em 1em;
+	max-width: 520px;
+}
+
+.press-this-install textarea {
+	width: 100%;
+	font-size: 1em;
+}
+
+.press-this-install h4 {
+	margin: 2em 0 1em;
+}
+
+/* to override the button class being applied */
+.pressthis .button.button {
+	margin-right: 10px;
+	padding: 0;
+	height: auto;
+	vertical-align: top;
+}
+
+.pressthis button .dashicons {
+	margin: 5px 7px 6px 8px;
+	color: #777;
+}
+
+.press-this-install {
+	margin: 20px 0 0 0;
+	padding: 0.7em 2em 1em;
+	max-width: 520px;
+}
+
+.press-this-install textarea {
+	width: 100%;
+	font-size: 1em;
+}
+
+.press-this-install h4 {
+	margin: 2em 0 1em;
+}
+
 
 /*------------------------------------------------------------------------------
   20.0 - Settings

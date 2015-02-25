@@ -2954,3 +2954,29 @@ function wp_ajax_update_plugin() {
 
 	wp_send_json_success( $status );
 }
+
+/**
+ * AJAX handler for saving a post from Ptrss This.
+ *
+ * @since 4.2.0
+ */
+function wp_ajax_press_this_save_post() {
+	if ( empty( $GLOBALS['wp_press_this'] ) ) {
+		include( ABSPATH . 'wp-admin/includes/class-wp-press-this.php' );
+	}
+
+	$GLOBALS['wp_press_this']->save_post();
+}
+
+/**
+ * AJAX handler for creating new category from Ptrss This.
+ *
+ * @since 4.2.0
+ */
+function wp_ajax_press_this_add_category() {
+	if ( empty( $GLOBALS['wp_press_this'] ) ) {
+		include( ABSPATH . 'wp-admin/includes/class-wp-press-this.php' );
+	}
+
+	$GLOBALS['wp_press_this']->add_category();
+}

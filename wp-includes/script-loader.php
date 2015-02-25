@@ -439,7 +439,12 @@ function wp_default_scripts( &$scripts ) {
 
 		$scripts->add( 'postbox', "/wp-admin/js/postbox$suffix.js", array('jquery-ui-sortable'), false, 1 );
 
-		$scripts->add( 'post', "/wp-admin/js/post$suffix.js", array('suggest', 'wp-lists', 'postbox'), false, 1 );
+		$scripts->add( 'tags-box', "/wp-admin/js/tags-box$suffix.js", array( 'jquery', 'suggest' ), false, 1 );
+		did_action( 'init' ) && $scripts->localize( 'tags-box', 'tagsBoxL10n', array(
+			'tagDelimiter' => _x( ',', 'tag delimiter' ),
+		) );
+
+		$scripts->add( 'post', "/wp-admin/js/post$suffix.js", array( 'suggest', 'wp-lists', 'postbox', 'tags-box' ), false, 1 );
 		did_action( 'init' ) && $scripts->localize( 'post', 'postL10n', array(
 			'ok' => __('OK'),
 			'cancel' => __('Cancel'),
@@ -461,11 +466,43 @@ function wp_default_scripts( &$scripts ) {
 			'password' => __('Password Protected'),
 			'privatelyPublished' => __('Privately Published'),
 			'published' => __('Published'),
-			'comma' => _x( ',', 'tag delimiter' ),
 			'saveAlert' => __('The changes you made will be lost if you navigate away from this page.'),
 			'savingText' => __('Saving Draft&#8230;'),
 		) );
 
+		$scripts->add( 'press-this', "/wp-admin/js/press-this$suffix.js", array( 'jquery', 'tags-box' ), false, 1 );
+		did_action( 'init' ) && $scripts->localize( 'press-this', 'pressThisL10n', array(
+			/**
+			 * press_this_source_string: string displayed before the source attribution string, defaults to "Source:".
+			 *
+			 * @since 4.2
+			 * @see https://github.com/MichaelArestad/Press-This/issues/25
+			 *
+			 * @param string $string Internationalized source string
+			 *
+			 * @return string Source string
+			 */
+			'source' => apply_filters( 'press_this_source_string', __( 'Source:' ) ),
+
+			/**
+			 * press_this_source_link: HTML link format for the source attribution, can control target, class, etc
+			 *
+			 * @since 4.2
+			 * @see https://github.com/MichaelArestad/Press-This/issues/25
+			 *
+			 * @param string $link_format Internationalized link format, %1$s is link href, %2$s is link text
+			 *
+			 * @return string Link markup
+			 */
+			'sourceLink' => apply_filters( 'press_this_source_link', __( '<a href="%1$s">%2$s</a>' ) ),
+			'newPost' => __( 'Title' ),
+			'unexpectedError' => __( 'Sorry, but an unexpected error occurred.' ),
+			'saveAlert' => __( 'The changes you made will be lost if you navigate away from this page.' ),
+			'allMediaHeading' => __( 'Suggested media' ),
+			'suggestedEmbedAlt' => __( 'Suggested embed #%d' ),
+			'suggestedImgAlt' => __( 'Suggested image #%d' ),
+		) );
+		
 		$scripts->add( 'editor-expand', "/wp-admin/js/editor-expand$suffix.js", array( 'jquery' ), false, 1 );
 
 		$scripts->add( 'link', "/wp-admin/js/link$suffix.js", array( 'wp-lists', 'postbox' ), false, 1 );
@@ -633,8 +670,9 @@ function wp_default_styles( &$styles ) {
 	$styles->add( 'wp-color-picker',    "/wp-admin/css/color-picker$suffix.css" );
 	$styles->add( 'customize-controls', "/wp-admin/css/customize-controls$suffix.css", array( 'wp-admin', 'colors', 'ie', 'imgareaselect' ) );
 	$styles->add( 'customize-widgets',  "/wp-admin/css/customize-widgets$suffix.css", array( 'wp-admin', 'colors' ) );
-	$styles->add( 'ie',                 "/wp-admin/css/ie$suffix.css" );
+	$styles->add( 'press-this',         "/wp-admin/css/press-this$suffix.css", array( 'open-sans' ) );
 
+	$styles->add( 'ie',                 "/wp-admin/css/ie$suffix.css" );
 	$styles->add_data( 'ie', 'conditional', 'lte IE 7' );
 
 	// Common dependencies
