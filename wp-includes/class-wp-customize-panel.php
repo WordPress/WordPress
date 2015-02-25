@@ -1,12 +1,20 @@
 <?php
 /**
- * Customize Panel Class.
- *
- * A UI container for sections, managed by the WP_Customize_Manager.
+ * WordPress Customize Panel classes
  *
  * @package WordPress
  * @subpackage Customize
  * @since 4.0.0
+ */
+
+/**
+ * Customize Panel class.
+ *
+ * A UI container for sections, managed by the WP_Customize_Manager.
+ *
+ * @since 4.0.0
+ *
+ * @see WP_Customize_Manager
  */
 class WP_Customize_Panel {
 
