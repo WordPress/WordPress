@@ -570,7 +570,7 @@
 		 * @since 4.2.0
 		 */
 		attachEvents: function () {
-			var meta, section = this;
+			var section = this;
 
 			// Expand/Collapse section/panel.
 			section.container.find( '.accordion-section-title' ).on( 'click keydown', function( event ) {
@@ -636,9 +636,12 @@
 			});
 
 			section.container.on( 'input', '#themes-filter', function( event ) {
-				var term = event.currentTarget.value.toLowerCase().trim().replace( '-', ' ' ),
+				var count,
+					term = event.currentTarget.value.toLowerCase().trim().replace( '-', ' ' ),
 					controls = section.controls();
+
 				controls.pop(); // Remove the last control (the add-new control).
+
 				_.each( controls, function( control ) {
 					control.filter( term );
 				});
@@ -828,7 +831,7 @@
 		 *
 		 * @since 4.2.0
 		 */
-		closeDetails: function ( theme ) {
+		closeDetails: function () {
 			$( 'body' ).removeClass( 'modal-open' );
 			this.overlay.fadeOut( 'fast' );
 			api.control( 'theme_' + this.currentTheme ).focus();
@@ -1798,10 +1801,10 @@
 		 */
 		filter: function( term ) {
 			var control = this,
-			    haystack = control.params.theme.name + ' '
-				           + control.params.theme.description + ' '
-				           + control.params.theme.tags + ' '
-				           + control.params.theme.author;
+			    haystack = control.params.theme.name + ' ' +
+				           control.params.theme.description + ' ' +
+				           control.params.theme.tags + ' ' +
+				           control.params.theme.author;
 			haystack = haystack.toLowerCase().replace( '-', ' ' );
 			if ( -1 !== haystack.search( term ) ) {
 				control.activate();
@@ -2678,7 +2681,7 @@
 		// Prompt user with AYS dialog if leaving the Customizer with unsaved changes
 		$( window ).on( 'beforeunload', function () {
 			if ( ! api.state( 'saved' )() ) {
-				var timeout = setTimeout( function() {
+				setTimeout( function() {
 					overlay.removeClass( 'customize-loading' );
 				}, 1 );
 				return api.l10n.saveAlert;

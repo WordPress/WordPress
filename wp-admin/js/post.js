@@ -1,7 +1,7 @@
 /* global postL10n, ajaxurl, wpAjax, setPostThumbnailL10n, postboxes, pagenow, tinymce, alert, deleteUserSetting */
 /* global theList:true, theExtraList:true, getUserSetting, setUserSetting */
 
-var tagBox, commentsBox, WPSetThumbnailHTML, WPSetThumbnailID, WPRemoveThumbnail, wptitlehint, makeSlugeditClickable, editPermalink;
+var commentsBox, WPSetThumbnailHTML, WPSetThumbnailID, WPRemoveThumbnail, wptitlehint, makeSlugeditClickable, editPermalink;
 // Back-compat: prevent fatal errors
 makeSlugeditClickable = editPermalink = function(){};
 

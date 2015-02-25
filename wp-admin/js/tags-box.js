@@ -1,17 +1,6 @@
 /* jshint curly: false, eqeqeq: false */
-/* global ajaxurl, wpAjax */
+/* global ajaxurl */
 
-/**
- * The functions and classes in that code are a straight cut-and-paste out of
- * /wp-admin/js/post.js, coupled with Press This' usage of the post_tags_meta_box()
- * PHP function.
- *
- * If Press This makes it into core, we can refactor that code out of post.js and
- * make it more reusable, as well as improve it to work better, everywhere.
- *
- * Copied-and-pasted instead of enqueuing post.js because the latter has much more,
- * and has processing instead of just functions/classes.
- */
 var tagBox, array_unique_noempty;
 
 ( function( $ ) {
@@ -28,7 +17,7 @@ var tagBox, array_unique_noempty;
 		} );
 
 		return out;
-	}
+	};
 	
 	tagBox = {
 		clean : function(tags) {
@@ -46,7 +35,7 @@ var tagBox, array_unique_noempty;
 				num = id.split('-check-num-')[1],
 				taxbox = $(el).closest('.tagsdiv'),
 				thetags = taxbox.find('.the-tags'),
-				comma = window.tagsBoxL10n.tagDelimiter;
+				comma = window.tagsBoxL10n.tagDelimiter,
 				current_tags = thetags.val().split( comma ),
 				new_tags = [];
 

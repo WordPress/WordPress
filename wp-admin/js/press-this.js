@@ -6,7 +6,6 @@
 	var PressThis = function() {
 		var editor,
 			saveAlert             = false,
-			$div                  = $( '<div>' ),
 			siteConfig            = window.wpPressThisConfig || {},
 			data                  = window.wpPressThisData || {},
 			smallestWidth         = 128,
@@ -62,11 +61,6 @@
 				.replace( /<!--[\s\S]*?(-->|$)/g, '' )
 				.replace( /<(script|style)[^>]*>[\s\S]*?(<\/\1>|$)/ig, '' )
 				.replace( /<\/?[a-z][^>]*>/ig, '' );
-		}
-
-		// TODO: needed?
-		function entityEncode( text ) {
-			return $div.text( text ).html();
 		}
 
 		/**
@@ -1027,7 +1021,7 @@
 			renderNotice: renderNotice,
 			renderError: renderError
 		};
-	}
+	};
 
 	window.wp = window.wp || {};
 	window.wp.pressThis = new PressThis();
