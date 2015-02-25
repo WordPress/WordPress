@@ -1,6 +1,14 @@
 <?php
 /**
- * Customize Manager.
+ * WordPress Customize Manager classes
+ *
+ * @package WordPress
+ * @subpackage Customize
+ * @since 3.4.0
+ */
+
+/**
+ * Customize Manager class.
  *
  * Bootstraps the Customize experience on the server-side.
  *
@@ -10,8 +18,6 @@
  * Serves as a factory for Customize Controls and Settings, and
  * instantiates default Customize Controls and Settings.
  *
- * @package WordPress
- * @subpackage Customize
  * @since 3.4.0
  */
 final class WP_Customize_Manager {
