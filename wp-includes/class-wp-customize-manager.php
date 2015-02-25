@@ -314,6 +314,9 @@ final class WP_Customize_Manager {
 	 * @return WP_Theme
 	 */
 	public function theme() {
+		if ( ! $this->theme ) {
+			$this->theme = wp_get_theme();
+		}
 		return $this->theme;
 	}
 
