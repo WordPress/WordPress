@@ -1,12 +1,20 @@
 <?php
 /**
- * Customize Setting Class.
- *
- * Handles saving and sanitizing of settings.
+ * WordPress Customize Setting classes
  *
  * @package WordPress
  * @subpackage Customize
  * @since 3.4.0
+ */
+
+/**
+ * Customize Setting class.
+ *
+ * Handles saving and sanitizing of settings.
+ *
+ * @since 3.4.0
+ *
+ * @see WP_Customize_Manager
  */
 class WP_Customize_Setting {
 	/**
@@ -500,9 +508,9 @@ class WP_Customize_Setting {
  *
  * Results should be properly handled using another setting or callback.
  *
- * @package WordPress
- * @subpackage Customize
  * @since 3.4.0
+ *
+ * @see WP_Customize_Setting
  */
 class WP_Customize_Filter_Setting extends WP_Customize_Setting {
 
@@ -517,9 +525,9 @@ class WP_Customize_Filter_Setting extends WP_Customize_Setting {
  *
  * Results should be properly handled using another setting or callback.
  *
- * @package WordPress
- * @subpackage Customize
  * @since 3.4.0
+ *
+ * @see WP_Customize_Setting
  */
 final class WP_Customize_Header_Image_Setting extends WP_Customize_Setting {
 	public $id = 'header_image_data';
@@ -545,11 +553,11 @@ final class WP_Customize_Header_Image_Setting extends WP_Customize_Setting {
 }
 
 /**
- * Class WP_Customize_Background_Image_Setting
+ * Customizer Background Image Setting class.
  *
- * @package WordPress
- * @subpackage Customize
  * @since 3.4.0
+ *
+ * @see WP_Customize_Setting
  */
 final class WP_Customize_Background_Image_Setting extends WP_Customize_Setting {
 	public $id = 'background_image_thumb';
