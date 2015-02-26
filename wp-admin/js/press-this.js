@@ -606,7 +606,7 @@
 			var $alerts = $( '.editor-wrapper div.alerts' ),
 				className = error ? 'is-error' : 'is-notice';
 
-			$alerts.append( $( '<p class="' + className + '">' ).text( msg ) );
+			$alerts.append( $( '<p class="alert ' + className + '">' ).text( msg ) );
 		}
 
 		/**
