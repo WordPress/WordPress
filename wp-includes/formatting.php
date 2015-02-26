@@ -633,9 +633,9 @@ function _wp_specialchars( $string, $quote_style = ENT_NOQUOTES, $charset = fals
 		// Now re-encode everything except &entity;
 		$string = preg_split( '/(&#?x?[0-9a-z]+;)/i', $string, -1, PREG_SPLIT_DELIM_CAPTURE );
 
-		for ( $i = 0; $i < count( $string ); $i += 2 )
+		for ( $i = 0, $c = count( $string ); $i < $c; $i += 2 ) {
 			$string[$i] = @htmlspecialchars( $string[$i], $quote_style, $charset );
-
+		}
 		$string = implode( '', $string );
 	}
 

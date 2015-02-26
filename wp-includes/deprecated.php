@@ -1756,7 +1756,7 @@ function make_url_footnote( $content ) {
 	_deprecated_function( __FUNCTION__, '2.9', '' );
 	preg_match_all( '/<a(.+?)href=\"(.+?)\"(.*?)>(.+?)<\/a>/', $content, $matches );
 	$links_summary = "\n";
-	for ( $i=0; $i<count($matches[0]); $i++ ) {
+	for ( $i = 0, $c = count( $matches[0] ); $i < $c; $i++ ) {
 		$link_match = $matches[0][$i];
 		$link_number = '['.($i+1).']';
 		$link_url = $matches[2][$i];

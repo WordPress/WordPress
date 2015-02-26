@@ -461,7 +461,7 @@ function image_edit_apply_changes( $image, $changes ) {
 	// Combine operations.
 	if ( count($changes) > 1 ) {
 		$filtered = array($changes[0]);
-		for ( $i = 0, $j = 1; $j < count($changes); $j++ ) {
+		for ( $i = 0, $j = 1, $c = count( $changes ); $j < $c; $j++ ) {
 			$combined = false;
 			if ( $filtered[$i]->type == $changes[$j]->type ) {
 				switch ( $filtered[$i]->type ) {

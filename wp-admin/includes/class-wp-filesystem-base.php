@@ -371,9 +371,11 @@ class WP_Filesystem_Base {
 		$legal =  array('', 'w', 'r', 'x', '-');
 		$attarray = preg_split('//', $mode);
 
-		for ($i=0; $i < count($attarray); $i++)
-		   if ($key = array_search($attarray[$i], $legal))
+		for ( $i = 0, $c = count( $attarray ); $i < $c; $i++ ) {
+		   if ($key = array_search($attarray[$i], $legal)) {
 			   $realmode .= $legal[$key];
+		   }
+		}
 
 		$mode = str_pad($realmode, 10, '-', STR_PAD_LEFT);
 		$trans = array('-'=>'0', 'r'=>'4', 'w'=>'2', 'x'=>'1');

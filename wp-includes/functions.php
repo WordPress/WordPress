@@ -1516,7 +1516,7 @@ function wp_mkdir_p( $target ) {
 		 */
 		if ( $dir_perms != ( $dir_perms & ~umask() ) ) {
 			$folder_parts = explode( '/', substr( $target, strlen( $target_parent ) + 1 ) );
-			for ( $i = 1; $i <= count( $folder_parts ); $i++ ) {
+			for ( $i = 1, $c = count( $folder_parts ); $i <= $c; $i++ ) {
 				@chmod( $target_parent . '/' . implode( '/', array_slice( $folder_parts, 0, $i ) ), $dir_perms );
 			}
 		}
