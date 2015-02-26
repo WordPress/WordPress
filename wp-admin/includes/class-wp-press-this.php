@@ -133,11 +133,11 @@ class WP_Press_This {
 		if ( empty( $_POST['post_ID'] ) || ! $post_id = (int) $_POST['post_ID'] ) {
 			wp_send_json_error( array( 'errorMessage' => __( 'Missing post ID.' ) ) );
 		}
-	
+
 		if ( ! current_user_can( 'edit_post', $post_id ) ) {
 			wp_send_json_error( array( 'errorMessage' => __( 'Cheatin&#8217; uh?' ) ) );
 		}
-	
+
 		$post = array(
 			'ID'            => $post_id,
 			'post_title'    => ( ! empty( $_POST['title'] ) ) ? sanitize_text_field( trim( $_POST['title'] ) ) : '',
@@ -148,7 +148,7 @@ class WP_Press_This {
 			'tax_input'     => ( ! empty( $_POST['tax_input'] ) ) ? $_POST['tax_input'] : array(),
 			'post_category' => ( ! empty( $_POST['post_category'] ) ) ? $_POST['post_category'] : array(),
 		);
-	
+
 		if ( ! empty( $_POST['post_status'] ) && 'publish' === $_POST['post_status'] ) {
 			if ( current_user_can( 'publish_posts' ) ) {
 				$post['post_status'] = 'publish';
@@ -164,7 +164,7 @@ class WP_Press_This {
 		}
 
 		$updated = wp_update_post( $post, true );
-	
+
 		if ( is_wp_error( $updated ) || intval( $updated ) < 1 ) {
 			wp_send_json_error( array( 'errorMessage' => __( 'Error while saving the post. Please try again later.' ) ) );
 		} else {
@@ -192,7 +192,7 @@ class WP_Press_This {
 				/** This filter is documented in wp-admin/includes/class-wp-press-this.php */
 				$redirect = apply_filters( 'press_this_save_redirect', get_edit_post_link( $post_id, 'raw' ), $post_id, $post['post_status'] );
 			}
-	
+
 			wp_send_json_success( array( 'redirect' => $redirect ) );
 		}
 	}
@@ -519,7 +519,7 @@ class WP_Press_This {
 	 *
 	 * @param WP_Post $post Post object.
 	 */
-	function post_formats_html( $post ) {
+	public function post_formats_html( $post ) {
 		if ( current_theme_supports( 'post-formats' ) && post_type_supports( $post->post_type, 'post-formats' ) ) {
 			$post_formats = get_theme_support( 'post-formats' );
 
@@ -564,7 +564,7 @@ class WP_Press_This {
 	 *
 	 * @param WP_Post $post Post object.
 	 */
-	function categories_html( $post ) {
+	public function categories_html( $post ) {
 		$taxonomy = get_taxonomy( 'category' );
 
 		if ( current_user_can( $taxonomy->cap->edit_terms ) ) {
@@ -611,7 +611,7 @@ class WP_Press_This {
 	 *
 	 * @param WP_Post $post Post object.
 	 */
-	function tags_html( $post ) {
+	public function tags_html( $post ) {
 		$taxonomy              = get_taxonomy( 'post_tag' );
 		$user_can_assign_terms = current_user_can( $taxonomy->cap->assign_terms );
 		$esc_tags              = get_terms_to_edit( $post->ID, 'post_tag' );
