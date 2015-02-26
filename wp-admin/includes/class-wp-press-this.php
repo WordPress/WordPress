@@ -775,7 +775,7 @@ class WP_Press_This {
 		<div class="editor-wrapper">
 			<div class="alerts">
 				<p class="alert is-notice is-hidden should-upgrade-bookmarklet">
-					<?php printf( __( 'You should upgrade <a href="%s" target="_blank">your bookmarklet</a> to the latest version!' ), admin_url( 'tools.php?page=press_this_options' ) ); ?>
+					<?php printf( __( 'You should upgrade <a href="%s" target="_blank">your bookmarklet</a> to the latest version!' ), admin_url( 'tools.php' ) ); ?>
 				</p>
 			</div>
 
