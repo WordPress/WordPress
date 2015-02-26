@@ -685,9 +685,6 @@ Manage = MediaFrame.extend({
 		this.bindSearchHandler();
 	},
 
-	/**
-	 * The views must interact with form controls that are not part of a frame
-	 */
 	bindSearchHandler: function() {
 		var search = this.$( '#media-search-input' ),
 			currentSearch = this.options.container.data( 'search' ),
