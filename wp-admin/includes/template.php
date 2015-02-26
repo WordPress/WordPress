@@ -1289,11 +1289,20 @@ function do_settings_fields($page, $section) {
 		return;
 
 	foreach ( (array) $wp_settings_fields[$page][$section] as $field ) {
-		echo '<tr>';
-		if ( !empty($field['args']['label_for']) )
+		$class = '';
+
+		if ( ! empty( $field['args']['class'] ) ) {
+			$class = ' class="' . esc_attr( $field['args']['class'] ) . '"';
+		}
+
+		echo "<tr{$class}>";
+
+		if ( ! empty( $field['args']['label_for'] ) ) {
 			echo '<th scope="row"><label for="' . esc_attr( $field['args']['label_for'] ) . '">' . $field['title'] . '</label></th>';
-		else
+		} else {
 			echo '<th scope="row">' . $field['title'] . '</th>';
+		}
+
 		echo '<td>';
 		call_user_func($field['callback'], $field['args']);
 		echo '</td>';
