@@ -651,7 +651,7 @@ window.wp = window.wp || {};
 			var media = wp.media[ this.type ],
 				frame = media.edit( text );
 
-			this.stopPlayers && this.stopPlayers();
+			this.pausePlayers && this.pausePlayers();
 
 			_.each( this.state, function( state ) {
 				frame.state( state ).on( 'update', function( selection ) {
@@ -728,7 +728,7 @@ window.wp = window.wp || {};
 				self.render();
 			} )
 			.fail( function( response ) {
-				if ( self.type === 'embedURL' ) {
+				if ( self.url ) {
 					self.removeMarkers();
 				} else {
 					self.setError( response.message || response.statusText, 'admin-media' );
@@ -737,19 +737,19 @@ window.wp = window.wp || {};
 
 			this.getEditors( function( editor ) {
 				editor.on( 'wpview-selected', function() {
-					self.stopPlayers();
+					self.pausePlayers();
 				} );
 			} );
 		},
 
-		stopPlayers: function( remove ) {
+		pausePlayers: function() {
 			this.getNodes( function( editor, node, content ) {
 				var win = $( 'iframe.wpview-sandbox', content ).get( 0 );
 
 				if ( win && ( win = win.contentWindow ) && win.mejs ) {
 					_.each( win.mejs.players, function( player ) {
 						try {
-							player[ remove ? 'remove' : 'pause' ]();
+							player.pause();
 						} catch ( e ) {}
 					} );
 				}
@@ -762,10 +762,10 @@ window.wp = window.wp || {};
 
 		edit: function( text, update ) {
 			var media = wp.media.embed,
-				isURL = 'embedURL' === this.type,
-				frame = media.edit( text, isURL );
+				frame = media.edit( text, !! this.url ),
+				self = this;
 
-			this.stopPlayers();
+			this.pausePlayers();
 
 			frame.state( 'embed' ).props.on( 'change:url', function( model, url ) {
 				if ( url ) {
@@ -774,7 +774,7 @@ window.wp = window.wp || {};
 			} );
 
 			frame.state( 'embed' ).on( 'select', function() {
-				if ( isURL ) {
+				if ( self.url ) {
 					update( frame.state( 'embed' ).metadata.url );
 				} else {
 					update( media.shortcode( frame.state( 'embed' ).metadata ).string() );
@@ -808,7 +808,7 @@ window.wp = window.wp || {};
 	views.register( 'embedURL', _.extend( {}, embed, {
 		match: function( content ) {
 			var re = /(^|<p>)(https?:\/\/[^\s"]+?)(<\/p>\s*|$)/gi,
-				match = re.exec( tinymce.trim( content ) );
+				match = re.exec( content );
 
 			if ( match ) {
 				return {

@@ -34,37 +34,6 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 		return false;
 	}
 
-	/**
-	 * Get the text/shortcode string for a view.
-	 *
-	 * @param view The view wrapper's node
-	 * @returns string The text/shoercode string of the view
-	 */
-	function getViewText( view ) {
-		if ( view = getView( view ) ) {
-			return window.decodeURIComponent( editor.dom.getAttrib( view, 'data-wpview-text' ) || '' );
-		}
-
-		return '';
-	}
-
-	/**
-	 * Set the view's original text/shortcode string
-	 *
-	 * @param view The view wrapper's HTML id or node
-	 * @param text The text string to be set
-	 */
-	function setViewText( view, text ) {
-		view = getView( view );
-
-		if ( view ) {
-			editor.dom.setAttrib( view, 'data-wpview-text', window.encodeURIComponent( text || '' ) );
-			return true;
-		}
-
-		return false;
-	}
-
 	function _stop( event ) {
 		event.stopPropagation();
 	}
@@ -138,7 +107,7 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 		clipboard = dom.create( 'div', {
 			'class': 'wpview-clipboard',
 			'contenteditable': 'true'
-		}, getViewText( viewNode ) );
+		}, decodeURIComponent( editor.dom.getAttrib( viewNode, 'data-wpview-text' ) ) );
 
 		editor.dom.select( '.wpview-body', viewNode )[0].appendChild( clipboard );
 
@@ -197,8 +166,6 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 	// Check if the `wp.mce` API exists.
 	if ( typeof wp === 'undefined' || ! wp.mce ) {
 		return {
-			getViewText: _noop,
-			setViewText: _noop,
 			getView: _noop
 		};
 	}
@@ -721,8 +688,6 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 	});
 
 	return {
-		getViewText: getViewText,
-		setViewText: setViewText,
 		getView: getView
 	};
 });
