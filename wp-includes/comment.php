@@ -2053,7 +2053,7 @@ function wp_insert_comment( $commentdata ) {
 
 		foreach( $fields as $field ) {
 			if ( isset( $compacted[ $field ] ) ) {
-				$post_data[ $field ] = $wpdb->strip_invalid_text_for_column( $wpdb->comments, $field, $compacted[ $field ] );
+				$compacted[ $field ] = $wpdb->strip_invalid_text_for_column( $wpdb->comments, $field, $compacted[ $field ] );
 			}
 		}
 
