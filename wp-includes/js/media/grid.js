@@ -682,15 +682,42 @@ Manage = MediaFrame.extend({
 		this.createStates();
 		this.bindRegionModeHandlers();
 		this.render();
+		this.bindSearchHandler();
+	},
+
+	/**
+	 * The views must interact with form controls that are not part of a frame
+	 */
+	bindSearchHandler: function() {
+		var search = this.$( '#media-search-input' ),
+			currentSearch = this.options.container.data( 'search' ),
+			searchView = this.browserView.toolbar.get( 'search' ).$el,
+			listMode = this.$( '.view-list' ),
+
+			input  = _.debounce( function (e) {
+				var val = $( e.currentTarget ).val(),
+					url = '';
+
+				if ( val ) {
+					url += '?search=' + val;
+				}
+				this.gridRouter.navigate( this.gridRouter.baseUrl( url ) );
+			}, 1000 );
 
 		// Update the URL when entering search string (at most once per second)
-		$( '#media-search-input' ).on( 'input', _.debounce( function(e) {
-			var val = $( e.currentTarget ).val(), url = '';
-			if ( val ) {
-				url += '?search=' + val;
+		search.on( 'input', _.bind( input, this ) );
+		searchView.val( currentSearch ).trigger( 'input' );
+
+		this.gridRouter.on( 'route:search', function () {
+			var href = window.location.href;
+			if ( href.indexOf( 'mode=' ) > -1 ) {
+				href = href.replace( /mode=[^&]+/g, 'mode=list' );
+			} else {
+				href += href.indexOf( '?' ) > -1 ? '&mode=list' : '?mode=list';
 			}
-			self.gridRouter.navigate( self.gridRouter.baseUrl( url ) );
-		}, 1000 ) );
+			href = href.replace( 'search=', 's=' );
+			listMode.prop( 'href', href );
+		} );
 	},
 
 	/**

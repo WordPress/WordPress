@@ -25,7 +25,10 @@ if ( 'grid' === $mode ) {
 	wp_enqueue_script( 'media-grid' );
 	wp_enqueue_script( 'media' );
 
-	$vars = wp_edit_attachments_query_vars();
+	$q = $_GET;
+	// let JS handle this
+	unset( $q['s'] );
+	$vars = wp_edit_attachments_query_vars( $q );
 	$ignore = array( 'mode', 'post_type', 'post_status', 'posts_per_page' );
 	foreach ( $vars as $key => $value ) {
 		if ( ! $value || in_array( $key, $ignore ) ) {
@@ -67,7 +70,7 @@ if ( 'grid' === $mode ) {
 
 	require_once( ABSPATH . 'wp-admin/admin-header.php' );
 	?>
-	<div class="wrap" id="wp-media-grid">
+	<div class="wrap" id="wp-media-grid" data-search="<?php _admin_search_query() ?>">
 		<h2>
 		<?php
 		echo esc_html( $title );
