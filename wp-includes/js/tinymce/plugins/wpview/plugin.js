@@ -72,11 +72,9 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 	}
 
 	function removeView( view ) {
-		// TODO: trigger an event to run a clean up function.
-		// Maybe `jQuery( view ).trigger( 'remove' );`?
 		editor.undoManager.transact( function() {
 			handleEnter( view );
-			editor.dom.remove( view );
+			wp.mce.views.remove( editor, view );
 		});
 	}
 
@@ -107,7 +105,7 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 		clipboard = dom.create( 'div', {
 			'class': 'wpview-clipboard',
 			'contenteditable': 'true'
-		}, decodeURIComponent( editor.dom.getAttrib( viewNode, 'data-wpview-text' ) ) );
+		}, wp.mce.views.getText( viewNode ) );
 
 		editor.dom.select( '.wpview-body', viewNode )[0].appendChild( clipboard );
 

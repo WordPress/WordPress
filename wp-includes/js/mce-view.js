@@ -64,6 +64,8 @@ window.wp = window.wp || {};
 		 * Returns the settings of a view type.
 		 *
 		 * @param {String} type The view type.
+		 *
+		 * @return {Function} The view constructor.
 		 */
 		get: function( type ) {
 			return views[ type ];
@@ -142,6 +144,8 @@ window.wp = window.wp || {};
 		 * @param {String} type    The view type.
 		 * @param {String} text    The textual representation of the view.
 		 * @param {Object} options Options.
+		 *
+		 * @return {wp.mce.View} The view instance.
 		 */
 		createInstance: function( type, text, options ) {
 			var View = this.get( type ),
@@ -163,10 +167,27 @@ window.wp = window.wp || {};
 		/**
 		 * Get a view instance.
 		 *
-		 * @param {String} text The textual representation of the view.
+		 * @param {(String|HTMLElement)} object The textual representation of the view or the view node.
+		 *
+		 * @return {wp.mce.View} The view instance or undefined.
 		 */
-		getInstance: function( text ) {
-			return instances[ encodeURIComponent( text ) ];
+		getInstance: function( object ) {
+			if ( typeof object === 'string' ) {
+				return instances[ encodeURIComponent( object ) ];
+			}
+
+			return instances[ $( object ).data( 'wpview-text' ) ];
+		},
+
+		/**
+		 * Given a view node, get the view's text.
+		 *
+		 * @param {HTMLElement} node The view node.
+		 *
+		 * @return {String} The textual representation of the view.
+		 */
+		getText: function( node ) {
+			return decodeURIComponent( $( node ).data( 'wpview-text' ) || '' );
 		},
 
 		/**
@@ -188,8 +209,7 @@ window.wp = window.wp || {};
 		 * @param {HTMLElement}    node   The view node to update.
 		 */
 		update: function( text, editor, node ) {
-			var oldText = decodeURIComponent( $( node ).data( 'wpview-text' ) ),
-				instance = this.getInstance( oldText );
+			var instance = this.getInstance( node );
 
 			if ( instance ) {
 				instance.update( text, editor, node );
@@ -203,13 +223,26 @@ window.wp = window.wp || {};
 		 * @param {HTMLElement}    node   The view node to edit.
 		 */
 		edit: function( editor, node ) {
-			var text = decodeURIComponent( $( node ).data( 'wpview-text' ) ),
-				instance = this.getInstance( text );
+			var instance = this.getInstance( node );
 
 			if ( instance && instance.edit ) {
-				instance.edit( text, function( text ) {
+				instance.edit( instance.text, function( text ) {
 					instance.update( text, editor, node );
 				} );
+			}
+		},
+
+		/**
+		 * Remove a given view node from the DOM.
+		 *
+		 * @param {tinymce.Editor} editor The TinyMCE editor instance the view node is in.
+		 * @param {HTMLElement}    node   The view node to remove.
+		 */
+		remove: function( editor, node ) {
+			var instance = this.getInstance( node );
+
+			if ( instance ) {
+				instance.remove( editor, node );
 			}
 		}
 	};
@@ -218,7 +251,7 @@ window.wp = window.wp || {};
 	 * A Backbone-like View constructor intended for use when rendering a TinyMCE View.
 	 * The main difference is that the TinyMCE View is not tied to a particular DOM node.
 	 *
-	 * @param {Object} Options.
+	 * @param {Object} options Options.
 	 */
 	wp.mce.View = function( options ) {
 		_.extend( this, options );
@@ -276,8 +309,7 @@ window.wp = window.wp || {};
 
 			if ( this.getContent() ) {
 				this.setContent( this.getContent(), function( editor, node ) {
-					$( node ).data( 'rendered', true );
-					this.bindNodes.apply( this, arguments );
+					$( node ).data( 'rendered', true ).trigger( 'wp-mce-view-bind' );
 				}, force ? null : false );
 			} else {
 				this.setLoader();
@@ -285,34 +317,14 @@ window.wp = window.wp || {};
 		},
 
 		/**
-		 * Binds a given rendered view node.
-		 * Runs after a view node's content is added to the DOM.
-		 *
-		 * @param {tinymce.Editor} editor      The TinyMCE editor instance the view node is in.
-		 * @param {HTMLElement}    node        The view node.
-		 * @param {HTMLElement}    contentNode The view's content node.
-		 */
-		bindNodes: function( /* editor, node, contentNode */ ) {},
-
-		/**
 		 * Unbinds all view nodes tied to this view instance.
 		 * Runs before their content is removed from the DOM.
 		 */
 		unbind: function() {
-			this.getNodes( function() {
-				this.unbindNodes.apply( this, arguments );
+			this.getNodes( function( editor, node ) {
+				$( node ).trigger( 'wp-mce-view-unbind' );
 			}, true );
 		},
-
-		/**
-		 * Unbinds a given view node.
-		 * Runs before the view node's content is removed from the DOM.
-		 *
-		 * @param {tinymce.Editor} editor      The TinyMCE editor instance the view node is in.
-		 * @param {HTMLElement}    node        The view node.
-		 * @param {HTMLElement}    contentNode The view's content node.
-		 */
-		unbindNodes: function( /* editor, node, contentNode */ ) {},
 
 		/**
 		 * Gets all the TinyMCE editor instances that support views.
@@ -378,7 +390,7 @@ window.wp = window.wp || {};
 		 */
 		replaceMarkers: function() {
 			this.getMarkers( function( editor, node ) {
-				if ( $( node ).text() !== this.text ) {
+				if ( $( node ).html() !== this.text ) {
 					editor.dom.setAttrib( node, 'data-wpview-marker', null );
 					return;
 				}
@@ -455,7 +467,7 @@ window.wp = window.wp || {};
 				var dom = editor.dom,
 					styles = '',
 					bodyClasses = editor.getBody().className || '',
-					iframe, iframeDoc, i, resize;
+					iframe, iframeDoc, observer, i, resize;
 
 				content.innerHTML = '';
 				head = head || '';
@@ -547,10 +559,11 @@ window.wp = window.wp || {};
 					};
 
 					if ( MutationObserver ) {
-						new MutationObserver( _.debounce( function() {
+						observer = new MutationObserver( _.debounce( function() {
 							resize();
-						}, 100 ) )
-						.observe( iframeDoc.body, {
+						}, 100 ) );
+
+						observer.observe( iframeDoc.body, {
 							attributes: true,
 							childList: true,
 							subtree: true
@@ -561,11 +574,18 @@ window.wp = window.wp || {};
 						}
 					}
 
-					if ( importStyles ) {
-						editor.on( 'wp-body-class-change', function() {
-							iframeDoc.body.className = editor.getBody().className;
-						} );
+					function classChange() {
+						iframeDoc.body.className = editor.getBody().className;
 					}
+
+					if ( importStyles ) {
+						editor.on( 'wp-body-class-change', classChange );
+					}
+
+					$( node ).one( 'wp-mce-view-unbind', function() {
+						observer.disconnect();
+						editor.off( 'wp-body-class-change', classChange );
+					} );
 				}, 50 );
 
 				callback && callback.apply( this, arguments );
@@ -631,6 +651,17 @@ window.wp = window.wp || {};
 			$( node ).data( 'rendered', false );
 			editor.dom.setAttrib( node, 'data-wpview-text', encodeURIComponent( text ) );
 			wp.mce.views.createInstance( this.type, text, this.match( text ).options ).render();
+		},
+
+		/**
+		 * Remove a given view node from the DOM.
+		 *
+		 * @param {tinymce.Editor} editor The TinyMCE editor instance the view node is in.
+		 * @param {HTMLElement}    node   The view node to remove.
+		 */
+		remove: function( editor, node ) {
+			$( node ).trigger( 'wp-mce-view-unbind' );
+			editor.dom.remove( node );
 		}
 	} );
 } )( window, window.wp, window.jQuery );
@@ -662,6 +693,8 @@ window.wp = window.wp || {};
 			frame.on( 'close', function() {
 				frame.detach();
 			} );
+
+			frame.open();
 		}
 	};
 
