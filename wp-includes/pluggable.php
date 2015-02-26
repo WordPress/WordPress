@@ -2101,7 +2101,7 @@ if ( !function_exists( 'get_avatar' ) ) :
  *
  * @param mixed $id_or_email The Gravatar to retrieve. Accepts a user_id, gravatar md5 hash,
  *                           user email, WP_User object, WP_Post object, or comment object.
- * @param int    $size       Optional. Height and width of the avatar in pixels. Default 96.
+ * @param int    $size       Optional. Height and width of the avatar image file in pixels. Default 96.
  * @param string $default    Optional. URL for the default image or a default type. Accepts '404'
  *                           (return a 404 instead of a default image), 'retro' (8bit), 'monsterid'
  *                           (monster), 'wavatar' (cartoon face), 'indenticon' (the "quilt"),
@@ -2112,6 +2112,8 @@ if ( !function_exists( 'get_avatar' ) ) :
  * @param array  $args       {
  *     Optional. Extra arguments to retrieve the avatar.
  *
+ *     @type int          $height        Display height of the avatar in pixels. Defaults to $size.
+ *     @type int          $width         Display width of the avatar in pixels. Defaults to $size.
  *     @type bool         $force_default Whether to always show the default image, never the Gravatar. Default false.
  *     @type string       $rating        What rating to display avatars up to. Accepts 'G', 'PG', 'R', 'X', and are
  *                                       judged in that order. Default is the value of the 'avatar_rating' option.
@@ -2121,6 +2123,7 @@ if ( !function_exists( 'get_avatar' ) ) :
  *                                       Default null.
  *     @type bool         $force_display Whether to always show the avatar - ignores the show_avatars option.
  *                                       Default false.
+ *     @type string       $extra_attr    HTML attribute to insert in the IMG element.  Has no default and is not sanitized.
  * }
  *
  * @return false|string `<img>` tag for the user's avatar. False on failure.
@@ -2129,6 +2132,8 @@ function get_avatar( $id_or_email, $size = 96, $default = '', $alt = '', $args =
 	$defaults = array(
 		// get_avatar_data() args.
 		'size'          => 96,
+		'height'        => null,
+		'width'         => null,
 		'default'       => get_option( 'avatar_default', 'mystery' ),
 		'force_default' => false,
 		'rating'        => get_option( 'avatar_rating' ),
@@ -2136,6 +2141,7 @@ function get_avatar( $id_or_email, $size = 96, $default = '', $alt = '', $args =
 		'alt'           => '',
 		'class'         => null,
 		'force_display' => false,
+		'extra_attr'    => '',
 	);
 
 	if ( empty( $args ) ) {
@@ -2147,6 +2153,13 @@ function get_avatar( $id_or_email, $size = 96, $default = '', $alt = '', $args =
 	$args['alt']     = $alt;
 
 	$args = wp_parse_args( $args, $defaults );
+
+	if ( empty( $args['height'] ) ) {
+		$args['height'] = $args['size'];
+	}
+	if ( empty( $args['width'] ) ) {
+		$args['width'] = $args['size'];
+	}
 
 	/**
 	 * Filter whether to retrieve the avatar URL early.
@@ -2193,12 +2206,13 @@ function get_avatar( $id_or_email, $size = 96, $default = '', $alt = '', $args =
 	}
 
 	$avatar = sprintf(
-		"<img alt='%s' src='%s' class='%s' height='%d' width='%d' />",
+		"<img alt='%s' src='%s' class='%s' height='%d' width='%d' %s/>",
 		esc_attr( $args['alt'] ),
 		esc_url( $url ),
 		esc_attr( join( ' ', $class ) ),
-		(int) $args['size'],
-		(int) $args['size']
+		(int) $args['height'],
+		(int) $args['width'],
+		$args['extra_attr']
 	);
 
 	/**

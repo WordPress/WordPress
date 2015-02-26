@@ -3422,7 +3422,9 @@ function get_avatar_url( $id_or_email, $args = null ) {
  * @param array $args        {
  *     Optional. Arguments to return instead of the default arguments.
  *
- *     @type int    $size           Height and width of the avatar in pixels. Default 96.
+ *     @type int    $size           Height and width of the avatar image file in pixels. Default 96.
+ *     @type int    $height         Display height of the avatar in pixels. Defaults to $size.
+ *     @type int    $width          Display width of the avatar in pixels. Defaults to $size.
  *     @type string $default        URL for the default image or a default type. Accepts '404' (return
  *                                  a 404 instead of a default image), 'retro' (8bit), 'monsterid' (monster),
  *                                  'wavatar' (cartoon face), 'indenticon' (the "quilt"), 'mystery', 'mm',
@@ -3436,6 +3438,7 @@ function get_avatar_url( $id_or_email, $args = null ) {
  *                                  Default null.
  *     @type array  $processed_args When the function returns, the value will be the processed/sanitized $args
  *                                  plus a "found_avatar" guess. Pass as a reference. Default null.
+ *     @type string $extra_attr     HTML attribute to insert in the IMG element.  Has no default and is not sanitized.
  * }
  *
  * @return array $processed_args {
@@ -3449,11 +3452,14 @@ function get_avatar_url( $id_or_email, $args = null ) {
 function get_avatar_data( $id_or_email, $args = null ) {
 	$args = wp_parse_args( $args, array(
 		'size'           => 96,
+		'height'         => null,
+		'width'          => null,
 		'default'        => get_option( 'avatar_default', 'mystery' ),
 		'force_default'  => false,
 		'rating'         => get_option( 'avatar_rating' ),
 		'scheme'         => null,
 		'processed_args' => null, // if used, should be a reference
+		'extra_attr'     => '',
 	) );
 
 	if ( is_numeric( $args['size'] ) ) {
@@ -3463,6 +3469,24 @@ function get_avatar_data( $id_or_email, $args = null ) {
 		}
 	} else {
 		$args['size'] = 96;
+	}
+
+	if ( is_numeric( $args['height'] ) ) {
+		$args['height'] = absint( $args['height'] );
+		if ( ! $args['height'] ) {
+			$args['height'] = $args['size'];
+		}
+	} else {
+		$args['height'] = $args['size'];
+	}
+
+	if ( is_numeric( $args['width'] ) ) {
+		$args['width'] = absint( $args['width'] );
+		if ( ! $args['width'] ) {
+			$args['width'] = $args['size'];
+		}
+	} else {
+		$args['width'] = $args['size'];
 	}
 
 	if ( empty( $args['default'] ) ) {
