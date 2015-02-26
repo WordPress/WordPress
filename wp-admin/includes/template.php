@@ -2169,3 +2169,12 @@ function wp_star_rating( $args = array() ) {
 	echo str_repeat( '<div class="star star-empty"></div>', $empty_stars);
 	echo '</div>';
 }
+
+/**
+ * Output a notice when editing the page for posts.
+ *
+ * @since 4.2.0
+ */
+function _wp_posts_page_notice() {
+	echo '<div class="notice notice-warning inline"><p>' . __( 'You are currently editing the page that shows your latest posts.' ) . '</p></div>';
+}

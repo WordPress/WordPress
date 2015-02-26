@@ -45,6 +45,11 @@ $post_ID = isset($post_ID) ? (int) $post_ID : 0;
 $user_ID = isset($user_ID) ? (int) $user_ID : 0;
 $action = isset($action) ? $action : '';
 
+if ( $post_ID == get_option( 'page_for_posts' ) && empty( $post->post_content ) ) {
+	add_action( 'edit_form_after_title', '_wp_posts_page_notice' );
+	remove_post_type_support( $post_type, 'editor' );
+}
+
 $thumbnail_support = current_theme_supports( 'post-thumbnails', $post_type ) && post_type_supports( $post_type, 'thumbnail' );
 if ( ! $thumbnail_support && 'attachment' === $post_type && $post->post_mime_type ) {
 	if ( 0 === strpos( $post->post_mime_type, 'audio/' ) ) {
