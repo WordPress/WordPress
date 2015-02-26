@@ -419,17 +419,21 @@ class WP_Role {
  * @package WordPress
  * @subpackage User
  *
- * @property string $display_name
  * @property string $nickname
  * @property string $user_description
- * @property string $user_email
  * @property string $user_firstname
  * @property string $user_lastname
- * @property string $user_nicename
+ * @property string $user_login
  * @property string $user_pass
- * @property string $user_registered
+ * @property string $user_nicename
+ * @property string $user_email
  * @property string $user_url
+ * @property string $user_registered
+ * @property string $user_activation_key
+ * @property string $user_status
+ * @property string $display_name
  * @property string $spam
+ * @property string $deleted
  */
 class WP_User {
 	/**
