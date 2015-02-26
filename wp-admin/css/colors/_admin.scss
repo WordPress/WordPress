@@ -495,17 +495,6 @@ body.more-filters-opened .more-filters:focus:before {
 	box-shadow: inset 0 1px 0 lighten( $button-color, 15% ), 0 1px 0 rgba(0,0,0,.15);
 }
 
-/* Thickbox: Plugin information */
-
-#sidemenu a.current {
-	background: $body-background;
-	border-bottom-color: $body-background;
-}
-
-#plugin-information .action-button {
-	background: $button-color;
-}
-
 /* Responsive Component */
 
 div#wp-responsive-toggle a:before {

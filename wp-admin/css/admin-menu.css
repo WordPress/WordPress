@@ -503,8 +503,7 @@ ul#adminmenu > li.current > a.current:after {
 }
 
 #adminmenu .awaiting-mod,
-#adminmenu .update-plugins,
-#sidemenu li a span.update-plugins {
+#adminmenu .update-plugins {
 	display: inline-block;
 	background-color: #d54e21;
 	color: #fff;
@@ -519,8 +518,7 @@ ul#adminmenu > li.current > a.current:after {
 }
 
 #adminmenu li .awaiting-mod span,
-#adminmenu li span.update-plugins span,
-#sidemenu li a span.update-plugins span {
+#adminmenu li span.update-plugins span {
 	display: block;
 	padding: 0 6px;
 }
@@ -531,8 +529,7 @@ ul#adminmenu > li.current > a.current:after {
 	color: #fff;
 }
 
-#adminmenu li span.count-0,
-#sidemenu li a .count-0 {
+#adminmenu li span.count-0 {
 	display: none;
 }
 
