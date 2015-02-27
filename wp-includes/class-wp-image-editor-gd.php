@@ -231,8 +231,9 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 			}
 
 			$image = $this->_resize( $size_data['width'], $size_data['height'], $size_data['crop'] );
+			$duplicate = ( ( $orig_size['width'] == $size_data['width'] ) && ( $orig_size['height'] == $size_data['height'] ) );
 
-			if( ! is_wp_error( $image ) ) {
+			if ( ! is_wp_error( $image ) && ! $duplicate ) {
 				$resized = $this->_save( $image );
 
 				imagedestroy( $image );

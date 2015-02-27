@@ -301,8 +301,9 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 			}
 
 			$resize_result = $this->resize( $size_data['width'], $size_data['height'], $size_data['crop'] );
+			$duplicate = ( ( $orig_size['width'] == $size_data['width'] ) && ( $orig_size['height'] == $size_data['height'] ) );
 
-			if( ! is_wp_error( $resize_result ) ) {
+			if ( ! is_wp_error( $resize_result ) && ! $duplicate ) {
 				$resized = $this->_save( $this->image );
 
 				$this->image->clear();
