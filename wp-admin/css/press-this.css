@@ -521,10 +521,9 @@ dd {
 	display: none;
 }
 
-/* TODO Needed after merge? */
 .post-format {
-	width: 0;
-	height: 0;
+	width: 1px;
+	height: 1px;
 	position: absolute;
 	top: -9999px;
 }
