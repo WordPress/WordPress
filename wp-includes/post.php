@@ -4847,7 +4847,7 @@ function wp_delete_attachment( $post_id, $force_delete = false ) {
 		// Don't delete the thumb if another attachment uses it.
 		if (! $wpdb->get_row( $wpdb->prepare( "SELECT meta_id FROM $wpdb->postmeta WHERE meta_key = '_wp_attachment_metadata' AND meta_value LIKE %s AND post_id <> %d", '%' . $wpdb->esc_like( $meta['thumb'] ) . '%', $post_id)) ) {
 			$thumbfile = str_replace(basename($file), $meta['thumb'], $file);
-			/** This filter is documented in wp-admin/custom-header.php */
+			/** This filter is documented in wp-includes/functions.php */
 			$thumbfile = apply_filters( 'wp_delete_file', $thumbfile );
 			@ unlink( path_join($uploadpath['basedir'], $thumbfile) );
 		}
@@ -4857,7 +4857,7 @@ function wp_delete_attachment( $post_id, $force_delete = false ) {
 	if ( isset( $meta['sizes'] ) && is_array( $meta['sizes'] ) ) {
 		foreach ( $meta['sizes'] as $size => $sizeinfo ) {
 			$intermediate_file = str_replace( basename( $file ), $sizeinfo['file'], $file );
-			/** This filter is documented in wp-admin/custom-header.php */
+			/** This filter is documented in wp-includes/functions.php */
 			$intermediate_file = apply_filters( 'wp_delete_file', $intermediate_file );
 			@ unlink( path_join( $uploadpath['basedir'], $intermediate_file ) );
 		}
@@ -4866,17 +4866,13 @@ function wp_delete_attachment( $post_id, $force_delete = false ) {
 	if ( is_array($backup_sizes) ) {
 		foreach ( $backup_sizes as $size ) {
 			$del_file = path_join( dirname($meta['file']), $size['file'] );
-			/** This filter is documented in wp-admin/custom-header.php */
+			/** This filter is documented in wp-includes/functions.php */
 			$del_file = apply_filters( 'wp_delete_file', $del_file );
 			@ unlink( path_join($uploadpath['basedir'], $del_file) );
 		}
 	}
 
-	/** This filter is documented in wp-admin/custom-header.php */
-	$file = apply_filters( 'wp_delete_file', $file );
-
-	if ( ! empty($file) )
-		@ unlink($file);
+	wp_delete_file( $file );
 
 	clean_post_cache( $post );
 

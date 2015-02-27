@@ -4813,3 +4813,24 @@ function wp_validate_boolean( $var ) {
 
 	return (bool) $var;
 }
+
+/**
+ * Delete a file
+ *
+ * @since 4.2.0
+ *
+ * @param string $file The path to the file to delete.
+ */
+function wp_delete_file( $file ) {
+	/**
+	 * Filter the path of the file to delete.
+	 *
+	 * @since 2.1.0
+	 *
+	 * @param string $medium Path to the file to delete.
+	 */
+	$delete = apply_filters( 'wp_delete_file', $file );
+	if ( ! empty( $delete ) ) {
+		@unlink( $delete );
+	}
+}
