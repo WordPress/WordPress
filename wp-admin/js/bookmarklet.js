@@ -179,7 +179,7 @@
 	windowWidth = ( windowWidth < 800 || windowWidth > 5000 ) ? 600 : ( windowWidth * 0.7 );
 	windowHeight = ( windowHeight < 800 || windowHeight > 3000 ) ? 700 : ( windowHeight * 0.9 );
 
-	window.open( 'about:blank', target, 'width=' + windowWidth + ',height=' + windowHeight );
+	window.open( 'about:blank', target, 'location,resizable,scrollbars,width=' + windowWidth + ',height=' + windowHeight );
 
 	document.body.appendChild( form );
 
