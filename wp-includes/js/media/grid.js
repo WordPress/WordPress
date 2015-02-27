@@ -629,7 +629,6 @@ Manage = MediaFrame.extend({
 	 * @global wp.Uploader
 	 */
 	initialize: function() {
-		var self = this;
 		_.defaults( this.options, {
 			title:     '',
 			modal:     false,
