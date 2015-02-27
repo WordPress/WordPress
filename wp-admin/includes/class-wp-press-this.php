@@ -508,7 +508,13 @@ class WP_Press_This {
 		if ( ! empty( $styles ) ) {
 			$styles .= ',';
 		}
-		return $styles . admin_url( 'css/press-this-editor.css' );
+
+		$press_this = admin_url( 'css/press-this-editor.css' );
+		if ( is_rtl() ) {
+			$press_this = str_replace( '.css', '-rtl.css', $press_this );
+		}
+
+		return $styles . $press_this;
 	}
 
 	/**
@@ -821,7 +827,7 @@ class WP_Press_This {
 						<span class="dashicons dashicons-admin-post"></span>
 						<span class="post-option-title"><?php _e( 'Format' ); ?></span>
 						<span class="post-option-contents" id="post-option-post-format"><?php echo esc_html( get_post_format_string( $post_format ) ); ?></span>
-						<span class="dashicons dashicons-arrow-right-alt2"></span>
+						<span class="dashicons post-option-forward"></span>
 					</button>
 				<?php endif; ?>
 
@@ -829,21 +835,21 @@ class WP_Press_This {
 					<span class="dashicons dashicons-category"></span>
 					<span class="post-option-title"><?php _e( 'Categories' ); ?></span>
 					<span class="post-option-contents" id="post-option-category"></span>
-					<span class="dashicons dashicons-arrow-right-alt2"></span>
+					<span class="dashicons post-option-forward"></span>
 				</button>
 
 				<button type="button" class="button-reset post-option">
 					<span class="dashicons dashicons-tag"></span>
 					<span class="post-option-title"><?php _e( 'Tags' ); ?></span>
 					<span class="post-option-contents" id="post-option-tags"></span>
-					<span class="dashicons dashicons-arrow-right-alt2"></span>
+					<span class="dashicons post-option-forward"></span>
 				</button>
 			</div>
 
 			<?php if ( $supports_formats ) : ?>
 				<div class="setting-modal is-off-screen is-hidden">
 					<button type="button" class="button-reset modal-close">
-						<span class="dashicons dashicons-arrow-left-alt2"></span>
+						<span class="dashicons post-option-back"></span>
 						<span class="setting-title" aria-hidden="true"><?php _e( 'Post format' ); ?></span>
 						<span class="screen-reader-text"><?php _e( 'Back to post options' ) ?></span>
 					</button>
@@ -853,7 +859,7 @@ class WP_Press_This {
 
 			<div class="setting-modal is-off-screen is-hidden">
 				<button type="button" class="button-reset modal-close">
-					<span class="dashicons dashicons-arrow-left-alt2"></span>
+					<span class="dashicons post-option-back"></span>
 					<span class="setting-title" aria-hidden="true"><?php _e( 'Categories' ); ?></span>
 					<span class="screen-reader-text"><?php _e( 'Back to post options' ) ?></span>
 				</button>
@@ -862,7 +868,7 @@ class WP_Press_This {
 
 			<div class="setting-modal tags is-off-screen is-hidden">
 				<button type="button" class="button-reset modal-close">
-					<span class="dashicons dashicons-arrow-left-alt2"></span>
+					<span class="dashicons post-option-back"></span>
 					<span class="setting-title" aria-hidden="true"><?php _e( 'Tags' ); ?></span>
 					<span class="screen-reader-text"><?php _e( 'Back to post options' ) ?></span>
 				</button>

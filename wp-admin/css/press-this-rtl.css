@@ -1858,11 +1858,16 @@ html {
 	color: #333;
 }
 
-.post-options .dashicons-arrow-right-alt2 {
+.post-option-forward:before {
 	position: absolute;
 	top: 50%;
 	left: 8px;
 	margin-top: -10px;
+	content: "\f345"
+}
+
+.post-option-back:before {
+	content: "\f341";
 }
 
 .lt-ie9 .options-panel,
