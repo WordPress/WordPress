@@ -3220,16 +3220,22 @@ function get_attached_media( $type, $post = 0 ) {
  */
 function get_media_embedded_in_content( $content, $types = null ) {
 	$html = array();
-	$allowed_media_types = array( 'audio', 'video', 'object', 'embed', 'iframe' );
+
+	$allowed_media_types = apply_filters( 'get_media_embedded_in_content_allowed', array( 'audio', 'video', 'object', 'embed', 'iframe' ) );
+
 	if ( ! empty( $types ) ) {
-		if ( ! is_array( $types ) )
+		if ( ! is_array( $types ) ) {
 			$types = array( $types );
+		}
+
 		$allowed_media_types = array_intersect( $allowed_media_types, $types );
 	}
 
-	foreach ( $allowed_media_types as $tag ) {
-		if ( preg_match( '#' . get_tag_regex( $tag ) . '#', $content, $matches ) ) {
-			$html[] = $matches[0];
+	$tags = implode( '|', $allowed_media_types );
+
+	if ( preg_match_all( '#<(?P<tag>' . $tags . ')[^<]*?(?:>[\s\S]*?<\/(?P=tag)>|\s*\/>)#', $content, $matches ) ) {
+		foreach ( $matches[0] as $match ) {
+			$html[] = $match;
 		}
 	}
 
