@@ -254,7 +254,7 @@
 
 #customize-theme-controls .widget-area-select .selected {
 	color: #fff;
-	text-shadow: 0 1px 0 rgba(0,0,0,.4);
+	text-shadow: 0 -1px 0 rgba(0,0,0,.4);
 	background: #2ea2cc;
 }
 
@@ -320,9 +320,9 @@ body.adding-widget .add-new-widget:hover {
 	box-shadow: inset 0 2px 5px -3px rgba(0, 0, 0, 0.5);
 }
 body.adding-widget .add-new-widget:before {
-	-webkit-transform: rotate(45deg);
-	-ms-transform: rotate(45deg);
-	transform: rotate(45deg);
+	-webkit-transform: rotate(-45deg);
+	-ms-transform: rotate(-45deg);
+	transform: rotate(-45deg);
 }
 
 #available-widgets .widget {

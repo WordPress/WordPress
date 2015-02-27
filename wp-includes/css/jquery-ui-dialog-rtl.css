@@ -128,7 +128,7 @@
 	bottom: -5px;
 	right: 0;
 }
-/* @noflip */
+/* rtl:ignore */
 .ui-resizable-e {
 	cursor: e-resize;
 	width: 7px;
@@ -136,7 +136,7 @@
 	top: 0;
 	height: 100%;
 }
-/* @noflip */
+/* rtl:ignore */
 .ui-resizable-w {
 	cursor: w-resize;
 	width: 7px;
@@ -144,7 +144,7 @@
 	top: 0;
 	height: 100%;
 }
-/* @noflip */
+/* rtl:ignore */
 .ui-resizable-se {
 	cursor: se-resize;
 	width: 12px;
@@ -152,7 +152,7 @@
 	right: 1px;
 	bottom: 1px;
 }
-/* @noflip */
+/* rtl:ignore */
 .ui-resizable-sw {
 	cursor: sw-resize;
 	width: 9px;
@@ -160,7 +160,7 @@
 	left: -5px;
 	bottom: -5px;
 }
-/* @noflip */
+/* rtl:ignore */
 .ui-resizable-nw {
 	cursor: nw-resize;
 	width: 9px;
@@ -168,7 +168,7 @@
 	left: -5px;
 	top: -5px;
 }
-/* @noflip */
+/* rtl:ignore */
 .ui-resizable-ne {
 	cursor: ne-resize;
 	width: 9px;
@@ -249,7 +249,7 @@
 	background: #f7f7f7 !important;
 	-webkit-box-shadow: none !important;
 	box-shadow: none !important;
-	text-shadow: 0 -1px 0 #fff !important;
+	text-shadow: 0 1px 0 #fff !important;
 	cursor: default;
 }
 

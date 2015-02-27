@@ -8,7 +8,7 @@ buttons in the following files are updated.
 
 WordPress-style Buttons
 =======================
-Create a button by adding the %60.button` class to an element. For backwards
+Create a button by adding the `.button` class to an element. For backwards
 compatibility, we support several other classes (such as `.button-secondary`),
 but these will *not* work with the stackable classes described below.
 
@@ -192,7 +192,7 @@ TABLE OF CONTENTS:
 	background: #f7f7f7 !important;
 	-webkit-box-shadow: none !important;
 	box-shadow: none !important;
-	text-shadow: 0 -1px 0 #fff !important;
+	text-shadow: 0 1px 0 #fff !important;
 	cursor: default;
 }
 
@@ -254,7 +254,7 @@ TABLE OF CONTENTS:
 	border-color: #1b607f !important;
 	-webkit-box-shadow: none !important;
 	box-shadow: none !important;
-	text-shadow: 0 1px 0 rgba( 0, 0, 0, 0.1 ) !important;
+	text-shadow: 0 -1px 0 rgba( 0, 0, 0, 0.1 ) !important;
 	cursor: default;
 }
 

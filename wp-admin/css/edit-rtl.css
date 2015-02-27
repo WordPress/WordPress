@@ -88,7 +88,7 @@ input#link_url {
 }
 
 #pending {
-	background: 0 none;
+	background: 100% none;
 	border: 0 none;
 	padding: 0;
 	font-size: 11px;
@@ -1310,17 +1310,8 @@ table.links-table {
 	transition-timing-function: ease-in-out;
 }
 
-/* @noflip */
 .focus-on #adminmenuback,
 .focus-on #adminmenuwrap {
-	-webkit-transform: translateX( -100% );
-	-ms-transform: translateX( -100% );
-	transform: translateX( -100% );
-}
-
-/* @noflip */
-.rtl.focus-on #adminmenuback,
-.rtl.focus-on #adminmenuwrap {
 	-webkit-transform: translateX( 100% );
 	-ms-transform: translateX( 100% );
 	transform: translateX( 100% );

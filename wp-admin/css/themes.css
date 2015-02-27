@@ -1524,6 +1524,7 @@ body.full-overlay-active {
 	text-decoration: none !important;
 }
 
+/* rtl:ignore */
 .wp-full-overlay.collapsed .collapse-sidebar-arrow:before,
 .rtl .wp-full-overlay .collapse-sidebar-arrow:before {
 	-webkit-transform: rotate(180deg);

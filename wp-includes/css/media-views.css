@@ -886,13 +886,11 @@
 	overflow: hidden;
 }
 
-/* @noflip */
 .wp-core-ui .attachment .thumbnail img {
 	top: 0;
 	left: 0;
 }
 
-/* @noflip */
 .wp-core-ui .attachment .thumbnail .centered {
 	position: absolute;
 	top: 0;

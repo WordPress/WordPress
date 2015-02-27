@@ -61,7 +61,7 @@ textarea:focus {
 	box-shadow: 0 0 2px rgba( 30, 140, 190, 0.8 );
 }
 
-/* @noflip */
+/* rtl:ignore */
 input[type="email"],
 input[type="url"] {
 	direction: ltr;
@@ -712,9 +712,9 @@ table.form-table td .updated p {
 }
 
 .pressthis a:hover:after {
-	-webkit-transform: skew(20deg) rotate(9deg);
-	-ms-transform: skew(20deg) rotate(9deg);
-	transform: skew(20deg) rotate(9deg);
+	-webkit-transform: skew(-20deg) rotate(-9deg);
+	-ms-transform: skew(-20deg) rotate(-9deg);
+	transform: skew(-20deg) rotate(-9deg);
 	-webkit-box-shadow: 0 10px 8px rgba(0, 0, 0, 0.7);
 	box-shadow: 0 10px 8px rgba(0, 0, 0, 0.7);
 }
@@ -744,9 +744,9 @@ table.form-table td .updated p {
 	left: 10px;
 	bottom: 9px;
 	background: transparent;
-	-webkit-transform: skew(20deg) rotate(6deg);
-	-ms-transform: skew(20deg) rotate(6deg);
-	transform: skew(20deg) rotate(6deg);
+	-webkit-transform: skew(-20deg) rotate(-6deg);
+	-ms-transform: skew(-20deg) rotate(-6deg);
+	transform: skew(-20deg) rotate(-6deg);
 	-webkit-box-shadow: 0 10px 8px rgba(0, 0, 0, 0.6);
 	box-shadow: 0 10px 8px rgba(0, 0, 0, 0.6);
 }

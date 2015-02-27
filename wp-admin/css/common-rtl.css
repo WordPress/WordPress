@@ -390,12 +390,12 @@ ol.ol-decimal > li {
 	margin: 0 0 0.5em;
 }
 
-/* @noflip */
+/* rtl:ignore */
 .ltr {
 	direction: ltr;
 }
 
-/* @noflip */
+/* rtl:ignore */
 .code,
 code {
 	font-family: Consolas, Monaco, monospace;
@@ -1464,7 +1464,7 @@ form.upgrade .hint {
 
 .toggle-arrow {
 	background-repeat: no-repeat;
-	background-position: top right;
+	background-position: top left;
 	background-color: transparent;
 	height: 22px;
 	line-height: 22px;
@@ -1472,7 +1472,7 @@ form.upgrade .hint {
 }
 
 .toggle-arrow-active {
-	background-position: bottom right;
+	background-position: bottom left;
 }
 
 #screen-options-wrap h5,
@@ -2057,11 +2057,11 @@ div.star-holder {
 	position: relative;
 	height: 17px;
 	width: 100px;
-	background: url(../images/stars.png?ver=20121108) repeat-x bottom right;
+	background: url(../images/stars.png?ver=20121108) repeat-x bottom left;
 }
 
 div.star-holder .star-rating {
-	background: url(../images/stars.png?ver=20121108) repeat-x top right;
+	background: url(../images/stars.png?ver=20121108) repeat-x top left;
 	height: 17px;
 	float: right;
 }
@@ -2172,7 +2172,7 @@ div.action-links {
 	margin: 174px 10px 0 0;
 	color: #fff;
 	background: rgba( 30, 30, 30, 0.9 );
-	text-shadow: 0 -1px 3px rgba( 0, 0, 0, 0.4 );
+	text-shadow: 0 1px 3px rgba( 0, 0, 0, 0.4 );
 	-webkit-box-shadow: 0 0 30px rgba( 255, 255, 255, 0.1 );
 	box-shadow: 0 0 30px rgba( 255, 255, 255, 0.1 );
 	-webkit-border-radius: 8px;
@@ -2375,12 +2375,12 @@ div.action-links {
 	background: #f3f3f3;
 }
 
-/* @noflip */
+/* rtl:ignore */
 #plugin-information .section {
 	direction: ltr;
 }
 
-/* @noflip */
+/* rtl:ignore */
 #plugin-information .section ul,
 #plugin-information .section ol {
 	list-style-type: disc;
@@ -2408,7 +2408,7 @@ div.action-links {
 	box-shadow: 0 1px 2px rgba( 0, 0, 0, 0.3 );
 }
 
-/* @noflip */
+/* rtl:ignore */
 #plugin-information #section-screenshots li p {
 	font-style: italic;
 	padding-left: 20px;
@@ -2420,7 +2420,7 @@ div.action-links {
 	border: 1px solid #ccc;
 }
 
-/* @noflip */
+/* rtl:ignore */
 #plugin-information .review {
 	overflow: hidden; /* clearfix */
 	width: 100%;
@@ -2432,7 +2432,7 @@ div.action-links {
 	overflow: hidden; /* clearfix */
 }
 
-/* @noflip */
+/* rtl:ignore */
 #plugin-information .review-title-section h4 {
 	display: inline-block;
 	float: left;
@@ -2445,24 +2445,24 @@ div.action-links {
 	padding-top: 2px;
 }
 
-/* @noflip */
+/* rtl:ignore */
 #plugin-information .reviewer-info .avatar {
 	float: left;
 	margin: 4px 6px 0 0;
 }
 
-/* @noflip */
+/* rtl:ignore */
 #plugin-information .reviewer-info .star-rating {
 	float: left;
 }
 
-/* @noflip */
+/* rtl:ignore */
 #plugin-information .review-meta {
 	float: left;
 	margin-left: 0.75em;
 }
 
-/* @noflip */
+/* rtl:ignore */
 #plugin-information .review-body {
 	float: left;
 	width: 100%;
@@ -2710,7 +2710,7 @@ img {
 	outline: none;
 }
 
-/* @noflip */
+/* rtl:ignore */
 #template textarea,
 #docs-list {
 	direction: ltr;
@@ -3007,7 +3007,7 @@ img {
 	/* Back-compat for pre-3.8 */
 	div.star-holder,
 	div.star-holder .star-rating {
-		background: url(../images/stars-2x.png?ver=20121108) repeat-x bottom right;
+		background: url(../images/stars-2x.png?ver=20121108) repeat-x bottom left;
 		-webkit-background-size: 21px 37px;
 		background-size: 21px 37px;
 	}

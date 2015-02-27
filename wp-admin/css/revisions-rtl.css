@@ -367,9 +367,9 @@ table.diff .diff-addedline ins {
 	top: -20px;
 	width: 25px;
 	height: 25px;
-	-webkit-transform: rotate(45deg);
-	-ms-transform: rotate(45deg);
-	transform: rotate(45deg);
+	-webkit-transform: rotate(-45deg);
+	-ms-transform: rotate(-45deg);
+	transform: rotate(-45deg);
 }
 
 .revisions-tooltip.flipped .revisions-tooltip-arrow > span {
@@ -431,9 +431,9 @@ table.diff .diff-addedline ins {
 	top: -20px;
 	width: 25px;
 	height: 25px;
-	-webkit-transform: rotate(45deg);
-	-ms-transform: rotate(45deg);
-	transform: rotate(45deg);
+	-webkit-transform: rotate(-45deg);
+	-ms-transform: rotate(-45deg);
+	transform: rotate(-45deg);
 }
 
 .revisions-tooltip,

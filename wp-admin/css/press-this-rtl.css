@@ -773,7 +773,7 @@ dd {
 	margin: 2px 0;
 	height: 20px;
 	width: 20px;
-	background: 0 0;
+	background: 100% 0;
 	color: #9ea7af;
 	font: 400 16px/1 dashicons;
 	text-align: center;
@@ -1810,16 +1810,16 @@ html {
 	border-right: 1px solid #e5e5e5;
 	font-size: 14px;
 	/* Keeps background the full height of the screen */
-	-webkit-box-shadow: -5001px 5000px 0 5000px #fff, 5000px 5000px 0 5000px #e5e5e5;
-	box-shadow: -5001px 5000px 0 5000px #fff, 5000px 5000px 0 5000px #e5e5e5;
+	-webkit-box-shadow: -5001px 5000px 0 5000px #fff, -5000px 5000px 0 5000px #e5e5e5;
+	box-shadow: -5001px 5000px 0 5000px #fff, -5000px 5000px 0 5000px #e5e5e5;
 }
 
 @media (max-width: 900px) {
 	.options-panel {
 		background: #fff;
-		-webkit-transform: translateX(-100%);
-		-ms-transform: translateX(-100%);
-		transform: translateX(-100%);
+		-webkit-transform: translateX(100%);
+		-ms-transform: translateX(100%);
+		transform: translateX(100%);
 		-webkit-transition: -webkit-transform .3s ease-in-out;
 		transition: transform .3s ease-in-out;
 	}
@@ -1910,9 +1910,9 @@ html {
 @media (min-width: 1px) {
 	.is-off-screen > .post-option {
 		left: auto;
-		-webkit-transform: translateX(-100%);
-		-ms-transform: translateX(-100%);
-		transform: translateX(-100%);
+		-webkit-transform: translateX(100%);
+		-ms-transform: translateX(100%);
+		transform: translateX(100%);
 	}
 }
 
@@ -1945,9 +1945,9 @@ html {
 @media (min-width: 1px) {
 	.setting-modal.is-off-screen {
 		right: 0;
-		-webkit-transform: translateX(100%);
-		-ms-transform: translateX(100%);
-		transform: translateX(100%);
+		-webkit-transform: translateX(-100%);
+		-ms-transform: translateX(-100%);
+		transform: translateX(-100%);
 	}
 }
 

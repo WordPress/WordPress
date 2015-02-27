@@ -684,7 +684,7 @@ input[type="password"],
 	visibility: visible;
 }
 
-* html div.widget-liquid-right,
+* html div.widget-liquid-left,
 * html div.widget-liquid-right {
 	display: block;
 	position: relative;

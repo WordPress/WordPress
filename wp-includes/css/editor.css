@@ -2112,12 +2112,12 @@ i.mce-i-hr:before {
 	font-family: Tahoma, sans-serif;
 }
 
-/* @noflip */
+/* rtl:ignore */
 .mce-rtl .mce-flow-layout .mce-flow-layout-item > div {
 	direction: rtl;
 }
 
-/* @noflip */
+/* rtl:ignore */
 .mce-rtl .mce-listbox i.mce-caret {
 	left: 6px;
 }

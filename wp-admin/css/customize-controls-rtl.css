@@ -733,10 +733,10 @@ p.customize-section-description {
 .customize-control-header .uploaded .header-view .close:hover {
  color: black;
  text-shadow:
-    1px 1px 0 #fff,
     1px -1px 0 #fff,
-    -1px 1px 0 #fff,
-    1px 1px 0 #fff;
+    -1px -1px 0 #fff,
+    1px 1px 0 #fff,
+    -1px 1px 0 #fff;
 }
 
 .customize-control-header .header-view:hover .close {
@@ -843,7 +843,7 @@ p.customize-section-description {
 /* #customize-container is reused from customize-loader.js, hence the naming. */
 .wp-customizer .customize-loading #customize-container {
 	display: block;
-	-webkit-animation: customize-reload .75s; /* Can't use %60transition` because `display` changes here. */
+	-webkit-animation: customize-reload .75s; /* Can't use `transition` because `display` changes here. */
 	animation: customize-reload .75s;
 }
 
@@ -901,9 +901,9 @@ p.customize-section-description {
 }
 
 .rtl #accordion-section-themes .accordion-section-title:after {
-	-webkit-transform: rotate(180deg);
-	-ms-transform: rotate(180deg);
-	transform: rotate(180deg);
+	-webkit-transform: rotate(-180deg);
+	-ms-transform: rotate(-180deg);
+	transform: rotate(-180deg);
 }
 
 #customize-theme-controls .control-section.current-panel > h3.accordion-section-title {

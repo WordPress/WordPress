@@ -489,7 +489,7 @@ th.sorted a span {
 th.sorted.asc .sorting-indicator,
 th.desc:hover span.sorting-indicator {
 	display: block;
-	background-position: 0 0;
+	background-position: 100% 0;
 }
 
 th.sorted.desc .sorting-indicator,
@@ -1232,8 +1232,8 @@ tr.active.update + tr.plugin-update-tr .plugin-update {
 		transform: rotate(0deg);
 	}
 	100% {
-		-webkit-transform: rotate(359deg);
-		transform: rotate(359deg);
+		-webkit-transform: rotate(-359deg);
+		transform: rotate(-359deg);
 	}
 }
 
@@ -1243,8 +1243,8 @@ tr.active.update + tr.plugin-update-tr .plugin-update {
 		transform: rotate(0deg);
 	}
 	100% {
-		-webkit-transform: rotate(359deg);
-		transform: rotate(359deg);
+		-webkit-transform: rotate(-359deg);
+		transform: rotate(-359deg);
 	}
 }
 

@@ -886,34 +886,32 @@
 	overflow: hidden;
 }
 
-/* @noflip */
 .wp-core-ui .attachment .thumbnail img {
 	top: 0;
-	left: 0;
+	right: 0;
 }
 
-/* @noflip */
 .wp-core-ui .attachment .thumbnail .centered {
 	position: absolute;
 	top: 0;
-	left: 0;
+	right: 0;
 	width: 100%;
 	height: 100%;
-	-webkit-transform: translate( 50%, 50% );
-	-ms-transform: translate(50%,50%); /* Fails with spaces?? Weird! */
-	transform: translate( 50%, 50% );
+	-webkit-transform: translate( -50%, 50% );
+	-ms-transform: translate(-50%,50%); /* Fails with spaces?? Weird! */
+	transform: translate( -50%, 50% );
 }
 
 .wp-core-ui .attachment .thumbnail .centered img {
-	-webkit-transform: translate( -50%, -50% );
-	-ms-transform: translate(-50%,-50%);
-	transform: translate( -50%, -50% );
+	-webkit-transform: translate( 50%, -50% );
+	-ms-transform: translate(50%,-50%);
+	transform: translate( 50%, -50% );
 }
 
 .wp-core-ui .attachment .thumbnail .centered img.icon {
-	-webkit-transform: translate( -50%, -70% );
-	-ms-transform: translate(-50%,-70%);
-	transform: translate( -50%, -70% );
+	-webkit-transform: translate( 50%, -70% );
+	-ms-transform: translate(50%,-70%);
+	transform: translate( 50%, -70% );
 }
 
 .ie8 .wp-core-ui .attachment img.icon {

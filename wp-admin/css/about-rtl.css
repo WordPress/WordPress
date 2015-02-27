@@ -263,6 +263,7 @@
 	opacity: 0;
 }
 
+/* rtl:ignore */
 .about-wrap .dfw-container .overlay-image.from-left {
 	-webkit-transform: translate3d(-100%, 0, 0);
 	transform: translate3d(-100%, 0, 0);
@@ -296,7 +297,7 @@
 .about-wrap .feature-list svg {
 	float: right;
 	clear: right;
-	margin: 15px 0 0 15px ;
+	margin: 15px 0 0 15px;
 	height: 90px;
 	width: 90px;
 	background-color: #cccccc;

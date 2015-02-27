@@ -592,6 +592,7 @@ ul#adminmenu > li.current > a.current:after {
 	-moz-osx-font-smoothing: grayscale;
 }
 
+/* rtl:ignore */
 .folded #collapse-button div:after,
 .rtl #collapse-button div:after {
 	-webkit-transform: rotate(180deg);
@@ -723,6 +724,7 @@ li#wp-admin-bar-menu-toggle {
 		background: none;
 	}
 
+	/* rtl:ignore */
 	.auto-fold #collapse-button div:after {
 		-webkit-transform: rotate(180deg);
 		-ms-transform: rotate(180deg);

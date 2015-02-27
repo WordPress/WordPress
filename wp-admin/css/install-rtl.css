@@ -237,7 +237,7 @@ submit {
 	background-color: #ffebe8;
 }
 
-/* @noflip */
+/* rtl:ignore */
 #dbname,
 #uname,
 #pwd,

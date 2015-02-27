@@ -61,7 +61,7 @@ textarea:focus {
 	box-shadow: 0 0 2px rgba( 30, 140, 190, 0.8 );
 }
 
-/* @noflip */
+/* rtl:ignore */
 input[type="email"],
 input[type="url"] {
 	direction: ltr;
