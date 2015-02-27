@@ -1798,11 +1798,18 @@
 	overflow: auto;
 }
 
-.embed-preview img, .embed-preview iframe, .embed-preview embed {
+.embed-preview img,
+.embed-preview iframe,
+.embed-preview embed {
 	max-width: 100%;
 }
 
+.embed-preview a {
+	display: inline-block;
+}
+
 .embed-preview img {
+	display: block;
 	height: auto;
 }
 
