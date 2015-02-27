@@ -150,7 +150,7 @@ body {
 }
 
 .control-section.control-panel > .accordion-section-title:after {
-	content: "\f345";
+	content: "\f341";
 	background: #f5f5f5;
 	color: #555;
 	width: 38px;
@@ -160,10 +160,6 @@ body {
 	padding-right: 5px;
 	border-right: 1px solid #eee;
 	z-index: 0;
-}
-
-.rtl .control-section.control-panel > .accordion-section-title:after {
-	content: "\f341";
 }
 
 #customize-theme-controls .control-section.control-panel > h3.accordion-section-title:focus:after,
@@ -256,14 +252,10 @@ body {
 
 .control-panel-back:before {
 	font: normal 20px/1 dashicons;
-	content: "\f341";
+	content: "\f345";
 	position: relative;
 	top: 7px;
 	right: 13px;
-}
-
-.rtl .control-panel-back:before {
-	content: "\f345";
 }
 
 .in-sub-panel .control-panel-back {
@@ -937,10 +929,6 @@ p.customize-section-description {
 }
 
 .control-panel-back.themes-panel-back:before {
-	content: "\f345";
-}
-
-.rtl .control-panel-back.themes-panel-back:before {
 	content: "\f341";
 }
 
@@ -988,7 +976,7 @@ p.customize-section-description {
 		left: 0;
 		top: 0;
 		bottom: 0;
-	}	
+	}
 }
 
 

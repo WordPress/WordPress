@@ -499,14 +499,12 @@
 	font-weight: 300;
 }
 
-.theme-overlay .theme-header .left:before,
-.rtl .theme-overlay .theme-header .right:before {
-	content: '\f341';
+.theme-overlay .theme-header .left:before {
+	content: "\f341";
 }
 
-.theme-overlay .theme-header .right:before,
-.rtl .theme-overlay .theme-header .left:before {
-	content: '\f345';
+.theme-overlay .theme-header .right:before {
+	content: "\f345";
 }
 
 
@@ -1460,14 +1458,6 @@ body.full-overlay-active {
 	background: #eee;
 	cursor: default;
 	pointer-events: none;
-}
-
-.rtl .theme-install-overlay .previous-theme:before {
-	content: "\f345";
-}
-
-.rtl .theme-install-overlay .next-theme:before {
-	content: "\f341";
 }
 
 /* Collapse Button */

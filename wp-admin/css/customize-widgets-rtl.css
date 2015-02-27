@@ -80,11 +80,11 @@
 }
 
 .customize-control-widget_form.wide-widget-control a.widget-action:after {
-	content: "\f139";
+	content: "\f141";
 }
 
 .customize-control-widget_form.wide-widget-control.expanded a.widget-action:after {
-	content: "\f141";
+	content: "\f139";
 }
 
 .widget-title-action {

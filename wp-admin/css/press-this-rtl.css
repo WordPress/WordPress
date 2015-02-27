@@ -1863,11 +1863,11 @@ html {
 	top: 50%;
 	left: 8px;
 	margin-top: -10px;
-	content: "\f345"
+	content: "\f341"
 }
 
 .post-option-back:before {
-	content: "\f341";
+	content: "\f345";
 }
 
 .lt-ie9 .options-panel,

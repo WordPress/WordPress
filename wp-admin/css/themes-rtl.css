@@ -499,14 +499,12 @@
 	font-weight: 300;
 }
 
-.theme-overlay .theme-header .left:before,
-.rtl .theme-overlay .theme-header .right:before {
-	content: '\f341';
+.theme-overlay .theme-header .left:before {
+	content: "\f345";
 }
 
-.theme-overlay .theme-header .right:before,
-.rtl .theme-overlay .theme-header .left:before {
-	content: '\f345';
+.theme-overlay .theme-header .right:before {
+	content: "\f341";
 }
 
 
@@ -1436,7 +1434,7 @@ body.full-overlay-active {
 
 .theme-install-overlay .previous-theme:before {
 	font: normal 20px/1 dashicons;
-	content: "\f341";
+	content: "\f345";
 	position: relative;
 	top: 6px;
 	right: 14px;
@@ -1444,7 +1442,7 @@ body.full-overlay-active {
 
 .theme-install-overlay .next-theme:before {
 	font: normal 20px/1 dashicons;
-	content: "\f345";
+	content: "\f341";
 	position: relative;
 	top: 6px;
 	right: 13px;
@@ -1460,14 +1458,6 @@ body.full-overlay-active {
 	background: #eee;
 	cursor: default;
 	pointer-events: none;
-}
-
-.rtl .theme-install-overlay .previous-theme:before {
-	content: "\f345";
-}
-
-.rtl .theme-install-overlay .next-theme:before {
-	content: "\f341";
 }
 
 /* Collapse Button */

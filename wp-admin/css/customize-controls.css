@@ -162,10 +162,6 @@ body {
 	z-index: 0;
 }
 
-.rtl .control-section.control-panel > .accordion-section-title:after {
-	content: "\f341";
-}
-
 #customize-theme-controls .control-section.control-panel > h3.accordion-section-title:focus:after,
 #customize-theme-controls .control-section.control-panel > h3.accordion-section-title:hover:after {
 	background: #ddd;
@@ -260,10 +256,6 @@ body {
 	position: relative;
 	top: 7px;
 	left: 13px;
-}
-
-.rtl .control-panel-back:before {
-	content: "\f345";
 }
 
 .in-sub-panel .control-panel-back {
@@ -940,10 +932,6 @@ p.customize-section-description {
 	content: "\f345";
 }
 
-.rtl .control-panel-back.themes-panel-back:before {
-	content: "\f341";
-}
-
 /* Details View */
 .wp-customizer .theme-overlay {
 	display: none;
@@ -988,7 +976,7 @@ p.customize-section-description {
 		right: 0;
 		top: 0;
 		bottom: 0;
-	}	
+	}
 }
 
 
