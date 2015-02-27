@@ -648,9 +648,17 @@ window.wp = window.wp || {};
 		 * @param {HTMLElement}    node   The view node to update.
 		 */
 		update: function( text, editor, node ) {
-			$( node ).data( 'rendered', false );
-			editor.dom.setAttrib( node, 'data-wpview-text', encodeURIComponent( text ) );
-			wp.mce.views.createInstance( this.type, text, this.match( text ).options ).render();
+			_.find( views, function( view, type ) {
+				var match = view.prototype.match( text );
+
+				if ( match ) {
+					$( node ).data( 'rendered', false );
+					editor.dom.setAttrib( node, 'data-wpview-text', encodeURIComponent( text ) );
+					wp.mce.views.createInstance( type, text, match.options ).render();
+
+					return true;
+				}
+			} );
 		},
 
 		/**
