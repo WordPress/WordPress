@@ -537,6 +537,7 @@ class WP_Press_This {
 
 				?>
 				<div id="post-formats-select">
+				<fieldset><legend class="screen-reader-text"><?php _e( 'Post formats' ); ?></legend>
 					<input type="radio" name="post_format" class="post-format" id="post-format-0" value="0" <?php checked( $post_format, '0' ); ?> />
 					<label for="post-format-0" class="post-format-icon post-format-standard"><?php echo get_post_format_string( 'standard' ); ?></label>
 					<?php
@@ -550,6 +551,7 @@ class WP_Press_This {
 						<?php
 					 }
 					 ?>
+				</fieldset>
 				</div>
 				<?php
 			}
@@ -569,8 +571,8 @@ class WP_Press_This {
 
 		if ( current_user_can( $taxonomy->cap->edit_terms ) ) {
 			?>
-			<button type="button" class="add-cat-toggle button-subtle">
-				<span class="dashicons dashicons-plus"></span>
+			<button type="button" class="add-cat-toggle button-subtle" aria-expanded="false">
+				<span class="dashicons dashicons-plus"></span><span class="screen-reader-text"><?php _e( 'Toggle add category' ); ?></span>
 			</button>
 			<div class="add-category is-hidden">
 				<label class="screen-reader-text" for="new-category"><?php echo $taxonomy->labels->add_new_item; ?></label>
@@ -592,12 +594,12 @@ class WP_Press_This {
 			</div>
 		<?php } ?>
 		<div class="categories-search-wrapper">
-			<input id="categories-search" type="search" class="categories-search" placeholder="<?php esc_attr_e( 'Search categories' ) ?>">
+			<input id="categories-search" type="search" class="categories-search" placeholder="<?php esc_attr_e( 'Search categories by name' ) ?>">
 			<label for="categories-search">
-				<span class="dashicons dashicons-search"></span>
+				<span class="dashicons dashicons-search"></span><span class="screen-reader-text"><?php _e( 'Search categories' ); ?></span>
 			</label>
 		</div>
-		<ul class="categories-select">
+		<ul class="categories-select" aria-label="<?php esc_attr_e( 'Categories' ); ?>">
 			<?php wp_terms_checklist( $post->ID, array( 'taxonomy' => 'category' ) ); ?>
 		</ul>
 		<?php
@@ -645,9 +647,7 @@ class WP_Press_This {
 		<?php
 		if ( $user_can_assign_terms ) {
 			?>
-			<p>
-				<a href="#titlediv" class="tagcloud-link" id="link-post_tag"><?php echo $taxonomy->labels->choose_from_most_used; ?></a>
-			</p>
+			<button type="button" class="button-reset button-link tagcloud-link" id="link-post_tag"><?php echo $taxonomy->labels->choose_from_most_used; ?></button>
 			<?php
 		}
 	}
@@ -756,6 +756,7 @@ class WP_Press_This {
 
 	<div id="scanbar" class="scan">
 		<form method="GET">
+			<label for="url-scan" class="screen-reader-text"><?php _e( 'Scan site for content' ); ?></label>
 			<input type="url" name="u" id="url-scan" class="scan-url" value="" placeholder="<?php esc_attr_e( 'Enter a URL to scan' ) ?>" />
 			<input type="submit" name="url-scan-submit" id="url-scan-submit" class="scan-submit" value="<?php esc_attr_e( 'Scan' ) ?>" />
 		</form>
@@ -842,19 +843,29 @@ class WP_Press_This {
 			<?php if ( $supports_formats ) : ?>
 				<div class="setting-modal is-off-screen is-hidden">
 					<button type="button" class="button-reset modal-close">
-						<span class="dashicons dashicons-arrow-left-alt2"></span><span class="setting-title"><?php _e( 'Post format' ); ?></span>
+						<span class="dashicons dashicons-arrow-left-alt2"></span>
+						<span class="setting-title" aria-hidden="true"><?php _e( 'Post format' ); ?></span>
+						<span class="screen-reader-text"><?php _e( 'Back to post options' ) ?></span>
 					</button>
 					<?php $this->post_formats_html( $post ); ?>
 				</div>
 			<?php endif; ?>
 
 			<div class="setting-modal is-off-screen is-hidden">
-				<button type="button" class="button-reset modal-close"><span class="dashicons dashicons-arrow-left-alt2"></span><span class="setting-title"><?php _e( 'Categories' ); ?></span></button>
+				<button type="button" class="button-reset modal-close">
+					<span class="dashicons dashicons-arrow-left-alt2"></span>
+					<span class="setting-title" aria-hidden="true"><?php _e( 'Categories' ); ?></span>
+					<span class="screen-reader-text"><?php _e( 'Back to post options' ) ?></span>
+				</button>
 				<?php $this->categories_html( $post ); ?>
 			</div>
 
 			<div class="setting-modal tags is-off-screen is-hidden">
-				<button type="button" class="button-reset modal-close"><span class="dashicons dashicons-arrow-left-alt2"></span><span class="setting-title"><?php _e( 'Tags' ); ?></span></button>
+				<button type="button" class="button-reset modal-close">
+					<span class="dashicons dashicons-arrow-left-alt2"></span>
+					<span class="setting-title" aria-hidden="true"><?php _e( 'Tags' ); ?></span>
+					<span class="screen-reader-text"><?php _e( 'Back to post options' ) ?></span>
+				</button>
 				<?php $this->tags_html( $post ); ?>
 			</div>
 		</div><!-- .options-panel -->
@@ -876,8 +887,6 @@ class WP_Press_This {
 
 	<?php
 
-		// TODO: consider running "special" press-this hooks here?
-		// Maybe better so we don't output stuff accidentally added by plugins. Would probably prevent some errors.
 		do_action( 'admin_footer', '' );
 		do_action( 'admin_print_footer_scripts' );
 

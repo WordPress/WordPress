@@ -18,7 +18,7 @@ var tagBox, array_unique_noempty;
 
 		return out;
 	};
-	
+
 	tagBox = {
 		clean : function(tags) {
 			var comma = window.tagsBoxL10n.tagDelimiter;
@@ -193,7 +193,7 @@ var tagBox, array_unique_noempty;
 			});
 
 			// tag cloud
-			$('a.tagcloud-link').click(function(){
+			$('.tagcloud-link').click(function(){
 				tagBox.get( $(this).attr('id') );
 				$(this).unbind().click(function(){
 					$(this).siblings('.the-tagcloud').toggle();

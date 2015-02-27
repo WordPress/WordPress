@@ -540,10 +540,17 @@
 		 * Save a new user-generated category via AJAX
 		 */
 		function saveNewCategory() {
-			var data = {
+			var data,
+				name = $( '#new-category' ).val();
+
+			if ( ! name ) {
+				return;
+			}
+
+			data = {
 				action: 'press-this-add-category',
 				post_id: $( '#post_ID' ).val() || 0,
-				name: $( '#new-category' ).val() || '',
+				name: name,
 				new_cat_nonce: $( '#_ajax_nonce-add-category' ).val() || '',
 				parent: $( '#new-category-parent' ).val() || 0
 			};
@@ -810,7 +817,7 @@
 				$targetSettingModal
 					.removeClass( isOffScreen + ' ' + isHidden )
 					.one( transitionEndEvent, function() {
-						$( this ).find( $modalClose ).focus();
+						$( this ).find( '.modal-close' ).focus();
 					} );
 			} );
 
@@ -827,16 +834,16 @@
 					.addClass( isOffScreen )
 					.one( transitionEndEvent, function() {
 						$( this ).addClass( isHidden );
+						$postOption.eq( index - 1 ).focus();
 					} );
 
 				// For browser that don't support transitionend.
 				if ( ! transitionEndEvent ) {
 					setTimeout( function() {
 						$targetSettingModal.addClass( isHidden );
+						$postOption.eq( index - 1 ).focus();
 					}, 350 );
 				}
-
-				$postOption.eq( index - 1 ).focus();
 			} );
 		}
 
@@ -963,14 +970,16 @@
 			} );
 
 			$( 'button.add-cat-toggle' ).on( 'click.press-this', function() {
-				$( this ).toggleClass( 'is-toggled' );
-				$( '.setting-modal .add-category' ).toggleClass( 'is-hidden' );
-				$( '.categories-search-wrapper' ).toggleClass( 'is-hidden' );
+				var $this = $( this );
+
+				$this.toggleClass( 'is-toggled' );
+				$this.attr( 'aria-expanded', ! $this.attr( 'aria-expanded' ) );
+				$( '.setting-modal .add-category, .categories-search-wrapper' ).toggleClass( 'is-hidden' );
 			} );
 
 			$( 'button.add-cat-submit' ).on( 'click.press-this', saveNewCategory );
 
-			$( '.categories-search' ).on( 'keyup', function() {
+			$( '.categories-search' ).on( 'keyup.press-this', function() {
 				var search = $( this ).val().toLowerCase() || '';
 
 				// Don't search when less thasn 3 extended ASCII chars

@@ -57,7 +57,7 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 			</button>
 		</p>
 
-		<div class="hidden js-pressthis-code-wrap">
+		<div class="hidden js-pressthis-code-wrap" id="pressthis-code-wrap">
 			<p id="pressthis-code-desc">
 				<?php _e( 'If you can\'t drag it to your bookmarks, copy the following code and create new bookmark. Paste the code into the new bookmark\'s URL field.' ) ?>
 			</p>
