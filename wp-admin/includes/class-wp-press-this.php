@@ -465,7 +465,7 @@ class WP_Press_This {
 		 *
 		 * @param bool $enable Whether to enable media discovery.
 		 */
-		if ( apply_filters( 'enable_press_this_media_discovery', __return_true() ) ) {
+		if ( apply_filters( 'enable_press_this_media_discovery', true ) ) {
 			/*
 			 * If no _meta (a new thing) was passed via $_POST, fetch data from source as fallback,
 			 * makes PT fully backward compatible
@@ -886,10 +886,10 @@ class WP_Press_This {
 	</form>
 
 	<?php
-
-		do_action( 'admin_footer', '' );
-		do_action( 'admin_print_footer_scripts' );
-
+	/** This action is documented in wp-admin/admin-footer.php */
+	do_action( 'admin_footer' );
+	/** This action is documented in wp-admin/admin-footer.php */
+	do_action( 'admin_print_footer_scripts' );
 	?>
 </body>
 </html>
