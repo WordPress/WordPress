@@ -1,14 +1,25 @@
 ( function( window, document, href, pt_url ) {
-	var encodeURI = window.encodeURIComponent,
+	var encURI = window.encodeURIComponent,
 		form = document.createElement( 'form' ),
 		head = document.getElementsByTagName( 'head' )[0],
 		img = new Image(),
 		target = '_press_this_app',
+		canPost = true,
 		windowWidth, windowHeight,
 		metas, links, content, imgs, ifrs,
-		vid, selection;
+		vid, selection, newWin;
 
 	if ( ! pt_url ) {
+		return;
+	}
+
+	if ( href.match( /^https?:/ ) ) {
+		pt_url += '&u=' + encURI( href );
+		if ( href.match( /^https:/ ) && pt_url.match( /^http:/ ) ) {
+			canPost = false;
+		}
+	} else {
+		top.location.href = pt_url;
 		return;
 	}
 
@@ -22,18 +33,23 @@
 
 	pt_url += ( pt_url.indexOf( '?' ) > -1 ? '&' : '?' ) + 'buster=' + ( new Date().getTime() );
 
-	if ( document.title.length && document.title.length <= 512 ) {
-		pt_url += '&t=' + encodeURI( document.title );
+	if ( document.title.length && ( document.title.length <= 256 || ! canPost ) ) {
+		pt_url += '&t=' + encURI( document.title.substr( 0, 256 ) );
 	}
 
-	if ( selection && selection.length <= 512 ) {
-		pt_url += '&s=' + encodeURI( selection );
+	if ( selection && ( selection.length <= 512 || ! canPost ) ) {
+		pt_url += '&s=' + encURI( selection.substr( 0, 512 ) );
 	}
 
-	if ( href.match( /^https?:/ ) ) {
-		pt_url += '&u=' + encodeURI( href );
-	} else {
-		top.location.href = pt_url;
+	windowWidth  = window.outerWidth || document.documentElement.clientWidth || 600;
+	windowHeight = window.outerHeight || document.documentElement.clientHeight || 700;
+
+	windowWidth = ( windowWidth < 800 || windowWidth > 5000 ) ? 600 : ( windowWidth * 0.7 );
+	windowHeight = ( windowHeight < 800 || windowHeight > 3000 ) ? 700 : ( windowHeight * 0.9 );
+
+	if ( ! canPost ) {
+		newWin = window.open( pt_url, target, 'location,resizable,scrollbars,width=' + windowWidth + ',height=' + windowHeight );
+		newWin.focus();
 		return;
 	}
 
@@ -173,15 +189,10 @@
 	form.setAttribute( 'target', target );
 	form.setAttribute( 'style', 'display: none;' );
 
-	windowWidth  = window.outerWidth || document.documentElement.clientWidth || 600;
-	windowHeight = window.outerHeight || document.documentElement.clientHeight || 700;
-
-	windowWidth = ( windowWidth < 800 || windowWidth > 5000 ) ? 600 : ( windowWidth * 0.7 );
-	windowHeight = ( windowHeight < 800 || windowHeight > 3000 ) ? 700 : ( windowHeight * 0.9 );
-
-	window.open( 'about:blank', target, 'location,resizable,scrollbars,width=' + windowWidth + ',height=' + windowHeight );
+	newWin = window.open( 'about:blank', target, 'location,resizable,scrollbars,width=' + windowWidth + ',height=' + windowHeight );
 
 	document.body.appendChild( form );
-
 	form.submit();
+
+	newWin.focus();
 } )( window, document, top.location.href, window.pt_url );
