@@ -473,28 +473,22 @@ function wp_default_scripts( &$scripts ) {
 		$scripts->add( 'press-this', "/wp-admin/js/press-this$suffix.js", array( 'jquery', 'tags-box' ), false, 1 );
 		did_action( 'init' ) && $scripts->localize( 'press-this', 'pressThisL10n', array(
 			/**
-			 * press_this_source_string: string displayed before the source attribution string, defaults to "Source:".
+			 * Filter the string displayed before the source attribution string in Press This.
 			 *
-			 * @since 4.2
-			 * @see https://github.com/MichaelArestad/Press-This/issues/25
+			 * @since 4.2.0
 			 *
-			 * @param string $string Internationalized source string
-			 *
-			 * @return string Source string
+			 * @param string $string Internationalized source string.
 			 */
 			'source' => apply_filters( 'press_this_source_string', __( 'Source:' ) ),
 
 			/**
-			 * press_this_source_link: HTML link format for the source attribution, can control target, class, etc
+			 * Filter the HTML link format for the Press This source attribution, can control target, class, etc.
 			 *
-			 * @since 4.2
-			 * @see https://github.com/MichaelArestad/Press-This/issues/25
+			 * @since 4.2.0
 			 *
-			 * @param string $link_format Internationalized link format, %1$s is link href, %2$s is link text
-			 *
-			 * @return string Link markup
+			 * @param string $link_format Link format, %1$s is link href, %2$s is link text.
 			 */
-			'sourceLink' => apply_filters( 'press_this_source_link', __( '<a href="%1$s">%2$s</a>' ) ),
+			'sourceLink' => apply_filters( 'press_this_source_link', '<a href="%1$s">%2$s</a>' ),
 			'newPost' => __( 'Title' ),
 			'unexpectedError' => __( 'Sorry, but an unexpected error occurred.' ),
 			'saveAlert' => __( 'The changes you made will be lost if you navigate away from this page.' ),

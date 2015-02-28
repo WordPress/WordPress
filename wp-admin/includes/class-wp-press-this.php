@@ -52,7 +52,7 @@ class WP_Press_This {
 			 *
 			 * @param bool $redir_in_parent Whether to redirect in parent window or not. Default false.
 			 */
-			'redir_in_parent' => apply_filters( 'press_this_redirect_in_parent', __return_false() ),
+			'redir_in_parent' => apply_filters( 'press_this_redirect_in_parent', false ),
 		);
 	}
 
@@ -377,7 +377,7 @@ class WP_Press_This {
 			$data['_meta'] = array();
 		}
 
-		if ( preg_match_all( '/<meta ([^>]+)[\s]?\/?>/  ', $source_content, $matches ) ) {
+		if ( preg_match_all( '/<meta ([^>]+)[\s]?\/?>/', $source_content, $matches ) ) {
 			if ( ! empty( $matches[0] ) ) {
 				foreach ( $matches[0] as $key => $value ) {
 					if ( preg_match( '/<meta[^>]+(property|name)="(.+)"[^>]+content="(.+)"/', $value, $new_matches ) ) {
@@ -665,7 +665,7 @@ class WP_Press_This {
 	 * @access public
 	 */
 	public function html() {
-		global $wp_locale, $hook_suffix;
+		global $wp_locale, $wp_version;
 
 		// Get data, new (POST) and old (GET).
 		$data = $this->merge_or_fetch_data();
@@ -698,8 +698,8 @@ class WP_Press_This {
 	<title><?php esc_html_e( 'Press This!' ) ?></title>
 
 	<script>
-		window.wpPressThisData   = <?php echo json_encode( $data ) ?>;
-		window.wpPressThisConfig = <?php echo json_encode( $site_settings ) ?>;
+		window.wpPressThisData   = <?php echo wp_json_encode( $data ) ?>;
+		window.wpPressThisConfig = <?php echo wp_json_encode( $site_settings ) ?>;
 	</script>
 
 	<script type="text/javascript">
@@ -709,7 +709,7 @@ class WP_Press_This {
 			adminpage = 'press-this-php',
 			thousandsSeparator = '<?php echo addslashes( $wp_locale->number_format['thousands_sep'] ); ?>',
 			decimalPoint = '<?php echo addslashes( $wp_locale->number_format['decimal_point'] ); ?>',
-			isRtl = <?php echo esc_js( (int) is_rtl() ); ?>;
+			isRtl = <?php echo (int) is_rtl(); ?>;
 	</script>
 
 	<?php
@@ -738,17 +738,39 @@ class WP_Press_This {
 		}
 
 		/** This action is documented in wp-admin/admin-header.php */
-		do_action( 'admin_enqueue_scripts', $hook_suffix );
+		do_action( 'admin_enqueue_scripts', 'press-this.php' );
+
+		/** This action is documented in wp-admin/admin-header.php */
+		do_action( 'admin_print_styles-press-this.php' );
 
 		/** This action is documented in wp-admin/admin-header.php */
 		do_action( 'admin_print_styles' );
 
 		/** This action is documented in wp-admin/admin-header.php */
+		do_action( 'admin_print_scripts-press-this.php' );
+
+		/** This action is documented in wp-admin/admin-header.php */
 		do_action( 'admin_print_scripts' );
 
+		/** This action is documented in wp-admin/admin-header.php */
+		do_action( 'admin_head-press-this.php' );
+
+		/** This action is documented in wp-admin/admin-header.php */
+		do_action( 'admin_head' );
 	?>
 </head>
-<body>
+<?php
+$admin_body_class  = 'press-this';
+$admin_body_class .= ( is_rtl() ) ? ' rtl' : '';
+$admin_body_class .= ' branch-' . str_replace( array( '.', ',' ), '-', floatval( $wp_version ) );
+$admin_body_class .= ' version-' . str_replace( '.', '-', preg_replace( '/^([.0-9]+).*/', '$1', $wp_version ) );
+$admin_body_class .= ' admin-color-' . sanitize_html_class( get_user_option( 'admin_color' ), 'fresh' );
+$admin_body_class .= ' locale-' . sanitize_html_class( strtolower( str_replace( '_', '-', get_locale() ) ) );
+
+/** This filter is documented in wp-admin/admin-header.php */
+$admin_body_classes = apply_filters( 'admin_body_class', '' );
+?>
+<body class="wp-admin wp-core-ui <?php echo $admin_body_classes . ' ' . $admin_body_class; ?>">
 	<div id="adminbar" class="adminbar">
 		<h1 id="current-site" class="current-site">
 			<span class="dashicons dashicons-wordpress"></span>
@@ -894,8 +916,12 @@ class WP_Press_This {
 	<?php
 	/** This action is documented in wp-admin/admin-footer.php */
 	do_action( 'admin_footer' );
+
 	/** This action is documented in wp-admin/admin-footer.php */
 	do_action( 'admin_print_footer_scripts' );
+
+	/** This action is documented in wp-admin/admin-footer.php */
+	do_action( 'admin_footer-press-this.php' );
 	?>
 </body>
 </html>
