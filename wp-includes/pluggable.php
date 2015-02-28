@@ -1201,6 +1201,19 @@ if ( !function_exists('wp_sanitize_redirect') ) :
  * @return string redirect-sanitized URL
  **/
 function wp_sanitize_redirect($location) {
+	$regex = '/
+		(
+			(?: [\xC2-\xDF][\x80-\xBF]        # double-byte sequences   110xxxxx 10xxxxxx
+			|   \xE0[\xA0-\xBF][\x80-\xBF]    # triple-byte sequences   1110xxxx 10xxxxxx * 2
+			|   [\xE1-\xEC][\x80-\xBF]{2}
+			|   \xED[\x80-\x9F][\x80-\xBF]
+			|   [\xEE-\xEF][\x80-\xBF]{2}
+			|   \xF0[\x90-\xBF][\x80-\xBF]{2} # four-byte sequences   11110xxx 10xxxxxx * 3
+			|   [\xF1-\xF3][\x80-\xBF]{3}
+			|   \xF4[\x80-\x8F][\x80-\xBF]{2}
+		){1,50}                              # ...one or more times
+		)/x';
+	$location = preg_replace_callback( $regex, '_wp_sanitize_utf8_in_redirect', $location );
 	$location = preg_replace('|[^a-z0-9-~+_.?#=&;,/:%!*\[\]()]|i', '', $location);
 	$location = wp_kses_no_null($location);
 
@@ -1208,6 +1221,19 @@ function wp_sanitize_redirect($location) {
 	$strip = array('%0d', '%0a', '%0D', '%0A');
 	$location = _deep_replace($strip, $location);
 	return $location;
+}
+
+/**
+ * URL encode UTF-8 characters in a URL.
+ *
+ * @ignore
+ * @since 4.2.0
+ * @access private
+ *
+ * @see wp_sanitize_redirect()
+ */
+function _wp_sanitize_utf8_in_redirect( $matches ) {
+	return urlencode( $matches[0] );
 }
 endif;
 
