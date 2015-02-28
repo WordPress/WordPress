@@ -525,18 +525,6 @@
 		}
 
 		/**
-		 * Adds the currently selected post format next to the option, in the options panel.
-		 *
-		 * @param format string Post format to be displayed
-		 */
-		function setPostFormatString( format ) {
-			if ( ! format || ! siteConfig || ! siteConfig.post_formats || ! siteConfig.post_formats[ format ] ) {
-				return;
-			}
-			$( '#post-option-post-format' ).text( siteConfig.post_formats[ format ] );
-		}
-
-		/**
 		 * Save a new user-generated category via AJAX
 		 */
 		function saveNewCategory() {
@@ -953,7 +941,7 @@
 				var $this = $( this );
 
 				if ( $this.is( ':checked' ) ) {
-					setPostFormatString( $this.attr( 'id' ).replace( /^post-format-(.+)$/, '$1' ) );
+					$( '#post-option-post-format' ).text( $( 'label[for="' + $this.attr( 'id' ) + '"]' ).text() || '' );
 				}
 			} );
 

@@ -31,19 +31,10 @@ class WP_Press_This {
 	 * @return array Site settings.
 	 */
 	public function site_settings() {
-		$supported_formats = get_theme_support( 'post-formats' );
-		$post_formats      = array();
-
-		if ( ! empty( $supported_formats[0] ) && is_array( $supported_formats[0] ) ) {
-			$post_formats[0] = __( 'Standard' );
-			foreach ( $supported_formats[0] as $post_format ) {
-				$post_formats[ $post_format ] = esc_html( get_post_format_string( $post_format ) );
-			}
-		}
-
 		return array(
-			'version'         => 5,
-			'post_formats'    => $post_formats,
+			// Used to trigger the bookmarklet update notice.
+			// Needs to be set here and in get_shortcut_link() in wp-includes/link-template.php.
+			'version' => '5',
 
 			/**
 			 * Filter whether or not Press This should redirect the user in the parent window upon save.
