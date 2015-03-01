@@ -1222,7 +1222,7 @@ function add_settings_section($id, $title, $callback, $page) {
  * @param string $section  Optional. The slug-name of the section of the settings page
  *                         in which to show the box. Default 'default'.
  * @param array  $args {
- *     Optional. Extra arguments passed used when outputting the field.
+ *     Optional. Extra arguments used when outputting the field.
  *
  *     @type string $label_for When supplied, the setting title will be wrapped
  *                             in a `<label>` element, its `for` attribute populated
