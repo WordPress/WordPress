@@ -1208,15 +1208,28 @@ function add_settings_section($id, $title, $callback, $page) {
  * values to show.
  *
  * @since 2.7.0
+ * @since 4.2.0 The `$class` argument was added.
  *
  * @global $wp_settings_fields Storage array of settings fields and info about their pages/sections
  *
- * @param string $id Slug-name to identify the field. Used in the 'id' attribute of tags.
- * @param string $title Formatted title of the field. Shown as the label for the field during output.
- * @param string $callback Function that fills the field with the desired form inputs. The function should echo its output.
- * @param string $page The slug-name of the settings page on which to show the section (general, reading, writing, ...).
- * @param string $section The slug-name of the section of the settings page in which to show the box (default, ...).
- * @param array $args Additional arguments
+ * @param string $id       Slug-name to identify the field. Used in the 'id' attribute of tags.
+ * @param string $title    Formatted title of the field. Shown as the label for the field
+ *                         during output.
+ * @param string $callback Function that fills the field with the desired form inputs. The
+ *                         function should echo its output.
+ * @param string $page     The slug-name of the settings page on which to show the section
+ *                         (general, reading, writing, ...).
+ * @param string $section  Optional. The slug-name of the section of the settings page
+ *                         in which to show the box. Default 'default'.
+ * @param array  $args {
+ *     Optional. Extra arguments passed used when outputting the field.
+ *
+ *     @type string $label_for When supplied, the setting title will be wrapped
+ *                             in a `<label>` element, its `for` attribute populated
+ *                             with this value.
+ *     @type string $class     CSS Class to be added to the `<tr>` element when the
+ *                             field is output.
+ * }
  */
 function add_settings_field($id, $title, $callback, $page, $section = 'default', $args = array()) {
 	global $wp_settings_fields;
