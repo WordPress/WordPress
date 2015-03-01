@@ -3438,7 +3438,7 @@ function get_avatar_url( $id_or_email, $args = null ) {
  *                                  Default null.
  *     @type array  $processed_args When the function returns, the value will be the processed/sanitized $args
  *                                  plus a "found_avatar" guess. Pass as a reference. Default null.
- *     @type string $extra_attr     HTML attribute to insert in the IMG element.  Has no default and is not sanitized.
+ *     @type string $extra_attr     HTML attributes to insert in the IMG element. Is not sanitized. Default empty.
  * }
  *
  * @return array $processed_args {

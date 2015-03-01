@@ -2149,7 +2149,7 @@ if ( !function_exists( 'get_avatar' ) ) :
  *                                       Default null.
  *     @type bool         $force_display Whether to always show the avatar - ignores the show_avatars option.
  *                                       Default false.
- *     @type string       $extra_attr    HTML attribute to insert in the IMG element.  Has no default and is not sanitized.
+ *     @type string       $extra_attr    HTML attributes to insert in the IMG element. Is not sanitized. Default empty.
  * }
  *
  * @return false|string `<img>` tag for the user's avatar. False on failure.
