@@ -2156,6 +2156,7 @@ function wp_check_filetype_and_ext( $file, $filename, $mimes = null ) {
  * Retrieve list of mime types and file extensions.
  *
  * @since 3.5.0
+ * @since 4.2.0 Support was added for GIMP (xcf) files.
  *
  * @return array Array of mime types keyed by the file extension regex corresponding to those types.
  */
