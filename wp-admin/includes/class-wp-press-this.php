@@ -31,6 +31,9 @@ class WP_Press_This {
 	 * @return array Site settings.
 	 */
 	public function site_settings() {
+		$html = '<p class="press-this-suggested-source">' . _x( 'Source:', 'Used in Press This to indicate where the content comes from.' ) .
+			' <cite><a href="%1$s">%2$s</a></cite></p>';
+
 		return array(
 			// Used to trigger the bookmarklet update notice.
 			// Needs to be set here and in get_shortcut_link() in wp-includes/link-template.php.
@@ -41,9 +44,18 @@ class WP_Press_This {
 			 *
 			 * @since 4.2.0
 			 *
-			 * @param bool $redir_in_parent Whether to redirect in parent window or not. Default false.
+			 * @param bool false Whether to redirect in parent window or not. Default false.
 			 */
-			'redir_in_parent' => apply_filters( 'press_this_redirect_in_parent', false ),
+			'redirInParent' => apply_filters( 'press_this_redirect_in_parent', false ),
+
+			/**
+			 * Filter the HTML for the Press This source attribution.
+			 *
+			 * @since 4.2.0
+			 *
+			 * @param string $html Default HTML, %1$s is link href, %2$s is link text.
+			 */
+			'suggestedHTML' => apply_filters( 'press_this_suggested_html', $html ),
 		);
 	}
 

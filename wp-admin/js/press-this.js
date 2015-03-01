@@ -100,14 +100,9 @@
 		/**
 		 * Gets the source page's canonical link, based on passed location and meta data.
 		 *
-		 * @param data object Usually WpPressThis_App.data
 		 * @returns string Discovered canonical URL, or empty
 		 */
-		function getCanonicalLink( data ) {
-			if ( ! data || data.length ) {
-				return '';
-			}
-
+		function getCanonicalLink() {
 			var link = '';
 
 			if ( data._links ) {
@@ -128,21 +123,16 @@
 				}
 			}
 
-			return decodeURI( link );
+			return checkUrl( decodeURI( link ) );
 		}
 
 		/**
 		 * Gets the source page's site name, based on passed meta data.
 		 *
-		 * @param data object Usually WpPressThis_App.data
 		 * @returns string Discovered site name, or empty
 		 */
-		function getSourceSiteName( data ) {
-			if ( ! data || data.length ) {
-				return '';
-			}
-
-			var name='';
+		function getSourceSiteName() {
+			var name = '';
 
 			if ( data._meta ) {
 				if ( data._meta['og:site_name'] && data._meta['og:site_name'].length ) {
@@ -152,27 +142,22 @@
 				}
 			}
 
-			return name.replace( /\\/g, '' );
+			return sanitizeText( name );
 		}
 
 		/**
 		 * Gets the source page's title, based on passed title and meta data.
 		 *
-		 * @param data object Usually WpPressThis_App.data
 		 * @returns string Discovered page title, or empty
 		 */
-		function getSuggestedTitle( data ) {
-			if ( ! data || data.length ) {
-				return __( 'newPost' );
-			}
-
+		function getSuggestedTitle() {
 			var title = '';
 
 			if ( data.t ) {
 				title = data.t;
 			}
 
-			if ( ! title.length && data._meta ) {
+			if ( ! title && data._meta ) {
 				if ( data._meta['twitter:title'] && data._meta['twitter:title'].length ) {
 					title = data._meta['twitter:title'];
 				} else if ( data._meta['og:title'] && data._meta['og:title'].length ) {
@@ -182,60 +167,51 @@
 				}
 			}
 
-			if ( ! title.length ) {
+			if ( ! title ) {
 				title = __( 'newPost' );
 				hasEmptyTitleStr = true;
 			}
 
-			return title.replace( /\\/g, '' );
+			return sanitizeText( title );
 		}
 
 		/**
 		 * Gets the source page's suggested content, based on passed data (description, selection, etc).
 		 * Features a blockquoted excerpt, as well as content attribution, if any.
 		 *
-		 * @param data object Usually WpPressThis_App.data
 		 * @returns string Discovered content, or empty
 		 */
-		function getSuggestedContent( data ) {
-			if ( ! data || data.length ) {
-				return '';
-			}
-
-			var content   = '',
-				title     = getSuggestedTitle( data ),
-				url       = getCanonicalLink( data ),
-				siteName  = getSourceSiteName( data );
+		function getSuggestedContent() {
+			var content  = '',
+				text     = '',
+				title    = getSuggestedTitle(),
+				url      = getCanonicalLink(),
+				siteName = getSourceSiteName();
 
 			if ( data.s && data.s.length ) {
-				content = data.s;
+				text = data.s;
 			} else if ( data._meta ) {
 				if ( data._meta['twitter:description'] && data._meta['twitter:description'].length ) {
-					content = data._meta['twitter:description'];
+					text = data._meta['twitter:description'];
 				} else if ( data._meta['og:description'] && data._meta['og:description'].length ) {
-					content = data._meta['og:description'];
+					text = data._meta['og:description'];
 				} else if ( data._meta.description && data._meta.description.length ) {
-					content = data._meta.description;
+					text = data._meta.description;
 				}
 			}
 
-			// Wrap suggested content in blockquote tag, if we have any.
-			content = ( content.length ? '<blockquote class="press-this-suggested-content">' + sanitizeText( content ) + '</blockquote>' : '' );
+			if ( text ) {
+				text = sanitizeText( text );
+				// Wrap suggested content in blockquote tag.
+				content = '<blockquote class="press-this-suggested-content">' + text + '</blockquote>';
+			}
 
 			// Add a source attribution if there is one available.
-			if ( ( ( title.length && __( 'newPost' ) !== title ) || siteName.length ) && url.length ) {
-				content += '<p class="press-this-suggested-source">';
-				content += __( 'source' );
-				content += ' <cite>';
-				content += __( 'sourceLink').replace( '%1$s', encodeURI( url ) ).replace( '%2$s', sanitizeText( title || siteName ) );
-				content += '</cite></p>';
+			if ( url && siteConfig.suggestedHTML && ( ( title && __( 'newPost' ) !== title ) || siteName ) ) {
+				content += siteConfig.suggestedHTML.replace( '%1$s', encodeURI( url ) ).replace( '%2$s', ( title || siteName ) );
 			}
 
-			if ( ! content ) {
-				content = '';
-			}
-
-			return content.replace( /\\/g, '' );
+			return content || '';
 		}
 
 		/**
@@ -472,7 +448,7 @@
 						renderError( response.data.errorMessage );
 						hideSpinner();
 					} else if ( response.data.redirect ) {
-						if ( window.opener && siteConfig.redir_in_parent ) {
+						if ( window.opener && siteConfig.redirInParent ) {
 							try {
 								window.opener.location.href = response.data.redirect;
 							} catch( er ) {}
@@ -514,13 +490,10 @@
 			}
 
 			if ( ! hasSetFocus ) {
-				// Append to top of content on 1st media insert
-				editor.setContent( newContent + editor.getContent() );
-			} else {
-				// Or add where the cursor was last positioned in TinyMCE
-				editor.execCommand( 'mceInsertContent', false, newContent );
+				editor.focus();
 			}
 
+			editor.execCommand( 'mceInsertContent', false, newContent );
 			hasSetFocus = true;
 		}
 
@@ -673,7 +646,6 @@
 					hasSetFocus = true;
 				} );
 			}
-
 		}
 
 		/**
