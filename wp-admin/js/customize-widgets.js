@@ -685,10 +685,10 @@
 
 					if ( isMoveUp ) {
 						self.moveUp();
-						$( '#screen-reader-messages' ).text( l10n.widgetMovedUp );
+						wp.a11y.speak( l10n.widgetMovedUp );
 					} else {
 						self.moveDown();
-						$( '#screen-reader-messages' ).text( l10n.widgetMovedDown );
+						wp.a11y.speak( l10n.widgetMovedDown );
 					}
 
 					$( this ).focus(); // re-focus after the container was moved

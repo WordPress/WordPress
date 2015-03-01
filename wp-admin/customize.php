@@ -118,8 +118,6 @@ do_action( 'customize_controls_print_scripts' );
 <body class="<?php echo esc_attr( $body_class ); ?>">
 <div class="wp-full-overlay expanded">
 	<form id="customize-controls" class="wrap wp-full-overlay-sidebar">
-		<div id="screen-reader-messages" role="status" aria-live="polite" aria-relevant="all" aria-atomic="true" class="screen-reader-text"></div>
-
 		<div id="customize-header-actions" class="wp-full-overlay-header">
 			<?php
 				$save_text = $wp_customize->is_theme_active() ? __( 'Save &amp; Publish' ) : __( 'Save &amp; Activate' );

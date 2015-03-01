@@ -1,0 +1,1 @@
+window.wp=window.wp||{},function(a,b){"use strict";function c(a){d&&d.text(a)}var d;b(document).ready(function(){d=b("#wp-a11y-speak"),d.length||(d=b("<div>",{id:"wp-a11y-speak",role:"status","aria-live":"polite","aria-relevant":"all","aria-atomic":"true","class":"screen-reader-text"}),b(document.body).append(d))}),a.a11y=a.a11y||{},a.a11y.speak=c}(window.wp,window.jQuery);

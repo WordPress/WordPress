@@ -107,6 +107,7 @@ window.wp = window.wp || {};
 
 		$message.addClass( 'updating-message' );
 		$message.text( wp.updates.l10n.updating );
+		wp.a11y.speak( wp.updates.l10n.updatingMsg );
 
 		if ( wp.updates.updateLock ) {
 			wp.updates.updateQueue.push( {
@@ -153,6 +154,7 @@ window.wp = window.wp || {};
 
 		$message.removeClass( 'updating-message' ).addClass( 'updated-message' );
 		$message.text( wp.updates.l10n.updated );
+		wp.a11y.speak( wp.updates.l10n.updatedMsg );
 
 		wp.updates.decrementCount( 'plugin' );
 	};
@@ -173,6 +175,7 @@ window.wp = window.wp || {};
 		}
 		$message.removeClass( 'updating-message' );
 		$message.text( wp.updates.l10n.updateFailed );
+		wp.a11y.speak( wp.updates.l10n.updateFailed );
 	};
 
 	/**
@@ -198,6 +201,7 @@ window.wp = window.wp || {};
 
 		$message.addClass( 'updating-message' );
 		$message.text( wp.updates.l10n.installing );
+		wp.a11y.speak( wp.updates.l10n.installingMsg );
 
 		if ( wp.updates.updateLock ) {
 			wp.updates.updateQueue.push( {
@@ -234,6 +238,7 @@ window.wp = window.wp || {};
 
 		$message.removeClass( 'updating-message' ).addClass( 'updated-message button-disabled' );
 		$message.text( wp.updates.l10n.installed );
+		wp.a11y.speak( wp.updates.l10n.installedMsg );
 	};
 
 	/**
