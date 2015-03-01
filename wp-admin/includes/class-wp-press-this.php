@@ -60,7 +60,7 @@ class WP_Press_This {
 	}
 
 	/**
-	 * Get the sources images and save them locally, fr posterity, unless we can't.
+	 * Get the source's images and save them locally, for posterity, unless we can't.
 	 *
 	 * @since 4.2.0
 	 * @access public

@@ -208,7 +208,7 @@
 
 			// Add a source attribution if there is one available.
 			if ( url && siteConfig.suggestedHTML && ( ( title && __( 'newPost' ) !== title ) || siteName ) ) {
-				content += siteConfig.suggestedHTML.replace( '%1$s', encodeURI( url ) ).replace( '%2$s', ( title || siteName ) );
+				content += siteConfig.suggestedHTML.replace( /%1\$s/g, encodeURI( url ) ).replace( /%2\$s/g, ( title || siteName ) );
 			}
 
 			return content || '';
