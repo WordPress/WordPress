@@ -653,7 +653,7 @@ function wp_default_styles( &$styles ) {
 	$styles->add( 'wp-color-picker',    "/wp-admin/css/color-picker$suffix.css" );
 	$styles->add( 'customize-controls', "/wp-admin/css/customize-controls$suffix.css", array( 'wp-admin', 'colors', 'ie', 'imgareaselect' ) );
 	$styles->add( 'customize-widgets',  "/wp-admin/css/customize-widgets$suffix.css", array( 'wp-admin', 'colors' ) );
-	$styles->add( 'press-this',         "/wp-admin/css/press-this$suffix.css", array( 'open-sans' ) );
+	$styles->add( 'press-this',         "/wp-admin/css/press-this$suffix.css", array( 'open-sans', 'buttons' ) );
 
 	$styles->add( 'ie',                 "/wp-admin/css/ie$suffix.css" );
 	$styles->add_data( 'ie', 'conditional', 'lte IE 7' );

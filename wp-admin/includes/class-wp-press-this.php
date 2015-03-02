@@ -723,10 +723,10 @@ class WP_Press_This {
 		$post = get_default_post_to_edit( 'post', true );
 		$post_ID = (int) $post->ID;
 
+		wp_enqueue_media( array( 'post' => $post_ID ) );
 		wp_enqueue_style( 'press-this' );
 		wp_enqueue_script( 'press-this' );
 		wp_enqueue_script( 'json2' );
-		wp_enqueue_media( array( 'post' => $post->ID ) );
 		wp_enqueue_script( 'editor' );
 
 		$supports_formats = false;
@@ -735,7 +735,7 @@ class WP_Press_This {
 		if ( current_theme_supports( 'post-formats' ) && post_type_supports( $post->post_type, 'post-formats' ) ) {
 			$supports_formats = true;
 
-			if ( ! ( $post_format = get_post_format( $post->ID ) ) ) {
+			if ( ! ( $post_format = get_post_format( $post_ID ) ) ) {
 				$post_format = 0;
 			}
 		}
@@ -794,7 +794,7 @@ $admin_body_classes = apply_filters( 'admin_body_class', '' );
 	</div>
 
 	<form id="pressthis-form" name="pressthis-form" method="POST" autocomplete="off">
-		<input type="hidden" name="post_ID" id="post_ID" value="<?php echo esc_attr( $post_ID ); ?>" />
+		<input type="hidden" name="post_ID" id="post_ID" value="<?php echo $post_ID; ?>" />
 		<input type="hidden" name="action" value="press-this-save-post" />
 		<input type="hidden" name="post_status" id="post_status" value="draft" />
 		<?php
