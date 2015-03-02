@@ -31,8 +31,11 @@ class WP_Press_This {
 	 * @return array Site settings.
 	 */
 	public function site_settings() {
-		$html = '<p class="press-this-suggested-source">' . _x( 'Source:', 'Used in Press This to indicate where the content comes from.' ) .
-			' <cite><a href="%1$s">%2$s</a></cite></p>';
+		$default_html = array(
+			'quote' => '<blockquote>%1$s</blockquote>',
+			'link' => '<p>' . _x( 'Source:', 'Used in Press This to indicate where the content comes from.' ) .
+				' <em><a href="%1$s">%2$s</a></em></p>',
+		);
 
 		return array(
 			// Used to trigger the bookmarklet update notice.
@@ -49,13 +52,14 @@ class WP_Press_This {
 			'redirInParent' => apply_filters( 'press_this_redirect_in_parent', false ),
 
 			/**
-			 * Filter the HTML for the Press This source attribution.
+			 * Filter the default HTML for the Press This editor.
 			 *
 			 * @since 4.2.0
 			 *
-			 * @param string $html Default HTML, %1$s is link href, %2$s is link text.
+			 * @param array $default_html Associative array with two keys: 'quote' where %1$s is replaced with the site description
+			 *                            or the selected content, and 'link' there %1$s is link href, %2$s is link text.
 			 */
-			'suggestedHTML' => apply_filters( 'press_this_suggested_html', $html ),
+			'html' => apply_filters( 'press_this_suggested_html', $default_html ),
 		);
 	}
 

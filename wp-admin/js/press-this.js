@@ -200,15 +200,14 @@
 				}
 			}
 
-			if ( text ) {
-				text = sanitizeText( text );
-				// Wrap suggested content in blockquote tag.
-				content = '<blockquote class="press-this-suggested-content">' + text + '</blockquote>';
+			if ( text && siteConfig.html.quote ) {
+				// Wrap suggested content in specified HTML.
+				content = siteConfig.html.quote.replace( /%1\$s/g, sanitizeText( text ) );
 			}
 
 			// Add a source attribution if there is one available.
-			if ( url && siteConfig.suggestedHTML && ( ( title && __( 'newPost' ) !== title ) || siteName ) ) {
-				content += siteConfig.suggestedHTML.replace( /%1\$s/g, encodeURI( url ) ).replace( /%2\$s/g, ( title || siteName ) );
+			if ( url && siteConfig.html.link && ( ( title && __( 'newPost' ) !== title ) || siteName ) ) {
+				content += siteConfig.html.link.replace( /%1\$s/g, encodeURI( url ) ).replace( /%2\$s/g, ( title || siteName ) );
 			}
 
 			return content || '';
