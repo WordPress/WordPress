@@ -415,6 +415,8 @@ foreach ( $theme_sidebars as $sidebar => $registered_sidebar ) {
 	if ( $i > 0 )
 		$wrap_class .= ' closed';
 
+	$wrap_class = apply_filters( 'registered_sidebar_wrap_class', $wrap_class, $i, $theme_sidebars, $sidebar, $registered_sidebar );
+
 	if ( $split && $i == $split ) {
 		?>
 		</div><div class="sidebars-column-2">
