@@ -312,7 +312,7 @@ strong {
 *
 * Pushing buttons is what I do.
 */
-.button-primary,
+
 .button-subtle,
 .scan-submit {
 	display: inline-block;
@@ -328,37 +328,6 @@ strong {
 	white-space: nowrap;
 	cursor: pointer;
 	-webkit-appearance: none;
-}
-
-.button-primary {
-	background: #2ea2cc;
-	border-color: #2581a2;
-	color: #fff;
-}
-
-.button-primary:hover,
-.button-primary:focus {
-	background: #2991b7;
-	border-color: #20708e;
-	color: #fff;
-	outline: 0;
-}
-
-.button-primary:active {
-	background: #2581a2;
-	border-color: #20708e;
-	color: #fff;
-}
-
-.button-primary[disabled],
-.button-primary:disabled {
-	color: #c7ced1 !important;
-	background: #2688ab !important;
-	border-color: #20708e !important;
-}
-
-.button-primary:visited {
-	color: #fff;
 }
 
 .button-subtle {
@@ -394,6 +363,23 @@ strong {
 
 .button-reset:focus {
 	outline: 0;
+}
+
+.button-link {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	background: none;
+	color: #0074a2;
+	cursor: pointer;
+	-webkit-appearance: none;
+}
+
+.button-link:hover,
+.button-link:active,
+.button-link:focus {
+	color: #2ea2cc;
+	text-decoration: underline;
 }
 
 
@@ -667,9 +653,12 @@ dd {
 	border: 0;
 	-webkit-border-radius: 0;
 	border-radius: 0;
+	margin: 0;
 	padding: 0 16px;
 	background: #f7f7f7;
 	border-left: 1px solid #f1f1f1;
+	-webkit-box-shadow: none;
+	box-shadow: none;
 }
 
 .tagsdiv .tagadd:hover,
@@ -679,6 +668,8 @@ dd {
 	background: #2991b7;
 	border-color: #20708e;
 	color: #fff;
+	-webkit-box-shadow: none;
+	box-shadow: none;
 }
 
 .tagsdiv .howto {

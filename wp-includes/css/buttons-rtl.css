@@ -340,11 +340,7 @@ TABLE OF CONTENTS:
 
 	/* Reset responsive styles in Press This, Customizer */
 
-	.wp-core-ui.wp-customizer .button,
-	.press-this.wp-core-ui .button,
-	.press-this input#publish,
-	.press-this input#save-post,
-	.press-this a.preview {
+	.wp-core-ui.wp-customizer .button {
 		padding: 0 10px 1px;
 		font-size: 13px;
 		line-height: 26px;
