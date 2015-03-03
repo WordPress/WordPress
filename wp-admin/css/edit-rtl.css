@@ -1063,15 +1063,6 @@ span.description,
   13.0 - Tags
 ------------------------------------------------------------------------------*/
 
-.tagsdiv {
-	margin-top: -8px;
-}
-
-#poststuff .taghint {
-	color: #aaa;
-	margin: 15px 12px -24px 0;
-}
-
 #poststuff .tagsdiv .howto {
 	margin: 0 0 6px 0;
 }
@@ -1094,21 +1085,6 @@ span.description,
 
 #post-body-content .tagsdiv .the-tags {
 	margin: 0 5px;
-}
-
-/* tag hints */
-.taghint {
-	color: #aaa;
-	margin: -17px 7px 0 0;
-	visibility: hidden;
-}
-
-input.newtag ~ div.taghint {
-	visibility: visible;
-}
-
-input.newtag:focus ~ div.taghint {
-	visibility: hidden;
 }
 
 p.popular-tags {

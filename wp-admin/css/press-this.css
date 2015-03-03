@@ -258,8 +258,7 @@ th {
 	display: none;
 }
 
-.screen-reader-text,
-.taghint {
+.screen-reader-text {
 	position: absolute;
 	margin: -1px;
 	padding: 0;

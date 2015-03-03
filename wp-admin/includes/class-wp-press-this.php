@@ -644,7 +644,6 @@ class WP_Press_This {
 				?>
 				<div class="ajaxtag hide-if-no-js">
 					<label class="screen-reader-text" for="new-tag-post_tag"><?php _e( 'Tags' ); ?></label>
-					<div class="taghint"><?php echo $taxonomy->labels->add_new_item; ?></div>
 					<p>
 						<input type="text" id="new-tag-post_tag" name="newtag[post_tag]" class="newtag form-input-tip" size="16" autocomplete="off" value="" />
 						<button type="button" class="button tagadd"><?php _e( 'Add' ); ?></button>
