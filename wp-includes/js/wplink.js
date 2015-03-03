@@ -2,7 +2,7 @@
 var wpLink;
 
 ( function( $ ) {
-	var editor, searchTimer, River, Query,
+	var editor, searchTimer, River, Query, correctedURL,
 		inputs = {},
 		rivers = {},
 		isTouch = ( 'ontouchend' in document );
@@ -72,6 +72,17 @@ var wpLink;
 					wpLink.searchInternalLinks.call( self );
 				}, 500 );
 			});
+
+			inputs.url.on( 'paste blur', function() {
+				setTimeout( function() {
+					var url = $.trim( inputs.url.val() );
+
+					if ( url && correctedURL !== url && ! /^(?:[a-z]+:|#|\?|\.|\/)/.test( url ) ) {
+						inputs.url.val( 'http://' + url );
+						correctedURL = url;
+					}
+				}, 0 );
+			} );
 		},
 
 		open: function( editorId ) {
@@ -183,6 +194,9 @@ var wpLink;
 
 			inputs.backdrop.hide();
 			inputs.wrap.hide();
+
+			correctedURL = false;
+
 			$( document ).trigger( 'wplink-close', inputs.wrap );
 		},
 
@@ -211,7 +225,7 @@ var wpLink;
 			attrs = wpLink.getAttrs();
 
 			// If there's no href, return.
-			if ( ! attrs.href || attrs.href == 'http://' )
+			if ( ! attrs.href )
 				return;
 
 			// Build HTML
@@ -309,7 +323,7 @@ var wpLink;
 				inputs.url.val( selection.replace( /&amp;|&#0?38;/gi, '&' ) );
 			} else {
 				// Set URL to default.
-				inputs.url.val( 'http://' );
+				inputs.url.val( '' );
 			}
 
 			// Set description to default.
