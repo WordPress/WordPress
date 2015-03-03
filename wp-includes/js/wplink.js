@@ -73,16 +73,20 @@ var wpLink;
 				}, 500 );
 			});
 
-			inputs.url.on( 'paste blur', function() {
-				setTimeout( function() {
-					var url = $.trim( inputs.url.val() );
+			function correctURL() {
+				var url = $.trim( inputs.url.val() );
 
-					if ( url && correctedURL !== url && ! /^(?:[a-z]+:|#|\?|\.|\/)/.test( url ) ) {
-						inputs.url.val( 'http://' + url );
-						correctedURL = url;
-					}
-				}, 0 );
+				if ( url && correctedURL !== url && ! /^(?:[a-z]+:|#|\?|\.|\/)/.test( url ) ) {
+					inputs.url.val( 'http://' + url );
+					correctedURL = url;
+				}
+			}
+
+			inputs.url.on( 'paste', function() {
+				setTimeout( correctURL, 0 );
 			} );
+
+			inputs.url.on( 'blur', correctURL );
 		},
 
 		open: function( editorId ) {
@@ -157,6 +161,8 @@ var wpLink;
 			if ( ! rivers.recent.ul.children().length ) {
 				rivers.recent.ajax();
 			}
+
+			correctedURL = inputs.url.val().replace( /^http:\/\//, '' );
 		},
 
 		mceRefresh: function() {
@@ -202,8 +208,8 @@ var wpLink;
 
 		getAttrs: function() {
 			return {
-				href: inputs.url.val(),
-				title: inputs.title.val(),
+				href: $.trim( inputs.url.val() ),
+				title: $.trim( inputs.title.val() ),
 				target: inputs.openInNewTab.prop( 'checked' ) ? '_blank' : ''
 			};
 		},
