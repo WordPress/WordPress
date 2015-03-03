@@ -1136,7 +1136,7 @@ th.action-links {
 
 .wp-filter .button.clear-filters {
 	display: none;
-	margin: 0 10px 20px 0;
+	margin-right: 10px;
 }
 
 .filtered-by {
