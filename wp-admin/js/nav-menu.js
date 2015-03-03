@@ -391,7 +391,7 @@ var wpNavMenu;
 				api.refreshAdvancedAccessibilityOfItem( $( this ).find( '.item-edit' ) );
 			} );
 
-			// We have to update on click aswell because we might hover first, change the item and then click.
+			// We have to update on click as well because we might hover first, change the item, and then click.
 			menu.on( 'click', '.item-edit', function() {
 				api.refreshAdvancedAccessibilityOfItem( $( this ) );
 			} );
@@ -414,7 +414,7 @@ var wpNavMenu;
 		 * Refreshes advanced accessibility buttons for one menu item.
 		 * Shows or hides buttons based on the location of the menu item.
 		 *
-		 * @param  {object} itemToRefresh The menu item that might need it's advanced accessibility buttons refreshed
+		 * @param  {object} itemToRefresh The menu item that might need its advanced accessibility buttons refreshed
 		 */
 		refreshAdvancedAccessibilityOfItem : function( itemToRefresh ) {
 
