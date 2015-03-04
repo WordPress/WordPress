@@ -102,20 +102,18 @@
 		function getCanonicalLink() {
 			var link = '';
 
-			if ( data._links ) {
-				if ( data._links.canonical && data._links.canonical.length ) {
-					link = data._links.canonical;
-				}
+			if ( data._links && data._links.canonical ) {
+				link = data._links.canonical;
 			}
 
-			if ( ! link.length && data.u ) {
+			if ( ! link && data.u ) {
 				link = data.u;
 			}
 
-			if ( ! link.length && data._meta ) {
-				if ( data._meta['twitter:url'] && data._meta['twitter:url'].length ) {
+			if ( ! link && data._meta ) {
+				if ( data._meta['twitter:url'] ) {
 					link = data._meta['twitter:url'];
-				} else if ( data._meta['og:url'] && data._meta['og:url'].length ) {
+				} else if ( data._meta['og:url'] ) {
 					link = data._meta['og:url'];
 				}
 			}
@@ -132,9 +130,9 @@
 			var name = '';
 
 			if ( data._meta ) {
-				if ( data._meta['og:site_name'] && data._meta['og:site_name'].length ) {
+				if ( data._meta['og:site_name'] ) {
 					name = data._meta['og:site_name'];
-				} else if ( data._meta['application-name'] && data._meta['application-name'].length ) {
+				} else if ( data._meta['application-name'] ) {
 					name = data._meta['application-name'];
 				}
 			}
@@ -155,11 +153,11 @@
 			}
 
 			if ( ! title && data._meta ) {
-				if ( data._meta['twitter:title'] && data._meta['twitter:title'].length ) {
+				if ( data._meta['twitter:title'] ) {
 					title = data._meta['twitter:title'];
-				} else if ( data._meta['og:title'] && data._meta['og:title'].length ) {
+				} else if ( data._meta['og:title'] ) {
 					title = data._meta['og:title'];
-				} else if ( data._meta.title && data._meta.title.length ) {
+				} else if ( data._meta.title ) {
 					title = data._meta.title;
 				}
 			}
@@ -185,14 +183,14 @@
 				url      = getCanonicalLink(),
 				siteName = getSourceSiteName();
 
-			if ( data.s && data.s.length ) {
+			if ( data.s ) {
 				text = data.s;
 			} else if ( data._meta ) {
-				if ( data._meta['twitter:description'] && data._meta['twitter:description'].length ) {
+				if ( data._meta['twitter:description'] ) {
 					text = data._meta['twitter:description'];
-				} else if ( data._meta['og:description'] && data._meta['og:description'].length ) {
+				} else if ( data._meta['og:description'] ) {
 					text = data._meta['og:description'];
-				} else if ( data._meta.description && data._meta.description.length ) {
+				} else if ( data._meta.description ) {
 					text = data._meta.description;
 				}
 			}
@@ -222,7 +220,7 @@
 
 			if ( embeds.length ) {
 				$.each( embeds, function ( i, src ) {
-					if ( !src || !src.length ) {
+					if ( ! src ) {
 						// Skip: no src value
 						return;
 					}
@@ -257,7 +255,7 @@
 					src = src.replace( /http:\/\/[\d]+\.gravatar\.com\//, 'https://secure.gravatar.com/' );
 					src = checkUrl( src );
 
-					if ( ! src || ! src.length ) {
+					if ( ! src ) {
 						// Skip: no src value
 						return;
 					}
@@ -369,7 +367,7 @@
 			link = checkUrl( link );
 
 			if ( 'img' === type ) {
-				if ( ! link || ! link.length ) {
+				if ( ! link ) {
 					link = src;
 				}
 
@@ -480,7 +478,7 @@
 		 */
 		function renderStartupNotices() {
 			// Render errors sent in the data, if any
-			if ( data.errors && data.errors.length ) {
+			if ( data.errors ) {
 				$.each( data.errors, function( i, msg ) {
 					renderError( msg );
 				} );
@@ -521,7 +519,7 @@
 		 * Render the suggested content, if any
 		 */
 		function renderSuggestedContent() {
-			if ( ! suggestedContentStr || ! suggestedContentStr.length ) {
+			if ( ! suggestedContentStr ) {
 				return;
 			}
 
@@ -547,11 +545,11 @@
 
 			listContainer.empty();
 
-			if ( ( interestingEmbeds && interestingEmbeds.length ) || ( interestingImages && interestingImages.length ) ) {
+			if ( interestingEmbeds || interestingImages ) {
 				listContainer.append( '<h2 class="screen-reader-text">' + __( 'allMediaHeading' ) + '</h2><ul class="wppt-all-media-list"/>' );
 			}
 
-			if ( interestingEmbeds && interestingEmbeds.length ) {
+			if ( interestingEmbeds ) {
 				$.each( interestingEmbeds, function ( i, src ) {
 					src = checkUrl( src );
 
@@ -580,7 +578,7 @@
 						'class': cssClass,
 						'tabindex': '0'
 					} ).css( {
-						'background-image': ( displaySrc.length ) ? 'url(' + displaySrc + ')' : null
+						'background-image': ( displaySrc ) ? 'url(' + displaySrc + ')' : null
 					} ).html(
 						'<span class="screen-reader-text">' + __( 'suggestedEmbedAlt' ).replace( '%d', i + 1 ) + '</span>'
 					).on( 'click keypress', function ( e ) {
@@ -593,7 +591,7 @@
 				} );
 			}
 
-			if ( interestingImages && interestingImages.length ) {
+			if ( interestingImages ) {
 				$.each( interestingImages, function ( i, src ) {
 					src = checkUrl( src );
 
@@ -748,9 +746,7 @@
 			} );
 
 			$selector.on( 'blur', function() {
-				var textLength = $( this ).text().length;
-
-				if ( ! textLength ) {
+				if ( ! $( this ).text() ) {
 					$placeholder.removeClass('is-hidden');
 				}
 			} );
@@ -805,7 +801,7 @@
 			// Needs more work, doesn't detect when the other JS changes the value of #tax-input-post_tag
 			$( '#tax-input-post_tag' ).on( 'change', function() {
 				var val =  $( this ).val();
-				$( '#post-option-tags' ).text( ( val.length ) ? val.replace( /,([^\s])/g, ', $1' ) : '' );
+				$( '#post-option-tags' ).text( ( val ) ? val.replace( /,([^\s])/g, ', $1' ) : '' );
 			} );
 
 			$( window ).on( 'beforeunload.press-this', function() {
