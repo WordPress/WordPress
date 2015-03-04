@@ -28,9 +28,24 @@ window.wp = window.wp || {};
 	'use strict';
 
 	var views = {},
-		instances = {};
+		instances = {},
+		textarea = document.createElement( 'textarea' );
 
 	wp.mce = wp.mce || {};
+
+	/**
+	 * Decode HTML entities in a givin string.
+	 *
+	 * @param {String} html The string to decode.
+	 */
+	function decodeHTML( html ) {
+		textarea.innerHTML = html;
+		html = textarea.value;
+
+		textarea.innerHTML = textarea.value = '';
+
+		return html;
+	}
 
 	/**
 	 * wp.mce.views
@@ -89,7 +104,7 @@ window.wp = window.wp || {};
 		 * @param {String} content The string to scan.
 		 */
 		setMarkers: function( content ) {
-			var pieces = [ { content: content } ],
+			var pieces = [ { content: decodeHTML( content ) } ],
 				self = this,
 				current;
 
@@ -390,7 +405,7 @@ window.wp = window.wp || {};
 		 */
 		replaceMarkers: function() {
 			this.getMarkers( function( editor, node ) {
-				if ( $( node ).html() !== this.text ) {
+				if ( $( node ).text() !== this.text ) {
 					editor.dom.setAttrib( node, 'data-wpview-marker', null );
 					return;
 				}
