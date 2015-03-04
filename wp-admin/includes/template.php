@@ -1677,13 +1677,20 @@ function _post_states($post) {
 	if ( is_sticky($post->ID) )
 		$post_states['sticky'] = __('Sticky');
 
+	if ( get_option( 'page_on_front' ) == $post->ID ) {
+		$post_states['page_on_front'] = __( 'Front Page' );
+	}
+
+	if ( get_option( 'page_for_posts' ) == $post->ID ) {
+		$post_states['page_for_posts'] = __( 'Posts Page' );
+	}
+
 	/**
-	 * Filter the default post display states used in the Posts list table.
+	 * Filter the default post display states used in the posts list table.
 	 *
 	 * @since 2.8.0
 	 *
-	 * @param array $post_states An array of post display states. Values include 'Password protected',
-	 *                           'Private', 'Draft', 'Pending', and 'Sticky'.
+	 * @param array $post_states An array of post display states.
 	 * @param int   $post        The post ID.
 	 */
 	$post_states = apply_filters( 'display_post_states', $post_states, $post );
