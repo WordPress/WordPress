@@ -1702,7 +1702,7 @@ function validate_username( $username ) {
  *                                        to build $display_name if unspecified.
  *     @type string|bool $rich_editing    Whether to enable the rich-editor for the user. False
  *                                        if not empty.
- *     @type string      $date_registered Date the user registered. Format is 'Y-m-d H:i:s'.
+ *     @type string      $user_registered Date the user registered. Format is 'Y-m-d H:i:s'.
  *     @type string      $role            User's role.
  *     @type string      $jabber          User's Jabber account username.
  *     @type string      $aim             User's AIM account username.
