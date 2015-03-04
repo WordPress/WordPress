@@ -6,6 +6,7 @@
 	var PressThis = function() {
 		var editor,
 			saveAlert             = false,
+			textarea              = document.createElement( 'textarea' ),
 			siteConfig            = window.wpPressThisConfig || {},
 			data                  = window.wpPressThisData || {},
 			smallestWidth         = 128,
@@ -60,24 +61,20 @@
 			return string
 				.replace( /<!--[\s\S]*?(-->|$)/g, '' )
 				.replace( /<(script|style)[^>]*>[\s\S]*?(<\/\1>|$)/ig, '' )
-				.replace( /<\/?[a-z][^>]*>/ig, '' );
+				.replace( /<\/?[a-z][\s\S]*?(>|$)/ig, '' );
 		}
 
 		/**
-		 * Strip HTML tags and entity encode some of the HTML special chars.
+		 * Strip HTML tags and convert HTML entities.
 		 *
 		 * @param text string Text.
 		 * @returns string Sanitized text.
 		 */
 		function sanitizeText( text ) {
 			text = stripTags( text );
+			textarea.innerHTML = text;
 
-			return text
-				.replace( /\\/, '' )
-				.replace( /</g, '&lt;' )
-				.replace( />/g, '&gt;' )
-				.replace( /"/g, '&quot;' )
-				.replace( /'/g, '&#039;' );
+			return stripTags( textarea.value );
 		}
 
 		/**
@@ -214,70 +211,6 @@
 		}
 
 		/**
-		 * Tests if what was passed as an embed URL is deemed to be embeddable in the editor.
-		 *
-		 * @param url string Passed URl, usually from WpPressThis_App.data._embed
-		 * @returns boolean
-		 */
-		function isEmbeddable( url ) {
-			if ( ! url ) {
-				return false;
-			} else if ( url.match( /\/\/(m\.|www\.)?youtube\.com\/watch\?/ ) || url.match( /\/youtu\.be\/.+$/ ) ) {
-				return true;
-			} else if ( url.match( /\/\/vimeo\.com\/(.+\/)?[\d]+$/ ) ) {
-				return true;
-			} else if ( url.match( /\/\/(www\.)?dailymotion\.com\/video\/.+$/ ) ) {
-				return true;
-			} else if ( url.match( /\/\/soundcloud\.com\/.+$/ ) ) {
-				return true;
-			} else if ( url.match( /\/\/twitter\.com\/[^\/]+\/status\/[\d]+$/ ) ) {
-				return true;
-			} else if ( url.match( /\/\/vine\.co\/v\/[^\/]+/ ) ) {
-				return true;
-			}
-
-			return false;
-		}
-
-		/**
-		 * Tests if what was passed as an image URL is deemed to be interesting enough to offer to the user for selection.
-		 *
-		 * @param src string Passed URl, usually from WpPressThis_App.data._ing
-		 * @returns boolean Test for false
-		 */
-		function isSrcUninterestingPath( src ) {
-			if ( src.match( /\/ad[sx]{1}?\// ) ) {
-				// Ads
-				return true;
-			} else if ( src.match( /(\/share-?this[^\.]+?\.[a-z0-9]{3,4})(\?.*)?$/ ) ) {
-				// Share-this type button
-				return true;
-			} else if ( src.match( /\/(spinner|loading|spacer|blank|rss)\.(gif|jpg|png)/ ) ) {
-				// Loaders, spinners, spacers
-				return true;
-			} else if ( src.match( /\/([^\.\/]+[-_]{1})?(spinner|loading|spacer|blank)s?([-_]{1}[^\.\/]+)?\.[a-z0-9]{3,4}/ ) ) {
-				// Fancy loaders, spinners, spacers
-				return true;
-			} else if ( src.match( /([^\.\/]+[-_]{1})?thumb[^.]*\.(gif|jpg|png)$/ ) ) {
-				// Thumbnails, too small, usually irrelevant to context
-				return true;
-			} else if ( src.match( /\/wp-includes\// ) ) {
-				// Classic WP interface images
-				return true;
-			} else if ( src.match( /[^\d]{1}\d{1,2}x\d+\.(gif|jpg|png)$/ ) ) {
-				// Most often tiny buttons/thumbs (< 100px wide)
-				return true;
-			} else if ( src.indexOf( '/g.gif' ) > -1 ) {
-				// Classic WP stats gif
-				return true;
-			} else if ( src.indexOf( '/pixel.mathtag.com' ) > -1 ) {
-				// See mathtag.com
-				return true;
-			}
-			return false;
-		}
-
-		/**
 		 * Get a list of valid embeds from what was passed via WpPressThis_App.data._embed on page load.
 		 *
 		 * @returns array
@@ -291,9 +224,6 @@
 				$.each( embeds, function ( i, src ) {
 					if ( !src || !src.length ) {
 						// Skip: no src value
-						return;
-					} else if ( !isEmbeddable( src ) ) {
-						// Skip: not deemed embeddable
 						return;
 					}
 
@@ -313,51 +243,14 @@
 		}
 
 		/**
-		 * Get what is likely the most valuable image from what was passed via WpPressThis_App.data._img and WpPressThis_App.data._meta on page load.
-		 *
-		 * @returns array
-		 */
-		function getFeaturedImage( data ) {
-			var featured = '';
-
-			if ( ! data || ! data._meta ) {
-				return '';
-			}
-
-			if ( data._meta['twitter:image0:src'] && data._meta['twitter:image0:src'].length ) {
-				featured = data._meta['twitter:image0:src'];
-			} else if ( data._meta['twitter:image0'] && data._meta['twitter:image0'].length ) {
-				featured = data._meta['twitter:image0'];
-			} else if ( data._meta['twitter:image:src'] && data._meta['twitter:image:src'].length ) {
-				featured = data._meta['twitter:image:src'];
-			} else if ( data._meta['twitter:image'] && data._meta['twitter:image'].length ) {
-				featured = data._meta['twitter:image'];
-			} else if ( data._meta['og:image'] && data._meta['og:image'].length ) {
-				featured = data._meta['og:image'];
-			} else if ( data._meta['og:image:secure_url'] && data._meta['og:image:secure_url'].length ) {
-				featured = data._meta['og:image:secure_url'];
-			}
-
-			featured = checkUrl( featured );
-
-			return ( isSrcUninterestingPath( featured ) ) ? '' : featured;
-		}
-
-		/**
 		 * Get a list of valid images from what was passed via WpPressThis_App.data._img and WpPressThis_App.data._meta on page load.
 		 *
 		 * @returns array
 		 */
 		function getInterestingImages( data ) {
 			var imgs             = data._img || [],
-				featuredPict     = getFeaturedImage( data ) || '',
 				interestingImgs  = [],
 				alreadySelected  = [];
-
-			if ( featuredPict.length ) {
-				interestingImgs.push( featuredPict );
-				alreadySelected.push( featuredPict.replace(/^https?:/, '') );
-			}
 
 			if ( imgs.length ) {
 				$.each( imgs, function ( i, src ) {
@@ -373,9 +266,6 @@
 
 					if ( Array.prototype.indexOf && alreadySelected.indexOf( schemelessSrc ) > -1 ) {
 						// Skip: already shown
-						return;
-					} else if ( isSrcUninterestingPath( src ) ) {
-						// Skip: spinner, stat, ad, or spacer pict
 						return;
 					} else if ( src.indexOf( 'avatar' ) > -1 && interestingImgs.length >= 15 ) {
 						// Skip:  some type of avatar and we've already gathered more than 23 diff images to show
@@ -664,10 +554,6 @@
 			if ( interestingEmbeds && interestingEmbeds.length ) {
 				$.each( interestingEmbeds, function ( i, src ) {
 					src = checkUrl( src );
-
-					if ( ! isEmbeddable( src ) ) {
-						return;
-					}
 
 					var displaySrc = '',
 						cssClass   = 'suggested-media-thumbnail suggested-media-embed';

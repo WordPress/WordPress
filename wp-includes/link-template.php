@@ -2596,7 +2596,7 @@ function paginate_comments_links($args = array()) {
 function get_shortcut_link() {
 	global $is_IE, $wp_version;
 
-	$bookmarklet_version = '5';
+	$bookmarklet_version = '6';
 	$link = '';
 
 	if ( $is_IE ) {

@@ -40,7 +40,7 @@ class WP_Press_This {
 		return array(
 			// Used to trigger the bookmarklet update notice.
 			// Needs to be set here and in get_shortcut_link() in wp-includes/link-template.php.
-			'version' => '5',
+			'version' => '6',
 
 			/**
 			 * Filter whether or not Press This should redirect the user in the parent window upon save.
@@ -278,7 +278,7 @@ class WP_Press_This {
 	 */
 	public function fetch_source_html( $url ) {
 		// Download source page to tmp file.
-		$source_tmp_file = ( ! empty( $url ) ) ? download_url( $url ) : '';
+		$source_tmp_file = ( ! empty( $url ) ) ? download_url( $url, 30 ) : '';
 		$source_content  = '';
 
 		if ( ! is_wp_error( $source_tmp_file ) && file_exists( $source_tmp_file ) ) {
@@ -318,6 +318,162 @@ class WP_Press_This {
 		return $source_content;
 	}
 
+	private function _limit_array( $value ) {
+		if ( is_array( $value ) ) {
+			if ( count( $value ) > 50 ) {
+				return array_slice( $value, 0, 50 );
+			}
+
+			return $value;
+		}
+
+		return array();
+	}
+
+	private function _limit_string( $value ) {
+		$return = '';
+
+		if ( is_numeric( $value ) || is_bool( $value ) ) {
+			$return = (string) $value;
+		} else if ( is_string( $value ) ) {
+			if ( mb_strlen( $value ) > 5000 ) {
+				$return = mb_substr( $value, 0, 5000 );
+			} else {
+				$return = $value;
+			}
+
+			$return = html_entity_decode( $return, ENT_QUOTES, 'UTF-8' );
+			$return = sanitize_text_field( trim( $return ) );
+		}
+
+		return $return;
+	}
+
+	private function _limit_url( $url ) {
+		if ( ! is_string( $url ) ) {
+			return '';
+		}
+		
+		$url = $this->_limit_string( $url );
+
+		// HTTP 1.1 allows 8000 chars but the "de-facto" standard supported in all current browsers is 2048.
+		if ( mb_strlen( $url ) > 2048 ) {
+			return ''; // Return empty rather than a trunacted/invalid URL
+		}
+
+		// Only allow http(s) or protocol relative URLs.
+		if ( ! preg_match( '%^(https?:)?//%i', $url ) ) {
+			return '';
+		}
+
+		if ( strpos( $url, '"' ) !== false || strpos( $url, ' ' ) !== false ) {
+			return '';
+		}
+
+		return $url;
+	}
+
+	private function _limit_img( $src ) {
+		$src = $this->_limit_url( $src );
+
+		if ( preg_match( '/\/ad[sx]{1}?\//', $src ) ) {
+			// Ads
+			return '';
+		} else if ( preg_match( '/(\/share-?this[^\.]+?\.[a-z0-9]{3,4})(\?.*)?$/', $src ) ) {
+			// Share-this type button
+			return '';
+		} else if ( preg_match( '/\/(spinner|loading|spacer|blank|rss)\.(gif|jpg|png)/', $src ) ) {
+			// Loaders, spinners, spacers
+			return '';
+		} else if ( preg_match( '/\/([^\.\/]+[-_]{1})?(spinner|loading|spacer|blank)s?([-_]{1}[^\.\/]+)?\.[a-z0-9]{3,4}/', $src ) ) {
+			// Fancy loaders, spinners, spacers
+			return '';
+		} else if ( preg_match( '/([^\.\/]+[-_]{1})?thumb[^.]*\.(gif|jpg|png)$/', $src ) ) {
+			// Thumbnails, too small, usually irrelevant to context
+			return '';
+		} else if ( preg_match( '/\/wp-includes\//', $src ) ) {
+			// Classic WP interface images
+			return '';
+		} else if ( preg_match( '/[^\d]{1}\d{1,2}x\d+\.(gif|jpg|png)$/', $src ) ) {
+			// Most often tiny buttons/thumbs (< 100px wide)
+			return '';
+		} else if ( preg_match( '/\/pixel\.(mathtag|quantserve)\.com/', $src ) ) {
+			// See mathtag.com and https://www.quantcast.com/how-we-do-it/iab-standard-measurement/how-we-collect-data/
+			return '';
+		} else if ( false !== strpos( $src, '/g.gif' ) ) {
+			// Classic WP stats gif
+			return '';
+		}
+
+		return $src;
+	}
+
+	private function _limit_embed( $src ) {
+		$src = $this->_limit_url( $src );
+
+		if ( preg_match( '/\/\/www\.youtube\.com\/(embed|v)\/([^\?]+)\?.+$/', $src, $src_matches ) ) {
+			$src = 'https://www.youtube.com/watch?v=' . $src_matches[2];
+		} else if ( preg_match( '/\/\/player\.vimeo\.com\/video\/([\d]+)([\?\/]{1}.*)?$/', $src, $src_matches ) ) {
+			$src = 'https://vimeo.com/' . (int) $src_matches[1];
+		} else if ( preg_match( '/\/\/vimeo\.com\/moogaloop\.swf\?clip_id=([\d]+)$/', $src, $src_matches ) ) {
+			$src = 'https://vimeo.com/' . (int) $src_matches[1];
+		} else if ( preg_match( '/\/\/vine\.co\/v\/([^\/]+)\/embed/', $src, $src_matches ) ) {
+			$src = 'https://vine.co/v/' . $src_matches[1];
+		} else if ( ! preg_match( '/\/\/(m\.|www\.)?youtube\.com\/watch\?/', $src )
+		            && ! preg_match( '/\/youtu\.be\/.+$/', $src )
+		            && ! preg_match( '/\/\/vimeo\.com\/[\d]+$/', $src )
+		            && ! preg_match( '/\/\/(www\.)?dailymotion\.com\/video\/.+$/', $src )
+		            && ! preg_match( '/\/\/soundcloud\.com\/.+$/', $src )
+		            && ! preg_match( '/\/\/twitter\.com\/[^\/]+\/status\/[\d]+$/', $src )
+		            && ! preg_match( '/\/\/vine\.co\/v\/[^\/]+/', $src ) ) {
+			$src = '';
+		}
+
+		return $src;
+	}
+
+	private function _process_meta_entry( $meta_name, $meta_value, $data ) {
+		if ( preg_match( '/:?(title|description|keywords)$/', $meta_name ) ) {
+			$data['_meta'][ $meta_name ] = $meta_value;
+		} else {
+			switch ( $meta_name ) {
+				case 'og:url':
+				case 'og:video':
+				case 'og:video:secure_url':
+					$meta_value = $this->_limit_embed( $meta_value );
+
+					if ( ! isset( $data['_embed'] ) ) {
+						$data['_embed'] = array();
+					}
+
+					if ( ! empty( $meta_value ) && ! in_array( $meta_value, $data['_embed'] ) ) {
+						$data['_embed'][] = $meta_value;
+					}
+
+					break;
+				case 'og:image':
+				case 'og:image:secure_url':
+				case 'twitter:image0:src':
+				case 'twitter:image0':
+				case 'twitter:image:src':
+				case 'twitter:image':
+					$meta_value = $this->_limit_img( $meta_value );
+
+					if ( ! isset( $data['_img'] ) ) {
+						$data['_img'] = array();
+					}
+
+					if ( ! empty( $meta_value ) && ! in_array( $meta_value, $data['_img'] ) ) {
+						$data['_img'][] = $meta_value;
+					}
+
+					break;
+			}
+		}
+		
+		return $data;
+	}
+
 	/**
 	 * Fetches and parses _meta, _img, and _links data from the source.
 	 *
@@ -339,18 +495,42 @@ class WP_Press_This {
 			return array( 'errors' => $source_content->get_error_messages() );
 		}
 
+		// Fetch and gather <meta> data first, so discovered media is offered 1st to user.
+		if ( empty( $data['_meta'] ) ) {
+			$data['_meta'] = array();
+		}
+
+		if ( preg_match_all( '/<meta [^>]+>/', $source_content, $matches ) ) {
+			$items = $this->_limit_array( $matches[0] );
+
+			foreach ( $items as $value ) {
+				if ( preg_match( '/(property|name)="([^"]+)"[^>]+content="([^"]+)"/', $value, $new_matches ) ) {
+					$meta_name  = $this->_limit_string( $new_matches[2] );
+					$meta_value = $this->_limit_string( $new_matches[3] );
+
+					// Sanity check. $key is usually things like 'title', 'description', 'keywords', etc.
+					if ( strlen( $meta_name ) > 100 ) {
+						continue;
+					}
+
+					$data = $this->_process_meta_entry( $meta_name, $meta_value, $data );
+				}
+			}
+		}
+
 		// Fetch and gather <img> data.
 		if ( empty( $data['_img'] ) ) {
 			$data['_img'] = array();
 		}
 
-		if ( preg_match_all( '/<img (.+)[\s]?\/>/', $source_content, $matches ) ) {
-			if ( ! empty( $matches[0] ) ) {
-				foreach ( $matches[0] as $value ) {
-					if ( preg_match( '/<img[^>]+src="([^"]+)"[^>]+\/>/', $value, $new_matches ) ) {
-						if ( ! in_array( $new_matches[1], $data['_img'] ) ) {
-							$data['_img'][] = $new_matches[1];
-						}
+		if ( preg_match_all( '/<img [^>]+>/', $source_content, $matches ) ) {
+			$items = $this->_limit_array( $matches[0] );
+
+			foreach ( $items as $value ) {
+				if ( preg_match( '/src=(\'|")([^\'"]+)\\1/', $value, $new_matches ) ) {
+					$src = $this->_limit_img( $new_matches[2] );
+					if ( ! empty( $src ) && ! in_array( $src, $data['_img'] ) ) {
+						$data['_img'][] = $src;
 					}
 				}
 			}
@@ -361,66 +541,15 @@ class WP_Press_This {
 			$data['_embed'] = array();
 		}
 
-		if ( preg_match_all( '/<iframe (.+)[\s][^>]*>/', $source_content, $matches ) ) {
-			if ( ! empty( $matches[0] ) ) {
-				foreach ( $matches[0] as $value ) {
-					if ( preg_match( '/<iframe[^>]+src=(\'|")([^"]+)(\'|")/', $value, $new_matches ) ) {
-						if ( ! in_array( $new_matches[2], $data['_embed'] ) ) {
-							if ( preg_match( '/\/\/www\.youtube\.com\/embed\/([^\?]+)\?.+$/', $new_matches[2], $src_matches ) ) {
-								$data['_embed'][] = 'https://www.youtube.com/watch?v=' . $src_matches[1];
-							} else if ( preg_match( '/\/\/player\.vimeo\.com\/video\/([\d]+)([\?\/]{1}.*)?$/', $new_matches[2], $src_matches ) ) {
-								$data['_embed'][] = 'https://vimeo.com/' . (int) $src_matches[1];
-							} else if ( preg_match( '/\/\/vine\.co\/v\/([^\/]+)\/embed/', $new_matches[2], $src_matches ) ) {
-								$data['_embed'][] = 'https://vine.co/v/' . $src_matches[1];
-							}
-						}
-					}
-				}
-			}
-		}
+		if ( preg_match_all( '/<iframe [^>]+>/', $source_content, $matches ) ) {
+			$items = $this->_limit_array( $matches[0] );
 
-		// Fetch and gather <meta> data.
-		if ( empty( $data['_meta'] ) ) {
-			$data['_meta'] = array();
-		}
+			foreach ( $items as $value ) {
+				if ( preg_match( '/src=(\'|")([^\'"]+)\\1/', $value, $new_matches ) ) {
+					$src = $this->_limit_embed( $new_matches[2] );
 
-		if ( preg_match_all( '/<meta ([^>]+)[\s]?\/?>/', $source_content, $matches ) ) {
-			if ( ! empty( $matches[0] ) ) {
-				foreach ( $matches[0] as $key => $value ) {
-					if ( preg_match( '/<meta[^>]+(property|name)="(.+)"[^>]+content="(.+)"/', $value, $new_matches ) ) {
-						if ( empty( $data['_meta'][ $new_matches[2] ] ) ) {
-							if ( preg_match( '/:?(title|description|keywords)$/', $new_matches[2] ) ) {
-								$data['_meta'][ $new_matches[2] ] = str_replace( '&#039;', "'", str_replace( '&#034;', '', html_entity_decode( $new_matches[3] ) ) );
-							} else {
-								$data['_meta'][ $new_matches[2] ] = $new_matches[3];
-								if ( 'og:url' == $new_matches[2] ) {
-									if ( false !== strpos( $new_matches[3], '//www.youtube.com/watch?' )
-									     || false !== strpos( $new_matches[3], '//www.dailymotion.com/video/' )
-									     || preg_match( '/\/\/vimeo\.com\/[\d]+$/', $new_matches[3] )
-									     || preg_match( '/\/\/soundcloud\.com\/.+$/', $new_matches[3] )
-									     || preg_match( '/\/\/twitter\.com\/[^\/]+\/status\/[\d]+$/', $new_matches[3] )
-									     || preg_match( '/\/\/vine\.co\/v\/[^\/]+/', $new_matches[3] ) ) {
-										if ( ! in_array( $new_matches[3], $data['_embed'] ) ) {
-											$data['_embed'][] = $new_matches[3];
-										}
-									}
-								} else if ( 'og:video' == $new_matches[2] || 'og:video:secure_url' == $new_matches[2] ) {
-									if ( preg_match( '/\/\/www\.youtube\.com\/v\/([^\?]+)/', $new_matches[3], $src_matches ) ) {
-										if ( ! in_array( 'https://www.youtube.com/watch?v=' . $src_matches[1], $data['_embed'] ) ) {
-											$data['_embed'][] = 'https://www.youtube.com/watch?v=' . $src_matches[1];
-										}
-									} else if ( preg_match( '/\/\/vimeo.com\/moogaloop\.swf\?clip_id=([\d]+)$/', $new_matches[3], $src_matches ) ) {
-										if ( ! in_array( 'https://vimeo.com/' . $src_matches[1], $data['_embed'] ) ) {
-											$data['_embed'][] = 'https://vimeo.com/' . $src_matches[1];
-										}
-									}
-								} else if ( 'og:image' == $new_matches[2] || 'og:image:secure_url' == $new_matches[2] ) {
-									if ( ! in_array( $new_matches[3], $data['_img'] ) ) {
-										$data['_img'][] = $new_matches[3];
-									}
-								}
-							}
-						}
+					if ( ! empty( $src ) && ! in_array( $src, $data['_embed'] ) ) {
+						$data['_embed'][] = $src;
 					}
 				}
 			}
@@ -431,14 +560,16 @@ class WP_Press_This {
 			$data['_links'] = array();
 		}
 
-		if ( preg_match_all( '/<link ([^>]+)[\s]?\/>/', $source_content, $matches ) ) {
-			if ( ! empty( $matches[0] ) ) {
-				foreach ( $matches[0] as $key => $value ) {
-					if ( preg_match( '/<link[^>]+(rel|itemprop)="([^"]+)"[^>]+href="([^"]+)"[^>]+\/>/', $value, $new_matches ) ) {
-						if ( 'alternate' == $new_matches[2] || 'thumbnailUrl' == $new_matches[2] || 'url' == $new_matches[2] ) {
-							if ( empty( $data['_links'][ $new_matches[2] ] ) ) {
-								$data['_links'][ $new_matches[2] ] = $new_matches[3];
-							}
+		if ( preg_match_all( '/<link [^>]+>/', $source_content, $matches ) ) {
+			$items = $this->_limit_array( $matches[0] );
+
+			foreach ( $items as $value ) {
+				if ( preg_match( '/(rel|itemprop)="([^"]+)"[^>]+href="([^"]+)"/', $value, $new_matches ) ) {
+					if ( 'alternate' === $new_matches[2] || 'thumbnailUrl' === $new_matches[2] || 'url' === $new_matches[2] ) {
+						$url = $this->_limit_url( $new_matches[3] );
+
+						if ( ! empty( $url ) && empty( $data['_links'][ $new_matches[2] ] ) ) {
+							$data['_links'][ $new_matches[2] ] = $url;
 						}
 					}
 				}
@@ -457,13 +588,29 @@ class WP_Press_This {
 	 * @return array
 	 */
 	public function merge_or_fetch_data() {
-		// Merge $_POST and $_GET, as appropriate ($_POST > $_GET), to remain backward compatible.
-		$data = array_merge_recursive( $_POST, $_GET );
+		// Get data from $_POST and $_GET, as appropriate ($_POST > $_GET), to remain backward compatible.
+		$data = array();
 
-		// Get the legacy QS params, or equiv POST data
-		$data['u'] = ( ! empty( $data['u'] ) && preg_match( '/^https?:/', $data['u'] ) ) ? $data['u'] : '';
-		$data['s'] = ( ! empty( $data['s'] ) ) ? $data['s'] : '';
-		$data['t'] = ( ! empty( $data['t'] ) ) ? $data['t'] : '';
+		// Only instantiate the keys we want. Sanity check and sanitize each one.
+		foreach ( array( 'u', 's', 't', 'v', '_version' ) as $key ) {
+			if ( ! empty( $_POST[ $key ] ) ) {
+				$value = wp_unslash( $_POST[ $key ] );
+			} else if ( ! empty( $_GET[ $key ] ) ) {
+				$value = wp_unslash( $_GET[ $key ] );
+			} else {
+				continue;
+			}
+
+			if ( 'u' === $key ) {
+				$value = $this->_limit_url( $value );
+			} else {
+				$value = $this->_limit_string( $value );
+			}
+
+			if ( ! empty( $value ) ) {
+				$data[ $key ] = $value;
+			}
+		}
 
 		/**
 		 * Filter whether to enable in-source media discovery in Press This.
@@ -474,21 +621,50 @@ class WP_Press_This {
 		 */
 		if ( apply_filters( 'enable_press_this_media_discovery', true ) ) {
 			/*
-			 * If no _meta (a new thing) was passed via $_POST, fetch data from source as fallback,
-			 * makes PT fully backward compatible
+			 * If no title, _img, _embed, and _meta was passed via $_POST, fetch data from source as fallback,
+			 * making PT fully backward compatible with the older bookmarklet.
 			 */
-			if ( empty( $data['_meta'] ) && ! empty( $data['u'] ) ) {
+			if ( empty( $_POST ) && ! empty( $data['u'] ) ) {
 				$data = $this->source_data_fetch_fallback( $data['u'], $data );
-			}
-		} else {
-			if ( ! empty( $data['_img'] ) ) {
-				$data['_img'] = array();
-			}
-			if ( ! empty( $data['_embed'] ) ) {
-				$data['_embed'] = array();
-			}
-			if ( ! empty( $data['_meta'] ) ) {
-				$data['_meta'] = array();
+			} else {
+				foreach ( array( '_img', '_embed', '_meta' ) as $type ) {
+					if ( empty( $_POST[ $type ] ) ) {
+						continue;
+					}
+
+					$data[ $type ] = array();
+					$items = $this->_limit_array( $_POST[ $type ] );
+					$items = wp_unslash( $items );
+
+					foreach ( $items as $key => $value ) {
+						$key = $this->_limit_string( wp_unslash( $key ) );
+
+						// Sanity check. $key is usually things like 'title', 'description', 'keywords', etc.
+						if ( empty( $key ) || strlen( $key ) > 100 ) {
+							continue;
+						}
+
+						if ( $type === '_meta' ) {
+							$value = $this->_limit_string( $value );
+
+							if ( ! empty( $value ) ) {
+								$data = $this->_process_meta_entry( $key, $value, $data );
+							}
+						} else if ( $type === '_img' ) {
+							$value = $this->_limit_img( $value );
+
+							if ( ! empty( $value ) ) {
+								$data[ $type ][] = $value;
+							}
+						} else if ( $type === '_embed' ) {
+							$value = $this->_limit_embed( $value );
+
+							if ( ! empty( $value ) ) {
+								$data[ $type ][] = $value;
+							}
+						}
+					}
+				}
 			}
 		}
 

@@ -7,7 +7,7 @@
 		canPost = true,
 		windowWidth, windowHeight,
 		metas, links, content, imgs, ifrs,
-		vid, selection, newWin;
+		selection;
 
 	if ( ! pt_url ) {
 		return;
@@ -28,17 +28,19 @@
 	} else if ( document.getSelection ) {
 		selection = document.getSelection() + '';
 	} else if ( document.selection ) {
-		selection = document.selection.createRange().text;
+		selection = document.selection.createRange().text || '';
 	}
 
 	pt_url += ( pt_url.indexOf( '?' ) > -1 ? '&' : '?' ) + 'buster=' + ( new Date().getTime() );
 
-	if ( document.title.length && ( document.title.length <= 256 || ! canPost ) ) {
-		pt_url += '&t=' + encURI( document.title.substr( 0, 256 ) );
-	}
+	if ( ! canPost ) {
+		if ( document.title ) {
+			pt_url += '&t=' + encURI( document.title.substr( 0, 256 ) );
+		}
 
-	if ( selection && ( selection.length <= 512 || ! canPost ) ) {
-		pt_url += '&s=' + encURI( selection.substr( 0, 512 ) );
+		if ( selection ) {
+			pt_url += '&s=' + encURI( selection.substr( 0, 512 ) );
+		}
 	}
 
 	windowWidth  = window.outerWidth || document.documentElement.clientWidth || 600;
@@ -48,8 +50,7 @@
 	windowHeight = ( windowHeight < 800 || windowHeight > 3000 ) ? 700 : ( windowHeight * 0.9 );
 
 	if ( ! canPost ) {
-		newWin = window.open( pt_url, target, 'location,resizable,scrollbars,width=' + windowWidth + ',height=' + windowHeight );
-		newWin.focus();
+		window.open( pt_url, target, 'location,resizable,scrollbars,width=' + windowWidth + ',height=' + windowHeight );
 		return;
 	}
 
@@ -135,7 +136,7 @@
 	imgs = content.getElementsByTagName( 'img' ) || [];
 
 	for ( var n = 0; n < imgs.length; n++ ) {
-		if ( n >= 100 ) {
+		if ( n >= 50 ) {
 			break;
 		}
 
@@ -153,34 +154,18 @@
 	ifrs = document.body.getElementsByTagName( 'iframe' ) || [];
 
 	for ( var p = 0; p < ifrs.length; p++ ) {
-		if ( p >= 100 ) {
+		if ( p >= 50 ) {
 			break;
 		}
 
-		vid = ifrs[ p ].src.match(/\/\/www\.youtube\.com\/embed\/([^\?]+)\?.+$/);
-
-		if ( vid && 2 === vid.length ) {
-			add( '_embed[]', 'https://www.youtube.com/watch?v=' + vid[1] );
-		}
-
-		vid = ifrs[ p ].src.match( /\/\/player\.vimeo\.com\/video\/([\d]+)$/ );
-
-		if ( vid && 2 === vid.length ) {
-			add( '_embed[]', 'https://vimeo.com/' + vid[1] );
-		}
-
-		vid = ifrs[ p ].src.match( /\/\/vine\.co\/v\/([^\/]+)\/embed/ );
-
-		if ( vid && 2 === vid.length ) {
-			add( '_embed[]', 'https://vine.co/v/' + vid[1] );
-		}
+		add( '_embed[]', ifrs[ p ].src );
 	}
 
-	if ( document.title && document.title > 512 ) {
+	if ( document.title ) {
 		add( 't', document.title );
 	}
 
-	if ( selection && selection.length > 512 ) {
+	if ( selection ) {
 		add( 's', selection );
 	}
 
@@ -189,10 +174,8 @@
 	form.setAttribute( 'target', target );
 	form.setAttribute( 'style', 'display: none;' );
 
-	newWin = window.open( 'about:blank', target, 'location,resizable,scrollbars,width=' + windowWidth + ',height=' + windowHeight );
+	window.open( 'about:blank', target, 'location,resizable,scrollbars,width=' + windowWidth + ',height=' + windowHeight );
 
 	document.body.appendChild( form );
 	form.submit();
-
-	newWin.focus();
 } )( window, document, top.location.href, window.pt_url );
