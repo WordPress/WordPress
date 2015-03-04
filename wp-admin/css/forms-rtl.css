@@ -483,20 +483,20 @@ p.search-box {
 	margin: 0 0 0 4px;
 }
 
-input[type="text"].ui-autocomplete-loading {
-	background: transparent url(../images/loading.gif) no-repeat left center;
+input[type="text"].ui-autocomplete-loading,
+input[type="email"].ui-autocomplete-loading {
+	background-image: url(../images/loading.gif);
+	background-repeat: no-repeat;
+	background-position: left center;
 	visibility: visible;
+}
+
+input.ui-autocomplete-input.open {
+	border-bottom-color: transparent;
 }
 
 ul#add-to-blog-users {
 	margin: 0 14px 0 0;
-}
-
-.ui-autocomplete-input.open {
-	-webkit-border-bottom-left-radius: 0;
-	border-bottom-left-radius: 0;
-	-webkit-border-bottom-right-radius: 0;
-	border-bottom-right-radius: 0;
 }
 
 .ui-autocomplete {
@@ -505,28 +505,20 @@ ul#add-to-blog-users {
 	list-style: none;
 	position: absolute;
 	z-index: 10000;
-	-webkit-border-bottom-left-radius: 3px;
-	border-bottom-left-radius: 3px;
-	-webkit-border-bottom-right-radius: 3px;
-	border-bottom-right-radius: 3px;
-	border: 1px solid #aaa;
-	background-color: #efefef;
+	border: 1px solid #5b9dd9;
+	-webkit-box-shadow: 0 1px 2px rgba( 30, 140, 190, 0.8 );
+	box-shadow: 0 1px 2px rgba( 30, 140, 190, 0.8 );
+	background-color: #fff;
 }
 
 .ui-autocomplete li {
 	margin-bottom: 0;
+	padding: 4px 10px;
 	white-space: nowrap;
 	text-align: right;
 }
 
-.ui-autocomplete li a {
-	display: block;
-	height: 100%;
-	padding: 4px 10px;
-	color: #444;
-}
-
-.ui-autocomplete li a.ui-state-focus {
+.ui-autocomplete li.ui-state-focus {
 	background-color: #ddd;
 	cursor: pointer;
 }
