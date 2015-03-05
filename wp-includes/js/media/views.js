@@ -4635,13 +4635,22 @@ EmbedLink = Settings.extend({
 				post_ID: wp.media.view.settings.post.id,
 				shortcode: embed.string()
 			}
-		} ).done( _.bind( this.renderoEmbed, this ) );
+		} )
+			.done( _.bind( this.renderoEmbed, this ) )
+			.fail( _.bind( this.renderFail, this ) );
+	},
+
+	renderFail: function () {
+		this.$( '.setting' ).hide().filter( '.title' ).show();
 	},
 
 	renderoEmbed: function( response ) {
 		var html = ( response && response.body ) || '',
 			attr = {},
 			opts = { silent: true };
+
+		this.$( '.setting' ).hide()
+			.filter( '.title' )[ html ? 'hide' : 'show' ]();
 
 		if ( response && response.attr ) {
 			attr = response.attr;
@@ -4664,7 +4673,7 @@ EmbedLink = Settings.extend({
 		}
 
 		this.spinner.hide();
-		
+
 		this.$('.embed-container').show().find('.embed-preview').html( html );
 	}
 });
