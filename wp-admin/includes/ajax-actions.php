@@ -2708,13 +2708,21 @@ function wp_ajax_parse_embed() {
 	}
 
 	$shortcode = wp_unslash( $_POST['shortcode'] );
-	$url = str_replace( '[embed]', '', str_replace( '[/embed]', '', $shortcode ) );
+
+	preg_match( '/' . get_shortcode_regex() . '/s', $shortcode, $matches );
+	$atts = shortcode_parse_atts( $matches[3] );
+	if ( ! empty( $atts[5] ) ) {
+		$url = $atts[5];
+	} elseif ( ! empty( $atts['src'] ) ) {
+		$url = $atts['src'];
+	}
+
 	$parsed = false;
 	setup_postdata( $post );
 
 	$wp_embed->return_false_on_fail = true;
 
-	if ( is_ssl() && preg_match( '%^\\[embed[^\\]]*\\]http://%i', $shortcode ) ) {
+	if ( is_ssl() && 0 === strpos( $url, 'http://' ) ) {
 		// Admin is ssl and the user pasted non-ssl URL.
 		// Check if the provider supports ssl embeds and use that for the preview.
 		$ssl_shortcode = preg_replace( '%^(\\[embed[^\\]]*\\])http://%i', '$1https://', $shortcode );
@@ -2767,7 +2775,8 @@ function wp_ajax_parse_embed() {
 	}
 
 	wp_send_json_success( array(
-		'body' => $parsed
+		'body' => $parsed,
+		'attr' => $wp_embed->last_attr
 	) );
 }
 

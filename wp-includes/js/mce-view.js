@@ -819,21 +819,30 @@ window.wp = window.wp || {};
 		edit: function( text, update ) {
 			var media = wp.media.embed,
 				frame = media.edit( text, !! this.url ),
-				self = this;
+				self = this,
+				events = 'change:url change:width change:height';
 
 			this.pausePlayers();
 
-			frame.state( 'embed' ).props.on( 'change:url', function( model, url ) {
-				if ( url ) {
+			frame.state( 'embed' ).props.on( events, function( model, url ) {
+				if ( url && model.get( 'url' ) ) {
 					frame.state( 'embed' ).metadata = model.toJSON();
 				}
 			} );
 
 			frame.state( 'embed' ).on( 'select', function() {
-				if ( self.url ) {
-					update( frame.state( 'embed' ).metadata.url );
+				var data = frame.state( 'embed' ).metadata;
+
+				if ( data.width ) {
+					delete self.url;
 				} else {
-					update( media.shortcode( frame.state( 'embed' ).metadata ).string() );
+					self.url = data.url;
+				}
+
+				if ( self.url  ) {
+					update( data.url );
+				} else {
+					update( media.shortcode( data ).string() );
 				}
 			} );
 
