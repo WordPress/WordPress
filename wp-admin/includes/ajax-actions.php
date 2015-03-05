@@ -2711,8 +2711,8 @@ function wp_ajax_parse_embed() {
 
 	preg_match( '/' . get_shortcode_regex() . '/s', $shortcode, $matches );
 	$atts = shortcode_parse_atts( $matches[3] );
-	if ( ! empty( $atts[5] ) ) {
-		$url = $atts[5];
+	if ( ! empty( $matches[5] ) ) {
+		$url = $matches[5];
 	} elseif ( ! empty( $atts['src'] ) ) {
 		$url = $atts['src'];
 	}
