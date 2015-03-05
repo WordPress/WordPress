@@ -221,12 +221,15 @@ function wp_load_core_site_options( $site_id = null ) {
  * to set whether an option is autoloaded, then you need to use the add_option().
  *
  * @since 1.0.0
+ * @since 4.2.0 The `$autoload` parameter was added.
  *
- * @param string $option Option name. Expected to not be SQL-escaped.
- * @param mixed $value Option value. Must be serializable if non-scalar. Expected to not be SQL-escaped.
+ * @param string      $option   Option name. Expected to not be SQL-escaped.
+ * @param mixed       $value    Option value. Must be serializable if non-scalar. Expected to not be SQL-escaped.
+ * @param string|bool $autoload Optional. Whether to load the option when WordPress starts up. Accepts 'yes' or true to
+ *                              enable, 'no' or false to disable. Default is enabled.
  * @return bool False if value was not updated and true if value was updated.
  */
-function update_option( $option, $value ) {
+function update_option( $option, $value, $autoload = 'yes' ) {
 	global $wpdb;
 
 	$option = trim($option);
@@ -269,8 +272,9 @@ function update_option( $option, $value ) {
 		return false;
 
 	/** This filter is documented in wp-includes/option.php */
-	if ( apply_filters( 'default_option_' . $option, false ) === $old_value )
-		return add_option( $option, $value );
+	if ( apply_filters( 'default_option_' . $option, false ) === $old_value ) {
+		return add_option( $option, $value, '', $autoload );
+	}
 
 	$serialized_value = maybe_serialize( $value );
 
