@@ -2466,6 +2466,10 @@ function get_next_comments_link( $label = '', $max_page = 0 ) {
 
 	$page = get_query_var('cpage');
 
+	if ( ! $page ) {
+		$page = 1;
+	}
+
 	$nextpage = intval($page) + 1;
 
 	if ( empty($max_page) )
