@@ -418,6 +418,9 @@ function wp_print_media_templates() {
 						<# } else { #>
 							<span class="value">{{ data.uploadedToTitle }}</span>
 						<# } #>
+						<# if ( data.nonces.edit ) { #>
+						<a class="detach-from-parent" data-id="{{ data.id }}" href="#">(<?php _e( 'Detach' ); ?>)</a>
+						<# } #>
 					</label>
 				<# } #>
 				<div class="attachment-compat"></div>

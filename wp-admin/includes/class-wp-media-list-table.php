@@ -139,6 +139,9 @@ class WP_Media_List_Table extends WP_List_Table {
 		if ( isset( $_REQUEST['found_post_id'] ) && isset( $_REQUEST['media'] ) )
 			return 'attach';
 
+		if ( isset( $_REQUEST['parent_post_id'] ) && isset( $_REQUEST['media'] ) )
+			return 'detach';
+
 		if ( isset( $_REQUEST['delete_all'] ) || isset( $_REQUEST['delete_all2'] ) )
 			return 'delete_all';
 
@@ -406,7 +409,16 @@ foreach ( $columns as $column_name => $column_display_name ) {
 				} else {
 					echo $title;
 				} ?></strong>,
-				<?php echo get_the_time( __( 'Y/m/d' ) ); ?>
+				<?php echo get_the_time( __( 'Y/m/d' ) ); ?><br />
+				<?php
+				if ( $user_can_edit ):
+					$detach_url = add_query_arg( array(
+						'parent_post_id' => $post->post_parent,
+						'media[]' => $post->ID,
+						'_wpnonce' => wp_create_nonce( 'bulk-' . $this->_args['plural'] )
+					), 'upload.php' ); ?>
+				<a class="hide-if-no-js detach-from-parent" href="<?php echo $detach_url ?>"><?php _e( 'Detach' ); ?></a>
+				<?php endif; ?>
 			</td>
 <?php
 		} else {

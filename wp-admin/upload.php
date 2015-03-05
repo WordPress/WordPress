@@ -113,45 +113,14 @@ if ( $doaction ) {
 	}
 
 	switch ( $doaction ) {
-		case 'attach':
-			$parent_id = (int) $_REQUEST['found_post_id'];
-			if ( !$parent_id )
-				return;
-
-			$parent = get_post( $parent_id );
-			if ( !current_user_can( 'edit_post', $parent_id ) )
-				wp_die( __( 'You are not allowed to edit this post.' ) );
-
-			$attach = array();
-			foreach ( (array) $_REQUEST['media'] as $att_id ) {
-				$att_id = (int) $att_id;
-
-				if ( !current_user_can( 'edit_post', $att_id ) )
-					continue;
-
-				$attach[] = $att_id;
-			}
-
-			if ( ! empty( $attach ) ) {
-				$attach_string = implode( ',', $attach );
-				$attached = $wpdb->query( $wpdb->prepare( "UPDATE $wpdb->posts SET post_parent = %d WHERE post_type = 'attachment' AND ID IN ( $attach_string )", $parent_id ) );
-				foreach ( $attach as $att_id ) {
-					clean_attachment_cache( $att_id );
-				}
-			}
-
-			if ( isset( $attached ) ) {
-				$location = 'upload.php';
-				if ( $referer = wp_get_referer() ) {
-					if ( false !== strpos( $referer, 'upload.php' ) )
-						$location = $referer;
-				}
-
-				$location = add_query_arg( array( 'attached' => $attached ) , $location );
-				wp_redirect( $location );
-				exit;
-			}
+		case 'detach':
+			wp_media_attach_action( $_REQUEST['parent_post_id'], 'detach' );
 			break;
+
+		case 'attach':
+			wp_media_attach_action( $_REQUEST['found_post_id'] );
+			break;
+
 		case 'trash':
 			if ( !isset( $post_ids ) )
 				break;
@@ -256,7 +225,12 @@ if ( ! empty( $_GET['posted'] ) ) {
 
 if ( ! empty( $_GET['attached'] ) && $attached = absint( $_GET['attached'] ) ) {
 	$message = sprintf( _n('Reattached %d attachment.', 'Reattached %d attachments.', $attached), $attached );
-	$_SERVER['REQUEST_URI'] = remove_query_arg(array('attached'), $_SERVER['REQUEST_URI']);
+	$_SERVER['REQUEST_URI'] = remove_query_arg( array( 'detached', 'attached' ), $_SERVER['REQUEST_URI'] );
+}
+
+if ( ! empty( $_GET['detached'] ) && $detached = absint( $_GET['detached'] ) ) {
+	$message = sprintf( _n( 'Detached %d attachment.', 'Detached %d attachments.', $detached ), $detached );
+	$_SERVER['REQUEST_URI'] = remove_query_arg( array( 'detached', 'attached' ), $_SERVER['REQUEST_URI'] );
 }
 
 if ( ! empty( $_GET['deleted'] ) && $deleted = absint( $_GET['deleted'] ) ) {

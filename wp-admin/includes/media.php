@@ -3010,3 +3010,61 @@ function wp_read_audio_metadata( $file ) {
 
 	return $metadata;
 }
+
+/**
+ * Encapsulate logic for Attach/Detach actions
+ *
+ * @since 4.2.0
+ *
+ * @global wpdb $wpdb
+ * @param int    $parent_id
+ * @param string $action
+ */
+function wp_media_attach_action( $parent_id, $action = 'attach' ) {
+	global $wpdb;
+
+	if ( ! $parent_id ) {
+		return;
+	}
+
+	if ( ! current_user_can( 'edit_post', $parent_id ) ) {
+		wp_die( __( 'You are not allowed to edit this post.' ) );
+	}
+	$ids = array();
+	foreach ( (array) $_REQUEST['media'] as $att_id ) {
+		$att_id = (int) $att_id;
+
+		if ( ! current_user_can( 'edit_post', $att_id ) ) {
+			continue;
+		}
+
+		$ids[] = $att_id;
+	}
+
+	if ( ! empty( $ids ) ) {
+		$ids_string = implode( ',', $ids );
+		if ( 'attach' === $action ) {
+			$result = $wpdb->query( $wpdb->prepare( "UPDATE $wpdb->posts SET post_parent = %d WHERE post_type = 'attachment' AND ID IN ( $ids_string )", $parent_id ) );
+		} else {
+			$result = $wpdb->query( "UPDATE $wpdb->posts SET post_parent = 0 WHERE post_type = 'attachment' AND ID IN ( $ids_string )" );
+		}
+
+		foreach ( $ids as $att_id ) {
+			clean_attachment_cache( $att_id );
+		}
+	}
+
+	if ( isset( $result ) ) {
+		$location = 'upload.php';
+		if ( $referer = wp_get_referer() ) {
+			if ( false !== strpos( $referer, 'upload.php' ) ) {
+				$location = remove_query_arg( array( 'attached', 'detached' ), $referer );
+			}
+		}
+
+		$key = 'attach' === $action ? 'attached' : 'detached';
+		$location = add_query_arg( array( $key => $result ), $location );
+		wp_redirect( $location );
+		exit;
+	}
+}
