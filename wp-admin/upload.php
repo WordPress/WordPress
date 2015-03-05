@@ -225,12 +225,12 @@ if ( ! empty( $_GET['posted'] ) ) {
 
 if ( ! empty( $_GET['attached'] ) && $attached = absint( $_GET['attached'] ) ) {
 	$message = sprintf( _n('Reattached %d attachment.', 'Reattached %d attachments.', $attached), $attached );
-	$_SERVER['REQUEST_URI'] = remove_query_arg( array( 'detached', 'attached' ), $_SERVER['REQUEST_URI'] );
+	$_SERVER['REQUEST_URI'] = remove_query_arg( array( 'detach', 'attached' ), $_SERVER['REQUEST_URI'] );
 }
 
-if ( ! empty( $_GET['detached'] ) && $detached = absint( $_GET['detached'] ) ) {
+if ( ! empty( $_GET['detach'] ) && $detached = absint( $_GET['detach'] ) ) {
 	$message = sprintf( _n( 'Detached %d attachment.', 'Detached %d attachments.', $detached ), $detached );
-	$_SERVER['REQUEST_URI'] = remove_query_arg( array( 'detached', 'attached' ), $_SERVER['REQUEST_URI'] );
+	$_SERVER['REQUEST_URI'] = remove_query_arg( array( 'detach', 'attached' ), $_SERVER['REQUEST_URI'] );
 }
 
 if ( ! empty( $_GET['deleted'] ) && $deleted = absint( $_GET['deleted'] ) ) {

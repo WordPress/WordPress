@@ -3058,11 +3058,11 @@ function wp_media_attach_action( $parent_id, $action = 'attach' ) {
 		$location = 'upload.php';
 		if ( $referer = wp_get_referer() ) {
 			if ( false !== strpos( $referer, 'upload.php' ) ) {
-				$location = remove_query_arg( array( 'attached', 'detached' ), $referer );
+				$location = remove_query_arg( array( 'attached', 'detach' ), $referer );
 			}
 		}
 
-		$key = 'attach' === $action ? 'attached' : 'detached';
+		$key = 'attach' === $action ? 'attached' : 'detach';
 		$location = add_query_arg( array( $key => $result ), $location );
 		wp_redirect( $location );
 		exit;
