@@ -1,4 +1,4 @@
-/*globals _, jQuery, Backbone */
+/*globals _, Backbone */
 
 /**
  * wp.media.view.Settings
@@ -9,7 +9,7 @@
  * @augments Backbone.View
  */
 var View = require( './view.js' ),
-	$ = jQuery,
+	$ = Backbone.$,
 	Settings;
 
 Settings = View.extend({

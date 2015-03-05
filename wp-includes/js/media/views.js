@@ -467,7 +467,7 @@ EditImage = State.extend({
 module.exports = EditImage;
 
 },{"../views/toolbar.js":63,"./state.js":15}],5:[function(require,module,exports){
-/*globals wp, _, Backbone, jQuery */
+/*globals wp, _, Backbone */
 
 /**
  * wp.media.controller.Embed
@@ -492,7 +492,7 @@ module.exports = EditImage;
  */
 var State = require( './state.js' ),
 	l10n = wp.media.view.l10n,
-	$ = jQuery,
+	$ = Backbone.$,
 	Embed;
 
 Embed = State.extend({
@@ -4185,7 +4185,7 @@ Selection = Attachments.extend({
 module.exports = Selection;
 
 },{"../attachment/selection.js":28,"../attachments.js":29}],32:[function(require,module,exports){
-/*globals _, Backbone, jQuery */
+/*globals _, Backbone */
 
 /**
  * wp.media.view.ButtonGroup
@@ -4197,7 +4197,7 @@ module.exports = Selection;
  */
 var View = require( './view.js' ),
 	Button = require( './button.js' ),
-	$ = jQuery,
+	$ = Backbone.$,
 	ButtonGroup;
 
 ButtonGroup = View.extend({
@@ -7242,7 +7242,7 @@ Selection = View.extend({
 module.exports = Selection;
 
 },{"./attachments/selection.js":31,"./view.js":71}],57:[function(require,module,exports){
-/*globals _, jQuery, Backbone */
+/*globals _, Backbone */
 
 /**
  * wp.media.view.Settings
@@ -7253,7 +7253,7 @@ module.exports = Selection;
  * @augments Backbone.View
  */
 var View = require( './view.js' ),
-	$ = jQuery,
+	$ = Backbone.$,
 	Settings;
 
 Settings = View.extend({

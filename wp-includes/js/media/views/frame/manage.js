@@ -1,4 +1,4 @@
-/*globals wp, _, jQuery, Backbone */
+/*globals wp, _, Backbone */
 
 /**
  * wp.media.view.MediaFrame.Manage
@@ -22,7 +22,7 @@ var MediaFrame = wp.media.view.MediaFrame,
 
 	Router = require( '../../routers/manage.js' ),
 
-	$ = jQuery,
+	$ = Backbone.$,
 	Manage;
 
 Manage = MediaFrame.extend({
