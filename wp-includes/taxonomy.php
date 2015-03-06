@@ -2695,6 +2695,7 @@ function wp_get_object_terms($object_ids, $taxonomies, $args = array()) {
 		$order = 'ASC';
 
 	$taxonomy_array = $taxonomies;
+	$object_id_array = $object_ids;
 	$taxonomies = "'" . implode("', '", $taxonomies) . "'";
 	$object_ids = implode(', ', $object_ids);
 
@@ -2770,13 +2771,13 @@ function wp_get_object_terms($object_ids, $taxonomies, $args = array()) {
 	 *
 	 * @since 4.2.0
 	 *
-	 * @param array     $terms          An array of terms for the given object or objects.
-	 * @param int|array $object_ids     Object ID or array of IDs.
-	 * @param array     $taxonomy_array Array of taxonomies from which `$terms` were retrieved.
-	 * @param array     $args           An array of arguments for retrieving terms for the given object(s).
-	 *                                  See {@see wp_get_object_terms()} for details.
+	 * @param array $terms           An array of terms for the given object or objects.
+	 * @param array $object_id_array Array of object IDs for which `$terms` were retrieved.
+	 * @param array $taxonomy_array  Array of taxonomies from which `$terms` were retrieved.
+	 * @param array $args            An array of arguments for retrieving terms for the given object(s).
+	 *                               See {@see wp_get_object_terms()} for details.
 	 */
-	$terms = apply_filters( 'get_object_terms', $terms, $object_ids, $taxonomy_array, $args );
+	$terms = apply_filters( 'get_object_terms', $terms, $object_id_array, $taxonomy_array, $args );
 
 	/**
 	 * Filter the terms for a given object or objects.
