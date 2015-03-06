@@ -334,7 +334,7 @@ class WP_Press_This {
 		$return = '';
 
 		if ( is_numeric( $value ) || is_bool( $value ) ) {
-			$return = (string) $value;
+			$return = $value;
 		} else if ( is_string( $value ) ) {
 			if ( mb_strlen( $value ) > 5000 ) {
 				$return = mb_substr( $value, 0, 5000 );
@@ -353,7 +353,7 @@ class WP_Press_This {
 		if ( ! is_string( $url ) ) {
 			return '';
 		}
-		
+
 		$url = $this->_limit_string( $url );
 
 		// HTTP 1.1 allows 8000 chars but the "de-facto" standard supported in all current browsers is 2048.
@@ -419,6 +419,8 @@ class WP_Press_This {
 			$src = 'https://vimeo.com/' . (int) $src_matches[1];
 		} else if ( preg_match( '/\/\/vine\.co\/v\/([^\/]+)\/embed/', $src, $src_matches ) ) {
 			$src = 'https://vine.co/v/' . $src_matches[1];
+		} else if ( preg_match( '/\/\/(www\.)?dailymotion\.com\/embed\/video\/([^\/\?]+)([\/\?]{1}.+)?/', $src, $src_matches ) ) {
+			$src = 'https://www.dailymotion.com/video/' . $src_matches[2];
 		} else if ( ! preg_match( '/\/\/(m\.|www\.)?youtube\.com\/watch\?/', $src )
 		            && ! preg_match( '/\/youtu\.be\/.+$/', $src )
 		            && ! preg_match( '/\/\/vimeo\.com\/[\d]+$/', $src )
@@ -470,7 +472,7 @@ class WP_Press_This {
 					break;
 			}
 		}
-		
+
 		return $data;
 	}
 
@@ -637,11 +639,13 @@ class WP_Press_This {
 					$items = wp_unslash( $items );
 
 					foreach ( $items as $key => $value ) {
-						$key = $this->_limit_string( wp_unslash( $key ) );
+						if ( ! is_numeric( $key ) ) {
+							$key = $this->_limit_string( wp_unslash( $key ) );
 
-						// Sanity check. $key is usually things like 'title', 'description', 'keywords', etc.
-						if ( empty( $key ) || strlen( $key ) > 100 ) {
-							continue;
+							// Sanity check. $key is usually things like 'title', 'description', 'keywords', etc.
+							if ( empty( $key ) || strlen( $key ) > 100 ) {
+								continue;
+							}
 						}
 
 						if ( $type === '_meta' ) {
