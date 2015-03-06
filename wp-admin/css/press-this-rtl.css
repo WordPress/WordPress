@@ -1219,7 +1219,8 @@ html {
 }
 
 .options-open.is-hidden,
-.options-close.is-hidden {
+.options-close.is-hidden,
+.options-panel-back.is-hidden {
 	display: none;
 }
 
@@ -1798,9 +1799,18 @@ html {
 	width: 320px;
 	border-right: 1px solid #e5e5e5;
 	font-size: 14px;
-	/* Keeps background the full height of the screen */
+	/* Keeps background the full height of the screen, but only visually. Clicks go through. */
 	-webkit-box-shadow: -5001px 5000px 0 5000px #fff, -5000px 5000px 0 5000px #e5e5e5;
 	box-shadow: -5001px 5000px 0 5000px #fff, -5000px 5000px 0 5000px #e5e5e5;
+}
+
+.options-panel-back {
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	width: 320px;
+	outline: 0;
 }
 
 @media (max-width: 900px) {
@@ -1831,6 +1841,10 @@ html {
 		border: 0;
 		-webkit-box-shadow: -5001px 5000px 0 5000px #fff;
 		box-shadow: -5001px 5000px 0 5000px #fff;
+	}
+
+	.options-panel-back {
+		width: 100%;
 	}
 }
 

@@ -791,7 +791,7 @@ class WP_Press_This {
 					) );
 					?>
 				</div>
-				<button type="button" class="button add-cat-submit"><?php _e( 'Add' ); ?></button>
+				<button type="button" class="add-cat-submit"><?php _e( 'Add' ); ?></button>
 			</div>
 		<?php } ?>
 		<div class="categories-search-wrapper">
@@ -834,7 +834,7 @@ class WP_Press_This {
 					<label class="screen-reader-text" for="new-tag-post_tag"><?php _e( 'Tags' ); ?></label>
 					<p>
 						<input type="text" id="new-tag-post_tag" name="newtag[post_tag]" class="newtag form-input-tip" size="16" autocomplete="off" value="" />
-						<button type="button" class="button tagadd"><?php _e( 'Add' ); ?></button>
+						<button type="button" class="tagadd"><?php _e( 'Add' ); ?></button>
 					</p>
 				</div>
 				<p class="howto">
@@ -1035,7 +1035,8 @@ $admin_body_classes = apply_filters( 'admin_body_class', '' );
 			</div>
 		</div>
 
-		<div class="options-panel is-off-screen is-hidden">
+		<div class="options-panel-back is-hidden" tabindex="-1"></div>	
+		<div class="options-panel is-off-screen is-hidden" tabindex="-1">
 			<div class="post-options">
 
 				<?php if ( $supports_formats ) : ?>

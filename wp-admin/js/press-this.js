@@ -7,6 +7,7 @@
 		var editor,
 			saveAlert             = false,
 			textarea              = document.createElement( 'textarea' ),
+			sidebarIsOpen         = false,
 			siteConfig            = window.wpPressThisConfig || {},
 			data                  = window.wpPressThisData || {},
 			smallestWidth         = 128,
@@ -17,6 +18,9 @@
 			suggestedContentStr   = getSuggestedContent( data ),
 			hasSetFocus           = false,
 			catsCache             = [],
+			isOffScreen           = 'is-off-screen',
+			isHidden              = 'is-hidden',
+			offscreenHidden       = isOffScreen + ' ' + isHidden,
 			transitionEndEvent    = ( function() {
 				var style = document.documentElement.style;
 
@@ -638,9 +642,7 @@
 		 * Interactive navigation behavior for the options modal (post format, tags, categories)
 		 */
 		function monitorOptionsModal() {
-			var isOffScreen   = 'is-off-screen',
-				isHidden      = 'is-hidden',
-				$postOptions  = $( '.post-options' ),
+			var $postOptions  = $( '.post-options' ),
 				$postOption   = $( '.post-option' ),
 				$settingModal = $( '.setting-modal' ),
 				$modalClose   = $( '.modal-close' );
@@ -649,16 +651,12 @@
 				var index = $( this ).index(),
 					$targetSettingModal = $settingModal.eq( index );
 
-				event.preventDefault();
-
-				$postOptions
-					.addClass( isOffScreen )
+				$postOptions.addClass( isOffScreen )
 					.one( transitionEndEvent, function() {
 						$( this ).addClass( isHidden );
 					} );
 
-				$targetSettingModal
-					.removeClass( isOffScreen + ' ' + isHidden )
+				$targetSettingModal.removeClass( offscreenHidden )
 					.one( transitionEndEvent, function() {
 						$( this ).find( '.modal-close' ).focus();
 					} );
@@ -668,20 +666,15 @@
 				var $targetSettingModal = $( this ).parent(),
 					index = $targetSettingModal.index();
 
-				event.preventDefault();
+				$postOptions.removeClass( offscreenHidden );
+				$targetSettingModal.addClass( isOffScreen );
 
-				$postOptions
-					.removeClass( isOffScreen + ' ' + isHidden );
-
-				$targetSettingModal
-					.addClass( isOffScreen )
-					.one( transitionEndEvent, function() {
+				if ( transitionEndEvent ) {
+					$targetSettingModal.one( transitionEndEvent, function() {
 						$( this ).addClass( isHidden );
 						$postOption.eq( index - 1 ).focus();
 					} );
-
-				// For browser that don't support transitionend.
-				if ( ! transitionEndEvent ) {
+				} else {
 					setTimeout( function() {
 						$targetSettingModal.addClass( isHidden );
 						$postOption.eq( index - 1 ).focus();
@@ -693,45 +686,31 @@
 		/**
 		 * Interactive behavior for the sidebar toggle, to show the options modals
 		 */
-		function monitorSidebarToggle() {
-			var $optOpen  = $( '.options-open' ),
-				$optClose = $( '.options-close' ),
-				$postOption = $( '.post-option' ),
-				$sidebar = $( '.options-panel' ),
-				$postActions = $( '.press-this-actions' ),
-				$scanbar = $( '#scanbar' ),
-				isOffScreen = 'is-off-screen',
-				isHidden = 'is-hidden',
-				ifOffHidden = isOffScreen + ' ' + isHidden;
+		function openSidebar() {
+			sidebarIsOpen = true;
 
-			$optOpen.on( 'click', function(){
-				$optOpen.addClass( isHidden );
-				$optClose.removeClass( isHidden );
-				$postActions.addClass( isHidden );
-				$scanbar.addClass( isHidden );
+			$( '.options-open, .press-this-actions, #scanbar' ).addClass( isHidden );
+			$( '.options-close, .options-panel-back' ).removeClass( isHidden );
 
-				$sidebar
-					.removeClass( ifOffHidden )
-					.one( 'transitionend', function() {
-						$postOption.eq( 0 ).focus();
-					} );
-			} );
+			$( '.options-panel' ).removeClass( offscreenHidden )
+				.one( 'transitionend', function() {
+					$( '.post-option:first' ).focus();
+				} );
+		}
+		
+		function closeSidebar() {
+			sidebarIsOpen = false;
 
-			$optClose.on( 'click', function(){
-				$optClose.addClass( isHidden );
-				$optOpen.removeClass( isHidden );
-				$postActions.removeClass( isHidden );
-				$scanbar.removeClass( isHidden );
+			$( '.options-close, .options-panel-back' ).addClass( isHidden );
+			$( '.options-open, .press-this-actions, #scanbar' ).removeClass( isHidden );
 
-				$sidebar
-					.addClass( isOffScreen )
-					.one( 'transitionend', function() {
-						$( this ).addClass( isHidden );
-						// Reset to options list
-						$( '.post-options' ).removeClass( ifOffHidden );
-						$( '.setting-modal').addClass( ifOffHidden );
-					} );
-			} );
+			$( '.options-panel' ).addClass( isOffScreen )
+				.one( 'transitionend', function() {
+					$( this ).addClass( isHidden );
+					// Reset to options list
+					$( '.post-options' ).removeClass( offscreenHidden );
+					$( '.setting-modal').addClass( offscreenHidden );
+				} );
 		}
 
 		/**
@@ -787,8 +766,26 @@
 			} );
 
 			monitorOptionsModal();
-			monitorSidebarToggle();
 			monitorPlaceholder();
+
+			$( '.options-open' ).on( 'click.press-this', openSidebar );
+			$( '.options-close' ).on( 'click.press-this', closeSidebar );
+
+			// Close the sidebar when focus moves outside of it.
+			$( '.options-panel, .options-panel-back' ).on( 'focusout.press-this', function() {
+				setTimeout( function() {
+					var node = document.activeElement,
+						$node = $( node );
+
+					if ( sidebarIsOpen && node && ! $node.hasClass( 'options-panel-back' ) &&
+						( node.nodeName === 'BODY' ||
+							( ! $node.closest( '.options-panel' ).length &&
+							! $node.closest( '.options-open' ).length ) ) ) {
+
+						closeSidebar();
+					}
+				}, 50 );
+			});
 
 			$( '#post-formats-select input' ).on( 'change', function() {
 				var $this = $( this );
@@ -796,12 +793,6 @@
 				if ( $this.is( ':checked' ) ) {
 					$( '#post-option-post-format' ).text( $( 'label[for="' + $this.attr( 'id' ) + '"]' ).text() || '' );
 				}
-			} );
-
-			// Needs more work, doesn't detect when the other JS changes the value of #tax-input-post_tag
-			$( '#tax-input-post_tag' ).on( 'change', function() {
-				var val =  $( this ).val();
-				$( '#post-option-tags' ).text( ( val ) ? val.replace( /,([^\s])/g, ', $1' ) : '' );
 			} );
 
 			$( window ).on( 'beforeunload.press-this', function() {
