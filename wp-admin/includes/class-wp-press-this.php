@@ -285,10 +285,12 @@ class WP_Press_This {
 			// Get the content of the source page from the tmp file..
 
 			$source_content = wp_kses(
-				file_get_contents( $source_tmp_file ),
+				@file_get_contents( $source_tmp_file ),
 				array(
 					'img' => array(
 						'src'      => array(),
+						'width'    => array(),
+						'height'   => array(),
 					),
 					'iframe' => array(
 						'src'      => array(),
@@ -529,7 +531,13 @@ class WP_Press_This {
 			$items = $this->_limit_array( $matches[0] );
 
 			foreach ( $items as $value ) {
-				if ( preg_match( '/src=(\'|")([^\'"]+)\\1/', $value, $new_matches ) ) {
+				if ( ( preg_match( '/width=(\'|")(\d+)\\1/i', $value, $new_matches ) && $new_matches[2] < 256 ) ||
+					( preg_match( '/height=(\'|")(\d+)\\1/i', $value, $new_matches ) && $new_matches[2] < 128 ) ) {
+
+					continue;
+				}
+
+				if ( preg_match( '/src=(\'|")([^\'"]+)\\1/i', $value, $new_matches ) ) {
 					$src = $this->_limit_img( $new_matches[2] );
 					if ( ! empty( $src ) && ! in_array( $src, $data['_img'] ) ) {
 						$data['_img'][] = $src;
