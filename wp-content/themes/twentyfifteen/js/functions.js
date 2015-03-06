@@ -8,7 +8,8 @@
 ( function( $ ) {
 	var $body, $window, $sidebar, adminbarOffset, top = false,
 	    bottom = false, windowWidth, windowHeight, lastWindowPos = 0,
-	    topOffset = 0, bodyHeight, sidebarHeight, resizeTimer;
+	    topOffset = 0, bodyHeight, sidebarHeight, resizeTimer,
+		secondary, button;
 
 	// Add dropdown toggle that display child menu items.
 	$( '.main-navigation .menu-item-has-children > a' ).after( '<button class="dropdown-toggle" aria-expanded="false">' + screenReaderText.expand + '</button>' );
@@ -26,15 +27,13 @@
 		_this.html( _this.html() === screenReaderText.expand ? screenReaderText.collapse : screenReaderText.expand );
 	} );
 
+	secondary = $( '#secondary' );
+	button = $( '.site-branding' ).find( '.secondary-toggle' );
+
 	// Enable menu toggle for small screens.
 	( function() {
-		var secondary = $( '#secondary' ), button, menu, widgets, social;
-		if ( ! secondary ) {
-			return;
-		}
-
-		button = $( '.site-branding' ).find( '.secondary-toggle' );
-		if ( ! button ) {
+		var menu, widgets, social;
+		if ( ! secondary || ! button ) {
 			return;
 		}
 
@@ -51,8 +50,28 @@
 			secondary.toggleClass( 'toggled-on' );
 			secondary.trigger( 'resize' );
 			$( this ).toggleClass( 'toggled-on' );
+			if ( $( this, secondary ).hasClass( 'toggled-on' ) ) {
+				$( this ).attr( 'aria-expanded', 'true' );
+				secondary.attr( 'aria-expanded', 'true' );
+			} else {
+				$( this ).attr( 'aria-expanded', 'false' );
+				secondary.attr( 'aria-expanded', 'false' );
+			}
 		} );
 	} )();
+
+	// Add or remove ARIA attributes.
+	function onResizeARIA() {
+		if ( 955 > $window.width() ) {
+			button.attr( 'aria-expanded', 'false' );
+			secondary.attr( 'aria-expanded', 'false' );
+			button.attr( 'aria-controls', 'secondary' );
+		} else {
+			button.removeAttr( 'aria-expanded' );
+			secondary.removeAttr( 'aria-expanded' );
+			button.removeAttr( 'aria-controls' );
+		}
+	}
 
 	// Sidebar scrolling.
 	function resize() {
@@ -119,11 +138,13 @@
 
 		$window
 			.on( 'scroll.twentyfifteen', scroll )
+			.on( 'load.twentyfifteen', onResizeARIA )
 			.on( 'resize.twentyfifteen', function() {
 				clearTimeout( resizeTimer );
 				resizeTimer = setTimeout( resizeAndScroll, 500 );
+				onResizeARIA();
 			} );
-		$sidebar.on( 'click keydown', 'button', resizeAndScroll );
+		$sidebar.on( 'click.twentyfifteen keydown.twentyfifteen', 'button', resizeAndScroll );
 
 		resizeAndScroll();
 
