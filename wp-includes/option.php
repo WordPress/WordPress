@@ -225,11 +225,13 @@ function wp_load_core_site_options( $site_id = null ) {
  *
  * @param string      $option   Option name. Expected to not be SQL-escaped.
  * @param mixed       $value    Option value. Must be serializable if non-scalar. Expected to not be SQL-escaped.
- * @param string|bool $autoload Optional. Whether to load the option when WordPress starts up. Accepts 'yes' or true to
- *                              enable, 'no' or false to disable. Default is enabled.
+ * @param string|bool $autoload Optional. Whether to load the option when WordPress starts up. For existing options,
+ *                              `$autoload` can only be updated using `update_option()` if `$value` is also changed.
+ *                              Accepts 'yes' or true to enable, 'no' or false to disable. For non-existent options,
+ *                              the default value is 'yes'.
  * @return bool False if value was not updated and true if value was updated.
  */
-function update_option( $option, $value, $autoload = 'yes' ) {
+function update_option( $option, $value, $autoload = null ) {
 	global $wpdb;
 
 	$option = trim($option);
@@ -273,6 +275,11 @@ function update_option( $option, $value, $autoload = 'yes' ) {
 
 	/** This filter is documented in wp-includes/option.php */
 	if ( apply_filters( 'default_option_' . $option, false ) === $old_value ) {
+		// Default setting for new options is 'yes'.
+		if ( null === $autoload ) {
+			$autoload = 'yes';
+		}
+
 		return add_option( $option, $value, '', $autoload );
 	}
 
@@ -289,7 +296,15 @@ function update_option( $option, $value, $autoload = 'yes' ) {
 	 */
 	do_action( 'update_option', $option, $old_value, $value );
 
-	$result = $wpdb->update( $wpdb->options, array( 'option_value' => $serialized_value ), array( 'option_name' => $option ) );
+	$update_args = array(
+		'option_value' => $serialized_value,
+	);
+
+	if ( null !== $autoload ) {
+		$update_args['autoload'] = ( 'no' === $autoload || false === $autoload ) ? 'no' : 'yes';
+	}
+
+	$result = $wpdb->update( $wpdb->options, $update_args, array( 'option_name' => $option ) );
 	if ( ! $result )
 		return false;
 
