@@ -5106,9 +5106,10 @@ function wp_attachment_is( $type, $post_id = 0 ) {
 
 	case 'video':
 		return in_array( $ext, wp_get_video_extensions() );
-	}
 
-	return false;
+	default:
+		return $type === $ext;
+	}
 }
 
 /**
