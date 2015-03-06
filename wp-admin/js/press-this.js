@@ -814,7 +814,7 @@
 				var $this = $( this );
 
 				$this.toggleClass( 'is-toggled' );
-				$this.attr( 'aria-expanded', ! $this.attr( 'aria-expanded' ) );
+				$this.attr( 'aria-expanded', 'false' === $this.attr( 'aria-expanded' ) ? 'true' : 'false' );
 				$( '.setting-modal .add-category, .categories-search-wrapper' ).toggleClass( 'is-hidden' );
 			} );
 
