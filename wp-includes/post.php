@@ -5091,10 +5091,15 @@ function wp_attachment_is( $type, $post_id = 0 ) {
 	}
 
 	$check = wp_check_filetype( $file );
-	if ( empty( $check['ext'] ) || 'import' !== $post->post_mime_type ) {
+	if ( empty( $check['ext'] ) ) {
 		return false;
 	}
+
 	$ext = $check['ext'];
+
+	if ( 'import' !== $post->post_mime_type ) {
+		return $type === $ext;
+	}
 
 	switch ( $type ) {
 	case 'image':
