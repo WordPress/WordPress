@@ -108,6 +108,32 @@ $date = date_i18n( $datef, strtotime( $comment->comment_date ) );
 <span id="timestamp"><?php printf($stamp, $date); ?></span>&nbsp;<a href="#edit_timestamp" class="edit-timestamp hide-if-no-js"><?php _e('Edit') ?></a>
 <div id='timestampdiv' class='hide-if-js'><?php touch_time(('editcomment' == $action), 0); ?></div>
 </div>
+
+<?php
+$post_id = $comment->comment_post_ID;
+if ( current_user_can( 'edit_post', $post_id ) ) {
+	$post_link = "<a href='" . esc_url( get_edit_post_link( $post_id ) ) . "'>";
+	$post_link .= esc_html( get_the_title( $post_id ) ) . '</a>';
+} else {
+	$post_link = esc_html( get_the_title( $post_id ) );
+}
+?>
+
+<div class="misc-pub-section misc-pub-response-to">
+	<?php printf( __( 'In response to: <b>%s</b>' ), $post_link ); ?>
+</div>
+
+<?php
+if ( $comment->comment_parent ) :
+	$parent      = get_comment( $comment->comment_parent );
+	$parent_link = esc_url( get_comment_link( $comment->comment_parent ) );
+	$name        = get_comment_author( $parent->comment_ID );
+?>
+<div class="misc-pub-section misc-pub-reply-to">
+	<?php printf( __( 'In reply to: <b><a href="%1$s">%2$s</a></b>' ), $parent_link, $name ); ?>
+</div>
+<?php endif; ?>
+
 </div> <!-- misc actions -->
 <div class="clear"></div>
 </div>

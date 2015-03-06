@@ -177,7 +177,8 @@ p.popular-tags,
 .wp-editor-container,
 .popular-tags,
 .feature-filter,
-.imgedit-group {
+.imgedit-group,
+.comment-ays {
 	border: 1px solid #e5e5e5;
 	-webkit-box-shadow: 0 1px 1px rgba(0,0,0,0.04);
 	box-shadow: 0 1px 1px rgba(0,0,0,0.04);
@@ -190,7 +191,8 @@ p.popular-tags,
 .widgets-holder-wrap,
 .popular-tags,
 .feature-filter,
-.imgedit-group {
+.imgedit-group,
+.comment-ays {
 	background: #fff;
 }
 
@@ -1617,15 +1619,6 @@ html.wp-toolbar {
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
-}
-
-.narrow {
-	width: 70%;
-	margin-bottom: 40px;
-}
-
-.narrow p {
-	line-height: 150%;
 }
 
 .widefat th,
