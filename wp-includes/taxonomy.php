@@ -1591,8 +1591,9 @@ function get_term_to_edit( $id, $taxonomy ) {
  *     @type array|string $exclude_tree      Array or comma/space-separated string of term ids to exclude
  *                                           along with all of their descendant terms. If $include is
  *                                           non-empty, $exclude_tree is ignored. Default empty array.
- *     @type int          $number            Maximum number of terms to return. Accepts 1+ or -1 (all).
- *                                           Default -1.
+ *     @type int|string   $number            Maximum number of terms to return. Accepts ''|0 (all) or any
+ *                                           positive number. Default ''|0 (all).
+ *                                           Default ''|0 (all).
  *     @type int          $offset            The number by which to offset the terms query. Default empty.
  *     @type string       $fields            Term fields to query for. Accepts 'all' (returns an array of
  *                                           term objects), 'ids' or 'names' (returns an array of integers
