@@ -28,6 +28,7 @@ EmbedLink = Settings.extend({
 
 		// clear out previous results
 		this.$('.embed-container').hide().find('.embed-preview').html('');
+		this.$( '.setting' ).hide();
 
 		// only proceed with embed if the field contains more than 6 characters
 		if ( url && url.length < 6 ) {
@@ -64,7 +65,7 @@ EmbedLink = Settings.extend({
 	},
 
 	renderFail: function () {
-		this.$( '.setting' ).hide().filter( '.title' ).show();
+		this.$( '.setting' ).hide().filter( '.link-text' ).show();
 	},
 
 	renderoEmbed: function( response ) {
@@ -73,7 +74,7 @@ EmbedLink = Settings.extend({
 			opts = { silent: true };
 
 		this.$( '.setting' ).hide()
-			.filter( '.title' )[ html ? 'hide' : 'show' ]();
+			.filter( '.link-text' )[ html ? 'hide' : 'show' ]();
 
 		if ( response && response.attr ) {
 			attr = response.attr;
