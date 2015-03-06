@@ -2976,9 +2976,9 @@ function wp_enqueue_media( $args = array() ) {
 
 		$thumbnail_support = current_theme_supports( 'post-thumbnails', $post->post_type ) && post_type_supports( $post->post_type, 'thumbnail' );
 		if ( ! $thumbnail_support && 'attachment' === $post->post_type && $post->post_mime_type ) {
-			if ( 0 === strpos( $post->post_mime_type, 'audio/' ) ) {
+			if ( wp_attachment_is( 'audio', $post ) ) {
 				$thumbnail_support = post_type_supports( 'attachment:audio', 'thumbnail' ) || current_theme_supports( 'post-thumbnails', 'attachment:audio' );
-			} elseif ( 0 === strpos( $post->post_mime_type, 'video/' ) ) {
+			} elseif ( wp_attachment_is( 'video', $post ) ) {
 				$thumbnail_support = post_type_supports( 'attachment:video', 'thumbnail' ) || current_theme_supports( 'post-thumbnails', 'attachment:video' );
 			}
 		}

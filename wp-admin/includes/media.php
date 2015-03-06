@@ -2653,13 +2653,13 @@ function edit_form_image_editor( $post ) {
 			<?php if ( $open ) wp_image_editor( $attachment_id ); ?>
 		</div>
 	<?php
-	elseif ( $attachment_id && 0 === strpos( $post->post_mime_type, 'audio/' ) ):
+	elseif ( $attachment_id && wp_attachment_is( 'audio', $post ) ):
 
 		wp_maybe_generate_attachment_metadata( $post );
 
 		echo wp_audio_shortcode( array( 'src' => $att_url ) );
 
-	elseif ( $attachment_id && 0 === strpos( $post->post_mime_type, 'video/' ) ):
+	elseif ( $attachment_id && wp_attachment_is( 'video', $post ) ):
 
 		wp_maybe_generate_attachment_metadata( $post );
 

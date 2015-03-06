@@ -127,10 +127,10 @@ function wp_generate_attachment_metadata( $attachment_id, $file ) {
 		if ( $image_meta )
 			$metadata['image_meta'] = $image_meta;
 
-	} elseif ( preg_match( '#^video/#', get_post_mime_type( $attachment ) ) ) {
+	} elseif ( wp_attachment_is( 'video', $attachment ) ) {
 		$metadata = wp_read_video_metadata( $file );
 		$support = current_theme_supports( 'post-thumbnails', 'attachment:video' ) || post_type_supports( 'attachment:video', 'thumbnail' );
-	} elseif ( preg_match( '#^audio/#', get_post_mime_type( $attachment ) ) ) {
+	} elseif ( wp_attachment_is( 'audio', $attachment ) ) {
 		$metadata = wp_read_audio_metadata( $file );
 		$support = current_theme_supports( 'post-thumbnails', 'attachment:audio' ) || post_type_supports( 'attachment:audio', 'thumbnail' );
 	}

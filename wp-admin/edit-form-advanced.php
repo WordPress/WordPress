@@ -52,9 +52,9 @@ if ( $post_ID == get_option( 'page_for_posts' ) && empty( $post->post_content ) 
 
 $thumbnail_support = current_theme_supports( 'post-thumbnails', $post_type ) && post_type_supports( $post_type, 'thumbnail' );
 if ( ! $thumbnail_support && 'attachment' === $post_type && $post->post_mime_type ) {
-	if ( 0 === strpos( $post->post_mime_type, 'audio/' ) ) {
+	if ( wp_attachment_is( 'audio', $post ) ) {
 		$thumbnail_support = post_type_supports( 'attachment:audio', 'thumbnail' ) || current_theme_supports( 'post-thumbnails', 'attachment:audio' );
-	} elseif ( 0 === strpos( $post->post_mime_type, 'video/' ) ) {
+	} elseif ( wp_attachment_is( 'video', $post ) ) {
 		$thumbnail_support = post_type_supports( 'attachment:video', 'thumbnail' ) || current_theme_supports( 'post-thumbnails', 'attachment:video' );
 	}
 }
@@ -178,7 +178,7 @@ if ( 'attachment' == $post_type ) {
 	add_meta_box( 'submitdiv', __('Save'), 'attachment_submit_meta_box', null, 'side', 'core' );
 	add_action( 'edit_form_after_title', 'edit_form_image_editor' );
 
-	if ( 0 === strpos( $post->post_mime_type, 'audio/' ) ) {
+	if ( wp_attachment_is( 'audio', $post ) ) {
 		add_meta_box( 'attachment-id3', __( 'Metadata' ), 'attachment_id3_data_meta_box', null, 'normal', 'core' );
 	}
 } else {
