@@ -531,13 +531,14 @@ class WP_User_Query {
 	 *                                         column to search in based on search string. Default empty.
 	 *     @type array        $search_columns  Array of column names to be searched. Accepts 'ID', 'login',
 	 *                                         'nicename', 'email', 'url'. Default empty array.
-	 *     @type string|array $orderby         Field to sort the retrieved users by. May be a single value,
+	 *     @type string|array $orderby         Field(s) to sort the retrieved users by. May be a single value,
 	 *                                         an array of values, or a multi-dimensional array with fields as keys
 	 *                                         and orders ('ASC' or 'DESC') as values. Accepted values are'ID',
 	 *                                         'display_name' (or 'name'), 'user_login' (or 'login'),
 	 *                                         'user_nicename' (or 'nicename'), 'user_email' (or 'email'),
 	 *                                         'user_url' (or 'url'), 'user_registered' (or 'registered'),
-	 *                                         'post_count', 'meta_value', or 'meta_value_num'. To use 'meta_value'
+	 *                                         'post_count', 'meta_value', 'meta_value_num', the value of
+	 *                                         `$meta_key`, or an array key of `$meta_query`. To use 'meta_value'
 	 *                                         or 'meta_value_num', `$meta_key` must be also be defined.
 	 *                                         Default 'user_login'.
 	 *     @type string       $order           Designates ascending or descending order of users. Order values
@@ -623,6 +624,52 @@ class WP_User_Query {
 			$include = wp_parse_id_list( $qv['include'] );
 		} else {
 			$include = false;
+		}
+
+		// Meta query.
+		$this->meta_query = new WP_Meta_Query();
+		$this->meta_query->parse_query_vars( $qv );
+
+		$blog_id = 0;
+		if ( isset( $qv['blog_id'] ) ) {
+			$blog_id = absint( $qv['blog_id'] );
+		}
+
+		$role = '';
+		if ( isset( $qv['role'] ) ) {
+			$role = trim( $qv['role'] );
+		}
+
+		if ( $blog_id && ( $role || is_multisite() ) ) {
+			$cap_meta_query = array();
+			$cap_meta_query['key'] = $wpdb->get_blog_prefix( $blog_id ) . 'capabilities';
+
+			if ( $role ) {
+				$cap_meta_query['value'] = '"' . $role . '"';
+				$cap_meta_query['compare'] = 'like';
+			}
+
+			if ( empty( $this->meta_query->queries ) ) {
+				$this->meta_query->queries = array( $cap_meta_query );
+			} elseif ( ! in_array( $cap_meta_query, $this->meta_query->queries, true ) ) {
+				// Append the cap query to the original queries and reparse the query.
+				$this->meta_query->queries = array(
+					'relation' => 'AND',
+					array( $this->meta_query->queries, $cap_meta_query ),
+				);
+			}
+
+			$this->meta_query->parse_query_vars( $this->meta_query->queries );
+		}
+
+		if ( ! empty( $this->meta_query->queries ) ) {
+			$clauses = $this->meta_query->get_sql( 'user', $wpdb->users, 'ID', $this );
+			$this->query_from .= $clauses['join'];
+			$this->query_where .= $clauses['where'];
+
+			if ( 'OR' == $this->meta_query->relation ) {
+				$this->query_fields = 'DISTINCT ' . $this->query_fields;
+			}
 		}
 
 		// sorting
@@ -728,53 +775,11 @@ class WP_User_Query {
 			$this->query_where .= $this->get_search_sql( $search, $search_columns, $wild );
 		}
 
-		$blog_id = 0;
-		if ( isset( $qv['blog_id'] ) )
-			$blog_id = absint( $qv['blog_id'] );
-
 		if ( isset( $qv['who'] ) && 'authors' == $qv['who'] && $blog_id ) {
 			$qv['meta_key'] = $wpdb->get_blog_prefix( $blog_id ) . 'user_level';
 			$qv['meta_value'] = 0;
 			$qv['meta_compare'] = '!=';
 			$qv['blog_id'] = $blog_id = 0; // Prevent extra meta query
-		}
-
-		$this->meta_query = new WP_Meta_Query();
-		$this->meta_query->parse_query_vars( $qv );
-
-		$role = '';
-		if ( isset( $qv['role'] ) )
-			$role = trim( $qv['role'] );
-
-		if ( $blog_id && ( $role || is_multisite() ) ) {
-			$cap_meta_query = array();
-			$cap_meta_query['key'] = $wpdb->get_blog_prefix( $blog_id ) . 'capabilities';
-
-			if ( $role ) {
-				$cap_meta_query['value'] = '"' . $role . '"';
-				$cap_meta_query['compare'] = 'like';
-			}
-
-			if ( empty( $this->meta_query->queries ) ) {
-				$this->meta_query->queries = array( $cap_meta_query );
-			} elseif ( ! in_array( $cap_meta_query, $this->meta_query->queries, true ) ) {
-				// Append the cap query to the original queries and reparse the query.
-				$this->meta_query->queries = array(
-					'relation' => 'AND',
-					array( $this->meta_query->queries, $cap_meta_query ),
-				);
-			}
-
-			$this->meta_query->parse_query_vars( $this->meta_query->queries );
-		}
-
-		if ( !empty( $this->meta_query->queries ) ) {
-			$clauses = $this->meta_query->get_sql( 'user', $wpdb->users, 'ID', $this );
-			$this->query_from .= $clauses['join'];
-			$this->query_where .= $clauses['where'];
-
-			if ( 'OR' == $this->meta_query->relation )
-				$this->query_fields = 'DISTINCT ' . $this->query_fields;
 		}
 
 		if ( ! empty( $include ) ) {
@@ -955,6 +960,8 @@ class WP_User_Query {
 	protected function parse_orderby( $orderby ) {
 		global $wpdb;
 
+		$meta_query_clauses = $this->meta_query->get_clauses();
+
 		$_orderby = '';
 		if ( in_array( $orderby, array( 'login', 'nicename', 'email', 'url', 'registered' ) ) ) {
 			$_orderby = 'user_' . $orderby;
@@ -975,7 +982,7 @@ class WP_User_Query {
 			$_orderby = 'post_count';
 		} elseif ( 'ID' == $orderby || 'id' == $orderby ) {
 			$_orderby = 'ID';
-		} elseif ( 'meta_value' == $orderby ) {
+		} elseif ( 'meta_value' == $orderby || $this->get( 'meta_key' ) == $orderby ) {
 			$_orderby = "$wpdb->usermeta.meta_value";
 		} elseif ( 'meta_value_num' == $orderby ) {
 			$_orderby = "$wpdb->usermeta.meta_value+0";
@@ -983,6 +990,9 @@ class WP_User_Query {
 			$include = wp_parse_id_list( $this->query_vars['include'] );
 			$include_sql = implode( ',', $include );
 			$_orderby = "FIELD( $wpdb->users.ID, $include_sql )";
+		} elseif ( isset( $meta_query_clauses[ $orderby ] ) ) {
+			$meta_clause = $meta_query_clauses[ $orderby ];
+			$_orderby = sprintf( "CAST(%s.meta_value AS %s)", esc_sql( $meta_clause['alias'] ), esc_sql( $meta_clause['cast'] ) );
 		}
 
 		return $_orderby;
