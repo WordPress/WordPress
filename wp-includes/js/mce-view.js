@@ -467,7 +467,7 @@ window.wp = window.wp || {};
 				var dom = editor.dom,
 					styles = '',
 					bodyClasses = editor.getBody().className || '',
-					iframe, iframeDoc, observer, i, resize;
+					iframe, iframeDoc, observer, i;
 
 				content.innerHTML = '';
 				head = head || '';
@@ -543,7 +543,7 @@ window.wp = window.wp || {};
 
 					iframeDoc.close();
 
-					resize = function() {
+					function resize() {
 						var $iframe, iframeDocHeight;
 
 						// Make sure the iframe still exists.
@@ -556,17 +556,19 @@ window.wp = window.wp || {};
 								editor.nodeChanged();
 							}
 						}
-					};
+					}
 
 					if ( MutationObserver ) {
-						observer = new MutationObserver( _.debounce( function() {
-							resize();
-						}, 100 ) );
+						observer = new MutationObserver( _.debounce( resize, 100 ) );
 
 						observer.observe( iframeDoc.body, {
 							attributes: true,
 							childList: true,
 							subtree: true
+						} );
+
+						$( node ).one( 'wp-mce-view-unbind', function() {
+							observer.disconnect();
 						} );
 					} else {
 						for ( i = 1; i < 6; i++ ) {
@@ -580,12 +582,11 @@ window.wp = window.wp || {};
 
 					if ( importStyles ) {
 						editor.on( 'wp-body-class-change', classChange );
-					}
 
-					$( node ).one( 'wp-mce-view-unbind', function() {
-						observer.disconnect();
-						editor.off( 'wp-body-class-change', classChange );
-					} );
+						$( node ).one( 'wp-mce-view-unbind', function() {
+							editor.off( 'wp-body-class-change', classChange );
+						} );
+					}
 				}, 50 );
 
 				callback && callback.apply( this, arguments );
