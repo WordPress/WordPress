@@ -1105,7 +1105,7 @@ class WP_Press_This {
 		</div>
 		<div class="post-actions">
 			<button type="button" class="button-subtle draft-button"><?php _e( 'Save Draft' ); ?></button>
-			<button type="button" class="button preview-button"><?php _e( 'Preview' ); ?></button>
+			<button type="button" class="button-subtle preview-button"><?php _e( 'Preview' ); ?></button>
 			<button type="button" class="button-primary publish-button"><?php _e( 'Publish' ); ?></button>
 		</div>
 	</div>
