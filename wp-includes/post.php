@@ -5344,35 +5344,34 @@ function get_posts_by_author_sql( $post_type, $full = true, $post_author = null,
 		$cap = $post_type_obj->cap->read_private_posts;
 	}
 
-	if ( $full ) {
-		if ( null === $post_author ) {
-			$sql = $wpdb->prepare( 'WHERE post_type = %s AND ', $post_type );
-		} else {
-			$sql = $wpdb->prepare( 'WHERE post_author = %d AND post_type = %s AND ', $post_author, $post_type );
-		}
-	} else {
-		$sql = '';
+	$sql = $wpdb->prepare( 'post_type = %s', $post_type );
+
+	if ( null !== $post_author ) {
+		$sql .= $wpdb->prepare( ' AND post_author = %d', $post_author );
 	}
 
-	$sql .= "(post_status = 'publish'";
-
 	// Only need to check the cap if $public_only is false.
+	$post_status_sql = "post_status = 'publish'";
 	if ( false === $public_only ) {
 		if ( current_user_can( $cap ) ) {
 			// Does the user have the capability to view private posts? Guess so.
-			$sql .= " OR post_status = 'private'";
+			$post_status_sql .= " OR post_status = 'private'";
 		} elseif ( is_user_logged_in() ) {
 			// Users can view their own private posts.
 			$id = get_current_user_id();
 			if ( null === $post_author || ! $full ) {
-				$sql .= " OR post_status = 'private' AND post_author = $id";
+				$post_status_sql .= " OR post_status = 'private' AND post_author = $id";
 			} elseif ( $id == (int) $post_author ) {
-				$sql .= " OR post_status = 'private'";
+				$post_status_sql .= " OR post_status = 'private'";
 			} // else none
 		} // else none
 	}
 
-	$sql .= ')';
+	$sql .= " AND ($post_status_sql)";
+
+	if ( $full ) {
+		$sql = 'WHERE ' . $sql;
+	}
 
 	return $sql;
 }
