@@ -433,7 +433,7 @@ p.customize-section-description {
 	overflow: hidden;
 	text-overflow: ellipsis;
 	margin: 0;
-	padding: 5px 10px 0;
+	padding: 0 10px;
 }
 
 .customize-control .attachment-meta-title {
@@ -446,6 +446,13 @@ p.customize-section-description {
 
 .customize-control .thumbnail-image img {
 	cursor: pointer;
+}
+
+#customize-controls .thumbnail-audio .thumbnail {
+	max-width: 64px;
+	max-height: 64px;
+	margin: 10px;
+	float: right;
 }
 
 #customize-preview iframe {

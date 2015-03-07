@@ -763,7 +763,11 @@ class WP_Customize_Upload_Control extends WP_Customize_Control {
 							<# } else if ( 'image' === data.attachment.type && data.attachment.sizes && data.attachment.sizes.full ) { #>
 								<img class="attachment-thumb" src="{{ data.attachment.sizes.full.url }}" draggable="false" />
 							<# } else if ( 'audio' === data.attachment.type ) { #>
-								<img class="attachment-thumb type-icon" src="{{ data.attachment.icon }}" class="icon" draggable="false" />
+								<# if ( data.attachment.image && data.attachment.image.src && data.attachment.image.src !== data.attachment.icon ) { #>
+									<img src="{{ data.attachment.image.src }}" class="thumbnail" draggable="false" />
+								<# } else { #>
+									<img src="{{ data.attachment.icon }}" class="attachment-thumb type-icon" draggable="false" />
+								<# } #>
 								<p class="attachment-meta attachment-meta-title">&#8220;{{ data.attachment.title }}&#8221;</p>
 								<# if ( data.attachment.album || data.attachment.meta.album ) { #>
 								<p class="attachment-meta"><em>{{ data.attachment.album || data.attachment.meta.album }}</em></p>
@@ -771,6 +775,16 @@ class WP_Customize_Upload_Control extends WP_Customize_Control {
 								<# if ( data.attachment.artist || data.attachment.meta.artist ) { #>
 								<p class="attachment-meta">{{ data.attachment.artist || data.attachment.meta.artist }}</p>
 								<# } #>
+								<audio style="visibility: hidden" controls class="wp-audio-shortcode" width="100%" preload="none">
+									<source type="{{ data.attachment.mime }}" src="{{ data.attachment.url }}"/>
+								</audio>
+							<# } else if ( 'video' === data.attachment.type ) { #>
+								<div class="wp-media-wrapper wp-video">
+									<video controls="controls" class="wp-video-shortcode" preload="metadata"
+										<# if ( data.attachment.image && data.attachment.image.src !== data.attachment.icon ) { #>poster="{{ data.attachment.image.src }}"<# } #>>
+										<source type="{{ data.attachment.mime }}" src="{{ data.attachment.url }}"/>
+									</video>
+								</div>
 							<# } else { #>
 								<img class="attachment-thumb type-icon" src="{{ data.attachment.icon }}" class="icon" draggable="false" />
 								<p class="attachment-title">{{ data.attachment.title }}</p>

@@ -1,4 +1,4 @@
-/* globals _wpCustomizeHeader, _wpCustomizeBackground, _wpMediaViewsL10n */
+/* globals _wpCustomizeHeader, _wpCustomizeBackground, _wpMediaViewsL10n, MediaElementPlayer */
 (function( exports, $ ){
 	var Container, focus, api = wp.customize;
 
@@ -316,6 +316,17 @@
 		_toggleExpanded: function ( expanded, params ) {
 			var self = this;
 			params = params || {};
+			var section = this, previousCompleteCallback = params.completeCallback;
+			params.completeCallback = function () {
+				if ( previousCompleteCallback ) {
+					previousCompleteCallback.apply( section, arguments );
+				}
+				if ( expanded ) {
+					section.container.trigger( 'expanded' );
+				} else {
+					section.container.trigger( 'collapsed' );
+				}
+			};
 			if ( ( expanded && this.expanded.get() ) || ( ! expanded && ! this.expanded.get() ) ) {
 				params.unchanged = true;
 				self.onChangeExpanded( self.expanded.get(), params );
@@ -1374,16 +1385,38 @@
 		ready: function() {
 			var control = this;
 			// Shortcut so that we don't have to use _.bind every time we add a callback.
-			_.bindAll( control, 'restoreDefault', 'removeFile', 'openFrame', 'select' );
+			_.bindAll( control, 'restoreDefault', 'removeFile', 'openFrame', 'select', 'pausePlayer' );
 
 			// Bind events, with delegation to facilitate re-rendering.
 			control.container.on( 'click keydown', '.upload-button', control.openFrame );
+			control.container.on( 'click keydown', '.upload-button', control.pausePlayer );
 			control.container.on( 'click keydown', '.thumbnail-image img', control.openFrame );
 			control.container.on( 'click keydown', '.default-button', control.restoreDefault );
+			control.container.on( 'click keydown', '.remove-button', control.pausePlayer );
 			control.container.on( 'click keydown', '.remove-button', control.removeFile );
+			control.container.on( 'click keydown', '.remove-button', control.cleanupPlayer );
+
+			// Resize the player controls when it becomes visible (ie when section is expanded)
+			api.section( control.section() ).container
+				.on( 'expanded', function() {
+					if ( control.player ) {
+						control.player.setControlsSize();
+					}
+				})
+				.on( 'collapsed', function() {
+					control.pausePlayer();
+				});
 
 			// Re-render whenever the control's setting changes.
 			control.setting.bind( function () { control.renderContent(); } );
+		},
+
+		pausePlayer: function () {
+			this.player && this.player.pause();
+		},
+
+		cleanupPlayer: function () {
+			this.player && wp.media.mixin.removePlayer( this.player );
 		},
 
 		/**
@@ -1431,12 +1464,22 @@
 		 */
 		select: function() {
 			// Get the attachment from the modal frame.
-			var attachment = this.frame.state().get( 'selection' ).first().toJSON();
+			var node,
+				attachment = this.frame.state().get( 'selection' ).first().toJSON(),
+				mejsSettings = window._wpmejsSettings || {};
 
 			this.params.attachment = attachment;
 
 			// Set the Customizer setting; the callback takes care of rendering.
 			this.setting( attachment.url );
+			node = this.container.find( 'audio, video' ).get(0);
+
+			// Initialize audio/video previews.
+			if ( node ) {
+				this.player = new MediaElementPlayer( node, mejsSettings );
+			} else {
+				this.cleanupPlayer();
+			}
 		},
 
 		/**
