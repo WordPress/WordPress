@@ -40,7 +40,7 @@ if ( ! $id )
 
 $details = get_blog_details( $id );
 if ( !can_edit_network( $details->site_id ) )
-	wp_die( __( 'You do not have permission to access this page.' ) );
+	wp_die( __( 'You do not have permission to access this page.' ), '', array( 'response' => 403 ) );
 
 $is_main_site = is_main_site( $id );
 

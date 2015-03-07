@@ -36,7 +36,7 @@ get_current_screen()->set_help_sidebar(
 require_once( ABSPATH . 'wp-admin/admin-header.php' );
 
 if ( ! current_user_can( 'manage_network' ) )
-	wp_die( __( 'You do not have permission to access this page.' ) );
+	wp_die( __( 'You do not have permission to access this page.' ), '', array( 'response' => 403 ) );
 
 echo '<div class="wrap">';
 echo '<h2>' . __( 'Upgrade Network' ) . '</h2>';
