@@ -473,6 +473,15 @@ class WP_User_Query {
 	 */
 	private $total_users = 0;
 
+	/**
+	 * Metadata query container.
+	 *
+	 * @since 4.2.0
+	 * @access public
+	 * @var object WP_Meta_Query
+	 */
+	public $meta_query = false;
+
 	private $compat_fields = array( 'results', 'total_users' );
 
 	// SQL clauses
@@ -730,8 +739,8 @@ class WP_User_Query {
 			$qv['blog_id'] = $blog_id = 0; // Prevent extra meta query
 		}
 
-		$meta_query = new WP_Meta_Query();
-		$meta_query->parse_query_vars( $qv );
+		$this->meta_query = new WP_Meta_Query();
+		$this->meta_query->parse_query_vars( $qv );
 
 		$role = '';
 		if ( isset( $qv['role'] ) )
@@ -746,25 +755,25 @@ class WP_User_Query {
 				$cap_meta_query['compare'] = 'like';
 			}
 
-			if ( empty( $meta_query->queries ) ) {
-				$meta_query->queries = array( $cap_meta_query );
-			} elseif ( ! in_array( $cap_meta_query, $meta_query->queries, true ) ) {
+			if ( empty( $this->meta_query->queries ) ) {
+				$this->meta_query->queries = array( $cap_meta_query );
+			} elseif ( ! in_array( $cap_meta_query, $this->meta_query->queries, true ) ) {
 				// Append the cap query to the original queries and reparse the query.
-				$meta_query->queries = array(
+				$this->meta_query->queries = array(
 					'relation' => 'AND',
-					array( $meta_query->queries, $cap_meta_query ),
+					array( $this->meta_query->queries, $cap_meta_query ),
 				);
 			}
 
-			$meta_query->parse_query_vars( $meta_query->queries );
+			$this->meta_query->parse_query_vars( $this->meta_query->queries );
 		}
 
-		if ( !empty( $meta_query->queries ) ) {
-			$clauses = $meta_query->get_sql( 'user', $wpdb->users, 'ID', $this );
+		if ( !empty( $this->meta_query->queries ) ) {
+			$clauses = $this->meta_query->get_sql( 'user', $wpdb->users, 'ID', $this );
 			$this->query_from .= $clauses['join'];
 			$this->query_where .= $clauses['where'];
 
-			if ( 'OR' == $meta_query->relation )
+			if ( 'OR' == $this->meta_query->relation )
 				$this->query_fields = 'DISTINCT ' . $this->query_fields;
 		}
 
