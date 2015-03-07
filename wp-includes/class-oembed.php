@@ -68,6 +68,8 @@ class WP_oEmbed {
 			'#https?://(www\.|embed\.)?ted\.com/talks/.*#i'       => array( 'http://www.ted.com/talks/oembed.{format}',           true  ),
 			'#https?://(www\.)?(animoto|video214)\.com/play/.*#i' => array( 'http://animoto.com/oembeds/create',                  true  ),
 			'#https?://(.+)\.tumblr\.com/post/.*#i'               => array( 'https://www.tumblr.com/oembed/1.0',                  true  ),
+			'#https?://(www\.)?kickstarter\.com/projects/.*#i'    => array( 'https://www.kickstarter.com/services/oembed',        true  ),
+			'#https?://kck\.st/.*#i'                              => array( 'https://www.kickstarter.com/services/oembed',        true  ),
 		);
 
 		if ( ! empty( self::$early_providers['add'] ) ) {
@@ -140,6 +142,8 @@ class WP_oEmbed {
 		 * | Vine         | vine.co              |  Yes  | 4.1.0     |
 		 * | ------------ | -------------------- | ----- | --------- |
 		 * | Tumblr       | tumblr.com           |  Yes  | 4.2.0     |
+		 * | Kickstarter  | kickstarter.com      |  Yes  | 4.2.0     |
+		 * | Kickstarter  | kck.st               |  Yes  | 4.2.0     |
 		 * | ------------ | -------------------- | ----- | --------- |
 		 *
 		 * No longer supported providers:
