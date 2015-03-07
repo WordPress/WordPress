@@ -1593,7 +1593,6 @@ function get_term_to_edit( $id, $taxonomy ) {
  *                                           non-empty, $exclude_tree is ignored. Default empty array.
  *     @type int|string   $number            Maximum number of terms to return. Accepts ''|0 (all) or any
  *                                           positive number. Default ''|0 (all).
- *                                           Default ''|0 (all).
  *     @type int          $offset            The number by which to offset the terms query. Default empty.
  *     @type string       $fields            Term fields to query for. Accepts 'all' (returns an array of
  *                                           term objects), 'ids' or 'names' (returns an array of integers
