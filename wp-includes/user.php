@@ -523,14 +523,14 @@ class WP_User_Query {
 	 *     @type array        $search_columns  Array of column names to be searched. Accepts 'ID', 'login',
 	 *                                         'nicename', 'email', 'url'. Default empty array.
 	 *     @type string|array $orderby         Field to sort the retrieved users by. May be a single value,
-	 *	                                   an array of values, or a multi-dimensional array with fields as keys
-	 *	                                   and orders ('ASC' or 'DESC') as values. Accepted values are'ID',
-	 *	                                   'display_name' (or 'name'), 'user_login' (or 'login'),
-	 *	                                   'user_nicename' (or 'nicename'), 'user_email' (or 'email'),
-	 *	                                   'user_url' (or 'url'), 'user_registered' (or 'registered'),
-	 *	                                   'post_count', 'meta_value', or 'meta_value_num'. To use 'meta_value'
-	 *	                                   or 'meta_value_num', `$meta_key` must be also be defined.
-	 *	                                   Default 'user_login'.
+	 *                                         an array of values, or a multi-dimensional array with fields as keys
+	 *                                         and orders ('ASC' or 'DESC') as values. Accepted values are'ID',
+	 *                                         'display_name' (or 'name'), 'user_login' (or 'login'),
+	 *                                         'user_nicename' (or 'nicename'), 'user_email' (or 'email'),
+	 *                                         'user_url' (or 'url'), 'user_registered' (or 'registered'),
+	 *                                         'post_count', 'meta_value', or 'meta_value_num'. To use 'meta_value'
+	 *                                         or 'meta_value_num', `$meta_key` must be also be defined.
+	 *                                         Default 'user_login'.
 	 *     @type string       $order           Designates ascending or descending order of users. Order values
 	 *                                         passed as part of an `$orderby` array take precedence over this
 	 *                                         parameter. Accepts 'ASC', 'DESC'. Default 'ASC'.
