@@ -5071,11 +5071,11 @@ function wp_get_attachment_thumb_url( $post_id = 0 ) {
 }
 
 /**
- * Verfify the attachment as being of a specific type
+ * Verifies an attachment is of a given type.
  *
- * @param string      $type    Type: image, audio, or video.
- * @param int|WP_Post $post_id Optional. Default 0.
- * @return bool
+ * @param string      $type    Attachment type. Accepts 'image', 'audio', or 'video'.
+ * @param int|WP_Post $post_id Optional. Attachment ID. Default 0.
+ * @return bool True if one of the accepted types, false otherwise.
  */
 function wp_attachment_is( $type, $post_id = 0 ) {
 	if ( ! $post = get_post( $post_id ) ) {
@@ -5118,9 +5118,10 @@ function wp_attachment_is( $type, $post_id = 0 ) {
 }
 
 /**
- * Check if the attachment is an image.
+ * Checks if the attachment is an image.
  *
  * @since 2.1.0
+ * @since 4.2.0 Modified into wrapper for wp_attachment_is()
  *
  * @param int|WP_Post $post Optional. Attachment ID. Default 0.
  * @return bool Whether the attachment is an image.
