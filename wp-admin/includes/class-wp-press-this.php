@@ -133,22 +133,20 @@ class WP_Press_This {
 	 * @access public
 	 */
 	public function save_post() {
-		if ( empty( $_POST['pressthis-nonce'] ) || ! wp_verify_nonce( $_POST['pressthis-nonce'], 'press-this' ) ) {
-			wp_send_json_error( array( 'errorMessage' => __( 'Cheatin&#8217; uh?' ) ) );
-		}
-
 		if ( empty( $_POST['post_ID'] ) || ! $post_id = (int) $_POST['post_ID'] ) {
 			wp_send_json_error( array( 'errorMessage' => __( 'Missing post ID.' ) ) );
 		}
 
-		if ( ! current_user_can( 'edit_post', $post_id ) ) {
-			wp_send_json_error( array( 'errorMessage' => __( 'Cheatin&#8217; uh?' ) ) );
+		if ( empty( $_POST['_wpnonce'] ) || ! wp_verify_nonce( $_POST['_wpnonce'], 'update-post_' . $post_id ) ||
+			! current_user_can( 'edit_post', $post_id ) ) {
+
+			wp_send_json_error( array( 'errorMessage' => __( 'Invalid post.' ) ) );
 		}
 
 		$post = array(
 			'ID'            => $post_id,
-			'post_title'    => ( ! empty( $_POST['title'] ) ) ? sanitize_text_field( trim( $_POST['title'] ) ) : '',
-			'post_content'  => ( ! empty( $_POST['pressthis'] ) ) ? trim( $_POST['pressthis'] ) : '',
+			'post_title'    => ( ! empty( $_POST['post_title'] ) ) ? sanitize_text_field( trim( $_POST['post_title'] ) ) : '',
+			'post_content'  => ( ! empty( $_POST['post_content'] ) ) ? trim( $_POST['post_content'] ) : '',
 			'post_type'     => 'post',
 			'post_status'   => 'draft',
 			'post_format'   => ( ! empty( $_POST['post_format'] ) ) ? sanitize_text_field( $_POST['post_format'] ) : '',
@@ -887,7 +885,7 @@ class WP_Press_This {
 <!--[if IE 8]>         <html class="lt-ie9" <?php language_attributes(); ?>> <![endif]-->
 <!--[if gt IE 8]><!--> <html <?php language_attributes(); ?>> <!--<![endif]-->
 <head>
-	<meta http-equiv="Content-Type" content="<?php esc_attr( bloginfo( 'html_type' ) ); ?>; charset=<?php echo esc_attr( get_option( 'blog_charset' ) ); ?>" />
+	<meta http-equiv="Content-Type" content="<?php echo esc_attr( get_bloginfo( 'html_type' ) ); ?>; charset=<?php echo esc_attr( get_option( 'blog_charset' ) ); ?>" />
 	<meta name="viewport" content="width=device-width">
 	<title><?php esc_html_e( 'Press This!' ) ?></title>
 
@@ -954,15 +952,17 @@ class WP_Press_This {
 	?>
 </head>
 <?php
-$admin_body_class  = 'press-this';
-$admin_body_class .= ( is_rtl() ) ? ' rtl' : '';
-$admin_body_class .= ' branch-' . str_replace( array( '.', ',' ), '-', floatval( $wp_version ) );
-$admin_body_class .= ' version-' . str_replace( '.', '-', preg_replace( '/^([.0-9]+).*/', '$1', $wp_version ) );
-$admin_body_class .= ' admin-color-' . sanitize_html_class( get_user_option( 'admin_color' ), 'fresh' );
-$admin_body_class .= ' locale-' . sanitize_html_class( strtolower( str_replace( '_', '-', get_locale() ) ) );
 
-/** This filter is documented in wp-admin/admin-header.php */
-$admin_body_classes = apply_filters( 'admin_body_class', '' );
+	$admin_body_class  = 'press-this';
+	$admin_body_class .= ( is_rtl() ) ? ' rtl' : '';
+	$admin_body_class .= ' branch-' . str_replace( array( '.', ',' ), '-', floatval( $wp_version ) );
+	$admin_body_class .= ' version-' . str_replace( '.', '-', preg_replace( '/^([.0-9]+).*/', '$1', $wp_version ) );
+	$admin_body_class .= ' admin-color-' . sanitize_html_class( get_user_option( 'admin_color' ), 'fresh' );
+	$admin_body_class .= ' locale-' . sanitize_html_class( strtolower( str_replace( '_', '-', get_locale() ) ) );
+	
+	/** This filter is documented in wp-admin/admin-header.php */
+	$admin_body_classes = apply_filters( 'admin_body_class', '' );
+
 ?>
 <body class="wp-admin wp-core-ui <?php echo $admin_body_classes . ' ' . $admin_body_class; ?>">
 	<div id="adminbar" class="adminbar">
@@ -984,15 +984,18 @@ $admin_body_classes = apply_filters( 'admin_body_class', '' );
 		</form>
 	</div>
 
-	<form id="pressthis-form" name="pressthis-form" method="POST" autocomplete="off">
+	<form id="pressthis-form" method="post" action="post.php" autocomplete="off">
 		<input type="hidden" name="post_ID" id="post_ID" value="<?php echo $post_ID; ?>" />
 		<input type="hidden" name="action" value="press-this-save-post" />
 		<input type="hidden" name="post_status" id="post_status" value="draft" />
+		<input type="hidden" name="wp-preview" id="wp-preview" value="" />
+		<input type="hidden" name="post_title" id="post_title" value="" />
 		<?php
-		wp_nonce_field( 'press-this', 'pressthis-nonce', false );
+
+		wp_nonce_field( 'update-post_' . $post_ID, '_wpnonce', false );
 		wp_nonce_field( 'add-category', '_ajax_nonce-add-category', false );
+
 		?>
-		<input type="hidden" name="title" id="title-field" value="" />
 
 	<div class="wrapper">
 		<div class="editor-wrapper">
@@ -1016,6 +1019,7 @@ $admin_body_classes = apply_filters( 'admin_body_class', '' );
 					'drag_drop_upload' => true,
 					'editor_height'    => 600,
 					'media_buttons'    => false,
+					'textarea_name'    => 'post_content',
 					'teeny'            => true,
 					'tinymce'          => array(
 						'resize'                => false,
@@ -1028,7 +1032,7 @@ $admin_body_classes = apply_filters( 'admin_body_class', '' );
 						'toolbar1'              => 'bold,italic,bullist,numlist,blockquote,link,unlink',
 						'toolbar2'              => 'undo,redo',
 					),
-					'quicktags'        => false,
+					'quicktags' => false,
 				) );
 
 				?>
@@ -1051,14 +1055,12 @@ $admin_body_classes = apply_filters( 'admin_body_class', '' );
 				<button type="button" class="button-reset post-option">
 					<span class="dashicons dashicons-category"></span>
 					<span class="post-option-title"><?php _e( 'Categories' ); ?></span>
-					<span class="post-option-contents" id="post-option-category"></span>
 					<span class="dashicons post-option-forward"></span>
 				</button>
 
 				<button type="button" class="button-reset post-option">
 					<span class="dashicons dashicons-tag"></span>
 					<span class="post-option-title"><?php _e( 'Tags' ); ?></span>
-					<span class="post-option-contents" id="post-option-tags"></span>
 					<span class="dashicons post-option-forward"></span>
 				</button>
 			</div>
@@ -1102,8 +1104,9 @@ $admin_body_classes = apply_filters( 'admin_body_class', '' );
 			</button>
 		</div>
 		<div class="post-actions">
-			<button type="button" class="button-subtle" id="draft-field"><?php _e( 'Save Draft' ); ?></button>
-			<button type="button" class="button-primary" id="publish-field"><?php _e( 'Publish' ); ?></button>
+			<button type="button" class="button-subtle draft-button"><?php _e( 'Save Draft' ); ?></button>
+			<button type="button" class="button preview-button"><?php _e( 'Preview' ); ?></button>
+			<button type="button" class="button-primary publish-button"><?php _e( 'Publish' ); ?></button>
 		</div>
 	</div>
 	</form>

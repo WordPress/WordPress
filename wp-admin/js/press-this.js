@@ -303,23 +303,12 @@
 		}
 
 		/**
-		 * Submit the post form via AJAX, and redirect to the proper screen if published vs saved as a draft.
-		 *
-		 * @param action string publish|draft
-		 */
-		function submitPost( action ) {
-			saveAlert = false;
-			showSpinner();
-
-			var $form = $( '#pressthis-form' );
-
-			if ( 'publish' === action ) {
-				$( '#post_status' ).val( 'publish' );
-			}
-
+		 * Prepare the form data for saving.
+		 */		 		
+		function prepareFormData() {
 			editor && editor.save();
 
-			$( '#title-field' ).val( sanitizeText( $( '#title-container' ).text() ) );
+			$( '#post_title' ).val( sanitizeText( $( '#title-container' ).text() ) );
 
 			// Make sure to flush out the tags with tagBox before saving
 			if ( window.tagBox ) {
@@ -327,8 +316,25 @@
 					window.tagBox.flushTags( this, false, 1 );
 				} );
 			}
+		}
 
-			var data = $form.serialize();
+		/**
+		 * Submit the post form via AJAX, and redirect to the proper screen if published vs saved as a draft.
+		 *
+		 * @param action string publish|draft
+		 */
+		function submitPost( action ) {
+			var data;
+
+			saveAlert = false;
+			showSpinner();
+
+			if ( 'publish' === action ) {
+				$( '#post_status' ).val( 'publish' );
+			}
+
+			prepareFormData();
+			data = $( '#pressthis-form' ).serialize();
 
 			$.ajax( {
 				type: 'post',
@@ -502,7 +508,7 @@
 				$title = $( '#title-container' );
 
 			if ( ! hasEmptyTitleStr ) {
-				$( '#title-field' ).val( suggestedTitle );
+				$( '#post_title' ).val( suggestedTitle );
 				$title.text( suggestedTitle );
 				$( '.post-title-placeholder' ).addClass( 'is-hidden' );
 			}
@@ -756,14 +762,24 @@
 			} );
 
 			// Publish and Draft buttons and submit
+			
 
-			$( '#draft-field' ).on( 'click', function() {
-				submitPost( 'draft' );
-			} );
+			$( '.post-actions' ).on( 'click.press-this', function( event ) {
+				var $target = $( event.target );
 
-			$( '#publish-field' ).on( 'click', function() {
-				submitPost( 'publish' );
-			} );
+				if ( $target.hasClass( 'draft-button' ) ) {
+					submitPost( 'draft' );
+				} else if ( $target.hasClass( 'publish-button' ) ) {
+					submitPost( 'publish' );
+				} else if ( $target.hasClass( 'preview-button' ) ) {
+					prepareFormData();
+					window.opener && window.opener.focus();
+
+					$( '#wp-preview' ).val( 'dopreview' );
+					$( '#pressthis-form' ).attr( 'target', '_blank' ).submit().attr( 'target', '' );
+					$( '#wp-preview' ).val( '' );
+				}
+			});
 
 			monitorOptionsModal();
 			monitorPlaceholder();

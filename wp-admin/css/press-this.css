@@ -351,6 +351,10 @@ strong {
 	text-decoration: underline;
 }
 
+.preview-button {
+	margin-right: 1em;
+}
+
 .button-reset {
 	margin: 0;
 	padding: 0;
