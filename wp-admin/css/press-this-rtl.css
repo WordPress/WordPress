@@ -1791,8 +1791,28 @@ html {
 	}
 }
 
-#wp-link-wrap.search-panel-visible {
+#wp-link-wrap {
 	font-size: 13px;
+}
+
+#wp-link-wrap input[type="text"] {
+	padding: 3px 5px;
+	margin: 1px;
+}
+
+@media screen and (max-width: 782px) {
+	#wp-link-wrap {
+		font-size: 14px;
+	}
+
+	#wp-link-wrap input[type="text"] {
+		padding: 6px 10px;
+	}
+}
+
+#wp-link-wrap .howto {
+	color: #666;
+	font-style: italic;
 }
 
 /* Options panel (sidebar) */
