@@ -12,8 +12,7 @@ require_once( dirname( __FILE__ ) . '/admin.php' );
 if ( !is_multisite() )
 	wp_die( __( 'Multisite support is not enabled.' ) );
 
-// @todo Create a delete blog cap.
-if ( ! current_user_can( 'manage_options' ) )
+if ( ! current_user_can( 'delete_site' ) )
 	wp_die(__( 'You do not have sufficient permissions to delete this site.'));
 
 if ( isset( $_GET['h'] ) && $_GET['h'] != '' && get_option( 'delete_blog_hash' ) != false ) {
