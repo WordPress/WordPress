@@ -304,7 +304,7 @@
 
 		/**
 		 * Prepare the form data for saving.
-		 */		 		
+		 */
 		function prepareFormData() {
 			editor && editor.save();
 
@@ -653,7 +653,7 @@
 				$settingModal = $( '.setting-modal' ),
 				$modalClose   = $( '.modal-close' );
 
-			$postOption.on( 'click', function( event ) {
+			$postOption.on( 'click', function() {
 				var index = $( this ).index(),
 					$targetSettingModal = $settingModal.eq( index );
 
@@ -668,7 +668,7 @@
 					} );
 			} );
 
-			$modalClose.on( 'click', function( event ) {
+			$modalClose.on( 'click', function() {
 				var $targetSettingModal = $( this ).parent(),
 					index = $targetSettingModal.index();
 
@@ -703,7 +703,7 @@
 					$( '.post-option:first' ).focus();
 				} );
 		}
-		
+
 		function closeSidebar() {
 			sidebarIsOpen = false;
 
@@ -766,7 +766,7 @@
 			} );
 
 			// Publish and Draft buttons and submit
-			
+
 
 			$( '.post-actions' ).on( 'click.press-this', function( event ) {
 				var $target = $( event.target );
