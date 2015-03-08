@@ -1759,7 +1759,7 @@ function rawurlencode_deep( $value ) {
  */
 function antispambot( $email_address, $hex_encoding = 0 ) {
 	$email_no_spam_address = '';
-	for ( $i = 0; $i < strlen( $email_address ); $i++ ) {
+	for ( $i = 0, $len = strlen( $email_address ); $i < $len; $i++ ) {
 		$j = rand( 0, 1 + $hex_encoding );
 		if ( $j == 0 ) {
 			$email_no_spam_address .= '&#' . ord( $email_address[$i] ) . ';';

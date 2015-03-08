@@ -479,7 +479,7 @@ function do_action($tag, $arg = '') {
 		$args[] =& $arg[0];
 	else
 		$args[] = $arg;
-	for ( $a = 2; $a < func_num_args(); $a++ )
+	for ( $a = 2, $num = func_num_args(); $a < $num; $a++ )
 		$args[] = func_get_arg($a);
 
 	// Sort
