@@ -751,6 +751,10 @@
 			renderDetectedMedia();
 			$( document ).on( 'tinymce-editor-init', renderSuggestedContent );
 			renderStartupNotices();
+
+			if ( window.tagBox ) {
+				window.tagBox.init();
+			}
 		}
 
 		/**

@@ -194,9 +194,4 @@ var tagBox, array_unique_noempty;
 			});
 		}
 	};
-
-	$( document ).ready( function() {
-		tagBox.init();
-	});
-
 }( jQuery ));
