@@ -33,7 +33,6 @@ function tinymce_include() {
  */
 function documentation_link() {
 	_deprecated_function( __FUNCTION__, '2.5' );
-	return;
 }
 
 /**
@@ -204,7 +203,6 @@ function remove_option_update_handler( $option_group, $option_name, $sanitize_ca
 **/
 function codepress_get_lang( $filename ) {
 	_deprecated_function( __FUNCTION__, '3.0' );
-	return;
 }
 
 /**
@@ -215,7 +213,6 @@ function codepress_get_lang( $filename ) {
 **/
 function codepress_footer_js() {
 	_deprecated_function( __FUNCTION__, '3.0' );
-	return;
 }
 
 /**
@@ -226,7 +223,6 @@ function codepress_footer_js() {
 **/
 function use_codepress() {
 	_deprecated_function( __FUNCTION__, '3.0' );
-	return;
 }
 
 /**
