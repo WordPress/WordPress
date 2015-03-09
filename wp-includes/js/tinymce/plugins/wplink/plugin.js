@@ -1,7 +1,7 @@
 /* global tinymce */
 tinymce.PluginManager.add( 'wplink', function( editor ) {
 	var linkButton;
-	
+
 	// Register a command so that it can be invoked by using tinyMCE.activeEditor.execCommand( 'WP_Link' );
 	editor.addCommand( 'WP_Link', function() {
 		if ( ( ! linkButton || ! linkButton.disabled() ) && typeof window.wpLink !== 'undefined' ) {
@@ -60,4 +60,21 @@ tinymce.PluginManager.add( 'wplink', function( editor ) {
 		context: 'insert',
 		prependToContext: true
 	});
+
+	editor.on( 'pastepreprocess', function( event ) {
+		var pastedStr = event.content;
+
+		if ( ! editor.selection.isCollapsed() ) {
+			pastedStr = pastedStr.replace( /<[^>]+>/g, '' );
+			pastedStr = tinymce.trim( pastedStr );
+
+			if ( /^(?:https?:)?\/\/\S+$/i.test( pastedStr ) ) {
+				editor.execCommand( 'mceInsertLink', false, {
+					href: editor.dom.decode( pastedStr )
+				} );
+
+				event.preventDefault();
+			}
+		}
+	} );
 });

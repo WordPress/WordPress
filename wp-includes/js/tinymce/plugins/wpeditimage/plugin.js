@@ -1220,6 +1220,12 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 		}
 	});
 
+	editor.on( 'beforeexeccommand', function( event ) {
+		if ( isPlaceholder( editor.selection.getNode() ) ) {
+			event.preventDefault();
+		}
+	} );
+
 	return {
 		_do_shcode: parseShortcode,
 		_get_shcode: getShortcode
