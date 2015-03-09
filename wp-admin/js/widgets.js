@@ -233,7 +233,7 @@ wpWidgets = {
 			},
 			drop: function(e,ui) {
 				ui.draggable.addClass('deleting');
-				$('#removing-widget').hide().children('span').html('');
+				$('#removing-widget').hide().children('span').empty();
 			},
 			over: function(e,ui) {
 				ui.draggable.addClass('deleting');
@@ -247,7 +247,7 @@ wpWidgets = {
 			out: function(e,ui) {
 				ui.draggable.removeClass('deleting');
 				$('div.widget-placeholder').show();
-				$('#removing-widget').hide().children('span').html('');
+				$('#removing-widget').hide().children('span').empty();
 			}
 		});
 

@@ -351,7 +351,7 @@ commentReply = {
 		$('#com-reply').append( replyrow );
 		$('#replycontent').css('height', '').val('');
 		$('#edithead input').val('');
-		$('.error', replyrow).html('').hide();
+		$('.error', replyrow).empty().hide();
 		$('.spinner', replyrow).hide();
 
 		this.cid = '';

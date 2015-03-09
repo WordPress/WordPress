@@ -4604,7 +4604,7 @@ EmbedLink = Settings.extend({
 		var url = this.model.get( 'url' );
 
 		// clear out previous results
-		this.$('.embed-container').hide().find('.embed-preview').html('');
+		this.$('.embed-container').hide().find('.embed-preview').empty();
 		this.$( '.setting' ).hide();
 
 		// only proceed with embed if the field contains more than 6 characters

@@ -32,7 +32,7 @@ var findPosts;
 		},
 
 		close: function() {
-			$('#find-posts-response').html('');
+			$('#find-posts-response').empty();
 			$('#find-posts').hide();
 			$( '.ui-find-overlay' ).hide();
 		},

@@ -286,7 +286,7 @@ inlineEditPost = {
 
 			if ( 'bulk-edit' === id ) {
 				$('table.widefat #bulk-edit').removeClass('inline-editor').hide().siblings('tr.hidden').remove();
-				$('#bulk-titles').html('');
+				$('#bulk-titles').empty();
 				$('#inlineedit').append( $('#bulk-edit') );
 			} else {
 				$('#'+id).siblings('tr.hidden').addBack().remove();

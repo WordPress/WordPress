@@ -448,7 +448,7 @@ jQuery(document).ready(function($){
 		uploader.init();
 
 		uploader.bind('FilesAdded', function( up, files ) {
-			$('#media-upload-error').html('');
+			$('#media-upload-error').empty();
 			uploadStart();
 
 			plupload.each( files, function( file ) {
