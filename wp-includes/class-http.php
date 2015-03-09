@@ -228,7 +228,7 @@ class WP_Http {
 			$r['headers'] = array();
 
 		if ( ! is_array( $r['headers'] ) ) {
-			$processedHeaders = WP_Http::processHeaders( $r['headers'], $url );
+			$processedHeaders = self::processHeaders( $r['headers'], $url );
 			$r['headers'] = $processedHeaders['headers'];
 		}
 
@@ -247,7 +247,7 @@ class WP_Http {
 		}
 
 		// Construct Cookie: header if any cookies are set.
-		WP_Http::buildCookieHeader( $r );
+		self::buildCookieHeader( $r );
 
 		// Avoid issues where mbstring.func_overload is enabled.
 		mbstring_binary_safe_encoding();
@@ -2116,7 +2116,7 @@ class WP_Http_Encoding {
 		if ( false !== ( $decompressed = @gzinflate( $compressed ) ) )
 			return $decompressed;
 
-		if ( false !== ( $decompressed = WP_Http_Encoding::compatible_gzinflate( $compressed ) ) )
+		if ( false !== ( $decompressed = self::compatible_gzinflate( $compressed ) ) )
 			return $decompressed;
 
 		if ( false !== ( $decompressed = @gzuncompress( $compressed ) ) )
@@ -2194,7 +2194,7 @@ class WP_Http_Encoding {
 	 */
 	public static function accept_encoding( $url, $args ) {
 		$type = array();
-		$compression_enabled = WP_Http_Encoding::is_available();
+		$compression_enabled = self::is_available();
 
 		if ( ! $args['decompress'] ) // Decompression specifically disabled.
 			$compression_enabled = false;
