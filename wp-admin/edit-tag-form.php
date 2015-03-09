@@ -91,11 +91,15 @@ do_action( "{$taxonomy}_term_edit_form_tag" );
 			<th scope="row"><label for="slug"><?php _e( 'Slug' ); ?></label></th>
 			<?php
 			/**
-			 * Filter the editable term slug.
+			 * Filter the editable slug.
+			 *
+			 * Note: This is a multi-use hook in that it is leveraged both for editable
+			 * post URIs and term slugs.
 			 *
 			 * @since 2.6.0
 			 *
-			 * @param string $tag_slug The current term slug.
+			 * @param string $slug The editable slug. Will be either a term slug or post URI depending
+			 *                     upon the context in which it is evaluated.
 			 */
 			$slug = isset( $tag->slug ) ? apply_filters( 'editable_slug', $tag->slug ) : '';
 			?>
