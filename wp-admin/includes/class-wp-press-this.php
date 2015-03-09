@@ -14,6 +14,10 @@
  */
 class WP_Press_This {
 
+	private $images = array();
+
+	private $embeds = array();
+
 	/**
 	 * Constructor.
 	 *
@@ -31,16 +35,10 @@ class WP_Press_This {
 	 * @return array Site settings.
 	 */
 	public function site_settings() {
-		$default_html = array(
-			'quote' => '<blockquote>%1$s</blockquote>',
-			'link' => '<p>' . _x( 'Source:', 'Used in Press This to indicate where the content comes from.' ) .
-				' <em><a href="%1$s">%2$s</a></em></p>',
-		);
-
 		return array(
 			// Used to trigger the bookmarklet update notice.
 			// Needs to be set here and in get_shortcut_link() in wp-includes/link-template.php.
-			'version' => '6',
+			'version' => '7',
 
 			/**
 			 * Filter whether or not Press This should redirect the user in the parent window upon save.
@@ -50,16 +48,6 @@ class WP_Press_This {
 			 * @param bool false Whether to redirect in parent window or not. Default false.
 			 */
 			'redirInParent' => apply_filters( 'press_this_redirect_in_parent', false ),
-
-			/**
-			 * Filter the default HTML for the Press This editor.
-			 *
-			 * @since 4.2.0
-			 *
-			 * @param array $default_html Associative array with two keys: 'quote' where %1$s is replaced with the site description
-			 *                            or the selected content, and 'link' there %1$s is link href, %2$s is link text.
-			 */
-			'html' => apply_filters( 'press_this_suggested_html', $default_html ),
 		);
 	}
 
@@ -435,7 +423,7 @@ class WP_Press_This {
 	}
 
 	private function _process_meta_entry( $meta_name, $meta_value, $data ) {
-		if ( preg_match( '/:?(title|description|keywords)$/', $meta_name ) ) {
+		if ( preg_match( '/:?(title|description|keywords|site_name)$/', $meta_name ) ) {
 			$data['_meta'][ $meta_name ] = $meta_value;
 		} else {
 			switch ( $meta_name ) {
@@ -444,12 +432,12 @@ class WP_Press_This {
 				case 'og:video:secure_url':
 					$meta_value = $this->_limit_embed( $meta_value );
 
-					if ( ! isset( $data['_embed'] ) ) {
-						$data['_embed'] = array();
+					if ( ! isset( $data['_embeds'] ) ) {
+						$data['_embeds'] = array();
 					}
 
-					if ( ! empty( $meta_value ) && ! in_array( $meta_value, $data['_embed'] ) ) {
-						$data['_embed'][] = $meta_value;
+					if ( ! empty( $meta_value ) && ! in_array( $meta_value, $data['_embeds'] ) ) {
+						$data['_embeds'][] = $meta_value;
 					}
 
 					break;
@@ -461,12 +449,12 @@ class WP_Press_This {
 				case 'twitter:image':
 					$meta_value = $this->_limit_img( $meta_value );
 
-					if ( ! isset( $data['_img'] ) ) {
-						$data['_img'] = array();
+					if ( ! isset( $data['_images'] ) ) {
+						$data['_images'] = array();
 					}
 
-					if ( ! empty( $meta_value ) && ! in_array( $meta_value, $data['_img'] ) ) {
-						$data['_img'][] = $meta_value;
+					if ( ! empty( $meta_value ) && ! in_array( $meta_value, $data['_images'] ) ) {
+						$data['_images'][] = $meta_value;
 					}
 
 					break;
@@ -477,7 +465,7 @@ class WP_Press_This {
 	}
 
 	/**
-	 * Fetches and parses _meta, _img, and _links data from the source.
+	 * Fetches and parses _meta, _images, and _links data from the source.
 	 *
 	 * @since 4.2.0
 	 * @access public
@@ -521,8 +509,8 @@ class WP_Press_This {
 		}
 
 		// Fetch and gather <img> data.
-		if ( empty( $data['_img'] ) ) {
-			$data['_img'] = array();
+		if ( empty( $data['_images'] ) ) {
+			$data['_images'] = array();
 		}
 
 		if ( preg_match_all( '/<img [^>]+>/', $source_content, $matches ) ) {
@@ -537,16 +525,16 @@ class WP_Press_This {
 
 				if ( preg_match( '/src=(\'|")([^\'"]+)\\1/i', $value, $new_matches ) ) {
 					$src = $this->_limit_img( $new_matches[2] );
-					if ( ! empty( $src ) && ! in_array( $src, $data['_img'] ) ) {
-						$data['_img'][] = $src;
+					if ( ! empty( $src ) && ! in_array( $src, $data['_images'] ) ) {
+						$data['_images'][] = $src;
 					}
 				}
 			}
 		}
 
 		// Fetch and gather <iframe> data.
-		if ( empty( $data['_embed'] ) ) {
-			$data['_embed'] = array();
+		if ( empty( $data['_embeds'] ) ) {
+			$data['_embeds'] = array();
 		}
 
 		if ( preg_match_all( '/<iframe [^>]+>/', $source_content, $matches ) ) {
@@ -556,8 +544,8 @@ class WP_Press_This {
 				if ( preg_match( '/src=(\'|")([^\'"]+)\\1/', $value, $new_matches ) ) {
 					$src = $this->_limit_embed( $new_matches[2] );
 
-					if ( ! empty( $src ) && ! in_array( $src, $data['_embed'] ) ) {
-						$data['_embed'][] = $src;
+					if ( ! empty( $src ) && ! in_array( $src, $data['_embeds'] ) ) {
+						$data['_embeds'][] = $src;
 					}
 				}
 			}
@@ -572,13 +560,12 @@ class WP_Press_This {
 			$items = $this->_limit_array( $matches[0] );
 
 			foreach ( $items as $value ) {
-				if ( preg_match( '/(rel|itemprop)="([^"]+)"[^>]+href="([^"]+)"/', $value, $new_matches ) ) {
-					if ( 'alternate' === $new_matches[2] || 'thumbnailUrl' === $new_matches[2] || 'url' === $new_matches[2] ) {
-						$url = $this->_limit_url( $new_matches[3] );
+				if ( preg_match( '/rel=["\'](canonical|shortlink|icon)["\']/i', $value, $matches_rel ) && preg_match( '/href=[\'"]([^\'" ]+)[\'"]/i', $value, $matches_url ) ) {
+					$rel = $matches_rel[1];
+					$url = $this->_limit_url( $matches_url[1] );
 
-						if ( ! empty( $url ) && empty( $data['_links'][ $new_matches[2] ] ) ) {
-							$data['_links'][ $new_matches[2] ] = $url;
-						}
+					if ( ! empty( $url ) && empty( $data['_links'][ $rel ] ) ) {
+						$data['_links'][ $rel ] = $url;
 					}
 				}
 			}
@@ -600,7 +587,7 @@ class WP_Press_This {
 		$data = array();
 
 		// Only instantiate the keys we want. Sanity check and sanitize each one.
-		foreach ( array( 'u', 's', 't', 'v', '_version' ) as $key ) {
+		foreach ( array( 'u', 's', 't', 'v' ) as $key ) {
 			if ( ! empty( $_POST[ $key ] ) ) {
 				$value = wp_unslash( $_POST[ $key ] );
 			} else if ( ! empty( $_GET[ $key ] ) ) {
@@ -629,48 +616,56 @@ class WP_Press_This {
 		 */
 		if ( apply_filters( 'enable_press_this_media_discovery', true ) ) {
 			/*
-			 * If no title, _img, _embed, and _meta was passed via $_POST, fetch data from source as fallback,
+			 * If no title, _images, _embed, and _meta was passed via $_POST, fetch data from source as fallback,
 			 * making PT fully backward compatible with the older bookmarklet.
 			 */
 			if ( empty( $_POST ) && ! empty( $data['u'] ) ) {
 				$data = $this->source_data_fetch_fallback( $data['u'], $data );
 			} else {
-				foreach ( array( '_img', '_embed', '_meta' ) as $type ) {
+				foreach ( array( '_images', '_embeds' ) as $type ) {
 					if ( empty( $_POST[ $type ] ) ) {
 						continue;
 					}
 
 					$data[ $type ] = array();
 					$items = $this->_limit_array( $_POST[ $type ] );
-					$items = wp_unslash( $items );
 
 					foreach ( $items as $key => $value ) {
-						if ( ! is_numeric( $key ) ) {
-							$key = $this->_limit_string( wp_unslash( $key ) );
+						if ( $type === '_images' ) {
+							$value = $this->_limit_img( wp_unslash( $value ) );
+						} else {
+							$value = $this->_limit_embed( wp_unslash( $value ) );
+						}
 
-							// Sanity check. $key is usually things like 'title', 'description', 'keywords', etc.
-							if ( empty( $key ) || strlen( $key ) > 100 ) {
-								continue;
-							}
+						if ( ! empty( $value ) ) {
+							$data[ $type ][] = $value;
+						}
+					}
+				}
+
+				foreach ( array( '_meta', '_links' ) as $type ) {
+					if ( empty( $_POST[ $type ] ) ) {
+						continue;
+					}
+
+					$data[ $type ] = array();
+					$items = $this->_limit_array( $_POST[ $type ] );
+
+					foreach ( $items as $key => $value ) {
+						// Sanity check. These are associative arrays, $key is usually things like 'title', 'description', 'keywords', etc.
+						if ( empty( $key ) || strlen( $key ) > 100 ) {
+							continue;
 						}
 
 						if ( $type === '_meta' ) {
-							$value = $this->_limit_string( $value );
+							$value = $this->_limit_string( wp_unslash( $value ) );
 
 							if ( ! empty( $value ) ) {
 								$data = $this->_process_meta_entry( $key, $value, $data );
 							}
-						} else if ( $type === '_img' ) {
-							$value = $this->_limit_img( $value );
-
-							if ( ! empty( $value ) ) {
-								$data[ $type ][] = $value;
-							}
-						} else if ( $type === '_embed' ) {
-							$value = $this->_limit_embed( $value );
-
-							if ( ! empty( $value ) ) {
-								$data[ $type ][] = $value;
+						} else {
+							if ( in_array( $key, array( 'canonical', 'shortlink', 'icon' ), true ) ) {
+								$data[ $type ][ $key ] = $this->_limit_url( wp_unslash( $value ) );
 							}
 						}
 					}
@@ -749,6 +744,7 @@ class WP_Press_This {
 						<label for="post-format-<?php echo $attr_format ?>" class="post-format-icon post-format-<?php echo $attr_format; ?>"><?php echo esc_html( get_post_format_string( $format ) ); ?></label>
 						<?php
 					 }
+
 					 ?>
 				</fieldset>
 				</div>
@@ -851,6 +847,194 @@ class WP_Press_This {
 	}
 
 	/**
+	 * Get a list of embeds with no duplicates.
+	 *
+	 * @param array $data The site's data.
+	 * @returns array
+	 */
+	public function get_embeds( $data ) {
+		$selected_embeds = array();
+
+		if ( ! empty( $data['_embeds'] ) ) {
+			foreach( $data['_embeds'] as $src ) {
+				$prot_relative_src = preg_replace( '/^https?:/', '', $src );
+
+				if ( in_array( $prot_relative_src, $this->embeds ) ) {
+					continue;
+				}
+
+				$selected_embeds[] = $src;
+				$this->embeds[] = $prot_relative_src;
+			}
+		}
+
+		return $selected_embeds;
+	}
+
+	/**
+	 * Get a list of images with no duplicates.
+	 *
+	 * @param array $data The site's data.
+	 * @returns array
+	 */
+	public function get_images( $data ) {
+		$selected_images = array();
+
+		if ( ! empty( $data['_images'] ) ) {
+			foreach( $data['_images'] as $src ) {
+				if ( false !== strpos( $src, 'gravatar.com' ) ) {
+					$src = preg_replace( '%http://[\d]+\.gravatar\.com/%', 'https://secure.gravatar.com/', $src );
+				}
+
+				$prot_relative_src = preg_replace( '/^https?:/', '', $src );
+
+				if ( in_array( $prot_relative_src, $this->images ) ||
+					( false !== strpos( $src, 'avatar' ) && count( $this->images ) > 15 ) ) {
+					// Skip: already selected or some type of avatar and we've already gathered more than 15 images.
+					continue;
+				}
+
+				$selected_images[] = $src;
+				$this->images[] = $prot_relative_src;
+			}
+		}
+
+		return $selected_images;
+	}
+
+	/**
+	 * Gets the source page's canonical link, based on passed location and meta data.
+	 *
+ 	 * @param array $data The site's data.
+	 * @returns string Discovered canonical URL, or empty
+	 */
+	public function get_canonical_link( $data ) {
+		$link = '';
+
+		if ( ! empty( $data['_links']['canonical'] ) ) {
+			$link = $data['_links']['canonical'];
+		} elseif ( ! empty( $data['u'] ) ) {
+			$link = $data['u'];
+		} elseif ( ! empty( $data['_meta'] ) ) {
+			if ( ! empty( $data['_meta']['twitter:url'] ) ) {
+				$link = $data['_meta']['twitter:url'];
+			} else if ( ! empty( $data['_meta']['og:url'] ) ) {
+				$link = $data['_meta']['og:url'];
+			}
+		}
+
+		if ( empty( $link ) && ! empty( $data['_links']['shortlink'] ) ) {
+			$link = $data['_links']['shortlink'];
+		}
+
+		return $link;
+	}
+
+	/**
+	 * Gets the source page's site name, based on passed meta data.
+	 *
+	 * @param array $data The site's data.
+	 * @returns string Discovered site name, or empty
+	 */
+	public function get_source_site_name( $data ) {
+		$name = '';
+
+		if ( ! empty( $data['_meta'] ) ) {
+			if ( ! empty( $data['_meta']['og:site_name'] ) ) {
+				$name = $data['_meta']['og:site_name'];
+			} else if ( ! empty( $data['_meta']['application-name'] ) ) {
+				$name = $data['_meta']['application-name'];
+			}
+		}
+
+		return $name;
+	}
+
+	/**
+	 * Gets the source page's title, based on passed title and meta data.
+	 *
+	 * @param array $data The site's data.
+	 * @returns string Discovered page title, or empty
+	 */
+	public function get_suggested_title( $data ) {
+		$title = '';
+
+		if ( ! empty( $data['t'] ) ) {
+			$title = $data['t'];
+		} elseif( ! empty( $data['_meta'] ) ) {
+			if ( ! empty( $data['_meta']['twitter:title'] ) ) {
+				$title = $data['_meta']['twitter:title'];
+			} else if ( ! empty( $data['_meta']['og:title'] ) ) {
+				$title = $data['_meta']['og:title'];
+			} else if ( ! empty( $data['_meta']['title'] ) ) {
+				$title = $data['_meta']['title'];
+			}
+		}
+
+		return $title;
+	}
+
+	/**
+	 * Gets the source page's suggested content, based on passed data (description, selection, etc).
+	 * Features a blockquoted excerpt, as well as content attribution, if any.
+	 *
+	 * @param array $data The site's data.
+	 * @returns string Discovered content, or empty
+	 */
+	public function get_suggested_content( $data ) {
+		$content = $text = '';
+
+		if ( ! empty( $data['s'] ) ) {
+			$text = $data['s'];
+		} else if ( ! empty( $data['_meta'] ) ) {
+			if ( ! empty( $data['_meta']['twitter:description'] ) ) {
+				$text = $data['_meta']['twitter:description'];
+			} else if ( ! empty( $data['_meta']['og:description'] ) ) {
+				$text = $data['_meta']['og:description'];
+			} else if ( ! empty( $data['_meta']['description'] ) ) {
+				$text = $data['_meta']['description'];
+			}
+		}
+
+		$default_html = array(
+			'quote' => '<blockquote>%1$s</blockquote>',
+			'link' => '<p>' . _x( 'Source:', 'Used in Press This to indicate where the content comes from.' ) .
+				' <em><a href="%1$s">%2$s</a></em></p>',
+		);
+
+		/**
+		 * Filter the default HTML for the Press This editor.
+		 *
+		 * @since 4.2.0
+		 *
+		 * @param array $default_html Associative array with two keys: 'quote' where %1$s is replaced with the site description
+		 *                            or the selected content, and 'link' there %1$s is link href, %2$s is link text.
+		 */
+		$default_html = apply_filters( 'press_this_suggested_html', $default_html, $data );
+
+		// Wrap suggested content in the specified HTML.
+		if ( ! empty( $default_html['quote'] ) ) {
+			$content = sprintf( $default_html['quote'], $text );
+		}
+
+		// Add source attribution if there is one available.
+		if ( ! empty( $default_html['link'] ) ) {
+			$title = $this->get_suggested_title( $data );
+			$url = $this->get_canonical_link( $data );
+
+			if ( ! $title ) {
+				$title = $this->get_source_site_name( $data );
+			}
+
+			if ( $url && $title ) {
+				$content .= sprintf( $default_html['link'], $url, $title );
+			}
+		}
+
+		return $content;
+	}
+
+	/**
 	 * Serves the app's base HTML, which in turns calls the load script.
 	 *
 	 * @since 4.2.0
@@ -862,11 +1046,33 @@ class WP_Press_This {
 		// Get data, new (POST) and old (GET).
 		$data = $this->merge_or_fetch_data();
 
+		$post_title = $this->get_suggested_title( $data );
+
+		if ( empty( $title ) ) {
+			$title = __( 'New Post' );
+		}
+
+		$post_content = $this->get_suggested_content( $data );
+
 		// Get site settings array/data.
 		$site_settings = $this->site_settings();
 
-		// Set the passed data.
-		$data['_version'] = $site_settings['version'];
+		// Pass the images and embeds
+		$images = $this->get_images( $data );
+		$embeds = $this->get_embeds( $data );
+
+		$site_data = array(
+			'v' => ! empty( $data['v'] ) ? $data['v'] : '',
+			'hasData' => ! empty( $data ),
+		);
+
+		if ( ! empty( $images ) ) {
+			$site_data['_images'] = $images;
+		}
+
+		if ( ! empty( $embeds ) ) {
+			$site_data['_embeds'] = $embeds;
+		}
 
 		// Add press-this-editor.css and remove theme's editor-style.css, if any.
 		remove_editor_styles();
@@ -890,8 +1096,8 @@ class WP_Press_This {
 	<title><?php esc_html_e( 'Press This!' ) ?></title>
 
 	<script>
-		window.wpPressThisData   = <?php echo wp_json_encode( $data ) ?>;
-		window.wpPressThisConfig = <?php echo wp_json_encode( $site_settings ) ?>;
+		window.wpPressThisData   = <?php echo wp_json_encode( $site_data ); ?>;
+		window.wpPressThisConfig = <?php echo wp_json_encode( $site_settings ); ?>;
 	</script>
 
 	<script type="text/javascript">
@@ -959,7 +1165,7 @@ class WP_Press_This {
 	$admin_body_class .= ' version-' . str_replace( '.', '-', preg_replace( '/^([.0-9]+).*/', '$1', $wp_version ) );
 	$admin_body_class .= ' admin-color-' . sanitize_html_class( get_user_option( 'admin_color' ), 'fresh' );
 	$admin_body_class .= ' locale-' . sanitize_html_class( strtolower( str_replace( '_', '-', get_locale() ) ) );
-	
+
 	/** This filter is documented in wp-admin/admin-header.php */
 	$admin_body_classes = apply_filters( 'admin_body_class', '' );
 
@@ -1007,7 +1213,7 @@ class WP_Press_This {
 
 			<div id='app-container' class="editor">
 				<span id="title-container-label" class="post-title-placeholder" aria-hidden="true"><?php _e( 'Post title' ); ?></span>
-				<h2 id="title-container" class="post-title" contenteditable="true" spellcheck="true" aria-label="<?php esc_attr_e( 'Post title' ); ?>" tabindex="0"></h2>
+				<h2 id="title-container" class="post-title" contenteditable="true" spellcheck="true" aria-label="<?php esc_attr_e( 'Post title' ); ?>" tabindex="0"><?php echo esc_html( $post_title ); ?></h2>
 				<div id='featured-media-container' class="featured-container no-media">
 					<div id='all-media-widget' class="all-media">
 						<div id='all-media-container'></div>
@@ -1015,7 +1221,7 @@ class WP_Press_This {
 				</div>
 
 				<?php
-				wp_editor( '', 'pressthis', array(
+				wp_editor( $post_content, 'pressthis', array(
 					'drag_drop_upload' => true,
 					'editor_height'    => 600,
 					'media_buttons'    => false,
@@ -1039,7 +1245,7 @@ class WP_Press_This {
 			</div>
 		</div>
 
-		<div class="options-panel-back is-hidden" tabindex="-1"></div>	
+		<div class="options-panel-back is-hidden" tabindex="-1"></div>
 		<div class="options-panel is-off-screen is-hidden" tabindex="-1">
 			<div class="post-options">
 

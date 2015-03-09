@@ -31,7 +31,7 @@
 		selection = document.selection.createRange().text || '';
 	}
 
-	pt_url += ( pt_url.indexOf( '?' ) > -1 ? '&' : '?' ) + 'buster=' + ( new Date().getTime() );
+	pt_url += '&buster=' + ( new Date().getTime() );
 
 	if ( ! canPost ) {
 		if ( document.title ) {
@@ -68,18 +68,14 @@
 		form.appendChild( input );
 	}
 
-	if ( href.match( /\/\/www\.youtube\.com\/watch/ ) ) {
-		add( '_embed[]', href );
-	} else if ( href.match( /\/\/vimeo\.com\/(.+\/)?([\d]+)$/ ) ) {
-		add( '_embed[]', href );
-	} else if ( href.match( /\/\/(www\.)?dailymotion\.com\/video\/.+$/ ) ) {
-		add( '_embed[]', href );
-	} else if ( href.match( /\/\/soundcloud\.com\/.+$/ ) ) {
-		add( '_embed[]', href );
-	} else if ( href.match( /\/\/twitter\.com\/[^\/]+\/status\/[\d]+$/ ) ) {
-		add( '_embed[]', href );
-	} else if ( href.match( /\/\/vine\.co\/v\/[^\/]+/ ) ) {
-		add( '_embed[]', href );
+	if ( href.match( /\/\/www\.youtube\.com\/watch/ ) ||
+		href.match( /\/\/vimeo\.com\/(.+\/)?([\d]+)$/ ) ||
+		href.match( /\/\/(www\.)?dailymotion\.com\/video\/.+$/ ) ||
+		href.match( /\/\/soundcloud\.com\/.+$/ ) ||
+		href.match( /\/\/twitter\.com\/[^\/]+\/status\/[\d]+$/ ) ||
+		href.match( /\/\/vine\.co\/v\/[^\/]+/ ) ) {
+
+		add( '_embeds[]', href );
 	}
 
 	metas = head.getElementsByTagName( 'meta' ) || [];
@@ -111,20 +107,8 @@
 		var g = links[ y ],
 			g_rel = g.getAttribute( 'rel' );
 
-		if ( g_rel ) {
-			switch ( g_rel ) {
-				case 'canonical':
-				case 'icon':
-				case 'shortlink':
-					add( '_links[' + g_rel + ']', g.getAttribute( 'href' ) );
-					break;
-				case 'alternate':
-					if ( 'application/json+oembed' === g.getAttribute( 'type' ) ) {
-						add( '_links[' + g_rel + ']', g.getAttribute( 'href' ) );
-					} else if ( 'handheld' === g.getAttribute( 'media' ) ) {
-						add( '_links[' + g_rel + ']', g.getAttribute( 'href' ) );
-					}
-			}
+		if ( g_rel === 'canonical' || g_rel === 'icon' || g_rel === 'shortlink' ) {
+			add( '_links[' + g_rel + ']', g.getAttribute( 'href' ) );
 		}
 	}
 
@@ -147,7 +131,7 @@
 		img.src = imgs[ n ].src;
 
 		if ( img.width >= 256 && img.height >= 128 ) {
-			add( '_img[]', img.src );
+			add( '_images[]', img.src );
 		}
 	}
 
@@ -158,7 +142,7 @@
 			break;
 		}
 
-		add( '_embed[]', ifrs[ p ].src );
+		add( '_embeds[]', ifrs[ p ].src );
 	}
 
 	if ( document.title ) {

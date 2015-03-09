@@ -1388,6 +1388,11 @@ html {
 	margin: 0 auto;
 }
 
+/* Make the text inside the editor textarea white. Prevents a "flash" on loading the page */
+#pressthis {
+	color: #fff;
+}
+
 @media (min-width: 901px) {
 	.editor {
 		max-width: 760px;

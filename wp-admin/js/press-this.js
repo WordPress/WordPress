@@ -8,14 +8,9 @@
 			saveAlert             = false,
 			textarea              = document.createElement( 'textarea' ),
 			sidebarIsOpen         = false,
-			siteConfig            = window.wpPressThisConfig || {},
+			settings              = window.wpPressThisConfig || {},
 			data                  = window.wpPressThisData || {},
 			smallestWidth         = 128,
-			interestingImages	  = getInterestingImages( data ) || [],
-			interestingEmbeds	  = getInterestingEmbeds( data ) || [],
-			hasEmptyTitleStr      = false,
-			suggestedTitleStr     = getSuggestedTitle( data ),
-			suggestedContentStr   = getSuggestedContent( data ),
 			hasSetFocus           = false,
 			catsCache             = [],
 			isOffScreen           = 'is-off-screen',
@@ -75,10 +70,14 @@
 		 * @returns string Sanitized text.
 		 */
 		function sanitizeText( text ) {
-			text = stripTags( text );
-			textarea.innerHTML = text;
+			var _text = stripTags( text );
 
-			return stripTags( textarea.value );
+			try {
+				textarea.innerHTML = _text;
+				_text = stripTags( textarea.value );
+			} catch ( er ) {}
+
+			return _text;
 		}
 
 		/**
@@ -96,190 +95,6 @@
 			}
 
 			return '';
-		}
-
-		/**
-		 * Gets the source page's canonical link, based on passed location and meta data.
-		 *
-		 * @returns string Discovered canonical URL, or empty
-		 */
-		function getCanonicalLink() {
-			var link = '';
-
-			if ( data._links && data._links.canonical ) {
-				link = data._links.canonical;
-			}
-
-			if ( ! link && data.u ) {
-				link = data.u;
-			}
-
-			if ( ! link && data._meta ) {
-				if ( data._meta['twitter:url'] ) {
-					link = data._meta['twitter:url'];
-				} else if ( data._meta['og:url'] ) {
-					link = data._meta['og:url'];
-				}
-			}
-
-			return checkUrl( decodeURI( link ) );
-		}
-
-		/**
-		 * Gets the source page's site name, based on passed meta data.
-		 *
-		 * @returns string Discovered site name, or empty
-		 */
-		function getSourceSiteName() {
-			var name = '';
-
-			if ( data._meta ) {
-				if ( data._meta['og:site_name'] ) {
-					name = data._meta['og:site_name'];
-				} else if ( data._meta['application-name'] ) {
-					name = data._meta['application-name'];
-				}
-			}
-
-			return sanitizeText( name );
-		}
-
-		/**
-		 * Gets the source page's title, based on passed title and meta data.
-		 *
-		 * @returns string Discovered page title, or empty
-		 */
-		function getSuggestedTitle() {
-			var title = '';
-
-			if ( data.t ) {
-				title = data.t;
-			}
-
-			if ( ! title && data._meta ) {
-				if ( data._meta['twitter:title'] ) {
-					title = data._meta['twitter:title'];
-				} else if ( data._meta['og:title'] ) {
-					title = data._meta['og:title'];
-				} else if ( data._meta.title ) {
-					title = data._meta.title;
-				}
-			}
-
-			if ( ! title ) {
-				title = __( 'newPost' );
-				hasEmptyTitleStr = true;
-			}
-
-			return sanitizeText( title );
-		}
-
-		/**
-		 * Gets the source page's suggested content, based on passed data (description, selection, etc).
-		 * Features a blockquoted excerpt, as well as content attribution, if any.
-		 *
-		 * @returns string Discovered content, or empty
-		 */
-		function getSuggestedContent() {
-			var content  = '',
-				text     = '',
-				title    = getSuggestedTitle(),
-				url      = getCanonicalLink(),
-				siteName = getSourceSiteName();
-
-			if ( data.s ) {
-				text = data.s;
-			} else if ( data._meta ) {
-				if ( data._meta['twitter:description'] ) {
-					text = data._meta['twitter:description'];
-				} else if ( data._meta['og:description'] ) {
-					text = data._meta['og:description'];
-				} else if ( data._meta.description ) {
-					text = data._meta.description;
-				}
-			}
-
-			if ( text && siteConfig.html.quote ) {
-				// Wrap suggested content in specified HTML.
-				content = siteConfig.html.quote.replace( /%1\$s/g, sanitizeText( text ) );
-			}
-
-			// Add a source attribution if there is one available.
-			if ( url && siteConfig.html.link && ( ( title && __( 'newPost' ) !== title ) || siteName ) ) {
-				content += siteConfig.html.link.replace( /%1\$s/g, encodeURI( url ) ).replace( /%2\$s/g, ( title || siteName ) );
-			}
-
-			return content || '';
-		}
-
-		/**
-		 * Get a list of valid embeds from what was passed via WpPressThis_App.data._embed on page load.
-		 *
-		 * @returns array
-		 */
-		function getInterestingEmbeds() {
-			var embeds             = data._embed || [],
-				interestingEmbeds  = [],
-				alreadySelected    = [];
-
-			if ( embeds.length ) {
-				$.each( embeds, function ( i, src ) {
-					if ( ! src ) {
-						// Skip: no src value
-						return;
-					}
-
-					var schemelessSrc = src.replace( /^https?:/, '' );
-
-					if ( $.inArray( schemelessSrc, alreadySelected ) > -1 ) {
-						// Skip: already shown
-						return;
-					}
-
-					interestingEmbeds.push( src );
-					alreadySelected.push( schemelessSrc );
-				} );
-			}
-
-			return interestingEmbeds;
-		}
-
-		/**
-		 * Get a list of valid images from what was passed via WpPressThis_App.data._img and WpPressThis_App.data._meta on page load.
-		 *
-		 * @returns array
-		 */
-		function getInterestingImages( data ) {
-			var imgs             = data._img || [],
-				interestingImgs  = [],
-				alreadySelected  = [];
-
-			if ( imgs.length ) {
-				$.each( imgs, function ( i, src ) {
-					src = src.replace( /http:\/\/[\d]+\.gravatar\.com\//, 'https://secure.gravatar.com/' );
-					src = checkUrl( src );
-
-					if ( ! src ) {
-						// Skip: no src value
-						return;
-					}
-
-					var schemelessSrc = src.replace( /^https?:/, '' );
-
-					if ( Array.prototype.indexOf && alreadySelected.indexOf( schemelessSrc ) > -1 ) {
-						// Skip: already shown
-						return;
-					} else if ( src.indexOf( 'avatar' ) > -1 && interestingImgs.length >= 15 ) {
-						// Skip:  some type of avatar and we've already gathered more than 23 diff images to show
-						return;
-					}
-
-					interestingImgs.push( src );
-					alreadySelected.push( schemelessSrc );
-				} );
-			}
-
-			return interestingImgs;
 		}
 
 		/**
@@ -345,7 +160,7 @@
 						renderError( response.data.errorMessage );
 						hideSpinner();
 					} else if ( response.data.redirect ) {
-						if ( window.opener && siteConfig.redirInParent ) {
+						if ( window.opener && settings.redirInParent ) {
 							try {
 								window.opener.location.href = response.data.redirect;
 							} catch( er ) {}
@@ -456,7 +271,7 @@
 		 * Hide the form letting users enter a URL to be scanned, if a URL was already passed.
 		 */
 		function renderToolsVisibility() {
-			if ( data.u && data.u.match( /^https?:/ ) ) {
+			if ( data.hasData ) {
 				$( '#scanbar' ).hide();
 			}
 		}
@@ -495,53 +310,8 @@
 			}
 
 			// Prompt user to upgrade their bookmarklet if there is a version mismatch.
-			if ( data.v && data._version && ( data.v + '' ) !== ( data._version + '' ) ) {
+			if ( data.v && settings.version && ( data.v + '' ) !== ( settings.version + '' ) ) {
 				$( '.should-upgrade-bookmarklet' ).removeClass( 'is-hidden' );
-			}
-		}
-
-		/**
-		 * Render the suggested title, if any
-		 */
-		function renderSuggestedTitle() {
-			var suggestedTitle = suggestedTitleStr || '',
-				$title = $( '#title-container' );
-
-			if ( ! hasEmptyTitleStr ) {
-				$( '#post_title' ).val( suggestedTitle );
-				$title.text( suggestedTitle );
-				$( '.post-title-placeholder' ).addClass( 'is-hidden' );
-			}
-
-			$title.on( 'keyup', function() {
-				saveAlert = true;
-			}).on( 'paste', function() {
-				saveAlert = true;
-
-				setTimeout( function() {
-					$title.text( $title.text() );
-				}, 100 );
-			} );
-
-		}
-
-		/**
-		 * Render the suggested content, if any
-		 */
-		function renderSuggestedContent() {
-			if ( ! suggestedContentStr ) {
-				return;
-			}
-
-			if ( ! editor ) {
-				editor = window.tinymce.get( 'pressthis' );
-			}
-
-			if ( editor ) {
-				editor.setContent( suggestedContentStr );
-				editor.on( 'focus', function() {
-					hasSetFocus = true;
-				} );
 			}
 		}
 
@@ -555,12 +325,12 @@
 
 			listContainer.empty();
 
-			if ( interestingEmbeds || interestingImages ) {
-				listContainer.append( '<h2 class="screen-reader-text">' + __( 'allMediaHeading' ) + '</h2><ul class="wppt-all-media-list"/>' );
+			if ( data._embeds || data._images ) {
+				listContainer.append( '<h2 class="screen-reader-text">' + __( 'allMediaHeading' ) + '</h2><ul class="wppt-all-media-list" />' );
 			}
 
-			if ( interestingEmbeds ) {
-				$.each( interestingEmbeds, function ( i, src ) {
+			if ( data._embeds ) {
+				$.each( data._embeds, function ( i, src ) {
 					src = checkUrl( src );
 
 					var displaySrc = '',
@@ -601,8 +371,8 @@
 				} );
 			}
 
-			if ( interestingImages ) {
-				$.each( interestingImages, function ( i, src ) {
+			if ( data._images ) {
+				$.each( data._images, function( i, src ) {
 					src = checkUrl( src );
 
 					var displaySrc = src.replace(/^(http[^\?]+)(\?.*)?$/, '$1');
@@ -716,25 +486,27 @@
 					// Reset to options list
 					$( '.post-options' ).removeClass( offscreenHidden );
 					$( '.setting-modal').addClass( offscreenHidden );
-				} );
+				});
 		}
 
 		/**
 		 * Interactive behavior for the post title's field placeholder
 		 */
 		function monitorPlaceholder() {
-			var $selector = $( '#title-container'),
+			var $titleField = $( '#title-container'),
 				$placeholder = $('.post-title-placeholder');
 
-			$selector.on( 'focus', function() {
+			$titleField.on( 'focus', function() {
 				$placeholder.addClass('is-hidden');
-			} );
-
-			$selector.on( 'blur', function() {
-				if ( ! $( this ).text() ) {
+			}).on( 'blur', function() {
+				if ( ! $titleField.text() ) {
 					$placeholder.removeClass('is-hidden');
 				}
-			} );
+			});
+
+			if ( $titleField.text() ) {
+				$placeholder.addClass('is-hidden');
+			}
 		}
 
 		/* ***************************************************************
@@ -747,9 +519,7 @@
 		function render(){
 			// We're on!
 			renderToolsVisibility();
-			renderSuggestedTitle();
 			renderDetectedMedia();
-			$( document ).on( 'tinymce-editor-init', renderSuggestedContent );
 			renderStartupNotices();
 
 			if ( window.tagBox ) {
@@ -761,12 +531,19 @@
 		 * Set app events and other state monitoring related code.
 		 */
 		function monitor(){
+			$( document ).on( 'tinymce-editor-init', function( event, ed ) {
+				editor = ed;
+
+				ed.on( 'focus', function() {
+					hasSetFocus = true;
+				} );
+			});
+
 			$( '#current-site a').click( function( e ) {
 				e.preventDefault();
 			} );
 
-			// Publish and Draft buttons and submit
-
+			// Publish, Draft and Preview buttons
 
 			$( '.post-actions' ).on( 'click.press-this', function( event ) {
 				var $target = $( event.target );
@@ -876,8 +653,7 @@
 			refreshCatsCache();
 		});
 
-		// Expose public methods
-		// TODO: which are needed?
+		// Expose public methods?
 		return {
 			renderNotice: renderNotice,
 			renderError: renderError
