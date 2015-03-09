@@ -1220,9 +1220,11 @@ function get_sample_permalink($id, $title = null, $name = null) {
 	// Handle page hierarchy
 	if ( $ptype->hierarchical ) {
 		$uri = get_page_uri($post);
-		$uri = untrailingslashit($uri);
-		$uri = strrev( stristr( strrev( $uri ), '/' ) );
-		$uri = untrailingslashit($uri);
+		if ( $uri ) {
+			$uri = untrailingslashit($uri);
+			$uri = strrev( stristr( strrev( $uri ), '/' ) );
+			$uri = untrailingslashit($uri);
+		}
 
 		/** This filter is documented in wp-admin/edit-tag-form.php */
 		$uri = apply_filters( 'editable_slug', $uri );

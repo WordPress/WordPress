@@ -168,12 +168,13 @@ do_action( 'add_meta_boxes_comment', $comment );
 
 do_meta_boxes(null, 'normal', $comment);
 
+$referer = wp_get_referer();
 ?>
 </div>
 
 <input type="hidden" name="c" value="<?php echo esc_attr($comment->comment_ID) ?>" />
 <input type="hidden" name="p" value="<?php echo esc_attr($comment->comment_post_ID) ?>" />
-<input name="referredby" type="hidden" id="referredby" value="<?php echo esc_url( wp_get_referer() ); ?>" />
+<input name="referredby" type="hidden" id="referredby" value="<?php echo $referer ? esc_url( $referer ) : ''; ?>" />
 <?php wp_original_referer_field(true, 'previous'); ?>
 <input type="hidden" name="noredir" value="1" />
 
