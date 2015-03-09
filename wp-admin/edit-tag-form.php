@@ -95,10 +95,11 @@ do_action( "{$taxonomy}_term_edit_form_tag" );
 			 *
 			 * @since 2.6.0
 			 *
-			 * @param string $slug The current term slug.
+			 * @param string $tag_slug The current term slug.
 			 */
+			$slug = isset( $tag->slug ) ? apply_filters( 'editable_slug', $tag->slug ) : '';
 			?>
-			<td><input name="slug" id="slug" type="text" value="<?php if ( isset( $tag->slug ) ) echo esc_attr( apply_filters( 'editable_slug', $tag->slug ) ); ?>" size="40" />
+			<td><input name="slug" id="slug" type="text" value="<?php echo esc_attr( $slug ); ?>" size="40" />
 			<p class="description"><?php _e('The &#8220;slug&#8221; is the URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens.'); ?></p></td>
 		</tr>
 <?php } ?>
