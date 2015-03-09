@@ -91,6 +91,7 @@ window.wp = window.wp || {};
 		setMarkers: function( content ) {
 			var pieces = [ { content: content } ],
 				self = this,
+				instance,
 				current;
 
 			_.each( views, function( view, type ) {
@@ -115,11 +116,11 @@ window.wp = window.wp || {};
 							pieces.push( { content: remaining.substring( 0, result.index ) } );
 						}
 
-						self.createInstance( type, result.content, result.options );
+						instance = self.createInstance( type, result.content, result.options );
 
 						// Add the processed piece for the match.
 						pieces.push( {
-							content: '<p data-wpview-marker="' + encodeURIComponent( result.content ) + '">' + result.content + '</p>',
+							content: '<p data-wpview-marker="' + instance.encodedText + '">' + instance.text + '</p>',
 							processed: true
 						} );
 
@@ -149,8 +150,12 @@ window.wp = window.wp || {};
 		 */
 		createInstance: function( type, text, options ) {
 			var View = this.get( type ),
-				encodedText = encodeURIComponent( text ),
-				instance = this.getInstance( encodedText );
+				encodedText,
+				instance;
+
+			text = tinymce.DOM.decode( text ),
+			encodedText = encodeURIComponent( text ),
+			instance = this.getInstance( encodedText );
 
 			if ( instance ) {
 				return instance;
@@ -754,7 +759,7 @@ window.wp = window.wp || {};
 			if ( this.url ) {
 				this.loader = false;
 				this.shortcode = wp.media.embed.shortcode( {
-					url: this.url
+					url: this.text
 				} );
 			}
 
@@ -804,7 +809,7 @@ window.wp = window.wp || {};
 
 		edit: function( text, update ) {
 			var media = wp.media.embed,
-				frame = media.edit( text, !! this.url ),
+				frame = media.edit( text, this.url ),
 				self = this,
 				events = 'change:url change:width change:height';
 
@@ -819,13 +824,7 @@ window.wp = window.wp || {};
 			frame.state( 'embed' ).on( 'select', function() {
 				var data = frame.state( 'embed' ).metadata;
 
-				if ( data.width ) {
-					delete self.url;
-				} else {
-					self.url = data.url;
-				}
-
-				if ( self.url  ) {
+				if ( self.url && ! data.width ) {
 					update( data.url );
 				} else {
 					update( media.shortcode( data ).string() );
@@ -866,7 +865,7 @@ window.wp = window.wp || {};
 					index: match.index + match[1].length,
 					content: match[2],
 					options: {
-						url: match[2]
+						url: true
 					}
 				};
 			}
