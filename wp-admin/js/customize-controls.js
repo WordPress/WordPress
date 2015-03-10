@@ -1370,13 +1370,13 @@
 	});
 
 	/**
-	 * An upload control, which utilizes the media modal.
+	 * A control that implements the media modal.
 	 *
 	 * @class
 	 * @augments wp.customize.Control
 	 * @augments wp.customize.Class
 	 */
-	api.UploadControl = api.Control.extend({
+	api.MediaControl = api.Control.extend({
 
 		/**
 		 * When the control's DOM structure is ready,
@@ -1471,7 +1471,7 @@
 			this.params.attachment = attachment;
 
 			// Set the Customizer setting; the callback takes care of rendering.
-			this.setting( attachment.url );
+			this.setting( attachment.id );
 			node = this.container.find( 'audio, video' ).get(0);
 
 			// Initialize audio/video previews.
@@ -1509,6 +1509,41 @@
 			this.params.attachment = {};
 			this.setting( '' );
 			this.renderContent(); // Not bound to setting change when emptying.
+		}
+	});
+
+	/**
+	 * An upload control, which utilizes the media modal.
+	 *
+	 * @class
+	 * @augments wp.customize.MediaControl
+	 * @augments wp.customize.Control
+	 * @augments wp.customize.Class
+	 */
+	api.UploadControl = api.MediaControl.extend({
+
+		/**
+		 * Callback handler for when an attachment is selected in the media modal.
+		 * Gets the selected image information, and sets it within the control.
+		 */
+		select: function() {
+			// Get the attachment from the modal frame.
+			var node,
+				attachment = this.frame.state().get( 'selection' ).first().toJSON(),
+				mejsSettings = window._wpmejsSettings || {};
+
+			this.params.attachment = attachment;
+
+			// Set the Customizer setting; the callback takes care of rendering.
+			this.setting( attachment.url );
+			node = this.container.find( 'audio, video' ).get(0);
+
+			// Initialize audio/video previews.
+			if ( node ) {
+				this.player = new MediaElementPlayer( node, mejsSettings );
+			} else {
+				this.cleanupPlayer();
+			}
 		},
 
 		// @deprecated
@@ -1526,6 +1561,7 @@
 	 *
 	 * @class
 	 * @augments wp.customize.UploadControl
+	 * @augments wp.customize.MediaControl
 	 * @augments wp.customize.Control
 	 * @augments wp.customize.Class
 	 */
@@ -1539,6 +1575,7 @@
 	 *
 	 * @class
 	 * @augments wp.customize.UploadControl
+	 * @augments wp.customize.MediaControl
 	 * @augments wp.customize.Control
 	 * @augments wp.customize.Class
 	 */
@@ -1575,8 +1612,8 @@
 	 */
 	api.HeaderControl = api.Control.extend({
 		ready: function() {
-			this.btnRemove        = $('#customize-control-header_image .actions .remove');
-			this.btnNew           = $('#customize-control-header_image .actions .new');
+			this.btnRemove = $('#customize-control-header_image .actions .remove');
+			this.btnNew    = $('#customize-control-header_image .actions .new');
 
 			_.bindAll(this, 'openMedia', 'removeImage');
 
@@ -2311,6 +2348,7 @@
 
 	api.controlConstructor = {
 		color:      api.ColorControl,
+		media:      api.MediaControl,
 		upload:     api.UploadControl,
 		image:      api.ImageControl,
 		header:     api.HeaderControl,

@@ -521,11 +521,11 @@ class WP_Customize_Control {
 	 * @since 4.1.0
 	 */
 	final public function print_template() {
-	        ?>
-	        <script type="text/html" id="tmpl-customize-control-<?php echo $this->type; ?>-content">
-	                <?php $this->content_template(); ?>
-	        </script>
-	        <?php
+		?>
+		<script type="text/html" id="tmpl-customize-control-<?php echo $this->type; ?>-content">
+			<?php $this->content_template(); ?>
+		</script>
+		<?php
 	}
 
 	/**
@@ -638,24 +638,22 @@ class WP_Customize_Color_Control extends WP_Customize_Control {
 }
 
 /**
- * Customize Upload Control class.
+ * Customize Media Control class.
  *
- * @since 3.4.0
+ * @since 4.2.0
  *
  * @see WP_Customize_Control
  */
-class WP_Customize_Upload_Control extends WP_Customize_Control {
-	public $type          = 'upload';
+class WP_Customize_Media_Control extends WP_Customize_Control {
+	public $type          = 'media';
 	public $mime_type     = '';
 	public $button_labels = array();
-	public $removed = ''; // unused
-	public $context; // unused
-	public $extensions = array(); // unused
 
 	/**
 	 * Constructor.
 	 *
 	 * @since 4.1.0
+	 * @since 4.2.0 Moved from WP_Customize_Upload_Control.
 	 *
 	 * @param WP_Customize_Manager $manager {@see WP_Customize_Manager} instance.
 	 */
@@ -677,6 +675,7 @@ class WP_Customize_Upload_Control extends WP_Customize_Control {
 	 * Enqueue control related scripts/styles.
 	 *
 	 * @since 3.4.0
+	 * @since 4.2.0 Moved from WP_Customize_Upload_Control.
 	 */
 	public function enqueue() {
 		wp_enqueue_media();
@@ -686,6 +685,8 @@ class WP_Customize_Upload_Control extends WP_Customize_Control {
 	 * Refresh the parameters passed to the JavaScript via JSON.
 	 *
 	 * @since 3.4.0
+	 * @since 4.2.0 Moved from WP_Customize_Upload_Control.
+	 *
 	 * @uses WP_Customize_Control::to_json()
 	 */
 	public function to_json() {
@@ -698,6 +699,7 @@ class WP_Customize_Upload_Control extends WP_Customize_Control {
 		if ( is_object( $this->setting ) ) {
 			if ( $this->setting->default ) {
 				// Fake an attachment model - needs all fields used by template.
+				// Note that the default value must be a URL, NOT an attachment ID.
 				$type = in_array( substr( $this->setting->default, -3 ), array( 'jpg', 'png', 'gif', 'bmp' ) ) ? 'image' : 'document';
 				$default_attachment = array(
 					'id' => 1,
@@ -720,11 +722,7 @@ class WP_Customize_Upload_Control extends WP_Customize_Control {
 				// Set the default as the attachment.
 				$this->json['attachment'] = $this->json['defaultAttachment'];
 			} elseif ( $value ) {
-				// Get the attachment model for the existing file.
-				$attachment_id = attachment_url_to_postid( $value );
-				if ( $attachment_id ) {
-					$this->json['attachment'] = wp_prepare_attachment_for_js( $attachment_id );
-				}
+				$this->json['attachment'] = wp_prepare_attachment_for_js( $value );
 			}
 		}
 	}
@@ -732,15 +730,18 @@ class WP_Customize_Upload_Control extends WP_Customize_Control {
 	/**
 	 * Don't render any content for this control from PHP.
 	 *
-	 * @see WP_Customize_Upload_Control::content_template()
 	 * @since 3.4.0
+	 * @since 4.2.0 Moved from WP_Customize_Upload_Control.
+	 *
+	 * @see WP_Customize_Media_Control::content_template()
 	 */
 	public function render_content() {}
 
 	/**
-	 * Render a JS template for the content of the upload control.
+	 * Render a JS template for the content of the media control.
 	 *
 	 * @since 4.1.0
+	 * @since 4.2.0 Moved from WP_Customize_Upload_Control.
 	 */
 	public function content_template() {
 		?>
@@ -819,6 +820,42 @@ class WP_Customize_Upload_Control extends WP_Customize_Control {
 			</div>
 		<# } #>
 		<?php
+	}
+}
+
+/**
+ * Customize Upload Control Class.
+ *
+ * @since 3.4.0
+ *
+ * @see WP_Customize_Media_Control
+ */
+class WP_Customize_Upload_Control extends WP_Customize_Media_Control {
+	public $type          = 'upload';
+	public $mime_type     = '';
+	public $button_labels = array();
+	public $removed = ''; // unused
+	public $context; // unused
+	public $extensions = array(); // unused
+
+	/**
+	 * Refresh the parameters passed to the JavaScript via JSON.
+	 *
+	 * @since 3.4.0
+	 *
+	 * @uses WP_Customize_Media_Control::to_json()
+	 */
+	public function to_json() {
+		parent::to_json();
+
+		$value = $this->value();
+		if ( $value ) {
+			// Get the attachment model for the existing file.
+			$attachment_id = attachment_url_to_postid( $value );
+			if ( $attachment_id ) {
+				$this->json['attachment'] = wp_prepare_attachment_for_js( $attachment_id );
+			}
+		}
 	}
 }
 
