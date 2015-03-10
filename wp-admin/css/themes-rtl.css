@@ -1352,6 +1352,16 @@ body.full-overlay-active {
 	height: 100%;
 }
 
+#customize-preview.wp-full-overlay-main {
+	background: url(../images/spinner.gif) no-repeat center center;
+	-webkit-background-size: 20px 20px;
+	background-size: 20px 20px;
+}
+
+#customize-preview.wp-full-overlay-main.iframe-ready {
+	background: none;
+}
+
 .wp-full-overlay-sidebar .wp-full-overlay-header {
 	position: absolute;
 	right: 0;
@@ -1710,6 +1720,7 @@ body.full-overlay-active {
 		background-size: 15px 123px;
 	}
 
+	#customize-preview.wp-full-overlay-main,
 	.customize-loading #customize-container,
 	.theme-install-overlay .wp-full-overlay-main {
 		background-image: url(../images/spinner-2x.gif);

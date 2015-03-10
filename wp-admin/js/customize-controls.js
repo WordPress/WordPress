@@ -1914,6 +1914,9 @@
 			this.bind( 'ready', this._ready );
 
 			this.bind( 'ready', function ( data ) {
+
+				this.container.addClass( 'iframe-ready' );
+
 				if ( ! data ) {
 					return;
 				}
@@ -2217,6 +2220,9 @@
 		refresh: function() {
 			var self = this;
 
+			// Display loading indicator
+			this.send( 'loading-initiated' );
+
 			this.abort();
 
 			this.loading = new api.PreviewFrame({
@@ -2249,8 +2255,10 @@
 			});
 
 			this.loading.fail( function( reason, location ) {
-				if ( 'redirect' === reason && location )
+				self.send( 'loading-failed' );
+				if ( 'redirect' === reason && location ) {
 					self.previewUrl( location );
+				}
 
 				if ( 'logged out' === reason ) {
 					if ( self.preview ) {
@@ -2261,8 +2269,9 @@
 					self.login().done( self.refresh );
 				}
 
-				if ( 'cheatin' === reason )
+				if ( 'cheatin' === reason ) {
 					self.cheatin();
+				}
 			});
 		},
 
