@@ -280,14 +280,14 @@ function media_handle_upload($file_id, $post_id, $post_data = array(), $override
 	$file = $file['file'];
 	$title = $name;
 	$content = '';
+	$excerpt = '';
 
 	if ( preg_match( '#^audio#', $type ) ) {
 		$meta = wp_read_audio_metadata( $file );
 
-		if ( ! empty( $meta['title'] ) )
+		if ( ! empty( $meta['title'] ) ) {
 			$title = $meta['title'];
-
-		$content = '';
+		}
 
 		if ( ! empty( $title ) ) {
 
@@ -335,10 +335,13 @@ function media_handle_upload($file_id, $post_id, $post_data = array(), $override
 
 	// Use image exif/iptc data for title and caption defaults if possible.
 	} elseif ( 0 === strpos( $type, 'image/' ) && $image_meta = @wp_read_image_metadata( $file ) ) {
-		if ( trim( $image_meta['title'] ) && ! is_numeric( sanitize_title( $image_meta['title'] ) ) )
+		if ( trim( $image_meta['title'] ) && ! is_numeric( sanitize_title( $image_meta['title'] ) ) ) {
 			$title = $image_meta['title'];
-		if ( trim( $image_meta['caption'] ) )
-			$content = $image_meta['caption'];
+		}
+
+		if ( trim( $image_meta['caption'] ) ) {
+			$excerpt = $image_meta['caption'];
+		}
 	}
 
 	// Construct the attachment array
@@ -348,6 +351,7 @@ function media_handle_upload($file_id, $post_id, $post_data = array(), $override
 		'post_parent' => $post_id,
 		'post_title' => $title,
 		'post_content' => $content,
+		'post_excerpt' => $excerpt,
 	), $post_data );
 
 	// This should never be set as it would then overwrite an existing attachment.
