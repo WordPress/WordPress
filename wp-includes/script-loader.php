@@ -389,13 +389,15 @@ function wp_default_scripts( &$scripts ) {
 	$scripts->add( 'customize-views',    "/wp-includes/js/customize-views.js",  array( 'jquery', 'underscore', 'imgareaselect', 'customize-models' ), false, 1 );
 	$scripts->add( 'customize-controls', "/wp-admin/js/customize-controls$suffix.js", array( 'customize-base' ), false, 1 );
 	did_action( 'init' ) && $scripts->localize( 'customize-controls', '_wpCustomizeControlsL10n', array(
-		'activate'  => __( 'Save &amp; Activate' ),
-		'save'      => __( 'Save &amp; Publish' ),
-		'saveAlert' => __( 'The changes you made will be lost if you navigate away from this page.' ),
-		'saved'     => __( 'Saved' ),
-		'cancel'    => __( 'Cancel' ),
-		'close'     => __( 'Close' ),
-		'cheatin'   => __( 'Cheatin&#8217; uh?' ),
+		'activate'           => __( 'Save &amp; Activate' ),
+		'save'               => __( 'Save &amp; Publish' ),
+		'saveAlert'          => __( 'The changes you made will be lost if you navigate away from this page.' ),
+		'saved'              => __( 'Saved' ),
+		'cancel'             => __( 'Cancel' ),
+		'close'              => __( 'Close' ),
+		'cheatin'            => __( 'Cheatin&#8217; uh?' ),
+		'previewIframeTitle' => __( 'Site Preview' ),
+		'loginIframeTitle'   => __( 'Session expired' ),
 
 		// Used for overriding the file types allowed in plupload.
 		'allowedFiles' => __( 'Allowed Files' ),

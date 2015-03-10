@@ -2023,7 +2023,7 @@
 				response = response.slice( 0, index ) + response.slice( index + signature.length );
 
 				// Create the iframe and inject the html content.
-				self.iframe = $('<iframe />').appendTo( self.container );
+				self.iframe = $( '<iframe />', { 'title': api.l10n.previewIframeTitle } ).appendTo( self.container );
 
 				// Bind load event after the iframe has been added to the page;
 				// otherwise it will fire when injected into the DOM.
@@ -2055,8 +2055,9 @@
 				deferred.rejectWith( self, [ 'logged out' ] );
 			};
 
-			if ( this.triedLogin )
+			if ( this.triedLogin ) {
 				return reject();
+			}
 
 			// Check if we have an admin cookie.
 			$.get( api.settings.url.ajax, {
@@ -2064,10 +2065,11 @@
 			}).fail( reject ).done( function( response ) {
 				var iframe;
 
-				if ( '1' !== response )
+				if ( '1' !== response ) {
 					reject();
+				}
 
-				iframe = $('<iframe src="' + self.previewUrl() + '" />').hide();
+				iframe = $( '<iframe />', { 'src': self.previewUrl(), 'title': api.l10n.previewIframeTitle } ).hide();
 				iframe.appendTo( self.container );
 				iframe.load( function() {
 					self.triedLogin = true;
@@ -2327,7 +2329,7 @@
 				url:     api.settings.url.login
 			});
 
-			iframe = $('<iframe src="' + api.settings.url.login + '" />').appendTo( this.container );
+			iframe = $( '<iframe />', { 'src': api.settings.url.login, 'title': api.l10n.loginIframeTitle } ).appendTo( this.container );
 
 			messenger.targetWindow( iframe[0].contentWindow );
 

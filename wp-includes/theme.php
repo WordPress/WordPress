@@ -1963,7 +1963,8 @@ function _wp_customize_loader_settings() {
 		'isCrossDomain' => $cross_domain,
 		'browser'       => $browser,
 		'l10n'          => array(
-			'saveAlert' => __( 'The changes you made will be lost if you navigate away from this page.' ),
+			'saveAlert'       => __( 'The changes you made will be lost if you navigate away from this page.' ),
+			'mainIframeTitle' => __( 'Customizer' ),
 		),
 	);
 
