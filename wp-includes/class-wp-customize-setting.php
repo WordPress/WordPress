@@ -60,6 +60,20 @@ class WP_Customize_Setting {
 	public $sanitize_callback    = '';
 	public $sanitize_js_callback = '';
 
+	/**
+	 * Whether or not the setting is initially dirty when created.
+	 *
+	 * This is used to ensure that a setting will be sent from the pane to the
+	 * preview when loading the Customizer. Normally a setting only is synced to
+	 * the preview if it has been changed. This allows the setting to be sent
+	 * from the start.
+	 *
+	 * @since 4.2.0
+	 * @access public
+	 * @var bool
+	 */
+	public $dirty = false;
+
 	protected $id_data = array();
 
 	/**
