@@ -89,7 +89,7 @@ tinymce.PluginManager.add('fullscreen', function(editor) {
 	}
 
 	editor.on('init', function() {
-		editor.addShortcut('Ctrl+Alt+F', '', toggleFullscreen);
+		editor.addShortcut('Meta+Alt+F', '', toggleFullscreen);
 	});
 
 	editor.on('remove', function() {
@@ -102,7 +102,7 @@ tinymce.PluginManager.add('fullscreen', function(editor) {
 
 	editor.addMenuItem('fullscreen', {
 		text: 'Fullscreen',
-		shortcut: 'Ctrl+Alt+F',
+		shortcut: 'Meta+Alt+F',
 		selectable: true,
 		onClick: toggleFullscreen,
 		onPostRender: function() {
@@ -117,7 +117,7 @@ tinymce.PluginManager.add('fullscreen', function(editor) {
 
 	editor.addButton('fullscreen', {
 		tooltip: 'Fullscreen',
-		shortcut: 'Ctrl+Alt+F',
+		shortcut: 'Meta+Alt+F',
 		onClick: toggleFullscreen,
 		onPostRender: function() {
 			var self = this;
