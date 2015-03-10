@@ -149,8 +149,9 @@ if ( $comment->comment_approved != '0' ) { // if not unapproved
 			$message  = __('This comment is currently in the Trash.');
 			break;
 	}
-	if ( $message )
-		echo '<div class="updated"><p>' . $message . '</p></div>';
+	if ( $message ) {
+		echo '<div class="notice notice-info"><p>' . $message . '</p></div>';
+	}
 }
 ?>
 <p><strong><?php _e('Caution:'); ?></strong> <?php echo $caution_msg; ?></p>
@@ -186,7 +187,6 @@ if ( $comment->comment_approved != '0' ) { // if not unapproved
 		echo $post_link;
 
 		if ( $comment->comment_parent ) {
-			$comment_url = esc_url( get_comment_link( $comment->comment_ID ) );
 			$parent      = get_comment( $comment->comment_parent );
 			$parent_link = esc_url( get_comment_link( $comment->comment_parent ) );
 			$name        = get_comment_author( $parent->comment_ID );
@@ -200,7 +200,8 @@ if ( $comment->comment_approved != '0' ) { // if not unapproved
 	<td>
 	<?php
 		/* translators: 2: comment date, 3: comment time */
-		printf( __( '<a href="%1$s">%2$s at %3$s</a>' ), $comment_url,
+		printf( __( '<a href="%1$s">%2$s at %3$s</a>' ),
+			esc_url( get_comment_link( $comment->comment_ID ) ),
 			/* translators: comment date format. See http://php.net/date */
 			get_comment_date( __( 'Y/m/d' ) ),
 			get_comment_date( get_option( 'time_format' ) )
