@@ -29,7 +29,7 @@ function confirm_delete_users( $users ) {
 	<?php else : ?>
 		<p><?php _e( 'You have chosen to delete the user from all networks and sites.' ); ?></p>
 	<?php endif; ?>
-	
+
 	<form action="users.php?action=dodelete" method="post">
 	<input type="hidden" name="dodelete" />
 	<?php
@@ -108,11 +108,11 @@ function confirm_delete_users( $users ) {
 	<?php else : ?>
 		<p><?php _e( 'Once you hit &#8220;Confirm Deletion&#8221;, the user will be permanently removed.' ); ?></p>
 	<?php endif;
-	
+
 	submit_button( __('Confirm Deletion'), 'delete' );
 	?>
 	</form>
-    <?php
+	<?php
 	return true;
 }
 
@@ -136,8 +136,8 @@ if ( isset( $_GET['action'] ) ) {
 				echo '<div class="wrap">';
 				confirm_delete_users( $_POST['allusers'] );
 				echo '</div>';
-	            require_once( ABSPATH . 'wp-admin/admin-footer.php' );
-	  		} else {
+				require_once( ABSPATH . 'wp-admin/admin-footer.php' );
+			} else {
 				wp_redirect( network_admin_url( 'users.php' ) );
 			}
 			exit();
@@ -252,7 +252,7 @@ if ( $pagenum > $total_pages && $total_pages > 0 ) {
 $title = __( 'Users' );
 $parent_file = 'users.php';
 
-add_screen_option( 'per_page', array('label' => _x( 'Users', 'users per page (screen options)' )) );
+add_screen_option( 'per_page' );
 
 get_current_screen()->add_help_tab( array(
 	'id'      => 'overview',

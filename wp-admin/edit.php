@@ -165,8 +165,6 @@ $wp_list_table->prepare_items();
 wp_enqueue_script('inline-edit-post');
 wp_enqueue_script('heartbeat');
 
-$title = $post_type_object->labels->name;
-
 if ( 'post' == $post_type ) {
 	get_current_screen()->add_help_tab( array(
 	'id'		=> 'overview',
@@ -234,7 +232,7 @@ if ( 'post' == $post_type ) {
 	);
 }
 
-add_screen_option( 'per_page', array( 'label' => $title, 'default' => 20, 'option' => 'edit_' . $post_type . '_per_page' ) );
+add_screen_option( 'per_page', array( 'default' => 20, 'option' => 'edit_' . $post_type . '_per_page' ) );
 
 $bulk_counts = array(
 	'updated'   => isset( $_REQUEST['updated'] )   ? absint( $_REQUEST['updated'] )   : 0,

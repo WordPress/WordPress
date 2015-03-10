@@ -1127,20 +1127,26 @@ final class WP_Screen {
 	 * @since 3.3.0
 	 */
 	public function render_per_page_options() {
-		if ( ! $this->get_option( 'per_page' ) )
+		if ( null === $this->get_option( 'per_page' ) ) {
 			return;
+		}
 
 		$per_page_label = $this->get_option( 'per_page', 'label' );
+		if ( null === $per_page_label ) {
+			$per_page_label = __( 'Number of items per page:' );
+		}
 
 		$option = $this->get_option( 'per_page', 'option' );
-		if ( ! $option )
+		if ( ! $option ) {
 			$option = str_replace( '-', '_', "{$this->id}_per_page" );
+		}
 
 		$per_page = (int) get_user_option( $option );
 		if ( empty( $per_page ) || $per_page < 1 ) {
 			$per_page = $this->get_option( 'per_page', 'default' );
-			if ( ! $per_page )
+			if ( ! $per_page ) {
 				$per_page = 20;
+			}
 		}
 
 		if ( 'edit_comments_per_page' == $option ) {
@@ -1165,16 +1171,14 @@ final class WP_Screen {
 		?>
 		<div class="screen-options">
 			<?php if ( $per_page_label ) : ?>
+				<label for="<?php echo esc_attr( $option ); ?>"><?php echo $per_page_label; ?></label>
 				<input type="number" step="1" min="1" max="999" class="screen-per-page" name="wp_screen_options[value]"
 					id="<?php echo esc_attr( $option ); ?>" maxlength="3"
 					value="<?php echo esc_attr( $per_page ); ?>" />
-				<label for="<?php echo esc_attr( $option ); ?>">
-					<?php echo esc_html( $per_page_label ); ?>
-				</label>
 			<?php endif;
 
 			echo get_submit_button( __( 'Apply' ), 'button', 'screen-options-apply', false ); ?>
-			<input type='hidden' name='wp_screen_options[option]' value='<?php echo esc_attr($option); ?>' />
+			<input type="hidden" name="wp_screen_options[option]" value="<?php echo esc_attr( $option ); ?>" />
 		</div>
 		<?php
 	}

@@ -1506,6 +1506,26 @@ form.upgrade .hint {
 	display: none;
 }
 
+.metabox-prefs .screen-options {
+	padding-top: 10px;
+}
+
+.metabox-prefs .screen-options input,
+.metabox-prefs .screen-options label {
+	margin-top: 0;
+	margin-bottom: 0;
+	vertical-align: middle;
+}
+
+.metabox-prefs .screen-options .screen-per-page {
+	margin-right: 15px;
+}
+
+.metabox-prefs .screen-options label {
+	line-height: 28px;
+	padding-right: 0;
+}
+
 /*------------------------------------------------------------------------------
   6.2 - Help Menu
 ------------------------------------------------------------------------------*/

@@ -17,7 +17,7 @@ $pagenum = $wp_list_table->get_pagenum();
 $title = __('Users');
 $parent_file = 'users.php';
 
-add_screen_option( 'per_page', array('label' => _x( 'Users', 'users per page (screen options)' )) );
+add_screen_option( 'per_page' );
 
 // contextual help - choose Help on the top right of admin panel to preview this.
 get_current_screen()->add_help_tab( array(

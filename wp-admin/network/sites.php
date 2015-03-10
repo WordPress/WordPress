@@ -22,7 +22,7 @@ $pagenum = $wp_list_table->get_pagenum();
 $title = __( 'Sites' );
 $parent_file = 'sites.php';
 
-add_screen_option( 'per_page', array( 'label' => _x( 'Sites', 'sites per page (screen options)' ) ) );
+add_screen_option( 'per_page' );
 
 get_current_screen()->add_help_tab( array(
 	'id'      => 'overview',

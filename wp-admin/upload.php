@@ -173,7 +173,7 @@ $parent_file = 'upload.php';
 
 wp_enqueue_script( 'media' );
 
-add_screen_option( 'per_page', array('label' => _x( 'Media items', 'items per page (screen options)' )) );
+add_screen_option( 'per_page' );
 
 get_current_screen()->add_help_tab( array(
 'id'		=> 'overview',
