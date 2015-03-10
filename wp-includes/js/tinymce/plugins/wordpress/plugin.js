@@ -433,85 +433,13 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 		}
 	});
 
-	// popup buttons for the gallery, etc.
-	editor.on( 'init', function() {
-		editor.dom.bind( editor.getWin(), 'scroll', function() {
-			_hideButtons();
-		});
-
-		editor.dom.bind( editor.getBody(), 'dragstart', function() {
-			_hideButtons();
-		});
-	});
-
-	editor.on( 'BeforeExecCommand', function() {
-		_hideButtons();
-	});
-
-	editor.on( 'SaveContent', function() {
-		_hideButtons();
-	});
-
-	editor.on( 'MouseDown', function( e ) {
-		if ( e.target.nodeName !== 'IMG' ) {
-			_hideButtons();
-		}
-	});
-
-	editor.on( 'keydown', function( e ) {
-		if ( e.which === tinymce.util.VK.DELETE || e.which === tinymce.util.VK.BACKSPACE ) {
-			_hideButtons();
-		}
-	});
-
-	// Internal functions
-	function _setEmbed( c ) {
-		return c.replace( /\[embed\]([\s\S]+?)\[\/embed\][\s\u00a0]*/g, function( a, b ) {
-			return '<img width="300" height="200" src="' + tinymce.Env.transparentSrc + '" class="wp-oembed" ' +
-				'alt="'+ b +'" title="'+ b +'" data-mce-resize="false" data-mce-placeholder="1" />';
-		});
-	}
-
-	function _getEmbed( c ) {
-		return c.replace( /<img[^>]+>/g, function( a ) {
-			if ( a.indexOf('class="wp-oembed') !== -1 ) {
-				var u = a.match( /alt="([^\"]+)"/ );
-
-				if ( u[1] ) {
-					a = '[embed]' + u[1] + '[/embed]';
-				}
-			}
-
-			return a;
-		});
-	}
-
-	function _showButtons( n, id ) {
-		var p1, p2, vp, X, Y;
-
-		vp = editor.dom.getViewPort( editor.getWin() );
-		p1 = DOM.getPos( editor.getContentAreaContainer() );
-		p2 = editor.dom.getPos( n );
-
-		X = Math.max( p2.x - vp.x, 0 ) + p1.x;
-		Y = Math.max( p2.y - vp.y, 0 ) + p1.y;
-
-		DOM.setStyles( id, {
-			'top' : Y + 5 + 'px',
-			'left' : X + 5 + 'px',
-			'display': 'block'
-		});
-	}
-
-	function _hideButtons() {
-		DOM.hide( DOM.select( '#wp_editbtns, #wp_gallerybtns' ) );
-	}
+	function noop() {}
 
 	// Expose some functions (back-compat)
 	return {
-		_showButtons: _showButtons,
-		_hideButtons: _hideButtons,
-		_setEmbed: _setEmbed,
-		_getEmbed: _getEmbed
+		_showButtons: noop,
+		_hideButtons: noop,
+		_setEmbed: noop,
+		_getEmbed: noop
 	};
 });
