@@ -523,6 +523,7 @@
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
+	-webkit-overflow-scrolling: touch;
 }
 
 .theme-overlay .theme-wrap:after {
@@ -922,7 +923,7 @@ body.folded .theme-overlay .theme-wrap {
 		right: 0;
 		padding: 70px 20px 20px;
 		border: none;
-		z-index: 500; /* should overlap #wpadminbar, which is 500 on mobile. */
+		z-index: 100000; /* should overlap #wpadminbar. */
 		position: fixed;
 	}
 
