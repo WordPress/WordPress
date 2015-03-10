@@ -114,6 +114,34 @@ class WP_Customize_Setting {
 			add_filter( "customize_sanitize_js_{$this->id}", $this->sanitize_js_callback, 10, 2 );
 	}
 
+	/**
+	 * The ID for the current blog when the preview() method was called.
+	 *
+	 * @since 4.2.0
+	 * @var int
+	 */
+	protected $_previewed_blog_id;
+
+	/**
+	 * Return true if the current blog is not the same as the previewed blog.
+	 *
+	 * @since 4.2.0
+	 * @return bool|null Returns null if preview() has not been called yet.
+	 */
+	public function is_current_blog_previewed() {
+		if ( ! isset( $this->_previewed_blog_id ) ) {
+			return null;
+		}
+		return ( get_current_blog_id() === $this->_previewed_blog_id );
+	}
+
+	/**
+	 * Original non-previewed value stored by the preview method.
+	 *
+	 * @see WP_Customize_Setting::preview()
+	 * @since 4.1.1
+	 * @var mixed
+	 */
 	protected $_original_value;
 
 	/**
@@ -124,6 +152,9 @@ class WP_Customize_Setting {
 	public function preview() {
 		if ( ! isset( $this->_original_value ) ) {
 			$this->_original_value = $this->value();
+		}
+		if ( ! isset( $this->_previewed_blog_id ) ) {
+			$this->_previewed_blog_id = get_current_blog_id();
 		}
 
 		switch( $this->type ) {
@@ -169,6 +200,10 @@ class WP_Customize_Setting {
 	/**
 	 * Callback function to filter the theme mods and options.
 	 *
+	 * If switch_to_blog() was called after the preview() method, and the current
+	 * blog is now not the same blog, then this method does a no-op and returns
+	 * the original value.
+	 *
 	 * @since 3.4.0
 	 * @uses WP_Customize_Setting::multidimensional_replace()
 	 *
@@ -176,6 +211,10 @@ class WP_Customize_Setting {
 	 * @return mixed New or old value.
 	 */
 	public function _preview_filter( $original ) {
+		if ( ! $this->is_current_blog_previewed() ) {
+			return $original;
+		}
+
 		$undefined = new stdClass(); // symbol hack
 		$post_value = $this->post_value( $undefined );
 		if ( $undefined === $post_value ) {
