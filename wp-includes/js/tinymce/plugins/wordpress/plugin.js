@@ -585,6 +585,10 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 					margin = 8,
 					adminbarHeight = 0;
 
+				if ( ! currentSelection ) {
+					return;
+				}
+
 				windowPos = window.pageYOffset || document.documentElement.scrollTop;
 				adminbar = tinymce.$( '#wpadminbar' )[0];
 				mceToolbar = tinymce.$( '.mce-toolbar-grp', editor.getContainer() )[0];
