@@ -841,5 +841,48 @@ function post_form_autocomplete_off() {
 		echo ' autocomplete="off"';
 	}
 }
-
 add_action( 'post_edit_form_tag', 'post_form_autocomplete_off' );
+
+/**
+ * Remove single-use URL parameters and create canonical link based on new URL.
+ *
+ * Remove specific query string parameters from a URL, create the canonical link,
+ * put it in the admin header, and change the current URL to match.
+ *
+ * @since 4.2.0
+ */
+function wp_admin_canonical_url() {
+	$removable_query_args = array(
+		'message', 'settings-updated', 'saved',
+		'update', 'updated','activated',
+		'activate', 'deactivate', 'locked',
+		'deleted', 'trashed', 'untrashed',
+		'enabled', 'disabled', 'skipped',
+	);
+
+	/**
+	 * Filter the list of URL parameters to remove.
+	 *
+	 * @since 4.2.0
+	 *
+	 * @param array $removable_query_args An array of parameters to remove from the URL.
+	 */
+	$removable_query_args = apply_filters( 'removable_query_args', $removable_query_args );
+
+	if ( empty( $removable_query_args ) ) {
+		return;
+	}
+
+	// Ensure we're using an absolute URL.
+	$current_url  = set_url_scheme( 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] );
+	$filtered_url = remove_query_arg( $removable_query_args, $current_url );
+	?>
+	<link id="wp-admin-canonical" rel="canonical" href="<?php echo esc_url( $filtered_url ); ?>" />
+	<script>
+		if ( window.history.replaceState ) {
+			window.history.replaceState( null, null, document.getElementById( 'wp-admin-canonical' ).href );
+		}
+	</script>
+<?php
+}
+add_action( 'admin_head', 'wp_admin_canonical_url' );
