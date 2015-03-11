@@ -3329,6 +3329,17 @@ function wp_insert_post( $postarr, $wp_error = false ) {
 	// Expected_slashed (everything!).
 	$data = compact( 'post_author', 'post_date', 'post_date_gmt', 'post_content', 'post_content_filtered', 'post_title', 'post_excerpt', 'post_status', 'post_type', 'comment_status', 'ping_status', 'post_password', 'post_name', 'to_ping', 'pinged', 'post_modified', 'post_modified_gmt', 'post_parent', 'menu_order', 'post_mime_type', 'guid' );
 
+	$emoji_fields = array( 'post_title', 'post_content', 'post_excerpt' );
+
+	foreach( $emoji_fields as $emoji_field ) {
+		if ( isset( $data[ $emoji_field ] ) ) {
+			$charset = $wpdb->get_col_charset( $wpdb->posts, $emoji_field );
+			if ( 'utf8' === $charset ) {
+				$data[ $emoji_field ] = wp_encode_emoji( $data[ $emoji_field ] );
+			}
+		}
+	}
+
 	if ( 'attachment' === $post_type ) {
 		/**
 		 * Filter attachment post data before it is updated in or added to the database.

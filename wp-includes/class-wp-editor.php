@@ -360,6 +360,7 @@ final class _WP_Editors {
 						'wordpress',
 						'wpautoresize',
 						'wpeditimage',
+						'wpemoji',
 						'wpgallery',
 						'wplink',
 						'wpdialogs',

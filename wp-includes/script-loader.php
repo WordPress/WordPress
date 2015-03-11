@@ -424,6 +424,28 @@ function wp_default_scripts( &$scripts ) {
 	$scripts->add( 'media-audiovideo', "/wp-includes/js/media/audio-video$suffix.js", array( 'media-editor' ), false, 1 );
 	$scripts->add( 'mce-view', "/wp-includes/js/mce-view$suffix.js", array( 'shortcode', 'media-models', 'media-audiovideo', 'wp-playlist' ), false, 1 );
 
+	$scripts->add( 'twemoji', "/wp-includes/js/twemoji$suffix.js", array(), false, 1 );
+	$scripts->add( 'emoji', "/wp-includes/js/emoji$suffix.js", array( 'twemoji' ), false, 1 );
+	did_action( 'init' ) && $scripts->localize( 'emoji', 'EmojiSettings', array(
+		/**
+		 * Filter the URL where emoji images are hosted.
+		 *
+		 * @since 4.2.0
+		 *
+		 * @param string The emoji base URL.
+		 */
+		'base_url' => apply_filters( 'emoji_url', '//s0.wp.com/wp-content/mu-plugins/emoji/twemoji/72x72/' ),
+		/**
+		 * Filter the extension of the emoji files.
+		 *
+		 * @since 4.2.0
+		 *
+		 * @param string The emoji extension.
+		 */
+		'ext'      => apply_filters( 'emoji_ext', '.png' ),
+	) );
+	$scripts->enqueue( 'emoji' );
+
 	if ( is_admin() ) {
 		$scripts->add( 'admin-tags', "/wp-admin/js/tags$suffix.js", array('jquery', 'wp-ajax-response'), false, 1 );
 		did_action( 'init' ) && $scripts->localize( 'admin-tags', 'tagsl10n', array(

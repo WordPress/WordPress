@@ -1,0 +1,15 @@
+.emoji-wrapper,
+.emoji-spacer {
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+img.emoji {
+	height: 1em;
+	width: 1em;
+	margin: 0 .05em 0 .1em;
+	vertical-align: -0.1em;
+	border: none;
+	padding: 0;
+}

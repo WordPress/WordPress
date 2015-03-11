@@ -2038,6 +2038,15 @@ function translate_smiley( $matches ) {
 	$smiley = trim( reset( $matches ) );
 	$img = $wpsmiliestrans[ $smiley ];
 
+	$matches = array();
+	$ext = preg_match( '/\.([^.]+)$/', $img, $matches ) ? strtolower( $matches[1] ) : false;
+	$image_exts = array( 'jpg', 'jpeg', 'jpe', 'gif', 'png' );
+
+	// Don't convert smilies that aren't images - they're probably emoji.
+	if ( ! in_array( $ext, $image_exts ) ) {
+		return $img;
+	}
+
 	/**
 	 * Filter the Smiley image URL before it's used in the image element.
 	 *
@@ -4014,4 +4023,156 @@ function wp_spaces_regexp() {
 	}
 
 	return $spaces;
+}
+
+/**
+ * Print the important emoji-related styles.
+ *
+ * @since 4.2.0
+ */
+function print_emoji_styles() {
+?>
+<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .05em 0 .1em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<?php
+}
+
+/**
+ * Convert any 4 byte emoji in a string to their equivalent HTML entity.
+ * Currently, only Unicode 7 emoji are supported. Unicode 8 emoji will be added
+ * when the spec in finalised, along with the new skin-tone modifiers.
+ *
+ * This allows us to store emoji in a DB using the utf8 character set.
+ *
+ * @since 4.2.0
+ *
+ * @param string $content The content to encode.
+ * @return string The encoded content.
+ */
+function wp_encode_emoji( $content ) {
+	if ( function_exists( 'mb_convert_encoding' ) ) {
+		$regex = '/(
+		     \x23\xE2\x83\xA3               # Digits
+		     [\x30-\x39]\xE2\x83\xA3
+		   | \xF0\x9F[\x85-\x88][\xA6-\xBF] # Enclosed characters
+		   | \xF0\x9F[\x8C-\x97][\x80-\xBF] # Misc
+		   | \xF0\x9F\x98[\x80-\xBF]        # Smilies
+		   | \xF0\x9F\x99[\x80-\x8F]
+		   | \xF0\x9F\x9A[\x80-\xBF]        # Transport and map symbols
+		   | \xF0\x9F\x99[\x80-\x85]
+		)/x';
+
+		$matches = array();
+		if ( preg_match_all( $regex, $content, $matches ) ) {
+			if ( ! empty( $matches[1] ) ) {
+				foreach( $matches[1] as $emoji ) {
+					/*
+					 * UTF-32's hex encoding is the same as HTML's hex encoding.
+					 * So, by converting the emoji from UTF-8 to UTF-32, we magically
+					 * get the correct hex encoding.
+					 */
+					$unpacked = unpack( 'H*', mb_convert_encoding( $emoji, 'UTF-32', 'UTF-8' ) );
+					if ( isset( $unpacked[1] ) ) {
+						$entity = '&#x' . trim( $unpacked[1], '0' ) . ';';
+						$content = str_replace( $emoji, $entity, $content );
+					}
+				}
+			}
+		}
+	}
+
+	return $content;
+}
+
+/**
+ * Convert emoji to a static <img> link.
+ *
+ * @since 4.2.0
+ *
+ * @param string $content The content to encode.
+ * @return string The encoded content.
+ */
+function wp_staticize_emoji( $content ) {
+	$content = wp_encode_emoji( $content );
+
+	if ( ! class_exists( 'DOMDocument' ) ) {
+		return $content;
+	}
+
+	/** This filter is documented in wp-includes/script-loader.php */
+	$cdn_url = apply_filters( 'emoji_url', '//s0.wp.com/wp-content/mu-plugins/emoji/twemoji/72x72/' );
+	/** This filter is documented in wp-includes/script-loader.php */
+	$ext = apply_filters( 'emoji_ext', '.png' );
+
+	$html = '<!DOCTYPE html><html><head></head><body>' . $content . '</body></html>';
+
+	$document = new DOMDocument;
+	if ( ! $document->loadHTML( $html ) ) {
+		return $content;
+	}
+
+	$xpath = new DOMXPath( $document );
+	$textnodes = $xpath->query( '//text()' );
+
+	foreach( $textnodes as $node ) {
+		$originalText = $text = wp_encode_emoji( $node->nodeValue );
+
+		$matches = array();
+		if ( preg_match_all( '/(&#x1f1(e[6-9a-f]|f[0-9a-f]);){2}/', $text, $matches ) ) {
+			if ( ! empty( $matches[0] ) ) {
+				foreach ( $matches[0] as $flag ) {
+					$chars = str_replace( array( '&#x', ';'), '', $flag );
+
+					list( $char1, $char2 ) = str_split( $chars, 5 );
+					$entity = '<img src="https:' . $cdn_url . $char1 . '-' . $char2 . $ext . '" class="wp-smiley" style="height: 1em;" />';
+
+					$text = str_replace( $flag, $entity, $text );
+				}
+			}
+		}
+
+		// Loosely match the Emoji Unicode range.
+		$regex = '/(&#x[2-3][0-9a-f]{3};|&#x1f[1-6][0-9a-f]{2};)/';
+
+		$matches = array();
+		if ( preg_match_all( $regex, $text, $matches ) ) {
+			if ( ! empty( $matches[1] ) ) {
+				foreach ( $matches[1] as $emoji ) {
+					$char = str_replace( array( '&#x', ';'), '', $emoji );
+					$entity = '<img src="https:' . $cdn_url . $char . $ext . '" class="wp-smiley" style="height: 1em;" />';
+
+					$text = str_replace( $emoji, $entity, $text );
+				}
+			}
+		}
+
+		if ( $originalText !== $text ) {
+			$content = str_replace( $originalText, $text, $content );
+		}
+	}
+
+	return $content;
+}
+
+/**
+ * Convert emoji in emails into static images.
+ *
+ * @param array $mail The email data array.
+ *
+ * @return array The email data array, with emoji in the message staticized.
+ */
+function mail_emoji( $mail ) {
+	$mail['message'] = wp_staticize_emoji( $mail['message'], true );
+	return $mail;
 }
