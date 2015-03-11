@@ -961,12 +961,6 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 		}
 	});
 
-	editor.on( 'beforeexeccommand', function( event ) {
-		if ( isPlaceholder( editor.selection.getNode() ) ) {
-			event.preventDefault();
-		}
-	} );
-
 	// Add to editor.wp
 	editor.wp = editor.wp || {};
 	editor.wp.isPlaceholder = isPlaceholder;
