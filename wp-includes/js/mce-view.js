@@ -433,9 +433,9 @@ window.wp = window.wp || {};
 		 */
 		setContent: function( content, callback, rendered ) {
 			if ( _.isObject( content ) && content.body.indexOf( '<script' ) !== -1 ) {
-				this.setIframes( content.head, content.body, callback, rendered );
+				this.setIframes( content.head || '', content.body, callback, rendered );
 			} else if ( _.isString( content ) && content.indexOf( '<script' ) !== -1 ) {
-				this.setIframes( null, content, callback, rendered );
+				this.setIframes( '', content, callback, rendered );
 			} else {
 				this.getNodes( function( editor, node, contentNode ) {
 					content = content.body || content;
@@ -465,33 +465,32 @@ window.wp = window.wp || {};
 				importStyles = this.type === 'video' || this.type === 'audio' || this.type === 'playlist';
 
 			this.getNodes( function( editor, node, content ) {
-				var dom = editor.dom,
-					styles = '',
-					bodyClasses = editor.getBody().className || '',
-					iframe, iframeDoc, observer, i;
-
-				content.innerHTML = '';
-				head = head || '';
-
-				if ( importStyles ) {
-					if ( ! wp.mce.views.sandboxStyles ) {
-						tinymce.each( dom.$( 'link[rel="stylesheet"]', editor.getDoc().head ), function( link ) {
-							if ( link.href && link.href.indexOf( 'skins/lightgray/content.min.css' ) === -1 &&
-								link.href.indexOf( 'skins/wordpress/wp-content.css' ) === -1 ) {
-
-								styles += dom.getOuterHTML( link ) + '\n';
-							}
-						});
-
-						wp.mce.views.sandboxStyles = styles;
-					} else {
-						styles = wp.mce.views.sandboxStyles;
-					}
-				}
-
 				// Seems Firefox needs a bit of time to insert/set the view nodes,
 				// or the iframe will fail especially when switching Text => Visual.
 				setTimeout( function() {
+					var dom = editor.dom,
+						styles = '',
+						bodyClasses = editor.getBody().className || '',
+						iframe, iframeDoc, observer, i;
+
+					if ( importStyles ) {
+						if ( ! wp.mce.views.sandboxStyles ) {
+							tinymce.each( dom.$( 'link[rel="stylesheet"]', editor.getDoc().head ), function( link ) {
+								if ( link.href && link.href.indexOf( 'skins/lightgray/content.min.css' ) === -1 &&
+									link.href.indexOf( 'skins/wordpress/wp-content.css' ) === -1 ) {
+
+									styles += dom.getOuterHTML( link ) + '\n';
+								}
+							});
+
+							wp.mce.views.sandboxStyles = styles;
+						} else {
+							styles = wp.mce.views.sandboxStyles;
+						}
+					}
+
+					content.innerHTML = '';
+
 					iframe = dom.add( content, 'iframe', {
 						/* jshint scripturl: true */
 						src: tinymce.Env.ie ? 'javascript:""' : '',
@@ -588,9 +587,9 @@ window.wp = window.wp || {};
 							editor.off( 'wp-body-class-change', classChange );
 						} );
 					}
-				}, 50 );
 
-				callback && callback.apply( this, arguments );
+					callback && callback.apply( this, arguments );
+				}, 50 );
 			}, rendered );
 		},
 
