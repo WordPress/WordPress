@@ -172,7 +172,14 @@ function get_the_title( $post = 0 ) {
  * @param int|WP_Post $id Optional. Post ID or post object.
  */
 function the_guid( $id = 0 ) {
-	echo esc_url( get_the_guid( $id ) );
+	/**
+	 * Filter the escaped Global Unique Identifier (guid) of the post.
+	 *
+	 * @since 4.2.0
+	 *
+	 * @param string $post_guid Escaped Global Unique Identifier (guid) of the post.
+	 */
+	echo apply_filters( 'the_guid', get_the_guid( $id ) );
 }
 
 /**

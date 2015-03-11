@@ -167,6 +167,7 @@ add_filter( 'comment_text_rss',   'ent2ncr',      8 );
 add_filter( 'comment_text_rss',   'esc_html'        );
 add_filter( 'bloginfo_rss',       'ent2ncr',      8 );
 add_filter( 'the_author',         'ent2ncr',      8 );
+add_filter( 'the_guid',           'esc_url'         );
 
 // Misc filters
 add_filter( 'option_ping_sites',        'privacy_ping_filter'                 );
