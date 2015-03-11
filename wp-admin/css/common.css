@@ -2161,8 +2161,8 @@ div.action-links {
 	margin-right: 0;
 	height: 250px;
 	bottom: 250px;
-	-webkit-background-size: 100% auto;
-	background-size: 100% auto;
+	-webkit-background-size: cover;
+	background-size: cover;
 }
 
 #plugin-information-title h2 {
