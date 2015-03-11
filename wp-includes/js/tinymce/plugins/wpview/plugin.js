@@ -240,11 +240,6 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 			selection = editor.selection,
 			MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
 
-		toolbar = editor.wp._createToolbar( [
-			'wp_view_edit',
-			'wp_view_remove'
-		] );
-
 		// When a view is selected, ensure content that is being pasted
 		// or inserted is added to a text node (instead of the view).
 		editor.on( 'BeforeSetContent', function() {
@@ -671,6 +666,13 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 		onclick: function() {
 			selected && removeView( selected );
 		}
+	} );
+
+	editor.once( 'preinit', function() {
+		toolbar = editor.wp._createToolbar( [
+			'wp_view_edit',
+			'wp_view_remove'
+		] );
 	} );
 
 	editor.on( 'wptoolbar', function( event ) {

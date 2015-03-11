@@ -1,6 +1,6 @@
 /* global tinymce */
 tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
-	var floatingToolbar, serializer,
+	var toolbar, serializer,
 		each = tinymce.each,
 		iOS = tinymce.Env.iOS;
 
@@ -59,9 +59,20 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 		} );
 	} );
 
+	editor.once( 'preinit', function() {
+		toolbar = editor.wp._createToolbar( [
+			'wp_img_alignleft',
+			'wp_img_aligncenter',
+			'wp_img_alignright',
+			'wp_img_alignnone',
+			'wp_img_edit',
+			'wp_img_remove'
+		] );
+	} );
+
 	editor.on( 'wptoolbar', function( event ) {
 		if ( event.element.nodeName === 'IMG' && ! isPlaceholder( event.element ) ) {
-			event.toolbar = floatingToolbar;
+			event.toolbar = toolbar;
 		}
 	} );
 
@@ -77,7 +88,7 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 					editor.nodeChanged();
 				}, 200 );
 			} else {
-				floatingToolbar.hide();
+				toolbar.hide();
 			}
 		} );
 	}
@@ -544,17 +555,6 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 
 		dom.addClass( editor.getBody(), captionClass );
 
-		if ( editor.wp._createToolbar ) {
-			floatingToolbar = editor.wp._createToolbar( [
-				'wp_img_alignleft',
-				'wp_img_aligncenter',
-				'wp_img_alignright',
-				'wp_img_alignnone',
-				'wp_img_edit',
-				'wp_img_remove'
-			] );
-		}
-
 		// Add caption field to the default image dialog
 		editor.on( 'wpLoadImageForm', function( event ) {
 			if ( editor.getParam( 'wpeditimage_disable_captions' ) ) {
@@ -867,8 +867,8 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 			editor.nodeChanged();
 			event.preventDefault();
 
-			if ( floatingToolbar ) {
-				floatingToolbar.reposition();
+			if ( toolbar ) {
+				toolbar.reposition();
 			}
 
 			editor.fire( 'ExecCommand', {
