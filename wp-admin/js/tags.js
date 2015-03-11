@@ -49,6 +49,10 @@ jQuery(document).ready(function($) {
 			else
 				$( '.tags' ).prepend( res.responses[0].supplemental.parents ); // As the parent is not visible, Insert the version with Parent - Child - ThisTerm
 
+			if ( WPEmoji ) {
+				WPEmoji.parse( $( '.tags' ).get( 0 ) );
+			}
+
 			$('.tags .no-items').remove();
 
 			if ( form.find('select#parent') ) {

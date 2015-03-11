@@ -117,7 +117,7 @@ inlineEditPost = {
 	},
 
 	edit : function(id) {
-		var t = this, fields, editRow, rowData, status, pageOpt, pageLevel, nextPage, pageLoop = true, nextLevel, cur_format, f;
+		var t = this, fields, editRow, rowData, status, pageOpt, pageLevel, nextPage, pageLoop = true, nextLevel, cur_format, f, val;
 		t.revert();
 
 		if ( typeof(id) === 'object' ) {
@@ -155,7 +155,11 @@ inlineEditPost = {
 		});
 
 		for ( f = 0; f < fields.length; f++ ) {
-			$(':input[name="' + fields[f] + '"]', editRow).val( $('.'+fields[f], rowData).text() );
+			val = $('.'+fields[f], rowData);
+			// Deal with Twemoji
+			val.find( 'img' ).replaceWith( function() { return this.alt; } );
+			val = val.text();
+			$(':input[name="' + fields[f] + '"]', editRow).val( val );
 		}
 
 		if ( $( '.comment_status', rowData ).text() === 'open' ) {
@@ -181,10 +185,13 @@ inlineEditPost = {
 
 		//flat taxonomies
 		$('.tags_input', rowData).each(function(){
-			var terms = $(this).text(),
+			var terms = $(this),
 				taxname = $(this).attr('id').replace('_' + id, ''),
 				textarea = $('textarea.tax_input_' + taxname, editRow),
 				comma = inlineEditL10n.comma;
+
+			terms.find( 'img' ).replaceWith( function() { return this.alt; } );
+			terms = terms.text();
 
 			if ( terms ) {
 				if ( ',' !== comma ) {
@@ -265,6 +272,9 @@ inlineEditPost = {
 					if ( -1 !== r.indexOf( '<tr' ) ) {
 						$(inlineEditPost.what+id).siblings('tr.hidden').addBack().remove();
 						$('#edit-'+id).before(r).remove();
+						if ( WPEmoji ) {
+							WPEmoji.parse( $( inlineEditPost.what + id ).get( 0 ) );
+						}
 						$(inlineEditPost.what+id).hide().fadeIn();
 					} else {
 						r = r.replace( /<.[^<>]*?>/g, '' );

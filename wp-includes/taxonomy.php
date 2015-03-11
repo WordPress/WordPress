@@ -2879,13 +2879,7 @@ function wp_insert_term( $term, $taxonomy, $args = array() ) {
 
 	$slug_provided = ! empty( $args['slug'] );
 	if ( ! $slug_provided ) {
-		$_name = trim( $name );
-		$existing_term = get_term_by( 'name', $_name, $taxonomy );
-		if ( $existing_term ) {
-			$slug = $existing_term->slug;
-		} else {
-			$slug = sanitize_title( $name );
-		}
+		$slug = sanitize_title( $name );
 	} else {
 		$slug = $args['slug'];
 	}
@@ -2910,20 +2904,14 @@ function wp_insert_term( $term, $taxonomy, $args = array() ) {
 	}
 
 	// Terms with duplicate names are not allowed at the same level of a taxonomy hierarchy.
-	if ( $exists = term_exists( $slug, $taxonomy ) ) {
-		$existing_term = get_term( $exists['term_id'], $taxonomy );
-
-		if ( $name === $existing_term->name ) {
-
-			if ( is_taxonomy_hierarchical( $taxonomy ) ) {
-				$siblings = get_terms( $taxonomy, array( 'fields' => 'names', 'get' => 'all', 'parent' => $parent ) );
-				if ( in_array( $name, $siblings ) ) {
-					return new WP_Error( 'term_exists', __( 'A term with the name and slug already exists with this parent.' ), $exists['term_id'] );
-				}
-
-			} else {
-				return new WP_Error( 'term_exists', __( 'A term with the name and slug already exists in this taxonomy.' ), $exists['term_id'] );
+	if ( $existing_term = get_term_by( 'name', $name, $taxonomy ) ) {
+		if ( is_taxonomy_hierarchical( $taxonomy ) ) {
+			$siblings = get_terms( $taxonomy, array( 'fields' => 'names', 'get' => 'all', 'parent' => $parent ) );
+			if ( in_array( $name, $siblings ) ) {
+				return new WP_Error( 'term_exists', __( 'A term with the name already exists with this parent.' ), $existing_term->term_id );
 			}
+		} else {
+			return new WP_Error( 'term_exists', __( 'A term with the name already exists in this taxonomy.' ), $existing_term->term_id );
 		}
 	}
 
