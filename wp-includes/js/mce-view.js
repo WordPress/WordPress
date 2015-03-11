@@ -181,7 +181,7 @@ window.wp = window.wp || {};
 				return instances[ encodeURIComponent( object ) ];
 			}
 
-			return instances[ $( object ).data( 'wpview-text' ) ];
+			return instances[ $( object ).attr( 'data-wpview-text' ) ];
 		},
 
 		/**
@@ -192,7 +192,7 @@ window.wp = window.wp || {};
 		 * @return {String} The textual representation of the view.
 		 */
 		getText: function( node ) {
-			return decodeURIComponent( $( node ).data( 'wpview-text' ) || '' );
+			return decodeURIComponent( $( node ).attr( 'data-wpview-text' ) || '' );
 		},
 
 		/**
