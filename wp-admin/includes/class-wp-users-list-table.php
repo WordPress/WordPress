@@ -120,7 +120,7 @@ class WP_Users_List_Table extends WP_List_Table {
 	 * @access public
 	 */
 	public function no_items() {
-		_e( 'No matching users were found.' );
+		_e( 'No users found.' );
 	}
 
 	/**

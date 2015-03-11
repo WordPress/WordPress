@@ -548,7 +548,7 @@ class WP_User_Search {
 		if ( $this->results )
 			$this->total_users_for_query = $wpdb->get_var("SELECT COUNT(DISTINCT($wpdb->users.ID))" . $this->query_from . $this->query_where); // no limit
 		else
-			$this->search_errors = new WP_Error('no_matching_users_found', __('No matching users were found!'));
+			$this->search_errors = new WP_Error('no_matching_users_found', __('No users found.'));
 	}
 
 	/**
