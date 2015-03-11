@@ -1039,6 +1039,7 @@ function wp_edit_posts_query( $q = false ) {
 		$query['order'] = 'asc';
 		$query['posts_per_page'] = -1;
 		$query['posts_per_archive_page'] = -1;
+		$query['fields'] = 'id=>parent';
 	}
 
 	if ( ! empty( $q['show_sticky'] ) )

@@ -86,6 +86,17 @@ class WP_Posts_List_Table extends WP_List_Table {
 		}
 	}
 
+	/**
+	 * Sets whether the table layout should be hierarchical or not.
+	 *
+	 * @since 4.2.0
+	 *
+	 * @param bool $display Whether the table layout should be hierarchical.
+	 */
+	public function set_hierarchical_display( $display ) {
+		$this->hierarchical_display = $display;
+	}
+
 	public function ajax_user_can() {
 		return current_user_can( get_post_type_object( $this->screen->post_type )->cap->edit_posts );
 	}
@@ -95,7 +106,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 
 		$avail_post_stati = wp_edit_posts_query();
 
-		$this->hierarchical_display = ( is_post_type_hierarchical( $this->screen->post_type ) && 'menu_order title' == $wp_query->query['orderby'] );
+		$this->set_hierarchical_display( is_post_type_hierarchical( $this->screen->post_type ) && 'menu_order title' == $wp_query->query['orderby'] );
 
 		$total_items = $this->hierarchical_display ? $wp_query->post_count : $wp_query->found_posts;
 
@@ -478,20 +489,20 @@ class WP_Posts_List_Table extends WP_List_Table {
 		$count = 0;
 		$start = ( $pagenum - 1 ) * $per_page;
 		$end = $start + $per_page;
+		$to_display = array();
 
 		foreach ( $pages as $page ) {
 			if ( $count >= $end )
 				break;
 
 			if ( $count >= $start ) {
-				echo "\t";
-				$this->single_row( $page, $level );
+				$to_display[$page->ID] = $level;
 			}
 
 			$count++;
 
 			if ( isset( $children_pages ) )
-				$this->_page_rows( $children_pages, $count, $page->ID, $level + 1, $pagenum, $per_page );
+				$this->_page_rows( $children_pages, $count, $page->ID, $level + 1, $pagenum, $per_page, $to_display );
 		}
 
 		// If it is the last pagenum and there are orphaned pages, display them with paging as well.
@@ -502,13 +513,24 @@ class WP_Posts_List_Table extends WP_List_Table {
 						break;
 
 					if ( $count >= $start ) {
-						echo "\t";
-						$this->single_row( $op, 0 );
+						$to_display[$op->ID] = 0;
 					}
 
 					$count++;
 				}
 			}
+		}
+
+		$ids = array_keys( $to_display );
+		_prime_post_caches( $ids );
+
+		if ( ! isset( $GLOBALS['post'] ) ) {
+			$GLOBALS['post'] = array_shift( $ids );
+		}
+
+		foreach ( $to_display as $page_id => $level ) {
+			echo "\t";
+			$this->single_row( $page_id, $level );
 		}
 	}
 
@@ -517,6 +539,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 	 * together with paging support
 	 *
 	 * @since 3.1.0 (Standalone function exists since 2.6.0)
+	 * @since 4.2.0 Added the `$to_display` parameter.
 	 *
 	 * @param array $children_pages
 	 * @param int $count
@@ -524,8 +547,9 @@ class WP_Posts_List_Table extends WP_List_Table {
 	 * @param int $level
 	 * @param int $pagenum
 	 * @param int $per_page
+	 * @param array $to_display list of pages to be displayed
 	 */
-	private function _page_rows( &$children_pages, &$count, $parent, $level, $pagenum, $per_page ) {
+	private function _page_rows( &$children_pages, &$count, $parent, $level, $pagenum, $per_page, &$to_display ) {
 
 		if ( ! isset( $children_pages[$parent] ) )
 			return;
@@ -543,7 +567,13 @@ class WP_Posts_List_Table extends WP_List_Table {
 				$my_parents = array();
 				$my_parent = $page->post_parent;
 				while ( $my_parent ) {
-					$my_parent = get_post( $my_parent );
+					// Get the ID from the list or the attribute if my_parent is an object
+					$parent_id = $my_parent;
+					if ( is_object( $my_parent ) ) {
+						$parent_id = $my_parent->ID;
+					}
+
+					$my_parent = get_post( $parent_id );
 					$my_parents[] = $my_parent;
 					if ( !$my_parent->post_parent )
 						break;
@@ -551,20 +581,18 @@ class WP_Posts_List_Table extends WP_List_Table {
 				}
 				$num_parents = count( $my_parents );
 				while ( $my_parent = array_pop( $my_parents ) ) {
-					echo "\t";
-					$this->single_row( $my_parent, $level - $num_parents );
+					$to_display[$my_parent->ID] = $level - $num_parents;
 					$num_parents--;
 				}
 			}
 
 			if ( $count >= $start ) {
-				echo "\t";
-				$this->single_row( $page, $level );
+				$to_display[$page->ID] = $level;
 			}
 
 			$count++;
 
-			$this->_page_rows( $children_pages, $count, $page->ID, $level + 1, $pagenum, $per_page );
+			$this->_page_rows( $children_pages, $count, $page->ID, $level + 1, $pagenum, $per_page, $to_display );
 		}
 
 		unset( $children_pages[$parent] ); //required in order to keep track of orphans
@@ -579,6 +607,9 @@ class WP_Posts_List_Table extends WP_List_Table {
 		global $mode;
 
 		$global_post = get_post();
+
+		$post = get_post( $post );
+
 		$GLOBALS['post'] = $post;
 		setup_postdata( $post );
 
