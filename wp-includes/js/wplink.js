@@ -367,8 +367,7 @@ var wpLink;
 		setDefaultValues: function() {
 			var selection,
 				emailRegexp = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
-				urlRegexp = /^(https?|ftp):\/\/[A-Z0-9.-]+\.[A-Z]{2,4}[^ "]*$/i,
-				text;
+				urlRegexp = /^(https?|ftp):\/\/[A-Z0-9.-]+\.[A-Z]{2,4}[^ "]*$/i;
 
 			if ( this.isMCE() ) {
 				selection = editor.selection.getContent();
