@@ -44,7 +44,6 @@ class WP_oEmbed {
 			'#https?://flic\.kr/.*#i'                             => array( 'https://www.flickr.com/services/oembed/',            true  ),
 			'#https?://(.+\.)?smugmug\.com/.*#i'                  => array( 'http://api.smugmug.com/services/oembed/',            true  ),
 			'#https?://(www\.)?hulu\.com/watch/.*#i'              => array( 'http://www.hulu.com/api/oembed.{format}',            true  ),
-			'http://revision3.com/*'                              => array( 'http://revision3.com/api/oembed/',                   false ),
 			'http://i*.photobucket.com/albums/*'                  => array( 'http://photobucket.com/oembed',                      false ),
 			'http://gi*.photobucket.com/groups/*'                 => array( 'http://photobucket.com/oembed',                      false ),
 			'#https?://(www\.)?scribd\.com/doc/.*#i'              => array( 'http://www.scribd.com/services/oembed',              true  ),
@@ -102,7 +101,6 @@ class WP_oEmbed {
 		 * | Flickr       | flickr.com           |  Yes  | 2.9.0     |
 		 * | Hulu         | hulu.com             |  Yes  | 2.9.0     |
 		 * | Photobucket  | photobucket.com      |   !   | 2.9.0     |
-		 * | Revision3    | revision3.com        |   !   | 2.9.0     |
 		 * | Scribd       | scribd.com           |  Yes  | 2.9.0     |
 		 * | Vimeo        | vimeo.com            |  Yes  | 2.9.0     |
 		 * | WordPress.tv | wordpress.tv         |  Yes  | 2.9.0     |
@@ -154,6 +152,8 @@ class WP_oEmbed {
 		 * | Qik          | qik.com              |  Yes  | 2.9.0     | 3.9.0     |
 		 * | ------------ | -------------------- | ----- | --------- | --------- |
 		 * | Viddler      | viddler.com          |  Yes  | 2.9.0     | 4.0.0     |
+		 * | ------------ | -------------------- | ----- | --------- | --------- |
+		 * | Revision3    | revision3.com        |   !   | 2.9.0     | 4.2.0     |
 		 * | ------------ | -------------------- | ----- | --------- | --------- |
 		 *
 		 * @see wp_oembed_add_provider()
