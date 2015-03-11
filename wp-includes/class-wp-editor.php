@@ -585,6 +585,12 @@ final class _WP_Editors {
 				 */
 				$mce_buttons = apply_filters( 'mce_buttons', $mce_buttons, $editor_id );
 
+				$mce_buttons_2 = array( 'formatselect', 'underline', 'alignjustify', 'forecolor', 'pastetext', 'removeformat', 'charmap', 'outdent', 'indent', 'undo', 'redo' );
+
+				if ( ! wp_is_mobile() ) {
+					$mce_buttons_2[] = 'wp_help';
+				}
+
 				/**
 				 * Filter the second-row list of TinyMCE buttons (Visual tab).
 				 *
@@ -593,7 +599,7 @@ final class _WP_Editors {
 				 * @param array  $buttons   Second-row list of buttons.
 				 * @param string $editor_id Unique editor identifier, e.g. 'content'.
 				 */
-				$mce_buttons_2 = apply_filters( 'mce_buttons_2', array( 'formatselect', 'underline', 'alignjustify', 'forecolor', 'pastetext', 'removeformat', 'charmap', 'outdent', 'indent', 'undo', 'redo', 'wp_help' ), $editor_id );
+				$mce_buttons_2 = apply_filters( 'mce_buttons_2', $mce_buttons_2, $editor_id );
 
 				/**
 				 * Filter the third-row list of TinyMCE buttons (Visual tab).
