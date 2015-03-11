@@ -165,6 +165,8 @@ $wp_list_table->prepare_items();
 wp_enqueue_script('inline-edit-post');
 wp_enqueue_script('heartbeat');
 
+$title = $post_type_object->labels->name;
+
 if ( 'post' == $post_type ) {
 	get_current_screen()->add_help_tab( array(
 	'id'		=> 'overview',
