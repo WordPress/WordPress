@@ -342,23 +342,17 @@ class WP_Press_This {
 			return '';
 		}
 
-		$url = $this->_limit_string( $url );
-
 		// HTTP 1.1 allows 8000 chars but the "de-facto" standard supported in all current browsers is 2048.
-		if ( mb_strlen( $url ) > 2048 ) {
+		if ( strlen( $url ) > 2048 ) {
 			return ''; // Return empty rather than a trunacted/invalid URL
 		}
 
-		// Only allow http(s) or protocol relative URLs.
-		if ( ! preg_match( '%^(https?:)?//%i', $url ) ) {
+		// Does it look like an URL?
+		if ( ! preg_match( '/^([!#$&-;=?-\[\]_a-z~]|%[0-9a-fA-F]{2})+$/', $url ) ) {
 			return '';
 		}
 
-		if ( strpos( $url, '"' ) !== false || strpos( $url, ' ' ) !== false ) {
-			return '';
-		}
-
-		return $url;
+		return esc_url_raw( $url, array( 'http', 'https' ) );
 	}
 
 	private function _limit_img( $src ) {
