@@ -68,7 +68,7 @@
 		form.appendChild( input );
 	}
 
-	if ( href.match( /\/\/www\.youtube\.com\/watch/ ) ||
+	if ( href.match( /\/\/(www|m)\.youtube\.com\/watch/ ) ||
 		href.match( /\/\/vimeo\.com\/(.+\/)?([\d]+)$/ ) ||
 		href.match( /\/\/(www\.)?dailymotion\.com\/video\/.+$/ ) ||
 		href.match( /\/\/soundcloud\.com\/.+$/ ) ||

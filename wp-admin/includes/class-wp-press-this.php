@@ -382,7 +382,7 @@ class WP_Press_This {
 		} else if ( preg_match( '/\/pixel\.(mathtag|quantserve)\.com/', $src ) ) {
 			// See mathtag.com and https://www.quantcast.com/how-we-do-it/iab-standard-measurement/how-we-collect-data/
 			return '';
-		} else if ( false !== strpos( $src, '/g.gif' ) ) {
+		} else if ( preg_match( '/\/[gb]\.gif(\?.+)?$/', $src ) ) {
 			// Classic WP stats gif
 			return '';
 		}
@@ -393,23 +393,28 @@ class WP_Press_This {
 	private function _limit_embed( $src ) {
 		$src = $this->_limit_url( $src );
 
-		if ( preg_match( '/\/\/www\.youtube\.com\/(embed|v)\/([^\?]+)\?.+$/', $src, $src_matches ) ) {
-			$src = 'https://www.youtube.com/watch?v=' . $src_matches[2];
+		if ( preg_match( '/\/\/(m|www)\.youtube\.com\/(embed|v)\/([^\?]+)\?.+$/', $src, $src_matches ) ) {
+			// Embedded Youtube videos (www or mobile)
+			$src = 'https://www.youtube.com/watch?v=' . $src_matches[3];
 		} else if ( preg_match( '/\/\/player\.vimeo\.com\/video\/([\d]+)([\?\/]{1}.*)?$/', $src, $src_matches ) ) {
+			// Embedded Vimeo iframe videos
 			$src = 'https://vimeo.com/' . (int) $src_matches[1];
 		} else if ( preg_match( '/\/\/vimeo\.com\/moogaloop\.swf\?clip_id=([\d]+)$/', $src, $src_matches ) ) {
+			// Embedded Vimeo Flash videos
 			$src = 'https://vimeo.com/' . (int) $src_matches[1];
 		} else if ( preg_match( '/\/\/vine\.co\/v\/([^\/]+)\/embed/', $src, $src_matches ) ) {
+			// Embedded Vine videos
 			$src = 'https://vine.co/v/' . $src_matches[1];
 		} else if ( preg_match( '/\/\/(www\.)?dailymotion\.com\/embed\/video\/([^\/\?]+)([\/\?]{1}.+)?/', $src, $src_matches ) ) {
+			// Embedded Daily Motion videos
 			$src = 'https://www.dailymotion.com/video/' . $src_matches[2];
-		} else if ( ! preg_match( '/\/\/(m\.|www\.)?youtube\.com\/watch\?/', $src )
-		            && ! preg_match( '/\/youtu\.be\/.+$/', $src )
-		            && ! preg_match( '/\/\/vimeo\.com\/[\d]+$/', $src )
-		            && ! preg_match( '/\/\/(www\.)?dailymotion\.com\/video\/.+$/', $src )
-		            && ! preg_match( '/\/\/soundcloud\.com\/.+$/', $src )
-		            && ! preg_match( '/\/\/twitter\.com\/[^\/]+\/status\/[\d]+$/', $src )
-		            && ! preg_match( '/\/\/vine\.co\/v\/[^\/]+/', $src ) ) {
+		} else if ( ! preg_match( '/\/\/(m|www)\.youtube\.com\/watch\?/', $src )          // Youtube video page (www or mobile)
+		            && ! preg_match( '/\/youtu\.be\/.+$/', $src )                         // Youtu.be video page
+		            && ! preg_match( '/\/\/vimeo\.com\/[\d]+$/', $src )                   // Vimeo video page
+		            && ! preg_match( '/\/\/(www\.)?dailymotion\.com\/video\/.+$/', $src ) // Daily Motion video page
+		            && ! preg_match( '/\/\/soundcloud\.com\/.+$/', $src )                 // SoundCloud audio page
+		            && ! preg_match( '/\/\/twitter\.com\/[^\/]+\/status\/[\d]+$/', $src ) // Twitter status page
+		            && ! preg_match( '/\/\/vine\.co\/v\/[^\/]+/', $src ) ) {              // Vine video page
 			$src = '';
 		}
 
