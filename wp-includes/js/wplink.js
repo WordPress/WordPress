@@ -161,11 +161,7 @@ var wpLink;
 				// Focus the URL field and highlight its contents.
 				// If this is moved above the selection changes,
 				// IE will show a flashing cursor over the dialog.
-				if ( inputs.wrap.hasClass( 'has-text-field' ) ) {
-					inputs.text.focus();
-				} else {
-					inputs.url.focus()[0].select();
-				}
+				inputs.url.focus()[0].select();
 			}
 
 			// Load the most recent results if this is the first time opening the panel.

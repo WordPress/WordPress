@@ -1449,7 +1449,7 @@ final class _WP_Editors {
 			<div id="link-options">
 				<p class="howto"><?php _e( 'Enter the destination URL' ); ?></p>
 				<div class="wp-link-text-field">
-					<label><span><?php _e( 'Text' ); ?></span><input id="wp-link-text" type="text" /></label>
+					<label><span><?php _e( 'Link text' ); ?></span><input id="wp-link-text" type="text" /></label>
 				</div>
 				<div>
 					<label><span><?php _e( 'URL' ); ?></span><input id="wp-link-url" type="text" /></label>
