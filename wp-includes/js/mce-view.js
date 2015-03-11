@@ -405,10 +405,6 @@ window.wp = window.wp || {};
 						'<div class="wpview-wrap" data-wpview-text="' + this.encodedText + '" data-wpview-type="' + this.type + '">' +
 							'<p class="wpview-selection-before">\u00a0</p>' +
 							'<div class="wpview-body" contenteditable="false">' +
-								'<div class="toolbar mce-arrow-down">' +
-									( this.edit ? '<div class="dashicons dashicons-edit edit"></div>' : '' ) +
-									'<div class="dashicons dashicons-no remove"></div>' +
-								'</div>' +
 								'<div class="wpview-content wpview-type-' + this.type + '"></div>' +
 							'</div>' +
 							'<p class="wpview-selection-after">\u00a0</p>' +

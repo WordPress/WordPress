@@ -170,7 +170,6 @@ div.mce-inline-toolbar-grp {
 	box-sizing: border-box;
 	margin-bottom: 8px;
 	position: absolute;
-	visibility: hidden;
 	-moz-user-select: none;
 	-webkit-user-select: none;
 	-ms-user-select: none;
@@ -178,7 +177,7 @@ div.mce-inline-toolbar-grp {
 	z-index: 100100; /* Same as the other TinyMCE "panels" */
 }
 
-div.mce-wp-image-toolbar > div.mce-stack-layout {
+div.mce-inline-toolbar-grp > div.mce-stack-layout {
 	padding: 1px;
 }
 
@@ -260,10 +259,6 @@ div.mce-inline-toolbar-grp.mce-arrow-full {
 div.mce-inline-toolbar-grp.mce-arrow-full > div {
 	width: 100%;
 	overflow-x: auto;
-}
-
-div.mce-inline-toolbar-grp-active {
-	visibility: visible;
 }
 
 div.mce-toolbar-grp > div {

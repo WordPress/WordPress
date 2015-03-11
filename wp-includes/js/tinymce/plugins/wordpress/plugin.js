@@ -432,6 +432,307 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 			wp.autosave.server.triggerSave();
 		}
 	});
+	
+	/**
+	 * Experimental: create a floating toolbar.
+	 * This functionality will change in the next releases. Not recommennded for use by plugins.
+	 */	 	
+	( function() {
+		var DOM = tinymce.DOM,
+			each = tinymce.each,
+			Factory = tinymce.ui.Factory,
+			settings = editor.settings,
+			currentToolbar,
+			currentSelection;
+
+		function create( buttons ) {
+			var toolbar,
+				toolbarItems = [],
+				buttonGroup;
+
+			each( buttons, function( item ) {
+				var itemName;
+
+				function bindSelectorChanged() {
+					var selection = editor.selection;
+
+					if ( itemName === 'bullist' ) {
+						selection.selectorChanged( 'ul > li', function( state, args ) {
+							var i = args.parents.length,
+								nodeName;
+
+							while ( i-- ) {
+								nodeName = args.parents[ i ].nodeName;
+
+								if ( nodeName === 'OL' || nodeName == 'UL' ) {
+									break;
+								}
+							}
+
+							item.active( state && nodeName === 'UL' );
+						} );
+					}
+
+					if ( itemName === 'numlist' ) {
+						selection.selectorChanged( 'ol > li', function( state, args ) {
+							var i = args.parents.length,
+								nodeName;
+
+							while ( i-- ) {
+								nodeName = args.parents[ i ].nodeName;
+
+								if ( nodeName === 'OL' || nodeName === 'UL' ) {
+									break;
+								}
+							}
+
+							item.active( state && nodeName === 'OL' );
+						} );
+					}
+
+					if ( item.settings.stateSelector ) {
+						selection.selectorChanged( item.settings.stateSelector, function( state ) {
+							item.active( state );
+						}, true );
+					}
+
+					if ( item.settings.disabledStateSelector ) {
+						selection.selectorChanged( item.settings.disabledStateSelector, function( state ) {
+							item.disabled( state );
+						} );
+					}
+				}
+
+				if ( item === '|' ) {
+					buttonGroup = null;
+				} else {
+					if ( Factory.has( item ) ) {
+						item = {
+							type: item
+						};
+
+						if ( settings.toolbar_items_size ) {
+							item.size = settings.toolbar_items_size;
+						}
+
+						toolbarItems.push( item );
+
+						buttonGroup = null;
+					} else {
+						if ( ! buttonGroup ) {
+							buttonGroup = {
+								type: 'buttongroup',
+								items: []
+							};
+
+							toolbarItems.push( buttonGroup );
+						}
+
+						if ( editor.buttons[ item ] ) {
+							itemName = item;
+							item = editor.buttons[ itemName ];
+
+							if ( typeof item === 'function' ) {
+								item = item();
+							}
+
+							item.type = item.type || 'button';
+
+							if ( settings.toolbar_items_size ) {
+								item.size = settings.toolbar_items_size;
+							}
+
+							item = Factory.create( item );
+
+							buttonGroup.items.push( item );
+
+							if ( editor.initialized ) {
+								bindSelectorChanged();
+							} else {
+								editor.on( 'init', bindSelectorChanged );
+							}
+						}
+					}
+				}
+			} );
+
+			toolbar = Factory.create( {
+				type: 'panel',
+				layout: 'stack',
+				classes: 'toolbar-grp inline-toolbar-grp',
+				ariaRoot: true,
+				ariaRemember: true,
+				items: [ {
+					type: 'toolbar',
+					layout: 'flow',
+					items: toolbarItems
+				} ]
+			} );
+
+			function hide() {
+				toolbar.hide();
+			}
+
+			function reposition() {
+				var top, left, minTop, className,
+					windowPos, adminbar, mceToolbar, boundary,
+					boundaryMiddle, boundaryVerticalMiddle, spaceTop,
+					spaceBottom, windowWidth, toolbarWidth, toolbarHalf,
+					iframe, iframePos, iframeWidth, iframeHeigth,
+					toolbarNodeHeight, verticalSpaceNeeded,
+					toolbarNode = this.getEl(),
+					buffer = 5,
+					margin = 8,
+					adminbarHeight = 0;
+
+				windowPos = window.pageYOffset || document.documentElement.scrollTop;
+				adminbar = tinymce.$( '#wpadminbar' )[0];
+				mceToolbar = tinymce.$( '.mce-toolbar-grp', editor.getContainer() )[0];
+				boundary = currentSelection.getBoundingClientRect();
+				boundaryMiddle = ( boundary.left + boundary.right ) / 2;
+				boundaryVerticalMiddle = ( boundary.top + boundary.bottom ) / 2;
+				spaceTop = boundary.top;
+				spaceBottom = iframeHeigth - boundary.bottom;
+				windowWidth = window.innerWidth;
+				toolbarWidth = toolbarNode.offsetWidth;
+				toolbarHalf = toolbarWidth / 2;
+				iframe = document.getElementById( editor.id + '_ifr' );
+				iframePos = DOM.getPos( iframe );
+				iframeWidth = iframe.offsetWidth;
+				iframeHeigth = iframe.offsetHeight;
+				toolbarNodeHeight = toolbarNode.offsetHeight;
+				verticalSpaceNeeded = toolbarNodeHeight + margin + buffer;
+
+				if ( spaceTop >= verticalSpaceNeeded ) {
+					className = ' mce-arrow-down';
+					top = boundary.top + iframePos.y - toolbarNodeHeight - margin;
+				} else if ( spaceBottom >= verticalSpaceNeeded ) {
+					className = ' mce-arrow-up';
+					top = boundary.bottom + iframePos.y;
+				} else {
+					top = buffer;
+
+					if ( boundaryVerticalMiddle >= verticalSpaceNeeded ) {
+						className = ' mce-arrow-down';
+					} else {
+						className = ' mce-arrow-up';
+					}
+				}
+
+				// Make sure the image toolbar is below the main toolbar.
+				if ( mceToolbar ) {
+					minTop = DOM.getPos( mceToolbar ).y + mceToolbar.clientHeight;
+				} else {
+					minTop = iframePos.y;
+				}
+
+				// Make sure the image toolbar is below the adminbar (if visible) or below the top of the window.
+				if ( windowPos ) {
+					if ( adminbar && adminbar.getBoundingClientRect().top === 0 ) {
+						adminbarHeight = adminbar.clientHeight;
+					}
+
+					if ( windowPos + adminbarHeight > minTop ) {
+						minTop = windowPos + adminbarHeight;
+					}
+				}
+
+				if ( top && minTop && ( minTop + buffer > top ) ) {
+					top = minTop + buffer;
+					className = '';
+				}
+
+				left = boundaryMiddle - toolbarHalf;
+				left += iframePos.x;
+
+				if ( boundary.left < 0 || boundary.right > iframeWidth ) {
+					left = iframePos.x + ( iframeWidth - toolbarWidth ) / 2;
+				} else if ( toolbarWidth >= windowWidth ) {
+					className += ' mce-arrow-full';
+					left = 0;
+				} else if ( ( left < 0 && boundary.left + toolbarWidth > windowWidth ) ||
+					( left + toolbarWidth > windowWidth && boundary.right - toolbarWidth < 0 ) ) {
+
+					left = ( windowWidth - toolbarWidth ) / 2;
+				} else if ( left < iframePos.x ) {
+					className += ' mce-arrow-left';
+					left = boundary.left + iframePos.x;
+				} else if ( left + toolbarWidth > iframeWidth + iframePos.x ) {
+					className += ' mce-arrow-right';
+					left = boundary.right - toolbarWidth + iframePos.x;
+				}
+
+				toolbarNode.className = toolbarNode.className.replace( / ?mce-arrow-[\w]+/g, '' );
+				toolbarNode.className += className;
+
+				DOM.setStyles( toolbarNode, { 'left': left, 'top': top } );
+
+				return this;
+			}
+
+			toolbar.on( 'show', function() {
+				currentToolbar = this;
+				this.reposition();
+			} );
+
+			toolbar.on( 'hide', function() {
+				currentToolbar = false;
+			} );
+
+			toolbar.on( 'keydown', function( event ) {
+				if ( event.keyCode === 27 ) {
+					this.hide();
+					editor.focus();
+				}
+			} );
+
+			toolbar.on( 'remove', function() {
+				DOM.unbind( window, 'resize scroll', hide );
+				editor.dom.unbind( editor.getWin(), 'resize scroll', hide );
+				editor.off( 'blur hide', hide );
+			} );
+
+			editor.once( 'init', function() {
+				DOM.bind( window, 'resize scroll', hide );
+				editor.dom.bind( editor.getWin(), 'resize scroll', hide );
+				editor.on( 'blur hide', hide );
+			} );
+
+			toolbar.reposition = reposition;
+			toolbar.hide().renderTo( document.body );
+
+			return toolbar;
+		}
+
+		editor.shortcuts.add( 'alt+119', '', function() {
+			var node;
+
+			if ( currentToolbar ) {
+				node = currentToolbar.find( 'toolbar' )[0];
+				node && node.focus( true );
+			}
+		} );
+
+		editor.on( 'nodechange', function( event ) {
+			var collapsed = editor.selection.isCollapsed();
+
+			var args = {
+				element: event.element,
+				parents: event.parents,
+				collapsed: collapsed
+			};
+
+			editor.fire( 'wptoolbar', args );
+
+			currentSelection = args.selection || args.element;
+
+			currentToolbar && currentToolbar.hide();
+			args.toolbar && args.toolbar.show();
+		} );
+
+		editor.wp = editor.wp || {};
+		editor.wp._createToolbar = create;
+	}());
 
 	function noop() {}
 

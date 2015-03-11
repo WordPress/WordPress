@@ -12,7 +12,13 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 		firstFocus = true,
 		_noop = function() { return false; },
 		isios = /iPad|iPod|iPhone/.test( navigator.userAgent ),
-		cursorInterval, lastKeyDownNode, setViewCursorTries, focus, execCommandView, execCommandBefore;
+		cursorInterval,
+		lastKeyDownNode,
+		setViewCursorTries,
+		focus,
+		execCommandView,
+		execCommandBefore,
+		toolbar;
 
 	function getView( node ) {
 		return getParent( node, 'wpview-wrap' );
@@ -86,60 +92,37 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 			return;
 		}
 
-		// Adjust the toolbar position and bail if node is already selected.
-		if ( viewNode === selected ) {
-			adjustToolbarPosition( viewNode );
-			return;
-		}
+		if ( viewNode !== selected ) {
+			// Make sure that the editor is focused.
+			// It is possible that the editor is not focused when the mouse event fires
+			// without focus, the selection will not work properly.
+			editor.getBody().focus();
 
-		// Make sure that the editor is focused.
-		// It is possible that the editor is not focused when the mouse event fires
-		// without focus, the selection will not work properly.
-		editor.getBody().focus();
+			deselect();
+			selected = viewNode;
+			dom.setAttrib( viewNode, 'data-mce-selected', 1 );
 
-		deselect();
-		selected = viewNode;
-		dom.setAttrib( viewNode, 'data-mce-selected', 1 );
-		adjustToolbarPosition( viewNode );
+			clipboard = dom.create( 'div', {
+				'class': 'wpview-clipboard',
+				'contenteditable': 'true'
+			}, wp.mce.views.getText( viewNode ) );
 
-		clipboard = dom.create( 'div', {
-			'class': 'wpview-clipboard',
-			'contenteditable': 'true'
-		}, wp.mce.views.getText( viewNode ) );
+			editor.dom.select( '.wpview-body', viewNode )[0].appendChild( clipboard );
 
-		editor.dom.select( '.wpview-body', viewNode )[0].appendChild( clipboard );
+			// Both of the following are necessary to prevent manipulating the selection/focus
+			dom.bind( clipboard, 'beforedeactivate focusin focusout', _stop );
+			dom.bind( selected, 'beforedeactivate focusin focusout', _stop );
 
-		// Both of the following are necessary to prevent manipulating the selection/focus
-		dom.bind( clipboard, 'beforedeactivate focusin focusout', _stop );
-		dom.bind( selected, 'beforedeactivate focusin focusout', _stop );
-
-		// select the hidden div
-		if ( isios ) {
-			editor.selection.select( clipboard );
-		} else {
-			editor.selection.select( clipboard, true );
+			// select the hidden div
+			if ( isios ) {
+				editor.selection.select( clipboard );
+			} else {
+				editor.selection.select( clipboard, true );
+			}
 		}
 
 		editor.nodeChanged();
 		editor.fire( 'wpview-selected', viewNode );
-	}
-
-	function adjustToolbarPosition( viewNode ) {
-		var delta = 0,
-			toolbar = editor.$( viewNode ).find( '.toolbar' ),
-			editorToolbar = tinymce.$( editor.editorContainer ).find( '.mce-toolbar-grp' )[0],
-			editorToolbarBottom = ( editorToolbar && editorToolbar.getBoundingClientRect().bottom ) || 0;
-
-		if ( toolbar.length && editor.iframeElement ) {
-			// 48 = 43 for the toolbar + 5 buffer
-			delta = viewNode.getBoundingClientRect().top + editor.iframeElement.getBoundingClientRect().top - editorToolbarBottom - 48;
-		}
-
-		if ( delta < 0 ) {
-			toolbar.removeClass( 'mce-arrow-down' ).css({ top: ( -43 + delta * -1 ) });
-		} else if ( delta > 0 && ! toolbar.hasClass( 'mce-arrow-down' ) ) {
-			toolbar.addClass( 'mce-arrow-down' ).css({ top: '' });
-		}
 	}
 
 	/**
@@ -257,6 +240,11 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 			selection = editor.selection,
 			MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
 
+		toolbar = editor.wp._createToolbar( [
+			'wp_view_edit',
+			'wp_view_remove'
+		] );
+
 		// When a view is selected, ensure content that is being pasted
 		// or inserted is added to a text node (instead of the view).
 		editor.on( 'BeforeSetContent', function() {
@@ -297,22 +285,6 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 			if ( view ) {
 				event.stopImmediatePropagation();
 				event.preventDefault();
-
-				if ( ( event.type === 'touchend' || event.type === 'mousedown' ) && ! event.metaKey && ! event.ctrlKey ) {
-					if ( editor.dom.hasClass( event.target, 'edit' ) ) {
-
-						// In IE need to transfer focus from the non-editable view back to the editor.
-						if ( Env.ie ) {
-							editor.focus();
-						}
-
-						wp.mce.views.edit( editor, view );
-						return false;
-					} else if ( editor.dom.hasClass( event.target, 'remove' ) ) {
-						removeView( view );
-						return false;
-					}
-				}
 
 				if ( event.type === 'touchend' && scrolled ) {
 					scrolled = false;
@@ -685,6 +657,34 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 		}
 	});
 
+	editor.addButton( 'wp_view_edit', {
+		tooltip: 'Edit ', // trailing space is needed, used for context
+		icon: 'dashicon dashicons-edit',
+		onclick: function() {
+			selected && wp.mce.views.edit( editor, selected );
+		}
+	} );
+
+	editor.addButton( 'wp_view_remove', {
+		tooltip: 'Remove',
+		icon: 'dashicon dashicons-no',
+		onclick: function() {
+			selected && removeView( selected );
+		}
+	} );
+
+	editor.on( 'wptoolbar', function( event ) {
+		if ( selected ) {
+			event.element = selected;
+			event.toolbar = toolbar;
+		}
+	} );
+
+	// Add to editor.wp
+	editor.wp = editor.wp || {};
+	editor.wp.getView = getView;
+
+	// Keep for back-compat.
 	return {
 		getView: getView
 	};

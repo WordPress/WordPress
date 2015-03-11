@@ -177,7 +177,7 @@
 				var node = editor.selection.getNode(),
 					range, view, offset;
 
-				if ( editor.plugins.wpview && ( view = editor.plugins.wpview.getView( node ) ) ) {
+				if ( editor.wp && editor.wp.getView && ( view = editor.wp.getView( node ) ) ) {
 					offset = view.getBoundingClientRect();
 				} else {
 					range = editor.selection.getRng();
