@@ -2174,7 +2174,7 @@ function get_avatar( $id_or_email, $size = 96, $default = '', $alt = '', $args =
 		$args = array();
 	}
 
-	$args['size']    = $size;
+	$args['size']    = (int) $size;
 	$args['default'] = $default;
 	$args['alt']     = $alt;
 
@@ -2209,6 +2209,8 @@ function get_avatar( $id_or_email, $size = 96, $default = '', $alt = '', $args =
 		return false;
 	}
 
+	$url2x = get_avatar_url( $id_or_email, array_merge( $args, array( 'size' => $args['size'] * 2 ) ) );
+
 	$args = get_avatar_data( $id_or_email, $args );
 
 	$url = $args['url'];
@@ -2232,9 +2234,10 @@ function get_avatar( $id_or_email, $size = 96, $default = '', $alt = '', $args =
 	}
 
 	$avatar = sprintf(
-		"<img alt='%s' src='%s' class='%s' height='%d' width='%d' %s/>",
+		"<img alt='%s' src='%s' srcset='%s' class='%s' height='%d' width='%d' %s/>",
 		esc_attr( $args['alt'] ),
 		esc_url( $url ),
+		esc_attr( "$url 1x, $url2x 2x" ),
 		esc_attr( join( ' ', $class ) ),
 		(int) $args['height'],
 		(int) $args['width'],
