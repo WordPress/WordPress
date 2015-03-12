@@ -2098,7 +2098,7 @@ div.star-holder .star-rating {
 	-webkit-transition: color .1s ease-in 0;
 	transition: color .1s ease-in 0;
 	text-align: center;
-	color: #0073aa;
+	color: #ffb900;
 }
 
 .star-rating .star-full:before {
@@ -2348,7 +2348,7 @@ div.action-links {
 
 #plugin-information .counter-bar {
 	height: 17px;
-	background-color: #fddb5a;
+	background-color: #ffc733; /* slightly lighter than stars due to larger expanse */
 	float: right;
 }
 
