@@ -426,7 +426,7 @@ function wp_default_scripts( &$scripts ) {
 
 	$scripts->add( 'twemoji', "/wp-includes/js/twemoji$suffix.js", array(), false, 1 );
 	$scripts->add( 'emoji', "/wp-includes/js/wp-emoji$suffix.js", array( 'twemoji' ), false, 1 );
-	did_action( 'init' ) && $scripts->localize( 'wp-emoji', '_wpemojiSettings', array(
+	did_action( 'init' ) && $scripts->localize( 'emoji', '_wpemojiSettings', array(
 		/**
 		 * Filter the URL where emoji images are hosted.
 		 *
