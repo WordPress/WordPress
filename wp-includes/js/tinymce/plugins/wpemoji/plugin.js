@@ -1,6 +1,6 @@
 ( function( tinymce, wp ) {
 	tinymce.PluginManager.add( 'wpemoji', function( editor, url ) {
-		var typing
+		var typing,
 			isMacWebKit = tinymce.Env.mac && tinymce.Env.webkit;
 
 		if ( ! wp.emoji.parseEmoji ) {
