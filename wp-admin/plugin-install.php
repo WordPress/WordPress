@@ -128,6 +128,16 @@ if ( $tab !== 'upload' ) {
  */
 do_action( "install_plugins_$tab", $paged ); ?>
 </div>
+
+<div id="request-filesystem-credentials-dialog" class="notification-dialog-wrap request-filesystem-credentials-dialog">
+	<div class="notification-dialog-background"></div>
+	<div class="notification-dialog">
+		<div class="request-filesystem-credentials-dialog-content">
+			<?php request_filesystem_credentials( site_url() ); ?>
+		<div>
+	</div>
+</div>
+
 <?php
 /**
  * WordPress Administration Template Footer.
