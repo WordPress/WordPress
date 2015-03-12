@@ -4106,14 +4106,14 @@ function wp_encode_emoji( $content ) {
  *
  * @since 4.2.0
  *
- * @param string $content The content to encode.
+ * @param string $text The content to encode.
  * @return string The encoded content.
  */
-function wp_staticize_emoji( $content ) {
-	$content = wp_encode_emoji( $content );
+function wp_staticize_emoji( $text ) {
+	$text = wp_encode_emoji( $text );
 
 	if ( ! class_exists( 'DOMDocument' ) ) {
-		return $content;
+		return $text;
 	}
 
 	/** This filter is documented in wp-includes/script-loader.php */
@@ -4121,54 +4121,64 @@ function wp_staticize_emoji( $content ) {
 	/** This filter is documented in wp-includes/script-loader.php */
 	$ext = apply_filters( 'emoji_ext', '.png' );
 
-	$html = '<!DOCTYPE html><html><head></head><body>' . $content . '</body></html>';
+	$output = '';
+	// HTML loop taken from smiley function, which was taking from texturize function. It'll never be consolidated.
+	$textarr = preg_split( '/(<.*>)/U', $text, -1, PREG_SPLIT_DELIM_CAPTURE ); // capture the tags as well as in between
+	$stop = count( $textarr );// loop stuff
 
-	$document = new DOMDocument;
-	if ( ! $document->loadHTML( $html ) ) {
-		return $content;
-	}
+	// Ignore proessing of specific tags
+	$tags_to_ignore = 'code|pre|style|script|textarea';
+	$ignore_block_element = '';
 
-	$xpath = new DOMXPath( $document );
-	$textnodes = $xpath->query( '//text()' );
+	for ( $i = 0; $i < $stop; $i++ ) {
+		$content = $textarr[$i];
 
-	foreach( $textnodes as $node ) {
-		$originalText = $text = wp_encode_emoji( $node->nodeValue );
+		// If we're in an ignore block, wait until we find its closing tag
+		if ( '' == $ignore_block_element && preg_match( '/^<(' . $tags_to_ignore . ')>/', $content, $matches ) )  {
+			$ignore_block_element = $matches[1];
+		}
 
-		$matches = array();
-		if ( preg_match_all( '/(&#x1f1(e[6-9a-f]|f[0-9a-f]);){2}/', $text, $matches ) ) {
-			if ( ! empty( $matches[0] ) ) {
-				foreach ( $matches[0] as $flag ) {
-					$chars = str_replace( array( '&#x', ';'), '', $flag );
+		// If it's not a tag and not in ignore block
+		if ( '' ==  $ignore_block_element && strlen( $content ) > 0 && '<' != $content[0] ) {
+			$matches = array();
+			if ( preg_match_all( '/(&#x1f1(e[6-9a-f]|f[0-9a-f]);){2}/', $content, $matches ) ) {
+				if ( ! empty( $matches[0] ) ) {
+					foreach ( $matches[0] as $flag ) {
+						$chars = str_replace( array( '&#x', ';'), '', $flag );
 
-					list( $char1, $char2 ) = str_split( $chars, 5 );
-					$entity = '<img src="https:' . $cdn_url . $char1 . '-' . $char2 . $ext . '" class="wp-smiley" style="height: 1em;" />';
+						list( $char1, $char2 ) = str_split( $chars, 5 );
+						$entity = '<img src="https:' . $cdn_url . $char1 . '-' . $char2 . $ext . '" class="wp-smiley" style="height: 1em;" />';
 
-					$text = str_replace( $flag, $entity, $text );
+						$content = str_replace( $flag, $entity, $content );
+					}
+				}
+			}
+
+			// Loosely match the Emoji Unicode range.
+			$regex = '/(&#x[2-3][0-9a-f]{3};|&#x1f[1-6][0-9a-f]{2};)/';
+
+			$matches = array();
+			if ( preg_match_all( $regex, $content, $matches ) ) {
+				if ( ! empty( $matches[1] ) ) {
+					foreach ( $matches[1] as $emoji ) {
+						$char = str_replace( array( '&#x', ';'), '', $emoji );
+						$entity = '<img src="https:' . $cdn_url . $char . $ext . '" class="wp-smiley" style="height: 1em;" />';
+
+						$content = str_replace( $emoji, $entity, $content );
+					}
 				}
 			}
 		}
 
-		// Loosely match the Emoji Unicode range.
-		$regex = '/(&#x[2-3][0-9a-f]{3};|&#x1f[1-6][0-9a-f]{2};)/';
-
-		$matches = array();
-		if ( preg_match_all( $regex, $text, $matches ) ) {
-			if ( ! empty( $matches[1] ) ) {
-				foreach ( $matches[1] as $emoji ) {
-					$char = str_replace( array( '&#x', ';'), '', $emoji );
-					$entity = '<img src="https:' . $cdn_url . $char . $ext . '" class="wp-smiley" style="height: 1em;" />';
-
-					$text = str_replace( $emoji, $entity, $text );
-				}
-			}
+		// did we exit ignore block
+		if ( '' != $ignore_block_element && '</' . $ignore_block_element . '>' == $content )  {
+			$ignore_block_element = '';
 		}
 
-		if ( $originalText !== $text ) {
-			$content = str_replace( $originalText, $text, $content );
-		}
+		$output .= $content;
 	}
 
-	return $content;
+	return $output;
 }
 
 /**
