@@ -2913,10 +2913,6 @@ function wp_ajax_install_plugin() {
 	if ( is_wp_error( $result ) ) {
 		$status['error'] = $result->get_error_message();
  		wp_send_json_error( $status );
-	} else if ( is_null( $result ) ) {
-		$status['errorCode'] = 'unable_to_connect_to_filesystem';
-		$status['error'] = __( 'Unable to connect to the filesystem. Please confirm your credentials.' );
-		wp_send_json_error( $status );
 	}
 
 	$plugin_status = install_plugin_install_status( $api );
@@ -2958,16 +2954,17 @@ function wp_ajax_update_plugin() {
 
 	$upgrader = new Plugin_Upgrader( new Automatic_Upgrader_Skin() );
 	$result = $upgrader->bulk_upgrade( array( $plugin ) );
+
 	if ( is_array( $result ) ) {
-		wp_send_json_success( $status );
-	} else if ( is_wp_error( $result ) ) {
+		$result = $result[ $plugin ];
+	}
+
+	if ( is_wp_error( $result ) ) {
 		$status['error'] = $result->get_error_message();
  		wp_send_json_error( $status );
-	} else if ( is_bool( $result ) && ! $result ) {
-		$status['errorCode'] = 'unable_to_connect_to_filesystem';
-		$status['error'] = __( 'Unable to connect to the filesystem. Please confirm your credentials.' );
-		wp_send_json_error( $status );
 	}
+
+	wp_send_json_success( $status );
 }
 
 /**

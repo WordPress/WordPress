@@ -850,26 +850,6 @@ table.form-table td .updated p {
 	margin-bottom: 5px;
 }
 
-/*------------------------------------------------------------------------------
-   Credentials check dialog for Install and Updates
-------------------------------------------------------------------------------*/
-
-.request-filesystem-credentials-dialog {
-	display: none;
-}
-
-.request-filesystem-credentials-dialog .notification-dialog{
-	top: 15%
-}
-
-.request-filesystem-credentials-dialog-content{
-	margin: 25px;
-}
-.request-filesystem-credentials-dialog-content input[type="text"],
-.request-filesystem-credentials-dialog-content input[type="password"]{
-	width:85%;
-}
-
 /* =Media Queries
 -------------------------------------------------------------- */
 

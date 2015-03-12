@@ -475,13 +475,5 @@ do_action( 'pre_current_active_plugins', $plugins['all'] );
 
 </div>
 
-<div id="request-filesystem-credentials-dialog" class="notification-dialog-wrap request-filesystem-credentials-dialog">
-	<div class="notification-dialog-background"></div>
-	<div class="notification-dialog">
-		<div class="request-filesystem-credentials-dialog-content">
-			<?php request_filesystem_credentials( site_url() ); ?>
-		<div>
-	</div>
-</div>
 <?php
 include(ABSPATH . 'wp-admin/admin-footer.php');

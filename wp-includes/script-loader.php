@@ -542,21 +542,8 @@ function wp_default_scripts( &$scripts ) {
 		) );
 
 		$scripts->add( 'updates', "/wp-admin/js/updates$suffix.js", array( 'jquery', 'wp-util', 'wp-a11y' ) );
-
-		/*
-		 * Determine whether the user will need to enter filesystem credentials
-		 * on the front-end.
-		 */
-		require_once(ABSPATH . 'wp-admin/includes/file.php');
-		$filesystem_method = get_filesystem_method();
-		ob_start();
-		$filesystem_credentials_are_stored = request_filesystem_credentials( self_admin_url() );
-		ob_end_clean();
-		$request_filesystem_credentials = ( $filesystem_method != 'direct' && ! $filesystem_credentials_are_stored ) ? 1 : 0;
-
 		did_action( 'init' ) && $scripts->localize( 'updates', '_wpUpdatesSettings', array(
 			'ajax_nonce' => wp_create_nonce( 'updates' ),
-			'requestFilesystemCredentials' => $request_filesystem_credentials,
 			'l10n'       => array(
 				'updating'      => __( 'Updating...' ),
 				'updated'       => __( 'Updated!' ),

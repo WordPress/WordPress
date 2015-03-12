@@ -22,35 +22,6 @@ window.wp = window.wp || {};
 	wp.updates.l10n = window._wpUpdatesSettings.l10n;
 
 	/**
-	 * Whether filesystem credentials need to be requested from the user.
-	 *
-	 * @since 4.2.0
-	 *
-	 * @var bool
-	 */
-	wp.updates.shouldRequestFilesystemCredentials = window._wpUpdatesSettings.requestFilesystemCredentials;
-
-	/**
-	 * Filesystem credentials to be packaged along with the request.
-	 *
-	 * @since  4.2.0
-	 *
-	 * @var object
-	 */
-	wp.updates.filesystemCredentials = {
-		ftp: {
-			host: null,
-			username: null,
-			password: null,
-			connectionType: null
-		},
-		ssh: {
-			publicKey: null,
-			privateKey: null
-		}
-	};
-
-	/**
 	 * Flag if we're waiting for an install/update to complete.
 	 *
 	 * @since 4.2.0
@@ -58,15 +29,6 @@ window.wp = window.wp || {};
 	 * @var bool
 	 */
 	wp.updates.updateLock = false;
-
-	/**
-	 * Flag if we've done an install or update successfully.
-	 *
-	 * @since 4.2.0
-	 *
-	 * @var bool
-	 */
-	wp.updates.updateDoneSuccessfully = false;
 
 	/**
 	 * If the user tries to install/update a plugin while an install/update is
@@ -162,14 +124,8 @@ window.wp = window.wp || {};
 
 		var data = {
 			'_ajax_nonce': wp.updates.ajaxNonce,
-			'plugin':        plugin,
-			'slug':          slug,
-			username:        wp.updates.filesystemCredentials.ftp.username,
-			password:        wp.updates.filesystemCredentials.ftp.password,
-			hostname:        wp.updates.filesystemCredentials.ftp.hostname,
-			connection_type: wp.updates.filesystemCredentials.ftp.connectionType,
-			public_key:      wp.updates.filesystemCredentials.ssh.publicKey,
-			private_key:     wp.updates.filesystemCredentials.ssh.privateKey
+			'plugin':      plugin,
+			'slug':        slug
 		};
 
 		wp.ajax.post( 'update-plugin', data )
@@ -201,8 +157,6 @@ window.wp = window.wp || {};
 		wp.a11y.speak( wp.updates.l10n.updatedMsg );
 
 		wp.updates.decrementCount( 'plugin' );
-
-		wp.updates.updateDoneSuccessfully = true;
 	};
 
 	/**
@@ -214,11 +168,6 @@ window.wp = window.wp || {};
 	 */
 	wp.updates.updateError = function( response ) {
 		var $message;
-		wp.updates.updateDoneSuccessfully = false;
-		if ( response.errorCode && response.errorCode == 'unable_to_connect_to_filesystem' ) {
-			wp.updates.credentialError( response, 'update-plugin' );
-			return;
-		}
 		if ( 'plugins' === pagenow || 'plugins-network' === pagenow ) {
 			$message = $( '#' + response.slug ).next().find( '.update-message' );
 		} else if ( 'plugin-install' === pagenow ) {
@@ -228,21 +177,6 @@ window.wp = window.wp || {};
 		$message.text( wp.updates.l10n.updateFailed );
 		wp.a11y.speak( wp.updates.l10n.updateFailed );
 	};
-
-	/**
-	 * Show an
-	 *
-	 * @param {string} message
-	 * @since 4.2.0
-	 */
-	wp.updates.showErrorInCredentialsForm = function( message ) {
-		var $notificationDialog = $( '.notification-dialog' );
-
-		// Remove any existing error
-		$notificationDialog.find( '.error' ).remove();
-
-		$notificationDialog.find( 'h3' ).after( '<div class="error">' + message + '</div>' );
-    };
 
 	/**
 	 * After an update attempt has completed, check the queue.
@@ -282,14 +216,8 @@ window.wp = window.wp || {};
 		wp.updates.updateLock = true;
 
 		var data = {
-			'_ajax_nonce':     wp.updates.ajaxNonce,
-			'slug':            slug,
-			'username':        wp.updates.filesystemCredentials.ftp.username,
-			'password':        wp.updates.filesystemCredentials.ftp.password,
-			'hostname':        wp.updates.filesystemCredentials.ftp.hostname,
-			'connection_type': wp.updates.filesystemCredentials.ftp.connectionType,
-			'public_key':      wp.updates.filesystemCredentials.ssh.publicKey,
-			'private_key':     wp.updates.filesystemCredentials.ssh.privateKey
+			'_ajax_nonce': wp.updates.ajaxNonce,
+			'slug':        slug
 		};
 
 		wp.ajax.post( 'install-plugin', data )
@@ -311,7 +239,6 @@ window.wp = window.wp || {};
 		$message.removeClass( 'updating-message' ).addClass( 'updated-message button-disabled' );
 		$message.text( wp.updates.l10n.installed );
 		wp.a11y.speak( wp.updates.l10n.installedMsg );
-		wp.updates.updateDoneSuccessfully = true;
 	};
 
 	/**
@@ -323,33 +250,9 @@ window.wp = window.wp || {};
 	 */
 	wp.updates.installError = function( response ) {
 		var $message = $( '.plugin-card-' + response.slug ).find( '.install-now' );
-		wp.updates.updateDoneSuccessfully = false;
-		if ( response.errorCode && response.errorCode == 'unable_to_connect_to_filesystem' ) {
-			wp.updates.credentialError( response, 'update-plugin' );
-			return;
-		}
 
 		$message.removeClass( 'updating-message' );
 		$message.text( wp.updates.l10n.installNow );
-	};
-
-	/**
-	 * Events that need to happen when there is a credential error
-	 *
-	 * @since 4.2.0
-	 */
-	wp.updates.credentialError = function( response, type ) {
-		wp.updates.updateQueue.push( {
-			'type': type,
-			'data': {
-				// Not cool that we're depending on response for this data.
-				// This would feel more whole in a view all tied together.
-				plugin: response.plugin,
-				slug: response.slug
-			}
-		} );
-		wp.updates.showErrorInCredentialsForm( response.error );
-		wp.updates.requestFilesystemCredentials();
 	};
 
 
@@ -378,47 +281,10 @@ window.wp = window.wp || {};
 				break;
 		}
 	};
-	/**
-	 * Request the users filesystem credentials if we don't have them already
-	 *
-	 * @since 4.2.0
-	 */
-	wp.updates.requestFilesystemCredentials = function() {
-		if ( wp.updates.updateDoneSuccessfully === false ) {
-			wp.updates.updateLock = true;
-			$( 'body' ).addClass( 'modal-open' );
-			$( '#request-filesystem-credentials-dialog' ).show();
-		}
-	};
 
-	// Bind various click handlers.
 	$( document ).ready( function() {
-		// File system credentials form submit noop-er / handler.
-		$( '#request-filesystem-credentials-dialog form' ).on( 'submit', function() {
-			// Persist the credentials input by the user for the duration of the page load.
-			wp.updates.filesystemCredentials.ftp.hostname = $('#hostname').val();
-			wp.updates.filesystemCredentials.ftp.username = $('#username').val();
-			wp.updates.filesystemCredentials.ftp.password = $('#password').val();
-			wp.updates.filesystemCredentials.ftp.connectionType = $('input[name="connection_type"]:checked').val();
-			wp.updates.filesystemCredentials.ssh.publicKey = $('#public_key').val();
-			wp.updates.filesystemCredentials.ssh.privateKey = $('#private_key').val();
-
-			$( '#request-filesystem-credentials-dialog' ).hide();
-			$( 'body' ).removeClass( 'modal-open' );
-
-			// Unlock and invoke the queue.
-			wp.updates.updateLock = false;
-			wp.updates.queueChecker();
-
-			return false;
-		});
-
-		// Click handler for plugin updates in List Table view.
 		$( '.plugin-update-tr .update-link' ).on( 'click', function( e ) {
 			e.preventDefault();
-			if ( wp.updates.shouldRequestFilesystemCredentials === '1' && ! wp.updates.updateLock ) {
-				wp.updates.requestFilesystemCredentials();
-			}
 			var $row = $( e.target ).parents( '.plugin-update-tr' );
 			wp.updates.updatePlugin( $row.data( 'plugin' ), $row.data( 'slug' ) );
 		} );
@@ -449,10 +315,6 @@ window.wp = window.wp || {};
 
 		$( '.plugin-card .install-now' ).on( 'click', function( e ) {
 			e.preventDefault();
-			if ( wp.updates.shouldRequestFilesystemCredentials === '1' && ! wp.updates.updateLock ) {
-				wp.updates.requestFilesystemCredentials();
-			}
-
 			var $button = $( e.target );
 			if ( $button.hasClass( 'button-disabled' ) ) {
 				return;
