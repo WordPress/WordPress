@@ -386,14 +386,15 @@ window.wp = window.wp || {};
 	wp.updates.requestFilesystemCredentials = function() {
 		if ( wp.updates.updateDoneSuccessfully === false ) {
 			wp.updates.updateLock = true;
-			$('#request-filesystem-credentials-dialog').show();
+			$( 'body' ).addClass( 'modal-open' );
+			$( '#request-filesystem-credentials-dialog' ).show();
 		}
 	};
 
 	// Bind various click handlers.
 	$( document ).ready( function() {
 		// File system credentials form submit noop-er / handler.
-		$('#request-filesystem-credentials-dialog form').on( 'submit', function() {
+		$( '#request-filesystem-credentials-dialog form' ).on( 'submit', function() {
 			// Persist the credentials input by the user for the duration of the page load.
 			wp.updates.filesystemCredentials.ftp.hostname = $('#hostname').val();
 			wp.updates.filesystemCredentials.ftp.username = $('#username').val();
@@ -402,7 +403,8 @@ window.wp = window.wp || {};
 			wp.updates.filesystemCredentials.ssh.publicKey = $('#public_key').val();
 			wp.updates.filesystemCredentials.ssh.privateKey = $('#private_key').val();
 
-			$('#request-filesystem-credentials-dialog').hide();
+			$( '#request-filesystem-credentials-dialog' ).hide();
+			$( 'body' ).removeClass( 'modal-open' );
 
 			// Unlock and invoke the queue.
 			wp.updates.updateLock = false;
