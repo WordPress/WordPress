@@ -1,6 +1,5 @@
 /*jslint indent: 2, browser: true, bitwise: true, plusplus: true */
-var twemoji;
-twemoji = (function (
+var twemoji = (function (
   /*! Copyright Twitter Inc. and other contributors. Licensed under MIT *//*
     https://github.com/twitter/twemoji/blob/gh-pages/LICENSE
   */
@@ -327,6 +326,7 @@ twemoji = (function (
     var
       allText = grabAllTextNodes(node, []),
       length = allText.length,
+      modified = false,
       fragment,
       subnode,
       text,
@@ -367,13 +367,15 @@ twemoji = (function (
             img.setAttribute('draggable', 'false');
             img.alt = alt;
             img.src = src;
+            modified = true;
+            fragment.appendChild(img);
           }
         }
-        fragment.appendChild(img || createText(alt));
+        if (!img) fragment.appendChild(createText(alt));
+        img = null;
       }
       // is there actually anything to replace in here ?
-      if (img) {
-      	img = null;
+      if (modified) {
         // any text left to be added ?
         if (i < text.length) {
           fragment.appendChild(
@@ -383,6 +385,7 @@ twemoji = (function (
         // replace the text node only, leave intact
         // anything else surrounding such text
         subnode.parentNode.replaceChild(fragment, subnode);
+        modified = false;
       }
     }
     return node;
