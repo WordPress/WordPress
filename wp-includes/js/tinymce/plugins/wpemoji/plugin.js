@@ -1,6 +1,7 @@
 ( function( tinymce, wp ) {
 	tinymce.PluginManager.add( 'wpemoji', function( editor, url ) {
-		var typing;
+		var typing
+			isMacWebKit = tinymce.Env.mac && tinymce.Env.webkit;
 
 		if ( ! wp.emoji.parseEmoji ) {
 			return;
@@ -30,7 +31,10 @@
 
 			selection = editor.selection;
 			node = selection.getNode();
-			bookmark = selection.getBookmark();
+
+			if ( isMacWebKit ) {
+				bookmark = selection.getBookmark();
+			}
 
 			wp.emoji.parse( node );
 
@@ -44,7 +48,15 @@
 				}
 			} );
 
-			selection.moveToBookmark( bookmark );
+			// In IE all content in the editor is left selected aftrer wp.emoji.parse()...
+			// Collapse the selection to the beginning.
+			if ( tinymce.Env.ie && node && node.nodeName === 'BODY' ) {
+				selection.collapse( true );
+			}
+
+			if ( isMacWebKit ) {
+				selection.moveToBookmark( bookmark );
+			}
 		} );
 
 		editor.on( 'postprocess', function( event ) {
