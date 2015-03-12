@@ -478,8 +478,8 @@ window.wp = window.wp || {};
 					), function( link ) {
 						if (
 							link.href &&
-							link.href.indexOf( 'skins/lightgray/content.min.css' ) >= 0 &&
-							link.href.indexOf( 'skins/wordpress/wp-content.css' ) >= 0
+							link.href.indexOf( 'skins/lightgray/content.min.css' ) === -1 &&
+							link.href.indexOf( 'skins/wordpress/wp-content.css' ) === -1
 						) {
 							styles += dom.getOuterHTML( link );
 						}
