@@ -461,8 +461,7 @@ window.wp = window.wp || {};
 		 * @param {Boolean}  rendered Only set for (un)rendered nodes. Optional.
 		 */
 		setIframes: function( head, body, callback, rendered ) {
-			var MutationObserver = window.MutationObserver || window.WebKitMutationObserver || window.MozMutationObserver,
-				importStyles = this.type === 'video' || this.type === 'audio' || this.type === 'playlist';
+			var MutationObserver = window.MutationObserver || window.WebKitMutationObserver || window.MozMutationObserver;
 
 			this.getNodes( function( editor, node, content ) {
 				// Seems Firefox needs a bit of time to insert/set the view nodes,
@@ -473,21 +472,18 @@ window.wp = window.wp || {};
 						bodyClasses = editor.getBody().className || '',
 						iframe, iframeDoc, observer, i;
 
-					if ( importStyles ) {
-						if ( ! wp.mce.views.sandboxStyles ) {
-							tinymce.each( dom.$( 'link[rel="stylesheet"]', editor.getDoc().head ), function( link ) {
-								if ( link.href && link.href.indexOf( 'skins/lightgray/content.min.css' ) === -1 &&
-									link.href.indexOf( 'skins/wordpress/wp-content.css' ) === -1 ) {
-
-									styles += dom.getOuterHTML( link ) + '\n';
-								}
-							});
-
-							wp.mce.views.sandboxStyles = styles;
-						} else {
-							styles = wp.mce.views.sandboxStyles;
+					tinymce.each( dom.$(
+						'link[rel="stylesheet"]',
+						editor.getDoc().getElementsByTagName( 'head' )[0]
+					), function( link ) {
+						if (
+							link.href &&
+							link.href.indexOf( 'skins/lightgray/content.min.css' ) >= 0 &&
+							link.href.indexOf( 'skins/wordpress/wp-content.css' ) >= 0
+						) {
+							styles += dom.getOuterHTML( link );
 						}
-					}
+					} );
 
 					content.innerHTML = '';
 
@@ -580,13 +576,11 @@ window.wp = window.wp || {};
 						iframeDoc.body.className = editor.getBody().className;
 					}
 
-					if ( importStyles ) {
-						editor.on( 'wp-body-class-change', classChange );
+					editor.on( 'wp-body-class-change', classChange );
 
-						$( node ).one( 'wp-mce-view-unbind', function() {
-							editor.off( 'wp-body-class-change', classChange );
-						} );
-					}
+					$( node ).one( 'wp-mce-view-unbind', function() {
+						editor.off( 'wp-body-class-change', classChange );
+					} );
 
 					callback && callback.apply( this, arguments );
 				}, 50 );
