@@ -1,8 +1,8 @@
-( function( tinymce, WPEmoji ) {
+( function( tinymce, wp ) {
 	tinymce.PluginManager.add( 'wpemoji', function( editor, url ) {
 		var typing;
 
-		if ( ! WPEmoji.parseEmoji ) {
+		if ( ! wp.emoji.parseEmoji ) {
 			return;
 		}
 
@@ -32,7 +32,7 @@
 			node = selection.getNode();
 			bookmark = selection.getBookmark();
 
-			WPEmoji.parse( node );
+			wp.emoji.parse( node );
 
 			imgs = editor.dom.select( 'img.emoji', node );
 
@@ -61,4 +61,4 @@
 			}
 		} );
 	} );
-} )( window.tinymce, window.WPEmoji );
+} )( window.tinymce, window.wp );

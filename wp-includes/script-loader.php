@@ -425,8 +425,8 @@ function wp_default_scripts( &$scripts ) {
 	$scripts->add( 'mce-view', "/wp-includes/js/mce-view$suffix.js", array( 'shortcode', 'media-models', 'media-audiovideo', 'wp-playlist' ), false, 1 );
 
 	$scripts->add( 'twemoji', "/wp-includes/js/twemoji$suffix.js", array(), false, 1 );
-	$scripts->add( 'emoji', "/wp-includes/js/emoji$suffix.js", array( 'twemoji' ), false, 1 );
-	did_action( 'init' ) && $scripts->localize( 'emoji', 'EmojiSettings', array(
+	$scripts->add( 'emoji', "/wp-includes/js/wp-emoji$suffix.js", array( 'twemoji' ), false, 1 );
+	did_action( 'init' ) && $scripts->localize( 'wp-emoji', '_wpemojiSettings', array(
 		/**
 		 * Filter the URL where emoji images are hosted.
 		 *
@@ -434,7 +434,7 @@ function wp_default_scripts( &$scripts ) {
 		 *
 		 * @param string The emoji base URL.
 		 */
-		'base_url' => apply_filters( 'emoji_url', '//s0.wp.com/wp-content/mu-plugins/emoji/twemoji/72x72/' ),
+		'baseUrl' => apply_filters( 'emoji_url', '//s0.wp.com/wp-content/mu-plugins/emoji/twemoji/72x72/' ),
 		/**
 		 * Filter the extension of the emoji files.
 		 *

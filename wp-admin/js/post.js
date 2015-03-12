@@ -741,7 +741,7 @@ jQuery(document).ready( function($) {
 					});
 				}
 
-				window.WPEmoji.parse( box.get( 0 ) );
+				wp.emoji.parse( box.get( 0 ) );
 
 				b.html(revert_b);
 				real_slug.val(new_slug);

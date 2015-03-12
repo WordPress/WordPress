@@ -1,8 +1,10 @@
-/* global EmojiSettings, twemoji */
-var WPEmoji;
+/* global _wpemojiSettings, twemoji */
+window.wp = window.wp || {};
 
 (function() {
-	WPEmoji = {
+	var emoji;
+
+	wp.emoji = emoji = {
 		/**
 		 * The CDN URL for where emoji files are hosted.
 		 *
@@ -10,7 +12,7 @@ var WPEmoji;
 		 *
 		 * @var string
 		 */
-		base_url: '//s0.wp.com/wp-content/mu-plugins/emoji/twemoji/72x72',
+		baseUrl: '//s0.wp.com/wp-content/mu-plugins/emoji/twemoji/72x72',
 
 		/**
 		 * The extension of the hosted emoji files.
@@ -54,16 +56,16 @@ var WPEmoji;
 		 * @since 4.2.0
 		 */
 		init: function() {
-			if ( typeof EmojiSettings !== 'undefined' ) {
-				this.base_url = EmojiSettings.base_url || this.base_url;
-				this.ext = EmojiSettings.ext || this.ext;
+			if ( typeof _wpemojiSettings !== 'undefined' ) {
+				emoji.baseUrl = _wpemojiSettings.baseUrl || emoji.baseUrl;
+				emoji.ext = _wpemojiSettings.ext || emoji.ext;
 			}
 
-			WPEmoji.parseAllEmoji = ! WPEmoji.browserSupportsEmoji();
-			WPEmoji.parseFlags = ! WPEmoji.browserSupportsFlagEmoji();
-			WPEmoji.parseEmoji = WPEmoji.parseAllEmoji || WPEmoji.parseFlags;
+			emoji.parseAllEmoji = ! emoji.browserSupportsEmoji();
+			emoji.parseFlags = ! emoji.browserSupportsFlagEmoji();
+			emoji.parseEmoji = emoji.parseAllEmoji || emoji.parseFlags;
 
-			if ( ! WPEmoji.parseEmoji ) {
+			if ( ! emoji.parseEmoji ) {
 				return;
 			}
 		},
@@ -74,7 +76,7 @@ var WPEmoji;
 		 * @since 4.2.0
 		 */
 		load: function() {
-			WPEmoji.parse( document.body );
+			emoji.parse( document.body );
 		},
 
 		/**
@@ -160,13 +162,13 @@ var WPEmoji;
 		 * @param {Element} element The DOM node to parse.
 		 */
 		parse: function( element ) {
-			if ( ! WPEmoji.parseEmoji ) {
+			if ( ! emoji.parseEmoji ) {
 				return;
 			}
 
 			return twemoji.parse( element, {
-				base: this.base_url,
-				ext: this.ext,
+				base:     emoji.baseUrl,
+				ext:      emoji.ext,
 				callback: function( icon, options ) {
 					// Ignore some standard characters that TinyMCE recommends in its character map.
 					switch ( icon ) {
@@ -181,7 +183,7 @@ var WPEmoji;
 							return false;
 					}
 
-					if ( WPEmoji.parseFlags && ! WPEmoji.parseAllEmoji && ! icon.match( /^1f1(e[6-9a-f]|f[1-9a-f])-1f1(e[6-9a-f]|f[1-9a-f])$/ ) ) {
+					if ( emoji.parseFlags && ! emoji.parseAllEmoji && ! icon.match( /^1f1(e[6-9a-f]|f[1-9a-f])-1f1(e[6-9a-f]|f[1-9a-f])$/ ) ) {
 						return false;
 					}
 
@@ -192,10 +194,10 @@ var WPEmoji;
 	};
 
 	if ( window.addEventListener ) {
-		window.addEventListener( 'load', WPEmoji.load, false );
+		window.addEventListener( 'load', emoji.load, false );
 	} else if ( window.attachEvent ) {
-		window.attachEvent( 'onload', WPEmoji.load );
+		window.attachEvent( 'onload', emoji.load );
 	}
 
-	WPEmoji.init();
+	emoji.init();
 })();
