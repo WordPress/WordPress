@@ -272,9 +272,7 @@ inlineEditPost = {
 					if ( -1 !== r.indexOf( '<tr' ) ) {
 						$(inlineEditPost.what+id).siblings('tr.hidden').addBack().remove();
 						$('#edit-'+id).before(r).remove();
-						if ( WPEmoji ) {
-							WPEmoji.parse( $( inlineEditPost.what + id ).get( 0 ) );
-						}
+						window.WPEmoji.parse( $( inlineEditPost.what + id ).get( 0 ) );
 						$(inlineEditPost.what+id).hide().fadeIn();
 					} else {
 						r = r.replace( /<.[^<>]*?>/g, '' );

@@ -741,9 +741,7 @@ jQuery(document).ready( function($) {
 					});
 				}
 
-				if ( WPEmoji ) {
-					WPEmoji.parse( box.get( 0 ) );
-				}
+				window.WPEmoji.parse( box.get( 0 ) );
 
 				b.html(revert_b);
 				real_slug.val(new_slug);

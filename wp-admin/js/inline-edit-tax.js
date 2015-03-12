@@ -117,9 +117,7 @@ inlineEditTax = {
 						// Update the value in the Parent dropdown.
 						$( '#parent' ).find( 'option[value=' + option_value + ']' ).text( row.find( '.row-title' ).text() );
 
-						if ( WPEmoji ) {
-							WPEmoji.parse( row.get( 0 ) );
-						}
+						window.WPEmoji.parse( row.get( 0 ) );
 
 						row.hide().fadeIn();
 					} else {

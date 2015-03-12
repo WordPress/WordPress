@@ -447,7 +447,7 @@ function wp_default_scripts( &$scripts ) {
 	$scripts->enqueue( 'emoji' );
 
 	if ( is_admin() ) {
-		$scripts->add( 'admin-tags', "/wp-admin/js/tags$suffix.js", array('jquery', 'wp-ajax-response'), false, 1 );
+		$scripts->add( 'admin-tags', "/wp-admin/js/tags$suffix.js", array( 'jquery', 'wp-ajax-response', 'emoji' ), false, 1 );
 		did_action( 'init' ) && $scripts->localize( 'admin-tags', 'tagsl10n', array(
 			'noPerm' => __('You do not have permission to do that.'),
 			'broken' => __('An unidentified error has occurred.')
@@ -470,7 +470,7 @@ function wp_default_scripts( &$scripts ) {
 			'tagDelimiter' => _x( ',', 'tag delimiter' ),
 		) );
 
-		$scripts->add( 'post', "/wp-admin/js/post$suffix.js", array( 'suggest', 'wp-lists', 'postbox', 'tags-box' ), false, 1 );
+		$scripts->add( 'post', "/wp-admin/js/post$suffix.js", array( 'suggest', 'wp-lists', 'postbox', 'tags-box', 'emoji' ), false, 1 );
 		did_action( 'init' ) && $scripts->localize( 'post', 'postL10n', array(
 			'ok' => __('OK'),
 			'cancel' => __('Cancel'),
@@ -522,7 +522,7 @@ function wp_default_scripts( &$scripts ) {
 
 		$scripts->add( 'theme', "/wp-admin/js/theme$suffix.js", array( 'wp-backbone' ), false, 1 );
 
-		$scripts->add( 'inline-edit-post', "/wp-admin/js/inline-edit-post$suffix.js", array( 'jquery', 'suggest' ), false, 1 );
+		$scripts->add( 'inline-edit-post', "/wp-admin/js/inline-edit-post$suffix.js", array( 'jquery', 'suggest', 'emoji' ), false, 1 );
 		did_action( 'init' ) && $scripts->localize( 'inline-edit-post', 'inlineEditL10n', array(
 			'error' => __('Error while saving the changes.'),
 			'ntdeltitle' => __('Remove From Bulk Edit'),
@@ -530,7 +530,7 @@ function wp_default_scripts( &$scripts ) {
 			'comma' => trim( _x( ',', 'tag delimiter' ) ),
 		) );
 
-		$scripts->add( 'inline-edit-tax', "/wp-admin/js/inline-edit-tax$suffix.js", array( 'jquery' ), false, 1 );
+		$scripts->add( 'inline-edit-tax', "/wp-admin/js/inline-edit-tax$suffix.js", array( 'jquery', 'emoji' ), false, 1 );
 		did_action( 'init' ) && $scripts->localize( 'inline-edit-tax', 'inlineEditL10n', array(
 			'error' => __('Error while saving the changes.')
 		) );
