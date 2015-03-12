@@ -370,10 +370,10 @@ twemoji = (function (
           }
         }
         fragment.appendChild(img || createText(alt));
-        img = null;
       }
       // is there actually anything to replace in here ?
-      if (0 < i) {
+      if (img) {
+      	img = null;
         // any text left to be added ?
         if (i < text.length) {
           fragment.appendChild(

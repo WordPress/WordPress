@@ -1,6 +1,8 @@
 window.wp = window.wp || {};
 
 ( function( window, wp, twemoji, settings ) {
+	var MutationObserver = window.MutationObserver || window.WebKitMutationObserver || window.MozMutationObserver;
+
 	var emoji = {
 		/**
 		 * Flag to determine if we should parse all emoji characters into Twemoji images.
@@ -68,7 +70,7 @@ window.wp = window.wp || {};
 								node = node.parentNode;
 							}
 
-							if ( node.nodeType === 1 ) {
+							if ( node && node.nodeType === 1 ) {
 								emoji.parse( node );
 							}
 						}
@@ -95,7 +97,7 @@ window.wp = window.wp || {};
 			var canvas = document.createElement( 'canvas' ),
 				context = canvas.getContext && canvas.getContext( '2d' );
 
-			if ( ! context.fillText ) {
+			if ( ! context || ! context.fillText ) {
 				return false;
 			}
 
@@ -123,7 +125,7 @@ window.wp = window.wp || {};
 			var canvas = document.createElement( 'canvas' ),
 				context = canvas.getContext && canvas.getContext( '2d' );
 
-			if ( ! context.fillText ) {
+			if ( ! context || ! context.fillText ) {
 				return false;
 			}
 

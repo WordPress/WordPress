@@ -434,7 +434,7 @@ function wp_default_scripts( &$scripts ) {
 		 *
 		 * @param string The emoji base URL.
 		 */
-		'baseUrl' => apply_filters( 'emoji_url', '//s0.wp.com/wp-content/mu-plugins/emoji/twemoji/72x72/' ),
+		'baseUrl' => apply_filters( 'emoji_url', '//s0.wp.com/wp-content/mu-plugins/emoji/twemoji/72x72' ),
 		/**
 		 * Filter the extension of the emoji files.
 		 *
