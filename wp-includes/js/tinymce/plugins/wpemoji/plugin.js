@@ -21,10 +21,10 @@
 			typing = event.type === 'keydown';
 		} );
 
-		editor.on( 'input setcontent', function() {
+		editor.on( 'input setcontent', function( event ) {
 			var selection, node, bookmark, imgs;
 
-			if ( typing ) {
+			if ( typing && event.type === 'input' ) {
 				return;
 			}
 

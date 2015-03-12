@@ -1,34 +1,13 @@
-/* global _wpemojiSettings, twemoji */
 window.wp = window.wp || {};
 
-(function() {
-	var emoji;
-
-	wp.emoji = emoji = {
-		/**
-		 * The CDN URL for where emoji files are hosted.
-		 *
-		 * @since 4.2.0
-		 *
-		 * @var string
-		 */
-		baseUrl: '//s0.wp.com/wp-content/mu-plugins/emoji/twemoji/72x72',
-
-		/**
-		 * The extension of the hosted emoji files.
-		 *
-		 * @since 4.2.0
-		 *
-		 * @var string
-		 */
-		ext: '.png',
-
+( function( window, wp, twemoji, settings ) {
+	var emoji = {
 		/**
 		 * Flag to determine if we should parse all emoji characters into Twemoji images.
 		 *
 		 * @since 4.2.0
 		 *
-		 * @var bool
+		 * @var Boolean
 		 */
 		parseAllEmoji: false,
 
@@ -37,7 +16,7 @@ window.wp = window.wp || {};
 		 *
 		 * @since 4.2.0
 		 *
-		 * @var bool
+		 * @var Boolean
 		 */
 		parseEmoji: false,
 
@@ -46,7 +25,7 @@ window.wp = window.wp || {};
 		 *
 		 * @since 4.2.0
 		 *
-		 * @var bool
+		 * @var Boolean
 		 */
 		parseFlags: false,
 
@@ -56,17 +35,14 @@ window.wp = window.wp || {};
 		 * @since 4.2.0
 		 */
 		init: function() {
-			if ( typeof _wpemojiSettings !== 'undefined' ) {
-				emoji.baseUrl = _wpemojiSettings.baseUrl || emoji.baseUrl;
-				emoji.ext = _wpemojiSettings.ext || emoji.ext;
-			}
-
 			emoji.parseAllEmoji = ! emoji.browserSupportsEmoji();
 			emoji.parseFlags = ! emoji.browserSupportsFlagEmoji();
 			emoji.parseEmoji = emoji.parseAllEmoji || emoji.parseFlags;
 
-			if ( ! emoji.parseEmoji ) {
-				return;
+			if ( window.addEventListener ) {
+				window.addEventListener( 'load', emoji.load, false );
+			} else if ( window.attachEvent ) {
+				window.attachEvent( 'onload', emoji.load );
 			}
 		},
 
@@ -76,6 +52,35 @@ window.wp = window.wp || {};
 		 * @since 4.2.0
 		 */
 		load: function() {
+			if ( MutationObserver ) {
+				new MutationObserver( function( mutationRecords ) {
+					var i = mutationRecords.length,
+						ii,
+						node;
+
+					while ( i-- ) {
+						ii = mutationRecords[ i ].addedNodes.length;
+
+						while ( ii-- ) {
+							node = mutationRecords[ i ].addedNodes[ ii ];
+
+							if ( node.nodeType === 3 ) {
+								node = node.parentNode;
+							}
+
+							if ( node.nodeType === 1 ) {
+								emoji.parse( node );
+							}
+						}
+					}
+				} )
+
+				.observe( document.body, {
+					childList: true,
+					subtree: true
+				} );
+			}
+
 			emoji.parse( document.body );
 		},
 
@@ -84,21 +89,15 @@ window.wp = window.wp || {};
 		 *
 		 * @since 4.2.0
 		 *
-		 * @return {bool} True if the browser can render emoji, false if it cannot.
+		 * @return {Boolean} True if the browser can render emoji, false if it cannot.
 		 */
 		browserSupportsEmoji: function() {
-			var context, smile;
+			var canvas = document.createElement( 'canvas' ),
+				context = canvas.getContext && canvas.getContext( '2d' );
 
-			if ( ! document.createElement( 'canvas' ).getContext ) {
-				return;
+			if ( ! context.fillText ) {
+				return false;
 			}
-
-			context = document.createElement( 'canvas' ).getContext( '2d' );
-			if ( typeof context.fillText != 'function' ) {
-				return;
-			}
-
-			smile = String.fromCharCode( 55357 ) + String.fromCharCode( 56835 );
 
 			/*
 			 * Chrome OS X added native emoji rendering in M41. Unfortunately,
@@ -107,7 +106,7 @@ window.wp = window.wp || {};
 			 */
 			context.textBaseline = 'top';
 			context.font = '600 32px Arial';
-			context.fillText( smile, 0, 0 );
+			context.fillText( String.fromCharCode( 55357, 56835 ), 0, 0 );
 
 			return context.getImageData( 16, 16, 1, 1 ).data[0] !== 0;
 		},
@@ -117,29 +116,20 @@ window.wp = window.wp || {};
 		 * made of two characters, so some browsers (notably, Firefox OS X) don't support them.
 		 *
 		 * @since 4.2.0
-		 * @return {bool} True if the browser renders flag characters as a flag glyph, false if it does not.
+		 *
+		 * @return {Boolean} True if the browser renders flag characters as a flag glyph, false if it does not.
 		 */
 		browserSupportsFlagEmoji: function() {
-			var context, flag, canvas;
+			var canvas = document.createElement( 'canvas' ),
+				context = canvas.getContext && canvas.getContext( '2d' );
 
-			canvas = document.createElement( 'canvas' );
-
-			if ( ! canvas.getContext ) {
-				return;
+			if ( ! context.fillText ) {
+				return false;
 			}
-
-			context = canvas.getContext( '2d' );
-
-			if ( typeof context.fillText != 'function' ) {
-				return;
-			}
-
-			flag =  String.fromCharCode(55356) + String.fromCharCode(56812); // [G]
-			flag += String.fromCharCode(55356) + String.fromCharCode(56807); // [B]
 
 			context.textBaseline = 'top';
 			context.font = '32px Arial';
-			context.fillText( flag, 0, 0 );
+			context.fillText( String.fromCharCode( 55356, 56812, 55356, 56807 ), 0, 0 );
 
 			/*
 			 * This works because the image will be one of three things:
@@ -151,24 +141,23 @@ window.wp = window.wp || {};
 			 * to a larger image (4-5KB data URL).
 			 */
 			return canvas.toDataURL().length > 3000;
-
 		},
 
 		/**
-		 * Given a DOM node, parse any emoji characters into Twemoji images.
+		 * Given an element or string, parse any emoji characters into Twemoji images.
 		 *
 		 * @since 4.2.0
 		 *
-		 * @param {Element} element The DOM node to parse.
+		 * @param {HTMLElement|String} object The element or string to parse.
 		 */
-		parse: function( element ) {
+		parse: function( object ) {
 			if ( ! emoji.parseEmoji ) {
-				return;
+				return object;
 			}
 
-			return twemoji.parse( element, {
-				base:     emoji.baseUrl,
-				ext:      emoji.ext,
+			return twemoji.parse( object, {
+				base: settings.baseUrl,
+				ext: settings.ext,
 				callback: function( icon, options ) {
 					// Ignore some standard characters that TinyMCE recommends in its character map.
 					switch ( icon ) {
@@ -193,11 +182,7 @@ window.wp = window.wp || {};
 		}
 	};
 
-	if ( window.addEventListener ) {
-		window.addEventListener( 'load', emoji.load, false );
-	} else if ( window.attachEvent ) {
-		window.attachEvent( 'onload', emoji.load );
-	}
-
 	emoji.init();
-})();
+
+	wp.emoji = emoji;
+} )( window, window.wp, window.twemoji, window._wpemojiSettings );

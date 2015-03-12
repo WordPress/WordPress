@@ -741,8 +741,6 @@ jQuery(document).ready( function($) {
 					});
 				}
 
-				wp.emoji.parse( box.get( 0 ) );
-
 				b.html(revert_b);
 				real_slug.val(new_slug);
 				$('#view-post-btn').show();
