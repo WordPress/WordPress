@@ -102,7 +102,7 @@ window.wp = window.wp || {};
 			}
 
 			/*
-			 * Chrome OS X added native emoji rendering in M41. Unfortunately,
+			 * Chrome on OS X added native emoji rendering in M41. Unfortunately,
 			 * it doesn't work when the font is bolder than 500 weight. So, we
 			 * check for bold rendering support to avoid invisible emoji in Chrome.
 			 */
@@ -174,7 +174,9 @@ window.wp = window.wp || {};
 							return false;
 					}
 
-					if ( emoji.parseFlags && ! emoji.parseAllEmoji && ! icon.match( /^1f1(e[6-9a-f]|f[1-9a-f])-1f1(e[6-9a-f]|f[1-9a-f])$/ ) ) {
+					if ( emoji.parseFlags && ! emoji.parseAllEmoji &&
+						! /^1f1(?:e[6-9a-f]|f[1-9a-f])-1f1(?:e[6-9a-f]|f[1-9a-f])$/.test( icon ) ) {
+
 						return false;
 					}
 
