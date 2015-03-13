@@ -793,9 +793,11 @@ class WP_Press_This {
 				<span class="dashicons dashicons-search"></span><span class="screen-reader-text"><?php _e( 'Search categories' ); ?></span>
 			</label>
 		</div>
-		<ul class="categories-select" aria-label="<?php esc_attr_e( 'Categories' ); ?>">
-			<?php wp_terms_checklist( $post->ID, array( 'taxonomy' => 'category', 'list_only' => true ) ); ?>
-		</ul>
+		<div role="application" aria-label="<?php esc_attr_e( 'Categories' ); ?>">
+			<ul class="categories-select">
+				<?php wp_terms_checklist( $post->ID, array( 'taxonomy' => 'category', 'list_only' => true ) ); ?>
+			</ul>
+		</div>
 		<?php
 	}
 
