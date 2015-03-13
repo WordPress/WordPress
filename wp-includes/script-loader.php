@@ -424,7 +424,7 @@ function wp_default_scripts( &$scripts ) {
 	$scripts->add( 'media-audiovideo', "/wp-includes/js/media/audio-video$suffix.js", array( 'media-editor' ), false, 1 );
 	$scripts->add( 'mce-view', "/wp-includes/js/mce-view$suffix.js", array( 'shortcode', 'media-models', 'media-audiovideo', 'wp-playlist' ), false, 1 );
 
-	$scripts->add( 'twemoji', "/wp-includes/js/twemoji$suffix.js", array(), '1.3.0', 1 );
+	$scripts->add( 'twemoji', "/wp-includes/js/twemoji$suffix.js", array(), '1.3.1', 1 );
 	$scripts->add( 'emoji', "/wp-includes/js/wp-emoji$suffix.js", array( 'twemoji' ), false, 1 );
 	did_action( 'init' ) && $scripts->localize( 'emoji', '_wpemojiSettings', array(
 		/**
