@@ -4041,6 +4041,7 @@ function print_emoji_styles() {
 <style type="text/css">
 img.wp-smiley,
 img.emoji {
+	display: inline !important;
 	border: none !important;
 	box-shadow: none !important;
 	height: 1em !important;
