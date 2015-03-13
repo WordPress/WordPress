@@ -82,17 +82,33 @@ class Walker_Category_Checklist extends Walker {
 		} else {
 			$name = 'tax_input[' . $taxonomy . ']';
 		}
+
 		$args['popular_cats'] = empty( $args['popular_cats'] ) ? array() : $args['popular_cats'];
 		$class = in_array( $category->term_id, $args['popular_cats'] ) ? ' class="popular-category"' : '';
 
 		$args['selected_cats'] = empty( $args['selected_cats'] ) ? array() : $args['selected_cats'];
 
 		/** This filter is documented in wp-includes/category-template.php */
-		$output .= "\n<li id='{$taxonomy}-{$category->term_id}'$class>" .
-			'<label class="selectit"><input value="' . $category->term_id . '" type="checkbox" name="'.$name.'[]" id="in-'.$taxonomy.'-' . $category->term_id . '"' .
-			checked( in_array( $category->term_id, $args['selected_cats'] ), true, false ) .
-			disabled( empty( $args['disabled'] ), false, false ) . ' /> ' .
-			esc_html( apply_filters( 'the_category', $category->name ) ) . '</label>';
+		if ( ! empty( $args['list_only'] ) ) {
+			$aria_cheched = 'false';
+			$inner_class = 'category';
+
+			if ( in_array( $category->term_id, $args['selected_cats'] ) ) {
+				$inner_class .= ' selected';
+				$aria_cheched = 'true';
+			}
+
+			$output .= "\n" . '<li' . $class . '>' .
+				'<div class="' . $inner_class . '" data-term-id=' . $category->term_id .
+				' tabindex="0" role="checkbox" aria-checked="' . $aria_cheched . '">' .
+				esc_html( apply_filters( 'the_category', $category->name ) ) . '</div>';
+		} else {
+			$output .= "\n<li id='{$taxonomy}-{$category->term_id}'$class>" .
+				'<label class="selectit"><input value="' . $category->term_id . '" type="checkbox" name="'.$name.'[]" id="in-'.$taxonomy.'-' . $category->term_id . '"' .
+				checked( in_array( $category->term_id, $args['selected_cats'] ), true, false ) .
+				disabled( empty( $args['disabled'] ), false, false ) . ' /> ' .
+				esc_html( apply_filters( 'the_category', $category->name ) ) . '</label>';
+		}
 	}
 
 	/**
@@ -202,6 +218,8 @@ function wp_terms_checklist( $post_id = 0, $args = array() ) {
 
 	$tax = get_taxonomy( $taxonomy );
 	$args['disabled'] = ! current_user_can( $tax->cap->assign_terms );
+
+	$args['list_only'] = ! empty( $r['list_only'] );
 
 	if ( is_array( $r['selected_cats'] ) ) {
 		$args['selected_cats'] = $r['selected_cats'];

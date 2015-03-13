@@ -121,6 +121,9 @@
 		 * Prepare the form data for saving.
 		 */
 		function prepareFormData() {
+			var $form = $( '#pressthis-form' ),
+				$input = $( '<input type="hidden" name="post_category[]" value="">' );
+
 			editor && editor.save();
 
 			$( '#post_title' ).val( sanitizeText( $( '#title-container' ).text() ) );
@@ -131,6 +134,16 @@
 					window.tagBox.flushTags( this, false, 1 );
 				} );
 			}
+
+			// Get selected categories
+			$( '.categories-select .category' ).each( function( i, element ) {
+				var $cat = $( element );
+
+				if ( $cat.hasClass( 'selected' ) ) {
+					// Have to append a node as we submit the actual form on preview
+					$form.append( $input.clone().val( $cat.attr( 'data-term-id' ) || '' ) );
+				}
+			});
 		}
 
 		/**
@@ -232,18 +245,17 @@
 				if ( ! response.success ) {
 					renderError( response.data.errorMessage );
 				} else {
-					// TODO: change if/when the html changes.
 					var $parent, $ul,
 						$wrap = $( 'ul.categories-select' );
 
 					$.each( response.data, function( i, newCat ) {
-						var $node = $( '<li>' ).attr( 'id', 'category-' + newCat.term_id )
-							.append( $( '<label class="selectit">' ).text( newCat.name )
-								.append( $( '<input type="checkbox" name="post_category[]" checked>' ).attr( 'value', newCat.term_id ) ) );
-
+						var $node = $( '<li>' ).append( $( '<div class="category selected" tabindex="0" role="checkbox" aria-checked="true">' )
+							.attr( 'data-term-id', newCat.term_id )
+							.text( newCat.name ) );
+						
 						if ( newCat.parent ) {
 							if ( ! $ul || ! $ul.length ) {
-								$parent = $wrap.find( '#category-' + newCat.parent );
+								$parent = $wrap.find( 'div[data-term-id="' + newCat.parent + '"]' ).parent();
 								$ul = $parent.find( 'ul.children:first' );
 
 								if ( ! $ul.length ) {
@@ -251,11 +263,12 @@
 								}
 							}
 
-							$ul.append( $node );
-							// TODO: set focus on
+							$ul.prepend( $node );
 						} else {
 							$wrap.prepend( $node );
 						}
+
+						$node.focus();
 					} );
 
 					refreshCatsCache();
@@ -509,6 +522,29 @@
 			}
 		}
 
+		function toggleCatItem( $element ) {
+			if ( $element.hasClass( 'selected' ) ) {
+				$element.removeClass( 'selected' ).attr( 'aria-checked', 'false' );
+			} else {
+				$element.addClass( 'selected' ).attr( 'aria-checked', 'true' );
+			}
+		}
+
+		function monitorCatList() {
+			$( '.categories-select' ).on( 'click.press-this keydown.press-this', function( event ) {
+				var $element = $( event.target );
+
+				if ( $element.is( 'div.category' ) ) {
+					if ( event.type === 'keydown' && event.keyCode !== 32 ) {
+						return;
+					}
+
+					toggleCatItem( $element );
+					event.preventDefault();
+				}
+			});
+		}
+
 		/* ***************************************************************
 		 * PROCESSING FUNCTIONS
 		 *************************************************************** */
@@ -564,6 +600,7 @@
 
 			monitorOptionsModal();
 			monitorPlaceholder();
+			monitorCatList();
 
 			$( '.options-open' ).on( 'click.press-this', openSidebar );
 			$( '.options-close' ).on( 'click.press-this', closeSidebar );
@@ -641,7 +678,7 @@
 				catsCache.push( {
 					node: $this,
 					parents: $this.parents( 'li' ),
-					text: $this.children( 'label' ).text().toLowerCase()
+					text: $this.children( '.category' ).text().toLowerCase()
 				} );
 			} );
 		}

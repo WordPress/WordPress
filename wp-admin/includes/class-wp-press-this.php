@@ -794,7 +794,7 @@ class WP_Press_This {
 			</label>
 		</div>
 		<ul class="categories-select" aria-label="<?php esc_attr_e( 'Categories' ); ?>">
-			<?php wp_terms_checklist( $post->ID, array( 'taxonomy' => 'category' ) ); ?>
+			<?php wp_terms_checklist( $post->ID, array( 'taxonomy' => 'category', 'list_only' => true ) ); ?>
 		</ul>
 		<?php
 	}

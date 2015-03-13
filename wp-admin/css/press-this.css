@@ -963,34 +963,28 @@ input[type="search"].categories-search,
 	list-style: none;
 }
 
-.categories-select input {
-	clear: none;
-	position: absolute;
-	top: 0;
-	left: 0;
+.category {
+	position: relative;
 	display: block;
-	line-height: 0;
-	width: 100%;
-	height: 100%;
-	outline: 0;
-	padding: 0;
-	border: 0;
-	-webkit-border-radius: 0;
-	border-radius: 0;
-	text-align: center;
-	vertical-align: middle;
-	-webkit-appearance: none;
-	appearance: none;
+	padding: 13px 16px 14px 16px;
 	cursor: pointer;
+	background: #fff;
 }
 
-.categories-select input:checked {
+.category:focus,
+.category.selected:focus {
+	outline: 0;
+	background: #2ea2cc;
+	color: #fff;
+}
+
+.category.selected {
 	-webkit-box-shadow: inset 6px 0 0 #2ea2cc;
 	box-shadow: inset 6px 0 0 #2ea2cc;
-	background: rgba(46, 162, 204, 0.1);
+	background: #E9F5F9;
 }
 
-.categories-select input:checked:after {
+.category.selected:after {
 	display: inline-block;
 	content: "\f147";
 	position: absolute;
@@ -1014,41 +1008,31 @@ input[type="search"].categories-search,
 	-moz-osx-font-smoothing: grayscale;
 }
 
-.categories-select input:focus {
-	-webkit-box-shadow: inset 6px 0 0 #2ea2cc;
-	box-shadow: inset 6px 0 0 #2ea2cc;
-	background: rgba(46, 162, 204, 0.05);
+.category.selected:focus:after {
+	color: #fff;
 }
 
-.categories-select label {
-	position: relative;
-	display: block;
-	padding: 13px 16px 14px 16px;
-	cursor: pointer;
-	background: #fff;
-}
-
-.categories-select ul label {
+.categories-select ul .category {
 	padding-left: 24px;
 }
 
-.categories-select ul ul label {
+.categories-select ul ul .category {
 	padding-left: 32px;
 }
 
-.categories-select ul ul ul label {
+.categories-select ul ul ul .category {
 	padding-left: 40px;
 }
 
-.categories-select ul ul ul ul label {
+.categories-select ul ul ul ul .category {
 	padding-left: 48px;
 }
 
-.categories-select ul ul ul ul ul label {
+.categories-select ul ul ul ul ul .category {
 	padding-left: 56px;
 }
 
-.categories-select ul ul ul ul ul ul label {
+.categories-select ul ul ul ul ul ul .category {
 	padding-left: 64px;
 }
 
@@ -1058,27 +1042,6 @@ input[type="search"].categories-search,
 
 .categories-select .is-hidden.searched-parent {
 	display: block;
-}
-
-.lt-ie9 .categories-select input {
-	top: 50%;
-	right: 10px;
-	left: auto;
-	margin-top: -8px;
-	width: 16px;
-	height: 16px;
-}
-
-/* TODO Reformats checkbox on Firefox until we remove checkbox in merge */
-@-moz-document url-prefix() {
-	.categories-select input {
-		top: 50%;
-		right: 10px;
-		left: auto;
-		margin-top: -8px;
-		width: 16px;
-		height: 16px;
-	}
 }
 
 /* Category search */
@@ -1831,6 +1794,7 @@ html {
 	/* Keeps background the full height of the screen, but only visually. Clicks go through. */
 	-webkit-box-shadow: 5001px 5000px 0 5000px #fff, 5000px 5000px 0 5000px #e5e5e5;
 	box-shadow: 5001px 5000px 0 5000px #fff, 5000px 5000px 0 5000px #e5e5e5;
+	outline: 0;
 }
 
 .options-panel-back {
