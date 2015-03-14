@@ -81,7 +81,7 @@
 	metas = head.getElementsByTagName( 'meta' ) || [];
 
 	for ( var m = 0; m < metas.length; m++ ) {
-		if ( m >= 50 ) {
+		if ( m > 200 ) {
 			break;
 		}
 
@@ -90,10 +90,12 @@
 			q_prop = q.getAttribute( 'property' ),
 			q_cont = q.getAttribute( 'content' );
 
-		if ( q_name ) {
-			add( '_meta[' + q_name + ']', q_cont );
-		} else if ( q_prop ) {
-			add( '_meta[' + q_prop + ']', q_cont );
+		if ( q_cont ) {
+			if ( q_name ) {
+				add( '_meta[' + q_name + ']', q_cont );
+			} else if ( q_prop ) {
+				add( '_meta[' + q_prop + ']', q_cont );
+			}
 		}
 	}
 
