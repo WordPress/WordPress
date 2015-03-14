@@ -180,26 +180,28 @@ if ( ! function_exists( 'twentyfifteen_post_thumbnail' ) ) :
  * @since Twenty Fifteen 1.0
  */
 function twentyfifteen_post_thumbnail() {
-	if ( post_password_required() || is_attachment() || ! has_post_thumbnail() ) {
+	if ( post_password_required() || is_attachment() ) {
 		return;
 	}
 
-	if ( is_singular() ) :
-	?>
+	$output = '';
+	if(is_singular()){
+		$thumbnail = get_the_post_thumbnail(null, 'post-thumbnail', '');
+        	if($thumbnail){
+			$output .= '<div class="post-thumbnail">';
+			$output .= $thumbnail;
+			$output .= '</div><!-- .post-thumbnail -->';
+		}
+	} else {
+		$thumbnail = get_the_post_thumbnail( null, 'post-thumbnail', array( 'alt' => get_the_title() ) );
+		if($thumbnail) {
+			$output .= '<a class="post-thumbnail" href="' . the_permalink() . '" aria-hidden="true">';
+			$output .= $thumbnail;
+			$output .= '</a>';
+		}
+	}
 
-	<div class="post-thumbnail">
-		<?php the_post_thumbnail(); ?>
-	</div><!-- .post-thumbnail -->
-
-	<?php else : ?>
-
-	<a class="post-thumbnail" href="<?php the_permalink(); ?>" aria-hidden="true">
-		<?php
-			the_post_thumbnail( 'post-thumbnail', array( 'alt' => get_the_title() ) );
-		?>
-	</a>
-
-	<?php endif; // End is_singular()
+	echo $output;
 }
 endif;
 
