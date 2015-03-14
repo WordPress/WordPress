@@ -16,7 +16,6 @@ if ( !defined('ABSPATH') )
 <h2><?php _e('Edit Comment'); ?></h2>
 
 <div id="poststuff">
-<input type="hidden" name="user_ID" value="<?php echo (int) $user_ID; ?>" />
 <input type="hidden" name="action" value="editedcomment" />
 <input type="hidden" name="comment_ID" value="<?php echo esc_attr( $comment->comment_ID ); ?>" />
 <input type="hidden" name="comment_post_ID" value="<?php echo esc_attr( $comment->comment_post_ID ); ?>" />
