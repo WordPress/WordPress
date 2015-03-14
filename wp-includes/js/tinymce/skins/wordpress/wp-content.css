@@ -57,6 +57,18 @@ th {
 	font-size: inherit;
 }
 
+/* For emoji replacement images */
+img.wp-emoji {
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 0.07em !important;
+	vertical-align: -0.1em !important;
+	border: none !important;
+	padding: 0 !important;
+	-webkit-box-shadow: none !important;
+	box-shadow: none !important;
+}
+
 /* DFW mode */
 html.wp-fullscreen,
 html.wp-fullscreen body#tinymce {

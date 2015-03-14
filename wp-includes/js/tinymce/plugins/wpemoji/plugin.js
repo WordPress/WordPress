@@ -1,29 +1,18 @@
 ( function( tinymce, wp ) {
-	tinymce.PluginManager.add( 'wpemoji', function( editor, url ) {
+	tinymce.PluginManager.add( 'wpemoji', function( editor ) {
 		var typing,
 			isMacWebKit = tinymce.Env.mac && tinymce.Env.webkit;
 
-		if ( ! wp.emoji.parseEmoji ) {
+		if ( ! wp || ! wp.emoji ) {
 			return;
 		}
-
-		// Loads stylesheet for custom styles within the editor
-		editor.on( 'init', function() {
-			var cssId = editor.dom.uniqueId();
-			var linkElm = editor.dom.create( 'link', {
-				id:   cssId,
-				rel:  'stylesheet',
-				href: url + '/css/editor.css'
-			});
-			editor.getDoc().getElementsByTagName( 'head' )[0].appendChild( linkElm );
-		} );
 
 		editor.on( 'keydown keyup', function( event ) {
 			typing = event.type === 'keydown';
 		} );
 
 		editor.on( 'input setcontent', function( event ) {
-			var selection, node, bookmark, imgs;
+			var selection, node, bookmark, images;
 
 			if ( typing && event.type === 'input' ) {
 				return;
@@ -36,16 +25,15 @@
 				bookmark = selection.getBookmark();
 			}
 
-			wp.emoji.parse( node );
+			wp.emoji.parse( node, { className: 'wp-emoji new-emoji' } );
 
-			imgs = editor.dom.select( 'img.emoji', node );
+			images = editor.dom.select( 'img.new-emoji', node );
 
-			tinymce.each( imgs, function( elem ) {
-				if ( ! elem.getAttribute( 'data-wp-emoji' ) ) {
-					elem.setAttribute( 'data-mce-resize', 'false' );
-					elem.setAttribute( 'data-mce-placeholder', '1' );
-					elem.setAttribute( 'data-wp-emoji', elem.alt );
-				}
+			tinymce.each( images, function( image ) {
+				image.className = 'wp-emoji';
+				image.setAttribute( 'data-mce-resize', 'false' );
+				image.setAttribute( 'data-mce-placeholder', '1' );
+				image.setAttribute( 'data-wp-emoji', image.alt );
 			} );
 
 			// In IE all content in the editor is left selected aftrer wp.emoji.parse()...
