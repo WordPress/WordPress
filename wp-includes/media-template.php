@@ -452,7 +452,7 @@ function wp_print_media_templates() {
 			<div class="thumbnail">
 				<# if ( data.uploading ) { #>
 					<div class="media-progress-bar"><div style="width: {{ data.percent }}%"></div></div>
-				<# } else if ( 'image' === data.type && data.sizes ) { #>
+				<# } else if ( ( 'image' === data.type && data.sizes ) || ( data.subtype.indexOf('svg') > -1 ) ) { #>
 					<div class="centered">
 						<img src="{{ data.size.url }}" draggable="false" alt="" />
 					</div>
