@@ -174,7 +174,10 @@ if ( $action ) {
 					<?php wp_nonce_field('bulk-themes') ?>
 					<?php submit_button( _n( 'Yes, Delete this theme', 'Yes, Delete these themes', $themes_to_delete ), 'button', 'submit', false ); ?>
 				</form>
-				<form method="post" action="<?php echo esc_url(wp_get_referer()); ?>" style="display:inline;">
+				<?php
+				$referer = wp_get_referer();
+				?>
+				<form method="post" action="<?php echo $referer ? esc_url( $referer ) : ''; ?>" style="display:inline;">
 					<?php submit_button( __( 'No, Return me to the theme list' ), 'button', 'submit', false ); ?>
 				</form>
 
@@ -217,7 +220,7 @@ $wp_list_table->prepare_items();
 
 add_thickbox();
 
-add_screen_option( 'per_page', array('label' => _x( 'Themes', 'themes per page (screen options)' )) );
+add_screen_option( 'per_page' );
 
 get_current_screen()->add_help_tab( array(
 	'id'      => 'overview',

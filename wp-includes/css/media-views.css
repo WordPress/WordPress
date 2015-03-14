@@ -105,7 +105,7 @@
 }
 
 /*!
- * jQuery UI Draggable/Sortable 1.11.3
+ * jQuery UI Draggable/Sortable 1.11.4
  * http://jqueryui.com
  *
  * Copyright jQuery Foundation and other contributors
@@ -235,20 +235,9 @@
 }
 
 .media-toolbar-secondary {
-	position: relative;
 	float: left;
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
-	padding-right: 20px;
 	height: 100%;
 	max-width: 66%;
-}
-
-.media-toolbar-secondary .spinner {
-	position: absolute;
-	top: 2px;
-	right: 0px;
 }
 
 .media-toolbar-primary > .media-button,
@@ -751,7 +740,6 @@
 	margin-top: 11px;
 	margin-right: 2%;
 	max-width: 47%;
-	width: 100%; /* prevents options from invisibly taking up horizontal space */
 }
 
 /**
@@ -1956,6 +1944,29 @@
 	clear: both;
 }
 
+.embed-link-settings .setting {
+	display: none;
+}
+
+.embed-link-dimensions:after {
+	content: '';
+	display: block;
+	clear: both;
+}
+
+.embed-link-dimensions .width,
+.embed-link-dimensions .height {
+	float: left;
+	width: 125px;
+	clear: none;
+	margin-right: 10px;
+}
+
+.embed-link-dimensions input {
+	width: auto;
+	max-width: 110px;
+}
+
 .image-details .embed-media-settings .setting {
 	float: none;
 	width: auto;
@@ -2002,6 +2013,7 @@
 .media-embed .setting span {
 	display: block;
 	width: 200px;
+	max-width: 100%;
 	font-size: 13px;
 	line-height: 24px;
 	color: #666;
@@ -2376,7 +2388,7 @@
 	}
 
 	.media-modal .attachments-browser .media-toolbar .spinner {
-		margin: 14px 0 0;
+		margin: 14px 8px 0;
 	}
 
 	/* Text inputs need to be 16px, or they force zooming on iOS */

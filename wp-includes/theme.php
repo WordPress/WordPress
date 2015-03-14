@@ -1050,7 +1050,7 @@ function has_header_image() {
  *
  * @since 2.1.0
  *
- * @return string
+ * @return string|false
  */
 function get_header_image() {
 	$url = get_theme_mod( 'header_image', get_theme_support( 'custom-header', 'default-image' ) );
@@ -1153,7 +1153,10 @@ function is_random_header_image( $type = 'any' ) {
  * @since 2.1.0
  */
 function header_image() {
-	echo esc_url( get_header_image() );
+	$image = get_header_image();
+	if ( $image ) {
+		echo esc_url( $image );
+	}
 }
 
 /**
@@ -1960,7 +1963,8 @@ function _wp_customize_loader_settings() {
 		'isCrossDomain' => $cross_domain,
 		'browser'       => $browser,
 		'l10n'          => array(
-			'saveAlert' => __( 'The changes you made will be lost if you navigate away from this page.' ),
+			'saveAlert'       => __( 'The changes you made will be lost if you navigate away from this page.' ),
+			'mainIframeTitle' => __( 'Customizer' ),
 		),
 	);
 

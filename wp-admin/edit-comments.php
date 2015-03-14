@@ -109,7 +109,7 @@ if ( $post_id )
 else
 	$title = __('Comments');
 
-add_screen_option( 'per_page', array('label' => _x( 'Comments', 'comments per page (screen options)' )) );
+add_screen_option( 'per_page' );
 
 get_current_screen()->add_help_tab( array(
 'id'		=> 'overview',

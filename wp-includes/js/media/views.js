@@ -467,7 +467,7 @@ EditImage = State.extend({
 module.exports = EditImage;
 
 },{"../views/toolbar.js":63,"./state.js":15}],5:[function(require,module,exports){
-/*globals wp, _, Backbone, jQuery */
+/*globals wp, _, Backbone */
 
 /**
  * wp.media.controller.Embed
@@ -492,7 +492,7 @@ module.exports = EditImage;
  */
 var State = require( './state.js' ),
 	l10n = wp.media.view.l10n,
-	$ = jQuery,
+	$ = Backbone.$,
 	Embed;
 
 Embed = State.extend({
@@ -2656,6 +2656,7 @@ Attachment = View.extend({
 			this.listenTo( this.model, 'change', this.render );
 		} else {
 			this.listenTo( this.model, 'change:percent', this.progress );
+			this.listenTo( this.model, 'change:parent', this.render );
 		}
 		this.listenTo( this.model, 'change:title', this._syncTitle );
 		this.listenTo( this.model, 'change:caption', this._syncCaption );
@@ -3195,7 +3196,8 @@ Details = Attachment.extend({
 		'click .untrash-attachment':      'untrashAttachment',
 		'click .edit-attachment':         'editAttachment',
 		'click .refresh-attachment':      'refreshAttachment',
-		'keydown':                        'toggleSelectionHandler'
+		'keydown':                        'toggleSelectionHandler',
+		'click .detach-from-parent':      'detachFromParent'
 	},
 
 	initialize: function() {
@@ -3294,6 +3296,20 @@ Details = Attachment.extend({
 			this.controller.trigger( 'attachment:keydown:arrow', event );
 			return;
 		}
+	},
+
+	/**
+	 * @param {Object} event
+	 */
+	detachFromParent: function( event ) {
+		event.preventDefault();
+
+		this.model.save({
+			'parent' : 0,
+			'uploadedTo' : 0,
+			'uploadedToLink' : '',
+			'uploadedToTitle' : ''
+		});
 	}
 });
 
@@ -4185,7 +4201,7 @@ Selection = Attachments.extend({
 module.exports = Selection;
 
 },{"../attachment/selection.js":28,"../attachments.js":29}],32:[function(require,module,exports){
-/*globals _, Backbone, jQuery */
+/*globals _, Backbone */
 
 /**
  * wp.media.view.ButtonGroup
@@ -4197,7 +4213,7 @@ module.exports = Selection;
  */
 var View = require( './view.js' ),
 	Button = require( './button.js' ),
-	$ = jQuery,
+	$ = Backbone.$,
 	ButtonGroup;
 
 ButtonGroup = View.extend({
@@ -4581,15 +4597,15 @@ EmbedLink = Settings.extend({
 	initialize: function() {
 		this.spinner = $('<span class="spinner" />');
 		this.$el.append( this.spinner[0] );
-		this.listenTo( this.model, 'change:url', this.updateoEmbed );
+		this.listenTo( this.model, 'change:url change:width change:height', this.updateoEmbed );
 	},
 
-	updateoEmbed: function() {
+	updateoEmbed: _.debounce( function() {
 		var url = this.model.get( 'url' );
 
-		this.$('.setting.title').show();
 		// clear out previous results
-		this.$('.embed-container').hide().find('.embed-preview').html('');
+		this.$('.embed-container').hide().find('.embed-preview').empty();
+		this.$( '.setting' ).hide();
 
 		// only proceed with embed if the field contains more than 6 characters
 		if ( url && url.length < 6 ) {
@@ -4598,29 +4614,67 @@ EmbedLink = Settings.extend({
 
 		this.spinner.show();
 
-		setTimeout( _.bind( this.fetch, this ), 500 );
-	},
+		this.fetch();
+	}, 600 ),
 
 	fetch: function() {
+		var embed;
+
 		// check if they haven't typed in 500 ms
 		if ( $('#embed-url-field').val() !== this.model.get('url') ) {
 			return;
 		}
 
+		embed = new wp.shortcode({
+			tag: 'embed',
+			attrs: _.pick( this.model.attributes, [ 'width', 'height', 'src' ] ),
+			content: this.model.get('url')
+		});
+
 		wp.ajax.send( 'parse-embed', {
 			data : {
 				post_ID: wp.media.view.settings.post.id,
-				shortcode: '[embed]' + this.model.get('url') + '[/embed]'
+				shortcode: embed.string()
 			}
-		} ).done( _.bind( this.renderoEmbed, this ) );
+		} )
+			.done( _.bind( this.renderoEmbed, this ) )
+			.fail( _.bind( this.renderFail, this ) );
+	},
+
+	renderFail: function () {
+		this.$( '.setting' ).hide().filter( '.link-text' ).show();
 	},
 
 	renderoEmbed: function( response ) {
-		var html = ( response && response.body ) || '';
+		var html = ( response && response.body ) || '',
+			attr = {},
+			opts = { silent: true };
+
+		this.$( '.setting' ).hide()
+			.filter( '.link-text' )[ html ? 'hide' : 'show' ]();
+
+		if ( response && response.attr ) {
+			attr = response.attr;
+
+			_.each( [ 'width', 'height' ], function ( key ) {
+				var $el = this.$( '.setting.' + key ),
+					value = attr[ key ];
+
+				if ( value ) {
+					this.model.set( key, value, opts );
+					$el.show().find( 'input' ).val( value );
+				} else {
+					this.model.unset( key, opts );
+					$el.hide().find( 'input' ).val( '' );
+				}
+			}, this );
+		} else {
+			this.model.unset( 'height', opts );
+			this.model.unset( 'width', opts );
+		}
 
 		this.spinner.hide();
 
-		this.$('.setting.title').hide();
 		this.$('.embed-container').show().find('.embed-preview').html( html );
 	}
 });
@@ -7242,7 +7296,7 @@ Selection = View.extend({
 module.exports = Selection;
 
 },{"./attachments/selection.js":31,"./view.js":71}],57:[function(require,module,exports){
-/*globals _, jQuery, Backbone */
+/*globals _, Backbone */
 
 /**
  * wp.media.view.Settings
@@ -7253,7 +7307,7 @@ module.exports = Selection;
  * @augments Backbone.View
  */
 var View = require( './view.js' ),
-	$ = jQuery,
+	$ = Backbone.$,
 	Settings;
 
 Settings = View.extend({

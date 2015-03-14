@@ -6,16 +6,16 @@
 	var PressThis = function() {
 		var editor,
 			saveAlert             = false,
-			siteConfig            = window.wpPressThisConfig || {},
+			textarea              = document.createElement( 'textarea' ),
+			sidebarIsOpen         = false,
+			settings              = window.wpPressThisConfig || {},
 			data                  = window.wpPressThisData || {},
 			smallestWidth         = 128,
-			interestingImages	  = getInterestingImages( data ) || [],
-			interestingEmbeds	  = getInterestingEmbeds( data ) || [],
-			hasEmptyTitleStr      = false,
-			suggestedTitleStr     = getSuggestedTitle( data ),
-			suggestedContentStr   = getSuggestedContent( data ),
 			hasSetFocus           = false,
 			catsCache             = [],
+			isOffScreen           = 'is-off-screen',
+			isHidden              = 'is-hidden',
+			offscreenHidden       = isOffScreen + ' ' + isHidden,
 			transitionEndEvent    = ( function() {
 				var style = document.documentElement.style;
 
@@ -60,24 +60,24 @@
 			return string
 				.replace( /<!--[\s\S]*?(-->|$)/g, '' )
 				.replace( /<(script|style)[^>]*>[\s\S]*?(<\/\1>|$)/ig, '' )
-				.replace( /<\/?[a-z][^>]*>/ig, '' );
+				.replace( /<\/?[a-z][\s\S]*?(>|$)/ig, '' );
 		}
 
 		/**
-		 * Strip HTML tags and entity encode some of the HTML special chars.
+		 * Strip HTML tags and convert HTML entities.
 		 *
 		 * @param text string Text.
 		 * @returns string Sanitized text.
 		 */
 		function sanitizeText( text ) {
-			text = stripTags( text );
+			var _text = stripTags( text );
 
-			return text
-				.replace( /\\/, '' )
-				.replace( /</g, '&lt;' )
-				.replace( />/g, '&gt;' )
-				.replace( /"/g, '&quot;' )
-				.replace( /'/g, '&#039;' );
+			try {
+				textarea.innerHTML = _text;
+				_text = stripTags( textarea.value );
+			} catch ( er ) {}
+
+			return _text;
 		}
 
 		/**
@@ -95,300 +95,6 @@
 			}
 
 			return '';
-		}
-
-		/**
-		 * Gets the source page's canonical link, based on passed location and meta data.
-		 *
-		 * @returns string Discovered canonical URL, or empty
-		 */
-		function getCanonicalLink() {
-			var link = '';
-
-			if ( data._links ) {
-				if ( data._links.canonical && data._links.canonical.length ) {
-					link = data._links.canonical;
-				}
-			}
-
-			if ( ! link.length && data.u ) {
-				link = data.u;
-			}
-
-			if ( ! link.length && data._meta ) {
-				if ( data._meta['twitter:url'] && data._meta['twitter:url'].length ) {
-					link = data._meta['twitter:url'];
-				} else if ( data._meta['og:url'] && data._meta['og:url'].length ) {
-					link = data._meta['og:url'];
-				}
-			}
-
-			return checkUrl( decodeURI( link ) );
-		}
-
-		/**
-		 * Gets the source page's site name, based on passed meta data.
-		 *
-		 * @returns string Discovered site name, or empty
-		 */
-		function getSourceSiteName() {
-			var name = '';
-
-			if ( data._meta ) {
-				if ( data._meta['og:site_name'] && data._meta['og:site_name'].length ) {
-					name = data._meta['og:site_name'];
-				} else if ( data._meta['application-name'] && data._meta['application-name'].length ) {
-					name = data._meta['application-name'];
-				}
-			}
-
-			return sanitizeText( name );
-		}
-
-		/**
-		 * Gets the source page's title, based on passed title and meta data.
-		 *
-		 * @returns string Discovered page title, or empty
-		 */
-		function getSuggestedTitle() {
-			var title = '';
-
-			if ( data.t ) {
-				title = data.t;
-			}
-
-			if ( ! title && data._meta ) {
-				if ( data._meta['twitter:title'] && data._meta['twitter:title'].length ) {
-					title = data._meta['twitter:title'];
-				} else if ( data._meta['og:title'] && data._meta['og:title'].length ) {
-					title = data._meta['og:title'];
-				} else if ( data._meta.title && data._meta.title.length ) {
-					title = data._meta.title;
-				}
-			}
-
-			if ( ! title ) {
-				title = __( 'newPost' );
-				hasEmptyTitleStr = true;
-			}
-
-			return sanitizeText( title );
-		}
-
-		/**
-		 * Gets the source page's suggested content, based on passed data (description, selection, etc).
-		 * Features a blockquoted excerpt, as well as content attribution, if any.
-		 *
-		 * @returns string Discovered content, or empty
-		 */
-		function getSuggestedContent() {
-			var content  = '',
-				text     = '',
-				title    = getSuggestedTitle(),
-				url      = getCanonicalLink(),
-				siteName = getSourceSiteName();
-
-			if ( data.s && data.s.length ) {
-				text = data.s;
-			} else if ( data._meta ) {
-				if ( data._meta['twitter:description'] && data._meta['twitter:description'].length ) {
-					text = data._meta['twitter:description'];
-				} else if ( data._meta['og:description'] && data._meta['og:description'].length ) {
-					text = data._meta['og:description'];
-				} else if ( data._meta.description && data._meta.description.length ) {
-					text = data._meta.description;
-				}
-			}
-
-			if ( text ) {
-				text = sanitizeText( text );
-				// Wrap suggested content in blockquote tag.
-				content = '<blockquote class="press-this-suggested-content">' + text + '</blockquote>';
-			}
-
-			// Add a source attribution if there is one available.
-			if ( url && siteConfig.suggestedHTML && ( ( title && __( 'newPost' ) !== title ) || siteName ) ) {
-				content += siteConfig.suggestedHTML.replace( /%1\$s/g, encodeURI( url ) ).replace( /%2\$s/g, ( title || siteName ) );
-			}
-
-			return content || '';
-		}
-
-		/**
-		 * Tests if what was passed as an embed URL is deemed to be embeddable in the editor.
-		 *
-		 * @param url string Passed URl, usually from WpPressThis_App.data._embed
-		 * @returns boolean
-		 */
-		function isEmbeddable( url ) {
-			if ( ! url ) {
-				return false;
-			} else if ( url.match( /\/\/(m\.|www\.)?youtube\.com\/watch\?/ ) || url.match( /\/youtu\.be\/.+$/ ) ) {
-				return true;
-			} else if ( url.match( /\/\/vimeo\.com\/(.+\/)?[\d]+$/ ) ) {
-				return true;
-			} else if ( url.match( /\/\/(www\.)?dailymotion\.com\/video\/.+$/ ) ) {
-				return true;
-			} else if ( url.match( /\/\/soundcloud\.com\/.+$/ ) ) {
-				return true;
-			} else if ( url.match( /\/\/twitter\.com\/[^\/]+\/status\/[\d]+$/ ) ) {
-				return true;
-			} else if ( url.match( /\/\/vine\.co\/v\/[^\/]+/ ) ) {
-				return true;
-			}
-
-			return false;
-		}
-
-		/**
-		 * Tests if what was passed as an image URL is deemed to be interesting enough to offer to the user for selection.
-		 *
-		 * @param src string Passed URl, usually from WpPressThis_App.data._ing
-		 * @returns boolean Test for false
-		 */
-		function isSrcUninterestingPath( src ) {
-			if ( src.match( /\/ad[sx]{1}?\// ) ) {
-				// Ads
-				return true;
-			} else if ( src.match( /(\/share-?this[^\.]+?\.[a-z0-9]{3,4})(\?.*)?$/ ) ) {
-				// Share-this type button
-				return true;
-			} else if ( src.match( /\/(spinner|loading|spacer|blank|rss)\.(gif|jpg|png)/ ) ) {
-				// Loaders, spinners, spacers
-				return true;
-			} else if ( src.match( /\/([^\.\/]+[-_]{1})?(spinner|loading|spacer|blank)s?([-_]{1}[^\.\/]+)?\.[a-z0-9]{3,4}/ ) ) {
-				// Fancy loaders, spinners, spacers
-				return true;
-			} else if ( src.match( /([^\.\/]+[-_]{1})?thumb[^.]*\.(gif|jpg|png)$/ ) ) {
-				// Thumbnails, too small, usually irrelevant to context
-				return true;
-			} else if ( src.match( /\/wp-includes\// ) ) {
-				// Classic WP interface images
-				return true;
-			} else if ( src.match( /[^\d]{1}\d{1,2}x\d+\.(gif|jpg|png)$/ ) ) {
-				// Most often tiny buttons/thumbs (< 100px wide)
-				return true;
-			} else if ( src.indexOf( '/g.gif' ) > -1 ) {
-				// Classic WP stats gif
-				return true;
-			} else if ( src.indexOf( '/pixel.mathtag.com' ) > -1 ) {
-				// See mathtag.com
-				return true;
-			}
-			return false;
-		}
-
-		/**
-		 * Get a list of valid embeds from what was passed via WpPressThis_App.data._embed on page load.
-		 *
-		 * @returns array
-		 */
-		function getInterestingEmbeds() {
-			var embeds             = data._embed || [],
-				interestingEmbeds  = [],
-				alreadySelected    = [];
-
-			if ( embeds.length ) {
-				$.each( embeds, function ( i, src ) {
-					if ( !src || !src.length ) {
-						// Skip: no src value
-						return;
-					} else if ( !isEmbeddable( src ) ) {
-						// Skip: not deemed embeddable
-						return;
-					}
-
-					var schemelessSrc = src.replace( /^https?:/, '' );
-
-					if ( $.inArray( schemelessSrc, alreadySelected ) > -1 ) {
-						// Skip: already shown
-						return;
-					}
-
-					interestingEmbeds.push( src );
-					alreadySelected.push( schemelessSrc );
-				} );
-			}
-
-			return interestingEmbeds;
-		}
-
-		/**
-		 * Get what is likely the most valuable image from what was passed via WpPressThis_App.data._img and WpPressThis_App.data._meta on page load.
-		 *
-		 * @returns array
-		 */
-		function getFeaturedImage( data ) {
-			var featured = '';
-
-			if ( ! data || ! data._meta ) {
-				return '';
-			}
-
-			if ( data._meta['twitter:image0:src'] && data._meta['twitter:image0:src'].length ) {
-				featured = data._meta['twitter:image0:src'];
-			} else if ( data._meta['twitter:image0'] && data._meta['twitter:image0'].length ) {
-				featured = data._meta['twitter:image0'];
-			} else if ( data._meta['twitter:image:src'] && data._meta['twitter:image:src'].length ) {
-				featured = data._meta['twitter:image:src'];
-			} else if ( data._meta['twitter:image'] && data._meta['twitter:image'].length ) {
-				featured = data._meta['twitter:image'];
-			} else if ( data._meta['og:image'] && data._meta['og:image'].length ) {
-				featured = data._meta['og:image'];
-			} else if ( data._meta['og:image:secure_url'] && data._meta['og:image:secure_url'].length ) {
-				featured = data._meta['og:image:secure_url'];
-			}
-
-			featured = checkUrl( featured );
-
-			return ( isSrcUninterestingPath( featured ) ) ? '' : featured;
-		}
-
-		/**
-		 * Get a list of valid images from what was passed via WpPressThis_App.data._img and WpPressThis_App.data._meta on page load.
-		 *
-		 * @returns array
-		 */
-		function getInterestingImages( data ) {
-			var imgs             = data._img || [],
-				featuredPict     = getFeaturedImage( data ) || '',
-				interestingImgs  = [],
-				alreadySelected  = [];
-
-			if ( featuredPict.length ) {
-				interestingImgs.push( featuredPict );
-				alreadySelected.push( featuredPict.replace(/^https?:/, '') );
-			}
-
-			if ( imgs.length ) {
-				$.each( imgs, function ( i, src ) {
-					src = src.replace( /http:\/\/[\d]+\.gravatar\.com\//, 'https://secure.gravatar.com/' );
-					src = checkUrl( src );
-
-					if ( ! src || ! src.length ) {
-						// Skip: no src value
-						return;
-					}
-
-					var schemelessSrc = src.replace( /^https?:/, '' );
-
-					if ( Array.prototype.indexOf && alreadySelected.indexOf( schemelessSrc ) > -1 ) {
-						// Skip: already shown
-						return;
-					} else if ( isSrcUninterestingPath( src ) ) {
-						// Skip: spinner, stat, ad, or spacer pict
-						return;
-					} else if ( src.indexOf( 'avatar' ) > -1 && interestingImgs.length >= 15 ) {
-						// Skip:  some type of avatar and we've already gathered more than 23 diff images to show
-						return;
-					}
-
-					interestingImgs.push( src );
-					alreadySelected.push( schemelessSrc );
-				} );
-			}
-
-			return interestingImgs;
 		}
 
 		/**
@@ -412,23 +118,15 @@
 		}
 
 		/**
-		 * Submit the post form via AJAX, and redirect to the proper screen if published vs saved as a draft.
-		 *
-		 * @param action string publish|draft
+		 * Prepare the form data for saving.
 		 */
-		function submitPost( action ) {
-			saveAlert = false;
-			showSpinner();
-
-			var $form = $( '#pressthis-form' );
-
-			if ( 'publish' === action ) {
-				$( '#post_status' ).val( 'publish' );
-			}
+		function prepareFormData() {
+			var $form = $( '#pressthis-form' ),
+				$input = $( '<input type="hidden" name="post_category[]" value="">' );
 
 			editor && editor.save();
 
-			$( '#title-field' ).val( sanitizeText( $( '#title-container' ).text() ) );
+			$( '#post_title' ).val( sanitizeText( $( '#title-container' ).text() ) );
 
 			// Make sure to flush out the tags with tagBox before saving
 			if ( window.tagBox ) {
@@ -437,7 +135,34 @@
 				} );
 			}
 
-			var data = $form.serialize();
+			// Get selected categories
+			$( '.categories-select .category' ).each( function( i, element ) {
+				var $cat = $( element );
+
+				if ( $cat.hasClass( 'selected' ) ) {
+					// Have to append a node as we submit the actual form on preview
+					$form.append( $input.clone().val( $cat.attr( 'data-term-id' ) || '' ) );
+				}
+			});
+		}
+
+		/**
+		 * Submit the post form via AJAX, and redirect to the proper screen if published vs saved as a draft.
+		 *
+		 * @param action string publish|draft
+		 */
+		function submitPost( action ) {
+			var data;
+
+			saveAlert = false;
+			showSpinner();
+
+			if ( 'publish' === action ) {
+				$( '#post_status' ).val( 'publish' );
+			}
+
+			prepareFormData();
+			data = $( '#pressthis-form' ).serialize();
 
 			$.ajax( {
 				type: 'post',
@@ -448,7 +173,7 @@
 						renderError( response.data.errorMessage );
 						hideSpinner();
 					} else if ( response.data.redirect ) {
-						if ( window.opener && siteConfig.redirInParent ) {
+						if ( window.opener && settings.redirInParent ) {
 							try {
 								window.opener.location.href = response.data.redirect;
 							} catch( er ) {}
@@ -480,7 +205,7 @@
 			link = checkUrl( link );
 
 			if ( 'img' === type ) {
-				if ( ! link || ! link.length ) {
+				if ( ! link ) {
 					link = src;
 				}
 
@@ -520,18 +245,17 @@
 				if ( ! response.success ) {
 					renderError( response.data.errorMessage );
 				} else {
-					// TODO: change if/when the html changes.
 					var $parent, $ul,
 						$wrap = $( 'ul.categories-select' );
 
 					$.each( response.data, function( i, newCat ) {
-						var $node = $( '<li>' ).attr( 'id', 'category-' + newCat.term_id )
-							.append( $( '<label class="selectit">' ).text( newCat.name )
-								.append( $( '<input type="checkbox" name="post_category[]" checked>' ).attr( 'value', newCat.term_id ) ) );
-
+						var $node = $( '<li>' ).append( $( '<div class="category selected" tabindex="0" role="checkbox" aria-checked="true">' )
+							.attr( 'data-term-id', newCat.term_id )
+							.text( newCat.name ) );
+						
 						if ( newCat.parent ) {
 							if ( ! $ul || ! $ul.length ) {
-								$parent = $wrap.find( '#category-' + newCat.parent );
+								$parent = $wrap.find( 'div[data-term-id="' + newCat.parent + '"]' ).parent();
 								$ul = $parent.find( 'ul.children:first' );
 
 								if ( ! $ul.length ) {
@@ -539,11 +263,12 @@
 								}
 							}
 
-							$ul.append( $node );
-							// TODO: set focus on
+							$ul.prepend( $node );
 						} else {
 							$wrap.prepend( $node );
 						}
+
+						$node.focus();
 					} );
 
 					refreshCatsCache();
@@ -559,7 +284,7 @@
 		 * Hide the form letting users enter a URL to be scanned, if a URL was already passed.
 		 */
 		function renderToolsVisibility() {
-			if ( data.u && data.u.match( /^https?:/ ) ) {
+			if ( data.hasData ) {
 				$( '#scanbar' ).hide();
 			}
 		}
@@ -591,60 +316,15 @@
 		 */
 		function renderStartupNotices() {
 			// Render errors sent in the data, if any
-			if ( data.errors && data.errors.length ) {
+			if ( data.errors ) {
 				$.each( data.errors, function( i, msg ) {
 					renderError( msg );
 				} );
 			}
 
 			// Prompt user to upgrade their bookmarklet if there is a version mismatch.
-			if ( data.v && data._version && ( data.v + '' ) !== ( data._version + '' ) ) {
+			if ( data.v && settings.version && ( data.v + '' ) !== ( settings.version + '' ) ) {
 				$( '.should-upgrade-bookmarklet' ).removeClass( 'is-hidden' );
-			}
-		}
-
-		/**
-		 * Render the suggested title, if any
-		 */
-		function renderSuggestedTitle() {
-			var suggestedTitle = suggestedTitleStr || '',
-				$title = $( '#title-container' );
-
-			if ( ! hasEmptyTitleStr ) {
-				$( '#title-field' ).val( suggestedTitle );
-				$title.text( suggestedTitle );
-				$( '.post-title-placeholder' ).addClass( 'is-hidden' );
-			}
-
-			$title.on( 'keyup', function() {
-				saveAlert = true;
-			}).on( 'paste', function() {
-				saveAlert = true;
-
-				setTimeout( function() {
-					$title.text( $title.text() );
-				}, 100 );
-			} );
-
-		}
-
-		/**
-		 * Render the suggested content, if any
-		 */
-		function renderSuggestedContent() {
-			if ( ! suggestedContentStr || ! suggestedContentStr.length ) {
-				return;
-			}
-
-			if ( ! editor ) {
-				editor = window.tinymce.get( 'pressthis' );
-			}
-
-			if ( editor ) {
-				editor.setContent( suggestedContentStr );
-				editor.on( 'focus', function() {
-					hasSetFocus = true;
-				} );
 			}
 		}
 
@@ -658,17 +338,13 @@
 
 			listContainer.empty();
 
-			if ( ( interestingEmbeds && interestingEmbeds.length ) || ( interestingImages && interestingImages.length ) ) {
-				listContainer.append( '<h2 class="screen-reader-text">' + __( 'allMediaHeading' ) + '</h2><ul class="wppt-all-media-list"/>' );
+			if ( data._embeds || data._images ) {
+				listContainer.append( '<h2 class="screen-reader-text">' + __( 'allMediaHeading' ) + '</h2><ul class="wppt-all-media-list" />' );
 			}
 
-			if ( interestingEmbeds && interestingEmbeds.length ) {
-				$.each( interestingEmbeds, function ( i, src ) {
+			if ( data._embeds ) {
+				$.each( data._embeds, function ( i, src ) {
 					src = checkUrl( src );
-
-					if ( ! isEmbeddable( src ) ) {
-						return;
-					}
 
 					var displaySrc = '',
 						cssClass   = 'suggested-media-thumbnail suggested-media-embed';
@@ -695,7 +371,7 @@
 						'class': cssClass,
 						'tabindex': '0'
 					} ).css( {
-						'background-image': ( displaySrc.length ) ? 'url(' + displaySrc + ')' : null
+						'background-image': ( displaySrc ) ? 'url(' + displaySrc + ')' : null
 					} ).html(
 						'<span class="screen-reader-text">' + __( 'suggestedEmbedAlt' ).replace( '%d', i + 1 ) + '</span>'
 					).on( 'click keypress', function ( e ) {
@@ -708,8 +384,8 @@
 				} );
 			}
 
-			if ( interestingImages && interestingImages.length ) {
-				$.each( interestingImages, function ( i, src ) {
+			if ( data._images ) {
+				$.each( data._images, function( i, src ) {
 					src = checkUrl( src );
 
 					var displaySrc = src.replace(/^(http[^\?]+)(\?.*)?$/, '$1');
@@ -755,50 +431,39 @@
 		 * Interactive navigation behavior for the options modal (post format, tags, categories)
 		 */
 		function monitorOptionsModal() {
-			var isOffScreen   = 'is-off-screen',
-				isHidden      = 'is-hidden',
-				$postOptions  = $( '.post-options' ),
+			var $postOptions  = $( '.post-options' ),
 				$postOption   = $( '.post-option' ),
 				$settingModal = $( '.setting-modal' ),
 				$modalClose   = $( '.modal-close' );
 
-			$postOption.on( 'click', function( event ) {
+			$postOption.on( 'click', function() {
 				var index = $( this ).index(),
 					$targetSettingModal = $settingModal.eq( index );
 
-				event.preventDefault();
-
-				$postOptions
-					.addClass( isOffScreen )
+				$postOptions.addClass( isOffScreen )
 					.one( transitionEndEvent, function() {
 						$( this ).addClass( isHidden );
 					} );
 
-				$targetSettingModal
-					.removeClass( isOffScreen + ' ' + isHidden )
+				$targetSettingModal.removeClass( offscreenHidden )
 					.one( transitionEndEvent, function() {
 						$( this ).find( '.modal-close' ).focus();
 					} );
 			} );
 
-			$modalClose.on( 'click', function( event ) {
+			$modalClose.on( 'click', function() {
 				var $targetSettingModal = $( this ).parent(),
 					index = $targetSettingModal.index();
 
-				event.preventDefault();
+				$postOptions.removeClass( offscreenHidden );
+				$targetSettingModal.addClass( isOffScreen );
 
-				$postOptions
-					.removeClass( isOffScreen + ' ' + isHidden );
-
-				$targetSettingModal
-					.addClass( isOffScreen )
-					.one( transitionEndEvent, function() {
+				if ( transitionEndEvent ) {
+					$targetSettingModal.one( transitionEndEvent, function() {
 						$( this ).addClass( isHidden );
 						$postOption.eq( index - 1 ).focus();
 					} );
-
-				// For browser that don't support transitionend.
-				if ( ! transitionEndEvent ) {
+				} else {
 					setTimeout( function() {
 						$targetSettingModal.addClass( isHidden );
 						$postOption.eq( index - 1 ).focus();
@@ -810,65 +475,74 @@
 		/**
 		 * Interactive behavior for the sidebar toggle, to show the options modals
 		 */
-		function monitorSidebarToggle() {
-			var $optOpen  = $( '.options-open' ),
-				$optClose = $( '.options-close' ),
-				$postOption = $( '.post-option' ),
-				$sidebar = $( '.options-panel' ),
-				$postActions = $( '.press-this-actions' ),
-				$scanbar = $( '#scanbar' ),
-				isOffScreen = 'is-off-screen',
-				isHidden = 'is-hidden',
-				ifOffHidden = isOffScreen + ' ' + isHidden;
+		function openSidebar() {
+			sidebarIsOpen = true;
 
-			$optOpen.on( 'click', function(){
-				$optOpen.addClass( isHidden );
-				$optClose.removeClass( isHidden );
-				$postActions.addClass( isHidden );
-				$scanbar.addClass( isHidden );
+			$( '.options-open, .press-this-actions, #scanbar' ).addClass( isHidden );
+			$( '.options-close, .options-panel-back' ).removeClass( isHidden );
 
-				$sidebar
-					.removeClass( ifOffHidden )
-					.one( 'transitionend', function() {
-						$postOption.eq( 0 ).focus();
-					} );
-			} );
+			$( '.options-panel' ).removeClass( offscreenHidden )
+				.one( 'transitionend', function() {
+					$( '.post-option:first' ).focus();
+				} );
+		}
 
-			$optClose.on( 'click', function(){
-				$optClose.addClass( isHidden );
-				$optOpen.removeClass( isHidden );
-				$postActions.removeClass( isHidden );
-				$scanbar.removeClass( isHidden );
+		function closeSidebar() {
+			sidebarIsOpen = false;
 
-				$sidebar
-					.addClass( isOffScreen )
-					.one( 'transitionend', function() {
-						$( this ).addClass( isHidden );
-						// Reset to options list
-						$( '.post-options' ).removeClass( ifOffHidden );
-						$( '.setting-modal').addClass( ifOffHidden );
-					} );
-			} );
+			$( '.options-close, .options-panel-back' ).addClass( isHidden );
+			$( '.options-open, .press-this-actions, #scanbar' ).removeClass( isHidden );
+
+			$( '.options-panel' ).addClass( isOffScreen )
+				.one( 'transitionend', function() {
+					$( this ).addClass( isHidden );
+					// Reset to options list
+					$( '.post-options' ).removeClass( offscreenHidden );
+					$( '.setting-modal').addClass( offscreenHidden );
+				});
 		}
 
 		/**
 		 * Interactive behavior for the post title's field placeholder
 		 */
 		function monitorPlaceholder() {
-			var $selector = $( '#title-container'),
+			var $titleField = $( '#title-container'),
 				$placeholder = $('.post-title-placeholder');
 
-			$selector.on( 'focus', function() {
+			$titleField.on( 'focus', function() {
 				$placeholder.addClass('is-hidden');
-			} );
-
-			$selector.on( 'blur', function() {
-				var textLength = $( this ).text().length;
-
-				if ( ! textLength ) {
+			}).on( 'blur', function() {
+				if ( ! $titleField.text() ) {
 					$placeholder.removeClass('is-hidden');
 				}
-			} );
+			});
+
+			if ( $titleField.text() ) {
+				$placeholder.addClass('is-hidden');
+			}
+		}
+
+		function toggleCatItem( $element ) {
+			if ( $element.hasClass( 'selected' ) ) {
+				$element.removeClass( 'selected' ).attr( 'aria-checked', 'false' );
+			} else {
+				$element.addClass( 'selected' ).attr( 'aria-checked', 'true' );
+			}
+		}
+
+		function monitorCatList() {
+			$( '.categories-select' ).on( 'click.press-this keydown.press-this', function( event ) {
+				var $element = $( event.target );
+
+				if ( $element.is( 'div.category' ) ) {
+					if ( event.type === 'keydown' && event.keyCode !== 32 ) {
+						return;
+					}
+
+					toggleCatItem( $element );
+					event.preventDefault();
+				}
+			});
 		}
 
 		/* ***************************************************************
@@ -881,33 +555,71 @@
 		function render(){
 			// We're on!
 			renderToolsVisibility();
-			renderSuggestedTitle();
 			renderDetectedMedia();
-			$( document ).on( 'tinymce-editor-init', renderSuggestedContent );
 			renderStartupNotices();
+
+			if ( window.tagBox ) {
+				window.tagBox.init();
+			}
 		}
 
 		/**
 		 * Set app events and other state monitoring related code.
 		 */
 		function monitor(){
+			$( document ).on( 'tinymce-editor-init', function( event, ed ) {
+				editor = ed;
+
+				ed.on( 'focus', function() {
+					hasSetFocus = true;
+				} );
+			});
+
 			$( '#current-site a').click( function( e ) {
 				e.preventDefault();
 			} );
 
-			// Publish and Draft buttons and submit
+			// Publish, Draft and Preview buttons
 
-			$( '#draft-field' ).on( 'click', function() {
-				submitPost( 'draft' );
-			} );
+			$( '.post-actions' ).on( 'click.press-this', function( event ) {
+				var $target = $( event.target );
 
-			$( '#publish-field' ).on( 'click', function() {
-				submitPost( 'publish' );
-			} );
+				if ( $target.hasClass( 'draft-button' ) ) {
+					submitPost( 'draft' );
+				} else if ( $target.hasClass( 'publish-button' ) ) {
+					submitPost( 'publish' );
+				} else if ( $target.hasClass( 'preview-button' ) ) {
+					prepareFormData();
+					window.opener && window.opener.focus();
+
+					$( '#wp-preview' ).val( 'dopreview' );
+					$( '#pressthis-form' ).attr( 'target', '_blank' ).submit().attr( 'target', '' );
+					$( '#wp-preview' ).val( '' );
+				}
+			});
 
 			monitorOptionsModal();
-			monitorSidebarToggle();
 			monitorPlaceholder();
+			monitorCatList();
+
+			$( '.options-open' ).on( 'click.press-this', openSidebar );
+			$( '.options-close' ).on( 'click.press-this', closeSidebar );
+
+			// Close the sidebar when focus moves outside of it.
+			$( '.options-panel, .options-panel-back' ).on( 'focusout.press-this', function() {
+				setTimeout( function() {
+					var node = document.activeElement,
+						$node = $( node );
+
+					if ( sidebarIsOpen && node && ! $node.hasClass( 'options-panel-back' ) &&
+						( node.nodeName === 'BODY' ||
+							( ! $node.closest( '.options-panel' ).length &&
+							! $node.closest( '.options-open' ).length ) ) ) {
+
+						closeSidebar();
+					}
+				}, 50 );
+			});
 
 			$( '#post-formats-select input' ).on( 'change', function() {
 				var $this = $( this );
@@ -915,12 +627,6 @@
 				if ( $this.is( ':checked' ) ) {
 					$( '#post-option-post-format' ).text( $( 'label[for="' + $this.attr( 'id' ) + '"]' ).text() || '' );
 				}
-			} );
-
-			// Needs more work, doesn't detect when the other JS changes the value of #tax-input-post_tag
-			$( '#tax-input-post_tag' ).on( 'change', function() {
-				var val =  $( this ).val();
-				$( '#post-option-tags' ).text( ( val.length ) ? val.replace( /,([^\s])/g, ', $1' ) : '' );
 			} );
 
 			$( window ).on( 'beforeunload.press-this', function() {
@@ -933,7 +639,7 @@
 				var $this = $( this );
 
 				$this.toggleClass( 'is-toggled' );
-				$this.attr( 'aria-expanded', ! $this.attr( 'aria-expanded' ) );
+				$this.attr( 'aria-expanded', 'false' === $this.attr( 'aria-expanded' ) ? 'true' : 'false' );
 				$( '.setting-modal .add-category, .categories-search-wrapper' ).toggleClass( 'is-hidden' );
 			} );
 
@@ -972,7 +678,7 @@
 				catsCache.push( {
 					node: $this,
 					parents: $this.parents( 'li' ),
-					text: $this.children( 'label' ).text().toLowerCase()
+					text: $this.children( '.category' ).text().toLowerCase()
 				} );
 			} );
 		}
@@ -984,8 +690,7 @@
 			refreshCatsCache();
 		});
 
-		// Expose public methods
-		// TODO: which are needed?
+		// Expose public methods?
 		return {
 			renderNotice: renderNotice,
 			renderError: renderError

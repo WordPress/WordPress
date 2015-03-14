@@ -1,4 +1,4 @@
-/*globals wp, _, jQuery, Backbone */
+/*globals wp, _, Backbone */
 
 /**
  * wp.media.model.Attachment
@@ -6,7 +6,7 @@
  * @class
  * @augments Backbone.Model
  */
-var $ = jQuery,
+var $ = Backbone.$,
 	Attachment;
 
 Attachment = Backbone.Model.extend({

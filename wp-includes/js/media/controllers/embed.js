@@ -1,4 +1,4 @@
-/*globals wp, _, Backbone, jQuery */
+/*globals wp, _, Backbone */
 
 /**
  * wp.media.controller.Embed
@@ -23,7 +23,7 @@
  */
 var State = require( './state.js' ),
 	l10n = wp.media.view.l10n,
-	$ = jQuery,
+	$ = Backbone.$,
 	Embed;
 
 Embed = State.extend({

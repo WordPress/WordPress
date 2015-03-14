@@ -32,7 +32,7 @@ var findPosts;
 		},
 
 		close: function() {
-			$('#find-posts-response').html('');
+			$('#find-posts-response').empty();
 			$('#find-posts').hide();
 			$( '.ui-find-overlay' ).hide();
 		},
@@ -72,13 +72,7 @@ var findPosts;
 	};
 
 	$( document ).ready( function() {
-		var settings,
-			$mediaGridWrap = $( '#wp-media-grid' ),
-			$form = $( '#posts-filter' );
-
-		$form.find( 'select' ).on( 'change', function () {
-			$form.submit();
-		} );
+		var settings, $mediaGridWrap = $( '#wp-media-grid' );
 
 		// Open up a manage media frame into the grid.
 		if ( $mediaGridWrap.length && window.wp && window.wp.media ) {

@@ -14,6 +14,10 @@
  */
 class WP_Press_This {
 
+	private $images = array();
+
+	private $embeds = array();
+
 	/**
 	 * Constructor.
 	 *
@@ -31,13 +35,10 @@ class WP_Press_This {
 	 * @return array Site settings.
 	 */
 	public function site_settings() {
-		$html = '<p class="press-this-suggested-source">' . _x( 'Source:', 'Used in Press This to indicate where the content comes from.' ) .
-			' <cite><a href="%1$s">%2$s</a></cite></p>';
-
 		return array(
 			// Used to trigger the bookmarklet update notice.
 			// Needs to be set here and in get_shortcut_link() in wp-includes/link-template.php.
-			'version' => '5',
+			'version' => '7',
 
 			/**
 			 * Filter whether or not Press This should redirect the user in the parent window upon save.
@@ -47,15 +48,6 @@ class WP_Press_This {
 			 * @param bool false Whether to redirect in parent window or not. Default false.
 			 */
 			'redirInParent' => apply_filters( 'press_this_redirect_in_parent', false ),
-
-			/**
-			 * Filter the HTML for the Press This source attribution.
-			 *
-			 * @since 4.2.0
-			 *
-			 * @param string $html Default HTML, %1$s is link href, %2$s is link text.
-			 */
-			'suggestedHTML' => apply_filters( 'press_this_suggested_html', $html ),
 		);
 	}
 
@@ -129,22 +121,20 @@ class WP_Press_This {
 	 * @access public
 	 */
 	public function save_post() {
-		if ( empty( $_POST['pressthis-nonce'] ) || ! wp_verify_nonce( $_POST['pressthis-nonce'], 'press-this' ) ) {
-			wp_send_json_error( array( 'errorMessage' => __( 'Cheatin&#8217; uh?' ) ) );
-		}
-
 		if ( empty( $_POST['post_ID'] ) || ! $post_id = (int) $_POST['post_ID'] ) {
 			wp_send_json_error( array( 'errorMessage' => __( 'Missing post ID.' ) ) );
 		}
 
-		if ( ! current_user_can( 'edit_post', $post_id ) ) {
-			wp_send_json_error( array( 'errorMessage' => __( 'Cheatin&#8217; uh?' ) ) );
+		if ( empty( $_POST['_wpnonce'] ) || ! wp_verify_nonce( $_POST['_wpnonce'], 'update-post_' . $post_id ) ||
+			! current_user_can( 'edit_post', $post_id ) ) {
+
+			wp_send_json_error( array( 'errorMessage' => __( 'Invalid post.' ) ) );
 		}
 
 		$post = array(
 			'ID'            => $post_id,
-			'post_title'    => ( ! empty( $_POST['title'] ) ) ? sanitize_text_field( trim( $_POST['title'] ) ) : '',
-			'post_content'  => ( ! empty( $_POST['pressthis'] ) ) ? trim( $_POST['pressthis'] ) : '',
+			'post_title'    => ( ! empty( $_POST['post_title'] ) ) ? sanitize_text_field( trim( $_POST['post_title'] ) ) : '',
+			'post_content'  => ( ! empty( $_POST['post_content'] ) ) ? trim( $_POST['post_content'] ) : '',
 			'post_type'     => 'post',
 			'post_status'   => 'draft',
 			'post_format'   => ( ! empty( $_POST['post_format'] ) ) ? sanitize_text_field( $_POST['post_format'] ) : '',
@@ -274,17 +264,19 @@ class WP_Press_This {
 	 */
 	public function fetch_source_html( $url ) {
 		// Download source page to tmp file.
-		$source_tmp_file = ( ! empty( $url ) ) ? download_url( $url ) : '';
+		$source_tmp_file = ( ! empty( $url ) ) ? download_url( $url, 30 ) : '';
 		$source_content  = '';
 
 		if ( ! is_wp_error( $source_tmp_file ) && file_exists( $source_tmp_file ) ) {
 			// Get the content of the source page from the tmp file..
 
 			$source_content = wp_kses(
-				file_get_contents( $source_tmp_file ),
+				@file_get_contents( $source_tmp_file ),
 				array(
 					'img' => array(
 						'src'      => array(),
+						'width'    => array(),
+						'height'   => array(),
 					),
 					'iframe' => array(
 						'src'      => array(),
@@ -314,8 +306,165 @@ class WP_Press_This {
 		return $source_content;
 	}
 
+	private function _limit_array( $value ) {
+		if ( is_array( $value ) ) {
+			if ( count( $value ) > 50 ) {
+				return array_slice( $value, 0, 50 );
+			}
+
+			return $value;
+		}
+
+		return array();
+	}
+
+	private function _limit_string( $value ) {
+		$return = '';
+
+		if ( is_numeric( $value ) || is_bool( $value ) ) {
+			$return = $value;
+		} else if ( is_string( $value ) ) {
+			if ( mb_strlen( $value ) > 5000 ) {
+				$return = mb_substr( $value, 0, 5000 );
+			} else {
+				$return = $value;
+			}
+
+			$return = html_entity_decode( $return, ENT_QUOTES, 'UTF-8' );
+			$return = sanitize_text_field( trim( $return ) );
+		}
+
+		return $return;
+	}
+
+	private function _limit_url( $url ) {
+		if ( ! is_string( $url ) ) {
+			return '';
+		}
+
+		// HTTP 1.1 allows 8000 chars but the "de-facto" standard supported in all current browsers is 2048.
+		if ( strlen( $url ) > 2048 ) {
+			return ''; // Return empty rather than a trunacted/invalid URL
+		}
+
+		// Does it look like an URL?
+		if ( ! preg_match( '/^([!#$&-;=?-\[\]_a-z~]|%[0-9a-fA-F]{2})+$/', $url ) ) {
+			return '';
+		}
+
+		return esc_url_raw( $url, array( 'http', 'https' ) );
+	}
+
+	private function _limit_img( $src ) {
+		$src = $this->_limit_url( $src );
+
+		if ( preg_match( '/\/ad[sx]{1}?\//', $src ) ) {
+			// Ads
+			return '';
+		} else if ( preg_match( '/(\/share-?this[^\.]+?\.[a-z0-9]{3,4})(\?.*)?$/', $src ) ) {
+			// Share-this type button
+			return '';
+		} else if ( preg_match( '/\/(spinner|loading|spacer|blank|rss)\.(gif|jpg|png)/', $src ) ) {
+			// Loaders, spinners, spacers
+			return '';
+		} else if ( preg_match( '/\/([^\.\/]+[-_]{1})?(spinner|loading|spacer|blank)s?([-_]{1}[^\.\/]+)?\.[a-z0-9]{3,4}/', $src ) ) {
+			// Fancy loaders, spinners, spacers
+			return '';
+		} else if ( preg_match( '/([^\.\/]+[-_]{1})?thumb[^.]*\.(gif|jpg|png)$/', $src ) ) {
+			// Thumbnails, too small, usually irrelevant to context
+			return '';
+		} else if ( preg_match( '/\/wp-includes\//', $src ) ) {
+			// Classic WP interface images
+			return '';
+		} else if ( preg_match( '/[^\d]{1}\d{1,2}x\d+\.(gif|jpg|png)$/', $src ) ) {
+			// Most often tiny buttons/thumbs (< 100px wide)
+			return '';
+		} else if ( preg_match( '/\/pixel\.(mathtag|quantserve)\.com/', $src ) ) {
+			// See mathtag.com and https://www.quantcast.com/how-we-do-it/iab-standard-measurement/how-we-collect-data/
+			return '';
+		} else if ( preg_match( '/\/[gb]\.gif(\?.+)?$/', $src ) ) {
+			// Classic WP stats gif
+			return '';
+		}
+
+		return $src;
+	}
+
+	private function _limit_embed( $src ) {
+		$src = $this->_limit_url( $src );
+
+		if ( preg_match( '/\/\/(m|www)\.youtube\.com\/(embed|v)\/([^\?]+)\?.+$/', $src, $src_matches ) ) {
+			// Embedded Youtube videos (www or mobile)
+			$src = 'https://www.youtube.com/watch?v=' . $src_matches[3];
+		} else if ( preg_match( '/\/\/player\.vimeo\.com\/video\/([\d]+)([\?\/]{1}.*)?$/', $src, $src_matches ) ) {
+			// Embedded Vimeo iframe videos
+			$src = 'https://vimeo.com/' . (int) $src_matches[1];
+		} else if ( preg_match( '/\/\/vimeo\.com\/moogaloop\.swf\?clip_id=([\d]+)$/', $src, $src_matches ) ) {
+			// Embedded Vimeo Flash videos
+			$src = 'https://vimeo.com/' . (int) $src_matches[1];
+		} else if ( preg_match( '/\/\/vine\.co\/v\/([^\/]+)\/embed/', $src, $src_matches ) ) {
+			// Embedded Vine videos
+			$src = 'https://vine.co/v/' . $src_matches[1];
+		} else if ( preg_match( '/\/\/(www\.)?dailymotion\.com\/embed\/video\/([^\/\?]+)([\/\?]{1}.+)?/', $src, $src_matches ) ) {
+			// Embedded Daily Motion videos
+			$src = 'https://www.dailymotion.com/video/' . $src_matches[2];
+		} else if ( ! preg_match( '/\/\/(m|www)\.youtube\.com\/watch\?/', $src )          // Youtube video page (www or mobile)
+		            && ! preg_match( '/\/youtu\.be\/.+$/', $src )                         // Youtu.be video page
+		            && ! preg_match( '/\/\/vimeo\.com\/[\d]+$/', $src )                   // Vimeo video page
+		            && ! preg_match( '/\/\/(www\.)?dailymotion\.com\/video\/.+$/', $src ) // Daily Motion video page
+		            && ! preg_match( '/\/\/soundcloud\.com\/.+$/', $src )                 // SoundCloud audio page
+		            && ! preg_match( '/\/\/twitter\.com\/[^\/]+\/status\/[\d]+$/', $src ) // Twitter status page
+		            && ! preg_match( '/\/\/vine\.co\/v\/[^\/]+/', $src ) ) {              // Vine video page
+			$src = '';
+		}
+
+		return $src;
+	}
+
+	private function _process_meta_entry( $meta_name, $meta_value, $data ) {
+		if ( preg_match( '/:?(title|description|keywords|site_name)$/', $meta_name ) ) {
+			$data['_meta'][ $meta_name ] = $meta_value;
+		} else {
+			switch ( $meta_name ) {
+				case 'og:url':
+				case 'og:video':
+				case 'og:video:secure_url':
+					$meta_value = $this->_limit_embed( $meta_value );
+
+					if ( ! isset( $data['_embeds'] ) ) {
+						$data['_embeds'] = array();
+					}
+
+					if ( ! empty( $meta_value ) && ! in_array( $meta_value, $data['_embeds'] ) ) {
+						$data['_embeds'][] = $meta_value;
+					}
+
+					break;
+				case 'og:image':
+				case 'og:image:secure_url':
+				case 'twitter:image0:src':
+				case 'twitter:image0':
+				case 'twitter:image:src':
+				case 'twitter:image':
+					$meta_value = $this->_limit_img( $meta_value );
+
+					if ( ! isset( $data['_images'] ) ) {
+						$data['_images'] = array();
+					}
+
+					if ( ! empty( $meta_value ) && ! in_array( $meta_value, $data['_images'] ) ) {
+						$data['_images'][] = $meta_value;
+					}
+
+					break;
+			}
+		}
+
+		return $data;
+	}
+
 	/**
-	 * Fetches and parses _meta, _img, and _links data from the source.
+	 * Fetches and parses _meta, _images, and _links data from the source.
 	 *
 	 * @since 4.2.0
 	 * @access public
@@ -335,88 +484,67 @@ class WP_Press_This {
 			return array( 'errors' => $source_content->get_error_messages() );
 		}
 
-		// Fetch and gather <img> data.
-		if ( empty( $data['_img'] ) ) {
-			$data['_img'] = array();
+		// Fetch and gather <meta> data first, so discovered media is offered 1st to user.
+		if ( empty( $data['_meta'] ) ) {
+			$data['_meta'] = array();
 		}
 
-		if ( preg_match_all( '/<img (.+)[\s]?\/>/', $source_content, $matches ) ) {
-			if ( ! empty( $matches[0] ) ) {
-				foreach ( $matches[0] as $value ) {
-					if ( preg_match( '/<img[^>]+src="([^"]+)"[^>]+\/>/', $value, $new_matches ) ) {
-						if ( ! in_array( $new_matches[1], $data['_img'] ) ) {
-							$data['_img'][] = $new_matches[1];
-						}
+		if ( preg_match_all( '/<meta [^>]+>/', $source_content, $matches ) ) {
+			$items = $this->_limit_array( $matches[0] );
+
+			foreach ( $items as $value ) {
+				if ( preg_match( '/(property|name)="([^"]+)"[^>]+content="([^"]+)"/', $value, $new_matches ) ) {
+					$meta_name  = $this->_limit_string( $new_matches[2] );
+					$meta_value = $this->_limit_string( $new_matches[3] );
+
+					// Sanity check. $key is usually things like 'title', 'description', 'keywords', etc.
+					if ( strlen( $meta_name ) > 100 ) {
+						continue;
+					}
+
+					$data = $this->_process_meta_entry( $meta_name, $meta_value, $data );
+				}
+			}
+		}
+
+		// Fetch and gather <img> data.
+		if ( empty( $data['_images'] ) ) {
+			$data['_images'] = array();
+		}
+
+		if ( preg_match_all( '/<img [^>]+>/', $source_content, $matches ) ) {
+			$items = $this->_limit_array( $matches[0] );
+
+			foreach ( $items as $value ) {
+				if ( ( preg_match( '/width=(\'|")(\d+)\\1/i', $value, $new_matches ) && $new_matches[2] < 256 ) ||
+					( preg_match( '/height=(\'|")(\d+)\\1/i', $value, $new_matches ) && $new_matches[2] < 128 ) ) {
+
+					continue;
+				}
+
+				if ( preg_match( '/src=(\'|")([^\'"]+)\\1/i', $value, $new_matches ) ) {
+					$src = $this->_limit_img( $new_matches[2] );
+					if ( ! empty( $src ) && ! in_array( $src, $data['_images'] ) ) {
+						$data['_images'][] = $src;
 					}
 				}
 			}
 		}
 
 		// Fetch and gather <iframe> data.
-		if ( empty( $data['_embed'] ) ) {
-			$data['_embed'] = array();
+		if ( empty( $data['_embeds'] ) ) {
+			$data['_embeds'] = array();
 		}
 
-		if ( preg_match_all( '/<iframe (.+)[\s][^>]*>/', $source_content, $matches ) ) {
-			if ( ! empty( $matches[0] ) ) {
-				foreach ( $matches[0] as $value ) {
-					if ( preg_match( '/<iframe[^>]+src=(\'|")([^"]+)(\'|")/', $value, $new_matches ) ) {
-						if ( ! in_array( $new_matches[2], $data['_embed'] ) ) {
-							if ( preg_match( '/\/\/www\.youtube\.com\/embed\/([^\?]+)\?.+$/', $new_matches[2], $src_matches ) ) {
-								$data['_embed'][] = 'https://www.youtube.com/watch?v=' . $src_matches[1];
-							} else if ( preg_match( '/\/\/player\.vimeo\.com\/video\/([\d]+)([\?\/]{1}.*)?$/', $new_matches[2], $src_matches ) ) {
-								$data['_embed'][] = 'https://vimeo.com/' . (int) $src_matches[1];
-							} else if ( preg_match( '/\/\/vine\.co\/v\/([^\/]+)\/embed/', $new_matches[2], $src_matches ) ) {
-								$data['_embed'][] = 'https://vine.co/v/' . $src_matches[1];
-							}
-						}
-					}
-				}
-			}
-		}
+		if ( preg_match_all( '/<iframe [^>]+>/', $source_content, $matches ) ) {
+			$items = $this->_limit_array( $matches[0] );
 
-		// Fetch and gather <meta> data.
-		if ( empty( $data['_meta'] ) ) {
-			$data['_meta'] = array();
-		}
+			foreach ( $items as $value ) {
+				if ( preg_match( '/src=(\'|")([^\'"]+)\\1/', $value, $new_matches ) ) {
+					$src = $this->_limit_embed( $new_matches[2] );
 
-		if ( preg_match_all( '/<meta ([^>]+)[\s]?\/?>/', $source_content, $matches ) ) {
-			if ( ! empty( $matches[0] ) ) {
-				foreach ( $matches[0] as $key => $value ) {
-					if ( preg_match( '/<meta[^>]+(property|name)="(.+)"[^>]+content="(.+)"/', $value, $new_matches ) ) {
-						if ( empty( $data['_meta'][ $new_matches[2] ] ) ) {
-							if ( preg_match( '/:?(title|description|keywords)$/', $new_matches[2] ) ) {
-								$data['_meta'][ $new_matches[2] ] = str_replace( '&#039;', "'", str_replace( '&#034;', '', html_entity_decode( $new_matches[3] ) ) );
-							} else {
-								$data['_meta'][ $new_matches[2] ] = $new_matches[3];
-								if ( 'og:url' == $new_matches[2] ) {
-									if ( false !== strpos( $new_matches[3], '//www.youtube.com/watch?' )
-									     || false !== strpos( $new_matches[3], '//www.dailymotion.com/video/' )
-									     || preg_match( '/\/\/vimeo\.com\/[\d]+$/', $new_matches[3] )
-									     || preg_match( '/\/\/soundcloud\.com\/.+$/', $new_matches[3] )
-									     || preg_match( '/\/\/twitter\.com\/[^\/]+\/status\/[\d]+$/', $new_matches[3] )
-									     || preg_match( '/\/\/vine\.co\/v\/[^\/]+/', $new_matches[3] ) ) {
-										if ( ! in_array( $new_matches[3], $data['_embed'] ) ) {
-											$data['_embed'][] = $new_matches[3];
-										}
-									}
-								} else if ( 'og:video' == $new_matches[2] || 'og:video:secure_url' == $new_matches[2] ) {
-									if ( preg_match( '/\/\/www\.youtube\.com\/v\/([^\?]+)/', $new_matches[3], $src_matches ) ) {
-										if ( ! in_array( 'https://www.youtube.com/watch?v=' . $src_matches[1], $data['_embed'] ) ) {
-											$data['_embed'][] = 'https://www.youtube.com/watch?v=' . $src_matches[1];
-										}
-									} else if ( preg_match( '/\/\/vimeo.com\/moogaloop\.swf\?clip_id=([\d]+)$/', $new_matches[3], $src_matches ) ) {
-										if ( ! in_array( 'https://vimeo.com/' . $src_matches[1], $data['_embed'] ) ) {
-											$data['_embed'][] = 'https://vimeo.com/' . $src_matches[1];
-										}
-									}
-								} else if ( 'og:image' == $new_matches[2] || 'og:image:secure_url' == $new_matches[2] ) {
-									if ( ! in_array( $new_matches[3], $data['_img'] ) ) {
-										$data['_img'][] = $new_matches[3];
-									}
-								}
-							}
-						}
+					if ( ! empty( $src ) && ! in_array( $src, $data['_embeds'] ) ) {
+						$data['_embeds'][] = $src;
 					}
 				}
 			}
@@ -427,15 +555,16 @@ class WP_Press_This {
 			$data['_links'] = array();
 		}
 
-		if ( preg_match_all( '/<link ([^>]+)[\s]?\/>/', $source_content, $matches ) ) {
-			if ( ! empty( $matches[0] ) ) {
-				foreach ( $matches[0] as $key => $value ) {
-					if ( preg_match( '/<link[^>]+(rel|itemprop)="([^"]+)"[^>]+href="([^"]+)"[^>]+\/>/', $value, $new_matches ) ) {
-						if ( 'alternate' == $new_matches[2] || 'thumbnailUrl' == $new_matches[2] || 'url' == $new_matches[2] ) {
-							if ( empty( $data['_links'][ $new_matches[2] ] ) ) {
-								$data['_links'][ $new_matches[2] ] = $new_matches[3];
-							}
-						}
+		if ( preg_match_all( '/<link [^>]+>/', $source_content, $matches ) ) {
+			$items = $this->_limit_array( $matches[0] );
+
+			foreach ( $items as $value ) {
+				if ( preg_match( '/rel=["\'](canonical|shortlink|icon)["\']/i', $value, $matches_rel ) && preg_match( '/href=[\'"]([^\'" ]+)[\'"]/i', $value, $matches_url ) ) {
+					$rel = $matches_rel[1];
+					$url = $this->_limit_url( $matches_url[1] );
+
+					if ( ! empty( $url ) && empty( $data['_links'][ $rel ] ) ) {
+						$data['_links'][ $rel ] = $url;
 					}
 				}
 			}
@@ -453,13 +582,29 @@ class WP_Press_This {
 	 * @return array
 	 */
 	public function merge_or_fetch_data() {
-		// Merge $_POST and $_GET, as appropriate ($_POST > $_GET), to remain backward compatible.
-		$data = array_merge_recursive( $_POST, $_GET );
+		// Get data from $_POST and $_GET, as appropriate ($_POST > $_GET), to remain backward compatible.
+		$data = array();
 
-		// Get the legacy QS params, or equiv POST data
-		$data['u'] = ( ! empty( $data['u'] ) && preg_match( '/^https?:/', $data['u'] ) ) ? $data['u'] : '';
-		$data['s'] = ( ! empty( $data['s'] ) ) ? $data['s'] : '';
-		$data['t'] = ( ! empty( $data['t'] ) ) ? $data['t'] : '';
+		// Only instantiate the keys we want. Sanity check and sanitize each one.
+		foreach ( array( 'u', 's', 't', 'v' ) as $key ) {
+			if ( ! empty( $_POST[ $key ] ) ) {
+				$value = wp_unslash( $_POST[ $key ] );
+			} else if ( ! empty( $_GET[ $key ] ) ) {
+				$value = wp_unslash( $_GET[ $key ] );
+			} else {
+				continue;
+			}
+
+			if ( 'u' === $key ) {
+				$value = $this->_limit_url( $value );
+			} else {
+				$value = $this->_limit_string( $value );
+			}
+
+			if ( ! empty( $value ) ) {
+				$data[ $key ] = $value;
+			}
+		}
 
 		/**
 		 * Filter whether to enable in-source media discovery in Press This.
@@ -470,21 +615,60 @@ class WP_Press_This {
 		 */
 		if ( apply_filters( 'enable_press_this_media_discovery', true ) ) {
 			/*
-			 * If no _meta (a new thing) was passed via $_POST, fetch data from source as fallback,
-			 * makes PT fully backward compatible
+			 * If no title, _images, _embed, and _meta was passed via $_POST, fetch data from source as fallback,
+			 * making PT fully backward compatible with the older bookmarklet.
 			 */
-			if ( empty( $data['_meta'] ) && ! empty( $data['u'] ) ) {
+			if ( empty( $_POST ) && ! empty( $data['u'] ) ) {
 				$data = $this->source_data_fetch_fallback( $data['u'], $data );
-			}
-		} else {
-			if ( ! empty( $data['_img'] ) ) {
-				$data['_img'] = array();
-			}
-			if ( ! empty( $data['_embed'] ) ) {
-				$data['_embed'] = array();
-			}
-			if ( ! empty( $data['_meta'] ) ) {
-				$data['_meta'] = array();
+			} else {
+				foreach ( array( '_images', '_embeds' ) as $type ) {
+					if ( empty( $_POST[ $type ] ) ) {
+						continue;
+					}
+
+					$data[ $type ] = array();
+					$items = $this->_limit_array( $_POST[ $type ] );
+
+					foreach ( $items as $key => $value ) {
+						if ( $type === '_images' ) {
+							$value = $this->_limit_img( wp_unslash( $value ) );
+						} else {
+							$value = $this->_limit_embed( wp_unslash( $value ) );
+						}
+
+						if ( ! empty( $value ) ) {
+							$data[ $type ][] = $value;
+						}
+					}
+				}
+
+				foreach ( array( '_meta', '_links' ) as $type ) {
+					if ( empty( $_POST[ $type ] ) ) {
+						continue;
+					}
+
+					$data[ $type ] = array();
+					$items = $this->_limit_array( $_POST[ $type ] );
+
+					foreach ( $items as $key => $value ) {
+						// Sanity check. These are associative arrays, $key is usually things like 'title', 'description', 'keywords', etc.
+						if ( empty( $key ) || strlen( $key ) > 100 ) {
+							continue;
+						}
+
+						if ( $type === '_meta' ) {
+							$value = $this->_limit_string( wp_unslash( $value ) );
+
+							if ( ! empty( $value ) ) {
+								$data = $this->_process_meta_entry( $key, $value, $data );
+							}
+						} else {
+							if ( in_array( $key, array( 'canonical', 'shortlink', 'icon' ), true ) ) {
+								$data[ $type ][ $key ] = $this->_limit_url( wp_unslash( $value ) );
+							}
+						}
+					}
+				}
 			}
 		}
 
@@ -559,6 +743,7 @@ class WP_Press_This {
 						<label for="post-format-<?php echo $attr_format ?>" class="post-format-icon post-format-<?php echo $attr_format; ?>"><?php echo esc_html( get_post_format_string( $format ) ); ?></label>
 						<?php
 					 }
+
 					 ?>
 				</fieldset>
 				</div>
@@ -599,7 +784,7 @@ class WP_Press_This {
 					) );
 					?>
 				</div>
-				<button type="button" class="button add-cat-submit"><?php _e( 'Add' ); ?></button>
+				<button type="button" class="add-cat-submit"><?php _e( 'Add' ); ?></button>
 			</div>
 		<?php } ?>
 		<div class="categories-search-wrapper">
@@ -608,9 +793,11 @@ class WP_Press_This {
 				<span class="dashicons dashicons-search"></span><span class="screen-reader-text"><?php _e( 'Search categories' ); ?></span>
 			</label>
 		</div>
-		<ul class="categories-select" aria-label="<?php esc_attr_e( 'Categories' ); ?>">
-			<?php wp_terms_checklist( $post->ID, array( 'taxonomy' => 'category' ) ); ?>
-		</ul>
+		<div role="application" aria-label="<?php esc_attr_e( 'Categories' ); ?>">
+			<ul class="categories-select">
+				<?php wp_terms_checklist( $post->ID, array( 'taxonomy' => 'category', 'list_only' => true ) ); ?>
+			</ul>
+		</div>
 		<?php
 	}
 
@@ -640,10 +827,9 @@ class WP_Press_This {
 				?>
 				<div class="ajaxtag hide-if-no-js">
 					<label class="screen-reader-text" for="new-tag-post_tag"><?php _e( 'Tags' ); ?></label>
-					<div class="taghint"><?php echo $taxonomy->labels->add_new_item; ?></div>
 					<p>
 						<input type="text" id="new-tag-post_tag" name="newtag[post_tag]" class="newtag form-input-tip" size="16" autocomplete="off" value="" />
-						<button type="button" class="button tagadd"><?php _e( 'Add' ); ?></button>
+						<button type="button" class="tagadd"><?php _e( 'Add' ); ?></button>
 					</p>
 				</div>
 				<p class="howto">
@@ -662,6 +848,194 @@ class WP_Press_This {
 	}
 
 	/**
+	 * Get a list of embeds with no duplicates.
+	 *
+	 * @param array $data The site's data.
+	 * @returns array
+	 */
+	public function get_embeds( $data ) {
+		$selected_embeds = array();
+
+		if ( ! empty( $data['_embeds'] ) ) {
+			foreach( $data['_embeds'] as $src ) {
+				$prot_relative_src = preg_replace( '/^https?:/', '', $src );
+
+				if ( in_array( $prot_relative_src, $this->embeds ) ) {
+					continue;
+				}
+
+				$selected_embeds[] = $src;
+				$this->embeds[] = $prot_relative_src;
+			}
+		}
+
+		return $selected_embeds;
+	}
+
+	/**
+	 * Get a list of images with no duplicates.
+	 *
+	 * @param array $data The site's data.
+	 * @returns array
+	 */
+	public function get_images( $data ) {
+		$selected_images = array();
+
+		if ( ! empty( $data['_images'] ) ) {
+			foreach( $data['_images'] as $src ) {
+				if ( false !== strpos( $src, 'gravatar.com' ) ) {
+					$src = preg_replace( '%http://[\d]+\.gravatar\.com/%', 'https://secure.gravatar.com/', $src );
+				}
+
+				$prot_relative_src = preg_replace( '/^https?:/', '', $src );
+
+				if ( in_array( $prot_relative_src, $this->images ) ||
+					( false !== strpos( $src, 'avatar' ) && count( $this->images ) > 15 ) ) {
+					// Skip: already selected or some type of avatar and we've already gathered more than 15 images.
+					continue;
+				}
+
+				$selected_images[] = $src;
+				$this->images[] = $prot_relative_src;
+			}
+		}
+
+		return $selected_images;
+	}
+
+	/**
+	 * Gets the source page's canonical link, based on passed location and meta data.
+	 *
+ 	 * @param array $data The site's data.
+	 * @returns string Discovered canonical URL, or empty
+	 */
+	public function get_canonical_link( $data ) {
+		$link = '';
+
+		if ( ! empty( $data['_links']['canonical'] ) ) {
+			$link = $data['_links']['canonical'];
+		} elseif ( ! empty( $data['u'] ) ) {
+			$link = $data['u'];
+		} elseif ( ! empty( $data['_meta'] ) ) {
+			if ( ! empty( $data['_meta']['twitter:url'] ) ) {
+				$link = $data['_meta']['twitter:url'];
+			} else if ( ! empty( $data['_meta']['og:url'] ) ) {
+				$link = $data['_meta']['og:url'];
+			}
+		}
+
+		if ( empty( $link ) && ! empty( $data['_links']['shortlink'] ) ) {
+			$link = $data['_links']['shortlink'];
+		}
+
+		return $link;
+	}
+
+	/**
+	 * Gets the source page's site name, based on passed meta data.
+	 *
+	 * @param array $data The site's data.
+	 * @returns string Discovered site name, or empty
+	 */
+	public function get_source_site_name( $data ) {
+		$name = '';
+
+		if ( ! empty( $data['_meta'] ) ) {
+			if ( ! empty( $data['_meta']['og:site_name'] ) ) {
+				$name = $data['_meta']['og:site_name'];
+			} else if ( ! empty( $data['_meta']['application-name'] ) ) {
+				$name = $data['_meta']['application-name'];
+			}
+		}
+
+		return $name;
+	}
+
+	/**
+	 * Gets the source page's title, based on passed title and meta data.
+	 *
+	 * @param array $data The site's data.
+	 * @returns string Discovered page title, or empty
+	 */
+	public function get_suggested_title( $data ) {
+		$title = '';
+
+		if ( ! empty( $data['t'] ) ) {
+			$title = $data['t'];
+		} elseif( ! empty( $data['_meta'] ) ) {
+			if ( ! empty( $data['_meta']['twitter:title'] ) ) {
+				$title = $data['_meta']['twitter:title'];
+			} else if ( ! empty( $data['_meta']['og:title'] ) ) {
+				$title = $data['_meta']['og:title'];
+			} else if ( ! empty( $data['_meta']['title'] ) ) {
+				$title = $data['_meta']['title'];
+			}
+		}
+
+		return $title;
+	}
+
+	/**
+	 * Gets the source page's suggested content, based on passed data (description, selection, etc).
+	 * Features a blockquoted excerpt, as well as content attribution, if any.
+	 *
+	 * @param array $data The site's data.
+	 * @returns string Discovered content, or empty
+	 */
+	public function get_suggested_content( $data ) {
+		$content = $text = '';
+
+		if ( ! empty( $data['s'] ) ) {
+			$text = $data['s'];
+		} else if ( ! empty( $data['_meta'] ) ) {
+			if ( ! empty( $data['_meta']['twitter:description'] ) ) {
+				$text = $data['_meta']['twitter:description'];
+			} else if ( ! empty( $data['_meta']['og:description'] ) ) {
+				$text = $data['_meta']['og:description'];
+			} else if ( ! empty( $data['_meta']['description'] ) ) {
+				$text = $data['_meta']['description'];
+			}
+		}
+
+		$default_html = array(
+			'quote' => '<blockquote>%1$s</blockquote>',
+			'link' => '<p>' . _x( 'Source:', 'Used in Press This to indicate where the content comes from.' ) .
+				' <em><a href="%1$s">%2$s</a></em></p>',
+		);
+
+		/**
+		 * Filter the default HTML for the Press This editor.
+		 *
+		 * @since 4.2.0
+		 *
+		 * @param array $default_html Associative array with two keys: 'quote' where %1$s is replaced with the site description
+		 *                            or the selected content, and 'link' there %1$s is link href, %2$s is link text.
+		 */
+		$default_html = apply_filters( 'press_this_suggested_html', $default_html, $data );
+
+		// Wrap suggested content in the specified HTML.
+		if ( ! empty( $default_html['quote'] ) ) {
+			$content = sprintf( $default_html['quote'], $text );
+		}
+
+		// Add source attribution if there is one available.
+		if ( ! empty( $default_html['link'] ) ) {
+			$title = $this->get_suggested_title( $data );
+			$url = $this->get_canonical_link( $data );
+
+			if ( ! $title ) {
+				$title = $this->get_source_site_name( $data );
+			}
+
+			if ( $url && $title ) {
+				$content .= sprintf( $default_html['link'], $url, $title );
+			}
+		}
+
+		return $content;
+	}
+
+	/**
 	 * Serves the app's base HTML, which in turns calls the load script.
 	 *
 	 * @since 4.2.0
@@ -673,11 +1047,33 @@ class WP_Press_This {
 		// Get data, new (POST) and old (GET).
 		$data = $this->merge_or_fetch_data();
 
+		$post_title = $this->get_suggested_title( $data );
+
+		if ( empty( $title ) ) {
+			$title = __( 'New Post' );
+		}
+
+		$post_content = $this->get_suggested_content( $data );
+
 		// Get site settings array/data.
 		$site_settings = $this->site_settings();
 
-		// Set the passed data.
-		$data['_version'] = $site_settings['version'];
+		// Pass the images and embeds
+		$images = $this->get_images( $data );
+		$embeds = $this->get_embeds( $data );
+
+		$site_data = array(
+			'v' => ! empty( $data['v'] ) ? $data['v'] : '',
+			'hasData' => ! empty( $data ),
+		);
+
+		if ( ! empty( $images ) ) {
+			$site_data['_images'] = $images;
+		}
+
+		if ( ! empty( $embeds ) ) {
+			$site_data['_embeds'] = $embeds;
+		}
 
 		// Add press-this-editor.css and remove theme's editor-style.css, if any.
 		remove_editor_styles();
@@ -696,13 +1092,13 @@ class WP_Press_This {
 <!--[if IE 8]>         <html class="lt-ie9" <?php language_attributes(); ?>> <![endif]-->
 <!--[if gt IE 8]><!--> <html <?php language_attributes(); ?>> <!--<![endif]-->
 <head>
-	<meta http-equiv="Content-Type" content="<?php esc_attr( bloginfo( 'html_type' ) ); ?>; charset=<?php echo esc_attr( get_option( 'blog_charset' ) ); ?>" />
+	<meta http-equiv="Content-Type" content="<?php echo esc_attr( get_bloginfo( 'html_type' ) ); ?>; charset=<?php echo esc_attr( get_option( 'blog_charset' ) ); ?>" />
 	<meta name="viewport" content="width=device-width">
 	<title><?php esc_html_e( 'Press This!' ) ?></title>
 
 	<script>
-		window.wpPressThisData   = <?php echo wp_json_encode( $data ) ?>;
-		window.wpPressThisConfig = <?php echo wp_json_encode( $site_settings ) ?>;
+		window.wpPressThisData   = <?php echo wp_json_encode( $site_data ); ?>;
+		window.wpPressThisConfig = <?php echo wp_json_encode( $site_settings ); ?>;
 	</script>
 
 	<script type="text/javascript">
@@ -763,15 +1159,17 @@ class WP_Press_This {
 	?>
 </head>
 <?php
-$admin_body_class  = 'press-this';
-$admin_body_class .= ( is_rtl() ) ? ' rtl' : '';
-$admin_body_class .= ' branch-' . str_replace( array( '.', ',' ), '-', floatval( $wp_version ) );
-$admin_body_class .= ' version-' . str_replace( '.', '-', preg_replace( '/^([.0-9]+).*/', '$1', $wp_version ) );
-$admin_body_class .= ' admin-color-' . sanitize_html_class( get_user_option( 'admin_color' ), 'fresh' );
-$admin_body_class .= ' locale-' . sanitize_html_class( strtolower( str_replace( '_', '-', get_locale() ) ) );
 
-/** This filter is documented in wp-admin/admin-header.php */
-$admin_body_classes = apply_filters( 'admin_body_class', '' );
+	$admin_body_class  = 'press-this';
+	$admin_body_class .= ( is_rtl() ) ? ' rtl' : '';
+	$admin_body_class .= ' branch-' . str_replace( array( '.', ',' ), '-', floatval( $wp_version ) );
+	$admin_body_class .= ' version-' . str_replace( '.', '-', preg_replace( '/^([.0-9]+).*/', '$1', $wp_version ) );
+	$admin_body_class .= ' admin-color-' . sanitize_html_class( get_user_option( 'admin_color' ), 'fresh' );
+	$admin_body_class .= ' locale-' . sanitize_html_class( strtolower( str_replace( '_', '-', get_locale() ) ) );
+
+	/** This filter is documented in wp-admin/admin-header.php */
+	$admin_body_classes = apply_filters( 'admin_body_class', '' );
+
 ?>
 <body class="wp-admin wp-core-ui <?php echo $admin_body_classes . ' ' . $admin_body_class; ?>">
 	<div id="adminbar" class="adminbar">
@@ -793,15 +1191,18 @@ $admin_body_classes = apply_filters( 'admin_body_class', '' );
 		</form>
 	</div>
 
-	<form id="pressthis-form" name="pressthis-form" method="POST" autocomplete="off">
+	<form id="pressthis-form" method="post" action="post.php" autocomplete="off">
 		<input type="hidden" name="post_ID" id="post_ID" value="<?php echo $post_ID; ?>" />
 		<input type="hidden" name="action" value="press-this-save-post" />
 		<input type="hidden" name="post_status" id="post_status" value="draft" />
+		<input type="hidden" name="wp-preview" id="wp-preview" value="" />
+		<input type="hidden" name="post_title" id="post_title" value="" />
 		<?php
-		wp_nonce_field( 'press-this', 'pressthis-nonce', false );
+
+		wp_nonce_field( 'update-post_' . $post_ID, '_wpnonce', false );
 		wp_nonce_field( 'add-category', '_ajax_nonce-add-category', false );
+
 		?>
-		<input type="hidden" name="title" id="title-field" value="" />
 
 	<div class="wrapper">
 		<div class="editor-wrapper">
@@ -813,7 +1214,7 @@ $admin_body_classes = apply_filters( 'admin_body_class', '' );
 
 			<div id='app-container' class="editor">
 				<span id="title-container-label" class="post-title-placeholder" aria-hidden="true"><?php _e( 'Post title' ); ?></span>
-				<h2 id="title-container" class="post-title" contenteditable="true" spellcheck="true" aria-label="<?php esc_attr_e( 'Post title' ); ?>" tabindex="0"></h2>
+				<h2 id="title-container" class="post-title" contenteditable="true" spellcheck="true" aria-label="<?php esc_attr_e( 'Post title' ); ?>" tabindex="0"><?php echo esc_html( $post_title ); ?></h2>
 				<div id='featured-media-container' class="featured-container no-media">
 					<div id='all-media-widget' class="all-media">
 						<div id='all-media-container'></div>
@@ -821,10 +1222,11 @@ $admin_body_classes = apply_filters( 'admin_body_class', '' );
 				</div>
 
 				<?php
-				wp_editor( '', 'pressthis', array(
+				wp_editor( $post_content, 'pressthis', array(
 					'drag_drop_upload' => true,
 					'editor_height'    => 600,
 					'media_buttons'    => false,
+					'textarea_name'    => 'post_content',
 					'teeny'            => true,
 					'tinymce'          => array(
 						'resize'                => false,
@@ -837,14 +1239,15 @@ $admin_body_classes = apply_filters( 'admin_body_class', '' );
 						'toolbar1'              => 'bold,italic,bullist,numlist,blockquote,link,unlink',
 						'toolbar2'              => 'undo,redo',
 					),
-					'quicktags'        => false,
+					'quicktags' => false,
 				) );
 
 				?>
 			</div>
 		</div>
 
-		<div class="options-panel is-off-screen is-hidden">
+		<div class="options-panel-back is-hidden" tabindex="-1"></div>
+		<div class="options-panel is-off-screen is-hidden" tabindex="-1">
 			<div class="post-options">
 
 				<?php if ( $supports_formats ) : ?>
@@ -859,14 +1262,12 @@ $admin_body_classes = apply_filters( 'admin_body_class', '' );
 				<button type="button" class="button-reset post-option">
 					<span class="dashicons dashicons-category"></span>
 					<span class="post-option-title"><?php _e( 'Categories' ); ?></span>
-					<span class="post-option-contents" id="post-option-category"></span>
 					<span class="dashicons post-option-forward"></span>
 				</button>
 
 				<button type="button" class="button-reset post-option">
 					<span class="dashicons dashicons-tag"></span>
 					<span class="post-option-title"><?php _e( 'Tags' ); ?></span>
-					<span class="post-option-contents" id="post-option-tags"></span>
 					<span class="dashicons post-option-forward"></span>
 				</button>
 			</div>
@@ -910,8 +1311,9 @@ $admin_body_classes = apply_filters( 'admin_body_class', '' );
 			</button>
 		</div>
 		<div class="post-actions">
-			<button type="button" class="button-subtle" id="draft-field"><?php _e( 'Save Draft' ); ?></button>
-			<button type="button" class="button-primary" id="publish-field"><?php _e( 'Publish' ); ?></button>
+			<button type="button" class="button-subtle draft-button"><?php _e( 'Save Draft' ); ?></button>
+			<button type="button" class="button-subtle preview-button"><?php _e( 'Preview' ); ?></button>
+			<button type="button" class="button-primary publish-button"><?php _e( 'Publish' ); ?></button>
 		</div>
 	</div>
 	</form>

@@ -14,7 +14,7 @@ if ( ! is_multisite() )
 	wp_die( __( 'Multisite support is not enabled.' ) );
 
 if ( ! current_user_can( 'manage_sites' ) )
-	wp_die( __( 'You do not have permission to access this page.' ) );
+	wp_die( __( 'You do not have permission to access this page.' ), '', array( 'response' => 403 ) );
 
 $wp_list_table = _get_list_table( 'WP_MS_Sites_List_Table' );
 $pagenum = $wp_list_table->get_pagenum();
@@ -22,7 +22,7 @@ $pagenum = $wp_list_table->get_pagenum();
 $title = __( 'Sites' );
 $parent_file = 'sites.php';
 
-add_screen_option( 'per_page', array( 'label' => _x( 'Sites', 'sites per page (screen options)' ) ) );
+add_screen_option( 'per_page' );
 
 get_current_screen()->add_help_tab( array(
 	'id'      => 'overview',
@@ -97,7 +97,7 @@ if ( isset( $_GET['action'] ) ) {
 
 		case 'deleteblog':
 			if ( ! current_user_can( 'delete_sites' ) )
-				wp_die( __( 'You do not have permission to access this page.' ) );
+				wp_die( __( 'You do not have permission to access this page.' ), '', array( 'response' => 403 ) );
 
 			$updated_action = 'not_deleted';
 			if ( $id != '0' && $id != $current_site->blog_id && current_user_can( 'delete_site', $id ) ) {

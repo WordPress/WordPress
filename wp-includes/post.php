@@ -3329,6 +3329,17 @@ function wp_insert_post( $postarr, $wp_error = false ) {
 	// Expected_slashed (everything!).
 	$data = compact( 'post_author', 'post_date', 'post_date_gmt', 'post_content', 'post_content_filtered', 'post_title', 'post_excerpt', 'post_status', 'post_type', 'comment_status', 'ping_status', 'post_password', 'post_name', 'to_ping', 'pinged', 'post_modified', 'post_modified_gmt', 'post_parent', 'menu_order', 'post_mime_type', 'guid' );
 
+	$emoji_fields = array( 'post_title', 'post_content', 'post_excerpt' );
+
+	foreach( $emoji_fields as $emoji_field ) {
+		if ( isset( $data[ $emoji_field ] ) ) {
+			$charset = $wpdb->get_col_charset( $wpdb->posts, $emoji_field );
+			if ( 'utf8' === $charset ) {
+				$data[ $emoji_field ] = wp_encode_emoji( $data[ $emoji_field ] );
+			}
+		}
+	}
+
 	if ( 'attachment' === $post_type ) {
 		/**
 		 * Filter attachment post data before it is updated in or added to the database.
@@ -4980,6 +4991,14 @@ function wp_get_attachment_url( $post_id = 0 ) {
 		$url = get_the_guid( $post->ID );
 	}
 
+	/*
+	 * If currently on SSL, prefer HTTPS URLs when we know they're supported by the domain
+	 * (which is to say, when they share the domain name of the current SSL page).
+	 */
+	if ( is_ssl() && 'https' !== substr( $url, 0, 5 ) && parse_url( $url, PHP_URL_HOST ) === $_SERVER['HTTP_HOST'] ) {
+		$url = set_url_scheme( $url, 'https' );
+	}
+
 	/**
 	 * Filter the attachment URL.
 	 *
@@ -5063,28 +5082,65 @@ function wp_get_attachment_thumb_url( $post_id = 0 ) {
 }
 
 /**
- * Check if the attachment is an image.
+ * Verifies an attachment is of a given type.
+ *
+ * @since 4.2.0
+ *
+ * @param string      $type    Attachment type. Accepts 'image', 'audio', or 'video'.
+ * @param int|WP_Post $post_id Optional. Attachment ID. Default 0.
+ * @return bool True if one of the accepted types, false otherwise.
+ */
+function wp_attachment_is( $type, $post_id = 0 ) {
+	if ( ! $post = get_post( $post_id ) ) {
+		return false;
+	}
+
+	if ( ! $file = get_attached_file( $post->ID ) ) {
+		return false;
+	}
+
+	if ( 0 === strpos( $post->post_mime_type, $type . '/' ) ) {
+		return true;
+	}
+
+	$check = wp_check_filetype( $file );
+	if ( empty( $check['ext'] ) ) {
+		return false;
+	}
+
+	$ext = $check['ext'];
+
+	if ( 'import' !== $post->post_mime_type ) {
+		return $type === $ext;
+	}
+
+	switch ( $type ) {
+	case 'image':
+		$image_exts = array( 'jpg', 'jpeg', 'jpe', 'gif', 'png' );
+		return in_array( $ext, $image_exts );
+
+	case 'audio':
+		return in_array( $ext, wp_get_audio_extensions() );
+
+	case 'video':
+		return in_array( $ext, wp_get_video_extensions() );
+
+	default:
+		return $type === $ext;
+	}
+}
+
+/**
+ * Checks if the attachment is an image.
  *
  * @since 2.1.0
+ * @since 4.2.0 Modified into wrapper for wp_attachment_is()
  *
- * @param int $post_id Optional. Attachment ID. Default 0.
+ * @param int|WP_Post $post Optional. Attachment ID. Default 0.
  * @return bool Whether the attachment is an image.
  */
-function wp_attachment_is_image( $post_id = 0 ) {
-	$post_id = (int) $post_id;
-	if ( !$post = get_post( $post_id ) )
-		return false;
-
-	if ( !$file = get_attached_file( $post->ID ) )
-		return false;
-
-	$ext = preg_match('/\.([^.]+)$/', $file, $matches) ? strtolower($matches[1]) : false;
-
-	$image_exts = array( 'jpg', 'jpeg', 'jpe', 'gif', 'png' );
-
-	if ( 'image/' == substr($post->post_mime_type, 0, 6) || $ext && 'import' == $post->post_mime_type && in_array($ext, $image_exts) )
-		return true;
-	return false;
+function wp_attachment_is_image( $post = 0 ) {
+	return wp_attachment_is( 'image', $post );
 }
 
 /**
@@ -5302,35 +5358,34 @@ function get_posts_by_author_sql( $post_type, $full = true, $post_author = null,
 		$cap = $post_type_obj->cap->read_private_posts;
 	}
 
-	if ( $full ) {
-		if ( null === $post_author ) {
-			$sql = $wpdb->prepare( 'WHERE post_type = %s AND ', $post_type );
-		} else {
-			$sql = $wpdb->prepare( 'WHERE post_author = %d AND post_type = %s AND ', $post_author, $post_type );
-		}
-	} else {
-		$sql = '';
+	$sql = $wpdb->prepare( 'post_type = %s', $post_type );
+
+	if ( null !== $post_author ) {
+		$sql .= $wpdb->prepare( ' AND post_author = %d', $post_author );
 	}
 
-	$sql .= "(post_status = 'publish'";
-
 	// Only need to check the cap if $public_only is false.
+	$post_status_sql = "post_status = 'publish'";
 	if ( false === $public_only ) {
 		if ( current_user_can( $cap ) ) {
 			// Does the user have the capability to view private posts? Guess so.
-			$sql .= " OR post_status = 'private'";
+			$post_status_sql .= " OR post_status = 'private'";
 		} elseif ( is_user_logged_in() ) {
 			// Users can view their own private posts.
 			$id = get_current_user_id();
 			if ( null === $post_author || ! $full ) {
-				$sql .= " OR post_status = 'private' AND post_author = $id";
+				$post_status_sql .= " OR post_status = 'private' AND post_author = $id";
 			} elseif ( $id == (int) $post_author ) {
-				$sql .= " OR post_status = 'private'";
+				$post_status_sql .= " OR post_status = 'private'";
 			} // else none
 		} // else none
 	}
 
-	$sql .= ')';
+	$sql .= " AND ($post_status_sql)";
+
+	if ( $full ) {
+		$sql = 'WHERE ' . $sql;
+	}
 
 	return $sql;
 }

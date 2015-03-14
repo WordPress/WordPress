@@ -360,6 +360,7 @@ final class _WP_Editors {
 						'wordpress',
 						'wpautoresize',
 						'wpeditimage',
+						'wpemoji',
 						'wpgallery',
 						'wplink',
 						'wpdialogs',
@@ -490,15 +491,6 @@ final class _WP_Editors {
 						],
 						strikethrough: {inline: 'del'}
 					}",
-					'block_formats' =>
-						'Paragraph=p;' .
-						'Pre=pre;' .
-						'Heading 1=h1;' .
-						'Heading 2=h2;' .
-						'Heading 3=h3;' .
-						'Heading 4=h4;' .
-						'Heading 5=h5;' .
-						'Heading 6=h6',
 					'relative_urls' => false,
 					'remove_script_host' => false,
 					'convert_urls' => false,
@@ -585,6 +577,12 @@ final class _WP_Editors {
 				 */
 				$mce_buttons = apply_filters( 'mce_buttons', $mce_buttons, $editor_id );
 
+				$mce_buttons_2 = array( 'formatselect', 'underline', 'alignjustify', 'forecolor', 'pastetext', 'removeformat', 'charmap', 'outdent', 'indent', 'undo', 'redo' );
+
+				if ( ! wp_is_mobile() ) {
+					$mce_buttons_2[] = 'wp_help';
+				}
+
 				/**
 				 * Filter the second-row list of TinyMCE buttons (Visual tab).
 				 *
@@ -593,7 +591,7 @@ final class _WP_Editors {
 				 * @param array  $buttons   Second-row list of buttons.
 				 * @param string $editor_id Unique editor identifier, e.g. 'content'.
 				 */
-				$mce_buttons_2 = apply_filters( 'mce_buttons_2', array( 'formatselect', 'underline', 'alignjustify', 'forecolor', 'pastetext', 'removeformat', 'charmap', 'outdent', 'indent', 'undo', 'redo', 'wp_help' ), $editor_id );
+				$mce_buttons_2 = apply_filters( 'mce_buttons_2', $mce_buttons_2, $editor_id );
 
 				/**
 				 * Filter the third-row list of TinyMCE buttons (Visual tab).
@@ -1448,14 +1446,14 @@ final class _WP_Editors {
 		<div id="link-selector">
 			<div id="link-options">
 				<p class="howto"><?php _e( 'Enter the destination URL' ); ?></p>
-				<div>
-					<label><span><?php _e( 'URL' ); ?></span><input id="url-field" type="text" name="href" /></label>
+				<div class="wp-link-text-field">
+					<label><span><?php _e( 'Link Text' ); ?></span><input id="wp-link-text" type="text" /></label>
 				</div>
 				<div>
-					<label><span><?php _e( 'Title' ); ?></span><input id="link-title-field" type="text" name="linktitle" /></label>
+					<label><span><?php _e( 'URL' ); ?></span><input id="wp-link-url" type="text" /></label>
 				</div>
 				<div class="link-target">
-					<label><span>&nbsp;</span><input type="checkbox" id="link-target-checkbox" /> <?php _e( 'Open link in a new window/tab' ); ?></label>
+					<label><span>&nbsp;</span><input type="checkbox" id="wp-link-target" /> <?php _e( 'Open link in a new window/tab' ); ?></label>
 				</div>
 			</div>
 			<p class="howto"><a href="#" id="wp-link-search-toggle"><?php _e( 'Or link to existing content' ); ?></a></p>
@@ -1463,7 +1461,7 @@ final class _WP_Editors {
 				<div class="link-search-wrapper">
 					<label>
 						<span class="search-label"><?php _e( 'Search' ); ?></span>
-						<input type="search" id="search-field" class="link-search-field" autocomplete="off" />
+						<input type="search" id="wp-link-search" class="link-search-field" autocomplete="off" />
 						<span class="spinner"></span>
 					</label>
 				</div>

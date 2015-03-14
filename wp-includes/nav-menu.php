@@ -688,7 +688,7 @@ function wp_setup_nav_menu_item( $menu_item ) {
 				$menu_item->title = '' == $menu_item->post_title ? $original_title : $menu_item->post_title;
 
 			} else {
-				$menu_item->type_label = __('Custom');
+				$menu_item->type_label = __('Custom Link');
 				$menu_item->title = $menu_item->post_title;
 				$menu_item->url = empty( $menu_item->url ) ? get_post_meta( $menu_item->ID, '_menu_item_url', true ) : $menu_item->url;
 			}

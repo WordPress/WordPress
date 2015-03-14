@@ -114,19 +114,17 @@ case 'spam'    :
 ?>
 <div class="wrap">
 
-<div class="narrow">
-
 <h2><?php echo esc_html( $title ); ?></h2>
 
 <?php
 switch ( $action ) {
 	case 'spam' :
 		$caution_msg = __('You are about to mark the following comment as spam:');
-		$button      = __('Spam Comment');
+		$button      = __('Mark as Spam');
 		break;
 	case 'trash' :
 		$caution_msg = __('You are about to move the following comment to the Trash:');
-		$button      = __('Trash Comment');
+		$button      = __('Move to Trash');
 		break;
 	case 'delete' :
 		$caution_msg = __('You are about to delete the following comment:');
@@ -151,14 +149,15 @@ if ( $comment->comment_approved != '0' ) { // if not unapproved
 			$message  = __('This comment is currently in the Trash.');
 			break;
 	}
-	if ( $message )
-		echo '<div class="updated"><p>' . $message . '</p></div>';
+	if ( $message ) {
+		echo '<div class="notice notice-info"><p>' . $message . '</p></div>';
+	}
 }
 ?>
 <p><strong><?php _e('Caution:'); ?></strong> <?php echo $caution_msg; ?></p>
 
 <table class="form-table comment-ays">
-<tr class="alt">
+<tr>
 <th scope="row"><?php _e('Author'); ?></th>
 <td><?php echo $comment->comment_author; ?></td>
 </tr>
@@ -175,21 +174,53 @@ if ( $comment->comment_approved != '0' ) { // if not unapproved
 </tr>
 <?php } ?>
 <tr>
+	<th scope="row"><?php _e( 'In Response To' ); ?></th>
+	<td>
+	<?php
+		$post_id = $comment->comment_post_ID;
+		if ( current_user_can( 'edit_post', $post_id ) ) {
+			$post_link = "<a href='" . esc_url( get_edit_post_link( $post_id ) ) . "'>";
+			$post_link .= esc_html( get_the_title( $post_id ) ) . '</a>';
+		} else {
+			$post_link = esc_html( get_the_title( $post_id ) );
+		}
+		echo $post_link;
+
+		if ( $comment->comment_parent ) {
+			$parent      = get_comment( $comment->comment_parent );
+			$parent_link = esc_url( get_comment_link( $comment->comment_parent ) );
+			$name        = get_comment_author( $parent->comment_ID );
+			printf( ' | ' . __( 'In reply to <a href="%1$s">%2$s</a>.' ), $parent_link, $name );
+		}
+	?>
+	</td>
+</tr>
+<tr>
+	<th scope="row"><?php _e( 'Submitted on' ); ?></th>
+	<td>
+	<?php
+		/* translators: 2: comment date, 3: comment time */
+		printf( __( '<a href="%1$s">%2$s at %3$s</a>' ),
+			esc_url( get_comment_link( $comment->comment_ID ) ),
+			/* translators: comment date format. See http://php.net/date */
+			get_comment_date( __( 'Y/m/d' ) ),
+			get_comment_date( get_option( 'time_format' ) )
+		);
+	?>
+	</td>
+</tr>
+<tr>
 <th scope="row"><?php /* translators: field name in comment form */ _ex('Comment', 'noun'); ?></th>
 <td><?php echo $comment->comment_content; ?></td>
 </tr>
 </table>
 
-<p><?php _e('Are you sure you want to do this?'); ?></p>
+<form action="comment.php" method="get" class="comment-ays-submit">
 
-<form action="comment.php" method="get">
-
-<table width="100%">
-<tr>
-<td><a class="button" href="<?php echo admin_url('edit-comments.php'); ?>"><?php esc_attr_e('No'); ?></a></td>
-<td class="textright"><?php submit_button( $button, 'button' ); ?></td>
-</tr>
-</table>
+<p>
+	<?php submit_button( $button, 'primary', 'submit', false ); ?>
+	<a href="<?php echo admin_url('edit-comments.php'); ?>" class="button-cancel"><?php esc_attr_e( 'Cancel' ); ?></a></td>
+</p>
 
 <?php wp_nonce_field( $nonce_action ); ?>
 <input type="hidden" name="action" value="<?php echo esc_attr($formaction); ?>" />
@@ -197,7 +228,6 @@ if ( $comment->comment_approved != '0' ) { // if not unapproved
 <input type="hidden" name="noredir" value="1" />
 </form>
 
-</div>
 </div>
 <?php
 	break;

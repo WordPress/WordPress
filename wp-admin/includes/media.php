@@ -280,14 +280,14 @@ function media_handle_upload($file_id, $post_id, $post_data = array(), $override
 	$file = $file['file'];
 	$title = $name;
 	$content = '';
+	$excerpt = '';
 
 	if ( preg_match( '#^audio#', $type ) ) {
 		$meta = wp_read_audio_metadata( $file );
 
-		if ( ! empty( $meta['title'] ) )
+		if ( ! empty( $meta['title'] ) ) {
 			$title = $meta['title'];
-
-		$content = '';
+		}
 
 		if ( ! empty( $title ) ) {
 
@@ -335,10 +335,13 @@ function media_handle_upload($file_id, $post_id, $post_data = array(), $override
 
 	// Use image exif/iptc data for title and caption defaults if possible.
 	} elseif ( 0 === strpos( $type, 'image/' ) && $image_meta = @wp_read_image_metadata( $file ) ) {
-		if ( trim( $image_meta['title'] ) && ! is_numeric( sanitize_title( $image_meta['title'] ) ) )
+		if ( trim( $image_meta['title'] ) && ! is_numeric( sanitize_title( $image_meta['title'] ) ) ) {
 			$title = $image_meta['title'];
-		if ( trim( $image_meta['caption'] ) )
-			$content = $image_meta['caption'];
+		}
+
+		if ( trim( $image_meta['caption'] ) ) {
+			$excerpt = $image_meta['caption'];
+		}
 	}
 
 	// Construct the attachment array
@@ -348,6 +351,7 @@ function media_handle_upload($file_id, $post_id, $post_data = array(), $override
 		'post_parent' => $post_id,
 		'post_title' => $title,
 		'post_content' => $content,
+		'post_excerpt' => $excerpt,
 	), $post_data );
 
 	// This should never be set as it would then overwrite an existing attachment.
@@ -2653,13 +2657,13 @@ function edit_form_image_editor( $post ) {
 			<?php if ( $open ) wp_image_editor( $attachment_id ); ?>
 		</div>
 	<?php
-	elseif ( $attachment_id && 0 === strpos( $post->post_mime_type, 'audio/' ) ):
+	elseif ( $attachment_id && wp_attachment_is( 'audio', $post ) ):
 
 		wp_maybe_generate_attachment_metadata( $post );
 
 		echo wp_audio_shortcode( array( 'src' => $att_url ) );
 
-	elseif ( $attachment_id && 0 === strpos( $post->post_mime_type, 'video/' ) ):
+	elseif ( $attachment_id && wp_attachment_is( 'video', $post ) ):
 
 		wp_maybe_generate_attachment_metadata( $post );
 
@@ -3009,4 +3013,62 @@ function wp_read_audio_metadata( $file ) {
 	wp_add_id3_tag_data( $metadata, $data );
 
 	return $metadata;
+}
+
+/**
+ * Encapsulate logic for Attach/Detach actions
+ *
+ * @since 4.2.0
+ *
+ * @global wpdb $wpdb
+ * @param int    $parent_id
+ * @param string $action
+ */
+function wp_media_attach_action( $parent_id, $action = 'attach' ) {
+	global $wpdb;
+
+	if ( ! $parent_id ) {
+		return;
+	}
+
+	if ( ! current_user_can( 'edit_post', $parent_id ) ) {
+		wp_die( __( 'You are not allowed to edit this post.' ) );
+	}
+	$ids = array();
+	foreach ( (array) $_REQUEST['media'] as $att_id ) {
+		$att_id = (int) $att_id;
+
+		if ( ! current_user_can( 'edit_post', $att_id ) ) {
+			continue;
+		}
+
+		$ids[] = $att_id;
+	}
+
+	if ( ! empty( $ids ) ) {
+		$ids_string = implode( ',', $ids );
+		if ( 'attach' === $action ) {
+			$result = $wpdb->query( $wpdb->prepare( "UPDATE $wpdb->posts SET post_parent = %d WHERE post_type = 'attachment' AND ID IN ( $ids_string )", $parent_id ) );
+		} else {
+			$result = $wpdb->query( "UPDATE $wpdb->posts SET post_parent = 0 WHERE post_type = 'attachment' AND ID IN ( $ids_string )" );
+		}
+
+		foreach ( $ids as $att_id ) {
+			clean_attachment_cache( $att_id );
+		}
+	}
+
+	if ( isset( $result ) ) {
+		$location = 'upload.php';
+		if ( $referer = wp_get_referer() ) {
+			if ( false !== strpos( $referer, 'upload.php' ) ) {
+				$location = remove_query_arg( array( 'attached', 'detach' ), $referer );
+			}
+		}
+
+		$key = 'attach' === $action ? 'attached' : 'detach';
+		$location = add_query_arg( array( $key => $result ), $location );
+		wp_redirect( $location );
+		exit;
+	}
 }

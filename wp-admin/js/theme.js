@@ -900,7 +900,7 @@ themes.view.Themes = wp.Backbone.View.extend({
 	// and keeping theme count in sync
 	render: function() {
 		// Clear the DOM, please
-		this.$el.html( '' );
+		this.$el.empty();
 
 		// If the user doesn't have switch capabilities
 		// or there is only one theme in the collection

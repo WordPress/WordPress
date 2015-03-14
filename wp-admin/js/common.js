@@ -457,7 +457,7 @@ $(document).ready( function() {
 				focusedRowActions.removeClass( 'visible' );
 			}, 30 );
 		}
-	}, 'td.post-title, td.title, td.comment, .tags td.column-name, .bookmarks td.column-name, td.blogname, td.username, .dashboard-comment-wrap' );
+	}, 'td.post-title, td.title, td.comment, .tags td.column-name, .bookmarks td.column-name, td.blogname, .users-network td.column-blogs, td.username, .dashboard-comment-wrap' );
 
 	$('#default-password-nag-no').click( function() {
 		setUserSetting('default_password_nag', 'hide');
@@ -712,7 +712,8 @@ $(document).ready( function() {
 
 	window.wpResponsive = {
 		init: function() {
-			var self = this;
+			var self = this,
+				x, y;
 
 			// Modify functionality based on custom activate/deactivate event
 			$document.on( 'wp-responsive-activate.wp-responsive', function() {
@@ -727,12 +728,43 @@ $(document).ready( function() {
 			$( '#wp-admin-bar-menu-toggle' ).on( 'click.wp-responsive', function( event ) {
 				event.preventDefault();
 				$wpwrap.toggleClass( 'wp-responsive-open' );
-				if ( $wpwrap.hasClass( 'wp-responsive-open' ) ) {
+				if ( self.isOpen() ) {
 					$(this).find('a').attr( 'aria-expanded', 'true' );
 					$( '#adminmenu a:first' ).focus();
 				} else {
 					$(this).find('a').attr( 'aria-expanded', 'false' );
 				}
+			} );
+
+			$window.on( 'touchstart.wp-responsive', function( event ) {
+				var touches = event.originalEvent.touches;
+
+				if ( 1 !== touches.length ) {
+					return;
+				}
+
+				x = touches[0].clientX;
+				y = touches[0].clientY;
+			} );
+
+			$window.on( 'touchend.wp-responsive', function( event ) {
+				var touches = event.originalEvent.changedTouches,
+					isOpen = self.isOpen(),
+					distanceX;
+
+				if ( 1 === touches.length && x && y ) {
+					if ( ( window.isRtl && isOpen ) || ( ! window.isRtl && ! isOpen ) ) {
+						distanceX = touches[0].clientX - x;
+					} else {
+						distanceX = x - touches[0].clientX;
+					}
+
+					if ( distanceX > 30 && distanceX > Math.abs( touches[0].clientY - y ) ) {
+						$( '#wp-admin-bar-menu-toggle' ).trigger( 'click' );
+					}
+				}
+
+				x = y = 0;
 			} );
 
 			// Add menu events
@@ -756,6 +788,10 @@ $(document).ready( function() {
 					self.disableSortables();
 				}
 			});
+		},
+
+		isOpen: function() {
+			return $wpwrap.hasClass( 'wp-responsive-open' );
 		},
 
 		activate: function() {

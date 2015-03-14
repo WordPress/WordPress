@@ -433,7 +433,7 @@ p.customize-section-description {
 	overflow: hidden;
 	text-overflow: ellipsis;
 	margin: 0;
-	padding: 5px 10px 0;
+	padding: 0 10px;
 }
 
 .customize-control .attachment-meta-title {
@@ -446,6 +446,13 @@ p.customize-section-description {
 
 .customize-control .thumbnail-image img {
 	cursor: pointer;
+}
+
+#customize-controls .thumbnail-audio .thumbnail {
+	max-width: 64px;
+	max-height: 64px;
+	margin: 10px;
+	float: left;
 }
 
 #customize-preview iframe {
@@ -575,8 +582,9 @@ p.customize-section-description {
 	-webkit-overflow-scrolling: touch;
 }
 
-/** Header control **/
+/** Media controls **/
 
+.customize-control-media .current,
 .customize-control-upload .current,
 .customize-control-image .current,
 .customize-control-background .current,
@@ -603,6 +611,9 @@ p.customize-section-description {
 	display: block;
 }
 
+.customize-control-media .remove-button,
+.customize-control-media .default-button,
+.customize-control-media .upload-button,
 .customize-control-upload .remove-button,
 .customize-control-upload .default-button,
 .customize-control-upload .upload-button,
@@ -619,6 +630,7 @@ p.customize-section-description {
 	height: auto;
 }
 
+.customize-control-media .current .container,
 .customize-control-upload .current .container,
 .customize-control-image .current .container,
 .customize-control-background .current .container,
@@ -630,12 +642,14 @@ p.customize-section-description {
 	border-radius: 2px;
 }
 
+.customize-control-media .current .container,
 .customize-control-upload .current .container,
 .customize-control-background .current .container,
 .customize-control-image .current .container {
 	min-height: 40px;
 }
 
+.customize-control-media .placeholder,
 .customize-control-upload .placeholder,
 .customize-control-image .placeholder,
 .customize-control-background .placeholder,
@@ -646,6 +660,7 @@ p.customize-section-description {
 	cursor: default;
 }
 
+.customize-control-media .inner,
 .customize-control-upload .inner,
 .customize-control-image .inner,
 .customize-control-background .inner,
@@ -659,6 +674,7 @@ p.customize-section-description {
 	overflow: hidden;
 }
 
+.customize-control-media .inner,
 .customize-control-upload .inner,
 .customize-control-background .inner,
 .customize-control-image .inner {
@@ -666,6 +682,7 @@ p.customize-section-description {
 	min-height: 40px;
 }
 
+.customize-control-media .inner,
 .customize-control-upload .inner,
 .customize-control-image .inner,
 .customize-control-background .inner,
@@ -775,6 +792,7 @@ p.customize-section-description {
 	100% { color: #d4b146; }
 }
 
+.customize-control-media .actions,
 .customize-control-upload .actions,
 .customize-control-image .actions,
 .customize-control-background .actions,
@@ -792,6 +810,7 @@ p.customize-section-description {
 	margin-bottom: 0;
 }
 
+.customize-control-media img,
 .customize-control-upload img,
 .customize-control-image img,
 .customize-control-background img,
@@ -801,6 +820,8 @@ p.customize-section-description {
 	border-radius: 2px;
 }
 
+.customize-control-media .remove-button,
+.customize-control-media .default-button,
 .customize-control-upload .remove-button,
 .customize-control-upload .default-button,
 .customize-control-image .remove-button,
@@ -812,6 +833,7 @@ p.customize-section-description {
 	margin-right: 3px;
 }
 
+.customize-control-media .upload-button,
 .customize-control-upload .upload-button,
 .customize-control-image .upload-button,
 .customize-control-background .upload-button,

@@ -57,7 +57,7 @@ $wp_list_table->prepare_items();
 
 $details = get_blog_details( $id );
 if ( !can_edit_network( $details->site_id ) )
-	wp_die( __( 'You do not have permission to access this page.' ) );
+	wp_die( __( 'You do not have permission to access this page.' ), '', array( 'response' => 403 ) );
 
 $is_main_site = is_main_site( $id );
 
@@ -127,7 +127,7 @@ if ( isset( $_GET['action'] ) && 'update-site' == $_GET['action'] ) {
 }
 
 add_thickbox();
-add_screen_option( 'per_page', array( 'label' => _x( 'Themes', 'themes per page (screen options)' ) ) );
+add_screen_option( 'per_page' );
 
 $site_url_no_http = preg_replace( '#^http(s)?://#', '', get_blogaddress_by_id( $id ) );
 $title_site_url_linked = sprintf( __('Edit Site: <a href="%1$s">%2$s</a>'), get_blogaddress_by_id( $id ), $site_url_no_http );

@@ -321,7 +321,10 @@ if ( $action ) {
 					<?php wp_nonce_field('bulk-plugins') ?>
 					<?php submit_button( $data_to_delete ? __( 'Yes, Delete these files and data' ) : __( 'Yes, Delete these files' ), 'button', 'submit', false ); ?>
 				</form>
-				<form method="post" action="<?php echo esc_url(wp_get_referer()); ?>" style="display:inline;">
+				<?php
+				$referer = wp_get_referer();
+				?>
+				<form method="post" action="<?php echo $referer ? esc_url( $referer ) : ''; ?>" style="display:inline;">
 					<?php submit_button( __( 'No, Return me to the plugin list' ), 'button', 'submit', false ); ?>
 				</form>
 
@@ -358,7 +361,7 @@ $wp_list_table->prepare_items();
 wp_enqueue_script('plugin-install');
 add_thickbox();
 
-add_screen_option( 'per_page', array('label' => _x( 'Plugins', 'plugins per page (screen options)' ), 'default' => 999 ) );
+add_screen_option( 'per_page', array( 'default' => 999 ) );
 
 get_current_screen()->add_help_tab( array(
 'id'		=> 'overview',

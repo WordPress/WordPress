@@ -1028,7 +1028,11 @@
 			}
 			data += '&' + $widgetContent.find( '~ :input' ).serialize();
 
+			if ( this._previousUpdateRequest ) {
+				this._previousUpdateRequest.abort();
+			}
 			jqxhr = $.post( wp.ajax.settings.url, data );
+			this._previousUpdateRequest = jqxhr;
 
 			jqxhr.done( function( r ) {
 				var message, sanitizedForm,	$sanitizedInputs, hasSameInputsInResponse,

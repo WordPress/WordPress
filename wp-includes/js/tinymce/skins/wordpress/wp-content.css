@@ -319,91 +319,6 @@ audio {
 	display: none;
 }
 
-.wpview-wrap .toolbar {
-	position: absolute;
-	top: -43px;
-	left: 45%;
-	left: calc(50% - 32px);
-	display: none;
-	z-index: 100;
-	background-color: #f5f5f5;
-	border: 1px solid #aaa;
-	padding: 1px;
-	cursor: default;
-	-webkit-border-radius: 2px;
-	border-radius: 2px;
-	-webkit-box-shadow: 0 1px 4px rgba( 0, 0, 0, 0.2 );
-	box-shadow: 0 1px 4px rgba( 0, 0, 0, 0.2 );
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
-	margin-bottom: 8px;
-}
-
-.wpview-wrap[data-mce-selected] .toolbar {
-	display: block;
-}
-
-.wpview-wrap .toolbar:before,
-.wpview-wrap .toolbar:after {
-	position: absolute;
-	left: 50%;
-	display: block;
-	width: 0;
-	height: 0;
-	border-style: solid;
-	border-color: transparent;
-	border-width: 9px;
-	margin-left: -9px;
-	content: '';
-}
-
-.wpview-wrap .toolbar:after {
-	border-width: 8px;
-	margin-left: -8px;
-}
-
-.wpview-wrap .toolbar.mce-arrow-down:before {
-	bottom: -18px;
-	border-top-color: #aaa;
-}
-
-.wpview-wrap .toolbar.mce-arrow-down:after {
-	bottom: -16px;
-	border-top-color: #f5f5f5;
-}
-
-.wpview-wrap .toolbar.mce-arrow-up:before {
-	top: -18px;
-	border-bottom-color: #aaa;
-}
-
-.wpview-wrap .toolbar.mce-arrow-up:after {
-	top: -16px;
-	border-bottom-color: #f5f5f5;
-}
-
-.wpview-wrap .toolbar div {
-	margin: 2px;
-	padding: 2px 3px;
-	width: 20px;
-	height: 20px;
-	color: #777;
-	cursor: pointer;
-	font-size: 20px;
-	border: 1px solid transparent;
-	border-radius: 2px;
-}
-
-.wpview-wrap .toolbar div:hover {
-	background-color: #fafafa;
-	border-color: #999;
-	color: #222;
-	-webkit-box-shadow: inset 0 1px 0 #fff, 0 1px 0 rgba( 0, 0, 0, 0.08 );
-	box-shadow: inset 0 1px 0 #fff, 0 1px 0 rgba( 0, 0, 0, 0.08 );
-	outline: none;
-}
-
 .wpview-wrap .loading-placeholder {
 	border: 1px dashed #ccc;
 	padding: 10px;
@@ -455,22 +370,6 @@ audio {
 	background: transparent;
 }
 
-.ie8 .wpview-wrap .toolbar div,
-.ie7 .wpview-wrap .toolbar div {
-	display: inline;
-	padding: 4px;
-}
-
-.ie8 .dashicons-edit,
-.ie7 .dashicons-edit {
-	background-image: url(images/dashicon-edit.png);
-}
-
-.ie8 .dashicons-no,
-.ie7 .dashicons-no {
-	background-image: url(images/dashicon-no.png);
-}
-
 .wpview-error {
 	border: 1px solid #dedede;
 	padding: 1em 0;
@@ -495,19 +394,6 @@ audio {
 	margin: 0;
 	text-align: center;
 	font-family: 'Open Sans', sans-serif;
-}
-
-.wont-play {
-	padding: 4px 0;
-}
-
-.wont-play p {
-	font-size: 13px;
-	line-height: 1.3;
-	display: block;
-	width: 70%;
-	margin: 0 15%;
-	text-align: center;
 }
 
 .wpview-type-gallery:after {
@@ -535,7 +421,6 @@ audio {
 .ie8 .gallery {
 	margin: auto;
 }
-
 
 .gallery .gallery-item {
 	float: left;

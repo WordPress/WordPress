@@ -260,7 +260,7 @@ if ( $tab ) {
 		</div>
 	</div>
 	<div class="wp-full-overlay-main">
-		<iframe src="{{ data.preview_url }}" />
+		<iframe src="{{ data.preview_url }}" title="<?php esc_attr_e( 'Preview' ); ?>" />
 	</div>
 </script>
 

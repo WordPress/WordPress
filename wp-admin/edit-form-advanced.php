@@ -52,9 +52,9 @@ if ( $post_ID == get_option( 'page_for_posts' ) && empty( $post->post_content ) 
 
 $thumbnail_support = current_theme_supports( 'post-thumbnails', $post_type ) && post_type_supports( $post_type, 'thumbnail' );
 if ( ! $thumbnail_support && 'attachment' === $post_type && $post->post_mime_type ) {
-	if ( 0 === strpos( $post->post_mime_type, 'audio/' ) ) {
+	if ( wp_attachment_is( 'audio', $post ) ) {
 		$thumbnail_support = post_type_supports( 'attachment:audio', 'thumbnail' ) || current_theme_supports( 'post-thumbnails', 'attachment:audio' );
-	} elseif ( 0 === strpos( $post->post_mime_type, 'video/' ) ) {
+	} elseif ( wp_attachment_is( 'video', $post ) ) {
 		$thumbnail_support = post_type_supports( 'attachment:video', 'thumbnail' ) || current_theme_supports( 'post-thumbnails', 'attachment:video' );
 	}
 }
@@ -178,7 +178,7 @@ if ( 'attachment' == $post_type ) {
 	add_meta_box( 'submitdiv', __('Save'), 'attachment_submit_meta_box', null, 'side', 'core' );
 	add_action( 'edit_form_after_title', 'edit_form_image_editor' );
 
-	if ( 0 === strpos( $post->post_mime_type, 'audio/' ) ) {
+	if ( wp_attachment_is( 'audio', $post ) ) {
 		add_meta_box( 'attachment-id3', __( 'Metadata' ), 'attachment_id3_data_meta_box', null, 'normal', 'core' );
 	}
 } else {
@@ -426,6 +426,8 @@ if ( isset( $post_new_file ) && current_user_can( $post_type_object->cap->create
  * @param WP_Post $post Post object.
  */
 do_action( 'post_edit_form_tag', $post );
+
+$referer = wp_get_referer();
 ?>>
 <?php wp_nonce_field($nonce_action); ?>
 <input type="hidden" id="user-id" name="user_ID" value="<?php echo (int) $user_ID ?>" />
@@ -434,7 +436,7 @@ do_action( 'post_edit_form_tag', $post );
 <input type="hidden" id="post_author" name="post_author" value="<?php echo esc_attr( $post->post_author ); ?>" />
 <input type="hidden" id="post_type" name="post_type" value="<?php echo esc_attr( $post_type ) ?>" />
 <input type="hidden" id="original_post_status" name="original_post_status" value="<?php echo esc_attr( $post->post_status) ?>" />
-<input type="hidden" id="referredby" name="referredby" value="<?php echo esc_url(wp_get_referer()); ?>" />
+<input type="hidden" id="referredby" name="referredby" value="<?php echo $referer ? esc_url( $referer ) : ''; ?>" />
 <?php if ( ! empty( $active_post_lock ) ) { ?>
 <input type="hidden" id="active_post_lock" value="<?php echo esc_attr( implode( ':', $active_post_lock ) ); ?>" />
 <?php

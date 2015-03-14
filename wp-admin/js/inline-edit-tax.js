@@ -45,7 +45,7 @@ inlineEditTax = {
 	},
 
 	edit : function(id) {
-		var editRow, rowData,
+		var editRow, rowData, val,
 			t = this;
 		t.revert();
 
@@ -58,8 +58,15 @@ inlineEditTax = {
 
 		$(t.what+id).hide().before(editRow).before('<tr class="hidden"></tr>');
 
-		$(':input[name="name"]', editRow).val( $('.name', rowData).text() );
-		$(':input[name="slug"]', editRow).val( $('.slug', rowData).text() );
+		val = $('.name', rowData);
+		val.find( 'img' ).replaceWith( function() { return this.alt; } );
+		val = val.text();
+		$(':input[name="name"]', editRow).val( val );
+
+		val = $('.slug', rowData);
+		val.find( 'img' ).replaceWith( function() { return this.alt; } );
+		val = val.text();
+		$(':input[name="slug"]', editRow).val( val );
 
 		$(editRow).attr('id', 'edit-'+id).addClass('inline-editor').show();
 		$('.ptitle', editRow).eq(0).focus();

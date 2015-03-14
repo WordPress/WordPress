@@ -103,7 +103,7 @@ function wp_cache_flush() {
  * @param int|string $key What the contents in the cache are called
  * @param string $group Where the cache contents are grouped
  * @param bool $force Whether to force an update of the local cache from the persistent cache (default is false)
- * @param &bool $found Whether key was found in the cache. Disambiguates a return of false, a storable value.
+ * @param bool &$found Whether key was found in the cache. Disambiguates a return of false, a storable value.
  * @return bool|mixed False on failure to retrieve contents or the cache
  *		contents on success
  */
@@ -217,7 +217,6 @@ function wp_cache_add_global_groups( $groups ) {
  */
 function wp_cache_add_non_persistent_groups( $groups ) {
 	// Default cache doesn't persist so nothing to do here.
-	return;
 }
 
 /**
@@ -305,6 +304,15 @@ class WP_Object_Cache {
 	 * @since 3.5.0
 	 */
 	private $blog_prefix;
+
+	/**
+	 * Holds the value of `is_multisite()`
+	 *
+	 * @var bool
+	 * @access private
+	 * @since 3.5.0
+	 */
+	private $multisite;
 
 	/**
 	 * Make private properties readable for backwards compatibility.

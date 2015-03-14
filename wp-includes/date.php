@@ -182,8 +182,6 @@ class WP_Date_Query {
 		$this->compare = $this->get_compare( $date_query );
 
 		$this->queries = $this->sanitize_query( $date_query );
-
-		return;
 	}
 
 	/**

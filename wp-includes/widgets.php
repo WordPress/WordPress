@@ -814,6 +814,12 @@ function register_sidebar($args = array()) {
 		'after_title' => "</h2>\n",
 	);
 
+	if ( current_theme_supports( 'html5', 'widgets' ) ) {
+		$defaults['before_widget'] = '<aside id="%1$s" class="widget %2$s">';
+		$defaults['after_widget'] = "</aside>\n";
+		$defaults['before_title'] = '<h2 class="widget-title">';
+	}
+
 	$sidebar = wp_parse_args( $args, $defaults );
 
 	$wp_registered_sidebars[$sidebar['id']] = $sidebar;

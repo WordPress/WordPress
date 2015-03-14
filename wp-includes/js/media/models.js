@@ -232,7 +232,7 @@ $(window).on('unload', function(){
 });
 
 },{"./models/attachment.js":2,"./models/attachments.js":3,"./models/post-image.js":4,"./models/query.js":5,"./models/selection.js":6}],2:[function(require,module,exports){
-/*globals wp, _, jQuery, Backbone */
+/*globals wp, _, Backbone */
 
 /**
  * wp.media.model.Attachment
@@ -240,7 +240,7 @@ $(window).on('unload', function(){
  * @class
  * @augments Backbone.Model
  */
-var $ = jQuery,
+var $ = Backbone.$,
 	Attachment;
 
 Attachment = Backbone.Model.extend({

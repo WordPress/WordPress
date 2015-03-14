@@ -361,6 +361,9 @@ class WP_Comments_List_Table extends WP_List_Table {
 
 		$comment = $a_comment;
 		$the_comment_class = wp_get_comment_status( $comment->comment_ID );
+		if ( ! $the_comment_class ) {
+			$the_comment_class = '';
+		}
 		$the_comment_class = join( ' ', get_comment_class( $the_comment_class, $comment->comment_ID, $comment->comment_post_ID ) );
 
 		$post = get_post( $comment->comment_post_ID );

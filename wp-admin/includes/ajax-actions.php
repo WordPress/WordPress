@@ -2267,6 +2267,9 @@ function wp_ajax_save_attachment() {
 	if ( 'attachment' != $post['post_type'] )
 		wp_send_json_error();
 
+	if ( isset( $changes['parent'] ) )
+		$post['post_parent'] = $changes['parent'];
+
 	if ( isset( $changes['title'] ) )
 		$post['post_title'] = $changes['title'];
 
@@ -2287,7 +2290,7 @@ function wp_ajax_save_attachment() {
 		}
 	}
 
-	if ( 0 === strpos( $post['post_mime_type'], 'audio/' ) ) {
+	if ( wp_attachment_is( 'audio', $post['ID'] ) ) {
 		$changed = false;
 		$id3data = wp_get_attachment_metadata( $post['ID'] );
 		if ( ! is_array( $id3data ) ) {
@@ -2445,7 +2448,7 @@ function wp_ajax_send_attachment_to_editor() {
 		$caption = isset( $attachment['post_excerpt'] ) ? $attachment['post_excerpt'] : '';
 		$title = ''; // We no longer insert title tags into <img> tags, as they are redundant.
 		$html = get_image_send_to_editor( $id, $caption, $title, $align, $url, (bool) $rel, $size, $alt );
-	} elseif ( 'video' === substr( $post->post_mime_type, 0, 5 ) || 'audio' === substr( $post->post_mime_type, 0, 5 )  ) {
+	} elseif ( wp_attachment_is( 'video', $post ) || wp_attachment_is( 'audio', $post )  ) {
 		$html = stripslashes_deep( $_POST['html'] );
 	}
 
@@ -2705,13 +2708,21 @@ function wp_ajax_parse_embed() {
 	}
 
 	$shortcode = wp_unslash( $_POST['shortcode'] );
-	$url = str_replace( '[embed]', '', str_replace( '[/embed]', '', $shortcode ) );
+
+	preg_match( '/' . get_shortcode_regex() . '/s', $shortcode, $matches );
+	$atts = shortcode_parse_atts( $matches[3] );
+	if ( ! empty( $matches[5] ) ) {
+		$url = $matches[5];
+	} elseif ( ! empty( $atts['src'] ) ) {
+		$url = $atts['src'];
+	}
+
 	$parsed = false;
 	setup_postdata( $post );
 
 	$wp_embed->return_false_on_fail = true;
 
-	if ( is_ssl() && preg_match( '%^\\[embed[^\\]]*\\]http://%i', $shortcode ) ) {
+	if ( is_ssl() && 0 === strpos( $url, 'http://' ) ) {
 		// Admin is ssl and the user pasted non-ssl URL.
 		// Check if the provider supports ssl embeds and use that for the preview.
 		$ssl_shortcode = preg_replace( '%^(\\[embed[^\\]]*\\])http://%i', '$1https://', $shortcode );
@@ -2764,7 +2775,8 @@ function wp_ajax_parse_embed() {
 	}
 
 	wp_send_json_success( array(
-		'body' => $parsed
+		'body' => $parsed,
+		'attr' => $wp_embed->last_attr
 	) );
 }
 

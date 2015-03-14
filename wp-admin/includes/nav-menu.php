@@ -186,11 +186,11 @@ class Walker_Nav_Menu_Edit extends Walker_Nav_Menu {
 				<p class="field-move hide-if-no-js description description-wide">
 					<label>
 						<span><?php _e( 'Move' ); ?></span>
-						<a href="#" class="menus-move-up"><?php _e( 'Up one' ); ?></a>
-						<a href="#" class="menus-move-down"><?php _e( 'Down one' ); ?></a>
-						<a href="#" class="menus-move-left"></a>
-						<a href="#" class="menus-move-right"></a>
-						<a href="#" class="menus-move-top"><?php _e( 'To the top' ); ?></a>
+						<a href="#" class="menus-move menus-move-up" data-dir="up"><?php _e( 'Up one' ); ?></a>
+						<a href="#" class="menus-move menus-move-down" data-dir="down"><?php _e( 'Down one' ); ?></a>
+						<a href="#" class="menus-move menus-move-left" data-dir="left"></a>
+						<a href="#" class="menus-move menus-move-right" data-dir="right"></a>
+						<a href="#" class="menus-move menus-move-top" data-dir="top"><?php _e( 'To the top' ); ?></a>
 					</label>
 				</p>
 
@@ -444,7 +444,7 @@ function _wp_ajax_menu_quick_search( $request = array() ) {
 function wp_nav_menu_setup() {
 	// Register meta boxes
 	wp_nav_menu_post_type_meta_boxes();
-	add_meta_box( 'add-custom-links', __( 'Links' ), 'wp_nav_menu_item_link_meta_box', 'nav-menus', 'side', 'default' );
+	add_meta_box( 'add-custom-links', __( 'Custom Links' ), 'wp_nav_menu_item_link_meta_box', 'nav-menus', 'side', 'default' );
 	wp_nav_menu_taxonomy_meta_boxes();
 
 	// Register advanced menu items (columns)

@@ -395,13 +395,15 @@ function get_site_by_path( $domain, $path, $segments = null ) {
 function ms_not_installed() {
 	global $wpdb, $domain, $path;
 
+	if ( ! is_admin() ) {
+		dead_db();
+	}
+
 	wp_load_translations_early();
 
 	$title = __( 'Error establishing a database connection' );
+
 	$msg  = '<h1>' . $title . '</h1>';
-	if ( ! is_admin() ) {
-		die( $msg );
-	}
 	$msg .= '<p>' . __( 'If your site does not display, please contact the owner of this network.' ) . '';
 	$msg .= ' ' . __( 'If you are the owner of this network please check that MySQL is running properly and all tables are error free.' ) . '</p>';
 	$query = $wpdb->prepare( "SHOW TABLES LIKE %s", $wpdb->esc_like( $wpdb->site ) );
@@ -420,7 +422,7 @@ function ms_not_installed() {
 	}
 	$msg .= '</ul>';
 
-	wp_die( $msg, $title );
+	wp_die( $msg, $title, array( 'response' => 500 ) );
 }
 
 /**

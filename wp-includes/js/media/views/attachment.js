@@ -52,6 +52,7 @@ Attachment = View.extend({
 			this.listenTo( this.model, 'change', this.render );
 		} else {
 			this.listenTo( this.model, 'change:percent', this.progress );
+			this.listenTo( this.model, 'change:parent', this.render );
 		}
 		this.listenTo( this.model, 'change:title', this._syncTitle );
 		this.listenTo( this.model, 'change:caption', this._syncCaption );

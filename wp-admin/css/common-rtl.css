@@ -177,7 +177,8 @@ p.popular-tags,
 .wp-editor-container,
 .popular-tags,
 .feature-filter,
-.imgedit-group {
+.imgedit-group,
+.comment-ays {
 	border: 1px solid #e5e5e5;
 	-webkit-box-shadow: 0 1px 1px rgba(0,0,0,0.04);
 	box-shadow: 0 1px 1px rgba(0,0,0,0.04);
@@ -190,7 +191,8 @@ p.popular-tags,
 .widgets-holder-wrap,
 .popular-tags,
 .feature-filter,
-.imgedit-group {
+.imgedit-group,
+.comment-ays {
 	background: #fff;
 }
 
@@ -1136,7 +1138,7 @@ th.action-links {
 
 .wp-filter .button.clear-filters {
 	display: none;
-	margin: 0 10px 20px 0;
+	margin-right: 10px;
 }
 
 .filtered-by {
@@ -1504,6 +1506,26 @@ form.upgrade .hint {
 	display: none;
 }
 
+.metabox-prefs .screen-options {
+	padding-top: 10px;
+}
+
+.metabox-prefs .screen-options input,
+.metabox-prefs .screen-options label {
+	margin-top: 0;
+	margin-bottom: 0;
+	vertical-align: middle;
+}
+
+.metabox-prefs .screen-options .screen-per-page {
+	margin-left: 15px;
+}
+
+.metabox-prefs .screen-options label {
+	line-height: 28px;
+	padding-left: 0;
+}
+
 /*------------------------------------------------------------------------------
   6.2 - Help Menu
 ------------------------------------------------------------------------------*/
@@ -1617,15 +1639,6 @@ html.wp-toolbar {
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
-}
-
-.narrow {
-	width: 70%;
-	margin-bottom: 40px;
-}
-
-.narrow p {
-	line-height: 150%;
 }
 
 .widefat th,
@@ -2085,7 +2098,7 @@ div.star-holder .star-rating {
 	-webkit-transition: color .1s ease-in 0;
 	transition: color .1s ease-in 0;
 	text-align: center;
-	color: #0073aa;
+	color: #ffb900;
 }
 
 .star-rating .star-full:before {
@@ -2148,8 +2161,8 @@ div.action-links {
 	margin-left: 0;
 	height: 250px;
 	bottom: 250px;
-	-webkit-background-size: 100% auto;
-	background-size: 100% auto;
+	-webkit-background-size: cover;
+	background-size: cover;
 }
 
 #plugin-information-title h2 {
@@ -2335,7 +2348,7 @@ div.action-links {
 
 #plugin-information .counter-bar {
 	height: 17px;
-	background-color: #fddb5a;
+	background-color: #ffc733; /* slightly lighter than stars due to larger expanse */
 	float: right;
 }
 
@@ -2848,7 +2861,7 @@ img {
 }
 
 /*!
- * jQuery UI Draggable/Sortable 1.11.3
+ * jQuery UI Draggable/Sortable 1.11.4
  * http://jqueryui.com
  *
  * Copyright jQuery Foundation and other contributors

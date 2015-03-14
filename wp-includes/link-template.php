@@ -2466,6 +2466,10 @@ function get_next_comments_link( $label = '', $max_page = 0 ) {
 
 	$page = get_query_var('cpage');
 
+	if ( ! $page ) {
+		$page = 1;
+	}
+
 	$nextpage = intval($page) + 1;
 
 	if ( empty($max_page) )
@@ -2596,7 +2600,7 @@ function paginate_comments_links($args = array()) {
 function get_shortcut_link() {
 	global $is_IE, $wp_version;
 
-	$bookmarklet_version = '5';
+	$bookmarklet_version = '7';
 	$link = '';
 
 	if ( $is_IE ) {

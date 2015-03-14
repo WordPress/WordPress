@@ -1,4 +1,4 @@
-/*globals _, Backbone, jQuery */
+/*globals _, Backbone */
 
 /**
  * wp.media.view.ButtonGroup
@@ -10,7 +10,7 @@
  */
 var View = require( './view.js' ),
 	Button = require( './button.js' ),
-	$ = jQuery,
+	$ = Backbone.$,
 	ButtonGroup;
 
 ButtonGroup = View.extend({

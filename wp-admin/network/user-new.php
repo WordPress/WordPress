@@ -33,7 +33,7 @@ get_current_screen()->set_help_sidebar(
 if ( isset($_REQUEST['action']) && 'add-user' == $_REQUEST['action'] ) {
 	check_admin_referer( 'add-user', '_wpnonce_add-user' );
 	if ( ! current_user_can( 'manage_network_users' ) )
-		wp_die( __( 'You do not have permission to access this page.' ) );
+		wp_die( __( 'You do not have permission to access this page.' ), '', array( 'response' => 403 ) );
 
 	if ( ! is_array( $_POST['user'] ) )
 		wp_die( __( 'Cannot create an empty user.' ) );

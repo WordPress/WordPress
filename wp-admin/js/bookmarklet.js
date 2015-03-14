@@ -7,7 +7,7 @@
 		canPost = true,
 		windowWidth, windowHeight,
 		metas, links, content, imgs, ifrs,
-		vid, selection, newWin;
+		selection;
 
 	if ( ! pt_url ) {
 		return;
@@ -28,17 +28,19 @@
 	} else if ( document.getSelection ) {
 		selection = document.getSelection() + '';
 	} else if ( document.selection ) {
-		selection = document.selection.createRange().text;
+		selection = document.selection.createRange().text || '';
 	}
 
-	pt_url += ( pt_url.indexOf( '?' ) > -1 ? '&' : '?' ) + 'buster=' + ( new Date().getTime() );
+	pt_url += '&buster=' + ( new Date().getTime() );
 
-	if ( document.title.length && ( document.title.length <= 256 || ! canPost ) ) {
-		pt_url += '&t=' + encURI( document.title.substr( 0, 256 ) );
-	}
+	if ( ! canPost ) {
+		if ( document.title ) {
+			pt_url += '&t=' + encURI( document.title.substr( 0, 256 ) );
+		}
 
-	if ( selection && ( selection.length <= 512 || ! canPost ) ) {
-		pt_url += '&s=' + encURI( selection.substr( 0, 512 ) );
+		if ( selection ) {
+			pt_url += '&s=' + encURI( selection.substr( 0, 512 ) );
+		}
 	}
 
 	windowWidth  = window.outerWidth || document.documentElement.clientWidth || 600;
@@ -48,8 +50,7 @@
 	windowHeight = ( windowHeight < 800 || windowHeight > 3000 ) ? 700 : ( windowHeight * 0.9 );
 
 	if ( ! canPost ) {
-		newWin = window.open( pt_url, target, 'location,resizable,scrollbars,width=' + windowWidth + ',height=' + windowHeight );
-		newWin.focus();
+		window.open( pt_url, target, 'location,resizable,scrollbars,width=' + windowWidth + ',height=' + windowHeight );
 		return;
 	}
 
@@ -67,18 +68,14 @@
 		form.appendChild( input );
 	}
 
-	if ( href.match( /\/\/www\.youtube\.com\/watch/ ) ) {
-		add( '_embed[]', href );
-	} else if ( href.match( /\/\/vimeo\.com\/(.+\/)?([\d]+)$/ ) ) {
-		add( '_embed[]', href );
-	} else if ( href.match( /\/\/(www\.)?dailymotion\.com\/video\/.+$/ ) ) {
-		add( '_embed[]', href );
-	} else if ( href.match( /\/\/soundcloud\.com\/.+$/ ) ) {
-		add( '_embed[]', href );
-	} else if ( href.match( /\/\/twitter\.com\/[^\/]+\/status\/[\d]+$/ ) ) {
-		add( '_embed[]', href );
-	} else if ( href.match( /\/\/vine\.co\/v\/[^\/]+/ ) ) {
-		add( '_embed[]', href );
+	if ( href.match( /\/\/(www|m)\.youtube\.com\/watch/ ) ||
+		href.match( /\/\/vimeo\.com\/(.+\/)?([\d]+)$/ ) ||
+		href.match( /\/\/(www\.)?dailymotion\.com\/video\/.+$/ ) ||
+		href.match( /\/\/soundcloud\.com\/.+$/ ) ||
+		href.match( /\/\/twitter\.com\/[^\/]+\/status\/[\d]+$/ ) ||
+		href.match( /\/\/vine\.co\/v\/[^\/]+/ ) ) {
+
+		add( '_embeds[]', href );
 	}
 
 	metas = head.getElementsByTagName( 'meta' ) || [];
@@ -110,20 +107,8 @@
 		var g = links[ y ],
 			g_rel = g.getAttribute( 'rel' );
 
-		if ( g_rel ) {
-			switch ( g_rel ) {
-				case 'canonical':
-				case 'icon':
-				case 'shortlink':
-					add( '_links[' + g_rel + ']', g.getAttribute( 'href' ) );
-					break;
-				case 'alternate':
-					if ( 'application/json+oembed' === g.getAttribute( 'type' ) ) {
-						add( '_links[' + g_rel + ']', g.getAttribute( 'href' ) );
-					} else if ( 'handheld' === g.getAttribute( 'media' ) ) {
-						add( '_links[' + g_rel + ']', g.getAttribute( 'href' ) );
-					}
-			}
+		if ( g_rel === 'canonical' || g_rel === 'icon' || g_rel === 'shortlink' ) {
+			add( '_links[' + g_rel + ']', g.getAttribute( 'href' ) );
 		}
 	}
 
@@ -135,7 +120,7 @@
 	imgs = content.getElementsByTagName( 'img' ) || [];
 
 	for ( var n = 0; n < imgs.length; n++ ) {
-		if ( n >= 100 ) {
+		if ( n >= 50 ) {
 			break;
 		}
 
@@ -146,41 +131,25 @@
 		img.src = imgs[ n ].src;
 
 		if ( img.width >= 256 && img.height >= 128 ) {
-			add( '_img[]', img.src );
+			add( '_images[]', img.src );
 		}
 	}
 
 	ifrs = document.body.getElementsByTagName( 'iframe' ) || [];
 
 	for ( var p = 0; p < ifrs.length; p++ ) {
-		if ( p >= 100 ) {
+		if ( p >= 50 ) {
 			break;
 		}
 
-		vid = ifrs[ p ].src.match(/\/\/www\.youtube\.com\/embed\/([^\?]+)\?.+$/);
-
-		if ( vid && 2 === vid.length ) {
-			add( '_embed[]', 'https://www.youtube.com/watch?v=' + vid[1] );
-		}
-
-		vid = ifrs[ p ].src.match( /\/\/player\.vimeo\.com\/video\/([\d]+)$/ );
-
-		if ( vid && 2 === vid.length ) {
-			add( '_embed[]', 'https://vimeo.com/' + vid[1] );
-		}
-
-		vid = ifrs[ p ].src.match( /\/\/vine\.co\/v\/([^\/]+)\/embed/ );
-
-		if ( vid && 2 === vid.length ) {
-			add( '_embed[]', 'https://vine.co/v/' + vid[1] );
-		}
+		add( '_embeds[]', ifrs[ p ].src );
 	}
 
-	if ( document.title && document.title > 512 ) {
+	if ( document.title ) {
 		add( 't', document.title );
 	}
 
-	if ( selection && selection.length > 512 ) {
+	if ( selection ) {
 		add( 's', selection );
 	}
 
@@ -189,10 +158,8 @@
 	form.setAttribute( 'target', target );
 	form.setAttribute( 'style', 'display: none;' );
 
-	newWin = window.open( 'about:blank', target, 'location,resizable,scrollbars,width=' + windowWidth + ',height=' + windowHeight );
+	window.open( 'about:blank', target, 'location,resizable,scrollbars,width=' + windowWidth + ',height=' + windowHeight );
 
 	document.body.appendChild( form );
 	form.submit();
-
-	newWin.focus();
 } )( window, document, top.location.href, window.pt_url );

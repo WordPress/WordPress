@@ -597,7 +597,7 @@ EditAttachments = MediaFrame.extend({
 module.exports = EditAttachments;
 
 },{"../../controllers/edit-attachment-metadata.js":1,"../attachment/details-two-column.js":4,"../edit-image-details.js":8}],10:[function(require,module,exports){
-/*globals wp, _, jQuery, Backbone */
+/*globals wp, _, Backbone */
 
 /**
  * wp.media.view.MediaFrame.Manage
@@ -621,7 +621,7 @@ var MediaFrame = wp.media.view.MediaFrame,
 
 	Router = require( '../../routers/manage.js' ),
 
-	$ = jQuery,
+	$ = Backbone.$,
 	Manage;
 
 Manage = MediaFrame.extend({

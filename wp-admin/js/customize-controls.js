@@ -1,4 +1,4 @@
-/* globals _wpCustomizeHeader, _wpCustomizeBackground, _wpMediaViewsL10n */
+/* globals _wpCustomizeHeader, _wpCustomizeBackground, _wpMediaViewsL10n, MediaElementPlayer */
 (function( exports, $ ){
 	var Container, focus, api = wp.customize;
 
@@ -17,6 +17,7 @@
 
 			this.id = id;
 			this.transport = this.transport || 'refresh';
+			this._dirty = options.dirty || false;
 
 			this.bind( this.preview );
 		},
@@ -316,6 +317,17 @@
 		_toggleExpanded: function ( expanded, params ) {
 			var self = this;
 			params = params || {};
+			var section = this, previousCompleteCallback = params.completeCallback;
+			params.completeCallback = function () {
+				if ( previousCompleteCallback ) {
+					previousCompleteCallback.apply( section, arguments );
+				}
+				if ( expanded ) {
+					section.container.trigger( 'expanded' );
+				} else {
+					section.container.trigger( 'collapsed' );
+				}
+			};
 			if ( ( expanded && this.expanded.get() ) || ( ! expanded && ! this.expanded.get() ) ) {
 				params.unchanged = true;
 				self.onChangeExpanded( self.expanded.get(), params );
@@ -1359,13 +1371,13 @@
 	});
 
 	/**
-	 * An upload control, which utilizes the media modal.
+	 * A control that implements the media modal.
 	 *
 	 * @class
 	 * @augments wp.customize.Control
 	 * @augments wp.customize.Class
 	 */
-	api.UploadControl = api.Control.extend({
+	api.MediaControl = api.Control.extend({
 
 		/**
 		 * When the control's DOM structure is ready,
@@ -1374,16 +1386,38 @@
 		ready: function() {
 			var control = this;
 			// Shortcut so that we don't have to use _.bind every time we add a callback.
-			_.bindAll( control, 'restoreDefault', 'removeFile', 'openFrame', 'select' );
+			_.bindAll( control, 'restoreDefault', 'removeFile', 'openFrame', 'select', 'pausePlayer' );
 
 			// Bind events, with delegation to facilitate re-rendering.
 			control.container.on( 'click keydown', '.upload-button', control.openFrame );
+			control.container.on( 'click keydown', '.upload-button', control.pausePlayer );
 			control.container.on( 'click keydown', '.thumbnail-image img', control.openFrame );
 			control.container.on( 'click keydown', '.default-button', control.restoreDefault );
+			control.container.on( 'click keydown', '.remove-button', control.pausePlayer );
 			control.container.on( 'click keydown', '.remove-button', control.removeFile );
+			control.container.on( 'click keydown', '.remove-button', control.cleanupPlayer );
+
+			// Resize the player controls when it becomes visible (ie when section is expanded)
+			api.section( control.section() ).container
+				.on( 'expanded', function() {
+					if ( control.player ) {
+						control.player.setControlsSize();
+					}
+				})
+				.on( 'collapsed', function() {
+					control.pausePlayer();
+				});
 
 			// Re-render whenever the control's setting changes.
 			control.setting.bind( function () { control.renderContent(); } );
+		},
+
+		pausePlayer: function () {
+			this.player && this.player.pause();
+		},
+
+		cleanupPlayer: function () {
+			this.player && wp.media.mixin.removePlayer( this.player );
 		},
 
 		/**
@@ -1431,12 +1465,22 @@
 		 */
 		select: function() {
 			// Get the attachment from the modal frame.
-			var attachment = this.frame.state().get( 'selection' ).first().toJSON();
+			var node,
+				attachment = this.frame.state().get( 'selection' ).first().toJSON(),
+				mejsSettings = window._wpmejsSettings || {};
 
 			this.params.attachment = attachment;
 
 			// Set the Customizer setting; the callback takes care of rendering.
-			this.setting( attachment.url );
+			this.setting( attachment.id );
+			node = this.container.find( 'audio, video' ).get(0);
+
+			// Initialize audio/video previews.
+			if ( node ) {
+				this.player = new MediaElementPlayer( node, mejsSettings );
+			} else {
+				this.cleanupPlayer();
+			}
 		},
 
 		/**
@@ -1466,6 +1510,41 @@
 			this.params.attachment = {};
 			this.setting( '' );
 			this.renderContent(); // Not bound to setting change when emptying.
+		}
+	});
+
+	/**
+	 * An upload control, which utilizes the media modal.
+	 *
+	 * @class
+	 * @augments wp.customize.MediaControl
+	 * @augments wp.customize.Control
+	 * @augments wp.customize.Class
+	 */
+	api.UploadControl = api.MediaControl.extend({
+
+		/**
+		 * Callback handler for when an attachment is selected in the media modal.
+		 * Gets the selected image information, and sets it within the control.
+		 */
+		select: function() {
+			// Get the attachment from the modal frame.
+			var node,
+				attachment = this.frame.state().get( 'selection' ).first().toJSON(),
+				mejsSettings = window._wpmejsSettings || {};
+
+			this.params.attachment = attachment;
+
+			// Set the Customizer setting; the callback takes care of rendering.
+			this.setting( attachment.url );
+			node = this.container.find( 'audio, video' ).get(0);
+
+			// Initialize audio/video previews.
+			if ( node ) {
+				this.player = new MediaElementPlayer( node, mejsSettings );
+			} else {
+				this.cleanupPlayer();
+			}
 		},
 
 		// @deprecated
@@ -1483,6 +1562,7 @@
 	 *
 	 * @class
 	 * @augments wp.customize.UploadControl
+	 * @augments wp.customize.MediaControl
 	 * @augments wp.customize.Control
 	 * @augments wp.customize.Class
 	 */
@@ -1496,6 +1576,7 @@
 	 *
 	 * @class
 	 * @augments wp.customize.UploadControl
+	 * @augments wp.customize.MediaControl
 	 * @augments wp.customize.Control
 	 * @augments wp.customize.Class
 	 */
@@ -1532,8 +1613,8 @@
 	 */
 	api.HeaderControl = api.Control.extend({
 		ready: function() {
-			this.btnRemove        = $('#customize-control-header_image .actions .remove');
-			this.btnNew           = $('#customize-control-header_image .actions .new');
+			this.btnRemove = $('#customize-control-header_image .actions .remove');
+			this.btnNew    = $('#customize-control-header_image .actions .new');
 
 			_.bindAll(this, 'openMedia', 'removeImage');
 
@@ -1871,6 +1952,9 @@
 			this.bind( 'ready', this._ready );
 
 			this.bind( 'ready', function ( data ) {
+
+				this.container.addClass( 'iframe-ready' );
+
 				if ( ! data ) {
 					return;
 				}
@@ -1940,7 +2024,7 @@
 				response = response.slice( 0, index ) + response.slice( index + signature.length );
 
 				// Create the iframe and inject the html content.
-				self.iframe = $('<iframe />').appendTo( self.container );
+				self.iframe = $( '<iframe />', { 'title': api.l10n.previewIframeTitle } ).appendTo( self.container );
 
 				// Bind load event after the iframe has been added to the page;
 				// otherwise it will fire when injected into the DOM.
@@ -1972,8 +2056,9 @@
 				deferred.rejectWith( self, [ 'logged out' ] );
 			};
 
-			if ( this.triedLogin )
+			if ( this.triedLogin ) {
 				return reject();
+			}
 
 			// Check if we have an admin cookie.
 			$.get( api.settings.url.ajax, {
@@ -1981,10 +2066,11 @@
 			}).fail( reject ).done( function( response ) {
 				var iframe;
 
-				if ( '1' !== response )
+				if ( '1' !== response ) {
 					reject();
+				}
 
-				iframe = $('<iframe src="' + self.previewUrl() + '" />').hide();
+				iframe = $( '<iframe />', { 'src': self.previewUrl(), 'title': api.l10n.previewIframeTitle } ).hide();
 				iframe.appendTo( self.container );
 				iframe.load( function() {
 					self.triedLogin = true;
@@ -2174,6 +2260,9 @@
 		refresh: function() {
 			var self = this;
 
+			// Display loading indicator
+			this.send( 'loading-initiated' );
+
 			this.abort();
 
 			this.loading = new api.PreviewFrame({
@@ -2206,8 +2295,10 @@
 			});
 
 			this.loading.fail( function( reason, location ) {
-				if ( 'redirect' === reason && location )
+				self.send( 'loading-failed' );
+				if ( 'redirect' === reason && location ) {
 					self.previewUrl( location );
+				}
 
 				if ( 'logged out' === reason ) {
 					if ( self.preview ) {
@@ -2218,8 +2309,9 @@
 					self.login().done( self.refresh );
 				}
 
-				if ( 'cheatin' === reason )
+				if ( 'cheatin' === reason ) {
 					self.cheatin();
+				}
 			});
 		},
 
@@ -2238,7 +2330,7 @@
 				url:     api.settings.url.login
 			});
 
-			iframe = $('<iframe src="' + api.settings.url.login + '" />').appendTo( this.container );
+			iframe = $( '<iframe />', { 'src': api.settings.url.login, 'title': api.l10n.loginIframeTitle } ).appendTo( this.container );
 
 			messenger.targetWindow( iframe[0].contentWindow );
 
@@ -2259,6 +2351,7 @@
 
 	api.controlConstructor = {
 		color:      api.ColorControl,
+		media:      api.MediaControl,
 		upload:     api.UploadControl,
 		image:      api.ImageControl,
 		header:     api.HeaderControl,
@@ -2351,10 +2444,7 @@
 			},
 
 			save: function() {
-				var self  = this,
-					query = $.extend( this.query(), {
-						nonce:  this.nonce.save
-					} ),
+				var self = this,
 					processing = api.state( 'processing' ),
 					submitWhenDoneProcessing,
 					submit;
@@ -2362,7 +2452,11 @@
 				body.addClass( 'saving' );
 
 				submit = function () {
-					var request = wp.ajax.post( 'customize_save', query );
+					var request, query;
+					query = $.extend( self.query(), {
+						nonce:  self.nonce.save
+					} );
+					request = wp.ajax.post( 'customize_save', query );
 
 					api.trigger( 'save', request );
 
@@ -2424,7 +2518,8 @@
 		$.each( api.settings.settings, function( id, data ) {
 			api.create( id, id, data.value, {
 				transport: data.transport,
-				previewer: api.previewer
+				previewer: api.previewer,
+				dirty: !! data.dirty
 			} );
 		});
 

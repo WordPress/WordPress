@@ -172,7 +172,14 @@ function get_the_title( $post = 0 ) {
  * @param int|WP_Post $id Optional. Post ID or post object.
  */
 function the_guid( $id = 0 ) {
-	echo esc_url( get_the_guid( $id ) );
+	/**
+	 * Filter the escaped Global Unique Identifier (guid) of the post.
+	 *
+	 * @since 4.2.0
+	 *
+	 * @param string $post_guid Escaped Global Unique Identifier (guid) of the post.
+	 */
+	echo apply_filters( 'the_guid', get_the_guid( $id ) );
 }
 
 /**
@@ -1550,7 +1557,7 @@ function prepend_attachment($content) {
 	if ( empty($post->post_type) || $post->post_type != 'attachment' )
 		return $content;
 
-	if ( 0 === strpos( $post->post_mime_type, 'video' ) ) {
+	if ( wp_attachment_is( 'video', $post ) ) {
 		$meta = wp_get_attachment_metadata( get_the_ID() );
 		$atts = array( 'src' => wp_get_attachment_url() );
 		if ( ! empty( $meta['width'] ) && ! empty( $meta['height'] ) ) {
@@ -1561,7 +1568,7 @@ function prepend_attachment($content) {
 			$atts['poster'] = wp_get_attachment_url( get_post_thumbnail_id() );
 		}
 		$p = wp_video_shortcode( $atts );
-	} elseif ( 0 === strpos( $post->post_mime_type, 'audio' ) ) {
+	} elseif ( wp_attachment_is( 'audio', $post ) ) {
 		$p = wp_audio_shortcode( array( 'src' => wp_get_attachment_url() ) );
 	} else {
 		$p = '<p class="attachment">';
@@ -1622,12 +1629,13 @@ function get_the_password_form( $post = 0 ) {
  * Whether currently in a page template.
  *
  * This template tag allows you to determine if you are in a page template.
- * You can optionally provide a template name and then the check will be
- * specific to that template.
+ * You can optionally provide a template name or array of template names
+ * and then the check will be specific to that template.
  *
  * @since 2.5.0
+ * @since 4.2.0 The `$template` parameter was changed to accept an array of page templates.
  *
- * @param string $template The specific template name if specific matching is required.
+ * @param string|array $template The specific template name or array of templates to match.
  * @return bool True on success, false on failure.
  */
 function is_page_template( $template = '' ) {
@@ -1641,6 +1649,14 @@ function is_page_template( $template = '' ) {
 
 	if ( $template == $page_template )
 		return true;
+
+	if ( is_array( $template ) ) {
+		if ( ( in_array( 'default', $template, true ) && ! $page_template )
+			|| in_array( $page_template, $template, true )
+		) {
+			return true;
+		}
+	}
 
 	if ( 'default' == $template && ! $page_template )
 		return true;
