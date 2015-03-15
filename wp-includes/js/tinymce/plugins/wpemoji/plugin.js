@@ -23,7 +23,7 @@
 			typing = event.type === 'keydown';
 		} );
 
-		editor.on( 'input', function( event ) {
+		editor.on( 'input', function() {
 			if ( typing ) {
 				return;
 			}
@@ -52,7 +52,7 @@
 			if ( twemoji.test( node.textContent || node.innerText ) ) {
 				replaceEmoji( node );
 
-				// In IE all content in the editor is left selected aftrer wp.emoji.parse()...
+				// In IE all content in the editor is left selected after wp.emoji.parse()...
 				// Collapse the selection to the beginning.
 				if ( tinymce.Env.ie && tinymce.Env.ie < 9 && event.load && node && node.nodeName === 'BODY' ) {
 					selection.collapse( true );
@@ -60,7 +60,7 @@
 			}
 		} );
 
-		// Convert Twemoji compatible pasted emoji repacement images into our format.
+		// Convert Twemoji compatible pasted emoji replacement images into our format.
 		editor.on( 'PastePostProcess', function( event ) {
 			if ( twemoji ) {
 				tinymce.each( editor.dom.$( 'img.emoji', event.node ), function( image ) {

@@ -88,8 +88,8 @@
 			if ( type === 'flag' ) {
 				/*
 				 * This works because the image will be one of three things:
-				 * - Two empty squares, if the browser doen't render emoji
-				 * - Two squares with 'G' and 'B' in them, if the browser doen't render flag emoji
+				 * - Two empty squares, if the browser doesn't render emoji
+				 * - Two squares with 'G' and 'B' in them, if the browser doesn't render flag emoji
 				 * - The British flag
 				 *
 				 * The first two will encode to small images (1-2KB data URLs), the third will encode
