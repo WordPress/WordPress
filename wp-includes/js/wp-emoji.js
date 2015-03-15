@@ -154,21 +154,19 @@
 			} );
 		}
 
-		if ( ! twemoji || ! settings ) {
-			return;
-		}		
-
 		/**
 		 * Initialize our emoji support, and set up listeners.
 		 */
-		parseAllEmoji = ! browserSupportsEmoji();
-		parseFlags = ! browserSupportsEmoji( 'flag' );
-		parseEmoji = parseAllEmoji || parseFlags;
-
-		if ( window.addEventListener ) {
-			window.addEventListener( 'load', load, false );
-		} else if ( window.attachEvent ) {
-			window.attachEvent( 'onload', load );
+		if ( twemoji && settings ) {
+			parseAllEmoji = ! browserSupportsEmoji();
+			parseFlags = ! browserSupportsEmoji( 'flag' );
+			parseEmoji = parseAllEmoji || parseFlags;
+	
+			if ( window.addEventListener ) {
+				window.addEventListener( 'load', load, false );
+			} else if ( window.attachEvent ) {
+				window.attachEvent( 'onload', load );
+			}
 		}
 
 		return {
