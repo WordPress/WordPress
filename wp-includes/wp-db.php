@@ -2805,10 +2805,12 @@ class wpdb {
 					return false;
 				}
 				if ( $this->use_mysqli ) {
-					return mysqli_get_client_version( $this->dbh ) >= 50503;
+					$client_version = mysqli_get_client_info();
 				} else {
-					return mysql_get_client_version( $this->dbh ) >= 50503;
+					$client_version = mysql_get_client_info();
 				}
+
+				return version_compare( $client_version, '5.5.3', '>=' );
 		}
 
 		return false;
