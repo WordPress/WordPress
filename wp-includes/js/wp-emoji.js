@@ -4,31 +4,31 @@
 		var MutationObserver = window.MutationObserver || window.WebKitMutationObserver || window.MozMutationObserver,
 
 		/**
-		 * Flag to determine if we should parse all emoji characters into Twemoji images.
+		 * Flag to determine if the browser and the OS support emoji.
 		 *
 		 * @since 4.2.0
 		 *
 		 * @var Boolean
 		 */
-		parseAllEmoji = false,
+		supportsEmoji = false,
 
 		/**
-		 * Flag to determine if we should consider parsing emoji characters into Twemoji images.
+		 * Flag to determine if the browser and the OS support flag (two character) emoji.
 		 *
 		 * @since 4.2.0
 		 *
 		 * @var Boolean
 		 */
-		parseEmoji = false,
+		supportsFlagEmoji = false,
 
 		/**
-		 * Flag to determine if we should parse flag characters into Twemoji images.
+		 * Flag to determine if we should replace emoji characters with images.
 		 *
 		 * @since 4.2.0
 		 *
 		 * @var Boolean
 		 */
-		parseFlags = false;
+		replaceEmoji = false;
 
 		/**
 		 * Runs when the document load event is fired, so we can do our first parse of the page.
@@ -39,8 +39,7 @@
 			if ( MutationObserver ) {
 				new MutationObserver( function( mutationRecords ) {
 					var i = mutationRecords.length,
-						ii,
-						node;
+						ii, node;
 
 					while ( i-- ) {
 						ii = mutationRecords[ i ].addedNodes.length;
@@ -57,9 +56,7 @@
 							}
 						}
 					}
-				} )
-
-				.observe( document.body, {
+				} ).observe( document.body, {
 					childList: true,
 					subtree: true
 				} );
@@ -74,7 +71,7 @@
 		 *
 		 * @since 4.2.0
 		 *
-		 * @param flagEmoji {Boolean} Whether to test for support of flag emoji.
+		 * @param type {String} Whether to test for support of "simple" or "flag" emoji.
 		 * @return {Boolean} True if the browser can render emoji, false if it cannot.
 		 */
 		function browserSupportsEmoji( type ) {
@@ -117,13 +114,14 @@
 		 * @since 4.2.0
 		 *
 		 * @param {HTMLElement|String} object The element or string to parse.
+		 * @param {Object} args Additional options for Twemoji.
 		 */
-		function parse( object, options ) {
-			if ( ! parseEmoji ) {
+		function parse( object, args ) {
+			if ( ! replaceEmoji ) {
 				return object;
 			}
 
-			var className = ( options && options.className ) || 'emoji';
+			var className = ( args && args.className ) || 'emoji';
 
 			return twemoji.parse( object, {
 				base: settings.baseUrl,
@@ -143,7 +141,7 @@
 							return false;
 					}
 
-					if ( parseFlags && ! parseAllEmoji &&
+					if ( ! supportsFlagEmoji && supportsEmoji &&
 						! /^1f1(?:e[6-9a-f]|f[1-9a-f])-1f1(?:e[6-9a-f]|f[1-9a-f])$/.test( icon ) ) {
 
 						return false;
@@ -158,10 +156,10 @@
 		 * Initialize our emoji support, and set up listeners.
 		 */
 		if ( twemoji && settings ) {
-			parseAllEmoji = ! browserSupportsEmoji();
-			parseFlags = ! browserSupportsEmoji( 'flag' );
-			parseEmoji = parseAllEmoji || parseFlags;
-	
+			supportsEmoji = browserSupportsEmoji();
+			supportsFlagEmoji = browserSupportsEmoji( 'flag' );
+			replaceEmoji = ! supportsEmoji || ! supportsFlagEmoji;
+
 			if ( window.addEventListener ) {
 				window.addEventListener( 'load', load, false );
 			} else if ( window.attachEvent ) {
@@ -171,6 +169,7 @@
 
 		return {
 			browserSupportsEmoji: browserSupportsEmoji,
+			replaceEmoji: replaceEmoji,
 			parse: parse
 		};
 	}

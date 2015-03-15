@@ -254,7 +254,6 @@ add_action( 'sanitize_comment_cookies',   'sanitize_comment_cookies'            
 add_action( 'admin_print_scripts',        'print_head_scripts',                      20    );
 add_action( 'admin_print_footer_scripts', '_wp_footer_scripts'                             );
 add_action( 'admin_print_styles',         'print_admin_styles',                      20    );
-add_action( 'admin_print_styles',         'print_emoji_styles'                             );
 add_action( 'init',                       'smilies_init',                             5    );
 add_action( 'plugins_loaded',             'wp_maybe_load_widgets',                    0    );
 add_action( 'plugins_loaded',             'wp_maybe_load_embeds',                     0    );

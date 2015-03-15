@@ -1,51 +1,75 @@
-( function( tinymce, wp ) {
+( function( tinymce, wp, twemoji ) {
 	tinymce.PluginManager.add( 'wpemoji', function( editor ) {
 		var typing,
 			isMacWebKit = tinymce.Env.mac && tinymce.Env.webkit;
 
-		if ( ! wp || ! wp.emoji ) {
+		if ( ! wp || ! wp.emoji || ! wp.emoji.replaceEmoji ) {
 			return;
+		}
+
+		function setImgAttr( image ) {
+			image.className = 'emoji';
+			image.setAttribute( 'data-mce-resize', 'false' );
+			image.setAttribute( 'data-mce-placeholder', '1' );
+			image.setAttribute( 'data-wp-emoji', image.alt );
+		}
+
+		function replaceEmoji( node ) {
+			wp.emoji.parse( node, { className: 'emoji _inserted-emoji' } );
+			tinymce.each( editor.dom.$( 'img._inserted-emoji', node ), setImgAttr );
 		}
 
 		editor.on( 'keydown keyup', function( event ) {
 			typing = event.type === 'keydown';
 		} );
 
-		editor.on( 'input setcontent', function( event ) {
-			var selection, node, bookmark, images;
-
-			if ( typing && event.type === 'input' ) {
+		editor.on( 'input', function( event ) {
+			if ( typing ) {
 				return;
 			}
 
-			selection = editor.selection;
-			node = selection.getNode();
+			var bookmark,
+				selection = editor.selection,
+				node = selection.getNode();
 
-			if ( isMacWebKit ) {
-				bookmark = selection.getBookmark();
+			if ( twemoji.test( node.textContent || node.innerText ) ) {
+				if ( isMacWebKit ) {
+					bookmark = selection.getBookmark();
+				}
+
+				replaceEmoji( node );
+
+				if ( isMacWebKit ) {
+					selection.moveToBookmark( bookmark );
+				}
 			}
+		});
 
-			wp.emoji.parse( node, { className: 'wp-emoji new-emoji' } );
+		editor.on( 'setcontent', function( event ) {
+			var selection = editor.selection,
+				node = selection.getNode();
 
-			images = editor.dom.select( 'img.new-emoji', node );
+			if ( twemoji.test( node.textContent || node.innerText ) ) {
+				replaceEmoji( node );
 
-			tinymce.each( images, function( image ) {
-				image.className = 'wp-emoji';
-				image.setAttribute( 'data-mce-resize', 'false' );
-				image.setAttribute( 'data-mce-placeholder', '1' );
-				image.setAttribute( 'data-wp-emoji', image.alt );
-			} );
-
-			// In IE all content in the editor is left selected aftrer wp.emoji.parse()...
-			// Collapse the selection to the beginning.
-			if ( tinymce.Env.ie && node && node.nodeName === 'BODY' ) {
-				selection.collapse( true );
-			}
-
-			if ( isMacWebKit ) {
-				selection.moveToBookmark( bookmark );
+				// In IE all content in the editor is left selected aftrer wp.emoji.parse()...
+				// Collapse the selection to the beginning.
+				if ( tinymce.Env.ie && tinymce.Env.ie < 9 && event.load && node && node.nodeName === 'BODY' ) {
+					selection.collapse( true );
+				}
 			}
 		} );
+
+		// Convert Twemoji compatible pasted emoji repacement images into our format.
+		editor.on( 'PastePostProcess', function( event ) {
+			if ( twemoji ) {
+				tinymce.each( editor.dom.$( 'img.emoji', event.node ), function( image ) {
+					if ( image.alt && twemoji.test( image.alt ) ) {
+						setImgAttr( image );
+					}
+				});
+			}
+		});
 
 		editor.on( 'postprocess', function( event ) {
 			if ( event.content ) {
@@ -61,4 +85,4 @@
 			}
 		} );
 	} );
-} )( window.tinymce, window.wp );
+} )( window.tinymce, window.wp, window.twemoji );

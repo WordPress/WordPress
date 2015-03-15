@@ -4046,7 +4046,7 @@ img.emoji {
 	box-shadow: none !important;
 	height: 1em !important;
 	width: 1em !important;
-	margin: 0 .05em 0 .1em !important;
+	margin: 0 .07em !important;
 	vertical-align: -0.1em !important;
 	background: none !important;
 	padding: 0 !important;
