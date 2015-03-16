@@ -344,13 +344,8 @@ function shortcode_parse_atts($text) {
  */
 function shortcode_atts( $pairs, $atts, $shortcode = '' ) {
 	$atts = (array)$atts;
-	$out = array();
-	foreach($pairs as $name => $default) {
-		if ( array_key_exists($name, $atts) )
-			$out[$name] = $atts[$name];
-		else
-			$out[$name] = $default;
-	}
+	$out = wp_parse_args( $atts, $pairs );
+
 	/**
 	 * Filter a shortcode's default attributes.
 	 *
