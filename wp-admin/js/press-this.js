@@ -4,7 +4,7 @@
  */
 ( function( $, window ) {
 	var PressThis = function() {
-		var editor,
+		var editor, $mediaList, $mediaThumbWrap,
 			saveAlert             = false,
 			textarea              = document.createElement( 'textarea' ),
 			sidebarIsOpen         = false,
@@ -252,7 +252,7 @@
 						var $node = $( '<li>' ).append( $( '<div class="category selected" tabindex="0" role="checkbox" aria-checked="true">' )
 							.attr( 'data-term-id', newCat.term_id )
 							.text( newCat.name ) );
-						
+
 						if ( newCat.parent ) {
 							if ( ! $ul || ! $ul.length ) {
 								$parent = $wrap.find( 'div[data-term-id="' + newCat.parent + '"]' ).parent();
@@ -329,25 +329,37 @@
 		}
 
 		/**
+		 * Add an image to the list of found images.
+		 */
+		function addImg( src, displaySrc, i ) {
+			var $element = $mediaThumbWrap.clone().addClass( 'is-image' );
+
+			$element.css( 'background-image', 'url(' + displaySrc + ')' )
+				.find( 'span' ).text( __( 'suggestedImgAlt' ).replace( '%d', i + 1 ) );
+
+			$element.on( 'click keypress', function ( event ) {
+				if ( event.type === 'click' || event.keyCode === 13 ) {
+					insertSelectedMedia( 'img', src, data.u );
+				}
+			} ).appendTo( $mediaList );
+		}
+
+		/**
 		 * Render the detected images and embed for selection, if any
 		 */
 		function renderDetectedMedia() {
-			var mediaContainer = $( '#featured-media-container'),
-				listContainer  = $( '#all-media-container' ),
-				found          = 0;
+			var found = 0;
 
-			listContainer.empty();
-
-			if ( data._embeds || data._images ) {
-				listContainer.append( '<h2 class="screen-reader-text">' + __( 'allMediaHeading' ) + '</h2><ul class="wppt-all-media-list" />' );
-			}
+			$mediaList = $( 'ul.media-list' );
+			$mediaThumbWrap = $( '<li class="suggested-media-thumbnail" tabindex="0"><span class="screen-reader-text"></span></li>' );
 
 			if ( data._embeds ) {
 				$.each( data._embeds, function ( i, src ) {
-					src = checkUrl( src );
-
 					var displaySrc = '',
-						cssClass   = 'suggested-media-thumbnail suggested-media-embed';
+						cssClass = '',
+						$element = $mediaThumbWrap.clone().addClass( 'is-embed' );
+
+					src = checkUrl( src );
 
 					if ( src.indexOf( 'youtube.com/' ) > -1 ) {
 						displaySrc = 'https://i.ytimg.com/vi/' + src.replace( /.+v=([^&]+).*/, '$1' ) + '/hqdefault.jpg';
@@ -366,19 +378,17 @@
 						cssClass += ' is-video';
 					}
 
-					$( '<li></li>', {
-						'id': 'embed-' + i + '-container',
-						'class': cssClass,
-						'tabindex': '0'
-					} ).css( {
-						'background-image': ( displaySrc ) ? 'url(' + displaySrc + ')' : null
-					} ).html(
-						'<span class="screen-reader-text">' + __( 'suggestedEmbedAlt' ).replace( '%d', i + 1 ) + '</span>'
-					).on( 'click keypress', function ( e ) {
-						if ( e.type === 'click' || e.which === 13 ) {
-							insertSelectedMedia( 'embed',src );
+					$element.find( 'span' ).text( __( 'suggestedEmbedAlt' ).replace( '%d', i + 1 ) );
+
+					if ( displaySrc ) {
+						$element.css( 'background-image', 'url(' + displaySrc + ')' );
+					}
+
+					$element.on( 'click keypress', function ( event ) {
+						if ( event.type === 'click' || event.keyCode === 13 ) {
+							insertSelectedMedia( 'embed', src );
 						}
-					} ).appendTo( '.wppt-all-media-list', listContainer );
+					} ).appendTo( $mediaList );
 
 					found++;
 				} );
@@ -386,41 +396,37 @@
 
 			if ( data._images ) {
 				$.each( data._images, function( i, src ) {
-					src = checkUrl( src );
+					var displaySrc, img = new Image();
 
-					var displaySrc = src.replace(/^(http[^\?]+)(\?.*)?$/, '$1');
+					src = checkUrl( src );
+					displaySrc = src.replace( /^(http[^\?]+)(\?.*)?$/, '$1' );
+
 					if ( src.indexOf( 'files.wordpress.com/' ) > -1 ) {
-						displaySrc = displaySrc.replace(/\?.*$/, '') + '?w=' + smallestWidth;
+						displaySrc = displaySrc.replace( /\?.*$/, '' ) + '?w=' + smallestWidth;
 					} else if ( src.indexOf( 'gravatar.com/' ) > -1 ) {
 						displaySrc = displaySrc.replace( /\?.*$/, '' ) + '?s=' + smallestWidth;
 					} else {
 						displaySrc = src;
 					}
 
-					$( '<li></li>', {
-						'id': 'img-' + i + '-container',
-						'class': 'suggested-media-thumbnail is-image',
-						'tabindex': '0'
-					} ).css( {
-						'background-image': 'url(' + displaySrc + ')'
-					} ).html(
-						'<span class="screen-reader-text">' +__( 'suggestedImgAlt' ).replace( '%d', i + 1 ) + '</span>'
-					).on( 'click keypress', function ( e ) {
-						if ( e.type === 'click' || e.which === 13 ) {
-							insertSelectedMedia( 'img', src, data.u );
-						}
-					} ).appendTo( '.wppt-all-media-list', listContainer );
+					img.onload = function() {
+						if ( ( img.width && img.width < 256 ) ||
+							( img.height && img.height < 128 ) ) {
 
+							return;
+						}
+
+						addImg( src, displaySrc, i );
+					};
+
+					img.src = src;
 					found++;
 				} );
 			}
 
-			if ( ! found ) {
-				mediaContainer.removeClass( 'all-media-visible' ).addClass( 'no-media');
-				return;
+			if ( found ) {
+				$( '.media-list-container' ).addClass( 'has-media' );
 			}
-
-			mediaContainer.removeClass( 'no-media' ).addClass( 'all-media-visible' );
 		}
 
 		/* ***************************************************************

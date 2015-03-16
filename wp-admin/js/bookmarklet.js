@@ -2,12 +2,10 @@
 	var encURI = window.encodeURIComponent,
 		form = document.createElement( 'form' ),
 		head = document.getElementsByTagName( 'head' )[0],
-		img = new Image(),
 		target = '_press_this_app',
 		canPost = true,
-		windowWidth, windowHeight,
-		metas, links, content, imgs, ifrs,
-		selection;
+		windowWidth, windowHeight, selection,
+		metas, links, content, images, iframes, img;
 
 	if ( ! pt_url ) {
 		return;
@@ -119,32 +117,33 @@
 	}
 
 	content = document.getElementById( 'content' ) || content || document.body;
-	imgs = content.getElementsByTagName( 'img' ) || [];
+	images = content.getElementsByTagName( 'img' ) || [];
 
-	for ( var n = 0; n < imgs.length; n++ ) {
-		if ( n >= 50 ) {
+	for ( var n = 0; n < images.length; n++ ) {
+		if ( n >= 100 ) {
 			break;
 		}
 
-		if ( imgs[ n ].src.indexOf( 'avatar' ) > -1 || imgs[ n ].className.indexOf( 'avatar' ) > -1 ) {
+		img = images[ n ];
+
+		// If we know the image width and/or height, check them now and drop the "uninteresting" images.
+		if ( img.src.indexOf( 'avatar' ) > -1 || img.className.indexOf( 'avatar' ) > -1 ||
+			( img.width && img.width < 256 ) || ( img.height && img.height < 128 ) ) {
+
 			continue;
 		}
 
-		img.src = imgs[ n ].src;
-
-		if ( img.width >= 256 && img.height >= 128 ) {
-			add( '_images[]', img.src );
-		}
+		add( '_images[]', img.src );
 	}
 
-	ifrs = document.body.getElementsByTagName( 'iframe' ) || [];
+	iframes = document.body.getElementsByTagName( 'iframe' ) || [];
 
-	for ( var p = 0; p < ifrs.length; p++ ) {
+	for ( var p = 0; p < iframes.length; p++ ) {
 		if ( p >= 50 ) {
 			break;
 		}
 
-		add( '_embeds[]', ifrs[ p ].src );
+		add( '_embeds[]', iframes[ p ].src );
 	}
 
 	if ( document.title ) {

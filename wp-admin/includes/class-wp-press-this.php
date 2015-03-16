@@ -1212,12 +1212,14 @@ class WP_Press_This {
 				</p>
 			</div>
 
-			<div id='app-container' class="editor">
+			<div id="app-container" class="editor">
 				<span id="title-container-label" class="post-title-placeholder" aria-hidden="true"><?php _e( 'Post title' ); ?></span>
 				<h2 id="title-container" class="post-title" contenteditable="true" spellcheck="true" aria-label="<?php esc_attr_e( 'Post title' ); ?>" tabindex="0"><?php echo esc_html( $post_title ); ?></h2>
-				<div id='featured-media-container' class="featured-container no-media">
-					<div id='all-media-widget' class="all-media">
-						<div id='all-media-container'></div>
+
+				<div class="media-list-container">
+					<div class="media-list-inner-container">
+						<h2 class="screen-reader-text"><?php _e( 'Suggested media' ); ?></h2>
+						<ul class="media-list"></ul>
 					</div>
 				</div>
 

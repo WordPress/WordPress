@@ -502,7 +502,6 @@ function wp_default_scripts( &$scripts ) {
 			'newPost' => __( 'Title' ),
 			'unexpectedError' => __( 'Sorry, but an unexpected error occurred.' ),
 			'saveAlert' => __( 'The changes you made will be lost if you navigate away from this page.' ),
-			'allMediaHeading' => __( 'Suggested media' ),
 			'suggestedEmbedAlt' => __( 'Suggested embed #%d' ),
 			'suggestedImgAlt' => __( 'Suggested image #%d' ),
 		) );
