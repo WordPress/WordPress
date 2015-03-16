@@ -3048,6 +3048,7 @@ function wp_get_recent_posts( $args = array(), $output = ARRAY_A ) {
  * setting the value for 'comment_status' key.
  *
  * @since 1.0.0
+ * @since 4.2.0 Support was added for encoding emoji in the post title, content, and excerpt.
  *
  * @see sanitize_post()
  * @global wpdb $wpdb WordPress database abstraction object.

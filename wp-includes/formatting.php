@@ -4057,6 +4057,7 @@ img.emoji {
 
 /**
  * Convert any 4 byte emoji in a string to their equivalent HTML entity.
+ *
  * Currently, only Unicode 7 emoji are supported. Unicode 8 emoji will be added
  * when the spec in finalised, along with the new skin-tone modifiers.
  *
@@ -4103,7 +4104,7 @@ function wp_encode_emoji( $content ) {
 }
 
 /**
- * Convert emoji to a static <img> link.
+ * Convert emoji to a static img element.
  *
  * @since 4.2.0
  *
@@ -4119,27 +4120,33 @@ function wp_staticize_emoji( $text ) {
 
 	/** This filter is documented in wp-includes/script-loader.php */
 	$cdn_url = apply_filters( 'emoji_url', '//s0.wp.com/wp-content/mu-plugins/emoji/twemoji/72x72/' );
+
 	/** This filter is documented in wp-includes/script-loader.php */
 	$ext = apply_filters( 'emoji_ext', '.png' );
 
 	$output = '';
-	// HTML loop taken from smiley function, which was taking from texturize function. It'll never be consolidated.
-	$textarr = preg_split( '/(<.*>)/U', $text, -1, PREG_SPLIT_DELIM_CAPTURE ); // capture the tags as well as in between
-	$stop = count( $textarr );// loop stuff
+	/*
+	 * HTML loop taken from smiley function, which was taking from texturize function.
+	 * It'll never be consolidated.
+	 *
+	 * First, capture the tags as well as in between.
+	 */
+	$textarr = preg_split( '/(<.*>)/U', $text, -1, PREG_SPLIT_DELIM_CAPTURE );
+	$stop = count( $textarr );
 
-	// Ignore proessing of specific tags
+	// Ignore processing of specific tags.
 	$tags_to_ignore = 'code|pre|style|script|textarea';
 	$ignore_block_element = '';
 
 	for ( $i = 0; $i < $stop; $i++ ) {
 		$content = $textarr[$i];
 
-		// If we're in an ignore block, wait until we find its closing tag
+		// If we're in an ignore block, wait until we find its closing tag.
 		if ( '' == $ignore_block_element && preg_match( '/^<(' . $tags_to_ignore . ')>/', $content, $matches ) )  {
 			$ignore_block_element = $matches[1];
 		}
 
-		// If it's not a tag and not in ignore block
+		// If it's not a tag and not in ignore block.
 		if ( '' ==  $ignore_block_element && strlen( $content ) > 0 && '<' != $content[0] ) {
 			$matches = array();
 			if ( preg_match_all( '/(&#x1f1(e[6-9a-f]|f[0-9a-f]);){2}/', $content, $matches ) ) {
@@ -4171,7 +4178,7 @@ function wp_staticize_emoji( $text ) {
 			}
 		}
 
-		// did we exit ignore block
+		// Did we exit ignore block.
 		if ( '' != $ignore_block_element && '</' . $ignore_block_element . '>' == $content )  {
 			$ignore_block_element = '';
 		}
@@ -4185,8 +4192,9 @@ function wp_staticize_emoji( $text ) {
 /**
  * Convert emoji in emails into static images.
  *
- * @param array $mail The email data array.
+ * @since 4.2.0
  *
+ * @param array $mail The email data array.
  * @return array The email data array, with emoji in the message staticized.
  */
 function mail_emoji( $mail ) {
