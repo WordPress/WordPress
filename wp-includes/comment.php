@@ -220,7 +220,7 @@ function get_comment(&$comment, $output = OBJECT) {
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
- * @param string|array $args Optional. Array or string of arguments. See {@see WP_Comment_Query::query()}
+ * @param string|array $args Optional. Array or string of arguments. See {@see WP_Comment_Query::parse_query()}
  *                           for information on accepted arguments. Default empty.
  * @return int|array List of comments or number of found comments if `$count` argument is true.
  */
@@ -265,11 +265,28 @@ class WP_Comment_Query {
 	public $date_query = false;
 
 	/**
+	 * Query vars set by the user.
+	 *
+	 * @since 3.1.0
+	 * @access public
 	 * @var array
 	 */
 	public $query_vars;
 
 	/**
+	 * Default values for query vars.
+	 *
+	 * @since 4.2.0
+	 * @access public
+	 * @var array
+	 */
+	public $query_var_defaults;
+
+	/**
+	 * List of comments located by the query.
+	 *
+	 * @since 4.0.0
+	 * @access public
 	 * @var array
 	 */
 	public $comments;
@@ -292,15 +309,68 @@ class WP_Comment_Query {
 	}
 
 	/**
-	 * Execute the query
+	 * Constructor.
 	 *
-	 * @since 3.1.0
-	 * @since 4.1.0 Introduced 'comment__in', 'comment__not_in', 'post_author__in',
-	 *              'post_author__not_in', 'author__in', 'author__not_in', 'post__in',
-	 *              'post__not_in', 'include_unapproved', 'type__in', and 'type__not_in'
-	 *              arguments to $query_vars.
+	 * Sets up the comment query, based on the query vars passed.
 	 *
-	 * @param string|array $query_vars {
+	 * @since  4.2.0
+	 * @access public
+	 *
+	 * @param string $query URL query string.
+	 * @return WP_Comment_Query
+	 */
+	public function __construct( $query = '' ) {
+		$this->query_var_defaults = array(
+			'author_email' => '',
+			'author__in' => '',
+			'author__not_in' => '',
+			'include_unapproved' => '',
+			'fields' => '',
+			'ID' => '',
+			'comment__in' => '',
+			'comment__not_in' => '',
+			'karma' => '',
+			'number' => '',
+			'offset' => '',
+			'orderby' => '',
+			'order' => 'DESC',
+			'parent' => '',
+			'post_author__in' => '',
+			'post_author__not_in' => '',
+			'post_ID' => '',
+			'post_id' => 0,
+			'post__in' => '',
+			'post__not_in' => '',
+			'post_author' => '',
+			'post_name' => '',
+			'post_parent' => '',
+			'post_status' => '',
+			'post_type' => '',
+			'status' => 'all',
+			'type' => '',
+			'type__in' => '',
+			'type__not_in' => '',
+			'user_id' => '',
+			'search' => '',
+			'count' => false,
+			'meta_key' => '',
+			'meta_value' => '',
+			'meta_query' => '',
+			'date_query' => null, // See WP_Date_Query
+		);
+
+		if ( ! empty( $query ) ) {
+			$this->query( $query );
+		}
+	}
+
+	/**
+	 * Parse arguments passed to the comment query with default query parameters.
+	 *
+	 * @since  4.2.0 Extracted from {@link WP_Comment_Query::query()}.
+	 * @access public
+	 *
+	 * @param string|array $query {
 	 *     Optional. Array or query string of comment query parameters.
 	 *
 	 *     @type string       $author_email        Comment author email address. Default empty.
@@ -363,53 +433,49 @@ class WP_Comment_Query {
 	 *     @type array        $type__not_in        Exclude comments from a given array of comment types. Default empty.
 	 *     @type int          $user_id             Include comments for a specific user ID. Default empty.
 	 * }
-	 * @return int|array Array of comments or number of found comments if `$count` is set to true.
 	 */
-	public function query( $query_vars ) {
-		global $wpdb;
+	public function parse_query( $query = '' ) {
+		if ( empty( $query ) ) {
+			$query = $this->query_vars;
+		}
 
-		$defaults = array(
-			'author_email' => '',
-			'author__in' => '',
-			'author__not_in' => '',
-			'include_unapproved' => '',
-			'fields' => '',
-			'ID' => '',
-			'comment__in' => '',
-			'comment__not_in' => '',
-			'karma' => '',
-			'number' => '',
-			'offset' => '',
-			'orderby' => '',
-			'order' => 'DESC',
-			'parent' => '',
-			'post_author__in' => '',
-			'post_author__not_in' => '',
-			'post_ID' => '',
-			'post_id' => 0,
-			'post__in' => '',
-			'post__not_in' => '',
-			'post_author' => '',
-			'post_name' => '',
-			'post_parent' => '',
-			'post_status' => '',
-			'post_type' => '',
-			'status' => 'all',
-			'type' => '',
-			'type__in' => '',
-			'type__not_in' => '',
-			'user_id' => '',
-			'search' => '',
-			'count' => false,
-			'meta_key' => '',
-			'meta_value' => '',
-			'meta_query' => '',
-			'date_query' => null, // See WP_Date_Query
-		);
+		$this->query_vars = wp_parse_args( $query, $this->query_var_defaults );
+		do_action_ref_array( 'parse_comment_query', array( &$this ) );
+	}
+
+	/**
+	 * Sets up the WordPress query for retrieving comments.
+	 *
+	 * @since 3.1.0
+	 * @since 4.1.0 Introduced 'comment__in', 'comment__not_in', 'post_author__in',
+	 *              'post_author__not_in', 'author__in', 'author__not_in', 'post__in',
+	 *              'post__not_in', 'include_unapproved', 'type__in', and 'type__not_in'
+	 *              arguments to $query_vars.
+	 * @since 4.2.0 Moved parsing to {@link WP_Comment_Query::parse_query()}.
+	 * @access public
+	 *
+	 * @param string|array $query Array or URL query string of parameters.
+	 * @return array List of comments.
+	 */
+	public function query( $query ) {
+		$this->query_vars = wp_parse_args( $query );
+		return $this->get_comments();
+	}
+
+	/**
+	 * Get a list of comments matching the query vars.
+	 *
+	 * @since 4.2.0
+	 * @access public
+	 *
+	 * @return array The list of comments.
+	 */
+	public function get_comments() {
+		global $wpdb;
 
 		$groupby = '';
 
-		$this->query_vars = wp_parse_args( $query_vars, $defaults );
+		$this->parse_query();
 
 		// Parse meta query
 		$this->meta_query = new WP_Meta_Query();
@@ -428,8 +494,8 @@ class WP_Comment_Query {
 		 */
 		do_action_ref_array( 'pre_get_comments', array( &$this ) );
 
-		// $args can be whatever, only use the args defined in defaults to compute the key
-		$key = md5( serialize( wp_array_slice_assoc( $this->query_vars, array_keys( $defaults ) ) )  );
+		// $args can include anything. Only use the args defined in the query_var_defaults to compute the key.
+		$key = md5( serialize( wp_array_slice_assoc( $this->query_vars, array_keys( $this->query_var_defaults ) ) ) );
 		$last_changed = wp_cache_get( 'last_changed', 'comment' );
 		if ( ! $last_changed ) {
 			$last_changed = microtime();
@@ -438,7 +504,8 @@ class WP_Comment_Query {
 		$cache_key = "get_comments:$key:$last_changed";
 
 		if ( $cache = wp_cache_get( $cache_key, 'comment' ) ) {
-			return $cache;
+			$this->comments = $cache;
+			return $this->comments;
 		}
 
 		$where = array();
@@ -826,7 +893,8 @@ class WP_Comment_Query {
 
 		wp_cache_add( $cache_key, $comments, 'comment' );
 
-		return $comments;
+		$this->comments = $comments;
+		return $this->comments;
 	}
 
 	/**
