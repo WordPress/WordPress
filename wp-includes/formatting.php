@@ -4192,12 +4192,13 @@ function wp_staticize_emoji( $text ) {
 /**
  * Convert emoji in emails into static images.
  *
+ * @ignore
  * @since 4.2.0
  *
  * @param array $mail The email data array.
  * @return array The email data array, with emoji in the message staticized.
  */
-function mail_emoji( $mail ) {
+function _wp_staticize_emoji_for_email( $mail ) {
 	$mail['message'] = wp_staticize_emoji( $mail['message'], true );
 	return $mail;
 }

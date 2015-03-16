@@ -653,10 +653,12 @@ function fetch_feed( $url ) {
 /**
  * Convert emoji characters in a feed into static images.
  *
- * @param string $content The content to convert.
+ * @ignore
+ * @since 4.2.0
  *
+ * @param string $content The content to convert.
  * @return The converted content.
  */
-function feed_emoji( $content ) {
+function _wp_staticize_emoji_for_feeds( $content ) {
 	return wp_staticize_emoji( $content, true );
 }
