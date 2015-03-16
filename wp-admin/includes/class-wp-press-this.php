@@ -1315,7 +1315,7 @@ class WP_Press_This {
 		<div class="post-actions">
 			<button type="button" class="button-subtle draft-button"><?php _e( 'Save Draft' ); ?></button>
 			<button type="button" class="button-subtle preview-button"><?php _e( 'Preview' ); ?></button>
-			<button type="button" class="button-primary publish-button"><?php _e( 'Publish' ); ?></button>
+			<button type="button" class="button-primary publish-button"><?php echo ( current_user_can( 'publish_posts' ) ) ? __( 'Publish' ) : __( 'Submit for Review' ); ?></button>
 		</div>
 	</div>
 	</form>
