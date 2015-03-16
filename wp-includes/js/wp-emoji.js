@@ -82,6 +82,11 @@
 				return false;
 			}
 
+			/*
+			 * Chrome on OS X added native emoji rendering in M41. Unfortunately,
+			 * it doesn't work when the font is bolder than 500 weight. So, we
+			 * check for bold rendering support to avoid invisible emoji in Chrome.
+			 */
 			context.textBaseline = 'top';
 			context.font = '600 32px Arial';
 
@@ -99,9 +104,9 @@
 				return canvas.toDataURL().length > 3000;
 			} else {
 				/*
-				 * Chrome on OS X added native emoji rendering in M41. Unfortunately,
-				 * it doesn't work when the font is bolder than 500 weight. So, we
-				 * check for bold rendering support to avoid invisible emoji in Chrome.
+				 * This creates a smiling emoji, and checks to see if there is any image data in the
+				 * center pixel. In browsers that don't support emoji, the character will be rendered
+				 * as an empty square, so the center pixel will be blank.
 				 */
 				context.fillText( String.fromCharCode( 55357, 56835 ), 0, 0 );
 				return context.getImageData( 16, 16, 1, 1 ).data[0] !== 0;
