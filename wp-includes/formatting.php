@@ -4126,7 +4126,7 @@ function wp_staticize_emoji( $text ) {
 
 	$output = '';
 	/*
-	 * HTML loop taken from smiley function, which was taking from texturize function.
+	 * HTML loop taken from smiley function, which was taken from texturize function.
 	 * It'll never be consolidated.
 	 *
 	 * First, capture the tags as well as in between.
