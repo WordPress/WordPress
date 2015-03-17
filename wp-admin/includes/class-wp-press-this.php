@@ -58,60 +58,40 @@ class WP_Press_This {
 	 * @access public
 	 *
 	 * @param int    $post_id Post ID.
-	 * @param string $content Optional. Current expected markup for Press This. Default empty.
+	 * @param string $content Optional. Current expected markup for Press This. Expects slashed. Default empty.
 	 * @return string New markup with old image URLs replaced with the local attachment ones if swapped.
 	 */
 	public function side_load_images( $post_id, $content = '' ) {
-		$new_content = $content;
+		$content = wp_unslash( $content );
 
-		preg_match_all( '/<img [^>]+>/', $content, $matches );
-
-		if ( ! empty( $matches ) && current_user_can( 'upload_files' ) ) {
-			foreach ( (array) $matches[0] as $key => $image ) {
-				preg_match( '/src=["\']{1}([^"\']+)["\']{1}/', stripslashes( $image ), $url_matches );
-
-				if ( empty( $url_matches[1] ) ) {
+		if ( preg_match_all( '/<img [^>]+>/', $content, $matches ) && current_user_can( 'upload_files' ) ) {
+			foreach ( (array) $matches[0] as $image ) {
+				// This is inserted from our JS so HTML attributes should always be in double quotes.
+				if ( ! preg_match( '/src="([^"]+)"/', $image, $url_matches ) ) {
 					continue;
 				}
 
-				$image_url = $url_matches[1];
+				$image_src = $url_matches[1];
 
 				// Don't try to sideload a file without a file extension, leads to WP upload error.
-				if ( ! preg_match( '/[^\?]+\.(jpe?g|jpe|gif|png)\b/i', $image_url ) )
-					 continue;
+				if ( ! preg_match( '/[^\?]+\.(?:jpe?g|jpe|gif|png)(?:\?|$)/i', $image_src ) ) {
+					continue;
+				}
 
-				// See if files exist in content - we don't want to upload non-used selected files.
-				if ( false !== strpos( $new_content, htmlspecialchars( $image_url ) ) ) {
+				// Sideload image, which gives us a new image src.
+				$new_src = media_sideload_image( $image_src, $post_id, null, 'src' );
 
-					// Sideload image, which ives us a new image tag, strip the empty alt that comes with it.
-					$upload = str_replace( ' alt=""', '', media_sideload_image( $image_url, $post_id ) );
-
-					// Preserve assigned class, id, width, height and alt attributes.
-					if ( preg_match_all( '/(class|width|height|id|alt)=\\\?(\"|\')[^"\']+\\\?(\2)/', $image, $attr_matches )
-					     && is_array( $attr_matches[0] )
-					) {
-						foreach ( $attr_matches[0] as $attr ) {
-							$upload = str_replace( '<img', '<img ' . $attr, $upload );
-						}
-					}
-
-					/*
-					 * Replace the POSTED content <img> with correct uploaded ones.
-					 * Regex contains fix for Magic Quotes.
-					 */
-					if ( ! is_wp_error( $upload ) ) {
-						$new_content = str_replace( $image, $upload, $new_content );
-					}
+				if ( ! is_wp_error( $new_src ) ) {
+					// Replace the POSTED content <img> with correct uploaded ones.
+					// Need to do it in two steps so we don't replace links to the original image if any.
+					$new_image = str_replace( $image_src, $new_src, $image );
+					$content = str_replace( $image, $new_image, $content );
 				}
 			}
 		}
 
-		// Error handling for media_sideload, send original content back.
-		if ( is_wp_error( $new_content ) ) {
-			return $content;
-		}
-
-		return $new_content;
+		// Edxpected slashed
+		return wp_slash( $content );
 	}
 
 	/**
@@ -150,11 +130,7 @@ class WP_Press_This {
 			}
 		}
 
-		$new_content = $this->side_load_images( $post_id, $post['post_content'] );
-
-		if ( ! is_wp_error( $new_content ) ) {
-			$post['post_content'] = $new_content;
-		}
+		$post['post_content'] = $this->side_load_images( $post_id, $post['post_content'] );
 
 		$updated = wp_update_post( $post, true );
 

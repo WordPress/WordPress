@@ -829,9 +829,10 @@ function wp_media_upload_handler() {
  * @param string $file The URL of the image to download
  * @param int $post_id The post ID the media is to be associated with
  * @param string $desc Optional. Description of the image
+ * @param string $return Optional. What to return: an image tag (default) or only the src.
  * @return string|WP_Error Populated HTML img tag on success
  */
-function media_sideload_image( $file, $post_id, $desc = null ) {
+function media_sideload_image( $file, $post_id, $desc = null, $return = 'html' ) {
 	if ( ! empty( $file ) ) {
 		// Set variables for storage, fix file filename for query strings.
 		preg_match( '/[^\?]+\.(jpe?g|jpe|gif|png)\b/i', $file, $matches );
@@ -860,9 +861,15 @@ function media_sideload_image( $file, $post_id, $desc = null ) {
 
 	// Finally check to make sure the file has been saved, then return the HTML.
 	if ( ! empty( $src ) ) {
+		if ( $return === 'src' ) {
+			return $src;
+		}
+
 		$alt = isset( $desc ) ? esc_attr( $desc ) : '';
 		$html = "<img src='$src' alt='$alt' />";
 		return $html;
+	} else {
+		return new WP_Error( 'image_sideload_failed' );
 	}
 }
 
