@@ -38,7 +38,7 @@ class WP_Press_This {
 		return array(
 			// Used to trigger the bookmarklet update notice.
 			// Needs to be set here and in get_shortcut_link() in wp-includes/link-template.php.
-			'version' => '7',
+			'version' => '8',
 
 			/**
 			 * Filter whether or not Press This should redirect the user in the parent window upon save.
