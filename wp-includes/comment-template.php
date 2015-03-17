@@ -2153,6 +2153,7 @@ function wp_list_comments( $args = array(), $comments = null ) {
  * in the array of fields.
  *
  * @since 3.0.0
+ * @since 4.1.0 Introduced the 'class_submit' argument.
  * @since 4.2.0 Introduced 'submit_button' and 'submit_fields' arguments.
  *
  * @param array       $args {
