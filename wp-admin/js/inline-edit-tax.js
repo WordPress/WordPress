@@ -56,7 +56,7 @@ inlineEditTax = {
 		editRow = $('#inline-edit').clone(true), rowData = $('#inline_'+id);
 		$('td', editRow).attr('colspan', $('.widefat:first thead th:visible').length);
 
-		$(t.what+id).hide().before(editRow).before('<tr class="hidden"></tr>');
+		$(t.what+id).hide().after(editRow).after('<tr class="hidden"></tr>');
 
 		val = $('.name', rowData);
 		val.find( 'img' ).replaceWith( function() { return this.alt; } );
