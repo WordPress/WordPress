@@ -140,7 +140,7 @@ dl.wp-caption * {
 }
 
 /* Remove blue highlighting of selected images in WebKit */
-img::selection {
+img[data-mce-selected]::selection {
 	background-color: transparent;
 }
 
@@ -162,7 +162,7 @@ img::selection {
 	cursor: default;
 }
 
-.mce-content-body img[data-wp-more][data-mce-selected] {
+.mce-content-body img[data-mce-placeholder][data-mce-selected] {
 	outline: 1px dotted #888;
 }
 
