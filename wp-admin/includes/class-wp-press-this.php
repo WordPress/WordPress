@@ -18,6 +18,8 @@ class WP_Press_This {
 
 	private $embeds = array();
 
+	private $domain = '';
+
 	/**
 	 * Constructor.
 	 *
@@ -328,6 +330,16 @@ class WP_Press_This {
 			return '';
 		}
 
+		// If the URL is root-relative, prepend the protocol and domain name
+		if ( $url && $this->domain && preg_match( '%^/[^/]+%', $url ) ) {
+			$url = $this->domain . $url;
+		}
+
+		// Not absolute or protocol-relative URL.
+		if ( ! preg_match( '%^(?:https?:)?//[^/]+%', $url ) ) {
+			return '';
+		}
+
 		return esc_url_raw( $url, array( 'http', 'https' ) );
 	}
 
@@ -573,6 +585,10 @@ class WP_Press_This {
 
 			if ( 'u' === $key ) {
 				$value = $this->_limit_url( $value );
+
+				if ( preg_match( '%^(?:https?:)?//[^/]+%i', $value, $domain_match ) ) {
+					$this->domain = $domain_match[0];
+				}
 			} else {
 				$value = $this->_limit_string( $value );
 			}
