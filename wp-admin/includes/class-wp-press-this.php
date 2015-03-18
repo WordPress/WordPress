@@ -971,6 +971,11 @@ class WP_Press_This {
 			} else if ( ! empty( $data['_meta']['description'] ) ) {
 				$text = $data['_meta']['description'];
 			}
+
+			// If there is an ellipsis at the end, the description is very likely auto-generated. Better to ignore it.
+			if ( $text && substr( $text, -3 ) === '...' ) {
+				$text = '';
+			}
 		}
 
 		$default_html = array(
