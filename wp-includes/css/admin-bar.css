@@ -16,6 +16,7 @@
 	-webkit-transition: none;
 	transition: none;
 	-webkit-font-smoothing: subpixel-antialiased; /* Prevent Safari from switching to standard antialiasing on hover */
+	-moz-osx-font-smoothing: auto; /* Prevent Firefox from inheriting from themes that use other values */
 }
 
 .rtl #wpadminbar * {
