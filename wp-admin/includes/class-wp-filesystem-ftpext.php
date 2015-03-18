@@ -275,6 +275,11 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 	 */
 	public function exists($file) {
 		$list = @ftp_nlist($this->link, $file);
+
+		if ( empty( $list ) && $this->is_dir( $file ) ) {
+			return true; // File is an empty directory.
+		}
+
 		return !empty($list); //empty list = no file, so invert.
 	}
 	/**
