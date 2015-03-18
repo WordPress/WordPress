@@ -581,10 +581,6 @@
 				} );
 			});
 
-			$( '#current-site a').click( function( e ) {
-				e.preventDefault();
-			} );
-
 			// Publish, Draft and Preview buttons
 
 			$( '.post-actions' ).on( 'click.press-this', function( event ) {

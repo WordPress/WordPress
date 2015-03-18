@@ -1150,8 +1150,10 @@ class WP_Press_This {
 <body class="wp-admin wp-core-ui <?php echo $admin_body_classes . ' ' . $admin_body_class; ?>">
 	<div id="adminbar" class="adminbar">
 		<h1 id="current-site" class="current-site">
-			<span class="dashicons dashicons-wordpress"></span>
-			<span><?php bloginfo( 'name' ); ?></span>
+			<a class="current-site-link" href="<?php echo esc_url( home_url( '/' ) ); ?>" target="_blank" rel="home">
+				<span class="dashicons dashicons-wordpress"></span>
+				<span class="current-site-name"><?php bloginfo( 'name' ); ?></span>
+			</a>
 		</h1>
 		<button type="button" class="options-open button-subtle">
 			<span class="dashicons dashicons-tag"></span><span class="screen-reader-text"><?php _e( 'Show post options' ); ?></span>

@@ -1156,12 +1156,24 @@ html {
 	}
 }
 
-.current-site span:nth-child(2) {
+.current-site-link {
+	text-decoration: none;
+}
+
+.current-site-link:focus {
+	outline: 0;
+}
+
+.current-site-link:focus .current-site-name{
+	text-decoration: underline;
+}
+
+.current-site-name {
 	color: #ededed;
 }
 
 @media (max-width: 320px) {
-	.current-site span:nth-child(2) {
+	.current-site-name {
 		font-weight: 600;
 	}
 }
