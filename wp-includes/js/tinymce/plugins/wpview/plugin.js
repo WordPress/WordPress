@@ -167,9 +167,11 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 	// matching view patterns, and transform the matches into
 	// view wrappers.
 	editor.on( 'BeforeSetContent', function( event ) {
-		var node;
+		var pastedStr = event.content,
+			trim = tinymce.trim,
+			node;
 
-		if ( ! event.content ) {
+		if ( ! pastedStr ) {
 			return;
 		}
 
@@ -179,10 +181,22 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 
 		node = editor.selection.getNode();
 
+		pastedStr = pastedStr.replace( /<[^>]+>/g, '' );
+		pastedStr = trim( pastedStr );
+
 		// When a url is pasted, only try to embed it when pasted in an empty paragrapgh.
-		if ( event.content.match( /^\s*(https?:\/\/[^\s"]+)\s*$/i ) &&
-			( node.nodeName !== 'P' || node.parentNode !== editor.getBody() || ! editor.dom.isEmpty( node ) ) ) {
-			return;
+		if ( /^https?:\/\/\S+$/i.test( pastedStr ) ) {
+			event.content = pastedStr;
+
+			node = editor.dom.getParent( node, function( node ) {
+				if ( node.parentNode === editor.getBody() ) {
+					return node;
+				}
+			} );
+
+			if ( node.nodeName !== 'P' || trim( node.textContent ) || trim( node.innerText ) ) {
+				return;
+			}
 		}
 
 		event.content = wp.mce.views.setMarkers( event.content );
