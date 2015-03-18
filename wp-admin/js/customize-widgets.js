@@ -1852,12 +1852,7 @@
 			controlContainer.slideDown( function() {
 				if ( isExistingWidget ) {
 					widgetFormControl.updateWidget( {
-						instance: widgetFormControl.setting(),
-						complete: function( error ) {
-							if ( error ) {
-								throw error;
-							}
-						}
+						instance: widgetFormControl.setting()
 					} );
 				}
 			} );
