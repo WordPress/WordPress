@@ -1192,3 +1192,29 @@ submit_button( __( 'Proceed' ), 'button', 'upgrade' );
 <?php
 	return false;
 }
+
+/**
+ * Print the credentials modal when needed  
+ *
+ * @since 4.2.0
+ */
+function wp_print_request_filesystem_credentials_modal() {
+	$filesystem_method = get_filesystem_method();
+	ob_start();
+	$filesystem_credentials_are_stored = request_filesystem_credentials( self_admin_url() );
+	ob_end_clean();
+	$request_filesystem_credentials = ( $filesystem_method != 'direct' && ! $filesystem_credentials_are_stored );
+	if ( ! $request_filesystem_credentials ) {
+		return;
+	}
+	?>
+	<div id="request-filesystem-credentials-dialog" class="notification-dialog-wrap request-filesystem-credentials-dialog">
+		<div class="notification-dialog-background"></div>
+		<div class="notification-dialog">
+			<div class="request-filesystem-credentials-dialog-content">
+				<?php request_filesystem_credentials( site_url() ); ?>
+			<div>
+		</div>
+	</div>
+	<?php
+}

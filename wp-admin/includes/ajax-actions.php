@@ -2913,6 +2913,10 @@ function wp_ajax_install_plugin() {
 	if ( is_wp_error( $result ) ) {
 		$status['error'] = $result->get_error_message();
  		wp_send_json_error( $status );
+	} else if ( is_null( $result ) ) {
+		$status['errorCode'] = 'unable_to_connect_to_filesystem';
+		$status['error'] = __( 'Unable to connect to the filesystem. Please confirm your credentials.' );
+		wp_send_json_error( $status );
 	}
 
 	$plugin_status = install_plugin_install_status( $api );
@@ -2933,10 +2937,16 @@ function wp_ajax_update_plugin() {
 	$plugin = urldecode( $_POST['plugin'] );
 
 	$status = array(
-		'update' => 'plugin',
-		'plugin' => $plugin,
-		'slug'   => sanitize_key( $_POST['slug'] ),
+		'update'     => 'plugin',
+		'plugin'     => $plugin,
+		'slug'       => sanitize_key( $_POST['slug'] ),
+		'oldVersion' => '',
+		'newVersion' => '',
 	);
+	$plugin_data = get_plugin_data( WP_PLUGIN_DIR . '/' . $plugin );
+	if ( $plugin_data['Version'] ) {
+		$status['oldVersion'] = sprintf( __( 'Version %s' ), $plugin_data['Version'] );
+	}
 
 	if ( ! current_user_can( 'update_plugins' ) ) {
 		$status['error'] = __( 'You do not have sufficient permissions to update plugins on this site.' );
@@ -2956,15 +2966,31 @@ function wp_ajax_update_plugin() {
 	$result = $upgrader->bulk_upgrade( array( $plugin ) );
 
 	if ( is_array( $result ) ) {
-		$result = $result[ $plugin ];
-	}
-
-	if ( is_wp_error( $result ) ) {
+		$plugin_update_data = current( $result );
+		/*
+		 * If the `update_plugins` site transient is empty (e.g. when you update
+		 * two plugins in quick succession before the transient repopulates),
+		 * this may be the return.
+		 *
+		 * Preferably something can be done to ensure `update_plugins` isn't empty.
+		 * For now, surface some sort of error here.
+		 */
+		if ( $plugin_update_data === true ) {
+ 			wp_send_json_error( $status );
+		}
+		$plugin_data = get_plugin_data( WP_PLUGIN_DIR . '/' . $plugin );
+		if ( $plugin_data['Version'] ) {
+			$status['newVersion'] = sprintf( __( 'Version %s' ), $plugin_data['Version'] );
+		}
+		wp_send_json_success( $status );
+	} else if ( is_wp_error( $result ) ) {
 		$status['error'] = $result->get_error_message();
  		wp_send_json_error( $status );
+	} else if ( is_bool( $result ) && ! $result ) {
+		$status['errorCode'] = 'unable_to_connect_to_filesystem';
+		$status['error'] = __( 'Unable to connect to the filesystem. Please confirm your credentials.' );
+		wp_send_json_error( $status );
 	}
-
-	wp_send_json_success( $status );
 }
 
 /**

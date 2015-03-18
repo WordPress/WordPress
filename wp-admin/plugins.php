@@ -476,4 +476,6 @@ do_action( 'pre_current_active_plugins', $plugins['all'] );
 </div>
 
 <?php
+wp_print_request_filesystem_credentials_modal();
+
 include(ABSPATH . 'wp-admin/admin-footer.php');
