@@ -1752,8 +1752,8 @@ html {
 }
 
 @media (max-width: 600px) {
-	#mceu_11,
-	#mceu_12 {
+	.mce-first .mce-btn:nth-child(3),
+	.mce-first .mce-btn:nth-child(4) {
 		position: absolute;
 		margin: -1px;
 		padding: 0;
@@ -1764,8 +1764,8 @@ html {
 		border: 0;
 	}
 
-	#mceu_11:focus,
-	#mceu_12:focus {
+	.mce-first .mce-btn:nth-child(3):focus,
+	.mce-first .mce-btn:nth-child(4):focus {
 		position: static;
 		margin: 1px;
 		padding: inherit;
