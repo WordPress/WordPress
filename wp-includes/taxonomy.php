@@ -1824,6 +1824,8 @@ function get_terms( $taxonomies, $args = '' ) {
 
 	if ( ! empty( $exclusions ) ) {
 		$exclusions = ' AND t.term_id NOT IN (' . implode( ',', array_map( 'intval', $exclusions ) ) . ')';
+	} else {
+		$exclusions = '';
 	}
 
 	/**
