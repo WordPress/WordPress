@@ -194,7 +194,7 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 				}
 			} );
 
-			if ( node.nodeName !== 'P' || trim( node.textContent ) || trim( node.innerText ) ) {
+			if ( node.nodeName !== 'P' || trim( node.textContent || node.innerText ) ) {
 				return;
 			}
 		}
