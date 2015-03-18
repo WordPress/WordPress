@@ -1276,10 +1276,10 @@ html {
 	top: 0;
 	left: 0;
 	bottom: 0;
-	padding: 0.85714em 1.07143em;
+	padding: 0 1.07143em;
 	background: #f7f7f7;
 	border-color: #dedede;
-	border-bottom: 0;
+	border: 0;
 	border-right: 1px solid #f1f1f1;
 	-webkit-border-radius: 0;
 	border-radius: 0;
