@@ -65,7 +65,7 @@ case 'add-tag':
 	if ( $ret && !is_wp_error( $ret ) )
 		$location = add_query_arg( 'message', 1, $location );
 	else
-		$location = add_query_arg( 'message', 4, $location );
+		$location = add_query_arg( array( 'error' => true, 'message' => 4 ), $location );
 
 	break;
 
@@ -156,7 +156,7 @@ case 'editedtag':
 	if ( $ret && !is_wp_error( $ret ) )
 		$location = add_query_arg( 'message', 3, $location );
 	else
-		$location = add_query_arg( 'message', 5, $location );
+		$location = add_query_arg( array( 'error' => true, 'message' => 5 ), $location );
 	break;
 }
 
@@ -297,6 +297,7 @@ if ( isset( $_REQUEST['message'] ) && ( $msg = (int) $_REQUEST['message'] ) ) {
 		$message = $messages['_item'][ $msg ];
 }
 
+$class = ( isset( $_REQUEST['error'] ) ) ? 'error' : 'updated';
 ?>
 
 <div class="wrap nosubsub">
@@ -306,8 +307,8 @@ if ( !empty($_REQUEST['s']) )
 </h2>
 
 <?php if ( $message ) : ?>
-<div id="message" class="updated"><p><?php echo $message; ?></p></div>
-<?php $_SERVER['REQUEST_URI'] = remove_query_arg(array('message'), $_SERVER['REQUEST_URI']);
+<div id="message" class="<?php echo $class; ?>"><p><?php echo $message; ?></p></div>
+<?php $_SERVER['REQUEST_URI'] = remove_query_arg( array( 'message', 'error' ), $_SERVER['REQUEST_URI'] );
 endif; ?>
 <div id="ajax-response"></div>
 
