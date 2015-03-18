@@ -674,17 +674,46 @@ table.form-table td .updated p {
 	line-height: 24px;
 }
 
-.pressthis {
-	margin: 20px 0;
+/* Card styles */
+
+.card {
+	position: relative;
+	margin-top: 20px;
+	padding: 0.7em 2em 1em;
+	min-width: 255px;
+	max-width: 520px;
+	border: 1px solid #e5e5e5;
+	-webkit-box-shadow: 0 1px 1px rgba(0,0,0,0.04);
+	box-shadow: 0 1px 1px rgba(0,0,0,0.04);
+	background: #fff;
+}
+
+/* Press this styles */
+
+.pressthis h4 {
+	margin: 2em 0 1em;
+}
+
+.pressthis textarea {
+	width: 100%;
+	font-size: 1em;
+}
+
+#pressthis-code-wrap {
+	overflow: auto;
+}
+
+.pressthis-bookmarklet-wrapper {
+	margin: 20px 0 8px;
 	vertical-align: top;
 	position: relative;
 	z-index: 1;
 }
 
-.pressthis a,
-.pressthis a:hover,
-.pressthis a:focus,
-.pressthis a:active {
+.pressthis-bookmarklet,
+.pressthis-bookmarklet:hover,
+.pressthis-bookmarklet:focus,
+.pressthis-bookmarklet:active {
 	display: inline-block;
 	position: relative;
 	cursor: move;
@@ -699,35 +728,11 @@ table.form-table td .updated p {
 	text-decoration: none;
 }
 
-.pressthis a:active {
+.pressthis-bookmarklet:active {
 	outline: none;
 }
 
-.pressthis a:hover:after {
-	-webkit-transform: skew(-20deg) rotate(-9deg);
-	-ms-transform: skew(-20deg) rotate(-9deg);
-	transform: skew(-20deg) rotate(-9deg);
-	-webkit-box-shadow: 0 10px 8px rgba(0, 0, 0, 0.7);
-	box-shadow: 0 10px 8px rgba(0, 0, 0, 0.7);
-}
-
-.pressthis a span {
-	display: inline-block;
-	margin: 0px 0 0;
-	padding: 0px 9px 8px 12px;
-}
-
-.pressthis a span:before {
-	color: #777;
-	font: normal 20px/1 'dashicons';
-	content:'\f157';
-	position: relative;
-	display: inline-block;
-	top: 4px;
-	margin-left: 4px;
-}
-
-.pressthis a:after {
+.pressthis-bookmarklet:after {
 	content: '';
 	width: 70%;
 	height: 55%;
@@ -743,61 +748,54 @@ table.form-table td .updated p {
 	box-shadow: 0 10px 8px rgba(0, 0, 0, 0.6);
 }
 
-.pressthis .button {
+.pressthis-bookmarklet:hover:after {
+	-webkit-transform: skew(-20deg) rotate(-9deg);
+	-ms-transform: skew(-20deg) rotate(-9deg);
+	transform: skew(-20deg) rotate(-9deg);
+	-webkit-box-shadow: 0 10px 8px rgba(0, 0, 0, 0.7);
+	box-shadow: 0 10px 8px rgba(0, 0, 0, 0.7);
+}
+
+.pressthis-bookmarklet span {
+	display: inline-block;
+	margin: 0px 0 0;
+	padding: 0px 9px 8px 12px;
+}
+
+.pressthis-bookmarklet span:before {
+	color: #777;
+	font: normal 20px/1 'dashicons';
+	content:'\f157';
+	position: relative;
+	display: inline-block;
+	top: 4px;
+	margin-left: 4px;
+}
+
+.pressthis-js-toggle {
 	margin-right: 10px;
 	padding: 0;
 	height: auto;
 	vertical-align: top;
 }
 
-.pressthis button .dashicons {
+.pressthis-js-toggle .dashicons {
 	margin: 5px 7px 6px 8px;
 	color: #777;
-}
-
-.press-this-install {
-	margin: 20px 0 0 0;
-	padding: 0.7em 2em 1em;
-	max-width: 520px;
-}
-
-.press-this-install textarea {
-	width: 100%;
-	font-size: 1em;
-}
-
-.press-this-install h4 {
-	margin: 2em 0 1em;
 }
 
 /* to override the button class being applied */
-.pressthis .button.button {
+.pressthis-js-toggle.button.button {
 	margin-right: 10px;
 	padding: 0;
 	height: auto;
 	vertical-align: top;
 }
 
-.pressthis button .dashicons {
+.pressthis-js-toggle .dashicons {
 	margin: 5px 7px 6px 8px;
 	color: #777;
 }
-
-.press-this-install {
-	margin: 20px 0 0 0;
-	padding: 0.7em 2em 1em;
-	max-width: 520px;
-}
-
-.press-this-install textarea {
-	width: 100%;
-	font-size: 1em;
-}
-
-.press-this-install h4 {
-	margin: 2em 0 1em;
-}
-
 
 /*------------------------------------------------------------------------------
   20.0 - Settings
