@@ -804,11 +804,11 @@ class WP_Press_This {
 				<div class="ajaxtag hide-if-no-js">
 					<label class="screen-reader-text" for="new-tag-post_tag"><?php _e( 'Tags' ); ?></label>
 					<p>
-						<input type="text" id="new-tag-post_tag" name="newtag[post_tag]" class="newtag form-input-tip" size="16" autocomplete="off" value="" />
+						<input type="text" id="new-tag-post_tag" name="newtag[post_tag]" class="newtag form-input-tip" size="16" autocomplete="off" value="" aria-describedby="new-tag-desc" />
 						<button type="button" class="tagadd"><?php _e( 'Add' ); ?></button>
 					</p>
 				</div>
-				<p class="howto">
+				<p class="howto" id="new-tag-desc">
 					<?php echo $taxonomy->labels->separate_items_with_commas; ?>
 				</p>
 			<?php } ?>
