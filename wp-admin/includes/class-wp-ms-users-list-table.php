@@ -229,9 +229,9 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 
 					case 'registered':
 						if ( 'list' == $mode )
-							$date = 'Y/m/d';
+							$date = __( 'Y/m/d' );
 						else
-							$date = 'Y/m/d \<\b\r \/\> g:i:s a';
+							$date = __( 'Y/m/d g:i:s a' );
 
 						echo "<td $attributes>" . mysql2date( $date, $user->user_registered ) . "</td>";
 					break;
