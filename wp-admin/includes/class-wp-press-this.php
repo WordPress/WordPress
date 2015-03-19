@@ -778,7 +778,10 @@ class WP_Press_This {
 				</div>
 				<button type="button" class="add-cat-submit"><?php _e( 'Add' ); ?></button>
 			</div>
-		<?php } ?>
+			<?php
+
+		}
+		?>
 		<div class="categories-search-wrapper">
 			<input id="categories-search" type="search" class="categories-search" placeholder="<?php esc_attr_e( 'Search categories by name' ) ?>">
 			<label for="categories-search">
@@ -809,12 +812,13 @@ class WP_Press_This {
 		if ( ! $esc_tags || is_wp_error( $esc_tags ) ) {
 			$esc_tags = '';
 		}
+
 		?>
 		<div class="tagsdiv" id="post_tag">
 			<div class="jaxtag">
 			<input type="hidden" name="tax_input[post_tag]" class="the-tags" value="<?php echo $esc_tags; // escaped in get_terms_to_edit() ?>">
-
 		 	<?php
+
 			if ( $user_can_assign_terms ) {
 				?>
 				<div class="ajaxtag hide-if-no-js">
@@ -827,11 +831,15 @@ class WP_Press_This {
 				<p class="howto" id="new-tag-desc">
 					<?php echo $taxonomy->labels->separate_items_with_commas; ?>
 				</p>
-			<?php } ?>
+				<?php
+			}
+
+			?>
 			</div>
 			<div class="tagchecklist"></div>
 		</div>
 		<?php
+
 		if ( $user_can_assign_terms ) {
 			?>
 			<button type="button" class="button-reset button-link tagcloud-link" id="link-post_tag"><?php echo $taxonomy->labels->choose_from_most_used; ?></button>
@@ -994,11 +1002,22 @@ class WP_Press_This {
 			}
 		}
 
-		$default_html = array(
-			'quote' => '<blockquote>%1$s</blockquote>',
-			'link' => '<p>' . _x( 'Source:', 'Used in Press This to indicate where the content comes from.' ) .
-				' <em><a href="%1$s">%2$s</a></em></p>',
-		);
+		require_once( ABSPATH . WPINC . '/class-oembed.php' );
+		$oembed = _wp_oembed_get_object();
+
+		if ( ! empty( $data['u'] ) && $oembed->get_provider( $data['u'], array( 'discover' => false ) ) ) {
+			$default_html = array(
+				'quote' => '',
+				'link' => '',
+				'embed' => '<p>[embed]' . $data['u'] . '[/embed]</p>',
+			);
+		} else {
+			$default_html = array(
+				'quote' => '<blockquote>%1$s</blockquote>',
+				'link' => '<p>' . _x( 'Source:', 'Used in Press This to indicate where the content comes from.' ) .
+					' <em><a href="%1$s">%2$s</a></em></p>',
+			);
+		}
 
 		/**
 		 * Filter the default HTML for the Press This editor.
@@ -1010,9 +1029,13 @@ class WP_Press_This {
 		 */
 		$default_html = apply_filters( 'press_this_suggested_html', $default_html, $data );
 
+		if ( ! empty( $default_html['embed'] ) ) {
+			$content .= $default_html['embed'];
+		}
+
 		// Wrap suggested content in the specified HTML.
 		if ( ! empty( $default_html['quote'] ) ) {
-			$content = sprintf( $default_html['quote'], $text );
+			$content .= sprintf( $default_html['quote'], $text );
 		}
 
 		// Add source attribution if there is one available.
