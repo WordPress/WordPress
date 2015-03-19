@@ -148,6 +148,21 @@ class WP_Posts_List_Table extends WP_List_Table {
 			echo get_post_type_object( $this->screen->post_type )->labels->not_found;
 	}
 
+	/**
+	 * Determine if the current view is the "All" view
+	 *
+	 * @since 4.2.0
+	 *
+	 * @return boolean
+	 */
+	protected function is_base_request() {
+		if ( empty( $_GET ) ) {
+			return true;
+		} elseif ( 1 === count( $_GET ) && ! empty( $_GET['post_type'] ) ) {
+			return $this->screen->post_type === $_GET['post_type'];
+		}
+	}
+
 	protected function get_views() {
 		global $locked_post_status, $avail_post_stati;
 
@@ -176,8 +191,21 @@ class WP_Posts_List_Table extends WP_List_Table {
 		foreach ( get_post_stati( array('show_in_admin_all_list' => false) ) as $state )
 			$total_posts -= $num_posts->$state;
 
-		$class = empty( $class ) && empty( $_REQUEST['post_status'] ) && empty( $_REQUEST['show_sticky'] ) ? ' class="current"' : '';
-		$status_links['all'] = "<a href='edit.php?post_type=$post_type{$allposts}'$class>" . sprintf( _nx( 'All <span class="count">(%s)</span>', 'All <span class="count">(%s)</span>', $total_posts, 'posts' ), number_format_i18n( $total_posts ) ) . '</a>';
+		if ( empty( $class ) && $this->is_base_request() ) {
+			$class =  ' class="current"';
+		}
+
+		$all_inner_html = sprintf(
+			_nx(
+				'All <span class="count">(%s)</span>',
+				'All <span class="count">(%s)</span>',
+				$total_posts,
+				'posts'
+			),
+			number_format_i18n( $total_posts )
+		);
+
+		$status_links['all'] = "<a href='edit.php?post_type=$post_type{$allposts}'$class>" . $all_inner_html . '</a>';
 
 		foreach ( get_post_stati(array('show_in_admin_status_list' => true), 'objects') as $status ) {
 			$class = '';
