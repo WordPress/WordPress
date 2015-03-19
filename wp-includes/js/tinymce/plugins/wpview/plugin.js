@@ -167,39 +167,36 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 	// matching view patterns, and transform the matches into
 	// view wrappers.
 	editor.on( 'BeforeSetContent', function( event ) {
-		var pastedStr = event.content,
-			trim = tinymce.trim,
-			node;
+		var node;
 
-		if ( ! pastedStr ) {
+		if ( ! event.content ) {
 			return;
-		}
-
-		if ( selected ) {
-			removeView( selected );
 		}
 
 		node = editor.selection.getNode();
 
-		pastedStr = pastedStr.replace( /<[^>]+>/g, '' );
-		pastedStr = trim( pastedStr );
-
 		// When a url is pasted, only try to embed it when pasted in an empty paragrapgh.
-		if ( /^https?:\/\/\S+$/i.test( pastedStr ) ) {
-			event.content = pastedStr;
+		if ( event.content.match( /^\s*(https?:\/\/[^\s"]+)\s*$/i ) &&
+			( node.nodeName !== 'P' || node.parentNode !== editor.getBody() || ! editor.dom.isEmpty( node ) ) ) {
 
-			node = editor.dom.getParent( node, function( node ) {
-				if ( node.parentNode === editor.getBody() ) {
-					return node;
-				}
-			} );
-
-			if ( node.nodeName !== 'P' || trim( node.textContent || node.innerText ) ) {
-				return;
-			}
+			return;
 		}
 
 		event.content = wp.mce.views.setMarkers( event.content );
+	});
+
+	// When pasting strip all tags and check if the string is an URL.
+	// Then replace the pasted content with the cleaned URL.
+	editor.on( 'pastePreProcess', function( event ) {
+		var pastedStr = event.content;
+
+		if ( pastedStr ) {
+			pastedStr = tinymce.trim( pastedStr.replace( /<[^>]+>/g, '' ) );
+
+			if ( /^https?:\/\/\S+$/i.test( pastedStr ) ) {
+				event.content = pastedStr;
+			}
+		}
 	});
 
 	// When the editor's content has been updated and the DOM has been
