@@ -515,10 +515,11 @@ class WP_Plugins_List_Table extends WP_List_Table {
 		if ( ! empty( $totals['upgrade'] ) && ! empty( $plugin_data['update'] ) )
 			$class .= ' update';
 
+		$plugin_slug = ( isset( $plugin_data['slug'] ) ) ? $plugin_data['slug'] : '';
 		printf( "<tr id='%s' class='%s' data-slug='%s'>",
 			$id,
 			$class,
-			$plugin_data['slug']
+			$plugin_slug
 		);
 
 		list( $columns, $hidden ) = $this->get_column_info();
