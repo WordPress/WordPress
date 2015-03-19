@@ -1904,7 +1904,7 @@ class Language_Pack_Upgrader extends WP_Upgrader {
 				break;
 			case 'plugin':
 				$plugin_data = get_plugins( '/' . $update->slug );
-				$plugin_data = array_shift( $plugin_data );
+				$plugin_data = reset( $plugin_data );
 				if ( $plugin_data )
 					return $plugin_data['Name'];
 				break;

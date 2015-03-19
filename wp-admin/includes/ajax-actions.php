@@ -1091,7 +1091,7 @@ function wp_ajax_add_menu_item() {
 			}
 
 			$_menu_items = array_map( 'wp_setup_nav_menu_item', array( $_object ) );
-			$_menu_item = array_shift( $_menu_items );
+			$_menu_item = reset( $_menu_items );
 
 			// Restore the missing menu item properties
 			$menu_item_data['menu-item-description'] = $_menu_item->description;
@@ -1793,7 +1793,7 @@ function wp_ajax_save_widget() {
 		if ( !$multi_number )
 			wp_die( $error );
 
-		$_POST['widget-' . $id_base] = array( $multi_number => array_shift($settings) );
+		$_POST[ 'widget-' . $id_base ] = array( $multi_number => reset( $settings ) );
 		$widget_id = $id_base . '-' . $multi_number;
 		$sidebar[] = $widget_id;
 	}

@@ -621,8 +621,8 @@ function media_upload_form_handler() {
 	$errors = null;
 
 	if ( isset($_POST['send']) ) {
-		$keys = array_keys($_POST['send']);
-		$send_id = (int) array_shift($keys);
+		$keys = array_keys( $_POST['send'] );
+		$send_id = (int) reset( $keys );
 	}
 
 	if ( !empty($_POST['attachments']) ) foreach ( $_POST['attachments'] as $attachment_id => $attachment ) {
@@ -1357,7 +1357,7 @@ function get_media_item( $attachment_id, $args = null ) {
 
 	$post_mime_types = get_post_mime_types();
 	$keys = array_keys( wp_match_mime_types( array_keys( $post_mime_types ), $post->post_mime_type ) );
-	$type = array_shift( $keys );
+	$type = reset( $keys );
 	$type_html = "<input type='hidden' id='type-of-$attachment_id' value='" . esc_attr( $type ) . "' />";
 
 	$form_fields = get_attachment_fields_to_edit( $post, $r['errors'] );

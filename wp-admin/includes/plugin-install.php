@@ -304,7 +304,7 @@ function install_plugin_install_status($api, $loop = false) {
 					$url = wp_nonce_url(self_admin_url('update.php?action=install-plugin&plugin=' . $api->slug), 'install-plugin_' . $api->slug);
 			} else {
 				$key = array_keys( $installed_plugin );
-				$key = array_shift( $key ); //Use the first plugin regardless of the name, Could have issues for multiple-plugins in one directory if they share different version numbers
+				$key = reset( $key ); //Use the first plugin regardless of the name, Could have issues for multiple-plugins in one directory if they share different version numbers
 				$update_file = $api->slug . '/' . $key;
 				if ( version_compare($api->version, $installed_plugin[ $key ]['Version'], '=') ){
 					$status = 'latest_installed';
@@ -391,7 +391,7 @@ function install_plugin_information() {
 	$section = isset( $_REQUEST['section'] ) ? wp_unslash( $_REQUEST['section'] ) : 'description'; // Default to the Description tab, Do not translate, API returns English.
 	if ( empty( $section ) || ! isset( $api->sections[ $section ] ) ) {
 		$section_titles = array_keys( (array) $api->sections );
-		$section = array_shift( $section_titles );
+		$section = reset( $section_titles );
 	}
 
 	iframe_header( __( 'Plugin Install' ) );

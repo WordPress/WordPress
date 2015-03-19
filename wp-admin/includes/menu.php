@@ -94,7 +94,7 @@ foreach ( $menu as $id => $data ) {
 	if ( empty($submenu[$data[2]]) )
 		continue;
 	$subs = $submenu[$data[2]];
-	$first_sub = array_shift($subs);
+	$first_sub = reset( $subs );
 	$old_parent = $data[2];
 	$new_parent = $first_sub[2];
 	/*
@@ -163,7 +163,7 @@ foreach ( $menu as $id => $data ) {
 	 */
 	if ( ! empty( $submenu[$data[2]] ) && 1 == count ( $submenu[$data[2]] ) ) {
 		$subs = $submenu[$data[2]];
-		$first_sub = array_shift($subs);
+		$first_sub = reset( $subs );
 		if ( $data[2] == $first_sub[2] )
 			unset( $submenu[$data[2]] );
 	}

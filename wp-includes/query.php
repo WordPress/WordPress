@@ -4673,7 +4673,7 @@ function wp_old_slug_redirect() {
 		if ( is_array( $post_type ) ) {
 			if ( count( $post_type ) > 1 )
 				return;
-			$post_type = array_shift( $post_type );
+			$post_type = reset( $post_type );
 		}
 
 		// Do not attempt redirect for hierarchical post types

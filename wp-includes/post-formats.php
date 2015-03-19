@@ -26,7 +26,7 @@ function get_post_format( $post = null ) {
 	if ( empty( $_format ) )
 		return false;
 
-	$format = array_shift( $_format );
+	$format = reset( $_format );
 
 	return str_replace('post-format-', '', $format->slug );
 }

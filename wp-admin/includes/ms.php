@@ -804,11 +804,11 @@ function choose_primary_blog() {
 			</select>
 			<?php
 			if ( !$found ) {
-				$blog = array_shift( $all_blogs );
+				$blog = reset( $all_blogs );
 				update_user_meta( get_current_user_id(), 'primary_blog', $blog->userblog_id );
 			}
 		} elseif ( count( $all_blogs ) == 1 ) {
-			$blog = array_shift( $all_blogs );
+			$blog = reset( $all_blogs );
 			echo $blog->domain;
 			if ( $primary_blog != $blog->userblog_id ) // Set the primary blog again if it's out of sync with blog list.
 				update_user_meta( get_current_user_id(), 'primary_blog', $blog->userblog_id );

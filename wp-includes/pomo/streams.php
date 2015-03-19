@@ -40,7 +40,7 @@ class POMO_Reader {
 			return false;
 		$endian_letter = ('big' == $this->endian)? 'N' : 'V';
 		$int = unpack($endian_letter, $bytes);
-		return array_shift($int);
+		return reset( $int );
 	}
 
 	/**

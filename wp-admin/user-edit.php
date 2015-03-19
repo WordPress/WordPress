@@ -315,7 +315,7 @@ do_action( 'personal_options', $profileuser );
 <?php
 // Compare user role against currently editable roles
 $user_roles = array_intersect( array_values( $profileuser->roles ), array_keys( get_editable_roles() ) );
-$user_role  = array_shift( $user_roles );
+$user_role  = reset( $user_roles );
 
 // print the full list of roles with the primary one selected.
 wp_dropdown_roles($user_role);
