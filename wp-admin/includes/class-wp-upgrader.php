@@ -3165,8 +3165,8 @@ class WP_Automatic_Updater {
 
 		$site_title = wp_specialchars_decode( get_bloginfo( 'name' ), ENT_QUOTES );
 		if ( $failures ) {
-			$body[] = trim( __( "
-BETA TESTING?
+			$body[] = trim( __(
+"BETA TESTING?
 =============
 
 This debugging email is sent when you are using a development version of WordPress.
@@ -3183,8 +3183,8 @@ Thanks! -- The WordPress Team" ) );
 			$subject = sprintf( __( '[%s] Background updates have finished' ), $site_title );
 		}
 
-		$body[] = trim( __( '
-UPDATE LOG
+		$body[] = trim( __(
+'UPDATE LOG
 ==========' ) );
 		$body[] = '';
 
