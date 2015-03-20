@@ -322,10 +322,10 @@ class WP_Press_This {
 
 		// HTTP 1.1 allows 8000 chars but the "de-facto" standard supported in all current browsers is 2048.
 		if ( strlen( $url ) > 2048 ) {
-			return ''; // Return empty rather than a trunacted/invalid URL
+			return ''; // Return empty rather than a truncated/invalid URL
 		}
 
-		// Does it look like an URL?
+		// Does not look like an URL.
 		if ( ! preg_match( '/^([!#$&-;=?-\[\]_a-z~]|%[0-9a-fA-F]{2})+$/', $url ) ) {
 			return '';
 		}
