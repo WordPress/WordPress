@@ -83,6 +83,11 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 	if ( !isset($redirect['query']) )
 		$redirect['query'] = '';
 
+	// If the original URL ended with non-breaking spaces, they were almost
+	// certainly inserted by accident. Let's remove them, so the reader doesn't
+	// see a 404 error with no obvious cause.
+	$redirect['path'] = preg_replace( '|(%C2%A0)+$|i', '', $redirect['path'] );
+
 	// It's not a preview, so remove it from URL
 	if ( get_query_var( 'preview' ) ) {
 		$redirect['query'] = remove_query_arg( 'preview', $redirect['query'] );
