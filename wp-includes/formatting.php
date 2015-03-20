@@ -4199,6 +4199,8 @@ function wp_staticize_emoji( $text ) {
  * @return array The email data array, with emoji in the message staticized.
  */
 function _wp_staticize_emoji_for_email( $mail ) {
-	$mail['message'] = wp_staticize_emoji( $mail['message'], true );
+	if ( isset( $mail['message'] ) ) {
+		$mail['message'] = wp_staticize_emoji( $mail['message'], true );
+	}
 	return $mail;
 }
