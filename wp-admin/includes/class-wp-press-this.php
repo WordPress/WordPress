@@ -1002,21 +1002,17 @@ class WP_Press_This {
 			}
 		}
 
+		$default_html = array( 'quote' => '', 'link' => '', 'embed' => '' );
+
 		require_once( ABSPATH . WPINC . '/class-oembed.php' );
 		$oembed = _wp_oembed_get_object();
 
 		if ( ! empty( $data['u'] ) && $oembed->get_provider( $data['u'], array( 'discover' => false ) ) ) {
-			$default_html = array(
-				'quote' => '',
-				'link' => '',
-				'embed' => '<p>[embed]' . $data['u'] . '[/embed]</p>',
-			);
+			$default_html['embed'] = '<p>[embed]' . $data['u'] . '[/embed]</p>';
 		} else {
-			$default_html = array(
-				'quote' => '<blockquote>%1$s</blockquote>',
-				'link' => '<p>' . _x( 'Source:', 'Used in Press This to indicate where the content comes from.' ) .
-					' <em><a href="%1$s">%2$s</a></em></p>',
-			);
+			$default_html['quote'] = '<blockquote>%1$s</blockquote>';
+			$default_html['link'] = '<p>' . _x( 'Source:', 'Used in Press This to indicate where the content comes from.' ) .
+				' <em><a href="%1$s">%2$s</a></em></p>';
 		}
 
 		/**
