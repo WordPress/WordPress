@@ -431,7 +431,7 @@ function twentythirteen_the_attached_image() {
 
 		// or get the URL of the first image attachment.
 		else
-			$next_attachment_url = get_attachment_link( current( $attachment_ids ) );
+			$next_attachment_url = get_attachment_link( reset( $attachment_ids ) );
 	}
 
 	printf( '<a href="%1$s" title="%2$s" rel="attachment">%3$s</a>',

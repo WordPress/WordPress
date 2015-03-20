@@ -75,7 +75,7 @@
 					$images = twentyten_get_gallery_images();
 					if ( $images ) :
 						$total_images = count( $images );
-						$image = current( $images );
+						$image = reset( $images );
 				?>
 						<div class="gallery-thumb">
 							<a class="size-thumbnail" href="<?php the_permalink(); ?>"><?php echo wp_get_attachment_image( $image, 'thumbnail' ); ?></a>
