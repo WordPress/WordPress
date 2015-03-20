@@ -3221,6 +3221,14 @@ function get_attached_media( $type, $post = 0 ) {
 function get_media_embedded_in_content( $content, $types = null ) {
 	$html = array();
 
+	/**
+	 * Filter the embedded media types that are allowed to be returned from the content blob.
+	 *
+	 * @since 4.2.0
+	 *
+	 * @param array $allowed_media_types An array of allowed media types. Default media types are
+	 *                                   'audio', 'video', 'object', 'embed', and 'iframe'.
+	 */
 	$allowed_media_types = apply_filters( 'get_media_embedded_in_content_allowed', array( 'audio', 'video', 'object', 'embed', 'iframe' ) );
 
 	if ( ! empty( $types ) ) {
