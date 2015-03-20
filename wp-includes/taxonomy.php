@@ -1562,9 +1562,6 @@ function get_term_to_edit( $id, $taxonomy ) {
  * The 'get_terms_orderby' filter passes the ORDER BY clause for the query
  * along with the $args array.
  *
- * The 'get_terms_fields' filter passes the fields for the SELECT query
- * along with the $args array.
- *
  * @since 2.3.0
  * @since 4.2.0 Introduced 'name' and 'childless' parameters.
  *
@@ -1932,6 +1929,13 @@ function get_terms( $taxonomies, $args = '' ) {
 
 	/**
 	 * Filter the fields to select in the terms query.
+	 *
+	 * Field lists modified using this filter will only modify the term fields returned
+	 * by the function when the `$fields` parameter set to 'count' or 'all'. In all other
+	 * cases, the term fields in the results array will be determined by the `$fields`
+	 * parameter alone.
+	 *
+	 * Use of this filter can result in unpredictable behavior, and is not recommended.
 	 *
 	 * @since 2.8.0
 	 *
