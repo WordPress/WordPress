@@ -553,7 +553,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 		_prime_post_caches( $ids );
 
 		if ( ! isset( $GLOBALS['post'] ) ) {
-			$GLOBALS['post'] = array_shift( $ids );
+			$GLOBALS['post'] = reset( $ids );
 		}
 
 		foreach ( $to_display as $page_id => $level ) {
