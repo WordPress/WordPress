@@ -15,6 +15,7 @@ Description: Used to style the TinyMCE editor.
  * 6.0 - Galleries
  * 7.0 - Audio / Video
  * 8.0 - RTL
+ * 9.0 - Media Queries
  */
 
 
@@ -478,4 +479,19 @@ body.rtl {
 .rtl table th,
 .rtl table caption {
 	text-align: right;
+}
+
+
+/**
+ * 9.0 Media Queries
+ */
+
+@media screen and (max-width: 660px) {
+	body, img, .wp-caption {
+		max-width: 100%;
+	}
+
+	img, .wp-caption {
+		width: auto !important;
+	}
 }

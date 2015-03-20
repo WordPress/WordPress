@@ -17,6 +17,7 @@ Description: Used to style the TinyMCE editor.
  * 8.0 - Galleries
  * 9.0 - Audio/Video
  * 10.0 - RTL
+ * 11.0 - Media Queries
  * ----------------------------------------------------------------------------
  */
 
@@ -718,4 +719,19 @@ html .mceContentBody.rtl {
 
 .rtl td {
 	text-align: right;
+}
+
+
+/**
+ * 11.0 Media Queries
+ */
+
+@media screen and (max-width: 474px) {
+	body, img, .wp-caption {
+		max-width: 100%;
+	}
+
+	img, .wp-caption {
+		width: auto !important;
+	}
 }
