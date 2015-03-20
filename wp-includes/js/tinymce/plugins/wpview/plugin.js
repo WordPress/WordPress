@@ -173,13 +173,20 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 			return;
 		}
 
-		node = editor.selection.getNode();
+		if ( ! event.load ) {
+			node = editor.selection.getNode();
 
-		// When a url is pasted, only try to embed it when pasted in an empty paragrapgh.
-		if ( event.content.match( /^\s*(https?:\/\/[^\s"]+)\s*$/i ) &&
-			( node.nodeName !== 'P' || node.parentNode !== editor.getBody() || ! editor.dom.isEmpty( node ) ) ) {
+			if ( node && node !== editor.getBody() && /^\s*https?:\/\/\S+\s*$/i.test( event.content ) ) {
+				// When a url is pasted or inserted, only try to embed it when it is in an empty paragrapgh.
+				node = editor.dom.getParent( node, 'p' );
 
-			return;
+				if ( node && /^[\s\uFEFF\u00A0]*$/.test( node.textContent || node.innerText ) ) {
+					// Make sure there are no empty inline elements in the <p>
+					node.innerHTML = '';
+				} else {
+					return;
+				}
+			}
 		}
 
 		event.content = wp.mce.views.setMarkers( event.content );
