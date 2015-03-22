@@ -731,6 +731,7 @@ i.mce-i-wp-media-library,
 i.mce-i-ltr,
 i.mce-i-wp_page,
 i.mce-i-hr,
+i.mce-i-wp_code,
 i.mce-i-dashicon,
 .mce-close {
 	font: normal 20px/1 'dashicons';
@@ -880,7 +881,7 @@ i.mce-i-hr:before {
 	content: '\f158';
 }
 
-.mce-i-wp_code:before {
+i.mce-i-wp_code:before {
 	content: '\f475';
 }
 
