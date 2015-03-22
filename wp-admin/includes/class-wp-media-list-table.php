@@ -340,14 +340,7 @@ foreach ( $columns as $column_name => $column_display_name ) {
 				<?php echo $att_title; ?></a>
 			<?php };
 			_media_states( $post ); ?></strong>
-			<p>
-<?php
-			if ( preg_match( '/^.*?\.(\w+)$/', get_attached_file( $post->ID ), $matches ) )
-				echo esc_html( strtoupper( $matches[1] ) );
-			else
-				echo strtoupper( str_replace( 'image/', '', get_post_mime_type() ) );
-?>
-			</p>
+			<p class="filename"><?php echo wp_basename( $post->guid ); ?></p>
 <?php
 		echo $this->row_actions( $this->_get_row_actions( $post, $att_title ) );
 ?>
