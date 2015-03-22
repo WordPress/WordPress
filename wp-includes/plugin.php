@@ -839,7 +839,7 @@ function _wp_call_all_hook($args) {
  * Build Unique ID for storage and retrieval.
  *
  * The old way to serialize the callback caused issues and this function is the
- * solution. It works by checking for objects and creating an a new property in
+ * solution. It works by checking for objects and creating a new property in
  * the class to keep track of the object and new objects of the same class that
  * need to be added.
  *
