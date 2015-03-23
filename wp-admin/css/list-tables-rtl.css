@@ -1916,3 +1916,13 @@ div.action-links,
 		box-shadow: inset 0 -1px 0 rgba(0,0,0,0.1);
 	}
 }
+
+/* Smartphone */
+@media screen and (max-width: 600px) {
+	/* Remove slug column from taxonomy list page
+	   and role column from users list page */
+	.tags .column-slug,
+	.users .column-role {
+		display: none;
+	}
+}
