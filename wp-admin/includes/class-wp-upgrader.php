@@ -263,8 +263,8 @@ class WP_Upgrader {
 				$wp_filesystem->delete($upgrade_folder . $file['name'], true);
 		}
 
-		//We need a working directory
-		$working_dir = $upgrade_folder . basename($package, '.zip');
+		// We need a working directory - Strip off any .tmp or .zip suffixes
+		$working_dir = $upgrade_folder . basename( basename( $package, '.tmp' ), '.zip' );
 
 		// Clean up working directory
 		if ( $wp_filesystem->is_dir($working_dir) )
