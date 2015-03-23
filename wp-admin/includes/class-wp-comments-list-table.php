@@ -546,7 +546,7 @@ class WP_Comments_List_Table extends WP_List_Table {
 	}
 
 	public function column_date() {
-		return get_comment_date( __( 'Y/m/d \a\t g:ia' ) );
+		return get_comment_date( __( 'Y/m/d \a\t g:i a' ) );
 	}
 
 	public function column_response() {

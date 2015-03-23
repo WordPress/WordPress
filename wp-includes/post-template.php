@@ -1700,7 +1700,7 @@ function wp_post_revision_title( $revision, $link = true ) {
 		return false;
 
 	/* translators: revision date format, see http://php.net/date */
-	$datef = _x( 'j F, Y @ G:i', 'revision date format');
+	$datef = _x( 'F j, Y @ H:i', 'revision date format');
 	/* translators: 1: date */
 	$autosavef = _x( '%1$s [Autosave]', 'post revision title extra' );
 	/* translators: 1: date */
@@ -1736,7 +1736,7 @@ function wp_post_revision_title_expanded( $revision, $link = true ) {
 
 	$author = get_the_author_meta( 'display_name', $revision->post_author );
 	/* translators: revision date format, see http://php.net/date */
-	$datef = _x( 'j F, Y @ G:i:s', 'revision date format');
+	$datef = _x( 'F j, Y @ H:i:s', 'revision date format');
 
 	$gravatar = get_avatar( $revision->post_author, 24 );
 

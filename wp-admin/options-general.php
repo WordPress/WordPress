@@ -18,7 +18,7 @@ if ( ! current_user_can( 'manage_options' ) )
 $title = __('General Settings');
 $parent_file = 'options-general.php';
 /* translators: date and time format for exact current time, mainly about timezones, see http://php.net/date */
-$timezone_format = _x('Y-m-d G:i:s', 'timezone date format');
+$timezone_format = _x('Y-m-d H:i:s', 'timezone date format');
 
 /**
  * Display JavaScript on the page.

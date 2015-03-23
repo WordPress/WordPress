@@ -821,7 +821,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 					$t_time = $h_time = __( 'Unpublished' );
 					$time_diff = 0;
 				} else {
-					$t_time = get_the_time( __( 'Y/m/d g:i:s A' ) );
+					$t_time = get_the_time( __( 'Y/m/d g:i:s a' ) );
 					$m_time = $post->post_date;
 					$time = get_post_time( 'G', true, $post );
 

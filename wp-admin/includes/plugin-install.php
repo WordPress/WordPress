@@ -440,7 +440,7 @@ function install_plugin_information() {
 
 	echo "</div>\n";
 
-	$date_format = __( 'M j, Y @ G:i' );
+	$date_format = __( 'M j, Y @ H:i' );
 	$last_updated_timestamp = strtotime( $api->last_updated );
 	?>
 	<div id="<?php echo $_tab; ?>-content" class='<?php echo $_with_banner; ?>'>
