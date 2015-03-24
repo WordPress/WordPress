@@ -147,7 +147,7 @@
 					}
 
 					if ( ! supportsFlagEmoji && supportsEmoji &&
-						! /^1f1(?:e[6-9a-f]|f[1-9a-f])-1f1(?:e[6-9a-f]|f[1-9a-f])$/.test( icon ) ) {
+						! /^1f1(?:e[6-9a-f]|f[0-9a-f])-1f1(?:e[6-9a-f]|f[0-9a-f])$/.test( icon ) ) {
 
 						return false;
 					}
