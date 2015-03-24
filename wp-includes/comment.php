@@ -218,8 +218,6 @@ function get_comment(&$comment, $output = OBJECT) {
  *
  * @since 2.7.0
  *
- * @global wpdb $wpdb WordPress database abstraction object.
- *
  * @param string|array $args Optional. Array or string of arguments. See {@see WP_Comment_Query::parse_query()}
  *                           for information on accepted arguments. Default empty.
  * @return int|array List of comments or number of found comments if `$count` argument is true.
