@@ -2906,8 +2906,14 @@ function _config_wp_siteurl( $url = '' ) {
 function _mce_set_direction( $input ) {
 	if ( is_rtl() ) {
 		$input['directionality'] = 'rtl';
-		$input['plugins'] .= ',directionality';
-		$input['toolbar1'] .= ',ltr';
+
+		if ( ! empty( $input['plugins'] ) && strpos( $input['plugins'], 'directionality' ) === false ) {
+			$input['plugins'] .= ',directionality';
+		}
+
+		if ( ! empty( $input['toolbar1'] ) && ! preg_match( '/\bltr\b/', $input['toolbar1'] ) ) {
+			$input['toolbar1'] .= ',ltr';
+		}
 	}
 
 	return $input;
