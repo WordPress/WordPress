@@ -194,32 +194,31 @@
 		 * @param src string Source URL
 		 * @param link string Optional destination link, for images (defaults to src)
 		 */
-		function insertSelectedMedia( type, src, link ) {
-			var newContent = '';
+		function insertSelectedMedia( $element ) {
+			var src, link, newContent = '';
 
 			if ( ! editor ) {
 				return;
 			}
 
-			src = checkUrl( src );
-			link = checkUrl( link );
+			src = checkUrl( $element.attr( 'data-wp-src' ) || '' );
+			link = checkUrl( data.u );
 
-			if ( 'img' === type ) {
+			if ( $element.hasClass( 'is-image' ) ) {
 				if ( ! link ) {
 					link = src;
 				}
 
-				newContent = '<a href="' + link + '"><img class="alignnone size-full" src="' + src + '" /></a>\n';
+				newContent = '<a href="' + link + '"><img class="alignnone size-full" src="' + src + '" /></a>';
 			} else {
-				newContent = '[embed]' + src + '[/embed]\n';
+				newContent = '[embed]' + src + '[/embed]';
 			}
 
 			if ( ! hasSetFocus ) {
-				editor.focus();
+				editor.setContent( '<p>' + newContent + '</p>' + editor.getContent() );
+			} else {
+				editor.execCommand( 'mceInsertContent', false, newContent );
 			}
-
-			editor.execCommand( 'mceInsertContent', false, newContent );
-			hasSetFocus = true;
 		}
 
 		/**
@@ -334,14 +333,10 @@
 		function addImg( src, displaySrc, i ) {
 			var $element = $mediaThumbWrap.clone().addClass( 'is-image' );
 
-			$element.css( 'background-image', 'url(' + displaySrc + ')' )
+			$element.attr( 'data-wp-src', src ).css( 'background-image', 'url(' + displaySrc + ')' )
 				.find( 'span' ).text( __( 'suggestedImgAlt' ).replace( '%d', i + 1 ) );
 
-			$element.on( 'click keypress', function ( event ) {
-				if ( event.type === 'click' || event.keyCode === 13 ) {
-					insertSelectedMedia( 'img', src, data.u );
-				}
-			} ).appendTo( $mediaList );
+			$mediaList.append( $element );
 		}
 
 		/**
@@ -378,18 +373,13 @@
 						cssClass += ' is-video';
 					}
 
-					$element.find( 'span' ).text( __( 'suggestedEmbedAlt' ).replace( '%d', i + 1 ) );
+					$element.attr( 'data-wp-src', src ).find( 'span' ).text( __( 'suggestedEmbedAlt' ).replace( '%d', i + 1 ) );
 
 					if ( displaySrc ) {
 						$element.css( 'background-image', 'url(' + displaySrc + ')' );
 					}
 
-					$element.on( 'click keypress', function ( event ) {
-						if ( event.type === 'click' || event.keyCode === 13 ) {
-							insertSelectedMedia( 'embed', src );
-						}
-					} ).appendTo( $mediaList );
-
+					$mediaList.append( $element );
 					found++;
 				} );
 			}
@@ -579,6 +569,10 @@
 				ed.on( 'focus', function() {
 					hasSetFocus = true;
 				} );
+			}).on( 'click.press-this keypress.press-this', '.suggested-media-thumbnail', function( event ) {
+				if ( event.type === 'click' || event.keyCode === 13 ) {
+					insertSelectedMedia( $( this ) );
+				}
 			});
 
 			// Publish, Draft and Preview buttons

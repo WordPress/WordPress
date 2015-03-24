@@ -1080,6 +1080,7 @@ class WP_Press_This {
 
 		$site_data = array(
 			'v' => ! empty( $data['v'] ) ? $data['v'] : '',
+			'u' => ! empty( $data['u'] ) ? $data['u'] : '',
 			'hasData' => ! empty( $data ),
 		);
 
