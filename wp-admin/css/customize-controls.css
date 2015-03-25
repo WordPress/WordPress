@@ -901,6 +901,10 @@ p.customize-section-description {
 	font-size: 15px;
 }
 
+#customize-controls .theme-overlay .theme-name {
+	font-size: 32px;
+}
+
 .wp-customizer .theme-browser .theme.active .theme-name {
 	padding-right: 15px;
 }
@@ -920,7 +924,7 @@ p.customize-section-description {
 	transform: rotate(180deg);
 }
 
-#customize-theme-controls .control-section.current-panel > h3.accordion-section-title {
+#customize-theme-controls .control-section-themes.current-panel > h3.accordion-section-title {
 	left: 0;
 }
 
