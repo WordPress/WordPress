@@ -533,7 +533,7 @@ class WP_Widget_Text extends WP_Widget {
 			$instance['text'] =  $new_instance['text'];
 		else
 			$instance['text'] = stripslashes( wp_filter_post_kses( addslashes($new_instance['text']) ) ); // wp_filter_post_kses() expects slashed
-		$instance['filter'] = isset($new_instance['filter']);
+		$instance['filter'] = ! empty( $new_instance['filter'] );
 		return $instance;
 	}
 
