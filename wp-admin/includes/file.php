@@ -872,28 +872,27 @@ function WP_Filesystem( $args = false, $context = false, $allow_relaxed_file_own
 }
 
 /**
- * Determines which Filesystem Method to use.
+ * Determines which method to use for reading, writing, modifying, or deleting
+ * files on the filesystem.
  *
- * The priority of the Transports are: Direct, SSH2, FTP PHP Extension,
- * FTP Sockets (Via Sockets class, or `fsockopen()`).
+ * The priority of the transports are: Direct, SSH2, FTP PHP Extension, FTP Sockets
+ * (Via Sockets class, or `fsockopen()`). Valid values for these are: 'direct', 'ssh2',
+ * 'ftpext' or 'ftpsockets'.
  *
- * Note that the return value of this function can be overridden in 2 ways
+ * The return value can be overridden by defining the `FS_METHOD` constant in `wp-config.php`,
+ * or filtering via {@see 'filesystem_method'}.
  *
- *  - By defining FS_METHOD in your `wp-config.php` file
- *  - By using the filesystem_method filter
+ * @link https://codex.wordpress.org/Editing_wp-config.php#WordPress_Upgrade_Constants
  *
- * Valid values for these are: 'direct', 'ssh2', 'ftpext' or 'ftpsockets'.
- *
- * Plugins may also define a custom transport handler, See the WP_Filesystem
- * function for more information.
+ * Plugins may define a custom transport handler, See WP_Filesystem().
  *
  * @since 2.5.0
  *
- * @todo Properly mark arguments as optional.
- *
- * @param array $args Connection details.
- * @param string $context Full path to the directory that is tested for being writable.
- * @param bool $allow_relaxed_file_ownership Whether to allow Group/World writable.
+ * @param array  $args                         Optional. Connection details. Default empty array.
+ * @param string $context                      Optional. Full path to the directory that is tested
+ *                                             for being writable. Default false.
+ * @param bool   $allow_relaxed_file_ownership Optional. Whether to allow Group/World writable.
+ *                                             Default false.
  * @return string The transport to use, see description for valid return values.
  */
 function get_filesystem_method( $args = array(), $context = false, $allow_relaxed_file_ownership = false ) {
