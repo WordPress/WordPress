@@ -1908,7 +1908,11 @@ function get_submit_button( $text = '', $type = 'primary large', $name = 'submit
 		$attributes = $other_attributes;
 	}
 
-	$button = '<input type="submit" name="' . esc_attr( $name ) . '" id="' . esc_attr( $id ) . '" class="' . esc_attr( $class );
+	// Don't output empty name and id attributes.
+	$name_attr = $name ? ' name="' . esc_attr( $name ) . '"' : '';
+	$id_attr = $id ? ' id="' . esc_attr( $id ) . '"' : '';
+
+	$button = '<input type="submit"' . $name_attr . $id_attr . ' class="' . esc_attr( $class );
 	$button	.= '" value="' . esc_attr( $text ) . '" ' . $attributes . ' />';
 
 	if ( $wrap ) {
