@@ -209,7 +209,7 @@ function wp_deregister_script( $handle ) {
  * @global WP_Scripts $wp_scripts The WP_Scripts object for printing scripts.
  *
  * @since 2.6.0
-
+ *
  * @param string      $handle    Name of the script.
  * @param string|bool $src       Path to the script from the root directory of WordPress. Example: '/js/myscript.js'.
  * @param array       $deps      An array of registered handles this script depends on. Default empty array.
@@ -224,14 +224,17 @@ function wp_enqueue_script( $handle, $src = false, $deps = array(), $ver = false
 
 	_wp_scripts_maybe_doing_it_wrong( __FUNCTION__ );
 
-	$_handle = explode( '?', $handle );
 
-	if ( $src ) {
-		$wp_scripts->add( $_handle[0], $src, $deps, $ver );
-	}
+	if ( $src || $in_footer ) {
+		$_handle = explode( '?', $handle );
 
-	if ( $in_footer ) {
-		$wp_scripts->add_data( $_handle[0], 'group', 1 );
+		if ( $src ) {
+			$wp_scripts->add( $_handle[0], $src, $deps, $ver );
+		}
+
+		if ( $in_footer ) {
+			$wp_scripts->add_data( $_handle[0], 'group', 1 );
+		}
 	}
 
 	$wp_scripts->enqueue( $handle );
