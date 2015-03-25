@@ -1929,25 +1929,6 @@
 
 			this.query = $.extend( params.query || {}, { customize_messenger_channel: this.channel() });
 
-			// This avoids SecurityErrors when setting a window object in x-origin iframe'd scenarios.
-			this.targetWindow.set = function( to ) {
-				var from = this._value;
-
-				to = this._setter.apply( this, arguments );
-				to = this.validate( to );
-
-				if ( null === to || from === to ) {
-					return this;
-				}
-
-				this._value = to;
-				this._dirty = true;
-
-				this.callbacks.fireWith( this, [ to, from ] );
-
-				return this;
-			};
-
 			this.run( deferred );
 		},
 
