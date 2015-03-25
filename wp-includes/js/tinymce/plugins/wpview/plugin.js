@@ -219,10 +219,15 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 			body = editor.getBody(),
 			bodyRect = body.getBoundingClientRect(),
 			first = body.firstChild,
-			firstRect = first.getBoundingClientRect(),
 			last = body.lastChild,
-			lastRect = last.getBoundingClientRect(),
-			view;
+			firstRect, lastRect, view;
+
+		if ( ! first || ! last ) {
+			return;
+		}
+
+		firstRect = first.getBoundingClientRect();
+		lastRect = last.getBoundingClientRect();
 
 		if ( y < firstRect.top && ( view = getView( first ) ) ) {
 			setViewCursor( true, view );
