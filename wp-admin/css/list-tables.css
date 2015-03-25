@@ -813,6 +813,7 @@ tr.inline-edit-row td,
 
 .inline-edit-row fieldset .inline-edit-group {
 	clear: both;
+	line-height: 2.5;
 }
 
 .inline-edit-row fieldset .inline-edit-group:after {
@@ -839,19 +840,19 @@ tr.inline-edit-row td,
 .inline-edit-row h4 {
 	margin: .2em 0;
 	padding: 0;
-	line-height: 23px;
+	line-height: 2.5;
 }
 .inline-edit-row fieldset span.title,
 .inline-edit-row fieldset span.checkbox-title {
 	margin: 0;
 	padding: 0;
-	line-height: 27px;
 }
 
 .inline-edit-row fieldset label,
 .inline-edit-row fieldset span.inline-edit-categories-label {
 	display: block;
 	margin: .2em 0;
+	line-height: 2.5;
 }
 
 .inline-edit-row fieldset label.inline-edit-tags {
@@ -867,6 +868,7 @@ tr.inline-edit-row td,
 	display: block;
 	float: left;
 	width: 5em;
+	line-height: 2.5;
 }
 
 .inline-edit-row fieldset label span.input-text-wrap {
@@ -879,17 +881,23 @@ tr.inline-edit-row td,
 	padding-right: 0.5em;
 }
 
+.inline-edit-row .inline-edit-or {
+	margin: .2em 6px .2em 0;
+	line-height: 2.5;
+}
+
 .inline-edit-row .input-text-wrap input[type=text] {
 	width: 100%;
 }
 
 .inline-edit-row fieldset label input[type=checkbox] {
-	vertical-align: text-bottom;
+	vertical-align: middle;
 }
 
 .inline-edit-row fieldset label textarea {
 	width: 100%;
 	height: 4em;
+	vertical-align: top;
 }
 
 #wpbody-content .bulk-edit-row fieldset .inline-edit-group label {
@@ -918,7 +926,6 @@ tr.inline-edit-row td,
 .inline-edit-row fieldset span.title,
 .inline-edit-row fieldset span.checkbox-title {
 	font-style: italic;
-	line-height: 1.8em;
 }
 
 /*	Specific Elements */
@@ -1703,6 +1710,10 @@ div.action-links,
 
 	.inline-edit-row fieldset input[name=aa] {
 		width: 4.5em;
+	}
+
+	.inline-edit-row .inline-edit-or {
+		margin: 0 6px 0 0;
 	}
 
 	#bulk-titles div {
