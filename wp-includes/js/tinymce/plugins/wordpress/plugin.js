@@ -394,8 +394,10 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 
 	// Remove spaces from empty paragraphs.
 	editor.on( 'BeforeSetContent', function( event ) {
+		var paragraph = tinymce.Env.webkit ? '<p><br /></p>' : '<p></p>';
+
 		if ( event.content ) {
-			event.content = event.content.replace( /<p>(?:&nbsp;|\u00a0|\uFEFF| )+<\/p>/gi, '<p></p>' );
+			event.content = event.content.replace( /<p>(?:&nbsp;|\u00a0|\uFEFF|\s)+<\/p>/gi, paragraph );
 		}
 	});
 
