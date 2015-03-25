@@ -252,8 +252,10 @@ add_action( 'do_pings',                   'do_all_pings',                       
 add_action( 'do_robots',                  'do_robots'                                      );
 add_action( 'set_comment_cookies',        'wp_set_comment_cookies',                  10, 2 );
 add_action( 'sanitize_comment_cookies',   'sanitize_comment_cookies'                       );
+add_action( 'admin_print_scripts',        'print_emoji_detection_script'                   );
 add_action( 'admin_print_scripts',        'print_head_scripts',                      20    );
 add_action( 'admin_print_footer_scripts', '_wp_footer_scripts'                             );
+add_action( 'admin_print_styles',         'print_emoji_styles'                             );
 add_action( 'admin_print_styles',         'print_admin_styles',                      20    );
 add_action( 'init',                       'smilies_init',                             5    );
 add_action( 'plugins_loaded',             'wp_maybe_load_widgets',                    0    );
