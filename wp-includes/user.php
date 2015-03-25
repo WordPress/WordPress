@@ -2233,7 +2233,8 @@ function wp_get_password_hint() {
  * hashing process. This field is now hashed; old values are no longer accepted
  * but have a different WP_Error code so good user feedback can be provided.
  *
- * @global wpdb $wpdb WordPress database object for queries.
+ * @global wpdb         $wpdb      WordPress database object for queries.
+ * @global PasswordHash $wp_hasher Portable PHP password hashing framework instance.
  *
  * @param string $key       Hash to validate sending user's password.
  * @param string $login     The user login.
