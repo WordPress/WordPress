@@ -50,6 +50,9 @@ _wp_admin_html_begin();
 <title><?php echo $admin_title; ?></title>
 <?php
 
+print_emoji_detection_script();
+print_emoji_styles();
+
 wp_enqueue_style( 'colors' );
 wp_enqueue_style( 'ie' );
 wp_enqueue_script('utils');
