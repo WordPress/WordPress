@@ -1929,6 +1929,25 @@
 
 			this.query = $.extend( params.query || {}, { customize_messenger_channel: this.channel() });
 
+			// This avoids SecurityErrors when setting a window object in x-origin iframe'd scenarios.
+			this.targetWindow.set = function( to ) {
+				var from = this._value;
+
+				to = this._setter.apply( this, arguments );
+				to = this.validate( to );
+
+				if ( null === to || from === to ) {
+					return this;
+				}
+
+				this._value = to;
+				this._dirty = true;
+
+				this.callbacks.fireWith( this, [ to, from ] );
+
+				return this;
+			};
+
 			this.run( deferred );
 		},
 
@@ -2118,9 +2137,7 @@
 		tmpl = api.settings.documentTitleTmpl;
 		title = tmpl.replace( '%s', documentTitle );
 		document.title = title;
-		if ( window !== window.parent ) {
-			window.parent.document.title = document.title;
-		}
+		api.trigger( 'title', title );
 	};
 
 	/**
@@ -2797,6 +2814,11 @@
 				parent.send( 'activated', api.settings.url.activated );
 			else if ( api.settings.url.activated )
 				window.location = api.settings.url.activated;
+		});
+
+		// Pass titles to the parent
+		api.bind( 'title', function( newTitle ) {
+			parent.send( 'title', newTitle );
 		});
 
 		// Initialize the connection with the parent frame.

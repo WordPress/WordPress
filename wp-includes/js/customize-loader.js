@@ -155,6 +155,10 @@ window.wp = window.wp || {};
 				Loader.saved( false );
 			} );
 
+			this.messenger.bind( 'title', function( newTitle ){
+				window.document.title = newTitle;
+			});
+
 			this.pushState( src );
 
 			this.trigger( 'open' );
