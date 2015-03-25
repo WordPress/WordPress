@@ -4125,8 +4125,10 @@ function _cleanup_header_comment( $str ) {
 }
 
 /**
- * Permanently delete posts, pages, attachments, and comments which have been
- * in the trash for EMPTY_TRASH_DAYS.
+ * Permanently delete comments or posts of any type that have held a status
+ * of 'trash' for the number of days defined in EMPTY_TRASH_DAYS.
+ *
+ * The default value of `EMPTY_TRASH_DAYS` is 30 (days).
  *
  * @since 2.9.0
  */
