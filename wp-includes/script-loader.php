@@ -525,14 +525,8 @@ function wp_default_scripts( &$scripts ) {
 				'updating'      => __( 'Updating...' ),
 				'updated'       => __( 'Updated!' ),
 				'updateFailed'  => __( 'Update failed' ),
-				'installNow'    => __( 'Install Now' ),
-				'installing'    => __( 'Installing...' ),
-				'installed'     => __( 'Installed!' ),
-				'installFailed' => __( 'Installation failed' ),
 				'updatingMsg'   => __( 'Updating... please wait.' ),
-				'installingMsg' => __( 'Installing... please wait.' ),
 				'updatedMsg'    => __( 'Update completed successfully.' ),
-				'installedMsg'  => __( 'Installation completed successfully.' ),
 			)
 		) );
 
