@@ -1009,6 +1009,11 @@ class WP_Press_This {
 
 		if ( ! empty( $data['u'] ) && $oembed->get_provider( $data['u'], array( 'discover' => false ) ) ) {
 			$default_html['embed'] = '<p>[embed]' . $data['u'] . '[/embed]</p>';
+
+			if ( ! empty( $data['s'] ) ) {
+				// If the user has selected some text, do quote it.
+				$default_html['quote'] = '<blockquote>%1$s</blockquote>';
+			}
 		} else {
 			$default_html['quote'] = '<blockquote>%1$s</blockquote>';
 			$default_html['link'] = '<p>' . _x( 'Source:', 'Used in Press This to indicate where the content comes from.' ) .
@@ -1030,7 +1035,7 @@ class WP_Press_This {
 		}
 
 		// Wrap suggested content in the specified HTML.
-		if ( ! empty( $default_html['quote'] ) ) {
+		if ( ! empty( $default_html['quote'] ) && $text ) {
 			$content .= sprintf( $default_html['quote'], $text );
 		}
 
