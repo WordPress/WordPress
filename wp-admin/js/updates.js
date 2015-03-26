@@ -286,18 +286,7 @@ window.wp = window.wp || {};
 
 		var job = wp.updates.updateQueue.shift();
 
-		/* This normally wouldn't be a switch, but is there since updates and installs
-		   originally were developed together. Kept as a switch to help with bringing 
-		   installs back in and to preserve commit history. */
-		switch ( job.type ) {
-			case 'update-plugin':
-				wp.updates.updatePlugin( job.data.plugin, job.data.slug );
-				break;
-			default:
-				window.console.log( 'Failed to exect queued update job.' );
-				window.console.log( job );
-				break;
-		}
+		wp.updates.updatePlugin( job.data.plugin, job.data.slug );
 	};
 
 
