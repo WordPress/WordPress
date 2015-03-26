@@ -1213,7 +1213,12 @@ class WP_Customize_Theme_Control extends WP_Customize_Control {
 			<div class="theme-author"><?php printf( __( 'By %s' ), '{{ data.theme.author }}' ); ?></div>
 
 			<# if ( data.theme.active ) { #>
-				<h3 class="theme-name" id="{{ data.theme.id }}-name"><span><?php _ex( 'Previewing:', 'theme' ); ?></span> {{ data.theme.name }}</h3>
+				<h3 class="theme-name" id="{{ data.theme.id }}-name">
+					<?php
+					/* translators: %s: theme name */
+					printf( __( '<span>Previewing:</span> %s' ), '{{ data.theme.name }}' );
+					?>
+				</h3>
 			<# } else { #>
 				<h3 class="theme-name" id="{{ data.theme.id }}-name">{{ data.theme.name }}</h3>
 			<# } #>
@@ -1286,7 +1291,7 @@ class WP_Widget_Area_Customize_Control extends WP_Customize_Control {
 
 		<span class="reorder-toggle" tabindex="0">
 			<span class="reorder"><?php _ex( 'Reorder', 'Reorder widgets in Customizer' ); ?></span>
-			<span class="reorder-done"><?php _ex( 'Done', 'Cancel reordering widgets in Customizer'  ); ?></span>
+			<span class="reorder-done"><?php _ex( 'Done', 'Cancel reordering widgets in Customizer' ); ?></span>
 		</span>
 		<?php
 	}

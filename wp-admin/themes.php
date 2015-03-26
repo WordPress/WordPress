@@ -222,7 +222,12 @@ foreach ( $themes as $theme ) :
 	<div class="theme-author"><?php printf( __( 'By %s' ), $theme['author'] ); ?></div>
 
 	<?php if ( $theme['active'] ) { ?>
-		<h3 class="theme-name" id="<?php echo $aria_name; ?>"><span><?php _ex( 'Active:', 'theme' ); ?></span> <?php echo $theme['name']; ?></h3>
+		<h3 class="theme-name" id="<?php echo $aria_name; ?>">
+			<?php
+			/* translators: %s: theme name */
+			printf( __( '<span>Active:</span> %s' ), $theme['name'] );
+			?>
+		</h3>
 	<?php } else { ?>
 		<h3 class="theme-name" id="<?php echo $aria_name; ?>"><?php echo $theme['name']; ?></h3>
 	<?php } ?>
@@ -319,7 +324,12 @@ $can_delete = current_user_can( 'delete_themes' );
 	<div class="theme-author"><?php printf( __( 'By %s' ), '{{{ data.author }}}' ); ?></div>
 
 	<# if ( data.active ) { #>
-		<h3 class="theme-name" id="{{ data.id }}-name"><span><?php _ex( 'Active:', 'theme' ); ?></span> {{{ data.name }}}</h3>
+		<h3 class="theme-name" id="{{ data.id }}-name">
+			<?php
+			/* translators: %s: theme name */
+			printf( __( '<span>Active:</span> %s' ), '{{ data.name }}' );
+			?>
+		></h3>
 	<# } else { #>
 		<h3 class="theme-name" id="{{ data.id }}-name">{{{ data.name }}}</h3>
 	<# } #>

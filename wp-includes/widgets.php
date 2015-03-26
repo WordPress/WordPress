@@ -804,7 +804,8 @@ function register_sidebar($args = array()) {
 	$i = count($wp_registered_sidebars) + 1;
 
 	if ( empty( $args['id'] ) ) {
-		_doing_it_wrong( __FUNCTION__, sprintf( __( 'You should set %s in the arguments array.' ), 'id' ), '4.2.0' );
+		/* translators: %s: the id argument */
+		_doing_it_wrong( __FUNCTION__, sprintf( __( 'You should set %s in the arguments array.' ), '<code>id</code>' ), '4.2.0' );
 	}
 
 	$defaults = array(
