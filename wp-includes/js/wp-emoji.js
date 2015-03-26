@@ -30,6 +30,8 @@
 		 */
 		replaceEmoji = false,
 
+		isIE8 = window.navigator.userAgent.indexOf( 'IE 8' ) !== -1,
+
 		// Private
 		twemoji, timer,
 		count = 0;
@@ -46,7 +48,7 @@
 					return;
 				}
 
-				// Still waiting. 
+				// Still waiting.
 				window.clearTimeout( timer );
 				timer = window.setTimeout( load, 50 );
 				count++;
@@ -131,7 +133,7 @@
 
 		// Load when the readyState changes to 'interactive', not 'complete'.
 		function onLoad() {
-			if ( 'interactive' === document.readyState ) {
+			if ( ( ! isIE8 && 'interactive' === document.readyState ) || ( isIE8 && 'complete' === document.readyState ) ) {
 				load();
 			}
 		}
@@ -144,7 +146,7 @@
 			supportsFlagEmoji = window._wpemojiSettings.supports.flag;
 			replaceEmoji = ! supportsEmoji || ! supportsFlagEmoji;
 
-			if ( 'loading' == document.readyState ) {
+			if ( ( ! isIE8 && 'loading' === document.readyState ) || ( isIE8 && 'complete' !== document.readyState ) ) {
 				if ( document.addEventListener ) {
 					document.addEventListener( 'readystatechange', onLoad, false );
 				} else if ( document.attachEvent ) {
