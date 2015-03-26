@@ -112,6 +112,11 @@ var tagBox, array_unique_noempty;
 			a = a || false;
 
 			text = a ? $(a).text() : newtag.val();
+
+			if ( 'undefined' == typeof( text ) ) {
+				return false;
+			}
+
 			tagsval = tags.val();
 			newtags = tagsval ? tagsval + comma + text : text;
 
