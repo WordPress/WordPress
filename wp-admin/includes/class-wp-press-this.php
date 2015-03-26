@@ -1279,7 +1279,7 @@ class WP_Press_This {
 				<?php if ( $supports_formats ) : ?>
 					<button type="button" class="button-reset post-option">
 						<span class="dashicons dashicons-admin-post"></span>
-						<span class="post-option-title"><?php _e( 'Format' ); ?></span>
+						<span class="post-option-title"><?php _ex( 'Format', 'post format' ); ?></span>
 						<span class="post-option-contents" id="post-option-post-format"><?php echo esc_html( get_post_format_string( $post_format ) ); ?></span>
 						<span class="dashicons post-option-forward"></span>
 					</button>
@@ -1302,7 +1302,7 @@ class WP_Press_This {
 				<div class="setting-modal is-off-screen is-hidden">
 					<button type="button" class="button-reset modal-close">
 						<span class="dashicons post-option-back"></span>
-						<span class="setting-title" aria-hidden="true"><?php _e( 'Post format' ); ?></span>
+						<span class="setting-title" aria-hidden="true"><?php _ex( 'Format', 'post format' ); ?></span>
 						<span class="screen-reader-text"><?php _e( 'Back to post options' ) ?></span>
 					</button>
 					<?php $this->post_formats_html( $post ); ?>
