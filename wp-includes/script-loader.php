@@ -524,7 +524,7 @@ function wp_default_scripts( &$scripts ) {
 			'l10n'       => array(
 				'updating'      => __( 'Updating...' ),
 				'updated'       => __( 'Updated!' ),
-				'updateFailed'  => __( 'Update failed' ),
+				'updateFailed'  => __( 'Update failed.' ),
 				'updatingMsg'   => __( 'Updating... please wait.' ),
 				'updatedMsg'    => __( 'Update completed successfully.' ),
 			)
