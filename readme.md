@@ -1,1 +1,1 @@
-This is a fork of the WordPress repo.
+This is my (mpsparrow) fork of the WordPress GitHub repo.
