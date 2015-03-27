@@ -1030,6 +1030,13 @@ body.cheatin p {
 	display: none;
 }
 
+@media only screen and (max-width: 780px) {
+	.wp-customizer .theme:not(.active):hover .theme-actions,
+	.wp-customizer .theme:not(.active):focus .theme-actions {
+		display: block;
+	}
+}
+
 @media screen and ( max-width: 640px ) {
 	#customize-controls {
 		width: 100%;
