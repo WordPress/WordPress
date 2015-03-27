@@ -1225,7 +1225,7 @@ class WP_Customize_Theme_Control extends WP_Customize_Control {
 
 			<# if ( ! data.theme.active ) { #>
 				<div class="theme-actions">
-					<a class="button" href="<?php echo add_query_arg( 'theme', '{{ data.theme.id }}', remove_query_arg( 'theme' ) ); ?>" target="_top"><?php _e( 'Live Preview' ); ?></a>
+					<a class="button" href="{{ data.theme.actions.customize }}" target="_top"><?php _e( 'Live Preview' ); ?></a>
 				</div>
 			<# } #>
 		</div>
