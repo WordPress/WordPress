@@ -1847,19 +1847,31 @@
 	 */
 	api.ThemeControl = api.Control.extend({
 
+		touchDrag: false,
+
 		/**
 		 * @since 4.2.0
 		 */
 		ready: function() {
 			var control = this;
 
+			control.container.on( 'touchmove', '.theme', function() {
+				control.touchDrag = true;
+			});
+
 			// Bind details view trigger.
-			control.container.on( 'click keydown', '.theme', function( event ) {
+			control.container.on( 'click keydown touchend', '.theme', function( event ) {
 				if ( api.utils.isKeydownButNotEnterEvent( event ) ) {
 					return;
 				}
 
-				if ( 'button' === event.target.className ) {
+				// Bail if the user scrolled on a touch device.
+				if ( control.touchDrag === true ) {
+					return control.touchDrag = false;
+				}
+
+				// Prevent the modal from showing when the user clicks the action button.
+				if ( $( event.target ).is( '.theme-actions .button' ) ) {
 					return;
 				}
 
