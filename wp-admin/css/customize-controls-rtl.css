@@ -1103,4 +1103,21 @@ body.cheatin p {
 		bottom: 0;
 		height: auto;
 	}
+
+	.wp-core-ui.wp-customizer .button {
+		padding: 6px 14px;
+		line-height: normal;
+		font-size: 14px;
+		vertical-align: middle;
+		height: auto;
+		margin-bottom: 4px;
+	}
+
+	#customize-header-actions .button-primary {
+		margin-top: 6px;
+	}
+
+	#customize-header-actions .spinner {
+		margin-top: 13px;
+	}
 }
