@@ -345,7 +345,6 @@ class WP_Customize_Themes_Section extends WP_Customize_Section {
 				<?php echo esc_html( $this->title ); ?>
 				<span class="screen-reader-text"><?php _e( 'Press return or enter to expand' ); ?></span>
 			</h3>
-			<span class="control-panel-back themes-panel-back" tabindex="-1"><span class="screen-reader-text"><?php _e( 'Back' ); ?></span></span>
 			<div class="customize-themes-panel control-panel-content themes-php">
 				<h2><?php esc_html_e( 'Themes' ); ?>
 					<span class="title-count theme-count"><?php echo count( $this->controls ) - 1; ?></span>

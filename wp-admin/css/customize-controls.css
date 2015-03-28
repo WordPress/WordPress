@@ -945,21 +945,16 @@ p.customize-section-description {
 	left: 100%;
 }
 
-.themes-panel-back:before {
-	top: 13px;
+.in-themes-panel .control-panel-back:before {
+	content: "\f345";
 	left: 14px;
 }
 
-.in-themes-panel .themes-panel-back {
+.in-themes-panel .control-panel-back {
 	left: 0;
 }
 
-.in-sub-panel .themes-panel-back {
-	display: none;
-}
-
-.control-panel-back.themes-panel-back:before {
-	content: "\f345";
+.in-themes-panel .control-panel-back:before {
 }
 
 /* Details View */
