@@ -1,5 +1,6 @@
 body {
 	overflow: hidden;
+	-webkit-text-size-adjust: 100%;
 }
 
 #customize-controls a {
@@ -910,6 +911,9 @@ p.customize-section-description {
 }
 
 .wp-customizer #themes-filter {
+	font-size: 16px;
+	font-weight: 300;
+	line-height: 1.5;
 	width: 100%;
 }
 
