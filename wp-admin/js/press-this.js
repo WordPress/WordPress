@@ -118,6 +118,20 @@
 		}
 
 		/**
+		 * Replace emoji images with chars and sanitize the text content.
+		 */
+		function getTitleText() {
+			var $element = $( '#title-container' );
+
+			$element.find( 'img.emoji' ).each( function() {
+				var $image = $( this );
+				$image.replaceWith( $( '<span>' ).text( $image.attr( 'alt' ) ) );
+			});
+
+			return sanitizeText( $element.text() );
+		}
+
+		/**
 		 * Prepare the form data for saving.
 		 */
 		function prepareFormData() {
@@ -126,7 +140,7 @@
 
 			editor && editor.save();
 
-			$( '#post_title' ).val( sanitizeText( $( '#title-container' ).text() ) );
+			$( '#post_title' ).val( getTitleText() );
 
 			// Make sure to flush out the tags with tagBox before saving
 			if ( window.tagBox ) {
@@ -502,18 +516,26 @@
 		 * Interactive behavior for the post title's field placeholder
 		 */
 		function monitorPlaceholder() {
-			var $titleField = $( '#title-container'),
-				$placeholder = $('.post-title-placeholder');
+			var $titleField = $( '#title-container' ),
+				$placeholder = $( '.post-title-placeholder' );
 
 			$titleField.on( 'focus', function() {
-				$placeholder.addClass('is-hidden');
+				$placeholder.addClass( 'is-hidden' );
 			}).on( 'blur', function() {
-				if ( ! $titleField.text() ) {
-					$placeholder.removeClass('is-hidden');
+				if ( ! $titleField.text() && ! $titleField.html() ) {
+					$placeholder.removeClass( 'is-hidden' );
 				}
+			}).on( 'keyup', function() {
+				saveAlert = true;
+			}).on( 'paste', function() {
+				saveAlert = true;
+
+				setTimeout( function() {
+					$titleField.text( getTitleText() );
+				}, 100 );
 			});
 
-			if ( $titleField.text() ) {
+			if ( $titleField.text() || $titleField.html() ) {
 				$placeholder.addClass('is-hidden');
 			}
 		}
