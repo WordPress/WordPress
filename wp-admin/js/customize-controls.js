@@ -67,8 +67,14 @@
 		construct = this;
 		params = params || {};
 		focus = function () {
-			construct.container.find( ':focusable:first' ).focus();
-			construct.container[0].scrollIntoView( true );
+			var focusContainer;
+			if ( construct.extended( api.Panel ) && construct.expanded() ) {
+				focusContainer = construct.container.find( '.control-panel-content:first' );
+			} else {
+				focusContainer = construct.container;
+			}
+			focusContainer.find( ':focusable:first' ).focus();
+			focusContainer[0].scrollIntoView( true );
 		};
 		if ( params.completeCallback ) {
 			completeCallback = params.completeCallback;
@@ -715,7 +721,7 @@
 				content.show( 0, function() {
 					position = content.offset().top;
 					scroll = container.scrollTop();
-					content.css( 'margin-top', ( 45 - position - scroll ) );
+					content.css( 'margin-top', ( $( '#customize-header-actions' ).height() - position - scroll ) );
 					section.addClass( 'current-panel' );
 					overlay.addClass( 'in-themes-panel' );
 					container.scrollTop( 0 );
@@ -1039,9 +1045,10 @@
 				});
 
 				content.show( 0, function() {
+					content.parent().show();
 					position = content.offset().top;
 					scroll = container.scrollTop();
-					content.css( 'margin-top', ( 45 - position - scroll ) );
+					content.css( 'margin-top', ( $( '#customize-header-actions' ).height() - position - scroll ) );
 					section.addClass( 'current-panel' );
 					overlay.addClass( 'in-sub-panel' );
 					container.scrollTop( 0 );
