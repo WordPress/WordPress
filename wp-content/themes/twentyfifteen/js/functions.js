@@ -80,10 +80,7 @@
 
 	// Sidebar scrolling.
 	function resize() {
-		windowWidth   = $window.width();
-		windowHeight  = $window.height();
-		bodyHeight    = $body.height();
-		sidebarHeight = $sidebar.height();
+		windowWidth = $window.width();
 
 		if ( 955 > windowWidth ) {
 			top = bottom = false;
@@ -97,6 +94,10 @@
 		if ( 955 > windowWidth ) {
 			return;
 		}
+
+		sidebarHeight = $sidebar.height();
+		windowHeight  = $window.height();
+		bodyHeight    = $body.height();
 
 		if ( sidebarHeight + adminbarOffset > windowHeight ) {
 			if ( windowPos > lastWindowPos ) {
