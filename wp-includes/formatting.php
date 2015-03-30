@@ -4212,7 +4212,7 @@ function wp_encode_emoji( $content ) {
 					 */
 					$unpacked = unpack( 'H*', mb_convert_encoding( $emoji, 'UTF-32', 'UTF-8' ) );
 					if ( isset( $unpacked[1] ) ) {
-						$entity = '&#x' . trim( $unpacked[1], '0' ) . ';';
+						$entity = '&#x' . ltrim( $unpacked[1], '0' ) . ';';
 						$content = str_replace( $emoji, $entity, $content );
 					}
 				}
