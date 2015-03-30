@@ -532,7 +532,7 @@ function customize_themes_print_templates() {
 			<div class="theme-actions">
 				<# if ( ! data.active ) { #>
 					<div class="inactive-theme">
-						<a href="<?php echo add_query_arg( 'theme', '{{ data.id }}', remove_query_arg( 'theme' ) ); ?>" target="_top" class="button button-primary"><?php _e( 'Live Preview' ); ?></a>
+						<a href="<?php echo add_query_arg( 'theme', '{{ data.id }}' ); ?>" target="_top" class="button button-primary"><?php _e( 'Live Preview' ); ?></a>
 					</div>
 				<# } #>
 			</div>
