@@ -603,7 +603,9 @@ $(document).ready(function(){
 					disableInInput: true,
 					type: 'keypress',
 					noDisable: '.check-column input[type="checkbox"]'
-				}
+				},
+				cycle_expr: '#the-comment-list tr',
+				start_row_index: 0
 			}
 		);
 	}
