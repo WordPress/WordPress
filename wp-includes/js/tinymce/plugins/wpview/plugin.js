@@ -173,6 +173,10 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 			return;
 		}
 
+		if ( selected ) {
+			removeView( selected );
+		}
+
 		if ( ! event.load ) {
 			node = editor.selection.getNode();
 
