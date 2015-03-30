@@ -1,7 +1,18 @@
 ( function( tinymce, wp, twemoji ) {
 	tinymce.PluginManager.add( 'wpemoji', function( editor ) {
-		var typing,
-			isMacWebKit = tinymce.Env.mac && tinymce.Env.webkit;
+		var typing, match,
+			env = tinymce.Env,
+			ua = window.navigator.userAgent,
+			isWin = ua.indexOf( 'Windows' ) > -1,
+			isWin8 = ( function() {
+				var match = ua.match( /Windows NT 6\.(\d)/ );
+
+				if ( match && match[1] > 1 ) {
+					return true;
+				}
+
+				return false;
+			}());
 
 		if ( ! wp || ! wp.emoji || ! wp.emoji.replaceEmoji ) {
 			return;
@@ -19,31 +30,51 @@
 			tinymce.each( editor.dom.$( 'img._inserted-emoji', node ), setImgAttr );
 		}
 
-		editor.on( 'keydown keyup', function( event ) {
-			typing = event.type === 'keydown';
-		} );
+		if ( isWin8 ) {
+			// Windows 8+ emoji can be "typed" with the onscreen keyboard.
+			// That triggers the normal keyboard events, but not the 'input' event.
+			// Thankfully it sets keyCode 231 when the onscreen keyboard inserts any emoji.
+			editor.on( 'keyup', function( event ) {
+				var node;
 
-		editor.on( 'input', function() {
-			if ( typing ) {
-				return;
-			}
+				if ( event.keyCode === 231 ) {
+					node = editor.selection.getNode();
 
-			var bookmark,
-				selection = editor.selection,
-				node = selection.getNode();
+					if ( twemoji.test( node.textContent || node.innerText ) ) {
+						replaceEmoji( node );
+					}
+				}
+			} );
+		} else if ( ! isWin ) {
+			// In MacOS inserting emoji doesn't trigger the stanradr keyboard events.
+			// Thankfully it triggers the 'input' event.
+			// This works in Android and iOS as well.
+			editor.on( 'keydown keyup', function( event ) {
+				typing = ( event.type === 'keydown' );
+			} );
 
-			if ( twemoji.test( node.textContent || node.innerText ) ) {
-				if ( isMacWebKit ) {
-					bookmark = selection.getBookmark();
+			editor.on( 'input', function( event ) {
+				if ( typing ) {
+					return;
 				}
 
-				replaceEmoji( node );
+				var bookmark,
+					selection = editor.selection,
+					node = selection.getNode();
 
-				if ( isMacWebKit ) {
-					selection.moveToBookmark( bookmark );
+				if ( twemoji.test( node.textContent || node.innerText ) ) {
+					if ( env.webkit ) {
+						bookmark = selection.getBookmark();
+					}
+
+					replaceEmoji( node );
+
+					if ( env.webkit ) {
+						selection.moveToBookmark( bookmark );
+					}
 				}
-			}
-		});
+			});
+		}
 
 		editor.on( 'setcontent', function( event ) {
 			var selection = editor.selection,
@@ -54,7 +85,7 @@
 
 				// In IE all content in the editor is left selected after wp.emoji.parse()...
 				// Collapse the selection to the beginning.
-				if ( tinymce.Env.ie && tinymce.Env.ie < 9 && event.load && node && node.nodeName === 'BODY' ) {
+				if ( env.ie && env.ie < 9 && event.load && node && node.nodeName === 'BODY' ) {
 					selection.collapse( true );
 				}
 			}
@@ -73,9 +104,7 @@
 
 		editor.on( 'postprocess', function( event ) {
 			if ( event.content ) {
-				event.content = event.content.replace( /<img[^>]+data-wp-emoji="([^"]+)"[^>]*>/g, function( match, emoji ) {
-					return emoji;
-				} );
+				event.content = event.content.replace( /<img[^>]+data-wp-emoji="([^"]+)"[^>]*>/g, '$1' );
 			}
 		} );
 
