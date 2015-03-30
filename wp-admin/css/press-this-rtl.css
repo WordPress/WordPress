@@ -854,7 +854,9 @@ input[type="search"].categories-search,
 
 .add-cat-toggle {
 	float: left;
-	margin-top: -33px;
+	margin-top: -45px;
+	line-height: 20px;
+	padding: 12px 10px 8px;
 }
 
 .add-cat-toggle:focus {
@@ -863,7 +865,7 @@ input[type="search"].categories-search,
 }
 
 .add-cat-toggle.is-toggled {
-	margin-top: -36px;
+	padding: 10px;
 }
 
 .add-cat-toggle.is-toggled .dashicons:before {
@@ -1185,34 +1187,32 @@ html {
 	vertical-align: middle;
 }
 
-.options-open,
-.options-close {
+.options,
+.options.open .on-closed,
+.options.closed .on-open {
 	display: none;
 }
 
 @media (max-width: 900px) {
-	.options-open,
-	.options-close {
+	.options {
 		display: block;
 	}
 }
 
-.options-open.is-hidden,
-.options-close.is-hidden,
 .options-panel-back.is-hidden {
 	display: none;
 }
 
-.options-open:focus .dashicons {
+.options:focus .dashicons {
 	color: #fff;
 	text-decoration: none;
 }
 
-.options-open .dashicons {
+.options .dashicons {
 	margin-top: 3px;
 }
 
-.options-close {
+.options {
 	color: #2ea2cc;
 }
 

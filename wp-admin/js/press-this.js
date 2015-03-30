@@ -488,11 +488,12 @@
 		function openSidebar() {
 			sidebarIsOpen = true;
 
-			$( '.options-open, .press-this-actions, #scanbar' ).addClass( isHidden );
-			$( '.options-close, .options-panel-back' ).removeClass( isHidden );
+			$( '.options' ).removeClass( 'closed' ).addClass( 'open' );
+			$( '.press-this-actions, #scanbar' ).addClass( isHidden );
+			$( '.options-panel-back' ).removeClass( isHidden );
 
 			$( '.options-panel' ).removeClass( offscreenHidden )
-				.one( 'transitionend', function() {
+				.one( transitionEndEvent, function() {
 					$( '.post-option:first' ).focus();
 				} );
 		}
@@ -500,11 +501,12 @@
 		function closeSidebar() {
 			sidebarIsOpen = false;
 
-			$( '.options-close, .options-panel-back' ).addClass( isHidden );
-			$( '.options-open, .press-this-actions, #scanbar' ).removeClass( isHidden );
+			$( '.options' ).removeClass( 'open' ).addClass( 'closed' );
+			$( '.options-panel-back' ).addClass( isHidden );
+			$( '.press-this-actions, #scanbar' ).removeClass( isHidden );
 
 			$( '.options-panel' ).addClass( isOffScreen )
-				.one( 'transitionend', function() {
+				.one( transitionEndEvent, function() {
 					$( this ).addClass( isHidden );
 					// Reset to options list
 					$( '.post-options' ).removeClass( offscreenHidden );
@@ -620,8 +622,13 @@
 			monitorPlaceholder();
 			monitorCatList();
 
-			$( '.options-open' ).on( 'click.press-this', openSidebar );
-			$( '.options-close' ).on( 'click.press-this', closeSidebar );
+			$( '.options' ).on( 'click.press-this', function() {
+				if ( $( this ).hasClass( 'open' ) ) {
+					closeSidebar();
+				} else {
+					openSidebar();
+				}
+			});
 
 			// Close the sidebar when focus moves outside of it.
 			$( '.options-panel, .options-panel-back' ).on( 'focusout.press-this', function() {
@@ -632,7 +639,7 @@
 					if ( sidebarIsOpen && node && ! $node.hasClass( 'options-panel-back' ) &&
 						( node.nodeName === 'BODY' ||
 							( ! $node.closest( '.options-panel' ).length &&
-							! $node.closest( '.options-open' ).length ) ) ) {
+							! $node.closest( '.options' ).length ) ) ) {
 
 						closeSidebar();
 					}

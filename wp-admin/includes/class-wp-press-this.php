@@ -1201,10 +1201,12 @@ class WP_Press_This {
 				<span class="current-site-name"><?php bloginfo( 'name' ); ?></span>
 			</a>
 		</h1>
-		<button type="button" class="options-open button-subtle">
-			<span class="dashicons dashicons-tag"></span><span class="screen-reader-text"><?php _e( 'Show post options' ); ?></span>
+		<button type="button" class="options button-subtle closed">
+			<span class="dashicons dashicons-tag on-closed"></span>
+			<span class="screen-reader-text on-closed"><?php _e( 'Show post options' ); ?></span>
+			<span aria-hidden="true" class="on-open"><?php _e( 'Done' ); ?></span>
+			<span class="screen-reader-text on-open"><?php _e( 'Hide post options' ); ?></span>
 		</button>
-		<button type="button" class="options-close button-subtle is-hidden"><?php _e( 'Done' ); ?></button>
 	</div>
 
 	<div id="scanbar" class="scan">
