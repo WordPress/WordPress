@@ -4275,7 +4275,7 @@ function wp_staticize_emoji( $text ) {
 						$chars = str_replace( array( '&#x', ';'), '', $flag );
 
 						list( $char1, $char2 ) = str_split( $chars, 5 );
-						$entity = '<img src="' . $cdn_url . $char1 . '-' . $char2 . $ext . '" class="wp-smiley" style="height: 1em; max-height: 1em;" />';
+						$entity = sprintf( '<img src="%s" alt="%s" class="wp-smiley" style="height: 1em; max-height: 1em;" />', $cdn_url . $char1 . '-' . $char2 . $ext, html_entity_decode( $flag ) );
 
 						$content = str_replace( $flag, $entity, $content );
 					}
@@ -4290,7 +4290,7 @@ function wp_staticize_emoji( $text ) {
 				if ( ! empty( $matches[1] ) ) {
 					foreach ( $matches[1] as $emoji ) {
 						$char = str_replace( array( '&#x', ';'), '', $emoji );
-						$entity = '<img src="' . $cdn_url . $char . $ext . '" class="wp-smiley" style="height: 1em; max-height: 1em;" />';
+						$entity = sprintf( '<img src="%s" alt="%s" class="wp-smiley" style="height: 1em; max-height: 1em;" />', $cdn_url . $char . $ext, html_entity_decode( $emoji ) );
 
 						$content = str_replace( $emoji, $entity, $content );
 					}
