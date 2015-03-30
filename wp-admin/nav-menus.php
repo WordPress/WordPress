@@ -778,7 +778,7 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 							</span><!-- END .delete-action -->
 							<?php endif; ?>
 							<div class="publishing-action">
-								<?php submit_button( empty( $nav_menu_selected_id ) ? __( 'Create Menu' ) : __( 'Save Menu' ), 'button-primary menu-save', 'save_menu', false, array( 'id' => 'save_menu_header' ) ); ?>
+								<?php submit_button( empty( $nav_menu_selected_id ) ? __( 'Create Menu' ) : __( 'Save Menu' ), 'button-primary menu-save', 'save_menu', false, array( 'id' => 'save_menu_footer' ) ); ?>
 							</div><!-- END .publishing-action -->
 						</div><!-- END .major-publishing-actions -->
 					</div><!-- /#nav-menu-footer -->
