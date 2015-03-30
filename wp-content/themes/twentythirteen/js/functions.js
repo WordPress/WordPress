@@ -57,7 +57,7 @@
 
 		// Fix sub-menus for touch devices.
 		if ( 'ontouchstart' in window ) {
-			menu.find( '.menu-item-has-children > a' ).on( 'touchstart.twentythirteen', function( e ) {
+			menu.find( '.menu-item-has-children > a, .page_item_has_children > a' ).on( 'touchstart.twentythirteen', function( e ) {
 				var el = $( this ).parent( 'li' );
 
 				if ( ! el.hasClass( 'focus' ) ) {
