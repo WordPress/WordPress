@@ -352,10 +352,10 @@ body #dashboard-widgets .postbox form .submit {
 }
 
 #dashboard_right_now #wp-version-message .button {
-	clear: left;
 	float: left;
 	position: relative;
 	top: -5px;
+	margin-right: 5px;
 }
 
 .mu-storage {
