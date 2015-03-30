@@ -136,8 +136,8 @@ class WP_Press_This {
 
 		$updated = wp_update_post( $post, true );
 
-		if ( is_wp_error( $updated ) || intval( $updated ) < 1 ) {
-			wp_send_json_error( array( 'errorMessage' => __( 'Error while saving the post. Please try again later.' ) ) );
+		if ( is_wp_error( $updated ) ) {
+			wp_send_json_error( array( 'errorMessage' => $updated->get_error_message() ) );
 		} else {
 			if ( isset( $post['post_format'] ) ) {
 				if ( current_theme_supports( 'post-formats', $post['post_format'] ) ) {
