@@ -1,6 +1,6 @@
 ( function( tinymce, wp, twemoji ) {
 	tinymce.PluginManager.add( 'wpemoji', function( editor ) {
-		var typing, match,
+		var typing,
 			env = tinymce.Env,
 			ua = window.navigator.userAgent,
 			isWin = ua.indexOf( 'Windows' ) > -1,
@@ -53,7 +53,7 @@
 				typing = ( event.type === 'keydown' );
 			} );
 
-			editor.on( 'input', function( event ) {
+			editor.on( 'input', function() {
 				if ( typing ) {
 					return;
 				}
