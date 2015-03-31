@@ -10,7 +10,7 @@
  * @augments wp.Backbone.View
  * @augments Backbone.View
  */
-var Select = require( './select.js' ),
+var Select = wp.media.view.Toolbar.Select,
 	l10n = wp.media.view.l10n,
 	Embed;
 

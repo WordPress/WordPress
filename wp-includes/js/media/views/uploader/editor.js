@@ -11,7 +11,7 @@
  * @augments wp.Backbone.View
  * @augments Backbone.View
  */
-var View = require( '../view.js' ),
+var View = wp.media.View,
 	l10n = wp.media.view.l10n,
 	$ = jQuery,
 	EditorUploader;

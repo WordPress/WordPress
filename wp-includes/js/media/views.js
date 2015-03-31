@@ -35,7 +35,7 @@
  * @param {string}                     attributes.collectionType         The collection type. (e.g. 'playlist').
  */
 var Selection = wp.media.model.Selection,
-	Library = require( './library.js' ),
+	Library = wp.media.controller.Library,
 	CollectionAdd;
 
 CollectionAdd = Library.extend({
@@ -101,7 +101,7 @@ CollectionAdd = Library.extend({
 
 module.exports = CollectionAdd;
 
-},{"./library.js":10}],2:[function(require,module,exports){
+},{}],2:[function(require,module,exports){
 /*globals wp, Backbone */
 
 /**
@@ -138,9 +138,7 @@ module.exports = CollectionAdd;
  * @param {string}                     attributes.type                   The collection's media type. (e.g. 'video').
  * @param {string}                     attributes.collectionType         The collection type. (e.g. 'playlist').
  */
-var Library = require( './library.js' ),
-	View = require( '../views/view.js' ),
-	EditLibraryView = require( '../views/attachment/edit-library.js' ),
+var Library = wp.media.controller.Library,
 	l10n = wp.media.view.l10n,
 	$ = jQuery,
 	CollectionEdit;
@@ -179,7 +177,7 @@ CollectionEdit = Library.extend({
 		}
 		// The single `Attachment` view to be used in the `Attachments` view.
 		if ( ! this.get('AttachmentView') ) {
-			this.set( 'AttachmentView', EditLibraryView );
+			this.set( 'AttachmentView', wp.media.view.Attachment.EditLibrary );
 		}
 		Library.prototype.initialize.apply( this, arguments );
 	},
@@ -245,7 +243,7 @@ CollectionEdit = Library.extend({
 		attachmentsBrowserView.sidebar.set( obj );
 
 		if ( dragInfoText ) {
-			attachmentsBrowserView.toolbar.set( 'dragInfo', new View({
+			attachmentsBrowserView.toolbar.set( 'dragInfo', new wp.media.View({
 				el: $( '<div class="instructions">' + dragInfoText + '</div>' )[0],
 				priority: -40
 			}) );
@@ -265,7 +263,7 @@ CollectionEdit = Library.extend({
 
 module.exports = CollectionEdit;
 
-},{"../views/attachment/edit-library.js":25,"../views/view.js":71,"./library.js":10}],3:[function(require,module,exports){
+},{}],3:[function(require,module,exports){
 /*globals wp, _, Backbone */
 
 /**
@@ -277,13 +275,10 @@ module.exports = CollectionEdit;
  * @augments wp.media.controller.State
  * @augments Backbone.Model
  */
-var State = require( './state.js' ),
-	ToolbarView = require( '../views/toolbar.js' ),
-	CropperView = require( '../views/cropper.js' ),
-	l10n = wp.media.view.l10n,
+var l10n = wp.media.view.l10n,
 	Cropper;
 
-Cropper = State.extend({
+Cropper = wp.media.controller.State.extend({
 	defaults: {
 		id:          'cropper',
 		title:       l10n.cropImage,
@@ -306,7 +301,7 @@ Cropper = State.extend({
 	},
 
 	createCropContent: function() {
-		this.cropperView = new CropperView({
+		this.cropperView = new wp.media.view.Cropper({
 			controller: this,
 			attachment: this.get('selection').first()
 		});
@@ -372,7 +367,7 @@ Cropper = State.extend({
 			});
 		}
 
-		this.frame.toolbar.set( new ToolbarView(toolbarOptions) );
+		this.frame.toolbar.set( new wp.media.view.Toolbar(toolbarOptions) );
 	},
 
 	doCrop: function( attachment ) {
@@ -386,7 +381,7 @@ Cropper = State.extend({
 
 module.exports = Cropper;
 
-},{"../views/cropper.js":34,"../views/toolbar.js":63,"./state.js":15}],4:[function(require,module,exports){
+},{}],4:[function(require,module,exports){
 /*globals wp */
 
 /**
@@ -407,12 +402,10 @@ module.exports = Cropper;
  * @param {string}                    [attributes.menu=false]         Initial mode for the menu region.
  * @param {string}                    [attributes.url]                Unused. @todo Consider removal.
  */
-var State = require( './state.js' ),
-	ToolbarView = require( '../views/toolbar.js' ),
-	l10n = wp.media.view.l10n,
+var l10n = wp.media.view.l10n,
 	EditImage;
 
-EditImage = State.extend({
+EditImage = wp.media.controller.State.extend({
 	defaults: {
 		id:      'edit-image',
 		title:   l10n.editImage,
@@ -444,7 +437,7 @@ EditImage = State.extend({
 			lastState = frame.lastState(),
 			previous = lastState && lastState.id;
 
-		frame.toolbar.set( new ToolbarView({
+		frame.toolbar.set( new wp.media.view.Toolbar({
 			controller: frame,
 			items: {
 				back: {
@@ -466,7 +459,7 @@ EditImage = State.extend({
 
 module.exports = EditImage;
 
-},{"../views/toolbar.js":63,"./state.js":15}],5:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 /*globals wp, _, Backbone */
 
 /**
@@ -490,12 +483,11 @@ module.exports = EditImage;
  * @param {string} [attributes.url]                   The embed URL.
  * @param {object} [attributes.metadata={}]           Properties of the embed, which will override attributes.url if set.
  */
-var State = require( './state.js' ),
-	l10n = wp.media.view.l10n,
+var l10n = wp.media.view.l10n,
 	$ = Backbone.$,
 	Embed;
 
-Embed = State.extend({
+Embed = wp.media.controller.State.extend({
 	defaults: {
 		id:       'embed',
 		title:    l10n.insertFromUrlTitle,
@@ -605,7 +597,7 @@ Embed = State.extend({
 
 module.exports = Embed;
 
-},{"./state.js":15}],6:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 /*globals wp, _ */
 
 /**
@@ -640,7 +632,7 @@ module.exports = Embed;
  * @param {boolean}                    [attributes.syncSelection=true]       Whether the Attachments selection should be persisted from the last state.
  */
 var Attachment = wp.media.model.Attachment,
-	Library = require( './library.js' ),
+	Library = wp.media.controller.Library,
 	l10n = wp.media.view.l10n,
 	FeaturedImage;
 
@@ -729,7 +721,7 @@ FeaturedImage = Library.extend({
 
 module.exports = FeaturedImage;
 
-},{"./library.js":10}],7:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 /*globals wp, _ */
 
 /**
@@ -764,7 +756,7 @@ module.exports = FeaturedImage;
  *                                                                          Defaults to false because for this state, because the library of the Edit Gallery state is the selection.
  */
 var Selection = wp.media.model.Selection,
-	Library = require( './library.js' ),
+	Library = wp.media.controller.Library,
 	l10n = wp.media.view.l10n,
 	GalleryAdd;
 
@@ -822,7 +814,7 @@ GalleryAdd = Library.extend({
 
 module.exports = GalleryAdd;
 
-},{"./library.js":10}],8:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 /*globals wp */
 
 /**
@@ -856,9 +848,7 @@ module.exports = GalleryAdd;
  * @param {view}                       [attributes.AttachmentView]        The single `Attachment` view to be used in the `Attachments`.
  *                                                                        If none supplied, defaults to wp.media.view.Attachment.EditLibrary.
  */
-var Library = require( './library.js' ),
-	EditLibraryView = require( '../views/attachment/edit-library.js' ),
-	GallerySettingsView = require( '../views/settings/gallery.js' ),
+var Library = wp.media.controller.Library,
 	l10n = wp.media.view.l10n,
 	GalleryEdit;
 
@@ -892,7 +882,7 @@ GalleryEdit = Library.extend({
 
 		// The single `Attachment` view to be used in the `Attachments` view.
 		if ( ! this.get('AttachmentView') ) {
-			this.set( 'AttachmentView', EditLibraryView );
+			this.set( 'AttachmentView', wp.media.view.Attachment.EditLibrary );
 		}
 
 		Library.prototype.initialize.apply( this, arguments );
@@ -946,7 +936,7 @@ GalleryEdit = Library.extend({
 		library.gallery = library.gallery || new Backbone.Model();
 
 		browser.sidebar.set({
-			gallery: new GallerySettingsView({
+			gallery: new wp.media.view.Settings.Gallery({
 				controller: this,
 				model:      library.gallery,
 				priority:   40
@@ -966,7 +956,7 @@ GalleryEdit = Library.extend({
 
 module.exports = GalleryEdit;
 
-},{"../views/attachment/edit-library.js":25,"../views/settings/gallery.js":59,"./library.js":10}],9:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 /*globals wp, _ */
 
 /**
@@ -993,8 +983,8 @@ module.exports = GalleryEdit;
  * @todo This state inherits some defaults from media.controller.Library.prototype.defaults,
  *       however this may not do anything.
  */
-var State = require( './state.js' ),
-	Library = require( './library.js' ),
+var State = wp.media.controller.State,
+	Library = wp.media.controller.Library,
 	l10n = wp.media.view.l10n,
 	ImageDetails;
 
@@ -1030,7 +1020,7 @@ ImageDetails = State.extend({
 
 module.exports = ImageDetails;
 
-},{"./library.js":10,"./state.js":15}],10:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 /*globals wp, _, Backbone */
 
 /**
@@ -1067,14 +1057,12 @@ module.exports = ImageDetails;
  * @param {boolean}                         [attributes.contentUserSetting=true] Whether the content region's mode should be set and persisted per user.
  * @param {boolean}                         [attributes.syncSelection=true]      Whether the Attachments selection should be persisted from the last state.
  */
-var selectionSync = require( '../utils/selection-sync.js' ),
-	State = require( './state.js' ),
-	l10n = wp.media.view.l10n,
+var l10n = wp.media.view.l10n,
 	getUserSetting = window.getUserSetting,
 	setUserSetting = window.setUserSetting,
 	Library;
 
-Library = State.extend({
+Library = wp.media.controller.State.extend({
 	defaults: {
 		id:                 'library',
 		title:              l10n.mediaLibraryTitle,
@@ -1302,11 +1290,11 @@ Library = State.extend({
 });
 
 // Make selectionSync available on any Media Library state.
-_.extend( Library.prototype, selectionSync );
+_.extend( Library.prototype, wp.media.selectionSync );
 
 module.exports = Library;
 
-},{"../utils/selection-sync.js":16,"./state.js":15}],11:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 /*globals wp, _ */
 
 /**
@@ -1317,7 +1305,7 @@ module.exports = Library;
  * @augments wp.media.controller.State
  * @augments Backbone.Model
  */
-var Library = require( './library.js' ),
+var Library = wp.media.controller.Library,
 	MediaLibrary;
 
 MediaLibrary = Library.extend({
@@ -1358,7 +1346,7 @@ MediaLibrary = Library.extend({
 
 module.exports = MediaLibrary;
 
-},{"./library.js":10}],12:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 /*globals Backbone, _ */
 
 /**
@@ -1573,7 +1561,7 @@ module.exports = Region;
  * @param {boolean}                    [attributes.contentUserSetting=true] Whether the content region's mode should be set and persisted per user.
  * @param {boolean}                    [attributes.syncSelection=true]      Whether the Attachments selection should be persisted from the last state.
  */
-var Library = require( './library.js' ),
+var Library = wp.media.controller.Library,
 	l10n = wp.media.view.l10n,
 	ReplaceImage;
 
@@ -1649,7 +1637,7 @@ ReplaceImage = Library.extend({
 
 module.exports = ReplaceImage;
 
-},{"./library.js":10}],14:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 /*globals _, Backbone */
 
 /**
@@ -2248,7 +2236,7 @@ media.view.Spinner = require( './views/spinner.js' );
  * @augments wp.Backbone.View
  * @augments Backbone.View
  */
-var View = require( './view.js' ),
+var View = wp.media.View,
 	AttachmentCompat;
 
 AttachmentCompat = View.extend({
@@ -2322,7 +2310,7 @@ AttachmentCompat = View.extend({
 
 module.exports = AttachmentCompat;
 
-},{"./view.js":71}],19:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 /*globals _, jQuery */
 
 /**
@@ -2333,11 +2321,10 @@ module.exports = AttachmentCompat;
  * @augments wp.Backbone.View
  * @augments Backbone.View
  */
-var View = require( './view.js' ),
-	$ = jQuery,
+var $ = jQuery,
 	AttachmentFilters;
 
-AttachmentFilters = View.extend({
+AttachmentFilters = wp.media.View.extend({
 	tagName:   'select',
 	className: 'attachment-filters',
 	id:        'media-attachment-filters',
@@ -2402,7 +2389,7 @@ AttachmentFilters = View.extend({
 
 module.exports = AttachmentFilters;
 
-},{"./view.js":71}],20:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 /*globals wp */
 
 /**
@@ -2414,11 +2401,10 @@ module.exports = AttachmentFilters;
  * @augments wp.Backbone.View
  * @augments Backbone.View
  */
-var AttachmentFilters = require( '../attachment-filters.js' ),
-	l10n = wp.media.view.l10n,
+var l10n = wp.media.view.l10n,
 	All;
 
-All = AttachmentFilters.extend({
+All = wp.media.view.AttachmentFilters.extend({
 	createFilters: function() {
 		var filters = {};
 
@@ -2495,7 +2481,7 @@ All = AttachmentFilters.extend({
 
 module.exports = All;
 
-},{"../attachment-filters.js":19}],21:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 /*globals wp, _ */
 
 /**
@@ -2507,11 +2493,10 @@ module.exports = All;
  * @augments wp.Backbone.View
  * @augments Backbone.View
  */
-var AttachmentFilters = require( '../attachment-filters.js' ),
-	l10n = wp.media.view.l10n,
+var l10n = wp.media.view.l10n,
 	DateFilter;
 
-DateFilter = AttachmentFilters.extend({
+DateFilter = wp.media.view.AttachmentFilters.extend({
 	id: 'media-attachment-date-filters',
 
 	createFilters: function() {
@@ -2539,7 +2524,7 @@ DateFilter = AttachmentFilters.extend({
 
 module.exports = DateFilter;
 
-},{"../attachment-filters.js":19}],22:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 /*globals wp */
 
 /**
@@ -2551,11 +2536,10 @@ module.exports = DateFilter;
  * @augments wp.Backbone.View
  * @augments Backbone.View
  */
-var AttachmentFilters = require( '../attachment-filters.js' ),
-	l10n = wp.media.view.l10n,
+var l10n = wp.media.view.l10n,
 	Uploaded;
 
-Uploaded = AttachmentFilters.extend({
+Uploaded = wp.media.view.AttachmentFilters.extend({
 	createFilters: function() {
 		var type = this.model.get('type'),
 			types = wp.media.view.settings.mimeTypes,
@@ -2601,7 +2585,7 @@ Uploaded = AttachmentFilters.extend({
 
 module.exports = Uploaded;
 
-},{"../attachment-filters.js":19}],23:[function(require,module,exports){
+},{}],23:[function(require,module,exports){
 /*globals wp, _, jQuery */
 
 /**
@@ -2612,7 +2596,7 @@ module.exports = Uploaded;
  * @augments wp.Backbone.View
  * @augments Backbone.View
  */
-var View = require( './view.js' ),
+var View = wp.media.View,
 	$ = jQuery,
 	Attachment;
 
@@ -3158,7 +3142,7 @@ _.each({
 
 module.exports = Attachment;
 
-},{"./view.js":71}],24:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 /*globals wp, _ */
 
 /**
@@ -3170,7 +3154,7 @@ module.exports = Attachment;
  * @augments wp.Backbone.View
  * @augments Backbone.View
  */
-var Attachment = require( '../attachment.js' ),
+var Attachment = wp.media.view.Attachment,
 	l10n = wp.media.view.l10n,
 	Details;
 
@@ -3315,7 +3299,9 @@ Details = Attachment.extend({
 
 module.exports = Details;
 
-},{"../attachment.js":23}],25:[function(require,module,exports){
+},{}],25:[function(require,module,exports){
+/*globals wp */
+
 /**
  * wp.media.view.Attachment.EditLibrary
  *
@@ -3325,10 +3311,7 @@ module.exports = Details;
  * @augments wp.Backbone.View
  * @augments Backbone.View
  */
-var Attachment = require( '../attachment.js' ),
-	EditLibrary;
-
-EditLibrary = Attachment.extend({
+var EditLibrary = wp.media.view.Attachment.extend({
 	buttons: {
 		close: true
 	}
@@ -3336,7 +3319,9 @@ EditLibrary = Attachment.extend({
 
 module.exports = EditLibrary;
 
-},{"../attachment.js":23}],26:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
+/*globals wp */
+
 /**
  * wp.media.view.Attachments.EditSelection
  *
@@ -3347,10 +3332,7 @@ module.exports = EditLibrary;
  * @augments wp.Backbone.View
  * @augments Backbone.View
  */
-var Selection = require( './selection.js' ),
-	EditSelection;
-
-EditSelection = Selection.extend({
+var EditSelection = wp.media.view.Attachment.Selection.extend({
 	buttons: {
 		close: true
 	}
@@ -3358,7 +3340,9 @@ EditSelection = Selection.extend({
 
 module.exports = EditSelection;
 
-},{"./selection.js":28}],27:[function(require,module,exports){
+},{}],27:[function(require,module,exports){
+/*globals wp */
+
 /**
  * wp.media.view.Attachment.Library
  *
@@ -3368,10 +3352,7 @@ module.exports = EditSelection;
  * @augments wp.Backbone.View
  * @augments Backbone.View
  */
-var Attachment = require( '../attachment.js' ),
-	Library;
-
-Library = Attachment.extend({
+var Library = wp.media.view.Attachment.extend({
 	buttons: {
 		check: true
 	}
@@ -3379,7 +3360,9 @@ Library = Attachment.extend({
 
 module.exports = Library;
 
-},{"../attachment.js":23}],28:[function(require,module,exports){
+},{}],28:[function(require,module,exports){
+/*globals wp */
+
 /**
  * wp.media.view.Attachment.Selection
  *
@@ -3389,10 +3372,7 @@ module.exports = Library;
  * @augments wp.Backbone.View
  * @augments Backbone.View
  */
-var Attachment = require( '../attachment.js' ),
-	Selection;
-
-Selection = Attachment.extend({
+var Selection = wp.media.view.Attachment.extend({
 	className: 'attachment selection',
 
 	// On click, just select the model, instead of removing the model from
@@ -3404,7 +3384,7 @@ Selection = Attachment.extend({
 
 module.exports = Selection;
 
-},{"../attachment.js":23}],29:[function(require,module,exports){
+},{}],29:[function(require,module,exports){
 /*globals wp, _, jQuery */
 
 /**
@@ -3415,8 +3395,7 @@ module.exports = Selection;
  * @augments wp.Backbone.View
  * @augments Backbone.View
  */
-var View = require( './view.js' ),
-	Attachment = require( './attachment.js' ),
+var View = wp.media.View,
 	$ = jQuery,
 	Attachments;
 
@@ -3434,7 +3413,7 @@ Attachments = View.extend({
 		_.defaults( this.options, {
 			refreshSensitivity: wp.media.isTouchDevice ? 300 : 200,
 			refreshThreshold:   3,
-			AttachmentView:     Attachment,
+			AttachmentView:     wp.media.view.Attachment,
 			sortable:           false,
 			resize:             true,
 			idealColumnWidth:   $( window ).width() < 640 ? 135 : 150
@@ -3706,7 +3685,7 @@ Attachments = View.extend({
 
 module.exports = Attachments;
 
-},{"./attachment.js":23,"./view.js":71}],30:[function(require,module,exports){
+},{}],30:[function(require,module,exports){
 /*globals wp, _, jQuery */
 
 /**
@@ -3729,22 +3708,7 @@ module.exports = Attachments;
  * @param {bool|string} [options.sidebar=true]  Whether to create a sidebar for the browser.
  *                                              Accepts true, false, and 'errors'.
  */
-var View = require( '../view.js' ),
-	Library = require( '../attachment/library.js' ),
-	Toolbar = require( '../toolbar.js' ),
-	Spinner = require( '../spinner.js' ),
-	Search = require( '../search.js' ),
-	Label = require( '../label.js' ),
-	Uploaded = require( '../attachment-filters/uploaded.js' ),
-	All = require( '../attachment-filters/all.js' ),
-	DateFilter = require( '../attachment-filters/date.js' ),
-	UploaderInline = require( '../uploader/inline.js' ),
-	Attachments = require( '../attachments.js' ),
-	Sidebar = require( '../sidebar.js' ),
-	UploaderStatus = require( '../uploader/status.js' ),
-	Details = require( '../attachment/details.js' ),
-	AttachmentCompat = require( '../attachment-compat.js' ),
-	AttachmentDisplay = require( '../settings/attachment-display.js' ),
+var View = wp.media.View,
 	mediaTrash = wp.media.view.settings.mediaTrash,
 	l10n = wp.media.view.l10n,
 	$ = jQuery,
@@ -3761,7 +3725,7 @@ AttachmentsBrowser = View.extend({
 			date:    true,
 			display: false,
 			sidebar: true,
-			AttachmentView: Library
+			AttachmentView: wp.media.view.Attachment.Library
 		});
 
 		this.listenTo( this.controller, 'toggle:upload:attachment', _.bind( this.toggleUploader, this ) );
@@ -3812,18 +3776,18 @@ AttachmentsBrowser = View.extend({
 		/**
 		* @member {wp.media.view.Toolbar}
 		*/
-		this.toolbar = new Toolbar( toolbarOptions );
+		this.toolbar = new wp.media.view.Toolbar( toolbarOptions );
 
 		this.views.add( this.toolbar );
 
-		this.toolbar.set( 'spinner', new Spinner({
+		this.toolbar.set( 'spinner', new wp.media.view.Spinner({
 			priority: -60
 		}) );
 
 		if ( -1 !== $.inArray( this.options.filters, [ 'uploaded', 'all' ] ) ) {
 			// "Filters" will return a <select>, need to render
 			// screen reader text before
-			this.toolbar.set( 'filtersLabel', new Label({
+			this.toolbar.set( 'filtersLabel', new wp.media.view.Label({
 				value: l10n.filterByType,
 				attributes: {
 					'for':  'media-attachment-filters'
@@ -3832,13 +3796,13 @@ AttachmentsBrowser = View.extend({
 			}).render() );
 
 			if ( 'uploaded' === this.options.filters ) {
-				this.toolbar.set( 'filters', new Uploaded({
+				this.toolbar.set( 'filters', new wp.media.view.AttachmentFilters.Uploaded({
 					controller: this.controller,
 					model:      this.collection.props,
 					priority:   -80
 				}).render() );
 			} else {
-				Filters = new All({
+				Filters = new wp.media.view.AttachmentFilters.All({
 					controller: this.controller,
 					model:      this.collection.props,
 					priority:   -80
@@ -3863,14 +3827,14 @@ AttachmentsBrowser = View.extend({
 			}).render() );
 
 			// DateFilter is a <select>, screen reader text needs to be rendered before
-			this.toolbar.set( 'dateFilterLabel', new Label({
+			this.toolbar.set( 'dateFilterLabel', new wp.media.view.Label({
 				value: l10n.filterByDate,
 				attributes: {
 					'for': 'media-attachment-date-filters'
 				},
 				priority: -75
 			}).render() );
-			this.toolbar.set( 'dateFilter', new DateFilter({
+			this.toolbar.set( 'dateFilter', new wp.media.view.DateFilter({
 				controller: this.controller,
 				model:      this.collection.props,
 				priority: -75
@@ -3974,14 +3938,14 @@ AttachmentsBrowser = View.extend({
 
 		} else if ( this.options.date ) {
 			// DateFilter is a <select>, screen reader text needs to be rendered before
-			this.toolbar.set( 'dateFilterLabel', new Label({
+			this.toolbar.set( 'dateFilterLabel', new wp.media.view.Label({
 				value: l10n.filterByDate,
 				attributes: {
 					'for': 'media-attachment-date-filters'
 				},
 				priority: -75
 			}).render() );
-			this.toolbar.set( 'dateFilter', new DateFilter({
+			this.toolbar.set( 'dateFilter', new wp.media.view.DateFilter({
 				controller: this.controller,
 				model:      this.collection.props,
 				priority: -75
@@ -3990,14 +3954,14 @@ AttachmentsBrowser = View.extend({
 
 		if ( this.options.search ) {
 			// Search is an input, screen reader text needs to be rendered before
-			this.toolbar.set( 'searchLabel', new Label({
+			this.toolbar.set( 'searchLabel', new wp.media.view.Label({
 				value: l10n.searchMediaLabel,
 				attributes: {
 					'for': 'media-search-input'
 				},
 				priority:   60
 			}).render() );
-			this.toolbar.set( 'search', new Search({
+			this.toolbar.set( 'search', new wp.media.view.Search({
 				controller: this.controller,
 				model:      this.collection.props,
 				priority:   60
@@ -4046,7 +4010,7 @@ AttachmentsBrowser = View.extend({
 	},
 
 	createUploader: function() {
-		this.uploader = new UploaderInline({
+		this.uploader = new wp.media.view.UploaderInline({
 			controller: this.controller,
 			status:     false,
 			message:    this.controller.isModeActive( 'grid' ) ? '' : l10n.noItemsFound,
@@ -4066,7 +4030,7 @@ AttachmentsBrowser = View.extend({
 	},
 
 	createAttachments: function() {
-		this.attachments = new Attachments({
+		this.attachments = new wp.media.view.Attachments({
 			controller:           this.controller,
 			collection:           this.collection,
 			selection:            this.options.selection,
@@ -4102,14 +4066,14 @@ AttachmentsBrowser = View.extend({
 	createSidebar: function() {
 		var options = this.options,
 			selection = options.selection,
-			sidebar = this.sidebar = new Sidebar({
+			sidebar = this.sidebar = new wp.media.view.Sidebar({
 				controller: this.controller
 			});
 
 		this.views.add( sidebar );
 
 		if ( this.controller.uploader ) {
-			sidebar.set( 'uploads', new UploaderStatus({
+			sidebar.set( 'uploads', new wp.media.view.UploaderStatus({
 				controller: this.controller,
 				priority:   40
 			}) );
@@ -4127,20 +4091,20 @@ AttachmentsBrowser = View.extend({
 		var sidebar = this.sidebar,
 			single = this.options.selection.single();
 
-		sidebar.set( 'details', new Details({
+		sidebar.set( 'details', new wp.media.view.Attachment.Details({
 			controller: this.controller,
 			model:      single,
 			priority:   80
 		}) );
 
-		sidebar.set( 'compat', new AttachmentCompat({
+		sidebar.set( 'compat', new wp.media.view.AttachmentCompat({
 			controller: this.controller,
 			model:      single,
 			priority:   120
 		}) );
 
 		if ( this.options.display ) {
-			sidebar.set( 'display', new AttachmentDisplay({
+			sidebar.set( 'display', new wp.media.view.Settings.AttachmentDisplay({
 				controller:   this.controller,
 				model:        this.model.display( single ),
 				attachment:   single,
@@ -4167,8 +4131,8 @@ AttachmentsBrowser = View.extend({
 
 module.exports = AttachmentsBrowser;
 
-},{"../attachment-compat.js":18,"../attachment-filters/all.js":20,"../attachment-filters/date.js":21,"../attachment-filters/uploaded.js":22,"../attachment/details.js":24,"../attachment/library.js":27,"../attachments.js":29,"../label.js":47,"../search.js":55,"../settings/attachment-display.js":58,"../sidebar.js":61,"../spinner.js":62,"../toolbar.js":63,"../uploader/inline.js":67,"../uploader/status.js":69,"../view.js":71}],31:[function(require,module,exports){
-/*globals _ */
+},{}],31:[function(require,module,exports){
+/*globals wp, _ */
 
 /**
  * wp.media.view.Attachments.Selection
@@ -4179,8 +4143,7 @@ module.exports = AttachmentsBrowser;
  * @augments wp.Backbone.View
  * @augments Backbone.View
  */
-var Attachments = require( '../attachments.js' ),
-	AttachmentSelection = require( '../attachment/selection.js' ),
+var Attachments = wp.media.view.Attachments,
 	Selection;
 
 Selection = Attachments.extend({
@@ -4191,7 +4154,7 @@ Selection = Attachments.extend({
 			resize:     false,
 
 			// The single `Attachment` view to be used in the `Attachments` view.
-			AttachmentView: AttachmentSelection
+			AttachmentView: wp.media.view.Attachment.Selection
 		});
 		// Call 'initialize' directly on the parent class.
 		return Attachments.prototype.initialize.apply( this, arguments );
@@ -4200,7 +4163,7 @@ Selection = Attachments.extend({
 
 module.exports = Selection;
 
-},{"../attachment/selection.js":28,"../attachments.js":29}],32:[function(require,module,exports){
+},{}],32:[function(require,module,exports){
 /*globals _, Backbone */
 
 /**
@@ -4211,12 +4174,10 @@ module.exports = Selection;
  * @augments wp.Backbone.View
  * @augments Backbone.View
  */
-var View = require( './view.js' ),
-	Button = require( './button.js' ),
-	$ = Backbone.$,
+var $ = Backbone.$,
 	ButtonGroup;
 
-ButtonGroup = View.extend({
+ButtonGroup = wp.media.View.extend({
 	tagName:   'div',
 	className: 'button-group button-large media-button-group',
 
@@ -4228,7 +4189,7 @@ ButtonGroup = View.extend({
 			if ( button instanceof Backbone.View ) {
 				return button;
 			} else {
-				return new Button( button ).render();
+				return new wp.media.view.Button( button ).render();
 			}
 		});
 
@@ -4250,7 +4211,7 @@ ButtonGroup = View.extend({
 
 module.exports = ButtonGroup;
 
-},{"./button.js":33,"./view.js":71}],33:[function(require,module,exports){
+},{}],33:[function(require,module,exports){
 /*globals _, Backbone */
 
 /**
@@ -4261,10 +4222,7 @@ module.exports = ButtonGroup;
  * @augments wp.Backbone.View
  * @augments Backbone.View
  */
-var View = require( './view.js' ),
-	Button;
-
-Button = View.extend({
+var Button = wp.media.View.extend({
 	tagName:    'a',
 	className:  'media-button',
 	attributes: { href: '#' },
@@ -4341,7 +4299,7 @@ Button = View.extend({
 
 module.exports = Button;
 
-},{"./view.js":71}],34:[function(require,module,exports){
+},{}],34:[function(require,module,exports){
 /*globals wp, _, jQuery */
 
 /**
@@ -4358,9 +4316,8 @@ module.exports = Button;
  * @augments wp.Backbone.View
  * @augments Backbone.View
  */
-var View = require( './view.js' ),
-	UploaderStatusError = require( './uploader/status-error.js' ),
-	UploaderStatus = require( './uploader/status.js' ),
+var View = wp.media.View,
+	UploaderStatus = wp.media.view.UploaderStatus,
 	l10n = wp.media.view.l10n,
 	$ = jQuery,
 	Cropper;
@@ -4402,7 +4359,7 @@ Cropper = View.extend({
 	onError: function() {
 		var filename = this.options.attachment.get('filename');
 
-		this.views.add( '.upload-errors', new UploaderStatusError({
+		this.views.add( '.upload-errors', new wp.media.view.UploaderStatusError({
 			filename: UploaderStatus.prototype.filename(filename),
 			message: window._wpMediaViewsL10n.cropError
 		}), { at: 0 });
@@ -4411,7 +4368,7 @@ Cropper = View.extend({
 
 module.exports = Cropper;
 
-},{"./uploader/status-error.js":68,"./uploader/status.js":69,"./view.js":71}],35:[function(require,module,exports){
+},{}],35:[function(require,module,exports){
 /*globals wp, _ */
 
 /**
@@ -4422,7 +4379,7 @@ module.exports = Cropper;
  * @augments wp.Backbone.View
  * @augments Backbone.View
  */
-var View = require( './view.js' ),
+var View = wp.media.View,
 	EditImage;
 
 EditImage = View.extend({
@@ -4469,7 +4426,7 @@ EditImage = View.extend({
 
 module.exports = EditImage;
 
-},{"./view.js":71}],36:[function(require,module,exports){
+},{}],36:[function(require,module,exports){
 /**
  * wp.media.view.Embed
  *
@@ -4478,20 +4435,14 @@ module.exports = EditImage;
  * @augments wp.Backbone.View
  * @augments Backbone.View
  */
-var View = require( './view.js' ),
-	EmbedImage = require( './embed/image.js' ),
-	EmbedLink = require( './embed/link.js' ),
-	EmbedUrl = require( './embed/url.js' ),
-	Embed;
-
-Embed = View.extend({
+var Embed = wp.media.View.extend({
 	className: 'media-embed',
 
 	initialize: function() {
 		/**
 		 * @member {wp.media.view.EmbedUrl}
 		 */
-		this.url = new EmbedUrl({
+		this.url = new wp.media.view.EmbedUrl({
 			controller: this.controller,
 			model:      this.model.props
 		}).render();
@@ -4518,9 +4469,9 @@ Embed = View.extend({
 			constructor;
 
 		if ( 'image' === type ) {
-			constructor = EmbedImage;
+			constructor = wp.media.view.EmbedImage;
 		} else if ( 'link' === type ) {
-			constructor = EmbedLink;
+			constructor = wp.media.view.EmbedLink;
 		} else {
 			return;
 		}
@@ -4539,7 +4490,7 @@ Embed = View.extend({
 
 module.exports = Embed;
 
-},{"./embed/image.js":37,"./embed/link.js":38,"./embed/url.js":39,"./view.js":71}],37:[function(require,module,exports){
+},{}],37:[function(require,module,exports){
 /*globals wp */
 
 /**
@@ -4552,7 +4503,7 @@ module.exports = Embed;
  * @augments wp.Backbone.View
  * @augments Backbone.View
  */
-var AttachmentDisplay = require( '../settings/attachment-display.js' ),
+var AttachmentDisplay = wp.media.view.Settings.AttachmentDisplay,
 	EmbedImage;
 
 EmbedImage = AttachmentDisplay.extend({
@@ -4574,7 +4525,7 @@ EmbedImage = AttachmentDisplay.extend({
 
 module.exports = EmbedImage;
 
-},{"../settings/attachment-display.js":58}],38:[function(require,module,exports){
+},{}],38:[function(require,module,exports){
 /*globals wp, _, jQuery */
 
 /**
@@ -4586,11 +4537,10 @@ module.exports = EmbedImage;
  * @augments wp.Backbone.View
  * @augments Backbone.View
  */
-var Settings = require( '../settings.js' ),
-	$ = jQuery,
+var $ = jQuery,
 	EmbedLink;
 
-EmbedLink = Settings.extend({
+EmbedLink = wp.media.view.Settings.extend({
 	className: 'embed-link-settings',
 	template:  wp.template('embed-link-settings'),
 
@@ -4681,7 +4631,7 @@ EmbedLink = Settings.extend({
 
 module.exports = EmbedLink;
 
-},{"../settings.js":57}],39:[function(require,module,exports){
+},{}],39:[function(require,module,exports){
 /*globals wp, _, jQuery */
 
 /**
@@ -4692,7 +4642,7 @@ module.exports = EmbedLink;
  * @augments wp.Backbone.View
  * @augments Backbone.View
  */
-var View = require( '../view.js' ),
+var View = wp.media.View,
 	$ = jQuery,
 	EmbedUrl;
 
@@ -4762,7 +4712,7 @@ EmbedUrl = View.extend({
 
 module.exports = EmbedUrl;
 
-},{"../view.js":71}],40:[function(require,module,exports){
+},{}],40:[function(require,module,exports){
 /**
  * wp.media.view.FocusManager
  *
@@ -4771,10 +4721,7 @@ module.exports = EmbedUrl;
  * @augments wp.Backbone.View
  * @augments Backbone.View
  */
-var View = require( './view.js' ),
-	FocusManager;
-
-FocusManager = View.extend({
+var FocusManager = wp.media.View.extend({
 
 	events: {
 		'keydown': 'constrainTabbing'
@@ -4811,7 +4758,7 @@ FocusManager = View.extend({
 
 module.exports = FocusManager;
 
-},{"./view.js":71}],41:[function(require,module,exports){
+},{}],41:[function(require,module,exports){
 /*globals _, Backbone */
 
 /**
@@ -4829,13 +4776,7 @@ module.exports = FocusManager;
  * @augments Backbone.View
  * @mixes wp.media.controller.StateMachine
  */
-var StateMachine = require( '../controllers/state-machine.js' ),
-	State = require( '../controllers/state.js' ),
-	Region = require( '../controllers/region.js' ),
-	View = require( './view.js' ),
-	Frame;
-
-Frame = View.extend({
+var Frame = wp.media.View.extend({
 	initialize: function() {
 		_.defaults( this.options, {
 			mode: [ 'select' ]
@@ -4851,7 +4792,7 @@ Frame = View.extend({
 
 		// Initialize regions.
 		_.each( this.regions, function( region ) {
-			this[ region ] = new Region({
+			this[ region ] = new wp.media.controller.Region({
 				view:     this,
 				id:       region,
 				selector: '.media-frame-' + region
@@ -4869,7 +4810,7 @@ Frame = View.extend({
 	_createStates: function() {
 		// Create the default `states` collection.
 		this.states = new Backbone.Collection( null, {
-			model: State
+			model: wp.media.controller.State
 		});
 
 		// Ensure states have a reference to the frame.
@@ -4981,11 +4922,11 @@ Frame = View.extend({
 });
 
 // Make the `Frame` a `StateMachine`.
-_.extend( Frame.prototype, StateMachine.prototype );
+_.extend( Frame.prototype, wp.media.controller.StateMachine.prototype );
 
 module.exports = Frame;
 
-},{"../controllers/region.js":12,"../controllers/state-machine.js":14,"../controllers/state.js":15,"./view.js":71}],42:[function(require,module,exports){
+},{}],42:[function(require,module,exports){
 /*globals wp */
 
 /**
@@ -5003,13 +4944,7 @@ module.exports = Frame;
  * @augments Backbone.View
  * @mixes wp.media.controller.StateMachine
  */
-var Select = require( './select.js' ),
-	Toolbar = require( '../toolbar.js' ),
-	ImageDetailsController = require( '../../controllers/image-details.js' ),
-	ReplaceImageController = require( '../../controllers/replace-image.js' ),
-	EditImageController = require( '../../controllers/edit-image.js' ),
-	ImageDetailsView = require( '../image-details.js' ),
-	EditImageView = require( '../edit-image.js' ),
+var Select = wp.media.view.MediaFrame.Select,
 	l10n = wp.media.view.l10n,
 	ImageDetails;
 
@@ -5043,11 +4978,11 @@ ImageDetails = Select.extend({
 
 	createStates: function() {
 		this.states.add([
-			new ImageDetailsController({
+			new wp.media.controller.ImageDetails({
 				image: this.image,
 				editable: false
 			}),
-			new ReplaceImageController({
+			new wp.media.controller.ReplaceImage({
 				id: 'replace-image',
 				library: wp.media.query( { type: 'image' } ),
 				image: this.image,
@@ -5057,7 +4992,7 @@ ImageDetails = Select.extend({
 				priority:  80,
 				displaySettings: true
 			}),
-			new EditImageController( {
+			new wp.media.controller.EditImage( {
 				image: this.image,
 				selection: this.options.selection
 			} )
@@ -5065,7 +5000,7 @@ ImageDetails = Select.extend({
 	},
 
 	imageDetailsContent: function( options ) {
-		options.view = new ImageDetailsView({
+		options.view = new wp.media.view.ImageDetails({
 			controller: this,
 			model: this.state().image,
 			attachment: this.state().image.attachment
@@ -5081,7 +5016,7 @@ ImageDetails = Select.extend({
 			return;
 		}
 
-		view = new EditImageView( { model: model, controller: this } ).render();
+		view = new wp.media.view.EditImage( { model: model, controller: this } ).render();
 
 		this.content.set( view );
 
@@ -5091,7 +5026,7 @@ ImageDetails = Select.extend({
 	},
 
 	renderImageDetailsToolbar: function() {
-		this.toolbar.set( new Toolbar({
+		this.toolbar.set( new wp.media.view.Toolbar({
 			controller: this,
 			items: {
 				select: {
@@ -5123,7 +5058,7 @@ ImageDetails = Select.extend({
 			lastState = frame.lastState(),
 			previous = lastState && lastState.id;
 
-		this.toolbar.set( new Toolbar({
+		this.toolbar.set( new wp.media.view.Toolbar({
 			controller: this,
 			items: {
 				back: {
@@ -5170,7 +5105,7 @@ ImageDetails = Select.extend({
 
 module.exports = ImageDetails;
 
-},{"../../controllers/edit-image.js":4,"../../controllers/image-details.js":9,"../../controllers/replace-image.js":13,"../edit-image.js":35,"../image-details.js":46,"../toolbar.js":63,"./select.js":44}],43:[function(require,module,exports){
+},{}],43:[function(require,module,exports){
 /*globals wp, _ */
 
 /**
@@ -5187,24 +5122,8 @@ module.exports = ImageDetails;
  * @augments Backbone.View
  * @mixes wp.media.controller.StateMachine
  */
-var View = require( '../view.js' ),
-	Select = require( './select.js' ),
-	Library = require( '../../controllers/library.js' ),
-	Embed = require( '../embed.js' ),
-	EditImage = require( '../edit-image.js' ),
-	EditSelection = require( '../attachment/edit-selection.js' ),
-	Toolbar = require( '../toolbar.js' ),
-	ToolbarEmbed = require( '../toolbar/embed.js' ),
-	PlaylistSettings = require( '../settings/playlist.js' ),
-	AttachmentsBrowser = require( '../attachments/browser.js' ),
-	SelectionView = require( '../selection.js' ),
-	EmbedController = require( '../../controllers/embed.js' ),
-	EditImageController = require( '../../controllers/edit-image.js' ),
-	GalleryEditController = require( '../../controllers/gallery-edit.js' ),
-	GalleryAddController = require( '../../controllers/gallery-add.js' ),
-	CollectionEditController = require( '../../controllers/collection-edit.js' ),
-	CollectionAddController = require( '../../controllers/collection-add.js' ),
-	FeaturedImageController = require( '../../controllers/featured-image.js' ),
+var Select = wp.media.view.MediaFrame.Select,
+	Library = wp.media.controller.Library,
 	l10n = wp.media.view.l10n,
 	Post;
 
@@ -5278,18 +5197,18 @@ Post = Select.extend({
 			}),
 
 			// Embed states.
-			new EmbedController( { metadata: options.metadata } ),
+			new wp.media.controller.Embed( { metadata: options.metadata } ),
 
-			new EditImageController( { model: options.editImage } ),
+			new wp.media.controller.EditImage( { model: options.editImage } ),
 
 			// Gallery states.
-			new GalleryEditController({
+			new wp.media.controller.GalleryEdit({
 				library: options.selection,
 				editing: options.editing,
 				menu:    'gallery'
 			}),
 
-			new GalleryAddController(),
+			new wp.media.controller.GalleryAdd(),
 
 			new Library({
 				id:         'playlist',
@@ -5306,11 +5225,11 @@ Post = Select.extend({
 			}),
 
 			// Playlist states.
-			new CollectionEditController({
+			new wp.media.controller.CollectionEdit({
 				type: 'audio',
 				collectionType: 'playlist',
 				title:          l10n.editPlaylistTitle,
-				SettingsView:   PlaylistSettings,
+				SettingsView:   wp.media.view.Settings.Playlist,
 				library:        options.selection,
 				editing:        options.editing,
 				menu:           'playlist',
@@ -5318,7 +5237,7 @@ Post = Select.extend({
 				dragInfo:       false
 			}),
 
-			new CollectionAddController({
+			new wp.media.controller.CollectionAdd({
 				type: 'audio',
 				collectionType: 'playlist',
 				title: l10n.addToPlaylistTitle
@@ -5338,11 +5257,11 @@ Post = Select.extend({
 				}, options.library ) )
 			}),
 
-			new CollectionEditController({
+			new wp.media.controller.CollectionEdit({
 				type: 'video',
 				collectionType: 'playlist',
 				title:          l10n.editVideoPlaylistTitle,
-				SettingsView:   PlaylistSettings,
+				SettingsView:   wp.media.view.Settings.Playlist,
 				library:        options.selection,
 				editing:        options.editing,
 				menu:           'video-playlist',
@@ -5350,7 +5269,7 @@ Post = Select.extend({
 				dragInfo:       false
 			}),
 
-			new CollectionAddController({
+			new wp.media.controller.CollectionAdd({
 				type: 'video',
 				collectionType: 'playlist',
 				title: l10n.addToVideoPlaylistTitle
@@ -5358,7 +5277,7 @@ Post = Select.extend({
 		]);
 
 		if ( wp.media.view.settings.post.featuredImageId ) {
-			this.states.add( new FeaturedImageController() );
+			this.states.add( new wp.media.controller.FeaturedImage() );
 		}
 	},
 
@@ -5445,7 +5364,7 @@ Post = Select.extend({
 	 */
 	mainMenu: function( view ) {
 		view.set({
-			'library-separator': new View({
+			'library-separator': new wp.media.View({
 				className: 'separator',
 				priority: 100
 			})
@@ -5484,7 +5403,7 @@ Post = Select.extend({
 					this.controller.modal.focusManager.focus();
 				}
 			},
-			separateCancel: new View({
+			separateCancel: new wp.media.View({
 				className: 'separator',
 				priority: 40
 			})
@@ -5508,7 +5427,7 @@ Post = Select.extend({
 					}
 				}
 			},
-			separateCancel: new View({
+			separateCancel: new wp.media.View({
 				className: 'separator',
 				priority: 40
 			})
@@ -5532,7 +5451,7 @@ Post = Select.extend({
 					}
 				}
 			},
-			separateCancel: new View({
+			separateCancel: new wp.media.View({
 				className: 'separator',
 				priority: 40
 			})
@@ -5541,7 +5460,7 @@ Post = Select.extend({
 
 	// Content
 	embedContent: function() {
-		var view = new Embed({
+		var view = new wp.media.view.Embed({
 			controller: this,
 			model:      this.state()
 		}).render();
@@ -5558,7 +5477,7 @@ Post = Select.extend({
 			selection = state.get('selection'),
 			view;
 
-		view = new AttachmentsBrowser({
+		view = new wp.media.view.AttachmentsBrowser({
 			controller: this,
 			collection: selection,
 			selection:  selection,
@@ -5568,7 +5487,7 @@ Post = Select.extend({
 			date:       false,
 			dragInfo:   true,
 
-			AttachmentView: EditSelection
+			AttachmentView: wp.media.view.Attachments.EditSelection
 		}).render();
 
 		view.toolbar.set( 'backToLibrary', {
@@ -5589,7 +5508,7 @@ Post = Select.extend({
 
 	editImageContent: function() {
 		var image = this.state().get('image'),
-			view = new EditImage( { model: image, controller: this } ).render();
+			view = new wp.media.view.EditImage( { model: image, controller: this } ).render();
 
 		this.content.set( view );
 
@@ -5606,7 +5525,7 @@ Post = Select.extend({
 	selectionStatusToolbar: function( view ) {
 		var editable = this.state().get('editable');
 
-		view.set( 'selection', new SelectionView({
+		view.set( 'selection', new wp.media.view.Selection({
 			controller: this,
 			collection: this.state().get('selection'),
 			priority:   -40,
@@ -5747,14 +5666,14 @@ Post = Select.extend({
 	},
 
 	mainEmbedToolbar: function( toolbar ) {
-		toolbar.view = new ToolbarEmbed({
+		toolbar.view = new wp.media.view.Toolbar.Embed({
 			controller: this
 		});
 	},
 
 	galleryEditToolbar: function() {
 		var editing = this.state().get('editing');
-		this.toolbar.set( new Toolbar({
+		this.toolbar.set( new wp.media.view.Toolbar({
 			controller: this,
 			items: {
 				insert: {
@@ -5783,7 +5702,7 @@ Post = Select.extend({
 	},
 
 	galleryAddToolbar: function() {
-		this.toolbar.set( new Toolbar({
+		this.toolbar.set( new wp.media.view.Toolbar({
 			controller: this,
 			items: {
 				insert: {
@@ -5811,7 +5730,7 @@ Post = Select.extend({
 
 	playlistEditToolbar: function() {
 		var editing = this.state().get('editing');
-		this.toolbar.set( new Toolbar({
+		this.toolbar.set( new wp.media.view.Toolbar({
 			controller: this,
 			items: {
 				insert: {
@@ -5840,7 +5759,7 @@ Post = Select.extend({
 	},
 
 	playlistAddToolbar: function() {
-		this.toolbar.set( new Toolbar({
+		this.toolbar.set( new wp.media.view.Toolbar({
 			controller: this,
 			items: {
 				insert: {
@@ -5868,7 +5787,7 @@ Post = Select.extend({
 
 	videoPlaylistEditToolbar: function() {
 		var editing = this.state().get('editing');
-		this.toolbar.set( new Toolbar({
+		this.toolbar.set( new wp.media.view.Toolbar({
 			controller: this,
 			items: {
 				insert: {
@@ -5897,7 +5816,7 @@ Post = Select.extend({
 	},
 
 	videoPlaylistAddToolbar: function() {
-		this.toolbar.set( new Toolbar({
+		this.toolbar.set( new wp.media.view.Toolbar({
 			controller: this,
 			items: {
 				insert: {
@@ -5923,7 +5842,7 @@ Post = Select.extend({
 
 module.exports = Post;
 
-},{"../../controllers/collection-add.js":1,"../../controllers/collection-edit.js":2,"../../controllers/edit-image.js":4,"../../controllers/embed.js":5,"../../controllers/featured-image.js":6,"../../controllers/gallery-add.js":7,"../../controllers/gallery-edit.js":8,"../../controllers/library.js":10,"../attachment/edit-selection.js":26,"../attachments/browser.js":30,"../edit-image.js":35,"../embed.js":36,"../selection.js":56,"../settings/playlist.js":60,"../toolbar.js":63,"../toolbar/embed.js":64,"../view.js":71,"./select.js":44}],44:[function(require,module,exports){
+},{}],44:[function(require,module,exports){
 /*globals wp, _ */
 
 /**
@@ -5940,11 +5859,7 @@ module.exports = Post;
  * @mixes wp.media.controller.StateMachine
  */
 
-var MediaFrame = require( '../media-frame.js' ),
-	Library = require( '../../controllers/library.js' ),
-	AttachmentsBrowser = require( '../attachments/browser.js' ),
-	UploaderInline = require( '../uploader/inline.js' ),
-	ToolbarSelect = require( '../toolbar/select.js' ),
+var MediaFrame = wp.media.view.MediaFrame,
 	l10n = wp.media.view.l10n,
 	Select;
 
@@ -6002,7 +5917,7 @@ Select = MediaFrame.extend({
 		// Add the default states.
 		this.states.add([
 			// Main states.
-			new Library({
+			new wp.media.controller.Library({
 				library:   wp.media.query( options.library ),
 				multiple:  options.multiple,
 				title:     options.title,
@@ -6053,7 +5968,7 @@ Select = MediaFrame.extend({
 		this.$el.removeClass('hide-toolbar');
 
 		// Browse our library of attachments.
-		contentRegion.view = new AttachmentsBrowser({
+		contentRegion.view = new wp.media.view.AttachmentsBrowser({
 			controller: this,
 			collection: state.get('library'),
 			selection:  state.get('selection'),
@@ -6077,7 +5992,7 @@ Select = MediaFrame.extend({
 	 */
 	uploadContent: function() {
 		this.$el.removeClass( 'hide-toolbar' );
-		this.content.set( new UploaderInline({
+		this.content.set( new wp.media.view.UploaderInline({
 			controller: this
 		}) );
 	},
@@ -6093,13 +6008,13 @@ Select = MediaFrame.extend({
 		options = options || this.options.button || {};
 		options.controller = this;
 
-		toolbar.view = new ToolbarSelect( options );
+		toolbar.view = new wp.media.view.Toolbar.Select( options );
 	}
 });
 
 module.exports = Select;
 
-},{"../../controllers/library.js":10,"../attachments/browser.js":30,"../media-frame.js":48,"../toolbar/select.js":65,"../uploader/inline.js":67}],45:[function(require,module,exports){
+},{}],45:[function(require,module,exports){
 /**
  * wp.media.view.Iframe
  *
@@ -6108,10 +6023,7 @@ module.exports = Select;
  * @augments wp.Backbone.View
  * @augments Backbone.View
  */
-var View = require( './view.js' ),
-	Iframe;
-
-Iframe = View.extend({
+var Iframe = wp.media.View.extend({
 	className: 'media-iframe',
 	/**
 	 * @returns {wp.media.view.Iframe} Returns itself to allow chaining
@@ -6126,7 +6038,7 @@ Iframe = View.extend({
 
 module.exports = Iframe;
 
-},{"./view.js":71}],46:[function(require,module,exports){
+},{}],46:[function(require,module,exports){
 /*globals wp, _, jQuery */
 
 /**
@@ -6139,7 +6051,7 @@ module.exports = Iframe;
  * @augments wp.Backbone.View
  * @augments Backbone.View
  */
-var AttachmentDisplay = require( './settings/attachment-display.js' ),
+var AttachmentDisplay = wp.media.view.Settings.AttachmentDisplay,
 	$ = jQuery,
 	ImageDetails;
 
@@ -6296,7 +6208,7 @@ ImageDetails = AttachmentDisplay.extend({
 
 module.exports = ImageDetails;
 
-},{"./settings/attachment-display.js":58}],47:[function(require,module,exports){
+},{}],47:[function(require,module,exports){
 /**
  * wp.media.view.Label
  *
@@ -6305,10 +6217,7 @@ module.exports = ImageDetails;
  * @augments wp.Backbone.View
  * @augments Backbone.View
  */
-var View = require( './view.js' ),
-	Label;
-
-Label = View.extend({
+var Label = wp.media.View.extend({
 	tagName: 'label',
 	className: 'screen-reader-text',
 
@@ -6325,7 +6234,7 @@ Label = View.extend({
 
 module.exports = Label;
 
-},{"./view.js":71}],48:[function(require,module,exports){
+},{}],48:[function(require,module,exports){
 /*globals wp, _, jQuery */
 
 /**
@@ -6340,14 +6249,7 @@ module.exports = Label;
  * @augments Backbone.View
  * @mixes wp.media.controller.StateMachine
  */
-var View = require( './view.js' ),
-	Frame = require( './frame.js' ),
-	Modal = require( './modal.js' ),
-	UploaderWindow = require( './uploader/window.js' ),
-	Menu = require( './menu.js' ),
-	Toolbar = require( './toolbar.js' ),
-	Router = require( './router.js' ),
-	Iframe = require( './iframe.js' ),
+var Frame = wp.media.view.Frame,
 	$ = jQuery,
 	MediaFrame;
 
@@ -6377,7 +6279,7 @@ MediaFrame = Frame.extend({
 
 		// Initialize modal container view.
 		if ( this.options.modal ) {
-			this.modal = new Modal({
+			this.modal = new wp.media.view.Modal({
 				controller: this,
 				title:      this.options.title
 			});
@@ -6393,7 +6295,7 @@ MediaFrame = Frame.extend({
 
 		// Initialize window-wide uploader.
 		if ( this.options.uploader ) {
-			this.uploader = new UploaderWindow({
+			this.uploader = new wp.media.view.UploaderWindow({
 				controller: this,
 				uploader: {
 					dropzone:  this.modal ? this.modal.$el : this.$el,
@@ -6434,7 +6336,7 @@ MediaFrame = Frame.extend({
 	 * @this wp.media.controller.Region
 	 */
 	createTitle: function( title ) {
-		title.view = new View({
+		title.view = new wp.media.View({
 			controller: this,
 			tagName: 'h1'
 		});
@@ -6444,7 +6346,7 @@ MediaFrame = Frame.extend({
 	 * @this wp.media.controller.Region
 	 */
 	createMenu: function( menu ) {
-		menu.view = new Menu({
+		menu.view = new wp.media.view.Menu({
 			controller: this
 		});
 	},
@@ -6458,7 +6360,7 @@ MediaFrame = Frame.extend({
 	 * @this wp.media.controller.Region
 	 */
 	createToolbar: function( toolbar ) {
-		toolbar.view = new Toolbar({
+		toolbar.view = new wp.media.view.Toolbar({
 			controller: this
 		});
 	},
@@ -6467,7 +6369,7 @@ MediaFrame = Frame.extend({
 	 * @this wp.media.controller.Region
 	 */
 	createRouter: function( router ) {
-		router.view = new Router({
+		router.view = new wp.media.view.Router({
 			controller: this
 		});
 	},
@@ -6514,7 +6416,7 @@ MediaFrame = Frame.extend({
 	 */
 	iframeContent: function( content ) {
 		this.$el.addClass('hide-toolbar');
-		content.view = new Iframe({
+		content.view = new wp.media.view.Iframe({
 			controller: this
 		});
 	},
@@ -6581,7 +6483,7 @@ _.each(['open','close','attach','detach','escape'], function( method ) {
 
 module.exports = MediaFrame;
 
-},{"./frame.js":41,"./iframe.js":45,"./menu.js":50,"./modal.js":51,"./router.js":54,"./toolbar.js":63,"./uploader/window.js":70,"./view.js":71}],49:[function(require,module,exports){
+},{}],49:[function(require,module,exports){
 /*globals jQuery */
 
 /**
@@ -6592,11 +6494,10 @@ module.exports = MediaFrame;
  * @augments wp.Backbone.View
  * @augments Backbone.View
  */
-var View = require( './view.js' ),
-	$ = jQuery,
+var $ = jQuery,
 	MenuItem;
 
-MenuItem = View.extend({
+MenuItem = wp.media.View.extend({
 	tagName:   'a',
 	className: 'media-menu-item',
 
@@ -6656,7 +6557,7 @@ MenuItem = View.extend({
 
 module.exports = MenuItem;
 
-},{"./view.js":71}],50:[function(require,module,exports){
+},{}],50:[function(require,module,exports){
 /**
  * wp.media.view.Menu
  *
@@ -6666,8 +6567,8 @@ module.exports = MenuItem;
  * @augments wp.Backbone.View
  * @augments Backbone.View
  */
-var MenuItem = require( './menu-item.js' ),
-	PriorityList = require( './priority-list.js' ),
+var MenuItem = wp.media.view.MenuItem,
+	PriorityList = wp.media.view.PriorityList,
 	Menu;
 
 Menu = PriorityList.extend({
@@ -6773,7 +6674,7 @@ Menu = PriorityList.extend({
 
 module.exports = Menu;
 
-},{"./menu-item.js":49,"./priority-list.js":52}],51:[function(require,module,exports){
+},{}],51:[function(require,module,exports){
 /*globals wp, _, jQuery */
 
 /**
@@ -6786,12 +6687,10 @@ module.exports = Menu;
  * @augments wp.Backbone.View
  * @augments Backbone.View
  */
-var View = require( './view.js' ),
-	FocusManager = require( './focus-manager.js' ),
-	$ = jQuery,
+var $ = jQuery,
 	Modal;
 
-Modal = View.extend({
+Modal = wp.media.View.extend({
 	tagName:  'div',
 	template: wp.template('media-modal'),
 
@@ -6812,7 +6711,7 @@ Modal = View.extend({
 			freeze:    true
 		});
 
-		this.focusManager = new FocusManager({
+		this.focusManager = new wp.media.view.FocusManager({
 			el: this.el
 		});
 	},
@@ -6990,7 +6889,7 @@ Modal = View.extend({
 
 module.exports = Modal;
 
-},{"./focus-manager.js":40,"./view.js":71}],52:[function(require,module,exports){
+},{}],52:[function(require,module,exports){
 /*globals _, Backbone */
 
 /**
@@ -7001,10 +6900,7 @@ module.exports = Modal;
  * @augments wp.Backbone.View
  * @augments Backbone.View
  */
-var View = require( './view.js' ),
-	PriorityList;
-
-PriorityList = View.extend({
+var PriorityList = wp.media.View.extend({
 	tagName:   'div',
 
 	initialize: function() {
@@ -7086,13 +6982,13 @@ PriorityList = View.extend({
 	 * @returns {wp.media.View}
 	 */
 	toView: function( options ) {
-		return new View( options );
+		return new wp.media.View( options );
 	}
 });
 
 module.exports = PriorityList;
 
-},{"./view.js":71}],53:[function(require,module,exports){
+},{}],53:[function(require,module,exports){
 /**
  * wp.media.view.RouterItem
  *
@@ -7102,10 +6998,7 @@ module.exports = PriorityList;
  * @augments wp.Backbone.View
  * @augments Backbone.View
  */
-var MenuItem = require( './menu-item.js' ),
-	RouterItem;
-
-RouterItem = MenuItem.extend({
+var RouterItem = wp.media.view.MenuItem.extend({
 	/**
 	 * On click handler to activate the content region's corresponding mode.
 	 */
@@ -7119,7 +7012,9 @@ RouterItem = MenuItem.extend({
 
 module.exports = RouterItem;
 
-},{"./menu-item.js":49}],54:[function(require,module,exports){
+},{}],54:[function(require,module,exports){
+/*globals wp */
+
 /**
  * wp.media.view.Router
  *
@@ -7130,15 +7025,14 @@ module.exports = RouterItem;
  * @augments wp.Backbone.View
  * @augments Backbone.View
  */
-var Menu = require( './menu.js' ),
-	RouterItem = require( './router-item.js' ),
+var Menu = wp.media.view.Menu,
 	Router;
 
 Router = Menu.extend({
 	tagName:   'div',
 	className: 'media-router',
 	property:  'contentMode',
-	ItemView:  RouterItem,
+	ItemView:  wp.media.view.RouterItem,
 	region:    'router',
 
 	initialize: function() {
@@ -7157,7 +7051,7 @@ Router = Menu.extend({
 
 module.exports = Router;
 
-},{"./menu.js":50,"./router-item.js":53}],55:[function(require,module,exports){
+},{}],55:[function(require,module,exports){
 /*globals wp */
 
 /**
@@ -7168,11 +7062,10 @@ module.exports = Router;
  * @augments wp.Backbone.View
  * @augments Backbone.View
  */
-var View = require( './view.js' ),
-	l10n = wp.media.view.l10n,
+var l10n = wp.media.view.l10n,
 	Search;
 
-Search = View.extend({
+Search = wp.media.View.extend({
 	tagName:   'input',
 	className: 'search',
 	id:        'media-search-input',
@@ -7208,7 +7101,7 @@ Search = View.extend({
 
 module.exports = Search;
 
-},{"./view.js":71}],56:[function(require,module,exports){
+},{}],56:[function(require,module,exports){
 /*globals wp, _, Backbone */
 
 /**
@@ -7219,12 +7112,10 @@ module.exports = Search;
  * @augments wp.Backbone.View
  * @augments Backbone.View
  */
-var View = require( './view.js' ),
-	AttachmentsSelection = require( './attachments/selection.js' ),
-	l10n = wp.media.view.l10n,
+var l10n = wp.media.view.l10n,
 	Selection;
 
-Selection = View.extend({
+Selection = wp.media.View.extend({
 	tagName:   'div',
 	className: 'media-selection',
 	template:  wp.template('media-selection'),
@@ -7243,7 +7134,7 @@ Selection = View.extend({
 		/**
 		 * @member {wp.media.view.Attachments.Selection}
 		 */
-		this.attachments = new AttachmentsSelection({
+		this.attachments = new wp.media.view.Attachments.Selection({
 			controller: this.controller,
 			collection: this.collection,
 			selection:  this.collection,
@@ -7295,7 +7186,7 @@ Selection = View.extend({
 
 module.exports = Selection;
 
-},{"./attachments/selection.js":31,"./view.js":71}],57:[function(require,module,exports){
+},{}],57:[function(require,module,exports){
 /*globals _, Backbone */
 
 /**
@@ -7306,7 +7197,7 @@ module.exports = Selection;
  * @augments wp.Backbone.View
  * @augments Backbone.View
  */
-var View = require( './view.js' ),
+var View = wp.media.View,
 	$ = Backbone.$,
 	Settings;
 
@@ -7418,7 +7309,7 @@ Settings = View.extend({
 
 module.exports = Settings;
 
-},{"./view.js":71}],58:[function(require,module,exports){
+},{}],58:[function(require,module,exports){
 /*globals wp, _ */
 
 /**
@@ -7430,7 +7321,7 @@ module.exports = Settings;
  * @augments wp.Backbone.View
  * @augments Backbone.View
  */
-var Settings = require( '../settings.js' ),
+var Settings = wp.media.view.Settings,
 	AttachmentDisplay;
 
 AttachmentDisplay = Settings.extend({
@@ -7514,7 +7405,7 @@ AttachmentDisplay = Settings.extend({
 
 module.exports = AttachmentDisplay;
 
-},{"../settings.js":57}],59:[function(require,module,exports){
+},{}],59:[function(require,module,exports){
 /*globals wp */
 
 /**
@@ -7526,17 +7417,14 @@ module.exports = AttachmentDisplay;
  * @augments wp.Backbone.View
  * @augments Backbone.View
  */
-var Settings = require( '../settings.js' ),
-	Gallery;
-
-Gallery = Settings.extend({
+var Gallery = wp.media.view.Settings.extend({
 	className: 'collection-settings gallery-settings',
 	template:  wp.template('gallery-settings')
 });
 
 module.exports = Gallery;
 
-},{"../settings.js":57}],60:[function(require,module,exports){
+},{}],60:[function(require,module,exports){
 /*globals wp */
 
 /**
@@ -7548,17 +7436,14 @@ module.exports = Gallery;
  * @augments wp.Backbone.View
  * @augments Backbone.View
  */
-var Settings = require( '../settings.js' ),
-	Playlist;
-
-Playlist = Settings.extend({
+var Playlist = wp.media.view.Settings.extend({
 	className: 'collection-settings playlist-settings',
 	template:  wp.template('playlist-settings')
 });
 
 module.exports = Playlist;
 
-},{"../settings.js":57}],61:[function(require,module,exports){
+},{}],61:[function(require,module,exports){
 /**
  * wp.media.view.Sidebar
  *
@@ -7568,16 +7453,13 @@ module.exports = Playlist;
  * @augments wp.Backbone.View
  * @augments Backbone.View
  */
-var PriorityList = require( './priority-list.js' ),
-	Sidebar;
-
-Sidebar = PriorityList.extend({
+var Sidebar = wp.media.view.PriorityList.extend({
 	className: 'media-sidebar'
 });
 
 module.exports = Sidebar;
 
-},{"./priority-list.js":52}],62:[function(require,module,exports){
+},{}],62:[function(require,module,exports){
 /*globals _ */
 
 /**
@@ -7588,10 +7470,7 @@ module.exports = Sidebar;
  * @augments wp.Backbone.View
  * @augments Backbone.View
  */
-var View = require( './view.js' ),
-	Spinner;
-
-Spinner = View.extend({
+var Spinner = wp.media.View.extend({
 	tagName:   'span',
 	className: 'spinner',
 	spinnerTimeout: false,
@@ -7617,7 +7496,7 @@ Spinner = View.extend({
 
 module.exports = Spinner;
 
-},{"./view.js":71}],63:[function(require,module,exports){
+},{}],63:[function(require,module,exports){
 /*globals _, Backbone */
 
 /**
@@ -7631,9 +7510,7 @@ module.exports = Spinner;
  * @augments wp.Backbone.View
  * @augments Backbone.View
  */
-var View = require( './view.js' ),
-	Button = require( './button.js' ),
-	PriorityList = require( './priority-list.js' ),
+var View = wp.media.View,
 	Toolbar;
 
 Toolbar = View.extend({
@@ -7648,8 +7525,8 @@ Toolbar = View.extend({
 		this._views = {};
 
 		// The toolbar is composed of two `PriorityList` views.
-		this.primary   = new PriorityList();
-		this.secondary = new PriorityList();
+		this.primary   = new wp.media.view.PriorityList();
+		this.secondary = new wp.media.view.PriorityList();
 		this.primary.$el.addClass('media-toolbar-primary search-form');
 		this.secondary.$el.addClass('media-toolbar-secondary');
 
@@ -7711,7 +7588,7 @@ Toolbar = View.extend({
 		} else {
 			if ( ! ( view instanceof Backbone.View ) ) {
 				view.classes = [ 'media-button-' + id ].concat( view.classes || [] );
-				view = new Button( view ).render();
+				view = new wp.media.view.Button( view ).render();
 			}
 
 			view.controller = view.controller || this.controller;
@@ -7781,7 +7658,7 @@ Toolbar = View.extend({
 
 module.exports = Toolbar;
 
-},{"./button.js":33,"./priority-list.js":52,"./view.js":71}],64:[function(require,module,exports){
+},{}],64:[function(require,module,exports){
 /*globals wp, _ */
 
 /**
@@ -7794,7 +7671,7 @@ module.exports = Toolbar;
  * @augments wp.Backbone.View
  * @augments Backbone.View
  */
-var Select = require( './select.js' ),
+var Select = wp.media.view.Toolbar.Select,
 	l10n = wp.media.view.l10n,
 	Embed;
 
@@ -7820,7 +7697,7 @@ Embed = Select.extend({
 
 module.exports = Embed;
 
-},{"./select.js":65}],65:[function(require,module,exports){
+},{}],65:[function(require,module,exports){
 /*globals wp, _ */
 
 /**
@@ -7832,7 +7709,7 @@ module.exports = Embed;
  * @augments wp.Backbone.View
  * @augments Backbone.View
  */
-var Toolbar = require( '../toolbar.js' ),
+var Toolbar = wp.media.view.Toolbar,
 	l10n = wp.media.view.l10n,
 	Select;
 
@@ -7892,7 +7769,7 @@ Select = Toolbar.extend({
 
 module.exports = Select;
 
-},{"../toolbar.js":63}],66:[function(require,module,exports){
+},{}],66:[function(require,module,exports){
 /*globals wp, _, jQuery */
 
 /**
@@ -7906,7 +7783,7 @@ module.exports = Select;
  * @augments wp.Backbone.View
  * @augments Backbone.View
  */
-var View = require( '../view.js' ),
+var View = wp.media.View,
 	l10n = wp.media.view.l10n,
 	$ = jQuery,
 	EditorUploader;
@@ -8113,7 +7990,7 @@ EditorUploader = View.extend({
 
 module.exports = EditorUploader;
 
-},{"../view.js":71}],67:[function(require,module,exports){
+},{}],67:[function(require,module,exports){
 /*globals wp, _ */
 
 /**
@@ -8126,8 +8003,7 @@ module.exports = EditorUploader;
  * @augments wp.Backbone.View
  * @augments Backbone.View
  */
-var View = require( '../view.js' ),
-	UploaderStatus = require( './status.js' ),
+var View = wp.media.View,
 	UploaderInline;
 
 UploaderInline = View.extend({
@@ -8155,7 +8031,7 @@ UploaderInline = View.extend({
 		}
 
 		if ( this.options.status ) {
-			this.views.set( '.upload-inline-status', new UploaderStatus({
+			this.views.set( '.upload-inline-status', new wp.media.view.UploaderStatus({
 				controller: this.controller
 			}) );
 		}
@@ -8247,7 +8123,7 @@ UploaderInline = View.extend({
 
 module.exports = UploaderInline;
 
-},{"../view.js":71,"./status.js":69}],68:[function(require,module,exports){
+},{}],68:[function(require,module,exports){
 /*globals wp */
 
 /**
@@ -8258,17 +8134,14 @@ module.exports = UploaderInline;
  * @augments wp.Backbone.View
  * @augments Backbone.View
  */
-var View = require( '../view.js' ),
-	UploaderStatusError;
-
-UploaderStatusError = View.extend({
+var UploaderStatusError = wp.media.View.extend({
 	className: 'upload-error',
 	template:  wp.template('uploader-status-error')
 });
 
 module.exports = UploaderStatusError;
 
-},{"../view.js":71}],69:[function(require,module,exports){
+},{}],69:[function(require,module,exports){
 /*globals wp, _ */
 
 /**
@@ -8281,8 +8154,7 @@ module.exports = UploaderStatusError;
  * @augments wp.Backbone.View
  * @augments Backbone.View
  */
-var View = require( '../view.js' ),
-	UploaderStatusError = require( './status-error.js' ),
+var View = wp.media.View,
 	UploaderStatus;
 
 UploaderStatus = View.extend({
@@ -8384,7 +8256,7 @@ UploaderStatus = View.extend({
 	 * @param {Backbone.Model} error
 	 */
 	error: function( error ) {
-		this.views.add( '.upload-errors', new UploaderStatusError({
+		this.views.add( '.upload-errors', new wp.media.view.UploaderStatusError({
 			filename: this.filename( error.get('file').name ),
 			message:  error.get('message')
 		}), { at: 0 });
@@ -8409,7 +8281,7 @@ UploaderStatus = View.extend({
 
 module.exports = UploaderStatus;
 
-},{"../view.js":71,"./status-error.js":68}],70:[function(require,module,exports){
+},{}],70:[function(require,module,exports){
 /*globals wp, _, jQuery */
 
 /**
@@ -8428,11 +8300,10 @@ module.exports = UploaderStatus;
  * @param {jQuery} [options.uploader.dropzone] jQuery collection of the dropzone.
  * @param {object} [options.uploader.params]
  */
-var View = require( '../view.js' ),
-	$ = jQuery,
+var $ = jQuery,
 	UploaderWindow;
 
-UploaderWindow = View.extend({
+UploaderWindow = wp.media.View.extend({
 	tagName:   'div',
 	className: 'uploader-window',
 	template:  wp.template('uploader-window'),
@@ -8523,7 +8394,7 @@ UploaderWindow = View.extend({
 
 module.exports = UploaderWindow;
 
-},{"../view.js":71}],71:[function(require,module,exports){
+},{}],71:[function(require,module,exports){
 /*globals wp */
 
 /**

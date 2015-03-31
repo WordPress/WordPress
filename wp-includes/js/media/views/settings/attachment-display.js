@@ -9,7 +9,7 @@
  * @augments wp.Backbone.View
  * @augments Backbone.View
  */
-var Settings = require( '../settings.js' ),
+var Settings = wp.media.view.Settings,
 	AttachmentDisplay;
 
 AttachmentDisplay = Settings.extend({

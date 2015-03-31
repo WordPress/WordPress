@@ -9,7 +9,7 @@
  * @augments wp.Backbone.View
  * @augments Backbone.View
  */
-var Toolbar = require( '../toolbar.js' ),
+var Toolbar = wp.media.view.Toolbar,
 	l10n = wp.media.view.l10n,
 	Select;
 

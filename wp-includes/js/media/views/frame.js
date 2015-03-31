@@ -15,13 +15,7 @@
  * @augments Backbone.View
  * @mixes wp.media.controller.StateMachine
  */
-var StateMachine = require( '../controllers/state-machine.js' ),
-	State = require( '../controllers/state.js' ),
-	Region = require( '../controllers/region.js' ),
-	View = require( './view.js' ),
-	Frame;
-
-Frame = View.extend({
+var Frame = wp.media.View.extend({
 	initialize: function() {
 		_.defaults( this.options, {
 			mode: [ 'select' ]
@@ -37,7 +31,7 @@ Frame = View.extend({
 
 		// Initialize regions.
 		_.each( this.regions, function( region ) {
-			this[ region ] = new Region({
+			this[ region ] = new wp.media.controller.Region({
 				view:     this,
 				id:       region,
 				selector: '.media-frame-' + region
@@ -55,7 +49,7 @@ Frame = View.extend({
 	_createStates: function() {
 		// Create the default `states` collection.
 		this.states = new Backbone.Collection( null, {
-			model: State
+			model: wp.media.controller.State
 		});
 
 		// Ensure states have a reference to the frame.
@@ -167,6 +161,6 @@ Frame = View.extend({
 });
 
 // Make the `Frame` a `StateMachine`.
-_.extend( Frame.prototype, StateMachine.prototype );
+_.extend( Frame.prototype, wp.media.controller.StateMachine.prototype );
 
 module.exports = Frame;

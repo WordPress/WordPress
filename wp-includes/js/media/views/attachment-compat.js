@@ -10,7 +10,7 @@
  * @augments wp.Backbone.View
  * @augments Backbone.View
  */
-var View = require( './view.js' ),
+var View = wp.media.View,
 	AttachmentCompat;
 
 AttachmentCompat = View.extend({

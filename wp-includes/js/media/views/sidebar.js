@@ -7,10 +7,7 @@
  * @augments wp.Backbone.View
  * @augments Backbone.View
  */
-var PriorityList = require( './priority-list.js' ),
-	Sidebar;
-
-Sidebar = PriorityList.extend({
+var Sidebar = wp.media.view.PriorityList.extend({
 	className: 'media-sidebar'
 });
 

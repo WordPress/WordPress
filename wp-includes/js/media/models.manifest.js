@@ -57,8 +57,8 @@ l10n = media.model.l10n = window._wpMediaModelsL10n || {};
 media.model.settings = l10n.settings || {};
 delete l10n.settings;
 
-Attachments = media.model.Attachments = require( './models/attachments.js' );
 Attachment = media.model.Attachment = require( './models/attachment.js' );
+Attachments = media.model.Attachments = require( './models/attachments.js' );
 
 media.model.Query = require( './models/query.js' );
 media.model.PostImage = require( './models/post-image.js' );

@@ -14,11 +14,7 @@
  * @mixes wp.media.controller.StateMachine
  */
 
-var MediaFrame = require( '../media-frame.js' ),
-	Library = require( '../../controllers/library.js' ),
-	AttachmentsBrowser = require( '../attachments/browser.js' ),
-	UploaderInline = require( '../uploader/inline.js' ),
-	ToolbarSelect = require( '../toolbar/select.js' ),
+var MediaFrame = wp.media.view.MediaFrame,
 	l10n = wp.media.view.l10n,
 	Select;
 
@@ -76,7 +72,7 @@ Select = MediaFrame.extend({
 		// Add the default states.
 		this.states.add([
 			// Main states.
-			new Library({
+			new wp.media.controller.Library({
 				library:   wp.media.query( options.library ),
 				multiple:  options.multiple,
 				title:     options.title,
@@ -127,7 +123,7 @@ Select = MediaFrame.extend({
 		this.$el.removeClass('hide-toolbar');
 
 		// Browse our library of attachments.
-		contentRegion.view = new AttachmentsBrowser({
+		contentRegion.view = new wp.media.view.AttachmentsBrowser({
 			controller: this,
 			collection: state.get('library'),
 			selection:  state.get('selection'),
@@ -151,7 +147,7 @@ Select = MediaFrame.extend({
 	 */
 	uploadContent: function() {
 		this.$el.removeClass( 'hide-toolbar' );
-		this.content.set( new UploaderInline({
+		this.content.set( new wp.media.view.UploaderInline({
 			controller: this
 		}) );
 	},
@@ -167,7 +163,7 @@ Select = MediaFrame.extend({
 		options = options || this.options.button || {};
 		options.controller = this;
 
-		toolbar.view = new ToolbarSelect( options );
+		toolbar.view = new wp.media.view.Toolbar.Select( options );
 	}
 });
 

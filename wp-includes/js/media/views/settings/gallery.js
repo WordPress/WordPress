@@ -9,10 +9,7 @@
  * @augments wp.Backbone.View
  * @augments Backbone.View
  */
-var Settings = require( '../settings.js' ),
-	Gallery;
-
-Gallery = Settings.extend({
+var Gallery = wp.media.view.Settings.extend({
 	className: 'collection-settings gallery-settings',
 	template:  wp.template('gallery-settings')
 });

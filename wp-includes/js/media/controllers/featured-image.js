@@ -32,7 +32,7 @@
  * @param {boolean}                    [attributes.syncSelection=true]       Whether the Attachments selection should be persisted from the last state.
  */
 var Attachment = wp.media.model.Attachment,
-	Library = require( './library.js' ),
+	Library = wp.media.controller.Library,
 	l10n = wp.media.view.l10n,
 	FeaturedImage;
 

@@ -34,14 +34,12 @@
  * @param {boolean}                         [attributes.contentUserSetting=true] Whether the content region's mode should be set and persisted per user.
  * @param {boolean}                         [attributes.syncSelection=true]      Whether the Attachments selection should be persisted from the last state.
  */
-var selectionSync = require( '../utils/selection-sync.js' ),
-	State = require( './state.js' ),
-	l10n = wp.media.view.l10n,
+var l10n = wp.media.view.l10n,
 	getUserSetting = window.getUserSetting,
 	setUserSetting = window.setUserSetting,
 	Library;
 
-Library = State.extend({
+Library = wp.media.controller.State.extend({
 	defaults: {
 		id:                 'library',
 		title:              l10n.mediaLibraryTitle,
@@ -269,6 +267,6 @@ Library = State.extend({
 });
 
 // Make selectionSync available on any Media Library state.
-_.extend( Library.prototype, selectionSync );
+_.extend( Library.prototype, wp.media.selectionSync );
 
 module.exports = Library;

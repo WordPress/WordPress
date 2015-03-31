@@ -9,7 +9,7 @@
  * @augments wp.Backbone.View
  * @augments Backbone.View
  */
-var Attachment = require( '../attachment.js' ),
+var Attachment = wp.media.view.Attachment,
 	l10n = wp.media.view.l10n,
 	Details;
 

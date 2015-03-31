@@ -10,8 +10,7 @@
  * @augments wp.Backbone.View
  * @augments Backbone.View
  */
-var View = require( '../view.js' ),
-	UploaderStatusError = require( './status-error.js' ),
+var View = wp.media.View,
 	UploaderStatus;
 
 UploaderStatus = View.extend({
@@ -113,7 +112,7 @@ UploaderStatus = View.extend({
 	 * @param {Backbone.Model} error
 	 */
 	error: function( error ) {
-		this.views.add( '.upload-errors', new UploaderStatusError({
+		this.views.add( '.upload-errors', new wp.media.view.UploaderStatusError({
 			filename: this.filename( error.get('file').name ),
 			message:  error.get('message')
 		}), { at: 0 });

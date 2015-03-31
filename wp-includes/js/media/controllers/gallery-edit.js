@@ -31,9 +31,7 @@
  * @param {view}                       [attributes.AttachmentView]        The single `Attachment` view to be used in the `Attachments`.
  *                                                                        If none supplied, defaults to wp.media.view.Attachment.EditLibrary.
  */
-var Library = require( './library.js' ),
-	EditLibraryView = require( '../views/attachment/edit-library.js' ),
-	GallerySettingsView = require( '../views/settings/gallery.js' ),
+var Library = wp.media.controller.Library,
 	l10n = wp.media.view.l10n,
 	GalleryEdit;
 
@@ -67,7 +65,7 @@ GalleryEdit = Library.extend({
 
 		// The single `Attachment` view to be used in the `Attachments` view.
 		if ( ! this.get('AttachmentView') ) {
-			this.set( 'AttachmentView', EditLibraryView );
+			this.set( 'AttachmentView', wp.media.view.Attachment.EditLibrary );
 		}
 
 		Library.prototype.initialize.apply( this, arguments );
@@ -121,7 +119,7 @@ GalleryEdit = Library.extend({
 		library.gallery = library.gallery || new Backbone.Model();
 
 		browser.sidebar.set({
-			gallery: new GallerySettingsView({
+			gallery: new wp.media.view.Settings.Gallery({
 				controller: this,
 				model:      library.gallery,
 				priority:   40

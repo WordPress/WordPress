@@ -12,14 +12,7 @@
  * @augments Backbone.View
  * @mixes wp.media.controller.StateMachine
  */
-var View = require( './view.js' ),
-	Frame = require( './frame.js' ),
-	Modal = require( './modal.js' ),
-	UploaderWindow = require( './uploader/window.js' ),
-	Menu = require( './menu.js' ),
-	Toolbar = require( './toolbar.js' ),
-	Router = require( './router.js' ),
-	Iframe = require( './iframe.js' ),
+var Frame = wp.media.view.Frame,
 	$ = jQuery,
 	MediaFrame;
 
@@ -49,7 +42,7 @@ MediaFrame = Frame.extend({
 
 		// Initialize modal container view.
 		if ( this.options.modal ) {
-			this.modal = new Modal({
+			this.modal = new wp.media.view.Modal({
 				controller: this,
 				title:      this.options.title
 			});
@@ -65,7 +58,7 @@ MediaFrame = Frame.extend({
 
 		// Initialize window-wide uploader.
 		if ( this.options.uploader ) {
-			this.uploader = new UploaderWindow({
+			this.uploader = new wp.media.view.UploaderWindow({
 				controller: this,
 				uploader: {
 					dropzone:  this.modal ? this.modal.$el : this.$el,
@@ -106,7 +99,7 @@ MediaFrame = Frame.extend({
 	 * @this wp.media.controller.Region
 	 */
 	createTitle: function( title ) {
-		title.view = new View({
+		title.view = new wp.media.View({
 			controller: this,
 			tagName: 'h1'
 		});
@@ -116,7 +109,7 @@ MediaFrame = Frame.extend({
 	 * @this wp.media.controller.Region
 	 */
 	createMenu: function( menu ) {
-		menu.view = new Menu({
+		menu.view = new wp.media.view.Menu({
 			controller: this
 		});
 	},
@@ -130,7 +123,7 @@ MediaFrame = Frame.extend({
 	 * @this wp.media.controller.Region
 	 */
 	createToolbar: function( toolbar ) {
-		toolbar.view = new Toolbar({
+		toolbar.view = new wp.media.view.Toolbar({
 			controller: this
 		});
 	},
@@ -139,7 +132,7 @@ MediaFrame = Frame.extend({
 	 * @this wp.media.controller.Region
 	 */
 	createRouter: function( router ) {
-		router.view = new Router({
+		router.view = new wp.media.view.Router({
 			controller: this
 		});
 	},
@@ -186,7 +179,7 @@ MediaFrame = Frame.extend({
 	 */
 	iframeContent: function( content ) {
 		this.$el.addClass('hide-toolbar');
-		content.view = new Iframe({
+		content.view = new wp.media.view.Iframe({
 			controller: this
 		});
 	},

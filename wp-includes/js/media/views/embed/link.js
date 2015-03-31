@@ -9,11 +9,10 @@
  * @augments wp.Backbone.View
  * @augments Backbone.View
  */
-var Settings = require( '../settings.js' ),
-	$ = jQuery,
+var $ = jQuery,
 	EmbedLink;
 
-EmbedLink = Settings.extend({
+EmbedLink = wp.media.view.Settings.extend({
 	className: 'embed-link-settings',
 	template:  wp.template('embed-link-settings'),
 

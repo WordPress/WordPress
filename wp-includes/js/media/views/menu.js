@@ -7,8 +7,8 @@
  * @augments wp.Backbone.View
  * @augments Backbone.View
  */
-var MenuItem = require( './menu-item.js' ),
-	PriorityList = require( './priority-list.js' ),
+var MenuItem = wp.media.view.MenuItem,
+	PriorityList = wp.media.view.PriorityList,
 	Menu;
 
 Menu = PriorityList.extend({

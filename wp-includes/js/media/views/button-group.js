@@ -8,12 +8,10 @@
  * @augments wp.Backbone.View
  * @augments Backbone.View
  */
-var View = require( './view.js' ),
-	Button = require( './button.js' ),
-	$ = Backbone.$,
+var $ = Backbone.$,
 	ButtonGroup;
 
-ButtonGroup = View.extend({
+ButtonGroup = wp.media.View.extend({
 	tagName:   'div',
 	className: 'button-group button-large media-button-group',
 
@@ -25,7 +23,7 @@ ButtonGroup = View.extend({
 			if ( button instanceof Backbone.View ) {
 				return button;
 			} else {
-				return new Button( button ).render();
+				return new wp.media.view.Button( button ).render();
 			}
 		});
 

@@ -11,9 +11,7 @@
  * @augments wp.Backbone.View
  * @augments Backbone.View
  */
-var View = require( './view.js' ),
-	Button = require( './button.js' ),
-	PriorityList = require( './priority-list.js' ),
+var View = wp.media.View,
 	Toolbar;
 
 Toolbar = View.extend({
@@ -28,8 +26,8 @@ Toolbar = View.extend({
 		this._views = {};
 
 		// The toolbar is composed of two `PriorityList` views.
-		this.primary   = new PriorityList();
-		this.secondary = new PriorityList();
+		this.primary   = new wp.media.view.PriorityList();
+		this.secondary = new wp.media.view.PriorityList();
 		this.primary.$el.addClass('media-toolbar-primary search-form');
 		this.secondary.$el.addClass('media-toolbar-secondary');
 
@@ -91,7 +89,7 @@ Toolbar = View.extend({
 		} else {
 			if ( ! ( view instanceof Backbone.View ) ) {
 				view.classes = [ 'media-button-' + id ].concat( view.classes || [] );
-				view = new Button( view ).render();
+				view = new wp.media.view.Button( view ).render();
 			}
 
 			view.controller = view.controller || this.controller;

@@ -9,11 +9,10 @@
  * @augments wp.Backbone.View
  * @augments Backbone.View
  */
-var AttachmentFilters = require( '../attachment-filters.js' ),
-	l10n = wp.media.view.l10n,
+var l10n = wp.media.view.l10n,
 	All;
 
-All = AttachmentFilters.extend({
+All = wp.media.view.AttachmentFilters.extend({
 	createFilters: function() {
 		var filters = {};
 

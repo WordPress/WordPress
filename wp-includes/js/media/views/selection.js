@@ -8,12 +8,10 @@
  * @augments wp.Backbone.View
  * @augments Backbone.View
  */
-var View = require( './view.js' ),
-	AttachmentsSelection = require( './attachments/selection.js' ),
-	l10n = wp.media.view.l10n,
+var l10n = wp.media.view.l10n,
 	Selection;
 
-Selection = View.extend({
+Selection = wp.media.View.extend({
 	tagName:   'div',
 	className: 'media-selection',
 	template:  wp.template('media-selection'),
@@ -32,7 +30,7 @@ Selection = View.extend({
 		/**
 		 * @member {wp.media.view.Attachments.Selection}
 		 */
-		this.attachments = new AttachmentsSelection({
+		this.attachments = new wp.media.view.Attachments.Selection({
 			controller: this.controller,
 			collection: this.collection,
 			selection:  this.collection,

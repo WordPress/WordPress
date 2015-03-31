@@ -10,12 +10,10 @@
  * @augments wp.Backbone.View
  * @augments Backbone.View
  */
-var View = require( './view.js' ),
-	FocusManager = require( './focus-manager.js' ),
-	$ = jQuery,
+var $ = jQuery,
 	Modal;
 
-Modal = View.extend({
+Modal = wp.media.View.extend({
 	tagName:  'div',
 	template: wp.template('media-modal'),
 
@@ -36,7 +34,7 @@ Modal = View.extend({
 			freeze:    true
 		});
 
-		this.focusManager = new FocusManager({
+		this.focusManager = new wp.media.view.FocusManager({
 			el: this.el
 		});
 	},

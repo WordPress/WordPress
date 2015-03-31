@@ -8,11 +8,10 @@
  * @augments wp.Backbone.View
  * @augments Backbone.View
  */
-var View = require( './view.js' ),
-	$ = jQuery,
+var $ = jQuery,
 	MenuItem;
 
-MenuItem = View.extend({
+MenuItem = wp.media.View.extend({
 	tagName:   'a',
 	className: 'media-menu-item',
 

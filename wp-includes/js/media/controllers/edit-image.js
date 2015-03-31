@@ -18,12 +18,10 @@
  * @param {string}                    [attributes.menu=false]         Initial mode for the menu region.
  * @param {string}                    [attributes.url]                Unused. @todo Consider removal.
  */
-var State = require( './state.js' ),
-	ToolbarView = require( '../views/toolbar.js' ),
-	l10n = wp.media.view.l10n,
+var l10n = wp.media.view.l10n,
 	EditImage;
 
-EditImage = State.extend({
+EditImage = wp.media.controller.State.extend({
 	defaults: {
 		id:      'edit-image',
 		title:   l10n.editImage,
@@ -55,7 +53,7 @@ EditImage = State.extend({
 			lastState = frame.lastState(),
 			previous = lastState && lastState.id;
 
-		frame.toolbar.set( new ToolbarView({
+		frame.toolbar.set( new wp.media.view.Toolbar({
 			controller: frame,
 			items: {
 				back: {

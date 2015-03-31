@@ -6,20 +6,14 @@
  * @augments wp.Backbone.View
  * @augments Backbone.View
  */
-var View = require( './view.js' ),
-	EmbedImage = require( './embed/image.js' ),
-	EmbedLink = require( './embed/link.js' ),
-	EmbedUrl = require( './embed/url.js' ),
-	Embed;
-
-Embed = View.extend({
+var Embed = wp.media.View.extend({
 	className: 'media-embed',
 
 	initialize: function() {
 		/**
 		 * @member {wp.media.view.EmbedUrl}
 		 */
-		this.url = new EmbedUrl({
+		this.url = new wp.media.view.EmbedUrl({
 			controller: this.controller,
 			model:      this.model.props
 		}).render();
@@ -46,9 +40,9 @@ Embed = View.extend({
 			constructor;
 
 		if ( 'image' === type ) {
-			constructor = EmbedImage;
+			constructor = wp.media.view.EmbedImage;
 		} else if ( 'link' === type ) {
-			constructor = EmbedLink;
+			constructor = wp.media.view.EmbedLink;
 		} else {
 			return;
 		}

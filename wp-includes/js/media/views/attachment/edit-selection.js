@@ -1,3 +1,5 @@
+/*globals wp */
+
 /**
  * wp.media.view.Attachments.EditSelection
  *
@@ -8,10 +10,7 @@
  * @augments wp.Backbone.View
  * @augments Backbone.View
  */
-var Selection = require( './selection.js' ),
-	EditSelection;
-
-EditSelection = Selection.extend({
+var EditSelection = wp.media.view.Attachment.Selection.extend({
 	buttons: {
 		close: true
 	}

@@ -9,11 +9,10 @@
  * @augments wp.Backbone.View
  * @augments Backbone.View
  */
-var AttachmentFilters = require( '../attachment-filters.js' ),
-	l10n = wp.media.view.l10n,
+var l10n = wp.media.view.l10n,
 	Uploaded;
 
-Uploaded = AttachmentFilters.extend({
+Uploaded = wp.media.view.AttachmentFilters.extend({
 	createFilters: function() {
 		var type = this.model.get('type'),
 			types = wp.media.view.settings.mimeTypes,

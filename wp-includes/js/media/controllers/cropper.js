@@ -9,13 +9,10 @@
  * @augments wp.media.controller.State
  * @augments Backbone.Model
  */
-var State = require( './state.js' ),
-	ToolbarView = require( '../views/toolbar.js' ),
-	CropperView = require( '../views/cropper.js' ),
-	l10n = wp.media.view.l10n,
+var l10n = wp.media.view.l10n,
 	Cropper;
 
-Cropper = State.extend({
+Cropper = wp.media.controller.State.extend({
 	defaults: {
 		id:          'cropper',
 		title:       l10n.cropImage,
@@ -38,7 +35,7 @@ Cropper = State.extend({
 	},
 
 	createCropContent: function() {
-		this.cropperView = new CropperView({
+		this.cropperView = new wp.media.view.Cropper({
 			controller: this,
 			attachment: this.get('selection').first()
 		});
@@ -104,7 +101,7 @@ Cropper = State.extend({
 			});
 		}
 
-		this.frame.toolbar.set( new ToolbarView(toolbarOptions) );
+		this.frame.toolbar.set( new wp.media.view.Toolbar(toolbarOptions) );
 	},
 
 	doCrop: function( attachment ) {

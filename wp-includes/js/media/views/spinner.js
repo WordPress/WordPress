@@ -8,10 +8,7 @@
  * @augments wp.Backbone.View
  * @augments Backbone.View
  */
-var View = require( './view.js' ),
-	Spinner;
-
-Spinner = View.extend({
+var Spinner = wp.media.View.extend({
 	tagName:   'span',
 	className: 'spinner',
 	spinnerTimeout: false,

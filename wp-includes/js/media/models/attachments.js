@@ -22,14 +22,11 @@
  * @param {string} [options.filters]
  *
  */
-var Attachment = require( './attachment.js' ),
-	Attachments;
-
-Attachments = Backbone.Collection.extend({
+var Attachments = Backbone.Collection.extend({
 	/**
 	 * @type {wp.media.model.Attachment}
 	 */
-	model: Attachment,
+	model: wp.media.model.Attachment,
 	/**
 	 * @param {Array} [models=[]] Array of models used to populate the collection.
 	 * @param {Object} [options={}]
@@ -367,7 +364,7 @@ Attachments = Backbone.Collection.extend({
 				id = attrs.id;
 			}
 
-			attachment = Attachment.get( id );
+			attachment = wp.media.model.Attachment.get( id );
 			newAttributes = attachment.parse( attrs, xhr );
 
 			if ( ! _.isEqual( attachment.attributes, newAttributes ) ) {
@@ -383,12 +380,11 @@ Attachments = Backbone.Collection.extend({
 	 * @access private
 	 */
 	_requery: function( refresh ) {
-		var props, Query;
+		var props;
 		if ( this.props.get('query') ) {
-			Query = require( './query.js' );
 			props = this.props.toJSON();
 			props.cache = ( true !== refresh );
-			this.mirror( Query.get( props ) );
+			this.mirror( wp.media.model.Query.get( props ) );
 		}
 	},
 	/**

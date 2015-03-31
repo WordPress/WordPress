@@ -24,8 +24,8 @@
  * @todo This state inherits some defaults from media.controller.Library.prototype.defaults,
  *       however this may not do anything.
  */
-var State = require( './state.js' ),
-	Library = require( './library.js' ),
+var State = wp.media.controller.State,
+	Library = wp.media.controller.Library,
 	l10n = wp.media.view.l10n,
 	ImageDetails;
 

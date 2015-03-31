@@ -9,10 +9,7 @@
  * @augments wp.Backbone.View
  * @augments Backbone.View
  */
-var Settings = require( '../settings.js' ),
-	Playlist;
-
-Playlist = Settings.extend({
+var Playlist = wp.media.view.Settings.extend({
 	className: 'collection-settings playlist-settings',
 	template:  wp.template('playlist-settings')
 });

@@ -16,11 +16,10 @@
  * @param {jQuery} [options.uploader.dropzone] jQuery collection of the dropzone.
  * @param {object} [options.uploader.params]
  */
-var View = require( '../view.js' ),
-	$ = jQuery,
+var $ = jQuery,
 	UploaderWindow;
 
-UploaderWindow = View.extend({
+UploaderWindow = wp.media.View.extend({
 	tagName:   'div',
 	className: 'uploader-window',
 	template:  wp.template('uploader-window'),

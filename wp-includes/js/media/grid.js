@@ -10,11 +10,10 @@
  * @augments wp.media.controller.State
  * @augments Backbone.Model
  */
-var State = wp.media.controller.State,
-	l10n = wp.media.view.l10n,
+var l10n = wp.media.view.l10n,
 	EditAttachmentMetadata;
 
-EditAttachmentMetadata = State.extend({
+EditAttachmentMetadata = wp.media.controller.State.extend({
 	defaults: {
 		id:      'edit-attachment',
 		// Title string passed to the frame's title region view.
@@ -140,6 +139,8 @@ TwoColumn = Details.extend({
 module.exports = TwoColumn;
 
 },{}],5:[function(require,module,exports){
+/*globals wp */
+
 /**
  * wp.media.view.DeleteSelectedPermanentlyButton
  *
@@ -153,7 +154,7 @@ module.exports = TwoColumn;
  * @augments Backbone.View
  */
 var Button = wp.media.view.Button,
-	DeleteSelected = require( './delete-selected.js' ),
+	DeleteSelected = wp.media.view.DeleteSelectedButton,
 	DeleteSelectedPermanently;
 
 DeleteSelectedPermanently = DeleteSelected.extend({
@@ -186,7 +187,7 @@ DeleteSelectedPermanently = DeleteSelected.extend({
 
 module.exports = DeleteSelectedPermanently;
 
-},{"./delete-selected.js":6}],6:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 /*globals wp */
 
 /**
@@ -365,13 +366,6 @@ module.exports = Details;
  */
 var Frame = wp.media.view.Frame,
 	MediaFrame = wp.media.view.MediaFrame,
-	Modal = wp.media.view.Modal,
-	AttachmentCompat = wp.media.view.AttachmentCompat,
-	EditImageController = wp.media.controller.EditImage,
-
-	EditAttachmentMetadata = require( '../../controllers/edit-attachment-metadata.js' ),
-	TwoColumn = require( '../attachment/details-two-column.js' ),
-	DetailsView = require( '../edit-image-details.js' ),
 
 	$ = jQuery,
 	EditAttachments;
@@ -427,7 +421,7 @@ EditAttachments = MediaFrame.extend({
 	createModal: function() {
 		// Initialize modal container view.
 		if ( this.options.modal ) {
-			this.modal = new Modal({
+			this.modal = new wp.media.view.Modal({
 				controller: this,
 				title:      this.options.title
 			});
@@ -456,7 +450,7 @@ EditAttachments = MediaFrame.extend({
 	 */
 	createStates: function() {
 		this.states.add([
-			new EditAttachmentMetadata( { model: this.model } )
+			new wp.media.controller.EditAttachmentMetadata( { model: this.model } )
 		]);
 	},
 
@@ -467,7 +461,7 @@ EditAttachments = MediaFrame.extend({
 	 *                               should be set with the proper region view.
 	 */
 	editMetadataMode: function( contentRegion ) {
-		contentRegion.view = new TwoColumn({
+		contentRegion.view = new wp.media.view.Attachment.Details.TwoColumn({
 			controller: this,
 			model:      this.model
 		});
@@ -476,7 +470,7 @@ EditAttachments = MediaFrame.extend({
 		 * Attach a subview to display fields added via the
 		 * `attachment_fields_to_edit` filter.
 		 */
-		contentRegion.view.views.set( '.attachment-compat', new AttachmentCompat({
+		contentRegion.view.views.set( '.attachment-compat', new wp.media.view.AttachmentCompat({
 			controller: this,
 			model:      this.model
 		}) );
@@ -494,7 +488,7 @@ EditAttachments = MediaFrame.extend({
 	 *                               should be set with the proper region view.
 	 */
 	editImageMode: function( contentRegion ) {
-		var editImageController = new EditImageController( {
+		var editImageController = new wp.media.controller.EditImage( {
 			model: this.model,
 			frame: this
 		} );
@@ -503,7 +497,7 @@ EditAttachments = MediaFrame.extend({
 		editImageController._router = function() {};
 		editImageController._menu = function() {};
 
-		contentRegion.view = new DetailsView( {
+		contentRegion.view = new wp.media.view.EditImage.Details( {
 			model: this.model,
 			frame: this,
 			controller: editImageController
@@ -596,7 +590,7 @@ EditAttachments = MediaFrame.extend({
 
 module.exports = EditAttachments;
 
-},{"../../controllers/edit-attachment-metadata.js":1,"../attachment/details-two-column.js":4,"../edit-image-details.js":8}],10:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 /*globals wp, _, Backbone */
 
 /**
@@ -615,11 +609,7 @@ module.exports = EditAttachments;
  * @mixes wp.media.controller.StateMachine
  */
 var MediaFrame = wp.media.view.MediaFrame,
-	UploaderWindow = wp.media.view.UploaderWindow,
-	AttachmentsBrowser = wp.media.view.AttachmentsBrowser,
 	Library = wp.media.controller.Library,
-
-	Router = require( '../../routers/manage.js' ),
 
 	$ = Backbone.$,
 	Manage;
@@ -657,7 +647,7 @@ Manage = MediaFrame.extend({
 
 		// Initialize a window-wide uploader.
 		if ( this.options.uploader ) {
-			this.uploader = new UploaderWindow({
+			this.uploader = new wp.media.view.UploaderWindow({
 				controller: this,
 				uploader: {
 					dropzone:  document.body,
@@ -670,7 +660,7 @@ Manage = MediaFrame.extend({
 			this.options.uploader = false;
 		}
 
-		this.gridRouter = new Router();
+		this.gridRouter = new wp.media.view.MediaFrame.Manage.Router();
 
 		// Call 'initialize' directly on the parent class.
 		MediaFrame.prototype.initialize.apply( this, arguments );
@@ -820,7 +810,7 @@ Manage = MediaFrame.extend({
 		var state = this.state();
 
 		// Browse our library of attachments.
-		this.browserView = contentRegion.view = new AttachmentsBrowser({
+		this.browserView = contentRegion.view = new wp.media.view.AttachmentsBrowser({
 			controller: this,
 			collection: state.get('library'),
 			selection:  state.get('selection'),
@@ -870,4 +860,4 @@ Manage = MediaFrame.extend({
 
 module.exports = Manage;
 
-},{"../../routers/manage.js":3}]},{},[2]);
+},{}]},{},[2]);

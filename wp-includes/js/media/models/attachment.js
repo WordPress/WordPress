@@ -145,7 +145,7 @@ Attachment = Backbone.Model.extend({
 	 * @returns {wp.media.model.Attachment}
 	 */
 	create: function( attrs ) {
-		var Attachments = require( './attachments.js' );
+		var Attachments = wp.media.model.Attachments;
 		return Attachments.all.push( attrs );
 	},
 	/**
@@ -160,7 +160,7 @@ Attachment = Backbone.Model.extend({
 	 * @returns {wp.media.model.Attachment}
 	 */
 	get: _.memoize( function( id, attachment ) {
-		var Attachments = require( './attachments.js' );
+		var Attachments = wp.media.model.Attachments;
 		return Attachments.all.push( attachment || { id: id } );
 	})
 });

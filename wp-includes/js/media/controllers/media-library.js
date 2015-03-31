@@ -8,7 +8,7 @@
  * @augments wp.media.controller.State
  * @augments Backbone.Model
  */
-var Library = require( './library.js' ),
+var Library = wp.media.controller.Library,
 	MediaLibrary;
 
 MediaLibrary = Library.extend({

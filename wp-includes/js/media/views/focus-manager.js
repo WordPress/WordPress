@@ -6,10 +6,7 @@
  * @augments wp.Backbone.View
  * @augments Backbone.View
  */
-var View = require( './view.js' ),
-	FocusManager;
-
-FocusManager = View.extend({
+var FocusManager = wp.media.View.extend({
 
 	events: {
 		'keydown': 'constrainTabbing'

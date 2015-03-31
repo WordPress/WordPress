@@ -1,3 +1,5 @@
+/*globals wp */
+
 /**
  * wp.media.view.Attachment.Selection
  *
@@ -7,10 +9,7 @@
  * @augments wp.Backbone.View
  * @augments Backbone.View
  */
-var Attachment = require( '../attachment.js' ),
-	Selection;
-
-Selection = Attachment.extend({
+var Selection = wp.media.view.Attachment.extend({
 	className: 'attachment selection',
 
 	// On click, just select the model, instead of removing the model from

@@ -9,11 +9,10 @@
  * @augments wp.Backbone.View
  * @augments Backbone.View
  */
-var AttachmentFilters = require( '../attachment-filters.js' ),
-	l10n = wp.media.view.l10n,
+var l10n = wp.media.view.l10n,
 	DateFilter;
 
-DateFilter = AttachmentFilters.extend({
+DateFilter = wp.media.view.AttachmentFilters.extend({
 	id: 'media-attachment-date-filters',
 
 	createFilters: function() {

@@ -16,11 +16,7 @@
  * @mixes wp.media.controller.StateMachine
  */
 var MediaFrame = wp.media.view.MediaFrame,
-	UploaderWindow = wp.media.view.UploaderWindow,
-	AttachmentsBrowser = wp.media.view.AttachmentsBrowser,
 	Library = wp.media.controller.Library,
-
-	Router = require( '../../routers/manage.js' ),
 
 	$ = Backbone.$,
 	Manage;
@@ -58,7 +54,7 @@ Manage = MediaFrame.extend({
 
 		// Initialize a window-wide uploader.
 		if ( this.options.uploader ) {
-			this.uploader = new UploaderWindow({
+			this.uploader = new wp.media.view.UploaderWindow({
 				controller: this,
 				uploader: {
 					dropzone:  document.body,
@@ -71,7 +67,7 @@ Manage = MediaFrame.extend({
 			this.options.uploader = false;
 		}
 
-		this.gridRouter = new Router();
+		this.gridRouter = new wp.media.view.MediaFrame.Manage.Router();
 
 		// Call 'initialize' directly on the parent class.
 		MediaFrame.prototype.initialize.apply( this, arguments );
@@ -221,7 +217,7 @@ Manage = MediaFrame.extend({
 		var state = this.state();
 
 		// Browse our library of attachments.
-		this.browserView = contentRegion.view = new AttachmentsBrowser({
+		this.browserView = contentRegion.view = new wp.media.view.AttachmentsBrowser({
 			controller: this,
 			collection: state.get('library'),
 			selection:  state.get('selection'),

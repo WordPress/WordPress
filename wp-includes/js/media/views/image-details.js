@@ -10,7 +10,7 @@
  * @augments wp.Backbone.View
  * @augments Backbone.View
  */
-var AttachmentDisplay = require( './settings/attachment-display.js' ),
+var AttachmentDisplay = wp.media.view.Settings.AttachmentDisplay,
 	$ = jQuery,
 	ImageDetails;
 

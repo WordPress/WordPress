@@ -345,7 +345,7 @@ module.exports = PostMedia;
  * @augments wp.Backbone.View
  * @augments Backbone.View
  */
-var MediaDetails = require( './media-details' ),
+var MediaDetails = wp.media.view.MediaDetails,
 	AudioDetails;
 
 AudioDetails = MediaDetails.extend({
@@ -371,7 +371,7 @@ AudioDetails = MediaDetails.extend({
 
 module.exports = AudioDetails;
 
-},{"./media-details":9}],6:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 /*globals wp */
 
 /**
@@ -389,9 +389,7 @@ module.exports = AudioDetails;
  */
 var MediaDetails = wp.media.view.MediaFrame.MediaDetails,
 	MediaLibrary = wp.media.controller.MediaLibrary,
-	
-	AudioDetailsView = require( '../audio-details.js' ),
-	AudioDetailsController = require( '../../controllers/audio-details.js' ),
+
 	l10n = wp.media.view.l10n,
 	AudioDetails;
 
@@ -408,7 +406,7 @@ AudioDetails = MediaDetails.extend({
 	},
 
 	initialize: function( options ) {
-		options.DetailsView = AudioDetailsView;
+		options.DetailsView = wp.media.view.AudioDetails;
 		options.cancelText = l10n.audioDetailsCancel;
 		options.addText = l10n.audioAddSourceTitle;
 
@@ -424,7 +422,7 @@ AudioDetails = MediaDetails.extend({
 
 	createStates: function() {
 		this.states.add([
-			new AudioDetailsController( {
+			new wp.media.controller.AudioDetails( {
 				media: this.media
 			} ),
 
@@ -451,7 +449,7 @@ AudioDetails = MediaDetails.extend({
 
 module.exports = AudioDetails;
 
-},{"../../controllers/audio-details.js":2,"../audio-details.js":5}],7:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 /*globals wp */
 
 /**
@@ -466,9 +464,7 @@ module.exports = AudioDetails;
  * @augments Backbone.View
  * @mixes wp.media.controller.StateMachine
  */
-var View = wp.media.View,
-	Toolbar = wp.media.view.Toolbar,
-	Select = wp.media.view.MediaFrame.Select,
+var Select = wp.media.view.MediaFrame.Select,
 	l10n = wp.media.view.l10n,
 	MediaDetails;
 
@@ -531,7 +527,7 @@ MediaDetails = Select.extend({
 					}
 				}
 			},
-			separateCancel: new View({
+			separateCancel: new wp.media.View({
 				className: 'separator',
 				priority: 40
 			})
@@ -540,7 +536,7 @@ MediaDetails = Select.extend({
 	},
 
 	setPrimaryButton: function(text, handler) {
-		this.toolbar.set( new Toolbar({
+		this.toolbar.set( new wp.media.view.Toolbar({
 			controller: this,
 			items: {
 				button: {
@@ -603,8 +599,6 @@ module.exports = MediaDetails;
  */
 var MediaDetails = wp.media.view.MediaFrame.MediaDetails,
 	MediaLibrary = wp.media.controller.MediaLibrary,
-	VideoDetailsView = require( '../video-details.js' ),
-	VideoDetailsController = require( '../../controllers/video-details.js' ),
 	l10n = wp.media.view.l10n,
 	VideoDetails;
 
@@ -621,7 +615,7 @@ VideoDetails = MediaDetails.extend({
 	},
 
 	initialize: function( options ) {
-		options.DetailsView = VideoDetailsView;
+		options.DetailsView = wp.media.view.VideoDetails;
 		options.cancelText = l10n.videoDetailsCancel;
 		options.addText = l10n.videoAddSourceTitle;
 
@@ -639,7 +633,7 @@ VideoDetails = MediaDetails.extend({
 
 	createStates: function() {
 		this.states.add([
-			new VideoDetailsController({
+			new wp.media.controller.VideoDetails({
 				media: this.media
 			}),
 
@@ -724,7 +718,7 @@ VideoDetails = MediaDetails.extend({
 
 module.exports = VideoDetails;
 
-},{"../../controllers/video-details.js":3,"../video-details.js":10}],9:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 /*global wp, jQuery, _, MediaElementPlayer */
 
 /**
@@ -906,7 +900,7 @@ module.exports = MediaDetails;
  * @augments wp.Backbone.View
  * @augments Backbone.View
  */
-var MediaDetails = require( './media-details' ),
+var MediaDetails = wp.media.view.MediaDetails,
 	VideoDetails;
 
 VideoDetails = MediaDetails.extend({
@@ -937,4 +931,4 @@ VideoDetails = MediaDetails.extend({
 
 module.exports = VideoDetails;
 
-},{"./media-details":9}]},{},[1]);
+},{}]},{},[1]);

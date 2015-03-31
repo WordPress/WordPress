@@ -17,7 +17,7 @@
  * @param {object} [options.args]                Attachments query arguments.
  * @param {object} [options.args.posts_per_page]
  */
-var Attachments = require( './attachments.js' ),
+var Attachments = wp.media.model.Attachments,
 	Query;
 
 Query = Attachments.extend({

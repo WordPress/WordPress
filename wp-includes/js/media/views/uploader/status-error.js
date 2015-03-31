@@ -8,10 +8,7 @@
  * @augments wp.Backbone.View
  * @augments Backbone.View
  */
-var View = require( '../view.js' ),
-	UploaderStatusError;
-
-UploaderStatusError = View.extend({
+var UploaderStatusError = wp.media.View.extend({
 	className: 'upload-error',
 	template:  wp.template('uploader-status-error')
 });

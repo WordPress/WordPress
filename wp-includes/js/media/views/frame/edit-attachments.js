@@ -18,13 +18,6 @@
  */
 var Frame = wp.media.view.Frame,
 	MediaFrame = wp.media.view.MediaFrame,
-	Modal = wp.media.view.Modal,
-	AttachmentCompat = wp.media.view.AttachmentCompat,
-	EditImageController = wp.media.controller.EditImage,
-
-	EditAttachmentMetadata = require( '../../controllers/edit-attachment-metadata.js' ),
-	TwoColumn = require( '../attachment/details-two-column.js' ),
-	DetailsView = require( '../edit-image-details.js' ),
 
 	$ = jQuery,
 	EditAttachments;
@@ -80,7 +73,7 @@ EditAttachments = MediaFrame.extend({
 	createModal: function() {
 		// Initialize modal container view.
 		if ( this.options.modal ) {
-			this.modal = new Modal({
+			this.modal = new wp.media.view.Modal({
 				controller: this,
 				title:      this.options.title
 			});
@@ -109,7 +102,7 @@ EditAttachments = MediaFrame.extend({
 	 */
 	createStates: function() {
 		this.states.add([
-			new EditAttachmentMetadata( { model: this.model } )
+			new wp.media.controller.EditAttachmentMetadata( { model: this.model } )
 		]);
 	},
 
@@ -120,7 +113,7 @@ EditAttachments = MediaFrame.extend({
 	 *                               should be set with the proper region view.
 	 */
 	editMetadataMode: function( contentRegion ) {
-		contentRegion.view = new TwoColumn({
+		contentRegion.view = new wp.media.view.Attachment.Details.TwoColumn({
 			controller: this,
 			model:      this.model
 		});
@@ -129,7 +122,7 @@ EditAttachments = MediaFrame.extend({
 		 * Attach a subview to display fields added via the
 		 * `attachment_fields_to_edit` filter.
 		 */
-		contentRegion.view.views.set( '.attachment-compat', new AttachmentCompat({
+		contentRegion.view.views.set( '.attachment-compat', new wp.media.view.AttachmentCompat({
 			controller: this,
 			model:      this.model
 		}) );
@@ -147,7 +140,7 @@ EditAttachments = MediaFrame.extend({
 	 *                               should be set with the proper region view.
 	 */
 	editImageMode: function( contentRegion ) {
-		var editImageController = new EditImageController( {
+		var editImageController = new wp.media.controller.EditImage( {
 			model: this.model,
 			frame: this
 		} );
@@ -156,7 +149,7 @@ EditAttachments = MediaFrame.extend({
 		editImageController._router = function() {};
 		editImageController._menu = function() {};
 
-		contentRegion.view = new DetailsView( {
+		contentRegion.view = new wp.media.view.EditImage.Details( {
 			model: this.model,
 			frame: this,
 			controller: editImageController

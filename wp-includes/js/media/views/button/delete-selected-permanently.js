@@ -1,3 +1,5 @@
+/*globals wp */
+
 /**
  * wp.media.view.DeleteSelectedPermanentlyButton
  *
@@ -11,7 +13,7 @@
  * @augments Backbone.View
  */
 var Button = wp.media.view.Button,
-	DeleteSelected = require( './delete-selected.js' ),
+	DeleteSelected = wp.media.view.DeleteSelectedButton,
 	DeleteSelectedPermanently;
 
 DeleteSelectedPermanently = DeleteSelected.extend({

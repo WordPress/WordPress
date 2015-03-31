@@ -15,8 +15,6 @@
  */
 var MediaDetails = wp.media.view.MediaFrame.MediaDetails,
 	MediaLibrary = wp.media.controller.MediaLibrary,
-	VideoDetailsView = require( '../video-details.js' ),
-	VideoDetailsController = require( '../../controllers/video-details.js' ),
 	l10n = wp.media.view.l10n,
 	VideoDetails;
 
@@ -33,7 +31,7 @@ VideoDetails = MediaDetails.extend({
 	},
 
 	initialize: function( options ) {
-		options.DetailsView = VideoDetailsView;
+		options.DetailsView = wp.media.view.VideoDetails;
 		options.cancelText = l10n.videoDetailsCancel;
 		options.addText = l10n.videoAddSourceTitle;
 
@@ -51,7 +49,7 @@ VideoDetails = MediaDetails.extend({
 
 	createStates: function() {
 		this.states.add([
-			new VideoDetailsController({
+			new wp.media.controller.VideoDetails({
 				media: this.media
 			}),
 

@@ -12,9 +12,7 @@
  * @augments Backbone.View
  * @mixes wp.media.controller.StateMachine
  */
-var View = wp.media.View,
-	Toolbar = wp.media.view.Toolbar,
-	Select = wp.media.view.MediaFrame.Select,
+var Select = wp.media.view.MediaFrame.Select,
 	l10n = wp.media.view.l10n,
 	MediaDetails;
 
@@ -77,7 +75,7 @@ MediaDetails = Select.extend({
 					}
 				}
 			},
-			separateCancel: new View({
+			separateCancel: new wp.media.View({
 				className: 'separator',
 				priority: 40
 			})
@@ -86,7 +84,7 @@ MediaDetails = Select.extend({
 	},
 
 	setPrimaryButton: function(text, handler) {
-		this.toolbar.set( new Toolbar({
+		this.toolbar.set( new wp.media.view.Toolbar({
 			controller: this,
 			items: {
 				button: {

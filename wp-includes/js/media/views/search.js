@@ -8,11 +8,10 @@
  * @augments wp.Backbone.View
  * @augments Backbone.View
  */
-var View = require( './view.js' ),
-	l10n = wp.media.view.l10n,
+var l10n = wp.media.view.l10n,
 	Search;
 
-Search = View.extend({
+Search = wp.media.View.extend({
 	tagName:   'input',
 	className: 'search',
 	id:        'media-search-input',

@@ -1,4 +1,4 @@
-/*globals _ */
+/*globals wp, _ */
 
 /**
  * wp.media.model.Selection
@@ -9,7 +9,7 @@
  * @augments wp.media.model.Attachments
  * @augments Backbone.Collection
  */
-var Attachments = require( './attachments.js' ),
+var Attachments = wp.media.model.Attachments,
 	Selection;
 
 Selection = Attachments.extend({

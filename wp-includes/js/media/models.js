@@ -58,8 +58,8 @@ l10n = media.model.l10n = window._wpMediaModelsL10n || {};
 media.model.settings = l10n.settings || {};
 delete l10n.settings;
 
-Attachments = media.model.Attachments = require( './models/attachments.js' );
 Attachment = media.model.Attachment = require( './models/attachment.js' );
+Attachments = media.model.Attachments = require( './models/attachments.js' );
 
 media.model.Query = require( './models/query.js' );
 media.model.PostImage = require( './models/post-image.js' );
@@ -379,7 +379,7 @@ Attachment = Backbone.Model.extend({
 	 * @returns {wp.media.model.Attachment}
 	 */
 	create: function( attrs ) {
-		var Attachments = require( './attachments.js' );
+		var Attachments = wp.media.model.Attachments;
 		return Attachments.all.push( attrs );
 	},
 	/**
@@ -394,14 +394,14 @@ Attachment = Backbone.Model.extend({
 	 * @returns {wp.media.model.Attachment}
 	 */
 	get: _.memoize( function( id, attachment ) {
-		var Attachments = require( './attachments.js' );
+		var Attachments = wp.media.model.Attachments;
 		return Attachments.all.push( attachment || { id: id } );
 	})
 });
 
 module.exports = Attachment;
 
-},{"./attachments.js":3}],3:[function(require,module,exports){
+},{}],3:[function(require,module,exports){
 /*globals wp, _, Backbone */
 
 /**
@@ -426,14 +426,11 @@ module.exports = Attachment;
  * @param {string} [options.filters]
  *
  */
-var Attachment = require( './attachment.js' ),
-	Attachments;
-
-Attachments = Backbone.Collection.extend({
+var Attachments = Backbone.Collection.extend({
 	/**
 	 * @type {wp.media.model.Attachment}
 	 */
-	model: Attachment,
+	model: wp.media.model.Attachment,
 	/**
 	 * @param {Array} [models=[]] Array of models used to populate the collection.
 	 * @param {Object} [options={}]
@@ -771,7 +768,7 @@ Attachments = Backbone.Collection.extend({
 				id = attrs.id;
 			}
 
-			attachment = Attachment.get( id );
+			attachment = wp.media.model.Attachment.get( id );
 			newAttributes = attachment.parse( attrs, xhr );
 
 			if ( ! _.isEqual( attachment.attributes, newAttributes ) ) {
@@ -787,12 +784,11 @@ Attachments = Backbone.Collection.extend({
 	 * @access private
 	 */
 	_requery: function( refresh ) {
-		var props, Query;
+		var props;
 		if ( this.props.get('query') ) {
-			Query = require( './query.js' );
 			props = this.props.toJSON();
 			props.cache = ( true !== refresh );
-			this.mirror( Query.get( props ) );
+			this.mirror( wp.media.model.Query.get( props ) );
 		}
 	},
 	/**
@@ -939,7 +935,7 @@ Attachments = Backbone.Collection.extend({
 
 module.exports = Attachments;
 
-},{"./attachment.js":2,"./query.js":5}],4:[function(require,module,exports){
+},{}],4:[function(require,module,exports){
 /*globals Backbone */
 
 /**
@@ -955,12 +951,10 @@ module.exports = Attachments;
  * @param {int} [attributes]               Initial model attributes.
  * @param {int} [attributes.attachment_id] ID of the attachment.
  **/
-var Attachment = require( './attachment' ),
-	PostImage;
-
-PostImage = Backbone.Model.extend({
+var PostImage = Backbone.Model.extend({
 
 	initialize: function( attributes ) {
+		var Attachment = wp.media.model.Attachment;
 		this.attachment = false;
 
 		if ( attributes.attachment_id ) {
@@ -1097,7 +1091,7 @@ PostImage = Backbone.Model.extend({
 
 module.exports = PostImage;
 
-},{"./attachment":2}],5:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 /*globals wp, _ */
 
 /**
@@ -1117,7 +1111,7 @@ module.exports = PostImage;
  * @param {object} [options.args]                Attachments query arguments.
  * @param {object} [options.args.posts_per_page]
  */
-var Attachments = require( './attachments.js' ),
+var Attachments = wp.media.model.Attachments,
 	Query;
 
 Query = Attachments.extend({
@@ -1407,8 +1401,8 @@ Query = Attachments.extend({
 
 module.exports = Query;
 
-},{"./attachments.js":3}],6:[function(require,module,exports){
-/*globals _ */
+},{}],6:[function(require,module,exports){
+/*globals wp, _ */
 
 /**
  * wp.media.model.Selection
@@ -1419,7 +1413,7 @@ module.exports = Query;
  * @augments wp.media.model.Attachments
  * @augments Backbone.Collection
  */
-var Attachments = require( './attachments.js' ),
+var Attachments = wp.media.model.Attachments,
 	Selection;
 
 Selection = Attachments.extend({
@@ -1506,4 +1500,4 @@ Selection = Attachments.extend({
 
 module.exports = Selection;
 
-},{"./attachments.js":3}]},{},[1]);
+},{}]},{},[1]);

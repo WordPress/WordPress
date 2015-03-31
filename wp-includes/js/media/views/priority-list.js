@@ -8,10 +8,7 @@
  * @augments wp.Backbone.View
  * @augments Backbone.View
  */
-var View = require( './view.js' ),
-	PriorityList;
-
-PriorityList = View.extend({
+var PriorityList = wp.media.View.extend({
 	tagName:   'div',
 
 	initialize: function() {
@@ -93,7 +90,7 @@ PriorityList = View.extend({
 	 * @returns {wp.media.View}
 	 */
 	toView: function( options ) {
-		return new View( options );
+		return new wp.media.View( options );
 	}
 });
 

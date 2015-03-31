@@ -13,12 +13,10 @@
  * @param {int} [attributes]               Initial model attributes.
  * @param {int} [attributes.attachment_id] ID of the attachment.
  **/
-var Attachment = require( './attachment' ),
-	PostImage;
-
-PostImage = Backbone.Model.extend({
+var PostImage = Backbone.Model.extend({
 
 	initialize: function( attributes ) {
+		var Attachment = wp.media.model.Attachment;
 		this.attachment = false;
 
 		if ( attributes.attachment_id ) {

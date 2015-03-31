@@ -1,3 +1,5 @@
+/*globals wp */
+
 /**
  * wp.media.view.Attachment.Library
  *
@@ -7,10 +9,7 @@
  * @augments wp.Backbone.View
  * @augments Backbone.View
  */
-var Attachment = require( '../attachment.js' ),
-	Library;
-
-Library = Attachment.extend({
+var Library = wp.media.view.Attachment.extend({
 	buttons: {
 		check: true
 	}

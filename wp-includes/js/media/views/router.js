@@ -1,3 +1,5 @@
+/*globals wp */
+
 /**
  * wp.media.view.Router
  *
@@ -8,15 +10,14 @@
  * @augments wp.Backbone.View
  * @augments Backbone.View
  */
-var Menu = require( './menu.js' ),
-	RouterItem = require( './router-item.js' ),
+var Menu = wp.media.view.Menu,
 	Router;
 
 Router = Menu.extend({
 	tagName:   'div',
 	className: 'media-router',
 	property:  'contentMode',
-	ItemView:  RouterItem,
+	ItemView:  wp.media.view.RouterItem,
 	region:    'router',
 
 	initialize: function() {

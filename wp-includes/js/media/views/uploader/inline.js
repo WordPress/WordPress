@@ -10,8 +10,7 @@
  * @augments wp.Backbone.View
  * @augments Backbone.View
  */
-var View = require( '../view.js' ),
-	UploaderStatus = require( './status.js' ),
+var View = wp.media.View,
 	UploaderInline;
 
 UploaderInline = View.extend({
@@ -39,7 +38,7 @@ UploaderInline = View.extend({
 		}
 
 		if ( this.options.status ) {
-			this.views.set( '.upload-inline-status', new UploaderStatus({
+			this.views.set( '.upload-inline-status', new wp.media.view.UploaderStatus({
 				controller: this.controller
 			}) );
 		}

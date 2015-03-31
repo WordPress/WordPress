@@ -8,8 +8,7 @@
  * @augments wp.Backbone.View
  * @augments Backbone.View
  */
-var View = require( './view.js' ),
-	Attachment = require( './attachment.js' ),
+var View = wp.media.View,
 	$ = jQuery,
 	Attachments;
 
@@ -27,7 +26,7 @@ Attachments = View.extend({
 		_.defaults( this.options, {
 			refreshSensitivity: wp.media.isTouchDevice ? 300 : 200,
 			refreshThreshold:   3,
-			AttachmentView:     Attachment,
+			AttachmentView:     wp.media.view.Attachment,
 			sortable:           false,
 			resize:             true,
 			idealColumnWidth:   $( window ).width() < 640 ? 135 : 150

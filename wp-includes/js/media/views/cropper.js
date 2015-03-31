@@ -14,9 +14,8 @@
  * @augments wp.Backbone.View
  * @augments Backbone.View
  */
-var View = require( './view.js' ),
-	UploaderStatusError = require( './uploader/status-error.js' ),
-	UploaderStatus = require( './uploader/status.js' ),
+var View = wp.media.View,
+	UploaderStatus = wp.media.view.UploaderStatus,
 	l10n = wp.media.view.l10n,
 	$ = jQuery,
 	Cropper;
@@ -58,7 +57,7 @@ Cropper = View.extend({
 	onError: function() {
 		var filename = this.options.attachment.get('filename');
 
-		this.views.add( '.upload-errors', new UploaderStatusError({
+		this.views.add( '.upload-errors', new wp.media.view.UploaderStatusError({
 			filename: UploaderStatus.prototype.filename(filename),
 			message: window._wpMediaViewsL10n.cropError
 		}), { at: 0 });

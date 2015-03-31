@@ -8,10 +8,7 @@
  * @augments wp.Backbone.View
  * @augments Backbone.View
  */
-var View = require( './view.js' ),
-	Button;
-
-Button = View.extend({
+var Button = wp.media.View.extend({
 	tagName:    'a',
 	className:  'media-button',
 	attributes: { href: '#' },

@@ -11,7 +11,7 @@
  * @augments wp.Backbone.View
  * @augments Backbone.View
  */
-var MediaDetails = require( './media-details' ),
+var MediaDetails = wp.media.view.MediaDetails,
 	VideoDetails;
 
 VideoDetails = MediaDetails.extend({

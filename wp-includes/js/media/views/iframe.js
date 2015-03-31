@@ -6,10 +6,7 @@
  * @augments wp.Backbone.View
  * @augments Backbone.View
  */
-var View = require( './view.js' ),
-	Iframe;
-
-Iframe = View.extend({
+var Iframe = wp.media.View.extend({
 	className: 'media-iframe',
 	/**
 	 * @returns {wp.media.view.Iframe} Returns itself to allow chaining

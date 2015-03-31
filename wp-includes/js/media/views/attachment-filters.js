@@ -8,11 +8,10 @@
  * @augments wp.Backbone.View
  * @augments Backbone.View
  */
-var View = require( './view.js' ),
-	$ = jQuery,
+var $ = jQuery,
 	AttachmentFilters;
 
-AttachmentFilters = View.extend({
+AttachmentFilters = wp.media.View.extend({
 	tagName:   'select',
 	className: 'attachment-filters',
 	id:        'media-attachment-filters',

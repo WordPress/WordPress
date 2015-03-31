@@ -7,10 +7,7 @@
  * @augments wp.Backbone.View
  * @augments Backbone.View
  */
-var MenuItem = require( './menu-item.js' ),
-	RouterItem;
-
-RouterItem = MenuItem.extend({
+var RouterItem = wp.media.view.MenuItem.extend({
 	/**
 	 * On click handler to activate the content region's corresponding mode.
 	 */

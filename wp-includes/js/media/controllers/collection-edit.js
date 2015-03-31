@@ -34,9 +34,7 @@
  * @param {string}                     attributes.type                   The collection's media type. (e.g. 'video').
  * @param {string}                     attributes.collectionType         The collection type. (e.g. 'playlist').
  */
-var Library = require( './library.js' ),
-	View = require( '../views/view.js' ),
-	EditLibraryView = require( '../views/attachment/edit-library.js' ),
+var Library = wp.media.controller.Library,
 	l10n = wp.media.view.l10n,
 	$ = jQuery,
 	CollectionEdit;
@@ -75,7 +73,7 @@ CollectionEdit = Library.extend({
 		}
 		// The single `Attachment` view to be used in the `Attachments` view.
 		if ( ! this.get('AttachmentView') ) {
-			this.set( 'AttachmentView', EditLibraryView );
+			this.set( 'AttachmentView', wp.media.view.Attachment.EditLibrary );
 		}
 		Library.prototype.initialize.apply( this, arguments );
 	},
@@ -141,7 +139,7 @@ CollectionEdit = Library.extend({
 		attachmentsBrowserView.sidebar.set( obj );
 
 		if ( dragInfoText ) {
-			attachmentsBrowserView.toolbar.set( 'dragInfo', new View({
+			attachmentsBrowserView.toolbar.set( 'dragInfo', new wp.media.View({
 				el: $( '<div class="instructions">' + dragInfoText + '</div>' )[0],
 				priority: -40
 			}) );

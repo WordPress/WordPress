@@ -14,24 +14,8 @@
  * @augments Backbone.View
  * @mixes wp.media.controller.StateMachine
  */
-var View = require( '../view.js' ),
-	Select = require( './select.js' ),
-	Library = require( '../../controllers/library.js' ),
-	Embed = require( '../embed.js' ),
-	EditImage = require( '../edit-image.js' ),
-	EditSelection = require( '../attachment/edit-selection.js' ),
-	Toolbar = require( '../toolbar.js' ),
-	ToolbarEmbed = require( '../toolbar/embed.js' ),
-	PlaylistSettings = require( '../settings/playlist.js' ),
-	AttachmentsBrowser = require( '../attachments/browser.js' ),
-	SelectionView = require( '../selection.js' ),
-	EmbedController = require( '../../controllers/embed.js' ),
-	EditImageController = require( '../../controllers/edit-image.js' ),
-	GalleryEditController = require( '../../controllers/gallery-edit.js' ),
-	GalleryAddController = require( '../../controllers/gallery-add.js' ),
-	CollectionEditController = require( '../../controllers/collection-edit.js' ),
-	CollectionAddController = require( '../../controllers/collection-add.js' ),
-	FeaturedImageController = require( '../../controllers/featured-image.js' ),
+var Select = wp.media.view.MediaFrame.Select,
+	Library = wp.media.controller.Library,
 	l10n = wp.media.view.l10n,
 	Post;
 
@@ -105,18 +89,18 @@ Post = Select.extend({
 			}),
 
 			// Embed states.
-			new EmbedController( { metadata: options.metadata } ),
+			new wp.media.controller.Embed( { metadata: options.metadata } ),
 
-			new EditImageController( { model: options.editImage } ),
+			new wp.media.controller.EditImage( { model: options.editImage } ),
 
 			// Gallery states.
-			new GalleryEditController({
+			new wp.media.controller.GalleryEdit({
 				library: options.selection,
 				editing: options.editing,
 				menu:    'gallery'
 			}),
 
-			new GalleryAddController(),
+			new wp.media.controller.GalleryAdd(),
 
 			new Library({
 				id:         'playlist',
@@ -133,11 +117,11 @@ Post = Select.extend({
 			}),
 
 			// Playlist states.
-			new CollectionEditController({
+			new wp.media.controller.CollectionEdit({
 				type: 'audio',
 				collectionType: 'playlist',
 				title:          l10n.editPlaylistTitle,
-				SettingsView:   PlaylistSettings,
+				SettingsView:   wp.media.view.Settings.Playlist,
 				library:        options.selection,
 				editing:        options.editing,
 				menu:           'playlist',
@@ -145,7 +129,7 @@ Post = Select.extend({
 				dragInfo:       false
 			}),
 
-			new CollectionAddController({
+			new wp.media.controller.CollectionAdd({
 				type: 'audio',
 				collectionType: 'playlist',
 				title: l10n.addToPlaylistTitle
@@ -165,11 +149,11 @@ Post = Select.extend({
 				}, options.library ) )
 			}),
 
-			new CollectionEditController({
+			new wp.media.controller.CollectionEdit({
 				type: 'video',
 				collectionType: 'playlist',
 				title:          l10n.editVideoPlaylistTitle,
-				SettingsView:   PlaylistSettings,
+				SettingsView:   wp.media.view.Settings.Playlist,
 				library:        options.selection,
 				editing:        options.editing,
 				menu:           'video-playlist',
@@ -177,7 +161,7 @@ Post = Select.extend({
 				dragInfo:       false
 			}),
 
-			new CollectionAddController({
+			new wp.media.controller.CollectionAdd({
 				type: 'video',
 				collectionType: 'playlist',
 				title: l10n.addToVideoPlaylistTitle
@@ -185,7 +169,7 @@ Post = Select.extend({
 		]);
 
 		if ( wp.media.view.settings.post.featuredImageId ) {
-			this.states.add( new FeaturedImageController() );
+			this.states.add( new wp.media.controller.FeaturedImage() );
 		}
 	},
 
@@ -272,7 +256,7 @@ Post = Select.extend({
 	 */
 	mainMenu: function( view ) {
 		view.set({
-			'library-separator': new View({
+			'library-separator': new wp.media.View({
 				className: 'separator',
 				priority: 100
 			})
@@ -311,7 +295,7 @@ Post = Select.extend({
 					this.controller.modal.focusManager.focus();
 				}
 			},
-			separateCancel: new View({
+			separateCancel: new wp.media.View({
 				className: 'separator',
 				priority: 40
 			})
@@ -335,7 +319,7 @@ Post = Select.extend({
 					}
 				}
 			},
-			separateCancel: new View({
+			separateCancel: new wp.media.View({
 				className: 'separator',
 				priority: 40
 			})
@@ -359,7 +343,7 @@ Post = Select.extend({
 					}
 				}
 			},
-			separateCancel: new View({
+			separateCancel: new wp.media.View({
 				className: 'separator',
 				priority: 40
 			})
@@ -368,7 +352,7 @@ Post = Select.extend({
 
 	// Content
 	embedContent: function() {
-		var view = new Embed({
+		var view = new wp.media.view.Embed({
 			controller: this,
 			model:      this.state()
 		}).render();
@@ -385,7 +369,7 @@ Post = Select.extend({
 			selection = state.get('selection'),
 			view;
 
-		view = new AttachmentsBrowser({
+		view = new wp.media.view.AttachmentsBrowser({
 			controller: this,
 			collection: selection,
 			selection:  selection,
@@ -395,7 +379,7 @@ Post = Select.extend({
 			date:       false,
 			dragInfo:   true,
 
-			AttachmentView: EditSelection
+			AttachmentView: wp.media.view.Attachments.EditSelection
 		}).render();
 
 		view.toolbar.set( 'backToLibrary', {
@@ -416,7 +400,7 @@ Post = Select.extend({
 
 	editImageContent: function() {
 		var image = this.state().get('image'),
-			view = new EditImage( { model: image, controller: this } ).render();
+			view = new wp.media.view.EditImage( { model: image, controller: this } ).render();
 
 		this.content.set( view );
 
@@ -433,7 +417,7 @@ Post = Select.extend({
 	selectionStatusToolbar: function( view ) {
 		var editable = this.state().get('editable');
 
-		view.set( 'selection', new SelectionView({
+		view.set( 'selection', new wp.media.view.Selection({
 			controller: this,
 			collection: this.state().get('selection'),
 			priority:   -40,
@@ -574,14 +558,14 @@ Post = Select.extend({
 	},
 
 	mainEmbedToolbar: function( toolbar ) {
-		toolbar.view = new ToolbarEmbed({
+		toolbar.view = new wp.media.view.Toolbar.Embed({
 			controller: this
 		});
 	},
 
 	galleryEditToolbar: function() {
 		var editing = this.state().get('editing');
-		this.toolbar.set( new Toolbar({
+		this.toolbar.set( new wp.media.view.Toolbar({
 			controller: this,
 			items: {
 				insert: {
@@ -610,7 +594,7 @@ Post = Select.extend({
 	},
 
 	galleryAddToolbar: function() {
-		this.toolbar.set( new Toolbar({
+		this.toolbar.set( new wp.media.view.Toolbar({
 			controller: this,
 			items: {
 				insert: {
@@ -638,7 +622,7 @@ Post = Select.extend({
 
 	playlistEditToolbar: function() {
 		var editing = this.state().get('editing');
-		this.toolbar.set( new Toolbar({
+		this.toolbar.set( new wp.media.view.Toolbar({
 			controller: this,
 			items: {
 				insert: {
@@ -667,7 +651,7 @@ Post = Select.extend({
 	},
 
 	playlistAddToolbar: function() {
-		this.toolbar.set( new Toolbar({
+		this.toolbar.set( new wp.media.view.Toolbar({
 			controller: this,
 			items: {
 				insert: {
@@ -695,7 +679,7 @@ Post = Select.extend({
 
 	videoPlaylistEditToolbar: function() {
 		var editing = this.state().get('editing');
-		this.toolbar.set( new Toolbar({
+		this.toolbar.set( new wp.media.view.Toolbar({
 			controller: this,
 			items: {
 				insert: {
@@ -724,7 +708,7 @@ Post = Select.extend({
 	},
 
 	videoPlaylistAddToolbar: function() {
-		this.toolbar.set( new Toolbar({
+		this.toolbar.set( new wp.media.view.Toolbar({
 			controller: this,
 			items: {
 				insert: {
