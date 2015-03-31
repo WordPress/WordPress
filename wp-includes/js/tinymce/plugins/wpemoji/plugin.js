@@ -30,19 +30,31 @@
 			tinymce.each( editor.dom.$( 'img._inserted-emoji', node ), setImgAttr );
 		}
 
+		// Test if the node text contains emoji char(s) and replace.
+		function parseNode( node ) {
+			var selection, bookmark;
+
+			if ( node && twemoji.test( node.textContent || node.innerText ) ) {
+				if ( env.webkit ) {
+					selection = editor.selection;
+					bookmark = selection.getBookmark();
+				}
+
+				replaceEmoji( node );
+
+				if ( env.webkit ) {
+					selection.moveToBookmark( bookmark );
+				}
+			}
+		}
+
 		if ( isWin8 ) {
 			// Windows 8+ emoji can be "typed" with the onscreen keyboard.
 			// That triggers the normal keyboard events, but not the 'input' event.
 			// Thankfully it sets keyCode 231 when the onscreen keyboard inserts any emoji.
 			editor.on( 'keyup', function( event ) {
-				var node;
-
 				if ( event.keyCode === 231 ) {
-					node = editor.selection.getNode();
-
-					if ( twemoji.test( node.textContent || node.innerText ) ) {
-						replaceEmoji( node );
-					}
+					parseNode( editor.selection.getNode() );
 				}
 			} );
 		} else if ( ! isWin ) {
@@ -58,21 +70,7 @@
 					return;
 				}
 
-				var bookmark,
-					selection = editor.selection,
-					node = selection.getNode();
-
-				if ( twemoji.test( node.textContent || node.innerText ) ) {
-					if ( env.webkit ) {
-						bookmark = selection.getBookmark();
-					}
-
-					replaceEmoji( node );
-
-					if ( env.webkit ) {
-						selection.moveToBookmark( bookmark );
-					}
-				}
+				parseNode( editor.selection.getNode() );
 			});
 		}
 
