@@ -409,8 +409,26 @@ function themes_api( $action, $args = null ) {
 function wp_prepare_themes_for_js( $themes = null ) {
 	$current_theme = get_stylesheet();
 
+	/**
+	 * Filter theme data before it is prepared for JavaScript.
+	 *
+	 * Passing a non-empty array will result in wp_prepare_themes_for_js() returning
+	 * early with that value instead.
+	 *
+	 * @since 4.2.0
+	 *
+	 * @param array      $prepared_themes An associative array of theme data. Default empty array.
+	 * @param null|array $themes          An array of WP_Theme objects to prepare, if any.
+	 * @param string     $current_theme   The current theme slug.
+	 */
+	$prepared_themes = (array) apply_filters( 'pre_wp_prepare_themes_for_js', array(), $themes, $current_theme );
+
+	if ( ! empty( $prepared_themes ) ) {
+		return $prepared_themes;
+	}
+
 	// Make sure the current theme is listed first.
-	$prepared_themes = array( $current_theme => array() );
+	$prepared_themes[ $current_theme ] = array();
 
 	if ( null === $themes ) {
 		$themes = wp_get_themes( array( 'allowed' => true ) );
