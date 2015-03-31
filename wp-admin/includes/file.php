@@ -141,17 +141,29 @@ function list_files( $folder = '', $levels = 100 ) {
  * @param string $dir      Optional. Directory to store the file in. Default empty.
  * @return string a writable filename
  */
-function wp_tempnam($filename = '', $dir = '') {
-	if ( empty($dir) )
+function wp_tempnam( $filename = '', $dir = '' ) {
+	if ( empty( $dir ) ) {
 		$dir = get_temp_dir();
-	$filename = basename($filename);
-	if ( empty($filename) )
-		$filename = time();
+	}
 
-	$filename = preg_replace('|\..*$|', '.tmp', $filename);
-	$filename = $dir . wp_unique_filename($dir, $filename);
-	touch($filename);
-	return $filename;
+	if ( empty( $filename ) || '.' == $filename ) {
+		$filename = time();
+	}
+
+	// Use the basename of the given file without the extension as the name for the temporary directory
+	$temp_filename = basename( $filename );
+	$temp_filename = preg_replace( '|\.[^.]*$|', '', $temp_filename );
+
+	// If the folder is falsey, use it's parent directory name instead
+	if ( ! $temp_filename ) {
+		return wp_tempnam( dirname( $filename ), $dir );
+	}
+
+	$temp_filename .= '.tmp';
+	$temp_filename = $dir . wp_unique_filename( $dir, $temp_filename );
+	touch( $temp_filename );
+
+	return $temp_filename;
 }
 
 /**
@@ -627,8 +639,10 @@ function _unzip_file_ziparchive($file, $to, $needed_dirs = array() ) {
 
 	// Create those directories if need be:
 	foreach ( $needed_dirs as $_dir ) {
-		if ( ! $wp_filesystem->mkdir($_dir, FS_CHMOD_DIR) && ! $wp_filesystem->is_dir($_dir) ) // Only check to see if the Dir exists upon creation failure. Less I/O this way.
+		// Only check to see if the Dir exists upon creation failure. Less I/O this way.
+		if ( ! $wp_filesystem->mkdir( $_dir, FS_CHMOD_DIR ) && ! $wp_filesystem->is_dir( $_dir ) ) {
 			return new WP_Error( 'mkdir_failed_ziparchive', __( 'Could not create directory.' ), substr( $_dir, strlen( $to ) ) );
+		}
 	}
 	unset($needed_dirs);
 
