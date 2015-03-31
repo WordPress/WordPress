@@ -168,7 +168,8 @@ class WP_Media_List_Table extends WP_List_Table {
 	<div class="filter-items">
 		<?php $this->view_switcher( $mode ); ?>
 
-		<select class="attachment-filters" name="attachment-filter">
+		<label for="attachment-filter" class="screen-reader-text"><?php _e( 'Filter by type' ); ?></label>
+		<select class="attachment-filters" name="attachment-filter" id="attachment-filter">
 			<?php
 			if ( ! empty( $views ) ) {
 				foreach ( $views as $class => $view ) {
