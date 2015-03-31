@@ -1860,6 +1860,28 @@
 		touchDrag: false,
 
 		/**
+		 * Defer rendering the theme control until the section is displayed.
+		 *
+		 * @since 4.2.0
+		 */
+		renderContent: function () {
+			var control = this,
+				renderContentArgs = arguments;
+
+			api.section( control.section(), function ( section ) {
+				if ( section.expanded() ) {
+					api.Control.prototype.renderContent.apply( control, renderContentArgs );
+				} else {
+					section.expanded.bind( function ( expanded ) {
+						if ( expanded ) {
+							api.Control.prototype.renderContent.apply( control, renderContentArgs );
+						}
+					} );
+				}
+			} );
+		},
+
+		/**
 		 * @since 4.2.0
 		 */
 		ready: function() {
