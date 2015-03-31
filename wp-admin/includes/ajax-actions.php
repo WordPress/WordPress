@@ -379,7 +379,7 @@ function _wp_ajax_delete_comment_response( $comment_id, $delta = -1 ) {
 		// Here for completeness - not used.
 		'id' => $comment_id,
 		'supplemental' => array(
-			'total_items_i18n' => sprintf( _n( '1 item', '%s items', $total ), number_format_i18n( $total ) ),
+			'total_items_i18n' => sprintf( _n( '%s item', '%s items', $total ), number_format_i18n( $total ) ),
 			'total_pages' => ceil( $total / $per_page ),
 			'total_pages_i18n' => number_format_i18n( ceil( $total / $per_page ) ),
 			'total' => $total,

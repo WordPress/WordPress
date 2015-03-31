@@ -23,8 +23,16 @@ _deprecated_file( sprintf( __( 'Theme without %1$s' ), basename(__FILE__) ), '3.
 <!-- You can start editing here. -->
 
 <?php if ( have_comments() ) : ?>
-	<h3 id="comments"><?php	printf( _n( 'One Response to %2$s', '%1$s Responses to %2$s', get_comments_number() ),
-									number_format_i18n( get_comments_number() ), '&#8220;' . get_the_title() . '&#8221;' ); ?></h3>
+	<h3 id="comments">
+		<?php
+			if ( 1 == get_comments_number() ) {
+				printf( 'One Response to %2$s',  '&#8220;' . get_the_title() . '&#8221;' );
+			} else {
+				printf( _n( '%1$s Response to %2$s', '%1$s Responses to %2$s', get_comments_number() ),
+					number_format_i18n( get_comments_number() ),  '&#8220;' . get_the_title() . '&#8221;' );
+			}
+		?>
+	</h3>
 
 	<div class="navigation">
 		<div class="alignleft"><?php previous_comments_link() ?></div>

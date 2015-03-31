@@ -216,11 +216,17 @@ case 'delete':
 <div class="wrap">
 <h2><?php _e('Delete Users'); ?></h2>
 <?php if ( isset( $_REQUEST['error'] ) ) : ?>
-<div class="error">
-	<p><strong><?php _e( 'ERROR:' ); ?></strong> <?php _e( 'Please select an option.' ); ?></p>
-</div>
+	<div class="error">
+		<p><strong><?php _e( 'ERROR:' ); ?></strong> <?php _e( 'Please select an option.' ); ?></p>
+	</div>
 <?php endif; ?>
-<p><?php echo _n( 'You have specified this user for deletion:', 'You have specified these users for deletion:', count( $userids ) ); ?></p>
+
+<?php if ( 1 == count( $userids ) ) : ?>
+	<p><?php _e( 'You have specified this user for deletion:' ); ?></p>
+<?php else : ?>
+	<p><?php _e( 'You have specified these users for deletion:' ); ?></p>
+<?php endif; ?>
+
 <ul>
 <?php
 	$go_delete = 0;
@@ -236,7 +242,11 @@ case 'delete':
 	?>
 	</ul>
 <?php if ( $go_delete ) : ?>
-	<fieldset><p><legend><?php echo _n( 'What should be done with content owned by this user?', 'What should be done with content owned by these users?', $go_delete ); ?></legend></p>
+	<?php if ( 1 == $go_delete ) : ?>
+		<fieldset><p><legend><?php _e( 'What should be done with content owned by this user?' ); ?></legend></p>
+	<?php else : ?>
+		<fieldset><p><legend><?php _e( 'What should be done with content owned by these users?' ); ?></legend></p>
+	<?php endif; ?>
 	<ul style="list-style:none;">
 		<li><label><input type="radio" id="delete_option0" name="delete_option" value="delete" />
 		<?php _e('Delete all content.'); ?></label></li>
@@ -379,7 +389,12 @@ default:
 		case 'del':
 		case 'del_many':
 			$delete_count = isset($_GET['delete_count']) ? (int) $_GET['delete_count'] : 0;
-			$messages[] = '<div id="message" class="updated"><p>' . sprintf( _n( 'User deleted.', '%s users deleted.', $delete_count ), number_format_i18n( $delete_count ) ) . '</p></div>';
+			if ( 1 == $delete_count ) {
+				$message = __( 'User deleted.' );
+			} else {
+				$message = _n( '%s user deleted.', '%s users deleted.', $delete_count );
+			}
+			$messages[] = '<div id="message" class="updated"><p>' . sprintf( $message, number_format_i18n( $delete_count ) ) . '</p></div>';
 			break;
 		case 'add':
 			if ( isset( $_GET['id'] ) && ( $user_id = $_GET['id'] ) && current_user_can( 'edit_user', $user_id ) ) {

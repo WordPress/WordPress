@@ -413,8 +413,16 @@ define('BLOG_ID_CURRENT_SITE', 1);
 		}
 		$num_keys_salts = count( $keys_salts );
 ?>
-	<p><?php
-		echo _n( 'This unique authentication key is also missing from your <code>wp-config.php</code> file.', 'These unique authentication keys are also missing from your <code>wp-config.php</code> file.', $num_keys_salts ); ?> <?php _e( 'To make your installation more secure, you should also add:' ) ?></p>
+	<p>
+		<?php
+			if ( 1 == $num_keys_salts ) {
+				_e( 'This unique authentication key is also missing from your <code>wp-config.php</code> file.' );
+			} else {
+				_e( 'These unique authentication keys are also missing from your <code>wp-config.php</code> file.' );
+			}
+		?>
+		<?php _e( 'To make your installation more secure, you should also add:' ); ?>
+	</p>
 	<textarea class="code" readonly="readonly" cols="100" rows="<?php echo $num_keys_salts; ?>"><?php echo esc_textarea( $keys_salts_str ); ?></textarea>
 <?php
 	}
