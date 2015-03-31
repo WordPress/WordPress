@@ -34,6 +34,14 @@
 	box-shadow: 0 3px 6px rgba( 0, 0, 0, 0.3 );
 }
 
+@media screen and ( max-width: 380px ) {
+	#wp-auth-check-wrap #wp-auth-check {
+		left: 0;
+		width: 100%;
+		margin: 0;
+	}
+}
+
 #wp-auth-check-wrap.fallback #wp-auth-check {
 	max-height: 180px;
 	overflow: auto;
@@ -44,12 +52,13 @@
 	-webkit-background-size: 16px 16px;
 	background-size: 16px 16px;
 	height: 100%;
+	overflow: auto;
+	-webkit-overflow-scrolling: touch;
 }
 
 #wp-auth-check-wrap #wp-auth-check-form iframe {
-	height: 100%;
+	height: 98%; /* Scrollbar fix */
 	width: 100%;
-	overflow: auto;
 }
 
 #wp-auth-check-wrap .wp-auth-check-close {

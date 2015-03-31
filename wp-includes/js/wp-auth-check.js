@@ -49,6 +49,7 @@
 			$('#wp-auth-check-form').append( frame );
 		}
 
+		$( 'body' ).addClass( 'modal-open' );
 		wrap.removeClass('hidden');
 
 		if ( frame ) {
@@ -80,6 +81,7 @@
 		wrap.fadeOut( 200, function() {
 			wrap.addClass('hidden').css('display', '');
 			$('#wp-auth-check-frame').remove();
+			$( 'body' ).removeClass( 'modal-open' );
 		});
 	}
 
