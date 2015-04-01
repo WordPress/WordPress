@@ -1125,9 +1125,9 @@ jQuery(function($){
 -->
 </script>
 <form action="<?php echo esc_url( $form_post ) ?>" method="post">
-<div>
-<h3><?php _e('Connection Information') ?></h3>
-<p><?php
+<div id="request-filesystem-credentials-form" class="request-filesystem-credentials-form">
+<h3 id="request-filesystem-credentials-title"><?php _e( 'Connection Information' ) ?></h3>
+<p id="request-filesystem-credentials-desc"><?php
 	$label_user = __('Username');
 	$label_pass = __('Password');
 	_e('To perform the requested action, WordPress needs to access your web server.');
@@ -1146,39 +1146,36 @@ jQuery(function($){
 	}
 	_e('If you do not remember your credentials, you should contact your web host.');
 ?></p>
-<table class="form-table">
-<tr>
-<th scope="row"><label for="hostname"><?php _e('Hostname') ?></label></th>
-<td><input name="hostname" type="text" id="hostname" value="<?php echo esc_attr($hostname); if ( !empty($port) ) echo ":$port"; ?>"<?php disabled( defined('FTP_HOST') ); ?> size="40" /></td>
-</tr>
-
-<tr>
-<th scope="row"><label for="username"><?php echo $label_user; ?></label></th>
-<td><input name="username" type="text" id="username" value="<?php echo esc_attr($username) ?>"<?php disabled( defined('FTP_USER') ); ?> size="40" /></td>
-</tr>
-
-<tr>
-<th scope="row"><label for="password"><?php echo $label_pass; ?></label></th>
-<td><div><input name="password" type="password" id="password" value="<?php if ( defined('FTP_PASS') ) echo '*****'; ?>"<?php disabled( defined('FTP_PASS') ); ?> size="40" /></div>
-<div><em><?php if ( ! defined('FTP_PASS') ) _e( 'This password will not be stored on the server.' ); ?></em></div></td>
-</tr>
-
+<label for="hostname">
+	<span class="field-title"><?php _e( 'Hostname' ) ?></span>
+	<input name="hostname" type="text" id="hostname" aria-describedby="request-filesystem-credentials-desc" class="code" placeholder="<?php esc_attr_e( __( 'example: www.mysite.com' ) ) ?>" value="<?php echo esc_attr($hostname); if ( !empty($port) ) echo ":$port"; ?>"<?php disabled( defined('FTP_HOST') ); ?> />
+</label>
+<div class="ftp-username">
+	<label for="username">
+		<span class="field-title"><?php echo $label_user; ?></span>
+		<input name="username" type="text" id="username" value="<?php echo esc_attr($username) ?>"<?php disabled( defined('FTP_USER') ); ?> />
+	</label>
+</div>
+<div class="ftp-password">
+	<label for="password">
+		<span class="field-title"><?php echo $label_pass; ?></span>
+		<input name="password" type="password" id="password" value="<?php if ( defined('FTP_PASS') ) echo '*****'; ?>"<?php disabled( defined('FTP_PASS') ); ?> />
+		<em><?php if ( ! defined('FTP_PASS') ) _e( 'This password will not be stored on the server.' ); ?></em>
+	</label>
+</div>
 <?php if ( isset($types['ssh']) ) : ?>
-<tr id="ssh_keys" style="<?php if ( 'ssh' != $connection_type ) echo 'display:none' ?>">
-<th scope="row"><?php _e('Authentication Keys') ?>
-<div class="key-labels textright">
-<label for="public_key"><?php _e('Public Key:') ?></label ><br />
-<label for="private_key"><?php _e('Private Key:') ?></label>
-</div></th>
-<td><br /><input name="public_key" type="text" id="public_key" value="<?php echo esc_attr($public_key) ?>"<?php disabled( defined('FTP_PUBKEY') ); ?> size="40" />
-	<br /><input name="private_key" type="text" id="private_key" value="<?php echo esc_attr($private_key) ?>"<?php disabled( defined('FTP_PRIKEY') ); ?> size="40" />
-<div><?php _e('Enter the location on the server where the keys are located. If a passphrase is needed, enter that in the password field above.') ?></div></td>
-</tr>
+<h4><?php _e('Authentication Keys') ?></h4>
+<label for="public_key">
+	<span class="field-title"><?php _e('Public Key:') ?></span>
+	<input name="public_key" type="text" id="public_key" aria-describedby="auth-keys-desc" value="<?php echo esc_attr($public_key) ?>"<?php disabled( defined('FTP_PUBKEY') ); ?> />
+</label>
+<label for="private_key">
+	<span class="field-title"><?php _e('Private Key:') ?></span>
+	<input name="private_key" type="text" id="private_key" value="<?php echo esc_attr($private_key) ?>"<?php disabled( defined('FTP_PRIKEY') ); ?> />
+</label>
+<span id="auth-keys-desc"><?php _e('Enter the location on the server where the public and private keys are located. If a passphrase is needed, enter that in the password field above.') ?></span>
 <?php endif; ?>
-
-<tr>
-<th scope="row"><?php _e('Connection Type') ?></th>
-<td>
+<h4><?php _e('Connection Type') ?></h4>
 <fieldset><legend class="screen-reader-text"><span><?php _e('Connection Type') ?></span></legend>
 <?php
 	$disabled = disabled( (defined('FTP_SSL') && FTP_SSL) || (defined('FTP_SSH') && FTP_SSH), true, false );
@@ -1189,17 +1186,16 @@ jQuery(function($){
 	</label>
 	<?php endforeach; ?>
 </fieldset>
-</td>
-</tr>
-</table>
-
 <?php
 foreach ( (array) $extra_fields as $field ) {
 	if ( isset( $_POST[ $field ] ) )
 		echo '<input type="hidden" name="' . esc_attr( $field ) . '" value="' . esc_attr( wp_unslash( $_POST[ $field ] ) ) . '" />';
 }
-submit_button( __( 'Proceed' ), 'button', 'upgrade' );
 ?>
+	<p class="request-filesystem-credentials-action-buttons">
+		<button class="button cancel-button" data-js-action="close" type="button"><?php _e( 'Cancel' ); ?></button>
+		<?php submit_button( __( 'Proceed' ), 'button', 'upgrade', false ); ?>
+	</p>
 </div>
 </form>
 <?php
@@ -1223,7 +1219,7 @@ function wp_print_request_filesystem_credentials_modal() {
 	?>
 	<div id="request-filesystem-credentials-dialog" class="notification-dialog-wrap request-filesystem-credentials-dialog">
 		<div class="notification-dialog-background"></div>
-		<div class="notification-dialog">
+		<div class="notification-dialog" role="dialog" aria-labelledby="request-filesystem-credentials-title" tabindex="0">
 			<div class="request-filesystem-credentials-dialog-content">
 				<?php request_filesystem_credentials( site_url() ); ?>
 			<div>

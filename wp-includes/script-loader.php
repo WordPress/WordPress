@@ -529,6 +529,7 @@ function wp_default_scripts( &$scripts ) {
 				'updateFailed'  => __( 'Update failed.' ),
 				'updatingMsg'   => __( 'Updating... please wait.' ),
 				'updatedMsg'    => __( 'Update completed successfully.' ),
+				'updateCancel'  => __( 'Update canceled' ),
 			)
 		) );
 
