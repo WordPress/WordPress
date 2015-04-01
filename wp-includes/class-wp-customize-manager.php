@@ -1171,10 +1171,12 @@ final class WP_Customize_Manager {
 			) ) );
 		}
 
-		$this->add_control( new WP_Customize_New_Theme_Control( $this, 'add_theme', array(
-			'section' => 'themes',
-			'settings' => 'active_theme',
-		) ) );
+		if ( ! is_multisite() && current_user_can( 'install_themes' ) ) {
+			$this->add_control( new WP_Customize_New_Theme_Control( $this, 'add_theme', array(
+				'section' => 'themes',
+				'settings' => 'active_theme',
+			) ) );
+		}
 
 		/* Site Title & Tagline */
 

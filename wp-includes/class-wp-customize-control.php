@@ -1243,14 +1243,11 @@ class WP_Customize_Theme_Control extends WP_Customize_Control {
 class WP_Customize_New_Theme_Control extends WP_Customize_Control {
 
 	/**
-	 * Render the new control.
+	 * Render the control content.
 	 *
 	 * @since 4.2.0
 	 */
-	public function render() {
-		if ( is_multisite() || ! current_user_can( 'install_themes') ) {
-			return;
-		}
+	public function render_content() {
 		?>
 		<div class="theme add-new-theme">
 			<a href="<?php echo admin_url( 'theme-install.php' ); ?>" target="_top">
