@@ -1290,6 +1290,7 @@ i.mce-i-wp_code:before {
 }
 
 #wp-link-wrap.search-panel-visible #link-selector {
+	-webkit-overflow-scrolling: touch;
 	padding: 0 16px;
 	position: absolute;
 	top: 36px;
@@ -1478,6 +1479,7 @@ i.mce-i-wp_code:before {
 	width: 80%;
 	width: -webkit-calc(100% - 68px);
 	width: calc(100% - 68px);
+	word-wrap: break-word;
 }
 
 #wp-link .item-info {
