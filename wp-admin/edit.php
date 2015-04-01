@@ -303,7 +303,7 @@ foreach ( $bulk_counts as $message => $count ) {
 }
 
 if ( $messages )
-	echo '<div id="message" class="updated"><p>' . join( ' ', $messages ) . '</p></div>';
+	echo '<div id="message" class="updated notice is-dismissible"><p>' . join( ' ', $messages ) . '</p></div>';
 unset( $messages );
 
 $_SERVER['REQUEST_URI'] = remove_query_arg( array( 'locked', 'skipped', 'updated', 'deleted', 'trashed', 'untrashed' ), $_SERVER['REQUEST_URI'] );

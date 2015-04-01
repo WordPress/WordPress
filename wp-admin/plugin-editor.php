@@ -164,7 +164,7 @@ default:
 	$content = esc_textarea( $content );
 	?>
 <?php if (isset($_GET['a'])) : ?>
- <div id="message" class="updated"><p><?php _e('File edited successfully.') ?></p></div>
+ <div id="message" class="updated notice is-dismissible"><p><?php _e('File edited successfully.') ?></p></div>
 <?php elseif (isset($_GET['phperror'])) : ?>
  <div id="message" class="updated"><p><?php _e('This plugin has been deactivated because your changes resulted in a <strong>fatal error</strong>.') ?></p>
 	<?php

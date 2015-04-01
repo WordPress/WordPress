@@ -276,7 +276,7 @@ if ( ! empty( $_GET['message'] ) && isset( $messages[ $_GET['message'] ] ) ) {
 }
 
 if ( !empty($message) ) { ?>
-<div id="message" class="updated"><p><?php echo $message; ?></p></div>
+<div id="message" class="updated notice is-dismissible"><p><?php echo $message; ?></p></div>
 <?php } ?>
 
 <form id="posts-filter" method="get">

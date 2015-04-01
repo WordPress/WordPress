@@ -148,7 +148,7 @@ flush_rewrite_rules();
 require( ABSPATH . 'wp-admin/admin-header.php' );
 
 if ( ! empty( $_GET['settings-updated'] ) ) : ?>
-<div id="message" class="updated"><p><?php
+<div id="message" class="updated notice is-dismissible"><p><?php
 if ( ! is_multisite() ) {
 	if ( $iis7_permalinks ) {
 		if ( $permalink_structure && ! $usingpi && ! $writable ) {

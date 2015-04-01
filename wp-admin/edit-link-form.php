@@ -73,7 +73,7 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 <h2><?php echo esc_html( $title ); ?>  <a href="link-add.php" class="add-new-h2"><?php echo esc_html_x('Add New', 'link'); ?></a></h2>
 
 <?php if ( isset( $_GET['added'] ) ) : ?>
-<div id="message" class="updated"><p><?php _e('Link added.'); ?></p></div>
+<div id="message" class="updated notice is-dismissible"><p><?php _e('Link added.'); ?></p></div>
 <?php endif; ?>
 
 <form name="<?php echo esc_attr( $form_name ); ?>" id="<?php echo esc_attr( $form_name ); ?>" method="post" action="link.php">

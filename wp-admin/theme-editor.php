@@ -122,7 +122,7 @@ default:
 	}
 
 	if ( isset( $_GET['updated'] ) ) : ?>
- <div id="message" class="updated"><p><?php _e( 'File edited successfully.' ) ?></p></div>
+ <div id="message" class="updated notice is-dismissible"><p><?php _e( 'File edited successfully.' ) ?></p></div>
 <?php endif;
 
 $description = get_file_description( $file );

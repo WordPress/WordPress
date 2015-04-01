@@ -134,7 +134,7 @@ require( ABSPATH . 'wp-admin/admin-header.php' );
 <?php
 if ( ! empty( $messages ) ) {
 	foreach ( $messages as $msg )
-		echo '<div id="message" class="updated"><p>' . $msg . '</p></div>';
+		echo '<div id="message" class="updated notice is-dismissible"><p>' . $msg . '</p></div>';
 } ?>
 <form method="post" action="<?php echo network_admin_url( 'site-new.php?action=add-site' ); ?>" novalidate="novalidate">
 <?php wp_nonce_field( 'add-blog', '_wpnonce_add-blog' ) ?>

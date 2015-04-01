@@ -738,7 +738,8 @@ img.emoji {
 /* @todo can we combine these into a class or use an existing dashicon one? */
 #welcome-panel.welcome-panel .welcome-panel-close:before,
 .tagchecklist span a:before,
-#bulk-titles div a:before {
+#bulk-titles div a:before,
+.notice-dismiss:before {
 	background: none;
 	color: #bbb;
 	content: '\f153';
@@ -1288,22 +1289,59 @@ div.error p,
 	padding: 2px;
 }
 
+.notice.is-dismissible {
+	padding-right: 38px;
+	position: relative;
+}
+
+.notice-dismiss {
+	height: 38px;
+	width: 38px;
+	position: absolute;
+	top: 0;
+	right: 0;
+	border: none;
+	margin: 0;
+	padding: 11px;
+	background: none;
+	color: #bbb;
+	cursor: pointer;
+}
+
+.notice-dismiss:hover:before,
+.notice-dismiss:active:before,
+.notice-dismiss:focus:before {
+	color: #c00;
+}
+
+.notice-dismiss:active,
+.notice-dismiss:focus {
+	outline: none;
+	-webkit-box-shadow: 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, .8);
+	box-shadow: 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, .8);
+	color: #c00;
+}
+
+.ie8 .notice-dismiss:focus {
+	outline: 1px solid #5b9dd9;
+}
+
 .notice-success,
 div.updated {
-     border-color: #7ad03a;
+	border-color: #7ad03a;
 }
 
 .notice-warning {
-    border-color: #ffba00;
+	border-color: #ffba00;
 }
 
 .notice-error,
 div.error {
-    border-color: #dd3d36;
+	border-color: #dd3d36;
 }
 
 .notice-info {
-    border-color: #00a0d2;
+	border-color: #00a0d2;
 }
 
 .wrap .notice,
@@ -3122,11 +3160,24 @@ img {
 	}
 
 	/* Feedback Messages */
-	.wrap div.updated, .wrap div.error, .media-upload-form div.error {
+	.notice,
+	.wrap div.updated,
+	.wrap div.error,
+	.media-upload-form div.error {
 		margin: 20px 0 10px 0;
 		padding: 5px 10px;
 		font-size: 14px;
 		line-height: 175%;
+	}
+
+	.notice.is-dismissible {
+		padding-right: 46px;
+	}
+
+	.notice-dismiss {
+		height: 46px;
+		width: 46px;
+		padding: 16px;
 	}
 
 	.wrap .icon32 + h2 {

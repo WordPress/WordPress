@@ -410,7 +410,7 @@ if ( isset( $post_new_file ) && current_user_can( $post_type_object->cap->create
 <div id="notice" class="notice notice-warning"><p id="has-newer-autosave"><?php echo $notice ?></p></div>
 <?php endif; ?>
 <?php if ( $message ) : ?>
-<div id="message" class="updated"><p><?php echo $message; ?></p></div>
+<div id="message" class="updated notice notice-success is-dismissible"><p><?php echo $message; ?></p></div>
 <?php endif; ?>
 <div id="lost-connection-notice" class="error hidden">
 	<p><span class="spinner"></span> <?php _e( '<strong>Connection lost.</strong> Saving has been disabled until you&#8217;re reconnected.' ); ?>

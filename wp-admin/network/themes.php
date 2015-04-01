@@ -274,7 +274,7 @@ if ( isset( $_GET['enabled'] ) ) {
 	} else {
 		$message = _n( '%s theme enabled.', '%s themes enabled.', $enabled );
 	}
-	echo '<div id="message" class="updated"><p>' . sprintf( $message, number_format_i18n( $enabled ) ) . '</p></div>';
+	echo '<div id="message" class="updated notice is-dismissible"><p>' . sprintf( $message, number_format_i18n( $enabled ) ) . '</p></div>';
 } elseif ( isset( $_GET['disabled'] ) ) {
 	$disabled = absint( $_GET['disabled'] );
 	if ( 1 == $disabled ) {
@@ -282,7 +282,7 @@ if ( isset( $_GET['enabled'] ) ) {
 	} else {
 		$message = _n( '%s theme disabled.', '%s themes disabled.', $disabled );
 	}
-	echo '<div id="message" class="updated"><p>' . sprintf( $message, number_format_i18n( $disabled ) ) . '</p></div>';
+	echo '<div id="message" class="updated notice is-dismissible"><p>' . sprintf( $message, number_format_i18n( $disabled ) ) . '</p></div>';
 } elseif ( isset( $_GET['deleted'] ) ) {
 	$deleted = absint( $_GET['deleted'] );
 	if ( 1 == $deleted ) {
@@ -290,11 +290,11 @@ if ( isset( $_GET['enabled'] ) ) {
 	} else {
 		$message = _n( '%s theme deleted.', '%s themes deleted.', $deleted );
 	}
-	echo '<div id="message" class="updated"><p>' . sprintf( $message, number_format_i18n( $deleted ) ) . '</p></div>';
+	echo '<div id="message" class="updated notice is-dismissible"><p>' . sprintf( $message, number_format_i18n( $deleted ) ) . '</p></div>';
 } elseif ( isset( $_GET['error'] ) && 'none' == $_GET['error'] ) {
-	echo '<div id="message" class="error"><p>' . __( 'No theme selected.' ) . '</p></div>';
+	echo '<div id="message" class="error notice is-dismissible"><p>' . __( 'No theme selected.' ) . '</p></div>';
 } elseif ( isset( $_GET['error'] ) && 'main' == $_GET['error'] ) {
-	echo '<div class="error"><p>' . __( 'You cannot delete a theme while it is active on the main site.' ) . '</p></div>';
+	echo '<div class="error notice is-dismissible"><p>' . __( 'You cannot delete a theme while it is active on the main site.' ) . '</p></div>';
 }
 
 ?>

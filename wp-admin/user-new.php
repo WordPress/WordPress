@@ -253,7 +253,7 @@ if ( current_user_can( 'create_users' ) ) {
 
 if ( ! empty( $messages ) ) {
 	foreach ( $messages as $msg )
-		echo '<div id="message" class="updated"><p>' . $msg . '</p></div>';
+		echo '<div id="message" class="updated notice is-dismissible"><p>' . $msg . '</p></div>';
 } ?>
 
 <?php if ( isset($add_user_errors) && is_wp_error( $add_user_errors ) ) : ?>

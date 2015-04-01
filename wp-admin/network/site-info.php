@@ -117,7 +117,7 @@ foreach ( $tabs as $tab_id => $tab ) {
 <?php
 if ( ! empty( $messages ) ) {
 	foreach ( $messages as $msg )
-		echo '<div id="message" class="updated"><p>' . $msg . '</p></div>';
+		echo '<div id="message" class="updated notice is-dismissible"><p>' . $msg . '</p></div>';
 } ?>
 <form method="post" action="site-info.php?action=update-site">
 	<?php wp_nonce_field( 'edit-site' ); ?>

@@ -373,6 +373,27 @@ $(document).ready( function() {
 	$firstHeading.nextAll( 'div.updated, div.error, div.notice' ).addClass( 'below-h2' );
 	$( 'div.updated, div.error, div.notice' ).not( '.below-h2, .inline' ).insertAfter( $firstHeading );
 
+	// Make notices dismissible
+	$( '.notice.is-dismissible' ).each( function() {
+		var $this = $( this ),
+			$button = $( '<button type="button" class="notice-dismiss"><span class="screen-reader-text"></span></button>' ),
+			btnText = commonL10n.dismiss || '';
+
+		// Ensure plain text
+		$button.find( '.screen-reader-text' ).text( btnText );
+
+		$this.append( $button );
+
+		$button.on( 'click.wp-dismiss-notice', function( event ) {
+			event.preventDefault();
+			$this.fadeTo( 100 , 0, function() {
+				$(this).slideUp( 100, function() {
+					$(this).remove();
+				});
+			});
+		});
+	});
+
 	// Init screen meta
 	screenMeta.init();
 

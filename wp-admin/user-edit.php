@@ -186,7 +186,7 @@ include(ABSPATH . 'wp-admin/admin-header.php');
 	<div class="updated"><p><strong><?php _e('Important:'); ?></strong> <?php _e('This user has super admin privileges.'); ?></p></div>
 <?php } ?>
 <?php if ( isset($_GET['updated']) ) : ?>
-<div id="message" class="updated">
+<div id="message" class="updated notice is-dismissible">
 	<?php if ( IS_PROFILE_PAGE ) : ?>
 	<p><strong><?php _e('Profile updated.') ?></strong></p>
 	<?php else: ?>

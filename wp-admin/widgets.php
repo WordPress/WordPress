@@ -330,7 +330,7 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' ); ?>
 </h2>
 
 <?php if ( isset($_GET['message']) && isset($messages[$_GET['message']]) ) { ?>
-<div id="message" class="updated"><p><?php echo $messages[$_GET['message']]; ?></p></div>
+<div id="message" class="updated notice is-dismissible"><p><?php echo $messages[$_GET['message']]; ?></p></div>
 <?php } ?>
 <?php if ( isset($_GET['error']) && isset($errors[$_GET['error']]) ) { ?>
 <div id="message" class="error"><p><?php echo $errors[$_GET['error']]; ?></p></div>

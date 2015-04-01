@@ -157,12 +157,12 @@ foreach ( $tabs as $tab_id => $tab ) {
 
 if ( isset( $_GET['enabled'] ) ) {
 	$_GET['enabled'] = absint( $_GET['enabled'] );
-	echo '<div id="message" class="updated"><p>' . sprintf( _n( 'Theme enabled.', '%s themes enabled.', $_GET['enabled'] ), number_format_i18n( $_GET['enabled'] ) ) . '</p></div>';
+	echo '<div id="message" class="updated notice is-dismissible"><p>' . sprintf( _n( 'Theme enabled.', '%s themes enabled.', $_GET['enabled'] ), number_format_i18n( $_GET['enabled'] ) ) . '</p></div>';
 } elseif ( isset( $_GET['disabled'] ) ) {
 	$_GET['disabled'] = absint( $_GET['disabled'] );
-	echo '<div id="message" class="updated"><p>' . sprintf( _n( 'Theme disabled.', '%s themes disabled.', $_GET['disabled'] ), number_format_i18n( $_GET['disabled'] ) ) . '</p></div>';
+	echo '<div id="message" class="updated notice is-dismissible"><p>' . sprintf( _n( 'Theme disabled.', '%s themes disabled.', $_GET['disabled'] ), number_format_i18n( $_GET['disabled'] ) ) . '</p></div>';
 } elseif ( isset( $_GET['error'] ) && 'none' == $_GET['error'] ) {
-	echo '<div id="message" class="error"><p>' . __( 'No theme selected.' ) . '</p></div>';
+	echo '<div id="message" class="error notice is-dismissible"><p>' . __( 'No theme selected.' ) . '</p></div>';
 } ?>
 
 <p><?php _e( 'Network enabled themes are not shown on this screen.' ) ?></p>

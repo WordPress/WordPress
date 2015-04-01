@@ -307,7 +307,7 @@ if ( !empty($_REQUEST['s']) )
 </h2>
 
 <?php if ( $message ) : ?>
-<div id="message" class="<?php echo $class; ?>"><p><?php echo $message; ?></p></div>
+<div id="message" class="<?php echo $class; ?> notice is-dismissible"><p><?php echo $message; ?></p></div>
 <?php $_SERVER['REQUEST_URI'] = remove_query_arg( array( 'message', 'error' ), $_SERVER['REQUEST_URI'] );
 endif; ?>
 <div id="ajax-response"></div>

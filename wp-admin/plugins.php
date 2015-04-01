@@ -426,20 +426,20 @@ if ( !empty($invalid) )
 		delete_transient( 'plugins_delete_result_' . $user_ID );
 
 		if ( is_wp_error($delete_result) ) : ?>
-		<div id="message" class="error"><p><?php printf( __('Plugin could not be deleted due to an error: %s'), $delete_result->get_error_message() ); ?></p></div>
+		<div id="message" class="error notice is-dismissible"><p><?php printf( __('Plugin could not be deleted due to an error: %s'), $delete_result->get_error_message() ); ?></p></div>
 		<?php else : ?>
-		<div id="message" class="updated"><p><?php _e('The selected plugins have been <strong>deleted</strong>.'); ?></p></div>
+		<div id="message" class="updated notice is-dismissible"><p><?php _e('The selected plugins have been <strong>deleted</strong>.'); ?></p></div>
 		<?php endif; ?>
 <?php elseif ( isset($_GET['activate']) ) : ?>
-	<div id="message" class="updated"><p><?php _e('Plugin <strong>activated</strong>.') ?></p></div>
+	<div id="message" class="updated notice is-dismissible"><p><?php _e('Plugin <strong>activated</strong>.') ?></p></div>
 <?php elseif (isset($_GET['activate-multi'])) : ?>
-	<div id="message" class="updated"><p><?php _e('Selected plugins <strong>activated</strong>.'); ?></p></div>
+	<div id="message" class="updated notice is-dismissible"><p><?php _e('Selected plugins <strong>activated</strong>.'); ?></p></div>
 <?php elseif ( isset($_GET['deactivate']) ) : ?>
-	<div id="message" class="updated"><p><?php _e('Plugin <strong>deactivated</strong>.') ?></p></div>
+	<div id="message" class="updated notice is-dismissible"><p><?php _e('Plugin <strong>deactivated</strong>.') ?></p></div>
 <?php elseif (isset($_GET['deactivate-multi'])) : ?>
-	<div id="message" class="updated"><p><?php _e('Selected plugins <strong>deactivated</strong>.'); ?></p></div>
+	<div id="message" class="updated notice is-dismissible"><p><?php _e('Selected plugins <strong>deactivated</strong>.'); ?></p></div>
 <?php elseif ( 'update-selected' == $action ) : ?>
-	<div id="message" class="updated"><p><?php _e('No out of date plugins were selected.'); ?></p></div>
+	<div id="message" class="updated notice is-dismissible"><p><?php _e('No out of date plugins were selected.'); ?></p></div>
 <?php endif; ?>
 
 <div class="wrap">

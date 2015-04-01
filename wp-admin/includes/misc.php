@@ -854,10 +854,11 @@ add_action( 'post_edit_form_tag', 'post_form_autocomplete_off' );
 function wp_admin_canonical_url() {
 	$removable_query_args = array(
 		'message', 'settings-updated', 'saved',
-		'update', 'updated','activated',
+		'update', 'updated', 'activated',
 		'activate', 'deactivate', 'locked',
 		'deleted', 'trashed', 'untrashed',
 		'enabled', 'disabled', 'skipped',
+		'spammed', 'unspammed',
 	);
 
 	/**
