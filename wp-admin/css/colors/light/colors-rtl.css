@@ -275,10 +275,10 @@ ul#adminmenu a.wp-has-current-submenu:after, ul#adminmenu > li.current > a.curre
   box-shadow: 0px 0px 0px 1px #fff, 0px 0px 0px 3px #04a4cc; }
 
 /* Themes */
-.theme-browser .theme.active .theme-name, .theme-browser .theme.add-new-theme:hover:after {
+.theme-browser .theme.active .theme-name, .theme-browser .theme.add-new-theme a:hover:after, .theme-browser .theme.add-new-theme a:focus:after {
   background: #04a4cc; }
 
-.theme-browser .theme.add-new-theme:hover span:after {
+.theme-browser .theme.add-new-theme a:hover span:after, .theme-browser .theme.add-new-theme a:focus span:after {
   color: #04a4cc; }
 
 .theme-section.current, .theme-filter.current {

@@ -433,11 +433,13 @@ ul#adminmenu > li.current > a.current:after {
 /* Themes */
 
 .theme-browser .theme.active .theme-name,
-.theme-browser .theme.add-new-theme:hover:after {
+.theme-browser .theme.add-new-theme a:hover:after,
+.theme-browser .theme.add-new-theme a:focus:after {
 	background: $highlight-color;
 }
 
-.theme-browser .theme.add-new-theme:hover span:after {
+.theme-browser .theme.add-new-theme a:hover span:after,
+.theme-browser .theme.add-new-theme a:focus span:after {
 	color: $highlight-color;
 }
 

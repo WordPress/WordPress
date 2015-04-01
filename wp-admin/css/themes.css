@@ -310,11 +310,9 @@
 	z-index: 1;
 }
 
-.theme-browser .theme.add-new-theme:after {
+.theme-browser .theme.add-new-theme a:after {
 	display: block;
 	content: '';
-	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
-	opacity: 1;
 	background: transparent;
 	background: rgba(0, 0, 0, 0);
 	position: absolute;
@@ -322,12 +320,10 @@
 	left: 0;
 	right: 0;
 	bottom: 0;
-	padding: 10% 0 0 0;
+	padding: 0;
 	text-shadow: none;
 	border: 5px dashed #d5d2ca;
 	border: 5px dashed rgba(0, 0, 0, 0.1);
-	-webkit-transition: opacity 0.2s ease-in-out;
-	transition: opacity 0.2s ease-in-out;
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
@@ -361,19 +357,19 @@
 	text-indent: 4px;
 }
 
-.theme-browser .theme.add-new-theme:hover .theme-screenshot,
-.theme-browser .theme.add-new-theme:focus .theme-screenshot {
+.theme-browser .theme.add-new-theme a:hover .theme-screenshot,
+.theme-browser .theme.add-new-theme a:focus .theme-screenshot {
 	background: none;
 }
 
-.theme-browser .theme.add-new-theme:hover span:after,
-.theme-browser .theme.add-new-theme:focus span:after {
+.theme-browser .theme.add-new-theme a:hover span:after,
+.theme-browser .theme.add-new-theme a:focus span:after {
 	background: #fff;
 	color: #0073aa;
 }
 
-.theme-browser .theme.add-new-theme:hover:after,
-.theme-browser .theme.add-new-theme:focus:after {
+.theme-browser .theme.add-new-theme a:hover:after,
+.theme-browser .theme.add-new-theme a:focus:after {
 	border-color: transparent;
 	color: #fff;
 	background: #0073aa;
@@ -388,12 +384,13 @@
 	font-weight: 400;
 	position: relative;
 	top: 0;
-	margin-top: -10%;
-	margin-bottom: 10%;
+	margin-top: -18px;
+	padding-top: 0;
+	padding-bottom: 48px;
 }
 
-.theme-browser .theme.add-new-theme:hover .theme-name,
-.theme-browser .theme.add-new-theme:focus .theme-name {
+.theme-browser .theme.add-new-theme a:hover .theme-name,
+.theme-browser .theme.add-new-theme a:focus .theme-name {
 	color: #fff;
 	z-index: 2;
 }
