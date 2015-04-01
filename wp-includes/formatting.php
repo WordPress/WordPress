@@ -235,7 +235,7 @@ function wptexturize($text, $reset = false) {
 		.     '(?(?=!--)'        // Is this a comment?
 		.         $comment_regex // Find end of comment.
 		.     '|'
-		.         '[^>]+>'       // Find end of element.
+		.         '[^>]*>'       // Find end of element.
 		.     ')'
 		. '|'
 		.     $shortcode_regex   // Find shortcodes.
