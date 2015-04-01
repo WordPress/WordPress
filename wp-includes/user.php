@@ -1894,7 +1894,15 @@ function wp_insert_user( $userdata ) {
 	 */
 	$user_email = apply_filters( 'pre_user_email', $raw_user_email );
 
-	if ( ! $update && ! defined( 'WP_IMPORTING' ) && email_exists( $user_email ) ) {
+	/*
+	 * If there is no update, just check for `email_exists`. If there is an update,
+	 * check if current email and new email are the same, or not, and check `email_exists`
+	 * accordingly.
+	 */
+	if ( ( ! $update || ( ! empty( $old_user_data ) && $user_email !== $old_user_data->user_email ) )
+		&& ! defined( 'WP_IMPORTING' )
+		&& email_exists( $user_email )
+	) {
 		return new WP_Error( 'existing_user_email', __( 'Sorry, that email address is already used!' ) );
 	}
 	$nickname = empty( $userdata['nickname'] ) ? $user_login : $userdata['nickname'];
