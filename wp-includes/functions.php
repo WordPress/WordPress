@@ -781,8 +781,9 @@ function add_query_arg() {
 	wp_parse_str( $query, $qs );
 	$qs = urlencode_deep( $qs ); // this re-URL-encodes things that were already in the query string
 	if ( is_array( $args[0] ) ) {
-		$kayvees = $args[0];
-		$qs = array_replace( $qs, $kayvees );
+		foreach ( $args[0] as $k => $v ) {
+			$qs[ $k ] = $v;
+		}
 	} else {
 		$qs[ $args[0] ] = $args[1];
 	}
