@@ -63,10 +63,19 @@ switch ( $action ) {
 			$siteurl = site_url();
 			$upgrade_url = admin_url( 'upgrade.php?step=upgrade_db' );
 			restore_current_blog();
+
 			echo "<li>$siteurl</li>";
+
 			$response = wp_remote_get( $upgrade_url, array( 'timeout' => 120, 'httpversion' => '1.1' ) );
-			if ( is_wp_error( $response ) )
-				wp_die( sprintf( __( 'Warning! Problem updating %1$s. Your server may not be able to connect to sites running on it. Error message: <em>%2$s</em>' ), $siteurl, $response->get_error_message() ) );
+			if ( is_wp_error( $response ) ) {
+				wp_die( sprintf(
+					/* translators: 1: site url, 2: server error message */
+					__( 'Warning! Problem updating %1$s. Your server may not be able to connect to sites running on it. Error message: %2$s' ),
+					$siteurl,
+					'<em>' . $response->get_error_message() . '</em>'
+				) );
+			}
+
 			/**
 			 * Fires after the Multisite DB upgrade for each site is complete.
 			 *

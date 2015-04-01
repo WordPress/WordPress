@@ -57,7 +57,11 @@ function confirm_delete_users( $users ) {
 
 			if ( ! empty( $blogs ) ) {
 				?>
-				<td><fieldset><p><legend><?php printf( __( 'What should be done with content owned by %s?' ), '<em>' . $delete_user->user_login . '</em>' ); ?></legend></p>
+				<td><fieldset><p><legend><?php printf(
+					/* translators: user login */
+					__( 'What should be done with content owned by %s?' ),
+					'<em>' . $delete_user->user_login . '</em>'
+				); ?></legend></p>
 				<?php
 				foreach ( (array) $blogs as $key => $details ) {
 					$blog_users = get_users( array( 'blog_id' => $details->userblog_id, 'fields' => array( 'ID', 'user_login' ) ) );
