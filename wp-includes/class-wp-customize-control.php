@@ -1202,7 +1202,7 @@ class WP_Customize_Theme_Control extends WP_Customize_Control {
 	public function content_template() {
 		$preview_url = site_url( add_query_arg( 'theme', '{{ data.theme.id }}' ) );
 		?>
-		<div class="theme<# if ( data.theme.active ) { #> active<# } #>"<# if ( ! data.theme.active ) { #> tabindex="0"<# } #> data-preview-url="<?php echo esc_attr( $preview_url ); ?>" aria-describedby="{{ data.theme.id }}-action {{ data.theme.id }}-name">
+		<div class="theme" tabindex="0" data-preview-url="<?php echo esc_attr( $preview_url ); ?>" aria-describedby="{{ data.theme.id }}-action {{ data.theme.id }}-name">
 			<# if ( data.theme.screenshot[0] ) { #>
 				<div class="theme-screenshot">
 					<img src="{{ data.theme.screenshot[0] }}" alt="" />
@@ -1213,22 +1213,11 @@ class WP_Customize_Theme_Control extends WP_Customize_Control {
 			<span class="more-details" id="{{ data.theme.id }}-action"><?php _e( 'Live Preview' ); ?></span>
 			<div class="theme-author"><?php printf( __( 'By %s' ), '{{ data.theme.author }}' ); ?></div>
 
-			<# if ( data.theme.active ) { #>
-				<h3 class="theme-name" id="{{ data.theme.id }}-name">
-					<?php
-					/* translators: %s: theme name */
-					printf( __( '<span>Previewing:</span> %s' ), '{{ data.theme.name }}' );
-					?>
-				</h3>
-			<# } else { #>
-				<h3 class="theme-name" id="{{ data.theme.id }}-name">{{ data.theme.name }}</h3>
-			<# } #>
+			<h3 class="theme-name" id="{{ data.theme.id }}-name">{{ data.theme.name }}</h3>
 
-			<# if ( ! data.theme.active ) { #>
-				<div class="theme-actions">
-					<button type="button" class="button theme-details"><?php _e( 'Theme Details' ); ?></button>
-				</div>
-			<# } #>
+			<div class="theme-actions">
+				<button type="button" class="button theme-details"><?php _e( 'Theme Details' ); ?></button>
+			</div>
 		</div>
 	<?php
 	}
