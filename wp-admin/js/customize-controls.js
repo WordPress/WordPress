@@ -591,7 +591,7 @@
 			var section = this;
 
 			// Expand/Collapse section/panel.
-			section.container.find( '.accordion-section-title' ).on( 'click keydown', function( event ) {
+			section.container.find( '.change-theme, .customize-theme' ).on( 'click keydown', function( event ) {
 				if ( api.utils.isKeydownButNotEnterEvent( event ) ) {
 					return;
 				}
@@ -601,19 +601,6 @@
 					section.collapse();
 				} else {
 					section.expand();
-				}
-			});
-
-
-			$( '#customize-header-actions' ).on( 'click keydown', '.control-panel-back', function( event ) {
-				if ( api.utils.isKeydownButNotEnterEvent( event ) ) {
-					return;
-				}
-
-				event.preventDefault(); // Keep this AFTER the key filter above
-
-				if ( section.expanded() ) {
-					section.collapse();
 				}
 			});
 
@@ -692,8 +679,8 @@
 				container = section.closest( '.wp-full-overlay-sidebar-content' ),
 				siblings = container.find( '.open' ),
 				topPanel = overlay.find( '#customize-theme-controls > ul > .accordion-section > .accordion-section-title' ).add( '#customize-info > .accordion-section-title' ),
-				backBtn = overlay.find( '.control-panel-back' ),
-				panelTitle = section.find( '.accordion-section-title' ).first(),
+				customizeBtn = section.find( '.customize-theme' ),
+				changeBtn = section.find( '.change-theme' ),
 				content = section.find( '.control-panel-content' );
 
 			if ( expanded ) {
@@ -722,8 +709,7 @@
 					}
 				} );
 				topPanel.attr( 'tabindex', '-1' );
-				backBtn.attr( 'tabindex', '0' );
-				backBtn.focus();
+				customizeBtn.focus();
 			} else {
 				siblings.removeClass( 'open' );
 				section.removeClass( 'current-panel' );
@@ -735,8 +721,7 @@
 					}
 				} );
 				topPanel.attr( 'tabindex', '0' );
-				backBtn.attr( 'tabindex', '-1' );
-				panelTitle.focus();
+				changeBtn.focus();
 				container.scrollTop( 0 );
 			}
 		},
@@ -1896,10 +1881,6 @@
 
 				// Prevent the modal from showing when the user clicks the action button.
 				if ( $( event.target ).is( '.theme-actions .button' ) ) {
-					return;
-				}
-
-				if ( $( this ).hasClass( 'active' ) ) {
 					return;
 				}
 

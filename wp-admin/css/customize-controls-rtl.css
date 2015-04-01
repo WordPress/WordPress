@@ -882,6 +882,43 @@ p.customize-section-description {
 	animation: customize-reload .75s;
 }
 
+.control-section-themes .accordion-section-title {
+	cursor: default;
+}
+
+#customize-theme-controls .control-section-themes .accordion-section-title:hover,
+#customize-theme-controls .control-section-themes .accordion-section-title:focus {
+	color: #555555;
+	background-color: #fff;
+}
+
+.control-section-themes .accordion-section-title {
+	margin: 15px 0;
+}
+
+.customize-themes-panel .accordion-section-title {
+	margin: 15px -8px;
+}
+
+.control-section-themes .accordion-section-title {
+	padding-left: 100px; /* Space for the button */
+}
+
+.control-section-themes .accordion-section-title span {
+	font-size: small;
+	display: block;
+	font-weight: 400;
+}
+
+.control-section-themes .accordion-section-title .change-theme,
+.control-section-themes .accordion-section-title .customize-theme {
+	position: absolute;
+	left: 10px;
+	top: 50%;
+	margin-top: -14px;
+	font-weight: normal;
+}
+
 .customize-themes-panel {
 	display: none;
 	padding: 0 8px;
@@ -889,6 +926,12 @@ p.customize-section-description {
 	box-sizing: border-box;
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+
+.customize-themes-panel > h2 {
+	padding: 15px 8px 0 8px;
 }
 
 .control-section.open .customize-themes-panel {
@@ -933,34 +976,8 @@ p.customize-section-description {
 	width: 100%;
 }
 
-
-.wp-customizer .theme-browser .theme.active:hover,
-.wp-customizer .theme-browser .theme.active:focus {
-	cursor: default;
-}
-
-.wp-customizer .theme-browser .theme.active .more-details {
-	display: none;
-}
-
-.wp-customizer .theme-browser .theme.active .theme-name {
-	padding-left: 15px;
-}
-
-.wp-customizer .theme-browser.rendered .theme.active:hover .theme-screenshot img,
-.wp-customizer .theme-browser.rendered .theme.active:focus .theme-screenshot img {
-	opacity: 1;
-}
-
-/* Panel-like behavior */
 #accordion-section-themes .accordion-section-title:after {
-	content: "\f148";
-}
-
-.rtl #accordion-section-themes .accordion-section-title:after {
-	-webkit-transform: rotate(-180deg);
-	-ms-transform: rotate(-180deg);
-	transform: rotate(-180deg);
+	display: none;
 }
 
 #customize-theme-controls .control-section-themes.current-panel > h3.accordion-section-title {
@@ -978,18 +995,6 @@ p.customize-section-description {
 .in-themes-panel #customize-info,
 .in-themes-panel #customize-theme-controls > ul > .accordion-section {
 	right: 100%;
-}
-
-.in-themes-panel .control-panel-back:before {
-	content: "\f341";
-	right: 14px;
-}
-
-.in-themes-panel .control-panel-back {
-	right: 0;
-}
-
-.in-themes-panel .control-panel-back:before {
 }
 
 /* Details View */
@@ -1039,8 +1044,7 @@ p.customize-section-description {
 	}
 }
 
-
-/** Handle cheaters. */
+/* Handle cheaters. */
 body.cheatin {
 	font-size: medium;
 	height: auto;

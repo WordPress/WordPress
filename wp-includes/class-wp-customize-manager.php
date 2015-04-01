@@ -1148,9 +1148,9 @@ final class WP_Customize_Manager {
 		/* Themes */
 
 		$this->add_section( new WP_Customize_Themes_Section( $this, 'themes', array(
-			'title' => sprintf( __( 'Theme: %s' ), $this->theme()->display('Name') ),
+			'title'      => $this->theme()->display( 'Name' ),
 			'capability' => 'switch_themes',
-			'priority' => 0,
+			'priority'   => 0,
 		) ) );
 
 		// Themes Setting (unused - the theme is considerably more fundamental to the Customizer experience).
@@ -1163,10 +1163,14 @@ final class WP_Customize_Manager {
 		// Theme Controls.
 		$themes = wp_prepare_themes_for_js();
 		foreach ( $themes as $theme ) {
+			if ( $theme['active'] ) {
+				continue;
+			}
+
 			$theme_id = 'theme_' . $theme['id'];
 			$this->add_control( new WP_Customize_Theme_Control( $this, $theme_id, array(
-				'theme' => $theme,
-				'section' => 'themes',
+				'theme'    => $theme,
+				'section'  => 'themes',
 				'settings' => 'active_theme',
 			) ) );
 		}

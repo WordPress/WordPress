@@ -341,17 +341,42 @@ class WP_Customize_Themes_Section extends WP_Customize_Section {
 		$classes = 'accordion-section control-section control-section-' . $this->type;
 		?>
 		<li id="accordion-section-<?php echo esc_attr( $this->id ); ?>" class="<?php echo esc_attr( $classes ); ?>">
-			<h3 class="accordion-section-title" tabindex="0">
-				<?php echo esc_html( $this->title ); ?>
-				<span class="screen-reader-text"><?php _e( 'Press return or enter to expand' ); ?></span>
+			<h3 class="accordion-section-title">
+				<?php
+				if ( $this->manager->is_theme_active() ) {
+					/* translators: %s: theme name */
+					printf( __( '<span>Active theme</span> %s' ), $this->title );
+				} else {
+					/* translators: %s: theme name */
+					printf( __( '<span>Previewing theme</span> %s' ), $this->title );
+				}
+				?>
+
+				<button type="button" class="button change-theme"><?php _ex( 'Change', 'theme' ); ?></button>
 			</h3>
 			<div class="customize-themes-panel control-panel-content themes-php">
-				<h2><?php esc_html_e( 'Themes' ); ?>
-					<span class="title-count theme-count"><?php echo count( $this->controls ) - 1; ?></span>
+				<h2>
+					<?php _e( 'Themes' ); ?>
+					<span class="title-count theme-count"><?php echo count( $this->controls ) + 1 /* Active theme */; ?></span>
 				</h2>
+
+				<h3 class="accordion-section-title customize-section-title">
+					<?php
+					if ( $this->manager->is_theme_active() ) {
+						/* translators: %s: theme name */
+						printf( __( '<span>Active theme</span> %s' ), $this->title );
+					} else {
+						/* translators: %s: theme name */
+						printf( __( '<span>Previewing theme</span> %s' ), $this->title );
+					}
+					?>
+					<button type="button" class="button customize-theme"><?php _e( 'Customize' ); ?></button>
+				</h3>
+
 				<div class="theme-overlay" tabindex="0" role="dialog" aria-label="<?php esc_attr_e( 'Theme Details' ); ?>"></div>
+
 				<div id="customize-container"></div>
-				<?php if ( 6 < count( $this->controls ) ) : ?>
+				<?php if ( count( $this->controls ) > 4 ) : ?>
 					<p><label for="themes-filter">
 						<span class="screen-reader-text"><?php _e( 'Search installed themes...' ); ?></span>
 						<input type="search" id="themes-filter" placeholder="<?php esc_attr_e( 'Search installed themes...' ); ?>" />
