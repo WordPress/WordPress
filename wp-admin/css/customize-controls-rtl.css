@@ -41,6 +41,10 @@ body {
 	border-bottom: 1px solid #ddd;
 }
 
+#customize-header-actions .secondary-actions {
+	display: none;
+}
+
 #customize-controls .wp-full-overlay-sidebar-content {
 	overflow-y: auto;
 	overflow-x: hidden;
@@ -193,6 +197,7 @@ body {
 	width: 100%;
 }
 
+.customize-close-overlay,
 .customize-controls-close {
 	display: block;
 	position: absolute;
@@ -202,11 +207,17 @@ body {
 	height: 45px;
 	padding-left: 2px;
 	background: #eee;
+	border: none;
 	border-left: 1px solid #ddd;
 	color: #444;
 	cursor: pointer;
 	-webkit-transition: color .1s ease-in-out, background .1s ease-in-out;
 	transition: color .1s ease-in-out, background .1s ease-in-out;
+}
+
+.customize-close-overlay {
+	right: auto;
+	left: 0;
 }
 
 .control-panel-back {
@@ -229,6 +240,8 @@ body {
 	display: none;
 }
 
+.customize-close-overlay:focus,
+.customize-close-overlay:hover,
 .customize-controls-close:focus,
 .customize-controls-close:hover,
 .control-panel-back:focus,
@@ -249,6 +262,13 @@ body {
 	position: relative;
 	top: 7px;
 	right: 13px;
+}
+
+.customize-close-overlay:before {
+	font: normal 22px/1 dashicons;
+	content: "\f335";
+	position: relative;
+	top: 3px;
 }
 
 .control-panel-back:before {
@@ -1125,6 +1145,14 @@ body.cheatin p {
 		vertical-align: middle;
 		height: auto;
 		margin-bottom: 4px;
+	}
+
+	.adding-widget #customize-header-actions .primary-actions {
+		display: none;
+	}
+
+	.adding-widget #customize-header-actions .secondary-actions {
+		display: block;
 	}
 
 	#customize-header-actions .button-primary {

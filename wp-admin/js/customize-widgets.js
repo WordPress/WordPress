@@ -177,7 +177,7 @@
 			// If the available widgets panel is open and the customize controls are
 			// interacted with (i.e. available widgets panel is blurred) then close the
 			// available widgets panel.
-			$( '#customize-controls' ).on( 'click keydown', function( e ) {
+			$( '#customize-controls, .customize-close-overlay' ).on( 'click keydown', function( e ) {
 				var isAddNewBtn = $( e.target ).is( '.add-new-widget, .add-new-widget *' );
 				if ( $( 'body' ).hasClass( 'adding-widget' ) && ! isAddNewBtn ) {
 					self.close();
