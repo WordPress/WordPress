@@ -650,6 +650,7 @@ window.wp = window.wp || {};
 					$( node ).data( 'rendered', false );
 					editor.dom.setAttrib( node, 'data-wpview-text', encodeURIComponent( text ) );
 					wp.mce.views.createInstance( type, text, match.options ).render();
+					editor.focus();
 
 					return true;
 				}
@@ -665,6 +666,7 @@ window.wp = window.wp || {};
 		remove: function( editor, node ) {
 			$( node ).trigger( 'wp-mce-view-unbind' );
 			editor.dom.remove( node );
+			editor.focus();
 		}
 	} );
 } )( window, window.wp, window.jQuery );
