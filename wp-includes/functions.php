@@ -782,7 +782,7 @@ function add_query_arg() {
 	$qs = urlencode_deep( $qs ); // this re-URL-encodes things that were already in the query string
 	if ( is_array( $args[0] ) ) {
 		$kayvees = $args[0];
-		$qs = array_merge( $qs, $kayvees );
+		$qs = array_replace( $qs, $kayvees );
 	} else {
 		$qs[ $args[0] ] = $args[1];
 	}
