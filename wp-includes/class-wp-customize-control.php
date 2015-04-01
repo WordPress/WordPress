@@ -1235,34 +1235,6 @@ class WP_Customize_Theme_Control extends WP_Customize_Control {
 }
 
 /**
- * Customize New Theme Control class.
- *
- * @since 4.2.0
- *
- * @see WP_Customize_Control
- */
-class WP_Customize_New_Theme_Control extends WP_Customize_Control {
-
-	/**
-	 * Render the control content.
-	 *
-	 * @since 4.2.0
-	 */
-	public function render_content() {
-		?>
-		<div class="theme add-new-theme">
-			<a href="<?php echo admin_url( 'theme-install.php' ); ?>" target="_top">
-				<div class="theme-screenshot">
-					<span></span>
-				</div>
-				<h3 class="theme-name"><?php _e( 'Add New Theme' ); ?></h3>
-			</a>
-		</div>
-		<?php
-	}
-}
-
-/**
  * Widget Area Customize Control class.
  *
  * @since 3.9.0

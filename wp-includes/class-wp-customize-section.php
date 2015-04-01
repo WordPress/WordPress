@@ -348,9 +348,6 @@ class WP_Customize_Themes_Section extends WP_Customize_Section {
 			<div class="customize-themes-panel control-panel-content themes-php">
 				<h2><?php esc_html_e( 'Themes' ); ?>
 					<span class="title-count theme-count"><?php echo count( $this->controls ) - 1; ?></span>
-				<?php if ( ! is_multisite() && current_user_can( 'install_themes' ) ) : ?>
-					<a href="<?php echo admin_url( 'theme-install.php' ); ?>" target="_top" class="add-new-h2"><?php echo esc_html_x( 'Add New', 'Add new theme' ); ?></a>
-				<?php endif; ?>
 				</h2>
 				<div class="theme-overlay" tabindex="0" role="dialog" aria-label="<?php esc_attr_e( 'Theme Details' ); ?>"></div>
 				<div id="customize-container"></div>
