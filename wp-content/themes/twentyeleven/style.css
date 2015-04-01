@@ -2452,6 +2452,9 @@ p.comment-form-comment {
 	#access ul {
 		font-size: 12px;
 	}
+	#branding .only-search + #access div {
+		padding-right: 0;
+	}
 	article.intro .entry-content {
 		font-size: 12px;
 	}

@@ -508,6 +508,7 @@ add_filter( 'body_class', 'twentyeleven_layout_classes' );
 function twentyeleven_customize_register( $wp_customize ) {
 	$wp_customize->get_setting( 'blogname' )->transport = 'postMessage';
 	$wp_customize->get_setting( 'blogdescription' )->transport = 'postMessage';
+	$wp_customize->get_setting( 'header_textcolor' )->transport = 'postMessage';
 
 	$options  = twentyeleven_get_theme_options();
 	$defaults = twentyeleven_get_default_theme_options();
@@ -581,6 +582,6 @@ add_action( 'customize_register', 'twentyeleven_customize_register' );
  * @since Twenty Eleven 1.3
  */
 function twentyeleven_customize_preview_js() {
-	wp_enqueue_script( 'twentyeleven-customizer', get_template_directory_uri() . '/inc/theme-customizer.js', array( 'customize-preview' ), '20120523', true );
+	wp_enqueue_script( 'twentyeleven-customizer', get_template_directory_uri() . '/inc/theme-customizer.js', array( 'customize-preview' ), '20150401', true );
 }
 add_action( 'customize_preview_init', 'twentyeleven_customize_preview_js' );
