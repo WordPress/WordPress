@@ -76,8 +76,8 @@ if ( isset($_GET['update']) ) {
 }
 
 $site_url_no_http = preg_replace( '#^http(s)?://#', '', get_blogaddress_by_id( $id ) );
-$title_site_url_linked = sprintf( __('Edit Site: <a href="%1$s">%2$s</a>'), get_blogaddress_by_id( $id ), $site_url_no_http );
-$title = sprintf( __('Edit Site: %s'), $site_url_no_http );
+$title_site_url_linked = sprintf( __( 'Edit Site: %s' ), '<a href="' . get_blogaddress_by_id( $id ) . '">' . $site_url_no_http . '</a>' );
+$title = sprintf( __( 'Edit Site: %s' ), $site_url_no_http );
 
 $parent_file = 'sites.php';
 $submenu_file = 'sites.php';
