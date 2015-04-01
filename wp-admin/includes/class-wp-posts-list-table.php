@@ -183,6 +183,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 				$class = ' class="current"';
 			$status_links['mine'] = "<a href='edit.php?post_type=$post_type&author=$current_user_id'$class>" . sprintf( _nx( 'Mine <span class="count">(%s)</span>', 'Mine <span class="count">(%s)</span>', $this->user_posts_count, 'posts' ), number_format_i18n( $this->user_posts_count ) ) . '</a>';
 			$allposts = '&all_posts=1';
+			$class = '';
 		}
 
 		$total_posts = array_sum( (array) $num_posts );
@@ -191,7 +192,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 		foreach ( get_post_stati( array('show_in_admin_all_list' => false) ) as $state )
 			$total_posts -= $num_posts->$state;
 
-		if ( empty( $class ) && $this->is_base_request() ) {
+		if ( empty( $class ) && $this->is_base_request() && ! $this->user_posts_count ) {
 			$class =  ' class="current"';
 		}
 
