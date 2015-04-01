@@ -22,12 +22,17 @@
 			image.className = 'emoji';
 			image.setAttribute( 'data-mce-resize', 'false' );
 			image.setAttribute( 'data-mce-placeholder', '1' );
-			image.setAttribute( 'data-wp-emoji', image.alt );
+			image.setAttribute( 'data-wp-emoji', '1' );
 		}
 
 		function replaceEmoji( node ) {
-			wp.emoji.parse( node, { className: 'emoji _inserted-emoji' } );
-			tinymce.each( editor.dom.$( 'img._inserted-emoji', node ), setImgAttr );
+			var imgAttr = {
+				'data-mce-resize': 'false',
+				'data-mce-placeholder': '1',
+				'data-wp-emoji': '1'
+			};
+
+			wp.emoji.parse( node, { imgAttr: imgAttr } );
 		}
 
 		// Test if the node text contains emoji char(s) and replace.
@@ -102,7 +107,15 @@
 
 		editor.on( 'postprocess', function( event ) {
 			if ( event.content ) {
-				event.content = event.content.replace( /<img[^>]+data-wp-emoji="([^"]+)"[^>]*>/g, '$1' );
+				event.content = event.content.replace( /<img[^>]+data-wp-emoji="[^>]+>/g, function( img ) {
+					var alt = img.match( /alt="([^"]+)"/ );
+
+					if ( alt && alt[1] ) {
+						return alt[1];
+					}
+
+					return img;
+				});
 			}
 		} );
 

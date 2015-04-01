@@ -337,7 +337,8 @@ var twemoji = (function (
       alt,
       icon,
       variant,
-      src;
+      src,
+      attr;
     while (length--) {
       modified = false;
       fragment = document.createDocumentFragment();
@@ -363,6 +364,14 @@ var twemoji = (function (
           );
           if (src) {
             img = new Image();
+
+			// Set additional image attributes.
+            if ( options.imgAttr ) {
+              for ( attr in options.imgAttr ) {
+                img.setAttribute( attr, options.imgAttr[attr] );
+              }
+            }
+
             img.onerror = twemoji.onerror;
             img.className = options.className;
             img.setAttribute('draggable', 'false');
@@ -406,7 +415,7 @@ var twemoji = (function (
    */
   function parseString(str, options) {
     return replace(str, function (match, icon, variant) {
-      var src;
+      var src, attr, attributes = '';
       // verify the variant is not the FE0E one
       // this variant means "emoji as text" and should not
       // require any action/replacement
@@ -418,6 +427,15 @@ var twemoji = (function (
           variant
         );
         if (src) {
+          // Set additional image attributes.
+          if ( options.imgAttr ) {
+            for ( attr in options.imgAttr ) {
+              if ( ! /draggable|class|alt|src/i.test( attr ) ) {
+                attributes += ' '.concat( attr, '="', options.imgAttr[attr], '"' );
+              }
+            }
+          }
+
           // recycle the match string replacing the emoji
           // with its image counter part
           match = '<img '.concat(
@@ -431,6 +449,7 @@ var twemoji = (function (
             'src="',
             src,
             '"',
+            attributes,
             '>'
           );
         }
@@ -483,7 +502,8 @@ var twemoji = (function (
       base:     typeof how.base === 'string' ? how.base : twemoji.base,
       ext:      how.ext || twemoji.ext,
       size:     how.folder || toSizeSquaredAsset(how.size || twemoji.size),
-      className:how.className || twemoji.className
+      className:how.className || twemoji.className,
+      imgAttr:  how.imgAttr
     });
   }
 

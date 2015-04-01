@@ -100,12 +100,13 @@
 				return object;
 			}
 
-			var className = ( args && args.className ) || 'emoji';
+			args = args || {};
 
 			return twemoji.parse( object, {
 				base: settings.baseUrl,
 				ext: settings.ext,
-				className: className,
+				className: args.className || 'emoji',
+				imgAttr: args.imgAttr,
 				callback: function( icon, options ) {
 					// Ignore some standard characters that TinyMCE recommends in its character map.
 					switch ( icon ) {
