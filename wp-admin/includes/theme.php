@@ -547,13 +547,13 @@ function customize_themes_print_templates() {
 				</div>
 			</div>
 
-			<div class="theme-actions">
-				<# if ( ! data.active ) { #>
+			<# if ( ! data.active ) { #>
+				<div class="theme-actions">
 					<div class="inactive-theme">
 						<a href="<?php echo add_query_arg( 'theme', '{{ data.id }}' ); ?>" target="_top" class="button button-primary"><?php _e( 'Live Preview' ); ?></a>
 					</div>
-				<# } #>
-			</div>
+				</div>
+			<# } #>
 		</div>
 	</script>
 	<?php

@@ -648,14 +648,6 @@
 				section.closeDetails();
 			});
 
-			section.container.on( 'click keydown', '.theme-actions .button', function( event ) {
-				if ( api.utils.isKeydownButNotEnterEvent( event ) ) {
-					return;
-				}
-
-				$( '.wp-full-overlay' ).addClass( 'customize-loading' );
-			});
-
 			section.container.on( 'input', '#themes-filter', function( event ) {
 				var count,
 					term = event.currentTarget.value.toLowerCase().trim().replace( '-', ' ' ),
@@ -1907,15 +1899,25 @@
 					return;
 				}
 
-				api.section( control.section() ).showDetails( control.params.theme );
+				if ( $( this ).hasClass( 'active' ) ) {
+					return;
+				}
+
+				var previewUrl = $( this ).data( 'previewUrl' );
+
+				$( '.wp-full-overlay' ).addClass( 'customize-loading' );
+
+				window.parent.location = previewUrl;
 			});
 
-			control.container.on( 'click keydown', '.theme-actions .button', function( event ) {
+			control.container.on( 'click keydown', '.theme-actions .theme-details', function( event ) {
 				if ( api.utils.isKeydownButNotEnterEvent( event ) ) {
 					return;
 				}
 
-				$( '.wp-full-overlay' ).addClass( 'customize-loading' );
+				event.preventDefault(); // Keep this AFTER the key filter above
+
+				api.section( control.section() ).showDetails( control.params.theme );
 			});
 		},
 

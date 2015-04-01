@@ -906,15 +906,30 @@ p.customize-section-description {
 	font-size: 32px;
 }
 
-.wp-customizer .theme-browser .theme.active .theme-name {
-	padding-left: 15px;
-}
-
 .wp-customizer #themes-filter {
 	font-size: 16px;
 	font-weight: 300;
 	line-height: 1.5;
 	width: 100%;
+}
+
+
+.wp-customizer .theme-browser .theme.active:hover,
+.wp-customizer .theme-browser .theme.active:focus {
+	cursor: default;
+}
+
+.wp-customizer .theme-browser .theme.active .more-details {
+	display: none;
+}
+
+.wp-customizer .theme-browser .theme.active .theme-name {
+	padding-left: 15px;
+}
+
+.wp-customizer .theme-browser.rendered .theme.active:hover .theme-screenshot img,
+.wp-customizer .theme-browser.rendered .theme.active:focus .theme-screenshot img {
+	opacity: 1;
 }
 
 /* Panel-like behavior */

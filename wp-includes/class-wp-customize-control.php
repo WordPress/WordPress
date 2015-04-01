@@ -1200,8 +1200,9 @@ class WP_Customize_Theme_Control extends WP_Customize_Control {
 	 * @since 4.2.0
 	 */
 	public function content_template() {
-	?>
-		<div class="theme<# if ( data.theme.active ) { #> active<# } #>" tabindex="0" aria-describedby="{{ data.theme.id }}-action {{ data.theme.id }}-name">
+		$preview_url = site_url( add_query_arg( 'theme', '{{ data.theme.id }}' ) );
+		?>
+		<div class="theme<# if ( data.theme.active ) { #> active<# } #>"<# if ( ! data.theme.active ) { #> tabindex="0"<# } #> data-preview-url="<?php echo esc_attr( $preview_url ); ?>" aria-describedby="{{ data.theme.id }}-action {{ data.theme.id }}-name">
 			<# if ( data.theme.screenshot[0] ) { #>
 				<div class="theme-screenshot">
 					<img src="{{ data.theme.screenshot[0] }}" alt="" />
@@ -1209,7 +1210,7 @@ class WP_Customize_Theme_Control extends WP_Customize_Control {
 			<# } else { #>
 				<div class="theme-screenshot blank"></div>
 			<# } #>
-			<span class="more-details" id="{{ data.theme.id }}-action"><?php _e( 'Theme Details' ); ?></span>
+			<span class="more-details" id="{{ data.theme.id }}-action"><?php _e( 'Live Preview' ); ?></span>
 			<div class="theme-author"><?php printf( __( 'By %s' ), '{{ data.theme.author }}' ); ?></div>
 
 			<# if ( data.theme.active ) { #>
@@ -1225,7 +1226,7 @@ class WP_Customize_Theme_Control extends WP_Customize_Control {
 
 			<# if ( ! data.theme.active ) { #>
 				<div class="theme-actions">
-					<a class="button" href="<?php echo add_query_arg( 'theme', '{{ data.theme.id }}' ); ?>" target="_top"><?php _e( 'Live Preview' ); ?></a>
+					<button type="button" class="button theme-details"><?php _e( 'Theme Details' ); ?></button>
 				</div>
 			<# } #>
 		</div>
