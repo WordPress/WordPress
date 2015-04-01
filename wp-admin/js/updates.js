@@ -207,6 +207,9 @@ window.wp = window.wp || {};
 			// Update the version number in the row.
 			var newText = $pluginRow.find('.plugin-version-author-uri').html().replace( response.oldVersion, response.newVersion );
 			$pluginRow.find('.plugin-version-author-uri').html( newText );
+
+			// Add updated class to update message parent tr
+			$pluginRow.next().addClass( 'updated' );
 		} else if ( 'plugin-install' === pagenow ) {
 			$updateMessage = $( '.plugin-card-' + response.slug ).find( '.update-now' );
 			$updateMessage.addClass( 'button-disabled' );
@@ -227,6 +230,7 @@ window.wp = window.wp || {};
 		wp.updates.updateLock = false;
 		wp.updates.queueChecker();
 	};
+
 
 	/**
 	 * On a plugin update error, update the UI appropriately.
