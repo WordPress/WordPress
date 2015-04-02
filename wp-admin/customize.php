@@ -135,8 +135,8 @@ do_action( 'customize_controls_print_scripts' );
 				<span class="control-panel-back" tabindex="-1"><span class="screen-reader-text"><?php _e( 'Back' ); ?></span></span>
 			</div>
 			<div class="secondary-actions">
-				<button type="button" class="dashicons dashicons-no customize-close-overlay">
-					<span class="screen-reader-text"><?php _e( 'Close' ); ?></span>
+				<button type="button" class="customize-overlay-close">
+					<span class="screen-reader-text"><?php _e( 'Close overlay' ); ?></span>
 				</button>
 			</div>
 		</div>

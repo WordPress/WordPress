@@ -197,7 +197,7 @@ body {
 	width: 100%;
 }
 
-.customize-close-overlay,
+.customize-overlay-close,
 .customize-controls-close {
 	display: block;
 	position: absolute;
@@ -205,19 +205,25 @@ body {
 	left: 0;
 	width: 45px;
 	height: 45px;
-	padding-right: 2px;
+	padding: 0 2px 0 0;
 	background: #eee;
 	border: none;
 	border-right: 1px solid #ddd;
 	color: #444;
+	text-align: left;
 	cursor: pointer;
 	-webkit-transition: color .1s ease-in-out, background .1s ease-in-out;
 	transition: color .1s ease-in-out, background .1s ease-in-out;
+	-webkit-box-sizing: content-box;
+	-moz-box-sizing: content-box;
+	box-sizing: content-box;
 }
 
-.customize-close-overlay {
+.customize-overlay-close {
 	left: auto;
 	right: 0;
+	border-right: 0;
+	border-left: 1px solid #ddd;
 }
 
 .control-panel-back {
@@ -240,8 +246,8 @@ body {
 	display: none;
 }
 
-.customize-close-overlay:focus,
-.customize-close-overlay:hover,
+.customize-overlay-close:focus,
+.customize-overlay-close:hover,
 .customize-controls-close:focus,
 .customize-controls-close:hover,
 .control-panel-back:focus,
@@ -256,26 +262,20 @@ body {
 	box-shadow: none;
 }
 
+.customize-overlay-close:before,
 .customize-controls-close:before {
-	font: normal 22px/1 dashicons;
+	font: normal 22px/45px dashicons;
 	content: "\f335";
 	position: relative;
-	top: 7px;
+	top: 1px;
 	left: 13px;
 }
 
-.customize-close-overlay:before {
-	font: normal 22px/1 dashicons;
-	content: "\f335";
-	position: relative;
-	top: 3px;
-}
-
 .control-panel-back:before {
-	font: normal 20px/1 dashicons;
+	font: normal 20px/45px dashicons;
 	content: "\f341";
 	position: relative;
-	top: 7px;
+	top: 1px;
 	left: 13px;
 }
 
