@@ -525,12 +525,18 @@ function wp_default_scripts( &$scripts ) {
 		did_action( 'init' ) && $scripts->localize( 'updates', '_wpUpdatesSettings', array(
 			'ajax_nonce' => wp_create_nonce( 'updates' ),
 			'l10n'       => array(
-				'updating'      => __( 'Updating...' ),
-				'updated'       => __( 'Updated!' ),
-				'updateFailed'  => __( 'Update failed.' ),
-				'updatingMsg'   => __( 'Updating... please wait.' ),
-				'updatedMsg'    => __( 'Update completed successfully.' ),
-				'updateCancel'  => __( 'Update canceled' ),
+				'updating'          => __( 'Updating...' ),
+				'updated'           => __( 'Updated!' ),
+				'updateFailed'      => __( 'Update Failed' ),
+				/* translators: Plugin Name */
+				'updatingLabel'     => __( 'Updating %s...' ),
+				/* translators: Plugin Name */
+				'updatedLabel'      => __( '%s updated!' ),
+				/* translators: Plugin Name */
+				'updateFailedLabel' => __( '%s update failed' ),
+				'updatingMsg'       => __( 'Updating... please wait.' ),
+				'updatedMsg'        => __( 'Update completed successfully.' ),
+				'updateCancel'      => __( 'Update canceled.' ),
 			)
 		) );
 

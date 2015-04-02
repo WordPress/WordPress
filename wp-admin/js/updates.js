@@ -33,7 +33,7 @@ window.wp = window.wp || {};
 	/**
 	 * Filesystem credentials to be packaged along with the request.
 	 *
-	 * @since  4.2.0
+	 * @since 4.2.0
 	 *
 	 * @var object
 	 */
@@ -96,10 +96,10 @@ window.wp = window.wp || {};
 	 */
 	wp.updates.decrementCount = function( upgradeType ) {
 		var count,
-		    pluginCount,
-		    $adminBarUpdateCount = $( '#wp-admin-bar-updates .ab-label' ),
-		    $dashboardNavMenuUpdateCount = $( 'a[href="update-core.php"] .update-plugins' ),
-		    $pluginsMenuItem = $( '#menu-plugins' );
+			pluginCount,
+			$adminBarUpdateCount = $( '#wp-admin-bar-updates .ab-label' ),
+			$dashboardNavMenuUpdateCount = $( 'a[href="update-core.php"] .update-plugins' ),
+			$pluginsMenuItem = $( '#menu-plugins' );
 
 
 		count = $adminBarUpdateCount.text();
@@ -145,11 +145,13 @@ window.wp = window.wp || {};
 	 * @param {string} slug
 	 */
 	wp.updates.updatePlugin = function( plugin, slug ) {
-		var $message;
+		var $message, name;
 		if ( 'plugins' === pagenow || 'plugins-network' === pagenow ) {
 			$message = $( '[data-slug="' + slug + '"]' ).next().find( '.update-message' );
 		} else if ( 'plugin-install' === pagenow ) {
 			$message = $( '.plugin-card-' + slug ).find( '.update-now' );
+			name = $message.data( 'name' );
+			$message.attr( 'aria-label', wp.updates.l10n.updatingLabel.replace( '%s', name ) );
 		}
 
 		$message.addClass( 'updating-message' );
@@ -198,14 +200,14 @@ window.wp = window.wp || {};
 	 * @param {object} response
 	 */
 	wp.updates.updateSuccess = function( response ) {
-		var $updateMessage;
+		var $updateMessage, name, $pluginRow, newText;
 		if ( 'plugins' === pagenow || 'plugins-network' === pagenow ) {
-			var $pluginRow = $( '[data-slug="' + response.slug + '"]' ).first();
+			$pluginRow = $( '[data-slug="' + response.slug + '"]' ).first();
 			$updateMessage = $pluginRow.next().find( '.update-message' );
 			$pluginRow.addClass( 'updated' ).removeClass( 'update' );
 
 			// Update the version number in the row.
-			var newText = $pluginRow.find('.plugin-version-author-uri').html().replace( response.oldVersion, response.newVersion );
+			newText = $pluginRow.find('.plugin-version-author-uri').html().replace( response.oldVersion, response.newVersion );
 			$pluginRow.find('.plugin-version-author-uri').html( newText );
 
 			// Add updated class to update message parent tr
@@ -213,6 +215,8 @@ window.wp = window.wp || {};
 		} else if ( 'plugin-install' === pagenow ) {
 			$updateMessage = $( '.plugin-card-' + response.slug ).find( '.update-now' );
 			$updateMessage.addClass( 'button-disabled' );
+			name = $updateMessage.data( 'name' );
+			$updateMessage.attr( 'aria-label', wp.updates.l10n.updatedLabel.replace( '%s', name ) );
 		}
 
 		$updateMessage.removeClass( 'updating-message' ).addClass( 'updated-message' );
@@ -240,7 +244,7 @@ window.wp = window.wp || {};
 	 * @param {object} response
 	 */
 	wp.updates.updateError = function( response ) {
-		var $message;
+		var $message, name;
 		wp.updates.updateDoneSuccessfully = false;
 		if ( response.errorCode && response.errorCode == 'unable_to_connect_to_filesystem' ) {
 			wp.updates.credentialError( response, 'update-plugin' );
@@ -250,6 +254,9 @@ window.wp = window.wp || {};
 			$message = $( '[data-slug="' + response.slug + '"]' ).next().find( '.update-message' );
 		} else if ( 'plugin-install' === pagenow ) {
 			$message = $( '.plugin-card-' + response.slug ).find( '.update-now' );
+
+			name = $message.data( 'name' );
+			$message.attr( 'aria-label', wp.updates.l10n.updateFailedLabel.replace( '%s', name ) );
 		}
 		$message.removeClass( 'updating-message' );
 		$message.text( wp.updates.l10n.updateFailed );
