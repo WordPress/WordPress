@@ -38,7 +38,7 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 <?php if ( current_user_can('edit_posts') ) : ?>
 <div class="card pressthis">
 	<h3><?php _e('Press This') ?></h3>
-	<p><?php _e( 'Press This is a little app that lets you grab bits of the web and create new posts with ease.' );?></p>
+	<p><?php _e( 'Press This is a little tool that lets you grab bits of the web and create new posts with ease.' );?></p>
 	<p><?php _e( 'Use Press This to clip text, images and videos from any web page. Then edit and add more straight from Press This before you save or publish it in a post on your site.' ); ?></p>
 
 
