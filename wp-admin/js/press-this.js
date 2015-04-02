@@ -529,12 +529,45 @@
 				}
 			}).on( 'keyup', function() {
 				saveAlert = true;
-			}).on( 'paste', function() {
+			}).on( 'paste', function( event ) {
+				var text, range,
+					clipboard = event.originalEvent.clipboardData || window.clipboardData;
+
+				if ( clipboard ) {
+					try{
+						text = clipboard.getData( 'Text' ) || clipboard.getData( 'text/plain' );
+
+						if ( text ) {
+							text = $.trim( text.replace( /\s+/g, ' ' ) );
+
+							if ( window.getSelection ) {
+								range = window.getSelection().getRangeAt(0);
+
+								if ( range ) {
+									if ( ! range.collapsed ) {
+										range.deleteContents();
+									}
+
+									range.insertNode( document.createTextNode( text ) );
+								}
+							} else if ( document.selection ) {
+								range = document.selection.createRange();
+
+								if ( range ) {
+									range.text = text;
+								}
+							}
+						}
+					} catch ( er ) {}
+
+					event.preventDefault();
+				}
+
 				saveAlert = true;
 
 				setTimeout( function() {
 					$titleField.text( getTitleText() );
-				}, 100 );
+				}, 50 );
 			});
 
 			if ( $titleField.text() || $titleField.html() ) {
