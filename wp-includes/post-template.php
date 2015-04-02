@@ -471,11 +471,16 @@ function get_post_class( $class = '', $post_id = null ) {
 					continue;
 				}
 
+				$term_class = sanitize_html_class( $term->slug, $term->term_id );
+				if ( is_numeric( $term_class ) || ! trim( $term_class, '-' ) ) {
+					$term_class = $term->term_id;
+				}
+
 				// 'post_tag' uses the 'tag' prefix for backward compatibility.
 				if ( 'post_tag' == $taxonomy ) {
-					$classes[] = 'tag-' . sanitize_html_class( $term->slug, $term->term_id );
+					$classes[] = 'tag-' . $term_class;
 				} else {
-					$classes[] = sanitize_html_class( $taxonomy . '-' . $term->slug, $taxonomy . '-' . $term->term_id );
+					$classes[] = sanitize_html_class( $taxonomy . '-' . $term_class, $taxonomy . '-' . $term->term_id );
 				}
 			}
 		}
@@ -588,21 +593,36 @@ function get_body_class( $class = '' ) {
 			$cat = $wp_query->get_queried_object();
 			$classes[] = 'category';
 			if ( isset( $cat->term_id ) ) {
-				$classes[] = 'category-' . sanitize_html_class( $cat->slug, $cat->term_id );
+				$cat_class = sanitize_html_class( $cat->slug, $cat->term_id );
+				if ( is_numeric( $cat_class ) || ! trim( $cat_class, '-' ) ) {
+					$cat_class = $cat->term_id;
+				}
+
+				$classes[] = 'category-' . $cat_class;
 				$classes[] = 'category-' . $cat->term_id;
 			}
 		} elseif ( is_tag() ) {
-			$tags = $wp_query->get_queried_object();
+			$tag = $wp_query->get_queried_object();
 			$classes[] = 'tag';
-			if ( isset( $tags->term_id ) ) {
-				$classes[] = 'tag-' . sanitize_html_class( $tags->slug, $tags->term_id );
-				$classes[] = 'tag-' . $tags->term_id;
+			if ( isset( $tag->term_id ) ) {
+				$tag_class = sanitize_html_class( $tag->slug, $tag->term_id );
+				if ( is_numeric( $tag_class ) || ! trim( $tag_class, '-' ) ) {
+					$tag_class = $tag->term_id;
+				}
+
+				$classes[] = 'tag-' . $tag_class;
+				$classes[] = 'tag-' . $tag->term_id;
 			}
 		} elseif ( is_tax() ) {
 			$term = $wp_query->get_queried_object();
 			if ( isset( $term->term_id ) ) {
+				$term_class = sanitize_html_class( $term->slug, $term->term_id );
+				if ( is_numeric( $term_class ) || ! trim( $term_class, '-' ) ) {
+					$term_class = $term->term_id;
+				}
+
 				$classes[] = 'tax-' . sanitize_html_class( $term->taxonomy );
-				$classes[] = 'term-' . sanitize_html_class( $term->slug, $term->term_id );
+				$classes[] = 'term-' . $term_class;
 				$classes[] = 'term-' . $term->term_id;
 			}
 		}
