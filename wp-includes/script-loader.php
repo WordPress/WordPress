@@ -537,6 +537,7 @@ function wp_default_scripts( &$scripts ) {
 				'updatingMsg'       => __( 'Updating... please wait.' ),
 				'updatedMsg'        => __( 'Update completed successfully.' ),
 				'updateCancel'      => __( 'Update canceled.' ),
+				'beforeunload'      => __( 'Plugin updates may not complete if you navigate away from this page.' ),
 			)
 		) );
 
