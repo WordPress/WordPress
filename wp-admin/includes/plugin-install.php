@@ -348,7 +348,12 @@ function install_plugin_information() {
 	$api = plugins_api( 'plugin_information', array(
 		'slug' => wp_unslash( $_REQUEST['plugin'] ),
 		'is_ssl' => is_ssl(),
-		'fields' => array( 'banners' => true, 'reviews' => true )
+		'fields' => array(
+			'banners' => true,
+			'reviews' => true,
+			'downloaded' => false,
+			'active_installs' => true
+		)
 	) );
 
 	if ( is_wp_error( $api ) ) {
@@ -458,8 +463,14 @@ function install_plugin_information() {
 			<li><strong><?php _e( 'Requires WordPress Version:' ); ?></strong> <?php printf( __( '%s or higher' ), $api->requires ); ?></li>
 		<?php } if ( ! empty( $api->tested ) ) { ?>
 			<li><strong><?php _e( 'Compatible up to:' ); ?></strong> <?php echo $api->tested; ?></li>
-		<?php } if ( ! empty( $api->downloaded ) ) { ?>
-			<li><strong><?php _e( 'Downloaded:' ); ?></strong> <?php printf( _n( '%s time', '%s times', $api->downloaded ), number_format_i18n( $api->downloaded ) ); ?></li>
+		<?php } if ( ! empty( $api->active_installs ) ) { ?>
+			<li><strong><?php _e( 'Active Installs:' ); ?></strong> <?php
+				if ( $api->active_installs >= 1000000 ) {
+					_ex( '1+ Million', 'Active plugin installs' );
+				} else {
+					echo number_format_i18n( $api->active_installs ) . '+';
+				}
+			?></li>
 		<?php } if ( ! empty( $api->slug ) && empty( $api->external ) ) { ?>
 			<li><a target="_blank" href="https://wordpress.org/plugins/<?php echo $api->slug; ?>/"><?php _e( 'WordPress.org Plugin Page &#187;' ); ?></a></li>
 		<?php } if ( ! empty( $api->homepage ) ) { ?>

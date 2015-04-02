@@ -105,7 +105,11 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 		$args = array(
 			'page' => $paged,
 			'per_page' => $per_page,
-			'fields' => array( 'last_updated' => true, 'downloaded' => true, 'icons' => true ),
+			'fields' => array(
+				'last_updated' => true,
+				'icons' => true,
+				'active_installs' => true
+			),
 			// Send the locale and installed plugin slugs to the API so it can provide context-sensitive results.
 			'locale' => get_locale(),
 			'installed_plugins' => $this->get_installed_plugin_slugs(),
@@ -478,7 +482,14 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 					</span>
 				</div>
 				<div class="column-downloaded">
-					<?php echo sprintf( _n( '%s download', '%s downloads', $plugin['downloaded'] ), number_format_i18n( $plugin['downloaded'] ) ); ?>
+					<?php
+					if ( $plugin['active_installs'] >= 1000000 ) {
+						$active_installs_text = _x( '1+ Million', 'Active plugin installs' );
+					} else {
+						$active_installs_text = number_format_i18n( $plugin['active_installs'] ) . '+';
+					}
+					printf( __( '%s Active Installs' ), $active_installs_text );
+					?>
 				</div>
 				<div class="column-compatibility">
 					<?php
