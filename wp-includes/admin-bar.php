@@ -329,10 +329,16 @@ function wp_admin_bar_my_sites_menu( $wp_admin_bar ) {
 	if ( count( $wp_admin_bar->user->blogs ) < 1 && ! is_super_admin() )
 		return;
 
+	if ( $wp_admin_bar->user->active_blog ) {
+		$my_sites_url = get_admin_url( $wp_admin_bar->user->active_blog->blog_id, 'my-sites.php' );
+	} else {
+		$my_sites_url = admin_url( 'my-sites.php' );
+	}
+
 	$wp_admin_bar->add_menu( array(
 		'id'    => 'my-sites',
 		'title' => __( 'My Sites' ),
-		'href'  => get_admin_url( $wp_admin_bar->user->active_blog->blog_id, 'my-sites.php' ),
+		'href'  => $my_sites_url,
 	) );
 
 	if ( is_super_admin() ) {
