@@ -47,7 +47,8 @@ if ( current_user_can( 'switch_themes' ) ) {
 		'<ul><li>' . __( 'Hover or tap to see Activate and Live Preview buttons' ) . '</li>' .
 		'<li>' . __( 'Click on the theme to see the theme name, version, author, description, tags, and the Delete link' ) . '</li>' .
 		'<li>' . __( 'Click Customize for the current theme or Live Preview for any other theme to see a live preview' ) . '</li></ul>' .
-		'<p>' . __( 'The current theme is displayed highlighted as the first theme.' ) . '</p>';
+		'<p>' . __( 'The current theme is displayed highlighted as the first theme.' ) . '</p>' .
+		'<p>' . __( 'The search for installed themes will search for terms in their name, description, author, or tag.' ) . ' <span id="live-search-desc">' . __( 'The search results will be updated as you type.' ) . '</span></p>';
 
 	get_current_screen()->add_help_tab( array(
 		'id'      => 'overview',
@@ -107,9 +108,11 @@ wp_localize_script( 'theme', '_wpThemeSettings', array(
 		'adminUrl'      => parse_url( admin_url(), PHP_URL_PATH ),
 	),
  	'l10n' => array(
- 		'addNew' => __( 'Add New Theme' ),
- 		'search'  => __( 'Search Installed Themes' ),
+ 		'addNew'            => __( 'Add New Theme' ),
+ 		'search'            => __( 'Search Installed Themes' ),
  		'searchPlaceholder' => __( 'Search installed themes...' ), // placeholder (no ellipsis)
+		'themesFound'       => __( 'Number of Themes found: %d' ),
+		'noThemesFound'     => __( 'No themes found. Try a different search.' ),
   	),
 ) );
 
@@ -198,7 +201,7 @@ if ( ! $ct->errors() || ( 1 == count( $ct->errors()->get_error_codes() )
 
 ?>
 
-<div class="theme-browser" aria-live="polite">
+<div class="theme-browser">
 	<div class="themes">
 
 <?php
@@ -255,9 +258,10 @@ foreach ( $themes as $theme ) :
 <?php endforeach; ?>
 	<br class="clear" />
 	</div>
-	<p class="no-themes"><?php _e( 'No themes found. Try a different search.' ); ?></p>
 </div>
 <div class="theme-overlay"></div>
+
+<p class="no-themes"><?php _e( 'No themes found. Try a different search.' ); ?></p>
 
 <?php
 // List broken themes, if any.
