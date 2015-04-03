@@ -1289,7 +1289,7 @@ themes.view.InstallerSearch =  themes.view.Search.extend({
 			event.target.value = '';
 		}
 
-		_.debounce( _.bind( this.doSearch, this ), 300 )( event.target.value );
+		this.doSearch( event.target.value );
 	},
 
 	doSearch: _.debounce( function( value ) {
