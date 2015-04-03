@@ -685,6 +685,7 @@ class Plugin_Upgrader extends WP_Upgrader {
 		$this->strings['remove_old_failed'] = __('Could not remove the old plugin.');
 		$this->strings['process_failed'] = __('Plugin update failed.');
 		$this->strings['process_success'] = __('Plugin updated successfully.');
+		$this->strings['process_bulk_success'] = __('Plugins updated successfully.');
 	}
 
 	/**
