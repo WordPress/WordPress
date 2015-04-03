@@ -101,7 +101,7 @@
 		 * Show UX spinner
 		 */
 		function showSpinner() {
-			$( '#spinner' ).addClass( 'show' );
+			$( '.spinner' ).addClass( 'is-visible' );
 			$( '.post-actions button' ).each( function() {
 				$( this ).attr( 'disabled', 'disabled' );
 			} );
@@ -111,7 +111,7 @@
 		 * Hide UX spinner
 		 */
 		function hideSpinner() {
-			$( '#spinner' ).removeClass( 'show' );
+			$( '.spinner' ).removeClass( 'is-visible' );
 			$( '.post-actions button' ).each( function() {
 				$( this ).removeAttr( 'disabled' );
 			} );
@@ -181,24 +181,28 @@
 			$.ajax( {
 				type: 'post',
 				url: window.ajaxurl,
-				data: data,
-				success: function( response ) {
-					if ( ! response.success ) {
-						renderError( response.data.errorMessage );
-						hideSpinner();
-					} else if ( response.data.redirect ) {
-						if ( window.opener && settings.redirInParent ) {
-							try {
-								window.opener.location.href = response.data.redirect;
-							} catch( er ) {}
+				data: data
+			}).always( function() {
+				hideSpinner();
+			}).done( function( response ) {
+				if ( ! response.success ) {
+					renderError( response.data.errorMessage );
+				} else if ( response.data.redirect ) {
+					if ( window.opener && settings.redirInParent ) {
+						try {
+							window.opener.location.href = response.data.redirect;
+						} catch( er ) {}
 
-							window.self.close();
-						} else {
-							window.location.href = response.data.redirect;
-						}
+						window.self.close();
+					} else {
+						window.location.href = response.data.redirect;
 					}
+				} else if ( response.data.postSaved ) {
+					// show "success" message?
 				}
-			} );
+			}).fail( function() {
+				renderError( __( 'serverError' ) );
+			});
 		}
 
 		/**

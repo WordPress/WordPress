@@ -478,7 +478,7 @@ function wp_default_scripts( &$scripts ) {
 		$scripts->add( 'press-this', "/wp-admin/js/press-this$suffix.js", array( 'jquery', 'tags-box' ), false, 1 );
 		did_action( 'init' ) && $scripts->localize( 'press-this', 'pressThisL10n', array(
 			'newPost' => __( 'Title' ),
-			'unexpectedError' => __( 'Sorry, but an unexpected error occurred.' ),
+			'serverError' => __( 'Connection lost or the server is busy. Please try again later.' ),
 			'saveAlert' => __( 'The changes you made will be lost if you navigate away from this page.' ),
 			/* translators: %d: nth embed found in a post */
 			'suggestedEmbedAlt' => __( 'Suggested embed #%d' ),

@@ -148,23 +148,28 @@ class WP_Press_This {
 			}
 
 			if ( 'publish' === get_post_status( $post_id ) ) {
-				/**
-				 * Filter the URL to redirect to when Press This saves.
-				 *
-				 * @since 4.2.0
-				 *
-				 * @param string $url     Redirect URL. If `$status` is 'publish', this will be the post permalink.
-				 *                        Otherwise, the post edit URL will be used.
-				 * @param int    $post_id Post ID.
-				 * @param string $status  Post status.
-				 */
-				$redirect = apply_filters( 'press_this_save_redirect', get_post_permalink( $post_id ), $post_id, $post['post_status'] );
+				$redirect = get_post_permalink( $post_id );
 			} else {
-				/** This filter is documented in wp-admin/includes/class-wp-press-this.php */
-				$redirect = apply_filters( 'press_this_save_redirect', get_edit_post_link( $post_id, 'raw' ), $post_id, $post['post_status'] );
+				$redirect = false;
 			}
 
-			wp_send_json_success( array( 'redirect' => $redirect ) );
+			/**
+			 * Filter the URL to redirect to when Press This saves.
+			 *
+			 * @since 4.2.0
+			 *
+			 * @param string $url     Redirect URL. If `$status` is 'publish', this will be the post permalink.
+			 *                        Otherwise, the post edit URL will be used.
+			 * @param int    $post_id Post ID.
+			 * @param string $status  Post status.
+			 */
+			$redirect = apply_filters( 'press_this_save_redirect', $redirect, $post_id, $post['post_status'] );
+
+			if ( $redirect ) {
+				wp_send_json_success( array( 'redirect' => $redirect ) );
+			} else {
+				wp_send_json_success( array( 'postSaved' => true ) );
+			}
 		}
 	}
 
@@ -1339,6 +1344,7 @@ class WP_Press_This {
 			</button>
 		</div>
 		<div class="post-actions">
+			<span class="spinner">&nbsp;</span>
 			<button type="button" class="button-subtle draft-button"><?php _e( 'Save Draft' ); ?></button>
 			<button type="button" class="button-subtle preview-button"><?php _e( 'Preview' ); ?></button>
 			<button type="button" class="button-primary publish-button"><?php echo ( current_user_can( 'publish_posts' ) ) ? __( 'Publish' ) : __( 'Submit for Review' ); ?></button>

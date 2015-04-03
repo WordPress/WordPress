@@ -1363,6 +1363,33 @@ html {
 	margin: 0 auto;
 }
 
+.spinner {
+	height: 20px;
+	width: 20px;
+	display: inline-block;
+	visibility: hidden;
+	background: url(../images/spinner.gif) no-repeat center;
+	-webkit-background-size: 20px 20px;
+	background-size: 20px 20px;
+	opacity: 0.7;
+	filter: alpha(opacity=70);
+	line-height: 30px;
+	vertical-align: baseline;
+}
+
+@media print,
+	(-webkit-min-device-pixel-ratio: 1.25),
+	(min-resolution: 120dpi) {
+
+	.spinner {
+		background-image: url(../images/spinner-2x.gif);
+	}
+}
+
+.spinner.is-visible {
+	visibility: visible;
+}
+
 /* Make the text inside the editor textarea white. Prevents a "flash" on loading the page */
 #pressthis {
 	color: #fff;
