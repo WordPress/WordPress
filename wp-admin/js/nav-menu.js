@@ -177,7 +177,7 @@ var wpNavMenu;
 							return false;
 
 						// Show the ajax spinner
-						t.find('.spinner').show();
+						t.find( '.spinner' ).addClass( 'is-active' );
 
 						// Retrieve menu item data
 						$(checkboxes).each(function(){
@@ -194,7 +194,7 @@ var wpNavMenu;
 						api.addItemToMenu(menuItems, processMethod, function(){
 							// Deselect the items and hide the ajax spinner
 							checkboxes.removeAttr('checked');
-							t.find('.spinner').hide();
+							t.find( '.spinner' ).removeClass( 'is-active' );
 						});
 					});
 				},
@@ -862,9 +862,9 @@ var wpNavMenu;
 				loc.find('select').each(function() {
 					params[this.name] = $(this).val();
 				});
-				loc.find('.spinner').show();
+				loc.find( '.spinner' ).addClass( 'is-active' );
 				$.post( ajaxurl, params, function() {
-					loc.find('.spinner').hide();
+					loc.find( '.spinner' ).removeClass( 'is-active' );
 				});
 				return false;
 			});
@@ -906,7 +906,7 @@ var wpNavMenu;
 				'type': input.attr('name')
 			};
 
-			$('.spinner', panel).show();
+			$( '.spinner', panel ).addClass( 'is-active' );
 
 			$.post( ajaxurl, params, function(menuMarkup) {
 				api.processQuickSearchQueryResponse(menuMarkup, params, panel);
@@ -923,10 +923,10 @@ var wpNavMenu;
 				return false;
 
 			// Show the ajax spinner
-			$('.customlinkdiv .spinner').show();
+			$( '.customlinkdiv .spinner' ).addClass( 'is-active' );
 			this.addLinkToMenu( url, label, processMethod, function() {
 				// Remove the ajax spinner
-				$('.customlinkdiv .spinner').hide();
+				$( '.customlinkdiv .spinner' ).removeClass( 'is-active' );
 				// Set custom link form back to defaults
 				$('#custom-menu-item-name').val('').blur();
 				$('#custom-menu-item-url').val('http://');
@@ -1174,7 +1174,7 @@ var wpNavMenu;
 
 			if( ! $items.length ) {
 				$('.categorychecklist', panel).html( '<li><p>' + navMenuL10n.noResultsFound + '</p></li>' );
-				$('.spinner', panel).hide();
+				$( '.spinner', panel ).removeClass( 'is-active' );
 				return;
 			}
 
@@ -1201,7 +1201,7 @@ var wpNavMenu;
 			});
 
 			$('.categorychecklist', panel).html( $items );
-			$('.spinner', panel).hide();
+			$( '.spinner', panel ).removeClass( 'is-active' );
 		},
 
 		removeMenuItem : function(el) {

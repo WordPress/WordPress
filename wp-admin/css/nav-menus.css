@@ -349,11 +349,6 @@ ul.add-menu-item-tabs li {
 	float: right;
 }
 
-.postbox .spinner {
-	display: none;
-	vertical-align: middle;
-}
-
 .button-controls {
 	clear:both;
 	margin: 10px 0;
@@ -406,6 +401,11 @@ ul.add-menu-item-tabs li {
 /* Menu item types */
 .quick-search {
 	width: 190px;
+}
+
+.quick-search-wrap .spinner {
+	float: none;
+	margin: 0 5px;
 }
 
 .nav-menus-php .list-wrap {

@@ -101,7 +101,7 @@
 		 * Show UX spinner
 		 */
 		function showSpinner() {
-			$( '.spinner' ).addClass( 'is-visible' );
+			$( '.spinner' ).addClass( 'is-active' );
 			$( '.post-actions button' ).each( function() {
 				$( this ).attr( 'disabled', 'disabled' );
 			} );
@@ -111,7 +111,7 @@
 		 * Hide UX spinner
 		 */
 		function hideSpinner() {
-			$( '.spinner' ).removeClass( 'is-visible' );
+			$( '.spinner' ).removeClass( 'is-active' );
 			$( '.post-actions button' ).each( function() {
 				$( this ).removeAttr( 'disabled' );
 			} );

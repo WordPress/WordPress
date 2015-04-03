@@ -405,11 +405,11 @@ var wpLink;
 					return;
 
 				wpLink.lastSearch = search;
-				waiting = t.parent().find('.spinner').show();
+				waiting = t.parent().find( '.spinner' ).addClass( 'is-active' );
 
 				rivers.search.change( search );
 				rivers.search.ajax( function() {
-					waiting.hide();
+					waiting.removeClass( 'is-active' );
 				});
 			} else {
 				rivers.search.hide();
@@ -645,11 +645,11 @@ var wpLink;
 				if ( ! self.query.ready() || newBottom < self.contentHeight.height() - wpLink.riverBottomThreshold )
 					return;
 
-				self.waiting.show();
+				self.waiting.addClass( 'is-active' );
 				el.scrollTop( newTop + self.waiting.outerHeight() );
 
 				self.ajax( function() {
-					self.waiting.hide();
+					self.waiting.removeClass( 'is-active' );
 				});
 			}, wpLink.timeToTriggerRiver );
 		}

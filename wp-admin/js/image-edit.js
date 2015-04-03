@@ -306,7 +306,7 @@ var imageEdit = window.imageEdit = {
 			btn = $('#imgedit-open-btn-' + postid), spin = btn.siblings('.spinner');
 
 		btn.prop('disabled', true);
-		spin.show();
+		spin.addClass( 'is-active' );
 
 		data = {
 			'action': 'image-editor',
@@ -324,7 +324,7 @@ var imageEdit = window.imageEdit = {
 			head.fadeOut('fast', function(){
 				elem.fadeIn('fast');
 				btn.removeAttr('disabled');
-				spin.hide();
+				spin.removeClass( 'is-active' );
 			});
 		});
 

@@ -271,8 +271,10 @@ div#widgets-right .closed .widgets-sortables {
 }
 
 .sidebar-name .spinner {
-	margin: -5px 5px;
 	float: none;
+	position: relative;
+	top: -2px;
+	margin: -5px 5px;
 }
 
 /* Dragging a widget over a closed sidebar */

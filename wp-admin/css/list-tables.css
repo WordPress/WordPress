@@ -108,12 +108,6 @@ strong .post-com-count:after {
 	text-align: center;
 }
 
-#replysubmit .spinner {
-	padding: 2px 0 0;
-	vertical-align: top;
-	float: right;
-}
-
 #replysubmit .button {
 	margin-right: 5px;
 }
@@ -361,10 +355,6 @@ table.fixed {
 
 #commentsdiv .comments-box tr:last-child td {
 	border-bottom: 0 none;
-}
-
-#commentsdiv .spinner {
-	padding-left: 5px;
 }
 
 .sorting-indicator {
@@ -910,12 +900,6 @@ tr.inline-edit-row td,
 
 .inline-edit-col-right .input-text-wrap input.inline-edit-menu-order-input {
 	width: 6em;
-}
-
-.inline-edit-save .spinner {
-	padding: 4px 10px 0;
-	vertical-align: top;
-	float: right;
 }
 
 /*	Styling */

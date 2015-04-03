@@ -51,14 +51,14 @@ var findPosts;
 				},
 				spinner = $( '.find-box-search .spinner' );
 
-			spinner.show();
+			spinner.addClass( 'is-active' );
 
 			$.ajax( ajaxurl, {
 				type: 'POST',
 				data: post,
 				dataType: 'json'
 			}).always( function() {
-				spinner.hide();
+				spinner.removeClass( 'is-active' );
 			}).done( function( x ) {
 				if ( ! x.success ) {
 					$( '#find-posts-response' ).text( attachMediaBoxL10n.error );

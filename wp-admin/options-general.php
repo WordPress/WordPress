@@ -60,11 +60,11 @@ function options_general_add_js() {
 		});
 		$("input[name='date_format_custom'], input[name='time_format_custom']").change( function() {
 			var format = $(this);
-			format.siblings('.spinner').css('display', 'inline-block'); // show(); can't be used here
+			format.siblings( '.spinner' ).addClass( 'is-active' );
 			$.post(ajaxurl, {
 					action: 'date_format_custom' == format.attr('name') ? 'date_format' : 'time_format',
 					date : format.val()
-				}, function(d) { format.siblings('.spinner').hide(); format.siblings('.example').text(d); } );
+				}, function(d) { format.siblings( '.spinner' ).removeClass( 'is-active' ); format.siblings('.example').text(d); } );
 		});
 
 		var languageSelect = $( '#WPLANG' );

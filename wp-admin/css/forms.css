@@ -818,7 +818,6 @@ table.form-table td .updated p {
 .options-general-php .spinner {
 	float: none;
 	margin: 0 3px;
-	vertical-align: text-bottom;
 }
 
 .settings-php .language-install-spinner,

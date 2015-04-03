@@ -274,9 +274,8 @@
 
 .find-box-search .spinner {
 	float: none;
-	left: 110px;
+	left: 105px;
 	position: absolute;
-	top: 2px;
 }
 
 .find-box-search,
@@ -911,8 +910,6 @@ border color while dragging a file over the uploader drop area */
 .wp_attachment_image .spinner,
 .A1B1 .spinner {
 	float: left;
-	padding: 0 0 4px 0;
-	vertical-align: bottom;
 }
 
 .imgedit-menu {

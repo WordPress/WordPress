@@ -1960,13 +1960,19 @@ h2 .nav-tab {
 	background: url(../images/spinner.gif) no-repeat;
 	-webkit-background-size: 20px 20px;
 	background-size: 20px 20px;
-	display: none;
+	display: inline-block;
+	visibility: hidden;
 	float: right;
+	vertical-align: middle;
 	opacity: 0.7;
 	filter: alpha(opacity=70);
 	width: 20px;
 	height: 20px;
-	margin: 2px 5px 0;
+	margin: 4px 10px 0;
+}
+
+.spinner.is-active {
+	visibility: visible;
 }
 
 #template div {

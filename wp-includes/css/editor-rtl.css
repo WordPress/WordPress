@@ -1375,8 +1375,7 @@ i.mce-i-wp_code:before {
 }
 
 #wp-link .link-search-wrapper .spinner {
-	display: none;
-	vertical-align: text-bottom;
+	margin-top: 5px;
 }
 
 #wp-link .link-target {
@@ -1503,12 +1502,6 @@ i.mce-i-wp_code:before {
 #wp-link .river-waiting {
 	display: none;
 	padding: 10px 0;
-}
-
-#wp-link .river-waiting .spinner {
-	margin: 0 auto;
-	display: block;
-	float: none;
 }
 
 #wp-link .submitbox {
