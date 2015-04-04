@@ -29,12 +29,12 @@ body {
 }
 
 #customize-header-actions .spinner {
-	margin-top: 16px;
+	margin-top: 13px;
 	margin-left: 4px;
 }
 
 .saving #customize-header-actions .spinner {
-	display: block;
+	visibility: visible;
 }
 
 #customize-header-actions {
@@ -1161,9 +1161,5 @@ body.cheatin p {
 
 	#customize-header-actions .button-primary {
 		margin-top: 6px;
-	}
-
-	#customize-header-actions .spinner {
-		margin-top: 13px;
 	}
 }

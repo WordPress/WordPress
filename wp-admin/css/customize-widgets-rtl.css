@@ -23,13 +23,17 @@
 	opacity: 0.5;
 }
 
-.customize-control-widget_form .widget-control-save,
-.customize-control-widget_form .spinner {
+.customize-control-widget_form .widget-control-save {
 	display: none;
 }
 
+.customize-control-widget_form .spinner {
+	visibility: hidden;
+	margin-top: 0;
+}
+
 .customize-control-widget_form.previewer-loading .spinner {
-	display: inline;
+	visibility: visible;
 }
 
 .customize-control-widget_form.widget-form-disabled .widget-content {
