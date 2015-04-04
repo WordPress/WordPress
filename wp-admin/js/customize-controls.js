@@ -640,12 +640,11 @@
 					term = event.currentTarget.value.toLowerCase().trim().replace( '-', ' ' ),
 					controls = section.controls();
 
-				controls.pop(); // Remove the last control (the add-new control).
-
 				_.each( controls, function( control ) {
 					control.filter( term );
 				});
-				// Update theme count. Note that the add-theme tile is a div.customize-control.
+
+				// Update theme count.
 				count = section.container.find( 'li.customize-control:visible' ).length;
 				section.container.find( '.theme-count' ).text( count );
 			});
