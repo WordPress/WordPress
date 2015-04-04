@@ -8,7 +8,7 @@
  */
 
 /**
- * Press This class
+ * Press This class.
  *
  * @since 4.2.0
  */
@@ -38,8 +38,10 @@ class WP_Press_This {
 	 */
 	public function site_settings() {
 		return array(
-			// Used to trigger the bookmarklet update notice.
-			// Needs to be set here and in get_shortcut_link() in wp-includes/link-template.php.
+			/*
+			 * Used to trigger the bookmarklet update notice. Needs to be set here and in
+			 * get_shortcut_link() in wp-includes/link-template.php.
+			 */
 			'version' => '8',
 
 			/**
@@ -251,8 +253,8 @@ class WP_Press_This {
 		$source_content  = '';
 
 		if ( ! is_wp_error( $source_tmp_file ) && file_exists( $source_tmp_file ) ) {
-			// Get the content of the source page from the tmp file..
 
+			// Get the content of the source page from the tmp file..
 			$source_content = wp_kses(
 				@file_get_contents( $source_tmp_file ),
 				array(
@@ -289,6 +291,15 @@ class WP_Press_This {
 		return $source_content;
 	}
 
+	/**
+	 * Utility method to limit an array to 50 values.
+	 *
+	 * @ignore
+	 * @since 4.2.0
+	 *
+	 * @param array $value Array to limit.
+	 * @return array Original array if fewer than 50 values, limited array, empty array otherwise.
+	 */
 	private function _limit_array( $value ) {
 		if ( is_array( $value ) ) {
 			if ( count( $value ) > 50 ) {
@@ -301,6 +312,17 @@ class WP_Press_This {
 		return array();
 	}
 
+	/**
+	 * Utility method to limit the length of a given string to 5,000 characters.
+	 *
+	 * @ignore
+	 * @since 4.2.0
+	 *
+	 * @param string $value String to limit.
+	 * @return bool|int|string If boolean or integer, that value. If a string, the original value
+	 *                         if fewer than 5,000 characters, a truncated version, otherwise an
+	 *                         empty string.
+	 */
 	private function _limit_string( $value ) {
 		$return = '';
 
@@ -320,6 +342,15 @@ class WP_Press_This {
 		return $return;
 	}
 
+	/**
+	 * Utility method to limit a given URL to 2,048 characters.
+	 *
+	 * @ignore
+	 * @since 4.2.0
+	 *
+	 * @param string $url URL to check for length and validity.
+	 * @return string Escaped URL if of valid length (< 2048) and makeup. Empty string otherwise.
+	 */
 	private function _limit_url( $url ) {
 		if ( ! is_string( $url ) ) {
 			return '';
@@ -348,6 +379,18 @@ class WP_Press_This {
 		return esc_url_raw( $url, array( 'http', 'https' ) );
 	}
 
+	/**
+	 * Utility method to limit image source URLs.
+	 *
+	 * Excluded URLs include share-this type buttons, loaders, spinners, spacers, WP interface images,
+	 * tiny buttons or thumbs, mathtag.com or quantserve.com images, or the WP stats gif.
+	 *
+	 * @ignore
+	 * @since 4.2.0
+	 *
+	 * @param string $src Image source URL.
+	 * @return string If not matched an excluded URL type, the original URL, empty string otherwise.
+	 */
 	private function _limit_img( $src ) {
 		$src = $this->_limit_url( $src );
 
@@ -383,6 +426,18 @@ class WP_Press_This {
 		return $src;
 	}
 
+	/**
+	 * Limit embed source URLs to specific providers.
+	 *
+	 * Not all core oEmbed providers are supported. Supported providers include YouTube, Vimeo,
+	 * Vine, Daily Motion, SoundCloud, and Twitter.
+	 *
+	 * @ignore
+	 * @since 4.2.0
+	 *
+	 * @param string $src Embed source URL.
+	 * @return string If not from a supported provider, an empty string. Otherwise, a reformattd embed URL.
+	 */
 	private function _limit_embed( $src ) {
 		$src = $this->_limit_url( $src );
 
@@ -414,6 +469,17 @@ class WP_Press_This {
 		return $src;
 	}
 
+	/**
+	 * Process a meta data entry from the source.
+	 *
+	 * @ignore
+	 * @since 4.2.0
+	 *
+	 * @param string $meta_name  Meta key name.
+	 * @param mixed  $meta_value Meta value.
+	 * @param array  $data       Associative array of source data.
+	 * @return array Processed data array.
+	 */
 	private function _process_meta_entry( $meta_name, $meta_value, $data ) {
 		if ( preg_match( '/:?(title|description|keywords|site_name)$/', $meta_name ) ) {
 			$data['_meta'][ $meta_name ] = $meta_value;
@@ -543,7 +609,7 @@ class WP_Press_This {
 			}
 		}
 
-		// Fetch and gather <link> data
+		// Fetch and gather <link> data.
 		if ( empty( $data['_links'] ) ) {
 			$data['_links'] = array();
 		}
