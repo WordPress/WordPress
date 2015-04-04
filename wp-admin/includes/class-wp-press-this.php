@@ -921,8 +921,11 @@ class WP_Press_This {
 	/**
 	 * Get a list of embeds with no duplicates.
 	 *
+	 * @since 4.2.0
+	 * @access public
+	 *
 	 * @param array $data The site's data.
-	 * @returns array
+	 * @returns array Embeds selected to be available.
 	 */
 	public function get_embeds( $data ) {
 		$selected_embeds = array();
@@ -945,6 +948,9 @@ class WP_Press_This {
 
 	/**
 	 * Get a list of images with no duplicates.
+	 *
+	 * @since 4.2.0
+	 * @access public
 	 *
 	 * @param array $data The site's data.
 	 * @returns array
@@ -977,6 +983,9 @@ class WP_Press_This {
 	/**
 	 * Gets the source page's canonical link, based on passed location and meta data.
 	 *
+	 * @since 4.2.0
+	 * @access public
+	 *
  	 * @param array $data The site's data.
 	 * @returns string Discovered canonical URL, or empty
 	 */
@@ -1005,6 +1014,9 @@ class WP_Press_This {
 	/**
 	 * Gets the source page's site name, based on passed meta data.
 	 *
+	 * @since 4.2.0
+	 * @access public
+	 *
 	 * @param array $data The site's data.
 	 * @returns string Discovered site name, or empty
 	 */
@@ -1024,6 +1036,9 @@ class WP_Press_This {
 
 	/**
 	 * Gets the source page's title, based on passed title and meta data.
+	 *
+	 * @since 4.2.0
+	 * @access public
 	 *
 	 * @param array $data The site's data.
 	 * @returns string Discovered page title, or empty
@@ -1048,7 +1063,11 @@ class WP_Press_This {
 
 	/**
 	 * Gets the source page's suggested content, based on passed data (description, selection, etc).
+	 *
 	 * Features a blockquoted excerpt, as well as content attribution, if any.
+	 *
+	 * @since 4.2.0
+	 * @access public
 	 *
 	 * @param array $data The site's data.
 	 * @returns string Discovered content, or empty
