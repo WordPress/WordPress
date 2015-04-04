@@ -2881,6 +2881,8 @@ function wp_ajax_destroy_sessions() {
  * AJAX handler for updating a plugin.
  *
  * @since 4.2.0
+ *
+ * @see Plugin_Upgrader
  */
 function wp_ajax_update_plugin() {
 	$plugin = urldecode( $_POST['plugin'] );
@@ -2916,6 +2918,7 @@ function wp_ajax_update_plugin() {
 
 	if ( is_array( $result ) ) {
 		$plugin_update_data = current( $result );
+
 		/*
 		 * If the `update_plugins` site transient is empty (e.g. when you update
 		 * two plugins in quick succession before the transient repopulates),
@@ -2927,10 +2930,13 @@ function wp_ajax_update_plugin() {
 		if ( $plugin_update_data === true ) {
  			wp_send_json_error( $status );
 		}
+
 		$plugin_data = get_plugin_data( WP_PLUGIN_DIR . '/' . $plugin );
+
 		if ( $plugin_data['Version'] ) {
 			$status['newVersion'] = sprintf( __( 'Version %s' ), $plugin_data['Version'] );
 		}
+
 		wp_send_json_success( $status );
 	} else if ( is_wp_error( $result ) ) {
 		$status['error'] = $result->get_error_message();
