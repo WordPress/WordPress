@@ -1203,7 +1203,7 @@ foreach ( (array) $extra_fields as $field ) {
 }
 
 /**
- * Print the credentials modal when needed  
+ * Print the filesystem credentials modal when needed.
  *
  * @since 4.2.0
  */
