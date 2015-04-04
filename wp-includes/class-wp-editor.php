@@ -1446,11 +1446,11 @@ final class _WP_Editors {
 		<div id="link-selector">
 			<div id="link-options">
 				<p class="howto"><?php _e( 'Enter the destination URL' ); ?></p>
-				<div class="wp-link-text-field">
-					<label><span><?php _e( 'Link Text' ); ?></span><input id="wp-link-text" type="text" /></label>
-				</div>
 				<div>
 					<label><span><?php _e( 'URL' ); ?></span><input id="wp-link-url" type="text" /></label>
+				</div>
+				<div class="wp-link-text-field">
+					<label><span><?php _e( 'Link Text' ); ?></span><input id="wp-link-text" type="text" /></label>
 				</div>
 				<div class="link-target">
 					<label><span>&nbsp;</span><input type="checkbox" id="wp-link-target" /> <?php _e( 'Open link in a new window/tab' ); ?></label>
