@@ -2949,7 +2949,7 @@ function wp_ajax_update_plugin() {
 }
 
 /**
- * AJAX handler for saving a post from Ptrss This.
+ * AJAX handler for saving a post from Press This.
  *
  * @since 4.2.0
  */
@@ -2962,7 +2962,7 @@ function wp_ajax_press_this_save_post() {
 }
 
 /**
- * AJAX handler for creating new category from Ptrss This.
+ * AJAX handler for creating new category from Press This.
  *
  * @since 4.2.0
  */
