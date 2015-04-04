@@ -4,7 +4,8 @@
  * WordPress View plugin.
  */
 tinymce.PluginManager.add( 'wpview', function( editor ) {
-	var selected,
+	var $ = editor.$,
+		selected,
 		Env = tinymce.Env,
 		VK = tinymce.util.VK,
 		TreeWalker = tinymce.dom.TreeWalker,
@@ -153,13 +154,17 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 
 	// Remove the content of view wrappers from HTML string
 	function emptyViews( content ) {
-		return content.replace(/<div[^>]+data-wpview-text=\"([^"]+)"[^>]*>[\s\S]+?wpview-selection-after[^>]+>(?:&nbsp;|\u00a0)*<\/p><\/div>/g, '$1' );
+		content = content.replace( /<div[^>]+data-wpview-text="([^"]+)"[^>]*>[\s\S]+?wpview-selection-after[^>]+>[^<>]*<\/p>\s*<\/div>/g, function( all, match ) {
+			return '<p>' + window.decodeURIComponent( match ) + '</p>';
+		});
+
+		return content.replace( / data-wpview-marker="[^"]+"/g, '' );
 	}
 
 	// Prevent adding undo levels on changes inside a view wrapper
 	editor.on( 'BeforeAddUndo', function( event ) {
-		if ( event.lastLevel && emptyViews( event.level.content ) === emptyViews( event.lastLevel.content ) ) {
-			event.preventDefault();
+		if ( event.level.content ) {
+			event.level.content = emptyViews( event.level.content );
 		}
 	});
 
@@ -168,6 +173,10 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 	// view wrappers.
 	editor.on( 'BeforeSetContent', function( event ) {
 		var node;
+
+		if ( ! event.selection ) {
+			wp.mce.views.unbind();
+		}
 
 		if ( ! event.content ) {
 			return;
@@ -339,22 +348,30 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 		}
 	});
 
-	editor.on( 'PreProcess', function( event ) {
-		// Empty the wpview wrap nodes
-		tinymce.each( editor.dom.select( 'div[data-wpview-text]', event.node ), function( node ) {
-			node.textContent = node.innerText = '\u00a0';
-		});
-    });
+	function resetViews( rootNode ) {
+		// Replace view nodes
+		$( 'div[data-wpview-text]', rootNode ).each( function( i, node ) {
+			var $node = $( node ),
+				text = window.decodeURIComponent( $node.attr( 'data-wpview-text' ) || '' );
 
-    editor.on( 'PostProcess', function( event ) {
-		if ( event.content ) {
-			event.content = event.content.replace( /<div [^>]*?data-wpview-text="([^"]*)"[^>]*>[\s\S]*?<\/div>/g, function( match, shortcode ) {
-				if ( shortcode ) {
-					return '<p>' + window.decodeURIComponent( shortcode ) + '</p>';
-				}
-				return ''; // If error, remove the view wrapper
-			});
-		}
+			if ( text && node.parentNode ) {
+				$node.replaceWith( $( editor.dom.create('p') ).text( text ) );
+			}
+		});
+
+		// Remove marker attributes
+		$( 'p[data-wpview-marker]', rootNode ).attr( 'data-wpview-marker', null );
+	}
+
+	editor.on( 'PreProcess', function( event ) {
+		// Replace the view nodes with their text in the DOM clone.
+		resetViews( event.node );
+	}, true );
+
+	editor.on( 'hide', function() {
+		// Replace the view nodes with their text directly in the editor body.
+		wp.mce.views.unbind();
+		resetViews( editor.getBody() );
 	});
 
 	// Excludes arrow keys, delete, backspace, enter, space bar.
