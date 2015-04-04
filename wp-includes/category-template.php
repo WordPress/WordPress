@@ -293,7 +293,7 @@ function category_description( $category = 0 ) {
  * the 'depth' argument.
  *
  * @since 2.1.0
- * @since 4.2.0 Introduced the 'value_field' parameter.
+ * @since 4.2.0 Introduced the `value_field' argument.
  *
  * @param string|array $args {
  *     Optional. Array or string of arguments to generate a categories drop-down element.
