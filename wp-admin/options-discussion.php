@@ -15,7 +15,7 @@ $title = __('Discussion Settings');
 $parent_file = 'options-general.php';
 
 /**
- * Display JavaScript on the page.
+ * Output JavaScript to toggle display of additional settings if avatars are disabled.
  *
  * @since 4.2.0
  */
