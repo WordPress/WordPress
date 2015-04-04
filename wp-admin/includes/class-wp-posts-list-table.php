@@ -149,11 +149,11 @@ class WP_Posts_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Determine if the current view is the "All" view
+	 * Determine if the current view is the "All" view.
 	 *
 	 * @since 4.2.0
 	 *
-	 * @return boolean
+	 * @return bool Whether the current ivew is the "All" view.
 	 */
 	protected function is_base_request() {
 		if ( empty( $_GET ) ) {
