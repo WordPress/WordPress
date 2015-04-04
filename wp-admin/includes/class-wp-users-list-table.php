@@ -326,8 +326,10 @@ class WP_Users_List_Table extends WP_List_Table {
 	 * Generate HTML for a single row on the users.php admin panel.
 	 *
 	 * @since 3.1.0
-	 * @since 4.2.0 `$style` argument was deprecated.
+	 * @since 4.2.0 The `$style` argument was deprecated.
 	 * @access public
+	 *
+	 * @global WP_Roles $wp_roles User roles object.
 	 *
 	 * @param object $user_object The current user object.
 	 * @param string $style       Deprecated. Not used.
