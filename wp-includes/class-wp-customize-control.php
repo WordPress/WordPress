@@ -645,8 +645,31 @@ class WP_Customize_Color_Control extends WP_Customize_Control {
  * @see WP_Customize_Control
  */
 class WP_Customize_Media_Control extends WP_Customize_Control {
-	public $type          = 'media';
-	public $mime_type     = '';
+	/**
+	 * Control type.
+	 *
+	 * @since 4.2.0
+	 * @access public
+	 * @var string
+	 */
+	public $type = 'media';
+
+	/**
+	 * Media control mime type.
+	 *
+	 * @since 4.2.0
+	 * @access public
+	 * @var string
+	 */
+	public $mime_type = '';
+
+	/**
+	 * Button labels.
+	 *
+	 * @since 4.2.0
+	 * @access public
+	 * @var array
+	 */
 	public $button_labels = array();
 
 	/**
@@ -687,7 +710,7 @@ class WP_Customize_Media_Control extends WP_Customize_Control {
 	 * @since 3.4.0
 	 * @since 4.2.0 Moved from WP_Customize_Upload_Control.
 	 *
-	 * @uses WP_Customize_Control::to_json()
+	 * @see WP_Customize_Control::to_json()
 	 */
 	public function to_json() {
 		parent::to_json();
