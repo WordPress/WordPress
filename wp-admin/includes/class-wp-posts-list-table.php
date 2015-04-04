@@ -576,7 +576,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 	 * @param int $level
 	 * @param int $pagenum
 	 * @param int $per_page
-	 * @param array $to_display list of pages to be displayed
+	 * @param array $to_display List of pages to be displayed. Passed by reference.
 	 */
 	private function _page_rows( &$children_pages, &$count, $parent, $level, $pagenum, $per_page, &$to_display ) {
 
