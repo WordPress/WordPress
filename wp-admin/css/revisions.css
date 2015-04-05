@@ -42,7 +42,7 @@
 .revisions-tickmarks > div {
 	position: absolute;
 	height: 100%;
-	border-left: 1px solid #aaa;
+	border-left: 1px solid #a0a5aa;
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;

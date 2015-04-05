@@ -22,7 +22,7 @@ body {
 }
 
 a {
-	color: #0074a2;
+	color: #0073aa;
 	-webkit-transition-property: border, background, color;
 	transition-property: border, background, color;
 	-webkit-transition-duration: .05s;
@@ -37,7 +37,7 @@ a {
 
 a:hover,
 a:active {
-	color: #2ea2cc;
+	color: #00a0d2;
 }
 
 a:focus {
@@ -54,7 +54,7 @@ p {
 }
 
 .login .message {
-	border-left: 4px solid #2ea2cc;
+	border-left: 4px solid #00a0d2;
 	padding: 1px 12px;
 	background-color: #fff;
 	-webkit-box-shadow: 0 1px 1px 0 rgba(0,0,0,0.1);
@@ -180,7 +180,7 @@ p {
 .login #nav a:hover,
 .login #backtoblog a:hover,
 .login h1 a:hover {
-	color: #2ea2cc;
+	color: #00a0d2;
 }
 
 .login form .input,

@@ -222,7 +222,7 @@
 .ui-button:focus {
 	background: #fafafa;
 	border-color: #999;
-	color: #222;
+	color: #23282d;
 }
 
 .ui-button:focus {
@@ -237,14 +237,14 @@
 .ui-button:active {
 	background: #eee;
 	border-color: #999;
-	color: #333;
+	color: #32373c;
 	-webkit-box-shadow: inset 0 2px 5px -3px rgba( 0, 0, 0, 0.5 );
 	box-shadow: inset 0 2px 5px -3px rgba( 0, 0, 0, 0.5 );
 }
 
 .ui-button[disabled],
 .ui-button:disabled {
-	color: #aaa !important;
+	color: #a0a5aa !important;
 	border-color: #ddd !important;
 	background: #f7f7f7 !important;
 	-webkit-box-shadow: none !important;
@@ -318,7 +318,7 @@
 }
 
 .ui-button.ui-dialog-titlebar-close:hover {
-	color: #2ea2cc;
+	color: #00a0d2;
 }
 
 .ui-dialog-titlebar-close .ui-button-text {

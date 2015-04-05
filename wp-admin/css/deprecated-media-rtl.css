@@ -229,7 +229,7 @@ abbr.required {
 
 .ui-sortable-helper {
 	background-color: #fff;
-	border: 1px solid #aaa;
+	border: 1px solid #a0a5aa;
 	opacity: 0.6;
 	filter: alpha(opacity=60);
 }

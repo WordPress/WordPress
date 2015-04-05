@@ -179,7 +179,7 @@
 #adminmenu li.menu-top > a:focus,
 #adminmenu .wp-submenu a:hover,
 #adminmenu .wp-submenu a:focus {
-	color: #45bbe6;
+	color: #00b9eb;
 }
 
 #adminmenu li.menu-top {
@@ -525,7 +525,7 @@ ul#adminmenu > li.current > a.current:after {
 
 #adminmenu li.current a .awaiting-mod,
 #adminmenu	li a.wp-has-current-submenu .update-plugins {
-	background-color: #45bbe6;
+	background-color: #00b9eb;
 	color: #fff;
 }
 

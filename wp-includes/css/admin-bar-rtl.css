@@ -212,13 +212,13 @@ html:lang(he-il) .rtl #wpadminbar *  {
 #wpadminbar .ab-top-menu > li:hover > .ab-item,
 #wpadminbar .ab-top-menu > li.hover > .ab-item {
 	background: #32373c;
-	color: #45bbe6;
+	color: #00b9eb;
 }
 
 #wpadminbar > #wp-toolbar li:hover span.ab-label,
 #wpadminbar > #wp-toolbar li.hover span.ab-label,
 #wpadminbar > #wp-toolbar a:focus span.ab-label {
-	color: #45bbe6;
+	color: #00b9eb;
 }
 
 #wpadminbar > #wp-toolbar > #wp-admin-bar-root-default .ab-icon,
@@ -481,7 +481,7 @@ html:lang(he-il) .rtl #wpadminbar *  {
 }
 
 #wpadminbar .quicklinks li a:hover .blavatar {
-	color: #45bbe6;
+	color: #00b9eb;
 }
 
 #wpadminbar .quicklinks li .blavatar:before {

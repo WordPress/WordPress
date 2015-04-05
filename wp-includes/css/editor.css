@@ -71,7 +71,7 @@
 }
 
 .mce-window .mce-window-head .mce-close:hover:before {
-	color: #2ea2cc;
+	color: #00a0d2;
 }
 
 .mce-window .mce-window-head .mce-dragh {
@@ -160,7 +160,7 @@ div.mce-toolbar-grp {
 }
 
 div.mce-inline-toolbar-grp {
-	border: 1px solid #aaa;
+	border: 1px solid #a0a5aa;
 	-webkit-border-radius: 2px;
 	border-radius: 2px;
 	-webkit-box-shadow: 0 1px 3px rgba( 0, 0, 0, 0.15 );
@@ -200,14 +200,14 @@ div.mce-inline-toolbar-grp:after {
 
 div.mce-inline-toolbar-grp.mce-arrow-up:before {
 	top: -18px;
-	border-bottom-color: #aaa;
+	border-bottom-color: #a0a5aa;
 	border-width: 9px;
 	margin-left: -9px;
 }
 
 div.mce-inline-toolbar-grp.mce-arrow-down:before {
 	bottom: -18px;
-	border-top-color: #aaa;
+	border-top-color: #a0a5aa;
 	border-width: 9px;
 	margin-left: -9px;
 }
@@ -319,7 +319,7 @@ div.mce-path {
 .qt-dfw:focus {
 	background: #fafafa;
 	border-color: #999;
-	color: #222;
+	color: #23282d;
 	-webkit-box-shadow: inset 0 1px 0 #fff, 0 1px 0 rgba( 0, 0, 0, 0.08 );
 	box-shadow: inset 0 1px 0 #fff, 0 1px 0 rgba( 0, 0, 0, 0.08 );
 	outline: none;
@@ -348,7 +348,7 @@ div.mce-path {
 #wp-fullscreen-buttons .mce-btn.mce-disabled:hover,
 .mce-toolbar .mce-btn-group .mce-btn.mce-disabled:focus,
 #wp-fullscreen-buttons .mce-btn.mce-disabled:focus {
-	color: #aaa;
+	color: #a0a5aa;
 	background: none;
 	border-color: #ddd;
 	text-shadow: 0 1px 0 #fff;
@@ -402,7 +402,7 @@ div.mce-path {
 
 .mce-toolbar .mce-btn-group .mce-btn.mce-listbox:hover {
     background-image: none;
-    border-color: #bbb;
+    border-color: #b4b9be;
 }
 
 .mce-toolbar .mce-btn-group .mce-btn.mce-listbox span {
@@ -426,12 +426,12 @@ div.mce-path {
 }
 
 .mce-panel .mce-btn:hover i.mce-caret {
-	border-top-color: #333;
+	border-top-color: #32373c;
 }
 
 .mce-panel .mce-active i.mce-caret {
 	border-top: 0;
-	border-bottom: 6px solid #333;
+	border-bottom: 6px solid #32373c;
 	margin-top: 7px;
 }
 
@@ -458,7 +458,7 @@ div.mce-path {
 .mce-menu .mce-menu-item.mce-selected,
 .mce-menu .mce-menu-item:focus {
 	color: #000;
-	background-color: #bbb;
+	background-color: #b4b9be;
 	background-image: none;
 	-webkit-filter: none;
 	filter: none;
@@ -540,7 +540,7 @@ div.mce-menu .mce-menu-item-sep,
 .mce-window .mce-btn:focus {
 	background: #fafafa;
 	border-color: #999;
-	color: #222;
+	color: #23282d;
 }
 
 .mce-window .mce-btn:focus {
@@ -555,13 +555,13 @@ div.mce-menu .mce-menu-item-sep,
 .mce-window .mce-btn:active {
 	background: #eee;
 	border-color: #999;
-	color: #333;
+	color: #32373c;
 	-webkit-box-shadow: inset 0 2px 5px -3px rgba( 0, 0, 0, 0.5 );
 	box-shadow: inset 0 2px 5px -3px rgba( 0, 0, 0, 0.5 );
 }
 
 .mce-window .mce-btn.mce-disabled {
-	color: #aaa;
+	color: #a0a5aa;
 	border-color: #ddd;
 	background: #f7f7f7;
 	-webkit-box-shadow: none;
@@ -571,8 +571,8 @@ div.mce-menu .mce-menu-item-sep,
 }
 
 .mce-window .mce-btn.mce-primary {
-	background: #2ea2cc;
-	border-color: #0074a2;
+	background: #00a0d2;
+	border-color: #0073aa;
 	-webkit-box-shadow: inset 0 1px 0 rgba( 120, 200, 230, 0.5), 0 1px 0 rgba( 0, 0, 0, 0.15 );
 	box-shadow: inset 0 1px 0 rgba( 120, 200, 230, 0.5 ), 0 1px 0 rgba( 0, 0, 0, 0.15 );
 	color: #fff;
@@ -582,7 +582,7 @@ div.mce-menu .mce-menu-item-sep,
 .mce-window .mce-btn.mce-primary:hover,
 .mce-window .mce-btn.mce-primary:focus {
 	background: #1e8cbe;
-	border-color: #0074a2;
+	border-color: #0073aa;
 	-webkit-box-shadow: inset 0 1px 0 rgba( 120, 200, 230, 0.6 );
 	box-shadow: inset 0 1px 0 rgba( 120, 200, 230, 0.6 );
 	color: #fff;
@@ -973,7 +973,7 @@ i.mce-i-wp_code:before {
 		0 0 0 1px #5b9dd9,
 		0 0 2px 1px rgba(30, 140, 190, .8);
 	outline: none;
-	color: #222;
+	color: #23282d;
 }
 
 .wp-switch-editor:active,
@@ -1272,7 +1272,7 @@ i.mce-i-wp_code:before {
 
 #wp-link-close:hover,
 #wp-link-close:focus {
-	color: #2ea2cc;
+	color: #00a0d2;
 }
 
 #wp-link-close:focus {
@@ -1409,7 +1409,7 @@ i.mce-i-wp_code:before {
 	clear: both;
 	margin-bottom: 0;
 	border-bottom: 1px solid #f1f1f1;
-	color: #333;
+	color: #32373c;
 	padding: 4px 6px 4px 10px;
 	cursor: pointer;
 	position: relative;
@@ -1426,7 +1426,7 @@ i.mce-i-wp_code:before {
 #wp-link .query-notice .query-notice-hint {
 	display: block;
 	padding: 6px;
-	border-left: 4px solid #2ea2cc;
+	border-left: 4px solid #00a0d2;
 }
 
 #wp-link .unselectable.no-matches-found {
@@ -1457,12 +1457,12 @@ i.mce-i-wp_code:before {
 #wp-link li.unselectable:hover {
 	background: #fff;
 	cursor: auto;
-	color: #333;
+	color: #32373c;
 }
 
 #wp-link li.selected {
 	background: #ddd;
-	color: #333;
+	color: #32373c;
 }
 
 #wp-link li.selected .item-title {
@@ -1694,7 +1694,7 @@ i.mce-i-wp_code:before {
 
 .clearlooks2 .mceTop span,
 .clearlooks2 .mceFocus .mceTop span {
-	color: #222;
+	color: #23282d;
 }
 
 .clearlooks2 .mceClose:before {
@@ -1702,7 +1702,7 @@ i.mce-i-wp_code:before {
 }
 
 .clearlooks2 .mceClose:hover:before {
-	color: #2ea2cc;
+	color: #00a0d2;
 }
 */
 /* Distraction-Free Writing mode
@@ -1817,7 +1817,7 @@ i.mce-i-wp_code:before {
 }
 
 #wp-fullscreen-tagline {
-	color: #888;
+	color: #82878c;
 	font-size: 18px;
 	float: right;
 	padding: 4px 0 0;
@@ -1901,7 +1901,7 @@ i.mce-i-wp_code:before {
     white-space: nowrap;
     width: auto;
     background: none;
-	color: #333333;
+	color: #32373c;
     cursor: pointer;
     font-size: 18px;
     line-height: 20px;

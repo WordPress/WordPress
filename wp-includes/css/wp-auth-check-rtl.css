@@ -85,11 +85,11 @@
 }
 
 #wp-auth-check-wrap .wp-auth-check-close:hover:before {
-	color: #0074a2;
+	color: #0073aa;
 }
 
 #wp-auth-check-wrap .wp-auth-check-close:focus {
-	outline: 1px dotted #888;
+	outline: 1px dotted #82878c;
 }
 
 #wp-auth-check-wrap .wp-auth-fallback-expired {

@@ -17,14 +17,14 @@
 	line-height: 1.4em;
 	font-size: 14px;
 	color: #fff;
-	background: #2ea2cc;
+	background: #00a0d2;
 }
 
 .wp-pointer-content h3:before {
 	background: #fff;
 	-webkit-border-radius: 50%;
 	border-radius: 50%;
-	color: #2ea2cc;
+	color: #00a0d2;
 	content: '\f227';
 	font: normal 20px/1.6 'dashicons';
 	position: absolute;
@@ -61,7 +61,7 @@
 
 .wp-pointer-buttons a.close:before {
 	background: none;
-	color: #bbb;
+	color: #b4b9be;
 	content: '\f153';
 	display: block !important;
 	font: normal 13px/1 'dashicons';
@@ -147,7 +147,7 @@
 	margin-right: -13px;
 	margin-top: -13px;
 	border: 13px solid transparent;
-	border-bottom-color: #2ea2cc;
+	border-bottom-color: #00a0d2;
 	display: block;
 	content: ' ';
 }

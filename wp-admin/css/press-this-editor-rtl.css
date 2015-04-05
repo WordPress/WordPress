@@ -8,17 +8,17 @@ Press This TinyMCE editor styles :)
 */
 @import url("//fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,600,700");
 a {
-	color: #0074a2;
+	color: #0073aa;
 }
 
 a:visited {
-	color: #0074a2;
+	color: #0073aa;
 }
 
 a:hover,
 a:focus,
 a:active {
-	color: #2ea2cc;
+	color: #00a0d2;
 }
 
 

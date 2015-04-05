@@ -22,7 +22,7 @@
 	width: 0;
 	height: 0;
 	margin-right: 8px;
-	border-top: 5px solid #bbb;
+	border-top: 5px solid #b4b9be;
 	border-left: 5px solid transparent;
 }
 
@@ -36,7 +36,7 @@
 	display: inline-block;
 	-webkit-border-radius: 5px;
 	border-radius: 5px;
-	background-color: #bbb;
+	background-color: #b4b9be;
 	color: #fff;
 }
 
@@ -557,7 +557,7 @@ th.asc:hover span.sorting-indicator {
 .tablenav .tablenav-pages a.disabled:hover,
 .tablenav .tablenav-pages a.disabled:focus,
 .tablenav .tablenav-pages a.disabled:active {
-	color: #aaa;
+	color: #a0a5aa;
 	background: #eee;
 	background: rgba( 0, 0, 0, 0.05 );
 }
@@ -624,7 +624,7 @@ classes exist in paginate_links() but not seen in list table output. */
 }
 
 .view-switch > a:before {
-	color: #bbb;
+	color: #b4b9be;
 	display: inline-block;
 	float: right;
 	font: normal 20px/1 'dashicons';

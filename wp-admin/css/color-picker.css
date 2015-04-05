@@ -51,13 +51,13 @@
 .wp-color-result:focus {
 	background: #fafafa;
 	border-color: #999;
-	color: #222;
+	color: #23282d;
 }
 
 .wp-color-result:hover:after,
 .wp-color-result:focus:after {
-	color: #222;
-	border-color: #aaa;
+	color: #23282d;
+	border-color: #a0a5aa;
 	border-left: 1px solid #999;
 }
 

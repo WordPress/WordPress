@@ -741,7 +741,7 @@ img.emoji {
 #bulk-titles div a:before,
 .notice-dismiss:before {
 	background: none;
-	color: #bbb;
+	color: #b4b9be;
 	content: '\f153';
 	display: block !important;
 	font: normal 16px/1 'dashicons';
@@ -1304,7 +1304,7 @@ div.error p,
 	margin: 0;
 	padding: 11px;
 	background: none;
-	color: #bbb;
+	color: #b4b9be;
 	cursor: pointer;
 }
 
@@ -1504,7 +1504,7 @@ form.upgrade .hint {
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	text-decoration: none !important;
-	color: #bbb;
+	color: #b4b9be;
 }
 
 #screen-meta-links a.screen-meta-active:after {
@@ -1737,7 +1737,7 @@ html.wp-toolbar {
 }
 
 .metabox-holder .postbox-container .empty-container {
-	border: 3px dashed #bbb;
+	border: 3px dashed #b4b9be;
 	height: 250px;
 }
 
@@ -1796,7 +1796,7 @@ html.wp-toolbar {
 }
 
 .sortable-placeholder {
-	border: 1px dashed #bbb;
+	border: 1px dashed #b4b9be;
 	margin-bottom: 20px;
 }
 
@@ -2880,7 +2880,7 @@ img {
 .item-edit,
 .sidebar-name-arrow,
 .accordion-section-title:after {
-	color: #aaa;
+	color: #a0a5aa;
 }
 
 .widget-action:hover,
@@ -2983,7 +2983,7 @@ img {
 
 .accordion-section-title:hover:after,
 .accordion-section-title:focus:after {
-	border-color: #aaa transparent;
+	border-color: #a0a5aa transparent;
 }
 
 .cannot-expand .accordion-section-title {

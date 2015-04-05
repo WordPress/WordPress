@@ -389,7 +389,7 @@ form.upgrade .hint {
 }
 
 .drag-drop #drag-drop-area {
-	border: 4px dashed #bbb;
+	border: 4px dashed #b4b9be;
 	height: 200px;
 }
 
@@ -399,7 +399,7 @@ form.upgrade .hint {
 }
 
 .drag-drop-inside p {
-	color: #aaa;
+	color: #a0a5aa;
 	font-size: 14px;
 	margin: 5px 0;
 	display: none;
@@ -509,7 +509,7 @@ border color while dragging a file over the uploader drop area */
 	bottom: auto;
 	padding-top: 0;
 	margin-top: 0;
-	border: 4px dashed #bbb;
+	border: 4px dashed #b4b9be;
 }
 
 .media-frame.mode-select .attachments-browser.fixed .attachments {

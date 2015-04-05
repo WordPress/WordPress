@@ -16,12 +16,12 @@ body {
 }
 
 a {
-	color: #0074a2;
+	color: #0073aa;
 	text-decoration: none;
 }
 
 a:hover {
-	color: #2ea2cc;
+	color: #00a0d2;
 }
 
 h1 {
@@ -333,7 +333,7 @@ body.language-chooser {
 	display: block;
 	border: 1px solid #ddd;
 	background-color: #fff;
-	color: #333;
+	color: #32373c;
 	font-size: 16px;
 	font-family: Arial, sans-serif;
 	font-weight: normal;

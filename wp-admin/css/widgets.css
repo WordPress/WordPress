@@ -49,7 +49,7 @@
 
 .deleting .widget-title,
 .deleting .widget-top a.widget-action:after {
-	color: #aaa;
+	color: #a0a5aa;
 }
 
 /* Widget Dragging Helpers */
@@ -62,7 +62,7 @@
 }
 
 .widget-placeholder {
-	border: 1px dashed #bbb;
+	border: 1px dashed #b4b9be;
 	margin: 0 auto 10px;
 	height: 45px;
 	width: 100%;

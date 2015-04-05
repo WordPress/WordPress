@@ -41,7 +41,7 @@ jQuery( document ).ready( function( $ ) {
 	$( '.plugin-card, .plugins .column-description' ).on( 'click', 'a.thickbox', function() {
 		tb_click.call(this);
 
-		$('#TB_title').css({'background-color':'#222','color':'#cfcfcf'});
+		$('#TB_title').css({'background-color':'#23282d','color':'#cfcfcf'});
 		$('#TB_ajaxWindowTitle').html( '<strong>' + plugininstallL10n.plugin_information + '</strong>&nbsp;' + $(this).data( 'title' ) );
 		$('#TB_iframeContent').attr( 'title', plugininstallL10n.plugin_information + ' ' + $(this).data( 'title' ) );
 		$('#TB_closeWindowButton').focus();

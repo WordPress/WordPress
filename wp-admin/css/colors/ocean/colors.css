@@ -7,12 +7,12 @@ html {
 
 /* Links */
 a {
-  color: #0074a2; }
+  color: #0073aa; }
   a:hover, a:active, a:focus {
-    color: #0099d5; }
+    color: #0095dd; }
 
 #media-upload a.del-link:hover, div.dashboard-widget-submit input:hover, .subsubsub a:hover, .subsubsub a.current:hover {
-  color: #0099d5; }
+  color: #0095dd; }
 
 /* Forms */
 input[type=checkbox]:checked:before {
@@ -22,7 +22,7 @@ input[type=radio]:checked:before {
   background: #738e96; }
 
 .wp-core-ui input[type="reset"]:hover, .wp-core-ui input[type="reset"]:active {
-  color: #0099d5; }
+  color: #0095dd; }
 
 /* Core UI */
 .wp-core-ui .button-primary {
