@@ -4134,7 +4134,7 @@ function print_emoji_detection_script() {
 		 *
 		 * @param string The emoji extension. Default .png.
 		 */
-		'ext'     => apply_filters( 'emoji_ext', '.png' ),
+		'ext' => apply_filters( 'emoji_ext', '.png' ),
 	);
 
 	$version = 'ver=' . $wp_version;
@@ -4344,10 +4344,10 @@ function _wp_staticize_emoji_for_email( $mail ) {
 			continue;
 		}
 
-		// Explode them out
+		// Explode them out.
 		list( $name, $content ) = explode( ':', trim( $header ), 2 );
 
-		// Cleanup crew
+		// Cleanup crew.
 		$name    = trim( $name    );
 		$content = trim( $content );
 
@@ -4362,7 +4362,7 @@ function _wp_staticize_emoji_for_email( $mail ) {
 		}
 	}
 
-	// Set Content-Type if we don't have a content-type from the input headers
+	// Set Content-Type if we don't have a content-type from the input headers.
 	if ( ! isset( $content_type ) ) {
 		$content_type = 'text/plain';
 	}
