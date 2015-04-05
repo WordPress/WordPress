@@ -330,12 +330,20 @@ class WP_Customize_Section {
  */
 class WP_Customize_Themes_Section extends WP_Customize_Section {
 
+	/**
+	 * Customize section type.
+	 *
+	 * @since 4.2.0
+	 * @access public
+	 * @var string
+	 */
 	public $type = 'themes';
 
 	/**
 	 * Render the themes section, which behaves like a panel.
 	 *
 	 * @since 4.2.0
+	 * @access protected
 	 */
 	protected function render() {
 		$classes = 'accordion-section control-section control-section-' . $this->type;
