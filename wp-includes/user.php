@@ -1744,7 +1744,7 @@ function email_exists( $email ) {
 }
 
 /**
- * Checks whether an username is valid.
+ * Checks whether a username is valid.
  *
  * @since 2.0.1
  *
@@ -1766,7 +1766,7 @@ function validate_username( $username ) {
 }
 
 /**
- * Insert an user into the database.
+ * Insert a user into the database.
  *
  * Most of the $userdata array fields have filters associated with the values.
  * The exceptions are 'rich_editing', 'role', 'jabber', 'aim', 'yim',
@@ -2060,7 +2060,7 @@ function wp_insert_user( $userdata ) {
 }
 
 /**
- * Update an user in the database.
+ * Update a user in the database.
  *
  * It is possible to update a user's password by specifying the 'user_pass'
  * value in the $userdata parameter array.
@@ -2136,7 +2136,7 @@ function wp_update_user($userdata) {
 }
 
 /**
- * A simpler way of inserting an user into the database.
+ * A simpler way of inserting a user into the database.
  *
  * Creates a new user with just the username, password, and email. For more
  * complex user creation use {@see wp_insert_user()} to specify more information.
