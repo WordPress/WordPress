@@ -118,6 +118,7 @@ class WP_Customize_Setting {
 	 * The ID for the current blog when the preview() method was called.
 	 *
 	 * @since 4.2.0
+	 * @access protected
 	 * @var int
 	 */
 	protected $_previewed_blog_id;
@@ -126,6 +127,8 @@ class WP_Customize_Setting {
 	 * Return true if the current blog is not the same as the previewed blog.
 	 *
 	 * @since 4.2.0
+	 * @access public
+	 *
 	 * @return bool|null Returns null if preview() has not been called yet.
 	 */
 	public function is_current_blog_previewed() {
