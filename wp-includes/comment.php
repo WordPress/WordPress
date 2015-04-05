@@ -450,7 +450,7 @@ class WP_Comment_Query {
 	 *              'post_author__not_in', 'author__in', 'author__not_in', 'post__in',
 	 *              'post__not_in', 'include_unapproved', 'type__in', and 'type__not_in'
 	 *              arguments to $query_vars.
-	 * @since 4.2.0 Moved parsing to {@link WP_Comment_Query::parse_query()}.
+	 * @since 4.2.0 Moved parsing to WP_Comment_Query::parse_query().
 	 * @access public
 	 *
 	 * @param string|array $query Array or URL query string of parameters.
@@ -466,6 +466,8 @@ class WP_Comment_Query {
 	 *
 	 * @since 4.2.0
 	 * @access public
+	 *
+	 * @global wpdb $wpdb WordPress database abstraction object.
 	 *
 	 * @return array The list of comments.
 	 */
