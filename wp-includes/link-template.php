@@ -3390,7 +3390,7 @@ function the_shortlink( $text = '', $title = '', $before = '', $after = '' ) {
  *
  * @param mixed $id_or_email The Gravatar to retrieve a URL for. Accepts a user_id, gravatar md5 hash,
  *                           user email, WP_User object, WP_Post object, or comment object.
- * @param array $args        {
+ * @param array $args {
  *     Optional. Arguments to return instead of the default arguments.
  *
  *     @type int    $size           Height and width of the avatar in pixels. Default 96.
@@ -3403,12 +3403,11 @@ function the_shortlink( $text = '', $title = '', $before = '', $after = '' ) {
  *     @type bool   $force_default  Whether to always show the default image, never the Gravatar. Default false.
  *     @type string $rating         What rating to display avatars up to. Accepts 'G', 'PG', 'R', 'X', and are
  *                                  judged in that order. Default is the value of the 'avatar_rating' option.
- *     @type string $scheme         URL scheme to use. See {@see set_url_scheme()} for accepted values.
+ *     @type string $scheme         URL scheme to use. See set_url_scheme() for accepted values.
  *                                  Default null.
  *     @type array  $processed_args When the function returns, the value will be the processed/sanitized $args
  *                                  plus a "found_avatar" guess. Pass as a reference. Default null.
  * }
- *
  * @return false|string The URL of the avatar we found, or false if we couldn't find an avatar.
  */
 function get_avatar_url( $id_or_email, $args = null ) {
@@ -3423,7 +3422,7 @@ function get_avatar_url( $id_or_email, $args = null ) {
  *
  * @param mixed $id_or_email The Gravatar to check the data against. Accepts a user_id, gravatar md5 hash,
  *                           user email, WP_User object, WP_Post object, or comment object.
- * @param array $args        {
+ * @param array $args {
  *     Optional. Arguments to return instead of the default arguments.
  *
  *     @type int    $size           Height and width of the avatar image file in pixels. Default 96.
@@ -3438,15 +3437,14 @@ function get_avatar_url( $id_or_email, $args = null ) {
  *     @type bool   $force_default  Whether to always show the default image, never the Gravatar. Default false.
  *     @type string $rating         What rating to display avatars up to. Accepts 'G', 'PG', 'R', 'X', and are
  *                                  judged in that order. Default is the value of the 'avatar_rating' option.
- *     @type string $scheme         URL scheme to use. See {@see set_url_scheme()} for accepted values.
+ *     @type string $scheme         URL scheme to use. See set_url_scheme() for accepted values.
  *                                  Default null.
  *     @type array  $processed_args When the function returns, the value will be the processed/sanitized $args
  *                                  plus a "found_avatar" guess. Pass as a reference. Default null.
  *     @type string $extra_attr     HTML attributes to insert in the IMG element. Is not sanitized. Default empty.
  * }
- *
  * @return array $processed_args {
- *     Along with the arguments passed in $args, this will contain a couple of extra arguments.
+ *     Along with the arguments passed in `$args`, this will contain a couple of extra arguments.
  *
  *     @type bool   $found_avatar True if we were able to find an avatar for this user,
  *                                false or not set if we couldn't.
@@ -3518,8 +3516,8 @@ function get_avatar_data( $id_or_email, $args = null ) {
 	 * Filter whether to retrieve the avatar URL early.
 	 *
 	 * Passing a non-null value in the 'url' member of the return array will
-	 * effectively short circuit {@see get_avatar_data()}, passing the value
-	 * through the 'get_avatar_data' filter and returning early.
+	 * effectively short circuit get_avatar_data(), passing the value through
+	 * the {@see 'get_avatar_data'} filter and returning early.
 	 *
 	 * @since 4.2.0
 	 *
@@ -3614,9 +3612,9 @@ function get_avatar_data( $id_or_email, $args = null ) {
 	 *
 	 * @since 4.2.0
 	 *
-	 * @param string            $url           The URL of the avatar.
-	 * @param int|object|string $id_or_email   A user ID, email address, or comment object.
-	 * @param array             $args          Arguments passed to get_avatar_data(), after processing.
+	 * @param string            $url         The URL of the avatar.
+	 * @param int|object|string $id_or_email A user ID, email address, or comment object.
+	 * @param array             $args        Arguments passed to get_avatar_data(), after processing.
 	 */
 	$args['url'] = apply_filters( 'get_avatar_url', $url, $id_or_email, $args );
 
@@ -3625,8 +3623,8 @@ function get_avatar_data( $id_or_email, $args = null ) {
 	 *
 	 * @since 4.2.0
 	 *
-	 * @param array             $args          Arguments passed to get_avatar_data(), after processing.
-	 * @param int|object|string $id_or_email   A user ID, email address, or comment object.
+	 * @param array             $args        Arguments passed to get_avatar_data(), after processing.
+	 * @param int|object|string $id_or_email A user ID, email address, or comment object.
 	 */
 	return apply_filters( 'get_avatar_data', $args, $id_or_email );
 }
