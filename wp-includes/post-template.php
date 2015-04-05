@@ -177,6 +177,8 @@ function the_guid( $id = 0 ) {
 	 *
 	 * @since 4.2.0
 	 *
+	 * @see get_the_guid()
+	 *
 	 * @param string $post_guid Escaped Global Unique Identifier (guid) of the post.
 	 */
 	echo apply_filters( 'the_guid', get_the_guid( $id ) );
@@ -406,8 +408,8 @@ function post_class( $class = '', $post_id = null ) {
  * @since 2.7.0
  * @since 4.2.0 Custom taxonomy classes were added.
  *
- * @param string|array $class One or more classes to add to the class list.
- * @param int|WP_Post $post_id Optional. Post ID or post object.
+ * @param string|array $class   One or more classes to add to the class list.
+ * @param int|WP_Post  $post_id Optional. Post ID or post object.
  * @return array Array of classes.
  */
 function get_post_class( $class = '', $post_id = null ) {
@@ -1653,7 +1655,7 @@ function get_the_password_form( $post = 0 ) {
  * and then the check will be specific to that template.
  *
  * @since 2.5.0
- * @since 4.2.0 The `$template` parameter was changed to accept an array of page templates.
+ * @since 4.2.0 The `$template` parameter was changed to also accept an array of page templates.
  *
  * @param string|array $template The specific template name or array of templates to match.
  * @return bool True on success, false on failure.
