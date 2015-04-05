@@ -15,7 +15,7 @@
  *
  * @since 4.2.0
  *
- * @return WP_Styles
+ * @return WP_Styles WP_Styles instance.
  */
 function wp_styles() {
 	global $wp_styles;
