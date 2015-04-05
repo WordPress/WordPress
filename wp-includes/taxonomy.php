@@ -310,9 +310,10 @@ function is_taxonomy_hierarchical($taxonomy) {
  * - _builtin - true if this taxonomy is a native or "built-in" taxonomy. THIS IS FOR INTERNAL USE ONLY!
  *
  * @since 2.3.0
- * @since 4.2.0 Introduced 'show_in_quick_edit' parameter.
- * @uses $wp_taxonomies Inserts new taxonomy object into the list
- * @uses $wp Adds query vars
+ * @since 4.2.0 Introduced `show_in_quick_edit` argument.
+ *
+ * @global array $wp_taxonomies Registered taxonomies.
+ * @global WP    $wp            WP instance.
  *
  * @param string $taxonomy Taxonomy key, must not exceed 32 characters.
  * @param array|string $object_type Name of the object type for the taxonomy object.
@@ -2610,7 +2611,7 @@ function wp_delete_category( $cat_ID ) {
  *
  * @since 2.3.0
  * @since 4.2.0 Added support for 'taxonomy', 'parent', and 'term_taxonomy_id' values of `$orderby`.
- *              Introduced `$parent` parameter.
+ *              Introduced `$parent` argument.
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
@@ -2779,8 +2780,8 @@ function wp_get_object_terms($object_ids, $taxonomies, $args = array()) {
 	 * @param array $terms           An array of terms for the given object or objects.
 	 * @param array $object_id_array Array of object IDs for which `$terms` were retrieved.
 	 * @param array $taxonomy_array  Array of taxonomies from which `$terms` were retrieved.
-	 * @param array $args            An array of arguments for retrieving terms for the given object(s).
-	 *                               See {@see wp_get_object_terms()} for details.
+	 * @param array $args            An array of arguments for retrieving terms for the given
+	 *                               object(s). See wp_get_object_terms() for details.
 	 */
 	$terms = apply_filters( 'get_object_terms', $terms, $object_id_array, $taxonomy_array, $args );
 
@@ -4129,14 +4130,14 @@ function _update_generic_term_count( $terms, $taxonomy ) {
 /**
  * Create a new term for a term_taxonomy item that currently shares its term with another term_taxonomy.
  *
+ * @ignore
  * @since 4.2.0
- * @access private
  *
  * @param int  $term_id          ID of the shared term.
  * @param int  $term_taxonomy_id ID of the term_taxonomy item to receive a new term.
- * @return int|WP_Error When the current term does not need to be split (or cannot be split on the current database
- *                      schema), `$term_id` is returned. When the term is successfully split, the new term_id is
- *                      returned. A `WP_Error` is returned for miscellaneous errors.
+ * @return int|WP_Error When the current term does not need to be split (or cannot be split on the current
+ *                      database schema), `$term_id` is returned. When the term is successfully split, the
+ *                      new term_id is returned. A WP_Error is returned for miscellaneous errors.
  */
 function _split_shared_term( $term_id, $term_taxonomy_id ) {
 	global $wpdb;
@@ -4227,8 +4228,8 @@ function _split_shared_term( $term_id, $term_taxonomy_id ) {
 /**
  * Check default categories when a term gets split to see if any of them need to be updated.
  *
+ * @ignore
  * @since 4.2.0
- * @access private
  *
  * @param int    $term_id          ID of the formerly shared term.
  * @param int    $new_term_id      ID of the new term created for the $term_taxonomy_id.
@@ -4250,8 +4251,8 @@ function _wp_check_split_default_terms( $term_id, $new_term_id, $term_taxonomy_i
 /**
  * Check menu items when a term gets split to see if any of them need to be updated.
  *
+ * @ignore
  * @since 4.2.0
- * @access private
  *
  * @param int    $term_id          ID of the formerly shared term.
  * @param int    $new_term_id      ID of the new term created for the $term_taxonomy_id.
@@ -4305,8 +4306,9 @@ function wp_get_split_terms( $old_term_id ) {
  *
  * @param int    $old_term_id Term ID. This is the old, pre-split term ID.
  * @param string $taxonomy    Taxonomy that the term belongs to.
- * @return bool|int If a previously split term is found corresponding to the old term_id and taxonomy, the new term_id
- *                  will be returned. If no previously split term is found matching the parameters, returns false.
+ * @return bool|int If a previously split term is found corresponding to the old term_id and taxonomy,
+ *                  the new term_id will be returned. If no previously split term is found matching
+ *                  the parameters, returns false.
  */
 function wp_get_split_term( $old_term_id, $taxonomy ) {
 	$split_terms = wp_get_split_terms( $old_term_id );
