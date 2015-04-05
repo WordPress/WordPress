@@ -1196,14 +1196,31 @@ class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control {
  */
 class WP_Customize_Theme_Control extends WP_Customize_Control {
 
+	/**
+	 * Customize control type.
+	 *
+	 * @since 4.2.0
+	 * @access public
+	 * @var string
+	 */
 	public $type = 'theme';
+
+	/**
+	 * Theme object.
+	 *
+	 * @since 4.2.0
+	 * @access public
+	 * @var WP_Theme
+	 */
 	public $theme;
 
 	/**
 	 * Refresh the parameters passed to the JavaScript via JSON.
 	 *
 	 * @since 4.2.0
-	 * @uses WP_Customize_Control::to_json()
+	 * @access public
+	 *
+	 * @see WP_Customize_Control::to_json()
 	 */
 	public function to_json() {
 		parent::to_json();
@@ -1214,6 +1231,7 @@ class WP_Customize_Theme_Control extends WP_Customize_Control {
 	 * Don't render the control content from PHP, as it's rendered via JS on load.
 	 *
 	 * @since 4.2.0
+	 * @access public
 	 */
 	public function render_content() {}
 
@@ -1221,6 +1239,7 @@ class WP_Customize_Theme_Control extends WP_Customize_Control {
 	 * Render a JS template for theme display.
 	 *
 	 * @since 4.2.0
+	 * @access public
 	 */
 	public function content_template() {
 		$preview_url = site_url( add_query_arg( 'theme', '{{ data.theme.id }}' ) );
