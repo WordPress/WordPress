@@ -2393,7 +2393,7 @@ function comment_form( $args = array(), $post_id = null ) {
 						 * @since 4.2.0
 						 *
 						 * @param string $submit_field HTML markup for the submit field.
-						 * @param array  $args         Arguments passed to `comment_form()`.
+						 * @param array  $args         Arguments passed to comment_form().
 						 */
 						echo apply_filters( 'comment_form_submit_field', $submit_field, $args );
 
