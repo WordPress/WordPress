@@ -937,6 +937,7 @@ class WP_Meta_Query {
 	 * A flat list of clauses, keyed by clause 'name'.
 	 *
 	 * @since 4.2.0
+	 * @access protected
 	 * @var array
 	 */
 	protected $clauses = array();
@@ -1492,7 +1493,7 @@ class WP_Meta_Query {
 	 * @since 4.2.0
 	 * @access public
 	 *
-	 * @return array
+	 * @return array Meta clauses.
 	 */
 	public function get_clauses() {
 		return $this->clauses;
