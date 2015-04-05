@@ -1068,11 +1068,10 @@ class Walker_Category extends Walker {
 			 *
 			 * @see wp_list_categories()
 			 *
-			 * @param array  $css_classes    An array of CSS classes to be applied
-			 *                               to each list item.
-			 * @param object $category       Category data object.
-			 * @param int    $depth          Depth of page, used for padding.
-			 * @param array  $args           An array of arguments.
+			 * @param array  $css_classes An array of CSS classes to be applied to each list item.
+			 * @param object $category    Category data object.
+			 * @param int    $depth       Depth of page, used for padding.
+			 * @param array  $args        An array of wp_list_categories() arguments.
 			 */
 			$css_classes = implode( ' ', apply_filters( 'category_css_class', $css_classes, $category, $depth, $args ) );
 
