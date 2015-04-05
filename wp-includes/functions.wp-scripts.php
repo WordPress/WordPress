@@ -15,7 +15,7 @@
  *
  * @since 4.2.0
  *
- * @return WP_Scripts
+ * @return WP_Scripts WP_Scripts instance.
  */
 function wp_scripts() {
 	global $wp_scripts;
@@ -26,13 +26,12 @@ function wp_scripts() {
 }
 
 /**
- * Helper function to output a _doing_it_wrong message when applicable
+ * Helper function to output a _doing_it_wrong message when applicable.
  *
- * @since 4.2.0
- * @access private
  * @ignore
+ * @since 4.2.0
  *
- * @param string $function
+ * @param string $function Function name.
  */
 function _wp_scripts_maybe_doing_it_wrong( $function ) {
 	if ( did_action( 'init' ) ) {
@@ -283,9 +282,9 @@ function wp_script_is( $handle, $list = 'enqueued' ) {
  * Possible values for $key and $value:
  * 'conditional' string Comments for IE 6, lte IE 7, etc.
  *
- * @see WP_Dependency::add_data()
- *
  * @since 4.2.0
+ *
+ * @see WP_Dependency::add_data()
  *
  * @param string $handle Name of the script.
  * @param string $key    Name of data point for which we're storing a value.
