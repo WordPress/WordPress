@@ -265,20 +265,22 @@ As a new WordPress user, you should go to <a href=\"%s\">your dashboard</a> to d
 endif;
 
 /**
- * Enable pretty permalinks.
+ * Maybe enable pretty permalinks on install.
  *
  * If after enabling pretty permalinks don't work, fallback to query-string permalinks.
  *
  * @since 4.2.0
  *
  * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
+ *
+ * @return bool Whether pretty permalinks are enabled. False otherwise.
  */
 function wp_install_maybe_enable_pretty_permalinks() {
 	global $wp_rewrite;
 
 	// Bail if a permalink structure is already enabled.
 	if ( get_option( 'permalink_structure' ) ) {
-		return;
+		return true;
 	}
 
 	/*
@@ -305,6 +307,7 @@ function wp_install_maybe_enable_pretty_permalinks() {
 
 		// Test against a real WordPress Post, or if none were created, a random 404 page.
 		$test_url = get_permalink( 1 );
+
 		if ( ! $test_url ) {
 			$test_url = home_url( '/wordpress-check-for-rewrites/' );
 		}
@@ -331,6 +334,8 @@ function wp_install_maybe_enable_pretty_permalinks() {
 	 */
 	$wp_rewrite->set_permalink_structure( '' );
 	$wp_rewrite->flush_rules( true );
+
+	return false;
 }
 
 if ( !function_exists('wp_new_blog_notification') ) :
