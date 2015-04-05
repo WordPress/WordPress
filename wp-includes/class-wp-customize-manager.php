@@ -117,10 +117,10 @@ final class WP_Customize_Manager {
 	 * Return true if it's an AJAX request.
 	 *
 	 * @since 3.4.0
-	 * @since 4.2.0 Added $action param.
+	 * @since 4.2.0 Added `$action` param.
 	 *
-	 * @param string|null $action whether the supplied Ajax action is being run.
-	 * @return bool
+	 * @param string|null $action Whether the supplied AJAX action is being run.
+	 * @return bool True if it's an AJAX request, false otherwise.
 	 */
 	public function doing_ajax( $action = null ) {
 		$doing_ajax = ( defined( 'DOING_AJAX' ) && DOING_AJAX );
@@ -131,7 +131,10 @@ final class WP_Customize_Manager {
 		if ( ! $action ) {
 			return true;
 		} else {
-			// Note: we can't just use doing_action( "wp_ajax_{$action}" ) because we need to check before admin-ajax.php gets to that point
+			/*
+			 * Note: we can't just use doing_action( "wp_ajax_{$action}" ) because we need
+			 * to check before admin-ajax.php gets to that point.
+			 */
 			return isset( $_REQUEST['action'] ) && wp_unslash( $_REQUEST['action'] ) === $action;
 		}
 	}
