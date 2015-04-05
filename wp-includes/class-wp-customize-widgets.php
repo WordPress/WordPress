@@ -105,10 +105,10 @@ final class WP_Customize_Widgets {
 	 * Get the widget setting type given a setting ID.
 	 *
 	 * @since 4.2.0
+	 * @access protected
 	 *
-	 * @param $setting_id
-	 *
-	 * @return string|null
+	 * @param $setting_id Setting ID.
+	 * @return string|null Setting type. Null otherwise.
 	 */
 	protected function get_setting_type( $setting_id ) {
 		static $cache = array();
