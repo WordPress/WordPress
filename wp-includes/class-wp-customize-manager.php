@@ -118,6 +118,7 @@ final class WP_Customize_Manager {
 	 *
 	 * @since 3.4.0
 	 * @since 4.2.0 Added `$action` param.
+	 * @access public
 	 *
 	 * @param string|null $action Whether the supplied AJAX action is being run.
 	 * @return bool True if it's an AJAX request, false otherwise.
@@ -478,12 +479,13 @@ final class WP_Customize_Manager {
 	}
 
 	/**
-	 * Override a setting's (unsanitized) value as found in any incoming $_POST['customized']
+	 * Override a setting's (unsanitized) value as found in any incoming $_POST['customized'].
 	 *
 	 * @since 4.2.0
+	 * @access public
 	 *
-	 * @param string $setting_id  The ID for the WP_Customize_Setting instance.
-	 * @param mixed $value
+	 * @param string $setting_id ID for the WP_Customize_Setting instance.
+	 * @param mixed  $value      Post value.
 	 */
 	public function set_post_value( $setting_id, $value ) {
 		$this->unsanitized_post_values();
