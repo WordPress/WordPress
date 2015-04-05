@@ -3414,8 +3414,8 @@ function attachment_url_to_postid( $url ) {
 	 *
 	 * @since 4.2.0
 	 *
-	 * @param int|null $post_id  The post_id (if any) found by the function.
-	 * @param string   $url      The URL being looked up.
+	 * @param int|null $post_id The post_id (if any) found by the function.
+	 * @param string   $url     The URL being looked up.
 	 */
 	$post_id = apply_filters( 'attachment_url_to_postid', $post_id, $url );
 
