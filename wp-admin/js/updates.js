@@ -459,24 +459,6 @@ window.wp = window.wp || {};
 			wp.updates.updatePlugin( updateRow.data( 'plugin' ), updateRow.data( 'slug' ) );
 		} );
 
-		$( '#bulk-action-form' ).on( 'submit', function( e ) {
-			var $checkbox, plugin, slug;
-
-			if ( $( '#bulk-action-selector-top' ).val() == 'update-selected' ) {
-				e.preventDefault();
-
-				$( 'input[name="checked[]"]:checked' ).each( function( index, elem ) {
-					$checkbox = $( elem );
-					plugin = $checkbox.val();
-					slug = $checkbox.parents( 'tr' ).prop( 'id' );
-
-					wp.updates.updatePlugin( plugin, slug );
-
-					$checkbox.attr( 'checked', false );
-				} );
-			}
-		} );
-
 		$( '.plugin-card' ).on( 'click', '.update-now', function( e ) {
 			e.preventDefault();
 			var $button = $( e.target );
