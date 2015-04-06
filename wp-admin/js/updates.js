@@ -510,4 +510,14 @@ window.wp = window.wp || {};
 
 	} );
 
+	/*
+	 * If an update is on-going and a user attempts to leave the page,
+	 * open an "Are you sure?" alert.
+	 */
+	$( window ).on( 'beforeunload', function() {
+		if ( wp.updates.updateLock ) {
+			return wp.updates.l10n.beforeunload;
+		}
+	});
+
 })( jQuery, window.wp, window.pagenow, window.ajaxurl );
