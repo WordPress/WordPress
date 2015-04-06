@@ -489,8 +489,7 @@ window.wp = window.wp || {};
 				var dom = editor.dom,
 					styles = '',
 					bodyClasses = editor.getBody().className || '',
-					editorHead = editor.getDoc().getElementsByTagName( 'head' )[0],
-					iframe, iframeDoc, observer, i;
+					editorHead = editor.getDoc().getElementsByTagName( 'head' )[0];
 
 				tinymce.each( dom.$( 'link[rel="stylesheet"]', editorHead ), function( link ) {
 					if ( link.href && link.href.indexOf( 'skins/lightgray/content.min.css' ) === -1 &&
@@ -503,6 +502,8 @@ window.wp = window.wp || {};
 				// Seems the browsers need a bit of time to insert/set the view nodes,
 				// or the iframe will fail especially when switching Text => Visual.
 				setTimeout( function() {
+					var iframe, iframeDoc, observer, i;
+
 					content.innerHTML = '';
 
 					iframe = dom.add( content, 'iframe', {
@@ -571,6 +572,8 @@ window.wp = window.wp || {};
 							}
 						}
 					}
+
+					$( iframe.contentWindow ).on( 'load', resize );
 
 					if ( MutationObserver ) {
 						observer = new MutationObserver( _.debounce( resize, 100 ) );
