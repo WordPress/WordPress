@@ -2358,11 +2358,23 @@
 
 			messenger.targetWindow( iframe[0].contentWindow );
 
-			messenger.bind( 'login', function() {
-				iframe.remove();
-				messenger.destroy();
-				delete previewer._login;
-				deferred.resolve();
+			messenger.bind( 'login', function () {
+				var refreshNonces = previewer.refreshNonces();
+
+				refreshNonces.always( function() {
+					iframe.remove();
+					messenger.destroy();
+					delete previewer._login;
+				});
+
+				refreshNonces.done( function() {
+					deferred.resolve();
+				});
+
+				refreshNonces.fail( function() {
+					previewer.cheatin();
+					deferred.reject();
+				});
 			});
 
 			return this._login;
@@ -2370,6 +2382,28 @@
 
 		cheatin: function() {
 			$( document.body ).empty().addClass('cheatin').append( '<p>' + api.l10n.cheatin + '</p>' );
+		},
+
+		refreshNonces: function() {
+			var request, deferred = $.Deferred();
+
+			deferred.promise();
+
+			request = wp.ajax.post( 'customize_refresh_nonces', {
+				wp_customize: 'on',
+				theme: api.settings.theme.stylesheet
+			});
+
+			request.done( function( response ) {
+				api.trigger( 'nonce-refresh', response );
+				deferred.resolve();
+			});
+
+			request.fail( function() {
+				deferred.reject();
+			});
+
+			return deferred;
 		}
 	});
 
@@ -2536,6 +2570,12 @@
 		// Refresh the nonces if the preview sends updated nonces over.
 		api.previewer.bind( 'nonce', function( nonce ) {
 			$.extend( this.nonce, nonce );
+		});
+
+		// Refresh the nonces if login sends updated nonces over.
+		api.bind( 'nonce-refresh', function( nonce ) {
+			$.extend( api.settings.nonce, nonce );
+			$.extend( api.previewer.nonce, nonce );
 		});
 
 		// Create Settings

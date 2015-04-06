@@ -91,8 +91,8 @@ final class WP_Customize_Manager {
 
 		add_filter( 'wp_die_handler', array( $this, 'wp_die_handler' ) );
 
-		add_action( 'setup_theme',  array( $this, 'setup_theme' ) );
-		add_action( 'wp_loaded',    array( $this, 'wp_loaded' ) );
+		add_action( 'setup_theme', array( $this, 'setup_theme' ) );
+		add_action( 'wp_loaded',   array( $this, 'wp_loaded' ) );
 
 		// Run wp_redirect_status late to make sure we override the status last.
 		add_action( 'wp_redirect_status', array( $this, 'wp_redirect_status' ), 1000 );
@@ -105,7 +105,8 @@ final class WP_Customize_Manager {
 		remove_action( 'admin_init', '_maybe_update_plugins' );
 		remove_action( 'admin_init', '_maybe_update_themes' );
 
-		add_action( 'wp_ajax_customize_save', array( $this, 'save' ) );
+		add_action( 'wp_ajax_customize_save',           array( $this, 'save' ) );
+		add_action( 'wp_ajax_customize_refresh_nonces', array( $this, 'refresh_nonces' ) );
 
 		add_action( 'customize_register',                 array( $this, 'register_controls' ) );
 		add_action( 'customize_register',                 array( $this, 'register_dynamic_settings' ), 11 ); // allow code to create settings first
@@ -781,6 +782,34 @@ final class WP_Customize_Manager {
 		 */
 		$response = apply_filters( 'customize_save_response', array(), $this );
 		wp_send_json_success( $response );
+	}
+
+	/**
+	 * Refresh nonces for the current preview.
+	 *
+	 * @since 4.2.0
+	 */
+	public function refresh_nonces() {
+		if ( ! $this->is_preview() ) {
+			wp_send_json_error( 'not_preview' );
+		}
+
+		$nonces = array(
+			'save'    => wp_create_nonce( 'save-customize_' . $this->get_stylesheet() ),
+			'preview' => wp_create_nonce( 'preview-customize_' . $this->get_stylesheet() ),
+		);
+
+		/**
+		 * Filter nonces for a customize_refresh_nonces AJAX request.
+		 *
+		 * @since 4.2.0
+		 *
+		 * @param array                $nonces Array of refreshed nonces for save and
+		 *                                     preview actions.
+		 * @param WP_Customize_Manager $this   WP_Customize_Manager instance.
+		 */
+		$nonces = apply_filters( 'customize_refresh_nonces', $nonces, $this );
+		wp_send_json_success( $nonces );
 	}
 
 	/**

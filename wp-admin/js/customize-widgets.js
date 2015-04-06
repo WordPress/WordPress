@@ -1898,6 +1898,11 @@
 		sidebar_widgets: api.Widgets.SidebarControl
 	});
 
+	// Refresh the nonce if login sends updated nonces over.
+	api.bind( 'nonce-refresh', function( nonces ) {
+		api.Widgets.data.nonce = nonces['update-widget'];
+	});
+
 	/**
 	 * Init Customizer for widgets.
 	 */
