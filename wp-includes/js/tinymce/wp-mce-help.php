@@ -100,15 +100,20 @@ header('Content-Type: text/html; charset=' . get_bloginfo('charset'));
 		<tr><th>a</th><td><?php _e('Select all'); ?></td><th>x</th><td><?php _e('Cut'); ?></td></tr>
 		<tr><th>z</th><td><?php _e('Undo'); ?></td><th>y</th><td><?php _e('Redo'); ?></td></tr>
 		<tr><th>b</th><td><?php _e('Bold'); ?></td><th>i</th><td><?php _e('Italic'); ?></td></tr>
-		<tr><th>u</th><td><?php _e('Underline'); ?></td><th>1</th><td><?php _e('Heading 1'); ?></td></tr>
-		<tr><th>2</th><td><?php _e('Heading 2'); ?></td><th>3</th><td><?php _e('Heading 3'); ?></td></tr>
-		<tr><th>4</th><td><?php _e('Heading 4'); ?></td><th>5</th><td><?php _e('Heading 5'); ?></td></tr>
-		<tr><th>6</th><td><?php _e('Heading 6'); ?></td><th>k</th><td><?php _e('Insert/edit link'); ?></td></tr>
+		<tr><th>u</th><td><?php _e('Underline'); ?></td><th>k</th><td><?php _e('Insert/edit link'); ?></td></tr>
 	</table>
 
-	<p><?php _e('The following shortcuts use different access keys: Alt + Shift + letter.'); ?></p>
+	<p>
+		<?php _e('The following shortcuts use different access keys: Alt + Shift + letter.'); ?>
+		<?php _e('Macintosh uses Ctrl + Alt + letter.'); ?>
+	</p>
 	<table class="keys">
 		<tr class="top"><th class="key center"><?php _e('Letter'); ?></th><th class="left"><?php _e('Action'); ?></th><th class="key center"><?php _e('Letter'); ?></th><th class="left"><?php _e('Action'); ?></th></tr>
+
+		<tr><th>1</th><td><?php _e('Heading 1'); ?></td><th>2</th><td><?php _e('Heading 2'); ?></td></tr>
+		<tr><th>3</th><td><?php _e('Heading 3'); ?></td><th>4</th><td><?php _e('Heading 4'); ?></td></tr>
+		<tr><th>5</th><td><?php _e('Heading 5'); ?></td><th>6</th><td><?php _e('Heading 6'); ?></td></tr>
+
 		<tr><th>n</th><td><?php _e('Check Spelling'); ?></td><th>l</th><td><?php _e('Align Left'); ?></td></tr>
 		<tr><th>j</th><td><?php _e('Justify Text'); ?></td><th>c</th><td><?php _e('Align Center'); ?></td></tr>
 		<tr><th>d</th><td><span style="text-decoration: line-through;"><?php _e('Strikethrough'); ?></span></td><th>r</th><td><?php _e('Align Right'); ?></td></tr>
