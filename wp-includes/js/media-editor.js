@@ -880,7 +880,7 @@
 
 				if ( 'link' === type ) {
 					_.defaults( embed, {
-						title:   embed.url,
+						linkText: embed.linkText,
 						linkUrl: embed.url
 					});
 
@@ -1034,11 +1034,11 @@
 			 */
 			link: function( embed ) {
 				return wp.media.post( 'send-link-to-editor', {
-					nonce:   wp.media.view.settings.nonce.sendToEditor,
-					src:     embed.linkUrl,
-					title:   embed.title,
-					html:    wp.media.string.link( embed ),
-					post_id: wp.media.view.settings.post.id
+					nonce:     wp.media.view.settings.nonce.sendToEditor,
+					src:       embed.linkUrl,
+					link_text: embed.linkText,
+					html:      wp.media.string.link( embed ),
+					post_id:   wp.media.view.settings.post.id
 				});
 			}
 		},

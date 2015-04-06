@@ -2484,8 +2484,8 @@ function wp_ajax_send_link_to_editor() {
 	if ( ! $src = esc_url_raw( $src ) )
 		wp_send_json_error();
 
-	if ( ! $title = trim( wp_unslash( $_POST['title'] ) ) )
-		$title = wp_basename( $src );
+	if ( ! $link_text = trim( wp_unslash( $_POST['link_text'] ) ) )
+		$link_text = wp_basename( $src );
 
 	$post = get_post( isset( $_POST['post_id'] ) ? $_POST['post_id'] : 0 );
 
@@ -2498,8 +2498,8 @@ function wp_ajax_send_link_to_editor() {
 	if ( $check_embed !== $fallback ) {
 		// TinyMCE view for [embed] will parse this
 		$html = '[embed]' . $src . '[/embed]';
-	} elseif ( $title ) {
-		$html = '<a href="' . esc_url( $src ) . '">' . $title . '</a>';
+	} elseif ( $link_text ) {
+		$html = '<a href="' . esc_url( $src ) . '">' . $link_text . '</a>';
 	} else {
 		$html = '';
 	}
@@ -2511,7 +2511,7 @@ function wp_ajax_send_link_to_editor() {
 			$type = $ext_type;
 
 	/** This filter is documented in wp-admin/includes/media.php */
-	$html = apply_filters( $type . '_send_to_editor_url', $html, $src, $title );
+	$html = apply_filters( $type . '_send_to_editor_url', $html, $src, $link_text );
 
 	wp_send_json_success( $html );
 }
