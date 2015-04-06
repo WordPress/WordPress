@@ -4,7 +4,10 @@
 tinymce.ui.FloatPanel.zIndex = 100100;
 
 tinymce.PluginManager.add( 'wordpress', function( editor ) {
-	var DOM = tinymce.DOM, wpAdvButton, modKey, style,
+	var DOM = tinymce.DOM,
+		each = tinymce.each,
+		__ = editor.editorManager.i18n.translate,
+		wpAdvButton, style,
 		last = 0;
 
 	if ( typeof window.jQuery !== 'undefined' ) {
@@ -29,7 +32,7 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 			state = 'hide';
 		}
 
-		tinymce.each( toolbars, function( toolbar, i ) {
+		each( toolbars, function( toolbar, i ) {
 			if ( i > 0 ) {
 				if ( state === 'hide' ) {
 					toolbar.hide();
@@ -91,7 +94,7 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 
 		if ( e.content ) {
 			if ( e.content.indexOf( '<!--more' ) !== -1 ) {
-				title = editor.editorManager.i18n.translate( 'Read more...' );
+				title = __( 'Read more...' );
 
 				e.content = e.content.replace( /<!--more(.*?)-->/g, function( match, moretext ) {
 					return '<img src="' + tinymce.Env.transparentSrc + '" data-wp-more="more" data-wp-more-text="' + moretext + '" ' +
@@ -100,7 +103,7 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 			}
 
 			if ( e.content.indexOf( '<!--nextpage-->' ) !== -1 ) {
-				title = editor.editorManager.i18n.translate( 'Page break' );
+				title = __( 'Page break' );
 
 				e.content = e.content.replace( /<!--nextpage-->/g,
 					'<img src="' + tinymce.Env.transparentSrc + '" data-wp-more="nextpage" class="wp-more-tag mce-wp-nextpage" ' +
@@ -149,7 +152,7 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 		tag = tag || 'more';
 		classname += ' mce-wp-' + tag;
 		title = tag === 'more' ? 'Read more...' : 'Next page';
-		title = editor.editorManager.i18n.translate( title );
+		title = __( title );
 		html = '<img src="' + tinymce.Env.transparentSrc + '" title="' + title + '" class="' + classname + '" ' +
 			'data-wp-more="' + tag + '" data-mce-resize="false" data-mce-placeholder="1" />';
 
@@ -309,7 +312,7 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 
 		bodyClass.push('wp-editor');
 
-		tinymce.each( bodyClass, function( cls ) {
+		each( bodyClass, function( cls ) {
 			if ( cls ) {
 				dom.addClass( doc.body, cls );
 			}
@@ -351,7 +354,7 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 
 			editor.on( 'PastePostProcess', function( event ) {
 				// Remove empty paragraphs
-				tinymce.each( dom.select( 'p', event.node ), function( node ) {
+				each( dom.select( 'p', event.node ), function( node ) {
 					if ( dom.isEmpty( node ) ) {
 						dom.remove( node );
 					}
@@ -408,41 +411,40 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 		if ( tinymce.Env.iOS ) {
 			editor.settings.height = 300;
 		}
-	});
 
-	// Add custom shortcuts
-	modKey = 'alt+shift';
+		each( {
+			c: 'JustifyCenter',
+			r: 'JustifyRight',
+			l: 'JustifyLeft',
+			j: 'JustifyFull',
+			q: 'mceBlockQuote',
+			u: 'InsertUnorderedList',
+			o: 'InsertOrderedList',
+			s: 'unlink',
+			m: 'WP_Medialib',
+			z: 'WP_Adv',
+			t: 'WP_More',
+			d: 'Strikethrough',
+			h: 'WP_Help',
+			p: 'WP_Page',
+			x: 'WP_Code'
+		}, function( command, key ) {
+			editor.shortcuts.add( 'access+' + key, '', command );
+		} );
 
-	editor.addShortcut( modKey + '+c', '', 'JustifyCenter' );
-	editor.addShortcut( modKey + '+r', '', 'JustifyRight' );
-	editor.addShortcut( modKey + '+l', '', 'JustifyLeft' );
-	editor.addShortcut( modKey + '+j', '', 'JustifyFull' );
-	editor.addShortcut( modKey + '+q', '', 'mceBlockQuote' );
-	editor.addShortcut( modKey + '+u', '', 'InsertUnorderedList' );
-	editor.addShortcut( modKey + '+o', '', 'InsertOrderedList' );
-	editor.addShortcut( modKey + '+n', '', 'mceSpellCheck' );
-	editor.addShortcut( modKey + '+s', '', 'unlink' );
-	editor.addShortcut( modKey + '+m', '', 'WP_Medialib' );
-	editor.addShortcut( modKey + '+z', '', 'WP_Adv' );
-	editor.addShortcut( modKey + '+t', '', 'WP_More' );
-	editor.addShortcut( modKey + '+d', '', 'Strikethrough' );
-	editor.addShortcut( modKey + '+h', '', 'WP_Help' );
-	editor.addShortcut( modKey + '+p', '', 'WP_Page' );
-	editor.addShortcut( modKey + '+x', '', 'WP_Code' );
-	editor.addShortcut( 'ctrl+s', '', function() {
-		if ( typeof wp !== 'undefined' && wp.autosave ) {
-			wp.autosave.server.triggerSave();
-		}
-	});
-	
+		editor.addShortcut( 'ctrl+s', '', function() {
+			if ( typeof wp !== 'undefined' && wp.autosave ) {
+				wp.autosave.server.triggerSave();
+			}
+		} );
+	} );
+
 	/**
 	 * Experimental: create a floating toolbar.
-	 * This functionality will change in the next releases. Not recommennded for use by plugins.
-	 */	 	
+	 * This functionality will change in the next releases. Not recommended for use by plugins.
+	 */
 	( function() {
-		var DOM = tinymce.DOM,
-			each = tinymce.each,
-			Factory = tinymce.ui.Factory,
+		var Factory = tinymce.ui.Factory,
 			settings = editor.settings,
 			currentToolbar,
 			currentSelection;
