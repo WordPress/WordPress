@@ -228,7 +228,7 @@ window.wp = window.wp || {};
 
 		wp.updates.updateDoneSuccessfully = true;
 
-		$(document).trigger( 'wp.plugin.update.success', response );
+		$(document).trigger( 'wp-plugin-update-success', response );
 
 		/*
 		 * The lock can be released since the update was successful,
@@ -265,7 +265,7 @@ window.wp = window.wp || {};
 		$message.text( wp.updates.l10n.updateFailed );
 		wp.a11y.speak( wp.updates.l10n.updateFailed );
 
-		$(document).trigger( 'wp.plugin.update.error', response );
+		$(document).trigger( 'wp-plugin-update-error', response );
 	};
 
 	/**
