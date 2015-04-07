@@ -1289,23 +1289,28 @@ div.error p,
 	padding: 2px;
 }
 
-.notice.is-dismissible {
+.wp-core-ui .notice.is-dismissible {
 	padding-right: 38px;
 	position: relative;
 }
 
 .notice-dismiss {
-	height: 38px;
-	width: 38px;
 	position: absolute;
 	top: 0;
-	right: 0;
+	right: 1px;
 	border: none;
 	margin: 0;
-	padding: 11px;
+	padding: 9px;
 	background: none;
 	color: #b4b9be;
 	cursor: pointer;
+}
+
+.notice-dismiss:before {
+	position: relative;
+	top: 0;
+	left: 0;
+	line-height: 20px;
 }
 
 .notice-dismiss:hover:before,
@@ -1314,7 +1319,6 @@ div.error p,
 	color: #c00;
 }
 
-.notice-dismiss:active,
 .notice-dismiss:focus {
 	outline: none;
 	-webkit-box-shadow: 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, .8);
@@ -3176,14 +3180,12 @@ img {
 		line-height: 175%;
 	}
 
-	.notice.is-dismissible {
+	.wp-core-ui .notice.is-dismissible {
 		padding-right: 46px;
 	}
 
 	.notice-dismiss {
-		height: 46px;
-		width: 46px;
-		padding: 16px;
+		padding: 13px;
 	}
 
 	.wrap .icon32 + h2 {
