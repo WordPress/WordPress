@@ -64,7 +64,7 @@
 	color: #b4b9be;
 	content: '\f153';
 	display: block !important;
-	font: normal 13px/1 'dashicons';
+	font: normal 16px/1 'dashicons';
 	speak: none;
 	margin: 1px 0;
 	text-align: center;
@@ -72,7 +72,7 @@
 	width: 10px;
 	height: 100%;
 	position: absolute;
-	right: -12px;
+	right: -15px;
 	top: 1px;
 }
 
