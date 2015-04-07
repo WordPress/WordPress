@@ -1,3 +1,4 @@
+/* global tb_remove */
 window.wp = window.wp || {};
 
 (function( $, wp, pagenow ) {
@@ -473,6 +474,26 @@ window.wp = window.wp || {};
 			wp.updates.updatePlugin( $button.data( 'plugin' ), $button.data( 'slug' ) );
 		} );
 
+		//
+		$( '#plugin_update_from_iframe' ).on( 'click' , function( e ) {
+			var target,	data;
+
+			target = window.parent == window ? null : window.parent,
+			$.support.postMessage = !! window.postMessage;
+
+			if ( $.support.postMessage === false || target === null )
+				return;
+
+			e.preventDefault();
+
+			data = {
+				'action' : 'updatePlugin',
+				'slug'	 : $(this).data('slug')
+			};
+
+			target.postMessage( JSON.stringify( data ), window.location.origin );
+		});
+
 	} );
 
 	$( window ).on( 'message', function( e ) {
@@ -487,11 +508,29 @@ window.wp = window.wp || {};
 
 		message = $.parseJSON( event.data );
 
-		if ( typeof message.action === 'undefined' || message.action !== 'decrementUpdateCount' ) {
+		if ( typeof message.action === 'undefined' ) {
 			return;
 		}
 
-		wp.updates.decrementCount( message.upgradeType );
+		switch (message.action){
+			case 'decrementUpdateCount' :
+				wp.updates.decrementCount( message.upgradeType );
+				break;
+			case 'updatePlugin' :
+				tb_remove();
+				if ( 'plugins' === pagenow || 'plugins-network' === pagenow ) {
+					// Return the user to the input box of the plugin's table row after closing the modal.
+					$( '#' + message.slug ).find( '.check-column input' ).focus();
+					// trigger the update
+					$( '.plugin-update-tr[data-slug="' + message.slug + '"]' ).find( '.update-link' ).trigger( 'click' );
+				} else if ( 'plugin-install' === pagenow ) {
+					$( '.plugin-card-' + message.slug ).find( 'h4 a' ).focus();
+					$( '.plugin-card-' + message.slug ).find( '[data-slug="' + message.slug + '"]' ).trigger( 'click' );
+				}
+				break;
+		}
+
+
 
 	} );
 
