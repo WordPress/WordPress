@@ -896,7 +896,7 @@
 	transform: translate( 50%, -50% );
 }
 
-.wp-core-ui .attachment .thumbnail .centered img.icon {
+.wp-core-ui .attachments-browser .attachment .thumbnail .centered img.icon {
 	-webkit-transform: translate( 50%, -70% );
 	-ms-transform: translate(50%,-70%);
 	transform: translate( 50%, -70% );
@@ -1440,8 +1440,6 @@
 	width: 40px;
 	padding: 0;
 	margin: 4px;
-	-webkit-box-shadow: none;
-	box-shadow: none;
 }
 
 .media-selection .attachment .thumbnail {
@@ -1461,7 +1459,23 @@
 	background: none;
 }
 
-.media-selection .attachment.selection.details .thumbnail {
+.wp-core-ui .media-selection .attachment:focus,
+.wp-core-ui .media-selection .selected.attachment:focus,
+.wp-core-ui .media-selection .attachment.details:focus {
+	-webkit-box-shadow:
+		0 0 0 1px #fff,
+		0 0 2px 3px #5b9dd9;
+	box-shadow:
+		0 0 0 1px #fff,
+		0 0 2px 3px #5b9dd9;
+}
+
+.wp-core-ui .media-selection .selected.attachment {
+	-webkit-box-shadow: none;
+	box-shadow: none;
+}
+
+.wp-core-ui .media-selection .attachment.details {
 	-webkit-box-shadow:
 		0 0 0 1px #fff,
 		0 0 0 3px #1e8cbe;
