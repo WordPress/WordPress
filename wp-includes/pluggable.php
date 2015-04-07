@@ -302,30 +302,37 @@ function wp_mail( $to, $subject, $message, $headers = '', $attachments = array()
 				switch ( strtolower( $name ) ) {
 					// Mainly for legacy -- process a From: header if it's there
 					case 'from':
-						if ( strpos($content, '<' ) !== false ) {
-							// So... making my life hard again?
-							$from_name = substr( $content, 0, strpos( $content, '<' ) - 1 );
-							$from_name = str_replace( '"', '', $from_name );
-							$from_name = trim( $from_name );
+						$bracket_pos = strpos( $content, '<' );
+						if ( $bracket_pos !== false ) {
+							// Text before the bracketed email is the "From" name.
+							if ( $bracket_pos > 0 ) {
+								$from_name = substr( $content, 0, $bracket_pos - 1 );
+								$from_name = str_replace( '"', '', $from_name );
+								$from_name = trim( $from_name );
+							}
 
-							$from_email = substr( $content, strpos( $content, '<' ) + 1 );
+							$from_email = substr( $content, $bracket_pos + 1 );
 							$from_email = str_replace( '>', '', $from_email );
 							$from_email = trim( $from_email );
-						} else {
+
+						// Avoid setting an empty $from_email.
+						} elseif ( '' !== trim( $content ) ) {
 							$from_email = trim( $content );
 						}
 						break;
 					case 'content-type':
 						if ( strpos( $content, ';' ) !== false ) {
-							list( $type, $charset ) = explode( ';', $content );
+							list( $type, $charset_content ) = explode( ';', $content );
 							$content_type = trim( $type );
-							if ( false !== stripos( $charset, 'charset=' ) ) {
-								$charset = trim( str_replace( array( 'charset=', '"' ), '', $charset ) );
-							} elseif ( false !== stripos( $charset, 'boundary=' ) ) {
-								$boundary = trim( str_replace( array( 'BOUNDARY=', 'boundary=', '"' ), '', $charset ) );
+							if ( false !== stripos( $charset_content, 'charset=' ) ) {
+								$charset = trim( str_replace( array( 'charset=', '"' ), '', $charset_content ) );
+							} elseif ( false !== stripos( $charset_content, 'boundary=' ) ) {
+								$boundary = trim( str_replace( array( 'BOUNDARY=', 'boundary=', '"' ), '', $charset_content ) );
 								$charset = '';
 							}
-						} else {
+
+						// Avoid setting an empty $content_type.
+						} elseif ( '' !== trim( $content ) ) {
 							$content_type = trim( $content );
 						}
 						break;
