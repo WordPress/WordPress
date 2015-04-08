@@ -19,6 +19,7 @@
 .media-frame {
 	font-family: "Open Sans", sans-serif;
 	font-size: 12px;
+	-webkit-overflow-scrolling: touch;
 }
 
 .media-frame input,
