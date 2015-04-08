@@ -723,6 +723,7 @@
 					}
 				} );
 				topPanel.attr( 'tabindex', '-1' );
+				changeBtn.attr( 'tabindex', '-1' );
 				customizeBtn.focus();
 			} else {
 				siblings.removeClass( 'open' );
@@ -735,6 +736,7 @@
 					}
 				} );
 				topPanel.attr( 'tabindex', '0' );
+				customizeBtn.attr( 'tabindex', '0' );
 				changeBtn.focus();
 				container.scrollTop( 0 );
 			}
