@@ -359,14 +359,15 @@
 }
 
 div.wp-menu-image:before {
-	color: #999;
+	color: #a0a5aa;
+	color: rgba(240,245,250,0.6);
 	padding: 7px 0;
 	-webkit-transition: all .1s ease-in-out;
 	transition: all .1s ease-in-out;
 }
 
 #adminmenu div.wp-menu-image:before {
-	color: #00b9eb;
+	color: #a0a5aa;
 	color: rgba(240,245,250,0.6);
 }
 
@@ -374,12 +375,21 @@ div.wp-menu-image:before {
 #adminmenu .wp-has-current-submenu div.wp-menu-image:before,
 #adminmenu .current div.wp-menu-image:before,
 #adminmenu a.wp-has-current-submenu:hover div.wp-menu-image:before,
-#adminmenu a.current:hover div.wp-menu-image:before {
+#adminmenu a.current:hover div.wp-menu-image:before,
+#adminmenu li.wp-has-current-submenu a:focus div.wp-menu-image:before,
+#adminmenu li.wp-has-current-submenu.opensub div.wp-menu-image:before {
 	color: #fff;
 }
 
-#adminmenu li:hover div.wp-menu-image:before {
+#adminmenu li:hover div.wp-menu-image:before,
+#adminmenu li a:focus div.wp-menu-image:before,
+#adminmenu li.opensub div.wp-menu-image:before {
 	color: #00b9eb;
+}
+
+/* IE8 doesn't redraw the pseudo elements unless you make a change to the content, this restore the initial color after hover */
+.ie8 #adminmenu li.opensub div.wp-menu-image:before {
+	color: #a0a5aa;
 }
 
 .folded #adminmenu div.wp-menu-image {
@@ -537,7 +547,7 @@ ul#adminmenu > li.current > a.current:after {
 	font-size: 13px;
 	line-height: 34px;
 	margin-top: 10px;
-	color: #00b9eb;
+	color: #a0a5aa;
 	color: rgba(240,245,250,0.6);
 	-webkit-transition: all .1s ease-in-out;
 	transition: all .1s ease-in-out;
@@ -577,7 +587,7 @@ ul#adminmenu > li.current > a.current:after {
 	line-height: 15px;
 	right: -3px;
 	top: -3px;
-	color: #00b9eb;
+	color: #a0a5aa;
 	color: rgba(240,245,250,0.6);
 	font: normal 20px/1 'dashicons' !important;
 	speak: none;

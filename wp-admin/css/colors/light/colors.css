@@ -143,7 +143,7 @@ ul#adminmenu a.wp-has-current-submenu:after, ul#adminmenu > li.current > a.curre
   color: #fff;
   background: #888; }
 
-#adminmenu li.wp-has-current-submenu div.wp-menu-image:before {
+#adminmenu li.wp-has-current-submenu div.wp-menu-image:before, #adminmenu a.current:hover div.wp-menu-image:before, #adminmenu li.wp-has-current-submenu a:focus div.wp-menu-image:before, #adminmenu li.wp-has-current-submenu.opensub div.wp-menu-image:before, #adminmenu li:hover div.wp-menu-image:before, #adminmenu li a:focus div.wp-menu-image:before, #adminmenu li.opensub div.wp-menu-image:before, .ie8 #adminmenu li.opensub div.wp-menu-image:before {
   color: #ccc; }
 
 /* Admin Menu: bubble */
