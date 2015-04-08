@@ -726,7 +726,7 @@ html .mceContentBody.rtl {
  * 11.0 Media Queries
  */
 
-@media screen and (max-width: 474px) {
+@media screen and (max-width: 494px) {
 	body, img, .wp-caption {
 		max-width: 100%;
 	}
