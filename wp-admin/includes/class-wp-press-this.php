@@ -1434,7 +1434,7 @@ class WP_Press_This {
 				<span class="save-draft"><?php _e( 'Save Draft' ); ?></span>
 				<span class="saving-draft"><?php _e( 'Saving...' ); ?></span>
 			</button>
-			<a href="<?php echo esc_url( get_edit_post_link( $post_ID ) ); ?>" class="edit-post-link" style="display: none;" target="_blank"><?php _e( 'Edit Post' ); ?></a>
+			<a href="<?php echo esc_url( get_edit_post_link( $post_ID ) ); ?>" class="edit-post-link" style="display: none;" target="_blank"><?php _e( 'Standard Editor' ); ?></a>
 			<button type="button" class="button-subtle preview-button"><?php _e( 'Preview' ); ?></button>
 			<button type="button" class="button-primary publish-button"><?php echo ( current_user_can( 'publish_posts' ) ) ? __( 'Publish' ) : __( 'Submit for Review' ); ?></button>
 		</div>
