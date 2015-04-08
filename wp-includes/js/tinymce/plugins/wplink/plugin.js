@@ -24,7 +24,7 @@ tinymce.PluginManager.add( 'wplink', function( editor ) {
 
 	editor.addMenuItem( 'link', {
 		icon: 'link',
-		text: 'Insert link',
+		text: 'Insert/edit link',
 		cmd: 'WP_Link',
 		stateSelector: 'a[href]',
 		context: 'insert',

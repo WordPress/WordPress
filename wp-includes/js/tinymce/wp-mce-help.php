@@ -117,7 +117,7 @@ header('Content-Type: text/html; charset=' . get_bloginfo('charset'));
 		<tr><th>n</th><td><?php _e('Check Spelling'); ?></td><th>l</th><td><?php _e('Align Left'); ?></td></tr>
 		<tr><th>j</th><td><?php _e('Justify Text'); ?></td><th>c</th><td><?php _e('Align Center'); ?></td></tr>
 		<tr><th>d</th><td><span style="text-decoration: line-through;"><?php _e('Strikethrough'); ?></span></td><th>r</th><td><?php _e('Align Right'); ?></td></tr>
-		<tr><th>u</th><td><strong>&bull;</strong> <?php _e('List'); ?></td><th>a</th><td><?php _e('Insert link'); ?></td></tr>
+		<tr><th>u</th><td><strong>&bull;</strong> <?php _e('List'); ?></td><th>a</th><td><?php _e('Insert/edit link'); ?></td></tr>
 		<tr><th>o</th><td>1. <?php _e('List'); ?></td><th>s</th><td><?php _e('Remove link'); ?></td></tr>
 		<tr><th>q</th><td><?php _e('Quote'); ?></td><th>m</th><td><?php _e('Insert Image'); ?></td></tr>
 		<tr><th>w</th><td><?php _e('Distraction-free writing mode'); ?></td><th>t</th><td><?php _e('Insert More Tag'); ?></td></tr>
