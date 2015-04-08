@@ -486,7 +486,7 @@ body.rtl {
  * 9.0 Media Queries
  */
 
-@media screen and (max-width: 660px) {
+@media screen and (max-width: 740px) {
 	body, img, .wp-caption {
 		max-width: 100%;
 	}
