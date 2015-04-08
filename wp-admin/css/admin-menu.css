@@ -7,10 +7,10 @@
 }
 
 #adminmenuback {
-	position: absolute;
+	position: fixed;
 	top: 0;
-	bottom: 0;
-	z-index: -1;
+	bottom: -120px;
+	z-index: 9980; /* just beneath #adminmenuwrap */
 }
 
 #adminmenu {
@@ -933,4 +933,3 @@ li#wp-admin-bar-menu-toggle {
 		top: 46px;
 	}
 }
-
