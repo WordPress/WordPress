@@ -700,7 +700,7 @@ form.initial-form.quickpress-open input#title {
 	position: relative;
 }
 
-#activity-widget #the-comment-list img {
+#activity-widget #the-comment-list .avatar {
 	position: absolute;
 	top: 13px;
 }
