@@ -585,6 +585,21 @@
 		},
 
 		/**
+		 * Override Section.isContextuallyActive method.
+		 *
+		 * Ignore the active states' of the contained theme controls, and just
+		 * use the section's own active state instead. This ensures empty search
+		 * results for themes to cause the section to become inactive.
+		 *
+		 * @since 4.2.0
+		 *
+		 * @returns {Boolean}
+		 */
+		isContextuallyActive: function () {
+			return this.active();
+		},
+
+		/**
 		 * @since 4.2.0
 		 */
 		attachEvents: function () {
