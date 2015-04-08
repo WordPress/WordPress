@@ -2445,7 +2445,13 @@ function wp_ajax_send_attachment_to_editor() {
 		$align = isset( $attachment['align'] ) ? $attachment['align'] : 'none';
 		$size = isset( $attachment['image-size'] ) ? $attachment['image-size'] : 'medium';
 		$alt = isset( $attachment['image_alt'] ) ? $attachment['image_alt'] : '';
+
+		// No whitespace-only captions.
 		$caption = isset( $attachment['post_excerpt'] ) ? $attachment['post_excerpt'] : '';
+		if ( '' === trim( $caption ) ) {
+			$caption = '';
+		}
+
 		$title = ''; // We no longer insert title tags into <img> tags, as they are redundant.
 		$html = get_image_send_to_editor( $id, $caption, $title, $align, $url, (bool) $rel, $size, $alt );
 	} elseif ( wp_attachment_is( 'video', $post ) || wp_attachment_is( 'audio', $post )  ) {
