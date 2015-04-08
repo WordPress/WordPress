@@ -149,6 +149,14 @@ if ( typeof(jQuery) != 'undefined' ) {
 			}
 		});
 
+		$( '#adminbar-search' ).on({
+			focus: function() {
+				$( '#adminbarsearch' ).addClass( 'adminbar-focused' );
+			}, blur: function() {
+				$( '#adminbarsearch' ).removeClass( 'adminbar-focused' );
+			}
+		} );
+
 		// Empty sessionStorage on logging out
 		if ( 'sessionStorage' in window ) {
 			$('#wp-admin-bar-logout a').click( function() {
