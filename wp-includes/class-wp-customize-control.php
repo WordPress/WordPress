@@ -1248,7 +1248,7 @@ class WP_Customize_Theme_Control extends WP_Customize_Control {
 		<div class="theme" tabindex="0" data-preview-url="<?php echo esc_attr( $preview_url ); ?>" aria-describedby="{{ data.theme.id }}-action {{ data.theme.id }}-name">
 			<# if ( data.theme.screenshot[0] ) { #>
 				<div class="theme-screenshot">
-					<img src="{{ data.theme.screenshot[0] }}" alt="" />
+					<img data-src="{{ data.theme.screenshot[0] }}" alt="" />
 				</div>
 			<# } else { #>
 				<div class="theme-screenshot blank"></div>

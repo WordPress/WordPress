@@ -552,6 +552,9 @@
 		currentTheme: '',
 		overlay: '',
 		template: '',
+		screenshotQueue: null,
+		$window: $( window ),
+		$customizeSidebar: $( '.wp-full-overlay-sidebar-content:first' ),
 
 		/**
 		 * @since 4.2.0
@@ -582,6 +585,8 @@
 					section.closeDetails();
 				}
 			});
+
+			_.bindAll( this, 'renderScreenshots' );
 		},
 
 		/**
@@ -650,6 +655,7 @@
 				section.closeDetails();
 			});
 
+			var renderScreenshots = _.throttle( _.bind( section.renderScreenshots, this ), 100 );
 			section.container.on( 'input', '#themes-filter', function( event ) {
 				var count,
 					term = event.currentTarget.value.toLowerCase().trim().replace( '-', ' ' ),
@@ -659,9 +665,22 @@
 					control.filter( term );
 				});
 
+				renderScreenshots();
+
 				// Update theme count.
 				count = section.container.find( 'li.customize-control:visible' ).length;
 				section.container.find( '.theme-count' ).text( count );
+			});
+
+			// Pre-load the first 3 theme screenshots.
+			api.bind( 'ready', function () {
+				_.each( section.controls().slice( 0, 3 ), function ( control ) {
+					var img, src = control.params.theme.screenshot[0];
+					if ( src ) {
+						img = new Image();
+						img.src = src;
+					}
+				});
 			});
 		},
 
@@ -706,9 +725,7 @@
 					}
 				});
 				api.panel.each( function ( otherPanel ) {
-					if ( panel !== otherPanel ) {
-						otherPanel.collapse( { duration: 0 } );
-					}
+					otherPanel.collapse( { duration: 0 } );
 				});
 
 				content.show( 0, function() {
@@ -718,6 +735,8 @@
 					section.addClass( 'current-panel' );
 					overlay.addClass( 'in-themes-panel' );
 					container.scrollTop( 0 );
+					_.delay( panel.renderScreenshots, 10 ); // Wait for the controls
+					panel.$customizeSidebar.on( 'scroll.customize-themes-section', _.throttle( panel.renderScreenshots, 300 ) );
 					if ( args.completeCallback ) {
 						args.completeCallback();
 					}
@@ -729,6 +748,7 @@
 				siblings.removeClass( 'open' );
 				section.removeClass( 'current-panel' );
 				overlay.removeClass( 'in-themes-panel' );
+				panel.$customizeSidebar.off( 'scroll.customize-themes-section' );
 				content.delay( 180 ).hide( 0, function() {
 					content.css( 'margin-top', 'inherit' ); // Reset
 					if ( args.completeCallback ) {
@@ -740,6 +760,54 @@
 				changeBtn.focus();
 				container.scrollTop( 0 );
 			}
+		},
+
+		/**
+		 * Render control's screenshot if the control comes into view.
+		 *
+		 * @since 4.2.0
+		 */
+		renderScreenshots: function( ) {
+			var section = this;
+
+			// Fill queue initially.
+			if ( section.screenshotQueue === null ) {
+				section.screenshotQueue = section.controls();
+			}
+
+			// Are all screenshots rendered?
+			if ( ! section.screenshotQueue.length ) {
+				return;
+			}
+
+			section.screenshotQueue = _.filter( section.screenshotQueue, function( control ) {
+				var $imageWrapper = control.container.find( '.theme-screenshot' ),
+					$image = $imageWrapper.find( 'img' );
+
+				if ( ! $image.length ) {
+					return false;
+				}
+
+				if ( $image.is( ':hidden' ) ) {
+					return true;
+				}
+
+				// Based on unveil.js.
+				var wt = section.$window.scrollTop(),
+					wb = wt + section.$window.height(),
+					et = $image.offset().top,
+					ih = $imageWrapper.height(),
+					eb = et + ih,
+					threshold = ih * 3,
+					inView = eb >= wt - threshold && et <= wb + threshold;
+
+				if ( inView ) {
+					control.container.trigger( 'render-screenshot' );
+				}
+
+				// If the image is in view return false so it's cleared from the queue.
+				return ! inView;
+			} );
 		},
 
 		/**
@@ -832,8 +900,8 @@
 			callback = callback || function(){};
 			section.currentTheme = theme.id;
 			section.overlay.html( section.template( theme ) )
-			               .fadeIn( 'fast' )
-			               .focus();
+				.fadeIn( 'fast' )
+				.focus();
 			$( 'body' ).addClass( 'modal-open' );
 			section.containFocus( section.overlay );
 			section.updateLimits();
@@ -1497,7 +1565,7 @@
 
 			this.params.attachment = this.params.defaultAttachment;
 			this.setting( this.params.defaultAttachment.url );
- 		},
+		},
 
 		/**
 		 * Called when the "Remove" link is clicked. Empties the setting.
@@ -1916,6 +1984,15 @@
 
 				api.section( control.section() ).showDetails( control.params.theme );
 			});
+
+			control.container.on( 'render-screenshot', function() {
+				var $screenshot = $( this ).find( 'img' ),
+					source = $screenshot.data( 'src' );
+
+				if ( source ) {
+					$screenshot.attr( 'src', source );
+				}
+			});
 		},
 
 		/**
@@ -1925,10 +2002,10 @@
 		 */
 		filter: function( term ) {
 			var control = this,
-			    haystack = control.params.theme.name + ' ' +
-				           control.params.theme.description + ' ' +
-				           control.params.theme.tags + ' ' +
-				           control.params.theme.author;
+				haystack = control.params.theme.name + ' ' +
+					control.params.theme.description + ' ' +
+					control.params.theme.tags + ' ' +
+					control.params.theme.author;
 			haystack = haystack.toLowerCase().replace( '-', ' ' );
 			if ( -1 !== haystack.search( term ) ) {
 				control.activate();
