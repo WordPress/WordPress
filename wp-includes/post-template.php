@@ -668,7 +668,7 @@ function get_body_class( $class = '' ) {
 		$classes[] = 'no-customize-support';
 	}
 
-	if ( get_theme_mod( 'background_color' ) || get_background_image() )
+	if ( get_background_color() !== get_theme_support( 'custom-background', 'default-color' ) || get_background_image() )
 		$classes[] = 'custom-background';
 
 	$page = $wp_query->get( 'page' );
