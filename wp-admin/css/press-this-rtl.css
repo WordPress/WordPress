@@ -341,12 +341,17 @@ strong {
 
 .button-subtle:focus,
 .button-subtle:hover,
-.button-subtle:active {
+.button-subtle:active,
+.edit-post-link:focus,
+.edit-post-link:hover,
+.edit-post-link:active {
 	color: #00a0d2;
 }
 
 .button-subtle:focus,
-.button-subtle:active {
+.button-subtle:active,
+.edit-post-link:focus,
+.edit-post-link:active {
 	outline: 0;
 	text-decoration: underline;
 }
@@ -1373,8 +1378,8 @@ html {
 	background-size: 20px 20px;
 	opacity: 0.7;
 	filter: alpha(opacity=70);
-	line-height: 30px;
-	vertical-align: baseline;
+	line-height: 1;
+	vertical-align: middle;
 }
 
 @media print,
@@ -1734,13 +1739,30 @@ html {
 .post-actions {
 	float: left;
 	margin: 14px 0 14px 30px;
-	font-size: 0;
+	font-size: 13px;
 }
 
 @media (max-width: 320px) {
 	.post-actions {
 		margin: 10px 0 10px 10px;
 	}
+}
+
+.edit-post-link {
+	font-size: 13px;
+	display: inline-block;
+	text-decoration: none;
+	padding: 0 10px;
+}
+
+.draft-button.is-hidden,
+.draft-button .saving-draft,
+.draft-button.is-saving .save-draft {
+	display: none;
+}
+
+.draft-button.is-saving .saving-draft {
+	display: inline;
 }
 
 /* TinyMCE styles */

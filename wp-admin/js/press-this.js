@@ -184,7 +184,10 @@
 				data: data
 			}).always( function() {
 				hideSpinner();
+				clearNotices();
 			}).done( function( response ) {
+				var $link, $button, keepFocus;
+
 				if ( ! response.success ) {
 					renderError( response.data.errorMessage );
 				} else if ( response.data.redirect ) {
@@ -198,10 +201,30 @@
 						window.location.href = response.data.redirect;
 					}
 				} else if ( response.data.postSaved ) {
-					// show "success" message?
+					$link = $( '.edit-post-link' );
+					$button = $( '.draft-button' );
+
+					if ( document.activeElement && document.activeElement.className.indexOf( 'draft-button' ) > -1 ) {
+						keepFocus = true;
+					}
+
+					$button.fadeOut( 200, function() {
+						$button.removeClass( 'is-saving' );
+						$link.fadeIn( 200 );
+
+						if ( keepFocus ) {
+							$link.focus();
+						}
+					});
 				}
 			}).fail( function() {
 				renderError( __( 'serverError' ) );
+			});
+		}
+
+		function resetDraftButton() {
+			$( '.edit-post-link' ).fadeOut( 200, function() {
+				$( '.draft-button' ).removeClass( 'is-saving' ).fadeIn( 200 );
 			});
 		}
 
@@ -326,6 +349,10 @@
 		 */
 		function renderError( msg ) {
 			renderNotice( msg, true );
+		}
+
+		function clearNotices() {
+			$( 'div.alerts' ).empty();
 		}
 
 		/**
@@ -527,6 +554,7 @@
 
 			$titleField.on( 'focus', function() {
 				$placeholder.addClass( 'is-hidden' );
+				resetDraftButton();
 			}).on( 'blur', function() {
 				if ( ! $titleField.text() && ! $titleField.html() ) {
 					$placeholder.removeClass( 'is-hidden' );
@@ -623,13 +651,20 @@
 		/**
 		 * Set app events and other state monitoring related code.
 		 */
-		function monitor(){
+		function monitor() {
 			$( document ).on( 'tinymce-editor-init', function( event, ed ) {
 				editor = ed;
 
-				ed.on( 'focus', function() {
+				function focus() {
 					hasSetFocus = true;
-				} );
+					resetDraftButton();
+				}
+
+				if ( window.tinymce.Env.iOS ) {
+					editor.on( 'click', focus );
+				} else {
+					editor.on( 'focus', focus );
+				}
 			}).on( 'click.press-this keypress.press-this', '.suggested-media-thumbnail', function( event ) {
 				if ( event.type === 'click' || event.keyCode === 13 ) {
 					insertSelectedMedia( $( this ) );
@@ -637,21 +672,27 @@
 			});
 
 			// Publish, Draft and Preview buttons
-
 			$( '.post-actions' ).on( 'click.press-this', function( event ) {
-				var $target = $( event.target );
+				var $target = $( event.target ),
+					$button = $target.closest( 'button' );
 
-				if ( $target.hasClass( 'draft-button' ) ) {
-					submitPost( 'draft' );
-				} else if ( $target.hasClass( 'publish-button' ) ) {
-					submitPost( 'publish' );
-				} else if ( $target.hasClass( 'preview-button' ) ) {
-					prepareFormData();
-					window.opener && window.opener.focus();
+				if ( $button.length ) {
+					if ( $button.hasClass( 'draft-button' ) ) {
+						$button.addClass( 'is-saving' );
+						submitPost( 'draft' );
+					} else if ( $button.hasClass( 'publish-button' ) ) {
+						submitPost( 'publish' );
+					} else if ( $button.hasClass( 'preview-button' ) ) {
+						prepareFormData();
+						window.opener && window.opener.focus();
 
-					$( '#wp-preview' ).val( 'dopreview' );
-					$( '#pressthis-form' ).attr( 'target', '_blank' ).submit().attr( 'target', '' );
-					$( '#wp-preview' ).val( '' );
+						$( '#wp-preview' ).val( 'dopreview' );
+						$( '#pressthis-form' ).attr( 'target', '_blank' ).submit().attr( 'target', '' );
+						$( '#wp-preview' ).val( '' );
+					}
+				} else if ( $target.hasClass( 'edit-post-link' ) && window.opener ) {
+					window.opener.focus();
+					window.self.close();
 				}
 			});
 
