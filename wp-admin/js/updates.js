@@ -481,7 +481,7 @@ window.wp = window.wp || {};
 			target = window.parent == window ? null : window.parent,
 			$.support.postMessage = !! window.postMessage;
 
-			if ( $.support.postMessage === false || target === null || window.location.search.indexOf( 'parent=update-core' ) === -1 )
+			if ( $.support.postMessage === false || target === null || window.location.search.indexOf( 'parent=update-core' ) !== -1 )
 				return;
 
 			e.preventDefault();
