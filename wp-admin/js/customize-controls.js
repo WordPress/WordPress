@@ -1692,7 +1692,7 @@
 			this.btnNew.on( 'click', this.openMedia );
 			this.btnRemove.on( 'click', this.removeImage );
 
-			api.HeaderTool.currentHeader = new api.HeaderTool.ImageModel();
+			api.HeaderTool.currentHeader = this.getInitialHeaderImage();
 
 			new api.HeaderTool.CurrentView({
 				model: api.HeaderTool.currentHeader,
@@ -1713,6 +1713,38 @@
 				api.HeaderTool.UploadsList,
 				api.HeaderTool.DefaultsList
 			]);
+		},
+
+		/**
+		 * Returns a new instance of api.HeaderTool.ImageModel based on the currently
+		 * saved header image (if any).
+		 *
+		 * @since 4.2.0
+		 *
+		 * @returns {Object} Options
+		 */
+		getInitialHeaderImage: function() {
+			if ( ! api.get().header_image || ! api.get().header_image_data || _.contains( [ 'remove-header', 'random-default-image', 'random-uploaded-image' ], api.get().header_image ) ) {
+				return new api.HeaderTool.ImageModel();
+			}
+
+			// Get the matching uploaded image object.
+			var currentHeaderObject = _.find( _wpCustomizeHeader.uploads, function( imageObj ) {
+				return ( imageObj.attachment_id === api.get().header_image_data.attachment_id );
+			} );
+			// Fall back to raw current header image.
+			if ( ! currentHeaderObject ) {
+				currentHeaderObject = {
+					url: api.get().header_image,
+					thumbnail_url: api.get().header_image,
+					attachment_id: api.get().header_image_data.attachment_id
+				};
+			}
+
+			return new api.HeaderTool.ImageModel({
+				header: currentHeaderObject,
+				choice: currentHeaderObject.url.split( '/' ).pop()
+			});
 		},
 
 		/**
