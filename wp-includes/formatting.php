@@ -4178,8 +4178,8 @@ function print_emoji_detection_script() {
 /**
  * Convert any 4 byte emoji in a string to their equivalent HTML entity.
  *
- * Currently, only Unicode 7 emoji are supported. Unicode 8 emoji will be added
- * when the spec in finalised, along with the new skin-tone modifiers.
+ * Currently, only Unicode 7 emoji are supported. Skin tone modifiers are allowed,
+ * all other Unicode 8 emoji will be added when the spec is finalised.
  *
  * This allows us to store emoji in a DB using the utf8 character set.
  *
@@ -4198,7 +4198,6 @@ function wp_encode_emoji( $content ) {
 		   | \xF0\x9F\x98[\x80-\xBF]        # Smilies
 		   | \xF0\x9F\x99[\x80-\x8F]
 		   | \xF0\x9F\x9A[\x80-\xBF]        # Transport and map symbols
-		   | \xF0\x9F\x99[\x80-\x85]
 		)/x';
 
 		$matches = array();
