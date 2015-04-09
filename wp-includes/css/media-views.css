@@ -1509,12 +1509,19 @@
 	background: url(../images/spinner.gif) no-repeat;
 	-webkit-background-size: 20px 20px;
 	background-size: 20px 20px;
-	display: none;
+	float: right;
+	display: inline-block;
+	visibility: hidden;
 	opacity: 0.7;
 	filter: alpha(opacity=70);
 	width: 20px;
 	height: 20px;
 	margin: 0;
+	vertical-align: middle;
+}
+
+.media-frame .spinner.is-active {
+	visibility: visible;
 }
 
 .media-toolbar .spinner {
@@ -1536,7 +1543,7 @@
 }
 
 .attachment-details .settings-save-status .spinner {
-	margin: 0 5px 0;
+	margin-left: 5px;
 }
 
 .attachment-details .settings-save-status .saved {
@@ -1544,7 +1551,10 @@
 	display: none;
 }
 
-.attachment-details.save-waiting .settings-save-status .spinner,
+.attachment-details.save-waiting .settings-save-status .spinner {
+	visibility: visible;
+}
+
 .attachment-details.save-complete .settings-save-status .saved {
 	display: block;
 }
@@ -1787,7 +1797,7 @@
 }
 
 .media-frame .embed-loading .embed-url .spinner {
-	display: block;
+	visibility: visible;
 }
 
 .embed-link-settings,

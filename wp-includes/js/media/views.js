@@ -4546,8 +4546,6 @@ EmbedLink = wp.media.view.Settings.extend({
 			return;
 		}
 
-		this.spinner.show();
-
 		this.fetch();
 	}, 600 ),
 
@@ -4606,8 +4604,6 @@ EmbedLink = wp.media.view.Settings.extend({
 			this.model.unset( 'height', opts );
 			this.model.unset( 'width', opts );
 		}
-
-		this.spinner.hide();
 
 		this.$('.embed-container').show().find('.embed-preview').html( html );
 	}
@@ -7463,7 +7459,7 @@ var Spinner = wp.media.View.extend({
 	show: function() {
 		if ( ! this.spinnerTimeout ) {
 			this.spinnerTimeout = _.delay(function( $el ) {
-				$el.show();
+				$el.addClass( 'is-active' );
 			}, this.delay, this.$el );
 		}
 
@@ -7471,7 +7467,7 @@ var Spinner = wp.media.View.extend({
 	},
 
 	hide: function() {
-		this.$el.hide();
+		this.$el.removeClass( 'is-active' );
 		this.spinnerTimeout = clearTimeout( this.spinnerTimeout );
 
 		return this;

@@ -34,8 +34,6 @@ EmbedLink = wp.media.view.Settings.extend({
 			return;
 		}
 
-		this.spinner.show();
-
 		this.fetch();
 	}, 600 ),
 
@@ -94,8 +92,6 @@ EmbedLink = wp.media.view.Settings.extend({
 			this.model.unset( 'height', opts );
 			this.model.unset( 'width', opts );
 		}
-
-		this.spinner.hide();
 
 		this.$('.embed-container').show().find('.embed-preview').html( html );
 	}
