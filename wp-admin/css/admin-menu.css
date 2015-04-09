@@ -10,6 +10,7 @@
 	position: fixed;
 	top: 0;
 	bottom: -120px;
+	z-index: 9980; /* just beneath #adminmenuwrap */
 }
 
 #adminmenu {
