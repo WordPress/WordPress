@@ -1322,7 +1322,7 @@ class WP_Press_This {
 
 	<div class="wrapper">
 		<div class="editor-wrapper">
-			<div class="alerts">
+			<div class="alerts" role="alert" aria-live="assertive" aria-relevant="all" aria-atomic="true">
 				<p class="alert is-notice is-hidden should-upgrade-bookmarklet">
 					<?php printf( __( 'You should upgrade <a href="%s" target="_blank">your bookmarklet</a> to the latest version!' ), admin_url( 'tools.php' ) ); ?>
 				</p>
