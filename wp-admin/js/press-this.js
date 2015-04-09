@@ -6,6 +6,7 @@
 	var PressThis = function() {
 		var editor, $mediaList, $mediaThumbWrap,
 			saveAlert             = false,
+			editLinkVisible       = false,
 			textarea              = document.createElement( 'textarea' ),
 			sidebarIsOpen         = false,
 			settings              = window.wpPressThisConfig || {},
@@ -102,9 +103,7 @@
 		 */
 		function showSpinner() {
 			$( '.spinner' ).addClass( 'is-active' );
-			$( '.post-actions button' ).each( function() {
-				$( this ).attr( 'disabled', 'disabled' );
-			} );
+			$( '.post-actions button' ).attr( 'disabled', 'disabled' );
 		}
 
 		/**
@@ -112,9 +111,7 @@
 		 */
 		function hideSpinner() {
 			$( '.spinner' ).removeClass( 'is-active' );
-			$( '.post-actions button' ).each( function() {
-				$( this ).removeAttr( 'disabled' );
-			} );
+			$( '.post-actions button' ).removeAttr( 'disabled' );
 		}
 
 		/**
@@ -166,7 +163,8 @@
 		 * @param action string publish|draft
 		 */
 		function submitPost( action ) {
-			var data;
+			var data,
+				keepFocus = $( document.activeElement ).hasClass( 'draft-button' );
 
 			saveAlert = false;
 			showSpinner();
@@ -186,7 +184,7 @@
 				hideSpinner();
 				clearNotices();
 			}).done( function( response ) {
-				var $link, $button, keepFocus;
+				var $link, $button;
 
 				if ( ! response.success ) {
 					renderError( response.data.errorMessage );
@@ -203,18 +201,17 @@
 				} else if ( response.data.postSaved ) {
 					$link = $( '.edit-post-link' );
 					$button = $( '.draft-button' );
-
-					if ( document.activeElement && document.activeElement.className.indexOf( 'draft-button' ) > -1 ) {
-						keepFocus = true;
-					}
+					editLinkVisible = true;
 
 					$button.fadeOut( 200, function() {
 						$button.removeClass( 'is-saving' );
-						$link.fadeIn( 200 );
-
-						if ( keepFocus ) {
-							$link.focus();
-						}
+						$link.fadeIn( 200, function() {
+							var active = document.activeElement;
+							// Different browsers move the focus to different places when the button is disabled.
+							if ( keepFocus && ( active === $button[0] || $( active ).hasClass( 'post-actions' ) || active.nodeName === 'BODY' ) ) {
+								$link.focus();
+							}
+						});
 					});
 				}
 			}).fail( function() {
@@ -223,9 +220,13 @@
 		}
 
 		function resetDraftButton() {
-			$( '.edit-post-link' ).fadeOut( 200, function() {
-				$( '.draft-button' ).removeClass( 'is-saving' ).fadeIn( 200 );
-			});
+			if ( editLinkVisible ) {
+				editLinkVisible = false;
+
+				$( '.edit-post-link' ).fadeOut( 200, function() {
+					$( '.draft-button' ).removeClass( 'is-saving' ).fadeIn( 200 );
+				});
+			}
 		}
 
 		/**
@@ -655,16 +656,10 @@
 			$( document ).on( 'tinymce-editor-init', function( event, ed ) {
 				editor = ed;
 
-				function focus() {
+				editor.on( 'nodechange', function() {
 					hasSetFocus = true;
 					resetDraftButton();
-				}
-
-				if ( window.tinymce.Env.iOS ) {
-					editor.on( 'click', focus );
-				} else {
-					editor.on( 'focus', focus );
-				}
+				} );
 			}).on( 'click.press-this keypress.press-this', '.suggested-media-thumbnail', function( event ) {
 				if ( event.type === 'click' || event.keyCode === 13 ) {
 					insertSelectedMedia( $( this ) );
