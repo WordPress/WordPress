@@ -2600,7 +2600,8 @@ function paginate_comments_links($args = array()) {
 function get_shortcut_link() {
 	global $is_IE, $wp_version;
 
-	$bookmarklet_version = '8';
+	include_once( ABSPATH . 'wp-admin/includes/class-wp-press-this.php' );
+	$bookmarklet_version = $GLOBALS['wp_press_this']->version;
 	$link = '';
 
 	if ( $is_IE ) {

@@ -1251,9 +1251,6 @@ html {
 	}
 }
 
-.alert.is-hidden {
-	display: none;
-}
 .alert.is-error:before {
 	background: red;
 }

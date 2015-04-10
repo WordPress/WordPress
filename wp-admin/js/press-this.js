@@ -366,11 +366,6 @@
 					renderError( msg );
 				} );
 			}
-
-			// Prompt user to upgrade their bookmarklet if there is a version mismatch.
-			if ( data.v && settings.version && ( data.v + '' ) !== ( settings.version + '' ) ) {
-				$( '.should-upgrade-bookmarklet' ).removeClass( 'is-hidden' );
-			}
 		}
 
 		/**
