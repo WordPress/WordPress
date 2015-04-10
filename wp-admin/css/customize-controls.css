@@ -242,6 +242,11 @@ body {
 	transition: left .18s ease-in-out, color .1s ease-in-out, background .1s ease-in-out;
 }
 
+.ios .control-panel-back {
+	-webkit-transition: left 0s;
+	transition: left 0s;
+}
+
 .collapsed .control-panel-back {
 	display: none;
 }
@@ -304,6 +309,12 @@ body {
 	transition: left ease-in-out .18s;
 }
 
+.ios #customize-info,
+.ios #customize-theme-controls > ul > .accordion-section {
+	-webkit-transition: left 0s;
+	transition: left 0s;
+}
+
 .in-sub-panel #customize-info,
 .in-sub-panel #customize-theme-controls > ul > .accordion-section {
 	left: -300px;
@@ -327,6 +338,11 @@ body {
 	left: -354px;
 	-webkit-transition: left ease-in-out .18s;
 	transition: left ease-in-out .18s;
+}
+
+.ios #customize-theme-controls .control-section.current-panel > h3.accordion-section-title {
+	-webkit-transition: left 0s;
+	transition: left 0s;
 }
 
 .control-section.control-panel .accordion-section-title .panel-title {
