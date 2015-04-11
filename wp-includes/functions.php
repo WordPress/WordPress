@@ -2991,7 +2991,7 @@ function smilies_init() {
 		       ':?' => "\xf0\x9f\x98\x95",
 		       ':D' => "\xf0\x9f\x98\x80",
 		       ':P' => "\xf0\x9f\x98\x9b",
-		       ':o' => "\xf0\x9f\x98\xaf",
+		       ':o' => "\xf0\x9f\x98\xae",
 		       ':x' => "\xf0\x9f\x98\xa1",
 		       ':|' => "\xf0\x9f\x98\x90",
 		       ';)' => "\xf0\x9f\x98\x89",
