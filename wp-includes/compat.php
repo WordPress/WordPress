@@ -40,7 +40,7 @@ endif;
 
 function _mb_strlen( $str, $encoding = null ) {
 	// The solution below works only for UTF-8,
-	// so in case of a different charset just use built-in substr()
+	// so in case of a different charset just use built-in strlen()
 	$charset = get_option( 'blog_charset' );
 	if ( ! in_array( $charset, array( 'utf8', 'utf-8', 'UTF8', 'UTF-8' ) ) ) {
 		return strlen( $str );
