@@ -803,10 +803,7 @@ function register_sidebar($args = array()) {
 
 	$i = count($wp_registered_sidebars) + 1;
 
-	if ( empty( $args['id'] ) ) {
-		/* translators: %s: the id argument */
-		_doing_it_wrong( __FUNCTION__, sprintf( __( 'You should set %s in the arguments array.' ), '<code>id</code>' ), '4.2.0' );
-	}
+	$id_is_empty = empty( $args['id'] );
 
 	$defaults = array(
 		'name' => sprintf(__('Sidebar %d'), $i ),
@@ -820,6 +817,11 @@ function register_sidebar($args = array()) {
 	);
 
 	$sidebar = wp_parse_args( $args, $defaults );
+
+	if ( $id_is_empty ) {
+		/* translators: %1$s: the id argument */
+		_doing_it_wrong( __FUNCTION__, sprintf( __( 'No %1$s was set in the arguments array for the "%2$s" sidebar. Defaulting to "%3$s". Manually set the %1$s to  "%3$s" to silence this notice and keep existing sidebar content.' ), '<code>id</code>', $sidebar['name'], $sidebar['id'] ), '4.2.0' );
+	}
 
 	$wp_registered_sidebars[$sidebar['id']] = $sidebar;
 
