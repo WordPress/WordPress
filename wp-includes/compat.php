@@ -13,23 +13,41 @@ if ( !function_exists('_') ) {
 	}
 }
 
-if ( !function_exists('mb_substr') ):
-	function mb_substr( $str, $start, $length=null, $encoding=null ) {
-		return _mb_substr($str, $start, $length, $encoding);
+if ( ! function_exists( 'mb_substr' ) ) :
+	function mb_substr( $str, $start, $length = null, $encoding = null ) {
+		return _mb_substr( $str, $start, $length, $encoding );
 	}
 endif;
 
-function _mb_substr( $str, $start, $length=null, $encoding=null ) {
-	// the solution below, works only for utf-8, so in case of a different
-	// charset, just use built-in substr
+function _mb_substr( $str, $start, $length = null, $encoding = null ) {
+	// The solution below works only for UTF-8,
+	// so in case of a different charset just use built-in substr()
 	$charset = get_option( 'blog_charset' );
-	if ( !in_array( $charset, array('utf8', 'utf-8', 'UTF8', 'UTF-8') ) ) {
-		return is_null( $length )? substr( $str, $start ) : substr( $str, $start, $length);
+	if ( ! in_array( $charset, array( 'utf8', 'utf-8', 'UTF8', 'UTF-8' ) ) ) {
+		return is_null( $length ) ? substr( $str, $start ) : substr( $str, $start, $length );
 	}
-	// use the regex unicode support to separate the UTF-8 characters into an array
+	// Use the regex unicode support to separate the UTF-8 characters into an array
 	preg_match_all( '/./us', $str, $match );
-	$chars = is_null( $length )? array_slice( $match[0], $start ) : array_slice( $match[0], $start, $length );
+	$chars = is_null( $length ) ? array_slice( $match[0], $start ) : array_slice( $match[0], $start, $length );
 	return implode( '', $chars );
+}
+
+if ( ! function_exists( 'mb_strlen' ) ) :
+	function mb_strlen( $str, $encoding = null ) {
+		return _mb_strlen( $str, $encoding );
+	}
+endif;
+
+function _mb_strlen( $str, $encoding = null ) {
+	// The solution below works only for UTF-8,
+	// so in case of a different charset just use built-in substr()
+	$charset = get_option( 'blog_charset' );
+	if ( ! in_array( $charset, array( 'utf8', 'utf-8', 'UTF8', 'UTF-8' ) ) ) {
+		return strlen( $str );
+	}
+	// Use the regex unicode support to separate the UTF-8 characters into an array
+	preg_match_all( '/./us', $str, $match );
+	return count( $match[0] );
 }
 
 if ( !function_exists('hash_hmac') ):
