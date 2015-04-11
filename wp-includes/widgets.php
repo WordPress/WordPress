@@ -819,8 +819,8 @@ function register_sidebar($args = array()) {
 	$sidebar = wp_parse_args( $args, $defaults );
 
 	if ( $id_is_empty ) {
-		/* translators: %1$s: the id argument */
-		_doing_it_wrong( __FUNCTION__, sprintf( __( 'No %1$s was set in the arguments array for the "%2$s" sidebar. Defaulting to "%3$s". Manually set the %1$s to  "%3$s" to silence this notice and keep existing sidebar content.' ), '<code>id</code>', $sidebar['name'], $sidebar['id'] ), '4.2.0' );
+		/* translators: %1$s: the id argument, %2$s: sidebar name, %3$s: recommended id value  */
+		_doing_it_wrong( __FUNCTION__, sprintf( __( 'No %1$s was set in the arguments array for the "%2$s" sidebar. Defaulting to "%3$s". Manually set the %1$s to "%3$s" to silence this notice and keep existing sidebar content.' ), '<code>id</code>', $sidebar['name'], $sidebar['id'] ), '4.2.0' );
 	}
 
 	$wp_registered_sidebars[$sidebar['id']] = $sidebar;
