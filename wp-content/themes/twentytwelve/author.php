@@ -4,7 +4,7 @@
  *
  * Used to display archive-type pages for posts by an author.
  *
- * @link http://codex.wordpress.org/Template_Hierarchy
+ * @link https://codex.wordpress.org/Template_Hierarchy
  *
  * @package WordPress
  * @subpackage Twenty_Twelve

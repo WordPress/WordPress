@@ -100,7 +100,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 		<div class="last-feature">
 			<svg viewBox="-30 -30 160 160"><path d="M35.3,26.5H5.9c-1.5,0-2.9-0.6-4.1-1.7C0.6,23.6,0,22.2,0,20.6c0-1.6,0.6-3,1.7-4.1c1.2-1.2,2.5-1.7,4.1-1.7h29.4 c1.6,0,3,0.6,4.1,1.7c1.2,1.2,1.7,2.5,1.7,4.1c0,1.6-0.6,3-1.7,4.1C38.3,25.9,36.9,26.5,35.3,26.5z M68.9,77.7 c-1.2,1.2-2.5,1.7-4.1,1.7H17.6c-1.6,0-3-0.6-4.1-1.7c-1.2-1.2-1.7-2.5-1.7-4.1V38.2c0-1.6,0.6-3,1.7-4.1c1.2-1.2,2.5-1.7,4.1-1.7 h47.1c1.6,0,3,0.6,4.1,1.7c1.2,1.2,1.7,2.5,1.7,4.1v35.3C70.6,75.1,70,76.5,68.9,77.7z M76.5,61.8L100,85.3V26.5L76.5,50V61.8z"/></svg>
 			<h4><?php _e( 'Vine embeds' ); ?></h4>
-			<p><?php printf( __( 'Embedding videos from Vine is as simple as pasting a URL onto its own line in a post. See the <a href="%s">full list</a> of supported embeds.' ), 'http://codex.wordpress.org/Embeds' ); ?></p>
+			<p><?php printf( __( 'Embedding videos from Vine is as simple as pasting a URL onto its own line in a post. See the <a href="%s">full list</a> of supported embeds.' ), 'https://codex.wordpress.org/Embeds' ); ?></p>
 		</div>
 
 		<div>

@@ -4,7 +4,7 @@
  *
  * Handles displaying Aside, Link, Status, and Quote Posts available with Twenty Eleven.
  *
- * @link http://codex.wordpress.org/Widgets_API#Developing_Widgets
+ * @link https://codex.wordpress.org/Widgets_API#Developing_Widgets
  *
  * @package WordPress
  * @subpackage Twenty_Eleven

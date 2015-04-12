@@ -136,7 +136,7 @@ switch($step) {
 <p>
 	<?php _e( 'We&#8217;re going to use this information to create a <code>wp-config.php</code> file.' ); ?>
 	<strong><?php _e( "If for any reason this automatic file creation doesn&#8217;t work, don&#8217;t worry. All this does is fill in the database information to a configuration file. You may also simply open <code>wp-config-sample.php</code> in a text editor, fill in your information, and save it as <code>wp-config.php</code>." ); ?></strong>
-	<?php _e( "Need more help? <a href='http://codex.wordpress.org/Editing_wp-config.php'>We got it</a>." ); ?>
+	<?php _e( "Need more help? <a href='https://codex.wordpress.org/Editing_wp-config.php'>We got it</a>." ); ?>
 </p>
 <p><?php _e( "In all likelihood, these items were supplied to you by your Web Host. If you do not have this information, then you will need to contact them before you can continue. If you&#8217;re all ready&hellip;" ); ?></p>
 

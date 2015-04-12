@@ -4,7 +4,7 @@
  *
  * Used on index and archive pages.
  *
- * @link http://codex.wordpress.org/Post_Formats
+ * @link https://codex.wordpress.org/Post_Formats
  *
  * @package WordPress
  * @subpackage Twenty_Eleven

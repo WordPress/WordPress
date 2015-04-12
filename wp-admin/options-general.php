@@ -101,7 +101,7 @@ get_current_screen()->add_help_tab( array(
 
 get_current_screen()->set_help_sidebar(
 	'<p><strong>' . __('For more information:') . '</strong></p>' .
-	'<p>' . __('<a href="http://codex.wordpress.org/Settings_General_Screen" target="_blank">Documentation on General Settings</a>') . '</p>' .
+	'<p>' . __('<a href="https://codex.wordpress.org/Settings_General_Screen" target="_blank">Documentation on General Settings</a>') . '</p>' .
 	'<p>' . __('<a href="https://wordpress.org/support/" target="_blank">Support Forums</a>') . '</p>'
 );
 
@@ -132,7 +132,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 <tr>
 <th scope="row"><label for="home"><?php _e('Site Address (URL)') ?></label></th>
 <td><input name="home" type="url" id="home" aria-describedby="home-description" value="<?php form_option( 'home' ); ?>"<?php disabled( defined( 'WP_HOME' ) ); ?> class="regular-text code<?php if ( defined( 'WP_HOME' ) ) echo ' disabled' ?>" />
-<p class="description" id="home-description"><?php _e( 'Enter the address here if you <a href="http://codex.wordpress.org/Giving_WordPress_Its_Own_Directory">want your site home page to be different from your WordPress installation directory.</a>' ); ?></p></td>
+<p class="description" id="home-description"><?php _e( 'Enter the address here if you <a href="https://codex.wordpress.org/Giving_WordPress_Its_Own_Directory">want your site home page to be different from your WordPress installation directory.</a>' ); ?></p></td>
 </tr>
 <tr>
 <th scope="row"><label for="admin_email"><?php _e('E-mail Address') ?> </label></th>
@@ -312,7 +312,7 @@ if ( empty($tzstring) ) { // Create a UTC+- zone if no timezone string exists
 	echo '/> ' . __( 'Custom:' ) . '<span class="screen-reader-text"> ' . __( 'enter a custom time format in the following field' ) . "</span></label>\n";
 	echo '<label for="time_format_custom" class="screen-reader-text">' . __( 'Custom time format:' ) . '</label><input type="text" name="time_format_custom" id="time_format_custom" value="' . esc_attr( get_option('time_format') ) . '" class="small-text" /> <span class="screen-reader-text">' . __( 'example:' ) . ' </span><span class="example"> ' . date_i18n( get_option('time_format') ) . "</span> <span class='spinner'></span>\n";
 
-	echo "\t<p>" . __('<a href="http://codex.wordpress.org/Formatting_Date_and_Time">Documentation on date and time formatting</a>.') . "</p>\n";
+	echo "\t<p>" . __('<a href="https://codex.wordpress.org/Formatting_Date_and_Time">Documentation on date and time formatting</a>.') . "</p>\n";
 ?>
 	</fieldset>
 </td>

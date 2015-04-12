@@ -5,7 +5,7 @@
  * The query API attempts to get which part of WordPress the user is on. It
  * also provides functionality for getting URL query information.
  *
- * @link http://codex.wordpress.org/The_Loop More information on The Loop.
+ * @link https://codex.wordpress.org/The_Loop More information on The Loop.
  *
  * @package WordPress
  * @subpackage Query
@@ -722,7 +722,7 @@ function is_404() {
 function is_main_query() {
 	if ( 'pre_get_posts' === current_filter() ) {
 		$message = sprintf( __( 'In <code>%1$s</code>, use the <code>%2$s</code> method, not the <code>%3$s</code> function. See %4$s.' ),
-			'pre_get_posts', 'WP_Query::is_main_query()', 'is_main_query()', __( 'http://codex.wordpress.org/Function_Reference/is_main_query' ) );
+			'pre_get_posts', 'WP_Query::is_main_query()', 'is_main_query()', __( 'https://codex.wordpress.org/Function_Reference/is_main_query' ) );
 		_doing_it_wrong( __FUNCTION__, $message, '3.7' );
 	}
 
@@ -830,7 +830,7 @@ function the_comment() {
 /**
  * The WordPress Query class.
  *
- * @link http://codex.wordpress.org/Function_Reference/WP_Query Codex page.
+ * @link https://codex.wordpress.org/Function_Reference/WP_Query Codex page.
  *
  * @since 1.5.0
  */

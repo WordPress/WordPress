@@ -54,7 +54,7 @@ function get_postdata($postid) {
  *
  * @since 1.0.1
  * @deprecated 1.5.0
- * @deprecated Use The Loop - {@link http://codex.wordpress.org/The_Loop Use new WordPress Loop}
+ * @deprecated Use The Loop - {@link https://codex.wordpress.org/The_Loop Use new WordPress Loop}
  */
 function start_wp() {
 	global $wp_query;
@@ -1310,7 +1310,7 @@ function get_category_children( $id, $before = '/', $after = '', $visited = arra
  * @since 2.0.0
  * @deprecated 4.0.0 Use get_terms() instead.
  * @see get_terms()
- * @link http://codex.wordpress.org/Function_Reference/get_all_category_ids
+ * @link https://codex.wordpress.org/Function_Reference/get_all_category_ids
  *
  * @return object List of all of the category IDs.
  */

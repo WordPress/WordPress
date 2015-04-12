@@ -13,7 +13,7 @@
  * WordPress site, if the schedule time has passed.
  *
  * @since 2.1.0
- * @link http://codex.wordpress.org/Function_Reference/wp_schedule_single_event
+ * @link https://codex.wordpress.org/Function_Reference/wp_schedule_single_event
  *
  * @param int $timestamp Timestamp for when to run the event.
  * @param string $hook Action hook to execute when cron is run.

@@ -2,7 +2,7 @@
 /**
  * Implement a custom header for Twenty Thirteen
  *
- * @link http://codex.wordpress.org/Custom_Headers
+ * @link https://codex.wordpress.org/Custom_Headers
  *
  * @package WordPress
  * @subpackage Twenty_Thirteen

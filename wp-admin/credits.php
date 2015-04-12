@@ -104,7 +104,7 @@ if ( ! $credits ) {
 	echo '<p class="about-description">' . sprintf( __( 'WordPress is created by a <a href="%1$s">worldwide team</a> of passionate individuals. <a href="%2$s">Get involved in WordPress</a>.' ),
 		'https://wordpress.org/about/',
 		/* translators: Url to the codex documentation on contributing to WordPress used on the credits page */
-		__( 'http://codex.wordpress.org/Contributing_to_WordPress' ) ) . '</p>';
+		__( 'https://codex.wordpress.org/Contributing_to_WordPress' ) ) . '</p>';
 	include( ABSPATH . 'wp-admin/admin-footer.php' );
 	exit;
 }

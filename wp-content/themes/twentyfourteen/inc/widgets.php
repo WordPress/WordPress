@@ -4,7 +4,7 @@
  *
  * Displays posts from Aside, Quote, Video, Audio, Image, Gallery, and Link formats.
  *
- * @link http://codex.wordpress.org/Widgets_API#Developing_Widgets
+ * @link https://codex.wordpress.org/Widgets_API#Developing_Widgets
  *
  * @package WordPress
  * @subpackage Twenty_Fourteen

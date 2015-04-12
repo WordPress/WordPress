@@ -3,7 +3,7 @@
  * API for fetching the HTML to embed remote content based on a provided URL.
  * Used internally by the {@link WP_Embed} class, but is designed to be generic.
  *
- * @link http://codex.wordpress.org/oEmbed oEmbed Codex Article
+ * @link https://codex.wordpress.org/oEmbed oEmbed Codex Article
  * @link http://oembed.com/ oEmbed Homepage
  *
  * @package WordPress

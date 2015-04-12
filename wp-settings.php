@@ -367,7 +367,7 @@ if ( is_multisite() ) {
  * AJAX requests should use wp-admin/admin-ajax.php. admin-ajax.php can handle requests for
  * users not logged in.
  *
- * @link http://codex.wordpress.org/AJAX_in_Plugins
+ * @link https://codex.wordpress.org/AJAX_in_Plugins
  *
  * @since 3.0.0
  */

@@ -4,7 +4,7 @@
  *
  * These functions must be used within the WordPress Loop.
  *
- * @link http://codex.wordpress.org/Author_Templates
+ * @link https://codex.wordpress.org/Author_Templates
  *
  * @package WordPress
  * @subpackage Template
@@ -49,7 +49,7 @@ function get_the_author($deprecated = '') {
  *
  * @since 0.71
  * @see get_the_author()
- * @link http://codex.wordpress.org/Template_Tags/the_author
+ * @link https://codex.wordpress.org/Template_Tags/the_author
  *
  * @param string $deprecated Deprecated.
  * @param string $deprecated_echo Deprecated. Use get_the_author(). Echo the string or return it.
@@ -101,7 +101,7 @@ function the_modified_author() {
 
 /**
  * Retrieve the requested data of the author of the current post.
- * @link http://codex.wordpress.org/Template_Tags/the_author_meta
+ * @link https://codex.wordpress.org/Template_Tags/the_author_meta
  * @since 2.8.0
  * @param string $field selects the field of the users record.
  * @param int $user_id Optional. User ID.
@@ -135,7 +135,7 @@ function get_the_author_meta( $field = '', $user_id = false ) {
 
 /**
  * Retrieve the requested data of the author of the current post.
- * @link http://codex.wordpress.org/Template_Tags/the_author_meta
+ * @link https://codex.wordpress.org/Template_Tags/the_author_meta
  * @since 2.8.0
  * @param string $field selects the field of the users record.
  * @param int $user_id Optional. User ID.
@@ -177,7 +177,7 @@ function get_the_author_link() {
  * If the author has a home page set, echo an HTML link, otherwise just echo the
  * author's name.
  *
- * @link http://codex.wordpress.org/Template_Tags/the_author_link
+ * @link https://codex.wordpress.org/Template_Tags/the_author_link
  *
  * @since 2.1.0
  */
@@ -203,7 +203,7 @@ function get_the_author_posts() {
 /**
  * Display the number of posts by the author of the current post.
  *
- * @link http://codex.wordpress.org/Template_Tags/the_author_posts
+ * @link https://codex.wordpress.org/Template_Tags/the_author_posts
  * @since 0.71
  */
 function the_author_posts() {
@@ -217,7 +217,7 @@ function the_author_posts() {
  * reason for this, is that another function is used to help in printing the
  * link to the author's posts.
  *
- * @link http://codex.wordpress.org/Template_Tags/the_author_posts_link
+ * @link https://codex.wordpress.org/Template_Tags/the_author_posts_link
  * @since 1.2.0
  * @param string $deprecated Deprecated.
  */
@@ -287,7 +287,7 @@ function get_author_posts_url($author_id, $author_nicename = '') {
 /**
  * List all the authors of the blog, with several options available.
  *
- * @link http://codex.wordpress.org/Template_Tags/wp_list_authors
+ * @link https://codex.wordpress.org/Template_Tags/wp_list_authors
  *
  * @since 1.2.0
  *

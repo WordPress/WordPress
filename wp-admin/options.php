@@ -180,7 +180,7 @@ if ( 'update' == $action ) {
 	if ( $options ) {
 		foreach ( $options as $option ) {
 			if ( $unregistered )
-				_deprecated_argument( 'options.php', '2.7', sprintf( __( 'The <code>%1$s</code> setting is unregistered. Unregistered settings are deprecated. See http://codex.wordpress.org/Settings_API' ), $option, $option_page ) );
+				_deprecated_argument( 'options.php', '2.7', sprintf( __( 'The <code>%1$s</code> setting is unregistered. Unregistered settings are deprecated. See https://codex.wordpress.org/Settings_API' ), $option, $option_page ) );
 
 			$option = trim( $option );
 			$value = null;

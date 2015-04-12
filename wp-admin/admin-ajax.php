@@ -5,7 +5,7 @@
  * @package WordPress
  * @subpackage Administration
  *
- * @link http://codex.wordpress.org/AJAX_in_Plugins
+ * @link https://codex.wordpress.org/AJAX_in_Plugins
  */
 
 /**

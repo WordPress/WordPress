@@ -14,7 +14,7 @@
  *
  * @since 2.1.0
  * @see get_terms() Type of arguments that can be changed.
- * @link http://codex.wordpress.org/Function_Reference/get_categories
+ * @link https://codex.wordpress.org/Function_Reference/get_categories
  *
  * @param string|array $args Optional. Change the defaults retrieving categories.
  * @return array List of categories.
