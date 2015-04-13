@@ -554,7 +554,14 @@
 		template: '',
 		screenshotQueue: null,
 		$window: $( window ),
-		$customizeSidebar: $( '.wp-full-overlay-sidebar-content:first' ),
+
+		/**
+		 * @since 4.2.0
+		 */
+		initialize: function () {
+			this.$customizeSidebar = $( '.wp-full-overlay-sidebar-content:first' );
+			return api.Section.prototype.initialize.apply( this, arguments );
+		},
 
 		/**
 		 * @since 4.2.0
@@ -1951,6 +1958,7 @@
 	api.ThemeControl = api.Control.extend({
 
 		touchDrag: false,
+		isRendered: false,
 
 		/**
 		 * Defer rendering the theme control until the section is displayed.
@@ -1961,13 +1969,15 @@
 			var control = this,
 				renderContentArgs = arguments;
 
-			api.section( control.section(), function ( section ) {
+			api.section( control.section(), function( section ) {
 				if ( section.expanded() ) {
 					api.Control.prototype.renderContent.apply( control, renderContentArgs );
+					control.isRendered = true;
 				} else {
-					section.expanded.bind( function ( expanded ) {
-						if ( expanded ) {
+					section.expanded.bind( function( expanded ) {
+						if ( expanded && ! control.isRendered ) {
 							api.Control.prototype.renderContent.apply( control, renderContentArgs );
+							control.isRendered = true;
 						}
 					} );
 				}
