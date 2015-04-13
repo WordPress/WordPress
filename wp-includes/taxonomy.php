@@ -3365,16 +3365,22 @@ function wp_unique_term_slug($slug, $term) {
 function wp_update_term( $term_id, $taxonomy, $args = array() ) {
 	global $wpdb;
 
-	if ( ! taxonomy_exists($taxonomy) )
-		return new WP_Error('invalid_taxonomy', __('Invalid taxonomy'));
+	if ( ! taxonomy_exists( $taxonomy ) ) {
+		return new WP_Error( 'invalid_taxonomy', __( 'Invalid taxonomy' ) );
+	}
 
 	$term_id = (int) $term_id;
 
 	// First, get all of the original args
-	$term = get_term ($term_id, $taxonomy, ARRAY_A);
+	$term = get_term( $term_id, $taxonomy, ARRAY_A );
 
-	if ( is_wp_error( $term ) )
+	if ( is_wp_error( $term ) ) {
 		return $term;
+	}
+
+	if ( ! $term ) {
+		return new WP_Error( 'invalid_term', __( 'Empty Term' ) );
+	}
 
 	// Escape data pulled from DB.
 	$term = wp_slash($term);
