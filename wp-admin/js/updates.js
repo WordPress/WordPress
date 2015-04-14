@@ -417,6 +417,21 @@ window.wp = window.wp || {};
 		$message.html( $message.data( 'originaltext' ) );
 		wp.a11y.speak( wp.updates.l10n.updateCancel );
 	};
+	/**
+	 * Potentially add an AYS to a user attempting to leave the page
+	 *
+	 * If an update is on-going and a user attempts to leave the page,
+	 * open an "Are you sure?" alert.
+	 *
+	 * @since 4.2.0
+	 */
+
+	wp.updates.beforeunload = function() {
+		if ( wp.updates.updateLock ) {
+			return wp.updates.l10n.beforeunload;
+		}
+	};
+
 
 	$( document ).ready( function() {
 		/*
@@ -530,18 +545,8 @@ window.wp = window.wp || {};
 				break;
 		}
 
-
-
 	} );
 
-	/*
-	 * If an update is on-going and a user attempts to leave the page,
-	 * open an "Are you sure?" alert.
-	 */
-	$( window ).on( 'beforeunload', function() {
-		if ( wp.updates.updateLock ) {
-			return wp.updates.l10n.beforeunload;
-		}
-	});
+	$( window ).on( 'beforeunload', wp.updates.beforeunload );
 
 })( jQuery, window.wp, window.pagenow, window.ajaxurl );
