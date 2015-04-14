@@ -102,7 +102,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 			) );
 			?>
 			<h4><?php echo ( 'Streamlined plugin updates' ); ?></h4>
-			<p><?php echo ( 'Plugin updates are smooth and simple. No more boring loading screen &endash; just click <em>Update Now</em> on any number of plugins and wait for the success messages. Easy!' ); ?></p>
+			<p><?php echo ( 'Plugin updates are smooth and simple. No more boring loading screen &mdash; just click <em>Update Now</em> on any number of plugins and wait for the success messages. Easy!' ); ?></p>
 		</div>
 	</div>
 </div>
