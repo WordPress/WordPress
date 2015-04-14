@@ -739,6 +739,7 @@
 	margin-top: 11px;
 	margin-right: 2%;
 	max-width: 42%;
+	max-width: -webkit-calc(48% - 12px);
 	max-width: calc(48% - 12px);
 }
 
