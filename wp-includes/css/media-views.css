@@ -740,7 +740,12 @@
 .media-frame select.attachment-filters {
 	margin-top: 11px;
 	margin-right: 2%;
-	max-width: 47%;
+	max-width: 42%;
+	max-width: calc(48% - 12px);
+}
+
+.media-frame select.attachment-filters:last-of-type {
+	margin-right: 0;
 }
 
 /**
@@ -2413,7 +2418,7 @@
 	}
 
 	.media-modal .attachments-browser .media-toolbar .spinner {
-		margin: 14px 8px 0;
+		margin: 14px 2px 0;
 	}
 
 	/* Text inputs need to be 16px, or they force zooming on iOS */
