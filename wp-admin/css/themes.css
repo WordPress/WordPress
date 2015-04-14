@@ -419,6 +419,10 @@
 	border-bottom: 1px solid #ddd;
 }
 
+.theme-overlay .theme-header button {
+	padding: 0;
+}
+
 .theme-overlay .theme-header .close {
 	cursor: pointer;
 	height: 48px;
