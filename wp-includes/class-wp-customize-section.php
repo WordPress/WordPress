@@ -387,7 +387,7 @@ class WP_Customize_Themes_Section extends WP_Customize_Section {
 				<?php if ( count( $this->controls ) > 4 ) : ?>
 					<p><label for="themes-filter">
 						<span class="screen-reader-text"><?php _e( 'Search installed themes...' ); ?></span>
-						<input type="search" id="themes-filter" placeholder="<?php esc_attr_e( 'Search installed themes...' ); ?>" />
+						<input type="text" id="themes-filter" placeholder="<?php esc_attr_e( 'Search installed themes...' ); ?>" />
 					</label></p>
 				<?php endif; ?>
 				<div class="theme-browser rendered">
