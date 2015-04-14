@@ -1322,7 +1322,7 @@ class WP_Press_This {
 			<div class="alerts" role="alert" aria-live="assertive" aria-relevant="all" aria-atomic="true">
 				<?php
 
-				if ( empty( $data['v'] ) || $this->version > $data['v'] ) {
+				if ( isset( $data['v'] ) && $this->version > $data['v'] ) {
 					?>
 					<p class="alert is-notice">
 						<?php printf( __( 'You should upgrade <a href="%s" target="_blank">your bookmarklet</a> to the latest version!' ), admin_url( 'tools.php' ) ); ?>
