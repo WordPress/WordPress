@@ -232,13 +232,11 @@
 .media-toolbar-primary {
 	float: left;
 	height: 100%;
-	max-width: 33%;
 }
 
 .media-toolbar-secondary {
 	float: right;
 	height: 100%;
-	max-width: 66%;
 }
 
 .media-toolbar-primary > .media-button,
@@ -1076,6 +1074,14 @@
 
 .attachments-browser .uploader-inline.hidden {
 	display: none;
+}
+
+.attachments-browser .media-toolbar-primary {
+	max-width: 33%;
+}
+
+.attachments-browser .media-toolbar-secondary {
+	max-width: 66%;
 }
 
 .uploader-inline .close {
