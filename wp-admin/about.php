@@ -63,8 +63,8 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 			<h3><?php echo ( 'Extended Character Support' ); ?></h3>
 			<p><?php echo ( 'Writing in WordPress, whatever your language, just got better. WordPress 4.2 supports a host of new characters out-of-the-box, including native Chinese, Japanese, and Korean characters, musical and mathematical symbols, and hieroglyphs.' ); ?></p>
 			<p><?php
-				/* translators: 1: heart emoji, 2: kitten emoji, 3, monkey emoji, 4: ice-cream emoji */
-				printf( 'Don’t use special characters? You can still have fun &mdash; emoji are now available in WordPress! Get creative and decorate your content with %1$s, %2$s, %3$s, %4$s, and all the many other emojis.', '&#x1F499', '&#x1F408', '&#x1F412', '&#x1F366' );
+				/* translators: 1: heart emoji, 2: kitten emoji, 3, monkey emoji, 4: ice-cream emoji, 5: Emoji Codex link */
+				printf( 'Don’t use special characters? You can still have fun &mdash; emoji are now available in WordPress! Get creative and decorate your content with %1$s, %2$s, %3$s, %4$s, and all the many other <a href="%5$s">emojis</a>.', '&#x1F499', '&#x1F408', '&#x1F412', '&#x1F366', __( 'https://codex.wordpress.org/Emoji' ) );
 			?></p>
 		</div>
 		<div class="col">
@@ -134,15 +134,15 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 			<h4><?php echo ( 'utf8mb4 Support' ); ?></h4>
 			<p><?php echo ( 'Database character encoding has changed from utf8 to utf8mb4, which adds support for a whole range of new 4-byte characters.' ); ?></p>
 
-			<h4><?php echo ( 'Complex Query Ordering' ); ?></h4>
-			<p><?php echo ( '<code>WP_Query</code>, <code>WP_Comment_Query</code>, and <code>WP_User_Query</code> now support complex ordering with named meta query clauses.' ); ?></p>
+			<h4><?php echo ( 'JavaScript Accessibility' ); ?></h4>
+			<p><?php echo ( 'Your JavaScript can now talk to screen readers with <code>wp.a11y.speak()</code>. Simply pass what you want to say, and a polite update will be sent to the ARIA live notifications area.' ); ?></p>
 		</div>
 		<div class="last-feature">
 			<h4><?php echo ( 'Taxonomy Roadmap' ); ?></h4>
 			<p><?php echo ( 'Terms previously shared across multiple taxonomies will be split when one of them is updated. A new row is created in the database for each.' ); ?></p>
 
-			<h4><?php echo ( 'JavaScript Accessibility' ); ?></h4>
-			<p><?php echo ( 'Your JavaScript can now talk to screen readers with <code>wp.a11y.speak()</code>.' ); ?></p>
+			<h4><?php echo ( 'Complex Query Ordering' ); ?></h4>
+			<p><?php echo ( '<code>WP_Query</code>, <code>WP_Comment_Query</code>, and <code>WP_User_Query</code> now support complex ordering with named meta query clauses.' ); ?></p>
 		</div>
 
 	<hr />
