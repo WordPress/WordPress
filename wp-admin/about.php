@@ -27,7 +27,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 
 <h1><?php printf( __( 'Welcome to WordPress&nbsp;%s' ), $display_version ); ?></h1>
 
-<div class="about-text"><?php printf( ( 'Thank you for updating! WordPress %s helps you communicate and share, globally.' ), $display_version ); ?></div>
+<div class="about-text"><?php printf( __( 'Thank you for updating! WordPress %s helps you communicate and share, globally.' ), $display_version ); ?></div>
 
 <div class="wp-badge"><?php printf( __( 'Version %s' ), $display_version ); ?></div>
 
@@ -48,8 +48,8 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 		<div class="dfw-container">
 			<img src="//s.w.org/images/core/4.1/focus.png" class="base-image" />
 		</div>
-		<h3><?php echo ( 'An easier way to share content' ); ?></h3>
-		<p><?php printf( 'Clip it, edit it, publish it. Get familiar with the new and improved Press This. From the <a href="%s">Tools</a> menu, add Press This to your browser bookmark bar or your mobile device home screen. Once installed you can share your content with lightning speed. Sharing your favorite videos, images, and content has never been this fast or this easy.', admin_url( 'tools.php' ) ); ?></p>
+		<h3><?php _e( 'An easier way to share content' ); ?></h3>
+		<p><?php printf( __( 'Clip it, edit it, publish it. Get familiar with the new and improved Press This. From the <a href="%s">Tools</a> menu, add Press This to your browser bookmark bar or your mobile device home screen. Once installed you can share your content with lightning speed. Sharing your favorite videos, images, and content has never been this fast or this easy.' ), admin_url( 'tools.php' ) ); ?></p>
 		<p><?php _e( 'Drag the bookmarklet below to your bookmarks bar. Then, when you&#8217;re on a page you want to share, simply &#8220;press&#8221; it.' ); ?> [bookmarklet]</p>
 	</div>
 
@@ -61,11 +61,11 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 
 	<div class="feature-section">
 		<div class="col">
-			<h3><?php echo ( 'Extended character support' ); ?></h3>
-			<p><?php echo ( 'Writing in WordPress, whatever your language, just got better. WordPress 4.2 supports a host of new characters out-of-the-box, including native Chinese, Japanese, and Korean characters, musical and mathematical symbols, and hieroglyphs.' ); ?></p>
+			<h3><?php _e( 'Extended character support' ); ?></h3>
+			<p><?php _e( 'Writing in WordPress, whatever your language, just got better. WordPress 4.2 supports a host of new characters out-of-the-box, including native Chinese, Japanese, and Korean characters, musical and mathematical symbols, and hieroglyphs.' ); ?></p>
 			<p><?php
 				/* translators: 1: heart emoji, 2: frog face emoji, 3, monkey emoji, 4: pizza emoji, 5: Emoji Codex link */
-				printf( 'Don&#8217;t use any of those characters? You can still have fun &mdash; emoji are now available in WordPress! Get creative and decorate your content with %1$s, %2$s, %3$s, %4$s, and all the many other <a href="%5$s">emoji</a>.', '&#x1F499', '&#x1F438', '&#x1F412', '&#x1F355', __( 'https://codex.wordpress.org/Emoji' ) );
+				printf( __( 'Don&#8217;t use any of those characters? You can still have fun &mdash; emoji are now available in WordPress! Get creative and decorate your content with %1$s, %2$s, %3$s, %4$s, and all the many other <a href="%5$s">emoji</a>.' ), '&#x1F499', '&#x1F438', '&#x1F412', '&#x1F355', __( 'https://codex.wordpress.org/Emoji' ) );
 			?></p>
 		</div>
 		<div class="col">
@@ -90,8 +90,8 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 				'height'   => 218
 			) );
 			?>
-			<h4><?php echo ( 'Switch themes in the Customizer' ); ?></h4>
-			<p><?php echo ( 'Browse and preview your installed themes from the Customizer. Make sure the theme looks great with <em>your</em> content, before it debuts on your site. ' ); ?></p>
+			<h4><?php _e( 'Switch themes in the Customizer' ); ?></h4>
+			<p><?php _e( 'Browse and preview your installed themes from the Customizer. Make sure the theme looks great with <em>your</em> content, before it debuts on your site. ' ); ?></p>
 		</div>
 		<div>
 			<?php
@@ -103,8 +103,8 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 				'height'   => 218
 			) );
 			?>
-			<h4><?php echo ( 'Even more embeds' ); ?></h4>
-			<p><?php echo ( 'Paste links from Tumblr.com and Kickstarter and watch them magically appear right in the editor. With every release, your publishing and editing experience get closer together.' ); ?></p>
+			<h4><?php _e( 'Even more embeds' ); ?></h4>
+			<p><?php _e( 'Paste links from Tumblr.com and Kickstarter and watch them magically appear right in the editor. With every release, your publishing and editing experience get closer together.' ); ?></p>
 		</div>
 		<div class="last-feature">
 			<?php
@@ -116,8 +116,8 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 				'height'   => 218
 			) );
 			?>
-			<h4><?php echo ( 'Streamlined plugin updates' ); ?></h4>
-			<p><?php echo ( 'Goodbye boring loading screen, hello smooth and simple plugin updates. Just click <em>Update Now</em> and watch the magic happen.' ); ?></p>
+			<h4><?php _e( 'Streamlined plugin updates' ); ?></h4>
+			<p><?php _e( 'Goodbye boring loading screen, hello smooth and simple plugin updates. Click <em>Update&nbsp;Now</em> and watch the magic happen.' ); ?></p>
 		</div>
 	</div>
 </div>
@@ -129,21 +129,27 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 
 	<div class="feature-section col two-col">
 		<div>
-			<h4><?php echo ( 'utf8mb4 support' ); ?></h4>
-			<p><?php echo ( 'Database character encoding has changed from utf8 to utf8mb4, which adds support for a whole range of new 4-byte characters.' ); ?></p>
+			<h4><?php _e( 'utf8mb4 support' ); ?></h4>
+			<p><?php _e( 'Database character encoding has changed from utf8 to utf8mb4, which adds support for a whole range of new 4-byte characters.' ); ?></p>
 
-			<h4><?php echo ( 'JavaScript accessibility' ); ?></h4>
-			<p><?php echo ( 'You can now send audible notifications to screen readers in JavaScript with <code>wp.a11y.speak()</code>. Pass it a string, and an update will be sent to a dedicated ARIA live notifications area.' ); ?></p>
+			<h4><?php _e( 'JavaScript accessibility' ); ?></h4>
+			<p><?php
+				/* translators: %s wp.a11y.speak() */
+				printf( __( 'You can now send audible notifications to screen readers in JavaScript with %s. Pass it a string, and an update will be sent to a dedicated ARIA live notifications area.' ), '<code>wp.a11y.speak()</code>' );
+			?></p>
 		</div>
 		<div class="last-feature">
-			<h4><?php echo ( 'Shared term splitting' ); ?></h4>
+			<h4><?php _e( 'Shared term splitting' ); ?></h4>
 			<p><?php
 				/* translators: 1: Term splitting guide link */
-				printf ( 'Terms shared across multiple taxonomies will be split when one of them is updated. Find out more in the <a href="%1$s">Plugin Developer Handbook.</a>', 'https://developer.wordpress.org/plugins/taxonomy/working-with-split-terms-in-wp-4-2/' );
+				printf( __( 'Terms shared across multiple taxonomies will be split when one of them is updated. Find out more in the <a href="%1$s">Plugin Developer Handbook.</a>' ), 'https://developer.wordpress.org/plugins/taxonomy/working-with-split-terms-in-wp-4-2/' );
 			?></p>
 
-			<h4><?php echo ( 'Complex query ordering' ); ?></h4>
-			<p><?php echo ( '<code>WP_Query</code>, <code>WP_Comment_Query</code>, and <code>WP_User_Query</code> now support complex ordering with named meta query clauses.' ); ?></p>
+			<h4><?php _e( 'Complex query ordering' ); ?></h4>
+			<p><?php
+				/* translators: 1: WP_Query, 2: WP_Comment_Query, 3: WP_User_Query */
+				printf( __( '%1$s, %2$s, and %3$s now support complex ordering with named meta query clauses.' ), '<code>WP_Query</code>', '<code>WP_Comment_Query</code>', '<code>WP_User_Query</code>' );
+			?></p>
 		</div>
 
 	<hr />
@@ -160,18 +166,6 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 </div>
 
 </div>
-
-<script>
-jQuery(document).ready( function($) {
-	$.ajax( 'https://api.wordpress.org/translations/core/1.0/?version=4.1',
-		{ 'type' : 'HEAD' } ).done( function( data, textStatus, jqXHR ) {
-			var count = jqXHR.getResponseHeader( 'X-Translations-Count' );
-			if ( count ) {
-				$( '#translations-count' ).text( count );
-			}
-	});
-});
-</script>
 <?php
 
 include( ABSPATH . 'wp-admin/admin-footer.php' );
