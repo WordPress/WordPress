@@ -1243,7 +1243,8 @@ class WP_Customize_Theme_Control extends WP_Customize_Control {
 	 */
 	public function content_template() {
 		$current_url = set_url_scheme( 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] );
-		$preview_url = add_query_arg( 'theme', '{{ data.theme.id }}', $current_url );
+		$preview_url = esc_url( add_query_arg( 'theme', '__THEME__', $current_url ) ); // Token because esc_url() strips curly braces.
+		$preview_url = str_replace( '__THEME__', '{{ data.theme.id }}', $preview_url );
 		?>
 		<div class="theme" tabindex="0" data-preview-url="<?php echo esc_attr( $preview_url ); ?>" aria-describedby="{{ data.theme.id }}-action {{ data.theme.id }}-name">
 			<# if ( data.theme.screenshot[0] ) { #>

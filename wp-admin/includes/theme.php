@@ -511,6 +511,8 @@ function wp_prepare_themes_for_js( $themes = null ) {
  * @since 4.2.0
  */
 function customize_themes_print_templates() {
+	$preview_url = esc_url( add_query_arg( 'theme', '__THEME__' ) ); // Token because esc_url() strips curly braces.
+	$preview_url = str_replace( '__THEME__', '{{ data.id }}', $preview_url );
 	?>
 	<script type="text/html" id="tmpl-customize-themes-details-view">
 		<div class="theme-backdrop"></div>
@@ -550,7 +552,7 @@ function customize_themes_print_templates() {
 			<# if ( ! data.active ) { #>
 				<div class="theme-actions">
 					<div class="inactive-theme">
-						<a href="<?php echo add_query_arg( 'theme', '{{ data.id }}' ); ?>" target="_top" class="button button-primary"><?php _e( 'Live Preview' ); ?></a>
+						<a href="<?php echo $preview_url; ?>" target="_top" class="button button-primary"><?php _e( 'Live Preview' ); ?></a>
 					</div>
 				</div>
 			<# } #>
