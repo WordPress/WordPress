@@ -228,13 +228,14 @@ window.wp = window.wp || {};
 
 		wp.updates.updateDoneSuccessfully = true;
 
-		$(document).trigger( 'wp-plugin-update-success', response );
-
 		/*
 		 * The lock can be released since the update was successful,
 		 * and any other updates can commence.
 		 */
 		wp.updates.updateLock = false;
+
+		$(document).trigger( 'wp-plugin-update-success', response );
+		
 		wp.updates.queueChecker();
 	};
 
