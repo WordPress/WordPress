@@ -452,15 +452,15 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 
 				if ( parent = dom.getParent( node, 'p' ) ) {
 					parent.parentNode.insertBefore( wrap, parent );
-
-					if ( dom.isEmpty( parent ) ) {
-						dom.remove( parent );
-					}
 				} else {
 					node.parentNode.insertBefore( wrap, node );
 				}
 
 				editor.$( wrap ).find( 'dt.wp-caption-dt' ).append( node );
+
+				if ( parent && dom.isEmpty( parent ) ) {
+					dom.remove( parent );
+				}
 			}
 		} else if ( captionNode ) {
 			// Remove the caption wrapper and place the image in new paragraph
@@ -734,15 +734,15 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 
 						if ( parent = dom.getParent( node, 'p' ) ) {
 							parent.parentNode.insertBefore( wrap, parent );
-
-							if ( dom.isEmpty( parent ) ) {
-								dom.remove( parent );
-							}
 						} else {
 							node.parentNode.insertBefore( wrap, node );
 						}
 
 						editor.$( wrap ).find( 'dt.wp-caption-dt' ).append( node );
+
+						if ( parent && dom.isEmpty( parent ) ) {
+							dom.remove( parent );
+						}
 					}
 				} else {
 					if ( wrap ) {
