@@ -182,11 +182,11 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 			return;
 		}
 
-		if ( selected ) {
-			removeView( selected );
-		}
-
 		if ( ! event.load ) {
+			if ( selected ) {
+				removeView( selected );
+			}
+
 			node = editor.selection.getNode();
 
 			if ( node && node !== editor.getBody() && /^\s*https?:\/\/\S+\s*$/i.test( event.content ) ) {
@@ -361,6 +361,9 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 
 		// Remove marker attributes
 		$( 'p[data-wpview-marker]', rootNode ).attr( 'data-wpview-marker', null );
+
+		// Reset the selected node if any
+		selected = null;
 	}
 
 	editor.on( 'PreProcess', function( event ) {
