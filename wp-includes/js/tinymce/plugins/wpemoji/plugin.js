@@ -1,4 +1,4 @@
-( function( tinymce, wp, twemoji ) {
+( function( tinymce, wp ) {
 	tinymce.PluginManager.add( 'wpemoji', function( editor ) {
 		var typing,
 			env = tinymce.Env,
@@ -39,7 +39,7 @@
 		function parseNode( node ) {
 			var selection, bookmark;
 
-			if ( node && twemoji.test( node.textContent || node.innerText ) ) {
+			if ( node && window.twemoji && window.twemoji.test( node.textContent || node.innerText ) ) {
 				if ( env.webkit ) {
 					selection = editor.selection;
 					bookmark = selection.getBookmark();
@@ -83,7 +83,7 @@
 			var selection = editor.selection,
 				node = selection.getNode();
 
-			if ( twemoji.test( node.textContent || node.innerText ) ) {
+			if ( window.twemoji && window.twemoji.test( node.textContent || node.innerText ) ) {
 				replaceEmoji( node );
 
 				// In IE all content in the editor is left selected after wp.emoji.parse()...
@@ -96,9 +96,9 @@
 
 		// Convert Twemoji compatible pasted emoji replacement images into our format.
 		editor.on( 'PastePostProcess', function( event ) {
-			if ( twemoji ) {
+			if ( window.twemoji ) {
 				tinymce.each( editor.dom.$( 'img.emoji', event.node ), function( image ) {
-					if ( image.alt && twemoji.test( image.alt ) ) {
+					if ( image.alt && window.twemoji.test( image.alt ) ) {
 						setImgAttr( image );
 					}
 				});
@@ -125,4 +125,4 @@
 			}
 		} );
 	} );
-} )( window.tinymce, window.wp, window.twemoji );
+} )( window.tinymce, window.wp );
