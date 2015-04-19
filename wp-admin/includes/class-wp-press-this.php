@@ -158,7 +158,7 @@ class WP_Press_This {
 			 * @since 4.2.0
 			 *
 			 * @param string $url     Redirect URL. If `$status` is 'publish', this will be the post permalink.
-			 *                        Otherwise, the post edit URL will be used.
+			 *                        Otherwise, the default is false resulting in no redirect.
 			 * @param int    $post_id Post ID.
 			 * @param string $status  Post status.
 			 */
