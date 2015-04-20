@@ -528,14 +528,17 @@ function wp_default_scripts( &$scripts ) {
 				'updating'          => __( 'Updating...' ),
 				'updated'           => __( 'Updated!' ),
 				'updateFailed'      => __( 'Update Failed' ),
-				/* translators: Plugin Name */
+				/* translators: Plugin name and version */
 				'updatingLabel'     => __( 'Updating %s...' ),
-				/* translators: Plugin Name */
+				/* translators: Plugin name and version */
 				'updatedLabel'      => __( '%s updated!' ),
-				/* translators: Plugin Name */
+				/* translators: Plugin name and version */
 				'updateFailedLabel' => __( '%s update failed' ),
+				/* translators: JavaScript accessible string */
 				'updatingMsg'       => __( 'Updating... please wait.' ),
+				/* translators: JavaScript accessible string */
 				'updatedMsg'        => __( 'Update completed successfully.' ),
+				/* translators: JavaScript accessible string */
 				'updateCancel'      => __( 'Update canceled.' ),
 				'beforeunload'      => __( 'Plugin updates may not complete if you navigate away from this page.' ),
 			)
