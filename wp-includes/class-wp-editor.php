@@ -116,12 +116,6 @@ final class _WP_Editors {
 			// A cookie (set when a user resizes the editor) overrides the height.
 			$cookie = (int) get_user_setting( 'ed_size' );
 
-			// Upgrade an old TinyMCE cookie if it is still around, and the new one isn't.
-			if ( ! $cookie && isset( $_COOKIE['TinyMCE_content_size'] ) ) {
-				parse_str( $_COOKIE['TinyMCE_content_size'], $cookie );
- 				$cookie = $cookie['ch'];
-			}
-
 			if ( $cookie )
 				$set['editor_height'] = $cookie;
 		}
