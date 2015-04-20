@@ -124,6 +124,7 @@ module.exports = CollectionAdd;
  * @param {string}                     attributes.menu                   Initial mode for the menu region. @todo this needs a better explanation.
  * @param {boolean}                    [attributes.searchable=false]     Whether the library is searchable.
  * @param {boolean}                    [attributes.sortable=true]        Whether the Attachments should be sortable. Depends on the orderby property being set to menuOrder on the attachments collection.
+ * @param {boolean}                    [attributes.date=true]            Whether to show the date filter in the browser's toolbar.
  * @param {boolean}                    [attributes.describe=true]        Whether to offer UI to describe the attachments - e.g. captioning images in a gallery.
  * @param {boolean}                    [attributes.dragInfo=true]        Whether to show instructional text about the attachments being sortable.
  * @param {boolean}                    [attributes.dragInfoText]         Instructional text about the attachments being sortable.
@@ -147,6 +148,7 @@ CollectionEdit = Library.extend({
 	defaults: {
 		multiple:         false,
 		sortable:         true,
+		date:             false,
 		searchable:       false,
 		content:          'browse',
 		describe:         true,
@@ -835,6 +837,7 @@ module.exports = GalleryAdd;
  * @param {boolean}                    [attributes.multiple=false]        Whether multi-select is enabled.
  * @param {boolean}                    [attributes.searchable=false]      Whether the library is searchable.
  * @param {boolean}                    [attributes.sortable=true]         Whether the Attachments should be sortable. Depends on the orderby property being set to menuOrder on the attachments collection.
+ * @param {boolean}                    [attributes.date=true]             Whether to show the date filter in the browser's toolbar.
  * @param {string|false}               [attributes.content=browse]        Initial mode for the content region.
  * @param {string|false}               [attributes.toolbar=image-details] Initial mode for the toolbar region.
  * @param {boolean}                    [attributes.describe=true]         Whether to offer UI to describe attachments - e.g. captioning images in a gallery.
@@ -859,6 +862,7 @@ GalleryEdit = Library.extend({
 		multiple:         false,
 		searchable:       false,
 		sortable:         true,
+		date:             false,
 		display:          false,
 		content:          'browse',
 		toolbar:          'gallery-edit',
@@ -3680,17 +3684,17 @@ module.exports = Attachments;
  * @augments wp.Backbone.View
  * @augments Backbone.View
  *
- * @param {object}      options
- * @param {object}      [options.filters=false] Which filters to show in the browser's toolbar.
- *                                              Accepts 'uploaded' and 'all'.
- * @param {object}      [options.search=true]   Whether to show the search interface in the
- *                                              browser's toolbar.
- * @param {object}      [options.date=true]     Whether to show the date filter in the
- *                                              browser's toolbar.
- * @param {object}      [options.display=false] Whether to show the attachments display settings
- *                                              view in the sidebar.
- * @param {bool|string} [options.sidebar=true]  Whether to create a sidebar for the browser.
- *                                              Accepts true, false, and 'errors'.
+ * @param {object}         [options]               The options hash passed to the view.
+ * @param {boolean|string} [options.filters=false] Which filters to show in the browser's toolbar.
+ *                                                 Accepts 'uploaded' and 'all'.
+ * @param {boolean}        [options.search=true]   Whether to show the search interface in the
+ *                                                 browser's toolbar.
+ * @param {boolean}        [options.date=true]     Whether to show the date filter in the
+ *                                                 browser's toolbar.
+ * @param {boolean}        [options.display=false] Whether to show the attachments display settings
+ *                                                 view in the sidebar.
+ * @param {boolean|string} [options.sidebar=true]  Whether to create a sidebar for the browser.
+ *                                                 Accepts true, false, and 'errors'.
  */
 var View = wp.media.View,
 	mediaTrash = wp.media.view.settings.mediaTrash,
@@ -5956,6 +5960,7 @@ Select = MediaFrame.extend({
 			sortable:   state.get('sortable'),
 			search:     state.get('searchable'),
 			filters:    state.get('filterable'),
+			date:       state.get('date'),
 			display:    state.has('display') ? state.get('display') : state.get('displaySettings'),
 			dragInfo:   state.get('dragInfo'),
 
