@@ -658,7 +658,7 @@ function _wp_dashboard_recent_comments_row( &$comment, $show_date = true ) {
 	$GLOBALS['comment'] =& $comment;
 
 	$comment_post_url = get_edit_post_link( $comment->comment_post_ID );
-	$comment_post_title = strip_tags(get_the_title( $comment->comment_post_ID ));
+	$comment_post_title = _draft_or_post_title( $comment->comment_post_ID );
 	$comment_post_link = "<a href='$comment_post_url'>$comment_post_title</a>";
 	$comment_link = '<a class="comment-link" href="' . esc_url(get_comment_link()) . '">#</a>';
 
