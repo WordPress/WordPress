@@ -1305,21 +1305,23 @@ function sanitize_title_with_dashes( $title, $raw_title = '', $context = 'displa
 }
 
 /**
- * Ensures a string is a valid SQL order by clause.
+ * Ensures a string is a valid SQL 'order by' clause.
  *
- * Accepts one or more columns, with or without ASC/DESC, and also accepts
- * RAND().
+ * Accepts one or more columns, with or without a sort order (ASC / DESC).
+ * e.g. 'column_1', 'column_1, column_2', 'column_1 ASC, column_2 DESC' etc.
+ *
+ * Also accepts 'RAND()'.
  *
  * @since 2.5.1
  *
- * @param string $orderby Order by string to be checked.
- * @return string|bool Returns the order by clause if it is a match, false otherwise.
+ * @param string $orderby Order by clause to be validated.
+ * @return string|bool Returns $orderby if valid, false otherwise.
  */
-function sanitize_sql_orderby( $orderby ){
-	preg_match('/^\s*([a-z0-9_]+(\s+(ASC|DESC))?(\s*,\s*|\s*$))+|^\s*RAND\(\s*\)\s*$/i', $orderby, $obmatches);
-	if ( !$obmatches )
-		return false;
-	return $orderby;
+function sanitize_sql_orderby( $orderby ) {
+	if ( preg_match( '/^\s*(([a-z0-9_]+|`[a-z0-9_]+`)(\s+(ASC|DESC))?\s*(,\s*(?=[a-z0-9_`])|$))+$/i', $orderby ) || preg_match( '/^\s*RAND\(\s*\)\s*$/i', $orderby ) ) {
+		return $orderby;
+	}
+	return false;
 }
 
 /**
