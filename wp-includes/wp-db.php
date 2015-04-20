@@ -174,11 +174,11 @@ class wpdb {
 	 * Flag to ensure we don't run into recursion problems when checking the collation.
 	 *
 	 * @since 4.2.0
-	 * @access protected
+	 * @access private
 	 * @see wpdb::check_safe_collation()
 	 * @var boolean
 	 */
-	protected $checking_collation = false;
+	private $checking_collation = false;
 
 	/**
 	 * Saved info on the table column
