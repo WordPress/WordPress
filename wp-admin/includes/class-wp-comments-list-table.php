@@ -554,9 +554,9 @@ class WP_Comments_List_Table extends WP_List_Table {
 
 		if ( current_user_can( 'edit_post', $post->ID ) ) {
 			$post_link = "<a href='" . get_edit_post_link( $post->ID ) . "'>";
-			$post_link .= get_the_title( $post->ID ) . '</a>';
+			$post_link .= esc_html( get_the_title( $post->ID ) ) . '</a>';
 		} else {
-			$post_link = get_the_title( $post->ID );
+			$post_link = esc_html( get_the_title( $post->ID ) );
 		}
 
 		echo '<div class="response-links"><span class="post-com-count-wrapper">';
