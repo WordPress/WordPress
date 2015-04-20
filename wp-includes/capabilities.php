@@ -1347,21 +1347,25 @@ function current_user_can( $capability ) {
  * @return bool
  */
 function current_user_can_for_blog( $blog_id, $capability ) {
-	if ( is_multisite() )
-		switch_to_blog( $blog_id );
+	$switched = is_multisite() ? switch_to_blog( $blog_id ) : false;
 
 	$current_user = wp_get_current_user();
 
-	if ( empty( $current_user ) )
+	if ( empty( $current_user ) ) {
+		if ( $switched ) {
+			restore_current_blog();
+		}
 		return false;
+	}
 
 	$args = array_slice( func_get_args(), 2 );
 	$args = array_merge( array( $capability ), $args );
 
 	$can = call_user_func_array( array( $current_user, 'has_cap' ), $args );
 
-	if ( is_multisite() )
+	if ( $switched ) {
 		restore_current_blog();
+	}
 
 	return $can;
 }
