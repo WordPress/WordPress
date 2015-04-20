@@ -636,6 +636,9 @@ final class WP_Theme implements ArrayAccess {
 			case 'Tags' :
 				$value = array_filter( array_map( 'trim', explode( ',', strip_tags( $value ) ) ) );
 				break;
+			case 'Version' :
+				$value = strip_tags( $value );
+				break;
 		}
 
 		return $value;
