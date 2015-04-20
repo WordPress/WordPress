@@ -626,14 +626,21 @@ class WP_User_Query {
 			$include = false;
 		}
 
-		// Meta query.
-		$this->meta_query = new WP_Meta_Query();
-		$this->meta_query->parse_query_vars( $qv );
-
 		$blog_id = 0;
 		if ( isset( $qv['blog_id'] ) ) {
 			$blog_id = absint( $qv['blog_id'] );
 		}
+
+		if ( isset( $qv['who'] ) && 'authors' == $qv['who'] && $blog_id ) {
+			$qv['meta_key'] = $wpdb->get_blog_prefix( $blog_id ) . 'user_level';
+			$qv['meta_value'] = 0;
+			$qv['meta_compare'] = '!=';
+			$qv['blog_id'] = $blog_id = 0; // Prevent extra meta query
+		}
+
+		// Meta query.
+		$this->meta_query = new WP_Meta_Query();
+		$this->meta_query->parse_query_vars( $qv );
 
 		$role = '';
 		if ( isset( $qv['role'] ) ) {
@@ -773,13 +780,6 @@ class WP_User_Query {
 			$search_columns = apply_filters( 'user_search_columns', $search_columns, $search, $this );
 
 			$this->query_where .= $this->get_search_sql( $search, $search_columns, $wild );
-		}
-
-		if ( isset( $qv['who'] ) && 'authors' == $qv['who'] && $blog_id ) {
-			$qv['meta_key'] = $wpdb->get_blog_prefix( $blog_id ) . 'user_level';
-			$qv['meta_value'] = 0;
-			$qv['meta_compare'] = '!=';
-			$qv['blog_id'] = $blog_id = 0; // Prevent extra meta query
 		}
 
 		if ( ! empty( $include ) ) {
