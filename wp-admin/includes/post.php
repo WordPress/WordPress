@@ -177,6 +177,7 @@ function _wp_translate_postdata( $update = false, $post_data = null ) {
  * @return int Post ID.
  */
 function edit_post( $post_data = null ) {
+	global $wpdb;
 
 	if ( empty($post_data) )
 		$post_data = &$_POST;
@@ -317,7 +318,19 @@ function edit_post( $post_data = null ) {
 
 	update_post_meta( $post_ID, '_edit_last', get_current_user_id() );
 
-	wp_update_post( $post_data );
+	$success = wp_update_post( $post_data );
+	// If the save failed, see if we can sanity check the main fields and try again
+	if ( ! $success && is_callable( array( $wpdb, 'strip_invalid_text_for_column' ) ) ) {
+		$fields = array( 'post_title', 'post_content', 'post_excerpt' );
+
+		foreach( $fields as $field ) {
+			if ( isset( $post_data[ $field ] ) ) {
+				$post_data[ $field ] = $wpdb->strip_invalid_text_for_column( $wpdb->posts, $field, $post_data[ $field ] );
+			}
+		}
+
+		wp_update_post( $post_data );
+	}
 
 	// Now that we have an ID we can fix any attachment anchor hrefs
 	_fix_attachment_links( $post_ID );
