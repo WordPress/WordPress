@@ -175,7 +175,7 @@ class wpdb {
 	 *
 	 * @since 4.2.0
 	 * @access private
-	 * @see wpdb::check_collation()
+	 * @see wpdb::check_safe_collation()
 	 * @var boolean
 	 */
 	private $checking_collation = false;
