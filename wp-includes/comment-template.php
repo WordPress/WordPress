@@ -427,7 +427,7 @@ function get_comment_class( $class = '', $comment_id = null, $post_id = null ) {
 
 		// If a comment author is also a member of the site (multisite).
 		if ( is_user_member_of_blog( $comment->user_id ) ) {
-			$classes[] = 'comment-author-is-site-member';
+			$classes[] = 'bysiteuser';
 		}
 
 		// For comment authors who are the author of the post
