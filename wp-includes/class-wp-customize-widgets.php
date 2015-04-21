@@ -668,11 +668,13 @@ final class WP_Customize_Widgets {
 				<label class="screen-reader-text" for="widgets-search"><?php _e( 'Search Widgets' ); ?></label>
 				<input type="search" id="widgets-search" placeholder="<?php esc_attr_e( 'Search widgets&hellip;' ) ?>" />
 			</div>
+			<div id="available-widgets-list">
 			<?php foreach ( $this->get_available_widgets() as $available_widget ): ?>
 				<div id="widget-tpl-<?php echo esc_attr( $available_widget['id'] ) ?>" data-widget-id="<?php echo esc_attr( $available_widget['id'] ) ?>" class="widget-tpl <?php echo esc_attr( $available_widget['id'] ) ?>" tabindex="0">
 					<?php echo $available_widget['control_tpl']; ?>
 				</div>
 			<?php endforeach; ?>
+			</div><!-- #available-widgets-list -->
 		</div><!-- #available-widgets -->
 		</div><!-- #widgets-left -->
 		<?php

@@ -342,7 +342,7 @@ body.adding-widget .add-new-widget:before {
 #available-widgets {
 	position: absolute;
 	overflow: auto;
-	top: 46px;
+	top: 0;
 	bottom: 0;
 	right: -301px;
 	width: 300px;
@@ -352,6 +352,14 @@ body.adding-widget .add-new-widget:before {
 	-webkit-transition: all 0.2s;
 	transition: all 0.2s;
 	border-left: 1px solid #dddddd;
+}
+
+#available-widgets-list {
+	top: 46px;
+	position: absolute;
+	overflow: auto;
+	bottom: 0;
+	width: 100%;
 }
 
 #available-widgets-filter {
@@ -614,6 +622,7 @@ body.adding-widget #customize-preview {
 
 @media screen and ( max-width: 640px ) {
 	body.adding-widget div#available-widgets {
+		top: 46px;
 		right: 0;
 		z-index: 10;
 		width: 100%;

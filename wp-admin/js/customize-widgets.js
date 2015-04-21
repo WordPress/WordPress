@@ -294,7 +294,9 @@
 			// Reset search
 			this.collection.doSearch( '' );
 
-			this.$search.focus();
+			if ( ! api.settings.browser.mobile ) {
+				this.$search.focus();
+			}
 		},
 
 		// Closes the panel
