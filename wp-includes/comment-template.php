@@ -424,12 +424,6 @@ function get_comment_class( $class = '', $comment_id = null, $post_id = null ) {
 	if ( $comment->user_id > 0 && $user = get_userdata( $comment->user_id ) ) {
 		$classes[] = 'byuser';
 		$classes[] = 'comment-author-' . sanitize_html_class( $user->user_nicename, $comment->user_id );
-
-		// If a comment author is also a member of the site (multisite).
-		if ( is_user_member_of_blog( $comment->user_id ) ) {
-			$classes[] = 'bysiteuser';
-		}
-
 		// For comment authors who are the author of the post
 		if ( $post = get_post($post_id) ) {
 			if ( $comment->user_id === $post->post_author ) {
