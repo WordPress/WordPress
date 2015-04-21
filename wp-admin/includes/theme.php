@@ -421,7 +421,7 @@ function wp_prepare_themes_for_js( $themes = null ) {
 	 * @param null|array $themes          An array of WP_Theme objects to prepare, if any.
 	 * @param string     $current_theme   The current theme slug.
 	 */
-	$prepared_themes = (array) apply_filters( 'pre_wp_prepare_themes_for_js', array(), $themes, $current_theme );
+	$prepared_themes = (array) apply_filters( 'pre_prepare_themes_for_js', array(), $themes, $current_theme );
 
 	if ( ! empty( $prepared_themes ) ) {
 		return $prepared_themes;
