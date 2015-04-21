@@ -361,9 +361,6 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 
 		// Remove marker attributes
 		$( 'p[data-wpview-marker]', rootNode ).attr( 'data-wpview-marker', null );
-
-		// Reset the selected node if any
-		selected = null;
 	}
 
 	editor.on( 'PreProcess', function( event ) {
@@ -374,6 +371,7 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 	editor.on( 'hide', function() {
 		// Replace the view nodes with their text directly in the editor body.
 		wp.mce.views.unbind();
+		deselect();
 		resetViews( editor.getBody() );
 	});
 
