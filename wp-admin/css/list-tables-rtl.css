@@ -1164,7 +1164,9 @@ tr.active.update + tr.plugin-update-tr .plugin-update {
 }
 
 .plugins .update .second,
-.plugins .update .row-actions {
+.plugins .update .row-actions,
+.plugins .updated .second,
+.plugins .updated .row-actions {
 	padding-bottom: 0;
 }
 
@@ -1245,7 +1247,7 @@ tr.active.update + tr.plugin-update-tr .plugin-update {
 	content: '\f147';
 }
 
-.plugins .plugin-update {
+.plugins .plugin-update-tr .plugin-update {
 	padding: 0;
 	border: none;
 	-webkit-box-shadow: inset 0 -1px 0 rgba(0,0,0,0.1);
