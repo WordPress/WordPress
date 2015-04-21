@@ -818,12 +818,11 @@ window.wp = window.wp || {};
 		edit: function( text, update ) {
 			var media = wp.media.embed,
 				frame = media.edit( text, this.url ),
-				self = this,
-				events = 'change:url change:width change:height';
+				self = this;
 
 			this.pausePlayers();
 
-			frame.state( 'embed' ).props.on( events, function( model, url ) {
+			frame.state( 'embed' ).props.on( 'change:url', function( model, url ) {
 				if ( url && model.get( 'url' ) ) {
 					frame.state( 'embed' ).metadata = model.toJSON();
 				}
@@ -832,7 +831,7 @@ window.wp = window.wp || {};
 			frame.state( 'embed' ).on( 'select', function() {
 				var data = frame.state( 'embed' ).metadata;
 
-				if ( self.url && ! data.width ) {
+				if ( self.url ) {
 					update( data.url );
 				} else {
 					update( media.shortcode( data ).string() );

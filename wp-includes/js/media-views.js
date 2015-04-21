@@ -4535,7 +4535,7 @@ EmbedLink = wp.media.view.Settings.extend({
 	initialize: function() {
 		this.spinner = $('<span class="spinner" />');
 		this.$el.append( this.spinner[0] );
-		this.listenTo( this.model, 'change:url change:width change:height', this.updateoEmbed );
+		this.listenTo( this.model, 'change:url', this.updateoEmbed );
 	},
 
 	updateoEmbed: _.debounce( function() {
@@ -4554,23 +4554,15 @@ EmbedLink = wp.media.view.Settings.extend({
 	}, 600 ),
 
 	fetch: function() {
-		var embed;
-
 		// check if they haven't typed in 500 ms
 		if ( $('#embed-url-field').val() !== this.model.get('url') ) {
 			return;
 		}
 
-		embed = new wp.shortcode({
-			tag: 'embed',
-			attrs: _.pick( this.model.attributes, [ 'width', 'height', 'src' ] ),
-			content: this.model.get('url')
-		});
-
 		wp.ajax.send( 'parse-embed', {
 			data : {
 				post_ID: wp.media.view.settings.post.id,
-				shortcode: embed.string()
+				shortcode: '[embed]' + this.model.get('url') + '[/embed]'
 			}
 		} )
 			.done( _.bind( this.renderoEmbed, this ) )
@@ -4578,38 +4570,17 @@ EmbedLink = wp.media.view.Settings.extend({
 	},
 
 	renderFail: function () {
-		this.$( '.setting' ).hide().filter( '.link-text' ).show();
+		this.$( '.link-text' ).show();
 	},
 
 	renderoEmbed: function( response ) {
-		var html = ( response && response.body ) || '',
-			attr = {},
-			opts = { silent: true };
+		var html = ( response && response.body ) || '';
 
-		this.$( '.setting' ).hide()
-			.filter( '.link-text' )[ html ? 'hide' : 'show' ]();
-
-		if ( response && response.attr ) {
-			attr = response.attr;
-
-			_.each( [ 'width', 'height' ], function ( key ) {
-				var $el = this.$( '.setting.' + key ),
-					value = attr[ key ];
-
-				if ( value ) {
-					this.model.set( key, value, opts );
-					$el.show().find( 'input' ).val( value );
-				} else {
-					this.model.unset( key, opts );
-					$el.hide().find( 'input' ).val( '' );
-				}
-			}, this );
+		if ( html ) {
+			this.$('.embed-container').show().find('.embed-preview').html( html );
 		} else {
-			this.model.unset( 'height', opts );
-			this.model.unset( 'width', opts );
+			this.renderFail();
 		}
-
-		this.$('.embed-container').show().find('.embed-preview').html( html );
 	}
 });
 
