@@ -2399,20 +2399,32 @@ class wpdb {
 			return true;
 		}
 
+		// We don't need to check the collation for queries that don't read data.
+		$query = ltrim( $query, "\r\n\t (" );
+		if ( preg_match( '/^(?:SHOW|DESCRIBE|DESC|EXPLAIN)\s/i', $query ) ) {
+			return true;
+		}
+
 		$table = $this->get_table_from_query( $query );
 		if ( ! $table ) {
 			return false;
 		}
 
 		$this->checking_collation = true;
-		$this->get_table_charset( $table );
+		$collation = $this->get_table_charset( $table );
 		$this->checking_collation = false;
+
+		// Tables with no collation, or latin1 only, don't need extra checking.
+		if ( false === $collation || 'latin1' === $collation ) {
+			return true;
+		}
 
 		$table = strtolower( $table );
 		if ( empty( $this->col_meta[ $table ] ) ) {
 			return false;
 		}
 
+		// If any of the columns don't have one of these collations, it needs more sanity checking.
 		foreach( $this->col_meta[ $table ] as $col ) {
 			if ( empty( $col->Collation ) ) {
 				continue;
