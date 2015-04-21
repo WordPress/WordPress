@@ -2405,6 +2405,11 @@ class wpdb {
 			return true;
 		}
 
+		// All-ASCII queries don't need extra checking.
+		if ( $this->check_ascii( $query ) ) {
+			return true;
+		}
+
 		$table = $this->get_table_from_query( $query );
 		if ( ! $table ) {
 			return false;
