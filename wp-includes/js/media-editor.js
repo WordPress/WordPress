@@ -880,7 +880,7 @@
 
 				if ( 'link' === type ) {
 					_.defaults( embed, {
-						linkText: embed.linkText,
+						linkText: embed.url,
 						linkUrl: embed.url
 					});
 
