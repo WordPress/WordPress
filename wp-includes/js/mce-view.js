@@ -322,9 +322,9 @@ window.wp = window.wp || {};
 			this.replaceMarkers();
 
 			if ( content ) {
-				this.setContent( content, function( editor, node ) {
+				this.setContent( content, function( editor, node, contentNode ) {
 					$( node ).data( 'rendered', true );
-					this.bindNode.call( this, editor, node );
+					this.bindNode.call( this, editor, node, contentNode );
 				}, force ? null : false );
 			} else {
 				this.setLoader();
@@ -346,8 +346,8 @@ window.wp = window.wp || {};
 		 * Runs before their content is removed from the DOM.
 		 */
 		unbind: function() {
-			this.getNodes( function( editor, node ) {
-				this.unbindNode.call( this, editor, node );
+			this.getNodes( function( editor, node, contentNode ) {
+				this.unbindNode.call( this, editor, node, contentNode );
 				$( node ).trigger( 'wp-mce-view-unbind' );
 			}, true );
 		},
@@ -485,7 +485,7 @@ window.wp = window.wp || {};
 			var MutationObserver = window.MutationObserver || window.WebKitMutationObserver || window.MozMutationObserver,
 				self = this;
 
-			this.getNodes( function( editor, node, content ) {
+			this.getNodes( function( editor, node, contentNode ) {
 				var dom = editor.dom,
 					styles = '',
 					bodyClasses = editor.getBody().className || '',
@@ -504,9 +504,9 @@ window.wp = window.wp || {};
 				setTimeout( function() {
 					var iframe, iframeDoc, observer, i;
 
-					content.innerHTML = '';
+					contentNode.innerHTML = '';
 
-					iframe = dom.add( content, 'iframe', {
+					iframe = dom.add( contentNode, 'iframe', {
 						/* jshint scripturl: true */
 						src: tinymce.Env.ie ? 'javascript:""' : '',
 						frameBorder: '0',
@@ -519,7 +519,7 @@ window.wp = window.wp || {};
 						}
 					} );
 
-					dom.add( content, 'div', { 'class': 'wpview-overlay' } );
+					dom.add( contentNode, 'div', { 'class': 'wpview-overlay' } );
 
 					iframeDoc = iframe.contentWindow.document;
 
@@ -603,7 +603,7 @@ window.wp = window.wp || {};
 						editor.off( 'wp-body-class-change', classChange );
 					} );
 
-					callback && callback.call( self, editor, node );
+					callback && callback.call( self, editor, node, contentNode );
 				}, 50 );
 			}, rendered );
 		},
