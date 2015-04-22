@@ -235,7 +235,7 @@ window.wp = window.wp || {};
 		wp.updates.updateLock = false;
 
 		$(document).trigger( 'wp-plugin-update-success', response );
-		
+
 		wp.updates.queueChecker();
 	};
 
@@ -373,7 +373,7 @@ window.wp = window.wp || {};
 		$( 'body' ).addClass( 'modal-open' );
 		$modal.show();
 
-		$modal.find( '#hostname' ).focus();
+		$modal.find( 'input:enabled:first' ).focus();
 		$modal.keydown( wp.updates.keydown );
 	};
 
