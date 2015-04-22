@@ -502,7 +502,8 @@ function wp_prepare_themes_for_js( $themes = null ) {
 	 * @param array $prepared_themes Array of themes.
 	 */
 	$prepared_themes = apply_filters( 'wp_prepare_themes_for_js', $prepared_themes );
-	return array_values( $prepared_themes );
+	$prepared_themes = array_values( $prepared_themes );
+	return array_filter( $prepared_themes );
 }
 
 /**
