@@ -259,6 +259,10 @@
 	box-shadow: inset 0 1px 1px rgba(0,0,0,0.5);
 }
 
+.theme-browser .customize-control .theme.active .theme-name {
+	padding-left: 15px;
+}
+
 .theme-browser .theme.active .theme-name span {
 	font-weight: 600;
 }

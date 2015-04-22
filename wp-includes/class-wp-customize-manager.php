@@ -1198,13 +1198,27 @@ final class WP_Customize_Manager {
 		require_once( ABSPATH . 'wp-admin/includes/theme.php' );
 
 		// Theme Controls.
+
+		// Add a control for the active/original theme.
+		if ( ! $this->is_theme_active() ) {
+			$themes = wp_prepare_themes_for_js( array( wp_get_theme( $this->original_stylesheet ) ) );
+			$active_theme = current( $themes );
+			$active_theme['isActiveTheme'] = true;
+			$this->add_control( new WP_Customize_Theme_Control( $this, $active_theme['id'], array(
+				'theme'    => $active_theme,
+				'section'  => 'themes',
+				'settings' => 'active_theme',
+			) ) );
+		}
+
 		$themes = wp_prepare_themes_for_js();
 		foreach ( $themes as $theme ) {
-			if ( $theme['active'] ) {
+			if ( $theme['active'] || $theme['id'] === $this->original_stylesheet ) {
 				continue;
 			}
 
 			$theme_id = 'theme_' . $theme['id'];
+			$theme['isActiveTheme'] = false;
 			$this->add_control( new WP_Customize_Theme_Control( $this, $theme_id, array(
 				'theme'    => $theme,
 				'section'  => 'themes',

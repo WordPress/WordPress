@@ -1089,6 +1089,10 @@ body.cheatin p {
 	.wp-customizer .theme:not(.active):focus .theme-actions {
 		display: block;
 	}
+
+	.wp-customizer .theme-browser .theme.active .theme-name span {
+		display: inline;
+	}
 }
 
 @media screen and ( max-width: 640px ) {
