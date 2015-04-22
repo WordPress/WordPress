@@ -103,7 +103,7 @@
 }
 
 .about-wrap h3 {
-	margin: 2em 0 .6em;
+	margin: 1.25em 0 .6em;
 	font-size: 1.25em;
 	line-height: 1.5em;
 }
@@ -147,7 +147,7 @@
 	float: left;
 }
 
-.about-wrap .col .last-feature {
+.about-wrap [class$=col] .last-feature {
 	margin-right: 0;
 }
 
@@ -173,10 +173,15 @@
 /* 2.1 - Typography */
 
 .about-wrap .headline-feature h2 {
-	margin: 1.1em 0 0.2em;
-	font-size: 2.4em;
+	margin: 50px 0 30px;
+	font-size: 2.2em;
 	font-weight: 300;
 	line-height: 1.3;
+	text-align: left;
+}
+
+.about-wrap .headline-feature h3 {
+	margin-top: 30px;
 	text-align: center;
 }
 
@@ -185,26 +190,26 @@
 	text-align: center;
 }
 
-.about-wrap .dfw h3 {
-	margin-top: 1em;
-	text-align: center;
-}
-
 .about-wrap .feature-section h4 {
 	margin: 1.4em 0 0.6em 0;
-	font-size: 1.2em;
+	font-size: 1em;
 }
 
 .about-wrap .feature-section p {
 	margin-top: 0.6em;
 }
 
-.about-wrap .dfw p {
-	max-width: 68%;
-	margin: 0 auto 20px;
+/* 2.2 - Structure */
+
+.about-wrap .feature-video {
+	margin: 40px 0;
+	width: 100%;
+	text-align: center;
 }
 
-/* 2.2 - Structure */
+.about-wrap .feature-video .wp-video {
+	margin: 0 auto;
+}
 
 .about-wrap .featured-image {
 	text-align: center;
@@ -212,72 +217,33 @@
 
 .about-wrap .feature-section {
 	overflow: hidden;
-	padding-bottom: 20px;
+	padding: 0 0 40px;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .about-wrap .headline-feature .feature-section {
 	margin: 0 auto;
-	max-width: 82%;
+	max-width: 95%;
 }
 
-.about-wrap .headline-feature .feature-section .col:first-child {
+.about-wrap .feature-section .col:nth-of-type(odd) {
 	float: left;
-	margin: 15px 5% 0 0;
-	width: 55%;
+	margin: 40px 5% 0 0;
+	width: 48%;
 }
 
-.about-wrap .headline-feature .feature-section .col:last-child {
+.about-wrap .feature-section .col:nth-of-type(even) {
 	float: right;
-	margin: 15px 0 40px;
-	width: 40%;
+	margin: 40px 0 0;
+	width: 46%;
 }
 
-.about-wrap .feature-list .feature-section {
-	margin-top: 0;
+.about-wrap .changelog {
+	margin-bottom: 40px;
 }
 
-.about-wrap .dfw .feature-section {
-	overflow: visible;
-}
-
-.about-wrap .dfw-container {
-	position: relative;
-	overflow: hidden;
-	margin-top: 50px;
-	-webkit-box-shadow: 0 0 10px rgba( 0, 0, 0, 0.25 );
-	box-shadow: 0 0 10px rgba( 0, 0, 0, 0.25 );
-}
-
-.about-wrap .dfw-container .overlay-image {
-	position: absolute;
-	top: 0;
-	left: 0;
-	/* Cubic Bezier to speed up the slide-out of the full-width sidebar image */
-	-webkit-transition: 0.8s -webkit-transform cubic-bezier(.9,.03,1,.61),
-	            0.65s opacity linear;
-	transition: 0.8s transform cubic-bezier(.9,.03,1,.61),
-	            0.65s opacity linear;
-}
-
-.about-wrap .dfw-container .overlay-image.fade-in {
-	opacity: 0;
-}
-
-/* rtl:ignore */
-.about-wrap .dfw-container .overlay-image.from-left {
-	-webkit-transform: translate3d(-100%, 0, 0);
-	transform: translate3d(-100%, 0, 0);
-}
-
-.about-wrap .dfw-container:hover .overlay-image {
-	opacity: 1;
-	-webkit-transform: translate3d(0, 0, 0);
-	transform: translate3d(0, 0, 0);
-	/* Cubic Bezier to speed up the slide-in of the full-width sidebar image */
-	-webkit-transition: 0.7s -webkit-transform cubic-bezier( 0, 0.8, 0.8, 1 ),
-	            0.8s opacity linear;
-	transition: 0.7s transform cubic-bezier( 0, 0.8, 0.8, 1 ),
-	            0.8s opacity linear;
+.about-wrap .changelog.feature-section > div {
+	margin-top: 40px;
 }
 
 /* Return to Dashboard Home link */
@@ -291,20 +257,6 @@
 .about-wrap .return-to-dashboard a {
 	text-decoration: none;
 	padding: 0 5px;
-}
-
-/* SVGs */
-.about-wrap .feature-list svg {
-	float: left;
-	clear: left;
-	margin: 15px 15px 0 0;
-	height: 90px;
-	width: 90px;
-	background-color: #cccccc;
-	-webkit-border-radius: 50%;
-	border-radius: 50%;
-	fill: #999;
-	border: 1px solid #c1c1c1;
 }
 
 .about-wrap .feature-list.finer-points h4,
@@ -400,17 +352,31 @@
 ------------------------------------------------------------------------------*/
 
 @media screen and ( max-width: 782px ) {
+	.about-wrap .feature-section {
+		padding: 0;
+		border-bottom: none;
+	}
+
 	.about-wrap .one-col > div,
 	.about-wrap .two-col > div,
-	.about-wrap .three-col > div {
+	.about-wrap .three-col > div,
+	.about-wrap .two-col .col:nth-of-type(n) {
 		width: 100%;
-		margin: 0 0 40px;
+		margin: 40px 0 0;
 		padding: 0 0 40px;
 		border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 	}
 
-	.about-wrap .feature-list div,
-	.about-wrap .col > div.last-feature {
+	.about-wrap .two-col .col h3 {
+		margin-top: 0;
+	}
+
+	.about-wrap .three-col img {
+		display: block;
+		margin: 0 auto;
+	}
+
+	.about-wrap .feature-list div {
 		margin: 0;
 		padding: 0;
 		border-bottom: none;
