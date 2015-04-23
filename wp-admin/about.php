@@ -22,7 +22,6 @@ list( $display_version ) = explode( '-', $wp_version );
 
 include( ABSPATH . 'wp-admin/admin-header.php' );
 ?>
-<!--[if lt IE 9]><script>document.createElement('audio');document.createElement('video');</script><![endif]-->
 <div class="wrap about-wrap">
 
 <h1><?php printf( __( 'Welcome to WordPress&nbsp;%s' ), $display_version ); ?></h1>
@@ -42,15 +41,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 </h2>
 
 <div class="headline-feature feature-video">
-	<?php
-		// echo wp_video_shortcode( array(
-		// 	// 'mp4'      => '//s.w.org/images/core/3.9/widgets.mp4',
-		// 	'ogv'      => '//videos.files.wordpress.com/bUdzKMro/wordpress-4-0_fmt1.ogv',
-		// 	// 'webm'     => '//s.w.org/images/core/3.9/widgets.webm',
-		// 	'loop'     => false,
-		// ) );
-	?>
-	<embed type="application/x-shockwave-flash" src="https://v0.wordpress.com/player.swf?v=1.04" width="1000" height="560" wmode="direct" seamlesstabbing="true" allowfullscreen="true" allowscriptaccess="always" overstretch="true" flashvars="guid=bUdzKMro&amp;isDynamicSeeking=true"></embed>
+	<embed type="application/x-shockwave-flash" src="https://v0.wordpress.com/player.swf?v=1.04" width="1000" height="560" wmode="direct" seamlesstabbing="true" allowfullscreen="true" allowscriptaccess="always" overstretch="true" flashvars="guid=e9kH4FzP&amp;isDynamicSeeking=true"></embed>
 </div>
 
 <hr />
@@ -67,13 +58,13 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 	</div>
 
 	<div class="col">
-		<img src="https://cldup.com/xMJ2QCxvcz.jpg" />
+		<img src="//s.w.org/images/core/4.2/press-this.jpg" />
 	</div>
 </div>
 
 <div class="feature-section two-col">
 	<div class="col">
-		<img src="https://cldup.com/q-2svtgKe1.jpg" />
+		<img src="//s.w.org/images/core/4.2/unicode.png" />
 	</div>
 	<div class="col">
 		<h3><?php _e( 'Extended character support' ); ?></h3>
@@ -87,17 +78,17 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 
 <div class="changelog feature-section three-col">
 	<div>
-		<img src="https://cldup.com/LKcPHn8rdr.png" />
+		<img src="//s.w.org/images/core/4.2/theme-switcher.png" />
 		<h3><?php _e( 'Switch themes in the Customizer' ); ?></h3>
 		<p><?php _e( 'Browse and preview your installed themes from the Customizer. Make sure the theme looks great with <em>your</em> content, before it debuts on your site. ' ); ?></p>
 	</div>
 	<div>
-		<img src="https://cldup.com/h0VOskQA1C.png" />
+		<img src="//s.w.org/images/core/4.2/embeds.png" />
 		<h3><?php _e( 'Even more embeds' ); ?></h3>
 		<p><?php _e( 'Paste links from Tumblr.com and Kickstarter and watch them magically appear right in the editor. With every release, your publishing and editing experience get closer together.' ); ?></p>
 	</div>
 	<div class="last-feature">
-		<img src="https://cldup.com/1_8tBZpvva.png" />
+		<img src="//s.w.org/images/core/4.2/plugins.png" />
 		<h3><?php _e( 'Streamlined plugin updates' ); ?></h3>
 		<p><?php _e( 'Goodbye boring loading screen, hello smooth and simple plugin updates. Click <em>Update&nbsp;Now</em> and watch the magic happen.' ); ?></p>
 	</div>
@@ -121,7 +112,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 			<h4><?php _e( 'Shared term splitting' ); ?></h4>
 			<p><?php
 				/* translators: 1: Term splitting guide link */
-				printf( __( 'Terms shared across multiple taxonomies will be split when one of them is updated. Find out more in the <a href="%1$s">Plugin Developer Handbook.</a>' ), 'https://developer.wordpress.org/plugins/taxonomy/working-with-split-terms-in-wp-4-2/' );
+				printf( __( 'Terms shared across multiple taxonomies will be split when one of them is updated. Find out more in the <a href="%1$s">Plugin Developer Handbook</a>.' ), 'https://developer.wordpress.org/plugins/taxonomy/working-with-split-terms-in-wp-4-2/' );
 			?></p>
 
 			<h4><?php _e( 'Complex query ordering' ); ?></h4>

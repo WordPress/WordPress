@@ -202,13 +202,20 @@
 /* 2.2 - Structure */
 
 .about-wrap .feature-video {
+	position: relative;
 	margin: 40px 0;
+	padding-bottom: 56.25%; /* video is 1280 x 720 */
 	width: 100%;
+	height: 0;
 	text-align: center;
 }
 
-.about-wrap .feature-video .wp-video {
-	margin: 0 auto;
+.about-wrap .feature-video embed {
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 100%;
+	height: 100%;
 }
 
 .about-wrap .featured-image {
