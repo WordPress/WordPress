@@ -2516,6 +2516,7 @@ class wpdb {
 
 					// Split the CONVERT() calls by charset, so we can make sure the connection is right
 					$queries[ $value['charset'] ][ $col ] = $this->prepare( "CONVERT( %s USING {$value['charset']} )", $value['value'] );
+					unset( $data[ $col ]['db'] );
 				}
 			}
 
