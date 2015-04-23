@@ -1,14 +1,14 @@
-# Copyright (C) 2014 the WordPress team
+# Copyright (C) 2015 the WordPress team
 # This file is distributed under the GNU General Public License v2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Twenty Ten 1.8\n"
-"Report-Msgid-Bugs-To: http://wordpress.org/tags/twentyten\n"
-"POT-Creation-Date: 2014-12-18 16:59:46+00:00\n"
+"Project-Id-Version: Twenty Ten 1.9\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/support/theme/twentyten\n"
+"POT-Creation-Date: 2015-04-23 15:11:25+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2014-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2015-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 
@@ -83,8 +83,6 @@ msgstr ""
 msgid "Comments are closed."
 msgstr ""
 
-#. #-#-#-#-#  twentyten.pot (Twenty Ten 1.8)  #-#-#-#-#
-#. Author URI of the plugin/theme
 #: footer.php:40
 msgid "http://wordpress.org/"
 msgstr ""
@@ -385,7 +383,7 @@ msgid "Twenty Ten"
 msgstr ""
 
 #. Theme URI of the plugin/theme
-msgid "http://wordpress.org/themes/twentyten"
+msgid "https://wordpress.org/themes/twentyten/"
 msgstr ""
 
 #. Description of the plugin/theme
@@ -402,6 +400,10 @@ msgstr ""
 
 #. Author of the plugin/theme
 msgid "the WordPress team"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "https://wordpress.org/"
 msgstr ""
 
 #. Template Name of the plugin/theme

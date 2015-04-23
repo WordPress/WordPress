@@ -1,14 +1,14 @@
-# Copyright (C) 2014 the WordPress team
+# Copyright (C) 2015 the WordPress team
 # This file is distributed under the GNU General Public License v2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Twenty Twelve 1.6\n"
-"Report-Msgid-Bugs-To: http://wordpress.org/tags/twentytwelve\n"
-"POT-Creation-Date: 2014-12-18 16:59:49+00:00\n"
+"Project-Id-Version: Twenty Twelve 1.7\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/support/theme/twentytwelve\n"
+"POT-Creation-Date: 2015-04-23 15:11:25+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2014-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2015-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 
@@ -109,7 +109,7 @@ msgstr ""
 
 #: content-aside.php:26 content-image.php:26 content-link.php:24
 #: content-page.php:24 content-quote.php:23 content-status.php:40
-#: content.php:51 functions.php:345 image.php:37
+#: content.php:51 functions.php:343 image.php:37
 msgid "Edit"
 msgstr ""
 
@@ -139,8 +139,6 @@ msgstr ""
 msgid "View all posts by %s <span class=\"meta-nav\">&rarr;</span>"
 msgstr ""
 
-#. #-#-#-#-#  twentytwelve.pot (Twenty Twelve 1.6)  #-#-#-#-#
-#. Author URI of the plugin/theme
 #: footer.php:16
 msgid "http://wordpress.org/"
 msgstr ""
@@ -158,7 +156,7 @@ msgid "Primary Menu"
 msgstr ""
 
 #. translators: If there are characters in your language that are not supported
-#. 	 * by Open Sans, translate this to 'off'. Do not translate into your own
+#. by Open Sans, translate this to 'off'. Do not translate into your own
 #. language.
 #: functions.php:101
 msgctxt "Open Sans font: on or off"
@@ -166,9 +164,8 @@ msgid "on"
 msgstr ""
 
 #. translators: To add an additional Open Sans character subset specific to
-#. your language,
-#. 		 * translate this to 'greek', 'cyrillic' or 'vietnamese'. Do not translate
-#. into your own language.
+#. your language, translate this to 'greek', 'cyrillic' or 'vietnamese'. Do not
+#. translate into your own language.
 #: functions.php:107
 msgctxt "Open Sans font: add new subset (greek, cyrillic, vietnamese)"
 msgid "no-subset"
@@ -202,67 +199,67 @@ msgstr ""
 msgid "Second Front Page Widget Area"
 msgstr ""
 
-#: functions.php:286 single.php:20
+#: functions.php:284 single.php:20
 msgid "Post navigation"
 msgstr ""
 
-#: functions.php:287
+#: functions.php:285
 msgid "<span class=\"meta-nav\">&larr;</span> Older posts"
 msgstr ""
 
-#: functions.php:288
+#: functions.php:286
 msgid "Newer posts <span class=\"meta-nav\">&rarr;</span>"
 msgstr ""
 
-#: functions.php:313
+#: functions.php:311
 msgid "Pingback:"
 msgstr ""
 
-#: functions.php:313
+#: functions.php:311
 msgid "(Edit)"
 msgstr ""
 
-#: functions.php:328
+#: functions.php:326
 msgid "Post author"
 msgstr ""
 
 #. translators: 1: date, 2: time
-#: functions.php:334
+#: functions.php:332
 msgid "%1$s at %2$s"
 msgstr ""
 
-#: functions.php:340
+#: functions.php:338
 msgid "Your comment is awaiting moderation."
 msgstr ""
 
-#: functions.php:349
+#: functions.php:347
 msgid "Reply"
 msgstr ""
 
 #. Translators: used between list items, there is a space after the comma.
-#: functions.php:370 functions.php:373
+#: functions.php:368 functions.php:371
 msgid ", "
 msgstr ""
 
-#: functions.php:384
+#: functions.php:382
 msgid "View all posts by %s"
 msgstr ""
 
 #. Translators: 1 is category, 2 is tag, 3 is the date and 4 is the author's
 #. name.
-#: functions.php:390
+#: functions.php:388
 msgid ""
 "This entry was posted in %1$s and tagged %2$s on %3$s<span class=\"by-author"
 "\"> by %4$s</span>."
 msgstr ""
 
-#: functions.php:392
+#: functions.php:390
 msgid ""
 "This entry was posted in %1$s on %3$s<span class=\"by-author\"> by %4$s</"
 "span>."
 msgstr ""
 
-#: functions.php:394
+#: functions.php:392
 msgid "This entry was posted on %3$s<span class=\"by-author\"> by %4$s</span>."
 msgstr ""
 
@@ -328,7 +325,7 @@ msgid "Twenty Twelve"
 msgstr ""
 
 #. Theme URI of the plugin/theme
-msgid "http://wordpress.org/themes/twentytwelve"
+msgid "https://wordpress.org/themes/twentytwelve/"
 msgstr ""
 
 #. Description of the plugin/theme
@@ -342,6 +339,10 @@ msgstr ""
 
 #. Author of the plugin/theme
 msgid "the WordPress team"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "https://wordpress.org/"
 msgstr ""
 
 #. Template Name of the plugin/theme
