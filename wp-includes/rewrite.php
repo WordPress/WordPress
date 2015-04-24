@@ -243,14 +243,17 @@ define( 'EP_ALL', EP_PERMALINK | EP_ATTACHMENT | EP_ROOT | EP_COMMENTS | EP_SEAR
  * activated and deactivated.
  *
  * @since 2.1.0
+ * @since 4.3.0 Added support for skipping query var registration by passing `false` to `$query_var`.
+ *
  * @see WP_Rewrite::add_endpoint()
  * @global object $wp_rewrite
  *
- * @param string $name Name of the endpoint.
- * @param int $places Endpoint mask describing the places the endpoint should be added.
- * @param string $query_var Name of the corresponding query variable. Defaults to $name.
+ * @param string      $name      Name of the endpoint.
+ * @param int         $places    Endpoint mask describing the places the endpoint should be added.
+ * @param string|bool $query_var Name of the corresponding query variable. Pass `false` to skip registering a query_var
+ *                               for this endpoint. Defaults to the value of `$name`.
  */
-function add_rewrite_endpoint( $name, $places, $query_var = null ) {
+function add_rewrite_endpoint( $name, $places, $query_var = true ) {
 	global $wp_rewrite;
 	$wp_rewrite->add_endpoint( $name, $places, $query_var );
 }
@@ -1959,22 +1962,29 @@ class WP_Rewrite {
 	 *
 	 * @since 2.1.0
 	 * @since 3.9.0 $query_var parameter added.
+	 * @since 4.3.0 Added support for skipping query var registration by passing `false` to `$query_var`.
 	 * @access public
 	 *
 	 * @see add_rewrite_endpoint() for full documentation.
 	 * @uses WP::add_query_var()
 	 *
-	 * @param string $name      Name of the endpoint.
-	 * @param int    $places    Endpoint mask describing the places the endpoint should be added.
-	 * @param string $query_var Name of the corresponding query variable. Default is value of $name.
+	 * @param string      $name      Name of the endpoint.
+	 * @param int         $places    Endpoint mask describing the places the endpoint should be added.
+	 * @param string|bool $query_var Name of the corresponding query variable. Pass `false` to skip registering
+	 *                               a query_var for this endpoint. Defaults to the value of `$name`.
 	 */
-	public function add_endpoint( $name, $places, $query_var = null ) {
+	public function add_endpoint( $name, $places, $query_var = true ) {
 		global $wp;
-		if ( null === $query_var ) {
+
+		// For backward compatibility, if `null` has explicitly been passed as `$query_var`, assume `true`.
+		if ( true === $query_var || null === func_get_arg( 2 ) ) {
 			$query_var = $name;
 		}
 		$this->endpoints[] = array( $places, $name, $query_var );
-		$wp->add_query_var( $query_var );
+
+		if ( $query_var ) {
+			$wp->add_query_var( $query_var );
+		}
 	}
 
 	/**
