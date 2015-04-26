@@ -2928,10 +2928,10 @@ function wp_insert_term( $term, $taxonomy, $args = array() ) {
 				}
 
 				if ( $existing_term ) {
-					return new WP_Error( 'term_exists', __( 'A term with the name already exists with this parent.' ), $existing_term->term_id );
+					return new WP_Error( 'term_exists', __( 'A term with the name provided already exists with this parent.' ), $existing_term->term_id );
 				}
 			} else {
-				return new WP_Error( 'term_exists', __( 'A term with the name already exists in this taxonomy.' ), $name_match->term_id );
+				return new WP_Error( 'term_exists', __( 'A term with the name provided already exists in this taxonomy.' ), $name_match->term_id );
 			}
 		}
 	}
