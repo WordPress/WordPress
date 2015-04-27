@@ -1460,7 +1460,7 @@ function upgrade_430() {
 		);
 
 		foreach ( $comments as $comment ) {
-			wp_delete_comment( $comment->comment_ID );
+			wp_delete_comment( $comment->comment_ID, true );
 		}
 	}
 }
