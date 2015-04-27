@@ -2064,7 +2064,7 @@ class wpdb {
 				}
 			}
 
-			if ( false !== $value['length'] && strlen( $value['value'] ) > $value['length'] ) {
+			if ( false !== $value['length'] && mb_strlen( $value['value'] ) > $value['length'] ) {
 				return false;
 			}
 
