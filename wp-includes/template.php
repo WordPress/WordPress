@@ -494,12 +494,18 @@ function locate_template($template_names, $load = false, $require_once = true ) 
 function load_template( $_template_file, $require_once = true ) {
 	global $posts, $post, $wp_did_header, $wp_query, $wp_rewrite, $wpdb, $wp_version, $wp, $id, $comment, $user_ID;
 
-	if ( is_array( $wp_query->query_vars ) )
+	if ( is_array( $wp_query->query_vars ) ) {
 		extract( $wp_query->query_vars, EXTR_SKIP );
+	}
 
-	if ( $require_once )
+	if ( isset( $s ) ) {
+		$s = esc_attr( $s );
+	}
+
+	if ( $require_once ) {
 		require_once( $_template_file );
-	else
+	} else {
 		require( $_template_file );
+	}
 }
 
