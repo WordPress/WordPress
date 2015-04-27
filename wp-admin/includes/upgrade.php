@@ -527,6 +527,9 @@ function upgrade_all() {
 	if ( $wp_current_db_version < 31351 )
 		upgrade_420();
 
+	if ( $wp_current_db_version < 31533 )
+		upgrade_421();
+
 	maybe_disable_link_manager();
 
 	maybe_disable_automattic_widgets();
@@ -1431,6 +1434,33 @@ function upgrade_420() {
 
 		foreach ( $tables as $table ) {
 			maybe_convert_table_to_utf8mb4( $table );
+		}
+	}
+}
+
+/**
+ * Execute changes made in WordPress 4.2.1.
+ *
+ * @since 4.2.1
+ */
+function upgrade_421() {
+	global $wp_current_db_version, $wpdb;
+
+	if ( $wp_current_db_version < 31533 ) {
+		$content_length = $wpdb->get_col_length( $wpdb->comments, 'comment_content' );
+		if ( ! $content_length ) {
+			$content_length = 65535;
+		}
+
+		$comments = $wpdb->get_results(
+			"SELECT comment_ID FROM $wpdb->comments
+			WHERE comment_date_gmt > '2015-04-26'
+			AND CHAR_LENGTH( comment_content ) >= $content_length
+			AND ( comment_content LIKE '%<%' OR comment_content LIKE '%>%' )"
+		);
+
+		foreach ( $comments as $comment ) {
+			wp_delete_comment( $comment->comment_ID, true );
 		}
 	}
 }

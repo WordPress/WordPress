@@ -40,6 +40,14 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 	</a>
 </h2>
 
+<div class="changelog point-releases">
+	<h3><?php echo _n( 'Security Release', 'Security Releases', 1 ); ?></h3>
+	<p><?php printf( _n( '<strong>Version %1$s</strong> addressed a security issue.',
+         '<strong>Version %1$s</strong> addressed some security issues.', 1 ), '4.2.1' ); ?>
+		<?php printf( __( 'For more information, see <a href="%s">the release notes</a>.' ), 'http://codex.wordpress.org/Version_4.2.1' ); ?>
+ 	</p>
+</div>
+
 <div class="headline-feature feature-video">
 	<embed type="application/x-shockwave-flash" src="https://v0.wordpress.com/player.swf?v=1.04" width="1000" height="560" wmode="direct" seamlesstabbing="true" allowfullscreen="true" allowscriptaccess="always" overstretch="true" flashvars="guid=e9kH4FzP&amp;isDynamicSeeking=true"></embed>
 </div>
