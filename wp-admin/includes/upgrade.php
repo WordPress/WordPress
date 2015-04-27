@@ -528,7 +528,7 @@ function upgrade_all() {
 		upgrade_420();
 
 	if ( $wp_current_db_version < 32308 )
-		upgrade_421();
+		upgrade_430();
 
 	maybe_disable_link_manager();
 
@@ -1439,11 +1439,11 @@ function upgrade_420() {
 }
 
 /**
- * Execute changes made in WordPress 4.2.1.
+ * Execute changes made in WordPress 4.3.0.
  *
- * @since 4.2.1
+ * @since 4.3.0
  */
-function upgrade_421() {
+function upgrade_430() {
 	global $wp_current_db_version, $wpdb;
 
 	if ( $wp_current_db_version < 32308 ) {
@@ -1460,7 +1460,7 @@ function upgrade_421() {
 		);
 
 		foreach ( $comments as $comment ) {
-			wp_delete_comment( $comments->comment_ID );
+			wp_delete_comment( $comment->comment_ID );
 		}
 	}
 }
