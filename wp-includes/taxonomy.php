@@ -3968,7 +3968,7 @@ function _get_term_children( $term_id, $terms, $taxonomy, &$ancestors = array() 
 			if ( !isset($has_children[$term->term_id]) )
 				continue;
 
-			$ancestors[ $term->term_id ] = 1;;
+			$ancestors[ $term->term_id ] = 1;
 
 			if ( $children = _get_term_children( $term->term_id, $terms, $taxonomy, $ancestors) )
 				$term_list = array_merge($term_list, $children);
