@@ -3926,7 +3926,7 @@ function _get_term_hierarchy($taxonomy) {
  * @param string $taxonomy  The taxonomy which determines the hierarchy of the terms.
  * @param array  $ancestors Term ancestors that have already been identified. Passed by reference, to keep track of
  *                          found terms when recursing the hierarchy. The array of located ancestors is used to prevent
- *                          infinite recursion loops.
+ *                          infinite recursion loops. For performance, term_ids are used as array keys, with 1 as value.
  * @return array The subset of $terms that are descendants of $term_id.
  */
 function _get_term_children( $term_id, $terms, $taxonomy, &$ancestors = array() ) {
@@ -3942,7 +3942,7 @@ function _get_term_children( $term_id, $terms, $taxonomy, &$ancestors = array() 
 
 	// Include the term itself in the ancestors array, so we can properly detect when a loop has occurred.
 	if ( empty( $ancestors ) ) {
-		$ancestors[] = $term_id;
+		$ancestors[ $term_id ] = 1;
 	}
 
 	foreach ( (array) $terms as $term ) {
@@ -3955,7 +3955,7 @@ function _get_term_children( $term_id, $terms, $taxonomy, &$ancestors = array() 
 		}
 
 		// Don't recurse if we've already identified the term as a child - this indicates a loop.
-		if ( in_array( $term->term_id, $ancestors ) ) {
+		if ( isset( $ancestors[ $term->term_id ] ) ) {
 			continue;
 		}
 
@@ -3968,11 +3968,7 @@ function _get_term_children( $term_id, $terms, $taxonomy, &$ancestors = array() 
 			if ( !isset($has_children[$term->term_id]) )
 				continue;
 
-			if ( $use_id ) {
-				$ancestors = array_merge( $ancestors, $term_list );
-			} else {
-				$ancestors = array_merge( $ancestors, wp_list_pluck( $term_list, 'term_id' ) );
-			}
+			$ancestors[ $term->term_id ] = 1;;
 
 			if ( $children = _get_term_children( $term->term_id, $terms, $taxonomy, $ancestors) )
 				$term_list = array_merge($term_list, $children);
