@@ -1331,7 +1331,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 		$post_formats = get_theme_support( 'post-formats' );
 
 		?>
-		<label class="alignleft" for="post_format">
+		<label class="alignleft">
 		<span class="title"><?php _ex( 'Format', 'post format' ); ?></span>
 		<select name="post_format">
 			<option value="-1"><?php _e( '&mdash; No Change &mdash;' ); ?></option>
