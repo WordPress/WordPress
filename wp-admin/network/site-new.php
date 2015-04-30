@@ -156,7 +156,7 @@ if ( ! empty( $messages ) ) {
 			<td><input name="blog[title]" type="text" class="regular-text" id="site-title" /></td>
 		</tr>
 		<tr class="form-field form-required">
-			<th scope="row"><label for="admin-email"><?php _e( 'Admin Email' ) ?></label></td>
+			<th scope="row"><label for="admin-email"><?php _e( 'Admin Email' ) ?></label></th>
 			<td><input name="blog[email]" type="email" class="regular-text wp-suggest-user" id="admin-email" data-autocomplete-type="search" data-autocomplete-field="user_email" /></td>
 		</tr>
 		<tr class="form-field">
