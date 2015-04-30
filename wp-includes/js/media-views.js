@@ -4554,15 +4554,23 @@ EmbedLink = wp.media.view.Settings.extend({
 	}, 600 ),
 
 	fetch: function() {
+		var embed;
+
 		// check if they haven't typed in 500 ms
 		if ( $('#embed-url-field').val() !== this.model.get('url') ) {
 			return;
 		}
 
+		embed = new wp.shortcode({
+			tag: 'embed',
+			attrs: _.pick( this.model.attributes, [ 'width', 'height', 'src' ] ),
+			content: this.model.get('url')
+		});
+
 		wp.ajax.send( 'parse-embed', {
 			data : {
 				post_ID: wp.media.view.settings.post.id,
-				shortcode: '[embed]' + this.model.get('url') + '[/embed]'
+				shortcode: embed.string()
 			}
 		} )
 			.done( _.bind( this.renderoEmbed, this ) )
