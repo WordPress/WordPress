@@ -267,7 +267,7 @@ class Custom_Image_Header {
 		if ( 1 < count( $headers ) ) {
 			echo '<div class="random-header">';
 			echo '<label><input name="default-header" type="radio" value="random-' . $type . '-image"' . checked( is_random_header_image( $type ), true, false ) . ' />';
-			echo __( '<strong>Random:</strong> Show a different image on each page.' );
+			_e( '<strong>Random:</strong> Show a different image on each page.' );
 			echo '</label>';
 			echo '</div>';
 		}

@@ -150,7 +150,7 @@ do_action( 'customize_controls_print_scripts' );
 					?></span>
 				</div>
 				<div class="accordion-section-content"><?php
-					echo __( 'The Customizer allows you to preview changes to your site before publishing them. You can also navigate to different pages on your site to preview them.' );
+					_e( 'The Customizer allows you to preview changes to your site before publishing them. You can also navigate to different pages on your site to preview them.' );
 				?></div>
 			</div>
 

@@ -1304,7 +1304,7 @@ function comments_popup_link( $zero = false, $one = false, $more = false, $css_c
 	}
 
 	if ( post_password_required() ) {
-		echo __('Enter your password to view comments.');
+		_e( 'Enter your password to view comments.' );
 		return;
 	}
 
