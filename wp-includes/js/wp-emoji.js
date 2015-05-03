@@ -70,7 +70,7 @@
 								node = node.parentNode;
 							}
 
-							if ( node && node.nodeType === 1 ) {
+							if ( node && node.nodeType === 1 && test( node.textContent ) ) {
 								parse( node );
 							}
 						}
@@ -82,6 +82,22 @@
 			}
 
 			parse( document.body );
+		}
+
+		/**
+		 * Test if a text string contains emoji characters
+		 *
+		 * @since 4.3.0
+		 *
+		 * @param {String} text The string to test
+		 * @returns Boolean
+		 */
+		function test( text ) {
+			if ( text && twemoji ) {
+				return twemoji.test( text );
+			}
+
+			return false;
 		}
 
 		/**
@@ -144,7 +160,8 @@
 
 		return {
 			replaceEmoji: replaceEmoji,
-			parse: parse
+			parse: parse,
+			test: test
 		};
 	}
 
