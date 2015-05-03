@@ -70,7 +70,11 @@
 								node = node.parentNode;
 							}
 
-							if ( node && node.nodeType === 1 && test( node.textContent ) ) {
+							if ( ! node || ( node.className && node.className.indexOf( 'wp-no-emoji' ) !== -1 ) ) {
+								continue;
+							}
+
+							if ( node.nodeType === 1 && test( node.textContent ) ) {
 								parse( node );
 							}
 						}
