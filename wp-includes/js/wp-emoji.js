@@ -70,7 +70,7 @@
 								node = node.parentNode;
 							}
 
-							if ( ! node || ( node.className && node.className.indexOf( 'wp-no-emoji' ) !== -1 ) ) {
+							if ( ! node || ( node.className && node.className.indexOf( 'wp-exclude-emoji' ) !== -1 ) ) {
 								continue;
 							}
 
