@@ -944,6 +944,7 @@ function is_uninstallable_plugin($plugin) {
  * @since 2.7.0
  *
  * @param string $plugin Relative plugin path from Plugin Directory.
+ * @return true True if a plugin's uninstall.php file has been found and included.
  */
 function uninstall_plugin($plugin) {
 	$file = plugin_basename($plugin);
