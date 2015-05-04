@@ -728,6 +728,8 @@ function mu_dropdown_languages( $lang_files = array(), $current = '' ) {
  * @since 3.0.0
  *
  * @global int $wp_db_version The version number of the database.
+ *
+ * @return false False if the current user is not a super admin.
  */
 function site_admin_notice() {
 	global $wp_db_version;
