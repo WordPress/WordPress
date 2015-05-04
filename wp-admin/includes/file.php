@@ -823,12 +823,10 @@ function copy_dir($from, $to, $skip_list = array() ) {
  *
  * @since 2.5.0
  *
- * @param array  $args                         Optional. Connection args, These are passed directly to
- *                                             the `WP_Filesystem_*()` classes. Default false.
- * @param string $context                      Optional. Context for {@see get_filesystem_method()}.
- *                                             Default false.
- * @param bool   $allow_relaxed_file_ownership Optional. Whether to allow Group/World writable.
- *                                             Default false.
+ * @param array|false  $args                         Optional. Connection args, These are passed directly to
+ *                                                   the `WP_Filesystem_*()` classes. Default false.
+ * @param string|false $context                      Optional. Context for get_filesystem_method(). Default false.
+ * @param bool         $allow_relaxed_file_ownership Optional. Whether to allow Group/World writable. Default false.
  * @return null|boolean false on failure, true on success.
  */
 function WP_Filesystem( $args = false, $context = false, $allow_relaxed_file_ownership = false ) {
