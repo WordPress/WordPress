@@ -1857,13 +1857,12 @@ function get_terms( $taxonomies, $args = '' ) {
 	}
 
 	if ( ! empty( $args['name'] ) ) {
-		if ( is_array( $args['name'] ) ) {
-			$name = array_map( 'sanitize_text_field', $args['name'] );
-			$where .= " AND t.name IN ('" . implode( "', '", array_map( 'esc_sql', $name ) ) . "')";
-		} else {
-			$name = sanitize_text_field( $args['name'] );
-			$where .= $wpdb->prepare( " AND t.name = %s", $name );
+		$names = (array) $args['name'];
+		foreach ( $names as &$_name ) {
+			$_name = sanitize_term_field( 'name', $_name, 0, reset( $taxonomies ), 'db' );
 		}
+
+		$where .= " AND t.name IN ('" . implode( "', '", array_map( 'esc_sql', $names ) ) . "')";
 	}
 
 	if ( ! empty( $args['slug'] ) ) {
