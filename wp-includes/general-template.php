@@ -2659,12 +2659,21 @@ function paginate_links( $args = '' ) {
 	// Merge additional query vars found in the original URL into 'add_args' array.
 	if ( isset( $url_parts[1] ) ) {
 		// Find the format argument.
-		$format_query = parse_url( str_replace( '%_%', $args['format'], $args['base'] ), PHP_URL_QUERY );
-		wp_parse_str( $format_query, $format_arg );
+		$format = explode( '?', str_replace( '%_%', $args['format'], $args['base'] ) );
+		$format_query = isset( $format[1] ) ? $format[1] : '';
+		wp_parse_str( $format_query, $format_args );
+
+		// Find the query args of the requested URL.
+		wp_parse_str( $url_parts[1], $url_query_args );
 
 		// Remove the format argument from the array of query arguments, to avoid overwriting custom format.
-		wp_parse_str( remove_query_arg( array_keys( $format_arg ), $url_parts[1] ), $query_args );
-		$args['add_args'] = array_merge( $args['add_args'], urlencode_deep( $query_args ) );
+		foreach ( $format_args as $format_arg => $format_arg_value ) {
+			if ( isset( $url_query_args[ $format_arg ] ) ) {
+				unset( $url_query_args[ $format_arg ] );
+			}
+		}
+
+		$args['add_args'] = array_merge( $args['add_args'], urlencode_deep( $url_query_args ) );
 	}
 
 	// Who knows what else people pass in $args
