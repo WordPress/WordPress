@@ -987,13 +987,17 @@ final class WP_Theme implements ArrayAccess {
 	 * Scans a directory for files of a certain extension.
 	 *
 	 * @since 3.4.0
+	 * @static
 	 * @access private
 	 *
-	 * @param string $path Absolute path to search.
-	 * @param mixed  Array of extensions to find, string of a single extension, or null for all extensions.
-	 * @param int $depth How deep to search for files. Optional, defaults to a flat scan (0 depth). -1 depth is infinite.
-	 * @param string $relative_path The basename of the absolute path. Used to control the returned path
-	 * 	for the found files, particularly when this function recurses to lower depths.
+	 * @param string            $path          Absolute path to search.
+	 * @param array|string|null $extensions    Optional. Array of extensions to find, string of a single extension,
+	 *                                         or null for all extensions. Default null.
+	 * @param int               $depth         Optional. How many levels deep to search for files. Accepts 0, 1+, or
+	 *                                         -1 (infinite depth). Default 0.
+	 * @param string            $relative_path Optional. The basename of the absolute path. Used to control the
+	 *                                         returned path for the found files, particularly when this function
+	 *                                         recurses to lower depths. Default empty.
 	 */
 	private static function scandir( $path, $extensions = null, $depth = 0, $relative_path = '' ) {
 		if ( ! is_dir( $path ) )
