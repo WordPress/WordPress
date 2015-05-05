@@ -998,6 +998,8 @@ final class WP_Theme implements ArrayAccess {
 	 * @param string            $relative_path Optional. The basename of the absolute path. Used to control the
 	 *                                         returned path for the found files, particularly when this function
 	 *                                         recurses to lower depths. Default empty.
+	 * @return array|false Array of files, keyed by the path to the file relative to the `$path` directory prepended
+	 *                     with `$relative_path`, with the values being absolute paths. False otherwise.
 	 */
 	private static function scandir( $path, $extensions = null, $depth = 0, $relative_path = '' ) {
 		if ( ! is_dir( $path ) )
