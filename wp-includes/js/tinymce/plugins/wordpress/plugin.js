@@ -106,6 +106,10 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 					'<img src="' + tinymce.Env.transparentSrc + '" data-wp-more="nextpage" class="wp-more-tag mce-wp-nextpage" ' +
 						'title="' + title + '" data-mce-resize="false" data-mce-placeholder="1" />' );
 			}
+
+			if ( e.content.indexOf( '<?"' ) !== -1 ) {
+				e.content = e.content.replace( /<\?"/g, '' );
+			}
 		}
 	});
 
