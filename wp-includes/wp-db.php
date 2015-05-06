@@ -2501,7 +2501,7 @@ class wpdb {
 
 		// We don't need to check the collation for queries that don't read data.
 		$query = ltrim( $query, "\r\n\t (" );
-		if ( preg_match( '/^(?:SHOW|DESCRIBE|DESC|EXPLAIN)\s/i', $query ) ) {
+		if ( preg_match( '/^(?:SHOW|DESCRIBE|DESC|EXPLAIN|CREATE)\s/i', $query ) ) {
 			return true;
 		}
 
@@ -2712,6 +2712,12 @@ class wpdb {
 	 * @return string|WP_Error The converted query, or a {@see WP_Error} object if the conversion fails.
 	 */
 	protected function strip_invalid_text_from_query( $query ) {
+		// We don't need to check the collation for queries that don't read data.
+		$trimmed_query = ltrim( $query, "\r\n\t (" );
+		if ( preg_match( '/^(?:SHOW|DESCRIBE|DESC|EXPLAIN|CREATE)\s/i', $trimmed_query ) ) {
+			return $query;
+		}
+
 		$table = $this->get_table_from_query( $query );
 		if ( $table ) {
 			$charset = $this->get_table_charset( $table );
