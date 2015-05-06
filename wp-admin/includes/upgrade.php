@@ -442,8 +442,8 @@ function upgrade_all() {
 	if ( $wp_current_db_version < 29630 )
 		upgrade_400();
 
-	if ( $wp_current_db_version < 30134 )
-		upgrade_414();
+	if ( $wp_current_db_version < 30135 )
+		upgrade_415();
 
 	maybe_disable_link_manager();
 
@@ -1334,22 +1334,46 @@ function upgrade_400() {
 /**
  * Execute changes made in WordPress 4.1.4.
  *
- * @since 4.1.3
+ * @since 4.1.4
  */
 function upgrade_414() {
+}
+
+/**
+ * Execute changes made in WordPress 4.1.5.
+ *
+ * @since 4.1.5
+ */
+function upgrade_415() {
 	global $wp_current_db_version, $wpdb;
 
-	if ( $wp_current_db_version < 30134 ) {
+	if ( $wp_current_db_version < 30135 ) {
 		$content_length = $wpdb->get_col_length( $wpdb->comments, 'comment_content' );
-		if ( ! $content_length ) {
-			$content_length = 65535;
+		if ( false === $content_length ) {
+			$content_length = array(
+				'type'   => 'byte',
+				'length' => 65535,
+			);
+		} elseif ( ! is_array( $content_length ) ) {
+			$length = (int) $content_length > 0 ? (int) $content_length : 65535;
+			$content_length = array(
+				'type'	 => 'byte',
+				'length' => $length
+			);
 		}
 
+		if ( 'byte' !== $content_length['type'] ) {
+			// Sites with malformed DB schemas are on their own.
+			return;
+		}
+
+		$allowed_length = intval( $content_length['length'] ) - 10;
+
 		$comments = $wpdb->get_results(
-			"SELECT comment_ID FROM $wpdb->comments
-			WHERE comment_date_gmt > '2015-04-26'
-			AND CHAR_LENGTH( comment_content ) >= $content_length
-			AND ( comment_content LIKE '%<%' OR comment_content LIKE '%>%' )"
+			"SELECT `comment_ID` FROM `{$wpdb->comments}`
+				WHERE `comment_date_gmt` > '2015-04-26'
+				AND LENGTH( `comment_content` ) >= {$allowed_length}
+				AND ( `comment_content` LIKE '%<%' OR `comment_content` LIKE '%>%' )"
 		);
 
 		foreach ( $comments as $comment ) {
