@@ -1218,7 +1218,7 @@ function wp_sanitize_redirect($location) {
 			|   \xF0[\x90-\xBF][\x80-\xBF]{2} # four-byte sequences   11110xxx 10xxxxxx * 3
 			|   [\xF1-\xF3][\x80-\xBF]{3}
 			|   \xF4[\x80-\x8F][\x80-\xBF]{2}
-		){1,50}                              # ...one or more times
+		){1,40}                              # ...one or more times
 		)/x';
 	$location = preg_replace_callback( $regex, '_wp_sanitize_utf8_in_redirect', $location );
 	$location = preg_replace('|[^a-z0-9-~+_.?#=&;,/:%!*\[\]()]|i', '', $location);
