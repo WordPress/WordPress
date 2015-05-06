@@ -412,6 +412,7 @@ function upgrade_all() {
 		upgrade_373();
 
 	if ( $wp_current_db_version < 26151 )
+		upgrade_379();
 
 	maybe_disable_link_manager();
 
