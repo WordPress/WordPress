@@ -1349,6 +1349,11 @@ function upgrade_415() {
 
 	if ( $wp_current_db_version < 30135 ) {
 		$content_length = $wpdb->get_col_length( $wpdb->comments, 'comment_content' );
+
+		if ( is_wp_error( $content_length ) ) {
+			return;
+		}
+
 		if ( false === $content_length ) {
 			$content_length = array(
 				'type'   => 'byte',
