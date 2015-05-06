@@ -4992,12 +4992,9 @@ function wp_get_attachment_url( $post_id = 0 ) {
 		$url = get_the_guid( $post->ID );
 	}
 
-	/*
-	 * If currently on SSL, prefer HTTPS URLs when we know they're supported by the domain
-	 * (which is to say, when they share the domain name of the current SSL page).
-	 */
-	if ( is_ssl() && 'https' !== substr( $url, 0, 5 ) && parse_url( $url, PHP_URL_HOST ) === $_SERVER['HTTP_HOST'] ) {
-		$url = set_url_scheme( $url, 'https' );
+	// On SSL front-end, URLs should be HTTPS.
+	if ( is_ssl() && ! is_admin() && 'wp-login.php' !== $GLOBALS['pagenow'] ) {
+		$url = set_url_scheme( $url );
 	}
 
 	/**
