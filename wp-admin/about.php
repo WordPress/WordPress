@@ -37,25 +37,25 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 
 <div class="changelog point-releases">
 	<h3><?php echo _n( 'Maintenance and Security Release', 'Maintenance and Security Releases', 8 ); ?></h3>
-	<p><?php printf( _n( '<strong>Version %1$s</strong> addressed a security issue.',
-         '<strong>Version %1$s</strong> addressed some security issues.', 1 ), '3.7.8' ); ?>
-		<?php printf( __( 'For more information, see <a href="%s">the release notes</a>.' ), 'http://codex.wordpress.org/Version_3.7.8' ); ?>
- 	</p>
+	<p><?php printf( _n( '<strong>Version %1$s</strong> addressed some security issues and fixed %2$s bug.',
+         '<strong>Version %1$s</strong> addressed some security issues and fixed %2$s bugs.', 3 ), '3.7.8', number_format_i18n( 3 ) ); ?>
+		<?php printf( __( 'For more information, see <a href="%s">the release notes</a>.' ), 'https://codex.wordpress.org/Version_3.7.8' ); ?>
+	</p>
 	<p><?php printf( _n( '<strong>Version %1$s</strong> addressed %2$s bug.',
          '<strong>Version %1$s</strong> addressed %2$s bugs.', 1 ), '3.7.7', number_format_i18n( 1 ) ); ?>
 		<?php printf( __( 'For more information, see <a href="%s">the release notes</a>.' ), 'https://codex.wordpress.org/Version_3.7.7' ); ?>
  	</p>
 	<p><?php printf( _n( '<strong>Version %1$s</strong> addressed a security issue.',
          '<strong>Version %1$s</strong> addressed some security issues.', 8 ), '3.7.6' ); ?>
-		<?php printf( __( 'For more information, see <a href="%s">the release notes</a>.' ), 'http://codex.wordpress.org/Version_3.7.6' ); ?>
+		<?php printf( __( 'For more information, see <a href="%s">the release notes</a>.' ), 'https://codex.wordpress.org/Version_3.7.6' ); ?>
  	</p>
 	<p><?php printf( _n( '<strong>Version %1$s</strong> addressed a security issue.',
          '<strong>Version %1$s</strong> addressed some security issues.', 8 ), '3.7.5', number_format_i18n( 8 ) ); ?>
-		<?php printf( __( 'For more information, see <a href="%s">the release notes</a>.' ), 'http://codex.wordpress.org/Version_3.7.5' ); ?>
+		<?php printf( __( 'For more information, see <a href="%s">the release notes</a>.' ), 'https://codex.wordpress.org/Version_3.7.5' ); ?>
  	</p>
 	<p><?php printf( _n( '<strong>Version %1$s</strong> addressed a security issue.',
          '<strong>Version %1$s</strong> addressed some security issues.', 5 ), '3.7.4', number_format_i18n( 5 ) ); ?>
-		<?php printf( __( 'For more information, see <a href="%s">the release notes</a>.' ), 'http://codex.wordpress.org/Version_3.7.4' ); ?>
+		<?php printf( __( 'For more information, see <a href="%s">the release notes</a>.' ), 'https://codex.wordpress.org/Version_3.7.4' ); ?>
  	</p>
 	<p><?php printf( _n( '<strong>Version %1$s</strong> addressed %2$s bug.',
 		'<strong>Version %1$s</strong> addressed %2$s bugs.', 2 ), '3.7.3', number_format_i18n( 2 ) ); ?>
@@ -63,11 +63,11 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
  	</p>
 	<p><?php printf( _n( '<strong>Version %1$s</strong> addressed some security issues and fixed %2$s bug.',
          '<strong>Version %1$s</strong> addressed some security issues and fixed %2$s bugs.', 9 ), '3.7.2', number_format_i18n( 9 ) ); ?>
-		<?php printf( __( 'For more information, see <a href="%s">the release notes</a>.' ), 'http://codex.wordpress.org/Version_3.7.2' ); ?>
+		<?php printf( __( 'For more information, see <a href="%s">the release notes</a>.' ), 'https://codex.wordpress.org/Version_3.7.2' ); ?>
  	</p>
 	<p><?php printf( _n( '<strong>Version %1$s</strong> addressed %2$s bug.',
 		'<strong>Version %1$s</strong> addressed %2$s bugs.', 11 ), '3.7.1', number_format_i18n( 11 ) ); ?>
-		<?php printf( __( 'For more information, see <a href="%s">the release notes</a>.' ), 'http://codex.wordpress.org/Version_3.7.1' ); ?>
+		<?php printf( __( 'For more information, see <a href="%s">the release notes</a>.' ), 'https://codex.wordpress.org/Version_3.7.1' ); ?>
  	</p>
 </div>
 
