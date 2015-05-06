@@ -1592,12 +1592,30 @@ function upgrade_network() {
 			$wpdb->query( "ALTER TABLE $wpdb->usermeta DROP INDEX meta_key, ADD INDEX meta_key(meta_key(191))" );
 			$wpdb->query( "ALTER TABLE $wpdb->site DROP INDEX domain, ADD INDEX domain(domain(140),path(51))" );
 			$wpdb->query( "ALTER TABLE $wpdb->sitemeta DROP INDEX meta_key, ADD INDEX meta_key(meta_key(191))" );
-			$wpdb->query( "ALTER TABLE $wpdb->signups DROP INDEX domain, ADD INDEX domain(domain(140),path(51))" );
+			$wpdb->query( "ALTER TABLE $wpdb->signups DROP INDEX domain_path, ADD INDEX domain_path(domain(140),path(51))" );
 
 			$tables = $wpdb->tables( 'global' );
 
 			foreach ( $tables as $table ) {
 				maybe_convert_table_to_utf8mb4( $table );
+			}
+		}
+	}
+
+	// 4.2.2
+	if ( $wp_current_db_version < 31535 && 'utf8mb4' === $wpdb->charset ) {
+		if ( ! ( defined( 'DO_NOT_UPGRADE_GLOBAL_TABLES' ) && DO_NOT_UPGRADE_GLOBAL_TABLES ) ) {
+			$upgrade = false;
+			$indexes = $wpdb->get_results( "SHOW INDEXES FROM $wpdb->signups" );
+			foreach( $indexes as $index ) {
+				if ( 'domain_path' == $index->Key_name && 'domain' == $index->Column_name && 140 != $index->Sub_part ) {
+					$upgrade = true;
+					break;
+				}
+			}
+
+			if ( $upgrade ) {
+				$wpdb->query( "ALTER TABLE $wpdb->signups DROP INDEX domain_path, ADD INDEX domain_path(domain(140),path(51))" );
 			}
 		}
 	}
