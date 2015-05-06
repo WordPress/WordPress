@@ -2245,7 +2245,10 @@ class wpdb {
 		}
 
 		$charsets = $columns = array();
-		$results = $this->get_results( "SHOW FULL COLUMNS FROM `$table`" );
+
+		$table_parts = explode( '.', $table );
+		$table = '`' . implode( '`.`', $table_parts ) . '`';
+		$results = $this->get_results( "SHOW FULL COLUMNS FROM $table" );
 		if ( ! $results ) {
 			return new WP_Error( 'wpdb_get_table_charset_failure' );
 		}
@@ -2818,16 +2821,16 @@ class wpdb {
 				. '|REPLACE(?:\s+LOW_PRIORITY|\s+DELAYED)?(?:\s+INTO)?'
 				. '|UPDATE(?:\s+LOW_PRIORITY)?(?:\s+IGNORE)?'
 				. '|DELETE(?:\s+LOW_PRIORITY|\s+QUICK|\s+IGNORE)*(?:\s+FROM)?'
-				. ')\s+`?([\w-]+)`?/is', $query, $maybe ) ) {
-			return $maybe[1];
+				. ')\s+((?:[0-9a-zA-Z$_.`]|[\xC2-\xDF][\x80-\xBF])+)/is', $query, $maybe ) ) {
+			return str_replace( '`', '', $maybe[1] );
 		}
 
 		// SHOW TABLE STATUS and SHOW TABLES
 		if ( preg_match( '/^\s*(?:'
 				. 'SHOW\s+TABLE\s+STATUS.+(?:LIKE\s+|WHERE\s+Name\s*=\s*)'
 				. '|SHOW\s+(?:FULL\s+)?TABLES.+(?:LIKE\s+|WHERE\s+Name\s*=\s*)'
-				. ')\W([\w-]+)\W/is', $query, $maybe ) ) {
-			return $maybe[1];
+				. ')\W((?:[0-9a-zA-Z$_.`]|[\xC2-\xDF][\x80-\xBF])+)\W/is', $query, $maybe ) ) {
+			return str_replace( '`', '', $maybe[1] );
 		}
 
 		// Big pattern for the rest of the table-related queries.
@@ -2845,8 +2848,8 @@ class wpdb {
 				. '|LOAD\s+DATA.*INFILE.*INTO\s+TABLE'
 				. '|(?:GRANT|REVOKE).*ON\s+TABLE'
 				. '|SHOW\s+(?:.*FROM|.*TABLE)'
-				. ')\s+\(*\s*`?([\w-]+)`?\s*\)*/is', $query, $maybe ) ) {
-			return $maybe[1];
+				. ')\s+\(*\s*((?:[0-9a-zA-Z$_.`]|[\xC2-\xDF][\x80-\xBF])+)\s*\)*/is', $query, $maybe ) ) {
+			return str_replace( '`', '', $maybe[1] );
 		}
 
 		return false;
