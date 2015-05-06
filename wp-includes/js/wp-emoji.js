@@ -4,24 +4,6 @@
 		var MutationObserver = window.MutationObserver || window.WebKitMutationObserver || window.MozMutationObserver,
 
 		/**
-		 * Flag to determine if the browser and the OS support emoji.
-		 *
-		 * @since 4.2.0
-		 *
-		 * @var Boolean
-		 */
-		supportsEmoji = false,
-
-		/**
-		 * Flag to determine if the browser and the OS support flag (two character) emoji.
-		 *
-		 * @since 4.2.0
-		 *
-		 * @var Boolean
-		 */
-		supportsFlagEmoji = false,
-
-		/**
 		 * Flag to determine if we should replace emoji characters with images.
 		 *
 		 * @since 4.2.0
@@ -30,10 +12,9 @@
 		 */
 		replaceEmoji = false,
 
-		isIE8 = window.navigator.userAgent.indexOf( 'IE 8' ) !== -1,
-
 		// Private
 		twemoji, timer,
+		loaded = false,
 		count = 0;
 
 		/**
@@ -42,6 +23,10 @@
 		 * @since 4.2.0
 		 */
 		function load() {
+			if ( loaded ) {
+				return;
+			}
+
 			if ( typeof window.twemoji === 'undefined' ) {
 				// Break if waiting for longer than 30 sec.
 				if ( count > 600 ) {
@@ -57,6 +42,7 @@
 			}
 
 			twemoji = window.twemoji;
+			loaded = true;
 
 			if ( MutationObserver ) {
 				new MutationObserver( function( mutationRecords ) {
@@ -107,7 +93,7 @@
 		 * @param {Object} args Additional options for Twemoji.
 		 */
 		function parse( object, args ) {
-			if ( ! replaceEmoji ) {
+			if ( ! replaceEmoji || ! twemoji ) {
 				return object;
 			}
 
@@ -132,7 +118,7 @@
 							return false;
 					}
 
-					if ( ! supportsFlagEmoji && supportsEmoji &&
+					if ( ! settings.supports.flag && settings.supports.simple &&
 						! /^1f1(?:e[6-9a-f]|f[0-9a-f])-1f1(?:e[6-9a-f]|f[0-9a-f])$/.test( icon ) ) {
 
 						return false;
@@ -143,29 +129,16 @@
 			} );
 		}
 
-		// Load when the readyState changes to 'interactive', not 'complete'.
-		function onLoad() {
-			if ( ( ! isIE8 && 'interactive' === document.readyState ) || ( isIE8 && 'complete' === document.readyState ) ) {
-				load();
-			}
-		}
-
 		/**
 		 * Initialize our emoji support, and set up listeners.
 		 */
 		if ( settings ) {
-			supportsEmoji = window._wpemojiSettings.supports.simple;
-			supportsFlagEmoji = window._wpemojiSettings.supports.flag;
-			replaceEmoji = ! supportsEmoji || ! supportsFlagEmoji;
+			replaceEmoji = ! settings.supports.simple || ! settings.supports.flag;
 
-			if ( ( ! isIE8 && 'loading' === document.readyState ) || ( isIE8 && 'complete' !== document.readyState ) ) {
-				if ( document.addEventListener ) {
-					document.addEventListener( 'readystatechange', onLoad, false );
-				} else if ( document.attachEvent ) {
-					document.attachEvent( 'onreadystatechange', onLoad );
-				}
-			} else {
+			if ( settings.DOMReady ) {
 				load();
+			} else {
+				settings.readyCallback = load;
 			}
 		}
 
