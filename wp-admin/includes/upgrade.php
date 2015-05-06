@@ -1595,7 +1595,7 @@ function upgrade_network() {
 	}
 
 	// 4.3
-	if ( $wp_current_db_version < 31378 && 'utf8mb4' === $wpdb->charset ) {
+	if ( $wp_current_db_version < 32378 && 'utf8mb4' === $wpdb->charset ) {
 		if ( ! ( defined( 'DO_NOT_UPGRADE_GLOBAL_TABLES' ) && DO_NOT_UPGRADE_GLOBAL_TABLES ) ) {
 			$upgrade = false;
 			$indexes = $wpdb->get_results( "SHOW INDEXES FROM $wpdb->signups" );
