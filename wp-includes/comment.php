@@ -2118,17 +2118,7 @@ function wp_insert_comment( $commentdata ) {
 
 	$compacted = compact( 'comment_post_ID', 'comment_author', 'comment_author_email', 'comment_author_url', 'comment_author_IP', 'comment_date', 'comment_date_gmt', 'comment_content', 'comment_karma', 'comment_approved', 'comment_agent', 'comment_type', 'comment_parent', 'user_id' );
 	if ( ! $wpdb->insert( $wpdb->comments, $compacted ) ) {
-		$fields = array( 'comment_author', 'comment_author_email', 'comment_author_url', 'comment_content' );
-
-		foreach( $fields as $field ) {
-			if ( isset( $compacted[ $field ] ) ) {
-				$compacted[ $field ] = $wpdb->strip_invalid_text_for_column( $wpdb->comments, $field, $compacted[ $field ] );
-			}
-		}
-
-		if ( ! $wpdb->insert( $wpdb->comments, $compacted ) ) {
-			return false;
-		}
+		return false;
 	}
 
 	$id = (int) $wpdb->insert_id;
@@ -2252,6 +2242,8 @@ function wp_throttle_comment_flood($block, $time_lastcomment, $time_newcomment) 
  * @return int|bool The ID of the comment on success, false on failure.
  */
 function wp_new_comment( $commentdata ) {
+	global $wpdb;
+
 	if ( isset( $commentdata['user_ID'] ) ) {
 		$commentdata['user_id'] = $commentdata['user_ID'] = (int) $commentdata['user_ID'];
 	}
@@ -2295,7 +2287,22 @@ function wp_new_comment( $commentdata ) {
 
 	$comment_ID = wp_insert_comment($commentdata);
 	if ( ! $comment_ID ) {
-		return false;
+		$fields = array( 'comment_author', 'comment_author_email', 'comment_author_url', 'comment_content' );
+
+		foreach( $fields as $field ) {
+			if ( isset( $commentdata[ $field ] ) ) {
+				$commentdata[ $field ] = $wpdb->strip_invalid_text_for_column( $wpdb->comments, $field, $commentdata[ $field ] );
+			}
+		}
+
+		$commentdata = wp_filter_comment( $commentdata );
+
+		$commentdata['comment_approved'] = wp_allow_comment( $commentdata );
+
+		$comment_ID = wp_insert_comment( $commentdata );
+		if ( ! $comment_ID ) {
+			return false;
+		}
 	}
 
 	/**
