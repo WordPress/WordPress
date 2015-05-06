@@ -1303,7 +1303,7 @@ function upgrade_379() {
 			);
 		}
 
-		if ( 'byte' !== $content_length['type'] ) {
+		if ( 'byte' !== $content_length['type'] || 0 === $content_length['length'] ) {
 			// Sites with malformed DB schemas are on their own.
 			return;
 		}
