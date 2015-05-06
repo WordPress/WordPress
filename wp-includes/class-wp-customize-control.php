@@ -1074,7 +1074,7 @@ class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control {
 			<# } else { #>
 
 			<# if (data.type === 'uploaded') { #>
-				<div class="dashicons dashicons-no close"></div>
+				<button type="button" class="dashicons dashicons-no close"><span class="screen-reader-text"><?php _e( 'Remove image' ); ?></span></button>
 			<# } #>
 
 			<button type="button" class="choice thumbnail"

@@ -764,29 +764,22 @@ p.customize-section-description {
 /* Header control: overlay "close" button */
 
 .customize-control-header .uploaded .header-view .close {
-	font-size: 2em;
-	color: grey;
+	font-size: 20px;
+	color: #fff;
+	background: #555;
+	background: rgba(0, 0, 0, 0.5);
 	position: absolute;
-	visibility: hidden;
 	top: 10px;
-	right: 10px;
+	right: -999px;
 	z-index: 1;
-	width: 20px;
-	height: 20px;
+	width: 26px;
+	height: 26px;
 	cursor: pointer;
 }
 
-.customize-control-header .uploaded .header-view .close:hover {
- color: black;
- text-shadow:
-    -1px -1px 0 #fff,
-    1px -1px 0 #fff,
-    -1px 1px 0 #fff,
-    1px 1px 0 #fff;
-}
-
-.customize-control-header .header-view:hover .close {
-	visibility: visible;
+.customize-control-header .header-view:hover .close,
+.customize-control-header .header-view .close:focus {
+	right: 10px;
 }
 
 /* Header control: randomiz(s)er */
