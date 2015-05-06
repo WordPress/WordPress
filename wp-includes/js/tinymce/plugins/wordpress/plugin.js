@@ -91,6 +91,10 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 					'<img src="' + tinymce.Env.transparentSrc + '" class="wp-more-tag mce-wp-nextpage" ' +
 						'title="Page break" data-mce-resize="false" data-mce-placeholder="1" />' );
 			}
+
+			if ( e.content.indexOf( '<?"' ) !== -1 ) {
+				e.content = e.content.replace( /<\?"/g, '' );
+			}
 		}
 	});
 
