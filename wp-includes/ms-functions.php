@@ -1433,7 +1433,8 @@ function wpmu_welcome_notification( $blog_id, $user_id, $password, $title, $meta
 		return false;
 
 	$welcome_email = get_site_option( 'welcome_email' );
-	if ( $welcome_email == false )
+	if ( $welcome_email == false ) {
+		/* translators: Do not translate USERNAME, SITE_NAME, BLOG_URL, PASSWORD: those are placeholders. */
 		$welcome_email = __( 'Howdy USERNAME,
 
 Your new SITE_NAME site has been successfully set up at:
@@ -1448,6 +1449,7 @@ Log in here: BLOG_URLwp-login.php
 We hope you enjoy your new site. Thanks!
 
 --The Team @ SITE_NAME' );
+	}
 
 	$url = get_blogaddress_by_id($blog_id);
 	$user = get_userdata( $user_id );
@@ -2080,6 +2082,8 @@ function users_can_register_signup_filter() {
 function welcome_user_msg_filter( $text ) {
 	if ( !$text ) {
 		remove_filter( 'site_option_welcome_user_email', 'welcome_user_msg_filter' );
+
+		/* translators: Do not translate USERNAME, PASSWORD, LOGINLINK, SITE_NAME: those are placeholders. */
 		$text = __( 'Howdy USERNAME,
 
 Your new account is set up.
