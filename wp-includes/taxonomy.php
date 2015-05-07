@@ -3036,8 +3036,12 @@ function wp_insert_term( $term, $taxonomy, $args = array() ) {
 	 * Fires after a new term is created, and after the term cache has been cleaned.
 	 *
 	 * @since 2.3.0
+	 *
+	 * @param int    $term_id  Term ID.
+	 * @param int    $tt_id    Term taxonomy ID.
+	 * @param string $taxonomy Taxonomy slug.
 	 */
-	do_action( "created_term", $term_id, $tt_id, $taxonomy );
+	do_action( 'created_term', $term_id, $tt_id, $taxonomy );
 
 	/**
 	 * Fires after a new term in a specific taxonomy is created, and after the term
