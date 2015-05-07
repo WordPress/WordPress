@@ -3047,6 +3047,8 @@ function wp_insert_term( $term, $taxonomy, $args = array() ) {
 	 * Fires after a new term in a specific taxonomy is created, and after the term
 	 * cache has been cleaned.
 	 *
+	 * The dynamic portion of the hook name, `$taxonomy`, refers to the taxonomy slug.
+	 *
 	 * @since 2.3.0
 	 *
 	 * @param int $term_id Term ID.
