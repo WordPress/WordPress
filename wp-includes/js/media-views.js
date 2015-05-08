@@ -4211,9 +4211,9 @@ module.exports = ButtonGroup;
  * @augments Backbone.View
  */
 var Button = wp.media.View.extend({
-	tagName:    'a',
+	tagName:    'button',
 	className:  'media-button',
-	attributes: { href: '#' },
+	attributes: { type: 'button' },
 
 	events: {
 		'click': 'click'
