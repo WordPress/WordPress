@@ -503,7 +503,7 @@ Embed = wp.media.controller.State.extend({
 	},
 
 	// The amount of time used when debouncing the scan.
-	sensitivity: 200,
+	sensitivity: 400,
 
 	initialize: function(options) {
 		this.metadata = options.metadata;
@@ -4533,8 +4533,6 @@ EmbedLink = wp.media.view.Settings.extend({
 	template:  wp.template('embed-link-settings'),
 
 	initialize: function() {
-		this.spinner = $('<span class="spinner" />');
-		this.$el.append( this.spinner[0] );
 		this.listenTo( this.model, 'change:url', this.updateoEmbed );
 	},
 
@@ -4551,7 +4549,7 @@ EmbedLink = wp.media.view.Settings.extend({
 		}
 
 		this.fetch();
-	}, 600 ),
+	}, wp.media.controller.Embed.sensitivity ),
 
 	fetch: function() {
 		var embed;
