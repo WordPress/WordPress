@@ -4561,28 +4561,39 @@ EmbedLink = wp.media.view.Settings.extend({
 			return;
 		}
 
+		if ( this.dfd && 'pending' === this.dfd.state() ) {
+			this.dfd.abort();
+		}
+
 		embed = new wp.shortcode({
 			tag: 'embed',
 			attrs: _.pick( this.model.attributes, [ 'width', 'height', 'src' ] ),
 			content: this.model.get('url')
 		});
 
-		wp.ajax.send( 'parse-embed', {
-			data : {
+		this.dfd = $.ajax({
+			type:    'POST',
+			url:     wp.ajax.settings.url,
+			context: this,
+			data:    {
+				action: 'parse-embed',
 				post_ID: wp.media.view.settings.post.id,
 				shortcode: embed.string()
 			}
-		} )
-			.done( _.bind( this.renderoEmbed, this ) )
-			.fail( _.bind( this.renderFail, this ) );
+		})
+			.done( this.renderoEmbed )
+			.fail( this.renderFail );
 	},
 
-	renderFail: function () {
+	renderFail: function ( response, status ) {
+		if ( 'abort' === status ) {
+			return;
+		}
 		this.$( '.link-text' ).show();
 	},
 
 	renderoEmbed: function( response ) {
-		var html = ( response && response.body ) || '';
+		var html = ( response && response.data && response.data.body ) || '';
 
 		if ( html ) {
 			this.$('.embed-container').show().find('.embed-preview').html( html );
