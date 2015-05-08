@@ -696,12 +696,12 @@ class WP_Comment_Query {
 
 		// Parse comment IDs for an IN clause.
 		if ( ! empty( $this->query_vars['comment__in'] ) ) {
-			$where[] = 'comment_ID IN ( ' . implode( ',', wp_parse_id_list( $this->query_vars['comment__in'] ) ) . ' )';
+			$where[] = "$wpdb->comments.comment_ID IN ( " . implode( ',', wp_parse_id_list( $this->query_vars['comment__in'] ) ) . ' )';
 		}
 
 		// Parse comment IDs for a NOT IN clause.
 		if ( ! empty( $this->query_vars['comment__not_in'] ) ) {
-			$where[] = 'comment_ID NOT IN ( ' . implode( ',', wp_parse_id_list( $this->query_vars['comment__not_in'] ) ) . ' )';
+			$where[] = "$wpdb->comments.comment_ID NOT IN ( " . implode( ',', wp_parse_id_list( $this->query_vars['comment__not_in'] ) ) . ' )';
 		}
 
 		// Parse comment post IDs for an IN clause.
