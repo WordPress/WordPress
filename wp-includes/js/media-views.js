@@ -4546,7 +4546,7 @@ EmbedLink = wp.media.view.Settings.extend({
 		this.$( '.setting' ).hide();
 
 		// only proceed with embed if the field contains more than 6 characters
-		if ( url && url.length < 6 ) {
+		if ( url && ( url.length < 6 || ! url.match(/^http(s)?:\/\//) ) ) {
 			return;
 		}
 
