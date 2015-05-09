@@ -65,7 +65,7 @@ function set_post_format( $post, $format ) {
 	$post = get_post( $post );
 
 	if ( empty( $post ) )
-		return new WP_Error( 'invalid_post', __( 'Invalid post' ) );
+		return new WP_Error( 'invalid_post', __( 'Invalid post.' ) );
 
 	if ( ! empty( $format ) ) {
 		$format = sanitize_key( $format );

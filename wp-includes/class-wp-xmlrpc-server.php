@@ -2244,7 +2244,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		$user_data = get_userdata( $user_id );
 
 		if ( ! $user_data )
-			return new IXR_Error( 404, __( 'Invalid user ID' ) );
+			return new IXR_Error( 404, __( 'Invalid user ID.' ) );
 
 		return $this->_prepare_user( $user_data, $fields );
 	}
@@ -3817,7 +3817,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		do_action( 'xmlrpc_call', 'wp.getRevisions' );
 
 		if ( ! $post = get_post( $post_id ) )
-			return new IXR_Error( 404, __( 'Invalid post ID' ) );
+			return new IXR_Error( 404, __( 'Invalid post ID.' ) );
 
 		if ( ! current_user_can( 'edit_post', $post_id ) )
 			return new IXR_Error( 401, __( 'Sorry, you are not allowed to edit posts.' ) );
@@ -3878,13 +3878,13 @@ class wp_xmlrpc_server extends IXR_Server {
 		do_action( 'xmlrpc_call', 'wp.restoreRevision' );
 
 		if ( ! $revision = wp_get_post_revision( $revision_id ) )
-			return new IXR_Error( 404, __( 'Invalid post ID' ) );
+			return new IXR_Error( 404, __( 'Invalid post ID.' ) );
 
 		if ( wp_is_post_autosave( $revision ) )
-			return new IXR_Error( 404, __( 'Invalid post ID' ) );
+			return new IXR_Error( 404, __( 'Invalid post ID.' ) );
 
 		if ( ! $post = get_post( $revision->post_parent ) )
-			return new IXR_Error( 404, __( 'Invalid post ID' ) );
+			return new IXR_Error( 404, __( 'Invalid post ID.' ) );
 
 		if ( ! current_user_can( 'edit_post', $revision->post_parent ) )
 			return new IXR_Error( 401, __( 'Sorry, you cannot edit this post.' ) );

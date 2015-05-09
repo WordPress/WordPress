@@ -260,7 +260,7 @@ function _wp_put_post_revision( $post = null, $autosave = false ) {
 		$post = get_post($post, ARRAY_A);
 
 	if ( ! $post || empty($post['ID']) )
-		return new WP_Error( 'invalid_post', __( 'Invalid post ID' ) );
+		return new WP_Error( 'invalid_post', __( 'Invalid post ID.' ) );
 
 	if ( isset($post['post_type']) && 'revision' == $post['post_type'] )
 		return new WP_Error( 'post_type', __( 'Cannot create a revision of a revision' ) );
