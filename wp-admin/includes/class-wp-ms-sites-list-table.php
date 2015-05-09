@@ -265,7 +265,8 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 							<?php
 							if ( 'list' != $mode ) {
 								switch_to_blog( $blog['blog_id'] );
-								echo '<p>' . sprintf( _x( '%1$s &#8211; <em>%2$s</em>', '%1$s: site name. %2$s: site tagline.' ), get_option( 'blogname' ), get_option( 'blogdescription ' ) ) . '</p>';
+								/* translators: 1: site name, 2: site tagline. */
+								echo '<p>' . sprintf( __( '%1$s &#8211; <em>%2$s</em>' ), get_option( 'blogname' ), get_option( 'blogdescription ' ) ) . '</p>';
 								restore_current_blog();
 							}
 
