@@ -146,18 +146,18 @@
 
 .welcome-panel .welcome-panel-close {
 	position: absolute;
-	top: 5px;
+	top: 10px;
 	right: 10px;
-	padding: 20px 15px 0 3px;
+	padding: 10px 15px 10px 21px;
 	font-size: 13px;
+	line-height: 1.23076923; /* Chrome rounding, needs to be 16px equivalent */
 	text-decoration: none;
-	line-height: 1;
 }
 
-#welcome-panel.welcome-panel .welcome-panel-close:before {
+.welcome-panel .welcome-panel-close:before {
 	position: absolute;
-	left: -18px;
-	margin-top: -2px;
+	top: 10px;
+	left: 0;
 	-webkit-transition: all .1s ease-in-out;
 	transition: all .1s ease-in-out;
 }
@@ -177,7 +177,6 @@
 
 .welcome-panel .welcome-panel-column-container {
 	clear: both;
-	overflow: hidden;
 	position: relative;
 }
 
@@ -205,8 +204,6 @@
 }
 
 .welcome-panel .welcome-icon {
-	display: block;
-	padding: 0 0 8px;
 	background: transparent !important;
 }
 
@@ -265,6 +262,7 @@
 .welcome-panel .welcome-panel-column li {
 	line-height: 16px;
 	list-style-type: none;
+	padding: 0 0 8px;
 }
 
 /* Dashboard WordPress news */
@@ -328,7 +326,9 @@ body #dashboard-widgets .postbox form .submit {
 
 #dashboard_right_now ul {
 	margin: 0;
-	overflow: hidden;
+	/* contain floats but don't use overflow: hidden */
+	display: inline-block;
+	width: 100%;
 }
 
 #dashboard_right_now li {
@@ -338,12 +338,10 @@ body #dashboard-widgets .postbox form .submit {
 }
 
 #dashboard_right_now .inside {
-	overflow: hidden;
 	padding: 0;
 }
 
 #dashboard_right_now .main {
-	overflow: hidden;
 	padding: 0 12px 11px;
 }
 
@@ -658,16 +656,15 @@ form.initial-form.quickpress-open input#title {
 
 #future-posts li,
 #published-posts li {
-	overflow: hidden;
 	margin-bottom: 8px;
 }
 
 #future-posts ul span,
 #published-posts ul span {
-	color: #777;
-	float: left;
-	margin-right: 8px;
+	display: inline-block;
+	margin-right: 5px;
 	min-width: 150px;
+	color: #777;
 }
 
 .activity-block {
@@ -917,7 +914,6 @@ a.rsswidget {
 }
 
 .dashboard-comment-wrap {
-	overflow: hidden;
 	word-wrap: break-word;
 }
 
@@ -1095,17 +1091,19 @@ a.rsswidget {
 	/* Keep the close icon from overlapping the Welcome text. */
 	.welcome-panel .welcome-panel-close {
 		overflow: hidden;
-		text-indent: 100%;
+		text-indent: 40px;
 		white-space: nowrap;
 		width: 20px;
 		height: 20px;
-		right: 0;
 		padding: 5px;
+		top: 5px;
+		right: 5px;
 	}
 
 	/* Make the close icon larger for tappability. */
-	#welcome-panel.welcome-panel .welcome-panel-close:before {
+	.welcome-panel .welcome-panel-close:before {
 		font-size: 20px;
-		margin: 0;
+		top: 5px;
+		left: -35px;
 	}
 }

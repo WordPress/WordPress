@@ -737,23 +737,24 @@ img.emoji {
 }
 
 /* @todo can we combine these into a class or use an existing dashicon one? */
-#welcome-panel.welcome-panel .welcome-panel-close:before,
+.welcome-panel .welcome-panel-close:before,
 .tagchecklist span a:before,
 #bulk-titles div a:before,
 .notice-dismiss:before {
 	background: none;
 	color: #b4b9be;
 	content: '\f153';
-	display: block !important;
+	display: block;
 	font: normal 16px/1 'dashicons';
 	speak: none;
-	height: 20px;
+	height: 16px;
 	text-align: center;
 	width: 20px;
-	-webkit-font-smoothing: antialiased !important;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
 }
 
-#welcome-panel.welcome-panel .welcome-panel-close:before {
+.welcome-panel .welcome-panel-close:before {
 	margin: 0;
 }
 
@@ -762,7 +763,8 @@ img.emoji {
 	margin: 2px 0;
 }
 
-#welcome-panel.welcome-panel .welcome-panel-close:hover:before,
+.welcome-panel .welcome-panel-close:hover:before,
+.welcome-panel .welcome-panel-close:focus:before,
 .tagchecklist span a:hover:before,
 #bulk-titles div a:hover:before {
 	color: #c00;
