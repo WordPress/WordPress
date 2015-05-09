@@ -280,9 +280,9 @@ class WP_Press_This {
 			unlink( $source_tmp_file );
 
 		} else if ( is_wp_error( $source_tmp_file ) ) {
-			$source_content = new WP_Error( 'upload-error',  sprintf( __( 'Error: %s' ), sprintf( __( 'Could not download the source URL (native error: %s).' ), $source_tmp_file->get_error_message() ) ) );
+			$source_content = new WP_Error( 'upload-error',  sprintf( __( 'ERROR: %s' ), sprintf( __( 'Could not download the source URL (native error: %s).' ), $source_tmp_file->get_error_message() ) ) );
 		} else if ( ! file_exists( $source_tmp_file ) ) {
-			$source_content = new WP_Error( 'no-local-file',  sprintf( __( 'Error: %s' ), __( 'Could not save or locate the temporary download file for the source URL.' ) ) );
+			$source_content = new WP_Error( 'no-local-file',  sprintf( __( 'ERROR: %s' ), __( 'Could not save or locate the temporary download file for the source URL.' ) ) );
 		}
 
 		return $source_content;
