@@ -2036,14 +2036,17 @@ td.media-icon {
 	padding-bottom: 8px;
 }
 
+td.media-icon a {
+	display: inline-block;
+}
+
 td.media-icon img {
+	display: block;
 	max-width: 80px;
 	max-height: 60px;
 	width: auto;
 	height: auto;
-}
-
-td.image-icon img {
+	border: 1px solid #e7e7e7;
 	border: 1px solid rgba(0, 0, 0, 0.07);
 }
 

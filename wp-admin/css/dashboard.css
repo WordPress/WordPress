@@ -448,7 +448,6 @@ body #dashboard-widgets .postbox form .submit {
 }
 
 #dashboard_quick_press form {
-	overflow: hidden;
 	margin: 12px;
 }
 
@@ -569,12 +568,11 @@ form.initial-form.quickpress-open input#title {
 }
 
 #dashboard_quick_press .draft-title {
-	overflow: hidden;
+	word-wrap: break-word;
 }
 
 #dashboard_quick_press .draft-title a,
 #dashboard_quick_press .draft-title time {
-	float: left;
 	margin: 0 5px 0 0;
 }
 
