@@ -642,6 +642,7 @@ function fetch_feed( $url ) {
 	 */
 	do_action_ref_array( 'wp_feed_options', array( &$feed, $url ) );
 	$feed->init();
+	$feed->set_output_encoding( get_option( 'blog_charset' ) ); 
 	$feed->handle_content_type();
 
 	if ( $feed->error() )
