@@ -94,6 +94,7 @@ function wp_print_scripts( $handles = false ) {
  * @global WP_Scripts $wp_scripts The WP_Scripts object for printing scripts.
  *
  * @since 2.6.0
+ * @since 4.3.0 A return value was added.
  *
  * @param string      $handle    Name of the script. Should be unique.
  * @param string      $src       Path to the script from the WordPress root directory. Example: '/js/myscript.js'.
@@ -105,15 +106,18 @@ function wp_print_scripts( $handles = false ) {
  *                               If set to null, no version is added. Default 'false'. Accepts 'false', 'null', or 'string'.
  * @param bool        $in_footer Optional. Whether to enqueue the script before </head> or before </body>.
  *                               Default 'false'. Accepts 'false' or 'true'.
+ * @return bool Whether the script has been registered. True on success, false on failure.
  */
 function wp_register_script( $handle, $src, $deps = array(), $ver = false, $in_footer = false ) {
 	$wp_scripts = wp_scripts();
 	_wp_scripts_maybe_doing_it_wrong( __FUNCTION__ );
 
-	$wp_scripts->add( $handle, $src, $deps, $ver );
+	$registered = $wp_scripts->add( $handle, $src, $deps, $ver );
 	if ( $in_footer ) {
 		$wp_scripts->add_data( $handle, 'group', 1 );
 	}
+
+	return $registered;
 }
 
 /**

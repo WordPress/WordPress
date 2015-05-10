@@ -213,7 +213,7 @@ class WP_Dependencies {
 	 * @param array  $deps   Optional. An array of item handle strings on which this item depends.
 	 * @param string $ver    Optional. Version (used for cache busting).
 	 * @param mixed  $args   Optional. Custom property of the item. NOT the class property $args. Examples: $media, $in_footer.
-	 * @return bool True on success, false on failure.
+	 * @return bool Whether the item has been registered. True on success, false on failure.
 	 */
 	public function add( $handle, $src, $deps = array(), $ver = false, $args = null ) {
 		if ( isset($this->registered[$handle]) )
