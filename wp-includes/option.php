@@ -216,9 +216,8 @@ function wp_load_core_site_options( $site_id = null ) {
  * it will be serialized before it is inserted into the database. Remember,
  * resources can not be serialized or added as an option.
  *
- * If the option does not exist, then the option will be added with the option
- * value, but you will not be able to set whether it is autoloaded. If you want
- * to set whether an option is autoloaded, then you need to use the add_option().
+ * If the option does not exist, then the option will be added with the option value,
+ * with an `$autoload` value of 'yes'.
  *
  * @since 1.0.0
  * @since 4.2.0 The `$autoload` parameter was added.
@@ -227,8 +226,8 @@ function wp_load_core_site_options( $site_id = null ) {
  * @param mixed       $value    Option value. Must be serializable if non-scalar. Expected to not be SQL-escaped.
  * @param string|bool $autoload Optional. Whether to load the option when WordPress starts up. For existing options,
  *                              `$autoload` can only be updated using `update_option()` if `$value` is also changed.
- *                              Accepts 'yes' or true to enable, 'no' or false to disable. For non-existent options,
- *                              the default value is 'yes'.
+ *                              Accepts 'yes'|true to enable or 'no'|false to disable. For non-existent options,
+ *                              the default value is 'yes'. Default null.
  * @return bool False if value was not updated and true if value was updated.
  */
 function update_option( $option, $value, $autoload = null ) {
