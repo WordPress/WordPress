@@ -563,10 +563,16 @@ th.asc:hover span.sorting-indicator {
 }
 
 .tablenav .displaying-num {
-	margin-right: 2px;
+	margin-right: 7px;
 	color: #777;
 	font-size: 12px;
 	font-style: italic;
+}
+
+.tablenav .one-page .displaying-num {
+	display: inline-block;
+	margin-top: 2px;
+	margin-right: 0;
 }
 
 .tablenav .actions {
@@ -603,43 +609,43 @@ classes exist in paginate_links() but not seen in list table output. */
 
 .tablenav .view-switch {
 	float: right;
-	margin: 5px 16px 0 8px;
+	margin: 0 5px;
+	padding-top: 3px;
+	/* line-height in px same as .tablenav height */
+	line-height: 30px;
 }
 
 .wp-filter .view-switch {
 	display: inline-block;
 	vertical-align: middle;
-	padding: 15px 0;
-	margin: 0 20px 0 0;
+	padding: 12px 0;
+	margin: 0 8px 0 2px;
+}
+
+.media-toolbar.wp-filter .view-switch {
+	margin: 0 12px 0 2px;
 }
 
 .view-switch a {
-	text-decoration: none;
+	float: left;
+	width: 28px;
+	height: 28px;
+	text-align: center;
+	line-height: 24px;
 }
 
-.view-switch > a {
-	display: inline-block;
-	width: 18px;
-	height: 18px;
-}
-
-.view-switch > a:before {
+.view-switch a:before {
 	color: #b4b9be;
 	display: inline-block;
-	float: left;
 	font: normal 20px/1 'dashicons';
 	speak: none;
 	vertical-align: middle;
-	margin-left: 0;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }
 
-.view-switch > .view-list:before {
-	content: '\f163';
-}
-
-.view-switch a:hover:before {
+.view-switch a:hover:before,
+.view-switch a:focus:before {
 	color: #727272;
 }
 
@@ -647,15 +653,15 @@ classes exist in paginate_links() but not seen in list table output. */
 	color: #0073aa;
 }
 
-.view-switch > a + a {
-	margin-left: 5px;
+.view-switch .view-list:before {
+	content: '\f163';
 }
 
-.view-switch > .view-excerpt:before {
+.view-switch .view-excerpt:before {
 	content: '\f164';
 }
 
-.view-switch > .view-grid:before {
+.view-switch .view-grid:before {
 	content: '\f509';
 }
 
@@ -1543,6 +1549,12 @@ div.action-links,
 	.tablenav.top .actions,
 	.tablenav .view-switch {
 		display: none;
+	}
+
+	.view-switch a {
+		width: 36px;
+		height: 36px;
+		line-height: 33px;
 	}
 
 	/* Pagination */
