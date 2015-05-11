@@ -521,10 +521,12 @@ a:hover {
 	color: #000;
 	display: block;
 	font-size: 12px;
+	height: auto;
 	padding: 12px;
 	position: absolute;
 	top: 5px;
 	left: 5px;
+	width: auto;
 	z-index: 100000; /* Above WP toolbar */
 }
 
