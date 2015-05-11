@@ -1,6 +1,6 @@
 === Twenty Fifteen ===
 Contributors: the WordPress team
-Requires at least: WordPress 4.1s
+Requires at least: WordPress 4.1
 Tested up to: WordPress 4.3-trunk
 Version: 1.2
 License: GPLv2 or later
@@ -56,10 +56,16 @@ Source: http://www.genericons.com
 == Changelog ==
 
 = 1.2 =
-* Released May 6, 2015: http://codex.wordpress.org/Twenty_Fifteen_Theme_Changelog#Version_1.2
+* Released: May 6, 2015
+
+http://codex.wordpress.org/Twenty_Fifteen_Theme_Changelog#Version_1.2
 
 = 1.1 =
-* Released April 23, 2015: http://codex.wordpress.org/Twenty_Fifteen_Theme_Changelog#Version_1.1
+* Released: April 23, 2015
+
+http://codex.wordpress.org/Twenty_Fifteen_Theme_Changelog#Version_1.1
 
 = 1.0 =
-* Initial release December 18, 2014
+* Released: December 18, 2014
+
+Initial release
