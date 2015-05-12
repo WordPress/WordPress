@@ -3782,7 +3782,11 @@ function clean_object_term_cache($object_ids, $object_type) {
  *                                  term object caches (false). Default true.
  */
 function clean_term_cache($ids, $taxonomy = '', $clean_taxonomy = true) {
-	global $wpdb;
+	global $wpdb, $_wp_suspend_cache_invalidation;
+
+	if ( ! empty( $_wp_suspend_cache_invalidation ) ) {
+		return;
+	}
 
 	if ( !is_array($ids) )
 		$ids = array($ids);
