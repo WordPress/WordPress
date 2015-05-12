@@ -880,6 +880,14 @@ a:focus {
 	content: "\f413";
 }
 
+.social-navigation a[href*="path.com"]:before {
+	content: "\f219";
+}
+
+.social-navigation a[href*="skype.com"]:before {
+	content: "\f220";
+}
+
 .secondary-toggle {
 	background-color: transparent;
 	border: 1px solid #eaeaea;
