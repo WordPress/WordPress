@@ -125,7 +125,8 @@ strong .post-com-count:after {
 	font-size: 1em;
 }
 
-#edithead .inside {
+#edithead .inside,
+#commentsdiv #edithead .inside {
 	float: right;
 	padding: 3px 5px 2px 0;
 	margin: 0;
@@ -355,6 +356,11 @@ table.fixed {
 
 #commentsdiv .comments-box tr:last-child td {
 	border-bottom: 0 none;
+}
+
+#commentsdiv #edithead .inside input {
+	vertical-align: middle;
+	width: 160px;
 }
 
 .sorting-indicator {
