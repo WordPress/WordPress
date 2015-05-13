@@ -311,7 +311,7 @@ SelectModeToggle = Button.extend({
 		// TODO: the Frame should be doing all of this.
 		if ( this.controller.isModeActive( 'select' ) ) {
 			this.model.set( 'text', l10n.cancelSelection );
-			children.not( '.media-button' ).hide();
+			children.not( '.spinner, .media-button' ).hide();
 			this.$el.show();
 			toolbar.$( '.delete-selected-button' ).removeClass( 'hidden' );
 		} else {
@@ -319,7 +319,7 @@ SelectModeToggle = Button.extend({
 			this.controller.content.get().$el.removeClass( 'fixed' );
 			toolbar.$el.css( 'width', '' );
 			toolbar.$( '.delete-selected-button' ).addClass( 'hidden' );
-			children.not( '.spinner, .media-button' ).show();
+			children.not( '.media-button' ).show();
 			this.controller.state().get( 'selection' ).reset();
 		}
 	}
