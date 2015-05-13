@@ -231,7 +231,9 @@ function tb_show(caption, url, imageGroup) {//function called when the user clic
 					jQuery("#TB_load").remove();
 					jQuery("#TB_window").css({'visibility':'visible'});
 				}else{
-					jQuery("#TB_ajaxContent").load(url += "&random=" + (new Date().getTime()),function(){//to do a post change this load method
+					var load_url = url;
+					load_url += -1 === url.indexOf('?') ? '?' : '&';
+					jQuery("#TB_ajaxContent").load(load_url += "random=" + (new Date().getTime()),function(){//to do a post change this load method
 						tb_position();
 						jQuery("#TB_load").remove();
 						tb_init("#TB_ajaxContent a.thickbox");
