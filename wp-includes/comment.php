@@ -2257,8 +2257,12 @@ function wp_throttle_comment_flood($block, $time_lastcomment, $time_newcomment) 
  * See {@link https://core.trac.wordpress.org/ticket/9235}
  *
  * @since 1.5.0
- * @param array $commentdata Contains information on the comment.
- * @return int|bool The ID of the comment on success, false on failure.
+ *
+ * @see wp_insert_comment()
+ *
+ * @param array $commentdata Contains information on the comment. See wp_insert_comment()
+ *                           for information on accepted arguments.
+ * @return int|false The ID of the comment on success, false on failure.
  */
 function wp_new_comment( $commentdata ) {
 	global $wpdb;
