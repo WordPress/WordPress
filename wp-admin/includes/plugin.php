@@ -576,9 +576,11 @@ function activate_plugin( $plugin, $redirect = '', $network_wide = false, $silen
 		}
 
 		if ( $network_wide ) {
+			$current = get_site_option( 'active_sitewide_plugins', array() );
 			$current[$plugin] = time();
 			update_site_option( 'active_sitewide_plugins', $current );
 		} else {
+			$current = get_option( 'active_plugins', array() );
 			$current[] = $plugin;
 			sort($current);
 			update_option('active_plugins', $current);
