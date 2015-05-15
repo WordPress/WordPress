@@ -460,6 +460,7 @@ border color while dragging a file over the uploader drop area */
 	margin-bottom: 16px;
 	padding: 0 16px;
 	border-right: 4px solid #dd3d36;
+ 	-webkit-box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1);
  	box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1); 
 	background-color: #fff; 
 }
@@ -478,6 +479,7 @@ border color while dragging a file over the uploader drop area */
 	margin: 12px 0;
 	padding: 4px 0 0;
 	border: none;
+	-webkit-box-shadow: none;
 	box-shadow: none;
 	background: none;
 }
