@@ -459,8 +459,9 @@ border color while dragging a file over the uploader drop area */
 	width: auto;
 	margin-bottom: 16px;
 	padding: 0 16px;
-	border: 1px solid #c00;
-	background-color: #feebe8;
+	border-right: 4px solid #dd3d36;
+ 	box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1); 
+	background-color: #fff; 
 }
 
 .upload-php .mode-grid .hide-sidebar .media-sidebar {
@@ -474,27 +475,28 @@ border color while dragging a file over the uploader drop area */
 }
 
 .upload-php .mode-grid .media-sidebar .upload-error {
-	margin: 20px 0;
-	padding: 0;
+	margin: 12px 0;
+	padding: 4px 0 0;
 	border: none;
+	box-shadow: none;
 	background: none;
 }
 
 .upload-php .mode-grid .media-sidebar .media-uploader-status .upload-dismiss-errors {
 	font-size: 0;
-	top: -12px;
-	left: -10px;
+	top: 0;
+	left: -6px;
 }
 
 .upload-php .mode-grid .media-sidebar .media-uploader-status .upload-dismiss-errors:before {
-	content: "\f158";
-	font: normal 20px/1 dashicons;
-	color: #666;
+	content: "\f153";
+	font: normal 16px/1 dashicons;
+	color: #bbb;
 }
 
 .upload-php .mode-grid .media-sidebar .media-uploader-status .upload-dismiss-errors:focus:before,
 .upload-php .mode-grid .media-sidebar .media-uploader-status .upload-dismiss-errors:hover:before {
-	color: #00a0d2;
+	color: #c00;
 }
 
 .upload-php .mode-grid .media-sidebar .media-uploader-status.errors h3 {

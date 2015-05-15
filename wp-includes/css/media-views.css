@@ -1174,10 +1174,6 @@
 	max-width: 400px;
 }
 
-.media-sidebar .media-uploader-status {
-	border-bottom: 1px solid #dfdfdf;
-}
-
 .uploader-inline .media-uploader-status h3 {
 	display: none;
 }
@@ -1221,31 +1217,20 @@
 }
 
 .upload-errors .upload-error {
-	margin: 8px auto 0 auto;
-	padding: 8px;
-	border: 1px #c00 solid;
-	background: #ffebe8;
-	-webkit-border-radius: 3px;
-	border-radius: 3px;
+	padding: 12px;
+	margin-bottom: 12px; 
+	background: #fff; 
+ 	border-left: 4px solid #dd3d36; 
+ 	box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1); 
 }
 
-.upload-errors .upload-error-label {
-	padding: 2px 4px;
-	margin-right: 8px;
+.upload-errors .upload-error-filename {
 	font-weight: bold;
-	color: #fff;
-	background: #e00;
-	background-image: -webkit-gradient(linear, left top, left bottom, from(#e00), to(#a00));
-	background-image: -webkit-linear-gradient(top, #e00, #a00);
-	background-image: linear-gradient(to bottom, #e00, #a00);
-	-webkit-border-radius: 3px;
-	border-radius: 3px;
 }
 
 .upload-errors .upload-error-message {
 	display: block;
 	padding-top: 8px;
-	color: #b44;
 	word-wrap: break-word;
 }
 
