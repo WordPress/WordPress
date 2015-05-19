@@ -10,6 +10,17 @@
 /* translators: Network menu item */
 $menu[2] = array(__('Dashboard'), 'manage_network', 'index.php', '', 'menu-top menu-top-first menu-icon-dashboard', 'menu-dashboard', 'dashicons-dashboard');
 
+$submenu['index.php'][0] = array( __( 'Home' ), 'read', 'index.php' );
+
+$update_data = wp_get_update_data();
+if ( $update_data['counts']['total'] ) {
+	$submenu['index.php'][10] = array( sprintf( __( 'Updates %s' ), "<span class='update-plugins count-{$update_data['counts']['total']}' title='{$update_data['title']}'><span class='update-count'>" . number_format_i18n( $update_data['counts']['total'] ) . "</span></span>" ), 'update_core', 'update-core.php' );
+} else {
+	$submenu['index.php'][10] = array( __( 'Updates' ), 'update_core', 'update-core.php' );
+}
+
+$submenu['index.php'][15] = array( __( 'Upgrade Network' ), 'manage_network', 'upgrade.php' );
+
 $menu[4] = array( '', 'read', 'separator1', '', 'wp-menu-separator' );
 
 /* translators: Sites menu item */
@@ -20,8 +31,6 @@ $submenu['sites.php'][10]  = array( _x('Add New', 'site'), 'create_sites', 'site
 $menu[10] = array(__('Users'), 'manage_network_users', 'users.php', '', 'menu-top menu-icon-users', 'menu-users', 'dashicons-admin-users');
 $submenu['users.php'][5]  = array( __('All Users'), 'manage_network_users', 'users.php' );
 $submenu['users.php'][10]  = array( _x('Add New', 'user'), 'create_users', 'user-new.php' );
-
-$update_data = wp_get_update_data();
 
 if ( current_user_can( 'update_themes' ) && $update_data['counts']['themes'] ) {
 	$menu[15] = array(sprintf( __( 'Themes %s' ), "<span class='update-plugins count-{$update_data['counts']['themes']}'><span class='theme-count'>" . number_format_i18n( $update_data['counts']['themes'] ) . "</span></span>" ), 'manage_network_themes', 'themes.php', '', 'menu-top menu-icon-appearance', 'menu-appearance', 'dashicons-admin-appearance' );
@@ -46,17 +55,7 @@ if ( defined( 'MULTISITE' ) && defined( 'WP_ALLOW_MULTISITE' ) && WP_ALLOW_MULTI
 	$submenu['settings.php'][5]  = array( __('Network Settings'), 'manage_network_options', 'settings.php' );
 	$submenu['settings.php'][10] = array( __('Network Setup'), 'manage_network_options', 'setup.php' );
 }
-
-if ( $update_data['counts']['total'] ) {
-	$menu[30] = array( sprintf( __( 'Updates %s' ), "<span class='update-plugins count-{$update_data['counts']['total']}' title='{$update_data['title']}'><span class='update-count'>" . number_format_i18n($update_data['counts']['total']) . "</span></span>" ), 'manage_network', 'upgrade.php', '', 'menu-top menu-icon-tools', 'menu-update', 'dashicons-admin-tools' );
-} else {
-	$menu[30] = array( __( 'Updates' ), 'manage_network', 'upgrade.php', '', 'menu-top menu-icon-tools', 'menu-update', 'dashicons-admin-tools' );
-}
-
 unset($update_data);
-
-$submenu[ 'upgrade.php' ][10] = array( __( 'Available Updates' ), 'update_core', 'update-core.php' );
-$submenu[ 'upgrade.php' ][15] = array( __( 'Upgrade Network' ), 'manage_network', 'upgrade.php' );
 
 $menu[99] = array( '', 'exist', 'separator-last', '', 'wp-menu-separator' );
 
