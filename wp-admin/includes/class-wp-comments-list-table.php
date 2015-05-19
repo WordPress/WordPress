@@ -390,21 +390,6 @@ class WP_Comments_List_Table extends WP_List_Table {
 		$comment_url = esc_url( get_comment_link( $comment->comment_ID ) );
 		$the_comment_status = wp_get_comment_status( $comment->comment_ID );
 
-		if ( $this->user_can ) {
-			$del_nonce = esc_html( '_wpnonce=' . wp_create_nonce( "delete-comment_$comment->comment_ID" ) );
-			$approve_nonce = esc_html( '_wpnonce=' . wp_create_nonce( "approve-comment_$comment->comment_ID" ) );
-
-			$url = "comment.php?c=$comment->comment_ID";
-
-			$approve_url = esc_url( $url . "&action=approvecomment&$approve_nonce" );
-			$unapprove_url = esc_url( $url . "&action=unapprovecomment&$approve_nonce" );
-			$spam_url = esc_url( $url . "&action=spamcomment&$del_nonce" );
-			$unspam_url = esc_url( $url . "&action=unspamcomment&$del_nonce" );
-			$trash_url = esc_url( $url . "&action=trashcomment&$del_nonce" );
-			$untrash_url = esc_url( $url . "&action=untrashcomment&$del_nonce" );
-			$delete_url = esc_url( $url . "&action=deletecomment&$del_nonce" );
-		}
-
 		echo '<div class="comment-author">';
 			$this->column_author( $comment );
 		echo '</div>';
@@ -441,6 +426,19 @@ class WP_Comments_List_Table extends WP_List_Table {
 		}
 
 		if ( $this->user_can ) {
+			$del_nonce = esc_html( '_wpnonce=' . wp_create_nonce( "delete-comment_$comment->comment_ID" ) );
+			$approve_nonce = esc_html( '_wpnonce=' . wp_create_nonce( "approve-comment_$comment->comment_ID" ) );
+
+			$url = "comment.php?c=$comment->comment_ID";
+
+			$approve_url = esc_url( $url . "&action=approvecomment&$approve_nonce" );
+			$unapprove_url = esc_url( $url . "&action=unapprovecomment&$approve_nonce" );
+			$spam_url = esc_url( $url . "&action=spamcomment&$del_nonce" );
+			$unspam_url = esc_url( $url . "&action=unspamcomment&$del_nonce" );
+			$trash_url = esc_url( $url . "&action=trashcomment&$del_nonce" );
+			$untrash_url = esc_url( $url . "&action=untrashcomment&$del_nonce" );
+			$delete_url = esc_url( $url . "&action=deletecomment&$del_nonce" );
+
 			// Preorder it: Approve | Reply | Quick Edit | Edit | Spam | Trash.
 			$actions = array(
 				'approve' => '', 'unapprove' => '',
