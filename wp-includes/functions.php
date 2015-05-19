@@ -3902,7 +3902,7 @@ function global_terms_enabled() {
 		 *
 		 * @since 3.0.0
 		 *
-		 * @param null $anbled Whether global terms are enabled.
+		 * @param null $enabled Whether global terms are enabled.
 		 */
 		$filter = apply_filters( 'global_terms_enabled', null );
 		if ( ! is_null( $filter ) )
