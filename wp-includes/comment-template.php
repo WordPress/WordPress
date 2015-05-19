@@ -2252,6 +2252,9 @@ function comment_form( $args = array(), $post_id = null ) {
 	 */
 	$args = wp_parse_args( $args, apply_filters( 'comment_form_defaults', $defaults ) );
 
+	// Ensure that the filtered args contain all required default values.
+	$args = array_merge( $defaults, $args );
+
 		if ( comments_open( $post_id ) ) : ?>
 			<?php
 			/**
