@@ -851,6 +851,7 @@ function wp_get_pomo_file_data( $po_file ) {
  * Language selector.
  *
  * @since 4.0.0
+ * @since 4.3.0 Introduced the `echo` argument.
  *
  * @see get_available_languages()
  * @see wp_get_available_translations()
@@ -858,15 +859,18 @@ function wp_get_pomo_file_data( $po_file ) {
  * @param string|array $args {
  *     Optional. Array or string of arguments for outputting the language selector.
  *
- *     @type string  $id                           ID attribute of the select element. Default empty.
- *     @type string  $name                         Name attribute of the select element. Default empty.
- *     @type array   $languages                    List of installed languages, contain only the locales.
- *                                                 Default empty array.
- *     @type array   $translations                 List of available translations. Default result of
- *                                                 {@see wp_get_available_translations()}.
- *     @type string  $selected                     Language which should be selected. Default empty.
- *     @type bool    $show_available_translations  Whether to show available translations. Default true.
+ *     @type string   $id                           ID attribute of the select element. Default empty.
+ *     @type string   $name                         Name attribute of the select element. Default empty.
+ *     @type array    $languages                    List of installed languages, contain only the locales.
+ *                                                  Default empty array.
+ *     @type array    $translations                 List of available translations. Default result of
+ *                                                  {@see wp_get_available_translations()}.
+ *     @type string   $selected                     Language which should be selected. Default empty.
+ *     @type bool|int $echo                         Whether to echo or return the generated markup. Accepts 0, 1, or their
+ *                                                  bool equivalents. Default 1.
+ *     @type bool     $show_available_translations  Whether to show available translations. Default true.
  * }
+ * @return string HTML content only if 'echo' argument is 0.
  */
 function wp_dropdown_languages( $args = array() ) {
 
@@ -876,6 +880,7 @@ function wp_dropdown_languages( $args = array() ) {
 		'languages'    => array(),
 		'translations' => array(),
 		'selected'     => '',
+		'echo'         => 1,
 		'show_available_translations' => true,
 	) );
 
@@ -912,7 +917,7 @@ function wp_dropdown_languages( $args = array() ) {
 
 	$translations_available = ( ! empty( $translations ) && $args['show_available_translations'] );
 
-	printf( '<select name="%s" id="%s">', esc_attr( $args['name'] ), esc_attr( $args['id'] ) );
+	$output = sprintf( '<select name="%s" id="%s">', esc_attr( $args['name'] ), esc_attr( $args['id'] ) );
 
 	// Holds the HTML markup.
 	$structure = array();
@@ -950,7 +955,13 @@ function wp_dropdown_languages( $args = array() ) {
 		$structure[] = '</optgroup>';
 	}
 
-	echo join( "\n", $structure );
+	$output .= join( "\n", $structure );
 
-	echo '</select>';
+	$output .= '</select>';
+
+	if ( $args['echo'] ) {
+		echo $output;
+	}
+
+	return $output;
 }
