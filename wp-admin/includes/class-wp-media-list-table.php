@@ -65,10 +65,12 @@ class WP_Media_List_Table extends WP_List_Table {
 		$_total_posts = array_sum($_num_posts) - $_num_posts['trash'];
 		$total_orphans = $wpdb->get_var( "SELECT COUNT( * ) FROM $wpdb->posts WHERE post_type = 'attachment' AND post_status != 'trash' AND post_parent < 1" );
 		$matches = wp_match_mime_types(array_keys($post_mime_types), array_keys($_num_posts));
-		foreach ( $matches as $type => $reals )
-			foreach ( $reals as $real )
+		$num_posts = array();
+		foreach ( $matches as $type => $reals ) {
+			foreach ( $reals as $real ) {
 				$num_posts[$type] = ( isset( $num_posts[$type] ) ) ? $num_posts[$type] + $_num_posts[$real] : $_num_posts[$real];
-
+			}
+		}
 		$selected = empty( $_GET['attachment-filter'] ) ? ' selected="selected"' : '';
 		$type_links['all'] = "<option value=''$selected>" . sprintf( _nx( 'All (%s)', 'All (%s)', $_total_posts, 'uploaded files' ), number_format_i18n( $_total_posts ) ) . '</option>';
 		foreach ( $post_mime_types as $mime_type => $label ) {
