@@ -18,7 +18,7 @@
  * @uses $authordata The current author's DB object.
  *
  * @param string $deprecated Deprecated.
- * @return string The author's display name.
+ * @return string|null The author's display name.
  */
 function get_the_author($deprecated = '') {
 	global $authordata;
@@ -53,7 +53,7 @@ function get_the_author($deprecated = '') {
  *
  * @param string $deprecated Deprecated.
  * @param string $deprecated_echo Deprecated. Use get_the_author(). Echo the string or return it.
- * @return string The author's display name, from get_the_author().
+ * @return string|null The author's display name, from get_the_author().
  */
 function the_author( $deprecated = '', $deprecated_echo = true ) {
 	if ( !empty( $deprecated ) )
@@ -70,7 +70,7 @@ function the_author( $deprecated = '', $deprecated_echo = true ) {
  *
  * @since 2.8.0
  *
- * @return string The author's display name.
+ * @return string|null The author's display name.
  */
 function get_the_modified_author() {
 	if ( $last_id = get_post_meta( get_post()->ID, '_edit_last', true) ) {
@@ -88,12 +88,12 @@ function get_the_modified_author() {
 }
 
 /**
- * Display the name of the author who last edited the current post.
+ * Display the name of the author who last edited the current post,
+ * if the author's ID is available.
  *
  * @since 2.8.0
  *
  * @see get_the_author()
- * @return string The author's display name, from get_the_modified_author().
  */
 function the_modified_author() {
 	echo get_the_modified_author();
@@ -162,6 +162,9 @@ function the_author_meta( $field = '', $user_id = false ) {
  *
  * If the author has a home page set, return an HTML link, otherwise just return the
  * author's name.
+ *
+ * @return string|null An HTML link if the author's url exist in user meta,
+ *                     else the result of get_the_author().
  */
 function get_the_author_link() {
 	if ( get_the_author_meta('url') ) {
@@ -220,6 +223,8 @@ function the_author_posts() {
  * @link https://codex.wordpress.org/Template_Tags/the_author_posts_link
  * @since 1.2.0
  * @param string $deprecated Deprecated.
+ *
+ * @return false|null
  */
 function the_author_posts_link($deprecated = '') {
 	if ( !empty( $deprecated ) )
