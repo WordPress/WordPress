@@ -87,7 +87,7 @@ class WP_Roles {
 	 *
 	 * @param callable $name      Method to call.
 	 * @param array    $arguments Arguments to pass when calling.
-	 * @return mixed|bool Return value of the callback, false otherwise.
+	 * @return mixed|false Return value of the callback, false otherwise.
 	 */
 	public function __call( $name, $arguments ) {
 		if ( '_init' === $name ) {
@@ -713,6 +713,7 @@ class WP_User {
 	 * @since 3.3.0
 	 *
 	 * @param string $key Property
+	 * @return mixed
 	 */
 	public function get( $key ) {
 		return $this->__get( $key );
@@ -726,6 +727,7 @@ class WP_User {
 	 * @since 3.3.0
 	 *
 	 * @param string $key Property
+	 * @return bool
 	 */
 	public function has_prop( $key ) {
 		return $this->__isset( $key );
