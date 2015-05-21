@@ -12,6 +12,10 @@ class WP_Admin_Bar {
 	private $bound = false;
 	public $user;
 
+	/**
+	 * @param string $name
+	 * @return string|array|null
+	 */
 	public function __get( $name ) {
 		switch ( $name ) {
 			case 'proto' :
@@ -69,10 +73,16 @@ class WP_Admin_Bar {
 		do_action( 'admin_bar_init' );
 	}
 
+	/**
+	 * @param array $node
+	 */
 	public function add_menu( $node ) {
 		$this->add_node( $node );
 	}
 
+	/**
+	 * @param string $id
+	 */
 	public function remove_menu( $id ) {
 		$this->remove_node( $id );
 	}
@@ -143,6 +153,9 @@ class WP_Admin_Bar {
 		$this->_set_node( $args );
 	}
 
+	/**
+	 * @param array $args
+	 */
 	final protected function _set_node( $args ) {
 		$this->nodes[ $args['id'] ] = (object) $args;
 	}
@@ -150,6 +163,7 @@ class WP_Admin_Bar {
 	/**
 	 * Gets a node.
 	 *
+	 * @param string $id
 	 * @return object Node.
 	 */
 	final public function get_node( $id ) {
@@ -157,6 +171,10 @@ class WP_Admin_Bar {
 			return clone $node;
 	}
 
+	/**
+	 * @param string $id
+	 * @return object|null
+	 */
 	final protected function _get_node( $id ) {
 		if ( $this->bound )
 			return;
@@ -168,6 +186,9 @@ class WP_Admin_Bar {
 			return $this->nodes[ $id ];
 	}
 
+	/**
+	 * @return array|null
+	 */
 	final public function get_nodes() {
 		if ( ! $nodes = $this->_get_nodes() )
 			return;
@@ -178,6 +199,9 @@ class WP_Admin_Bar {
 		return $nodes;
 	}
 
+	/**
+	 * @return array|null
+	 */
 	final protected function _get_nodes() {
 		if ( $this->bound )
 			return;
@@ -208,12 +232,15 @@ class WP_Admin_Bar {
 	/**
 	 * Remove a node.
 	 *
-	 * @param string The ID of the item.
+	 * @param string $id The ID of the item.
 	 */
 	public function remove_node( $id ) {
 		$this->_unset_node( $id );
 	}
 
+	/**
+	 * @param string $id
+	 */
 	final protected function _unset_node( $id ) {
 		unset( $this->nodes[ $id ] );
 	}
@@ -224,6 +251,9 @@ class WP_Admin_Bar {
 			$this->_render( $root );
 	}
 
+	/**
+	 * @return object|null
+	 */
 	final protected function _bind() {
 		if ( $this->bound )
 			return;
@@ -345,6 +375,11 @@ class WP_Admin_Bar {
 		return $root;
 	}
 
+	/**
+	 *
+	 * @global bool $is_IE
+	 * @param object $root
+	 */
 	final protected function _render( $root ) {
 		global $is_IE;
 
@@ -380,6 +415,9 @@ class WP_Admin_Bar {
 		<?php
 	}
 
+	/**
+	 * @param object $node
+	 */
 	final protected function _render_container( $node ) {
 		if ( $node->type != 'container' || empty( $node->children ) )
 			return;
@@ -391,10 +429,14 @@ class WP_Admin_Bar {
 		?></div><?php
 	}
 
+	/**
+	 * @param object $node
+	 */
 	final protected function _render_group( $node ) {
-		if ( $node->type == 'container' )
-			return $this->_render_container( $node );
-
+		if ( $node->type == 'container' ) {
+			$this->_render_container( $node );
+			return;
+		}
 		if ( $node->type != 'group' || empty( $node->children ) )
 			return;
 
@@ -410,6 +452,9 @@ class WP_Admin_Bar {
 		?></ul><?php
 	}
 
+	/**
+	 * @param object $node
+	 */
 	final protected function _render_item( $node ) {
 		if ( $node->type != 'item' )
 			return;
@@ -482,6 +527,10 @@ class WP_Admin_Bar {
 		</li><?php
 	}
 
+	/**
+	 * @param string $id    Unused.
+	 * @param object $node
+	 */
 	public function recursive_render( $id, $node ) {
 		_deprecated_function( __METHOD__, '3.3', 'WP_Admin_bar::render(), WP_Admin_Bar::_render_item()' );
 		$this->_render_item( $node );
