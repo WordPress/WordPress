@@ -215,7 +215,7 @@ class WP_Customize_Control {
 	 * @since 4.0.0
 	 * @access public
 	 *
-	 * @return bool Always true.
+	 * @return true Always true.
 	 */
 	public function active_callback() {
 		return true;
@@ -679,6 +679,8 @@ class WP_Customize_Media_Control extends WP_Customize_Control {
 	 * @since 4.2.0 Moved from WP_Customize_Upload_Control.
 	 *
 	 * @param WP_Customize_Manager $manager {@see WP_Customize_Manager} instance.
+	 * @param string $id
+	 * @param array $args
 	 */
 	public function __construct( $manager, $id, $args = array() ) {
 		parent::__construct( $manager, $id, $args );
@@ -1123,13 +1125,15 @@ class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control {
 		<?php
 	}
 
+	/**
+	 * @return string|null
+	 */
 	public function get_current_image_src() {
 		$src = $this->value();
 		if ( isset( $this->get_url ) ) {
 			$src = call_user_func( $this->get_url, $src );
 			return $src;
 		}
-		return null;
 	}
 
 	public function render_content() {

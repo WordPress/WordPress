@@ -122,7 +122,6 @@ final class WP_Customize_Widgets {
 				return $type;
 			}
 		}
-		return null;
 	}
 
 	/**
@@ -236,6 +235,7 @@ final class WP_Customize_Widgets {
 	 * @access public
 	 *
 	 * @param array $old_sidebars_widgets
+	 * @return array
 	 */
 	public function filter_customize_value_old_sidebars_widgets_data( $old_sidebars_widgets ) {
 		return $this->old_sidebars_widgets;
@@ -253,6 +253,7 @@ final class WP_Customize_Widgets {
 	 * @access public
 	 *
 	 * @param array $sidebars_widgets
+	 * @return array
 	 */
 	public function filter_option_sidebars_widgets_for_theme_switch( $sidebars_widgets ) {
 		$sidebars_widgets = $GLOBALS['sidebars_widgets'];
@@ -918,6 +919,7 @@ final class WP_Customize_Widgets {
 	 * @access public
 	 *
 	 * @param array $sidebars_widgets List of widgets for the current sidebar.
+	 * @return array
 	 */
 	public function preview_sidebars_widgets( $sidebars_widgets ) {
 		$sidebars_widgets = get_option( 'sidebars_widgets' );
@@ -1040,6 +1042,7 @@ final class WP_Customize_Widgets {
 	 *
 	 * @param bool   $is_active  Whether the sidebar is active.
 	 * @param string $sidebar_id Sidebar ID.
+	 * @return bool
 	 */
 	public function tally_sidebars_via_is_active_sidebar_calls( $is_active, $sidebar_id ) {
 		if ( isset( $GLOBALS['wp_registered_sidebars'][$sidebar_id] ) ) {
@@ -1065,6 +1068,7 @@ final class WP_Customize_Widgets {
 	 *
 	 * @param bool   $has_widgets Whether the current sidebar has widgets.
 	 * @param string $sidebar_id  Sidebar ID.
+	 * @return bool
 	 */
 	public function tally_sidebars_via_dynamic_sidebar_calls( $has_widgets, $sidebar_id ) {
 		if ( isset( $GLOBALS['wp_registered_sidebars'][$sidebar_id] ) ) {
@@ -1105,7 +1109,7 @@ final class WP_Customize_Widgets {
 	 * @access public
 	 *
 	 * @param array $value Widget instance to sanitize.
-	 * @return array Sanitized widget instance.
+	 * @return array|null Sanitized widget instance.
 	 */
 	public function sanitize_widget_instance( $value ) {
 		if ( $value === array() ) {
@@ -1116,21 +1120,21 @@ final class WP_Customize_Widgets {
 			|| empty( $value['instance_hash_key'] )
 			|| empty( $value['encoded_serialized_instance'] ) )
 		{
-			return null;
+			return;
 		}
 
 		$decoded = base64_decode( $value['encoded_serialized_instance'], true );
 		if ( false === $decoded ) {
-			return null;
+			return;
 		}
 
 		if ( $this->get_instance_hash_key( $decoded ) !== $value['instance_hash_key'] ) {
-			return null;
+			return;
 		}
 
 		$instance = unserialize( $decoded );
 		if ( false === $instance ) {
-			return null;
+			return;
 		}
 
 		return $instance;

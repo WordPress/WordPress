@@ -207,7 +207,7 @@ class WP_Customize_Section {
 	 * @since 4.1.0
 	 * @access public
 	 *
-	 * @return bool Always true.
+	 * @return true Always true.
 	 */
 	public function active_callback() {
 		return true;
