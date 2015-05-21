@@ -3328,6 +3328,8 @@ function wp_make_link_relative( $link ) {
 function sanitize_option($option, $value) {
 	global $wpdb;
 
+	$original_value = $value;
+
 	switch ( $option ) {
 		case 'admin_email' :
 		case 'new_admin_email' :
@@ -3515,11 +3517,13 @@ function sanitize_option($option, $value) {
 	 * Filter an option value following sanitization.
 	 *
 	 * @since 2.3.0
+	 * @since 4.3.0 Added the `$original_value` parameter.
 	 *
-	 * @param string $value  The sanitized option value.
-	 * @param string $option The option name.
+	 * @param string $value          The sanitized option value.
+	 * @param string $option         The option name.
+	 * @param string $original_value The original value passed to the function.
 	 */
-	$value = apply_filters( "sanitize_option_{$option}", $value, $option );
+	$value = apply_filters( "sanitize_option_{$option}", $value, $option, $original_value );
 
 	return $value;
 }
