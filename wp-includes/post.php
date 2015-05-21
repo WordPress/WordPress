@@ -5327,7 +5327,8 @@ function wp_check_for_changed_slugs( $post_id, $post, $post_before ) {
  *
  * @since 2.2.0
  *
- * @param string $post_type Post type. Currently only supports 'post' or 'page'.
+ * @param string|array $post_type Array or comma-separated string of post types.
+ *                                Currently only supports 'post' or 'page'.
  * @return string SQL code that can be added to a where clause.
  */
 function get_private_posts_cap_sql( $post_type ) {
@@ -5338,62 +5339,76 @@ function get_private_posts_cap_sql( $post_type ) {
  * Retrieve the post SQL based on capability, author, and type.
  *
  * @since 3.0.0
+ * @since 4.3.0 Introduced the ability to pass multiple post types to `$post_type`.
  *
  * @see get_private_posts_cap_sql()
  *
- * @param string $post_type   Post type.
- * @param bool   $full        Optional. Returns a full WHERE statement instead of just
- *                            an 'andalso' term. Default true.
- * @param int    $post_author Optional. Query posts having a single author ID. Default null.
- * @param bool   $public_only Optional. Only return public posts. Skips cap checks for
- *                            $current_user.  Default false.
+ * @param array|string   $post_type   Array or comma-separated list of post type(s).
+ * @param bool           $full        Optional. Returns a full WHERE statement instead of just
+ *                                    an 'andalso' term. Default true.
+ * @param int            $post_author Optional. Query posts having a single author ID. Default null.
+ * @param bool           $public_only Optional. Only return public posts. Skips cap checks for
+ *                                    $current_user.  Default false.
  * @return string SQL WHERE code that can be added to a query.
  */
 function get_posts_by_author_sql( $post_type, $full = true, $post_author = null, $public_only = false ) {
 	global $wpdb;
 
-	// Private posts.
-	$post_type_obj = get_post_type_object( $post_type );
-	if ( ! $post_type_obj )
-		return $full ? 'WHERE 1 = 0' : ' 1 = 0 ';
-
-	/**
-	 * Filter the capability to read private posts for a custom post type
-	 * when generating SQL for getting posts by author.
-	 *
-	 * @since 2.2.0
-	 * @deprecated 3.2.0 The hook transitioned from "somewhat useless" to "totally useless".
-	 *
-	 * @param string $cap Capability.
-	 */
-	if ( ! $cap = apply_filters( 'pub_priv_sql_capability', '' ) ) {
-		$cap = $post_type_obj->cap->read_private_posts;
+	if ( is_array( $post_type ) ) {
+		$post_types = $post_type;
+	} else {
+		$post_types = preg_split( '/[\s,]+/', $post_type );
 	}
 
-	$sql = $wpdb->prepare( 'post_type = %s', $post_type );
+	$post_type_clauses = array();
+	foreach ( $post_types as $post_type ) {
+		$post_type_obj = get_post_type_object( $post_type );
+		if ( ! $post_type_obj ) {
+			continue;
+		}
+
+		/**
+		 * Filter the capability to read private posts for a custom post type
+		 * when generating SQL for getting posts by author.
+		 *
+		 * @since 2.2.0
+		 * @deprecated 3.2.0 The hook transitioned from "somewhat useless" to "totally useless".
+		 *
+		 * @param string $cap Capability.
+		 */
+		if ( ! $cap = apply_filters( 'pub_priv_sql_capability', '' ) ) {
+			$cap = current_user_can( $post_type_obj->cap->read_private_posts );
+		}
+
+		// Only need to check the cap if $public_only is false.
+		$post_status_sql = "post_status = 'publish'";
+		if ( false === $public_only ) {
+			if ( $cap ) {
+				// Does the user have the capability to view private posts? Guess so.
+				$post_status_sql .= " OR post_status = 'private'";
+			} elseif ( is_user_logged_in() ) {
+				// Users can view their own private posts.
+				$id = get_current_user_id();
+				if ( null === $post_author || ! $full ) {
+					$post_status_sql .= " OR post_status = 'private' AND post_author = $id";
+				} elseif ( $id == (int) $post_author ) {
+					$post_status_sql .= " OR post_status = 'private'";
+				} // else none
+			} // else none
+		}
+
+		$post_type_clauses[] = "( post_type = '" . $post_type . "' AND ( $post_status_sql ) )";
+	}
+
+	if ( empty( $post_type_clauses ) ) {
+		return $full ? 'WHERE 1 = 0' : '1 = 0';
+	}
+
+	$sql = '( '. implode( ' OR ', $post_type_clauses ) . ' )';
 
 	if ( null !== $post_author ) {
 		$sql .= $wpdb->prepare( ' AND post_author = %d', $post_author );
 	}
-
-	// Only need to check the cap if $public_only is false.
-	$post_status_sql = "post_status = 'publish'";
-	if ( false === $public_only ) {
-		if ( current_user_can( $cap ) ) {
-			// Does the user have the capability to view private posts? Guess so.
-			$post_status_sql .= " OR post_status = 'private'";
-		} elseif ( is_user_logged_in() ) {
-			// Users can view their own private posts.
-			$id = get_current_user_id();
-			if ( null === $post_author || ! $full ) {
-				$post_status_sql .= " OR post_status = 'private' AND post_author = $id";
-			} elseif ( $id == (int) $post_author ) {
-				$post_status_sql .= " OR post_status = 'private'";
-			} // else none
-		} // else none
-	}
-
-	$sql .= " AND ($post_status_sql)";
 
 	if ( $full ) {
 		$sql = 'WHERE ' . $sql;

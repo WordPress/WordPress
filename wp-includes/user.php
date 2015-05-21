@@ -251,17 +251,19 @@ function wp_validate_logged_in_cookie( $user_id ) {
  *
  * @since 3.0.0
  * @since 4.1.0 Added `$post_type` argument.
+ * @since 4.3.0 Added `$public_only` argument.
  *
  * @global wpdb $wpdb WordPress database object for queries.
  *
- * @param int    $userid    User ID.
- * @param string $post_type Optional. Post type to count the number of posts for. Default 'post'.
+ * @param int          $userid      User ID.
+ * @param array|string $post_type   Optional. Post type(s) to count the number of posts for. Default 'post'.
+ * @param bool         $public_only Optional. Only return counts for public posts. Defaults to false.
  * @return int Number of posts the user has written in this post type.
  */
-function count_user_posts( $userid, $post_type = 'post' ) {
+function count_user_posts( $userid, $post_type = 'post', $public_only = false ) {
 	global $wpdb;
 
-	$where = get_posts_by_author_sql( $post_type, true, $userid );
+	$where = get_posts_by_author_sql( $post_type, true, $userid, $public_only );
 
 	$count = $wpdb->get_var( "SELECT COUNT(*) FROM $wpdb->posts $where" );
 
@@ -270,10 +272,12 @@ function count_user_posts( $userid, $post_type = 'post' ) {
 	 *
 	 * @since 2.7.0
 	 * @since 4.1.0 Added `$post_type` argument.
+	 * @since 4.3.0 Added `$public_only` argument.
 	 *
-	 * @param int    $count     The user's post count.
-	 * @param int    $userid    User ID.
-	 * @param string $post_type Post type to count the number of posts for.
+	 * @param int          $count       The user's post count.
+	 * @param int          $userid      User ID.
+	 * @param string|array $post_types  Post types to count the number of posts for.
+	 * @param bool         $public_only Whether to limit counted posts to public posts.
 	 */
 	return apply_filters( 'get_usernumposts', $count, $userid, $post_type );
 }
@@ -283,9 +287,9 @@ function count_user_posts( $userid, $post_type = 'post' ) {
  *
  * @since 3.0.0
  *
- * @param array $users Array of user IDs.
- * @param string $post_type Optional. Post type to check. Defaults to post.
- * @param bool $public_only Optional. Only return counts for public posts.  Defaults to false.
+ * @param array        $users       Array of user IDs.
+ * @param string|array $post_type   Optional. Array or comma-separated list of post types to check. Defaults to 'post'.
+ * @param bool         $public_only Optional. Only return counts for public posts.  Defaults to false.
  * @return array Amount of posts each user has written.
  */
 function count_many_users_posts( $users, $post_type = 'post', $public_only = false ) {
