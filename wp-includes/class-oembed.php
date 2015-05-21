@@ -195,7 +195,7 @@ class WP_oEmbed {
 	 *
 	 * @param string        $url  The URL to the content.
 	 * @param string|array  $args Optional provider arguments.
-	 * @return bool|string False on failure, otherwise the oEmbed provider URL.
+	 * @return false|string False on failure, otherwise the oEmbed provider URL.
 	 */
 	public function get_provider( $url, $args = '' ) {
 
@@ -306,7 +306,7 @@ class WP_oEmbed {
 	 * Attempts to discover link tags at the given URL for an oEmbed provider.
 	 *
 	 * @param string $url The URL that should be inspected for discovery `<link>` tags.
-	 * @return bool|string False on failure, otherwise the oEmbed provider URL.
+	 * @return false|string False on failure, otherwise the oEmbed provider URL.
 	 */
 	public function discover( $url ) {
 		$providers = array();
@@ -384,7 +384,7 @@ class WP_oEmbed {
 	 * @param string $provider The URL to the oEmbed provider.
 	 * @param string $url The URL to the content that is desired to be embedded.
 	 * @param array $args Optional arguments. Usually passed from a shortcode.
-	 * @return bool|object False on failure, otherwise the result in the form of an object.
+	 * @return false|object False on failure, otherwise the result in the form of an object.
 	 */
 	public function fetch( $provider, $url, $args = '' ) {
 		$args = wp_parse_args( $args, wp_embed_defaults( $url ) );
@@ -420,7 +420,7 @@ class WP_oEmbed {
 	 * @access private
 	 * @param string $provider_url_with_args URL to the provider with full arguments list (url, maxheight, etc.)
 	 * @param string $format Format to use
-	 * @return bool|object False on failure, otherwise the result in the form of an object.
+	 * @return false|object|WP_Error False on failure, otherwise the result in the form of an object.
 	 */
 	private function _fetch_with_format( $provider_url_with_args, $format ) {
 		$provider_url_with_args = add_query_arg( 'format', $format, $provider_url_with_args );
@@ -442,9 +442,13 @@ class WP_oEmbed {
 	 *
 	 * @since 3.0.0
 	 * @access private
+	 *
+	 * @param string $response_body
+	 * @return object|false
 	 */
 	private function _parse_json( $response_body ) {
-		return ( ( $data = json_decode( trim( $response_body ) ) ) && is_object( $data ) ) ? $data : false;
+		$data = json_decode( trim( $response_body ) );
+		return ( $data && is_object( $data ) ) ? $data : false;
 	}
 
 	/**
@@ -452,6 +456,9 @@ class WP_oEmbed {
 	 *
 	 * @since 3.0.0
 	 * @access private
+	 *
+	 * @param string $response_body
+	 * @return object|false
 	 */
 	private function _parse_xml( $response_body ) {
 		if ( ! function_exists( 'libxml_disable_entity_loader' ) )
@@ -473,6 +480,9 @@ class WP_oEmbed {
 	 *
 	 * @since 3.6.0
 	 * @access private
+	 *
+	 * @param string $response_body
+	 * @return object|false
 	 */
 	private function _parse_xml_body( $response_body ) {
 		if ( ! function_exists( 'simplexml_import_dom' ) || ! class_exists( 'DOMDocument' ) )
