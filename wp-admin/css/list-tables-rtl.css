@@ -372,7 +372,6 @@ table.fixed {
 }
 
 .sorting-indicator:before {
-	background: none;
 	content: '\f142';
 	font: normal 20px/1 'dashicons';
 	speak: none;
@@ -396,12 +395,14 @@ table.fixed {
 }
 
 th.sorted.asc .sorting-indicator:before,
-th.desc:hover span.sorting-indicator:before {
+th.desc:hover span.sorting-indicator:before,
+th.desc a:focus span.sorting-indicator:before {
 	content: '\f142';
 }
 
 th.sorted.desc .sorting-indicator:before,
-th.asc:hover span.sorting-indicator:before {
+th.asc:hover span.sorting-indicator:before,
+th.asc a:focus span.sorting-indicator:before {
 	content: '\f140';
 }
 
@@ -482,16 +483,12 @@ th.sorted a span {
 	cursor: pointer;
 }
 
-th.sorted.asc .sorting-indicator,
-th.desc:hover span.sorting-indicator {
+th.sorted .sorting-indicator,
+th.desc:hover span.sorting-indicator,
+th.desc a:focus span.sorting-indicator,
+th.asc:hover span.sorting-indicator,
+th.asc a:focus span.sorting-indicator {
 	display: block;
-	background-position: 100% 0;
-}
-
-th.sorted.desc .sorting-indicator,
-th.asc:hover span.sorting-indicator {
-	display: block;
-	background-position: -7px 0;
 }
 
 /* Bulk Actions */
