@@ -251,7 +251,7 @@ function wp_validate_logged_in_cookie( $user_id ) {
  *
  * @since 3.0.0
  * @since 4.1.0 Added `$post_type` argument.
- * @since 4.3.0 Added `$public_only` argument.
+ * @since 4.3.0 Added `$public_only` argument. Added the ability to pass an array of post types to `$post_type`.
  *
  * @global wpdb $wpdb WordPress database object for queries.
  *
@@ -288,7 +288,7 @@ function count_user_posts( $userid, $post_type = 'post', $public_only = false ) 
  * @since 3.0.0
  *
  * @param array        $users       Array of user IDs.
- * @param string|array $post_type   Optional. Array or comma-separated list of post types to check. Defaults to 'post'.
+ * @param string|array $post_type   Optional. Single post type or array of post types to check. Defaults to 'post'.
  * @param bool         $public_only Optional. Only return counts for public posts.  Defaults to false.
  * @return array Amount of posts each user has written.
  */
