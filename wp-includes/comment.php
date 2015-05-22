@@ -454,7 +454,7 @@ class WP_Comment_Query {
 	 * @access public
 	 *
 	 * @param string|array $query Array or URL query string of parameters.
-	 * @return array List of comments.
+	 * @return array|int List of comments, or number of comments when 'count' is passed as a query var.
 	 */
 	public function query( $query ) {
 		$this->query_vars = wp_parse_args( $query );
