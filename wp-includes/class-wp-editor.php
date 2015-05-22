@@ -247,12 +247,17 @@ final class _WP_Editors {
 	}
 
 	/**
-	 *
 	 * @static
+	 *
+	 * @global string $wp_version
+	 * @global string $tinymce_version
+	 *
 	 * @param string $editor_id
 	 * @param array  $set
 	 */
 	public static function editor_settings($editor_id, $set) {
+		global $wp_version, $tinymce_version;
+
 		$first_run = false;
 
 		if ( empty(self::$first_init) ) {
@@ -497,7 +502,7 @@ final class _WP_Editors {
 					'entities' => '38,amp,60,lt,62,gt',
 					'entity_encoding' => 'raw',
 					'keep_styles' => false,
-					'cache_suffix' => 'wp-mce-' . $GLOBALS['tinymce_version'],
+					'cache_suffix' => 'wp-mce-' . $tinymce_version,
 
 					// Limit the preview styles in the menu/toolbar
 					'preview_styles' => 'font-family font-size font-weight font-style text-decoration text-transform',
@@ -513,7 +518,7 @@ final class _WP_Editors {
 				}
 
 				$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
-				$version = 'ver=' . $GLOBALS['wp_version'];
+				$version = 'ver=' . $wp_version;
 				$dashicons = includes_url( "css/dashicons$suffix.css?$version" );
 
 				// WordPress default stylesheet and dashicons
@@ -1064,12 +1069,13 @@ final class _WP_Editors {
 	/**
 	 *
 	 * @static
+	 * @global string $wp_version
 	 * @global string $tinymce_version
 	 * @global bool   $concatenate_scripts
 	 * @global bool   $compress_scripts
 	 */
 	public static function editor_js() {
-		global $tinymce_version, $concatenate_scripts, $compress_scripts;
+		global $wp_version, $tinymce_version, $concatenate_scripts, $compress_scripts;
 
 		/**
 		 * Filter "tiny_mce_version" is deprecated
@@ -1147,7 +1153,7 @@ final class _WP_Editors {
 
 		$baseurl = self::$baseurl;
 		// Load tinymce.js when running from /src, else load wp-tinymce.js.gz (production) or tinymce.min.js (SCRIPT_DEBUG)
-		$mce_suffix = false !== strpos( $GLOBALS['wp_version'], '-src' ) ? '' : '.min';
+		$mce_suffix = false !== strpos( $wp_version, '-src' ) ? '' : '.min';
 
 		if ( $tmce_on ) {
 			if ( $compressed ) {
