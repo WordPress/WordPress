@@ -44,7 +44,7 @@ class WP_Embed {
 	 * this function removes all existing shortcodes, registers the [embed] shortcode,
 	 * calls {@link do_shortcode()}, and then re-registers the old shortcodes.
 	 *
-	 * @uses $shortcode_tags
+	 * @global array $shortcode_tags
 	 *
 	 * @param string $content Content to parse
 	 * @return string Content with shortcode parsed
@@ -92,7 +92,7 @@ class WP_Embed {
 	 *
 	 * @param string $id An internal ID/name for the handler. Needs to be unique.
 	 * @param string $regex The regex that will be used to see if this handler should be used for a URL.
-	 * @param callback $callback The callback function that will be called if the regex is matched.
+	 * @param callable $callback The callback function that will be called if the regex is matched.
 	 * @param int $priority Optional. Used to specify the order in which the registered handlers will be tested (default: 10). Lower numbers correspond with earlier testing, and handlers with the same priority are tested in the order in which they were added to the action.
 	 */
 	public function register_handler( $id, $regex, $callback, $priority = 10 ) {
