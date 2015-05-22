@@ -1048,6 +1048,10 @@ class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control {
 		parent::enqueue();
 	}
 
+	/**
+	 *
+	 * @global Custom_Image_Header $custom_image_header
+	 */
 	public function prepare_control() {
 		global $custom_image_header;
 		if ( empty( $custom_image_header ) ) {
@@ -1064,14 +1068,14 @@ class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control {
 		?>
 		<script type="text/template" id="tmpl-header-choice">
 			<# if (data.random) { #>
-					<button type="button" class="button display-options random">
-						<span class="dashicons dashicons-randomize dice"></span>
-						<# if ( data.type === 'uploaded' ) { #>
-							<?php _e( 'Randomize uploaded headers' ); ?>
-						<# } else if ( data.type === 'default' ) { #>
-							<?php _e( 'Randomize suggested headers' ); ?>
-						<# } #>
-					</button>
+			<button type="button" class="button display-options random">
+				<span class="dashicons dashicons-randomize dice"></span>
+				<# if ( data.type === 'uploaded' ) { #>
+					<?php _e( 'Randomize uploaded headers' ); ?>
+				<# } else if ( data.type === 'default' ) { #>
+					<?php _e( 'Randomize suggested headers' ); ?>
+				<# } #>
+			</button>
 
 			<# } else { #>
 
@@ -1350,6 +1354,10 @@ class WP_Widget_Form_Customize_Control extends WP_Customize_Control {
 		}
 	}
 
+	/**
+	 *
+	 * @global array $wp_registered_widgets
+	 */
 	public function render_content() {
 		global $wp_registered_widgets;
 		require_once ABSPATH . '/wp-admin/includes/widgets.php';

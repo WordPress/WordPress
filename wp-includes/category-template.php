@@ -153,6 +153,8 @@ function get_the_category_by_ID( $cat_ID ) {
  *
  * @since 1.5.1
  *
+ * @global WP_Rewrite $wp_rewrite
+ *
  * @param string $separator Optional, default is empty string. Separator for between the categories.
  * @param string $parents Optional. How to display the parents.
  * @param int $post_id Optional. Post ID to retrieve categories.

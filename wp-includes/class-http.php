@@ -36,6 +36,8 @@ class WP_Http {
 	 * @access public
 	 * @since 2.7.0
 	 *
+	 * @global string $wp_version
+	 *
 	 * @param string       $url  The request URL.
 	 * @param string|array $args {
 	 *     Optional. Array or string of HTTP request arguments.
