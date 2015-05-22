@@ -138,6 +138,8 @@ class WP_Roles {
 	 *
 	 * @since 3.5.0
 	 * @access public
+	 *
+	 * @global wpdb $wpdb
 	 */
 	public function reinit() {
 		// There is no need to reinit if using the wp_user_roles global.
@@ -339,7 +341,6 @@ class WP_Role {
 	/**
 	 * Assign role a capability.
 	 *
-	 * @see WP_Roles::add_cap() Method uses implementation for role.
 	 * @since 2.0.0
 	 * @access public
 	 *
@@ -347,13 +348,8 @@ class WP_Role {
 	 * @param bool $grant Whether role has capability privilege.
 	 */
 	public function add_cap( $cap, $grant = true ) {
-		global $wp_roles;
-
-		if ( ! isset( $wp_roles ) )
-			$wp_roles = new WP_Roles();
-
 		$this->capabilities[$cap] = $grant;
-		$wp_roles->add_cap( $this->name, $cap, $grant );
+		wp_roles()->add_cap( $this->name, $cap, $grant );
 	}
 
 	/**
@@ -370,13 +366,8 @@ class WP_Role {
 	 * @param string $cap Capability name.
 	 */
 	public function remove_cap( $cap ) {
-		global $wp_roles;
-
-		if ( ! isset( $wp_roles ) )
-			$wp_roles = new WP_Roles();
-
 		unset( $this->capabilities[$cap] );
-		$wp_roles->remove_cap( $this->name, $cap );
+		wp_roles()->remove_cap( $this->name, $cap );
 	}
 
 	/**
@@ -508,6 +499,8 @@ class WP_User {
 	 * @since 2.0.0
 	 * @access public
 	 *
+	 * @global wpdb $wpdb
+	 *
 	 * @param int|string|stdClass|WP_User $id User's ID, a WP_User object, or a user object from the DB.
 	 * @param string $name Optional. User's username
 	 * @param int $blog_id Optional Blog ID, defaults to current blog.
@@ -568,6 +561,8 @@ class WP_User {
 	 * Return only the main user fields
 	 *
 	 * @since 3.3.0
+	 *
+	 * @global wpdb $wpdb
 	 *
 	 * @param string $field The field to query against: 'id', 'slug', 'email' or 'login'
 	 * @param string|int $value The field value
@@ -755,6 +750,8 @@ class WP_User {
 	 * @access protected
 	 * @since 2.1.0
 	 *
+	 * @global wpdb $wpdb
+	 *
 	 * @param string $cap_key Optional capability key
 	 */
 	function _init_caps( $cap_key = '' ) {
@@ -782,16 +779,12 @@ class WP_User {
 	 * granted permission to.
 	 *
 	 * @since 2.0.0
-	 * @uses $wp_roles
 	 * @access public
 	 *
 	 * @return array List of all capabilities for the user.
 	 */
 	public function get_role_caps() {
-		global $wp_roles;
-
-		if ( ! isset( $wp_roles ) )
-			$wp_roles = new WP_Roles();
+		$wp_roles = wp_roles();
 
 		//Filter out caps that are not role names and assign to $this->roles
 		if ( is_array( $this->caps ) )
@@ -922,6 +915,8 @@ class WP_User {
 	 *
 	 * @since 2.0.0
 	 * @access public
+	 *
+	 * @global wpdb $wpdb
 	 */
 	public function update_user_level_from_caps() {
 		global $wpdb;
@@ -968,6 +963,8 @@ class WP_User {
 	 *
 	 * @since 2.1.0
 	 * @access public
+	 *
+	 * @global wpdb $wpdb
 	 */
 	public function remove_all_caps() {
 		global $wpdb;
@@ -1048,6 +1045,8 @@ class WP_User {
 	 * Set the blog to operate on. Defaults to the current blog.
 	 *
 	 * @since 3.0.0
+	 *
+	 * @global wpdb $wpdb
 	 *
 	 * @param int $blog_id Optional Blog ID, defaults to current blog.
 	 */
@@ -1475,27 +1474,35 @@ function user_can( $user, $capability ) {
 }
 
 /**
+ * Retrieve the global WP_Roles instance, instantiate if necessary
+ *
+ * @global WP_Roles $wp_roles
+ * @return WP_Roles global instance
+ */
+function wp_roles() {
+	global $wp_roles;
+
+	if ( ! isset( $wp_roles ) ) {
+		$wp_roles = new WP_Roles();
+	}
+	return $wp_roles;
+}
+
+/**
  * Retrieve role object.
  *
- * @see WP_Roles::get_role() Uses method to retrieve role object.
  * @since 2.0.0
  *
  * @param string $role Role name.
  * @return WP_Role|null WP_Role object if found, null if the role does not exist.
  */
 function get_role( $role ) {
-	global $wp_roles;
-
-	if ( ! isset( $wp_roles ) )
-		$wp_roles = new WP_Roles();
-
-	return $wp_roles->get_role( $role );
+	return wp_roles()->get_role( $role );
 }
 
 /**
  * Add role, if it does not exist.
  *
- * @see WP_Roles::add_role() Uses method to add role.
  * @since 2.0.0
  *
  * @param string $role Role name.
@@ -1504,29 +1511,18 @@ function get_role( $role ) {
  * @return WP_Role|null WP_Role object if role is added, null if already exists.
  */
 function add_role( $role, $display_name, $capabilities = array() ) {
-	global $wp_roles;
-
-	if ( ! isset( $wp_roles ) )
-		$wp_roles = new WP_Roles();
-
-	return $wp_roles->add_role( $role, $display_name, $capabilities );
+	return wp_roles()->add_role( $role, $display_name, $capabilities );
 }
 
 /**
  * Remove role, if it exists.
  *
- * @see WP_Roles::remove_role() Uses method to remove role.
  * @since 2.0.0
  *
  * @param string $role Role name.
  */
 function remove_role( $role ) {
-	global $wp_roles;
-
-	if ( ! isset( $wp_roles ) )
-		$wp_roles = new WP_Roles();
-
-	$wp_roles->remove_role( $role );
+	wp_roles()->remove_role( $role );
 }
 
 /**
@@ -1534,7 +1530,7 @@ function remove_role( $role ) {
  *
  * @since 3.0.0
  *
- * @uses $super_admins Super admins global variable, if set.
+ * @global array $super_admins
  *
  * @return array List of super admin logins
  */
