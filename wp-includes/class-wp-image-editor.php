@@ -226,7 +226,7 @@ abstract class WP_Image_Editor {
 	 * @access public
 	 *
 	 * @param int $quality Compression Quality. Range: [1,100]
-	 * @return boolean|WP_Error True if set successfully; WP_Error on failure.
+	 * @return true|WP_Error True if set successfully; WP_Error on failure.
 	 */
 	public function set_quality( $quality = null ) {
 		if ( null === $quality ) {
@@ -445,7 +445,7 @@ abstract class WP_Image_Editor {
 	 * @access protected
 	 *
 	 * @param string $extension
-	 * @return string|boolean
+	 * @return string|false
 	 */
 	protected static function get_mime_type( $extension = null ) {
 		if ( ! $extension )
@@ -471,7 +471,7 @@ abstract class WP_Image_Editor {
 	 * @access protected
 	 *
 	 * @param string $mime_type
-	 * @return string|boolean
+	 * @return string|false
 	 */
 	protected static function get_extension( $mime_type = null ) {
 		$extensions = explode( '|', array_search( $mime_type, wp_get_mime_types() ) );
