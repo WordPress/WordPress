@@ -31,6 +31,7 @@ final class _WP_Editors {
 	/**
 	 * Parse default arguments for the editor instance.
 	 *
+	 * @static
 	 * @param string $editor_id ID for the current editor instance.
 	 * @param array  $settings {
 	 *     Array of editor arguments.
@@ -132,6 +133,7 @@ final class _WP_Editors {
 	/**
 	 * Outputs the HTML for a single instance of the editor.
 	 *
+	 * @static
 	 * @param string $content The initial content of the editor.
 	 * @param string $editor_id ID for the textarea and TinyMCE and Quicktags instances (can contain only ASCII letters and numbers).
 	 * @param array $settings See the _parse_settings() method for description.
@@ -245,6 +247,8 @@ final class _WP_Editors {
 	}
 
 	/**
+	 *
+	 * @static
 	 * @param string $editor_id
 	 * @param array  $set
 	 */
@@ -701,6 +705,12 @@ final class _WP_Editors {
 		} // end if self::$this_tinymce
 	}
 
+	/**
+	 *
+	 * @static
+	 * @param array $init
+	 * @return string
+	 */
 	private static function _parse_init($init) {
 		$options = '';
 
@@ -719,6 +729,10 @@ final class _WP_Editors {
 		return '{' . trim( $options, ' ,' ) . '}';
 	}
 
+	/**
+	 *
+	 * @static
+	 */
 	public static function enqueue_scripts() {
 		wp_enqueue_script('word-count');
 
@@ -760,6 +774,7 @@ final class _WP_Editors {
 	 * Translates the default TinyMCE strings and returns them as JSON encoded object ready to be loaded with tinymce.addI18n().
 	 * Can be used directly (_WP_Editors::wp_mce_translation()) by passing the same locale as set in the TinyMCE init object.
 	 *
+	 * @static
 	 * @param string $mce_locale The locale used for the editor.
 	 * @param bool $json_only optional Whether to include the JavaScript calls to tinymce.addI18n() and tinymce.ScriptLoader.markDone().
 	 * @return string Translation object, JSON encoded.
@@ -1046,6 +1061,13 @@ final class _WP_Editors {
 			"tinymce.ScriptLoader.markDone( '$baseurl/langs/$mce_locale.js' );\n";
 	}
 
+	/**
+	 *
+	 * @static
+	 * @global string $tinymce_version
+	 * @global bool   $concatenate_scripts
+	 * @global bool   $compress_scripts
+	 */
 	public static function editor_js() {
 		global $tinymce_version, $concatenate_scripts, $compress_scripts;
 
@@ -1237,6 +1259,11 @@ final class _WP_Editors {
 		do_action( 'after_wp_tiny_mce', self::$mce_settings );
 	}
 
+	/**
+	 *
+	 * @static
+	 * @global int $content_width
+	 */
 	public static function wp_fullscreen_html() {
 		global $content_width;
 		$post = get_post();
@@ -1335,6 +1362,7 @@ final class _WP_Editors {
 	 *
 	 * @since 3.1.0
 	 *
+	 * @static
 	 * @param array $args Optional. Accepts 'pagenum' and 's' (search) arguments.
 	 * @return false|array Results.
 	 */
@@ -1423,6 +1451,8 @@ final class _WP_Editors {
 	 * Dialog for internal linking.
 	 *
 	 * @since 3.1.0
+	 *
+	 * @static
 	 */
 	public static function wp_link_dialog() {
 		$search_panel_visible = '1' == get_user_setting( 'wplink', '0' ) ? ' search-panel-visible' : '';
