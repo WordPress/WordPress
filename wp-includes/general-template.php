@@ -2668,9 +2668,7 @@ function paginate_links( $args = '' ) {
 
 		// Remove the format argument from the array of query arguments, to avoid overwriting custom format.
 		foreach ( $format_args as $format_arg => $format_arg_value ) {
-			if ( isset( $url_query_args[ $format_arg ] ) ) {
-				unset( $url_query_args[ $format_arg ] );
-			}
+			unset( $url_query_args[ $format_arg ] );
 		}
 
 		$args['add_args'] = array_merge( $args['add_args'], urlencode_deep( $url_query_args ) );

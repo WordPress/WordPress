@@ -109,8 +109,7 @@ class WP_Embed {
 	 * @param int $priority Optional. The priority of the handler to be removed (default: 10).
 	 */
 	public function unregister_handler( $id, $priority = 10 ) {
-		if ( isset($this->handlers[$priority][$id]) )
-			unset($this->handlers[$priority][$id]);
+		unset( $this->handlers[ $priority ][ $id ] );
 	}
 
 	/**

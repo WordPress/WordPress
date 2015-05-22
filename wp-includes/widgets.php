@@ -569,8 +569,7 @@ class WP_Widget_Factory {
 	 * @param string $widget_class The name of a {@see WP_Widget} subclass.
 	 */
 	public function unregister( $widget_class ) {
-		if ( isset($this->widgets[$widget_class]) )
-			unset($this->widgets[$widget_class]);
+		unset( $this->widgets[ $widget_class ] );
 	}
 
 	/**
@@ -851,8 +850,7 @@ function register_sidebar($args = array()) {
 function unregister_sidebar( $name ) {
 	global $wp_registered_sidebars;
 
-	if ( isset( $wp_registered_sidebars[$name] ) )
-		unset( $wp_registered_sidebars[$name] );
+	unset( $wp_registered_sidebars[ $name ] );
 }
 
 /**
@@ -893,12 +891,8 @@ function wp_register_sidebar_widget( $id, $name, $output_callback, $options = ar
 
 	$id_base = _get_widget_id_base($id);
 	if ( in_array($output_callback, $_wp_deprecated_widgets_callbacks, true) && !is_callable($output_callback) ) {
-		if ( isset($wp_registered_widget_controls[$id]) )
-			unset($wp_registered_widget_controls[$id]);
-
-		if ( isset($wp_registered_widget_updates[$id_base]) )
-			unset($wp_registered_widget_updates[$id_base]);
-
+		unset( $wp_registered_widget_controls[ $id ] );
+		unset( $wp_registered_widget_updates[ $id_base ] );
 		return;
 	}
 
@@ -1024,9 +1018,7 @@ function wp_register_widget_control( $id, $name, $control_callback, $options = a
 	}
 
 	if ( in_array($control_callback, $_wp_deprecated_widgets_callbacks, true) && !is_callable($control_callback) ) {
-		if ( isset($wp_registered_widgets[$id]) )
-			unset($wp_registered_widgets[$id]);
-
+		unset( $wp_registered_widgets[ $id ] );
 		return;
 	}
 

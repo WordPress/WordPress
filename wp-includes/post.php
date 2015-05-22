@@ -1755,8 +1755,7 @@ function add_post_type_support( $post_type, $feature ) {
 function remove_post_type_support( $post_type, $feature ) {
 	global $_wp_post_type_features;
 
-	if ( isset( $_wp_post_type_features[$post_type][$feature] ) )
-		unset( $_wp_post_type_features[$post_type][$feature] );
+	unset( $_wp_post_type_features[ $post_type ][ $feature ] );
 }
 
 /**

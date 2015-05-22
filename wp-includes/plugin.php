@@ -332,9 +332,7 @@ function remove_all_filters( $tag, $priority = false ) {
 		}
 	}
 
-	if ( isset( $merged_filters[ $tag ] ) ) {
-		unset( $merged_filters[ $tag ] );
-	}
+	unset( $merged_filters[ $tag ] );
 
 	return true;
 }

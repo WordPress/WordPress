@@ -355,8 +355,7 @@ function media_handle_upload($file_id, $post_id, $post_data = array(), $override
 	), $post_data );
 
 	// This should never be set as it would then overwrite an existing attachment.
-	if ( isset( $attachment['ID'] ) )
-		unset( $attachment['ID'] );
+	unset( $attachment['ID'] );
 
 	// Save the data
 	$id = wp_insert_attachment($attachment, $file, $post_id);
@@ -419,8 +418,7 @@ function media_handle_sideload($file_array, $post_id, $desc = null, $post_data =
 	), $post_data );
 
 	// This should never be set as it would then overwrite an existing attachment.
-	if ( isset( $attachment['ID'] ) )
-		unset( $attachment['ID'] );
+	unset( $attachment['ID'] );
 
 	// Save the attachment metadata
 	$id = wp_insert_attachment($attachment, $file, $post_id);
