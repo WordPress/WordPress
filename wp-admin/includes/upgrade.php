@@ -2011,6 +2011,7 @@ function dbDelta( $queries = '', $execute = true ) {
 				unset($cfields[strtolower($tablefield->Field)]);
 			} else {
 				// This field exists in the table, but not in the creation queries?
+				$cqueries[] = "ALTER TABLE {$table} DROP COLUMN {$tablefield->Field}";
 			}
 		}
 
