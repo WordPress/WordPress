@@ -403,7 +403,7 @@ final class WP_Theme implements ArrayAccess {
 		static $keys = array(
 			'Name', 'Version', 'Status', 'Title', 'Author', 'Author Name', 'Author URI', 'Description',
 			'Template', 'Stylesheet', 'Template Files', 'Stylesheet Files', 'Template Dir', 'Stylesheet Dir',
-			 'Screenshot', 'Tags', 'Theme Root', 'Theme Root URI', 'Parent Theme',
+			'Screenshot', 'Tags', 'Theme Root', 'Theme Root URI', 'Parent Theme',
 		);
 
 		return in_array( $offset, $keys );
