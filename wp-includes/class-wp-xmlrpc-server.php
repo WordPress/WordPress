@@ -368,7 +368,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	/**
 	 * Set up blog options property.
 	 *
-	 * Passes property through 'xmlrpc_blog_options' filter.
+	 * Passes property through {@see 'xmlrpc_blog_options'} filter.
 	 *
 	 * @since 2.6.0
 	 *
