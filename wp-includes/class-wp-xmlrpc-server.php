@@ -669,8 +669,8 @@ class wp_xmlrpc_server extends IXR_Server {
 	 *
 	 * @access protected
 	 *
-	 * @param array|object $term The unprepared term data
-	 * @return array The prepared term data
+	 * @param array|object $term The unprepared term data.
+	 * @return array The prepared term data.
 	 */
 	protected function _prepare_term( $term ) {
 		$_term = $term;
@@ -702,8 +702,8 @@ class wp_xmlrpc_server extends IXR_Server {
 	 *
 	 * @access protected
 	 *
-	 * @param string $date
-	 * @return IXR_Date
+	 * @param string $date Date string to convert.
+	 * @return IXR_Date IXR_Date object.
 	 */
 	protected function _convert_date( $date ) {
 		if ( $date === '0000-00-00 00:00:00' ) {
