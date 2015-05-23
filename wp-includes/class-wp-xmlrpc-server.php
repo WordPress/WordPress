@@ -609,7 +609,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	 * @access protected
 	 *
 	 * @param string|array $args Sanitize single string or array of strings.
-	 * @param int $count Minimum number of arguments.
+	 * @param int $count         Minimum number of arguments.
 	 * @return bool if `$args` contains at least $count arguments.
 	 */
 	protected function minimum_args( $args, $count ) {
@@ -626,9 +626,9 @@ class wp_xmlrpc_server extends IXR_Server {
 	 *
 	 * @access protected
 	 *
-	 * @param object $taxonomy The unprepared taxonomy data
-	 * @param array $fields The subset of taxonomy fields to return
-	 * @return array The prepared taxonomy data
+	 * @param object $taxonomy The unprepared taxonomy data.
+	 * @param array $fields    The subset of taxonomy fields to return.
+	 * @return array The prepared taxonomy data.
 	 */
 	protected function _prepare_taxonomy( $taxonomy, $fields ) {
 		$_taxonomy = array(
