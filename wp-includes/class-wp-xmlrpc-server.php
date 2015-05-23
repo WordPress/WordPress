@@ -570,7 +570,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		 *
 		 * @since 2.5.0
 		 *
-		 * @param method $name The method name.
+		 * @param string $name The method name.
 		 */
 		do_action( 'xmlrpc_call', 'wp.getUsersBlogs' );
 
