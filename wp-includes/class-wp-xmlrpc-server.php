@@ -717,9 +717,9 @@ class wp_xmlrpc_server extends IXR_Server {
 	 *
 	 * @access protected
 	 *
-	 * @param string $date_gmt
-	 * @param string $date
-	 * @return IXR_Date
+	 * @param string $date_gmt WordPress GMT date string.
+	 * @param string $date     Date string.
+	 * @return IXR_Date IXR_Date object.
 	 */
 	protected function _convert_date_gmt( $date_gmt, $date ) {
 		if ( $date !== '0000-00-00 00:00:00' && $date_gmt === '0000-00-00 00:00:00' ) {
