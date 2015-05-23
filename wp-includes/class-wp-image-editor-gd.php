@@ -16,9 +16,12 @@
  */
 class WP_Image_Editor_GD extends WP_Image_Editor {
 	/**
+	 * GD Resource.
+	 *
+	 * @access protected
 	 * @var resource
 	 */
-	protected $image; // GD Resource
+	protected $image;
 
 	public function __destruct() {
 		if ( $this->image ) {
