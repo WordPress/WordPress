@@ -733,15 +733,15 @@ class wp_xmlrpc_server extends IXR_Server {
 	 *
 	 * @access protected
 	 *
-	 * @param array $post The unprepared post data
-	 * @param array $fields The subset of post type fields to return
-	 * @return array The prepared post data
+	 * @param array $post   The unprepared post data.
+	 * @param array $fields The subset of post type fields to return.
+	 * @return array The prepared post data.
 	 */
 	protected function _prepare_post( $post, $fields ) {
-		// holds the data for this post. built up based on $fields
+		// Holds the data for this post. built up based on $fields.
 		$_post = array( 'post_id' => strval( $post['ID'] ) );
 
-		// prepare common post fields
+		// Prepare common post fields.
 		$post_fields = array(
 			'post_title'        => $post['post_title'],
 			'post_date'         => $this->_convert_date( $post['post_date'] ),
@@ -765,7 +765,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			'sticky'            => ( $post['post_type'] === 'post' && is_sticky( $post['ID'] ) ),
 		);
 
-		// Thumbnail
+		// Thumbnail.
 		$post_fields['post_thumbnail'] = array();
 		$thumbnail_id = get_post_thumbnail_id( $post['ID'] );
 		if ( $thumbnail_id ) {
@@ -773,16 +773,16 @@ class wp_xmlrpc_server extends IXR_Server {
 			$post_fields['post_thumbnail'] = $this->_prepare_media_item( get_post( $thumbnail_id ), $thumbnail_size );
 		}
 
-		// Consider future posts as published
+		// Consider future posts as published.
 		if ( $post_fields['post_status'] === 'future' )
 			$post_fields['post_status'] = 'publish';
 
-		// Fill in blank post format
+		// Fill in blank post format.
 		$post_fields['post_format'] = get_post_format( $post['ID'] );
 		if ( empty( $post_fields['post_format'] ) )
 			$post_fields['post_format'] = 'standard';
 
-		// Merge requested $post_fields fields into $_post
+		// Merge requested $post_fields fields into $_post.
 		if ( in_array( 'post', $fields ) ) {
 			$_post = array_merge( $_post, $post_fields );
 		} else {
@@ -832,9 +832,9 @@ class wp_xmlrpc_server extends IXR_Server {
 	 *
 	 * @access protected
 	 *
-	 * @param object $post_type Post type object
-	 * @param array $fields The subset of post fields to return
-	 * @return array The prepared post type data
+	 * @param object $post_type Post type object.
+	 * @param array  $fields    The subset of post fields to return.
+	 * @return array The prepared post type data.
 	 */
 	protected function _prepare_post_type( $post_type, $fields ) {
 		$_post_type = array(
@@ -882,9 +882,9 @@ class wp_xmlrpc_server extends IXR_Server {
 	 *
 	 * @access protected
 	 *
-	 * @param object $media_item The unprepared media item data
-	 * @param string $thumbnail_size The image size to use for the thumbnail URL
-	 * @return array The prepared media item data
+	 * @param object $media_item     The unprepared media item data.
+	 * @param string $thumbnail_size The image size to use for the thumbnail URL.
+	 * @return array The prepared media item data.
 	 */
 	protected function _prepare_media_item( $media_item, $thumbnail_size = 'thumbnail' ) {
 		$_media_item = array(
@@ -921,8 +921,8 @@ class wp_xmlrpc_server extends IXR_Server {
 	 *
 	 * @access protected
 	 *
-	 * @param object $page The unprepared page data
-	 * @return array The prepared page data
+	 * @param object $page The unprepared page data.
+	 * @return array The prepared page data.
 	 */
 	protected function _prepare_page( $page ) {
 		// Get all of the page content and link.
@@ -1002,8 +1002,8 @@ class wp_xmlrpc_server extends IXR_Server {
 	 *
 	 * @access protected
 	 *
-	 * @param object $comment The unprepared comment data
-	 * @return array The prepared comment data
+	 * @param object $comment The unprepared comment data.
+	 * @return array The prepared comment data.
 	 */
 	protected function _prepare_comment( $comment ) {
 		// Format page date.
@@ -1051,9 +1051,9 @@ class wp_xmlrpc_server extends IXR_Server {
 	 *
 	 * @access protected
 	 *
-	 * @param WP_User $user The unprepared user object
-	 * @param array $fields The subset of user fields to return
-	 * @return array The prepared user data
+	 * @param WP_User $user   The unprepared user object.
+	 * @param array   $fields The subset of user fields to return.
+	 * @return array The prepared user data.
 	 */
 	protected function _prepare_user( $user, $fields ) {
 		$_user = array( 'user_id' => strval( $user->ID ) );
@@ -1176,12 +1176,14 @@ class wp_xmlrpc_server extends IXR_Server {
 	}
 
 	/**
-	 * Helper method for wp_newPost and wp_editPost, containing shared logic.
+	 * Helper method for wp_newPost() and wp_editPost(), containing shared logic.
 	 *
 	 * @since 3.4.0
-	 * @uses wp_insert_post()
+	 * @access protected
 	 *
-	 * @param WP_User $user The post author if post_author isn't set in $content_struct.
+	 * @see wp_insert_post()
+	 *
+	 * @param WP_User         $user           The post author if post_author isn't set in $content_struct.
 	 * @param array|IXR_Error $content_struct Post data to insert.
 	 * @return IXR_Error|string
 	 */
@@ -1250,9 +1252,9 @@ class wp_xmlrpc_server extends IXR_Server {
 		if ( isset( $post_data['ping_status'] ) && $post_data['ping_status'] != 'open' && $post_data['ping_status'] != 'closed' )
 			unset( $post_data['ping_status'] );
 
-		// Do some timestamp voodoo
+		// Do some timestamp voodoo.
 		if ( ! empty( $post_data['post_date_gmt'] ) ) {
-			// We know this is supposed to be GMT, so we're going to slap that Z on there by force
+			// We know this is supposed to be GMT, so we're going to slap that Z on there by force.
 			$dateCreated = rtrim( $post_data['post_date_gmt']->getIso(), 'Z' ) . 'Z';
 		} elseif ( ! empty( $post_data['post_date'] ) ) {
 			$dateCreated = $post_data['post_date']->getIso();
@@ -1286,7 +1288,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		}
 
 		if ( isset( $post_data['post_thumbnail'] ) ) {
-			// empty value deletes, non-empty value adds/updates
+			// empty value deletes, non-empty value adds/updates.
 			if ( ! $post_data['post_thumbnail'] )
 				delete_post_thumbnail( $post_ID );
 			elseif ( ! get_post( absint( $post_data['post_thumbnail'] ) ) )
@@ -1301,14 +1303,14 @@ class wp_xmlrpc_server extends IXR_Server {
 		if ( isset( $post_data['terms'] ) || isset( $post_data['terms_names'] ) ) {
 			$post_type_taxonomies = get_object_taxonomies( $post_data['post_type'], 'objects' );
 
-			// accumulate term IDs from terms and terms_names
+			// Accumulate term IDs from terms and terms_names.
 			$terms = array();
 
-			// first validate the terms specified by ID
+			// First validate the terms specified by ID.
 			if ( isset( $post_data['terms'] ) && is_array( $post_data['terms'] ) ) {
 				$taxonomies = array_keys( $post_data['terms'] );
 
-				// validating term ids
+				// Validating term ids.
 				foreach ( $taxonomies as $taxonomy ) {
 					if ( ! array_key_exists( $taxonomy , $post_type_taxonomies ) )
 						return new IXR_Error( 401, __( 'Sorry, one of the given taxonomies is not supported by the post type.' ) );
@@ -1329,7 +1331,7 @@ class wp_xmlrpc_server extends IXR_Server {
 				}
 			}
 
-			// now validate terms specified by name
+			// Now validate terms specified by name.
 			if ( isset( $post_data['terms_names'] ) && is_array( $post_data['terms_names'] ) ) {
 				$taxonomies = array_keys( $post_data['terms_names'] );
 
@@ -1340,15 +1342,18 @@ class wp_xmlrpc_server extends IXR_Server {
 					if ( ! current_user_can( $post_type_taxonomies[$taxonomy]->cap->assign_terms ) )
 						return new IXR_Error( 401, __( 'Sorry, you are not allowed to assign a term to one of the given taxonomies.' ) );
 
-					// for hierarchical taxonomies, we can't assign a term when multiple terms in the hierarchy share the same name
+					/*
+					 * For hierarchical taxonomies, we can't assign a term when multiple terms
+					 * in the hierarchy share the same name.
+					 */
 					$ambiguous_terms = array();
 					if ( is_taxonomy_hierarchical( $taxonomy ) ) {
 						$tax_term_names = get_terms( $taxonomy, array( 'fields' => 'names', 'hide_empty' => false ) );
 
-						// count the number of terms with the same name
+						// Count the number of terms with the same name.
 						$tax_term_names_count = array_count_values( $tax_term_names );
 
-						// filter out non-ambiguous term names
+						// Filter out non-ambiguous term names.
 						$ambiguous_tax_term_counts = array_filter( $tax_term_names_count, array( $this, '_is_greater_than_one') );
 
 						$ambiguous_terms = array_keys( $ambiguous_tax_term_counts );
@@ -1362,11 +1367,11 @@ class wp_xmlrpc_server extends IXR_Server {
 						$term = get_term_by( 'name', $term_name, $taxonomy );
 
 						if ( ! $term ) {
-							// term doesn't exist, so check that the user is allowed to create new terms
+							// Term doesn't exist, so check that the user is allowed to create new terms.
 							if ( ! current_user_can( $post_type_taxonomies[$taxonomy]->cap->edit_terms ) )
 								return new IXR_Error( 401, __( 'Sorry, you are not allowed to add a term to one of the given taxonomies.' ) );
 
-							// create the new term
+							// Create the new term.
 							$term_info = wp_insert_term( $term_name, $taxonomy );
 							if ( is_wp_error( $term_info ) )
 								return new IXR_Error( 500, $term_info->get_error_message() );
@@ -1382,7 +1387,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			$post_data['tax_input'] = $terms;
 			unset( $post_data['terms'], $post_data['terms_names'] );
 		} else {
-			// do not allow direct submission of 'tax_input', clients must use 'terms' and/or 'terms_names'
+			// Do not allow direct submission of 'tax_input', clients must use 'terms' and/or 'terms_names'.
 			unset( $post_data['tax_input'], $post_data['post_category'], $post_data['tags_input'] );
 		}
 
@@ -1395,7 +1400,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			unset( $post_data['post_format'] );
 		}
 
-		// Handle enclosures
+		// Handle enclosures.
 		$enclosure = isset( $post_data['enclosure'] ) ? $post_data['enclosure'] : null;
 		$this->add_enclosure_if_new( $post_ID, $enclosure );
 
@@ -1432,13 +1437,13 @@ class wp_xmlrpc_server extends IXR_Server {
 	 * @param array  $args {
 	 *     Method parameters, in this order:
 	 *
-	 *     @type int    $blog_id (unused)
-	 *     @type string $username
-	 *     @type string $password
-	 *     @type int    $post_id
-	 *     @type array  $content_struct
+	 *     @type int    $blog_id        Blog ID (unused).
+	 *     @type string $username       Username.
+	 *     @type string $password       Password.
+	 *     @type int    $post_id        Post ID.
+	 *     @type array  $content_struct Extra content arguments.
 	 * }
-	 * @return true|IXR_Error true on success
+	 * @return true|IXR_Error True on success, IXR_Error on failure.
 	 */
 	public function wp_editPost( $args ) {
 		if ( ! $this->minimum_args( $args, 5 ) )
