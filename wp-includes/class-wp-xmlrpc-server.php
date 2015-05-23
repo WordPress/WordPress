@@ -533,11 +533,11 @@ class wp_xmlrpc_server extends IXR_Server {
 	 *
 	 * @since 2.6.0
 	 *
-	 * @param array  $args {
+	 * @param array $args {
 	 *     Method parameters, in this order:
 	 *
-	 *     @type string $username
-	 *     @type string $password
+	 *     @type string $username Username.
+	 *     @type string $password Password.
 	 * }
 	 * @return array|IXR_Error Array contains:
 	 *  - 'isAdmin'
