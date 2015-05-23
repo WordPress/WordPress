@@ -578,7 +578,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		$struct = array();
 
 		foreach ( $blogs as $blog ) {
-			// Don't include blogs that aren't hosted at this site
+			// Don't include blogs that aren't hosted at this site.
 			if ( $blog->site_id != get_current_site()->id )
 				continue;
 
@@ -606,10 +606,11 @@ class wp_xmlrpc_server extends IXR_Server {
 	 * Checks if the method received at least the minimum number of arguments.
 	 *
 	 * @since 3.4.0
+	 * @access protected
 	 *
 	 * @param string|array $args Sanitize single string or array of strings.
 	 * @param int $count Minimum number of arguments.
-	 * @return bool if $args contains at least $count arguments.
+	 * @return bool if `$args` contains at least $count arguments.
 	 */
 	protected function minimum_args( $args, $count ) {
 		if ( count( $args ) < $count ) {
