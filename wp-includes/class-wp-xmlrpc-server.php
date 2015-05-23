@@ -188,7 +188,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @return string
+	 * @return string Hello string response.
 	 */
 	public function sayHello() {
 		return 'Hello!';
@@ -202,10 +202,10 @@ class wp_xmlrpc_server extends IXR_Server {
 	 * @param array  $args {
 	 *     Method parameters.
 	 *
-	 *     @type int $number1  A number to add.
-	 *     @type int $number2  A second number to add.
+	 *     @type int $number1 A number to add.
+	 *     @type int $number2 A second number to add.
 	 * }
-	 * @return int
+	 * @return int Sum of the two given numbers.
 	 */
 	public function addTwoNumbers( $args ) {
 		$number1 = $args[0];
