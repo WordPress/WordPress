@@ -22,17 +22,29 @@
  */
 class wp_xmlrpc_server extends IXR_Server {
 	/**
+	 * Methods.
+	 *
+	 * @access public
 	 * @var array
 	 */
 	public $methods;
+
 	/**
+	 * Blog options.
+	 *
+	 * @access public
 	 * @var array
 	 */
 	public $blog_options;
+
 	/**
+	 * IXR_Error instance.
+	 *
+	 * @access public
 	 * @var IXR_Error
 	 */
 	public $error;
+
 	/**
 	 * Register all of the XMLRPC methods that XMLRPC server understands.
 	 *
