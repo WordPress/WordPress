@@ -388,7 +388,7 @@ function comment_author_url_link( $linktext = '', $before = '', $after = '' ) {
  * @param int|WP_Post  $post_id    Post ID or WP_Post object. Default current post.
  * @param bool         $echo       Optional. Whether to cho or return the output.
  *                                 Default true.
- * @return string|null
+ * @return string|void
  */
 function comment_class( $class = '', $comment_id = null, $post_id = null, $echo = true ) {
 	// Separates classes with a single space, collates classes for comment DIV
@@ -1142,7 +1142,6 @@ function wp_comment_form_unfiltered_html_nonce() {
  * @param string $file              Optional. The file to load. Default '/comments.php'.
  * @param bool   $separate_comments Optional. Whether to separate the comments by comment type.
  *                                  Default false.
- * @return null Returns null if no comments appear.
  */
 function comments_template( $file = '/comments.php', $separate_comments = false ) {
 	global $wp_query, $withcomments, $post, $wpdb, $id, $comment, $user_login, $user_ID, $user_identity, $overridden_cpage;
@@ -1287,7 +1286,6 @@ function comments_popup_script( $width = 400, $height = 400, $file = '' ) {
  * @param string $css_class Optional. CSS class to use for comments. Default empty.
  * @param string $none      Optional. String to display when comments have been turned off.
  *                          Default false.
- * @return null Returns null on single posts and pages.
  */
 function comments_popup_link( $zero = false, $one = false, $more = false, $css_class = '', $none = false ) {
 	global $wpcommentspopupfile, $wpcommentsjavascript;
@@ -1386,7 +1384,7 @@ function comments_popup_link( $zero = false, $one = false, $more = false, $css_c
  * @param int         $comment Comment being replied to. Default current comment.
  * @param int|WP_Post $post    Post ID or WP_Post object the comment is going to be displayed on.
  *                             Default current post.
- * @return null|false|string Link to show comment form, if successful. False, if comments are closed.
+ * @return void|false|string Link to show comment form, if successful. False, if comments are closed.
  */
 function get_comment_reply_link( $args = array(), $comment = null, $post = null ) {
 	$defaults = array(
@@ -1789,10 +1787,8 @@ class Walker_Comment extends Walker {
 	 * @param int    $depth             Depth of current element.
 	 * @param array  $args              An array of arguments.
 	 * @param string $output            Passed by reference. Used to append additional content.
-	 * @return null Null on failure with no changes to parameters.
 	 */
 	public function display_element( $element, &$children_elements, $max_depth, $depth, $args, &$output ) {
-
 		if ( !$element )
 			return;
 

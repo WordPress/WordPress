@@ -99,7 +99,7 @@ function get_category( $category, $output = OBJECT, $filter = 'raw' ) {
  * @param string $category_path URL containing category slugs.
  * @param bool $full_match Optional. Whether full path should be matched.
  * @param string $output Optional. Constant OBJECT, ARRAY_A, or ARRAY_N
- * @return null|object|array|WP_Error Null on failure. Type is based on $output value.
+ * @return object|array|WP_Error|void Type is based on $output value.
  */
 function get_category_by_path( $category_path, $full_match = true, $output = OBJECT ) {
 	$category_path = rawurlencode( urldecode( $category_path ) );

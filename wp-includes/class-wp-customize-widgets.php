@@ -109,7 +109,7 @@ final class WP_Customize_Widgets {
 	 * @access protected
 	 *
 	 * @param $setting_id Setting ID.
-	 * @return string|null Setting type. Null otherwise.
+	 * @return string|void Setting type.
 	 */
 	protected function get_setting_type( $setting_id ) {
 		static $cache = array();
@@ -1136,7 +1136,7 @@ final class WP_Customize_Widgets {
 	 * @access public
 	 *
 	 * @param array $value Widget instance to sanitize.
-	 * @return array|null Sanitized widget instance.
+	 * @return array|void Sanitized widget instance.
 	 */
 	public function sanitize_widget_instance( $value ) {
 		if ( $value === array() ) {

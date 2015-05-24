@@ -129,7 +129,7 @@ class WP_Customize_Setting {
 	 * @since 4.2.0
 	 * @access public
 	 *
-	 * @return bool|null Returns null if preview() has not been called yet.
+	 * @return bool|void If preview() has been called.
 	 */
 	public function is_current_blog_previewed() {
 		if ( ! isset( $this->_previewed_blog_id ) ) {
@@ -235,7 +235,7 @@ class WP_Customize_Setting {
 	 *
 	 * @since 3.4.0
 	 *
-	 * @return false|null False if cap check fails or value isn't set.
+	 * @return false|void False if cap check fails or value isn't set.
 	 */
 	final public function save() {
 		$value = $this->post_value();
@@ -461,7 +461,7 @@ class WP_Customize_Setting {
 	 * @param $root
 	 * @param $keys
 	 * @param bool $create Default is false.
-	 * @return null|array Keys are 'root', 'node', and 'key'.
+	 * @return array|void Keys are 'root', 'node', and 'key'.
 	 */
 	final protected function multidimensional( &$root, $keys, $create = false ) {
 		if ( $create && empty( $root ) )

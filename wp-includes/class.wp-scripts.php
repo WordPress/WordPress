@@ -67,7 +67,7 @@ class WP_Scripts extends WP_Dependencies {
 	 *
 	 * @param string $handle
 	 * @param bool   $echo
-	 * @return bool|string|null
+	 * @return bool|string|void
 	 */
 	public function print_scripts_l10n( $handle, $echo = true ) {
 		_deprecated_function( __FUNCTION__, '3.3', 'print_extra_script()' );
@@ -77,7 +77,7 @@ class WP_Scripts extends WP_Dependencies {
 	/**
 	 * @param string $handle
 	 * @param bool   $echo
-	 * @return bool|string|null
+	 * @return bool|string|void
 	 */
 	public function print_extra_script( $handle, $echo = true ) {
 		if ( !$output = $this->get_data( $handle, 'data' ) )

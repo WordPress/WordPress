@@ -70,7 +70,7 @@ function the_author( $deprecated = '', $deprecated_echo = true ) {
  *
  * @since 2.8.0
  *
- * @return string|null The author's display name.
+ * @return string|void The author's display name.
  */
 function get_the_modified_author() {
 	if ( $last_id = get_post_meta( get_post()->ID, '_edit_last', true) ) {
@@ -332,7 +332,7 @@ function get_author_posts_url($author_id, $author_nicename = '') {
  *     @type string $exclude       An array, comma-, or space-separated list of author IDs to exclude. Default empty.
  *     @type string $exclude       An array, comma-, or space-separated list of author IDs to include. Default empty.
  * }
- * @return null|string The output, if echo is set to false. Otherwise null.
+ * @return string|void The output, if echo is set to false.
  */
 function wp_list_authors( $args = '' ) {
 	global $wpdb;

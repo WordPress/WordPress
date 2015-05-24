@@ -176,7 +176,7 @@ class WP_Roles {
 	 * @param string $role Role name.
 	 * @param string $display_name Role display name.
 	 * @param array $capabilities List of role capabilities in the above format.
-	 * @return WP_Role|null WP_Role object if role is added, null if already exists.
+	 * @return WP_Role|void WP_Role object, if role is added.
 	 */
 	public function add_role( $role, $display_name, $capabilities = array() ) {
 		if ( isset( $this->roles[$role] ) )

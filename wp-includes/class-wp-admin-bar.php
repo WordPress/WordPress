@@ -14,7 +14,7 @@ class WP_Admin_Bar {
 
 	/**
 	 * @param string $name
-	 * @return string|array|null
+	 * @return string|array|void
 	 */
 	public function __get( $name ) {
 		switch ( $name ) {
@@ -173,7 +173,7 @@ class WP_Admin_Bar {
 
 	/**
 	 * @param string $id
-	 * @return object|null
+	 * @return object|void
 	 */
 	final protected function _get_node( $id ) {
 		if ( $this->bound )
@@ -187,7 +187,7 @@ class WP_Admin_Bar {
 	}
 
 	/**
-	 * @return array|null
+	 * @return array|void
 	 */
 	final public function get_nodes() {
 		if ( ! $nodes = $this->_get_nodes() )
@@ -200,7 +200,7 @@ class WP_Admin_Bar {
 	}
 
 	/**
-	 * @return array|null
+	 * @return array|void
 	 */
 	final protected function _get_nodes() {
 		if ( $this->bound )
@@ -252,7 +252,7 @@ class WP_Admin_Bar {
 	}
 
 	/**
-	 * @return object|null
+	 * @return object|void
 	 */
 	final protected function _bind() {
 		if ( $this->bound )
