@@ -61,7 +61,7 @@ function wp_print_styles( $handles = false ) {
 		}
 	}
 
-	return wp_styles()->do_items( $handles );
+	return $wp_styles->do_items( $handles );
 }
 
 /**
@@ -152,7 +152,6 @@ function wp_deregister_style( $handle ) {
  *                            'screen', 'tty', or 'tv'.
  */
 function wp_enqueue_style( $handle, $src = false, $deps = array(), $ver = false, $media = 'all' ) {
-	global $wp_styles;
 	_wp_scripts_maybe_doing_it_wrong( __FUNCTION__ );
 
 	$wp_styles = wp_styles();
@@ -181,8 +180,6 @@ function wp_dequeue_style( $handle ) {
 
 /**
  * Check whether a CSS stylesheet has been added to the queue.
- *
- * @global WP_Styles $wp_styles The WP_Styles object for printing styles.
  *
  * @since 2.8.0
  *
