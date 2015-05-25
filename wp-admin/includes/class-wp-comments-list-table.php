@@ -116,22 +116,22 @@ class WP_Comments_List_Table extends WP_List_Table {
 		);
 
 		$_comments = get_comments( $args );
+		if ( is_array( $_comments ) ) {
+			update_comment_cache( $_comments );
 
-		update_comment_cache( $_comments );
+			$this->items = array_slice( $_comments, 0, $comments_per_page );
+			$this->extra_items = array_slice( $_comments, $comments_per_page );
 
-		$this->items = array_slice( $_comments, 0, $comments_per_page );
-		$this->extra_items = array_slice( $_comments, $comments_per_page );
+			$_comment_post_ids = array_unique( wp_list_pluck( $_comments, 'comment_post_ID' ) );
 
-		$total_comments = get_comments( array_merge( $args, array('count' => true, 'offset' => 0, 'number' => 0) ) );
-
-		$_comment_post_ids = array();
-		foreach ( $_comments as $_c ) {
-			$_comment_post_ids[] = $_c->comment_post_ID;
+			$this->pending_count = get_pending_comments_num( $_comment_post_ids );
 		}
 
-		$_comment_post_ids = array_unique( $_comment_post_ids );
-
-		$this->pending_count = get_pending_comments_num( $_comment_post_ids );
+		$total_comments = get_comments( array_merge( $args, array(
+			'count' => true,
+			'offset' => 0,
+			'number' => 0
+		) ) );
 
 		$this->set_pagination_args( array(
 			'total_items' => $total_comments,

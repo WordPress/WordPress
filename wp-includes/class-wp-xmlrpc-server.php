@@ -3196,12 +3196,13 @@ class wp_xmlrpc_server extends IXR_Server {
 		if ( isset($struct['number']) )
 			$number = absint($struct['number']);
 
-		$comments = get_comments( array('status' => $status, 'post_id' => $post_id, 'offset' => $offset, 'number' => $number ) );
+		$comments = get_comments( array( 'status' => $status, 'post_id' => $post_id, 'offset' => $offset, 'number' => $number ) );
 
 		$comments_struct = array();
-
-		foreach ( $comments as $comment ) {
-			$comments_struct[] = $this->_prepare_comment( $comment );
+		if ( is_array( $comments ) ) {
+			foreach ( $comments as $comment ) {
+				$comments_struct[] = $this->_prepare_comment( $comment );
+			}
 		}
 
 		return $comments_struct;
