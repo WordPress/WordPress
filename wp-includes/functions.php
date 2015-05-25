@@ -78,6 +78,8 @@ function current_time( $type, $gmt = 0 ) {
  *
  * @since 0.71
  *
+ * @global WP_Locale $wp_locale
+ *
  * @param string   $dateformatstring Format to display the date.
  * @param bool|int $unixtimestamp    Optional. Unix timestamp. Default false.
  * @param bool     $gmt              Optional. Whether to use GMT timezone. Default false.
@@ -160,6 +162,8 @@ function date_i18n( $dateformatstring, $unixtimestamp = false, $gmt = false ) {
  * Convert integer number to format based on the locale.
  *
  * @since 2.3.0
+ *
+ * @global WP_Locale $wp_locale
  *
  * @param int $number   The number to convert based on locale.
  * @param int $decimals Optional. Precision of the number of decimal places. Default 0.
@@ -491,10 +495,10 @@ function wp_extract_urls( $content ) {
  *
  * @since 1.5.0
  *
- * @see $wpdb
+ * @global wpdb $wpdb
  *
  * @param string $content Post Content.
- * @param int $post_ID Post ID.
+ * @param int    $post_ID Post ID.
  */
 function do_enclose( $content, $post_ID ) {
 	global $wpdb;
@@ -871,6 +875,10 @@ function wp_remote_fopen( $uri ) {
  *
  * @since 2.0.0
  *
+ * @global WP       $wp_locale
+ * @global WP_Query $wp_query
+ * @global WP_Query $wp_the_query
+ *
  * @param string|array $query_vars Default WP_Query arguments.
  */
 function wp( $query_vars = '' ) {
@@ -885,6 +893,8 @@ function wp( $query_vars = '' ) {
  * Retrieve the description for the HTTP status.
  *
  * @since 2.3.0
+ *
+ * @global array $wp_header_to_desc
  *
  * @param int $code HTTP status code.
  * @return string Empty string if not found, or description if found.
@@ -1125,7 +1135,7 @@ function bool_from_yn( $yn ) {
  *
  * @since 2.1.0
  *
- * @uses $wp_query Used to tell if the use a comment feed.
+ * @global WP_Query $wp_query Used to tell if the use a comment feed.
  */
 function do_feed() {
 	global $wp_query;
@@ -1606,6 +1616,8 @@ function wp_normalize_path( $path ) {
  *
  * @since 2.5.0
  *
+ * @staticvar string $temp
+ *
  * @return string Writable temporary directory.
  */
 function get_temp_dir() {
@@ -1630,8 +1642,7 @@ function get_temp_dir() {
 	if ( is_dir( $temp ) && wp_is_writable( $temp ) )
 		return $temp;
 
-	$temp = '/tmp/';
-	return $temp;
+	return '/tmp/';
 }
 
 /**
@@ -2001,8 +2012,7 @@ function wp_upload_bits( $name, $deprecated, $bits, $time = null ) {
  * @since 2.5.0
  *
  * @param string $ext The extension to search.
- * @return string|null The file type, example: audio, video, document, spreadsheet, etc.
- *                     Null if not found.
+ * @return string|void The file type, example: audio, video, document, spreadsheet, etc.
  */
 function wp_ext2type( $ext ) {
 	$ext = strtolower( $ext );
@@ -2032,8 +2042,6 @@ function wp_ext2type( $ext ) {
 	foreach ( $ext2type as $type => $exts )
 		if ( in_array( $ext, $exts ) )
 			return $type;
-
-	return null;
 }
 
 /**
@@ -2085,7 +2093,6 @@ function wp_check_filetype( $filename, $mimes = null ) {
  *               if original $filename is valid.
  */
 function wp_check_filetype_and_ext( $file, $filename, $mimes = null ) {
-
 	$proper_filename = false;
 
 	// Do basic extension validation and MIME mapping
@@ -2594,6 +2601,8 @@ function _default_wp_die_handler( $message, $title = '', $args = array() ) {
  * @since 3.2.0
  * @access private
  *
+ * @global wp_xmlrpc_server $wp_xmlrpc_server
+ *
  * @param string       $message Error message.
  * @param string       $title   Optional. Error title. Default empty.
  * @param string|array $args    Optional. Arguments to control behavior. Default empty array.
@@ -2652,7 +2661,7 @@ function _scalar_wp_die_handler( $message = '' ) {
  * @param int   $options Optional. Options to be passed to json_encode(). Default 0.
  * @param int   $depth   Optional. Maximum depth to walk through $data. Must be
  *                       greater than 0. Default 512.
- * @return bool|string The JSON encoded string, or false if it cannot be encoded.
+ * @return string|false The JSON encoded string, or false if it cannot be encoded.
  */
 function wp_json_encode( $data, $options = 0, $depth = 512 ) {
 	/*
@@ -2757,6 +2766,8 @@ function _wp_json_sanity_check( $data, $depth ) {
  * @access private
  *
  * @see _wp_json_sanity_check()
+ *
+ * @staticvar bool $use_mb
  *
  * @param string $string The string which is to be converted.
  * @return string The checked string.
@@ -3260,6 +3271,8 @@ function wp_maybe_load_widgets() {
  * Append the Widgets menu to the themes main menu.
  *
  * @since 2.2.0
+ *
+ * @global array $submenu
  */
 function wp_widgets_add_menu() {
 	global $submenu;
@@ -3586,6 +3599,8 @@ function is_lighttpd_before_150() {
  *
  * @since 2.5.0
  *
+ * @global bool $is_apache
+ *
  * @param string $mod     The module, e.g. mod_rewrite.
  * @param bool   $default Optional. The default return value if the module is not found. Default false.
  * @return bool Whether the specified module is loaded.
@@ -3614,6 +3629,8 @@ function apache_mod_loaded($mod, $default = false) {
  * Check if IIS 7+ supports pretty permalinks.
  *
  * @since 2.8.0
+ *
+ * @global bool $is_iis7
  *
  * @return bool Whether IIS7 supports permalinks.
  */
@@ -3655,7 +3672,7 @@ function iis7_supports_permalinks() {
  * @since 1.2.0
  *
  * @param string $file File path.
- * @param array $allowed_files List of allowed files.
+ * @param array  $allowed_files List of allowed files.
  * @return int 0 means nothing is wrong, greater than 0 means something was wrong.
  */
 function validate_file( $file, $allowed_files = '' ) {
@@ -3711,6 +3728,8 @@ function force_ssl_login( $force = null ) {
  * Whether to force SSL used for the Administration Screens.
  *
  * @since 2.6.0
+ *
+ * @staticvar bool $forced
  *
  * @param string|bool $force Optional. Whether to force SSL in admin screens. Default null.
  * @return bool True if forced, false if not forced.
@@ -3788,6 +3807,8 @@ function wp_guess_url() {
  *
  * @since 3.3.0
  *
+ * @staticvar bool $_suspend
+ *
  * @param bool $suspend Optional. Suspends additions if true, re-enables them if false.
  * @return bool The current suspend setting
  */
@@ -3809,6 +3830,8 @@ function wp_suspend_cache_addition( $suspend = null ) {
  *
  * @since 2.7.0
  *
+ * @global bool $_wp_suspend_cache_invalidation
+ *
  * @param bool $suspend Optional. Whether to suspend or enable cache invalidation. Default true.
  * @return bool The current suspend setting.
  */
@@ -3824,6 +3847,8 @@ function wp_suspend_cache_invalidation( $suspend = true ) {
  * Determine whether a site is the main site of the current network.
  *
  * @since 3.0.0
+ *
+ * @global object $current_site
  *
  * @param int $site_id Optional. Site ID to test. Defaults to current site.
  *                     Defaults to current site.
@@ -3847,6 +3872,8 @@ function is_main_site( $site_id = null ) {
  * Determine whether a network is the main network of the Multisite install.
  *
  * @since 3.7.0
+ *
+ * @global wpdb $wpdb
  *
  * @param int $network_id Optional. Network ID to test. Defaults to current network.
  * @return bool True if $network_id is the main network, or if not running Multisite.
@@ -3885,6 +3912,8 @@ function is_main_network( $network_id = null ) {
  *
  * @since 3.0.0
  *
+ * @staticvar bool $global_terms
+ *
  * @return bool True if multisite and global terms enabled.
  */
 function global_terms_enabled() {
@@ -3920,7 +3949,7 @@ function global_terms_enabled() {
  *
  * @since 2.8.0
  *
- * @return float|bool Timezone GMT offset, false otherwise.
+ * @return float|false Timezone GMT offset, false otherwise.
  */
 function wp_timezone_override_offset() {
 	if ( !$timezone_string = get_option( 'timezone_string' ) ) {
@@ -3987,6 +4016,8 @@ function _wp_timezone_choice_usort_callback( $a, $b ) {
  * Gives a nicely-formatted list of timezone strings.
  *
  * @since 2.9.0
+ *
+ * @staticvar bool $mo_loaded
  *
  * @param string $selected_zone Selected timezone.
  * @return string
@@ -4134,6 +4165,8 @@ function _cleanup_header_comment( $str ) {
  * The default value of `EMPTY_TRASH_DAYS` is 30 (days).
  *
  * @since 2.9.0
+ *
+ * @global wpdb $wpdb
  */
 function wp_scheduled_delete() {
 	global $wpdb;
@@ -4244,7 +4277,7 @@ function get_file_data( $file, $default_headers, $context = '' ) {
  *
  * @see __return_false()
  *
- * @return bool True.
+ * @return true True.
  */
 function __return_true() {
 	return true;
@@ -4259,7 +4292,7 @@ function __return_true() {
  *
  * @see __return_true()
  *
- * @return bool False.
+ * @return false False.
  */
 function __return_false() {
 	return false;
@@ -4444,6 +4477,8 @@ function send_frame_options_header() {
  *
  * @see wp_kses()
  * @see esc_url()
+ *
+ * @staticvar array $protocols
  *
  * @return array Array of allowed protocols.
  */
@@ -4695,9 +4730,10 @@ function wp_auth_check_html() {
  *
  * @since 3.6.0
  *
- * @param array|object $response  The Heartbeat response object or array.
- * @return array|object $response The Heartbeat response object or array with 'wp-auth-check'
- *                                value set.
+ * @global int $login_grace_period
+ *
+ * @param array $response  The Heartbeat response.
+ * @return array $response The Heartbeat response with 'wp-auth-check' value set.
  */
 function wp_auth_check( $response ) {
 	$response['wp-auth-check'] = is_user_logged_in() && empty( $GLOBALS['login_grace_period'] );
@@ -4769,6 +4805,9 @@ function _canonical_charset( $charset ) {
  * @since 3.7.0
  *
  * @see reset_mbstring_encoding()
+ *
+ * @staticvar array $encodings
+ * @staticvar bool  $overloaded
  *
  * @param bool $reset Optional. Whether to reset the encoding back to a previously-set encoding.
  *                    Default false.
