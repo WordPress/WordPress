@@ -382,6 +382,9 @@ add_action( 'customize_controls_enqueue_scripts', 'wp_plupload_default_settings'
 // Nav menu
 add_filter( 'nav_menu_item_id', '_nav_menu_item_id_use_once', 10, 2 );
 
+// Widgets
+add_action( 'init', 'wp_widgets_init', 1 );
+
 // Admin Bar
 // Don't remove. Wrong way to disable.
 add_action( 'template_redirect', '_wp_admin_bar_init', 0 );

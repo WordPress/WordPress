@@ -18,6 +18,10 @@ class WP_Widget_Pages extends WP_Widget {
 		parent::__construct('pages', __('Pages'), $widget_ops);
 	}
 
+	/**
+	 * @param array $args
+	 * @param array $instance
+	 */
 	public function widget( $args, $instance ) {
 
 		/**
@@ -67,6 +71,11 @@ class WP_Widget_Pages extends WP_Widget {
 		}
 	}
 
+	/**
+	 * @param array $new_instance
+	 * @param array $old_instance
+	 * @return array
+	 */
 	public function update( $new_instance, $old_instance ) {
 		$instance = $old_instance;
 		$instance['title'] = strip_tags($new_instance['title']);
@@ -81,6 +90,9 @@ class WP_Widget_Pages extends WP_Widget {
 		return $instance;
 	}
 
+	/**
+	 * @param array $instance
+	 */
 	public function form( $instance ) {
 		//Defaults
 		$instance = wp_parse_args( (array) $instance, array( 'sortby' => 'post_title', 'title' => '', 'exclude' => '') );
@@ -118,8 +130,11 @@ class WP_Widget_Links extends WP_Widget {
 		parent::__construct('links', __('Links'), $widget_ops);
 	}
 
+	/**
+	 * @param array $args
+	 * @param array $instance
+	 */
 	public function widget( $args, $instance ) {
-
 		$show_description = isset($instance['description']) ? $instance['description'] : false;
 		$show_name = isset($instance['name']) ? $instance['name'] : false;
 		$show_rating = isset($instance['rating']) ? $instance['rating'] : false;
@@ -151,6 +166,11 @@ class WP_Widget_Links extends WP_Widget {
 		) ) );
 	}
 
+	/**
+	 * @param array $new_instance
+	 * @param array $old_instance
+	 * @return array
+	 */
 	public function update( $new_instance, $old_instance ) {
 		$new_instance = (array) $new_instance;
 		$instance = array( 'images' => 0, 'name' => 0, 'description' => 0, 'rating' => 0 );
@@ -169,6 +189,9 @@ class WP_Widget_Links extends WP_Widget {
 		return $instance;
 	}
 
+	/**
+	 * @param array $instance
+	 */
 	public function form( $instance ) {
 
 		//Defaults
@@ -227,8 +250,11 @@ class WP_Widget_Search extends WP_Widget {
 		parent::__construct( 'search', _x( 'Search', 'Search widget' ), $widget_ops );
 	}
 
+	/**
+	 * @param array $args
+	 * @param array $instance
+	 */
 	public function widget( $args, $instance ) {
-
 		/** This filter is documented in wp-includes/default-widgets.php */
 		$title = apply_filters( 'widget_title', empty( $instance['title'] ) ? '' : $instance['title'], $instance, $this->id_base );
 
@@ -243,6 +269,9 @@ class WP_Widget_Search extends WP_Widget {
 		echo $args['after_widget'];
 	}
 
+	/**
+	 * @param array $instance
+	 */
 	public function form( $instance ) {
 		$instance = wp_parse_args( (array) $instance, array( 'title' => '') );
 		$title = $instance['title'];
@@ -251,6 +280,11 @@ class WP_Widget_Search extends WP_Widget {
 <?php
 	}
 
+	/**
+	 * @param array $new_instance
+	 * @param array $old_instance
+	 * @return array
+	 */
 	public function update( $new_instance, $old_instance ) {
 		$instance = $old_instance;
 		$new_instance = wp_parse_args((array) $new_instance, array( 'title' => ''));
@@ -272,6 +306,10 @@ class WP_Widget_Archives extends WP_Widget {
 		parent::__construct('archives', __('Archives'), $widget_ops);
 	}
 
+	/**
+	 * @param array $args
+	 * @param array $instance
+	 */
 	public function widget( $args, $instance ) {
 		$c = ! empty( $instance['count'] ) ? '1' : '0';
 		$d = ! empty( $instance['dropdown'] ) ? '1' : '0';
@@ -354,6 +392,11 @@ class WP_Widget_Archives extends WP_Widget {
 		echo $args['after_widget'];
 	}
 
+	/**
+	 * @param array $new_instance
+	 * @param array $old_instance
+	 * @return array
+	 */
 	public function update( $new_instance, $old_instance ) {
 		$instance = $old_instance;
 		$new_instance = wp_parse_args( (array) $new_instance, array( 'title' => '', 'count' => 0, 'dropdown' => '') );
@@ -364,6 +407,9 @@ class WP_Widget_Archives extends WP_Widget {
 		return $instance;
 	}
 
+	/**
+	 * @param array $instance
+	 */
 	public function form( $instance ) {
 		$instance = wp_parse_args( (array) $instance, array( 'title' => '', 'count' => 0, 'dropdown' => '') );
 		$title = strip_tags($instance['title']);
@@ -394,8 +440,11 @@ class WP_Widget_Meta extends WP_Widget {
 		parent::__construct('meta', __('Meta'), $widget_ops);
 	}
 
+	/**
+	 * @param array $args
+	 * @param array $instance
+	 */
 	public function widget( $args, $instance ) {
-
 		/** This filter is documented in wp-includes/default-widgets.php */
 		$title = apply_filters( 'widget_title', empty($instance['title']) ? __( 'Meta' ) : $instance['title'], $instance, $this->id_base );
 
@@ -430,6 +479,11 @@ class WP_Widget_Meta extends WP_Widget {
 		echo $args['after_widget'];
 	}
 
+	/**
+	 * @param array $new_instance
+	 * @param array $old_instance
+	 * @return array
+	 */
 	public function update( $new_instance, $old_instance ) {
 		$instance = $old_instance;
 		$instance['title'] = strip_tags($new_instance['title']);
@@ -437,6 +491,9 @@ class WP_Widget_Meta extends WP_Widget {
 		return $instance;
 	}
 
+	/**
+	 * @param array $instance
+	 */
 	public function form( $instance ) {
 		$instance = wp_parse_args( (array) $instance, array( 'title' => '' ) );
 		$title = strip_tags($instance['title']);
@@ -458,8 +515,11 @@ class WP_Widget_Calendar extends WP_Widget {
 		parent::__construct('calendar', __('Calendar'), $widget_ops);
 	}
 
+	/**
+	 * @param array $args
+	 * @param array $instance
+	 */
 	public function widget( $args, $instance ) {
-
 		/** This filter is documented in wp-includes/default-widgets.php */
 		$title = apply_filters( 'widget_title', empty( $instance['title'] ) ? '' : $instance['title'], $instance, $this->id_base );
 
@@ -473,6 +533,11 @@ class WP_Widget_Calendar extends WP_Widget {
 		echo $args['after_widget'];
 	}
 
+	/**
+	 * @param array $new_instance
+	 * @param array $old_instance
+	 * @return array
+	 */
 	public function update( $new_instance, $old_instance ) {
 		$instance = $old_instance;
 		$instance['title'] = strip_tags($new_instance['title']);
@@ -480,6 +545,9 @@ class WP_Widget_Calendar extends WP_Widget {
 		return $instance;
 	}
 
+	/**
+	 * @param array $instance
+	 */
 	public function form( $instance ) {
 		$instance = wp_parse_args( (array) $instance, array( 'title' => '' ) );
 		$title = strip_tags($instance['title']);
@@ -503,8 +571,11 @@ class WP_Widget_Text extends WP_Widget {
 		parent::__construct('text', __('Text'), $widget_ops, $control_ops);
 	}
 
+	/**
+	 * @param array $args
+	 * @param array $instance
+	 */
 	public function widget( $args, $instance ) {
-
 		/** This filter is documented in wp-includes/default-widgets.php */
 		$title = apply_filters( 'widget_title', empty( $instance['title'] ) ? '' : $instance['title'], $instance, $this->id_base );
 
@@ -526,6 +597,11 @@ class WP_Widget_Text extends WP_Widget {
 		echo $args['after_widget'];
 	}
 
+	/**
+	 * @param array $new_instance
+	 * @param array $old_instance
+	 * @return array
+	 */
 	public function update( $new_instance, $old_instance ) {
 		$instance = $old_instance;
 		$instance['title'] = strip_tags($new_instance['title']);
@@ -537,6 +613,9 @@ class WP_Widget_Text extends WP_Widget {
 		return $instance;
 	}
 
+	/**
+	 * @param array $instance
+	 */
 	public function form( $instance ) {
 		$instance = wp_parse_args( (array) $instance, array( 'title' => '', 'text' => '' ) );
 		$title = strip_tags($instance['title']);
@@ -564,8 +643,11 @@ class WP_Widget_Categories extends WP_Widget {
 		parent::__construct('categories', __('Categories'), $widget_ops);
 	}
 
+	/**
+	 * @param array $args
+	 * @param array $instance
+	 */
 	public function widget( $args, $instance ) {
-
 		/** This filter is documented in wp-includes/default-widgets.php */
 		$title = apply_filters( 'widget_title', empty( $instance['title'] ) ? __( 'Categories' ) : $instance['title'], $instance, $this->id_base );
 
@@ -644,6 +726,11 @@ class WP_Widget_Categories extends WP_Widget {
 		echo $args['after_widget'];
 	}
 
+	/**
+	 * @param array $new_instance
+	 * @param array $old_instance
+	 * @return array
+	 */
 	public function update( $new_instance, $old_instance ) {
 		$instance = $old_instance;
 		$instance['title'] = strip_tags($new_instance['title']);
@@ -654,6 +741,9 @@ class WP_Widget_Categories extends WP_Widget {
 		return $instance;
 	}
 
+	/**
+	 * @param array $instance
+	 */
 	public function form( $instance ) {
 		//Defaults
 		$instance = wp_parse_args( (array) $instance, array( 'title' => '') );
@@ -695,7 +785,11 @@ class WP_Widget_Recent_Posts extends WP_Widget {
 		add_action( 'switch_theme', array($this, 'flush_widget_cache') );
 	}
 
-	public function widget($args, $instance) {
+	/**
+	 * @param array $args
+	 * @param array $instance
+	 */
+	public function widget( $args, $instance ) {
 		$cache = array();
 		if ( ! $this->is_preview() ) {
 			$cache = wp_cache_get( 'widget_recent_posts', 'widget' );
@@ -773,6 +867,11 @@ class WP_Widget_Recent_Posts extends WP_Widget {
 		}
 	}
 
+	/**
+	 * @param array $new_instance
+	 * @param array $old_instance
+	 * @return array
+	 */
 	public function update( $new_instance, $old_instance ) {
 		$instance = $old_instance;
 		$instance['title'] = strip_tags($new_instance['title']);
@@ -791,6 +890,9 @@ class WP_Widget_Recent_Posts extends WP_Widget {
 		wp_cache_delete('widget_recent_posts', 'widget');
 	}
 
+	/**
+	 * @param array $instance
+	 */
 	public function form( $instance ) {
 		$title     = isset( $instance['title'] ) ? esc_attr( $instance['title'] ) : '';
 		$number    = isset( $instance['number'] ) ? absint( $instance['number'] ) : 5;
@@ -829,7 +931,6 @@ class WP_Widget_Recent_Comments extends WP_Widget {
 	}
 
 	public function recent_comments_style() {
-
 		/**
 		 * Filter the Recent Comments default widget styles.
 		 *
@@ -850,6 +951,13 @@ class WP_Widget_Recent_Comments extends WP_Widget {
 		wp_cache_delete('widget_recent_comments', 'widget');
 	}
 
+	/**
+	 * @global array  $comments
+	 * @global object $comment
+	 *
+	 * @param array $args
+	 * @param array $instance
+	 */
 	public function widget( $args, $instance ) {
 		global $comments, $comment;
 
@@ -927,6 +1035,11 @@ class WP_Widget_Recent_Comments extends WP_Widget {
 		}
 	}
 
+	/**
+	 * @param array $new_instance
+	 * @param array $old_instance
+	 * @return array
+	 */
 	public function update( $new_instance, $old_instance ) {
 		$instance = $old_instance;
 		$instance['title'] = strip_tags($new_instance['title']);
@@ -940,6 +1053,9 @@ class WP_Widget_Recent_Comments extends WP_Widget {
 		return $instance;
 	}
 
+	/**
+	 * @param array $instance
+	 */
 	public function form( $instance ) {
 		$title  = isset( $instance['title'] ) ? esc_attr( $instance['title'] ) : '';
 		$number = isset( $instance['number'] ) ? absint( $instance['number'] ) : 5;
@@ -966,8 +1082,11 @@ class WP_Widget_RSS extends WP_Widget {
 		parent::__construct( 'rss', __('RSS'), $widget_ops, $control_ops );
 	}
 
-	public function widget($args, $instance) {
-
+	/**
+	 * @param array $args
+	 * @param array $instance
+	 */
+	public function widget( $args, $instance ) {
 		if ( isset($instance['error']) && $instance['error'] )
 			return;
 
@@ -1019,15 +1138,23 @@ class WP_Widget_RSS extends WP_Widget {
 		unset($rss);
 	}
 
-	public function update($new_instance, $old_instance) {
+	/**
+	 * @param array $new_instance
+	 * @param array $old_instance
+	 * @return array
+	 */
+	public function update( $new_instance, $old_instance ) {
 		$testurl = ( isset( $new_instance['url'] ) && ( !isset( $old_instance['url'] ) || ( $new_instance['url'] != $old_instance['url'] ) ) );
 		return wp_widget_rss_process( $new_instance, $testurl );
 	}
 
-	public function form($instance) {
-
-		if ( empty($instance) )
+	/**
+	 * @param array $instance
+	 */
+	public function form( $instance ) {
+		if ( empty( $instance ) ) {
 			$instance = array( 'title' => '', 'url' => '', 'items' => 10, 'error' => false, 'show_summary' => 0, 'show_author' => 0, 'show_date' => 0 );
+		}
 		$instance['number'] = $this->number;
 
 		wp_widget_rss_form( $instance );
@@ -1261,6 +1388,10 @@ class WP_Widget_Tag_Cloud extends WP_Widget {
 		parent::__construct('tag_cloud', __('Tag Cloud'), $widget_ops);
 	}
 
+	/**
+	 * @param array $args
+	 * @param array $instance
+	 */
 	public function widget( $args, $instance ) {
 		$current_taxonomy = $this->_get_current_taxonomy($instance);
 		if ( !empty($instance['title']) ) {
@@ -1301,6 +1432,11 @@ class WP_Widget_Tag_Cloud extends WP_Widget {
 		echo $args['after_widget'];
 	}
 
+	/**
+	 * @param array $new_instance
+	 * @param array $old_instance
+	 * @return array
+	 */
 	public function update( $new_instance, $old_instance ) {
 		$instance = array();
 		$instance['title'] = strip_tags(stripslashes($new_instance['title']));
@@ -1308,6 +1444,9 @@ class WP_Widget_Tag_Cloud extends WP_Widget {
 		return $instance;
 	}
 
+	/**
+	 * @param array $instance
+	 */
 	public function form( $instance ) {
 		$current_taxonomy = $this->_get_current_taxonomy($instance);
 ?>
@@ -1345,7 +1484,11 @@ class WP_Widget_Tag_Cloud extends WP_Widget {
 		parent::__construct( 'nav_menu', __('Custom Menu'), $widget_ops );
 	}
 
-	public function widget($args, $instance) {
+	/**
+	 * @param array $args
+	 * @param array $instance
+	 */
+	public function widget( $args, $instance ) {
 		// Get menu
 		$nav_menu = ! empty( $instance['nav_menu'] ) ? wp_get_nav_menu_object( $instance['nav_menu'] ) : false;
 
@@ -1384,6 +1527,11 @@ class WP_Widget_Tag_Cloud extends WP_Widget {
 		echo $args['after_widget'];
 	}
 
+	/**
+	 * @param array $new_instance
+	 * @param array $old_instance
+	 * @return array
+	 */
 	public function update( $new_instance, $old_instance ) {
 		$instance = array();
 		if ( ! empty( $new_instance['title'] ) ) {
@@ -1395,6 +1543,9 @@ class WP_Widget_Tag_Cloud extends WP_Widget {
 		return $instance;
 	}
 
+	/**
+	 * @param array $instance
+	 */
 	public function form( $instance ) {
 		$title = isset( $instance['title'] ) ? $instance['title'] : '';
 		$nav_menu = isset( $instance['nav_menu'] ) ? $instance['nav_menu'] : '';
@@ -1475,5 +1626,3 @@ function wp_widgets_init() {
 	 */
 	do_action( 'widgets_init' );
 }
-
-add_action('init', 'wp_widgets_init', 1);

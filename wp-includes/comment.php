@@ -161,7 +161,8 @@ function get_approved_comments( $post_id, $args = array() ) {
  *
  * @since 2.0.0
  *
- * @global wpdb $wpdb WordPress database abstraction object.
+ * @global wpdb   $wpdb WordPress database abstraction object.
+ * @global object $comment
  *
  * @param object|string|int $comment Comment to retrieve.
  * @param string $output Optional. OBJECT or ARRAY_A or ARRAY_N constants.
@@ -297,7 +298,7 @@ class WP_Comment_Query {
 	 *
 	 * @param callable $name      Method to call.
 	 * @param array    $arguments Arguments to pass when calling.
-	 * @return mixed|bool Return value of the callback, false otherwise.
+	 * @return mixed|false Return value of the callback, false otherwise.
 	 */
 	public function __call( $name, $arguments ) {
 		if ( 'get_search_sql' === $name ) {
@@ -377,7 +378,6 @@ class WP_Comment_Query {
 	 *     @type array        $type__not_in        Exclude comments from a given array of comment types. Default empty.
 	 *     @type int          $user_id             Include comments for a specific user ID. Default empty.
 	 * }
-	 * @return WP_Comment_Query WP_Comment_Query instance.
 	 */
 	public function __construct( $query = '' ) {
 		$this->query_var_defaults = array(
@@ -469,7 +469,7 @@ class WP_Comment_Query {
 	 *
 	 * @global wpdb $wpdb WordPress database abstraction object.
 	 *
-	 * @return array The list of comments.
+	 * @return int|array The list of comments.
 	 */
 	public function get_comments() {
 		global $wpdb;
@@ -901,8 +901,10 @@ class WP_Comment_Query {
 	/**
 	 * Used internally to generate an SQL string for searching across multiple columns
 	 *
-	 * @access protected
 	 * @since 3.1.0
+	 * @access protected
+	 *
+	 * @global wpdb $wpdb
 	 *
 	 * @param string $string
 	 * @param array $cols
@@ -930,7 +932,7 @@ class WP_Comment_Query {
 	 * @global wpdb $wpdb WordPress database abstraction object.
 	 *
 	 * @param string $orderby Alias for the field to order by.
-	 * @return string|bool Value to used in the ORDER clause. False otherwise.
+	 * @return string|false Value to used in the ORDER clause. False otherwise.
 	 */
 	protected function parse_orderby( $orderby ) {
 		global $wpdb;
@@ -1032,6 +1034,7 @@ function get_comment_statuses() {
  * @since 1.5.0
  *
  * @global wpdb $wpdb WordPress database abstraction object.
+ * @staticvar array $cache_lastcommentmodified
  *
  * @param string $timezone Which timezone to use in reference to 'gmt', 'blog',
  *		or 'server' locations.
@@ -1294,7 +1297,7 @@ function sanitize_comment_cookies() {
  * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param array $commentdata Contains information on the comment
- * @return mixed Signifies the approval status (0|1|'spam')
+ * @return int|string Signifies the approval status (0|1|'spam')
  */
 function wp_allow_comment( $commentdata ) {
 	global $wpdb;
@@ -1482,6 +1485,8 @@ function separate_comments(&$comments) {
  *
  * @uses Walker_Comment
  *
+ * @global WP_Query $wp_query
+ *
  * @param array $comments Optional array of comment objects. Defaults to $wp_query->comments
  * @param int $per_page Optional comments per page.
  * @param boolean $threaded Optional control over flat or threaded comments.
@@ -1526,6 +1531,8 @@ function get_comment_pages_count( $comments = null, $per_page = null, $threaded 
  * Calculate what page number a comment will appear on for comment paging.
  *
  * @since 2.7.0
+ *
+ * @global wpdb $wpdb
  *
  * @param int $comment_ID Comment ID.
  * @param array $args Optional args.
@@ -1649,8 +1656,10 @@ function wp_blacklist_check($author, $email, $url, $comment, $user_ip, $user_age
  *
  * @since 2.5.0
  *
+ * @global wpdb $wpdb
+ *
  * @param int $post_id Optional. Post ID.
- * @return object Comment stats.
+ * @return object|array Comment stats.
  */
 function wp_count_comments( $post_id = 0 ) {
 	global $wpdb;
@@ -2111,7 +2120,7 @@ function wp_get_current_commenter() {
  *     @type string     $comment_type         Comment type. Default empty.
  *     @type int        $user_id              ID of the user who submitted the comment. Default 0.
  * }
- * @return int|bool The new comment's ID on success, false on failure.
+ * @return int|false The new comment's ID on success, false on failure.
  */
 function wp_insert_comment( $commentdata ) {
 	global $wpdb;
@@ -2260,6 +2269,8 @@ function wp_throttle_comment_flood($block, $time_lastcomment, $time_newcomment) 
  *
  * @see wp_insert_comment()
  *
+ * @global wpdb $wpdb
+ *
  * @param array $commentdata Contains information on the comment. See wp_insert_comment()
  *                           for information on accepted arguments.
  * @return int|false The ID of the comment on success, false on failure.
@@ -2360,6 +2371,8 @@ function wp_new_comment( $commentdata ) {
  * If the comment status is not in the list, then false is returned.
  *
  * @since 1.0.0
+ *
+ * global wpdb $wpdb
  *
  * @param int $comment_id Comment ID.
  * @param string $comment_status New comment status, either 'hold', 'approve', 'spam', or 'trash'.
@@ -2547,7 +2560,7 @@ function wp_defer_comment_counting($defer=null) {
  *
  * @param int $post_id Post ID
  * @param bool $do_deferred Whether to process previously deferred post comment counts
- * @return bool|null True on success, false on failure
+ * @return bool|void True on success, false on failure
  */
 function wp_update_comment_count($post_id, $do_deferred=false) {
 	static $_deferred = array();
@@ -2790,7 +2803,8 @@ function generic_ping( $post_id = 0 ) {
  * Pings back the links found in a post.
  *
  * @since 0.71
- * @uses $wp_version
+ *
+ * @global string $wp_version
  *
  * @param string $content Post content to check for links.
  * @param int $post_ID Post ID.
@@ -2903,7 +2917,7 @@ function privacy_ping_filter($sites) {
  * @param string $title Title of post.
  * @param string $excerpt Excerpt of post.
  * @param int $ID Post ID.
- * @return mixed Database query from update.
+ * @return int|false|void Database query from update.
  */
 function trackback($trackback_url, $title, $excerpt, $ID) {
 	global $wpdb;
@@ -2933,7 +2947,8 @@ function trackback($trackback_url, $title, $excerpt, $ID) {
  * Send a pingback.
  *
  * @since 1.2.0
- * @uses $wp_version
+ *
+ * @global string $wp_version
  *
  * @param string $server Host of blog to connect to.
  * @param string $path Path to send the ping.
@@ -3030,9 +3045,9 @@ function update_comment_cache($comments) {
  * @access private
  * @since 2.7.0
  *
- * @param object $posts Post data object.
- * @param object $query Query object.
- * @return object
+ * @param WP_Post  $posts Post data object.
+ * @param WP_Query $query Query object.
+ * @return array
  */
 function _close_comments_for_old_posts( $posts, $query ) {
 	if ( empty( $posts ) || ! $query->is_singular() || ! get_option( 'close_comments_for_old_posts' ) )

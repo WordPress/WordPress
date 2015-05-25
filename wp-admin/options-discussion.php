@@ -66,7 +66,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 <br />
 <label for="default_ping_status">
 <input name="default_ping_status" type="checkbox" id="default_ping_status" value="open" <?php checked('open', get_option('default_ping_status')); ?> />
-<?php _e('Allow link notifications from other blogs (pingbacks and trackbacks)'); ?></label>
+<?php _e('Allow link notifications from other blogs (pingbacks and trackbacks) on new articles'); ?></label>
 <br />
 <label for="default_comment_status">
 <input name="default_comment_status" type="checkbox" id="default_comment_status" value="open" <?php checked('open', get_option('default_comment_status')); ?> />
