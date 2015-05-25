@@ -1380,7 +1380,7 @@ final class WP_Customize_Widgets {
 
 		$updated_widget = $this->call_widget_update( $widget_id ); // => {instance,form}
 		if ( is_wp_error( $updated_widget ) ) {
-			wp_send_json_error( $updated_widget->get_error_message() );
+			wp_send_json_error( $updated_widget->get_error_code() );
 		}
 
 		$form = $updated_widget['form'];
