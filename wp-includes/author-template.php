@@ -111,6 +111,8 @@ function the_modified_author() {
  * @return string The author's field from the current author's DB object.
  */
 function get_the_author_meta( $field = '', $user_id = false ) {
+	$original_user_id = $user_id;
+
 	if ( ! $user_id ) {
 		global $authordata;
 		$user_id = isset( $authordata->ID ) ? $authordata->ID : 0;
@@ -129,11 +131,13 @@ function get_the_author_meta( $field = '', $user_id = false ) {
 	 * The filter name is dynamic and depends on the $field parameter of the function.
 	 *
 	 * @since 2.8.0
+	 * @since 4.3.0 The `$original_user_id` parameter was added.
 	 *
-	 * @param string $value   The value of the metadata.
-	 * @param int    $user_id The user ID.
+	 * @param string   $value            The value of the metadata.
+	 * @param int      $user_id          The user ID for the value.
+	 * @param int|bool $original_user_id The original user ID, as passed to the function.
 	 */
-	return apply_filters( 'get_the_author_' . $field, $value, $user_id );
+	return apply_filters( 'get_the_author_' . $field, $value, $user_id, $original_user_id );
 }
 
 /**
