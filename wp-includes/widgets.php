@@ -214,20 +214,24 @@ class WP_Widget {
 		$settings = $this->get_settings();
 		$empty = true;
 
-		if ( is_array($settings) ) {
-			foreach ( array_keys($settings) as $number ) {
-				if ( is_numeric($number) ) {
-					$this->_set($number);
-					$this->_register_one($number);
+		// When $settings is an array-like object, get an intrinsic array for use with array_keys().
+		if ( $settings instanceof ArrayObject || $settings instanceof ArrayIterator ) {
+			$settings = $settings->getArrayCopy();
+		}
+
+		if ( is_array( $settings ) ) {
+			foreach ( array_keys( $settings ) as $number ) {
+				if ( is_numeric( $number ) ) {
+					$this->_set( $number );
+					$this->_register_one( $number );
 					$empty = false;
 				}
 			}
 		}
 
 		if ( $empty ) {
-			// If there are none, we register the widget's existence with a
-			// generic template
-			$this->_set(1);
+			// If there are none, we register the widget's existence with a generic template.
+			$this->_set( 1 );
 			$this->_register_one();
 		}
 	}
@@ -294,15 +298,16 @@ class WP_Widget {
 	 * }
 	 */
 	public function display_callback( $args, $widget_args = 1 ) {
-		if ( is_numeric($widget_args) )
+		if ( is_numeric( $widget_args ) ) {
 			$widget_args = array( 'number' => $widget_args );
+		}
 
 		$widget_args = wp_parse_args( $widget_args, array( 'number' => -1 ) );
 		$this->_set( $widget_args['number'] );
-		$instance = $this->get_settings();
+		$instances = $this->get_settings();
 
-		if ( array_key_exists( $this->number, $instance ) ) {
-			$instance = $instance[$this->number];
+		if ( isset( $instances[ $this->number ] ) ) {
+			$instance = $instances[ $this->number ];
 
 			/**
 			 * Filter the settings for a particular widget instance.
@@ -424,6 +429,7 @@ class WP_Widget {
 	 * @access public
 	 *
 	 * @param int|array $widget_args Widget instance number or array of widget arguments.
+	 * @return string|null
 	 */
 	public function form_callback( $widget_args = 1 ) {
 		if ( is_numeric($widget_args) )
@@ -516,20 +522,22 @@ class WP_Widget {
 	 */
 	public function get_settings() {
 
-		$settings = get_option($this->option_name);
+		$settings = get_option( $this->option_name );
 
-		if ( false === $settings && isset($this->alt_option_name) )
-			$settings = get_option($this->alt_option_name);
-
-		if ( !is_array($settings) )
-			$settings = array();
-
-		if ( !empty($settings) && !array_key_exists('_multiwidget', $settings) ) {
-			// old format, convert if single widget
-			$settings = wp_convert_widget_settings($this->id_base, $this->option_name, $settings);
+		if ( false === $settings && isset( $this->alt_option_name ) ) {
+			$settings = get_option( $this->alt_option_name );
 		}
 
-		unset($settings['_multiwidget'], $settings['__i__']);
+		if ( ! is_array( $settings ) && ! ( $settings instanceof ArrayObject || $settings instanceof ArrayIterator ) ) {
+			$settings = array();
+		}
+
+		if ( ! empty( $settings ) && ! isset( $settings['_multiwidget'] ) ) {
+			// Old format, convert if single widget.
+			$settings = wp_convert_widget_settings( $this->id_base, $this->option_name, $settings );
+		}
+
+		unset( $settings['_multiwidget'], $settings['__i__'] );
 		return $settings;
 	}
 }
