@@ -195,6 +195,8 @@ class Walker_Nav_Menu extends Walker {
  *
  * @since 3.0.0
  *
+ * @staticvar array $menu_id_slugs
+ *
  * @param array $args {
  *     Optional. Array of nav menu arguments.
  *
@@ -219,7 +221,7 @@ class Walker_Nav_Menu extends Walker {
  *     @type string        $items_wrap      How the list items should be wrapped. Default is a ul with an id and class.
  *                                          Uses printf() format with numbered placeholders.
  * }
- * @return mixed Menu output if $echo is false, false if there are no items or no menu was found.
+ * @return object|false|void Menu output if $echo is false, false if there are no items or no menu was found.
  */
 function wp_nav_menu( $args = array() ) {
 	static $menu_id_slugs = array();
@@ -429,6 +431,9 @@ function wp_nav_menu( $args = array() ) {
  *
  * @access private
  * @since 3.0.0
+ *
+ * @global WP_Query   $wp_query
+ * @global WP_Rewrite $wp_rewrite
  *
  * @param array $menu_items The current menu item objects to which to add the class property information.
  */
@@ -651,13 +656,17 @@ function _wp_menu_item_classes_by_context( &$menu_items ) {
  *
  * @uses Walker_Nav_Menu to create HTML list content.
  * @since 3.0.0
- * @see Walker::walk() for parameters and return description.
+ *
+ * @param array  $items
+ * @param int    $depth
+ * @param object $r
+ * @return string
  */
 function walk_nav_menu_tree( $items, $depth, $r ) {
 	$walker = ( empty($r->walker) ) ? new Walker_Nav_Menu : $r->walker;
 	$args = array( $items, $depth, $r );
 
-	return call_user_func_array( array($walker, 'walk'), $args );
+	return call_user_func_array( array( $walker, 'walk' ), $args );
 }
 
 /**
@@ -665,11 +674,17 @@ function walk_nav_menu_tree( $items, $depth, $r ) {
  *
  * @since 3.0.1
  * @access private
+ *
+ * @staticvar array $used_ids
+ * @param string $id
+ * @param object $item
+ * @return string
  */
 function _nav_menu_item_id_use_once( $id, $item ) {
 	static $_used_ids = array();
-	if ( in_array( $item->ID, $_used_ids ) )
+	if ( in_array( $item->ID, $_used_ids ) ) {
 		return '';
+	}
 	$_used_ids[] = $item->ID;
 	return $id;
 }
