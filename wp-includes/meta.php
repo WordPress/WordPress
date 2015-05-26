@@ -18,14 +18,15 @@
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
- * @param string $meta_type Type of object metadata is for (e.g., comment, post, or user)
- * @param int $object_id ID of the object metadata is for
- * @param string $meta_key Metadata key
- * @param mixed $meta_value Metadata value. Must be serializable if non-scalar.
- * @param bool $unique Optional, default is false. Whether the specified metadata key should be
- * 		unique for the object. If true, and the object already has a value for the specified
- * 		metadata key, no change will be made
- * @return int|bool The meta ID on success, false on failure.
+ * @param string $meta_type  Type of object metadata is for (e.g., comment, post, or user)
+ * @param int    $object_id  ID of the object metadata is for
+ * @param string $meta_key   Metadata key
+ * @param mixed  $meta_value Metadata value. Must be serializable if non-scalar.
+ * @param bool   $unique     Optional, default is false.
+ *                           Whether the specified metadata key should be unique for the object.
+ *                           If true, and the object already has a value for the specified metadata key,
+ *                           no change will be made.
+ * @return int|false The meta ID on success, false on failure.
  */
 function add_metadata($meta_type, $object_id, $meta_key, $meta_value, $unique = false) {
 	global $wpdb;
@@ -132,12 +133,12 @@ function add_metadata($meta_type, $object_id, $meta_key, $meta_value, $unique = 
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
- * @param string $meta_type Type of object metadata is for (e.g., comment, post, or user)
- * @param int $object_id ID of the object metadata is for
- * @param string $meta_key Metadata key
- * @param mixed $meta_value Metadata value. Must be serializable if non-scalar.
- * @param mixed $prev_value Optional. If specified, only update existing metadata entries with
- * 		the specified value. Otherwise, update all entries.
+ * @param string $meta_type  Type of object metadata is for (e.g., comment, post, or user)
+ * @param int    $object_id  ID of the object metadata is for
+ * @param string $meta_key   Metadata key
+ * @param mixed  $meta_value Metadata value. Must be serializable if non-scalar.
+ * @param mixed  $prev_value Optional. If specified, only update existing metadata entries with
+ * 		                     the specified value. Otherwise, update all entries.
  * @return int|bool Meta ID if the key didn't exist, true on successful update, false on failure.
  */
 function update_metadata($meta_type, $object_id, $meta_key, $meta_value, $prev_value = '') {
@@ -447,11 +448,12 @@ function delete_metadata($meta_type, $object_id, $meta_key, $meta_value = '', $d
  * @since 2.9.0
  *
  * @param string $meta_type Type of object metadata is for (e.g., comment, post, or user)
- * @param int $object_id ID of the object metadata is for
- * @param string $meta_key Optional. Metadata key. If not specified, retrieve all metadata for
- * 		the specified object.
- * @param bool $single Optional, default is false. If true, return only the first value of the
- * 		specified meta_key. This parameter has no effect if meta_key is not specified.
+ * @param int    $object_id ID of the object metadata is for
+ * @param string $meta_key  Optional. Metadata key. If not specified, retrieve all metadata for
+ * 		                    the specified object.
+ * @param bool   $single    Optional, default is false.
+ *                          If true, return only the first value of the specified meta_key.
+ *                          This parameter has no effect if meta_key is not specified.
  * @return mixed Single metadata value, or array of values
  */
 function get_metadata($meta_type, $object_id, $meta_key = '', $single = false) {
@@ -518,9 +520,9 @@ function get_metadata($meta_type, $object_id, $meta_key = '', $single = false) {
  * @since 3.3.0
  *
  * @param string $meta_type Type of object metadata is for (e.g., comment, post, or user)
- * @param int $object_id ID of the object metadata is for
- * @param string $meta_key Metadata key.
- * @return boolean true of the key is set, false if not.
+ * @param int    $object_id ID of the object metadata is for
+ * @param string $meta_key  Metadata key.
+ * @return bool True of the key is set, false if not.
  */
 function metadata_exists( $meta_type, $object_id, $meta_key ) {
 	if ( ! $meta_type || ! is_numeric( $object_id ) ) {
@@ -555,9 +557,11 @@ function metadata_exists( $meta_type, $object_id, $meta_key ) {
  *
  * @since 3.3.0
  *
+ * @global wpdb $wpdb
+ *
  * @param string $meta_type Type of object metadata is for (e.g., comment, post, or user)
- * @param int $meta_id ID for a specific meta row
- * @return object Meta object or false.
+ * @param int    $meta_id   ID for a specific meta row
+ * @return object|false Meta object or false.
  */
 function get_metadata_by_mid( $meta_type, $meta_id ) {
 	global $wpdb;
@@ -594,10 +598,12 @@ function get_metadata_by_mid( $meta_type, $meta_id ) {
  *
  * @since 3.3.0
  *
- * @param string $meta_type Type of object metadata is for (e.g., comment, post, or user)
- * @param int $meta_id ID for a specific meta row
+ * @global wpdb $wpdb
+ *
+ * @param string $meta_type  Type of object metadata is for (e.g., comment, post, or user)
+ * @param int    $meta_id    ID for a specific meta row
  * @param string $meta_value Metadata value
- * @param string $meta_key Optional, you can provide a meta key to update it
+ * @param string $meta_key   Optional, you can provide a meta key to update it
  * @return bool True on successful update, false on failure.
  */
 function update_metadata_by_mid( $meta_type, $meta_id, $meta_value, $meta_key = false ) {
@@ -685,8 +691,10 @@ function update_metadata_by_mid( $meta_type, $meta_id, $meta_value, $meta_key = 
  *
  * @since 3.3.0
  *
+ * @global wpdb $wpdb
+ *
  * @param string $meta_type Type of object metadata is for (e.g., comment, post, or user)
- * @param int $meta_id ID for a specific meta row
+ * @param int    $meta_id   ID for a specific meta row
  * @return bool True on successful delete, false on failure.
  */
 function delete_metadata_by_mid( $meta_type, $meta_id ) {
@@ -772,9 +780,9 @@ function delete_metadata_by_mid( $meta_type, $meta_id ) {
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
- * @param string $meta_type Type of object metadata is for (e.g., comment, post, or user)
- * @param int|array $object_ids array or comma delimited list of object IDs to update cache for
- * @return mixed Metadata cache for the specified objects, or false on failure.
+ * @param string    $meta_type  Type of object metadata is for (e.g., comment, post, or user)
+ * @param int|array $object_ids Array or comma delimited list of object IDs to update cache for
+ * @return array|false Metadata cache for the specified objects, or false on failure.
  */
 function update_meta_cache($meta_type, $object_ids) {
 	global $wpdb;
@@ -1153,7 +1161,7 @@ class WP_Meta_Query {
 	 * @param string $primary_table     Database table where the object being filtered is stored (eg wp_users).
 	 * @param string $primary_id_column ID column for the filtered object in $primary_table.
 	 * @param object $context           Optional. The main query object.
-	 * @return array {
+	 * @return false|array {
 	 *     Array containing JOIN and WHERE SQL clauses to append to the main query.
 	 *
 	 *     @type string $join  SQL fragment to append to the main JOIN clause.
@@ -1323,6 +1331,8 @@ class WP_Meta_Query {
 	 *
 	 * @since 4.1.0
 	 * @access public
+	 *
+	 * @global wpdb $wpdb
 	 *
 	 * @param array  $clause       Query clause, passed by reference.
 	 * @param array  $parent_query Parent query array.
@@ -1578,7 +1588,7 @@ class WP_Meta_Query {
  * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param string $type Type of object to get metadata table for (e.g., comment, post, or user)
- * @return mixed Metadata table name, or false if no metadata table exists
+ * @return string|false Metadata table name, or false if no metadata table exists
  */
 function _get_meta_table($type) {
 	global $wpdb;
@@ -1620,9 +1630,9 @@ function is_protected_meta( $meta_key, $meta_type = null ) {
  *
  * @since 3.1.3
  *
- * @param string $meta_key Meta key
- * @param mixed $meta_value Meta value to sanitize
- * @param string $meta_type Type of meta
+ * @param string $meta_key   Meta key
+ * @param mixed  $meta_value Meta value to sanitize
+ * @param string $meta_type  Type of meta
  * @return mixed Sanitized $meta_value
  */
 function sanitize_meta( $meta_key, $meta_value, $meta_type ) {
@@ -1649,10 +1659,10 @@ function sanitize_meta( $meta_key, $meta_value, $meta_type ) {
  *
  * @since 3.3.0
  *
- * @param string $meta_type Type of meta
- * @param string $meta_key Meta key
+ * @param string       $meta_type         Type of meta
+ * @param string       $meta_key          Meta key
  * @param string|array $sanitize_callback A function or method to call when sanitizing the value of $meta_key.
- * @param string|array $auth_callback Optional. A function or method to call when performing edit_post_meta, add_post_meta, and delete_post_meta capability checks.
+ * @param string|array $auth_callback     Optional. A function or method to call when performing edit_post_meta, add_post_meta, and delete_post_meta capability checks.
  */
 function register_meta( $meta_type, $meta_key, $sanitize_callback, $auth_callback = null ) {
 	if ( is_callable( $sanitize_callback ) )
