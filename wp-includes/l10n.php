@@ -21,6 +21,9 @@
  *
  * @since 1.5.0
  *
+ * @global string $locale
+ * @global string $wp_local_package
+ *
  * @return string The locale of the blog or from the 'locale' hook.
  */
 function get_locale() {
@@ -431,6 +434,8 @@ function translate_nooped_plural( $nooped_plural, $count, $domain = 'default' ) 
  *
  * @since 1.5.0
  *
+ * @global array $l10n
+ *
  * @param string $domain Text domain. Unique identifier for retrieving translated strings.
  * @param string $mofile Path to the .mo file.
  * @return bool True on success, false on failure.
@@ -490,6 +495,8 @@ function load_textdomain( $domain, $mofile ) {
  * Unload translations for a text domain.
  *
  * @since 3.0.0
+ *
+ * @global array $l10n
  *
  * @param string $domain Text domain. Unique identifier for retrieving translated strings.
  * @return bool Whether textdomain was unloaded.
@@ -704,6 +711,8 @@ function load_child_theme_textdomain( $domain, $path = false ) {
  *
  * @since 2.8.0
  *
+ * @global array $l10n
+ *
  * @param string $domain Text domain. Unique identifier for retrieving translated strings.
  * @return NOOP_Translations A Translations instance.
  */
@@ -719,6 +728,8 @@ function get_translations_for_domain( $domain ) {
  * Whether there are translations for the text domain.
  *
  * @since 3.0.0
+ *
+ * @global array $l10n
  *
  * @param string $domain Text domain. Unique identifier for retrieving translated strings.
  * @return bool Whether there are translations.
