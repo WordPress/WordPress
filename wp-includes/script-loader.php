@@ -45,7 +45,7 @@ require( ABSPATH . WPINC . '/functions.wp-styles.php' );
  *
  * @since 2.6.0
  *
- * @param object $scripts WP_Scripts object.
+ * @param WP_Scripts $scripts WP_Scripts object.
  */
 function wp_default_scripts( &$scripts ) {
 	include( ABSPATH . WPINC . '/version.php' ); // include an unmodified $wp_version
@@ -608,7 +608,7 @@ function wp_default_scripts( &$scripts ) {
  *
  * @since 2.6.0
  *
- * @param object $styles
+ * @param WP_Styles $styles
  */
 function wp_default_styles( &$styles ) {
 	include( ABSPATH . WPINC . '/version.php' ); // include an unmodified $wp_version
@@ -766,11 +766,11 @@ function wp_just_in_time_script_localization() {
  * the $_wp_admin_css_colors array value URL.
  *
  * @since 2.6.0
- * @uses $_wp_admin_css_colors
+ * @global array $_wp_admin_css_colors
  *
- * @param string $src Source URL.
+ * @param string $src    Source URL.
  * @param string $handle Either 'colors' or 'colors-rtl'.
- * @return string URL path to CSS stylesheet for Administration Screens.
+ * @return string|false URL path to CSS stylesheet for Administration Screens.
  */
 function wp_style_loader_src( $src, $handle ) {
 	global $_wp_admin_css_colors;
@@ -812,18 +812,20 @@ function wp_style_loader_src( $src, $handle ) {
  * @since 2.8.0
  *
  * @see wp_print_scripts()
+ *
+ * @global bool $concatenate_scripts
+ *
+ * @return array
  */
 function print_head_scripts() {
-	global $wp_scripts, $concatenate_scripts;
+	global $concatenate_scripts;
 
 	if ( ! did_action('wp_print_scripts') ) {
 		/** This action is documented in wp-includes/functions.wp-scripts.php */
 		do_action( 'wp_print_scripts' );
 	}
 
-	if ( ! ( $wp_scripts instanceof WP_Scripts ) ) {
-		$wp_scripts = new WP_Scripts();
-	}
+	$wp_scripts = wp_scripts();
 
 	script_concat_settings();
 	$wp_scripts->do_concat = $concatenate_scripts;
@@ -848,6 +850,11 @@ function print_head_scripts() {
  * Prints the scripts that were queued for the footer or too late for the HTML head.
  *
  * @since 2.8.0
+ *
+ * @global WP_Scripts $wp_scripts
+ * @global bool       $concatenate_scripts
+ *
+ * @return array
  */
 function print_footer_scripts() {
 	global $wp_scripts, $concatenate_scripts;
@@ -878,6 +885,9 @@ function print_footer_scripts() {
  * Print scripts (internal use only)
  *
  * @ignore
+ *
+ * @global WP_Scripts $wp_scripts
+ * @global bool       $compress_scripts
  */
 function _print_scripts() {
 	global $wp_scripts, $compress_scripts;
@@ -914,6 +924,10 @@ function _print_scripts() {
  * wp_print_footer_scripts() is called in the footer to print these scripts.
  *
  * @since 2.8.0
+ *
+ * @global WP_Scripts $wp_scripts
+ *
+ * @return array
  */
 function wp_print_head_scripts() {
 	if ( ! did_action('wp_print_scripts') ) {
@@ -974,13 +988,15 @@ function wp_enqueue_scripts() {
  * Prints the styles queue in the HTML head on admin pages.
  *
  * @since 2.8.0
+ *
+ * @global bool $concatenate_scripts
+ *
+ * @return array
  */
 function print_admin_styles() {
-	global $wp_styles, $concatenate_scripts;
+	global $concatenate_scripts;
 
-	if ( ! ( $wp_styles instanceof WP_Styles ) ) {
-		$wp_styles = new WP_Styles();
-	}
+	$wp_styles = wp_styles();
 
 	script_concat_settings();
 	$wp_styles->do_concat = $concatenate_scripts;
@@ -1005,6 +1021,11 @@ function print_admin_styles() {
  * Prints the styles that were queued too late for the HTML head.
  *
  * @since 3.3.0
+ *
+ * @global WP_Styles $wp_styles
+ * @global bool      $concatenate_scripts
+ *
+ * @return array|void
  */
 function print_late_styles() {
 	global $wp_styles, $concatenate_scripts;
@@ -1035,9 +1056,13 @@ function print_late_styles() {
  * Print styles (internal use only)
  *
  * @ignore
+ *
+ * @global bool $compress_css
  */
 function _print_styles() {
-	global $wp_styles, $compress_css;
+	global $compress_css;
+
+	$wp_styles = wp_styles();
 
 	$zip = $compress_css ? 1 : 0;
 	if ( $zip && defined('ENFORCE_GZIP') && ENFORCE_GZIP )
@@ -1064,6 +1089,10 @@ function _print_styles() {
  * Determine the concatenation and compression settings for scripts and styles.
  *
  * @since 2.8.0
+ *
+ * @global bool $concatenate_scripts
+ * @global bool $compress_scripts
+ * @global bool $compress_css
  */
 function script_concat_settings() {
 	global $concatenate_scripts, $compress_scripts, $compress_css;
