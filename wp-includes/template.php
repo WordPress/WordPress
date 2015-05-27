@@ -16,8 +16,8 @@
  *
  * @since 1.5.0
  *
- * @param string $type Filename without extension.
- * @param array $templates An optional list of template candidates
+ * @param string $type      Filename without extension.
+ * @param array  $templates An optional list of template candidates
  * @return string Full path to template file.
  */
 function get_query_template( $type, $templates = array() ) {
@@ -399,6 +399,8 @@ function get_single_template() {
  *
  * @see get_query_template()
  *
+ * @global array $posts
+ *
  * @return string Full path to attachment template file.
  */
 function get_attachment_template() {
@@ -455,8 +457,8 @@ function get_comments_popup_template() {
  * @since 2.7.0
  *
  * @param string|array $template_names Template file(s) to search for, in order.
- * @param bool $load If true the template file will be loaded if it is found.
- * @param bool $require_once Whether to require_once or require. Default true. Has no effect if $load is false.
+ * @param bool         $load           If true the template file will be loaded if it is found.
+ * @param bool         $require_once   Whether to require_once or require. Default true. Has no effect if $load is false.
  * @return string The template filename if one is located.
  */
 function locate_template($template_names, $load = false, $require_once = true ) {
@@ -488,8 +490,20 @@ function locate_template($template_names, $load = false, $require_once = true ) 
  *
  * @since 1.5.0
  *
+ * @global array      $posts
+ * @global WP_Post    $post
+ * @global bool       $wp_did_header
+ * @global WP_Query   $wp_query
+ * @global WP_Rewrite $wp_rewrite
+ * @global wpdb       $wpdb
+ * @global string     $wp_version
+ * @global WP         $wp
+ * @global int        $id
+ * @global object     $comment
+ * @global int        $user_ID
+ *
  * @param string $_template_file Path to template file.
- * @param bool $require_once Whether to require_once or require. Default true.
+ * @param bool   $require_once   Whether to require_once or require. Default true.
  */
 function load_template( $_template_file, $require_once = true ) {
 	global $posts, $post, $wp_did_header, $wp_query, $wp_rewrite, $wpdb, $wp_version, $wp, $id, $comment, $user_ID;
