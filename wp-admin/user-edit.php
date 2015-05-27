@@ -474,6 +474,11 @@ if ( $show_password_fields ) :
 <?php endif; ?>
 
 <?php
+// This is a temporary hook for WordPress 4.3 development. Do not use it or document it.
+do_action( '__temp_password_field', $profileuser );
+?>
+
+<?php
 if ( IS_PROFILE_PAGE && count( $sessions->get_all() ) === 1 ) : ?>
 	<tr class="user-sessions-wrap hide-if-no-js">
 		<th>&nbsp;</th>
