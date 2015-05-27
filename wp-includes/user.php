@@ -1176,6 +1176,7 @@ function get_blogs_of_user( $user_id, $all = false ) {
 				'site_id'     => $blog->site_id,
 				'siteurl'     => $blog->siteurl,
 				'archived'    => $blog->archived,
+				'mature'      => $blog->mature,
 				'spam'        => $blog->spam,
 				'deleted'     => $blog->deleted,
 			);
@@ -1205,6 +1206,7 @@ function get_blogs_of_user( $user_id, $all = false ) {
 				'site_id'     => $blog->site_id,
 				'siteurl'     => $blog->siteurl,
 				'archived'    => $blog->archived,
+				'mature'      => $blog->mature,
 				'spam'        => $blog->spam,
 				'deleted'     => $blog->deleted,
 			);
