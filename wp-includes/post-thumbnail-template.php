@@ -26,8 +26,8 @@ function has_post_thumbnail( $post_id = null ) {
  *
  * @since 2.9.0
  *
- * @param int $post_id Optional. Post ID.
- * @return int
+ * @param int|null $post_id Optional. Post ID.
+ * @return mixed
  */
 function get_post_thumbnail_id( $post_id = null ) {
 	$post_id = ( null === $post_id ) ? get_the_ID() : $post_id;
@@ -61,7 +61,9 @@ function the_post_thumbnail( $size = 'post-thumbnail', $attr = '' ) {
  *
  * @since 3.2.0
  *
- * @param object $wp_query Optional. A WP_Query instance. Defaults to the $wp_query global.
+ * @global WP_Query $wp_query
+ *
+ * @param WP_Query $wp_query Optional. A WP_Query instance. Defaults to the $wp_query global.
  */
 function update_post_thumbnail_cache( $wp_query = null ) {
 	if ( ! $wp_query )
@@ -99,6 +101,7 @@ function update_post_thumbnail_cache( $wp_query = null ) {
  * @param string|array $size Optional. Registered image size to use, or flat array of height
  *                           and width values. Default 'post-thumbnail'.
  * @param string|array $attr Optional. Query string or array of attributes. Default empty.
+ * @return string
  */
 function get_the_post_thumbnail( $post_id = null, $size = 'post-thumbnail', $attr = '' ) {
 	$post_id = ( null === $post_id ) ? get_the_ID() : $post_id;
