@@ -22,7 +22,7 @@ function the_ID() {
  *
  * @since 2.1.0
  *
- * @return int|bool The ID of the current item in the WordPress Loop. False if $post is not set.
+ * @return int|false The ID of the current item in the WordPress Loop. False if $post is not set.
  */
 function get_the_ID() {
 	$post = get_post();
@@ -35,11 +35,11 @@ function get_the_ID() {
  * @since 0.71
  *
  * @param string $before Optional. Content to prepend to the title.
- * @param string $after Optional. Content to append to the title.
- * @param bool $echo Optional, default to true.Whether to display or return.
- * @return null|string Null on no title. String if $echo parameter is false.
+ * @param string $after  Optional. Content to append to the title.
+ * @param bool   $echo   Optional, default to true.Whether to display or return.
+ * @return string|void String if $echo parameter is false.
  */
-function the_title($before = '', $after = '', $echo = true) {
+function the_title( $before = '', $after = '', $echo = true ) {
 	$title = get_the_title();
 
 	if ( strlen($title) == 0 )
@@ -73,7 +73,7 @@ function the_title($before = '', $after = '', $echo = true) {
  *     @type bool    $echo   Whether to echo or return the title. Default true for echo.
  *     @type WP_Post $post   Current post object to retrieve the title for.
  * }
- * @return string|null Null on failure or display. String when echo is false.
+ * @return string|void String when echo is false.
  */
 function the_title_attribute( $args = '' ) {
 	$defaults = array( 'before' => '', 'after' =>  '', 'echo' => true, 'post' => get_post() );
@@ -236,6 +236,12 @@ function the_content( $more_link_text = null, $strip_teaser = false) {
  * Retrieve the post content.
  *
  * @since 0.71
+ *
+ * @global int   $page
+ * @global int   $more
+ * @global bool  $preview
+ * @global array $pages
+ * @global int   $multipage
  *
  * @param string $more_link_text Optional. Content for when there is more text.
  * @param bool $strip_teaser Optional. Strip teaser content before the more text. Default is false.
@@ -521,6 +527,9 @@ function body_class( $class = '' ) {
  *
  * @since 2.8.0
  *
+ * @global WP_Query $wp_query
+ * @global wpdb     $wpdb
+ *
  * @param string|array $class One or more classes to add to the class list.
  * @return array Array of classes.
  */
@@ -726,7 +735,7 @@ function get_body_class( $class = '' ) {
  *
  * @since 2.7.0
  *
- * @param int|WP_Post $post An optional post. Global $post used if not provided.
+ * @param int|WP_Post|null $post An optional post. Global $post used if not provided.
  * @return bool false if a password is not required or the correct password cookie is present, true otherwise.
  */
 function post_password_required( $post = null ) {
@@ -760,6 +769,11 @@ function post_password_required( $post = null ) {
  *
  * @since 1.2.0
  *
+ * @global int $page
+ * @global int $numpages
+ * @global int $multipage
+ * @global int $more
+ *
  * @param string|array $args {
  *     Optional. Array or string of default arguments.
  *
@@ -782,6 +796,8 @@ function post_password_required( $post = null ) {
  * @return string Formatted output in HTML.
  */
 function wp_link_pages( $args = '' ) {
+	global $page, $numpages, $multipage, $more;
+
 	$defaults = array(
 		'before'           => '<p>' . __( 'Pages:' ),
 		'after'            => '</p>',
@@ -805,8 +821,6 @@ function wp_link_pages( $args = '' ) {
 	 * @param array $params An array of arguments for page links for paginated posts.
 	 */
 	$r = apply_filters( 'wp_link_pages_args', $params );
-
-	global $page, $numpages, $multipage, $more;
 
 	$output = '';
 	if ( $multipage ) {
@@ -877,6 +891,8 @@ function wp_link_pages( $args = '' ) {
  * @since 3.1.0
  * @access private
  *
+ * @global WP_Rewrite $wp_rewrite
+ *
  * @param int $i Page number.
  * @return string Link.
  */
@@ -921,7 +937,7 @@ function _wp_link_page( $i ) {
  * @since 1.5.0
  *
  * @param string $key Meta data key name.
- * @return bool|string|array Array of values or single value, if only one element exists. False will be returned if key does not exist.
+ * @return false|string|array Array of values or single value, if only one element exists. False will be returned if key does not exist.
  */
 function post_custom( $key = '' ) {
 	$custom = get_post_custom();
@@ -1048,6 +1064,8 @@ function wp_dropdown_pages( $args = '' ) {
  *
  * @see get_pages()
  *
+ * @global WP_Query $wp_query
+ *
  * @param array|string $args {
  *     Array or string of arguments. Optional.
  *
@@ -1074,7 +1092,7 @@ function wp_dropdown_pages( $args = '' ) {
  *                                will not be wrapped with unordered list `<ul>` tags. Default 'Pages'.
  *     @type Walker $walker       Walker instance to use for listing pages. Default empty (Walker_Page).
  * }
- * @return string HTML list of pages.
+ * @return string|void HTML list of pages.
  */
 function wp_list_pages( $args = '' ) {
 	$defaults = array(
@@ -1172,7 +1190,7 @@ function wp_list_pages( $args = '' ) {
  *     @type int|bool|string $show_home   Whether to display the link to the home page. Can just enter the text
  *                                        you'd like shown for the home link. 1|true defaults to 'Home'.
  * }
- * @return string html menu
+ * @return string|void HTML menu
  */
 function wp_page_menu( $args = array() ) {
 	$defaults = array('sort_column' => 'menu_order, post_title', 'menu_class' => 'menu', 'echo' => true, 'link_before' => '', 'link_after' => '');
@@ -1249,9 +1267,14 @@ function wp_page_menu( $args = array() ) {
  *
  * @uses Walker_Page to create HTML list content.
  * @since 2.1.0
- * @see Walker_Page::walk() for parameters and return description.
+ *
+ * @param array $pages
+ * @param int   $depth
+ * @param int   $current_page
+ * @param array $r
+ * @return string
  */
-function walk_page_tree($pages, $depth, $current_page, $r) {
+function walk_page_tree( $pages, $depth, $current_page, $r ) {
 	if ( empty($r['walker']) )
 		$walker = new Walker_Page;
 	else
@@ -1272,6 +1295,8 @@ function walk_page_tree($pages, $depth, $current_page, $r) {
  * @uses Walker_PageDropdown to create HTML dropdown content.
  * @since 2.1.0
  * @see Walker_PageDropdown::walk() for parameters and return description.
+ *
+ * @return string
  */
 function walk_page_dropdown_tree() {
 	$args = func_get_args();
@@ -1310,8 +1335,8 @@ class Walker_Page extends Walker {
 	 * @since 2.1.0
 	 *
 	 * @param string $output Passed by reference. Used to append additional content.
-	 * @param int $depth Depth of page. Used for padding.
-	 * @param array $args
+	 * @param int    $depth  Depth of page. Used for padding.
+	 * @param array  $args
 	 */
 	public function start_lvl( &$output, $depth = 0, $args = array() ) {
 		$indent = str_repeat("\t", $depth);
@@ -1323,8 +1348,8 @@ class Walker_Page extends Walker {
 	 * @since 2.1.0
 	 *
 	 * @param string $output Passed by reference. Used to append additional content.
-	 * @param int $depth Depth of page. Used for padding.
-	 * @param array $args
+	 * @param int    $depth  Depth of page. Used for padding.
+	 * @param array  $args
 	 */
 	public function end_lvl( &$output, $depth = 0, $args = array() ) {
 		$indent = str_repeat("\t", $depth);
@@ -1335,11 +1360,11 @@ class Walker_Page extends Walker {
 	 * @see Walker::start_el()
 	 * @since 2.1.0
 	 *
-	 * @param string $output Passed by reference. Used to append additional content.
-	 * @param object $page Page data object.
-	 * @param int $depth Depth of page. Used for padding.
-	 * @param int $current_page Page ID.
-	 * @param array $args
+	 * @param string $output       Passed by reference. Used to append additional content.
+	 * @param object $page         Page data object.
+	 * @param int    $depth        Depth of page. Used for padding.
+	 * @param int    $current_page Page ID.
+	 * @param array  $args
 	 */
 	public function start_el( &$output, $page, $depth = 0, $args = array(), $current_page = 0 ) {
 		if ( $depth ) {
@@ -1419,8 +1444,8 @@ class Walker_Page extends Walker {
 	 *
 	 * @param string $output Passed by reference. Used to append additional content.
 	 * @param object $page Page data object. Not used.
-	 * @param int $depth Depth of page. Not Used.
-	 * @param array $args
+	 * @param int    $depth Depth of page. Not Used.
+	 * @param array  $args
 	 */
 	public function end_el( &$output, $page, $depth = 0, $args = array() ) {
 		$output .= "</li>\n";
@@ -1458,8 +1483,8 @@ class Walker_PageDropdown extends Walker {
 	 * @param object $page   Page data object.
 	 * @param int    $depth  Depth of page in reference to parent pages. Used for padding.
 	 * @param array  $args   Uses 'selected' argument for selected page to set selected HTML attribute for option
-	 *              element. Uses 'value_field' argument to fill "value" attribute. See {@see wp_dropdown_pages()}.
-	 * @param int $id
+	 *                       element. Uses 'value_field' argument to fill "value" attribute. See {@see wp_dropdown_pages()}.
+	 * @param int    $id
 	 */
 	public function start_el( &$output, $page, $depth = 0, $args = array(), $id = 0 ) {
 		$pad = str_repeat('&nbsp;', $depth * 3);
@@ -1680,10 +1705,7 @@ function is_page_template( $template = '' ) {
 		}
 	}
 
-	if ( 'default' == $template && ! $page_template )
-		return true;
-
-	return false;
+	return ( 'default' === $template && ! $page_template );
 }
 
 /**
@@ -1692,7 +1714,7 @@ function is_page_template( $template = '' ) {
  * @since 3.4.0
  *
  * @param int $post_id Optional. The page ID to check. Defaults to the current post, when used in the loop.
- * @return string|bool Page template filename. Returns an empty string when the default page template
+ * @return string|false Page template filename. Returns an empty string when the default page template
  * 	is in use. Returns false if the post is not a page.
  */
 function get_page_template_slug( $post_id = null ) {
@@ -1711,8 +1733,8 @@ function get_page_template_slug( $post_id = null ) {
  * @since 2.6.0
  *
  * @param int|object $revision Revision ID or revision object.
- * @param bool $link Optional, default is true. Link to revisions's page?
- * @return string i18n formatted datetimestamp or localized 'Current Revision'.
+ * @param bool       $link     Optional, default is true. Link to revisions's page?
+ * @return string|false i18n formatted datetimestamp or localized 'Current Revision'.
  */
 function wp_post_revision_title( $revision, $link = true ) {
 	if ( !$revision = get_post( $revision ) )
@@ -1746,8 +1768,8 @@ function wp_post_revision_title( $revision, $link = true ) {
  * @since 3.6.0
  *
  * @param int|object $revision Revision ID or revision object.
- * @param bool $link Optional, default is true. Link to revisions's page?
- * @return string gravatar, user, i18n formatted datetimestamp or localized 'Current Revision'.
+ * @param bool       $link     Optional, default is true. Link to revisions's page?
+ * @return string|false gravatar, user, i18n formatted datetimestamp or localized 'Current Revision'.
  */
 function wp_post_revision_title_expanded( $revision, $link = true ) {
 	if ( !$revision = get_post( $revision ) )
@@ -1796,7 +1818,6 @@ function wp_post_revision_title_expanded( $revision, $link = true ) {
  *
  * @param int|WP_Post $post_id Optional. Post ID or WP_Post object. Default is global $post.
  * @param string      $type    'all' (default), 'revision' or 'autosave'
- * @return null
  */
 function wp_list_post_revisions( $post_id = 0, $type = 'all' ) {
 	if ( ! $post = get_post( $post_id ) )
