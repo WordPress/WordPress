@@ -2608,7 +2608,7 @@ function wp_delete_post( $postid = 0, $force_delete = false ) {
 		return $post;
 
 	if ( !$force_delete && ( $post->post_type == 'post' || $post->post_type == 'page') && get_post_status( $postid ) != 'trash' && EMPTY_TRASH_DAYS )
-			return wp_trash_post($postid);
+		return wp_trash_post( $postid );
 
 	if ( $post->post_type == 'attachment' )
 		return wp_delete_attachment( $postid, $force_delete );
