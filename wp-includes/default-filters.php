@@ -92,7 +92,7 @@ foreach ( array( 'content_save_pre', 'excerpt_save_pre', 'comment_save_pre', 'pr
 
 // Format strings for display.
 foreach ( array( 'comment_author', 'term_name', 'link_name', 'link_description', 'link_notes', 'bloginfo', 'wp_title', 'widget_title' ) as $filter ) {
-	add_filter( $filter, 'wptexturize'   );
+	// add_filter( $filter, 'wptexturize'   );
 	add_filter( $filter, 'convert_chars' );
 	add_filter( $filter, 'esc_html'      );
 }
@@ -104,13 +104,13 @@ add_filter( 'comment_text', 'capital_P_dangit', 31 );
 
 // Format titles
 foreach ( array( 'single_post_title', 'single_cat_title', 'single_tag_title', 'single_month_title', 'nav_menu_attr_title', 'nav_menu_description' ) as $filter ) {
-	add_filter( $filter, 'wptexturize' );
+	// add_filter( $filter, 'wptexturize' );
 	add_filter( $filter, 'strip_tags'  );
 }
 
 // Format text area for display.
 foreach ( array( 'term_description' ) as $filter ) {
-	add_filter( $filter, 'wptexturize'      );
+	// add_filter( $filter, 'wptexturize'      );
 	add_filter( $filter, 'convert_chars'    );
 	add_filter( $filter, 'wpautop'          );
 	add_filter( $filter, 'shortcode_unautop');
@@ -142,7 +142,7 @@ add_filter( 'the_excerpt',     'wpautop'          );
 add_filter( 'the_excerpt',     'shortcode_unautop');
 add_filter( 'get_the_excerpt', 'wp_trim_excerpt'  );
 
-add_filter( 'comment_text', 'wptexturize'            );
+// add_filter( 'comment_text', 'wptexturize'            );
 add_filter( 'comment_text', 'convert_chars'          );
 add_filter( 'comment_text', 'make_clickable',      9 );
 add_filter( 'comment_text', 'force_balance_tags', 25 );
