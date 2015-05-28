@@ -19,6 +19,8 @@
  *
  * @since 2.5.0
  *
+ * @global string $auth_secure_cookie
+ *
  * @param array       $credentials   Optional. User info in order to sign on.
  * @param string|bool $secure_cookie Optional. Whether to use secure cookie.
  * @return WP_User|WP_Error WP_User on success, WP_Error on failure.
@@ -161,6 +163,8 @@ function wp_authenticate_username_password($user, $username, $password) {
  *
  * @since 2.8.0
  *
+ * @global string $auth_secure_cookie
+ *
  * @param WP_User|WP_Error|null $user     WP_User or WP_Error object from a previous callback. Default null.
  * @param string                $username Username. If not empty, cancels the cookie authentication.
  * @param string                $password Password. If not empty, cancels the cookie authentication.
@@ -231,8 +235,8 @@ function wp_authenticate_spam_check( $user ) {
  *
  * @param int|bool $user_id The user ID (or false) as received from the
  *                       determine_current_user filter.
- * @return int|bool User ID if validated, false otherwise. If a user ID from
- *                  an earlier filter callback is received, that value is returned.
+ * @return int|false User ID if validated, false otherwise. If a user ID from
+ *                   an earlier filter callback is received, that value is returned.
  */
 function wp_validate_logged_in_cookie( $user_id ) {
 	if ( $user_id ) {
@@ -286,6 +290,8 @@ function count_user_posts( $userid, $post_type = 'post', $public_only = false ) 
  * Number of posts written by a list of users.
  *
  * @since 3.0.0
+ *
+ * @global wpdb $wpdb
  *
  * @param array        $users       Array of user IDs.
  * @param string|array $post_type   Optional. Single post type or array of post types to check. Defaults to 'post'.
@@ -516,6 +522,9 @@ class WP_User_Query {
 	 * @since 4.2.0 Added 'meta_value_num' support for `$orderby` parameter. Added multi-dimensional array syntax
 	 *              for `$orderby` parameter.
 	 * @access public
+	 *
+	 * @global wpdb $wpdb
+	 * @global int  $blog_id
 	 *
 	 * @param string|array $query {
 	 *     Optional. Array or string of Query parameters.
@@ -901,10 +910,12 @@ class WP_User_Query {
 	 * @access protected
 	 * @since 3.1.0
 	 *
+	 * @global wpdb $wpdb
+	 *
 	 * @param string $string
-	 * @param array $cols
-	 * @param bool $wild Whether to allow wildcard searches. Default is false for Network Admin, true for
-	 *  single site. Single site allows leading and trailing wildcards, Network Admin only trailing.
+	 * @param array  $cols
+	 * @param bool   $wild   Whether to allow wildcard searches. Default is false for Network Admin, true for single site.
+	 *                       Single site allows leading and trailing wildcards, Network Admin only trailing.
 	 * @return string
 	 */
 	protected function get_search_sql( $string, $cols, $wild = false ) {
@@ -959,7 +970,7 @@ class WP_User_Query {
 	 * @global wpdb $wpdb WordPress database abstraction object.
 	 *
 	 * @param string $orderby Alias for the field to order by.
-	 * @return string|bool Value to used in the ORDER clause, if `$orderby` is valid. False otherwise.
+	 * @return string Value to used in the ORDER clause, if `$orderby` is valid.
 	 */
 	protected function parse_orderby( $orderby ) {
 		global $wpdb;
@@ -1091,7 +1102,7 @@ class WP_User_Query {
 	 *
 	 * @param callable $name      Method to call.
 	 * @param array    $arguments Arguments to pass when calling.
-	 * @return mixed|bool Return value of the callback, false otherwise.
+	 * @return mixed Return value of the callback, false otherwise.
 	 */
 	public function __call( $name, $arguments ) {
 		if ( 'get_search_sql' === $name ) {
@@ -1257,11 +1268,11 @@ function is_user_member_of_blog( $user_id = 0, $blog_id = 0 ) {
  * @since 3.0.0
  * @link https://codex.wordpress.org/Function_Reference/add_user_meta
  *
- * @param int $user_id User ID.
- * @param string $meta_key Metadata name.
- * @param mixed $meta_value Metadata value.
- * @param bool $unique Optional, default is false. Whether the same key should not be added.
- * @return int|bool Meta ID on success, false on failure.
+ * @param int    $user_id    User ID.
+ * @param string $meta_key   Metadata name.
+ * @param mixed  $meta_value Metadata value.
+ * @param bool   $unique     Optional, default is false. Whether the same key should not be added.
+ * @return int|false Meta ID on success, false on failure.
  */
 function add_user_meta($user_id, $meta_key, $meta_value, $unique = false) {
 	return add_metadata('user', $user_id, $meta_key, $meta_value, $unique);
@@ -1277,9 +1288,9 @@ function add_user_meta($user_id, $meta_key, $meta_value, $unique = false) {
  * @since 3.0.0
  * @link https://codex.wordpress.org/Function_Reference/delete_user_meta
  *
- * @param int $user_id user ID
- * @param string $meta_key Metadata name.
- * @param mixed $meta_value Optional. Metadata value.
+ * @param int    $user_id    User ID
+ * @param string $meta_key   Metadata name.
+ * @param mixed  $meta_value Optional. Metadata value.
  * @return bool True on success, false on failure.
  */
 function delete_user_meta($user_id, $meta_key, $meta_value = '') {
@@ -1292,11 +1303,10 @@ function delete_user_meta($user_id, $meta_key, $meta_value = '') {
  * @since 3.0.0
  * @link https://codex.wordpress.org/Function_Reference/get_user_meta
  *
- * @param int $user_id User ID.
- * @param string $key Optional. The meta key to retrieve. By default, returns data for all keys.
- * @param bool $single Whether to return a single value.
- * @return mixed Will be an array if $single is false. Will be value of meta data field if $single
- *  is true.
+ * @param int    $user_id User ID.
+ * @param string $key     Optional. The meta key to retrieve. By default, returns data for all keys.
+ * @param bool   $single  Whether to return a single value.
+ * @return mixed Will be an array if $single is false. Will be value of meta data field if $single is true.
  */
 function get_user_meta($user_id, $key = '', $single = false) {
 	return get_metadata('user', $user_id, $key, $single);
@@ -1313,10 +1323,10 @@ function get_user_meta($user_id, $key = '', $single = false) {
  * @since 3.0.0
  * @link https://codex.wordpress.org/Function_Reference/update_user_meta
  *
- * @param int $user_id User ID.
- * @param string $meta_key Metadata key.
- * @param mixed $meta_value Metadata value.
- * @param mixed $prev_value Optional. Previous value to check before removing.
+ * @param int    $user_id    User ID.
+ * @param string $meta_key   Metadata key.
+ * @param mixed  $meta_value Metadata value.
+ * @param mixed  $prev_value Optional. Previous value to check before removing.
  * @return int|bool Meta ID if the key didn't exist, true on successful update, false on failure.
  */
 function update_user_meta($user_id, $meta_key, $meta_value, $prev_value = '') {
@@ -1332,6 +1342,9 @@ function update_user_meta($user_id, $meta_key, $meta_value, $prev_value = '') {
  * Using $strategy = 'memory' this is memory-intensive and should handle around 10^5 users, but see WP Bug #12257.
  *
  * @since 3.0.0
+ *
+ * @global wpdb $wpdb
+ *
  * @param string $strategy 'time' or 'memory'
  * @return array Includes a grand total and an array of counts indexed by role strings.
  */
@@ -1406,12 +1419,13 @@ function count_users($strategy = 'time') {
  * Used by wp_set_current_user() for back compat. Might be deprecated in the future.
  *
  * @since 2.0.4
- * @global string $userdata User description.
- * @global string $user_login The user username for logging in
- * @global int $user_level The level of the user
- * @global int $user_ID The ID of the user
- * @global string $user_email The email address of the user
- * @global string $user_url The url in the user's profile
+ *
+ * @global string $user_login    The user username for logging in
+ * @global object $userdata      User data.
+ * @global int    $user_level    The level of the user
+ * @global int    $user_ID       The ID of the user
+ * @global string $user_email    The email address of the user
+ * @global string $user_url      The url in the user's profile
  * @global string $user_identity The display name of the user
  *
  * @param int $for_user_id Optional. User ID to set up global data.
@@ -1453,6 +1467,7 @@ function setup_userdata($for_user_id = '') {
  * @since 2.3.0
  *
  * @global wpdb $wpdb WordPress database object for queries.
+ * @global int  $blog_id
  *
  * @param array|string $args {
  *     Optional. Array or string of arguments to generate a drop-down of users.
@@ -1492,7 +1507,7 @@ function setup_userdata($for_user_id = '') {
  *     @type string       $who                     Which type of users to query. Accepts only an empty string or
  *                                                 'authors'. Default empty.
  * }
- * @return string|null Null on display. String of HTML content on retrieve.
+ * @return string String of HTML content.
  */
 function wp_dropdown_users( $args = '' ) {
 	$defaults = array(
@@ -1581,11 +1596,11 @@ function wp_dropdown_users( $args = '' ) {
  *
  * @since 2.3.0
  *
- * @param string $field The user Object field name.
- * @param mixed $value The user Object value.
- * @param int $user_id user ID.
+ * @param string $field   The user Object field name.
+ * @param mixed  $value   The user Object value.
+ * @param int    $user_id User ID.
  * @param string $context How to sanitize user fields. Looks for 'raw', 'edit', 'db', 'display',
- *               'attribute' and 'js'.
+ *                        'attribute' and 'js'.
  * @return mixed Sanitized value.
  */
 function sanitize_user_field($field, $value, $user_id, $context) {
@@ -1719,14 +1734,13 @@ function clean_user_cache( $user ) {
  * @since 2.0.0
  *
  * @param string $username Username.
- * @return null|int The user's ID on success, and null on failure.
+ * @return int|false The user's ID on success, and false on failure.
  */
 function username_exists( $username ) {
-	if ( $user = get_user_by('login', $username ) ) {
+	if ( $user = get_user_by( 'login', $username ) ) {
 		return $user->ID;
-	} else {
-		return null;
 	}
+	return false;
 }
 
 /**
@@ -1735,12 +1749,12 @@ function username_exists( $username ) {
  * @since 2.1.0
  *
  * @param string $email Email.
- * @return bool|int The user's ID on success, and false on failure.
+ * @return int|false The user's ID on success, and false on failure.
  */
 function email_exists( $email ) {
-	if ( $user = get_user_by('email', $email) )
+	if ( $user = get_user_by( 'email', $email) ) {
 		return $user->ID;
-
+	}
 	return false;
 }
 
@@ -2148,7 +2162,7 @@ function wp_update_user($userdata) {
  * @param string $username The user's username.
  * @param string $password The user's password.
  * @param string $email    Optional. The user's email. Default empty.
- * @return int The new user's ID.
+ * @return int|WP_Error The new user's ID.
  */
 function wp_create_user($username, $password, $email = '') {
 	$user_login = wp_slash( $username );
@@ -2295,7 +2309,7 @@ function check_password_reset_key($key, $login) {
 /**
  * Handles resetting the user's password.
  *
- * @param object $user The user
+ * @param object $user     The user
  * @param string $new_pass New password for the user in plaintext
  */
 function reset_password( $user, $new_pass ) {
