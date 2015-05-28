@@ -333,7 +333,8 @@ $wp_queries = wp_get_db_schema( 'all' );
  * @since 1.5.0
  *
  * @global wpdb $wpdb WordPress database abstraction object.
- * @uses $wp_db_version
+ * @global int  $wp_db_version
+ * @global int  $wp_current_db_version
  */
 function populate_options() {
 	global $wpdb, $wp_db_version, $wp_current_db_version;

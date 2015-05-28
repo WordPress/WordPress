@@ -154,6 +154,8 @@ function maybe_drop_column($table_name, $column_name, $drop_ddl) {
  *
  * @since 1.0.0
  *
+ * @global wpdb $wpdb
+ *
  * @param string $table_name Table name
  * @param string $col_name Column name
  * @param string $col_type Column type

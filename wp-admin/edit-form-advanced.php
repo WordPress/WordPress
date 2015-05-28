@@ -10,6 +10,11 @@
 if ( !defined('ABSPATH') )
 	die('-1');
 
+/**
+ * @global string  $post_type
+ * @global object  $post_type_object
+ * @global WP_Post $post
+ */
 global $post_type, $post_type_object, $post;
 
 wp_enqueue_script('post');

@@ -279,6 +279,15 @@ if ( apply_filters( 'custom_menu_order', false ) ) {
 	$menu_order = array_flip($menu_order);
 	$default_menu_order = array_flip($default_menu_order);
 
+	/**
+	 *
+	 * @global array $menu_order
+	 * @global array $default_menu_order
+	 *
+	 * @param array $a
+	 * @param array $b
+	 * @return int
+	 */
 	function sort_menu($a, $b) {
 		global $menu_order, $default_menu_order;
 		$a = $a[2];

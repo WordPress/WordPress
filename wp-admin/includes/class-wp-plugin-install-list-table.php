@@ -48,6 +48,15 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 		return $slugs;
 	}
 
+	/**
+	 *
+	 * @global array  $tabs
+	 * @global string $tab
+	 * @global int    $paged
+	 * @global string $type
+	 * @global string $term
+	 * @global string $wp_version
+	 */
 	public function prepare_items() {
 		include( ABSPATH . 'wp-admin/includes/plugin-install.php' );
 
@@ -208,6 +217,12 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 		echo '<div class="no-plugin-results">' . $message . '</div>';
 	}
 
+	/**
+	 *
+	 * @global array $tabs
+	 * @global string $tab
+	 * @return array
+	 */
 	protected function get_views() {
 		global $tabs, $tab;
 
@@ -276,6 +291,8 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 	}
 
 	/**
+	 * @global string $tab
+	 *
 	 * @param string $which
 	 */
 	protected function display_tablenav( $which ) {
@@ -341,6 +358,9 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 		}
 	}
 
+	/**
+	 * @global string $wp_version
+	 */
 	public function display_rows() {
 		$plugins_allowedtags = array(
 			'a' => array( 'href' => array(),'title' => array(), 'target' => array() ),

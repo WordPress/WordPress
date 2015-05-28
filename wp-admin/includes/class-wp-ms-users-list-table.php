@@ -13,6 +13,13 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 		return current_user_can( 'manage_network_users' );
 	}
 
+	/**
+	 *
+	 * @global string $usersearch
+	 * @global string $role
+	 * @global wpdb   $wpdb
+	 * @global string $mode
+	 */
 	public function prepare_items() {
 		global $usersearch, $role, $wpdb, $mode;
 
@@ -86,6 +93,11 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 		_e( 'No users found.' );
 	}
 
+	/**
+	 *
+	 * @global string $role
+	 * @return array
+	 */
 	protected function get_views() {
 		global $role;
 
@@ -146,6 +158,10 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 		);
 	}
 
+	/**
+	 *
+	 * @global string $mode
+	 */
 	public function display_rows() {
 		global $mode;
 

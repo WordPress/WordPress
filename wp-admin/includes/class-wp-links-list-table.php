@@ -30,6 +30,13 @@ class WP_Links_List_Table extends WP_List_Table {
 		return current_user_can( 'manage_links' );
 	}
 
+	/**
+	 *
+	 * @global int    $cat_id
+	 * @global string $s
+	 * @global string $orderby
+	 * @global string $order
+	 */
 	public function prepare_items() {
 		global $cat_id, $s, $orderby, $order;
 
@@ -60,6 +67,11 @@ class WP_Links_List_Table extends WP_List_Table {
 		return $actions;
 	}
 
+	/**
+	 *
+	 * @global int $cat_id
+	 * @param string $which
+	 */
 	protected function extra_tablenav( $which ) {
 		global $cat_id;
 
@@ -108,6 +120,10 @@ class WP_Links_List_Table extends WP_List_Table {
 		);
 	}
 
+	/**
+	 *
+	 * @global int $cat_id
+	 */
 	public function display_rows() {
 		global $cat_id;
 

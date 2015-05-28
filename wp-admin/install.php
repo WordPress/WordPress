@@ -159,6 +159,12 @@ if ( is_blog_installed() ) {
 	die( '<h1>' . __( 'Already Installed' ) . '</h1><p>' . __( 'You appear to have already installed WordPress. To reinstall please clear your old database tables first.' ) . '</p><p class="step"><a href="../wp-login.php" class="button button-large">' . __( 'Log In' ) . '</a></p></body></html>' );
 }
 
+/**
+ * @global string $wp_version
+ * @global string $required_php_version
+ * @global string $required_mysql_version
+ * @global wpdb   $wpdb
+ */
 global $wp_version, $required_php_version, $required_mysql_version;
 
 $php_version    = phpversion();
@@ -183,6 +189,10 @@ if ( ! is_string( $wpdb->base_prefix ) || '' === $wpdb->base_prefix ) {
 	die( '<h1>' . __( 'Configuration Error' ) . '</h1><p>' . __( 'Your <code>wp-config.php</code> file has an empty database table prefix, which is not supported.' ) . '</p></body></html>' );
 }
 
+/**
+ * @global string    $wp_local_package
+ * @global WP_Locale $wp_locale
+ */
 $language = '';
 if ( ! empty( $_REQUEST['language'] ) ) {
 	$language = preg_replace( '/[^a-zA-Z_]/', '', $_REQUEST['language'] );

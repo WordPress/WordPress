@@ -30,6 +30,12 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 		return current_user_can( 'manage_sites' );
 	}
 
+	/**
+	 *
+	 * @global string $s
+	 * @global string $mode
+	 * @global wpdb   $wpdb
+	 */
 	public function prepare_items() {
 		global $s, $mode, $wpdb;
 
@@ -147,6 +153,8 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 	}
 
 	/**
+	 * @global string $mode
+	 *
 	 * @param string $which
 	 */
 	protected function pagination( $which ) {
@@ -192,6 +200,10 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 		);
 	}
 
+	/**
+	 *
+	 * @global string $mode
+	 */
 	public function display_rows() {
 		global $mode;
 

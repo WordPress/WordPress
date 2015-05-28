@@ -156,7 +156,8 @@ function get_pending_comments_num( $post_id ) {
  * Add avatars to relevant places in admin, or try to.
  *
  * @since 2.5.0
- * @uses $comment
+ * 
+ * @global object $comment
  *
  * @param string $name User name.
  * @return string Avatar with Admin name.

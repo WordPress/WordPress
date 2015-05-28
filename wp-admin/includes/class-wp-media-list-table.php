@@ -41,6 +41,13 @@ class WP_Media_List_Table extends WP_List_Table {
 		return current_user_can('upload_files');
 	}
 
+	/**
+	 *
+	 * @global WP_Query $wp_query
+	 * @global array    $post_mime_types
+	 * @global array    $avail_post_mime_types
+	 * @global string   $mode
+	 */
 	public function prepare_items() {
 		global $wp_query, $post_mime_types, $avail_post_mime_types, $mode;
 
@@ -57,6 +64,13 @@ class WP_Media_List_Table extends WP_List_Table {
 		) );
 	}
 
+	/**
+	 *
+	 * @global wpdb  $wpdb
+	 * @global array $post_mime_types
+	 * @global array $avail_post_mime_types
+	 * @return array
+	 */
 	protected function get_views() {
 		global $wpdb, $post_mime_types, $avail_post_mime_types;
 
@@ -160,6 +174,8 @@ class WP_Media_List_Table extends WP_List_Table {
 
 	/**
 	 * Override parent views so we can use the filter bar display.
+	 *
+	 * @global string $mode
 	 */
 	public function views() {
 		global $mode;
@@ -270,6 +286,10 @@ class WP_Media_List_Table extends WP_List_Table {
 		);
 	}
 
+	/**
+	 *
+	 * @global WP_Post $post
+	 */
 	public function display_rows() {
 		global $post;
 

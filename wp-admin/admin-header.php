@@ -10,7 +10,19 @@
 if ( ! defined( 'WP_ADMIN' ) )
 	require_once( dirname( __FILE__ ) . '/admin.php' );
 
-// In case admin-header.php is included in a function.
+/**
+ * In case admin-header.php is included in a function.
+ *
+ * @global string    $title
+ * @global string    $hook_suffix
+ * @global WP_Screen $current_screen
+ * @global WP_Locale $wp_locale
+ * @global string    $pagenow
+ * @global string    $wp_version
+ * @global string    $update_title
+ * @global int       $total_update_count
+ * @global string    $parent_file
+ */
 global $title, $hook_suffix, $current_screen, $wp_locale, $pagenow, $wp_version,
 	$update_title, $total_update_count, $parent_file;
 

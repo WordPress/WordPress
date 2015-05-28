@@ -467,6 +467,8 @@ if ( current_theme_supports( 'menus' ) ) {
 /*
  * Ensure the user will be able to scroll horizontally
  * by adding a class for the max menu depth.
+ *
+ * @global int $_wp_nav_menu_max_depth
  */
 global $_wp_nav_menu_max_depth;
 $_wp_nav_menu_max_depth = 0;
@@ -477,7 +479,14 @@ if ( is_nav_menu( $nav_menu_selected_id ) ) {
 	$edit_markup = wp_get_nav_menu_to_edit( $nav_menu_selected_id );
 }
 
-function wp_nav_menu_max_depth($classes) {
+/**
+ *
+ * @global int $_wp_nav_menu_max_depth
+ *
+ * @param string $classes
+ * @return string
+ */
+function wp_nav_menu_max_depth( $classes ) {
 	global $_wp_nav_menu_max_depth;
 	return "$classes menu-max-depth-$_wp_nav_menu_max_depth";
 }

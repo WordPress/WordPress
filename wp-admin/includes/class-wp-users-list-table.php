@@ -69,6 +69,9 @@ class WP_Users_List_Table extends WP_List_Table {
 	 *
 	 * @since 3.1.0
 	 * @access public
+	 *
+	 * @global string $role
+	 * @global string $usersearch
 	 */
 	public function prepare_items() {
 		global $role, $usersearch;
@@ -133,10 +136,14 @@ class WP_Users_List_Table extends WP_List_Table {
 	 * @since  3.1.0
 	 * @access protected
 	 *
+	 * @global string $role
+	 *
 	 * @return array An array of HTML links, one for each view.
 	 */
 	protected function get_views() {
-		global $wp_roles, $role;
+		global $role;
+
+		$wp_roles = wp_roles();
 
 		if ( $this->is_site_users ) {
 			$url = 'site-users.php?id=' . $this->site_id;
@@ -329,8 +336,6 @@ class WP_Users_List_Table extends WP_List_Table {
 	 * @since 4.2.0 The `$style` argument was deprecated.
 	 * @access public
 	 *
-	 * @global WP_Roles $wp_roles User roles object.
-	 *
 	 * @param object $user_object The current user object.
 	 * @param string $style       Deprecated. Not used.
 	 * @param string $role        Optional. Key for the $wp_roles array. Default empty.
@@ -339,7 +344,7 @@ class WP_Users_List_Table extends WP_List_Table {
 	 * @return string Output for a single row.
 	 */
 	public function single_row( $user_object, $style = '', $role = '', $numposts = 0 ) {
-		global $wp_roles;
+		$wp_roles = wp_roles();
 
 		if ( ! ( $user_object instanceof WP_User ) ) {
 			$user_object = get_userdata( (int) $user_object );

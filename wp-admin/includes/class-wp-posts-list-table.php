@@ -55,6 +55,9 @@ class WP_Posts_List_Table extends WP_List_Table {
 	 *
 	 * @see WP_List_Table::__construct() for more information on default arguments.
 	 *
+	 * @global object $post_type_object
+	 * @global wpdb   $wpdb
+	 *
 	 * @param array $args An associative array of arguments.
 	 */
 	public function __construct( $args = array() ) {
@@ -101,6 +104,13 @@ class WP_Posts_List_Table extends WP_List_Table {
 		return current_user_can( get_post_type_object( $this->screen->post_type )->cap->edit_posts );
 	}
 
+	/**
+	 *
+	 * @global array    $avail_post_stati
+	 * @global WP_Query $wp_query
+	 * @global int      $per_page
+	 * @global string   $mode
+	 */
 	public function prepare_items() {
 		global $avail_post_stati, $wp_query, $per_page, $mode;
 
@@ -163,6 +173,12 @@ class WP_Posts_List_Table extends WP_List_Table {
 		}
 	}
 
+	/**
+	 *
+	 * @global array $locked_post_status This seems to be deprecated.
+	 * @global array $avail_post_stati
+	 * @return array
+	 */
 	protected function get_views() {
 		global $locked_post_status, $avail_post_stati;
 
@@ -467,7 +483,8 @@ class WP_Posts_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * @global wpdb $wpdb
+	 * @global wpdb    $wpdb
+	 * @global WP_Post $post
 	 * @param array $pages
 	 * @param int $pagenum
 	 * @param int $per_page
@@ -628,7 +645,9 @@ class WP_Posts_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * @global string $mode
+	 * @global string  $mode
+	 * @global WP_Post $post
+	 *
 	 * @param WP_Post $post
 	 * @param int $level
 	 */
@@ -991,6 +1010,8 @@ class WP_Posts_List_Table extends WP_List_Table {
 	 * Outputs the hidden row displayed when inline editing
 	 *
 	 * @since 3.1.0
+	 *
+	 * @global string $mode
 	 */
 	public function inline_edit() {
 		global $mode;

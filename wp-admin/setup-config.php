@@ -63,6 +63,10 @@ $step = isset( $_GET['step'] ) ? (int) $_GET['step'] : -1;
  *
  * @ignore
  * @since 2.3.0
+ *
+ * @global string    $wp_version
+ * @global string    $wp_local_package
+ * @global WP_Locale $wp_locale
  */
 function setup_config_display_header( $body_classes = array() ) {
 	global $wp_version;

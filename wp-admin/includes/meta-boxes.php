@@ -7,6 +7,8 @@
  *
  * @since 2.7.0
  *
+ * @global string $action
+ *
  * @param object $post
  */
 function post_submit_meta_box($post, $args = array() ) {
@@ -670,6 +672,8 @@ function post_slug_meta_box($post) {
  *
  * @since 2.6.0
  *
+ * @global int $user_ID
+ *
  * @param object $post
  */
 function post_author_meta_box($post) {
@@ -912,6 +916,8 @@ function link_target_meta_box($link) { ?>
  * Display checked checkboxes attribute for xfn microformat options.
  *
  * @since 1.0.1
+ *
+ * @global object $link
  *
  * @param string $class
  * @param string $value

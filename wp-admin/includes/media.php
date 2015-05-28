@@ -36,6 +36,8 @@ function media_upload_tabs() {
  *
  * @since 2.5.0
  *
+ * @global wpdb $wpdb
+ *
  * @param array $tabs
  * @return array $tabs with gallery if post has image attachment
  */
@@ -67,6 +69,8 @@ add_filter('media_upload_tabs', 'update_gallery_tab');
  * {@internal Missing Short Description}}
  *
  * @since 2.5.0
+ *
+ * @global string $redir_tab
  */
 function the_media_upload_tabs() {
 	global $redir_tab;
@@ -433,6 +437,8 @@ function media_handle_sideload($file_array, $post_id, $desc = null, $post_data =
  *
  * @since 2.5.0
  *
+ * @global int $body_id
+ *
  * @param string|callable $content_func
  */
 function wp_iframe($content_func /* ... */) {
@@ -526,6 +532,8 @@ document.body.className = document.body.className.replace('no-js', 'js');
  * Adds the media button to the editor
  *
  * @since 2.5.0
+ *
+ * @global int $post_ID
  *
  * @param string $editor_id
  */
@@ -1288,6 +1296,8 @@ function get_attachment_fields_to_edit($post, $errors = null) {
  *
  * @since 2.5.0
  *
+ * @global WP_Query $wp_the_query
+ *
  * @param int $post_id Optional. Post ID.
  * @param array $errors Errors for attachment, if any.
  * @return string
@@ -1321,6 +1331,8 @@ function get_media_items( $post_id, $errors ) {
  * Retrieve HTML form for modifying the image attachment.
  *
  * @since 2.5.0
+ *
+ * @global string $redir_tab
  *
  * @param int $attachment_id Attachment ID for modification.
  * @param string|array $args Optional. Override defaults.
@@ -1736,6 +1748,11 @@ function media_upload_header() {
  *
  * @since 2.5.0
  *
+ * @global string $type
+ * @global string $tab
+ * @global bool   $is_IE
+ * @global bool   $is_opera
+ *
  * @param array $errors
  */
 function media_upload_form( $errors = null ) {
@@ -2135,6 +2152,10 @@ echo apply_filters( 'type_url_form_media', wp_media_insert_url_form( $type ) );
  *
  * @since 2.5.0
  *
+ * @global string $redir_tab
+ * @global string $type
+ * @global string $tab
+ *
  * @param array $errors
  */
 function media_upload_gallery_form($errors) {
@@ -2279,6 +2300,13 @@ jQuery(function($){
  * {@internal Missing Short Description}}
  *
  * @since 2.5.0
+ *
+ * @global wpdb      $wpdb
+ * @global WP_Query  $wp_query
+ * @global WP_Locale $wp_locale
+ * @global string    $type
+ * @global string    $tab
+ * @global array     $post_mime_types
  *
  * @param array $errors
  */
@@ -2564,6 +2592,8 @@ function wp_media_insert_url_form( $default_view = 'image' ) {
  * Displays the multi-file uploader message.
  *
  * @since 2.6.0
+ *
+ * @global int $post_ID
  */
 function media_upload_flash_bypass() {
 	$browser_uploader = admin_url( 'media-new.php?browser-uploader' );

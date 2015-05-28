@@ -67,6 +67,8 @@ function wp_crop_image( $src, $src_x, $src_y, $src_w, $src_h, $dst_w, $dst_h, $s
  *
  * @since 2.1.0
  *
+ * @global array $_wp_additional_image_sizes
+ *
  * @param int $attachment_id Attachment Id to process.
  * @param string $file Filepath of the Attached image.
  * @return mixed Metadata for attachment.

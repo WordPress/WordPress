@@ -20,6 +20,9 @@ define( 'WXR_VERSION', '1.2' );
  *
  * @since 2.1.0
  *
+ * @global wpdb    $wpdb
+ * @global WP_Post $post
+ *
  * @param array $args Filters defining what should be included in the export.
  */
 function export_wp( $args = array() ) {
@@ -244,6 +247,8 @@ function export_wp( $args = array() ) {
 	 *
 	 * @since 3.1.0
 	 *
+	 * @global wpdb $wpdb
+	 *
 	 * @param array $post_ids Array of post IDs to filter the query by. Optional.
 	 */
 	function wxr_authors_list( array $post_ids = null ) {
@@ -375,6 +380,9 @@ function export_wp( $args = array() ) {
 	?>
 
 <?php if ( $post_ids ) {
+	/**
+	 * @global WP_Query $wp_query
+	 */
 	global $wp_query;
 
 	// Fake being in the loop.

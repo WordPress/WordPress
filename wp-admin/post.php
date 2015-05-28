@@ -23,6 +23,11 @@ elseif ( isset( $_POST['post_ID'] ) )
 else
  	$post_id = $post_ID = 0;
 
+/**
+ * @global string  $post_type
+ * @global object  $post_type_object
+ * @global WP_Post $post
+ */
 global $post_type, $post_type_object, $post;
 
 if ( $post_id )

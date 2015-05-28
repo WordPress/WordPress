@@ -48,6 +48,8 @@ add_filter( 'wp_handle_upload_prefilter', 'check_upload_size' );
  *
  * @since 3.0.0
  *
+ * @global wpdb $wpdb
+ *
  * @param int  $blog_id Blog ID.
  * @param bool $drop    True if blog's table should be dropped. Default is false.
  */
@@ -175,6 +177,8 @@ function wpmu_delete_blog( $blog_id, $drop = false ) {
  * @since 3.0.0
  *
  * @todo Merge with wp_delete_user() ?
+ *
+ * @global wpdb $wpdb
  *
  * @param int $id The user ID.
  * @return bool True if the user was deleted, otherwise false.
@@ -494,6 +498,8 @@ add_action( 'wpmueditblogaction', 'upload_space_setting' );
  * Used in core to mark a user as spam or "ham" (not spam) in Multisite.
  *
  * @since 3.0.0
+ *
+ * @global wpdb $wpdb
  *
  * @param int    $id         The user ID.
  * @param string $pref       The column in the wp_users table to update the user's status
@@ -842,6 +848,8 @@ function choose_primary_blog() {
  *
  * @since 3.0.0
  *
+ * @global array $super_admins
+ *
  * @param int $user_id ID of the user to be granted Super Admin privileges.
  * @return bool True on success, false on failure. This can fail when the user is
  *              already a super admin or when the `$super_admins` global is defined.
@@ -886,6 +894,8 @@ function grant_super_admin( $user_id ) {
  * Revokes Super Admin privileges.
  *
  * @since 3.0.0
+ *
+ * @global array $super_admins
  *
  * @param int $user_id ID of the user Super Admin privileges to be revoked from.
  * @return bool True on success, false on failure. This can fail when the user's email
@@ -936,6 +946,8 @@ function revoke_super_admin( $user_id ) {
  * this allows for this to be overridden.
  *
  * @since 3.1.0
+ *
+ * @global wpdb $wpdb
  *
  * @param int $site_id The network/site ID to check.
  * @return bool True if network can be edited, otherwise false.

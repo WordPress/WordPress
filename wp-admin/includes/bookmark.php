@@ -74,6 +74,8 @@ function get_default_link_to_edit() {
  *
  * @since 2.0.0
  *
+ * @global wpdb $wpdb
+ *
  * @param int $link_id ID of the link to delete
  * @return bool True
  */
@@ -136,6 +138,8 @@ function get_link_to_edit( $link_id ) {
  * This function inserts/updates links into/in the database.
  *
  * @since 2.0.0
+ *
+ * @global wpdb $wpdb
  *
  * @param array $linkdata Elements that make up the link to insert.
  * @param bool $wp_error Optional. If true return WP_Error object on failure.
@@ -285,6 +289,8 @@ function wp_update_link( $linkdata ) {
 /**
  * @since 3.5.0
  * @access private
+ *
+ * @global string $pagenow
  */
 function wp_link_manager_disabled_message() {
 	global $pagenow;

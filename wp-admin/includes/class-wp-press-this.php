@@ -1148,6 +1148,10 @@ class WP_Press_This {
 	 *
 	 * @since 4.2.0
 	 * @access public
+	 *
+	 * @global WP_Locale $wp_locale
+	 * @global string    $wp_version
+	 * @global bool      $is_IE
 	 */
 	public function html() {
 		global $wp_locale, $wp_version;
@@ -1463,4 +1467,8 @@ class WP_Press_This {
 	}
 }
 
+/**
+ *
+ * @global WP_Press_This $wp_press_this
+ */
 $GLOBALS['wp_press_this'] = new WP_Press_This;

@@ -11,6 +11,7 @@
  *
  * @since 2.0.0
  *
+ * @global array $wp_importers
  * @return array
  */
 function get_importers() {
@@ -41,6 +42,8 @@ function _usort_by_first_member( $a, $b ) {
  * Register importer for WordPress.
  *
  * @since 2.0.0
+ *
+ * @global array $wp_importers
  *
  * @param string $id Importer tag. Used to uniquely identify importer.
  * @param string $name Importer name and title.

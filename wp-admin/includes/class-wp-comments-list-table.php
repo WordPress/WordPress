@@ -33,6 +33,8 @@ class WP_Comments_List_Table extends WP_List_Table {
 	 *
 	 * @see WP_List_Table::__construct() for more information on default arguments.
 	 *
+	 * @global int $post_id
+	 *
 	 * @param array $args An associative array of arguments.
 	 */
 	public function __construct( $args = array() ) {
@@ -55,6 +57,13 @@ class WP_Comments_List_Table extends WP_List_Table {
 		return current_user_can('edit_posts');
 	}
 
+	/**
+	 *
+	 * @global int    $post_id
+	 * @global string $comment_status
+	 * @global string $search
+	 * @global string $comment_type
+	 */
 	public function prepare_items() {
 		global $post_id, $comment_status, $search, $comment_type;
 
@@ -153,6 +162,10 @@ class WP_Comments_List_Table extends WP_List_Table {
 		return $comments_per_page;
 	}
 
+	/**
+	 *
+	 * @global string $comment_status
+	 */
 	public function no_items() {
 		global $comment_status;
 
@@ -162,6 +175,12 @@ class WP_Comments_List_Table extends WP_List_Table {
 			_e( 'No comments found.' );
 	}
 
+	/**
+	 *
+	 * @global int $post_id
+	 * @global string $comment_status
+	 * @global string $comment_type
+	 */
 	protected function get_views() {
 		global $post_id, $comment_status, $comment_type;
 
@@ -215,6 +234,10 @@ class WP_Comments_List_Table extends WP_List_Table {
 		return $status_links;
 	}
 
+	/**
+	 *
+	 * @global string $comment_status
+	 */
 	protected function get_bulk_actions() {
 		global $comment_status;
 
@@ -239,6 +262,12 @@ class WP_Comments_List_Table extends WP_List_Table {
 		return $actions;
 	}
 
+	/**
+	 *
+	 * @global string $comment_status
+	 * @global string $comment_type
+	 * @param string $which
+	 */
 	protected function extra_tablenav( $which ) {
 		global $comment_status, $comment_type;
 ?>
@@ -299,6 +328,11 @@ class WP_Comments_List_Table extends WP_List_Table {
 		return parent::current_action();
 	}
 
+	/**
+	 *
+	 * @global int $post_id
+	 * @return array
+	 */
 	public function get_columns() {
 		global $post_id;
 
@@ -356,6 +390,12 @@ class WP_Comments_List_Table extends WP_List_Table {
 		$this->display_tablenav( 'bottom' );
 	}
 
+	/**
+	 *
+	 * @global WP_Post $post
+	 * @global object  $comment
+	 * @param object $a_comment
+	 */
 	public function single_row( $a_comment ) {
 		global $post, $comment;
 
@@ -383,6 +423,11 @@ class WP_Comments_List_Table extends WP_List_Table {
 		}
 	}
 
+	/**
+	 *
+	 * @global string $comment_status
+	 * @param object $comment
+	 */
 	public function column_comment( $comment ) {
 		global $comment_status;
 		$post = get_post();
@@ -512,6 +557,11 @@ class WP_Comments_List_Table extends WP_List_Table {
 		}
 	}
 
+	/**
+	 *
+	 * @global string $comment_status
+	 * @param object $comment
+	 */
 	public function column_author( $comment ) {
 		global $comment_status;
 

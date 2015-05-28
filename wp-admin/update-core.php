@@ -22,6 +22,16 @@ if ( is_multisite() && ! is_network_admin() ) {
 if ( ! current_user_can( 'update_core' ) && ! current_user_can( 'update_themes' ) && ! current_user_can( 'update_plugins' ) )
 	wp_die( __( 'You do not have sufficient permissions to update this site.' ) );
 
+/**
+ *
+ * @global string $wp_local_package
+ * @global wpdb   $wpdb
+ * @global string $wp_version
+ *
+ * @staticvar bool $first_pass
+ *
+ * @param object $update
+ */
 function list_core_update( $update ) {
  	global $wp_local_package, $wpdb, $wp_version;
   	static $first_pass = true;
@@ -136,7 +146,9 @@ function dismissed_updates() {
  *
  * @since 2.7.0
  *
- * @return null
+ * @global string $wp_version
+ * @global string $required_php_version
+ * @global string $required_mysql_version
  */
 function core_upgrade_preamble() {
 	global $wp_version, $required_php_version, $required_mysql_version;
@@ -198,6 +210,10 @@ function core_upgrade_preamble() {
 	dismissed_updates();
 }
 
+/**
+ *
+ * @global string $wp_version
+ */
 function list_plugin_updates() {
 	global $wp_version;
 
@@ -364,7 +380,7 @@ function list_translation_updates() {
  *
  * @since 2.7.0
  *
- * @return null
+ * @global WP_Filesystem_Base $wp_filesystem Subclass
  */
 function do_core_upgrade( $reinstall = false ) {
 	global $wp_filesystem;

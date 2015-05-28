@@ -12,6 +12,10 @@
  * Handles POST data, sets up filters.
  *
  * @since 2.5.0
+ *
+ * @global array $wp_registered_widgets
+ * @global array $wp_registered_widget_controls
+ * @global array $wp_dashboard_control_callbacks
  */
 function wp_dashboard_setup() {
 	global $wp_registered_widgets, $wp_registered_widget_controls, $wp_dashboard_control_callbacks;
@@ -125,6 +129,16 @@ function wp_dashboard_setup() {
 	do_action( 'do_meta_boxes', $screen->id, 'side', '' );
 }
 
+/**
+ *
+ * @global array   $wp_dashboard_control_callbacks
+ *
+ * @param string   $widget_id
+ * @param string   $widget_name
+ * @param callback $callback
+ * @param callback $control_callback
+ * @param array    $callback_args
+ */
 function wp_add_dashboard_widget( $widget_id, $widget_name, $callback, $control_callback = null, $callback_args = null ) {
 	$screen = get_current_screen();
 	global $wp_dashboard_control_callbacks;
@@ -413,6 +427,8 @@ function wp_network_dashboard_right_now() {
  *
  * @since 3.8.0
  *
+ * @global int $post_ID
+ *
  * @param string $error_msg Optional. Error message. Default false.
  */
 function wp_dashboard_quick_press( $error_msg = false ) {
@@ -517,6 +533,12 @@ function wp_dashboard_recent_drafts( $drafts = false ) {
 	echo "</ul>\n</div>";
 }
 
+/**
+ * @global object $comment
+ *
+ * @param object $comment
+ * @param bool   $show_date
+ */
 function _wp_dashboard_recent_comments_row( &$comment, $show_date = true ) {
 	$GLOBALS['comment'] =& $comment;
 
@@ -874,6 +896,8 @@ function wp_dashboard_cached_rss_widget( $widget_id, $callback, $check_urls = ar
  *
  * @since 2.5.0
  *
+ * @global array $wp_dashboard_control_callbacks
+ *
  * @param int $widget_control_id Registered Widget ID.
  */
 function wp_dashboard_trigger_widget_control( $widget_control_id = false ) {
@@ -1230,6 +1254,8 @@ function dashboard_browser_nag_class( $classes ) {
  * Check if the user needs a browser update
  *
  * @since 3.2.0
+ *
+ * @global string $wp_version
  *
  * @return array|bool False on failure, array of browser data on success.
  */

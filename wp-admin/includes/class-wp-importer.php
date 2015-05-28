@@ -12,6 +12,8 @@ class WP_Importer {
 	/**
 	 * Returns array with imported permalinks from WordPress database
 	 *
+	 * @global wpdb $wpdb
+	 *
 	 * @param string $bid
 	 * @return array
 	 */
@@ -49,6 +51,8 @@ class WP_Importer {
 	/**
 	 * Return count of imported permalinks from WordPress database
 	 *
+	 * @global wpdb $wpdb
+	 *
 	 * @param string $bid
 	 * @return int
 	 */
@@ -74,6 +78,8 @@ class WP_Importer {
 
 	/**
 	 * Set array with imported comments from WordPress database
+	 *
+	 * @global wpdb $wpdb
 	 *
 	 * @param string $bid
 	 * @return array
@@ -231,7 +237,8 @@ class WP_Importer {
 	/**
 	 * Reset global variables that grow out of control during imports
 	 *
-	 * @return void
+	 * @global wpdb  $wpdb
+	 * @global array $wp_actions
 	 */
 	public function stop_the_insanity() {
 		global $wpdb, $wp_actions;

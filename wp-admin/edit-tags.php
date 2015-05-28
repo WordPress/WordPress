@@ -20,7 +20,11 @@ if ( ! $tax )
 if ( ! current_user_can( $tax->cap->manage_terms ) )
 	wp_die( __( 'Cheatin&#8217; uh?' ), 403 );
 
-// $post_type is set when the WP_Terms_List_Table instance is created
+/**
+ * $post_type is set when the WP_Terms_List_Table instance is created
+ *
+ * @global string $post_type
+ */
 global $post_type;
 
 $wp_list_table = _get_list_table('WP_Terms_List_Table');

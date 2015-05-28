@@ -10,6 +10,9 @@
  * Display list of the available widgets.
  *
  * @since 2.5.0
+ *
+ * @global array $wp_registered_widgets
+ * @global array $wp_registered_widget_controls
  */
 function wp_list_widgets() {
 	global $wp_registered_widgets, $wp_registered_widget_controls;
@@ -99,6 +102,8 @@ function wp_list_widget_controls( $sidebar, $sidebar_name = '' ) {
  *
  * @since 2.5.0
  *
+ * @global array $wp_registered_widgets
+ *
  * @param array $params
  * @return array
  */
@@ -123,7 +128,14 @@ function wp_list_widget_controls_dynamic_sidebar( $params ) {
 	return $params;
 }
 
-function next_widget_id_number($id_base) {
+/**
+ *
+ * @global array $wp_registered_widgets
+ *
+ * @param string $id_base
+ * @return int
+ */
+function next_widget_id_number( $id_base ) {
 	global $wp_registered_widgets;
 	$number = 1;
 
@@ -142,6 +154,10 @@ function next_widget_id_number($id_base) {
  * Called from dynamic_sidebar().
  *
  * @since 2.5.0
+ *
+ * @global array $wp_registered_widgets
+ * @global array $wp_registered_widget_controls
+ * @global array $sidebars_widgets
  *
  * @param array $sidebar_args
  * @return array

@@ -504,6 +504,9 @@ class WP_List_Table {
 	 * @since 3.1.0
 	 * @access protected
 	 *
+	 * @global wpdb      $wpdb
+	 * @global WP_Locale $wp_locale
+	 *
 	 * @param string $post_type
 	 */
 	protected function months_dropdown( $post_type ) {

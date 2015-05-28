@@ -142,6 +142,8 @@ class WP_Upgrader {
 	 *
 	 * @since 2.8.0
 	 *
+	 * @global WP_Filesystem_Base $wp_filesystem Subclass
+	 *
 	 * @param array $directories                  Optional. A list of directories. If any of these do
 	 *                                            not exist, a {@see WP_Error} object will be returned.
 	 *                                            Default empty array.
@@ -244,6 +246,8 @@ class WP_Upgrader {
 	 *
 	 * @since 2.8.0
 	 *
+	 * @global WP_Filesystem_Base $wp_filesystem Subclass
+	 *
 	 * @param string $package        Full path to the package file.
 	 * @param bool   $delete_package Optional. Whether to delete the package file after attempting
 	 *                               to unpack it. Default true.
@@ -296,6 +300,9 @@ class WP_Upgrader {
 	 * clear out the destination folder if it already exists.
 	 *
 	 * @since 2.8.0
+	 *
+	 * @global WP_Filesystem_Base $wp_filesystem Subclass
+	 * @global array              $wp_theme_directories
 	 *
 	 * @param array|string $args {
 	 *     Optional. Array or string of arguments for installing a package. Default empty array.
@@ -625,6 +632,8 @@ class WP_Upgrader {
 	 * Creates/deletes the maintenance file to enable/disable maintenance mode.
 	 *
 	 * @since 2.8.0
+	 *
+	 * @global WP_Filesystem_Base $wp_filesystem Subclass
 	 *
 	 * @param bool $enable True to enable maintenance mode, false to disable.
 	 */
@@ -957,6 +966,8 @@ class Plugin_Upgrader extends WP_Upgrader {
 	 *
 	 * @since 3.3.0
 	 *
+	 * @global WP_Filesystem_Base $wp_filesystem Subclass
+	 *
 	 * @param string $source The path to the downloaded package source.
 	 * @return string|WP_Error The source as passed, or a {@see WP_Error} object if no plugins were found.
 	 */
@@ -1050,6 +1061,8 @@ class Plugin_Upgrader extends WP_Upgrader {
 	 * {@see Plugin_Upgrader::upgrade()} and {@see Plugin_Upgrader::bulk_upgrade()}.
 	 *
 	 * @since 2.8.0
+	 *
+	 * @global WP_Filesystem_Base $wp_filesystem Subclass
 	 */
 	public function delete_old_plugin($removed, $local_destination, $remote_destination, $plugin) {
 		global $wp_filesystem;
@@ -1472,6 +1485,8 @@ class Theme_Upgrader extends WP_Upgrader {
 	 *
 	 * @since 3.3.0
 	 *
+	 * @global WP_Filesystem_Base $wp_filesystem Subclass
+	 *
 	 * @param string $source The full path to the package source.
 	 * @return string|WP_Error The source or a WP_Error.
 	 */
@@ -1563,6 +1578,8 @@ class Theme_Upgrader extends WP_Upgrader {
 	 * and {@see Theme_Upgrader::bulk_upgrade()}.
 	 *
 	 * @since 2.8.0
+	 *
+	 * @global WP_Filesystem_Base $wp_filesystem Subclass
 	 */
 	public function delete_old_theme( $removed, $local_destination, $remote_destination, $theme ) {
 		global $wp_filesystem;
@@ -1735,6 +1752,8 @@ class Language_Pack_Upgrader extends WP_Upgrader {
 	 *
 	 * @since 3.7.0
 	 *
+	 * @global WP_Filesystem_Base $wp_filesystem Subclass
+	 *
 	 * @param array $language_updates Optional. Language pack updates. Default empty array.
 	 * @param array $args {
 	 *     Optional. Other arguments for upgrading multiple language packs. Default empty array
@@ -1859,6 +1878,8 @@ class Language_Pack_Upgrader extends WP_Upgrader {
 	 * {@see Language_Pack_Upgrader::bulk_upgrade()}.
 	 *
 	 * @since 3.7.0
+	 *
+	 * @global WP_Filesystem_Base $wp_filesystem Subclass
 	 */
 	public function check_package( $source, $remote_source ) {
 		global $wp_filesystem;
@@ -1944,6 +1965,9 @@ class Core_Upgrader extends WP_Upgrader {
 	 * Upgrade WordPress core.
 	 *
 	 * @since 2.8.0
+	 *
+	 * @global WP_Filesystem_Base $wp_filesystem Subclass
+	 * @global callback           $_wp_filesystem_direct_method
 	 *
 	 * @param object $current Response object for whether WordPress is current.
 	 * @param array  $args {
@@ -2218,6 +2242,9 @@ class Core_Upgrader extends WP_Upgrader {
 	 *
 	 * @since 3.7.0
 	 *
+	 * @global string $wp_version
+	 * @global string $wp_local_package
+	 *
 	 * @return bool True if the checksums match, otherwise false.
 	 */
 	public function check_files() {
@@ -2463,6 +2490,8 @@ class WP_Automatic_Updater {
 	 *
 	 * @since 3.7.0
 	 *
+	 * @global wpdb $wpdb
+	 *
 	 * @param string $type    The type of update being checked: 'core', 'theme',
 	 *                        'plugin', 'translation'.
 	 * @param object $item    The update offer.
@@ -2687,6 +2716,9 @@ class WP_Automatic_Updater {
 	 * Kicks off the background update process, looping through all pending updates.
 	 *
 	 * @since 3.7.0
+	 *
+	 * @global wpdb   $wpdb
+	 * @global string $wp_version
 	 */
 	public function run() {
 		global $wpdb, $wp_version;
@@ -2822,6 +2854,8 @@ class WP_Automatic_Updater {
 	 * If we tried to perform a core update, check if we should send an email,
 	 * and if we need to avoid processing future updates.
 	 *
+	 * @global string $wp_version
+	 *
 	 * @param object $update_result The result of the core update. Includes the update offer and result.
 	 */
 	protected function after_core_update( $update_result ) {
@@ -2908,6 +2942,8 @@ class WP_Automatic_Updater {
 	 * Sends an email upon the completion or failure of a background core update.
 	 *
 	 * @since 3.7.0
+	 *
+	 * @global string $wp_version
 	 *
 	 * @param string $type        The type of email to send. Can be one of 'success', 'fail', 'manual', 'critical'.
 	 * @param object $core_update The update offer that was attempted.

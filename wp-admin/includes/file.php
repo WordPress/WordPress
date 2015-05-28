@@ -50,7 +50,7 @@ $wp_file_descriptions = array(
  *
  * @since 1.5.0
  *
- * @uses $wp_file_descriptions
+ * @global array $wp_file_descriptions
  * @param string $file Filesystem path or filename
  * @return string Description of file from $wp_file_descriptions or basename of $file if description doesn't exist
  */
@@ -516,6 +516,8 @@ function verify_file_md5( $filename, $expected_md5 ) {
  *
  * @since 2.5.0
  *
+ * @global WP_Filesystem_Base $wp_filesystem Subclass
+ *
  * @param string $file Full path and filename of zip archive
  * @param string $to Full path on the filesystem to extract archive to
  * @return mixed WP_Error on failure, True on success
@@ -578,6 +580,8 @@ function unzip_file($file, $to) {
  * @since 3.0.0
  * @see unzip_file
  * @access private
+ *
+ * @global WP_Filesystem_Base $wp_filesystem Subclass
  *
  * @param string $file Full path and filename of zip archive
  * @param string $to Full path on the filesystem to extract archive to
@@ -677,6 +681,8 @@ function _unzip_file_ziparchive($file, $to, $needed_dirs = array() ) {
  * @see unzip_file
  * @access private
  *
+ * @global WP_Filesystem_Base $wp_filesystem Subclass
+ *
  * @param string $file Full path and filename of zip archive
  * @param string $to Full path on the filesystem to extract archive to
  * @param array $needed_dirs A partial list of required folders needed to be created.
@@ -769,6 +775,8 @@ function _unzip_file_pclzip($file, $to, $needed_dirs = array()) {
  *
  * @since 2.5.0
  *
+ * @global WP_Filesystem_Base $wp_filesystem Subclass
+ *
  * @param string $from source directory
  * @param string $to destination directory
  * @param array $skip_list a list of files/folders to skip copying
@@ -822,6 +830,8 @@ function copy_dir($from, $to, $skip_list = array() ) {
  * the filename via the {@see 'filesystem_method_file'} filter.
  *
  * @since 2.5.0
+ *
+ * @global WP_Filesystem_Base $wp_filesystem Subclass
  *
  * @param array|false  $args                         Optional. Connection args, These are passed directly to
  *                                                   the `WP_Filesystem_*()` classes. Default false.
@@ -899,6 +909,8 @@ function WP_Filesystem( $args = false, $context = false, $allow_relaxed_file_own
  * Plugins may define a custom transport handler, See WP_Filesystem().
  *
  * @since 2.5.0
+ *
+ * @global callback $_wp_filesystem_direct_method
  *
  * @param array  $args                         Optional. Connection details. Default empty array.
  * @param string $context                      Optional. Full path to the directory that is tested

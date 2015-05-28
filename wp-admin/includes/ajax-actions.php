@@ -78,6 +78,8 @@ function wp_ajax_nopriv_heartbeat() {
  * Ajax handler for fetching a list table.
  *
  * @since 3.1.0
+ *
+ * @global WP_List_Table $wp_list_table
  */
 function wp_ajax_fetch_list() {
 	global $wp_list_table;
@@ -226,6 +228,8 @@ function wp_ajax_imgedit_preview() {
  * Ajax handler for oEmbed caching.
  *
  * @since 3.1.0
+ *
+ * @global WP_Embed $wp_embed
  */
 function wp_ajax_oembed_cache() {
 	$GLOBALS['wp_embed']->cache_oembed( $_GET['post'] );
@@ -762,6 +766,8 @@ function wp_ajax_add_link_category( $action ) {
  * Ajax handler to add a tag.
  *
  * @since 3.1.0
+ *
+ * @global WP_List_Table $wp_list_table
  */
 function wp_ajax_add_tag() {
 	global $wp_list_table;
@@ -864,6 +870,9 @@ function wp_ajax_get_tagcloud() {
  *
  * @since 3.1.0
  *
+ * @global WP_List_Table $wp_list_table
+ * @global int           $post_id
+ *
  * @param string $action Action to perform.
  */
 function wp_ajax_get_comments( $action ) {
@@ -914,6 +923,8 @@ function wp_ajax_get_comments( $action ) {
  * Ajax handler for replying to a comment.
  *
  * @since 3.1.0
+ *
+ * @global WP_List_Table $wp_list_table
  *
  * @param string $action Action to perform.
  */
@@ -1016,6 +1027,8 @@ function wp_ajax_replyto_comment( $action ) {
  * Ajax handler for editing a comment.
  *
  * @since 3.1.0
+ *
+ * @global WP_List_Table $wp_list_table
  */
 function wp_ajax_edit_comment() {
 	global $wp_list_table;
@@ -1228,6 +1241,8 @@ function wp_ajax_add_meta() {
  * Ajax handler for adding a user.
  *
  * @since 3.1.0
+ *
+ * @global WP_List_Table $wp_list_table
  *
  * @param string $action Action to perform.
  */
@@ -1499,6 +1514,8 @@ function wp_ajax_sample_permalink() {
  * Ajax handler for Quick Edit saving a post from a list table.
  *
  * @since 3.1.0
+ *
+ * @global WP_List_Table $wp_list_table
  */
 function wp_ajax_inline_save() {
 	global $wp_list_table;
@@ -1591,6 +1608,8 @@ function wp_ajax_inline_save() {
  * Ajax handler for quick edit saving for a term.
  *
  * @since 3.1.0
+ *
+ * @global WP_List_Table $wp_list_table
  */
 function wp_ajax_inline_save_tax() {
 	global $wp_list_table;
@@ -1743,6 +1762,10 @@ function wp_ajax_widgets_order() {
  * Ajax handler for saving a widget.
  *
  * @since 3.1.0
+ *
+ * @global array $wp_registered_widgets
+ * @global array $wp_registered_widget_controls
+ * @global array $wp_registered_widget_updates
  */
 function wp_ajax_save_widget() {
 	global $wp_registered_widgets, $wp_registered_widget_controls, $wp_registered_widget_updates;
@@ -1832,6 +1855,8 @@ function wp_ajax_save_widget() {
  * Ajax handler for saving a widget.
  *
  * @since 3.9.0
+ *
+ * @global WP_Customize_Manager $wp_customize
  */
 function wp_ajax_update_widget() {
 	global $wp_customize;
@@ -2475,6 +2500,9 @@ function wp_ajax_send_attachment_to_editor() {
  * - video_send_to_editor_url
  *
  * @since 3.5.0
+ *
+ * @global WP_Post  $post
+ * @global WP_Embed $wp_embed
  */
 function wp_ajax_send_link_to_editor() {
 	global $post, $wp_embed;
@@ -2627,6 +2655,8 @@ function wp_ajax_get_revision_diffs() {
  * a user's own profile.
  *
  * @since 3.8.0
+ *
+ * @global array $_wp_admin_css_colors
  */
 function wp_ajax_save_user_color_scheme() {
 	global $_wp_admin_css_colors;
@@ -2652,6 +2682,9 @@ function wp_ajax_save_user_color_scheme() {
  * Ajax handler for getting themes from themes_api().
  *
  * @since 3.9.0
+ *
+ * @global array $themes_allowedtags
+ * @global array $theme_field_defaults
  */
 function wp_ajax_query_themes() {
 	global $themes_allowedtags, $theme_field_defaults;
@@ -2699,8 +2732,9 @@ function wp_ajax_query_themes() {
  *
  * @since 4.0.0
  *
- * @global WP_Post  $post     Global $post.
- * @global WP_Embed $wp_embed Embed API instance.
+ * @global WP_Post    $post       Global $post.
+ * @global WP_Embed   $wp_embed   Embed API instance.
+ * @global WP_Scripts $wp_scripts
  */
 function wp_ajax_parse_embed() {
 	global $post, $wp_embed;
@@ -2788,6 +2822,11 @@ function wp_ajax_parse_embed() {
 	) );
 }
 
+/**
+ *
+ * @global WP_Post    $post
+ * @global WP_Scripts $wp_scripts
+ */
 function wp_ajax_parse_media_shortcode() {
 	global $post, $wp_scripts;
 
@@ -2967,6 +3006,8 @@ function wp_ajax_update_plugin() {
  * AJAX handler for saving a post from Press This.
  *
  * @since 4.2.0
+ *
+ * @global WP_Press_This $wp_press_this
  */
 function wp_ajax_press_this_save_post() {
 	if ( empty( $GLOBALS['wp_press_this'] ) ) {
@@ -2980,6 +3021,8 @@ function wp_ajax_press_this_save_post() {
  * AJAX handler for creating new category from Press This.
  *
  * @since 4.2.0
+ *
+ * @global WP_Press_This $wp_press_this
  */
 function wp_ajax_press_this_add_category() {
 	if ( empty( $GLOBALS['wp_press_this'] ) ) {

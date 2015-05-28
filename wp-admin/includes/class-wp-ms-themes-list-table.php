@@ -22,6 +22,9 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 	 *
 	 * @see WP_List_Table::__construct() for more information on default arguments.
 	 *
+	 * @global string $status
+	 * @global int    $page
+	 *
 	 * @param array $args An associative array of arguments.
 	 */
 	public function __construct( $args = array() ) {
@@ -56,6 +59,15 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 			return current_user_can( 'manage_network_themes' );
 	}
 
+	/**
+	 *
+	 * @global string $status
+	 * @global array $totals
+	 * @global int $page
+	 * @global string $orderby
+	 * @global string $order
+	 * @global string $s
+	 */
 	public function prepare_items() {
 		global $status, $totals, $page, $orderby, $order, $s;
 
@@ -199,9 +211,11 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 			_e( 'You do not appear to have any themes available at this time.' );
 	}
 
+	/**
+	 *
+	 * @return array
+	 */
 	public function get_columns() {
-		global $status;
-
 		return array(
 			'cb'          => '<input type="checkbox" />',
 			'name'        => __( 'Theme' ),
@@ -215,6 +229,12 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 		);
 	}
 
+	/**
+	 *
+	 * @global array $totals
+	 * @global string $status
+	 * @return array
+	 */
 	protected function get_views() {
 		global $totals, $status;
 
@@ -258,6 +278,11 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 		return $status_links;
 	}
 
+	/**
+	 *
+	 * @global string $status
+	 * @return array
+	 */
 	protected function get_bulk_actions() {
 		global $status;
 

@@ -28,7 +28,7 @@ function add_user() {
  * @return int user id of the updated user
  */
 function edit_user( $user_id = 0 ) {
-	global $wp_roles;
+	$wp_roles = wp_roles();
 	$user = new stdClass;
 	if ( $user_id ) {
 		$update = true;
@@ -198,9 +198,7 @@ function edit_user( $user_id = 0 ) {
  * @return array
  */
 function get_editable_roles() {
-	global $wp_roles;
-
-	$all_roles = $wp_roles->roles;
+	$all_roles = wp_roles()->roles;
 
 	/**
 	 * Filter the list of editable roles.
@@ -236,6 +234,8 @@ function get_user_to_edit( $user_id ) {
  *
  * @since 2.0.0
  *
+ * @global wpdb $wpdb
+ *
  * @param int $user_id User ID.
  * @return array
  */
@@ -263,6 +263,8 @@ function get_users_drafts( $user_id ) {
  * The user meta will also be deleted that are for that User ID.
  *
  * @since 2.0.0
+ *
+ * @global wpdb $wpdb
  *
  * @param int $id User ID.
  * @param int $reassign Optional. Reassign posts and links to new User ID.
@@ -388,6 +390,12 @@ add_action('admin_init', 'default_password_nag_handler');
 /**
  * @since 2.8.0
  */
+/**
+ *
+ * @global int $user_ID
+ *
+ * @param false $errors Deprecated.
+ */
 function default_password_nag_handler($errors = false) {
 	global $user_ID;
 	// Short-circuit it.
@@ -424,6 +432,8 @@ add_action('admin_notices', 'default_password_nag');
 
 /**
  * @since 2.8.0
+ *
+ * @global string $pagenow
  */
 function default_password_nag() {
 	global $pagenow;

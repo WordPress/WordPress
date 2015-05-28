@@ -35,6 +35,9 @@ foreach ( $wpdb->tables( 'ms_global' ) as $table => $prefixed_table )
  * Check for an existing network.
  *
  * @since 3.0.0
+ *
+ * @global wpdb $wpdb
+ *
  * @return Whether a network exists.
  */
 function network_domain_check() {
@@ -64,6 +67,9 @@ function allow_subdomain_install() {
  * Allow subdirectory install.
  *
  * @since 3.0.0
+ *
+ * @global wpdb $wpdb
+ *
  * @return bool Whether subdirectory install is allowed
  */
 function allow_subdirectory_install() {
@@ -149,6 +155,8 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
  * 	should not be a sudden "Welcome to a new install process! Fill this out and click here." See also contextual help todo.
  *
  * @since 3.0.0
+ *
+ * @global bool $is_apache
  */
 function network_step1( $errors = false ) {
 	global $is_apache;
@@ -326,6 +334,8 @@ function network_step1( $errors = false ) {
  * Prints step 2 for Network installation process.
  *
  * @since 3.0.0
+ *
+ * @global wpdb $wpdb
  */
 function network_step2( $errors = false ) {
 	global $wpdb;

@@ -38,6 +38,8 @@ function got_mod_rewrite() {
  *
  * @since 3.7.0
  *
+ * @global bool $is_nginx
+ *
  * @return bool Whether the server supports URL rewriting.
  */
 function got_url_rewrite() {
@@ -153,6 +155,8 @@ function insert_with_markers( $filename, $marker, $insertion ) {
  * blank out old rules.
  *
  * @since 1.5.0
+ *
+ * @global WP_Rewrite $wp_rewrite
  */
 function save_mod_rewrite_rules() {
 	if ( is_multisite() )
@@ -182,6 +186,8 @@ function save_mod_rewrite_rules() {
  * If the permalinks do not require rewrite rules then the rules are deleted from the web.config file.
  *
  * @since 2.8.0
+ *
+ * @global WP_Rewrite $wp_rewrite
  *
  * @return bool True if web.config was updated successfully
  */
@@ -593,6 +599,8 @@ function saveDomDocument($doc, $filename) {
  * Display the default admin color scheme picker (Used in user-edit.php)
  *
  * @since 3.0.0
+ *
+ * @global array $_wp_admin_css_colors
  */
 function admin_color_scheme_picker( $user_id ) {
 	global $_wp_admin_css_colors;
@@ -646,6 +654,10 @@ function admin_color_scheme_picker( $user_id ) {
 	<?php
 }
 
+/**
+ *
+ * @global array $_wp_admin_css_colors
+ */
 function wp_color_scheme_settings() {
 	global $_wp_admin_css_colors;
 
@@ -787,6 +799,8 @@ add_filter( 'heartbeat_received', 'wp_refresh_post_nonces', 10, 3 );
  *
  * @since 3.8.0
  *
+ * @global string $pagenow
+ *
  * @param array $settings An array of Heartbeat settings.
  * @return array Filtered Heartbeat settings.
  */
@@ -833,6 +847,9 @@ add_filter( 'heartbeat_received', 'heartbeat_autosave', 500, 2 );
  * when the user navigates to it with the browser's Back button. See #28037
  *
  * @since 4.0
+ *
+ * @global bool $is_safari
+ * @global bool $is_chrome
  */
 function post_form_autocomplete_off() {
 	global $is_safari, $is_chrome;

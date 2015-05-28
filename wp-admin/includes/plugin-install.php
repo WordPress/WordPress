@@ -235,6 +235,8 @@ function install_plugins_favorites_form() {
  * Display plugin content based on plugin list.
  *
  * @since 2.7.0
+ *
+ * @global WP_List_Table $wp_list_table
  */
 function display_plugins_table() {
 	global $wp_list_table;
@@ -337,6 +339,9 @@ function install_plugin_install_status($api, $loop = false) {
  * Display plugin information in dialog box form.
  *
  * @since 2.7.0
+ *
+ * @global string $tab
+ * @global string $wp_version
  */
 function install_plugin_information() {
 	global $tab;
