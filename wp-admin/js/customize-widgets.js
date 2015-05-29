@@ -176,8 +176,8 @@
 
 			// If the available widgets panel is open and the customize controls are
 			// interacted with (i.e. available widgets panel is blurred) then close the
-			// available widgets panel.
-			$( '#customize-controls, .customize-overlay-close' ).on( 'click keydown', function( e ) {
+			// available widgets panel. Also close on back button click.
+			$( '#customize-controls, .customize-overlay-close, #available-widgets .customize-section-title' ).on( 'click keydown', function( e ) {
 				var isAddNewBtn = $( e.target ).is( '.add-new-widget, .add-new-widget *' );
 				if ( $( 'body' ).hasClass( 'adding-widget' ) && ! isAddNewBtn ) {
 					self.close();
@@ -366,7 +366,7 @@
 				this.close( { returnFocus: true } );
 			}
 
-			if ( isTab && ( isShift && isSearchFocused || ! isShift && isLastWidgetFocused ) ) {
+			if ( this.currentSidebarControl && isTab && ( isShift && isSearchFocused || ! isShift && isLastWidgetFocused ) ) {
 				this.currentSidebarControl.container.find( '.add-new-widget' ).focus();
 				event.preventDefault();
 			}
@@ -1270,7 +1270,9 @@
 
 			if ( expanded ) {
 
-				self.expandControlSection();
+				if ( 'undefined' != typeof api.section( self.section ) && ! api.section( self.section ).expanded() ) {
+					self.expandControlSection();
+				}
 
 				// Close all other widget controls before expanding this one
 				api.control.each( function( otherControl ) {

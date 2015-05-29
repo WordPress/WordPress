@@ -681,6 +681,18 @@ final class WP_Customize_Widgets {
 		?>
 		<div id="widgets-left"><!-- compatibility with JS which looks for widget templates here -->
 		<div id="available-widgets">
+			<div class="customize-section-title">
+				<button class="customize-section-back" tabindex="-1">
+					<span class="screen-reader-text"><?php _e( 'Back' ); ?></span>
+				</button>
+				<h3>
+					<span class="customize-action"><?php
+						/* translators: &#9656; is the unicode right-pointing triangle, and %s is the section title in the Customizer */
+						echo sprintf( __( 'Customizing &#9656; %s' ), esc_html( $this->manager->get_panel( 'widgets' )->title ) );
+					?></span>
+					<?php _e( 'Add a Widget' ); ?>
+				</h3>
+			</div>
 			<div id="available-widgets-filter">
 				<label class="screen-reader-text" for="widgets-search"><?php _e( 'Search Widgets' ); ?></label>
 				<input type="search" id="widgets-search" placeholder="<?php esc_attr_e( 'Search widgets&hellip;' ) ?>" />

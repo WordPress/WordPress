@@ -14,6 +14,10 @@
 	display: none;
 }
 
+.control-section.control-section-sidebar .accordion-section-content.ui-sortable {
+	overflow: visible;
+}
+
 .customize-control-widget_form .widget-top {
 	-webkit-transition: opacity 0.5s;
 	transition: opacity 0.5s;
@@ -348,10 +352,15 @@ body.adding-widget .add-new-widget:before {
 	width: 300px;
 	margin: 0;
 	z-index: 1;
-	background: #fff !important;
-	-webkit-transition: all 0.2s;
-	transition: all 0.2s;
-	border-right: 1px solid #dddddd;
+	background: #eee !important;
+	-webkit-transition: left .18s;
+	transition: left .18s;
+	border-right: 1px solid #ddd;
+}
+
+.ios #available-widgets {
+	-webkit-transition: left 0s;
+	transition: left 0s;
 }
 
 #available-widgets-list {
@@ -384,6 +393,7 @@ body.adding-widget .add-new-widget:before {
 #available-widgets .widget-tpl {
 	position: relative;
 	padding: 20px 15px 20px 60px;
+	background: #fff;
 	border-bottom: 1px solid #e4e4e4;
 	cursor: pointer;
 	display: none;
@@ -391,7 +401,8 @@ body.adding-widget .add-new-widget:before {
 
 #available-widgets .widget-tpl:hover,
 #available-widgets .widget-tpl.selected {
-	background: #fafafa;
+	background: #eee;
+	border-bottom-color: #ccc;
 }
 
 #available-widgets .widget-top,
@@ -583,9 +594,12 @@ body.adding-widget #customize-preview {
 #available-widgets [class*="tweet"] .widget-title:before,
 #available-widgets [class*="twitter"] .widget-title:before { content: "\f301"; }
 
+#available-widgets .customize-section-title {
+	display: none;
+}
 
 @media screen and (max-height: 700px) and (min-width: 981px) {
-	.customize-control {
+	.customize-control-widget {
 		margin-bottom: 0;
 	}
 	.widget-top {
@@ -628,9 +642,46 @@ body.adding-widget #customize-preview {
 		width: 100%;
 	}
 
+	#available-widgets .customize-section-title {
+		display: block;
+		margin: 0;
+	}
+
+	#available-widgets .customize-section-back {
+		height: 69px;
+	}
+
+	#available-widgets .customize-section-title h3 {
+		font-size: 20px;
+		font-weight: 200;
+		padding: 9px 10px 12px 14px;
+		margin: 0;
+		line-height: 24px;
+		color: #555;
+		display: block;
+		overflow: hidden;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+	}
+
+	#available-widgets .customize-section-title .customize-action {
+		font-size: 13px;
+		display: block;
+		font-weight: 400;
+		overflow: hidden;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+	}
+
 	#available-widgets-filter {
-		position: static;
+		position: relative;
 		width: 100%;
+		background: #fff;
 		height: auto;
+		padding: 10px 15px;
+	}
+
+	#available-widgets-list {
+		top: 140px;
 	}
 }
