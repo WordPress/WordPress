@@ -237,6 +237,10 @@ class Walker_Nav_Menu_Edit extends Walker_Nav_Menu {
  * @uses Walker_Nav_Menu
  */
 class Walker_Nav_Menu_Checklist extends Walker_Nav_Menu {
+	/**
+	 *
+	 * @param array $fields
+	 */
 	public function __construct( $fields = false ) {
 		if ( $fields ) {
 			$this->db_fields = $fields;

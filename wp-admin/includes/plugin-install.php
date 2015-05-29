@@ -163,6 +163,8 @@ function install_dashboard() {
  * Display search form for searching plugins.
  *
  * @since 2.7.0
+ *
+ * @param bool $type_selector
  */
 function install_search_form( $type_selector = true ) {
 	$type = isset($_REQUEST['type']) ? wp_unslash( $_REQUEST['type'] ) : 'term';
@@ -261,6 +263,10 @@ function display_plugins_table() {
  * Determine the status we can perform on a plugin.
  *
  * @since 3.0.0
+ *
+ * @param array|object $api
+ * @param bool        $loop
+ * @return type
  */
 function install_plugin_install_status($api, $loop = false) {
 	// This function is called recursively, $loop prevents further loops.

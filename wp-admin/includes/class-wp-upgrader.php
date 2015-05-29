@@ -1063,6 +1063,12 @@ class Plugin_Upgrader extends WP_Upgrader {
 	 * @since 2.8.0
 	 *
 	 * @global WP_Filesystem_Base $wp_filesystem Subclass
+     *
+	 * @param bool|WP_Error $removed
+	 * @param string        $local_destination
+	 * @param string        $remote_destination
+	 * @param array         $plugin
+	 * @return WP_Error|bool
 	 */
 	public function delete_old_plugin($removed, $local_destination, $remote_destination, $plugin) {
 		global $wp_filesystem;
@@ -1166,6 +1172,11 @@ class Theme_Upgrader extends WP_Upgrader {
 	 * Hooked to the {@see 'upgrader_post_install'} filter by {@see Theme_Upgrader::install()}.
 	 *
 	 * @since 3.4.0
+	 *
+	 * @param bool  $install_result
+	 * @param array $hook_extra
+	 * @param array $child_result
+	 * @return type
 	 */
 	public function check_parent_theme_filter( $install_result, $hook_extra, $child_result ) {
 		// Check to see if we need to install a parent theme
@@ -1236,6 +1247,7 @@ class Theme_Upgrader extends WP_Upgrader {
 	 * @since 3.4.0
 	 *
 	 * @param array $actions Preview actions.
+	 * @return array
 	 */
 	public function hide_activate_preview_actions( $actions ) {
 		unset($actions['activate'], $actions['preview']);
@@ -1524,9 +1536,12 @@ class Theme_Upgrader extends WP_Upgrader {
 	 * {@see Theme_Upgrader::bulk_upgrade()}.
 	 *
 	 * @since 2.8.0
+	 *
+	 * @param bool|WP_Error  $return
+	 * @param array          $theme
+	 * @return bool|WP_Error
 	 */
 	public function current_before($return, $theme) {
-
 		if ( is_wp_error($return) )
 			return $return;
 
@@ -1548,6 +1563,10 @@ class Theme_Upgrader extends WP_Upgrader {
 	 * and {@see Theme_Upgrader::bulk_upgrade()}.
 	 *
 	 * @since 2.8.0
+	 *
+	 * @param bool|WP_Error  $return
+	 * @param array          $theme
+	 * @return bool|WP_Error
 	 */
 	public function current_after($return, $theme) {
 		if ( is_wp_error($return) )
@@ -1580,6 +1599,12 @@ class Theme_Upgrader extends WP_Upgrader {
 	 * @since 2.8.0
 	 *
 	 * @global WP_Filesystem_Base $wp_filesystem Subclass
+	 *
+	 * @param bool   $removed
+	 * @param string $local_destination
+	 * @param string $remote_destination
+	 * @param array  $theme
+	 * @return bool
 	 */
 	public function delete_old_theme( $removed, $local_destination, $remote_destination, $theme ) {
 		global $wp_filesystem;
@@ -1658,6 +1683,8 @@ class Language_Pack_Upgrader extends WP_Upgrader {
 	 * @since 3.7.0
 	 *
 	 * @static
+	 *
+	 * @param false|WP_Upgrader $upgrader
 	 */
 	public static function async_upgrade( $upgrader = false ) {
 		// Avoid recursion.
@@ -1880,6 +1907,9 @@ class Language_Pack_Upgrader extends WP_Upgrader {
 	 * @since 3.7.0
 	 *
 	 * @global WP_Filesystem_Base $wp_filesystem Subclass
+	 *
+	 * @param string|WP_Error $source
+	 * @param string          $remote_source
 	 */
 	public function check_package( $source, $remote_source ) {
 		global $wp_filesystem;
@@ -1911,7 +1941,7 @@ class Language_Pack_Upgrader extends WP_Upgrader {
 	 *
 	 * @since 3.7.0
 	 *
-	 * @param object The data for an update.
+	 * @param object $update The data for an update.
 	 * @return string The name of the item being updated.
 	 */
 	public function get_name_for_update( $update ) {
@@ -2620,6 +2650,8 @@ class WP_Automatic_Updater {
 	 *
 	 * @param string $type The type of update being checked: 'core', 'theme', 'plugin', 'translation'.
 	 * @param object $item The update offer.
+	 *
+	 * @return null|WP_Error
 	 */
 	public function update( $type, $item ) {
 		$skin = new Automatic_Upgrader_Skin;
@@ -2858,7 +2890,7 @@ class WP_Automatic_Updater {
 	 *
 	 * @global string $wp_version
 	 *
-	 * @param object $update_result The result of the core update. Includes the update offer and result.
+	 * @param object|WP_Error $update_result The result of the core update. Includes the update offer and result.
 	 */
 	protected function after_core_update( $update_result ) {
 		global $wp_version;

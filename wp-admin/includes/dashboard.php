@@ -168,6 +168,11 @@ function wp_add_dashboard_widget( $widget_id, $widget_name, $callback, $control_
 	add_meta_box( $widget_id, $widget_name, $callback, $screen, $location, $priority, $callback_args );
 }
 
+/**
+ *
+ * @param type $dashboard
+ * @param type $meta_box
+ */
 function _wp_dashboard_control_callback( $dashboard, $meta_box ) {
 	echo '<form method="post" class="dashboard-widget-control-form">';
 	wp_dashboard_trigger_widget_control( $meta_box['id'] );
@@ -495,6 +500,8 @@ function wp_dashboard_quick_press( $error_msg = false ) {
  * Show recent drafts of the user on the dashboard.
  *
  * @since 2.7.0
+ *
+ * @param array $drafts
  */
 function wp_dashboard_recent_drafts( $drafts = false ) {
 	if ( ! $drafts ) {

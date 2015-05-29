@@ -185,7 +185,7 @@ function get_current_screen() {
  * @since 3.0.0
  *
  * @param mixed $hook_name Optional. The hook name (also known as the hook suffix) used to determine the screen,
- *	or an existing screen object.
+ *	                       or an existing screen object.
  */
 function set_current_screen( $hook_name = '' ) {
 	WP_Screen::get( $hook_name )->set_current_screen();
@@ -387,11 +387,10 @@ final class WP_Screen {
 	 * @global string $hook_suffix
 	 *
 	 * @param string|WP_Screen $hook_name Optional. The hook name (also known as the hook suffix) used to determine the screen.
-	 * 	Defaults to the current $hook_suffix global.
+	 * 	                                  Defaults to the current $hook_suffix global.
 	 * @return WP_Screen Screen object.
 	 */
 	public static function get( $hook_name = '' ) {
-
 		if ( $hook_name instanceof WP_Screen ) {
 			return $hook_name;
 		}
@@ -582,9 +581,8 @@ final class WP_Screen {
 	 * @since 3.5.0
 	 *
 	 * @param string $admin The admin to check against (network | user | site).
-	 * If empty any of the three admins will result in true.
-	 * @return boolean True if the screen is in the indicated admin, false otherwise.
-	 *
+	 *                      If empty any of the three admins will result in true.
+	 * @return bool True if the screen is in the indicated admin, false otherwise.
 	 */
 	public function in_admin( $admin = null ) {
 		if ( empty( $admin ) )

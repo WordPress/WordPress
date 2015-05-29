@@ -194,13 +194,23 @@ foreach ( $menu as $id => $data ) {
 }
 unset($id, $data);
 
+/**
+ *
+ * @param string $add
+ * @param string $class
+ * @return string
+ */
 function add_cssclass($add, $class) {
 	$class = empty($class) ? $add : $class .= ' ' . $add;
 	return $class;
 }
 
+/**
+ *
+ * @param array $menu
+ * @return array
+ */
 function add_menu_classes($menu) {
-
 	$first = $lastorder = false;
 	$i = 0;
 	$mc = count($menu);

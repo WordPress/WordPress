@@ -22,6 +22,10 @@ class WP_Upgrader_Skin {
 	public $result = false;
 	public $options = array();
 
+	/**
+	 *
+	 * @param array $args
+	 */
 	public function __construct($args = array()) {
 		$defaults = array( 'url' => '', 'nonce' => '', 'title' => '', 'context' => false );
 		$this->options = wp_parse_args($args, $defaults);
@@ -43,6 +47,13 @@ class WP_Upgrader_Skin {
 		$this->result = $result;
 	}
 
+	/**
+	 *
+	 * @param bool   $error
+	 * @param string $context
+	 * @param bool   $allow_relaxed_file_ownership
+	 * @return type
+	 */
 	public function request_filesystem_credentials( $error = false, $context = false, $allow_relaxed_file_ownership = false ) {
 		$url = $this->options['url'];
 		if ( ! $context ) {
@@ -73,6 +84,10 @@ class WP_Upgrader_Skin {
 		echo '</div>';
 	}
 
+	/**
+	 *
+	 * @param string|WP_Error $errors
+	 */
 	public function error($errors) {
 		if ( ! $this->done_header )
 			$this->header();
@@ -88,6 +103,10 @@ class WP_Upgrader_Skin {
 		}
 	}
 
+	/**
+	 *
+	 * @param string $string
+	 */
 	public function feedback($string) {
 		if ( isset( $this->upgrader->strings[$string] ) )
 			$string = $this->upgrader->strings[$string];
@@ -154,7 +173,11 @@ class Plugin_Upgrader_Skin extends WP_Upgrader_Skin {
 	public $plugin_active = false;
 	public $plugin_network_active = false;
 
-	public function __construct($args = array()) {
+	/**
+	 *
+	 * @param array $args
+	 */
+	public function __construct( $args = array() ) {
 		$defaults = array( 'url' => '', 'plugin' => '', 'nonce' => '', 'title' => __('Update Plugin') );
 		$args = wp_parse_args($args, $defaults);
 
@@ -210,6 +233,10 @@ class Bulk_Upgrader_Skin extends WP_Upgrader_Skin {
 	 */
 	public $error = false;
 
+	/**
+	 *
+	 * @param array $args
+	 */
 	public function __construct($args = array()) {
 		$defaults = array( 'url' => '', 'nonce' => '' );
 		$args = wp_parse_args($args, $defaults);
@@ -256,6 +283,11 @@ class Bulk_Upgrader_Skin extends WP_Upgrader_Skin {
 	public function footer() {
 		// Nothing, This will be displayed within a iframe.
 	}
+
+	/**
+	 *
+	 * @param string|WP_Error $error
+	 */
 	public function error($error) {
 		if ( is_string($error) && isset( $this->upgrader->strings[$error] ) )
 			$this->error = $this->upgrader->strings[$error];
@@ -281,6 +313,10 @@ class Bulk_Upgrader_Skin extends WP_Upgrader_Skin {
 		$this->feedback('skin_upgrade_end');
 	}
 
+	/**
+	 *
+	 * @param string $title
+	 */
 	public function before($title = '') {
 		$this->in_loop = true;
 		printf( '<h4>' . $this->upgrader->strings['skin_before_update_header'] . ' <span class="spinner waiting-' . $this->upgrader->update_current . '"></span></h4>',  $title, $this->upgrader->update_current, $this->upgrader->update_count);
@@ -289,6 +325,10 @@ class Bulk_Upgrader_Skin extends WP_Upgrader_Skin {
 		$this->flush_output();
 	}
 
+	/**
+	 *
+	 * @param string $title
+	 */
 	public function after($title = '') {
 		echo '</p></div>';
 		if ( $this->error || ! $this->result ) {
@@ -328,10 +368,18 @@ class Bulk_Plugin_Upgrader_Skin extends Bulk_Upgrader_Skin {
 		$this->upgrader->strings['skin_before_update_header'] = __('Updating Plugin %1$s (%2$d/%3$d)');
 	}
 
+	/**
+	 *
+	 * @param string $title
+	 */
 	public function before($title = '') {
 		parent::before($this->plugin_info['Title']);
 	}
 
+	/**
+	 *
+	 * @param string $title
+	 */
 	public function after($title = '') {
 		parent::after($this->plugin_info['Title']);
 		$this->decrement_update_count( 'plugin' );
@@ -368,10 +416,18 @@ class Bulk_Theme_Upgrader_Skin extends Bulk_Upgrader_Skin {
 		$this->upgrader->strings['skin_before_update_header'] = __('Updating Theme %1$s (%2$d/%3$d)');
 	}
 
+	/**
+	 *
+	 * @param string $title
+	 */
 	public function before($title = '') {
 		parent::before( $this->theme_info->display('Name') );
 	}
 
+	/**
+	 *
+	 * @param string $title
+	 */
 	public function after($title = '') {
 		parent::after( $this->theme_info->display('Name') );
 		$this->decrement_update_count( 'theme' );
@@ -412,6 +468,10 @@ class Plugin_Installer_Skin extends WP_Upgrader_Skin {
 	public $api;
 	public $type;
 
+	/**
+	 *
+	 * @param array $args
+	 */
 	public function __construct($args = array()) {
 		$defaults = array( 'type' => 'web', 'url' => '', 'plugin' => '', 'nonce' => '', 'title' => '' );
 		$args = wp_parse_args($args, $defaults);
@@ -488,6 +548,10 @@ class Theme_Installer_Skin extends WP_Upgrader_Skin {
 	public $api;
 	public $type;
 
+	/**
+	 *
+	 * @param array $args
+	 */
 	public function __construct($args = array()) {
 		$defaults = array( 'type' => 'web', 'url' => '', 'theme' => '', 'nonce' => '', 'title' => '' );
 		$args = wp_parse_args($args, $defaults);
@@ -572,6 +636,10 @@ class Theme_Installer_Skin extends WP_Upgrader_Skin {
 class Theme_Upgrader_Skin extends WP_Upgrader_Skin {
 	public $theme = '';
 
+	/**
+	 *
+	 * @param array $args
+	 */
 	public function __construct($args = array()) {
 		$defaults = array( 'url' => '', 'theme' => '', 'nonce' => '', 'title' => __('Update Theme') );
 		$args = wp_parse_args($args, $defaults);
@@ -649,6 +717,10 @@ class Language_Pack_Upgrader_Skin extends WP_Upgrader_Skin {
 	public $done_footer = false;
 	public $display_footer_actions = true;
 
+	/**
+	 *
+	 * @param array $args
+	 */
 	public function __construct( $args = array() ) {
 		$defaults = array( 'url' => '', 'nonce' => '', 'title' => __( 'Update Translations' ), 'skip_header_footer' => false );
 		$args = wp_parse_args( $args, $defaults );
@@ -668,6 +740,10 @@ class Language_Pack_Upgrader_Skin extends WP_Upgrader_Skin {
 		printf( '<h4>' . __( 'Updating translations for %1$s (%2$s)&#8230;' ) . '</h4>', $name, $this->language_update->language );
 	}
 
+	/**
+	 *
+	 * @param string|WP_Error $error
+	 */
 	public function error( $error ) {
 		echo '<div class="lp-error">';
 		parent::error( $error );
@@ -710,6 +786,13 @@ class Language_Pack_Upgrader_Skin extends WP_Upgrader_Skin {
 class Automatic_Upgrader_Skin extends WP_Upgrader_Skin {
 	protected $messages = array();
 
+	/**
+	 *
+	 * @param bool   $error
+	 * @param string $context
+	 * @param bool   $allow_relaxed_file_ownership
+	 * @return bool
+	 */
 	public function request_filesystem_credentials( $error = false, $context = '', $allow_relaxed_file_ownership = false ) {
 		if ( $context ) {
 			$this->options['context'] = $context;
