@@ -8,14 +8,17 @@
  * @subpackage Administration
  */
 
-// Declare these as global in case schema.php is included from a function.
+/**
+ * Declare these as global in case schema.php is included from a function.
+ *
+ * @global wpdb   $wpdb
+ * @global array  $wp_queries
+ * @global string $charset_collate
+ */
 global $wpdb, $wp_queries, $charset_collate;
 
 /**
  * The database character collate.
- * @var string
- * @global string
- * @name $charset_collate
  */
 $charset_collate = $wpdb->get_charset_collate();
 
@@ -23,6 +26,8 @@ $charset_collate = $wpdb->get_charset_collate();
  * Retrieve the SQL for creating database tables.
  *
  * @since 3.3.0
+ *
+ * @global wpdb $wpdb
  *
  * @param string $scope Optional. The tables for which to retrieve SQL. Can be all, global, ms_global, or blog tables. Defaults to all.
  * @param int $blog_id Optional. The blog ID for which to retrieve SQL. Default is the current blog ID.
@@ -862,6 +867,11 @@ endif;
  * Populate network settings.
  *
  * @since 3.0.0
+ *
+ * @global wpdb       $wpdb
+ * @global object     $current_site
+ * @global int        $wp_db_version
+ * @global WP_Rewrite $wp_rewrite
  *
  * @param int $network_id ID of network to populate.
  * @return bool|WP_Error True on success, or WP_Error on warning (with the install otherwise successful,

@@ -190,6 +190,11 @@ function core_update_footer( $msg = '' ) {
 }
 add_filter( 'update_footer', 'core_update_footer' );
 
+/**
+ *
+ * @global string $pagenow
+ * @return false|void
+ */
 function update_nag() {
 	if ( is_multisite() && !current_user_can('update_core') )
 		return false;
@@ -400,6 +405,11 @@ function wp_theme_update_row( $theme_key, $theme ) {
 	echo '</div></td></tr>';
 }
 
+/**
+ *
+ * @global int $upgrading
+ * @return false|void
+ */
 function maintenance_nag() {
 	include( ABSPATH . WPINC . '/version.php' ); // include an unmodified $wp_version
 	global $upgrading;

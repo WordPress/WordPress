@@ -173,6 +173,8 @@ function _wp_translate_postdata( $update = false, $post_data = null ) {
  *
  * @since 1.5.0
  *
+ * @global wpdb $wpdb
+ *
  * @param array $post_data Optional.
  * @return int Post ID.
  */
@@ -400,6 +402,8 @@ function edit_post( $post_data = null ) {
  * categories. Skips pages when they would be their own parent or child.
  *
  * @since 2.7.0
+ *
+ * @global wpdb $wpdb
  *
  * @param array $post_data Optional, the array of post data to process if not provided will use $_POST superglobal.
  * @return array
@@ -654,6 +658,8 @@ function get_default_post_to_edit( $post_type = 'post', $create_in_db = false ) 
  *
  * @since 2.0.0
  *
+ * @global wpdb $wpdb
+ *
  * @param string $title Post title
  * @param string $content Optional post content
  * @param string $date Optional post date
@@ -694,6 +700,8 @@ function post_exists($title, $content = '', $date = '') {
  * Creates a new post from the "Write Post" form using $_POST information.
  *
  * @since 2.1.0
+ *
+ * @global WP_User $current_user
  *
  * @return int|WP_Error
  */
@@ -834,6 +842,8 @@ function delete_meta( $mid ) {
  *
  * @since 1.2.0
  *
+ * @global wpdb $wpdb
+ *
  * @return mixed
  */
 function get_meta_keys() {
@@ -864,6 +874,8 @@ function get_post_meta_by_id( $mid ) {
  * Get meta data for the given post ID.
  *
  * @since 1.2.0
+ *
+ * @global wpdb $wpdb
  *
  * @param int $postid
  * @return mixed
@@ -1054,6 +1066,8 @@ function wp_edit_posts_query( $q = false ) {
  * Get all available post MIME types for a given post type.
  *
  * @since 2.5.0
+ *
+ * @global wpdb $wpdb
  *
  * @param string $type
  * @return mixed
@@ -1337,6 +1351,9 @@ function get_sample_permalink_html( $id, $new_title = null, $new_slug = null ) {
  * Output HTML for the post thumbnail meta-box.
  *
  * @since 2.9.0
+ *
+ * @global int   $content_width
+ * @global array $_wp_additional_image_sizes
  *
  * @param int $thumbnail_id ID of the attachment used for thumbnail
  * @param mixed $post The post ID or object associated with the thumbnail, defaults to global $post.

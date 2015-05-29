@@ -18,8 +18,6 @@
  *     5: Icon for top level menu
  *
  * @global array $menu
- * @name $menu
- * @var array
  */
 
 $menu[2] = array( __('Dashboard'), 'read', 'index.php', '', 'menu-top menu-top-first menu-icon-dashboard', 'menu-dashboard', 'dashicons-dashboard' );

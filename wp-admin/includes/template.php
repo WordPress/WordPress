@@ -436,6 +436,8 @@ function get_inline_data($post) {
  *
  * @since 2.7.0
  *
+ * @global WP_List_Table $wp_list_table
+ *
  * @param int $position
  * @param bool $checkbox
  * @param string $mode
@@ -656,6 +658,8 @@ function _list_meta_row( $entry, &$count ) {
  *
  * @since 1.2.0
  *
+ * @global wpdb $wpdb
+ *
  * @param WP_Post $post Optional. The post being edited.
  */
 function meta_form( $post = null ) {
@@ -736,6 +740,9 @@ function meta_form( $post = null ) {
  * Print out HTML form date elements for editing post or comment publish date.
  *
  * @since 0.71
+ *
+ * @global WP_Locale $wp_locale
+ * @global object    $comment
  *
  * @param int|bool $edit      Accepts 1|true for editing the date, 0|false for adding the date.
  * @param int|bool $for_post  Accepts 1|true for applying the date to a post, 0|false for a comment.
@@ -839,6 +846,8 @@ function page_template_dropdown( $default = '' ) {
  *
  * @since 1.5.0
  *
+ * @global wpdb $wpdb
+ *
  * @param int $default Optional. The default page ID to be pre-selected. Default 0.
  * @param int $parent  Optional. The parent page ID. Default 0.
  * @param int $level   Optional. Page depth level. Default 0.
@@ -934,6 +943,8 @@ function wp_import_upload_form( $action ) {
  *
  * @since 2.5.0
  *
+ * @global array $wp_meta_boxes
+ *
  * @param string           $id            String for use in the 'id' attribute of tags.
  * @param string           $title         Title of the meta box.
  * @param callback         $callback      Function that fills the box with the desired content.
@@ -1022,6 +1033,8 @@ function add_meta_box( $id, $title, $callback, $screen = null, $context = 'advan
  *
  * @since 2.5.0
  *
+ * @global array $wp_meta_boxes
+ *
  * @staticvar bool $already_sorted
  * @param string|WP_Screen $screen Screen identifier
  * @param string $context box context
@@ -1089,6 +1102,8 @@ function do_meta_boxes( $screen, $context, $object ) {
  * Remove a meta box from an edit form.
  *
  * @since 2.6.0
+ *
+ * @global array $wp_meta_boxes
  *
  * @param string $id String for use in the 'id' attribute of tags.
  * @param string|object $screen The screen on which to show the box (post, page, link).
@@ -1576,6 +1591,10 @@ function _admin_search_query() {
  *
  * @since 2.7.0
  *
+ * @global string    $hook_suffix
+ * @global string    $admin_body_class
+ * @global WP_Locale $wp_locale
+ *
  * @param string $title      Optional. Title of the Iframe page. Default empty.
  * @param bool   $deprecated Not used.
  */
@@ -1637,7 +1656,11 @@ if ( is_rtl() )
 /** This filter is documented in wp-admin/admin-header.php */
 $admin_body_classes = apply_filters( 'admin_body_class', '' );
 ?>
-<body<?php if ( isset($GLOBALS['body_id']) ) echo ' id="' . $GLOBALS['body_id'] . '"'; ?> class="wp-admin wp-core-ui no-js iframe <?php echo $admin_body_classes . ' ' . $admin_body_class; ?>">
+<body<?php
+/**
+ * @global string $body_id
+ */
+if ( isset($GLOBALS['body_id']) ) echo ' id="' . $GLOBALS['body_id'] . '"'; ?> class="wp-admin wp-core-ui no-js iframe <?php echo $admin_body_classes . ' ' . $admin_body_class; ?>">
 <script type="text/javascript">
 (function(){
 var c = document.body.className;
@@ -1921,6 +1944,10 @@ function get_submit_button( $text = '', $type = 'primary large', $name = 'submit
 	return $button;
 }
 
+/**
+ *
+ * @global bool $is_IE
+ */
 function _wp_admin_html_begin() {
 	global $is_IE;
 
@@ -2107,6 +2134,11 @@ final class WP_Internal_Pointers {
 		) );
 	}
 
+	/**
+	 * @static
+	 *
+	 * @global bool $_wp_editor_expand
+	 */
 	public static function pointer_wp410_dfw() {
 		// Don't show when editor-scrolling is not used.
 		if ( empty( $GLOBALS['_wp_editor_expand'] ) ) {

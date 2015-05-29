@@ -150,6 +150,8 @@ function install_themes_upload() {
  * Prints a theme on the Install Themes pages.
  *
  * @deprecated 3.4.0
+ *
+ * @global WP_Theme_Install_List_Table $wp_list_table
  */
 function display_theme( $theme ) {
 	_deprecated_function( __FUNCTION__, '3.4' );
@@ -165,6 +167,8 @@ function display_theme( $theme ) {
  * Display theme content based on theme list.
  *
  * @since 2.8.0
+ *
+ * @global WP_Theme_Install_List_Table $wp_list_table
  */
 function display_themes() {
 	global $wp_list_table;
@@ -185,6 +189,8 @@ function display_themes() {
  * Display theme information in dialog box form.
  *
  * @since 2.8.0
+ *
+ * @global WP_Theme_Install_List_Table $wp_list_table
  */
 function install_theme_information() {
 	global $wp_list_table;

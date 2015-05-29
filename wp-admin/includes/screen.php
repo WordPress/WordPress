@@ -60,6 +60,8 @@ function get_hidden_columns( $screen ) {
  *
  * @since 2.7.0
  *
+ * @global array $wp_meta_boxes
+ *
  * @param WP_Screen $screen
  */
 function meta_box_prefs( $screen ) {
@@ -161,6 +163,8 @@ function add_screen_option( $option, $args = array() ) {
  * Get the current screen object
  *
  * @since 3.1.0
+ *
+ * @global WP_Screen $current_screen
  *
  * @return WP_Screen Current screen object
  */
@@ -368,6 +372,8 @@ final class WP_Screen {
 	 * @since 3.3.0
 	 * @access public
 	 *
+	 * @global string $hook_suffix
+	 *
 	 * @param string|WP_Screen $hook_name Optional. The hook name (also known as the hook suffix) used to determine the screen.
 	 * 	Defaults to the current $hook_suffix global.
 	 * @return WP_Screen Screen object.
@@ -529,6 +535,10 @@ final class WP_Screen {
 	 *
 	 * @see set_current_screen()
 	 * @since 3.3.0
+	 *
+	 * @global WP_Screen $current_screen
+	 * @global string    $taxnow
+	 * @global string    $typenow
 	 */
 	public function set_current_screen() {
 		global $current_screen, $taxnow, $typenow;
@@ -787,6 +797,8 @@ final class WP_Screen {
 	 * This will trigger the deprecated filters for backwards compatibility.
 	 *
 	 * @since 3.3.0
+	 *
+	 * @global string $screen_layout_columns
 	 */
 	public function render_screen_meta() {
 
@@ -959,6 +971,12 @@ final class WP_Screen {
 		<?php
 	}
 
+	/**
+	 *
+	 * @global array $wp_meta_boxes
+	 * 
+	 * @return bool
+	 */
 	public function show_screen_options() {
 		global $wp_meta_boxes;
 
@@ -1017,6 +1035,8 @@ final class WP_Screen {
 	 * Render the screen options tab.
 	 *
 	 * @since 3.3.0
+	 *
+	 * @global array $wp_meta_boxes
 	 */
 	public function render_screen_options() {
 		global $wp_meta_boxes;
