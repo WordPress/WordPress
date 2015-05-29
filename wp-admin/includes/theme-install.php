@@ -132,7 +132,6 @@ function install_themes_dashboard() {
 </form>
 <?php
 }
-// add_action('install_themes_dashboard', 'install_themes_dashboard');
 
 function install_themes_upload() {
 ?>
@@ -144,7 +143,6 @@ function install_themes_upload() {
 </form>
 	<?php
 }
-// add_action('install_themes_upload', 'install_themes_upload', 10, 0);
 
 /**
  * Prints a theme on the Install Themes pages.
@@ -180,10 +178,6 @@ function display_themes() {
 	$wp_list_table->display();
 
 }
-// add_action('install_themes_search', 'display_themes');
-// add_action('install_themes_featured', 'display_themes');
-// add_action('install_themes_new', 'display_themes');
-// add_action('install_themes_updated', 'display_themes');
 
 /**
  * Display theme information in dialog box form.
@@ -208,4 +202,3 @@ function install_theme_information() {
 	iframe_footer();
 	exit;
 }
-add_action('install_themes_pre_theme-information', 'install_theme_information');

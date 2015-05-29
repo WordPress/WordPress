@@ -2186,9 +2186,6 @@ final class WP_Internal_Pointers {
 	}
 }
 
-add_action( 'admin_enqueue_scripts', array( 'WP_Internal_Pointers', 'enqueue_scripts'                ) );
-add_action( 'user_register',         array( 'WP_Internal_Pointers', 'dismiss_pointers_for_new_users' ) );
-
 /**
  * Convert a screen string to a screen object
  *

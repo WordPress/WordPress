@@ -1254,7 +1254,6 @@ function _wp_delete_orphaned_draft_menu_items() {
 	foreach( (array) $menu_items_to_delete as $menu_item_id )
 		wp_delete_post( $menu_item_id, true );
 }
-add_action('admin_head-nav-menus.php', '_wp_delete_orphaned_draft_menu_items');
 
 /**
  * Saves nav menu items

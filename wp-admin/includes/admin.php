@@ -15,6 +15,9 @@ if ( ! defined('WP_ADMIN') ) {
 	load_textdomain( 'default', WP_LANG_DIR . '/admin-' . get_locale() . '.mo' );
 }
 
+/** WordPress Administration Hooks */
+require_once(ABSPATH . 'wp-admin/includes/admin-filters.php');
+
 /** WordPress Bookmark Administration API */
 require_once(ABSPATH . 'wp-admin/includes/bookmark.php');
 
@@ -69,6 +72,7 @@ require_once(ABSPATH . 'wp-admin/includes/deprecated.php');
 
 /** WordPress Multisite support API */
 if ( is_multisite() ) {
+	require_once(ABSPATH . 'wp-admin/includes/ms-admin-filters.php');
 	require_once(ABSPATH . 'wp-admin/includes/ms.php');
 	require_once(ABSPATH . 'wp-admin/includes/ms-deprecated.php');
 }

@@ -41,7 +41,6 @@ function check_upload_size( $file ) {
 
 	return $file;
 }
-add_filter( 'wp_handle_upload_prefilter', 'check_upload_size' );
 
 /**
  * Delete a blog.
@@ -300,8 +299,6 @@ All at ###SITENAME###
 
 	wp_mail( $value, sprintf( __( '[%s] New Admin Email Address' ), wp_specialchars_decode( get_option( 'blogname' ) ) ), $content );
 }
-add_action( 'update_option_new_admin_email', 'update_option_new_admin_email', 10, 2 );
-add_action( 'add_option_new_admin_email', 'update_option_new_admin_email', 10, 2 );
 
 /**
  * Sends an email when an email address change is requested.
@@ -383,7 +380,6 @@ All at ###SITENAME###
 		$_POST['email'] = $current_user->user_email;
 	}
 }
-add_action( 'personal_options_update', 'send_confirmation_on_profile_email' );
 
 /**
  * Adds an admin notice alerting the user to check for confirmation email
@@ -395,7 +391,6 @@ function new_user_email_admin_notice() {
 	if ( strpos( $_SERVER['PHP_SELF'], 'profile.php' ) && isset( $_GET['updated'] ) && $email = get_option( get_current_user_id() . '_new_email' ) )
 		echo "<div class='update-nag'>" . sprintf( __( "Your email address has not been updated yet. Please check your inbox at %s for a confirmation email." ), $email['newemail'] ) . "</div>";
 }
-add_action( 'admin_notices', 'new_user_email_admin_notice' );
 
 /**
  * Check whether a blog has used its allotted upload space.
@@ -490,7 +485,6 @@ function upload_space_setting( $id ) {
 	</tr>
 	<?php
 }
-add_action( 'wpmueditblogaction', 'upload_space_setting' );
 
 /**
  * Update the status of a user in the database.
@@ -621,7 +615,6 @@ function sync_category_tag_slugs( $term, $taxonomy ) {
 	}
 	return $term;
 }
-add_filter( 'get_term', 'sync_category_tag_slugs', 10, 2 );
 
 /**
  * Displays an access denied message when a user tries to view a site's dashboard they
@@ -662,7 +655,6 @@ function _access_denied_splash() {
 
 	wp_die( $output, 403 );
 }
-add_action( 'admin_page_access_denied', '_access_denied_splash', 99 );
 
 /**
  * Checks if the current user has permissions to import new users.
@@ -677,7 +669,6 @@ function check_import_new_users( $permission ) {
 		return false;
 	return true;
 }
-add_filter( 'import_allow_create_users', 'check_import_new_users' );
 // See "import_allow_fetch_attachments" and "import_attachment_size_limit" filters too.
 
 /**
@@ -746,8 +737,6 @@ function site_admin_notice() {
 	if ( get_site_option( 'wpmu_upgrade_site' ) != $wp_db_version )
 		echo "<div class='update-nag'>" . sprintf( __( 'Thank you for Updating! Please visit the <a href="%s">Upgrade Network</a> page to update all your sites.' ), esc_url( network_admin_url( 'upgrade.php' ) ) ) . "</div>";
 }
-add_action( 'admin_notices', 'site_admin_notice' );
-add_action( 'network_admin_notices', 'site_admin_notice' );
 
 /**
  * Avoids a collision between a site slug and a permalink slug.
@@ -782,7 +771,6 @@ function avoid_blog_page_permalink_collision( $data, $postarr ) {
 	}
 	return $data;
 }
-add_filter( 'wp_insert_post_data', 'avoid_blog_page_permalink_collision', 10, 2 );
 
 /**
  * Handles the display of choosing a user's primary site.

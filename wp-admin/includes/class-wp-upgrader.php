@@ -1624,8 +1624,6 @@ class Theme_Upgrader extends WP_Upgrader {
 
 }
 
-add_action( 'upgrader_process_complete', array( 'Language_Pack_Upgrader', 'async_upgrade' ), 20 );
-
 /**
  * Language pack upgrader, for updating translations of plugins, themes, and core.
  *

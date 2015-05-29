@@ -565,4 +565,3 @@ function customize_themes_print_templates() {
 	</script>
 	<?php
 }
-add_action( 'customize_controls_print_footer_scripts', 'customize_themes_print_templates' );

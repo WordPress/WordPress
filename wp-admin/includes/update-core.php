@@ -1210,7 +1210,6 @@ window.location = 'about.php?updated';
 	include(ABSPATH . 'wp-admin/admin-footer.php');
 	exit();
 }
-add_action( '_core_updated_successfully', '_redirect_to_about_wordpress' );
 
 /**
  * Cleans up Genericons example files.

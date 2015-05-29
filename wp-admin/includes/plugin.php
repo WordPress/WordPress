@@ -1852,7 +1852,6 @@ function option_update_filter( $options ) {
 
 	return $options;
 }
-add_filter( 'whitelist_options', 'option_update_filter' );
 
 /**
  * {@internal Missing Short Description}}

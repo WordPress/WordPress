@@ -1197,7 +1197,6 @@ function wp_dashboard_quota() {
 	</div>
 	<?php
 }
-add_action( 'activity_box_end', 'wp_dashboard_quota' );
 
 // Display Browser Nag Meta Box
 function wp_dashboard_browser_nag() {
