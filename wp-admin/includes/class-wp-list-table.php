@@ -900,6 +900,8 @@ class WP_List_Table {
 	 * @since 3.1.0
 	 * @access public
 	 *
+	 * @staticvar int $cb_counter
+	 *
 	 * @param bool $with_id Whether to set the id attribute or not
 	 */
 	public function print_column_headers( $with_id = true ) {

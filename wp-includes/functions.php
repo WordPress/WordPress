@@ -1621,7 +1621,7 @@ function wp_normalize_path( $path ) {
  * @return string Writable temporary directory.
  */
 function get_temp_dir() {
-	static $temp;
+	static $temp = '';
 	if ( defined('WP_TEMP_DIR') )
 		return trailingslashit(WP_TEMP_DIR);
 
@@ -4483,7 +4483,7 @@ function send_frame_options_header() {
  * @return array Array of allowed protocols.
  */
 function wp_allowed_protocols() {
-	static $protocols;
+	static $protocols = array();
 
 	if ( empty( $protocols ) ) {
 		$protocols = array( 'http', 'https', 'ftp', 'ftps', 'mailto', 'news', 'irc', 'gopher', 'nntp', 'feed', 'telnet', 'mms', 'rtsp', 'svn', 'tel', 'fax', 'xmpp', 'webcal' );

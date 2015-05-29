@@ -2558,6 +2558,8 @@ function wp_defer_comment_counting($defer=null) {
  * @since 2.1.0
  * @see wp_update_comment_count_now() For what could cause a false return value
  *
+ * @staticvar array $_deferred
+ *
  * @param int $post_id Post ID
  * @param bool $do_deferred Whether to process previously deferred post comment counts
  * @return bool|void True on success, false on failure

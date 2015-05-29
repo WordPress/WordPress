@@ -104,6 +104,8 @@ function wp_list_widget_controls( $sidebar, $sidebar_name = '' ) {
  *
  * @global array $wp_registered_widgets
  *
+ * @staticvar int $i
+ *
  * @param array $params
  * @return array
  */

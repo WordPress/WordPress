@@ -489,6 +489,11 @@ class WP_User {
 	 */
 	var $filter = null;
 
+	/**
+	 * @static
+	 * @access private
+	 * @var array
+	 */
 	private static $back_compat_keys;
 
 	/**
@@ -561,6 +566,8 @@ class WP_User {
 	 * Return only the main user fields
 	 *
 	 * @since 3.3.0
+	 *
+	 * @static
 	 *
 	 * @global wpdb $wpdb
 	 *

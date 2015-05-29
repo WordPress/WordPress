@@ -2146,11 +2146,11 @@ Thanks!
  *
  * @staticvar bool $forced_content
  *
- * @param string|bool $force
+ * @param bool $force
  * @return bool True if forced, false if not forced.
  */
 function force_ssl_content( $force = '' ) {
-	static $forced_content;
+	static $forced_content = false;
 
 	if ( '' != $force ) {
 		$old_forced = $forced_content;

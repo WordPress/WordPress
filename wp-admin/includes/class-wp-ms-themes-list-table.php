@@ -162,7 +162,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 	 * @return bool
 	 */
 	public function _search_callback( $theme ) {
-		static $term;
+		static $term = null;
 		if ( is_null( $term ) )
 			$term = wp_unslash( $_REQUEST['s'] );
 

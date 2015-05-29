@@ -605,17 +605,19 @@ function list_meta( $meta ) {
  *
  * @since 2.5.0
  *
+ * @staticvar string $update_nonce
+ *
  * @param array $entry
  * @param int   $count
  * @return string
  */
 function _list_meta_row( $entry, &$count ) {
-	static $update_nonce = false;
+	static $update_nonce = '';
 
 	if ( is_protected_meta( $entry['meta_key'], 'post' ) )
 		return '';
 
-	if ( !$update_nonce )
+	if ( ! $update_nonce )
 		$update_nonce = wp_create_nonce( 'add-meta' );
 
 	$r = '';
@@ -1991,6 +1993,8 @@ final class WP_Internal_Pointers {
 	 * Individual pointers (e.g. wp390_widgets) can be disabled using the following:
 	 *     remove_action( 'admin_print_footer_scripts', array( 'WP_Internal_Pointers', 'pointer_wp390_widgets' ) );
 	 *
+	 * @static
+	 *
 	 * @param string $hook_suffix The current admin page.
 	 */
 	public static function enqueue_scripts( $hook_suffix ) {
@@ -2047,6 +2051,8 @@ final class WP_Internal_Pointers {
 	 *
 	 * @since 3.3.0
 	 *
+	 * @static
+	 *
 	 * @param string $pointer_id The pointer ID.
 	 * @param string $selector The HTML elements, on which the pointer should be attached.
 	 * @param array  $args Arguments to be passed to the pointer JS (see wp-pointer.js).
@@ -2094,6 +2100,9 @@ final class WP_Internal_Pointers {
 	public static function pointer_wp350_media() {}
 	public static function pointer_wp360_revisions() {}
 
+	/**
+	 * @static
+	 */
 	public static function pointer_wp360_locks() {
 		if ( ! is_multi_author() ) {
 			return;
@@ -2108,6 +2117,9 @@ final class WP_Internal_Pointers {
 		) );
 	}
 
+	/**
+	 * @static
+	 */
 	public static function pointer_wp390_widgets() {
 		if ( ! current_theme_supports( 'widgets' ) ) {
 			return;
@@ -2164,6 +2176,8 @@ final class WP_Internal_Pointers {
 	 * Prevents new users from seeing existing 'new feature' pointers.
 	 *
 	 * @since 3.3.0
+	 *
+	 * @static
 	 *
 	 * @param int $user_id User ID.
 	 */

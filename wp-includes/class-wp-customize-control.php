@@ -20,6 +20,8 @@ class WP_Customize_Control {
 	 * Used when sorting two instances whose priorities are equal.
 	 *
 	 * @since 4.1.0
+	 *
+	 * @static
 	 * @access protected
 	 * @var int
 	 */

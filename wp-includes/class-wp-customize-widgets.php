@@ -108,6 +108,8 @@ final class WP_Customize_Widgets {
 	 * @since 4.2.0
 	 * @access protected
 	 *
+	 * @staticvar array $cache
+	 *
 	 * @param $setting_id Setting ID.
 	 * @return string|void Setting type.
 	 */
@@ -876,7 +878,6 @@ final class WP_Customize_Widgets {
 	 * Naturally order available widgets by name.
 	 *
 	 * @since 3.9.0
-	 * @static
 	 * @access protected
 	 *
 	 * @param array $widget_a The first widget to compare.

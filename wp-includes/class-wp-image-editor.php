@@ -31,6 +31,8 @@ abstract class WP_Image_Editor {
 	 * Must be overridden in a sub-class.
 	 *
 	 * @since 3.5.0
+	 *
+	 * @static
 	 * @access public
 	 * @abstract
 	 *
@@ -46,6 +48,8 @@ abstract class WP_Image_Editor {
 	 * Must be overridden in a sub-class.
 	 *
 	 * @since 3.5.0
+	 *
+	 * @static
 	 * @access public
 	 * @abstract
 	 *
@@ -442,6 +446,8 @@ abstract class WP_Image_Editor {
 	 * as mapped from wp_get_mime_types()
 	 *
 	 * @since 3.5.0
+	 *
+	 * @static
 	 * @access protected
 	 *
 	 * @param string $extension
@@ -468,6 +474,8 @@ abstract class WP_Image_Editor {
 	 * as mapped from wp_get_mime_types()
 	 *
 	 * @since 3.5.0
+	 *
+	 * @static
 	 * @access protected
 	 *
 	 * @param string $mime_type

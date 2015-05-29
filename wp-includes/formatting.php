@@ -38,8 +38,13 @@
  */
 function wptexturize( $text, $reset = false ) {
 	global $wp_cockneyreplace, $shortcode_tags;
-	static $static_characters, $static_replacements, $dynamic_characters, $dynamic_replacements,
-		$default_no_texturize_tags, $default_no_texturize_shortcodes, $run_texturize = true;
+	static $static_characters = null,
+		$static_replacements = null,
+		$dynamic_characters = null,
+		$dynamic_replacements = null,
+		$default_no_texturize_tags = null,
+		$default_no_texturize_shortcodes = null,
+		$run_texturize = true;
 
 	// If there's nothing to do, just stop.
 	if ( empty( $text ) || false === $run_texturize ) {
@@ -630,7 +635,7 @@ function seems_utf8( $str ) {
  * @since 1.2.2
  * @access private
  *
- * @staticvar string|false $_charset
+ * @staticvar string $_charset
  *
  * @param string $string         The text which is to be encoded.
  * @param int    $quote_style    Optional. Converts double quotes if set to ENT_COMPAT, both single and double if set to ENT_QUOTES or none if set to ENT_NOQUOTES. Also compatible with old values; converting single quotes if set to 'single', double if set to 'double' or both if otherwise set. Default is ENT_NOQUOTES.
@@ -656,7 +661,7 @@ function _wp_specialchars( $string, $quote_style = ENT_NOQUOTES, $charset = fals
 
 	// Store the site charset as a static to avoid multiple calls to wp_load_alloptions()
 	if ( ! $charset ) {
-		static $_charset;
+		static $_charset = null;
 		if ( ! isset( $_charset ) ) {
 			$alloptions = wp_load_alloptions();
 			$_charset = isset( $alloptions['blog_charset'] ) ? $alloptions['blog_charset'] : '';
@@ -790,17 +795,17 @@ function wp_check_invalid_utf8( $string, $strip = false ) {
 	}
 
 	// Store the site charset as a static to avoid multiple calls to get_option()
-	static $is_utf8;
-	if ( !isset( $is_utf8 ) ) {
+	static $is_utf8 = null;
+	if ( ! isset( $is_utf8 ) ) {
 		$is_utf8 = in_array( get_option( 'blog_charset' ), array( 'utf8', 'utf-8', 'UTF8', 'UTF-8' ) );
 	}
-	if ( !$is_utf8 ) {
+	if ( ! $is_utf8 ) {
 		return $string;
 	}
 
 	// Check for support for utf8 in the installed PCRE library once and store the result in a static
-	static $utf8_pcre;
-	if ( !isset( $utf8_pcre ) ) {
+	static $utf8_pcre = null;
+	if ( ! isset( $utf8_pcre ) ) {
 		$utf8_pcre = @preg_match( '/^./u', 'a' );
 	}
 	// We can't demand utf8 in the PCRE installation, so just return the string in those cases
@@ -3959,13 +3964,13 @@ function capital_P_dangit( $text ) {
 		return str_replace( 'Wordpress', 'WordPress', $text );
 	// Still here? Use the more judicious replacement
 	static $dblq = false;
-	if ( false === $dblq )
+	if ( false === $dblq ) {
 		$dblq = _x( '&#8220;', 'opening curly double quote' );
+	}
 	return str_replace(
 		array( ' Wordpress', '&#8216;Wordpress', $dblq . 'Wordpress', '>Wordpress', '(Wordpress' ),
 		array( ' WordPress', '&#8216;WordPress', $dblq . 'WordPress', '>WordPress', '(WordPress' ),
 	$text );
-
 }
 
 /**
@@ -4095,7 +4100,7 @@ function get_url_in_content( $content ) {
  * @return string The spaces regexp.
  */
 function wp_spaces_regexp() {
-	static $spaces;
+	static $spaces = '';
 
 	if ( empty( $spaces ) ) {
 		/**

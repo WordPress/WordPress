@@ -34,10 +34,12 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 	 * Checks to see if current environment supports GD.
 	 *
 	 * @since 3.5.0
+	 *
+	 * @static
 	 * @access public
 	 *
 	 * @param array $args
-	 * @return boolean
+	 * @return bool
 	 */
 	public static function test( $args = array() ) {
 		if ( ! extension_loaded('gd') || ! function_exists('gd_info') )
@@ -58,10 +60,12 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 	 * Checks to see if editor supports the mime-type specified.
 	 *
 	 * @since 3.5.0
+	 *
+	 * @static
 	 * @access public
 	 *
 	 * @param string $mime_type
-	 * @return boolean
+	 * @return bool
 	 */
 	public static function supports_mime_type( $mime_type ) {
 		$image_types = imagetypes();

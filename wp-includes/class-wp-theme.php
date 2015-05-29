@@ -687,7 +687,7 @@ final class WP_Theme implements ArrayAccess {
      * @since 3.4.0
 	 * @access private
 	 *
-	 * @stativar string $comma
+	 * @staticvar string $comma
 	 *
 	 * @param string $header Theme header. Name, Description, Author, Version, ThemeURI, AuthorURI, Status, Tags.
 	 * @param string $value Value to mark up.

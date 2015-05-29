@@ -24,6 +24,8 @@ class WP_Customize_Section {
 	 * Used when sorting two instances whose priorities are equal.
 	 *
 	 * @since 4.1.0
+	 *
+	 * @static
 	 * @access protected
 	 * @var int
 	 */

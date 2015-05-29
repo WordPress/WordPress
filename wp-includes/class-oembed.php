@@ -19,6 +19,10 @@
  */
 class WP_oEmbed {
 	public $providers = array();
+	/**
+	 * @static
+	 * @var array
+	 */
 	public static $early_providers = array();
 
 	private $compat_methods = array( '_fetch_with_format', '_parse_json', '_parse_xml', '_parse_body' );
@@ -611,15 +615,15 @@ class WP_oEmbed {
  * @since 2.9.0
  * @access private
  *
- * @see WP_oEmbed
+ * @staticvar WP_oEmbed $wp_oembed
  *
  * @return WP_oEmbed object.
  */
 function _wp_oembed_get_object() {
-	static $wp_oembed;
+	static $wp_oembed = null;
 
-	if ( is_null($wp_oembed) )
+	if ( is_null( $wp_oembed ) ) {
 		$wp_oembed = new WP_oEmbed();
-
+	}
 	return $wp_oembed;
 }

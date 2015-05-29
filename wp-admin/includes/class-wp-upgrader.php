@@ -1658,6 +1658,8 @@ class Language_Pack_Upgrader extends WP_Upgrader {
 	 * Hooked to the {@see 'upgrader_process_complete'} action by default.
 	 *
 	 * @since 3.7.0
+	 *
+	 * @static
 	 */
 	public static function async_upgrade( $upgrader = false ) {
 		// Avoid recursion.
@@ -2135,6 +2137,8 @@ class Core_Upgrader extends WP_Upgrader {
 	 * Determines if this WordPress Core version should update to an offered version or not.
 	 *
 	 * @since 3.7.0
+	 *
+	 * @static
 	 *
 	 * @param string $offered_ver The offered version, of the format x.y.z.
 	 * @return bool True if we should update to the offered version, otherwise false.

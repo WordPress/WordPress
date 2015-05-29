@@ -22,11 +22,11 @@
  * @return WP_Http HTTP Transport object.
  */
 function _wp_http_get_object() {
-	static $http;
+	static $http = null;
 
-	if ( is_null($http) )
+	if ( is_null( $http ) ) {
 		$http = new WP_Http();
-
+	}
 	return $http;
 }
 

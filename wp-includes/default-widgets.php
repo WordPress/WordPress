@@ -644,10 +644,14 @@ class WP_Widget_Categories extends WP_Widget {
 	}
 
 	/**
+	 * @staticvar bool $first_dropdown
+	 *
 	 * @param array $args
 	 * @param array $instance
 	 */
 	public function widget( $args, $instance ) {
+		static $first_dropdown = true;
+
 		/** This filter is documented in wp-includes/default-widgets.php */
 		$title = apply_filters( 'widget_title', empty( $instance['title'] ) ? __( 'Categories' ) : $instance['title'], $instance, $this->id_base );
 
@@ -667,8 +671,6 @@ class WP_Widget_Categories extends WP_Widget {
 		);
 
 		if ( $d ) {
-			static $first_dropdown = true;
-
 			$dropdown_id = ( $first_dropdown ) ? 'cat' : "{$this->id_base}-dropdown-{$this->number}";
 			$first_dropdown = false;
 

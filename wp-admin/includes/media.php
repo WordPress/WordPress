@@ -535,6 +535,8 @@ document.body.className = document.body.className.replace('no-js', 'js');
  *
  * @global int $post_ID
  *
+ * @staticvar int $instance
+ *
  * @param string $editor_id
  */
 function media_buttons($editor_id = 'content') {

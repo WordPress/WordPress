@@ -11,6 +11,8 @@
  *
  * @since 2.7.0
  *
+ * @staticvar array $column_headers
+ *
  * @param string|WP_Screen $screen The screen you want the headers for
  * @return array Containing the headers in the format id => UI String
  */
@@ -327,6 +329,11 @@ final class WP_Screen {
 
 	/**
 	 * Stores old string-based help.
+	 *
+	 * @static
+	 * @access private
+	 *
+	 * @var array
 	 */
 	private static $_old_compat_help = array();
 
@@ -343,8 +350,11 @@ final class WP_Screen {
 	 * The screen object registry.
 	 *
 	 * @since 3.3.0
-	 * @var array
+	 *
+	 * @static
 	 * @access private
+	 *
+	 * @var array
 	 */
 	private static $_registry = array();
 
@@ -371,6 +381,8 @@ final class WP_Screen {
 	 *
 	 * @since 3.3.0
 	 * @access public
+	 *
+	 * @static
 	 *
 	 * @global string $hook_suffix
 	 *
@@ -587,6 +599,8 @@ final class WP_Screen {
 	 * For backwards compatibility.
 	 *
 	 * @since 3.3.0
+	 *
+	 * @static
 	 *
 	 * @param WP_Screen $screen A screen object.
 	 * @param string $help Help text.
@@ -974,7 +988,7 @@ final class WP_Screen {
 	/**
 	 *
 	 * @global array $wp_meta_boxes
-	 * 
+	 *
 	 * @return bool
 	 */
 	public function show_screen_options() {

@@ -38,6 +38,8 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 	 * method can be called statically.
 	 *
 	 * @since 3.5.0
+	 *
+	 * @static
 	 * @access public
 	 *
 	 * @param array $args
@@ -86,6 +88,8 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 	 * Checks to see if editor supports the mime-type specified.
 	 *
 	 * @since 3.5.0
+	 *
+	 * @static
 	 * @access public
 	 *
 	 * @param string $mime_type

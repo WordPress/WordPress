@@ -410,10 +410,11 @@ function register_theme_directory( $directory ) {
  */
 function search_theme_directories( $force = false ) {
 	global $wp_theme_directories;
+	static $found_themes = null;
+
 	if ( empty( $wp_theme_directories ) )
 		return false;
 
-	static $found_themes;
 	if ( ! $force && isset( $found_themes ) )
 		return $found_themes;
 
@@ -1105,7 +1106,7 @@ function get_header_image() {
  * @return object
  */
 function _get_random_header_data() {
-	static $_wp_random_header;
+	static $_wp_random_header = null;
 
 	if ( empty( $_wp_random_header ) ) {
 		global $_wp_default_headers;

@@ -689,7 +689,7 @@ function wp_register_plugin_realpath( $file ) {
 	global $wp_plugin_paths;
 
 	// Normalize, but store as static to avoid recalculation of a constant value
-	static $wp_plugin_path, $wpmu_plugin_path;
+	static $wp_plugin_path = null, $wpmu_plugin_path = null;
 	if ( ! isset( $wp_plugin_path ) ) {
 		$wp_plugin_path   = wp_normalize_path( WP_PLUGIN_DIR   );
 		$wpmu_plugin_path = wp_normalize_path( WPMU_PLUGIN_DIR );

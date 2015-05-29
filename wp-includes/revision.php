@@ -16,16 +16,16 @@
  * @since 2.6.0
  * @access private
  *
- * @staticvar array|false $fields
+ * @staticvar array $fields
  *
  * @param array $post     Optional. A post array to be processed for insertion as a post revision.
  * @param bool  $autosave Optional. Is the revision an autosave?
  * @return array Post array ready to be inserted as a post revision or array of fields that can be versioned.
  */
 function _wp_post_revision_fields( $post = null, $autosave = false ) {
-	static $fields = false;
+	static $fields = null;
 
-	if ( !$fields ) {
+	if ( is_null( $fields ) ) {
 		// Allow these to be versioned
 		$fields = array(
 			'post_title' => __( 'Title' ),
