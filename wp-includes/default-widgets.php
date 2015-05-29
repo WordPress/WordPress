@@ -888,6 +888,9 @@ class WP_Widget_Recent_Posts extends WP_Widget {
 		return $instance;
 	}
 
+	/**
+	 * @access public
+	 */
 	public function flush_widget_cache() {
 		wp_cache_delete('widget_recent_posts', 'widget');
 	}
@@ -932,6 +935,9 @@ class WP_Widget_Recent_Comments extends WP_Widget {
 		add_action( 'transition_comment_status', array($this, 'flush_widget_cache') );
 	}
 
+	/**
+	 * @access public
+	 */
 	public function recent_comments_style() {
 		/**
 		 * Filter the Recent Comments default widget styles.
@@ -949,6 +955,9 @@ class WP_Widget_Recent_Comments extends WP_Widget {
 <?php
 	}
 
+	/**
+	 * @access public
+	 */
 	public function flush_widget_cache() {
 		wp_cache_delete('widget_recent_comments', 'widget');
 	}
@@ -1466,6 +1475,10 @@ class WP_Widget_Tag_Cloud extends WP_Widget {
 	</select></p><?php
 	}
 
+	/**
+	 * @param array $instance
+	 * @return string
+	 */
 	public function _get_current_taxonomy($instance) {
 		if ( !empty($instance['taxonomy']) && taxonomy_exists($instance['taxonomy']) )
 			return $instance['taxonomy'];

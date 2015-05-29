@@ -35,6 +35,9 @@ class WP_Scripts extends WP_Dependencies {
 		add_action( 'init', array( $this, 'init' ), 0 );
 	}
 
+	/**
+	 * @access public
+	 */
 	public function init() {
 		/**
 		 * Fires when the WP_Scripts instance is initialized.
@@ -313,6 +316,9 @@ class WP_Scripts extends WP_Dependencies {
 		return false;
 	}
 
+	/**
+	 * @access public
+	 */
 	public function reset() {
 		$this->do_concat = false;
 		$this->print_code = '';

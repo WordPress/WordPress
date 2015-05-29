@@ -242,6 +242,9 @@ class WP_Styles extends WP_Dependencies {
 		return $this->done;
 	}
 
+	/**
+	 * @access public
+	 */
 	public function reset() {
 		$this->do_concat = false;
 		$this->concat = '';

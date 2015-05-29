@@ -27,6 +27,9 @@ class WP_Admin_Bar {
 		}
 	}
 
+	/**
+	 * @access public
+	 */
 	public function initialize() {
 		$this->user = new stdClass;
 
@@ -245,6 +248,9 @@ class WP_Admin_Bar {
 		unset( $this->nodes[ $id ] );
 	}
 
+	/**
+	 * @access public
+	 */
 	public function render() {
 		$root = $this->_bind();
 		if ( $root )
@@ -536,6 +542,9 @@ class WP_Admin_Bar {
 		$this->_render_item( $node );
 	}
 
+	/**
+	 * @access public
+	 */
 	public function add_menus() {
 		// User related, aligned right.
 		add_action( 'admin_bar_menu', 'wp_admin_bar_my_account_menu', 0 );

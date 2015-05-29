@@ -179,6 +179,9 @@ class wp_xmlrpc_server extends IXR_Server {
 		return false;
 	}
 
+	/**
+	 * @access public
+	 */
 	public function serve_request() {
 		$this->IXR_Server($this->methods);
 	}

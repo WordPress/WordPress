@@ -1025,6 +1025,9 @@ class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control {
 
 	}
 
+	/**
+	 * @access public
+	 */
 	public function enqueue() {
 		wp_enqueue_media();
 		wp_enqueue_script( 'customize-views' );
@@ -1066,6 +1069,9 @@ class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control {
 		$this->uploaded_headers = $custom_image_header->get_uploaded_header_images();
 	}
 
+	/**
+	 * @access public
+	 */
 	public function print_header_image_template() {
 		?>
 		<script type="text/template" id="tmpl-header-choice">
@@ -1142,6 +1148,9 @@ class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control {
 		}
 	}
 
+	/**
+	 * @access public
+	 */
 	public function render_content() {
 		$this->print_header_image_template();
 		$visibility = $this->get_current_image_src() ? '' : ' style="display:none" ';
@@ -1316,6 +1325,9 @@ class WP_Widget_Area_Customize_Control extends WP_Customize_Control {
 		}
 	}
 
+	/**
+	 * @access public
+	 */
 	public function render_content() {
 		?>
 		<span class="button-secondary add-new-widget" tabindex="0">
