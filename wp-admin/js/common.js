@@ -478,7 +478,7 @@ $(document).ready( function() {
 				focusedRowActions.removeClass( 'visible' );
 			}, 30 );
 		}
-	}, 'td.post-title, td.title, td.comment, .tags td.column-name, .bookmarks td.column-name, td.blogname, .users-network td.column-blogs, td.username, .dashboard-comment-wrap' );
+	}, 'td.has-row-actions' );
 
 	$('#default-password-nag-no').click( function() {
 		setUserSetting('default_password_nag', 'hide');
