@@ -357,6 +357,18 @@ class WP_Comments_List_Table extends WP_List_Table {
 		);
 	}
 
+	/**
+	 * Get name of default primary column
+	 *
+	 * @since 4.3.0
+	 * @access protected
+	 *
+	 * @return string
+	 */
+	protected function get_default_primary_column_name() {
+		return 'comment';
+	}
+
 	public function display() {
 		wp_nonce_field( "fetch-list-" . get_class( $this ), '_ajax_fetch_list_nonce' );
 
@@ -415,62 +427,33 @@ class WP_Comments_List_Table extends WP_List_Table {
 		echo "</tr>\n";
 	}
 
-	public function column_cb( $comment ) {
-		if ( $this->user_can ) { ?>
-		<label class="screen-reader-text" for="cb-select-<?php echo $comment->comment_ID; ?>"><?php _e( 'Select comment' ); ?></label>
-		<input id="cb-select-<?php echo $comment->comment_ID; ?>" type="checkbox" name="delete_comments[]" value="<?php echo $comment->comment_ID; ?>" />
-		<?php
-		}
-	}
+ 	/**
+ 	 * Generate and display row actions links
+ 	 *
+ 	 * @since 4.3.0
+ 	 * @access protected
+ 	 *
+ 	 * @param object $comment Comment being acted upon
+ 	 * @param string $column_name Current column name
+ 	 * @param string $primary Primary column name
+ 	 *
+ 	 * @return string
+ 	 */
+ 	protected function handle_row_actions( $comment, $column_name, $primary ) {
+ 		global $comment_status;
+ 
+ 		if ( ! $this->user_can ) {
+ 			return;
 
-	/**
-	 *
-	 * @global string $comment_status
-	 * @param object $comment
-	 */
-	public function column_comment( $comment ) {
-		global $comment_status;
+		}
+
 		$post = get_post();
 
-		$comment_url = esc_url( get_comment_link( $comment->comment_ID ) );
 		$the_comment_status = wp_get_comment_status( $comment->comment_ID );
 
-		echo '<div class="comment-author">';
-			$this->column_author( $comment );
-		echo '</div>';
+		$out = '';
 
-		echo '<div class="submitted-on">';
-		/* translators: 2: comment date, 3: comment time */
-		printf( __( 'Submitted on <a href="%1$s">%2$s at %3$s</a>' ), $comment_url,
-			/* translators: comment date format. See http://php.net/date */
-			get_comment_date( __( 'Y/m/d' ) ),
-			get_comment_date( get_option( 'time_format' ) )
-		);
-
-		if ( $comment->comment_parent ) {
-			$parent = get_comment( $comment->comment_parent );
-			$parent_link = esc_url( get_comment_link( $comment->comment_parent ) );
-			$name = get_comment_author( $parent->comment_ID );
-			printf( ' | '.__( 'In reply to <a href="%1$s">%2$s</a>.' ), $parent_link, $name );
-		}
-
-		echo '</div>';
-		comment_text();
-		if ( $this->user_can ) { ?>
-		<div id="inline-<?php echo $comment->comment_ID; ?>" class="hidden">
-		<textarea class="comment" rows="1" cols="1"><?php
-			/** This filter is documented in wp-admin/includes/comment.php */
-			echo esc_textarea( apply_filters( 'comment_edit_pre', $comment->comment_content ) );
-		?></textarea>
-		<div class="author-email"><?php echo esc_attr( $comment->comment_author_email ); ?></div>
-		<div class="author"><?php echo esc_attr( $comment->comment_author ); ?></div>
-		<div class="author-url"><?php echo esc_attr( $comment->comment_author_url ); ?></div>
-		<div class="comment_status"><?php echo $comment->comment_approved; ?></div>
-		</div>
-		<?php
-		}
-
-		if ( $this->user_can ) {
+		if( $primary === $column_name ) {
 			$del_nonce = esc_html( '_wpnonce=' . wp_create_nonce( "delete-comment_$comment->comment_ID" ) );
 			$approve_nonce = esc_html( '_wpnonce=' . wp_create_nonce( "approve-comment_$comment->comment_ID" ) );
 
@@ -536,7 +519,7 @@ class WP_Comments_List_Table extends WP_List_Table {
 			$actions = apply_filters( 'comment_row_actions', array_filter( $actions ), $comment );
 
 			$i = 0;
-			echo '<div class="row-actions">';
+			$out .= '<div class="row-actions">';
 			foreach ( $actions as $action => $link ) {
 				++$i;
 				( ( ( 'approve' == $action || 'unapprove' == $action ) && 2 === $i ) || 1 === $i ) ? $sep = '' : $sep = ' | ';
@@ -551,9 +534,67 @@ class WP_Comments_List_Table extends WP_List_Table {
 						$action .= ' unapprove';
 				}
 
-				echo "<span class='$action'>$sep$link</span>";
+				$out .= "<span class='$action'>$sep$link</span>";
 			}
-			echo '</div>';
+			$out .= '</div>';
+		}
+
+		return $out;
+	}
+
+	public function column_cb( $comment ) {
+		if ( $this->user_can ) { ?>
+		<label class="screen-reader-text" for="cb-select-<?php echo $comment->comment_ID; ?>"><?php _e( 'Select comment' ); ?></label>
+		<input id="cb-select-<?php echo $comment->comment_ID; ?>" type="checkbox" name="delete_comments[]" value="<?php echo $comment->comment_ID; ?>" />
+		<?php
+		}
+	}
+
+	/**
+	 *
+	 * @global string $comment_status
+	 * @param object $comment
+	 */
+	public function column_comment( $comment ) {
+		global $comment_status;
+		$post = get_post();
+
+		$comment_url = esc_url( get_comment_link( $comment->comment_ID ) );
+		$the_comment_status = wp_get_comment_status( $comment->comment_ID );
+
+		echo '<div class="comment-author">';
+			$this->column_author( $comment );
+		echo '</div>';
+
+		echo '<div class="submitted-on">';
+		/* translators: 2: comment date, 3: comment time */
+		printf( __( 'Submitted on <a href="%1$s">%2$s at %3$s</a>' ), $comment_url,
+			/* translators: comment date format. See http://php.net/date */
+			get_comment_date( __( 'Y/m/d' ) ),
+			get_comment_date( get_option( 'time_format' ) )
+		);
+
+		if ( $comment->comment_parent ) {
+			$parent = get_comment( $comment->comment_parent );
+			$parent_link = esc_url( get_comment_link( $comment->comment_parent ) );
+			$name = get_comment_author( $parent->comment_ID );
+			printf( ' | '.__( 'In reply to <a href="%1$s">%2$s</a>.' ), $parent_link, $name );
+		}
+
+		echo '</div>';
+		comment_text();
+		if ( $this->user_can ) { ?>
+		<div id="inline-<?php echo $comment->comment_ID; ?>" class="hidden">
+		<textarea class="comment" rows="1" cols="1"><?php
+			/** This filter is documented in wp-admin/includes/comment.php */
+			echo esc_textarea( apply_filters( 'comment_edit_pre', $comment->comment_content ) );
+		?></textarea>
+		<div class="author-email"><?php echo esc_attr( $comment->comment_author_email ); ?></div>
+		<div class="author"><?php echo esc_attr( $comment->comment_author ); ?></div>
+		<div class="author-url"><?php echo esc_attr( $comment->comment_author_url ); ?></div>
+		<div class="comment_status"><?php echo $comment->comment_approved; ?></div>
+		</div>
+		<?php
 		}
 	}
 

@@ -230,6 +230,18 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 	}
 
 	/**
+	 * Get name of default primary column
+	 *
+	 * @since 4.3.0
+	 * @access protected
+	 *
+	 * @return string
+	 */
+	protected function get_default_primary_column_name() {
+		return 'name';
+	}
+
+	/**
 	 *
 	 * @global array $totals
 	 * @global string $status
@@ -400,7 +412,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 
 		echo "<tr id='$id' class='$class'>";
 
-		list( $columns, $hidden ) = $this->get_column_info();
+		list( $columns, $hidden, $sortable, $primary ) = $this->get_column_info();
 
 		foreach ( $columns as $column_name => $column_display_name ) {
 			$style = '';
@@ -413,7 +425,9 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 					break;
 				case 'name':
 					echo "<td class='theme-title'$style><strong>" . $theme->display('Name') . "</strong>";
-					echo $this->row_actions( $actions, true );
+					if ( $primary === $column_name ) {
+						echo $this->row_actions($actions, true);
+					}
 					echo "</td>";
 					break;
 				case 'description':
@@ -451,7 +465,11 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 					$theme_meta = apply_filters( 'theme_row_meta', $theme_meta, $stylesheet, $theme, $status );
 					echo implode( ' | ', $theme_meta );
 
-					echo "</div></td>";
+					echo '</div>';
+					if ( $primary === $column_name ) {
+						echo $this->row_actions($actions, true);
+					}
+					echo '</td>';
 					break;
 
 				default:
@@ -467,6 +485,10 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 					 * @param WP_Theme $theme       Current WP_Theme object.
 					 */
 					do_action( 'manage_themes_custom_column', $column_name, $stylesheet, $theme );
+
+					if ( $primary === $column_name ) {
+						echo $this->row_actions($actions, true);
+					}
 					echo "</td>";
 			}
 		}

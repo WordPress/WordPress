@@ -389,7 +389,6 @@ class WP_Users_List_Table extends WP_List_Table {
 			 * @param WP_User $user_object WP_User object for the currently-listed user.
 			 */
 			$actions = apply_filters( 'user_row_actions', $actions, $user_object );
-			$edit .= $this->row_actions( $actions );
 
 			// Set up the checkbox ( because the user is editable, otherwise it's empty )
 			$checkbox = '<label class="screen-reader-text" for="user_' . $user_object->ID . '">' . sprintf( __( 'Select %s' ), $user_object->user_login ) . '</label>'
@@ -403,63 +402,82 @@ class WP_Users_List_Table extends WP_List_Table {
 
 		$r = "<tr id='user-$user_object->ID'>";
 
-		list( $columns, $hidden ) = $this->get_column_info();
+		list( $columns, $hidden, $sortable, $primary ) = $this->get_column_info();
 
 		foreach ( $columns as $column_name => $column_display_name ) {
-			$class = "class=\"$column_name column-$column_name\"";
+			$classes = "$column_name column-$column_name";
+			if ( $primary === $column_name ) {
+				$classes .= ' has-row-actions column-primary';
+			}
 
 			$style = '';
-			if ( in_array( $column_name, $hidden ) )
+			if ( in_array( $column_name, $hidden ) ) {
 				$style = ' style="display:none;"';
+			}
 
-			$attributes = "$class$style";
+			$attributes = "class='$classes'$style";
 
-			switch ( $column_name ) {
-				case 'cb':
-					$r .= "<th scope='row' class='check-column'>$checkbox</th>";
-					break;
-				case 'username':
-					$r .= "<td $attributes>$avatar $edit</td>";
-					break;
-				case 'name':
-					$r .= "<td $attributes>$user_object->first_name $user_object->last_name</td>";
-					break;
-				case 'email':
-					$r .= "<td $attributes><a href='mailto:$email' title='" . esc_attr( sprintf( __( 'E-mail: %s' ), $email ) ) . "'>$email</a></td>";
-					break;
-				case 'role':
-					$r .= "<td $attributes>$role_name</td>";
-					break;
-				case 'posts':
-					$attributes = 'class="posts column-posts num"' . $style;
-					$r .= "<td $attributes>";
-					if ( $numposts > 0 ) {
-						$r .= "<a href='edit.php?author=$user_object->ID' title='" . esc_attr__( 'View posts by this author' ) . "' class='edit'>";
-						$r .= $numposts;
-						$r .= '</a>';
-					} else {
-						$r .= 0;
-					}
-					$r .= "</td>";
-					break;
-				default:
-					$r .= "<td $attributes>";
+			if ( 'cb' === $column_name ) {
+				$r .= "<th scope='row' class='check-column'>$checkbox</th>";
+			} else {
+				$r .= "<td $attributes>";
+				switch ( $column_name ) {
+					case 'username':
+						$r .= "$avatar $edit";
+						break;
+					case 'name':
+						$r .= "$user_object->first_name $user_object->last_name";
+						break;
+					case 'email':
+						$r .= "<a href='mailto:$email' title='" . esc_attr( sprintf( __( 'E-mail: %s' ), $email ) ) . "'>$email</a>";
+						break;
+					case 'role':
+						$r .= $role_name;
+						break;
+					case 'posts':
+						$attributes = 'class="posts column-posts num"' . $style;
+						$r .= "";
+						if ( $numposts > 0 ) {
+							$r .= "<a href='edit.php?author=$user_object->ID' title='" . esc_attr__( 'View posts by this author' ) . "' class='edit'>";
+							$r .= $numposts;
+							$r .= '</a>';
+						} else {
+							$r .= 0;
+						}
+						break;
+					default:
+						/**
+						 * Filter the display output of custom columns in the Users list table.
+						 *
+						 * @since 2.8.0
+						 *
+						 * @param string $output      Custom column output. Default empty.
+						 * @param string $column_name Column name.
+						 * @param int    $user_id     ID of the currently-listed user.
+						 */
+						$r .= apply_filters( 'manage_users_custom_column', '', $column_name, $user_object->ID );
+				}
 
-					/**
-					 * Filter the display output of custom columns in the Users list table.
-					 *
-					 * @since 2.8.0
-					 *
-					 * @param string $output      Custom column output. Default empty.
-					 * @param string $column_name Column name.
-					 * @param int    $user_id     ID of the currently-listed user.
-					 */
-					$r .= apply_filters( 'manage_users_custom_column', '', $column_name, $user_object->ID );
-					$r .= "</td>";
+				if ( $primary === $column_name ) {
+					$r .= $this->row_actions( $actions );
+				}
+				$r .= "</td>";
 			}
 		}
 		$r .= '</tr>';
 
 		return $r;
+	}
+
+	/**
+	 * Get name of default primary column
+	 *
+	 * @since 4.3.0
+	 * @access protected
+	 *
+	 * @return string
+	 */
+	protected function get_default_primary_column_name() {
+		return 'username';
 	}
 }

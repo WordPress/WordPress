@@ -121,6 +121,18 @@ class WP_Links_List_Table extends WP_List_Table {
 	}
 
 	/**
+	 * Get name of default primary column
+	 *
+	 * @since 4.3.0
+	 * @access protected
+	 *
+	 * @return string
+	 */
+	protected function get_default_primary_column_name() {
+		return 'name';
+	}
+
+	/**
 	 *
 	 * @global int $cat_id
 	 */
@@ -142,66 +154,61 @@ class WP_Links_List_Table extends WP_List_Table {
 		<tr id="link-<?php echo $link->link_id; ?>">
 <?php
 
-			list( $columns, $hidden ) = $this->get_column_info();
+			list( $columns, $hidden, $sortable, $primary ) = $this->get_column_info();
 
 			foreach ( $columns as $column_name => $column_display_name ) {
-				$class = "class='column-$column_name'";
+				$classes = "$column_name column-$column_name";
+				if ( $primary === $column_name ) {
+					$classes .= ' has-row-actions column-primary';
+				}
 
 				$style = '';
-				if ( in_array( $column_name, $hidden ) )
+				if ( in_array( $column_name, $hidden ) ) {
 					$style = ' style="display:none;"';
+				}
 
-				$attributes = $class . $style;
+				$attributes = "class='$classes'$style";
 
-				switch ( $column_name ) {
-					case 'cb': ?>
-						<th scope="row" class="check-column">
-							<label class="screen-reader-text" for="cb-select-<?php echo $link->link_id; ?>"><?php echo sprintf( __( 'Select %s' ), $link->link_name ); ?></label>
-							<input type="checkbox" name="linkcheck[]" id="cb-select-<?php echo $link->link_id; ?>" value="<?php echo esc_attr( $link->link_id ); ?>" />
-						</th>
-						<?php
-						break;
+				if ( 'cb' === $column_name ) {
+					?>
+					<th scope="row" class="check-column">
+						<label class="screen-reader-text" for="cb-select-<?php echo $link->link_id; ?>"><?php echo sprintf( __( 'Select %s' ), $link->link_name ); ?></label>
+						<input type="checkbox" name="linkcheck[]" id="cb-select-<?php echo $link->link_id; ?>" value="<?php echo esc_attr( $link->link_id ); ?>" />
+					</th>
+					<?php
+				} else {
+					echo "<td $attributes>";
 
-					case 'name':
-						echo "<td $attributes><strong><a class='row-title' href='$edit_link' title='" . esc_attr( sprintf( __( 'Edit &#8220;%s&#8221;' ), $link->link_name ) ) . "'>$link->link_name</a></strong><br />";
-
-						$actions = array();
-						$actions['edit'] = '<a href="' . $edit_link . '">' . __( 'Edit' ) . '</a>';
-						$actions['delete'] = "<a class='submitdelete' href='" . wp_nonce_url( "link.php?action=delete&amp;link_id=$link->link_id", 'delete-bookmark_' . $link->link_id ) . "' onclick=\"if ( confirm( '" . esc_js( sprintf( __( "You are about to delete this link '%s'\n  'Cancel' to stop, 'OK' to delete." ), $link->link_name ) ) . "' ) ) { return true;}return false;\">" . __( 'Delete' ) . "</a>";
-						echo $this->row_actions( $actions );
-
-						echo '</td>';
-						break;
-					case 'url':
-						echo "<td $attributes><a href='$link->link_url' title='". esc_attr( sprintf( __( 'Visit %s' ), $link->link_name ) )."'>$short_url</a></td>";
-						break;
-					case 'categories':
-						?><td <?php echo $attributes ?>><?php
-						$cat_names = array();
-						foreach ( $link->link_category as $category ) {
-							$cat = get_term( $category, 'link_category', OBJECT, 'display' );
-							if ( is_wp_error( $cat ) )
-								echo $cat->get_error_message();
-							$cat_name = $cat->name;
-							if ( $cat_id != $category )
-								$cat_name = "<a href='link-manager.php?cat_id=$category'>$cat_name</a>";
-							$cat_names[] = $cat_name;
-						}
-						echo implode( ', ', $cat_names );
-						?></td><?php
-						break;
-					case 'rel':
-						?><td <?php echo $attributes ?>><?php echo empty( $link->link_rel ) ? '<br />' : $link->link_rel; ?></td><?php
-						break;
-					case 'visible':
-						?><td <?php echo $attributes ?>><?php echo $visible; ?></td><?php
-						break;
-					case 'rating':
-	 					?><td <?php echo $attributes ?>><?php echo $rating; ?></td><?php
-						break;
-					default:
-						?>
-						<td <?php echo $attributes ?>><?php
+					switch ( $column_name ) {
+						case 'name':
+							echo "<strong><a class='row-title' href='$edit_link' title='" . esc_attr( sprintf( __( 'Edit &#8220;%s&#8221;' ), $link->link_name ) ) . "'>$link->link_name</a></strong><br />";
+							break;
+						case 'url':
+							echo "<a href='$link->link_url' title='". esc_attr( sprintf( __( 'Visit %s' ), $link->link_name ) )."'>$short_url</a>";
+							break;
+						case 'categories':
+							$cat_names = array();
+							foreach ( $link->link_category as $category ) {
+								$cat = get_term( $category, 'link_category', OBJECT, 'display' );
+								if ( is_wp_error( $cat ) )
+									echo $cat->get_error_message();
+								$cat_name = $cat->name;
+								if ( $cat_id != $category )
+									$cat_name = "<a href='link-manager.php?cat_id=$category'>$cat_name</a>";
+								$cat_names[] = $cat_name;
+							}
+							echo implode( ', ', $cat_names );
+							break;
+						case 'rel':
+							echo empty( $link->link_rel ) ? '<br />' : $link->link_rel;
+							break;
+						case 'visible':
+							echo $visible;
+							break;
+						case 'rating':
+							echo $rating;
+							break;
+						default:
 							/**
 							 * Fires for each registered custom link column.
 							 *
@@ -211,14 +218,39 @@ class WP_Links_List_Table extends WP_List_Table {
 							 * @param int    $link_id     Link ID.
 							 */
 							do_action( 'manage_link_custom_column', $column_name, $link->link_id );
-						?></td>
-						<?php
-						break;
+							break;
+					}
+
+					echo $this->handle_row_actions( $link, $column_name, $primary );
+					echo '</td>';
 				}
 			}
 ?>
 		</tr>
 <?php
+		}
+	}
+
+	/**
+	 * Generate and display row actions links
+	 *
+	 * @since 4.3
+	 * @access protected
+	 *
+	 * @param object $link Link being acted upon
+	 * @param string $column_name Current column name
+	 * @param string $primary Primary column name
+	 *
+	 * @return string
+	 */
+	protected function handle_row_actions( $link, $column_name, $primary ) {
+		if( $primary === $column_name ) {
+			$edit_link = get_edit_bookmark_link( $link );
+
+			$actions = array();
+			$actions['edit'] = '<a href="' . $edit_link . '">' . __('Edit') . '</a>';
+			$actions['delete'] = "<a class='submitdelete' href='" . wp_nonce_url("link.php?action=delete&amp;link_id=$link->link_id", 'delete-bookmark_' . $link->link_id) . "' onclick=\"if ( confirm( '" . esc_js(sprintf(__("You are about to delete this link '%s'\n  'Cancel' to stop, 'OK' to delete."), $link->link_name)) . "' ) ) { return true;}return false;\">" . __('Delete') . "</a>";
+			return $this->row_actions($actions);
 		}
 	}
 }

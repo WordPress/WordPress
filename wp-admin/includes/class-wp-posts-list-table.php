@@ -684,16 +684,20 @@ class WP_Posts_List_Table extends WP_List_Table {
 		<tr id="post-<?php echo $post->ID; ?>" class="<?php echo implode( ' ', get_post_class( $classes, $post->ID ) ); ?>">
 	<?php
 
-		list( $columns, $hidden ) = $this->get_column_info();
+		list( $columns, $hidden, $sortable, $primary ) = $this->get_column_info();
 
 		foreach ( $columns as $column_name => $column_display_name ) {
-			$class = "class=\"$column_name column-$column_name\"";
+			$classes = "$column_name column-$column_name";
+			if ( $primary === $column_name ) {
+				$classes .= ' has-row-actions column-primary';
+			}
 
 			$style = '';
-			if ( in_array( $column_name, $hidden ) )
+			if ( in_array( $column_name, $hidden ) ) {
 				$style = ' style="display:none;"';
+			}
 
-			$attributes = "$class$style";
+			$attributes = "class='$classes'$style";
 
 			switch ( $column_name ) {
 
@@ -715,7 +719,8 @@ class WP_Posts_List_Table extends WP_List_Table {
 			break;
 
 			case 'title':
-				$attributes = 'class="post-title page-title column-title"' . $style;
+				$classes .= ' page-title'; // Special addition for title column
+				$attributes = "class='$classes'$style";
 				if ( $this->hierarchical_display ) {
 					if ( 0 == $level && (int) $post->post_parent > 0 ) {
 						// Sent level 0 by accident, by default, or because we don't know the actual level.
@@ -772,65 +777,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 				if ( ! $this->hierarchical_display && 'excerpt' == $mode && current_user_can( 'read_post', $post->ID ) )
 						the_excerpt();
 
-				$actions = array();
-				if ( $can_edit_post && 'trash' != $post->post_status ) {
-					$actions['edit'] = '<a href="' . get_edit_post_link( $post->ID ) . '" title="' . esc_attr__( 'Edit this item' ) . '">' . __( 'Edit' ) . '</a>';
-					$actions['inline hide-if-no-js'] = '<a href="#" class="editinline" title="' . esc_attr__( 'Edit this item inline' ) . '">' . __( 'Quick&nbsp;Edit' ) . '</a>';
-				}
-				if ( current_user_can( 'delete_post', $post->ID ) ) {
-					if ( 'trash' == $post->post_status )
-						$actions['untrash'] = "<a title='" . esc_attr__( 'Restore this item from the Trash' ) . "' href='" . wp_nonce_url( admin_url( sprintf( $post_type_object->_edit_link . '&amp;action=untrash', $post->ID ) ), 'untrash-post_' . $post->ID ) . "'>" . __( 'Restore' ) . "</a>";
-					elseif ( EMPTY_TRASH_DAYS )
-						$actions['trash'] = "<a class='submitdelete' title='" . esc_attr__( 'Move this item to the Trash' ) . "' href='" . get_delete_post_link( $post->ID ) . "'>" . __( 'Trash' ) . "</a>";
-					if ( 'trash' == $post->post_status || !EMPTY_TRASH_DAYS )
-						$actions['delete'] = "<a class='submitdelete' title='" . esc_attr__( 'Delete this item permanently' ) . "' href='" . get_delete_post_link( $post->ID, '', true ) . "'>" . __( 'Delete Permanently' ) . "</a>";
-				}
-				if ( $post_type_object->public ) {
-					if ( in_array( $post->post_status, array( 'pending', 'draft', 'future' ) ) ) {
-						if ( $can_edit_post ) {
-							$preview_link = set_url_scheme( get_permalink( $post->ID ) );
-							/** This filter is documented in wp-admin/includes/meta-boxes.php */
-							$preview_link = apply_filters( 'preview_post_link', add_query_arg( 'preview', 'true', $preview_link ), $post );
-							$actions['view'] = '<a href="' . esc_url( $preview_link ) . '" title="' . esc_attr( sprintf( __( 'Preview &#8220;%s&#8221;' ), $title ) ) . '" rel="permalink">' . __( 'Preview' ) . '</a>';
-						}
-					} elseif ( 'trash' != $post->post_status ) {
-						$actions['view'] = '<a href="' . get_permalink( $post->ID ) . '" title="' . esc_attr( sprintf( __( 'View &#8220;%s&#8221;' ), $title ) ) . '" rel="permalink">' . __( 'View' ) . '</a>';
-					}
-				}
-
-				if ( is_post_type_hierarchical( $post->post_type ) ) {
-
-					/**
-					 * Filter the array of row action links on the Pages list table.
-					 *
-					 * The filter is evaluated only for hierarchical post types.
-					 *
-					 * @since 2.8.0
-					 *
-					 * @param array   $actions An array of row action links. Defaults are
-					 *                         'Edit', 'Quick Edit', 'Restore, 'Trash',
-					 *                         'Delete Permanently', 'Preview', and 'View'.
-					 * @param WP_Post $post    The post object.
-					 */
-					$actions = apply_filters( 'page_row_actions', $actions, $post );
-				} else {
-
-					/**
-					 * Filter the array of row action links on the Posts list table.
-					 *
-					 * The filter is evaluated only for non-hierarchical post types.
-					 *
-					 * @since 2.8.0
-					 *
-					 * @param array   $actions An array of row action links. Defaults are
-					 *                         'Edit', 'Quick Edit', 'Restore, 'Trash',
-					 *                         'Delete Permanently', 'Preview', and 'View'.
-					 * @param WP_Post $post    The post object.
-					 */
-					$actions = apply_filters( 'post_row_actions', $actions, $post );
-				}
-
-				echo $this->row_actions( $actions );
+				echo $this->handle_row_actions( $post, $column_name, $primary );
 
 				get_inline_data( $post );
 				echo '</td>';
@@ -887,6 +834,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 				} else {
 					_e( 'Last Modified' );
 				}
+				echo $this->handle_row_actions( $post, $column_name, $primary );
 				echo '</td>';
 			break;
 
@@ -898,7 +846,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 
 				$this->comments_bubble( $post->ID, $pending_comments );
 			?>
-			</div></td>
+			</div><?php echo $this->handle_row_actions( $post, $column_name, $primary ); ?></td>
 			<?php
 			break;
 
@@ -909,6 +857,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 					esc_url( add_query_arg( array( 'post_type' => $post->post_type, 'author' => get_the_author_meta( 'ID' ) ), 'edit.php' )),
 					get_the_author()
 				);
+				echo $this->handle_row_actions( $post, $column_name, $primary );
 			?></td>
 			<?php
 			break;
@@ -949,6 +898,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 					} else {
 						echo '&#8212;';
 					}
+					echo $this->handle_row_actions( $post, $column_name, $primary );
 					echo '</td>';
 					break;
 				}
@@ -995,6 +945,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 				 * @param int    $post_id     The current post ID.
 				 */
 				do_action( "manage_{$post->post_type}_posts_custom_column", $column_name, $post->ID );
+				echo $this->handle_row_actions( $post, $column_name, $primary );
 			?></td>
 			<?php
 			break;
@@ -1004,6 +955,101 @@ class WP_Posts_List_Table extends WP_List_Table {
 		</tr>
 	<?php
 		$GLOBALS['post'] = $global_post;
+	}
+
+	/**
+	 * Get name of default primary column
+	 *
+	 * @since 4.3.0
+	 * @access protected
+	 *
+	 * @return string
+	 */
+	protected function get_default_primary_column_name() {
+		return( 'title' );
+	}
+
+	/**
+	 * Generate and display row actions links
+	 *
+	 * @since 4.3.0
+	 * @access protected
+	 *
+	 * @param object $post Post being acted upon
+	 * @param string $column_name Current column name
+	 * @param string $primary Primary column name
+	 *
+	 * @return string
+	 */
+	protected function handle_row_actions( $post, $column_name, $primary ) {
+		$title = _draft_or_post_title();
+
+		if ( $primary === $column_name ) {
+			$post_type_object = get_post_type_object( $post->post_type );
+			$can_edit_post = current_user_can( 'edit_post', $post->ID );
+			$actions = array();
+
+			if ( $can_edit_post && 'trash' != $post->post_status ) {
+				$actions['edit'] = '<a href="' . get_edit_post_link( $post->ID ) . '" title="' . esc_attr__( 'Edit this item' ) . '">' . __( 'Edit' ) . '</a>';
+				$actions['inline hide-if-no-js'] = '<a href="#" class="editinline" title="' . esc_attr__( 'Edit this item inline' ) . '">' . __( 'Quick&nbsp;Edit' ) . '</a>';
+			}
+
+			if ( current_user_can( 'delete_post', $post->ID ) ) {
+				if ( 'trash' == $post->post_status )
+					$actions['untrash'] = "<a title='" . esc_attr__( 'Restore this item from the Trash' ) . "' href='" . wp_nonce_url( admin_url( sprintf( $post_type_object->_edit_link . '&amp;action=untrash', $post->ID ) ), 'untrash-post_' . $post->ID ) . "'>" . __( 'Restore' ) . "</a>";
+				elseif ( EMPTY_TRASH_DAYS )
+					$actions['trash'] = "<a class='submitdelete' title='" . esc_attr__( 'Move this item to the Trash' ) . "' href='" . get_delete_post_link( $post->ID ) . "'>" . __( 'Trash' ) . "</a>";
+				if ( 'trash' == $post->post_status || !EMPTY_TRASH_DAYS )
+					$actions['delete'] = "<a class='submitdelete' title='" . esc_attr__( 'Delete this item permanently' ) . "' href='" . get_delete_post_link( $post->ID, '', true ) . "'>" . __( 'Delete Permanently' ) . "</a>";
+			}
+
+			if ( $post_type_object->public ) {
+				if ( in_array( $post->post_status, array( 'pending', 'draft', 'future' ) ) ) {
+					if ( $can_edit_post ) {
+						$preview_link = set_url_scheme( get_permalink( $post->ID ) );
+						/** This filter is documented in wp-admin/includes/meta-boxes.php */
+						$preview_link = apply_filters( 'preview_post_link', add_query_arg( 'preview', 'true', $preview_link ), $post );
+						$actions['view'] = '<a href="' . esc_url( $preview_link ) . '" title="' . esc_attr( sprintf( __( 'Preview &#8220;%s&#8221;' ), $title ) ) . '" rel="permalink">' . __( 'Preview' ) . '</a>';
+					}
+				} elseif ( 'trash' != $post->post_status ) {
+					$actions['view'] = '<a href="' . get_permalink( $post->ID ) . '" title="' . esc_attr( sprintf( __( 'View &#8220;%s&#8221;' ), $title ) ) . '" rel="permalink">' . __( 'View' ) . '</a>';
+				}
+			}
+
+			if ( is_post_type_hierarchical( $post->post_type ) ) {
+
+				/**
+				 * Filter the array of row action links on the Pages list table.
+				 *
+				 * The filter is evaluated only for hierarchical post types.
+				 *
+				 * @since 2.8.0
+				 *
+				 * @param array $actions An array of row action links. Defaults are
+				 *                         'Edit', 'Quick Edit', 'Restore, 'Trash',
+				 *                         'Delete Permanently', 'Preview', and 'View'.
+				 * @param WP_Post $post The post object.
+				 */
+				$actions = apply_filters( 'page_row_actions', $actions, $post );
+			} else {
+
+				/**
+				 * Filter the array of row action links on the Posts list table.
+				 *
+				 * The filter is evaluated only for non-hierarchical post types.
+				 *
+				 * @since 2.8.0
+				 *
+				 * @param array $actions An array of row action links. Defaults are
+				 *                         'Edit', 'Quick Edit', 'Restore, 'Trash',
+				 *                         'Delete Permanently', 'Preview', and 'View'.
+				 * @param WP_Post $post The post object.
+				 */
+				$actions = apply_filters( 'post_row_actions', $actions, $post );
+			}
+
+			return $this->row_actions( $actions );
+		}
 	}
 
 	/**

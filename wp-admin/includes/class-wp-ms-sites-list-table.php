@@ -246,33 +246,42 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 
 			$blogname = ( is_subdomain_install() ) ? str_replace( '.' . get_current_site()->domain, '', $blog['domain'] ) : $blog['path'];
 
-			list( $columns, $hidden ) = $this->get_column_info();
+			list( $columns, $hidden, $sortable, $primary ) = $this->get_column_info();
 
 			foreach ( $columns as $column_name => $column_display_name ) {
+				$classes = "$column_name column-$column_name";
+				if ( $primary === $column_name ) {
+					$classes .= ' has-row-actions column-primary';
+				}
+
 				$style = '';
-				if ( in_array( $column_name, $hidden ) )
+				if ( in_array( $column_name, $hidden ) ) {
 					$style = ' style="display:none;"';
+				}
 
-				switch ( $column_name ) {
-					case 'cb': ?>
-						<th scope="row" class="check-column">
-							<?php if ( ! is_main_site( $blog['blog_id'] ) ) : ?>
-							<label class="screen-reader-text" for="blog_<?php echo $blog['blog_id']; ?>"><?php printf( __( 'Select %s' ), $blogname ); ?></label>
-							<input type="checkbox" id="blog_<?php echo $blog['blog_id'] ?>" name="allblogs[]" value="<?php echo esc_attr( $blog['blog_id'] ) ?>" />
-							<?php endif; ?>
-						</th>
-					<?php
-					break;
+				$attributes = "class='$classes'$style";
 
-					case 'id':?>
-						<th scope="row">
-							<?php echo $blog['blog_id'] ?>
-						</th>
-					<?php
-					break;
+				if ( 'cb' === $column_name ) {
+?>
+				<th scope="row" class="check-column">
+					<?php if ( ! is_main_site( $blog['blog_id'] ) ) : ?>
+					<label class="screen-reader-text" for="blog_<?php echo $blog['blog_id']; ?>"><?php printf( __( 'Select %s' ), $blogname ); ?></label>
+					<input type="checkbox" id="blog_<?php echo $blog['blog_id'] ?>" name="allblogs[]" value="<?php echo esc_attr( $blog['blog_id'] ) ?>" />
+					<?php endif; ?>
+				</th>
+<?php
+				} elseif ( 'id' === $column_name ) {
+?>
+				<th scope="row">
+					<?php echo $blog['blog_id'] ?>
+				</th>
+<?php
+				} else {
+					echo "<td $attributes>";
 
-					case 'blogname':
-						echo "<td class='column-$column_name $column_name'$style>"; ?>
+					switch ( $column_name ) {
+						case 'blogname':
+							?>
 							<a href="<?php echo esc_url( network_admin_url( 'site-info.php?id=' . $blog['blog_id'] ) ); ?>" class="edit"><?php echo $blogname . $blog_state; ?></a>
 							<?php
 							if ( 'list' != $mode ) {
@@ -281,85 +290,21 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 								echo '<p>' . sprintf( __( '%1$s &#8211; <em>%2$s</em>' ), get_option( 'blogname' ), get_option( 'blogdescription ' ) ) . '</p>';
 								restore_current_blog();
 							}
+						break;
 
-							// Preordered.
-							$actions = array(
-								'edit' => '', 'backend' => '',
-								'activate' => '', 'deactivate' => '',
-								'archive' => '', 'unarchive' => '',
-								'spam' => '', 'unspam' => '',
-								'delete' => '',
-								'visit' => '',
-							);
+						case 'lastupdated':
+							echo ( $blog['last_updated'] == '0000-00-00 00:00:00' ) ? __( 'Never' ) : mysql2date( $date, $blog['last_updated'] );
+						break;
 
-							$actions['edit']	= '<span class="edit"><a href="' . esc_url( network_admin_url( 'site-info.php?id=' . $blog['blog_id'] ) ) . '">' . __( 'Edit' ) . '</a></span>';
-							$actions['backend']	= "<span class='backend'><a href='" . esc_url( get_admin_url( $blog['blog_id'] ) ) . "' class='edit'>" . __( 'Dashboard' ) . '</a></span>';
-							if ( get_current_site()->blog_id != $blog['blog_id'] ) {
-								if ( $blog['deleted'] == '1' ) {
-									$actions['activate']   = '<span class="activate"><a href="' . esc_url( wp_nonce_url( network_admin_url( 'sites.php?action=confirm&amp;action2=activateblog&amp;id=' . $blog['blog_id'] . '&amp;msg=' . urlencode( sprintf( __( 'You are about to activate the site %s' ), $blogname ) ) ), 'confirm' ) ) . '">' . __( 'Activate' ) . '</a></span>';
-								} else {
-									$actions['deactivate'] = '<span class="activate"><a href="' . esc_url( wp_nonce_url( network_admin_url( 'sites.php?action=confirm&amp;action2=deactivateblog&amp;id=' . $blog['blog_id'] . '&amp;msg=' . urlencode( sprintf( __( 'You are about to deactivate the site %s' ), $blogname ) ) ), 'confirm' ) ) . '">' . __( 'Deactivate' ) . '</a></span>';
-								}
-
-								if ( $blog['archived'] == '1' ) {
-									$actions['unarchive'] = '<span class="archive"><a href="' . esc_url( wp_nonce_url( network_admin_url( 'sites.php?action=confirm&amp;action2=unarchiveblog&amp;id=' . $blog['blog_id'] . '&amp;msg=' . urlencode( sprintf( __( 'You are about to unarchive the site %s.' ), $blogname ) ) ), 'confirm' ) ) . '">' . __( 'Unarchive' ) . '</a></span>';
-								} else {
-									$actions['archive']   = '<span class="archive"><a href="' . esc_url( wp_nonce_url( network_admin_url( 'sites.php?action=confirm&amp;action2=archiveblog&amp;id=' . $blog['blog_id'] . '&amp;msg=' . urlencode( sprintf( __( 'You are about to archive the site %s.' ), $blogname ) ) ), 'confirm' ) ) . '">' . _x( 'Archive', 'verb; site' ) . '</a></span>';
-								}
-
-								if ( $blog['spam'] == '1' ) {
-									$actions['unspam'] = '<span class="spam"><a href="' . esc_url( wp_nonce_url( network_admin_url( 'sites.php?action=confirm&amp;action2=unspamblog&amp;id=' . $blog['blog_id'] . '&amp;msg=' . urlencode( sprintf( __( 'You are about to unspam the site %s.' ), $blogname ) ) ), 'confirm' ) ) . '">' . _x( 'Not Spam', 'site' ) . '</a></span>';
-								} else {
-									$actions['spam']   = '<span class="spam"><a href="' . esc_url( wp_nonce_url( network_admin_url( 'sites.php?action=confirm&amp;action2=spamblog&amp;id=' . $blog['blog_id'] . '&amp;msg=' . urlencode( sprintf( __( 'You are about to mark the site %s as spam.' ), $blogname ) ) ), 'confirm' ) ) . '">' . _x( 'Spam', 'site' ) . '</a></span>';
-								}
-
-								if ( current_user_can( 'delete_site', $blog['blog_id'] ) ) {
-									$actions['delete'] = '<span class="delete"><a href="' . esc_url( wp_nonce_url( network_admin_url( 'sites.php?action=confirm&amp;action2=deleteblog&amp;id=' . $blog['blog_id'] . '&amp;msg=' . urlencode( sprintf( __( 'You are about to delete the site %s.' ), $blogname ) ) ), 'confirm' ) ) . '">' . __( 'Delete' ) . '</a></span>';
-								}
+						case 'registered':
+							if ( $blog['registered'] == '0000-00-00 00:00:00' ) {
+								echo '&#x2014;';
+							} else {
+								echo mysql2date( $date, $blog['registered'] );
 							}
+						break;
 
-							$actions['visit']	= "<span class='view'><a href='" . esc_url( get_home_url( $blog['blog_id'], '/' ) ) . "' rel='permalink'>" . __( 'Visit' ) . '</a></span>';
-
-							/**
-							 * Filter the action links displayed for each site in the Sites list table.
-							 *
-							 * The 'Edit', 'Dashboard', 'Delete', and 'Visit' links are displayed by
-							 * default for each site. The site's status determines whether to show the
-							 * 'Activate' or 'Deactivate' link, 'Unarchive' or 'Archive' links, and
-							 * 'Not Spam' or 'Spam' link for each site.
-							 *
-							 * @since 3.1.0
-							 *
-							 * @param array  $actions  An array of action links to be displayed.
-							 * @param int    $blog_id  The site ID.
-							 * @param string $blogname Site path, formatted depending on whether it is a sub-domain
-							 *                         or subdirectory multisite install.
-							 */
-							$actions = apply_filters( 'manage_sites_action_links', array_filter( $actions ), $blog['blog_id'], $blogname );
-							echo $this->row_actions( $actions );
-					?>
-						</td>
-					<?php
-					break;
-
-					case 'lastupdated':
-						echo "<td class='$column_name column-$column_name'$style>";
-							echo ( $blog['last_updated'] == '0000-00-00 00:00:00' ) ? __( 'Never' ) : mysql2date( $date, $blog['last_updated'] ); ?>
-						</td>
-					<?php
-					break;
-				case 'registered':
-						echo "<td class='$column_name column-$column_name'$style>";
-						if ( $blog['registered'] == '0000-00-00 00:00:00' )
-							echo '&#x2014;';
-						else
-							echo mysql2date( $date, $blog['registered'] );
-						?>
-						</td>
-					<?php
-					break;
-				case 'users':
-						echo "<td class='$column_name column-$column_name'$style>";
+						case 'users':
 							$blogusers = get_users( array( 'blog_id' => $blog['blog_id'], 'number' => 6) );
 							if ( is_array( $blogusers ) ) {
 								$blogusers_warning = '';
@@ -376,46 +321,131 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 								if ( $blogusers_warning != '' )
 									echo '<strong>' . $blogusers_warning . '</strong><br />';
 							}
-							?>
-						</td>
-					<?php
-					break;
+						break;
 
-				case 'plugins': ?>
-					<?php if ( has_filter( 'wpmublogsaction' ) ) {
-					echo "<td class='$column_name column-$column_name'$style>";
-						/**
-						 * Fires inside the auxiliary 'Actions' column of the Sites list table.
-						 *
-						 * By default this column is hidden unless something is hooked to the action.
-						 *
-						 * @since MU
-						 *
-						 * @param int $blog_id The site ID.
-						 */
-						do_action( 'wpmublogsaction', $blog['blog_id'] ); ?>
-					</td>
-					<?php }
-					break;
+						case 'plugins':
+							if ( has_filter( 'wpmublogsaction' ) ) {
+								/**
+								 * Fires inside the auxiliary 'Actions' column of the Sites list table.
+								 *
+								 * By default this column is hidden unless something is hooked to the action.
+								 *
+								 * @since MU
+								 *
+								 * @param int $blog_id The site ID.
+								 */
+								do_action( 'wpmublogsaction', $blog['blog_id'] );
+							}
+						break;
 
-				default:
-					echo "<td class='$column_name column-$column_name'$style>";
-					/**
-					 * Fires for each registered custom column in the Sites list table.
-					 *
-					 * @since 3.1.0
-					 *
-					 * @param string $column_name The name of the column to display.
-					 * @param int    $blog_id     The site ID.
-					 */
-					do_action( 'manage_sites_custom_column', $column_name, $blog['blog_id'] );
-					echo "</td>";
-					break;
+						default:
+							/**
+							 * Fires for each registered custom column in the Sites list table.
+							 *
+							 * @since 3.1.0
+							 *
+							 * @param string $column_name The name of the column to display.
+							 * @param int    $blog_id     The site ID.
+							 */
+							do_action( 'manage_sites_custom_column', $column_name, $blog['blog_id'] );
+						break;
+					}
+
+					echo $this->handle_row_actions( $blog, $column_name, $primary );
+					echo '</td>';
 				}
 			}
 			?>
 			</tr>
 			<?php
+		}
+	}
+
+	/**
+	 * Get name of default primary column
+	 *
+	 * @since 4.3.0
+	 * @access protected
+	 *
+	 * @return string
+	 */
+	protected function get_default_primary_column_name() {
+		return 'blogname';
+	}
+
+	/**
+	 * Generate and display row actions links
+	 *
+	 * @since 4.3.0
+	 * @access protected
+	 *
+	 * @param object $blog Blog being acted upon
+	 * @param string $column_name Current column name
+	 * @param string $primary Primary column name
+	 *
+	 * @return string
+	 */
+	protected function handle_row_actions( $blog, $column_name, $primary ) {
+		global $current_site;
+
+		if ( $primary === $column_name ) {
+			$blogname = ( is_subdomain_install() ) ? str_replace( '.'.$current_site->domain, '', $blog['domain'] ) : $blog['path'];
+
+			// Preordered.
+			$actions = array(
+				'edit' => '', 'backend' => '',
+				'activate' => '', 'deactivate' => '',
+				'archive' => '', 'unarchive' => '',
+				'spam' => '', 'unspam' => '',
+				'delete' => '',
+				'visit' => '',
+			);
+
+			$actions['edit']	= '<span class="edit"><a href="' . esc_url( network_admin_url( 'site-info.php?id=' . $blog['blog_id'] ) ) . '">' . __( 'Edit' ) . '</a></span>';
+			$actions['backend']	= "<span class='backend'><a href='" . esc_url( get_admin_url( $blog['blog_id'] ) ) . "' class='edit'>" . __( 'Dashboard' ) . '</a></span>';
+			if ( get_current_site()->blog_id != $blog['blog_id'] ) {
+				if ( $blog['deleted'] == '1' ) {
+					$actions['activate']   = '<span class="activate"><a href="' . esc_url( wp_nonce_url( network_admin_url( 'sites.php?action=confirm&amp;action2=activateblog&amp;id=' . $blog['blog_id'] . '&amp;msg=' . urlencode( sprintf( __( 'You are about to activate the site %s' ), $blogname ) ) ), 'confirm' ) ) . '">' . __( 'Activate' ) . '</a></span>';
+				} else {
+					$actions['deactivate'] = '<span class="activate"><a href="' . esc_url( wp_nonce_url( network_admin_url( 'sites.php?action=confirm&amp;action2=deactivateblog&amp;id=' . $blog['blog_id'] . '&amp;msg=' . urlencode( sprintf( __( 'You are about to deactivate the site %s' ), $blogname ) ) ), 'confirm' ) ) . '">' . __( 'Deactivate' ) . '</a></span>';
+				}
+
+				if ( $blog['archived'] == '1' ) {
+					$actions['unarchive'] = '<span class="archive"><a href="' . esc_url( wp_nonce_url( network_admin_url( 'sites.php?action=confirm&amp;action2=unarchiveblog&amp;id=' . $blog['blog_id'] . '&amp;msg=' . urlencode( sprintf( __( 'You are about to unarchive the site %s.' ), $blogname ) ) ), 'confirm' ) ) . '">' . __( 'Unarchive' ) . '</a></span>';
+				} else {
+					$actions['archive']   = '<span class="archive"><a href="' . esc_url( wp_nonce_url( network_admin_url( 'sites.php?action=confirm&amp;action2=archiveblog&amp;id=' . $blog['blog_id'] . '&amp;msg=' . urlencode( sprintf( __( 'You are about to archive the site %s.' ), $blogname ) ) ), 'confirm' ) ) . '">' . _x( 'Archive', 'verb; site' ) . '</a></span>';
+				}
+
+				if ( $blog['spam'] == '1' ) {
+					$actions['unspam'] = '<span class="spam"><a href="' . esc_url( wp_nonce_url( network_admin_url( 'sites.php?action=confirm&amp;action2=unspamblog&amp;id=' . $blog['blog_id'] . '&amp;msg=' . urlencode( sprintf( __( 'You are about to unspam the site %s.' ), $blogname ) ) ), 'confirm' ) ) . '">' . _x( 'Not Spam', 'site' ) . '</a></span>';
+				} else {
+					$actions['spam']   = '<span class="spam"><a href="' . esc_url( wp_nonce_url( network_admin_url( 'sites.php?action=confirm&amp;action2=spamblog&amp;id=' . $blog['blog_id'] . '&amp;msg=' . urlencode( sprintf( __( 'You are about to mark the site %s as spam.' ), $blogname ) ) ), 'confirm' ) ) . '">' . _x( 'Spam', 'site' ) . '</a></span>';
+				}
+
+				if ( current_user_can( 'delete_site', $blog['blog_id'] ) ) {
+					$actions['delete'] = '<span class="delete"><a href="' . esc_url( wp_nonce_url( network_admin_url( 'sites.php?action=confirm&amp;action2=deleteblog&amp;id=' . $blog['blog_id'] . '&amp;msg=' . urlencode( sprintf( __( 'You are about to delete the site %s.' ), $blogname ) ) ), 'confirm' ) ) . '">' . __( 'Delete' ) . '</a></span>';
+				}
+			}
+
+			$actions['visit']	= "<span class='view'><a href='" . esc_url( get_home_url( $blog['blog_id'], '/' ) ) . "' rel='permalink'>" . __( 'Visit' ) . '</a></span>';
+
+			/**
+			 * Filter the action links displayed for each site in the Sites list table.
+			 *
+			 * The 'Edit', 'Dashboard', 'Delete', and 'Visit' links are displayed by
+			 * default for each site. The site's status determines whether to show the
+			 * 'Activate' or 'Deactivate' link, 'Unarchive' or 'Archive' links, and
+			 * 'Not Spam' or 'Spam' link for each site.
+			 *
+			 * @since 3.1.0
+			 *
+			 * @param array  $actions  An array of action links to be displayed.
+			 * @param int    $blog_id  The site ID.
+			 * @param string $blogname Site path, formatted depending on whether it is a sub-domain
+			 *                         or subdirectory multisite install.
+			 */
+			$actions = apply_filters( 'manage_sites_action_links', array_filter( $actions ), $blog['blog_id'], $blogname );
+			return $this->row_actions( $actions );
 		}
 	}
 }
