@@ -11,7 +11,7 @@
  *
  * @since 2.0.0
  *
- * @return null|WP_Error|int Null when adding user, WP_Error or User ID integer when no parameters.
+ * @return int|WP_Error WP_Error or User ID.
  */
 function add_user() {
 	return edit_user();
@@ -25,7 +25,7 @@ function add_user() {
  * @since 2.0.0
  *
  * @param int $user_id Optional. User ID.
- * @return int user id of the updated user
+ * @return int|WP_Error user id of the updated user
  */
 function edit_user( $user_id = 0 ) {
 	$wp_roles = wp_roles();
@@ -410,6 +410,9 @@ function default_password_nag_handler($errors = false) {
 
 /**
  * @since 2.8.0
+ *
+ * @param int    $user_ID
+ * @param object $old_data
  */
 function default_password_nag_edit_user($user_ID, $old_data) {
 	// Short-circuit it.

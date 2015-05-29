@@ -15,7 +15,7 @@
  *
  * @param string $stylesheet Stylesheet of the theme to delete
  * @param string $redirect Redirect to page when complete.
- * @return mixed
+ * @return void|bool|WP_Error When void, echoes content.
  */
 function delete_theme($stylesheet, $redirect = '') {
 	global $wp_filesystem;
@@ -123,7 +123,7 @@ function _get_template_edit_filename($fullpath, $containingfolder) {
  * @since 2.7.0
  * @see get_theme_update_available()
  *
- * @param object $theme Theme data object.
+ * @param WP_Theme $theme Theme data object.
  */
 function theme_update_available( $theme ) {
 	echo get_theme_update_available( $theme );

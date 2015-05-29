@@ -108,7 +108,6 @@ class Custom_Background {
 	 * @since 3.0.0
 	 */
 	public function take_action() {
-
 		if ( empty($_POST) )
 			return;
 
@@ -357,7 +356,6 @@ if ( current_theme_supports( 'custom-background', 'default-color' ) )
 	 * @since 3.0.0
 	 */
 	public function handle_upload() {
-
 		if ( empty($_FILES) )
 			return;
 
@@ -434,6 +432,9 @@ if ( current_theme_supports( 'custom-background', 'default-color' ) )
 	 *
 	 * @since 3.4.0
 	 * @deprecated 3.5.0
+	 *
+	 * @param array $form_fields
+	 * @return $form_fields
 	 */
 	public function attachment_fields_to_edit( $form_fields ) {
 		return $form_fields;
@@ -443,6 +444,9 @@ if ( current_theme_supports( 'custom-background', 'default-color' ) )
 	 *
 	 * @since 3.4.0
 	 * @deprecated 3.5.0
+	 *
+	 * @param $tabs
+	 * @return $tabs
 	 */
 	public function filter_upload_tabs( $tabs ) {
 		return $tabs;

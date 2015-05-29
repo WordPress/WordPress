@@ -54,6 +54,8 @@ function wp_list_widgets() {
  *
  * @since 3.1.0
  * @access private
+ *
+ * @return int
  */
 function _sort_name_callback( $a, $b ) {
 	return strnatcasecmp( $a['name'], $b['name'] );

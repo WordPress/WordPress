@@ -8,7 +8,10 @@
  * @access private
  */
 class WP_MS_Users_List_Table extends WP_List_Table {
-
+	/**
+	 *
+	 * @return bool
+	 */
 	public function ajax_user_can() {
 		return current_user_can( 'manage_network_users' );
 	}
@@ -79,6 +82,10 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 		) );
 	}
 
+	/**
+	 *
+	 * @return array
+	 */
 	protected function get_bulk_actions() {
 		$actions = array();
 		if ( current_user_can( 'delete_users' ) )
@@ -127,6 +134,10 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 			$this->view_switcher( $mode );
 	}
 
+	/**
+	 *
+	 * @return array
+	 */
 	public function get_columns() {
 		$users_columns = array(
 			'cb'         => '<input type="checkbox" />',
@@ -144,11 +155,13 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 		 * @param array $users_columns An array of user columns. Default 'cb', 'username',
 		 *                             'name', 'email', 'registered', 'blogs'.
 		 */
-		$users_columns = apply_filters( 'wpmu_users_columns', $users_columns );
-
-		return $users_columns;
+		return apply_filters( 'wpmu_users_columns', $users_columns );
 	}
 
+	/**
+	 *
+	 * @return array
+	 */
 	protected function get_sortable_columns() {
 		return array(
 			'username'   => 'login',
@@ -208,7 +221,7 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 					<?php
 				} else {
 					echo "<td $attributes>";
-					
+
 					switch ( $column_name ) {
 						case 'username':
 							$avatar	= get_avatar( $user->user_email, 32 );

@@ -52,6 +52,8 @@ $step = isset( $_GET['step'] ) ? (int) $_GET['step'] : 0;
  * Display install header.
  *
  * @since 2.5.0
+ *
+ * @param string $body_classes
  */
 function display_header( $body_classes = '' ) {
 	header( 'Content-Type: text/html; charset=utf-8' );
@@ -82,6 +84,8 @@ function display_header( $body_classes = '' ) {
  * Display installer setup form.
  *
  * @since 2.8.0
+ *
+ * @param string|null $error
  */
 function display_setup_form( $error = null ) {
 	global $wpdb;

@@ -40,10 +40,16 @@ class WP_Plugins_List_Table extends WP_List_Table {
 		$page = $this->get_pagenum();
 	}
 
+	/**
+	 * @return array
+	 */
 	protected function get_table_classes() {
 		return array( 'widefat', $this->_args['plural'] );
 	}
 
+	/**
+	 * @return bool
+	 */
 	public function ajax_user_can() {
 		return current_user_can('activate_plugins');
 	}
@@ -216,7 +222,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 	/**
 	 * @staticvar string $term
 	 * @param array $plugin
-	 * @return boolean
+	 * @return bool
 	 */
 	public function _search_callback( $plugin ) {
 		static $term = null;
@@ -282,6 +288,9 @@ class WP_Plugins_List_Table extends WP_List_Table {
 		);
 	}
 
+	/**
+	 * @return array
+	 */
 	protected function get_sortable_columns() {
 		return array();
 	}
@@ -365,7 +374,6 @@ class WP_Plugins_List_Table extends WP_List_Table {
 	/**
 	 * @global string $status
 	 * @param string $which
-	 * @return null
 	 */
 	public function bulk_actions( $which = '' ) {
 		global $status;
@@ -379,7 +387,6 @@ class WP_Plugins_List_Table extends WP_List_Table {
 	/**
 	 * @global string $status
 	 * @param string $which
-	 * @return null
 	 */
 	protected function extra_tablenav( $which ) {
 		global $status;
@@ -399,6 +406,9 @@ class WP_Plugins_List_Table extends WP_List_Table {
 		echo '</div>';
 	}
 
+	/**
+	 * @return string
+	 */
 	public function current_action() {
 		if ( isset($_POST['clear-recent-list']) )
 			return 'clear-recent-list';
@@ -425,6 +435,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 	 * @global int $page
 	 * @global string $s
 	 * @global array $totals
+	 * 
 	 * @param array $item
 	 */
 	public function single_row( $item ) {

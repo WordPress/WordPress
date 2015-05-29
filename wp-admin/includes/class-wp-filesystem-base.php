@@ -171,7 +171,6 @@ class WP_Filesystem_Base {
 	 * @return string|false The location of the remote path, false on failure.
 	 */
 	public function find_folder( $folder ) {
-
 		if ( isset( $this->cache[ $folder ] ) )
 			return $this->cache[ $folder ];
 

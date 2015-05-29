@@ -16,6 +16,10 @@ if ( ! is_multisite() )
 if ( ! current_user_can( 'manage_network_users' ) )
 	wp_die( __( 'You do not have permission to access this page.' ), 403 );
 
+/**
+ *
+ * @param array $users
+ */
 function confirm_delete_users( $users ) {
 	$current_user = wp_get_current_user();
 	if ( ! is_array( $users ) || empty( $users ) ) {

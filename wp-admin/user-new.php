@@ -17,6 +17,11 @@ if ( is_multisite() ) {
 }
 
 if ( is_multisite() ) {
+	/**
+	 *
+	 * @param string $text
+	 * @return string
+	 */
 	function admin_created_user_email( $text ) {
 		$roles = get_editable_roles();
 		$role = $roles[ $_REQUEST['role'] ];

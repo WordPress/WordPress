@@ -37,6 +37,10 @@ class WP_Media_List_Table extends WP_List_Table {
 		) );
 	}
 
+	/**
+	 *
+	 * @return bool
+	 */
 	public function ajax_user_can() {
 		return current_user_can('upload_files');
 	}
@@ -105,6 +109,10 @@ class WP_Media_List_Table extends WP_List_Table {
 		return $type_links;
 	}
 
+	/**
+	 *
+	 * @return array
+	 */
 	protected function get_bulk_actions() {
 		$actions = array();
 		if ( MEDIA_TRASH ) {
@@ -151,6 +159,10 @@ class WP_Media_List_Table extends WP_List_Table {
 <?php
 	}
 
+	/**
+	 *
+	 * @return string
+	 */
 	public function current_action() {
 		if ( isset( $_REQUEST['found_post_id'] ) && isset( $_REQUEST['media'] ) )
 			return 'attach';
@@ -164,6 +176,10 @@ class WP_Media_List_Table extends WP_List_Table {
 		return parent::current_action();
 	}
 
+	/**
+	 *
+	 * @return bool
+	 */
 	public function has_items() {
 		return have_posts();
 	}
@@ -221,6 +237,10 @@ class WP_Media_List_Table extends WP_List_Table {
 	<?php
 	}
 
+	/**
+	 *
+	 * @return array
+	 */
 	public function get_columns() {
 		$posts_columns = array();
 		$posts_columns['cb'] = '<input type="checkbox" />';
@@ -271,11 +291,13 @@ class WP_Media_List_Table extends WP_List_Table {
 		 * @param bool  $detached      Whether the list table contains media not attached
 		 *                             to any posts. Default true.
 		 */
-		$posts_columns = apply_filters( 'manage_media_columns', $posts_columns, $this->detached );
-
-		return $posts_columns;
+		return apply_filters( 'manage_media_columns', $posts_columns, $this->detached );
 	}
 
+	/**
+	 *
+	 * @return array
+	 */
 	protected function get_sortable_columns() {
 		return array(
 			'title'    => 'title',
@@ -495,7 +517,7 @@ foreach ( $columns as $column_name => $column_display_name ) {
 		if( $primary === $column_name ) {
 			echo $this->row_actions( $this->_get_row_actions( $post, $att_title ) );
 		}
-		
+
 		echo '</td>';
 	}
 }
@@ -519,6 +541,8 @@ foreach ( $columns as $column_name => $column_display_name ) {
 	/**
 	 * @param WP_Post $post
 	 * @param string  $att_title
+	 *
+	 * @return array
 	 */
 	private function _get_row_actions( $post, $att_title ) {
 		$actions = array();
@@ -567,8 +591,6 @@ foreach ( $columns as $column_name => $column_display_name ) {
 		 * @param bool    $detached Whether the list table contains media not attached
 		 *                          to any posts. Default true.
 		 */
-		$actions = apply_filters( 'media_row_actions', $actions, $post, $this->detached );
-
-		return $actions;
+		return apply_filters( 'media_row_actions', $actions, $post, $this->detached );
 	}
 }

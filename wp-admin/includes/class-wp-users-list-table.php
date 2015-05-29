@@ -56,6 +56,8 @@ class WP_Users_List_Table extends WP_List_Table {
 	 *
  	 * @since 3.1.0
 	 * @access public
+	 *
+	 * @return bool
 	 */
 	public function ajax_user_can() {
 		if ( $this->is_site_users )

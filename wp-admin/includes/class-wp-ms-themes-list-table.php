@@ -47,11 +47,19 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 			$this->site_id = isset( $_REQUEST['id'] ) ? intval( $_REQUEST['id'] ) : 0;
 	}
 
+	/**
+	 *
+	 * @return array
+	 */
 	protected function get_table_classes() {
 		// todo: remove and add CSS for .themes
 		return array( 'widefat', 'plugins' );
 	}
 
+	/**
+	 *
+	 * @return bool
+	 */
 	public function ajax_user_can() {
 		if ( $this->is_site_themes )
 			return current_user_can( 'manage_sites' );
@@ -223,6 +231,10 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 		);
 	}
 
+	/**
+	 *
+	 * @return array
+	 */
 	protected function get_sortable_columns() {
 		return array(
 			'name'         => 'name',
@@ -291,8 +303,8 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 *
 	 * @global string $status
+	 *
 	 * @return array
 	 */
 	protected function get_bulk_actions() {
@@ -322,6 +334,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 	 * @global int $page
 	 * @global string $s
 	 * @global array $totals
+	 * 
 	 * @param WP_Theme $theme
 	 */
 	public function single_row( $theme ) {

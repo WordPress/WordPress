@@ -26,6 +26,10 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 		) );
 	}
 
+	/**
+	 *
+	 * @return bool
+	 */
 	public function ajax_user_can() {
 		return current_user_can( 'manage_sites' );
 	}
@@ -142,6 +146,10 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 		_e( 'No sites found.' );
 	}
 
+	/**
+	 *
+	 * @return array
+	 */
 	protected function get_bulk_actions() {
 		$actions = array();
 		if ( current_user_can( 'delete_sites' ) )
@@ -166,6 +174,10 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 			$this->view_switcher( $mode );
 	}
 
+	/**
+	 *
+	 * @return array
+	 */
 	public function get_columns() {
 		$blogname_columns = ( is_subdomain_install() ) ? __( 'Domain' ) : __( 'Path' );
 		$sites_columns = array(
@@ -187,11 +199,13 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 		 * @param array $sites_columns An array of displayed site columns. Default 'cb',
 		 *                             'blogname', 'lastupdated', 'registered', 'users'.
 		 */
-		$sites_columns = apply_filters( 'wpmu_blogs_columns', $sites_columns );
-
-		return $sites_columns;
+		return apply_filters( 'wpmu_blogs_columns', $sites_columns );
 	}
 
+	/**
+	 *
+	 * @return array
+	 */
 	protected function get_sortable_columns() {
 		return array(
 			'blogname'    => 'blogname',

@@ -250,6 +250,8 @@ class WP_List_Table {
 	 *
 	 * @param array $args An associative array with information about the pagination
 	 * @access protected
+	 *
+	 * @param array|string $args
 	 */
 	protected function set_pagination_args( $args ) {
 		$args = wp_parse_args( $args, array(
@@ -455,7 +457,7 @@ class WP_List_Table {
 	 * @since 3.1.0
 	 * @access public
 	 *
-	 * @return string|bool The action name or False if no action was selected
+	 * @return string|false The action name or False if no action was selected
 	 */
 	public function current_action() {
 		if ( isset( $_REQUEST['filter_action'] ) && ! empty( $_REQUEST['filter_action'] ) )
@@ -976,7 +978,6 @@ class WP_List_Table {
 		$singular = $this->_args['singular'];
 
 		$this->display_tablenav( 'top' );
-
 ?>
 <table class="wp-list-table <?php echo implode( ' ', $this->get_table_classes() ); ?>">
 	<thead>
@@ -1092,8 +1093,17 @@ class WP_List_Table {
 		echo '</tr>';
 	}
 
+	/**
+	 *
+	 * @param object $item
+	 * @param string $column_name
+	 */
 	protected function column_default( $item, $column_name ) {}
 
+	/**
+	 *
+	 * @param object $item
+	 */
 	protected function column_cb( $item ) {}
 
 	/**

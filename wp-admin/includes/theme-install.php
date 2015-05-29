@@ -50,6 +50,8 @@ function install_themes_feature_list() {
  * Display search form for searching themes.
  *
  * @since 2.8.0
+ *
+ * @param bool $type_selector
  */
 function install_theme_search_form( $type_selector = true ) {
 	$type = isset( $_REQUEST['type'] ) ? wp_unslash( $_REQUEST['type'] ) : 'term';
@@ -150,6 +152,8 @@ function install_themes_upload() {
  * @deprecated 3.4.0
  *
  * @global WP_Theme_Install_List_Table $wp_list_table
+ *
+ * @param object $theme
  */
 function display_theme( $theme ) {
 	_deprecated_function( __FUNCTION__, '3.4' );

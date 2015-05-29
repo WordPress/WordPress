@@ -55,6 +55,10 @@ class WP_Terms_List_Table extends WP_List_Table {
 
 	}
 
+	/**
+	 *
+	 * @return bool
+	 */
 	public function ajax_user_can() {
 		return current_user_can( get_taxonomy( $this->screen->taxonomy )->cap->manage_terms );
 	}
@@ -114,6 +118,10 @@ class WP_Terms_List_Table extends WP_List_Table {
 		) );
 	}
 
+	/**
+	 *
+	 * @return bool
+	 */
 	public function has_items() {
 		// todo: populate $this->items in prepare_items()
 		return true;
@@ -123,6 +131,10 @@ class WP_Terms_List_Table extends WP_List_Table {
 		echo get_taxonomy( $this->screen->taxonomy )->labels->not_found;
 	}
 
+	/**
+	 *
+	 * @return array
+	 */
 	protected function get_bulk_actions() {
 		$actions = array();
 		$actions['delete'] = __( 'Delete' );
@@ -130,6 +142,10 @@ class WP_Terms_List_Table extends WP_List_Table {
 		return $actions;
 	}
 
+	/**
+	 *
+	 * @return string
+	 */
 	public function current_action() {
 		if ( isset( $_REQUEST['action'] ) && isset( $_REQUEST['delete_tags'] ) && ( 'delete' == $_REQUEST['action'] || 'delete' == $_REQUEST['action2'] ) )
 			return 'bulk-delete';
@@ -137,6 +153,10 @@ class WP_Terms_List_Table extends WP_List_Table {
 		return parent::current_action();
 	}
 
+	/**
+	 *
+	 * @return array
+	 */
 	public function get_columns() {
 		$columns = array(
 			'cb'          => '<input type="checkbox" />',
@@ -154,6 +174,10 @@ class WP_Terms_List_Table extends WP_List_Table {
 		return $columns;
 	}
 
+	/**
+	 *
+	 * @return array
+	 */
 	protected function get_sortable_columns() {
 		return array(
 			'name'        => 'name',
@@ -217,11 +241,11 @@ class WP_Terms_List_Table extends WP_List_Table {
 	 * @param string $taxonomy
 	 * @param array $terms
 	 * @param array $children
-	 * @param int $start
-	 * @param int $per_page
-	 * @param int $count
-	 * @param int $parent
-	 * @param int $level
+	 * @param int   $start
+	 * @param int   $per_page
+	 * @param int   $count
+	 * @param int   $parent
+	 * @param int   $level
 	 */
 	private function _rows( $taxonomy, $terms, &$children, $start, $per_page, &$count, $parent = 0, $level = 0 ) {
 

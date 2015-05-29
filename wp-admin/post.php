@@ -59,7 +59,7 @@ function redirect_post($post_id = '') {
 					$message = 6;
 			}
 		} else {
-				$message = 'draft' == $status ? 10 : 1;
+			$message = 'draft' == $status ? 10 : 1;
 		}
 
 		$location = add_query_arg( 'message', $message, get_edit_post_link( $post_id, 'url' ) );

@@ -165,22 +165,22 @@ function wp_install_defaults( $user_id ) {
 	}
 
 	$wpdb->insert( $wpdb->posts, array(
-								'post_author' => $user_id,
-								'post_date' => $now,
-								'post_date_gmt' => $now_gmt,
-								'post_content' => $first_post,
-								'post_excerpt' => '',
-								'post_title' => __('Hello world!'),
-								/* translators: Default post slug */
-								'post_name' => sanitize_title( _x('hello-world', 'Default post slug') ),
-								'post_modified' => $now,
-								'post_modified_gmt' => $now_gmt,
-								'guid' => $first_post_guid,
-								'comment_count' => 1,
-								'to_ping' => '',
-								'pinged' => '',
-								'post_content_filtered' => ''
-								));
+		'post_author' => $user_id,
+		'post_date' => $now,
+		'post_date_gmt' => $now_gmt,
+		'post_content' => $first_post,
+		'post_excerpt' => '',
+		'post_title' => __('Hello world!'),
+		/* translators: Default post slug */
+		'post_name' => sanitize_title( _x('hello-world', 'Default post slug') ),
+		'post_modified' => $now,
+		'post_modified_gmt' => $now_gmt,
+		'guid' => $first_post_guid,
+		'comment_count' => 1,
+		'to_ping' => '',
+		'pinged' => '',
+		'post_content_filtered' => ''
+	));
 	$wpdb->insert( $wpdb->term_relationships, array('term_taxonomy_id' => $cat_tt_id, 'object_id' => 1) );
 
 	// Default comment
@@ -194,14 +194,14 @@ To delete a comment, just log in and view the post&#039;s comments. There you wi
 		$first_comment = get_site_option( 'first_comment', $first_comment );
 	}
 	$wpdb->insert( $wpdb->comments, array(
-								'comment_post_ID' => 1,
-								'comment_author' => $first_comment_author,
-								'comment_author_email' => '',
-								'comment_author_url' => $first_comment_url,
-								'comment_date' => $now,
-								'comment_date_gmt' => $now_gmt,
-								'comment_content' => $first_comment
-								));
+		'comment_post_ID' => 1,
+		'comment_author' => $first_comment_author,
+		'comment_author_email' => '',
+		'comment_author_url' => $first_comment_url,
+		'comment_date' => $now,
+		'comment_date_gmt' => $now_gmt,
+		'comment_content' => $first_comment
+	));
 
 	// First Page
 	$first_page = sprintf( __( "This is an example page. It's different from a blog post because it will stay in one place and will show up in your site navigation (in most themes). Most people start with an About page that introduces them to potential site visitors. It might say something like this:
@@ -217,22 +217,22 @@ As a new WordPress user, you should go to <a href=\"%s\">your dashboard</a> to d
 		$first_page = get_site_option( 'first_page', $first_page );
 	$first_post_guid = get_option('home') . '/?page_id=2';
 	$wpdb->insert( $wpdb->posts, array(
-								'post_author' => $user_id,
-								'post_date' => $now,
-								'post_date_gmt' => $now_gmt,
-								'post_content' => $first_page,
-								'post_excerpt' => '',
-								'post_title' => __( 'Sample Page' ),
-								/* translators: Default page slug */
-								'post_name' => __( 'sample-page' ),
-								'post_modified' => $now,
-								'post_modified_gmt' => $now_gmt,
-								'guid' => $first_post_guid,
-								'post_type' => 'page',
-								'to_ping' => '',
-								'pinged' => '',
-								'post_content_filtered' => ''
-								));
+		'post_author' => $user_id,
+		'post_date' => $now,
+		'post_date_gmt' => $now_gmt,
+		'post_content' => $first_page,
+		'post_excerpt' => '',
+		'post_title' => __( 'Sample Page' ),
+		/* translators: Default page slug */
+		'post_name' => __( 'sample-page' ),
+		'post_modified' => $now,
+		'post_modified_gmt' => $now_gmt,
+		'guid' => $first_post_guid,
+		'post_type' => 'page',
+		'to_ping' => '',
+		'pinged' => '',
+		'post_content_filtered' => ''
+	));
 	$wpdb->insert( $wpdb->postmeta, array( 'post_id' => 2, 'meta_key' => '_wp_page_template', 'meta_value' => 'default' ) );
 
 	// Set up default widgets for default theme.
@@ -392,8 +392,6 @@ if ( !function_exists('wp_upgrade') ) :
  * @global int  $wp_current_db_version
  * @global int  $wp_db_version
  * @global wpdb $wpdb
- *
- * @return null If no update is necessary or site isn't completely installed, null.
  */
 function wp_upgrade() {
 	global $wp_current_db_version, $wp_db_version, $wpdb;
@@ -445,8 +443,6 @@ endif;
  *
  * @global int $wp_current_db_version
  * @global int $wp_db_version
- *
- * @return null If no update is necessary, null.
  */
 function upgrade_all() {
 	global $wp_current_db_version, $wp_db_version;
@@ -1747,7 +1743,7 @@ function maybe_create_table($table_name, $create_ddl) {
  *
  * @param string $table Database table name.
  * @param string $index Index name to drop.
- * @return bool True, when finished.
+ * @return true True, when finished.
  */
 function drop_index($table, $index) {
 	global $wpdb;
@@ -1770,7 +1766,7 @@ function drop_index($table, $index) {
  *
  * @param string $table Database table name.
  * @param string $index Database table index column.
- * @return bool True, when done with execution.
+ * @return true True, when done with execution.
  */
 function add_clean_index($table, $index) {
 	global $wpdb;
@@ -1789,7 +1785,7 @@ function add_clean_index($table, $index) {
  * @param string $table_name  The table name to modify.
  * @param string $column_name The column name to add to the table.
  * @param string $create_ddl  The SQL statement used to add the column.
- * @return True if already exists or on successful completion, false on error.
+ * @return bool True if already exists or on successful completion, false on error.
  */
 function maybe_add_column($table_name, $column_name, $create_ddl) {
 	global $wpdb;
@@ -2278,7 +2274,7 @@ function make_site_theme_from_oldschool($theme_name, $template) {
 
 				// Don't copy anything.
 				continue;
-				}
+			}
 		}
 
 		if (! @copy("$oldpath/$oldfile", "$site_dir/$newfile"))
@@ -2331,7 +2327,7 @@ function make_site_theme_from_oldschool($theme_name, $template) {
  *
  * @param string $theme_name The name of the theme.
  * @param string $template   The directory name of the theme.
- * @return null|false
+ * @return false|void
  */
 function make_site_theme_from_default($theme_name, $template) {
 	$site_dir = WP_CONTENT_DIR . "/themes/$template";

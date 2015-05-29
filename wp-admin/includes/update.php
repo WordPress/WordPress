@@ -9,7 +9,7 @@
 /**
  * Selects the first update version from the update_core option.
  *
- * @return bool|object The response from the API on success, false on failure.
+ * @return object|array|false The response from the API on success, false on failure.
  */
 function get_preferred_from_update_core() {
 	$updates = get_core_updates();
@@ -24,8 +24,8 @@ function get_preferred_from_update_core() {
  * Get available core updates.
  *
  * @param array $options Set $options['dismissed'] to true to show dismissed upgrades too,
- * 	set $options['available'] to false to skip not-dismissed updates.
- * @return bool|array Array of the update objects on success, false on failure.
+ * 	                     set $options['available'] to false to skip not-dismissed updates.
+ * @return array|false Array of the update objects on success, false on failure.
  */
 function get_core_updates( $options = array() ) {
 	$options = array_merge( array( 'available' => true, 'dismissed' => false ), $options );
@@ -67,7 +67,7 @@ function get_core_updates( $options = array() ) {
  *
  * @since 3.7.0
  *
- * @return bool|array False on failure, otherwise the core update offering.
+ * @return array|false False on failure, otherwise the core update offering.
  */
 function find_core_auto_update() {
 	$updates = get_site_transient( 'update_core' );
@@ -128,12 +128,23 @@ function get_core_checksums( $version, $locale ) {
 	return $body['checksums'];
 }
 
+/**
+ *
+ * @param object $update
+ * @return bool
+ */
 function dismiss_core_update( $update ) {
 	$dismissed = get_site_option( 'dismissed_update_core' );
 	$dismissed[ $update->current . '|' . $update->locale ] = true;
 	return update_site_option( 'dismissed_update_core', $dismissed );
 }
 
+/**
+ *
+ * @param string $version
+ * @param string $locale
+ * @return bool
+ */
 function undismiss_core_update( $version, $locale ) {
 	$dismissed = get_site_option( 'dismissed_update_core' );
 	$key = $version . '|' . $locale;
@@ -145,6 +156,12 @@ function undismiss_core_update( $version, $locale ) {
 	return update_site_option( 'dismissed_update_core', $dismissed );
 }
 
+/**
+ *
+ * @param string $version
+ * @param string $locale
+ * @return object|false
+ */
 function find_core_update( $version, $locale ) {
 	$from_api = get_site_transient( 'update_core' );
 
@@ -159,6 +176,11 @@ function find_core_update( $version, $locale ) {
 	return false;
 }
 
+/**
+ *
+ * @param string $msg
+ * @return string
+ */
 function core_update_footer( $msg = '' ) {
 	if ( !current_user_can('update_core') )
 		return sprintf( __( 'Version %s' ), get_bloginfo( 'version', 'display' ) );
@@ -264,6 +286,12 @@ function wp_plugin_update_rows() {
 	}
 }
 
+/**
+ *
+ * @param string $file
+ * @param array  $plugin_data
+ * @return false|void
+ */
 function wp_plugin_update_row( $file, $plugin_data ) {
 	$current = get_site_transient( 'update_plugins' );
 	if ( !isset( $current->response[ $file ] ) )
@@ -330,6 +358,10 @@ function wp_plugin_update_row( $file, $plugin_data ) {
 	}
 }
 
+/**
+ *
+ * @return array
+ */
 function get_theme_updates() {
 	$current = get_site_transient('update_themes');
 
@@ -359,6 +391,12 @@ function wp_theme_update_rows() {
 	}
 }
 
+/**
+ *
+ * @param string   $theme_key
+ * @param WP_Theme $theme
+ * @return false|void
+ */
 function wp_theme_update_row( $theme_key, $theme ) {
 	$current = get_site_transient( 'update_themes' );
 	if ( !isset( $current->response[ $theme_key ] ) )

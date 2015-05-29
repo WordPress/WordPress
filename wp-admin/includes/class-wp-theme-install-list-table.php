@@ -11,6 +11,10 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 
 	public $features = array();
 
+	/**
+	 *
+	 * @return bool
+	 */
 	public function ajax_user_can() {
 		return current_user_can( 'install_themes' );
 	}
@@ -416,6 +420,8 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 	 *
 	 * @global string $tab  Current tab within Themes->Install screen
 	 * @global string $type Type of search.
+	 *
+	 * @param array $extra_args Unused.
 	 */
 	public function _js_vars( $extra_args = array() ) {
 		global $tab, $type;

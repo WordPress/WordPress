@@ -438,10 +438,10 @@ function get_inline_data($post) {
  *
  * @global WP_List_Table $wp_list_table
  *
- * @param int $position
- * @param bool $checkbox
+ * @param int    $position
+ * @param bool   $checkbox
  * @param string $mode
- * @param bool $table_row
+ * @param bool   $table_row
  */
 function wp_comment_reply( $position = 1, $checkbox = false, $mode = 'single', $table_row = true ) {
 	global $wp_list_table;
@@ -1038,9 +1038,9 @@ function add_meta_box( $id, $title, $callback, $screen = null, $context = 'advan
  * @global array $wp_meta_boxes
  *
  * @staticvar bool $already_sorted
- * @param string|WP_Screen $screen Screen identifier
- * @param string $context box context
- * @param mixed $object gets passed to the box callback function as first parameter
+ * @param string|WP_Screen $screen  Screen identifier
+ * @param string           $context box context
+ * @param mixed            $object  gets passed to the box callback function as first parameter
  * @return int number of meta_boxes
  */
 function do_meta_boxes( $screen, $context, $object ) {
@@ -1107,9 +1107,9 @@ function do_meta_boxes( $screen, $context, $object ) {
  *
  * @global array $wp_meta_boxes
  *
- * @param string $id String for use in the 'id' attribute of tags.
- * @param string|object $screen The screen on which to show the box (post, page, link).
- * @param string $context The context within the page where the boxes should show ('normal', 'advanced').
+ * @param string        $id      String for use in the 'id' attribute of tags.
+ * @param string|object $screen  The screen on which to show the box (post, page, link).
+ * @param string        $context The context within the page where the boxes should show ('normal', 'advanced').
  */
 function remove_meta_box($id, $screen, $context) {
 	global $wp_meta_boxes;
@@ -1143,9 +1143,9 @@ function remove_meta_box($id, $screen, $context) {
  *
  * @uses global $wp_meta_boxes Used to retrieve registered meta boxes.
  *
- * @param string|object $screen The screen identifier.
- * @param string $context The meta box context.
- * @param mixed $object gets passed to the section callback function as first parameter.
+ * @param string|object $screen  The screen identifier.
+ * @param string        $context The meta box context.
+ * @param mixed         $object  gets passed to the section callback function as first parameter.
  * @return int number of meta boxes as accordion sections.
  */
 function do_accordion_sections( $screen, $context, $object ) {
@@ -1221,10 +1221,10 @@ function do_accordion_sections( $screen, $context, $object ) {
  *
  * @global $wp_settings_sections Storage array of all settings sections added to admin pages
  *
- * @param string $id Slug-name to identify the section. Used in the 'id' attribute of tags.
- * @param string $title Formatted title of the section. Shown as the heading for the section.
+ * @param string $id       Slug-name to identify the section. Used in the 'id' attribute of tags.
+ * @param string $title    Formatted title of the section. Shown as the heading for the section.
  * @param string $callback Function that echos out any content at the top of the section (between heading and fields).
- * @param string $page The slug-name of the settings page on which to show the section. Built-in pages include 'general', 'reading', 'writing', 'discussion', 'media', etc. Create your own using add_options_page();
+ * @param string $page     The slug-name of the settings page on which to show the section. Built-in pages include 'general', 'reading', 'writing', 'discussion', 'media', etc. Create your own using add_options_page();
  */
 function add_settings_section($id, $title, $callback, $page) {
 	global $wp_settings_sections;
@@ -1700,6 +1700,10 @@ function iframe_footer() {
 <?php
 }
 
+/**
+ *
+ * @param WP_Post $post
+ */
 function _post_states($post) {
 	$post_states = array();
 	if ( isset( $_REQUEST['post_status'] ) )
@@ -1750,6 +1754,10 @@ function _post_states($post) {
 
 }
 
+/**
+ *
+ * @param WP_Post $post
+ */
 function _media_states( $post ) {
 	$media_states = array();
 	$stylesheet = get_option('stylesheet');

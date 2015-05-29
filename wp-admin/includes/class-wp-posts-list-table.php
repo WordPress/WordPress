@@ -100,6 +100,10 @@ class WP_Posts_List_Table extends WP_List_Table {
 		$this->hierarchical_display = $display;
 	}
 
+	/**
+	 *
+	 * @return bool
+	 */
 	public function ajax_user_can() {
 		return current_user_can( get_post_type_object( $this->screen->post_type )->cap->edit_posts );
 	}
@@ -147,6 +151,10 @@ class WP_Posts_List_Table extends WP_List_Table {
 		) );
 	}
 
+	/**
+	 *
+	 * @return bool
+	 */
 	public function has_items() {
 		return have_posts();
 	}
@@ -163,7 +171,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 	 *
 	 * @since 4.2.0
 	 *
-	 * @return bool Whether the current ivew is the "All" view.
+	 * @return bool Whether the current view is the "All" view.
 	 */
 	protected function is_base_request() {
 		if ( empty( $_GET ) ) {
@@ -254,6 +262,10 @@ class WP_Posts_List_Table extends WP_List_Table {
 		return $status_links;
 	}
 
+	/**
+	 *
+	 * @return array
+	 */
 	protected function get_bulk_actions() {
 		$actions = array();
 		$post_type_obj = get_post_type_object( $this->screen->post_type );
@@ -323,6 +335,10 @@ class WP_Posts_List_Table extends WP_List_Table {
 <?php
 	}
 
+	/**
+	 *
+	 * @return string
+	 */
 	public function current_action() {
 		if ( isset( $_REQUEST['delete_all'] ) || isset( $_REQUEST['delete_all2'] ) )
 			return 'delete_all';
@@ -343,10 +359,18 @@ class WP_Posts_List_Table extends WP_List_Table {
 			$this->view_switcher( $mode );
 	}
 
+	/**
+	 *
+	 * @return array
+	 */
 	protected function get_table_classes() {
 		return array( 'widefat', 'fixed', 'striped', is_post_type_hierarchical( $this->screen->post_type ) ? 'pages' : 'posts' );
 	}
 
+	/**
+	 *
+	 * @return array
+	 */
 	public function get_columns() {
 		$post_type = $this->screen->post_type;
 
@@ -427,11 +451,13 @@ class WP_Posts_List_Table extends WP_List_Table {
 		 *
 		 * @param array $post_columns An array of column names.
 		 */
-		$posts_columns = apply_filters( "manage_{$post_type}_posts_columns", $posts_columns );
-
-		return $posts_columns;
+		return apply_filters( "manage_{$post_type}_posts_columns", $posts_columns );
 	}
 
+	/**
+	 *
+	 * @return array
+	 */
 	protected function get_sortable_columns() {
 		return array(
 			'title'    => 'title',
@@ -488,7 +514,6 @@ class WP_Posts_List_Table extends WP_List_Table {
 	 * @param array $pages
 	 * @param int $pagenum
 	 * @param int $per_page
-	 * @return false|null
 	 */
 	private function _display_rows_hierarchical( $pages, $pagenum = 1, $per_page = 20 ) {
 		global $wpdb;
@@ -499,7 +524,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 			$pages = get_pages( array( 'sort_column' => 'menu_order' ) );
 
 			if ( ! $pages )
-				return false;
+				return;
 		}
 
 		/*
@@ -596,7 +621,6 @@ class WP_Posts_List_Table extends WP_List_Table {
 	 * @param array $to_display List of pages to be displayed. Passed by reference.
 	 */
 	private function _page_rows( &$children_pages, &$count, $parent, $level, $pagenum, $per_page, &$to_display ) {
-
 		if ( ! isset( $children_pages[$parent] ) )
 			return;
 
@@ -604,7 +628,6 @@ class WP_Posts_List_Table extends WP_List_Table {
 		$end = $start + $per_page;
 
 		foreach ( $children_pages[$parent] as $page ) {
-
 			if ( $count >= $end )
 				break;
 

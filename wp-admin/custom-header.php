@@ -317,7 +317,6 @@ class Custom_Image_Header {
 			}
 		}
 		?>
-
 <script type="text/javascript">
 (function($){
 	var default_color = '<?php echo $default_color; ?>',
@@ -925,6 +924,9 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 	 * Unused since 3.5.0.
 	 *
 	 * @since 3.4.0
+	 *
+	 * @param array $form_fields
+	 * @return $form_fields
 	 */
 	public function attachment_fields_to_edit( $form_fields ) {
 		return $form_fields;
@@ -934,6 +936,9 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 	 * Unused since 3.5.0.
 	 *
 	 * @since 3.4.0
+	 *
+	 * @param array $tabs
+	 * @return $tabs
 	 */
 	public function filter_upload_tabs( $tabs ) {
 		return $tabs;
@@ -950,6 +955,8 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 	 *  Or an array of arguments: attachment_id, url, width, height. All are required.
 	 *
 	 * @since 3.4.0
+	 *
+	 * @param array|object|string $choice
 	 */
 	final public function set_header_image( $choice ) {
 		if ( is_array( $choice ) || is_object( $choice ) ) {
@@ -1001,7 +1008,7 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 	 * @since 3.4.0
 	 */
 	final public function remove_header_image() {
-		return $this->set_header_image( 'remove-header' );
+		$this->set_header_image( 'remove-header' );
 	}
 
 	/**
@@ -1015,9 +1022,10 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 		$this->process_default_headers();
 		$default = get_theme_support( 'custom-header', 'default-image' );
 
-		if ( ! $default )
-			return $this->remove_header_image();
-
+		if ( ! $default ) {
+			$this->remove_header_image();
+			return;
+		}
 		$default = sprintf( $default, get_template_directory_uri(), get_stylesheet_directory_uri() );
 
 		$default_data = array();
@@ -1035,6 +1043,7 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 	/**
 	 * Calculate width and height based on what the currently selected theme supports.
 	 *
+	 * @param array $dimensions
 	 * @return array dst_height and dst_width of header image.
 	 */
 	final public function get_header_dimensions( $dimensions ) {
@@ -1084,8 +1093,8 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 	/**
 	 * Create an attachment 'object'.
 	 *
-	 * @param string $cropped Cropped image URL.
-	 * @param int $parent_attachment_id Attachment ID of parent image.
+	 * @param string $cropped              Cropped image URL.
+	 * @param int    $parent_attachment_id Attachment ID of parent image.
 	 *
 	 * @return array Attachment object.
 	 */
@@ -1112,7 +1121,7 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 	/**
 	 * Insert an attachment and its metadata.
 	 *
-	 * @param array $object Attachment object.
+	 * @param array  $object  Attachment object.
 	 * @param string $cropped Cropped image URL.
 	 *
 	 * @return int Attachment ID.
@@ -1240,6 +1249,10 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 		wp_send_json_success();
 	}
 
+	/**
+	 *
+	 * @param WP_Customize_Manager $wp_customize
+	 */
 	public function customize_set_last_used( $wp_customize ) {
 		$data = $wp_customize->get_setting( 'header_image_data' )->post_value();
 
@@ -1252,6 +1265,10 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 		update_post_meta( $attachment_id, $key, time() );
 	}
 
+	/**
+	 *
+	 * @return array
+	 */
 	public function get_default_header_images() {
 		$this->process_default_headers();
 
@@ -1285,10 +1302,13 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 		);
 
 		// The rest of the set comes after.
-		$header_images = array_merge( $header_images, $this->default_headers );
-		return $header_images;
+		return array_merge( $header_images, $this->default_headers );
 	}
 
+	/**
+	 *
+	 * @return array
+	 */
 	public function get_uploaded_header_images() {
 		$header_images = get_uploaded_header_images();
 		$timestamp_key = '_wp_attachment_custom_header_last_used_' . get_stylesheet();

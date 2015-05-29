@@ -314,7 +314,6 @@ function list_theme_updates() {
 	}
 
 	$form_action = 'update-core.php?action=do-theme-upgrade';
-
 ?>
 <h3><?php _e( 'Themes' ); ?></h3>
 <p><?php _e( 'The following themes have new versions available. Check the ones you want to update and then click &#8220;Update Themes&#8221;.' ); ?></p>
@@ -381,6 +380,8 @@ function list_translation_updates() {
  * @since 2.7.0
  *
  * @global WP_Filesystem_Base $wp_filesystem Subclass
+ *
+ * @param bool $reinstall
  */
 function do_core_upgrade( $reinstall = false ) {
 	global $wp_filesystem;

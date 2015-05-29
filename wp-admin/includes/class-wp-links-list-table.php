@@ -26,6 +26,10 @@ class WP_Links_List_Table extends WP_List_Table {
 		) );
 	}
 
+	/**
+	 *
+	 * @return bool
+	 */
 	public function ajax_user_can() {
 		return current_user_can( 'manage_links' );
 	}
@@ -60,6 +64,10 @@ class WP_Links_List_Table extends WP_List_Table {
 		_e( 'No links found.' );
 	}
 
+	/**
+	 *
+	 * @return array
+	 */
 	protected function get_bulk_actions() {
 		$actions = array();
 		$actions['delete'] = __( 'Delete' );
@@ -99,6 +107,10 @@ class WP_Links_List_Table extends WP_List_Table {
 <?php
 	}
 
+	/**
+	 *
+	 * @return array
+	 */
 	public function get_columns() {
 		return array(
 			'cb'         => '<input type="checkbox" />',
@@ -111,6 +123,10 @@ class WP_Links_List_Table extends WP_List_Table {
 		);
 	}
 
+	/**
+	 *
+	 * @return array
+	 */
 	protected function get_sortable_columns() {
 		return array(
 			'name'    => 'name',

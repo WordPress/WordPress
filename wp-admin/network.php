@@ -157,6 +157,8 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
  * @since 3.0.0
  *
  * @global bool $is_apache
+ *
+ * @param WP_Error $errors
  */
 function network_step1( $errors = false ) {
 	global $is_apache;
@@ -336,6 +338,8 @@ function network_step1( $errors = false ) {
  * @since 3.0.0
  *
  * @global wpdb $wpdb
+ *
+ * @param WP_Error $errors
  */
 function network_step2( $errors = false ) {
 	global $wpdb;

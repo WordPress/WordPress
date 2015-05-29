@@ -15,6 +15,10 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 
 	private $error;
 
+	/**
+	 *
+	 * @return bool
+	 */
 	public function ajax_user_can() {
 		return current_user_can('install_plugins');
 	}
@@ -28,6 +32,8 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 	 *
 	 * @since 4.0.0
 	 * @access protected
+	 *
+	 * @return array
 	 */
 	protected function get_installed_plugin_slugs() {
 		$slugs = array();
@@ -221,6 +227,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 	 *
 	 * @global array $tabs
 	 * @global string $tab
+	 *
 	 * @return array
 	 */
 	protected function get_views() {
@@ -325,10 +332,16 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 		}
 	}
 
+	/**
+	 * @return array
+	 */
 	protected function get_table_classes() {
 		return array( 'widefat', $this->_args['plural'] );
 	}
-
+	
+	/**
+	 * @return array
+	 */
 	public function get_columns() {
 		return array();
 	}

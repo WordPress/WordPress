@@ -53,6 +53,9 @@ class WP_Comments_List_Table extends WP_List_Table {
 		) );
 	}
 
+	/**
+	 * @return bool
+	 */
 	public function ajax_user_can() {
 		return current_user_can('edit_posts');
 	}
@@ -158,8 +161,7 @@ class WP_Comments_List_Table extends WP_List_Table {
 		 * @param int    $comments_per_page The number of comments to list per page.
 		 * @param string $comment_status    The comment status name. Default 'All'.
 		 */
-		$comments_per_page = apply_filters( 'comments_per_page', $comments_per_page, $comment_status );
-		return $comments_per_page;
+		return apply_filters( 'comments_per_page', $comments_per_page, $comment_status );
 	}
 
 	/**
@@ -230,13 +232,14 @@ class WP_Comments_List_Table extends WP_List_Table {
 		 * @param array $status_links An array of fully-formed status links. Default 'All'.
 		 *                            Accepts 'All', 'Pending', 'Approved', 'Spam', and 'Trash'.
 		 */
-		$status_links = apply_filters( 'comment_status_links', $status_links );
-		return $status_links;
+		return apply_filters( 'comment_status_links', $status_links );
 	}
 
 	/**
 	 *
 	 * @global string $comment_status
+	 *
+	 * @return array
 	 */
 	protected function get_bulk_actions() {
 		global $comment_status;
@@ -266,6 +269,7 @@ class WP_Comments_List_Table extends WP_List_Table {
 	 *
 	 * @global string $comment_status
 	 * @global string $comment_type
+	 *
 	 * @param string $which
 	 */
 	protected function extra_tablenav( $which ) {
@@ -321,6 +325,9 @@ class WP_Comments_List_Table extends WP_List_Table {
 		echo '</div>';
 	}
 
+	/**
+	 * @return string|false
+	 */
 	public function current_action() {
 		if ( isset( $_REQUEST['delete_all'] ) || isset( $_REQUEST['delete_all2'] ) )
 			return 'delete_all';
@@ -331,6 +338,7 @@ class WP_Comments_List_Table extends WP_List_Table {
 	/**
 	 *
 	 * @global int $post_id
+	 *
 	 * @return array
 	 */
 	public function get_columns() {
@@ -350,6 +358,10 @@ class WP_Comments_List_Table extends WP_List_Table {
 		return $columns;
 	}
 
+	/**
+	 *
+	 * @return array
+	 */
 	protected function get_sortable_columns() {
 		return array(
 			'author'   => 'comment_author',
@@ -406,6 +418,7 @@ class WP_Comments_List_Table extends WP_List_Table {
 	 *
 	 * @global WP_Post $post
 	 * @global object  $comment
+	 *
 	 * @param object $a_comment
 	 */
 	public function single_row( $a_comment ) {
@@ -437,14 +450,13 @@ class WP_Comments_List_Table extends WP_List_Table {
  	 * @param string $column_name Current column name
  	 * @param string $primary Primary column name
  	 *
- 	 * @return string
+ 	 * @return string|void
  	 */
  	protected function handle_row_actions( $comment, $column_name, $primary ) {
  		global $comment_status;
- 
+
  		if ( ! $this->user_can ) {
  			return;
-
 		}
 
 		$post = get_post();
@@ -542,6 +554,10 @@ class WP_Comments_List_Table extends WP_List_Table {
 		return $out;
 	}
 
+	/**
+	 *
+	 * @param object $comment
+	 */
 	public function column_cb( $comment ) {
 		if ( $this->user_can ) { ?>
 		<label class="screen-reader-text" for="cb-select-<?php echo $comment->comment_ID; ?>"><?php _e( 'Select comment' ); ?></label>
@@ -553,6 +569,7 @@ class WP_Comments_List_Table extends WP_List_Table {
 	/**
 	 *
 	 * @global string $comment_status
+	 *
 	 * @param object $comment
 	 */
 	public function column_comment( $comment ) {
@@ -601,6 +618,7 @@ class WP_Comments_List_Table extends WP_List_Table {
 	/**
 	 *
 	 * @global string $comment_status
+	 *
 	 * @param object $comment
 	 */
 	public function column_author( $comment ) {
@@ -634,6 +652,10 @@ class WP_Comments_List_Table extends WP_List_Table {
 		}
 	}
 
+	/**
+	 *
+	 * @return string
+	 */
 	public function column_date() {
 		return get_comment_date( __( 'Y/m/d \a\t g:i a' ) );
 	}
@@ -666,6 +688,11 @@ class WP_Comments_List_Table extends WP_List_Table {
 			echo $thumb;
 	}
 
+	/**
+	 *
+	 * @param object $comment
+	 * @param string $column_name
+	 */
 	public function column_default( $comment, $column_name ) {
 		/**
 		 * Fires when the default column output is displayed for a single row.
@@ -691,6 +718,10 @@ class WP_Comments_List_Table extends WP_List_Table {
  */
 class WP_Post_Comments_List_Table extends WP_Comments_List_Table {
 
+	/**
+	 *
+	 * @return array
+	 */
 	protected function get_column_info() {
 		return array(
 			array(
@@ -703,12 +734,20 @@ class WP_Post_Comments_List_Table extends WP_Comments_List_Table {
 		);
 	}
 
+	/**
+	 *
+	 * @return array
+	 */
 	protected function get_table_classes() {
 		$classes = parent::get_table_classes();
 		$classes[] = 'comments-box';
 		return $classes;
 	}
 
+	/**
+	 *
+	 * @param bool $output_empty
+	 */
 	public function display( $output_empty = false ) {
 		$singular = $this->_args['singular'];
 
@@ -727,6 +766,11 @@ class WP_Post_Comments_List_Table extends WP_Comments_List_Table {
 <?php
 	}
 
+	/**
+	 *
+	 * @param bool $comment_status
+	 * @return int
+	 */
 	public function get_per_page( $comment_status = false ) {
 		return 10;
 	}
