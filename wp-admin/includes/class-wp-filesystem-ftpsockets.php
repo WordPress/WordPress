@@ -171,6 +171,10 @@ class WP_Filesystem_ftpsockets extends WP_Filesystem_Base {
 		return $ret;
 	}
 
+	/**
+	 *
+	 * @return string
+	 */
 	public function cwd() {
 		$cwd = $this->ftp->pwd();
 		if ( $cwd )
@@ -178,6 +182,11 @@ class WP_Filesystem_ftpsockets extends WP_Filesystem_Base {
 		return $cwd;
 	}
 
+	/**
+	 *
+	 * @param string $file
+	 * @return bool
+	 */
 	public function chdir($file) {
 		return $this->ftp->chdir($file);
 	}
@@ -448,6 +457,9 @@ class WP_Filesystem_ftpsockets extends WP_Filesystem_Base {
 		return $ret;
 	}
 
+	/**
+	 * @access public
+	 */
 	public function __destruct() {
 		$this->ftp->quit();
 	}

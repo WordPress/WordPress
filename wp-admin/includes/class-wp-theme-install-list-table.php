@@ -145,6 +145,9 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 		) );
 	}
 
+	/**
+	 * @access public
+	 */
 	public function no_items() {
 		_e( 'No themes match your request.' );
 	}
@@ -168,6 +171,9 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 		return $display_tabs;
 	}
 
+	/**
+	 * @access public
+	 */
 	public function display() {
 		wp_nonce_field( "fetch-list-" . get_class( $this ), '_ajax_fetch_list_nonce' );
 ?>
@@ -194,6 +200,9 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 		$this->tablenav( 'bottom' );
 	}
 
+	/**
+	 * @access public
+	 */
 	public function display_rows() {
 		$themes = $this->items;
 		foreach ( $themes as $theme ) {

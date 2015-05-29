@@ -63,6 +63,9 @@ class WP_Terms_List_Table extends WP_List_Table {
 		return current_user_can( get_taxonomy( $this->screen->taxonomy )->cap->manage_terms );
 	}
 
+	/**
+	 * @access public
+	 */
 	public function prepare_items() {
 		$tags_per_page = $this->get_items_per_page( 'edit_' . $this->screen->taxonomy . '_per_page' );
 
@@ -127,6 +130,9 @@ class WP_Terms_List_Table extends WP_List_Table {
 		return true;
 	}
 
+	/**
+	 * @access public
+	 */
 	public function no_items() {
 		echo get_taxonomy( $this->screen->taxonomy )->labels->not_found;
 	}
@@ -188,6 +194,9 @@ class WP_Terms_List_Table extends WP_List_Table {
 		);
 	}
 
+	/**
+	 * @access public
+	 */
 	public function display_rows_or_placeholder() {
 		$taxonomy = $this->screen->taxonomy;
 

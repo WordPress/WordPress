@@ -151,6 +151,11 @@ class WP_Comments_List_Table extends WP_List_Table {
 		) );
 	}
 
+	/**
+	 *
+	 * @param string $comment_status
+	 * @return int
+	 */
 	public function get_per_page( $comment_status = 'all' ) {
 		$comments_per_page = $this->get_items_per_page( 'edit_comments_per_page' );
 		/**
@@ -381,6 +386,9 @@ class WP_Comments_List_Table extends WP_List_Table {
 		return 'comment';
 	}
 
+	/**
+	 * @access public
+	 */
 	public function display() {
 		wp_nonce_field( "fetch-list-" . get_class( $this ), '_ajax_fetch_list_nonce' );
 
@@ -660,6 +668,9 @@ class WP_Comments_List_Table extends WP_List_Table {
 		return get_comment_date( __( 'Y/m/d \a\t g:i a' ) );
 	}
 
+	/**
+	 * @access public
+	 */
 	public function column_response() {
 		$post = get_post();
 

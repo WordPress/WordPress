@@ -40,9 +40,16 @@ class WP_Upgrader_Skin {
 		$this->add_strings();
 	}
 
+	/**
+	 * @access public
+	 */
 	public function add_strings() {
 	}
 
+	/**
+	 *
+	 * @param string|false|WP_Error $result
+	 */
 	public function set_result($result) {
 		$this->result = $result;
 	}
@@ -68,6 +75,9 @@ class WP_Upgrader_Skin {
 		return request_filesystem_credentials( $url, '', $error, $context, $extra_fields, $allow_relaxed_file_ownership );
 	}
 
+	/**
+	 * @access public
+	 */
 	public function header() {
 		if ( $this->done_header ) {
 			return;
@@ -76,6 +86,10 @@ class WP_Upgrader_Skin {
 		echo '<div class="wrap">';
 		echo '<h2>' . $this->options['title'] . '</h2>';
 	}
+
+	/**
+	 * @access public
+	 */
 	public function footer() {
 		if ( $this->done_footer ) {
 			return;
@@ -124,7 +138,15 @@ class WP_Upgrader_Skin {
 			return;
 		show_message($string);
 	}
+
+	/**
+	 * @access public
+	 */
 	public function before() {}
+
+	/**
+	 * @access public
+	 */
 	public function after() {}
 
 	/**
@@ -157,7 +179,14 @@ class WP_Upgrader_Skin {
 		}
 	}
 
+	/**
+	 * @access public
+	 */
 	public function bulk_header() {}
+
+	/**
+	 * @access public
+	 */
 	public function bulk_footer() {}
 }
 
@@ -189,6 +218,9 @@ class Plugin_Upgrader_Skin extends WP_Upgrader_Skin {
 		parent::__construct($args);
 	}
 
+	/**
+	 * @access public
+	 */
 	public function after() {
 		$this->plugin = $this->upgrader->plugin_info();
 		if ( !empty($this->plugin) && !is_wp_error($this->result) && $this->plugin_active ){
@@ -244,6 +276,9 @@ class Bulk_Upgrader_Skin extends WP_Upgrader_Skin {
 		parent::__construct($args);
 	}
 
+	/**
+	 * @access public
+	 */
 	public function add_strings() {
 		$this->upgrader->strings['skin_upgrade_start'] = __('The update process is starting. This process may take a while on some hosts, so please be patient.');
 		$this->upgrader->strings['skin_update_failed_error'] = __('An error occurred while updating %1$s: <strong>%2$s</strong>');
@@ -276,10 +311,16 @@ class Bulk_Upgrader_Skin extends WP_Upgrader_Skin {
 			echo "<p>$string</p>\n";
 	}
 
+	/**
+	 * @access public
+	 */
 	public function header() {
 		// Nothing, This will be displayed within a iframe.
 	}
 
+	/**
+	 * @access public
+	 */
 	public function footer() {
 		// Nothing, This will be displayed within a iframe.
 	}
@@ -305,10 +346,16 @@ class Bulk_Upgrader_Skin extends WP_Upgrader_Skin {
 		echo '<script type="text/javascript">jQuery(\'.waiting-' . esc_js($this->upgrader->update_current) . '\').hide();</script>';
 	}
 
+	/**
+	 * @access public
+	 */
 	public function bulk_header() {
 		$this->feedback('skin_upgrade_start');
 	}
 
+	/**
+	 * @access public
+	 */
 	public function bulk_footer() {
 		$this->feedback('skin_upgrade_end');
 	}
@@ -349,11 +396,17 @@ class Bulk_Upgrader_Skin extends WP_Upgrader_Skin {
 		$this->flush_output();
 	}
 
+	/**
+	 * @access public
+	 */
 	public function reset() {
 		$this->in_loop = false;
 		$this->error = false;
 	}
 
+	/**
+	 * @access public
+	 */
 	public function flush_output() {
 		wp_ob_end_flush_all();
 		flush();
@@ -384,6 +437,10 @@ class Bulk_Plugin_Upgrader_Skin extends Bulk_Upgrader_Skin {
 		parent::after($this->plugin_info['Title']);
 		$this->decrement_update_count( 'plugin' );
 	}
+
+	/**
+	 * @access public
+	 */
 	public function bulk_footer() {
 		parent::bulk_footer();
 		$update_actions =  array(
@@ -433,6 +490,9 @@ class Bulk_Theme_Upgrader_Skin extends Bulk_Upgrader_Skin {
 		$this->decrement_update_count( 'theme' );
 	}
 
+	/**
+	 * @access public
+	 */
 	public function bulk_footer() {
 		parent::bulk_footer();
 		$update_actions =  array(
@@ -482,13 +542,18 @@ class Plugin_Installer_Skin extends WP_Upgrader_Skin {
 		parent::__construct($args);
 	}
 
+	/**
+	 * @access public
+	 */
 	public function before() {
 		if ( !empty($this->api) )
 			$this->upgrader->strings['process_success'] = sprintf( __('Successfully installed the plugin <strong>%s %s</strong>.'), $this->api->name, $this->api->version);
 	}
 
+	/**
+	 * @access public
+	 */
 	public function after() {
-
 		$plugin_file = $this->upgrader->plugin_info();
 
 		$install_actions = array();
@@ -562,11 +627,17 @@ class Theme_Installer_Skin extends WP_Upgrader_Skin {
 		parent::__construct($args);
 	}
 
+	/**
+	 * @access public
+	 */
 	public function before() {
 		if ( !empty($this->api) )
 			$this->upgrader->strings['process_success'] = sprintf( $this->upgrader->strings['process_success_specific'], $this->api->name, $this->api->version);
 	}
 
+	/**
+	 * @access public
+	 */
 	public function after() {
 		if ( empty($this->upgrader->result['destination_name']) )
 			return;
@@ -649,6 +720,9 @@ class Theme_Upgrader_Skin extends WP_Upgrader_Skin {
 		parent::__construct($args);
 	}
 
+	/**
+	 * @access public
+	 */
 	public function after() {
 		$this->decrement_update_count( 'theme' );
 
@@ -732,6 +806,9 @@ class Language_Pack_Upgrader_Skin extends WP_Upgrader_Skin {
 		parent::__construct( $args );
 	}
 
+	/**
+	 * @access public
+	 */
 	public function before() {
 		$name = $this->upgrader->get_name_for_update( $this->language_update );
 
@@ -750,10 +827,16 @@ class Language_Pack_Upgrader_Skin extends WP_Upgrader_Skin {
 		echo '</div>';
 	}
 
+	/**
+	 * @access public
+	 */
 	public function after() {
 		echo '</div>';
 	}
 
+	/**
+	 * @access public
+	 */
 	public function bulk_footer() {
 		$this->decrement_update_count( 'translation' );
 		$update_actions = array();
@@ -805,6 +888,11 @@ class Automatic_Upgrader_Skin extends WP_Upgrader_Skin {
 		return $result;
 	}
 
+	/**
+	 * @access public
+	 *
+	 * @return array
+	 */
 	public function get_upgrade_messages() {
 		return $this->messages;
 	}
@@ -848,19 +936,20 @@ class Automatic_Upgrader_Skin extends WP_Upgrader_Skin {
 		$this->messages[] = $string;
 	}
 
+	/**
+	 * @access public
+	 */
 	public function header() {
 		ob_start();
 	}
 
+	/**
+	 * @access public
+	 */
 	public function footer() {
 		$output = ob_get_contents();
 		if ( ! empty( $output ) )
 			$this->feedback( $output );
 		ob_end_clean();
 	}
-
-	public function bulk_header() {}
-	public function bulk_footer() {}
-	public function before() {}
-	public function after() {}
 }

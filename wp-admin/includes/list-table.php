@@ -101,6 +101,11 @@ class _WP_List_Table_Compat extends WP_List_Table {
 		}
 	}
 
+	/**
+	 * @access protected
+	 *
+	 * @return array
+	 */
 	protected function get_column_info() {
 		$columns = get_column_headers( $this->_screen );
 		$hidden = get_hidden_columns( $this->_screen );
@@ -109,6 +114,11 @@ class _WP_List_Table_Compat extends WP_List_Table {
 		return array( $columns, $hidden, $sortable );
 	}
 
+	/**
+	 * @access public
+	 *
+	 * @return array
+	 */
 	public function get_columns() {
 		return $this->_columns;
 	}

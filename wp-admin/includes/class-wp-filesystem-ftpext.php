@@ -514,6 +514,9 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 		return $ret;
 	}
 
+	/**
+	 * @access public
+	 */
 	public function __destruct() {
 		if ( $this->link )
 			ftp_close($this->link);

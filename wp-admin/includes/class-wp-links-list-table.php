@@ -60,6 +60,9 @@ class WP_Links_List_Table extends WP_List_Table {
 		$this->items = get_bookmarks( $args );
 	}
 
+	/**
+	 * @access public
+	 */
 	public function no_items() {
 		_e( 'No links found.' );
 	}

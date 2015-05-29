@@ -159,6 +159,9 @@ class WP_Posts_List_Table extends WP_List_Table {
 		return have_posts();
 	}
 
+	/**
+	 * @access public
+	 */
 	public function no_items() {
 		if ( isset( $_REQUEST['post_status'] ) && 'trash' == $_REQUEST['post_status'] )
 			echo get_post_type_object( $this->screen->post_type )->labels->not_found_in_trash;

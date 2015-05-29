@@ -214,6 +214,9 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 		}
 	}
 
+	/**
+	 * @access public
+	 */
 	public function no_items() {
 		if ( isset( $this->error ) ) {
 			$message = $this->error->get_error_message() . '<p class="hide-if-no-js"><a href="#" class="button" onclick="document.location.reload(); return false;">' . __( 'Try again' ) . '</a></p>';
@@ -338,7 +341,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 	protected function get_table_classes() {
 		return array( 'widefat', $this->_args['plural'] );
 	}
-	
+
 	/**
 	 * @return array
 	 */

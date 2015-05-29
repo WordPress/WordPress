@@ -142,6 +142,9 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 		) );
 	}
 
+	/**
+	 * @access public
+	 */
 	public function no_items() {
 		_e( 'No sites found.' );
 	}

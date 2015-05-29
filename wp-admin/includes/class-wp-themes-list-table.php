@@ -38,6 +38,9 @@ class WP_Themes_List_Table extends WP_List_Table {
 		return current_user_can( 'switch_themes' );
 	}
 
+	/**
+	 * @access public
+	 */
 	public function prepare_items() {
 		$themes = wp_get_themes( array( 'allowed' => true ) );
 
@@ -71,6 +74,9 @@ class WP_Themes_List_Table extends WP_List_Table {
 		) );
 	}
 
+	/**
+	 * @access public
+	 */
 	public function no_items() {
 		if ( $this->search_terms || $this->features ) {
 			_e( 'No items found.' );
@@ -114,6 +120,9 @@ class WP_Themes_List_Table extends WP_List_Table {
 		<?php
 	}
 
+	/**
+	 * @access public
+	 */
 	public function display() {
 		wp_nonce_field( "fetch-list-" . get_class( $this ), '_ajax_fetch_list_nonce' );
 ?>
@@ -135,6 +144,9 @@ class WP_Themes_List_Table extends WP_List_Table {
 		return array();
 	}
 
+	/**
+	 * @access public
+	 */
 	public function display_rows_or_placeholder() {
 		if ( $this->has_items() ) {
 			$this->display_rows();
@@ -145,6 +157,9 @@ class WP_Themes_List_Table extends WP_List_Table {
 		}
 	}
 
+	/**
+	 * @access public
+	 */
 	public function display_rows() {
 		$themes = $this->items;
 

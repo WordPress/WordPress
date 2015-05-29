@@ -212,6 +212,9 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 			return ( $a < $b ) ? -1 : 1;
 	}
 
+	/**
+	 * @access public
+	 */
 	public function no_items() {
 		if ( ! $this->has_items )
 			_e( 'No themes found.' );
@@ -324,6 +327,9 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 		return $actions;
 	}
 
+	/**
+	 * @access public
+	 */
 	public function display_rows() {
 		foreach ( $this->items as $theme )
 			$this->single_row( $theme );
@@ -334,7 +340,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 	 * @global int $page
 	 * @global string $s
 	 * @global array $totals
-	 * 
+	 *
 	 * @param WP_Theme $theme
 	 */
 	public function single_row( $theme ) {

@@ -184,6 +184,9 @@ class WP_Media_List_Table extends WP_List_Table {
 		return have_posts();
 	}
 
+	/**
+	 * @access public
+	 */
 	public function no_items() {
 		_e( 'No media attachments found.' );
 	}
