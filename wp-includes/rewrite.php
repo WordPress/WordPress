@@ -283,6 +283,116 @@ function _wp_filter_taxonomy_base( $base ) {
 	return $base;
 }
 
+
+/**
+ * Resolve numeric slugs that collide with date permalinks.
+ *
+ * Permalinks of posts with numeric slugs can sometimes look to `WP_Query::parse_query()` like a date archive,
+ * as when your permalink structure is `/%year%/%postname%/` and a post with post_name '05' has the URL
+ * `/2015/05/`. This function detects conflicts of this type and resolves them in favor of the post permalink.
+ *
+ * Note that, since 4.3.0, `wp_unique_post_slug()` prevents the creation of post slugs that would result in a date
+ * archive conflict. The resolution performed in this function is primarily for legacy content, as well as cases when
+ * the admin has changed the site's permalink structure in a way that introduces URL conflicts.
+ *
+ * @since 4.3.0
+ *
+ * @param array $query_vars Query variables for setting up the loop, as determined in `WP::parse_request()`.
+ * @return array Returns the original array of query vars, with date/post conflicts resolved.
+ */
+function wp_resolve_numeric_slug_conflicts( $query_vars = array() ) {
+	if ( ! isset( $query_vars['year'] ) && ! isset( $query_vars['monthnum'] ) && ! isset( $query_vars['day'] ) ) {
+		return $query_vars;
+	}
+
+	// Identify the 'postname' position in the permastruct array.
+	$permastructs   = array_values( array_filter( explode( '/', get_option( 'permalink_structure' ) ) ) );
+	$postname_index = array_search( '%postname%', $permastructs );
+
+	if ( false === $postname_index ) {
+		return $query_vars;
+	}
+
+	/*
+	 * A numeric slug could be confused with a year, month, or day, depending on position. To account for
+	 * the possibility of post pagination (eg 2015/2 for the second page of a post called '2015'), our
+	 * `is_*` checks are generous: check for year-slug clashes when `is_year` *or* `is_month`, and check
+	 * for month-slug clashes when `is_month` *or* `is_day`.
+	 */
+	$compare = '';
+	if ( 0 === $postname_index && ( isset( $query_vars['year'] ) || isset( $query_vars['monthnum'] ) ) ) {
+		$compare = 'year';
+	} elseif ( '%year%' === $permastructs[ $postname_index - 1 ] && ( isset( $query_vars['monthnum'] ) || isset( $query_vars['day'] ) ) ) {
+		$compare = 'monthnum';
+	} elseif ( '%monthnum%' === $permastructs[ $postname_index - 1 ] && isset( $query_vars['day'] ) ) {
+		$compare = 'day';
+	}
+
+	if ( ! $compare ) {
+		return $query_vars;
+	}
+
+	// This is the potentially clashing slug.
+	$value = $query_vars[ $compare ];
+
+	$post = get_page_by_path( $value, OBJECT, 'post' );
+	if ( ! ( $post instanceof WP_Post ) ) {
+		return $query_vars;
+	}
+
+	// If the date of the post doesn't match the date specified in the URL, resolve to the date archive.
+	if ( preg_match( '/^([0-9]{4})\-([0-9]{2})/', $post->post_date, $matches ) && isset( $query_vars['year'] ) && ( 'monthnum' === $compare || 'day' === $compare ) ) {
+		// $matches[1] is the year the post was published.
+		if ( intval( $query_vars['year'] ) !== intval( $matches[1] ) ) {
+			return $query_vars;
+		}
+
+		// $matches[2] is the month the post was published.
+		if ( 'day' === $compare && isset( $query_vars['monthnum'] ) && intval( $query_vars['monthnum'] ) !== intval( $matches[2] ) ) {
+			return $query_vars;
+		}
+	}
+
+	/*
+	 * If the located post contains nextpage pagination, then the URL chunk following postname may be
+	 * intended as the page number. Verify that it's a valid page before resolving to it.
+	 */
+	$maybe_page = '';
+	if ( 'year' === $compare && isset( $query_vars['monthnum'] ) ) {
+		$maybe_page = $query_vars['monthnum'];
+	} elseif ( 'monthnum' === $compare && isset( $query_vars['day'] ) ) {
+		$maybe_page = $query_vars['day'];
+	}
+
+	$post_page_count = substr_count( $post->post_content, '<!--nextpage-->' ) + 1;
+
+	// If the post doesn't have multiple pages, but a 'page' candidate is found, resolve to the date archive.
+	if ( 1 === $post_page_count && $maybe_page ) {
+		return $query_vars;
+	}
+
+	// If the post has multiple pages and the 'page' number isn't valid, resolve to the date archive.
+	if ( $post_page_count > 1 && $maybe_page > $post_page_count ) {
+		return $query_vars;
+	}
+
+	// If we've gotten to this point, we have a slug/date clash. First, adjust for nextpage.
+	if ( '' !== $maybe_page ) {
+		$query_vars['page'] = intval( $maybe_page );
+	}
+
+	// Next, unset autodetected date-related query vars.
+	unset( $query_vars['year'] );
+	unset( $query_vars['monthnum'] );
+	unset( $query_vars['day'] );
+
+	// Then, set the identified post.
+	$query_vars['name'] = $post->post_name;
+
+	// Finally, return the modified query vars.
+	return $query_vars;
+}
+
 /**
  * Examine a url and try to determine the post ID it represents.
  *
@@ -400,6 +510,9 @@ function url_to_postid( $url ) {
 					}
 				}
 			}
+
+			// Resolve conflicts between posts with numeric slugs and date archive queries.
+			$query = wp_resolve_numeric_slug_conflicts( $query );
 
 			// Do the query
 			$query = new WP_Query( $query );

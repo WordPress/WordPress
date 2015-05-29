@@ -308,6 +308,9 @@ class WP {
 			}
 		}
 
+		// Resolve conflicts between posts with numeric slugs and date archive queries.
+		$this->query_vars = wp_resolve_numeric_slug_conflicts( $this->query_vars );
+
 		foreach ( (array) $this->private_query_vars as $var) {
 			if ( isset($this->extra_query_vars[$var]) )
 				$this->query_vars[$var] = $this->extra_query_vars[$var];
