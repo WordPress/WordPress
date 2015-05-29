@@ -338,7 +338,7 @@ function wp_ajax_logged_in() {
  * @since 2.7.0
  *
  * @param int $comment_id
- * @return die
+ * @param int $delta
  */
 function _wp_ajax_delete_comment_response( $comment_id, $delta = -1 ) {
 	$total    = isset( $_POST['_total'] )    ? (int) $_POST['_total']    : 0;
@@ -664,6 +664,11 @@ function wp_ajax_untrash_post( $action ) {
 	wp_ajax_trash_post( $action );
 }
 
+/**
+ * @since 3.1.0
+ *
+ * @param string $action
+ */
 function wp_ajax_delete_page( $action ) {
 	if ( empty( $action ) )
 		$action = 'delete-page';
@@ -812,12 +817,12 @@ function wp_ajax_add_tag() {
 	$x->add( array(
 		'what' => 'taxonomy',
 		'supplemental' => compact('parents', 'noparents')
-		) );
+	) );
 	$x->add( array(
 		'what' => 'term',
 		'position' => $level,
 		'supplemental' => (array) $tag
-		) );
+	) );
 	$x->send();
 }
 
@@ -2823,6 +2828,7 @@ function wp_ajax_parse_embed() {
 }
 
 /**
+ * @since 4.0.0
  *
  * @global WP_Post    $post
  * @global WP_Scripts $wp_scripts
@@ -2893,7 +2899,6 @@ function wp_ajax_parse_media_shortcode() {
  * @since 4.1.0
  */
 function wp_ajax_destroy_sessions() {
-
 	$user = get_userdata( (int) $_POST['user_id'] );
 	if ( $user ) {
 		if ( ! current_user_can( 'edit_user', $user->ID ) ) {
