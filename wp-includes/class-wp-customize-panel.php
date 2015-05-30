@@ -214,7 +214,7 @@ class WP_Customize_Panel {
 	 * @return array The array to be exported to the client as JSON.
 	 */
 	public function json() {
-		$array = wp_array_slice_assoc( (array) $this, array( 'title', 'description', 'priority', 'type' ) );
+		$array = wp_array_slice_assoc( (array) $this, array( 'id', 'title', 'description', 'priority', 'type' ) );
 		$array['content'] = $this->get_content();
 		$array['active'] = $this->active();
 		$array['instanceNumber'] = $this->instance_number;
@@ -289,48 +289,92 @@ class WP_Customize_Panel {
 	}
 
 	/**
-	 * Render the panel container, and then its contents.
+	 * Render the panel container, and then its contents (via `this->render_content()`) in a subclass.
+	 *
+	 * Panel containers are now rendered in JS by default, see {@see WP_Customize_Panel::print_template()}.
 	 *
 	 * @since 4.0.0
 	 * @access protected
 	 */
-	protected function render() {
-		$classes = 'accordion-section control-section control-panel control-panel-' . $this->type;
+	protected function render() {}
+
+	/**
+	 * Render the panel UI in a subclass.
+	 *
+	 * Panel contents are now rendered in JS by default, see {@see WP_Customize_Panel::print_template()}.
+	 *
+	 * @since 4.1.0
+	 * @access protected
+	 */
+	protected function render_content() {}
+
+	/**
+	 * Render the panel's JS templates.
+	 *
+	 * This function is only run for panel types that have been registered with
+	 * {@see WP_Customize_Manager::register_panel_type()}.
+	 *
+	 * @since 4.3.0
+	 */
+	public function print_template() {
 		?>
-		<li id="accordion-panel-<?php echo esc_attr( $this->id ); ?>" class="<?php echo esc_attr( $classes ); ?>">
+		<script type="text/html" id="tmpl-customize-panel-<?php echo esc_attr( $this->type ); ?>-content">
+			<?php $this->content_template(); ?>
+		</script>
+		<script type="text/html" id="tmpl-customize-panel-<?php echo esc_attr( $this->type ); ?>">
+			<?php $this->render_template(); ?>
+		</script>
+        <?php
+	}
+
+	/**
+	 * An Underscore (JS) template for rendering this panel's container.
+	 *
+	 * Class variables for this panel class are available in the `data` JS object;
+	 * export custom variables by overriding {@see WP_Customize_Panel::json()}.
+	 *
+	 * @see WP_Customize_Panel::print_template()
+	 *
+	 * @since 4.3.0
+	 */
+	protected function render_template() {
+		?>
+		<li id="accordion-panel-{{ data.id }}" class="accordion-section control-section control-panel control-panel-{{ data.type }}">
 			<h3 class="accordion-section-title" tabindex="0">
-				<?php echo esc_html( $this->title ); ?>
+				{{ data.title }}
 				<span class="screen-reader-text"><?php _e( 'Press return or enter to open this panel' ); ?></span>
 			</h3>
-			<ul class="accordion-sub-container control-panel-content">
-				<?php $this->render_content(); ?>
-			</ul>
+			<ul class="accordion-sub-container control-panel-content"></ul>
 		</li>
 		<?php
 	}
 
 	/**
-	 * Render the sections that have been added to the panel.
+	 * An Underscore (JS) template for this panel's content (but not its container).
 	 *
-	 * @since 4.1.0
-	 * @access protected
+	 * Class variables for this panel class are available in the `data` JS object;
+	 * export custom variables by overriding {@see WP_Customize_Panel::json()}.
+	 *
+	 * @see WP_Customize_Panel::print_template()
+	 *
+	 * @since 4.3.0
 	 */
-	protected function render_content() {
+	protected function content_template() {
 		?>
-		<li class="panel-meta customize-info accordion-section<?php if ( empty( $this->description ) ) { echo ' cannot-expand'; } ?>">
+		<li class="panel-meta customize-info accordion-section <# if ( ! data.description ) { #> cannot-expand<# } #>">
 			<button class="customize-panel-back" tabindex="-1"><span class="screen-reader-text"><?php _e( 'Back' ); ?></span></button>
 			<div class="accordion-section-title">
 				<span class="preview-notice"><?php
 					/* translators: %s is the site/panel title in the Customizer */
-					echo sprintf( __( 'You are customizing %s' ), '<strong class="panel-title">' . esc_html( $this->title ) . '</strong>' );
+					echo sprintf( __( 'You are customizing %s' ), '<strong class="panel-title">{{ data.title }}</strong>' );
 				?></span>
 				<button class="customize-help-toggle dashicons dashicons-editor-help" tabindex="0" aria-expanded="false"><span class="screen-reader-text"><?php _e( 'Help' ); ?></span></button>
 			</div>
-			<?php if ( ! empty( $this->description ) ) : ?>
+			<# if ( data.description ) { #>
 				<div class="description customize-panel-description">
-					<?php echo $this->description; ?>
+					{{{ data.description }}}
 				</div>
-			<?php endif; ?>
+			<# } #>
 		</li>
 		<?php
 	}

@@ -175,7 +175,9 @@ do_action( 'customize_controls_print_scripts' );
 	<div id="customize-preview" class="wp-full-overlay-main"></div>
 	<?php
 
-	// Render control templates.
+	// Render Panel, Section, and Control templates.
+	$wp_customize->render_panel_templates();
+	$wp_customize->render_section_templates();
 	$wp_customize->render_control_templates();
 
 	/**
@@ -259,28 +261,38 @@ do_action( 'customize_controls_print_scripts' );
 
 	// Prepare Customize Setting objects to pass to JavaScript.
 	foreach ( $wp_customize->settings() as $id => $setting ) {
-		$settings['settings'][ $id ] = array(
-			'value'     => $setting->js_value(),
-			'transport' => $setting->transport,
-			'dirty'     => $setting->dirty,
-		);
+		if ( $setting->check_capabilities() ) {
+			$settings['settings'][ $id ] = array(
+				'value'     => $setting->js_value(),
+				'transport' => $setting->transport,
+				'dirty'     => $setting->dirty,
+			);
+		}
 	}
 
 	// Prepare Customize Control objects to pass to JavaScript.
 	foreach ( $wp_customize->controls() as $id => $control ) {
-		$settings['controls'][ $id ] = $control->json();
+		if ( $control->check_capabilities() ) {
+			$settings['controls'][ $id ] = $control->json();
+		}
 	}
 
 	// Prepare Customize Section objects to pass to JavaScript.
 	foreach ( $wp_customize->sections() as $id => $section ) {
-		$settings['sections'][ $id ] = $section->json();
+		if ( $section->check_capabilities() ) {
+			$settings['sections'][ $id ] = $section->json();
+		}
 	}
 
 	// Prepare Customize Panel objects to pass to JavaScript.
-	foreach ( $wp_customize->panels() as $id => $panel ) {
-		$settings['panels'][ $id ] = $panel->json();
-		foreach ( $panel->sections as $section_id => $section ) {
-			$settings['sections'][ $section_id ] = $section->json();
+	foreach ( $wp_customize->panels() as $panel_id => $panel ) {
+		if ( $panel->check_capabilities() ) {
+			$settings['panels'][ $panel_id ] = $panel->json();
+			foreach ( $panel->sections as $section_id => $section ) {
+				if ( $section->check_capabilities() ) {
+					$settings['sections'][ $section_id ] = $section->json();
+				}
+			}
 		}
 	}
 
