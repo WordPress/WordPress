@@ -2313,6 +2313,7 @@ function wp_maybe_load_embeds() {
 	}
 
 	wp_embed_register_handler( 'youtube_embed_url', '#https?://(www.)?youtube\.com/embed/([^/]+)#i', 'wp_embed_handler_youtube' );
+	wp_embed_register_handler( 'youtube_v_url', '#https?://(www.)?youtube\.com/v/([^/]+)#i', 'wp_embed_handler_youtube' );
 
 	wp_embed_register_handler( 'googlevideo', '#http://video\.google\.([A-Za-z.]{2,5})/videoplay\?docid=([\d-]+)(.*?)#i', 'wp_embed_handler_googlevideo' );
 
@@ -3008,6 +3009,8 @@ function wp_enqueue_media( $args = array() ) {
 
 	$hier = $post && is_post_type_hierarchical( $post->post_type );
 
+	$post_type_object = get_post_type_object( $post->post_type );
+
 	$strings = array(
 		// Generic
 		'url'         => __( 'URL' ),
@@ -3066,8 +3069,8 @@ function wp_enqueue_media( $args = array() ) {
 		'insertFromUrlTitle' => __( 'Insert from URL' ),
 
 		// Featured Images
-		'setFeaturedImageTitle' => __( 'Set Featured Image' ),
-		'setFeaturedImage'    => __( 'Set featured image' ),
+		'setFeaturedImageTitle' => $post_type_object->labels->featured_image,
+		'setFeaturedImage'      => $post_type_object->labels->set_featured_image,
 
 		// Gallery
 		'createGalleryTitle' => __( 'Create Gallery' ),

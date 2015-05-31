@@ -1624,12 +1624,17 @@ function _post_type_meta_capabilities( $capabilities = null ) {
  * - parent_item_colon - This string isn't used on non-hierarchical types. In hierarchical
  *                       ones the default is 'Parent Page:'.
  * - all_items - String for the submenu. Default is All Posts/All Pages.
+ * - featured_image - Default is Featured Image.
+ * - set_featured_image - Default is Set featured image.
+ * - remove_featured_image - Default is Remove featured image.
+ * - use_featured_image - Default is Use as featured image.
  * - menu_name - Default is the same as `name`.
  *
  * Above, the first default value is for non-hierarchical post types (like posts)
  * and the second one is for hierarchical post types (like pages).
  *
  * @since 3.0.0
+ * @since 4.3.0 Added the `featured_image`, `set_featured_image`, `remove_featured_image`, and `use_featured_image` labels.
  * @access private
  *
  * @param object $post_type_object Post type object.
@@ -1648,7 +1653,11 @@ function get_post_type_labels( $post_type_object ) {
 		'not_found' => array( __('No posts found.'), __('No pages found.') ),
 		'not_found_in_trash' => array( __('No posts found in Trash.'), __('No pages found in Trash.') ),
 		'parent_item_colon' => array( null, __('Parent Page:') ),
-		'all_items' => array( __( 'All Posts' ), __( 'All Pages' ) )
+		'all_items' => array( __( 'All Posts' ), __( 'All Pages' ) ),
+		'featured_image' => array( __( 'Featured Image' ), __( 'Featured Image' ) ),
+		'set_featured_image' => array( __( 'Set featured image' ), __( 'Set featured image' ) ),
+		'remove_featured_image' => array( __( 'Remove featured image' ), __( 'Remove featured image' ) ),
+		'use_featured_image' => array( __( 'Use as featured image' ), __( 'Use as featured image' ) ),
 	);
 	$nohier_vs_hier_defaults['menu_name'] = $nohier_vs_hier_defaults['name'];
 

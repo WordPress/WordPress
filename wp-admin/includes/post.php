@@ -1362,11 +1362,16 @@ function get_sample_permalink_html( $id, $new_title = null, $new_slug = null ) {
 function _wp_post_thumbnail_html( $thumbnail_id = null, $post = null ) {
 	global $content_width, $_wp_additional_image_sizes;
 
-	$post = get_post( $post );
+	$post               = get_post( $post );
+	$post_type_object   = get_post_type_object( $post->post_type );
+	$set_thumbnail_link = '<p class="hide-if-no-js"><a title="%s" href="%s" id="set-post-thumbnail" class="thickbox">%s</a></p>';
+	$upload_iframe_src  = get_upload_iframe_src( 'image', $post->ID );
 
-	$upload_iframe_src = esc_url( get_upload_iframe_src('image', $post->ID ) );
-	$set_thumbnail_link = '<p class="hide-if-no-js"><a title="' . esc_attr__( 'Set featured image' ) . '" href="%s" id="set-post-thumbnail" class="thickbox">%s</a></p>';
-	$content = sprintf( $set_thumbnail_link, $upload_iframe_src, esc_html__( 'Set featured image' ) );
+	$content = sprintf( $set_thumbnail_link,
+		esc_attr( $post_type_object->labels->set_featured_image ),
+		esc_url( $upload_iframe_src ),
+		esc_html( $post_type_object->labels->set_featured_image )
+	);
 
 	if ( $thumbnail_id && get_post( $thumbnail_id ) ) {
 		$old_content_width = $content_width;
@@ -1377,8 +1382,12 @@ function _wp_post_thumbnail_html( $thumbnail_id = null, $post = null ) {
 			$thumbnail_html = wp_get_attachment_image( $thumbnail_id, 'post-thumbnail' );
 		if ( !empty( $thumbnail_html ) ) {
 			$ajax_nonce = wp_create_nonce( 'set_post_thumbnail-' . $post->ID );
-			$content = sprintf( $set_thumbnail_link, $upload_iframe_src, $thumbnail_html );
-			$content .= '<p class="hide-if-no-js"><a href="#" id="remove-post-thumbnail" onclick="WPRemoveThumbnail(\'' . $ajax_nonce . '\');return false;">' . esc_html__( 'Remove featured image' ) . '</a></p>';
+			$content = sprintf( $set_thumbnail_link,
+				esc_attr( $post_type_object->labels->set_featured_image ),
+				esc_url( $upload_iframe_src ),
+				$thumbnail_html
+			);
+			$content .= '<p class="hide-if-no-js"><a href="#" id="remove-post-thumbnail" onclick="WPRemoveThumbnail(\'' . $ajax_nonce . '\');return false;">' . esc_html( $post_type_object->labels->remove_featured_image ) . '</a></p>';
 		}
 		$content_width = $old_content_width;
 	}

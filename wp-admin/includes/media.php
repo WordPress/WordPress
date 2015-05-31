@@ -1493,8 +1493,12 @@ function get_media_item( $attachment_id, $args = null ) {
 	}
 	if ( 'image' == $type && $calling_post_id && current_theme_supports( 'post-thumbnails', get_post_type( $calling_post_id ) )
 		&& post_type_supports( get_post_type( $calling_post_id ), 'thumbnail' ) && get_post_thumbnail_id( $calling_post_id ) != $attachment_id ) {
+		
+		$calling_post = get_post( $calling_post_id );
+		$calling_post_type_object = get_post_type_object( $calling_post->post_type );
+
 		$ajax_nonce = wp_create_nonce( "set_post_thumbnail-$calling_post_id" );
-		$thumbnail = "<a class='wp-post-thumbnail' id='wp-post-thumbnail-" . $attachment_id . "' href='#' onclick='WPSetAsThumbnail(\"$attachment_id\", \"$ajax_nonce\");return false;'>" . esc_html__( "Use as featured image" ) . "</a>";
+		$thumbnail = "<a class='wp-post-thumbnail' id='wp-post-thumbnail-" . $attachment_id . "' href='#' onclick='WPSetAsThumbnail(\"$attachment_id\", \"$ajax_nonce\");return false;'>" . esc_html( $calling_post_type_object->labels->use_featured_image ) . "</a>";
 	}
 
 	if ( ( $r['send'] || $thumbnail || $delete ) && !isset( $form_fields['buttons'] ) ) {
@@ -1736,8 +1740,16 @@ function get_compat_media_markup( $attachment_id, $args = null ) {
  * @since 2.5.0
  */
 function media_upload_header() {
+
 	$post_id = isset( $_REQUEST['post_id'] ) ? intval( $_REQUEST['post_id'] ) : 0;
-	echo '<script type="text/javascript">post_id = ' . $post_id . ";</script>\n";
+
+	if ( ! empty( $post_id ) ) { 
+		$post_type = get_post_type( $post_id ); 
+	} else {
+		$post_type = ''; 
+	} 
+
+	echo '<script type="text/javascript">post_id = ' . $post_id . ';post_type = ' . $post_type . ';</script>';
 	if ( empty( $_GET['chromeless'] ) ) {
 		echo '<div id="media-upload-header">';
 		the_media_upload_tabs();
