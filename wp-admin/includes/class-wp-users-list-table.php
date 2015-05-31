@@ -472,12 +472,12 @@ class WP_Users_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Get name of default primary column
+	 * Get the name of the default primary column.
 	 *
 	 * @since 4.3.0
 	 * @access protected
 	 *
-	 * @return string
+	 * @return string Name of the default primary column, in this case, 'username'.
 	 */
 	protected function get_default_primary_column_name() {
 		return 'username';
