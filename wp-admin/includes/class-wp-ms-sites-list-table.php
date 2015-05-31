@@ -379,28 +379,27 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Get name of default primary column
+	 * Get the name of the default primary column.
 	 *
 	 * @since 4.3.0
 	 * @access protected
 	 *
-	 * @return string
+	 * @return string Name of the default primary column, in this case, 'blogname'.
 	 */
 	protected function get_default_primary_column_name() {
 		return 'blogname';
 	}
 
 	/**
-	 * Generate and display row actions links
+	 * Generate and display row actions links.
 	 *
 	 * @since 4.3.0
 	 * @access protected
 	 *
-	 * @param object $blog Blog being acted upon
-	 * @param string $column_name Current column name
-	 * @param string $primary Primary column name
-	 *
-	 * @return string
+	 * @param object $blog        Blog being acted upon.
+	 * @param string $column_name Current column name.
+	 * @param string $primary     Primary column name.
+	 * @return string Row actions output.
 	 */
 	protected function handle_row_actions( $blog, $column_name, $primary ) {
 		global $current_site;
