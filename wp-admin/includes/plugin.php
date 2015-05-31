@@ -1658,6 +1658,13 @@ function get_admin_page_title() {
 	return $title;
 }
 
+/**
+ * @since 2.3.0
+ *
+ * @param string $plugin_page
+ * @param string $parent_page
+ * @return string|null
+ */
 function get_plugin_page_hook( $plugin_page, $parent_page ) {
 	$hook = get_plugin_page_hookname( $plugin_page, $parent_page );
 	if ( has_action($hook) )

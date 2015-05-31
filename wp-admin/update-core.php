@@ -114,6 +114,9 @@ function list_core_update( $update ) {
 
 }
 
+/**
+ * @since 2.7.0
+ */
 function dismissed_updates() {
 	$dismissed = get_core_updates( array( 'dismissed' => true, 'available' => false ) );
 	if ( $dismissed ) {
@@ -305,6 +308,9 @@ function list_plugin_updates() {
 <?php
 }
 
+/**
+ * @since 2.9.0
+ */
 function list_theme_updates() {
 	$themes = get_theme_updates();
 	if ( empty( $themes ) ) {
@@ -353,6 +359,9 @@ function list_theme_updates() {
 <?php
 }
 
+/**
+ * @since 3.7.0
+ */
 function list_translation_updates() {
 	$updates = wp_get_translation_updates();
 	if ( ! $updates ) {
@@ -457,6 +466,9 @@ function do_core_upgrade( $reinstall = false ) {
 	<?php
 }
 
+/**
+ * @since 2.7.0
+ */
 function do_dismiss_core_update() {
 	$version = isset( $_POST['version'] )? $_POST['version'] : false;
 	$locale = isset( $_POST['locale'] )? $_POST['locale'] : 'en_US';
@@ -468,6 +480,9 @@ function do_dismiss_core_update() {
 	exit;
 }
 
+/**
+ * @since 2.7.0
+ */
 function do_undismiss_core_update() {
 	$version = isset( $_POST['version'] )? $_POST['version'] : false;
 	$locale = isset( $_POST['locale'] )? $_POST['locale'] : 'en_US';

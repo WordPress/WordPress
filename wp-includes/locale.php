@@ -191,6 +191,9 @@ class WP_Locale {
 		}
 	}
 
+	/**
+	 * @since 3.8.0
+	 */
 	function rtl_src_admin_notice() {
 		echo '<div class="error"><p>' . 'The <code>build</code> directory of the develop repository must be used for RTL.' . '</p></div>';
 	}

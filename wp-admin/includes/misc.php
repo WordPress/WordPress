@@ -310,6 +310,12 @@ function show_message($message) {
 	flush();
 }
 
+/**
+ * @since 2.8.0
+ *
+ * @param string $content
+ * @return array
+ */
 function wp_doc_link_parse( $content ) {
 	if ( !is_string( $content ) || empty( $content ) )
 		return array();
@@ -676,6 +682,9 @@ function wp_color_scheme_settings() {
 	echo '<script type="text/javascript">var _wpColorScheme = ' . wp_json_encode( array( 'icons' => $icon_colors ) ) . ";</script>\n";
 }
 
+/**
+ * @since 3.3.0
+ */
 function _ipad_meta() {
 	if ( wp_is_mobile() ) {
 		?>

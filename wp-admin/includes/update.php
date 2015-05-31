@@ -259,6 +259,11 @@ function update_right_now_message() {
 	echo "<p id='wp-version-message'>$msg</p>";
 }
 
+/**
+ * @since 2.9.0
+ *
+ * @return array
+ */
 function get_plugin_updates() {
 	$all_plugins = get_plugins();
 	$upgrade_plugins = array();
@@ -273,6 +278,9 @@ function get_plugin_updates() {
 	return $upgrade_plugins;
 }
 
+/**
+ * @since 2.9.0
+ */
 function wp_plugin_update_rows() {
 	if ( !current_user_can('update_plugins' ) )
 		return;
@@ -377,6 +385,9 @@ function get_theme_updates() {
 	return $update_themes;
 }
 
+/**
+ * @since 3.1.0
+ */
 function wp_theme_update_rows() {
 	if ( !current_user_can('update_themes' ) )
 		return;

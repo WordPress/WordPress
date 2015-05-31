@@ -355,6 +355,9 @@ function wp_dashboard_right_now() {
 	<?php endif;
 }
 
+/**
+ * @since 3.1.0
+ */
 function wp_network_dashboard_right_now() {
 	$actions = array();
 	if ( current_user_can('create_sites') )
@@ -1247,6 +1250,12 @@ function wp_dashboard_browser_nag() {
 	echo apply_filters( 'browse-happy-notice', $notice, $response );
 }
 
+/**
+ * @since 3.2.0
+ *
+ * @param array $classes
+ * @return array
+ */
 function dashboard_browser_nag_class( $classes ) {
 	$response = wp_check_browser_version();
 

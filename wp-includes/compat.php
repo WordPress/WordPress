@@ -195,6 +195,12 @@ if ( !function_exists('json_encode') ) {
 }
 
 if ( !function_exists('json_decode') ) {
+	/**
+	 * @global Services_JSON $wp_json
+	 * @param string $string
+	 * @param bool   $assoc_array
+	 * @return object|array
+	 */
 	function json_decode( $string, $assoc_array = false ) {
 		global $wp_json;
 
@@ -208,6 +214,11 @@ if ( !function_exists('json_decode') ) {
 			$res = _json_decode_object_helper( $res );
 		return $res;
 	}
+
+	/**
+	 * @param object $data
+	 * @return array
+	 */
 	function _json_decode_object_helper($data) {
 		if ( is_object($data) )
 			$data = get_object_vars($data);

@@ -135,6 +135,9 @@ function install_themes_dashboard() {
 <?php
 }
 
+/**
+ * @since 2.8.0
+ */
 function install_themes_upload() {
 ?>
 <p class="install-help"><?php _e('If you have a theme in a .zip format, you may install it by uploading it here.'); ?></p>

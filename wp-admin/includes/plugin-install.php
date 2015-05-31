@@ -130,6 +130,9 @@ function install_popular_tags( $args = array() ) {
 	return $tags;
 }
 
+/**
+ * @since 2.7.0
+ */
 function install_dashboard() {
 	?>
 	<p><?php printf( __( 'Plugins extend and expand the functionality of WordPress. You may automatically install plugins from the <a href="%1$s">WordPress Plugin Directory</a> or upload a plugin in .zip format via <a href="%2$s">this page</a>.' ), 'https://wordpress.org/plugins/', self_admin_url( 'plugin-install.php?tab=upload' ) ); ?></p>
