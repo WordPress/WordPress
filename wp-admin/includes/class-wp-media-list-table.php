@@ -506,7 +506,7 @@ foreach ( $columns as $column_name => $column_display_name ) {
 				/**
 				 * Fires for each custom column in the Media list table.
 				 *
-				 * Custom columns are registered using the 'manage_media_columns' filter.
+				 * Custom columns are registered using the {@see 'manage_media_columns'} filter.
 				 *
 				 * @since 2.5.0
 				 *
@@ -530,12 +530,12 @@ foreach ( $columns as $column_name => $column_display_name ) {
 	}
 
 	/**
-	 * Get name of default primary column
+	 * Get the name of the default primary column.
 	 *
 	 * @since 4.3.0
 	 * @access protected
 	 *
-	 * @return string
+	 * @return string Name of the default primary column, in this case, 'title'.
 	 */
 	protected function get_default_primary_column_name() {
 		return 'title';
