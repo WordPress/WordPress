@@ -325,28 +325,27 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Get name of default primary column
+	 * Get the name of the default primary column.
 	 *
 	 * @since 4.3.0
 	 * @access protected
 	 *
-	 * @return string
+	 * @return string Name of the default primary column, in this case, 'username'.
 	 */
 	protected function get_default_primary_column_name() {
 		return 'username';
 	}
 
 	/**
-	 * Generate and display row actions links
+	 * Generate and display row actions links.
 	 *
 	 * @since 4.3.0
 	 * @access protected
 	 *
-	 * @param object $user User being acted upon
-	 * @param string $column_name Current column name
-	 * @param string $primary Primary column name
-	 *
-	 * @return string
+	 * @param object $user        User being acted upon.
+	 * @param string $column_name Current column name.
+	 * @param string $primary     Primary column name.
+	 * @return string Row actions output for users in Multisite.
 	 */
 	protected function handle_row_actions( $user, $column_name, $primary ) {
 		$super_admins = get_super_admins();
@@ -361,8 +360,7 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 			}
 
 			/**
-			 * Filter the action links displayed under each user
-			 * in the Network Admin Users list table.
+			 * Filter the action links displayed under each user in the Network Admin Users list table.
 			 *
 			 * @since 3.2.0
 			 *
