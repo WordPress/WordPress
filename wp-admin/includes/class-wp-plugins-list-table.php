@@ -719,12 +719,12 @@ class WP_Plugins_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Get name of default primary column for this specific list table.
+	 * Get the name of default primary column for this specific list table.
 	 *
 	 * @since 4.3.0
 	 * @access protected
 	 *
-	 * @return string
+	 * @return string Name for the default primary column, in this case, 'plugin'.
 	 */
 	protected function get_default_primary_column_name() {
 		return 'plugin';
