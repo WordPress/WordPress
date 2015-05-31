@@ -140,12 +140,11 @@ class WP_Links_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Get name of default primary column
+	 * Get the name of the default primary column.
 	 *
 	 * @since 4.3.0
 	 * @access protected
-	 *
-	 * @return string
+	 * @return string Name of the default primary column, in this case, 'name'.
 	 */
 	protected function get_default_primary_column_name() {
 		return 'name';
@@ -251,16 +250,15 @@ class WP_Links_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Generate and display row actions links
+	 * Generate and display row actions for links.
 	 *
-	 * @since 4.3
+	 * @since 4.3.0
 	 * @access protected
 	 *
-	 * @param object $link Link being acted upon
-	 * @param string $column_name Current column name
-	 * @param string $primary Primary column name
-	 *
-	 * @return string
+	 * @param object $link        Link being acted upon.
+	 * @param string $column_name Current column name.
+	 * @param string $primary     Primary column name.
+	 * @return string Row action output for links.
 	 */
 	protected function handle_row_actions( $link, $column_name, $primary ) {
 		if( $primary === $column_name ) {
