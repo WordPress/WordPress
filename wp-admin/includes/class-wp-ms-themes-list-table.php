@@ -245,12 +245,12 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Get name of default primary column
+	 * Get the name of the default primary column.
 	 *
 	 * @since 4.3.0
 	 * @access protected
 	 *
-	 * @return string
+	 * @return string Name of the default primary column name, in this case, 'name'.
 	 */
 	protected function get_default_primary_column_name() {
 		return 'name';
