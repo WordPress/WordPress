@@ -984,28 +984,27 @@ class WP_Posts_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Get name of default primary column
+	 * Get the name of the default primary column.
 	 *
 	 * @since 4.3.0
 	 * @access protected
 	 *
-	 * @return string
+	 * @return string Name of the default primary column, in this case, 'title'.
 	 */
 	protected function get_default_primary_column_name() {
 		return( 'title' );
 	}
 
 	/**
-	 * Generate and display row actions links
+	 * Generate and display row actions links.
 	 *
 	 * @since 4.3.0
 	 * @access protected
 	 *
-	 * @param object $post Post being acted upon
-	 * @param string $column_name Current column name
-	 * @param string $primary Primary column name
-	 *
-	 * @return string
+	 * @param object $post        Post being acted upon.
+	 * @param string $column_name Current column name.
+	 * @param string $primary     Primary column name.
+	 * @return string Row actions output for posts.
 	 */
 	protected function handle_row_actions( $post, $column_name, $primary ) {
 		$title = _draft_or_post_title();
