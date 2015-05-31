@@ -2313,7 +2313,6 @@ function wp_maybe_load_embeds() {
 	}
 
 	wp_embed_register_handler( 'youtube_embed_url', '#https?://(www.)?youtube\.com/embed/([^/]+)#i', 'wp_embed_handler_youtube' );
-	wp_embed_register_handler( 'youtube_v_url', '#https?://(www.)?youtube\.com/v/([^/]+)#i', 'wp_embed_handler_youtube' );
 
 	wp_embed_register_handler( 'googlevideo', '#http://video\.google\.([A-Za-z.]{2,5})/videoplay\?docid=([\d-]+)(.*?)#i', 'wp_embed_handler_googlevideo' );
 
