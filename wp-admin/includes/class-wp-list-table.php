@@ -797,35 +797,37 @@ class WP_List_Table {
 	}
 
 	/**
-	 * Get name of default primary column
+	 * Get the name of the default primary column.
 	 *
 	 * @since 4.3.0
 	 * @access protected
 	 *
-	 * @return string
+	 * @return string Name of the default primary column, in this case, an empty string.
 	 */
 	protected function get_default_primary_column_name() {
 		return '';
 	}
 
 	/**
-	 * Get name of primary column.
+	 * Get the name of the primary column.
 	 *
 	 * @since 4.3.0
 	 * @access protected
 	 *
-	 * @return string Filtered name of primary column
+	 * @return string The name of the primary column.
 	 */
 	protected function get_primary_column_name() {
 		$columns = $this->get_columns();
 		$default = $this->get_default_primary_column_name();
+
 		/**
-		 * Filter the name of the primary column for the current list table, with context as argument (eg: 'plugins').
+		 * Filter the name of the primary column for the current list table, with context
+		 * as argument (eg: 'plugins').
 		 *
 		 * @since 4.3.0
 		 *
-		 * @param string $default Column name default for the specific list table (eg: 'name')
-		 * @param string $context Screen ID for specific list table (eg: 'plugins')
+		 * @param string $default Column name default for the specific list table, e.g. 'name'.
+		 * @param string $context Screen ID for specific list table, e.g. 'plugins'.
 		 */
 		$column  = apply_filters( 'list_table_primary_column', $default, $this->screen->id );
 
@@ -1156,11 +1158,10 @@ class WP_List_Table {
 	 * @since 4.3.0
 	 * @access protected
 	 *
-	 * @param object $item Item being acted upon
-	 * @param string $column_name Current column name
-	 * @param string $primary Primary column name
-	 *
-	 * @return string
+	 * @param object $item        The item being acted upon.
+	 * @param string $column_name Current column name.
+	 * @param string $primary     Primary column name.
+	 * @return string The row actions output. In this case, an empty string.
 	 */
 	protected function handle_row_actions( $item, $column_name, $primary ) {
 		return '';

@@ -144,6 +144,7 @@ class WP_Links_List_Table extends WP_List_Table {
 	 *
 	 * @since 4.3.0
 	 * @access protected
+	 *
 	 * @return string Name of the default primary column, in this case, 'name'.
 	 */
 	protected function get_default_primary_column_name() {
@@ -250,7 +251,7 @@ class WP_Links_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Generate and display row actions for links.
+	 * Generate and display row actions links.
 	 *
 	 * @since 4.3.0
 	 * @access protected
