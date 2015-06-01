@@ -120,7 +120,9 @@
 		 * @param {Object} args Additional options for Twemoji.
 		 */
 		function parse( object, args ) {
-			if ( ! replaceEmoji || ! twemoji ) {
+			if ( ! replaceEmoji || ! twemoji || ! object ||
+				( 'string' !== typeof object && ( ! object.childNodes || ! object.childNodes.length ) ) ) {
+
 				return object;
 			}
 
