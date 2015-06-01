@@ -9,8 +9,7 @@ function WPSetAsThumbnail( id, nonce ) {
 		action: 'set-post-thumbnail', post_id: post_id, thumbnail_id: id, _ajax_nonce: nonce, cookie: encodeURIComponent( document.cookie )
 	}, function(str){
 		var win = window.dialogArguments || opener || parent || top;
-		setThumbnail = 'setThumbnail_' + post_type;
-		$link.text( setPostThumbnailL10n[ setThumbnail ] ); 
+		$link.text( setPostThumbnailL10n.setThumbnail );
 		if ( str == '0' ) {
 			alert( setPostThumbnailL10n.error );
 		} else {

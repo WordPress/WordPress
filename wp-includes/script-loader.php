@@ -570,20 +570,13 @@ function wp_default_scripts( &$scripts ) {
 			'error' => __( 'Could not load the preview image. Please reload the page and try again.' )
 		));
 
-		$setPostThumbnailL10n = array(
-			'setThumbnail' => __( 'Use as featured image' ), // Back compat
+		$scripts->add( 'set-post-thumbnail', "/wp-admin/js/set-post-thumbnail$suffix.js", array( 'jquery' ), false, 1 );
+		did_action( 'init' ) && $scripts->localize( 'set-post-thumbnail', 'setPostThumbnailL10n', array(
+			'setThumbnail' => __( 'Use as featured image' ),
 			'saving' => __( 'Saving...' ),
 			'error' => __( 'Could not set that as the thumbnail image. Try a different attachment.' ),
 			'done' => __( 'Done' )
-		);
-
-		foreach ( get_post_types( null, 'objects' ) as $post_type_object ) {
-			if ( isset( $post_type_object->labels->use_featured_image ) ) {
-				$setPostThumbnailL10n[ "setThumbnail_{$post_type_object->name}" ] = $post_type_object->labels->use_featured_image;
-			}
-		}
-		$scripts->add( 'set-post-thumbnail', "/wp-admin/js/set-post-thumbnail$suffix.js", array( 'jquery' ), false, 1 );
-		did_action( 'init' ) && $scripts->localize( 'set-post-thumbnail', 'setPostThumbnailL10n', $setPostThumbnailL10n );
+		) );
 
 		// Navigation Menus
 		$scripts->add( 'nav-menu', "/wp-admin/js/nav-menu$suffix.js", array( 'jquery-ui-sortable', 'jquery-ui-draggable', 'jquery-ui-droppable', 'wp-lists', 'postbox' ) );
