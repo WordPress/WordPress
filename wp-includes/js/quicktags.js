@@ -283,11 +283,6 @@ function edButton(id, display, tagStart, tagEnd, access) {
 				}
 			}
 
-			if ( use && use.indexOf(',fullscreen,') !== -1 ) {
-				theButtons.fullscreen = new qt.FullscreenButton();
-				html += theButtons.fullscreen.html(name + '_');
-			}
-
 			if ( use && use.indexOf(',dfw,') !== -1 ) {
 				theButtons.dfw = new qt.DFWButton();
 				html += theButtons.dfw.html( name + '_' );
@@ -621,18 +616,6 @@ function edButton(id, display, tagStart, tagEnd, access) {
 			this.tagStart = '<img src="' + src + '" alt="' + alt + '" />';
 			qt.TagButton.prototype.callback.call(this, e, c, ed);
 		}
-	};
-
-	qt.FullscreenButton = function() {
-		qt.Button.call(this, 'fullscreen', quicktagsL10n.fullscreen, 'f', quicktagsL10n.toggleFullscreen);
-	};
-	qt.FullscreenButton.prototype = new qt.Button();
-	qt.FullscreenButton.prototype.callback = function(e, c) {
-		if ( ! c.id || typeof wp === 'undefined' || ! wp.editor || ! wp.editor.fullscreen ) {
-			return;
-		}
-
-		wp.editor.fullscreen.on();
 	};
 
 	qt.DFWButton = function() {

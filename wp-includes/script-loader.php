@@ -94,8 +94,6 @@ function wp_default_scripts( &$scripts ) {
 		'enterURL'              => __( 'Enter the URL' ),
 		'enterImageURL'         => __( 'Enter the URL of the image' ),
 		'enterImageDescription' => __( 'Enter a description of the image' ),
-		'fullscreen'            => __( 'fullscreen' ),
-		'toggleFullscreen'      => esc_attr__( 'Toggle fullscreen mode' ),
 		'textdirection'         => esc_attr__( 'text direction' ),
 		'toggleTextdirection'   => esc_attr__( 'Toggle Editor Text Direction' ),
 		'dfw'                   => esc_attr__( 'Distraction-free writing mode' )
@@ -105,7 +103,8 @@ function wp_default_scripts( &$scripts ) {
 
 	$scripts->add( 'editor', "/wp-admin/js/editor$suffix.js", array('utils','jquery'), false, 1 );
 
-	$scripts->add( 'wp-fullscreen', "/wp-admin/js/wp-fullscreen$suffix.js", array('jquery'), false, 1 );
+	// Back-compat for old DFW. To-do: remove at the end of 2016.
+	$scripts->add( 'wp-fullscreen-stub', "/wp-admin/js/wp-fullscreen-stub$suffix.js", array(), false, 1 );
 
 	$scripts->add( 'wp-ajax-response', "/wp-includes/js/wp-ajax-response$suffix.js", array('jquery'), false, 1 );
 	did_action( 'init' ) && $scripts->localize( 'wp-ajax-response', 'wpAjax', array(

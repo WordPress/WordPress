@@ -2102,6 +2102,7 @@ function wp_ajax_time_format() {
  * Ajax handler for saving posts from the fullscreen editor.
  *
  * @since 3.1.0
+ * @deprecated 4.3.0
  */
 function wp_ajax_wp_fullscreen_save_post() {
 	$post_id = isset( $_POST['post_ID'] ) ? (int) $_POST['post_ID'] : 0;

@@ -25,6 +25,7 @@ final class _WP_Editors {
 	private static $has_medialib = false;
 	private static $editor_buttons_css = true;
 	private static $drag_drop_upload = false;
+	private static $old_dfw_compat = false;
 
 	private function __construct() {}
 
@@ -53,8 +54,7 @@ final class _WP_Editors {
 	 *     @type string     $editor_class      Extra classes to add to the editor textarea elemen. Default empty.
 	 *     @type bool       $teeny             Whether to output the minimal editor config. Examples include
 	 *                                         Press This and the Comment editor. Default false.
-	 *     @type bool       $dfw               Whether to replace the default fullscreen with "Distraction Free
-	 *                                         Writing". DFW requires specific DOM elements and css). Default false.
+	 *     @type bool       $dfw               Deprecated in 4.1. Since 4.3 used only to enqueue wp-fullscreen-stub.js for backwards compatibility.
 	 *     @type bool|array $tinymce           Whether to load TinyMCE. Can be used to pass settings directly to
 	 *                                         TinyMCE using an array. Default true.
 	 *     @type bool|array $quicktags         Whether to load Quicktags. Can be used to pass settings directly to
@@ -110,6 +110,10 @@ final class _WP_Editors {
 
 		if ( self::$this_quicktags )
 			self::$has_quicktags = true;
+
+		if ( $set['dfw'] ) {
+			self::$old_dfw_compat = true;
+		}
 
 		if ( empty( $set['editor_height'] ) )
 			return $set;
@@ -282,9 +286,6 @@ final class _WP_Editors {
 
 			if ( empty($qtInit['buttons']) )
 				$qtInit['buttons'] = 'strong,em,link,block,del,ins,img,ul,ol,li,code,more,close';
-
-			if ( $set['dfw'] )
-				$qtInit['buttons'] .= ',fullscreen';
 
 			if ( $set['_content_editor_dfw'] ) {
 				$qtInit['buttons'] .= ',dfw';
@@ -469,9 +470,6 @@ final class _WP_Editors {
 					}
 				}
 
-				if ( $set['dfw'] )
-					$plugins[] = 'wpfullscreen';
-
 				self::$plugins = $plugins;
 				self::$ext_plugins = $ext_plugins;
 
@@ -637,18 +635,6 @@ final class _WP_Editors {
 				unset($set['tinymce']['body_class']);
 			}
 
-			if ( $set['dfw'] ) {
-				// replace the first 'fullscreen' with 'wp_fullscreen'
-				if ( ($key = array_search('fullscreen', $mce_buttons)) !== false )
-					$mce_buttons[$key] = 'wp_fullscreen';
-				elseif ( ($key = array_search('fullscreen', $mce_buttons_2)) !== false )
-					$mce_buttons_2[$key] = 'wp_fullscreen';
-				elseif ( ($key = array_search('fullscreen', $mce_buttons_3)) !== false )
-					$mce_buttons_3[$key] = 'wp_fullscreen';
-				elseif ( ($key = array_search('fullscreen', $mce_buttons_4)) !== false )
-					$mce_buttons_4[$key] = 'wp_fullscreen';
-			}
-
 			$mceInit = array (
 				'selector' => "#$editor_id",
 				'resize' => 'vertical',
@@ -753,8 +739,9 @@ final class _WP_Editors {
 			wp_enqueue_script('wplink');
 		}
 
-		if ( in_array('wpfullscreen', self::$plugins, true) || in_array('fullscreen', self::$qt_buttons, true) )
-			wp_enqueue_script('wp-fullscreen');
+		if ( self::$old_dfw_compat ) {
+			wp_enqueue_script('wp-fullscreen-stub');
+		}
 
 		if ( self::$has_medialib ) {
 			add_thickbox();
@@ -1252,9 +1239,6 @@ final class _WP_Editors {
 		if ( in_array( 'wplink', self::$plugins, true ) || in_array( 'link', self::$qt_buttons, true ) )
 			self::wp_link_dialog();
 
-		if ( in_array( 'wpfullscreen', self::$plugins, true ) || in_array( 'fullscreen', self::$qt_buttons, true ) )
-			self::wp_fullscreen_html();
-
 		/**
 		 * Fires after any core TinyMCE editor instances are created.
 		 *
@@ -1271,96 +1255,7 @@ final class _WP_Editors {
 	 * @global int $content_width
 	 */
 	public static function wp_fullscreen_html() {
-		global $content_width;
-		$post = get_post();
-
-		$width = isset( $content_width ) && 800 > $content_width ? $content_width : 800;
-		$width = $width + 22; // compensate for the padding and border
-		$dfw_width = get_user_setting( 'dfw_width', $width );
-		$save = $post && $post->post_status == 'publish' ? __('Update') : __('Save');
-
-		?>
-		<div id="wp-fullscreen-body" class="wp-core-ui<?php if ( is_rtl() ) echo ' rtl'; ?>" data-theme-width="<?php echo (int) $width; ?>" data-dfw-width="<?php echo (int) $dfw_width; ?>">
-		<div id="fullscreen-topbar">
-			<div id="wp-fullscreen-toolbar">
-			<div id="wp-fullscreen-close"><a href="#" onclick="wp.editor.fullscreen.off();return false;"><?php _e('Exit fullscreen'); ?></a></div>
-			<div id="wp-fullscreen-central-toolbar" style="width:<?php echo $width; ?>px;">
-
-			<div id="wp-fullscreen-mode-bar">
-				<div id="wp-fullscreen-modes" class="button-group">
-					<a class="button wp-fullscreen-mode-tinymce" href="#" onclick="wp.editor.fullscreen.switchmode( 'tinymce' ); return false;"><?php _e( 'Visual' ); ?></a>
-					<a class="button wp-fullscreen-mode-html" href="#" onclick="wp.editor.fullscreen.switchmode( 'html' ); return false;"><?php _ex( 'Text', 'Name for the Text editor tab (formerly HTML)' ); ?></a>
-				</div>
-			</div>
-
-			<div id="wp-fullscreen-button-bar"><div id="wp-fullscreen-buttons" class="mce-toolbar">
-		<?php
-
-		$buttons = array(
-			// format: title, onclick, show in both editors
-			'bold' => array( 'title' => __('Bold (Ctrl + B)'), 'both' => false ),
-			'italic' => array( 'title' => __('Italic (Ctrl + I)'), 'both' => false ),
-			'bullist' => array( 'title' => __('Unordered list (Alt + Shift + U)'), 'both' => false ),
-			'numlist' => array( 'title' => __('Ordered list (Alt + Shift + O)'), 'both' => false ),
-			'blockquote' => array( 'title' => __('Blockquote (Alt + Shift + Q)'), 'both' => false ),
-			'wp-media-library' => array( 'title' => __('Media library (Alt + Shift + M)'), 'both' => true ),
-			'link' => array( 'title' => __('Insert/edit link (Alt + Shift + A)'), 'both' => true ),
-			'unlink' => array( 'title' => __('Unlink (Alt + Shift + S)'), 'both' => false ),
-			'help' => array( 'title' => __('Help (Alt + Shift + H)'), 'both' => false ),
-		);
-
-		/**
-		 * Filter the list of TinyMCE buttons for the fullscreen
-		 * 'Distraction-Free Writing' editor.
-		 *
-		 * @since 3.2.0
-		 *
-		 * @param array $buttons An array of TinyMCE buttons for the DFW editor.
-		 */
-		$buttons = apply_filters( 'wp_fullscreen_buttons', $buttons );
-
-		foreach ( $buttons as $button => $args ) {
-			if ( 'separator' == $args ) {
-				continue;
-			}
-
-			$onclick = ! empty( $args['onclick'] ) ? ' onclick="' . $args['onclick'] . '"' : '';
-			$title = esc_attr( $args['title'] );
-			?>
-
-			<div class="mce-widget mce-btn<?php if ( $args['both'] ) { ?> wp-fullscreen-both<?php } ?>">
-			<button type="button" aria-label="<?php echo $title; ?>" title="<?php echo $title; ?>"<?php echo $onclick; ?> id="wp_fs_<?php echo $button; ?>">
-				<i class="mce-ico mce-i-<?php echo $button; ?>"></i>
-			</button>
-			</div>
-			<?php
-		}
-
-		?>
-
-		</div></div>
-
-		<div id="wp-fullscreen-save">
-			<input type="button" class="button button-primary right" value="<?php echo $save; ?>" onclick="wp.editor.fullscreen.save();" />
-			<span class="wp-fullscreen-saved-message"><?php if ( $post && $post->post_status == 'publish' ) _e('Updated.'); else _e('Saved.'); ?></span>
-			<span class="wp-fullscreen-error-message"><?php _e('Save failed.'); ?></span>
-			<span class="spinner"></span>
-		</div>
-
-		</div>
-		</div>
-	</div>
-	<div id="wp-fullscreen-statusbar">
-		<div id="wp-fullscreen-status">
-			<div id="wp-fullscreen-count"><?php printf( __( 'Word count: %s' ), '<span class="word-count">0</span>' ); ?></div>
-			<div id="wp-fullscreen-tagline"><?php _e('Just write.'); ?></div>
-		</div>
-	</div>
-	</div>
-
-	<div class="fullscreen-overlay" id="fullscreen-overlay"></div>
-	<div class="fullscreen-overlay fullscreen-fader fade-300" id="fullscreen-fader"></div>
-	<?php
+		_deprecated_function( __FUNCTION__, '4.3' );
 	}
 
 	/**

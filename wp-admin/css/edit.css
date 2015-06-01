@@ -70,12 +70,6 @@
 	padding: 11px 10px;
 }
 
-#wp-fullscreen-save .fs-saved {
-	color: #999;
-	float: right;
-	margin-top: 4px;
-}
-
 #poststuff .inside-submitbox,
 #side-sortables .inside-submitbox {
 	margin: 0 3px;
@@ -389,24 +383,6 @@ td.plugin-title p {
 	max-width: 100%;
 	border: 1px solid transparent;
 }
-
-.wp-fullscreen-wrap #content-textarea-clone {
-	display: none;
-}
-
-/* editor-expand.js override */
-.wp-fullscreen-wrap {
-	padding-top: 0 !important;
-}
-
-.wp-fullscreen-wrap .wp-editor-area {
-	margin-top: 0 !important;
-}
-
-.wp-fullscreen-wrap .mce-edit-area {
-	padding-top: 0 !important;
-}
-/* end editor-expand.js override */
 
 .wp-editor-expand #wp-content-editor-tools {
 	z-index: 1000;

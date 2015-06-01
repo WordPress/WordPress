@@ -2042,7 +2042,6 @@
 }
 
 /* Drag & drop on the editor upload */
-#wp-fullscreen-body .uploader-editor,
 .wp-editor-wrap .uploader-editor {
 	background: rgba( 150, 150, 150, 0.9 );
 	position: absolute;
@@ -2055,17 +2054,6 @@
 	text-align: center;
 }
 
-#wp-fullscreen-body .uploader-editor {
-	background: rgba( 0, 86, 132, 0.9 );
-	position: fixed;
-	z-index: 100050; /* above the editor toolbar */
-}
-
-.wp-editor-wrap.wp-fullscreen-wrap .uploader-editor {
-	opacity: 0;
-}
-
-#wp-fullscreen-body .uploader-editor-content,
 .wp-editor-wrap .uploader-editor-content {
 	border: 1px dashed #fff;
 	position: absolute;
@@ -2075,7 +2063,6 @@
 	bottom: 10px;
 }
 
-#wp-fullscreen-body .uploader-editor .uploader-editor-title,
 .wp-editor-wrap .uploader-editor .uploader-editor-title {
 	position: absolute;
 	top: 50%;
@@ -2097,7 +2084,6 @@
 	background: rgba( 0, 86, 132, 0.9 );
 }
 
-#wp-fullscreen-body .uploader-editor .uploader-editor-title,
 .wp-editor-wrap .uploader-editor.droppable .uploader-editor-title {
 	display: block;
 }
