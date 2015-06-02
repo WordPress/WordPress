@@ -569,6 +569,9 @@ class WP_User_Query {
 	 *                                         'url', 'registered'. Use 'all' for all fields and 'all_with_meta' to
 	 *                                         include meta fields. Default 'all'.
 	 *     @type string       $who             Type of users to query. Accepts 'authors'. Default empty (all users).
+	 *     @type bool|array   $has_published_posts Pass an array of post types to filter results to users who have
+	 *                                             published posts in those post types. `true` is an alias for all
+	 *                                             public post types.
 	 * }
 	 */
 	public function prepare_query( $query = array() ) {
@@ -592,7 +595,8 @@ class WP_User_Query {
 				'number' => '',
 				'count_total' => true,
 				'fields' => 'all',
-				'who' => ''
+				'who' => '',
+				'has_published_posts' => null,
 			) );
 		}
 
@@ -649,6 +653,21 @@ class WP_User_Query {
 			$qv['meta_value'] = 0;
 			$qv['meta_compare'] = '!=';
 			$qv['blog_id'] = $blog_id = 0; // Prevent extra meta query
+		}
+
+		if ( $qv['has_published_posts'] && $blog_id ) {
+			if ( true === $qv['has_published_posts'] ) {
+				$post_types = get_post_types( array( 'public' => true ) );
+			} else {
+				$post_types = (array) $qv['has_published_posts'];
+			}
+
+			foreach ( $post_types as &$post_type ) {
+				$post_type = $wpdb->prepare( '%s', $post_type );
+			}
+
+			$posts_table = $wpdb->get_blog_prefix( $blog_id ) . 'posts';
+			$this->query_where .= " AND $wpdb->users.ID IN ( SELECT DISTINCT $posts_table.post_author FROM $posts_table WHERE $posts_table.post_status = 'publish' AND $posts_table.post_type IN ( " . join( ", ", $post_types ) . " ) )";
 		}
 
 		// Meta query.
