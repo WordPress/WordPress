@@ -521,6 +521,7 @@ class WP_User_Query {
 	 * @since 3.1.0
 	 * @since 4.2.0 Added 'meta_value_num' support for `$orderby` parameter. Added multi-dimensional array syntax
 	 *              for `$orderby` parameter.
+	 * @since 4.3.0 Added 'has_published_posts' parameter.
 	 * @access public
 	 *
 	 * @global wpdb $wpdb
