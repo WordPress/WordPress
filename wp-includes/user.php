@@ -529,46 +529,48 @@ class WP_User_Query {
 	 * @param string|array $query {
 	 *     Optional. Array or string of Query parameters.
 	 *
-	 *     @type int          $blog_id         The site ID. Default is the global blog id.
-	 *     @type string       $role            Role name. Default empty.
-	 *     @type string       $meta_key        User meta key. Default empty.
-	 *     @type string       $meta_value      User meta value. Default empty.
-	 *     @type string       $meta_compare    Comparison operator to test the `$meta_value`. Accepts '=', '!=',
-	 *                                         '>', '>=', '<', '<=', 'LIKE', 'NOT LIKE', 'IN', 'NOT IN', 'BETWEEN',
-	 *                                         'NOT BETWEEN', 'EXISTS', 'NOT EXISTS', 'REGEXP', 'NOT REGEXP',
-	 *                                         or 'RLIKE'. Default '='.
-	 *     @type array        $include         An array of user IDs to include. Default empty array.
-	 *     @type array        $exclude         An array of user IDs to exclude. Default empty array.
-	 *     @type string       $search          Search keyword. Searches for possible string matches on columns.
-	 *                                         When `$search_columns` is left empty, it tries to determine which
-	 *                                         column to search in based on search string. Default empty.
-	 *     @type array        $search_columns  Array of column names to be searched. Accepts 'ID', 'login',
-	 *                                         'nicename', 'email', 'url'. Default empty array.
-	 *     @type string|array $orderby         Field(s) to sort the retrieved users by. May be a single value,
-	 *                                         an array of values, or a multi-dimensional array with fields as keys
-	 *                                         and orders ('ASC' or 'DESC') as values. Accepted values are'ID',
-	 *                                         'display_name' (or 'name'), 'user_login' (or 'login'),
-	 *                                         'user_nicename' (or 'nicename'), 'user_email' (or 'email'),
-	 *                                         'user_url' (or 'url'), 'user_registered' (or 'registered'),
-	 *                                         'post_count', 'meta_value', 'meta_value_num', the value of
-	 *                                         `$meta_key`, or an array key of `$meta_query`. To use 'meta_value'
-	 *                                         or 'meta_value_num', `$meta_key` must be also be defined.
-	 *                                         Default 'user_login'.
-	 *     @type string       $order           Designates ascending or descending order of users. Order values
-	 *                                         passed as part of an `$orderby` array take precedence over this
-	 *                                         parameter. Accepts 'ASC', 'DESC'. Default 'ASC'.
-	 *     @type int          $offset          Number of users to offset in retrieved results. Can be used in
-	 *                                         conjunction with pagination. Default 0.
-	 *     @type int          $number          Number of users to limit the query for. Can be used in conjunction
-	 *                                         with pagination. Value -1 (all) is not supported.
-	 *                                         Default empty (all users).
-	 *     @type bool         $count_total     Whether to count the total number of users found. If pagination is not
-	 *                                         needed, setting this to false can improve performance. Default true.
-	 *     @type string|array $fields          Which fields to return. Single or all fields (string), or array
-	 *                                         of fields. Accepts 'ID', 'display_name', 'login', 'nicename', 'email',
-	 *                                         'url', 'registered'. Use 'all' for all fields and 'all_with_meta' to
-	 *                                         include meta fields. Default 'all'.
-	 *     @type string       $who             Type of users to query. Accepts 'authors'. Default empty (all users).
+	 *     @type int          $blog_id             The site ID. Default is the global blog id.
+	 *     @type string       $role                Role name. Default empty.
+	 *     @type string       $meta_key            User meta key. Default empty.
+	 *     @type string       $meta_value          User meta value. Default empty.
+	 *     @type string       $meta_compare        Comparison operator to test the `$meta_value`. Accepts '=', '!=',
+	 *                                             '>', '>=', '<', '<=', 'LIKE', 'NOT LIKE', 'IN', 'NOT IN',
+	 *                                             'BETWEEN', 'NOT BETWEEN', 'EXISTS', 'NOT EXISTS', 'REGEXP',
+	 *                                             'NOT REGEXP', or 'RLIKE'. Default '='.
+	 *     @type array        $include             An array of user IDs to include. Default empty array.
+	 *     @type array        $exclude             An array of user IDs to exclude. Default empty array.
+	 *     @type string       $search              Search keyword. Searches for possible string matches on columns.
+	 *                                             When `$search_columns` is left empty, it tries to determine which
+	 *                                             column to search in based on search string. Default empty.
+	 *     @type array        $search_columns      Array of column names to be searched. Accepts 'ID', 'login',
+	 *                                             'nicename', 'email', 'url'. Default empty array.
+	 *     @type string|array $orderby             Field(s) to sort the retrieved users by. May be a single value,
+	 *                                             an array of values, or a multi-dimensional array with fields as
+	 *                                             keys and orders ('ASC' or 'DESC') as values. Accepted values are
+	 *                                             'ID', 'display_name' (or 'name'), 'user_login' (or 'login'),
+	 *                                             'user_nicename' (or 'nicename'), 'user_email' (or 'email'),
+	 *                                             'user_url' (or 'url'), 'user_registered' (or 'registered'),
+	 *                                             'post_count', 'meta_value', 'meta_value_num', the value of
+	 *                                             `$meta_key`, or an array key of `$meta_query`. To use
+	 *                                             'meta_value' or 'meta_value_num', `$meta_key` must be also be
+	 *                                             defined. Default 'user_login'.
+	 *     @type string       $order               Designates ascending or descending order of users. Order values
+	 *                                             passed as part of an `$orderby` array take precedence over this
+	 *                                             parameter. Accepts 'ASC', 'DESC'. Default 'ASC'.
+	 *     @type int          $offset              Number of users to offset in retrieved results. Can be used in
+	 *                                             conjunction with pagination. Default 0.
+	 *     @type int          $number              Number of users to limit the query for. Can be used in
+	 *                                             conjunction with pagination. Value -1 (all) is not supported.
+	 *                                             Default empty (all users).
+	 *     @type bool         $count_total         Whether to count the total number of users found. If pagination
+	 *                                             is not needed, setting this to false can improve performance.
+	 *                                             Default true.
+	 *     @type string|array $fields              Which fields to return. Single or all fields (string), or array
+	 *                                             of fields. Accepts 'ID', 'display_name', 'login', 'nicename',
+	 *                                             'email', 'url', 'registered'. Use 'all' for all fields and
+	 *                                             'all_with_meta' to include meta fields. Default 'all'.
+	 *     @type string       $who                 Type of users to query. Accepts 'authors'.
+	 *                                             Default empty (all users).
 	 *     @type bool|array   $has_published_posts Pass an array of post types to filter results to users who have
 	 *                                             published posts in those post types. `true` is an alias for all
 	 *                                             public post types.
