@@ -581,7 +581,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 
 		list( $columns, $hidden, $sortable, $primary ) = $this->get_column_info();
 
-		$extra_class = ' has-row-actions column-primary';
+		$extra_class = ' column-primary';
 
 		foreach ( $columns as $column_name => $column_display_name ) {
 			$style = '';
@@ -719,14 +719,14 @@ class WP_Plugins_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Get the name of default primary column for this specific list table.
+	 * Get the name of primary column for this specific list table.
 	 *
 	 * @since 4.3.0
 	 * @access protected
 	 *
-	 * @return string Name for the default primary column, in this case, 'plugin'.
+	 * @return string Unalterable name for the primary column, in this case, 'plugin'.
 	 */
-	protected function get_default_primary_column_name() {
+	protected function get_primary_column_name() {
 		return 'plugin';
 	}
 }
