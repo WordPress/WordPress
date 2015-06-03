@@ -1606,6 +1606,7 @@
 				items: '> .customize-control-widget_form',
 				handle: '.widget-top',
 				axis: 'y',
+				tolerance: 'pointer',
 				connectWith: '.accordion-section-content:has(.customize-control-sidebar_widgets)',
 				update: function() {
 					var widgetContainerIds = self.$sectionContent.sortable( 'toArray' ), widgetIds;

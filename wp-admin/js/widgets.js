@@ -124,6 +124,7 @@ wpWidgets = {
 			cursor: 'move',
 			distance: 2,
 			containment: '#wpwrap',
+			tolerance: 'pointer',
 			start: function( event, ui ) {
 				var height, $this = $(this),
 					$wrap = $this.parent(),
