@@ -365,7 +365,7 @@ foreach ( $columns as $column_name => $column_display_name ) {
 
 				echo "<div class='media-icon {$mime}-icon'>";
 
-				if ( $thumb = wp_get_attachment_image( $post->ID, array( 80, 60 ), true ) ) {
+				if ( $thumb = wp_get_attachment_image( $post->ID, array( 60, 60 ), true ) ) {
 					if ( $this->is_trash || ! $user_can_edit ) {
 						echo $thumb;
 					} else { ?>

@@ -307,6 +307,11 @@ table.media .column-title .media-icon {
 	right: 10px; /* match cell padding */
 }
 
+table.media .column-title .media-icon img {
+	max-width: 60px;
+	height: auto;
+}
+
 table.media .column-title .media-info,
 table.media .column-title .row-actions {
 	margin-right: 70px; /* 60px image + margin */
