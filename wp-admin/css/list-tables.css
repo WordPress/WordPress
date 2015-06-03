@@ -296,8 +296,20 @@ table.fixed {
 	float: left;
 }
 
-.fixed .column-icon {
-	width: 80px;
+/* Media file column */
+table.media .column-title {
+	position: relative;
+}
+
+table.media .column-title .media-icon {
+	position: absolute;
+	top: 8px; /* match cell padding */
+	left: 10px; /* match cell padding */
+}
+
+table.media .column-title .media-info,
+table.media .column-title .row-actions {
+	margin-left: 70px; /* 60px image + margin */
 }
 
 /* @todo: pick a consistent list table selector */
@@ -1622,6 +1634,7 @@ div.action-links,
 	.column-tags,
 	.tags .column-description,
 	.media .column-parent,
+	.media .column-comments,
 	.users .column-email,
 	.users .column-name,
 	.sites .column-registered,
@@ -1648,6 +1661,11 @@ div.action-links,
 
 	.widefat * {
 		word-wrap: normal;
+	}
+
+	/* Media */
+	.media .column-title {
+		width: auto;
 	}
 
 	/* Quick Edit and Bulk Edit */
