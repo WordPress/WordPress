@@ -1550,7 +1550,7 @@ function wp_notify_moderator($comment_id) {
 	$user = get_userdata( $post->post_author );
 	// Send to the administration and to the post author if the author can modify the comment.
 	$emails = array( get_option( 'admin_email' ) );
-	if ( user_can( $user->ID, 'edit_comment', $comment_id ) && ! empty( $user->user_email ) ) {
+	if ( $user && user_can( $user->ID, 'edit_comment', $comment_id ) && ! empty( $user->user_email ) ) {
 		if ( 0 !== strcasecmp( $user->user_email, get_option( 'admin_email' ) ) )
 			$emails[] = $user->user_email;
 	}
