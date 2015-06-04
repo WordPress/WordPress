@@ -817,6 +817,8 @@ var wpNavMenu;
 				}
 			});
 			$('#add-custom-links input[type="text"]').keypress(function(e){
+				$('#customlinkdiv').removeClass('form-invalid');
+
 				if ( e.keyCode === 13 ) {
 					e.preventDefault();
 					$( '#submit-customlinkdiv' ).click();
@@ -919,8 +921,10 @@ var wpNavMenu;
 
 			processMethod = processMethod || api.addMenuItemToBottom;
 
-			if ( '' === url || 'http://' == url )
+			if ( '' === url || 'http://' == url ) {
+				$('#customlinkdiv').addClass('form-invalid');
 				return false;
+			}
 
 			// Show the ajax spinner
 			$( '.customlinkdiv .spinner' ).addClass( 'is-active' );
