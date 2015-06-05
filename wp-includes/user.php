@@ -2278,6 +2278,8 @@ function wp_get_password_hint() {
  * hashing process. This field is now hashed; old values are no longer accepted
  * but have a different WP_Error code so good user feedback can be provided.
  *
+ * @since 3.1.0
+ *
  * @global wpdb         $wpdb      WordPress database object for queries.
  * @global PasswordHash $wp_hasher Portable PHP password hashing framework instance.
  *
@@ -2331,6 +2333,8 @@ function check_password_reset_key($key, $login) {
 /**
  * Handles resetting the user's password.
  *
+ * @since 2.5.0
+ *
  * @param object $user     The user
  * @param string $new_pass New password for the user in plaintext
  */
@@ -2353,6 +2357,8 @@ function reset_password( $user, $new_pass ) {
 
 /**
  * Handles registering a new user.
+ *
+ * @since 2.5.0
  *
  * @param string $user_login User's username for logging in
  * @param string $user_email User's email address to send password and add
