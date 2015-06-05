@@ -431,17 +431,17 @@ class WP_Users_List_Table extends WP_List_Table {
 						$r .= "$user_object->first_name $user_object->last_name";
 						break;
 					case 'email':
-						$r .= "<a href='mailto:$email' title='" . esc_attr( sprintf( __( 'E-mail: %s' ), $email ) ) . "'>$email</a>";
+						$r .= "<a href='mailto:$email'>$email</a>";
 						break;
 					case 'role':
 						$r .= $role_name;
 						break;
 					case 'posts':
 						$attributes = 'class="posts column-posts num"' . $style;
-						$r .= "";
 						if ( $numposts > 0 ) {
-							$r .= "<a href='edit.php?author=$user_object->ID' title='" . esc_attr__( 'View posts by this author' ) . "' class='edit'>";
-							$r .= $numposts;
+							$r .= "<a href='edit.php?author=$user_object->ID' class='edit'>";
+							$r .= '<span aria-hidden="true">' . $numposts . '</span>';
+							$r .= '<span class="screen-reader-text">' . sprintf( _n( '%s post by this author', '%s posts by this author', $numposts ), number_format_i18n( $numposts ) ) . '</span>';
 							$r .= '</a>';
 						} else {
 							$r .= 0;
