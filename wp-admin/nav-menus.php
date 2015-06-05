@@ -712,7 +712,7 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 						<input type="hidden" name="zero-menu-state" value="true" />
 					<?php } ?>
  					<input type="hidden" name="action" value="update" />
-					<input type="hidden" name="menu" id="menu" value="<?php echo esc_attr( $nav_menu_selected_id ); ?>" />
+					<input type="hidden" name="menu" value="<?php echo esc_attr( $nav_menu_selected_id ); ?>" />
 					<div id="nav-menu-header">
 						<div class="major-publishing-actions">
 							<label class="menu-name-label howto open-label" for="menu-name">
