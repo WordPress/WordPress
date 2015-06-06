@@ -39,12 +39,12 @@
 
 			rng = editor.selection.getRng();
 			node = rng.startContainer;
-			text = node.nodeValue;
 
-			if ( node.nodeType !== 3 ) {
+			if ( ! node || node.nodeType !== 3 ) {
 				return;
 			}
 
+			text = node.nodeValue;
 			parent = editor.dom.getParent( node, 'p' );
 
 			if ( ! parent ) {
