@@ -368,7 +368,8 @@ final class _WP_Editors {
 						'wpgallery',
 						'wplink',
 						'wpdialogs',
-						'wpview',
+						'wptextpattern',
+						'wpview'
 					);
 
 					if ( ! self::$has_medialib ) {
