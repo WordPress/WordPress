@@ -7747,8 +7747,8 @@ module.exports = Select;
 /*globals wp, _, jQuery */
 
 /**
- * Creates a dropzone on WP editor instances (elements with .wp-editor-wrap
- * or #wp-fullscreen-body) and relays drag'n'dropped files to a media workflow.
+ * Creates a dropzone on WP editor instances (elements with .wp-editor-wrap)
+ * and relays drag'n'dropped files to a media workflow.
  *
  * wp.media.view.EditorUploader
  *
@@ -7855,7 +7855,7 @@ EditorUploader = View.extend({
 		}
 
 		View.prototype.render.apply( this, arguments );
-		$( '.wp-editor-wrap, #wp-fullscreen-body' ).each( _.bind( this.attach, this ) );
+		$( '.wp-editor-wrap' ).each( _.bind( this.attach, this ) );
 		return this;
 	},
 
