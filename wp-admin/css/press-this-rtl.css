@@ -846,6 +846,7 @@ input[type="search"].categories-search,
 	border-bottom: 1px solid #e5e5e5;
 	font-size: 14px;
 	-webkit-appearance: none;
+	-moz-appearance: none;
 	appearance: none;
 }
 
