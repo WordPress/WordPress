@@ -354,7 +354,7 @@ var wpLink;
 			}
 
 			link = getLink();
-			text = inputs.text.val();
+			text = inputs.text.val() || attrs.href;
 
 			if ( link ) {
 				if ( text ) {
