@@ -537,6 +537,9 @@ function register_taxonomy_for_object_type( $taxonomy, $object_type) {
 	if ( ! in_array( $object_type, $wp_taxonomies[$taxonomy]->object_type ) )
 		$wp_taxonomies[$taxonomy]->object_type[] = $object_type;
 
+	// Filter out empties.
+	$wp_taxonomies[ $taxonomy ]->object_type = array_filter( $wp_taxonomies[ $taxonomy ]->object_type );
+
 	return true;
 }
 
