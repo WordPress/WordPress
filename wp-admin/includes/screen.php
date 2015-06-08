@@ -77,9 +77,12 @@ function meta_box_prefs( $screen ) {
 
 	$hidden = get_hidden_meta_boxes($screen);
 
-	foreach ( array_keys($wp_meta_boxes[$screen->id]) as $context ) {
-		foreach ( array_keys($wp_meta_boxes[$screen->id][$context]) as $priority ) {
-			foreach ( $wp_meta_boxes[$screen->id][$context][$priority] as $box ) {
+	foreach ( array_keys( $wp_meta_boxes[ $screen->id ] ) as $context ) {
+		foreach ( array( 'high', 'core', 'default', 'low' ) as $priority ) {
+			if ( ! isset( $wp_meta_boxes[ $screen->id ][ $context ][ $priority ] ) ) {
+				continue;
+			}
+			foreach ( $wp_meta_boxes[ $screen->id ][ $context ][ $priority ] as $box ) {
 				if ( false == $box || ! $box['title'] )
 					continue;
 				// Submit box cannot be hidden
