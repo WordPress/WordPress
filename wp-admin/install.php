@@ -194,7 +194,7 @@ if ( ! is_string( $wpdb->base_prefix ) || '' === $wpdb->base_prefix ) {
 }
 
 // Set error message if DO_NOT_UPGRADE_GLOBAL_TABLES isn't set as it will break install.
-if ( defined( 'DO_NOT_UPGRADE_GLOBAL_TABLES' ) && true === DO_NOT_UPGRADE_GLOBAL_TABLES ) {
+if ( defined( 'DO_NOT_UPGRADE_GLOBAL_TABLES' ) ) {
 	display_header();
 	die( '<h1>' . __( 'Configuration Error' ) . '</h1><p>' . __( 'The constant DO_NOT_UPGRADE_GLOBAL_TABLES cannot be defined when installing WordPress.' ) . '</p></body></html>' );
 }
