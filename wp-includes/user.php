@@ -709,7 +709,7 @@ class WP_User_Query {
 			$this->query_from .= $clauses['join'];
 			$this->query_where .= $clauses['where'];
 
-			if ( 'OR' == $this->meta_query->relation ) {
+			if ( $this->meta_query->has_or_relation() ) {
 				$this->query_fields = 'DISTINCT ' . $this->query_fields;
 			}
 		}

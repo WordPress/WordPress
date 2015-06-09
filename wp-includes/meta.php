@@ -954,6 +954,15 @@ class WP_Meta_Query {
 	protected $clauses = array();
 
 	/**
+	 * Whether the query contains any OR relations.
+	 *
+	 * @since 4.3.0
+	 * @access protected
+	 * @var bool
+	 */
+	protected $has_or_relation = false;
+
+	/**
 	 * Constructor.
 	 *
 	 * @since 3.2.0
@@ -1046,6 +1055,7 @@ class WP_Meta_Query {
 		// Sanitize the 'relation' key provided in the query.
 		if ( isset( $relation ) && 'OR' === strtoupper( $relation ) ) {
 			$clean_queries['relation'] = 'OR';
+			$this->has_or_relation = true;
 
 		/*
 		 * If there is only a single clause, call the relation 'OR'.
@@ -1577,6 +1587,21 @@ class WP_Meta_Query {
 		 * @param object      $this         WP_Meta_Query object.
 		 */
 		return apply_filters( 'meta_query_find_compatible_table_alias', $alias, $clause, $parent_query, $this ) ;
+	}
+
+	/**
+	 * Check whether the current query has any OR relations.
+	 *
+	 * In some cases, the presence of an OR relation somewhere in the query will require the use of a DISTINCT or
+	 * GROUP BY keyword in the SELECT clause. The current method can be used in these cases to determine whether
+	 * such a clause is necessary.
+	 *
+	 * @since 4.3.0
+	 *
+	 * @return bool True if the query contains any OR relations, otherwise false.
+	 */
+	public function has_or_relation() {
+		return $this->has_or_relation;
 	}
 }
 
