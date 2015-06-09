@@ -213,7 +213,7 @@ class WP_Http {
 		 * and pick its name using the basename of the $url.
 		 */
 		if ( $r['stream']  && empty( $r['filename'] ) ) {
-			$r['filename'] = wp_unique_filename( get_temp_dir(), basename( $url ) );
+			$r['filename'] = get_temp_dir() . wp_unique_filename( get_temp_dir(), basename( $url ) );
 		}
 
 		/*
