@@ -111,10 +111,11 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 		} elseif ( $order_by == 'lastupdated' ) {
 			$query .= ' ORDER BY last_updated ';
 		} elseif ( $order_by == 'blogname' ) {
-			if ( is_subdomain_install() )
+			if ( is_subdomain_install() ) {
 				$query .= ' ORDER BY domain ';
-			else
+			} else {
 				$query .= ' ORDER BY path ';
+			}
 		} elseif ( $order_by == 'blog_id' ) {
 			$query .= ' ORDER BY blog_id ';
 		} else {
@@ -182,17 +183,17 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 	 * @return array
 	 */
 	public function get_columns() {
-		$blogname_columns = ( is_subdomain_install() ) ? __( 'Domain' ) : __( 'Path' );
 		$sites_columns = array(
 			'cb'          => '<input type="checkbox" />',
-			'blogname'    => $blogname_columns,
+			'blogname'    => __( 'URL' ),
 			'lastupdated' => __( 'Last Updated' ),
 			'registered'  => _x( 'Registered', 'site' ),
-			'users'       => __( 'Users' )
+			'users'       => __( 'Users' ),
 		);
 
-		if ( has_filter( 'wpmublogsaction' ) )
+		if ( has_filter( 'wpmublogsaction' ) ) {
 			$sites_columns['plugins'] = __( 'Actions' );
+		}
 
 		/**
 		 * Filter the displayed site columns in Sites list table.
@@ -261,7 +262,7 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 			}
 			echo "<tr{$class}>";
 
-			$blogname = ( is_subdomain_install() ) ? str_replace( '.' . get_current_site()->domain, '', $blog['domain'] ) : $blog['path'];
+			$blogname = $blog['domain'] . $blog['path'];
 
 			list( $columns, $hidden, $sortable, $primary ) = $this->get_column_info();
 
@@ -322,22 +323,18 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 						break;
 
 						case 'users':
-							$blogusers = get_users( array( 'blog_id' => $blog['blog_id'], 'number' => 6) );
-							if ( is_array( $blogusers ) ) {
-								$blogusers_warning = '';
-								if ( count( $blogusers ) > 5 ) {
-									$blogusers = array_slice( $blogusers, 0, 5 );
-									$blogusers_warning = __( 'Only showing first 5 users.' ) . ' <a href="' . esc_url( network_admin_url( 'site-users.php?id=' . $blog['blog_id'] ) ) . '">' . __( 'More' ) . '</a>';
-								}
-								foreach ( $blogusers as $user_object ) {
-									echo '<a href="' . esc_url( network_admin_url( 'user-edit.php?user_id=' . $user_object->ID ) ) . '">' . esc_html( $user_object->user_login ) . '</a> ';
-									if ( 'list' != $mode )
-										echo '( ' . $user_object->user_email . ' )';
-									echo '<br />';
-								}
-								if ( $blogusers_warning != '' )
-									echo '<strong>' . $blogusers_warning . '</strong><br />';
+							if ( ! $user_count = wp_cache_get( $blog['blog_id'] . '_user_count', 'blog-details' ) ) {
+								$blog_users = get_users( array( 'blog_id' => $blog['blog_id'], 'fields' => 'ID' ) );
+								$user_count = count( $blog_users );
+								unset( $blog_users );
+								wp_cache_set( $blog['blog_id'] . '_user_count', $user_count, 'blog-details', 12 * HOUR_IN_SECONDS );
 							}
+
+							printf(
+								'<a href="%s">%s</a>',
+								esc_url( network_admin_url( 'site-users.php?id=' . $blog['blog_id'] ) ),
+								number_format_i18n( $user_count )
+							);
 						break;
 
 						case 'plugins':

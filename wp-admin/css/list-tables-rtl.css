@@ -259,7 +259,7 @@ table.fixed {
 }
 
 .fixed .column-posts {
-    width: 74px;
+	width: 74px;
 }
 
 .fixed .column-comment .comment-author {
@@ -1508,6 +1508,15 @@ div.action-links,
 }
 .wp-list-table tr.site-mature {
 	background: #fecac2;
+}
+
+.sites.fixed .column-lastupdated,
+.sites.fixed .column-registered {
+	width: 20%;
+}
+
+.sites.fixed .column-users {
+	width: 80px;
 }
 
 /* =Media Queries

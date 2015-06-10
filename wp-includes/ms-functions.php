@@ -204,6 +204,7 @@ function add_user_to_blog( $blog_id, $user_id, $role ) {
 	 */
 	do_action( 'add_user_to_blog', $user_id, $role, $blog_id );
 	wp_cache_delete( $user_id, 'users' );
+	wp_cache_delete( $blog_id . '_user_count', 'blog-details' );
 	restore_current_blog();
 	return true;
 }
