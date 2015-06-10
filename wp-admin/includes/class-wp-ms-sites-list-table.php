@@ -262,7 +262,7 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 			}
 			echo "<tr{$class}>";
 
-			$blogname = $blog['domain'] . $blog['path'];
+			$blogname = untrailingslashit( $blog['domain'] . $blog['path'] );
 
 			list( $columns, $hidden, $sortable, $primary ) = $this->get_column_info();
 
@@ -402,7 +402,7 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 		global $current_site;
 
 		if ( $primary === $column_name ) {
-			$blogname = ( is_subdomain_install() ) ? str_replace( '.'.$current_site->domain, '', $blog['domain'] ) : $blog['path'];
+			$blogname = untrailingslashit( $blog['domain'] . $blog['path'] );
 
 			// Preordered.
 			$actions = array(
