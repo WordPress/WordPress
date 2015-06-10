@@ -411,6 +411,9 @@ class WP_Users_List_Table extends WP_List_Table {
 			if ( $primary === $column_name ) {
 				$classes .= ' has-row-actions column-primary';
 			}
+			if ( 'posts' === $column_name ) {
+				$classes .= ' num'; // Special case for that column
+			}
 
 			$style = '';
 			if ( in_array( $column_name, $hidden ) ) {
@@ -437,7 +440,6 @@ class WP_Users_List_Table extends WP_List_Table {
 						$r .= $role_name;
 						break;
 					case 'posts':
-						$attributes = 'class="posts column-posts num"' . $style;
 						if ( $numposts > 0 ) {
 							$r .= "<a href='edit.php?author=$user_object->ID' class='edit'>";
 							$r .= '<span aria-hidden="true">' . $numposts . '</span>';
