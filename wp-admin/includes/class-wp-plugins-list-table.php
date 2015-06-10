@@ -581,8 +581,6 @@ class WP_Plugins_List_Table extends WP_List_Table {
 
 		list( $columns, $hidden, $sortable, $primary ) = $this->get_column_info();
 
-		$extra_class = ' column-primary';
-
 		foreach ( $columns as $column_name => $column_display_name ) {
 			$style = '';
 			if ( in_array( $column_name, $hidden ) ) {
@@ -594,19 +592,12 @@ class WP_Plugins_List_Table extends WP_List_Table {
 					echo "<th scope='row' class='check-column'>$checkbox</th>";
 					break;
 				case 'name':
-					if ( $primary === $column_name || ! isset( $columns[ $primary ] ) ) {
-						echo "<td class='plugin-title $extra_class'$style><strong>$plugin_name</strong>";
-						echo $this->row_actions( $actions, true );
-					} else {
-						echo "<td class='plugin-title'$style><strong>$plugin_name</strong>";
-					}
+					echo "<td class='plugin-title column-primary'$style><strong>$plugin_name</strong>";
+					echo $this->row_actions( $actions, true );
 					echo "</td>";
 					break;
 				case 'description':
 					$classes = 'column-description desc';
-					if ( $primary === $column_name ) {
-						$classes .= " $extra_class";
-					}
 
 					echo "<td class='$classes'$style>
 						<div class='plugin-description'>$description</div>
@@ -655,16 +646,10 @@ class WP_Plugins_List_Table extends WP_List_Table {
 					$plugin_meta = apply_filters( 'plugin_row_meta', $plugin_meta, $plugin_file, $plugin_data, $status );
 					echo implode( ' | ', $plugin_meta );
 
-					if ( $primary === $column_name ) {
-						echo $this->row_actions( $actions, true );
-					}
 					echo "</div></td>";
 					break;
 				default:
 					$classes = "$column_name column-$column_name$class";
-					if ( $primary === $column_name ) {
-						$classes .= " $extra_class";
-					}
 
 					echo "<td class='$classes'$style>";
 
@@ -679,9 +664,6 @@ class WP_Plugins_List_Table extends WP_List_Table {
 					 */
 					do_action( 'manage_plugins_custom_column', $column_name, $plugin_file, $plugin_data );
 
-					if ( $primary === $column_name ) {
-						echo $this->row_actions( $actions, true );
-					}
 					echo "</td>";
 			}
 		}
@@ -724,9 +706,9 @@ class WP_Plugins_List_Table extends WP_List_Table {
 	 * @since 4.3.0
 	 * @access protected
 	 *
-	 * @return string Unalterable name for the primary column, in this case, 'plugin'.
+	 * @return string Unalterable name for the primary column, in this case, 'name'.
 	 */
 	protected function get_primary_column_name() {
-		return 'plugin';
+		return 'name';
 	}
 }

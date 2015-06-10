@@ -438,24 +438,17 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 			if ( in_array( $column_name, $hidden ) )
 				$style = ' style="display:none;"';
 
-			$extra_class = '';
-			if ( $primary === $column_name ) {
-				$extra_class = ' column-primary';
-			}
-
 			switch ( $column_name ) {
 				case 'cb':
 					echo "<th scope='row' class='check-column'>$checkbox</th>";
 					break;
 				case 'name':
-					echo "<td class='theme-title{$extra_class}'$style><strong>" . $theme->display('Name') . "</strong>";
-					if ( $primary === $column_name ) {
-						echo $this->row_actions($actions, true);
-					}
+					echo "<td class='theme-title column-primary'$style><strong>" . $theme->display('Name') . "</strong>";
+					echo $this->row_actions($actions, true);
 					echo "</td>";
 					break;
 				case 'description':
-					echo "<td class='column-description desc{$extra_class}'$style>";
+					echo "<td class='column-description desc'$style>";
 					if ( $theme->errors() ) {
 						$pre = $status == 'broken' ? __( 'Broken Theme:' ) . ' ' : '';
 						echo '<p><strong class="attention">' . $pre . $theme->errors()->get_error_message() . '</strong></p>';
@@ -490,14 +483,11 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 					echo implode( ' | ', $theme_meta );
 
 					echo '</div>';
-					if ( $primary === $column_name ) {
-						echo $this->row_actions($actions, true);
-					}
 					echo '</td>';
 					break;
 
 				default:
-					echo "<td class='$column_name column-$column_name{$extra_class}'$style>";
+					echo "<td class='$column_name column-$column_name'$style>";
 
 					/**
 					 * Fires inside each custom column of the Multisite themes list table.
@@ -510,9 +500,6 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 					 */
 					do_action( 'manage_themes_custom_column', $column_name, $stylesheet, $theme );
 
-					if ( $primary === $column_name ) {
-						echo $this->row_actions($actions, true);
-					}
 					echo "</td>";
 			}
 		}
