@@ -790,7 +790,7 @@ class WP_Press_This {
 
 				?>
 				<div id="post-formats-select">
-				<fieldset><legend class="screen-reader-text"><?php _e( 'Post formats' ); ?></legend>
+				<fieldset><legend class="screen-reader-text"><?php _e( 'Post Formats' ); ?></legend>
 					<input type="radio" name="post_format" class="post-format" id="post-format-0" value="0" <?php checked( $post_format, '0' ); ?> />
 					<label for="post-format-0" class="post-format-icon post-format-standard"><?php echo get_post_format_string( 'standard' ); ?></label>
 					<?php
