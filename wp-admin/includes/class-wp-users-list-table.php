@@ -415,12 +415,11 @@ class WP_Users_List_Table extends WP_List_Table {
 				$classes .= ' num'; // Special case for that column
 			}
 
-			$style = '';
 			if ( in_array( $column_name, $hidden ) ) {
-				$style = ' style="display:none;"';
+				$classes .= ' hidden';
 			}
 
-			$attributes = "class='$classes'$style";
+			$attributes = "class='$classes'";
 
 			if ( 'cb' === $column_name ) {
 				$r .= "<th scope='row' class='check-column'>$checkbox</th>";

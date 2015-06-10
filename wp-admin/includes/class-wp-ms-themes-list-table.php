@@ -434,21 +434,22 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 		list( $columns, $hidden, $sortable, $primary ) = $this->get_column_info();
 
 		foreach ( $columns as $column_name => $column_display_name ) {
-			$style = '';
-			if ( in_array( $column_name, $hidden ) )
-				$style = ' style="display:none;"';
+			$extra_classes = '';
+			if ( in_array( $column_name, $hidden ) ) {
+				$extra_classes .= ' hidden';
+			}
 
 			switch ( $column_name ) {
 				case 'cb':
 					echo "<th scope='row' class='check-column'>$checkbox</th>";
 					break;
 				case 'name':
-					echo "<td class='theme-title column-primary'$style><strong>" . $theme->display('Name') . "</strong>";
+					echo "<td class='theme-title column-primary{$extra_classes}'><strong>" . $theme->display('Name') . "</strong>";
 					echo $this->row_actions($actions, true);
 					echo "</td>";
 					break;
 				case 'description':
-					echo "<td class='column-description desc'$style>";
+					echo "<td class='column-description desc{$extra_classes}'>";
 					if ( $theme->errors() ) {
 						$pre = $status == 'broken' ? __( 'Broken Theme:' ) . ' ' : '';
 						echo '<p><strong class="attention">' . $pre . $theme->errors()->get_error_message() . '</strong></p>';
@@ -487,7 +488,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 					break;
 
 				default:
-					echo "<td class='$column_name column-$column_name'$style>";
+					echo "<td class='$column_name column-$column_name{$extra_classes}'>";
 
 					/**
 					 * Fires inside each custom column of the Multisite themes list table.

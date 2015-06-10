@@ -272,12 +272,11 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 					$classes .= ' has-row-actions column-primary';
 				}
 
-				$style = '';
 				if ( in_array( $column_name, $hidden ) ) {
-					$style = ' style="display:none;"';
+					$classes .= ' hidden';
 				}
 
-				$attributes = "class='$classes'$style";
+				$attributes = "class='$classes'";
 
 				if ( 'cb' === $column_name ) {
 ?>

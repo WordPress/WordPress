@@ -582,9 +582,9 @@ class WP_Plugins_List_Table extends WP_List_Table {
 		list( $columns, $hidden, $sortable, $primary ) = $this->get_column_info();
 
 		foreach ( $columns as $column_name => $column_display_name ) {
-			$style = '';
+			$extra_classes = '';
 			if ( in_array( $column_name, $hidden ) ) {
-				$style = ' style="display:none;"';
+				$extra_classes = ' hidden';
 			}
 
 			switch ( $column_name ) {
@@ -592,14 +592,14 @@ class WP_Plugins_List_Table extends WP_List_Table {
 					echo "<th scope='row' class='check-column'>$checkbox</th>";
 					break;
 				case 'name':
-					echo "<td class='plugin-title column-primary'$style><strong>$plugin_name</strong>";
+					echo "<td class='plugin-title column-primary'><strong>$plugin_name</strong>";
 					echo $this->row_actions( $actions, true );
 					echo "</td>";
 					break;
 				case 'description':
 					$classes = 'column-description desc';
 
-					echo "<td class='$classes'$style>
+					echo "<td class='$classes{$extra_classes}'>
 						<div class='plugin-description'>$description</div>
 						<div class='$class second plugin-version-author-uri'>";
 
@@ -651,7 +651,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 				default:
 					$classes = "$column_name column-$column_name$class";
 
-					echo "<td class='$classes'$style>";
+					echo "<td class='$classes{$extra_classes}'>";
 
 					/**
 					 * Fires inside each custom column of the Plugins list table.

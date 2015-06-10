@@ -37,12 +37,12 @@ columns = {
 	},
 
 	checked : function(column) {
-		$('.column-' + column).show();
+		$('.column-' + column).removeClass( 'hidden' );
 		this.colSpanChange(+1);
 	},
 
 	unchecked : function(column) {
-		$('.column-' + column).hide();
+		$('.column-' + column).addClass( 'hidden' );
 		this.colSpanChange(-1);
 	},
 

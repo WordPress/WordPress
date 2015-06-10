@@ -946,11 +946,9 @@ class WP_List_Table {
 		foreach ( $columns as $column_key => $column_display_name ) {
 			$class = array( 'manage-column', "column-$column_key" );
 
-			$style = '';
-			if ( in_array( $column_key, $hidden ) )
-				$style = 'display:none;';
-
-			$style = ' style="' . $style . '"';
+			if ( in_array( $column_key, $hidden ) ) {
+				$class[] = 'hidden';
+			}
 
 			if ( 'cb' == $column_key )
 				$class[] = 'check-column';
@@ -978,7 +976,7 @@ class WP_List_Table {
 			if ( !empty( $class ) )
 				$class = "class='" . join( ' ', $class ) . "'";
 
-			echo "<th scope='col' $id $class $style>$column_display_name</th>";
+			echo "<th scope='col' $id $class>$column_display_name</th>";
 		}
 	}
 
@@ -1137,12 +1135,11 @@ class WP_List_Table {
 				$classes .= ' has-row-actions column-primary';
 			}
 
-			$style = '';
 			if ( in_array( $column_name, $hidden ) ) {
-				$style = ' style="display:none;"';
+				$classes .= ' hidden';
 			}
 
-			$attributes = "class='$classes'$style";
+			$attributes = "class='$classes'";
 
 			if ( 'cb' == $column_name ) {
 				echo '<th scope="row" class="check-column">';
