@@ -496,7 +496,7 @@ foreach ( $columns as $column_name => $column_display_name ) {
 						/* translators: used between list items, there is a space after the comma */
 						echo join( __( ', ' ), $out );
 					} else {
-						echo '&#8212;';
+						echo '<span aria-hidden="true">&#8212;</span><span class="screen-reader-text">' . get_taxonomy( $taxonomy )->labels->not_found . '</span>';
 					}
 
 					break;
