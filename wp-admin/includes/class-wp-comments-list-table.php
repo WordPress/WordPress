@@ -574,17 +574,10 @@ class WP_Comments_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 *
-	 * @global string $comment_status
-	 *
 	 * @param object $comment
 	 */
 	public function column_comment( $comment ) {
-		global $comment_status;
-		$post = get_post();
-
 		$comment_url = esc_url( get_comment_link( $comment->comment_ID ) );
-		$the_comment_status = wp_get_comment_status( $comment->comment_ID );
 
 		echo '<div class="comment-author">';
 			$this->column_author( $comment );
