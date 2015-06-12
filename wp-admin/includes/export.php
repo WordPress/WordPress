@@ -133,9 +133,9 @@ function export_wp( $args = array() ) {
 	 * @return string
 	 */
 	function wxr_cdata( $str ) {
-		if ( seems_utf8( $str ) == false )
+		if ( ! seems_utf8( $str ) ) {
 			$str = utf8_encode( $str );
-
+		}
 		// $str = ent2ncr(esc_html($str));
 		$str = '<![CDATA[' . str_replace( ']]>', ']]]]><![CDATA[>', $str ) . ']]>';
 

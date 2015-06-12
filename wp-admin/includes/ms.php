@@ -453,9 +453,9 @@ function display_space_usage() {
  * @return int Max size in bytes
  */
 function fix_import_form_size( $size ) {
-	if ( upload_is_user_over_quota( false ) == true )
+	if ( upload_is_user_over_quota( false ) ) {
 		return 0;
-
+	}
 	$available = get_upload_space_available();
 	return min( $size, $available );
 }
