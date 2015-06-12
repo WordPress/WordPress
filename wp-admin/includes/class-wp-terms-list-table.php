@@ -223,7 +223,7 @@ class WP_Terms_List_Table extends WP_List_Table {
 		}
 		$terms = get_terms( $taxonomy, $args );
 
-		if ( empty( $terms ) ) {
+		if ( empty( $terms ) || ! is_array( $terms ) ) {
 			echo '<tr class="no-items"><td class="colspanchange" colspan="' . $this->get_column_count() . '">';
 			$this->no_items();
 			echo '</td></tr>';
@@ -239,7 +239,6 @@ class WP_Terms_List_Table extends WP_List_Table {
 			// Some funky recursion to get the job done( Paging & parents mainly ) is contained within, Skip it for non-hierarchical taxonomies for performance sake
 			$this->_rows( $taxonomy, $terms, $children, $offset, $number, $count );
 		} else {
-			$terms = get_terms( $taxonomy, $args );
 			foreach ( $terms as $term ) {
 				$this->single_row( $term );
 			}
