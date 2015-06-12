@@ -481,11 +481,11 @@ function wpmu_validate_user_signup($user_name, $user_email) {
 	   	$errors->add('user_name', __( 'Please enter a username.' ) );
 
 	$illegal_names = get_site_option( 'illegal_names' );
-	if ( is_array( $illegal_names ) == false ) {
+	if ( ! is_array( $illegal_names ) ) {
 		$illegal_names = array(  'www', 'web', 'root', 'admin', 'main', 'invite', 'administrator' );
 		add_site_option( 'illegal_names', $illegal_names );
 	}
-	if ( in_array( $user_name, $illegal_names ) == true )
+	if ( in_array( $user_name, $illegal_names ) )
 		$errors->add('user_name',  __( 'That username is not allowed.' ) );
 
 	if ( is_email_address_unsafe( $user_email ) )
@@ -505,10 +505,11 @@ function wpmu_validate_user_signup($user_name, $user_email) {
 		$errors->add('user_email', __( 'Please enter a valid email address.' ) );
 
 	$limited_email_domains = get_site_option( 'limited_email_domains' );
-	if ( is_array( $limited_email_domains ) && empty( $limited_email_domains ) == false ) {
+	if ( is_array( $limited_email_domains ) && ! empty( $limited_email_domains ) ) {
 		$emaildomain = substr( $user_email, 1 + strpos( $user_email, '@' ) );
-		if ( in_array( $emaildomain, $limited_email_domains ) == false )
+		if ( ! in_array( $emaildomain, $limited_email_domains ) ) {
 			$errors->add('user_email', __('Sorry, that email address is not allowed!'));
+		}
 	}
 
 	// Check if the username has been used already.
@@ -627,7 +628,7 @@ function wpmu_validate_blog_signup( $blogname, $blog_title, $user = '' ) {
 	if ( preg_match( '/[^a-z0-9]+/', $blogname ) )
 		$errors->add('blogname', __( 'Only lowercase letters (a-z) and numbers are allowed.' ) );
 
-	if ( in_array( $blogname, $illegal_names ) == true )
+	if ( in_array( $blogname, $illegal_names ) )
 		$errors->add('blogname',  __( 'That name is not allowed.' ) );
 
 	if ( strlen( $blogname ) < 4 && !is_super_admin() )
@@ -673,7 +674,7 @@ function wpmu_validate_blog_signup( $blogname, $blog_title, $user = '' ) {
 		$errors->add( 'blogname', __( 'Sorry, that site already exists!' ) );
 
 	if ( username_exists( $blogname ) ) {
-		if ( is_object( $user ) == false || ( is_object($user) && ( $user->user_login != $blogname ) ) )
+		if ( ! is_object( $user ) || ( is_object($user) && ( $user->user_login != $blogname ) ) )
 			$errors->add( 'blogname', __( 'Sorry, that site is reserved!' ) );
 	}
 
@@ -1689,7 +1690,7 @@ function get_dirsize( $directory ) {
 	if ( is_array( $dirsize ) && isset( $dirsize[ $directory ][ 'size' ] ) )
 		return $dirsize[ $directory ][ 'size' ];
 
-	if ( false == is_array( $dirsize ) )
+	if ( ! is_array( $dirsize ) )
 		$dirsize = array();
 
 	$dirsize[ $directory ][ 'size' ] = recurse_dirsize( $directory );

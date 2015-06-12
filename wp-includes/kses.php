@@ -1461,8 +1461,9 @@ function kses_remove_filters() {
 function kses_init() {
 	kses_remove_filters();
 
-	if (current_user_can('unfiltered_html') == false)
+	if ( ! current_user_can( 'unfiltered_html' ) ) {
 		kses_init_filters();
+	}
 }
 
 /**
