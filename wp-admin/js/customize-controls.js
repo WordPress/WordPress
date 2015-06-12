@@ -284,17 +284,27 @@
 		 * @param {Object}  args.completeCallback
 		 */
 		onChangeActive: function ( active, args ) {
-			var duration = ( 'resolved' === api.previewer.deferred.active.state() ? args.duration : 0 );
-			if ( ! $.contains( document, this.container ) ) {
+			var duration, construct = this;
+			duration = ( 'resolved' === api.previewer.deferred.active.state() ? args.duration : 0 );
+			if ( ! $.contains( document, construct.container[0] ) ) {
 				// jQuery.fn.slideUp is not hiding an element if it is not in the DOM
-				this.container.toggle( active );
+				construct.container.toggle( active );
 				if ( args.completeCallback ) {
 					args.completeCallback();
 				}
 			} else if ( active ) {
-				this.container.stop( true, true ).slideDown( duration, args.completeCallback );
+				construct.container.stop( true, true ).slideDown( duration, args.completeCallback );
 			} else {
-				this.container.stop( true, true ).slideUp( duration, args.completeCallback );
+				if ( construct.expanded() ) {
+					construct.collapse({
+						duration: duration,
+						completeCallback: function() {
+							construct.container.stop( true, true ).slideUp( duration, args.completeCallback );
+						}
+					});
+				} else {
+					construct.container.stop( true, true ).slideUp( duration, args.completeCallback );
+				}
 			}
 		},
 
@@ -596,6 +606,9 @@
 						position = content.offset().top;
 						scroll = container.scrollTop();
 						content.css( 'margin-top', ( 45 - position - scroll ) );
+						if ( args.completeCallback ) {
+							args.completeCallback();
+						}
 					};
 				}
 
@@ -616,12 +629,19 @@
 					expand();
 				}
 
-			} else if ( section.container.hasClass( 'open' ) ) {
+			} else if ( ! expanded && section.container.hasClass( 'open' ) ) {
 				section.container.removeClass( 'open' );
 				overlay.removeClass( 'section-open' );
 				content.css( 'margin-top', 'inherit' );
 				container.scrollTop( 0 );
 				section.container.find( '.accordion-section-title' ).focus();
+				if ( args.completeCallback ) {
+					args.completeCallback();
+				}
+			} else {
+				if ( args.completeCallback ) {
+					args.completeCallback();
+				}
 			}
 		}
 	});
