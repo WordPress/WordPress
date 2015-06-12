@@ -82,7 +82,7 @@ function wp_print_scripts( $handles = false ) {
 		}
 	}
 
-	return $wp_scripts->do_items( $handles );
+	return wp_scripts()->do_items( $handles );
 }
 
 /**

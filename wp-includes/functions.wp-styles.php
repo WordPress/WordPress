@@ -61,7 +61,7 @@ function wp_print_styles( $handles = false ) {
 		}
 	}
 
-	return $wp_styles->do_items( $handles );
+	return wp_styles()->do_items( $handles );
 }
 
 /**
