@@ -958,7 +958,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 	/**
 	 * @since 4.3.0
 	 *
-	 * @param WP_Post $post
+	 * @param WP_Post $item
 	 */
 	public function single_row_columns( $item ) {
 		list( $columns, $hidden, $sortable, $primary ) = $this->get_column_info();
