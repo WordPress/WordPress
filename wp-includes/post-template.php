@@ -990,6 +990,7 @@ function the_meta() {
  *
  * @since 2.1.0
  * @since 4.2.0 The `$value_field` argument was added.
+ * @since 4.3.0 The `$class` argument was added.
  *
  * @param array|string $args {
  *     Optional. Array or string of arguments to generate a pages drop-down element.
@@ -1002,6 +1003,7 @@ function the_meta() {
  *     @type string       $name                  Value for the 'name' attribute of the select element.
  *                                               Default 'page_id'.
  *     @type string       $id                    Value for the 'id' attribute of the select element.
+ *     @type string       $class                 Value for the 'class' attribute of the select element. Default: none.
  *                                               Defaults to the value of `$name`.
  *     @type string       $show_option_none      Text to display for showing no pages. Default empty (does not display).
  *     @type string       $show_option_no_change Text to display for "no change" option. Default empty (does not display).
@@ -1016,6 +1018,7 @@ function wp_dropdown_pages( $args = '' ) {
 		'depth' => 0, 'child_of' => 0,
 		'selected' => 0, 'echo' => 1,
 		'name' => 'page_id', 'id' => '',
+		'class' => '',
 		'show_option_none' => '', 'show_option_no_change' => '',
 		'option_none_value' => '',
 		'value_field' => 'ID',
@@ -1031,7 +1034,12 @@ function wp_dropdown_pages( $args = '' ) {
 	}
 
 	if ( ! empty( $pages ) ) {
-		$output = "<select name='" . esc_attr( $r['name'] ) . "' id='" . esc_attr( $r['id'] ) . "'>\n";
+		$class = '';
+		if ( ! empty( $r['class'] ) ) {
+			$class = " class='" . esc_attr( $r['class'] ) . "'";
+		}
+
+		$output = "<select name='" . esc_attr( $r['name'] ) . "'" . $class . " id='" . esc_attr( $r['id'] ) . "'>\n";
 		if ( $r['show_option_no_change'] ) {
 			$output .= "\t<option value=\"-1\">" . $r['show_option_no_change'] . "</option>\n";
 		}
