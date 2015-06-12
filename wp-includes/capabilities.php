@@ -631,6 +631,23 @@ class WP_User {
 	}
 
 	/**
+	 * Make private/protected methods readable for backwards compatibility.
+	 *
+	 * @since 4.3.0
+	 * @access public
+	 *
+	 * @param callable $name      Method to call.
+	 * @param array    $arguments Arguments to pass when calling.
+	 * @return mixed|false Return value of the callback, false otherwise.
+	 */
+	public function __call( $name, $arguments ) {
+		if ( '_init_caps' === $name ) {
+			return call_user_func_array( array( $this, $name ), $arguments );
+		}
+		return false;
+	}
+
+	/**
 	 * Magic method for checking the existence of a certain custom field
 	 *
 	 * @since 3.3.0
@@ -761,7 +778,7 @@ class WP_User {
 	 *
 	 * @param string $cap_key Optional capability key
 	 */
-	function _init_caps( $cap_key = '' ) {
+	protected function _init_caps( $cap_key = '' ) {
 		global $wpdb;
 
 		if ( empty($cap_key) )
