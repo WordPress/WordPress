@@ -1992,9 +1992,8 @@ function _wp_customize_include() {
 	) )
 		return;
 
-	require( ABSPATH . WPINC . '/class-wp-customize-manager.php' );
-	// Init Customize class
-	$GLOBALS['wp_customize'] = new WP_Customize_Manager;
+	require_once ABSPATH . WPINC . '/class-wp-customize-manager.php';
+	$GLOBALS['wp_customize'] = new WP_Customize_Manager();
 }
 
 /**
