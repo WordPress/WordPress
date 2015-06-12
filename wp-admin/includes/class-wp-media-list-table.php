@@ -481,7 +481,8 @@ foreach ( $columns as $column_name => $column_display_name ) {
 					$taxonomy = false;
 
 				if ( $taxonomy ) {
-					if ( $terms = get_the_terms( $post->ID, $taxonomy ) ) {
+					$terms = get_the_terms( $post->ID, $taxonomy );
+					if ( is_array( $terms ) ) {
 						$out = array();
 						foreach ( $terms as $t ) {
 							$posts_in_term_qv = array();
