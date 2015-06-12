@@ -434,7 +434,7 @@ if ( current_theme_supports( 'custom-background', 'default-color' ) )
 	 * @deprecated 3.5.0
 	 *
 	 * @param array $form_fields
-	 * @return $form_fields
+	 * @return array $form_fields
 	 */
 	public function attachment_fields_to_edit( $form_fields ) {
 		return $form_fields;
@@ -445,8 +445,8 @@ if ( current_theme_supports( 'custom-background', 'default-color' ) )
 	 * @since 3.4.0
 	 * @deprecated 3.5.0
 	 *
-	 * @param $tabs
-	 * @return $tabs
+	 * @param array $tabs
+	 * @return array $tabs
 	 */
 	public function filter_upload_tabs( $tabs ) {
 		return $tabs;
