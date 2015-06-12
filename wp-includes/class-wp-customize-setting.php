@@ -129,11 +129,11 @@ class WP_Customize_Setting {
 	 * @since 4.2.0
 	 * @access public
 	 *
-	 * @return bool|void If preview() has been called.
+	 * @return bool If preview() has been called.
 	 */
 	public function is_current_blog_previewed() {
 		if ( ! isset( $this->_previewed_blog_id ) ) {
-			return;
+			return false;
 		}
 		return ( get_current_blog_id() === $this->_previewed_blog_id );
 	}
