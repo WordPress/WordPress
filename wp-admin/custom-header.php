@@ -926,7 +926,7 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 	 * @since 3.4.0
 	 *
 	 * @param array $form_fields
-	 * @return $form_fields
+	 * @return array $form_fields
 	 */
 	public function attachment_fields_to_edit( $form_fields ) {
 		return $form_fields;
@@ -938,7 +938,7 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 	 * @since 3.4.0
 	 *
 	 * @param array $tabs
-	 * @return $tabs
+	 * @return array $tabs
 	 */
 	public function filter_upload_tabs( $tabs ) {
 		return $tabs;
