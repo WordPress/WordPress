@@ -1016,7 +1016,6 @@ class WP_Posts_List_Table extends WP_List_Table {
 		$lock_holder = wp_check_post_lock( $post->ID );
 		if ( $lock_holder ) {
 			$classes .= ' wp-locked';
-			$lock_holder = get_userdata( $lock_holder );
 		}
 
 		if ( $post->post_parent ) {
