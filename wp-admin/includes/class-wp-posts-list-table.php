@@ -674,8 +674,8 @@ class WP_Posts_List_Table extends WP_List_Table {
 	 * @global string  $mode
 	 * @global WP_Post $post
 	 *
-	 * @param WP_Post $post
-	 * @param int $level
+	 * @param int|WP_Post $post
+	 * @param int         $level
 	 */
 	public function single_row( $post, $level = 0 ) {
 		global $mode;
@@ -886,7 +886,8 @@ class WP_Posts_List_Table extends WP_List_Table {
 
 					if ( $taxonomy ) {
 						$taxonomy_object = get_taxonomy( $taxonomy );
-						if ( $terms = get_the_terms( $post->ID, $taxonomy ) ) {
+						$terms = get_the_terms( $post->ID, $taxonomy );
+						if ( is_array( $terms ) ) {
 							$out = array();
 							foreach ( $terms as $t ) {
 								$posts_in_term_qv = array();
