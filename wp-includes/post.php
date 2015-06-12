@@ -459,8 +459,9 @@ function get_post( $post = null, $output = OBJECT, $filter = 'raw' ) {
  *
  * @since 3.5.0
  *
+ * @property string $page_template
+ * 
  * @property-read array  $ancestors
- * @property-read string $page_template
  * @property-read int    $post_category
  * @property-read string $tag_input
  *
