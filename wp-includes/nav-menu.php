@@ -560,25 +560,27 @@ function _is_valid_nav_menu_item( $item ) {
 function wp_get_nav_menu_items( $menu, $args = array() ) {
 	$menu = wp_get_nav_menu_object( $menu );
 
-	if ( ! $menu )
+	if ( ! $menu ) {
 		return false;
+	}
 
 	static $fetched = array();
 
 	$items = get_objects_in_term( $menu->term_id, 'nav_menu' );
-
-	if ( empty( $items ) )
-		return $items;
+	if ( is_wp_error( $items ) ) {
+		return false;
+	}
 
 	$defaults = array( 'order' => 'ASC', 'orderby' => 'menu_order', 'post_type' => 'nav_menu_item',
 		'post_status' => 'publish', 'output' => ARRAY_A, 'output_key' => 'menu_order', 'nopaging' => true );
 	$args = wp_parse_args( $args, $defaults );
 	$args['include'] = $items;
 
-	$items = get_posts( $args );
-
-	if ( is_wp_error( $items ) || ! is_array( $items ) )
-		return false;
+	if ( ! empty( $items ) ) {
+		$items = get_posts( $args );
+	} else {
+		$items = array();
+	}
 
 	// Get all posts and terms at once to prime the caches
 	if ( empty( $fetched[$menu->term_id] ) || wp_using_ext_object_cache() ) {
@@ -616,8 +618,9 @@ function wp_get_nav_menu_items( $menu, $args = array() ) {
 
 	$items = array_map( 'wp_setup_nav_menu_item', $items );
 
-	if ( ! is_admin() ) // Remove invalid items only in frontend
+	if ( ! is_admin() ) { // Remove invalid items only in frontend
 		$items = array_filter( $items, '_is_valid_nav_menu_item' );
+	}
 
 	if ( ARRAY_A == $args['output'] ) {
 		$GLOBALS['_menu_item_sort_prop'] = $args['output_key'];
@@ -637,7 +640,7 @@ function wp_get_nav_menu_items( $menu, $args = array() ) {
 	 * @param object $menu  The menu object.
 	 * @param array  $args  An array of arguments used to retrieve menu item objects.
 	 */
-	return apply_filters( 'wp_get_nav_menu_items',  $items, $menu, $args );
+	return apply_filters( 'wp_get_nav_menu_items', $items, $menu, $args );
 }
 
 /**
