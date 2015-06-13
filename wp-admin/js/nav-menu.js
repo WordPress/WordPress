@@ -20,7 +20,8 @@ var wpNavMenu;
 
 		options : {
 			menuItemDepthPerLevel : 30, // Do not use directly. Use depthToPx and pxToDepth instead.
-			globalMaxDepth : 11
+			globalMaxDepth : 11,
+			sortableItems: '> *'
 		},
 
 		menuList : undefined,	// Set in init.
@@ -87,10 +88,10 @@ var wpNavMenu;
 				childMenuItems : function() {
 					var result = $();
 					this.each(function(){
-						var t = $(this), depth = t.menuItemDepth(), next = t.next();
+						var t = $(this), depth = t.menuItemDepth(), next = t.next( '.menu-item' );
 						while( next.length && next.menuItemDepth() > depth ) {
 							result = result.add( next );
-							next = next.next();
+							next = next.next( '.menu-item' );
 						}
 					});
 					return result;
@@ -620,6 +621,7 @@ var wpNavMenu;
 			api.menuList.sortable({
 				handle: '.menu-item-handle',
 				placeholder: 'sortable-placeholder',
+				items: api.options.sortableItems,
 				start: function(e, ui) {
 					var height, width, parent, children, tempHolder;
 
@@ -660,7 +662,7 @@ var wpNavMenu;
 					ui.placeholder.width(width);
 
 					// Update the list of menu items.
-					tempHolder = ui.placeholder.next();
+					tempHolder = ui.placeholder.next( '.menu-item' );
 					tempHolder.css( 'margin-top', helperHeight + 'px' ); // Set the margin to absorb the placeholder
 					ui.placeholder.detach(); // detach or jQuery UI will think the placeholder is a menu item
 					$(this).sortable( 'refresh' ); // The children aren't sortable. We should let jQ UI know.
@@ -740,12 +742,12 @@ var wpNavMenu;
 			function updateSharedVars(ui) {
 				var depth;
 
-				prev = ui.placeholder.prev();
-				next = ui.placeholder.next();
+				prev = ui.placeholder.prev( '.menu-item' );
+				next = ui.placeholder.next( '.menu-item' );
 
 				// Make sure we don't select the moving item.
-				if( prev[0] == ui.item[0] ) prev = prev.prev();
-				if( next[0] == ui.item[0] ) next = next.next();
+				if( prev[0] == ui.item[0] ) prev = prev.prev( '.menu-item' );
+				if( next[0] == ui.item[0] ) next = next.next( '.menu-item' );
 
 				prevBottom = (prev.length) ? prev.offset().top + prev.height() : 0;
 				nextThreshold = (next.length) ? next.offset().top + next.height() / 3 : 0;
