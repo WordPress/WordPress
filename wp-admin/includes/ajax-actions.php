@@ -1325,7 +1325,6 @@ function wp_ajax_closed_postboxes() {
  */
 function wp_ajax_hidden_columns() {
 	check_ajax_referer( 'screen-options-nonce', 'screenoptionnonce' );
-	$hidden = explode( ',', isset( $_POST['hidden'] ) ? $_POST['hidden'] : '' );
 	$page = isset( $_POST['page'] ) ? $_POST['page'] : '';
 
 	if ( $page != sanitize_key( $page ) )
@@ -1334,8 +1333,8 @@ function wp_ajax_hidden_columns() {
 	if ( ! $user = wp_get_current_user() )
 		wp_die( -1 );
 
-	if ( is_array($hidden) )
-		update_user_option($user->ID, "manage{$page}columnshidden", $hidden, true);
+	$hidden = ! empty( $_POST['hidden'] ) ? explode( ',', $_POST['hidden'] ) : array();
+	update_user_option( $user->ID, "manage{$page}columnshidden", $hidden, true );
 
 	wp_die( 1 );
 }

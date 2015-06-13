@@ -47,7 +47,9 @@ columns = {
 	},
 
 	hidden : function() {
-		return $('.manage-column').filter(':hidden').map(function() { return this.id; }).get().join(',');
+		return $( '.manage-column[id]' ).filter( ':hidden' ).map(function() {
+			return this.id;
+		}).get().join( ',' );
 	},
 
 	useCheckboxesForHidden : function() {
