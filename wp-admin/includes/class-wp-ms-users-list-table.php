@@ -175,149 +175,208 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 	}
 
 	/**
+	 * @since 4.3.0
+	 *
+	 * @param object $user
+	 */
+	public function column_cb( $user ) {
+		?>
+		<label class="screen-reader-text" for="blog_<?php echo $user->ID; ?>"><?php echo sprintf( __( 'Select %s' ), $user->user_login ); ?></label>
+		<input type="checkbox" id="blog_<?php echo $user->ID ?>" name="allusers[]" value="<?php echo esc_attr( $user->ID ) ?>" />
+		<?php
+	}
+
+	/**
+	 * @since 4.3.0
+	 *
+	 * @param object $user
+	 */
+	public function column_username( $user ) {
+		$super_admins = get_super_admins();
+		$avatar	= get_avatar( $user->user_email, 32 );
+		$edit_link = esc_url( add_query_arg( 'wp_http_referer', urlencode( wp_unslash( $_SERVER['REQUEST_URI'] ) ), get_edit_user_link( $user->ID ) ) );
+
+		echo $avatar;
+
+		?><strong><a href="<?php echo $edit_link; ?>" class="edit"><?php echo $user->user_login; ?></a><?php
+		if ( in_array( $user->user_login, $super_admins ) ) {
+			echo ' - ' . __( 'Super Admin' );
+		}
+		?></strong>
+	<?php
+	}
+
+	/**
+	 * @since 4.3.0
+	 *
+	 * @param object $user
+	 */
+	public function column_name( $user ) {
+		echo "$user->first_name $user->last_name";
+	}
+
+	/**
+	 * @since 4.3.0
+	 *
+	 * @param object $user
+	 */
+	public function column_email( $user ) {
+		echo "<a href='mailto:$user->user_email'>$user->user_email</a>";
+	}
+
+	/**
+	 * @since 4.3.0
 	 *
 	 * @global string $mode
+	 *
+	 * @param object $user
 	 */
-	public function display_rows() {
+	public function column_registered( $user ) {
 		global $mode;
+		if ( 'list' == $mode ) {
+			$date = __( 'Y/m/d' );
+		} else {
+			$date = __( 'Y/m/d g:i:s a' );
+		}
+		echo mysql2date( $date, $user->user_registered );
+	}
 
-		$super_admins = get_super_admins();
+	/**
+	 * @since 4.3.0
+	 *
+	 * @param object $user
+	 */
+	public function column_blogs( $user ) {
+		$blogs = get_blogs_of_user( $user->ID, true );
+		if ( ! is_array( $blogs ) ) {
+			return;
+		}
+
+		foreach ( $blogs as $val ) {
+			if ( ! can_edit_network( $val->site_id ) ) {
+				continue;
+			}
+
+			$path	= ( $val->path == '/' ) ? '' : $val->path;
+			echo '<span class="site-' . $val->site_id . '" >';
+			echo '<a href="'. esc_url( network_admin_url( 'site-info.php?id=' . $val->userblog_id ) ) .'">' . str_replace( '.' . get_current_site()->domain, '', $val->domain . $path ) . '</a>';
+			echo ' <small class="row-actions">';
+			$actions = array();
+			$actions['edit'] = '<a href="'. esc_url( network_admin_url( 'site-info.php?id=' . $val->userblog_id ) ) .'">' . __( 'Edit' ) . '</a>';
+
+			$class = '';
+			if ( $val->spam == 1 ) {
+				$class .= 'site-spammed ';
+			}
+			if ( $val->mature == 1 ) {
+				$class .= 'site-mature ';
+			}
+			if ( $val->deleted == 1 ) {
+				$class .= 'site-deleted ';
+			}
+			if ( $val->archived == 1 ) {
+				$class .= 'site-archived ';
+			}
+
+			$actions['view'] = '<a class="' . $class . '" href="' . esc_url( get_home_url( $val->userblog_id ) ) . '">' . __( 'View' ) . '</a>';
+
+			/**
+			 * Filter the action links displayed next the sites a user belongs to
+			 * in the Network Admin Users list table.
+			 *
+			 * @since 3.1.0
+			 *
+			 * @param array $actions     An array of action links to be displayed.
+			 *                           Default 'Edit', 'View'.
+			 * @param int   $userblog_id The site ID.
+			 */
+			$actions = apply_filters( 'ms_user_list_site_actions', $actions, $val->userblog_id );
+
+			$i=0;
+			$action_count = count( $actions );
+			foreach ( $actions as $action => $link ) {
+				++$i;
+				$sep = ( $i == $action_count ) ? '' : ' | ';
+				echo "<span class='$action'>$link$sep</span>";
+			}
+			echo '</small></span><br/>';
+		}
+	}
+
+	/**
+	 * @since 4.3.0
+	 *
+	 * @param object $user
+	 * @param string $column_name
+	 */
+	public function column_default( $user, $column_name ) {
+		/** This filter is documented in wp-admin/includes/class-wp-users-list-table.php */
+		echo apply_filters( 'manage_users_custom_column', '', $column_name, $user->ID );
+	}
+
+	/**
+	 * @since 4.3.0
+	 *
+	 * @param object $item
+	 */
+	public function single_row_columns( $item ) {
+		list( $columns, $hidden, $sortable, $primary ) = $this->get_column_info();
+
+		foreach ( $columns as $column_name => $column_display_name ) {
+			$classes = "$column_name column-$column_name";
+			if ( $primary === $column_name || 'blogs' === $column_name ) {
+				$classes .= ' has-row-actions';
+			}
+
+			if ( $primary === $column_name ) {
+				$classes .= ' column-primary';
+			}
+
+			if ( in_array( $column_name, $hidden ) ) {
+				$classes .= ' hidden';
+			}
+
+			$attributes = "class='$classes'";
+
+			if ( 'cb' === $column_name ) {
+				echo '<th scope="row" class="check-column">';
+
+				$this->column_cb( $item );
+
+				echo '</th>';
+			} elseif ( method_exists( $this, 'column_' . $column_name ) ) {
+				echo "<td $attributes>";
+
+				call_user_func( array( $this, 'column_' . $column_name ), $item );
+
+				echo $this->handle_row_actions( $item, $column_name, $primary );
+				echo "</td>";
+			} else {
+				echo "<td $attributes>";
+
+				$this->column_default( $item, $column_name );
+
+				echo $this->handle_row_actions( $item, $column_name, $primary );
+				echo "</td>";
+			}
+		}
+	}
+
+	public function display_rows() {
 		foreach ( $this->items as $user ) {
 			$class = '';
 
 			$status_list = array( 'spam' => 'site-spammed', 'deleted' => 'site-deleted' );
 
 			foreach ( $status_list as $status => $col ) {
-				if ( $user->$status )
+				if ( $user->$status ) {
 					$class .= " $col";
+				}
 			}
 
 			?>
 			<tr class="<?php echo trim( $class ); ?>">
-			<?php
-
-			list( $columns, $hidden, $sortable, $primary ) = $this->get_column_info();
-
-			foreach ( $columns as $column_name => $column_display_name ) :
-				$classes = "$column_name column-$column_name";
-				if ( $primary === $column_name || 'blogs' === $column_name ) {
-					$classes .= ' has-row-actions';
-				}
-
-				if ( $primary === $column_name ) {
-					$classes .= ' column-primary';
-				}
-
-				if ( in_array( $column_name, $hidden ) ) {
-					$classes .= ' hidden';
-				}
-
-				$attributes = "class='$classes'";
-
-				if ( 'cb' === $column_name ){
-					?>
-					<th scope="row" class="check-column">
-						<label class="screen-reader-text" for="blog_<?php echo $user->ID; ?>"><?php echo sprintf( __( 'Select %s' ), $user->user_login ); ?></label>
-						<input type="checkbox" id="blog_<?php echo $user->ID ?>" name="allusers[]" value="<?php echo esc_attr( $user->ID ) ?>" />
-					</th>
-					<?php
-				} else {
-					echo "<td $attributes>";
-
-					switch ( $column_name ) {
-						case 'username':
-							$avatar	= get_avatar( $user->user_email, 32 );
-							$edit_link = esc_url( add_query_arg( 'wp_http_referer', urlencode( wp_unslash( $_SERVER['REQUEST_URI'] ) ), get_edit_user_link( $user->ID ) ) );
-
-							echo $avatar; ?><strong><a href="<?php echo $edit_link; ?>" class="edit"><?php echo $user->user_login; ?></a><?php
-							if ( in_array( $user->user_login, $super_admins ) )
-								echo ' - ' . __( 'Super Admin' );
-							?></strong>
-						<?php
-						break;
-
-						case 'name':
-							echo "$user->first_name $user->last_name";
-						break;
-
-						case 'email':
-							echo "<a href='mailto:$user->user_email'>$user->user_email</a>";
-						break;
-
-						case 'registered':
-							if ( 'list' == $mode )
-								$date = __( 'Y/m/d' );
-							else
-								$date = __( 'Y/m/d g:i:s a' );
-
-							echo mysql2date( $date, $user->user_registered );
-						break;
-
-						case 'blogs':
-							$blogs = get_blogs_of_user( $user->ID, true );
-							if ( is_array( $blogs ) ) {
-								foreach ( (array) $blogs as $key => $val ) {
-									if ( !can_edit_network( $val->site_id ) )
-										continue;
-
-									$path	= ( $val->path == '/' ) ? '' : $val->path;
-									echo '<span class="site-' . $val->site_id . '" >';
-									echo '<a href="'. esc_url( network_admin_url( 'site-info.php?id=' . $val->userblog_id ) ) .'">' . str_replace( '.' . get_current_site()->domain, '', $val->domain . $path ) . '</a>';
-									echo ' <small class="row-actions">';
-									$actions = array();
-									$actions['edit'] = '<a href="'. esc_url( network_admin_url( 'site-info.php?id=' . $val->userblog_id ) ) .'">' . __( 'Edit' ) . '</a>';
-
-									$class = '';
-									if ( $val->spam == 1 ) {
-										$class .= 'site-spammed ';
-									}
-									if ( $val->mature == 1 ) {
-										$class .= 'site-mature ';
-									}
-									if ( $val->deleted == 1 ) {
-										$class .= 'site-deleted ';
-									}
-									if ( $val->archived == 1 ) {
-										$class .= 'site-archived ';
-									}
-
-									$actions['view'] = '<a class="' . $class . '" href="' . esc_url( get_home_url( $val->userblog_id ) ) . '">' . __( 'View' ) . '</a>';
-
-									/**
-									 * Filter the action links displayed next the sites a user belongs to
-									 * in the Network Admin Users list table.
-									 *
-									 * @since 3.1.0
-									 *
-									 * @param array $actions     An array of action links to be displayed.
-									 *                           Default 'Edit', 'View'.
-									 * @param int   $userblog_id The site ID.
-									 */
-									$actions = apply_filters( 'ms_user_list_site_actions', $actions, $val->userblog_id );
-
-									$i=0;
-									$action_count = count( $actions );
-									foreach ( $actions as $action => $link ) {
-										++$i;
-										( $i == $action_count ) ? $sep = '' : $sep = ' | ';
-										echo "<span class='$action'>$link$sep</span>";
-									}
-									echo '</small></span><br/>';
-								}
-							}
-						break;
-
-						default:
-							/** This filter is documented in wp-admin/includes/class-wp-users-list-table.php */
-							echo apply_filters( 'manage_users_custom_column', '', $column_name, $user->ID );
-						break;
-					}
-
-					echo $this->handle_row_actions( $user, $column_name, $primary );
-					echo '</td>';
-				}
-			endforeach
-			?>
+				<?php $this->single_row_columns( $user ); ?>
 			</tr>
 			<?php
 		}
