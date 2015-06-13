@@ -152,98 +152,123 @@ class WP_Links_List_Table extends WP_List_Table {
 	}
 
 	/**
+	 * @since 4.3.0
 	 *
-	 * @global int $cat_id
+	 * @param object $link
 	 */
-	public function display_rows() {
+	public function column_cb( $link ) {
+		?>
+		<label class="screen-reader-text" for="cb-select-<?php echo $link->link_id; ?>"><?php echo sprintf( __( 'Select %s' ), $link->link_name ); ?></label>
+		<input type="checkbox" name="linkcheck[]" id="cb-select-<?php echo $link->link_id; ?>" value="<?php echo esc_attr( $link->link_id ); ?>" />
+		<?php
+	}
+
+	/**
+	 * @since 4.3.0
+	 *
+	 * @param object $link
+	 */
+	public function column_name( $link ) {
+		$edit_link = get_edit_bookmark_link( $link );
+		?>
+		<strong><a class="row-title" href="<?php echo $edit_link ?>" title="<?php
+			echo esc_attr( sprintf( __( 'Edit &#8220;%s&#8221;' ), $link->link_name ) );
+		?>"><?php echo $link->link_name ?></a></strong><br />
+		<?php
+	}
+
+	/**
+	 * @since 4.3.0
+	 *
+	 * @param object $link
+	 */
+	public function column_url( $link ) {
+		$short_url = url_shorten( $link->link_url );
+		echo "<a href='$link->link_url' title='". esc_attr( sprintf( __( 'Visit %s' ), $link->link_name ) )."'>$short_url</a>";
+	}
+
+	/**
+	 * @since 4.3.0
+	 *
+	 * @global $cat_id
+	 *
+	 * @param object $link
+	 */
+	public function column_categories( $link ) {
 		global $cat_id;
 
+		$cat_names = array();
+		foreach ( $link->link_category as $category ) {
+			$cat = get_term( $category, 'link_category', OBJECT, 'display' );
+			if ( is_wp_error( $cat ) ) {
+				echo $cat->get_error_message();
+			}
+			$cat_name = $cat->name;
+			if ( $cat_id != $category ) {
+				$cat_name = "<a href='link-manager.php?cat_id=$category'>$cat_name</a>";
+			}
+			$cat_names[] = $cat_name;
+		}
+		echo implode( ', ', $cat_names );
+	}
+
+	/**
+	 * @since 4.3.0
+	 *
+	 * @param object $link
+	 */
+	public function column_rel( $link ) {
+		echo empty( $link->link_rel ) ? '<br />' : $link->link_rel;
+	}
+
+	/**
+	 * @since 4.3.0
+	 *
+	 * @param object $link
+	 */
+	public function column_visible( $link ) {
+		if ( 'Y' === $link->link_visible ) {
+			_e( 'Yes' );
+		} else {
+			_e( 'No' );
+		}
+	}
+
+	/**
+	 * @since 4.3.0
+	 *
+	 * @param object $link
+	 */
+	public function column_rating( $link ) {
+		echo $link->link_rating;
+	}
+
+	/**
+	 * @since 4.3.0
+	 *
+	 * @param object $link
+	 * @param string $column_name
+	 */
+	public function column_default( $link, $column_name ) {
+		/**
+		 * Fires for each registered custom link column.
+		 *
+		 * @since 2.1.0
+		 *
+		 * @param string $column_name Name of the custom column.
+		 * @param int    $link_id     Link ID.
+		 */
+		do_action( 'manage_link_custom_column', $column_name, $link->link_id );
+	}
+
+	public function display_rows() {
 		foreach ( $this->items as $link ) {
 			$link = sanitize_bookmark( $link );
 			$link->link_name = esc_attr( $link->link_name );
 			$link->link_category = wp_get_link_cats( $link->link_id );
-
-			$short_url = url_shorten( $link->link_url );
-
-			$visible = ( $link->link_visible == 'Y' ) ? __( 'Yes' ) : __( 'No' );
-			$rating  = $link->link_rating;
-
-			$edit_link = get_edit_bookmark_link( $link );
 ?>
 		<tr id="link-<?php echo $link->link_id; ?>">
-<?php
-
-			list( $columns, $hidden, $sortable, $primary ) = $this->get_column_info();
-
-			foreach ( $columns as $column_name => $column_display_name ) {
-				$classes = "$column_name column-$column_name";
-				if ( $primary === $column_name ) {
-					$classes .= ' has-row-actions column-primary';
-				}
-
-				if ( in_array( $column_name, $hidden ) ) {
-					$classes .= ' hidden';
-				}
-
-				$attributes = "class='$classes'";
-
-				if ( 'cb' === $column_name ) {
-					?>
-					<th scope="row" class="check-column">
-						<label class="screen-reader-text" for="cb-select-<?php echo $link->link_id; ?>"><?php echo sprintf( __( 'Select %s' ), $link->link_name ); ?></label>
-						<input type="checkbox" name="linkcheck[]" id="cb-select-<?php echo $link->link_id; ?>" value="<?php echo esc_attr( $link->link_id ); ?>" />
-					</th>
-					<?php
-				} else {
-					echo "<td $attributes>";
-
-					switch ( $column_name ) {
-						case 'name':
-							echo "<strong><a class='row-title' href='$edit_link' title='" . esc_attr( sprintf( __( 'Edit &#8220;%s&#8221;' ), $link->link_name ) ) . "'>$link->link_name</a></strong><br />";
-							break;
-						case 'url':
-							echo "<a href='$link->link_url' title='". esc_attr( sprintf( __( 'Visit %s' ), $link->link_name ) )."'>$short_url</a>";
-							break;
-						case 'categories':
-							$cat_names = array();
-							foreach ( $link->link_category as $category ) {
-								$cat = get_term( $category, 'link_category', OBJECT, 'display' );
-								if ( is_wp_error( $cat ) )
-									echo $cat->get_error_message();
-								$cat_name = $cat->name;
-								if ( $cat_id != $category )
-									$cat_name = "<a href='link-manager.php?cat_id=$category'>$cat_name</a>";
-								$cat_names[] = $cat_name;
-							}
-							echo implode( ', ', $cat_names );
-							break;
-						case 'rel':
-							echo empty( $link->link_rel ) ? '<br />' : $link->link_rel;
-							break;
-						case 'visible':
-							echo $visible;
-							break;
-						case 'rating':
-							echo $rating;
-							break;
-						default:
-							/**
-							 * Fires for each registered custom link column.
-							 *
-							 * @since 2.1.0
-							 *
-							 * @param string $column_name Name of the custom column.
-							 * @param int    $link_id     Link ID.
-							 */
-							do_action( 'manage_link_custom_column', $column_name, $link->link_id );
-							break;
-					}
-
-					echo $this->handle_row_actions( $link, $column_name, $primary );
-					echo '</td>';
-				}
-			}
-?>
+			<?php $this->single_row_columns( $link ) ?>
 		</tr>
 <?php
 		}
