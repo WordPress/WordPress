@@ -146,13 +146,23 @@ function get_nav_menu_locations() {
  * @return bool Whether location has a menu.
  */
 function has_nav_menu( $location ) {
+	$has_nav_menu = false;
+
 	$registered_nav_menus = get_registered_nav_menus();
-	if ( ! isset( $registered_nav_menus[ $location ] ) ) {
-		return false;
+	if ( isset( $registered_nav_menus[ $location ] ) ) {
+		$locations = get_nav_menu_locations();
+		$has_nav_menu = ! empty( $locations[ $location ] );
 	}
 
-	$locations = get_nav_menu_locations();
-	return ( ! empty( $locations[ $location ] ) );
+	/**
+	 * Filter whether a nav menu is assigned to the specified location.
+	 *
+	 * @since 4.3.0
+	 *
+	 * @param bool   $has_nav_menu Whether there is a menu assigned to a location.
+	 * @param string $location     Menu location.
+	 */
+	return apply_filters( 'has_nav_menu', $has_nav_menu, $location );
 }
 
 /**
