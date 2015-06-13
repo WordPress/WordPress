@@ -10,6 +10,13 @@
 class WP_MS_Sites_List_Table extends WP_List_Table {
 
 	/**
+	 * @since 4.3.0
+	 *
+	 * @var array
+	 */
+	public $status_list;
+
+	/**
 	 * Constructor.
 	 *
 	 * @since 3.1.0
@@ -20,6 +27,13 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 	 * @param array $args An associative array of arguments.
 	 */
 	public function __construct( $args = array() ) {
+		$this->status_list = array(
+			'archived' => array( 'site-archived', __( 'Archived' ) ),
+			'spam'     => array( 'site-spammed', _x( 'Spam', 'site' ) ),
+			'deleted'  => array( 'site-deleted', __( 'Deleted' ) ),
+			'mature'   => array( 'site-mature', __( 'Mature' ) )
+		);
+
 		parent::__construct( array(
 			'plural' => 'sites',
 			'screen' => isset( $args['screen'] ) ? $args['screen'] : null,
@@ -179,7 +193,6 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 *
 	 * @return array
 	 */
 	public function get_columns() {
@@ -207,7 +220,6 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 *
 	 * @return array
 	 */
 	protected function get_sortable_columns() {
@@ -219,18 +231,216 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 	}
 
 	/**
+	 * @since 4.3.0
+	 *
+	 * @param array $blog
+	 */
+	public function column_cb( $blog ) {
+		if ( ! is_main_site( $blog['blog_id'] ) ) :
+			$blogname = untrailingslashit( $blog['domain'] . $blog['path'] );
+		?>
+			<label class="screen-reader-text" for="blog_<?php echo $blog['blog_id']; ?>"><?php
+				printf( __( 'Select %s' ), $blogname );
+			?></label>
+			<input type="checkbox" id="blog_<?php echo $blog['blog_id'] ?>" name="allblogs[]" value="<?php echo esc_attr( $blog['blog_id'] ) ?>" />
+		<?php endif;
+	}
+
+	/**
+	 * @since 4.3.0
+	 *
+	 * @global string $mode
+	 *
+	 * @param array $blog
+	 */
+	public function column_blogname( $blog ) {
+		global $mode;
+
+		$blogname = untrailingslashit( $blog['domain'] . $blog['path'] );
+		$blog_states = array();
+		reset( $this->status_list );
+
+		foreach ( $this->status_list as $status => $col ) {
+			if ( $blog[ $status ] == 1 ) {
+				$blog_states[] = $col[1];
+			}
+		}
+		$blog_state = '';
+		if ( ! empty( $blog_states ) ) {
+			$state_count = count( $blog_states );
+			$i = 0;
+			$blog_state .= ' - ';
+			foreach ( $blog_states as $state ) {
+				++$i;
+				$sep = ( $i == $state_count ) ? '' : ', ';
+				$blog_state .= "<span class='post-state'>$state$sep</span>";
+			}
+		}
+
+		?>
+		<a href="<?php echo esc_url( network_admin_url( 'site-info.php?id=' . $blog['blog_id'] ) ); ?>" class="edit"><?php echo $blogname . $blog_state; ?></a>
+		<?php
+		if ( 'list' !== $mode ) {
+			switch_to_blog( $blog['blog_id'] );
+			/* translators: 1: site name, 2: site tagline. */
+			echo '<p>' . sprintf( __( '%1$s &#8211; <em>%2$s</em>' ), get_option( 'blogname' ), get_option( 'blogdescription ' ) ) . '</p>';
+			restore_current_blog();
+		}
+	}
+
+	/**
+	 * @since 4.3.0
+	 *
+	 * @param array $blog
+	 */
+	public function column_lastupdated( $blog ) {
+		global $mode;
+
+		if ( 'list' == $mode ) {
+			$date = __( 'Y/m/d' );
+		} else {
+			$date = __( 'Y/m/d g:i:s a' );
+		}
+
+		echo ( $blog['last_updated'] == '0000-00-00 00:00:00' ) ? __( 'Never' ) : mysql2date( $date, $blog['last_updated'] );
+	}
+
+	/**
+	 * @since 4.3.0
+	 *
+	 * @param array $blog
+	 */
+	public function column_registered( $blog ) {
+		global $mode;
+
+		if ( 'list' == $mode ) {
+			$date = __( 'Y/m/d' );
+		} else {
+			$date = __( 'Y/m/d g:i:s a' );
+		}
+
+		if ( $blog['registered'] == '0000-00-00 00:00:00' ) {
+			echo '&#x2014;';
+		} else {
+			echo mysql2date( $date, $blog['registered'] );
+		}
+	}
+
+	/**
+	 * @since 4.3.0
+	 *
+	 * @param array $blog
+	 */
+	public function column_users( $blog ) {
+		$user_count = wp_cache_get( $blog['blog_id'] . '_user_count', 'blog-details' );
+		if ( ! $user_count ) {
+			$blog_users = get_users( array( 'blog_id' => $blog['blog_id'], 'fields' => 'ID' ) );
+			$user_count = count( $blog_users );
+			unset( $blog_users );
+			wp_cache_set( $blog['blog_id'] . '_user_count', $user_count, 'blog-details', 12 * HOUR_IN_SECONDS );
+		}
+
+		printf(
+			'<a href="%s">%s</a>',
+			esc_url( network_admin_url( 'site-users.php?id=' . $blog['blog_id'] ) ),
+			number_format_i18n( $user_count )
+		);
+	}
+
+	/**
+	 * @since 4.3.0
+	 *
+	 * @param array $blog
+	 */
+	public function column_plugins( $blog ) {
+		if ( has_filter( 'wpmublogsaction' ) ) {
+			/**
+			 * Fires inside the auxiliary 'Actions' column of the Sites list table.
+			 *
+			 * By default this column is hidden unless something is hooked to the action.
+			 *
+			 * @since MU
+			 *
+			 * @param int $blog_id The site ID.
+			 */
+			do_action( 'wpmublogsaction', $blog['blog_id'] );
+		}
+	}
+
+	/**
+	 * @since 4.3.0
+	 *
+	 * @param array  $blog
+	 * @param string $column_name
+	 */
+	public function column_default( $blog, $column_name ) {
+		/**
+		 * Fires for each registered custom column in the Sites list table.
+		 *
+		 * @since 3.1.0
+		 *
+		 * @param string $column_name The name of the column to display.
+		 * @param int    $blog_id     The site ID.
+		 */
+		do_action( 'manage_sites_custom_column', $column_name, $blog['blog_id'] );
+	}
+
+	/**
+	 * @since 4.3.0
+	 *
+	 * @param array $item
+	 */
+	public function single_row_columns( $item ) {
+		list( $columns, $hidden, $sortable, $primary ) = $this->get_column_info();
+
+		foreach ( $columns as $column_name => $column_display_name ) {
+			$classes = "$column_name column-$column_name";
+			if ( $primary === $column_name ) {
+				$classes .= ' has-row-actions column-primary';
+			}
+
+			if ( in_array( $column_name, $hidden ) ) {
+				$classes .= ' hidden';
+			}
+
+			$attributes = "class='$classes'";
+
+			if ( 'cb' === $column_name ) {
+				echo '<th scope="row" class="check-column">';
+
+				$this->column_cb( $item );
+
+				echo '</th>';
+			} elseif ( 'id' === $column_name ) {
+?>
+				<th scope="row">
+					<?php echo $item['blog_id'] ?>
+				</th>
+<?php
+			} elseif ( method_exists( $this, 'column_' . $column_name ) ) {
+				echo "<td $attributes>";
+
+				echo call_user_func( array( $this, 'column_' . $column_name ), $item );
+
+				echo $this->handle_row_actions( $item, $column_name, $primary );
+				echo "</td>";
+			} else {
+				echo "<td $attributes>";
+
+				echo $this->column_default( $item, $column_name );
+
+				echo $this->handle_row_actions( $item, $column_name, $primary );
+				echo "</td>";
+			}
+		}
+	}
+
+	/**
 	 *
 	 * @global string $mode
 	 */
 	public function display_rows() {
 		global $mode;
-
-		$status_list = array(
-			'archived' => array( 'site-archived', __( 'Archived' ) ),
-			'spam'     => array( 'site-spammed', _x( 'Spam', 'site' ) ),
-			'deleted'  => array( 'site-deleted', __( 'Deleted' ) ),
-			'mature'   => array( 'site-mature', __( 'Mature' ) )
-		);
 
 		if ( 'list' == $mode ) {
 			$date = __( 'Y/m/d' );
@@ -240,137 +450,19 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 
 		foreach ( $this->items as $blog ) {
 			$class = '';
-			reset( $status_list );
+			reset( $this->status_list );
 
-			$blog_states = array();
-			foreach ( $status_list as $status => $col ) {
+			foreach ( $this->status_list as $status => $col ) {
 				if ( $blog[ $status ] == 1 ) {
 					$class = " class='{$col[0]}'";
-					$blog_states[] = $col[1];
 				}
 			}
-			$blog_state = '';
-			if ( ! empty( $blog_states ) ) {
-				$state_count = count( $blog_states );
-				$i = 0;
-				$blog_state .= ' - ';
-				foreach ( $blog_states as $state ) {
-					++$i;
-					( $i == $state_count ) ? $sep = '' : $sep = ', ';
-					$blog_state .= "<span class='post-state'>$state$sep</span>";
-				}
-			}
+
 			echo "<tr{$class}>";
 
-			$blogname = untrailingslashit( $blog['domain'] . $blog['path'] );
+			$this->single_row_columns( $blog );
 
-			list( $columns, $hidden, $sortable, $primary ) = $this->get_column_info();
-
-			foreach ( $columns as $column_name => $column_display_name ) {
-				$classes = "$column_name column-$column_name";
-				if ( $primary === $column_name ) {
-					$classes .= ' has-row-actions column-primary';
-				}
-
-				if ( in_array( $column_name, $hidden ) ) {
-					$classes .= ' hidden';
-				}
-
-				$attributes = "class='$classes'";
-
-				if ( 'cb' === $column_name ) {
-?>
-				<th scope="row" class="check-column">
-					<?php if ( ! is_main_site( $blog['blog_id'] ) ) : ?>
-					<label class="screen-reader-text" for="blog_<?php echo $blog['blog_id']; ?>"><?php printf( __( 'Select %s' ), $blogname ); ?></label>
-					<input type="checkbox" id="blog_<?php echo $blog['blog_id'] ?>" name="allblogs[]" value="<?php echo esc_attr( $blog['blog_id'] ) ?>" />
-					<?php endif; ?>
-				</th>
-<?php
-				} elseif ( 'id' === $column_name ) {
-?>
-				<th scope="row">
-					<?php echo $blog['blog_id'] ?>
-				</th>
-<?php
-				} else {
-					echo "<td $attributes>";
-
-					switch ( $column_name ) {
-						case 'blogname':
-							?>
-							<a href="<?php echo esc_url( network_admin_url( 'site-info.php?id=' . $blog['blog_id'] ) ); ?>" class="edit"><?php echo $blogname . $blog_state; ?></a>
-							<?php
-							if ( 'list' != $mode ) {
-								switch_to_blog( $blog['blog_id'] );
-								/* translators: 1: site name, 2: site tagline. */
-								echo '<p>' . sprintf( __( '%1$s &#8211; <em>%2$s</em>' ), get_option( 'blogname' ), get_option( 'blogdescription ' ) ) . '</p>';
-								restore_current_blog();
-							}
-						break;
-
-						case 'lastupdated':
-							echo ( $blog['last_updated'] == '0000-00-00 00:00:00' ) ? __( 'Never' ) : mysql2date( $date, $blog['last_updated'] );
-						break;
-
-						case 'registered':
-							if ( $blog['registered'] == '0000-00-00 00:00:00' ) {
-								echo '&#x2014;';
-							} else {
-								echo mysql2date( $date, $blog['registered'] );
-							}
-						break;
-
-						case 'users':
-							if ( ! $user_count = wp_cache_get( $blog['blog_id'] . '_user_count', 'blog-details' ) ) {
-								$blog_users = get_users( array( 'blog_id' => $blog['blog_id'], 'fields' => 'ID' ) );
-								$user_count = count( $blog_users );
-								unset( $blog_users );
-								wp_cache_set( $blog['blog_id'] . '_user_count', $user_count, 'blog-details', 12 * HOUR_IN_SECONDS );
-							}
-
-							printf(
-								'<a href="%s">%s</a>',
-								esc_url( network_admin_url( 'site-users.php?id=' . $blog['blog_id'] ) ),
-								number_format_i18n( $user_count )
-							);
-						break;
-
-						case 'plugins':
-							if ( has_filter( 'wpmublogsaction' ) ) {
-								/**
-								 * Fires inside the auxiliary 'Actions' column of the Sites list table.
-								 *
-								 * By default this column is hidden unless something is hooked to the action.
-								 *
-								 * @since MU
-								 *
-								 * @param int $blog_id The site ID.
-								 */
-								do_action( 'wpmublogsaction', $blog['blog_id'] );
-							}
-						break;
-
-						default:
-							/**
-							 * Fires for each registered custom column in the Sites list table.
-							 *
-							 * @since 3.1.0
-							 *
-							 * @param string $column_name The name of the column to display.
-							 * @param int    $blog_id     The site ID.
-							 */
-							do_action( 'manage_sites_custom_column', $column_name, $blog['blog_id'] );
-						break;
-					}
-
-					echo $this->handle_row_actions( $blog, $column_name, $primary );
-					echo '</td>';
-				}
-			}
-			?>
-			</tr>
-			<?php
+			echo '</tr>';
 		}
 	}
 
