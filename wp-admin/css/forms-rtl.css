@@ -1087,8 +1087,10 @@ table.form-table td .updated p {
 	}
 
 	.form-table span.description {
+		display: inline;
 		padding: 4px 0 0;
 		line-height: 1.4em;
+		font-size: 14px;
 	}
 
 	.form-table th {
@@ -1098,8 +1100,20 @@ table.form-table td .updated p {
 	}
 
 	.form-table td {
-		padding-top: 8px;
+		margin-bottom: 0;
+		padding-bottom: 6px;
+		padding-top: 4px;
 		padding-right: 0;
+	}
+
+	.form-table.permalink-structure td code {
+		margin-right: 32px;
+	}
+
+	.form-table.permalink-structure td input[type="text"] {
+		margin-right: 32px;
+		margin-top: 4px;
+		width: 96%;
 	}
 
 	.form-table input.regular-text {
