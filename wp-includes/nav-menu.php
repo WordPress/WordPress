@@ -16,21 +16,32 @@
  * @return object|false False if $menu param isn't supplied or term does not exist, menu object if successful.
  */
 function wp_get_nav_menu_object( $menu ) {
-	if ( ! $menu )
-		return false;
+	$menu_obj = false;
+	if ( $menu ) {
+		$menu_obj = get_term( $menu, 'nav_menu' );
 
-	$menu_obj = get_term( $menu, 'nav_menu' );
+		if ( ! $menu_obj ) {
+			$menu_obj = get_term_by( 'slug', $menu, 'nav_menu' );
+		}
 
-	if ( ! $menu_obj )
-		$menu_obj = get_term_by( 'slug', $menu, 'nav_menu' );
+		if ( ! $menu_obj ) {
+			$menu_obj = get_term_by( 'name', $menu, 'nav_menu' );
+		}
+	}
 
-	if ( ! $menu_obj )
-		$menu_obj = get_term_by( 'name', $menu, 'nav_menu' );
-
-	if ( ! $menu_obj )
+	if ( ! $menu_obj || is_wp_error( $menu_obj ) ) {
 		$menu_obj = false;
+	}
 
-	return $menu_obj;
+	/**
+	 * Filter the nav_menu term retrieved for wp_get_nav_menu_object().
+	 *
+	 * @since 4.3.0
+	 *
+	 * @param object|false $menu_obj  Term from nav_menu taxonomy, or false if nothing had been found.
+	 * @param string       $menu      The menu ID, slug, or name passed to wp_get_nav_menu_object().
+	 */
+	return apply_filters( 'wp_get_nav_menu_object', $menu_obj, $menu );
 }
 
 /**
