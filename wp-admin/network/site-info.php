@@ -58,6 +58,7 @@ if ( isset( $_REQUEST['action'] ) && 'update-site' == $_REQUEST['action'] ) {
 	delete_option( 'rewrite_rules' );
 
 	$blog_data = wp_unslash( $_POST['blog'] );
+	$blog_data['scheme'] = $parsed_scheme;
 
 	if ( $is_main_site ) {
 		// On the network's main site, don't allow the domain or path to change.
@@ -78,7 +79,6 @@ if ( isset( $_REQUEST['action'] ) && 'update-site' == $_REQUEST['action'] ) {
 		$blog_data['path'] = $update_parsed_url['path'];
 	} else {
 		// Only the path can be updated for a subdirectory configuration, so capture existing domain.
-		$blog_data['scheme'] = $parsed_scheme;
 		$blog_data['domain'] = $details->domain;
 	}
 
@@ -94,15 +94,23 @@ if ( isset( $_REQUEST['action'] ) && 'update-site' == $_REQUEST['action'] ) {
 
 	update_blog_details( $id, $blog_data );
 
-	if ( isset( $_POST['update_home_url'] ) && $_POST['update_home_url'] == 'update' ) {
-		$new_details = get_blog_details( $id, false );
-		$blog_address = untrailingslashit( esc_url_raw( $blog_data['scheme'] . '://' . $new_details->domain . $new_details->path ) );
-		if ( get_option( 'siteurl' ) != $blog_address ) {
-			update_option( 'siteurl', $blog_address );
-		}
-		if ( get_option( 'home' ) != $blog_address ) {
-			update_option( 'home', $blog_address );
-		}
+	// Maybe update home and siteurl options.
+	$new_details = get_blog_details( $id, false );
+
+	$old_home_url = trailingslashit( esc_url( get_option( 'home' ) ) );
+	$old_home_parsed = parse_url( $old_home_url );
+
+	if ( $old_home_parsed['host'] === $existing_details->domain && $old_home_parsed['path'] === $existing_details->path ) {
+		$new_home_url = untrailingslashit( esc_url_raw( $blog_data['scheme'] . '://' . $new_details->domain . $new_details->path ) );
+		update_option( 'home', $new_home_url );
+	}
+
+	$old_site_url = trailingslashit( esc_url( get_option( 'siteurl' ) ) );
+	$old_site_parsed = parse_url( $old_site_url );
+
+	if ( $old_site_parsed['host'] === $existing_details->domain && $old_site_parsed['path'] === $existing_details->path ) {
+		$new_site_url = untrailingslashit( esc_url_raw( $blog_data['scheme'] . '://' . $new_details->domain . $new_details->path ) );
+		update_option( 'siteurl', $new_site_url );
 	}
 
 	restore_current_blog();
@@ -183,15 +191,6 @@ switch_to_blog( $id );
 			<th scope="row"><label for="path"><?php _e( 'Path' ) ?></label></th>
 			<td>
 				<input name="blog[path]" type="text" id="path" value="<?php echo esc_attr( $details->path ) ?>" /><br />
-			</td>
-		</tr>
-		<?php endif; ?>
-
-		<?php if ( ! $is_main_site ) : ?>
-		<tr class="form-field">
-			<th scope="row"></th>
-			<td>
-				<input type="checkbox" name="update_home_url" id="update_home_url" value="update" <?php if ( get_option( 'siteurl' ) == untrailingslashit( get_blogaddress_by_id ($id ) ) || get_option( 'home' ) == untrailingslashit( get_blogaddress_by_id( $id ) ) ) echo 'checked="checked"'; ?> /> <label for="update_home_url"><?php _e( 'Update <code>siteurl</code> and <code>home</code> as well.' ); ?></label>
 			</td>
 		</tr>
 		<?php endif; ?>
