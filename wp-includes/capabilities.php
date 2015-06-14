@@ -840,6 +840,16 @@ class WP_User {
 		update_user_meta( $this->ID, $this->cap_key, $this->caps );
 		$this->get_role_caps();
 		$this->update_user_level_from_caps();
+
+		/**
+		 * Fires immediately after the user has been given a new role.
+		 *
+		 * @since 4.3.0
+		 *
+		 * @param int    $user_id The user ID.
+		 * @param string $role    The new role.
+		 */
+		do_action( 'add_user_role', $this->ID, $role );
 	}
 
 	/**
@@ -857,6 +867,16 @@ class WP_User {
 		update_user_meta( $this->ID, $this->cap_key, $this->caps );
 		$this->get_role_caps();
 		$this->update_user_level_from_caps();
+
+		/**
+		 * Fires immediately after a role as been removed from a user.
+		 *
+		 * @since 4.3.0
+		 *
+		 * @param int    $user_id The user ID.
+		 * @param string $role    The removed role.
+		 */
+		do_action( 'remove_user_role', $this->ID, $role );
 	}
 
 	/**
