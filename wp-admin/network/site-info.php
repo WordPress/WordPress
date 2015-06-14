@@ -46,7 +46,7 @@ if ( ! can_edit_network( $details->site_id ) ) {
 	wp_die( __( 'You do not have permission to access this page.' ), 403 );
 }
 
-$parsed = parse_url( $details->siteurl );
+$parsed_scheme = parse_url( $details->siteurl, PHP_URL_SCHEME );
 $is_main_site = is_main_site( $id );
 
 if ( isset( $_REQUEST['action'] ) && 'update-site' == $_REQUEST['action'] ) {
@@ -57,8 +57,31 @@ if ( isset( $_REQUEST['action'] ) && 'update-site' == $_REQUEST['action'] ) {
 	// Rewrite rules can't be flushed during switch to blog.
 	delete_option( 'rewrite_rules' );
 
-	// Update blogs table.
 	$blog_data = wp_unslash( $_POST['blog'] );
+
+	if ( $is_main_site ) {
+		// On the network's main site, don't allow the domain or path to change.
+		$blog_data['domain'] = $details->domain;
+		$blog_data['path'] = $details->path;
+	} elseif ( is_subdomain_install() ) {
+		// All parts of a URL can be updated for a subdomain configuration. We first
+		// need to ensure a scheme has been provided, otherwise fallback to the existing.
+		$new_url_scheme = parse_url( $blog_data['url'], PHP_URL_SCHEME );
+
+		if ( ! $new_url_scheme ) {
+			$blog_data['url'] = esc_url( $parsed_scheme . '://' . $blog_data['url'] );
+		}
+		$update_parsed_url = parse_url( $blog_data['url'] );
+
+		$blog_data['scheme'] = $update_parsed_url['scheme'];
+		$blog_data['domain'] = $update_parsed_url['host'];
+		$blog_data['path'] = $update_parsed_url['path'];
+	} else {
+		// Only the path can be updated for a subdirectory configuration, so capture existing domain.
+		$blog_data['scheme'] = $parsed_scheme;
+		$blog_data['domain'] = $details->domain;
+	}
+
 	$existing_details = get_blog_details( $id, false );
 	$blog_data_checkboxes = array( 'public', 'archived', 'spam', 'mature', 'deleted' );
 	foreach ( $blog_data_checkboxes as $c ) {
@@ -68,11 +91,12 @@ if ( isset( $_REQUEST['action'] ) && 'update-site' == $_REQUEST['action'] ) {
 			$blog_data[ $c ] = isset( $_POST['blog'][ $c ] ) ? 1 : 0;
 		}
 	}
+
 	update_blog_details( $id, $blog_data );
 
 	if ( isset( $_POST['update_home_url'] ) && $_POST['update_home_url'] == 'update' ) {
 		$new_details = get_blog_details( $id, false );
-		$blog_address = esc_url_raw( $new_details->domain . $new_details->path );
+		$blog_address = untrailingslashit( esc_url_raw( $blog_data['scheme'] . '://' . $new_details->domain . $new_details->path ) );
 		if ( get_option( 'siteurl' ) != $blog_address ) {
 			update_option( 'siteurl', $blog_address );
 		}
@@ -125,37 +149,53 @@ if ( ! empty( $messages ) ) {
 	foreach ( $messages as $msg ) {
 		echo '<div id="message" class="updated notice is-dismissible"><p>' . $msg . '</p></div>';
 	}
-} ?>
+}
+
+switch_to_blog( $id );
+?>
 <form method="post" action="site-info.php?action=update-site">
 	<?php wp_nonce_field( 'edit-site' ); ?>
 	<input type="hidden" name="id" value="<?php echo esc_attr( $id ) ?>" />
 	<table class="form-table">
+		<?php
+		// The main site of the network should not be updated on this page.
+		if ( $is_main_site ) : ?>
+		<tr class="form-field">
+			<th scope="row"><?php _e( 'Site URL' ); ?></th>
+			<td><?php echo esc_url( $details->siteurl ); ?></td>
+		</tr>
+		<?php
+		// In a subdomain configuration, the scheme, domain, and path can all be changed.
+		elseif ( is_subdomain_install() ) : ?>
 		<tr class="form-field form-required">
-			<?php if ( $is_main_site ) { ?>
-				<th scope="row"><?php _e( 'Domain' ) ?></th>
-				<td><code><?php echo $parsed['scheme'] . '://' . esc_attr( $details->domain ) ?></code></td>
-			<?php } else { ?>
-				<th scope="row"><label for="domain"><?php _e( 'Domain' ) ?></label></th>
-				<td><?php echo $parsed['scheme'] . '://'; ?><input name="blog[domain]" type="text" id="domain" value="<?php echo esc_attr( $details->domain ) ?>" /></td>
-			<?php } ?>
+			<th scope="row"><?php _e( 'Site URL' ); ?></th>
+			<td><input name="blog[url]" type="text" id="url" value="<?php echo $parsed_scheme . '://' . esc_attr( $details->domain ) . esc_attr( $details->path ); ?>" /></td>
+		</tr>
+		<?php
+		// In a subdirectory configuration, only the path can be changed.
+		// Scheme and domain are inherited from the network.
+		else : ?>
+		<tr class="form-field">
+			<th scope="row"><?php _e( 'Domain' ); ?></th>
+			<td><?php echo $parsed_scheme . ':// ' . esc_attr( $details->domain ); ?></td>
 		</tr>
 		<tr class="form-field form-required">
-			<?php if ( $is_main_site ) { ?>
-			<th scope="row"><?php _e( 'Path' ) ?></th>
-			<td><code><?php echo esc_attr( $details->path ) ?></code></td>
-			<?php
-			} else {
-				switch_to_blog( $id );
-			?>
 			<th scope="row"><label for="path"><?php _e( 'Path' ) ?></label></th>
 			<td>
 				<input name="blog[path]" type="text" id="path" value="<?php echo esc_attr( $details->path ) ?>" /><br />
+			</td>
+		</tr>
+		<?php endif; ?>
+
+		<?php if ( ! $is_main_site ) : ?>
+		<tr class="form-field">
+			<th scope="row"></th>
+			<td>
 				<input type="checkbox" name="update_home_url" id="update_home_url" value="update" <?php if ( get_option( 'siteurl' ) == untrailingslashit( get_blogaddress_by_id ($id ) ) || get_option( 'home' ) == untrailingslashit( get_blogaddress_by_id( $id ) ) ) echo 'checked="checked"'; ?> /> <label for="update_home_url"><?php _e( 'Update <code>siteurl</code> and <code>home</code> as well.' ); ?></label>
 			</td>
-			<?php
-				restore_current_blog();
-			} ?>
 		</tr>
+		<?php endif; ?>
+
 		<tr class="form-field">
 			<th scope="row"><label for="blog_registered"><?php _ex( 'Registered', 'site' ) ?></label></th>
 			<td><input name="blog[registered]" type="text" id="blog_registered" value="<?php echo esc_attr( $details->registered ) ?>" /></td>
@@ -191,4 +231,5 @@ if ( ! empty( $messages ) ) {
 
 </div>
 <?php
+restore_current_blog();
 require( ABSPATH . 'wp-admin/admin-footer.php' );
