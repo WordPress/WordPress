@@ -156,12 +156,12 @@ function wp_install_defaults( $user_id ) {
 		$first_post = get_site_option( 'first_post' );
 
 		if ( empty($first_post) )
-			$first_post = __( 'Welcome to <a href="SITE_URL">SITE_NAME</a>. This is your first post. Edit or delete it, then start blogging!' );
+			$first_post = __( 'Welcome to <a href="SITE_URL">SITE_NAME</a>. This is your first post. Edit or delete it, then start writing!' );
 
 		$first_post = str_replace( "SITE_URL", esc_url( network_home_url() ), $first_post );
 		$first_post = str_replace( "SITE_NAME", get_current_site()->site_name, $first_post );
 	} else {
-		$first_post = __('Welcome to WordPress. This is your first post. Edit or delete it, then start blogging!');
+		$first_post = __( 'Welcome to WordPress. This is your first post. Edit or delete it, then start writing!' );
 	}
 
 	$wpdb->insert( $wpdb->posts, array(
@@ -206,7 +206,7 @@ To delete a comment, just log in and view the post&#039;s comments. There you wi
 	// First Page
 	$first_page = sprintf( __( "This is an example page. It's different from a blog post because it will stay in one place and will show up in your site navigation (in most themes). Most people start with an About page that introduces them to potential site visitors. It might say something like this:
 
-<blockquote>Hi there! I'm a bike messenger by day, aspiring actor by night, and this is my blog. I live in Los Angeles, have a great dog named Jack, and I like pi&#241;a coladas. (And gettin' caught in the rain.)</blockquote>
+<blockquote>Hi there! I'm a bike messenger by day, aspiring actor by night, and this is my website. I live in Los Angeles, have a great dog named Jack, and I like pi&#241;a coladas. (And gettin' caught in the rain.)</blockquote>
 
 ...or something like this:
 
