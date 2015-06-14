@@ -230,6 +230,11 @@ function wp_nav_menu( $args = array() ) {
 	'echo' => true, 'fallback_cb' => 'wp_page_menu', 'before' => '', 'after' => '', 'link_before' => '', 'link_after' => '', 'items_wrap' => '<ul id="%1$s" class="%2$s">%3$s</ul>',
 	'depth' => 0, 'walker' => '', 'theme_location' => '' );
 
+	// Prevent a fallback_cb in Customizer Preview to assist with has_nav_menu() and partial refresh.
+	if ( is_customize_preview() ) {
+		$defaults['fallback_cb'] = '';
+	}
+
 	$args = wp_parse_args( $args, $defaults );
 	/**
 	 * Filter the arguments used to display a navigation menu.
