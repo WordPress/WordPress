@@ -378,10 +378,12 @@ function wp_print_media_templates() {
 					<input type="text" value="{{ data.url }}" readonly />
 				</label>
 				<# var maybeReadOnly = data.can.save || data.allowLocalEdits ? '' : 'readonly'; #>
+				<?php if ( post_type_supports( 'attachment', 'title' ) ) : ?>
 				<label class="setting" data-setting="title">
 					<span class="name"><?php _e('Title'); ?></span>
 					<input type="text" value="{{ data.title }}" {{ maybeReadOnly }} />
 				</label>
+				<?php endif; ?>
 				<# if ( 'audio' === data.type ) { #>
 				<?php foreach ( array(
 					'artist' => __( 'Artist' ),
@@ -557,10 +559,12 @@ function wp_print_media_templates() {
 			<input type="text" value="{{ data.url }}" readonly />
 		</label>
 		<# var maybeReadOnly = data.can.save || data.allowLocalEdits ? '' : 'readonly'; #>
+		<?php if ( post_type_supports( 'attachment', 'title' ) ) : ?>
 		<label class="setting" data-setting="title">
 			<span class="name"><?php _e('Title'); ?></span>
 			<input type="text" value="{{ data.title }}" {{ maybeReadOnly }} />
 		</label>
+		<?php endif; ?>
 		<# if ( 'audio' === data.type ) { #>
 		<?php foreach ( array(
 			'artist' => __( 'Artist' ),
