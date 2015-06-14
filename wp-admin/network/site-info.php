@@ -158,8 +158,6 @@ if ( ! empty( $messages ) ) {
 		echo '<div id="message" class="updated notice is-dismissible"><p>' . $msg . '</p></div>';
 	}
 }
-
-switch_to_blog( $id );
 ?>
 <form method="post" action="site-info.php?action=update-site">
 	<?php wp_nonce_field( 'edit-site' ); ?>
@@ -230,5 +228,4 @@ switch_to_blog( $id );
 
 </div>
 <?php
-restore_current_blog();
 require( ABSPATH . 'wp-admin/admin-footer.php' );
