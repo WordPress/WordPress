@@ -1202,7 +1202,6 @@ function comments_template( $file = '/comments.php', $separate_comments = false 
 	$wp_query->comments = apply_filters( 'comments_array', $comments, $post->ID );
 	$comments = &$wp_query->comments;
 	$wp_query->comment_count = count($wp_query->comments);
-	update_comment_cache($wp_query->comments);
 
 	if ( $separate_comments ) {
 		$wp_query->comments_by_type = separate_comments($comments);

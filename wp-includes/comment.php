@@ -893,6 +893,9 @@ class WP_Comment_Query {
 		$comments = apply_filters_ref_array( 'the_comments', array( $results, &$this ) );
 
 		wp_cache_add( $cache_key, $comments, 'comment' );
+		if ( '*' === $fields ) {
+			update_comment_cache( $comments );
+		}
 
 		$this->comments = $comments;
 		return $this->comments;
