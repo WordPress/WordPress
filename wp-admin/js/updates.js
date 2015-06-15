@@ -250,7 +250,7 @@ window.wp = window.wp || {};
 	wp.updates.updateError = function( response ) {
 		var $message, name;
 		wp.updates.updateDoneSuccessfully = false;
-		if ( response.errorCode && response.errorCode == 'unable_to_connect_to_filesystem' ) {
+		if ( response.errorCode && response.errorCode == 'unable_to_connect_to_filesystem' && wp.updates.shouldRequestFilesystemCredentials ) {
 			wp.updates.credentialError( response, 'update-plugin' );
 			return;
 		}
