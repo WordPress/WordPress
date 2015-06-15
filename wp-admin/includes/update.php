@@ -315,7 +315,7 @@ function wp_plugin_update_row( $file, $plugin_data ) {
 	$wp_list_table = _get_list_table('WP_Plugins_List_Table');
 
 	if ( is_network_admin() || !is_multisite() ) {
-		$active_class = ( is_plugin_active( $plugin_data['plugin'] ) ) ? ' active' : '';
+		$active_class = is_plugin_active( $file ) ? ' active' : '';
 		echo '<tr class="plugin-update-tr' . $active_class . '" id="' . esc_attr( $r->slug . '-update' ) . '" data-slug="' . esc_attr( $r->slug ) . '" data-plugin="' . esc_attr( $file ) . '"><td colspan="' . esc_attr( $wp_list_table->get_column_count() ) . '" class="plugin-update colspanchange"><div class="update-message">';
 
 		if ( ! current_user_can( 'update_plugins' ) ) {
