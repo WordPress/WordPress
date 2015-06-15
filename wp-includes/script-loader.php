@@ -526,7 +526,8 @@ function wp_default_scripts( &$scripts ) {
 			'l10n'       => array(
 				'updating'          => __( 'Updating...' ),
 				'updated'           => __( 'Updated!' ),
-				'updateFailed'      => __( 'Update Failed' ),
+				/* translators: Error string for a failed update */
+				'updateFailed'      => __( 'Update Failed: %s' ),
 				/* translators: Plugin name and version */
 				'updatingLabel'     => __( 'Updating %s...' ),
 				/* translators: Plugin name and version */
