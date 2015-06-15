@@ -467,6 +467,11 @@ window.wp = window.wp || {};
 			wp.updates.requestForCredentialsModalCancel();
 		});
 
+		// Hide SSH fields when not selected
+		$( '#request-filesystem-credentials-dialog input[name="connection_type"]' ).on( 'change', function() {
+			$( this ).parents( 'form' ).find( '#private_key, #public_key' ).parents( 'label' ).toggle( ( 'ssh' == $( this ).val() ) );
+		}).change();
+
 		// Click handler for plugin updates in List Table view.
 		$( '.plugin-update-tr' ).on( 'click', '.update-link', function( e ) {
 			e.preventDefault();
@@ -490,7 +495,6 @@ window.wp = window.wp || {};
 			wp.updates.updatePlugin( $button.data( 'plugin' ), $button.data( 'slug' ) );
 		} );
 
-		//
 		$( '#plugin_update_from_iframe' ).on( 'click' , function( e ) {
 			var target,	data;
 
