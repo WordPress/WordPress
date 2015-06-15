@@ -2937,6 +2937,8 @@ function wp_ajax_destroy_sessions() {
  * @see Plugin_Upgrader
  */
 function wp_ajax_update_plugin() {
+	global $wp_filesystem;
+
 	$plugin = urldecode( $_POST['plugin'] );
 
 	$status = array(
@@ -3000,10 +3002,18 @@ function wp_ajax_update_plugin() {
 	} else if ( is_wp_error( $result ) ) {
 		$status['error'] = $result->get_error_message();
  		wp_send_json_error( $status );
-	} else if ( is_bool( $result ) && ! $result ) {
+
+ 	} else if ( is_bool( $result ) && ! $result ) {
 		$status['errorCode'] = 'unable_to_connect_to_filesystem';
 		$status['error'] = __( 'Unable to connect to the filesystem. Please confirm your credentials.' );
+
+		// Pass through the error from WP_Filesystem if one was raised
+		if ( is_wp_error( $wp_filesystem->errors ) && $wp_filesystem->errors->get_error_code() ) {
+			$status['error'] = $wp_filesystem->errors->get_error_message();
+		}
+
 		wp_send_json_error( $status );
+
 	}
 }
 
