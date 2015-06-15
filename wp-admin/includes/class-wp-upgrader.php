@@ -546,6 +546,25 @@ class WP_Upgrader {
 
 		$options = wp_parse_args( $options, $defaults );
 
+		/**
+		 * Filter the package options before running an update.
+		 *
+		 * @since 4.3.0
+		 *
+		 * @param array $options {
+		 *     Options used by the upgrader.
+		 *
+		 *     @type string $package                     Package for update.
+		 *     @type string $destination                 Update location.
+		 *     @type bool   $clear_destination           Clear the destination resource.
+		 *     @type bool   $clear_working               Clear the working resource.
+		 *     @type bool   $abort_if_destination_exists Abort if the Destination directory exists.
+		 *     @type bool   $is_multi                    Whether the upgrader is running multiple times.
+		 *     @type array  $hook_extra                  Extra hook arguments.
+		 * }
+		 */
+		$options = apply_filters( 'upgrader_package_options', $options );
+
 		if ( ! $options['is_multi'] ) { // call $this->header separately if running multiple times
 			$this->skin->header();
 		}
