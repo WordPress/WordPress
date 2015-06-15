@@ -266,7 +266,15 @@ window.wp = window.wp || {};
 		$message.html( wp.updates.l10n.updateFailed.replace( '%s', response.error ) );
 		wp.a11y.speak( wp.updates.l10n.updateFailed );
 
+		/*
+		 * The lock can be released since this failure was
+		 * after the credentials form.
+		 */
+		wp.updates.updateLock = false;
+
 		$(document).trigger( 'wp-plugin-update-error', response );
+
+		wp.updates.queueChecker();
 	};
 
 	/**
