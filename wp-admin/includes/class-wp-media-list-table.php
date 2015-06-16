@@ -620,4 +620,21 @@ class WP_Media_List_Table extends WP_List_Table {
 		 */
 		return apply_filters( 'media_row_actions', $actions, $post, $this->detached );
 	}
+
+	/**
+	 * Generate and display row actions links.
+	 *
+	 * @since 4.3.0
+	 * @access protected
+	 *
+	 * @param object $link        Link being acted upon.
+	 * @param string $column_name Current column name.
+	 * @param string $primary     Primary column name.
+	 * @return string Row action output for links.
+	 */
+	protected function handle_row_actions( $link, $column_name, $primary ) {
+		if( $primary === $column_name ) {
+			return $this->row_actions( $this->_get_row_actions( $post, $att_title ) );
+		}
+	}
 }
