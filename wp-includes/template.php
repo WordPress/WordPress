@@ -391,7 +391,7 @@ function get_single_template() {
  * 'attachment.php' is checked and returned.
  *
  * Some examples for the 'text/plain' mime type are 'text.php', 'plain.php', and
- * finally 'text_plain.php'.
+ * finally 'text-plain.php'.
  *
  * The template path is filterable via the 'attachment_template' hook.
  *
@@ -404,24 +404,26 @@ function get_single_template() {
  * @return string Full path to attachment template file.
  */
 function get_attachment_template() {
-	global $posts;
+	$attachment = get_queried_object();
 
-	if ( ! empty( $posts ) && isset( $posts[0]->post_mime_type ) ) {
-		$type = explode( '/', $posts[0]->post_mime_type );
+	$templates = array();
 
-		if ( ! empty( $type ) ) {
-			if ( $template = get_query_template( $type[0] ) )
-				return $template;
-			elseif ( ! empty( $type[1] ) ) {
-				if ( $template = get_query_template( $type[1] ) )
-					return $template;
-				elseif ( $template = get_query_template( "$type[0]_$type[1]" ) )
-					return $template;
-			}
+	if ( $attachment ) {
+		if ( false !== strpos( $attachment->post_mime_type, '/' ) ) {
+			list( $type, $subtype ) = explode( '/', $attachment->post_mime_type );
+		} else {
+			list( $type, $subtype ) = array( $attachment->post_mime_type, '' );
 		}
-	}
 
-	return get_query_template( 'attachment' );
+		if ( ! empty( $subtype ) ) {
+			$templates[] = "{$type}-{$subtype}.php";
+			$templates[] = "{$subtype}.php";
+		}
+		$templates[] = "{$type}.php";
+	}
+	$templates[] = 'attachment.php';
+
+	return get_query_template( 'attachment', $templates );
 }
 
 /**
