@@ -317,6 +317,10 @@ table.media .column-title .row-actions {
 	margin-right: 70px; /* 60px image + margin */
 }
 
+table.media .column-title .media-info p { 
+	margin-bottom: 0.2em; 
+}
+
 /* @todo: pick a consistent list table selector */
 .wp-list-table a {
 	-webkit-transition: none;
