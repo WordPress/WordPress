@@ -112,7 +112,11 @@ if ( current_user_can( 'edit_post', $post_id ) ) {
 ?>
 
 <div class="misc-pub-section misc-pub-response-to">
-	<?php printf( __( 'In response to: <b>%s</b>' ), $post_link ); ?>
+	<?php printf(
+		/* translators: post link */
+		__( 'In response to: %s' ),
+		'<b>' . $post_link . '</b>'
+	); ?>
 </div>
 
 <?php
@@ -122,7 +126,11 @@ if ( $comment->comment_parent ) :
 	$name        = get_comment_author( $parent->comment_ID );
 ?>
 <div class="misc-pub-section misc-pub-reply-to">
-	<?php printf( __( 'In reply to: <b><a href="%1$s">%2$s</a></b>' ), $parent_link, $name ); ?>
+	<?php printf(
+		/* translators: comment link */
+		__( 'In reply to: %s' ),
+		'<b><a href="' . $parent_link . '">' . $name . '</a></b>'
+	); ?>
 </div>
 <?php endif; ?>
 
