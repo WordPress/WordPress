@@ -4913,3 +4913,36 @@ function wp_delete_file( $file ) {
 		@unlink( $delete );
 	}
 }
+
+/**
+ * Outputs a small JS snippet on preview tabs/windows to remove `window.name` on unload.
+ * This prevents reusing the same tab for a preview when the user has navigated away.
+ *
+ * @since 4.3.0
+ */
+function wp_post_preview_js() {
+	global $post;
+
+	if ( ! is_preview() || empty( $post ) ) {
+		return;
+	}
+
+	// Has to match the window name used in post_submit_meta_box()
+	$name = 'wp-preview-' . (int) $post->ID;
+
+	?>
+	<script>
+	( function() {
+		var query = document.location.search;
+
+		if ( query && query.indexOf( 'preview=true' ) !== -1 ) {
+			window.name = '<?php echo $name; ?>';
+		}
+
+		if ( window.addEventListener ) {
+			window.addEventListener( 'unload', function() { window.name = ''; }, false );
+		}
+	}());
+	</script>
+	<?php
+}

@@ -290,6 +290,9 @@ add_action( 'post_updated',      'wp_check_for_changed_slugs', 12, 3 );
 // Nonce check for Post Previews
 add_action( 'init', '_show_post_preview' );
 
+// Output JS to reset window.name for previews
+add_action( 'wp_head', 'wp_post_preview_js', 1 );
+
 // Timezone
 add_filter( 'pre_option_gmt_offset','wp_timezone_override_offset' );
 
