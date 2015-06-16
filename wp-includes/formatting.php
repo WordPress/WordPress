@@ -3126,9 +3126,7 @@ function esc_sql( $data ) {
  *
  * @param string $url       The URL to be cleaned.
  * @param array  $protocols Optional. An array of acceptable protocols.
- *		                    Defaults to 'http', 'https', 'ftp', 'ftps', 'mailto',
- *                          'news', 'irc', 'gopher', 'nntp', 'feed', 'telnet', 'mms',
- *                          'rtsp', 'svn' if not set.
+ *		                    Defaults to return value of wp_allowed_protocols()
  * @param string $_context  Private. Use esc_url_raw() for database usage.
  * @return string The cleaned $url after the 'clean_url' filter is applied.
  */

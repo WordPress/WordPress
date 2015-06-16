@@ -4506,6 +4506,7 @@ function send_frame_options_header() {
  * @staticvar array $protocols
  *
  * @return array Array of allowed protocols.
+ *               Defaults to 'http', 'https', 'ftp', 'ftps', 'mailto', 'news', 'irc', 'gopher', 'nntp', 'feed', 'telnet', 'mms', 'rtsp', 'svn', 'tel', 'fax', 'xmpp', 'webcal'
  */
 function wp_allowed_protocols() {
 	static $protocols = array();
