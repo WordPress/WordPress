@@ -266,6 +266,16 @@ var wpLink;
 			};
 		},
 
+		buildHtml: function(attrs) {
+			var html = '<a href="' + attrs.href + '"';
+
+			if ( attrs.target ) {
+				html += ' target="' + attrs.target + '"';
+			}
+
+			return html + '>';
+		},
+
 		update: function() {
 			if ( wpLink.isMCE() ) {
 				wpLink.mceUpdate();
@@ -290,14 +300,7 @@ var wpLink;
 				return;
 			}
 
-			// Build HTML
-			html = '<a href="' + attrs.href + '"';
-
-			if ( attrs.target ) {
-				html += ' target="' + attrs.target + '"';
-			}
-
-			html += '>';
+			html = wpLink.buildHtml(attrs);
 
 			// Insert HTML
 			if ( document.selection && wpLink.range ) {
