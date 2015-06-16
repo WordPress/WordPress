@@ -1260,7 +1260,7 @@ if ( !function_exists('wp_safe_redirect') ) :
  * path. A plugin can therefore set or remove allowed host(s) to or from the
  * list.
  *
- * If the host is not allowed, then the redirect is to wp-admin on the siteurl
+ * If the host is not allowed, then the redirect defaults to wp-admin on the siteurl
  * instead. This prevents malicious redirects which redirect to another host,
  * but only used in a few places.
  *
@@ -1271,7 +1271,15 @@ function wp_safe_redirect($location, $status = 302) {
 	// Need to look at the URL the way it will end up in wp_redirect()
 	$location = wp_sanitize_redirect($location);
 
-	$location = wp_validate_redirect($location, admin_url());
+	/**
+	 * Filter the redirect fallback URL for when the provided redirect is not safe (local).
+	 * 
+	 * @since 4.3.0
+	 * 
+	 * @param string $fallback_url	The fallback URL to use by default.
+	 * @param int    $status        The redirect status.
+	 */
+	$location = wp_validate_redirect( $location, apply_filters( 'wp_safe_redirect_fallback', admin_url(), $status ) );
 
 	wp_redirect($location, $status);
 }
