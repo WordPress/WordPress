@@ -20,6 +20,8 @@
  *
  * Code within certain html blocks are skipped.
  *
+ * Do not use this function before the 'init' action hook; everything will break.
+ *
  * @since 0.71
  *
  * @global array $wp_cockneyreplace Array of formatted entities for certain common phrases
