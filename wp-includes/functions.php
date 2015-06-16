@@ -1484,7 +1484,7 @@ function wp_mkdir_p( $target ) {
 	$wrapper = null;
 
 	// Strip the protocol.
-	if( wp_is_stream( $target ) ) {
+	if ( wp_is_stream( $target ) ) {
 		list( $wrapper, $target ) = explode( '://', $target, 2 );
 	}
 
@@ -1492,7 +1492,7 @@ function wp_mkdir_p( $target ) {
 	$target = str_replace( '//', '/', $target );
 
 	// Put the wrapper back on the target.
-	if( $wrapper !== null ) {
+	if ( $wrapper !== null ) {
 		$target = $wrapper . '://' . $target;
 	}
 

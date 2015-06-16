@@ -1318,7 +1318,7 @@ function get_sample_permalink_html( $id, $new_title = null, $new_slug = null ) {
 	}
 
 	if ( isset( $view_post ) ) {
-		if( 'draft' == $post->post_status ) {
+		if ( 'draft' == $post->post_status ) {
 			$preview_link = set_url_scheme( get_permalink( $post->ID ) );
 			/** This filter is documented in wp-admin/includes/meta-boxes.php */
 			$preview_link = apply_filters( 'preview_post_link', add_query_arg( 'preview', 'true', $preview_link ), $post );

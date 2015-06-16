@@ -1582,7 +1582,7 @@ function force_balance_tags( $text ) {
 		if ( isset($regex[1][0]) && '/' == $regex[1][0] ) { // End Tag
 			$tag = strtolower(substr($regex[1],1));
 			// if too many closing tags
-			if( $stacksize <= 0 ) {
+			if ( $stacksize <= 0 ) {
 				$tag = '';
 				// or close to be safe $tag = '/' . $tag;
 			}
@@ -1637,7 +1637,7 @@ function force_balance_tags( $text ) {
 
 			// Attributes
 			$attributes = $regex[2];
-			if( ! empty( $attributes ) && $attributes[0] != '>' )
+			if ( ! empty( $attributes ) && $attributes[0] != '>' )
 				$attributes = ' ' . $attributes;
 
 			$tag = '<' . $tag . $attributes . '>';
@@ -2742,7 +2742,7 @@ function ent2ncr( $text ) {
 	 * @param string $text           The text prior to entity conversion.
 	 */
 	$filtered = apply_filters( 'pre_ent2ncr', null, $text );
-	if( null !== $filtered )
+	if ( null !== $filtered )
 		return $filtered;
 
 	$to_ncr = array(

@@ -472,7 +472,7 @@ class WP_Comments_List_Table extends WP_List_Table {
 
 		$out = '';
 
-		if( $primary === $column_name ) {
+		if ( $primary === $column_name ) {
 			$del_nonce = esc_html( '_wpnonce=' . wp_create_nonce( "delete-comment_$comment->comment_ID" ) );
 			$approve_nonce = esc_html( '_wpnonce=' . wp_create_nonce( "approve-comment_$comment->comment_ID" ) );
 

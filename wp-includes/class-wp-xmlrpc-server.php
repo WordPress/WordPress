@@ -3962,12 +3962,12 @@ class wp_xmlrpc_server extends IXR_Server {
 		/** This action is documented in wp-includes/class-wp-xmlrpc-server.php */
 		do_action( 'xmlrpc_call', 'wp.getPostType' );
 
-		if( ! post_type_exists( $post_type_name ) )
+		if ( ! post_type_exists( $post_type_name ) )
 			return new IXR_Error( 403, __( 'Invalid post type' ) );
 
 		$post_type = get_post_type_object( $post_type_name );
 
-		if( ! current_user_can( $post_type->cap->edit_posts ) )
+		if ( ! current_user_can( $post_type->cap->edit_posts ) )
 			return new IXR_Error( 401, __( 'Sorry, you are not allowed to edit this post type.' ) );
 
 		return $this->_prepare_post_type( $post_type, $fields );
@@ -4019,7 +4019,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		$struct = array();
 
 		foreach( $post_types as $post_type ) {
-			if( ! current_user_can( $post_type->cap->edit_posts ) )
+			if ( ! current_user_can( $post_type->cap->edit_posts ) )
 				continue;
 
 			$struct[$post_type->name] = $this->_prepare_post_type( $post_type, $fields );

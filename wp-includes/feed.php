@@ -109,7 +109,7 @@ function get_last_build_date_feed() {
 		$postids = implode( "','", $post_ids );
 		$max_post_time = max( $post_times );
 
-		if( $wp_query->is_comment_feed() ) {
+		if ( $wp_query->is_comment_feed() ) {
 			$max_comment_time = $wpdb->get_var( $wpdb->prepare( "SELECT MAX(comment_date_gmt) FROM $wpdb->comments WHERE comment_post_ID IN ('%s') AND comment_approved = '1'", $postids ) );
 
 			return max( $max_post_time, $max_comment_time );
@@ -676,7 +676,7 @@ function fetch_feed( $url ) {
 	 */
 	do_action_ref_array( 'wp_feed_options', array( &$feed, $url ) );
 	$feed->init();
-	$feed->set_output_encoding( get_option( 'blog_charset' ) ); 
+	$feed->set_output_encoding( get_option( 'blog_charset' ) );
 	$feed->handle_content_type();
 
 	if ( $feed->error() )

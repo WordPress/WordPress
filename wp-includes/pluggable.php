@@ -409,7 +409,7 @@ function wp_mail( $to, $subject, $message, $headers = '', $attachments = array()
 		try {
 			// Break $recipient into name and address parts if in the format "Foo <bar@baz.com>"
 			$recipient_name = '';
-			if( preg_match( '/(.*)<(.+)>/', $recipient, $matches ) ) {
+			if ( preg_match( '/(.*)<(.+)>/', $recipient, $matches ) ) {
 				if ( count( $matches ) == 3 ) {
 					$recipient_name = $matches[1];
 					$recipient = $matches[2];
@@ -431,7 +431,7 @@ function wp_mail( $to, $subject, $message, $headers = '', $attachments = array()
 			try {
 				// Break $recipient into name and address parts if in the format "Foo <bar@baz.com>"
 				$recipient_name = '';
-				if( preg_match( '/(.*)<(.+)>/', $recipient, $matches ) ) {
+				if ( preg_match( '/(.*)<(.+)>/', $recipient, $matches ) ) {
 					if ( count( $matches ) == 3 ) {
 						$recipient_name = $matches[1];
 						$recipient = $matches[2];
@@ -449,7 +449,7 @@ function wp_mail( $to, $subject, $message, $headers = '', $attachments = array()
 			try {
 				// Break $recipient into name and address parts if in the format "Foo <bar@baz.com>"
 				$recipient_name = '';
-				if( preg_match( '/(.*)<(.+)>/', $recipient, $matches ) ) {
+				if ( preg_match( '/(.*)<(.+)>/', $recipient, $matches ) ) {
 					if ( count( $matches ) == 3 ) {
 						$recipient_name = $matches[1];
 						$recipient = $matches[2];
@@ -1273,9 +1273,9 @@ function wp_safe_redirect($location, $status = 302) {
 
 	/**
 	 * Filter the redirect fallback URL for when the provided redirect is not safe (local).
-	 * 
+	 *
 	 * @since 4.3.0
-	 * 
+	 *
 	 * @param string $fallback_url	The fallback URL to use by default.
 	 * @param int    $status        The redirect status.
 	 */

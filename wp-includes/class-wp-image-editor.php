@@ -348,7 +348,7 @@ abstract class WP_Image_Editor {
 			$info = pathinfo( $filename );
 			$dir  = $info['dirname'];
 
-			if( isset( $info['extension'] ) )
+			if ( isset( $info['extension'] ) )
 				$ext = $info['extension'];
 
 			$filename = trailingslashit( $dir ) . wp_basename( $filename, ".$ext" ) . ".{$new_ext}";

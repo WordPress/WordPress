@@ -58,7 +58,7 @@ function network_domain_check() {
  */
 function allow_subdomain_install() {
 	$domain = preg_replace( '|https?://([^/]+)|', '$1', get_option( 'home' ) );
-	if( parse_url( get_option( 'home' ), PHP_URL_PATH ) || 'localhost' == $domain || preg_match( '|^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$|', $domain ) )
+	if ( parse_url( get_option( 'home' ), PHP_URL_PATH ) || 'localhost' == $domain || preg_match( '|^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$|', $domain ) )
 		return false;
 
 	return true;

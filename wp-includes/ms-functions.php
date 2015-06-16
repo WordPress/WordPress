@@ -1863,7 +1863,7 @@ function global_terms( $term_id, $deprecated = '' ) {
 
 		clean_term_cache($term_id);
 	}
-	if( $recurse_start )
+	if ( $recurse_start )
 		$global_terms_recurse = null;
 
 	return $global_id;

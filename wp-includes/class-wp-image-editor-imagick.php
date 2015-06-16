@@ -136,7 +136,7 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 		try {
 			$this->image = new Imagick( $this->file );
 
-			if( ! $this->image->valid() )
+			if ( ! $this->image->valid() )
 				return new WP_Error( 'invalid_image', __('File is not an image.'), $this->file);
 
 			// Select the first frame to handle animated images properly

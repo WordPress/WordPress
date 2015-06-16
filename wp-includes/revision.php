@@ -150,7 +150,7 @@ function wp_save_post_revision( $post_id ) {
 			$post_has_changed = (bool) apply_filters( 'wp_save_post_revision_post_has_changed', $post_has_changed, $last_revision, $post );
 
 			//don't save revision if post unchanged
-			if( ! $post_has_changed ) {
+			if ( ! $post_has_changed ) {
 				return;
 			}
 		}

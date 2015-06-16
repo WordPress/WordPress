@@ -139,7 +139,7 @@ class Walker_Nav_Menu_Edit extends Walker_Nav_Menu {
 			</dl>
 
 			<div class="menu-item-settings" id="menu-item-settings-<?php echo $item_id; ?>">
-				<?php if( 'custom' == $item->type ) : ?>
+				<?php if ( 'custom' == $item->type ) : ?>
 					<p class="field-url description description-wide">
 						<label for="edit-menu-item-url-<?php echo $item_id; ?>">
 							<?php _e( 'URL' ); ?><br />
@@ -197,7 +197,7 @@ class Walker_Nav_Menu_Edit extends Walker_Nav_Menu {
 				</p>
 
 				<div class="menu-item-actions description-wide submitbox">
-					<?php if( 'custom' != $item->type && $original_title !== false ) : ?>
+					<?php if ( 'custom' != $item->type && $original_title !== false ) : ?>
 						<p class="link-to-original">
 							<?php printf( __('Original: %s'), '<a href="' . esc_attr( $item->url ) . '">' . esc_html( $original_title ) . '</a>' ); ?>
 						</p>
@@ -459,7 +459,7 @@ function wp_nav_menu_setup() {
 	add_filter( 'manage_nav-menus_columns', 'wp_nav_menu_manage_columns' );
 
 	// If first time editing, disable advanced items by default.
-	if( false === get_user_option( 'managenav-menuscolumnshidden' ) ) {
+	if ( false === get_user_option( 'managenav-menuscolumnshidden' ) ) {
 		$user = wp_get_current_user();
 		update_user_option($user->ID, 'managenav-menuscolumnshidden',
 			array( 0 => 'link-target', 1 => 'css-classes', 2 => 'xfn', 3 => 'description', 4 => 'title-attribute', ),
@@ -1180,7 +1180,7 @@ function wp_get_nav_menu_to_edit( $menu_id = 0 ) {
 		$result .= '<p>' . __( 'Add menu items from the column on the left.' ) . '</p>';
 		$result .= '</div>';
 
-		if( empty($menu_items) )
+		if ( empty($menu_items) )
 			return $result . ' <ul class="menu" id="menu-to-edit"> </ul>';
 
 		/**

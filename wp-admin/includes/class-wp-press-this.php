@@ -1045,7 +1045,7 @@ class WP_Press_This {
 
 		if ( ! empty( $data['t'] ) ) {
 			$title = $data['t'];
-		} elseif( ! empty( $data['_meta'] ) ) {
+		} elseif ( ! empty( $data['_meta'] ) ) {
 			if ( ! empty( $data['_meta']['twitter:title'] ) ) {
 				$title = $data['_meta']['twitter:title'];
 			} else if ( ! empty( $data['_meta']['og:title'] ) ) {

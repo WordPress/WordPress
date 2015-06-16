@@ -633,7 +633,7 @@ class WP_Media_List_Table extends WP_List_Table {
 	 * @return string Row action output for links.
 	 */
 	protected function handle_row_actions( $link, $column_name, $primary ) {
-		if( $primary === $column_name ) {
+		if ( $primary === $column_name ) {
 			return $this->row_actions( $this->_get_row_actions( $post, $att_title ) );
 		}
 	}
