@@ -39,6 +39,14 @@
 			this.execCommand( 'InsertOrderedList' );
 		} );
 
+		add( /^>\s/, function() {
+			this.formatter.toggle( 'blockquote' );
+		} );
+
+		add( /^(#{2,6})\s/, function() {
+			this.formatter.toggle( 'h' + arguments[1].length );
+		} );
+
 		editor.on( 'selectionchange', function() {
 			canUndo = false;
 		} );
@@ -84,7 +92,11 @@
 			}
 
 			tinymce.each( patterns, function( pattern ) {
-				var replace = text.replace( pattern.regExp, '' );
+				var args,
+					replace = text.replace( pattern.regExp, function() {
+						args = arguments;
+						return '';
+					} );
 
 				if ( text === replace ) {
 					return;
@@ -105,7 +117,7 @@
 
 					editor.selection.setCursorLocation( parent );
 
-					pattern.callback.apply( editor );
+					pattern.callback.apply( editor, args );
 				} );
 
 				// We need to wait for native events to be triggered.
