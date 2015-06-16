@@ -358,19 +358,19 @@
 	line-height: 30px;
 }
 
-#accordion-panel-menus .field-link-target,
-#accordion-panel-menus .field-attr-title,
-#accordion-panel-menus .field-css-classes,
-#accordion-panel-menus .field-xfn,
-#accordion-panel-menus .field-description {
+#accordion-panel-nav_menus .field-link-target,
+#accordion-panel-nav_menus .field-attr-title,
+#accordion-panel-nav_menus .field-css-classes,
+#accordion-panel-nav_menus .field-xfn,
+#accordion-panel-nav_menus .field-description {
 	display: none;
 }
 
-#accordion-panel-menus.field-link-target-active .field-link-target,
-#accordion-panel-menus.field-attr-title-active .field-attr-title,
-#accordion-panel-menus.field-css-classes-active .field-css-classes,
-#accordion-panel-menus.field-xfn-active .field-xfn,
-#accordion-panel-menus.field-description-active .field-description {
+#accordion-panel-nav_menus.field-link-target-active .field-link-target,
+#accordion-panel-nav_menus.field-attr-title-active .field-attr-title,
+#accordion-panel-nav_menus.field-css-classes-active .field-css-classes,
+#accordion-panel-nav_menus.field-xfn-active .field-xfn,
+#accordion-panel-nav_menus.field-description-active .field-description {
 	display: block;
 }
 

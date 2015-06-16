@@ -2238,7 +2238,7 @@
 	 * Extends wp.customize.panelConstructor with section constructor for menus.
 	 */
 	$.extend( api.panelConstructor, {
-		menus: api.Menus.MenusPanel
+		nav_menus: api.Menus.MenusPanel
 	});
 
 	/**
