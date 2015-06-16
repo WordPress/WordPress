@@ -302,6 +302,13 @@ if ( isset( $_REQUEST['message'] ) && ( $msg = (int) $_REQUEST['message'] ) ) {
 }
 
 $class = ( isset( $_REQUEST['error'] ) ) ? 'error' : 'updated';
+
+if ( is_plugin_active( 'wpcat2tag-importer/wpcat2tag-importer.php' ) ) {
+	$import_link = admin_url( 'admin.php?import=wpcat2tag' );
+} else {
+	$import_link = admin_url( 'import.php' );
+}
+
 ?>
 
 <div class="wrap nosubsub">
@@ -347,12 +354,12 @@ endif; ?>
 	?>
 </p>
 <?php if ( current_user_can( 'import' ) ) : ?>
-<p><?php printf(__('Categories can be selectively converted to tags using the <a href="%s">category to tag converter</a>.'), 'import.php') ?></p>
+<p><?php printf( __( 'Categories can be selectively converted to tags using the <a href="%s">category to tag converter</a>.' ), esc_url( $import_link ) ) ?></p>
 <?php endif; ?>
 </div>
 <?php elseif ( 'post_tag' == $taxonomy && current_user_can( 'import' ) ) : ?>
 <div class="form-wrap">
-<p><?php printf(__('Tags can be selectively converted to categories using the <a href="%s">tag to category converter</a>.'), 'import.php') ;?></p>
+<p><?php printf( __( 'Tags can be selectively converted to categories using the <a href="%s">tag to category converter</a>.' ), esc_url( $import_link ) ) ;?></p>
 </div>
 <?php endif;
 
