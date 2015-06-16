@@ -291,6 +291,10 @@ function wp_nav_menu( $args = array() ) {
 		}
 	}
 
+	if ( empty( $args->menu ) ) {
+		$args->menu = $menu;
+	}
+
 	// If the menu exists, get its items.
 	if ( $menu && ! is_wp_error($menu) && !isset($menu_items) )
 		$menu_items = wp_get_nav_menu_items( $menu->term_id, array( 'update_post_term_cache' => false ) );
