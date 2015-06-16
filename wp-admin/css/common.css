@@ -2070,6 +2070,13 @@ td.media-icon img {
 	margin-top: 0;
 }
 
+.edit-comment-author {
+	font-size: 14px;
+	line-height: 1.4;
+	font-weight: 600;
+	color: #222;
+}
+
 #namediv h3 label {
 	vertical-align: baseline;
 }
