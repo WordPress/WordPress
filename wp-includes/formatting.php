@@ -102,11 +102,16 @@ function wptexturize( $text, $reset = false ) {
 		if ( isset($wp_cockneyreplace) ) {
 			$cockney = array_keys( $wp_cockneyreplace );
 			$cockneyreplace = array_values( $wp_cockneyreplace );
-		} elseif ( "'" != $apos ) { // Only bother if we're doing a replacement.
-			$cockney = array( "'tain't", "'twere", "'twas", "'tis", "'twill", "'til", "'bout", "'nuff", "'round", "'cause", "'em" );
-			$cockneyreplace = array( $apos . "tain" . $apos . "t", $apos . "twere", $apos . "twas", $apos . "tis", $apos . "twill", $apos . "til", $apos . "bout", $apos . "nuff", $apos . "round", $apos . "cause", $apos . "em" );
 		} else {
-			$cockney = $cockneyreplace = array();
+			/* translators: This is a comma-separated list of words that defy the syntax of quotations in normal use,
+			 * for example...  'We do not have enough words yet' ... is a typical quoted phrase.  But when we write
+			 * lines of code 'til we have enough of 'em, then we need to insert apostrophes instead of quotes.
+			 */
+			$cockney = explode( ',', _x( "'tain't,'twere,'twas,'tis,'twill,'til,'bout,'nuff,'round,'cause,'em",
+				'Comma-separated list of words to texturize in your language' ) );
+
+			$cockneyreplace = explode( ',', _x( '&#8217;tain&#8217;t,&#8217;twere,&#8217;twas,&#8217;tis,&#8217;twill,&#8217;til,&#8217;bout,&#8217;nuff,&#8217;round,&#8217;cause,&#8217;em',
+				'Comma-separated list of replacement words in your language' ) );
 		}
 
 		$static_characters = array_merge( array( '...', '``', '\'\'', ' (tm)' ), $cockney );
