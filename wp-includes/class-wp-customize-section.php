@@ -501,3 +501,74 @@ class WP_Customize_Sidebar_Section extends WP_Customize_Section {
 		return $this->manager->widgets->is_sidebar_rendered( $this->sidebar_id );
 	}
 }
+
+/**
+ * Customize Menu Section Class
+ *
+ * Custom section only needed in JS.
+ *
+ * @since 4.3.0
+ */
+class WP_Customize_Nav_Menu_Section extends WP_Customize_Section {
+
+	/**
+	 * Control type.
+	 *
+	 * @since 4.3.0
+	 *
+	 * @access public
+	 * @var string
+	 */
+	public $type = 'nav_menu';
+
+	/**
+	 * Get section params for JS.
+	 *
+	 * @since 4.3.0
+	 *
+	 * @return array
+	 */
+	function json() {
+		$exported = parent::json();
+		$exported['menu_id'] = intval( preg_replace( '/^nav_menu\[(\d+)\]/', '$1', $this->id ) );
+
+		return $exported;
+	}
+}
+
+/**
+ * Customize Menu Section Class
+ *
+ * Implements the new-menu-ui toggle button instead of a regular section.
+ *
+ * @since 4.3.0
+ */
+class WP_Customize_New_Menu_Section extends WP_Customize_Section {
+
+	/**
+	 * Control type.
+	 *
+	 * @since 4.3.0
+	 *
+	 * @access public
+	 * @var string
+	 */
+	public $type = 'new_menu';
+
+	/**
+	 * Render the section, and the controls that have been added to it.
+	 *
+	 * @since 4.3.0
+	 */
+	protected function render() {
+		?>
+		<li id="accordion-section-<?php echo esc_attr( $this->id ); ?>" class="accordion-section-new-menu">
+			<button type="button" class="button-secondary add-new-menu-item add-menu-toggle">
+				<?php echo esc_html( $this->title ); ?>
+				<span class="screen-reader-text"><?php _e( 'Press return or enter to open' ); ?></span>
+			</button>
+			<ul class="new-menu-section-content"></ul>
+		</li>
+		<?php
+	}
+}

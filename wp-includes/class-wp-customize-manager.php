@@ -49,6 +49,13 @@ final class WP_Customize_Manager {
 	 */
 	public $widgets;
 
+	/**
+	 * Methods and properties deailing with managing nav menus in the Customizer.
+	 *
+	 * @var WP_Customize_Nav_Menus
+	 */
+	public $nav_menus;
+
 	protected $settings   = array();
 	protected $containers = array();
 	protected $panels     = array();
@@ -104,8 +111,10 @@ final class WP_Customize_Manager {
 		require_once( ABSPATH . WPINC . '/class-wp-customize-section.php' );
 		require_once( ABSPATH . WPINC . '/class-wp-customize-control.php' );
 		require_once( ABSPATH . WPINC . '/class-wp-customize-widgets.php' );
+		require_once( ABSPATH . WPINC . '/class-wp-customize-nav-menus.php' );
 
 		$this->widgets = new WP_Customize_Widgets( $this );
+		$this->nav_menus = new WP_Customize_Nav_Menus( $this );
 
 		add_filter( 'wp_die_handler', array( $this, 'wp_die_handler' ) );
 
@@ -1481,48 +1490,6 @@ final class WP_Customize_Manager {
 		if ( get_theme_support( 'custom-background', 'wp-head-callback' ) === '_custom_background_cb' ) {
 			foreach ( array( 'color', 'image', 'position_x', 'repeat', 'attachment' ) as $prop ) {
 				$this->get_setting( 'background_' . $prop )->transport = 'postMessage';
-			}
-		}
-
-		/* Nav Menus */
-
-		$locations      = get_registered_nav_menus();
-		$menus          = wp_get_nav_menus();
-		$num_locations  = count( array_keys( $locations ) );
-
-		if ( 1 == $num_locations ) {
-			$description = __( 'Your theme supports one menu. Select which menu you would like to use.' );
-		} else {
-			$description = sprintf( _n( 'Your theme supports %s menu. Select which menu appears in each location.', 'Your theme supports %s menus. Select which menu appears in each location.', $num_locations ), number_format_i18n( $num_locations ) );
-		}
-
-		$this->add_section( 'nav', array(
-			'title'          => __( 'Navigation' ),
-			'theme_supports' => 'menus',
-			'priority'       => 100,
-			'description'    => $description . "\n\n" . __( 'You can edit your menu content on the Menus screen in the Appearance section.' ),
-		) );
-
-		if ( $menus ) {
-			$choices = array( '' => __( '&mdash; Select &mdash;' ) );
-			foreach ( $menus as $menu ) {
-				$choices[ $menu->term_id ] = wp_html_excerpt( $menu->name, 40, '&hellip;' );
-			}
-
-			foreach ( $locations as $location => $description ) {
-				$menu_setting_id = "nav_menu_locations[{$location}]";
-
-				$this->add_setting( $menu_setting_id, array(
-					'sanitize_callback' => 'absint',
-					'theme_supports'    => 'menus',
-				) );
-
-				$this->add_control( $menu_setting_id, array(
-					'label'   => $description,
-					'section' => 'nav',
-					'type'    => 'select',
-					'choices' => $choices,
-				) );
 			}
 		}
 
