@@ -832,7 +832,6 @@ body.adding-menu-items #customize-preview {
 .new-menu-section-content {
 	display: none;
 	padding: 15px 0 0 0;
-	overflow: hidden;
 	clear: both;
 }
 
