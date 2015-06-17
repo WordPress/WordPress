@@ -534,7 +534,7 @@ function upgrade_all() {
 	// Don't harsh my mellow. upgrade_430() must be called before
 	// upgrade_420() to catch bad comments prior to any auto-expansion of
 	// MySQL column widths.
-	if ( $wp_current_db_version < 32364 )
+	if ( $wp_current_db_version < 32814 )
 		upgrade_430();
 
 	if ( $wp_current_db_version < 31351 )
@@ -1559,6 +1559,10 @@ function upgrade_430() {
 			wp_delete_comment( $comment->comment_ID, true );
 		}
 	}
+
+	if ( $wp_current_db_version < 32814 ) {
+		split_all_shared_terms();
+	}
 }
 
 /**
@@ -1848,6 +1852,70 @@ function maybe_convert_table_to_utf8mb4( $table ) {
 	}
 
 	return $wpdb->query( "ALTER TABLE $table CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci" );
+}
+
+/**
+ * Split all shared taxonomy terms.
+ *
+ * @since 4.3.0
+ */
+function split_all_shared_terms() {
+	global $wpdb;
+
+	// Get a list of shared terms (those with more than one associated row in term_taxonomy).
+	$shared_terms = $wpdb->get_results(
+		"SELECT tt.term_id, t.*, count(*) as term_tt_count FROM {$wpdb->term_taxonomy} tt
+		 LEFT JOIN {$wpdb->terms} t ON t.term_id = tt.term_id
+		 GROUP BY t.term_id
+		 HAVING term_tt_count > 1"
+	);
+
+	// Rekey shared term array for faster lookups.
+	$_shared_terms = array();
+	foreach ( $shared_terms as $shared_term ) {
+		$term_id = intval( $shared_term->term_id );
+		$_shared_terms[ $term_id ] = $shared_term;
+	}
+	$shared_terms = $_shared_terms;
+
+	// Get term taxonomy data for all shared terms.
+	$shared_term_ids = implode( ',', array_keys( $shared_terms ) );
+	$shared_tts = $wpdb->get_results( "SELECT * FROM {$wpdb->term_taxonomy} WHERE `term_id` IN ({$shared_term_ids})" );
+
+	// Split term data recording is slow, so we do it just once, outside the loop.
+	$suspend = wp_suspend_cache_invalidation( true );
+	$split_term_data = get_option( '_split_terms', array() );
+	$skipped_first_term = $taxonomies = array();
+	foreach ( $shared_tts as $shared_tt ) {
+		$term_id = intval( $shared_tt->term_id );
+
+		// Don't split the first tt belonging to a given term_id.
+		if ( ! isset( $skipped_first_term[ $term_id ] ) ) {
+			$skipped_first_term[ $term_id ] = 1;
+			continue;
+		}
+
+		if ( ! isset( $split_term_data[ $term_id ] ) ) {
+			$split_term_data[ $term_id ] = array();
+		}
+
+		// Keep track of taxonomies whose hierarchies need flushing.
+		if ( ! isset( $taxonomies[ $shared_tt->taxonomy ] ) ) {
+			$taxonomies[ $shared_tt->taxonomy ] = 1;
+		}
+
+		// Split the term.
+		$split_term_data[ $term_id ][ $shared_tt->taxonomy ] = _split_shared_term( $shared_terms[ $term_id ], $shared_tt, false );
+	}
+
+	// Rebuild the cached hierarchy for each affected taxonomy.
+	foreach ( array_keys( $taxonomies ) as $tax ) {
+		delete_option( "{$tax}_children" );
+		_get_term_hierarchy( $tax );
+	}
+
+	wp_suspend_cache_invalidation( $suspend );
+	update_option( '_split_terms', $split_term_data );
 }
 
 /**
