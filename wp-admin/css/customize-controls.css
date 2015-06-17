@@ -174,8 +174,8 @@ body {
 #customize-controls .control-section .accordion-section-title:hover,
 #customize-controls .control-section.open .accordion-section-title,
 #customize-controls .control-section .accordion-section-title:focus {
-	color: #fff;
-	background: #0073aa;
+	color: #23282d;
+	background: #f5f5f5;
 }
 
 .js .control-section:hover .accordion-section-title,
@@ -189,7 +189,7 @@ body {
 #customize-theme-controls .control-section .accordion-section-title:hover:after,
 #customize-theme-controls .control-section.open .accordion-section-title:after,
 #customize-theme-controls .control-section .accordion-section-title:focus:after {
-	color: #fff;
+	color: #23282d;
 }
 
 #customize-theme-controls .control-section.open {
@@ -408,9 +408,8 @@ h3.customize-section-title {
 .customize-panel-back:focus,
 .customize-section-back:hover,
 .customize-section-back:focus {
-	background: #0073aa;
-	border-color: #ccc;
-	color: #fff;
+	color: #23282d;
+	background: #f5f5f5;
 	outline: none;
 	-webkit-box-shadow: none;
 	box-shadow: none;

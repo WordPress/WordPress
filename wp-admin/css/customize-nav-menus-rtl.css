@@ -15,7 +15,7 @@
 #customize-controls .control-section .accordion-section-title:hover .menu-in-location,
 #customize-controls .control-section .accordion-section-title:focus .menu-in-locations,
 #customize-controls .control-section .accordion-section-title:hover .menu-in-locations {
-	color: #fff;
+	color: #555;
 }
 
 .wp-customizer .menu-item-bar .menu-item-handle,
