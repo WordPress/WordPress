@@ -32,13 +32,14 @@ tinymce.PluginManager.add( 'wplink', function( editor ) {
 	});
 
 	editor.on( 'pastepreprocess', function( event ) {
-		var pastedStr = event.content;
+		var pastedStr = event.content,
+			regExp = /^(?:https?:)?\/\/\S+$/i;
 
-		if ( ! editor.selection.isCollapsed() ) {
+		if ( ! editor.selection.isCollapsed() && ! regExp.test( editor.selection.getContent() ) ) {
 			pastedStr = pastedStr.replace( /<[^>]+>/g, '' );
 			pastedStr = tinymce.trim( pastedStr );
 
-			if ( /^(?:https?:)?\/\/\S+$/i.test( pastedStr ) ) {
+			if ( regExp.test( pastedStr ) ) {
 				editor.execCommand( 'mceInsertLink', false, {
 					href: editor.dom.decode( pastedStr )
 				} );
