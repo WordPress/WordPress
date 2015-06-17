@@ -1870,6 +1870,10 @@ function split_all_shared_terms() {
 		 HAVING term_tt_count > 1"
 	);
 
+	if ( empty( $shared_terms ) ) {
+		return;
+	}
+
 	// Rekey shared term array for faster lookups.
 	$_shared_terms = array();
 	foreach ( $shared_terms as $shared_term ) {
