@@ -31,7 +31,7 @@
 }
 
 .wp-customizer .menu-item-bar .menu-item-handle {
-	max-width: 100%;
+	width: 100%;
 	background: #fff;
 }
 

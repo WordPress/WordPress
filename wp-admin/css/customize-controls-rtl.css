@@ -210,13 +210,15 @@ body {
 }
 
 #customize-theme-controls .accordion-section-content {
-	margin: 0;
 	position: absolute;
-	right: 100%;
 	top: 0;
-	width: -webkit-calc(100% - 24px);
-	width: calc(100% - 24px);
-	padding: 12px;
+	right: 100%;
+	width: 100%;
+	margin: 0;
+ 	padding: 12px;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
 }
 
 .customize-section-description-container {
@@ -1073,7 +1075,6 @@ p.customize-section-description {
 	display: none;
 	padding: 0 8px;
 	background: #f1f1f1;
-	box-sizing: border-box;
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
