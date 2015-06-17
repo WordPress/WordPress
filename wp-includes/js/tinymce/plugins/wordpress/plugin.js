@@ -446,7 +446,7 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 	( function() {
 		var Factory = tinymce.ui.Factory,
 			settings = editor.settings,
-			currentToolbar,
+			activeToolbar,
 			currentSelection,
 			wpAdminbar = document.getElementById( 'wpadminbar' ),
 			mceIframe, mceToolbar, mceStatusbar, wpStatusbar;
@@ -667,12 +667,7 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 			}
 
 			toolbar.on( 'show', function() {
-				currentToolbar = this;
 				this.reposition();
-			} );
-
-			toolbar.on( 'hide', function() {
-				currentToolbar = false;
 			} );
 
 			toolbar.on( 'keydown', function( event ) {
@@ -703,8 +698,8 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 		editor.shortcuts.add( 'alt+119', '', function() {
 			var node;
 
-			if ( currentToolbar ) {
-				node = currentToolbar.find( 'toolbar' )[0];
+			if ( activeToolbar ) {
+				node = activeToolbar.find( 'toolbar' )[0];
 				node && node.focus( true );
 			}
 		} );
@@ -722,8 +717,26 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 
 			currentSelection = args.selection || args.element;
 
-			currentToolbar && currentToolbar.hide();
-			args.toolbar && args.toolbar.show();
+			if ( activeToolbar ) {
+				activeToolbar.hide();
+			}
+
+			if ( args.toolbar ) {
+				activeToolbar = args.toolbar;
+				activeToolbar.show();
+			} else {
+				activeToolbar = false;
+			}
+		} );
+
+		editor.on( 'focus', function() {
+			if ( activeToolbar ) {
+				activeToolbar.show();
+			}
+		} );
+
+		editor.on( 'hide', function() {
+			activeToolbar = false;
 		} );
 
 		editor.wp = editor.wp || {};
