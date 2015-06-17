@@ -1138,7 +1138,7 @@
 			// Configure delete button.
 			$removeBtn = control.container.find( '.item-delete' );
 
-			$removeBtn.on( 'click', function( e ) {
+			$removeBtn.on( 'click', function() {
 				// Find an adjacent element to add focus to when this menu item goes away
 				var $adjacentFocusTarget;
 				if ( control.container.next().is( '.customize-control-nav_menu_item' ) ) {
