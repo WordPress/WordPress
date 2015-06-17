@@ -201,10 +201,16 @@ class WP_Press_This {
 				continue;
 			}
 
-			// @todo Find a more performant to check existence, maybe get_term() with a separate parent check.
-			if ( ! $cat_id = term_exists( $cat_name, $taxonomy->name, $parent ) ) {
-				$cat_id = wp_insert_term( $cat_name, $taxonomy->name, array( 'parent' => $parent ) );
+			// @todo Find a more performant way to check existence, maybe get_term() with a separate parent check.
+			if ( term_exists( $cat_name, $taxonomy->name, $parent ) ) {
+				if ( count( $names ) === 1 ) {
+					wp_send_json_error( array( 'errorMessage' => __( 'This category already exists.' ) ) );
+				} else {
+					continue;
+				}
 			}
+
+			$cat_id = wp_insert_term( $cat_name, $taxonomy->name, array( 'parent' => $parent ) );
 
 			if ( is_wp_error( $cat_id ) ) {
 				continue;
