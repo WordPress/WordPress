@@ -2158,7 +2158,7 @@ function wp_update_user($userdata) {
 		$send_pass_change_email = apply_filters( 'send_pass_change_email', true, $user, $userdata );
 	}
 
-	if ( $user['user_email'] !== $userdata['user_email'] ) {
+	if ( isset( $userdata['user_email'] ) && $user['user_email'] !== $userdata['user_email'] ) {
 		/**
 		 * Filter to stop the sending of the email change email.
 		 *
