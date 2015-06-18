@@ -113,12 +113,11 @@ function twentytwelve_get_font_url() {
 		elseif ( 'vietnamese' == $subset )
 			$subsets .= ',vietnamese';
 
-		$protocol = is_ssl() ? 'https' : 'http';
 		$query_args = array(
 			'family' => 'Open+Sans:400italic,700italic,400,700',
 			'subset' => $subsets,
 		);
-		$font_url = add_query_arg( $query_args, "$protocol://fonts.googleapis.com/css" );
+		$font_url = add_query_arg( $query_args, 'https://fonts.googleapis.com/css' );
 	}
 
 	return $font_url;
