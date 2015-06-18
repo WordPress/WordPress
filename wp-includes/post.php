@@ -1676,7 +1676,7 @@ function get_post_type_labels( $post_type_object ) {
 	 *
 	 * @see get_post_type_labels() for the full list of labels.
 	 *
-	 * @param array $labels Array of labels for the given post type.
+	 * @param object $labels Object with labels for the post type as member variables.
 	 */
 	return apply_filters( "post_type_labels_{$post_type}", $labels );
 }
