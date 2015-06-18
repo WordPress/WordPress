@@ -102,6 +102,7 @@ function get_last_build_date_feed() {
 
 	if ( $wp_query->have_posts() ) {
 		$post_ids = array();
+		$post_times = array();
 		foreach( $wp_query->posts as $post ) {
 			$post_ids[] = $post->ID;
 			$post_times[] = $post->post_modified_gmt;

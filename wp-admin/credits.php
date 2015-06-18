@@ -109,8 +109,6 @@ if ( ! $credits ) {
 
 echo '<p class="about-description">' . __( 'WordPress is created by a worldwide team of passionate individuals.' ) . "</p>\n";
 
-$gravatar = is_ssl() ? 'https://secure.gravatar.com/avatar/' : 'http://0.gravatar.com/avatar/';
-
 foreach ( $credits['groups'] as $group_slug => $group_data ) {
 	if ( $group_data['name'] ) {
 		if ( 'Translators' == $group_data['name'] ) {
@@ -144,8 +142,11 @@ foreach ( $credits['groups'] as $group_slug => $group_data ) {
 			foreach ( $group_data['data'] as $person_data ) {
 				echo '<li class="wp-person" id="wp-person-' . $person_data[2] . '">' . "\n\t";
 				echo '<a href="' . sprintf( $credits['data']['profiles'], $person_data[2] ) . '">';
-				$size = 'compact' == $group_data['type'] ? '30' : '60';
-				echo '<img src="' . $gravatar . $person_data[1] . '?s=' . $size . '" srcset="' . $gravatar . $person_data[1] . '?s=' . $size * 2 . ' 2x" class="gravatar" alt="' . esc_attr( $person_data[0] ) . '" /></a>' . "\n\t";
+				$size = 'compact' == $group_data['type'] ? 30 : 60;
+				$data = get_avatar_data( $person_data[1] . '@md5.gravatar.com', array( 'size' => $size ) );
+				$size *= 2;
+				$data2x = get_avatar_data( $person_data[1] . '@md5.gravatar.com', array( 'size' => $size ) );
+				echo '<img src="' . esc_attr( $data['url'] ) . '" srcset="' . esc_attr( $data2x['url'] ) . ' 2x" class="gravatar" alt="' . esc_attr( $person_data[0] ) . '" /></a>' . "\n\t";
 				echo '<a class="web" href="' . sprintf( $credits['data']['profiles'], $person_data[2] ) . '">' . $person_data[0] . "</a>\n\t";
 				if ( ! $compact )
 					echo '<span class="title">' . translate( $person_data[3] ) . "</span>\n";
