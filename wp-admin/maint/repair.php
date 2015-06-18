@@ -28,6 +28,29 @@ header( 'Content-Type: text/html; charset=utf-8' );
 
 if ( ! defined( 'WP_ALLOW_REPAIR' ) ) {
 	echo '<p>' . __( 'To allow use of this page to automatically repair database problems, please add the following line to your <code>wp-config.php</code> file. Once this line is added to your config, reload this page.' ) . "</p><p><code>define('WP_ALLOW_REPAIR', true);</code></p>";
+
+	$default_key     = 'put your unique phrase here';
+	$missing_key     = false;
+	$duplicated_keys = array();
+
+	foreach ( array( 'AUTH_KEY', 'SECURE_AUTH_KEY', 'LOGGED_IN_KEY', 'NONCE_KEY', 'AUTH_SALT', 'SECURE_AUTH_SALT', 'LOGGED_IN_SALT', 'NONCE_SALT' ) as $key ) {
+		if ( defined( $key ) ) {
+			$duplicated_keys[ constant( $key ) ] = isset( $duplicated_keys[ constant( $key ) ] );
+		} else {
+			$missing_key = true;
+		}
+	}
+
+	if ( isset( $duplicated_keys[ $default_key ] ) ) {
+		$duplicated_keys[ $default_key ] = true;
+	}
+	$duplicated_keys = array_filter( $duplicated_keys );
+
+	if ( $duplicated_keys || $missing_key ) {
+		// Translators: 1: wp-config.php; 2: Secret key service URL.
+		echo '<p>' . sprintf( __( 'While you are in your %1$s file, you should also make sure you have the 8 unique phrases in place. You can generate these using the <a href="%2$s">WordPress.org secret key service</a>.' ), '<code>wp-config.php</code>', 'https://api.wordpress.org/secret-key/1.1/salt/' ) . '</p>';
+	}
+
 } elseif ( isset( $_GET['repair'] ) ) {
 	$optimize = 2 == $_GET['repair'];
 	$okay = true;
