@@ -87,6 +87,10 @@
 				}
 			}
 
+			if ( ! child.nodeValue ) {
+				child = child.nextSibling;
+			}
+
 			if ( child !== node ) {
 				return;
 			}
@@ -109,10 +113,18 @@
 				editor.undoManager.add();
 
 				editor.undoManager.transact( function() {
+					var $$parent;
+
 					if ( replace ) {
 						$$( node ).replaceWith( document.createTextNode( replace ) );
 					} else  {
-						$$( node.parentNode ).empty().append( '<br>' );
+						$$parent = $$( node.parentNode );
+
+						$$( node ).remove();
+
+						if ( ! $$parent.html() ) {
+							$$parent.append( '<br>' );
+						}
 					}
 
 					editor.selection.setCursorLocation( parent );
