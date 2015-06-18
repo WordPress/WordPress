@@ -429,7 +429,7 @@ function doing_action( $action = null ) {
  *                                  Lower numbers correspond with earlier execution,
  *                                  and functions with the same priority are executed
  *                                  in the order in which they were added to the action.
- * @param int      $accepted_args   Optional. The number of arguments the function accept. Default 1.
+ * @param int      $accepted_args   Optional. The number of arguments the function accepts. Default 1.
  * @return true Will always return true.
  */
 function add_action($tag, $function_to_add, $priority = 10, $accepted_args = 1) {
