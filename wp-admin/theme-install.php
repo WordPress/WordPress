@@ -207,8 +207,8 @@ if ( $tab ) {
 	<h3 class="theme-name">{{ data.name }}</h3>
 
 	<div class="theme-actions">
-		<a class="button button-secondary" href="{{ data.install_url }}"><?php esc_html_e( 'Install' ); ?></a>
-		<a class="button button-primary preview install-theme-preview" href="#"><?php esc_html_e( 'Preview' ); ?></a>
+		<a class="button button-primary" href="{{ data.install_url }}"><?php esc_html_e( 'Install' ); ?></a>
+		<a class="button button-secondary preview install-theme-preview" href="#"><?php esc_html_e( 'Preview' ); ?></a>
 	</div>
 
 	<# if ( data.installed ) { #>
