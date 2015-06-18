@@ -119,12 +119,12 @@
 }
 
 .theme-browser .theme .theme-actions .button-primary {
-	margin-right: 3px;
+	float: none;
+	margin-left: 3px;
 }
 
 .theme-browser .theme .theme-actions .button-secondary {
-	float: none;
-	margin-left: 3px;
+	margin-right: 3px;
 }
 
 /**
