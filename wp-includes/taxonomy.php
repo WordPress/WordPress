@@ -3324,33 +3324,35 @@ function wp_remove_object_terms( $object_id, $terms, $taxonomy ) {
  * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param string $slug The string that will be tried for a unique slug.
- * @param object $term The term object that the $slug will belong too.
+ * @param object $term The term object that the `$slug` will belong to.
  * @return string Will return a true unique slug.
  */
 function wp_unique_term_slug( $slug, $term ) {
 	global $wpdb;
 
-	if ( ! term_exists( $slug ) )
-		return $slug;
+	$needs_suffix = true;
+	$original_slug = $slug;
 
 	// As of 4.1, duplicate slugs are allowed as long as they're in different taxonomies.
-	if ( get_option( 'db_version' ) >= 30133 && ! get_term_by( 'slug', $slug, $term->taxonomy ) ) {
-		return $slug;
+	if ( ! term_exists( $slug ) || get_option( 'db_version' ) >= 30133 && ! get_term_by( 'slug', $slug, $term->taxonomy ) ) {
+		$needs_suffix = false;
 	}
 
 	/*
 	 * If the taxonomy supports hierarchy and the term has a parent, make the slug unique
 	 * by incorporating parent slugs.
 	 */
-	if ( is_taxonomy_hierarchical($term->taxonomy) && !empty($term->parent) ) {
+	$parent_suffix = '';
+	if ( $needs_suffix && is_taxonomy_hierarchical( $term->taxonomy ) && ! empty( $term->parent ) ) {
 		$the_parent = $term->parent;
 		while ( ! empty($the_parent) ) {
 			$parent_term = get_term($the_parent, $term->taxonomy);
 			if ( is_wp_error($parent_term) || empty($parent_term) )
 				break;
-			$slug .= '-' . $parent_term->slug;
-			if ( ! term_exists( $slug ) )
-				return $slug;
+			$parent_suffix .= '-' . $parent_term->slug;
+			if ( ! term_exists( $slug . $parent_suffix ) ) {
+				break;
+			}
 
 			if ( empty($parent_term->parent) )
 				break;
@@ -3359,22 +3361,46 @@ function wp_unique_term_slug( $slug, $term ) {
 	}
 
 	// If we didn't get a unique slug, try appending a number to make it unique.
-	if ( ! empty( $term->term_id ) )
-		$query = $wpdb->prepare( "SELECT slug FROM $wpdb->terms WHERE slug = %s AND term_id != %d", $slug, $term->term_id );
-	else
-		$query = $wpdb->prepare( "SELECT slug FROM $wpdb->terms WHERE slug = %s", $slug );
+	/**
+	 * Filter whether the proposed unique term slug is bad.
+	 *
+	 * @since 4.3.0
+	 *
+	 * @param bool   $needs_suffix Whether the slug needs to be made unique with a suffix.
+	 * @param string $slug         The slug.
+	 * @param object $term         Term object.
+	 */
+	if ( apply_filters( 'wp_unique_term_slug_is_bad_slug', $needs_suffix, $slug, $term ) ) {
+		if ( $parent_suffix ) {
+			$slug .= $parent_suffix;
+		} else {
+			if ( ! empty( $term->term_id ) )
+				$query = $wpdb->prepare( "SELECT slug FROM $wpdb->terms WHERE slug = %s AND term_id != %d", $slug, $term->term_id );
+			else
+				$query = $wpdb->prepare( "SELECT slug FROM $wpdb->terms WHERE slug = %s", $slug );
 
-	if ( $wpdb->get_var( $query ) ) {
-		$num = 2;
-		do {
-			$alt_slug = $slug . "-$num";
-			$num++;
-			$slug_check = $wpdb->get_var( $wpdb->prepare( "SELECT slug FROM $wpdb->terms WHERE slug = %s", $alt_slug ) );
-		} while ( $slug_check );
-		$slug = $alt_slug;
+			if ( $wpdb->get_var( $query ) ) {
+				$num = 2;
+				do {
+					$alt_slug = $slug . "-$num";
+					$num++;
+					$slug_check = $wpdb->get_var( $wpdb->prepare( "SELECT slug FROM $wpdb->terms WHERE slug = %s", $alt_slug ) );
+				} while ( $slug_check );
+				$slug = $alt_slug;
+			}
+		}
 	}
 
-	return $slug;
+	/**
+	 * Filter the unique term slug.
+	 *
+	 * @since 4.3.0
+	 *
+	 * @param string $slug          Unique term slug.
+	 * @param object $term          Term object.
+	 * @param string $original_slug Slug originally passed to the function for testing.
+	 */
+	return apply_filters( 'wp_unique_term_slug', $slug, $term, $original_slug );
 }
 
 /**
