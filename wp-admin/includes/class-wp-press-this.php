@@ -444,6 +444,9 @@ class WP_Press_This {
 	private function _limit_embed( $src ) {
 		$src = $this->_limit_url( $src );
 
+		if ( empty( $src ) )
+			return '';
+
 		if ( preg_match( '/\/\/(m|www)\.youtube\.com\/(embed|v)\/([^\?]+)\?.+$/', $src, $src_matches ) ) {
 			// Embedded Youtube videos (www or mobile)
 			$src = 'https://www.youtube.com/watch?v=' . $src_matches[3];
@@ -459,14 +462,13 @@ class WP_Press_This {
 		} else if ( preg_match( '/\/\/(www\.)?dailymotion\.com\/embed\/video\/([^\/\?]+)([\/\?]{1}.+)?/', $src, $src_matches ) ) {
 			// Embedded Daily Motion videos
 			$src = 'https://www.dailymotion.com/video/' . $src_matches[2];
-		} else if ( ! preg_match( '/\/\/(m|www)\.youtube\.com\/watch\?/', $src )          // Youtube video page (www or mobile)
-		            && ! preg_match( '/\/youtu\.be\/.+$/', $src )                         // Youtu.be video page
-		            && ! preg_match( '/\/\/vimeo\.com\/[\d]+$/', $src )                   // Vimeo video page
-		            && ! preg_match( '/\/\/(www\.)?dailymotion\.com\/video\/.+$/', $src ) // Daily Motion video page
-		            && ! preg_match( '/\/\/soundcloud\.com\/.+$/', $src )                 // SoundCloud audio page
-		            && ! preg_match( '/\/\/twitter\.com\/[^\/]+\/status\/[\d]+$/', $src ) // Twitter status page
-		            && ! preg_match( '/\/\/vine\.co\/v\/[^\/]+/', $src ) ) {              // Vine video page
-			$src = '';
+		} else {
+			require_once( ABSPATH . WPINC . '/class-oembed.php' );
+			$oembed = _wp_oembed_get_object();
+
+			if ( ! $oembed->get_provider( $src, array( 'discover' => false ) ) ) {
+				$src = '';
+			}
 		}
 
 		return $src;
@@ -933,6 +935,11 @@ class WP_Press_This {
 	public function get_embeds( $data ) {
 		$selected_embeds = array();
 
+		// Make sure to add the Pressed page if it's a valid oembed itself
+		if ( ! empty ( $data['u'] ) && $this->_limit_embed( $data['u'] ) ) {
+			$data['_embeds'][] = $data['u'];
+		}
+
 		if ( ! empty( $data['_embeds'] ) ) {
 			foreach( $data['_embeds'] as $src ) {
 				$prot_relative_src = preg_replace( '/^https?:/', '', $src );
@@ -1097,10 +1104,7 @@ class WP_Press_This {
 
 		$default_html = array( 'quote' => '', 'link' => '', 'embed' => '' );
 
-		require_once( ABSPATH . WPINC . '/class-oembed.php' );
-		$oembed = _wp_oembed_get_object();
-
-		if ( ! empty( $data['u'] ) && $oembed->get_provider( $data['u'], array( 'discover' => false ) ) ) {
+		if ( $this->_limit_embed( $data['u'] ) ) {
 			$default_html['embed'] = '<p>[embed]' . $data['u'] . '[/embed]</p>';
 
 			if ( ! empty( $data['s'] ) ) {

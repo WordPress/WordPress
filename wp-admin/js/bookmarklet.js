@@ -66,16 +66,6 @@
 		form.appendChild( input );
 	}
 
-	if ( href.match( /\/\/(www|m)\.youtube\.com\/watch/ ) ||
-		href.match( /\/\/vimeo\.com\/(.+\/)?([\d]+)$/ ) ||
-		href.match( /\/\/(www\.)?dailymotion\.com\/video\/.+$/ ) ||
-		href.match( /\/\/soundcloud\.com\/.+$/ ) ||
-		href.match( /\/\/twitter\.com\/[^\/]+\/status\/[\d]+$/ ) ||
-		href.match( /\/\/vine\.co\/v\/[^\/]+/ ) ) {
-
-		add( '_embeds[]', href );
-	}
-
 	metas = head.getElementsByTagName( 'meta' ) || [];
 
 	for ( var m = 0; m < metas.length; m++ ) {
