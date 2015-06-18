@@ -1475,6 +1475,7 @@ form.upgrade .hint {
 #screen-meta-links .show-settings {
 	border: 0;
 	background: none;
+	-webkit-border-radius: 0;
 	border-radius: 0;
 	color: #777;
 	line-height: 1.7;
