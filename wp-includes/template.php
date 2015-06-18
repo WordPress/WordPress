@@ -383,6 +383,21 @@ function get_single_template() {
 }
 
 /**
+ * Retrieve path of singular template in current or parent template.
+ *
+ * The template path is filterable via the 'singular_template' hook.
+ *
+ * @since 4.3.0
+ *
+ * @see get_query_template()
+ *
+ * @return string Full path to singular template file
+ */
+function get_singular_template() {
+	return get_query_template( 'singular' );
+}
+
+/**
  * Retrieve path of attachment template in current or parent template.
  *
  * The attachment path first checks if the first part of the mime type exists.
