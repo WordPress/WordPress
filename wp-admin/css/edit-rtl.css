@@ -573,11 +573,11 @@ span.wp-media-buttons-icon:before {
 	display: inline;
 }
 
-#excerpt,
-.attachmentlinks {
-	margin: 0;
+#excerpt {
+	display: block;
+	margin: 12px 0 0;
 	height: 4em;
-	width: 98%;
+	width: 100%;
 }
 
 .tagchecklist {
