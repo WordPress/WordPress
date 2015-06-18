@@ -1443,14 +1443,6 @@ form.upgrade .hint {
 	margin: 0 20px 0 0;
 }
 
-#screen-meta-links a {
-	padding: 3px 6px 3px 16px;
-}
-
-#screen-meta-links a:focus {
-	outline: none;
-}
-
 /* screen options and help tabs revert */
 #screen-meta {
 	display: none;
@@ -1480,26 +1472,22 @@ form.upgrade .hint {
 	top: 0;
 }
 
-#screen-meta-links a {
+#screen-meta-links .show-settings {
+	border: 0;
+	background: none;
+	border-radius: 0;
 	color: #777;
+	line-height: 1.7;
+	padding: 3px 6px 3px 16px;
 }
 
-#screen-meta-links a:hover,
-#screen-meta-links a:active,
-#screen-meta-links a:focus {
+#screen-meta-links .show-settings:hover,
+#screen-meta-links .show-settings:active,
+#screen-meta-links .show-settings:focus {
 	color: #32373c;
 }
 
-#screen-meta-links a.show-settings {
-	display: block;
-	font-size: 13px;
-	height: 22px;
-	line-height: 22px;
-	text-decoration: none;
-	z-index: 1;
-}
-
-#screen-meta-links a:after {
+#screen-meta-links .show-settings:after {
 	right: 0;
 	content: '\f140';
 	font: normal 20px/1 'dashicons';
@@ -1515,13 +1503,10 @@ form.upgrade .hint {
 	color: #b4b9be;
 }
 
-#screen-meta-links a.screen-meta-active:after {
+#screen-meta-links .screen-meta-active:after {
 	content: '\f142';
 }
 
-#screen-meta-links a.show-settings:hover {
-	text-decoration: none;
-}
 /* end screen options and help tabs */
 
 .toggle-arrow {

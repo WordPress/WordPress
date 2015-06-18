@@ -105,15 +105,14 @@ screenMeta = {
 
 	init: function() {
 		this.element = $('#screen-meta');
-		this.toggles = $('.screen-meta-toggle a');
+		this.toggles = $( '#screen-meta-links' ).find( '.show-settings' );
 		this.page    = $('#wpcontent');
 
 		this.toggles.click( this.toggleEvent );
 	},
 
-	toggleEvent: function( e ) {
-		var panel = $( this.href.replace(/.+#/, '#') );
-		e.preventDefault();
+	toggleEvent: function() {
+		var panel = $( '#' + $( this ).attr( 'aria-controls' ) );
 
 		if ( !panel.length )
 			return;
@@ -124,22 +123,22 @@ screenMeta = {
 			screenMeta.open( panel, $(this) );
 	},
 
-	open: function( panel, link ) {
+	open: function( panel, button ) {
 
-		$('.screen-meta-toggle').not( link.parent() ).css('visibility', 'hidden');
+		$( '#screen-meta-links' ).find( '.screen-meta-toggle' ).not( button.parent() ).css( 'visibility', 'hidden' );
 
 		panel.parent().show();
 		panel.slideDown( 'fast', function() {
 			panel.focus();
-			link.addClass('screen-meta-active').attr('aria-expanded', true);
+			button.addClass( 'screen-meta-active' ).attr( 'aria-expanded', true );
 		});
 
 		$( document ).trigger( 'screen:options:open' );
 	},
 
-	close: function( panel, link ) {
+	close: function( panel, button ) {
 		panel.slideUp( 'fast', function() {
-			link.removeClass('screen-meta-active').attr('aria-expanded', false);
+			button.removeClass( 'screen-meta-active' ).attr( 'aria-expanded', false );
 			$('.screen-meta-toggle').css('visibility', '');
 			panel.parent().hide();
 		});
