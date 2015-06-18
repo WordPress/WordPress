@@ -1800,8 +1800,10 @@
 				}
 
 				if ( ! $( 'body' ).hasClass( 'adding-menu-items' ) ) {
+					$( this ).attr( 'aria-expanded', 'true' );
 					api.Menus.availableMenuItemsPanel.open( self );
 				} else {
+					$( this ).attr( 'aria-expanded', 'false' );
 					api.Menus.availableMenuItemsPanel.close();
 					event.stopPropagation();
 				}
