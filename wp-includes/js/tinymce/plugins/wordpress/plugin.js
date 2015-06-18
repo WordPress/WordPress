@@ -443,23 +443,21 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 	 * Experimental: create a floating toolbar.
 	 * This functionality will change in the next releases. Not recommended for use by plugins.
 	 */
-	( function() {
+	editor.on( 'preinit', function() {
 		var Factory = tinymce.ui.Factory,
 			settings = editor.settings,
 			activeToolbar,
 			currentSelection,
+			timeout,
 			wpAdminbar = document.getElementById( 'wpadminbar' ),
-			mceIframe, mceToolbar, mceStatusbar, wpStatusbar;
-
-		editor.on( 'init', function() {
-			mceIframe = document.getElementById( editor.id + '_ifr' );
-			mceToolbar = tinymce.$( '.mce-toolbar-grp', editor.getContainer() )[0];
-			mceStatusbar = tinymce.$( '.mce-statusbar', editor.getContainer() )[0];
+			mceIframe = document.getElementById( editor.id + '_ifr' ),
+			mceToolbar = tinymce.$( '.mce-toolbar-grp', editor.getContainer() )[0],
+			mceStatusbar = tinymce.$( '.mce-statusbar', editor.getContainer() )[0],
+			wpStatusbar;
 
 			if ( editor.id === 'content' ) {
 				wpStatusbar = document.getElementById( 'post-status-info' );
 			}
-		} );
 
 		function create( buttons, bottom ) {
 			var toolbar,
@@ -587,10 +585,6 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 
 			toolbar.bottom = bottom;
 
-			function hide() {
-				toolbar.hide();
-			}
-
 			function reposition() {
 				var scrollX = window.pageXOffset || document.documentElement.scrollLeft,
 					scrollY = window.pageYOffset || document.documentElement.scrollTop,
@@ -616,6 +610,10 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 					editorHeight = windowHeight - blockedTop - blockedBottom,
 					className = '',
 					top, left;
+
+				if ( spaceTop >= editorHeight || spaceBottom >= editorHeight ) {
+					return this.hide();
+				}
 
 				if ( this.bottom ) {
 					if ( spaceBottom >= spaceNeeded ) {
@@ -677,18 +675,6 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 				}
 			} );
 
-			toolbar.on( 'remove', function() {
-				DOM.unbind( window, 'resize scroll', hide );
-				editor.dom.unbind( editor.getWin(), 'resize scroll', hide );
-				editor.off( 'blur hide', hide );
-			} );
-
-			editor.once( 'init', function() {
-				DOM.bind( window, 'resize scroll', hide );
-				editor.dom.bind( editor.getWin(), 'resize scroll', hide );
-				editor.on( 'blur hide', hide );
-			} );
-
 			toolbar.reposition = reposition;
 			toolbar.hide().renderTo( document.body );
 
@@ -735,13 +721,29 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 			}
 		} );
 
-		editor.on( 'hide', function() {
-			activeToolbar = false;
-		} );
+		function hide( event ) {
+			if ( activeToolbar ) {
+				activeToolbar.hide();
+
+				if ( event.type === 'hide' ) {
+					activeToolbar = false;
+				} else if ( event.type === 'resize' || event.type === 'scroll' ) {
+					clearTimeout( timeout );
+
+					timeout = setTimeout( function() {
+						activeToolbar.show();
+					}, 250 );
+				}
+			}
+		}
+
+		DOM.bind( window, 'resize scroll', hide );
+		editor.dom.bind( editor.getWin(), 'resize scroll', hide );
+		editor.on( 'blur hide', hide );
 
 		editor.wp = editor.wp || {};
 		editor.wp._createToolbar = create;
-	}());
+	}, true );
 
 	function noop() {}
 
