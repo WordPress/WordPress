@@ -728,6 +728,19 @@ function wp_nav_menu_item_post_type_meta_box( $object, $post_type ) {
 				$recent_args = array_merge( $args, array( 'orderby' => 'post_date', 'order' => 'DESC', 'posts_per_page' => 15 ) );
 				$most_recent = $get_posts->query( $recent_args );
 				$args['walker'] = $walker;
+
+				/**
+				 * Filter the posts displayed in the 'Most Recent' tab of the current
+				 * post type's menu items meta box.
+				 *
+				 * @since 4.3.0
+				 *
+				 * @param array  $most_recent An array of post objects being listed.
+				 * @param array  $args        An array of WP_Query arguments.
+				 * @param object $post_type   The current post type object for this menu item meta box.
+				 */
+				$most_recent = apply_filters( "nav_menu_items_{$post_type_name}_recent", $most_recent, $args, $post_type );
+
 				echo walk_nav_menu_tree( array_map('wp_setup_nav_menu_item', $most_recent), 0, (object) $args );
 				?>
 			</ul>
