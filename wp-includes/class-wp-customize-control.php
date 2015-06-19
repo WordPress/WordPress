@@ -1489,7 +1489,7 @@ class WP_Customize_Nav_Menu_Control extends WP_Customize_Control {
 	 *
 	 * @return array
 	 */
-	function json() {
+	public function json() {
 		$exported            = parent::json();
 		$exported['menu_id'] = $this->setting->term_id;
 
