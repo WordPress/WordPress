@@ -22,10 +22,10 @@ inlineEditPost = {
 			}
 		});
 
-		$('a.cancel', qeRow).click(function(){
+		$( '.cancel', qeRow ).click( function() {
 			return inlineEditPost.revert();
 		});
-		$('a.save', qeRow).click(function(){
+		$( '.save', qeRow ).click( function() {
 			return inlineEditPost.save(this);
 		});
 		$('td', qeRow).keydown(function(e){
@@ -34,7 +34,7 @@ inlineEditPost = {
 			}
 		});
 
-		$('a.cancel', bulkRow).click(function(){
+		$( '.cancel', bulkRow ).click( function() {
 			return inlineEditPost.revert();
 		});
 

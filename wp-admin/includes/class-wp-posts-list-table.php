@@ -1529,11 +1529,11 @@ class WP_Posts_List_Table extends WP_List_Table {
 		}
 	?>
 		<p class="submit inline-edit-save">
-			<a href="#inline-edit" class="button-secondary cancel alignleft"><?php _e( 'Cancel' ); ?></a>
+			<button type="button" class="button-secondary cancel alignleft"><?php _e( 'Cancel' ); ?></button>
 			<?php if ( ! $bulk ) {
 				wp_nonce_field( 'inlineeditnonce', '_inline_edit', false );
 				?>
-				<a href="#inline-edit" class="button-primary save alignright"><?php _e( 'Update' ); ?></a>
+				<button type="button" class="button-primary save alignright"><?php _e( 'Update' ); ?></button>
 				<span class="spinner"></span>
 			<?php } else {
 				submit_button( __( 'Update' ), 'button-primary alignright', 'bulk_edit', false );
