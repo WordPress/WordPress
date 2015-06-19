@@ -1218,11 +1218,11 @@
 
 .upload-errors .upload-error {
 	padding: 12px;
-	margin-bottom: 12px; 
-	background: #fff; 
- 	border-left: 4px solid #dd3d36; 
- 	-webkit-box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1); 
- 	box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1); 
+	margin-bottom: 12px;
+	background: #fff;
+	border-left: 4px solid #dd3d36;
+	-webkit-box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1);
+	box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1);
 }
 
 .upload-errors .upload-error-filename {
@@ -1809,10 +1809,17 @@
 	overflow: auto;
 }
 
+.media-embed .embed-link-settings {
+	/* avoid Firefox to give focus to the embed preview container parent */
+	overflow: visible;
+}
+
 .embed-preview img,
 .embed-preview iframe,
-.embed-preview embed {
+.embed-preview embed,
+.mejs-container video {
 	max-width: 100%;
+	vertical-align: middle;
 }
 
 .embed-preview a {
@@ -1822,6 +1829,11 @@
 .embed-preview img {
 	display: block;
 	height: auto;
+}
+
+.mejs-container:focus {
+	outline: 1px solid #5b9dd9;
+	box-shadow: 0 0 2px 1px rgba(30, 140, 190, .8);
 }
 
 .image-details .media-modal {
