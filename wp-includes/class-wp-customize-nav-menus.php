@@ -515,7 +515,7 @@ final class WP_Customize_Nav_Menus {
 	 *
 	 * @return int
 	 */
-	function intval_base10( $value ) {
+	public function intval_base10( $value ) {
 		return intval( $value, 10 );
 	}
 
@@ -708,7 +708,7 @@ final class WP_Customize_Nav_Menus {
 	 *
 	 * @since 4.3.0
 	 */
-	function customize_preview_init() {
+	public function customize_preview_init() {
 		add_action( 'template_redirect', array( $this, 'render_menu' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'customize_preview_enqueue_deps' ) );
 
@@ -728,7 +728,7 @@ final class WP_Customize_Nav_Menus {
 	 * @param array $args  An array containing wp_nav_menu() arguments.
 	 * @return array
 	 */
-	function filter_wp_nav_menu_args( $args ) {
+	public function filter_wp_nav_menu_args( $args ) {
 		$this->preview_nav_menu_instance_number += 1;
 		$args['instance_number'] = $this->preview_nav_menu_instance_number;
 
@@ -764,7 +764,7 @@ final class WP_Customize_Nav_Menus {
 	 * @param object $args             An object containing wp_nav_menu() arguments.
 	 * @return null
 	 */
-	function filter_wp_nav_menu( $nav_menu_content, $args ) {
+	public function filter_wp_nav_menu( $nav_menu_content, $args ) {
 		if ( ! empty( $args->can_partial_refresh ) && ! empty( $args->instance_number ) ) {
 			$nav_menu_content = sprintf(
 				'<div id="partial-refresh-menu-container-%1$d" class="partial-refresh-menu-container" data-instance-number="%1$d">%2$s</div>',
@@ -784,7 +784,7 @@ final class WP_Customize_Nav_Menus {
 	 * @param array $args The arguments to hash.
 	 * @return string
 	 */
-	function hash_nav_menu_args( $args ) {
+	public function hash_nav_menu_args( $args ) {
 		return wp_hash( wp_create_nonce( self::RENDER_AJAX_ACTION ) . serialize( $args ) );
 	}
 
@@ -793,7 +793,7 @@ final class WP_Customize_Nav_Menus {
 	 *
 	 * @since 4.3.0
 	 */
-	function customize_preview_enqueue_deps() {
+	public function customize_preview_enqueue_deps() {
 		wp_enqueue_script( 'customize-preview-nav-menus' );
 		wp_enqueue_style( 'customize-preview' );
 
@@ -805,7 +805,7 @@ final class WP_Customize_Nav_Menus {
 	 *
 	 * @since 4.3.0
 	 */
-	function export_preview_data() {
+	public function export_preview_data() {
 
 		// Why not wp_localize_script? Because we're not localizing, and it forces values into strings.
 		$exports = array(
@@ -835,7 +835,7 @@ final class WP_Customize_Nav_Menus {
 	 *
 	 * @see wp_nav_menu()
 	 */
-	function render_menu() {
+	public function render_menu() {
 		if ( empty( $_POST[ self::RENDER_QUERY_VAR ] ) ) {
 			return;
 		}
