@@ -423,7 +423,7 @@ class WP_Customize_Nav_Menus_Panel extends WP_Customize_Panel {
 	 *
 	 * @return array The advanced menu properties.
 	 */
-	function wp_nav_menu_manage_columns() {
+	public function wp_nav_menu_manage_columns() {
 		return array(
 			'_title'      => __( 'Show advanced menu properties' ),
 			'cb'          => '<input type="checkbox" />',
