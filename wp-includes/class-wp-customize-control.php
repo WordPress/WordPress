@@ -1637,7 +1637,7 @@ class WP_Customize_Nav_Menu_Item_Control extends WP_Customize_Control {
 	 *
 	 * @return array
 	 */
-	function json() {
+	public function json() {
 		$exported                 = parent::json();
 		$exported['menu_item_id'] = $this->setting->post_id;
 
