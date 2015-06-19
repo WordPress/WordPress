@@ -972,9 +972,9 @@ class WP_Comment_Query {
 		$parsed = false;
 		if ( $orderby == $this->query_vars['meta_key'] || $orderby == 'meta_value' ) {
 			$parsed = "$wpdb->commentmeta.meta_value";
-		} else if ( $orderby == 'meta_value_num' ) {
+		} elseif ( $orderby == 'meta_value_num' ) {
 			$parsed = "$wpdb->commentmeta.meta_value+0";
-		} else if ( in_array( $orderby, $allowed_keys ) ) {
+		} elseif ( in_array( $orderby, $allowed_keys ) ) {
 
 			if ( isset( $meta_query_clauses[ $orderby ] ) ) {
 				$meta_clause = $meta_query_clauses[ $orderby ];

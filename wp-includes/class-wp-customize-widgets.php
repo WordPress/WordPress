@@ -747,7 +747,7 @@ final class WP_Customize_Widgets {
 		if ( preg_match( $this->setting_id_patterns['sidebar_widgets'], $id, $matches ) ) {
 			$args['sanitize_callback'] = array( $this, 'sanitize_sidebar_widgets' );
 			$args['sanitize_js_callback'] = array( $this, 'sanitize_sidebar_widgets_js_instance' );
-		} else if ( preg_match( $this->setting_id_patterns['widget_instance'], $id, $matches ) ) {
+		} elseif ( preg_match( $this->setting_id_patterns['widget_instance'], $id, $matches ) ) {
 			$args['sanitize_callback'] = array( $this, 'sanitize_widget_instance' );
 			$args['sanitize_js_callback'] = array( $this, 'sanitize_widget_js_instance' );
 		}

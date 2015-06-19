@@ -858,7 +858,7 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting {
 
 					if ( 'post_type' === $value['type'] ) {
 						$original_title = get_the_title( $value['object_id'] );
-					} else if ( 'taxonomy' === $value['type'] ) {
+					} elseif ( 'taxonomy' === $value['type'] ) {
 						$original_title = get_term_field( 'name', $value['object_id'], $value['object'], 'raw' );
 						if ( is_wp_error( $original_title ) ) {
 							$original_title = '';
@@ -1737,7 +1737,7 @@ class WP_Customize_Nav_Menu_Setting extends WP_Customize_Setting {
 		$i = array_search( $menu_id, $nav_menu_options['auto_add'] );
 		if ( $auto_add && false === $i ) {
 			array_push( $nav_menu_options['auto_add'], $this->term_id );
-		} else if ( ! $auto_add && false !== $i ) {
+		} elseif ( ! $auto_add && false !== $i ) {
 			array_splice( $nav_menu_options['auto_add'], $i, 1 );
 		}
 

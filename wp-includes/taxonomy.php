@@ -2712,11 +2712,11 @@ function wp_get_object_terms($object_ids, $taxonomies, $args = array()) {
 
 	if ( in_array( $orderby, array( 'term_id', 'name', 'slug', 'term_group' ) ) ) {
 		$orderby = "t.$orderby";
-	} else if ( in_array( $orderby, array( 'count', 'parent', 'taxonomy', 'term_taxonomy_id' ) ) ) {
+	} elseif ( in_array( $orderby, array( 'count', 'parent', 'taxonomy', 'term_taxonomy_id' ) ) ) {
 		$orderby = "tt.$orderby";
-	} else if ( 'term_order' === $orderby ) {
+	} elseif ( 'term_order' === $orderby ) {
 		$orderby = 'tr.term_order';
-	} else if ( 'none' === $orderby ) {
+	} elseif ( 'none' === $orderby ) {
 		$orderby = '';
 		$order = '';
 	} else {

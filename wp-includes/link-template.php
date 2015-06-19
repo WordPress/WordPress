@@ -920,7 +920,7 @@ function get_edit_term_link( $term_id, $taxonomy, $object_type = '' ) {
 
 	if ( $object_type ) {
 		$args['post_type'] = $object_type;
-	} else if ( ! empty( $tax->object_type ) ) {
+	} elseif ( ! empty( $tax->object_type ) ) {
 		$args['post_type'] = reset( $tax->object_type );
 	}
 

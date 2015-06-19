@@ -721,7 +721,7 @@ class WP_User_Query {
 		if ( empty( $qv['orderby'] ) ) {
 			// Default order is by 'user_login'.
 			$ordersby = array( 'user_login' => $order );
-		} else if ( is_array( $qv['orderby'] ) ) {
+		} elseif ( is_array( $qv['orderby'] ) ) {
 			$ordersby = $qv['orderby'];
 		} else {
 			// 'orderby' values may be a comma- or space-separated list.
