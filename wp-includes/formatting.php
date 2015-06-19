@@ -688,6 +688,12 @@ function _wp_specialchars( $string, $quote_style = ENT_NOQUOTES, $charset = fals
 		$quote_style = ENT_NOQUOTES;
 	}
 
+	if ( ! $double_encode ) {
+		// Guarantee every &entity; is valid, convert &garbage; into &amp;garbage;
+		// This is required for PHP < 5.4.0 because ENT_HTML401 flag is unavailable.
+		$string = wp_kses_normalize_entities( $string );
+	}
+
 	$string = @htmlspecialchars( $string, $quote_style, $charset, $double_encode );
 
 	// Backwards compatibility
