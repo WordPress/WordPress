@@ -521,7 +521,7 @@ if ( ! CUSTOM_TAGS ) {
 function wp_kses( $string, $allowed_html, $allowed_protocols = array() ) {
 	if ( empty( $allowed_protocols ) )
 		$allowed_protocols = wp_allowed_protocols();
-	$string = wp_kses_no_null($string);
+	$string = wp_kses_no_null( $string, array( 'slash_zero' => 'keep' ) );
 	$string = wp_kses_js_entities($string);
 	$string = wp_kses_normalize_entities($string);
 	$string = wp_kses_hook($string, $allowed_html, $allowed_protocols); // WP changed the order of these funcs and added args to wp_kses_hook
@@ -1044,11 +1044,18 @@ function wp_kses_bad_protocol($string, $allowed_protocols) {
  * @since 1.0.0
  *
  * @param string $string
+ * @param array $options Set 'slash_zero' => 'keep' when '\0' is allowed. Default is 'remove'.
  * @return string
  */
-function wp_kses_no_null($string) {
-	$string = preg_replace('/[\x00-\x08\x0B\x0C\x0E-\x1F]/', '', $string);
-	$string = preg_replace('/(\\\\0)+/', '', $string);
+function wp_kses_no_null( $string, $options = null ) {
+	if ( ! isset( $options['slash_zero'] ) ) {
+		$options = array( 'slash_zero' => 'remove' );
+	}
+
+	$string = preg_replace( '/[\x00-\x08\x0B\x0C\x0E-\x1F]/', '', $string );
+	if ( 'remove' == $options['slash_zero'] ) {
+		$string = preg_replace( '/\\\\+0+/', '', $string );
+	}
 
 	return $string;
 }
