@@ -1833,6 +1833,7 @@
 
 .mejs-container:focus {
 	outline: 1px solid #5b9dd9;
+	-webkit-box-shadow: 0 0 2px 1px rgba(30, 140, 190, .8);
 	box-shadow: 0 0 2px 1px rgba(30, 140, 190, .8);
 }
 

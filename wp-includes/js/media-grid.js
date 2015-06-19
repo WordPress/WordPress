@@ -279,6 +279,10 @@ var Button = wp.media.view.Button,
 
 SelectModeToggle = Button.extend({
 	initialize: function() {
+		_.defaults( this.options, {
+			size : ''
+		} );
+
 		Button.prototype.initialize.apply( this, arguments );
 		this.listenTo( this.controller, 'select:activate select:deactivate', this.toggleBulkEditHandler );
 		this.listenTo( this.controller, 'selection:action:done', this.back );
@@ -310,12 +314,18 @@ SelectModeToggle = Button.extend({
 
 		// TODO: the Frame should be doing all of this.
 		if ( this.controller.isModeActive( 'select' ) ) {
-			this.model.set( 'text', l10n.cancelSelection );
+			this.model.set( {
+				size: 'large',
+				text: l10n.cancelSelection
+			} );
 			children.not( '.spinner, .media-button' ).hide();
 			this.$el.show();
 			toolbar.$( '.delete-selected-button' ).removeClass( 'hidden' );
 		} else {
-			this.model.set( 'text', l10n.bulkSelect );
+			this.model.set( {
+				size: '',
+				text: l10n.bulkSelect
+			} );
 			this.controller.content.get().$el.removeClass( 'fixed' );
 			toolbar.$el.css( 'width', '' );
 			toolbar.$( '.delete-selected-button' ).addClass( 'hidden' );

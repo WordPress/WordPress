@@ -461,8 +461,8 @@ border color while dragging a file over the uploader drop area */
 	padding: 0 16px;
 	border-right: 4px solid #dd3d36;
  	-webkit-box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1);
- 	box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1); 
-	background-color: #fff; 
+ 	box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1);
+	background-color: #fff;
 }
 
 .upload-php .mode-grid .hide-sidebar .media-sidebar {
@@ -570,9 +570,9 @@ border color while dragging a file over the uploader drop area */
 	font-size: 14px;
 }
 
-.media-frame.mode-grid .media-toolbar-secondary > .media-button {
-	margin-top: 10px;
-	margin-bottom: 10px;
+.media-frame.mode-grid.mode-edit .media-toolbar-secondary > .select-mode-toggle-button {
+	margin: 0 0 0 8px;
+	vertical-align: middle;
 }
 
 .media-frame.mode-grid .attachments-browser .bulk-select {
@@ -585,7 +585,7 @@ border color while dragging a file over the uploader drop area */
 }
 
 .media-frame.mode-grid .spinner {
-	margin-top: 15px;
+	margin-top: 16px;
 }
 
 .attachments-browser .media-toolbar-secondary > .media-button {
