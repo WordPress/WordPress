@@ -625,14 +625,16 @@ button.not-a-button {
 	margin: 0;
 }
 
-#available-menu-items .accordion-section-title button:focus:before {
+#available-menu-items .accordion-section-title button {
 	display: block;
-	content: "";
 	width: 28px;
 	height: 32px;
 	position: absolute;
-	right: 5px;
 	top: 5px;
+	right: 5px;
+}
+
+#available-menu-items .accordion-section-title button:focus {
 	-webkit-box-shadow: 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, .8);
 	box-shadow: 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, .8);
 }
