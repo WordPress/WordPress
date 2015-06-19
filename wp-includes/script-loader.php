@@ -439,7 +439,8 @@ function wp_default_scripts( &$scripts ) {
 			'hotkeys_highlight_first' => isset($_GET['hotkeys_highlight_first']),
 			'hotkeys_highlight_last' => isset($_GET['hotkeys_highlight_last']),
 			'replyApprove' => __( 'Approve and Reply' ),
-			'reply' => __( 'Reply' )
+			'reply' => __( 'Reply' ),
+			'warnQuickEdit' => __( "Are you sure you want to edit this comment?\nThe changes you made will be lost." ),
 		) );
 
 		$scripts->add( 'xfn', "/wp-admin/js/xfn$suffix.js", array('jquery'), false, 1 );
