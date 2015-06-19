@@ -81,6 +81,9 @@ if ( ! $permalink ) {
 }
 
 $messages = array();
+/** This filter is documented in wp-admin/includes/meta-boxes.php */
+$post_preview_url = apply_filters( 'preview_post_link', add_query_arg( 'preview', 'true', $permalink ), $post );
+
 $messages['post'] = array(
 	 0 => '', // Unused. Messages start at index 1.
 	 1 => sprintf( __('Post updated. <a href="%s">View post</a>'), esc_url( $permalink ) ),
@@ -91,12 +94,16 @@ $messages['post'] = array(
 	 5 => isset($_GET['revision']) ? sprintf( __('Post restored to revision from %s'), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false,
 	 6 => sprintf( __('Post published. <a href="%s">View post</a>'), esc_url( $permalink ) ),
 	 7 => __('Post saved.'),
-	 8 => sprintf( __('Post submitted. <a target="_blank" href="%s">Preview post</a>'), esc_url( add_query_arg( 'preview', 'true', $permalink ) ) ),
+	 8 => sprintf( __('Post submitted. <a target="_blank" href="%s">Preview post</a>'), esc_url( $post_preview_url ) ),
 	 9 => sprintf( __('Post scheduled for: <strong>%1$s</strong>. <a target="_blank" href="%2$s">Preview post</a>'),
 		/* translators: Publish box date format, see http://php.net/date */
 		date_i18n( __( 'M j, Y @ H:i' ), strtotime( $post->post_date ) ), esc_url( $permalink ) ),
-	10 => sprintf( __('Post draft updated. <a target="_blank" href="%s">Preview post</a>'), esc_url( add_query_arg( 'preview', 'true', $permalink ) ) ),
+	10 => sprintf( __('Post draft updated. <a target="_blank" href="%s">Preview post</a>'), esc_url( $post_preview_url ) ),
 );
+
+/** This filter is documented in wp-admin/includes/meta-boxes.php */
+$page_preview_url = apply_filters( 'preview_post_link', add_query_arg( 'preview', 'true', $permalink ), $post );
+
 $messages['page'] = array(
 	 0 => '', // Unused. Messages start at index 1.
 	 1 => sprintf( __('Page updated. <a href="%s">View page</a>'), esc_url( $permalink ) ),
@@ -106,9 +113,9 @@ $messages['page'] = array(
 	 5 => isset($_GET['revision']) ? sprintf( __('Page restored to revision from %s'), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false,
 	 6 => sprintf( __('Page published. <a href="%s">View page</a>'), esc_url( $permalink ) ),
 	 7 => __('Page saved.'),
-	 8 => sprintf( __('Page submitted. <a target="_blank" href="%s">Preview page</a>'), esc_url( add_query_arg( 'preview', 'true', $permalink ) ) ),
+	 8 => sprintf( __('Page submitted. <a target="_blank" href="%s">Preview page</a>'), esc_url( $page_preview_url ) ),
 	 9 => sprintf( __('Page scheduled for: <strong>%1$s</strong>. <a target="_blank" href="%2$s">Preview page</a>'), date_i18n( __( 'M j, Y @ H:i' ), strtotime( $post->post_date ) ), esc_url( $permalink ) ),
-	10 => sprintf( __('Page draft updated. <a target="_blank" href="%s">Preview page</a>'), esc_url( add_query_arg( 'preview', 'true', $permalink ) ) ),
+	10 => sprintf( __('Page draft updated. <a target="_blank" href="%s">Preview page</a>'), esc_url( $page_preview_url ) ),
 );
 $messages['attachment'] = array_fill( 1, 10, __( 'Media attachment updated.' ) ); // Hack, for now.
 
