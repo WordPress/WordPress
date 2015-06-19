@@ -924,7 +924,7 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting {
 	 * @param array  $args  An array of arguments used to retrieve menu item objects.
 	 * @return array Array of menu items,
 	 */
-	function filter_wp_get_nav_menu_items( $items, $menu, $args ) {
+	public function filter_wp_get_nav_menu_items( $items, $menu, $args ) {
 		$this_item = $this->value();
 		$current_nav_menu_term_id = $this_item['nav_menu_term_id'];
 		unset( $this_item['nav_menu_term_id'] );
@@ -995,7 +995,7 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting {
 	 * @param array  $args  An array of arguments used to retrieve menu item objects.
 	 * @return array Array of menu items,
 	 */
-	static function sort_wp_get_nav_menu_items( $items, $menu, $args ) {
+	public static function sort_wp_get_nav_menu_items( $items, $menu, $args ) {
 		// @todo We should probably re-apply some constraints imposed by $args.
 		unset( $args['include'] );
 
@@ -1267,7 +1267,7 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting {
 	 * @param array $data Additional information passed back to the 'saved' event on `wp.customize`.
 	 * @return array
 	 */
-	function amend_customize_save_response( $data ) {
+	public function amend_customize_save_response( $data ) {
 		if ( ! isset( $data['nav_menu_item_updates'] ) ) {
 			$data['nav_menu_item_updates'] = array();
 		}
@@ -1515,7 +1515,7 @@ class WP_Customize_Nav_Menu_Setting extends WP_Customize_Setting {
 	 * @param string      $menu_id  ID of the nav_menu term. Requests by slug or name will be ignored.
 	 * @return object|null
 	 */
-	function filter_wp_get_nav_menu_object( $menu_obj, $menu_id ) {
+	public function filter_wp_get_nav_menu_object( $menu_obj, $menu_id ) {
 		$ok = (
 			get_current_blog_id() === $this->_previewed_blog_id
 			&&
@@ -1560,7 +1560,7 @@ class WP_Customize_Nav_Menu_Setting extends WP_Customize_Setting {
 	 * @param array $nav_menu_options Nav menu options including auto_add.
 	 * @return array
 	 */
-	function filter_nav_menu_options( $nav_menu_options ) {
+	public function filter_nav_menu_options( $nav_menu_options ) {
 		if ( $this->_previewed_blog_id !== get_current_blog_id() ) {
 			return $nav_menu_options;
 		}
@@ -1754,7 +1754,7 @@ class WP_Customize_Nav_Menu_Setting extends WP_Customize_Setting {
 	 * @param array $data Additional information passed back to the 'saved' event on `wp.customize`.
 	 * @return array
 	 */
-	function amend_customize_save_response( $data ) {
+	public function amend_customize_save_response( $data ) {
 		if ( ! isset( $data['nav_menu_updates'] ) ) {
 			$data['nav_menu_updates'] = array();
 		}
