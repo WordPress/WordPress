@@ -2571,6 +2571,7 @@ function get_language_attributes( $doctype = 'html' ) {
  * information for the page.
  *
  * @since 2.1.0
+ * @since 4.3.0 Converted into a wrapper for get_language_attributes().
  *
  * @param string $doctype Optional. The type of html document (xhtml|html). Default html.
  */
