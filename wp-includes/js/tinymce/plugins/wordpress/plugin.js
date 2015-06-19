@@ -7,8 +7,7 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 	var DOM = tinymce.DOM,
 		each = tinymce.each,
 		__ = editor.editorManager.i18n.translate,
-		wpAdvButton, style,
-		last = 0;
+		wpAdvButton, style;
 
 	if ( typeof window.jQuery !== 'undefined' ) {
 		window.jQuery( document ).triggerHandler( 'tinymce-editor-setup', [ editor ] );
@@ -362,23 +361,6 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 			});
 		}
 	});
-
-	// Word count
-	if ( typeof window.jQuery !== 'undefined' ) {
-		editor.on( 'keyup', function( e ) {
-			var key = e.keyCode || e.charCode;
-
-			if ( key === last ) {
-				return;
-			}
-
-			if ( 13 === key || 8 === last || 46 === last ) {
-				window.jQuery( document ).triggerHandler( 'wpcountwords', [ editor.getContent({ format : 'raw' }) ] );
-			}
-
-			last = key;
-		});
-	}
 
 	editor.on( 'SaveContent', function( e ) {
 		// If editor is hidden, we just want the textarea's value to be saved

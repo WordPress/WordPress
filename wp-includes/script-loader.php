@@ -371,11 +371,11 @@ function wp_default_scripts( &$scripts ) {
 
 	$scripts->add( 'wpdialogs', "/wp-includes/js/wpdialog$suffix.js", array( 'jquery-ui-dialog' ), false, 1 );
 
-	$scripts->add( 'word-count', "/wp-admin/js/word-count$suffix.js", array( 'jquery' ), false, 1 );
+	$scripts->add( 'word-count', "/wp-admin/js/word-count$suffix.js", array(), false, 1 );
 	did_action( 'init' ) && $scripts->localize( 'word-count', 'wordCountL10n', array(
 		/* translators: If your word count is based on single characters (East Asian characters),
 		   enter 'characters'. Otherwise, enter 'words'. Do not translate into your own language. */
-		'type' => 'characters' == _x( 'words', 'word count: words or characters?' ) ? 'c' : 'w',
+		'type' => _x( 'words', 'word count: words or characters?' )
 	) );
 
 	$scripts->add( 'media-upload', "/wp-admin/js/media-upload$suffix.js", array( 'thickbox', 'shortcode' ), false, 1 );
@@ -451,7 +451,7 @@ function wp_default_scripts( &$scripts ) {
 			'tagDelimiter' => _x( ',', 'tag delimiter' ),
 		) );
 
-		$scripts->add( 'post', "/wp-admin/js/post$suffix.js", array( 'suggest', 'wp-lists', 'postbox', 'tags-box' ), false, 1 );
+		$scripts->add( 'post', "/wp-admin/js/post$suffix.js", array( 'suggest', 'wp-lists', 'postbox', 'tags-box', 'underscore', 'word-count' ), false, 1 );
 		did_action( 'init' ) && $scripts->localize( 'post', 'postL10n', array(
 			'ok' => __('OK'),
 			'cancel' => __('Cancel'),

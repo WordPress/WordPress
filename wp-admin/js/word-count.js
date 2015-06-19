@@ -1,44 +1,48 @@
-/* global wordCountL10n */
-var wpWordCount;
-(function($,undefined) {
-	wpWordCount = {
+( function() {
+	function WordCounter( settings ) {
+		var key;
 
-		settings : {
-			strip : /<[a-zA-Z\/][^<>]*>/g, // strip HTML tags
-			clean : /[0-9.(),;:!?%#$¿'"_+=\\/-]+/g, // regexp to remove punctuation, etc.
-			w : /\S\s+/g, // word-counting regexp
-			c : /\S/g // char-counting regexp for asian languages
-		},
-
-		block : 0,
-
-		wc : function(tx, type) {
-			var t = this, w = $('.word-count'), tc = 0;
-
-			if ( type === undefined )
-				type = wordCountL10n.type;
-			if ( type !== 'w' && type !== 'c' )
-				type = 'w';
-
-			if ( t.block )
-				return;
-
-			t.block = 1;
-
-			setTimeout( function() {
-				if ( tx ) {
-					tx = tx.replace( t.settings.strip, ' ' ).replace( /&nbsp;|&#160;/gi, ' ' );
-					tx = tx.replace( t.settings.clean, '' );
-					tx.replace( t.settings[type], function(){tc++;} );
+		if ( settings ) {
+			for ( key in settings ) {
+				if ( settings.hasOwnProperty( key ) ) {
+					this.settings[ key ] = settings[ key ];
 				}
-				w.html(tc.toString());
-
-				setTimeout( function() { t.block = 0; }, 2000 );
-			}, 1 );
+			}
 		}
+	}
+
+	WordCounter.prototype.settings = {
+		HTMLRegExp: /<\/?[a-z][^>]*?>/gi,
+		spaceRegExp: /&nbsp;|&#160;/gi,
+		removeRegExp: /[0-9.(),;:!?%#$¿'"_+=\\\/-]+/g,
+		wordsRegExp: /\S\s+/g,
+		charactersRegExp: /\S/g,
+		l10n: window.wordCountL10n || {}
 	};
 
-	$(document).bind( 'wpcountwords', function(e, txt) {
-		wpWordCount.wc(txt);
-	});
-}(jQuery));
+	WordCounter.prototype.count = function( text, type ) {
+		var count = 0;
+
+		type = type || this.settings.l10n.type || 'words';
+
+		if ( text ) {
+			text = ' ' + text + ' ';
+
+			text = text.replace( this.settings.HTMLRegExp, ' ' );
+			text = text.replace( this.settings.spaceRegExp, ' ' );
+			text = text.replace( this.settings.removeRegExp, '' );
+
+			text = text.match( this.settings[ type + 'RegExp' ] );
+
+			if ( text ) {
+				count = text.length;
+			}
+		}
+
+		return count;
+	};
+
+	window.wp = window.wp || {};
+	window.wp.utils = window.wp.utils || {};
+	window.wp.utils.WordCounter = WordCounter;
+} )();
