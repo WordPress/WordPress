@@ -517,11 +517,11 @@ ul.add-menu-item-tabs li {
 }
 
 /* Sortables */
-li.menu-item.ui-sortable-helper dl {
+li.menu-item.ui-sortable-helper .menu-item-bar {
 	margin-top: 0;
 }
 
-li.menu-item.ui-sortable-helper .menu-item-transport dl {
+li.menu-item.ui-sortable-helper .menu-item-transport .menu-item-bar {
 	margin-top: 13px;
 }
 

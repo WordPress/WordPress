@@ -99,8 +99,8 @@ class Walker_Nav_Menu_Edit extends Walker_Nav_Menu {
 
 		?>
 		<li id="menu-item-<?php echo $item_id; ?>" class="<?php echo implode(' ', $classes ); ?>">
-			<dl class="menu-item-bar">
-				<dt class="menu-item-handle">
+			<div class="menu-item-bar">
+				<div class="menu-item-handle">
 					<span class="item-title"><span class="menu-item-title"><?php echo esc_html( $title ); ?></span> <span class="is-submenu" <?php echo $submenu_text; ?>><?php _e( 'sub item' ); ?></span></span>
 					<span class="item-controls">
 						<span class="item-type"><?php echo esc_html( $item->type_label ); ?></span>
@@ -135,8 +135,8 @@ class Walker_Nav_Menu_Edit extends Walker_Nav_Menu {
 							echo ( isset( $_GET['edit-menu-item'] ) && $item_id == $_GET['edit-menu-item'] ) ? admin_url( 'nav-menus.php' ) : add_query_arg( 'edit-menu-item', $item_id, remove_query_arg( $removed_args, admin_url( 'nav-menus.php#menu-item-settings-' . $item_id ) ) );
 						?>"><?php _e( 'Edit Menu Item' ); ?></a>
 					</span>
-				</dt>
-			</dl>
+				</div>
+			</div>
 
 			<div class="menu-item-settings" id="menu-item-settings-<?php echo $item_id; ?>">
 				<?php if ( 'custom' == $item->type ) : ?>
