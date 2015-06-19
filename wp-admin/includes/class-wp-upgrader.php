@@ -132,6 +132,7 @@ class WP_Upgrader {
 		$this->strings['folder_exists'] = __('Destination folder already exists.');
 		$this->strings['mkdir_failed'] = __('Could not create directory.');
 		$this->strings['incompatible_archive'] = __('The package could not be installed.');
+		$this->strings['files_not_writable'] = __( 'The update cannot be installed because we will be unable to copy some files. This is usually due to inconsistent file permissions.' );
 
 		$this->strings['maintenance_start'] = __('Enabling Maintenance mode&#8230;');
 		$this->strings['maintenance_end'] = __('Disabling Maintenance mode&#8230;');
@@ -293,6 +294,64 @@ class WP_Upgrader {
 	}
 
 	/**
+	 * Clears the directory where this item is going to be installed into.
+	 *
+	 * @since 4.3.0
+	 *
+	 * @global WP_Filesystem_Base $wp_filesystem Subclass
+	 *
+	 * @param string $remote_destination The location on the remote filesystem to be cleared
+	 *
+	 * @return bool|WP_Error true upon success, {@see WP_Error} on failure.
+	 */
+	function clear_destination( $remote_destination ) {
+		global $wp_filesystem;
+
+		if ( ! $wp_filesystem->exists( $remote_destination ) ) {
+			return true;
+		}
+
+		// Check all files are writable before attempting to clear the destination
+		$unwritable_files = array();
+
+		$_files = $wp_filesystem->dirlist( $remote_destination, true, true );
+		// Flatten the resulting array, iterate using each as we append to the array during iteration
+		while ( $f = each( $_files ) ) {
+			$file = $f['value'];
+			$name = $f['key'];
+
+			if ( ! isset( $file['files'] ) ) {
+				continue;
+			}
+
+			foreach ( $file['files'] as $filename => $details ) {
+				$_files[ $name . '/' . $filename ] = $details;
+			}
+		}
+
+		// Check writability
+		foreach ( $_files as $filename => $file_details ) {
+			if ( ! $wp_filesystem->is_writable( $remote_destination . $filename ) ) {
+				// Attempt to alter permissions to allow writes and try again
+				$wp_filesystem->chmod( $remote_destination . $filename, ( 'd' == $file_details['type'] ? FS_CHMOD_DIR : FS_CHMOD_FILE ) );
+				if ( ! $wp_filesystem->is_writable( $remote_destination . $filename ) ) {
+					$unwritable_files[] = $filename;
+				}
+			}
+		}
+
+		if ( ! empty( $unwritable_files ) ) {
+			return new WP_Error( 'files_not_writable', $this->strings['files_not_writable'], implode( ', ', $unwritable_files ) );
+		}
+
+		if ( ! $wp_filesystem->delete( $remote_destination, true ) ) {
+			return new WP_Error( 'remove_old_failed', $this->strings['remove_old_failed'] );
+		}
+
+		return true;
+	}
+
+	/**
 	 * Install a package.
 	 *
 	 * Copies the contents of a package form a source directory, and installs them in
@@ -417,29 +476,25 @@ class WP_Upgrader {
 		}
 
 		if ( $clear_destination ) {
-			//We're going to clear the destination if there's something there
+			// We're going to clear the destination if there's something there
 			$this->skin->feedback('remove_old');
-			$removed = true;
-			if ( $wp_filesystem->exists( $remote_destination ) ) {
-				$removed = $wp_filesystem->delete( $remote_destination, true );
-			}
+
+			$removed = $this->clear_destination( $remote_destination );
 
 			/**
 			 * Filter whether the upgrader cleared the destination.
 			 *
 			 * @since 2.8.0
 			 *
-			 * @param bool   $removed            Whether the destination was cleared.
+			 * @param mixed  $removed            Whether the destination was cleared. true on success, WP_Error on failure
 			 * @param string $local_destination  The local package destination.
 			 * @param string $remote_destination The remote package destination.
 			 * @param array  $hook_extra         Extra arguments passed to hooked filters.
 			 */
 			$removed = apply_filters( 'upgrader_clear_destination', $removed, $local_destination, $remote_destination, $args['hook_extra'] );
 
-			if ( is_wp_error($removed) ) {
+			if ( is_wp_error( $removed ) ) {
 				return $removed;
-			} elseif ( ! $removed ) {
-				return new WP_Error('remove_old_failed', $this->strings['remove_old_failed']);
 			}
 		} elseif ( $args['abort_if_destination_exists'] && $wp_filesystem->exists($remote_destination) ) {
 			//If we're not clearing the destination folder and something exists there already, Bail.
