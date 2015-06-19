@@ -304,7 +304,7 @@ class WP_Upgrader {
 	 *
 	 * @return bool|WP_Error true upon success, {@see WP_Error} on failure.
 	 */
-	function clear_destination( $remote_destination ) {
+	public function clear_destination( $remote_destination ) {
 		global $wp_filesystem;
 
 		if ( ! $wp_filesystem->exists( $remote_destination ) ) {
