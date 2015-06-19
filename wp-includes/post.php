@@ -972,7 +972,7 @@ function get_page_statuses() {
  *     @type bool        $_builtin                  Whether the status is built-in. Core-use only.
  *                                                  Default false.
  *     @type bool        $public                    Whether posts of this status should be shown
- *                                                  in the front end of the site. Default true.
+ *                                                  in the front end of the site. Default false.
  *     @type bool        $internal                  Whether the status is for internal use only.
  *                                                  Default false.
  *     @type bool        $protected                 Whether posts with this status should be protected.
