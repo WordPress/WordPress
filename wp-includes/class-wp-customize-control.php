@@ -718,6 +718,7 @@ class WP_Customize_Media_Control extends WP_Customize_Control {
 	 */
 	public function to_json() {
 		parent::to_json();
+		$this->json['label'] = html_entity_decode( $this->label, ENT_QUOTES, get_bloginfo( 'charset' ) );
 		$this->json['mime_type'] = $this->mime_type;
 		$this->json['button_labels'] = $this->button_labels;
 
