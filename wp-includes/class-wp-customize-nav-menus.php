@@ -587,10 +587,10 @@ final class WP_Customize_Nav_Menus {
 				<?php
 				printf(
 					'<button type="button" class="menus-move-up">%1$s</button><button type="button" class="menus-move-down">%2$s</button><button type="button" class="menus-move-left">%3$s</button><button type="button" class="menus-move-right">%4$s</button>',
-					esc_html( 'Move up' ),
-					esc_html( 'Move down' ),
-					esc_html( 'Move one level up' ),
-					esc_html( 'Move one level down' )
+					__( 'Move up' ),
+					__( 'Move down' ),
+					__( 'Move one level up' ),
+					__( 'Move one level down' )
 				);
 				?>
 			</div>
