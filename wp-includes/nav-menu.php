@@ -702,6 +702,7 @@ function wp_setup_nav_menu_item( $menu_item ) {
 				$original_title = $original_object->post_title;
 
 				if ( '' === $original_title ) {
+					/* translators: %d: ID of a post */
 					$original_title = sprintf( __( '#%d (no title)' ), $original_object->ID );
 				}
 
@@ -764,8 +765,10 @@ function wp_setup_nav_menu_item( $menu_item ) {
 			$menu_item->object = $object->name;
 			$menu_item->type_label = $object->labels->singular_name;
 
-			if ( '' === $menu_item->post_title )
+			if ( '' === $menu_item->post_title ) {
+				/* translators: %d: ID of a post */
 				$menu_item->post_title = sprintf( __( '#%d (no title)' ), $menu_item->ID );
+			}
 
 			$menu_item->title = $menu_item->post_title;
 			$menu_item->url = get_permalink( $menu_item->ID );
