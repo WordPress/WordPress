@@ -89,14 +89,35 @@ function wp_default_scripts( &$scripts ) {
 
 	$scripts->add( 'quicktags', "/wp-includes/js/quicktags$suffix.js", array(), false, 1 );
 	did_action( 'init' ) && $scripts->localize( 'quicktags', 'quicktagsL10n', array(
-		'closeAllOpenTags'      => esc_attr__( 'Close all open tags' ),
-		'closeTags'             => esc_attr__( 'close tags' ),
+		'closeAllOpenTags'      => __( 'Close all open tags' ),
+		'closeTags'             => __( 'close tags' ),
 		'enterURL'              => __( 'Enter the URL' ),
 		'enterImageURL'         => __( 'Enter the URL of the image' ),
 		'enterImageDescription' => __( 'Enter a description of the image' ),
-		'textdirection'         => esc_attr__( 'text direction' ),
-		'toggleTextdirection'   => esc_attr__( 'Toggle Editor Text Direction' ),
-		'dfw'                   => esc_attr__( 'Distraction-free writing mode' )
+		'textdirection'         => __( 'text direction' ),
+		'toggleTextdirection'   => __( 'Toggle Editor Text Direction' ),
+		'dfw'                   => __( 'Distraction-free writing mode' ),
+		'strong'          => __( 'Bold' ),
+		'strongClose'     => __( 'Close bold tag' ),
+		'em'              => __( 'Italic' ),
+		'emClose'         => __( 'Close italic tag' ),
+		'link'            => __( 'Insert link' ),
+		'blockquote'      => __( 'Blockquote' ),
+		'blockquoteClose' => __( 'Close blockquote tag' ),
+		'del'             => __( 'Deleted text (strikethrough)' ),
+		'delClose'        => __( 'Close deleted text tag' ),
+		'ins'             => __( 'Inserted text' ),
+		'insClose'        => __( 'Close inserted text tag' ),
+		'image'           => __( 'Insert image' ),
+		'ul'              => __( 'Bulleted list' ),
+		'ulClose'         => __( 'Close bulleted list tag' ),
+		'ol'              => __( 'Numbered list' ),
+		'olClose'         => __( 'Close numbered list tag' ),
+		'li'              => __( 'List item' ),
+		'liClose'         => __( 'Close list item tag' ),
+		'code'            => __( 'Code' ),
+		'codeClose'       => __( 'Close code tag' ),
+		'more'            => __( 'Insert Read More tag' ),
 	) );
 
 	$scripts->add( 'colorpicker', "/wp-includes/js/colorpicker$suffix.js", array('prototype'), '3517m' );
