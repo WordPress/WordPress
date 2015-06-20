@@ -564,13 +564,13 @@ final class WP_Customize_Nav_Menus {
 		?>
 		<script type="text/html" id="tmpl-available-menu-item">
 			<div id="menu-item-tpl-{{ data.id }}" class="menu-item-tpl" data-menu-item-id="{{ data.id }}">
-				<dl class="menu-item-bar">
-					<dt class="menu-item-handle">
+				<div class="menu-item-bar">
+					<div class="menu-item-handle">
 						<span class="item-type">{{ data.type_label }}</span>
 						<span class="item-title">{{ data.title || wp.customize.Menus.data.l10n.untitled }}</span>
 						<button type="button" class="not-a-button item-add"><span class="screen-reader-text"><?php _e( 'Add Menu Item' ) ?></span></button>
-					</dt>
-				</dl>
+					</div>
+				</div>
 			</div>
 		</script>
 

@@ -1553,8 +1553,8 @@ class WP_Customize_Nav_Menu_Item_Control extends WP_Customize_Control {
 	 */
 	public function content_template() {
 		?>
-		<dl class="menu-item-bar">
-			<dt class="menu-item-handle">
+		<div class="menu-item-bar">
+			<div class="menu-item-handle">
 				<span class="item-type">{{ data.item_type_label }}</span>
 				<span class="item-title">
 					<span class="spinner"></span>
@@ -1564,8 +1564,8 @@ class WP_Customize_Nav_Menu_Item_Control extends WP_Customize_Control {
 					<button type="button" class="not-a-button item-edit"><span class="screen-reader-text"><?php _e( 'Edit Menu Item' ); ?></span></button>
 					<button type="button" class="not-a-button item-delete submitdelete deletion"><span class="screen-reader-text"><?php _e( 'Remove Menu Item' ); ?></span></button>
 				</span>
-			</dt>
-		</dl>
+			</div>
+		</div>
 
 		<div class="menu-item-settings" id="menu-item-settings-{{ data.menu_item_id }}">
 			<# if ( 'custom' === data.item_type ) { #>
