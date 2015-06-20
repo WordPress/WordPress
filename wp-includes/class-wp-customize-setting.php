@@ -866,7 +866,7 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting {
 					}
 
 					if ( ! empty( $original_title ) ) {
-						$value['original_title'] = $original_title;
+						$value['original_title'] = html_entity_decode( $original_title, ENT_QUOTES, get_bloginfo( 'charset' ) );
 					}
 				}
 			}
