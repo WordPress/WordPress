@@ -1805,40 +1805,49 @@ function validate_username( $username ) {
 /**
  * Insert a user into the database.
  *
- * Most of the $userdata array fields have filters associated with the values.
- * The exceptions are 'rich_editing', 'role', 'jabber', 'aim', 'yim',
- * 'user_registered', and 'ID'. The filters have the prefix 'pre_user_' followed
- * by the field name. An example using 'description' would have the filter
- * called, 'pre_user_description' that can be hooked into.
+ * Most of the `$userdata` array fields have filters associated with the values. Exceptions are
+ * 'ID', 'rich_editing', 'comment_shortcuts', 'admin_color', 'use_ssl',
+ * 'user_registered', and 'role'. The filters have the prefix 'pre_user_' followed by the field
+ * name. An example using 'description' would have the filter called, 'pre_user_description' that
+ * can be hooked into.
  *
  * @since 2.0.0
+ * @since 3.6.0 The `aim`, `jabber`, and `yim` fields were removed as default user contact
+ *              methods for new installs. See wp_get_user_contact_methods().
  *
  * @global wpdb $wpdb WordPress database object for queries.
  *
- * @param array $userdata {
+ * @param array|object|WP_User $userdata {
  *     An array, object, or WP_User object of user data arguments.
  *
- *     @type int         $ID              User ID. If supplied, the user will be updated.
- *     @type string      $user_pass       The plain-text user password.
- *     @type string      $user_login      The user's login username.
- *     @type string      $user_nicename   The URL-friendly user name.
- *     @type string      $user_url        The user URL.
- *     @type string      $user_email      The user email address.
- *     @type string      $display_name    The user's display name.
- *                                        Default is the the user's username.
- *     @type string      $nickname        The user's nickname. Default
- *                                        Default is the the user's username.
- *     @type string      $first_name      The user's first name. For new users, will be used
- *                                        to build $display_name if unspecified.
- *     @type stirng      $last_name       The user's last name. For new users, will be used
- *                                        to build $display_name if unspecified.
- *     @type string|bool $rich_editing    Whether to enable the rich-editor for the user. False
- *                                        if not empty.
- *     @type string      $user_registered Date the user registered. Format is 'Y-m-d H:i:s'.
- *     @type string      $role            User's role.
- *     @type string      $jabber          User's Jabber account username.
- *     @type string      $aim             User's AIM account username.
- *     @type string      $yim             User's Yahoo! messenger username.
+ *     @type int         $ID                   User ID. If supplied, the user will be updated.
+ *     @type string      $user_pass            The plain-text user password.
+ *     @type string      $user_login           The user's login username.
+ *     @type string      $user_nicename        The URL-friendly user name.
+ *     @type string      $user_url             The user URL.
+ *     @type string      $user_email           The user email address.
+ *     @type string      $display_name         The user's display name.
+ *                                             Default is the the user's username.
+ *     @type string      $nickname             The user's nickname.
+ *                                             Default is the the user's username.
+ *     @type string      $first_name           The user's first name. For new users, will be used
+ *                                             to build the first part of the user's display name
+ *                                             if `$display_name` is not specified.
+ *     @type string      $last_name            The user's last name. For new users, will be used
+ *                                             to build the second part of the user's display name
+ *                                             if `$display_name` is not specified.
+ *     @type string      $description          The user's biographical description.
+ *     @type string|bool $rich_editing         Whether to enable the rich-editor for the user.
+ *                                             False if not empty.
+ *     @type string|bool $comment_shortcuts    Whether to enable comment moderation keyboard
+ *                                             shortcuts for the user. Default false.
+ *     @type string      $admin_color          Admin color scheme for the user. Default 'fresh'.
+ *     @type bool        $use_ssl              Whether the user should always access the admin over
+ *                                             https. Default false.
+ *     @type string      $user_registered      Date the user registered. Format is 'Y-m-d H:i:s'.
+ *     @type string|bool $show_admin_bar_front Whether to display the Admin Bar for the user on the
+ *                                             site's frontend. Default true.
+ *     @type string      $role                 User's role.
  * }
  * @return int|WP_Error The newly created user's ID or a WP_Error object if the user could not
  *                      be created.
