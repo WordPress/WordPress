@@ -271,7 +271,7 @@ final class WP_Customize_Nav_Menus {
 			'itemTypes'            => $this->available_item_types(),
 			'l10n'                 => array(
 				'untitled'          => _x( '(no label)', 'Missing menu item navigation label.' ),
-				'custom_label'      => _x( 'Custom', 'Custom menu item type label.' ),
+				'custom_label'      => _x( 'Custom Link', 'Custom menu item type label.' ),
 				'menuLocation'      => _x( '(Currently set to: %s)', 'Current menu location.' ),
 				'deleteWarn'        => __( 'You are about to permanently delete this menu. "Cancel" to stop, "OK" to delete.' ),
 				'itemAdded'         => __( 'Menu item added' ),
@@ -625,7 +625,7 @@ final class WP_Customize_Nav_Menus {
 				<div class="accordion-section-content" data-type="search"></div>
 			</div>
 			<div id="new-custom-menu-item" class="accordion-section">
-				<h4 class="accordion-section-title"><?php _e( 'Links' ); ?><button type="button" class="not-a-button"><span class="screen-reader-text"><?php _e( 'Toggle' ); ?></span></button></h4>
+				<h4 class="accordion-section-title"><?php _e( 'Custom Links' ); ?><button type="button" class="not-a-button"><span class="screen-reader-text"><?php _e( 'Toggle' ); ?></span></button></h4>
 				<div class="accordion-section-content">
 					<input type="hidden" value="custom" id="custom-menu-item-type" name="menu-item[-1][menu-item-type]" />
 					<p id="menu-item-url-wrap">
