@@ -101,7 +101,6 @@
 			'click #menu-items-search': 'debounceSearch',
 			'focus .menu-item-tpl': 'focus',
 			'click .menu-item-tpl': '_submit',
-			'keypress .menu-item-tpl': '_submit',
 			'click #custom-menu-item-submit': '_submitLink',
 			'keypress #custom-menu-item-name': '_submitLink',
 			'keydown': 'keyboardAccessible'
