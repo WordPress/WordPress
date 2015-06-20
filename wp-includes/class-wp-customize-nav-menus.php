@@ -271,8 +271,9 @@ final class WP_Customize_Nav_Menus {
 			'itemTypes'            => $this->available_item_types(),
 			'l10n'                 => array(
 				'untitled'          => _x( '(no label)', 'Missing menu item navigation label.' ),
-				'custom_label'      => _x( 'Custom Link', 'Custom menu item type label.' ),
-				'menuLocation'      => _x( '(Currently set to: %s)', 'Current menu location.' ),
+				'custom_label'      => __( 'Custom Link' ),
+				/* translators: %s: Current menu location */
+				'menuLocation'      => __( '(Currently set to: %s)' ),
 				'deleteWarn'        => __( 'You are about to permanently delete this menu. "Cancel" to stop, "OK" to delete.' ),
 				'itemAdded'         => __( 'Menu item added' ),
 				'itemDeleted'       => __( 'Menu item deleted' ),
@@ -282,8 +283,11 @@ final class WP_Customize_Nav_Menus {
 				'movedDown'         => __( 'Menu item moved down' ),
 				'movedLeft'         => __( 'Menu item moved out of submenu' ),
 				'movedRight'        => __( 'Menu item is now a sub-item' ),
-				'customizingMenus'  => _x( 'Customizing &#9656; Menus', '&#9656 is the unicode right-pointing triangle' ),
+				/* translators: %s: &#9656 is the unicode right-pointing triangle */
+				'customizingMenus'  => __( 'Customizing &#9656; Menus' ),
+				/* translators: %s: title of menu item which is invalid */
 				'invalidTitleTpl'   => __( '%s (Invalid)' ),
+				/* translators: %s: title of menu item in draft status */
 				'pendingTitleTpl'   => __( '%s (Pending)' ),
 				'taxonomyTermLabel' => __( 'Taxonomy' ),
 				'postTypeLabel'     => __( 'Post Type' ),
