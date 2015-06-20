@@ -291,6 +291,9 @@ final class WP_Customize_Nav_Menus {
 				'pendingTitleTpl'   => __( '%s (Pending)' ),
 				'taxonomyTermLabel' => __( 'Taxonomy' ),
 				'postTypeLabel'     => __( 'Post Type' ),
+				'itemsFound'        => __( 'Number of items found: %d' ),
+				'itemsFoundMore'    => __( 'Additional items found: %d' ),
+				'itemsLoadingMore'  => __( 'Loading more results... please wait.' ),
 			),
 			'menuItemTransport'    => 'postMessage',
 			'phpIntMax'            => PHP_INT_MAX,
@@ -623,7 +626,8 @@ final class WP_Customize_Nav_Menus {
 			<div id="available-menu-items-search" class="accordion-section cannot-expand">
 				<div class="accordion-section-title">
 					<label class="screen-reader-text" for="menu-items-search"><?php _e( 'Search Menu Items' ); ?></label>
-					<input type="text" id="menu-items-search" placeholder="<?php esc_attr_e( 'Search menu items&hellip;' ) ?>" />
+					<input type="text" id="menu-items-search" placeholder="<?php esc_attr_e( 'Search menu items&hellip;' ) ?>" aria-describedby="menu-items-search-desc" />
+					<p class="screen-reader-text" id="menu-items-search-desc"><?php _e( 'The search results will be updated as you type.' ); ?></p>
 					<span class="spinner"></span>
 				</div>
 				<div class="accordion-section-content" data-type="search"></div>

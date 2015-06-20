@@ -125,7 +125,7 @@
 			this.$search = $( '#menu-items-search' );
 			this.sectionContent = this.$el.find( '.accordion-section-content' );
 
-			this.debounceSearch = _.debounce( self.search, 250 );
+			this.debounceSearch = _.debounce( self.search, 500 );
 
 			_.bindAll( this, 'close' );
 
@@ -211,8 +211,11 @@
 				return;
 			} else if ( page > 1 ) {
 				$section.addClass( 'loading-more' );
+				$content.attr( 'aria-busy', 'true' );
+				wp.a11y.speak( api.Menus.data.l10n.itemsLoadingMore );
 			} else if ( '' === self.searchTerm ) {
 				$content.html( '' );
+				wp.a11y.speak( '' );
 				return;
 			}
 
@@ -234,6 +237,7 @@
 					$content.empty();
 				}
 				$section.removeClass( 'loading loading-more' );
+				$content.attr( 'aria-busy', 'false' );
 				$section.addClass( 'open' );
 				self.loading = false;
 				items = new api.Menus.AvailableItemCollection( data.items );
@@ -246,16 +250,25 @@
 				} else {
 					self.pages.search = self.pages.search + 1;
 				}
+				if ( items && page > 1 ) {
+					wp.a11y.speak( api.Menus.data.l10n.itemsFoundMore.replace( '%d', items.length ) );
+				} else if ( items && page === 1 ) {
+					wp.a11y.speak( api.Menus.data.l10n.itemsFound.replace( '%d', items.length ) );
+				}
 			});
 
 			self.currentRequest.fail(function( data ) {
-				$content.empty().append( $( '<p class="nothing-found"></p>' ).text( data.message ) );
-				wp.a11y.speak( data.message );
+				// data.message may be undefined, for example when typing slow and the request is aborted.
+				if ( data.message ) {
+					$content.empty().append( $( '<p class="nothing-found"></p>' ).text( data.message ) );
+					wp.a11y.speak( data.message );
+				}
 				self.pages.search = -1;
 			});
 
 			self.currentRequest.always(function() {
 				$section.removeClass( 'loading loading-more' );
+				$content.attr( 'aria-busy', 'false' );
 				self.loading = false;
 				self.currentRequest = null;
 			});
