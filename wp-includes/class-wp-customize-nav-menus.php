@@ -580,7 +580,9 @@ final class WP_Customize_Nav_Menus {
 				<div class="menu-item-bar">
 					<div class="menu-item-handle">
 						<span class="item-type">{{ data.type_label }}</span>
-						<span class="item-title">{{ data.title || wp.customize.Menus.data.l10n.untitled }}</span>
+						<span class="item-title">
+							<span class="menu-item-title<# if ( ! data.title ) { #> no-title<# } #>">{{ data.title || wp.customize.Menus.data.l10n.untitled }}</span>
+						</span>
 						<button type="button" class="not-a-button item-add"><span class="screen-reader-text"><?php _e( 'Add Menu Item' ) ?></span></button>
 					</div>
 				</div>

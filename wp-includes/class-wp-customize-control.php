@@ -1558,7 +1558,7 @@ class WP_Customize_Nav_Menu_Item_Control extends WP_Customize_Control {
 				<span class="item-type">{{ data.item_type_label }}</span>
 				<span class="item-title">
 					<span class="spinner"></span>
-					<span class="menu-item-title">{{ data.title }}</span>
+					<span class="menu-item-title<# if ( ! data.title ) { #> no-title<# } #>">{{ data.title || wp.customize.Menus.data.l10n.untitled }}</span>
 				</span>
 				<span class="item-controls">
 					<button type="button" class="not-a-button item-edit"><span class="screen-reader-text"><?php _e( 'Edit Menu Item' ); ?></span></button>
