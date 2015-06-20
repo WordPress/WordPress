@@ -7874,7 +7874,7 @@ EditorUploader = View.extend({
 	 * @param  {jQuery.Event} event The 'drop' event.
 	 */
 	drop: function( event ) {
-		var $wrap = null, uploadView;
+		var $wrap, uploadView;
 
 		this.containerDragleave( event );
 		this.dropzoneDragleave( event );
@@ -7891,13 +7891,15 @@ EditorUploader = View.extend({
 		}
 
 		if ( ! this.workflow ) {
-			this.workflow = wp.media.editor.open( 'content', {
+			this.workflow = wp.media.editor.open( window.wpActiveEditor, {
 				frame:    'post',
 				state:    'insert',
 				title:    l10n.addMedia,
 				multiple: true
 			});
+
 			uploadView = this.workflow.uploader;
+
 			if ( uploadView.uploader && uploadView.uploader.ready ) {
 				this.addFiles.apply( this );
 			} else {
