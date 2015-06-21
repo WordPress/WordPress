@@ -3068,12 +3068,12 @@ function ent2ncr( $text ) {
  * it is still a good idea to HTML entity encode `<`, `>` and `&` in the content.
  *
  * The filter 'format_for_editor' is applied here. If $text is empty the filter will
- * be applied to an empty string. 
+ * be applied to an empty string.
  *
  * @since 4.3.0
  *
  * @param string $text The text to be formatted.
- * @return string The formatted text after filter is applied. <?
+ * @return string The formatted text after filter is applied.
  */
 function format_for_editor( $text, $default_editor = null ) {
 	// Back-compat: check if any characters need encoding.
