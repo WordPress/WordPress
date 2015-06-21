@@ -163,7 +163,7 @@ function edButton(id, display, tagStart, tagEnd, access) {
 			id = settings.id,
 			canvas = document.getElementById(id),
 			name = 'qt_' + id,
-			tb, onclick, toolbar_id;
+			tb, onclick, toolbar_id, wrap, setActiveEditor;
 
 		if ( !id || !canvas ) {
 			return false;
@@ -182,12 +182,13 @@ function edButton(id, display, tagStart, tagEnd, access) {
 			toolbar_id = name + '_toolbar';
 		}
 
-		tb = document.createElement('div');
-		tb.id = toolbar_id;
-		tb.className = 'quicktags-toolbar';
-		tb.onclick = function() {
-			window.wpActiveEditor = id;
-		};
+		tb = document.getElementById( toolbar_id );
+
+		if ( ! tb ) {
+			tb = document.createElement('div');
+			tb.id = toolbar_id;
+			tb.className = 'quicktags-toolbar';
+		}
 
 		canvas.parentNode.insertBefore(tb, canvas);
 		t.toolbar = tb;
@@ -214,10 +215,24 @@ function edButton(id, display, tagStart, tagEnd, access) {
 			}
 		};
 
+		setActiveEditor = function() {
+			window.wpActiveEditor = id;
+		};
+
+		wrap = document.getElementById( 'wp-' + id + '-wrap' );
+
 		if ( tb.addEventListener ) {
-			tb.addEventListener('click', onclick, false);
+			tb.addEventListener( 'click', onclick, false );
+			
+			if ( wrap ) {
+				wrap.addEventListener( 'click', setActiveEditor, false );
+			}
 		} else if ( tb.attachEvent ) {
-			tb.attachEvent('onclick', onclick);
+			tb.attachEvent( 'onclick', onclick );
+
+			if ( wrap ) {
+				wrap.attachEvent( 'onclick', setActiveEditor );
+			}
 		}
 
 		t.getButton = function(id) {

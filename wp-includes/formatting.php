@@ -3062,66 +3062,35 @@ function ent2ncr( $text ) {
 }
 
 /**
- * Formats text for the rich text editor.
+ * Formats text for the editor.
  *
- * The filter 'richedit_pre' is applied here. If $text is empty the filter will
- * be applied to an empty string.
+ * Generally the browsers treat everything inside a textarea as text, but
+ * it is still a good idea to HTML entity encode `<`, `>` and `&` in the content.
  *
- * @since 2.0.0
+ * The filter 'format_for_editor' is applied here. If $text is empty the filter will
+ * be applied to an empty string. 
+ *
+ * @since 4.3.0
  *
  * @param string $text The text to be formatted.
- * @return string The formatted text after filter is applied.
+ * @return string The formatted text after filter is applied. <?
  */
-function wp_richedit_pre( $text ) {
-	if ( empty( $text ) ) {
-		/**
-		 * Filter text returned for the rich text editor.
-		 *
-		 * This filter is first evaluated, and the value returned, if an empty string
-		 * is passed to wp_richedit_pre(). If an empty string is passed, it results
-		 * in a break tag and line feed.
-		 *
-		 * If a non-empty string is passed, the filter is evaluated on the wp_richedit_pre()
-		 * return after being formatted.
-		 *
-		 * @since 2.0.0
-		 *
-		 * @param string $output Text for the rich text editor.
-		 */
-		return apply_filters( 'richedit_pre', '' );
+function format_for_editor( $text, $default_editor = null ) {
+	// Back-compat: check if any characters need encoding.
+	if ( ! empty( $text ) && ( false !== strpos( $text, '<' ) || false !== strpos( $text, '>' ) ||
+		preg_match( '/&(?!#(?:\d+|x[a-f0-9]+);|[a-z1-4]{1,8};)/i', $text ) ) ) {
+
+		$text = htmlspecialchars( $text, ENT_NOQUOTES, get_option( 'blog_charset' ) );
 	}
 
-	$output = convert_chars($text);
-	$output = wpautop($output);
-	$output = htmlspecialchars($output, ENT_NOQUOTES, get_option( 'blog_charset' ) );
-
-	/** This filter is documented in wp-includes/formatting.php */
-	return apply_filters( 'richedit_pre', $output );
-}
-
-/**
- * Formats text for the HTML editor.
- *
- * Unless $output is empty it will pass through htmlspecialchars before the
- * 'htmledit_pre' filter is applied.
- *
- * @since 2.5.0
- *
- * @param string $output The text to be formatted.
- * @return string Formatted text after filter applied.
- */
-function wp_htmledit_pre( $output ) {
-	if ( !empty($output) )
-		$output = htmlspecialchars($output, ENT_NOQUOTES, get_option( 'blog_charset' ) ); // convert only < > &
-
 	/**
-	 * Filter the text before it is formatted for the HTML editor.
+	 * Filter the text after it is formatted for the editor.
 	 *
-	 * @since 2.5.0
+	 * @since 4.3.0
 	 *
-	 * @param string $output The HTML-formatted text.
+	 * @param string $text The formatted text.
 	 */
-	return apply_filters( 'htmledit_pre', $output );
+	return apply_filters( 'format_for_editor', $text, $default_editor );
 }
 
 /**

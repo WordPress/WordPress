@@ -286,7 +286,6 @@ div.mce-path {
 .mce-path-item,
 .mce-path .mce-divider {
 	font-size: 12px;
-	line-height: 18px;
 }
 
 .mce-toolbar .mce-btn,
@@ -1059,6 +1058,7 @@ i.mce-i-wp_code:before {
 	position: relative;
 	border-bottom: 1px solid #dedede;
 	background: #f5f5f5;
+	min-height: 30px;
 }
 
 .has-dfw .quicktags-toolbar {

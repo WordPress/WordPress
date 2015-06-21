@@ -425,6 +425,10 @@ td.plugin-title p {
 	visibility: visible !important;
 }
 
+.mce-fullscreen #wp-content-wrap .mce-tinymce .mce-wp-dfw {
+	display: none;
+}
+
 .post-php.mce-fullscreen #wpadminbar,
 .mce-fullscreen #wp-content-wrap .mce-wp-dfw {
 	display: none;
