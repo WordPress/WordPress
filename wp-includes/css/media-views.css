@@ -1621,7 +1621,6 @@
 }
 
 .attachment-info .edit-attachment,
-.attachment-info .refresh-attachment,
 .attachment-info .delete-attachment,
 .attachment-info .trash-attachment,
 .attachment-info .untrash-attachment {
@@ -1630,12 +1629,10 @@
 	white-space: nowrap;
 }
 
-.attachment-info .refresh-attachment,
 .attachment-details.needs-refresh .attachment-info .edit-attachment {
 	display: none;
 }
 
-.attachment-details.needs-refresh .attachment-info .refresh-attachment,
 .attachment-info .edit-attachment {
 	display: block;
 }
