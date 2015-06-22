@@ -225,7 +225,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 		foreach ( get_post_stati( array('show_in_admin_all_list' => false) ) as $state )
 			$total_posts -= $num_posts->$state;
 
-		if ( empty( $class ) && $this->is_base_request() && ! $this->user_posts_count ) {
+		if ( empty( $class ) && ( ( $this->is_base_request() && ! $this->user_posts_count ) || isset( $_REQUEST['all_posts'] ) ) ) {
 			$class =  ' class="current"';
 		}
 
