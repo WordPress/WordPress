@@ -1723,6 +1723,10 @@ function _post_states($post) {
 	if ( is_sticky($post->ID) )
 		$post_states['sticky'] = __('Sticky');
 
+	if ( 'future' === $post->post_status ) {
+		$post_states['scheduled'] = __( 'Scheduled' );
+	}
+
 	if ( get_option( 'page_on_front' ) == $post->ID ) {
 		$post_states['page_on_front'] = __( 'Front Page' );
 	}
