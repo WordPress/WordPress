@@ -8226,7 +8226,7 @@ UploaderStatus = View.extend({
 	 * @returns {string}
 	 */
 	filename: function( filename ) {
-		return wp.media.truncate( _.escape( filename ), 24 );
+		return _.escape( filename );
 	},
 	/**
 	 * @param {Backbone.Model} error
