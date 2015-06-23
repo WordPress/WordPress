@@ -1046,7 +1046,7 @@ class WP_Tax_Query {
 			'join'  => array(),
 		);
 
-		$join = '';
+		$join = $where = '';
 
 		$this->clean_query( $clause );
 
