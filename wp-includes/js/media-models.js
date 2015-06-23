@@ -895,8 +895,19 @@ var Attachments = Backbone.Collection.extend({
 		 * @returns {Boolean}
 		 */
 		type: function( attachment ) {
-			var type = this.props.get('type');
-			return ! type || -1 !== type.indexOf( attachment.get('type') );
+			var type = this.props.get('type'), atts = attachment.toJSON(), mime, found;
+
+			mime = atts.mime || ( atts.file && atts.file.type ) || '';
+
+			if ( _.isArray( type ) ) {
+				found = _.find( type, function (t) {
+					return -1 !== mime.indexOf( t );
+				} );
+			} else {
+				found = ! type || -1 !== mime.indexOf( type );
+			}
+
+			return found;
 		},
 		/**
 		 * @static
