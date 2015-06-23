@@ -482,10 +482,6 @@ class WP_Comment_Query {
 		$this->meta_query = new WP_Meta_Query();
 		$this->meta_query->parse_query_vars( $this->query_vars );
 
-		if ( ! empty( $this->meta_query->queries ) ) {
-			$meta_query_clauses = $this->meta_query->get_sql( 'comment', $wpdb->comments, 'comment_ID', $this );
-		}
-
 		/**
 		 * Fires before comments are retrieved.
 		 *
@@ -494,6 +490,12 @@ class WP_Comment_Query {
 		 * @param WP_Comment_Query &$this Current instance of WP_Comment_Query, passed by reference.
 		 */
 		do_action_ref_array( 'pre_get_comments', array( &$this ) );
+
+		// Reparse query vars, in case they were modified in a 'pre_get_comments' callback.
+		$this->meta_query->parse_query_vars( $this->query_vars );
+		if ( ! empty( $this->meta_query->queries ) ) {
+			$meta_query_clauses = $this->meta_query->get_sql( 'comment', $wpdb->comments, 'comment_ID', $this );
+		}
 
 		// $args can include anything. Only use the args defined in the query_var_defaults to compute the key.
 		$key = md5( serialize( wp_array_slice_assoc( $this->query_vars, array_keys( $this->query_var_defaults ) ) ) );
