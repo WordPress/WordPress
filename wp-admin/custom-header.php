@@ -509,7 +509,7 @@ class Custom_Image_Header {
 </tr>
 <?php endif; ?>
 
-<?php if ( current_theme_supports( 'custom-header', 'uploads' ) ) : ?>
+<?php if ( current_user_can( 'upload_files' ) && current_theme_supports( 'custom-header', 'uploads' ) ) : ?>
 <tr>
 <th scope="row"><?php _e( 'Select Image' ); ?></th>
 <td>
