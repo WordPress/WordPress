@@ -900,7 +900,7 @@ var Attachments = Backbone.Collection.extend({
 			mime = atts.mime || ( atts.file && atts.file.type ) || '';
 
 			if ( _.isArray( type ) ) {
-				found = _.find( type, function (t) {
+				found = ! type.length || _.find( type, function (t) {
 					return -1 !== mime.indexOf( t );
 				} );
 			} else {
