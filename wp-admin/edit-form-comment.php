@@ -83,12 +83,6 @@ if ( !defined('ABSPATH') )
 <label class="spam"><input type="radio"<?php checked( $comment->comment_approved, 'spam' ); ?> name="comment_status" value="spam" /><?php /* translators: comment type radio button */ _ex('Spam', 'adjective'); ?></label>
 </fieldset>
 
-<?php if ( $ip = get_comment_author_IP() ) : ?>
-<div class="misc-pub-section misc-pub-comment-author-ip">
-	<span aria-hidden="true"><?php _e( 'IP address:' ); ?></span> <strong><a href="<?php echo esc_url( sprintf( 'http://whois.arin.net/rest/ip/%s', $ip ) ); ?>"> <span class="screen-reader-text"><?php _e( 'IP address:' ); ?> </span><?php echo esc_html( $ip ); ?></a></strong>
-</div>
-<?php endif; ?>
-
 <div class="misc-pub-section curtime misc-pub-curtime">
 <?php
 /* translators: Publish box date format, see http://php.net/date */
@@ -133,6 +127,18 @@ if ( $comment->comment_parent ) :
 	); ?>
 </div>
 <?php endif; ?>
+
+<?php 
+	/**
+	 * Add additional miscellaneous actions to the edit comment form sidebar.
+	 *
+	 * @since 4.3.0
+	 *
+	 * @param string Output HTML to display miscellaneous action.
+	 * @param object $comment Current comment object.
+	 */
+	 echo apply_filters( 'edit_comment_misc_actions', '', $comment );
+?>
 
 </div> <!-- misc actions -->
 <div class="clear"></div>
