@@ -273,7 +273,7 @@ function wp_admin_bar_site_menu( $wp_admin_bar ) {
 	if ( is_network_admin() ) {
 		$blogname = sprintf( __('Network Admin: %s'), esc_html( get_current_site()->site_name ) );
 	} elseif ( is_user_admin() ) {
-		$blogname = sprintf( __('Global Dashboard: %s'), esc_html( get_current_site()->site_name ) );
+		$blogname = sprintf( __('User Dashboard: %s'), esc_html( get_current_site()->site_name ) );
 	}
 
 	$title = wp_html_excerpt( $blogname, 40, '&hellip;' );
