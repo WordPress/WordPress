@@ -398,15 +398,13 @@ strong {
 .split-button-body {
 	display: none;
 	position: absolute;
-	bottom: 37px;
+	bottom: 39px;
 	right: 0;
-	border: 1px solid #ccc;
+	border: 1px solid #ddd;
 	background-color: #fff;
-	min-width: 160px;
+	min-width: 180px;
 	max-width: 100%;
-	padding: 5px;
-	-webkit-border-radius: 3px;
-	border-radius: 3px;
+	padding: 8px;
 	-webkit-box-shadow: 1px 0 4px rgba( 0, 0, 0, 0.15 );
 	box-shadow: 1px 0 4px rgba( 0, 0, 0, 0.15 );
 }
@@ -425,7 +423,7 @@ strong {
 
 .split-button-body:before {
 	bottom: -18px;
-	border-top-color: #a0a5aa;
+	border-top-color: #ccc;
 	border-width: 9px;
 	right: 11px;
 }
@@ -438,7 +436,7 @@ strong {
 
 .split-button-body .split-button-option {
 	display: block;
-	padding: 4px 10px;
+	padding: 5px 15px;
 	margin: 0;
 	width: 100%;
 	text-align: left;

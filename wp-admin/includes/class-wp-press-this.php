@@ -1450,11 +1450,6 @@ class WP_Press_This {
 		<div class="post-actions">
 			<span class="spinner">&nbsp;</span>
 			<div class="split-button">
-				<div class="split-button-body">
-					<button type="button" class="button-subtle draft-button split-button-option" aria-live="polite"><?php _e( 'Save Draft' ); ?></button>
-					<a href="<?php echo esc_url( get_edit_post_link( $post_ID ) ); ?>" class="edit-post-link split-button-option" target="_blank"><?php _e( 'Standard Editor' ); ?></a>
-					<button type="button" class="button-subtle preview-button split-button-option"><?php _e( 'Preview' ); ?></button>
-				</div>
 				<div class="split-button-head">
 					<button type="button" class="publish-button split-button-primary"><?php
 						echo ( current_user_can( 'publish_posts' ) ) ? __( 'Publish' ) : __( 'Submit for Review' );
@@ -1462,6 +1457,11 @@ class WP_Press_This {
 						<i class="dashicons dashicons-arrow-down-alt2"></i>
 						<span class="screen-reader-text"><?php _e('Toggle dropdown'); ?></span>
 					</button>
+				</div>
+				<div class="split-button-body">
+					<button type="button" class="button-subtle draft-button split-button-option" aria-live="polite"><?php _e( 'Save Draft' ); ?></button>
+					<a href="<?php echo esc_url( get_edit_post_link( $post_ID ) ); ?>" class="edit-post-link split-button-option" target="_blank"><?php _e( 'Standard Editor' ); ?></a>
+					<button type="button" class="button-subtle preview-button split-button-option"><?php _e( 'Preview' ); ?></button>
 				</div>
 			</div>
 		</div>
