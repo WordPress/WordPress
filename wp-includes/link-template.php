@@ -944,10 +944,10 @@ function get_edit_term_link( $term_id, $taxonomy, $object_type = '' ) {
  *
  * @since 3.1.0
  *
- * @param string $link   Optional. Anchor text.
- * @param string $before Optional. Display before edit link.
- * @param string $after  Optional. Display after edit link.
- * @param object $term   Term object.
+ * @param string $link   Optional. Anchor text. Default empty.
+ * @param string $before Optional. Display before edit link. Default empty.
+ * @param string $after  Optional. Display after edit link. Default empty.
+ * @param object $term   Optional. Term object. If null, the queried object will be inspected. Default null.
  * @param bool   $echo   Optional. Whether or not to echo the return. Default true.
  * @return string|void HTML content.
  */
