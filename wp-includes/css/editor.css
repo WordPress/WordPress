@@ -1599,6 +1599,23 @@ i.mce-i-wp_code:before {
 	}
 }
 
+.wp-link-preview {
+	float: left;
+	margin: 5px;
+}
+
+.wp-link-preview a {
+	color: #0073aa;
+	text-decoration: underline;
+	-webkit-transition-property: border, background, color;
+	transition-property: border, background, color;
+	-webkit-transition-duration: .05s;
+	transition-duration: .05s;
+	-webkit-transition-timing-function: ease-in-out;
+	transition-timing-function: ease-in-out;
+	cursor: pointer;
+}
+
 /* =Overlay Body
 -------------------------------------------------------------- */
 
