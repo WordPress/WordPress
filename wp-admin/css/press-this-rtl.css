@@ -393,6 +393,7 @@ strong {
 .split-button {
 	position: relative;
 	display: inline-block;
+	vertical-align: middle;
 }
 
 .split-button-body {
