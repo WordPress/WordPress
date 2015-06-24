@@ -449,6 +449,9 @@ class WP_Filesystem_ftpsockets extends WP_Filesystem_Base {
 			if ( $struc['islink'] )
 				$struc['name'] = preg_replace( '/(\s*->\s*.*)$/', '', $struc['name'] );
 
+			// Add the Octal representation of the file permissions
+			$struc['permsn'] = $this->getnumchmodfromh( $struc['perms'] );
+
 			$ret[ $struc['name'] ] = $struc;
 		}
 

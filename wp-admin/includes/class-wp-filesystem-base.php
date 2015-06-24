@@ -310,7 +310,7 @@ class WP_Filesystem_Base {
 	 * @return string The *nix-style representation of permissions.
 	 */
 	public function gethchmod( $file ){
-		$perms = $this->getchmod($file);
+		$perms = intval( $this->getchmod( $file ), 8 );
 		if (($perms & 0xC000) == 0xC000) // Socket
 			$info = 's';
 		elseif (($perms & 0xA000) == 0xA000) // Symbolic Link
@@ -349,6 +349,17 @@ class WP_Filesystem_Base {
 					(($perms & 0x0200) ? 't' : 'x' ) :
 					(($perms & 0x0200) ? 'T' : '-'));
 		return $info;
+	}
+
+	/**
+	 * Gets the permissions of the specified file or filepath in their octal format
+	 *
+	 * @since 4.0
+	 * @param string $file
+	 * @return string the last 3 characters of the octal number
+	 */
+	public function getchmod( $file ) {
+		return '777';
 	}
 
 	/**

@@ -384,7 +384,7 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 	/**
 	 * @staticvar bool $is_windows
 	 * @param string $line
-	 * @return string
+	 * @return array
 	 */
 	public function parselisting($line) {
 		static $is_windows = null;
@@ -426,6 +426,7 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 			else
 				$b['type'] = 'f';
 			$b['perms'] = $lucifer[0];
+			$b['permsn'] = $this->getnumchmodfromh( $b['perms'] );
 			$b['number'] = $lucifer[1];
 			$b['owner'] = $lucifer[2];
 			$b['group'] = $lucifer[3];
