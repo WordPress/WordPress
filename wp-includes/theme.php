@@ -1499,7 +1499,14 @@ function get_editor_stylesheets() {
 			}
 		}
 	}
-	return $stylesheets;
+	/**
+	 * Filter the array of stylesheets applied to the editor.
+	 *
+	 * @since 4.3.0
+	 *
+	 * @param array $stylesheets Array of stylesheets to be applied to the editor.
+	 */
+	return apply_filters( 'editor_stylesheets', $stylesheets );
 }
 
 /**
