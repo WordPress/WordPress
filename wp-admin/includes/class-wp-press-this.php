@@ -1449,13 +1449,21 @@ class WP_Press_This {
 		</div>
 		<div class="post-actions">
 			<span class="spinner">&nbsp;</span>
-			<button type="button" class="button-subtle draft-button" aria-live="polite">
-				<span class="save-draft"><?php _e( 'Save Draft' ); ?></span>
-				<span class="saving-draft"><?php _e( 'Saving...' ); ?></span>
-			</button>
-			<a href="<?php echo esc_url( get_edit_post_link( $post_ID ) ); ?>" class="edit-post-link" style="display: none;" target="_blank"><?php _e( 'Standard Editor' ); ?></a>
-			<button type="button" class="button-subtle preview-button"><?php _e( 'Preview' ); ?></button>
-			<button type="button" class="button-primary publish-button"><?php echo ( current_user_can( 'publish_posts' ) ) ? __( 'Publish' ) : __( 'Submit for Review' ); ?></button>
+			<div class="split-button">
+				<div class="split-button-body">
+					<button type="button" class="button-subtle draft-button split-button-option" aria-live="polite"><?php _e( 'Save Draft' ); ?></button>
+					<a href="<?php echo esc_url( get_edit_post_link( $post_ID ) ); ?>" class="edit-post-link split-button-option" target="_blank"><?php _e( 'Standard Editor' ); ?></a>
+					<button type="button" class="button-subtle preview-button split-button-option"><?php _e( 'Preview' ); ?></button>
+				</div>
+				<div class="split-button-head">
+					<button type="button" class="publish-button split-button-primary"><?php
+						echo ( current_user_can( 'publish_posts' ) ) ? __( 'Publish' ) : __( 'Submit for Review' );
+					?></button><button type="button" class="split-button-toggle" aria-haspopup="true" aria-expanded="false">
+						<i class="dashicons dashicons-arrow-down-alt2"></i>
+						<span class="screen-reader-text"><?php _e('Toggle dropdown'); ?></span>
+					</button>
+				</div>
+			</div>
 		</div>
 	</div>
 	</form>
