@@ -354,7 +354,7 @@ class WP_Filesystem_Base {
 	/**
 	 * Gets the permissions of the specified file or filepath in their octal format
 	 *
-	 * @since 4.0
+	 * @since 2.5.0
 	 * @param string $file
 	 * @return string the last 3 characters of the octal number
 	 */
