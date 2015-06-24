@@ -376,6 +376,8 @@ var wpLink;
 					editor.execCommand( 'mceInsertLink', false, attrs );
 				}
 			}
+
+			editor.nodeChanged();
 		},
 
 		updateFields: function( e, li ) {
