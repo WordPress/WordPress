@@ -2040,7 +2040,7 @@ class WP_Rewrite {
 	 */
 	public function add_rule($regex, $redirect, $after = 'bottom') {
 		//get everything up to the first ?
-		$index = (strpos($redirect, '?') == false ? strlen($redirect) : strpos($redirect, '?'));
+		$index = (strpos($redirect, '?') === false ? strlen($redirect) : strpos($redirect, '?'));
 		$front = substr($redirect, 0, $index);
 		if ( $front != $this->index ) { //it doesn't redirect to WP's index.php
 			$this->add_external_rule($regex, $redirect);
