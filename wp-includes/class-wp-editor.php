@@ -542,7 +542,7 @@ final class _WP_Editors {
 					self::$first_init['external_plugins'] = wp_json_encode( $mce_external_plugins );
 				}
 
-				$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
+				$suffix = SCRIPT_DEBUG ? '' : '.min';
 				$version = 'ver=' . $wp_version;
 				$dashicons = includes_url( "css/dashicons$suffix.css?$version" );
 
@@ -1134,7 +1134,7 @@ final class _WP_Editors {
 			'language' => self::$mce_locale
 		);
 
-		$suffix = ( defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ) ? '' : '.min';
+		$suffix = SCRIPT_DEBUG ? '' : '.min';
 
 		/**
 		 * Fires immediately before the TinyMCE settings are printed.
