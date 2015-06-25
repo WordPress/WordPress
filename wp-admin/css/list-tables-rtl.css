@@ -513,16 +513,24 @@ th.asc a:focus span.sorting-indicator {
 }
 
 /* Bulk Actions */
-.tablenav-pages a {
+.tablenav-pages a,
+.tablenav-pages-navspan {
 	font-weight: 600;
-	margin-left: 1px;
 	padding: 0 2px;
 }
+
 .tablenav-pages .current-page {
-	padding-top: 0;
+	margin: 0 0 0 2px;
+	padding-bottom: 5px;
+	font-size: 13px;
 	text-align: center;
 }
-.tablenav-pages .next-page {
+
+.tablenav .total-pages {
+	margin-left: 2px;
+}
+
+.tablenav #table-paging {
 	margin-right: 2px;
 }
 
@@ -544,12 +552,10 @@ th.asc a:focus span.sorting-indicator {
 
 .tablenav .tablenav-pages {
 	float: left;
-	display: block;
+	height: 28px;
+	margin-top: 3px;
 	cursor: default;
-	height: 30px;
 	color: #555;
-	line-height: 2.5;
-	font-size: 12px;
 }
 
 .tablenav .no-pages,
@@ -563,41 +569,43 @@ th.asc a:focus span.sorting-indicator {
 	padding: 3px 6px;
 }
 
-.tablenav .tablenav-pages a {
-	padding: 0 10px 3px;
-	background: #eee;
-	background: rgba( 0, 0, 0, 0.05 );
+.tablenav .tablenav-pages a,
+.tablenav-pages-navspan {
 	display: inline-block;
+	width: 7px;
+	border: 1px solid #d2d2d2;
+	padding: 3px 10px 7px;
+	background: #e4e4e4;
 	font-size: 16px;
+	line-height: 1;
 	font-weight: normal;
-	line-height: 1.3333;
+	text-align: center;
+}
+
+.tablenav-pages-navspan {
+	height: 16px;
+	border-color: #e8e8e8;
+	background: #ebebeb;
+	color: #b4b4b4;
 }
 
 .tablenav .tablenav-pages a:hover,
 .tablenav .tablenav-pages a:focus {
+	border-color: #5b9dd9;
 	color: #fff;
 	background: #00a0d2;
-}
-
-.tablenav .tablenav-pages a.disabled,
-.tablenav .tablenav-pages a.disabled:hover,
-.tablenav .tablenav-pages a.disabled:focus,
-.tablenav .tablenav-pages a.disabled:active {
-	color: #a0a5aa;
-	background: #eee;
-	background: rgba( 0, 0, 0, 0.05 );
+	-webkit-box-shadow: none;
+	box-shadow: none;
+	outline: none; /* IE8 */
 }
 
 .tablenav .displaying-num {
 	margin-left: 7px;
-	color: #777;
-	font-size: 12px;
-	font-style: italic;
 }
 
 .tablenav .one-page .displaying-num {
 	display: inline-block;
-	margin-top: 2px;
+	margin-top: 5px;
 	margin-left: 0;
 }
 
@@ -637,8 +645,6 @@ classes exist in paginate_links() but not seen in list table output. */
 	float: left;
 	margin: 0 5px;
 	padding-top: 3px;
-	/* line-height in px same as .tablenav height */
-	line-height: 30px;
 }
 
 .wp-filter .view-switch {
@@ -658,6 +664,7 @@ classes exist in paginate_links() but not seen in list table output. */
 	height: 28px;
 	text-align: center;
 	line-height: 24px;
+	text-decoration: none;
 }
 
 .view-switch a:before {
@@ -1616,12 +1623,14 @@ div.action-links,
 	.tablenav.bottom .displaying-num {
 		position: absolute;
 		left: 0;
-		top: 10px;
+		top: 11px;
+		margin: 0;
 		font-size: 14px;
 	}
 
-	.tablenav-pages {
+	.tablenav .tablenav-pages {
 		width: 100%;
+		height: auto;
 		text-align: center;
 		margin: 0 0 25px;
 	}
@@ -1639,20 +1648,23 @@ div.action-links,
 		height: 0;
 	}
 
-	.tablenav-pages .pagination-links .paging-input {
+	.tablenav-pages .pagination-links {
+		font-size: 16px;
+	}
+
+	.tablenav-pages .pagination-links a,
+	.tablenav-pages-navspan {
+		padding: 9px 16px 12px;
 		font-size: 18px;
 	}
 
-	.tablenav-pages .pagination-links a {
-		padding: 8px 20px 11px;
-		display: inline;
-		font-size: 18px;
-		background: rgba(0, 0, 0, 0.05);
+	.tablenav-pages-navspan {
+		height: 18px;
 	}
 
 	.tablenav-pages .pagination-links .current-page {
-		padding: 10px;
-		font-size: 14px;
+		padding: 8px 9px 9px;
+		font-size: 16px;
 	}
 
 	/* WP List Table Adjustments: General */
