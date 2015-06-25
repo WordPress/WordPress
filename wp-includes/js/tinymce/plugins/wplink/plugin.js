@@ -80,12 +80,18 @@ tinymce.PluginManager.add( 'wplink', function( editor ) {
 
 				url = url.replace( /(?:index)?\.html$/, '' );
 
-				if ( ( lastIndex = url.lastIndexOf( '/' ) ) === url.length - 1 ) {
-					url = url.slice( 0, lastIndex );
+				if ( url.charAt( url.length - 1 ) === '/' ) {
+					url = url.slice( 0, -1 );
 				}
 
-				if ( ( index = url.indexOf( '/' ) ) !== -1 && ( lastIndex = url.lastIndexOf( '/' ) ) !== -1 && lastIndex !== index ) {
-					url = url.slice( 0, index + 1 ) + '\u2026' + url.slice( lastIndex, url.length );
+				// If the URL is longer that 40 chars, concatenate the beginning (after the domain) and ending with ...
+				if ( url.length > 40 && ( index = url.indexOf( '/' ) ) !== -1 && ( lastIndex = url.lastIndexOf( '/' ) ) !== -1 && lastIndex !== index ) {
+					// If the beginning + ending are shorter that 40 chars, show more of the ending
+					if ( index + url.length - lastIndex < 40 ) {
+						lastIndex =  -( 40 - ( index + 1 ) );
+					}
+
+					url = url.slice( 0, index + 1 ) + '\u2026' + url.slice( lastIndex );
 				}
 
 				tinymce.$( this.getEl().firstChild ).attr( 'href', this.url ).text( url );
@@ -96,11 +102,13 @@ tinymce.PluginManager.add( 'wplink', function( editor ) {
 
 			editor.on( 'wptoolbar', function( event ) {
 				var anchor = editor.dom.getParent( event.element, 'a' ),
+					$ = editor.$,
 					href;
 
-				if ( anchor && ( href = editor.$( anchor ).attr( 'href' ) ) ) {
-					self.setURL( href );
+				if ( anchor && ! $( anchor ).find( 'img' ).length &&
+					( href = $( anchor ).attr( 'href' ) ) ) {
 
+					self.setURL( href );
 					event.element = anchor;
 					event.toolbar = toolbar;
 				}
