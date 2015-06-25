@@ -405,7 +405,9 @@ strong {
 	background-color: #fff;
 	min-width: 180px;
 	max-width: 100%;
+	margin: 0;
 	padding: 8px;
+	list-style: none;
 	-webkit-box-shadow: 1px 0 4px rgba( 0, 0, 0, 0.15 );
 	box-shadow: 1px 0 4px rgba( 0, 0, 0, 0.15 );
 }
