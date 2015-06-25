@@ -903,7 +903,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 				/* translators: used between list items, there is a space after the comma */
 				echo join( __( ', ' ), $out );
 			} else {
-				echo '<span aria-hidden="true">&#8212;</span><span class="screen-reader-text">' . $taxonomy_object->labels->not_found . '</span>';
+				echo '<span aria-hidden="true">&#8212;</span><span class="screen-reader-text">' . $taxonomy_object->labels->no_terms . '</span>';
 			}
 			return;
 		}
