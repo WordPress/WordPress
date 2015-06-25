@@ -1460,7 +1460,7 @@ class WP_Press_This {
 						echo ( current_user_can( 'publish_posts' ) ) ? __( 'Publish' ) : __( 'Submit for Review' );
 					?></button><button type="button" class="split-button-toggle" aria-haspopup="true" aria-expanded="false">
 						<i class="dashicons dashicons-arrow-down-alt2"></i>
-						<span class="screen-reader-text"><?php _e('Toggle dropdown'); ?></span>
+						<span class="screen-reader-text"><?php _e('More actions'); ?></span>
 					</button>
 				</div>
 				<ul class="split-button-body">
