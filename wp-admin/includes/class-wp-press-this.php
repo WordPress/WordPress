@@ -1180,10 +1180,6 @@ class WP_Press_This {
 
 		$post_title = $this->get_suggested_title( $data );
 
-		if ( empty( $title ) ) {
-			$title = __( 'New Post' );
-		}
-
 		$post_content = $this->get_suggested_content( $data );
 
 		// Get site settings array/data.
