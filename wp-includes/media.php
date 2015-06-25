@@ -711,15 +711,15 @@ function wp_get_attachment_image_src( $attachment_id, $size = 'thumbnail', $icon
 		}
 	}
 	/**
-	 * Filter the image src result
+	 * Filter the image src result.
 	 *
 	 * @since 4.3.0
 	 *
-	 * @param array|false   $image          Either array with src, width & height, icon src, or false.
-	 * @param int           $attachment_id 	Image attachment ID.
-	 * @param string|array  $size           Optional. Registered image size to retrieve the source for or a flat
-	 *                                      array of height and width dimensions. Default 'thumbnail'.
-	 * @param bool          $icon           Optional. Whether the image should be treated as an icon. Default false.
+	 * @param array|false  $image         Either array with src, width & height, icon src, or false.
+	 * @param int          $attachment_id Image attachment ID.
+	 * @param string|array $size          Registered image size to retrieve the source for or a flat
+	 *                                    array of height and width dimensions. Default 'thumbnail'.
+	 * @param bool         $icon          Whether the image should be treated as an icon. Default false.
 	 */
 	return apply_filters( 'attachment_image_src', $image, $attachment_id, $size, $icon );
 }
