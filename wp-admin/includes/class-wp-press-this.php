@@ -738,6 +738,15 @@ class WP_Press_This {
 					}
 				}
 			}
+
+			// Support passing a single image src as `i`
+			if ( ! empty( $_REQUEST['i'] ) && ( $img_src = $this->_limit_img( wp_unslash( $_REQUEST['i'] ) ) ) ) {
+				if ( empty( $data['_images'] ) ) {
+					$data['_images'] = array( $img_src );
+				} elseif ( ! in_array( $img_src, $data['_images'], true ) ) {
+					array_unshift( $data['_images'], $img_src );
+				}
+			}
 		}
 
 		/**
