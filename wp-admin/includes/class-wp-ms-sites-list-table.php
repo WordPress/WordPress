@@ -440,14 +440,6 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 	 * @global string $mode
 	 */
 	public function display_rows() {
-		global $mode;
-
-		if ( 'list' == $mode ) {
-			$date = __( 'Y/m/d' );
-		} else {
-			$date = __( 'Y/m/d g:i:s a' );
-		}
-
 		foreach ( $this->items as $blog ) {
 			$class = '';
 			reset( $this->status_list );
