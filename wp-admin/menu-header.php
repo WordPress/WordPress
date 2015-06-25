@@ -157,7 +157,7 @@ function _wp_menu_output( $menu, $submenu, $submenu_as_parent = true ) {
 
 		if ( ! empty( $submenu_items ) ) {
 			echo "\n\t<ul class='wp-submenu wp-submenu-wrap'>";
-			echo "<li class='wp-submenu-head'>{$item[0]}</li>";
+			echo "<li class='wp-submenu-head' aria-hidden='true'>{$item[0]}</li>";
 
 			$first = true;
 
