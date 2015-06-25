@@ -317,8 +317,8 @@ table.media .column-title .row-actions {
 	margin-left: 70px; /* 60px image + margin */
 }
 
-table.media .column-title .media-info p { 
-	margin-bottom: 0.2em; 
+table.media .column-title .media-info p {
+	margin-bottom: 0.2em;
 }
 
 /* @todo: pick a consistent list table selector */
@@ -877,6 +877,13 @@ tr.inline-edit-row td,
 	line-height: 2.5;
 }
 
+.inline-edit-row fieldset.inline-edit-date label {
+	display: inline-block;
+	margin: 0;
+	line-height: 1.5;
+	vertical-align: baseline;
+}
+
 .inline-edit-row fieldset label.inline-edit-tags {
 	margin-top: 0;
 }
@@ -886,11 +893,21 @@ tr.inline-edit-row td,
 	width: auto;
 }
 
-.inline-edit-row fieldset label span.title {
+.inline-edit-row fieldset label span.title,
+.inline-edit-row fieldset.inline-edit-date legend {
 	display: block;
 	float: left;
 	width: 5em;
 	line-height: 2.5;
+}
+
+#posts-filter fieldset.inline-edit-date legend {
+	padding: 0;
+}
+
+.inline-edit-row fieldset.inline-edit-date select {
+	margin: 1px;
+	line-height: 28px;
 }
 
 .inline-edit-row fieldset label span.input-text-wrap {

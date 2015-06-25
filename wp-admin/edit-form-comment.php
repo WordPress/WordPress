@@ -92,7 +92,10 @@ $date = date_i18n( $datef, strtotime( $comment->comment_date ) );
 ?>
 <span id="timestamp"><?php printf( $stamp, $date ); ?></span>
 <a href="#edit_timestamp" class="edit-timestamp hide-if-no-js"><span aria-hidden="true"><?php _e( 'Edit' ); ?></span> <span class="screen-reader-text"><?php _e( 'Edit date and time' ); ?></span></a>
-<div id='timestampdiv' class='hide-if-js'><?php touch_time(('editcomment' == $action), 0); ?></div>
+<fieldset id='timestampdiv' class='hide-if-js'>
+<legend class="screen-reader-text"><?php _e( 'Date and time' ); ?></legend>
+<?php touch_time( ( 'editcomment' === $action ), 0 ); ?>
+</fieldset>
 </div>
 
 <?php

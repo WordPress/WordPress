@@ -1211,10 +1211,10 @@ class WP_Posts_List_Table extends WP_List_Table {
 	endif; // post_type_supports title ?>
 
 	<?php if ( !$bulk ) : ?>
-			<label><span class="title"><?php _e( 'Date' ); ?></span></label>
-			<div class="inline-edit-date">
+			<fieldset class="inline-edit-date">
+			<legend><span class="title"><?php _e( 'Date' ); ?></span></legend>
 				<?php touch_time( 1, 1, 0, 1 ); ?>
-			</div>
+			</fieldset>
 			<br class="clear" />
 	<?php endif; // $bulk
 
