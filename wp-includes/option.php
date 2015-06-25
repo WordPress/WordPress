@@ -83,6 +83,9 @@ function get_option( $option, $default = false ) {
 					$value = $row->option_value;
 					wp_cache_add( $option, $value, 'options' );
 				} else { // option does not exist, so we must cache its non-existence
+					if ( ! is_array( $notoptions ) ) {
+						 $notoptions = array();
+					}
 					$notoptions[$option] = true;
 					wp_cache_set( 'notoptions', $notoptions, 'options' );
 
@@ -1024,6 +1027,9 @@ function get_site_option( $option, $default = false, $use_cache = true ) {
 				$value = maybe_unserialize( $value );
 				wp_cache_set( $cache_key, $value, 'site-options' );
 			} else {
+				if ( ! is_array( $notoptions ) ) {
+					 $notoptions = array();
+				}
 				$notoptions[$option] = true;
 				wp_cache_set( $notoptions_key, $notoptions, 'site-options' );
 
