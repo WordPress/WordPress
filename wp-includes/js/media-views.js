@@ -2625,10 +2625,8 @@ Attachment = View.extend({
 		'change [data-setting] input':    'updateSetting',
 		'change [data-setting] select':   'updateSetting',
 		'change [data-setting] textarea': 'updateSetting',
-		'click .close':                   'removeFromLibrary',
+		'click .attachment-close':        'removeFromLibrary',
 		'click .check':                   'checkClickHandler',
-		'click a':                        'preventDefault',
-		'keydown .close':                 'removeFromLibrary',
 		'keydown':                        'toggleSelectionHandler'
 	},
 
@@ -2756,8 +2754,8 @@ Attachment = View.extend({
 	toggleSelectionHandler: function( event ) {
 		var method;
 
-		// Don't do anything inside inputs.
-		if ( 'INPUT' === event.target.nodeName ) {
+		// Don't do anything inside inputs and on the attachment check and remove buttons.
+		if ( 'INPUT' === event.target.nodeName || 'BUTTON' === event.target.nodeName ) {
 			return;
 		}
 
@@ -2941,12 +2939,6 @@ Attachment = View.extend({
 
 		details = selection.single();
 		this.$el.toggleClass( 'details', details === this.model );
-	},
-	/**
-	 * @param {Object} event
-	 */
-	preventDefault: function( event ) {
-		event.preventDefault();
 	},
 	/**
 	 * @param {string} size
@@ -3197,7 +3189,14 @@ Details = Attachment.extend({
 
 	initialFocus: function() {
 		if ( ! wp.media.isTouchDevice ) {
-			this.$( ':input' ).eq( 0 ).focus();
+			/*
+			Previously focused the first ':input' (the readonly URL text field).
+			Since the first ':input' is now a button (delete/trash): when pressing
+			spacebar on an attachment, Firefox fires deleteAttachment/trashAttachment
+			as soon as focus is moved. Explicitly target the first text field for now.
+			@todo change initial focus logic, also for accessibility.
+			*/
+			this.$( 'input[type="text"]' ).eq( 0 ).focus();
 		}
 	},
 	/**

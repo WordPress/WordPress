@@ -485,13 +485,14 @@ border color while dragging a file over the uploader drop area */
 }
 
 .upload-php .mode-grid .media-sidebar .media-uploader-status .upload-dismiss-errors {
-	font-size: 0;
-	top: 0;
-	right: -6px;
+	top: -10px;
+	right: -14px;
+	padding: 10px;
 }
 
 .upload-php .mode-grid .media-sidebar .media-uploader-status .upload-dismiss-errors:before {
 	content: "\f153";
+	display: block;
 	font: normal 16px/1 dashicons;
 	color: #bbb;
 }
@@ -636,11 +637,6 @@ border color while dragging a file over the uploader drop area */
 	font-size: 22px;
 }
 
-.upload-php .media-modal-close .media-modal-icon {
-	margin: 14px;
-	width: 22px;
-}
-
 .upload-php .media-modal-close,
 .edit-attachment-frame .edit-media-header .left,
 .edit-attachment-frame .edit-media-header .right {
@@ -693,6 +689,8 @@ border color while dragging a file over the uploader drop area */
 	border-color: #ccc;
 	color: #000;
 	outline: none;
+	-webkit-box-shadow: none;
+	box-shadow: none;
 }
 
 .upload-php .media-modal-close:focus .media-modal-icon:before,

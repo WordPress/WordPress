@@ -153,11 +153,11 @@
 
 .media-modal-close {
 	position: absolute;
-	text-decoration: none;
-	top: 10px;
-	right: 10px;
-	width: 30px;
-	height: 30px;
+	top: 0;
+	right: 0;
+	width: 50px;
+	height: 50px;
+	padding: 0;
 	z-index: 1000;
 	-webkit-transition: color .1s ease-in-out, background .1s ease-in-out;
 	transition: color .1s ease-in-out, background .1s ease-in-out;
@@ -169,12 +169,7 @@
 }
 
 .media-modal-close span.media-modal-icon {
-	display: block;
-	margin-top: 5px;
-	width: 30px;
-	height: 15px;
 	background-image: none;
-	text-align: center;
 }
 
 .media-modal-close .media-modal-icon:before {
@@ -209,7 +204,8 @@
 	-webkit-font-smoothing: subpixel-antialiased;
 }
 
-.media-modal-icon {
+/* higher specificity */
+.wp-core-ui .media-modal-icon {
 	background-image: url(../images/uploader-icons.png);
 	background-repeat: no-repeat;
 }
@@ -935,7 +931,7 @@
 	position: absolute;
 }
 
-.wp-core-ui .attachment .close {
+.wp-core-ui .attachment-close {
 	display: block;
 	position: absolute;
 	top: 5px;
@@ -943,36 +939,24 @@
 	height: 22px;
 	width: 22px;
 	padding: 0;
-	font-size: 20px;
-	line-height: 20px;
-	text-align: center;
-	text-decoration: none;
-	color: #464646;
 	background-color: #fff;
 	background-position: -96px 4px;
-	border-width: 0;
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
 	-webkit-box-shadow: 0 0 0 1px rgba( 0, 0, 0, 0.3 );
 	box-shadow: 0 0 0 1px rgba( 0, 0, 0, 0.3 );
-	-webkit-transition-duration: none;
-	transition-duration: none;
-	-webkit-transition-property: none;
-	transition-property: none;
 }
 
-.wp-core-ui .attachment a.close:hover,
-.wp-core-ui .attachment a.close:focus {
-	-webkit-box-shadow: 0 0 0 1px rgba( 0, 0, 0, 0.6 );
-	box-shadow: 0 0 0 1px rgba( 0, 0, 0, 0.6 );
+.wp-core-ui .attachment-close:hover,
+.wp-core-ui .attachment-close:focus {
 	background-position: -36px 4px;
-
 }
 
 .wp-core-ui .attachment .check {
 	display: none;
 	height: 24px;
 	width: 24px;
+	padding: 0;
 	position: absolute;
 	z-index: 10;
 	top: 0;
@@ -983,14 +967,15 @@
 	box-shadow: 0 0 0 1px #fff, 0 0 0 2px rgba( 0, 0, 0, 0.15 );
 }
 
-.wp-core-ui .attachment .check div {
+.wp-core-ui .attachment .check .media-modal-icon {
+	display: block;
 	background-position: -1px 0;
 	height: 15px;
 	width: 15px;
 	margin: 5px;
 }
 
-.wp-core-ui .attachment .check:hover div {
+.wp-core-ui .attachment .check:hover .media-modal-icon {
 	background-position: -40px 0;
 }
 
@@ -1010,14 +995,14 @@
 		0 0 0 2px #1e8cbe;
 }
 
-.wp-core-ui .attachment.details .check div,
-.wp-core-ui .media-frame.mode-grid .attachment.selected .check div {
+.wp-core-ui .attachment.details .check .media-modal-icon,
+.wp-core-ui .media-frame.mode-grid .attachment.selected .check .media-modal-icon {
 	background-position: -21px 0;
 }
 
-.wp-core-ui .attachment.details .check:hover div,
-.wp-core-ui .attachment.selected .check:focus div,
-.wp-core-ui .media-frame.mode-grid .attachment.selected .check:hover div {
+.wp-core-ui .attachment.details .check:hover .media-modal-icon,
+.wp-core-ui .attachment.selected .check:focus .media-modal-icon,
+.wp-core-ui .media-frame.mode-grid .attachment.selected .check:hover .media-modal-icon {
 	background-position: -60px 0;
 }
 
@@ -1391,34 +1376,35 @@
 	font-weight: bold;
 }
 
-.media-selection .selection-info a {
-	display: block;
+.media-selection .button-link {
 	float: left;
 	padding: 1px 8px;
 	margin: 1px 8px 1px -8px;
 	line-height: 16px;
-	text-decoration: none;
 	border-right: 1px solid #dfdfdf;
 	color: #21759B;
 }
 
-.media-selection .selection-info a:hover {
+.media-selection .button-link:hover,
+.media-selection .button-link:focus {
 	background: #21759B;
 	color: #fff;
 	border-color: transparent;
 }
 
-.media-selection .selection-info a:last-child {
+.media-selection .button-link:last-child {
 	border-right: 0;
 	margin-right: 0;
 }
 
-.media-selection .selection-info .clear-selection {
+.selection-info .clear-selection {
 	color: red;
 }
 
-.media-selection .selection-info .clear-selection:hover {
+.selection-info .clear-selection:hover,
+.selection-info .clear-selection:focus {
 	background: red;
+	color: #fff;
 }
 
 .media-selection .selection-view {
@@ -1640,12 +1626,17 @@
 .media-modal .delete-attachment,
 .media-modal .trash-attachment,
 .media-modal .untrash-attachment {
+	display: inline;
+	padding: 0;
 	color: #bc0b0b;
 }
 
 .media-modal .delete-attachment:hover,
+.media-modal .delete-attachment:focus,
 .media-modal .trash-attachment:hover,
-.media-modal .untrash-attachment:hover {
+.media-modal .trash-attachment:focus,
+.media-modal .untrash-attachment:hover,
+.media-modal .untrash-attachment:focus {
 	color: red;
 }
 
@@ -1891,9 +1882,9 @@
 }
 
 .image-details .advanced-toggle {
+	padding: 0;
 	color: #666;
-	text-decoration: none;
-	display: block;
+	text-transform: uppercase;
 }
 
 .image-details .advanced-toggle:after {
