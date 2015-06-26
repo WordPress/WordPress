@@ -1685,9 +1685,10 @@ i.mce-i-wp_code:before {
 
 @media screen and ( max-width: 782px ) {
 	.wp-link-preview {
+		margin: 8px 5px;
 		max-width: 70%;
-		max-width: -webkit-calc(100% - 88px);
-		max-width: calc(100% - 88px);
+		max-width: -webkit-calc(100% - 80px);
+		max-width: calc(100% - 80px);
 	}
 }
 
