@@ -1042,6 +1042,8 @@ final class _WP_Editors {
 			'Ctrl + letter:' => __( 'Ctrl + letter:' ),
 			'Letter' => __( 'Letter' ),
 			'Action' => __( 'Action' ),
+			'To move focus to other buttons use Tab or the arrow keys. To return focus to the editor press Escape or use one of the buttons.' =>
+				__( 'To move focus to other buttons use Tab or the arrow keys. To return focus to the editor press Escape or use one of the buttons.' ),
 		);
 
 		/**

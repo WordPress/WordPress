@@ -273,7 +273,9 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 						tr({ 'Alt + F9':  'Editor menu (when enabled)' }) +
 						tr({ 'Alt + F10': 'Editor toolbar' }) +
 						tr({ 'Alt + F11': 'Elements path' }) +
-					'</table></div>'
+					'</table>' +
+					'<p>' + __( 'To move focus to other buttons use Tab or the arrow keys. To return focus to the editor press Escape or use one of the buttons.' ) + '</p>' +
+					'</div>'
 				)
 			},
 			buttons: {

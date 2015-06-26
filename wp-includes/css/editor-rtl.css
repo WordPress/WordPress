@@ -126,7 +126,8 @@
 }
 
 .mce-window .wp-editor-help p {
-	margin: 7px 0;
+	margin: 8px 0;
+	white-space: normal;
 }
 
 .mce-window .wp-editor-help table {
@@ -138,7 +139,6 @@
 .mce-window .wp-editor-help th {
 	font-size: 13px;
 	vertical-align: middle;
-	
 }
 
 .mce-window .wp-editor-help td {
