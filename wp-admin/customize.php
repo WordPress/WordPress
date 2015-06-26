@@ -33,6 +33,10 @@ if ( ! $return ) {
 	}
 }
 
+/**
+ * @global WP_Scripts           $wp_scripts
+ * @global WP_Customize_Manager $wp_customize
+ */
 global $wp_scripts, $wp_customize;
 
 $registered = $wp_scripts->registered;
@@ -143,14 +147,15 @@ do_action( 'customize_controls_print_scripts' );
 
 		<div id="widgets-right"><!-- For Widget Customizer, many widgets try to look for instances under div#widgets-right, so we have to add that ID to a container div in the Customizer for compat -->
 		<div class="wp-full-overlay-sidebar-content" tabindex="-1">
-			<div id="customize-info" class="accordion-section">
-				<div class="accordion-section-title" aria-label="<?php esc_attr_e( 'Customizer Options' ); ?>" tabindex="0">
+			<div id="customize-info" class="accordion-section customize-info">
+				<div class="accordion-section-title" aria-label="<?php esc_attr_e( 'Customizer Options' ); ?>">
 					<span class="preview-notice"><?php
-						echo sprintf( __( 'You are customizing %s' ), '<strong class="theme-name site-title">' . get_bloginfo( 'name' ) . '</strong>' );
+						echo sprintf( __( 'You are customizing %s' ), '<strong class="panel-title site-title">' . get_bloginfo( 'name' ) . '</strong>' );
 					?></span>
+					<button class="customize-help-toggle dashicons dashicons-editor-help" aria-expanded="false"><span class="screen-reader-text"><?php _e( 'Help' ); ?></span></button>
 				</div>
-				<div class="accordion-section-content"><?php
-					echo __( 'The Customizer allows you to preview changes to your site before publishing them. You can also navigate to different pages on your site to preview them.' );
+				<div class="customize-panel-description"><?php
+					_e( 'The Customizer allows you to preview changes to your site before publishing them. You can also navigate to different pages on your site to preview them.' );
 				?></div>
 			</div>
 
@@ -170,7 +175,9 @@ do_action( 'customize_controls_print_scripts' );
 	<div id="customize-preview" class="wp-full-overlay-main"></div>
 	<?php
 
-	// Render control templates.
+	// Render Panel, Section, and Control templates.
+	$wp_customize->render_panel_templates();
+	$wp_customize->render_section_templates();
 	$wp_customize->render_control_templates();
 
 	/**
@@ -254,28 +261,38 @@ do_action( 'customize_controls_print_scripts' );
 
 	// Prepare Customize Setting objects to pass to JavaScript.
 	foreach ( $wp_customize->settings() as $id => $setting ) {
-		$settings['settings'][ $id ] = array(
-			'value'     => $setting->js_value(),
-			'transport' => $setting->transport,
-			'dirty'     => $setting->dirty,
-		);
+		if ( $setting->check_capabilities() ) {
+			$settings['settings'][ $id ] = array(
+				'value'     => $setting->js_value(),
+				'transport' => $setting->transport,
+				'dirty'     => $setting->dirty,
+			);
+		}
 	}
 
 	// Prepare Customize Control objects to pass to JavaScript.
 	foreach ( $wp_customize->controls() as $id => $control ) {
-		$settings['controls'][ $id ] = $control->json();
+		if ( $control->check_capabilities() ) {
+			$settings['controls'][ $id ] = $control->json();
+		}
 	}
 
 	// Prepare Customize Section objects to pass to JavaScript.
 	foreach ( $wp_customize->sections() as $id => $section ) {
-		$settings['sections'][ $id ] = $section->json();
+		if ( $section->check_capabilities() ) {
+			$settings['sections'][ $id ] = $section->json();
+		}
 	}
 
 	// Prepare Customize Panel objects to pass to JavaScript.
-	foreach ( $wp_customize->panels() as $id => $panel ) {
-		$settings['panels'][ $id ] = $panel->json();
-		foreach ( $panel->sections as $section_id => $section ) {
-			$settings['sections'][ $section_id ] = $section->json();
+	foreach ( $wp_customize->panels() as $panel_id => $panel ) {
+		if ( $panel->check_capabilities() ) {
+			$settings['panels'][ $panel_id ] = $panel->json();
+			foreach ( $panel->sections as $section_id => $section ) {
+				if ( $section->check_capabilities() ) {
+					$settings['sections'][ $section_id ] = $section->json();
+				}
+			}
 		}
 	}
 

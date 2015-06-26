@@ -125,7 +125,8 @@ strong .post-com-count:after {
 	font-size: 1em;
 }
 
-#edithead .inside {
+#edithead .inside,
+#commentsdiv #edithead .inside {
 	float: left;
 	padding: 3px 0 2px 5px;
 	margin: 0;
@@ -258,7 +259,7 @@ table.fixed {
 }
 
 .fixed .column-posts {
-    width: 74px;
+	width: 74px;
 }
 
 .fixed .column-comment .comment-author {
@@ -295,8 +296,29 @@ table.fixed {
 	float: left;
 }
 
-.fixed .column-icon {
-	width: 80px;
+/* Media file column */
+table.media .column-title {
+	position: relative;
+}
+
+table.media .column-title .media-icon {
+	position: absolute;
+	top: 8px; /* match cell padding */
+	left: 10px; /* match cell padding */
+}
+
+table.media .column-title .media-icon img {
+	max-width: 60px;
+	height: auto;
+}
+
+table.media .column-title .media-info,
+table.media .column-title .row-actions {
+	margin-left: 70px; /* 60px image + margin */
+}
+
+table.media .column-title .media-info p {
+	margin-bottom: 0.2em;
 }
 
 /* @todo: pick a consistent list table selector */
@@ -357,6 +379,11 @@ table.fixed {
 	border-bottom: 0 none;
 }
 
+#commentsdiv #edithead .inside input {
+	vertical-align: middle;
+	width: 160px;
+}
+
 .sorting-indicator {
 	display: none;
 	width: 10px;
@@ -366,7 +393,6 @@ table.fixed {
 }
 
 .sorting-indicator:before {
-	background: none;
 	content: '\f142';
 	font: normal 20px/1 'dashicons';
 	speak: none;
@@ -390,12 +416,14 @@ table.fixed {
 }
 
 th.sorted.asc .sorting-indicator:before,
-th.desc:hover span.sorting-indicator:before {
+th.desc:hover span.sorting-indicator:before,
+th.desc a:focus span.sorting-indicator:before {
 	content: '\f142';
 }
 
 th.sorted.desc .sorting-indicator:before,
-th.asc:hover span.sorting-indicator:before {
+th.asc:hover span.sorting-indicator:before,
+th.asc a:focus span.sorting-indicator:before {
 	content: '\f140';
 }
 
@@ -476,29 +504,33 @@ th.sorted a span {
 	cursor: pointer;
 }
 
-th.sorted.asc .sorting-indicator,
-th.desc:hover span.sorting-indicator {
+th.sorted .sorting-indicator,
+th.desc:hover span.sorting-indicator,
+th.desc a:focus span.sorting-indicator,
+th.asc:hover span.sorting-indicator,
+th.asc a:focus span.sorting-indicator {
 	display: block;
-	background-position: 0 0;
-}
-
-th.sorted.desc .sorting-indicator,
-th.asc:hover span.sorting-indicator {
-	display: block;
-	background-position: -7px 0;
 }
 
 /* Bulk Actions */
-.tablenav-pages a {
+.tablenav-pages a,
+.tablenav-pages-navspan {
 	font-weight: 600;
-	margin-right: 1px;
 	padding: 0 2px;
 }
+
 .tablenav-pages .current-page {
-	padding-top: 0;
+	margin: 0 2px 0 0;
+	padding-bottom: 5px;
+	font-size: 13px;
 	text-align: center;
 }
-.tablenav-pages .next-page {
+
+.tablenav .total-pages {
+	margin-right: 2px;
+}
+
+.tablenav #table-paging {
 	margin-left: 2px;
 }
 
@@ -520,12 +552,10 @@ th.asc:hover span.sorting-indicator {
 
 .tablenav .tablenav-pages {
 	float: right;
-	display: block;
+	height: 28px;
+	margin-top: 3px;
 	cursor: default;
-	height: 30px;
 	color: #555;
-	line-height: 30px;
-	font-size: 12px;
 }
 
 .tablenav .no-pages,
@@ -539,34 +569,44 @@ th.asc:hover span.sorting-indicator {
 	padding: 3px 6px;
 }
 
-.tablenav .tablenav-pages a {
-	padding: 0 10px 3px;
-	background: #eee;
-	background: rgba( 0, 0, 0, 0.05 );
+.tablenav .tablenav-pages a,
+.tablenav-pages-navspan {
+	display: inline-block;
+	width: 7px;
+	border: 1px solid #d2d2d2;
+	padding: 3px 10px 7px;
+	background: #e4e4e4;
 	font-size: 16px;
+	line-height: 1;
 	font-weight: normal;
+	text-align: center;
+}
+
+.tablenav-pages-navspan {
+	height: 16px;
+	border-color: #e8e8e8;
+	background: #ebebeb;
+	color: #b4b4b4;
 }
 
 .tablenav .tablenav-pages a:hover,
 .tablenav .tablenav-pages a:focus {
+	border-color: #5b9dd9;
 	color: #fff;
 	background: #00a0d2;
-}
-
-.tablenav .tablenav-pages a.disabled,
-.tablenav .tablenav-pages a.disabled:hover,
-.tablenav .tablenav-pages a.disabled:focus,
-.tablenav .tablenav-pages a.disabled:active {
-	color: #a0a5aa;
-	background: #eee;
-	background: rgba( 0, 0, 0, 0.05 );
+	-webkit-box-shadow: none;
+	box-shadow: none;
+	outline: none; /* IE8 */
 }
 
 .tablenav .displaying-num {
-	margin-right: 2px;
-	color: #777;
-	font-size: 12px;
-	font-style: italic;
+	margin-right: 7px;
+}
+
+.tablenav .one-page .displaying-num {
+	display: inline-block;
+	margin-top: 5px;
+	margin-right: 0;
 }
 
 .tablenav .actions {
@@ -603,43 +643,42 @@ classes exist in paginate_links() but not seen in list table output. */
 
 .tablenav .view-switch {
 	float: right;
-	margin: 5px 16px 0 8px;
+	margin: 0 5px;
+	padding-top: 3px;
 }
 
 .wp-filter .view-switch {
 	display: inline-block;
 	vertical-align: middle;
-	padding: 15px 0;
-	margin: 0 20px 0 0;
+	padding: 12px 0;
+	margin: 0 8px 0 2px;
+}
+
+.media-toolbar.wp-filter .view-switch {
+	margin: 0 12px 0 2px;
 }
 
 .view-switch a {
+	float: left;
+	width: 28px;
+	height: 28px;
+	text-align: center;
+	line-height: 24px;
 	text-decoration: none;
 }
 
-.view-switch > a {
-	display: inline-block;
-	width: 18px;
-	height: 18px;
-}
-
-.view-switch > a:before {
+.view-switch a:before {
 	color: #b4b9be;
 	display: inline-block;
-	float: left;
 	font: normal 20px/1 'dashicons';
 	speak: none;
 	vertical-align: middle;
-	margin-left: 0;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }
 
-.view-switch > .view-list:before {
-	content: '\f163';
-}
-
-.view-switch a:hover:before {
+.view-switch a:hover:before,
+.view-switch a:focus:before {
 	color: #727272;
 }
 
@@ -647,15 +686,15 @@ classes exist in paginate_links() but not seen in list table output. */
 	color: #0073aa;
 }
 
-.view-switch > a + a {
-	margin-left: 5px;
+.view-switch .view-list:before {
+	content: '\f163';
 }
 
-.view-switch > .view-excerpt:before {
+.view-switch .view-excerpt:before {
 	content: '\f164';
 }
 
-.view-switch > .view-grid:before {
+.view-switch .view-grid:before {
 	content: '\f509';
 }
 
@@ -845,6 +884,13 @@ tr.inline-edit-row td,
 	line-height: 2.5;
 }
 
+.inline-edit-row fieldset.inline-edit-date label {
+	display: inline-block;
+	margin: 0;
+	line-height: 1.5;
+	vertical-align: baseline;
+}
+
 .inline-edit-row fieldset label.inline-edit-tags {
 	margin-top: 0;
 }
@@ -854,11 +900,21 @@ tr.inline-edit-row td,
 	width: auto;
 }
 
-.inline-edit-row fieldset label span.title {
+.inline-edit-row fieldset label span.title,
+.inline-edit-row fieldset.inline-edit-date legend {
 	display: block;
 	float: left;
 	width: 5em;
 	line-height: 2.5;
+}
+
+#posts-filter fieldset.inline-edit-date legend {
+	padding: 0;
+}
+
+.inline-edit-row fieldset.inline-edit-date select {
+	margin: 1px;
+	line-height: 28px;
 }
 
 .inline-edit-row fieldset label span.input-text-wrap {
@@ -1249,7 +1305,6 @@ tr.active.update + tr.plugin-update-tr .plugin-update {
 
 .plugins .plugin-update-tr .plugin-update {
 	padding: 0;
-	border: none;
 	-webkit-box-shadow: inset 0 -1px 0 rgba(0,0,0,0.1);
 	box-shadow: inset 0 -1px 0 rgba(0,0,0,0.1);
 }
@@ -1482,6 +1537,15 @@ div.action-links,
 	background: #fecac2;
 }
 
+.sites.fixed .column-lastupdated,
+.sites.fixed .column-registered {
+	width: 20%;
+}
+
+.sites.fixed .column-users {
+	width: 80px;
+}
+
 /* =Media Queries
 -------------------------------------------------------------- */
 
@@ -1545,6 +1609,12 @@ div.action-links,
 		display: none;
 	}
 
+	.view-switch a {
+		width: 36px;
+		height: 36px;
+		line-height: 33px;
+	}
+
 	/* Pagination */
 	.tablenav.top .displaying-num {
 		display: none;
@@ -1553,12 +1623,14 @@ div.action-links,
 	.tablenav.bottom .displaying-num {
 		position: absolute;
 		right: 0;
-		top: 10px;
+		top: 11px;
+		margin: 0;
 		font-size: 14px;
 	}
 
-	.tablenav-pages {
+	.tablenav .tablenav-pages {
 		width: 100%;
+		height: auto;
 		text-align: center;
 		margin: 0 0 25px;
 	}
@@ -1576,19 +1648,23 @@ div.action-links,
 		height: 0;
 	}
 
-	.tablenav-pages .pagination-links .paging-input {
+	.tablenav-pages .pagination-links {
+		font-size: 16px;
+	}
+
+	.tablenav-pages .pagination-links a,
+	.tablenav-pages-navspan {
+		padding: 9px 16px 12px;
 		font-size: 18px;
 	}
 
-	.tablenav-pages .pagination-links a {
-		padding: 8px 20px 11px;
-		font-size: 18px;
-		background: rgba(0, 0, 0, 0.05);
+	.tablenav-pages-navspan {
+		height: 18px;
 	}
 
 	.tablenav-pages .pagination-links .current-page {
-		padding: 10px;
-		font-size: 14px;
+		padding: 8px 9px 9px;
+		font-size: 16px;
 	}
 
 	/* WP List Table Adjustments: General */
@@ -1607,6 +1683,7 @@ div.action-links,
 	.column-tags,
 	.tags .column-description,
 	.media .column-parent,
+	.media .column-comments,
 	.users .column-email,
 	.users .column-name,
 	.sites .column-registered,
@@ -1633,6 +1710,11 @@ div.action-links,
 
 	.widefat * {
 		word-wrap: normal;
+	}
+
+	/* Media */
+	.media .column-title {
+		width: auto;
 	}
 
 	/* Quick Edit and Bulk Edit */

@@ -6,7 +6,6 @@
 	var PressThis = function() {
 		var editor, $mediaList, $mediaThumbWrap,
 			saveAlert             = false,
-			editLinkVisible       = false,
 			textarea              = document.createElement( 'textarea' ),
 			sidebarIsOpen         = false,
 			settings              = window.wpPressThisConfig || {},
@@ -163,8 +162,7 @@
 		 * @param action string publish|draft
 		 */
 		function submitPost( action ) {
-			var data,
-				keepFocus = $( document.activeElement ).hasClass( 'draft-button' );
+			var data;
 
 			saveAlert = false;
 			showSpinner();
@@ -184,8 +182,6 @@
 				hideSpinner();
 				clearNotices();
 			}).done( function( response ) {
-				var $link, $button;
-
 				if ( ! response.success ) {
 					renderError( response.data.errorMessage );
 				} else if ( response.data.redirect ) {
@@ -199,34 +195,11 @@
 						window.location.href = response.data.redirect;
 					}
 				} else if ( response.data.postSaved ) {
-					$link = $( '.edit-post-link' );
-					$button = $( '.draft-button' );
-					editLinkVisible = true;
-
-					$button.fadeOut( 200, function() {
-						$button.removeClass( 'is-saving' );
-						$link.fadeIn( 200, function() {
-							var active = document.activeElement;
-							// Different browsers move the focus to different places when the button is disabled.
-							if ( keepFocus && ( active === $button[0] || $( active ).hasClass( 'post-actions' ) || active.nodeName === 'BODY' ) ) {
-								$link.focus();
-							}
-						});
-					});
+					// consider showing "Saved" message
 				}
 			}).fail( function() {
 				renderError( __( 'serverError' ) );
 			});
-		}
-
-		function resetDraftButton() {
-			if ( editLinkVisible ) {
-				editLinkVisible = false;
-
-				$( '.edit-post-link' ).fadeOut( 200, function() {
-					$( '.draft-button' ).removeClass( 'is-saving' ).fadeIn( 200 );
-				});
-			}
 		}
 
 		/**
@@ -550,7 +523,6 @@
 
 			$titleField.on( 'focus', function() {
 				$placeholder.addClass( 'is-hidden' );
-				resetDraftButton();
 			}).on( 'blur', function() {
 				if ( ! $titleField.text() && ! $titleField.html() ) {
 					$placeholder.removeClass( 'is-hidden' );
@@ -626,6 +598,11 @@
 			});
 		}
 
+		function splitButtonClose() {
+			$( '.split-button' ).removeClass( 'is-open' );
+			$( '.split-button-toggle' ).attr( 'aria-expanded', 'false' );
+		}
+
 		/* ***************************************************************
 		 * PROCESSING FUNCTIONS
 		 *************************************************************** */
@@ -648,16 +625,25 @@
 		 * Set app events and other state monitoring related code.
 		 */
 		function monitor() {
+			var $splitButton = $( '.split-button' );
+
 			$( document ).on( 'tinymce-editor-init', function( event, ed ) {
 				editor = ed;
 
 				editor.on( 'nodechange', function() {
 					hasSetFocus = true;
-					resetDraftButton();
-				} );
+				});
+
+				editor.on( 'focus', function() {
+					splitButtonClose();
+				});
 			}).on( 'click.press-this keypress.press-this', '.suggested-media-thumbnail', function( event ) {
 				if ( event.type === 'click' || event.keyCode === 13 ) {
 					insertSelectedMedia( $( this ) );
+				}
+			}).on( 'click.press-this', function( event ) {
+				if ( ! $( event.target ).closest( 'button' ).hasClass( 'split-button-toggle' ) ) {
+					splitButtonClose();
 				}
 			});
 
@@ -668,7 +654,6 @@
 
 				if ( $button.length ) {
 					if ( $button.hasClass( 'draft-button' ) ) {
-						$button.addClass( 'is-saving' );
 						submitPost( 'draft' );
 					} else if ( $button.hasClass( 'publish-button' ) ) {
 						submitPost( 'publish' );
@@ -679,6 +664,14 @@
 						$( '#wp-preview' ).val( 'dopreview' );
 						$( '#pressthis-form' ).attr( 'target', '_blank' ).submit().attr( 'target', '' );
 						$( '#wp-preview' ).val( '' );
+					} else if ( $button.hasClass( 'split-button-toggle' ) ) {
+						if ( $splitButton.hasClass( 'is-open' ) ) {
+							$splitButton.removeClass( 'is-open' );
+							$button.attr( 'aria-expanded', 'false' );
+						} else {
+							$splitButton.addClass( 'is-open' );
+							$button.attr( 'aria-expanded', 'true' );
+						}
 					}
 				} else if ( $target.hasClass( 'edit-post-link' ) && window.opener ) {
 					window.opener.focus();

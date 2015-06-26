@@ -66,6 +66,9 @@ class Translation_Entry {
 		return is_null($this->context)? $this->singular : $this->context.chr(4).$this->singular;
 	}
 
+	/**
+	 * @param object $other
+	 */
 	function merge_with(&$other) {
 		$this->flags = array_unique( array_merge( $this->flags, $other->flags ) );
 		$this->references = array_unique( array_merge( $this->references, $other->references ) );

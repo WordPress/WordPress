@@ -153,6 +153,8 @@ function get_the_category_by_ID( $cat_ID ) {
  *
  * @since 1.5.1
  *
+ * @global WP_Rewrite $wp_rewrite
+ *
  * @param string $separator Optional, default is empty string. Separator for between the categories.
  * @param string $parents Optional. How to display the parents.
  * @param int $post_id Optional. Post ID to retrieve categories.
@@ -479,7 +481,7 @@ function wp_dropdown_categories( $args = '' ) {
  * @since 2.1.0
  *
  * @param string|array $args Optional. Override default arguments.
- * @return false|null|string HTML content only if 'echo' argument is 0.
+ * @return false|string HTML content only if 'echo' argument is 0.
  */
 function wp_list_categories( $args = '' ) {
 	$defaults = array(
@@ -629,7 +631,8 @@ function wp_list_categories( $args = '' ) {
  * @since 2.3.0
  *
  * @param array|string|null $args Optional. Override default arguments.
- * @return null|false Generated tag cloud, only if no failures and 'array' is set for the 'format' argument.
+ * @return void|array Generated tag cloud, only if no failures and 'array' is set for the 'format' argument.
+ *                    Otherwise, this function outputs the tag cloud.
  */
 function wp_tag_cloud( $args = '' ) {
 	$defaults = array(
@@ -650,7 +653,7 @@ function wp_tag_cloud( $args = '' ) {
 		else
 			$link = get_term_link( intval($tag->term_id), $tag->taxonomy );
 		if ( is_wp_error( $link ) )
-			return false;
+			return;
 
 		$tags[ $key ]->link = $link;
 		$tags[ $key ]->id = $tag->term_id;
@@ -677,8 +680,8 @@ function wp_tag_cloud( $args = '' ) {
 /**
  * Default topic count scaling for tag links
  *
- * @param integer $count number of posts with that tag
- * @return integer scaled count
+ * @param int $count number of posts with that tag
+ * @return int scaled count
  */
 function default_topic_count_scale( $count ) {
 	return round(log10($count + 1) * 100);
@@ -868,6 +871,7 @@ function wp_generate_tag_cloud( $tags, $args = '' ) {
  *
  * @since 3.1.0
  * @access private
+ * @return int
  */
 function _wp_object_name_sort_cb( $a, $b ) {
 	return strnatcasecmp( $a->name, $b->name );
@@ -878,6 +882,7 @@ function _wp_object_name_sort_cb( $a, $b ) {
  *
  * @since 3.1.0
  * @access private
+ * @return bool
  */
 function _wp_object_count_sort_cb( $a, $b ) {
 	return ( $a->count > $b->count );
@@ -893,6 +898,7 @@ function _wp_object_count_sort_cb( $a, $b ) {
  * @uses Walker_Category to create HTML list content.
  * @since 2.1.0
  * @see Walker_Category::walk() for parameters and return description.
+ * @return string
  */
 function walk_category_tree() {
 	$args = func_get_args();
@@ -902,7 +908,7 @@ function walk_category_tree() {
 	} else {
 		$walker = $args[2]['walker'];
 	}
-	return call_user_func_array(array( &$walker, 'walk' ), $args );
+	return call_user_func_array( array( $walker, 'walk' ), $args );
 }
 
 /**
@@ -911,16 +917,17 @@ function walk_category_tree() {
  * @uses Walker_CategoryDropdown to create HTML dropdown content.
  * @since 2.1.0
  * @see Walker_CategoryDropdown::walk() for parameters and return description.
+ * @return string
  */
 function walk_category_dropdown_tree() {
 	$args = func_get_args();
 	// the user's options are the third parameter
-	if ( empty($args[2]['walker']) || !is_a($args[2]['walker'], 'Walker') )
+	if ( empty( $args[2]['walker'] ) || ! ( $args[2]['walker'] instanceof Walker ) ) {
 		$walker = new Walker_CategoryDropdown;
-	else
+	} else {
 		$walker = $args[2]['walker'];
-
-	return call_user_func_array(array( &$walker, 'walk' ), $args );
+	}
+	return call_user_func_array( array( $walker, 'walk' ), $args );
 }
 
 /**
@@ -1165,13 +1172,15 @@ class Walker_CategoryDropdown extends Walker {
 		/** This filter is documented in wp-includes/category-template.php */
 		$cat_name = apply_filters( 'list_cats', $category->name, $category );
 
-		if ( ! isset( $args['value_field'] ) || ! isset( $category->{$args['value_field']} ) ) {
-			$args['value_field'] = 'term_id';
+		if ( isset( $args['value_field'] ) && isset( $category->{$args['value_field']} ) ) {
+			$value_field = $args['value_field'];
+		} else {
+			$value_field = 'term_id';
 		}
 
-		$output .= "\t<option class=\"level-$depth\" value=\"" . esc_attr( $category->{$args['value_field']} ) . "\"";
+		$output .= "\t<option class=\"level-$depth\" value=\"" . esc_attr( $category->{$value_field} ) . "\"";
 
-		if ( $category->term_id == $args['selected'] )
+		if ( $category->{$value_field} == $args['selected'] )
 			$output .= ' selected="selected"';
 		$output .= '>';
 		$output .= $pad.$cat_name;
@@ -1212,7 +1221,7 @@ function get_tag_link( $tag ) {
  * @since 2.3.0
  *
  * @param int $id Post ID.
- * @return array|bool Array of tag objects on success, false on failure.
+ * @return array|false|WP_Error Array of tag objects on success, false on failure.
  */
 function get_the_tags( $id = 0 ) {
 
@@ -1237,7 +1246,7 @@ function get_the_tags( $id = 0 ) {
  * @param string $sep Optional. Between tags.
  * @param string $after Optional. After tags.
  * @param int $id Optional. Post ID. Defaults to the current post.
- * @return string|bool|WP_Error A list of tags on success, false if there are no terms, WP_Error on failure.
+ * @return string|false|WP_Error A list of tags on success, false if there are no terms, WP_Error on failure.
  */
 function get_the_tag_list( $before = '', $sep = '', $after = '', $id = 0 ) {
 
@@ -1310,8 +1319,8 @@ function term_description( $term = 0, $taxonomy = 'post_tag' ) {
  *
  * @param int|object $post Post ID or object.
  * @param string $taxonomy Taxonomy name.
- * @return array|bool|WP_Error Array of term objects on success, false if there are no terms
- *                             or the post does not exist, WP_Error on failure.
+ * @return array|false|WP_Error Array of term objects on success, false if there are no terms
+ *                              or the post does not exist, WP_Error on failure.
  */
 function get_the_terms( $post, $taxonomy ) {
 	if ( ! $post = get_post( $post ) )
@@ -1350,7 +1359,7 @@ function get_the_terms( $post, $taxonomy ) {
  * @param string $before Optional. Before list.
  * @param string $sep Optional. Separate items using this.
  * @param string $after Optional. After list.
- * @return string|bool|WP_Error A list of terms on success, false if there are no terms, WP_Error on failure.
+ * @return string|false|WP_Error A list of terms on success, false if there are no terms, WP_Error on failure.
  */
 function get_the_term_list( $id, $taxonomy, $before = '', $sep = '', $after = '' ) {
 	$terms = get_the_terms( $id, $taxonomy );
@@ -1396,7 +1405,7 @@ function get_the_term_list( $id, $taxonomy, $before = '', $sep = '', $after = ''
  * @param string $before Optional. Before list.
  * @param string $sep Optional. Separate items using this.
  * @param string $after Optional. After list.
- * @return false|null False on WordPress error. Returns null when displaying.
+ * @return false|void False on WordPress error.
  */
 function the_terms( $id, $taxonomy, $before = '', $sep = ', ', $after = '' ) {
 	$term_list = get_the_term_list( $id, $taxonomy, $before, $sep, $after );

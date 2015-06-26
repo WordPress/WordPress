@@ -81,6 +81,11 @@ function admin_url() {}
  */
 function wp_guess_url() {}
 
+/**
+ *
+ * @param string $path
+ * @return string
+ */
 function get_file($path) {
 
 	if ( function_exists('realpath') )

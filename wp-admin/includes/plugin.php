@@ -219,9 +219,9 @@ function get_plugin_files($plugin) {
  *
  * WordPress only supports plugin files in the base plugins directory
  * (wp-content/plugins) and in one directory above the plugins directory
- * (wp-content/plugins/my-plugin). The file it looks for has the plugin data and
- * must be found in those two locations. It is recommended that do keep your
- * plugin files in directories.
+ * (wp-content/plugins/my-plugin). The file it looks for has the plugin data
+ * and must be found in those two locations. It is recommended to keep your
+ * plugin files in their own directories.
  *
  * The file with the plugin data is the file that will be included and therefore
  * needs to have the main execution for the plugin. This does not mean
@@ -576,9 +576,11 @@ function activate_plugin( $plugin, $redirect = '', $network_wide = false, $silen
 		}
 
 		if ( $network_wide ) {
+			$current = get_site_option( 'active_sitewide_plugins', array() );
 			$current[$plugin] = time();
 			update_site_option( 'active_sitewide_plugins', $current );
 		} else {
+			$current = get_option( 'active_plugins', array() );
 			$current[] = $plugin;
 			sort($current);
 			update_option('active_plugins', $current);
@@ -748,6 +750,8 @@ function activate_plugins( $plugins, $redirect = '', $network_wide = false, $sil
  * Remove directory and files of a plugin for a list of plugins.
  *
  * @since 2.6.0
+ *
+ * @global WP_Filesystem_Base $wp_filesystem
  *
  * @param array  $plugins    List of plugins to delete.
  * @param string $deprecated Deprecated.
@@ -944,6 +948,7 @@ function is_uninstallable_plugin($plugin) {
  * @since 2.7.0
  *
  * @param string $plugin Relative plugin path from Plugin Directory.
+ * @return true True if a plugin's uninstall.php file has been found and included.
  */
 function uninstall_plugin($plugin) {
 	$file = plugin_basename($plugin);
@@ -998,6 +1003,11 @@ function uninstall_plugin($plugin) {
  *
  * The function which is hooked in to handle the output of the page must check
  * that the user has the required capability as well.
+ *
+ * @global array $menu
+ * @global array $admin_page_hooks
+ * @global array $_registered_pages
+ * @global array $_parent_pages
  *
  * @param string $page_title The text to be displayed in the title tags of the page when the menu is selected
  * @param string $menu_title The text to be used for the menu
@@ -1057,6 +1067,8 @@ function add_menu_page( $page_title, $menu_title, $capability, $menu_slug, $func
  * The function which is hooked in to handle the output of the page must check
  * that the user has the required capability as well.
  *
+ * @global int $_wp_last_object_menu
+ *
  * @param string $page_title The text to be displayed in the title tags of the page when the menu is selected
  * @param string $menu_title The text to be used for the menu
  * @param string $capability The capability required for this menu to be displayed to the user.
@@ -1082,6 +1094,8 @@ function add_object_page( $page_title, $menu_title, $capability, $menu_slug, $fu
  *
  * The function which is hooked in to handle the output of the page must check
  * that the user has the required capability as well.
+ *
+ * @global int $_wp_last_utility_menu
  *
  * @param string $page_title The text to be displayed in the title tags of the page when the menu is selected
  * @param string $menu_title The text to be used for the menu
@@ -1109,6 +1123,13 @@ function add_utility_page( $page_title, $menu_title, $capability, $menu_slug, $f
  * The function which is hooked in to handle the output of the page must check
  * that the user has the required capability as well.
  *
+ * @global array $submenu
+ * @global array $menu
+ * @global type $_wp_real_parent_file
+ * @global bool $_wp_submenu_nopriv
+ * @global array $_registered_pages
+ * @global array $_parent_pages
+ *
  * @param string $parent_slug The slug name for the parent menu (or the file name of a standard WordPress admin page)
  * @param string $page_title The text to be displayed in the title tags of the page when the menu is selected
  * @param string $menu_title The text to be used for the menu
@@ -1119,12 +1140,8 @@ function add_utility_page( $page_title, $menu_title, $capability, $menu_slug, $f
  * @return false|string The resulting page's hook_suffix, or false if the user does not have the capability required.
  */
 function add_submenu_page( $parent_slug, $page_title, $menu_title, $capability, $menu_slug, $function = '' ) {
-	global $submenu;
-	global $menu;
-	global $_wp_real_parent_file;
-	global $_wp_submenu_nopriv;
-	global $_registered_pages;
-	global $_parent_pages;
+	global $submenu, $menu, $_wp_real_parent_file, $_wp_submenu_nopriv,
+		$_registered_pages, $_parent_pages;
 
 	$menu_slug = plugin_basename( $menu_slug );
 	$parent_slug = plugin_basename( $parent_slug);
@@ -1410,6 +1427,8 @@ function add_comments_page( $page_title, $menu_title, $capability, $menu_slug, $
  *
  * @since 3.1.0
  *
+ * @global array $menu
+ *
  * @param string $menu_slug The slug of the menu
  * @return array|bool The removed menu on success, False if not found
  */
@@ -1430,6 +1449,8 @@ function remove_menu_page( $menu_slug ) {
  * Remove an admin submenu
  *
  * @since 3.1.0
+ *
+ * @global array $submenu
  *
  * @param string $menu_slug The slug for the parent menu
  * @param string $submenu_slug The slug of the submenu
@@ -1457,6 +1478,8 @@ function remove_submenu_page( $menu_slug, $submenu_slug ) {
  * If the slug hasn't been registered properly no url will be returned
  *
  * @since 3.0.0
+ *
+ * @global array $_parent_pages
  *
  * @param string $menu_slug The slug name to refer to this menu by (should be unique for this menu)
  * @param bool $echo Whether or not to echo the url - default is true
@@ -1487,17 +1510,21 @@ function menu_page_url($menu_slug, $echo = true) {
 //
 // Pluggable Menu Support -- Private
 //
-
+/**
+ *
+ * @global string $parent_file
+ * @global array $menu
+ * @global array $submenu
+ * @global string $pagenow
+ * @global string $typenow
+ * @global string $plugin_page
+ * @global string $_wp_real_parent_file
+ * @global array $_wp_menu_nopriv
+ * @global array $_wp_submenu_nopriv
+ */
 function get_admin_page_parent( $parent = '' ) {
-	global $parent_file;
-	global $menu;
-	global $submenu;
-	global $pagenow;
-	global $typenow;
-	global $plugin_page;
-	global $_wp_real_parent_file;
-	global $_wp_menu_nopriv;
-	global $_wp_submenu_nopriv;
+	global $parent_file, $menu, $submenu, $pagenow, $typenow,
+		$plugin_page, $_wp_real_parent_file, $_wp_menu_nopriv, $_wp_submenu_nopriv;
 
 	if ( !empty ( $parent ) && 'admin.php' != $parent ) {
 		if ( isset( $_wp_real_parent_file[$parent] ) )
@@ -1551,13 +1578,17 @@ function get_admin_page_parent( $parent = '' ) {
 	return '';
 }
 
+/**
+ *
+ * @global string $title
+ * @global array $menu
+ * @global array $submenu
+ * @global string $pagenow
+ * @global string $plugin_page
+ * @global string $typenow
+ */
 function get_admin_page_title() {
-	global $title;
-	global $menu;
-	global $submenu;
-	global $pagenow;
-	global $plugin_page;
-	global $typenow;
+	global $title, $menu, $submenu, $pagenow, $plugin_page, $typenow;
 
 	if ( ! empty ( $title ) )
 		return $title;
@@ -1627,6 +1658,13 @@ function get_admin_page_title() {
 	return $title;
 }
 
+/**
+ * @since 2.3.0
+ *
+ * @param string $plugin_page
+ * @param string $parent_page
+ * @return string|null
+ */
 function get_plugin_page_hook( $plugin_page, $parent_page ) {
 	$hook = get_plugin_page_hookname( $plugin_page, $parent_page );
 	if ( has_action($hook) )
@@ -1635,6 +1673,12 @@ function get_plugin_page_hook( $plugin_page, $parent_page ) {
 		return null;
 }
 
+/**
+ *
+ * @global array $admin_page_hooks
+ * @param string $plugin_page
+ * @param string $parent_page
+ */
 function get_plugin_page_hookname( $plugin_page, $parent_page ) {
 	global $admin_page_hooks;
 
@@ -1656,14 +1700,19 @@ function get_plugin_page_hookname( $plugin_page, $parent_page ) {
 	return $page_type . '_page_' . $plugin_name;
 }
 
+/**
+ *
+ * @global string $pagenow
+ * @global array $menu
+ * @global array $submenu
+ * @global array $_wp_menu_nopriv
+ * @global array $_wp_submenu_nopriv
+ * @global string $plugin_page
+ * @global array $_registered_pages
+ */
 function user_can_access_admin_page() {
-	global $pagenow;
-	global $menu;
-	global $submenu;
-	global $_wp_menu_nopriv;
-	global $_wp_submenu_nopriv;
-	global $plugin_page;
-	global $_registered_pages;
+	global $pagenow, $menu, $submenu, $_wp_menu_nopriv, $_wp_submenu_nopriv,
+		$plugin_page, $_registered_pages;
 
 	$parent = get_admin_page_parent();
 
@@ -1736,6 +1785,8 @@ function user_can_access_admin_page() {
  *
  * @since 2.7.0
  *
+ * @global array $new_whitelist_options
+ *
  * @param string $option_group A settings group name. Should correspond to a whitelisted option key name.
  * 	Default whitelisted option key names include "general," "discussion," and "reading," among others.
  * @param string $option_name The name of an option to sanitize and save.
@@ -1764,6 +1815,8 @@ function register_setting( $option_group, $option_name, $sanitize_callback = '' 
  *
  * @since 2.7.0
  *
+ * @global array $new_whitelist_options
+ *
  * @param string   $option_group
  * @param string   $option_name
  * @param callable $sanitize_callback
@@ -1781,7 +1834,7 @@ function unregister_setting( $option_group, $option_name, $sanitize_callback = '
 		$option_group = 'reading';
 	}
 
-	$pos = array_search( $option_name, (array) $new_whitelist_options );
+	$pos = array_search( $option_name, (array) $new_whitelist_options[ $option_group ] );
 	if ( $pos !== false )
 		unset( $new_whitelist_options[ $option_group ][ $pos ] );
 	if ( $sanitize_callback != '' )
@@ -1792,6 +1845,8 @@ function unregister_setting( $option_group, $option_name, $sanitize_callback = '
  * {@internal Missing Short Description}}
  *
  * @since 2.7.0
+ *
+ * @global array $new_whitelist_options
  *
  * @param array $options
  * @return array
@@ -1804,12 +1859,13 @@ function option_update_filter( $options ) {
 
 	return $options;
 }
-add_filter( 'whitelist_options', 'option_update_filter' );
 
 /**
  * {@internal Missing Short Description}}
  *
  * @since 2.7.0
+ *
+ * @global array $whitelist_options
  *
  * @param array        $new_options
  * @param string|array $options
@@ -1841,6 +1897,8 @@ function add_option_whitelist( $new_options, $options = '' ) {
  * {@internal Missing Short Description}}
  *
  * @since 2.7.0
+ *
+ * @global array $whitelist_options
  *
  * @param array        $del_options
  * @param string|array $options

@@ -126,6 +126,7 @@
 	overflow: hidden;
 	clip: rect(0 0 0 0);
 	border: 0;
+	word-wrap: normal !important; /* many screen reader and browser combinations announce broken words as they would appear visually */
 }
 
 .screen-reader-shortcut {
@@ -737,23 +738,24 @@ img.emoji {
 }
 
 /* @todo can we combine these into a class or use an existing dashicon one? */
-#welcome-panel.welcome-panel .welcome-panel-close:before,
+.welcome-panel .welcome-panel-close:before,
 .tagchecklist span a:before,
 #bulk-titles div a:before,
 .notice-dismiss:before {
 	background: none;
 	color: #b4b9be;
 	content: '\f153';
-	display: block !important;
+	display: block;
 	font: normal 16px/1 'dashicons';
 	speak: none;
-	height: 20px;
+	height: 16px;
 	text-align: center;
 	width: 20px;
-	-webkit-font-smoothing: antialiased !important;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
 }
 
-#welcome-panel.welcome-panel .welcome-panel-close:before {
+.welcome-panel .welcome-panel-close:before {
 	margin: 0;
 }
 
@@ -762,7 +764,8 @@ img.emoji {
 	margin: 2px 0;
 }
 
-#welcome-panel.welcome-panel .welcome-panel-close:hover:before,
+.welcome-panel .welcome-panel-close:hover:before,
+.welcome-panel .welcome-panel-close:focus:before,
 .tagchecklist span a:hover:before,
 #bulk-titles div a:hover:before {
 	color: #c00;
@@ -931,7 +934,7 @@ th.action-links {
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	margin: 12px 0 25px;
-	padding: 0 20px;
+	padding: 0 10px;
 	width: 100%;
 	-webkit-box-shadow: 0 1px 1px rgba(0,0,0,0.04);
 	box-shadow: 0 1px 1px rgba(0,0,0,0.04);
@@ -1440,14 +1443,6 @@ form.upgrade .hint {
 	margin: 0 0 0 20px;
 }
 
-#screen-meta-links a {
-	padding: 3px 16px 3px 6px;
-}
-
-#screen-meta-links a:focus {
-	outline: none;
-}
-
 /* screen options and help tabs revert */
 #screen-meta {
 	display: none;
@@ -1477,26 +1472,23 @@ form.upgrade .hint {
 	top: 0;
 }
 
-#screen-meta-links a {
+#screen-meta-links .show-settings {
+	border: 0;
+	background: none;
+	-webkit-border-radius: 0;
+	border-radius: 0;
 	color: #777;
+	line-height: 1.7;
+	padding: 3px 16px 3px 6px;
 }
 
-#screen-meta-links a:hover,
-#screen-meta-links a:active,
-#screen-meta-links a:focus {
+#screen-meta-links .show-settings:hover,
+#screen-meta-links .show-settings:active,
+#screen-meta-links .show-settings:focus {
 	color: #32373c;
 }
 
-#screen-meta-links a.show-settings {
-	display: block;
-	font-size: 13px;
-	height: 22px;
-	line-height: 22px;
-	text-decoration: none;
-	z-index: 1;
-}
-
-#screen-meta-links a:after {
+#screen-meta-links .show-settings:after {
 	left: 0;
 	content: '\f140';
 	font: normal 20px/1 'dashicons';
@@ -1512,13 +1504,10 @@ form.upgrade .hint {
 	color: #b4b9be;
 }
 
-#screen-meta-links a.screen-meta-active:after {
+#screen-meta-links .screen-meta-active:after {
 	content: '\f142';
 }
 
-#screen-meta-links a.show-settings:hover {
-	text-decoration: none;
-}
 /* end screen options and help tabs */
 
 .toggle-arrow {
@@ -2034,14 +2023,17 @@ td.media-icon {
 	padding-bottom: 8px;
 }
 
+td.media-icon a {
+	display: inline-block;
+}
+
 td.media-icon img {
+	display: block;
 	max-width: 80px;
 	max-height: 60px;
 	width: auto;
 	height: auto;
-}
-
-td.image-icon img {
+	border: 1px solid #e7e7e7;
 	border: 1px solid rgba(0, 0, 0, 0.07);
 }
 
@@ -2062,6 +2054,13 @@ td.image-icon img {
 
 #post-body #post-body-content #namediv h3 {
 	margin-top: 0;
+}
+
+.edit-comment-author {
+	font-size: 14px;
+	line-height: 1.4;
+	font-weight: 600;
+	color: #222;
 }
 
 #namediv h3 label {

@@ -16,6 +16,10 @@ if ( ! is_multisite() )
 if ( ! current_user_can( 'manage_network_users' ) )
 	wp_die( __( 'You do not have permission to access this page.' ), 403 );
 
+/**
+ *
+ * @param array $users
+ */
 function confirm_delete_users( $users ) {
 	$current_user = wp_get_current_user();
 	if ( ! is_array( $users ) || empty( $users ) ) {
@@ -86,7 +90,7 @@ function confirm_delete_users( $users ) {
 							<li><label><input type="radio" id="delete_option0" name="delete[<?php echo $details->userblog_id . '][' . $delete_user->ID ?>]" value="delete" checked="checked" />
 							<?php _e( 'Delete all content.' ); ?></label></li>
 							<li><label><input type="radio" id="delete_option1" name="delete[<?php echo $details->userblog_id . '][' . $delete_user->ID ?>]" value="reassign" />
-							<?php echo __( 'Attribute all content to:' ) . "</label>\n" . $user_dropdown; ?></li>
+							<?php _e( 'Attribute all content to:' ) . "</label>\n" . $user_dropdown; ?></li>
 						</ul>
 						<?php
 					}

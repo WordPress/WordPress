@@ -37,17 +37,19 @@ columns = {
 	},
 
 	checked : function(column) {
-		$('.column-' + column).show();
+		$('.column-' + column).removeClass( 'hidden' );
 		this.colSpanChange(+1);
 	},
 
 	unchecked : function(column) {
-		$('.column-' + column).hide();
+		$('.column-' + column).addClass( 'hidden' );
 		this.colSpanChange(-1);
 	},
 
 	hidden : function() {
-		return $('.manage-column').filter(':hidden').map(function() { return this.id; }).get().join(',');
+		return $( '.manage-column[id]' ).filter( ':hidden' ).map(function() {
+			return this.id;
+		}).get().join( ',' );
 	},
 
 	useCheckboxesForHidden : function() {
@@ -103,15 +105,14 @@ screenMeta = {
 
 	init: function() {
 		this.element = $('#screen-meta');
-		this.toggles = $('.screen-meta-toggle a');
+		this.toggles = $( '#screen-meta-links' ).find( '.show-settings' );
 		this.page    = $('#wpcontent');
 
 		this.toggles.click( this.toggleEvent );
 	},
 
-	toggleEvent: function( e ) {
-		var panel = $( this.href.replace(/.+#/, '#') );
-		e.preventDefault();
+	toggleEvent: function() {
+		var panel = $( '#' + $( this ).attr( 'aria-controls' ) );
 
 		if ( !panel.length )
 			return;
@@ -122,22 +123,22 @@ screenMeta = {
 			screenMeta.open( panel, $(this) );
 	},
 
-	open: function( panel, link ) {
+	open: function( panel, button ) {
 
-		$('.screen-meta-toggle').not( link.parent() ).css('visibility', 'hidden');
+		$( '#screen-meta-links' ).find( '.screen-meta-toggle' ).not( button.parent() ).css( 'visibility', 'hidden' );
 
 		panel.parent().show();
 		panel.slideDown( 'fast', function() {
 			panel.focus();
-			link.addClass('screen-meta-active').attr('aria-expanded', true);
+			button.addClass( 'screen-meta-active' ).attr( 'aria-expanded', true );
 		});
 
 		$( document ).trigger( 'screen:options:open' );
 	},
 
-	close: function( panel, link ) {
+	close: function( panel, button ) {
 		panel.slideUp( 'fast', function() {
-			link.removeClass('screen-meta-active').attr('aria-expanded', false);
+			button.removeClass( 'screen-meta-active' ).attr( 'aria-expanded', false );
 			$('.screen-meta-toggle').css('visibility', '');
 			panel.parent().hide();
 		});
@@ -478,7 +479,7 @@ $(document).ready( function() {
 				focusedRowActions.removeClass( 'visible' );
 			}, 30 );
 		}
-	}, 'td.post-title, td.title, td.comment, .tags td.column-name, .bookmarks td.column-name, td.blogname, .users-network td.column-blogs, td.username, .dashboard-comment-wrap' );
+	}, 'td.has-row-actions' );
 
 	$('#default-password-nag-no').click( function() {
 		setUserSetting('default_password_nag', 'hide');
@@ -860,7 +861,7 @@ $(document).ready( function() {
 	window.wpResponsive.init();
 	setPinMenu();
 
-	$document.on( 'wp-window-resized.pin-menu postboxes-columnchange.pin-menu postbox-toggled.pin-menu wp-collapse-menu.pin-menu wp-scroll-start.pin-menu', setPinMenu );
+	$document.on( 'wp-pin-menu wp-window-resized.pin-menu postboxes-columnchange.pin-menu postbox-toggled.pin-menu wp-collapse-menu.pin-menu wp-scroll-start.pin-menu', setPinMenu );
 });
 
 // Fire a custom jQuery event at the end of window resize

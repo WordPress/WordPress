@@ -21,6 +21,11 @@ if ( isset($_GET['widgets-access']) ) {
 	set_user_setting( 'widgets_access', $widgets_access );
 }
 
+/**
+ *
+ * @param string $classes
+ * @return string
+ */
 function wp_widgets_access_body_class($classes) {
 	return "$classes widgets_access ";
 }

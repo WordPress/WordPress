@@ -11,10 +11,22 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 
 	public $features = array();
 
+	/**
+	 *
+	 * @return bool
+	 */
 	public function ajax_user_can() {
 		return current_user_can( 'install_themes' );
 	}
 
+	/**
+	 *
+	 * @global array  $tabs
+	 * @global string $tab
+	 * @global int    $paged
+	 * @global string $type
+	 * @global array  $theme_field_defaults
+	 */
 	public function prepare_items() {
 		include( ABSPATH . 'wp-admin/includes/theme-install.php' );
 
@@ -133,10 +145,19 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 		) );
 	}
 
+	/**
+	 * @access public
+	 */
 	public function no_items() {
 		_e( 'No themes match your request.' );
 	}
 
+	/**
+	 *
+	 * @global array $tabs
+	 * @global string $tab
+	 * @return array
+	 */
 	protected function get_views() {
 		global $tabs, $tab;
 
@@ -150,6 +171,9 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 		return $display_tabs;
 	}
 
+	/**
+	 * @access public
+	 */
 	public function display() {
 		wp_nonce_field( "fetch-list-" . get_class( $this ), '_ajax_fetch_list_nonce' );
 ?>
@@ -176,6 +200,9 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 		$this->tablenav( 'bottom' );
 	}
 
+	/**
+	 * @access public
+	 */
 	public function display_rows() {
 		$themes = $this->items;
 		foreach ( $themes as $theme ) {
@@ -190,6 +217,8 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 
 	/**
 	 * Prints a theme from the WordPress.org API.
+	 *
+	 * @global array $themes_allowedtags
 	 *
 	 * @param object $theme An object that contains theme data returned by the WordPress.org API.
 	 *
@@ -332,6 +361,8 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 	/**
 	 * Prints the info for a theme (to be used in the theme installer modal).
 	 *
+	 * @global array $themes_allowedtags
+	 *
 	 * @param object $theme - A WordPress.org Theme API object.
 	 */
 	public function install_theme_info( $theme ) {
@@ -396,8 +427,10 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 	 * @since 3.4.0
 	 * @access public
 	 *
-	 * @uses $tab Global; current tab within Themes->Install screen
-	 * @uses $type Global; type of search.
+	 * @global string $tab  Current tab within Themes->Install screen
+	 * @global string $type Type of search.
+	 *
+	 * @param array $extra_args Unused.
 	 */
 	public function _js_vars( $extra_args = array() ) {
 		global $tab, $type;

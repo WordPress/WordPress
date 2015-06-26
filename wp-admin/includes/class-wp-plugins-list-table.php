@@ -17,6 +17,9 @@ class WP_Plugins_List_Table extends WP_List_Table {
 	 *
 	 * @see WP_List_Table::__construct() for more information on default arguments.
 	 *
+	 * @global string $status
+	 * @global int    $page
+	 *
 	 * @param array $args An associative array of arguments.
 	 */
 	public function __construct( $args = array() ) {
@@ -37,14 +40,30 @@ class WP_Plugins_List_Table extends WP_List_Table {
 		$page = $this->get_pagenum();
 	}
 
+	/**
+	 * @return array
+	 */
 	protected function get_table_classes() {
 		return array( 'widefat', $this->_args['plural'] );
 	}
 
+	/**
+	 * @return bool
+	 */
 	public function ajax_user_can() {
 		return current_user_can('activate_plugins');
 	}
 
+	/**
+	 *
+	 * @global string $status
+	 * @global type   $plugins
+	 * @global array  $totals
+	 * @global int    $page
+	 * @global string $orderby
+	 * @global string $order
+	 * @global string $s
+	 */
 	public function prepare_items() {
 		global $status, $plugins, $totals, $page, $orderby, $order, $s;
 
@@ -203,10 +222,10 @@ class WP_Plugins_List_Table extends WP_List_Table {
 	/**
 	 * @staticvar string $term
 	 * @param array $plugin
-	 * @return boolean
+	 * @return bool
 	 */
 	public function _search_callback( $plugin ) {
-		static $term;
+		static $term = null;
 		if ( is_null( $term ) )
 			$term = wp_unslash( $_REQUEST['s'] );
 
@@ -241,6 +260,10 @@ class WP_Plugins_List_Table extends WP_List_Table {
 			return ( $a < $b ) ? -1 : 1;
 	}
 
+	/**
+	 *
+	 * @global array $plugins
+	 */
 	public function no_items() {
 		global $plugins;
 
@@ -250,6 +273,11 @@ class WP_Plugins_List_Table extends WP_List_Table {
 			_e( 'You do not appear to have any plugins available at this time.' );
 	}
 
+	/**
+	 *
+	 * @global string $status
+	 * @return array
+	 */
 	public function get_columns() {
 		global $status;
 
@@ -260,10 +288,19 @@ class WP_Plugins_List_Table extends WP_List_Table {
 		);
 	}
 
+	/**
+	 * @return array
+	 */
 	protected function get_sortable_columns() {
 		return array();
 	}
 
+	/**
+	 *
+	 * @global array $totals
+	 * @global string $status
+	 * @return array
+	 */
 	protected function get_views() {
 		global $totals, $status;
 
@@ -308,6 +345,11 @@ class WP_Plugins_List_Table extends WP_List_Table {
 		return $status_links;
 	}
 
+	/**
+	 *
+	 * @global string $status
+	 * @return array
+	 */
 	protected function get_bulk_actions() {
 		global $status;
 
@@ -332,7 +374,6 @@ class WP_Plugins_List_Table extends WP_List_Table {
 	/**
 	 * @global string $status
 	 * @param string $which
-	 * @return null
 	 */
 	public function bulk_actions( $which = '' ) {
 		global $status;
@@ -346,7 +387,6 @@ class WP_Plugins_List_Table extends WP_List_Table {
 	/**
 	 * @global string $status
 	 * @param string $which
-	 * @return null
 	 */
 	protected function extra_tablenav( $which ) {
 		global $status;
@@ -366,6 +406,9 @@ class WP_Plugins_List_Table extends WP_List_Table {
 		echo '</div>';
 	}
 
+	/**
+	 * @return string
+	 */
 	public function current_action() {
 		if ( isset($_POST['clear-recent-list']) )
 			return 'clear-recent-list';
@@ -373,6 +416,10 @@ class WP_Plugins_List_Table extends WP_List_Table {
 		return parent::current_action();
 	}
 
+	/**
+	 *
+	 * @global string $status
+	 */
 	public function display_rows() {
 		global $status;
 
@@ -388,6 +435,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 	 * @global int $page
 	 * @global string $s
 	 * @global array $totals
+	 * 
 	 * @param array $item
 	 */
 	public function single_row( $item ) {
@@ -531,24 +579,27 @@ class WP_Plugins_List_Table extends WP_List_Table {
 			$plugin_slug
 		);
 
-		list( $columns, $hidden ) = $this->get_column_info();
+		list( $columns, $hidden, $sortable, $primary ) = $this->get_column_info();
 
 		foreach ( $columns as $column_name => $column_display_name ) {
-			$style = '';
-			if ( in_array( $column_name, $hidden ) )
-				$style = ' style="display:none;"';
+			$extra_classes = '';
+			if ( in_array( $column_name, $hidden ) ) {
+				$extra_classes = ' hidden';
+			}
 
 			switch ( $column_name ) {
 				case 'cb':
 					echo "<th scope='row' class='check-column'>$checkbox</th>";
 					break;
 				case 'name':
-					echo "<td class='plugin-title'$style><strong>$plugin_name</strong>";
+					echo "<td class='plugin-title column-primary'><strong>$plugin_name</strong>";
 					echo $this->row_actions( $actions, true );
 					echo "</td>";
 					break;
 				case 'description':
-					echo "<td class='column-description desc'$style>
+					$classes = 'column-description desc';
+
+					echo "<td class='$classes{$extra_classes}'>
 						<div class='plugin-description'>$description</div>
 						<div class='$class second plugin-version-author-uri'>";
 
@@ -598,7 +649,9 @@ class WP_Plugins_List_Table extends WP_List_Table {
 					echo "</div></td>";
 					break;
 				default:
-					echo "<td class='$column_name column-$column_name'$style>";
+					$classes = "$column_name column-$column_name$class";
+
+					echo "<td class='$classes{$extra_classes}'>";
 
 					/**
 					 * Fires inside each custom column of the Plugins list table.
@@ -610,6 +663,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 					 * @param array  $plugin_data An array of plugin data.
 					 */
 					do_action( 'manage_plugins_custom_column', $column_name, $plugin_file, $plugin_data );
+
 					echo "</td>";
 			}
 		}
@@ -644,5 +698,17 @@ class WP_Plugins_List_Table extends WP_List_Table {
 		 *                            'Drop-ins', 'Search'.
 		 */
 		do_action( "after_plugin_row_$plugin_file", $plugin_file, $plugin_data, $status );
+	}
+
+	/**
+	 * Get the name of primary column for this specific list table.
+	 *
+	 * @since 4.3.0
+	 * @access protected
+	 *
+	 * @return string Unalterable name for the primary column, in this case, 'name'.
+	 */
+	protected function get_primary_column_name() {
+		return 'name';
 	}
 }

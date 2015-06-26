@@ -704,7 +704,7 @@ VideoDetails = MediaDetails.extend({
 
 			if ( -1 === content.indexOf( attachment.get( 'url' ) ) ) {
 				content += [
-					'<track srclang="en" label="English"kind="subtitles" src="',
+					'<track srclang="en" label="English" kind="subtitles" src="',
 					attachment.get( 'url' ),
 					'" />'
 				].join('');

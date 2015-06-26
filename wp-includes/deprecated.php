@@ -3491,3 +3491,75 @@ function url_is_accessable_via_ssl( $url ) {
 
 	return false;
 }
+
+/**
+ * Formats text for the rich text editor.
+ *
+ * The filter 'richedit_pre' is applied here. If $text is empty the filter will
+ * be applied to an empty string.
+ *
+ * @since 2.0.0
+ * @deprecated 4.3.0
+ *
+ * @param string $text The text to be formatted.
+ * @return string The formatted text after filter is applied.
+ */
+function wp_richedit_pre($text) {
+	_deprecated_function( __FUNCTION__, '4.3', 'format_for_editor()' );
+
+	if ( empty( $text ) ) {
+		/**
+		 * Filter text returned for the rich text editor.
+		 *
+		 * This filter is first evaluated, and the value returned, if an empty string
+		 * is passed to wp_richedit_pre(). If an empty string is passed, it results
+		 * in a break tag and line feed.
+		 *
+		 * If a non-empty string is passed, the filter is evaluated on the wp_richedit_pre()
+		 * return after being formatted.
+		 *
+		 * @since 2.0.0
+		 * @deprecated 4.3.0
+		 *
+		 * @param string $output Text for the rich text editor.
+		 */
+		return apply_filters( 'richedit_pre', '' );
+	}
+
+	$output = convert_chars($text);
+	$output = wpautop($output);
+	$output = htmlspecialchars($output, ENT_NOQUOTES, get_option( 'blog_charset' ) );
+
+	/** This filter is documented in wp-includes/deprecated.php */
+	return apply_filters( 'richedit_pre', $output );
+}
+
+/**
+ * Formats text for the HTML editor.
+ *
+ * Unless $output is empty it will pass through htmlspecialchars before the
+ * 'htmledit_pre' filter is applied.
+ *
+ * @since 2.5.0
+ * @deprecated 4.3.0
+ *
+ * @param string $output The text to be formatted.
+ * @return string Formatted text after filter applied.
+ */
+function wp_htmledit_pre($output) {
+	_deprecated_function( __FUNCTION__, '4.3', 'format_for_editor()' );
+
+	if ( !empty($output) )
+		$output = htmlspecialchars($output, ENT_NOQUOTES, get_option( 'blog_charset' ) ); // convert only < > &
+
+	/**
+	 * Filter the text before it is formatted for the HTML editor.
+	 *
+	 * @since 2.5.0
+	 * @deprecated 4.3.0
+	 *
+	 * @param string $output The HTML-formatted text.
+	 */
+	return apply_filters( 'htmledit_pre', $output );
+}
+

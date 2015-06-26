@@ -63,9 +63,13 @@ $step = isset( $_GET['step'] ) ? (int) $_GET['step'] : -1;
  *
  * @ignore
  * @since 2.3.0
+ *
+ * @global string    $wp_local_package
+ * @global WP_Locale $wp_locale
+ *
+ * @param string|array $body_classes
  */
 function setup_config_display_header( $body_classes = array() ) {
-	global $wp_version;
 	$body_classes = (array) $body_classes;
 	$body_classes[] = 'wp-core-ui';
 	if ( is_rtl() ) {

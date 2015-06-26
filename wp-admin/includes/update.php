@@ -9,7 +9,7 @@
 /**
  * Selects the first update version from the update_core option.
  *
- * @return bool|object The response from the API on success, false on failure.
+ * @return object|array|false The response from the API on success, false on failure.
  */
 function get_preferred_from_update_core() {
 	$updates = get_core_updates();
@@ -24,8 +24,8 @@ function get_preferred_from_update_core() {
  * Get available core updates.
  *
  * @param array $options Set $options['dismissed'] to true to show dismissed upgrades too,
- * 	set $options['available'] to false to skip not-dismissed updates.
- * @return bool|array Array of the update objects on success, false on failure.
+ * 	                     set $options['available'] to false to skip not-dismissed updates.
+ * @return array|false Array of the update objects on success, false on failure.
  */
 function get_core_updates( $options = array() ) {
 	$options = array_merge( array( 'available' => true, 'dismissed' => false ), $options );
@@ -67,7 +67,7 @@ function get_core_updates( $options = array() ) {
  *
  * @since 3.7.0
  *
- * @return bool|array False on failure, otherwise the core update offering.
+ * @return array|false False on failure, otherwise the core update offering.
  */
 function find_core_auto_update() {
 	$updates = get_site_transient( 'update_core' );
@@ -128,12 +128,23 @@ function get_core_checksums( $version, $locale ) {
 	return $body['checksums'];
 }
 
+/**
+ *
+ * @param object $update
+ * @return bool
+ */
 function dismiss_core_update( $update ) {
 	$dismissed = get_site_option( 'dismissed_update_core' );
 	$dismissed[ $update->current . '|' . $update->locale ] = true;
 	return update_site_option( 'dismissed_update_core', $dismissed );
 }
 
+/**
+ *
+ * @param string $version
+ * @param string $locale
+ * @return bool
+ */
 function undismiss_core_update( $version, $locale ) {
 	$dismissed = get_site_option( 'dismissed_update_core' );
 	$key = $version . '|' . $locale;
@@ -145,6 +156,12 @@ function undismiss_core_update( $version, $locale ) {
 	return update_site_option( 'dismissed_update_core', $dismissed );
 }
 
+/**
+ *
+ * @param string $version
+ * @param string $locale
+ * @return object|false
+ */
 function find_core_update( $version, $locale ) {
 	$from_api = get_site_transient( 'update_core' );
 
@@ -159,6 +176,11 @@ function find_core_update( $version, $locale ) {
 	return false;
 }
 
+/**
+ *
+ * @param string $msg
+ * @return string
+ */
 function core_update_footer( $msg = '' ) {
 	if ( !current_user_can('update_core') )
 		return sprintf( __( 'Version %s' ), get_bloginfo( 'version', 'display' ) );
@@ -188,8 +210,12 @@ function core_update_footer( $msg = '' ) {
 		return sprintf( __( 'Version %s' ), get_bloginfo( 'version', 'display' ) );
 	}
 }
-add_filter( 'update_footer', 'core_update_footer' );
 
+/**
+ *
+ * @global string $pagenow
+ * @return false|void
+ */
 function update_nag() {
 	if ( is_multisite() && !current_user_can('update_core') )
 		return false;
@@ -211,8 +237,6 @@ function update_nag() {
 	}
 	echo "<div class='update-nag'>$msg</div>";
 }
-add_action( 'admin_notices', 'update_nag', 3 );
-add_action( 'network_admin_notices', 'update_nag', 3 );
 
 // Called directly from dashboard
 function update_right_now_message() {
@@ -235,6 +259,11 @@ function update_right_now_message() {
 	echo "<p id='wp-version-message'>$msg</p>";
 }
 
+/**
+ * @since 2.9.0
+ *
+ * @return array
+ */
 function get_plugin_updates() {
 	$all_plugins = get_plugins();
 	$upgrade_plugins = array();
@@ -249,6 +278,9 @@ function get_plugin_updates() {
 	return $upgrade_plugins;
 }
 
+/**
+ * @since 2.9.0
+ */
 function wp_plugin_update_rows() {
 	if ( !current_user_can('update_plugins' ) )
 		return;
@@ -261,8 +293,13 @@ function wp_plugin_update_rows() {
 		}
 	}
 }
-add_action( 'admin_init', 'wp_plugin_update_rows' );
 
+/**
+ *
+ * @param string $file
+ * @param array  $plugin_data
+ * @return false|void
+ */
 function wp_plugin_update_row( $file, $plugin_data ) {
 	$current = get_site_transient( 'update_plugins' );
 	if ( !isset( $current->response[ $file ] ) )
@@ -278,7 +315,7 @@ function wp_plugin_update_row( $file, $plugin_data ) {
 	$wp_list_table = _get_list_table('WP_Plugins_List_Table');
 
 	if ( is_network_admin() || !is_multisite() ) {
-		$active_class = ( is_plugin_active( $plugin_data['plugin'] ) ) ? ' active' : '';
+		$active_class = is_plugin_active( $file ) ? ' active' : '';
 		echo '<tr class="plugin-update-tr' . $active_class . '" id="' . esc_attr( $r->slug . '-update' ) . '" data-slug="' . esc_attr( $r->slug ) . '" data-plugin="' . esc_attr( $file ) . '"><td colspan="' . esc_attr( $wp_list_table->get_column_count() ) . '" class="plugin-update colspanchange"><div class="update-message">';
 
 		if ( ! current_user_can( 'update_plugins' ) ) {
@@ -329,6 +366,10 @@ function wp_plugin_update_row( $file, $plugin_data ) {
 	}
 }
 
+/**
+ *
+ * @return array
+ */
 function get_theme_updates() {
 	$current = get_site_transient('update_themes');
 
@@ -344,6 +385,9 @@ function get_theme_updates() {
 	return $update_themes;
 }
 
+/**
+ * @since 3.1.0
+ */
 function wp_theme_update_rows() {
 	if ( !current_user_can('update_themes' ) )
 		return;
@@ -357,8 +401,13 @@ function wp_theme_update_rows() {
 		}
 	}
 }
-add_action( 'admin_init', 'wp_theme_update_rows' );
 
+/**
+ *
+ * @param string   $theme_key
+ * @param WP_Theme $theme
+ * @return false|void
+ */
 function wp_theme_update_row( $theme_key, $theme ) {
 	$current = get_site_transient( 'update_themes' );
 	if ( !isset( $current->response[ $theme_key ] ) )
@@ -400,6 +449,11 @@ function wp_theme_update_row( $theme_key, $theme ) {
 	echo '</div></td></tr>';
 }
 
+/**
+ *
+ * @global int $upgrading
+ * @return false|void
+ */
 function maintenance_nag() {
 	include( ABSPATH . WPINC . '/version.php' ); // include an unmodified $wp_version
 	global $upgrading;
@@ -431,5 +485,3 @@ function maintenance_nag() {
 
 	echo "<div class='update-nag'>$msg</div>";
 }
-add_action( 'admin_notices', 'maintenance_nag' );
-add_action( 'network_admin_notices', 'maintenance_nag' );

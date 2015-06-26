@@ -9,23 +9,28 @@
 	var $body, $window, $sidebar, adminbarOffset, top = false,
 	    bottom = false, windowWidth, windowHeight, lastWindowPos = 0,
 	    topOffset = 0, bodyHeight, sidebarHeight, resizeTimer,
-		secondary, button;
+	    secondary, button;
 
-	// Add dropdown toggle that display child menu items.
-	$( '.main-navigation .menu-item-has-children > a' ).after( '<button class="dropdown-toggle" aria-expanded="false">' + screenReaderText.expand + '</button>' );
 
-	// Toggle buttons and submenu items with active children menu items.
-	$( '.main-navigation .current-menu-ancestor > button' ).addClass( 'toggle-on' );
-	$( '.main-navigation .current-menu-ancestor > .sub-menu' ).addClass( 'toggled-on' );
+	function initMainNavigation() {
+		// Add dropdown toggle that display child menu items.
+		$( '.main-navigation .menu-item-has-children > a' ).after( '<button class="dropdown-toggle" aria-expanded="false">' + screenReaderText.expand + '</button>' );
 
-	$( '.dropdown-toggle' ).click( function( e ) {
-		var _this = $( this );
-		e.preventDefault();
-		_this.toggleClass( 'toggle-on' );
-		_this.next( '.children, .sub-menu' ).toggleClass( 'toggled-on' );
-		_this.attr( 'aria-expanded', _this.attr( 'aria-expanded' ) === 'false' ? 'true' : 'false' );
-		_this.html( _this.html() === screenReaderText.expand ? screenReaderText.collapse : screenReaderText.expand );
-	} );
+		// Toggle buttons and submenu items with active children menu items.
+		$( '.main-navigation .current-menu-ancestor > button' ).addClass( 'toggle-on' );
+		$( '.main-navigation .current-menu-ancestor > .sub-menu' ).addClass( 'toggled-on' );
+
+		$( '.dropdown-toggle' ).click( function( e ) {
+			var _this = $( this );
+			e.preventDefault();
+			_this.toggleClass( 'toggle-on' );
+			_this.next( '.children, .sub-menu' ).toggleClass( 'toggled-on' );
+			_this.attr( 'aria-expanded', _this.attr( 'aria-expanded' ) === 'false' ? 'true' : 'false' );
+			_this.html( _this.html() === screenReaderText.expand ? screenReaderText.collapse : screenReaderText.expand );
+		} );
+	}
+	initMainNavigation();
+	$( document ).on( 'customize-preview-menu-refreshed', initMainNavigation );
 
 	secondary = $( '#secondary' );
 	button = $( '.site-branding' ).find( '.secondary-toggle' );

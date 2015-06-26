@@ -182,7 +182,7 @@ unset($id, $data, $subs, $first_sub);
 $separator_found = false;
 foreach ( $menu as $id => $data ) {
 	if ( 0 == strcmp('wp-menu-separator', $data[4] ) ) {
-		if (false == $separator_found) {
+		if ( ! $separator_found ) {
 			$separator_found = true;
 		} else {
 			unset($menu[$id]);
@@ -194,13 +194,23 @@ foreach ( $menu as $id => $data ) {
 }
 unset($id, $data);
 
+/**
+ *
+ * @param string $add
+ * @param string $class
+ * @return string
+ */
 function add_cssclass($add, $class) {
 	$class = empty($class) ? $add : $class .= ' ' . $add;
 	return $class;
 }
 
+/**
+ *
+ * @param array $menu
+ * @return array
+ */
 function add_menu_classes($menu) {
-
 	$first = $lastorder = false;
 	$i = 0;
 	$mc = count($menu);
@@ -279,6 +289,15 @@ if ( apply_filters( 'custom_menu_order', false ) ) {
 	$menu_order = array_flip($menu_order);
 	$default_menu_order = array_flip($default_menu_order);
 
+	/**
+	 *
+	 * @global array $menu_order
+	 * @global array $default_menu_order
+	 *
+	 * @param array $a
+	 * @param array $b
+	 * @return int
+	 */
 	function sort_menu($a, $b) {
 		global $menu_order, $default_menu_order;
 		$a = $a[2];

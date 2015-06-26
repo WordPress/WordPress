@@ -18,8 +18,10 @@
  *
  * @since 1.5.0
  *
- * @param string $option Name of option to retrieve. Expected to not be SQL-escaped.
- * @param mixed $default Optional. Default value to return if the option does not exist.
+ * @global wpdb $wpdb
+ *
+ * @param string $option  Name of option to retrieve. Expected to not be SQL-escaped.
+ * @param mixed  $default Optional. Default value to return if the option does not exist.
  * @return mixed Value set for the option.
  */
 function get_option( $option, $default = false ) {
@@ -81,6 +83,9 @@ function get_option( $option, $default = false ) {
 					$value = $row->option_value;
 					wp_cache_add( $option, $value, 'options' );
 				} else { // option does not exist, so we must cache its non-existence
+					if ( ! is_array( $notoptions ) ) {
+						 $notoptions = array();
+					}
 					$notoptions[$option] = true;
 					wp_cache_set( 'notoptions', $notoptions, 'options' );
 
@@ -153,6 +158,8 @@ function form_option( $option ) {
  *
  * @since 2.2.0
  *
+ * @global wpdb $wpdb
+ *
  * @return array List of all options.
  */
 function wp_load_alloptions() {
@@ -183,6 +190,8 @@ function wp_load_alloptions() {
  * Loads and caches certain often requested site options if is_multisite() and a persistent cache is not being used.
  *
  * @since 3.0.0
+ *
+ * @global wpdb $wpdb
  *
  * @param int $site_id Optional site ID for which to query the options. Defaults to the current site.
  */
@@ -216,19 +225,20 @@ function wp_load_core_site_options( $site_id = null ) {
  * it will be serialized before it is inserted into the database. Remember,
  * resources can not be serialized or added as an option.
  *
- * If the option does not exist, then the option will be added with the option
- * value, but you will not be able to set whether it is autoloaded. If you want
- * to set whether an option is autoloaded, then you need to use the add_option().
+ * If the option does not exist, then the option will be added with the option value,
+ * with an `$autoload` value of 'yes'.
  *
  * @since 1.0.0
  * @since 4.2.0 The `$autoload` parameter was added.
+ *
+ * @global wpdb $wpdb
  *
  * @param string      $option   Option name. Expected to not be SQL-escaped.
  * @param mixed       $value    Option value. Must be serializable if non-scalar. Expected to not be SQL-escaped.
  * @param string|bool $autoload Optional. Whether to load the option when WordPress starts up. For existing options,
  *                              `$autoload` can only be updated using `update_option()` if `$value` is also changed.
- *                              Accepts 'yes' or true to enable, 'no' or false to disable. For non-existent options,
- *                              the default value is 'yes'.
+ *                              Accepts 'yes'|true to enable or 'no'|false to disable. For non-existent options,
+ *                              the default value is 'yes'. Default null.
  * @return bool False if value was not updated and true if value was updated.
  */
 function update_option( $option, $value, $autoload = null ) {
@@ -363,6 +373,8 @@ function update_option( $option, $value, $autoload = null ) {
  *
  * @since 1.0.0
  *
+ * @global wpdb $wpdb
+ *
  * @param string         $option      Name of option to add. Expected to not be SQL-escaped.
  * @param mixed          $value       Optional. Option value. Must be serializable if non-scalar. Expected to not be SQL-escaped.
  * @param string         $deprecated  Optional. Description. Not used anymore.
@@ -457,6 +469,8 @@ function add_option( $option, $value = '', $deprecated = '', $autoload = 'yes' )
  * Removes option by name. Prevents removal of protected WordPress options.
  *
  * @since 1.2.0
+ *
+ * @global wpdb $wpdb
  *
  * @param string $option Name of option to remove. Expected to not be SQL-escaped.
  * @return bool True, if option is successfully deleted. False on failure.
@@ -779,7 +793,7 @@ function wp_user_settings() {
  *
  * @since 2.7.0
  *
- * @param string $name The name of the setting.
+ * @param string $name    The name of the setting.
  * @param string $default Optional default value to return when $name is not set.
  * @return mixed the last saved user setting or the default value/false if it doesn't exist.
  */
@@ -797,12 +811,11 @@ function get_user_setting( $name, $default = false ) {
  *
  * @since 2.8.0
  *
- * @param string $name The name of the setting.
+ * @param string $name  The name of the setting.
  * @param string $value The value for the setting.
- * @return null|bool true if set successfully/false if not.
+ * @return bool|void true if set successfully/false if not.
  */
 function set_user_setting( $name, $value ) {
-
 	if ( headers_sent() ) {
 		return false;
 	}
@@ -822,10 +835,9 @@ function set_user_setting( $name, $value ) {
  * @since 2.7.0
  *
  * @param string $names The name or array of names of the setting to be deleted.
- * @return null|bool true if deleted successfully/false if not.
+ * @return bool|void true if deleted successfully/false if not.
  */
 function delete_user_setting( $names ) {
-
 	if ( headers_sent() ) {
 		return false;
 	}
@@ -852,6 +864,8 @@ function delete_user_setting( $names ) {
  * Retrieve all user interface settings.
  *
  * @since 2.7.0
+ *
+ * @global array $_updated_user_settings
  *
  * @return array the last saved user settings or empty array.
  */
@@ -891,8 +905,10 @@ function get_all_user_settings() {
  *
  * @since 2.8.0
  *
+ * @global array $_updated_user_settings
+ *
  * @param array $user_settings
- * @return null|bool
+ * @return bool|void
  */
 function wp_set_all_user_settings( $user_settings ) {
 	global $_updated_user_settings;
@@ -945,9 +961,11 @@ function delete_all_user_settings() {
  *
  * @see get_option()
  *
- * @param string $option Name of option to retrieve. Expected to not be SQL-escaped.
- * @param mixed $default Optional value to return if option doesn't exist. Default false.
- * @param bool $use_cache Whether to use cache. Multisite only. Default true.
+ * @global wpdb $wpdb
+ *
+ * @param string $option    Name of option to retrieve. Expected to not be SQL-escaped.
+ * @param mixed  $default   Optional value to return if option doesn't exist. Default false.
+ * @param bool   $use_cache Whether to use cache. Multisite only. Default true.
  * @return mixed Value set for the option.
  */
 function get_site_option( $option, $default = false, $use_cache = true ) {
@@ -1009,6 +1027,9 @@ function get_site_option( $option, $default = false, $use_cache = true ) {
 				$value = maybe_unserialize( $value );
 				wp_cache_set( $cache_key, $value, 'site-options' );
 			} else {
+				if ( ! is_array( $notoptions ) ) {
+					 $notoptions = array();
+				}
 				$notoptions[$option] = true;
 				wp_cache_set( $notoptions_key, $notoptions, 'site-options' );
 
@@ -1040,8 +1061,10 @@ function get_site_option( $option, $default = false, $use_cache = true ) {
  *
  * @see add_option()
  *
+ * @global wpdb $wpdb
+ *
  * @param string $option Name of option to add. Expected to not be SQL-escaped.
- * @param mixed $value Optional. Option value, can be anything. Expected to not be SQL-escaped.
+ * @param mixed  $value  Optional. Option value, can be anything. Expected to not be SQL-escaped.
  * @return bool False if option was not added and true if option was added.
  */
 function add_site_option( $option, $value ) {
@@ -1129,6 +1152,8 @@ function add_site_option( $option, $value ) {
  *
  * @see delete_option()
  *
+ * @global wpdb $wpdb
+ *
  * @param string $option Name of option to remove. Expected to not be SQL-escaped.
  * @return bool True, if succeed. False, if failure.
  */
@@ -1193,8 +1218,10 @@ function delete_site_option( $option ) {
  *
  * @see update_option()
  *
+ * @global wpdb $wpdb
+ *
  * @param string $option Name of option. Expected to not be SQL-escaped.
- * @param mixed $value Option value. Expected to not be SQL-escaped.
+ * @param mixed  $value  Option value. Expected to not be SQL-escaped.
  * @return bool False if value was not updated and true if value was updated.
  */
 function update_site_option( $option, $value ) {

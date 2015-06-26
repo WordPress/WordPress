@@ -41,12 +41,13 @@ function check_upload_size( $file ) {
 
 	return $file;
 }
-add_filter( 'wp_handle_upload_prefilter', 'check_upload_size' );
 
 /**
  * Delete a blog.
  *
  * @since 3.0.0
+ *
+ * @global wpdb $wpdb
  *
  * @param int  $blog_id Blog ID.
  * @param bool $drop    True if blog's table should be dropped. Default is false.
@@ -176,6 +177,8 @@ function wpmu_delete_blog( $blog_id, $drop = false ) {
  *
  * @todo Merge with wp_delete_user() ?
  *
+ * @global wpdb $wpdb
+ *
  * @param int $id The user ID.
  * @return bool True if the user was deleted, otherwise false.
  */
@@ -253,6 +256,7 @@ function update_option_new_admin_email( $old_value, $value ) {
 	);
 	update_option( 'adminhash', $new_admin_email );
 
+	/* translators: Do not translate USERNAME, ADMIN_URL, EMAIL, SITENAME, SITEURL: those are placeholders. */
 	$email_text = __( 'Howdy ###USERNAME###,
 
 You recently requested to have the administration email address on
@@ -295,8 +299,6 @@ All at ###SITENAME###
 
 	wp_mail( $value, sprintf( __( '[%s] New Admin Email Address' ), wp_specialchars_decode( get_option( 'blogname' ) ) ), $content );
 }
-add_action( 'update_option_new_admin_email', 'update_option_new_admin_email', 10, 2 );
-add_action( 'add_option_new_admin_email', 'update_option_new_admin_email', 10, 2 );
 
 /**
  * Sends an email when an email address change is requested.
@@ -334,6 +336,7 @@ function send_confirmation_on_profile_email() {
 				);
 		update_option( $current_user->ID . '_new_email', $new_user_email );
 
+		/* translators: Do not translate USERNAME, ADMIN_URL, EMAIL, SITENAME, SITEURL: those are placeholders. */
 		$email_text = __( 'Howdy ###USERNAME###,
 
 You recently requested to have the email address on your account changed.
@@ -377,7 +380,6 @@ All at ###SITENAME###
 		$_POST['email'] = $current_user->user_email;
 	}
 }
-add_action( 'personal_options_update', 'send_confirmation_on_profile_email' );
 
 /**
  * Adds an admin notice alerting the user to check for confirmation email
@@ -389,7 +391,6 @@ function new_user_email_admin_notice() {
 	if ( strpos( $_SERVER['PHP_SELF'], 'profile.php' ) && isset( $_GET['updated'] ) && $email = get_option( get_current_user_id() . '_new_email' ) )
 		echo "<div class='update-nag'>" . sprintf( __( "Your email address has not been updated yet. Please check your inbox at %s for a confirmation email." ), $email['newemail'] ) . "</div>";
 }
-add_action( 'admin_notices', 'new_user_email_admin_notice' );
 
 /**
  * Check whether a blog has used its allotted upload space.
@@ -452,9 +453,9 @@ function display_space_usage() {
  * @return int Max size in bytes
  */
 function fix_import_form_size( $size ) {
-	if ( upload_is_user_over_quota( false ) == true )
+	if ( upload_is_user_over_quota( false ) ) {
 		return 0;
-
+	}
 	$available = get_upload_space_available();
 	return min( $size, $available );
 }
@@ -484,7 +485,6 @@ function upload_space_setting( $id ) {
 	</tr>
 	<?php
 }
-add_action( 'wpmueditblogaction', 'upload_space_setting' );
 
 /**
  * Update the status of a user in the database.
@@ -492,6 +492,8 @@ add_action( 'wpmueditblogaction', 'upload_space_setting' );
  * Used in core to mark a user as spam or "ham" (not spam) in Multisite.
  *
  * @since 3.0.0
+ *
+ * @global wpdb $wpdb
  *
  * @param int    $id         The user ID.
  * @param string $pref       The column in the wp_users table to update the user's status
@@ -613,7 +615,6 @@ function sync_category_tag_slugs( $term, $taxonomy ) {
 	}
 	return $term;
 }
-add_filter( 'get_term', 'sync_category_tag_slugs', 10, 2 );
 
 /**
  * Displays an access denied message when a user tries to view a site's dashboard they
@@ -654,7 +655,6 @@ function _access_denied_splash() {
 
 	wp_die( $output, 403 );
 }
-add_action( 'admin_page_access_denied', '_access_denied_splash', 99 );
 
 /**
  * Checks if the current user has permissions to import new users.
@@ -669,7 +669,6 @@ function check_import_new_users( $permission ) {
 		return false;
 	return true;
 }
-add_filter( 'import_allow_create_users', 'check_import_new_users' );
 // See "import_allow_fetch_attachments" and "import_attachment_size_limit" filters too.
 
 /**
@@ -728,6 +727,8 @@ function mu_dropdown_languages( $lang_files = array(), $current = '' ) {
  * @since 3.0.0
  *
  * @global int $wp_db_version The version number of the database.
+ *
+ * @return false False if the current user is not a super admin.
  */
 function site_admin_notice() {
 	global $wp_db_version;
@@ -736,8 +737,6 @@ function site_admin_notice() {
 	if ( get_site_option( 'wpmu_upgrade_site' ) != $wp_db_version )
 		echo "<div class='update-nag'>" . sprintf( __( 'Thank you for Updating! Please visit the <a href="%s">Upgrade Network</a> page to update all your sites.' ), esc_url( network_admin_url( 'upgrade.php' ) ) ) . "</div>";
 }
-add_action( 'admin_notices', 'site_admin_notice' );
-add_action( 'network_admin_notices', 'site_admin_notice' );
 
 /**
  * Avoids a collision between a site slug and a permalink slug.
@@ -772,7 +771,6 @@ function avoid_blog_page_permalink_collision( $data, $postarr ) {
 	}
 	return $data;
 }
-add_filter( 'wp_insert_post_data', 'avoid_blog_page_permalink_collision', 10, 2 );
 
 /**
  * Handles the display of choosing a user's primary site.
@@ -838,6 +836,8 @@ function choose_primary_blog() {
  *
  * @since 3.0.0
  *
+ * @global array $super_admins
+ *
  * @param int $user_id ID of the user to be granted Super Admin privileges.
  * @return bool True on success, false on failure. This can fail when the user is
  *              already a super admin or when the `$super_admins` global is defined.
@@ -882,6 +882,8 @@ function grant_super_admin( $user_id ) {
  * Revokes Super Admin privileges.
  *
  * @since 3.0.0
+ *
+ * @global array $super_admins
  *
  * @param int $user_id ID of the user Super Admin privileges to be revoked from.
  * @return bool True on success, false on failure. This can fail when the user's email
@@ -932,6 +934,8 @@ function revoke_super_admin( $user_id ) {
  * this allows for this to be overridden.
  *
  * @since 3.1.0
+ *
+ * @global wpdb $wpdb
  *
  * @param int $site_id The network/site ID to check.
  * @return bool True if network can be edited, otherwise false.

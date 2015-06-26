@@ -68,7 +68,7 @@ var wpLink;
 				inputs.queryNoticeTextHint.addClass( 'screen-reader-text' ).hide();
 			} );
 
-			inputs.search.keyup( function() {
+			inputs.search.on( 'keyup input', function() {
 				var self = this;
 
 				window.clearTimeout( searchTimer );
@@ -266,6 +266,16 @@ var wpLink;
 			};
 		},
 
+		buildHtml: function(attrs) {
+			var html = '<a href="' + attrs.href + '"';
+
+			if ( attrs.target ) {
+				html += ' target="' + attrs.target + '"';
+			}
+
+			return html + '>';
+		},
+
 		update: function() {
 			if ( wpLink.isMCE() ) {
 				wpLink.mceUpdate();
@@ -290,14 +300,7 @@ var wpLink;
 				return;
 			}
 
-			// Build HTML
-			html = '<a href="' + attrs.href + '"';
-
-			if ( attrs.target ) {
-				html += ' target="' + attrs.target + '"';
-			}
-
-			html += '>';
+			html = wpLink.buildHtml(attrs);
 
 			// Insert HTML
 			if ( document.selection && wpLink.range ) {
@@ -354,7 +357,7 @@ var wpLink;
 			}
 
 			link = getLink();
-			text = inputs.text.val();
+			text = inputs.text.val() || attrs.href;
 
 			if ( link ) {
 				if ( text ) {
@@ -373,6 +376,8 @@ var wpLink;
 					editor.execCommand( 'mceInsertLink', false, attrs );
 				}
 			}
+
+			editor.nodeChanged();
 		},
 
 		updateFields: function( e, li ) {

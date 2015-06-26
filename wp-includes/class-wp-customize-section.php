@@ -24,6 +24,8 @@ class WP_Customize_Section {
 	 * Used when sorting two instances whose priorities are equal.
 	 *
 	 * @since 4.1.0
+	 *
+	 * @static
 	 * @access protected
 	 * @var int
 	 */
@@ -207,7 +209,7 @@ class WP_Customize_Section {
 	 * @since 4.1.0
 	 * @access public
 	 *
-	 * @return bool Always true.
+	 * @return true Always true.
 	 */
 	public function active_callback() {
 		return true;
@@ -221,10 +223,19 @@ class WP_Customize_Section {
 	 * @return array The array to be exported to the client as JSON.
 	 */
 	public function json() {
-		$array = wp_array_slice_assoc( (array) $this, array( 'title', 'description', 'priority', 'panel', 'type' ) );
+		$array = wp_array_slice_assoc( (array) $this, array( 'id', 'description', 'priority', 'panel', 'type' ) );
+		$array['title'] = html_entity_decode( $this->title, ENT_QUOTES, get_bloginfo( 'charset' ) );
 		$array['content'] = $this->get_content();
 		$array['active'] = $this->active();
 		$array['instanceNumber'] = $this->instance_number;
+
+		if ( $this->panel ) {
+			/* translators: &#9656; is the unicode right-pointing triangle, and %s is the section title in the Customizer */
+			$array['customizeAction'] = sprintf( __( 'Customizing &#9656; %s' ), esc_html( $this->manager->get_panel( $this->panel )->title ) );
+		} else {
+			$array['customizeAction'] = __( 'Customizing' );
+		}
+
 		return $array;
 	}
 
@@ -249,7 +260,7 @@ class WP_Customize_Section {
 	}
 
 	/**
-	 * Get the section's content template for insertion into the Customizer pane.
+	 * Get the section's content for insertion into the Customizer pane.
 	 *
 	 * @since 4.1.0
 	 *
@@ -295,24 +306,64 @@ class WP_Customize_Section {
 	}
 
 	/**
-	 * Render the section, and the controls that have been added to it.
+	 * Render the section UI in a subclass.
+	 *
+	 * Sections are now rendered in JS by default, see {@see WP_Customize_Section::print_template()}.
 	 *
 	 * @since 3.4.0
 	 */
-	protected function render() {
-		$classes = 'accordion-section control-section control-section-' . $this->type;
+	protected function render() {}
+
+	/**
+	 * Render the section's JS template.
+	 *
+	 * This function is only run for section types that have been registered with
+	 * {@see WP_Customize_Manager::register_section_type()}.
+	 *
+	 * @since 4.3.0
+	 */
+	public function print_template() {
+        ?>
+		<script type="text/html" id="tmpl-customize-section-<?php echo $this->type; ?>">
+			<?php $this->render_template(); ?>
+		</script>
+        <?php
+	}
+
+	/**
+	 * An Underscore (JS) template for rendering this section.
+	 *
+	 * Class variables for this section class are available in the `data` JS object;
+	 * export custom variables by overriding {@see WP_Customize_Section::json()}.
+	 *
+	 * @see WP_Customize_Section::print_template()
+	 *
+	 * @since 4.3.0
+	 */
+	protected function render_template() {
 		?>
-		<li id="accordion-section-<?php echo esc_attr( $this->id ); ?>" class="<?php echo esc_attr( $classes ); ?>">
+		<li id="accordion-section-{{ data.id }}" class="accordion-section control-section control-section-{{ data.type }}">
 			<h3 class="accordion-section-title" tabindex="0">
-				<?php echo esc_html( $this->title ); ?>
-				<span class="screen-reader-text"><?php _e( 'Press return or enter to expand' ); ?></span>
+				{{ data.title }}
+				<span class="screen-reader-text"><?php _e( 'Press return or enter to open' ); ?></span>
 			</h3>
 			<ul class="accordion-section-content">
-				<?php if ( ! empty( $this->description ) ) : ?>
-					<li class="customize-section-description-container">
-						<p class="description customize-section-description"><?php echo $this->description; ?></p>
-					</li>
-				<?php endif; ?>
+				<li class="customize-section-description-container">
+					<div class="customize-section-title">
+						<button class="customize-section-back" tabindex="-1">
+							<span class="screen-reader-text"><?php _e( 'Back' ); ?></span>
+						</button>
+						<h3>
+							<span class="customize-action">
+								{{{ data.customizeAction }}}
+							</span>
+							{{ data.title }}
+						</h3>
+					</div>
+					<# if ( data.description ) { #>
+						<p class="description customize-section-description">{{{ data.description }}}</p>
+					<# } #>
+				</li>
 			</ul>
 		</li>
 		<?php
@@ -353,29 +404,29 @@ class WP_Customize_Themes_Section extends WP_Customize_Section {
 				<?php
 				if ( $this->manager->is_theme_active() ) {
 					/* translators: %s: theme name */
-					printf( __( '<span>Active theme</span> %s' ), $this->title );
+					printf( __( '<span class="customize-action">Active theme</span> %s' ), $this->title );
 				} else {
 					/* translators: %s: theme name */
-					printf( __( '<span>Previewing theme</span> %s' ), $this->title );
+					printf( __( '<span class="customize-action">Previewing theme</span> %s' ), $this->title );
 				}
 				?>
 
-				<button type="button" class="button change-theme"><?php _ex( 'Change', 'theme' ); ?></button>
+				<button type="button" class="button change-theme" tabindex="0"><?php _ex( 'Change', 'theme' ); ?></button>
 			</h3>
 			<div class="customize-themes-panel control-panel-content themes-php">
-				<h2>
+				<h3 class="accordion-section-title customize-section-title">
+					<span class="customize-action"><?php _e( 'Customizing' ); ?></span>
 					<?php _e( 'Themes' ); ?>
 					<span class="title-count theme-count"><?php echo count( $this->controls ) + 1 /* Active theme */; ?></span>
-				</h2>
-
+				</h3>
 				<h3 class="accordion-section-title customize-section-title">
 					<?php
 					if ( $this->manager->is_theme_active() ) {
 						/* translators: %s: theme name */
-						printf( __( '<span>Active theme</span> %s' ), $this->title );
+						printf( __( '<span class="customize-action">Active theme</span> %s' ), $this->title );
 					} else {
 						/* translators: %s: theme name */
-						printf( __( '<span>Previewing theme</span> %s' ), $this->title );
+						printf( __( '<span class="customize-action">Previewing theme</span> %s' ), $this->title );
 					}
 					?>
 					<button type="button" class="button customize-theme"><?php _e( 'Customize' ); ?></button>
@@ -449,5 +500,76 @@ class WP_Customize_Sidebar_Section extends WP_Customize_Section {
 	 */
 	public function active_callback() {
 		return $this->manager->widgets->is_sidebar_rendered( $this->sidebar_id );
+	}
+}
+
+/**
+ * Customize Menu Section Class
+ *
+ * Custom section only needed in JS.
+ *
+ * @since 4.3.0
+ */
+class WP_Customize_Nav_Menu_Section extends WP_Customize_Section {
+
+	/**
+	 * Control type.
+	 *
+	 * @since 4.3.0
+	 *
+	 * @access public
+	 * @var string
+	 */
+	public $type = 'nav_menu';
+
+	/**
+	 * Get section params for JS.
+	 *
+	 * @since 4.3.0
+	 *
+	 * @return array
+	 */
+	public function json() {
+		$exported = parent::json();
+		$exported['menu_id'] = intval( preg_replace( '/^nav_menu\[(\d+)\]/', '$1', $this->id ) );
+
+		return $exported;
+	}
+}
+
+/**
+ * Customize Menu Section Class
+ *
+ * Implements the new-menu-ui toggle button instead of a regular section.
+ *
+ * @since 4.3.0
+ */
+class WP_Customize_New_Menu_Section extends WP_Customize_Section {
+
+	/**
+	 * Control type.
+	 *
+	 * @since 4.3.0
+	 *
+	 * @access public
+	 * @var string
+	 */
+	public $type = 'new_menu';
+
+	/**
+	 * Render the section, and the controls that have been added to it.
+	 *
+	 * @since 4.3.0
+	 */
+	protected function render() {
+		?>
+		<li id="accordion-section-<?php echo esc_attr( $this->id ); ?>" class="accordion-section-new-menu">
+			<button type="button" class="button-secondary add-new-menu-item add-menu-toggle">
+				<?php echo esc_html( $this->title ); ?>
+				<span class="screen-reader-text"><?php _e( 'Press return or enter to open' ); ?></span>
+			</button>
+			<ul class="new-menu-section-content"></ul>
+		</li>
+		<?php
 	}
 }

@@ -17,14 +17,16 @@
  * @since 2.7.0
  * @access private
  *
+ * @staticvar WP_Http $http
+ *
  * @return WP_Http HTTP Transport object.
  */
 function _wp_http_get_object() {
-	static $http;
+	static $http = null;
 
-	if ( is_null($http) )
+	if ( is_null( $http ) ) {
 		$http = new WP_Http();
-
+	}
 	return $http;
 }
 
@@ -149,8 +151,8 @@ function wp_safe_remote_head( $url, $args = array() ) {
  * @return WP_Error|array The response or WP_Error on failure.
  */
 function wp_remote_request($url, $args = array()) {
-	$objFetchSite = _wp_http_get_object();
-	return $objFetchSite->request($url, $args);
+	$http = _wp_http_get_object();
+	return $http->request( $url, $args );
 }
 
 /**
@@ -166,8 +168,8 @@ function wp_remote_request($url, $args = array()) {
  * @return WP_Error|array The response or WP_Error on failure.
  */
 function wp_remote_get($url, $args = array()) {
-	$objFetchSite = _wp_http_get_object();
-	return $objFetchSite->get($url, $args);
+	$http = _wp_http_get_object();
+	return $http->get( $url, $args );
 }
 
 /**
@@ -183,8 +185,8 @@ function wp_remote_get($url, $args = array()) {
  * @return WP_Error|array The response or WP_Error on failure.
  */
 function wp_remote_post($url, $args = array()) {
-	$objFetchSite = _wp_http_get_object();
-	return $objFetchSite->post($url, $args);
+	$http = _wp_http_get_object();
+	return $http->post( $url, $args );
 }
 
 /**
@@ -200,8 +202,8 @@ function wp_remote_post($url, $args = array()) {
  * @return WP_Error|array The response or WP_Error on failure.
  */
 function wp_remote_head($url, $args = array()) {
-	$objFetchSite = _wp_http_get_object();
-	return $objFetchSite->head($url, $args);
+	$http = _wp_http_get_object();
+	return $http->head( $url, $args );
 }
 
 /**
@@ -224,7 +226,7 @@ function wp_remote_retrieve_headers( $response ) {
  *
  * @since 2.7.0
  *
- * @param array $response
+ * @param array  $response
  * @param string $header Header name to retrieve value from.
  * @return string The header value. Empty string on if incorrect parameter given, or if the header doesn't exist.
  */
@@ -293,12 +295,13 @@ function wp_remote_retrieve_body( $response ) {
  * @since 3.2.0
  *
  * @param array  $capabilities Array of capabilities to test or a wp_remote_request() $args array.
- * @param string $url Optional. If given, will check if the URL requires SSL and adds that requirement to the capabilities array.
+ * @param string $url          Optional. If given, will check if the URL requires SSL and adds
+ *                             that requirement to the capabilities array.
  *
  * @return bool
  */
 function wp_http_supports( $capabilities = array(), $url = null ) {
-	$objFetchSite = _wp_http_get_object();
+	$http = _wp_http_get_object();
 
 	$capabilities = wp_parse_args( $capabilities );
 
@@ -316,7 +319,7 @@ function wp_http_supports( $capabilities = array(), $url = null ) {
 		}
 	}
 
-	return (bool) $objFetchSite->_get_first_available_transport( $capabilities );
+	return (bool) $http->_get_first_available_transport( $capabilities );
 }
 
 /**
@@ -382,7 +385,7 @@ function get_allowed_http_origins() {
  * @since 3.4.0
  *
  * @param null|string $origin Origin URL. If not provided, the value of get_http_origin() is used.
- * @return bool|null True if the origin is allowed. False otherwise.
+ * @return string True if the origin is allowed. False otherwise.
  */
 function is_allowed_http_origin( $origin = null ) {
 	$origin_arg = $origin;
@@ -398,8 +401,8 @@ function is_allowed_http_origin( $origin = null ) {
 	 *
 	 * @since 3.4.0
 	 *
-	 * @param string $origin Result of check for allowed origin.
-	 * @param string $origin_arg original origin string passed into is_allowed_http_origin function.
+	 * @param string $origin     Result of check for allowed origin.
+	 * @param string $origin_arg Original origin string passed into is_allowed_http_origin function.
 	 */
 	return apply_filters( 'allowed_http_origin', $origin, $origin_arg );
 }
@@ -414,8 +417,8 @@ function is_allowed_http_origin( $origin = null ) {
  *
  * @since 3.4.0
  *
- * @return bool|string Returns the origin URL if headers are sent. Returns false
- * if headers are not sent.
+ * @return string|false Returns the origin URL if headers are sent. Returns false
+ *                      if headers are not sent.
  */
 function send_origin_headers() {
 	$origin = get_http_origin();
@@ -487,9 +490,9 @@ function wp_http_validate_url( $url ) {
 				 *
 				 * @since 3.6.0
 				 *
-				 * @param bool false Whether HTTP request is external or not.
+				 * @param bool   false Whether HTTP request is external or not.
 				 * @param string $host IP of the requested host.
-				 * @param string $url URL of the requested host.
+				 * @param string $url  URL of the requested host.
 				 */
 				if ( ! apply_filters( 'http_request_host_is_external', false, $host, $url ) )
 					return false;
@@ -517,7 +520,7 @@ function wp_http_validate_url( $url ) {
  *
  * @since 3.6.0
  *
- * @param bool $is_external
+ * @param bool   $is_external
  * @param string $host
  * @return bool
  */
@@ -534,7 +537,10 @@ function allowed_http_request_hosts( $is_external, $host ) {
  *
  * @since 3.6.0
  *
- * @param bool $is_external
+ * @global wpdb $wpdb
+ * @staticvar array $queried
+ *
+ * @param bool   $is_external
  * @param string $host
  * @return bool
  */

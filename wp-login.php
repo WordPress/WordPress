@@ -241,6 +241,9 @@ function login_footer($input_id = '') {
 	<?php
 }
 
+/**
+ * @since 3.0.0
+ */
 function wp_shake_js() {
 	if ( wp_is_mobile() )
 		return;
@@ -255,6 +258,9 @@ addLoadEvent(function(){ var p=new Array(15,30,15,0,-15,-30,-15,0);p=p.concat(p.
 <?php
 }
 
+/**
+ * @since 3.7.0
+ */
 function wp_login_viewport_meta() {
 	?>
 	<meta name="viewport" content="width=device-width" />

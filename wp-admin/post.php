@@ -23,6 +23,11 @@ elseif ( isset( $_POST['post_ID'] ) )
 else
  	$post_id = $post_ID = 0;
 
+/**
+ * @global string  $post_type
+ * @global object  $post_type_object
+ * @global WP_Post $post
+ */
 global $post_type, $post_type_object, $post;
 
 if ( $post_id )
@@ -54,7 +59,7 @@ function redirect_post($post_id = '') {
 					$message = 6;
 			}
 		} else {
-				$message = 'draft' == $status ? 10 : 1;
+			$message = 'draft' == $status ? 10 : 1;
 		}
 
 		$location = add_query_arg( 'message', $message, get_edit_post_link( $post_id, 'url' ) );

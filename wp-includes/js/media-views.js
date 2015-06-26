@@ -503,7 +503,7 @@ Embed = wp.media.controller.State.extend({
 	},
 
 	// The amount of time used when debouncing the scan.
-	sensitivity: 200,
+	sensitivity: 400,
 
 	initialize: function(options) {
 		this.metadata = options.metadata;
@@ -2625,10 +2625,8 @@ Attachment = View.extend({
 		'change [data-setting] input':    'updateSetting',
 		'change [data-setting] select':   'updateSetting',
 		'change [data-setting] textarea': 'updateSetting',
-		'click .close':                   'removeFromLibrary',
+		'click .attachment-close':        'removeFromLibrary',
 		'click .check':                   'checkClickHandler',
-		'click a':                        'preventDefault',
-		'keydown .close':                 'removeFromLibrary',
 		'keydown':                        'toggleSelectionHandler'
 	},
 
@@ -2756,8 +2754,8 @@ Attachment = View.extend({
 	toggleSelectionHandler: function( event ) {
 		var method;
 
-		// Don't do anything inside inputs.
-		if ( 'INPUT' === event.target.nodeName ) {
+		// Don't do anything inside inputs and on the attachment check and remove buttons.
+		if ( 'INPUT' === event.target.nodeName || 'BUTTON' === event.target.nodeName ) {
 			return;
 		}
 
@@ -2941,12 +2939,6 @@ Attachment = View.extend({
 
 		details = selection.single();
 		this.$el.toggleClass( 'details', details === this.model );
-	},
-	/**
-	 * @param {Object} event
-	 */
-	preventDefault: function( event ) {
-		event.preventDefault();
 	},
 	/**
 	 * @param {string} size
@@ -3182,7 +3174,6 @@ Details = Attachment.extend({
 		'click .trash-attachment':        'trashAttachment',
 		'click .untrash-attachment':      'untrashAttachment',
 		'click .edit-attachment':         'editAttachment',
-		'click .refresh-attachment':      'refreshAttachment',
 		'keydown':                        'toggleSelectionHandler'
 	},
 
@@ -3198,7 +3189,14 @@ Details = Attachment.extend({
 
 	initialFocus: function() {
 		if ( ! wp.media.isTouchDevice ) {
-			this.$( ':input' ).eq( 0 ).focus();
+			/*
+			Previously focused the first ':input' (the readonly URL text field).
+			Since the first ':input' is now a button (delete/trash): when pressing
+			spacebar on an attachment, Firefox fires deleteAttachment/trashAttachment
+			as soon as focus is moved. Explicitly target the first text field for now.
+			@todo change initial focus logic, also for accessibility.
+			*/
+			this.$( 'input[type="text"]' ).eq( 0 ).focus();
 		}
 	},
 	/**
@@ -3257,14 +3255,6 @@ Details = Attachment.extend({
 		} else {
 			this.$el.addClass('needs-refresh');
 		}
-	},
-	/**
-	 * @param {Object} event
-	 */
-	refreshAttachment: function( event ) {
-		this.$el.removeClass('needs-refresh');
-		event.preventDefault();
-		this.model.fetch();
 	},
 	/**
 	 * When reverse tabbing(shift+tab) out of the right details panel, deliver
@@ -4211,9 +4201,9 @@ module.exports = ButtonGroup;
  * @augments Backbone.View
  */
 var Button = wp.media.View.extend({
-	tagName:    'a',
+	tagName:    'button',
 	className:  'media-button',
-	attributes: { href: '#' },
+	attributes: { type: 'button' },
 
 	events: {
 		'click': 'click'
@@ -4533,8 +4523,6 @@ EmbedLink = wp.media.view.Settings.extend({
 	template:  wp.template('embed-link-settings'),
 
 	initialize: function() {
-		this.spinner = $('<span class="spinner" />');
-		this.$el.append( this.spinner[0] );
 		this.listenTo( this.model, 'change:url', this.updateoEmbed );
 	},
 
@@ -4545,36 +4533,56 @@ EmbedLink = wp.media.view.Settings.extend({
 		this.$('.embed-container').hide().find('.embed-preview').empty();
 		this.$( '.setting' ).hide();
 
-		// only proceed with embed if the field contains more than 6 characters
-		if ( url && url.length < 6 ) {
+		// only proceed with embed if the field contains more than 11 characters
+		// Example: http://a.io is 11 chars
+		if ( url && ( url.length < 11 || ! url.match(/^http(s)?:\/\//) ) ) {
 			return;
 		}
 
 		this.fetch();
-	}, 600 ),
+	}, wp.media.controller.Embed.sensitivity ),
 
 	fetch: function() {
+		var embed;
+
 		// check if they haven't typed in 500 ms
 		if ( $('#embed-url-field').val() !== this.model.get('url') ) {
 			return;
 		}
 
-		wp.ajax.send( 'parse-embed', {
-			data : {
+		if ( this.dfd && 'pending' === this.dfd.state() ) {
+			this.dfd.abort();
+		}
+
+		embed = new wp.shortcode({
+			tag: 'embed',
+			attrs: _.pick( this.model.attributes, [ 'width', 'height', 'src' ] ),
+			content: this.model.get('url')
+		});
+
+		this.dfd = $.ajax({
+			type:    'POST',
+			url:     wp.ajax.settings.url,
+			context: this,
+			data:    {
+				action: 'parse-embed',
 				post_ID: wp.media.view.settings.post.id,
-				shortcode: '[embed]' + this.model.get('url') + '[/embed]'
+				shortcode: embed.string()
 			}
-		} )
-			.done( _.bind( this.renderoEmbed, this ) )
-			.fail( _.bind( this.renderFail, this ) );
+		})
+			.done( this.renderoEmbed )
+			.fail( this.renderFail );
 	},
 
-	renderFail: function () {
+	renderFail: function ( response, status ) {
+		if ( 'abort' === status ) {
+			return;
+		}
 		this.$( '.link-text' ).show();
 	},
 
 	renderoEmbed: function( response ) {
-		var html = ( response && response.body ) || '';
+		var html = ( response && response.data && response.data.body ) || '';
 
 		if ( html ) {
 			this.$('.embed-container').show().find('.embed-preview').html( html );
@@ -7729,8 +7737,8 @@ module.exports = Select;
 /*globals wp, _, jQuery */
 
 /**
- * Creates a dropzone on WP editor instances (elements with .wp-editor-wrap
- * or #wp-fullscreen-body) and relays drag'n'dropped files to a media workflow.
+ * Creates a dropzone on WP editor instances (elements with .wp-editor-wrap)
+ * and relays drag'n'dropped files to a media workflow.
  *
  * wp.media.view.EditorUploader
  *
@@ -7837,7 +7845,7 @@ EditorUploader = View.extend({
 		}
 
 		View.prototype.render.apply( this, arguments );
-		$( '.wp-editor-wrap, #wp-fullscreen-body' ).each( _.bind( this.attach, this ) );
+		$( '.wp-editor-wrap' ).each( _.bind( this.attach, this ) );
 		return this;
 	},
 
@@ -7856,7 +7864,7 @@ EditorUploader = View.extend({
 	 * @param  {jQuery.Event} event The 'drop' event.
 	 */
 	drop: function( event ) {
-		var $wrap = null, uploadView;
+		var $wrap, uploadView;
 
 		this.containerDragleave( event );
 		this.dropzoneDragleave( event );
@@ -7873,13 +7881,15 @@ EditorUploader = View.extend({
 		}
 
 		if ( ! this.workflow ) {
-			this.workflow = wp.media.editor.open( 'content', {
+			this.workflow = wp.media.editor.open( window.wpActiveEditor, {
 				frame:    'post',
 				state:    'insert',
 				title:    l10n.addMedia,
 				multiple: true
 			});
+
 			uploadView = this.workflow.uploader;
+
 			if ( uploadView.uploader && uploadView.uploader.ready ) {
 				this.addFiles.apply( this );
 			} else {
@@ -8206,7 +8216,7 @@ UploaderStatus = View.extend({
 	 * @returns {string}
 	 */
 	filename: function( filename ) {
-		return wp.media.truncate( _.escape( filename ), 24 );
+		return _.escape( filename );
 	},
 	/**
 	 * @param {Backbone.Model} error

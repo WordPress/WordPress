@@ -31,6 +31,8 @@ abstract class WP_Image_Editor {
 	 * Must be overridden in a sub-class.
 	 *
 	 * @since 3.5.0
+	 *
+	 * @static
 	 * @access public
 	 * @abstract
 	 *
@@ -46,6 +48,8 @@ abstract class WP_Image_Editor {
 	 * Must be overridden in a sub-class.
 	 *
 	 * @since 3.5.0
+	 *
+	 * @static
 	 * @access public
 	 * @abstract
 	 *
@@ -226,7 +230,7 @@ abstract class WP_Image_Editor {
 	 * @access public
 	 *
 	 * @param int $quality Compression Quality. Range: [1,100]
-	 * @return boolean|WP_Error True if set successfully; WP_Error on failure.
+	 * @return true|WP_Error True if set successfully; WP_Error on failure.
 	 */
 	public function set_quality( $quality = null ) {
 		if ( null === $quality ) {
@@ -344,7 +348,7 @@ abstract class WP_Image_Editor {
 			$info = pathinfo( $filename );
 			$dir  = $info['dirname'];
 
-			if( isset( $info['extension'] ) )
+			if ( isset( $info['extension'] ) )
 				$ext = $info['extension'];
 
 			$filename = trailingslashit( $dir ) . wp_basename( $filename, ".$ext" ) . ".{$new_ext}";
@@ -442,10 +446,12 @@ abstract class WP_Image_Editor {
 	 * as mapped from wp_get_mime_types()
 	 *
 	 * @since 3.5.0
+	 *
+	 * @static
 	 * @access protected
 	 *
 	 * @param string $extension
-	 * @return string|boolean
+	 * @return string|false
 	 */
 	protected static function get_mime_type( $extension = null ) {
 		if ( ! $extension )
@@ -468,10 +474,12 @@ abstract class WP_Image_Editor {
 	 * as mapped from wp_get_mime_types()
 	 *
 	 * @since 3.5.0
+	 *
+	 * @static
 	 * @access protected
 	 *
 	 * @param string $mime_type
-	 * @return string|boolean
+	 * @return string|false
 	 */
 	protected static function get_extension( $mime_type = null ) {
 		$extensions = explode( '|', array_search( $mime_type, wp_get_mime_types() ) );

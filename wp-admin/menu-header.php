@@ -10,15 +10,20 @@
  * The current page.
  *
  * @global string $self
- * @name $self
- * @var string
  */
 $self = preg_replace('|^.*/wp-admin/network/|i', '', $_SERVER['PHP_SELF']);
 $self = preg_replace('|^.*/wp-admin/|i', '', $self);
 $self = preg_replace('|^.*/plugins/|i', '', $self);
 $self = preg_replace('|^.*/mu-plugins/|i', '', $self);
 
-global $menu, $submenu, $parent_file; //For when admin-header is included from within a function.
+/**
+ * For when admin-header is included from within a function.
+ *
+ * @global array  $menu
+ * @global array  $submenu
+ * @global string $parent_file
+ */
+global $menu, $submenu, $parent_file;
 
 /**
  * Filter the parent file of an admin menu sub-menu item.
@@ -39,9 +44,15 @@ get_admin_page_parent();
  * @access private
  * @since 2.7.0
  *
+ * @global string $self
+ * @global string $parent_file
+ * @global string $submenu_file
+ * @global string $plugin_page
+ * @global string $typenow
+ *
  * @param array $menu
  * @param array $submenu
- * @param bool $submenu_as_parent
+ * @param bool  $submenu_as_parent
  */
 function _wp_menu_output( $menu, $submenu, $submenu_as_parent = true ) {
 	global $self, $parent_file, $submenu_file, $plugin_page, $typenow;
@@ -146,7 +157,7 @@ function _wp_menu_output( $menu, $submenu, $submenu_as_parent = true ) {
 
 		if ( ! empty( $submenu_items ) ) {
 			echo "\n\t<ul class='wp-submenu wp-submenu-wrap'>";
-			echo "<li class='wp-submenu-head'>{$item[0]}</li>";
+			echo "<li class='wp-submenu-head' aria-hidden='true'>{$item[0]}</li>";
 
 			$first = true;
 

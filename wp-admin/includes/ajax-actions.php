@@ -78,6 +78,8 @@ function wp_ajax_nopriv_heartbeat() {
  * Ajax handler for fetching a list table.
  *
  * @since 3.1.0
+ *
+ * @global WP_List_Table $wp_list_table
  */
 function wp_ajax_fetch_list() {
 	global $wp_list_table;
@@ -226,6 +228,8 @@ function wp_ajax_imgedit_preview() {
  * Ajax handler for oEmbed caching.
  *
  * @since 3.1.0
+ *
+ * @global WP_Embed $wp_embed
  */
 function wp_ajax_oembed_cache() {
 	$GLOBALS['wp_embed']->cache_oembed( $_GET['post'] );
@@ -334,7 +338,7 @@ function wp_ajax_logged_in() {
  * @since 2.7.0
  *
  * @param int $comment_id
- * @return die
+ * @param int $delta
  */
 function _wp_ajax_delete_comment_response( $comment_id, $delta = -1 ) {
 	$total    = isset( $_POST['_total'] )    ? (int) $_POST['_total']    : 0;
@@ -660,6 +664,11 @@ function wp_ajax_untrash_post( $action ) {
 	wp_ajax_trash_post( $action );
 }
 
+/**
+ * @since 3.1.0
+ *
+ * @param string $action
+ */
 function wp_ajax_delete_page( $action ) {
 	if ( empty( $action ) )
 		$action = 'delete-page';
@@ -762,6 +771,8 @@ function wp_ajax_add_link_category( $action ) {
  * Ajax handler to add a tag.
  *
  * @since 3.1.0
+ *
+ * @global WP_List_Table $wp_list_table
  */
 function wp_ajax_add_tag() {
 	global $wp_list_table;
@@ -806,12 +817,12 @@ function wp_ajax_add_tag() {
 	$x->add( array(
 		'what' => 'taxonomy',
 		'supplemental' => compact('parents', 'noparents')
-		) );
+	) );
 	$x->add( array(
 		'what' => 'term',
 		'position' => $level,
 		'supplemental' => (array) $tag
-		) );
+	) );
 	$x->send();
 }
 
@@ -864,6 +875,9 @@ function wp_ajax_get_tagcloud() {
  *
  * @since 3.1.0
  *
+ * @global WP_List_Table $wp_list_table
+ * @global int           $post_id
+ *
  * @param string $action Action to perform.
  */
 function wp_ajax_get_comments( $action ) {
@@ -914,6 +928,8 @@ function wp_ajax_get_comments( $action ) {
  * Ajax handler for replying to a comment.
  *
  * @since 3.1.0
+ *
+ * @global WP_List_Table $wp_list_table
  *
  * @param string $action Action to perform.
  */
@@ -1016,6 +1032,8 @@ function wp_ajax_replyto_comment( $action ) {
  * Ajax handler for editing a comment.
  *
  * @since 3.1.0
+ *
+ * @global WP_List_Table $wp_list_table
  */
 function wp_ajax_edit_comment() {
 	global $wp_list_table;
@@ -1229,6 +1247,8 @@ function wp_ajax_add_meta() {
  *
  * @since 3.1.0
  *
+ * @global WP_List_Table $wp_list_table
+ *
  * @param string $action Action to perform.
  */
 function wp_ajax_add_user( $action ) {
@@ -1305,7 +1325,6 @@ function wp_ajax_closed_postboxes() {
  */
 function wp_ajax_hidden_columns() {
 	check_ajax_referer( 'screen-options-nonce', 'screenoptionnonce' );
-	$hidden = explode( ',', isset( $_POST['hidden'] ) ? $_POST['hidden'] : '' );
 	$page = isset( $_POST['page'] ) ? $_POST['page'] : '';
 
 	if ( $page != sanitize_key( $page ) )
@@ -1314,8 +1333,8 @@ function wp_ajax_hidden_columns() {
 	if ( ! $user = wp_get_current_user() )
 		wp_die( -1 );
 
-	if ( is_array($hidden) )
-		update_user_option($user->ID, "manage{$page}columnshidden", $hidden, true);
+	$hidden = ! empty( $_POST['hidden'] ) ? explode( ',', $_POST['hidden'] ) : array();
+	update_user_option( $user->ID, "manage{$page}columnshidden", $hidden, true );
 
 	wp_die( 1 );
 }
@@ -1499,6 +1518,8 @@ function wp_ajax_sample_permalink() {
  * Ajax handler for Quick Edit saving a post from a list table.
  *
  * @since 3.1.0
+ *
+ * @global WP_List_Table $wp_list_table
  */
 function wp_ajax_inline_save() {
 	global $wp_list_table;
@@ -1591,6 +1612,8 @@ function wp_ajax_inline_save() {
  * Ajax handler for quick edit saving for a term.
  *
  * @since 3.1.0
+ *
+ * @global WP_List_Table $wp_list_table
  */
 function wp_ajax_inline_save_tax() {
 	global $wp_list_table;
@@ -1743,6 +1766,10 @@ function wp_ajax_widgets_order() {
  * Ajax handler for saving a widget.
  *
  * @since 3.1.0
+ *
+ * @global array $wp_registered_widgets
+ * @global array $wp_registered_widget_controls
+ * @global array $wp_registered_widget_updates
  */
 function wp_ajax_save_widget() {
 	global $wp_registered_widgets, $wp_registered_widget_controls, $wp_registered_widget_updates;
@@ -1832,6 +1859,8 @@ function wp_ajax_save_widget() {
  * Ajax handler for saving a widget.
  *
  * @since 3.9.0
+ *
+ * @global WP_Customize_Manager $wp_customize
  */
 function wp_ajax_update_widget() {
 	global $wp_customize;
@@ -2072,6 +2101,7 @@ function wp_ajax_time_format() {
  * Ajax handler for saving posts from the fullscreen editor.
  *
  * @since 3.1.0
+ * @deprecated 4.3.0
  */
 function wp_ajax_wp_fullscreen_save_post() {
 	$post_id = isset( $_POST['post_ID'] ) ? (int) $_POST['post_ID'] : 0;
@@ -2475,6 +2505,9 @@ function wp_ajax_send_attachment_to_editor() {
  * - video_send_to_editor_url
  *
  * @since 3.5.0
+ *
+ * @global WP_Post  $post
+ * @global WP_Embed $wp_embed
  */
 function wp_ajax_send_link_to_editor() {
 	global $post, $wp_embed;
@@ -2627,6 +2660,8 @@ function wp_ajax_get_revision_diffs() {
  * a user's own profile.
  *
  * @since 3.8.0
+ *
+ * @global array $_wp_admin_css_colors
  */
 function wp_ajax_save_user_color_scheme() {
 	global $_wp_admin_css_colors;
@@ -2652,6 +2687,9 @@ function wp_ajax_save_user_color_scheme() {
  * Ajax handler for getting themes from themes_api().
  *
  * @since 3.9.0
+ *
+ * @global array $themes_allowedtags
+ * @global array $theme_field_defaults
  */
 function wp_ajax_query_themes() {
 	global $themes_allowedtags, $theme_field_defaults;
@@ -2699,8 +2737,9 @@ function wp_ajax_query_themes() {
  *
  * @since 4.0.0
  *
- * @global WP_Post  $post     Global $post.
- * @global WP_Embed $wp_embed Embed API instance.
+ * @global WP_Post    $post       Global $post.
+ * @global WP_Embed   $wp_embed   Embed API instance.
+ * @global WP_Scripts $wp_scripts
  */
 function wp_ajax_parse_embed() {
 	global $post, $wp_embed;
@@ -2714,14 +2753,23 @@ function wp_ajax_parse_embed() {
 	}
 
 	$shortcode = wp_unslash( $_POST['shortcode'] );
-	$url = str_replace( '[embed]', '', str_replace( '[/embed]', '', $shortcode ) );
+
+	preg_match( '/' . get_shortcode_regex() . '/s', $shortcode, $matches );
+	$atts = shortcode_parse_atts( $matches[3] );
+	if ( ! empty( $matches[5] ) ) {
+		$url = $matches[5];
+	} elseif ( ! empty( $atts['src'] ) ) {
+		$url = $atts['src'];
+	} else {
+		$url = '';
+	}
 
 	$parsed = false;
 	setup_postdata( $post );
 
 	$wp_embed->return_false_on_fail = true;
 
-	if ( is_ssl() && preg_match( '%^\\[embed[^\\]]*\\]http://%i', $shortcode ) ) {
+	if ( is_ssl() && 0 === strpos( $url, 'http://' ) ) {
 		// Admin is ssl and the user pasted non-ssl URL.
 		// Check if the provider supports ssl embeds and use that for the preview.
 		$ssl_shortcode = preg_replace( '%^(\\[embed[^\\]]*\\])http://%i', '$1https://', $shortcode );
@@ -2732,7 +2780,7 @@ function wp_ajax_parse_embed() {
 		}
 	}
 
-	if ( ! $parsed ) {
+	if ( $url && ! $parsed ) {
 		$parsed = $wp_embed->run_shortcode( $shortcode );
 	}
 
@@ -2774,10 +2822,17 @@ function wp_ajax_parse_embed() {
 	}
 
 	wp_send_json_success( array(
-		'body' => $parsed
+		'body' => $parsed,
+		'attr' => $wp_embed->last_attr
 	) );
 }
 
+/**
+ * @since 4.0.0
+ *
+ * @global WP_Post    $post
+ * @global WP_Scripts $wp_scripts
+ */
 function wp_ajax_parse_media_shortcode() {
 	global $post, $wp_scripts;
 
@@ -2844,7 +2899,6 @@ function wp_ajax_parse_media_shortcode() {
  * @since 4.1.0
  */
 function wp_ajax_destroy_sessions() {
-
 	$user = get_userdata( (int) $_POST['user_id'] );
 	if ( $user ) {
 		if ( ! current_user_can( 'edit_user', $user->ID ) ) {
@@ -2883,6 +2937,8 @@ function wp_ajax_destroy_sessions() {
  * @see Plugin_Upgrader
  */
 function wp_ajax_update_plugin() {
+	global $wp_filesystem;
+
 	$plugin = urldecode( $_POST['plugin'] );
 
 	$status = array(
@@ -2892,6 +2948,7 @@ function wp_ajax_update_plugin() {
 		'oldVersion' => '',
 		'newVersion' => '',
 	);
+
 	$plugin_data = get_plugin_data( WP_PLUGIN_DIR . '/' . $plugin );
 	if ( $plugin_data['Version'] ) {
 		$status['oldVersion'] = sprintf( __( 'Version %s' ), $plugin_data['Version'] );
@@ -2911,10 +2968,15 @@ function wp_ajax_update_plugin() {
 		wp_update_plugins();
 	}
 
-	$upgrader = new Plugin_Upgrader( new Automatic_Upgrader_Skin() );
+	$skin = new Automatic_Upgrader_Skin();
+	$upgrader = new Plugin_Upgrader( $skin );
 	$result = $upgrader->bulk_upgrade( array( $plugin ) );
 
-	if ( is_array( $result ) ) {
+	if ( is_array( $result ) && empty( $result[$plugin] ) && is_wp_error( $skin->result ) ) {
+		$result = $skin->result;
+	}
+
+	if ( is_array( $result ) && !empty( $result[ $plugin ] ) ) {
 		$plugin_update_data = current( $result );
 
 		/*
@@ -2929,7 +2991,8 @@ function wp_ajax_update_plugin() {
  			wp_send_json_error( $status );
 		}
 
-		$plugin_data = get_plugin_data( WP_PLUGIN_DIR . '/' . $plugin );
+		$plugin_data = get_plugins( '/' . $result[ $plugin ]['destination_name'] );
+		$plugin_data = reset( $plugin_data );
 
 		if ( $plugin_data['Version'] ) {
 			$status['newVersion'] = sprintf( __( 'Version %s' ), $plugin_data['Version'] );
@@ -2939,10 +3002,18 @@ function wp_ajax_update_plugin() {
 	} else if ( is_wp_error( $result ) ) {
 		$status['error'] = $result->get_error_message();
  		wp_send_json_error( $status );
-	} else if ( is_bool( $result ) && ! $result ) {
+
+ 	} else if ( is_bool( $result ) && ! $result ) {
 		$status['errorCode'] = 'unable_to_connect_to_filesystem';
 		$status['error'] = __( 'Unable to connect to the filesystem. Please confirm your credentials.' );
+
+		// Pass through the error from WP_Filesystem if one was raised
+		if ( is_wp_error( $wp_filesystem->errors ) && $wp_filesystem->errors->get_error_code() ) {
+			$status['error'] = $wp_filesystem->errors->get_error_message();
+		}
+
 		wp_send_json_error( $status );
+
 	}
 }
 
@@ -2950,6 +3021,8 @@ function wp_ajax_update_plugin() {
  * AJAX handler for saving a post from Press This.
  *
  * @since 4.2.0
+ *
+ * @global WP_Press_This $wp_press_this
  */
 function wp_ajax_press_this_save_post() {
 	if ( empty( $GLOBALS['wp_press_this'] ) ) {
@@ -2963,6 +3036,8 @@ function wp_ajax_press_this_save_post() {
  * AJAX handler for creating new category from Press This.
  *
  * @since 4.2.0
+ *
+ * @global WP_Press_This $wp_press_this
  */
 function wp_ajax_press_this_add_category() {
 	if ( empty( $GLOBALS['wp_press_this'] ) ) {

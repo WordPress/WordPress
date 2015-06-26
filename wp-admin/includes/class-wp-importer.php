@@ -12,6 +12,9 @@ class WP_Importer {
 	/**
 	 * Returns array with imported permalinks from WordPress database
 	 *
+	 * @global wpdb $wpdb
+	 *
+	 * @param string $importer_name
 	 * @param string $bid
 	 * @return array
 	 */
@@ -49,6 +52,9 @@ class WP_Importer {
 	/**
 	 * Return count of imported permalinks from WordPress database
 	 *
+	 * @global wpdb $wpdb
+	 *
+	 * @param string $importer_name
 	 * @param string $bid
 	 * @return int
 	 */
@@ -74,6 +80,8 @@ class WP_Importer {
 
 	/**
 	 * Set array with imported comments from WordPress database
+	 *
+	 * @global wpdb $wpdb
 	 *
 	 * @param string $bid
 	 * @return array
@@ -114,6 +122,11 @@ class WP_Importer {
 		return $hashtable;
 	}
 
+	/**
+	 *
+	 * @param int $blog_id
+	 * @return int|void
+	 */
 	public function set_blog( $blog_id ) {
 		if ( is_numeric( $blog_id ) ) {
 			$blog_id = (int) $blog_id;
@@ -141,6 +154,11 @@ class WP_Importer {
 		return $blog_id;
 	}
 
+	/**
+	 *
+	 * @param int $user_id
+	 * @return int|void
+	 */
 	public function set_user( $user_id ) {
 		if ( is_numeric( $user_id ) ) {
 			$user_id = (int) $user_id;
@@ -173,7 +191,7 @@ class WP_Importer {
 	 * @param string $url
 	 * @param string $username
 	 * @param string $password
-	 * @param bool $head
+	 * @param bool   $head
 	 * @return array
 	 */
 	public function get_page( $url, $username = '', $password = '', $head = false ) {
@@ -231,7 +249,8 @@ class WP_Importer {
 	/**
 	 * Reset global variables that grow out of control during imports
 	 *
-	 * @return void
+	 * @global wpdb  $wpdb
+	 * @global array $wp_actions
 	 */
 	public function stop_the_insanity() {
 		global $wpdb, $wp_actions;
@@ -247,7 +266,7 @@ class WP_Importer {
  * Exits when a required param is not set.
  *
  * @param string $param
- * @param bool $required
+ * @param bool   $required
  * @return mixed
  */
 function get_cli_args( $param, $required = false ) {

@@ -18,6 +18,10 @@ if ( 'attachment' === $typenow ) {
 	}
 }
 
+/**
+ * @global string $post_type
+ * @global object $post_type_object
+ */
 global $post_type, $post_type_object;
 
 $post_type = $typenow;

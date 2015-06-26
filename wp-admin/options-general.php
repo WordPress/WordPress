@@ -321,6 +321,9 @@ if ( empty($tzstring) ) { // Create a UTC+- zone if no timezone string exists
 <th scope="row"><label for="start_of_week"><?php _e('Week Starts On') ?></label></th>
 <td><select name="start_of_week" id="start_of_week">
 <?php
+/**
+ * @global WP_Locale $wp_locale
+ */
 global $wp_locale;
 
 for ($day_index = 0; $day_index <= 6; $day_index++) :

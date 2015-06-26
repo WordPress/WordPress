@@ -121,8 +121,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 				printf( __( '%1$s, %2$s, and %3$s now support complex ordering with named meta query clauses.' ), '<code>WP_Query</code>', '<code>WP_Comment_Query</code>', '<code>WP_User_Query</code>' );
 			?></p>
 		</div>
-
-	<hr />
+	</div>
 
 	<div class="return-to-dashboard">
 		<?php if ( current_user_can( 'update_core' ) && isset( $_GET['updated'] ) ) : ?>
@@ -133,7 +132,6 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 		<a href="<?php echo esc_url( self_admin_url() ); ?>"><?php
 			is_blog_admin() ? _e( 'Go to Dashboard &rarr; Home' ) : _e( 'Go to Dashboard' ); ?></a>
 	</div>
-</div>
 
 </div>
 <?php

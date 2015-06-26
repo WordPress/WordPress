@@ -16,8 +16,8 @@
  *
  * @since 1.5.0
  *
- * @param string $type Filename without extension.
- * @param array $templates An optional list of template candidates
+ * @param string $type      Filename without extension.
+ * @param array  $templates An optional list of template candidates
  * @return string Full path to template file.
  */
 function get_query_template( $type, $templates = array() ) {
@@ -383,6 +383,21 @@ function get_single_template() {
 }
 
 /**
+ * Retrieve path of singular template in current or parent template.
+ *
+ * The template path is filterable via the 'singular_template' hook.
+ *
+ * @since 4.3.0
+ *
+ * @see get_query_template()
+ *
+ * @return string Full path to singular template file
+ */
+function get_singular_template() {
+	return get_query_template( 'singular' );
+}
+
+/**
  * Retrieve path of attachment template in current or parent template.
  *
  * The attachment path first checks if the first part of the mime type exists.
@@ -391,7 +406,7 @@ function get_single_template() {
  * 'attachment.php' is checked and returned.
  *
  * Some examples for the 'text/plain' mime type are 'text.php', 'plain.php', and
- * finally 'text_plain.php'.
+ * finally 'text-plain.php'.
  *
  * The template path is filterable via the 'attachment_template' hook.
  *
@@ -399,27 +414,31 @@ function get_single_template() {
  *
  * @see get_query_template()
  *
+ * @global array $posts
+ *
  * @return string Full path to attachment template file.
  */
 function get_attachment_template() {
-	global $posts;
+	$attachment = get_queried_object();
 
-	if ( ! empty( $posts ) && isset( $posts[0]->post_mime_type ) ) {
-		$type = explode( '/', $posts[0]->post_mime_type );
+	$templates = array();
 
-		if ( ! empty( $type ) ) {
-			if ( $template = get_query_template( $type[0] ) )
-				return $template;
-			elseif ( ! empty( $type[1] ) ) {
-				if ( $template = get_query_template( $type[1] ) )
-					return $template;
-				elseif ( $template = get_query_template( "$type[0]_$type[1]" ) )
-					return $template;
-			}
+	if ( $attachment ) {
+		if ( false !== strpos( $attachment->post_mime_type, '/' ) ) {
+			list( $type, $subtype ) = explode( '/', $attachment->post_mime_type );
+		} else {
+			list( $type, $subtype ) = array( $attachment->post_mime_type, '' );
 		}
-	}
 
-	return get_query_template( 'attachment' );
+		if ( ! empty( $subtype ) ) {
+			$templates[] = "{$type}-{$subtype}.php";
+			$templates[] = "{$subtype}.php";
+		}
+		$templates[] = "{$type}.php";
+	}
+	$templates[] = 'attachment.php';
+
+	return get_query_template( 'attachment', $templates );
 }
 
 /**
@@ -455,8 +474,8 @@ function get_comments_popup_template() {
  * @since 2.7.0
  *
  * @param string|array $template_names Template file(s) to search for, in order.
- * @param bool $load If true the template file will be loaded if it is found.
- * @param bool $require_once Whether to require_once or require. Default true. Has no effect if $load is false.
+ * @param bool         $load           If true the template file will be loaded if it is found.
+ * @param bool         $require_once   Whether to require_once or require. Default true. Has no effect if $load is false.
  * @return string The template filename if one is located.
  */
 function locate_template($template_names, $load = false, $require_once = true ) {
@@ -488,8 +507,20 @@ function locate_template($template_names, $load = false, $require_once = true ) 
  *
  * @since 1.5.0
  *
+ * @global array      $posts
+ * @global WP_Post    $post
+ * @global bool       $wp_did_header
+ * @global WP_Query   $wp_query
+ * @global WP_Rewrite $wp_rewrite
+ * @global wpdb       $wpdb
+ * @global string     $wp_version
+ * @global WP         $wp
+ * @global int        $id
+ * @global object     $comment
+ * @global int        $user_ID
+ *
  * @param string $_template_file Path to template file.
- * @param bool $require_once Whether to require_once or require. Default true.
+ * @param bool   $require_once   Whether to require_once or require. Default true.
  */
 function load_template( $_template_file, $require_once = true ) {
 	global $posts, $post, $wp_did_header, $wp_query, $wp_rewrite, $wpdb, $wp_version, $wp, $id, $comment, $user_ID;

@@ -672,6 +672,8 @@ function wp_restore_image($post_id) {
  * Saves image to post along with enqueued changes
  * in $_REQUEST['history']
  *
+ * @global array $_wp_additional_image_sizes
+ *
  * @param int $post_id
  * @return \stdClass
  */

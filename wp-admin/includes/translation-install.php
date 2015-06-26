@@ -124,6 +124,8 @@ function wp_get_available_translations() {
  *
  * @since 4.0.0
  *
+ * @global string $wp_local_package
+ *
  * @param array $languages Array of available languages (populated via the Translation API).
  */
 function wp_install_language_form( $languages ) {

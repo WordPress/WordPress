@@ -19,6 +19,8 @@
  *
  * @since 2.5.0
  *
+ * @global string $auth_secure_cookie
+ *
  * @param array       $credentials   Optional. User info in order to sign on.
  * @param string|bool $secure_cookie Optional. Whether to use secure cookie.
  * @return WP_User|WP_Error WP_User on success, WP_Error on failure.
@@ -161,6 +163,8 @@ function wp_authenticate_username_password($user, $username, $password) {
  *
  * @since 2.8.0
  *
+ * @global string $auth_secure_cookie
+ *
  * @param WP_User|WP_Error|null $user     WP_User or WP_Error object from a previous callback. Default null.
  * @param string                $username Username. If not empty, cancels the cookie authentication.
  * @param string                $password Password. If not empty, cancels the cookie authentication.
@@ -231,8 +235,8 @@ function wp_authenticate_spam_check( $user ) {
  *
  * @param int|bool $user_id The user ID (or false) as received from the
  *                       determine_current_user filter.
- * @return int|bool User ID if validated, false otherwise. If a user ID from
- *                  an earlier filter callback is received, that value is returned.
+ * @return int|false User ID if validated, false otherwise. If a user ID from
+ *                   an earlier filter callback is received, that value is returned.
  */
 function wp_validate_logged_in_cookie( $user_id ) {
 	if ( $user_id ) {
@@ -251,17 +255,19 @@ function wp_validate_logged_in_cookie( $user_id ) {
  *
  * @since 3.0.0
  * @since 4.1.0 Added `$post_type` argument.
+ * @since 4.3.0 Added `$public_only` argument. Added the ability to pass an array of post types to `$post_type`.
  *
  * @global wpdb $wpdb WordPress database object for queries.
  *
- * @param int    $userid    User ID.
- * @param string $post_type Optional. Post type to count the number of posts for. Default 'post'.
+ * @param int          $userid      User ID.
+ * @param array|string $post_type   Optional. Post type(s) to count the number of posts for. Default 'post'.
+ * @param bool         $public_only Optional. Only return counts for public posts. Defaults to false.
  * @return int Number of posts the user has written in this post type.
  */
-function count_user_posts( $userid, $post_type = 'post' ) {
+function count_user_posts( $userid, $post_type = 'post', $public_only = false ) {
 	global $wpdb;
 
-	$where = get_posts_by_author_sql( $post_type, true, $userid );
+	$where = get_posts_by_author_sql( $post_type, true, $userid, $public_only );
 
 	$count = $wpdb->get_var( "SELECT COUNT(*) FROM $wpdb->posts $where" );
 
@@ -270,10 +276,12 @@ function count_user_posts( $userid, $post_type = 'post' ) {
 	 *
 	 * @since 2.7.0
 	 * @since 4.1.0 Added `$post_type` argument.
+	 * @since 4.3.0 Added `$public_only` argument.
 	 *
-	 * @param int    $count     The user's post count.
-	 * @param int    $userid    User ID.
-	 * @param string $post_type Post type to count the number of posts for.
+	 * @param int          $count       The user's post count.
+	 * @param int          $userid      User ID.
+	 * @param string|array $post_types  Post types to count the number of posts for.
+	 * @param bool         $public_only Whether to limit counted posts to public posts.
 	 */
 	return apply_filters( 'get_usernumposts', $count, $userid, $post_type );
 }
@@ -283,9 +291,11 @@ function count_user_posts( $userid, $post_type = 'post' ) {
  *
  * @since 3.0.0
  *
- * @param array $users Array of user IDs.
- * @param string $post_type Optional. Post type to check. Defaults to post.
- * @param bool $public_only Optional. Only return counts for public posts.  Defaults to false.
+ * @global wpdb $wpdb
+ *
+ * @param array        $users       Array of user IDs.
+ * @param string|array $post_type   Optional. Single post type or array of post types to check. Defaults to 'post'.
+ * @param bool         $public_only Optional. Only return counts for public posts.  Defaults to false.
  * @return array Amount of posts each user has written.
  */
 function count_many_users_posts( $users, $post_type = 'post', $public_only = false ) {
@@ -511,51 +521,60 @@ class WP_User_Query {
 	 * @since 3.1.0
 	 * @since 4.2.0 Added 'meta_value_num' support for `$orderby` parameter. Added multi-dimensional array syntax
 	 *              for `$orderby` parameter.
+	 * @since 4.3.0 Added 'has_published_posts' parameter.
 	 * @access public
+	 *
+	 * @global wpdb $wpdb
+	 * @global int  $blog_id
 	 *
 	 * @param string|array $query {
 	 *     Optional. Array or string of Query parameters.
 	 *
-	 *     @type int          $blog_id         The site ID. Default is the global blog id.
-	 *     @type string       $role            Role name. Default empty.
-	 *     @type string       $meta_key        User meta key. Default empty.
-	 *     @type string       $meta_value      User meta value. Default empty.
-	 *     @type string       $meta_compare    Comparison operator to test the `$meta_value`. Accepts '=', '!=',
-	 *                                         '>', '>=', '<', '<=', 'LIKE', 'NOT LIKE', 'IN', 'NOT IN', 'BETWEEN',
-	 *                                         'NOT BETWEEN', 'EXISTS', 'NOT EXISTS', 'REGEXP', 'NOT REGEXP',
-	 *                                         or 'RLIKE'. Default '='.
-	 *     @type array        $include         An array of user IDs to include. Default empty array.
-	 *     @type array        $exclude         An array of user IDs to exclude. Default empty array.
-	 *     @type string       $search          Search keyword. Searches for possible string matches on columns.
-	 *                                         When `$search_columns` is left empty, it tries to determine which
-	 *                                         column to search in based on search string. Default empty.
-	 *     @type array        $search_columns  Array of column names to be searched. Accepts 'ID', 'login',
-	 *                                         'nicename', 'email', 'url'. Default empty array.
-	 *     @type string|array $orderby         Field(s) to sort the retrieved users by. May be a single value,
-	 *                                         an array of values, or a multi-dimensional array with fields as keys
-	 *                                         and orders ('ASC' or 'DESC') as values. Accepted values are'ID',
-	 *                                         'display_name' (or 'name'), 'user_login' (or 'login'),
-	 *                                         'user_nicename' (or 'nicename'), 'user_email' (or 'email'),
-	 *                                         'user_url' (or 'url'), 'user_registered' (or 'registered'),
-	 *                                         'post_count', 'meta_value', 'meta_value_num', the value of
-	 *                                         `$meta_key`, or an array key of `$meta_query`. To use 'meta_value'
-	 *                                         or 'meta_value_num', `$meta_key` must be also be defined.
-	 *                                         Default 'user_login'.
-	 *     @type string       $order           Designates ascending or descending order of users. Order values
-	 *                                         passed as part of an `$orderby` array take precedence over this
-	 *                                         parameter. Accepts 'ASC', 'DESC'. Default 'ASC'.
-	 *     @type int          $offset          Number of users to offset in retrieved results. Can be used in
-	 *                                         conjunction with pagination. Default 0.
-	 *     @type int          $number          Number of users to limit the query for. Can be used in conjunction
-	 *                                         with pagination. Value -1 (all) is not supported.
-	 *                                         Default empty (all users).
-	 *     @type bool         $count_total     Whether to count the total number of users found. If pagination is not
-	 *                                         needed, setting this to false can improve performance. Default true.
-	 *     @type string|array $fields          Which fields to return. Single or all fields (string), or array
-	 *                                         of fields. Accepts 'ID', 'display_name', 'login', 'nicename', 'email',
-	 *                                         'url', 'registered'. Use 'all' for all fields and 'all_with_meta' to
-	 *                                         include meta fields. Default 'all'.
-	 *     @type string       $who             Type of users to query. Accepts 'authors'. Default empty (all users).
+	 *     @type int          $blog_id             The site ID. Default is the global blog id.
+	 *     @type string       $role                Role name. Default empty.
+	 *     @type string       $meta_key            User meta key. Default empty.
+	 *     @type string       $meta_value          User meta value. Default empty.
+	 *     @type string       $meta_compare        Comparison operator to test the `$meta_value`. Accepts '=', '!=',
+	 *                                             '>', '>=', '<', '<=', 'LIKE', 'NOT LIKE', 'IN', 'NOT IN',
+	 *                                             'BETWEEN', 'NOT BETWEEN', 'EXISTS', 'NOT EXISTS', 'REGEXP',
+	 *                                             'NOT REGEXP', or 'RLIKE'. Default '='.
+	 *     @type array        $include             An array of user IDs to include. Default empty array.
+	 *     @type array        $exclude             An array of user IDs to exclude. Default empty array.
+	 *     @type string       $search              Search keyword. Searches for possible string matches on columns.
+	 *                                             When `$search_columns` is left empty, it tries to determine which
+	 *                                             column to search in based on search string. Default empty.
+	 *     @type array        $search_columns      Array of column names to be searched. Accepts 'ID', 'login',
+	 *                                             'nicename', 'email', 'url'. Default empty array.
+	 *     @type string|array $orderby             Field(s) to sort the retrieved users by. May be a single value,
+	 *                                             an array of values, or a multi-dimensional array with fields as
+	 *                                             keys and orders ('ASC' or 'DESC') as values. Accepted values are
+	 *                                             'ID', 'display_name' (or 'name'), 'user_login' (or 'login'),
+	 *                                             'user_nicename' (or 'nicename'), 'user_email' (or 'email'),
+	 *                                             'user_url' (or 'url'), 'user_registered' (or 'registered'),
+	 *                                             'post_count', 'meta_value', 'meta_value_num', the value of
+	 *                                             `$meta_key`, or an array key of `$meta_query`. To use
+	 *                                             'meta_value' or 'meta_value_num', `$meta_key` must be also be
+	 *                                             defined. Default 'user_login'.
+	 *     @type string       $order               Designates ascending or descending order of users. Order values
+	 *                                             passed as part of an `$orderby` array take precedence over this
+	 *                                             parameter. Accepts 'ASC', 'DESC'. Default 'ASC'.
+	 *     @type int          $offset              Number of users to offset in retrieved results. Can be used in
+	 *                                             conjunction with pagination. Default 0.
+	 *     @type int          $number              Number of users to limit the query for. Can be used in
+	 *                                             conjunction with pagination. Value -1 (all) is not supported.
+	 *                                             Default empty (all users).
+	 *     @type bool         $count_total         Whether to count the total number of users found. If pagination
+	 *                                             is not needed, setting this to false can improve performance.
+	 *                                             Default true.
+	 *     @type string|array $fields              Which fields to return. Single or all fields (string), or array
+	 *                                             of fields. Accepts 'ID', 'display_name', 'login', 'nicename',
+	 *                                             'email', 'url', 'registered'. Use 'all' for all fields and
+	 *                                             'all_with_meta' to include meta fields. Default 'all'.
+	 *     @type string       $who                 Type of users to query. Accepts 'authors'.
+	 *                                             Default empty (all users).
+	 *     @type bool|array   $has_published_posts Pass an array of post types to filter results to users who have
+	 *                                             published posts in those post types. `true` is an alias for all
+	 *                                             public post types.
 	 * }
 	 */
 	public function prepare_query( $query = array() ) {
@@ -579,7 +598,8 @@ class WP_User_Query {
 				'number' => '',
 				'count_total' => true,
 				'fields' => 'all',
-				'who' => ''
+				'who' => '',
+				'has_published_posts' => null,
 			) );
 		}
 
@@ -638,6 +658,21 @@ class WP_User_Query {
 			$qv['blog_id'] = $blog_id = 0; // Prevent extra meta query
 		}
 
+		if ( $qv['has_published_posts'] && $blog_id ) {
+			if ( true === $qv['has_published_posts'] ) {
+				$post_types = get_post_types( array( 'public' => true ) );
+			} else {
+				$post_types = (array) $qv['has_published_posts'];
+			}
+
+			foreach ( $post_types as &$post_type ) {
+				$post_type = $wpdb->prepare( '%s', $post_type );
+			}
+
+			$posts_table = $wpdb->get_blog_prefix( $blog_id ) . 'posts';
+			$this->query_where .= " AND $wpdb->users.ID IN ( SELECT DISTINCT $posts_table.post_author FROM $posts_table WHERE $posts_table.post_status = 'publish' AND $posts_table.post_type IN ( " . join( ", ", $post_types ) . " ) )";
+		}
+
 		// Meta query.
 		$this->meta_query = new WP_Meta_Query();
 		$this->meta_query->parse_query_vars( $qv );
@@ -674,7 +709,7 @@ class WP_User_Query {
 			$this->query_from .= $clauses['join'];
 			$this->query_where .= $clauses['where'];
 
-			if ( 'OR' == $this->meta_query->relation ) {
+			if ( $this->meta_query->has_or_relation() ) {
 				$this->query_fields = 'DISTINCT ' . $this->query_fields;
 			}
 		}
@@ -686,7 +721,7 @@ class WP_User_Query {
 		if ( empty( $qv['orderby'] ) ) {
 			// Default order is by 'user_login'.
 			$ordersby = array( 'user_login' => $order );
-		} else if ( is_array( $qv['orderby'] ) ) {
+		} elseif ( is_array( $qv['orderby'] ) ) {
 			$ordersby = $qv['orderby'];
 		} else {
 			// 'orderby' values may be a comma- or space-separated list.
@@ -897,10 +932,12 @@ class WP_User_Query {
 	 * @access protected
 	 * @since 3.1.0
 	 *
+	 * @global wpdb $wpdb
+	 *
 	 * @param string $string
-	 * @param array $cols
-	 * @param bool $wild Whether to allow wildcard searches. Default is false for Network Admin, true for
-	 *  single site. Single site allows leading and trailing wildcards, Network Admin only trailing.
+	 * @param array  $cols
+	 * @param bool   $wild   Whether to allow wildcard searches. Default is false for Network Admin, true for single site.
+	 *                       Single site allows leading and trailing wildcards, Network Admin only trailing.
 	 * @return string
 	 */
 	protected function get_search_sql( $string, $cols, $wild = false ) {
@@ -955,7 +992,7 @@ class WP_User_Query {
 	 * @global wpdb $wpdb WordPress database abstraction object.
 	 *
 	 * @param string $orderby Alias for the field to order by.
-	 * @return string|bool Value to used in the ORDER clause, if `$orderby` is valid. False otherwise.
+	 * @return string Value to used in the ORDER clause, if `$orderby` is valid.
 	 */
 	protected function parse_orderby( $orderby ) {
 		global $wpdb;
@@ -1087,7 +1124,7 @@ class WP_User_Query {
 	 *
 	 * @param callable $name      Method to call.
 	 * @param array    $arguments Arguments to pass when calling.
-	 * @return mixed|bool Return value of the callback, false otherwise.
+	 * @return mixed Return value of the callback, false otherwise.
 	 */
 	public function __call( $name, $arguments ) {
 		if ( 'get_search_sql' === $name ) {
@@ -1171,9 +1208,10 @@ function get_blogs_of_user( $user_id, $all = false ) {
 				'path'        => $blog->path,
 				'site_id'     => $blog->site_id,
 				'siteurl'     => $blog->siteurl,
-				'archived'    => 0,
-				'spam'        => 0,
-				'deleted'     => 0
+				'archived'    => $blog->archived,
+				'mature'      => $blog->mature,
+				'spam'        => $blog->spam,
+				'deleted'     => $blog->deleted,
 			);
 		}
 		unset( $keys[ $wpdb->base_prefix . 'capabilities' ] );
@@ -1200,9 +1238,10 @@ function get_blogs_of_user( $user_id, $all = false ) {
 				'path'        => $blog->path,
 				'site_id'     => $blog->site_id,
 				'siteurl'     => $blog->siteurl,
-				'archived'    => 0,
-				'spam'        => 0,
-				'deleted'     => 0
+				'archived'    => $blog->archived,
+				'mature'      => $blog->mature,
+				'spam'        => $blog->spam,
+				'deleted'     => $blog->deleted,
 			);
 		}
 	}
@@ -1251,11 +1290,11 @@ function is_user_member_of_blog( $user_id = 0, $blog_id = 0 ) {
  * @since 3.0.0
  * @link https://codex.wordpress.org/Function_Reference/add_user_meta
  *
- * @param int $user_id User ID.
- * @param string $meta_key Metadata name.
- * @param mixed $meta_value Metadata value.
- * @param bool $unique Optional, default is false. Whether the same key should not be added.
- * @return int|bool Meta ID on success, false on failure.
+ * @param int    $user_id    User ID.
+ * @param string $meta_key   Metadata name.
+ * @param mixed  $meta_value Metadata value.
+ * @param bool   $unique     Optional, default is false. Whether the same key should not be added.
+ * @return int|false Meta ID on success, false on failure.
  */
 function add_user_meta($user_id, $meta_key, $meta_value, $unique = false) {
 	return add_metadata('user', $user_id, $meta_key, $meta_value, $unique);
@@ -1271,9 +1310,9 @@ function add_user_meta($user_id, $meta_key, $meta_value, $unique = false) {
  * @since 3.0.0
  * @link https://codex.wordpress.org/Function_Reference/delete_user_meta
  *
- * @param int $user_id user ID
- * @param string $meta_key Metadata name.
- * @param mixed $meta_value Optional. Metadata value.
+ * @param int    $user_id    User ID
+ * @param string $meta_key   Metadata name.
+ * @param mixed  $meta_value Optional. Metadata value.
  * @return bool True on success, false on failure.
  */
 function delete_user_meta($user_id, $meta_key, $meta_value = '') {
@@ -1286,11 +1325,10 @@ function delete_user_meta($user_id, $meta_key, $meta_value = '') {
  * @since 3.0.0
  * @link https://codex.wordpress.org/Function_Reference/get_user_meta
  *
- * @param int $user_id User ID.
- * @param string $key Optional. The meta key to retrieve. By default, returns data for all keys.
- * @param bool $single Whether to return a single value.
- * @return mixed Will be an array if $single is false. Will be value of meta data field if $single
- *  is true.
+ * @param int    $user_id User ID.
+ * @param string $key     Optional. The meta key to retrieve. By default, returns data for all keys.
+ * @param bool   $single  Whether to return a single value.
+ * @return mixed Will be an array if $single is false. Will be value of meta data field if $single is true.
  */
 function get_user_meta($user_id, $key = '', $single = false) {
 	return get_metadata('user', $user_id, $key, $single);
@@ -1307,10 +1345,10 @@ function get_user_meta($user_id, $key = '', $single = false) {
  * @since 3.0.0
  * @link https://codex.wordpress.org/Function_Reference/update_user_meta
  *
- * @param int $user_id User ID.
- * @param string $meta_key Metadata key.
- * @param mixed $meta_value Metadata value.
- * @param mixed $prev_value Optional. Previous value to check before removing.
+ * @param int    $user_id    User ID.
+ * @param string $meta_key   Metadata key.
+ * @param mixed  $meta_value Metadata value.
+ * @param mixed  $prev_value Optional. Previous value to check before removing.
  * @return int|bool Meta ID if the key didn't exist, true on successful update, false on failure.
  */
 function update_user_meta($user_id, $meta_key, $meta_value, $prev_value = '') {
@@ -1326,11 +1364,14 @@ function update_user_meta($user_id, $meta_key, $meta_value, $prev_value = '') {
  * Using $strategy = 'memory' this is memory-intensive and should handle around 10^5 users, but see WP Bug #12257.
  *
  * @since 3.0.0
+ *
+ * @global wpdb $wpdb
+ *
  * @param string $strategy 'time' or 'memory'
  * @return array Includes a grand total and an array of counts indexed by role strings.
  */
 function count_users($strategy = 'time') {
-	global $wpdb, $wp_roles;
+	global $wpdb;
 
 	// Initialize
 	$id = get_current_blog_id();
@@ -1338,12 +1379,7 @@ function count_users($strategy = 'time') {
 	$result = array();
 
 	if ( 'time' == $strategy ) {
-		global $wp_roles;
-
-		if ( ! isset( $wp_roles ) )
-			$wp_roles = new WP_Roles();
-
-		$avail_roles = $wp_roles->get_names();
+		$avail_roles = wp_roles()->get_names();
 
 		// Build a CPU-intensive query that will return concise information.
 		$select_count = array();
@@ -1405,12 +1441,13 @@ function count_users($strategy = 'time') {
  * Used by wp_set_current_user() for back compat. Might be deprecated in the future.
  *
  * @since 2.0.4
- * @global string $userdata User description.
- * @global string $user_login The user username for logging in
- * @global int $user_level The level of the user
- * @global int $user_ID The ID of the user
- * @global string $user_email The email address of the user
- * @global string $user_url The url in the user's profile
+ *
+ * @global string $user_login    The user username for logging in
+ * @global object $userdata      User data.
+ * @global int    $user_level    The level of the user
+ * @global int    $user_ID       The ID of the user
+ * @global string $user_email    The email address of the user
+ * @global string $user_url      The url in the user's profile
  * @global string $user_identity The display name of the user
  *
  * @param int $for_user_id Optional. User ID to set up global data.
@@ -1452,6 +1489,7 @@ function setup_userdata($for_user_id = '') {
  * @since 2.3.0
  *
  * @global wpdb $wpdb WordPress database object for queries.
+ * @global int  $blog_id
  *
  * @param array|string $args {
  *     Optional. Array or string of arguments to generate a drop-down of users.
@@ -1491,7 +1529,7 @@ function setup_userdata($for_user_id = '') {
  *     @type string       $who                     Which type of users to query. Accepts only an empty string or
  *                                                 'authors'. Default empty.
  * }
- * @return string|null Null on display. String of HTML content on retrieve.
+ * @return string String of HTML content.
  */
 function wp_dropdown_users( $args = '' ) {
 	$defaults = array(
@@ -1580,11 +1618,11 @@ function wp_dropdown_users( $args = '' ) {
  *
  * @since 2.3.0
  *
- * @param string $field The user Object field name.
- * @param mixed $value The user Object value.
- * @param int $user_id user ID.
+ * @param string $field   The user Object field name.
+ * @param mixed  $value   The user Object value.
+ * @param int    $user_id User ID.
  * @param string $context How to sanitize user fields. Looks for 'raw', 'edit', 'db', 'display',
- *               'attribute' and 'js'.
+ *                        'attribute' and 'js'.
  * @return mixed Sanitized value.
  */
 function sanitize_user_field($field, $value, $user_id, $context) {
@@ -1718,14 +1756,13 @@ function clean_user_cache( $user ) {
  * @since 2.0.0
  *
  * @param string $username Username.
- * @return null|int The user's ID on success, and null on failure.
+ * @return int|false The user's ID on success, and false on failure.
  */
 function username_exists( $username ) {
-	if ( $user = get_user_by('login', $username ) ) {
+	if ( $user = get_user_by( 'login', $username ) ) {
 		return $user->ID;
-	} else {
-		return null;
 	}
+	return false;
 }
 
 /**
@@ -1734,12 +1771,12 @@ function username_exists( $username ) {
  * @since 2.1.0
  *
  * @param string $email Email.
- * @return bool|int The user's ID on success, and false on failure.
+ * @return int|false The user's ID on success, and false on failure.
  */
 function email_exists( $email ) {
-	if ( $user = get_user_by('email', $email) )
+	if ( $user = get_user_by( 'email', $email) ) {
 		return $user->ID;
-
+	}
 	return false;
 }
 
@@ -1768,40 +1805,49 @@ function validate_username( $username ) {
 /**
  * Insert a user into the database.
  *
- * Most of the $userdata array fields have filters associated with the values.
- * The exceptions are 'rich_editing', 'role', 'jabber', 'aim', 'yim',
- * 'user_registered', and 'ID'. The filters have the prefix 'pre_user_' followed
- * by the field name. An example using 'description' would have the filter
- * called, 'pre_user_description' that can be hooked into.
+ * Most of the `$userdata` array fields have filters associated with the values. Exceptions are
+ * 'ID', 'rich_editing', 'comment_shortcuts', 'admin_color', 'use_ssl',
+ * 'user_registered', and 'role'. The filters have the prefix 'pre_user_' followed by the field
+ * name. An example using 'description' would have the filter called, 'pre_user_description' that
+ * can be hooked into.
  *
  * @since 2.0.0
+ * @since 3.6.0 The `aim`, `jabber`, and `yim` fields were removed as default user contact
+ *              methods for new installs. See wp_get_user_contact_methods().
  *
  * @global wpdb $wpdb WordPress database object for queries.
  *
- * @param array $userdata {
+ * @param array|object|WP_User $userdata {
  *     An array, object, or WP_User object of user data arguments.
  *
- *     @type int         $ID              User ID. If supplied, the user will be updated.
- *     @type string      $user_pass       The plain-text user password.
- *     @type string      $user_login      The user's login username.
- *     @type string      $user_nicename   The URL-friendly user name.
- *     @type string      $user_url        The user URL.
- *     @type string      $user_email      The user email address.
- *     @type string      $display_name    The user's display name.
- *                                        Default is the the user's username.
- *     @type string      $nickname        The user's nickname. Default
- *                                        Default is the the user's username.
- *     @type string      $first_name      The user's first name. For new users, will be used
- *                                        to build $display_name if unspecified.
- *     @type stirng      $last_name       The user's last name. For new users, will be used
- *                                        to build $display_name if unspecified.
- *     @type string|bool $rich_editing    Whether to enable the rich-editor for the user. False
- *                                        if not empty.
- *     @type string      $user_registered Date the user registered. Format is 'Y-m-d H:i:s'.
- *     @type string      $role            User's role.
- *     @type string      $jabber          User's Jabber account username.
- *     @type string      $aim             User's AIM account username.
- *     @type string      $yim             User's Yahoo! messenger username.
+ *     @type int         $ID                   User ID. If supplied, the user will be updated.
+ *     @type string      $user_pass            The plain-text user password.
+ *     @type string      $user_login           The user's login username.
+ *     @type string      $user_nicename        The URL-friendly user name.
+ *     @type string      $user_url             The user URL.
+ *     @type string      $user_email           The user email address.
+ *     @type string      $display_name         The user's display name.
+ *                                             Default is the the user's username.
+ *     @type string      $nickname             The user's nickname.
+ *                                             Default is the the user's username.
+ *     @type string      $first_name           The user's first name. For new users, will be used
+ *                                             to build the first part of the user's display name
+ *                                             if `$display_name` is not specified.
+ *     @type string      $last_name            The user's last name. For new users, will be used
+ *                                             to build the second part of the user's display name
+ *                                             if `$display_name` is not specified.
+ *     @type string      $description          The user's biographical description.
+ *     @type string|bool $rich_editing         Whether to enable the rich-editor for the user.
+ *                                             False if not empty.
+ *     @type string|bool $comment_shortcuts    Whether to enable comment moderation keyboard
+ *                                             shortcuts for the user. Default false.
+ *     @type string      $admin_color          Admin color scheme for the user. Default 'fresh'.
+ *     @type bool        $use_ssl              Whether the user should always access the admin over
+ *                                             https. Default false.
+ *     @type string      $user_registered      Date the user registered. Format is 'Y-m-d H:i:s'.
+ *     @type string|bool $show_admin_bar_front Whether to display the Admin Bar for the user on the
+ *                                             site's frontend. Default true.
+ *     @type string      $role                 User's role.
  * }
  * @return int|WP_Error The newly created user's ID or a WP_Error object if the user could not
  *                      be created.
@@ -1977,7 +2023,7 @@ function wp_insert_user( $userdata ) {
 
 	$meta['rich_editing'] = empty( $userdata['rich_editing'] ) ? 'true' : $userdata['rich_editing'];
 
-	$meta['comment_shortcuts'] = empty( $userdata['comment_shortcuts'] ) ? 'false' : $userdata['comment_shortcuts'];
+	$meta['comment_shortcuts'] = empty( $userdata['comment_shortcuts'] ) || 'false' === $userdata['comment_shortcuts'] ? 'false' : 'true';
 
 	$admin_color = empty( $userdata['admin_color'] ) ? 'fresh' : $userdata['admin_color'];
 	$meta['admin_color'] = preg_replace( '|[^a-z0-9 _.\-@]|i', '', $admin_color );
@@ -2103,17 +2149,159 @@ function wp_update_user($userdata) {
 	// Escape data pulled from DB.
 	$user = add_magic_quotes( $user );
 
-	// If password is changing, hash it now.
 	if ( ! empty($userdata['user_pass']) ) {
+		// If password is changing, hash it now
 		$plaintext_pass = $userdata['user_pass'];
-		$userdata['user_pass'] = wp_hash_password($userdata['user_pass']);
+		$userdata['user_pass'] = wp_hash_password( $userdata['user_pass'] );
+		/**
+		 * Filter to stop the sending of the password change email.
+		 *
+		 * @since 4.3.0
+		 * @see  wp_insert_user() For $user and $userdata fields.
+		 *
+		 * @param bool Return false to not send the email.
+		 * @param array $user The original user array.
+		 * @param array $userdata The updated user array.
+		 *
+		 */
+		$send_pass_change_email = apply_filters( 'send_pass_change_email', true, $user, $userdata );
 	}
 
-	wp_cache_delete($user[ 'user_email' ], 'useremail');
+	if ( isset( $userdata['user_email'] ) && $user['user_email'] !== $userdata['user_email'] ) {
+		/**
+		 * Filter to stop the sending of the email change email.
+		 *
+		 * @since 4.3.0
+		 * @see  wp_insert_user() For $user and $userdata fields.
+		 *
+		 * @param bool Return false to not send the email.
+		 * @param array $user The original user array.
+		 * @param array $userdata The updated user array.
+		 *
+		 */
+		$send_email_change_email = apply_filters( 'send_email_change_email', true, $user, $userdata );
+	}
+
+	wp_cache_delete( $user['user_email'], 'useremail' );
 
 	// Merge old and new fields with new fields overwriting old ones.
-	$userdata = array_merge($user, $userdata);
-	$user_id = wp_insert_user($userdata);
+	$userdata = array_merge( $user, $userdata );
+	$user_id = wp_insert_user( $userdata );
+
+	if ( ! is_wp_error( $user_id ) ) {
+
+		$blog_name = wp_specialchars_decode( get_option( 'blogname' ) );
+
+		if ( ! empty( $send_pass_change_email ) ) {
+
+			/* translators: Do not translate USERNAME, ADMIN_EMAIL, EMAIL, SITENAME, SITEURL: those are placeholders. */
+			$pass_change_text = __( 'Hi ###USERNAME###,
+
+This notice confirms that your password was changed on ###SITENAME###.
+
+If you did not change your password, please contact the Site Administrator at
+###ADMIN_EMAIL###
+
+This email has been sent to ###EMAIL###
+
+Regards,
+All at ###SITENAME###
+###SITEURL###' );
+
+			$pass_change_email = array(
+				'to'      => $user['user_email'],
+				'subject' => __( '[%s] Notice of Password Change' ),
+				'message' => $pass_change_text,
+				'headers' => '',
+			);
+
+			/**
+			 * Filter the email sent when the user's password is changed.
+			 *
+			 * @since 4.3.0
+			 *
+			 * @param array $pass_change_email {
+			 *            Used to build wp_mail(). https://developer.wordpress.org/reference/functions/wp_mail/
+			 *            @type string $to      The intended recipients. Add emails in a comma separated string.
+			 *            @type string $subject The subject of the email.
+			 *            @type string $message The content of the email.
+			 *                The following strings have a special meaning and will get replaced dynamically:
+			 *                ###USERNAME###    The current user's username.
+			 *                ###ADMIN_EMAIL### The admin email in case this was unexpected.
+			 *                ###EMAIL###       The old email.
+			 *                ###SITENAME###    The name of the site.
+			 *                ###SITEURL###     The URL to the site.
+			 *            @type  string $headers Headers. Add headers in a newline (\r\n) separated string.
+			 *        }
+			 * @param array $user The original user array.
+			 * @param array $userdata The updated user array.
+			 *
+			 */
+			$pass_change_email = apply_filters( 'password_change_email', $pass_change_email, $user, $userdata );
+
+			$pass_change_email['message'] = str_replace( '###USERNAME###', $user['user_login'], $pass_change_email['message'] );
+			$pass_change_email['message'] = str_replace( '###ADMIN_EMAIL###', get_option( 'admin_email' ), $pass_change_email['message'] );
+			$pass_change_email['message'] = str_replace( '###EMAIL###', $user['user_email'], $pass_change_email['message'] );
+			$pass_change_email['message'] = str_replace( '###SITENAME###', get_option( 'blogname' ), $pass_change_email['message'] );
+			$pass_change_email['message'] = str_replace( '###SITEURL###', get_option( 'siteurl' ), $pass_change_email['message'] );
+
+			wp_mail( $pass_change_email['to'], sprintf( $pass_change_email['subject'], $blog_name ), $pass_change_email['message'], $pass_change_email['headers'] );
+		}
+
+		if ( ! empty( $send_email_change_email ) ) {
+			/* translators: Do not translate USERNAME, ADMIN_EMAIL, EMAIL, SITENAME, SITEURL: those are placeholders. */
+			$email_change_text = __( 'Hi ###USERNAME###,
+
+This notice confirms that your email was changed on ###SITENAME###.
+
+If you did not change your email, please contact the Site Administrator at
+###ADMIN_EMAIL###
+
+This email has been sent to ###EMAIL###
+
+Regards,
+All at ###SITENAME###
+###SITEURL###' );
+
+			$email_change_email = array(
+				'to'      => $user['user_email'],
+				'subject' => __( '[%s] Notice of Email Change' ),
+				'message' => $email_change_text,
+				'headers' => '',
+			);
+
+			/**
+			 * Filter the email sent when the user's password is changed.
+			 *
+			 * @since 4.3.0
+			 *
+			 * @param array $email_change_email {
+			 *            Used to build wp_mail(). https://developer.wordpress.org/reference/functions/wp_mail/
+			 *            @type string $to      The intended recipients.
+			 *            @type string $subject The subject of the email.
+			 *            @type string $message The content of the email.
+			 *                The following strings have a special meaning and will get replaced dynamically:
+			 *                ###USERNAME###    The current user's username.
+			 *                ###ADMIN_EMAIL### The admin email in case this was unexpected.
+			 *                ###EMAIL###       The old email.
+			 *                ###SITENAME###    The name of the site.
+			 *                ###SITEURL###     The URL to the site.
+			 *            @type string $headers Headers.
+			 *        }
+			 * @param array $user The original user array.
+			 * @param array $userdata The updated user array.
+			 */
+			$email_change_email = apply_filters( 'email_change_email', $email_change_email, $user, $userdata );
+
+			$email_change_email['message'] = str_replace( '###USERNAME###', $user['user_login'], $email_change_email['message'] );
+			$email_change_email['message'] = str_replace( '###ADMIN_EMAIL###', get_option( 'admin_email' ), $email_change_email['message'] );
+			$email_change_email['message'] = str_replace( '###EMAIL###', $user['user_email'], $email_change_email['message'] );
+			$email_change_email['message'] = str_replace( '###SITENAME###', get_option( 'blogname' ), $email_change_email['message'] );
+			$email_change_email['message'] = str_replace( '###SITEURL###', get_option( 'siteurl' ), $email_change_email['message'] );
+
+			wp_mail( $email_change_email['to'], sprintf( $email_change_email['subject'], $blog_name ), $email_change_email['message'], $email_change_email['headers'] );
+		}
+	}
 
 	// Update the cookies if the password changed.
 	$current_user = wp_get_current_user();
@@ -2147,7 +2335,7 @@ function wp_update_user($userdata) {
  * @param string $username The user's username.
  * @param string $password The user's password.
  * @param string $email    Optional. The user's email. Default empty.
- * @return int The new user's ID.
+ * @return int|WP_Error The new user's ID.
  */
 function wp_create_user($username, $password, $email = '') {
 	$user_login = wp_slash( $username );
@@ -2241,6 +2429,8 @@ function wp_get_password_hint() {
  * hashing process. This field is now hashed; old values are no longer accepted
  * but have a different WP_Error code so good user feedback can be provided.
  *
+ * @since 3.1.0
+ *
  * @global wpdb         $wpdb      WordPress database object for queries.
  * @global PasswordHash $wp_hasher Portable PHP password hashing framework instance.
  *
@@ -2294,7 +2484,9 @@ function check_password_reset_key($key, $login) {
 /**
  * Handles resetting the user's password.
  *
- * @param object $user The user
+ * @since 2.5.0
+ *
+ * @param object $user     The user
  * @param string $new_pass New password for the user in plaintext
  */
 function reset_password( $user, $new_pass ) {
@@ -2316,6 +2508,8 @@ function reset_password( $user, $new_pass ) {
 
 /**
  * Handles registering a new user.
+ *
+ * @since 2.5.0
  *
  * @param string $user_login User's username for logging in
  * @param string $user_email User's email address to send password and add

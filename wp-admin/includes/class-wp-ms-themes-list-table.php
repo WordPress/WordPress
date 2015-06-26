@@ -22,6 +22,9 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 	 *
 	 * @see WP_List_Table::__construct() for more information on default arguments.
 	 *
+	 * @global string $status
+	 * @global int    $page
+	 *
 	 * @param array $args An associative array of arguments.
 	 */
 	public function __construct( $args = array() ) {
@@ -44,11 +47,19 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 			$this->site_id = isset( $_REQUEST['id'] ) ? intval( $_REQUEST['id'] ) : 0;
 	}
 
+	/**
+	 *
+	 * @return array
+	 */
 	protected function get_table_classes() {
 		// todo: remove and add CSS for .themes
 		return array( 'widefat', 'plugins' );
 	}
 
+	/**
+	 *
+	 * @return bool
+	 */
 	public function ajax_user_can() {
 		if ( $this->is_site_themes )
 			return current_user_can( 'manage_sites' );
@@ -56,6 +67,15 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 			return current_user_can( 'manage_network_themes' );
 	}
 
+	/**
+	 *
+	 * @global string $status
+	 * @global array $totals
+	 * @global int $page
+	 * @global string $orderby
+	 * @global string $order
+	 * @global string $s
+	 */
 	public function prepare_items() {
 		global $status, $totals, $page, $orderby, $order, $s;
 
@@ -150,7 +170,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 	 * @return bool
 	 */
 	public function _search_callback( $theme ) {
-		static $term;
+		static $term = null;
 		if ( is_null( $term ) )
 			$term = wp_unslash( $_REQUEST['s'] );
 
@@ -192,6 +212,9 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 			return ( $a < $b ) ? -1 : 1;
 	}
 
+	/**
+	 * @access public
+	 */
 	public function no_items() {
 		if ( ! $this->has_items )
 			_e( 'No themes found.' );
@@ -199,9 +222,11 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 			_e( 'You do not appear to have any themes available at this time.' );
 	}
 
+	/**
+	 *
+	 * @return array
+	 */
 	public function get_columns() {
-		global $status;
-
 		return array(
 			'cb'          => '<input type="checkbox" />',
 			'name'        => __( 'Theme' ),
@@ -209,12 +234,34 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 		);
 	}
 
+	/**
+	 *
+	 * @return array
+	 */
 	protected function get_sortable_columns() {
 		return array(
 			'name'         => 'name',
 		);
 	}
 
+	/**
+	 * Get the name of the primary column.
+	 *
+	 * @since 4.3.0
+	 * @access protected
+	 *
+	 * @return string Unalterable name of the primary column name, in this case, 'name'.
+	 */
+	protected function get_primary_column_name() {
+		return 'name';
+	}
+
+	/**
+	 *
+	 * @global array $totals
+	 * @global string $status
+	 * @return array
+	 */
 	protected function get_views() {
 		global $totals, $status;
 
@@ -258,6 +305,11 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 		return $status_links;
 	}
 
+	/**
+	 * @global string $status
+	 *
+	 * @return array
+	 */
 	protected function get_bulk_actions() {
 		global $status;
 
@@ -275,20 +327,38 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 		return $actions;
 	}
 
+	/**
+	 * @access public
+	 */
 	public function display_rows() {
 		foreach ( $this->items as $theme )
 			$this->single_row( $theme );
 	}
 
 	/**
-	 * @global string $status
-	 * @global int $page
-	 * @global string $s
-	 * @global array $totals
+	 * @since 4.3.0
+	 *
 	 * @param WP_Theme $theme
 	 */
-	public function single_row( $theme ) {
-		global $status, $page, $s, $totals;
+	public function column_cb( $theme ) {
+		$checkbox_id = 'checkbox_' . md5( $theme->get('Name') );
+		?>
+		<input type="checkbox" name="checked[]" value="<?php echo esc_attr( $theme->get_stylesheet() ) ?>" id="<?php echo $checkbox_id ?>" />
+		<label class="screen-reader-text" for="<?php echo $checkbox_id ?>" ><?php _e( 'Select' ) ?>  <?php echo $theme->display( 'Name' ) ?></label>
+		<?php
+	}
+
+	/**
+	 * @since 4.3.0
+	 *
+	 * @global string $status
+	 * @global int    $page
+	 * @global string $s
+	 *
+	 * @param WP_Theme $theme
+	 */
+	public function column_name( $theme ) {
+		global $status, $page, $s;
 
 		$context = $status;
 
@@ -312,18 +382,20 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 		$theme_key = urlencode( $stylesheet );
 
 		if ( ! $allowed ) {
-			if ( ! $theme->errors() )
+			if ( ! $theme->errors() ) {
 				$actions['enable'] = '<a href="' . esc_url( wp_nonce_url($url . 'action=enable&amp;theme=' . $theme_key . '&amp;paged=' . $page . '&amp;s=' . $s, 'enable-theme_' . $stylesheet ) ) . '" title="' . esc_attr__('Enable this theme') . '" class="edit">' . ( $this->is_site_themes ? __( 'Enable' ) : __( 'Network Enable' ) ) . '</a>';
+			}
 		} else {
 			$actions['disable'] = '<a href="' . esc_url( wp_nonce_url($url . 'action=disable&amp;theme=' . $theme_key . '&amp;paged=' . $page . '&amp;s=' . $s, 'disable-theme_' . $stylesheet ) ) . '" title="' . esc_attr__('Disable this theme') . '">' . ( $this->is_site_themes ? __( 'Disable' ) : __( 'Network Disable' ) ) . '</a>';
 		}
 
-		if ( current_user_can('edit_themes') )
+		if ( current_user_can('edit_themes') ) {
 			$actions['edit'] = '<a href="' . esc_url('theme-editor.php?theme=' . $theme_key ) . '" title="' . esc_attr__('Open this theme in the Theme Editor') . '" class="edit">' . __('Edit') . '</a>';
+		}
 
-		if ( ! $allowed && current_user_can( 'delete_themes' ) && ! $this->is_site_themes && $stylesheet != get_option( 'stylesheet' ) && $stylesheet != get_option( 'template' ) )
+		if ( ! $allowed && current_user_can( 'delete_themes' ) && ! $this->is_site_themes && $stylesheet != get_option( 'stylesheet' ) && $stylesheet != get_option( 'template' ) ) {
 			$actions['delete'] = '<a href="' . esc_url( wp_nonce_url( 'themes.php?action=delete-selected&amp;checked[]=' . $theme_key . '&amp;theme_status=' . $context . '&amp;paged=' . $page . '&amp;s=' . $s, 'bulk-themes' ) ) . '" title="' . esc_attr__( 'Delete this theme' ) . '" class="delete">' . __( 'Delete' ) . '</a>';
-
+		}
 		/**
 		 * Filter the action links displayed for each theme in the Multisite
 		 * themes list table.
@@ -364,87 +436,165 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 		 */
 		$actions = apply_filters( "theme_action_links_$stylesheet", $actions, $theme, $context );
 
+		echo $this->row_actions( $actions, true );
+	}
+
+	/**
+	 * @since 4.3.0
+	 *
+	 * @global string $status
+	 * @global array  $totals
+	 *
+	 * @param WP_Theme $theme
+	 */
+	public function column_description( $theme ) {
+		global $status, $totals;
+		if ( $theme->errors() ) {
+			$pre = $status == 'broken' ? __( 'Broken Theme:' ) . ' ' : '';
+			echo '<p><strong class="attention">' . $pre . $theme->errors()->get_error_message() . '</strong></p>';
+		}
+
+		if ( $this->is_site_themes ) {
+			$allowed = $theme->is_allowed( 'site', $this->site_id );
+		} else {
+			$allowed = $theme->is_allowed( 'network' );
+		}
+
 		$class = ! $allowed ? 'inactive' : 'active';
-		$checkbox_id = "checkbox_" . md5( $theme->get('Name') );
-		$checkbox = "<input type='checkbox' name='checked[]' value='" . esc_attr( $stylesheet ) . "' id='" . $checkbox_id . "' /><label class='screen-reader-text' for='" . $checkbox_id . "' >" . __('Select') . " " . $theme->display('Name') . "</label>";
-
-		$id = sanitize_html_class( $theme->get_stylesheet() );
-
 		if ( ! empty( $totals['upgrade'] ) && ! empty( $theme->update ) )
 			$class .= ' update';
 
-		echo "<tr id='$id' class='$class'>";
+		echo "<div class='theme-description'><p>" . $theme->display( 'Description' ) . "</p></div>
+			<div class='$class second theme-version-author-uri'>";
 
-		list( $columns, $hidden ) = $this->get_column_info();
+		$stylesheet = $theme->get_stylesheet();
+		$theme_meta = array();
+
+		if ( $theme->get('Version') ) {
+			$theme_meta[] = sprintf( __( 'Version %s' ), $theme->display('Version') );
+		}
+		$theme_meta[] = sprintf( __( 'By %s' ), $theme->display('Author') );
+
+		if ( $theme->get('ThemeURI') ) {
+			$theme_meta[] = '<a href="' . $theme->display('ThemeURI') . '" title="' . esc_attr__( 'Visit theme homepage' ) . '">' . __( 'Visit Theme Site' ) . '</a>';
+		}
+		/**
+		 * Filter the array of row meta for each theme in the Multisite themes
+		 * list table.
+		 *
+		 * @since 3.1.0
+		 *
+		 * @param array    $theme_meta An array of the theme's metadata,
+		 *                             including the version, author, and
+		 *                             theme URI.
+		 * @param string   $stylesheet Directory name of the theme.
+		 * @param WP_Theme $theme      WP_Theme object.
+		 * @param string   $status     Status of the theme.
+		 */
+		$theme_meta = apply_filters( 'theme_row_meta', $theme_meta, $stylesheet, $theme, $status );
+		echo implode( ' | ', $theme_meta );
+
+		echo '</div>';
+	}
+
+	/**
+	 * @since 4.3.0
+	 *
+	 * @param WP_Theme $theme
+	 * @param string   $column_name
+	 */
+	public function column_default( $theme, $column_name ) {
+		$stylesheet = $theme->get_stylesheet();
+		/**
+		 * Fires inside each custom column of the Multisite themes list table.
+		 *
+		 * @since 3.1.0
+		 *
+		 * @param string   $column_name Name of the column.
+		 * @param string   $stylesheet  Directory name of the theme.
+		 * @param WP_Theme $theme       Current WP_Theme object.
+		 */
+		do_action( 'manage_themes_custom_column', $column_name, $stylesheet, $theme );
+	}
+
+	/**
+	 * @since 4.3.0
+	 *
+	 * @param WP_Theme $item
+	 */
+	public function single_row_columns( $item ) {
+		list( $columns, $hidden, $sortable, $primary ) = $this->get_column_info();
 
 		foreach ( $columns as $column_name => $column_display_name ) {
-			$style = '';
-			if ( in_array( $column_name, $hidden ) )
-				$style = ' style="display:none;"';
+			$extra_classes = '';
+			if ( in_array( $column_name, $hidden ) ) {
+				$extra_classes .= ' hidden';
+			}
 
 			switch ( $column_name ) {
 				case 'cb':
-					echo "<th scope='row' class='check-column'>$checkbox</th>";
+					echo '<th scope="row" class="check-column">';
+
+					$this->column_cb( $item );
+
+					echo '</th>';
 					break;
+
 				case 'name':
-					echo "<td class='theme-title'$style><strong>" . $theme->display('Name') . "</strong>";
-					echo $this->row_actions( $actions, true );
+					echo "<td class='theme-title column-primary{$extra_classes}'><strong>" . $item->display('Name') . "</strong>";
+
+					$this->column_name( $item );
+
 					echo "</td>";
 					break;
+
 				case 'description':
-					echo "<td class='column-description desc'$style>";
-					if ( $theme->errors() ) {
-						$pre = $status == 'broken' ? __( 'Broken Theme:' ) . ' ' : '';
-						echo '<p><strong class="attention">' . $pre . $theme->errors()->get_error_message() . '</strong></p>';
-					}
-					echo "<div class='theme-description'><p>" . $theme->display( 'Description' ) . "</p></div>
-						<div class='$class second theme-version-author-uri'>";
+					echo "<td class='column-description desc{$extra_classes}'>";
 
-					$theme_meta = array();
+					$this->column_description( $item );
 
-					if ( $theme->get('Version') )
-						$theme_meta[] = sprintf( __( 'Version %s' ), $theme->display('Version') );
-
-					$theme_meta[] = sprintf( __( 'By %s' ), $theme->display('Author') );
-
-					if ( $theme->get('ThemeURI') )
-						$theme_meta[] = '<a href="' . $theme->display('ThemeURI') . '" title="' . esc_attr__( 'Visit theme homepage' ) . '">' . __( 'Visit Theme Site' ) . '</a>';
-
-					/**
-					 * Filter the array of row meta for each theme in the Multisite themes
-					 * list table.
-					 *
-					 * @since 3.1.0
-					 *
-					 * @param array    $theme_meta An array of the theme's metadata,
-					 *                             including the version, author, and
-					 *                             theme URI.
-					 * @param string   $stylesheet Directory name of the theme.
-					 * @param WP_Theme $theme      WP_Theme object.
-					 * @param string   $status     Status of the theme.
-					 */
-					$theme_meta = apply_filters( 'theme_row_meta', $theme_meta, $stylesheet, $theme, $status );
-					echo implode( ' | ', $theme_meta );
-
-					echo "</div></td>";
+					echo '</td>';
 					break;
 
 				default:
-					echo "<td class='$column_name column-$column_name'$style>";
+					echo "<td class='$column_name column-$column_name{$extra_classes}'>";
 
-					/**
-					 * Fires inside each custom column of the Multisite themes list table.
-					 *
-					 * @since 3.1.0
-					 *
-					 * @param string   $column_name Name of the column.
-					 * @param string   $stylesheet  Directory name of the theme.
-					 * @param WP_Theme $theme       Current WP_Theme object.
-					 */
-					do_action( 'manage_themes_custom_column', $column_name, $stylesheet, $theme );
+					$this->column_default( $item, $column_name );
+
 					echo "</td>";
+					break;
 			}
 		}
+	}
+
+	/**
+	 * @global string $status
+	 * @global array  $totals
+	 *
+	 * @param WP_Theme $theme
+	 */
+	public function single_row( $theme ) {
+		global $status, $totals;
+
+		if ( $this->is_site_themes ) {
+			$allowed = $theme->is_allowed( 'site', $this->site_id );
+		} else {
+			$allowed = $theme->is_allowed( 'network' );
+		}
+
+		$stylesheet = $theme->get_stylesheet();
+
+		$class = ! $allowed ? 'inactive' : 'active';
+
+		$id = sanitize_html_class( $theme->get_stylesheet() );
+
+		if ( ! empty( $totals['upgrade'] ) && ! empty( $theme->update ) ) {
+			$class .= ' update';
+		}
+
+		echo "<tr id='$id' class='$class'>";
+
+		$this->single_row_columns( $theme );
 
 		echo "</tr>";
 

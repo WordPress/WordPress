@@ -52,6 +52,8 @@ $step = isset( $_GET['step'] ) ? (int) $_GET['step'] : 0;
  * Display install header.
  *
  * @since 2.5.0
+ *
+ * @param string $body_classes
  */
 function display_header( $body_classes = '' ) {
 	header( 'Content-Type: text/html; charset=utf-8' );
@@ -82,6 +84,8 @@ function display_header( $body_classes = '' ) {
  * Display installer setup form.
  *
  * @since 2.8.0
+ *
+ * @param string|null $error
  */
 function display_setup_form( $error = null ) {
 	global $wpdb;
@@ -159,6 +163,12 @@ if ( is_blog_installed() ) {
 	die( '<h1>' . __( 'Already Installed' ) . '</h1><p>' . __( 'You appear to have already installed WordPress. To reinstall please clear your old database tables first.' ) . '</p><p class="step"><a href="../wp-login.php" class="button button-large">' . __( 'Log In' ) . '</a></p></body></html>' );
 }
 
+/**
+ * @global string $wp_version
+ * @global string $required_php_version
+ * @global string $required_mysql_version
+ * @global wpdb   $wpdb
+ */
 global $wp_version, $required_php_version, $required_mysql_version;
 
 $php_version    = phpversion();
@@ -183,6 +193,16 @@ if ( ! is_string( $wpdb->base_prefix ) || '' === $wpdb->base_prefix ) {
 	die( '<h1>' . __( 'Configuration Error' ) . '</h1><p>' . __( 'Your <code>wp-config.php</code> file has an empty database table prefix, which is not supported.' ) . '</p></body></html>' );
 }
 
+// Set error message if DO_NOT_UPGRADE_GLOBAL_TABLES isn't set as it will break install.
+if ( defined( 'DO_NOT_UPGRADE_GLOBAL_TABLES' ) ) {
+	display_header();
+	die( '<h1>' . __( 'Configuration Error' ) . '</h1><p>' . __( 'The constant DO_NOT_UPGRADE_GLOBAL_TABLES cannot be defined when installing WordPress.' ) . '</p></body></html>' );
+}
+
+/**
+ * @global string    $wp_local_package
+ * @global WP_Locale $wp_locale
+ */
 $language = '';
 if ( ! empty( $_REQUEST['language'] ) ) {
 	$language = preg_replace( '/[^a-zA-Z_]/', '', $_REQUEST['language'] );

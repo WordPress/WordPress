@@ -101,15 +101,23 @@ class POMO_Reader {
 		}
 	}
 
-
+	/**
+	 * @return int
+	 */
 	function pos() {
 		return $this->_pos;
 	}
 
+	/**
+	 * @return true
+	 */
 	function is_resource() {
 		return true;
 	}
 
+	/**
+	 * @return true
+	 */
 	function close() {
 		return true;
 	}
@@ -146,18 +154,30 @@ class POMO_FileReader extends POMO_Reader {
 		return true;
 	}
 
+	/**
+	 * @return bool
+	 */
 	function is_resource() {
 		return is_resource($this->_f);
 	}
 
+	/**
+	 * @return bool
+	 */
 	function feof() {
 		return feof($this->_f);
 	}
 
+	/**
+	 * @return bool
+	 */
 	function close() {
 		return fclose($this->_f);
 	}
 
+	/**
+	 * @return string
+	 */
 	function read_all() {
 		$all = '';
 		while ( !$this->feof() )
@@ -203,10 +223,16 @@ class POMO_StringReader extends POMO_Reader {
 		return $this->_pos;
 	}
 
+	/**
+	 * @return int
+	 */
 	function length() {
 		return $this->strlen($this->_str);
 	}
 
+	/**
+	 * @return string
+	 */
 	function read_all() {
 		return $this->substr($this->_str, $this->_pos, $this->strlen($this->_str));
 	}

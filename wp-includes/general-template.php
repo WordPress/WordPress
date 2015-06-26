@@ -190,8 +190,8 @@ function get_template_part( $slug, $name = null ) {
  *
  * @since 2.7.0
  *
- * @param boolean $echo Default to echo and not return the form.
- * @return string|null String when retrieving, null when displaying or if searchform.php exists.
+ * @param bool $echo Default to echo and not return the form.
+ * @return string|void String when $echo is false.
  */
 function get_search_form( $echo = true ) {
 	/**
@@ -268,8 +268,8 @@ function get_search_form( $echo = true ) {
  * @since 1.5.0
  *
  * @param string $redirect Optional path to redirect to on login/logout.
- * @param boolean $echo Default to echo and not return the link.
- * @return string|null String when retrieving, null when displaying.
+ * @param bool   $echo     Default to echo and not return the link.
+ * @return string|void String when retrieving.
  */
 function wp_loginout($redirect = '', $echo = true) {
 	if ( ! is_user_logged_in() )
@@ -323,14 +323,12 @@ function wp_logout_url($redirect = '') {
 }
 
 /**
- * Returns the Log In URL.
- *
  * Returns the URL that allows the user to log in to the site.
  *
  * @since 2.7.0
  *
- * @param string $redirect Path to redirect to on login.
- * @param bool $force_reauth Whether to force reauthorization, even if a cookie is present. Default is false.
+ * @param string $redirect     Path to redirect to on login.
+ * @param bool   $force_reauth Whether to force reauthorization, even if a cookie is present. Default is false.
  * @return string A log in URL.
  */
 function wp_login_url($redirect = '', $force_reauth = false) {
@@ -356,8 +354,6 @@ function wp_login_url($redirect = '', $force_reauth = false) {
 }
 
 /**
- * Returns the user registration URL.
- *
  * Returns the URL that allows the user to register on the site.
  *
  * @since 3.6.0
@@ -382,7 +378,7 @@ function wp_registration_url() {
  * @since 3.0.0
  *
  * @param array $args Configuration options to modify the form output.
- * @return string|null String when retrieving, null when displaying.
+ * @return string|void String when retrieving.
  */
 function wp_login_form( $args = array() ) {
 	$defaults = array(
@@ -477,8 +473,6 @@ function wp_login_form( $args = array() ) {
 }
 
 /**
- * Returns the Lost Password URL.
- *
  * Returns the URL that allows the user to retrieve the lost password
  *
  * @since 2.8.0
@@ -514,12 +508,11 @@ function wp_lostpassword_url( $redirect = '' ) {
  * @since 1.5.0
  *
  * @param string $before Text to output before the link. Default `<li>`.
- * @param string $after Text to output after the link. Default `</li>`.
- * @param boolean $echo Default to echo and not return the link.
- * @return string|null String when retrieving, null when displaying.
+ * @param string $after  Text to output after the link. Default `</li>`.
+ * @param bool   $echo   Default to echo and not return the link.
+ * @return string|void String when retrieving.
  */
 function wp_register( $before = '<li>', $after = '</li>', $echo = true ) {
-
 	if ( ! is_user_logged_in() ) {
 		if ( get_option('users_can_register') )
 			$link = $before . '<a href="' . esc_url( wp_registration_url() ) . '">' . __('Register') . '</a>' . $after;
@@ -600,12 +593,13 @@ function bloginfo( $show='' ) {
  *
  * @since 0.71
  *
- * @param string $show Blog info to retrieve.
+ * @global string $wp_version
+ *
+ * @param string $show   Blog info to retrieve.
  * @param string $filter How to filter what is retrieved.
  * @return string Mostly string values, might be empty.
  */
 function get_bloginfo( $show = '', $filter = 'raw' ) {
-
 	switch( $show ) {
 		case 'home' : // DEPRECATED
 		case 'siteurl' : // DEPRECATED
@@ -766,12 +760,16 @@ function _wp_render_title_tag() {
  *
  * @since 1.0.0
  *
- * @param string $sep Optional, default is '&raquo;'. How to separate the various items within the page title.
- * @param bool $display Optional, default is true. Whether to display or retrieve title.
+ * @global WP_Locale $wp_locale
+ * @global int       $page
+ * @global int       $paged
+ *
+ * @param string $sep         Optional, default is '&raquo;'. How to separate the various items within the page title.
+ * @param bool   $display     Optional, default is true. Whether to display or retrieve title.
  * @param string $seplocation Optional. Direction to display title, 'right'.
- * @return string|null String on retrieve, null when displaying.
+ * @return string|void String on retrieve.
  */
-function wp_title($sep = '&raquo;', $display = true, $seplocation = '') {
+function wp_title( $sep = '&raquo;', $display = true, $seplocation = '' ) {
 	global $wp_locale, $page, $paged;
 
 	$m = get_query_var('m');
@@ -916,11 +914,11 @@ function wp_title($sep = '&raquo;', $display = true, $seplocation = '') {
  *
  * @since 0.71
  *
- * @param string $prefix Optional. What to display before the title.
- * @param bool $display Optional, default is true. Whether to display or retrieve title.
- * @return string|null Title when retrieving, null when displaying or failure.
+ * @param string $prefix  Optional. What to display before the title.
+ * @param bool   $display Optional, default is true. Whether to display or retrieve title.
+ * @return string|void Title when retrieving.
  */
-function single_post_title($prefix = '', $display = true) {
+function single_post_title( $prefix = '', $display = true ) {
 	$_post = get_queried_object();
 
 	if ( !isset($_post->post_title) )
@@ -949,9 +947,9 @@ function single_post_title($prefix = '', $display = true) {
  *
  * @since 3.1.0
  *
- * @param string $prefix Optional. What to display before the title.
- * @param bool $display Optional, default is true. Whether to display or retrieve title.
- * @return string|null Title when retrieving, null when displaying or failure.
+ * @param string $prefix  Optional. What to display before the title.
+ * @param bool   $display Optional, default is true. Whether to display or retrieve title.
+ * @return string|void Title when retrieving, null when displaying or failure.
  */
 function post_type_archive_title( $prefix = '', $display = true ) {
 	if ( ! is_post_type_archive() )
@@ -992,9 +990,9 @@ function post_type_archive_title( $prefix = '', $display = true ) {
  *
  * @since 0.71
  *
- * @param string $prefix Optional. What to display before the title.
- * @param bool $display Optional, default is true. Whether to display or retrieve title.
- * @return string|null Title when retrieving, null when displaying or failure.
+ * @param string $prefix  Optional. What to display before the title.
+ * @param bool   $display Optional, default is true. Whether to display or retrieve title.
+ * @return string|void Title when retrieving.
  */
 function single_cat_title( $prefix = '', $display = true ) {
 	return single_term_title( $prefix, $display );
@@ -1013,9 +1011,9 @@ function single_cat_title( $prefix = '', $display = true ) {
  *
  * @since 2.3.0
  *
- * @param string $prefix Optional. What to display before the title.
- * @param bool $display Optional, default is true. Whether to display or retrieve title.
- * @return string|null Title when retrieving, null when displaying or failure.
+ * @param string $prefix  Optional. What to display before the title.
+ * @param bool   $display Optional, default is true. Whether to display or retrieve title.
+ * @return string|void Title when retrieving.
  */
 function single_tag_title( $prefix = '', $display = true ) {
 	return single_term_title( $prefix, $display );
@@ -1034,9 +1032,9 @@ function single_tag_title( $prefix = '', $display = true ) {
  *
  * @since 3.1.0
  *
- * @param string $prefix Optional. What to display before the title.
- * @param bool $display Optional, default is true. Whether to display or retrieve title.
- * @return string|null Title when retrieving, null when displaying or failure.
+ * @param string $prefix  Optional. What to display before the title.
+ * @param bool   $display Optional, default is true. Whether to display or retrieve title.
+ * @return string|void Title when retrieving.
  */
 function single_term_title( $prefix = '', $display = true ) {
 	$term = get_queried_object();
@@ -1098,9 +1096,11 @@ function single_term_title( $prefix = '', $display = true ) {
  *
  * @since 0.71
  *
- * @param string $prefix Optional. What to display before the title.
- * @param bool $display Optional, default is true. Whether to display or retrieve title.
- * @return string|null Title when retrieving, null when displaying or failure.
+ * @global WP_Locale $wp_locale
+ *
+ * @param string $prefix  Optional. What to display before the title.
+ * @param bool   $display Optional, default is true. Whether to display or retrieve title.
+ * @return string|void Title when retrieving.
  */
 function single_month_title($prefix = '', $display = true ) {
 	global $wp_locale;
@@ -1270,11 +1270,11 @@ function get_the_archive_description() {
  *
  * @todo Properly document optional arguments as such
  *
- * @param string $url URL to archive.
- * @param string $text Archive text description.
+ * @param string $url    URL to archive.
+ * @param string $text   Archive text description.
  * @param string $format Optional, default is 'html'. Can be 'link', 'option', 'html', or custom.
  * @param string $before Optional.
- * @param string $after Optional.
+ * @param string $after  Optional.
  * @return string HTML link content for archive.
  */
 function get_archives_link($url, $text, $format = 'html', $before = '', $after = '') {
@@ -1297,9 +1297,7 @@ function get_archives_link($url, $text, $format = 'html', $before = '', $after =
 	 *
 	 * @param string $link_html The archive HTML link content.
 	 */
-	$link_html = apply_filters( 'get_archives_link', $link_html );
-
-	return $link_html;
+	return apply_filters( 'get_archives_link', $link_html );
 }
 
 /**
@@ -1308,6 +1306,9 @@ function get_archives_link($url, $text, $format = 'html', $before = '', $after =
  * @since 1.2.0
  *
  * @see get_archives_link()
+ *
+ * @global wpdb      $wpdb
+ * @global WP_Locale $wp_locale
  *
  * @param string|array $args {
  *     Default archive links arguments. Optional.
@@ -1330,7 +1331,7 @@ function get_archives_link($url, $text, $format = 'html', $before = '', $after =
  *     @type string     $order           Whether to use ascending or descending order. Accepts 'ASC', or 'DESC'.
  *                                       Default 'DESC'.
  * }
- * @return string|null String when retrieving, null when displaying.
+ * @return string|void String when retrieving.
  */
 function wp_get_archives( $args = '' ) {
 	global $wpdb, $wp_locale;
@@ -1546,9 +1547,16 @@ function calendar_week_mod($num) {
  *
  * @since 1.0.0
  *
+ * @global wpdb      $wpdb
+ * @global int       $m
+ * @global int       $monthnum
+ * @global int       $year
+ * @global WP_Locale $wp_locale
+ * @global array     $posts
+ *
  * @param bool $initial Optional, default is true. Use initial calendar names.
- * @param bool $echo Optional, default is true. Set to false for return.
- * @return string|null String when retrieving, null when displaying.
+ * @param bool $echo    Optional, default is true. Set to false for return.
+ * @return string|void String when retrieving.
  */
 function get_calendar($initial = true, $echo = true) {
 	global $wpdb, $m, $monthnum, $year, $wp_locale, $posts;
@@ -1637,7 +1645,7 @@ function get_calendar($initial = true, $echo = true) {
 	}
 
 	foreach ( $myweek as $wd ) {
-		$day_name = (true == $initial) ? $wp_locale->get_weekday_initial($wd) : $wp_locale->get_weekday_abbrev($wd);
+		$day_name = $initial ? $wp_locale->get_weekday_initial($wd) : $wp_locale->get_weekday_abbrev($wd);
 		$wd = esc_attr($wd);
 		$calendar_output .= "\n\t\t<th scope=\"col\" title=\"$wd\">$day_name</th>";
 	}
@@ -1778,7 +1786,8 @@ function delete_get_calendar_cache() {
  * attributes are supported. As well as any plugins which want to display it.
  *
  * @since 1.0.1
- * @uses $allowedtags
+ *
+ * @global array $allowedtags
  *
  * @return string HTML allowed tags entity encoded.
  */
@@ -1794,7 +1803,7 @@ function allowed_tags() {
 		}
 		$allowed .= '> ';
 	}
-	return htmlentities($allowed);
+	return htmlentities( $allowed );
 }
 
 /***** Date/Time tags *****/
@@ -1822,11 +1831,14 @@ function the_date_xml() {
  *
  * @since 0.71
  *
- * @param string $d Optional. PHP date format defaults to the date_format option if not specified.
+ * @global string|int|bool $currentday
+ * @global string|int|bool $previousday
+ *
+ * @param string $d      Optional. PHP date format defaults to the date_format option if not specified.
  * @param string $before Optional. Output before the date.
- * @param string $after Optional. Output after the date.
- * @param bool $echo Optional, default is display. Whether to echo the date or return it.
- * @return string|null Null if displaying, string if retrieving.
+ * @param string $after  Optional. Output after the date.
+ * @param bool   $echo   Optional, default is display. Whether to echo the date or return it.
+ * @return string|void String if retrieving.
  */
 function the_date( $d = '', $before = '', $after = '', $echo = true ) {
 	global $currentday, $previousday;
@@ -1853,8 +1865,6 @@ function the_date( $d = '', $before = '', $after = '', $echo = true ) {
 		else
 			return $the_date;
 	}
-
-	return null;
 }
 
 /**
@@ -1900,14 +1910,13 @@ function get_the_date( $d = '', $post = null ) {
  *
  * @since 2.1.0
  *
- * @param string $d Optional. PHP date format defaults to the date_format option if not specified.
+ * @param string $d      Optional. PHP date format defaults to the date_format option if not specified.
  * @param string $before Optional. Output before the date.
- * @param string $after Optional. Output after the date.
- * @param bool $echo Optional, default is display. Whether to echo the date or return it.
- * @return string|null Null if displaying, string if retrieving.
+ * @param string $after  Optional. Output after the date.
+ * @param bool   $echo   Optional, default is display. Whether to echo the date or return it.
+ * @return string|void String if retrieving.
  */
-function the_modified_date($d = '', $before='', $after='', $echo = true) {
-
+function the_modified_date( $d = '', $before = '', $after = '', $echo = true ) {
 	$the_modified_date = $before . get_the_modified_date($d) . $after;
 
 	/**
@@ -2141,7 +2150,8 @@ function get_post_modified_time( $d = 'U', $gmt = false, $post = null, $translat
  * Display the weekday on which the post was written.
  *
  * @since 0.71
- * @uses $wp_locale
+ *
+ * @global WP_Locale $wp_locale
  */
 function the_weekday() {
 	global $wp_locale;
@@ -2154,8 +2164,7 @@ function the_weekday() {
 	 *
 	 * @param string $the_weekday
 	 */
-	$the_weekday = apply_filters( 'the_weekday', $the_weekday );
-	echo $the_weekday;
+	echo apply_filters( 'the_weekday', $the_weekday );
 }
 
 /**
@@ -2165,6 +2174,10 @@ function the_weekday() {
  * the previous one output.
  *
  * @since 0.71
+ *
+ * @global WP_Locale       $wp_locale
+ * @global string|int|bool $currentday
+ * @global string|int|bool $previousweekday
  *
  * @param string $before Optional Output before the date.
  * @param string $after Optional Output after the date.
@@ -2380,6 +2393,13 @@ function wp_no_robots() {
  *
  * @since 2.0.0
  *
+ * @global bool $wp_rich_edit
+ * @global bool $is_gecko
+ * @global bool $is_opera
+ * @global bool $is_safari
+ * @global bool $is_chrome
+ * @global bool $is_IE
+ *
  * @return bool
  */
 function user_can_richedit() {
@@ -2449,9 +2469,9 @@ function wp_default_editor() {
  * @see wp-includes/class-wp-editor.php
  * @since 3.3.0
  *
- * @param string $content Initial content for the editor.
+ * @param string $content   Initial content for the editor.
  * @param string $editor_id HTML ID attribute value for the textarea and TinyMCE. Can only be /[a-z]+/.
- * @param array $settings See _WP_Editors::editor().
+ * @param array  $settings  See _WP_Editors::editor().
  */
 function wp_editor( $content, $editor_id, $settings = array() ) {
 	if ( ! class_exists( '_WP_Editors' ) )
@@ -2469,7 +2489,7 @@ function wp_editor( $content, $editor_id, $settings = array() ) {
  * @since 2.3.0
  *
  * @param bool $escaped Whether the result is escaped. Default true.
- * 	Only use when you are later escaping it. Do not use unescaped.
+ * 	                    Only use when you are later escaping it. Do not use unescaped.
  * @return string
  */
 function get_search_query( $escaped = true ) {
@@ -2507,16 +2527,16 @@ function the_search_query() {
 }
 
 /**
- * Display the language attributes for the html tag.
+ * Get the language attributes for the html tag.
  *
  * Builds up a set of html attributes containing the text direction and language
  * information for the page.
  *
- * @since 2.1.0
+ * @since 4.3.0
  *
- * @param string $doctype The type of html document (xhtml|html).
+ * @param string $doctype Optional. The type of html document (xhtml|html). Default html.
  */
-function language_attributes($doctype = 'html') {
+function get_language_attributes( $doctype = 'html' ) {
 	$attributes = array();
 
 	if ( function_exists( 'is_rtl' ) && is_rtl() )
@@ -2536,10 +2556,27 @@ function language_attributes($doctype = 'html') {
 	 * Filter the language attributes for display in the html tag.
 	 *
 	 * @since 2.5.0
+	 * @since 4.3.0 Added the `$doctype` parameter.
 	 *
 	 * @param string $output A space-separated list of language attributes.
+	 * @param string $doctype The type of html document (xhtml|html).
 	 */
-	echo apply_filters( 'language_attributes', $output );
+	return apply_filters( 'language_attributes', $output, $doctype );
+}
+
+/**
+ * Display the language attributes for the html tag.
+ *
+ * Builds up a set of html attributes containing the text direction and language
+ * information for the page.
+ *
+ * @since 2.1.0
+ * @since 4.3.0 Converted into a wrapper for get_language_attributes().
+ *
+ * @param string $doctype Optional. The type of html document (xhtml|html). Default html.
+ */
+function language_attributes( $doctype = 'html' ) {
+	echo get_language_attributes( $doctype );
 }
 
 /**
@@ -2590,6 +2627,9 @@ function language_attributes($doctype = 'html') {
  *
  * @since 2.1.0
  *
+ * @global WP_Query   $wp_query
+ * @global WP_Rewrite $wp_rewrite
+ *
  * @param string|array $args {
  *     Optional. Array or string of arguments for generating paginated links for archives.
  *
@@ -2612,7 +2652,7 @@ function language_attributes($doctype = 'html') {
  *     @type string $before_page_number A string to appear before the page number. Default empty.
  *     @type string $after_page_number  A string to append after the page number. Default empty.
  * }
- * @return array|string String of page links or array of page links.
+ * @return array|string|void String of page links or array of page links.
  */
 function paginate_links( $args = '' ) {
 	global $wp_query, $wp_rewrite;
@@ -2659,12 +2699,19 @@ function paginate_links( $args = '' ) {
 	// Merge additional query vars found in the original URL into 'add_args' array.
 	if ( isset( $url_parts[1] ) ) {
 		// Find the format argument.
-		$format_query = parse_url( str_replace( '%_%', $args['format'], $args['base'] ), PHP_URL_QUERY );
-		wp_parse_str( $format_query, $format_arg );
+		$format = explode( '?', str_replace( '%_%', $args['format'], $args['base'] ) );
+		$format_query = isset( $format[1] ) ? $format[1] : '';
+		wp_parse_str( $format_query, $format_args );
+
+		// Find the query args of the requested URL.
+		wp_parse_str( $url_parts[1], $url_query_args );
 
 		// Remove the format argument from the array of query arguments, to avoid overwriting custom format.
-		wp_parse_str( remove_query_arg( array_keys( $format_arg ), $url_parts[1] ), $query_args );
-		$args['add_args'] = array_merge( $args['add_args'], urlencode_deep( $query_args ) );
+		foreach ( $format_args as $format_arg => $format_arg_value ) {
+			unset( $url_query_args[ $format_arg ] );
+		}
+
+		$args['add_args'] = array_merge( $args['add_args'], urlencode_deep( $url_query_args ) );
 	}
 
 	// Who knows what else people pass in $args
@@ -2763,11 +2810,13 @@ function paginate_links( $args = '' ) {
  *
  * @todo Properly document optional arguments as such
  *
- * @param string $key The unique key for this theme.
- * @param string $name The name of the theme.
- * @param string $url The url of the css file containing the colour scheme.
- * @param array $colors Optional An array of CSS color definitions which are used to give the user a feel for the theme.
- * @param array $icons Optional An array of CSS color definitions used to color any SVG icons
+ * @global array $_wp_admin_css_colors
+ *
+ * @param string $key    The unique key for this theme.
+ * @param string $name   The name of the theme.
+ * @param string $url    The url of the css file containing the colour scheme.
+ * @param array  $colors Optional An array of CSS color definitions which are used to give the user a feel for the theme.
+ * @param array  $icons  Optional An array of CSS color definitions used to color any SVG icons
  */
 function wp_admin_css_color( $key, $name, $url, $colors = array(), $icons = array() ) {
 	global $_wp_admin_css_colors;
@@ -2787,10 +2836,12 @@ function wp_admin_css_color( $key, $name, $url, $colors = array(), $icons = arra
  * Registers the default Admin color schemes
  *
  * @since 3.0.0
+ *
+ * @global string $wp_version
  */
 function register_admin_color_schemes() {
 	$suffix = is_rtl() ? '-rtl' : '';
-	$suffix .= defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
+	$suffix .= SCRIPT_DEBUG ? '' : '.min';
 
 	wp_admin_css_color( 'fresh', _x( 'Default', 'admin color scheme' ),
 		false,
@@ -2854,6 +2905,7 @@ function register_admin_color_schemes() {
  * @since 2.3.0
  *
  * @param string $file file relative to wp-admin/ without its ".css" extension.
+ * @return string
  */
 function wp_admin_css_uri( $file = 'wp-admin' ) {
 	if ( defined('WP_INSTALLING') ) {
@@ -2889,22 +2941,16 @@ function wp_admin_css_uri( $file = 'wp-admin' ) {
  * stylesheet link to that generated URL is printed.
  *
  * @since 2.3.0
- * @uses $wp_styles WordPress Styles Object
  *
- * @param string $file Optional. Style handle name or file name (without ".css" extension) relative
- * 	 to wp-admin/. Defaults to 'wp-admin'.
- * @param bool $force_echo Optional. Force the stylesheet link to be printed rather than enqueued.
+ * @param string $file       Optional. Style handle name or file name (without ".css" extension) relative
+ * 	                         to wp-admin/. Defaults to 'wp-admin'.
+ * @param bool   $force_echo Optional. Force the stylesheet link to be printed rather than enqueued.
  */
 function wp_admin_css( $file = 'wp-admin', $force_echo = false ) {
-	global $wp_styles;
-	if ( ! ( $wp_styles instanceof WP_Styles ) ) {
-		$wp_styles = new WP_Styles();
-	}
-
 	// For backward compatibility
 	$handle = 0 === strpos( $file, 'css/' ) ? substr( $file, 4 ) : $file;
 
-	if ( $wp_styles->query( $handle ) ) {
+	if ( wp_styles()->query( $handle ) ) {
 		if ( $force_echo || did_action( 'wp_print_styles' ) ) // we already printed the style queue. Print this one immediately
 			wp_print_styles( $handle );
 		else // Add to style queue
@@ -2997,7 +3043,7 @@ function the_generator( $type ) {
  * @since 2.5.0
  *
  * @param string $type The type of generator to return - (html|xhtml|atom|rss2|rdf|comment|export).
- * @return string The HTML content for the generator.
+ * @return string|void The HTML content for the generator.
  */
 function get_the_generator( $type = '' ) {
 	if ( empty( $type ) ) {
@@ -3073,7 +3119,7 @@ function get_the_generator( $type = '' ) {
  *
  * @param mixed $checked One of the values to compare
  * @param mixed $current (true) The other value to compare if not just true
- * @param bool $echo Whether to echo or just return the string
+ * @param bool  $echo    Whether to echo or just return the string
  * @return string html attribute or empty string
  */
 function checked( $checked, $current = true, $echo = true ) {
@@ -3088,8 +3134,8 @@ function checked( $checked, $current = true, $echo = true ) {
  * @since 1.0.0
  *
  * @param mixed $selected One of the values to compare
- * @param mixed $current (true) The other value to compare if not just true
- * @param bool $echo Whether to echo or just return the string
+ * @param mixed $current  (true) The other value to compare if not just true
+ * @param bool  $echo     Whether to echo or just return the string
  * @return string html attribute or empty string
  */
 function selected( $selected, $current = true, $echo = true ) {
@@ -3104,8 +3150,8 @@ function selected( $selected, $current = true, $echo = true ) {
  * @since 3.0.0
  *
  * @param mixed $disabled One of the values to compare
- * @param mixed $current (true) The other value to compare if not just true
- * @param bool $echo Whether to echo or just return the string
+ * @param mixed $current  (true) The other value to compare if not just true
+ * @param bool  $echo     Whether to echo or just return the string
  * @return string html attribute or empty string
  */
 function disabled( $disabled, $current = true, $echo = true ) {
@@ -3120,10 +3166,10 @@ function disabled( $disabled, $current = true, $echo = true ) {
  * @since 2.8.0
  * @access private
  *
- * @param mixed $helper One of the values to compare
- * @param mixed $current (true) The other value to compare if not just true
- * @param bool $echo Whether to echo or just return the string
- * @param string $type The type of checked|selected|disabled we are doing
+ * @param mixed  $helper  One of the values to compare
+ * @param mixed  $current (true) The other value to compare if not just true
+ * @param bool   $echo    Whether to echo or just return the string
+ * @param string $type    The type of checked|selected|disabled we are doing
  * @return string html attribute or empty string
  */
 function __checked_selected_helper( $helper, $current, $echo, $type ) {

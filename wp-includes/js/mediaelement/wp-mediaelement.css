@@ -106,10 +106,14 @@
 }
 
 .media-embed-details .setting p,
-.media-embed-details .setting a {
+.media-embed-details .setting .remove-setting {
 	color: #a00;
 	font-size: 10px;
 	text-transform: uppercase;
+}
+
+.media-embed-details .setting .remove-setting {
+	padding: 0;
 }
 
 .media-embed-details .setting a:hover {

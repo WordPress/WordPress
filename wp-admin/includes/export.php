@@ -20,6 +20,9 @@ define( 'WXR_VERSION', '1.2' );
  *
  * @since 2.1.0
  *
+ * @global wpdb    $wpdb
+ * @global WP_Post $post
+ *
  * @param array $args Filters defining what should be included in the export.
  */
 function export_wp( $args = array() ) {
@@ -130,9 +133,9 @@ function export_wp( $args = array() ) {
 	 * @return string
 	 */
 	function wxr_cdata( $str ) {
-		if ( seems_utf8( $str ) == false )
+		if ( ! seems_utf8( $str ) ) {
 			$str = utf8_encode( $str );
-
+		}
 		// $str = ent2ncr(esc_html($str));
 		$str = '<![CDATA[' . str_replace( ']]>', ']]]]><![CDATA[>', $str ) . ']]>';
 
@@ -244,6 +247,8 @@ function export_wp( $args = array() ) {
 	 *
 	 * @since 3.1.0
 	 *
+	 * @global wpdb $wpdb
+	 *
 	 * @param array $post_ids Array of post IDs to filter the query by. Optional.
 	 */
 	function wxr_authors_list( array $post_ids = null ) {
@@ -310,6 +315,12 @@ function export_wp( $args = array() ) {
 		}
 	}
 
+	/**
+	 *
+	 * @param bool   $return_me
+	 * @param string $meta_key
+	 * @return boolean
+	 */
 	function wxr_filter_postmeta( $return_me, $meta_key ) {
 		if ( '_edit_lock' == $meta_key )
 			$return_me = true;
@@ -375,6 +386,9 @@ function export_wp( $args = array() ) {
 	?>
 
 <?php if ( $post_ids ) {
+	/**
+	 * @global WP_Query $wp_query
+	 */
 	global $wp_query;
 
 	// Fake being in the loop.
