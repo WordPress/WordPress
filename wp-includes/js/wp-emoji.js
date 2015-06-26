@@ -70,7 +70,7 @@
 								node = node.parentNode;
 							}
 
-							if ( ! node || node.nodeType !== 1 || ( 'ownerSVGElement' in node ) ||
+							if ( ! node || node.nodeType !== 1 ||
 								( node.className && typeof node.className === 'string' && node.className.indexOf( 'wp-exclude-emoji' ) !== -1 ) ) {
 
 								continue;
@@ -120,6 +120,8 @@
 		 * @param {Object} args Additional options for Twemoji.
 		 */
 		function parse( object, args ) {
+			var params;
+
 			if ( ! replaceEmoji || ! twemoji || ! object ||
 				( 'string' !== typeof object && ( ! object.childNodes || ! object.childNodes.length ) ) ) {
 
@@ -127,12 +129,10 @@
 			}
 
 			args = args || {};
-
-			return twemoji.parse( object, {
+			params = {
 				base: settings.baseUrl,
 				ext: settings.ext,
 				className: args.className || 'emoji',
-				imgAttr: args.imgAttr,
 				callback: function( icon, options ) {
 					// Ignore some standard characters that TinyMCE recommends in its character map.
 					switch ( icon ) {
@@ -155,7 +155,15 @@
 
 					return ''.concat( options.base, icon, options.ext );
 				}
-			} );
+			};
+
+			if ( typeof args.imgAttr === 'object' ) {
+				params.attributes = function() {
+					return args.imgAttr;
+				};
+			}
+
+			return twemoji.parse( object, params );
 		}
 
 		/**
