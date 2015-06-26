@@ -88,6 +88,10 @@
 				}
 			}
 
+			if ( ! child ) {
+				return;
+			}
+
 			if ( ! child.nodeValue ) {
 				child = child.nextSibling;
 			}
