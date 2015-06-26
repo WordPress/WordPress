@@ -94,9 +94,10 @@ var wpLink;
 		},
 
 		open: function( editorId ) {
-			var ed;
+			var ed,
+				$body = $( document.body );
 
-			$( document.body ).addClass( 'modal-open' );
+			$body.addClass( 'modal-open' );
 
 			wpLink.range = null;
 
@@ -111,6 +112,12 @@ var wpLink;
 			this.textarea = $( '#' + window.wpActiveEditor ).get( 0 );
 
 			if ( typeof tinymce !== 'undefined' ) {
+				// Make sure the link wrapper is the last element in the body.
+				// Fixes z-index bug in iOS.
+				if ( tinymce.Env.iOS ) {
+					$body.append( inputs.backdrop, inputs.wrap );
+				}
+
 				ed = tinymce.get( wpActiveEditor );
 
 				if ( ed && ! ed.isHidden() ) {
