@@ -1018,14 +1018,30 @@ final class _WP_Editors {
 			'Format' => _x( 'Format', 'TinyMCE menu' ),
 
 			// WordPress strings
-			'Keyboard Shortcuts' => __( 'Keyboard Shortcuts' ),
 			'Toolbar Toggle' => __( 'Toolbar Toggle' ),
 			'Insert Read More tag' => __( 'Insert Read More tag' ),
+			'Insert Page Break tag' => __( 'Insert Page Break tag' ),
 			'Read more...' => __( 'Read more...' ), // Title on the placeholder inside the editor
 			'Distraction-free writing mode' => __( 'Distraction-free writing mode' ),
 			'No alignment' => __( 'No alignment' ), // Tooltip for the 'alignnone' button in the image toolbar
 			'Remove' => __( 'Remove' ), // Tooltip for the 'remove' button in the image toolbar
 			'Edit ' => __( 'Edit' ), // Tooltip for the 'edit' button in the image toolbar
+
+			// Shortcuts help modal
+			'Keyboard Shortcuts' => __( 'Keyboard Shortcuts' ),
+			'Default shortcuts,' => __( 'Default shortcuts,' ),
+			'Additional shortcuts,' => __( 'Additional shortcuts,' ),
+			'Focus shortcuts:' => __( 'Focus shortcuts:' ),
+			'Inline toolbar (when an image, link or preview is selected)' => __( 'Inline toolbar (when an image, link or preview is selected)' ),
+			'Editor menu (when enabled)' => __( 'Editor menu (when enabled)' ),
+			'Editor toolbar' => __( 'Editor toolbar' ),
+			'Elements path' => __( 'Elements path' ),
+			'Ctrl + Alt + letter:' => __( 'Ctrl + Alt + letter:' ),
+			'Shift + Alt + letter:' => __( 'Shift + Alt + letter:' ),
+			'Cmd + letter:' => __( 'Cmd + letter:' ),
+			'Ctrl + letter:' => __( 'Ctrl + letter:' ),
+			'Letter' => __( 'Letter' ),
+			'Action' => __( 'Action' ),
 		);
 
 		/**

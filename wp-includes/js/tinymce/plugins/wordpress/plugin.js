@@ -201,15 +201,87 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 	});
 
 	editor.addCommand( 'WP_Help', function() {
-		editor.windowManager.open({
-			url: tinymce.baseURL + '/wp-mce-help.php',
+		var access = tinymce.Env.mac ? __( 'Ctrl + Alt + letter:' ) : __( 'Shift + Alt + letter:' ),
+			meta = tinymce.Env.mac ? __( 'Cmd + letter:' ) : __( 'Ctrl + letter:' ),
+			table1 = [],
+			table2 = [],
+			header;
+
+		each( [
+			{ c: 'Copy',      x: 'Cut'              },
+			{ v: 'Paste',     a: 'Select all'       },
+			{ z: 'Undo',      y: 'Redo'             },
+			{ b: 'Bold',      i: 'Italic'           },
+			{ u: 'Underline', k: 'Insert/edit link' }
+		], function( row ) {
+			table1.push( tr( row ) );
+		} );
+
+		each( [
+			{ 1: 'Heading 1',             2: 'Heading 2'                     },
+			{ 3: 'Heading 3',             4: 'Heading 4'                     },
+			{ 5: 'Heading 5',             6: 'Heading 6'                     },
+			{ l: 'Align left',            c: 'Align center'                  },
+			{ r: 'Align right',           j: 'Justify'                       },
+			{ d: 'Strikethrough',         q: 'Blockquote'                    },
+			{ u: 'Bullet list',           o: 'Numbered list'                 },
+			{ a: 'Insert/edit link',      s: 'Remove link'                   },
+			{ m: 'Insert/edit image',     t: 'Insert Read More tag'          },
+			{ h: 'Keyboard Shortcuts',    x: 'Code'                          },
+			{ p: 'Insert Page Break tag', w: 'Distraction-free writing mode' }
+		], function( row ) {
+			table2.push( tr( row ) );
+		} );
+
+		function tr( row ) {
+			var out = '<tr>';
+
+			each( row, function( text, key ) {
+				if ( ! text ) {
+					out += '<th></th><td></td>';
+				} else {
+					out += '<th><kbd>' + key + '</kbd></th><td>' + __( text ) + '</td>';
+				}
+			});
+
+			return out + '</tr>';
+		}
+
+		header = [ __( 'Letter' ), __( 'Action' ), __( 'Letter' ), __( 'Action' ) ];
+		header = '<tr class="wp-help-header"><td>' + header.join( '</td><td>' ) + '</td></tr>';
+
+		editor.windowManager.open( {
 			title: 'Keyboard Shortcuts',
-			width: 450,
-			height: 420,
-			classes: 'wp-help',
-			buttons: { text: 'Close', onclick: 'close' }
-		});
-	});
+			items: {
+				type: 'container',
+				classes: 'wp-help',
+				html: (
+					'<div class="wp-editor-help">' +
+					'<p>' + __( 'Default shortcuts,' ) + ' ' + meta + '</p>' +
+					'<table>' +
+						header +
+						table1.join('') +
+					'</table>' +
+					'<p>' + __( 'Additional shortcuts,' ) + ' ' + access + '</p>' +
+					'<table>' +
+						header +
+						table2.join('') +
+					'</table>' +
+					'<p>' + __( 'Focus shortcuts:' ) + '</p>' +
+					'<table>' +
+						tr({ 'Alt + F8':  'Inline toolbar (when an image, link or preview is selected)' }) +
+						tr({ 'Alt + F9':  'Editor menu (when enabled)' }) +
+						tr({ 'Alt + F10': 'Editor toolbar' }) +
+						tr({ 'Alt + F11': 'Elements path' }) +
+					'</table></div>'
+				)
+			},
+			buttons: {
+				text: 'Close',
+				onclick: 'close'
+			}
+		} );
+	} );
 
 	editor.addCommand( 'WP_Medialib', function() {
 		if ( wp && wp.media && wp.media.editor ) {
