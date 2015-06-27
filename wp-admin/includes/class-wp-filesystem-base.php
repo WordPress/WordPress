@@ -492,7 +492,7 @@ class WP_Filesystem_Base {
 	 * @since 2.5.0
 	 * @abstract
 	 * @param string $dir The new current directory.
-	 * @return bool Returns true on success or false on failure.
+	 * @return bool|string
 	 */
 	public function chdir( $dir ) {
 		return false;
@@ -506,7 +506,7 @@ class WP_Filesystem_Base {
 	 * @param string $file      Path to the file.
 	 * @param mixed  $group     A group name or number.
 	 * @param bool   $recursive Optional. If set True changes file group recursively. Defaults to False.
-	 * @return bool Returns true on success or false on failure.
+	 * @return bool|string
 	 */
 	public function chgrp( $file, $group, $recursive = false ) {
 		return false;
@@ -520,7 +520,7 @@ class WP_Filesystem_Base {
 	 * @param string $file      Path to the file.
 	 * @param int    $mode      Optional. The permissions as octal number, usually 0644 for files, 0755 for dirs.
 	 * @param bool   $recursive Optional. If set True changes file group recursively. Defaults to False.
-	 * @return bool Returns true on success or false on failure.
+	 * @return bool|string
 	 */
 	public function chmod( $file, $mode = false, $recursive = false ) {
 		return false;
