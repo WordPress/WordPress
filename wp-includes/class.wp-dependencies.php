@@ -331,7 +331,7 @@ class WP_Dependencies {
 	 *
 	 * @param array  $queue  An array of queued _WP_Dependency handle objects.
 	 * @param string $handle Name of the item. Should be unique.
-	 * @return boolean Whether the handle is found after recursively searching the dependency tree.
+	 * @return bool Whether the handle is found after recursively searching the dependency tree.
 	 */
 	protected function recurse_deps( $queue, $handle ) {
 		foreach ( $queue as $queued ) {

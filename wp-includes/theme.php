@@ -1159,7 +1159,7 @@ function get_random_header_image() {
  * @since 3.2.0
  *
  * @param string $type The random pool to use. any|default|uploaded
- * @return boolean
+ * @return bool
  */
 function is_random_header_image( $type = 'any' ) {
 	$header_image_mod = get_theme_mod( 'header_image', get_theme_support( 'custom-header', 'default-image' ) );

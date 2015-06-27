@@ -43,7 +43,7 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 	 * @access public
 	 *
 	 * @param array $args
-	 * @return boolean
+	 * @return bool
 	 */
 	public static function test( $args = array() ) {
 
@@ -93,7 +93,7 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 	 * @access public
 	 *
 	 * @param string $mime_type
-	 * @return boolean
+	 * @return bool
 	 */
 	public static function supports_mime_type( $mime_type ) {
 		$imagick_extension = strtoupper( self::get_extension( $mime_type ) );
@@ -233,8 +233,8 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 	 *
 	 * @param  int|null $max_w Image width.
 	 * @param  int|null $max_h Image height.
-	 * @param  boolean  $crop
-	 * @return boolean|WP_Error
+	 * @param  bool     $crop
+	 * @return bool|WP_Error
 	 */
 	public function resize( $max_w, $max_h, $crop = false ) {
 		if ( ( $this->size['width'] == $max_w ) && ( $this->size['height'] == $max_h ) )
@@ -338,14 +338,14 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 	 * @since 3.5.0
 	 * @access public
 	 *
-	 * @param int $src_x The start x position to crop from.
-	 * @param int $src_y The start y position to crop from.
-	 * @param int $src_w The width to crop.
-	 * @param int $src_h The height to crop.
-	 * @param int $dst_w Optional. The destination width.
-	 * @param int $dst_h Optional. The destination height.
-	 * @param boolean $src_abs Optional. If the source crop points are absolute.
-	 * @return boolean|WP_Error
+	 * @param int  $src_x The start x position to crop from.
+	 * @param int  $src_y The start y position to crop from.
+	 * @param int  $src_w The width to crop.
+	 * @param int  $src_h The height to crop.
+	 * @param int  $dst_w Optional. The destination width.
+	 * @param int  $dst_h Optional. The destination height.
+	 * @param bool $src_abs Optional. If the source crop points are absolute.
+	 * @return bool|WP_Error
 	 */
 	public function crop( $src_x, $src_y, $src_w, $src_h, $dst_w = null, $dst_h = null, $src_abs = false ) {
 		if ( $src_abs ) {
@@ -411,8 +411,8 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 	 * @since 3.5.0
 	 * @access public
 	 *
-	 * @param boolean $horz Flip along Horizontal Axis
-	 * @param boolean $vert Flip along Vertical Axis
+	 * @param bool $horz Flip along Horizontal Axis
+	 * @param bool $vert Flip along Vertical Axis
 	 * @returns true|WP_Error
 	 */
 	public function flip( $horz, $vert ) {

@@ -1255,7 +1255,7 @@ class WP_Http_Streams {
 	 * @since 2.7.0
 	 * @since 3.7.0 Combined with the fsockopen transport and switched to stream_socket_client().
 	 *
-	 * @return boolean False means this class can not be used, true means it can.
+	 * @return bool False means this class can not be used, true means it can.
 	 */
 	public static function test( $args = array() ) {
 		if ( ! function_exists( 'stream_socket_client' ) )
@@ -1634,7 +1634,7 @@ class WP_Http_Curl {
 	 * @static
 	 * @since 2.7.0
 	 *
-	 * @return boolean False means this class can not be used, true means it can.
+	 * @return bool False means this class can not be used, true means it can.
 	 */
 	public static function test( $args = array() ) {
 		if ( ! function_exists( 'curl_init' ) || ! function_exists( 'curl_exec' ) )
@@ -2009,7 +2009,7 @@ class WP_Http_Cookie {
 	 * @since 2.8.0
 	 *
 	 * @param string $url URL you intend to send this cookie to
-	 * @return boolean true if allowed, false otherwise.
+	 * @return bool true if allowed, false otherwise.
 	 */
 	public function test( $url ) {
 		if ( is_null( $this->name ) )

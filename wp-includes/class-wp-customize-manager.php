@@ -38,7 +38,7 @@ final class WP_Customize_Manager {
 	/**
 	 * Whether this is a Customizer pageload.
 	 *
-	 * @var boolean
+	 * @var bool
 	 */
 	protected $previewing = false;
 

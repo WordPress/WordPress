@@ -1482,9 +1482,9 @@ function get_settings_errors( $setting = '', $sanitize = false ) {
  *
  * @since 3.0.0
  *
- * @param string $setting Optional slug title of a specific setting who's errors you want.
- * @param boolean $sanitize Whether to re-sanitize the setting value before returning errors.
- * @param boolean $hide_on_update If set to true errors will not be shown if the settings page has already been submitted.
+ * @param string $setting        Optional slug title of a specific setting who's errors you want.
+ * @param bool   $sanitize       Whether to re-sanitize the setting value before returning errors.
+ * @param bool   $hide_on_update If set to true errors will not be shown if the settings page has already been submitted.
  */
 function settings_errors( $setting = '', $sanitize = false, $hide_on_update = false ) {
 

@@ -299,8 +299,8 @@ function signup_another_blog( $blogname = '', $blog_title = '', $errors = '' ) {
  *
  * @since MU
  *
- * @return null|boolean True if blog signup was validated, false if error.
- *                      The function halts all execution if the user is not logged in.
+ * @return null|bool True if blog signup was validated, false if error.
+ *                   The function halts all execution if the user is not logged in.
  */
 function validate_another_blog_signup() {
 	global $wpdb, $blogname, $blog_title, $errors, $domain, $path;

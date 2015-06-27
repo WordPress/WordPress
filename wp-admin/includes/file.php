@@ -837,7 +837,7 @@ function copy_dir($from, $to, $skip_list = array() ) {
  *                                                   the `WP_Filesystem_*()` classes. Default false.
  * @param string|false $context                      Optional. Context for get_filesystem_method(). Default false.
  * @param bool         $allow_relaxed_file_ownership Optional. Whether to allow Group/World writable. Default false.
- * @return null|boolean false on failure, true on success.
+ * @return null|bool false on failure, true on success.
  */
 function WP_Filesystem( $args = false, $context = false, $allow_relaxed_file_ownership = false ) {
 	global $wp_filesystem;
@@ -996,13 +996,13 @@ function get_filesystem_method( $args = array(), $context = false, $allow_relaxe
  *
  * @todo Properly mark optional arguments as such
  *
- * @param string $form_post the URL to post the form to
- * @param string $type the chosen Filesystem method in use
- * @param boolean $error if the current request has failed to connect
- * @param string $context The directory which is needed access to, The write-test will be performed on this directory by get_filesystem_method()
- * @param array $extra_fields Extra POST fields which should be checked for to be included in the post.
- * @param bool $allow_relaxed_file_ownership Whether to allow Group/World writable.
- * @return boolean False on failure. True on success.
+ * @param string $form_post    the URL to post the form to
+ * @param string $type         the chosen Filesystem method in use
+ * @param bool   $error        if the current request has failed to connect
+ * @param string $context      The directory which is needed access to, The write-test will be performed on this directory by get_filesystem_method()
+ * @param array  $extra_fields Extra POST fields which should be checked for to be included in the post.
+ * @param bool   $allow_relaxed_file_ownership Whether to allow Group/World writable.
+ * @return bool False on failure. True on success.
  */
 function request_filesystem_credentials($form_post, $type = '', $error = false, $context = false, $extra_fields = null, $allow_relaxed_file_ownership = false ) {
 

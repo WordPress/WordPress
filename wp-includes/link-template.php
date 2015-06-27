@@ -2057,8 +2057,8 @@ function get_next_posts_page_link($max_page = 0) {
  *
  * @since 0.71
  *
- * @param int     $max_page Optional. Max pages.
- * @param boolean $echo     Optional. Echo or return;
+ * @param int   $max_page Optional. Max pages.
+ * @param bool  $echo     Optional. Echo or return;
  * @return string|void The link URL for next posts page if `$echo = false`.
  */
 function next_posts( $max_page = 0, $echo = true ) {
@@ -2151,7 +2151,7 @@ function get_previous_posts_page_link() {
  *
  * @since 0.71
  *
- * @param boolean $echo Optional. Echo or return;
+ * @param bool $echo Optional. Echo or return;
  * @return string|void The previous posts page link if `$echo = false`.
  */
 function previous_posts( $echo = true ) {

@@ -37,7 +37,7 @@ abstract class WP_Image_Editor {
 	 * @abstract
 	 *
 	 * @param array $args
-	 * @return boolean
+	 * @return bool
 	 */
 	public static function test( $args = array() ) {
 		return false;
@@ -54,7 +54,7 @@ abstract class WP_Image_Editor {
 	 * @abstract
 	 *
 	 * @param string $mime_type
-	 * @return boolean
+	 * @return bool
 	 */
 	public static function supports_mime_type( $mime_type ) {
 		return false;
@@ -67,7 +67,7 @@ abstract class WP_Image_Editor {
 	 * @access protected
 	 * @abstract
 	 *
-	 * @return boolean|WP_Error True if loaded; WP_Error on failure.
+	 * @return bool|WP_Error True if loaded; WP_Error on failure.
 	 */
 	abstract public function load();
 
@@ -97,8 +97,8 @@ abstract class WP_Image_Editor {
 	 *
 	 * @param  int|null $max_w Image width.
 	 * @param  int|null $max_h Image height.
-	 * @param  boolean  $crop
-	 * @return boolean|WP_Error
+	 * @param  bool     $crop
+	 * @return bool|WP_Error
 	 */
 	abstract public function resize( $max_w, $max_h, $crop = false );
 
@@ -135,8 +135,8 @@ abstract class WP_Image_Editor {
 	 * @param int $src_h The height to crop.
 	 * @param int $dst_w Optional. The destination width.
 	 * @param int $dst_h Optional. The destination height.
-	 * @param boolean $src_abs Optional. If the source crop points are absolute.
-	 * @return boolean|WP_Error
+	 * @param bool $src_abs Optional. If the source crop points are absolute.
+	 * @return bool|WP_Error
 	 */
 	abstract public function crop( $src_x, $src_y, $src_w, $src_h, $dst_w = null, $dst_h = null, $src_abs = false );
 
@@ -148,7 +148,7 @@ abstract class WP_Image_Editor {
 	 * @abstract
 	 *
 	 * @param float $angle
-	 * @return boolean|WP_Error
+	 * @return bool|WP_Error
 	 */
 	abstract public function rotate( $angle );
 
@@ -159,9 +159,9 @@ abstract class WP_Image_Editor {
 	 * @access public
 	 * @abstract
 	 *
-	 * @param boolean $horz Flip along Horizontal Axis
-	 * @param boolean $vert Flip along Vertical Axis
-	 * @return boolean|WP_Error
+	 * @param bool $horz Flip along Horizontal Axis
+	 * @param bool $vert Flip along Vertical Axis
+	 * @return bool|WP_Error
 	 */
 	abstract public function flip( $horz, $vert );
 
@@ -173,7 +173,7 @@ abstract class WP_Image_Editor {
 	 * @abstract
 	 *
 	 * @param string $mime_type
-	 * @return boolean|WP_Error
+	 * @return bool|WP_Error
 	 */
 	abstract public function stream( $mime_type = null );
 
@@ -410,7 +410,7 @@ abstract class WP_Image_Editor {
 	 * @param string|stream $filename
 	 * @param callable $function
 	 * @param array $arguments
-	 * @return boolean
+	 * @return bool
 	 */
 	protected function make_image( $filename, $function, $arguments ) {
 		if ( $stream = wp_is_stream( $filename ) ) {

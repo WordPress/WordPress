@@ -87,7 +87,7 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 	 * @since 3.5.0
 	 * @access protected
 	 *
-	 * @return boolean|WP_Error True if loaded successfully; WP_Error on failure.
+	 * @return bool|WP_Error True if loaded successfully; WP_Error on failure.
 	 */
 	public function load() {
 		if ( $this->image )
@@ -160,7 +160,7 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 	 *
 	 * @param  int|null $max_w Image width.
 	 * @param  int|null $max_h Image height.
-	 * @param  boolean  $crop
+	 * @param  bool     $crop
 	 * @return true|WP_Error
 	 */
 	public function resize( $max_w, $max_h, $crop = false ) {
@@ -272,14 +272,14 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 	 * @since 3.5.0
 	 * @access public
 	 *
-	 * @param int $src_x The start x position to crop from.
-	 * @param int $src_y The start y position to crop from.
-	 * @param int $src_w The width to crop.
-	 * @param int $src_h The height to crop.
-	 * @param int $dst_w Optional. The destination width.
-	 * @param int $dst_h Optional. The destination height.
-	 * @param boolean $src_abs Optional. If the source crop points are absolute.
-	 * @return boolean|WP_Error
+	 * @param int  $src_x   The start x position to crop from.
+	 * @param int  $src_y   The start y position to crop from.
+	 * @param int  $src_w   The width to crop.
+	 * @param int  $src_h   The height to crop.
+	 * @param int  $dst_w   Optional. The destination width.
+	 * @param int  $dst_h   Optional. The destination height.
+	 * @param bool $src_abs Optional. If the source crop points are absolute.
+	 * @return bool|WP_Error
 	 */
 	public function crop( $src_x, $src_y, $src_w, $src_h, $dst_w = null, $dst_h = null, $src_abs = false ) {
 		// If destination width/height isn't specified, use same as
@@ -344,8 +344,8 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 	 * @since 3.5.0
 	 * @access public
 	 *
-	 * @param boolean $horz Flip along Horizontal Axis
-	 * @param boolean $vert Flip along Vertical Axis
+	 * @param bool $horz Flip along Horizontal Axis
+	 * @param bool $vert Flip along Vertical Axis
 	 * @returns true|WP_Error
 	 */
 	public function flip( $horz, $vert ) {
@@ -476,7 +476,7 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 	 * @param string|stream $filename
 	 * @param callable $function
 	 * @param array $arguments
-	 * @return boolean
+	 * @return bool
 	 */
 	protected function make_image( $filename, $function, $arguments ) {
 		if ( wp_is_stream( $filename ) )

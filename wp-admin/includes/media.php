@@ -1493,7 +1493,7 @@ function get_media_item( $attachment_id, $args = null ) {
 	}
 	if ( 'image' == $type && $calling_post_id && current_theme_supports( 'post-thumbnails', get_post_type( $calling_post_id ) )
 		&& post_type_supports( get_post_type( $calling_post_id ), 'thumbnail' ) && get_post_thumbnail_id( $calling_post_id ) != $attachment_id ) {
-		
+
 		$calling_post = get_post( $calling_post_id );
 		$calling_post_type_object = get_post_type_object( $calling_post->post_type );
 
@@ -1743,11 +1743,11 @@ function media_upload_header() {
 
 	$post_id = isset( $_REQUEST['post_id'] ) ? intval( $_REQUEST['post_id'] ) : 0;
 
-	if ( ! empty( $post_id ) ) { 
-		$post_type = get_post_type( $post_id ); 
+	if ( ! empty( $post_id ) ) {
+		$post_type = get_post_type( $post_id );
 	} else {
-		$post_type = ''; 
-	} 
+		$post_type = '';
+	}
 
 	echo '<script type="text/javascript">post_id = ' . $post_id . ';post_type = ' . $post_type . ';</script>';
 	if ( empty( $_GET['chromeless'] ) ) {
@@ -3024,7 +3024,7 @@ function wp_read_video_metadata( $file ) {
  * @since 3.6.0
  *
  * @param string $file Path to file.
- * @return array|boolean Returns array of metadata, if found.
+ * @return array|bool Returns array of metadata, if found.
  */
 function wp_read_audio_metadata( $file ) {
 	if ( ! file_exists( $file ) )

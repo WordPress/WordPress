@@ -319,7 +319,7 @@ function export_wp( $args = array() ) {
 	 *
 	 * @param bool   $return_me
 	 * @param string $meta_key
-	 * @return boolean
+	 * @return bool
 	 */
 	function wxr_filter_postmeta( $return_me, $meta_key ) {
 		if ( '_edit_lock' == $meta_key )

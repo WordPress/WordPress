@@ -615,7 +615,7 @@ function has_action($tag, $function_to_check = false) {
  * @param string   $tag                The action hook to which the function to be removed is hooked.
  * @param callback $function_to_remove The name of the function which should be removed.
  * @param int      $priority           Optional. The priority of the function. Default 10.
- * @return boolean Whether the function is removed.
+ * @return bool Whether the function is removed.
  */
 function remove_action( $tag, $function_to_remove, $priority = 10 ) {
 	return remove_filter( $tag, $function_to_remove, $priority );
