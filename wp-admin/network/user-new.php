@@ -70,7 +70,7 @@ $parent_file = 'users.php';
 require( ABSPATH . 'wp-admin/admin-header.php' ); ?>
 
 <div class="wrap">
-<h2 id="add-new-user"><?php _e('Add New User') ?></h2>
+<h1 id="add-new-user"><?php _e( 'Add New User' ); ?></h1>
 <?php
 if ( ! empty( $messages ) ) {
 	foreach ( $messages as $msg )

@@ -33,7 +33,7 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 
 ?>
 <div class="wrap">
-<h2><?php echo esc_html( $title ); ?></h2>
+<h1><?php echo esc_html( $title ); ?></h1>
 
 <?php if ( current_user_can('edit_posts') ) : ?>
 <div class="card pressthis">

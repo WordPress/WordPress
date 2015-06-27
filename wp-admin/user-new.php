@@ -237,13 +237,13 @@ if ( isset($_GET['update']) ) {
 }
 ?>
 <div class="wrap">
-<h2 id="add-new-user"> <?php
+<h1 id="add-new-user"><?php
 if ( current_user_can( 'create_users' ) ) {
 	echo _x( 'Add New User', 'user' );
 } elseif ( current_user_can( 'promote_users' ) ) {
 	echo _x( 'Add Existing User', 'user' );
 } ?>
-</h2>
+</h1>
 
 <?php if ( isset($errors) && is_wp_error( $errors ) ) : ?>
 	<div class="error">

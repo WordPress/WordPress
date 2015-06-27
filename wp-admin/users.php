@@ -214,7 +214,7 @@ case 'delete':
 <?php echo $referer; ?>
 
 <div class="wrap">
-<h2><?php _e('Delete Users'); ?></h2>
+<h1><?php _e( 'Delete Users' ); ?></h1>
 <?php if ( isset( $_REQUEST['error'] ) ) : ?>
 	<div class="error">
 		<p><strong><?php _e( 'ERROR:' ); ?></strong> <?php _e( 'Please select an option.' ); ?></p>
@@ -336,7 +336,7 @@ case 'remove':
 <?php echo $referer; ?>
 
 <div class="wrap">
-<h2><?php _e('Remove Users from Site'); ?></h2>
+<h1><?php _e( 'Remove Users from Site' ); ?></h1>
 <p><?php _e('You have specified these users for removal:'); ?></p>
 <ul>
 <?php
@@ -443,7 +443,7 @@ if ( ! empty($messages) ) {
 } ?>
 
 <div class="wrap">
-<h2>
+<h1>
 <?php
 echo esc_html( $title );
 if ( current_user_can( 'create_users' ) ) { ?>
@@ -454,7 +454,7 @@ if ( current_user_can( 'create_users' ) ) { ?>
 
 if ( $usersearch )
 	printf( '<span class="subtitle">' . __('Search results for &#8220;%s&#8221;') . '</span>', esc_html( $usersearch ) ); ?>
-</h2>
+</h1>
 
 <?php $wp_list_table->views(); ?>
 

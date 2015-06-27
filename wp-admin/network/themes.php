@@ -86,7 +86,7 @@ if ( $action ) {
 			require_once(ABSPATH . 'wp-admin/admin-header.php');
 
 			echo '<div class="wrap">';
-			echo '<h2>' . esc_html( $title ) . '</h2>';
+			echo '<h1>' . esc_html( $title ) . '</h1>';
 
 			$url = self_admin_url('update.php?action=update-selected-themes&amp;themes=' . urlencode( join(',', $themes) ));
 			$url = wp_nonce_url($url, 'bulk-update-themes');
@@ -150,11 +150,11 @@ if ( $action ) {
 				?>
 			<div class="wrap">
 				<?php if ( 1 == $themes_to_delete ) : ?>
-					<h2><?php _e( 'Delete Theme' ); ?></h2>
+					<h1><?php _e( 'Delete Theme' ); ?></h1>
 					<div class="error"><p><strong><?php _e( 'Caution:' ); ?></strong> <?php _e( 'This theme may be active on other sites in the network.' ); ?></p></div>
 					<p><?php _e( 'You are about to remove the following theme:' ); ?></p>
 				<?php else : ?>
-					<h2><?php _e( 'Delete Themes' ); ?></h2>
+					<h1><?php _e( 'Delete Themes' ); ?></h1>
 					<div class="error"><p><strong><?php _e( 'Caution:' ); ?></strong> <?php _e( 'These themes may be active on other sites in the network.' ); ?></p></div>
 					<p><?php _e( 'You are about to remove the following themes:' ); ?></p>
 				<?php endif; ?>
@@ -261,10 +261,10 @@ require_once(ABSPATH . 'wp-admin/admin-header.php');
 ?>
 
 <div class="wrap">
-<h2><?php echo esc_html( $title ); if ( current_user_can('install_themes') ) { ?> <a href="theme-install.php" class="add-new-h2"><?php echo esc_html_x('Add New', 'theme'); ?></a><?php }
+<h1><?php echo esc_html( $title ); if ( current_user_can('install_themes') ) { ?> <a href="theme-install.php" class="add-new-h2"><?php echo esc_html_x('Add New', 'theme'); ?></a><?php }
 if ( $s )
 	printf( '<span class="subtitle">' . __('Search results for &#8220;%s&#8221;') . '</span>', esc_html( $s ) ); ?>
-</h2>
+</h1>
 
 <?php
 if ( isset( $_GET['enabled'] ) ) {

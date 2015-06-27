@@ -26,7 +26,7 @@ function confirm_delete_users( $users ) {
 		return false;
 	}
 	?>
-	<h2><?php esc_html_e( 'Users' ); ?></h2>
+	<h1><?php esc_html_e( 'Users' ); ?></h1>
 
 	<?php if ( 1 == count( $users ) ) : ?>
 		<p><?php _e( 'You have chosen to delete the user from all networks and sites.' ); ?></p>
@@ -309,7 +309,7 @@ if ( isset( $_REQUEST['updated'] ) && $_REQUEST['updated'] == 'true' && ! empty(
 }
 	?>
 <div class="wrap">
-	<h2><?php esc_html_e( 'Users' );
+	<h1><?php esc_html_e( 'Users' );
 	if ( current_user_can( 'create_users') ) : ?>
 		<a href="<?php echo network_admin_url('user-new.php'); ?>" class="add-new-h2"><?php echo esc_html_x( 'Add New', 'user' ); ?></a><?php
 	endif;
@@ -317,7 +317,7 @@ if ( isset( $_REQUEST['updated'] ) && $_REQUEST['updated'] == 'true' && ! empty(
 	if ( !empty( $usersearch ) )
 	printf( '<span class="subtitle">' . __( 'Search results for &#8220;%s&#8221;' ) . '</span>', esc_html( $usersearch ) );
 	?>
-	</h2>
+	</h1>
 
 	<?php $wp_list_table->views(); ?>
 

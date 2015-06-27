@@ -71,14 +71,14 @@ if ( 'grid' === $mode ) {
 	require_once( ABSPATH . 'wp-admin/admin-header.php' );
 	?>
 	<div class="wrap" id="wp-media-grid" data-search="<?php _admin_search_query() ?>">
-		<h2>
+		<h1>
 		<?php
 		echo esc_html( $title );
 		if ( current_user_can( 'upload_files' ) ) { ?>
 			<a href="media-new.php" class="add-new-h2"><?php echo esc_html_x( 'Add New', 'file' ); ?></a><?php
 		}
 		?>
-		</h2>
+		</h1>
 		<div class="error hide-if-js">
 			<p><?php _e( 'The grid view for the Media Library requires JavaScript. <a href="upload.php?mode=list">Switch to the list view</a>.' ); ?></p>
 		</div>
@@ -206,7 +206,7 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 ?>
 
 <div class="wrap">
-<h2>
+<h1>
 <?php
 echo esc_html( $title );
 if ( current_user_can( 'upload_files' ) ) { ?>
@@ -214,7 +214,7 @@ if ( current_user_can( 'upload_files' ) ) { ?>
 }
 if ( ! empty( $_REQUEST['s'] ) )
 	printf( '<span class="subtitle">' . __('Search results for &#8220;%s&#8221;') . '</span>', get_search_query() ); ?>
-</h2>
+</h1>
 
 <?php
 $message = '';

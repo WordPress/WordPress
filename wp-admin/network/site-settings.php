@@ -87,7 +87,7 @@ require( ABSPATH . 'wp-admin/admin-header.php' );
 ?>
 
 <div class="wrap">
-<h2 id="edit-site"><?php echo $title_site_url_linked ?></h2>
+<h1 id="edit-site"><?php echo $title_site_url_linked; ?></h1>
 <h3 class="nav-tab-wrapper">
 <?php
 $tabs = array(

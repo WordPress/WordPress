@@ -328,6 +328,7 @@ h1 {
 	margin: .67em 0;
 }
 
+.wrap > h1,
 h2 {
 	color: #23282d;
 	font-size: 1.5em;
@@ -564,12 +565,14 @@ code {
 	color: #00a0d2;
 }
 
+.wrap h1,
 .wrap h2,
 .subtitle {
 	font-weight: normal;
 	margin: 0;
 }
 
+.wrap h1,
 .wrap h2 {
 	font-size: 23px;
 	font-weight: 400;

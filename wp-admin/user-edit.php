@@ -202,7 +202,7 @@ include(ABSPATH . 'wp-admin/admin-header.php');
 <?php endif; ?>
 
 <div class="wrap" id="profile-page">
-<h2>
+<h1>
 <?php
 echo esc_html( $title );
 if ( ! IS_PROFILE_PAGE ) {
@@ -212,7 +212,7 @@ if ( ! IS_PROFILE_PAGE ) {
 		<a href="user-new.php" class="add-new-h2"><?php echo esc_html_x( 'Add Existing', 'user' ); ?></a>
 	<?php }
 } ?>
-</h2>
+</h1>
 <form id="your-profile" action="<?php echo esc_url( self_admin_url( IS_PROFILE_PAGE ? 'profile.php' : 'user-edit.php' ) ); ?>" method="post" novalidate="novalidate"<?php
 	/**
 	 * Fires inside the your-profile form tag on the user editing screen.

@@ -84,7 +84,7 @@ themes.view.Appearance = wp.Backbone.View.extend({
 	},
 
 	// Defines search element container
-	searchContainer: $( '#wpbody h2:first' ),
+	searchContainer: $( '#wpbody h1:first' ),
 
 	// Search input and view
 	// for current theme collection

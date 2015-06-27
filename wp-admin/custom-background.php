@@ -176,7 +176,7 @@ class Custom_Background {
 	public function admin_page() {
 ?>
 <div class="wrap" id="custom-background">
-<h2><?php _e( 'Custom Background' ); ?></h2>
+<h1><?php _e( 'Custom Background' ); ?></h1>
 
 <?php if ( current_user_can( 'customize' ) ) { ?>
 <div class="notice notice-info hide-if-no-customize">

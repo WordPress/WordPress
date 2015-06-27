@@ -102,7 +102,7 @@ include(ABSPATH . 'wp-admin/admin-header.php');
 
 ?>
 <div class="wrap">
-	<h2><?php
+	<h1><?php
 	echo esc_html( $title );
 
 	/**
@@ -120,7 +120,7 @@ include(ABSPATH . 'wp-admin/admin-header.php');
 		echo ' <a href="#" class="upload add-new-h2">' . __( 'Upload Theme' ) . '</a>';
 		echo ' <a href="#" class="browse-themes add-new-h2">' . _x( 'Browse', 'themes' ) . '</a>';
 	}
-	?></h2>
+	?></h1>
 
 	<div class="upload-theme">
 	<?php install_themes_upload(); ?>

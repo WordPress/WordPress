@@ -226,7 +226,7 @@ if ( 'update' == $action ) {
 include( ABSPATH . 'wp-admin/admin-header.php' ); ?>
 
 <div class="wrap">
-  <h2><?php esc_html_e('All Settings'); ?></h2>
+  <h1><?php esc_html_e( 'All Settings' ); ?></h1>
   <form name="form" action="options.php" method="post" id="all-options">
   <?php wp_nonce_field('options-options') ?>
   <input type="hidden" name="action" value="update" />

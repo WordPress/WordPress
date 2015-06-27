@@ -84,7 +84,7 @@ class WP_Upgrader_Skin {
 		}
 		$this->done_header = true;
 		echo '<div class="wrap">';
-		echo '<h2>' . $this->options['title'] . '</h2>';
+		echo '<h1>' . $this->options['title'] . '</h1>';
 	}
 
 	/**

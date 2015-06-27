@@ -130,7 +130,7 @@ require( ABSPATH . 'wp-admin/admin-header.php' );
 ?>
 
 <div class="wrap">
-<h2 id="add-new-site"><?php _e('Add New Site') ?></h2>
+<h1 id="add-new-site"><?php _e( 'Add New Site' ); ?></h1>
 <?php
 if ( ! empty( $messages ) ) {
 	foreach ( $messages as $msg )

@@ -370,7 +370,13 @@ $(document).ready( function() {
 	}
 
 	// Move .notice, .updated and .error alert boxes. Don't move boxes designed to be inline.
-	$firstHeading = $( 'div.wrap h2:first' );
+	$firstHeading = $( '.wrap > h1:first' );
+
+	// Back compatibility: if there is no H1, apply to first H2.
+	if ( ! $firstHeading.length ) {
+		$firstHeading = $( '.wrap h2:first' );
+	}
+
 	$firstHeading.nextAll( 'div.updated, div.error, div.notice' ).addClass( 'below-h2' );
 	$( 'div.updated, div.error, div.notice' ).not( '.below-h2, .inline' ).insertAfter( $firstHeading );
 

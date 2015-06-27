@@ -39,7 +39,7 @@ if ( ! current_user_can( 'manage_network' ) )
 	wp_die( __( 'You do not have permission to access this page.' ), 403 );
 
 echo '<div class="wrap">';
-echo '<h2>' . __( 'Upgrade Network' ) . '</h2>';
+echo '<h1>' . __( 'Upgrade Network' ) . '</h1>';
 
 $action = isset($_GET['action']) ? $_GET['action'] : 'show';
 

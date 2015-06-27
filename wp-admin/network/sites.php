@@ -67,7 +67,7 @@ if ( isset( $_GET['action'] ) ) {
 		require_once( ABSPATH . 'wp-admin/admin-header.php' );
 		?>
 			<div class="wrap">
-				<h2><?php _e( 'Confirm your action' ); ?></h2>
+				<h1><?php _e( 'Confirm your action' ); ?></h1>
 				<form action="sites.php?action=<?php echo esc_attr( $_GET['action2'] ) ?>" method="post">
 					<input type="hidden" name="action" value="<?php echo esc_attr( $_GET['action2'] ) ?>" />
 					<input type="hidden" name="id" value="<?php echo esc_attr( $id ); ?>" />
@@ -248,7 +248,7 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 ?>
 
 <div class="wrap">
-<h2><?php _e( 'Sites' ) ?>
+<h1><?php _e( 'Sites' ); ?>
 
 <?php if ( current_user_can( 'create_sites') ) : ?>
 	<a href="<?php echo network_admin_url('site-new.php'); ?>" class="add-new-h2"><?php echo esc_html_x( 'Add New', 'site' ); ?></a>
@@ -257,7 +257,7 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 <?php if ( isset( $_REQUEST['s'] ) && $_REQUEST['s'] ) {
 	printf( '<span class="subtitle">' . __( 'Search results for &#8220;%s&#8221;' ) . '</span>', esc_html( $s ) );
 } ?>
-</h2>
+</h1>
 
 <?php echo $msg; ?>
 

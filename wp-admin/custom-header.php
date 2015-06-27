@@ -446,7 +446,7 @@ class Custom_Image_Header {
 ?>
 
 <div class="wrap">
-<h2><?php _e( 'Custom Header' ); ?></h2>
+<h1><?php _e( 'Custom Header' ); ?></h1>
 
 <?php if ( current_user_can( 'customize' ) ) { ?>
 <div class="notice notice-info hide-if-no-customize">
@@ -754,7 +754,7 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 		?>
 
 <div class="wrap">
-<h2><?php _e( 'Crop Header Image' ); ?></h2>
+<h1><?php _e( 'Crop Header Image' ); ?></h1>
 
 <form method="post" action="<?php echo esc_url(add_query_arg('step', 3)); ?>">
 	<p class="hide-if-no-js"><?php _e('Choose the part of the image you want to use as your header.'); ?></p>
