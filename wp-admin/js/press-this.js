@@ -16,6 +16,7 @@
 			isOffScreen           = 'is-off-screen',
 			isHidden              = 'is-hidden',
 			offscreenHidden       = isOffScreen + ' ' + isHidden,
+			iOS                   = /iPad|iPod|iPhone/.test( window.navigator.userAgent ),
 			transitionEndEvent    = ( function() {
 				var style = document.documentElement.style;
 
@@ -618,6 +619,11 @@
 
 			if ( window.tagBox ) {
 				window.tagBox.init();
+			}
+
+			// iOS doesn't fire click events on "standard" elements without this...
+			if ( iOS ) {
+				$( document.body ).css( 'cursor', 'pointer' );
 			}
 		}
 
