@@ -1213,7 +1213,7 @@ table.links-table {
 	display: inline-block;
 }
 
-.focus-on .wrap > h2,
+.focus-on .wrap > h1,
 .focus-on #wpfooter,
 .focus-on .postbox-container > *,
 .focus-on div.updated,
@@ -1235,7 +1235,7 @@ table.links-table {
 	opacity: 0.3;
 }
 
-.focus-off .wrap > h2,
+.focus-off .wrap > h1,
 .focus-off #wpfooter,
 .focus-off .postbox-container > *,
 .focus-off div.updated,

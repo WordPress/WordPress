@@ -1926,6 +1926,7 @@ html.wp-toolbar {
 	color: #000;
 }
 
+h1.nav-tab-wrapper,
 h2.nav-tab-wrapper,
 h3.nav-tab-wrapper {
 	border-bottom: 1px solid #ccc;
@@ -1933,6 +1934,7 @@ h3.nav-tab-wrapper {
 	padding-right: 10px;
 }
 
+h1 .nav-tab,
 h2 .nav-tab {
 	padding: 6px 10px;
 	font-weight: bold;
