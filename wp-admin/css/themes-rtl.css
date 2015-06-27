@@ -12,16 +12,16 @@
 	padding: 0 0 100px;
 }
 
-.themes-php .wrap h2 {
+.themes-php .wrap h1 {
 	float: right;
 	margin-bottom: 15px;
 }
 
-.network-admin.themes-php .wrap h2 {
+.network-admin.themes-php .wrap h1 {
 	margin-bottom: 0;
 }
 
-.themes-php .wrap h2 .button {
+.themes-php .wrap h1 .button {
 	margin-right: 20px;
 }
 
