@@ -793,7 +793,7 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 					clearTimeout( timeout );
 
 					timeout = setTimeout( function() {
-						activeToolbar.show();
+						activeToolbar && activeToolbar.show && activeToolbar.show();
 					}, 250 );
 				}
 			}
