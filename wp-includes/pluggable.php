@@ -2235,6 +2235,8 @@ function get_avatar( $id_or_email, $size = 96, $default = '', $alt = '', $args =
 		return false;
 	}
 
+	$url2x = get_avatar_url( $id_or_email, array_merge( $args, array( 'size' => $args['size'] * 2 ) ) );
+
 	$args = get_avatar_data( $id_or_email, $args );
 
 	$url = $args['url'];
@@ -2242,8 +2244,6 @@ function get_avatar( $id_or_email, $size = 96, $default = '', $alt = '', $args =
 	if ( ! $url || is_wp_error( $url ) ) {
 		return false;
 	}
-
-	$url2x = add_query_arg( array( 's' => $args['size'] * 2 ), $args['url'] );
 
 	$class = array( 'avatar', 'avatar-' . (int) $args['size'], 'photo' );
 
