@@ -855,11 +855,13 @@
 				customizer = section.container.closest( '.wp-full-overlay-sidebar-content' );
 			if ( expanded ) {
 				button.addClass( 'open' );
+				button.attr( 'aria-expanded', 'true' );
 				content.slideDown( 'fast', function() {
 					customizer.scrollTop( customizer.height() );
 				});
 			} else {
 				button.removeClass( 'open' );
+				button.attr( 'aria-expanded', 'false' );
 				content.slideUp( 'fast' );
 			}
 		}
