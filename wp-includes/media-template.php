@@ -1048,7 +1048,7 @@ function wp_print_media_templates() {
 				<label class="setting">
 					<span>SRC</span>
 					<input type="text" disabled="disabled" data-setting="src" value="{{ data.model.src }}" />
-					<button type="button" class="button-link remove-setting"><?php _e( 'Remove' ); ?></button>
+					<button type="button" class="button-link remove-setting"><?php _e( 'Remove audio source' ); ?></button>
 				</label>
 				<# } #>
 				<?php
@@ -1062,7 +1062,7 @@ function wp_print_media_templates() {
 				<label class="setting">
 					<span><?php echo strtoupper( $type ) ?></span>
 					<input type="text" disabled="disabled" data-setting="<?php echo $type ?>" value="{{ data.model.<?php echo $type ?> }}" />
-					<button type="button" class="button-link remove-setting"><?php _e( 'Remove' ); ?></button>
+					<button type="button" class="button-link remove-setting"><?php _e( 'Remove audio source' ); ?></button>
 				</label>
 				<# } #>
 				<?php endforeach ?>
@@ -1131,7 +1131,7 @@ function wp_print_media_templates() {
 				<label class="setting">
 					<span>SRC</span>
 					<input type="text" disabled="disabled" data-setting="src" value="{{ data.model.src }}" />
-					<button type="button" class="button-link remove-setting"><?php _e( 'Remove' ); ?></button>
+					<button type="button" class="button-link remove-setting"><?php _e( 'Remove video source' ); ?></button>
 				</label>
 				<# } #>
 				<?php foreach ( $video_types as $type ):
@@ -1143,7 +1143,7 @@ function wp_print_media_templates() {
 				<label class="setting">
 					<span><?php echo strtoupper( $type ) ?></span>
 					<input type="text" disabled="disabled" data-setting="<?php echo $type ?>" value="{{ data.model.<?php echo $type ?> }}" />
-					<button type="button" class="button-link remove-setting"><?php _e( 'Remove' ); ?></button>
+					<button type="button" class="button-link remove-setting"><?php _e( 'Remove video source' ); ?></button>
 				</label>
 				<# } #>
 				<?php endforeach ?>
@@ -1164,7 +1164,7 @@ function wp_print_media_templates() {
 				<label class="setting">
 					<span><?php _e( 'Poster Image' ); ?></span>
 					<input type="text" disabled="disabled" data-setting="poster" value="{{ data.model.poster }}" />
-					<button type="button" class="button-link remove-setting"><?php _e( 'Remove' ); ?></button>
+					<button type="button" class="button-link remove-setting"><?php _e( 'Remove poster image' ); ?></button>
 				</label>
 				<# } #>
 				<div class="setting preload">
@@ -1196,7 +1196,7 @@ function wp_print_media_templates() {
 							content += track.outerHTML; #>
 						<p>
 							<input class="content-track" type="text" value="{{ track.outerHTML }}" />
-							<button type="button" class="button-link remove-setting remove-track"><?php _ex( 'Remove', 'media' ); ?></button>
+							<button type="button" class="button-link remove-setting remove-track"><?php _ex( 'Remove video track', 'media' ); ?></button>
 						</p>
 						<# } ); #>
 					<# } else { #>
