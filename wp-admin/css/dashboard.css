@@ -156,7 +156,7 @@
 
 .welcome-panel .welcome-panel-close:before {
 	position: absolute;
-	top: 10px;
+	top: 8px;
 	left: 0;
 	-webkit-transition: all .1s ease-in-out;
 	transition: all .1s ease-in-out;

@@ -746,9 +746,9 @@ img.emoji {
 	color: #b4b9be;
 	content: '\f153';
 	display: block;
-	font: normal 16px/1 'dashicons';
+	font: normal 16px/20px 'dashicons';
 	speak: none;
-	height: 16px;
+	height: 20px;
 	text-align: center;
 	width: 20px;
 	-webkit-font-smoothing: antialiased;
@@ -761,7 +761,7 @@ img.emoji {
 
 .tagchecklist span a:before,
 #bulk-titles div a:before {
-	margin: 2px 0;
+	margin: 1px 0;
 }
 
 .welcome-panel .welcome-panel-close:hover:before,
@@ -1310,13 +1310,6 @@ div.error p,
 	cursor: pointer;
 }
 
-.notice-dismiss:before {
-	position: relative;
-	top: 0;
-	left: 0;
-	line-height: 20px;
-}
-
 .notice-dismiss:hover:before,
 .notice-dismiss:active:before,
 .notice-dismiss:focus:before {
@@ -1327,7 +1320,6 @@ div.error p,
 	outline: none;
 	-webkit-box-shadow: 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, .8);
 	box-shadow: 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, .8);
-	color: #c00;
 }
 
 .ie8 .notice-dismiss:focus {
