@@ -947,9 +947,8 @@ class Automatic_Upgrader_Skin extends WP_Upgrader_Skin {
 	 * @access public
 	 */
 	public function footer() {
-		$output = ob_get_contents();
+		$output = ob_get_clean();
 		if ( ! empty( $output ) )
 			$this->feedback( $output );
-		ob_end_clean();
 	}
 }

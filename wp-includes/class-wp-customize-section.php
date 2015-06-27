@@ -269,9 +269,7 @@ class WP_Customize_Section {
 	final public function get_content() {
 		ob_start();
 		$this->maybe_render();
-		$template = trim( ob_get_contents() );
-		ob_end_clean();
-		return $template;
+		return trim( ob_get_clean() );
 	}
 
 	/**
