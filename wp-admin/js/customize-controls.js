@@ -3210,6 +3210,27 @@
 			});
 		});
 
+		// Change previewed URL to the homepage when changing the page_on_front.
+		api( 'show_on_front', 'page_on_front', function( showOnFront, pageOnFront ) {
+			var updatePreviewUrl = function() {
+				if ( showOnFront() === 'page' && parseInt( pageOnFront(), 10 ) > 0 ) {
+					api.previewer.previewUrl.set( api.settings.url.home );
+				}
+			};
+			showOnFront.bind( updatePreviewUrl );
+			pageOnFront.bind( updatePreviewUrl );
+		});
+
+		// Change the previewed URL to the selected page when changing the page_for_posts.
+		api( 'page_for_posts', function( setting ) {
+			setting.bind(function( pageId ) {
+				pageId = parseInt( pageId, 10 );
+				if ( pageId > 0 ) {
+					api.previewer.previewUrl.set( api.settings.url.home + '?page_id=' + pageId );
+				}
+			});
+		});
+
 		api.trigger( 'ready' );
 
 		// Make sure left column gets focus
