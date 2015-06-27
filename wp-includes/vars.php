@@ -120,7 +120,7 @@ $is_iis7 = $is_IIS && intval( substr( $_SERVER['SERVER_SOFTWARE'], strpos( $_SER
  *
  * @staticvar bool $is_mobile
  *
- * @return bool true|false
+ * @return bool
  */
 function wp_is_mobile() {
 	static $is_mobile = null;

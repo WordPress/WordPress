@@ -1832,7 +1832,7 @@ class Language_Pack_Upgrader extends WP_Upgrader {
 	 * @param string|false $update Optional. Whether an update offer is available. Default false.
 	 * @param array        $args   Optional. Other optional arguments, see
 	 *                             {@see Language_Pack_Upgrader::bulk_upgrade()}. Default empty array.
-	 * @return array|WP_Error The result of the upgrade, or a {@see wP_Error} object instead.
+	 * @return array|bool|WP_Error The result of the upgrade, or a {@see wP_Error} object instead.
 	 */
 	public function upgrade( $update = false, $args = array() ) {
 		if ( $update ) {
@@ -1862,7 +1862,7 @@ class Language_Pack_Upgrader extends WP_Upgrader {
 	 *     @type bool $clear_update_cache Whether to clear the update cache when done.
 	 *                                    Default true.
 	 * }
-	 * @return array|true|false|WP_Error Will return an array of results, or true if there are no updates,
+	 * @return array|bool|WP_Error Will return an array of results, or true if there are no updates,
 	 *                                   false or WP_Error for initial errors.
 	 */
 	public function bulk_upgrade( $language_updates = array(), $args = array() ) {

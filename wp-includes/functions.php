@@ -4608,7 +4608,7 @@ function _get_non_cached_ids( $object_ids, $cache_key ) {
  * @since 3.4.0
  * @access private
  *
- * @return bool true|false Whether the device is able to upload files.
+ * @return bool Whether the device is able to upload files.
  */
 function _device_can_upload() {
 	if ( ! wp_is_mobile() )
