@@ -193,7 +193,7 @@
 
 							window.setTimeout( function() {
 								window.self.close();
-							}, 200 )
+							}, 200 );
 						} catch( er ) {
 							window.location.href = response.data.redirect;
 						}
