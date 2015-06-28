@@ -173,6 +173,7 @@ class WP_Widget {
 	 * @param array  $control_options
 	 */
 	public function WP_Widget( $id_base, $name, $widget_options = array(), $control_options = array() ) {
+		_deprecated_constructor( 'WP_Widget', '4.3.0' );
 		WP_Widget::__construct( $id_base, $name, $widget_options, $control_options );
 	}
 
@@ -563,8 +564,19 @@ class WP_Widget {
 class WP_Widget_Factory {
 	public $widgets = array();
 
-	public function WP_Widget_Factory() {
+	/**
+	 * PHP5 constructor.
+	 */
+	public function __construct() {
 		add_action( 'widgets_init', array( $this, '_register_widgets' ), 100 );
+	}
+
+	/**
+	 * PHP4 constructor.
+	 */
+	public function WP_Widget_Factory() {
+		_deprecated_constructor( 'WP_Widget_Factory', '4.2.0' );
+		self::__construct();
 	}
 
 	/**

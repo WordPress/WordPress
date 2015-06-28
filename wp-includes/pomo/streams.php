@@ -14,9 +14,19 @@ class POMO_Reader {
 	var $endian = 'little';
 	var $_post = '';
 
-	function POMO_Reader() {
+	/**
+	 * PHP5 constructor.
+	 */
+	function __construct() {
 		$this->is_overloaded = ((ini_get("mbstring.func_overload") & 2) != 0) && function_exists('mb_substr');
 		$this->_pos = 0;
+	}
+
+	/**
+	 * PHP4 constructor.
+	 */
+	public function POMO_Reader() {
+		self::__construct();
 	}
 
 	/**
@@ -130,9 +140,16 @@ class POMO_FileReader extends POMO_Reader {
 	/**
 	 * @param string $filename
 	 */
-	function POMO_FileReader($filename) {
+	function __construct( $filename ) {
 		parent::POMO_Reader();
 		$this->_f = fopen($filename, 'rb');
+	}
+
+	/**
+	 * PHP4 constructor.
+	 */
+	public function POMO_FileReader( $filename ) {
+		self::__construct( $filename );
 	}
 
 	/**
@@ -196,10 +213,20 @@ class POMO_StringReader extends POMO_Reader {
 
 	var $_str = '';
 
-	function POMO_StringReader($str = '') {
+	/**
+	 * PHP5 constructor.
+	 */
+	function __construct( $str = '' ) {
 		parent::POMO_Reader();
 		$this->_str = $str;
 		$this->_pos = 0;
+	}
+
+	/**
+	 * PHP4 constructor.
+	 */
+	public function POMO_StringReader( $str = '' ) {
+		self::__construct( $str );
 	}
 
 	/**
@@ -245,12 +272,22 @@ if ( !class_exists( 'POMO_CachedFileReader' ) ):
  * Reads the contents of the file in the beginning.
  */
 class POMO_CachedFileReader extends POMO_StringReader {
-	function POMO_CachedFileReader($filename) {
+	/**
+	 * PHP5 constructor.
+	 */
+	function __construct( $filename ) {
 		parent::POMO_StringReader();
 		$this->_str = file_get_contents($filename);
 		if (false === $this->_str)
 			return false;
 		$this->_pos = 0;
+	}
+
+	/**
+	 * PHP4 constructor.
+	 */
+	public function POMO_CachedFileReader( $filename ) {
+		self::__construct( $filename );
 	}
 }
 endif;
@@ -260,8 +297,19 @@ if ( !class_exists( 'POMO_CachedIntFileReader' ) ):
  * Reads the contents of the file in the beginning.
  */
 class POMO_CachedIntFileReader extends POMO_CachedFileReader {
-	function POMO_CachedIntFileReader($filename) {
+	/**
+	 * PHP5 constructor.
+	 */
+	public function __construct( $filename ) {
 		parent::POMO_CachedFileReader($filename);
+	}
+
+	/**
+	 * PHP4 constructor.
+	 */
+	function POMO_CachedIntFileReader( $filename ) {
+		self::__construct( $filename );
 	}
 }
 endif;
+

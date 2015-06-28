@@ -44,7 +44,10 @@ class POP3 {
                                 //  This must be set to true
                                 //  manually
 
-    function POP3 ( $server = '', $timeout = '' ) {
+	/**
+	 * PHP5 constructor.
+	 */
+    function __construct ( $server = '', $timeout = '' ) {
         settype($this->BUFFER,"integer");
         if( !empty($server) ) {
             // Do not allow programs to alter MAILSERVER
@@ -61,6 +64,13 @@ class POP3 {
         }
         return true;
     }
+
+	/**
+	 * PHP4 constructor.
+	 */
+	public function POP3( $server = '', $timeout = '' ) {
+		self::__construct( $server, $timeout );
+	}
 
     function update_timer () {
         if (!ini_get('safe_mode'))

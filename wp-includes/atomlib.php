@@ -87,13 +87,23 @@ class AtomParser {
     var $feed;
     var $current;
 
-    function AtomParser() {
+	/**
+	 * PHP5 constructor.
+	 */
+    function __construct() {
 
         $this->feed = new AtomFeed();
         $this->current = null;
         $this->map_attrs_func = create_function('$k,$v', 'return "$k=\"$v\"";');
         $this->map_xmlns_func = create_function('$p,$n', '$xd = "xmlns"; if(strlen($n[0])>0) $xd .= ":{$n[0]}"; return "{$xd}=\"{$n[1]}\"";');
     }
+
+	/**
+	 * PHP4 constructor.
+	 */
+	public function AtomParser() {
+		self::__construct();
+	}
 
     function _p($msg) {
         if($this->debug) {

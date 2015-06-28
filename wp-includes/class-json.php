@@ -140,13 +140,20 @@ class Services_JSON
     *                                   strings or numbers, if you return an object, make sure it does
     *                                   not have a toJSON method, otherwise an error will occur.
     */
-    function Services_JSON($use = 0)
+    function __construct( $use = 0 )
     {
         $this->use = $use;
         $this->_mb_strlen            = function_exists('mb_strlen');
         $this->_mb_convert_encoding  = function_exists('mb_convert_encoding');
         $this->_mb_substr            = function_exists('mb_substr');
     }
+
+	/**
+	 * PHP4 constructor.
+	 */
+	public function Services_JSON( $use = 0 ) {
+		self::__construct( $use );
+	}
     // private - cache the mbstring lookup results..
     var $_mb_strlen = false;
     var $_mb_substr = false;
@@ -910,11 +917,17 @@ if (class_exists('PEAR_Error')) {
 
     class Services_JSON_Error extends PEAR_Error
     {
-        function Services_JSON_Error($message = 'unknown error', $code = null,
+        function __construct($message = 'unknown error', $code = null,
                                      $mode = null, $options = null, $userinfo = null)
         {
             parent::PEAR_Error($message, $code, $mode, $options, $userinfo);
         }
+
+	public function Services_JSON_Error($message = 'unknown error', $code = null,
+                                     $mode = null, $options = null, $userinfo = null) {
+		self::__construct($message = 'unknown error', $code = null,
+                                     $mode = null, $options = null, $userinfo = null);
+	}
     }
 
 } else {
@@ -924,11 +937,22 @@ if (class_exists('PEAR_Error')) {
      */
     class Services_JSON_Error
     {
-        function Services_JSON_Error($message = 'unknown error', $code = null,
-                                     $mode = null, $options = null, $userinfo = null)
+	    /**
+	     * PHP5 constructor.
+	     */
+        function __construct( $message = 'unknown error', $code = null,
+                                     $mode = null, $options = null, $userinfo = null )
         {
 
         }
+
+	    /**
+	     * PHP4 constructor.
+	     */
+		public function Services_JSON_Error( $message = 'unknown error', $code = null,
+	                                     $mode = null, $options = null, $userinfo = null ) {
+			self::__construct( $message, $code, $mode, $options, $userinfo );
+		}
     }
     
 }

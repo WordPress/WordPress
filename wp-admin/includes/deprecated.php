@@ -470,7 +470,7 @@ class WP_User_Search {
 	var $paging_text;
 
 	/**
-	 * PHP4 Constructor - Sets up the object properties.
+	 * PHP5 Constructor - Sets up the object properties.
 	 *
 	 * @since 2.1.0
 	 *
@@ -479,7 +479,7 @@ class WP_User_Search {
 	 * @param string $role Role name.
 	 * @return WP_User_Search
 	 */
-	function WP_User_Search ($search_term = '', $page = '', $role = '') {
+	function __construct( $search_term = '', $page = '', $role = '' ) {
 		_deprecated_function( __FUNCTION__, '3.1', 'WP_User_Query' );
 
 		$this->search_term = wp_unslash( $search_term );
@@ -490,6 +490,20 @@ class WP_User_Search {
 		$this->prepare_query();
 		$this->query();
 		$this->do_paging();
+	}
+
+	/**
+	 * PHP4 Constructor - Sets up the object properties.
+	 *
+	 * @since 2.1.0
+	 *
+	 * @param string $search_term Search terms string.
+	 * @param int $page Optional. Page ID.
+	 * @param string $role Role name.
+	 * @return WP_User_Search
+	 */
+	public function WP_User_Search( $search_term = '', $page = '', $role = '' ) {
+		self::__construct( $search_term, $page, $role );
 	}
 
 	/**
