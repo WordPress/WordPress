@@ -944,16 +944,24 @@ table.form-table td .updated p {
 		padding-top: 10px;
 	}
 
-	input[type="checkbox"], .widefat th input[type="checkbox"] {
+	input[type="checkbox"],
+	.widefat th input[type="checkbox"],
+	.widefat thead td input[type="checkbox"],
+	.widefat tfoot td input[type="checkbox"] {
 		-webkit-appearance: none;
 		padding: 10px;
 	}
 
-	.widefat th input[type="checkbox"] {
+	.widefat th input[type="checkbox"],
+	.widefat thead td input[type="checkbox"],
+	.widefat tfoot td input[type="checkbox"] {
 		margin-bottom: 8px;
 	}
 
-	input[type="checkbox"]:checked:before, .widefat th input[type="checkbox"]:before {
+	input[type="checkbox"]:checked:before,
+	.widefat th input[type="checkbox"]:before,
+	.widefat thead td input[type="checkbox"]:before,
+	.widefat tfoot td input[type="checkbox"]:before {
 		font: normal 30px/1 'Dashicons';
 		margin: -3px -5px;
 	}

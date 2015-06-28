@@ -471,11 +471,13 @@ code {
 	padding: 8px 10px;
 }
 
-.widefat thead th {
+.widefat thead th,
+.widefat thead td {
 	border-bottom: 1px solid #e1e1e1;
 }
 
-.widefat tfoot th {
+.widefat tfoot th,
+.widefat tfoot td {
 	border-top: 1px solid #e1e1e1;
 	border-bottom: none;
 }
@@ -496,13 +498,17 @@ code {
 	line-height: 1.5em;
 }
 
-.widefat th {
+.widefat th,
+.widefat thead td,
+.widefat tfoot td {
 	text-align: left;
 	line-height: 1.3em;
 	font-size: 14px;
 }
 
-.widefat th input {
+.widefat th input,
+.widefat thead td input,
+.widefat tfoot td input {
 	margin: 0 0 0 8px;
 	padding: 0;
 	vertical-align: text-top;
@@ -514,7 +520,9 @@ code {
 	vertical-align: top;
 }
 
-.widefat th input[type=checkbox] {
+.widefat th input[type=checkbox],
+.widefat thead td input[type=checkbox],
+.widefat tfoot td input[type=checkbox] {
 	margin-top: -1px;
 }
 
@@ -526,13 +534,14 @@ code {
 	padding-top: 8px;
 }
 
-.widefat thead th.check-column,
+.widefat thead td.check-column,
 .widefat tbody th.check-column,
-.widefat tfoot th.check-column {
+.widefat tfoot td.check-column {
 	padding: 11px 0 0 3px;
 }
 
-.widefat thead th.check-column {
+.widefat thead td.check-column,
+.widefat tfoot td.check-column {
 	padding-top: 10px;
 }
 
@@ -714,7 +723,9 @@ img.emoji {
 .side-info,
 #your-profile #rich_editing,
 .widefat thead th,
-.widefat tfoot th {
+.widefat thead td,
+.widefat tfoot th,
+.widefat tfoot td {
 	line-height: 1.4em;
 }
 
@@ -1687,12 +1698,16 @@ html.wp-toolbar {
 	color: #555;
 }
 
-.widefat th {
+.widefat th,
+.widefat thead td,
+.widefat tfoot td {
 	font-weight: normal;
 }
 
 .widefat thead tr th,
-.widefat tfoot tr th {
+.widefat thead tr td,
+.widefat tfoot tr th,
+.widefat tfoot tr td {
 	color: #32373c;
 }
 

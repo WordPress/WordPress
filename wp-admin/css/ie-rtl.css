@@ -484,12 +484,16 @@ table.ie-fixed {
 }
 
 .widefat tr,
-.widefat th {
+.widefat th,
+.widefat thead td,
+.widefat tfoot td {
 	margin-bottom: 0;
 	border-spacing: 0;
 }
 
-.widefat th input {
+.widefat th input,
+.widefat thead td input,
+.widefat tfoot td input {
 	margin: 0 5px 0 0;
 }
 
