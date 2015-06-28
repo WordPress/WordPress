@@ -6,11 +6,11 @@
 .menu-in-location,
 .menu-in-locations {
 	display: block;
-	color: #999;
 	font-weight: 600;
 	font-size: 10px;
 }
 
+#customize-controls .theme-location-set,
 #customize-controls .control-section .accordion-section-title:focus .menu-in-location,
 #customize-controls .control-section .accordion-section-title:hover .menu-in-location,
 #customize-controls .control-section .accordion-section-title:focus .menu-in-locations,
