@@ -3416,6 +3416,52 @@ function _deprecated_function( $function, $version, $replacement = null ) {
 }
 
 /**
+ * Marks a constructor as deprecated and informs when it has been used.
+ *
+ * Similar to _deprecated_function(), but with different strings. Used to
+ * remove PHP4 style constructors.
+ *
+ * The current behavior is to trigger a user error if WP_DEBUG is true.
+ *
+ * This function is to be used in every PHP4 style constructor method that is deprecated.
+ *
+ * @since 4.3.0
+ *
+ * @access private
+ *
+ * @param string $class   The class containing the deprecated constructor.
+ * @param string $version The version of WordPress that deprecated the function.
+ */
+function _deprecated_constructor( $class, $version ) {
+
+	/**
+	 * Fires when a deprecated constructor is called.
+	 *
+	 * @since 4.3.0
+	 *
+	 * @param string $class   The class containing the deprecated constructor.
+	 * @param string $version The version of WordPress that deprecated the function.
+	 */
+	do_action( 'deprecated_constructor_run', $class, $version );
+
+	/**
+	 * Filter whether to trigger an error for deprecated functions.
+	 *
+	 * @since 4.3.0
+	 *
+	 * @param bool $trigger Whether to trigger the error for deprecated functions. Default true.
+	 */
+	if ( WP_DEBUG && apply_filters( 'deprecated_constructor_trigger_error', true ) ) {
+		if ( function_exists( '__' ) ) {
+			trigger_error( sprintf( __( 'The called constructor method for %1$s is <strong>deprecated</strong> since version %2$s! Use %3$s instead.' ), $class, $version, '<pre>__construct()</pre>' ) );
+		} else {
+			trigger_error( sprintf( 'The called constructor method for %1$s is <strong>deprecated</strong> since version %2$s! Use %3$s instead.', $class, $version, '<pre>__construct()</pre>' ) );
+		}
+	}
+
+}
+
+/**
  * Mark a file as deprecated and inform when it has been used.
  *
  * There is a hook deprecated_file_included that will be called that can be used
