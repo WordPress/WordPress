@@ -77,20 +77,21 @@ var wpLink;
 				}, 500 );
 			});
 
-			function correctURL() {
-				var url = $.trim( inputs.url.val() );
-
-				if ( url && correctedURL !== url && ! /^(?:[a-z]+:|#|\?|\.|\/)/.test( url ) ) {
-					inputs.url.val( 'http://' + url );
-					correctedURL = url;
-				}
-			}
-
 			inputs.url.on( 'paste', function() {
-				setTimeout( correctURL, 0 );
+				setTimeout( wpLink.correctURL, 0 );
 			} );
 
-			inputs.url.on( 'blur', correctURL );
+			inputs.url.on( 'blur', wpLink.correctURL );
+		},
+
+		// If URL wasn't corrected last time and doesn't start with http:, https:, ? # or /, prepend http://
+		correctURL: function () {
+			var url = $.trim( inputs.url.val() );
+
+			if ( url && correctedURL !== url && ! /^(?:[a-z]+:|#|\?|\.|\/)/.test( url ) ) {
+				inputs.url.val( 'http://' + url );
+				correctedURL = url;
+			}
 		},
 
 		open: function( editorId ) {
@@ -267,6 +268,8 @@ var wpLink;
 		},
 
 		getAttrs: function() {
+			wpLink.correctURL();
+
 			return {
 				href: $.trim( inputs.url.val() ),
 				target: inputs.openInNewTab.prop( 'checked' ) ? '_blank' : ''
