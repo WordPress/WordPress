@@ -146,8 +146,13 @@ class WP_Press_This {
 				}
 			}
 
+			$forceRedirect = false;
+
 			if ( 'publish' === get_post_status( $post_id ) ) {
 				$redirect = get_post_permalink( $post_id );
+			} elseif ( isset( $_POST['pt-force-redirect'] ) && $_POST['pt-force-redirect'] === 'true' ) {
+				$forceRedirect = true;
+				$redirect = get_edit_post_link( $post_id, 'js' );
 			} else {
 				$redirect = false;
 			}
@@ -165,7 +170,7 @@ class WP_Press_This {
 			$redirect = apply_filters( 'press_this_save_redirect', $redirect, $post_id, $post['post_status'] );
 
 			if ( $redirect ) {
-				wp_send_json_success( array( 'redirect' => $redirect ) );
+				wp_send_json_success( array( 'redirect' => $redirect, 'force' => $forceRedirect ) );
 			} else {
 				wp_send_json_success( array( 'postSaved' => true ) );
 			}
@@ -1329,6 +1334,7 @@ class WP_Press_This {
 		<input type="hidden" name="post_status" id="post_status" value="draft" />
 		<input type="hidden" name="wp-preview" id="wp-preview" value="" />
 		<input type="hidden" name="post_title" id="post_title" value="" />
+		<input type="hidden" name="pt-force-redirect" id="pt-force-redirect" value="" />
 		<?php
 
 		wp_nonce_field( 'update-post_' . $post_ID, '_wpnonce', false );
@@ -1456,16 +1462,17 @@ class WP_Press_This {
 			<span class="spinner">&nbsp;</span>
 			<div class="split-button">
 				<div class="split-button-head">
-					<button type="button" class="publish-button split-button-primary"><?php
-						echo ( current_user_can( 'publish_posts' ) ) ? __( 'Publish' ) : __( 'Submit for Review' );
-					?></button><button type="button" class="split-button-toggle" aria-haspopup="true" aria-expanded="false">
+					<button type="button" class="publish-button split-button-primary" aria-live="polite">
+						<span class="publish"><?php echo ( current_user_can( 'publish_posts' ) ) ? __( 'Publish' ) : __( 'Submit for Review' ); ?></span>
+						<span class="saving-draft"><?php _e( 'Saving...' ); ?></span>
+					</button><button type="button" class="split-button-toggle" aria-haspopup="true" aria-expanded="false">
 						<i class="dashicons dashicons-arrow-down-alt2"></i>
 						<span class="screen-reader-text"><?php _e('More actions'); ?></span>
 					</button>
 				</div>
 				<ul class="split-button-body">
-					<li><button type="button" class="button-subtle draft-button split-button-option" aria-live="polite"><?php _e( 'Save Draft' ); ?></button></li>
-					<li><a href="<?php echo esc_url( get_edit_post_link( $post_ID ) ); ?>" class="edit-post-link split-button-option" target="_blank"><?php _e( 'Standard Editor' ); ?></a></li>
+					<li><button type="button" class="button-subtle draft-button split-button-option"><?php _e( 'Save Draft' ); ?></button></li>
+					<li><button type="button" class="button-subtle standard-editor-button split-button-option"><?php _e( 'Standard Editor' ); ?></button></li>
 					<li><button type="button" class="button-subtle preview-button split-button-option"><?php _e( 'Preview' ); ?></button></li>
 				</ul>
 			</div>

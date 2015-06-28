@@ -1888,6 +1888,15 @@ html {
 	padding: 0 10px;
 }
 
+.publish-button .saving-draft,
+.publish-button.is-saving .publish {
+	display: none;
+}
+
+.publish-button.is-saving .saving-draft {
+	display: inline;
+}
+
 /* TinyMCE styles */
 .editor .wp-media-buttons {
 	float: none;

@@ -182,21 +182,24 @@
 			}).always( function() {
 				hideSpinner();
 				clearNotices();
+				$( '.publish-button' ).removeClass( 'is-saving' );
 			}).done( function( response ) {
 				if ( ! response.success ) {
 					renderError( response.data.errorMessage );
 				} else if ( response.data.redirect ) {
-					if ( window.opener && settings.redirInParent ) {
+					if ( window.opener && ( settings.redirInParent || response.data.force ) ) {
 						try {
 							window.opener.location.href = response.data.redirect;
-						} catch( er ) {}
 
-						window.self.close();
+							window.setTimeout( function() {
+								window.self.close();
+							}, 200 )
+						} catch( er ) {
+							window.location.href = response.data.redirect;
+						}
 					} else {
 						window.location.href = response.data.redirect;
 					}
-				} else if ( response.data.postSaved ) {
-					// consider showing "Saved" message
 				}
 			}).fail( function() {
 				renderError( __( 'serverError' ) );
@@ -660,8 +663,10 @@
 
 				if ( $button.length ) {
 					if ( $button.hasClass( 'draft-button' ) ) {
+						$( '.publish-button' ).addClass( 'is-saving' );
 						submitPost( 'draft' );
 					} else if ( $button.hasClass( 'publish-button' ) ) {
+						$button.addClass( 'is-saving' );
 						submitPost( 'publish' );
 					} else if ( $button.hasClass( 'preview-button' ) ) {
 						prepareFormData();
@@ -670,6 +675,10 @@
 						$( '#wp-preview' ).val( 'dopreview' );
 						$( '#pressthis-form' ).attr( 'target', '_blank' ).submit().attr( 'target', '' );
 						$( '#wp-preview' ).val( '' );
+					} else if ( $button.hasClass( 'standard-editor-button' ) ) {
+						$( '.publish-button' ).addClass( 'is-saving' );
+						$( '#pt-force-redirect' ).val( 'true' );
+						submitPost( 'draft' );
 					} else if ( $button.hasClass( 'split-button-toggle' ) ) {
 						if ( $splitButton.hasClass( 'is-open' ) ) {
 							$splitButton.removeClass( 'is-open' );
@@ -679,9 +688,6 @@
 							$button.attr( 'aria-expanded', 'true' );
 						}
 					}
-				} else if ( $target.hasClass( 'edit-post-link' ) && window.opener ) {
-					window.opener.focus();
-					window.self.close();
 				}
 			});
 
