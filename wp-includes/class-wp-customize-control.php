@@ -1447,7 +1447,7 @@ class WP_Customize_Nav_Menu_Control extends WP_Customize_Control {
 	 */
 	public function content_template() {
 		?>
-		<button type="button" class="button-secondary add-new-menu-item" aria-expanded="false" aria-controls="available-menu-items">
+		<button type="button" class="button-secondary add-new-menu-item" aria-label="<?php esc_attr_e( 'Add or remove menu items' ); ?>" aria-expanded="false" aria-controls="available-menu-items">
 			<?php _e( 'Add Items' ); ?>
 		</button>
 		<button type="button" class="not-a-button reorder-toggle">
