@@ -279,12 +279,13 @@ class Custom_Image_Header {
 			$header_thumbnail = $header['thumbnail_url'];
 			$header_url = $header['url'];
 			$header_desc = empty( $header['description'] ) ? '' : $header['description'];
+			$header_alt_text = empty( $header['alt_text'] ) ? $header_desc : $header['alt_text'];
 			echo '<div class="default-header">';
 			echo '<label><input name="default-header" type="radio" value="' . esc_attr( $header_key ) . '" ' . checked( $header_url, get_theme_mod( 'header_image' ), false ) . ' />';
 			$width = '';
 			if ( !empty( $header['attachment_id'] ) )
 				$width = ' width="230"';
-			echo '<img src="' . set_url_scheme( $header_thumbnail ) . '" alt="' . esc_attr( $header_desc ) .'" title="' . esc_attr( $header_desc ) . '"' . $width . ' /></label>';
+			echo '<img src="' . set_url_scheme( $header_thumbnail ) . '" alt="' . esc_attr( $header_alt_text ) .'" title="' . esc_attr( $header_desc ) . '"' . $width . ' /></label>';
 			echo '</div>';
 		}
 		echo '<div class="clear"></div></div>';

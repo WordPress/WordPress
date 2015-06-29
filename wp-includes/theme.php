@@ -1209,10 +1209,13 @@ function get_uploaded_header_images() {
 		$url = esc_url_raw( wp_get_attachment_url( $header->ID ) );
 		$header_data = wp_get_attachment_metadata( $header->ID );
 		$header_index = basename($url);
+
 		$header_images[$header_index] = array();
-		$header_images[$header_index]['attachment_id'] =  $header->ID;
+		$header_images[$header_index]['attachment_id'] = $header->ID;
 		$header_images[$header_index]['url'] =  $url;
-		$header_images[$header_index]['thumbnail_url'] =  $url;
+		$header_images[$header_index]['thumbnail_url'] = $url;
+		$header_images[$header_index]['alt_text'] = get_post_meta( $header->ID, '_wp_attachment_image_alt', true );
+
 		if ( isset( $header_data['width'] ) )
 			$header_images[$header_index]['width'] = $header_data['width'];
 		if ( isset( $header_data['height'] ) )
