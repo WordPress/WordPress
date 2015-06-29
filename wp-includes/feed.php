@@ -588,6 +588,42 @@ function prep_atom_text_construct($data) {
 }
 
 /**
+ * Display Site Icon in atom feeds.
+ *
+ * @since 4.3.0
+ */
+function atom_site_icon() {
+	$url = get_site_icon_url( null, 32 );
+	if ( $url ) {
+		echo "<icon>$url</icon>\n";
+	}
+}
+
+/**
+ * Display Site Icon in RSS2.
+ *
+ * @since 4.3.0
+ */
+function rss2_site_icon() {
+	$rss_title = get_wp_title_rss();
+	if ( empty( $rss_title ) ) {
+		$rss_title = get_bloginfo_rss( 'name' );
+	}
+
+	$url = get_site_icon_url( null, 32 );
+	if ( $url ) {
+		echo '
+<image>
+	<url>' . convert_chars( $url ) . '</url>
+	<title>' . $rss_title . '</title>
+	<link>' . get_bloginfo_rss( 'url' ) . '</link>
+	<width>32</width>
+	<height>32</height>
+</image> ' . "\n";
+	}
+}
+
+/**
  * Display the link for the currently displayed feed in a XSS safe way.
  *
  * Generate a correct link for the atom:self element.

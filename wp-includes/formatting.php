@@ -3421,6 +3421,7 @@ function sanitize_option( $option, $value ) {
 		case 'thread_comments_depth':
 		case 'users_can_register':
 		case 'start_of_week':
+		case 'site_icon':
 			$value = absint( $value );
 			break;
 

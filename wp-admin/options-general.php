@@ -124,6 +124,48 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 <td><input name="blogdescription" type="text" id="blogdescription" aria-describedby="tagline-description" value="<?php form_option('blogdescription'); ?>" class="regular-text" />
 <p class="description" id="tagline-description"><?php _e( 'In a few words, explain what this site is about.' ) ?></p></td>
 </tr>
+<tr>
+<th scope="row"><label for="site_icon"><?php _e( 'Site Icon' ); ?></label></th>
+<td>
+	<?php
+	$upload_url = admin_url( 'options-general.php?page=site-icon' );
+	$update_url = esc_url( add_query_arg( array(
+		'page'   => 'site-icon',
+		'action' => 'crop_site_icon',
+	), wp_nonce_url( admin_url( 'options-general.php' ), 'crop-site-icon' ) ) );
+
+	wp_enqueue_media();
+	wp_enqueue_script( 'site-icon' );
+
+	if ( has_site_icon() ) :
+		$remove_url = add_query_arg( array(
+			'action' => 'remove_site_icon',
+		), wp_nonce_url( admin_url( 'options-general.php' ), 'remove-site-icon' ) );
+	?>
+
+	<img class="avatar avatar-150" src="<?php site_icon_url( null, 150 ); ?>" height="150" width="150" />
+	<p class="hide-if-no-js">
+		<label class="screen-reader-text" for="choose-from-library-link"><?php _e( 'Choose an image from your media library:' ); ?></label>
+		<button type="button" id="choose-from-library-link" class="button" data-update-link="<?php echo esc_attr( $update_url ); ?>" data-choose="<?php esc_attr_e( 'Choose a Site Icon' ); ?>" data-update="<?php esc_attr_e( 'Set as Site Icon' ); ?>"><?php _e( 'Update Site Icon' ); ?></button>
+		<a href="<?php echo esc_url( $remove_url ); ?>"><?php _e( 'Remove Site Icon' ); ?></a>
+	</p>
+	<p class="hide-if-js">
+		<a href="<?php echo esc_url( $upload_url ); ?>" class="button"><?php _e( 'Update Site Icon' ); ?></a>
+		<a href="<?php echo esc_url( $remove_url ); ?>"><?php _e( 'Remove Site Icon' ); ?></a>
+	</p>
+
+	<?php else : ?>
+
+	<p class="hide-if-no-js">
+		<label class="screen-reader-text" for="choose-from-library-link"><?php _e( 'Choose an image from your media library:' ); ?></label>
+		<button type="button" id="choose-from-library-link" class="button" data-update-link="<?php echo esc_attr( $update_url ); ?>" data-choose="<?php esc_attr_e( 'Choose a Site Icon' ); ?>" data-update="<?php esc_attr_e( 'Set as Site Icon' ); ?>"><?php _e( 'Choose Image' ); ?></button>
+	</p>
+	<a class="button hide-if-js" href="<?php echo esc_url( $upload_url ); ?>"><?php _e( 'Add a Site Icon' ); ?></a>
+
+	<?php endif; ?>
+	<p class="description"><?php _e( 'Site Icon creates a favicon and app icons for your site.' ) ?></p>
+</td>
+</tr>
 <?php if ( !is_multisite() ) { ?>
 <tr>
 <th scope="row"><label for="siteurl"><?php _e('WordPress Address (URL)') ?></label></th>

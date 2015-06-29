@@ -1,0 +1,57 @@
+/*------------------------------------------------------------------------------
+  28.0 - Site Icon
+------------------------------------------------------------------------------*/
+
+.site-icon-image {
+	float: left;
+	margin: 0 20px 0 0;
+}
+
+.site-icon-content {
+	overflow: hidden;
+	padding: 10px;
+	position: relative;
+}
+
+.site-icon-crop-shell {
+	max-width: 720px;
+}
+
+.site-icon-crop-preview-shell {
+	float: right;
+	overflow: hidden;
+}
+
+.site-icon-crop-preview-shell h3 {
+	margin-top: 0;
+}
+
+.site-icon-crop-favicon-preview-shell {
+	margin-bottom: 20px;
+	position: relative;
+}
+
+.site-icon-crop-preview-favicon,
+.site-icon-browser-title {
+	height: 16px;
+	left: 88px;
+	overflow: hidden;
+	position: absolute;
+	top: 16px;
+}
+
+.site-icon-crop-preview-favicon {
+	width: 16px;
+}
+
+.site-icon-browser-title {
+	left: 109px;
+}
+
+.site-icon-crop-preview-homeicon {
+	-webkit-border-radius: 16px;
+	border-radius: 16px;
+	height: 64px;
+	overflow: hidden;
+	width: 64px;
+} 

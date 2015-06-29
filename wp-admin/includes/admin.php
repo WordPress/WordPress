@@ -64,6 +64,9 @@ require_once(ABSPATH . 'wp-admin/includes/theme.php');
 /** WordPress User Administration API */
 require_once(ABSPATH . 'wp-admin/includes/user.php');
 
+/** WordPress Site Icon API */
+require_once(ABSPATH . 'wp-admin/includes/site-icon.php');
+
 /** WordPress Update Administration API */
 require_once(ABSPATH . 'wp-admin/includes/update.php');
 

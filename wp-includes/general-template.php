@@ -722,6 +722,58 @@ function get_bloginfo( $show = '', $filter = 'raw' ) {
 }
 
 /**
+ * Returns the Site Icon URL.
+ *
+ * @param  null|int $blog_id Id of the blog to get the site icon for.
+ * @param  int      $size    Size of the site icon.
+ * @param  string   $url     Fallback url if no site icon is found.
+ * @return string            Site Icon URL.
+ */
+function get_site_icon_url( $blog_id = null, $size = 512, $url = '' ) {
+	if ( function_exists( 'get_blog_option' ) ) {
+		if ( ! is_int( $blog_id ) ) {
+			$blog_id = get_current_blog_id();
+		}
+		$site_icon_id = get_blog_option( $blog_id, 'site_icon' );
+	} else {
+		$site_icon_id = get_option( 'site_icon' );
+	}
+
+	if ( $site_icon_id  ) {
+		if ( $size >= 512 ) {
+			$size_data = 'full';
+		} else {
+			$size_data = array( $size, $size );
+		}
+		$url_data = wp_get_attachment_image_src( $site_icon_id, $size_data );
+		$url = $url_data[0];
+	}
+
+	return $url;
+}
+
+/**
+ * Displays the Site Icon URL.
+ *
+ * @param null|int $blog_id Id of the blog to get the site icon for.
+ * @param int      $size    Size of the site icon.
+ * @param string   $url     Fallback url if no site icon is found.
+ */
+function site_icon_url( $blog_id = null, $size = 512, $url = '' ) {
+	echo esc_url( get_site_icon_url( $blog_id, $size, $url ) );
+}
+
+/**
+ * Whether the site has a Site Icon.
+ *
+ * @param int|null $blog_id Optional. Blog ID. Default: Current blog.
+ * @return bool
+ */
+function has_site_icon( $blog_id = null ) {
+	return !! get_site_icon_url( $blog_id, 512 );
+}
+
+/**
  * Display title tag with contents.
  *
  * @ignore
@@ -2383,6 +2435,39 @@ function noindex() {
  */
 function wp_no_robots() {
 	echo "<meta name='robots' content='noindex,follow' />\n";
+}
+
+/**
+ * Display site icon meta tags.
+ *
+ * @since 4.3.0
+ *
+ * @link http://www.whatwg.org/specs/web-apps/current-work/multipage/links.html#rel-icon HTML5 specification link icon.
+ */
+function wp_site_icon() {
+	if ( ! has_site_icon() ) {
+		return;
+	}
+
+	$meta_tags = array(
+		sprintf( '<link rel="icon" href="%s" sizes="32x32" />', esc_url( get_site_icon_url( null, 32 ) ) ),
+		sprintf( '<link rel="apple-touch-icon-precomposed" href="%s">', esc_url( get_site_icon_url( null, 180 ) ) ),
+		sprintf( '<meta name="msapplication-TileImage" content="%s">', esc_url( get_site_icon_url( null, 270 ) ) ),
+	);
+
+	/**
+	 * Filters the site icon meta tags, so Plugins can add their own.
+	 *
+	 * @since 4.3.0
+	 *
+	 * @param array $meta_tags Site Icon meta elements.
+	 */
+	$meta_tags = apply_filters( 'site_icon_meta_tags', $meta_tags );
+	$meta_tags = array_filter( $meta_tags );
+
+	foreach ( $meta_tags as $meta_tag ) {
+		echo "$meta_tag\n";
+	}
 }
 
 /**
