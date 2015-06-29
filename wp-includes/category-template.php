@@ -808,24 +808,46 @@ function wp_generate_tag_cloud( $tags, $args = '' ) {
 		$font_spread = 1;
 	$font_step = $font_spread / $spread;
 
-	$a = array();
-
+	// Assemble the data that will be used to generate the tag cloud markup.
+	$tags_data = array();
 	foreach ( $tags as $key => $tag ) {
+		$tag_id = isset( $tag->id ) ? $tag->id : $key;
+
 		$count = $counts[ $key ];
 		$real_count = $real_counts[ $key ];
-		$tag_link = '#' != $tag->link ? esc_url( $tag->link ) : '#';
-		$tag_id = isset($tags[ $key ]->id) ? $tags[ $key ]->id : $key;
-		$tag_name = $tags[ $key ]->name;
 
 		if ( $translate_nooped_plural ) {
-			$title_attribute = sprintf( translate_nooped_plural( $translate_nooped_plural, $real_count ), number_format_i18n( $real_count ) );
+			$title = sprintf( translate_nooped_plural( $translate_nooped_plural, $real_count ), number_format_i18n( $real_count ) );
 		} else {
-			$title_attribute = call_user_func( $args['topic_count_text_callback'], $real_count, $tag, $args );
+			$title = call_user_func( $args['topic_count_text_callback'], $real_count, $tag, $args );
 		}
 
-		$a[] = "<a href='$tag_link' class='tag-link-$tag_id' title='" . esc_attr( $title_attribute ) . "' style='font-size: " .
-			str_replace( ',', '.', ( $args['smallest'] + ( ( $count - $min_count ) * $font_step ) ) )
-			. $args['unit'] . ";'>$tag_name</a>";
+		$tags_data[] = array(
+			'id'         => $tag_id,
+			'url'        => '#' != $tag->link ? $tag->link : '#',
+			'name'	     => $tag->name,
+			'title'      => $title,
+			'slug'       => $tag->slug,
+			'real_count' => $real_count,
+			'class'	     => 'tag-link-' . $tag_id,
+			'font_size'  => $args['smallest'] + ( $count - $min_count ) * $font_step,
+		);
+	}
+
+	/**
+	 * Filter the data used to generate the tag cloud.
+	 *
+	 * @since 4.3.0
+	 *
+	 * @param array $tags_data An array of term data for term used to generate the tag cloud.
+	 */
+	$tags_data = apply_filters( 'wp_generate_tag_cloud_data', $tags_data );
+
+	$a = array();
+
+	// generate the output links array
+	foreach ( $tags_data as $key => $tag_data ) {
+		$a[] = "<a href='" . esc_url( $tag_data['url'] ) . "' class='" . esc_attr( $tag_data['class'] ) . "' title='" . esc_attr( $tag_data['title'] ) . "' style='font-size: " . esc_attr( str_replace( ',', '.', $tag_data['font_size'] ) . $args['unit'] ) . ";'>" . esc_html( $tag_data['name'] ) . "</a>";
 	}
 
 	switch ( $args['format'] ) {
