@@ -199,12 +199,15 @@ class WP_Plugins_List_Table extends WP_List_Table {
 
 		$total_this_page = $totals[ $status ];
 
-		if ( $orderby ) {
+		if ( ! $orderby ) {
+			$orderby = 'Name';
+		} else {
 			$orderby = ucfirst( $orderby );
-			$order = strtoupper( $order );
-
-			uasort( $this->items, array( $this, '_order_callback' ) );
 		}
+
+		$order = strtoupper( $order );
+
+		uasort( $this->items, array( $this, '_order_callback' ) );
 
 		$plugins_per_page = $this->get_items_per_page( str_replace( '-', '_', $screen->id . '_per_page' ), 999 );
 
