@@ -228,7 +228,6 @@ class WP_Importer {
 	public function is_user_over_quota() {
 		if ( function_exists( 'upload_is_user_over_quota' ) ) {
 			if ( upload_is_user_over_quota() ) {
-				echo "Sorry, you have used your upload quota.\n";
 				return true;
 			}
 		}
