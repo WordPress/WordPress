@@ -58,8 +58,6 @@ class WP_Site_Icon {
 	public function __construct() {
 
 		// Add the favicon to the backend.
-		add_action( 'admin_head', 'wp_site_icon' );
-
 		add_action( 'admin_menu', array( $this, 'admin_menu_upload_site_icon' ) );
 
 		add_action( 'admin_action_set_site_icon',    array( $this, 'set_site_icon'    ) );

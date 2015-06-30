@@ -47,6 +47,7 @@ add_filter( 'media_upload_tabs', 'update_gallery_tab' );
 // Misc hooks.
 add_action( 'admin_head', 'wp_admin_canonical_url'   );
 add_action( 'admin_head', 'wp_color_scheme_settings' );
+add_action( 'admin_head', 'wp_site_icon'             );
 add_action( 'admin_head', '_ipad_meta'               );
 
 add_action( 'post_edit_form_tag', 'post_form_autocomplete_off' );
