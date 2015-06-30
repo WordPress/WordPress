@@ -1019,10 +1019,6 @@ border color while dragging a file over the uploader drop area */
 	margin: 0 0 0 8px;
 }
 
-.imgedit-group-top {
-	margin: 5px 0;
-}
-
 #poststuff .imgedit-group-top h3 {
 	padding: 0;
 }
@@ -1050,7 +1046,7 @@ a.imgedit-help-toggle {
 }
 
 .imgedit-submit {
-	margin: 8px 0;
+	margin: 8px 0 0;
 }
 
 .imgedit-submit-btn {
@@ -1071,7 +1067,7 @@ span.imgedit-scale-warn {
 
 .imgedit-group {
 	margin-bottom: 8px;
-	padding: 2px 10px;
+	padding: 10px;
 }
 
 audio, video {
