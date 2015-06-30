@@ -1387,7 +1387,9 @@ class WP_Press_This {
 						'toolbar1'              => 'bold,italic,bullist,numlist,blockquote,link,unlink',
 						'toolbar2'              => 'undo,redo',
 					),
-					'quicktags' => false,
+					'quicktags' => array(
+						'buttons' => 'strong,em,link,block,del,ins,img,ul,ol,li,code,more',
+					),
 				) );
 
 				?>

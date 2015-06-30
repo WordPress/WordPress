@@ -5,6 +5,8 @@
 ( function( $, window ) {
 	var PressThis = function() {
 		var editor, $mediaList, $mediaThumbWrap,
+			$window               = $( window ),
+			$document             = $( document ),
 			saveAlert             = false,
 			textarea              = document.createElement( 'textarea' ),
 			sidebarIsOpen         = false,
@@ -17,6 +19,10 @@
 			isHidden              = 'is-hidden',
 			offscreenHidden       = isOffScreen + ' ' + isHidden,
 			iOS                   = /iPad|iPod|iPhone/.test( window.navigator.userAgent ),
+			$textEditor           = $( '#pressthis' ),
+			textEditor            = $textEditor[0],
+			textEditorMinHeight   = 600,
+			textLength            = 0,
 			transitionEndEvent    = ( function() {
 				var style = document.documentElement.style;
 
@@ -112,6 +118,99 @@
 		function hideSpinner() {
 			$( '.spinner' ).removeClass( 'is-active' );
 			$( '.post-actions button' ).removeAttr( 'disabled' );
+		}
+
+		function textEditorResize( reset ) {
+			var pageYOffset, height;
+
+			if ( editor && ! editor.isHidden() ) {
+ 				return;
+ 			}
+
+			reset = ( reset === 'reset' ) || ( textLength && textLength > textEditor.value.length );
+			height = textEditor.style.height;
+
+			if ( reset ) {
+				pageYOffset = window.pageYOffset;
+
+				textEditor.style.height = 'auto';
+				textEditor.style.height = Math.max( textEditor.scrollHeight, textEditorMinHeight ) + 'px';
+				window.scrollTo( window.pageXOffset, pageYOffset );
+			} else if ( parseInt( textEditor.style.height, 10 ) < textEditor.scrollHeight ) {
+				textEditor.style.height = textEditor.scrollHeight + 'px';
+ 			}
+
+ 			textLength = textEditor.value.length;
+ 		}
+
+ 		function mceGetCursorOffset() {
+			if ( ! editor ) {
+				return false;
+			}
+
+			var node = editor.selection.getNode(),
+				range, view, offset;
+
+			if ( editor.wp && editor.wp.getView && ( view = editor.wp.getView( node ) ) ) {
+				offset = view.getBoundingClientRect();
+			} else {
+				range = editor.selection.getRng();
+
+				try {
+					offset = range.getClientRects()[0];
+				} catch( er ) {}
+
+				if ( ! offset ) {
+					offset = node.getBoundingClientRect();
+				}
+			}
+
+			return offset.height ? offset : false;
+		}
+
+		// Make sure the caret is always visible.
+		function mceKeyup( event ) {
+			var VK = window.tinymce.util.VK,
+				key = event.keyCode;
+
+			// Bail on special keys.
+			if ( key <= 47 && ! ( key === VK.SPACEBAR || key === VK.ENTER || key === VK.DELETE || key === VK.BACKSPACE || key === VK.UP || key === VK.LEFT || key === VK.DOWN || key === VK.UP ) ) {
+				return;
+			// OS keys, function keys, num lock, scroll lock
+			} else if ( ( key >= 91 && key <= 93 ) || ( key >= 112 && key <= 123 ) || key === 144 || key === 145 ) {
+				return;
+			}
+
+			mceScroll( key );
+		}
+
+		function mceScroll( key ) {
+			var cursorTop, cursorBottom, editorBottom,
+				offset = mceGetCursorOffset(),
+				bufferTop = 50,
+				bufferBottom = 65,
+				VK = window.tinymce.util.VK;
+
+			if ( ! offset ) {
+				return;
+			}
+
+			cursorTop = offset.top + editor.iframeElement.getBoundingClientRect().top;
+			cursorBottom = cursorTop + offset.height;
+			cursorTop = cursorTop - bufferTop;
+			cursorBottom = cursorBottom + bufferBottom;
+			editorBottom = $window.height();
+
+			// Don't scroll if the node is taller than the visible part of the editor
+			if ( editorBottom < offset.height ) {
+				return;
+			}
+
+			if ( cursorTop < 0 && ( key === VK.UP || key === VK.LEFT || key === VK.BACKSPACE ) ) {
+				window.scrollTo( window.pageXOffset, cursorTop + window.pageYOffset );
+			} else if ( cursorBottom > editorBottom ) {
+				window.scrollTo( window.pageXOffset, cursorBottom + window.pageYOffset - editorBottom );
+			}
 		}
 
 		/**
@@ -216,10 +315,6 @@
 		function insertSelectedMedia( $element ) {
 			var src, link, newContent = '';
 
-			if ( ! editor ) {
-				return;
-			}
-
 			src = checkUrl( $element.attr( 'data-wp-src' ) || '' );
 			link = checkUrl( data.u );
 
@@ -233,10 +328,14 @@
 				newContent = '[embed]' + src + '[/embed]';
 			}
 
-			if ( ! hasSetFocus ) {
-				editor.setContent( '<p>' + newContent + '</p>' + editor.getContent() );
-			} else {
-				editor.execCommand( 'mceInsertContent', false, newContent );
+			if ( editor && ! editor.isHidden() ) {
+				if ( ! hasSetFocus ) {
+					editor.setContent( '<p>' + newContent + '</p>' + editor.getContent() );
+				} else {
+					editor.execCommand( 'mceInsertContent', false, newContent );
+				}
+			} else if ( window.QTags ) {
+				window.QTags.insertContent( newContent );
 			}
 		}
 
@@ -636,7 +735,7 @@
 		function monitor() {
 			var $splitButton = $( '.split-button' );
 
-			$( document ).on( 'tinymce-editor-init', function( event, ed ) {
+			$document.on( 'tinymce-editor-init', function( event, ed ) {
 				editor = ed;
 
 				editor.on( 'nodechange', function() {
@@ -646,6 +745,22 @@
 				editor.on( 'focus', function() {
 					splitButtonClose();
 				});
+
+				editor.on( 'show', function() {
+					setTimeout( function() {
+						editor.execCommand( 'wpAutoResize' );
+					}, 300 );
+				});
+
+				editor.on( 'hide', function() {
+					setTimeout( function() {
+						textEditorResize( 'reset' );
+					}, 100 );
+				});
+
+				editor.on( 'keyup', mceKeyup );
+				editor.on( 'undo redo', mceScroll );
+
 			}).on( 'click.press-this keypress.press-this', '.suggested-media-thumbnail', function( event ) {
 				if ( event.type === 'click' || event.keyCode === 13 ) {
 					insertSelectedMedia( $( this ) );
@@ -727,11 +842,15 @@
 				}
 			} );
 
-			$( window ).on( 'beforeunload.press-this', function() {
+			$window.on( 'beforeunload.press-this', function() {
 				if ( saveAlert || ( editor && editor.isDirty() ) ) {
 					return __( 'saveAlert' );
 				}
-			} );
+			} ).on( 'resize.press-this', function() {
+				if ( ! editor || editor.isHidden() ) {
+					textEditorResize( 'reset' );
+				}
+			});
 
 			$( 'button.add-cat-toggle' ).on( 'click.press-this', function() {
 				var $this = $( this );
@@ -766,6 +885,8 @@
 				}
 			} );
 
+			$textEditor.on( 'focus.press-this input.press-this propertychange.press-this', textEditorResize );
+
 			return true;
 		}
 
@@ -782,7 +903,7 @@
 		}
 
 		// Let's go!
-		$( document ).ready( function() {
+		$document.ready( function() {
 			render();
 			monitor();
 			refreshCatsCache();

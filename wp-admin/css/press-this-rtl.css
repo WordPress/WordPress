@@ -2172,3 +2172,44 @@ html {
 	top: -1px;
 	margin-right: 11px;
 }
+
+/* Text editor */
+#pressthis {
+	color: #404040;
+	resize: none;
+	padding-top: 30px;
+}
+
+.wp-editor-wrap .quicktags-toolbar {
+	background: transparent;
+	border: none;
+}
+
+/* Switch editor buttons */
+.wp-editor-wrap .wp-editor-tools {
+	z-index: 0;
+}
+
+.wp-editor-wrap .wp-editor-tabs {
+	padding: 2px;
+}
+
+.wp-editor-wrap .wp-switch-editor {
+	top: 0;
+	margin: 3px 5px 0 0;
+	background: #f5f5f5;
+	color: #555;
+	border-color: #ccc;
+}
+
+.wp-editor-wrap .wp-switch-editor:hover {
+	background: #fafafa;
+	border-color: #999;
+	color: #23282d;
+}
+
+.wp-editor-wrap.tmce-active .switch-tmce,
+.wp-editor-wrap.html-active .switch-html {
+	background: #fff;
+	border-color: #d8d8d8;
+}
