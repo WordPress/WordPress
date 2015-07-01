@@ -1,8 +1,8 @@
 /**
  * validate.js
  *
- * Copyright, Moxiecode Systems AB
  * Released under LGPL License.
+ * Copyright (c) 1999-2015 Ephox Corp. All rights reserved
  *
  * License: http://www.tinymce.com/license
  * Contributing: http://www.tinymce.com/contributing
@@ -111,7 +111,7 @@ var AutoValidator = {
 	invalidate : function(n) {
 		this.mark(n.form, n);
 	},
-	
+
 	getErrorMessages : function(f) {
 		var nl, i, s = this.settings, field, msg, values, messages = [], ed = tinyMCEPopup.editor;
 		nl = this.tags(f, "label");
@@ -129,7 +129,7 @@ var AutoValidator = {
 				} else {
 					message = ed.getLang('invalid_data');
 				}
-				
+
 				message = message.replace(/{\#([^}]+)\}/g, function(a, b) {
 					return values[b] || '{#' + b + '}';
 				});

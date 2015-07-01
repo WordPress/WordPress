@@ -1,8 +1,8 @@
 /**
  * plugin.js
  *
- * Copyright, Moxiecode Systems AB
  * Released under LGPL License.
+ * Copyright (c) 1999-2015 Ephox Corp. All rights reserved
  *
  * License: http://www.tinymce.com/license
  * Contributing: http://www.tinymce.com/contributing
@@ -175,7 +175,7 @@ tinymce.PluginManager.add('media', function(editor, url) {
 
 				{
 					title: 'Embed',
-					type: "panel",
+					type: "container",
 					layout: 'flex',
 					direction: 'column',
 					align: 'stretch',

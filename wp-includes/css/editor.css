@@ -116,7 +116,7 @@
 	box-sizing: border-box;
 }
 
-.mce-window .mce-wp-help .mce-container-body.mce-undefined {
+.mce-window .mce-wp-help > .mce-container-body {
 	width: auto !important;
 }
 
@@ -423,6 +423,10 @@ div.mce-path {
 	line-height: normal;
 }
 
+.mce-toolbar .mce-listbox button {
+	padding-right: 20px;
+}
+
 .mce-toolbar .mce-btn i {
 	text-shadow: none;
 }
@@ -472,13 +476,7 @@ div.mce-path {
 }
 
 .mce-listbox i.mce-caret {
-	right: 6px;
-}
-
-.mce-panel .mce-btn button.mce-open i.mce-caret,
-.mce-panel .mce-btn.mce-listbox i.mce-caret {
-	margin-left: 0;
-	margin-right: 0;
+	right: 4px;
 }
 
 .mce-panel .mce-btn:hover i.mce-caret {

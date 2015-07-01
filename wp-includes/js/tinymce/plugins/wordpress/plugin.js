@@ -648,6 +648,10 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 			toolbar.bottom = bottom;
 
 			function reposition() {
+				if ( ! currentSelection ) {
+					return this;
+				}
+
 				var scrollX = window.pageXOffset || document.documentElement.scrollLeft,
 					scrollY = window.pageYOffset || document.documentElement.scrollTop,
 					windowWidth = window.innerWidth,
