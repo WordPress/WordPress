@@ -20,8 +20,9 @@ var wpNavMenu;
 
 		options : {
 			menuItemDepthPerLevel : 30, // Do not use directly. Use depthToPx and pxToDepth instead.
-			globalMaxDepth : 11,
-			sortableItems: '> *'
+			globalMaxDepth:  11,
+			sortableItems:   '> *',
+			targetTolerance: 0
 		},
 
 		menuList : undefined,	// Set in init.
@@ -438,7 +439,7 @@ var wpNavMenu;
 				totalMenuItems = $('#menu-to-edit li').length,
 				hasSameDepthSibling = menuItem.nextAll( '.menu-item-depth-' + depth ).length;
 
-				menuItem.find( '.field-move' ).toggle( totalMenuItems > 1 ); 
+				menuItem.find( '.field-move' ).toggle( totalMenuItems > 1 );
 
 			// Where can they move this menu item?
 			if ( 0 !== position ) {
@@ -721,11 +722,15 @@ var wpNavMenu;
 					var offset = ui.helper.offset(),
 						edge = api.isRTL ? offset.left + ui.helper.width() : offset.left,
 						depth = api.negateIfRTL * api.pxToDepth( edge - menuEdge );
+
 					// Check and correct if depth is not within range.
 					// Also, if the dragged element is dragged upwards over
 					// an item, shift the placeholder to a child position.
-					if ( depth > maxDepth || offset.top < prevBottom ) depth = maxDepth;
-					else if ( depth < minDepth ) depth = minDepth;
+					if ( depth > maxDepth || offset.top < ( prevBottom - api.options.targetTolerance ) ) {
+						depth = maxDepth;
+					} else if ( depth < minDepth ) {
+						depth = minDepth;
+					}
 
 					if( depth != currentDepth )
 						updateCurrentDepth(ui, depth);
