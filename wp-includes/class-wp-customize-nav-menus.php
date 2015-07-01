@@ -399,9 +399,15 @@ final class WP_Customize_Nav_Menus {
 		$this->manager->register_control_type( 'WP_Customize_Nav_Menu_Item_Control' );
 
 		// Create a panel for Menus.
+		$description = '<p>' . __( 'This panel is used for managing navigation menus for content you have already published on your site. You can create menus and add items for existing content such as pages, posts, categories, tags, formats, or custom links.' ) . '</p>';
+		if ( current_theme_supports( 'widgets' ) ) {
+			$description .= '<p>' . sprintf( __( 'Menus can be displayed in locations defined by your theme or in <a href="%s">widget areas</a> by adding a &#8220;Custom Menu&#8221; widget.' ), "javascript:wp.customize.panel( 'widgets' ).focus();" ) . '</p>';
+		} else {
+			$description .= '<p>' . __( 'Menus can be displayed in locations defined by your theme.' ) . '</p>';
+		}
 		$this->manager->add_panel( new WP_Customize_Nav_Menus_Panel( $this->manager, 'nav_menus', array(
 			'title'       => __( 'Menus' ),
-			'description' => '<p>' . __( 'This panel is used for managing navigation menus for content you have already published on your site. You can create menus and add items for existing content such as pages, posts, categories, tags, formats, or custom links.' ) . '</p><p>' . __( 'Menus can be displayed in locations defined by your theme or in widget areas by adding a "Custom Menu" widget.' ) . '</p>',
+			'description' => $description,
 			'priority'    => 100,
 			// 'theme_supports' => 'menus|widgets', @todo allow multiple theme supports
 		) ) );
