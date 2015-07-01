@@ -753,17 +753,17 @@ final class WP_Customize_Nav_Menus {
 		$args['instance_number'] = $this->preview_nav_menu_instance_number;
 
 		$can_partial_refresh = (
-			$args['echo']
+			! empty( $args['echo'] )
 			&&
-			is_string( $args['fallback_cb'] )
+			( empty( $args['fallback_cb'] ) || is_string( $args['fallback_cb'] ) )
 			&&
-			is_string( $args['walker'] )
+			( empty( $args['walker'] ) || is_string( $args['walker'] ) )
 		);
 		$args['can_partial_refresh'] = $can_partial_refresh;
 
 		if ( ! $can_partial_refresh ) {
-			unset( $args['fallback_cb'] );
-			unset( $args['walker'] );
+			$args['fallback_cb'] = '';
+			$args['walker'] = '';
 		}
 
 		ksort( $args );
