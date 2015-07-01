@@ -402,7 +402,7 @@ if ( apply_filters( 'show_password_fields', true ) ) : ?>
 			<button type="button" class="button button-secondary wp-generate-pw hide-if-no-js"><?php _e( 'Show password' ); ?></button>
 			<div class="wp-pwd hide-if-js">
 				<?php $initial_password = wp_generate_password( 24 ); ?>
-				<input type="password" name="pass1" id="pass1" class="regular-text" value="<?php echo esc_attr( $initial_password ); ?>" autocomplete="off" data-reveal="1" data-pw="<?php echo esc_attr( $initial_password ); ?>" />
+				<input type="password" name="pass1" id="pass1" class="regular-text" autocomplete="off" data-reveal="1" data-pw="<?php echo esc_attr( $initial_password ); ?>" />
 				<button type="button" class="button button-secondary wp-hide-pw hide-if-no-js" data-toggle="0">
 					<span class="dashicons dashicons-visibility"></span>
 					<span class="text">hide</span>

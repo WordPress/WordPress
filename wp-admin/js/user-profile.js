@@ -16,11 +16,15 @@
 			pw_weak = $('.pw-weak')
 		;
 
-		var generatePassword = function() {
-			pw_field.val( pw_field.data( 'pw' ) );
-			pw_field.trigger( 'propertychange' );
-			pw_field.attr( 'type', 'text' ).focus();
-			pw_field[0].setSelectionRange(100, 100);
+		var generatePassword = window.generatePassword = function() {
+			if ( typeof zxcvbn !== 'function' ) {
+				setTimeout( generatePassword, 50 );
+			} else {
+				pw_field.val( pw_field.data( 'pw' ) );
+				pw_field.trigger( 'propertychange' );
+				pw_field.attr( 'type', 'text' ).focus();
+				pw_field[0].setSelectionRange(100, 100);
+			}
 		};
 
 		pw_2.hide();
