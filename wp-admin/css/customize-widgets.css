@@ -142,7 +142,12 @@
 
 .reordering .reorder-done {
 	display: block;
-	color: #aa0000;
+	color: #0073aa;
+}
+
+.reordering .reorder-done:hover,
+.reordering .reorder-done:active {
+	color: #00a0d2;
 }
 
 #customize-theme-controls .reordering .add-new-widget {
