@@ -58,16 +58,20 @@ body.locale-he-il .press-this a.wp-switch-editor {
 .locale-zh-cn #sort-buttons { font-size: 1em !important; }
 
 /* de_DE: Text needs more space for translation */
-.locale-de-de .inline-edit-row fieldset label span.title {
+.locale-de-de .inline-edit-row fieldset label span.title,
+.locale-de-de-formal .inline-edit-row fieldset label span.title {
 	width: 7em; /* default 5em */
 }
-.locale-de-de .inline-edit-row fieldset label span.input-text-wrap {
+.locale-de-de .inline-edit-row fieldset label span.input-text-wrap,
+.locale-de-de-formal .inline-edit-row fieldset label span.input-text-wrap {
 	margin-left: 7em; /* default 5em */
 }
-.locale-de-de #customize-header-actions .button {
+.locale-de-de #customize-header-actions .button,
+.locale-de-de-formal #customize-header-actions .button {
 	padding: 0 5px 1px; /* default 0 10px 1px */
 }
-.locale-de-de #customize-header-actions .spinner {
+.locale-de-de #customize-header-actions .spinner,
+.locale-de-de-formal #customize-header-actions .spinner {
 	margin: 16px 3px 0; /* default 16px 4px 0 5px */
 }
 
