@@ -75,7 +75,7 @@ Webmaster
 	wp_mail( get_option( 'admin_email' ), "[ " . wp_specialchars_decode( get_option( 'blogname' ) ) . " ] ".__( 'Delete My Site' ), $content );
 	?>
 
-	<p><?php _e( 'Thank you. Please check your email for a link to confirm your action. Your site will not be deleted until this link is clicked. ') ?></p>
+	<p><?php _e( 'Thank you. Please check your email for a link to confirm your action. Your site will not be deleted until this link is clicked.' ) ?></p>
 
 <?php } else {
 	?>
