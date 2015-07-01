@@ -2271,6 +2271,7 @@ function wp_throttle_comment_flood($block, $time_lastcomment, $time_newcomment) 
  * See {@link https://core.trac.wordpress.org/ticket/9235}
  *
  * @since 1.5.0
+ * @since 4.3.0 'comment_agent' and 'comment_author_IP' can be set via `$commentdata`.
  *
  * @see wp_insert_comment()
  *
@@ -2309,8 +2310,15 @@ function wp_new_comment( $commentdata ) {
 	$parent_status = ( 0 < $commentdata['comment_parent'] ) ? wp_get_comment_status($commentdata['comment_parent']) : '';
 	$commentdata['comment_parent'] = ( 'approved' == $parent_status || 'unapproved' == $parent_status ) ? $commentdata['comment_parent'] : 0;
 
-	$commentdata['comment_author_IP'] = preg_replace( '/[^0-9a-fA-F:., ]/', '',$_SERVER['REMOTE_ADDR'] );
-	$commentdata['comment_agent']     = isset( $_SERVER['HTTP_USER_AGENT'] ) ? substr( $_SERVER['HTTP_USER_AGENT'], 0, 254 ) : '';
+	if ( ! isset( $commentdata['comment_author_IP'] ) ) {
+		$commentdata['comment_author_IP'] = $_SERVER['REMOTE_ADDR'];
+	}
+	$commentdata['comment_author_IP'] = preg_replace( '/[^0-9a-fA-F:., ]/', '', $commentdata['comment_author_IP'] );
+
+	if ( ! isset( $commentdata['comment_agent'] ) ) {
+		$commentdata['comment_agent'] = isset( $_SERVER['HTTP_USER_AGENT'] ) ? $_SERVER['HTTP_USER_AGENT']: '';
+	}
+	$commentdata['comment_agent'] = substr( $commentdata['comment_agent'], 0, 254 );
 
 	if ( empty( $commentdata['comment_date'] ) ) {
 		$commentdata['comment_date'] = current_time('mysql');
