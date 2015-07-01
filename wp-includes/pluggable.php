@@ -1091,10 +1091,6 @@ function check_admin_referer( $action = -1, $query_arg = '_wpnonce' ) {
 	$adminurl = strtolower(admin_url());
 	$referer = strtolower(wp_get_referer());
 	$result = isset($_REQUEST[$query_arg]) ? wp_verify_nonce($_REQUEST[$query_arg], $action) : false;
-	if ( !$result && !(-1 == $action && strpos($referer, $adminurl) === 0) ) {
-		wp_nonce_ays($action);
-		die();
-	}
 
 	/**
 	 * Fires once the admin request has been validated or not.
@@ -1106,6 +1102,12 @@ function check_admin_referer( $action = -1, $query_arg = '_wpnonce' ) {
 	 *                          0-12 hours ago, 2 if the nonce is valid and generated between 12-24 hours ago.
 	 */
 	do_action( 'check_admin_referer', $action, $result );
+
+	if ( ! $result && ! ( -1 == $action && strpos( $referer, $adminurl ) === 0 ) ) {
+		wp_nonce_ays( $action );
+		die();
+	}
+
 	return $result;
 }
 endif;
