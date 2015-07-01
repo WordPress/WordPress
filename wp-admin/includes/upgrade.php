@@ -1522,46 +1522,60 @@ function upgrade_430() {
 	global $wp_current_db_version, $wpdb;
 
 	if ( $wp_current_db_version < 32364 ) {
-		$content_length = $wpdb->get_col_length( $wpdb->comments, 'comment_content' );
-
-		if ( is_wp_error( $content_length ) ) {
-			return;
-		}
-
-		if ( false === $content_length ) {
-			$content_length = array(
-				'type'   => 'byte',
-				'length' => 65535,
-			);
-		} elseif ( ! is_array( $content_length ) ) {
-			$length = (int) $content_length > 0 ? (int) $content_length : 65535;
-			$content_length = array(
-				'type'	 => 'byte',
-				'length' => $length
-			);
-		}
-
-		if ( 'byte' !== $content_length['type'] || 0 === $content_length['length'] ) {
-			// Sites with malformed DB schemas are on their own.
-			return;
-		}
-
-		$allowed_length = intval( $content_length['length'] ) - 10;
-
-		$comments = $wpdb->get_results(
-			"SELECT `comment_ID` FROM `{$wpdb->comments}`
-				WHERE `comment_date_gmt` > '2015-04-26'
-				AND LENGTH( `comment_content` ) >= {$allowed_length}
-				AND ( `comment_content` LIKE '%<%' OR `comment_content` LIKE '%>%' )"
-		);
-
-		foreach ( $comments as $comment ) {
-			wp_delete_comment( $comment->comment_ID, true );
-		}
+		upgrade_430_fix_comments();
 	}
 
 	if ( $wp_current_db_version < 32814 ) {
 		split_all_shared_terms();
+	}
+}
+
+/**
+ * Execute comments changes made in WordPress 4.3.0.
+ *
+ * @since 4.3.0
+ *
+ * @global int   $wp_current_db_version
+ * @global wpdb  $wpdb
+ */
+function upgrade_430_fix_comments() {
+	global $wp_current_db_version, $wpdb;
+
+	$content_length = $wpdb->get_col_length( $wpdb->comments, 'comment_content' );
+
+	if ( is_wp_error( $content_length ) ) {
+		return;
+	}
+
+	if ( false === $content_length ) {
+		$content_length = array(
+			'type'   => 'byte',
+			'length' => 65535,
+		);
+	} elseif ( ! is_array( $content_length ) ) {
+		$length = (int) $content_length > 0 ? (int) $content_length : 65535;
+		$content_length = array(
+			'type'	 => 'byte',
+			'length' => $length
+		);
+	}
+
+	if ( 'byte' !== $content_length['type'] || 0 === $content_length['length'] ) {
+		// Sites with malformed DB schemas are on their own.
+		return;
+	}
+
+	$allowed_length = intval( $content_length['length'] ) - 10;
+
+	$comments = $wpdb->get_results(
+		"SELECT `comment_ID` FROM `{$wpdb->comments}`
+			WHERE `comment_date_gmt` > '2015-04-26'
+			AND LENGTH( `comment_content` ) >= {$allowed_length}
+			AND ( `comment_content` LIKE '%<%' OR `comment_content` LIKE '%>%' )"
+	);
+
+	foreach ( $comments as $comment ) {
+		wp_delete_comment( $comment->comment_ID, true );
 	}
 }
 
