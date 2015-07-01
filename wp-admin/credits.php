@@ -69,7 +69,7 @@ function _wp_credits_add_profile_link( &$display_name, $username, $profiles ) {
  * @param string &$data External library data, passed by reference.
  */
 function _wp_credits_build_object_link( &$data ) {
-	$data = '<a href="' . esc_url( $data[1] ) . '">' . $data[0] . '</a>';
+	$data = '<a href="' . esc_url( $data[1] ) . '">' . esc_html( $data[0] ) . '</a>';
 }
 
 list( $display_version ) = explode( '-', $wp_version );
@@ -120,7 +120,7 @@ foreach ( $credits['groups'] as $group_slug => $group_data ) {
 			$title = translate( $group_data['name'] );
 		}
 
-		echo '<h4 class="wp-people-group">' . $title . "</h4>\n";
+		echo '<h4 class="wp-people-group">' . esc_html( $title ) . "</h4>\n";
 	}
 
 	if ( ! empty( $group_data['shuffle'] ) )
@@ -140,14 +140,14 @@ foreach ( $credits['groups'] as $group_slug => $group_data ) {
 			$classes = 'wp-people-group ' . ( $compact ? 'compact' : '' );
 			echo '<ul class="' . $classes . '" id="wp-people-group-' . $group_slug . '">' . "\n";
 			foreach ( $group_data['data'] as $person_data ) {
-				echo '<li class="wp-person" id="wp-person-' . $person_data[2] . '">' . "\n\t";
-				echo '<a href="' . sprintf( $credits['data']['profiles'], $person_data[2] ) . '">';
+				echo '<li class="wp-person" id="wp-person-' . esc_attr( $person_data[2] ) . '">' . "\n\t";
+				echo '<a href="' . esc_url( sprintf( $credits['data']['profiles'], $person_data[2] ) ) . '">';
 				$size = 'compact' == $group_data['type'] ? 30 : 60;
 				$data = get_avatar_data( $person_data[1] . '@md5.gravatar.com', array( 'size' => $size ) );
 				$size *= 2;
 				$data2x = get_avatar_data( $person_data[1] . '@md5.gravatar.com', array( 'size' => $size ) );
-				echo '<img src="' . esc_attr( $data['url'] ) . '" srcset="' . esc_attr( $data2x['url'] ) . ' 2x" class="gravatar" alt="' . esc_attr( $person_data[0] ) . '" /></a>' . "\n\t";
-				echo '<a class="web" href="' . sprintf( $credits['data']['profiles'], $person_data[2] ) . '">' . $person_data[0] . "</a>\n\t";
+				echo '<img src="' . esc_url( $data['url'] ) . '" srcset="' . esc_url( $data2x['url'] ) . ' 2x" class="gravatar" alt="' . esc_attr( $person_data[0] ) . '" /></a>' . "\n\t";
+				echo '<a class="web" href="' . esc_url( sprintf( $credits['data']['profiles'], $person_data[2] ) ) . '">' . esc_html( $person_data[0] ) . "</a>\n\t";
 				if ( ! $compact )
 					echo '<span class="title">' . translate( $person_data[3] ) . "</span>\n";
 				echo "</li>\n";
