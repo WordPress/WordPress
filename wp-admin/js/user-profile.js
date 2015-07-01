@@ -1,5 +1,110 @@
 /* global ajaxurl, pwsL10n */
 (function($){
+	$(function(){
+		var pw_new = $('.user-pass1-wrap'),
+			pw_line = pw_new.find('.wp-pwd'),
+			pw_field = $('#pass1'),
+			pw_field2 = $('#pass2'),
+			pw_togglebtn = pw_new.find('.wp-hide-pw'),
+			pw_generatebtn = pw_new.find('button.wp-generate-pw'),
+			pw_2 = $('.user-pass2-wrap'),
+			parentform = pw_new.closest('form'),
+			pw_strength = $('#pass-strength-result'),
+			pw_submitbtn_edit = $('#submit'),
+			pw_submitbtn_new = $( '#createusersub' ),
+			pw_checkbox = $('.pw-checkbox'),
+			pw_weak = $('.pw-weak')
+		;
+
+		generatePassword = function() {
+			pw_field.val( pw_field.data( 'pw' ) );
+			pw_field.trigger( 'propertychange' );
+			pw_field.attr( 'type', 'text' ).focus();
+			pw_field[0].setSelectionRange(100, 100);
+		};
+
+		pw_2.hide();
+		pw_line.hide();
+		pw_togglebtn.show();
+		pw_generatebtn.show();
+
+		if ( pw_field.data( 'reveal' ) == 1 ) {
+			generatePassword();
+		}
+
+		parentform.on('submit', function(){
+			pw_field2.val( pw_field.val() );
+			pw_field.attr('type', 'password');
+		});
+
+
+		pw_field.on('input propertychange', function(){
+			setTimeout( function(){
+				var cssClass = pw_strength.attr('class');
+				pw_field.removeClass( 'short bad good strong' );
+				if ( 'undefined' !== typeof cssClass ) {
+					pw_field.addClass( cssClass );
+					if ( cssClass == 'short' || cssClass == 'bad' ) {
+						if ( ! pw_checkbox.attr( 'checked' ) ) {
+							pw_submitbtn_new.attr( 'disabled','disabled' );
+							pw_submitbtn_edit.attr( 'disabled','disabled' );
+						}
+						pw_weak.show();
+					} else {
+						pw_submitbtn_new.removeAttr( 'disabled' );
+						pw_submitbtn_edit.removeAttr( 'disabled' );
+						pw_weak.hide();
+					}
+				}
+			}, 1 );
+		} );
+
+		pw_checkbox.change( function() {
+			if ( pw_checkbox.attr( 'checked' ) ) {
+				pw_submitbtn_new.removeAttr( 'disabled' );
+				pw_submitbtn_edit.removeAttr( 'disabled' );
+			} else {
+				pw_submitbtn_new.attr( 'disabled','disabled' );
+				pw_submitbtn_edit.attr( 'disabled','disabled' );
+			}
+		} );
+
+		/**
+		 * Fix a LastPass mismatch issue, LastPass only changes pass2.
+		 *
+		 * This fixes the issue by copying any changes from the hidden
+		 * pass2 field to the pass1 field.
+		 */
+		pw_field2.on( 'input propertychange', function() {
+			pw_field.val( pw_field2.val() );
+			pw_field.trigger( 'propertychange' );
+		} );
+
+		pw_new.on( 'click', 'button.wp-generate-pw', function(){
+			pw_generatebtn.hide();
+			pw_line.show();
+			generatePassword();
+		});
+
+		pw_togglebtn.on( 'click', function() {
+			var show = pw_togglebtn.attr( 'data-toggle' );
+			if ( show == 1 ) {
+				pw_field.attr( 'type', 'text' );
+				pw_togglebtn.attr( 'data-toggle', 0 )
+					.find( '.text' )
+						.text( 'hide' )
+				;
+			} else {
+				pw_field.attr( 'type', 'password' );
+				pw_togglebtn.attr( 'data-toggle', 1 )
+					.find( '.text' )
+						.text( 'show' )
+				;
+			}
+			pw_field.focus();
+			pw_field[0].setSelectionRange(100, 100);
+		});
+	});
 
 	function check_pass_strength() {
 		var pass1 = $('#pass1').val(), pass2 = $('#pass2').val(), strength;

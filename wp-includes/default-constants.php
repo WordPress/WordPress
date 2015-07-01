@@ -92,6 +92,9 @@ function wp_initial_constants() {
 	if ( !defined('SHORTINIT') )
 		define('SHORTINIT', false);
 
+	// Constants for features added to WP that should short-circuit their plugin implementations
+	define( 'WP_FEATURE_BETTER_PASSWORDS', true );
+
 	// Constants for expressing human-readable intervals
 	// in their respective number of seconds.
 	define( 'MINUTE_IN_SECONDS', 60 );

@@ -462,26 +462,32 @@ if ( $show_password_fields ) :
 	<th><label for="pass1"><?php _e( 'New Password' ); ?></label></th>
 	<td>
 		<input class="hidden" value=" " /><!-- #24364 workaround -->
-		<input type="password" name="pass1" id="pass1" class="regular-text" size="16" value="" autocomplete="off" />
-		<p class="description"><?php _e( 'If you would like to change the password type a new one. Otherwise leave this blank.' ); ?></p>
+		<button type="button" class="button button-secondary wp-generate-pw hide-if-no-js"><?php _e( 'Generate new password' ); ?></button>
+		<div class="wp-pwd hide-if-js">
+			<input type="password" name="pass1" id="pass1" class="regular-text" value="" autocomplete="off" data-pw="<?php echo esc_attr( wp_generate_password( 24 ) ); ?>" />
+			<button type="button" class="button button-secondary wp-hide-pw hide-if-no-js" data-toggle="0">
+				<span class="dashicons dashicons-visibility"></span>
+				<span class="text">hide</span>
+			</button>
+			<div style="display:none" id="pass-strength-result"></div>
+		</div>
 	</td>
 </tr>
-<tr class="user-pass2-wrap">
+<tr class="user-pass2-wrap hide-if-js">
 	<th scope="row"><label for="pass2"><?php _e( 'Repeat New Password' ); ?></label></th>
 	<td>
-	<input name="pass2" type="password" id="pass2" class="regular-text" size="16" value="" autocomplete="off" />
+	<input name="pass2" type="password" id="pass2" class="regular-text" value="" autocomplete="off" />
 	<p class="description"><?php _e( 'Type your new password again.' ); ?></p>
-	<br />
-	<div id="pass-strength-result"><?php _e( 'Strength indicator' ); ?></div>
-	<p class="description indicator-hint"><?php echo wp_get_password_hint(); ?></p>
+	</td>
+</tr>
+<tr class="pw-weak">
+	<th><label for="pw-weak"><?php _e( 'Confirm Password' ); ?></label></th>
+	<td>
+	<input type="checkbox" name="pw-weak" class="pw-checkbox" />
+	<?php _e( 'Confirm use of weak password' ); ?>
 	</td>
 </tr>
 <?php endif; ?>
-
-<?php
-// This is a temporary hook for WordPress 4.3 development. Do not use it or document it.
-do_action( '__temp_password_field', $profileuser );
-?>
 
 <?php
 if ( IS_PROFILE_PAGE && count( $sessions->get_all() ) === 1 ) : ?>

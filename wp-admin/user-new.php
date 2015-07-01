@@ -190,7 +190,7 @@ get_current_screen()->set_help_sidebar(
 );
 
 wp_enqueue_script('wp-ajax-response');
-wp_enqueue_script('user-profile');
+wp_enqueue_script( 'user-profile' );
 
 /**
  * Filter whether to enable user auto-complete for non-super admins in Multisite.
@@ -355,7 +355,7 @@ $new_user_lastname = $creating && isset( $_POST['last_name'] ) ? wp_unslash( $_P
 $new_user_email = $creating && isset( $_POST['email'] ) ? wp_unslash( $_POST['email'] ) : '';
 $new_user_uri = $creating && isset( $_POST['url'] ) ? wp_unslash( $_POST['url'] ) : '';
 $new_user_role = $creating && isset( $_POST['role'] ) ? wp_unslash( $_POST['role'] ) : '';
-$new_user_send_password = $creating && isset( $_POST['send_password'] ) ? wp_unslash( $_POST['send_password'] ) : '';
+$new_user_send_password = $creating && isset( $_POST['send_password'] ) ? wp_unslash( $_POST['send_password'] ) : true;
 $new_user_ignore_pass = $creating && isset( $_POST['noconfirmation'] ) ? wp_unslash( $_POST['noconfirmation'] ) : '';
 
 ?>
@@ -390,25 +390,40 @@ $new_user_ignore_pass = $creating && isset( $_POST['noconfirmation'] ) ? wp_unsl
  * @param bool $show Whether to show the password fields. Default true.
  */
 if ( apply_filters( 'show_password_fields', true ) ) : ?>
-	<tr class="form-field form-required">
-		<th scope="row"><label for="pass1"><?php _e('Password'); ?> <span class="description"><?php /* translators: password input field */_e('(required)'); ?></span></label></th>
+	<tr class="form-field form-required user-pass1-wrap">
+		<th scope="row">
+			<label for="pass1">
+				<?php _e( 'Password' ); ?>
+				<span class="description hide-if-js"><?php /* translators: password input field */_e( '(required)' ); ?></span>
+			</label>
+		</th>
 		<td>
 			<input class="hidden" value=" " /><!-- #24364 workaround -->
-			<input name="pass1" type="password" id="pass1" autocomplete="off" />
+			<button type="button" class="button button-secondary wp-generate-pw hide-if-no-js"><?php _e( 'Show password' ); ?></button>
+			<div class="wp-pwd hide-if-js">
+				<?php $initial_password = wp_generate_password( 24 ); ?>
+				<input type="password" name="pass1" id="pass1" class="regular-text" value="<?php echo esc_attr( $initial_password ); ?>" autocomplete="off" data-reveal="1" data-pw="<?php echo esc_attr( $initial_password ); ?>" />
+				<button type="button" class="button button-secondary wp-hide-pw hide-if-no-js" data-toggle="0">
+					<span class="dashicons dashicons-visibility"></span>
+					<span class="text">hide</span>
+				</button>
+				<div style="display:none" id="pass-strength-result"></div>
+			</div>
+			<p><span class="description"><?php _e( 'A password reset link will be sent to the user via email' ); ?></span></p>
 		</td>
 	</tr>
-	<tr class="form-field form-required">
-		<th scope="row"><label for="pass2"><?php _e('Repeat Password'); ?> <span class="description"><?php /* translators: password input field */_e('(required)'); ?></span></label></th>
+	<tr class="form-field form-required user-pass2-wrap hide-if-js">
+		<th scope="row"><label for="pass2"><?php _e( 'Repeat Password' ); ?> <span class="description"><?php /* translators: password input field */_e('(required)'); ?></span></label></th>
 		<td>
 		<input name="pass2" type="password" id="pass2" autocomplete="off" />
-		<br />
-		<div id="pass-strength-result"><?php _e('Strength indicator'); ?></div>
-		<p class="description indicator-hint"><?php echo wp_get_password_hint(); ?></p>
 		</td>
 	</tr>
-	<tr>
-		<th scope="row"><?php _e('Send Password?') ?></th>
-		<td><label for="send_password"><input type="checkbox" name="send_password" id="send_password" value="1" <?php checked( $new_user_send_password ); ?> /> <?php _e('Send this password to the new user by email.'); ?></label></td>
+	<tr class="pw-weak">
+		<th><label for="pw-weak"><?php _e( 'Confirm Password' ); ?></label></th>
+		<td>
+			<input type="checkbox" name="pw-weak" class="pw-checkbox" />
+			<?php _e( 'Confirm use of weak password' ); ?>
+		</td>
 	</tr>
 <?php endif; ?>
 <?php } // !is_multisite ?>

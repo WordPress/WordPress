@@ -401,6 +401,11 @@ input[type="number"].small-text {
 	color: #777;
 }
 
+button.wp-hide-pw > .dashicons {
+	position: relative;
+	top: 3px;
+}
+
 label,
 #your-profile label + a {
 	vertical-align: middle;
@@ -434,32 +439,56 @@ fieldset label,
 #pass-strength-result {
 	background-color: #eee;
 	border: 1px solid #ddd;
-	float: right;
-	margin: 13px 1px 5px 5px;
+	margin: -2px 1px 5px 5px;
 	padding: 3px 5px;
 	text-align: center;
-	width: 200px;
-	display: none;
+	width: 25em;
+	box-sizing: border-box;
+	opacity: 0;
 }
 
 #pass-strength-result.short {
+	opacity: 1;
 	background-color: #ffa0a0;
 	border-color: #f04040;
 }
 
 #pass-strength-result.bad {
+	opacity: 1;
 	background-color: #ffb78c;
 	border-color: #ff853c;
 }
 
 #pass-strength-result.good {
+	opacity: 1;
 	background-color: #ffec8b;
 	border-color: #fc0;
 }
 
 #pass-strength-result.strong {
+	opacity: 1;
 	background-color: #c3ff88;
 	border-color: #8dff1c;
+}
+
+#pass1.short {
+	border-color: #f04040;
+}
+
+#pass1.bad {
+	border-color: #ff853c;
+}
+
+#pass1.good {
+	border-color: #fc0;
+}
+
+#pass1.strong {
+	border-color: #8dff1c;
+}
+
+.pw-weak{
+	display:none;
 }
 
 .indicator-hint {

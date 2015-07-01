@@ -1690,9 +1690,9 @@ if ( !function_exists('wp_new_user_notification') ) :
  * @since 2.0.0
  *
  * @param int    $user_id        User ID.
- * @param string $plaintext_pass Optional. The user's plaintext password. Default empty.
  */
-function wp_new_user_notification($user_id, $plaintext_pass = '') {
+function wp_new_user_notification($user_id) {
+	global $wpdb;
 	$user = get_userdata( $user_id );
 
 	// The blogname option is escaped with esc_html on the way into the database in sanitize_option
@@ -1705,14 +1705,26 @@ function wp_new_user_notification($user_id, $plaintext_pass = '') {
 
 	@wp_mail(get_option('admin_email'), sprintf(__('[%s] New User Registration'), $blogname), $message);
 
-	if ( empty($plaintext_pass) )
-		return;
+	// Generate something random for a password reset key.
+	$key = wp_generate_password( 20, false );
 
-	$message  = sprintf(__('Username: %s'), $user->user_login) . "\r\n";
-	$message .= sprintf(__('Password: %s'), $plaintext_pass) . "\r\n";
+	do_action( 'retrieve_password_key', $user->user_login, $key );
+
+	// Now insert the key, hashed, into the DB.
+	if ( empty( $wp_hasher ) ) {
+		require_once ABSPATH . WPINC . '/class-phpass.php';
+		$wp_hasher = new PasswordHash( 8, true );
+	}
+	$hashed = time() . ':' . $wp_hasher->HashPassword( $key );
+	$wpdb->update( $wpdb->users, array( 'user_activation_key' => $hashed ), array( 'user_login' => $user->user_login ) );
+
+	$message = sprintf(__('Username: %s'), $user->user_login) . "\r\n\r\n";
+	$message .= __('To set your password, visit the following address:') . "\r\n\r\n";
+	$message .= '<' . network_site_url("wp-login.php?action=rp&key=$key&login=" . rawurlencode($user->user_login), 'login') . ">\r\n\r\n";
+
 	$message .= wp_login_url() . "\r\n";
 
-	wp_mail($user->user_email, sprintf(__('[%s] Your username and password'), $blogname), $message);
+	wp_mail($user->user_email, sprintf(__('[%s] Your username and password info'), $blogname), $message);
 
 }
 endif;
