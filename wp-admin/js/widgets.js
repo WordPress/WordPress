@@ -4,6 +4,12 @@ var wpWidgets;
 	var $document = $( document );
 
 wpWidgets = {
+	/**
+	 * A closed Sidebar that gets a Widget dragged over it.
+	 *
+	 * @var element|null
+	 */
+	hoveredSidebar: null,
 
 	init : function() {
 		var rem, the_id,
@@ -94,6 +100,7 @@ wpWidgets = {
 			helper: 'clone',
 			zIndex: 100,
 			containment: '#wpwrap',
+			refreshPositions: true,
 			start: function( event, ui ) {
 				var chooser = $(this).find('.widgets-chooser');
 
@@ -116,6 +123,43 @@ wpWidgets = {
 				rem = '';
 			}
 		});
+
+		/**
+		 * Opens and closes previously closed Sidebars when Widgets are dragged over/out of them.
+		 */
+		sidebars.droppable( {
+			tolerance: 'pointer',
+
+			/**
+			 * Open Sidebar when a Widget gets dragged over it.
+			 *
+			 * @param event
+			 */
+			over: function( event ) {
+				var $wrap = $( event.target ).parent();
+
+				if ( wpWidgets.hoveredSidebar && ! $wrap.is( wpWidgets.hoveredSidebar ) ) {
+					// Close the previous Sidebar as the Widget has been dragged onto another Sidebar.
+					wpWidgets.closeSidebar( event );
+				}
+
+				if ( $wrap.hasClass( 'closed' ) ) {
+					wpWidgets.hoveredSidebar = $wrap;
+					$wrap.removeClass( 'closed' );
+				}
+			},
+
+			/**
+			 * Close Sidebar when the Widget gets dragged out of it.
+			 *
+			 * @param event
+			 */
+			out: function( event ) {
+				if ( wpWidgets.hoveredSidebar ) {
+					wpWidgets.closeSidebar( event );
+				}
+			}
+		} );
 
 		sidebars.sortable({
 			placeholder: 'widget-placeholder',
@@ -147,6 +191,9 @@ wpWidgets = {
 				var addNew, widgetNumber, $sidebar, $children, child, item,
 					$widget = ui.item,
 					id = the_id;
+
+				// Reset the var to hold a previously closed sidebar.
+				wpWidgets.hoveredSidebar = null;
 
 				if ( $widget.hasClass('deleting') ) {
 					wpWidgets.save( $widget, 1, 0, 1 ); // delete widget
@@ -491,6 +538,19 @@ wpWidgets = {
 	clearWidgetSelection: function() {
 		$( '#widgets-left' ).removeClass( 'chooser' );
 		$( '.widget-in-question' ).removeClass( 'widget-in-question' );
+	},
+
+	/**
+	 * Closes a Sidebar that was previously closed, but opened by dragging a Widget over it.
+	 *
+	 * Used when a Widget gets dragged in/out of the Sidebar and never dropped.
+	 *
+	 * @param sidebar
+	 */
+	closeSidebar: function( sidebar ) {
+		this.hoveredSidebar.addClass( 'closed' );
+		$( sidebar.target ).css( 'min-height', '' );
+		this.hoveredSidebar = null;
 	}
 };
 
