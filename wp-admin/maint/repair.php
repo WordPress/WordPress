@@ -35,20 +35,25 @@ if ( ! defined( 'WP_ALLOW_REPAIR' ) ) {
 
 	foreach ( array( 'AUTH_KEY', 'SECURE_AUTH_KEY', 'LOGGED_IN_KEY', 'NONCE_KEY', 'AUTH_SALT', 'SECURE_AUTH_SALT', 'LOGGED_IN_SALT', 'NONCE_SALT' ) as $key ) {
 		if ( defined( $key ) ) {
+			// Check for unique values of each key.
 			$duplicated_keys[ constant( $key ) ] = isset( $duplicated_keys[ constant( $key ) ] );
 		} else {
+			// If a constant is not defined, it's missing.
 			$missing_key = true;
 		}
 	}
 
+	// If at least one key uses the default value, consider it duplicated.
 	if ( isset( $duplicated_keys[ $default_key ] ) ) {
 		$duplicated_keys[ $default_key ] = true;
 	}
+
+	// Weed out all unique, non-default values.
 	$duplicated_keys = array_filter( $duplicated_keys );
 
 	if ( $duplicated_keys || $missing_key ) {
 		// Translators: 1: wp-config.php; 2: Secret key service URL.
-		echo '<p>' . sprintf( __( 'While you are in your %1$s file, you should also make sure you have the 8 unique phrases in place. You can generate these using the <a href="%2$s">WordPress.org secret key service</a>.' ), '<code>wp-config.php</code>', 'https://api.wordpress.org/secret-key/1.1/salt/' ) . '</p>';
+		echo '<p>' . sprintf( __( 'While you are editing your %1$s file, take a moment to make sure you have all 8 keys and that they are unique. You can generate these using the <a href="%2$s">WordPress.org secret key service</a>.' ), '<code>wp-config.php</code>', 'https://api.wordpress.org/secret-key/1.1/salt/' ) . '</p>';
 	}
 
 } elseif ( isset( $_GET['repair'] ) ) {
