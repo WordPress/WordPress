@@ -487,6 +487,11 @@ $(document).ready( function() {
 		}
 	}, 'td.has-row-actions' );
 
+	// Toggle list table rows on small screens
+	$( 'tbody' ).on( 'click', '.toggle-row', function() {
+		$( this ).closest( 'tr' ).toggleClass( 'is-expanded' );
+	});
+
 	$('#default-password-nag-no').click( function() {
 		setUserSetting('default_password_nag', 'hide');
 		$('div.default-password-nag').hide();

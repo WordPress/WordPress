@@ -428,6 +428,60 @@ th.asc a:focus span.sorting-indicator:before {
 	content: '\f140';
 }
 
+.wp-list-table .toggle-row {
+	position: absolute;
+	right: 8px;
+	top: 10px;
+	display: none;
+	padding: 0;
+	width: 40px;
+	height: 40px;
+	border: none;
+	outline: none;
+	background: transparent;
+}
+
+.wp-list-table .toggle-row:hover {
+	cursor: pointer;
+}
+
+.wp-list-table .toggle-row:focus {
+    -webkit-box-shadow:
+    	0 0 0 1px #5b9dd9,
+		0 0 2px 1px rgba(30, 140, 190, .8);
+    box-shadow:
+    	0 0 0 1px #5b9dd9,
+		0 0 2px 1px rgba(30, 140, 190, .8);
+}
+
+.ie8 .wp-list-table .toggle-row:focus {
+	outline: #5b9dd9 solid 1px;
+}
+
+.wp-list-table .toggle-row:active {
+	-webkit-box-shadow: none;
+	box-shadow: none;
+}
+
+.wp-list-table .toggle-row:before {
+	position: absolute;
+	top: 0;
+	left: 10px;
+	display: block;
+	padding: 0;
+	color: #666;
+	content: '\f140';
+	font: normal 20px/1 'dashicons';
+	line-height: 10px;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	speak: none;
+}
+
+.wp-list-table .is-expanded .toggle-row:before {
+	content: '\f142';
+}
+
 tr.wp-locked .locked-indicator {
 	margin-left: 6px;
 	height: 20px;
@@ -1303,7 +1357,8 @@ tr.active.update + tr.plugin-update-tr .plugin-update {
 	content: '\f147';
 }
 
-.plugins .plugin-update-tr .plugin-update {
+.wp-list-table.plugins tbody tr.plugin-update-tr td.plugin-update {
+	overflow: hidden; /* clearfix */
 	padding: 0;
 	-webkit-box-shadow: inset 0 -1px 0 rgba(0,0,0,0.1);
 	box-shadow: inset 0 -1px 0 rgba(0,0,0,0.1);
@@ -1676,32 +1731,75 @@ div.action-links,
 		font-size: 14px;
 	}
 
-	/* Columns to hide */
-	.fixed .column-date,
-	.fixed .column-author,
-	.column-categories,
-	.column-tags,
-	.tags .column-description,
-	.media .column-parent,
-	.media .column-comments,
-	.users .column-email,
-	.users .column-name,
-	.sites .column-registered,
-	.sites .column-users {
+	.wp-list-table th:not(.column-primary),
+	.wp-list-table th:not(.column-primary),
+	.wp-list-table tr:not(.inline-edit-row) td:not(.column-primary):not(.check-column) {
 		display: none;
+	}
+
+	/* Checkboxes need to show */
+	.wp-list-table tr th.check-column {
+		display: table-cell;
+		width: 35px;
+	}
+
+	.wp-list-table .toggle-row {
+		display: block;
+	}
+
+	.wp-list-table tr:not(.inline-edit-row) td:not(.check-column) {
+		position: relative;
+		clear: both;
+		display: block;
+		width: auto !important; /* needs to override some columns that are more specifically targeted */
+	}
+
+	.wp-list-table td.column-primary {
+		padding-right: 50px; /* space for toggle button */
+	}
+
+	.wp-list-table tr:not(.inline-edit-row) td:not(.column-primary):not(.check-column) {
+		padding: 3px 8px 3px 35%;
+	}
+
+	.wp-list-table tr:not(.inline-edit-row) td:not(.column-primary)::before {
+		position: absolute;
+		left: 10px; /* match padding of regular table cell */
+		display: block;
+		overflow: hidden;
+		width: 32%; /* leave a little space for a gutter */
+		content: attr(data-colname);
+		white-space: nowrap;
+		text-overflow: ellipsis;
+	}
+
+	.wp-list-table .is-expanded td:not(.hidden) {
+		display: block !important;
+		overflow: hidden; /* clearfix */
+	}
+
+	/* Special cases */
+	.widefat .num,
+	.column-posts {
+		text-align: left;
+	}
+
+	#comments-form .fixed .column-author {
+		display: none !important;
 	}
 
 	.fixed .column-comment .comment-author {
 		display: block;
 	}
 
-	/* Posts */
-	.column-title {
-		width: 85%;
+	#the-comment-list .is-expanded td {
+		-webkit-box-shadow: none;
+		box-shadow: none;
 	}
 
-	.fixed .column-comments, .widefat .check-column {
-		width: 35px
+	#the-comment-list .is-expanded td:last-child {
+		-webkit-box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+		box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.1);
 	}
 
 	.widefat thead .check-column, .widefat tfoot .check-column {
@@ -1710,11 +1808,6 @@ div.action-links,
 
 	.widefat * {
 		word-wrap: normal;
-	}
-
-	/* Media */
-	.media .column-title {
-		width: auto;
 	}
 
 	/* Quick Edit and Bulk Edit */
@@ -1792,30 +1885,6 @@ div.action-links,
 		height: 22px;
 	}
 
-	/* Taxonomies */
-	.tags .column-posts {
-		width: 74px;
-	}
-
-	.tags .column-slug {
-		width: 30%;
-	}
-
-	/* Comments */
-	.comments .column-response {
-		width: 35%;
-	}
-
-	/* Users */
-	.users .column-role {
-		width: 35%;
-	}
-
-	/* Network admin sites */
-	.sites .column-blogname {
-		width: 55%;
-	}
-
 	/* Updates */
 	#wpbody-content #update-themes-table .plugin-title {
 		width: auto;
@@ -1831,32 +1900,18 @@ div.action-links,
 	}
 
 	/* Plugin/Theme Management Page */
-	.wp-list-table.plugins {
-		position: relative;
-		margin-bottom: 15px;
-	}
-
-	#wpbody-content .wp-list-table.plugins thead .column-description,
-	#wpbody-content .wp-list-table.plugins tfoot .column-description,
-	.wp-list-table.plugins th#description {
+	.wp-list-table.plugins .toggle-row {
 		display: none;
 	}
 
-	#wpbody-content .wp-list-table.plugins,
-	#wpbody-content .wp-list-table.plugins thead,
-	#wpbody-content .wp-list-table.plugins tbody,
-	#wpbody-content .wp-list-table.plugins tr,
-	#wpbody-content .wp-list-table.plugins .column-description,
-	#wpbody-content .wp-list-table.plugins .plugin-title,
-	#wpbody-content .wp-list-table.plugins .theme-title,
-	#wpbody-content .wp-list-table.plugins .plugin-update,
-	#wpbody-content .wp-list-table.plugins .manage-column.column-name {
+	#wpbody-content .wp-list-table.plugins td {
 		display: block;
 		width: auto;
+		padding: 10px 9px; /* reset from other list tables that have a label at this width */
 	}
 
-	.active, .inactive {
-		padding-top: 0;
+	#wpbody-content .wp-list-table.plugins .column-description {
+		padding-top: 2px;
 	}
 
 	.wp-list-table.plugins .plugin-title,
@@ -1865,11 +1920,9 @@ div.action-links,
 		padding-bottom: 4px;
 	}
 
-	.plugins tr.active + tr.inactive th.check-column,
 	.plugins tr.active + tr.inactive td,
 	.wp-list-table.plugins .plugin-title,
-	.wp-list-table.plugins .theme-title,
-	.wp-list-table.plugins tbody th {
+	.wp-list-table.plugins .theme-title {
 		-webkit-box-shadow: none;
 		box-shadow: none;
 	}
@@ -1878,7 +1931,9 @@ div.action-links,
 		padding: 1px 0 0;
 	}
 
-	.plugins tr.active + tr.inactive td.column-description {
+	.plugins tr.active + tr.inactive th.check-column,
+	.plugins tr.active + tr.inactive td.column-description,
+	.plugins .plugin-update-tr:before {
 		-webkit-box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.1);
 		box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.1);
 	}
@@ -1888,69 +1943,23 @@ div.action-links,
 		border-top: none;
 	}
 
-	.wp-list-table.plugins .column-description {
-		padding-top: 0;
+	/* mimic the checkbox th */
+	.plugins .plugin-update-tr:before {
+		content: '';
+		display: table-cell;
 	}
 
-	.wp-list-table.plugins .manage-column.column-name,
-	.wp-list-table.plugins .column-description,
-	.wp-list-table.plugins .plugin-title,
-	.wp-list-table.plugins .theme-title {
-		padding-right: 12px;
-		padding-left: 46px;
+	.plugins .active.update + .plugin-update-tr:before {
+		border-left: 4px solid #d54e21;
+		background-color: #fef7f1;
 	}
 
-	.wp-list-table.plugins .manage-column.column-name {
-		padding-top: 11px;
-		padding-bottom: 12px;
+	.plugins .plugin-update-tr .plugin-update {
+		border-left: none;
 	}
 
-	.wp-list-table.plugins .manage-column.column-name.sortable {
-		padding: 4px 12px 4px 36px;
-	}
-
-	.wp-list-table.plugins tr {
-		position: relative;
-	}
-
-	.wp-list-table.plugins th.check-column,
-	.wp-list-table.plugins thead td.check-column,
-	.wp-list-table.plugins tfoot td.check-column,
-	.wp-list-table.plugins tr.update th.check-column {
-		position: absolute;
-		height: auto;
-		top: 0;
-		bottom: 0;
-		left: 0;
-		padding-left: 2px;
-		padding-top: 18px;
-	}
-
-	.wp-list-table.plugins thead td.check-column,
-	.wp-list-table.plugins tfoot td.check-column {
-		padding-left: 3px;
-		padding-top: 11px;
-		background: none;
-	}
-
-	.plugins tbody th.check-column input[type="checkbox"] {
-		margin-top: -3px;
-		margin-left: 9px;
-	}
-
-	.plugins tbody .active th.check-column input[type="checkbox"],
-	.plugins tbody .active.update th.check-column input[type="checkbox"] {
-		margin-left: 5px;
-	}
-
-	.wp-list-table.plugins thead .check-column input,
-	.wp-list-table.plugins tfoot .check-column input {
-		margin-top: -2px;
-		margin-left: 8px;
-	}
-
-	.wp-list-table.plugins .active th.check-column {
-		background: none;
+	.plugin-update-tr .update-message {
+		margin-left: 0;
 	}
 
 	.wp-list-table.plugins .plugin-title strong,
@@ -1989,15 +1998,5 @@ div.action-links,
 		display: block;
 		-webkit-box-shadow: inset 0 -1px 0 rgba(0,0,0,0.1);
 		box-shadow: inset 0 -1px 0 rgba(0,0,0,0.1);
-	}
-}
-
-/* Smartphone */
-@media screen and (max-width: 600px) {
-	/* Remove slug column from taxonomy list page
-	   and role column from users list page */
-	.tags .column-slug,
-	.users .column-role {
-		display: none;
 	}
 }

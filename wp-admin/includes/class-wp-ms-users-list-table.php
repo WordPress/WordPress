@@ -336,7 +336,9 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 				$classes .= ' hidden';
 			}
 
-			$attributes = "class='$classes'";
+			$data = 'data-colname="' . wp_strip_all_tags( $column_display_name ) . '"';
+
+			$attributes = "class='$classes' $data";
 
 			if ( 'cb' === $column_name ) {
 				echo '<th scope="row" class="check-column">';

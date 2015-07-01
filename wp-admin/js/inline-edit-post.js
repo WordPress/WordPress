@@ -133,7 +133,7 @@ inlineEditPost = {
 		editRow = $('#inline-edit').clone(true);
 		$( 'td', editRow ).attr( 'colspan', $( 'th:visible, td:visible', '.widefat:first thead' ).length );
 
-		$(t.what+id).hide().after(editRow).after('<tr class="hidden"></tr>');
+		$(t.what+id).removeClass('is-expanded').hide().after(editRow).after('<tr class="hidden"></tr>');
 
 		// populate the data
 		rowData = $('#inline_'+id);
