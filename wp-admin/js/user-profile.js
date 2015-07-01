@@ -16,7 +16,7 @@
 			pw_weak = $('.pw-weak')
 		;
 
-		generatePassword = function() {
+		var generatePassword = function() {
 			pw_field.val( pw_field.data( 'pw' ) );
 			pw_field.trigger( 'propertychange' );
 			pw_field.attr( 'type', 'text' ).focus();
