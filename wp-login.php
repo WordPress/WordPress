@@ -363,7 +363,7 @@ function retrieve_password() {
 		require_once ABSPATH . WPINC . '/class-phpass.php';
 		$wp_hasher = new PasswordHash( 8, true );
 	}
-	$hashed = $wp_hasher->HashPassword( $key );
+	$hashed = time() . ':' . $wp_hasher->HashPassword( $key );
 	$wpdb->update( $wpdb->users, array( 'user_activation_key' => $hashed ), array( 'user_login' => $user_login ) );
 
 	$message = __('Someone requested that the password be reset for the following account:') . "\r\n\r\n";
@@ -528,10 +528,11 @@ case 'retrievepassword' :
 	}
 
 	if ( isset( $_GET['error'] ) ) {
-		if ( 'invalidkey' == $_GET['error'] )
-			$errors->add( 'invalidkey', __( 'Sorry, that key does not appear to be valid.' ) );
-		elseif ( 'expiredkey' == $_GET['error'] )
-			$errors->add( 'expiredkey', __( 'Sorry, that key has expired. Please try again.' ) );
+		if ( 'invalidkey' == $_GET['error'] ) {
+			$errors->add( 'invalidkey', __( 'Your password reset link appears to be invalid. Please request a new lnk below.' ) );
+		} elseif ( 'expiredkey' == $_GET['error'] ) {
+			$errors->add( 'expiredkey', __( 'Your password reset link has expired. Please request a new link below.' ) );
+		}
 	}
 
 	$lostpassword_redirect = ! empty( $_REQUEST['redirect_to'] ) ? $_REQUEST['redirect_to'] : '';

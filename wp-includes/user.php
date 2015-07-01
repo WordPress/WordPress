@@ -2458,18 +2458,42 @@ function check_password_reset_key($key, $login) {
 		$wp_hasher = new PasswordHash( 8, true );
 	}
 
-	if ( $wp_hasher->CheckPassword( $key, $row->user_activation_key ) )
-		return get_userdata( $row->ID );
+	/**
+	 * Filter the expiration time of password reset keys.
+	 *
+	 * @since 4.3.0
+	 *
+	 * @param int $expiration The expiration time in seconds.
+	 */
+	$expiration_duration = apply_filters( 'password_reset_expiration', DAY_IN_SECONDS );
 
-	if ( $key === $row->user_activation_key ) {
+	if ( false !== strpos( $row->user_activation_key, ':' ) ) {
+		list( $pass_request_time, $pass_key ) = explode( ':', $row->user_activation_key, 2 );
+		$expiration_time = $pass_request_time + $expiration_duration;
+	} else {
+		$pass_key = $row->user_activation_key;
+		$expiration_time = false;
+	}
+
+	$hash_is_correct = $wp_hasher->CheckPassword( $key, $pass_key );
+
+	if ( $hash_is_correct && $expiration_time && time() < $expiration_time ) {
+		return get_userdata( $row->ID );
+	} elseif ( $hash_is_correct && $expiration_time ) {
+		// Key has an expiration time that's passed
+		return new WP_Error( 'expired_key', __( 'Invalid key' ) );
+	}
+
+	if ( hash_equals( $row->user_activation_key, $key ) || ( $hash_is_correct && ! $expiration_time ) ) {
 		$return = new WP_Error( 'expired_key', __( 'Invalid key' ) );
 		$user_id = $row->ID;
 
 		/**
 		 * Filter the return value of check_password_reset_key() when an
-		 * old-style key is used (plain-text key was stored in the database).
+		 * old-style key is used.
 		 *
-		 * @since 3.7.0
+		 * @since 3.7.0 Previously plain-text keys were stored in the database.
+		 * @since 4.3.0 Previously key hashes were stored without an expiration time.
 		 *
 		 * @param WP_Error $return  A WP_Error object denoting an expired key.
 		 *                          Return a WP_User object to validate the key.
