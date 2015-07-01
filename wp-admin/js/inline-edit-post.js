@@ -81,7 +81,7 @@ inlineEditPost = {
 		var te = '', type = this.type, tax, c = true;
 		this.revert();
 
-		$('#bulk-edit td').attr('colspan', $('.widefat:first thead th:visible').length);
+		$( '#bulk-edit td' ).attr( 'colspan', $( 'th:visible, td:visible', '.widefat:first thead' ).length );
 		// Insert the editor at the top of the table with an empty row above to maintain zebra striping.
 		$('table.widefat tbody').prepend( $('#bulk-edit') ).prepend('<tr class="hidden"></tr>');
 		$('#bulk-edit').addClass('inline-editor').show();
@@ -131,7 +131,7 @@ inlineEditPost = {
 
 		// add the new edit row with an extra blank row underneath to maintain zebra striping.
 		editRow = $('#inline-edit').clone(true);
-		$('td', editRow).attr('colspan', $('.widefat:first thead th:visible').length);
+		$( 'td', editRow ).attr( 'colspan', $( 'th:visible, td:visible', '.widefat:first thead' ).length );
 
 		$(t.what+id).hide().after(editRow).after('<tr class="hidden"></tr>');
 
