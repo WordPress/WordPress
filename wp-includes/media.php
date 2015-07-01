@@ -1550,7 +1550,6 @@ function wp_get_attachment_id3_keys( $attachment, $context = 'display' ) {
  *     @type string $autoplay The 'autoplay' attribute for the `<audio>` element. Default empty.
  *     @type string $preload  The 'preload' attribute for the `<audio>` element. Default empty.
  *     @type string $class    The 'class' attribute for the `<audio>` element. Default 'wp-audio-shortcode'.
- *     @type string $id       The 'id' attribute for the `<audio>` element. Default 'audio-{$post_id}-{$instance}'.
  *     @type string $style    The 'style' attribute for the `<audio>` element. Default 'width: 100%'.
  * }
  * @param string $content Shortcode content.
@@ -1751,8 +1750,6 @@ function wp_get_video_extensions() {
  *                            Default 'metadata'.
  *     @type string $class    The 'class' attribute for the `<video>` element.
  *                            Default 'wp-video-shortcode'.
- *     @type string $id       The 'id' attribute for the `<video>` element.
- *                            Default 'video-{$post_id}-{$instance}'.
  * }
  * @param string $content Shortcode content.
  * @return string|void HTML content to display video.
