@@ -1,5 +1,5 @@
 /* global postL10n, ajaxurl, wpAjax, setPostThumbnailL10n, postboxes, pagenow, tinymce, alert, deleteUserSetting */
-/* global theList:true, theExtraList:true, getUserSetting, setUserSetting */
+/* global theList:true, theExtraList:true, getUserSetting, setUserSetting, commentReply */
 
 var commentsBox, WPSetThumbnailHTML, WPSetThumbnailID, WPRemoveThumbnail, wptitlehint, makeSlugeditClickable, editPermalink;
 // Back-compat: prevent fatal errors
@@ -265,6 +265,10 @@ jQuery(document).ready( function($) {
 			if ( wp.autosave ) {
 				wp.autosave.server.suspend();
 			}
+
+			// Close the comment edit/reply form if open to stop the form
+			// action from interfering with the post's form action.
+			commentReply.close();
 
 			releaseLock = false;
 			$(window).off( 'beforeunload.edit-post' );
