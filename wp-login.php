@@ -529,7 +529,7 @@ case 'retrievepassword' :
 
 	if ( isset( $_GET['error'] ) ) {
 		if ( 'invalidkey' == $_GET['error'] ) {
-			$errors->add( 'invalidkey', __( 'Your password reset link appears to be invalid. Please request a new lnk below.' ) );
+			$errors->add( 'invalidkey', __( 'Your password reset link appears to be invalid. Please request a new link below.' ) );
 		} elseif ( 'expiredkey' == $_GET['error'] ) {
 			$errors->add( 'expiredkey', __( 'Your password reset link has expired. Please request a new link below.' ) );
 		}
