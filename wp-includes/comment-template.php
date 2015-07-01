@@ -1649,7 +1649,7 @@ function comment_id_fields( $id = 0 ) {
  * @param string $deprecated   No longer used.
  * @param string $deprecated_2 No longer used.
  */
-function comment_form_title( $noreplytext, $deprecated = null, $deprecated_2 = null ) {
+function comment_form_title( $noreplytext = false, $deprecated = null, $deprecated_2 = null ) {
 	if ( ! is_null( $deprecated ) )
 		_deprecated_argument( __FUNCTION__, '4.3' );
 	if ( ! is_null( $deprecated_2 ) )
