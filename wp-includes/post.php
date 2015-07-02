@@ -4111,9 +4111,10 @@ function get_default_comment_status( $post_type = 'post', $comment_type = 'comme
 	 *
 	 * @param string $status       Default status for the given post type,
 	 *                             either 'open' or 'closed'.
+	 * @param string $post_type    Post type. Default is `post`.
 	 * @param string $comment_type Type of comment. Default is `comment`.
 	 */
-	return apply_filters( "get_{$post_type}_default_comment_status", $status, $comment_type );
+	return apply_filters( 'get_default_comment_status' , $status, $post_type, $comment_type );
 }
 
 /**

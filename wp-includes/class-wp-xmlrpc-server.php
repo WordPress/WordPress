@@ -4809,7 +4809,7 @@ class wp_xmlrpc_server extends IXR_Server {
 						$comment_status = 'open';
 						break;
 					default:
-						$comment_status = get_option('default_comment_status');
+						$comment_status = get_default_comment_status( $post_type );
 						break;
 				}
 			} else {
@@ -4822,12 +4822,12 @@ class wp_xmlrpc_server extends IXR_Server {
 						$comment_status = 'open';
 						break;
 					default:
-						$comment_status = get_option('default_comment_status');
+						$comment_status = get_default_comment_status( $post_type );
 						break;
 				}
 			}
 		} else {
-			$comment_status = get_option('default_comment_status');
+			$comment_status = get_default_comment_status( $post_type );
 		}
 
 		if ( isset($content_struct['mt_allow_pings']) ) {
@@ -4840,7 +4840,7 @@ class wp_xmlrpc_server extends IXR_Server {
 						$ping_status = 'open';
 						break;
 					default:
-						$ping_status = get_option('default_ping_status');
+						$ping_status = get_default_comment_status( $post_type, 'pingback' );
 						break;
 				}
 			} else {
@@ -4852,12 +4852,12 @@ class wp_xmlrpc_server extends IXR_Server {
 						$ping_status = 'open';
 						break;
 					default:
-						$ping_status = get_option('default_ping_status');
+						$ping_status = get_default_comment_status( $post_type, 'pingback' );
 						break;
 				}
 			}
 		} else {
-			$ping_status = get_option('default_ping_status');
+			$ping_status = get_default_comment_status( $post_type, 'pingback' );
 		}
 
 		if ( $post_more )
@@ -5120,7 +5120,7 @@ class wp_xmlrpc_server extends IXR_Server {
 						$comment_status = 'open';
 						break;
 					default:
-						$comment_status = get_option('default_comment_status');
+						$comment_status = get_default_comment_status( $post_type );
 						break;
 				}
 			} else {
@@ -5133,7 +5133,7 @@ class wp_xmlrpc_server extends IXR_Server {
 						$comment_status = 'open';
 						break;
 					default:
-						$comment_status = get_option('default_comment_status');
+						$comment_status = get_default_comment_status( $post_type );
 						break;
 				}
 			}
@@ -5149,7 +5149,7 @@ class wp_xmlrpc_server extends IXR_Server {
 						$ping_status = 'open';
 						break;
 					default:
-						$ping_status = get_option('default_ping_status');
+						$ping_status = get_default_comment_status( $post_type, 'pingback' );
 						break;
 				}
 			} else {
@@ -5161,7 +5161,7 @@ class wp_xmlrpc_server extends IXR_Server {
 						$ping_status = 'open';
 						break;
 					default:
-						$ping_status = get_option('default_ping_status');
+						$ping_status = get_default_comment_status( $post_type, 'pingback' );
 						break;
 				}
 			}
