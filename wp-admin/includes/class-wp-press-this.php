@@ -944,7 +944,7 @@ class WP_Press_This {
 	 * @access public
 	 *
 	 * @param array $data The site's data.
-	 * @returns array Embeds selected to be available.
+	 * @return array Embeds selected to be available.
 	 */
 	public function get_embeds( $data ) {
 		$selected_embeds = array();
@@ -977,7 +977,7 @@ class WP_Press_This {
 	 * @access public
 	 *
 	 * @param array $data The site's data.
-	 * @returns array
+	 * @return array
 	 */
 	public function get_images( $data ) {
 		$selected_images = array();
@@ -1011,7 +1011,7 @@ class WP_Press_This {
 	 * @access public
 	 *
  	 * @param array $data The site's data.
-	 * @returns string Discovered canonical URL, or empty
+	 * @return string Discovered canonical URL, or empty
 	 */
 	public function get_canonical_link( $data ) {
 		$link = '';
@@ -1042,7 +1042,7 @@ class WP_Press_This {
 	 * @access public
 	 *
 	 * @param array $data The site's data.
-	 * @returns string Discovered site name, or empty
+	 * @return string Discovered site name, or empty
 	 */
 	public function get_source_site_name( $data ) {
 		$name = '';
@@ -1065,7 +1065,7 @@ class WP_Press_This {
 	 * @access public
 	 *
 	 * @param array $data The site's data.
-	 * @returns string Discovered page title, or empty
+	 * @return string Discovered page title, or empty
 	 */
 	public function get_suggested_title( $data ) {
 		$title = '';
@@ -1094,7 +1094,7 @@ class WP_Press_This {
 	 * @access public
 	 *
 	 * @param array $data The site's data.
-	 * @returns string Discovered content, or empty
+	 * @return string Discovered content, or empty
 	 */
 	public function get_suggested_content( $data ) {
 		$content = $text = '';
