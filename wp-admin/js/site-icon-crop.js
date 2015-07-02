@@ -39,6 +39,7 @@
 		ready: function() {
 			jcrop_api = $.Jcrop( '#crop-image' );
 			jcrop_api.setOptions({
+				bgColor: 'transparent',
 				aspectRatio: 1,
 				onSelect: siteIconCrop.updateCoords,
 				onChange: siteIconCrop.updateCoords,

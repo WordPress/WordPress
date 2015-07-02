@@ -49,6 +49,7 @@
 }
 
 .site-icon-crop-preview-homeicon {
+	background-color: #000;
 	-webkit-border-radius: 16px;
 	border-radius: 16px;
 	height: 64px;
