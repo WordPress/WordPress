@@ -161,10 +161,6 @@ body {
 	content: "\f345";
 }
 
-.rtl #customize-theme-controls .accordion-section-title:after {
-	content: "\f341";
-}
-
 #customize-theme-controls .accordion-section-content {
 	color: #555;
 	background: transparent;
