@@ -443,6 +443,8 @@ fieldset label,
 	padding: 3px 5px;
 	text-align: center;
 	width: 25em;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	opacity: 0;
 }
