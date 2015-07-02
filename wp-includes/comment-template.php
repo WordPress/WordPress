@@ -1438,7 +1438,7 @@ function get_comment_reply_link( $args = array(), $comment = null, $post = null 
 		);
 
 		$link = sprintf( "<a class='comment-reply-link' href='%s' onclick='%s' aria-label='%s'>%s</a>",
-			esc_url( get_permalink( $post->ID ) ) . "#" . $args['respond_id'],
+			esc_url( add_query_arg( 'replytocom', $comment->comment_ID, get_permalink( $post->ID ) ) ) . "#" . $args['respond_id'],
 			$onclick,
 			esc_attr( sprintf( $args['reply_to_text'], $comment->comment_author ) ),
 			$args['reply_text']
@@ -1571,9 +1571,10 @@ function get_cancel_comment_reply_link( $text = '' ) {
 	if ( empty($text) )
 		$text = __('Click here to cancel reply.');
 
-	$link = '#respond';
+	$style = isset($_GET['replytocom']) ? '' : ' style="display:none;"';
+	$link = esc_html( remove_query_arg('replytocom') ) . '#respond';
 
-	$formatted_link = '<a id="cancel-comment-reply-link" href="' . $link . '">' . $text . '</a>';
+	$formatted_link = '<a rel="nofollow" id="cancel-comment-reply-link" href="' . $link . '"' . $style . '>' . $text . '</a>';
 	/**
 	 * Filter the cancel comment reply link HTML.
 	 *
@@ -1609,19 +1610,20 @@ function get_comment_id_fields( $id = 0 ) {
 	if ( empty( $id ) )
 		$id = get_the_ID();
 
+	$replytoid = isset($_GET['replytocom']) ? (int) $_GET['replytocom'] : 0;
 	$result  = "<input type='hidden' name='comment_post_ID' value='$id' id='comment_post_ID' />\n";
-	$result .= "<input type='hidden' name='comment_parent' id='comment_parent' value='0' />\n";
+	$result .= "<input type='hidden' name='comment_parent' id='comment_parent' value='$replytoid' />\n";
 
 	/**
 	 * Filter the returned comment id fields.
 	 *
 	 * @since 3.0.0
 	 *
-	 * @param string $result     The HTML-formatted hidden id field comment elements.
-	 * @param int    $id         The post ID.
-	 * @param int    $deprecated No longer used.
+	 * @param string $result    The HTML-formatted hidden id field comment elements.
+	 * @param int    $id        The post ID.
+	 * @param int    $replytoid The id of the comment being replied to.
 	 */
-	return apply_filters( 'comment_id_fields', $result, $id, 0 );
+	return apply_filters( 'comment_id_fields', $result, $id, $replytoid );
 }
 
 /**
@@ -1646,18 +1648,27 @@ function comment_id_fields( $id = 0 ) {
  *
  * @param string $noreplytext  Optional. Text to display when not replying to a comment.
  *                             Default false.
- * @param string $deprecated   No longer used.
- * @param string $deprecated_2 No longer used.
+ * @param string $replytext    Optional. Text to display when replying to a comment.
+ *                             Default false. Accepts "%s" for the author of the comment
+ *                             being replied to.
+ * @param string $linktoparent Optional. Boolean to control making the author's name a link
+ *                             to their comment. Default true.
  */
-function comment_form_title( $noreplytext = false, $deprecated = null, $deprecated_2 = null ) {
-	if ( ! is_null( $deprecated ) )
-		_deprecated_argument( __FUNCTION__, '4.3' );
-	if ( ! is_null( $deprecated_2 ) )
-		_deprecated_argument( __FUNCTION__, '4.3' );
+function comment_form_title( $noreplytext = false, $replytext = false, $linktoparent = true ) {
+	global $comment;
 
 	if ( false === $noreplytext ) $noreplytext = __( 'Leave a Reply' );
+	if ( false === $replytext ) $replytext = __( 'Leave a Reply to %s' );
 
-	echo $noreplytext;
+	$replytoid = isset($_GET['replytocom']) ? (int) $_GET['replytocom'] : 0;
+
+	if ( 0 == $replytoid )
+		echo $noreplytext;
+	else {
+		$comment = get_comment($replytoid);
+		$author = ( $linktoparent ) ? '<a href="#comment-' . get_comment_ID() . '">' . get_comment_author() . '</a>' : get_comment_author();
+		printf( $replytext, $author );
+	}
 }
 
 /**
@@ -2283,7 +2294,7 @@ function comment_form( $args = array(), $post_id = null ) {
 			do_action( 'comment_form_before' );
 			?>
 			<div id="respond" class="comment-respond">
-				<h3 id="reply-title" class="comment-reply-title"><?php comment_form_title( $args['title_reply'] ); ?> <small><?php cancel_comment_reply_link( $args['cancel_reply_link'] ); ?></small></h3>
+				<h3 id="reply-title" class="comment-reply-title"><?php comment_form_title( $args['title_reply'], $args['title_reply_to'] ); ?> <small><?php cancel_comment_reply_link( $args['cancel_reply_link'] ); ?></small></h3>
 				<?php if ( get_option( 'comment_registration' ) && !is_user_logged_in() ) : ?>
 					<?php echo $args['must_log_in']; ?>
 					<?php
