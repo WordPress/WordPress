@@ -249,33 +249,14 @@ class WP_Site_Icon {
 			return;
 		}
 
-		// Let's resize the image so that the user can easier crop a image that in the admin view.
-		$crop_height = absint( $this->page_crop * $image_size[1] / $image_size[0] );
-		$cropped = wp_crop_image( $attachment_id, 0, 0, 0, 0, $this->page_crop, $crop_height );
-		if ( ! $cropped || is_wp_error( $cropped ) ) {
-			wp_die( __( 'Image could not be processed. Please go back and try again.' ), __( 'Image Processing Error' ) );
-		}
-		$cropped_size = getimagesize( $cropped );
-
-		// set default values (in case of no JS)
-		$crop_ratio = $image_size[0] / $cropped_size[0];
-		if ( $cropped_size[0] < $cropped_size[1] ) {
-			$crop_x    = 0;
-			$crop_y    = absint( ( $cropped_size[1] - $cropped_size[0] ) / 2 );
-			$crop_size = $cropped_size[0];
-		} elseif ( $cropped_size[0] > $cropped_size[1] ) {
-			$crop_x    = absint( ( $cropped_size[0] - $cropped_size[1] ) / 2 );
-			$crop_y    = 0;
-			$crop_size = $cropped_size[1];
-		} else {
-			$crop_x    = 0;
-			$crop_y    = 0;
-			$crop_size = $cropped_size[0];
-		}
-
-		wp_delete_file( $cropped );
-
-		wp_localize_script( 'site-icon-crop', 'wpSiteIconCropData', $this->initial_crop_data( $crop_ratio, $cropped_size ) );
+		wp_localize_script( 'site-icon-crop', 'wpSiteIconCropData', array(
+			'init_x'    => 0,
+			'init_y'    => 0,
+			'init_size' => $this->min_size,
+			'min_size'  => $this->min_size,
+			'width'     => $image_size[0],
+			'height'    => $image_size[1],
+		) );
 		?>
 
 		<div class="wrap">
@@ -286,6 +267,10 @@ class WP_Site_Icon {
 				<form action="options-general.php" method="post" enctype="multipart/form-data">
 					<p class="hide-if-no-js description"><?php _e('Choose the part of the image you want to use as your site icon.'); ?></p>
 					<p class="hide-if-js description"><strong><?php _e( 'You need Javascript to choose a part of the image.'); ?></strong></p>
+
+					<div class="site-icon-crop-wrapper">
+						<img src="<?php echo esc_url( $url ); ?>" id="crop-image" class="site-icon-crop-image" width="512" height="" alt="<?php esc_attr_e( 'Image to be cropped' ); ?>"/>
+					</div>
 
 					<div class="site-icon-crop-preview-shell hide-if-no-js">
 						<h3><?php _e( 'Preview' ); ?></h3>
@@ -304,16 +289,14 @@ class WP_Site_Icon {
 							<img src="<?php echo esc_url( $url ); ?>" id="preview-homeicon" alt="<?php esc_attr_e( 'Preview Home Icon' ); ?>"/>
 						</div>
 					</div>
-					<img src="<?php echo esc_url( $url ); ?>" id="crop-image" class="site-icon-crop-image" width="<?php echo esc_attr( $cropped_size[0] ); ?>" height="<?php echo esc_attr( $cropped_size[1] ); ?>" alt="<?php esc_attr_e( 'Image to be cropped' ); ?>"/>
 
-					<input type="hidden" id="crop-x" name="crop-x" value="<?php echo esc_attr( $crop_x ); ?>" />
-					<input type="hidden" id="crop-y" name="crop-y" value="<?php echo esc_attr( $crop_y ); ?>" />
-					<input type="hidden" id="crop-width" name="crop-w" value="<?php echo esc_attr( $crop_size ); ?>" />
-					<input type="hidden" id="crop-height" name="crop-h" value="<?php echo esc_attr( $crop_size ); ?>" />
+					<input type="hidden" id="crop-x" name="crop-x" value="0" />
+					<input type="hidden" id="crop-y" name="crop-y" value="0" />
+					<input type="hidden" id="crop-width" name="crop-w" value="<?php echo esc_attr( $this->min_size ); ?>" />
+					<input type="hidden" id="crop-height" name="crop-h" value="<?php echo esc_attr( $this->min_size ); ?>" />
 
 					<input type="hidden" name="action" value="set_site_icon" />
 					<input type="hidden" name="attachment_id" value="<?php echo esc_attr( $attachment_id ); ?>" />
-					<input type="hidden" name="crop_ratio" value="<?php echo esc_attr( $crop_ratio ); ?>" />
 					<?php if ( empty( $_POST ) && isset( $_GET['file'] ) ) : ?>
 						<input type="hidden" name="create-new-attachment" value="true" />
 					<?php endif; ?>
@@ -358,8 +341,7 @@ class WP_Site_Icon {
 			$this->delete_site_icon();
 
 			if ( empty( $_REQUEST['skip-cropping'] ) ) {
-				$crop_data = $this->convert_coordinates_from_resized_to_full( $_REQUEST['crop-x'], $_REQUEST['crop-y'], $_REQUEST['crop-w'], $_REQUEST['crop-h'], (float) $_REQUEST['crop_ratio'] );
-				$cropped   = wp_crop_image( $attachment_id, $crop_data['crop_x'], $crop_data['crop_y'], $crop_data['crop_width'], $crop_data['crop_height'], $this->min_size, $this->min_size );
+				$cropped = wp_crop_image( $attachment_id, $_REQUEST['crop-x'], $_REQUEST['crop-y'], $_REQUEST['crop-w'], $_REQUEST['crop-h'], $this->min_size, $this->min_size );
 
 			} elseif ( $create_new_attachement ) {
 				$cropped = _copy_image_file( $attachment_id );
@@ -388,70 +370,6 @@ class WP_Site_Icon {
 		}
 
 		add_settings_error( 'site-icon', 'icon-updated', __( 'Site Icon updated.' ), 'updated' );
-	}
-
-	/**
-	 * This function is used to pass data to the localize script
-	 * so that we can center the cropper and also set the minimum
-	 * cropper.
-	 *
-	 * @since 4.3.0
-	 *
-	 * @param float $ratio
-	 * @param array $cropped_size
-	 * @return array
-	 */
-	public function initial_crop_data( $ratio, $cropped_size ) {
-		$init_x = $init_y = $init_size = 0;
-
-		$min_crop_size  = ( $this->min_size / $ratio );
-		$resized_width  = $cropped_size[0];
-		$resized_height = $cropped_size[1];
-
-		// Landscape format ( width > height )
-		if ( $resized_width > $resized_height ) {
-			$init_x    = ( $this->page_crop - $resized_height ) / 2;
-			$init_size = $resized_height;
-		}
-
-		// Portrait format ( height > width )
-		if ( $resized_width < $resized_height ) {
-			$init_y    = ( $this->page_crop - $resized_width ) / 2;
-			$init_size = $resized_height;
-		}
-
-		// Square height == width
-		if ( $resized_width == $resized_height ) {
-			$init_size = $resized_height;
-		}
-
-		return array(
-			'init_x'    => $init_x,
-			'init_y'    => $init_y,
-			'init_size' => $init_size,
-			'min_size'  => $min_crop_size,
-		);
-	}
-
-	/**
-	 * Converts the coordinates from the downsized image to the original image for accurate cropping.
-	 *
-	 * @since 4.3.0
-	 *
-	 * @param int   $crop_x
-	 * @param int   $crop_y
-	 * @param int   $crop_width
-	 * @param int   $crop_height
-	 * @param float $ratio
-	 * @return array
-	 */
-	public function convert_coordinates_from_resized_to_full( $crop_x, $crop_y, $crop_width, $crop_height, $ratio ) {
-		return array(
-			'crop_x'      => floor( $crop_x * $ratio ),
-			'crop_y'      => floor( $crop_y * $ratio ),
-			'crop_width'  => floor( $crop_width * $ratio ),
-			'crop_height' => floor( $crop_height * $ratio ),
-		);
 	}
 
 	/**

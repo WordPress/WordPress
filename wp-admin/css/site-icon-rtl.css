@@ -17,6 +17,10 @@
 	max-width: 720px;
 }
 
+.site-icon-crop-wrapper {
+	float: right;
+}
+
 .site-icon-crop-preview-shell {
 	float: left;
 	overflow: hidden;
@@ -55,4 +59,25 @@
 	height: 64px;
 	overflow: hidden;
 	width: 64px;
-} 
+}
+
+.site-icon-crop-shell .submit {
+	clear: both;
+}
+
+@media only screen and (max-width: 768px) {
+	.site-icon-crop-wrapper,
+	.site-icon-crop-preview-shell {
+		float: none;
+	}
+
+	.site-icon-crop-wrapper {
+		max-width: 100%;
+		margin-bottom: 20px;
+	}
+
+	.site-icon-crop-wrapper img {
+		max-width: 100%;
+		height: auto;
+	}
+}
