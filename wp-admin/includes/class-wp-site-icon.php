@@ -176,7 +176,7 @@ class WP_Site_Icon {
 		?>
 		<p class="hide-if-no-js">
 			<label class="screen-reader-text" for="choose-from-library-link"><?php _e( 'Choose an image from your media library:' ); ?></label>
-			<button type="button" id="choose-from-library-link" class="button" data-update-link="<?php echo esc_attr( $update_url ); ?>" data-choose="<?php esc_attr_e( 'Choose a Site Icon' ); ?>" data-update="<?php esc_attr_e( 'Set as Site Icon' ); ?>"><?php _e( 'Choose Image' ); ?></button>
+			<button type="button" id="choose-from-library-link" class="button" data-size="<?php echo absint( $this->min_size ); ?>" data-update-link="<?php echo esc_attr( $update_url ); ?>" data-choose="<?php esc_attr_e( 'Choose a Site Icon' ); ?>" data-update="<?php esc_attr_e( 'Set as Site Icon' ); ?>"><?php _e( 'Choose Image' ); ?></button>
 		</p>
 		<form class="hide-if-js" action="<?php echo esc_url( admin_url( 'options-general.php?page=site-icon' ) ); ?>" method="post" enctype="multipart/form-data">
 			<input name="action" value="crop_site_icon" type="hidden" />

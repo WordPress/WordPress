@@ -146,7 +146,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 	<img class="avatar avatar-150" src="<?php site_icon_url( null, 150 ); ?>" height="150" width="150" />
 	<p class="hide-if-no-js">
 		<label class="screen-reader-text" for="choose-from-library-link"><?php _e( 'Choose an image from your media library:' ); ?></label>
-		<button type="button" id="choose-from-library-link" class="button" data-update-link="<?php echo esc_attr( $update_url ); ?>" data-choose="<?php esc_attr_e( 'Choose a Site Icon' ); ?>" data-update="<?php esc_attr_e( 'Set as Site Icon' ); ?>"><?php _e( 'Update Site Icon' ); ?></button>
+		<button type="button" id="choose-from-library-link" class="button" data-size="<?php echo absint( $GLOBALS['wp_site_icon']->min_size ); ?>" data-update-link="<?php echo esc_attr( $update_url ); ?>" data-choose="<?php esc_attr_e( 'Choose a Site Icon' ); ?>" data-update="<?php esc_attr_e( 'Set as Site Icon' ); ?>"><?php _e( 'Update Site Icon' ); ?></button>
 		<a href="<?php echo esc_url( $remove_url ); ?>"><?php _e( 'Remove Site Icon' ); ?></a>
 	</p>
 	<p class="hide-if-js">
@@ -158,7 +158,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 
 	<p class="hide-if-no-js">
 		<label class="screen-reader-text" for="choose-from-library-link"><?php _e( 'Choose an image from your media library:' ); ?></label>
-		<button type="button" id="choose-from-library-link" class="button" data-update-link="<?php echo esc_attr( $update_url ); ?>" data-choose="<?php esc_attr_e( 'Choose a Site Icon' ); ?>" data-update="<?php esc_attr_e( 'Set as Site Icon' ); ?>"><?php _e( 'Choose Image' ); ?></button>
+		<button type="button" id="choose-from-library-link" class="button" data-size="<?php echo absint( $GLOBALS['wp_site_icon']->min_size ); ?>" data-update-link="<?php echo esc_attr( $update_url ); ?>" data-choose="<?php esc_attr_e( 'Choose a Site Icon' ); ?>" data-update="<?php esc_attr_e( 'Set as Site Icon' ); ?>"><?php _e( 'Choose Image' ); ?></button>
 	</p>
 	<a class="button hide-if-js" href="<?php echo esc_url( $upload_url ); ?>"><?php _e( 'Add a Site Icon' ); ?></a>
 

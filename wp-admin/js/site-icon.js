@@ -3,7 +3,7 @@
 
 	$( function() {
 		// Build the choose from library frame.
-		$( '#choose-from-library-link' ).click( function( event ) {
+		$( '#choose-from-library-link' ).on( 'click', function( event ) {
 			var $el = $(this);
 			event.preventDefault();
 
@@ -14,15 +14,7 @@
 			}
 
 			// Create the media frame.
-			frame = wp.media.frames.customHeader = wp.media({
-				// Set the title of the modal.
-				title: $el.data('choose'),
-
-				// Tell the modal to show only images.
-				library: {
-					type: 'image'
-				},
-
+			frame = wp.media({
 				// Customize the submit button.
 				button: {
 					// Set the text of the button.
@@ -30,7 +22,16 @@
 					// Tell the button not to close the modal, since we're
 					// going to refresh the page when the image is selected.
 					close: false
-				}
+				},
+				states: [
+					new wp.media.controller.Library({
+						title: $el.data( 'choose' ),
+						library: wp.media.query({ type: 'image' }),
+						date: false,
+						suggestedWidth: $el.data( 'size' ),
+						suggestedHeight: $el.data( 'size' )
+					})
+				]
 			});
 
 			// When an image is selected, run a callback.
