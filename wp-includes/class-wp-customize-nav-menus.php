@@ -305,6 +305,8 @@ final class WP_Customize_Nav_Menus {
 				'itemsFound'        => __( 'Number of items found: %d' ),
 				'itemsFoundMore'    => __( 'Additional items found: %d' ),
 				'itemsLoadingMore'  => __( 'Loading more results... please wait.' ),
+				'reorderModeOn'     => __( 'Reorder mode enabled' ),
+				'reorderModeOff'    => __( 'Reorder mode closed' ),
 			),
 			'menuItemTransport'    => 'postMessage',
 			'phpIntMax'            => PHP_INT_MAX,

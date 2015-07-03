@@ -1450,10 +1450,11 @@ class WP_Customize_Nav_Menu_Control extends WP_Customize_Control {
 		<button type="button" class="button-secondary add-new-menu-item" aria-label="<?php esc_attr_e( 'Add or remove menu items' ); ?>" aria-expanded="false" aria-controls="available-menu-items">
 			<?php _e( 'Add Items' ); ?>
 		</button>
-		<button type="button" class="not-a-button reorder-toggle">
-			<span class="reorder"><?php _ex( 'Reorder', 'Reorder menu items in Customizer' ); ?></span>
-			<span class="reorder-done"><?php _ex( 'Done', 'Cancel reordering menu items in Customizer' ); ?></span>
+		<button type="button" role="presentation" class="not-a-button reorder-toggle" tabindex="-1">
+			<span class="reorder" tabindex="0" role="button" aria-label="<?php esc_attr_e( 'Reorder menu items' ); ?>" aria-describedby="reorder-items-desc"><?php _ex( 'Reorder', 'Reorder menu items in Customizer' ); ?></span>
+			<span class="reorder-done" tabindex="0" role="button" aria-label="<?php esc_attr_e( 'Close reorder mode' ); ?>"><?php _ex( 'Done', 'Cancel reordering menu items in Customizer' ); ?></span>
 		</button>
+		<p class="screen-reader-text" id="reorder-items-desc"><?php _e( 'When in reorder mode, additional controls to reorder menu items will be available in the items list above.' ); ?></p>
 		<span class="add-menu-item-loading spinner"></span>
 		<span class="menu-delete-item">
 			<button type="button" class="not-a-button menu-delete">

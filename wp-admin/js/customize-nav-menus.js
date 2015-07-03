@@ -1932,6 +1932,9 @@
 		 * @param {Boolean} showOrHide to enable/disable reordering
 		 */
 		toggleReordering: function( showOrHide ) {
+			var addNewItemBtn = this.container.find( '.add-new-menu-item' ),
+				reorderBtn = this.container.find( '.reorder-toggle' );
+
 			showOrHide = Boolean( showOrHide );
 
 			if ( showOrHide === this.$sectionContent.hasClass( 'reordering' ) ) {
@@ -1941,6 +1944,15 @@
 			this.isReordering = showOrHide;
 			this.$sectionContent.toggleClass( 'reordering', showOrHide );
 			this.$sectionContent.sortable( this.isReordering ? 'disable' : 'enable' );
+			if ( this.isReordering ) {
+				addNewItemBtn.attr( 'tabindex', '-1' );
+				reorderBtn.find( '.reorder-done' ).focus();
+				wp.a11y.speak( api.Menus.data.l10n.reorderModeOn );
+			} else {
+				addNewItemBtn.removeAttr( 'tabindex' );
+				reorderBtn.find( '.reorder' ).focus();
+				wp.a11y.speak( api.Menus.data.l10n.reorderModeOff );
+			}
 
 			if ( showOrHide ) {
 				_( this.getMenuItemControls() ).each( function( formControl ) {

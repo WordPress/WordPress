@@ -91,7 +91,14 @@
 }
 
 /* Menu-item reordering nav. */
-#customize-theme-controls button.reorder-toggle {
+#customize-theme-controls .reordering .reorder,
+#customize-theme-controls .reorder-done {
+	display: none;
+}
+
+#customize-theme-controls .reorder,
+#customize-theme-controls .reordering .reorder-done {
+	display: inline-block;
 	padding: 5px 8px;
 }
 
