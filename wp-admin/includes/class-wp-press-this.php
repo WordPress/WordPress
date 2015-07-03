@@ -1168,6 +1168,24 @@ class WP_Press_This {
 	}
 
 	/**
+	 * Sets the user agent used for Press This HTTP requests.
+	 *
+	 * @since 4.3.0
+	 * @access public
+	 *
+	 * @global string $wp_version
+	 *
+	 * @return string User agent.
+	 */
+	public function ua_string() {
+		global $wp_version;
+
+		$user_agent = 'Press This (WordPress/' . $wp_version . '); ' . get_bloginfo( 'url' );
+
+		return $user_agent;
+	}
+
+	/**
 	 * Serves the app's base HTML, which in turns calls the load script.
 	 *
 	 * @since 4.2.0
@@ -1179,6 +1197,9 @@ class WP_Press_This {
 	 */
 	public function html() {
 		global $wp_locale, $wp_version;
+
+		// Set explicit user-agent for the $data outbound HTTP requests.
+		add_filter( 'http_headers_useragent', array( $this, 'ua_string' ) );
 
 		// Get data, new (POST) and old (GET).
 		$data = $this->merge_or_fetch_data();
