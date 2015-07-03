@@ -752,6 +752,10 @@ $(document).ready( function() {
 			// Toggle sidebar when toggle is clicked
 			$( '#wp-admin-bar-menu-toggle' ).on( 'click.wp-responsive', function( event ) {
 				event.preventDefault();
+
+				// close any open toolbar submenus
+				$adminbar.find( '.hover' ).removeClass( 'hover' );
+
 				$wpwrap.toggleClass( 'wp-responsive-open' );
 				if ( $wpwrap.hasClass( 'wp-responsive-open' ) ) {
 					$(this).find('a').attr( 'aria-expanded', 'true' );

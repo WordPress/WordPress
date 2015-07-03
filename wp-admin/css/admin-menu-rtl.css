@@ -920,6 +920,10 @@ li#wp-admin-bar-menu-toggle {
 		-moz-box-sizing: border-box;
 		box-sizing: border-box;
 	}
+
+	.wp-responsive-open #wpadminbar #wp-admin-bar-menu-toggle .ab-icon:before {
+		color: #00b9eb;
+	}
 }
 
 /* Smartphone */

@@ -28,6 +28,12 @@ if ( typeof(jQuery) != 'undefined' ) {
 					e.stopPropagation();
 					e.preventDefault();
 					el.addClass('hover');
+				} else if ( ! $( e.target ).closest( 'div' ).hasClass( 'ab-sub-wrapper' ) ) {
+					// We're dealing with an already-touch-opened menu genericon (we know el.hasClass('hover')),
+					// so close it on a second tap and prevent propag and defaults. See #29906
+					e.stopPropagation();
+					e.preventDefault();
+					el.removeClass('hover');
 				}
 
 				if ( unbind ) {
@@ -124,8 +130,13 @@ if ( typeof(jQuery) != 'undefined' ) {
 		});
 
 		$('#wpadminbar').click( function(e) {
-			if ( e.target.id != 'wpadminbar' && e.target.id != 'wp-admin-bar-top-secondary' )
+			if ( e.target.id != 'wpadminbar' && e.target.id != 'wp-admin-bar-top-secondary' ) {
 				return;
+			} else {
+				adminbar.find( 'li.menupop.hover' ).removeClass( 'hover' );
+				e.stopPropagation();
+				return;
+			}
 
 			e.preventDefault();
 			$('html, body').animate({ scrollTop: 0 }, 'fast');
