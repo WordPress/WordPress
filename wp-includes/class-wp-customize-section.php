@@ -401,11 +401,9 @@ class WP_Customize_Themes_Section extends WP_Customize_Section {
 			<h3 class="accordion-section-title">
 				<?php
 				if ( $this->manager->is_theme_active() ) {
-					/* translators: %s: theme name */
-					printf( __( '<span class="customize-action">Active theme</span> %s' ), $this->title );
+					echo '<span class="customize-action">' . __( 'Active theme' ) . '</span> ' . $this->title;
 				} else {
-					/* translators: %s: theme name */
-					printf( __( '<span class="customize-action">Previewing theme</span> %s' ), $this->title );
+					echo '<span class="customize-action">' . __( 'Previewing theme' ) . '</span> ' . $this->title;
 				}
 				?>
 
@@ -420,11 +418,9 @@ class WP_Customize_Themes_Section extends WP_Customize_Section {
 				<h3 class="accordion-section-title customize-section-title">
 					<?php
 					if ( $this->manager->is_theme_active() ) {
-						/* translators: %s: theme name */
-						printf( __( '<span class="customize-action">Active theme</span> %s' ), $this->title );
+						echo '<span class="customize-action">' . __( 'Active theme' ) . '</span> ' . $this->title;
 					} else {
-						/* translators: %s: theme name */
-						printf( __( '<span class="customize-action">Previewing theme</span> %s' ), $this->title );
+						echo '<span class="customize-action">' . __( 'Previewing theme' ) . '</span> ' . $this->title;
 					}
 					?>
 					<button type="button" class="button customize-theme"><?php _e( 'Customize' ); ?></button>
