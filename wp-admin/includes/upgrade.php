@@ -531,14 +531,8 @@ function upgrade_all() {
 	if ( $wp_current_db_version < 29630 )
 		upgrade_400();
 
-	// Don't harsh my mellow. upgrade_430() must be called before
-	// upgrade_420() to catch bad comments prior to any auto-expansion of
-	// MySQL column widths.
-	if ( $wp_current_db_version < 32814 )
+	if ( $wp_current_db_version < 33055 )
 		upgrade_430();
-
-	if ( $wp_current_db_version < 31351 )
-		upgrade_420();
 
 	maybe_disable_link_manager();
 
@@ -1494,21 +1488,7 @@ function upgrade_400() {
  * @global int   $wp_current_db_version
  * @global wpdb  $wpdb
  */
-function upgrade_420() {
-	global $wp_current_db_version, $wpdb;
-
-	if ( $wp_current_db_version < 31351 && $wpdb->charset === 'utf8mb4' ) {
-		if ( is_multisite() ) {
-			$tables = $wpdb->tables( 'blog' );
-		} else {
-			$tables = $wpdb->tables( 'all' );
-		}
-
-		foreach ( $tables as $table ) {
-			maybe_convert_table_to_utf8mb4( $table );
-		}
-	}
-}
+function upgrade_420() {}
 
 /**
  * Execute changes made in WordPress 4.3.0.
@@ -1527,6 +1507,18 @@ function upgrade_430() {
 
 	if ( $wp_current_db_version < 32814 ) {
 		split_all_shared_terms();
+	}
+
+	if ( $wp_current_db_version < 33055 && 'utf8mb4' === $wpdb->charset ) {
+		if ( is_multisite() ) {
+			$tables = $wpdb->tables( 'blog' );
+		} else {
+			$tables = $wpdb->tables( 'all' );
+		}
+	
+		foreach ( $tables as $table ) {
+			maybe_convert_table_to_utf8mb4( $table );
+		}
 	}
 }
 
@@ -1696,7 +1688,7 @@ function upgrade_network() {
 	}
 
 	// 4.3
-	if ( $wp_current_db_version < 32378 && 'utf8mb4' === $wpdb->charset ) {
+	if ( $wp_current_db_version < 33055 && 'utf8mb4' === $wpdb->charset ) {
 		if ( ! ( defined( 'DO_NOT_UPGRADE_GLOBAL_TABLES' ) && DO_NOT_UPGRADE_GLOBAL_TABLES ) ) {
 			$upgrade = false;
 			$indexes = $wpdb->get_results( "SHOW INDEXES FROM $wpdb->signups" );
@@ -1709,6 +1701,12 @@ function upgrade_network() {
 
 			if ( $upgrade ) {
 				$wpdb->query( "ALTER TABLE $wpdb->signups DROP INDEX domain_path, ADD INDEX domain_path(domain(140),path(51))" );
+			}
+
+			$tables = $wpdb->tables( 'global' );
+
+			foreach ( $tables as $table ) {
+				maybe_convert_table_to_utf8mb4( $table );
 			}
 		}
 	}

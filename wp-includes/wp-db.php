@@ -740,8 +740,7 @@ class wpdb {
 			$this->charset = DB_CHARSET;
 		}
 
-		if ( ( $this->use_mysqli && ! ( $this->dbh instanceof mysqli ) )
-		  || ( empty( $this->dbh ) || ! ( $this->dbh instanceof mysqli ) ) ) {
+		if ( ( $this->use_mysqli && ! ( $this->dbh instanceof mysqli ) ) || empty( $this->dbh ) ) {
 			return;
 		}
 
