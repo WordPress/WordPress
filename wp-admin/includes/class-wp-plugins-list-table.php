@@ -257,10 +257,11 @@ class WP_Plugins_List_Table extends WP_List_Table {
 		if ( $a == $b )
 			return 0;
 
-		if ( 'DESC' == $order )
-			return ( $a < $b ) ? 1 : -1;
-		else
-			return ( $a < $b ) ? -1 : 1;
+		if ( 'DESC' == $order ) {
+			return strcasecmp( $b, $a );
+		} else {
+			return strcasecmp( $a, $b );
+		}
 	}
 
 	/**
