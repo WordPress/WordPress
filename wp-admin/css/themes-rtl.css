@@ -411,7 +411,7 @@
 	bottom: 0;
 	background: #f1f1f1;
 	background: rgba( 238, 238, 238, 0.9 );
-	z-index: 10;
+	z-index: 10000; /* Over WP Pointers. */
 }
 
 .theme-overlay .theme-header {
@@ -524,7 +524,7 @@
 	background: #fff;
 	-webkit-box-shadow: 0 1px 20px 5px rgba(0, 0, 0, 0.1);
 	box-shadow: 0 1px 20px 5px rgba(0, 0, 0, 0.1);
-	z-index: 20;
+	z-index: 10000; /* Over WP Pointers. */
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
