@@ -1182,6 +1182,7 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting {
 				if ( false === $nav_menu_setting->save() ) {
 					$this->update_status = 'error';
 					$this->update_error  = new WP_Error( 'nav_menu_setting_failure' );
+					return;
 				}
 
 				if ( $nav_menu_setting->previous_term_id !== intval( $value['nav_menu_term_id'] ) ) {
@@ -1207,6 +1208,7 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting {
 				if ( false === $parent_nav_menu_item_setting->save() ) {
 					$this->update_status = 'error';
 					$this->update_error  = new WP_Error( 'nav_menu_item_setting_failure' );
+					return;
 				}
 
 				if ( $parent_nav_menu_item_setting->previous_post_id !== intval( $value['menu_item_parent'] ) ) {
@@ -1611,6 +1613,10 @@ class WP_Customize_Nav_Menu_Setting extends WP_Customize_Setting {
 		$value['parent']      = max( 0, intval( $value['parent'] ) );
 		$value['auto_add']    = ! empty( $value['auto_add'] );
 
+		if ( '' === $value['name'] ) {
+			$value['name'] = _x( '(unnamed)', 'Missing menu name.' );
+		}
+
 		/** This filter is documented in wp-includes/class-wp-customize-setting.php */
 		return apply_filters( "customize_sanitize_{$this->id}", $value, $this );
 	}
@@ -1669,11 +1675,19 @@ class WP_Customize_Nav_Menu_Setting extends WP_Customize_Setting {
 		} else {
 			// Insert or update menu.
 			$menu_data = wp_array_slice_assoc( $value, array( 'description', 'parent' ) );
-			if ( isset( $value['name'] ) ) {
-				$menu_data['menu-name'] = $value['name'];
+			$menu_data['menu-name'] = $value['name'];
+
+			$menu_id = $is_placeholder ? 0 : $this->term_id;
+			$r = wp_update_nav_menu_object( $menu_id, $menu_data );
+			$original_name = $menu_data['menu-name'];
+			$name_conflict_suffix = 1;
+			while ( is_wp_error( $r ) && 'menu_exists' === $r->get_error_code() ) {
+				$name_conflict_suffix += 1;
+				/* translators: 1: original menu name, 2: duplicate count */
+				$menu_data['menu-name'] = sprintf( __( '%1$s (%2$d)' ), $original_name, $name_conflict_suffix );
+				$r = wp_update_nav_menu_object( $menu_id, $menu_data );
 			}
 
-			$r = wp_update_nav_menu_object( $is_placeholder ? 0 : $this->term_id, $menu_data );
 			if ( is_wp_error( $r ) ) {
 				$this->update_status = 'error';
 				$this->update_error  = $r;
@@ -1764,6 +1778,7 @@ class WP_Customize_Nav_Menu_Setting extends WP_Customize_Setting {
 			'previous_term_id' => $this->previous_term_id,
 			'error'            => $this->update_error ? $this->update_error->get_error_code() : null,
 			'status'           => $this->update_status,
+			'saved_value'      => 'deleted' === $this->update_status ? null : $this->value(),
 		);
 
 		return $data;

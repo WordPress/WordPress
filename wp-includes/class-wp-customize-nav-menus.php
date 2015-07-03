@@ -281,6 +281,7 @@ final class WP_Customize_Nav_Menus {
 			'itemTypes'            => $this->available_item_types(),
 			'l10n'                 => array(
 				'untitled'          => _x( '(no label)', 'missing menu item navigation label' ),
+				'unnamed'           => _x( '(unnamed)', 'Missing menu name.' ),
 				'custom_label'      => __( 'Custom Link' ),
 				/* translators: %s: Current menu location */
 				'menuLocation'      => __( '(Currently set to: %s)' ),

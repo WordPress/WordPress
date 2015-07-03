@@ -654,7 +654,9 @@ button.not-a-button {
 }
 
 #custom-menu-item-name.invalid,
-#custom-menu-item-url.invalid {
+#custom-menu-item-url.invalid,
+.menu-name-field.invalid,
+.menu-name-field.invalid:focus {
 	border: 1px solid #f00;
 }
 
