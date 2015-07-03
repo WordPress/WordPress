@@ -524,14 +524,11 @@ function upgrade_all() {
 	if ( $wp_current_db_version < 29630 )
 		upgrade_400();
 
-	// Don't harsh my mellow. upgrade_422() must be called before
-	// upgrade_420() to catch bad comments prior to any auto-expansion of
-	// MySQL column widths.
 	if ( $wp_current_db_version < 31534 )
 		upgrade_422();
 
-	if ( $wp_current_db_version < 31351 )
-		upgrade_420();
+	if ( $wp_current_db_version < 31536 )
+		upgrade_423();
 
 	maybe_disable_link_manager();
 
@@ -1426,23 +1423,6 @@ function upgrade_400() {
  * @since 4.2.0
  */
 function upgrade_420() {
-	global $wp_current_db_version, $wpdb;
-
-	if ( $wp_current_db_version < 31351 && $wpdb->charset === 'utf8mb4' ) {
-		if ( is_multisite() ) {
-			$tables = $wpdb->tables( 'blog' );
-		} else {
-			$tables = $wpdb->tables( 'all' );
-			if ( defined( 'DO_NOT_UPGRADE_GLOBAL_TABLES' ) ) {
-				$global_tables = $wpdb->tables( 'global' );
-				$tables = array_diff_assoc( $tables, $global_tables );
-			}
-		}
-
-		foreach ( $tables as $table ) {
-			maybe_convert_table_to_utf8mb4( $table );
-		}
-	}
 }
 
 /**
@@ -1497,6 +1477,31 @@ function upgrade_422() {
 
 		foreach ( $comments as $comment ) {
 			wp_delete_comment( $comment->comment_ID, true );
+		}
+	}
+}
+
+/**
+ * Execute changes made in WordPress 4.2.0.
+ *
+ * @since 4.2.3
+ */
+function upgrade_423() {
+	global $wp_current_db_version, $wpdb;
+
+	if ( $wp_current_db_version < 31536 && $wpdb->charset === 'utf8mb4' ) {
+		if ( is_multisite() ) {
+			$tables = $wpdb->tables( 'blog' );
+		} else {
+			$tables = $wpdb->tables( 'all' );
+			if ( defined( 'DO_NOT_UPGRADE_GLOBAL_TABLES' ) ) {
+				$global_tables = $wpdb->tables( 'global' );
+				$tables = array_diff_assoc( $tables, $global_tables );
+			}
+		}
+
+		foreach ( $tables as $table ) {
+			maybe_convert_table_to_utf8mb4( $table );
 		}
 	}
 }
@@ -1628,6 +1633,17 @@ function upgrade_network() {
 
 			if ( $upgrade ) {
 				$wpdb->query( "ALTER TABLE $wpdb->signups DROP INDEX domain_path, ADD INDEX domain_path(domain(140),path(51))" );
+			}
+		}
+	}
+
+	// 4.2.3
+	if ( $wp_current_db_version < 31536 && $wpdb->charset === 'utf8mb4' ) {
+		if ( ! defined( 'DO_NOT_UPGRADE_GLOBAL_TABLES' ) ) {
+			$tables = $wpdb->tables( 'global' );
+
+			foreach ( $tables as $table ) {
+				maybe_convert_table_to_utf8mb4( $table );
 			}
 		}
 	}
