@@ -953,10 +953,10 @@ jQuery(document).ready( function($) {
 
 			contentEditor = editor;
 
-			editor.on( 'nodechange keyup', _.debounce( update, 2000 ) );
+			editor.on( 'nodechange keyup', _.debounce( update, 1000 ) );
 		} );
 
-		$content.on( 'input keyup', _.debounce( update, 2000 ) );
+		$content.on( 'input keyup', _.debounce( update, 1000 ) );
 
 		update();
 	} );
