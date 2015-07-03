@@ -489,6 +489,19 @@ h3.customize-section-title {
 	transition: left 0s;
 }
 
+.wp-full-overlay.section-open #customize-controls .wp-full-overlay-sidebar-content {
+	visibility: hidden;
+	overflow-y: hidden;
+}
+
+.wp-full-overlay.section-open .wp-full-overlay-sidebar-content .accordion-section.open {
+	visibility: visible;
+}
+
+.wp-full-overlay.section-open .wp-full-overlay-sidebar-content .accordion-section.open .accordion-section-content {
+	overflow-y: auto;
+}
+
 p.customize-section-description {
 	font-style: normal;
 	margin-top: 22px;
