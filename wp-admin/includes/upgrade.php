@@ -1514,6 +1514,10 @@ function upgrade_430() {
 			$tables = $wpdb->tables( 'blog' );
 		} else {
 			$tables = $wpdb->tables( 'all' );
+			if ( ! wp_should_upgrade_global_tables() ) {
+				$global_tables = $wpdb->tables( 'global' );
+				$tables = array_diff_assoc( $tables, $global_tables );
+			}
 		}
 	
 		foreach ( $tables as $table ) {
@@ -2634,7 +2638,7 @@ function pre_schema_upgrade() {
 
 	// Upgrade versions prior to 4.2.
 	if ( $wp_current_db_version < 31351 ) {
-		if ( wp_should_upgrade_global_tables() ) {
+		if ( ! is_multisite() && wp_should_upgrade_global_tables() ) {
 			$wpdb->query( "ALTER TABLE $wpdb->usermeta DROP INDEX meta_key, ADD INDEX meta_key(meta_key(191))" );
 		}
 		$wpdb->query( "ALTER TABLE $wpdb->terms DROP INDEX slug, ADD INDEX slug(slug(191))" );
@@ -2711,7 +2715,7 @@ function wp_should_upgrade_global_tables() {
 	}
 
 	/**
-	 * Filter if upgrade routines should be run on global tables in multisite.
+	 * Filter if upgrade routines should be run on global tables.
 	 *
 	 * @param bool $should_upgrade Whether to run the upgrade routines on global tables.
 	 */
