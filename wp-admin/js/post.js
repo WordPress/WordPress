@@ -266,9 +266,13 @@ jQuery(document).ready( function($) {
 				wp.autosave.server.suspend();
 			}
 
-			// Close the comment edit/reply form if open to stop the form
-			// action from interfering with the post's form action.
-			commentReply.close();
+			if ( typeof commentReply !== 'undefined' ) {
+				/*
+				 * Close the comment edit/reply form if open to stop the form
+				 * action from interfering with the post's form action.
+				 */
+				commentReply.close();
+			}
 
 			releaseLock = false;
 			$(window).off( 'beforeunload.edit-post' );
