@@ -2026,6 +2026,11 @@
 				if ( currentMenuItemControls.length ) {
 					_( currentMenuItemControls ).each(function( menuItemControl ) {
 						menuItemControl.container.removeClass( 'move-up-disabled move-down-disabled move-left-disabled move-right-disabled' );
+						if ( 0 === context.currentDepth ) {
+							menuItemControl.container.addClass( 'move-left-disabled' );
+						} else if ( 10 === context.currentDepth ) {
+							menuItemControl.container.addClass( 'move-right-disabled' );
+						}
 					});
 
 					currentMenuItemControls[0].container

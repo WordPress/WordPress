@@ -172,9 +172,7 @@
 .move-up-disabled .menus-move-up,
 .move-down-disabled .menus-move-down,
 .move-right-disabled .menus-move-right,
-.move-left-disabled .menus-move-left,
-.menu-item-depth-0 .menus-move-left,
-.menu-item-depth-10 .menus-move-right {
+.move-left-disabled .menus-move-left {
 	color: #d5d5d5 !important;
 	background-color: #fff !important;
 	cursor: default;
