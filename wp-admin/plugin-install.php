@@ -105,7 +105,7 @@ include(ABSPATH . 'wp-admin/admin-header.php');
 			$href = self_admin_url( 'plugin-install.php?tab=upload' );
 			$text = __( 'Upload Plugin' );
 		}
-		echo ' <a href="' . $href . '" class="upload add-new-h2">' . $text . '</a>';
+		echo ' <a href="' . $href . '" class="upload page-title-action">' . $text . '</a>';
 	}
 	?>
 </h1>

@@ -75,7 +75,7 @@ if ( 'grid' === $mode ) {
 		<?php
 		echo esc_html( $title );
 		if ( current_user_can( 'upload_files' ) ) { ?>
-			<a href="media-new.php" class="add-new-h2"><?php echo esc_html_x( 'Add New', 'file' ); ?></a><?php
+			<a href="media-new.php" class="page-title-action"><?php echo esc_html_x( 'Add New', 'file' ); ?></a><?php
 		}
 		?>
 		</h1>
@@ -210,7 +210,7 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 <?php
 echo esc_html( $title );
 if ( current_user_can( 'upload_files' ) ) { ?>
-	<a href="media-new.php" class="add-new-h2"><?php echo esc_html_x('Add New', 'file'); ?></a><?php
+	<a href="media-new.php" class="page-title-action"><?php echo esc_html_x('Add New', 'file'); ?></a><?php
 }
 if ( ! empty( $_REQUEST['s'] ) )
 	printf( '<span class="subtitle">' . __('Search results for &#8220;%s&#8221;') . '</span>', get_search_query() ); ?>

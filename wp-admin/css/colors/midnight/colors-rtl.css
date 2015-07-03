@@ -111,7 +111,7 @@ input[type=radio]:checked:before {
 }
 
 /* List tables */
-.wrap .add-new-h2:hover,
+.wrap .add-new-h2:hover, .wrap .page-title-action:hover,
 #add-new-comment a:hover,
 .tablenav .tablenav-pages a:hover,
 .tablenav .tablenav-pages a:focus {

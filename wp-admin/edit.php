@@ -286,7 +286,7 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 <h1><?php
 echo esc_html( $post_type_object->labels->name );
 if ( current_user_can( $post_type_object->cap->create_posts ) )
-	echo ' <a href="' . esc_url( admin_url( $post_new_file ) ) . '" class="add-new-h2">' . esc_html( $post_type_object->labels->add_new ) . '</a>';
+	echo ' <a href="' . esc_url( admin_url( $post_new_file ) ) . '" class="page-title-action">' . esc_html( $post_type_object->labels->add_new ) . '</a>';
 if ( ! empty( $_REQUEST['s'] ) )
 	printf( ' <span class="subtitle">' . __('Search results for &#8220;%s&#8221;') . '</span>', get_search_query() );
 ?></h1>

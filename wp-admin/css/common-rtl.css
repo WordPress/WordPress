@@ -595,8 +595,10 @@ code {
 	padding-right: 25px;
 }
 
-.wrap .add-new-h2,
-.wrap .add-new-h2:active {
+.wrap .add-new-h2, /* deprecated */
+.wrap .add-new-h2:active, /* deprecated */
+.wrap .page-title-action,
+.wrap .page-title-action:active {
 	margin-right: 4px;
 	padding: 4px 8px;
 	position: relative;
@@ -611,7 +613,8 @@ code {
 	font-size: 13px;
 }
 
-.wrap .add-new-h2:hover {
+.wrap .add-new-h2:hover, /* deprecated */
+.wrap .page-title-action:hover {
 	background: #00a0d2;
 	color: #fff;
 }
@@ -3166,7 +3169,10 @@ img {
 		display: none !important;
 	}
 
-	.wrap .add-new-h2, .wrap .add-new-h2:active {
+	.wrap .add-new-h2, /* deprecated */
+	.wrap .add-new-h2:active, /* deprecated */
+	.wrap .page-title-action,
+	.wrap .page-title-action:active {
 		padding: 10px 15px;
 		font-size: 14px;
 		white-space: nowrap;

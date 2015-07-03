@@ -261,7 +261,7 @@ require_once(ABSPATH . 'wp-admin/admin-header.php');
 ?>
 
 <div class="wrap">
-<h1><?php echo esc_html( $title ); if ( current_user_can('install_themes') ) { ?> <a href="theme-install.php" class="add-new-h2"><?php echo esc_html_x('Add New', 'theme'); ?></a><?php }
+<h1><?php echo esc_html( $title ); if ( current_user_can('install_themes') ) { ?> <a href="theme-install.php" class="page-title-action"><?php echo esc_html_x('Add New', 'theme'); ?></a><?php }
 if ( $s )
 	printf( '<span class="subtitle">' . __('Search results for &#8220;%s&#8221;') . '</span>', esc_html( $s ) ); ?>
 </h1>

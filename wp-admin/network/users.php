@@ -311,7 +311,7 @@ if ( isset( $_REQUEST['updated'] ) && $_REQUEST['updated'] == 'true' && ! empty(
 <div class="wrap">
 	<h1><?php esc_html_e( 'Users' );
 	if ( current_user_can( 'create_users') ) : ?>
-		<a href="<?php echo network_admin_url('user-new.php'); ?>" class="add-new-h2"><?php echo esc_html_x( 'Add New', 'user' ); ?></a><?php
+		<a href="<?php echo network_admin_url('user-new.php'); ?>" class="page-title-action"><?php echo esc_html_x( 'Add New', 'user' ); ?></a><?php
 	endif;
 
 	if ( !empty( $usersearch ) )

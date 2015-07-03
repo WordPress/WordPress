@@ -117,8 +117,8 @@ include(ABSPATH . 'wp-admin/admin-header.php');
 	 */
 	$tabs = apply_filters( 'install_themes_tabs', array( 'upload' => __( 'Upload Theme' ) ) );
 	if ( ! empty( $tabs['upload'] ) && current_user_can( 'upload_themes' ) ) {
-		echo ' <a href="#" class="upload add-new-h2">' . __( 'Upload Theme' ) . '</a>';
-		echo ' <a href="#" class="browse-themes add-new-h2">' . _x( 'Browse', 'themes' ) . '</a>';
+		echo ' <a href="#" class="upload page-title-action">' . __( 'Upload Theme' ) . '</a>';
+		echo ' <a href="#" class="browse-themes page-title-action">' . _x( 'Browse', 'themes' ) . '</a>';
 	}
 	?></h1>
 

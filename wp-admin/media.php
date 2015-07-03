@@ -107,7 +107,7 @@ case 'edit' :
 <?php
 echo esc_html( $title );
 if ( current_user_can( 'upload_files' ) ) { ?>
-	<a href="media-new.php" class="add-new-h2"><?php echo esc_html_x('Add New', 'file'); ?></a>
+	<a href="media-new.php" class="page-title-action"><?php echo esc_html_x('Add New', 'file'); ?></a>
 <?php } ?>
 </h1>
 

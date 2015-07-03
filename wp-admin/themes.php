@@ -127,7 +127,7 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 	<h1><?php esc_html_e( 'Themes' ); ?>
 		<span class="title-count theme-count"><?php echo count( $themes ); ?></span>
 	<?php if ( ! is_multisite() && current_user_can( 'install_themes' ) ) : ?>
-		<a href="<?php echo admin_url( 'theme-install.php' ); ?>" class="hide-if-no-js add-new-h2"><?php echo esc_html_x( 'Add New', 'Add new theme' ); ?></a>
+		<a href="<?php echo admin_url( 'theme-install.php' ); ?>" class="hide-if-no-js page-title-action"><?php echo esc_html_x( 'Add New', 'Add new theme' ); ?></a>
 	<?php endif; ?>
 	</h1>
 <?php

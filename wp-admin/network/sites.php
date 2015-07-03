@@ -251,7 +251,7 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 <h1><?php _e( 'Sites' ); ?>
 
 <?php if ( current_user_can( 'create_sites') ) : ?>
-	<a href="<?php echo network_admin_url('site-new.php'); ?>" class="add-new-h2"><?php echo esc_html_x( 'Add New', 'site' ); ?></a>
+	<a href="<?php echo network_admin_url('site-new.php'); ?>" class="page-title-action"><?php echo esc_html_x( 'Add New', 'site' ); ?></a>
 <?php endif; ?>
 
 <?php if ( isset( $_REQUEST['s'] ) && $_REQUEST['s'] ) {
