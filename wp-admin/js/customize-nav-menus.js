@@ -477,43 +477,12 @@
 			this.$search.val( '' );
 		},
 
-		// Add keyboard accessiblity to the panel
+		// Add a few keyboard enhancements to the panel.
 		keyboardAccessible: function( event ) {
 			var isEnter = ( 13 === event.which ),
 				isEsc = ( 27 === event.which ),
-				isDown = ( 40 === event.which ),
-				isUp = ( 38 === event.which ),
 				isBackTab = ( 9 === event.which && event.shiftKey ),
-				selected = null,
-				firstVisible = this.$el.find( '> .menu-item-tpl:visible:first' ),
-				lastVisible = this.$el.find( '> .menu-item-tpl:visible:last' ),
 				isSearchFocused = $( event.target ).is( this.$search );
-
-			if ( isDown || isUp ) {
-				if ( isDown ) {
-					if ( isSearchFocused ) {
-						selected = firstVisible;
-					} else if ( this.selected && 0 !== this.selected.nextAll( '.menu-item-tpl:visible' ).length ) {
-						selected = this.selected.nextAll( '.menu-item-tpl:visible:first' );
-					}
-				} else if ( isUp ) {
-					if ( isSearchFocused ) {
-						selected = lastVisible;
-					} else if ( this.selected && 0 !== this.selected.prevAll( '.menu-item-tpl:visible' ).length ) {
-						selected = this.selected.prevAll( '.menu-item-tpl:visible:first' );
-					}
-				}
-
-				this.select( selected );
-
-				if ( selected ) {
-					selected.focus();
-				} else {
-					this.$search.focus();
-				}
-
-				return;
-			}
 
 			// If enter pressed but nothing entered, don't do anything
 			if ( isEnter && ! this.$search.val() ) {
