@@ -113,9 +113,13 @@ else :
 		echo "</li>";
 	}?>
 	</ul>
-	<input type="hidden" name="action" value="updateblogsettings" />
-	<?php wp_nonce_field( 'update-my-sites' ); ?>
-	<?php submit_button(); ?>
+	<?php
+	if ( count( $blogs ) > 1 || has_action( 'myblogs_allblogs_options' ) || has_filter( 'myblogs_options' ) ) {
+		?><input type="hidden" name="action" value="updateblogsettings" /><?php
+		wp_nonce_field( 'update-my-sites' );
+		submit_button();
+	}
+	?>
 	</form>
 <?php endif; ?>
 	</div>
