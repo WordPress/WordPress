@@ -494,6 +494,10 @@ function wpmu_validate_user_signup($user_name, $user_email) {
 	if ( strlen( $user_name ) < 4 )
 		$errors->add('user_name',  __( 'Username must be at least 4 characters.' ) );
 
+	if ( strlen( $user_name ) > 60 ) {
+		$errors->add( 'user_name', __( 'Username may not be longer than 60 characters.' ) );
+	}
+
 	if ( strpos( $user_name, '_' ) !== false )
 		$errors->add( 'user_name', __( 'Sorry, usernames may not contain the character &#8220;_&#8221;!' ) );
 
