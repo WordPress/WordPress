@@ -807,7 +807,7 @@ function choose_primary_blog() {
 			}
 		} elseif ( count( $all_blogs ) == 1 ) {
 			$blog = reset( $all_blogs );
-			echo $blog->domain;
+			echo esc_url( get_home_url( $blog->userblog_id ) );
 			if ( $primary_blog != $blog->userblog_id ) // Set the primary blog again if it's out of sync with blog list.
 				update_user_meta( get_current_user_id(), 'primary_blog', $blog->userblog_id );
 		} else {
