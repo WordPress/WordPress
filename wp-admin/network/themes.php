@@ -182,9 +182,9 @@ if ( $action ) {
 						wp_nonce_field( 'bulk-themes' );
 
 						if ( 1 == $themes_to_delete ) {
-							submit_button( __( 'Yes, Delete this theme' ), 'button', 'submit', false );
+							submit_button( __( 'Yes, delete this theme' ), 'button', 'submit', false );
 						} else {
-							submit_button( __( 'Yes, Delete these themes' ), 'button', 'submit', false );
+							submit_button( __( 'Yes, delete these themes' ), 'button', 'submit', false );
 						}
 					?>
 				</form>
@@ -192,7 +192,7 @@ if ( $action ) {
 				$referer = wp_get_referer();
 				?>
 				<form method="post" action="<?php echo $referer ? esc_url( $referer ) : ''; ?>" style="display:inline;">
-					<?php submit_button( __( 'No, Return me to the theme list' ), 'button', 'submit', false ); ?>
+					<?php submit_button( __( 'No, return me to the theme list' ), 'button', 'submit', false ); ?>
 				</form>
 
 				<p><a href="#" onclick="jQuery('#files-list').toggle(); return false;"><?php _e('Click to view entire list of files which will be deleted'); ?></a></p>

@@ -27,10 +27,10 @@ _deprecated_file( sprintf( __( 'Theme without %1$s' ), basename(__FILE__) ), '3.
 		<?php
 			if ( 1 == get_comments_number() ) {
 				/* translators: %s: post title */
-				printf( __( 'One Response to %s' ),  '&#8220;' . get_the_title() . '&#8221;' );
+				printf( __( 'One response to %s' ),  '&#8220;' . get_the_title() . '&#8221;' );
 			} else {
 				/* translators: 1: number of comments, 2: post title */
-				printf( _n( '%1$s Response to %2$s', '%1$s Responses to %2$s', get_comments_number() ),
+				printf( _n( '%1$s response to %2$s', '%1$s responses to %2$s', get_comments_number() ),
 					number_format_i18n( get_comments_number() ),  '&#8220;' . get_the_title() . '&#8221;' );
 			}
 		?>
