@@ -152,7 +152,7 @@ class WP_Site_Icon {
 	public function select_page() {
 		?>
 		<div class="wrap">
-			<h2><?php _e( 'Add Site Icon' ); ?></h2>
+			<h1><?php _e( 'Add Site Icon' ); ?></h1>
 			<?php settings_errors( 'site-icon' ); ?>
 			<?php do_settings_sections( 'site-icon-upload' ); ?>
 		</div>
@@ -260,7 +260,7 @@ class WP_Site_Icon {
 		?>
 
 		<div class="wrap">
-			<h2 class="site-icon-title"><?php _e( 'Site Icon' ); ?></h2>
+			<h1 class="site-icon-title"><?php _e( 'Site Icon' ); ?></h1>
 			<?php settings_errors( 'site-icon' ); ?>
 
 			<div class="site-icon-crop-shell">
