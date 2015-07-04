@@ -13,18 +13,30 @@
 class Twenty_Eleven_Ephemera_Widget extends WP_Widget {
 
 	/**
-	 * Constructor
+	 * PHP5 constructor.
 	 *
-	 * @since Twenty Eleven 1.0
-	 **/
-	function Twenty_Eleven_Ephemera_Widget() {
-		$widget_ops = array( 'classname' => 'widget_twentyeleven_ephemera', 'description' => __( 'Use this widget to list your recent Aside, Status, Quote, and Link posts', 'twentyeleven' ) );
-		$this->WP_Widget( 'widget_twentyeleven_ephemera', __( 'Twenty Eleven Ephemera', 'twentyeleven' ), $widget_ops );
+	 * @since Twenty Eleven 2.2
+	 */
+	function __construct() {
+		parent::__construct( 'widget_twentyeleven_ephemera', __( 'Twenty Eleven Ephemera', 'twentyeleven' ), array(
+			'classname'   => 'widget_twentyeleven_ephemera',
+			'description' => __( 'Use this widget to list your recent Aside, Status, Quote, and Link posts', 'twentyeleven' ),
+		) );
 		$this->alt_option_name = 'widget_twentyeleven_ephemera';
 
 		add_action( 'save_post', array( &$this, 'flush_widget_cache' ) );
 		add_action( 'deleted_post', array( &$this, 'flush_widget_cache' ) );
 		add_action( 'switch_theme', array( &$this, 'flush_widget_cache' ) );
+	}
+
+	/**
+	 * PHP4 constructor.
+	 *
+	 * @since Twenty Eleven 1.0
+	 */
+	function Twenty_Eleven_Ephemera_Widget() {
+		_deprecated_constructor( 'Twenty_Eleven_Ephemera_Widget', '4.3.0' );
+		self::__construct();
 	}
 
 	/**
