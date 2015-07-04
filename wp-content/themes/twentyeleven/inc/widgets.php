@@ -35,7 +35,6 @@ class Twenty_Eleven_Ephemera_Widget extends WP_Widget {
 	 * @since Twenty Eleven 1.0
 	 */
 	function Twenty_Eleven_Ephemera_Widget() {
-		_deprecated_constructor( 'Twenty_Eleven_Ephemera_Widget', '4.3.0' );
 		self::__construct();
 	}
 
