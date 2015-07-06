@@ -298,7 +298,7 @@ function wp_print_media_templates() {
 				<# } else if ( 'image' === data.type && data.sizes && data.sizes.full ) { #>
 					<img class="details-image" src="{{ data.sizes.full.url }}" draggable="false" />
 				<# } else if ( -1 === jQuery.inArray( data.type, [ 'audio', 'video' ] ) ) { #>
-					<img class="details-image" src="{{ data.icon }}" class="icon" draggable="false" />
+					<img class="details-image icon" src="{{ data.icon }}" draggable="false" />
 				<# } #>
 
 				<# if ( 'audio' === data.type ) { #>

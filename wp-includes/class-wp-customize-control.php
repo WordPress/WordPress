@@ -814,7 +814,7 @@ class WP_Customize_Media_Control extends WP_Customize_Control {
 									</video>
 								</div>
 							<# } else { #>
-								<img class="attachment-thumb type-icon" src="{{ data.attachment.icon }}" class="icon" draggable="false" />
+								<img class="attachment-thumb type-icon icon" src="{{ data.attachment.icon }}" draggable="false" />
 								<p class="attachment-title">{{ data.attachment.title }}</p>
 							<# } #>
 						</div>
