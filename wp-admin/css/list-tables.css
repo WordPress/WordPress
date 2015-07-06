@@ -1733,8 +1733,12 @@ div.action-links,
 
 	.wp-list-table th:not(.column-primary),
 	.wp-list-table th:not(.column-primary),
-	.wp-list-table tr:not(.inline-edit-row) td:not(.column-primary):not(.check-column) {
+	.wp-list-table tr:not(.inline-edit-row):not(.no-items) td:not(.column-primary):not(.check-column) {
 		display: none;
+	}
+
+	.wp-list-table thead th.column-primary {
+		width: 100%;
 	}
 
 	/* Checkboxes need to show */
@@ -1747,7 +1751,7 @@ div.action-links,
 		display: block;
 	}
 
-	.wp-list-table tr:not(.inline-edit-row) td:not(.check-column) {
+	.wp-list-table tr:not(.inline-edit-row):not(.no-items) td:not(.check-column) {
 		position: relative;
 		clear: both;
 		display: block;
@@ -1758,11 +1762,11 @@ div.action-links,
 		padding-right: 50px; /* space for toggle button */
 	}
 
-	.wp-list-table tr:not(.inline-edit-row) td:not(.column-primary):not(.check-column) {
+	.wp-list-table tr:not(.inline-edit-row):not(.no-items) td:not(.column-primary):not(.check-column) {
 		padding: 3px 8px 3px 35%;
 	}
 
-	.wp-list-table tr:not(.inline-edit-row) td:not(.column-primary)::before {
+	.wp-list-table tr:not(.inline-edit-row):not(.no-items) td:not(.column-primary)::before {
 		position: absolute;
 		left: 10px; /* match padding of regular table cell */
 		display: block;
