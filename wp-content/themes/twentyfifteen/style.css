@@ -490,6 +490,10 @@ textarea {
 
 button,
 input {
+	-webkit-hyphens: none;
+	-moz-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
 	line-height: normal;
 }
 
