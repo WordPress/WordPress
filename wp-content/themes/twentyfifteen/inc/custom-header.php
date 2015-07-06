@@ -133,7 +133,14 @@ function twentyfifteen_header_style() {
 		if ( ! empty( $header_image ) ) :
 	?>
 		.site-header {
-			background: url(<?php header_image(); ?>) no-repeat 50% 50%;
+
+			/*
+			 * No shorthand so the Customizer can override individual properties.
+			 * @see https://core.trac.wordpress.org/ticket/31460
+			 */
+			background-image: url(<?php header_image(); ?>);
+			background-repeat: no-repeat;
+			background-position: 50% 50%;
 			-webkit-background-size: cover;
 			-moz-background-size:    cover;
 			-o-background-size:      cover;
@@ -142,7 +149,14 @@ function twentyfifteen_header_style() {
 
 		@media screen and (min-width: 59.6875em) {
 			body:before {
-				background: url(<?php header_image(); ?>) no-repeat 100% 50%;
+
+				/*
+				 * No shorthand so the Customizer can override individual properties.
+				 * @see https://core.trac.wordpress.org/ticket/31460
+				 */
+				background-image: url(<?php header_image(); ?>);
+				background-repeat: no-repeat;
+				background-position: 100% 50%;
 				-webkit-background-size: cover;
 				-moz-background-size:    cover;
 				-o-background-size:      cover;
