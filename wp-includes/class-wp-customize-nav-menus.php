@@ -120,7 +120,8 @@ final class WP_Customize_Nav_Menus {
 					'type'       => 'post_type',
 					'type_label' => get_post_type_object( $post->post_type )->labels->singular_name,
 					'object'     => $post->post_type,
-					'object_id'  => (int) $post->ID,
+					'object_id'  => intval( $post->ID ),
+					'url'        => get_permalink( intval( $post->ID ) ),
 				);
 			}
 		} elseif ( 'taxonomy' === $obj_type ) {
@@ -147,7 +148,8 @@ final class WP_Customize_Nav_Menus {
 					'type'       => 'taxonomy',
 					'type_label' => get_taxonomy( $term->taxonomy )->labels->singular_name,
 					'object'     => $term->taxonomy,
-					'object_id'  => $term->term_id,
+					'object_id'  => intval( $term->term_id ),
+					'url'        => get_term_link( intval( $term->term_id ), $term->taxonomy ),
 				);
 			}
 		}
@@ -228,11 +230,12 @@ final class WP_Customize_Nav_Menus {
 				}
 				$results[] = array(
 					'id'         => 'post-' . $post->ID,
+					'title'      => html_entity_decode( $post_title, ENT_QUOTES, get_bloginfo( 'charset' ) ),
 					'type'       => 'post_type',
 					'type_label' => $post_type_objects[ $post->post_type ]->labels->singular_name,
 					'object'     => $post->post_type,
 					'object_id'  => intval( $post->ID ),
-					'title'      => html_entity_decode( $post_title, ENT_QUOTES, get_bloginfo( 'charset' ) ),
+					'url'        => get_permalink( intval( $post->ID ) ),
 				);
 			}
 		}
@@ -250,11 +253,12 @@ final class WP_Customize_Nav_Menus {
 			foreach ( $terms as $term ) {
 				$results[] = array(
 					'id'         => 'term-' . $term->term_id,
+					'title'      => html_entity_decode( $term->name, ENT_QUOTES, get_bloginfo( 'charset' ) ),
 					'type'       => 'taxonomy',
 					'type_label' => get_taxonomy( $term->taxonomy )->labels->singular_name,
 					'object'     => $term->taxonomy,
 					'object_id'  => intval( $term->term_id ),
-					'title'      => html_entity_decode( $term->name, ENT_QUOTES, get_bloginfo( 'charset' ) ),
+					'url'        => get_term_link( intval( $term->term_id ), $term->taxonomy ),
 				);
 			}
 		}
