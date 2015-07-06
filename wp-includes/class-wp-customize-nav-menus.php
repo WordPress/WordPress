@@ -433,37 +433,34 @@ final class WP_Customize_Nav_Menus {
 			'description' => $description,
 		) );
 
-		// @todo if ( ! $menus ) : make a "default" menu
-		if ( $menus ) {
-			$choices = array( '0' => __( '&mdash; Select &mdash;' ) );
-			foreach ( $menus as $menu ) {
-				$choices[ $menu->term_id ] = wp_html_excerpt( $menu->name, 40, '&hellip;' );
+		$choices = array( '0' => __( '&mdash; Select &mdash;' ) );
+		foreach ( $menus as $menu ) {
+			$choices[ $menu->term_id ] = wp_html_excerpt( $menu->name, 40, '&hellip;' );
+		}
+
+		foreach ( $locations as $location => $description ) {
+			$setting_id = "nav_menu_locations[{$location}]";
+
+			$setting = $this->manager->get_setting( $setting_id );
+			if ( $setting ) {
+				$setting->transport = 'postMessage';
+				remove_filter( "customize_sanitize_{$setting_id}", 'absint' );
+				add_filter( "customize_sanitize_{$setting_id}", array( $this, 'intval_base10' ) );
+			} else {
+				$this->manager->add_setting( $setting_id, array(
+					'sanitize_callback' => array( $this, 'intval_base10' ),
+					'theme_supports'    => 'menus',
+					'type'              => 'theme_mod',
+					'transport'         => 'postMessage',
+				) );
 			}
 
-			foreach ( $locations as $location => $description ) {
-				$setting_id = "nav_menu_locations[{$location}]";
-
-				$setting = $this->manager->get_setting( $setting_id );
-				if ( $setting ) {
-					$setting->transport = 'postMessage';
-					remove_filter( "customize_sanitize_{$setting_id}", 'absint' );
-					add_filter( "customize_sanitize_{$setting_id}", array( $this, 'intval_base10' ) );
-				} else {
-					$this->manager->add_setting( $setting_id, array(
-						'sanitize_callback' => array( $this, 'intval_base10' ),
-						'theme_supports'    => 'menus',
-						'type'              => 'theme_mod',
-						'transport'         => 'postMessage',
-					) );
-				}
-
-				$this->manager->add_control( new WP_Customize_Nav_Menu_Location_Control( $this->manager, $setting_id, array(
-					'label'       => $description,
-					'location_id' => $location,
-					'section'     => 'menu_locations',
-					'choices'     => $choices,
-				) ) );
-			}
+			$this->manager->add_control( new WP_Customize_Nav_Menu_Location_Control( $this->manager, $setting_id, array(
+				'label'       => $description,
+				'location_id' => $location,
+				'section'     => 'menu_locations',
+				'choices'     => $choices,
+			) ) );
 		}
 
 		// Register each menu as a Customizer section, and add each menu item to each menu.
