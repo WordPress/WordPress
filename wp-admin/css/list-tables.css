@@ -1924,11 +1924,17 @@ div.action-links,
 		padding-bottom: 4px;
 	}
 
-	.plugins tr.active + tr.inactive td,
-	.wp-list-table.plugins .plugin-title,
-	.wp-list-table.plugins .theme-title {
+	.plugins #the-list tr > td:not(:last-child),
+	.plugins #the-list .update th,
+	.plugins #the-list .update td,
+	.wp-list-table.plugins #the-list .theme-title {
 		-webkit-box-shadow: none;
 		box-shadow: none;
+		border-top: none;
+	}
+
+	.plugins #the-list tr td {
+		border-top: none;
 	}
 
 	.plugins tbody {
@@ -1958,7 +1964,7 @@ div.action-links,
 		background-color: #fef7f1;
 	}
 
-	.plugins .plugin-update-tr .plugin-update {
+	.plugins #the-list .plugin-update-tr .plugin-update {
 		border-left: none;
 	}
 
