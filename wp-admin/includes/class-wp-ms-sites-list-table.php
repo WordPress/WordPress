@@ -484,8 +484,6 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 	 * @return string Row actions output.
 	 */
 	protected function handle_row_actions( $blog, $column_name, $primary ) {
-		global $current_site;
-
 		if ( $primary === $column_name ) {
 			$blogname = untrailingslashit( $blog['domain'] . $blog['path'] );
 
