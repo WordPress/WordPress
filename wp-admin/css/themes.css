@@ -838,6 +838,7 @@ body.folded .theme-overlay .theme-wrap {
 	right: auto;
 	top: auto;
 	bottom: auto;
+	z-index: 10;
 }
 
 .single-theme .theme-overlay .theme-about {
