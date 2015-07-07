@@ -309,7 +309,7 @@ function do_shortcode_tag( $m ) {
  */
 function shortcode_parse_atts($text) {
 	$atts = array();
-	$pattern = '/(\w+)\s*=\s*"([^"]*)"(?:\s|$)|(\w+)\s*=\s*\'([^\']*)\'(?:\s|$)|(\w+)\s*=\s*([^\s\'"]+)(?:\s|$)|"([^"]*)"(?:\s|$)|(\S+)(?:\s|$)/';
+	$pattern = '/([\w-]+)\s*=\s*"([^"]*)"(?:\s|$)|([\w-]+)\s*=\s*\'([^\']*)\'(?:\s|$)|([\w-]+)\s*=\s*([^\s\'"]+)(?:\s|$)|"([^"]*)"(?:\s|$)|(\S+)(?:\s|$)/';
 	$text = preg_replace("/[\x{00a0}\x{200b}]+/u", " ", $text);
 	if ( preg_match_all($pattern, $text, $match, PREG_SET_ORDER) ) {
 		foreach ($match as $m) {
