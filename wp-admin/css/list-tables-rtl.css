@@ -1903,11 +1903,13 @@ div.action-links,
 		overflow: hidden;
 	}
 
-	/* Plugin/Theme Management Page */
+	/* List tables that don't toggle rows */
+	.comments-box .toggle-row,
 	.wp-list-table.plugins .toggle-row {
 		display: none;
 	}
 
+	/* Plugin/Theme Management */
 	#wpbody-content .wp-list-table.plugins td {
 		display: block;
 		width: auto;
