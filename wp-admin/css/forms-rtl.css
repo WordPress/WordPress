@@ -232,13 +232,19 @@ textarea[readonly] {
    color: #a9a9a9;
 }
 
-.form-invalid {
-	background-color: #ffebe8 !important;
+.form-invalid input, .form-invalid input:focus, 
+.form-invalid select, .form-invalid select:focus {
+	border-color: #dc3232 !important;
+	-webkit-box-shadow: 0 0 2px rgba( 204, 0, 0, 0.8 ); 
+ 	box-shadow: 0 0 2px rgba( 204, 0, 0, 0.8 ); 
 }
 
-.form-invalid input,
-.form-invalid select {
-	border-color: #c00 !important;
+.form-table .form-required.form-invalid td:after {
+	content: '\f534';
+	font: normal 20px/1 dashicons;
+	color: #dc3232;
+	margin-right: -25px;
+	vertical-align: middle;
 }
 
 .form-input-tip {
@@ -1079,6 +1085,11 @@ table.form-table td .updated p {
 		box-sizing: border-box;
 	}
 
+	.form-table .form-required.form-invalid td:after {
+		float: left;
+		margin: -30px 0 0 3px;
+	}
+
 	#wpbody .form-table td select {
 		height: 40px;
 	}
@@ -1226,4 +1237,3 @@ table.form-table td .updated p {
 		width: 49%;
 	}
 }
-
