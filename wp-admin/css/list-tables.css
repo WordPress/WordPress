@@ -296,6 +296,18 @@ table.fixed {
 	float: left;
 }
 
+td.column-title strong,
+td.plugin-title strong {
+	display: block;
+	margin-bottom: .2em;
+	font-size: 14px;
+}
+
+td.column-title p,
+td.plugin-title p {
+	margin: 6px 0;
+}
+
 /* Media file column */
 table.media .column-title {
 	position: relative;

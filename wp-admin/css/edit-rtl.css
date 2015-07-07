@@ -291,19 +291,6 @@ form#tags-filter {
 	position: relative;
 }
 
-/* Edit posts */
-td.post-title strong,
-td.plugin-title strong {
-	display: block;
-	margin-bottom: .2em;
-	font-size: 14px;
-}
-
-td.post-title p,
-td.plugin-title p {
-	margin: 6px 0;
-}
-
 /* Global classes */
 .wp-hidden-children .wp-hidden-child,
 .ui-tabs-hide {
