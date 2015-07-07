@@ -804,7 +804,7 @@ class WP_User_Query {
 			 * Filter the columns to search in a WP_User_Query search.
 			 *
 			 * The default columns depend on the search term, and include 'user_email',
-			 * 'user_login', 'ID', 'user_url', and 'user_nicename'.
+			 * 'user_login', 'ID', 'user_url', 'display_name', and 'user_nicename'.
 			 *
 			 * @since 3.6.0
 			 *
