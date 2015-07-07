@@ -570,10 +570,6 @@ code {
 	margin: 10px 2px 0 20px;
 }
 
-.attention {
-	color: #00a0d2;
-}
-
 .wrap h1,
 .wrap h2,
 .subtitle {
@@ -2011,6 +2007,7 @@ table .column-rating {
 	text-align: right;
 }
 
+.attention,
 .error-message {
 	color: red;
 	font-weight: 600;

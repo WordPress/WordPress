@@ -824,7 +824,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 			_e( 'Published' );
 		} elseif ( 'future' == $post->post_status ) {
 			if ( $time_diff > 0 ) {
-				echo '<strong class="attention">' . __( 'Missed schedule' ) . '</strong>';
+				echo '<strong class="error-message">' . __( 'Missed schedule' ) . '</strong>';
 			} else {
 				_e( 'Scheduled' );
 			}

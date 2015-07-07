@@ -451,7 +451,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 		global $status, $totals;
 		if ( $theme->errors() ) {
 			$pre = $status == 'broken' ? __( 'Broken Theme:' ) . ' ' : '';
-			echo '<p><strong class="attention">' . $pre . $theme->errors()->get_error_message() . '</strong></p>';
+			echo '<p><strong class="error-message">' . $pre . $theme->errors()->get_error_message() . '</strong></p>';
 		}
 
 		if ( $this->is_site_themes ) {
