@@ -1045,6 +1045,8 @@ final class _WP_Editors {
 			'Action' => __( 'Action' ),
 			'To move focus to other buttons use Tab or the arrow keys. To return focus to the editor press Escape or use one of the buttons.' =>
 				__( 'To move focus to other buttons use Tab or the arrow keys. To return focus to the editor press Escape or use one of the buttons.' ),
+			'When starting a new paragraph with one of these patterns followed by a space, the formatting will be applied automatically. Press Backspace or Escape to undo.' =>
+				__( 'When starting a new paragraph with one of these patterns followed by a space, the formatting will be applied automatically. Press Backspace or Escape to undo.' ),
 		);
 
 		/**

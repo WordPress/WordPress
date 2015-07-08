@@ -150,6 +150,9 @@
 .mce-window .wp-editor-help th {
 	font-weight: bold;
 	padding: 5px 0 0;
+}
+
+.mce-window .wp-editor-help .wp-help-th-center th {
 	text-align: center;
 }
 

@@ -205,7 +205,7 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 			meta = tinymce.Env.mac ? __( 'Cmd + letter:' ) : __( 'Ctrl + letter:' ),
 			table1 = [],
 			table2 = [],
-			header;
+			header, html;
 
 		each( [
 			{ c: 'Copy',      x: 'Cut'              },
@@ -250,33 +250,56 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 		header = [ __( 'Letter' ), __( 'Action' ), __( 'Letter' ), __( 'Action' ) ];
 		header = '<tr class="wp-help-header"><td>' + header.join( '</td><td>' ) + '</td></tr>';
 
+		html = '<div class="wp-editor-help">';
+
+		// Main section, default and additional shortcuts
+		html = html +
+			'<p>' + __( 'Default shortcuts,' ) + ' ' + meta + '</p>' +
+			'<table class="wp-help-th-center">' +
+				header +
+				table1.join('') +
+			'</table>' +
+			'<p>' + __( 'Additional shortcuts,' ) + ' ' + access + '</p>' +
+			'<table class="wp-help-th-center">' +
+				header +
+				table2.join('') +
+			'</table>';
+
+		if ( editor.plugins.wptextpattern ) {
+			// Text pattern section
+			html = html +
+				'<p>' + __( 'When starting a new paragraph with one of these patterns followed by a space, the formatting will be applied automatically. Press Backspace or Escape to undo.' ) + '</p>' +
+				'<table>' +
+					tr({ '* or -':  'Bullet list' }) +
+					tr({ '1. or 1)':  'Numbered list' }) +
+					tr({ '>': 'Blockquote' }) +
+					tr({ '##': 'Heading 2' }) +
+					tr({ '###': 'Heading 3' }) +
+					tr({ '####': 'Heading 4' }) +
+					tr({ '#####': 'Heading 5' }) +
+					tr({ '######': 'Heading 6' }) +
+				'</table>';
+		}
+
+		// Focus management section
+		html = html +
+			'<p>' + __( 'Focus shortcuts:' ) + '</p>' +
+			'<table>' +
+				tr({ 'Alt + F8':  'Inline toolbar (when an image, link or preview is selected)' }) +
+				tr({ 'Alt + F9':  'Editor menu (when enabled)' }) +
+				tr({ 'Alt + F10': 'Editor toolbar' }) +
+				tr({ 'Alt + F11': 'Elements path' }) +
+			'</table>' +
+			'<p>' + __( 'To move focus to other buttons use Tab or the arrow keys. To return focus to the editor press Escape or use one of the buttons.' ) + '</p>';
+
+		html += '</div>';
+
 		editor.windowManager.open( {
 			title: 'Keyboard Shortcuts',
 			items: {
 				type: 'container',
 				classes: 'wp-help',
-				html: (
-					'<div class="wp-editor-help">' +
-					'<p>' + __( 'Default shortcuts,' ) + ' ' + meta + '</p>' +
-					'<table>' +
-						header +
-						table1.join('') +
-					'</table>' +
-					'<p>' + __( 'Additional shortcuts,' ) + ' ' + access + '</p>' +
-					'<table>' +
-						header +
-						table2.join('') +
-					'</table>' +
-					'<p>' + __( 'Focus shortcuts:' ) + '</p>' +
-					'<table>' +
-						tr({ 'Alt + F8':  'Inline toolbar (when an image, link or preview is selected)' }) +
-						tr({ 'Alt + F9':  'Editor menu (when enabled)' }) +
-						tr({ 'Alt + F10': 'Editor toolbar' }) +
-						tr({ 'Alt + F11': 'Elements path' }) +
-					'</table>' +
-					'<p>' + __( 'To move focus to other buttons use Tab or the arrow keys. To return focus to the editor press Escape or use one of the buttons.' ) + '</p>' +
-					'</div>'
-				)
+				html: html
 			},
 			buttons: {
 				text: 'Close',
