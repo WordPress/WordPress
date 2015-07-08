@@ -4075,49 +4075,6 @@ function wp_transition_post_status( $new_status, $old_status, $post ) {
 //
 
 /**
- * Get the default comment status for a post type.
- *
- * @since 4.3.0
- *
- * @param  string $post_type    Optional. Post type. Default 'post'.
- * @param  string $comment_type Optional. Comment type. Default 'comment'.
- * @return string Expected return value is 'open' or 'closed'.
- */
-function get_default_comment_status( $post_type = 'post', $comment_type = 'comment' ) {
-	switch ( $comment_type ) {
-		case 'pingback' :
-		case 'trackback' :
-			$supports = 'trackbacks';
-			$option = 'ping';
-			break;
-		default :
-			$supports = 'comments';
-			$option = 'comment';
-	}
-
-	// Set the status.
-	if ( 'page' === $post_type ) {
-		$status = 'closed';
-	} elseif ( post_type_supports( $post_type, $supports ) ) {
-		$status = get_option( "default_{$option}_status" );
-	} else {
-		$status = 'closed';
-	}
-
-	/**
-	 * Filter the default comment status for the given post type.
-	 *
-	 * @since 4.3.0
-	 *
-	 * @param string $status       Default status for the given post type,
-	 *                             either 'open' or 'closed'.
-	 * @param string $post_type    Post type. Default is `post`.
-	 * @param string $comment_type Type of comment. Default is `comment`.
-	 */
-	return apply_filters( 'get_default_comment_status' , $status, $post_type, $comment_type );
-}
-
-/**
  * Add a URL to those already pinged.
  *
  * @since 1.5.0
