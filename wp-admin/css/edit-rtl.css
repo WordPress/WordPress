@@ -30,7 +30,7 @@
 }
 
 #lost-connection-notice .spinner {
-	display: block;
+	visibility: visible;
 	float: right;
 	margin: 0 0 0 5px;
 }
