@@ -589,16 +589,17 @@
 
 #available-menu-items {
 	position: absolute;
-	overflow: hidden;
 	top: 0;
 	bottom: 0;
 	right: -301px;
+	visibility: hidden;
+	overflow: hidden;
 	width: 300px;
 	margin: 0;
 	z-index: 4;
 	background: #eee;
-	-webkit-transition: all 0.2s;
-	transition: all 0.2s;
+	-webkit-transition: right .18s;
+	transition: right .18s;
 	border-left: 1px solid #ddd;
 }
 
@@ -797,6 +798,7 @@ button.not-a-button {
 
 body.adding-menu-items #available-menu-items {
 	right: 0;
+	visibility: visible;
 }
 
 body.adding-menu-items .wp-full-overlay-main {

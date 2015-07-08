@@ -350,10 +350,11 @@ body.adding-widget .add-new-widget:before {
 
 #available-widgets {
 	position: absolute;
-	overflow: auto;
 	top: 0;
 	bottom: 0;
 	left: -301px;
+	visibility: hidden;
+	overflow: auto;
 	width: 300px;
 	margin: 0;
 	z-index: 1;
@@ -435,6 +436,7 @@ body.adding-widget .add-new-widget:before {
 
 body.adding-widget #available-widgets {
 	left: 0;
+	visibility: visible;
 }
 
 body.adding-widget .wp-full-overlay-main {
