@@ -556,7 +556,8 @@ class WP_Admin_Bar {
 		add_action( 'admin_bar_menu', 'wp_admin_bar_wp_menu', 10 );
 		add_action( 'admin_bar_menu', 'wp_admin_bar_my_sites_menu', 20 );
 		add_action( 'admin_bar_menu', 'wp_admin_bar_site_menu', 30 );
-		add_action( 'admin_bar_menu', 'wp_admin_bar_updates_menu', 40 );
+		add_action( 'admin_bar_menu', 'wp_admin_bar_customize_menu', 40 );
+		add_action( 'admin_bar_menu', 'wp_admin_bar_updates_menu', 50 );
 
 		// Content related.
 		if ( ! is_network_admin() && ! is_user_admin() ) {
