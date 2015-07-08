@@ -3042,13 +3042,19 @@ img {
 	display: block;
 	overflow: auto;
 	zoom: 1;
-	border: 1px solid #e5e5e5;
 }
 
 .my-sites li {
 	display: block;
-	padding: 8px 1%;
+	padding: 8px 3%;
+	min-height: 130px;
 	margin: 0;
+}
+
+@media only screen and (max-width: 599px) {
+	.my-sites li {
+		min-height: 0;
+	}
 }
 
 @media only screen and (min-width: 600px) {
@@ -3070,10 +3076,13 @@ img {
 @media only screen and (min-width: 600px) and (max-width: 699px) {
 	.my-sites li{
 		float: left;
-		width: 48%;
+		width: 44%;
 	}
 	.my-sites.striped li {
 		background-color: #fff;
+	}
+	.my-sites.striped li:nth-of-type(2n+1) {
+		clear: left;
 	}
 	.my-sites.striped li:nth-of-type(2n+2):after {
 		content: none;
@@ -3088,7 +3097,7 @@ img {
 @media only screen and (min-width: 700px) and (max-width: 1199px) {
 	.my-sites li {
 		float: left;
-		width: 31.333333%;
+		width: 27.333333%;
 		background-color: #fff;
 	}
 	.my-sites.striped li:nth-of-type(3n+3):after {
@@ -3104,8 +3113,12 @@ img {
 @media only screen and (min-width: 1200px) and (max-width: 1399px) {
 	.my-sites li {
 		float: left;
-		width: 23%;
+		width: 21%;
+		padding: 8px 2%;
 		background-color: #fff;
+	}
+	.my-sites.striped li:nth-of-type(4n+1) {
+		clear: left;
 	}
 	.my-sites.striped li:nth-of-type(4n+4):after {
 		content: none;
@@ -3121,8 +3134,12 @@ img {
 @media only screen and (min-width: 1400px) and (max-width: 1599px) {
 	.my-sites li {
 		float: left;
-		width: 18%;
+		width: 16%;
+		padding: 8px 2%;
 		background-color: #fff;
+	}
+	.my-sites.striped li:nth-of-type(5n+1) {
+		clear: left;
 	}
 	.my-sites.striped li:nth-of-type(5n+5):after {
 		content: none;
@@ -3139,8 +3156,12 @@ img {
 @media only screen and (min-width: 1600px) {
 	.my-sites li {
 		float: left;
-		width: 14.666666%;
+		width: 12.666666%;
+		padding: 8px 2%;
 		background-color: #fff;
+	}
+	.my-sites.striped li:nth-of-type(6n+1) {
+		clear: left;
 	}
 	.my-sites.striped li:nth-of-type(6n+6):after {
 		content: none;
