@@ -1383,7 +1383,7 @@ class WP_Press_This {
 						'statusbar'             => false,
 						'autoresize_min_height' => 600,
 						'wp_autoresize_on'      => true,
-						'plugins'               => 'lists,media,paste,tabfocus,fullscreen,wordpress,wpautoresize,wpeditimage,wpgallery,wplink,wpview',
+						'plugins'               => 'lists,media,paste,tabfocus,fullscreen,wordpress,wpautoresize,wpeditimage,wpgallery,wplink,wptextpattern,wpview',
 						'toolbar1'              => 'bold,italic,bullist,numlist,blockquote,link,unlink',
 						'toolbar2'              => 'undo,redo',
 					),
