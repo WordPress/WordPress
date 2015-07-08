@@ -771,15 +771,17 @@ final class WP_Customize_Nav_Menus {
 		);
 		$args['can_partial_refresh'] = $can_partial_refresh;
 
+		$hashed_args = $args;
+
 		if ( ! $can_partial_refresh ) {
-			$args['fallback_cb'] = '';
-			$args['walker'] = '';
+			$hashed_args['fallback_cb'] = '';
+			$hashed_args['walker'] = '';
 		}
 
-		ksort( $args );
-		$args['args_hash'] = $this->hash_nav_menu_args( $args );
+		ksort( $hashed_args );
+		$hashed_args['args_hash'] = $this->hash_nav_menu_args( $hashed_args );
 
-		$this->preview_nav_menu_instance_args[ $this->preview_nav_menu_instance_number ] = $args;
+		$this->preview_nav_menu_instance_args[ $this->preview_nav_menu_instance_number ] = $hashed_args;
 		return $args;
 	}
 
