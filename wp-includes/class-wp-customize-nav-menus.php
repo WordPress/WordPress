@@ -768,6 +768,12 @@ final class WP_Customize_Nav_Menus {
 			( empty( $args['fallback_cb'] ) || is_string( $args['fallback_cb'] ) )
 			&&
 			( empty( $args['walker'] ) || is_string( $args['walker'] ) )
+			&&
+			(
+				! empty( $args['theme_location'] )
+				||
+				( ! empty( $args['menu'] ) && ( is_numeric( $args['menu'] ) || is_object( $args['menu'] ) ) )
+			)
 		);
 		$args['can_partial_refresh'] = $can_partial_refresh;
 
@@ -776,6 +782,11 @@ final class WP_Customize_Nav_Menus {
 		if ( ! $can_partial_refresh ) {
 			$hashed_args['fallback_cb'] = '';
 			$hashed_args['walker'] = '';
+		}
+
+		// Replace object menu arg with a term_id menu arg, as this exports better to JS and is easier to compare hashes.
+		if ( ! empty( $hashed_args['menu'] ) && is_object( $hashed_args['menu'] ) ) {
+			$hashed_args['menu'] = $hashed_args['menu']->term_id;
 		}
 
 		ksort( $hashed_args );
@@ -798,10 +809,11 @@ final class WP_Customize_Nav_Menus {
 	 */
 	public function filter_wp_nav_menu( $nav_menu_content, $args ) {
 		if ( ! empty( $args->can_partial_refresh ) && ! empty( $args->instance_number ) ) {
-			$nav_menu_content = sprintf(
-				'<div id="partial-refresh-menu-container-%1$d" class="partial-refresh-menu-container" data-instance-number="%1$d">%2$s</div>',
-				$args->instance_number,
-				$nav_menu_content
+			$nav_menu_content = preg_replace(
+				'/(?<=class=")/',
+				sprintf( 'partial-refreshable-nav-menu partial-refreshable-nav-menu-%1$d ', $args->instance_number ),
+				$nav_menu_content,
+				1 // Only update the class on the first element found, the menu container.
 			);
 		}
 		return $nav_menu_content;
