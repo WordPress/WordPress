@@ -419,10 +419,12 @@ if ( apply_filters( 'show_password_fields', true ) ) : ?>
 		</td>
 	</tr>
 	<tr class="pw-weak">
-		<th><label for="pw-weak"><?php _e( 'Confirm Password' ); ?></label></th>
+		<th><?php _e( 'Confirm Password' ); ?></th>
 		<td>
-			<input type="checkbox" name="pw-weak" class="pw-checkbox" />
-			<?php _e( 'Confirm use of weak password' ); ?>
+			<label for="pw-weak">
+				<input type="checkbox" name="pw-weak" class="pw-checkbox" id="pw-weak" />
+				<?php _e( 'Confirm use of weak password' ); ?>
+			</label>
 		</td>
 	</tr>
 <?php endif; ?>
