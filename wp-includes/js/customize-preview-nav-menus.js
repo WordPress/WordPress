@@ -9,7 +9,6 @@ wp.customize.menusPreview = ( function( $, api ) {
 		renderNonceValue: null,
 		renderNoncePostKey: null,
 		previewCustomizeNonce: null,
-		previewReady: $.Deferred(),
 		requestUri: '/',
 		theme: {
 			active: false,
@@ -20,10 +19,9 @@ wp.customize.menusPreview = ( function( $, api ) {
 	};
 
 	api.bind( 'preview-ready', function() {
-		self.previewReady.resolve();
-	} );
-	self.previewReady.done( function() {
-		self.init();
+		api.preview.bind( 'active', function() {
+			self.init();
+		} );
 	} );
 
 	/**
@@ -36,26 +34,24 @@ wp.customize.menusPreview = ( function( $, api ) {
 			$.extend( self, _wpCustomizePreviewNavMenusExports );
 		}
 
-		self.previewReady.done( function() {
-			api.each( function( setting, id ) {
-				setting.id = id;
-				self.bindListener( setting );
-			} );
+		api.each( function( setting, id ) {
+			setting.id = id;
+			self.bindListener( setting );
+		} );
 
-			api.preview.bind( 'setting', function( args ) {
-				var id, value, setting;
-				args = args.slice();
-				id = args.shift();
-				value = args.shift();
-				if ( ! api.has( id ) ) {
-					// Currently customize-preview.js is not creating settings for dynamically-created settings in the pane; so we have to do it
-					setting = api.create( id, value ); // @todo This should be in core
-					setting.id = id;
-					if ( self.bindListener( setting ) ) {
-						setting.callbacks.fireWith( setting, [ setting(), setting() ] );
-					}
+		api.preview.bind( 'setting', function( args ) {
+			var id, value, setting;
+			args = args.slice();
+			id = args.shift();
+			value = args.shift();
+			if ( ! api.has( id ) ) {
+				// Currently customize-preview.js is not creating settings for dynamically-created settings in the pane; so we have to do it
+				setting = api.create( id, value ); // @todo This should be in core
+				setting.id = id;
+				if ( self.bindListener( setting ) ) {
+					setting.callbacks.fireWith( setting, [ setting(), null ] );
 				}
-			} );
+			}
 		} );
 	};
 
