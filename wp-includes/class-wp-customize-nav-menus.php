@@ -586,25 +586,22 @@ final class WP_Customize_Nav_Menus {
 	public function print_templates() {
 		?>
 		<script type="text/html" id="tmpl-available-menu-item">
-			<div id="menu-item-tpl-{{ data.id }}" class="menu-item-tpl" data-menu-item-id="{{ data.id }}">
+			<li id="menu-item-tpl-{{ data.id }}" class="menu-item-tpl" data-menu-item-id="{{ data.id }}">
 				<div class="menu-item-bar">
 					<div class="menu-item-handle">
-						<span class="item-type">{{ data.type_label }}</span>
-						<span class="item-title">
+						<span class="item-type" aria-hidden="true">{{ data.type_label }}</span>
+						<span class="item-title" aria-hidden="true">
 							<span class="menu-item-title<# if ( ! data.title ) { #> no-title<# } #>">{{ data.title || wp.customize.Menus.data.l10n.untitled }}</span>
 						</span>
-						<button type="button" class="not-a-button item-add"><span class="screen-reader-text"><?php _e( 'Add Menu Item' ) ?></span></button>
+						<button type="button" class="not-a-button item-add">
+							<span class="screen-reader-text"><?php
+								/* translators: 1: Title of a menu item, 2: Type of a menu item */
+								printf( __( 'Add to menu: %1$s (%2$s)' ), '{{ data.title || wp.customize.Menus.data.l10n.untitled }}', '{{ data.type_label }}' );
+							?></span>
+						</button>
 					</div>
 				</div>
-			</div>
-		</script>
-
-		<script type="text/html" id="tmpl-available-menu-item-type">
-			<div id="available-menu-items-{{ data.type }}" class="accordion-section">
-				<h4 class="accordion-section-title">{{ data.type_label }}</h4>
-				<div class="accordion-section-content">
-				</div>
-			</div>
+			</li>
 		</script>
 
 		<script type="text/html" id="tmpl-menu-item-reorder-nav">
@@ -652,7 +649,7 @@ final class WP_Customize_Nav_Menus {
 					<p class="screen-reader-text" id="menu-items-search-desc"><?php _e( 'The search results will be updated as you type.' ); ?></p>
 					<span class="spinner"></span>
 				</div>
-				<div class="accordion-section-content" data-type="search"></div>
+				<ul class="accordion-section-content" data-type="search"></ul>
 			</div>
 			<div id="new-custom-menu-item" class="accordion-section">
 				<h4 class="accordion-section-title"><?php _e( 'Custom Links' ); ?><button type="button" class="not-a-button"><span class="screen-reader-text"><?php _e( 'Toggle' ); ?></span></button></h4>
@@ -688,7 +685,7 @@ final class WP_Customize_Nav_Menus {
 					?>
 					<div id="available-menu-items-<?php echo esc_attr( $type->name ); ?>" class="accordion-section">
 						<h4 class="accordion-section-title"><?php echo esc_html( $type->label ); ?> <span class="spinner"></span> <button type="button" class="not-a-button"><span class="screen-reader-text"><?php _e( 'Toggle' ); ?></span></button></h4>
-						<div class="accordion-section-content" data-type="<?php echo esc_attr( $type->name ); ?>" data-obj_type="post_type"></div>
+						<ul class="accordion-section-content" data-type="<?php echo esc_attr( $type->name ); ?>" data-obj_type="post_type"></ul>
 					</div>
 				<?php
 				endforeach;
@@ -700,7 +697,7 @@ final class WP_Customize_Nav_Menus {
 					?>
 					<div id="available-menu-items-<?php echo esc_attr( $tax->name ); ?>" class="accordion-section">
 						<h4 class="accordion-section-title"><?php echo esc_html( $tax->label ); ?> <span class="spinner"></span> <button type="button" class="not-a-button"><span class="screen-reader-text"><?php _e( 'Toggle' ); ?></span></button></h4>
-						<div class="accordion-section-content" data-type="<?php echo esc_attr( $tax->name ); ?>" data-obj_type="taxonomy"></div>
+						<ul class="accordion-section-content" data-type="<?php echo esc_attr( $tax->name ); ?>" data-obj_type="taxonomy"></ul>
 					</div>
 				<?php
 				endforeach;

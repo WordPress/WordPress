@@ -655,8 +655,13 @@ button.not-a-button {
 
 #available-menu-items .accordion-section-content {
 	padding: 1px 15px 15px 15px;
+	margin: 0;
 	min-height: 120px;
 	max-height: 290px;
+}
+
+#available-menu-items .menu-item-tpl {
+	margin: 0;
 }
 
 #custom-menu-item-name.invalid,
