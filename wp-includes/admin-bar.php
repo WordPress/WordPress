@@ -326,8 +326,8 @@ function wp_admin_bar_site_menu( $wp_admin_bar ) {
  * @param WP_Admin_Bar $wp_admin_bar
  */
 function wp_admin_bar_customize_menu( $wp_admin_bar ) {
-	// Don't show for users who can't access the customizer.
-	if ( ! current_user_can( 'customize' ) ) {
+	// Don't show for users who can't access the customizer or when in the admin.
+	if ( ! current_user_can( 'customize' ) || is_admin() ) {
 		return;
 	}
 
