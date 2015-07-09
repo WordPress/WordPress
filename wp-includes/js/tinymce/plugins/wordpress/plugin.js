@@ -820,7 +820,9 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 					clearTimeout( timeout );
 
 					timeout = setTimeout( function() {
-						activeToolbar && activeToolbar.show && activeToolbar.show();
+						if ( activeToolbar && typeof activeToolbar.show === 'function' ) {
+							activeToolbar.show();
+						}
 					}, 250 );
 				}
 			}
