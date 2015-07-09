@@ -457,7 +457,7 @@ th.asc a:focus span.sorting-indicator:before {
 	cursor: pointer;
 }
 
-.wp-list-table .toggle-row:focus {
+.wp-list-table .toggle-row:focus:before {
     -webkit-box-shadow:
     	0 0 0 1px #5b9dd9,
 		0 0 2px 1px rgba(30, 140, 190, .8);
@@ -466,7 +466,7 @@ th.asc a:focus span.sorting-indicator:before {
 		0 0 2px 1px rgba(30, 140, 190, .8);
 }
 
-.ie8 .wp-list-table .toggle-row:focus {
+.ie8 .wp-list-table .toggle-row:focus:before {
 	outline: #5b9dd9 solid 1px;
 }
 
@@ -477,14 +477,15 @@ th.asc a:focus span.sorting-indicator:before {
 
 .wp-list-table .toggle-row:before {
 	position: absolute;
-	top: 0;
+	top: -5px;
 	right: 10px;
+	border-radius: 50%;
 	display: block;
-	padding: 0;
+	padding: 1px 0 1px 2px;
 	color: #666;
 	content: '\f140';
 	font: normal 20px/1 'dashicons';
-	line-height: 10px;
+	line-height: 1;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	speak: none;
