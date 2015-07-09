@@ -190,6 +190,13 @@ function wpmu_delete_user( $id ) {
 
 	if ( !$user->exists() )
 		return false;
+
+	// Global super-administrators are protected, and cannot be deleted.
+	$_super_admins = get_super_admins();
+	if ( in_array( $user->user_login, $_super_admins, true ) ) {
+		return false;
+	}
+
 	/**
 	 * Fires before a user is deleted from the network.
 	 *
