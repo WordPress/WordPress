@@ -736,11 +736,11 @@ button.not-a-button {
 }
 
 #available-menu-items .item-add:before {
-	content: "\f132";
+	content: "\f543";
 	font: normal 20px/1 dashicons;
 	position: relative;
 	left: 2px;
-	top: 4px;
+	top: 3px;
 }
 
 #available-menu-items .menu-item-handle.item-added .item-type,
