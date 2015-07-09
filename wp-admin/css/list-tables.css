@@ -865,11 +865,6 @@ tr.inline-edit-row td,
 	padding: 0 0.5em;
 }
 
-#wpbody-content .quick-edit-row-page fieldset.inline-edit-col-right .inline-edit-col {
-	border-width: 0 0 0 1px;
-	border-style: none none none solid;
-}
-
 #wpbody-content .quick-edit-row-post .inline-edit-col-left {
 	width: 40%;
 }
