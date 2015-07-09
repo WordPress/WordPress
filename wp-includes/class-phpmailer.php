@@ -1090,7 +1090,6 @@ class PHPMailer
      */
     public function postSend()
     {
-    	echo 'called';
         try {
             // Choose the mailer and send through it
             switch ($this->Mailer) {
