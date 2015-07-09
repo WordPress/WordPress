@@ -42,6 +42,10 @@ if ( ! $id ) {
 }
 
 $details = get_blog_details( $id );
+if ( ! $details ) {
+	wp_die( __( 'The requested site does not exist.' ) );
+}
+
 if ( ! can_edit_network( $details->site_id ) ) {
 	wp_die( __( 'You do not have permission to access this page.' ), 403 );
 }
