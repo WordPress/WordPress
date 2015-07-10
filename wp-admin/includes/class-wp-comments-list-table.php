@@ -678,21 +678,23 @@ class WP_Comments_List_Table extends WP_List_Table {
 		}
 
 		if ( current_user_can( 'edit_post', $post->ID ) ) {
-			$post_link = "<a href='" . get_edit_post_link( $post->ID ) . "'>";
+			$post_link = "<a href='" . get_edit_post_link( $post->ID ) . "' class='comments-edit-item-link'>";
 			$post_link .= esc_html( get_the_title( $post->ID ) ) . '</a>';
 		} else {
 			$post_link = esc_html( get_the_title( $post->ID ) );
 		}
 
-		echo '<div class="response-links"><span class="post-com-count-wrapper">';
-		echo $post_link . '<br />';
+		echo '<div class="response-links">';
+		echo $post_link;
+		$post_type_object = get_post_type_object( $post->post_type );
+		echo "<a href='" . get_permalink( $post->ID ) . "' class='comments-view-item-link'>" . $post_type_object->labels->view_item . '</a>';
+		if ( 'attachment' == $post->post_type && ( $thumb = wp_get_attachment_image( $post->ID, array( 80, 60 ), true ) ) ) {
+			echo $thumb;
+		}
+		echo '</div>';
+		echo '<span class="post-com-count-wrapper">';
 		$this->comments_bubble( $post->ID, $pending_comments );
 		echo '</span> ';
-		$post_type_object = get_post_type_object( $post->post_type );
-		echo "<a href='" . get_permalink( $post->ID ) . "'>" . $post_type_object->labels->view_item . '</a>';
-		echo '</div>';
-		if ( 'attachment' == $post->post_type && ( $thumb = wp_get_attachment_image( $post->ID, array( 80, 60 ), true ) ) )
-			echo $thumb;
 	}
 
 	/**
