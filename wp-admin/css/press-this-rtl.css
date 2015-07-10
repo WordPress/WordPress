@@ -2176,6 +2176,7 @@ html {
 	color: #404040;
 	resize: none;
 	padding-top: 30px;
+	font-size: 16px;
 }
 
 .wp-editor-wrap .quicktags-toolbar {
@@ -2195,6 +2196,7 @@ html {
 .wp-editor-wrap .wp-switch-editor {
 	top: 0;
 	margin: 3px 5px 0 0;
+	padding: 3px 8px;
 	background: #f5f5f5;
 	color: #555;
 	border-color: #ccc;
