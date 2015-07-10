@@ -1310,10 +1310,8 @@ class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control {
 			</div>
 			<div class="actions">
 				<?php if ( current_user_can( 'upload_files' ) ): ?>
-				<?php /* translators: Hide as in hide header image via the Customizer */ ?>
-				<button type="button"<?php echo $visibility ?> class="button remove"><?php _ex( 'Hide image', 'custom header' ); ?></button>
-				<?php /* translators: New as in add new header image via the Customizer */ ?>
-				<button type="button" class="button new"><?php _ex( 'Add new image', 'header image' ); ?></button>
+				<button type="button"<?php echo $visibility; ?> class="button remove" aria-label="<?php esc_attr_e( 'Hide header image' ); ?>"><?php _e( 'Hide image' ); ?></button>
+				<button type="button" class="button new" aria-label="<?php esc_attr_e( 'Add new header image' ); ?>"><?php _e( 'Add new image' ); ?></button>
 				<div style="clear:both"></div>
 				<?php endif; ?>
 			</div>
