@@ -51,6 +51,8 @@ wp_localize_script( 'theme', '_wpThemeSettings', array(
 		'error'  => __( 'An unexpected error occurred. Something may be wrong with WordPress.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="https://wordpress.org/support/">support forums</a>.' ),
 		'themesFound'   => __( 'Number of Themes found: %d' ),
 		'noThemesFound' => __( 'No themes found. Try a different search.' ),
+		'collapseSidebar'    => __( 'Collapse Sidebar' ),
+		'expandSidebar'      => __( 'Expand Sidebar' ),
 	),
 	'installedThemes' => array_keys( $installed_themes ),
 ) );
@@ -252,10 +254,10 @@ if ( $tab ) {
 			</div>
 		</div>
 		<div class="wp-full-overlay-footer">
-			<a href="#" class="collapse-sidebar" title="<?php esc_attr_e( 'Collapse Sidebar' ); ?>">
-				<span class="collapse-sidebar-label"><?php _e( 'Collapse' ); ?></span>
+			<button type="button" class="collapse-sidebar button-secondary" aria-expanded="true" aria-label="<?php esc_attr_e( 'Collapse Sidebar' ); ?>">
 				<span class="collapse-sidebar-arrow"></span>
-			</a>
+				<span class="collapse-sidebar-label"><?php _e( 'Collapse' ); ?></span>
+			</button>
 		</div>
 	</div>
 	<div class="wp-full-overlay-main">

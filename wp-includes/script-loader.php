@@ -419,9 +419,10 @@ function wp_default_scripts( &$scripts ) {
 		'cheatin'            => __( 'Cheatin&#8217; uh?' ),
 		'previewIframeTitle' => __( 'Site Preview' ),
 		'loginIframeTitle'   => __( 'Session expired' ),
-
+		'collapseSidebar'    => __( 'Collapse Sidebar' ),
+		'expandSidebar'      => __( 'Expand Sidebar' ),
 		// Used for overriding the file types allowed in plupload.
-		'allowedFiles' => __( 'Allowed Files' ),
+		'allowedFiles'       => __( 'Allowed Files' ),
 	) );
 
 	$scripts->add( 'customize-widgets', "/wp-admin/js/customize-widgets$suffix.js", array( 'jquery', 'jquery-ui-sortable', 'jquery-ui-droppable', 'wp-backbone', 'customize-controls' ), false, 1 );

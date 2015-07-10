@@ -648,26 +648,6 @@ p.customize-section-description {
 	border-right: 1px solid #ddd;
 }
 
-.collapse-sidebar {
-	background-color: transparent !important;
-	border: none !important;
-	-webkit-box-shadow: none !important;
-	box-shadow: none !important;
-	-webkit-border-radius: 0 !important;
-	border-radius: 0 !important;
-}
-
-
-.collapse-sidebar:active,
-.collapse-sidebar:active .collapse-sidebar-label,
-.collapse-sidebar:active .collapse-sidebar-arrow:before {
-	text-shadow: none;
-}
-
-.collapsed .collapse-sidebar-arrow:before {
-	color: #82878c;
-}
-
 /* Style for custom settings */
 
 /*

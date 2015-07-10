@@ -512,8 +512,6 @@
 	content: "\f345";
 }
 
-
-
 .theme-overlay .theme-wrap {
 	clear: both;
 	position: fixed;
@@ -1470,86 +1468,84 @@ body.full-overlay-active {
 }
 
 /* Collapse Button */
-.wp-full-overlay a.collapse-sidebar {
-	position: absolute;
-	bottom: 12px;
-	left: 0;
-	z-index: 50;
-	display: block;
-	width: 19px;
-	height: 19px;
-	margin-left: 15px;
+.wp-core-ui .wp-full-overlay .collapse-sidebar {
+	position: fixed;
+	bottom: 8px;
+	left: 10px;
 	padding: 0;
-	-webkit-border-radius: 50%;
-	border-radius: 50%;
-	color: #777;
-	text-decoration: none;
+	color: #656a6f;
+	outline: 0;
+	line-height: 1;
+	background-color: transparent !important;
+	border: none !important;
+	-webkit-box-shadow: none !important;
+	box-shadow: none !important;
+	-webkit-border-radius: 0 !important;
+	border-radius: 0 !important;
 }
 
-.wp-full-overlay a.collapse-sidebar:hover {
+.wp-core-ui .wp-full-overlay .collapse-sidebar:hover,
+.wp-core-ui .wp-full-overlay .collapse-sidebar:focus {
 	color: #0073aa;
 }
 
-.wp-full-overlay.collapsed .collapse-sidebar {
-	position: absolute;
-	left: 100%;
+.wp-full-overlay .collapse-sidebar-arrow,
+.wp-full-overlay .collapse-sidebar-label {
+	display: inline-block;
+	vertical-align: middle;
+	line-height: 20px;
 }
 
 .wp-full-overlay .collapse-sidebar-arrow {
-	position: static;
-	margin-top: 0;
-	margin-left: 0;
-	display: block;
-	width: auto;
-	height: auto;
-	background: none;
+	width: 20px;
+	height: 20px;
+	margin: 0 2px; /* avoid the focus box-shadow to be cut-off */
+	-webkit-border-radius: 50%;
+	border-radius: 50%;
+	overflow: hidden;
+}
+
+.wp-full-overlay .collapse-sidebar:hover .collapse-sidebar-arrow,
+.wp-full-overlay .collapse-sidebar:focus .collapse-sidebar-arrow {
+    -webkit-box-shadow:
+    	0 0 0 1px #5b9dd9,
+		0 0 2px 1px rgba(30, 140, 190, .8);
+    box-shadow:
+    	0 0 0 1px #5b9dd9,
+		0 0 2px 1px rgba(30, 140, 190, .8);
+}
+
+.wp-full-overlay .collapse-sidebar-label {
+	margin-left: 3px;
+}
+
+.wp-full-overlay.collapsed .collapse-sidebar-label {
+	display: none;
 }
 
 .wp-full-overlay .collapse-sidebar-arrow:before {
-	-webkit-border-radius: 50%;
-	border-radius: 50%;
-	float: left;
+	display: block;
 	content: "\f148";
 	background: #eee;
 	font: normal 20px/1 'dashicons';
 	speak: none;
-	display: block;
 	padding: 0;
-	text-indent: 0;
-	text-align: center;
-	position: relative;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
-	text-decoration: none !important;
 }
 
 /* rtl:ignore */
 .wp-full-overlay.collapsed .collapse-sidebar-arrow:before,
 .rtl .wp-full-overlay .collapse-sidebar-arrow:before {
-	-webkit-transform: rotate(180deg);
-	-ms-transform: rotate(180deg);
-	transform: rotate(180deg);
+	-webkit-transform: rotate(180.001deg);
+	-ms-transform: rotate(180.001deg);
+	transform: rotate(180.001deg); /* Firefox: promoting to its own layer to trigger anti-aliasing  */
 }
 
 .rtl .wp-full-overlay.collapsed .collapse-sidebar-arrow:before {
 	-webkit-transform: none;
 	-ms-transform: none;
 	transform: none;
-}
-
-.wp-full-overlay.collapsed .collapse-sidebar-arrow {
-	background-position: -1px -109px;
-}
-
-.wp-full-overlay .collapse-sidebar-label {
-	position: absolute;
-	left: 100%;
-	line-height: 20px;
-	margin-left: 10px;
-}
-
-.wp-full-overlay.collapsed .collapse-sidebar-label {
-	display: none;
 }
 
 /* Animations */
@@ -1610,10 +1606,6 @@ body.full-overlay-active {
 	z-index: 20;
 	-webkit-transition: opacity 0.3s;
 	transition: opacity 0.3s;
-}
-
-#customize-container .collapse-sidebar {
-	bottom: 16px;
 }
 
 #customize-controls {

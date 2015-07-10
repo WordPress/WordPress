@@ -379,13 +379,6 @@
 	display: block;
 }
 
-
-/* Not exactly sure what broke this, or why it works without these styles in core. */
-.wp-customizer .wp-full-overlay a.collapse-sidebar {
-	position: fixed;
-	right: 0;
-}
-
 /* WARNING: The 20px factor is hard-coded in JS. */
 .menu-item-depth-0  { margin-right: 0;     }
 .menu-item-depth-1  { margin-right: 20px;  }

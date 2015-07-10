@@ -3086,13 +3086,14 @@
 			event.preventDefault();
 		});
 
-		$('.collapse-sidebar').on( 'click keydown', function( event ) {
-			if ( api.utils.isKeydownButNotEnterEvent( event ) ) {
-				return;
+		$( '.collapse-sidebar' ).on( 'click', function() {
+			if ( 'true' === $( this ).attr( 'aria-expanded' ) ) {
+				$( this ).attr({ 'aria-expanded': 'false', 'aria-label': api.l10n.expandSidebar });
+			} else {
+				$( this ).attr({ 'aria-expanded': 'true', 'aria-label': api.l10n.collapseSidebar });
 			}
 
 			overlay.toggleClass( 'collapsed' ).toggleClass( 'expanded' );
-			event.preventDefault();
 		});
 
 		$( '.customize-controls-preview-toggle' ).on( 'click keydown', function( event ) {
