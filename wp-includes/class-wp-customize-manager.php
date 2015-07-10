@@ -1278,6 +1278,8 @@ final class WP_Customize_Manager {
 		$this->register_control_type( 'WP_Customize_Upload_Control' );
 		$this->register_control_type( 'WP_Customize_Image_Control' );
 		$this->register_control_type( 'WP_Customize_Background_Image_Control' );
+		$this->register_control_type( 'WP_Customize_Cropped_Image_Control' );
+		$this->register_control_type( 'WP_Customize_Site_Icon_Control' );
 		$this->register_control_type( 'WP_Customize_Theme_Control' );
 
 		/* Themes */
@@ -1324,10 +1326,10 @@ final class WP_Customize_Manager {
 			) ) );
 		}
 
-		/* Site Title & Tagline */
+		/* Site Identity */
 
 		$this->add_section( 'title_tagline', array(
-			'title'    => __( 'Site Title & Tagline' ),
+			'title'    => __( 'Site Identity' ),
 			'priority' => 20,
 		) );
 
@@ -1353,6 +1355,23 @@ final class WP_Customize_Manager {
 			'section'    => 'title_tagline',
 		) );
 
+		$icon = wp_get_attachment_image_src( absint( get_option( 'site_icon' ) ), 'full' );
+		$this->add_setting( 'site_icon', array(
+			'default'    => $icon[0] ? $icon[0] : '',
+			'type'       => 'option',
+			'capability' => 'manage_options',
+			'transport'  => 'postMessage', // Previewed with JS in the Customizer controls window.
+		) );
+
+		$this->add_control( new WP_Customize_Site_Icon_Control( $this, 'site_icon', array(
+			'label'       => __( 'Site Icon' ),
+			'description' => __( 'The Site Icon is used as a browser and app icon for your site. Icons must be square, and at least 512px wide and tall.' ),
+			'section'     => 'title_tagline',
+			'priority'    => 60,
+			'height'      => 512,
+			'width'       => 512,
+		) ) );
+
 		/* Colors */
 
 		$this->add_section( 'colors', array(
@@ -1375,6 +1394,7 @@ final class WP_Customize_Manager {
 			'label'    => __( 'Display Header Text' ),
 			'section'  => 'title_tagline',
 			'type'     => 'checkbox',
+			'priority' => 40,
 		) );
 
 		$this->add_control( new WP_Customize_Color_Control( $this, 'header_textcolor', array(

@@ -274,7 +274,7 @@ class WP_Site_Icon {
 
 					<div class="site-icon-crop-preview-shell hide-if-no-js">
 						<h3><?php _e( 'Preview' ); ?></h3>
-						<strong><?php _e( 'As your favicon' ); ?></strong>
+						<strong><?php _e( 'As a browser icon' ); ?></strong>
 						<div class="site-icon-crop-favicon-preview-shell">
 							<img src="images/browser.png" class="site-icon-browser-preview" width="182" height="" alt="<?php esc_attr_e( 'Browser Chrome' ); ?>"/>
 
@@ -284,7 +284,7 @@ class WP_Site_Icon {
 							<span class="site-icon-browser-title"><?php bloginfo( 'name' ); ?></span>
 						</div>
 
-						<strong><?php _e( 'As a mobile icon' ); ?></strong>
+						<strong><?php _e( 'As an app icon' ); ?></strong>
 						<div class="site-icon-crop-preview-homeicon">
 							<img src="<?php echo esc_url( $url ); ?>" id="preview-homeicon" alt="<?php esc_attr_e( 'Preview Home Icon' ); ?>"/>
 						</div>
@@ -505,7 +505,7 @@ class WP_Site_Icon {
 
 		// ensure that we only resize the image into
 		foreach ( $sizes as $name => $size_array ) {
-			if ( $size_array['crop'] ) {
+			if ( isset( $size_array['crop'] ) ) {
 				$only_crop_sizes[ $name ] = $size_array;
 			}
 		}

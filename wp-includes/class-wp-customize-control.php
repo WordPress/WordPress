@@ -1001,6 +1001,134 @@ class WP_Customize_Background_Image_Control extends WP_Customize_Image_Control {
 }
 
 /**
+ * Customize Cropped Image Control class.
+ *
+ * @since 4.3.0
+ *
+ * @see WP_Customize_Image_Control
+ */
+class WP_Customize_Cropped_Image_Control extends WP_Customize_Image_Control {
+
+	/**
+	 * Control type.
+	 *
+	 * @since 4.3.0
+	 *
+	 * @access public
+	 * @var string
+	 */
+	public $type = 'cropped_image';
+
+	/**
+	 * Suggested width for cropped image.
+	 *
+	 * @since 4.3.0
+	 *
+	 * @access public
+	 * @var int
+	 */
+	public $width = 150;
+
+	/**
+	 * Suggested height for cropped image.
+	 *
+	 * @since 4.3.0
+	 *
+	 * @access public
+	 * @var int
+	 */
+	public $height = 150;
+
+	/**
+	 * Whether the width is flexible.
+	 *
+	 * @since 4.3.0
+	 *
+	 * @access public
+	 * @var bool
+	 */
+	public $flex_width = false;
+
+	/**
+	 * Whether the height is flexible.
+	 *
+	 * @since 4.3.0
+	 *
+	 * @access public
+	 * @var bool
+	 */
+	public $flex_height = false;
+
+	/**
+	 * Enqueue control related scripts/styles.
+	 *
+	 * @since 4.3.0
+	 *
+	 * @access public
+	 */
+	public function enqueue() {
+		wp_enqueue_script( 'customize-views' );
+
+		parent::enqueue();
+	}
+
+	/**
+	 * Refresh the parameters passed to the JavaScript via JSON.
+	 *
+	 * @since 4.3.0
+	 *
+	 * @access public
+	 * @uses WP_Customize_Image_Control::to_json()
+	 * @see WP_Customize_Control::to_json()
+	 */
+	public function to_json() {
+		parent::to_json();
+
+		$this->json['width']       = absint( $this->width );
+		$this->json['height']      = absint( $this->height );
+		$this->json['flex_width']  = absint( $this->flex_width );
+		$this->json['flex_height'] = absint( $this->flex_height );
+	}
+
+}
+
+/**
+ * Customize Site Icon control class.
+ *
+ * Used only for custom functionality in JavaScript.
+ *
+ * @since 4.3.0
+ *
+ * @see WP_Customize_Cropped_Image_Control
+ */
+class WP_Customize_Site_Icon_Control extends WP_Customize_Cropped_Image_Control {
+
+	/**
+	 * Control type.
+	 *
+	 * @since 4.3.0
+	 *
+	 * @access public
+	 * @var string
+	 */
+	public $type = 'site_icon';
+
+	/**
+	 * Constructor.
+	 *
+	 * @since 4.3.0
+	 *
+	 * @param WP_Customize_Manager $manager
+	 * @param string               $id
+	 * @param array                $args
+	 */
+	public function __construct( $manager, $id, $args = array() ) {
+		parent::__construct( $manager, $id, $args );
+		add_action( 'customize_controls_print_styles', 'wp_site_icon', 99 );
+	}
+}
+
+/**
  * Customize Header Image Control class.
  *
  * @since 3.4.0

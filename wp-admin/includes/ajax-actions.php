@@ -3052,3 +3052,65 @@ function wp_ajax_press_this_add_category() {
 
 	$GLOBALS['wp_press_this']->add_category();
 }
+
+/**
+ * AJAX handler for cropping an image.
+ *
+ * @since 4.3.0
+ *
+ * @global WP_Site_Icon $wp_site_icon
+ */
+function wp_ajax_crop_image() {
+	$attachment_id = absint( $_POST['id'] );
+
+	check_ajax_referer( 'image_editor-' . $attachment_id, 'nonce' );
+	if ( ! current_user_can( 'customize' ) ) {
+		wp_send_json_error();
+	}
+
+	$context = str_replace( '_', '-', $_POST['context'] );
+	$data    = array_map( 'absint', $_POST['cropDetails'] );
+	$cropped = wp_crop_image( $attachment_id, $data['x1'], $data['y1'], $data['width'], $data['height'], $data['dst_width'], $data['dst_height'] );
+
+	if ( ! $cropped || is_wp_error( $cropped ) ) {
+		wp_send_json_error( array( 'message' => __( 'Image could not be processed.' ) ) );
+	}
+
+	switch ( $context ) {
+		case 'site-icon':
+			require_once ABSPATH . '/wp-admin/includes/class-wp-site-icon.php';
+			global $wp_site_icon;
+
+			/** This filter is documented in wp-admin/custom-header.php */
+			$cropped = apply_filters( 'wp_create_file_in_uploads', $cropped, $attachment_id ); // For replication.
+			$object  = $wp_site_icon->create_attachment_object( $cropped, $attachment_id );
+			unset( $object['ID'] );
+
+			// Update the attachment.
+			add_filter( 'intermediate_image_sizes_advanced', array( $wp_site_icon, 'additional_sizes' ) );
+			$attachment_id = $wp_site_icon->insert_attachment( $object, $cropped );
+			remove_filter( 'intermediate_image_sizes_advanced', array( $wp_site_icon, 'additional_sizes' ) );
+
+			// Additional sizes in wp_prepare_attachment_for_js().
+			add_filter( 'image_size_names_choose', array( $wp_site_icon, 'additional_sizes' ) );
+			break;
+
+		default:
+
+			/**
+			 * Filters the attachment id for a cropped image.
+			 *
+			 * @since 4.3.0
+			 *
+			 * @param int    $attachment_id The ID of the cropped image.
+			 * @param string $context       The feature requesting the cropped image.
+			 */
+			$attachment_id = apply_filters( 'wp_ajax_cropped_attachment_id', 0, $context );
+
+			if ( ! $attachment_id ) {
+				wp_send_json_error();
+			}
+	}
+
+	wp_send_json_success( wp_prepare_attachment_for_js( $attachment_id ) );
+}

@@ -163,7 +163,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 	<a class="button hide-if-js" href="<?php echo esc_url( $upload_url ); ?>"><?php _e( 'Add a Site Icon' ); ?></a>
 
 	<?php endif; ?>
-	<p class="description"><?php _e( 'Site Icon creates a favicon and app icons for your site.' ) ?></p>
+	<p class="description"><?php _e( 'The Site Icon is used as a browser and app icon for your site.' ); ?></p>
 </td>
 </tr>
 <?php if ( !is_multisite() ) { ?>
