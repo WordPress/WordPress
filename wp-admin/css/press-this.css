@@ -501,8 +501,6 @@ strong {
 	outline: none;
 	background: #0091cd;
 	border-color: #0073aa;
-	-webkit-box-shadow: inset 0 1px 0 rgba( 120, 200, 230, 0.6 );
-	box-shadow: inset 0 1px 0 rgba( 120, 200, 230, 0.6 );
 }
 
 .split-button-primary:focus,
