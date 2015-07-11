@@ -1607,7 +1607,7 @@ class WP_Customize_Nav_Menu_Control extends WP_Customize_Control {
 		<p>
 			<label>
 				<input type="checkbox" class="auto_add">
-				<?php _e( 'Automatically add new top-level pages to this menu.' ) ?>
+				<?php _e( 'Automatically add new top-level pages to this menu' ) ?>
 			</label>
 		</p>
 		<?php
