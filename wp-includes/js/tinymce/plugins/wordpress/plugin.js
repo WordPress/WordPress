@@ -270,8 +270,8 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 			html = html +
 				'<p>' + __( 'When starting a new paragraph with one of these patterns followed by a space, the formatting will be applied automatically. Press Backspace or Escape to undo.' ) + '</p>' +
 				'<table>' +
-					tr({ '* or -':  'Bullet list' }) +
-					tr({ '1. or 1)':  'Numbered list' }) +
+					tr({ '*</kbd>&nbsp;<kbd>-':  'Bullet list' }) +
+					tr({ '1.</kbd>&nbsp;<kbd>1)':  'Numbered list' }) +
 					tr({ '>': 'Blockquote' }) +
 					tr({ '##': 'Heading 2' }) +
 					tr({ '###': 'Heading 3' }) +
