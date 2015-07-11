@@ -115,7 +115,7 @@
 
 		$('#pass-strength-result').removeClass('short bad good strong');
 		if ( ! pass1 ) {
-			$('#pass-strength-result').html( pwsL10n.empty );
+			$('#pass-strength-result').html( '&nbsp;' );
 			return;
 		}
 
