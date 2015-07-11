@@ -893,6 +893,11 @@ table.form-table td .updated p {
 	margin-bottom: 5px;
 }
 
+#search-users,
+#search-sites {
+	max-width: 100%;
+}
+
 /*------------------------------------------------------------------------------
    Credentials check dialog for Install and Updates
 ------------------------------------------------------------------------------*/
