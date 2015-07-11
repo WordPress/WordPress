@@ -869,6 +869,10 @@ table.form-table td .updated p {
   21.0 - Network Admin
 ------------------------------------------------------------------------------*/
 
+.setup-php textarea {
+	max-width: 100%;
+}
+
 .form-field #site-address {
 	max-width: 25em;
 }
