@@ -3446,3 +3446,12 @@ img {
 		overflow-x: hidden;
 	}
 }
+
+@media screen and (max-width: 320px) {
+	/* Prevent default center alignment and larger font for the Right Now widget when
+	   the network dashboard is viewed on a small mobile device. */
+	#nestwork_dashboard_right_now .subsubsub {
+		font-size: 14px;
+		text-align: left;
+	}
+}
