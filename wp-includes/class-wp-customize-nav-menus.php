@@ -70,23 +70,25 @@ final class WP_Customize_Nav_Menus {
 		check_ajax_referer( 'customize-menus', 'customize-menus-nonce' );
 
 		if ( ! current_user_can( 'edit_theme_options' ) ) {
-			wp_send_json_error( array( 'message' => __( 'Error: invalid user capabilities.' ) ) );
+			wp_die( -1 );
 		}
+
 		if ( empty( $_POST['obj_type'] ) || empty( $_POST['type'] ) ) {
-			wp_send_json_error( array( 'message' => __( 'Missing obj_type or type param.' ) ) );
+			wp_send_json_error( 'nav_menus_missing_obj_type_or_type_parameter' );
 		}
 
 		$obj_type = sanitize_key( $_POST['obj_type'] );
 		if ( ! in_array( $obj_type, array( 'post_type', 'taxonomy' ) ) ) {
-			wp_send_json_error( array( 'message' => __( 'Invalid obj_type param: ' . $obj_type ) ) );
+			wp_send_json_error( 'nav_menus_invalid_obj_type' );
 		}
+
 		$taxonomy_or_post_type = sanitize_key( $_POST['type'] );
 		$page = isset( $_POST['page'] ) ? absint( $_POST['page'] ) : 0;
 		$items = array();
 
 		if ( 'post_type' === $obj_type ) {
 			if ( ! get_post_type_object( $taxonomy_or_post_type ) ) {
-				wp_send_json_error( array( 'message' => __( 'Unknown post type.' ) ) );
+				wp_send_json_error( 'nav_menus_invalid_post_type' );
 			}
 
 			if ( 0 === $page && 'page' === $taxonomy_or_post_type ) {
@@ -138,7 +140,7 @@ final class WP_Customize_Nav_Menus {
 				'pad_counts'   => false,
 			) );
 			if ( is_wp_error( $terms ) ) {
-				wp_send_json_error( array( 'message' => wp_strip_all_tags( $terms->get_error_message(), true ) ) );
+				wp_send_json_error( $terms->get_error_code() );
 			}
 
 			foreach ( $terms as $term ) {
@@ -165,11 +167,12 @@ final class WP_Customize_Nav_Menus {
 	public function ajax_search_available_items() {
 		check_ajax_referer( 'customize-menus', 'customize-menus-nonce' );
 
-		if ( ! current_user_can( 'edit_theme_options' ) ) {
-			wp_send_json_error( array( 'message' => __( 'Error: invalid user capabilities.' ) ) );
+		if ( current_user_can( 'edit_theme_options' ) ) {
+			wp_die( -1 );
 		}
+
 		if ( empty( $_POST['search'] ) ) {
-			wp_send_json_error( array( 'message' => __( 'Error: missing search parameter.' ) ) );
+			wp_send_json_error( 'nav_menus_missing_search_parameter' );
 		}
 
 		$p = isset( $_POST['page'] ) ? absint( $_POST['page'] ) : 0;
