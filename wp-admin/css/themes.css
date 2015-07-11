@@ -1021,10 +1021,6 @@ body.folded .theme-overlay .theme-wrap {
 		font-size: 13px;
 	}
 
-	.themes-php .wrap h1 {
-		width: 100%;
-	}
-
 	.themes-php .wp-filter-search {
 		float: none;
 		clear: both;
