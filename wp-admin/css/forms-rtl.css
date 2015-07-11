@@ -358,8 +358,7 @@ textarea.large-text {
 	width: 99%;
 }
 
-input.regular-text,
-#adduser .form-field input {
+input.regular-text {
 	width: 25em;
 }
 
@@ -666,6 +665,7 @@ table.form-table td .updated p {
 	width: 15em;
 }
 
+#adduser .form-field input,
 #createuser .form-field input {
 	width: 25em;
 }
@@ -1036,6 +1036,7 @@ table.form-table td .updated p {
 		font-size: 14px;
 	}
 
+	#adduser .form-field input,
 	#createuser .form-field input {
 		width: 100%;
 	}
