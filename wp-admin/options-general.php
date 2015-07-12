@@ -125,7 +125,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 <p class="description" id="tagline-description"><?php _e( 'In a few words, explain what this site is about.' ) ?></p></td>
 </tr>
 <tr>
-<th scope="row"><label for="site_icon"><?php _e( 'Site Icon' ); ?></label></th>
+<th scope="row"><?php _e( 'Site Icon' ); ?></th>
 <td>
 	<?php
 	$upload_url = admin_url( 'options-general.php?page=site-icon' );
@@ -143,9 +143,8 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 		), wp_nonce_url( admin_url( 'options-general.php' ), 'remove-site-icon' ) );
 	?>
 
-	<img class="avatar avatar-150" src="<?php site_icon_url( null, 150 ); ?>" height="150" width="150" />
+	<img class="avatar avatar-150" src="<?php site_icon_url( null, 150 ); ?>" height="150" width="150" alt="" />
 	<p class="hide-if-no-js">
-		<label class="screen-reader-text" for="choose-from-library-link"><?php _e( 'Choose an image from your media library:' ); ?></label>
 		<button type="button" id="choose-from-library-link" class="button" data-size="<?php echo absint( $GLOBALS['wp_site_icon']->min_size ); ?>" data-update-link="<?php echo esc_attr( $update_url ); ?>" data-choose="<?php esc_attr_e( 'Choose a Site Icon' ); ?>" data-update="<?php esc_attr_e( 'Set as Site Icon' ); ?>"><?php _e( 'Update Site Icon' ); ?></button>
 		<a href="<?php echo esc_url( $remove_url ); ?>"><?php _e( 'Remove Site Icon' ); ?></a>
 	</p>
@@ -157,13 +156,12 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 	<?php else : ?>
 
 	<p class="hide-if-no-js">
-		<label class="screen-reader-text" for="choose-from-library-link"><?php _e( 'Choose an image from your media library:' ); ?></label>
-		<button type="button" id="choose-from-library-link" class="button" data-size="<?php echo absint( $GLOBALS['wp_site_icon']->min_size ); ?>" data-update-link="<?php echo esc_attr( $update_url ); ?>" data-choose="<?php esc_attr_e( 'Choose a Site Icon' ); ?>" data-update="<?php esc_attr_e( 'Set as Site Icon' ); ?>"><?php _e( 'Choose Image' ); ?></button>
+		<button type="button" id="choose-from-library-link" class="button" data-size="<?php echo absint( $GLOBALS['wp_site_icon']->min_size ); ?>" data-update-link="<?php echo esc_attr( $update_url ); ?>" data-choose="<?php esc_attr_e( 'Choose a Site Icon' ); ?>" data-update="<?php esc_attr_e( 'Set as Site Icon' ); ?>" aria-label="<?php esc_attr_e( 'Choose an image from your media library' ); ?>" aria-describedby="site-icon-description"><?php _e( 'Choose Image' ); ?></button>
 	</p>
 	<a class="button hide-if-js" href="<?php echo esc_url( $upload_url ); ?>"><?php _e( 'Add a Site Icon' ); ?></a>
 
 	<?php endif; ?>
-	<p class="description"><?php _e( 'The Site Icon is used as a browser and app icon for your site.' ); ?></p>
+	<p id="site-icon-description" class="description"><?php _e( 'The Site Icon is used as a browser and app icon for your site.' ); ?></p>
 </td>
 </tr>
 <?php if ( !is_multisite() ) { ?>

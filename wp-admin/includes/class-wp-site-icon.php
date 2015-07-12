@@ -266,27 +266,27 @@ class WP_Site_Icon {
 			<div class="site-icon-crop-shell">
 				<form action="options-general.php" method="post" enctype="multipart/form-data">
 					<p class="hide-if-no-js description"><?php _e('Choose the part of the image you want to use as your site icon.'); ?></p>
-					<p class="hide-if-js description"><strong><?php _e( 'You need Javascript to choose a part of the image.'); ?></strong></p>
+					<p class="hide-if-js description"><strong><?php _e( 'You need JavaScript to choose a part of the image.'); ?></strong></p>
 
 					<div class="site-icon-crop-wrapper">
 						<img src="<?php echo esc_url( $url ); ?>" id="crop-image" class="site-icon-crop-image" width="512" height="" alt="<?php esc_attr_e( 'Image to be cropped' ); ?>"/>
 					</div>
 
 					<div class="site-icon-crop-preview-shell hide-if-no-js">
-						<h3><?php _e( 'Preview' ); ?></h3>
+						<h2><?php _e( 'Preview' ); ?></h2>
 						<strong><?php _e( 'As a browser icon' ); ?></strong>
 						<div class="site-icon-crop-favicon-preview-shell">
-							<img src="images/browser.png" class="site-icon-browser-preview" width="182" height="" alt="<?php esc_attr_e( 'Browser Chrome' ); ?>"/>
+							<img src="images/browser.png" class="site-icon-browser-preview" width="182" height="" alt=""/>
 
 							<div class="site-icon-crop-preview-favicon">
-								<img src="<?php echo esc_url( $url ); ?>" id="preview-favicon" alt="<?php esc_attr_e( 'Preview Favicon' ); ?>"/>
+								<img src="<?php echo esc_url( $url ); ?>" id="preview-favicon" alt="<?php esc_attr_e( 'Preview as a browser icon' ); ?>"/>
 							</div>
 							<span class="site-icon-browser-title"><?php bloginfo( 'name' ); ?></span>
 						</div>
 
 						<strong><?php _e( 'As an app icon' ); ?></strong>
 						<div class="site-icon-crop-preview-homeicon">
-							<img src="<?php echo esc_url( $url ); ?>" id="preview-homeicon" alt="<?php esc_attr_e( 'Preview Home Icon' ); ?>"/>
+							<img src="<?php echo esc_url( $url ); ?>" id="preview-homeicon" alt="<?php esc_attr_e( 'Preview as an app icon' ); ?>"/>
 						</div>
 					</div>
 
