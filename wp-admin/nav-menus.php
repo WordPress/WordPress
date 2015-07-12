@@ -654,8 +654,8 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 		<?php else : ?>
 			<form method="get" action="<?php echo admin_url( 'nav-menus.php' ); ?>">
 			<input type="hidden" name="action" value="edit" />
-			<label for="menu" class="selected-menu"><?php _e( 'Select a menu to edit:' ); ?></label>
-			<select name="menu">
+			<label for="select-menu-to-edit" class="selected-menu"><?php _e( 'Select a menu to edit:' ); ?></label>
+			<select name="menu" id="select-menu-to-edit">
 				<?php if ( $add_new_screen ) : ?>
 					<option value="0" selected="selected"><?php _e( '&mdash; Select &mdash;' ); ?></option>
 				<?php endif; ?>
