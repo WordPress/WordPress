@@ -311,9 +311,12 @@ class WP_Media_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * @since 4.3.0
+	 * Handles the checkbox column output.
 	 *
-	 * @param WP_Post $post
+	 * @since 4.3.0
+	 * @access public
+	 *
+	 * @param WP_Post $post The current WP_Post object.
 	 */
 	public function column_cb( $post ) {
 		if ( current_user_can( 'edit_post', $post->ID ) ) { ?>
@@ -325,9 +328,12 @@ class WP_Media_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * @since 4.3.0
+	 * Handles the title column output.
 	 *
-	 * @param WP_Post $post
+	 * @since 4.3.0
+	 * @access public
+	 *
+	 * @param WP_Post $post The current WP_Post object.
 	 */
 	public function column_title( $post ) {
 		list( $mime ) = explode( '/', $post->post_mime_type );
@@ -370,9 +376,12 @@ class WP_Media_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * @since 4.3.0
+	 * Handles the author column output.
 	 *
-	 * @param WP_Post $post
+	 * @since 4.3.0
+	 * @access public
+	 *
+	 * @param WP_Post $post The current WP_Post object.
 	 */
 	public function column_author( $post ) {
 		printf( '<a href="%s">%s</a>',
@@ -382,18 +391,24 @@ class WP_Media_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * @since 4.3.0
+	 * Handles the description column output.
 	 *
-	 * @param WP_Post $post
+	 * @since 4.3.0
+	 * @access public
+	 *
+	 * @param WP_Post $post The current WP_Post object.
 	 */
 	public function column_desc( $post ) {
 		echo has_excerpt() ? $post->post_excerpt : '';
 	}
 
 	/**
-	 * @since 4.3.0
+	 * Handles the date column output.
 	 *
-	 * @param WP_Post $post
+	 * @since 4.3.0
+	 * @access public
+	 *
+	 * @param WP_Post $post The current WP_Post object.
 	 */
 	public function column_date( $post ) {
 		if ( '0000-00-00 00:00:00' == $post->post_date ) {
@@ -416,9 +431,12 @@ class WP_Media_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * @since 4.3.0
+	 * Handles the parent column output.
 	 *
-	 * @param WP_Post $post
+	 * @since 4.3.0
+	 * @access public
+	 *
+	 * @param WP_Post $post The current WP_Post object.
 	 */
 	public function column_parent( $post ) {
 		$user_can_edit = current_user_can( 'edit_post', $post->ID );
@@ -462,9 +480,12 @@ class WP_Media_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * @since 4.3.0
+	 * Handles the comments column output.
 	 *
-	 * @param WP_Post $post
+	 * @since 4.3.0
+	 * @access public
+	 *
+	 * @param WP_Post $post The current WP_Post object.
 	 */
 	public function column_comments( $post ) {
 		echo '<div class="post-com-count-wrapper">';
@@ -476,10 +497,13 @@ class WP_Media_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * @since 4.3.0
+	 * Handles output for the default column.
 	 *
-	 * @param WP_Post $post
-	 * @param string  $column_name
+	 * @since 4.3.0
+	 * @access public
+	 *
+	 * @param WP_Post $post        The current WP_Post object.
+	 * @param string  $column_name Current column name.
 	 */
 	public function column_default( $post, $column_name ) {
 		if ( 'categories' == $column_name ) {
@@ -554,7 +578,7 @@ class WP_Media_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Get the name of the default primary column.
+	 * Gets the name of the default primary column.
 	 *
 	 * @since 4.3.0
 	 * @access protected
@@ -622,7 +646,7 @@ class WP_Media_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Generate and display row actions links.
+	 * Generates and displays row action links.
 	 *
 	 * @since 4.3.0
 	 * @access protected
