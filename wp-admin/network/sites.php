@@ -52,8 +52,34 @@ if ( isset( $_GET['action'] ) ) {
 	/** This action is documented in wp-admin/network/edit.php */
 	do_action( 'wpmuadminedit' );
 
+	// A list of valid actions and their associated messaging for confirmation output.
+	$manage_actions = array(
+		'activateblog'   => __( 'You are about to activate the site %s' ),
+		'deactivateblog' => __( 'You are about to deactivate the site %s' ),
+		'unarchiveblog'  => __( 'You are about to unarchive the site %s.' ),
+		'archiveblog'    => __( 'You are about to archive the site %s.' ),
+		'unspamblog'     => __( 'You are about to unspam the site %s.' ),
+		'spamblog'       => __( 'You are about to mark the site %s as spam.' ),
+		'deleteblog'     => __( 'You are about to delete the site %s.' ),
+		'unmatureblog'   => __( 'You are about to mark the site %s as mature.' ),
+		'matureblog'     => __( 'You are about to mark the site %s as not mature.' ),
+		'allblogs'       => '',
+	);
+
 	if ( 'confirm' === $_GET['action'] ) {
-		check_admin_referer( 'confirm' );
+		// The action2 parameter contains the action being taken on the site.
+		$site_action = $_GET['action2'];
+
+		if ( ! array_key_exists( $site_action, $manage_actions ) ) {
+			wp_die( __( 'The requested action is not valid.' ) );
+		}
+
+		// The mature/unmature UI exists only as external code. Check the "confirm" nonce for backward compatibility.
+		if ( 'matureblog' === $site_action || 'unmatureblog' === $site_action ) {
+			check_admin_referer( 'confirm' );
+		} else {
+			check_admin_referer( $site_action . '_' . $id );
+		}
 
 		if ( ! headers_sent() ) {
 			nocache_headers();
@@ -64,16 +90,19 @@ if ( isset( $_GET['action'] ) ) {
 			wp_die( __( 'You are not allowed to change the current site.' ) );
 		}
 
+		$site_details = get_blog_details( $id );
+		$site_address = untrailingslashit( $site_details->domain . $site_details->path );
+
 		require_once( ABSPATH . 'wp-admin/admin-header.php' );
 		?>
 			<div class="wrap">
 				<h1><?php _e( 'Confirm your action' ); ?></h1>
-				<form action="sites.php?action=<?php echo esc_attr( $_GET['action2'] ) ?>" method="post">
-					<input type="hidden" name="action" value="<?php echo esc_attr( $_GET['action2'] ) ?>" />
+				<form action="sites.php?action=<?php echo esc_attr( $site_action ); ?>" method="post">
+					<input type="hidden" name="action" value="<?php echo esc_attr( $site_action ); ?>" />
 					<input type="hidden" name="id" value="<?php echo esc_attr( $id ); ?>" />
 					<input type="hidden" name="_wp_http_referer" value="<?php echo esc_attr( wp_get_referer() ); ?>" />
-					<?php wp_nonce_field( $_GET['action2'], '_wpnonce', false ); ?>
-					<p><?php echo esc_html( wp_unslash( $_GET['msg'] ) ); ?></p>
+					<?php wp_nonce_field( $site_action . '_' . $id, '_wpnonce', false ); ?>
+					<p><?php echo sprintf( $manage_actions[ $site_action ], $site_address ); ?></p>
 					<?php submit_button( __( 'Confirm' ), 'button' ); ?>
 				</form>
 			</div>
@@ -84,13 +113,13 @@ if ( isset( $_GET['action'] ) ) {
 
 	$updated_action = '';
 
-	$manage_actions = array( 'deleteblog', 'allblogs', 'archiveblog', 'unarchiveblog', 'activateblog', 'deactivateblog', 'unspamblog', 'spamblog', 'unmatureblog', 'matureblog' );
-	if ( in_array( $_GET['action'], $manage_actions ) ) {
+	if ( array_key_exists( $_GET['action'], $manage_actions ) ) {
 		$action = $_GET['action'];
-		if ( 'allblogs' === $action )
+		if ( 'allblogs' === $action ) {
 			$action = 'bulk-sites';
+		}
 
-		check_admin_referer( $action );
+		check_admin_referer( $action . '_' . $id );
 	}
 
 	switch ( $_GET['action'] ) {
@@ -178,8 +207,9 @@ if ( isset( $_GET['action'] ) ) {
 		break;
 	}
 
-	if ( empty( $updated_action ) && in_array( $_GET['action'], $manage_actions ) )
+	if ( empty( $updated_action ) && array_key_exists( $_GET['action'], $manage_actions ) ) {
 		$updated_action = $_GET['action'];
+	}
 
 	if ( ! empty( $updated_action ) ) {
 		wp_safe_redirect( add_query_arg( array( 'updated' => $updated_action ), wp_get_referer() ) );
