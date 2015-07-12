@@ -3098,7 +3098,7 @@ function wp_ajax_crop_image() {
 		default:
 
 			/**
-			 * Filters the attachment id for a cropped image.
+			 * Filter the attachment ID for a cropped image.
 			 *
 			 * @since 4.3.0
 			 *
