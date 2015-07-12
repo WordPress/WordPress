@@ -850,7 +850,7 @@ class WP_List_Table {
 	}
 
 	/**
-	 * Get the name of the default primary column.
+	 * Gets the name of the default primary column.
 	 *
 	 * @since 4.3.0
 	 * @access protected
@@ -876,7 +876,7 @@ class WP_List_Table {
 	}
 
 	/**
-	 * Get the name of the primary column.
+	 * Gets the name of the primary column.
 	 *
 	 * @since 4.3.0
 	 * @access protected
@@ -888,8 +888,7 @@ class WP_List_Table {
 		$default = $this->get_default_primary_column_name();
 
 		/**
-		 * Filter the name of the primary column for the current list table, with context
-		 * as argument (eg: 'plugins').
+		 * Filter the name of the primary column for the current list table.
 		 *
 		 * @since 4.3.0
 		 *
@@ -1236,7 +1235,7 @@ class WP_List_Table {
 	}
 
 	/**
-	 * Generate and display row actions links
+	 * Generates and display row actions links for the list table.
 	 *
 	 * @since 4.3.0
 	 * @access protected
