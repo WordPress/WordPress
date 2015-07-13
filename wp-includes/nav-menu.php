@@ -38,8 +38,8 @@ function wp_get_nav_menu_object( $menu ) {
 	 *
 	 * @since 4.3.0
 	 *
-	 * @param object|false $menu_obj  Term from nav_menu taxonomy, or false if nothing had been found.
-	 * @param string       $menu      The menu ID, slug, or name passed to wp_get_nav_menu_object().
+	 * @param object|false $menu_obj Term from nav_menu taxonomy, or false if nothing had been found.
+	 * @param string       $menu     The menu ID, slug, or name passed to wp_get_nav_menu_object().
 	 */
 	return apply_filters( 'wp_get_nav_menu_object', $menu_obj, $menu );
 }
