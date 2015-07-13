@@ -152,9 +152,12 @@ class WP_Links_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * @since 4.3.0
+	 * Handles the checkbox column ouput.
 	 *
-	 * @param object $link
+	 * @since 4.3.0
+	 * @access public
+	 *
+	 * @param object $link The current link object.
 	 */
 	public function column_cb( $link ) {
 		?>
@@ -164,9 +167,12 @@ class WP_Links_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * @since 4.3.0
+	 * Handles the link name column ouput.
 	 *
-	 * @param object $link
+	 * @since 4.3.0
+	 * @access public
+	 *
+	 * @param object $link The current link object.
 	 */
 	public function column_name( $link ) {
 		$edit_link = get_edit_bookmark_link( $link );
@@ -178,9 +184,12 @@ class WP_Links_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * @since 4.3.0
+	 * Handles the link URL column ouput.
 	 *
-	 * @param object $link
+	 * @since 4.3.0
+	 * @access public
+	 *
+	 * @param object $link The current link object.
 	 */
 	public function column_url( $link ) {
 		$short_url = url_shorten( $link->link_url );
@@ -188,11 +197,14 @@ class WP_Links_List_Table extends WP_List_Table {
 	}
 
 	/**
+	 * Handles the link categories column output.
+	 *
 	 * @since 4.3.0
+	 * @access public
 	 *
 	 * @global $cat_id
 	 *
-	 * @param object $link
+	 * @param object $link The current link object.
 	 */
 	public function column_categories( $link ) {
 		global $cat_id;
@@ -213,18 +225,24 @@ class WP_Links_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * @since 4.3.0
+	 * Handles the link relation column ouput.
 	 *
-	 * @param object $link
+	 * @since 4.3.0
+	 * @access public
+	 *
+	 * @param object $link The current link object.
 	 */
 	public function column_rel( $link ) {
 		echo empty( $link->link_rel ) ? '<br />' : $link->link_rel;
 	}
 
 	/**
-	 * @since 4.3.0
+	 * Handles the link visibility column ouput.
 	 *
-	 * @param object $link
+	 * @since 4.3.0
+	 * @access public
+	 *
+	 * @param object $link The current link object.
 	 */
 	public function column_visible( $link ) {
 		if ( 'Y' === $link->link_visible ) {
@@ -235,19 +253,25 @@ class WP_Links_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * @since 4.3.0
+	 * Handles the link rating column ouput.
 	 *
-	 * @param object $link
+	 * @since 4.3.0
+	 * @access public
+	 *
+	 * @param object $link The current link object.
 	 */
 	public function column_rating( $link ) {
 		echo $link->link_rating;
 	}
 
 	/**
-	 * @since 4.3.0
+	 * Handles the default column output.
 	 *
-	 * @param object $link
-	 * @param string $column_name
+	 * @since 4.3.0
+	 * @access public
+	 *
+	 * @param object $link        Link object.
+	 * @param string $column_name Current column name.
 	 */
 	public function column_default( $link, $column_name ) {
 		/**
@@ -275,7 +299,7 @@ class WP_Links_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Generate and display row actions links.
+	 * Generates and displays row action links.
 	 *
 	 * @since 4.3.0
 	 * @access protected
