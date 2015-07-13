@@ -877,7 +877,7 @@ function wp_dashboard_cached_rss_widget( $widget_id, $callback, $check_urls = ar
 	}
 
 	$locale = get_locale();
-	$cache_key = 'dash_' . md5( $widget_id ) . '_' . $locale;
+	$cache_key = 'dash_' . md5( $widget_id . '_' . $locale );
 	if ( false !== ( $output = get_transient( $cache_key ) ) ) {
 		echo $output;
 		return true;
