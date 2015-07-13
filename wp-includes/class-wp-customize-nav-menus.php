@@ -405,6 +405,7 @@ final class WP_Customize_Nav_Menus {
 		$this->manager->register_panel_type( 'WP_Customize_Nav_Menus_Panel' );
 		$this->manager->register_control_type( 'WP_Customize_Nav_Menu_Control' );
 		$this->manager->register_control_type( 'WP_Customize_Nav_Menu_Name_Control' );
+		$this->manager->register_control_type( 'WP_Customize_Nav_Menu_Auto_Add_Control' );
 		$this->manager->register_control_type( 'WP_Customize_Nav_Menu_Item_Control' );
 
 		// Create a panel for Menus.

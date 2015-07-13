@@ -1603,14 +1603,7 @@ class WP_Customize_Nav_Menu_Control extends WP_Customize_Control {
 			<?php endforeach; ?>
 
 		</ul>
-		<?php endif; ?>
-		<p>
-			<label>
-				<input type="checkbox" class="auto_add">
-				<?php _e( 'Automatically add new top-level pages to this menu' ) ?>
-			</label>
-		</p>
-		<?php
+		<?php endif;
 	}
 
 	/**
@@ -1880,6 +1873,45 @@ class WP_Customize_Nav_Menu_Name_Control extends WP_Customize_Control {
 		?>
 		<label>
 			<input type="text" class="menu-name-field live-update-section-title" />
+		</label>
+		<?php
+	}
+}
+
+/**
+ * Customize control to represent the auto_add field for a given menu.
+ *
+ * @since 4.3.0
+ */
+class WP_Customize_Nav_Menu_Auto_Add_Control extends WP_Customize_Control {
+
+	/**
+	 * Type of control, used by JS.
+	 *
+	 * @since 4.3.0
+	 *
+	 * @var string
+	 */
+	public $type = 'nav_menu_auto_add';
+
+	/**
+	 * No-op since we're using JS template.
+	 *
+	 * @since 4.3.0
+	 */
+	protected function render_content() {}
+
+	/**
+	 * Render the Underscore template for this control.
+	 *
+	 * @since 4.3.0
+	 */
+	protected function content_template() {
+		?>
+		<label>
+			<span class="customize-control-title"><?php _e( 'Menu Options' ); ?></span>
+			<input type="checkbox" class="auto_add" />
+			<?php _e( 'Automatically add new top-level pages to this menu' ); ?>
 		</label>
 		<?php
 	}

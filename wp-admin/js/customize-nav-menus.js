@@ -676,7 +676,7 @@
 		},
 
 		populateControls: function() {
-			var section = this, menuNameControlId, menuControl, menuNameControl;
+			var section = this, menuNameControlId, menuAutoAddControlId, menuControl, menuNameControl, menuAutoAddControl;
 
 			// Add the control for managing the menu name.
 			menuNameControlId = section.id + '[name]';
@@ -685,7 +685,7 @@
 				menuNameControl = new api.controlConstructor.nav_menu_name( menuNameControlId, {
 					params: {
 						type: 'nav_menu_name',
-						content: '<li id="customize-control-' + section.id.replace( '[', '-' ).replace( ']', '' ) + '-name" class="customize-control customize-control-nav_menu_name"></li>', // @todo core should do this for us
+						content: '<li id="customize-control-' + section.id.replace( '[', '-' ).replace( ']', '' ) + '-name" class="customize-control customize-control-nav_menu_name"></li>', // @todo core should do this for us; see #30741
 						label: '',
 						active: true,
 						section: section.id,
@@ -705,9 +705,9 @@
 				menuControl = new api.controlConstructor.nav_menu( section.id, {
 					params: {
 						type: 'nav_menu',
-						content: '<li id="customize-control-' + section.id.replace( '[', '-' ).replace( ']', '' ) + '" class="customize-control customize-control-nav_menu"></li>', // @todo core should do this for us
+						content: '<li id="customize-control-' + section.id.replace( '[', '-' ).replace( ']', '' ) + '" class="customize-control customize-control-nav_menu"></li>', // @todo core should do this for us; see #30741
 						section: section.id,
-						priority: 999,
+						priority: 998,
 						active: true,
 						settings: {
 							'default': section.id
@@ -717,6 +717,27 @@
 				} );
 				api.control.add( menuControl.id, menuControl );
 				menuControl.active.set( true );
+			}
+
+			// Add the control for managing the menu auto_add.
+			menuAutoAddControlId = section.id + '[auto_add]';
+			menuAutoAddControl = api.control( menuAutoAddControlId );
+			if ( ! menuAutoAddControl ) {
+				menuAutoAddControl = new api.controlConstructor.nav_menu_auto_add( menuAutoAddControlId, {
+					params: {
+						type: 'nav_menu_auto_add',
+						content: '<li id="customize-control-' + section.id.replace( '[', '-' ).replace( ']', '' ) + '-auto-add" class="customize-control customize-control-nav_menu_auto_add"></li>', // @todo core should do this for us
+						label: '',
+						active: true,
+						section: section.id,
+						priority: 999,
+						settings: {
+							'default': section.id
+						}
+					}
+				} );
+				api.control.add( menuAutoAddControl.id, menuAutoAddControl );
+				menuAutoAddControl.active.set( true );
 			}
 
 		},
@@ -1592,6 +1613,52 @@
 	});
 
 	/**
+	 * wp.customize.Menus.MenuAutoAddControl
+	 *
+	 * Customizer control for a nav menu's auto add.
+	 *
+	 * @constructor
+	 * @augments wp.customize.Control
+	 */
+	api.Menus.MenuAutoAddControl = api.Control.extend({
+
+		ready: function() {
+			var control = this,
+				settingValue = control.setting();
+
+			/*
+			 * Since the control is not registered in PHP, we need to prevent the
+			 * preview's sending of the activeControls to result in this control
+			 * being deactivated.
+			 */
+			control.active.validate = function() {
+				return api.section( control.section() ).active();
+			};
+
+			control.autoAddElement = new api.Element( control.container.find( 'input[type=checkbox].auto_add' ) );
+
+			control.autoAddElement.bind(function( value ) {
+				var settingValue = control.setting();
+				if ( settingValue && settingValue.name !== value ) {
+					settingValue = _.clone( settingValue );
+					settingValue.auto_add = value;
+					control.setting.set( settingValue );
+				}
+			});
+			if ( settingValue ) {
+				control.autoAddElement.set( settingValue.auto_add );
+			}
+
+			control.setting.bind(function( object ) {
+				if ( object ) {
+					control.autoAddElement.set( object.auto_add );
+				}
+			});
+		}
+
+	});
+
+	/**
 	 * wp.customize.Menus.MenuControl
 	 *
 	 * Customizer control for menus.
@@ -1661,25 +1728,6 @@
 		_setupModel: function() {
 			var control = this,
 				menuId = control.params.menu_id;
-
-			control.elements = {};
-			control.elements.auto_add = new api.Element( control.container.find( 'input[type=checkbox].auto_add' ) );
-
-			control.elements.auto_add.bind(function( auto_add ) {
-				var settingValue = control.setting();
-				if ( settingValue && settingValue.auto_add !== auto_add ) {
-					settingValue = _.clone( settingValue );
-					settingValue.auto_add = auto_add;
-					control.setting.set( settingValue );
-				}
-			});
-			control.elements.auto_add.set( control.setting().auto_add );
-			control.setting.bind(function( object ) {
-				if ( ! object ) {
-					return;
-				}
-				control.elements.auto_add.set( object.auto_add );
-			});
 
 			control.setting.bind( function( to ) {
 				var name;
@@ -2244,6 +2292,7 @@
 		nav_menu_item: api.Menus.MenuItemControl,
 		nav_menu: api.Menus.MenuControl,
 		nav_menu_name: api.Menus.MenuNameControl,
+		nav_menu_auto_add: api.Menus.MenuAutoAddControl,
 		new_menu: api.Menus.NewMenuControl
 	});
 
