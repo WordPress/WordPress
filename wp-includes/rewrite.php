@@ -2087,8 +2087,9 @@ class WP_Rewrite {
 	 *
 	 * @param string      $name      Name of the endpoint.
 	 * @param int         $places    Endpoint mask describing the places the endpoint should be added.
-	 * @param string|bool $query_var Name of the corresponding query variable. Pass `false` to skip registering
-	 *                               a query_var for this endpoint. Defaults to the value of `$name`.
+	 * @param string|bool $query_var Optional. Name of the corresponding query variable. Pass `false` to
+	 *                               skip registering a query_var for this endpoint. Defaults to the
+	 *                               value of `$name`.
 	 */
 	public function add_endpoint( $name, $places, $query_var = true ) {
 		global $wp;
