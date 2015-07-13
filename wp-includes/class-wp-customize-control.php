@@ -1013,7 +1013,6 @@ class WP_Customize_Cropped_Image_Control extends WP_Customize_Image_Control {
 	 * Control type.
 	 *
 	 * @since 4.3.0
-	 *
 	 * @access public
 	 * @var string
 	 */
@@ -1023,7 +1022,6 @@ class WP_Customize_Cropped_Image_Control extends WP_Customize_Image_Control {
 	 * Suggested width for cropped image.
 	 *
 	 * @since 4.3.0
-	 *
 	 * @access public
 	 * @var int
 	 */
@@ -1033,7 +1031,6 @@ class WP_Customize_Cropped_Image_Control extends WP_Customize_Image_Control {
 	 * Suggested height for cropped image.
 	 *
 	 * @since 4.3.0
-	 *
 	 * @access public
 	 * @var int
 	 */
@@ -1043,7 +1040,6 @@ class WP_Customize_Cropped_Image_Control extends WP_Customize_Image_Control {
 	 * Whether the width is flexible.
 	 *
 	 * @since 4.3.0
-	 *
 	 * @access public
 	 * @var bool
 	 */
@@ -1053,7 +1049,6 @@ class WP_Customize_Cropped_Image_Control extends WP_Customize_Image_Control {
 	 * Whether the height is flexible.
 	 *
 	 * @since 4.3.0
-	 *
 	 * @access public
 	 * @var bool
 	 */
@@ -1063,7 +1058,6 @@ class WP_Customize_Cropped_Image_Control extends WP_Customize_Image_Control {
 	 * Enqueue control related scripts/styles.
 	 *
 	 * @since 4.3.0
-	 *
 	 * @access public
 	 */
 	public function enqueue() {
@@ -1076,9 +1070,8 @@ class WP_Customize_Cropped_Image_Control extends WP_Customize_Image_Control {
 	 * Refresh the parameters passed to the JavaScript via JSON.
 	 *
 	 * @since 4.3.0
-	 *
 	 * @access public
-	 * @uses WP_Customize_Image_Control::to_json()
+	 *
 	 * @see WP_Customize_Control::to_json()
 	 */
 	public function to_json() {
@@ -1107,7 +1100,6 @@ class WP_Customize_Site_Icon_Control extends WP_Customize_Cropped_Image_Control 
 	 * Control type.
 	 *
 	 * @since 4.3.0
-	 *
 	 * @access public
 	 * @var string
 	 */
@@ -1117,10 +1109,11 @@ class WP_Customize_Site_Icon_Control extends WP_Customize_Cropped_Image_Control 
 	 * Constructor.
 	 *
 	 * @since 4.3.0
+	 * @access public
 	 *
-	 * @param WP_Customize_Manager $manager
-	 * @param string               $id
-	 * @param array                $args
+	 * @param WP_Customize_Manager $manager WP_Customize_Manager instance.
+	 * @param string               $id      Control ID.
+	 * @param array                $args    Optional. Arguments to override class property defaults.
 	 */
 	public function __construct( $manager, $id, $args = array() ) {
 		parent::__construct( $manager, $id, $args );
@@ -1534,7 +1527,7 @@ class WP_Widget_Form_Customize_Control extends WP_Customize_Control {
 }
 
 /**
- * Customize Nav Menu Control Class
+ * Customize Nav Menu Control Class.
  *
  * @since 4.3.0
  */
@@ -1544,7 +1537,6 @@ class WP_Customize_Nav_Menu_Control extends WP_Customize_Control {
 	 * Control type.
 	 *
 	 * @since 4.3.0
-	 *
 	 * @access public
 	 * @var string
 	 */
@@ -1554,7 +1546,7 @@ class WP_Customize_Nav_Menu_Control extends WP_Customize_Control {
 	 * The nav menu setting.
 	 *
 	 * @since 4.3.0
-	 *
+	 * @access public
 	 * @var WP_Customize_Nav_Menu_Setting
 	 */
 	public $setting;
@@ -1563,6 +1555,7 @@ class WP_Customize_Nav_Menu_Control extends WP_Customize_Control {
 	 * Don't render the control's content - it uses a JS template instead.
 	 *
 	 * @since 4.3.0
+	 * @access public
 	 */
 	public function render_content() {}
 
@@ -1570,6 +1563,7 @@ class WP_Customize_Nav_Menu_Control extends WP_Customize_Control {
 	 * JS/Underscore template for the control UI.
 	 *
 	 * @since 4.3.0
+	 * @access public
 	 */
 	public function content_template() {
 		?>
@@ -1607,11 +1601,12 @@ class WP_Customize_Nav_Menu_Control extends WP_Customize_Control {
 	}
 
 	/**
-	 * Return params for this control.
+	 * Return parameters for this control.
 	 *
 	 * @since 4.3.0
+	 * @access public
 	 *
-	 * @return array
+	 * @return array Exported parameters.
 	 */
 	public function json() {
 		$exported            = parent::json();
@@ -1632,7 +1627,6 @@ class WP_Customize_Nav_Menu_Item_Control extends WP_Customize_Control {
 	 * Control type.
 	 *
 	 * @since 4.3.0
-	 *
 	 * @access public
 	 * @var string
 	 */
@@ -1642,7 +1636,7 @@ class WP_Customize_Nav_Menu_Item_Control extends WP_Customize_Control {
 	 * The nav menu item setting.
 	 *
 	 * @since 4.3.0
-	 *
+	 * @access public
 	 * @var WP_Customize_Nav_Menu_Item_Setting
 	 */
 	public $setting;
@@ -1651,8 +1645,9 @@ class WP_Customize_Nav_Menu_Item_Control extends WP_Customize_Control {
 	 * Constructor.
 	 *
 	 * @since 4.3.0
+	 * @access public
 	 *
-	 * @uses WP_Customize_Control::__construct()
+	 * @see WP_Customize_Control::__construct()
 	 *
 	 * @param WP_Customize_Manager $manager An instance of the WP_Customize_Manager class.
 	 * @param string               $id      The control ID.
@@ -1666,6 +1661,7 @@ class WP_Customize_Nav_Menu_Item_Control extends WP_Customize_Control {
 	 * Don't render the control's content - it's rendered with a JS template.
 	 *
 	 * @since 4.3.0
+	 * @access public
 	 */
 	public function render_content() {}
 
@@ -1673,6 +1669,7 @@ class WP_Customize_Nav_Menu_Item_Control extends WP_Customize_Control {
 	 * JS/Underscore template for the control UI.
 	 *
 	 * @since 4.3.0
+	 * @access public
 	 */
 	public function content_template() {
 		?>
@@ -1755,11 +1752,12 @@ class WP_Customize_Nav_Menu_Item_Control extends WP_Customize_Control {
 	}
 
 	/**
-	 * Return params for this control.
+	 * Return parameters for this control.
 	 *
 	 * @since 4.3.0
+	 * @access public
 	 *
-	 * @return array
+	 * @return array Exported parameters.
 	 */
 	public function json() {
 		$exported                 = parent::json();
@@ -1770,11 +1768,13 @@ class WP_Customize_Nav_Menu_Item_Control extends WP_Customize_Control {
 }
 
 /**
- * Customize Menu Location Control Class
+ * Customize Menu Location Control Class.
  *
  * This custom control is only needed for JS.
  *
  * @since 4.3.0
+ *
+ * @see WP_Customize_Control
  */
 class WP_Customize_Nav_Menu_Location_Control extends WP_Customize_Control {
 
@@ -1782,7 +1782,6 @@ class WP_Customize_Nav_Menu_Location_Control extends WP_Customize_Control {
 	 * Control type.
 	 *
 	 * @since 4.3.0
-	 *
 	 * @access public
 	 * @var string
 	 */
@@ -1792,7 +1791,6 @@ class WP_Customize_Nav_Menu_Location_Control extends WP_Customize_Control {
 	 * Location ID.
 	 *
 	 * @since 4.3.0
-	 *
 	 * @access public
 	 * @var string
 	 */
@@ -1802,8 +1800,9 @@ class WP_Customize_Nav_Menu_Location_Control extends WP_Customize_Control {
 	 * Refresh the parameters passed to JavaScript via JSON.
 	 *
 	 * @since 4.3.0
+	 * @access public
 	 *
-	 * @uses WP_Customize_Control::to_json()
+	 * @see WP_Customize_Control::to_json()
 	 */
 	public function to_json() {
 		parent::to_json();
@@ -1814,6 +1813,7 @@ class WP_Customize_Nav_Menu_Location_Control extends WP_Customize_Control {
 	 * Render content just like a normal select control.
 	 *
 	 * @since 4.3.0
+	 * @access public
 	 */
 	public function render_content() {
 		if ( empty( $this->choices ) ) {
@@ -1845,6 +1845,8 @@ class WP_Customize_Nav_Menu_Location_Control extends WP_Customize_Control {
  * Customize control to represent the name field for a given menu.
  *
  * @since 4.3.0
+ *
+ * @see WP_Customize_Control
  */
 class WP_Customize_Nav_Menu_Name_Control extends WP_Customize_Control {
 
@@ -1852,7 +1854,7 @@ class WP_Customize_Nav_Menu_Name_Control extends WP_Customize_Control {
 	 * Type of control, used by JS.
 	 *
 	 * @since 4.3.0
-	 *
+	 * @access public
 	 * @var string
 	 */
 	public $type = 'nav_menu_name';
@@ -1861,6 +1863,7 @@ class WP_Customize_Nav_Menu_Name_Control extends WP_Customize_Control {
 	 * No-op since we're using JS template.
 	 *
 	 * @since 4.3.0
+	 * @access protected
 	 */
 	protected function render_content() {}
 
@@ -1868,6 +1871,7 @@ class WP_Customize_Nav_Menu_Name_Control extends WP_Customize_Control {
 	 * Render the Underscore template for this control.
 	 *
 	 * @since 4.3.0
+	 * @access protected
 	 */
 	protected function content_template() {
 		?>
@@ -1882,6 +1886,8 @@ class WP_Customize_Nav_Menu_Name_Control extends WP_Customize_Control {
  * Customize control to represent the auto_add field for a given menu.
  *
  * @since 4.3.0
+ *
+ * @see WP_Customize_Control
  */
 class WP_Customize_Nav_Menu_Auto_Add_Control extends WP_Customize_Control {
 
@@ -1889,7 +1895,7 @@ class WP_Customize_Nav_Menu_Auto_Add_Control extends WP_Customize_Control {
 	 * Type of control, used by JS.
 	 *
 	 * @since 4.3.0
-	 *
+	 * @access public
 	 * @var string
 	 */
 	public $type = 'nav_menu_auto_add';
@@ -1898,6 +1904,7 @@ class WP_Customize_Nav_Menu_Auto_Add_Control extends WP_Customize_Control {
 	 * No-op since we're using JS template.
 	 *
 	 * @since 4.3.0
+	 * @access protected
 	 */
 	protected function render_content() {}
 
@@ -1905,6 +1912,7 @@ class WP_Customize_Nav_Menu_Auto_Add_Control extends WP_Customize_Control {
 	 * Render the Underscore template for this control.
 	 *
 	 * @since 4.3.0
+	 * @access protected
 	 */
 	protected function content_template() {
 		?>
@@ -1921,6 +1929,8 @@ class WP_Customize_Nav_Menu_Auto_Add_Control extends WP_Customize_Control {
  * Customize control class for new menus.
  *
  * @since 4.3.0
+ *
+ * @see WP_Customize_Control
  */
 class WP_New_Menu_Customize_Control extends WP_Customize_Control {
 
@@ -1928,7 +1938,6 @@ class WP_New_Menu_Customize_Control extends WP_Customize_Control {
 	 * Control type.
 	 *
 	 * @since 4.3.0
-	 *
 	 * @access public
 	 * @var string
 	 */
@@ -1938,6 +1947,7 @@ class WP_New_Menu_Customize_Control extends WP_Customize_Control {
 	 * Render the control's content.
 	 *
 	 * @since 4.3.0
+	 * @access public
 	 */
 	public function render_content() {
 		?>
