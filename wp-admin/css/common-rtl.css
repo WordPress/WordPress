@@ -3037,6 +3037,11 @@ img {
 	border-bottom: 1px solid #dfdfdf;
 }
 
+/* Edit Site */
+.network-admin .edit-site-actions {
+	margin-top: 0;
+}
+
 /* My Sites */
 .my-sites {
 	display: block;
