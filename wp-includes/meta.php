@@ -1590,15 +1590,15 @@ class WP_Meta_Query {
 	}
 
 	/**
-	 * Check whether the current query has any OR relations.
+	 * Checks whether the current query has any OR relations.
 	 *
-	 * In some cases, the presence of an OR relation somewhere in the query will require the use of a DISTINCT or
-	 * GROUP BY keyword in the SELECT clause. The current method can be used in these cases to determine whether
-	 * such a clause is necessary.
+	 * In some cases, the presence of an OR relation somewhere in the query will require
+	 * the use of a `DISTINCT` or `GROUP BY` keyword in the `SELECT` clause. The current
+	 * method can be used in these cases to determine whether such a clause is necessary.
 	 *
 	 * @since 4.3.0
 	 *
-	 * @return bool True if the query contains any OR relations, otherwise false.
+	 * @return bool True if the query contains any `OR` relations, otherwise false.
 	 */
 	public function has_or_relation() {
 		return $this->has_or_relation;
