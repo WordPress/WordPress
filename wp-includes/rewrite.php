@@ -246,7 +246,7 @@ define( 'EP_ALL', EP_PERMALINK | EP_ATTACHMENT | EP_ROOT | EP_COMMENTS | EP_SEAR
  * combination of them using the bitwise OR operator) as their values are not
  * guaranteed to remain static (especially `EP_ALL`).
  *
- * Be sure to flush the rewrite rules - {@see flush_rewrite_rules()} - when your plugin gets
+ * Be sure to flush the rewrite rules - see flush_rewrite_rules() - when your plugin gets
  * activated and deactivated.
  *
  * @since 2.1.0
