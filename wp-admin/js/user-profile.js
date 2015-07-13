@@ -1,4 +1,4 @@
-/* global ajaxurl, pwsL10n */
+/* global ajaxurl, pwsL10n, userProfileL10n */
 (function($){
 	$(function(){
 		var pw_new = $('.user-pass1-wrap'),
@@ -96,13 +96,13 @@
 				pw_field.attr( 'type', 'text' );
 				pw_togglebtn.attr( 'data-toggle', 0 )
 					.find( '.text' )
-						.text( 'hide' )
+						.text( userProfileL10n.hide )
 				;
 			} else {
 				pw_field.attr( 'type', 'password' );
 				pw_togglebtn.attr( 'data-toggle', 1 )
 					.find( '.text' )
-						.text( 'show' )
+						.text( userProfileL10n.show )
 				;
 			}
 			pw_field.focus();

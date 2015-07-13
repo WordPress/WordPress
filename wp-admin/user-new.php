@@ -405,7 +405,7 @@ if ( apply_filters( 'show_password_fields', true ) ) : ?>
 				<input type="password" name="pass1" id="pass1" class="regular-text" autocomplete="off" data-reveal="1" data-pw="<?php echo esc_attr( $initial_password ); ?>" />
 				<button type="button" class="button button-secondary wp-hide-pw hide-if-no-js" data-toggle="0">
 					<span class="dashicons dashicons-visibility"></span>
-					<span class="text">hide</span>
+					<span class="text"><?php _e( 'Hide' ); ?></span>
 				</button>
 				<div style="display:none" id="pass-strength-result"></div>
 			</div>

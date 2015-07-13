@@ -467,7 +467,7 @@ if ( $show_password_fields ) :
 			<input type="password" name="pass1" id="pass1" class="regular-text" value="" autocomplete="off" data-pw="<?php echo esc_attr( wp_generate_password( 24 ) ); ?>" />
 			<button type="button" class="button button-secondary wp-hide-pw hide-if-no-js" data-toggle="0">
 				<span class="dashicons dashicons-visibility"></span>
-				<span class="text">hide</span>
+				<span class="text"><?php _e( 'Hide' ); ?></span>
 			</button>
 			<div style="display:none" id="pass-strength-result"></div>
 		</div>
