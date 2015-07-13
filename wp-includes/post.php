@@ -1635,7 +1635,8 @@ function _post_type_meta_capabilities( $capabilities = null ) {
  * and the second one is for hierarchical post types (like pages).
  *
  * @since 3.0.0
- * @since 4.3.0 Added the `featured_image`, `set_featured_image`, `remove_featured_image`, and `use_featured_image` labels.
+ * @since 4.3.0 Added the `featured_image`, `set_featured_image`, `remove_featured_image`,
+ *              and `use_featured_image` labels.
  * @access private
  *
  * @param object $post_type_object Post type object.
