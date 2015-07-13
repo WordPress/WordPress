@@ -2156,7 +2156,7 @@ function wp_update_user($userdata) {
 		$userdata['user_pass'] = wp_hash_password( $userdata['user_pass'] );
 
 		/**
-		 * Filter whether to stop the sending of the password change email.
+		 * Filter whether send the password change email.
 		 *
 		 * @since 4.3.0
 		 *
@@ -2172,13 +2172,14 @@ function wp_update_user($userdata) {
 
 	if ( isset( $userdata['user_email'] ) && $user['user_email'] !== $userdata['user_email'] ) {
 		/**
-		 * Filter to stop the sending of the email change email.
+		 * Filter whether to send the email change email.
 		 *
 		 * @since 4.3.0
-		 * @see  wp_insert_user() For $user and $userdata fields.
 		 *
-		 * @param bool Return false to not send the email.
-		 * @param array $user The original user array.
+		 * @see wp_insert_user() For `$user` and `$userdata` fields.
+		 *
+		 * @param bool  $send     Whether to send the email.
+		 * @param array $user     The original user array.
 		 * @param array $userdata The updated user array.
 		 *
 		 */
