@@ -319,11 +319,11 @@ function wp_admin_bar_site_menu( $wp_admin_bar ) {
 }
 
 /**
- * Add the "Customize" link.
+ * Adds the "Customize" link to the Toolbar.
  *
  * @since 4.3.0
  *
- * @param WP_Admin_Bar $wp_admin_bar
+ * @param WP_Admin_Bar $wp_admin_bar WP_Admin_Bar instance.
  */
 function wp_admin_bar_customize_menu( $wp_admin_bar ) {
 	// Don't show for users who can't access the customizer or when in the admin.
