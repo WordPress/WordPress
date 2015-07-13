@@ -139,9 +139,9 @@ class WP_Customize_Control {
 	 *
 	 * @since 3.4.0
 	 *
-	 * @param WP_Customize_Manager $manager
-	 * @param string $id
-	 * @param array $args
+	 * @param WP_Customize_Manager $manager Customizer bootstrap instance.
+	 * @param string               $id      Control ID.
+	 * @param array                $args    Optional. Arguments to override class property defaults.
 	 */
 	public function __construct( $manager, $id, $args = array() ) {
 		$keys = array_keys( get_object_vars( $this ) );
@@ -568,9 +568,9 @@ class WP_Customize_Color_Control extends WP_Customize_Control {
 	 * @since 3.4.0
 	 * @uses WP_Customize_Control::__construct()
 	 *
-	 * @param WP_Customize_Manager $manager
-	 * @param string $id
-	 * @param array $args
+	 * @param WP_Customize_Manager $manager Customizer bootstrap instance.
+	 * @param string               $id      Control ID.
+	 * @param array                $args    Optional. Arguments to override class property defaults.
 	 */
 	public function __construct( $manager, $id, $args = array() ) {
 		$this->statuses = array( '' => __('Default') );
@@ -678,9 +678,9 @@ class WP_Customize_Media_Control extends WP_Customize_Control {
 	 * @since 4.1.0
 	 * @since 4.2.0 Moved from WP_Customize_Upload_Control.
 	 *
-	 * @param WP_Customize_Manager $manager {@see WP_Customize_Manager} instance.
-	 * @param string $id
-	 * @param array $args
+	 * @param WP_Customize_Manager $manager Customizer bootstrap instance.
+	 * @param string               $id      Control ID.
+	 * @param array                $args    Optional. Arguments to override class property defaults.
 	 */
 	public function __construct( $manager, $id, $args = array() ) {
 		parent::__construct( $manager, $id, $args );
@@ -907,9 +907,9 @@ class WP_Customize_Image_Control extends WP_Customize_Upload_Control {
 	 * @since 3.4.0
 	 * @uses WP_Customize_Upload_Control::__construct()
 	 *
-	 * @param WP_Customize_Manager $manager
-	 * @param string $id
-	 * @param array  $args
+	 * @param WP_Customize_Manager $manager Customizer bootstrap instance.
+	 * @param string               $id      Control ID.
+	 * @param array                $args    Optional. Arguments to override class property defaults.
 	 */
 	public function __construct( $manager, $id, $args = array() ) {
 		parent::__construct( $manager, $id, $args );
@@ -975,7 +975,7 @@ class WP_Customize_Background_Image_Control extends WP_Customize_Image_Control {
 	 * @since 3.4.0
 	 * @uses WP_Customize_Image_Control::__construct()
 	 *
-	 * @param WP_Customize_Manager $manager
+	 * @param WP_Customize_Manager $manager Customizer bootstrap instance.
 	 */
 	public function __construct( $manager ) {
 		parent::__construct( $manager, 'background_image', array(
@@ -1111,7 +1111,7 @@ class WP_Customize_Site_Icon_Control extends WP_Customize_Cropped_Image_Control 
 	 * @since 4.3.0
 	 * @access public
 	 *
-	 * @param WP_Customize_Manager $manager WP_Customize_Manager instance.
+	 * @param WP_Customize_Manager $manager Customizer bootstrap instance.
 	 * @param string               $id      Control ID.
 	 * @param array                $args    Optional. Arguments to override class property defaults.
 	 */
@@ -1134,7 +1134,11 @@ class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control {
 	public $default_headers;
 
 	/**
-	 * @param WP_Customize_Manager $manager
+	 * Constructor.
+	 *
+	 * @since 3.4.0
+	 *
+	 * @param WP_Customize_Manager $manager Customizer bootstrap instance.
 	 */
 	public function __construct( $manager ) {
 		parent::__construct( $manager, 'header_image', array(
@@ -1649,7 +1653,7 @@ class WP_Customize_Nav_Menu_Item_Control extends WP_Customize_Control {
 	 *
 	 * @see WP_Customize_Control::__construct()
 	 *
-	 * @param WP_Customize_Manager $manager An instance of the WP_Customize_Manager class.
+	 * @param WP_Customize_Manager $manager Customizer bootstrap instance.
 	 * @param string               $id      The control ID.
 	 * @param array                $args    Optional. Overrides class property defaults.
 	 */
