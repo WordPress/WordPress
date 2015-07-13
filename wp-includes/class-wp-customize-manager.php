@@ -1009,8 +1009,9 @@ final class WP_Customize_Manager {
 	 * @since 4.3.0
 	 * @access public
 	 *
-	 * @param string $panel Name of a custom panel which is a subclass of
-	 *                        {@see WP_Customize_Panel}.
+	 * @see WP_Customize_Panel
+	 *
+	 * @param string $panel Name of a custom panel which is a subclass of WP_Customize_Panel.
 	 */
 	public function register_panel_type( $panel ) {
 		$this->registered_panel_types[] = $panel;
@@ -1078,8 +1079,9 @@ final class WP_Customize_Manager {
 	 * @since 4.3.0
 	 * @access public
 	 *
-	 * @param string $section Name of a custom section which is a subclass of
-	 *                        {@see WP_Customize_Section}.
+	 * @see WP_Customize_Section
+	 *
+	 * @param string $section Name of a custom section which is a subclass of WP_Customize_Section.
 	 */
 	public function register_section_type( $section ) {
 		$this->registered_section_types[] = $section;
