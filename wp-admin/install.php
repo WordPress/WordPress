@@ -71,7 +71,8 @@ function display_header( $body_classes = '' ) {
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title><?php _e( 'WordPress &rsaquo; Installation' ); ?></title>
 	<?php
-	wp_admin_css( 'install', true );
+		wp_admin_css( 'install', true );
+		wp_admin_css( 'dashicons', true );
 	?>
 </head>
 <body class="wp-core-ui<?php echo $body_classes ?>">
@@ -128,16 +129,44 @@ function display_setup_form( $error = null ) {
 			</td>
 		</tr>
 		<?php if ( ! $user_table ) : ?>
-		<tr>
+		<tr class="form-field form-required user-pass1-wrap">
 			<th scope="row">
-				<label for="pass1"><?php _e('Password, twice'); ?></label>
-				<p><?php _e('A password will be automatically generated for you if you leave this blank.'); ?></p>
+				<label for="pass1">
+					<?php _e( 'Password' ); ?>
+					<span class="description hide-if-js"><?php _e( '(required)' ); ?></span>
+				</label>
 			</th>
 			<td>
-				<input name="admin_password" type="password" id="pass1" size="25" value="" />
-				<p><input name="admin_password2" type="password" id="pass2" size="25" value="" /></p>
-				<div id="pass-strength-result"><?php _e('Strength indicator'); ?></div>
-				<p><?php echo wp_get_password_hint(); ?></p>
+				<button type="button" class="button button-secondary wp-generate-pw hide-if-no-js"><?php _e( 'Show password' ); ?></button>
+				<div class="wp-pwd hide-if-js">
+					<?php $initial_password = wp_generate_password( 24 ); ?>
+					<input type="password" name="admin_password" id="pass1" class="regular-text" autocomplete="off" data-reveal="1" data-pw="<?php echo esc_attr( $initial_password ); ?>" />
+					<button type="button" class="button button-secondary wp-hide-pw hide-if-no-js" data-toggle="0">
+						<span class="dashicons dashicons-visibility"></span>
+						<span class="text">hide</span>
+					</button>
+					<div id="pass-strength-result"></div>
+				</div>
+				<p><span class="description hide-if-no-js"><?php _e( 'A password reset link will be sent to you via email.' ); ?></span></p>
+			</td>
+		</tr>
+		<tr class="form-field form-required user-pass2-wrap hide-if-js">
+			<th scope="row">
+				<label for="pass2"><?php _e( 'Repeat Password' ); ?>
+					<span class="description"><?php _e( '(required)' ); ?></span>
+				</label>
+			</th>
+			<td>
+				<input name="admin_password2" type="password" id="pass2" autocomplete="off" />
+			</td>
+		</tr>
+		<tr class="pw-weak">
+			<th scope="row"><?php _e( 'Confirm Password' ); ?></th>
+			<td>
+				<label>
+					<input type="checkbox" name="pw_weak" class="pw-checkbox" />
+					<?php _e( 'Confirm use of weak password' ); ?>
+				</label>
 			</td>
 		</tr>
 		<?php endif; ?>
@@ -148,10 +177,10 @@ function display_setup_form( $error = null ) {
 		</tr>
 		<tr>
 			<th scope="row"><?php _e( 'Privacy' ); ?></th>
-			<td colspan="2"><label><input type="checkbox" name="blog_public" id="blog_public" value="1" <?php checked( $blog_public ); ?> /> <?php _e( 'Allow search engines to index this site.' ); ?></label></td>
+			<td colspan="2"><label><input type="checkbox" name="blog_public" id="blog_public" value="1" <?php checked( $blog_public ); ?> /> <?php _e( 'Allow search engines to index this site' ); ?></label></td>
 		</tr>
 	</table>
-	<p class="step"><input type="submit" name="Submit" value="<?php esc_attr_e( 'Install WordPress' ); ?>" class="button button-large" /></p>
+	<p class="step"><?php submit_button( __( 'Install WordPress' ), 'large', 'Submit', false, array( 'id' => 'submit' ) ); ?></p>
 	<input type="hidden" name="language" value="<?php echo isset( $_REQUEST['language'] ) ? esc_attr( $_REQUEST['language'] ) : ''; ?>" />
 </form>
 <?php
@@ -323,5 +352,10 @@ if ( !wp_is_mobile() ) {
 <?php } ?>
 <?php wp_print_scripts( 'user-profile' ); ?>
 <?php wp_print_scripts( 'language-chooser' ); ?>
+<script type="text/javascript">
+jQuery( function( $ ) {
+	$( '.hide-if-no-js' ).removeClass( 'hide-if-no-js' );
+} );
+</script>
 </body>
 </html>
