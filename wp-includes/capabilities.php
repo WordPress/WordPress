@@ -631,7 +631,7 @@ class WP_User {
 	}
 
 	/**
-	 * Make private/protected methods readable for backwards compatibility.
+	 * Makes private/protected methods readable for backwards compatibility.
 	 *
 	 * @since 4.3.0
 	 * @access public
@@ -1518,7 +1518,7 @@ function user_can( $user, $capability ) {
 }
 
 /**
- * Retrieve the global WP_Roles instance, instantiate if necessary.
+ * Retrieves the global WP_Roles instance and instantiates it if necessary.
  *
  * @since 4.3.0
  *
