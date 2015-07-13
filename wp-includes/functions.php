@@ -3421,12 +3421,11 @@ function _deprecated_function( $function, $version, $replacement = null ) {
  * Similar to _deprecated_function(), but with different strings. Used to
  * remove PHP4 style constructors.
  *
- * The current behavior is to trigger a user error if WP_DEBUG is true.
+ * The current behavior is to trigger a user error if `WP_DEBUG` is true.
  *
  * This function is to be used in every PHP4 style constructor method that is deprecated.
  *
  * @since 4.3.0
- *
  * @access private
  *
  * @param string $class   The class containing the deprecated constructor.
@@ -3446,6 +3445,8 @@ function _deprecated_constructor( $class, $version ) {
 
 	/**
 	 * Filter whether to trigger an error for deprecated functions.
+	 *
+	 * `WP_DEBUG` must be true in addition to the filter evaluating to true.
 	 *
 	 * @since 4.3.0
 	 *
@@ -3943,7 +3944,7 @@ function is_main_network( $network_id = null ) {
  *
  * @since 4.3.0
  *
- * @global wpdb $wpdb
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @return int The ID of the main network.
  */
@@ -4963,6 +4964,7 @@ function wp_delete_file( $file ) {
 
 /**
  * Outputs a small JS snippet on preview tabs/windows to remove `window.name` on unload.
+ *
  * This prevents reusing the same tab for a preview when the user has navigated away.
  *
  * @since 4.3.0
