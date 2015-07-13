@@ -1502,6 +1502,7 @@ function get_editor_stylesheets() {
 			}
 		}
 	}
+
 	/**
 	 * Filter the array of stylesheets applied to the editor.
 	 *
