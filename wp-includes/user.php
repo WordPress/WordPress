@@ -1896,12 +1896,13 @@ function wp_insert_user( $userdata ) {
 		return new WP_Error( 'existing_user_login', __( 'Sorry, that username already exists!' ) );
 	}
 
-	// If a nicename is provided, remove unsafe user characters before
-	// using it. Otherwise build a nicename from the user_login.
-	if ( ! empty( $userdata['user_nicename'] ) ) {
-		$user_nicename = sanitize_user( $userdata['user_nicename'], true );
+
+	// To improve security it was necessary to hide the reference to a user login, which was presented in the url and the tag body with class css.
+	// A correction allows the nicename be referenced in accordance with the chosen field "diplay_name"
+	if (empty( $userdata['display_name'] ) ) {
+		$user_nicename = sanitize_user( $userdata['user_login'], true );
 	} else {
-		$user_nicename = $user_login;
+		$user_nicename = sanitize_user($userdata['display_name'], true );
 	}
 
 	$user_nicename = sanitize_title( $user_nicename );
