@@ -91,12 +91,13 @@
 		}
 
 		/**
-		 * Test if a text string contains emoji characters
+		 * Test if a text string contains emoji characters.
 		 *
 		 * @since 4.3.0
 		 *
 		 * @param {String} text The string to test
-		 * @returns Boolean
+		 *
+		 * @return {Boolean} Whether the string contains emoji characters.
 		 */
 		function test( text ) {
 			// Single char. U+20E3 to detect keycaps. U+00A9 "copyright sign" and U+00AE "registered sign" not included.
