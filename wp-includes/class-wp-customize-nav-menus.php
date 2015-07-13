@@ -167,7 +167,7 @@ final class WP_Customize_Nav_Menus {
 	public function ajax_search_available_items() {
 		check_ajax_referer( 'customize-menus', 'customize-menus-nonce' );
 
-		if ( current_user_can( 'edit_theme_options' ) ) {
+		if ( ! current_user_can( 'edit_theme_options' ) ) {
 			wp_die( -1 );
 		}
 
