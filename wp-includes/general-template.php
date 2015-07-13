@@ -2613,14 +2613,14 @@ function the_search_query() {
 }
 
 /**
- * Get the language attributes for the html tag.
+ * Gets the language attributes for the html tag.
  *
  * Builds up a set of html attributes containing the text direction and language
  * information for the page.
  *
  * @since 4.3.0
  *
- * @param string $doctype Optional. The type of html document (xhtml|html). Default html.
+ * @param string $doctype Optional. The type of html document. Accepts 'xhtml' or 'html'. Default 'html'.
  */
 function get_language_attributes( $doctype = 'html' ) {
 	$attributes = array();
