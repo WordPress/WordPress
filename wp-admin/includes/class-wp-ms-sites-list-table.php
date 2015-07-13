@@ -10,8 +10,10 @@
 class WP_MS_Sites_List_Table extends WP_List_Table {
 
 	/**
-	 * @since 4.3.0
+	 * Site status list.
 	 *
+	 * @since 4.3.0
+	 * @access public
 	 * @var array
 	 */
 	public $status_list;
@@ -231,9 +233,12 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * @since 4.3.0
+	 * Handles the checkbox column output.
 	 *
-	 * @param array $blog
+	 * @since 4.3.0
+	 * @access public
+	 *
+	 * @param array $blog Current site.
 	 */
 	public function column_cb( $blog ) {
 		if ( ! is_main_site( $blog['blog_id'] ) ) :
@@ -247,11 +252,14 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 	}
 
 	/**
+	 * Handles the blogname column output.
+	 *
 	 * @since 4.3.0
+	 * @access public
 	 *
 	 * @global string $mode
 	 *
-	 * @param array $blog
+	 * @param array $blog Current blog.
 	 */
 	public function column_blogname( $blog ) {
 		global $mode;
@@ -289,9 +297,12 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * @since 4.3.0
+	 * Handles the lastupdated column output.
 	 *
-	 * @param array $blog
+	 * @since 4.3.0
+	 * @access public
+	 *
+	 * @param array $blog Current site.
 	 */
 	public function column_lastupdated( $blog ) {
 		global $mode;
@@ -306,9 +317,12 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * @since 4.3.0
+	 * Handles the registered column output.
 	 *
-	 * @param array $blog
+	 * @since 4.3.0
+	 * @access public
+	 *
+	 * @param array $blog Current site.
 	 */
 	public function column_registered( $blog ) {
 		global $mode;
@@ -327,9 +341,12 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * @since 4.3.0
+	 * Handles the users column output.
 	 *
-	 * @param array $blog
+	 * @since 4.3.0
+	 * @access public
+	 *
+	 * @param array $blog Current site.
 	 */
 	public function column_users( $blog ) {
 		$user_count = wp_cache_get( $blog['blog_id'] . '_user_count', 'blog-details' );
@@ -348,9 +365,12 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * @since 4.3.0
+	 * Handles the plugins column output.
 	 *
-	 * @param array $blog
+	 * @since 4.3.0
+	 * @access public
+	 *
+	 * @param array $blog Current site.
 	 */
 	public function column_plugins( $blog ) {
 		if ( has_filter( 'wpmublogsaction' ) ) {
@@ -368,10 +388,13 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * @since 4.3.0
+	 * Handles output for the default column.
 	 *
-	 * @param array  $blog
-	 * @param string $column_name
+	 * @since 4.3.0
+	 * @access public
+	 *
+	 * @param array  $blog        Current site.
+	 * @param string $column_name Current column name.
 	 */
 	public function column_default( $blog, $column_name ) {
 		/**
@@ -386,9 +409,12 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * @since 4.3.0
+	 * Handles columns output for a single row.
 	 *
-	 * @param array $item
+	 * @since 4.3.0
+	 * @access public
+	 *
+	 * @param array $item Current site.
 	 */
 	public function single_row_columns( $item ) {
 		list( $columns, $hidden, $sortable, $primary ) = $this->get_column_info();
@@ -461,7 +487,7 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Get the name of the default primary column.
+	 * Gets the name of the default primary column.
 	 *
 	 * @since 4.3.0
 	 * @access protected
@@ -473,7 +499,7 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Generate and display row actions links.
+	 * Generates and displays row action links.
 	 *
 	 * @since 4.3.0
 	 * @access protected
