@@ -2457,7 +2457,7 @@ function wp_site_icon() {
 	);
 
 	/**
-	 * Filters the site icon meta tags, so Plugins can add their own.
+	 * Filter the site icon meta tags, so Plugins can add their own.
 	 *
 	 * @since 4.3.0
 	 *
