@@ -409,7 +409,7 @@ if ( apply_filters( 'show_password_fields', true ) ) : ?>
 				</button>
 				<div style="display:none" id="pass-strength-result"></div>
 			</div>
-			<p><span class="description"><?php _e( 'A password reset link will be sent to the user via email' ); ?></span></p>
+			<p><span class="description"><?php _e( 'A password reset link will be sent to the user via email.' ); ?></span></p>
 		</td>
 	</tr>
 	<tr class="form-field form-required user-pass2-wrap hide-if-js">
@@ -423,7 +423,7 @@ if ( apply_filters( 'show_password_fields', true ) ) : ?>
 		<td>
 			<label for="pw-weak">
 				<input type="checkbox" name="pw-weak" class="pw-checkbox" id="pw-weak" />
-				<?php _e( 'Confirm use of weak password' ); ?>
+				<?php _e( 'Confirm use of weak password.' ); ?>
 			</label>
 		</td>
 	</tr>
