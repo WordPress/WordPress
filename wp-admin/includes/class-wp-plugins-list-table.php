@@ -717,7 +717,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Get the name of primary column for this specific list table.
+	 * Gets the name of the primary column for this specific list table.
 	 *
 	 * @since 4.3.0
 	 * @access protected
