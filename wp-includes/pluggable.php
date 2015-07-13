@@ -1278,8 +1278,8 @@ function wp_safe_redirect($location, $status = 302) {
 	 *
 	 * @since 4.3.0
 	 *
-	 * @param string $fallback_url	The fallback URL to use by default.
-	 * @param int    $status        The redirect status.
+	 * @param string $fallback_url The fallback URL to use by default.
+	 * @param int    $status       The redirect status.
 	 */
 	$location = wp_validate_redirect( $location, apply_filters( 'wp_safe_redirect_fallback', admin_url(), $status ) );
 
