@@ -2651,7 +2651,7 @@ function get_language_attributes( $doctype = 'html' ) {
 }
 
 /**
- * Display the language attributes for the html tag.
+ * Displays the language attributes for the html tag.
  *
  * Builds up a set of html attributes containing the text direction and language
  * information for the page.
@@ -2659,7 +2659,7 @@ function get_language_attributes( $doctype = 'html' ) {
  * @since 2.1.0
  * @since 4.3.0 Converted into a wrapper for get_language_attributes().
  *
- * @param string $doctype Optional. The type of html document (xhtml|html). Default html.
+ * @param string $doctype Optional. The type of html document. Accepts 'xhtml' or 'html'. Default 'html'.
  */
 function language_attributes( $doctype = 'html' ) {
 	echo get_language_attributes( $doctype );
