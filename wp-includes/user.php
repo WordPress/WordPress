@@ -2275,21 +2275,21 @@ All at ###SITENAME###
 			);
 
 			/**
-			 * Filter the email sent when the user's password is changed.
+			 * Filter the contents of the email sent when the user's email is changed.
 			 *
 			 * @since 4.3.0
 			 *
 			 * @param array $email_change_email {
-			 *            Used to build wp_mail(). https://developer.wordpress.org/reference/functions/wp_mail/
+			 *            Used to build wp_mail().
 			 *            @type string $to      The intended recipients.
 			 *            @type string $subject The subject of the email.
 			 *            @type string $message The content of the email.
 			 *                The following strings have a special meaning and will get replaced dynamically:
-			 *                ###USERNAME###    The current user's username.
-			 *                ###ADMIN_EMAIL### The admin email in case this was unexpected.
-			 *                ###EMAIL###       The old email.
-			 *                ###SITENAME###    The name of the site.
-			 *                ###SITEURL###     The URL to the site.
+			 *                - ###USERNAME###    The current user's username.
+			 *                - ###ADMIN_EMAIL### The admin email in case this was unexpected.
+			 *                - ###EMAIL###       The old email.
+			 *                - ###SITENAME###    The name of the site.
+			 *                - ###SITEURL###     The URL to the site.
 			 *            @type string $headers Headers.
 			 *        }
 			 * @param array $user The original user array.
