@@ -86,7 +86,7 @@ class WP_Styles extends WP_Dependencies {
 		 * @since 2.6.0
 		 * @since 4.3.0 Introduced the `$href` parameter.
 		 *
-		 * @param string         The link tag for the enqueued style.
+		 * @param string $html   The link tag for the enqueued style.
 		 * @param string $handle The style's registered handle.
 		 * @param string $href   The stylesheet's source URL.
 		 */
