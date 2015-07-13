@@ -22,8 +22,8 @@
 		 *
 		 * @since 4.3.0
 		 *
-		 * @param {RegExp}   RegEx pattern.
-		 * @param {Function} Callback.
+		 * @param {RegExp}   regExp   RegEx pattern.
+		 * @param {Function} callback Callback.
 		 */
 		function add( regExp, callback ) {
 			patterns.push( {
