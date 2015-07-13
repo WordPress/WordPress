@@ -96,7 +96,7 @@ function wp_create_categories( $categories, $post_id = '' ) {
  *     @type int        $cat_ID               Categoriy ID. A non-zero value updates an existing category.
  *                                            Default 0.
  *     @type string     $taxonomy             Taxonomy slug. Defualt 'category'.
- *     @type string     $cat_nam              Category name. Default empty.
+ *     @type string     $cat_name             Category name. Default empty.
  *     @type string     $category_description Category description. Default empty.
  *     @type string     $category_nicename    Category nice (display) name. Default empty.
  *     @type int|string $category_parent      Category parent ID. Default empty.
