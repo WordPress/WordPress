@@ -88,14 +88,14 @@ function get_default_feed() {
 }
 
 /**
- * Get the timestamp of the most recently modified post from WP_Query
+ * Gets the timestamp of the most recently modified post from WP_Query.
  *
  * If viewing a comment feed, the date of the most recently modified
  * comment will be returned.
  *
  * @since 4.3.0
  *
- * @return string Date ('Y-m-d H:i:s' for use with mysql2date() )
+ * @return string Date ('Y-m-d H:i:s' for use with mysql2date()).
  */
 function get_last_build_date_feed() {
 	global $wp_query, $wpdb;
@@ -588,9 +588,11 @@ function prep_atom_text_construct($data) {
 }
 
 /**
- * Display Site Icon in atom feeds.
+ * Displays Site Icon in atom feeds.
  *
  * @since 4.3.0
+ *
+ * @see get_site_icon_url()
  */
 function atom_site_icon() {
 	$url = get_site_icon_url( null, 32 );
@@ -600,7 +602,7 @@ function atom_site_icon() {
 }
 
 /**
- * Display Site Icon in RSS2.
+ * Displays Site Icon in RSS2.
  *
  * @since 4.3.0
  */
