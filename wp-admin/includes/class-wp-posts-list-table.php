@@ -48,7 +48,10 @@ class WP_Posts_List_Table extends WP_List_Table {
 	private $is_trash;
 
 	/**
+	 * Current level for output.
+	 *
 	 * @since 4.3.0
+	 * @access protected
 	 * @var int
 	 */
 	protected $current_level = 0;
@@ -677,9 +680,12 @@ class WP_Posts_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * @since 4.3.0
+	 * Handles the checkbox column output.
 	 *
-	 * @param WP_Post $post
+	 * @since 4.3.0
+	 * @access public
+	 *
+	 * @param WP_Post $post The current WP_Post object.
 	 */
 	public function column_cb( $post ) {
 		if ( current_user_can( 'edit_post', $post->ID ) ): ?>
@@ -692,11 +698,14 @@ class WP_Posts_List_Table extends WP_List_Table {
 	}
 
 	/**
+	 * Handles the title column output.
+	 *
 	 * @since 4.3.0
+	 * @access public
 	 *
 	 * @global string $mode
 	 *
-	 * @param WP_Post $post
+	 * @param WP_Post $post The current WP_Post object.
 	 */
 	public function column_title( $post ) {
 		global $mode;
@@ -772,11 +781,14 @@ class WP_Posts_List_Table extends WP_List_Table {
 	}
 
 	/**
+	 * Handles the post date column output.
+	 *
 	 * @since 4.3.0
+	 * @access public
 	 *
 	 * @global string $mode
 	 *
-	 * @param WP_Post $post
+	 * @param WP_Post $post The current WP_Post object.
 	 */
 	public function column_date( $post ) {
 		global $mode;
@@ -834,9 +846,12 @@ class WP_Posts_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * @since 4.3.0
+	 * Handles the comments column output.
 	 *
-	 * @param WP_Post $post
+	 * @since 4.3.0
+	 * @access public
+	 *
+	 * @param WP_Post $post The current WP_Post object.
 	 */
 	public function column_comments( $post ) {
 		?>
@@ -851,9 +866,12 @@ class WP_Posts_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * @since 4.3.0
+	 * Handles the post author column output.
 	 *
-	 * @param WP_Post $post
+	 * @since 4.3.0
+	 * @access public
+	 *
+	 * @param WP_Post $post The current WP_Post object.
 	 */
 	public function column_author( $post ) {
 		printf( '<a href="%s">%s</a>',
@@ -863,10 +881,13 @@ class WP_Posts_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * @since 4.3.0
+	 * Handles the default column output.
 	 *
-	 * @param WP_Post $post
-	 * @param string  $column_name
+	 * @since 4.3.0
+	 * @access public
+	 *
+	 * @param WP_Post $post        The current WP_Post object.
+	 * @param string  $column_name The current column name.
 	 */
 	public function column_default( $post, $column_name ) {
 		if ( 'categories' == $column_name ) {
@@ -952,9 +973,12 @@ class WP_Posts_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * @since 4.3.0
+	 * Handles columns output for a single row in the table.
 	 *
-	 * @param WP_Post $item
+	 * @since 4.3.0
+	 * @access public
+	 *
+	 * @param WP_Post $item The current WP_Post object.
 	 */
 	public function single_row_columns( $item ) {
 		list( $columns, $hidden, $sortable, $primary ) = $this->get_column_info();
@@ -1037,7 +1061,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Get the name of the default primary column.
+	 * Gets the name of the default primary column.
 	 *
 	 * @since 4.3.0
 	 * @access protected
@@ -1049,7 +1073,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Generate and display row actions links.
+	 * Generates and displays row action links.
 	 *
 	 * @since 4.3.0
 	 * @access protected
