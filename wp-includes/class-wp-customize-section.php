@@ -316,9 +316,12 @@ class WP_Customize_Section {
 	 * Render the section's JS template.
 	 *
 	 * This function is only run for section types that have been registered with
-	 * {@see WP_Customize_Manager::register_section_type()}.
+	 * WP_Customize_Manager::register_section_type().
 	 *
 	 * @since 4.3.0
+	 * @access public
+	 *
+	 * @see WP_Customize_Manager::render_template()
 	 */
 	public function print_template() {
         ?>
@@ -332,11 +335,12 @@ class WP_Customize_Section {
 	 * An Underscore (JS) template for rendering this section.
 	 *
 	 * Class variables for this section class are available in the `data` JS object;
-	 * export custom variables by overriding {@see WP_Customize_Section::json()}.
-	 *
-	 * @see WP_Customize_Section::print_template()
+	 * export custom variables by overriding WP_Customize_Section::json().
 	 *
 	 * @since 4.3.0
+	 * @access protected
+	 *
+	 * @see WP_Customize_Section::print_template()
 	 */
 	protected function render_template() {
 		?>
@@ -503,6 +507,8 @@ class WP_Customize_Sidebar_Section extends WP_Customize_Section {
  * Custom section only needed in JS.
  *
  * @since 4.3.0
+ *
+ * @see WP_Customize_Section
  */
 class WP_Customize_Nav_Menu_Section extends WP_Customize_Section {
 
@@ -510,18 +516,17 @@ class WP_Customize_Nav_Menu_Section extends WP_Customize_Section {
 	 * Control type.
 	 *
 	 * @since 4.3.0
-	 *
 	 * @access public
 	 * @var string
 	 */
 	public $type = 'nav_menu';
 
 	/**
-	 * Get section params for JS.
+	 * Get section parameters for JS.
 	 *
 	 * @since 4.3.0
-	 *
-	 * @return array
+	 * @access public
+	 * @return array Exported parameters.
 	 */
 	public function json() {
 		$exported = parent::json();
@@ -537,6 +542,8 @@ class WP_Customize_Nav_Menu_Section extends WP_Customize_Section {
  * Implements the new-menu-ui toggle button instead of a regular section.
  *
  * @since 4.3.0
+ *
+ * @see WP_Customize_Section
  */
 class WP_Customize_New_Menu_Section extends WP_Customize_Section {
 
@@ -544,7 +551,6 @@ class WP_Customize_New_Menu_Section extends WP_Customize_Section {
 	 * Control type.
 	 *
 	 * @since 4.3.0
-	 *
 	 * @access public
 	 * @var string
 	 */
@@ -554,6 +560,7 @@ class WP_Customize_New_Menu_Section extends WP_Customize_Section {
 	 * Render the section, and the controls that have been added to it.
 	 *
 	 * @since 4.3.0
+	 * @access protected
 	 */
 	protected function render() {
 		?>
