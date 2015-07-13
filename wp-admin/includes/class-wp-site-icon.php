@@ -1,7 +1,6 @@
 <?php
-
 /**
- * Class WP_Site_Icon.
+ * Class for implementing site icon functionality.
  *
  * @since 4.3.0
  */
@@ -11,7 +10,7 @@ class WP_Site_Icon {
 	 * The minimum size of the site icon.
 	 *
 	 * @since 4.3.0
-	 *
+	 * @access public
 	 * @var int
 	 */
 	public $min_size  = 512;
@@ -20,29 +19,30 @@ class WP_Site_Icon {
 	 * The size to which to crop the image so that we can display it in the UI nicely.
 	 *
 	 * @since 4.3.0
-	 *
+	 * @access public
 	 * @var int
 	 */
 	public $page_crop = 512;
 
 	/**
+	 * List of site icon sizes.
 	 *
 	 * @since 4.3.0
-	 *
+	 * @access public
 	 * @var array
 	 */
 	public $site_icon_sizes = array(
-		/**
+		/*
 		 * Square, medium sized tiles for IE11+.
 		 *
-		 * @link https://msdn.microsoft.com/library/dn455106(v=vs.85).aspx
+		 * See https://msdn.microsoft.com/library/dn455106(v=vs.85).aspx
 		 */
 		270,
 
-		/**
+		/*
 		 * App icons up to iPhone 6 Plus.
 		 *
-		 * @link https://developer.apple.com/library/prerelease/ios/documentation/UserExperience/Conceptual/MobileHIG/IconMatrix.html
+		 * See https://developer.apple.com/library/prerelease/ios/documentation/UserExperience/Conceptual/MobileHIG/IconMatrix.html
 		 */
 		180,
 
@@ -51,9 +51,10 @@ class WP_Site_Icon {
 	);
 
 	/**
-	 * Register our actions and filters.
+	 * Registers actions and filters.
 	 *
 	 * @since 4.3.0
+	 * @access public
 	 */
 	public function __construct() {
 
@@ -68,11 +69,12 @@ class WP_Site_Icon {
 	}
 
 	/**
-	 * Add a hidden upload page.
+	 * Adds a hidden upload page.
 	 *
 	 * There is no need to access it directly.
 	 *
 	 * @since 4.3.0
+	 * @access public
 	 */
 	public function admin_menu_upload_site_icon() {
 		$hook = add_submenu_page( null, __( 'Site Icon' ), __( 'Site Icon' ), 'manage_options', 'site-icon', array( $this, 'upload_site_icon_page' ) );
@@ -83,9 +85,10 @@ class WP_Site_Icon {
 	}
 
 	/**
-	 * Add scripts to admin settings pages.
+	 * Adds scripts to admin settings pages.
 	 *
 	 * @since 4.3.0
+	 * @access public
 	 */
 	public function enqueue_scripts() {
 		wp_enqueue_style( 'jcrop' );
@@ -93,9 +96,10 @@ class WP_Site_Icon {
 	}
 
 	/**
-	 * Load on when the admin is initialized.
+	 * Loads the settings when the admin is initialized.
 	 *
 	 * @since 4.3.0
+	 * @access public
 	 */
 	public function add_upload_settings() {
 		add_settings_section( 'site-icon-upload', false, false, 'site-icon-upload' );
@@ -105,9 +109,10 @@ class WP_Site_Icon {
 	}
 
 	/**
-	 * Removes site icon.
+	 * Removes the site icon.
 	 *
 	 * @since 4.3.0
+	 * @access public
 	 */
 	public function remove_site_icon() {
 		check_admin_referer( 'remove-site-icon' );
@@ -118,6 +123,8 @@ class WP_Site_Icon {
 	}
 
 	/**
+	 * Handle uploading a site icon.
+	 *
 	 * Uploading a site_icon is a 3 step process
 	 *
 	 * 1. Select the file to upload
@@ -125,6 +132,7 @@ class WP_Site_Icon {
 	 * 3. Confirmation
 	 *
 	 * @since 4.3.0
+	 * @access public
 	 */
 	public function upload_site_icon_page() {
 		$action = isset( $_REQUEST['action'] ) ? $_REQUEST['action'] : 'select_site_icon';
@@ -148,6 +156,7 @@ class WP_Site_Icon {
 	 * Displays the site_icon form to upload the image.
 	 *
 	 * @since 4.3.0
+	 * @access public
 	 */
 	public function select_page() {
 		?>
@@ -160,9 +169,10 @@ class WP_Site_Icon {
 	}
 
 	/**
-	 * Settings field for file upload.
+	 * Handles settings field for file upload.
 	 *
 	 * @since 4.3.0
+	 * @access public
 	 */
 	public function upload_field() {
 		wp_enqueue_media();
@@ -191,11 +201,12 @@ class WP_Site_Icon {
 	}
 
 	/**
-	 * Check if the image needs cropping.
+	 * Checks if the image needs cropping.
 	 *
 	 * If it doesn't need cropping, proceed to set the icon.
 	 *
 	 * @since 4.3.0
+	 * @access public
 	 */
 	public function maybe_skip_cropping() {
 		if ( empty( $_REQUEST['action'] ) || 'crop_site_icon' !== $_REQUEST['action'] ) {
@@ -222,9 +233,10 @@ class WP_Site_Icon {
 	}
 
 	/**
-	 * Crop a the image admin view.
+	 * Handles the image crop admin view.
 	 *
 	 * @since 4.3.0
+	 * @access public
 	 */
 	public function crop_page() {
 		check_admin_referer( 'crop-site-icon' );
@@ -314,9 +326,10 @@ class WP_Site_Icon {
 	}
 
 	/**
-	 * Saves a new Site Icon.
+	 * Handles saving a new Site Icon.
 	 *
 	 * @since 4.3.0
+	 * @access public
 	 */
 	public function set_site_icon() {
 		check_admin_referer( 'set-site-icon' );
@@ -324,9 +337,7 @@ class WP_Site_Icon {
 		$attachment_id          = absint( $_REQUEST['attachment_id'] );
 		$create_new_attachement = ! empty( $_REQUEST['create-new-attachment'] );
 
-		/*
-		 * If the current attachment as been set as site icon don't delete it.
-		 */
+		// If the current attachment as been set as site icon don't delete it.
 		if ( get_option( 'site_icon' ) == $attachment_id ) {
 			// Get the file path.
 			$image_url = get_attached_file( $attachment_id );
@@ -373,9 +384,10 @@ class WP_Site_Icon {
 	}
 
 	/**
-	 * Upload the file to be cropped in the second step.
+	 * Handles uploading the file to be cropped in the second step.
 	 *
 	 * @since 4.3.0
+	 * @access public
 	 */
 	public function handle_upload() {
 		$uploaded_file = $_FILES['site-icon'];
@@ -411,7 +423,7 @@ class WP_Site_Icon {
 	}
 
 	/**
-	 * Create an attachment 'object'.
+	 * Creates an attachment 'object'.
 	 *
 	 * @since 4.3.0
 	 *
@@ -440,9 +452,10 @@ class WP_Site_Icon {
 	}
 
 	/**
-	 * Insert an attachment.
+	 * Inserts an attachment.
 	 *
 	 * @since 4.3.0
+	 * @access public
 	 *
 	 * @param array  $object Attachment object.
 	 * @param string $file   File path of the attached image.
@@ -456,7 +469,7 @@ class WP_Site_Icon {
 	}
 
 	/**
-	 * Update the metadata of an attachment.
+	 * Handles updating the metadata of an attachment.
 	 *
 	 * @since 4.3.0
 	 *
@@ -480,12 +493,13 @@ class WP_Site_Icon {
 	}
 
 	/**
-	 * Add additional sizes to be made when creating the site_icon images.
+	 * Adds additional sizes to be made when creating the site_icon images.
 	 *
 	 * @since 4.3.0
+	 * @access public
 	 *
-	 * @param array $sizes
-	 * @return array
+	 * @param array $sizes List of additional sizes.
+	 * @return array Additional image sizes.
 	 */
 	public function additional_sizes( $sizes = array() ) {
 		$only_crop_sizes = array();
@@ -524,12 +538,13 @@ class WP_Site_Icon {
 	}
 
 	/**
-	 * Add Site Icon sizes to the array of image sizes on demand.
+	 * Adds Site Icon sizes to the array of image sizes on demand.
 	 *
 	 * @since 4.3.0
+	 * @access public
 	 *
-	 * @param array $sizes
-	 * @return array
+	 * @param array $sizes List of image sizes.
+	 * @return array List of intermediate image sizes.
 	 */
 	public function intermediate_image_sizes( $sizes = array() ) {
 		/** This filter is documented in wp-admin/includes/site-icon.php */
@@ -545,8 +560,9 @@ class WP_Site_Icon {
 	 * Deletes all additional image sizes, used for site icons.
 	 *
 	 * @since 4.3.0
+	 * @access public
 	 *
-	 * @return bool
+	 * @return bool Whether the site icon was successfully deleted.
 	 */
 	public function delete_site_icon() {
 		// We add the filter to make sure that we also delete all the added images.
@@ -561,6 +577,7 @@ class WP_Site_Icon {
 	 * Deletes the Site Icon when the image file is deleted.
 	 *
 	 * @since 4.3.0
+	 * @access public
 	 *
 	 * @param int $post_id Attachment ID.
 	 */
@@ -576,14 +593,14 @@ class WP_Site_Icon {
 	 * Adds custom image sizes when meta data for an image is requested, that happens to be used as Site Icon.
 	 *
 	 * @since 4.3.0
+	 * @access public
 	 *
-	 * @param null|array|string $value    The value get_metadata() should
-	 *                                    return - a single metadata value,
-	 *                                    or an array of values.
+	 * @param null|array|string $value    The value get_metadata() should return a single metadata value, or an
+	 *                                    array of values.
 	 * @param int               $post_id  Post ID.
 	 * @param string            $meta_key Meta key.
 	 * @param string|array      $single   Meta value, or an array of values.
-	 * @return array|null|string
+	 * @return array|null|string The attachment metadata value, array of values, or null.
 	 */
 	public function get_post_metadata( $value, $post_id, $meta_key, $single ) {
 		$site_icon_id = get_option( 'site_icon' );
@@ -596,9 +613,10 @@ class WP_Site_Icon {
 	}
 
 	/**
-	 * Get the data required to work with the uploaded image
+	 * Gets the data required to work with the uploaded image
 	 *
 	 * @since 4.3.0
+	 * @access private
 	 *
 	 * @return array containing the collected data
 	 */
