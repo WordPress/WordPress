@@ -22,7 +22,6 @@ final class WP_Customize_Nav_Menus {
 	 * WP_Customize_Manager instance.
 	 *
 	 * @since 4.3.0
-	 *
 	 * @access public
 	 * @var WP_Customize_Manager
 	 */
@@ -32,7 +31,6 @@ final class WP_Customize_Nav_Menus {
 	 * Previewed Menus.
 	 *
 	 * @since 4.3.0
-	 *
 	 * @access public
 	 * @var array
 	 */
@@ -42,8 +40,8 @@ final class WP_Customize_Nav_Menus {
 	 * Constructor.
 	 *
 	 * @since 4.3.0
-	 *
 	 * @access public
+	 *
 	 * @param object $manager An instance of the WP_Customize_Manager class.
 	 */
 	public function __construct( $manager ) {
@@ -53,7 +51,10 @@ final class WP_Customize_Nav_Menus {
 		add_action( 'wp_ajax_load-available-menu-items-customizer', array( $this, 'ajax_load_available_items' ) );
 		add_action( 'wp_ajax_search-available-menu-items-customizer', array( $this, 'ajax_search_available_items' ) );
 		add_action( 'customize_controls_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
-		add_action( 'customize_register', array( $this, 'customize_register' ), 11 ); // Needs to run after core Navigation section is set up.
+
+		// Needs to run after core Navigation section is set up.
+		add_action( 'customize_register', array( $this, 'customize_register' ), 11 );
+
 		add_filter( 'customize_dynamic_setting_args', array( $this, 'filter_dynamic_setting_args' ), 10, 2 );
 		add_filter( 'customize_dynamic_setting_class', array( $this, 'filter_dynamic_setting_class' ), 10, 3 );
 		add_action( 'customize_controls_print_footer_scripts', array( $this, 'print_templates' ) );
@@ -65,6 +66,7 @@ final class WP_Customize_Nav_Menus {
 	 * Ajax handler for loading available menu items.
 	 *
 	 * @since 4.3.0
+	 * @access public
 	 */
 	public function ajax_load_available_items() {
 		check_ajax_referer( 'customize-menus', 'customize-menus-nonce' );
@@ -163,6 +165,7 @@ final class WP_Customize_Nav_Menus {
 	 * Ajax handler for searching available menu items.
 	 *
 	 * @since 4.3.0
+	 * @access public
 	 */
 	public function ajax_search_available_items() {
 		check_ajax_referer( 'customize-menus', 'customize-menus-nonce' );
@@ -196,6 +199,7 @@ final class WP_Customize_Nav_Menus {
 	 * Based on WP_Editor::wp_link_query().
 	 *
 	 * @since 4.3.0
+	 * @access public
 	 *
 	 * @param array $args Optional. Accepts 'pagenum' and 's' (search) arguments.
 	 * @return array Results.
@@ -273,6 +277,7 @@ final class WP_Customize_Nav_Menus {
 	 * Enqueue scripts and styles for Customizer pane.
 	 *
 	 * @since 4.3.0
+	 * @access public
 	 */
 	public function enqueue_scripts() {
 		wp_enqueue_style( 'customize-nav-menus' );
@@ -355,6 +360,7 @@ final class WP_Customize_Nav_Menus {
 	 * the WP_Customize_Setting constructor.
 	 *
 	 * @since 4.3.0
+	 * @access public
 	 *
 	 * @param false|array $setting_args The arguments to the WP_Customize_Setting constructor.
 	 * @param string      $setting_id   ID for dynamic setting, usually coming from `$_POST['customized']`.
@@ -377,6 +383,7 @@ final class WP_Customize_Nav_Menus {
 	 * Allow non-statically created settings to be constructed with custom WP_Customize_Setting subclass.
 	 *
 	 * @since 4.3.0
+	 * @access public
 	 *
 	 * @param string $setting_class WP_Customize_Setting or a subclass.
 	 * @param string $setting_id    ID for dynamic setting, usually coming from `$_POST['customized']`.
@@ -398,6 +405,7 @@ final class WP_Customize_Nav_Menus {
 	 * Add the customizer settings and controls.
 	 *
 	 * @since 4.3.0
+	 * @access public
 	 */
 	public function customize_register() {
 
@@ -540,10 +548,10 @@ final class WP_Customize_Nav_Menus {
 	 * intval because the second argument is not what intval() expects.
 	 *
 	 * @since 4.3.0
+	 * @access public
 	 *
 	 * @param mixed $value Number to convert.
-	 *
-	 * @return int
+	 * @return int Integer.
 	 */
 	public function intval_base10( $value ) {
 		return intval( $value, 10 );
@@ -553,6 +561,7 @@ final class WP_Customize_Nav_Menus {
 	 * Return an array of all the available item types.
 	 *
 	 * @since 4.3.0
+	 * @access public
 	 */
 	public function available_item_types() {
 		$items = array(
@@ -585,6 +594,7 @@ final class WP_Customize_Nav_Menus {
 	 * Templates are imported into the JS use wp.template.
 	 *
 	 * @since 4.3.0
+	 * @access public
 	 */
 	public function print_templates() {
 		?>
@@ -627,6 +637,7 @@ final class WP_Customize_Nav_Menus {
 	 * Print the html template used to render the add-menu-item frame.
 	 *
 	 * @since 4.3.0
+	 * @access public
 	 */
 	public function available_items_template() {
 		?>
@@ -719,7 +730,7 @@ final class WP_Customize_Nav_Menus {
 	 * The number of wp_nav_menu() calls which have happened in the preview.
 	 *
 	 * @since 4.3.0
-	 *
+	 * @access public
 	 * @var int
 	 */
 	public $preview_nav_menu_instance_number = 0;
@@ -728,7 +739,7 @@ final class WP_Customize_Nav_Menus {
 	 * Nav menu args used for each instance.
 	 *
 	 * @since 4.3.0
-	 *
+	 * @access public
 	 * @var array
 	 */
 	public $preview_nav_menu_instance_args = array();
@@ -737,6 +748,7 @@ final class WP_Customize_Nav_Menus {
 	 * Add hooks for the Customizer preview.
 	 *
 	 * @since 4.3.0
+	 * @access public
 	 */
 	public function customize_preview_init() {
 		add_action( 'template_redirect', array( $this, 'render_menu' ) );
@@ -752,11 +764,12 @@ final class WP_Customize_Nav_Menus {
 	 * Keep track of the arguments that are being passed to wp_nav_menu().
 	 *
 	 * @since 4.3.0
+	 * @access public
 	 *
 	 * @see wp_nav_menu()
 	 *
-	 * @param array $args  An array containing wp_nav_menu() arguments.
-	 * @return array
+	 * @param array $args An array containing wp_nav_menu() arguments.
+	 * @return array Arguments.
 	 */
 	public function filter_wp_nav_menu_args( $args ) {
 		$this->preview_nav_menu_instance_number += 1;
@@ -800,6 +813,7 @@ final class WP_Customize_Nav_Menus {
 	 * Prepare wp_nav_menu() calls for partial refresh. Wraps output in container for refreshing.
 	 *
 	 * @since 4.3.0
+	 * @access public
 	 *
 	 * @see wp_nav_menu()
 	 *
@@ -824,6 +838,7 @@ final class WP_Customize_Nav_Menus {
 	 * are not tampered with when submitted in the Ajax request.
 	 *
 	 * @since 4.3.0
+	 * @access public
 	 *
 	 * @param array $args The arguments to hash.
 	 * @return string
@@ -836,6 +851,7 @@ final class WP_Customize_Nav_Menus {
 	 * Enqueue scripts for the Customizer preview.
 	 *
 	 * @since 4.3.0
+	 * @access public
 	 */
 	public function customize_preview_enqueue_deps() {
 		wp_enqueue_script( 'customize-preview-nav-menus' );
@@ -848,6 +864,7 @@ final class WP_Customize_Nav_Menus {
 	 * Export data from PHP to JS.
 	 *
 	 * @since 4.3.0
+	 * @access public
 	 */
 	public function export_preview_data() {
 
@@ -876,6 +893,7 @@ final class WP_Customize_Nav_Menus {
 	 * Render a specific menu via wp_nav_menu() using the supplied arguments.
 	 *
 	 * @since 4.3.0
+	 * @access public
 	 *
 	 * @see wp_nav_menu()
 	 */
