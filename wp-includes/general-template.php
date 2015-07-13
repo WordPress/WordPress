@@ -2451,6 +2451,7 @@ function wp_site_icon() {
 
 	$meta_tags = array(
 		sprintf( '<link rel="icon" href="%s" sizes="32x32" />', esc_url( get_site_icon_url( null, 32 ) ) ),
+		sprintf( '<link rel="icon" href="%s" sizes="192x192" />', esc_url( get_site_icon_url( null, 192 ) ) ),
 		sprintf( '<link rel="apple-touch-icon-precomposed" href="%s">', esc_url( get_site_icon_url( null, 180 ) ) ),
 		sprintf( '<meta name="msapplication-TileImage" content="%s">', esc_url( get_site_icon_url( null, 270 ) ) ),
 	);

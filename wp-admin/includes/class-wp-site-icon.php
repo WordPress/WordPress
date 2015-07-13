@@ -40,6 +40,14 @@ class WP_Site_Icon {
 		270,
 
 		/*
+		 * App icon for Android/Chrome.
+		 *
+		 * @link https://developers.google.com/web/updates/2014/11/Support-for-theme-color-in-Chrome-39-for-Android
+		 * @link https://developer.chrome.com/multidevice/android/installtohomescreen
+		 */
+		192,
+
+		/*
 		 * App icons up to iPhone 6 Plus.
 		 *
 		 * See https://developer.apple.com/library/prerelease/ios/documentation/UserExperience/Conceptual/MobileHIG/IconMatrix.html
