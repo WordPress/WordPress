@@ -63,7 +63,6 @@ if ( isset( $_GET['action'] ) ) {
 		'deleteblog'     => __( 'You are about to delete the site %s.' ),
 		'unmatureblog'   => __( 'You are about to mark the site %s as mature.' ),
 		'matureblog'     => __( 'You are about to mark the site %s as not mature.' ),
-		'allblogs'       => '',
 	);
 
 	if ( 'confirm' === $_GET['action'] ) {
@@ -109,18 +108,14 @@ if ( isset( $_GET['action'] ) ) {
 		<?php
 		require_once( ABSPATH . 'wp-admin/admin-footer.php' );
 		exit();
+	} elseif ( array_key_exists( $_GET['action'], $manage_actions ) ) {
+		$action = $_GET['action'];
+		check_admin_referer( $action . '_' . $id );
+	} elseif ( 'allblogs' === $_GET['action'] ) {
+		check_admin_referer( 'bulk-sites' );
 	}
 
 	$updated_action = '';
-
-	if ( array_key_exists( $_GET['action'], $manage_actions ) ) {
-		$action = $_GET['action'];
-		if ( 'allblogs' === $action ) {
-			$action = 'bulk-sites';
-		}
-
-		check_admin_referer( $action . '_' . $id );
-	}
 
 	switch ( $_GET['action'] ) {
 
