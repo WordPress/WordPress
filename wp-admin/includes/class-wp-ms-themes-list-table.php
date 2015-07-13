@@ -245,7 +245,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Get the name of the primary column.
+	 * Gets the name of the primary column.
 	 *
 	 * @since 4.3.0
 	 * @access protected
@@ -336,9 +336,12 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * @since 4.3.0
+	 * Handles the checkbox column output.
 	 *
-	 * @param WP_Theme $theme
+	 * @since 4.3.0
+	 * @access public
+	 *
+	 * @param WP_Theme $theme The current WP_Theme object.
 	 */
 	public function column_cb( $theme ) {
 		$checkbox_id = 'checkbox_' . md5( $theme->get('Name') );
@@ -349,13 +352,16 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 	}
 
 	/**
+	 * Handles the name column output.
+	 *
 	 * @since 4.3.0
+	 * @access public
 	 *
 	 * @global string $status
 	 * @global int    $page
 	 * @global string $s
 	 *
-	 * @param WP_Theme $theme
+	 * @param WP_Theme $theme The current WP_Theme object.
 	 */
 	public function column_name( $theme ) {
 		global $status, $page, $s;
@@ -440,12 +446,15 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 	}
 
 	/**
+	 * Handles the description column output.
+	 *
 	 * @since 4.3.0
+	 * @access public
 	 *
 	 * @global string $status
 	 * @global array  $totals
 	 *
-	 * @param WP_Theme $theme
+	 * @param WP_Theme $theme The current WP_Theme object.
 	 */
 	public function column_description( $theme ) {
 		global $status, $totals;
@@ -498,13 +507,17 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * @since 4.3.0
+	 * Handles default column output.
 	 *
-	 * @param WP_Theme $theme
-	 * @param string   $column_name
+	 * @since 4.3.0
+	 * @access public
+	 *
+	 * @param WP_Theme $theme       The current WP_Theme object.
+	 * @param string   $column_name The current column name.
 	 */
 	public function column_default( $theme, $column_name ) {
 		$stylesheet = $theme->get_stylesheet();
+
 		/**
 		 * Fires inside each custom column of the Multisite themes list table.
 		 *
@@ -518,9 +531,12 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * @since 4.3.0
+	 * Handles the output for a single table row.
 	 *
-	 * @param WP_Theme $item
+	 * @since 4.3.0
+	 * @access public
+	 *
+	 * @param WP_Theme $item The current WP_Theme object.
 	 */
 	public function single_row_columns( $item ) {
 		list( $columns, $hidden, $sortable, $primary ) = $this->get_column_info();
