@@ -2156,7 +2156,7 @@ function wp_update_user($userdata) {
 		$userdata['user_pass'] = wp_hash_password( $userdata['user_pass'] );
 
 		/**
-		 * Filter to whether send the password change email.
+		 * Filter whether to send the password change email.
 		 *
 		 * @since 4.3.0
 		 *
