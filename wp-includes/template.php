@@ -383,9 +383,9 @@ function get_single_template() {
 }
 
 /**
- * Retrieve path of singular template in current or parent template.
+ * Retrieves the path of the singular template in current or parent template.
  *
- * The template path is filterable via the 'singular_template' hook.
+ * The template path is filterable via the {@see 'singular_template'} hook.
  *
  * @since 4.3.0
  *
