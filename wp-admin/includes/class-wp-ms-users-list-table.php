@@ -175,9 +175,12 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * @since 4.3.0
+	 * Handles the checkbox column output.
 	 *
-	 * @param object $user
+	 * @since 4.3.0
+	 * @access public
+	 *
+	 * @param WP_User $user The current WP_User object.
 	 */
 	public function column_cb( $user ) {
 		?>
@@ -187,9 +190,12 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * @since 4.3.0
+	 * Handles the username column output.
 	 *
-	 * @param object $user
+	 * @since 4.3.0
+	 * @access public
+	 *
+	 * @param WP_User $user The current WP_User object.
 	 */
 	public function column_username( $user ) {
 		$super_admins = get_super_admins();
@@ -207,29 +213,38 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * @since 4.3.0
+	 * Handles the name column output.
 	 *
-	 * @param object $user
+	 * @since 4.3.0
+	 * @access public
+	 *
+	 * @param WP_User $user The current WP_User object.
 	 */
 	public function column_name( $user ) {
 		echo "$user->first_name $user->last_name";
 	}
 
 	/**
-	 * @since 4.3.0
+	 * Handles the email column output.
 	 *
-	 * @param object $user
+	 * @since 4.3.0
+	 * @access public
+	 *
+	 * @param WP_User $user The current WP_User object.
 	 */
 	public function column_email( $user ) {
 		echo "<a href='mailto:$user->user_email'>$user->user_email</a>";
 	}
 
 	/**
+	 * Handles the registered date column output.
+	 *
 	 * @since 4.3.0
+	 * @access public
 	 *
 	 * @global string $mode
 	 *
-	 * @param object $user
+	 * @param WP_User $user The current WP_User object.
 	 */
 	public function column_registered( $user ) {
 		global $mode;
@@ -242,9 +257,12 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * @since 4.3.0
+	 * Handles the blogs/sites column output.
 	 *
-	 * @param object $user
+	 * @since 4.3.0
+	 * @access public
+	 *
+	 * @param WP_User $user The current WP_User object.
 	 */
 	public function column_blogs( $user ) {
 		$blogs = get_blogs_of_user( $user->ID, true );
@@ -304,10 +322,13 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * @since 4.3.0
+	 * Handles the default column output.
 	 *
-	 * @param object $user
-	 * @param string $column_name
+	 * @since 4.3.0
+	 * @access public
+	 *
+	 * @param WP_User $user       The current WP_User object.
+	 * @param string $column_name The current column name.
 	 */
 	public function column_default( $user, $column_name ) {
 		/** This filter is documented in wp-admin/includes/class-wp-users-list-table.php */
@@ -315,9 +336,12 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * @since 4.3.0
+	 * Handles columns output for a single row in the table.
 	 *
-	 * @param object $item
+	 * @since 4.3.0
+	 * @access public
+	 *
+	 * @param WP_User $item The current WP_User object.
 	 */
 	public function single_row_columns( $item ) {
 		list( $columns, $hidden, $sortable, $primary ) = $this->get_column_info();
@@ -385,7 +409,7 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Get the name of the default primary column.
+	 * Gets the name of the default primary column.
 	 *
 	 * @since 4.3.0
 	 * @access protected
@@ -397,7 +421,7 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Generate and display row actions links.
+	 * Generates and displays row action links.
 	 *
 	 * @since 4.3.0
 	 * @access protected
