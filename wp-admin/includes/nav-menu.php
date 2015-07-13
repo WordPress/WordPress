@@ -733,6 +733,8 @@ function wp_nav_menu_item_post_type_meta_box( $object, $post_type ) {
 				 * Filter the posts displayed in the 'Most Recent' tab of the current
 				 * post type's menu items meta box.
 				 *
+				 * The dynamic portion of the hook name, `$post_type_name`, refers to the post type name.
+				 *
 				 * @since 4.3.0
 				 *
 				 * @param array  $most_recent An array of post objects being listed.
