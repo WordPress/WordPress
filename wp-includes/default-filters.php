@@ -203,9 +203,6 @@ add_filter( 'title_save_pre',           'trim'                                );
 
 add_filter( 'http_request_host_is_external', 'allowed_http_request_hosts', 10, 2 );
 
-// Prepare the content for the Visual or Text editor
-add_filter( 'the_editor_content', 'format_for_editor', 10, 2 );
-
 // Actions
 add_action( 'wp_head',             '_wp_render_title_tag',            1     );
 add_action( 'wp_head',             'wp_enqueue_scripts',              1     );
