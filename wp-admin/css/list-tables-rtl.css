@@ -364,7 +364,7 @@ table.media .column-title .media-icon img {
 	vertical-align: top; /* Remove descender white-space. */
 }
 
-table.media .column-title .row-actions {
+table.media .column-title .has-media-icon ~ .row-actions {
 	margin-right: 70px; /* 60px image + margin */
 }
 

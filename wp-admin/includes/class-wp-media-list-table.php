@@ -347,8 +347,10 @@ class WP_Media_List_Table extends WP_List_Table {
 			$link_end = '</a>';
 		}
 
+		$class = $thumb ? ' class="has-media-icon"' : '';
+
 		?>
-		<strong>
+		<strong<?php echo $class; ?>>
 			<?php echo $link_start; ?>
 				<?php if ( $thumb ) : ?>
 				<span class="media-icon <?php echo sanitize_html_class( $mime . '-icon' ); ?>"><?php echo $thumb; ?></span>
