@@ -701,13 +701,20 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting {
 	 *
 	 * A negative value represents a placeholder ID for a new menu not yet saved.
 	 *
-	 * @todo Should this be $db_id, and also use this for WP_Customize_Nav_Menu_Setting::$term_id
-	 *
 	 * @since 4.3.0
 	 * @access public
 	 * @var int
 	 */
 	public $post_id;
+
+	/**
+	 * Storage of pre-setup menu item to prevent wasted calls to wp_setup_nav_menu_item().
+	 *
+	 * @since 4.3.0
+	 * @access protected
+	 * @var array
+	 */
+	protected $value;
 
 	/**
 	 * Previous (placeholder) post ID used before creating a new menu item.
@@ -806,11 +813,34 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting {
 		}
 
 		$this->post_id = intval( $matches['id'] );
-
-		$menu = $this->value();
-		$this->original_nav_menu_term_id = $menu['nav_menu_term_id'];
+		add_action( 'wp_update_nav_menu_item', array( $this, 'flush_cached_value' ), 10, 2 );
 
 		parent::__construct( $manager, $id, $args );
+
+		// Ensure that an initially-supplied value is valid.
+		if ( isset( $this->value ) ) {
+			$this->populate_value();
+			foreach ( array_diff( array_keys( $this->default ), array_keys( $this->value ) ) as $missing ) {
+				throw new Exception( "Supplied nav_menu_item value missing property: $missing" );
+			}
+		}
+
+	}
+
+	/**
+	 * Clear the cached value when this nav menu item is updated.
+	 *
+	 * @since 4.3.0
+	 * @access public
+	 *
+	 * @param int $menu_id       The term ID for the menu.
+	 * @param int $menu_item_id  The post ID for the menu item.
+	 */
+	public function flush_cached_value( $menu_id, $menu_item_id ) {
+		unset( $menu_id );
+		if ( $menu_item_id === $this->post_id ) {
+			$this->value = null;
+		}
 	}
 
 	/**
@@ -821,7 +851,7 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting {
 	 *
 	 * @see wp_setup_nav_menu_item()
 	 *
-	 * @return array Instance data.
+	 * @return array|false Instance data array, or false if the item is marked for deletion.
 	 */
 	public function value() {
 		if ( $this->is_previewed && $this->_previewed_blog_id === get_current_blog_id() ) {
@@ -833,6 +863,8 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting {
 			} else {
 				$value = $post_value;
 			}
+		} else if ( isset( $this->value ) ) {
+			$value = $this->value;
 		} else {
 			$value = false;
 
@@ -840,52 +872,107 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting {
 			if ( $this->post_id > 0 ) {
 				$post = get_post( $this->post_id );
 				if ( $post && self::POST_TYPE === $post->post_type ) {
-					$item  = wp_setup_nav_menu_item( $post );
-					$value = wp_array_slice_assoc(
-						(array) $item,
-						array_keys( $this->default )
-					);
-					$value['position']       = $item->menu_order;
-					$value['status']         = $item->post_status;
-					$value['original_title'] = '';
-
-					$menus = wp_get_post_terms( $post->ID, WP_Customize_Nav_Menu_Setting::TAXONOMY, array(
-						'fields' => 'ids',
-					) );
-
-					if ( ! empty( $menus ) ) {
-						$value['nav_menu_term_id'] = array_shift( $menus );
-					} else {
-						$value['nav_menu_term_id'] = 0;
-					}
-
-					if ( 'post_type' === $value['type'] ) {
-						$original_title = get_the_title( $value['object_id'] );
-					} elseif ( 'taxonomy' === $value['type'] ) {
-						$original_title = get_term_field( 'name', $value['object_id'], $value['object'], 'raw' );
-						if ( is_wp_error( $original_title ) ) {
-							$original_title = '';
-						}
-					}
-
-					if ( ! empty( $original_title ) ) {
-						$value['original_title'] = html_entity_decode( $original_title, ENT_QUOTES, get_bloginfo( 'charset' ) );
-					}
+					$value = (array) wp_setup_nav_menu_item( $post );
 				}
 			}
 
 			if ( ! is_array( $value ) ) {
 				$value = $this->default;
 			}
-		}
 
-		if ( is_array( $value ) ) {
-			foreach ( array( 'object_id', 'menu_item_parent', 'nav_menu_term_id' ) as $key ) {
-				$value[ $key ] = intval( $value[ $key ] );
-			}
+			// Cache the value for future calls to avoid having to re-call wp_setup_nav_menu_item().
+			$this->value = $value;
+			$this->populate_value();
+			$value = $this->value;
 		}
 
 		return $value;
+	}
+
+	/**
+	 * Ensure that the value is fully populated with the necessary properties.
+	 *
+	 * Translates some properties added by wp_setup_nav_menu_item() and removes others.
+	 *
+	 * @since 4.3.0
+	 * @access protected
+	 *
+	 * @see WP_Customize_Nav_Menu_Item_Setting::value()
+	 */
+	protected function populate_value() {
+		if ( ! is_array( $this->value ) ) {
+			return;
+		}
+
+		if ( isset( $this->value['menu_order'] ) ) {
+			$this->value['position'] = $this->value['menu_order'];
+			unset( $this->value['menu_order'] );
+		}
+		if ( isset( $this->value['post_status'] ) ) {
+			$this->value['status'] = $this->value['post_status'];
+			unset( $this->value['post_status'] );
+		}
+
+		if ( ! isset( $this->value['original_title'] ) ) {
+			$original_title = '';
+			if ( 'post_type' === $this->value['type'] ) {
+				$original_title = get_the_title( $this->value['object_id'] );
+			} elseif ( 'taxonomy' === $this->value['type'] ) {
+				$original_title = get_term_field( 'name', $this->value['object_id'], $this->value['object'], 'raw' );
+				if ( is_wp_error( $original_title ) ) {
+					$original_title = '';
+				}
+			}
+			$this->value['original_title'] = html_entity_decode( $original_title, ENT_QUOTES, get_bloginfo( 'charset' ) );
+		}
+
+		if ( ! isset( $this->value['nav_menu_term_id'] ) && $this->post_id > 0 ) {
+			$menus = wp_get_post_terms( $this->post_id, WP_Customize_Nav_Menu_Setting::TAXONOMY, array(
+				'fields' => 'ids',
+			) );
+			if ( ! empty( $menus ) ) {
+				$this->value['nav_menu_term_id'] = array_shift( $menus );
+			} else {
+				$this->value['nav_menu_term_id'] = 0;
+			}
+		}
+
+		foreach ( array( 'object_id', 'menu_item_parent', 'nav_menu_term_id' ) as $key ) {
+			if ( ! is_int( $this->value[ $key ] ) ) {
+				$this->value[ $key ] = intval( $this->value[ $key ] );
+			}
+		}
+
+		// Remove remaining properties available on a setup nav_menu_item post object which aren't relevant to the setting value.
+		$irrelevant_properties = array(
+			'ID',
+			'comment_count',
+			'comment_status',
+			'db_id',
+			'filter',
+			'guid',
+			'ping_status',
+			'pinged',
+			'post_author',
+			'post_content',
+			'post_content_filtered',
+			'post_date',
+			'post_date_gmt',
+			'post_excerpt',
+			'post_mime_type',
+			'post_modified',
+			'post_modified_gmt',
+			'post_name',
+			'post_parent',
+			'post_password',
+			'post_title',
+			'post_type',
+			'to_ping',
+			'type_label',
+		);
+		foreach ( $irrelevant_properties as $property ) {
+			unset( $this->value[ $property ] );
+		}
 	}
 
 	/**
@@ -1043,16 +1130,21 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting {
 		$item->menu_order = $item->position;
 		unset( $item->position );
 
-		$item->post_author = get_current_user_id();
-
 		if ( $item->title ) {
 			$item->post_title = $item->title;
 		}
 
 		$item->ID = $this->post_id;
+		$item->db_id = $this->post_id;
 		$post = new WP_Post( (object) $item );
-		$post = wp_setup_nav_menu_item( $post );
 
+		if ( empty( $post->post_author ) ) {
+			$post->post_author = get_current_user_id();
+		}
+
+		if ( ! isset( $post->type_label ) ) {
+			$post->type_label = null;
+		}
 		return $post;
 	}
 
@@ -1159,6 +1251,9 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting {
 		$this->is_updated = true;
 		$is_placeholder   = ( $this->post_id < 0 );
 		$is_delete        = ( false === $value );
+
+		// Update the cached value.
+		$this->value = $value;
 
 		add_filter( 'customize_save_response', array( $this, 'amend_customize_save_response' ) );
 
