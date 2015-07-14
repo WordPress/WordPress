@@ -1740,16 +1740,9 @@ function get_compat_media_markup( $attachment_id, $args = null ) {
  * @since 2.5.0
  */
 function media_upload_header() {
-
 	$post_id = isset( $_REQUEST['post_id'] ) ? intval( $_REQUEST['post_id'] ) : 0;
 
-	if ( ! empty( $post_id ) ) {
-		$post_type = get_post_type( $post_id );
-	} else {
-		$post_type = '';
-	}
-
-	echo '<script type="text/javascript">post_id = ' . $post_id . ';post_type = ' . $post_type . ';</script>';
+	echo '<script type="text/javascript">post_id = ' . $post_id . ';</script>';
 	if ( empty( $_GET['chromeless'] ) ) {
 		echo '<div id="media-upload-header">';
 		the_media_upload_tabs();
