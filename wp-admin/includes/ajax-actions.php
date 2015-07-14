@@ -2969,10 +2969,7 @@ function wp_ajax_update_plugin() {
 
 	include_once( ABSPATH . 'wp-admin/includes/class-wp-upgrader.php' );
 
-	$current = get_site_transient( 'update_plugins' );
-	if ( empty( $current ) ) {
-		wp_update_plugins();
-	}
+	wp_update_plugins();
 
 	$skin = new Automatic_Upgrader_Skin();
 	$upgrader = new Plugin_Upgrader( $skin );
