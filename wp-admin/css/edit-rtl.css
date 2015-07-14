@@ -1528,6 +1528,11 @@ table.links-table {
 		line-height: 47px;
 	}
 
+	#publishing-action .spinner {
+		float: none;
+		margin-top: -2px; /* Half of the Publish button's bottom margin. */
+	}
+
 	/* Moderate Comment */
 	.comment-ays th,
 	.comment-ays td {
