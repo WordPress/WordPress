@@ -752,24 +752,13 @@ function _wp_specialchars( $string, $quote_style = ENT_NOQUOTES, $charset = fals
 		$quote_style = ENT_NOQUOTES;
 	}
 
-	// Handle double encoding ourselves
-	if ( $double_encode ) {
-		$string = @htmlspecialchars( $string, $quote_style, $charset );
-	} else {
-		// Decode &amp; into &
-		$string = wp_specialchars_decode( $string, $_quote_style );
-
-		// Guarantee every &entity; is valid or re-encode the &
+	if ( ! $double_encode ) {
+		// Guarantee every &entity; is valid, convert &garbage; into &amp;garbage;
+		// This is required for PHP < 5.4.0 because ENT_HTML401 flag is unavailable.
 		$string = wp_kses_normalize_entities( $string );
-
-		// Now re-encode everything except &entity;
-		$string = preg_split( '/(&#?x?[0-9a-z]+;)/i', $string, -1, PREG_SPLIT_DELIM_CAPTURE );
-
-		for ( $i = 0, $c = count( $string ); $i < $c; $i += 2 ) {
-			$string[$i] = @htmlspecialchars( $string[$i], $quote_style, $charset );
-		}
-		$string = implode( '', $string );
 	}
+
+	$string = @htmlspecialchars( $string, $quote_style, $charset, $double_encode );
 
 	// Backwards compatibility
 	if ( 'single' === $_quote_style )
