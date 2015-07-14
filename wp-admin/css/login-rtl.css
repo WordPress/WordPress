@@ -213,12 +213,18 @@ p {
 	font-family: sans-serif;
 }
 
+.login-action-rp input[type="text"] {
+	-webkit-box-shadow: none;
+	box-shadow: none;
+	margin: 0;
+}
+
 .login #pass-strength-result {
-	width: 250px;
 	font-weight: 600;
-	margin: 12px 0 6px;
+	margin: -1px 0 16px 5px;
 	padding: 6px 5px;
 	text-align: center;
+	width: 100%;
 }
 
 .mobile #login {
