@@ -3816,9 +3816,10 @@ function wp_unique_post_slug( $slug, $post_ID, $post_status, $post_type, $post_p
 		$check_sql = "SELECT post_name FROM $wpdb->posts WHERE post_name = %s AND post_type = %s AND ID != %d LIMIT 1";
 		$post_name_check = $wpdb->get_var( $wpdb->prepare( $check_sql, $slug, $post_type, $post_ID ) );
 
-		// Prevent post slugs that could result in URLs that conflict with date archives.
+		// Prevent new post slugs that could result in URLs that conflict with date archives.
+		$post = get_post( $post_ID );
 		$conflicts_with_date_archive = false;
-		if ( 'post' === $post_type && preg_match( '/^[0-9]+$/', $slug ) && $slug_num = intval( $slug ) ) {
+		if ( 'post' === $post_type && ( ! $post || $post->post_name !== $slug ) && preg_match( '/^[0-9]+$/', $slug ) && $slug_num = intval( $slug ) ) {
 			$permastructs   = array_values( array_filter( explode( '/', get_option( 'permalink_structure' ) ) ) );
 			$postname_index = array_search( '%postname%', $permastructs );
 
