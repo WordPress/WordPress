@@ -45,7 +45,8 @@ function get_query_template( $type, $templates = array() ) {
 /**
  * Retrieve path of index template in current or parent template.
  *
- * The template path is filterable via the 'index_template' hook.
+ * The template path is filterable via the dynamic {@see '$type_template'} hook,
+ * e.g. 'index_template'.
  *
  * @since 3.0.0
  *
@@ -60,7 +61,8 @@ function get_index_template() {
 /**
  * Retrieve path of 404 template in current or parent template.
  *
- * The template path is filterable via the '404_template' hook.
+ * The template path is filterable via the dynamic {@see '$type_template'} hook,
+ * e.g. '404_template'.
  *
  * @since 1.5.0
  *
@@ -75,7 +77,8 @@ function get_404_template() {
 /**
  * Retrieve path of archive template in current or parent template.
  *
- * The template path is filterable via the 'archive_template' hook.
+ * The template path is filterable via the dynamic {@see '$type_template'} hook,
+ * e.g. 'archive_template'.
  *
  * @since 1.5.0
  *
@@ -100,7 +103,8 @@ function get_archive_template() {
 /**
  * Retrieve path of post type archive template in current or parent template.
  *
- * The template path is filterable via the 'archive_template' hook.
+ * The template path is filterable via the dynamic {@see '$type_template'} hook,
+ * e.g. 'archive_template'.
  *
  * @since 3.7.0
  *
@@ -123,7 +127,8 @@ function get_post_type_archive_template() {
 /**
  * Retrieve path of author template in current or parent template.
  *
- * The template path is filterable via the 'author_template' hook.
+ * The template path is filterable via the dynamic {@see '$type_template'} hook,
+ * e.g. 'author_template'.
  *
  * @since 1.5.0
  *
@@ -148,11 +153,12 @@ function get_author_template() {
 /**
  * Retrieve path of category template in current or parent template.
  *
- * Works by first retrieving the current slug, for example 'category-default.php', and then
- * trying category ID, for example 'category-1.php', and will finally fall back to category.php
- * template, if those files don't exist.
+ * Works by first retrieving the current slug, for example 'category-default.php',
+ * and then trying category ID, for example 'category-1.php', and will finally fall
+ * back to category.php template, if those files don't exist.
  *
- * The template path is filterable via the 'category_template' hook.
+ * The template path is filterable via the dynamic {@see '$type_template'} hook,
+ * e.g. 'category_template'.
  *
  * @since 1.5.0
  *
@@ -177,11 +183,12 @@ function get_category_template() {
 /**
  * Retrieve path of tag template in current or parent template.
  *
- * Works by first retrieving the current tag name, for example 'tag-wordpress.php', and then
- * trying tag ID, for example 'tag-1.php', and will finally fall back to tag.php
- * template, if those files don't exist.
+ * Works by first retrieving the current tag name, for example 'tag-wordpress.php',
+ * and then trying tag ID, for example 'tag-1.php', and will finally fall back to
+ * tag.php template, if those files don't exist.
  *
- * The template path is filterable via the 'tag_template' hook.
+ * The template path is filterable via the dynamic {@see '$type_template'} hook,
+ * e.g. 'tag_template'.
  *
  * @since 2.3.0
  *
@@ -215,7 +222,8 @@ function get_tag_template() {
  * template is used. If none of the files exist, then it will fall back on to
  * index.php.
  *
- * The template path is filterable via the 'taxonomy_template' hook.
+ * The template path is filterable via the dynamic {@see '$type_template'} hook,
+ * e.g. 'taxonomy_template'.
  *
  * @since 2.5.0
  *
@@ -241,7 +249,8 @@ function get_taxonomy_template() {
 /**
  * Retrieve path of date template in current or parent template.
  *
- * The template path is filterable via the 'date_template' hook.
+ * The template path is filterable via the dynamic {@see '$type_template'} hook,
+ * e.g. 'date_template'.
  *
  * @since 1.5.0
  *
@@ -259,7 +268,8 @@ function get_date_template() {
  * This is the template used for the page containing the blog posts.
  * Attempts to locate 'home.php' first before falling back to 'index.php'.
  *
- * The template path is filterable via the 'home_template' hook.
+ * The template path is filterable via the dynamic {@see '$type_template'} hook,
+ * e.g. 'home_template'.
  *
  * @since 1.5.0
  *
@@ -298,7 +308,8 @@ function get_front_page_template() {
  * Then will search for 'page-{slug}.php', followed by 'page-{id}.php',
  * and finally 'page.php'.
  *
- * The template path is filterable via the 'page_template' hook.
+ * The template path is filterable via the dynamic {@see '$type_template'} hook,
+ * e.g. 'page_template'.
  *
  * @since 1.5.0
  *
@@ -333,7 +344,8 @@ function get_page_template() {
 /**
  * Retrieve path of paged template in current or parent template.
  *
- * The template path is filterable via the 'paged_template' hook.
+ * The template path is filterable via the dynamic {@see '$type_template'} hook,
+ * e.g. 'paged_template'.
  *
  * @since 1.5.0
  *
@@ -348,7 +360,8 @@ function get_paged_template() {
 /**
  * Retrieve path of search template in current or parent template.
  *
- * The template path is filterable via the 'search_template' hook.
+ * The template path is filterable via the dynamic {@see '$type_template'} hook,
+ * e.g. 'search_template'.
  *
  * @since 1.5.0
  *
@@ -363,7 +376,8 @@ function get_search_template() {
 /**
  * Retrieve path of single template in current or parent template.
  *
- * The template path is filterable via the 'single_template' hook.
+ * The template path is filterable via the dynamic {@see '$type_template'} hook,
+ * e.g. 'single_template'.
  *
  * @since 1.5.0
  *
@@ -386,7 +400,8 @@ function get_single_template() {
 /**
  * Retrieves the path of the singular template in current or parent template.
  *
- * The template path is filterable via the {@see 'singular_template'} hook.
+ * The template path is filterable via the dynamic {@see '$type_template'} hook,
+ * e.g. 'singular_template'.
  *
  * @since 4.3.0
  *
@@ -409,7 +424,8 @@ function get_singular_template() {
  * Some examples for the 'text/plain' mime type are 'text.php', 'plain.php', and
  * finally 'text-plain.php'.
  *
- * The template path is filterable via the 'attachment_template' hook.
+ * The template path is filterable via the dynamic {@see '$type_template'} hook,
+ * e.g. 'attachment_template'.
  *
  * @since 2.0.0
  *
