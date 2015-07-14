@@ -1069,7 +1069,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 	 * @return string Name of the default primary column, in this case, 'title'.
 	 */
 	protected function get_default_primary_column_name() {
-		return( 'title' );
+		return 'title';
 	}
 
 	/**
