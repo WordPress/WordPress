@@ -264,7 +264,8 @@ a:active {
 	color: #00a0d2;
 }
 
-a:focus {
+a:focus,
+a:focus .media-icon img {
 	color: #124964;
     -webkit-box-shadow:
     	0 0 0 1px #5b9dd9,
@@ -528,10 +529,6 @@ code {
 
 .widefat tbody th.check-column {
 	padding: 9px 0 22px;
-}
-
-.widefat.media .check-column {
-	padding-top: 8px;
 }
 
 .widefat thead td.check-column,
@@ -2029,23 +2026,12 @@ body.iframe {
 
 /* - Only used once or twice in all of WP - deprecate for global style
 ------------------------------------------------------------------------------*/
-td.media-icon {
+.media-icon {
+	width: 62px; /* icon + border */
 	text-align: center;
-	width: 80px;
-	padding-top: 8px;
-	padding-bottom: 8px;
 }
 
-td.media-icon a {
-	display: inline-block;
-}
-
-td.media-icon img {
-	display: block;
-	max-width: 80px;
-	max-height: 60px;
-	width: auto;
-	height: auto;
+.media-icon img {
 	border: 1px solid #e7e7e7;
 	border: 1px solid rgba(0, 0, 0, 0.07);
 }

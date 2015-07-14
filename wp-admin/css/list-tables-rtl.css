@@ -339,7 +339,6 @@ table.fixed {
 	padding-right: 3px;
 }
 
-
 td.column-title strong,
 td.plugin-title strong {
 	display: block;
@@ -353,27 +352,23 @@ td.plugin-title p {
 }
 
 /* Media file column */
-table.media .column-title {
-	position: relative;
-}
-
 table.media .column-title .media-icon {
-	position: absolute;
-	top: 8px; /* match cell padding */
-	right: 10px; /* match cell padding */
+	float: right;
+	min-height: 60px;
+ 	margin: 0 0 0 9px;
 }
 
 table.media .column-title .media-icon img {
 	max-width: 60px;
 	height: auto;
+	vertical-align: top; /* Remove descender white-space. */
 }
 
-table.media .column-title .media-info,
 table.media .column-title .row-actions {
 	margin-right: 70px; /* 60px image + margin */
 }
 
-table.media .column-title .media-info p {
+table.media .column-title .filename {
 	margin-bottom: 0.2em;
 }
 

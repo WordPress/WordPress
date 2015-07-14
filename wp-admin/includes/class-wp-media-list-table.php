@@ -338,40 +338,28 @@ class WP_Media_List_Table extends WP_List_Table {
 	public function column_title( $post ) {
 		list( $mime ) = explode( '/', $post->post_mime_type );
 
-		$user_can_edit = current_user_can( 'edit_post', $post->ID );
-		$att_title = _draft_or_post_title();
-		?>
-		<div class="media-icon <?php echo $mime ?>-icon">
-		<?php
+		$title = _draft_or_post_title();
+		$thumb = wp_get_attachment_image( $post->ID, array( 60, 60 ), true, array( 'alt' => '' ) );
+		$link_start = $link_end = '';
 
-		$thumb = wp_get_attachment_image( $post->ID, array( 60, 60 ), true );
-		if ( $thumb ) {
-			if ( $this->is_trash || ! $user_can_edit ) {
-				echo $thumb;
-			} else { ?>
-			<a href="<?php echo get_edit_post_link( $post->ID ); ?>" title="<?php
-				echo esc_attr( sprintf( __( 'Edit &#8220;%s&#8221;' ), $att_title ) );
-			?>"><?php echo $thumb; ?></a><?php
-			}
+		if ( current_user_can( 'edit_post', $post->ID ) && ! $this->is_trash ) {
+			$link_start = '<a href="' . get_edit_post_link( $post->ID ) . '">';
+			$link_end = '</a>';
 		}
 
 		?>
-		</div>
-		<div class="media-info">
-			<strong>
-			<?php
-				if ( $this->is_trash || ! $user_can_edit ) {
-					echo $att_title;
-				} else { ?>
-					<a href="<?php echo get_edit_post_link( $post->ID ); ?>" title="<?php
-						echo esc_attr( sprintf( __( 'Edit &#8220;%s&#8221;' ), $att_title ) );
-					?>"><?php echo $att_title; ?></a><?php
-				}
-				_media_states( $post );
-			?>
-			</strong>
-			<p class="filename"><?php echo wp_basename( $post->guid ); ?></p>
-		</div>
+		<strong>
+			<?php echo $link_start; ?>
+				<?php if ( $thumb ) : ?>
+				<span class="media-icon <?php echo sanitize_html_class( $mime . '-icon' ); ?>"><?php echo $thumb; ?></span>
+				<?php endif; ?>
+
+				<span aria-hidden="true"><?php echo $title; ?></span>
+				<span class="screen-reader-text"><?php printf( __( 'Edit &#8220;%s&#8221;' ), $title ); ?></span>
+			<?php echo $link_end; ?>
+			<?php _media_states( $post ); ?>
+		</strong>
+		<p class="filename"><span class="screen-reader-text"><?php _e( 'File name:' ); ?> </span><?php echo wp_basename( $post->guid ); ?></p>
 		<?php
 	}
 
