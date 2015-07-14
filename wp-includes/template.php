@@ -31,13 +31,13 @@ function get_query_template( $type, $templates = array() ) {
 	/**
 	 * Filter the path of the queried template by type.
 	 *
-	 * The dynamic portion of the hook name, `$type`, refers to the filename
-	 * -- minus the extension -- of the file to load. This hook also applies
-	 * to various types of files loaded as part of the Template Hierarchy.
+	 * The dynamic portion of the hook name, `$type`, refers to the filename -- minus the file
+	 * extension and any non-alphanumeric characters delimiting words -- of the file to load.
+	 * This hook also applies to various types of files loaded as part of the Template Hierarchy.
 	 *
 	 * @since 1.5.0
 	 *
-	 * @param string $template Path to the template. See {@see locate_template()}.
+	 * @param string $template Path to the template. See locate_template().
 	 */
 	return apply_filters( "{$type}_template", $template );
 }
