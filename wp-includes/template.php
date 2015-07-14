@@ -27,6 +27,7 @@ function get_query_template( $type, $templates = array() ) {
 		$templates = array("{$type}.php");
 
 	$template = locate_template( $templates );
+
 	/**
 	 * Filter the path of the queried template by type.
 	 *
@@ -276,7 +277,7 @@ function get_home_template() {
  * Retrieve path of front-page template in current or parent template.
  *
  * Looks for 'front-page.php'. The template path is filterable via the
- * 'front_page_template' hook.
+ * dynamic {@see '$type_template'} hook, e.g. 'frontpage_template'.
  *
  * @since 3.0.0
  *
@@ -447,7 +448,8 @@ function get_attachment_template() {
  * Checks for comment popup template in current template, if it exists or in the
  * parent template.
  *
- * The template path is filterable via the 'comments_popup_template' hook.
+ * The template path is filterable via the dynamic {@see '$type_template'} hook,
+ * e.g. 'commentspopup_template'.
  *
  * @since 1.5.0
  *
@@ -458,7 +460,7 @@ function get_attachment_template() {
 function get_comments_popup_template() {
 	$template = get_query_template( 'comments_popup', array( 'comments-popup.php' ) );
 
-	// Backward compat code will be removed in a future release
+	// Backward compat code will be removed in a future release.
 	if ('' == $template)
 		$template = ABSPATH . WPINC . '/theme-compat/comments-popup.php';
 
