@@ -257,6 +257,22 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 	}
 
 	/**
+	 * @since 4.3.0
+	 * @access protected
+	 *
+	 * @param WP_User $user
+	 * @param string  $classes
+	 * @param string  $data
+	 * @param string  $primary
+	 */
+	protected function _column_blogs( $user, $classes, $data, $primary ) {
+		echo '<td class="', $classes, ' has-row-actions" ', $data, '>';
+		echo $this->column_blogs( $user );
+		echo $this->handle_row_actions( $user, 'blogs', $primary );
+		echo '</td>';
+	}
+
+	/**
 	 * Handles the blogs/sites column output.
 	 *
 	 * @since 4.3.0
@@ -335,59 +351,6 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 		echo apply_filters( 'manage_users_custom_column', '', $column_name, $user->ID );
 	}
 
-	/**
-	 * Handles columns output for a single row in the table.
-	 *
-	 * @since 4.3.0
-	 * @access public
-	 *
-	 * @param WP_User $item The current WP_User object.
-	 */
-	public function single_row_columns( $item ) {
-		list( $columns, $hidden, $sortable, $primary ) = $this->get_column_info();
-
-		foreach ( $columns as $column_name => $column_display_name ) {
-			$classes = "$column_name column-$column_name";
-			if ( $primary === $column_name || 'blogs' === $column_name ) {
-				$classes .= ' has-row-actions';
-			}
-
-			if ( $primary === $column_name ) {
-				$classes .= ' column-primary';
-			}
-
-			if ( in_array( $column_name, $hidden ) ) {
-				$classes .= ' hidden';
-			}
-
-			$data = 'data-colname="' . wp_strip_all_tags( $column_display_name ) . '"';
-
-			$attributes = "class='$classes' $data";
-
-			if ( 'cb' === $column_name ) {
-				echo '<th scope="row" class="check-column">';
-
-				$this->column_cb( $item );
-
-				echo '</th>';
-			} elseif ( method_exists( $this, 'column_' . $column_name ) ) {
-				echo "<td $attributes>";
-
-				call_user_func( array( $this, 'column_' . $column_name ), $item );
-
-				echo $this->handle_row_actions( $item, $column_name, $primary );
-				echo "</td>";
-			} else {
-				echo "<td $attributes>";
-
-				$this->column_default( $item, $column_name );
-
-				echo $this->handle_row_actions( $item, $column_name, $primary );
-				echo "</td>";
-			}
-		}
-	}
-
 	public function display_rows() {
 		foreach ( $this->items as $user ) {
 			$class = '';
@@ -432,28 +395,30 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 	 * @return string Row actions output for users in Multisite.
 	 */
 	protected function handle_row_actions( $user, $column_name, $primary ) {
+		if ( $primary !== $column_name ) {
+			return '';
+		}
+
 		$super_admins = get_super_admins();
 		$edit_link = esc_url( add_query_arg( 'wp_http_referer', urlencode( wp_unslash( $_SERVER['REQUEST_URI'] ) ), get_edit_user_link( $user->ID ) ) );
 
-		if ( $primary === $column_name ) {
-			$actions = array();
-			$actions['edit'] = '<a href="' . $edit_link . '">' . __( 'Edit' ) . '</a>';
+		$actions = array();
+		$actions['edit'] = '<a href="' . $edit_link . '">' . __( 'Edit' ) . '</a>';
 
-			if ( current_user_can( 'delete_user', $user->ID ) && ! in_array( $user->user_login, $super_admins ) ) {
-				$actions['delete'] = '<a href="' . $delete = esc_url( network_admin_url( add_query_arg( '_wp_http_referer', urlencode( wp_unslash( $_SERVER['REQUEST_URI'] ) ), wp_nonce_url( 'users.php', 'deleteuser' ) . '&amp;action=deleteuser&amp;id=' . $user->ID ) ) ) . '" class="delete">' . __( 'Delete' ) . '</a>';
-			}
-
-			/**
-			 * Filter the action links displayed under each user in the Network Admin Users list table.
-			 *
-			 * @since 3.2.0
-			 *
-			 * @param array   $actions An array of action links to be displayed.
-			 *                         Default 'Edit', 'Delete'.
-			 * @param WP_User $user    WP_User object.
-			 */
-			$actions = apply_filters( 'ms_user_row_actions', $actions, $user );
-			return $this->row_actions( $actions );
+		if ( current_user_can( 'delete_user', $user->ID ) && ! in_array( $user->user_login, $super_admins ) ) {
+			$actions['delete'] = '<a href="' . $delete = esc_url( network_admin_url( add_query_arg( '_wp_http_referer', urlencode( wp_unslash( $_SERVER['REQUEST_URI'] ) ), wp_nonce_url( 'users.php', 'deleteuser' ) . '&amp;action=deleteuser&amp;id=' . $user->ID ) ) ) . '" class="delete">' . __( 'Delete' ) . '</a>';
 		}
+
+		/**
+		 * Filter the action links displayed under each user in the Network Admin Users list table.
+		 *
+		 * @since 3.2.0
+		 *
+		 * @param array   $actions An array of action links to be displayed.
+		 *                         Default 'Edit', 'Delete'.
+		 * @param WP_User $user    WP_User object.
+		 */
+		$actions = apply_filters( 'ms_user_row_actions', $actions, $user );
+		return $this->row_actions( $actions );
 	}
 }

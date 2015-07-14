@@ -462,12 +462,12 @@ class WP_Comments_List_Table extends WP_List_Table {
  	protected function handle_row_actions( $comment, $column_name, $primary ) {
  		global $comment_status;
 
- 		if ( ! $this->user_can ) {
- 			return;
-		}
-
 		if ( $primary !== $column_name ) {
 			return '';
+		}
+
+ 		if ( ! $this->user_can ) {
+ 			return;
 		}
 
 		$post = get_post();

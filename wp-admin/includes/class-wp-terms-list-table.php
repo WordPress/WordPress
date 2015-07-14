@@ -396,50 +396,52 @@ class WP_Terms_List_Table extends WP_List_Table {
 	 * @return string Row actions output for terms.
 	 */
 	protected function handle_row_actions( $tag, $column_name, $primary ) {
+		if ( $primary !== $column_name ) {
+			return '';
+		}
+
 		$taxonomy = $this->screen->taxonomy;
 		$tax = get_taxonomy( $taxonomy );
 		$default_term = get_option( 'default_' . $taxonomy );
 
 		$edit_link = esc_url( get_edit_term_link( $tag->term_id, $taxonomy, $this->screen->post_type ) );
 
-		if ( $primary === $column_name ) {
-			$actions = array();
-			if ( current_user_can( $tax->cap->edit_terms ) ) {
-				$actions['edit'] = '<a href="' . $edit_link . '">' . __( 'Edit' ) . '</a>';
-				$actions['inline hide-if-no-js'] = '<a href="#" class="editinline">' . __( 'Quick&nbsp;Edit' ) . '</a>';
-			}
-			if ( current_user_can( $tax->cap->delete_terms ) && $tag->term_id != $default_term )
-				$actions['delete'] = "<a class='delete-tag' href='" . wp_nonce_url( "edit-tags.php?action=delete&amp;taxonomy=$taxonomy&amp;tag_ID=$tag->term_id", 'delete-tag_' . $tag->term_id ) . "'>" . __( 'Delete' ) . "</a>";
-			if ( $tax->public )
-				$actions['view'] = '<a href="' . get_term_link( $tag ) . '">' . __( 'View' ) . '</a>';
-
-			/**
-			 * Filter the action links displayed for each term in the Tags list table.
-			 *
-			 * @since 2.8.0
-			 * @deprecated 3.0.0 Use {$taxonomy}_row_actions instead.
-			 *
-			 * @param array  $actions An array of action links to be displayed. Default
-			 *                        'Edit', 'Quick Edit', 'Delete', and 'View'.
-			 * @param object $tag     Term object.
-			 */
-			$actions = apply_filters( 'tag_row_actions', $actions, $tag );
-
-			/**
-			 * Filter the action links displayed for each term in the terms list table.
-			 *
-			 * The dynamic portion of the hook name, `$taxonomy`, refers to the taxonomy slug.
-			 *
-			 * @since 3.0.0
-			 *
-			 * @param array  $actions An array of action links to be displayed. Default
-			 *                        'Edit', 'Quick Edit', 'Delete', and 'View'.
-			 * @param object $tag     Term object.
-			 */
-			$actions = apply_filters( "{$taxonomy}_row_actions", $actions, $tag );
-
-			return $this->row_actions( $actions );
+		$actions = array();
+		if ( current_user_can( $tax->cap->edit_terms ) ) {
+			$actions['edit'] = '<a href="' . $edit_link . '">' . __( 'Edit' ) . '</a>';
+			$actions['inline hide-if-no-js'] = '<a href="#" class="editinline">' . __( 'Quick&nbsp;Edit' ) . '</a>';
 		}
+		if ( current_user_can( $tax->cap->delete_terms ) && $tag->term_id != $default_term )
+			$actions['delete'] = "<a class='delete-tag' href='" . wp_nonce_url( "edit-tags.php?action=delete&amp;taxonomy=$taxonomy&amp;tag_ID=$tag->term_id", 'delete-tag_' . $tag->term_id ) . "'>" . __( 'Delete' ) . "</a>";
+		if ( $tax->public )
+			$actions['view'] = '<a href="' . get_term_link( $tag ) . '">' . __( 'View' ) . '</a>';
+
+		/**
+		 * Filter the action links displayed for each term in the Tags list table.
+		 *
+		 * @since 2.8.0
+		 * @deprecated 3.0.0 Use {$taxonomy}_row_actions instead.
+		 *
+		 * @param array  $actions An array of action links to be displayed. Default
+		 *                        'Edit', 'Quick Edit', 'Delete', and 'View'.
+		 * @param object $tag     Term object.
+		 */
+		$actions = apply_filters( 'tag_row_actions', $actions, $tag );
+
+		/**
+		 * Filter the action links displayed for each term in the terms list table.
+		 *
+		 * The dynamic portion of the hook name, `$taxonomy`, refers to the taxonomy slug.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @param array  $actions An array of action links to be displayed. Default
+		 *                        'Edit', 'Quick Edit', 'Delete', and 'View'.
+		 * @param object $tag     Term object.
+		 */
+		$actions = apply_filters( "{$taxonomy}_row_actions", $actions, $tag );
+
+		return $this->row_actions( $actions );
 	}
 
 	/**

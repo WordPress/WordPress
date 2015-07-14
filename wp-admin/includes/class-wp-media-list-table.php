@@ -647,9 +647,11 @@ class WP_Media_List_Table extends WP_List_Table {
 	 * @return string Row actions output for media attachments.
 	 */
 	protected function handle_row_actions( $post, $column_name, $primary ) {
-		if ( $primary === $column_name ) {
-			$att_title = _draft_or_post_title();
-			return $this->row_actions( $this->_get_row_actions( $post, $att_title ) );
+		if ( $primary !== $column_name ) {
+			return '';
 		}
+
+		$att_title = _draft_or_post_title();
+		return $this->row_actions( $this->_get_row_actions( $post, $att_title ) );
 	}
 }
