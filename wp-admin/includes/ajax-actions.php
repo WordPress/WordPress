@@ -2906,10 +2906,7 @@ function wp_ajax_update_plugin() {
 
 	include_once( ABSPATH . 'wp-admin/includes/class-wp-upgrader.php' );
 
-	$current = get_site_transient( 'update_plugins' );
-	if ( empty( $current ) ) {
-		wp_update_plugins();
-	}
+	wp_update_plugins();
 
 	$upgrader = new Plugin_Upgrader( new Automatic_Upgrader_Skin() );
 	$result = $upgrader->bulk_upgrade( array( $plugin ) );
