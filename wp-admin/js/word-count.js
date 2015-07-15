@@ -17,6 +17,7 @@
 		removeRegExp: /[0-9.(),;:!?%#$¿'"_+=\\\/-]+/g,
 		wordsRegExp: /\S\s+/g,
 		charactersRegExp: /\S/g,
+		allRegExp: /[^\f\n\r\t\v\u00ad\u2028\u2029]/g,
 		l10n: window.wordCountL10n || {}
 	};
 
@@ -26,9 +27,9 @@
 		type = type || this.settings.l10n.type || 'words';
 
 		if ( text ) {
-			text = ' ' + text + ' ';
+			text = text + '\n';
 
-			text = text.replace( this.settings.HTMLRegExp, ' ' );
+			text = text.replace( this.settings.HTMLRegExp, '\n' );
 			text = text.replace( this.settings.spaceRegExp, ' ' );
 			text = text.replace( this.settings.removeRegExp, '' );
 
