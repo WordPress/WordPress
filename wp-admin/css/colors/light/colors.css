@@ -552,6 +552,14 @@ div#wp-responsive-toggle a:before {
   color: #999;
 }
 
+/* TinyMCE */
+.mce-container.mce-menu .mce-menu-item:hover,
+.mce-container.mce-menu .mce-menu-item.mce-selected,
+.mce-container.mce-menu .mce-menu-item:focus,
+.mce-container.mce-menu .mce-menu-item-normal.mce-active {
+  background: #04a4cc;
+}
+
 /* temporary fix for admin-bar hover color */
 #wpadminbar .ab-top-menu > li:hover > .ab-item,
 #wpadminbar .ab-top-menu > li.hover > .ab-item,
