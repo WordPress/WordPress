@@ -3234,6 +3234,7 @@
 			if ( wasReflowed && activeElement ) {
 				activeElement.focus();
 			}
+			api.trigger( 'pane-contents-reflowed' );
 		}, api );
 		api.bind( 'ready', api.reflowPaneContents );
 		api.reflowPaneContents = _.debounce( api.reflowPaneContents, 100 );

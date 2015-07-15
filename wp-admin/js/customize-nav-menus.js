@@ -673,6 +673,18 @@
 			});
 
 			section.refreshAssignedLocations();
+
+			api.bind( 'pane-contents-reflowed', function() {
+				// Skip menus that have been removed.
+				if ( ! section.container.parent().length ) {
+					return;
+				}
+				section.container.find( '.menu-item .menu-item-reorder-nav button' ).prop( 'tabIndex', 0 );
+				section.container.find( '.menu-item.move-up-disabled .menus-move-up' ).prop( 'tabIndex', -1 );
+				section.container.find( '.menu-item.move-down-disabled .menus-move-down' ).prop( 'tabIndex', -1 );
+				section.container.find( '.menu-item.move-left-disabled .menus-move-left' ).prop( 'tabIndex', -1 );
+				section.container.find( '.menu-item.move-right-disabled .menus-move-right' ).prop( 'tabIndex', -1 );
+			} );
 		},
 
 		populateControls: function() {
@@ -2031,7 +2043,6 @@
 		 */
 		reflowMenuItems: function() {
 			var menuControl = this,
-				menuSection = api.section( 'nav_menu[' + String( menuControl.params.menu_id ) + ']' ),
 				menuItemControls = menuControl.getMenuItemControls(),
 				reflowRecursively;
 
@@ -2097,12 +2108,6 @@
 				currentDepth: 0,
 				currentAbsolutePosition: 0
 			} );
-
-			menuSection.container.find( '.menu-item .menu-item-reorder-nav button' ).prop( 'tabIndex', 0 );
-			menuSection.container.find( '.menu-item.move-up-disabled .menus-move-up' ).prop( 'tabIndex', -1 );
-			menuSection.container.find( '.menu-item.move-down-disabled .menus-move-down' ).prop( 'tabIndex', -1 );
-			menuSection.container.find( '.menu-item.move-left-disabled .menus-move-left' ).prop( 'tabIndex', -1 );
-			menuSection.container.find( '.menu-item.move-right-disabled .menus-move-right' ).prop( 'tabIndex', -1 );
 
 			menuControl.container.find( '.reorder-toggle' ).toggle( menuItemControls.length > 1 );
 		},
