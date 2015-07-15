@@ -232,11 +232,11 @@ textarea[readonly] {
    color: #a9a9a9;
 }
 
-.form-invalid input, .form-invalid input:focus, 
+.form-invalid input, .form-invalid input:focus,
 .form-invalid select, .form-invalid select:focus {
 	border-color: #dc3232 !important;
-	-webkit-box-shadow: 0 0 2px rgba( 204, 0, 0, 0.8 ); 
- 	box-shadow: 0 0 2px rgba( 204, 0, 0, 0.8 ); 
+	-webkit-box-shadow: 0 0 2px rgba( 204, 0, 0, 0.8 );
+ 	box-shadow: 0 0 2px rgba( 204, 0, 0, 0.8 );
 }
 
 .form-table .form-required.form-invalid td:after {
@@ -444,6 +444,7 @@ fieldset label,
 #pass-strength-result {
 	background-color: #eee;
 	border: 1px solid #ddd;
+	color: #23282d;
 	margin: -2px 5px 5px 1px;
 	padding: 3px 5px;
 	text-align: center;
@@ -455,43 +456,43 @@ fieldset label,
 }
 
 #pass-strength-result.short {
+	background-color: #f1adad;
+	border-color: #e35b5b;
 	opacity: 1;
-	background-color: #ffa0a0;
-	border-color: #f04040;
 }
 
 #pass-strength-result.bad {
+	background-color: #fbc5a9;
+	border-color: #f78b53;
 	opacity: 1;
-	background-color: #ffb78c;
-	border-color: #ff853c;
 }
 
 #pass-strength-result.good {
+	background-color: #ffe399;
+	border-color: #ffc733;
 	opacity: 1;
-	background-color: #ffec8b;
-	border-color: #fc0;
 }
 
 #pass-strength-result.strong {
+	background-color: #c1e1b9;
+	border-color: #83c373;
 	opacity: 1;
-	background-color: #c3ff88;
-	border-color: #8dff1c;
 }
 
 #pass1.short {
-	border-color: #f04040;
+	border-color: #e35b5b;
 }
 
 #pass1.bad {
-	border-color: #ff853c;
+	border-color: #f78b53;
 }
 
 #pass1.good {
-	border-color: #fc0;
+	border-color: #ffc733;
 }
 
 #pass1.strong {
-	border-color: #8dff1c;
+	border-color: #83c373;
 }
 
 .pw-weak {

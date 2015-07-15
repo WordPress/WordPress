@@ -204,6 +204,7 @@ submit {
 #pass-strength-result {
 	background-color: #eee;
 	border: 1px solid #ddd;
+	color: #23282d;
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
@@ -214,43 +215,43 @@ submit {
 }
 
 #pass-strength-result.short {
-	background-color: #ffa0a0;
-	border-color: #f04040;
+	background-color: #f1adad;
+	border-color: #e35b5b;
 	opacity: 1;
 }
 
 #pass-strength-result.bad {
-	background-color: #ffb78c;
-	border-color: #ff853c;
+	background-color: #fbc5a9;
+	border-color: #f78b53;
 	opacity: 1;
 }
 
 #pass-strength-result.good {
-	background-color: #ffec8b;
-	border-color: #fc0;
+	background-color: #ffe399;
+	border-color: #ffc733;
 	opacity: 1;
 }
 
 #pass-strength-result.strong {
-	background-color: #c3ff88;
-	border-color: #8dff1c;
+	background-color: #c1e1b9;
+	border-color: #83c373;
 	opacity: 1;
 }
 
 [name="admin_password"].short {
-	border-color: #f04040;
+	border-color: #e35b5b;
 }
 
 [name="admin_password"].bad {
-	border-color: #ff853c;
+	border-color: #f78b53;
 }
 
 [name="admin_password"].good {
-	border-color: #fc0;
+	border-color: #ffc733;
 }
 
 [name="admin_password"].strong {
-	border-color: #8dff1c;
+	border-color: #83c373;
 }
 
 .pw-weak {
