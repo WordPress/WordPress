@@ -1005,9 +1005,9 @@ class WP_Customize_Background_Image_Control extends WP_Customize_Image_Control {
  *
  * @since 4.3.0
  *
- * @see WP_Customize_Image_Control
+ * @see WP_Customize_Media_Control
  */
-class WP_Customize_Cropped_Image_Control extends WP_Customize_Image_Control {
+class WP_Customize_Cropped_Image_Control extends WP_Customize_Media_Control {
 
 	/**
 	 * Control type.

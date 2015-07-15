@@ -3095,18 +3095,59 @@ function wp_ajax_crop_image() {
 		default:
 
 			/**
+			 * Fires before a cropped image is saved.
+			 *
+			 * Allows to add filters to modify the way a cropped image is saved.
+			 *
+			 * @since 4.3.0
+			 *
+			 * @param string $context       The Customizer control requesting the cropped image.
+			 * @param int    $attachment_id The attachment ID of the original image.
+			 * @param string $cropped       Path to the cropped image file.
+			 */
+			do_action( 'wp_ajax_crop_image_pre_save', $context, $attachment_id, $cropped );
+
+			/** This filter is documented in wp-admin/custom-header.php */
+			$cropped = apply_filters( 'wp_create_file_in_uploads', $cropped, $attachment_id ); // For replication.
+
+			$parent_url = get_post( $attachment_id )->guid;
+			$url        = str_replace( basename( $parent_url ), basename( $cropped ), $parent_url );
+
+			$size       = @getimagesize( $cropped );
+			$image_type = ( $size ) ? $size['mime'] : 'image/jpeg';
+
+			$object = array(
+				'post_title'     => basename( $cropped ),
+				'post_content'   => $url,
+				'post_mime_type' => $image_type,
+				'guid'           => $url,
+				'context'        => $context,
+			);
+
+			$attachment_id = wp_insert_attachment( $object, $cropped );
+			$metadata = wp_generate_attachment_metadata( $attachment_id, $cropped );
+
+			/**
+			 * Filter the cropped image attachment metadata.
+			 *
+			 * @since 4.3.0
+			 *
+			 * @see wp_generate_attachment_metadata()
+			 *
+			 * @param array $metadata Attachment metadata.
+			 */
+			$metadata = apply_filters( 'wp_ajax_cropped_attachment_metadata', $metadata );
+			wp_update_attachment_metadata( $attachment_id, $metadata );
+
+			/**
 			 * Filter the attachment ID for a cropped image.
 			 *
 			 * @since 4.3.0
 			 *
-			 * @param int    $attachment_id The ID of the cropped image.
-			 * @param string $context       The feature requesting the cropped image.
+			 * @param int    $attachment_id The attachment ID of the cropped image.
+			 * @param string $context       The Customizer control requesting the cropped image.
 			 */
-			$attachment_id = apply_filters( 'wp_ajax_cropped_attachment_id', 0, $context );
-
-			if ( ! $attachment_id ) {
-				wp_send_json_error();
-			}
+			$attachment_id = apply_filters( 'wp_ajax_cropped_attachment_id', $attachment_id, $context );
 	}
 
 	wp_send_json_success( wp_prepare_attachment_for_js( $attachment_id ) );
