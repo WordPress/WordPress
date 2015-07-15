@@ -398,8 +398,9 @@ function wp_default_scripts( &$scripts ) {
 	$scripts->add( 'word-count', "/wp-admin/js/word-count$suffix.js", array(), false, 1 );
 	did_action( 'init' ) && $scripts->localize( 'word-count', 'wordCountL10n', array(
 		/* translators: If your word count is based on single characters (East Asian characters),
-		   enter 'characters'. Otherwise, enter 'words'. Do not translate into your own language. */
-		'type' => _x( 'words', 'word count: words or characters?' )
+		   enter 'characters', or 'all' to include spaces. Otherwise, enter 'words'.
+		   Do not translate into your own language. */
+		'type' => _x( 'words', 'word count: words, characters or all?' )
 	) );
 
 	$scripts->add( 'media-upload', "/wp-admin/js/media-upload$suffix.js", array( 'thickbox', 'shortcode' ), false, 1 );
