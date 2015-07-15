@@ -1931,22 +1931,27 @@ function require_if_theme_supports( $feature, $include ) {
  * Checks an attachment being deleted to see if it's a header or background image.
  *
  * If true it removes the theme modification which would be pointing at the deleted
- * attachment
+ * attachment.
  *
  * @access private
  * @since 3.0.0
- * @param int $id the attachment id
+ * @since 4.3.0 Also removes `header_image_data`.
+ *
+ * @param int $id The attachment id.
  */
 function _delete_attachment_theme_mod( $id ) {
 	$attachment_image = wp_get_attachment_url( $id );
-	$header_image = get_header_image();
+	$header_image     = get_header_image();
 	$background_image = get_background_image();
 
-	if ( $header_image && $header_image == $attachment_image )
+	if ( $header_image && $header_image == $attachment_image ) {
 		remove_theme_mod( 'header_image' );
+		remove_theme_mod( 'header_image_data' );
+	}
 
-	if ( $background_image && $background_image == $attachment_image )
+	if ( $background_image && $background_image == $attachment_image ) {
 		remove_theme_mod( 'background_image' );
+	}
 }
 
 /**
