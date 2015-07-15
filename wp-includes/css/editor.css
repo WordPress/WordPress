@@ -105,8 +105,8 @@
 }
 
 .mce-window .mce-wp-help {
-	height: 320px;
-	width: 360px;
+	height: 360px;
+	width: 460px;
 	overflow: auto;
 }
 
@@ -121,7 +121,7 @@
 }
 
 .mce-window .wp-editor-help {
-	width: 340px;
+	width: 440px;
 	padding: 10px 15px 0;
 }
 
@@ -131,7 +131,7 @@
 }
 
 .mce-window .wp-editor-help table {
-	width: 320px;
+	width: 420px;
 	margin-bottom: 20px;
 }
 
@@ -168,6 +168,10 @@
 .mce-window .wp-help-header td {
 	font-weight: bold;
 	padding: 0 5px;
+}
+
+.mce-window .wp-help-header td:nth-child(odd) {
+    text-align: center;
 }
 
 /* TinyMCE menus */
