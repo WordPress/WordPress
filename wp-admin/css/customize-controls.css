@@ -227,6 +227,18 @@ body {
 	background: #fff;
 }
 
+div.customize-section-description {
+	margin-top: 22px;
+}
+
+div.customize-section-description p:first-child {
+	margin-top: 0;
+}
+
+div.customize-section-description p:last-child {
+	margin-bottom: 0;
+}
+
 #customize-theme-controls .customize-themes-panel h3.customize-section-title:first-child {
 	border-bottom: 1px solid #ddd;
 	padding: 12px 12px 12px 12px;

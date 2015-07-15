@@ -363,7 +363,9 @@ class WP_Customize_Section {
 						</h3>
 					</div>
 					<# if ( data.description ) { #>
-						<p class="description customize-section-description">{{{ data.description }}}</p>
+						<div class="description customize-section-description">
+							{{{ data.description }}}
+						</div>
 					<# } #>
 				</li>
 			</ul>

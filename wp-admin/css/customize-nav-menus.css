@@ -408,7 +408,6 @@
 .menu-item-depth-11 > .menu-item-bar { margin-right: 220px; }
 
 /* Submenu left margin. */
-/* @todo menu-item-transport seems entirely unused. */
 .menu-item-depth-0  .menu-item-transport { margin-left: 0;      }
 .menu-item-depth-1  .menu-item-transport { margin-left: -20px;  }
 .menu-item-depth-3  .menu-item-transport { margin-left: -60px;  }
