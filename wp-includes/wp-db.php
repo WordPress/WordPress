@@ -2717,9 +2717,9 @@ class wpdb {
 					// We're going to need to truncate by characters or bytes, depending on the length value we have.
 					if ( 'byte' === $value['length']['type'] ) {
 						// Split the CONVERT() calls by charset, so we can make sure the connection is right
-						$queries[ $value['charset'] ][ $col ] = $this->prepare( "CONVERT( LEFT( CONVERT( %s USING binary ), %d ) USING {$value['charset']} )", $value['value'], $value['length']['length'] );
+						$queries[ $value['charset'] ][ $col ] = $this->prepare( "CONVERT( LEFT( CONVERT( %s USING binary ), %.0f ) USING {$value['charset']} )", $value['value'], $value['length']['length'] );
 					} else {
-						$queries[ $value['charset'] ][ $col ] = $this->prepare( "LEFT( CONVERT( %s USING {$value['charset']} ), %d )", $value['value'], $value['length']['length'] );
+						$queries[ $value['charset'] ][ $col ] = $this->prepare( "LEFT( CONVERT( %s USING {$value['charset']} ), %.0f )", $value['value'], $value['length']['length'] );
 					}
 
 					unset( $data[ $col ]['db'] );
