@@ -26,7 +26,7 @@ $menu-collapse-focus-icon: #555;
 #wpadminbar > #wp-toolbar > #wp-admin-bar-top-secondary li.hover span.ab-label,
 #wpadminbar .ab-top-menu > li > .ab-item:focus,
 #wpadminbar.nojq .quicklinks .ab-top-menu > li > .ab-item:focus,
-#wpadminbar-nojs .ab-top-menu > li.menupop:hover > .ab-item,
+#wpadminbar.nojs .ab-top-menu > li.menupop:hover > .ab-item,
 #wpadminbar .ab-top-menu > li.menupop.hover > .ab-item {
 	color: $text-color;
 }
