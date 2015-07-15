@@ -210,8 +210,6 @@
 div.mce-panel {
 	border: 0;
 	background: #fff;
-	-webkit-filter: none;
-	filter: none;
 }
 
 .mce-panel.mce-menu {
@@ -376,8 +374,6 @@ div.mce-path {
 	margin: 2px;
 	-webkit-border-radius: 2px;
 	border-radius: 2px;
-	-webkit-filter: none;
-	filter: none;
 }
 
 .mce-toolbar .mce-btn-group .mce-btn:hover,
@@ -510,8 +506,17 @@ div.mce-path {
 .mce-menu .mce-menu-item:hover,
 .mce-menu .mce-menu-item.mce-selected,
 .mce-menu .mce-menu-item:focus,
-.mce-menu .mce-menu-item-normal.mce-active {
+.mce-menu .mce-menu-item-normal.mce-active,
+.mce-menu .mce-menu-item-preview.mce-active {
 	background: #0073aa; /* See color scheme. */
+}
+
+.mce-menu .mce-menu-item-preview.mce-active {
+	border-right: none;
+}
+
+.mce-menu .mce-menu-item-preview.mce-active .mce-text {
+	color: #fff;
 }
 
 .mce-menu .mce-menu-item.mce-disabled {
@@ -538,7 +543,6 @@ div.mce-path {
 .mce-menubar .mce-menubtn:focus {
 	border-color: transparent;
 	background: transparent;
-	filter: none;
 }
 
 .mce-menubar .mce-menubtn:focus {

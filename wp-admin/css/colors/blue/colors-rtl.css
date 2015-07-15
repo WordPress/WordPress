@@ -556,6 +556,7 @@ div#wp-responsive-toggle a:before {
 .mce-container.mce-menu .mce-menu-item:hover,
 .mce-container.mce-menu .mce-menu-item.mce-selected,
 .mce-container.mce-menu .mce-menu-item:focus,
-.mce-container.mce-menu .mce-menu-item-normal.mce-active {
+.mce-container.mce-menu .mce-menu-item-normal.mce-active,
+.mce-container.mce-menu .mce-menu-item-preview.mce-active {
   background: #096484;
 }
