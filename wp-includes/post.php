@@ -1715,6 +1715,7 @@ function _get_custom_object_labels( $object, $nohier_vs_hier_defaults ) {
 		$defaults[$key] = $object->hierarchical ? $value[1] : $value[0];
 	}
 	$labels = array_merge( $defaults, $object->labels );
+	$object->labels = (object)$object->labels;
 	return (object) $labels;
 }
 
