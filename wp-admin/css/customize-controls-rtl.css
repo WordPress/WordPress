@@ -222,7 +222,7 @@ body {
 }
 
 .customize-section-title {
-	margin: -12px;
+	margin: -12px -12px 0 -12px;
 	border-bottom: 1px solid #ddd;
 	background: #fff;
 }
@@ -254,10 +254,6 @@ h3.customize-section-title {
 	margin: 0;
 	line-height: 21px;
 	color: #555;
-}
-
-#customize-theme-controls .control-section .accordion-section-content > li.customize-control:nth-child(2) {
-	margin-top: 12px;
 }
 
 #customize-theme-controls {
