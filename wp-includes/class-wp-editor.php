@@ -761,8 +761,6 @@ final class _WP_Editors {
 	 * @static
 	 */
 	public static function enqueue_scripts() {
-		wp_enqueue_script('word-count');
-
 		if ( self::$has_tinymce )
 			wp_enqueue_script('editor');
 
