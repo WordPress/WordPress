@@ -1430,6 +1430,8 @@ i.mce-i-wp_code:before {
 	text-align: right;
 	padding-right: 5px;
 	max-width: 24%;
+	vertical-align: middle;
+	word-wrap: break-word;
 }
 
 #wp-link .link-search-field {
