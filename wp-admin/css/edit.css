@@ -1206,6 +1206,7 @@ table.links-table {
 .focus-on div.updated,
 .focus-on div.error,
 .focus-on div.notice,
+.focus-on .update-nag,
 .focus-on #wp-toolbar,
 .focus-on #screen-meta-links,
 .focus-on #screen-meta {
@@ -1228,6 +1229,7 @@ table.links-table {
 .focus-off div.updated,
 .focus-off div.error,
 .focus-off div.notice,
+.focus-off .update-nag,
 .focus-off #wp-toolbar,
 .focus-off #screen-meta-links,
 .focus-off #screen-meta {
