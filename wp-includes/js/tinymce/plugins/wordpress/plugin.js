@@ -764,6 +764,10 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 				}
 			} );
 
+			editor.on( 'remove', function() {
+				toolbar.remove();
+			} );
+
 			toolbar.reposition = reposition;
 			toolbar.hide().renderTo( document.body );
 
@@ -830,6 +834,12 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 
 		DOM.bind( window, 'resize scroll', hide );
 		editor.dom.bind( editor.getWin(), 'resize scroll', hide );
+
+		editor.on( 'remove', function() {
+			DOM.unbind( window, 'resize scroll', hide );
+			editor.dom.unbind( editor.getWin(), 'resize scroll', hide );
+		} );
+
 		editor.on( 'blur hide', hide );
 
 		editor.wp = editor.wp || {};
