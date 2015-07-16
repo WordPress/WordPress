@@ -1,6 +1,7 @@
 ( function() {
 	function WordCounter( settings ) {
-		var key;
+		var key,
+			shortcodes;
 
 		if ( settings ) {
 			for ( key in settings ) {
@@ -8,6 +9,12 @@
 					this.settings[ key ] = settings[ key ];
 				}
 			}
+		}
+
+		shortcodes = this.settings.l10n.shortcodes;
+
+		if ( shortcodes && shortcodes.length ) {
+			this.settings.shortcodesRegExp = new RegExp( '\\[\\/?(?:' + shortcodes.join( '|' ) + ')[^\\]]*?\\]', 'gi' );
 		}
 	}
 
@@ -65,6 +72,11 @@
 			text = text + '\n';
 
 			text = text.replace( this.settings.HTMLRegExp, '\n' );
+
+			if ( this.settings.shortcodesRegExp ) {
+				text = text.replace( this.settings.shortcodesRegExp, '\n' );
+			}
+
 			text = text.replace( this.settings.spaceRegExp, ' ' );
 
 			if ( type === 'words' ) {

@@ -400,7 +400,8 @@ function wp_default_scripts( &$scripts ) {
 		/* translators: If your word count is based on single characters (East Asian characters),
 		   enter 'characters', or 'all' to include spaces. Otherwise, enter 'words'.
 		   Do not translate into your own language. */
-		'type' => _x( 'words', 'word count: words, characters or all?' )
+		'type' => _x( 'words', 'word count: words, characters or all?' ),
+		'shortcodes' => ! empty( $GLOBALS['shortcode_tags'] ) ? array_keys( $GLOBALS['shortcode_tags'] ) : array()
 	) );
 
 	$scripts->add( 'media-upload', "/wp-admin/js/media-upload$suffix.js", array( 'thickbox', 'shortcode' ), false, 1 );
