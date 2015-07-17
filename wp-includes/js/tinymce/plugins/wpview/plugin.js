@@ -152,19 +152,20 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 		};
 	}
 
-	// Remove the content of view wrappers from HTML string
-	function emptyViews( content ) {
-		content = content.replace( /<div[^>]+data-wpview-text="([^"]+)"[^>]*>[\s\S]+?wpview-selection-after[^>]+>[^<>]*<\/p>\s*<\/div>/g, function( all, match ) {
-			return '<p>' + window.decodeURIComponent( match ) + '</p>';
-		});
+	function resetViewsCallback( match, viewText ) {
+		return '<p>' + window.decodeURIComponent( viewText ) + '</p>';
+	}
 
-		return content.replace( / data-wpview-marker="[^"]+"/g, '' );
+	// Replace the view tags with the view string
+	function resetViews( content ) {
+		return content.replace( /<div[^>]+data-wpview-text="([^"]+)"[^>]*>(?:[\s\S]+?wpview-selection-after[^>]+>[^<>]*<\/p>\s*|\.)<\/div>/g, resetViewsCallback )
+			.replace( /<p [^>]*?data-wpview-marker="([^"]+)"[^>]*>[\s\S]*?<\/p>/g, resetViewsCallback );
 	}
 
 	// Prevent adding undo levels on changes inside a view wrapper
 	editor.on( 'BeforeAddUndo', function( event ) {
 		if ( event.level.content ) {
-			event.level.content = emptyViews( event.level.content );
+			event.level.content = resetViews( event.level.content );
 		}
 	});
 
@@ -348,31 +349,29 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 		}
 	});
 
-	function resetViews( rootNode ) {
-		// Replace view nodes
-		$( 'div[data-wpview-text]', rootNode ).each( function( i, node ) {
-			var $node = $( node ),
-				text = window.decodeURIComponent( $node.attr( 'data-wpview-text' ) || '' );
-
-			if ( text && node.parentNode ) {
-				$node.replaceWith( $( editor.dom.create('p') ).text( text ) );
-			}
+	// Empty the wpview wrap and marker nodes
+	function emptyViewNodes( rootNode ) {
+		$( 'div[data-wpview-text], p[data-wpview-marker]', rootNode ).each( function( i, node ) {
+			node.innerHTML = '.';
 		});
-
-		// Remove marker attributes
-		$( 'p[data-wpview-marker]', rootNode ).attr( 'data-wpview-marker', null );
 	}
 
+	// Run that before the DOM cleanup
 	editor.on( 'PreProcess', function( event ) {
-		// Replace the view nodes with their text in the DOM clone.
-		resetViews( event.node );
+		emptyViewNodes( event.node );
 	}, true );
 
 	editor.on( 'hide', function() {
-		// Replace the view nodes with their text directly in the editor body.
 		wp.mce.views.unbind();
 		deselect();
-		resetViews( editor.getBody() );
+		emptyViewNodes();
+	});
+
+	editor.on( 'PostProcess', function( event ) {
+		if ( event.content ) {
+			event.content = event.content.replace( /<div [^>]*?data-wpview-text="([^"]+)"[^>]*>[\s\S]*?<\/div>/g, resetViewsCallback )
+				.replace( /<p [^>]*?data-wpview-marker="([^"]+)"[^>]*>[\s\S]*?<\/p>/g, resetViewsCallback );
+		}
 	});
 
 	// Excludes arrow keys, delete, backspace, enter, space bar.

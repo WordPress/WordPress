@@ -93,8 +93,7 @@ window.wp = window.wp || {};
 		setMarkers: function( content ) {
 			var pieces = [ { content: content } ],
 				self = this,
-				instance,
-				current;
+				instance, current;
 
 			_.each( views, function( view, type ) {
 				current = pieces.slice();
@@ -102,7 +101,7 @@ window.wp = window.wp || {};
 
 				_.each( current, function( piece ) {
 					var remaining = piece.content,
-						result;
+						result, text;
 
 					// Ignore processed pieces, but retain their location.
 					if ( piece.processed ) {
@@ -119,10 +118,11 @@ window.wp = window.wp || {};
 						}
 
 						instance = self.createInstance( type, result.content, result.options );
+						text = instance.loader ? '.' : instance.text;
 
 						// Add the processed piece for the match.
 						pieces.push( {
-							content: '<p data-wpview-marker="' + instance.encodedText + '">' + instance.text + '</p>',
+							content: '<p data-wpview-marker="' + instance.encodedText + '">' + text + '</p>',
 							processed: true
 						} );
 
@@ -138,7 +138,8 @@ window.wp = window.wp || {};
 				} );
 			} );
 
-			return _.pluck( pieces, 'content' ).join( '' );
+			content = _.pluck( pieces, 'content' ).join( '' );
+			return content.replace( /<p>\s*<p data-wpview-marker=/g, '<p data-wpview-marker=' ).replace( /<\/p>\s*<\/p>/g, '</p>' );
 		},
 
 		/**
@@ -417,7 +418,7 @@ window.wp = window.wp || {};
 		 */
 		replaceMarkers: function() {
 			this.getMarkers( function( editor, node ) {
-				if ( $( node ).text() !== this.text ) {
+				if ( ! this.loader && $( node ).text() !== this.text ) {
 					editor.dom.setAttrib( node, 'data-wpview-marker', null );
 					return;
 				}
