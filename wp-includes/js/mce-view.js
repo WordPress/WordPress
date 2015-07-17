@@ -155,13 +155,14 @@ window.wp = window.wp || {};
 				encodedText,
 				instance;
 
-			text = tinymce.DOM.decode( text ),
-			encodedText = encodeURIComponent( text ),
-			instance = this.getInstance( encodedText );
+			text = tinymce.DOM.decode( text );
+			instance = this.getInstance( text );
 
 			if ( instance ) {
 				return instance;
 			}
+
+			encodedText = encodeURIComponent( text );
 
 			options = _.extend( options || {}, {
 				text: text,
