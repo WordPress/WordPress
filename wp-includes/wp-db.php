@@ -2710,55 +2710,37 @@ class wpdb {
 			$queries = array();
 			foreach ( $data as $col => $value ) {
 				if ( ! empty( $value['db'] ) ) {
-					if ( ! isset( $queries[ $value['charset'] ] ) ) {
-						$queries[ $value['charset'] ] = array();
-					}
-
 					// We're going to need to truncate by characters or bytes, depending on the length value we have.
 					if ( 'byte' === $value['length']['type'] ) {
-						// Split the CONVERT() calls by charset, so we can make sure the connection is right
-						$queries[ $value['charset'] ][ $col ] = $this->prepare( "CONVERT( LEFT( CONVERT( %s USING binary ), %.0f ) USING {$value['charset']} )", $value['value'], $value['length']['length'] );
+						// Using binary causes LEFT() to truncate by bytes.
+						$charset = 'binary';
 					} else {
-						$queries[ $value['charset'] ][ $col ] = $this->prepare( "LEFT( CONVERT( %s USING {$value['charset']} ), %.0f )", $value['value'], $value['length']['length'] );
+						$charset = $value['charset'];
 					}
+
+					$queries[ $col ] = $this->prepare( "CONVERT( LEFT( CONVERT( %s USING $charset ), %.0f ) USING {$this->charset} )", $value['value'], $value['length']['length'] );
 
 					unset( $data[ $col ]['db'] );
 				}
 			}
 
-			$connection_charset = $this->charset;
-			foreach ( $queries as $charset => $query ) {
+			$sql = array();
+			foreach ( $queries as $column => $query ) {
 				if ( ! $query ) {
 					continue;
 				}
 
-				// Change the charset to match the string(s) we're converting
-				if ( $charset !== $connection_charset ) {
-					$connection_charset = $charset;
-					$this->set_charset( $this->dbh, $charset );
-				}
-
-				$this->check_current_query = false;
-
-				$sql = array();
-				foreach ( $query as $column => $column_query ) {
-					$sql[] = $column_query . " AS x_$column";
-				}
-
-				$row = $this->get_row( "SELECT " . implode( ', ', $sql ), ARRAY_A );
-				if ( ! $row ) {
-					$this->set_charset( $this->dbh, $connection_charset );
-					return new WP_Error( 'wpdb_strip_invalid_text_failure' );
-				}
-
-				foreach ( array_keys( $query ) as $column ) {
-					$data[ $column ]['value'] = $row["x_$column"];
-				}
+				$sql[] = $query . " AS x_$column";
 			}
 
-			// Don't forget to change the charset back!
-			if ( $connection_charset !== $this->charset ) {
-				$this->set_charset( $this->dbh );
+			$this->check_current_query = false;
+			$row = $this->get_row( "SELECT " . implode( ', ', $sql ), ARRAY_A );
+			if ( ! $row ) {
+				return new WP_Error( 'wpdb_strip_invalid_text_failure' );
+			}
+
+			foreach ( array_keys( $data ) as $column ) {
+				$data[ $column ]['value'] = $row["x_$column"];
 			}
 		}
 
