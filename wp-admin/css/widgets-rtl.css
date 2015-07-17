@@ -350,6 +350,10 @@ div#widgets-right .closed .widgets-sortables {
 	display: none;
 }
 
+.js .widgets-holder-wrap.closed .widget.ui-sortable-helper {
+	display: block;
+}
+
 /* Hide Widget Settings by Default */
 .widget-inside,
 .widget-description {
@@ -504,6 +508,10 @@ div#widgets-right .widget-top:hover,
 
 #available-widgets .widget .widget-top {
 	cursor: pointer;
+}
+
+#available-widgets .widget.ui-draggable-dragging .widget-top {
+	cursor: move;
 }
 
 /* =Media Queries
