@@ -2629,8 +2629,13 @@ class wpdb {
 
 			if ( is_array( $value['length'] ) ) {
 				$length = $value['length']['length'];
+				$truncate_by_byte_length = 'byte' === $value['length']['type'];
 			} else {
 				$length = false;
+				// Since we have no length, we'll never truncate.
+				// Initialize the variable to false. true would take us
+				// through an unnecessary (for this case) codepath below.
+				$truncate_by_byte_length = false;
 			}
 
 			// There's no charset to work with.
@@ -2642,8 +2647,6 @@ class wpdb {
 			if ( ! is_string( $value['value'] ) ) {
 				continue;
 			}
-
-			$truncate_by_byte_length = 'byte' === $value['length']['type'];
 
 			$needs_validation = true;
 			if (
@@ -2718,7 +2721,12 @@ class wpdb {
 						$charset = $value['charset'];
 					}
 
-					$queries[ $col ] = $this->prepare( "CONVERT( LEFT( CONVERT( %s USING $charset ), %.0f ) USING {$this->charset} )", $value['value'], $value['length']['length'] );
+					if ( is_array( $value['length'] ) ) {
+						$queries[ $col ] = $this->prepare( "CONVERT( LEFT( CONVERT( %s USING $charset ), %.0f ) USING {$this->charset} )", $value['value'], $value['length']['length'] );
+					} else if ( 'binary' !== $charset ) {
+						// If we don't have a length, there's no need to convert binary - it will always return the same result.
+						$queries[ $col ] = $this->prepare( "CONVERT( CONVERT( %s USING $charset ) USING {$this->charset} )", $value['value'] );
+					}
 
 					unset( $data[ $col ]['db'] );
 				}
