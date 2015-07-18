@@ -80,20 +80,38 @@ final class WP_Customize_Nav_Menus {
 		}
 
 		$obj_type = sanitize_key( $_POST['obj_type'] );
-		if ( ! in_array( $obj_type, array( 'post_type', 'taxonomy' ) ) ) {
-			wp_send_json_error( 'nav_menus_invalid_obj_type' );
-		}
+		$obj_name = sanitize_key( $_POST['type'] );
+		$page = empty( $_POST['page'] ) ? 0 : absint( $_POST['page'] );
+		$items = $this->load_available_items_query( $obj_type, $obj_name, $page );
 
-		$taxonomy_or_post_type = sanitize_key( $_POST['type'] );
-		$page = isset( $_POST['page'] ) ? absint( $_POST['page'] ) : 0;
+		if ( is_wp_error( $items ) ) {
+			wp_send_json_error( $items->get_error_code() );
+		} else {
+			wp_send_json_success( array( 'items' => $items ) );
+		}
+	}
+
+	/**
+	 * Performs the post_type and taxonomy queries for loading available menu items.
+	 *
+	 * @since 4.3.0
+	 * @access public
+	 *
+	 * @param string $obj_type Optional. Accepts any custom object type and has built-in support for
+	 *                         'post_type' and 'taxonomy'. Default is 'post_type'.
+	 * @param string $obj_name Optional. Accepts any registered taxonomy or post type name. Default is 'page'.
+	 * @param int    $page     Optional. The page number used to generate the query offset. Default is '0'.
+	 * @return WP_Error|array Returns either a WP_Error object or an array of menu items.
+	 */
+	public function load_available_items_query( $obj_type = 'post_type', $obj_name = 'page', $page = 0 ) {
 		$items = array();
 
 		if ( 'post_type' === $obj_type ) {
-			if ( ! get_post_type_object( $taxonomy_or_post_type ) ) {
-				wp_send_json_error( 'nav_menus_invalid_post_type' );
+			if ( ! get_post_type_object( $obj_name ) ) {
+				return new WP_Error( 'nav_menus_invalid_post_type' );
 			}
 
-			if ( 0 === $page && 'page' === $taxonomy_or_post_type ) {
+			if ( 0 === $page && 'page' === $obj_name ) {
 				// Add "Home" link. Treat as a page, but switch to custom on add.
 				$items[] = array(
 					'id'         => 'home',
@@ -110,7 +128,7 @@ final class WP_Customize_Nav_Menus {
 				'offset'      => 10 * $page,
 				'orderby'     => 'date',
 				'order'       => 'DESC',
-				'post_type'   => $taxonomy_or_post_type,
+				'post_type'   => $obj_name,
 			) );
 			foreach ( $posts as $post ) {
 				$post_title = $post->post_title;
@@ -129,7 +147,7 @@ final class WP_Customize_Nav_Menus {
 				);
 			}
 		} elseif ( 'taxonomy' === $obj_type ) {
-			$terms = get_terms( $taxonomy_or_post_type, array(
+			$terms = get_terms( $obj_name, array(
 				'child_of'     => 0,
 				'exclude'      => '',
 				'hide_empty'   => false,
@@ -142,7 +160,7 @@ final class WP_Customize_Nav_Menus {
 				'pad_counts'   => false,
 			) );
 			if ( is_wp_error( $terms ) ) {
-				wp_send_json_error( $terms->get_error_code() );
+				return $terms;
 			}
 
 			foreach ( $terms as $term ) {
@@ -158,7 +176,7 @@ final class WP_Customize_Nav_Menus {
 			}
 		}
 
-		wp_send_json_success( array( 'items' => $items ) );
+		return $items;
 	}
 
 	/**
@@ -184,12 +202,12 @@ final class WP_Customize_Nav_Menus {
 		}
 
 		$s = sanitize_text_field( wp_unslash( $_POST['search'] ) );
-		$results = $this->search_available_items_query( array( 'pagenum' => $p, 's' => $s ) );
+		$items = $this->search_available_items_query( array( 'pagenum' => $p, 's' => $s ) );
 
-		if ( empty( $results ) ) {
-			wp_send_json_error( array( 'message' => __( 'No results found.' ) ) );
+		if ( empty( $items ) ) {
+			wp_send_json_error( array( 'message' => __( 'No menu items found.' ) ) );
 		} else {
-			wp_send_json_success( array( 'items' => $results ) );
+			wp_send_json_success( array( 'items' => $items ) );
 		}
 	}
 
@@ -202,10 +220,10 @@ final class WP_Customize_Nav_Menus {
 	 * @access public
 	 *
 	 * @param array $args Optional. Accepts 'pagenum' and 's' (search) arguments.
-	 * @return array Results.
+	 * @return array Menu items.
 	 */
 	public function search_available_items_query( $args = array() ) {
-		$results = array();
+		$items = array();
 
 		$post_type_objects = get_post_types( array( 'show_in_nav_menus' => true ), 'objects' );
 		$query = array(
@@ -235,7 +253,7 @@ final class WP_Customize_Nav_Menus {
 					/* translators: %d: ID of a post */
 					$post_title = sprintf( __( '#%d (no title)' ), $post->ID );
 				}
-				$results[] = array(
+				$items[] = array(
 					'id'         => 'post-' . $post->ID,
 					'title'      => html_entity_decode( $post_title, ENT_QUOTES, get_bloginfo( 'charset' ) ),
 					'type'       => 'post_type',
@@ -258,7 +276,7 @@ final class WP_Customize_Nav_Menus {
 		// Check if any taxonomies were found.
 		if ( ! empty( $terms ) ) {
 			foreach ( $terms as $term ) {
-				$results[] = array(
+				$items[] = array(
 					'id'         => 'term-' . $term->term_id,
 					'title'      => html_entity_decode( $term->name, ENT_QUOTES, get_bloginfo( 'charset' ) ),
 					'type'       => 'taxonomy',
@@ -270,7 +288,7 @@ final class WP_Customize_Nav_Menus {
 			}
 		}
 
-		return $results;
+		return $items;
 	}
 
 	/**
