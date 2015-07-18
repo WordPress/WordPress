@@ -57,6 +57,7 @@
 				'\u2E00-\u2E7F',
 			']'
 		].join( '' ), 'g' ),
+		astralRegExp: /[\uD800-\uDBFF][\uDC00-\uDFFF]/g,
 		wordsRegExp: /\S\s+/g,
 		charactersRegExp: /\S/g,
 		allRegExp: /[^\f\n\r\t\v\u00ad\u2028\u2029]/g,
@@ -82,6 +83,8 @@
 			if ( type === 'words' ) {
 				text = text.replace( this.settings.connectorRegExp, ' ' );
 				text = text.replace( this.settings.removeRegExp, '' );
+			} else {
+				text = text.replace( this.settings.astralRegExp, 'a' );
 			}
 
 			text = text.match( this.settings[ type + 'RegExp' ] );
