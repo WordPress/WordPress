@@ -509,6 +509,9 @@ function locate_template($template_names, $load = false, $require_once = true ) 
 			break;
 		}
 	}
+	
+	// Allow overriding the template location using the 'locate_template' filter
+	$located = apply_filters( 'locate_template', $located );
 
 	if ( $load && '' != $located )
 		load_template( $located, $require_once );
