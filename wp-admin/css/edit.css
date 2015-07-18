@@ -545,6 +545,7 @@ span.wp-media-buttons-icon:before {
 .notification-dialog {
 	position: fixed;
 	top: 30%;
+	max-height: 70%;
 	left: 50%;
 	width: 450px;
 	margin-left: -225px;
@@ -553,6 +554,7 @@ span.wp-media-buttons-icon:before {
 	box-shadow: 0 3px 6px rgba( 0, 0, 0, 0.3 );
 	line-height: 1.5;
 	z-index: 1000005;
+	overflow-y: auto;
 }
 
 .notification-dialog-background {
