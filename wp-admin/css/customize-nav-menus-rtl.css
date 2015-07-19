@@ -655,6 +655,19 @@ button.not-a-button {
 	box-shadow: 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, .8);
 }
 
+#available-menu-items .accordion-section-title .no-items,
+#available-menu-items .cannot-expand .accordion-section-title .spinner {
+	display: none;
+}
+
+#available-menu-items .cannot-expand .accordion-section-title .no-items {
+	display: block;
+	color: #777;
+	font-weight: normal;
+	float: left;
+	margin-right: 5px;
+}
+
 #available-menu-items .accordion-section-content {
 	padding: 1px 15px 15px 15px;
 	margin: 0;
