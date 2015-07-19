@@ -1,4 +1,4 @@
-/* globals _wpCustomizeHeader, _wpCustomizeBackground, _wpMediaViewsL10n, MediaElementPlayer */
+/* global _wpCustomizeHeader, _wpCustomizeBackground, _wpMediaViewsL10n, MediaElementPlayer */
 (function( exports, $ ){
 	var Container, focus, api = wp.customize;
 
