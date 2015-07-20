@@ -1357,9 +1357,7 @@ final class WP_Customize_Manager {
 			'section'    => 'title_tagline',
 		) );
 
-		$icon = wp_get_attachment_image_src( absint( get_option( 'site_icon' ) ), 'full' );
 		$this->add_setting( 'site_icon', array(
-			'default'    => $icon[0] ? $icon[0] : '',
 			'type'       => 'option',
 			'capability' => 'manage_options',
 			'transport'  => 'postMessage', // Previewed with JS in the Customizer controls window.

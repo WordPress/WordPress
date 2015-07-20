@@ -2,41 +2,15 @@
   28.0 - Site Icon
 ------------------------------------------------------------------------------*/
 
-.site-icon-image {
-	float: left;
-	margin: 0 20px 0 0;
-}
-
-.site-icon-content {
-	overflow: hidden;
-	padding: 10px;
-	position: relative;
-}
-
-.site-icon-crop-shell {
-	max-width: 720px;
-}
-
-.site-icon-crop-wrapper {
-	float: left;
-}
-
-.site-icon-crop-preview-shell {
-	float: right;
-	overflow: hidden;
-}
-
-.site-icon-crop-preview-shell h2 {
-	padding-top: 0;
-}
-
-.site-icon-crop-favicon-preview-shell {
+.site-icon-preview .favicon-preview {
 	margin-bottom: 20px;
+	overflow: hidden;
 	position: relative;
+	max-width: 180px;
 }
 
-.site-icon-crop-preview-favicon,
-.site-icon-browser-title {
+.site-icon-preview .favicon,
+.site-icon-preview .browser-title {
 	height: 16px;
 	left: 88px;
 	overflow: hidden;
@@ -44,40 +18,19 @@
 	top: 16px;
 }
 
-.site-icon-crop-preview-favicon {
+.site-icon-preview .favicon {
 	width: 16px;
 }
 
-.site-icon-browser-title {
+.site-icon-preview .browser-title {
 	left: 109px;
 }
 
-.site-icon-crop-preview-homeicon {
+.site-icon-preview .app-icon-preview {
 	background-color: #000;
 	-webkit-border-radius: 16px;
 	border-radius: 16px;
 	height: 64px;
 	overflow: hidden;
 	width: 64px;
-}
-
-.site-icon-crop-shell .submit {
-	clear: both;
-}
-
-@media only screen and (max-width: 768px) {
-	.site-icon-crop-wrapper,
-	.site-icon-crop-preview-shell {
-		float: none;
-	}
-
-	.site-icon-crop-wrapper {
-		max-width: 100%;
-		margin-bottom: 20px;
-	}
-
-	.site-icon-crop-wrapper img {
-		max-width: 100%;
-		height: auto;
-	}
 }

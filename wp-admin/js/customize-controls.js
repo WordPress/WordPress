@@ -2038,6 +2038,40 @@
 	 * @augments wp.customize.Class
 	 */
 	api.SiteIconControl = api.CroppedImageControl.extend({
+
+		/**
+		 * Create a media modal select frame, and store it so the instance can be reused when needed.
+		 */
+		initFrame: function() {
+			var l10n = _wpMediaViewsL10n;
+
+			this.frame = wp.media({
+				button: {
+					text: l10n.select,
+					close: false
+				},
+				states: [
+					new wp.media.controller.Library({
+						title: this.params.button_labels.frame_title,
+						library: wp.media.query({ type: 'image' }),
+						multiple: false,
+						date: false,
+						priority: 20,
+						suggestedWidth: this.params.width,
+						suggestedHeight: this.params.height
+					}),
+					new wp.media.controller.SiteIconCropper({
+						imgSelectOptions: this.calculateImageSelectOptions,
+						control: this
+					})
+				]
+			});
+
+			this.frame.on( 'select', this.onSelect, this );
+			this.frame.on( 'cropped', this.onCropped, this );
+			this.frame.on( 'skippedcrop', this.onSkippedCrop, this );
+		},
+
 		/**
 		 * Updates the setting and re-renders the control UI.
 		 *
