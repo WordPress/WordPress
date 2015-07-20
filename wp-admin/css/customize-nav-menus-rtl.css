@@ -340,14 +340,14 @@
 	border: none;
 	content: "\f111";
 	display: block;
-	font: 20px/1 "dashicons";
+	font: 16px/1 "dashicons";
 	padding: 5px;
 	text-align: center;
 	text-decoration: none !important;
 	text-indent: 0;
-	right: 5px;
+	right: 7px;
 	position: absolute;
-	top: 5px;
+	top: 7px;
 }
 
 .wp-customizer #screen-options-wrap {
