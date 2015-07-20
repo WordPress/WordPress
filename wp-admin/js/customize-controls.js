@@ -1934,7 +1934,7 @@
 				ratio = xInit / yInit,
 				xImg  = realWidth,
 				yImg  = realHeight,
-				imgSelectOptions;
+				x1, y1, imgSelectOptions;
 
 			controller.set( 'canSkipCrop', ! control.mustBeCropped( flexWidth, flexHeight, xInit, yInit, realWidth, realHeight ) );
 
@@ -1946,6 +1946,9 @@
 				yInit = xInit / ratio;
 			}
 
+			x1 = ( xImg - xInit ) / 2;
+			y1 = ( yImg - yInit ) / 2;
+
 			imgSelectOptions = {
 				handles: true,
 				keys: true,
@@ -1953,10 +1956,10 @@
 				persistent: true,
 				imageWidth: realWidth,
 				imageHeight: realHeight,
-				x1: 0,
-				y1: 0,
-				x2: xInit,
-				y2: yInit
+				x1: x1,
+				y1: y1,
+				x2: xInit + x1,
+				y2: yInit + y1
 			};
 
 			if ( flexHeight === false && flexWidth === false ) {
