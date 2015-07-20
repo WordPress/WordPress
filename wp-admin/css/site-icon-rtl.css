@@ -3,7 +3,7 @@
 ------------------------------------------------------------------------------*/
 
 .site-icon-preview .favicon-preview {
-	margin-bottom: 20px;
+	margin: 5px 0 20px;
 	overflow: hidden;
 	position: relative;
 	max-width: 180px;
@@ -33,4 +33,5 @@
 	height: 64px;
 	overflow: hidden;
 	width: 64px;
+	margin-top: 5px;
 }
