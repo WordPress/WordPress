@@ -145,22 +145,26 @@ window.wp = window.wp || {};
 		/**
 		 * Create a view instance.
 		 *
-		 * @param {String} type    The view type.
-		 * @param {String} text    The textual representation of the view.
-		 * @param {Object} options Options.
+		 * @param {String}  type    The view type.
+		 * @param {String}  text    The textual representation of the view.
+		 * @param {Object}  options Options.
+		 * @param {Boolean} force   Recreate the instance. Optional.
 		 *
 		 * @return {wp.mce.View} The view instance.
 		 */
-		createInstance: function( type, text, options ) {
+		createInstance: function( type, text, options, force ) {
 			var View = this.get( type ),
 				encodedText,
 				instance;
 
 			text = tinymce.DOM.decode( text );
-			instance = this.getInstance( text );
 
-			if ( instance ) {
-				return instance;
+			if ( ! force ) {
+				instance = this.getInstance( text );
+
+				if ( instance ) {
+					return instance;
+				}
 			}
 
 			encodedText = encodeURIComponent( text );
@@ -216,12 +220,13 @@ window.wp = window.wp || {};
 		 * @param {String}         text   The new text.
 		 * @param {tinymce.Editor} editor The TinyMCE editor instance the view node is in.
 		 * @param {HTMLElement}    node   The view node to update.
+		 * @param {Boolean}        force  Recreate the instance. Optional.
 		 */
-		update: function( text, editor, node ) {
+		update: function( text, editor, node, force ) {
 			var instance = this.getInstance( node );
 
 			if ( instance ) {
-				instance.update( text, editor, node );
+				instance.update( text, editor, node, force );
 			}
 		},
 
@@ -235,8 +240,8 @@ window.wp = window.wp || {};
 			var instance = this.getInstance( node );
 
 			if ( instance && instance.edit ) {
-				instance.edit( instance.text, function( text ) {
-					instance.update( text, editor, node );
+				instance.edit( instance.text, function( text, force ) {
+					instance.update( text, editor, node, force );
 				} );
 			}
 		},
@@ -302,8 +307,8 @@ window.wp = window.wp || {};
 		/**
 		 * Renders all view nodes tied to this view instance that are not yet rendered.
 		 *
-		 * @param {String} content The content to render. Optional.
-		 * @param {Boolean} force Rerender all view nodes tied to this view instance.
+		 * @param {String}  content The content to render. Optional.
+		 * @param {Boolean} force   Rerender all view nodes tied to this view instance. Optional.
 		 */
 		render: function( content, force ) {
 			if ( content != null ) {
@@ -647,7 +652,7 @@ window.wp = window.wp || {};
 		 * Sets an error for all view nodes tied to this view instance.
 		 *
 		 * @param {String} message  The error message to set.
-		 * @param {String} dashicon A dashicon ID (optional). {@link https://developer.wordpress.org/resource/dashicons/}
+		 * @param {String} dashicon A dashicon ID. Optional. {@link https://developer.wordpress.org/resource/dashicons/}
 		 */
 		setError: function( message, dashicon ) {
 			this.setContent(
@@ -685,15 +690,16 @@ window.wp = window.wp || {};
 		 * @param {String}         text   The new text.
 		 * @param {tinymce.Editor} editor The TinyMCE editor instance the view node is in.
 		 * @param {HTMLElement}    node   The view node to update.
+		 * @param {Boolean}        force  Recreate the instance. Optional.
 		 */
-		update: function( text, editor, node ) {
+		update: function( text, editor, node, force ) {
 			_.find( views, function( view, type ) {
 				var match = view.prototype.match( text );
 
 				if ( match ) {
 					$( node ).data( 'rendered', false );
 					editor.dom.setAttrib( node, 'data-wpview-text', encodeURIComponent( text ) );
-					wp.mce.views.createInstance( type, text, match.options ).render();
+					wp.mce.views.createInstance( type, text, match.options, force ).render();
 					editor.focus();
 
 					return true;
@@ -729,14 +735,15 @@ window.wp = window.wp || {};
 		state: [],
 
 		edit: function( text, update ) {
-			var media = wp.media[ this.type ],
+			var type = this.type,
+				media = wp.media[ type ],
 				frame = media.edit( text );
 
 			this.pausePlayers && this.pausePlayers();
 
 			_.each( this.state, function( state ) {
 				frame.state( state ).on( 'update', function( selection ) {
-					update( media.shortcode( selection ).string() );
+					update( media.shortcode( selection ).string(), type === 'gallery' );
 				} );
 			} );
 
