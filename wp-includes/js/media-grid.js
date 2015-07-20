@@ -1,6 +1,4 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-/*globals wp */
-
 /**
  * wp.media.controller.EditAttachmentMetadata
  *
@@ -29,8 +27,6 @@ EditAttachmentMetadata = wp.media.controller.State.extend({
 module.exports = EditAttachmentMetadata;
 
 },{}],2:[function(require,module,exports){
-/*globals wp */
-
 var media = wp.media;
 
 media.controller.EditAttachmentMetadata = require( './controllers/edit-attachment-metadata.js' );
@@ -44,8 +40,6 @@ media.view.DeleteSelectedButton = require( './views/button/delete-selected.js' )
 media.view.DeleteSelectedPermanentlyButton = require( './views/button/delete-selected-permanently.js' );
 
 },{"./controllers/edit-attachment-metadata.js":1,"./routers/manage.js":3,"./views/attachment/details-two-column.js":4,"./views/button/delete-selected-permanently.js":5,"./views/button/delete-selected.js":6,"./views/button/select-mode-toggle.js":7,"./views/edit-image-details.js":8,"./views/frame/edit-attachments.js":9,"./views/frame/manage.js":10}],3:[function(require,module,exports){
-/*globals wp, Backbone */
-
 /**
  * wp.media.view.MediaFrame.Manage.Router
  *
@@ -94,7 +88,7 @@ var Router = Backbone.Router.extend({
 	showItem: function( query ) {
 		var frame = this.controller,
 			item;
-	
+
 		// Trigger the media frame to open the correct item
 		item = this.library.findWhere( { id: parseInt( query, 10 ) } );
 		if ( item ) {
@@ -113,8 +107,6 @@ var Router = Backbone.Router.extend({
 module.exports = Router;
 
 },{}],4:[function(require,module,exports){
-/*globals wp */
-
 /**
  * wp.media.view.Attachment.Details.TwoColumn
  *
@@ -158,8 +150,6 @@ TwoColumn = Details.extend({
 module.exports = TwoColumn;
 
 },{}],5:[function(require,module,exports){
-/*globals wp */
-
 /**
  * wp.media.view.DeleteSelectedPermanentlyButton
  *
@@ -207,8 +197,6 @@ DeleteSelectedPermanently = DeleteSelected.extend({
 module.exports = DeleteSelectedPermanently;
 
 },{}],6:[function(require,module,exports){
-/*globals wp */
-
 /**
  * wp.media.view.DeleteSelectedButton
  *
@@ -262,8 +250,6 @@ DeleteSelected = Button.extend({
 module.exports = DeleteSelected;
 
 },{}],7:[function(require,module,exports){
-/*globals wp */
-
 /**
  * wp.media.view.SelectModeToggleButton
  *
@@ -338,8 +324,6 @@ SelectModeToggle = Button.extend({
 module.exports = SelectModeToggle;
 
 },{}],8:[function(require,module,exports){
-/*globals wp, _ */
-
 /**
  * wp.media.view.EditImage.Details
  *
@@ -375,8 +359,6 @@ Details = EditImage.extend({
 module.exports = Details;
 
 },{}],9:[function(require,module,exports){
-/*globals wp, _, jQuery */
-
 /**
  * wp.media.view.MediaFrame.EditAttachments
  *
@@ -620,8 +602,6 @@ EditAttachments = MediaFrame.extend({
 module.exports = EditAttachments;
 
 },{}],10:[function(require,module,exports){
-/*globals wp, _, Backbone */
-
 /**
  * wp.media.view.MediaFrame.Manage
  *

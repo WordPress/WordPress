@@ -1,6 +1,4 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-/*globals wp, _ */
-
 /**
  * wp.media.controller.CollectionAdd
  *
@@ -102,8 +100,6 @@ CollectionAdd = Library.extend({
 module.exports = CollectionAdd;
 
 },{}],2:[function(require,module,exports){
-/*globals wp, Backbone */
-
 /**
  * wp.media.controller.CollectionEdit
  *
@@ -266,8 +262,6 @@ CollectionEdit = Library.extend({
 module.exports = CollectionEdit;
 
 },{}],3:[function(require,module,exports){
-/*globals wp, _, Backbone */
-
 /**
  * wp.media.controller.Cropper
  *
@@ -384,8 +378,6 @@ Cropper = wp.media.controller.State.extend({
 module.exports = Cropper;
 
 },{}],4:[function(require,module,exports){
-/*globals wp */
-
 /**
  * wp.media.controller.CustomizeImageCropper
  *
@@ -420,8 +412,6 @@ CustomizeImageCropper = Controller.Cropper.extend({
 module.exports = CustomizeImageCropper;
 
 },{}],5:[function(require,module,exports){
-/*globals wp */
-
 /**
  * wp.media.controller.EditImage
  *
@@ -498,8 +488,6 @@ EditImage = wp.media.controller.State.extend({
 module.exports = EditImage;
 
 },{}],6:[function(require,module,exports){
-/*globals wp, _, Backbone */
-
 /**
  * wp.media.controller.Embed
  *
@@ -636,8 +624,6 @@ Embed = wp.media.controller.State.extend({
 module.exports = Embed;
 
 },{}],7:[function(require,module,exports){
-/*globals wp, _ */
-
 /**
  * wp.media.controller.FeaturedImage
  *
@@ -760,8 +746,6 @@ FeaturedImage = Library.extend({
 module.exports = FeaturedImage;
 
 },{}],8:[function(require,module,exports){
-/*globals wp, _ */
-
 /**
  * wp.media.controller.GalleryAdd
  *
@@ -853,8 +837,6 @@ GalleryAdd = Library.extend({
 module.exports = GalleryAdd;
 
 },{}],9:[function(require,module,exports){
-/*globals wp */
-
 /**
  * wp.media.controller.GalleryEdit
  *
@@ -997,8 +979,6 @@ GalleryEdit = Library.extend({
 module.exports = GalleryEdit;
 
 },{}],10:[function(require,module,exports){
-/*globals wp, _ */
-
 /**
  * wp.media.controller.ImageDetails
  *
@@ -1061,8 +1041,6 @@ ImageDetails = State.extend({
 module.exports = ImageDetails;
 
 },{}],11:[function(require,module,exports){
-/*globals wp, _, Backbone */
-
 /**
  * wp.media.controller.Library
  *
@@ -1335,8 +1313,6 @@ _.extend( Library.prototype, wp.media.selectionSync );
 module.exports = Library;
 
 },{}],12:[function(require,module,exports){
-/*globals wp, _ */
-
 /**
  * wp.media.controller.MediaLibrary
  *
@@ -1387,8 +1363,6 @@ MediaLibrary = Library.extend({
 module.exports = MediaLibrary;
 
 },{}],13:[function(require,module,exports){
-/*globals Backbone, _ */
-
 /**
  * wp.media.controller.Region
  *
@@ -1568,8 +1542,6 @@ _.extend( Region.prototype, {
 module.exports = Region;
 
 },{}],14:[function(require,module,exports){
-/*globals wp, _ */
-
 /**
  * wp.media.controller.ReplaceImage
  *
@@ -1678,8 +1650,6 @@ ReplaceImage = Library.extend({
 module.exports = ReplaceImage;
 
 },{}],15:[function(require,module,exports){
-/*globals wp, Backbone */
-
 /**
  * wp.media.controller.SiteIconCropper
  *
@@ -1729,8 +1699,6 @@ SiteIconCropper = Controller.Cropper.extend({
 module.exports = SiteIconCropper;
 
 },{}],16:[function(require,module,exports){
-/*globals _, Backbone */
-
 /**
  * wp.media.controller.StateMachine
  *
@@ -1855,8 +1823,6 @@ _.each([ 'on', 'off', 'trigger' ], function( method ) {
 module.exports = StateMachine;
 
 },{}],17:[function(require,module,exports){
-/*globals _, Backbone */
-
 /**
  * wp.media.controller.State
  *
@@ -2098,8 +2064,6 @@ _.each(['toolbar','content'], function( region ) {
 module.exports = State;
 
 },{}],18:[function(require,module,exports){
-/*globals _ */
-
 /**
  * wp.media.selectionSync
  *
@@ -2166,8 +2130,6 @@ var selectionSync = {
 module.exports = selectionSync;
 
 },{}],19:[function(require,module,exports){
-/*globals wp, jQuery, _, Backbone */
-
 var media = wp.media,
 	$ = jQuery,
 	l10n;
@@ -2319,8 +2281,6 @@ media.view.EditImage = require( './views/edit-image.js' );
 media.view.Spinner = require( './views/spinner.js' );
 
 },{"./controllers/collection-add.js":1,"./controllers/collection-edit.js":2,"./controllers/cropper.js":3,"./controllers/customize-image-cropper.js":4,"./controllers/edit-image.js":5,"./controllers/embed.js":6,"./controllers/featured-image.js":7,"./controllers/gallery-add.js":8,"./controllers/gallery-edit.js":9,"./controllers/image-details.js":10,"./controllers/library.js":11,"./controllers/media-library.js":12,"./controllers/region.js":13,"./controllers/replace-image.js":14,"./controllers/site-icon-cropper.js":15,"./controllers/state-machine.js":16,"./controllers/state.js":17,"./utils/selection-sync.js":18,"./views/attachment-compat.js":20,"./views/attachment-filters.js":21,"./views/attachment-filters/all.js":22,"./views/attachment-filters/date.js":23,"./views/attachment-filters/uploaded.js":24,"./views/attachment.js":25,"./views/attachment/details.js":26,"./views/attachment/edit-library.js":27,"./views/attachment/edit-selection.js":28,"./views/attachment/library.js":29,"./views/attachment/selection.js":30,"./views/attachments.js":31,"./views/attachments/browser.js":32,"./views/attachments/selection.js":33,"./views/button-group.js":34,"./views/button.js":35,"./views/cropper.js":36,"./views/edit-image.js":37,"./views/embed.js":38,"./views/embed/image.js":39,"./views/embed/link.js":40,"./views/embed/url.js":41,"./views/focus-manager.js":42,"./views/frame.js":43,"./views/frame/image-details.js":44,"./views/frame/post.js":45,"./views/frame/select.js":46,"./views/iframe.js":47,"./views/image-details.js":48,"./views/label.js":49,"./views/media-frame.js":50,"./views/menu-item.js":51,"./views/menu.js":52,"./views/modal.js":53,"./views/priority-list.js":54,"./views/router-item.js":55,"./views/router.js":56,"./views/search.js":57,"./views/selection.js":58,"./views/settings.js":59,"./views/settings/attachment-display.js":60,"./views/settings/gallery.js":61,"./views/settings/playlist.js":62,"./views/sidebar.js":63,"./views/site-icon-cropper.js":64,"./views/site-icon-preview.js":65,"./views/spinner.js":66,"./views/toolbar.js":67,"./views/toolbar/embed.js":68,"./views/toolbar/select.js":69,"./views/uploader/editor.js":70,"./views/uploader/inline.js":71,"./views/uploader/status-error.js":72,"./views/uploader/status.js":73,"./views/uploader/window.js":74,"./views/view.js":75}],20:[function(require,module,exports){
-/*globals _ */
-
 /**
  * wp.media.view.AttachmentCompat
  *
@@ -2406,8 +2366,6 @@ AttachmentCompat = View.extend({
 module.exports = AttachmentCompat;
 
 },{}],21:[function(require,module,exports){
-/*globals _, jQuery */
-
 /**
  * wp.media.view.AttachmentFilters
  *
@@ -2485,8 +2443,6 @@ AttachmentFilters = wp.media.View.extend({
 module.exports = AttachmentFilters;
 
 },{}],22:[function(require,module,exports){
-/*globals wp */
-
 /**
  * wp.media.view.AttachmentFilters.All
  *
@@ -2577,8 +2533,6 @@ All = wp.media.view.AttachmentFilters.extend({
 module.exports = All;
 
 },{}],23:[function(require,module,exports){
-/*globals wp, _ */
-
 /**
  * A filter dropdown for month/dates.
  *
@@ -2620,8 +2574,6 @@ DateFilter = wp.media.view.AttachmentFilters.extend({
 module.exports = DateFilter;
 
 },{}],24:[function(require,module,exports){
-/*globals wp */
-
 /**
  * wp.media.view.AttachmentFilters.Uploaded
  *
@@ -2681,8 +2633,6 @@ Uploaded = wp.media.view.AttachmentFilters.extend({
 module.exports = Uploaded;
 
 },{}],25:[function(require,module,exports){
-/*globals wp, _, jQuery */
-
 /**
  * wp.media.view.Attachment
  *
@@ -3229,8 +3179,6 @@ _.each({
 module.exports = Attachment;
 
 },{}],26:[function(require,module,exports){
-/*globals wp, _ */
-
 /**
  * wp.media.view.Attachment.Details
  *
@@ -3369,8 +3317,6 @@ Details = Attachment.extend({
 module.exports = Details;
 
 },{}],27:[function(require,module,exports){
-/*globals wp */
-
 /**
  * wp.media.view.Attachment.EditLibrary
  *
@@ -3389,8 +3335,6 @@ var EditLibrary = wp.media.view.Attachment.extend({
 module.exports = EditLibrary;
 
 },{}],28:[function(require,module,exports){
-/*globals wp */
-
 /**
  * wp.media.view.Attachments.EditSelection
  *
@@ -3410,8 +3354,6 @@ var EditSelection = wp.media.view.Attachment.Selection.extend({
 module.exports = EditSelection;
 
 },{}],29:[function(require,module,exports){
-/*globals wp */
-
 /**
  * wp.media.view.Attachment.Library
  *
@@ -3430,8 +3372,6 @@ var Library = wp.media.view.Attachment.extend({
 module.exports = Library;
 
 },{}],30:[function(require,module,exports){
-/*globals wp */
-
 /**
  * wp.media.view.Attachment.Selection
  *
@@ -3454,8 +3394,6 @@ var Selection = wp.media.view.Attachment.extend({
 module.exports = Selection;
 
 },{}],31:[function(require,module,exports){
-/*globals wp, _, jQuery */
-
 /**
  * wp.media.view.Attachments
  *
@@ -3755,8 +3693,6 @@ Attachments = View.extend({
 module.exports = Attachments;
 
 },{}],32:[function(require,module,exports){
-/*globals wp, _, jQuery */
-
 /**
  * wp.media.view.AttachmentsBrowser
  *
@@ -4201,8 +4137,6 @@ AttachmentsBrowser = View.extend({
 module.exports = AttachmentsBrowser;
 
 },{}],33:[function(require,module,exports){
-/*globals wp, _ */
-
 /**
  * wp.media.view.Attachments.Selection
  *
@@ -4233,8 +4167,6 @@ Selection = Attachments.extend({
 module.exports = Selection;
 
 },{}],34:[function(require,module,exports){
-/*globals _, Backbone */
-
 /**
  * wp.media.view.ButtonGroup
  *
@@ -4281,8 +4213,6 @@ ButtonGroup = wp.media.View.extend({
 module.exports = ButtonGroup;
 
 },{}],35:[function(require,module,exports){
-/*globals _, Backbone */
-
 /**
  * wp.media.view.Button
  *
@@ -4369,8 +4299,6 @@ var Button = wp.media.View.extend({
 module.exports = Button;
 
 },{}],36:[function(require,module,exports){
-/*globals wp, _, jQuery */
-
 /**
  * wp.media.view.Cropper
  *
@@ -4438,8 +4366,6 @@ Cropper = View.extend({
 module.exports = Cropper;
 
 },{}],37:[function(require,module,exports){
-/*globals wp, _ */
-
 /**
  * wp.media.view.EditImage
  *
@@ -4560,8 +4486,6 @@ var Embed = wp.media.View.extend({
 module.exports = Embed;
 
 },{}],39:[function(require,module,exports){
-/*globals wp */
-
 /**
  * wp.media.view.EmbedImage
  *
@@ -4595,8 +4519,6 @@ EmbedImage = AttachmentDisplay.extend({
 module.exports = EmbedImage;
 
 },{}],40:[function(require,module,exports){
-/*globals wp, _, jQuery */
-
 /**
  * wp.media.view.EmbedLink
  *
@@ -4686,8 +4608,6 @@ EmbedLink = wp.media.view.Settings.extend({
 module.exports = EmbedLink;
 
 },{}],41:[function(require,module,exports){
-/*globals wp, _, jQuery */
-
 /**
  * wp.media.view.EmbedUrl
  *
@@ -4813,8 +4733,6 @@ var FocusManager = wp.media.View.extend({
 module.exports = FocusManager;
 
 },{}],43:[function(require,module,exports){
-/*globals _, Backbone */
-
 /**
  * wp.media.view.Frame
  *
@@ -4981,8 +4899,6 @@ _.extend( Frame.prototype, wp.media.controller.StateMachine.prototype );
 module.exports = Frame;
 
 },{}],44:[function(require,module,exports){
-/*globals wp */
-
 /**
  * wp.media.view.MediaFrame.ImageDetails
  *
@@ -5160,8 +5076,6 @@ ImageDetails = Select.extend({
 module.exports = ImageDetails;
 
 },{}],45:[function(require,module,exports){
-/*globals wp, _ */
-
 /**
  * wp.media.view.MediaFrame.Post
  *
@@ -5897,8 +5811,6 @@ Post = Select.extend({
 module.exports = Post;
 
 },{}],46:[function(require,module,exports){
-/*globals wp, _ */
-
 /**
  * wp.media.view.MediaFrame.Select
  *
@@ -6094,8 +6006,6 @@ var Iframe = wp.media.View.extend({
 module.exports = Iframe;
 
 },{}],48:[function(require,module,exports){
-/*globals wp, _, jQuery */
-
 /**
  * wp.media.view.ImageDetails
  *
@@ -6290,8 +6200,6 @@ var Label = wp.media.View.extend({
 module.exports = Label;
 
 },{}],50:[function(require,module,exports){
-/*globals wp, _, jQuery */
-
 /**
  * wp.media.view.MediaFrame
  *
@@ -6539,8 +6447,6 @@ _.each(['open','close','attach','detach','escape'], function( method ) {
 module.exports = MediaFrame;
 
 },{}],51:[function(require,module,exports){
-/*globals jQuery */
-
 /**
  * wp.media.view.MenuItem
  *
@@ -6730,8 +6636,6 @@ Menu = PriorityList.extend({
 module.exports = Menu;
 
 },{}],53:[function(require,module,exports){
-/*globals wp, _, jQuery */
-
 /**
  * wp.media.view.Modal
  *
@@ -6945,8 +6849,6 @@ Modal = wp.media.View.extend({
 module.exports = Modal;
 
 },{}],54:[function(require,module,exports){
-/*globals _, Backbone */
-
 /**
  * wp.media.view.PriorityList
  *
@@ -7068,8 +6970,6 @@ var RouterItem = wp.media.view.MenuItem.extend({
 module.exports = RouterItem;
 
 },{}],56:[function(require,module,exports){
-/*globals wp */
-
 /**
  * wp.media.view.Router
  *
@@ -7107,8 +7007,6 @@ Router = Menu.extend({
 module.exports = Router;
 
 },{}],57:[function(require,module,exports){
-/*globals wp */
-
 /**
  * wp.media.view.Search
  *
@@ -7157,8 +7055,6 @@ Search = wp.media.View.extend({
 module.exports = Search;
 
 },{}],58:[function(require,module,exports){
-/*globals wp, _, Backbone */
-
 /**
  * wp.media.view.Selection
  *
@@ -7242,8 +7138,6 @@ Selection = wp.media.View.extend({
 module.exports = Selection;
 
 },{}],59:[function(require,module,exports){
-/*globals _, Backbone */
-
 /**
  * wp.media.view.Settings
  *
@@ -7365,8 +7259,6 @@ Settings = View.extend({
 module.exports = Settings;
 
 },{}],60:[function(require,module,exports){
-/*globals wp, _ */
-
 /**
  * wp.media.view.Settings.AttachmentDisplay
  *
@@ -7461,8 +7353,6 @@ AttachmentDisplay = Settings.extend({
 module.exports = AttachmentDisplay;
 
 },{}],61:[function(require,module,exports){
-/*globals wp */
-
 /**
  * wp.media.view.Settings.Gallery
  *
@@ -7480,8 +7370,6 @@ var Gallery = wp.media.view.Settings.extend({
 module.exports = Gallery;
 
 },{}],62:[function(require,module,exports){
-/*globals wp */
-
 /**
  * wp.media.view.Settings.Playlist
  *
@@ -7515,8 +7403,6 @@ var Sidebar = wp.media.view.PriorityList.extend({
 module.exports = Sidebar;
 
 },{}],64:[function(require,module,exports){
-/*globals wp, _ */
-
 /**
  * wp.media.view.SiteIconCropper
  *
@@ -7560,8 +7446,6 @@ SiteIconCropper = View.Cropper.extend({
 module.exports = SiteIconCropper;
 
 },{}],65:[function(require,module,exports){
-/*globals wp, jQuery */
-
 /**
  * wp.media.view.SiteIconPreview
  *
@@ -7618,8 +7502,6 @@ SiteIconPreview = View.extend({
 module.exports = SiteIconPreview;
 
 },{}],66:[function(require,module,exports){
-/*globals _ */
-
 /**
  * wp.media.view.Spinner
  *
@@ -7655,8 +7537,6 @@ var Spinner = wp.media.View.extend({
 module.exports = Spinner;
 
 },{}],67:[function(require,module,exports){
-/*globals _, Backbone */
-
 /**
  * wp.media.view.Toolbar
  *
@@ -7817,8 +7697,6 @@ Toolbar = View.extend({
 module.exports = Toolbar;
 
 },{}],68:[function(require,module,exports){
-/*globals wp, _ */
-
 /**
  * wp.media.view.Toolbar.Embed
  *
@@ -7856,8 +7734,6 @@ Embed = Select.extend({
 module.exports = Embed;
 
 },{}],69:[function(require,module,exports){
-/*globals wp, _ */
-
 /**
  * wp.media.view.Toolbar.Select
  *
@@ -7928,8 +7804,6 @@ Select = Toolbar.extend({
 module.exports = Select;
 
 },{}],70:[function(require,module,exports){
-/*globals wp, _, jQuery */
-
 /**
  * Creates a dropzone on WP editor instances (elements with .wp-editor-wrap)
  * and relays drag'n'dropped files to a media workflow.
@@ -8151,8 +8025,6 @@ EditorUploader = View.extend({
 module.exports = EditorUploader;
 
 },{}],71:[function(require,module,exports){
-/*globals wp, _ */
-
 /**
  * wp.media.view.UploaderInline
  *
@@ -8284,8 +8156,6 @@ UploaderInline = View.extend({
 module.exports = UploaderInline;
 
 },{}],72:[function(require,module,exports){
-/*globals wp */
-
 /**
  * wp.media.view.UploaderStatusError
  *
@@ -8302,8 +8172,6 @@ var UploaderStatusError = wp.media.View.extend({
 module.exports = UploaderStatusError;
 
 },{}],73:[function(require,module,exports){
-/*globals wp, _ */
-
 /**
  * wp.media.view.UploaderStatus
  *
@@ -8442,8 +8310,6 @@ UploaderStatus = View.extend({
 module.exports = UploaderStatus;
 
 },{}],74:[function(require,module,exports){
-/*globals wp, _, jQuery */
-
 /**
  * wp.media.view.UploaderWindow
  *
@@ -8555,8 +8421,6 @@ UploaderWindow = wp.media.View.extend({
 module.exports = UploaderWindow;
 
 },{}],75:[function(require,module,exports){
-/*globals wp */
-
 /**
  * wp.media.View
  *

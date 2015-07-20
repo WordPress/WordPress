@@ -1,4 +1,4 @@
-/* global postboxes:true, commentL10n:true */
+/* global postboxes, commentL10n */
 jQuery(document).ready( function($) {
 
 	postboxes.add_postbox_toggles('comment');

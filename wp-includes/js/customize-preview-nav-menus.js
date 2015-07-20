@@ -1,4 +1,4 @@
-/*global jQuery, JSON, _wpCustomizePreviewNavMenusExports, _ */
+/* global JSON, _wpCustomizePreviewNavMenusExports */
 
 wp.customize.menusPreview = ( function( $, api ) {
 	'use strict';
