@@ -28,7 +28,7 @@ wp.customize.menusPreview = ( function( $, api ) {
 	 * Bootstrap functionality.
 	 */
 	self.init = function() {
-		var self = this;
+		var self = this, initializedSettings = {};
 
 		if ( 'undefined' !== typeof _wpCustomizePreviewNavMenusExports ) {
 			$.extend( self, _wpCustomizePreviewNavMenusExports );
@@ -36,6 +36,7 @@ wp.customize.menusPreview = ( function( $, api ) {
 
 		api.each( function( setting, id ) {
 			setting.id = id;
+			initializedSettings[ setting.id ] = true;
 			self.bindListener( setting );
 		} );
 
@@ -44,10 +45,19 @@ wp.customize.menusPreview = ( function( $, api ) {
 			args = args.slice();
 			id = args.shift();
 			value = args.shift();
-			if ( ! api.has( id ) ) {
-				// Currently customize-preview.js is not creating settings for dynamically-created settings in the pane; so we have to do it
+
+			setting = api( id );
+			if ( ! setting ) {
+				// Currently customize-preview.js is not creating settings for dynamically-created settings in the pane, so we have to do it.
 				setting = api.create( id, value ); // @todo This should be in core
+			}
+			if ( ! setting.id ) {
+				// Currently customize-preview.js doesn't set the id property for each setting, like customize-controls.js does.
 				setting.id = id;
+			}
+
+			if ( ! initializedSettings[ setting.id ] ) {
+				initializedSettings[ setting.id ] = true;
 				if ( self.bindListener( setting ) ) {
 					setting.callbacks.fireWith( setting, [ setting(), null ] );
 				}
@@ -140,6 +150,11 @@ wp.customize.menusPreview = ( function( $, api ) {
 		} );
 	};
 
+	/**
+	 * Refresh the menu(s) associated with a given nav menu location.
+	 *
+	 * @param {string} location
+	 */
 	self.refreshMenuLocation = function( location ) {
 		var foundInstance = false;
 		_.each( self.navMenuInstanceArgs, function( navMenuArgs, instanceNumber ) {
@@ -189,11 +204,24 @@ wp.customize.menusPreview = ( function( $, api ) {
 			data.theme = self.theme.stylesheet;
 		}
 		data[ self.renderQueryVar ] = '1';
+
+		// Gather settings to send in partial refresh request.
 		customized = {};
 		api.each( function( setting, id ) {
+			var value = setting.get(), shouldSend = false;
 			// @todo Core should propagate the dirty state into the Preview as well so we can use that here.
-			if ( id === 'nav_menu[' + String( menuId ) + ']' || ( /^nav_menu_item\[/.test( id ) && setting() && menuId === setting().nav_menu_term_id ) ) {
-				customized[ id ] = setting.get();
+
+			// Send setting if it is a nav_menu_locations[] setting.
+			shouldSend = shouldSend || /^nav_menu_locations\[/.test( id );
+
+			// Send setting if it is the setting for this menu.
+			shouldSend = shouldSend || id === 'nav_menu[' + String( menuId ) + ']';
+
+			// Send setting if it is one that is associated with this menu, or it is deleted.
+			shouldSend = shouldSend || ( /^nav_menu_item\[/.test( id ) && ( false === value || menuId === value.nav_menu_term_id ) );
+
+			if ( shouldSend ) {
+				customized[ id ] = value;
 			}
 		} );
 		data.customized = JSON.stringify( customized );
