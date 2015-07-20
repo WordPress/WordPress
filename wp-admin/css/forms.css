@@ -1205,26 +1205,6 @@ table.form-table td .updated p {
 	.form-field #domain {
 		max-width: none;
 	}
-}
-
-@media only screen and (max-width: 768px) {
-	.form-field input[type="text"],
-	.form-field input[type="email"],
-	.form-field input[type="password"],
-	.form-field select,
-	.form-field textarea {
-		width: 99%;
-	}
-
-	.form-wrap .form-field {
-		padding:0;
-	}
-
-	/* users */
-	#profile-page .form-table textarea {
-		max-width: 400px;
-		width: auto;
-	}
 
 	/* New Password */
 	.wp-pwd {
@@ -1257,6 +1237,26 @@ table.form-table td .updated p {
 
 	.wp-pwd .button .text {
 		display: none;
+	}
+}
+
+@media only screen and (max-width: 768px) {
+	.form-field input[type="text"],
+	.form-field input[type="email"],
+	.form-field input[type="password"],
+	.form-field select,
+	.form-field textarea {
+		width: 99%;
+	}
+
+	.form-wrap .form-field {
+		padding:0;
+	}
+
+	/* users */
+	#profile-page .form-table textarea {
+		max-width: 400px;
+		width: auto;
 	}
 }
 
