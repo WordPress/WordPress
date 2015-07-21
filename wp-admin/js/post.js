@@ -558,8 +558,9 @@ jQuery(document).ready( function($) {
 				$('#timestamp').html(stamp);
 			} else {
 				$('#timestamp').html(
-					publishOn + ' <b>' +
-					postL10n.dateFormat.replace( '%1$s', $('option[value="' + $('#mm').val() + '"]', '#mm').text() )
+					'\n' + publishOn + ' <b>' +
+					postL10n.dateFormat
+						.replace( '%1$s', $( 'option[value="' + mm + '"]', '#mm' ).attr( 'data-text' ) )
 						.replace( '%2$s', jj )
 						.replace( '%3$s', aa )
 						.replace( '%4$s', hh )
