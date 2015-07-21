@@ -14,14 +14,16 @@
 		shortcodes = this.settings.l10n.shortcodes;
 
 		if ( shortcodes && shortcodes.length ) {
-			this.settings.shortcodesRegExp = new RegExp( '\\[\\/?(?:' + shortcodes.join( '|' ) + ')[^\\]]*?\\]', 'gi' );
+			this.settings.shortcodesRegExp = new RegExp( '\\[\\/?(?:' + shortcodes.join( '|' ) + ')[^\\]]*?\\]', 'g' );
 		}
 	}
 
 	WordCounter.prototype.settings = {
 		HTMLRegExp: /<\/?[a-z][^>]*?>/gi,
+		HTMLcommentRegExp: /<!--[\s\S]*?-->/g,
 		spaceRegExp: /&nbsp;|&#160;/gi,
-		connectorRegExp: /--|\u2014/gi,
+		HTMLEntityRegExp: /&\S+?;/g,
+		connectorRegExp: /--|\u2014/g,
 		removeRegExp: new RegExp( [
 			'[',
 				// Basic Latin (extract)
@@ -60,19 +62,24 @@
 		astralRegExp: /[\uD800-\uDBFF][\uDC00-\uDFFF]/g,
 		wordsRegExp: /\S\s+/g,
 		charactersRegExp: /\S/g,
-		allRegExp: /[^\f\n\r\t\v\u00ad\u2028\u2029]/g,
+		allRegExp: /[^\f\n\r\t\v\u00AD\u2028\u2029]/g,
 		l10n: window.wordCountL10n || {}
 	};
 
 	WordCounter.prototype.count = function( text, type ) {
 		var count = 0;
 
-		type = type || this.settings.l10n.type || 'words';
+		type = type || this.settings.l10n.type;
+
+		if ( type !== 'characters' && type !== 'all' ) {
+			type = 'words';
+		}
 
 		if ( text ) {
 			text = text + '\n';
 
 			text = text.replace( this.settings.HTMLRegExp, '\n' );
+			text = text.replace( this.settings.HTMLcommentRegExp, '' );
 
 			if ( this.settings.shortcodesRegExp ) {
 				text = text.replace( this.settings.shortcodesRegExp, '\n' );
@@ -81,9 +88,11 @@
 			text = text.replace( this.settings.spaceRegExp, ' ' );
 
 			if ( type === 'words' ) {
+				text = text.replace( this.settings.HTMLEntityRegExp, '' );
 				text = text.replace( this.settings.connectorRegExp, ' ' );
 				text = text.replace( this.settings.removeRegExp, '' );
 			} else {
+				text = text.replace( this.settings.HTMLEntityRegExp, 'a' );
 				text = text.replace( this.settings.astralRegExp, 'a' );
 			}
 
