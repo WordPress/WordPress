@@ -607,7 +607,9 @@ jQuery(document).ready( function($) {
 		$( '#visibility .edit-visibility').click( function () {
 			if ( $postVisibilitySelect.is(':hidden') ) {
 				updateVisibility();
-				$postVisibilitySelect.slideDown('fast').find('input[type="radio"]').first().focus();
+				$postVisibilitySelect.slideDown( 'fast', function() {
+					$postVisibilitySelect.find( 'input[type="radio"]' ).first().focus();
+				} );
 				$(this).hide();
 			}
 			return false;
@@ -626,7 +628,7 @@ jQuery(document).ready( function($) {
 
 		$postVisibilitySelect.find('.save-post-visibility').click( function( event ) { // crazyhorse - multiple ok cancels
 			$postVisibilitySelect.slideUp('fast');
-			$('#visibility .edit-visibility').show();
+			$('#visibility .edit-visibility').show().focus();
 			updateText();
 
 			if ( $postVisibilitySelect.find('input:radio:checked').val() != 'public' ) {
@@ -649,8 +651,9 @@ jQuery(document).ready( function($) {
 
 		$timestampdiv.siblings('a.edit-timestamp').click( function( event ) {
 			if ( $timestampdiv.is( ':hidden' ) ) {
-				$timestampdiv.slideDown('fast');
-				$( 'input, select', $timestampdiv.find( '.timestamp-wrap' ) ).first().focus();
+				$timestampdiv.slideDown( 'fast', function() {
+					$( 'input, select', $timestampdiv.find( '.timestamp-wrap' ) ).first().focus();
+				} );
 				$(this).hide();
 			}
 			event.preventDefault();
@@ -670,7 +673,7 @@ jQuery(document).ready( function($) {
 		$timestampdiv.find('.save-timestamp').click( function( event ) { // crazyhorse - multiple ok cancels
 			if ( updateText() ) {
 				$timestampdiv.slideUp('fast');
-				$timestampdiv.siblings('a.edit-timestamp').show();
+				$timestampdiv.siblings('a.edit-timestamp').show().focus();
 			}
 			event.preventDefault();
 		});
@@ -690,20 +693,22 @@ jQuery(document).ready( function($) {
 
 		$postStatusSelect.siblings('a.edit-post-status').click( function( event ) {
 			if ( $postStatusSelect.is( ':hidden' ) ) {
-				$postStatusSelect.slideDown('fast').find('select').focus();
+				$postStatusSelect.slideDown( 'fast', function() {
+					$postStatusSelect.find('select').focus();
+				} );
 				$(this).hide();
 			}
 			event.preventDefault();
 		});
 
 		$postStatusSelect.find('.save-post-status').click( function( event ) {
-			$postStatusSelect.slideUp('fast').siblings('a.edit-post-status').show();
+			$postStatusSelect.slideUp( 'fast' ).siblings( 'a.edit-post-status' ).show().focus();
 			updateText();
 			event.preventDefault();
 		});
 
 		$postStatusSelect.find('.cancel-post-status').click( function( event ) {
-			$('#post-status-select').slideUp('fast').siblings( 'a.edit-post-status' ).show().focus();
+			$postStatusSelect.slideUp( 'fast' ).siblings( 'a.edit-post-status' ).show().focus();
 			$('#post_status').val( $('#hidden_post_status').val() );
 			updateText();
 			event.preventDefault();
