@@ -9,7 +9,7 @@ jQuery(document).ready( function($) {
 	$timestampdiv.siblings('a.edit-timestamp').click( function( event ) {
 		if ( $timestampdiv.is( ':hidden' ) ) {
 			$timestampdiv.slideDown('fast');
-			$('#mm').focus();
+			$( 'input, select', $timestampdiv.find( '.timestamp-wrap' ) ).first().focus();
 			$(this).hide();
 		}
 		event.preventDefault();
