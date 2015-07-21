@@ -1193,7 +1193,11 @@ class wp_xmlrpc_server extends IXR_Server {
 	}
 
 	/**
+	 * Encapsulate the logic for sticking a post
+	 * and determining if the user has permission to do so
+	 *
 	 * @since 4.3.0
+	 * @access private
 	 *
 	 * @param array $post_data
 	 * @param bool  $update
