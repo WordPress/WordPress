@@ -49,29 +49,9 @@ media.view.DeleteSelectedPermanentlyButton = require( './views/button/delete-sel
  * @augments Backbone.Router
  */
 var Router = Backbone.Router.extend({
-	initialize: function ( options ) {
-		this.controller = options.controller;
-		this.library = options.library;
-		this.on( 'route', this.checkRoute );
-	},
-
 	routes: {
 		'upload.php?item=:slug':    'showItem',
-		'upload.php?search=:query': 'search',
-		'upload.php':				'defaultRoute'
-	},
-
-	checkRoute: function ( event ) {
-		if ( 'defaultRoute' !== event ) {
-			this.modal = true;
-		}
-	},
-
-	defaultRoute: function () {
-		if ( this.modal ) {
-			wp.media.frame.close();
-			this.modal = false;
-		}
+		'upload.php?search=:query': 'search'
 	},
 
 	// Map routes against the page URL
@@ -86,18 +66,19 @@ var Router = Backbone.Router.extend({
 
 	// Show the modal with a specific item
 	showItem: function( query ) {
-		var frame = this.controller,
+		var media = wp.media,
+			library = media.frame.state().get('library'),
 			item;
 
 		// Trigger the media frame to open the correct item
-		item = this.library.findWhere( { id: parseInt( query, 10 ) } );
+		item = library.findWhere( { id: parseInt( query, 10 ) } );
 		if ( item ) {
-			frame.trigger( 'edit:attachment', item );
+			media.frame.trigger( 'edit:attachment', item );
 		} else {
-			item = wp.media.attachment( query );
-			frame.listenTo( item, 'change', function( model ) {
-				frame.stopListening( item );
-				frame.trigger( 'edit:attachment', model );
+			item = media.attachment( query );
+			media.frame.listenTo( item, 'change', function( model ) {
+				media.frame.stopListening( item );
+				media.frame.trigger( 'edit:attachment', model );
 			} );
 			item.fetch();
 		}
@@ -664,10 +645,12 @@ Manage = MediaFrame.extend({
 				}
 			}).render();
 			this.uploader.ready();
-			this.$body.append( this.uploader.el );
+			$('body').append( this.uploader.el );
 
 			this.options.uploader = false;
 		}
+
+		this.gridRouter = new wp.media.view.MediaFrame.Manage.Router();
 
 		// Call 'initialize' directly on the parent class.
 		MediaFrame.prototype.initialize.apply( this, arguments );
@@ -675,23 +658,10 @@ Manage = MediaFrame.extend({
 		// Append the frame view directly the supplied container.
 		this.$el.appendTo( this.options.container );
 
-		this.setLibrary( this.options );
-		this.setRouter();
 		this.createStates();
 		this.bindRegionModeHandlers();
 		this.render();
 		this.bindSearchHandler();
-	},
-
-	setLibrary: function ( options ) {
-		this.library = wp.media.query( options.library );
-	},
-
-	setRouter: function () {
-		this.gridRouter = new wp.media.view.MediaFrame.Manage.Router({
-			controller: this,
-			library: this.library
-		});
 	},
 
 	bindSearchHandler: function() {
@@ -712,9 +682,7 @@ Manage = MediaFrame.extend({
 
 		// Update the URL when entering search string (at most once per second)
 		search.on( 'input', _.bind( input, this ) );
-		if ( currentSearch ) {
-			searchView.val( currentSearch ).trigger( 'input' );
-		}
+		searchView.val( currentSearch ).trigger( 'input' );
 
 		this.gridRouter.on( 'route:search', function () {
 			var href = window.location.href;
@@ -741,7 +709,7 @@ Manage = MediaFrame.extend({
 		// Add the default states.
 		this.states.add([
 			new Library({
-				library:            this.library,
+				library:            wp.media.query( options.library ),
 				multiple:           options.multiple,
 				title:              options.title,
 				content:            'browse',
