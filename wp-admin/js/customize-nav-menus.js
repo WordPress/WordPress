@@ -2013,11 +2013,11 @@
 			this.$sectionContent.sortable( this.isReordering ? 'disable' : 'enable' );
 			if ( this.isReordering ) {
 				addNewItemBtn.attr( 'tabindex', '-1' );
-				reorderBtn.find( '.reorder-done' ).focus();
+				reorderBtn.attr( 'aria-label', api.Menus.data.l10n.reorderLabelOff );
 				wp.a11y.speak( api.Menus.data.l10n.reorderModeOn );
 			} else {
 				addNewItemBtn.removeAttr( 'tabindex' );
-				reorderBtn.find( '.reorder' ).focus();
+				reorderBtn.attr( 'aria-label', api.Menus.data.l10n.reorderLabelOn );
 				wp.a11y.speak( api.Menus.data.l10n.reorderModeOff );
 			}
 
