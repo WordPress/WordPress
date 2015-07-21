@@ -1708,8 +1708,8 @@ i.mce-i-wp_code:before {
 	.wp-link-preview {
 		margin: 8px 5px 8px 0;
 		max-width: 70%;
-		max-width: -webkit-calc(100% - 82px);
-		max-width: calc(100% - 82px);
+		max-width: -webkit-calc(100% - 86px);
+		max-width: calc(100% - 86px);
 	}
 }
 
