@@ -2,21 +2,22 @@
 
 wp.customize.menusPreview = ( function( $, api ) {
 	'use strict';
-	var self;
-
-	self = {
-		renderQueryVar: null,
-		renderNonceValue: null,
-		renderNoncePostKey: null,
-		previewCustomizeNonce: null,
-		requestUri: '/',
-		theme: {
-			active: false,
-			stylesheet: ''
+	var currentRefreshDebounced = {},
+		refreshDebounceDelay = 200,
+		settings = {},
+		defaultSettings = {
+			renderQueryVar: null,
+			renderNonceValue: null,
+			renderNoncePostKey: null,
+			previewCustomizeNonce: null,
+			requestUri: '/',
+			theme: {
+				active: false,
+				stylesheet: ''
+			},
+			navMenuInstanceArgs: {}
 		},
-		navMenuInstanceArgs: {},
-		refreshDebounceDelay: 200
-	};
+		self = {};
 
 	api.bind( 'preview-ready', function() {
 		api.preview.bind( 'active', function() {
@@ -30,8 +31,9 @@ wp.customize.menusPreview = ( function( $, api ) {
 	self.init = function() {
 		var self = this, initializedSettings = {};
 
+		settings = _.extend( {}, defaultSettings );
 		if ( 'undefined' !== typeof _wpCustomizePreviewNavMenusExports ) {
-			$.extend( self, _wpCustomizePreviewNavMenusExports );
+			_.extend( settings, _wpCustomizePreviewNavMenusExports );
 		}
 
 		api.each( function( setting, id ) {
@@ -134,7 +136,7 @@ wp.customize.menusPreview = ( function( $, api ) {
 	 * @param {int} menuId
 	 */
 	self.refreshMenu = function( menuId ) {
-		var self = this, assignedLocations = [];
+		var assignedLocations = [];
 
 		api.each(function( setting, id ) {
 			var matches = id.match( /^nav_menu_locations\[(.+?)]/ );
@@ -143,11 +145,11 @@ wp.customize.menusPreview = ( function( $, api ) {
 			}
 		});
 
-		_.each( self.navMenuInstanceArgs, function( navMenuArgs, instanceNumber ) {
+		_.each( settings.navMenuInstanceArgs, function( navMenuArgs, instanceNumber ) {
 			if ( menuId === navMenuArgs.menu || -1 !== _.indexOf( assignedLocations, navMenuArgs.theme_location ) ) {
-				self.refreshMenuInstanceDebounced( instanceNumber );
+				this.refreshMenuInstanceDebounced( instanceNumber );
 			}
-		} );
+		}, this );
 	};
 
 	/**
@@ -157,12 +159,12 @@ wp.customize.menusPreview = ( function( $, api ) {
 	 */
 	self.refreshMenuLocation = function( location ) {
 		var foundInstance = false;
-		_.each( self.navMenuInstanceArgs, function( navMenuArgs, instanceNumber ) {
+		_.each( settings.navMenuInstanceArgs, function( navMenuArgs, instanceNumber ) {
 			if ( location === navMenuArgs.theme_location ) {
-				self.refreshMenuInstanceDebounced( instanceNumber );
+				this.refreshMenuInstanceDebounced( instanceNumber );
 				foundInstance = true;
 			}
-		} );
+		}, this );
 		if ( ! foundInstance ) {
 			api.preview.send( 'refresh' );
 		}
@@ -176,10 +178,10 @@ wp.customize.menusPreview = ( function( $, api ) {
 	self.refreshMenuInstance = function( instanceNumber ) {
 		var self = this, data, menuId, customized, container, request, wpNavArgs, instance, containerInstanceClassName;
 
-		if ( ! self.navMenuInstanceArgs[ instanceNumber ] ) {
+		if ( ! settings.navMenuInstanceArgs[ instanceNumber ] ) {
 			throw new Error( 'unknown_instance_number' );
 		}
-		instance = self.navMenuInstanceArgs[ instanceNumber ];
+		instance = settings.navMenuInstanceArgs[ instanceNumber ];
 
 		containerInstanceClassName = 'partial-refreshable-nav-menu-' + String( instanceNumber );
 		container = $( '.' + containerInstanceClassName );
@@ -197,13 +199,13 @@ wp.customize.menusPreview = ( function( $, api ) {
 		menuId = parseInt( menuId, 10 );
 
 		data = {
-			nonce: self.previewCustomizeNonce, // for Customize Preview
+			nonce: settings.previewCustomizeNonce, // for Customize Preview
 			wp_customize: 'on'
 		};
-		if ( ! self.theme.active ) {
-			data.theme = self.theme.stylesheet;
+		if ( ! settings.theme.active ) {
+			data.theme = settings.theme.stylesheet;
 		}
-		data[ self.renderQueryVar ] = '1';
+		data[ settings.renderQueryVar ] = '1';
 
 		// Gather settings to send in partial refresh request.
 		customized = {};
@@ -225,7 +227,7 @@ wp.customize.menusPreview = ( function( $, api ) {
 			}
 		} );
 		data.customized = JSON.stringify( customized );
-		data[ self.renderNoncePostKey ] = self.renderNonceValue;
+		data[ settings.renderNoncePostKey ] = settings.renderNonceValue;
 
 		wpNavArgs = $.extend( {}, instance );
 		data.wp_nav_menu_args_hash = wpNavArgs.args_hash;
@@ -236,7 +238,7 @@ wp.customize.menusPreview = ( function( $, api ) {
 
 		request = wp.ajax.send( null, {
 			data: data,
-			url: self.requestUri
+			url: settings.requestUri
 		} );
 		request.done( function( data ) {
 			// If the menu is now not visible, refresh since the page layout may have changed.
@@ -261,17 +263,15 @@ wp.customize.menusPreview = ( function( $, api ) {
 		} );
 	};
 
-	self.currentRefreshMenuInstanceDebouncedCalls = {};
-
 	self.refreshMenuInstanceDebounced = function( instanceNumber ) {
-		if ( self.currentRefreshMenuInstanceDebouncedCalls[ instanceNumber ] ) {
-			clearTimeout( self.currentRefreshMenuInstanceDebouncedCalls[ instanceNumber ] );
+		if ( currentRefreshDebounced[ instanceNumber ] ) {
+			clearTimeout( currentRefreshDebounced[ instanceNumber ] );
 		}
-		self.currentRefreshMenuInstanceDebouncedCalls[ instanceNumber ] = setTimeout(
+		currentRefreshDebounced[ instanceNumber ] = setTimeout(
 			function() {
 				self.refreshMenuInstance( instanceNumber );
 			},
-			self.refreshDebounceDelay
+			refreshDebounceDelay
 		);
 	};
 
