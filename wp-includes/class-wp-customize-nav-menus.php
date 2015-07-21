@@ -315,6 +315,7 @@ final class WP_Customize_Nav_Menus {
 				'custom_label'      => __( 'Custom Link' ),
 				/* translators: %s: Current menu location */
 				'menuLocation'      => __( '(Currently set to: %s)' ),
+				'menuNameLabel'     => __( 'Menu Name' ),
 				'itemAdded'         => __( 'Menu item added' ),
 				'itemDeleted'       => __( 'Menu item deleted' ),
 				'menuAdded'         => __( 'Menu created' ),

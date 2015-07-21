@@ -705,7 +705,7 @@
 					params: {
 						type: 'nav_menu_name',
 						content: '<li id="customize-control-' + section.id.replace( '[', '-' ).replace( ']', '' ) + '-name" class="customize-control customize-control-nav_menu_name"></li>', // @todo core should do this for us; see #30741
-						label: '',
+						label: api.Menus.data.l10n.menuNameLabel,
 						active: true,
 						section: section.id,
 						priority: 0,

@@ -1880,6 +1880,9 @@ class WP_Customize_Nav_Menu_Name_Control extends WP_Customize_Control {
 	protected function content_template() {
 		?>
 		<label>
+			<# if ( data.label ) { #>
+				<span class="customize-control-title screen-reader-text">{{ data.label }}</span>
+			<# } #>
 			<input type="text" class="menu-name-field live-update-section-title" />
 		</label>
 		<?php
