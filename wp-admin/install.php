@@ -137,8 +137,7 @@ function display_setup_form( $error = null ) {
 				</label>
 			</th>
 			<td>
-				<button type="button" class="button button-secondary wp-generate-pw hide-if-no-js"><?php _e( 'Show password' ); ?></button>
-				<div class="wp-pwd hide-if-js">
+				<div class="">
 					<?php $initial_password = wp_generate_password( 24 ); ?>
 					<input type="password" name="admin_password" id="pass1" class="regular-text" autocomplete="off" data-reveal="1" data-pw="<?php echo esc_attr( $initial_password ); ?>" aria-describedby="pass-strength-result" />
 					<button type="button" class="button button-secondary wp-hide-pw hide-if-no-js" data-toggle="0" aria-label="<?php esc_attr_e( 'Hide password' ); ?>">
@@ -147,7 +146,8 @@ function display_setup_form( $error = null ) {
 					</button>
 					<div id="pass-strength-result" aria-live="polite"></div>
 				</div>
-				<p><span class="description hide-if-no-js"><?php _e( 'A password reset link will be sent to you via email.' ); ?></span></p>
+				<p><span class="description important hide-if-no-js">
+				<strong><?php _e( 'Important:' )?></strong> <?php _e( 'You will need this password to log in, please store it in a secure location.' ); ?></span></p>
 			</td>
 		</tr>
 		<tr class="form-field form-required user-pass2-wrap hide-if-js">

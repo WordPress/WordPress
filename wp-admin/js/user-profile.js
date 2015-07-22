@@ -1,4 +1,4 @@
-/* global ajaxurl, pwsL10n, userProfileL10n */
+/* global ajaxurl, pwsL10n */
 (function($){
 	$(function(){
 		var pw_new = $('.user-pass1-wrap'),
@@ -13,17 +13,37 @@
 			pw_submitbtn_edit = $('#submit'),
 			pw_submitbtn_new = $( '#createusersub' ),
 			pw_checkbox = $('.pw-checkbox'),
-			pw_weak = $('.pw-weak')
-		;
+			pw_weak = $('.pw-weak'),
+			// Set up a text version of the password input
+			newField = document.createElement( 'input');
+			newField.type = 'text';
 
+			var pwFieldText = $( newField );
+
+		if ( pw_field.length > 0 ) {
+			pwFieldText
+				.attr( {
+					'id':           'pass1-text',
+					'name':         'pass1-text',
+					'autocomplete': 'off'
+				} )
+				.addClass( pw_field[0].className )
+				.data( 'pw', pw_field.data( 'pw' ) )
+				.val( pw_field.val() );
+
+			pw_field
+				.wrap( '<span class="password-input-wrapper"></span>' )
+				.after( pwFieldText );
+		}
+
+		var pwWrapper = pw_field.parent();
 		var generatePassword = window.generatePassword = function() {
 			if ( typeof zxcvbn !== 'function' ) {
 				setTimeout( generatePassword, 50 );
 			} else {
 				pw_field.val( pw_field.data( 'pw' ) );
 				pw_field.trigger( 'propertychange' );
-				pw_field.attr( 'type', 'text' ).focus();
-				pw_field[0].setSelectionRange(100, 100);
+				pwWrapper.addClass( 'show-password' );
 			}
 		};
 
@@ -31,23 +51,28 @@
 		pw_line.hide();
 		pw_togglebtn.show();
 		pw_generatebtn.show();
-
 		if ( pw_field.data( 'reveal' ) == 1 ) {
 			generatePassword();
 		}
 
 		parentform.on('submit', function(){
 			pw_field2.val( pw_field.val() );
-			pw_field.attr('type', 'password');
+			pwWrapper.removeClass( 'show-password' );
 		});
+
+		pwFieldText.on( 'input', function(){
+			pw_field.val( pwFieldText.val() );
+			pw_field.trigger( 'propertychange' );
+		} );
 
 
 		pw_field.on('input propertychange', function(){
 			setTimeout( function(){
 				var cssClass = pw_strength.attr('class');
-				pw_field.removeClass( 'short bad good strong' );
+				pwFieldText.val( pw_field.val() );
+				pw_field.add(pwFieldText).removeClass( 'short bad good strong' );
 				if ( 'undefined' !== typeof cssClass ) {
-					pw_field.addClass( cssClass );
+					pw_field.add(pwFieldText).addClass( cssClass );
 					if ( cssClass == 'short' || cssClass == 'bad' ) {
 						if ( ! pw_checkbox.attr( 'checked' ) ) {
 							pw_submitbtn_new.attr( 'disabled','disabled' );
@@ -88,23 +113,37 @@
 			pw_generatebtn.hide();
 			pw_line.show();
 			generatePassword();
+			_.defer( function() {
+				pwFieldText.focus();
+				if ( ! _.isUndefined( pwFieldText[0].setSelectionRange ) ) {
+					pwFieldText[0].setSelectionRange( 0, 100 );
+				}
+			}, 0 );
+
 		});
+
 
 		pw_togglebtn.on( 'click', function() {
 			var show = pw_togglebtn.attr( 'data-toggle' );
 			if ( show == 1 ) {
-				pw_field.attr( 'type', 'text' );
+				pwWrapper.addClass( 'show-password' );
 				pw_togglebtn.attr({ 'data-toggle': 0, 'aria-label': userProfileL10n.ariaHide })
 					.find( '.text' ).text( userProfileL10n.hide )
 				;
+				pwFieldText.focus();
+				if ( ! _.isUndefined( pwFieldText[0].setSelectionRange ) ) {
+					pwFieldText[0].setSelectionRange( 0, 100 );
+				}
 			} else {
-				pw_field.attr( 'type', 'password' );
+				pwWrapper.removeClass( 'show-password' );
 				pw_togglebtn.attr({ 'data-toggle': 1, 'aria-label': userProfileL10n.ariaShow })
-					.find( '.text' ).text( userProfileL10n.show )
-				;
+					.find( '.text' ).text( userProfileL10n.show );
+				pw_field.focus();
+				if ( ! _.isUndefined( pw_field[0].setSelectionRange ) ) {
+					pw_field[0].setSelectionRange( 0, 100 );
+				}
 			}
-			pw_field.focus();
-			pw_field[0].setSelectionRange(100, 100);
+
 		});
 	});
 

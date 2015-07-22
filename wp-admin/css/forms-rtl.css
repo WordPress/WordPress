@@ -479,19 +479,19 @@ fieldset label,
 	opacity: 1;
 }
 
-#pass1.short {
+#pass1.short, #pass1-text.short {
 	border-color: #e35b5b;
 }
 
-#pass1.bad {
+#pass1.bad, #pass1-text.bad {
 	border-color: #f78b53;
 }
 
-#pass1.good {
+#pass1.good, #pass1-text.good {
 	border-color: #ffc733;
 }
 
-#pass1.strong {
+#pass1.strong, #pass1-text.strong {
 	border-color: #83c373;
 }
 
@@ -501,6 +501,20 @@ fieldset label,
 
 .indicator-hint {
 	padding-top: 8px;
+}
+
+#pass1-text,
+.show-password #pass1 {
+	display: none;
+}
+
+.show-password #pass1-text
+{
+	display: inline-block;
+}
+
+.form-table span.description.important {
+	font-size: 12px;
 }
 
 p.search-box {
