@@ -3080,6 +3080,17 @@ function wp_ajax_crop_image() {
 			require_once ABSPATH . '/wp-admin/includes/class-wp-site-icon.php';
 			global $wp_site_icon;
 
+			// Skip creating a new attachment if the attachment is a Site Icon.
+			if ( get_post_meta( $attachment_id, '_wp_attachment_context', true ) == $context ) {
+
+				// Delete the temporary cropped file, we don't need it.
+				wp_delete_file( $cropped );
+
+				// Additional sizes in wp_prepare_attachment_for_js().
+				add_filter( 'image_size_names_choose', array( $wp_site_icon, 'additional_sizes' ) );
+				break;
+			}
+
 			/** This filter is documented in wp-admin/custom-header.php */
 			$cropped = apply_filters( 'wp_create_file_in_uploads', $cropped, $attachment_id ); // For replication.
 			$object  = $wp_site_icon->create_attachment_object( $cropped, $attachment_id );

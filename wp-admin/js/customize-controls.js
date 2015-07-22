@@ -2076,6 +2076,38 @@
 		},
 
 		/**
+		 * After an image is selected in the media modal, switch to the cropper
+		 * state if the image isn't the right size.
+		 */
+		onSelect: function() {
+			var attachment = this.frame.state().get( 'selection' ).first().toJSON(),
+				controller = this;
+
+			if ( this.params.width === attachment.width && this.params.height === attachment.height && ! this.params.flex_width && ! this.params.flex_height ) {
+				wp.ajax.post( 'crop-image', {
+					nonce: attachment.nonces.edit,
+					id: attachment.id,
+					context: 'site-icon',
+					cropDetails: {
+						x1: 0,
+						y1: 0,
+						width: this.params.width,
+						height: this.params.height,
+						dst_width: this.params.width,
+						dst_height: this.params.height
+					}
+				} ).done( function( croppedImage ) {
+					controller.setImageFromAttachment( croppedImage );
+					controller.frame.close();
+				} ).fail( function() {
+					controller.trigger('content:error:crop');
+				} );
+			} else {
+				this.frame.setState( 'cropper' );
+			}
+		},
+
+		/**
 		 * Updates the setting and re-renders the control UI.
 		 *
 		 * @param {object} attachment
@@ -2090,7 +2122,7 @@
 
 
 			// Update the icon in-browser.
-			$( 'link[rel="icon"]' ).attr( 'href', icon.url );
+			$( 'link[sizes="32x32"]' ).attr( 'href', icon.url );
 		},
 
 		/**
