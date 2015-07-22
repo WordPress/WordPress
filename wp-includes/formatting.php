@@ -504,6 +504,9 @@ function wpautop( $pee, $br = true ) {
 	// Standardize newline characters to "\n".
 	$pee = str_replace(array("\r\n", "\r"), "\n", $pee);
 
+	// Strip newlines from all elements.
+	$pee = wp_replace_in_html_tags( $pee, array( "\n" => " " ) );
+
 	// Collapse line breaks before and after <option> elements so they don't get autop'd.
 	if ( strpos( $pee, '<option' ) !== false ) {
 		$pee = preg_replace( '|\s*<option|', '<option', $pee );
@@ -590,6 +593,74 @@ function wpautop( $pee, $br = true ) {
 		$pee = str_replace(array_keys($pre_tags), array_values($pre_tags), $pee);
 
 	return $pee;
+}
+
+/**
+ * Replace characters or phrases within HTML elements only.
+ *
+ * @since 4.2.3
+ *
+ * @param string $haystack The text which has to be formatted.
+ * @param array $replace_pairs In the form array('from' => 'to', ...).
+ * @return string The formatted text.
+ */
+function wp_replace_in_html_tags( $haystack, $replace_pairs ) {
+	// Find all elements.
+	$comments =
+		  '!'           // Start of comment, after the <.
+		. '(?:'         // Unroll the loop: Consume everything until --> is found.
+		.     '-(?!->)' // Dash not followed by end of comment.
+		.     '[^\-]*+' // Consume non-dashes.
+		. ')*+'         // Loop possessively.
+		. '(?:-->)?';   // End of comment. If not found, match all input.
+
+	$regex =
+		  '/('              // Capture the entire match.
+		.     '<'           // Find start of element.
+		.     '(?(?=!--)'   // Is this a comment?
+		.         $comments // Find end of comment.
+		.     '|'
+		.         '[^>]*>?' // Find end of element. If not found, match all input.
+		.     ')'
+		. ')/s';
+
+	$textarr = preg_split( $regex, $haystack, -1, PREG_SPLIT_DELIM_CAPTURE );
+	$changed = false;
+
+	// Optimize when searching for one item.
+	if ( 1 === count( $replace_pairs ) ) {
+		// Extract $needle and $replace.
+		foreach ( $replace_pairs as $needle => $replace );
+
+		// Loop through delimeters (elements) only.
+		for ( $i = 1, $c = count( $textarr ); $i < $c; $i += 2 ) { 
+			if ( false !== strpos( $textarr[$i], $needle ) ) {
+				$textarr[$i] = str_replace( $needle, $replace, $textarr[$i] );
+				$changed = true;
+			}
+		}
+	} else {
+		// Extract all $needles.
+		$needles = array_keys( $replace_pairs );
+
+		// Loop through delimeters (elements) only.
+		for ( $i = 1, $c = count( $textarr ); $i < $c; $i += 2 ) { 
+			foreach ( $needles as $needle ) {
+				if ( false !== strpos( $textarr[$i], $needle ) ) {
+					$textarr[$i] = strtr( $textarr[$i], $replace_pairs );
+					$changed = true;
+					// After one strtr() break out of the foreach loop and look at next element.
+					break;
+				}
+			}
+		}
+	}
+
+	if ( $changed ) {
+		$haystack = implode( $textarr );
+	}
+
+	return $haystack;
 }
 
 /**
