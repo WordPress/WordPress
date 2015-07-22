@@ -442,6 +442,10 @@ function wp_network_dashboard_right_now() {
 function wp_dashboard_quick_press( $error_msg = false ) {
 	global $post_ID;
 
+	if ( ! current_user_can( 'edit_posts' ) ) {
+		return;
+	}
+
 	/* Check if a new auto-draft (= no new post_ID) is needed or if the old can be used */
 	$last_post_id = (int) get_user_option( 'dashboard_quick_press_last_post_id' ); // Get the last post_ID
 	if ( $last_post_id ) {
@@ -627,7 +631,7 @@ function _wp_dashboard_recent_comments_row( &$comment, $show_date = true ) {
 
 			<?php if ( !$comment->comment_type || 'comment' == $comment->comment_type ) : ?>
 
-			<div class="dashboard-comment-wrap">
+			<div class="dashboard-comment-wrap has-row-actions">
 			<h4 class="comment-meta">
 				<?php printf( /* translators: 1: comment author, 2: post link, 3: notification if the comment is pending */__( 'From %1$s on %2$s%3$s' ),
 					'<cite class="comment-author">' . get_comment_author_link() . '</cite>', $comment_post_link.' '.$comment_link, ' <span class="approve">' . __( '[Pending]' ) . '</span>' ); ?>
@@ -647,7 +651,7 @@ function _wp_dashboard_recent_comments_row( &$comment, $show_date = true ) {
 				}
 				$type = esc_html( $type );
 			?>
-			<div class="dashboard-comment-wrap">
+			<div class="dashboard-comment-wrap has-row-actions">
 			<?php /* translators: %1$s is type of comment, %2$s is link to the post */ ?>
 			<h4 class="comment-meta"><?php printf( _x( '%1$s on %2$s', 'dashboard' ), "<strong>$type</strong>", $comment_post_link." ".$comment_link ); ?></h4>
 			<p class="comment-author"><?php comment_author_link(); ?></p>
@@ -876,7 +880,8 @@ function wp_dashboard_cached_rss_widget( $widget_id, $callback, $check_urls = ar
 		$check_urls = array( $widgets[$widget_id]['url'] );
 	}
 
-	$cache_key = 'dash_' . md5( $widget_id );
+	$locale = get_locale();
+	$cache_key = 'dash_' . md5( $widget_id . '_' . $locale );
 	if ( false !== ( $output = get_transient( $cache_key ) ) ) {
 		echo $output;
 		return true;

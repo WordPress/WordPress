@@ -331,7 +331,7 @@ $can_delete = current_user_can( 'delete_themes' );
 		<h3 class="theme-name" id="{{ data.id }}-name">
 			<?php
 			/* translators: %s: theme name */
-			printf( __( '<span>Active:</span> %s' ), '{{ data.name }}' );
+			printf( __( '<span>Active:</span> %s' ), '{{{ data.name }}}' );
 			?>
 		</h3>
 	<# } else { #>

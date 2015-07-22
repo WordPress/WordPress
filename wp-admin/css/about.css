@@ -23,7 +23,8 @@
 }
 
 .about-wrap div.updated,
-.about-wrap div.error {
+.about-wrap div.error,
+.about-wrap .notice {
 	display: none !important;
 }
 

@@ -622,7 +622,8 @@ function get_transient( $transient ) {
 			$alloptions = wp_load_alloptions();
 			if ( !isset( $alloptions[$transient_option] ) ) {
 				$transient_timeout = '_transient_timeout_' . $transient;
-				if ( get_option( $transient_timeout ) < time() ) {
+				$timeout = get_option( $transient_timeout );
+				if ( false !== $timeout && $timeout < time() ) {
 					delete_option( $transient_option  );
 					delete_option( $transient_timeout );
 					$value = false;

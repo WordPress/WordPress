@@ -759,7 +759,7 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 
 <form method="post" action="<?php echo esc_url(add_query_arg('step', 3)); ?>">
 	<p class="hide-if-no-js"><?php _e('Choose the part of the image you want to use as your header.'); ?></p>
-	<p class="hide-if-js"><strong><?php _e( 'You need Javascript to choose a part of the image.'); ?></strong></p>
+	<p class="hide-if-js"><strong><?php _e( 'You need JavaScript to choose a part of the image.'); ?></strong></p>
 
 	<div id="crop_image" style="position: relative">
 		<img src="<?php echo esc_url( $url ); ?>" id="upload" width="<?php echo $width; ?>" height="<?php echo $height; ?>" />

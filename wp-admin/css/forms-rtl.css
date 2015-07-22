@@ -232,13 +232,19 @@ textarea[readonly] {
    color: #a9a9a9;
 }
 
-.form-invalid {
-	background-color: #ffebe8 !important;
+.form-invalid input, .form-invalid input:focus,
+.form-invalid select, .form-invalid select:focus {
+	border-color: #dc3232 !important;
+	-webkit-box-shadow: 0 0 2px rgba( 204, 0, 0, 0.8 );
+ 	box-shadow: 0 0 2px rgba( 204, 0, 0, 0.8 );
 }
 
-.form-invalid input,
-.form-invalid select {
-	border-color: #c00 !important;
+.form-table .form-required.form-invalid td:after {
+	content: '\f534';
+	font: normal 20px/1 dashicons;
+	color: #dc3232;
+	margin-right: -25px;
+	vertical-align: middle;
 }
 
 .form-input-tip {
@@ -352,8 +358,7 @@ textarea.large-text {
 	width: 99%;
 }
 
-input.regular-text,
-#adduser .form-field input {
+input.regular-text {
 	width: 25em;
 }
 
@@ -439,6 +444,7 @@ fieldset label,
 #pass-strength-result {
 	background-color: #eee;
 	border: 1px solid #ddd;
+	color: #23282d;
 	margin: -2px 1px 5px 5px;
 	padding: 3px 5px;
 	text-align: center;
@@ -450,46 +456,46 @@ fieldset label,
 }
 
 #pass-strength-result.short {
+	background-color: #f1adad;
+	border-color: #e35b5b;
 	opacity: 1;
-	background-color: #ffa0a0;
-	border-color: #f04040;
 }
 
 #pass-strength-result.bad {
+	background-color: #fbc5a9;
+	border-color: #f78b53;
 	opacity: 1;
-	background-color: #ffb78c;
-	border-color: #ff853c;
 }
 
 #pass-strength-result.good {
+	background-color: #ffe399;
+	border-color: #ffc733;
 	opacity: 1;
-	background-color: #ffec8b;
-	border-color: #fc0;
 }
 
 #pass-strength-result.strong {
+	background-color: #c1e1b9;
+	border-color: #83c373;
 	opacity: 1;
-	background-color: #c3ff88;
-	border-color: #8dff1c;
 }
 
 #pass1.short {
-	border-color: #f04040;
+	border-color: #e35b5b;
 }
 
 #pass1.bad {
-	border-color: #ff853c;
+	border-color: #f78b53;
 }
 
 #pass1.good {
-	border-color: #fc0;
+	border-color: #ffc733;
 }
 
 #pass1.strong {
-	border-color: #8dff1c;
+	border-color: #83c373;
 }
 
-.pw-weak{
+.pw-weak {
 	display:none;
 }
 
@@ -660,6 +666,7 @@ table.form-table td .updated p {
 	width: 15em;
 }
 
+#adduser .form-field input,
 #createuser .form-field input {
 	width: 25em;
 }
@@ -863,6 +870,10 @@ table.form-table td .updated p {
   21.0 - Network Admin
 ------------------------------------------------------------------------------*/
 
+.setup-php textarea {
+	max-width: 100%;
+}
+
 .form-field #site-address {
 	max-width: 25em;
 }
@@ -881,6 +892,11 @@ table.form-table td .updated p {
 
 .form-field #path {
 	margin-bottom: 5px;
+}
+
+#search-users,
+#search-sites {
+	max-width: 100%;
 }
 
 /*------------------------------------------------------------------------------
@@ -1030,6 +1046,7 @@ table.form-table td .updated p {
 		font-size: 14px;
 	}
 
+	#adduser .form-field input,
 	#createuser .form-field input {
 		width: 100%;
 	}
@@ -1077,6 +1094,11 @@ table.form-table td .updated p {
 		-webkit-box-sizing: border-box;
 		-moz-box-sizing: border-box;
 		box-sizing: border-box;
+	}
+
+	.form-table .form-required.form-invalid td:after {
+		float: left;
+		margin: -30px 0 0 3px;
 	}
 
 	#wpbody .form-table td select {
@@ -1183,6 +1205,39 @@ table.form-table td .updated p {
 	.form-field #domain {
 		max-width: none;
 	}
+
+	/* New Password */
+	.wp-pwd {
+		position: relative;
+	}
+
+	.wp-pwd [type="text"],
+	.wp-pwd [type="password"] {
+		padding-left: 40px;
+	}
+
+	.wp-pwd button.button {
+		background: transparent;
+		border: none;
+		-webkit-box-shadow: none;
+		box-shadow: none;
+		line-height: 2;
+		margin: 0;
+		padding: 5px 10px;
+		position: absolute;
+		left: 0;
+		top: 0;
+	}
+
+	.wp-pwd button.button:hover,
+	.wp-pwd button.button:focus,
+	.wp-pwd button.button:active {
+		background: transparent;
+	}
+
+	.wp-pwd .button .text {
+		display: none;
+	}
 }
 
 @media only screen and (max-width: 768px) {
@@ -1203,12 +1258,11 @@ table.form-table td .updated p {
 		max-width: 400px;
 		width: auto;
 	}
-
 }
 
 @media only screen and (max-height: 480px) {
 	/*  Request Credentials */
-	.request-filesystem-credentials-dialog	.notification-dialog{
+	.request-filesystem-credentials-dialog .notification-dialog{
 		width: 100%;
 		height: 100%;
 		max-height: 100%;
@@ -1226,4 +1280,3 @@ table.form-table td .updated p {
 		width: 49%;
 	}
 }
-

@@ -139,9 +139,9 @@ class WP_Customize_Control {
 	 *
 	 * @since 3.4.0
 	 *
-	 * @param WP_Customize_Manager $manager
-	 * @param string $id
-	 * @param array $args
+	 * @param WP_Customize_Manager $manager Customizer bootstrap instance.
+	 * @param string               $id      Control ID.
+	 * @param array                $args    Optional. Arguments to override class property defaults.
 	 */
 	public function __construct( $manager, $id, $args = array() ) {
 		$keys = array_keys( get_object_vars( $this ) );
@@ -568,9 +568,9 @@ class WP_Customize_Color_Control extends WP_Customize_Control {
 	 * @since 3.4.0
 	 * @uses WP_Customize_Control::__construct()
 	 *
-	 * @param WP_Customize_Manager $manager
-	 * @param string $id
-	 * @param array $args
+	 * @param WP_Customize_Manager $manager Customizer bootstrap instance.
+	 * @param string               $id      Control ID.
+	 * @param array                $args    Optional. Arguments to override class property defaults.
 	 */
 	public function __construct( $manager, $id, $args = array() ) {
 		$this->statuses = array( '' => __('Default') );
@@ -678,9 +678,9 @@ class WP_Customize_Media_Control extends WP_Customize_Control {
 	 * @since 4.1.0
 	 * @since 4.2.0 Moved from WP_Customize_Upload_Control.
 	 *
-	 * @param WP_Customize_Manager $manager {@see WP_Customize_Manager} instance.
-	 * @param string $id
-	 * @param array $args
+	 * @param WP_Customize_Manager $manager Customizer bootstrap instance.
+	 * @param string               $id      Control ID.
+	 * @param array                $args    Optional. Arguments to override class property defaults.
 	 */
 	public function __construct( $manager, $id, $args = array() ) {
 		parent::__construct( $manager, $id, $args );
@@ -814,7 +814,7 @@ class WP_Customize_Media_Control extends WP_Customize_Control {
 									</video>
 								</div>
 							<# } else { #>
-								<img class="attachment-thumb type-icon" src="{{ data.attachment.icon }}" class="icon" draggable="false" />
+								<img class="attachment-thumb type-icon icon" src="{{ data.attachment.icon }}" draggable="false" />
 								<p class="attachment-title">{{ data.attachment.title }}</p>
 							<# } #>
 						</div>
@@ -907,9 +907,9 @@ class WP_Customize_Image_Control extends WP_Customize_Upload_Control {
 	 * @since 3.4.0
 	 * @uses WP_Customize_Upload_Control::__construct()
 	 *
-	 * @param WP_Customize_Manager $manager
-	 * @param string $id
-	 * @param array  $args
+	 * @param WP_Customize_Manager $manager Customizer bootstrap instance.
+	 * @param string               $id      Control ID.
+	 * @param array                $args    Optional. Arguments to override class property defaults.
 	 */
 	public function __construct( $manager, $id, $args = array() ) {
 		parent::__construct( $manager, $id, $args );
@@ -975,7 +975,7 @@ class WP_Customize_Background_Image_Control extends WP_Customize_Image_Control {
 	 * @since 3.4.0
 	 * @uses WP_Customize_Image_Control::__construct()
 	 *
-	 * @param WP_Customize_Manager $manager
+	 * @param WP_Customize_Manager $manager Customizer bootstrap instance.
 	 */
 	public function __construct( $manager ) {
 		parent::__construct( $manager, 'background_image', array(
@@ -1001,6 +1001,127 @@ class WP_Customize_Background_Image_Control extends WP_Customize_Image_Control {
 }
 
 /**
+ * Customize Cropped Image Control class.
+ *
+ * @since 4.3.0
+ *
+ * @see WP_Customize_Media_Control
+ */
+class WP_Customize_Cropped_Image_Control extends WP_Customize_Media_Control {
+
+	/**
+	 * Control type.
+	 *
+	 * @since 4.3.0
+	 * @access public
+	 * @var string
+	 */
+	public $type = 'cropped_image';
+
+	/**
+	 * Suggested width for cropped image.
+	 *
+	 * @since 4.3.0
+	 * @access public
+	 * @var int
+	 */
+	public $width = 150;
+
+	/**
+	 * Suggested height for cropped image.
+	 *
+	 * @since 4.3.0
+	 * @access public
+	 * @var int
+	 */
+	public $height = 150;
+
+	/**
+	 * Whether the width is flexible.
+	 *
+	 * @since 4.3.0
+	 * @access public
+	 * @var bool
+	 */
+	public $flex_width = false;
+
+	/**
+	 * Whether the height is flexible.
+	 *
+	 * @since 4.3.0
+	 * @access public
+	 * @var bool
+	 */
+	public $flex_height = false;
+
+	/**
+	 * Enqueue control related scripts/styles.
+	 *
+	 * @since 4.3.0
+	 * @access public
+	 */
+	public function enqueue() {
+		wp_enqueue_script( 'customize-views' );
+
+		parent::enqueue();
+	}
+
+	/**
+	 * Refresh the parameters passed to the JavaScript via JSON.
+	 *
+	 * @since 4.3.0
+	 * @access public
+	 *
+	 * @see WP_Customize_Control::to_json()
+	 */
+	public function to_json() {
+		parent::to_json();
+
+		$this->json['width']       = absint( $this->width );
+		$this->json['height']      = absint( $this->height );
+		$this->json['flex_width']  = absint( $this->flex_width );
+		$this->json['flex_height'] = absint( $this->flex_height );
+	}
+
+}
+
+/**
+ * Customize Site Icon control class.
+ *
+ * Used only for custom functionality in JavaScript.
+ *
+ * @since 4.3.0
+ *
+ * @see WP_Customize_Cropped_Image_Control
+ */
+class WP_Customize_Site_Icon_Control extends WP_Customize_Cropped_Image_Control {
+
+	/**
+	 * Control type.
+	 *
+	 * @since 4.3.0
+	 * @access public
+	 * @var string
+	 */
+	public $type = 'site_icon';
+
+	/**
+	 * Constructor.
+	 *
+	 * @since 4.3.0
+	 * @access public
+	 *
+	 * @param WP_Customize_Manager $manager Customizer bootstrap instance.
+	 * @param string               $id      Control ID.
+	 * @param array                $args    Optional. Arguments to override class property defaults.
+	 */
+	public function __construct( $manager, $id, $args = array() ) {
+		parent::__construct( $manager, $id, $args );
+		add_action( 'customize_controls_print_styles', 'wp_site_icon', 99 );
+	}
+}
+
+/**
  * Customize Header Image Control class.
  *
  * @since 3.4.0
@@ -1013,7 +1134,11 @@ class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control {
 	public $default_headers;
 
 	/**
-	 * @param WP_Customize_Manager $manager
+	 * Constructor.
+	 *
+	 * @since 3.4.0
+	 *
+	 * @param WP_Customize_Manager $manager Customizer bootstrap instance.
 	 */
 	public function __construct( $manager ) {
 		parent::__construct( $manager, 'header_image', array(
@@ -1182,10 +1307,8 @@ class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control {
 			</div>
 			<div class="actions">
 				<?php if ( current_user_can( 'upload_files' ) ): ?>
-				<?php /* translators: Hide as in hide header image via the Customizer */ ?>
-				<button type="button"<?php echo $visibility ?> class="button remove"><?php _ex( 'Hide image', 'custom header' ); ?></button>
-				<?php /* translators: New as in add new header image via the Customizer */ ?>
-				<button type="button" class="button new"><?php _ex( 'Add new image', 'header image' ); ?></button>
+				<button type="button"<?php echo $visibility; ?> class="button remove" aria-label="<?php esc_attr_e( 'Hide header image' ); ?>"><?php _e( 'Hide image' ); ?></button>
+				<button type="button" class="button new" aria-label="<?php esc_attr_e( 'Add new header image' ); ?>"><?php _e( 'Add new image' ); ?></button>
 				<div style="clear:both"></div>
 				<?php endif; ?>
 			</div>
@@ -1296,11 +1419,11 @@ class WP_Customize_Theme_Control extends WP_Customize_Control {
 				<h3 class="theme-name" id="{{ data.theme.id }}-name">
 					<?php
 					/* translators: %s: theme name */
-					printf( __( '<span>Active:</span> %s' ), '{{ data.theme.name }}' );
+					printf( __( '<span>Active:</span> %s' ), '{{{ data.theme.name }}}' );
 					?>
 				</h3>
 			<# } else { #>
-				<h3 class="theme-name" id="{{ data.theme.id }}-name">{{ data.theme.name }}</h3>
+				<h3 class="theme-name" id="{{ data.theme.id }}-name">{{{ data.theme.name }}}</h3>
 				<div class="theme-actions">
 					<button type="button" class="button theme-details"><?php _e( 'Theme Details' ); ?></button>
 				</div>
@@ -1408,7 +1531,7 @@ class WP_Widget_Form_Customize_Control extends WP_Customize_Control {
 }
 
 /**
- * Customize Nav Menu Control Class
+ * Customize Nav Menu Control Class.
  *
  * @since 4.3.0
  */
@@ -1418,7 +1541,6 @@ class WP_Customize_Nav_Menu_Control extends WP_Customize_Control {
 	 * Control type.
 	 *
 	 * @since 4.3.0
-	 *
 	 * @access public
 	 * @var string
 	 */
@@ -1428,7 +1550,7 @@ class WP_Customize_Nav_Menu_Control extends WP_Customize_Control {
 	 * The nav menu setting.
 	 *
 	 * @since 4.3.0
-	 *
+	 * @access public
 	 * @var WP_Customize_Nav_Menu_Setting
 	 */
 	public $setting;
@@ -1437,6 +1559,7 @@ class WP_Customize_Nav_Menu_Control extends WP_Customize_Control {
 	 * Don't render the control's content - it uses a JS template instead.
 	 *
 	 * @since 4.3.0
+	 * @access public
 	 */
 	public function render_content() {}
 
@@ -1444,17 +1567,18 @@ class WP_Customize_Nav_Menu_Control extends WP_Customize_Control {
 	 * JS/Underscore template for the control UI.
 	 *
 	 * @since 4.3.0
+	 * @access public
 	 */
 	public function content_template() {
 		?>
 		<button type="button" class="button-secondary add-new-menu-item" aria-label="<?php esc_attr_e( 'Add or remove menu items' ); ?>" aria-expanded="false" aria-controls="available-menu-items">
 			<?php _e( 'Add Items' ); ?>
 		</button>
-		<button type="button" role="presentation" class="not-a-button reorder-toggle" tabindex="-1">
-			<span class="reorder" tabindex="0" role="button" aria-label="<?php esc_attr_e( 'Reorder menu items' ); ?>" aria-describedby="reorder-items-desc"><?php _ex( 'Reorder', 'Reorder menu items in Customizer' ); ?></span>
-			<span class="reorder-done" tabindex="0" role="button" aria-label="<?php esc_attr_e( 'Close reorder mode' ); ?>"><?php _ex( 'Done', 'Cancel reordering menu items in Customizer' ); ?></span>
+		<button type="button" class="not-a-button reorder-toggle" aria-label="<?php esc_attr_e( 'Reorder menu items' ); ?>" aria-describedby="reorder-items-desc-{{ data.menu_id }}">
+			<span class="reorder"><?php _ex( 'Reorder', 'Reorder menu items in Customizer' ); ?></span>
+			<span class="reorder-done"><?php _ex( 'Done', 'Cancel reordering menu items in Customizer' ); ?></span>
 		</button>
-		<p class="screen-reader-text" id="reorder-items-desc"><?php _e( 'When in reorder mode, additional controls to reorder menu items will be available in the items list above.' ); ?></p>
+		<p class="screen-reader-text" id="reorder-items-desc-{{ data.menu_id }}"><?php _e( 'When in reorder mode, additional controls to reorder menu items will be available in the items list above.' ); ?></p>
 		<span class="add-menu-item-loading spinner"></span>
 		<span class="menu-delete-item">
 			<button type="button" class="not-a-button menu-delete">
@@ -1477,22 +1601,16 @@ class WP_Customize_Nav_Menu_Control extends WP_Customize_Control {
 			<?php endforeach; ?>
 
 		</ul>
-		<?php endif; ?>
-		<p>
-			<label>
-				<input type="checkbox" class="auto_add">
-				<?php _e( 'Automatically add new top-level pages to this menu.' ) ?>
-			</label>
-		</p>
-		<?php
+		<?php endif;
 	}
 
 	/**
-	 * Return params for this control.
+	 * Return parameters for this control.
 	 *
 	 * @since 4.3.0
+	 * @access public
 	 *
-	 * @return array
+	 * @return array Exported parameters.
 	 */
 	public function json() {
 		$exported            = parent::json();
@@ -1513,7 +1631,6 @@ class WP_Customize_Nav_Menu_Item_Control extends WP_Customize_Control {
 	 * Control type.
 	 *
 	 * @since 4.3.0
-	 *
 	 * @access public
 	 * @var string
 	 */
@@ -1523,7 +1640,7 @@ class WP_Customize_Nav_Menu_Item_Control extends WP_Customize_Control {
 	 * The nav menu item setting.
 	 *
 	 * @since 4.3.0
-	 *
+	 * @access public
 	 * @var WP_Customize_Nav_Menu_Item_Setting
 	 */
 	public $setting;
@@ -1532,10 +1649,11 @@ class WP_Customize_Nav_Menu_Item_Control extends WP_Customize_Control {
 	 * Constructor.
 	 *
 	 * @since 4.3.0
+	 * @access public
 	 *
-	 * @uses WP_Customize_Control::__construct()
+	 * @see WP_Customize_Control::__construct()
 	 *
-	 * @param WP_Customize_Manager $manager An instance of the WP_Customize_Manager class.
+	 * @param WP_Customize_Manager $manager Customizer bootstrap instance.
 	 * @param string               $id      The control ID.
 	 * @param array                $args    Optional. Overrides class property defaults.
 	 */
@@ -1547,6 +1665,7 @@ class WP_Customize_Nav_Menu_Item_Control extends WP_Customize_Control {
 	 * Don't render the control's content - it's rendered with a JS template.
 	 *
 	 * @since 4.3.0
+	 * @access public
 	 */
 	public function render_content() {}
 
@@ -1554,6 +1673,7 @@ class WP_Customize_Nav_Menu_Item_Control extends WP_Customize_Control {
 	 * JS/Underscore template for the control UI.
 	 *
 	 * @since 4.3.0
+	 * @access public
 	 */
 	public function content_template() {
 		?>
@@ -1636,11 +1756,12 @@ class WP_Customize_Nav_Menu_Item_Control extends WP_Customize_Control {
 	}
 
 	/**
-	 * Return params for this control.
+	 * Return parameters for this control.
 	 *
 	 * @since 4.3.0
+	 * @access public
 	 *
-	 * @return array
+	 * @return array Exported parameters.
 	 */
 	public function json() {
 		$exported                 = parent::json();
@@ -1651,11 +1772,13 @@ class WP_Customize_Nav_Menu_Item_Control extends WP_Customize_Control {
 }
 
 /**
- * Customize Menu Location Control Class
+ * Customize Menu Location Control Class.
  *
  * This custom control is only needed for JS.
  *
  * @since 4.3.0
+ *
+ * @see WP_Customize_Control
  */
 class WP_Customize_Nav_Menu_Location_Control extends WP_Customize_Control {
 
@@ -1663,7 +1786,6 @@ class WP_Customize_Nav_Menu_Location_Control extends WP_Customize_Control {
 	 * Control type.
 	 *
 	 * @since 4.3.0
-	 *
 	 * @access public
 	 * @var string
 	 */
@@ -1673,7 +1795,6 @@ class WP_Customize_Nav_Menu_Location_Control extends WP_Customize_Control {
 	 * Location ID.
 	 *
 	 * @since 4.3.0
-	 *
 	 * @access public
 	 * @var string
 	 */
@@ -1683,8 +1804,9 @@ class WP_Customize_Nav_Menu_Location_Control extends WP_Customize_Control {
 	 * Refresh the parameters passed to JavaScript via JSON.
 	 *
 	 * @since 4.3.0
+	 * @access public
 	 *
-	 * @uses WP_Customize_Control::to_json()
+	 * @see WP_Customize_Control::to_json()
 	 */
 	public function to_json() {
 		parent::to_json();
@@ -1695,6 +1817,7 @@ class WP_Customize_Nav_Menu_Location_Control extends WP_Customize_Control {
 	 * Render content just like a normal select control.
 	 *
 	 * @since 4.3.0
+	 * @access public
 	 */
 	public function render_content() {
 		if ( empty( $this->choices ) ) {
@@ -1726,6 +1849,8 @@ class WP_Customize_Nav_Menu_Location_Control extends WP_Customize_Control {
  * Customize control to represent the name field for a given menu.
  *
  * @since 4.3.0
+ *
+ * @see WP_Customize_Control
  */
 class WP_Customize_Nav_Menu_Name_Control extends WP_Customize_Control {
 
@@ -1733,7 +1858,7 @@ class WP_Customize_Nav_Menu_Name_Control extends WP_Customize_Control {
 	 * Type of control, used by JS.
 	 *
 	 * @since 4.3.0
-	 *
+	 * @access public
 	 * @var string
 	 */
 	public $type = 'nav_menu_name';
@@ -1742,6 +1867,7 @@ class WP_Customize_Nav_Menu_Name_Control extends WP_Customize_Control {
 	 * No-op since we're using JS template.
 	 *
 	 * @since 4.3.0
+	 * @access protected
 	 */
 	protected function render_content() {}
 
@@ -1749,11 +1875,58 @@ class WP_Customize_Nav_Menu_Name_Control extends WP_Customize_Control {
 	 * Render the Underscore template for this control.
 	 *
 	 * @since 4.3.0
+	 * @access protected
 	 */
 	protected function content_template() {
 		?>
 		<label>
+			<# if ( data.label ) { #>
+				<span class="customize-control-title screen-reader-text">{{ data.label }}</span>
+			<# } #>
 			<input type="text" class="menu-name-field live-update-section-title" />
+		</label>
+		<?php
+	}
+}
+
+/**
+ * Customize control to represent the auto_add field for a given menu.
+ *
+ * @since 4.3.0
+ *
+ * @see WP_Customize_Control
+ */
+class WP_Customize_Nav_Menu_Auto_Add_Control extends WP_Customize_Control {
+
+	/**
+	 * Type of control, used by JS.
+	 *
+	 * @since 4.3.0
+	 * @access public
+	 * @var string
+	 */
+	public $type = 'nav_menu_auto_add';
+
+	/**
+	 * No-op since we're using JS template.
+	 *
+	 * @since 4.3.0
+	 * @access protected
+	 */
+	protected function render_content() {}
+
+	/**
+	 * Render the Underscore template for this control.
+	 *
+	 * @since 4.3.0
+	 * @access protected
+	 */
+	protected function content_template() {
+		?>
+		<span class="customize-control-title"><?php _e( 'Menu options' ); ?></span>
+		<label>
+			<input type="checkbox" class="auto_add" />
+			<?php _e( 'Automatically add new top-level pages to this menu' ); ?>
 		</label>
 		<?php
 	}
@@ -1763,6 +1936,8 @@ class WP_Customize_Nav_Menu_Name_Control extends WP_Customize_Control {
  * Customize control class for new menus.
  *
  * @since 4.3.0
+ *
+ * @see WP_Customize_Control
  */
 class WP_New_Menu_Customize_Control extends WP_Customize_Control {
 
@@ -1770,7 +1945,6 @@ class WP_New_Menu_Customize_Control extends WP_Customize_Control {
 	 * Control type.
 	 *
 	 * @since 4.3.0
-	 *
 	 * @access public
 	 * @var string
 	 */
@@ -1780,6 +1954,7 @@ class WP_New_Menu_Customize_Control extends WP_Customize_Control {
 	 * Render the control's content.
 	 *
 	 * @since 4.3.0
+	 * @access public
 	 */
 	public function render_content() {
 		?>

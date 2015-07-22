@@ -27,6 +27,7 @@ class WP_Customize_Panel {
 	 *
 	 * @static
 	 * @access protected
+	 * @static
 	 * @var int
 	 */
 	protected static $instance_count = 0;
@@ -311,9 +312,11 @@ class WP_Customize_Panel {
 	 * Render the panel's JS templates.
 	 *
 	 * This function is only run for panel types that have been registered with
-	 * {@see WP_Customize_Manager::register_panel_type()}.
+	 * WP_Customize_Manager::register_panel_type().
 	 *
 	 * @since 4.3.0
+	 *
+	 * @see WP_Customize_Manager::register_panel_type()
 	 */
 	public function print_template() {
 		?>
@@ -330,11 +333,12 @@ class WP_Customize_Panel {
 	 * An Underscore (JS) template for rendering this panel's container.
 	 *
 	 * Class variables for this panel class are available in the `data` JS object;
-	 * export custom variables by overriding {@see WP_Customize_Panel::json()}.
+	 * export custom variables by overriding WP_Customize_Panel::json().
 	 *
 	 * @see WP_Customize_Panel::print_template()
 	 *
 	 * @since 4.3.0
+	 * @access protected
 	 */
 	protected function render_template() {
 		?>
@@ -352,11 +356,12 @@ class WP_Customize_Panel {
 	 * An Underscore (JS) template for this panel's content (but not its container).
 	 *
 	 * Class variables for this panel class are available in the `data` JS object;
-	 * export custom variables by overriding {@see WP_Customize_Panel::json()}.
+	 * export custom variables by overriding WP_Customize_Panel::json().
 	 *
 	 * @see WP_Customize_Panel::print_template()
 	 *
 	 * @since 4.3.0
+	 * @access protected
 	 */
 	protected function content_template() {
 		?>
@@ -385,6 +390,8 @@ class WP_Customize_Panel {
  * Needed to add screen options.
  *
  * @since 4.3.0
+ *
+ * @see WP_Customize_Panel
  */
 class WP_Customize_Nav_Menus_Panel extends WP_Customize_Panel {
 
@@ -392,7 +399,6 @@ class WP_Customize_Nav_Menus_Panel extends WP_Customize_Panel {
 	 * Control type.
 	 *
 	 * @since 4.3.0
-	 *
 	 * @access public
 	 * @var string
 	 */
@@ -402,6 +408,7 @@ class WP_Customize_Nav_Menus_Panel extends WP_Customize_Panel {
 	 * Render screen options for Menus.
 	 *
 	 * @since 4.3.0
+	 * @access public
 	 */
 	public function render_screen_options() {
 		// Essentially adds the screen options.
@@ -418,6 +425,7 @@ class WP_Customize_Nav_Menus_Panel extends WP_Customize_Panel {
 	 * Link title attribute added as it's a relatively advanced concept for new users.
 	 *
 	 * @since 4.3.0
+	 * @access public
 	 *
 	 * @return array The advanced menu properties.
 	 */
@@ -437,13 +445,12 @@ class WP_Customize_Nav_Menus_Panel extends WP_Customize_Panel {
 	 * An Underscore (JS) template for this panel's content (but not its container).
 	 *
 	 * Class variables for this panel class are available in the `data` JS object;
-	 * export custom variables by overriding {@see WP_Customize_Panel::json()}.
+	 * export custom variables by overriding WP_Customize_Panel::json().
 	 *
 	 * @since 4.3.0
+	 * @access protected
 	 *
 	 * @see WP_Customize_Panel::print_template()
-	 *
-	 * @since 4.3.0
 	 */
 	protected function content_template() {
 		?>

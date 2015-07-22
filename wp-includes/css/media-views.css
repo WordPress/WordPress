@@ -696,6 +696,10 @@
 	height: 100%;
 }
 
+.wp-customizer:not(.mobile) .media-frame-content .crop-content.site-icon {
+	margin-right: 300px;
+}
+
 .media-frame-content .crop-content .crop-image {
 	display: block;
 	margin: auto;
@@ -2475,12 +2479,15 @@
 
 @media only screen and (max-width: 480px) {
 	.media-modal-close {
-		top: 5px;
-		right: 5px;
+		top: -5px;
 	}
 
 	.media-modal .media-frame-title {
 		height: 40px;
+	}
+
+	.wp-core-ui.wp-customizer .media-button {
+		margin-top: 13px;
 	}
 
 	.media-modal .media-frame-title h1,

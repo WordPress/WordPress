@@ -3,7 +3,6 @@
 	if ( ! wp || ! wp.customize ) { return; }
 	var api = wp.customize;
 
-
 	/**
 	 * wp.customize.HeaderTool.CurrentView
 	 *

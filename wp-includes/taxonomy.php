@@ -3364,6 +3364,7 @@ function wp_unique_term_slug( $slug, $term ) {
 	}
 
 	// If we didn't get a unique slug, try appending a number to make it unique.
+
 	/**
 	 * Filter whether the proposed unique term slug is bad.
 	 *
@@ -4213,11 +4214,13 @@ function _update_generic_term_count( $terms, $taxonomy ) {
 }
 
 /**
- * Create a new term for a term_taxonomy item that currently shares its term with another term_taxonomy.
+ * Create a new term for a term_taxonomy item that currently shares its term
+ * with another term_taxonomy.
  *
  * @ignore
  * @since 4.2.0
- * @since 4.3.0 Introduced `$record` parameter. `$term_id` and `$term_taxonomy_id` can now accept objects.
+ * @since 4.3.0 Introduced `$record` parameter. Also, `$term_id` and
+ *              `$term_taxonomy_id` can now accept objects.
  *
  * @global wpdb $wpdb
  *

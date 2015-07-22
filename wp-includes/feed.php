@@ -88,41 +88,6 @@ function get_default_feed() {
 }
 
 /**
- * Get the timestamp of the most recently modified post from WP_Query
- *
- * If viewing a comment feed, the date of the most recently modified
- * comment will be returned.
- *
- * @since 4.3.0
- *
- * @return string Date ('Y-m-d H:i:s' for use with mysql2date() )
- */
-function get_last_build_date_feed() {
-	global $wp_query, $wpdb;
-
-	if ( $wp_query->have_posts() ) {
-		$post_ids = array();
-		$post_times = array();
-		foreach( $wp_query->posts as $post ) {
-			$post_ids[] = $post->ID;
-			$post_times[] = $post->post_modified_gmt;
-		}
-		$postids = implode( "','", $post_ids );
-		$max_post_time = max( $post_times );
-
-		if ( $wp_query->is_comment_feed() ) {
-			$max_comment_time = $wpdb->get_var( $wpdb->prepare( "SELECT MAX(comment_date_gmt) FROM $wpdb->comments WHERE comment_post_ID IN ('%s') AND comment_approved = '1'", $postids ) );
-
-			return max( $max_post_time, $max_comment_time );
-		}
-		return $max_post_time;
-	}
-
-	// Fallback to last time any post was modified or published.
-	return get_lastpostmodified( 'GMT' );
-}
-
-/**
  * Retrieve the blog title for the feed title.
  *
  * @since 2.2.0
@@ -588,9 +553,11 @@ function prep_atom_text_construct($data) {
 }
 
 /**
- * Display Site Icon in atom feeds.
+ * Displays Site Icon in atom feeds.
  *
  * @since 4.3.0
+ *
+ * @see get_site_icon_url()
  */
 function atom_site_icon() {
 	$url = get_site_icon_url( null, 32 );
@@ -600,7 +567,7 @@ function atom_site_icon() {
 }
 
 /**
- * Display Site Icon in RSS2.
+ * Displays Site Icon in RSS2.
  *
  * @since 4.3.0
  */

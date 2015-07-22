@@ -251,6 +251,11 @@ final class _WP_Editors {
 			'<textarea' . $editor_class . $height . $tabindex . $autocomplete . ' cols="40" name="' . esc_attr( $set['textarea_name'] ) . '" ' .
 			'id="' . $editor_id_attr . '">%s</textarea></div>' );
 
+		// Prepare the content for the Visual or Text editor
+		if ( self::$this_tinymce ) {
+			add_filter( 'the_editor_content', 'format_for_editor', 10, 2 );
+		}
+
 		/**
 		 * Filter the default editor content.
 		 *
@@ -268,6 +273,10 @@ final class _WP_Editors {
 		} elseif ( 'tinymce' === $default_editor && has_filter( 'richedit_pre' ) ) {
 			_deprecated_function( 'add_filter( richedit_pre )', '4.3.0', 'add_filter( format_for_editor )' );
 			$content = apply_filters( 'richedit_pre', $content );
+		}
+
+		if ( false !== stripos( $content, 'textarea' ) ) {
+			$content = preg_replace( '%</textarea%i', '&lt;/textarea', $content );
 		}
 
 		printf( $the_editor, $content );
@@ -752,8 +761,6 @@ final class _WP_Editors {
 	 * @static
 	 */
 	public static function enqueue_scripts() {
-		wp_enqueue_script('word-count');
-
 		if ( self::$has_tinymce )
 			wp_enqueue_script('editor');
 
@@ -1045,6 +1052,8 @@ final class _WP_Editors {
 			'Action' => __( 'Action' ),
 			'To move focus to other buttons use Tab or the arrow keys. To return focus to the editor press Escape or use one of the buttons.' =>
 				__( 'To move focus to other buttons use Tab or the arrow keys. To return focus to the editor press Escape or use one of the buttons.' ),
+			'When starting a new paragraph with one of these patterns followed by a space, the formatting will be applied automatically. Press Backspace or Escape to undo.' =>
+				__( 'When starting a new paragraph with one of these patterns followed by a space, the formatting will be applied automatically. Press Backspace or Escape to undo.' ),
 		);
 
 		/**

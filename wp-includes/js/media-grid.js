@@ -1,6 +1,4 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-/*globals wp */
-
 /**
  * wp.media.controller.EditAttachmentMetadata
  *
@@ -29,8 +27,6 @@ EditAttachmentMetadata = wp.media.controller.State.extend({
 module.exports = EditAttachmentMetadata;
 
 },{}],2:[function(require,module,exports){
-/*globals wp */
-
 var media = wp.media;
 
 media.controller.EditAttachmentMetadata = require( './controllers/edit-attachment-metadata.js' );
@@ -44,8 +40,6 @@ media.view.DeleteSelectedButton = require( './views/button/delete-selected.js' )
 media.view.DeleteSelectedPermanentlyButton = require( './views/button/delete-selected-permanently.js' );
 
 },{"./controllers/edit-attachment-metadata.js":1,"./routers/manage.js":3,"./views/attachment/details-two-column.js":4,"./views/button/delete-selected-permanently.js":5,"./views/button/delete-selected.js":6,"./views/button/select-mode-toggle.js":7,"./views/edit-image-details.js":8,"./views/frame/edit-attachments.js":9,"./views/frame/manage.js":10}],3:[function(require,module,exports){
-/*globals wp, Backbone */
-
 /**
  * wp.media.view.MediaFrame.Manage.Router
  *
@@ -55,29 +49,9 @@ media.view.DeleteSelectedPermanentlyButton = require( './views/button/delete-sel
  * @augments Backbone.Router
  */
 var Router = Backbone.Router.extend({
-	initialize: function ( options ) {
-		this.controller = options.controller;
-		this.library = options.library;
-		this.on( 'route', this.checkRoute );
-	},
-
 	routes: {
 		'upload.php?item=:slug':    'showItem',
-		'upload.php?search=:query': 'search',
-		'upload.php':				'defaultRoute'
-	},
-
-	checkRoute: function ( event ) {
-		if ( 'defaultRoute' !== event ) {
-			this.modal = true;
-		}
-	},
-
-	defaultRoute: function () {
-		if ( this.modal ) {
-			wp.media.frame.close();
-			this.modal = false;
-		}
+		'upload.php?search=:query': 'search'
 	},
 
 	// Map routes against the page URL
@@ -92,18 +66,19 @@ var Router = Backbone.Router.extend({
 
 	// Show the modal with a specific item
 	showItem: function( query ) {
-		var frame = this.controller,
+		var media = wp.media,
+			library = media.frame.state().get('library'),
 			item;
-	
+
 		// Trigger the media frame to open the correct item
-		item = this.library.findWhere( { id: parseInt( query, 10 ) } );
+		item = library.findWhere( { id: parseInt( query, 10 ) } );
 		if ( item ) {
-			frame.trigger( 'edit:attachment', item );
+			media.frame.trigger( 'edit:attachment', item );
 		} else {
-			item = wp.media.attachment( query );
-			frame.listenTo( item, 'change', function( model ) {
-				frame.stopListening( item );
-				frame.trigger( 'edit:attachment', model );
+			item = media.attachment( query );
+			media.frame.listenTo( item, 'change', function( model ) {
+				media.frame.stopListening( item );
+				media.frame.trigger( 'edit:attachment', model );
 			} );
 			item.fetch();
 		}
@@ -113,8 +88,6 @@ var Router = Backbone.Router.extend({
 module.exports = Router;
 
 },{}],4:[function(require,module,exports){
-/*globals wp */
-
 /**
  * wp.media.view.Attachment.Details.TwoColumn
  *
@@ -158,8 +131,6 @@ TwoColumn = Details.extend({
 module.exports = TwoColumn;
 
 },{}],5:[function(require,module,exports){
-/*globals wp */
-
 /**
  * wp.media.view.DeleteSelectedPermanentlyButton
  *
@@ -207,8 +178,6 @@ DeleteSelectedPermanently = DeleteSelected.extend({
 module.exports = DeleteSelectedPermanently;
 
 },{}],6:[function(require,module,exports){
-/*globals wp */
-
 /**
  * wp.media.view.DeleteSelectedButton
  *
@@ -262,8 +231,6 @@ DeleteSelected = Button.extend({
 module.exports = DeleteSelected;
 
 },{}],7:[function(require,module,exports){
-/*globals wp */
-
 /**
  * wp.media.view.SelectModeToggleButton
  *
@@ -338,8 +305,6 @@ SelectModeToggle = Button.extend({
 module.exports = SelectModeToggle;
 
 },{}],8:[function(require,module,exports){
-/*globals wp, _ */
-
 /**
  * wp.media.view.EditImage.Details
  *
@@ -375,8 +340,6 @@ Details = EditImage.extend({
 module.exports = Details;
 
 },{}],9:[function(require,module,exports){
-/*globals wp, _, jQuery */
-
 /**
  * wp.media.view.MediaFrame.EditAttachments
  *
@@ -620,8 +583,6 @@ EditAttachments = MediaFrame.extend({
 module.exports = EditAttachments;
 
 },{}],10:[function(require,module,exports){
-/*globals wp, _, Backbone */
-
 /**
  * wp.media.view.MediaFrame.Manage
  *
@@ -684,10 +645,12 @@ Manage = MediaFrame.extend({
 				}
 			}).render();
 			this.uploader.ready();
-			this.$body.append( this.uploader.el );
+			$('body').append( this.uploader.el );
 
 			this.options.uploader = false;
 		}
+
+		this.gridRouter = new wp.media.view.MediaFrame.Manage.Router();
 
 		// Call 'initialize' directly on the parent class.
 		MediaFrame.prototype.initialize.apply( this, arguments );
@@ -695,23 +658,10 @@ Manage = MediaFrame.extend({
 		// Append the frame view directly the supplied container.
 		this.$el.appendTo( this.options.container );
 
-		this.setLibrary( this.options );
-		this.setRouter();
 		this.createStates();
 		this.bindRegionModeHandlers();
 		this.render();
 		this.bindSearchHandler();
-	},
-
-	setLibrary: function ( options ) {
-		this.library = wp.media.query( options.library );
-	},
-
-	setRouter: function () {
-		this.gridRouter = new wp.media.view.MediaFrame.Manage.Router({
-			controller: this,
-			library: this.library
-		});
 	},
 
 	bindSearchHandler: function() {
@@ -732,9 +682,7 @@ Manage = MediaFrame.extend({
 
 		// Update the URL when entering search string (at most once per second)
 		search.on( 'input', _.bind( input, this ) );
-		if ( currentSearch ) {
-			searchView.val( currentSearch ).trigger( 'input' );
-		}
+		searchView.val( currentSearch ).trigger( 'input' );
 
 		this.gridRouter.on( 'route:search', function () {
 			var href = window.location.href;
@@ -761,7 +709,7 @@ Manage = MediaFrame.extend({
 		// Add the default states.
 		this.states.add([
 			new Library({
-				library:            this.library,
+				library:            wp.media.query( options.library ),
 				multiple:           options.multiple,
 				title:              options.title,
 				content:            'browse',

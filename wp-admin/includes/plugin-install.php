@@ -151,12 +151,17 @@ function install_dashboard() {
 	} else {
 		//Set up the tags in a way which can be interpreted by wp_generate_tag_cloud()
 		$tags = array();
-		foreach ( (array)$api_tags as $tag )
-			$tags[ $tag['name'] ] = (object) array(
-									'link' => esc_url( self_admin_url('plugin-install.php?tab=search&type=tag&s=' . urlencode($tag['name'])) ),
-									'name' => $tag['name'],
-									'id' => sanitize_title_with_dashes($tag['name']),
-									'count' => $tag['count'] );
+		foreach ( (array) $api_tags as $tag ) {
+			$url = self_admin_url( 'plugin-install.php?tab=search&type=tag&s=' . urlencode( $tag['name'] ) );
+			$data = array(
+				'link' => esc_url( $url ),
+				'name' => $tag['name'],
+				'slug' => $tag['slug'],
+				'id' => sanitize_title_with_dashes( $tag['name'] ),
+				'count' => $tag['count']
+			);
+			$tags[ $tag['name'] ] = (object) $data;
+		}
 		echo wp_generate_tag_cloud($tags, array( 'single_text' => __('%s plugin'), 'multiple_text' => __('%s plugins') ) );
 	}
 	echo '</p><br class="clear" />';

@@ -328,10 +328,10 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 					<div class="install-theme-info"></div>
 				</div>
 				<div class="wp-full-overlay-footer">
-					<a href="#" class="collapse-sidebar" title="<?php esc_attr_e('Collapse Sidebar'); ?>">
-						<span class="collapse-sidebar-label"><?php _e('Collapse'); ?></span>
+					<button type="button" class="collapse-sidebar button-secondary" aria-expanded="true" aria-label="<?php esc_attr_e( 'Collapse Sidebar' ); ?>">
 						<span class="collapse-sidebar-arrow"></span>
-					</a>
+						<span class="collapse-sidebar-label"><?php _e( 'Collapse' ); ?></span>
+					</button>
 				</div>
 			</div>
 			<div class="wp-full-overlay-main"></div>

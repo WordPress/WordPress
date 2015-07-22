@@ -146,8 +146,9 @@ wpWidgets = {
 				if ( $wrap.hasClass( 'closed' ) ) {
 					wpWidgets.hoveredSidebar = $wrap;
 					$wrap.removeClass( 'closed' );
-					sidebars.sortable( 'refresh' );
 				}
+
+				$( this ).sortable( 'refresh' );
 			},
 
 			/**

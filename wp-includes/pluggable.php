@@ -1278,8 +1278,8 @@ function wp_safe_redirect($location, $status = 302) {
 	 *
 	 * @since 4.3.0
 	 *
-	 * @param string $fallback_url	The fallback URL to use by default.
-	 * @param int    $status        The redirect status.
+	 * @param string $fallback_url The fallback URL to use by default.
+	 * @param int    $status       The redirect status.
 	 */
 	$location = wp_validate_redirect( $location, apply_filters( 'wp_safe_redirect_fallback', admin_url(), $status ) );
 
@@ -2107,8 +2107,9 @@ function wp_rand( $min = 0, $max = 0 ) {
 		$rnd_value .= sha1($rnd_value);
 		$rnd_value .= sha1($rnd_value . $seed);
 		$seed = md5($seed . $rnd_value);
-		if ( ! defined( 'WP_SETUP_CONFIG' ) )
-			set_transient('random_seed', $seed);
+		if ( ! defined( 'WP_SETUP_CONFIG' ) && ! defined( 'WP_INSTALLING' ) ) {
+			set_transient( 'random_seed', $seed );
+		}
 	}
 
 	// Take the first 8 digits for our value

@@ -89,7 +89,7 @@ if ( isset( $add_user_errors ) && is_wp_error( $add_user_errors ) ) { ?>
 	<table class="form-table">
 		<tr class="form-field form-required">
 			<th scope="row"><label for="username"><?php _e( 'Username' ) ?></label></th>
-			<td><input type="text" class="regular-text" name="user[username]" id="username" /></td>
+			<td><input type="text" class="regular-text" name="user[username]" id="username" autocapitalize="none" autocorrect="off" /></td>
 		</tr>
 		<tr class="form-field form-required">
 			<th scope="row"><label for="email"><?php _e( 'Email' ) ?></label></th>

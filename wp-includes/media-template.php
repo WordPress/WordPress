@@ -298,7 +298,7 @@ function wp_print_media_templates() {
 				<# } else if ( 'image' === data.type && data.sizes && data.sizes.full ) { #>
 					<img class="details-image" src="{{ data.sizes.full.url }}" draggable="false" />
 				<# } else if ( -1 === jQuery.inArray( data.type, [ 'audio', 'video' ] ) ) { #>
-					<img class="details-image" src="{{ data.icon }}" class="icon" draggable="false" />
+					<img class="details-image icon" src="{{ data.icon }}" draggable="false" />
 				<# } #>
 
 				<# if ( 'audio' === data.type ) { #>
@@ -1241,6 +1241,24 @@ function wp_print_media_templates() {
 	<script type="text/html" id="tmpl-crop-content">
 		<img class="crop-image" src="{{ data.url }}">
 		<div class="upload-errors"></div>
+	</script>
+
+	<script type="text/html" id="tmpl-site-icon-preview">
+		<h2><?php _e( 'Preview' ); ?></h2>
+		<strong><?php _e( 'As a browser icon' ); ?></strong>
+		<div class="favicon-preview">
+			<img src="images/browser.png" class="browser-preview" width="182" height="" alt=""/>
+
+			<div class="favicon">
+				<img id="preview-favicon" src="{{ data.url }}" alt="<?php esc_attr_e( 'Preview as a browser icon' ); ?>"/>
+			</div>
+			<span class="browser-title"><?php bloginfo( 'name' ); ?></span>
+		</div>
+
+		<strong><?php _e( 'As an app icon' ); ?></strong>
+		<div class="app-icon-preview">
+			<img id="preview-app-icon" src="{{ data.url }}" alt="<?php esc_attr_e( 'Preview as an app icon' ); ?>"/>
+		</div>
 	</script>
 
 	<?php

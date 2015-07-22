@@ -328,7 +328,7 @@ function wp_default_scripts( &$scripts ) {
 
 	$scripts->add( 'revisions', "/wp-admin/js/revisions$suffix.js", array( 'wp-backbone', 'jquery-ui-slider', 'hoverIntent' ), false, 1 );
 
-	$scripts->add( 'imgareaselect', "/wp-includes/js/imgareaselect/jquery.imgareaselect$suffix.js", array('jquery'), '0.9.10', 1 );
+	$scripts->add( 'imgareaselect', "/wp-includes/js/imgareaselect/jquery.imgareaselect$suffix.js", array('jquery'), false, 1 );
 
 	$scripts->add( 'mediaelement', "/wp-includes/js/mediaelement/mediaelement-and-player.min.js", array('jquery'), '2.17.0', 1 );
 	did_action( 'init' ) && $scripts->localize( 'mediaelement', 'mejsL10n', array(
@@ -365,16 +365,21 @@ function wp_default_scripts( &$scripts ) {
 
 	$scripts->add( 'password-strength-meter', "/wp-admin/js/password-strength-meter$suffix.js", array( 'jquery', 'zxcvbn-async' ), false, 1 );
 	did_action( 'init' ) && $scripts->localize( 'password-strength-meter', 'pwsL10n', array(
-		'empty' => __('&nbsp;'),
-		'short' => __('Very weak'),
-		'bad' => __('Weak'),
-		/* translators: password strength */
-		'good' => _x('Medium', 'password strength'),
-		'strong' => __('Strong'),
-		'mismatch' => __('Mismatch')
+		'short'    => _x( 'Very weak', 'password strength' ),
+		'bad'      => _x( 'Weak', 'password strength' ),
+		'good'     => _x( 'Medium', 'password strength' ),
+		'strong'   => _x( 'Strong', 'password strength' ),
+		'mismatch' => _x( 'Mismatch', 'password mismatch' ),
 	) );
 
 	$scripts->add( 'user-profile', "/wp-admin/js/user-profile$suffix.js", array( 'jquery', 'password-strength-meter', 'wp-util' ), false, 1 );
+	did_action( 'init' ) && $scripts->localize( 'user-profile', 'userProfileL10n', array(
+		'show' => __( 'Show' ),
+		'hide' => __( 'Hide' ),
+		'ariaShow' => esc_attr__( 'Show password' ),
+		'ariaHide' => esc_attr__( 'Hide password' ),
+	) );
+
 	$scripts->add( 'language-chooser', "/wp-admin/js/language-chooser$suffix.js", array( 'jquery' ), false, 1 );
 
 	$scripts->add( 'user-suggest', "/wp-admin/js/user-suggest$suffix.js", array( 'jquery-ui-autocomplete' ), false, 1 );
@@ -395,20 +400,22 @@ function wp_default_scripts( &$scripts ) {
 	$scripts->add( 'word-count', "/wp-admin/js/word-count$suffix.js", array(), false, 1 );
 	did_action( 'init' ) && $scripts->localize( 'word-count', 'wordCountL10n', array(
 		/* translators: If your word count is based on single characters (East Asian characters),
-		   enter 'characters'. Otherwise, enter 'words'. Do not translate into your own language. */
-		'type' => _x( 'words', 'word count: words or characters?' )
+		   enter 'characters', or 'all' to include spaces. Otherwise, enter 'words'.
+		   Do not translate into your own language. */
+		'type' => _x( 'words', 'word count: words, characters or all?' ),
+		'shortcodes' => ! empty( $GLOBALS['shortcode_tags'] ) ? array_keys( $GLOBALS['shortcode_tags'] ) : array()
 	) );
 
 	$scripts->add( 'media-upload', "/wp-admin/js/media-upload$suffix.js", array( 'thickbox', 'shortcode' ), false, 1 );
 
 	$scripts->add( 'hoverIntent', "/wp-includes/js/hoverIntent$suffix.js", array('jquery'), '1.8.1', 1 );
 
-	$scripts->add( 'customize-base',     "/wp-includes/js/customize-base$suffix.js",     array( 'jquery', 'json2', 'underscore', 'wp-a11y' ), false, 1 );
+	$scripts->add( 'customize-base',     "/wp-includes/js/customize-base$suffix.js",     array( 'jquery', 'json2', 'underscore' ), false, 1 );
 	$scripts->add( 'customize-loader',   "/wp-includes/js/customize-loader$suffix.js",   array( 'customize-base' ), false, 1 );
 	$scripts->add( 'customize-preview',  "/wp-includes/js/customize-preview$suffix.js",  array( 'customize-base' ), false, 1 );
 	$scripts->add( 'customize-models',   "/wp-includes/js/customize-models.js", array( 'underscore', 'backbone' ), false, 1 );
-	$scripts->add( 'customize-views',    "/wp-includes/js/customize-views.js",  array( 'jquery', 'underscore', 'imgareaselect', 'customize-models' ), false, 1 );
-	$scripts->add( 'customize-controls', "/wp-admin/js/customize-controls$suffix.js", array( 'customize-base' ), false, 1 );
+	$scripts->add( 'customize-views',    "/wp-includes/js/customize-views.js",  array( 'jquery', 'underscore', 'imgareaselect', 'customize-models', 'media-editor', 'media-views' ), false, 1 );
+	$scripts->add( 'customize-controls', "/wp-admin/js/customize-controls$suffix.js", array( 'customize-base', 'wp-a11y' ), false, 1 );
 	did_action( 'init' ) && $scripts->localize( 'customize-controls', '_wpCustomizeControlsL10n', array(
 		'activate'           => __( 'Save &amp; Activate' ),
 		'save'               => __( 'Save &amp; Publish' ),
@@ -419,15 +426,16 @@ function wp_default_scripts( &$scripts ) {
 		'cheatin'            => __( 'Cheatin&#8217; uh?' ),
 		'previewIframeTitle' => __( 'Site Preview' ),
 		'loginIframeTitle'   => __( 'Session expired' ),
-
+		'collapseSidebar'    => __( 'Collapse Sidebar' ),
+		'expandSidebar'      => __( 'Expand Sidebar' ),
 		// Used for overriding the file types allowed in plupload.
-		'allowedFiles' => __( 'Allowed Files' ),
+		'allowedFiles'       => __( 'Allowed Files' ),
 	) );
 
 	$scripts->add( 'customize-widgets', "/wp-admin/js/customize-widgets$suffix.js", array( 'jquery', 'jquery-ui-sortable', 'jquery-ui-droppable', 'wp-backbone', 'customize-controls' ), false, 1 );
 	$scripts->add( 'customize-preview-widgets', "/wp-includes/js/customize-preview-widgets$suffix.js", array( 'jquery', 'wp-util', 'customize-preview' ), false, 1 );
 
-	$scripts->add( 'customize-nav-menus', "/wp-admin/js/customize-nav-menus$suffix.js", array( 'jquery', 'wp-backbone', 'customize-controls', 'accordion', 'nav-menu', 'wp-a11y' ), false, 1 );
+	$scripts->add( 'customize-nav-menus', "/wp-admin/js/customize-nav-menus$suffix.js", array( 'jquery', 'wp-backbone', 'customize-controls', 'accordion', 'nav-menu' ), false, 1 );
 	$scripts->add( 'customize-preview-nav-menus', "/wp-includes/js/customize-preview-nav-menus$suffix.js", array( 'jquery', 'wp-util', 'customize-preview' ), false, 1 );
 
 	$scripts->add( 'accordion', "/wp-admin/js/accordion$suffix.js", array( 'jquery' ), false, 1 );
@@ -481,7 +489,7 @@ function wp_default_scripts( &$scripts ) {
 			'publishOnFuture' =>  __('Schedule for:'),
 			'publishOnPast' => __('Published on:'),
 			/* translators: 1: month, 2: day, 3: year, 4: hour, 5: minute */
-			'dateFormat' => __('%1$s %2$s, %3$s @ %4$s : %5$s'),
+			'dateFormat' => __('%1$s %2$s, %3$s @ %4$s:%5$s'),
 			'showcomm' => __('Show more comments'),
 			'endcomm' => __('No more comments found.'),
 			'publish' => __('Publish'),
@@ -517,7 +525,9 @@ function wp_default_scripts( &$scripts ) {
 		$scripts->add( 'comment', "/wp-admin/js/comment$suffix.js", array( 'jquery', 'postbox' ) );
 		$scripts->add_data( 'comment', 'group', 1 );
 		did_action( 'init' ) && $scripts->localize( 'comment', 'commentL10n', array(
-			'submittedOn' => __('Submitted on:')
+			'submittedOn' => __( 'Submitted on:' ),
+			/* translators: 1: month, 2: day, 3: year, 4: hour, 5: minute */
+			'dateFormat' => __( '%1$s %2$s, %3$s @ %4$s:%5$s' )
 		) );
 
 		$scripts->add( 'admin-gallery', "/wp-admin/js/gallery$suffix.js", array( 'jquery-ui-sortable' ) );
@@ -611,9 +621,6 @@ function wp_default_scripts( &$scripts ) {
 			'saveAlert' => __( 'The changes you made will be lost if you navigate away from this page.' ),
 			'untitled' => _x( '(no label)', 'missing menu item navigation label' )
 		) );
-
-		$scripts->add( 'site-icon', '/wp-admin/js/site-icon.js', array( 'jquery' ), false, 1 );
-		$scripts->add( 'site-icon-crop', '/wp-admin/js/site-icon-crop.js', array( 'jcrop' ), false, 1 );
 
 		$scripts->add( 'custom-header', "/wp-admin/js/custom-header.js", array( 'jquery-masonry' ), false, 1 );
 		$scripts->add( 'custom-background', "/wp-admin/js/custom-background$suffix.js", array( 'wp-color-picker', 'media-views' ), false, 1 );

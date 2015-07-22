@@ -2445,18 +2445,19 @@ function wp_no_robots() {
  * @link http://www.whatwg.org/specs/web-apps/current-work/multipage/links.html#rel-icon HTML5 specification link icon.
  */
 function wp_site_icon() {
-	if ( ! has_site_icon() ) {
+	if ( ! has_site_icon() && ! is_customize_preview() ) {
 		return;
 	}
 
 	$meta_tags = array(
 		sprintf( '<link rel="icon" href="%s" sizes="32x32" />', esc_url( get_site_icon_url( null, 32 ) ) ),
+		sprintf( '<link rel="icon" href="%s" sizes="192x192" />', esc_url( get_site_icon_url( null, 192 ) ) ),
 		sprintf( '<link rel="apple-touch-icon-precomposed" href="%s">', esc_url( get_site_icon_url( null, 180 ) ) ),
 		sprintf( '<meta name="msapplication-TileImage" content="%s">', esc_url( get_site_icon_url( null, 270 ) ) ),
 	);
 
 	/**
-	 * Filters the site icon meta tags, so Plugins can add their own.
+	 * Filter the site icon meta tags, so Plugins can add their own.
 	 *
 	 * @since 4.3.0
 	 *
@@ -2612,14 +2613,14 @@ function the_search_query() {
 }
 
 /**
- * Get the language attributes for the html tag.
+ * Gets the language attributes for the html tag.
  *
  * Builds up a set of html attributes containing the text direction and language
  * information for the page.
  *
  * @since 4.3.0
  *
- * @param string $doctype Optional. The type of html document (xhtml|html). Default html.
+ * @param string $doctype Optional. The type of html document. Accepts 'xhtml' or 'html'. Default 'html'.
  */
 function get_language_attributes( $doctype = 'html' ) {
 	$attributes = array();
@@ -2650,7 +2651,7 @@ function get_language_attributes( $doctype = 'html' ) {
 }
 
 /**
- * Display the language attributes for the html tag.
+ * Displays the language attributes for the html tag.
  *
  * Builds up a set of html attributes containing the text direction and language
  * information for the page.
@@ -2658,7 +2659,7 @@ function get_language_attributes( $doctype = 'html' ) {
  * @since 2.1.0
  * @since 4.3.0 Converted into a wrapper for get_language_attributes().
  *
- * @param string $doctype Optional. The type of html document (xhtml|html). Default html.
+ * @param string $doctype Optional. The type of html document. Accepts 'xhtml' or 'html'. Default 'html'.
  */
 function language_attributes( $doctype = 'html' ) {
 	echo get_language_attributes( $doctype );

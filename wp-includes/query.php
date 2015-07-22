@@ -1867,6 +1867,10 @@ class WP_Query {
 
 				$term = $q[$t->query_var];
 
+				if ( is_array( $term ) ) {
+					$term = implode( ',', $term );
+				}
+
 				if ( strpos($term, '+') !== false ) {
 					$terms = preg_split( '/[+]+/', $term );
 					foreach ( $terms as $term ) {

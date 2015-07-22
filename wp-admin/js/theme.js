@@ -793,7 +793,13 @@ themes.view.Preview = themes.view.Details.extend({
 		return false;
 	},
 
-	collapse: function() {
+	collapse: function( event ) {
+		var $button = $( event.currentTarget );
+		if ( 'true' === $button.attr( 'aria-expanded' ) ) {
+			$button.attr({ 'aria-expanded': 'false', 'aria-label': l10n.expandSidebar });
+		} else {
+			$button.attr({ 'aria-expanded': 'true', 'aria-label': l10n.collapseSidebar });
+		}
 
 		this.$el.toggleClass( 'collapsed' ).toggleClass( 'expanded' );
 		return false;

@@ -1567,10 +1567,12 @@ function wp_ajax_inline_save() {
 		$data['parent_id'] = $data['post_parent'];
 
 	// Status.
-	if ( isset($data['keep_private']) && 'private' == $data['keep_private'] )
+	if ( isset( $data['keep_private'] ) && 'private' == $data['keep_private'] ) {
+		$data['visibility']  = 'private';
 		$data['post_status'] = 'private';
-	else
+	} else {
 		$data['post_status'] = $data['_status'];
+	}
 
 	if ( empty($data['comment_status']) )
 		$data['comment_status'] = 'closed';
@@ -2969,10 +2971,7 @@ function wp_ajax_update_plugin() {
 
 	include_once( ABSPATH . 'wp-admin/includes/class-wp-upgrader.php' );
 
-	$current = get_site_transient( 'update_plugins' );
-	if ( empty( $current ) ) {
-		wp_update_plugins();
-	}
+	wp_update_plugins();
 
 	$skin = new Automatic_Upgrader_Skin();
 	$upgrader = new Plugin_Upgrader( $skin );
@@ -3051,4 +3050,118 @@ function wp_ajax_press_this_add_category() {
 	}
 
 	$GLOBALS['wp_press_this']->add_category();
+}
+
+/**
+ * AJAX handler for cropping an image.
+ *
+ * @since 4.3.0
+ *
+ * @global WP_Site_Icon $wp_site_icon
+ */
+function wp_ajax_crop_image() {
+	$attachment_id = absint( $_POST['id'] );
+
+	check_ajax_referer( 'image_editor-' . $attachment_id, 'nonce' );
+	if ( ! current_user_can( 'customize' ) ) {
+		wp_send_json_error();
+	}
+
+	$context = str_replace( '_', '-', $_POST['context'] );
+	$data    = array_map( 'absint', $_POST['cropDetails'] );
+	$cropped = wp_crop_image( $attachment_id, $data['x1'], $data['y1'], $data['width'], $data['height'], $data['dst_width'], $data['dst_height'] );
+
+	if ( ! $cropped || is_wp_error( $cropped ) ) {
+		wp_send_json_error( array( 'message' => __( 'Image could not be processed.' ) ) );
+	}
+
+	switch ( $context ) {
+		case 'site-icon':
+			require_once ABSPATH . '/wp-admin/includes/class-wp-site-icon.php';
+			global $wp_site_icon;
+
+			// Skip creating a new attachment if the attachment is a Site Icon.
+			if ( get_post_meta( $attachment_id, '_wp_attachment_context', true ) == $context ) {
+
+				// Delete the temporary cropped file, we don't need it.
+				wp_delete_file( $cropped );
+
+				// Additional sizes in wp_prepare_attachment_for_js().
+				add_filter( 'image_size_names_choose', array( $wp_site_icon, 'additional_sizes' ) );
+				break;
+			}
+
+			/** This filter is documented in wp-admin/custom-header.php */
+			$cropped = apply_filters( 'wp_create_file_in_uploads', $cropped, $attachment_id ); // For replication.
+			$object  = $wp_site_icon->create_attachment_object( $cropped, $attachment_id );
+			unset( $object['ID'] );
+
+			// Update the attachment.
+			add_filter( 'intermediate_image_sizes_advanced', array( $wp_site_icon, 'additional_sizes' ) );
+			$attachment_id = $wp_site_icon->insert_attachment( $object, $cropped );
+			remove_filter( 'intermediate_image_sizes_advanced', array( $wp_site_icon, 'additional_sizes' ) );
+
+			// Additional sizes in wp_prepare_attachment_for_js().
+			add_filter( 'image_size_names_choose', array( $wp_site_icon, 'additional_sizes' ) );
+			break;
+
+		default:
+
+			/**
+			 * Fires before a cropped image is saved.
+			 *
+			 * Allows to add filters to modify the way a cropped image is saved.
+			 *
+			 * @since 4.3.0
+			 *
+			 * @param string $context       The Customizer control requesting the cropped image.
+			 * @param int    $attachment_id The attachment ID of the original image.
+			 * @param string $cropped       Path to the cropped image file.
+			 */
+			do_action( 'wp_ajax_crop_image_pre_save', $context, $attachment_id, $cropped );
+
+			/** This filter is documented in wp-admin/custom-header.php */
+			$cropped = apply_filters( 'wp_create_file_in_uploads', $cropped, $attachment_id ); // For replication.
+
+			$parent_url = get_post( $attachment_id )->guid;
+			$url        = str_replace( basename( $parent_url ), basename( $cropped ), $parent_url );
+
+			$size       = @getimagesize( $cropped );
+			$image_type = ( $size ) ? $size['mime'] : 'image/jpeg';
+
+			$object = array(
+				'post_title'     => basename( $cropped ),
+				'post_content'   => $url,
+				'post_mime_type' => $image_type,
+				'guid'           => $url,
+				'context'        => $context,
+			);
+
+			$attachment_id = wp_insert_attachment( $object, $cropped );
+			$metadata = wp_generate_attachment_metadata( $attachment_id, $cropped );
+
+			/**
+			 * Filter the cropped image attachment metadata.
+			 *
+			 * @since 4.3.0
+			 *
+			 * @see wp_generate_attachment_metadata()
+			 *
+			 * @param array $metadata Attachment metadata.
+			 */
+			$metadata = apply_filters( 'wp_ajax_cropped_attachment_metadata', $metadata );
+			wp_update_attachment_metadata( $attachment_id, $metadata );
+
+			/**
+			 * Filter the attachment ID for a cropped image.
+			 *
+			 * @since 4.3.0
+			 *
+			 * @param int    $attachment_id The attachment ID of the cropped image.
+			 * @param string $context       The Customizer control requesting the cropped image.
+			 */
+			$attachment_id = apply_filters( 'wp_ajax_cropped_attachment_id', $attachment_id, $context );
+	}
+
+	wp_send_json_success( wp_prepare_attachment_for_js( $attachment_id ) );
 }

@@ -15,7 +15,7 @@ window.wp = window.wp || {};
 	 *
 	 * @param {String} message  The message to be announced by Assistive Technologies.
 	 * @param {String} ariaLive Optional. The politeness level for aria-live. Possible values:
-	 *                            polite or assertive. Default polite.
+	 *                          polite or assertive. Default polite.
 	 */
 	function speak( message, ariaLive ) {
 		// Clear previous messages to allow repeated strings being read out.
@@ -33,8 +33,7 @@ window.wp = window.wp || {};
 	 *
 	 * @since 4.3.0
 	 *
-	 * @param {String} id       The id attribute for the live region.
-	 * @param {String} ariaLive Optional Value for the 'aria-live' attribute, default 'polite'.
+	 * @param {String} ariaLive Optional. Value for the 'aria-live' attribute, default 'polite'.
 	 *
 	 * @return {Object} $container The ARIA live region jQuery object.
 	 */

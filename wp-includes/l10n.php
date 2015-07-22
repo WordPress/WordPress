@@ -875,7 +875,7 @@ function wp_get_pomo_file_data( $po_file ) {
  *     @type array    $languages                    List of installed languages, contain only the locales.
  *                                                  Default empty array.
  *     @type array    $translations                 List of available translations. Default result of
- *                                                  {@see wp_get_available_translations()}.
+ *                                                  wp_get_available_translations().
  *     @type string   $selected                     Language which should be selected. Default empty.
  *     @type bool|int $echo                         Whether to echo or return the generated markup. Accepts 0, 1, or their
  *                                                  bool equivalents. Default 1.

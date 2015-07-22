@@ -245,7 +245,7 @@ function list_plugin_updates() {
 <table class="widefat" id="update-plugins-table">
 	<thead>
 	<tr>
-		<th scope="col" class="manage-column check-column"><input type="checkbox" id="plugins-select-all" /></th>
+		<td scope="col" class="manage-column check-column"><input type="checkbox" id="plugins-select-all" /></td>
 		<th scope="col" class="manage-column"><label for="plugins-select-all"><?php _e('Select All'); ?></label></th>
 	</tr>
 	</thead>
@@ -298,7 +298,7 @@ function list_plugin_updates() {
 
 	<tfoot>
 	<tr>
-		<th scope="col" class="manage-column check-column"><input type="checkbox" id="plugins-select-all-2" /></th>
+		<td scope="col" class="manage-column check-column"><input type="checkbox" id="plugins-select-all-2" /></td>
 		<th scope="col" class="manage-column"><label for="plugins-select-all-2"><?php _e( 'Select All' ); ?></label></th>
 	</tr>
 	</tfoot>
@@ -330,7 +330,7 @@ function list_theme_updates() {
 <table class="widefat" id="update-themes-table">
 	<thead>
 	<tr>
-		<th scope="col" class="manage-column check-column"><input type="checkbox" id="themes-select-all" /></th>
+		<td scope="col" class="manage-column check-column"><input type="checkbox" id="themes-select-all" /></td>
 		<th scope="col" class="manage-column"><label for="themes-select-all"><?php _e('Select All'); ?></label></th>
 	</tr>
 	</thead>
@@ -349,7 +349,7 @@ function list_theme_updates() {
 
 	<tfoot>
 	<tr>
-		<th scope="col" class="manage-column check-column"><input type="checkbox" id="themes-select-all-2" /></th>
+		<td scope="col" class="manage-column check-column"><input type="checkbox" id="themes-select-all-2" /></td>
 		<th scope="col" class="manage-column"><label for="themes-select-all-2"><?php _e( 'Select All' ); ?></label></th>
 	</tr>
 	</tfoot>

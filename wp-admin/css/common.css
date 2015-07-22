@@ -264,7 +264,8 @@ a:active {
 	color: #00a0d2;
 }
 
-a:focus {
+a:focus,
+a:focus .media-icon img {
 	color: #124964;
     -webkit-box-shadow:
     	0 0 0 1px #5b9dd9,
@@ -530,10 +531,6 @@ code {
 	padding: 9px 0 22px;
 }
 
-.widefat.media .check-column {
-	padding-top: 8px;
-}
-
 .widefat thead td.check-column,
 .widefat tbody th.check-column,
 .widefat tfoot td.check-column {
@@ -568,10 +565,6 @@ code {
 
 .wrap {
 	margin: 10px 20px 0 2px;
-}
-
-.attention {
-	color: #00a0d2;
 }
 
 .wrap h1,
@@ -2011,6 +2004,7 @@ table .column-rating {
 	text-align: left;
 }
 
+.attention,
 .error-message {
 	color: red;
 	font-weight: 600;
@@ -2032,23 +2026,12 @@ body.iframe {
 
 /* - Only used once or twice in all of WP - deprecate for global style
 ------------------------------------------------------------------------------*/
-td.media-icon {
+.media-icon {
+	width: 62px; /* icon + border */
 	text-align: center;
-	width: 80px;
-	padding-top: 8px;
-	padding-bottom: 8px;
 }
 
-td.media-icon a {
-	display: inline-block;
-}
-
-td.media-icon img {
-	display: block;
-	max-width: 80px;
-	max-height: 60px;
-	width: auto;
-	height: auto;
+.media-icon img {
 	border: 1px solid #e7e7e7;
 	border: 1px solid rgba(0, 0, 0, 0.07);
 }
@@ -3040,18 +3023,29 @@ img {
 	border-bottom: 1px solid #dfdfdf;
 }
 
+/* Edit Site */
+.network-admin .edit-site-actions {
+	margin-top: 0;
+}
+
 /* My Sites */
 .my-sites {
 	display: block;
 	overflow: auto;
 	zoom: 1;
-	border: 1px solid #e5e5e5;
 }
 
 .my-sites li {
 	display: block;
-	padding: 8px 1%;
+	padding: 8px 3%;
+	min-height: 130px;
 	margin: 0;
+}
+
+@media only screen and (max-width: 599px) {
+	.my-sites li {
+		min-height: 0;
+	}
 }
 
 @media only screen and (min-width: 600px) {
@@ -3073,10 +3067,13 @@ img {
 @media only screen and (min-width: 600px) and (max-width: 699px) {
 	.my-sites li{
 		float: left;
-		width: 48%;
+		width: 44%;
 	}
 	.my-sites.striped li {
 		background-color: #fff;
+	}
+	.my-sites.striped li:nth-of-type(2n+1) {
+		clear: left;
 	}
 	.my-sites.striped li:nth-of-type(2n+2):after {
 		content: none;
@@ -3091,7 +3088,7 @@ img {
 @media only screen and (min-width: 700px) and (max-width: 1199px) {
 	.my-sites li {
 		float: left;
-		width: 31.333333%;
+		width: 27.333333%;
 		background-color: #fff;
 	}
 	.my-sites.striped li:nth-of-type(3n+3):after {
@@ -3107,8 +3104,12 @@ img {
 @media only screen and (min-width: 1200px) and (max-width: 1399px) {
 	.my-sites li {
 		float: left;
-		width: 23%;
+		width: 21%;
+		padding: 8px 2%;
 		background-color: #fff;
+	}
+	.my-sites.striped li:nth-of-type(4n+1) {
+		clear: left;
 	}
 	.my-sites.striped li:nth-of-type(4n+4):after {
 		content: none;
@@ -3124,8 +3125,12 @@ img {
 @media only screen and (min-width: 1400px) and (max-width: 1599px) {
 	.my-sites li {
 		float: left;
-		width: 18%;
+		width: 16%;
+		padding: 8px 2%;
 		background-color: #fff;
+	}
+	.my-sites.striped li:nth-of-type(5n+1) {
+		clear: left;
 	}
 	.my-sites.striped li:nth-of-type(5n+5):after {
 		content: none;
@@ -3142,8 +3147,12 @@ img {
 @media only screen and (min-width: 1600px) {
 	.my-sites li {
 		float: left;
-		width: 14.666666%;
+		width: 12.666666%;
+		padding: 8px 2%;
 		background-color: #fff;
+	}
+	.my-sites.striped li:nth-of-type(6n+1) {
+		clear: left;
 	}
 	.my-sites.striped li:nth-of-type(6n+6):after {
 		content: none;
@@ -3426,5 +3435,14 @@ img {
 	/* Keep full-width boxes on Edit Post page from causing horizontal scroll */
 	div#post-body.metabox-holder.columns-1 {
 		overflow-x: hidden;
+	}
+}
+
+@media screen and (max-width: 320px) {
+	/* Prevent default center alignment and larger font for the Right Now widget when
+	   the network dashboard is viewed on a small mobile device. */
+	#network_dashboard_right_now .subsubsub {
+		font-size: 14px;
+		text-align: left;
 	}
 }

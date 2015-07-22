@@ -1491,12 +1491,12 @@ function upgrade_400() {
 function upgrade_420() {}
 
 /**
- * Execute changes made in WordPress 4.3.0.
+ * Executes changes made in WordPress 4.3.0.
  *
  * @since 4.3.0
  *
- * @global int   $wp_current_db_version
- * @global wpdb  $wpdb
+ * @global int  $wp_current_db_version Current version.
+ * @global wpdb $wpdb                  WordPress database abstraction object.
  */
 function upgrade_430() {
 	global $wp_current_db_version, $wpdb;
@@ -1527,12 +1527,12 @@ function upgrade_430() {
 }
 
 /**
- * Execute comments changes made in WordPress 4.3.0.
+ * Executes comments changes made in WordPress 4.3.0.
  *
  * @since 4.3.0
  *
- * @global int   $wp_current_db_version
- * @global wpdb  $wpdb
+ * @global int  $wp_current_db_version Current version.
+ * @global wpdb $wpdb                  WordPress database abstraction object.
  */
 function upgrade_430_fix_comments() {
 	global $wp_current_db_version, $wpdb;
@@ -1871,9 +1871,11 @@ function maybe_convert_table_to_utf8mb4( $table ) {
 }
 
 /**
- * Split all shared taxonomy terms.
+ * Splits all shared taxonomy terms.
  *
  * @since 4.3.0
+ *
+ * @global wpdb $wpdb WordPress database abstraction object.
  */
 function split_all_shared_terms() {
 	global $wpdb;

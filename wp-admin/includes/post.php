@@ -385,7 +385,7 @@ function edit_post( $post_data = null ) {
 
 	wp_set_post_lock( $post_ID );
 
-	if ( current_user_can( $ptype->cap->edit_others_posts ) ) {
+	if ( current_user_can( $ptype->cap->edit_others_posts ) && current_user_can( $ptype->cap->publish_posts ) ) {
 		if ( ! empty( $post_data['sticky'] ) )
 			stick_post( $post_ID );
 		else

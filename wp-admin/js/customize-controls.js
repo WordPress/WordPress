@@ -1,4 +1,4 @@
-/* globals _wpCustomizeHeader, _wpCustomizeBackground, _wpMediaViewsL10n, MediaElementPlayer */
+/* global _wpCustomizeHeader, _wpCustomizeBackground, _wpMediaViewsL10n, MediaElementPlayer */
 (function( exports, $ ){
 	var Container, focus, api = wp.customize;
 
@@ -1836,6 +1836,314 @@
 	});
 
 	/**
+	 * A control for selecting and cropping an image.
+	 *
+	 * @class
+	 * @augments wp.customize.MediaControl
+	 * @augments wp.customize.Control
+	 * @augments wp.customize.Class
+	 */
+	api.CroppedImageControl = api.MediaControl.extend({
+
+		/**
+		 * Open the media modal to the library state.
+		 */
+		openFrame: function( event ) {
+			if ( api.utils.isKeydownButNotEnterEvent( event ) ) {
+				return;
+			}
+
+			this.initFrame();
+			this.frame.setState( 'library' ).open();
+		},
+
+		/**
+		 * Create a media modal select frame, and store it so the instance can be reused when needed.
+		 */
+		initFrame: function() {
+			var l10n = _wpMediaViewsL10n;
+
+			this.frame = wp.media({
+				button: {
+					text: l10n.select,
+					close: false
+				},
+				states: [
+					new wp.media.controller.Library({
+						title: this.params.button_labels.frame_title,
+						library: wp.media.query({ type: 'image' }),
+						multiple: false,
+						date: false,
+						priority: 20,
+						suggestedWidth: this.params.width,
+						suggestedHeight: this.params.height
+					}),
+					new wp.media.controller.customizeImageCropper({
+						imgSelectOptions: this.calculateImageSelectOptions,
+						control: this
+					})
+				]
+			});
+
+			this.frame.on( 'select', this.onSelect, this );
+			this.frame.on( 'cropped', this.onCropped, this );
+			this.frame.on( 'skippedcrop', this.onSkippedCrop, this );
+		},
+
+		/**
+		 * After an image is selected in the media modal, switch to the cropper
+		 * state if the image isn't the right size.
+		 */
+		onSelect: function() {
+			var attachment = this.frame.state().get( 'selection' ).first().toJSON();
+
+			if ( this.params.width === attachment.width && this.params.height === attachment.height && ! this.params.flex_width && ! this.params.flex_height ) {
+				this.setImageFromAttachment( attachment );
+				this.frame.close();
+			} else {
+				this.frame.setState( 'cropper' );
+			}
+		},
+
+		/**
+		 * After the image has been cropped, apply the cropped image data to the setting.
+		 *
+		 * @param {object} croppedImage Cropped attachment data.
+		 */
+		onCropped: function( croppedImage ) {
+			this.setImageFromAttachment( croppedImage );
+		},
+
+		/**
+		 * Returns a set of options, computed from the attached image data and
+		 * control-specific data, to be fed to the imgAreaSelect plugin in
+		 * wp.media.view.Cropper.
+		 *
+		 * @param {wp.media.model.Attachment} attachment
+		 * @param {wp.media.controller.Cropper} controller
+		 * @returns {Object} Options
+		 */
+		calculateImageSelectOptions: function( attachment, controller ) {
+			var control    = controller.get( 'control' ),
+				flexWidth  = !! parseInt( control.params.flex_width, 10 ),
+				flexHeight = !! parseInt( control.params.flex_height, 10 ),
+				realWidth  = attachment.get( 'width' ),
+				realHeight = attachment.get( 'height' ),
+				xInit = parseInt( control.params.width, 10 ),
+				yInit = parseInt( control.params.height, 10 ),
+				ratio = xInit / yInit,
+				xImg  = realWidth,
+				yImg  = realHeight,
+				x1, y1, imgSelectOptions;
+
+			controller.set( 'canSkipCrop', ! control.mustBeCropped( flexWidth, flexHeight, xInit, yInit, realWidth, realHeight ) );
+
+			if ( xImg / yImg > ratio ) {
+				yInit = yImg;
+				xInit = yInit * ratio;
+			} else {
+				xInit = xImg;
+				yInit = xInit / ratio;
+			}
+
+			x1 = ( xImg - xInit ) / 2;
+			y1 = ( yImg - yInit ) / 2;
+
+			imgSelectOptions = {
+				handles: true,
+				keys: true,
+				instance: true,
+				persistent: true,
+				imageWidth: realWidth,
+				imageHeight: realHeight,
+				x1: x1,
+				y1: y1,
+				x2: xInit + x1,
+				y2: yInit + y1
+			};
+
+			if ( flexHeight === false && flexWidth === false ) {
+				imgSelectOptions.aspectRatio = xInit + ':' + yInit;
+			}
+			if ( flexHeight === false ) {
+				imgSelectOptions.maxHeight = yInit;
+			}
+			if ( flexWidth === false ) {
+				imgSelectOptions.maxWidth = xInit;
+			}
+
+			return imgSelectOptions;
+		},
+
+		/**
+		 * Return whether the image must be cropped, based on required dimensions.
+		 *
+		 * @param {bool} flexW
+		 * @param {bool} flexH
+		 * @param {int}  dstW
+		 * @param {int}  dstH
+		 * @param {int}  imgW
+		 * @param {int}  imgH
+		 * @return {bool}
+		 */
+		mustBeCropped: function( flexW, flexH, dstW, dstH, imgW, imgH ) {
+			if ( true === flexW && true === flexH ) {
+				return false;
+			}
+
+			if ( true === flexW && dstH === imgH ) {
+				return false;
+			}
+
+			if ( true === flexH && dstW === imgW ) {
+				return false;
+			}
+
+			if ( dstW === imgW && dstH === imgH ) {
+				return false;
+			}
+
+			if ( imgW <= dstW ) {
+				return false;
+			}
+
+			return true;
+		},
+
+		/**
+		 * If cropping was skipped, apply the image data directly to the setting.
+		 */
+		onSkippedCrop: function() {
+			var attachment = this.frame.state().get( 'selection' ).first().toJSON();
+			this.setImageFromAttachment( attachment );
+		},
+
+		/**
+		 * Updates the setting and re-renders the control UI.
+		 *
+		 * @param {object} attachment
+		 */
+		setImageFromAttachment: function( attachment ) {
+			this.params.attachment = attachment;
+
+			// Set the Customizer setting; the callback takes care of rendering.
+			this.setting( attachment.id );
+		}
+	});
+
+	/**
+	 * A control for selecting and cropping Site Icons.
+	 *
+	 * @class
+	 * @augments wp.customize.CroppedImageControl
+	 * @augments wp.customize.MediaControl
+	 * @augments wp.customize.Control
+	 * @augments wp.customize.Class
+	 */
+	api.SiteIconControl = api.CroppedImageControl.extend({
+
+		/**
+		 * Create a media modal select frame, and store it so the instance can be reused when needed.
+		 */
+		initFrame: function() {
+			var l10n = _wpMediaViewsL10n;
+
+			this.frame = wp.media({
+				button: {
+					text: l10n.select,
+					close: false
+				},
+				states: [
+					new wp.media.controller.Library({
+						title: this.params.button_labels.frame_title,
+						library: wp.media.query({ type: 'image' }),
+						multiple: false,
+						date: false,
+						priority: 20,
+						suggestedWidth: this.params.width,
+						suggestedHeight: this.params.height
+					}),
+					new wp.media.controller.SiteIconCropper({
+						imgSelectOptions: this.calculateImageSelectOptions,
+						control: this
+					})
+				]
+			});
+
+			this.frame.on( 'select', this.onSelect, this );
+			this.frame.on( 'cropped', this.onCropped, this );
+			this.frame.on( 'skippedcrop', this.onSkippedCrop, this );
+		},
+
+		/**
+		 * After an image is selected in the media modal, switch to the cropper
+		 * state if the image isn't the right size.
+		 */
+		onSelect: function() {
+			var attachment = this.frame.state().get( 'selection' ).first().toJSON(),
+				controller = this;
+
+			if ( this.params.width === attachment.width && this.params.height === attachment.height && ! this.params.flex_width && ! this.params.flex_height ) {
+				wp.ajax.post( 'crop-image', {
+					nonce: attachment.nonces.edit,
+					id: attachment.id,
+					context: 'site-icon',
+					cropDetails: {
+						x1: 0,
+						y1: 0,
+						width: this.params.width,
+						height: this.params.height,
+						dst_width: this.params.width,
+						dst_height: this.params.height
+					}
+				} ).done( function( croppedImage ) {
+					controller.setImageFromAttachment( croppedImage );
+					controller.frame.close();
+				} ).fail( function() {
+					controller.trigger('content:error:crop');
+				} );
+			} else {
+				this.frame.setState( 'cropper' );
+			}
+		},
+
+		/**
+		 * Updates the setting and re-renders the control UI.
+		 *
+		 * @param {object} attachment
+		 */
+		setImageFromAttachment: function( attachment ) {
+			var icon = typeof attachment.sizes['site_icon-32'] !== 'undefined' ? attachment.sizes['site_icon-32'] : attachment.sizes.thumbnail;
+
+			this.params.attachment = attachment;
+
+			// Set the Customizer setting; the callback takes care of rendering.
+			this.setting( attachment.id );
+
+
+			// Update the icon in-browser.
+			$( 'link[sizes="32x32"]' ).attr( 'href', icon.url );
+		},
+
+		/**
+		 * Called when the "Remove" link is clicked. Empties the setting.
+		 *
+		 * @param {object} event jQuery Event object
+		 */
+		removeFile: function( event ) {
+			if ( api.utils.isKeydownButNotEnterEvent( event ) ) {
+				return;
+			}
+			event.preventDefault();
+
+			this.params.attachment = {};
+			this.setting( '' );
+			this.renderContent(); // Not bound to setting change when emptying.
+			$( 'link[rel="icon"]' ).attr( 'href', '' );
+		}
+	});
+
+	/**
 	 * @class
 	 * @augments wp.customize.Control
 	 * @augments wp.customize.Class
@@ -2695,13 +3003,15 @@
 	});
 
 	api.controlConstructor = {
-		color:      api.ColorControl,
-		media:      api.MediaControl,
-		upload:     api.UploadControl,
-		image:      api.ImageControl,
-		header:     api.HeaderControl,
-		background: api.BackgroundControl,
-		theme:      api.ThemeControl
+		color:         api.ColorControl,
+		media:         api.MediaControl,
+		upload:        api.UploadControl,
+		image:         api.ImageControl,
+		cropped_image: api.CroppedImageControl,
+		site_icon:     api.SiteIconControl,
+		header:        api.HeaderControl,
+		background:    api.BackgroundControl,
+		theme:         api.ThemeControl
 	};
 	api.panelConstructor = {};
 	api.sectionConstructor = {
@@ -2993,6 +3303,7 @@
 			if ( wasReflowed && activeElement ) {
 				activeElement.focus();
 			}
+			api.trigger( 'pane-contents-reflowed' );
 		}, api );
 		api.bind( 'ready', api.reflowPaneContents );
 		api.reflowPaneContents = _.debounce( api.reflowPaneContents, 100 );
@@ -3086,13 +3397,14 @@
 			event.preventDefault();
 		});
 
-		$('.collapse-sidebar').on( 'click keydown', function( event ) {
-			if ( api.utils.isKeydownButNotEnterEvent( event ) ) {
-				return;
+		$( '.collapse-sidebar' ).on( 'click', function() {
+			if ( 'true' === $( this ).attr( 'aria-expanded' ) ) {
+				$( this ).attr({ 'aria-expanded': 'false', 'aria-label': api.l10n.expandSidebar });
+			} else {
+				$( this ).attr({ 'aria-expanded': 'true', 'aria-label': api.l10n.collapseSidebar });
 			}
 
 			overlay.toggleClass( 'collapsed' ).toggleClass( 'expanded' );
-			event.preventDefault();
 		});
 
 		$( '.customize-controls-preview-toggle' ).on( 'click keydown', function( event ) {

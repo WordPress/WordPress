@@ -531,6 +531,11 @@ li.menu-item.ui-sortable-helper .menu-item-transport .menu-item-bar {
 	margin-top: 13px;
 }
 
+/* Hide the transport list when it's empty */
+.menu-item .menu-item-transport:empty {
+	display: none;
+}
+
 /* WARNING: The factor of 30px is hardcoded into the nav-menus JavaScript. */
 .menu-item-depth-0 { margin-left: 0px; }
 .menu-item-depth-1 { margin-left: 30px; }
@@ -573,11 +578,11 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
 
 /* Menu item controls */
 .item-type {
+	display: inline-block;
+	padding: 12px 10px;
 	color: #666;
 	font-size: 12px;
-	padding: 12px 10px;
 	line-height: 18px;
-	display: block;
 }
 
 .item-controls {

@@ -631,7 +631,7 @@ class WP_User {
 	}
 
 	/**
-	 * Make private/protected methods readable for backwards compatibility.
+	 * Makes private/protected methods readable for backwards compatibility.
 	 *
 	 * @since 4.3.0
 	 * @access public
@@ -1188,8 +1188,10 @@ function map_meta_cap( $cap, $user_id ) {
 	case 'edit_post':
 	case 'edit_page':
 		$post = get_post( $args[0] );
-		if ( empty( $post ) )
+		if ( empty( $post ) ) {
+			$caps[] = 'do_not_allow';
 			break;
+		}
 
 		if ( 'revision' == $post->post_type ) {
 			$post = get_post( $post->post_parent );
@@ -1518,7 +1520,7 @@ function user_can( $user, $capability ) {
 }
 
 /**
- * Retrieve the global WP_Roles instance, instantiate if necessary.
+ * Retrieves the global WP_Roles instance and instantiates it if necessary.
  *
  * @since 4.3.0
  *

@@ -30,7 +30,7 @@
 }
 
 #lost-connection-notice .spinner {
-	display: block;
+	visibility: visible;
 	float: left;
 	margin: 0 5px 0 0;
 }
@@ -289,19 +289,6 @@ ul.wp-tab-bar li {
 
 form#tags-filter {
 	position: relative;
-}
-
-/* Edit posts */
-td.post-title strong,
-td.plugin-title strong {
-	display: block;
-	margin-bottom: .2em;
-	font-size: 14px;
-}
-
-td.post-title p,
-td.plugin-title p {
-	margin: 6px 0;
 }
 
 /* Global classes */
@@ -1219,6 +1206,7 @@ table.links-table {
 .focus-on div.updated,
 .focus-on div.error,
 .focus-on div.notice,
+.focus-on .update-nag,
 .focus-on #wp-toolbar,
 .focus-on #screen-meta-links,
 .focus-on #screen-meta {
@@ -1241,6 +1229,7 @@ table.links-table {
 .focus-off div.updated,
 .focus-off div.error,
 .focus-off div.notice,
+.focus-off .update-nag,
 .focus-off #wp-toolbar,
 .focus-off #screen-meta-links,
 .focus-off #screen-meta {
@@ -1539,6 +1528,11 @@ table.links-table {
 	#delete-action,
 	#publishing-action {
 		line-height: 47px;
+	}
+
+	#publishing-action .spinner {
+		float: none;
+		margin-top: -2px; /* Half of the Publish button's bottom margin. */
 	}
 
 	/* Moderate Comment */

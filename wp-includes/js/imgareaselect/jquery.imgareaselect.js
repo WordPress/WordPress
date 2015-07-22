@@ -1,6 +1,6 @@
 /*
  * imgAreaSelect jQuery plugin
- * version 0.9.10
+ * version 0.9.10-monkey
  *
  * Copyright (c) 2008-2013 Michal Wojciechowski (odyniec.net)
  *
@@ -189,7 +189,7 @@ $.imgAreaSelect = function (img, options) {
      * @return Viewport X
      */
     function evX(event) {
-        return event.pageX - parOfs.left;
+        return max(event.pageX || 0, touchCoords(event).x) - parOfs.left;
     }
 
     /**
@@ -200,7 +200,23 @@ $.imgAreaSelect = function (img, options) {
      * @return Viewport Y
      */
     function evY(event) {
-        return event.pageY - parOfs.top;
+        return max(event.pageY || 0, touchCoords(event).y) - parOfs.top;
+    }
+
+    /**
+     * Get X and Y coordinates of a touch event
+     *
+     * @param event
+     *            The event object
+     * @return Coordinates object
+     */
+    function touchCoords(event) {
+        var oev = event.originalEvent || {};
+
+        if (oev.touches && oev.touches.length)
+            return { x: oev.touches[0].pageX, y: oev.touches[0].pageY };
+        else
+            return { x: 0, y: 0 };
     }
 
     /**
@@ -486,8 +502,8 @@ $.imgAreaSelect = function (img, options) {
         if (options.autoHide || selection.width * selection.height == 0)
             hide($box.add($outer), function () { $(this).hide(); });
 
-        $(document).unbind('mousemove', selectingMouseMove);
-        $box.mousemove(areaMouseMove);
+        $(document).off('mousemove touchmove', selectingMouseMove);
+        $box.on('mousemove touchmove', areaMouseMove);
 
         options.onSelectEnd(img, getSelection());
     }
@@ -500,7 +516,14 @@ $.imgAreaSelect = function (img, options) {
      * @return false
      */
     function areaMouseDown(event) {
-        if (event.which != 1) return false;
+        if (event.type == 'mousedown' && event.which != 1) return false;
+
+    	/*
+    	 * With mobile browsers, there is no "moving the pointer over" action,
+    	 * so we need to simulate one mousemove event happening prior to
+    	 * mousedown/touchstart.
+    	 */
+    	areaMouseMove(event);
 
         adjust();
 
@@ -511,22 +534,22 @@ $.imgAreaSelect = function (img, options) {
             x1 = viewX(selection[/w/.test(resize) ? 'x2' : 'x1']);
             y1 = viewY(selection[/n/.test(resize) ? 'y2' : 'y1']);
 
-            $(document).mousemove(selectingMouseMove)
-                .one('mouseup', docMouseUp);
-            $box.unbind('mousemove', areaMouseMove);
+            $(document).on('mousemove touchmove', selectingMouseMove)
+                .one('mouseup touchend', docMouseUp);
+            $box.off('mousemove touchmove', areaMouseMove);
         }
         else if (options.movable) {
             startX = left + selection.x1 - evX(event);
             startY = top + selection.y1 - evY(event);
 
-            $box.unbind('mousemove', areaMouseMove);
+            $box.off('mousemove touchmove', areaMouseMove);
 
-            $(document).mousemove(movingMouseMove)
-                .one('mouseup', function () {
+            $(document).on('mousemove touchmove', movingMouseMove)
+                .one('mouseup touchend', function () {
                     options.onSelectEnd(img, getSelection());
 
-                    $(document).unbind('mousemove', movingMouseMove);
-                    $box.mousemove(areaMouseMove);
+                    $(document).off('mousemove touchmove', movingMouseMove);
+                    $box.on('mousemove touchmove', areaMouseMove);
                 });
         }
         else
@@ -676,7 +699,7 @@ $.imgAreaSelect = function (img, options) {
      * Start selection
      */
     function startSelection() {
-        $(document).unbind('mousemove', startSelection);
+        $(document).off('mousemove touchmove', startSelection);
         adjust();
 
         x2 = x1;
@@ -691,9 +714,10 @@ $.imgAreaSelect = function (img, options) {
 
         shown = true;
 
-        $(document).unbind('mouseup', cancelSelection)
-            .mousemove(selectingMouseMove).one('mouseup', docMouseUp);
-        $box.unbind('mousemove', areaMouseMove);
+        $(document).off('mouseup touchend', cancelSelection)
+            .on('mousemove touchmove', selectingMouseMove)
+            .one('mouseup touchend', docMouseUp);
+        $box.off('mousemove touchmove', areaMouseMove);
 
         options.onSelectStart(img, getSelection());
     }
@@ -702,8 +726,8 @@ $.imgAreaSelect = function (img, options) {
      * Cancel selection
      */
     function cancelSelection() {
-        $(document).unbind('mousemove', startSelection)
-            .unbind('mouseup', cancelSelection);
+        $(document).off('mousemove touchmove', startSelection)
+            .off('mouseup touchend', cancelSelection);
         hide($box.add($outer));
 
         setSelection(selX(x1), selY(y1), selX(x1), selY(y1));
@@ -731,7 +755,8 @@ $.imgAreaSelect = function (img, options) {
         startY = y1 = evY(event);
 
         /* Selection will start when the mouse is moved */
-        $(document).mousemove(startSelection).mouseup(cancelSelection);
+        $(document).on({ 'mousemove touchmove': startSelection,
+            'mouseup touchend': cancelSelection });
 
         return false;
     }
@@ -989,20 +1014,22 @@ $.imgAreaSelect = function (img, options) {
 
         if (options.disable || options.enable === false) {
             /* Disable the plugin */
-            $box.unbind('mousemove', areaMouseMove).unbind('mousedown', areaMouseDown);
-            $(window).unbind('resize', windowResize);
+            $box.off({ 'mousemove touchmove': areaMouseMove,
+                'mousedown touchstart': areaMouseDown });
+            $(window).off('resize', windowResize);
         }
         else {
             if (options.enable || options.disable === false) {
                 /* Enable the plugin */
                 if (options.resizable || options.movable)
-                    $box.mousemove(areaMouseMove).mousedown(areaMouseDown);
+                    $box.on({ 'mousemove touchmove': areaMouseMove,
+                        'mousedown touchstart': areaMouseDown });
 
                 $(window).resize(windowResize);
             }
 
             if (!options.persistent)
-                $img.add($outer).mousedown(imgMouseDown);
+                $img.add($outer).on('mousedown touchstart', imgMouseDown);
         }
 
         options.enable = options.disable = undefined;

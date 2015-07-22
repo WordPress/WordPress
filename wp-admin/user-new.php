@@ -362,7 +362,7 @@ $new_user_ignore_pass = $creating && isset( $_POST['noconfirmation'] ) ? wp_unsl
 <table class="form-table">
 	<tr class="form-field form-required">
 		<th scope="row"><label for="user_login"><?php _e('Username'); ?> <span class="description"><?php _e('(required)'); ?></span></label></th>
-		<td><input name="user_login" type="text" id="user_login" value="<?php echo esc_attr($new_user_login); ?>" aria-required="true" /></td>
+		<td><input name="user_login" type="text" id="user_login" value="<?php echo esc_attr( $new_user_login ); ?>" aria-required="true" autocapitalize="none" autocorrect="off" /></td>
 	</tr>
 	<tr class="form-field form-required">
 		<th scope="row"><label for="email"><?php _e('E-mail'); ?> <span class="description"><?php _e('(required)'); ?></span></label></th>
@@ -394,7 +394,7 @@ if ( apply_filters( 'show_password_fields', true ) ) : ?>
 		<th scope="row">
 			<label for="pass1">
 				<?php _e( 'Password' ); ?>
-				<span class="description hide-if-js"><?php /* translators: password input field */_e( '(required)' ); ?></span>
+				<span class="description hide-if-js"><?php _e( '(required)' ); ?></span>
 			</label>
 		</th>
 		<td>
@@ -402,27 +402,29 @@ if ( apply_filters( 'show_password_fields', true ) ) : ?>
 			<button type="button" class="button button-secondary wp-generate-pw hide-if-no-js"><?php _e( 'Show password' ); ?></button>
 			<div class="wp-pwd hide-if-js">
 				<?php $initial_password = wp_generate_password( 24 ); ?>
-				<input type="password" name="pass1" id="pass1" class="regular-text" autocomplete="off" data-reveal="1" data-pw="<?php echo esc_attr( $initial_password ); ?>" />
-				<button type="button" class="button button-secondary wp-hide-pw hide-if-no-js" data-toggle="0">
+				<input type="password" name="pass1" id="pass1" class="regular-text" autocomplete="off" data-reveal="1" data-pw="<?php echo esc_attr( $initial_password ); ?>" aria-describedby="pass-strength-result" />
+				<button type="button" class="button button-secondary wp-hide-pw hide-if-no-js" data-toggle="0" aria-label="<?php esc_attr_e( 'Hide password' ); ?>">
 					<span class="dashicons dashicons-visibility"></span>
-					<span class="text">hide</span>
+					<span class="text"><?php _e( 'Hide' ); ?></span>
 				</button>
-				<div style="display:none" id="pass-strength-result"></div>
+				<div style="display:none" id="pass-strength-result" aria-live="polite"></div>
 			</div>
-			<p><span class="description"><?php _e( 'A password reset link will be sent to the user via email' ); ?></span></p>
+			<p><span class="description"><?php _e( 'A password reset link will be sent to the user via email.' ); ?></span></p>
 		</td>
 	</tr>
 	<tr class="form-field form-required user-pass2-wrap hide-if-js">
-		<th scope="row"><label for="pass2"><?php _e( 'Repeat Password' ); ?> <span class="description"><?php /* translators: password input field */_e('(required)'); ?></span></label></th>
+		<th scope="row"><label for="pass2"><?php _e( 'Repeat Password' ); ?> <span class="description"><?php _e( '(required)' ); ?></span></label></th>
 		<td>
 		<input name="pass2" type="password" id="pass2" autocomplete="off" />
 		</td>
 	</tr>
 	<tr class="pw-weak">
-		<th><label for="pw-weak"><?php _e( 'Confirm Password' ); ?></label></th>
+		<th><?php _e( 'Confirm Password' ); ?></th>
 		<td>
-			<input type="checkbox" name="pw-weak" class="pw-checkbox" />
-			<?php _e( 'Confirm use of weak password' ); ?>
+			<label for="pw-weak">
+				<input type="checkbox" name="pw-weak" class="pw-checkbox" id="pw-weak" />
+				<?php _e( 'Confirm use of weak password' ); ?>
+			</label>
 		</td>
 	</tr>
 <?php endif; ?>

@@ -525,12 +525,10 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 	}
 
 	function removeImage( node ) {
-		var wrap;
+		var wrap = editor.dom.getParent( node, 'div.mceTemp' );
 
-		if ( node.nodeName === 'DIV' && editor.dom.hasClass( node, 'mceTemp' ) ) {
-			wrap = node;
-		} else if ( node.nodeName === 'IMG' || node.nodeName === 'DT' || node.nodeName === 'A' ) {
-			wrap = editor.dom.getParent( node, 'div.mceTemp' );
+		if ( ! wrap && node.nodeName === 'IMG' ) {
+			wrap = editor.dom.getParent( node, 'a' );
 		}
 
 		if ( wrap ) {

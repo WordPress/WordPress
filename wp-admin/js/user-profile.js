@@ -1,4 +1,4 @@
-/* global ajaxurl, pwsL10n */
+/* global ajaxurl, pwsL10n, userProfileL10n */
 (function($){
 	$(function(){
 		var pw_new = $('.user-pass1-wrap'),
@@ -94,15 +94,13 @@
 			var show = pw_togglebtn.attr( 'data-toggle' );
 			if ( show == 1 ) {
 				pw_field.attr( 'type', 'text' );
-				pw_togglebtn.attr( 'data-toggle', 0 )
-					.find( '.text' )
-						.text( 'hide' )
+				pw_togglebtn.attr({ 'data-toggle': 0, 'aria-label': userProfileL10n.ariaHide })
+					.find( '.text' ).text( userProfileL10n.hide )
 				;
 			} else {
 				pw_field.attr( 'type', 'password' );
-				pw_togglebtn.attr( 'data-toggle', 1 )
-					.find( '.text' )
-						.text( 'show' )
+				pw_togglebtn.attr({ 'data-toggle': 1, 'aria-label': userProfileL10n.ariaShow })
+					.find( '.text' ).text( userProfileL10n.show )
 				;
 			}
 			pw_field.focus();
@@ -115,7 +113,7 @@
 
 		$('#pass-strength-result').removeClass('short bad good strong');
 		if ( ! pass1 ) {
-			$('#pass-strength-result').html( pwsL10n.empty );
+			$('#pass-strength-result').html( '&nbsp;' );
 			return;
 		}
 

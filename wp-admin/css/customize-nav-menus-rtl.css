@@ -40,7 +40,7 @@
 }
 
 .wp-customizer .menu-item-handle .item-type {
-	padding: 1px 5px 0 15px;
+	padding: 1px 5px 0 21px;
 	float: left;
 	text-align: left;
 }
@@ -340,14 +340,14 @@
 	border: none;
 	content: "\f111";
 	display: block;
-	font: 20px/1 "dashicons";
+	font: 16px/1 "dashicons";
 	padding: 5px;
 	text-align: center;
 	text-decoration: none !important;
 	text-indent: 0;
-	right: 5px;
+	right: 7px;
 	position: absolute;
-	top: 5px;
+	top: 7px;
 }
 
 .wp-customizer #screen-options-wrap {
@@ -379,13 +379,6 @@
 	display: block;
 }
 
-
-/* Not exactly sure what broke this, or why it works without these styles in core. */
-.wp-customizer .wp-full-overlay a.collapse-sidebar {
-	position: fixed;
-	right: 0;
-}
-
 /* WARNING: The 20px factor is hard-coded in JS. */
 .menu-item-depth-0  { margin-right: 0;     }
 .menu-item-depth-1  { margin-right: 20px;  }
@@ -415,7 +408,6 @@
 .menu-item-depth-11 > .menu-item-bar { margin-left: 220px; }
 
 /* Submenu left margin. */
-/* @todo menu-item-transport seems entirely unused. */
 .menu-item-depth-0  .menu-item-transport { margin-right: 0;      }
 .menu-item-depth-1  .menu-item-transport { margin-right: -20px;  }
 .menu-item-depth-3  .menu-item-transport { margin-right: -60px;  }
@@ -455,6 +447,11 @@
 .reordering .menu-item-depth-9  > .menu-item-bar { margin-left: 135px; }
 .reordering .menu-item-depth-10 > .menu-item-bar { margin-left: 150px; }
 .reordering .menu-item-depth-11 > .menu-item-bar { margin-left: 165px; }
+
+/* Forces top margin to be zero for new menu */
+.control-section-nav_menu.open .menu {
+	margin-top: 0 !important;
+}
 
 .control-section-nav_menu .menu .menu-item-edit-active {
 	margin-right: 0;
@@ -575,6 +572,11 @@
 	color: #f00;
 }
 
+.menu-item-bar .item-delete:focus {
+	-webkit-box-shadow: 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, .8);
+	box-shadow: 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, .8);
+}
+
 .adding-menu-items .menu-item-bar .item-edit {
 	display: none;
 }
@@ -589,16 +591,17 @@
 
 #available-menu-items {
 	position: absolute;
-	overflow: hidden;
 	top: 0;
 	bottom: 0;
 	right: -301px;
+	visibility: hidden;
+	overflow: hidden;
 	width: 300px;
 	margin: 0;
 	z-index: 4;
 	background: #eee;
-	-webkit-transition: all 0.2s;
-	transition: all 0.2s;
+	-webkit-transition: right .18s;
+	transition: right .18s;
 	border-left: 1px solid #ddd;
 }
 
@@ -652,10 +655,28 @@ button.not-a-button {
 	box-shadow: 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, .8);
 }
 
+#available-menu-items .accordion-section-title .no-items,
+#available-menu-items .cannot-expand .accordion-section-title .spinner {
+	display: none;
+}
+
+#available-menu-items .cannot-expand .accordion-section-title .no-items {
+	display: block;
+	color: #777;
+	font-weight: normal;
+	float: left;
+	margin-right: 5px;
+}
+
 #available-menu-items .accordion-section-content {
 	padding: 1px 15px 15px 15px;
+	margin: 0;
 	min-height: 120px;
 	max-height: 290px;
+}
+
+#available-menu-items .menu-item-tpl {
+	margin: 0;
 }
 
 #custom-menu-item-name.invalid,
@@ -730,11 +751,11 @@ button.not-a-button {
 }
 
 #available-menu-items .item-add:before {
-	content: "\f132";
+	content: "\f543";
 	font: normal 20px/1 dashicons;
 	position: relative;
 	right: 2px;
-	top: 4px;
+	top: 3px;
 }
 
 #available-menu-items .menu-item-handle.item-added .item-type,
@@ -797,6 +818,7 @@ button.not-a-button {
 
 body.adding-menu-items #available-menu-items {
 	right: 0;
+	visibility: visible;
 }
 
 body.adding-menu-items .wp-full-overlay-main {

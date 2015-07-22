@@ -1686,8 +1686,8 @@ function get_most_recent_post_of_user( $user_id ) {
  *
  * @since MU
  *
- * @param string $directory
- * @return int
+ * @param string $directory Full path of a directory.
+ * @return int Size of the directory in MB.
  */
 function get_dirsize( $directory ) {
 	$dirsize = get_transient( 'dirsize_cache' );
@@ -1697,7 +1697,13 @@ function get_dirsize( $directory ) {
 	if ( ! is_array( $dirsize ) )
 		$dirsize = array();
 
-	$dirsize[ $directory ][ 'size' ] = recurse_dirsize( $directory );
+	// Exclude individual site directories from the total when checking the main site,
+	// as they are subdirectories and should not be counted.
+	if ( is_main_site() ) {
+		$dirsize[ $directory ][ 'size' ] = recurse_dirsize( $directory, $directory . '/sites' );
+	} else {
+		$dirsize[ $directory ][ 'size' ] = recurse_dirsize( $directory );
+	}
 
 	set_transient( 'dirsize_cache', $dirsize, HOUR_IN_SECONDS );
 	return $dirsize[ $directory ][ 'size' ];
@@ -1710,17 +1716,20 @@ function get_dirsize( $directory ) {
  * other directories.
  *
  * @since MU
+ * @since 4.3.0 $exclude parameter added.
  *
- * @param string $directory
- * @return int|false
+ * @param string $directory Full path of a directory.
+ * @param string $exclude   Optional. Full path of a subdirectory to exclude from the total.
+ * @return int|false Size in MB if a valid directory. False if not.
  */
-function recurse_dirsize( $directory ) {
+function recurse_dirsize( $directory, $exclude = null ) {
 	$size = 0;
 
 	$directory = untrailingslashit( $directory );
 
-	if ( !file_exists($directory) || !is_dir( $directory ) || !is_readable( $directory ) )
+	if ( ! file_exists( $directory ) || ! is_dir( $directory ) || ! is_readable( $directory ) || $directory === $exclude ) {
 		return false;
+	}
 
 	if ($handle = opendir($directory)) {
 		while(($file = readdir($handle)) !== false) {
@@ -1729,7 +1738,7 @@ function recurse_dirsize( $directory ) {
 				if (is_file($path)) {
 					$size += filesize($path);
 				} elseif (is_dir($path)) {
-					$handlesize = recurse_dirsize($path);
+					$handlesize = recurse_dirsize( $path, $exclude );
 					if ($handlesize > 0)
 						$size += $handlesize;
 				}
