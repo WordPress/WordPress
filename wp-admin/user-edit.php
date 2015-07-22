@@ -458,6 +458,10 @@ if ( is_multisite() && is_network_admin() && ! IS_PROFILE_PAGE && current_user_c
 $show_password_fields = apply_filters( 'show_password_fields', true, $profileuser );
 if ( $show_password_fields ) :
 ?>
+</table>
+
+<h3><?php _e('Account Management'); ?></h3>
+<table class="form-table">
 <tr id="password" class="user-pass1-wrap">
 	<th><label for="pass1"><?php _e( 'New Password' ); ?></label></th>
 	<td>
