@@ -18,10 +18,7 @@
 	// Link settings.
 	api.Menus.data = {
 		nonce: '',
-		itemTypes: {
-			taxonomies: {},
-			postTypes: {}
-		},
+		itemTypes: [],
 		l10n: {},
 		menuItemTransport: 'postMessage',
 		phpIntMax: 0,
@@ -280,35 +277,29 @@
 			var self = this;
 
 			// Render the template for each item by type.
-			_.each( api.Menus.data.itemTypes, function( typeObjects, type ) {
-				_.each( typeObjects, function( typeObject, slug ) {
-					if ( 'postTypes' === type ) {
-						type = 'post_type';
-					} else if ( 'taxonomies' === type ) {
-						type = 'taxonomy';
-					}
-					self.pages[ slug ] = 0; // @todo should prefix with type
-					self.loadItems( slug, type );
-				} );
+			_.each( api.Menus.data.itemTypes, function( itemType ) {
+				self.pages[ itemType.type + ':' + itemType.object ] = 0;
+				self.loadItems( itemType.type, itemType.object ); // @todo we need to combine these Ajax requests.
 			} );
 		},
 
 		// Load available menu items.
-		loadItems: function( type, obj_type ) {
-			var self = this, params, request, itemTemplate;
+		loadItems: function( type, object ) {
+			var self = this, params, request, itemTemplate, availableMenuItemContainer;
 			itemTemplate = wp.template( 'available-menu-item' );
 
-			if ( 0 > self.pages[ type ] ) {
+			if ( -1 === self.pages[ type + ':' + object ] ) {
 				return;
 			}
-			$( '#available-menu-items-' + type + ' .accordion-section-title' ).addClass( 'loading' );
+			availableMenuItemContainer = $( '#available-menu-items-' + type + '-' + object );
+			availableMenuItemContainer.find( '.accordion-section-title' ).addClass( 'loading' );
 			self.loading = true;
 			params = {
 				'customize-menus-nonce': api.Menus.data.nonce,
 				'wp_customize': 'on',
 				'type': type,
-				'obj_type': obj_type,
-				'page': self.pages[ type ]
+				'object': object,
+				'page': self.pages[ type + ':' + object ]
 			};
 			request = wp.ajax.post( 'load-available-menu-items-customizer', params );
 
@@ -316,23 +307,23 @@
 				var items, typeInner;
 				items = data.items;
 				if ( 0 === items.length ) {
-					if ( 0 === self.pages[ type ] ) {
-						$( '#available-menu-items-' + type )
+					if ( 0 === self.pages[ type + ':' + object ] ) {
+						availableMenuItemContainer
 							.addClass( 'cannot-expand' )
 							.removeClass( 'loading' )
 							.find( '.accordion-section-title > button' )
 							.prop( 'tabIndex', -1 );
 					}
-					self.pages[ type ] = -1;
+					self.pages[ type + ':' + object ] = -1;
 					return;
 				}
 				items = new api.Menus.AvailableItemCollection( items ); // @todo Why is this collection created and then thrown away?
 				self.collection.add( items.models );
-				typeInner = $( '#available-menu-items-' + type + ' .accordion-section-content' );
-				items.each(function( menu_item ) {
-					typeInner.append( itemTemplate( menu_item.attributes ) );
+				typeInner = availableMenuItemContainer.find( '.accordion-section-content' );
+				items.each(function( menuItem ) {
+					typeInner.append( itemTemplate( menuItem.attributes ) );
 				});
-				self.pages[ type ] = self.pages[ type ] + 1;
+				self.pages[ type + ':' + object ] += 1;
 			});
 			request.fail(function( data ) {
 				if ( typeof console !== 'undefined' && console.error ) {
@@ -340,7 +331,7 @@
 				}
 			});
 			request.always(function() {
-				$( '#available-menu-items-' + type + ' .accordion-section-title' ).removeClass( 'loading' );
+				availableMenuItemContainer.find( '.accordion-section-title' ).removeClass( 'loading' );
 				self.loading = false;
 			});
 		},
@@ -1275,7 +1266,7 @@
 			}
 
 			control.params.el_classes = containerClasses.join( ' ' );
-			control.params.item_type_label = api.Menus.getTypeLabel( settingValue.type, settingValue.object );
+			control.params.item_type_label = settingValue.type_label;
 			control.params.item_type = settingValue.type;
 			control.params.url = settingValue.url;
 			control.params.target = settingValue.target;
@@ -2549,36 +2540,6 @@
 	 */
 	api.Menus.getMenuControl = function( menuId ) {
 		return api.control( 'nav_menu[' + menuId + ']' );
-	};
-
-	/**
-	 * Given a menu item type & object, get the label associated with it.
-	 *
-	 * @param {string} type
-	 * @param {string} object
-	 * @return {string}
-	 */
-	api.Menus.getTypeLabel = function( type, object ) {
-		var label,
-			data = api.Menus.data;
-
-		if ( 'post_type' === type ) {
-			if ( data.itemTypes.postTypes[ object ] ) {
-				label = data.itemTypes.postTypes[ object ].label;
-			} else {
-				label = data.l10n.postTypeLabel;
-			}
-		} else if ( 'taxonomy' === type ) {
-			if ( data.itemTypes.taxonomies[ object ] ) {
-				label = data.itemTypes.taxonomies[ object ].label;
-			} else {
-				label = data.l10n.taxonomyTermLabel;
-			}
-		} else {
-			label = data.l10n.custom_label;
-		}
-
-		return label;
 	};
 
 	/**
