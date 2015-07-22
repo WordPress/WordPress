@@ -558,26 +558,29 @@ get_current_screen()->set_help_sidebar(
 require_once( ABSPATH . 'wp-admin/admin-header.php' );
 ?>
 <div class="wrap">
-	<h1 class="nav-tab-wrapper">
+	<h1><?php echo esc_html( __( 'Menus' ) ); ?>
+		<?php
+		if ( current_user_can( 'customize' ) ) :
+			$focus = $locations_screen ? array( 'section' => 'menu_locations' ) : array( 'panel' => 'nav_menus' );
+			printf(
+				' <a class="page-title-action hide-if-no-customize" href="%1$s">%2$s</a>',
+				esc_url( add_query_arg( array(
+					array( 'autofocus' => $focus ),
+					'return' => urlencode( wp_unslash( $_SERVER['REQUEST_URI'] ) ),
+				), admin_url( 'customize.php' ) ) ),
+				__( 'Manage in Customizer' )
+			);
+		endif;
+		?>
+	</h1>
+	<h2 class="nav-tab-wrapper">
 		<a href="<?php echo admin_url( 'nav-menus.php' ); ?>" class="nav-tab<?php if ( ! isset( $_GET['action'] ) || isset( $_GET['action'] ) && 'locations' != $_GET['action'] ) echo ' nav-tab-active'; ?>"><?php esc_html_e( 'Edit Menus' ); ?></a>
 		<?php if ( $num_locations && $menu_count ) : ?>
 			<a href="<?php echo esc_url( add_query_arg( array( 'action' => 'locations' ), admin_url( 'nav-menus.php' ) ) ); ?>" class="nav-tab<?php if ( $locations_screen ) echo ' nav-tab-active'; ?>"><?php esc_html_e( 'Manage Locations' ); ?></a>
 		<?php
 			endif;
-
-			if ( current_user_can( 'customize' ) ) :
-				$focus = $locations_screen ? array( 'section' => 'menu_locations' ) : array( 'panel' => 'nav_menus' );
-				printf(
-					' <a class="page-title-action hide-if-no-customize" href="%1$s">%2$s</a>',
-					esc_url( add_query_arg( array(
-						array( 'autofocus' => $focus ),
-						'return' => urlencode( wp_unslash( $_SERVER['REQUEST_URI'] ) ),
-					), admin_url( 'customize.php' ) ) ),
-					__( 'Manage in Customizer' )
-				);
-			endif;
 		?>
-	</h1>
+	</h2>
 	<?php
 	foreach( $messages as $message ) :
 		echo $message . "\n";
