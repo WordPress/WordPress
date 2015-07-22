@@ -402,12 +402,12 @@ if ( apply_filters( 'show_password_fields', true ) ) : ?>
 			<button type="button" class="button button-secondary wp-generate-pw hide-if-no-js"><?php _e( 'Show password' ); ?></button>
 			<div class="wp-pwd hide-if-js">
 				<?php $initial_password = wp_generate_password( 24 ); ?>
-				<input type="password" name="pass1" id="pass1" class="regular-text" autocomplete="off" data-reveal="1" data-pw="<?php echo esc_attr( $initial_password ); ?>" />
-				<button type="button" class="button button-secondary wp-hide-pw hide-if-no-js" data-toggle="0">
+				<input type="password" name="pass1" id="pass1" class="regular-text" autocomplete="off" data-reveal="1" data-pw="<?php echo esc_attr( $initial_password ); ?>" aria-describedby="pass-strength-result" />
+				<button type="button" class="button button-secondary wp-hide-pw hide-if-no-js" data-toggle="0" aria-label="<?php esc_attr_e( 'Hide password' ); ?>">
 					<span class="dashicons dashicons-visibility"></span>
 					<span class="text"><?php _e( 'Hide' ); ?></span>
 				</button>
-				<div style="display:none" id="pass-strength-result"></div>
+				<div style="display:none" id="pass-strength-result" aria-live="polite"></div>
 			</div>
 			<p><span class="description"><?php _e( 'A password reset link will be sent to the user via email.' ); ?></span></p>
 		</td>

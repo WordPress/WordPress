@@ -94,15 +94,13 @@
 			var show = pw_togglebtn.attr( 'data-toggle' );
 			if ( show == 1 ) {
 				pw_field.attr( 'type', 'text' );
-				pw_togglebtn.attr( 'data-toggle', 0 )
-					.find( '.text' )
-						.text( userProfileL10n.hide )
+				pw_togglebtn.attr({ 'data-toggle': 0, 'aria-label': userProfileL10n.ariaHide })
+					.find( '.text' ).text( userProfileL10n.hide )
 				;
 			} else {
 				pw_field.attr( 'type', 'password' );
-				pw_togglebtn.attr( 'data-toggle', 1 )
-					.find( '.text' )
-						.text( userProfileL10n.show )
+				pw_togglebtn.attr({ 'data-toggle': 1, 'aria-label': userProfileL10n.ariaShow })
+					.find( '.text' ).text( userProfileL10n.show )
 				;
 			}
 			pw_field.focus();

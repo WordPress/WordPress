@@ -376,6 +376,8 @@ function wp_default_scripts( &$scripts ) {
 	did_action( 'init' ) && $scripts->localize( 'user-profile', 'userProfileL10n', array(
 		'show' => __( 'Show' ),
 		'hide' => __( 'Hide' ),
+		'ariaShow' => esc_attr__( 'Show password' ),
+		'ariaHide' => esc_attr__( 'Hide password' ),
 	) );
 
 	$scripts->add( 'language-chooser', "/wp-admin/js/language-chooser$suffix.js", array( 'jquery' ), false, 1 );
