@@ -469,6 +469,9 @@ if ( $show_password_fields ) :
 				<span class="dashicons dashicons-visibility"></span>
 				<span class="text"><?php _e( 'Hide' ); ?></span>
 			</button>
+			<button type="button" class="button button-secondary wp-cancel-pw hide-if-no-js" data-toggle="0" aria-label="<?php esc_attr_e( 'Cancel password change' ); ?>">
+				<span class="text"><?php _e( 'Cancel' ); ?></span>
+			</button>
 			<div style="display:none" id="pass-strength-result" aria-live="polite"></div>
 		</div>
 	</td>

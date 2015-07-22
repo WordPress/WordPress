@@ -7,6 +7,7 @@
 			pw_field2 = $('#pass2'),
 			pw_togglebtn = pw_new.find('.wp-hide-pw'),
 			pw_generatebtn = pw_new.find('button.wp-generate-pw'),
+			pw_cancelbtn = pw_new.find('button.wp-cancel-pw'),
 			pw_2 = $('.user-pass2-wrap'),
 			parentform = pw_new.closest('form'),
 			pw_strength = $('#pass-strength-result'),
@@ -14,8 +15,10 @@
 			pw_submitbtn_new = $( '#createusersub' ),
 			pw_checkbox = $('.pw-checkbox'),
 			pw_weak = $('.pw-weak'),
+			pw_update_lock = false,
 			// Set up a text version of the password input
 			newField = document.createElement( 'input');
+
 			newField.type = 'text';
 
 			var pwFieldText = $( newField );
@@ -56,6 +59,7 @@
 		}
 
 		parentform.on('submit', function(){
+			pw_update_lock = false;
 			pw_field2.val( pw_field.val() );
 			pwWrapper.removeClass( 'show-password' );
 		});
@@ -110,6 +114,7 @@
 		} );
 
 		pw_new.on( 'click', 'button.wp-generate-pw', function(){
+			pw_update_lock = true;
 			pw_generatebtn.hide();
 			pw_line.show();
 			generatePassword();
@@ -119,9 +124,17 @@
 					pwFieldText[0].setSelectionRange( 0, 100 );
 				}
 			}, 0 );
-
 		});
 
+		pw_submitbtn_edit.on( 'click', function() {
+			pw_update_lock = false;
+		});
+
+		pw_cancelbtn.on( 'click', function() {
+			pw_update_lock = false;
+			pw_generatebtn.show();
+			pw_line.hide();
+		});
 
 		pw_togglebtn.on( 'click', function() {
 			var show = pw_togglebtn.attr( 'data-toggle' );
@@ -145,6 +158,13 @@
 			}
 
 		});
+
+		/* Warn the user if password was generated but not saved */
+		$( window ).on( 'beforeunload', function() {
+			if ( true === pw_update_lock ) {
+				return userProfileL10n.warn;
+			}
+		} );
 	});
 
 	function check_pass_strength() {

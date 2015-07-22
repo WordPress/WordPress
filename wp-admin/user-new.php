@@ -407,6 +407,9 @@ if ( apply_filters( 'show_password_fields', true ) ) : ?>
 					<span class="dashicons dashicons-visibility"></span>
 					<span class="text"><?php _e( 'Hide' ); ?></span>
 				</button>
+				<button type="button" class="button button-secondary wp-cancel-pw hide-if-no-js" data-toggle="0" aria-label="<?php esc_attr_e( 'Cancel password change' ); ?>">
+					<span class="text"><?php _e( 'Cancel' ); ?></span>
+				</button>
 				<div style="display:none" id="pass-strength-result" aria-live="polite"></div>
 			</div>
 			<p><span class="description"><?php _e( 'A password reset link will be sent to the user via email.' ); ?></span></p>

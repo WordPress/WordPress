@@ -374,8 +374,10 @@ function wp_default_scripts( &$scripts ) {
 
 	$scripts->add( 'user-profile', "/wp-admin/js/user-profile$suffix.js", array( 'jquery', 'password-strength-meter', 'wp-util' ), false, 1 );
 	did_action( 'init' ) && $scripts->localize( 'user-profile', 'userProfileL10n', array(
-		'show' => __( 'Show' ),
-		'hide' => __( 'Hide' ),
+		'warn'     => __( 'Your new password has not been saved.' ),
+		'show'     => __( 'Show' ),
+		'hide'     => __( 'Hide' ),
+		'cancel'   => __( 'Cancel' ),
 		'ariaShow' => esc_attr__( 'Show password' ),
 		'ariaHide' => esc_attr__( 'Hide password' ),
 	) );
