@@ -164,7 +164,7 @@ function display_setup_form( $error = null ) {
 			<th scope="row"><?php _e( 'Confirm Password' ); ?></th>
 			<td>
 				<label>
-					<input type="checkbox" name="pw_weak" class="pw-checkbox" />
+					<input type="checkbox" name="pw_weak" class="pw-checkbox" id="pw-weak" />
 					<?php _e( 'Confirm use of weak password' ); ?>
 				</label>
 			</td>

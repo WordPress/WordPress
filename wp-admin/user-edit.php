@@ -483,7 +483,7 @@ if ( $show_password_fields ) :
 <tr class="pw-weak">
 	<th><?php _e( 'Confirm Password' ); ?></th>
 	<td>
-		<label for="pw_weak">
+		<label>
 			<input type="checkbox" name="pw_weak" class="pw-checkbox" id="pw-weak" />
 			<?php _e( 'Confirm use of weak password' ); ?>
 		</label>
