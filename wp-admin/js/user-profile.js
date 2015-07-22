@@ -1,4 +1,4 @@
-/* global ajaxurl, pwsL10n */
+/* global ajaxurl, pwsL10n, userProfileL10n */
 (function($){
 	$(function(){
 		var pw_new = $('.user-pass1-wrap'),
