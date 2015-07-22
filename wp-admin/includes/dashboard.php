@@ -442,6 +442,10 @@ function wp_network_dashboard_right_now() {
 function wp_dashboard_quick_press( $error_msg = false ) {
 	global $post_ID;
 
+	if ( ! current_user_can( 'edit_posts' ) ) {
+		return;
+	}
+
 	/* Check if a new auto-draft (= no new post_ID) is needed or if the old can be used */
 	$last_post_id = (int) get_user_option( 'dashboard_quick_press_last_post_id' ); // Get the last post_ID
 	if ( $last_post_id ) {
