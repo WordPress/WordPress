@@ -109,8 +109,10 @@
 		 * pass2 field to the pass1 field.
 		 */
 		pw_field2.on( 'input propertychange', function() {
-			pw_field.val( pw_field2.val() );
-			pw_field.trigger( 'propertychange' );
+			if ( pw_field2.val().length > 0 ) {
+				pw_field.val( pw_field2.val() );
+				pw_field.trigger( 'propertychange' );
+			}
 		} );
 
 		pw_new.on( 'click', 'button.wp-generate-pw', function(){
