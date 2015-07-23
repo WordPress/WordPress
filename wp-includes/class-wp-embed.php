@@ -57,7 +57,7 @@ class WP_Embed {
 		add_shortcode( 'embed', array( $this, 'shortcode' ) );
 
 		// Do the shortcode (only the [embed] one is registered)
-		$content = do_shortcode( $content );
+		$content = do_shortcode( $content, true );
 
 		// Put the original shortcodes back
 		$shortcode_tags = $orig_shortcode_tags;
@@ -291,6 +291,10 @@ class WP_Embed {
 	 * @return string Potentially modified $content.
 	 */
 	function autoembed( $content ) {
+		// Strip newlines from all elements.
+		$content = wp_replace_in_html_tags( $content, array( "\n" => " " ) );
+
+		// Find URLs that are on their own line.
 		return preg_replace_callback( '|^\s*(https?://[^\s"]+)\s*$|im', array( $this, 'autoembed_callback' ), $content );
 	}
 
