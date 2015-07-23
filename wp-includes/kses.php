@@ -485,6 +485,82 @@ function wp_kses( $string, $allowed_html, $allowed_protocols = array() ) {
 }
 
 /**
+ * Filters one attribute only and ensures its value is allowed.
+ *
+ * This function has the advantage of being more secure than esc_attr() and can
+ * escape data in some situations where wp_kses() must strip the whole attribute.
+ *
+ * @since 4.2.3
+ *
+ * @param string $string The 'whole' attribute, including name and value.
+ * @param string $element The element name to which the attribute belongs.
+ * @return string Filtered attribute.
+ */
+function wp_kses_one_attr( $string, $element ) {
+	$uris = array('xmlns', 'profile', 'href', 'src', 'cite', 'classid', 'codebase', 'data', 'usemap', 'longdesc', 'action');
+	$allowed_html = wp_kses_allowed_html( 'post' );
+	$allowed_protocols = wp_allowed_protocols();
+	$string = wp_kses_no_null( $string, array( 'slash_zero' => 'keep' ) );
+	$string = wp_kses_js_entities( $string );
+	$string = wp_kses_normalize_entities( $string );
+
+	// Preserve leading and trailing whitespace.
+	$matches = array();
+	preg_match('/^\s*/', $string, $matches);
+	$lead = $matches[0];
+	preg_match('/\s*$/', $string, $matches);
+	$trail = $matches[0];
+	if ( empty( $trail ) ) {
+		$string = substr( $string, strlen( $lead ) );
+	} else {
+		$string = substr( $string, strlen( $lead ), -strlen( $trail ) );
+	}
+	
+	// Parse attribute name and value from input.
+	$split = preg_split( '/\s*=\s*/', $string, 2 );
+	$name = $split[0];
+	if ( count( $split ) == 2 ) {
+		$value = $split[1];
+
+		// Remove quotes surrounding $value.
+		// Also guarantee correct quoting in $string for this one attribute.
+		if ( '' == $value ) {
+			$quote = '';
+		} else {
+			$quote = $value[0];
+		}
+		if ( '"' == $quote || "'" == $quote ) {
+			if ( substr( $value, -1 ) != $quote ) {
+				return '';
+			}
+			$value = substr( $value, 1, -1 );
+		} else {
+			$quote = '"';
+		}
+
+		// Sanitize quotes and angle braces.
+		$value = htmlspecialchars( $value, ENT_QUOTES, null, false );
+
+		// Sanitize URI values.
+		if ( in_array( strtolower( $name ), $uris ) ) {
+			$value = wp_kses_bad_protocol( $value, $allowed_protocols );
+		}
+
+		$string = "$name=$quote$value$quote";
+		$vless = 'n';
+	} else {
+		$value = '';
+		$vless = 'y';
+	}
+	
+	// Sanitize attribute by name.
+	wp_kses_attr_check( $name, $value, $string, $vless, $element, $allowed_html );
+
+	// Restore whitespace.
+	return $lead . $string . $trail;
+}
+
+/**
  * Return a list of allowed tags and attributes for a given context.
  *
  * @since 3.5.0
@@ -681,50 +757,63 @@ function wp_kses_attr($element, $attr, $allowed_html, $allowed_protocols) {
 	# Go through $attrarr, and save the allowed attributes for this element
 	# in $attr2
 	$attr2 = '';
-
-	$allowed_attr = $allowed_html[strtolower($element)];
-	foreach ($attrarr as $arreach) {
-		if ( ! isset( $allowed_attr[strtolower($arreach['name'])] ) )
-			continue; # the attribute is not allowed
-
-		$current = $allowed_attr[strtolower($arreach['name'])];
-		if ( $current == '' )
-			continue; # the attribute is not allowed
-
-		if ( strtolower( $arreach['name'] ) == 'style' ) {
-			$orig_value = $arreach['value'];
-			$value = safecss_filter_attr( $orig_value );
-
-			if ( empty( $value ) )
-				continue;
-
-			$arreach['value'] = $value;
-			$arreach['whole'] = str_replace( $orig_value, $value, $arreach['whole'] );
-		}
-
-		if ( ! is_array($current) ) {
+	foreach ( $attrarr as $arreach ) {
+		if ( wp_kses_attr_check( $arreach['name'], $arreach['value'], $arreach['whole'], $arreach['vless'], $element, $allowed_html ) ) {
 			$attr2 .= ' '.$arreach['whole'];
-		# there are no checks
-
-		} else {
-			# there are some checks
-			$ok = true;
-			foreach ($current as $currkey => $currval) {
-				if ( ! wp_kses_check_attr_val($arreach['value'], $arreach['vless'], $currkey, $currval) ) {
-					$ok = false;
-					break;
-				}
-			}
-
-			if ( $ok )
-				$attr2 .= ' '.$arreach['whole']; # it passed them
-		} # if !is_array($current)
-	} # foreach
+		}
+	}
 
 	# Remove any "<" or ">" characters
 	$attr2 = preg_replace('/[<>]/', '', $attr2);
 
 	return "<$element$attr2$xhtml_slash>";
+}
+
+/**
+ * Determine whether an attribute is allowed.
+ *
+ * @since 4.2.3
+ *
+ * @param string $name The attribute name. Returns empty string when not allowed.
+ * @param string $value The attribute value. Returns a filtered value.
+ * @param string $whole The name=value input. Returns filtered input.
+ * @param string $vless 'y' when attribute like "enabled", otherwise 'n'.
+ * @param string $element The name of the element to which this attribute belongs.
+ * @param array $allowed_html The full list of allowed elements and attributes.
+ * @return bool Is the attribute allowed?
+ */
+function wp_kses_attr_check( &$name, &$value, &$whole, $vless, $element, $allowed_html ) {
+	$allowed_attr = $allowed_html[strtolower( $element )];
+
+	$name_low = strtolower( $name );
+	if ( ! isset( $allowed_attr[$name_low] ) || '' == $allowed_attr[$name_low] ) {
+		$name = $value = $whole = '';
+		return false;
+	}
+
+	if ( 'style' == $name_low ) {
+		$new_value = safecss_filter_attr( $value );
+
+		if ( empty( $new_value ) ) {
+			$name = $value = $whole = '';
+			return false;
+		}
+
+		$whole = str_replace( $value, $new_value, $whole );
+		$value = $new_value;
+	}
+
+	if ( is_array( $allowed_attr[$name_low] ) ) {
+		// there are some checks
+		foreach ( $allowed_attr[$name_low] as $currkey => $currval ) {
+			if ( ! wp_kses_check_attr_val( $value, $vless, $currkey, $currval ) ) {
+				$name = $value = $whole = '';
+				return false;
+			}
+		}
+	}
+
+	return true;
 }
 
 /**
@@ -854,6 +943,109 @@ function wp_kses_hair($attr, $allowed_protocols) {
 		$attrarr[$attrname] = array ('name' => $attrname, 'value' => '', 'whole' => $attrname, 'vless' => 'y');
 
 	return $attrarr;
+}
+
+/**
+ * Finds all attributes of an HTML element.
+ *
+ * Does not modify input.  May return "evil" output.
+ *
+ * Based on wp_kses_split2() and wp_kses_attr()
+ *
+ * @since 4.2.3
+ *
+ * @param string $element HTML element/tag
+ * @return array|bool List of attributes found in $element. Returns false on failure.
+ */
+function wp_kses_attr_parse( $element ) {
+	$valid = preg_match('%^(<\s*)(/\s*)?([a-zA-Z0-9]+\s*)([^>]*)(>?)$%', $element, $matches);
+	if ( 1 !== $valid ) {
+		return false;
+	}
+
+	$begin =  $matches[1];
+	$slash =  $matches[2];
+	$elname = $matches[3];
+	$attr =   $matches[4];
+	$end =    $matches[5];
+
+	if ( '' !== $slash ) {
+		// Closing elements do not get parsed.
+		return false;
+	}
+
+	// Is there a closing XHTML slash at the end of the attributes?
+	if ( 1 === preg_match( '%\s*/\s*$%', $attr, $matches ) ) {
+		$xhtml_slash = $matches[0];
+		$attr = substr( $attr, 0, -strlen( $xhtml_slash ) );
+	} else {
+		$xhtml_slash = '';
+	}
+	
+	// Split it
+	$attrarr = wp_kses_hair_parse( $attr );
+	if ( false === $attrarr ) {
+		return false;
+	}
+
+	// Make sure all input is returned by adding front and back matter.
+	array_unshift( $attrarr, $begin . $slash . $elname );
+	array_push( $attrarr, $xhtml_slash . $end );
+	
+	return $attrarr;
+}
+
+/**
+ * Builds an attribute list from string containing attributes.
+ *
+ * Does not modify input.  May return "evil" output.
+ * In case of unexpected input, returns false instead of stripping things.
+ *
+ * Based on wp_kses_hair() but does not return a multi-dimensional array.
+ *
+ * @since 4.2.3
+ *
+ * @param string $attr Attribute list from HTML element to closing HTML element tag
+ * @return array|bool List of attributes found in $attr. Returns false on failure.
+ */
+function wp_kses_hair_parse( $attr ) {
+	if ( '' === $attr ) {
+		return array();
+	}
+
+	$regex =
+	  '(?:'
+	.     '[-a-zA-Z:]+'   // Attribute name.
+	. '|'
+	.     '\[\[?[^\[\]]+\]\]?' // Shortcode in the name position implies unfiltered_html.
+	. ')'
+	. '(?:'               // Attribute value.
+	.     '\s*=\s*'       // All values begin with '='
+	.     '(?:'
+	.         '"[^"]*"'   // Double-quoted
+	.     '|'
+	.         "'[^']*'"   // Single-quoted
+	.     '|'
+	.         '[^\s"\']+' // Non-quoted
+	.         '(?:\s|$)'  // Must have a space
+	.     ')'
+	. '|'
+	.     '(?:\s|$)'      // If attribute has no value, space is required.
+	. ')'
+	. '\s*';              // Trailing space is optional except as mentioned above.
+
+	// Although it is possible to reduce this procedure to a single regexp,
+	// we must run that regexp twice to get exactly the expected result.
+
+	$validation = "%^($regex)+$%";
+	$extraction = "%$regex%";
+
+	if ( 1 === preg_match( $validation, $attr ) ) {
+		preg_match_all( $extraction, $attr, $attrarr );
+		return $attrarr[0];
+	} else {
+		return false;
+	}
 }
 
 /**
