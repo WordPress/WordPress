@@ -3888,10 +3888,10 @@ class wp_xmlrpc_server extends IXR_Server {
 	}
 
 	/**
-	  * Retrieves a list of post formats used by the site
-	  *
-	  * @since 3.1.0
-	  *
+	 * Retrieves a list of post formats used by the site.
+	 *
+	 * @since 3.1.0
+	 *
 	 * @param array  $args {
 	 *     Method arguments. Note: arguments must be ordered as documented.
 	 *
@@ -3899,8 +3899,8 @@ class wp_xmlrpc_server extends IXR_Server {
 	 *     @type string $username
 	 *     @type string $password
 	 * }
-	  * @return array|IXR_Error
-	  */
+	 * @return array|IXR_Error List of post formats, otherwise IXR_Error object.
+	 */
 	public function wp_getPostFormats( $args ) {
 		$this->escape( $args );
 
