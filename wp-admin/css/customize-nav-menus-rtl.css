@@ -620,7 +620,33 @@
 	background: #eee;
 }
 
-#available-menu-items .open .accordion-section-title:after {
+/* rework the arrow indicator implementation for NVDA bug see #32715 */
+#available-menu-items .accordion-section-title:after {
+	content: none !important;
+}
+
+#available-menu-items .accordion-section-title .toggle-indicator {
+	display: inline-block;
+	font-size: 20px;
+	line-height: 1;
+}
+
+#available-menu-items .accordion-section-title .toggle-indicator:after {
+	content: '\f140';
+	font: normal 20px/1 'dashicons';
+	color: #a0a5aa;
+	vertical-align: top;
+	speak: none;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	text-decoration: none !important;
+}
+
+#available-menu-items .accordion-section-title:hover .toggle-indicator:after {
+	color: #777;
+}
+
+#available-menu-items .open .accordion-section-title .toggle-indicator:after {
 	content: '\f142';
 }
 
@@ -645,10 +671,11 @@ button.not-a-button {
 #available-menu-items .accordion-section-title button {
 	display: block;
 	width: 28px;
-	height: 32px;
+	height: 35px;
 	position: absolute;
 	top: 5px;
 	left: 5px;
+	cursor: pointer;
 }
 
 #available-menu-items .accordion-section-title button:focus {
@@ -657,8 +684,13 @@ button.not-a-button {
 }
 
 #available-menu-items .accordion-section-title .no-items,
-#available-menu-items .cannot-expand .accordion-section-title .spinner {
+#available-menu-items .cannot-expand .accordion-section-title .spinner,
+#available-menu-items .cannot-expand .accordion-section-title > button {
 	display: none;
+}
+
+#available-menu-items-search.cannot-expand .accordion-section-title .spinner {
+	display: block;
 }
 
 #available-menu-items .cannot-expand .accordion-section-title .no-items {
@@ -778,7 +810,7 @@ button.not-a-button {
 
 #available-menu-items-search .spinner {
 	position: absolute;
-	top: 18px;
+	top: 20px;
 	margin: 0 !important;
 	left: 20px;
 }

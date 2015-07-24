@@ -153,10 +153,12 @@
 			// Load more items.
 			this.sectionContent.scroll( function() {
 				var totalHeight = self.$el.find( '.accordion-section.open .accordion-section-content' ).prop( 'scrollHeight' ),
-				    visibleHeight = self.$el.find( '.accordion-section.open' ).height();
+					visibleHeight = self.$el.find( '.accordion-section.open' ).height();
+
 				if ( ! self.loading && $( this ).scrollTop() > 3 / 4 * totalHeight - visibleHeight ) {
 					var type = $( this ).data( 'type' ),
-					    object = $( this ).data( 'object' );
+						object = $( this ).data( 'object' );
+
 					if ( 'search' === type ) {
 						if ( self.searchTerm ) {
 							self.doSearch( self.pages.search );
@@ -173,18 +175,22 @@
 
 		// Search input change handler.
 		search: function( event ) {
+			var $searchSection = $( '#available-menu-items-search' ),
+				$openSections = $( '#available-menu-items .accordion-section.open' );
+
 			if ( ! event ) {
 				return;
 			}
 			// Manual accordion-opening behavior.
-			if ( this.searchTerm && ! $( '#available-menu-items-search' ).hasClass( 'open' ) ) {
-				$( '#available-menu-items .accordion-section-content' ).slideUp( 'fast' );
-				$( '#available-menu-items-search .accordion-section-content' ).slideDown( 'fast' );
-				$( '#available-menu-items .accordion-section.open' ).removeClass( 'open' );
-				$( '#available-menu-items-search' ).addClass( 'open' );
+			if ( this.searchTerm && ! $searchSection.hasClass( 'open' ) ) {
+				$openSections.find( '.accordion-section-content' ).slideUp( 'fast' );
+				$searchSection.find( '.accordion-section-content' ).slideDown( 'fast' );
+				$openSections.find( '[aria-expanded]' ).first().attr( 'aria-expanded', 'false' );
+				$openSections.removeClass( 'open' );
+				$searchSection.addClass( 'open' );
 			}
 			if ( '' === event.target.value ) {
-				$( '#available-menu-items-search' ).removeClass( 'open' );
+				$searchSection.removeClass( 'open' );
 			}
 			if ( this.searchTerm === event.target.value ) {
 				return;
@@ -197,9 +203,9 @@
 		// Get search results.
 		doSearch: function( page ) {
 			var self = this, params,
-			    $section = $( '#available-menu-items-search' ),
-			    $content = $section.find( '.accordion-section-content' ),
-			    itemTemplate = wp.template( 'available-menu-item' );
+				$section = $( '#available-menu-items-search' ),
+				$content = $section.find( '.accordion-section-content' ),
+				itemTemplate = wp.template( 'available-menu-item' );
 
 			if ( self.currentRequest ) {
 				self.currentRequest.abort();
@@ -1991,7 +1997,8 @@
 		 */
 		toggleReordering: function( showOrHide ) {
 			var addNewItemBtn = this.container.find( '.add-new-menu-item' ),
-				reorderBtn = this.container.find( '.reorder-toggle' );
+				reorderBtn = this.container.find( '.reorder-toggle' ),
+				itemsTitle = this.$sectionContent.find( '.item-title' );
 
 			showOrHide = Boolean( showOrHide );
 
@@ -2003,13 +2010,15 @@
 			this.$sectionContent.toggleClass( 'reordering', showOrHide );
 			this.$sectionContent.sortable( this.isReordering ? 'disable' : 'enable' );
 			if ( this.isReordering ) {
-				addNewItemBtn.attr( 'tabindex', '-1' );
+				addNewItemBtn.attr({ 'tabindex': '-1', 'aria-hidden': 'true' });
 				reorderBtn.attr( 'aria-label', api.Menus.data.l10n.reorderLabelOff );
 				wp.a11y.speak( api.Menus.data.l10n.reorderModeOn );
+				itemsTitle.attr( 'aria-hidden', 'false' );
 			} else {
-				addNewItemBtn.removeAttr( 'tabindex' );
+				addNewItemBtn.removeAttr( 'tabindex aria-hidden' );
 				reorderBtn.attr( 'aria-label', api.Menus.data.l10n.reorderLabelOn );
 				wp.a11y.speak( api.Menus.data.l10n.reorderModeOff );
+				itemsTitle.attr( 'aria-hidden', 'true' );
 			}
 
 			if ( showOrHide ) {

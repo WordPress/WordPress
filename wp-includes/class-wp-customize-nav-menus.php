@@ -721,7 +721,13 @@ final class WP_Customize_Nav_Menus {
 				<ul class="accordion-section-content" data-type="search"></ul>
 			</div>
 			<div id="new-custom-menu-item" class="accordion-section">
-				<h4 class="accordion-section-title"><?php _e( 'Custom Links' ); ?><button type="button" class="not-a-button"><span class="screen-reader-text"><?php _e( 'Toggle' ); ?></span></button></h4>
+				<h4 class="accordion-section-title" role="presentation">
+					<?php _e( 'Custom Links' ); ?>
+					<button type="button" class="not-a-button" aria-expanded="false">
+						<span class="screen-reader-text"><?php _e( 'Toggle section: Custom Links' ); ?></span>
+						<span class="toggle-indicator" aria-hidden="true"></span>
+					</button>
+				</h4>
 				<div class="accordion-section-content">
 					<input type="hidden" value="custom" id="custom-menu-item-type" name="menu-item[-1][menu-item-type]" />
 					<p id="menu-item-url-wrap">
@@ -750,7 +756,17 @@ final class WP_Customize_Nav_Menus {
 				$id = sprintf( 'available-menu-items-%s-%s', $available_item_type['type'], $available_item_type['object'] );
 				?>
 				<div id="<?php echo esc_attr( $id ); ?>" class="accordion-section">
-					<h4 class="accordion-section-title"><?php echo esc_html( $available_item_type['title'] ); ?> <span class="no-items"><?php _e( 'No items' ); ?></span><span class="spinner"></span> <button type="button" class="not-a-button"><span class="screen-reader-text"><?php _e( 'Toggle' ); ?></span></button></h4>
+					<h4 class="accordion-section-title" role="presentation">
+						<?php echo esc_html( $available_item_type['title'] ); ?>
+						<span class="spinner"></span>
+						<span class="no-items"><?php _e( 'No items' ); ?></span>
+						<button type="button" class="not-a-button" aria-expanded="false">
+							<span class="screen-reader-text"><?php
+							/* translators: %s: Title of a section with menu items */
+							printf( 'Toggle section: %s', esc_html( $available_item_type['title'] ) ); ?></span>
+							<span class="toggle-indicator" aria-hidden="true"></span>
+						</button>
+					</h4>
 					<ul class="accordion-section-content" data-type="<?php echo esc_attr( $available_item_type['type'] ); ?>" data-object="<?php echo esc_attr( $available_item_type['object'] ); ?>"></ul>
 				</div>
 				<?php
