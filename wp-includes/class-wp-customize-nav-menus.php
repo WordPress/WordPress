@@ -75,14 +75,14 @@ final class WP_Customize_Nav_Menus {
 			wp_die( -1 );
 		}
 
-		if ( empty( $_POST['obj_type'] ) || empty( $_POST['type'] ) ) {
-			wp_send_json_error( 'nav_menus_missing_obj_type_or_type_parameter' );
+		if ( empty( $_POST['type'] ) || empty( $_POST['object'] ) ) {
+			wp_send_json_error( 'nav_menus_missing_type_or_object_parameter' );
 		}
 
-		$obj_type = sanitize_key( $_POST['obj_type'] );
-		$obj_name = sanitize_key( $_POST['type'] );
+		$type = sanitize_key( $_POST['type'] );
+		$object = sanitize_key( $_POST['object'] );
 		$page = empty( $_POST['page'] ) ? 0 : absint( $_POST['page'] );
-		$items = $this->load_available_items_query( $obj_type, $obj_name, $page );
+		$items = $this->load_available_items_query( $type, $object, $page );
 
 		if ( is_wp_error( $items ) ) {
 			wp_send_json_error( $items->get_error_code() );
@@ -97,21 +97,21 @@ final class WP_Customize_Nav_Menus {
 	 * @since 4.3.0
 	 * @access public
 	 *
-	 * @param string $obj_type Optional. Accepts any custom object type and has built-in support for
+	 * @param string $type   Optional. Accepts any custom object type and has built-in support for
 	 *                         'post_type' and 'taxonomy'. Default is 'post_type'.
-	 * @param string $obj_name Optional. Accepts any registered taxonomy or post type name. Default is 'page'.
-	 * @param int    $page     Optional. The page number used to generate the query offset. Default is '0'.
+	 * @param string $object Optional. Accepts any registered taxonomy or post type name. Default is 'page'.
+	 * @param int    $page   Optional. The page number used to generate the query offset. Default is '0'.
 	 * @return WP_Error|array Returns either a WP_Error object or an array of menu items.
 	 */
-	public function load_available_items_query( $obj_type = 'post_type', $obj_name = 'page', $page = 0 ) {
+	public function load_available_items_query( $type = 'post_type', $object = 'page', $page = 0 ) {
 		$items = array();
 
-		if ( 'post_type' === $obj_type ) {
-			if ( ! get_post_type_object( $obj_name ) ) {
+		if ( 'post_type' === $type ) {
+			if ( ! get_post_type_object( $object ) ) {
 				return new WP_Error( 'nav_menus_invalid_post_type' );
 			}
 
-			if ( 0 === $page && 'page' === $obj_name ) {
+			if ( 0 === $page && 'page' === $object ) {
 				// Add "Home" link. Treat as a page, but switch to custom on add.
 				$items[] = array(
 					'id'         => 'home',
@@ -128,7 +128,7 @@ final class WP_Customize_Nav_Menus {
 				'offset'      => 10 * $page,
 				'orderby'     => 'date',
 				'order'       => 'DESC',
-				'post_type'   => $obj_name,
+				'post_type'   => $object,
 			) );
 			foreach ( $posts as $post ) {
 				$post_title = $post->post_title;
@@ -146,8 +146,8 @@ final class WP_Customize_Nav_Menus {
 					'url'        => get_permalink( intval( $post->ID ) ),
 				);
 			}
-		} elseif ( 'taxonomy' === $obj_type ) {
-			$terms = get_terms( $obj_name, array(
+		} elseif ( 'taxonomy' === $type ) {
+			$terms = get_terms( $object, array(
 				'child_of'     => 0,
 				'exclude'      => '',
 				'hide_empty'   => false,
@@ -175,6 +175,18 @@ final class WP_Customize_Nav_Menus {
 				);
 			}
 		}
+
+		/**
+		 * Filter the available menu items.
+		 *
+		 * @since 4.3.0
+		 *
+		 * @param array  $items  The array of menu items.
+		 * @param string $type   The object type.
+		 * @param string $object The object name.
+		 * @param int    $page   The current page number.
+		 */
+		$items = apply_filters( 'customize_nav_menu_available_items', $items, $type, $object, $page );
 
 		return $items;
 	}
@@ -588,30 +600,47 @@ final class WP_Customize_Nav_Menus {
 	 *
 	 * @since 4.3.0
 	 * @access public
+	 *
+	 * @return array The available menu item types.
 	 */
 	public function available_item_types() {
-		$items = array(
-			'postTypes'  => array(),
-			'taxonomies' => array(),
-		);
+		$item_types = array();
 
 		$post_types = get_post_types( array( 'show_in_nav_menus' => true ), 'objects' );
-		foreach ( $post_types as $slug => $post_type ) {
-			$items['postTypes'][ $slug ] = array(
-				'label' => $post_type->labels->singular_name,
-			);
+		if ( $post_types ) {
+			foreach ( $post_types as $slug => $post_type ) {
+				$item_types[] = array(
+					'title'  => $post_type->labels->singular_name,
+					'type'   => 'post_type',
+					'object' => $post_type->name,
+				);
+			}
 		}
 
 		$taxonomies = get_taxonomies( array( 'show_in_nav_menus' => true ), 'objects' );
-		foreach ( $taxonomies as $slug => $taxonomy ) {
-			if ( 'post_format' === $taxonomy && ! current_theme_supports( 'post-formats' ) ) {
-				continue;
+		if ( $taxonomies ) {
+			foreach ( $taxonomies as $slug => $taxonomy ) {
+				if ( 'post_format' === $taxonomy && ! current_theme_supports( 'post-formats' ) ) {
+					continue;
+				}
+				$item_types[] = array(
+					'title'  => $taxonomy->labels->singular_name,
+					'type'   => 'taxonomy',
+					'object' => $taxonomy->name,
+				);
 			}
-			$items['taxonomies'][ $slug ] = array(
-				'label' => $taxonomy->labels->singular_name,
-			);
 		}
-		return $items;
+
+		/**
+		 * Filter the available menu item types.
+		 *
+		 * @since 4.3.0
+		 *
+		 * @param array $item_types Custom menu item types.
+		 */
+		$item_types = apply_filters( 'customize_nav_menu_available_item_types', $item_types );
+
+		return $item_types;
 	}
 
 	/**
@@ -716,32 +745,16 @@ final class WP_Customize_Nav_Menus {
 				</div>
 			</div>
 			<?php
-
-			// @todo: consider using add_meta_box/do_accordion_section and making screen-optional?
 			// Containers for per-post-type item browsing; items added with JS.
-			$post_types = get_post_types( array( 'show_in_nav_menus' => true ), 'object' );
-			if ( $post_types ) :
-				foreach ( $post_types as $type ) :
-					?>
-					<div id="available-menu-items-<?php echo esc_attr( $type->name ); ?>" class="accordion-section">
-						<h4 class="accordion-section-title"><?php echo esc_html( $type->label ); ?> <span class="spinner"></span> <span class="no-items"><?php _e( 'No items' ); ?></span> <button type="button" class="not-a-button"><span class="screen-reader-text"><?php _e( 'Toggle' ); ?></span></button></h4>
-						<ul class="accordion-section-content" data-type="<?php echo esc_attr( $type->name ); ?>" data-obj_type="post_type"></ul>
-					</div>
+			foreach ( $this->available_item_types() as $available_item_type ) {
+				$id = sprintf( 'available-menu-items-%s-%s', $available_item_type['type'], $available_item_type['object'] );
+				?>
+				<div id="<?php echo esc_attr( $id ); ?>" class="accordion-section">
+					<h4 class="accordion-section-title"><?php echo esc_html( $available_item_type['title'] ); ?> <span class="no-items"><?php _e( 'No items' ); ?></span><span class="spinner"></span> <button type="button" class="not-a-button"><span class="screen-reader-text"><?php _e( 'Toggle' ); ?></span></button></h4>
+					<ul class="accordion-section-content" data-type="<?php echo esc_attr( $available_item_type['type'] ); ?>" data-object="<?php echo esc_attr( $available_item_type['object'] ); ?>"></ul>
+				</div>
 				<?php
-				endforeach;
-			endif;
-
-			$taxonomies = get_taxonomies( array( 'show_in_nav_menus' => true ), 'object' );
-			if ( $taxonomies ) :
-				foreach ( $taxonomies as $tax ) :
-					?>
-					<div id="available-menu-items-<?php echo esc_attr( $tax->name ); ?>" class="accordion-section">
-						<h4 class="accordion-section-title"><?php echo esc_html( $tax->label ); ?> <span class="spinner"></span> <span class="no-items"><?php _e( 'No items' ); ?></span> <button type="button" class="not-a-button"><span class="screen-reader-text"><?php _e( 'Toggle' ); ?></span></button></h4>
-						<ul class="accordion-section-content" data-type="<?php echo esc_attr( $tax->name ); ?>" data-obj_type="taxonomy"></ul>
-					</div>
-				<?php
-				endforeach;
-			endif;
+			}
 			?>
 		</div><!-- #available-menu-items -->
 	<?php

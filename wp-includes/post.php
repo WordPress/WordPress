@@ -3013,7 +3013,8 @@ function wp_get_post_tags( $post_id = 0, $args = array() ) {
  *                         global $post. Default 0.
  * @param string $taxonomy Optional. The taxonomy for which to retrieve terms. Default 'post_tag'.
  * @param array  $args     Optional. {@link wp_get_object_terms()} arguments. Default empty array.
- * @return array List of post tags.
+ * @return array|WP_Error  List of post terms or empty array if no terms were found. WP_Error object
+ *                         if `$taxonomy` doesn't exist.
  */
 function wp_get_post_terms( $post_id = 0, $taxonomy = 'post_tag', $args = array() ) {
 	$post_id = (int) $post_id;

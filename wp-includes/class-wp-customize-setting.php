@@ -968,7 +968,6 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting {
 			'post_title',
 			'post_type',
 			'to_ping',
-			'type_label',
 		);
 		foreach ( $irrelevant_properties as $property ) {
 			unset( $this->value[ $property ] );
@@ -1143,8 +1142,25 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting {
 		}
 
 		if ( ! isset( $post->type_label ) ) {
-			$post->type_label = null;
+			if ( 'post_type' === $post->type ) {
+				$object = get_post_type_object( $post->object );
+				if ( $object ) {
+					$post->type_label = $object->labels->singular_name;
+				} else {
+					$post->type_label = $post->object;
+				}
+			} elseif ( 'taxonomy' == $post->type ) {
+				$object = get_taxonomy( $post->object );
+				if ( $object ) {
+					$post->type_label = $object->labels->singular_name;
+				} else {
+					$post->type_label = $post->object;
+				}
+			} else {
+				$post->type_label = __( 'Custom Link' );
+			}
 		}
+
 		return $post;
 	}
 

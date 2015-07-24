@@ -1684,7 +1684,7 @@ i.mce-i-wp_code:before {
 	}
 }
 
-.wp-link-preview {
+div.wp-link-preview {
 	float: right;
 	margin: 5px;
 	max-width: 694px;
@@ -1692,7 +1692,7 @@ i.mce-i-wp_code:before {
 	text-overflow: ellipsis;
 }
 
-.wp-link-preview a {
+div.wp-link-preview a {
 	color: #0073aa;
 	text-decoration: underline;
 	-webkit-transition-property: border, background, color;
@@ -1705,7 +1705,7 @@ i.mce-i-wp_code:before {
 }
 
 @media screen and ( max-width: 782px ) {
-	.wp-link-preview {
+	div.wp-link-preview {
 		margin: 8px 5px 8px 0;
 		max-width: 70%;
 		max-width: -webkit-calc(100% - 86px);

@@ -677,9 +677,9 @@ function meta_form( $post = null ) {
 	 * @param int $limit Number of custom fields to retrieve. Default 30.
 	 */
 	$limit = apply_filters( 'postmeta_form_limit', 30 );
-	$sql = "SELECT meta_key
+	$sql = "SELECT DISTINCT meta_key
 		FROM $wpdb->postmeta
-		GROUP BY meta_key
+		WHERE meta_key NOT BETWEEN '_' AND '_z'
 		HAVING meta_key NOT LIKE %s
 		ORDER BY meta_key
 		LIMIT %d";

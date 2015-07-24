@@ -7,23 +7,46 @@
 			pw_field2 = $('#pass2'),
 			pw_togglebtn = pw_new.find('.wp-hide-pw'),
 			pw_generatebtn = pw_new.find('button.wp-generate-pw'),
+			pw_cancelbtn = pw_new.find('button.wp-cancel-pw'),
 			pw_2 = $('.user-pass2-wrap'),
 			parentform = pw_new.closest('form'),
 			pw_strength = $('#pass-strength-result'),
 			pw_submitbtn_edit = $('#submit'),
 			pw_submitbtn_new = $( '#createusersub' ),
 			pw_checkbox = $('.pw-checkbox'),
-			pw_weak = $('.pw-weak')
-		;
+			pw_weak = $('.pw-weak'),
+			pw_update_lock = false,
+			// Set up a text version of the password input
+			newField = document.createElement( 'input');
 
+			newField.type = 'text';
+
+			var pwFieldText = $( newField );
+
+		if ( pw_field.length > 0 ) {
+			pwFieldText
+				.attr( {
+					'id':           'pass1-text',
+					'name':         'pass1-text',
+					'autocomplete': 'off'
+				} )
+				.addClass( pw_field[0].className )
+				.data( 'pw', pw_field.data( 'pw' ) )
+				.val( pw_field.val() );
+
+			pw_field
+				.wrap( '<span class="password-input-wrapper"></span>' )
+				.after( pwFieldText );
+		}
+
+		var pwWrapper = pw_field.parent();
 		var generatePassword = window.generatePassword = function() {
 			if ( typeof zxcvbn !== 'function' ) {
 				setTimeout( generatePassword, 50 );
 			} else {
 				pw_field.val( pw_field.data( 'pw' ) );
 				pw_field.trigger( 'propertychange' );
-				pw_field.attr( 'type', 'text' ).focus();
-				pw_field[0].setSelectionRange(100, 100);
+				pwWrapper.addClass( 'show-password' );
 			}
 		};
 
@@ -31,23 +54,29 @@
 		pw_line.hide();
 		pw_togglebtn.show();
 		pw_generatebtn.show();
-
 		if ( pw_field.data( 'reveal' ) == 1 ) {
 			generatePassword();
 		}
 
 		parentform.on('submit', function(){
+			pw_update_lock = false;
 			pw_field2.val( pw_field.val() );
-			pw_field.attr('type', 'password');
+			pwWrapper.removeClass( 'show-password' );
 		});
+
+		pwFieldText.on( 'input', function(){
+			pw_field.val( pwFieldText.val() );
+			pw_field.trigger( 'propertychange' );
+		} );
 
 
 		pw_field.on('input propertychange', function(){
 			setTimeout( function(){
 				var cssClass = pw_strength.attr('class');
-				pw_field.removeClass( 'short bad good strong' );
+				pwFieldText.val( pw_field.val() );
+				pw_field.add(pwFieldText).removeClass( 'short bad good strong' );
 				if ( 'undefined' !== typeof cssClass ) {
-					pw_field.addClass( cssClass );
+					pw_field.add(pwFieldText).addClass( cssClass );
 					if ( cssClass == 'short' || cssClass == 'bad' ) {
 						if ( ! pw_checkbox.attr( 'checked' ) ) {
 							pw_submitbtn_new.attr( 'disabled','disabled' );
@@ -80,32 +109,64 @@
 		 * pass2 field to the pass1 field.
 		 */
 		pw_field2.on( 'input propertychange', function() {
-			pw_field.val( pw_field2.val() );
-			pw_field.trigger( 'propertychange' );
+			if ( pw_field2.val().length > 0 ) {
+				pw_field.val( pw_field2.val() );
+				pw_field.trigger( 'propertychange' );
+			}
 		} );
 
 		pw_new.on( 'click', 'button.wp-generate-pw', function(){
+			pw_update_lock = true;
 			pw_generatebtn.hide();
 			pw_line.show();
 			generatePassword();
+			_.defer( function() {
+				pwFieldText.focus();
+				if ( ! _.isUndefined( pwFieldText[0].setSelectionRange ) ) {
+					pwFieldText[0].setSelectionRange( 0, 100 );
+				}
+			}, 0 );
+		});
+
+		pw_submitbtn_edit.on( 'click', function() {
+			pw_update_lock = false;
+		});
+
+		pw_cancelbtn.on( 'click', function() {
+			pw_update_lock = false;
+			pw_generatebtn.show();
+			pw_line.hide();
 		});
 
 		pw_togglebtn.on( 'click', function() {
 			var show = pw_togglebtn.attr( 'data-toggle' );
 			if ( show == 1 ) {
-				pw_field.attr( 'type', 'text' );
+				pwWrapper.addClass( 'show-password' );
 				pw_togglebtn.attr({ 'data-toggle': 0, 'aria-label': userProfileL10n.ariaHide })
 					.find( '.text' ).text( userProfileL10n.hide )
 				;
+				pwFieldText.focus();
+				if ( ! _.isUndefined( pwFieldText[0].setSelectionRange ) ) {
+					pwFieldText[0].setSelectionRange( 0, 100 );
+				}
 			} else {
-				pw_field.attr( 'type', 'password' );
+				pwWrapper.removeClass( 'show-password' );
 				pw_togglebtn.attr({ 'data-toggle': 1, 'aria-label': userProfileL10n.ariaShow })
-					.find( '.text' ).text( userProfileL10n.show )
-				;
+					.find( '.text' ).text( userProfileL10n.show );
+				pw_field.focus();
+				if ( ! _.isUndefined( pw_field[0].setSelectionRange ) ) {
+					pw_field[0].setSelectionRange( 0, 100 );
+				}
 			}
-			pw_field.focus();
-			pw_field[0].setSelectionRange(100, 100);
+
 		});
+
+		/* Warn the user if password was generated but not saved */
+		$( window ).on( 'beforeunload', function() {
+			if ( true === pw_update_lock ) {
+				return userProfileL10n.warn;
+			}
+		} );
 	});
 
 	function check_pass_strength() {

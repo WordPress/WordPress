@@ -12,7 +12,7 @@
 
 tinymce.ThemeManager.add('modern', function(editor) {
 	var self = this, settings = editor.settings, Factory = tinymce.ui.Factory,
-		each = tinymce.each, DOM = tinymce.DOM, Rect = tinymce.ui.Rect;
+		each = tinymce.each, DOM = tinymce.DOM, Rect = tinymce.ui.Rect, FloatPanel = tinymce.ui.FloatPanel;
 
 	// Default menus
 	var defaultMenus = {
@@ -480,7 +480,9 @@ tinymce.ThemeManager.add('modern', function(editor) {
 
 		function repositionHandler() {
 			function execute() {
-				reposition(findFrontMostMatch(editor.selection.getNode()));
+				if (editor.selection) {
+					reposition(findFrontMostMatch(editor.selection.getNode()));
+				}
 			}
 
 			if (window.requestAnimationFrame) {
@@ -639,10 +641,7 @@ tinymce.ThemeManager.add('modern', function(editor) {
 				panel.hide();
 
 				// All other autohidden float panels will be closed below.
-				// Need to check for hideAll since it might be a normal panel
-				if (panel.hideAll) {
-					panel.hideAll();
-				}
+				FloatPanel.hideAll();
 
 				DOM.removeClass(editor.getBody(), 'mce-edit-focus');
 			}

@@ -205,13 +205,14 @@ submit {
 	background-color: #eee;
 	border: 1px solid #ddd;
 	color: #23282d;
+	margin: -2px 0px 5px 5px;
+	padding: 3px 5px;
+	text-align: center;
+	width: 218px;
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	opacity: 0;
-	padding: 3px 5px;
-	text-align: center;
-	width: 218px;
 }
 
 #pass-strength-result.short {
@@ -238,19 +239,19 @@ submit {
 	opacity: 1;
 }
 
-[name="admin_password"].short {
+#pass1.short, #pass1-text.short {
 	border-color: #e35b5b;
 }
 
-[name="admin_password"].bad {
+#pass1.bad, #pass1-text.bad {
 	border-color: #f78b53;
 }
 
-[name="admin_password"].good {
+#pass1.good, #pass1-text.good {
 	border-color: #ffc733;
 }
 
-[name="admin_password"].strong {
+#pass1.strong, #pass1-text.strong {
 	border-color: #83c373;
 }
 
@@ -276,6 +277,20 @@ submit {
 #pass1,
 #pass2 {
 	direction: ltr;
+}
+
+#pass1-text,
+.show-password #pass1 {
+	display: none;
+}
+
+.show-password #pass1-text
+{
+	display: inline-block;
+}
+
+.form-table span.description.important {
+	font-size: 12px;
 }
 
 
