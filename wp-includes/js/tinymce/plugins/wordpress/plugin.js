@@ -485,8 +485,13 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 	});
 
 	editor.on( 'preInit', function() {
-		// Don't replace <i> with <em> and <b> with <strong> and don't remove them when empty
-		editor.schema.addValidElements( '@[id|accesskey|class|dir|lang|style|tabindex|title|contenteditable|draggable|dropzone|hidden|spellcheck|translate],i,b' );
+		var validElementsSetting = '@[id|accesskey|class|dir|lang|style|tabindex|' +
+			'title|contenteditable|draggable|dropzone|hidden|spellcheck|translate],' + // Global attributes.
+			'i,' + // Don't replace <i> with <em> and <b> with <strong> and don't remove them when empty.
+			'b,' +
+			'script[src|async|defer|type|charset|crossorigin|integrity]'; // Add support for <script>.
+
+		editor.schema.addValidElements( validElementsSetting );
 
 		if ( tinymce.Env.iOS ) {
 			editor.settings.height = 300;
