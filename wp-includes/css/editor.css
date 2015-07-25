@@ -269,30 +269,30 @@ div.mce-inline-toolbar-grp:after {
 }
 
 div.mce-inline-toolbar-grp.mce-arrow-up:before {
-	top: -18px;
+	top: -9px;
 	border-bottom-color: #a0a5aa;
-	border-width: 9px;
+	border-width: 0 9px 9px;
 	margin-left: -9px;
 }
 
 div.mce-inline-toolbar-grp.mce-arrow-down:before {
-	bottom: -18px;
+	bottom: -9px;
 	border-top-color: #a0a5aa;
-	border-width: 9px;
+	border-width: 9px 9px 0;
 	margin-left: -9px;
 }
 
 div.mce-inline-toolbar-grp.mce-arrow-up:after {
-	top: -16px;
+	top: -8px;
 	border-bottom-color: #f5f5f5;
-	border-width: 8px;
+	border-width: 0 8px 8px;
 	margin-left: -8px;
 }
 
 div.mce-inline-toolbar-grp.mce-arrow-down:after {
-	bottom: -16px;
+	bottom: -8px;
 	border-top-color: #f5f5f5;
-	border-width: 8px;
+	border-width: 8px 8px 0;
 	margin-left: -8px;
 }
 
