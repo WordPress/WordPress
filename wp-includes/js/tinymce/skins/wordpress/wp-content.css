@@ -75,8 +75,19 @@ img.emoji {
 	text-align: center;
 }
 
+img {
+	height: auto;
+	max-width: 100%;
+}
+
 .wp-caption {
-	margin: 0;
+	margin: 0; /* browser reset */
+	max-width: 100%;
+}
+
+/* iOS does not obey max-width if width is set. */
+.ios .wp-caption {
+	width: auto !important;
 }
 
 .wp-caption img {
