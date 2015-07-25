@@ -141,7 +141,6 @@ img[data-mce-selected]::selection {
 	-webkit-box-shadow: none;
 	box-shadow: none;
 	width: 96%;
-	min-width: 96%;
 	height: 16px;
 	display: block;
 	margin: 15px auto 0;
