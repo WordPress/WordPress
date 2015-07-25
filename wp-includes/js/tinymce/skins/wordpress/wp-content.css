@@ -71,45 +71,16 @@ img.emoji {
 	box-shadow: none !important;
 }
 
-.aligncenter,
-dl.aligncenter,
-.html5-captions .wp-caption.aligncenter {
-	display: block;
-	margin-left: auto;
-	margin-right: auto;
-}
-
-.alignleft {
-	float: left;
-}
-
-.alignright {
-	float: right;
-}
-
-.wp-caption {
-	border: 1px solid #ddd;
-	text-align: center;
-	background-color: #f3f3f3;
-	padding-top: 4px;
-	margin: 10px 0;
-}
-
-.html5-captions .wp-caption {
-	border: none;
-	background-color: transparent;
-	margin: 0;
-	padding: 0;
-}
-
 .mceIEcenter {
 	text-align: center;
 }
 
-.wp-caption img {
+.wp-caption {
 	margin: 0;
-	padding: 0;
-	border: 0 none;
+}
+
+.wp-caption img {
+	display: block;
 }
 
 div.mceTemp {
@@ -122,10 +93,25 @@ dl.wp-caption * {
 }
 
 .wp-caption-dd {
-	font-size: 11px;
-	line-height: 17px;
-	padding: 0 4px 5px;
-	margin: 0;
+	font-size: 14px;
+	padding-top: 0.5em;
+	margin: 0; /* browser reset */
+}
+
+.aligncenter {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.alignleft {
+	float: left;
+	margin: 0.5em 1em 0.5em 0;
+}
+
+.alignright {
+	float: right;
+	margin: 0.5em 0 0.5em 1em;
 }
 
 /* Remove blue highlighting of selected images in WebKit */
