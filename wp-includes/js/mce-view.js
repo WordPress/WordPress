@@ -725,7 +725,7 @@
  * Views for the gallery, audio, video, playlist and embed shortcodes,
  * and a view for embeddable URLs.
  */
-( function( window, views, media ) {
+( function( window, views, media, $ ) {
 	var base, gallery, av, embed;
 
 	base = {
@@ -903,4 +903,4 @@
 			}
 		}
 	} ) );
-} )( window, window.wp.mce.views, window.wp.media );
+} )( window, window.wp.mce.views, window.wp.media, window.jQuery );
