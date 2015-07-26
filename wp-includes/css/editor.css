@@ -121,46 +121,41 @@
 }
 
 .mce-window .wp-editor-help {
-	width: 440px;
-	padding: 10px 15px 0;
+	padding: 10px 10px 0 20px;
 }
 
+.mce-window .wp-editor-help h2,
 .mce-window .wp-editor-help p {
 	margin: 8px 0;
 	white-space: normal;
+	font-size: 14px;
+	font-weight: normal;
 }
 
 .mce-window .wp-editor-help table {
-	width: 420px;
+	width: 100%;
 	margin-bottom: 20px;
 }
 
 .mce-window .wp-editor-help td,
 .mce-window .wp-editor-help th {
 	font-size: 13px;
-	vertical-align: middle;
-}
-
-.mce-window .wp-editor-help td {
 	padding: 5px;
+	vertical-align: middle;
 	word-wrap: break-word;
 	white-space: normal;
 }
 
 .mce-window .wp-editor-help th {
 	font-weight: bold;
-	padding: 5px 0 0;
-}
-
-.mce-window .wp-editor-help .wp-help-th-center th {
-	text-align: center;
+	padding-bottom: 0;
 }
 
 .mce-window .wp-editor-help kbd {
 	font-family: monospace;
-	padding: 2px 7px;
+	padding: 2px 7px 3px;
 	font-weight: bold;
-	margin: 0 1px;
+	margin: 0;
 	background: #eaeaea;
 	background: rgba(0,0,0,0.08);
 }
@@ -170,7 +165,8 @@
 	padding: 0 5px;
 }
 
-.mce-window .wp-help-header td:nth-child(odd) {
+.mce-window .wp-help-th-center td:nth-child(odd),
+.mce-window .wp-help-th-center th:nth-child(odd) {
     text-align: center;
 }
 

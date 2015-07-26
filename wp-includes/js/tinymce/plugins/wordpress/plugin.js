@@ -205,7 +205,7 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 			meta = tinymce.Env.mac ? __( 'Cmd + letter:' ) : __( 'Ctrl + letter:' ),
 			table1 = [],
 			table2 = [],
-			header, html;
+			header, html, dialog, $wrap;
 
 		each( [
 			{ c: 'Copy',      x: 'Cut'              },
@@ -238,9 +238,9 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 
 			each( row, function( text, key ) {
 				if ( ! text ) {
-					out += '<th></th><td></td>';
+					out += '<td></td><td></td>';
 				} else {
-					out += '<th><kbd>' + key + '</kbd></th><td>' + __( text ) + '</td>';
+					out += '<td><kbd>' + key + '</kbd></td><td>' + __( text ) + '</td>';
 				}
 			});
 
@@ -248,18 +248,18 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 		}
 
 		header = [ __( 'Letter' ), __( 'Action' ), __( 'Letter' ), __( 'Action' ) ];
-		header = '<tr class="wp-help-header"><td>' + header.join( '</td><td>' ) + '</td></tr>';
+		header = '<tr><th>' + header.join( '</th><th>' ) + '</th></tr>';
 
 		html = '<div class="wp-editor-help">';
 
 		// Main section, default and additional shortcuts
 		html = html +
-			'<p>' + __( 'Default shortcuts,' ) + ' ' + meta + '</p>' +
+			'<h2>' + __( 'Default shortcuts,' ) + ' ' + meta + '</h2>' +
 			'<table class="wp-help-th-center">' +
 				header +
 				table1.join('') +
 			'</table>' +
-			'<p>' + __( 'Additional shortcuts,' ) + ' ' + access + '</p>' +
+			'<h2>' + __( 'Additional shortcuts,' ) + ' ' + access + '</h2>' +
 			'<table class="wp-help-th-center">' +
 				header +
 				table2.join('') +
@@ -268,7 +268,7 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 		if ( editor.plugins.wptextpattern ) {
 			// Text pattern section
 			html = html +
-				'<p>' + __( 'When starting a new paragraph with one of these patterns followed by a space, the formatting will be applied automatically. Press Backspace or Escape to undo.' ) + '</p>' +
+				'<h2>' + __( 'When starting a new paragraph with one of these patterns followed by a space, the formatting will be applied automatically. Press Backspace or Escape to undo.' ) + '</h2>' +
 				'<table>' +
 					tr({ '*</kbd>&nbsp;<kbd>-':  'Bullet list' }) +
 					tr({ '1.</kbd>&nbsp;<kbd>1)':  'Numbered list' }) +
@@ -283,7 +283,7 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 
 		// Focus management section
 		html = html +
-			'<p>' + __( 'Focus shortcuts:' ) + '</p>' +
+			'<h2>' + __( 'Focus shortcuts:' ) + '</h2>' +
 			'<table>' +
 				tr({ 'Alt + F8':  'Inline toolbar (when an image, link or preview is selected)' }) +
 				tr({ 'Alt + F9':  'Editor menu (when enabled)' }) +
@@ -294,7 +294,7 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 
 		html += '</div>';
 
-		editor.windowManager.open( {
+		dialog = editor.windowManager.open( {
 			title: 'Keyboard Shortcuts',
 			items: {
 				type: 'container',
@@ -306,6 +306,23 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 				onclick: 'close'
 			}
 		} );
+
+		if ( dialog.$el ) {
+			dialog.$el.find( 'div[role="application"]' ).attr( 'role', 'document' );
+			$wrap = dialog.$el.find( '.mce-wp-help' );
+
+			if ( $wrap[0] ) {
+				$wrap.attr( 'tabindex', '0' ).attr( 'role', 'tab' );
+				$wrap[0].focus();
+				$wrap.on( 'keydown', function( event ) {
+					// Prevent use of: page up, page down, end, home, left arrow, up arrow, right arrow, down arrow
+					// in the dialog keydown handler.
+					if ( event.keyCode >= 33 && event.keyCode <= 40 ) {
+						event.stopPropagation();
+					}
+				});
+			}
+		}
 	} );
 
 	editor.addCommand( 'WP_Medialib', function() {
