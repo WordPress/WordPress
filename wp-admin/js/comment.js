@@ -4,12 +4,15 @@ jQuery(document).ready( function($) {
 	postboxes.add_postbox_toggles('comment');
 
 	var $timestampdiv = $('#timestampdiv'),
-		stamp = $('#timestamp').html();
+		$timestamp = $( '#timestamp' ),
+		stamp = $timestamp.html(),
+		$timestampwrap = $timestampdiv.find( '.timestamp-wrap' ),
+		$edittimestamp = $timestampdiv.siblings( 'a.edit-timestamp' );
 
-	$timestampdiv.siblings('a.edit-timestamp').click( function( event ) {
+	$edittimestamp.click( function( event ) {
 		if ( $timestampdiv.is( ':hidden' ) ) {
 			$timestampdiv.slideDown( 'fast', function() {
-				$( 'input, select', $timestampdiv.find( '.timestamp-wrap' ) ).first().focus();
+				$( 'input, select', $timestampwrap ).first().focus();
 			} );
 			$(this).hide();
 		}
@@ -17,13 +20,15 @@ jQuery(document).ready( function($) {
 	});
 
 	$timestampdiv.find('.cancel-timestamp').click( function( event ) {
-		$timestampdiv.slideUp('fast').siblings('a.edit-timestamp').show().focus();
+		// Move focus back to the Edit link.
+		$edittimestamp.show().focus();
+		$timestampdiv.slideUp( 'fast' );
 		$('#mm').val($('#hidden_mm').val());
 		$('#jj').val($('#hidden_jj').val());
 		$('#aa').val($('#hidden_aa').val());
 		$('#hh').val($('#hidden_hh').val());
 		$('#mn').val($('#hidden_mn').val());
-		$('#timestamp').html(stamp);
+		$timestamp.html( stamp );
 		event.preventDefault();
 	});
 
@@ -34,13 +39,13 @@ jQuery(document).ready( function($) {
 		event.preventDefault();
 
 		if ( newD.getFullYear() != aa || (1 + newD.getMonth()) != mm || newD.getDate() != jj || newD.getMinutes() != mn ) {
-			$timestampdiv.find('.timestamp-wrap').addClass('form-invalid');
+			$timestampwrap.addClass( 'form-invalid' );
 			return;
 		} else {
-			$timestampdiv.find('.timestamp-wrap').removeClass('form-invalid');
+			$timestampwrap.removeClass( 'form-invalid' );
 		}
 
-		$('#timestamp').html(
+		$timestamp.html(
 			commentL10n.submittedOn + ' <b>' +
 			commentL10n.dateFormat
 				.replace( '%1$s', $( 'option[value="' + mm + '"]', '#mm' ).attr( 'data-text' ) )
@@ -51,7 +56,8 @@ jQuery(document).ready( function($) {
 				'</b> '
 		);
 
-		$timestampdiv.slideUp('fast');
-		$timestampdiv.siblings('a.edit-timestamp').show();
+		// Move focus back to the Edit link.
+		$edittimestamp.show().focus();
+		$timestampdiv.slideUp( 'fast' );
 	});
 });
