@@ -1103,7 +1103,7 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting {
 			$i = 1;
 
 			foreach ( $items as $k => $item ) {
-				$items[ $k ]->$args['output_key'] = $i++;
+				$items[ $k ]->{$args['output_key']} = $i++;
 			}
 		}
 
