@@ -161,7 +161,7 @@ if ( isset( $_REQUEST['error'] ) ) {
 	$error_msg = '';
 	switch ( $error ) {
 		case 1 :
-			$error_msg = __( 'Oops, no comment with this ID.' );
+			$error_msg = __( 'Invalid comment ID.' );
 			break;
 		case 2 :
 			$error_msg = __( 'You are not allowed to edit comments on this post.' );

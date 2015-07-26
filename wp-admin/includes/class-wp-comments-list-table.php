@@ -357,8 +357,10 @@ class WP_Comments_List_Table extends WP_List_Table {
 		$columns['author'] = __( 'Author' );
 		$columns['comment'] = _x( 'Comment', 'column name' );
 
-		if ( !$post_id )
-			$columns['response'] = _x( 'In Response To', 'column name' );
+		if ( ! $post_id ) {
+			/* translators: column name or table row header */
+			$columns['response'] = __( 'In Response To' );
+		}
 
 		return $columns;
 	}
