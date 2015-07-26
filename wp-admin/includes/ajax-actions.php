@@ -2963,7 +2963,7 @@ function wp_ajax_update_plugin() {
 	}
 
 	if ( ! current_user_can( 'update_plugins' ) ) {
-		$status['error'] = __( 'You do not have sufficient permissions to update plugins on this site.' );
+		$status['error'] = __( 'You do not have sufficient permissions to update plugins for this site.' );
  		wp_send_json_error( $status );
 	}
 
