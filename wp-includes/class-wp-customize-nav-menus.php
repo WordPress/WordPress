@@ -496,6 +496,7 @@ final class WP_Customize_Nav_Menus {
 					'theme_supports'    => 'menus',
 					'type'              => 'theme_mod',
 					'transport'         => 'postMessage',
+					'default'           => 0,
 				) );
 			}
 
