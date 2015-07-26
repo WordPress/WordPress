@@ -1,7 +1,5 @@
 /* global tinymce */
 
-window.wp = window.wp || {};
-
 /*
  * The TinyMCE view API.
  *
@@ -24,7 +22,7 @@ window.wp = window.wp || {};
  * |- registered view
  * |  |- ...
  */
-( function( window, wp, $ ) {
+( function( window, wp, shortcode, $ ) {
 	'use strict';
 
 	var views = {},
@@ -671,7 +669,7 @@ window.wp = window.wp || {};
 		 * @return {Object}
 		 */
 		match: function( content ) {
-			var match = wp.shortcode.next( this.type, content );
+			var match = shortcode.next( this.type, content );
 
 			if ( match ) {
 				return {
@@ -720,30 +718,28 @@ window.wp = window.wp || {};
 			editor.focus();
 		}
 	} );
-} )( window, window.wp, window.jQuery );
+} )( window, window.wp, window.wp.shortcode, window.jQuery );
 
 /*
  * The WordPress core TinyMCE views.
  * Views for the gallery, audio, video, playlist and embed shortcodes,
  * and a view for embeddable URLs.
  */
-( function( window, views, $ ) {
-	var postID = $( '#post_ID' ).val() || 0,
-		media, gallery, av, embed;
+( function( window, views, media ) {
+	var base, gallery, av, embed;
 
-	media = {
+	base = {
 		state: [],
 
 		edit: function( text, update ) {
 			var type = this.type,
-				media = wp.media[ type ],
-				frame = media.edit( text );
+				frame = media[ type ].edit( text );
 
 			this.pausePlayers && this.pausePlayers();
 
 			_.each( this.state, function( state ) {
 				frame.state( state ).on( 'update', function( selection ) {
-					update( media.shortcode( selection ).string(), type === 'gallery' );
+					update( media[ type ].shortcode( selection ).string(), type === 'gallery' );
 				} );
 			} );
 
@@ -755,12 +751,12 @@ window.wp = window.wp || {};
 		}
 	};
 
-	gallery = _.extend( {}, media, {
+	gallery = _.extend( {}, base, {
 		state: [ 'gallery-edit' ],
-		template: wp.media.template( 'editor-gallery' ),
+		template: media.template( 'editor-gallery' ),
 
 		initialize: function() {
-			var attachments = wp.media.gallery.attachments( this.shortcode, postID ),
+			var attachments = media.gallery.attachments( this.shortcode, media.view.settings.post.id ),
 				attrs = this.shortcode.attrs.named,
 				self = this;
 
@@ -782,7 +778,7 @@ window.wp = window.wp || {};
 
 				self.render( self.template( {
 					attachments: attachments,
-					columns: attrs.columns ? parseInt( attrs.columns, 10 ) : wp.media.galleryDefaults.columns
+					columns: attrs.columns ? parseInt( attrs.columns, 10 ) : media.galleryDefaults.columns
 				} ) );
 			} )
 			.fail( function( jqXHR, textStatus ) {
@@ -791,7 +787,7 @@ window.wp = window.wp || {};
 		}
 	} );
 
-	av = _.extend( {}, media, {
+	av = _.extend( {}, base, {
 		action: 'parse-media-shortcode',
 
 		initialize: function() {
@@ -799,13 +795,13 @@ window.wp = window.wp || {};
 
 			if ( this.url ) {
 				this.loader = false;
-				this.shortcode = wp.media.embed.shortcode( {
+				this.shortcode = media.embed.shortcode( {
 					url: this.text
 				} );
 			}
 
 			wp.ajax.post( this.action, {
-				post_ID: postID,
+				post_ID: media.view.settings.post.id,
 				type: this.shortcode.tag,
 				shortcode: this.shortcode.string()
 			} )
@@ -846,8 +842,7 @@ window.wp = window.wp || {};
 		action: 'parse-embed',
 
 		edit: function( text, update ) {
-			var media = wp.media.embed,
-				frame = media.edit( text, this.url ),
+			var frame = media.embed.edit( text, this.url ),
 				self = this;
 
 			this.pausePlayers();
@@ -864,7 +859,7 @@ window.wp = window.wp || {};
 				if ( self.url ) {
 					update( data.url );
 				} else {
-					update( media.shortcode( data ).string() );
+					update( media.embed.shortcode( data ).string() );
 				}
 			} );
 
@@ -908,4 +903,4 @@ window.wp = window.wp || {};
 			}
 		}
 	} ) );
-} )( window, window.wp.mce.views, window.jQuery );
+} )( window, window.wp.mce.views, window.wp.media );
