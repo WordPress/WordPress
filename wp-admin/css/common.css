@@ -2060,6 +2060,7 @@ body.iframe {
 	line-height: 1.4;
 	font-weight: 600;
 	color: #222;
+	margin: 2px 0 0 9px;
 }
 
 #namediv h3 label {
@@ -3413,6 +3414,10 @@ img {
 
 	#comments-form .checkforspam {
 		display: none;
+	}
+
+	.edit-comment-author {
+		margin: 2px 0 0;
 	}
 }
 
