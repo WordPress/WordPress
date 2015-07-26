@@ -312,7 +312,7 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 			$wrap = dialog.$el.find( '.mce-wp-help' );
 
 			if ( $wrap[0] ) {
-				$wrap.attr( 'tabindex', '0' ).attr( 'role', 'tab' );
+				$wrap.attr( 'tabindex', '0' );
 				$wrap[0].focus();
 				$wrap.on( 'keydown', function( event ) {
 					// Prevent use of: page up, page down, end, home, left arrow, up arrow, right arrow, down arrow
