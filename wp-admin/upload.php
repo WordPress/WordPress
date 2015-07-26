@@ -264,11 +264,11 @@ if ( ! empty( $_GET['untrashed'] ) && $untrashed = absint( $_GET['untrashed'] ) 
 	$_SERVER['REQUEST_URI'] = remove_query_arg(array('untrashed'), $_SERVER['REQUEST_URI']);
 }
 
-$messages[1] = __('Media attachment updated.');
-$messages[2] = __('Media permanently deleted.');
-$messages[3] = __('Error saving media attachment.');
-$messages[4] = __('Media moved to the trash.') . ' <a href="' . esc_url( wp_nonce_url( 'upload.php?doaction=undo&action=untrash&ids='.(isset($_GET['ids']) ? $_GET['ids'] : ''), "bulk-media" ) ) . '">' . __('Undo') . '</a>';
-$messages[5] = __('Media restored from the trash.');
+$messages[1] = __( 'Media attachment updated.' );
+$messages[2] = __( 'Media attachment permanently deleted.' );
+$messages[3] = __( 'Error saving media attachment.' );
+$messages[4] = __( 'Media attachment moved to the trash.' ) . ' <a href="' . esc_url( wp_nonce_url( 'upload.php?doaction=undo&action=untrash&ids='.(isset($_GET['ids']) ? $_GET['ids'] : ''), "bulk-media" ) ) . '">' . __( 'Undo' ) . '</a>';
+$messages[5] = __( 'Media attachment restored from the trash.' );
 
 if ( ! empty( $_GET['message'] ) && isset( $messages[ $_GET['message'] ] ) ) {
 	$message = $messages[ $_GET['message'] ];
