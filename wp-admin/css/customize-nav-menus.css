@@ -341,14 +341,14 @@
 	border: none;
 	content: "\f111";
 	display: block;
-	font: 16px/1 "dashicons";
+	font: 18px/1 "dashicons";
 	padding: 5px;
 	text-align: center;
 	text-decoration: none !important;
 	text-indent: 0;
-	left: 7px;
+	left: 6px;
 	position: absolute;
-	top: 7px;
+	top: 6px;
 }
 
 .wp-customizer #screen-options-wrap {
