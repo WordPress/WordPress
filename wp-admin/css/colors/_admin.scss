@@ -99,21 +99,6 @@ input[type=radio]:checked:before {
 	color: $menu-bubble-background;
 }
 
-.post-com-count:hover:after {
-	border-top-color: $menu-background;
-}
-.post-com-count:hover span {
-	color: $menu-text;
-	background-color: $menu-background;
-}
-
-strong .post-com-count:after {
-	border-top-color: $menu-bubble-background;
-}
-strong .post-com-count span {
-	background-color: $menu-bubble-background;
-}
-
 
 /* Admin Menu */
 

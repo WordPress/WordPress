@@ -126,23 +126,6 @@ input[type=radio]:checked:before {
   color: #9ea476;
 }
 
-.post-com-count:hover:after {
-  border-top-color: #59524c;
-}
-
-.post-com-count:hover span {
-  color: #fff;
-  background-color: #59524c;
-}
-
-strong .post-com-count:after {
-  border-top-color: #9ea476;
-}
-
-strong .post-com-count span {
-  background-color: #9ea476;
-}
-
 /* Admin Menu */
 #adminmenuback,
 #adminmenuwrap,
