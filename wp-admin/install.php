@@ -147,8 +147,9 @@ function display_setup_form( $error = null ) {
 					<div id="pass-strength-result" aria-live="polite"></div>
 				</div>
 				<p><span class="description important hide-if-no-js">
+				<strong><?php _e( 'Important:' ); ?></strong>
 				<?php /* translators: The non-breaking space prevents 1Password from thinking the text "log in" should trigger a password save prompt. */ ?>
-				<strong><?php _e( 'Important:' )?></strong> <?php _e( 'You will need this password to log&nbsp;in. Please store it in a secure location.' ); ?></span></p>
+				<?php _e( 'You will need this password to log&nbsp;in. Please store it in a secure location.' ); ?></span></p>
 			</td>
 		</tr>
 		<tr class="form-field form-required user-pass2-wrap hide-if-js">
