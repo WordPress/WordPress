@@ -65,7 +65,7 @@ class WP_Site_Icon {
 	 * @access public
 	 */
 	public function __construct() {
-		add_action( 'delete_attachment', array( $this, 'delete_attachment_data' ), 10, 1 );
+		add_action( 'delete_attachment', array( $this, 'delete_attachment_data' ) );
 		add_filter( 'get_post_metadata', array( $this, 'get_post_metadata' ), 10, 4 );
 	}
 
@@ -110,21 +110,7 @@ class WP_Site_Icon {
 	 */
 	public function insert_attachment( $object, $file ) {
 		$attachment_id = wp_insert_attachment( $object, $file );
-		$this->update_attachment_metadata( $attachment_id, $file );
-
-		return $attachment_id;
-	}
-
-	/**
-	 * Handles updating the metadata of an attachment.
-	 *
-	 * @since 4.3.0
-	 *
-	 * @param int    $attachment_id Attachment ID
-	 * @param string $file          File path of the attached image.
-	 */
-	public function update_attachment_metadata( $attachment_id, $file ) {
-		$metadata = wp_generate_attachment_metadata( $attachment_id, $file );
+		$metadata      = wp_generate_attachment_metadata( $attachment_id, $file );
 
 		/**
 		 * Filter the site icon attachment metadata.
@@ -137,6 +123,8 @@ class WP_Site_Icon {
 		 */
 		$metadata = apply_filters( 'site_icon_attachment_metadata', $metadata );
 		wp_update_attachment_metadata( $attachment_id, $metadata );
+
+		return $attachment_id;
 	}
 
 	/**
@@ -194,7 +182,7 @@ class WP_Site_Icon {
 	 * @return array List of intermediate image sizes.
 	 */
 	public function intermediate_image_sizes( $sizes = array() ) {
-		/** This filter is documented in wp-admin/includes/site-icon.php */
+		/** This filter is documented in wp-admin/includes/class-wp-site-icon.php */
 		$this->site_icon_sizes = apply_filters( 'site_icon_image_sizes', $this->site_icon_sizes );
 		foreach ( $this->site_icon_sizes as $size ) {
 			$sizes[] = 'site_icon-' . $size;
