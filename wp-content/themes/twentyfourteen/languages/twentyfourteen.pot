@@ -2,9 +2,9 @@
 # This file is distributed under the GNU General Public License v2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Twenty Fourteen 1.4\n"
-"Report-Msgid-Bugs-To: http://wordpress.org/support/theme/twentyfourteen\n"
-"POT-Creation-Date: 2015-04-23 15:11:25+00:00\n"
+"Project-Id-Version: Twenty Fourteen 1.5\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/theme/twentyfourteen\n"
+"POT-Creation-Date: 2015-07-27 19:47:38+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -142,8 +142,10 @@ msgid ""
 "searching can help."
 msgstr ""
 
+#. #-#-#-#-#  twentyfourteen.pot (Twenty Fourteen 1.5)  #-#-#-#-#
+#. Author URI of the plugin/theme
 #: footer.php:21
-msgid "http://wordpress.org/"
+msgid "https://wordpress.org/"
 msgstr ""
 
 #: footer.php:21
@@ -277,7 +279,7 @@ msgstr ""
 msgid "Slider"
 msgstr ""
 
-#. #-#-#-#-#  twentyfourteen.pot (Twenty Fourteen 1.4)  #-#-#-#-#
+#. #-#-#-#-#  twentyfourteen.pot (Twenty Fourteen 1.5)  #-#-#-#-#
 #. Theme Name of the plugin/theme
 #: inc/customizer.php:105
 msgid "Twenty Fourteen"
@@ -465,10 +467,6 @@ msgstr ""
 
 #. Author of the plugin/theme
 msgid "the WordPress team"
-msgstr ""
-
-#. Author URI of the plugin/theme
-msgid "https://wordpress.org/"
 msgstr ""
 
 #. Template Name of the plugin/theme

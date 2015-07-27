@@ -2,9 +2,9 @@
 # This file is distributed under the GNU General Public License v2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Twenty Eleven 2.1\n"
-"Report-Msgid-Bugs-To: http://wordpress.org/support/theme/twentyeleven\n"
-"POT-Creation-Date: 2015-04-21 12:33:58+00:00\n"
+"Project-Id-Version: Twenty Eleven 2.2\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/theme/twentyeleven\n"
+"POT-Creation-Date: 2015-07-27 19:47:38+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -266,8 +266,10 @@ msgstr ""
 msgid "Featured"
 msgstr ""
 
+#. #-#-#-#-#  twentyeleven.pot (Twenty Eleven 2.2)  #-#-#-#-#
+#. Author URI of the plugin/theme
 #: footer.php:28
-msgid "http://wordpress.org/"
+msgid "https://wordpress.org/"
 msgstr ""
 
 #: footer.php:28
@@ -492,7 +494,7 @@ msgstr ""
 
 #: inc/theme-options.php:121
 msgid ""
-"<a href=\"http://wordpress.org/support/\" target=\"_blank\">Support Forums</"
+"<a href=\"https://wordpress.org/support/\" target=\"_blank\">Support Forums</"
 "a>"
 msgstr ""
 
@@ -537,35 +539,35 @@ msgid "Layout"
 msgstr ""
 
 #: inc/widgets.php:21
+msgid "Twenty Eleven Ephemera"
+msgstr ""
+
+#: inc/widgets.php:23
 msgid ""
 "Use this widget to list your recent Aside, Status, Quote, and Link posts"
 msgstr ""
 
-#: inc/widgets.php:22
-msgid "Twenty Eleven Ephemera"
-msgstr ""
-
-#: inc/widgets.php:56
+#: inc/widgets.php:67
 msgid "Ephemera"
 msgstr ""
 
-#: inc/widgets.php:95 inc/widgets.php:104
+#: inc/widgets.php:106 inc/widgets.php:115
 msgid "0 <span class=\"reply\">comments &rarr;</span>"
 msgstr ""
 
-#: inc/widgets.php:95 inc/widgets.php:104
+#: inc/widgets.php:106 inc/widgets.php:115
 msgid "1 <span class=\"reply\">comment &rarr;</span>"
 msgstr ""
 
-#: inc/widgets.php:95 inc/widgets.php:104
+#: inc/widgets.php:106 inc/widgets.php:115
 msgid "% <span class=\"reply\">comments &rarr;</span>"
 msgstr ""
 
-#: inc/widgets.php:167
+#: inc/widgets.php:178
 msgid "Title:"
 msgstr ""
 
-#: inc/widgets.php:170
+#: inc/widgets.php:181
 msgid "Number of posts to show:"
 msgstr ""
 
@@ -640,10 +642,6 @@ msgstr ""
 
 #. Author of the plugin/theme
 msgid "the WordPress team"
-msgstr ""
-
-#. Author URI of the plugin/theme
-msgid "https://wordpress.org/"
 msgstr ""
 
 #. Template Name of the plugin/theme
