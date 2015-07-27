@@ -13,7 +13,7 @@ if ( !is_multisite() )
 	wp_die( __( 'Multisite support is not enabled.' ) );
 
 if ( ! current_user_can('read') )
-	wp_die( __( 'You do not have sufficient permissions to view this page.' ) );
+	wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
 
 $action = isset( $_POST['action'] ) ? $_POST['action'] : 'splash';
 
