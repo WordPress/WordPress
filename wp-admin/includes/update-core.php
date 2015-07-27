@@ -1273,8 +1273,11 @@ function _upgrade_422_find_genericons_files_in_folder( $directory ) {
 		$files[] = "{$directory}example.html";
 	}
 
-	foreach ( glob( $directory . '*', GLOB_ONLYDIR ) as $dir ) {
-		$files = array_merge( $files, _upgrade_422_find_genericons_files_in_folder( $dir ) );
+	$dirs = glob( $directory . '*', GLOB_ONLYDIR );
+	if ( $dirs ) {
+		foreach ( $dirs as $dir ) {
+			$files = array_merge( $files, _upgrade_422_find_genericons_files_in_folder( $dir ) );
+		}
 	}
 
 	return $files;
