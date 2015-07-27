@@ -1085,6 +1085,10 @@ body.folded .theme-overlay .theme-wrap {
 	display: none !important;
 }
 
+.theme-install-php .wp-filter {
+	padding: 0 20px;
+}
+
 .theme-install-php a.upload,
 .theme-install-php a.browse-themes {
 	cursor: pointer;
