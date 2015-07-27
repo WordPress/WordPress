@@ -2812,13 +2812,17 @@ function wp_trim_excerpt( $text = '' ) {
  * @return string Trimmed text.
  */
 function wp_trim_words( $text, $num_words = 55, $more = null ) {
-	if ( null === $more )
+	if ( null === $more ) {
 		$more = __( '&hellip;' );
+	}
+
 	$original_text = $text;
 	$text = wp_strip_all_tags( $text );
-	/* translators: If your word count is based on single characters (East Asian characters),
-	   enter 'characters'. Otherwise, enter 'words'. Do not translate into your own language. */
-	if ( 'characters' == _x( 'words', 'word count: words or characters?' ) && preg_match( '/^utf\-?8$/i', get_option( 'blog_charset' ) ) ) {
+
+	/* translators: If your word count is based on single characters (e.g. East Asian characters),
+	   enter 'characters_excluding_spaces' or 'characters_including_spaces'. Otherwise, enter 'words'.
+	   Do not translate into your own language. */
+	if ( strpos( _x( 'words', 'Word count type. Do not translate!' ), 'characters' ) === 0 && preg_match( '/^utf\-?8$/i', get_option( 'blog_charset' ) ) ) {
 		$text = trim( preg_replace( "/[\n\r\t ]+/", ' ', $text ), ' ' );
 		preg_match_all( '/./u', $text, $words_array );
 		$words_array = array_slice( $words_array[0], 0, $num_words + 1 );
@@ -2827,6 +2831,7 @@ function wp_trim_words( $text, $num_words = 55, $more = null ) {
 		$words_array = preg_split( "/[\n\r\t ]+/", $text, $num_words + 1, PREG_SPLIT_NO_EMPTY );
 		$sep = ' ';
 	}
+
 	if ( count( $words_array ) > $num_words ) {
 		array_pop( $words_array );
 		$text = implode( $sep, $words_array );
@@ -2834,6 +2839,7 @@ function wp_trim_words( $text, $num_words = 55, $more = null ) {
 	} else {
 		$text = implode( $sep, $words_array );
 	}
+
 	/**
 	 * Filter the text content after words have been trimmed.
 	 *

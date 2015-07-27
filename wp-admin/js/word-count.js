@@ -61,8 +61,8 @@
 		].join( '' ), 'g' ),
 		astralRegExp: /[\uD800-\uDBFF][\uDC00-\uDFFF]/g,
 		wordsRegExp: /\S\s+/g,
-		charactersRegExp: /\S/g,
-		allRegExp: /[^\f\n\r\t\v\u00AD\u2028\u2029]/g,
+		characters_excluding_spacesRegExp: /\S/g,
+		characters_including_spacesRegExp: /[^\f\n\r\t\v\u00AD\u2028\u2029]/g,
 		l10n: window.wordCountL10n || {}
 	};
 
@@ -71,7 +71,7 @@
 
 		type = type || this.settings.l10n.type;
 
-		if ( type !== 'characters' && type !== 'all' ) {
+		if ( type !== 'characters_excluding_spaces' && type !== 'characters_including_spaces' ) {
 			type = 'words';
 		}
 

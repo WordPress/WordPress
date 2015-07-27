@@ -401,10 +401,10 @@ function wp_default_scripts( &$scripts ) {
 
 	$scripts->add( 'word-count', "/wp-admin/js/word-count$suffix.js", array(), false, 1 );
 	did_action( 'init' ) && $scripts->localize( 'word-count', 'wordCountL10n', array(
-		/* translators: If your word count is based on single characters (East Asian characters),
-		   enter 'characters', or 'all' to include spaces. Otherwise, enter 'words'.
+		/* translators: If your word count is based on single characters (e.g. East Asian characters),
+		   enter 'characters_excluding_spaces' or 'characters_including_spaces'. Otherwise, enter 'words'.
 		   Do not translate into your own language. */
-		'type' => _x( 'words', 'word count: words, characters or all?' ),
+		'type' => _x( 'words', 'Word count type. Do not translate!' ),
 		'shortcodes' => ! empty( $GLOBALS['shortcode_tags'] ) ? array_keys( $GLOBALS['shortcode_tags'] ) : array()
 	) );
 
