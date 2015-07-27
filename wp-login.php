@@ -655,7 +655,9 @@ case 'rp' :
 	<p class="user-pass1-wrap">
 		<label for="pass1"><?php _e('New password') ?></label><br />
 		<div class="wp-pwd">
-			<input type="password" data-reveal="1" data-pw="<?php echo esc_attr( wp_generate_password( 24 ) ); ?>" name="pass1" id="pass1" class="input" size="20" value="" autocomplete="off" aria-describedby="pass-strength-result" />
+			<span class="password-input-wrapper">
+				<input type="password" data-reveal="1" data-pw="<?php echo esc_attr( wp_generate_password( 24 ) ); ?>" name="pass1" id="pass1" class="input" size="20" value="" autocomplete="off" aria-describedby="pass-strength-result" />
+			</span>
 			<div id="pass-strength-result" class="hide-if-no-js" aria-live="polite"><?php _e( 'Strength indicator' ); ?></div>
 		</div>
 	</p>
