@@ -470,7 +470,7 @@ if ( $show_password_fields ) :
 		<div class="wp-pwd hide-if-js">
 			<input type="password" name="pass1" id="pass1" class="regular-text" value="" autocomplete="off" data-pw="<?php echo esc_attr( wp_generate_password( 24 ) ); ?>" aria-describedby="pass-strength-result" />
 			<button type="button" class="button button-secondary wp-hide-pw hide-if-no-js" data-toggle="0" aria-label="<?php esc_attr_e( 'Hide password' ); ?>">
-				<span class="dashicons dashicons-visibility"></span>
+				<span class="dashicons dashicons-hidden"></span>
 				<span class="text"><?php _e( 'Hide' ); ?></span>
 			</button>
 			<button type="button" class="button button-secondary wp-cancel-pw hide-if-no-js" data-toggle="0" aria-label="<?php esc_attr_e( 'Cancel password change' ); ?>">

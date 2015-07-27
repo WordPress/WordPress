@@ -143,8 +143,8 @@
 			if ( show == 1 ) {
 				pwWrapper.addClass( 'show-password' );
 				pw_togglebtn.attr({ 'data-toggle': 0, 'aria-label': userProfileL10n.ariaHide })
-					.find( '.text' ).text( userProfileL10n.hide )
-				;
+					.find( '.text' ).text( userProfileL10n.hide );
+				pw_togglebtn.find( '.dashicons' ).removeClass('dashicons-visibility').addClass('dashicons-hidden');
 				pwFieldText.focus();
 				if ( ! _.isUndefined( pwFieldText[0].setSelectionRange ) ) {
 					pwFieldText[0].setSelectionRange( 0, 100 );
@@ -153,6 +153,7 @@
 				pwWrapper.removeClass( 'show-password' );
 				pw_togglebtn.attr({ 'data-toggle': 1, 'aria-label': userProfileL10n.ariaShow })
 					.find( '.text' ).text( userProfileL10n.show );
+				pw_togglebtn.find( '.dashicons' ).removeClass('dashicons-hidden').addClass('dashicons-visibility');
 				pw_field.focus();
 				if ( ! _.isUndefined( pw_field[0].setSelectionRange ) ) {
 					pw_field[0].setSelectionRange( 0, 100 );
