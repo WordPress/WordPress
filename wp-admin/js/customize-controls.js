@@ -1878,7 +1878,7 @@
 						suggestedWidth: this.params.width,
 						suggestedHeight: this.params.height
 					}),
-					new wp.media.controller.customizeImageCropper({
+					new wp.media.controller.CustomizeImageCropper({
 						imgSelectOptions: this.calculateImageSelectOptions,
 						control: this
 					})
