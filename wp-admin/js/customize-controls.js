@@ -595,12 +595,21 @@
 				} else {
 					container.scrollTop( 0 );
 					expand = function () {
+						var matchMedia, offset;
+						matchMedia = window.matchMedia || window.msMatchMedia;
+						offset = 90; // 45px for customize header actions + 45px for footer actions.
+
+						// No footer on small screens.
+						if ( matchMedia && matchMedia( '(max-width: 640px)' ).matches ) {
+							offset = 45;
+						}
+
 						section.container.addClass( 'open' );
 						overlay.addClass( 'section-open' );
 						position = content.offset().top;
 						scroll = container.scrollTop();
 						content.css( 'margin-top', ( 45 - position - scroll ) );
-						content.css( 'height', ( window.innerHeight - 90 ) );
+						content.css( 'height', ( window.innerHeight - offset ) );
 						sectionTitle.attr( 'tabindex', '-1' );
 						backBtn.attr( 'tabindex', '0' );
 						backBtn.focus();
