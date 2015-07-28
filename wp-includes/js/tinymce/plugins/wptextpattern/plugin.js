@@ -12,8 +12,7 @@
  */
 ( function( tinymce, setTimeout ) {
 	tinymce.PluginManager.add( 'wptextpattern', function( editor ) {
-		var $$ = editor.$,
-			VK = tinymce.util.VK,
+		var VK = tinymce.util.VK,
 			canUndo = false,
 			spacePatterns = [
 				{ regExp: /^[*-]\s/, cmd: 'InsertUnorderedList' },
@@ -44,7 +43,7 @@
 		}, true );
 
 		editor.on( 'keyup', function( event ) {
-			if ( event.keyCode === VK.SPACEBAR || ! VK.modifierPressed( event ) ) {
+			if ( event.keyCode === VK.SPACEBAR && ! VK.modifierPressed( event ) ) {
 				space();
 			}
 		} );
@@ -79,41 +78,30 @@
 		function space() {
 			var rng = editor.selection.getRng(),
 				node = rng.startContainer,
+				parent,
 				text;
 
-			if ( firstNode( node ) !== node ) {
+			if ( ! node || firstNode( node ) !== node ) {
 				return;
 			}
 
+			parent = node.parentNode;
 			text = node.data;
 
 			tinymce.each( spacePatterns, function( pattern ) {
-				var replace = text.replace( pattern.regExp, '' );
+				var match = text.match( pattern.regExp );
 
-				if ( text === replace ) {
-					return;
-				}
-
-				if ( rng.startOffset !== text.length - replace.length ) {
+				if ( ! match || rng.startOffset !== match[0].length ) {
 					return;
 				}
 
 				editor.undoManager.add();
 
 				editor.undoManager.transact( function() {
-					var parent = node.parentNode,
-						$$parent;
+					node.deleteData( 0, match[0].length );
 
-					if ( replace ) {
-						$$( node ).replaceWith( document.createTextNode( replace ) );
-					} else  {
-						$$parent = $$( parent );
-
-						$$( node ).remove();
-
-						if ( ! $$parent.html() ) {
-							$$parent.append( '<br>' );
-						}
+					if ( ! parent.innerHTML ) {
+						parent.appendChild( document.createElement( 'br' ) );
 					}
 
 					editor.selection.setCursorLocation( parent );
