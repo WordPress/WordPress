@@ -129,6 +129,12 @@ class WP_Embed {
 	 *                      `->maybe_make_link()` can return false on failure.
 	 */
 	public function shortcode( $attr, $url = '' ) {
+		// This filter can be used to output custom HTML instead of allowing oEmbed to run.
+		$custom = apply_filters( 'wp_embed_shortcode_custom', false, $attr, $url );
+		if ( false !== $custom ) {
+			return $custom;
+		}
+		
 		$post = get_post();
 
 		if ( empty( $url ) && ! empty( $attr['src'] ) ) {
@@ -318,11 +324,14 @@ class WP_Embed {
 	 * @return string Potentially modified $content.
 	 */
 	public function autoembed( $content ) {
-		// Strip newlines from all elements.
-		$content = wp_replace_in_html_tags( $content, array( "\n" => " " ) );
+		// Replace line breaks from all HTML elements with placeholders.
+		$content = wp_replace_in_html_tags( $content, array( "\n" => '<!-- wp-line-break -->' ) );
 
 		// Find URLs that are on their own line.
-		return preg_replace_callback( '|^(\s*)(https?://[^\s"]+)(\s*)$|im', array( $this, 'autoembed_callback' ), $content );
+		$content = preg_replace_callback( '|^(\s*)(https?://[^\s"]+)(\s*)$|im', array( $this, 'autoembed_callback' ), $content );
+
+		// Put the line breaks back.
+		return str_replace( '<!-- wp-line-break -->', "\n", $content );
 	}
 
 	/**
