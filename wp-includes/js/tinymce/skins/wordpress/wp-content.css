@@ -21,6 +21,9 @@ body {
 	margin: 9px 10px;
 	max-width: 100%;
 	-webkit-font-smoothing: antialiased !important;
+	overflow-wrap: break-word;
+	word-wrap: break-word; /* Old syntax */
+	word-break: break-word; /* iOS */
 }
 
 body.rtl {
