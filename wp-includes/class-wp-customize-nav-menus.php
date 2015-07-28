@@ -764,7 +764,7 @@ final class WP_Customize_Nav_Menus {
 						<button type="button" class="not-a-button" aria-expanded="false">
 							<span class="screen-reader-text"><?php
 							/* translators: %s: Title of a section with menu items */
-							printf( 'Toggle section: %s', esc_html( $available_item_type['title'] ) ); ?></span>
+							printf( __( 'Toggle section: %s' ), esc_html( $available_item_type['title'] ) ); ?></span>
 							<span class="toggle-indicator" aria-hidden="true"></span>
 						</button>
 					</h4>
