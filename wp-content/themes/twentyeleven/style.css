@@ -511,10 +511,12 @@ a:hover {
 	color: #1982d1;
 	clip: auto !important;
 	font-size: 12px;
+	height: auto;
 	position: absolute;
 	text-decoration: underline;
 	top: 0;
 	left: 7.6%;
+	width: auto;
 }
 
 
