@@ -25,23 +25,25 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 $major_features = array(
 	array(
 		'src'         => '',
-		'heading'     => __( 'Formatting Shortcuts' ),
-		'description' => __( 'Your writing flow just got faster with new formatting shortcuts in WordPress 4.3. Use asterisks to create lists and number signs to make a heading. No more breaking your flow; your text looks great with a <code>*</code> and a <code>#</code>.' ),
+		'heading'     => 'Formatting Shortcuts',
+
+		/* Translators: 1: asterisks; 2: number sign; */
+		'description' => sprintf( 'Your writing flow just got faster with new formatting shortcuts in WordPress 4.3. Use asterisks to create lists and number signs to make a heading. No more breaking your flow; your text looks great with a %1$s and a %2$.', '<code>*</code>', '<code>#</code>' ),
 	),
 	array(
 		'src'         => '',
-		'heading'     => __( 'Menus in the Customizer' ),
-		'description' => __( 'Create your menu, update it, and preview it in the customizer, before sharing it with the world. With every release, it becomes easier and faster to build your site from the front-end. And a streamlined customizer design mean a mobile-first, accessibility ready interface.' ),
+		'heading'     => 'Menus in the Customizer',
+		'description' => 'Create your menu, update it, and preview it in the customizer, before sharing it with the world. With every release, it becomes easier and faster to build your site from the front-end. And a streamlined customizer design mean a mobile-first, accessibility ready interface.',
 	),
 	array(
 		'src'         => '',
-		'heading'     => __( 'Better Passwords' ),
-		'description' => __( 'Keep your site more secure with WordPress’ improved approach to passwords. Instead of receiving passwords via email, you’ll get a password reset link. When you add new users to your site, WordPress will automatically generate a secure password.' ),
+		'heading'     => 'Better Passwords',
+		'description' => 'Keep your site more secure with WordPress’ improved approach to passwords. Instead of receiving passwords via email, you’ll get a password reset link. When you add new users to your site, WordPress will automatically generate a secure password.',
 	),
 	array(
 		'src'         => '',
-		'heading'     => __( 'Site Icons' ),
-		'description' => __( 'Site icons represent your site in browser tabs, bookmark menus, and on the home screen of mobile devices. Add your unique site icon in the customizer; it will even stay in place when you switch themes. Make your whole site reflect your brand.' ),
+		'heading'     => 'Site Icons',
+		'description' => 'Site icons represent your site in browser tabs, bookmark menus, and on the home screen of mobile devices. Add your unique site icon in the customizer; it will even stay in place when you switch themes. Make your whole site reflect your brand.',
 	),
 );
 shuffle( $major_features );
@@ -49,33 +51,35 @@ shuffle( $major_features );
 $minor_features = array(
 	array(
 		'src'         => '',
-		'heading'     => __( 'A smoother admin experience' ),
-		'description' => __( 'Refinements to the list view across the admin make your WordPress more accessible and easier to work with on any device.' ),
+		'heading'     => 'A smoother admin experience',
+		'description' => 'Refinements to the list view across the admin make your WordPress more accessible and easier to work with on any device.',
 	),
 	array(
 		'src'         => '',
-		'heading'     => __( 'Comments turned off on pages' ),
-		'description' => __( 'All new pages that you create will have comments turned off. Keep discussions to your blog, right where they’re supposed to happen.' ),
+		'heading'     => 'Comments turned off on pages',
+		'description' => 'All new pages that you create will have comments turned off. Keep discussions to your blog, right where they’re supposed to happen.',
 	),
 	array(
 		'src'         => '',
-		'heading'     => __( 'Customize your site quickly' ),
-		'description' => __( 'Wherever you are on the front-end, you can click the customize button in the toolbar to swiftly make changes to your site.' ),
+		'heading'     => 'Customize your site quickly' ,
+		'description' => 'Wherever you are on the front-end, you can click the customize button in the toolbar to swiftly make changes to your site.',
 	),
 );
 
 $tech_features = array(
 	array(
-		'heading'     => __( 'Taxonomy Roadmap' ),
-		'description' => __( 'Terms shared across multiple taxonomies are now split into separate terms.' ),
+		'heading'     => 'Taxonomy Roadmap',
+		'description' => 'Terms shared across multiple taxonomies are now split into separate terms.',
 	),
 	array(
-		'heading'     => __( 'Template Hierarchy' ),
-		'description' => __( 'Added <code>singular.php</code> as a fallback for <code>single.php</code> and <code>page.php</code>.' ),
+		'heading'     => 'Template Hierarchy',
+
+		/* Translators: 1: singular.php; 2: single.php; 3:page.php */
+		'description' => sprintf( 'Added %1$s as a fallback for %2$s and %3$s', '<code>singular.php</code>', '<code>single.php</code>', '<code>page.php</code>.' ),
 	),
 	array(
-		'heading'     => __( 'List table' ),
-		'description' => __( 'List tables now can (and often should) have a primary column defined.' ),
+		'heading'     => 'List table',
+		'description' => 'List tables now can (and often should) have a primary column defined.',
 	),
 );
 
@@ -83,7 +87,7 @@ $tech_features = array(
 	<div class="wrap about-wrap">
 		<h1><?php printf( __( 'Welcome to WordPress&nbsp;%s' ), $display_version ); ?></h1>
 
-		<div class="about-text"><?php /* @TODO Fun tag line. */ printf( __( 'Thank you for updating to WordPress %s!' ), $display_version ); ?></div>
+		<div class="about-text"><?php /* @TODO Fun tag line. */ printf( 'Thank you for updating to WordPress %s!', $display_version ); ?></div>
 		<div class="wp-badge"><?php printf( __( 'Version %s' ), $display_version ); ?></div>
 
 		<h2 class="nav-tab-wrapper">
