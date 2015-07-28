@@ -26,7 +26,7 @@ if ( isset($HTTP_RAW_POST_DATA) )
 	$HTTP_RAW_POST_DATA = trim($HTTP_RAW_POST_DATA);
 
 /** Include the bootstrap for setting up WordPress environment */
-include('./wp-load.php');
+include( dirname( __FILE__ ) . '/wp-load.php' );
 
 if ( isset( $_GET['rsd'] ) ) { // http://cyber.law.harvard.edu/blogs/gems/tech/rsd.html
 header('Content-Type: text/xml; charset=' . get_option('blog_charset'), true);
