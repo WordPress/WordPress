@@ -27,6 +27,7 @@
 
 	function bindPass1() {
 		var passStrength = $('#pass-strength-result')[0];
+		var currentPass = $pass1.val();
 
 		$pass1Wrap = $pass1.parent();
 
@@ -50,23 +51,26 @@
 		}
 
 		$pass1.on( 'input propertychange', function () {
-			setTimeout( function () {
-				$pass1Text.val( $pass1.val() );
-				$pass1.add( $pass1Text ).removeClass( 'short bad good strong' );
+			if ( $pass1.val() === currentPass ) {
+				return;
+			}
 
-				if ( passStrength.className ) {
-					$pass1.add( $pass1Text ).addClass( passStrength.className );
-					if ( 'short' === passStrength.className || 'bad' === passStrength.className ) {
-						if ( ! $weakCheckbox.prop( 'checked' ) ) {
-							$submitButtons.prop( 'disabled', true );
-						}
-						$weakRow.show();
-					} else {
-						$submitButtons.prop( 'disabled', false );
-						$weakRow.hide();
+			currentPass = $pass1.val();
+			$pass1Text.val( currentPass );
+			$pass1.add( $pass1Text ).removeClass( 'short bad good strong' );
+
+			if ( passStrength.className ) {
+				$pass1.add( $pass1Text ).addClass( passStrength.className );
+				if ( 'short' === passStrength.className || 'bad' === passStrength.className ) {
+					if ( ! $weakCheckbox.prop( 'checked' ) ) {
+						$submitButtons.prop( 'disabled', true );
 					}
+					$weakRow.show();
+				} else {
+					$submitButtons.prop( 'disabled', false );
+					$weakRow.hide();
 				}
-			}, 1 );
+			}
 		} );
 	}
 
