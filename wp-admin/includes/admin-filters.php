@@ -58,7 +58,7 @@ add_action( 'update_option_page_on_front', 'update_home_siteurl', 10, 2 );
 
 add_filter( 'heartbeat_received', 'wp_check_locked_posts',  10,  3 );
 add_filter( 'heartbeat_received', 'wp_refresh_post_lock',   10,  3 );
-add_filter( 'heartbeat_received', 'wp_refresh_post_nonces', 10,  3 );
+add_filter( 'wp_refresh_nonces', 'wp_refresh_post_nonces', 10,  3 );
 add_filter( 'heartbeat_received', 'heartbeat_autosave',     500, 2 );
 
 add_filter( 'heartbeat_settings', 'wp_heartbeat_set_suspension' );

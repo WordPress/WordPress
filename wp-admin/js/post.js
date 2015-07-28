@@ -170,13 +170,13 @@ $(document).on( 'heartbeat-send.refresh-lock', function( e, data ) {
 	}
 
 	$(document).on( 'heartbeat-send.wp-refresh-nonces', function( e, data ) {
-		var nonce, post_id;
+		var post_id,
+			$authCheck = $('#wp-auth-check-wrap');
 
-		if ( check ) {
-			if ( ( post_id = $('#post_ID').val() ) && ( nonce = $('#_wpnonce').val() ) ) {
+		if ( check || ( $authCheck.length && ! $authCheck.hasClass( 'hidden' ) ) ) {
+			if ( ( post_id = $('#post_ID').val() ) && $('#_wpnonce').val() ) {
 				data['wp-refresh-post-nonces'] = {
-					post_id: post_id,
-					post_nonce: nonce
+					post_id: post_id
 				};
 			}
 		}

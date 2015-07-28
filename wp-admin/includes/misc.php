@@ -771,24 +771,24 @@ function wp_refresh_post_nonces( $response, $data, $screen_id ) {
 		$received = $data['wp-refresh-post-nonces'];
 		$response['wp-refresh-post-nonces'] = array( 'check' => 1 );
 
-		if ( ! $post_id = absint( $received['post_id'] ) )
+		if ( ! $post_id = absint( $received['post_id'] ) ) {
 			return $response;
-
-		if ( ! current_user_can( 'edit_post', $post_id ) || empty( $received['post_nonce'] ) )
-			return $response;
-
-		if ( 2 === wp_verify_nonce( $received['post_nonce'], 'update-post_' . $post_id ) ) {
-			$response['wp-refresh-post-nonces'] = array(
-				'replace' => array(
-					'getpermalinknonce' => wp_create_nonce('getpermalink'),
-					'samplepermalinknonce' => wp_create_nonce('samplepermalink'),
-					'closedpostboxesnonce' => wp_create_nonce('closedpostboxes'),
-					'_ajax_linking_nonce' => wp_create_nonce( 'internal-linking' ),
-					'_wpnonce' => wp_create_nonce( 'update-post_' . $post_id ),
-				),
-				'heartbeatNonce' => wp_create_nonce( 'heartbeat-nonce' ),
-			);
 		}
+
+		if ( ! current_user_can( 'edit_post', $post_id ) ) {
+			return $response;
+		}
+
+		$response['wp-refresh-post-nonces'] = array(
+			'replace' => array(
+				'getpermalinknonce' => wp_create_nonce('getpermalink'),
+				'samplepermalinknonce' => wp_create_nonce('samplepermalink'),
+				'closedpostboxesnonce' => wp_create_nonce('closedpostboxes'),
+				'_ajax_linking_nonce' => wp_create_nonce( 'internal-linking' ),
+				'_wpnonce' => wp_create_nonce( 'update-post_' . $post_id ),
+			),
+			'heartbeatNonce' => wp_create_nonce( 'heartbeat-nonce' ),
+		);
 	}
 
 	return $response;

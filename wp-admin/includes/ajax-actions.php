@@ -2571,26 +2571,35 @@ function wp_ajax_send_link_to_editor() {
  * @since 3.6.0
  */
 function wp_ajax_heartbeat() {
-	if ( empty( $_POST['_nonce'] ) )
+	if ( empty( $_POST['_nonce'] ) ) {
 		wp_send_json_error();
-
-	$response = array();
-
-	if ( false === wp_verify_nonce( $_POST['_nonce'], 'heartbeat-nonce' ) ) {
-		// User is logged in but nonces have expired.
-		$response['nonces_expired'] = true;
-		wp_send_json($response);
 	}
 
+	$response = $data = array();
+	$nonce_state = wp_verify_nonce( $_POST['_nonce'], 'heartbeat-nonce' );
+
 	// screen_id is the same as $current_screen->id and the JS global 'pagenow'.
-	if ( ! empty($_POST['screen_id']) )
+	if ( ! empty( $_POST['screen_id'] ) ) {
 		$screen_id = sanitize_key($_POST['screen_id']);
-	else
+	} else {
 		$screen_id = 'front';
+	}
 
-	if ( ! empty($_POST['data']) ) {
+	if ( ! empty( $_POST['data'] ) ) {
 		$data = wp_unslash( (array) $_POST['data'] );
+	}
 
+	if ( 1 !== $nonce_state ) {
+		$response = apply_filters( 'wp_refresh_nonces', $response, $data, $screen_id );
+
+		if ( false === $nonce_state ) {
+			// User is logged in but nonces have expired.
+			$response['nonces_expired'] = true;
+			wp_send_json( $response );
+		}
+	}
+
+	if ( ! empty( $data ) ) {
 		/**
 		 * Filter the Heartbeat response received.
 		 *
@@ -2628,7 +2637,7 @@ function wp_ajax_heartbeat() {
 	// Send the current time according to the server
 	$response['server_time'] = time();
 
-	wp_send_json($response);
+	wp_send_json( $response );
 }
 
 /**
