@@ -135,21 +135,22 @@
 
 /* 1.2 - Structure */
 
-.about-wrap .two-col > div {
+.about-wrap [class$=col] .col {
+	float: right;
 	position: relative;
-	width: 47.6%;
+}
+.about-wrap .two-col .col {
 	margin-left: 4.799999999%;
-	float: right;
+	width: 47.6%;
 }
 
-.about-wrap .three-col > div {
-	position: relative;
-	width: 29.95%;
+.about-wrap .three-col .col {
 	margin-left: 4.999999999%;
-	float: right;
+	width: 29.95%;
 }
 
-.about-wrap [class$=col] .last-feature {
+.about-wrap .two-col .col:nth-of-type(2n),
+.about-wrap .three-col .col:nth-of-type(3n) {
 	margin-left: 0;
 }
 
@@ -206,7 +207,7 @@
 .about-wrap .feature-video {
 	position: relative;
 	margin: 40px 0;
-	padding-bottom: 56.25%; /* video is 1280 x 720 */
+	/*padding-bottom: 56.25%; /* video is 1280 x 720 */
 	width: 100%;
 	height: 0;
 	text-align: center;
@@ -235,23 +236,15 @@
 	max-width: 95%;
 }
 
-.about-wrap .feature-section .col:nth-of-type(odd) {
-	float: right;
-	margin: 40px 0 0 5%;
-	width: 48%;
-}
-
-.about-wrap .feature-section .col:nth-of-type(even) {
-	float: left;
-	margin: 40px 0 0;
-	width: 46%;
+.about-wrap .feature-section:not(.under-the-hood) .col {
+	margin-top: 40px;
 }
 
 .about-wrap .changelog {
 	margin-bottom: 40px;
 }
 
-.about-wrap .changelog.feature-section > div {
+.about-wrap .changelog.feature-section .col {
 	margin-top: 40px;
 }
 
@@ -366,10 +359,8 @@
 		border-bottom: none;
 	}
 
-	.about-wrap .one-col > div,
-	.about-wrap .two-col > div,
-	.about-wrap .three-col > div,
-	.about-wrap .two-col .col:nth-of-type(n) {
+	.about-wrap [class$=col] .col {
+		float: none;
 		width: 100%;
 		margin: 40px 0 0;
 		padding: 0 0 40px;
@@ -385,7 +376,7 @@
 		margin: 0 auto;
 	}
 
-	.about-wrap .feature-list div {
+	.about-wrap .feature-list .col {
 		margin: 0;
 		padding: 0;
 		border-bottom: none;
@@ -432,8 +423,8 @@
 		border-bottom: 1px solid #ccc;
 	}
 
-	.about-wrap .three-col div,
-	.about-wrap .headline-feature .feature-section div {
+	.about-wrap .three-col .col,
+	.about-wrap .headline-feature .feature-section .col {
 		width: 100% !important;
 		float: none !important;
 	}
