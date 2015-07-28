@@ -92,8 +92,7 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 
 	// Replace Read More/Next Page tags with images
 	editor.on( 'BeforeSetContent', function( event ) {
-		var title,
-			paragraph = tinymce.Env.webkit ? '<p><br /></p>' : '<p></p>';
+		var title;
 
 		if ( event.content ) {
 			if ( event.content.indexOf( '<!--more' ) !== -1 ) {
@@ -113,12 +112,12 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 						'title="' + title + '" data-mce-resize="false" data-mce-placeholder="1" />' );
 			}
 
-			// Remove spaces from empty paragraphs.
-			event.content = event.content.replace( /<p>(?:&nbsp;|\u00a0|\uFEFF|\s)+<\/p>/gi, paragraph );
-
 			if ( event.load && event.format !== 'raw' && hasWpautop ) {
 				event.content = wp.editor.autop( event.content );
 			}
+
+			// Remove spaces from empty paragraphs.
+			event.content = event.content.replace( /<p>(?:&nbsp;|\u00a0|\uFEFF|\s)+<\/p>/gi, '<p><br /></p>' );
 		}
 	});
 
