@@ -25,7 +25,8 @@
 				{ start: '#####', format: 'h5' },
 				{ start: '######', format: 'h6' },
 				{ start: '>', format: 'blockquote' }
-			];
+			],
+			refNode, refPattern;
 
 		editor.on( 'selectionchange', function() {
 			canUndo = false;
@@ -38,13 +39,17 @@
 			}
 
 			if ( event.keyCode === VK.ENTER && ! VK.modifierPressed( event ) ) {
-				enter();
+				watchEnter();
 			}
 		}, true );
 
 		editor.on( 'keyup', function( event ) {
-			if ( event.keyCode === VK.SPACEBAR && ! VK.modifierPressed( event ) ) {
-				space();
+			if ( ! VK.modifierPressed( event ) ) {
+				if ( event.keyCode === VK.SPACEBAR ) {
+					space();
+				} else if ( event.keyCode === VK.ENTER ) {
+					enter();
+				}
 			}
 		} );
 
@@ -117,7 +122,7 @@
 			} );
 		}
 
-		function enter() {
+		function watchEnter() {
 			var selection = editor.selection,
 				rng = selection.getRng(),
 				offset = rng.startOffset,
@@ -151,17 +156,22 @@
 				offset = Math.max( 0, offset - pattern.start.length );
 			}
 
-			editor.undoManager.add();
+			refNode = node;
+			refPattern = pattern;
+		}
 
-			editor.undoManager.transact( function() {
-				node.deleteData( 0, pattern.start.length );
+		function enter() {
+			if ( refNode ) {
+				editor.undoManager.add();
 
-				editor.formatter.apply( pattern.format, {}, start );
+				editor.undoManager.transact( function() {
+					editor.formatter.apply( refPattern.format, {}, refNode );
+					refNode.deleteData( 0, refPattern.start.length );
+				} );
+			}
 
-				rng.setStart( start, offset );
-				rng.collapse( true );
-				selection.setRng( rng );
-			} );
+			refNode = null;
+			refPattern = null;
 		}
 	} );
 } )( window.tinymce, window.setTimeout );
