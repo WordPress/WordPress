@@ -129,12 +129,6 @@ class WP_Embed {
 	 *                      `->maybe_make_link()` can return false on failure.
 	 */
 	public function shortcode( $attr, $url = '' ) {
-		// This filter can be used to output custom HTML instead of allowing oEmbed to run.
-		$custom = apply_filters( 'wp_embed_shortcode_custom', false, $attr, $url );
-		if ( false !== $custom ) {
-			return $custom;
-		}
-		
 		$post = get_post();
 
 		if ( empty( $url ) && ! empty( $attr['src'] ) ) {
