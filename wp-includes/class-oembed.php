@@ -73,6 +73,7 @@ class WP_oEmbed {
 			'#https?://(.+)\.tumblr\.com/post/.*#i'               => array( 'https://www.tumblr.com/oembed/1.0',                  true  ),
 			'#https?://(www\.)?kickstarter\.com/projects/.*#i'    => array( 'https://www.kickstarter.com/services/oembed',        true  ),
 			'#https?://kck\.st/.*#i'                              => array( 'https://www.kickstarter.com/services/oembed',        true  ),
+			'#https?://cloudup\.com/.*#i'                         => array( 'https://cloudup.com/oembed', true ),
 		);
 
 		if ( ! empty( self::$early_providers['add'] ) ) {
