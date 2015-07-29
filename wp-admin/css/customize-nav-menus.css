@@ -214,10 +214,8 @@
 	width: 30px;
 	height: 38px;
 	margin-right: 0 !important;
-	text-indent: 100%;
 	outline: none;
 	overflow: hidden;
-	white-space: nowrap;
 	cursor: pointer;
 }
 
@@ -227,35 +225,25 @@
 	box-shadow: 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, .8);
 }
 
-/* Duplicates `.nav-menus-php .item-edit:before {}` in common.css:2220. */
-.wp-customizer .menu-item .item-edit:before {
-	top: -1px;
-	right: 0;
+/* rework the arrow indicator implementation for NVDA bug same as #32715 */
+.wp-customizer .menu-item .item-edit .toggle-indicator {
+	display: inline-block;
+	font-size: 20px;
+	line-height: 1;
+}
+
+.wp-customizer .menu-item .item-edit .toggle-indicator:after {
 	content: '\f140';
-	border: none;
-	background: none;
 	font: normal 20px/1 dashicons;
+	color: #a0a5aa;
+	vertical-align: top;
 	speak: none;
-	display: block;
-	padding: 0;
-	text-indent: 0;
-	text-align: center;
-	position: relative;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	text-decoration: none !important;
 }
 
-.wp-customizer .menu-item.menu-item-edit-active .item-edit:before {
-	content: '\f142';
-}
-
-.wp-customizer .menu-item .item-edit:before {
-	line-height: 2;
-}
-
-/* Duplicates `.nav-menus-php .menu-item-edit-active .item-edit:before {}` in common.css:2271. */
-.wp-customizer .menu-item .menu-item-edit-active .item-edit:before {
+.wp-customizer .menu-item.menu-item-edit-active .item-edit .toggle-indicator:after {
 	content: '\f142';
 }
 
