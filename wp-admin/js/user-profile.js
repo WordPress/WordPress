@@ -12,6 +12,7 @@
 		$weakRow,
 		$weakCheckbox,
 
+		$toggleButton,
 		$submitButtons,
 		$submitButton,
 		currentPass;
@@ -22,7 +23,11 @@
 		} else {
 			$pass1.val( $pass1.data( 'pw' ) );
 			$pass1.trigger( 'pwupdate' );
-			$pass1Wrap.addClass( 'show-password' );
+			if ( 1 !== parseInt( $toggleButton.data( 'start-masked' ), 10 ) ) {
+				$pass1Wrap.addClass( 'show-password' );
+			} else {
+				$toggleButton.trigger( 'click' );
+			}
 		}
 	}
 
@@ -82,11 +87,11 @@
 	}
 
 	function bindToggleButton() {
-		var toggleButton = $pass1Row.find('.wp-hide-pw');
-		toggleButton.show().on( 'click', function () {
-			if ( 1 === parseInt( toggleButton.data( 'toggle' ), 10 ) ) {
+		$toggleButton = $pass1Row.find('.wp-hide-pw');
+		$toggleButton.show().on( 'click', function () {
+			if ( 1 === parseInt( $toggleButton.data( 'toggle' ), 10 ) ) {
 				$pass1Wrap.addClass( 'show-password' );
-				toggleButton
+				$toggleButton
 					.data( 'toggle', 0 )
 					.attr({
 						'aria-label': userProfileL10n.ariaHide
@@ -105,7 +110,7 @@
 				}
 			} else {
 				$pass1Wrap.removeClass( 'show-password' );
-				toggleButton
+				$toggleButton
 					.data( 'toggle', 1 )
 					.attr({
 						'aria-label': userProfileL10n.ariaShow
