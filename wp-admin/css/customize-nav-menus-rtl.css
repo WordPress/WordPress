@@ -320,8 +320,6 @@
 .customize-screen-options-toggle:focus,
 #customize-controls .customize-info .customize-help-toggle:focus {
 	outline: none;
-	-webkit-box-shadow: 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, .8);
-	box-shadow: 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, .8);
 }
 
 .customize-screen-options-toggle:before {
@@ -337,6 +335,14 @@
 	right: 6px;
 	position: absolute;
 	top: 6px;
+}
+
+.customize-screen-options-toggle:focus:before,
+#customize-controls .customize-info .customize-help-toggle:focus:before {
+	-webkit-box-shadow: 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, .8);
+	box-shadow: 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, .8);
+	-webkit-border-radius: 100%;
+	border-radius: 100%;
 }
 
 .wp-customizer #screen-options-wrap {
