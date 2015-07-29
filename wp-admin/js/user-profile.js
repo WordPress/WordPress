@@ -178,7 +178,9 @@
 			$generateButton.hide();
 			$passwordWrapper.show();
 
-			generatePassword();
+			if ( $pass1Text.val().length === 0 ) {
+				generatePassword();
+			}
 
 			_.defer( function() {
 				$pass1Text.focus();
@@ -205,7 +207,7 @@
 	}
 
 	function check_pass_strength() {
-		var pass1 = $('#pass1').val(), pass2 = $('#pass2').val(), strength;
+		var pass1 = $('#pass1').val(), strength;
 
 		$('#pass-strength-result').removeClass('short bad good strong');
 		if ( ! pass1 ) {
@@ -213,7 +215,7 @@
 			return;
 		}
 
-		strength = wp.passwordStrength.meter( pass1, wp.passwordStrength.userInputBlacklist(), pass2 );
+		strength = wp.passwordStrength.meter( pass1, wp.passwordStrength.userInputBlacklist(), pass1 );
 
 		switch ( strength ) {
 			case 2:
