@@ -269,8 +269,15 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 			html = html +
 				'<h2>' + __( 'When starting a new paragraph with one of these patterns followed by a space, the formatting will be applied automatically. Press Backspace or Escape to undo.' ) + '</h2>' +
 				'<table>' +
-					tr({ '*</kbd>&nbsp;<kbd>-':  'Bullet list' }) +
-					tr({ '1.</kbd>&nbsp;<kbd>1)':  'Numbered list' }) +
+					tr({ '*':  'Bullet list' }) +
+					tr({ '-':  'Bullet list' }) +
+					tr({ '1.':  'Numbered list' }) +
+					tr({ '1)':  'Numbered list' }) +
+				'</table>';
+
+			html = html +
+				'<h2>' + __( 'The following patterns are replaced on pressing Enter at the end of the paragraph. Press the Undo button to undo.' ) + '</h2>' +
+				'<table>' +
 					tr({ '>': 'Blockquote' }) +
 					tr({ '##': 'Heading 2' }) +
 					tr({ '###': 'Heading 3' }) +
