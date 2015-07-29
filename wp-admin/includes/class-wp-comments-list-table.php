@@ -687,16 +687,16 @@ class WP_Comments_List_Table extends WP_List_Table {
 		}
 
 		echo '<div class="response-links">';
-		echo $post_link;
-		$post_type_object = get_post_type_object( $post->post_type );
-		echo "<a href='" . get_permalink( $post->ID ) . "' class='comments-view-item-link'>" . $post_type_object->labels->view_item . '</a>';
 		if ( 'attachment' == $post->post_type && ( $thumb = wp_get_attachment_image( $post->ID, array( 80, 60 ), true ) ) ) {
 			echo $thumb;
 		}
-		echo '</div>';
+		echo $post_link;
+		$post_type_object = get_post_type_object( $post->post_type );
+		echo "<a href='" . get_permalink( $post->ID ) . "' class='comments-view-item-link'>" . $post_type_object->labels->view_item . '</a>';
 		echo '<span class="post-com-count-wrapper">';
 		$this->comments_bubble( $post->ID, $pending_comments );
 		echo '</span> ';
+		echo '</div>';
 	}
 
 	/**

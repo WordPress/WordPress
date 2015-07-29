@@ -15,23 +15,8 @@
 	font-size: 12px;
 }
 
-.column-response .post-com-count .screen-reader-text {
-	position: static;
-	width: auto;
-	height: auto;
-	margin: 0;
-}
-
-.column-response .post-com-count [aria-hidden="true"] {
-	display: none;
-}
-
 .post-com-count-wrapper strong {
 	font-weight: 400;
-}
-
-.column-response .post-com-count.post-com-count-pending {
-	color: #bb2a2a;
 }
 
 .comments-view-item-link {
@@ -39,27 +24,29 @@
 	clear: both;
 }
 
+.column-response .post-com-count-wrapper,
 .column-comments .post-com-count-wrapper {
 	white-space: nowrap;
 	word-wrap: normal;
 }
 
 /* comments bubble common */
+.column-response .post-com-count,
 .column-comments .post-com-count {
 	display: inline-block;
 	vertical-align: top;
 }
 
-.column-response .post-com-count {
-	display: block;
-}
-
 /* comments bubble approved */
+.column-response .post-com-count-no-comments,
+.column-response .post-com-count-approved,
 .column-comments .post-com-count-no-comments,
 .column-comments .post-com-count-approved {
 	margin-top: 5px;
 }
 
+.column-response .comment-count-no-comments,
+.column-response .comment-count-approved,
 .column-comments .comment-count-no-comments,
 .column-comments .comment-count-approved {
 	-webkit-box-sizing: border-box;
@@ -78,11 +65,15 @@
 	text-align: center;
 }
 
+.ie8 .column-response .comment-count-no-comments,
+.ie8 .column-response .comment-count-approved,
 .ie8 .column-comments .comment-count-no-comments,
 .ie8 .column-comments .comment-count-approved {
 	min-width: 0;
 }
 
+.column-response .post-com-count-no-comments:after,
+.column-response .post-com-count-approved:after,
 .column-comments .post-com-count-no-comments:after,
 .column-comments .post-com-count-approved:after {
 	content: "";
@@ -94,17 +85,22 @@
 	border-right: 5px solid transparent;
 }
 
+.column-response .post-com-count-approved:hover .comment-count-approved,
+.column-response .post-com-count-approved:focus .comment-count-approved,
 .column-comments .post-com-count-approved:hover .comment-count-approved,
 .column-comments .post-com-count-approved:focus .comment-count-approved {
 	background: #0073aa;
 }
 
+.column-response .post-com-count-approved:hover:after,
+.column-response .post-com-count-approved:focus:after,
 .column-comments .post-com-count-approved:hover:after,
 .column-comments .post-com-count-approved:focus:after {
 	border-top-color: #0073aa;
 }
 
 /* comments bubble pending */
+.column-response .post-com-count-pending,
 .column-comments .post-com-count-pending {
 	position: relative;
 	left: -3px;
@@ -206,10 +202,6 @@
 /* @todo: is this used? */
 .commentlist .avatar {
 	vertical-align: text-top;
-}
-
-#the-comment-list .attachment-80x60 {
-	padding: 4px 8px;
 }
 
 #the-comment-list tr.undo,
@@ -1854,29 +1846,37 @@ div.action-links,
 		margin: 0;
 	}
 
+	.column-response .post-com-count-no-comments:after,
+	.column-response .post-com-count-approved:after,
 	.column-comments .post-com-count-no-comments:after,
 	.column-comments .post-com-count-approved:after {
 		content: none;
 	}
 
+	.column-response .post-com-count [aria-hidden="true"],
 	.column-comments .post-com-count [aria-hidden="true"] {
 		display: none;
 	}
 
+	.column-response .post-com-count-wrapper,
 	.column-comments .post-com-count-wrapper {
 		white-space: normal;
 	}
 
+	.column-response .post-com-count-wrapper > a,
 	.column-comments .post-com-count-wrapper > a {
 		display: block;
 	}
 
+	.column-response .post-com-count-no-comments,
+	.column-response .post-com-count-approved,
 	.column-comments .post-com-count-no-comments,
 	.column-comments .post-com-count-approved {
 		margin-top: 0;
 		margin-right: 0.5em;
 	}
 
+	.column-response .post-com-count-pending,
 	.column-comments .post-com-count-pending {
 		position: static;
 		height: auto;
@@ -1892,6 +1892,7 @@ div.action-links,
 		text-align: left;
 	}
 
+	.column-response .post-com-count-pending:hover,
 	.column-comments .post-com-count-pending:hover {
 		color: #dc3232;
 	}
