@@ -13,7 +13,6 @@
 ( function( tinymce, setTimeout ) {
 	tinymce.PluginManager.add( 'wptextpattern', function( editor ) {
 		var VK = tinymce.util.VK,
-			canUndo = false,
 			spacePatterns = [
 				{ regExp: /^[*-]\s/, cmd: 'InsertUnorderedList' },
 				{ regExp: /^1[.)]\s/, cmd: 'InsertOrderedList' }
@@ -26,14 +25,14 @@
 				{ start: '######', format: 'h6' },
 				{ start: '>', format: 'blockquote' }
 			],
-			refNode, refPattern;
+			canUndo, refNode, refPattern;
 
 		editor.on( 'selectionchange', function() {
-			canUndo = false;
+			canUndo = null;
 		} );
 
 		editor.on( 'keydown', function( event ) {
-			if ( canUndo && ( event.keyCode === VK.BACKSPACE || event.keyCode === 27 /* ESCAPE */ ) ) {
+			if ( ( canUndo && event.keyCode === 27 /* ESCAPE */ ) || ( canUndo === 'space' && event.keyCode === VK.BACKSPACE ) ) {
 				editor.undoManager.undo();
 				event.preventDefault();
 			}
@@ -115,7 +114,7 @@
 
 				// We need to wait for native events to be triggered.
 				setTimeout( function() {
-					canUndo = true;
+					canUndo = 'space';
 				} );
 
 				return false;
@@ -167,6 +166,11 @@
 				editor.undoManager.transact( function() {
 					editor.formatter.apply( refPattern.format, {}, refNode );
 					refNode.deleteData( 0, refPattern.start.length );
+				} );
+
+				// We need to wait for native events to be triggered.
+				setTimeout( function() {
+					canUndo = 'enter';
 				} );
 			}
 
