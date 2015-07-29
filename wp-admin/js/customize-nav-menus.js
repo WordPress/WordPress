@@ -139,7 +139,6 @@
 
 			// Clear the search results.
 			$( '.clear-results' ).on( 'click keydown', function( event ) {
-				console.log(event);
 				if ( event.type === 'keydown' && ( 13 !== event.which && 32 !== event.which ) ) { // "return" or "space" keys only
 					return;
 				}
