@@ -35,6 +35,7 @@
 			if ( ( canUndo && event.keyCode === 27 /* ESCAPE */ ) || ( canUndo === 'space' && event.keyCode === VK.BACKSPACE ) ) {
 				editor.undoManager.undo();
 				event.preventDefault();
+				event.stopImmediatePropagation();
 			}
 
 			if ( event.keyCode === VK.ENTER && ! VK.modifierPressed( event ) ) {
