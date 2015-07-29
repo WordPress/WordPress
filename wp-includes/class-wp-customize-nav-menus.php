@@ -336,8 +336,8 @@ final class WP_Customize_Nav_Menus {
 				'movedDown'         => __( 'Menu item moved down' ),
 				'movedLeft'         => __( 'Menu item moved out of submenu' ),
 				'movedRight'        => __( 'Menu item is now a sub-item' ),
-				/* translators: %s: &#9656 is the unicode right-pointing triangle */
-				'customizingMenus'  => __( 'Customizing &#9656; Menus' ),
+				/* translators: &#9656; is the unicode right-pointing triangle, and %s is the section title in the Customizer */
+				'customizingMenus'  => sprintf( __( 'Customizing &#9656; %s' ), esc_html( $this->manager->get_panel( 'nav_menus' )->title ) ),
 				/* translators: %s: title of menu item which is invalid */
 				'invalidTitleTpl'   => __( '%s (Invalid)' ),
 				/* translators: %s: title of menu item in draft status */
