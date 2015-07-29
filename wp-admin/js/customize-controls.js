@@ -3036,9 +3036,10 @@
 			return;
 		}
 
-		// Redirect to the fallback preview if any incompatibilities are found.
-		if ( ! $.support.postMessage || ( ! $.support.cors && api.settings.isCrossDomain ) )
-			return window.location = api.settings.url.fallback;
+		// Bail if any incompatibilities are found.
+		if ( ! $.support.postMessage || ( ! $.support.cors && api.settings.isCrossDomain ) ) {
+			return;
+		}
 
 		var parent, topFocus,
 			body = $( document.body ),

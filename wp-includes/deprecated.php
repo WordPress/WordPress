@@ -3493,6 +3493,79 @@ function url_is_accessable_via_ssl( $url ) {
 }
 
 /**
+ * Start preview theme output buffer.
+ *
+ * Will only perform task if the user has permissions and template and preview
+ * query variables exist.
+ *
+ * @since 2.6.0
+ * @deprecated 4.3.0
+ */
+function preview_theme() {
+	_deprecated_function( __FUNCTION__, '4.3' );
+}
+
+/**
+ * Private function to modify the current template when previewing a theme
+ *
+ * @since 2.9.0
+ * @deprecated 4.3.0
+ * @access private
+ *
+ * @return string
+ */
+function _preview_theme_template_filter() {
+	_deprecated_function( __FUNCTION__, '4.3' );
+	return '';
+}
+
+/**
+ * Private function to modify the current stylesheet when previewing a theme
+ *
+ * @since 2.9.0
+ * @deprecated 4.3.0
+ * @access private
+ *
+ * @return string
+ */
+function _preview_theme_stylesheet_filter() {
+	_deprecated_function( __FUNCTION__, '4.3' );
+	return '';
+}
+
+/**
+ * Callback function for ob_start() to capture all links in the theme.
+ *
+ * @since 2.6.0
+ * @deprecated 4.3.0
+ * @access private
+ *
+ * @param string $content
+ * @return string
+ */
+function preview_theme_ob_filter( $content ) {
+	_deprecated_function( __FUNCTION__, '4.3' );
+	return $content;
+}
+
+/**
+ * Manipulates preview theme links in order to control and maintain location.
+ *
+ * Callback function for preg_replace_callback() to accept and filter matches.
+ *
+ * @since 2.6.0
+ * @deprecated 4.3.0
+ * @access private
+ *
+ * @param array $matches
+ * @return string
+ */
+function preview_theme_ob_filter_callback( $matches ) {
+	_deprecated_function( __FUNCTION__, '4.3' );
+	return '';
+}
+
+/**
  * Formats text for the rich text editor.
  *
  * The filter 'richedit_pre' is applied here. If $text is empty the filter will

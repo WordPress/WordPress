@@ -335,7 +335,6 @@ add_action( 'split_shared_term', '_wp_check_split_terms_in_menus', 10, 4 );
  * Filters formerly mixed into wp-includes
  */
 // Theme
-add_action( 'setup_theme', 'preview_theme' );
 add_action( 'wp_loaded', '_custom_header_background_just_in_time' );
 add_action( 'plugins_loaded', '_wp_customize_include' );
 add_action( 'admin_enqueue_scripts', '_wp_customize_loader_settings' );
