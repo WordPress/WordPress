@@ -174,7 +174,7 @@
 		 * @param {int} instanceNumber
 		 */
 		refreshMenuInstance : function( instanceNumber ) {
-			var data, menuId, customized, container, request, wpNavArgs, instance, containerInstanceClassName;
+			var data, menuId, customized, container, request, wpNavMenuArgs, instance, containerInstanceClassName;
 
 			if ( ! settings.navMenuInstanceArgs[ instanceNumber ] ) {
 				throw new Error( 'unknown_instance_number' );
@@ -227,10 +227,10 @@
 			data.customized = JSON.stringify( customized );
 			data[ settings.renderNoncePostKey ] = settings.renderNonceValue;
 
-			wpNavArgs = $.extend( {}, instance );
-			data.wp_nav_menu_args_hash = wpNavArgs.args_hash;
-			delete wpNavArgs.args_hash;
-			data.wp_nav_menu_args = JSON.stringify( wpNavArgs );
+			wpNavMenuArgs = $.extend( {}, instance );
+			data.wp_nav_menu_args_hash = wpNavMenuArgs.args_hash;
+			delete wpNavMenuArgs.args_hash;
+			data.wp_nav_menu_args = JSON.stringify( wpNavMenuArgs );
 
 			container.addClass( 'customize-partial-refreshing' );
 
@@ -252,7 +252,8 @@
 				previousContainer.replaceWith( container );
 				eventParam = {
 					instanceNumber: instanceNumber,
-					wpNavArgs: wpNavArgs,
+					wpNavArgs: wpNavMenuArgs, // @deprecated
+					wpNavMenuArgs: wpNavMenuArgs,
 					oldContainer: previousContainer,
 					newContainer: container
 				};
