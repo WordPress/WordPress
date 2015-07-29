@@ -1241,6 +1241,20 @@ final class WP_Customize_Widgets {
 	public function call_widget_update( $widget_id ) {
 		global $wp_registered_widget_updates, $wp_registered_widget_controls;
 
+		$setting_id = $this->get_setting_id( $widget_id );
+
+		/*
+		 * Make sure that other setting changes have previewed since this widget
+		 * may depend on them (e.g. Menus being present for Custom Menu widget).
+		 */
+		if ( ! did_action( 'customize_preview_init' ) ) {
+			foreach ( $this->manager->settings() as $setting ) {
+				if ( $setting->id !== $setting_id ) {
+					$setting->preview();
+				}
+			}
+		}
+
 		$this->start_capturing_option_updates();
 		$parsed_id   = $this->parse_widget_id( $widget_id );
 		$option_name = 'widget_' . $parsed_id['id_base'];
@@ -1321,7 +1335,6 @@ final class WP_Customize_Widgets {
 		 * in place from WP_Customize_Setting::preview() will use this value
 		 * instead of the default widget instance value (an empty array).
 		 */
-		$setting_id = $this->get_setting_id( $widget_id );
 		$this->manager->set_post_value( $setting_id, $instance );
 
 		// Obtain the widget control with the updated instance in place.

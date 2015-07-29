@@ -957,7 +957,13 @@
 			var control = this;
 			api.Control.prototype.initialize.call( control, id, options );
 			control.active.validate = function() {
-				return api.section( control.section() ).active();
+				var value, section = api.section( control.section() );
+				if ( section ) {
+					value = section.active();
+				} else {
+					value = false;
+				}
+				return value;
 			};
 		},
 
@@ -1604,7 +1610,13 @@
 			 * being deactivated.
 			 */
 			control.active.validate = function() {
-				return api.section( control.section() ).active();
+				var value, section = api.section( control.section() );
+				if ( section ) {
+					value = section.active();
+				} else {
+					value = false;
+				}
+				return value;
 			};
 
 			control.nameElement = new api.Element( control.container.find( '.menu-name-field' ) );
@@ -1650,7 +1662,13 @@
 			 * being deactivated.
 			 */
 			control.active.validate = function() {
-				return api.section( control.section() ).active();
+				var value, section = api.section( control.section() );
+				if ( section ) {
+					value = section.active();
+				} else {
+					value = false;
+				}
+				return value;
 			};
 
 			control.autoAddElement = new api.Element( control.container.find( 'input[type=checkbox].auto_add' ) );
@@ -1693,7 +1711,9 @@
 			var control = this,
 				menuId = control.params.menu_id,
 				menu = control.setting(),
-				name;
+				name,
+				widgetTemplate,
+				select;
 
 			if ( 'undefined' === typeof this.params.menu_id ) {
 				throw new Error( 'params.menu_id was not defined' );
@@ -1705,7 +1725,13 @@
 			 * being deactivated.
 			 */
 			control.active.validate = function() {
-				return api.section( control.section() ).active();
+				var value, section = api.section( control.section() );
+				if ( section ) {
+					value = section.active();
+				} else {
+					value = false;
+				}
+				return value;
 			};
 
 			control.$controlSection = control.container.closest( '.control-section' );
@@ -1727,16 +1753,28 @@
 			if ( menu ) {
 				name = displayNavMenuName( menu.name );
 
+				// Add the menu to the existing controls.
 				api.control.each( function( widgetControl ) {
 					if ( ! widgetControl.extended( api.controlConstructor.widget_form ) || 'nav_menu' !== widgetControl.params.widget_id_base ) {
 						return;
 					}
-					var select = widgetControl.container.find( 'select' );
-					if ( select.find( 'option[value=' + String( menuId ) + ']' ).length === 0 ) {
+					widgetControl.container.find( '.nav-menu-widget-form-controls:first' ).show();
+					widgetControl.container.find( '.nav-menu-widget-no-menus-message:first' ).hide();
+
+					select = widgetControl.container.find( 'select' );
+					if ( 0 === select.find( 'option[value=' + String( menuId ) + ']' ).length ) {
 						select.append( new Option( name, menuId ) );
 					}
 				} );
-				$( '#available-widgets-list .widget-inside:has(input.id_base[value=nav_menu]) select:first' ).append( new Option( name, menuId ) );
+
+				// Add the menu to the widget template.
+				widgetTemplate = $( '#available-widgets-list .widget-tpl:has( input.id_base[ value=nav_menu ] )' );
+				widgetTemplate.find( '.nav-menu-widget-form-controls:first' ).show();
+				widgetTemplate.find( '.nav-menu-widget-no-menus-message:first' ).hide();
+				select = widgetTemplate.find( '.widget-inside select:first' );
+				if ( 0 === select.find( 'option[value=' + String( menuId ) + ']' ).length ) {
+					select.append( new Option( name, menuId ) );
+				}
 			}
 		},
 
@@ -1761,7 +1799,6 @@
 						var select = widgetControl.container.find( 'select' );
 						select.find( 'option[value=' + String( menuId ) + ']' ).text( name );
 					});
-					$( '#available-widgets-list .widget-inside:has(input.id_base[value=nav_menu]) select:first option[value=' + String( menuId ) + ']' ).text( name );
 				}
 			} );
 
@@ -1833,8 +1870,8 @@
 						menuItemControl.setting.set( setting );
 					});
 				});
-			});
 
+			});
 			control.isReordering = false;
 
 			/**
@@ -1871,7 +1908,9 @@
 			var control = this,
 				section,
 				menuId = control.params.menu_id,
-				removeSection;
+				removeSection,
+				widgetTemplate,
+				navMenuCount = 0;
 			section = api.section( control.section() );
 			removeSection = function() {
 				section.container.remove();
@@ -1890,6 +1929,12 @@
 				removeSection();
 			}
 
+			api.each(function( setting ) {
+				if ( /^nav_menu\[/.test( setting.id ) && false !== setting() ) {
+					navMenuCount += 1;
+				}
+			});
+
 			// Remove the menu from any Custom Menu widgets.
 			api.control.each(function( widgetControl ) {
 				if ( ! widgetControl.extended( api.controlConstructor.widget_form ) || 'nav_menu' !== widgetControl.params.widget_id_base ) {
@@ -1899,9 +1944,17 @@
 				if ( select.val() === String( menuId ) ) {
 					select.prop( 'selectedIndex', 0 ).trigger( 'change' );
 				}
-				select.find( 'option[value=' + String( menuId ) + ']' ).remove();
+
+				widgetControl.container.find( '.nav-menu-widget-form-controls:first' ).toggle( 0 !== navMenuCount );
+				widgetControl.container.find( '.nav-menu-widget-no-menus-message:first' ).toggle( 0 === navMenuCount );
+				widgetControl.container.find( 'option[value=' + String( menuId ) + ']' ).remove();
 			});
-			$( '#available-widgets-list .widget-inside:has(input.id_base[value=nav_menu]) select:first option[value=' + String( menuId ) + ']' ).remove();
+
+			// Remove the menu to the nav menu widget template.
+			widgetTemplate = $( '#available-widgets-list .widget-tpl:has( input.id_base[ value=nav_menu ] )' );
+			widgetTemplate.find( '.nav-menu-widget-form-controls:first' ).toggle( 0 !== navMenuCount );
+			widgetTemplate.find( '.nav-menu-widget-no-menus-message:first' ).toggle( 0 === navMenuCount );
+			widgetTemplate.find( 'option[value=' + String( menuId ) + ']' ).remove();
 		},
 
 		// Setup theme location checkboxes.
@@ -2294,6 +2347,9 @@
 
 			// Focus on the new menu section.
 			api.section( customizeId ).focus(); // @todo should we focus on the new menu's control and open the add-items panel? Thinking user flow...
+
+			// Fix an issue with extra space at top immediately after creating new menu.
+			$( '#menu-to-edit' ).css( 'margin-top', 0 );
 		}
 	});
 
@@ -2359,7 +2415,7 @@
 		var insertedMenuIdMapping = {};
 
 		_( data.nav_menu_updates ).each(function( update ) {
-			var oldCustomizeId, newCustomizeId, customizeId, oldSetting, newSetting, setting, settingValue, oldSection, newSection, wasSaved;
+			var oldCustomizeId, newCustomizeId, customizeId, oldSetting, newSetting, setting, settingValue, oldSection, newSection, wasSaved, widgetTemplate, navMenuCount;
 			if ( 'inserted' === update.status ) {
 				if ( ! update.previous_term_id ) {
 					throw new Error( 'Expected previous_term_id' );
@@ -2409,18 +2465,44 @@
 					}
 				} );
 
-				// Remove old setting and control.
-				oldSection.container.remove();
-				api.section.remove( oldCustomizeId );
-
-				// Add new control to take its place.
+				// Add new control for the new menu.
 				api.section.add( newCustomizeId, newSection );
 
-				// Delete the placeholder and preview the new setting.
+				// Update the values for nav menus in Custom Menu controls.
+				api.control.each( function( setting ) {
+					if ( ! setting.extended( api.controlConstructor.widget_form ) || 'nav_menu' !== setting.params.widget_id_base ) {
+						return;
+					}
+					var select, oldMenuOption, newMenuOption;
+					select = setting.container.find( 'select' );
+					oldMenuOption = select.find( 'option[value=' + String( update.previous_term_id ) + ']' );
+					newMenuOption = select.find( 'option[value=' + String( update.term_id ) + ']' );
+					newMenuOption.prop( 'selected', oldMenuOption.prop( 'selected' ) );
+					oldMenuOption.remove();
+				} );
+
+				// Delete the old placeholder nav_menu.
 				oldSetting.callbacks.disable(); // Prevent setting triggering Customizer dirty state when set.
 				oldSetting.set( false );
 				oldSetting.preview();
 				newSetting.preview();
+				oldSetting._dirty = false;
+
+				// Remove nav_menu section.
+				oldSection.container.remove();
+				api.section.remove( oldCustomizeId );
+
+				// Remove the menu to the nav menu widget template.
+				navMenuCount = 0;
+				api.each(function( setting ) {
+					if ( /^nav_menu\[/.test( setting.id ) && false !== setting() ) {
+						navMenuCount += 1;
+					}
+				});
+				widgetTemplate = $( '#available-widgets-list .widget-tpl:has( input.id_base[ value=nav_menu ] )' );
+				widgetTemplate.find( '.nav-menu-widget-form-controls:first' ).toggle( 0 !== navMenuCount );
+				widgetTemplate.find( '.nav-menu-widget-no-menus-message:first' ).toggle( 0 === navMenuCount );
+				widgetTemplate.find( 'option[value=' + String( update.previous_term_id ) + ']' ).remove();
 
 				// Update nav_menu_locations to reference the new ID.
 				api.each( function( setting ) {
@@ -2437,8 +2519,6 @@
 					// @todo This doesn't seem to be working.
 					newSection.expand();
 				}
-
-				// @todo Update the Custom Menu selects, ensuring the newly-inserted IDs are used for any that have selected a placeholder menu.
 			} else if ( 'updated' === update.status ) {
 				customizeId = 'nav_menu[' + String( update.term_id ) + ']';
 				if ( ! api.has( customizeId ) ) {
@@ -2510,7 +2590,7 @@
 					previewer: api.previewer
 				} );
 
-				// Remove old setting and control.
+				// Remove old control.
 				oldControl.container.remove();
 				api.control.remove( oldCustomizeId );
 
@@ -2522,12 +2602,22 @@
 				oldSetting.set( false );
 				oldSetting.preview();
 				newSetting.preview();
+				oldSetting._dirty = false;
 
 				newControl.container.toggleClass( 'menu-item-edit-inactive', oldControl.container.hasClass( 'menu-item-edit-inactive' ) );
 			}
 		});
 
-		// @todo trigger change event for each Custom Menu widget that was modified.
+		/*
+		 * Update the settings for any nav_menu widgets that had selected a placeholder ID.
+		 */
+		_.each( data.widget_nav_menu_updates, function( widgetSettingValue, widgetSettingId ) {
+			var setting = api( widgetSettingId );
+			if ( setting ) {
+				setting._value = widgetSettingValue;
+				setting.preview(); // Send to the preview now so that menu refresh will use the inserted menu.
+			}
+		});
 	};
 
 	/**
