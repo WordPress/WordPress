@@ -295,8 +295,8 @@
 	margin: 0;
 	padding: 20px;
 	position: absolute;
-	left: 31px;
-	top: 4px;
+	left: 0px;
+	top: 30px;
 }
 
 #customize-controls .customize-info .customize-help-toggle {
