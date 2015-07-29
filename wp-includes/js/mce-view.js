@@ -421,23 +421,29 @@
 		 */
 		replaceMarkers: function() {
 			this.getMarkers( function( editor, node ) {
+				var selected = node === editor.selection.getNode(),
+					$viewNode;
+
 				if ( ! this.loader && $( node ).text() !== this.text ) {
 					editor.dom.setAttrib( node, 'data-wpview-marker', null );
 					return;
 				}
 
-				editor.dom.replace(
-					editor.dom.createFragment(
-						'<div class="wpview-wrap" data-wpview-text="' + this.encodedText + '" data-wpview-type="' + this.type + '">' +
-							'<p class="wpview-selection-before">\u00a0</p>' +
-							'<div class="wpview-body" contenteditable="false">' +
-								'<div class="wpview-content wpview-type-' + this.type + '"></div>' +
-							'</div>' +
-							'<p class="wpview-selection-after">\u00a0</p>' +
-						'</div>'
-					),
-					node
+				$viewNode = editor.$(
+					'<div class="wpview-wrap" data-wpview-text="' + this.encodedText + '" data-wpview-type="' + this.type + '">' +
+						'<p class="wpview-selection-before">\u00a0</p>' +
+						'<div class="wpview-body" contenteditable="false">' +
+							'<div class="wpview-content wpview-type-' + this.type + '"></div>' +
+						'</div>' +
+						'<p class="wpview-selection-after">\u00a0</p>' +
+					'</div>'
 				);
+
+				editor.$( node ).replaceWith( $viewNode );
+
+				if ( selected ) {
+					editor.wp.setViewCursor( false, $viewNode[0] );
+				}
 			} );
 		},
 
