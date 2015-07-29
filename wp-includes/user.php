@@ -2167,7 +2167,7 @@ function wp_update_user($userdata) {
 		 * @param array $userdata The updated user array.
 		 *
 		 */
-		$send_pass_change_email = apply_filters( 'send_pass_change_email', true, $user, $userdata );
+		$send_password_change_email = apply_filters( 'send_password_change_email', true, $user, $userdata );
 	}
 
 	if ( isset( $userdata['user_email'] ) && $user['user_email'] !== $userdata['user_email'] ) {
@@ -2196,7 +2196,7 @@ function wp_update_user($userdata) {
 
 		$blog_name = wp_specialchars_decode( get_option( 'blogname' ) );
 
-		if ( ! empty( $send_pass_change_email ) ) {
+		if ( ! empty( $send_password_change_email ) ) {
 
 			/* translators: Do not translate USERNAME, ADMIN_EMAIL, EMAIL, SITENAME, SITEURL: those are placeholders. */
 			$pass_change_text = __( 'Hi ###USERNAME###,
