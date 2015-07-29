@@ -133,7 +133,6 @@ function display_setup_form( $error = null ) {
 			<th scope="row">
 				<label for="pass1">
 					<?php _e( 'Password' ); ?>
-					<span class="description hide-if-js"><?php _e( '(required)' ); ?></span>
 				</label>
 			</th>
 			<td>
