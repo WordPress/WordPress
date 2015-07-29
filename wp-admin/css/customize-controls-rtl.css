@@ -118,7 +118,7 @@ body {
 #customize-controls .customize-info .customize-help-toggle:before {
 	position: absolute;
 	top: 5px;
-	right: 5px;
+	right: 6px;
 }
 
 #customize-controls .customize-info.open .customize-help-toggle,

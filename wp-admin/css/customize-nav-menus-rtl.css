@@ -295,7 +295,7 @@
 	margin: 0;
 	padding: 20px;
 	position: absolute;
-	left: 0px;
+	left: 0;
 	top: 30px;
 }
 
@@ -304,7 +304,7 @@
 }
 
 #customize-controls .customize-info .customize-help-toggle:before {
-	padding: 5px;
+	padding: 4px;
 }
 
 .customize-screen-options-toggle:hover,
