@@ -267,7 +267,7 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 		if ( editor.plugins.wptextpattern ) {
 			// Text pattern section
 			html = html +
-				'<h2>' + __( 'When starting a new paragraph with one of these patterns followed by a space, the formatting will be applied automatically. Press Backspace or Escape to undo.' ) + '</h2>' +
+				'<h2>' + __( 'When starting a new paragraph with one of these formatting shortcuts followed by a space, the formatting will be applied automatically. Press Backspace or Escape to undo.' ) + '</h2>' +
 				'<table>' +
 					tr({ '*':  'Bullet list' }) +
 					tr({ '-':  'Bullet list' }) +
@@ -276,7 +276,7 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 				'</table>';
 
 			html = html +
-				'<h2>' + __( 'The following patterns are replaced on pressing Enter at the end of the paragraph. Press the Undo button to undo.' ) + '</h2>' +
+				'<h2>' + __( 'The following formatting shortcuts are replaced when pressing Enter. Press Escape or the Undo button to undo.' ) + '</h2>' +
 				'<table>' +
 					tr({ '>': 'Blockquote' }) +
 					tr({ '##': 'Heading 2' }) +
