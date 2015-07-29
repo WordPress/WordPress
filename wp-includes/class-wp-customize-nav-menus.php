@@ -217,7 +217,7 @@ final class WP_Customize_Nav_Menus {
 		$items = $this->search_available_items_query( array( 'pagenum' => $p, 's' => $s ) );
 
 		if ( empty( $items ) ) {
-			wp_send_json_error( array( 'message' => __( 'No menu items found.' ) ) );
+			wp_send_json_error( array( 'message' => __( 'No results found.' ) ) );
 		} else {
 			wp_send_json_success( array( 'items' => $items ) );
 		}
@@ -718,6 +718,7 @@ final class WP_Customize_Nav_Menus {
 					<input type="text" id="menu-items-search" placeholder="<?php esc_attr_e( 'Search menu items&hellip;' ) ?>" aria-describedby="menu-items-search-desc" />
 					<p class="screen-reader-text" id="menu-items-search-desc"><?php _e( 'The search results will be updated as you type.' ); ?></p>
 					<span class="spinner"></span>
+					<span class="clear-results"><span class="screen-reader-text"><?php _e( 'Clear Results' ); ?></span></span>
 				</div>
 				<ul class="accordion-section-content" data-type="search"></ul>
 			</div>

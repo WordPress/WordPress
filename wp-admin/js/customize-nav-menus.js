@@ -96,7 +96,6 @@
 		events: {
 			'input #menu-items-search': 'debounceSearch',
 			'keyup #menu-items-search': 'debounceSearch',
-			'click #menu-items-search': 'debounceSearch',
 			'focus .menu-item-tpl': 'focus',
 			'click .menu-item-tpl': '_submit',
 			'click #custom-menu-item-submit': '_submitLink',
@@ -138,6 +137,20 @@
 				}
 			} );
 
+			// Clear the search results.
+			$( '.clear-results' ).on( 'click keydown', function( event ) {
+				console.log(event);
+				if ( event.type === 'keydown' && ( 13 !== event.which && 32 !== event.which ) ) { // "return" or "space" keys only
+					return;
+				}
+
+				event.preventDefault();
+
+				$( '#menu-items-search' ).val( '' ).focus();
+				event.target.value = '';
+				self.search( event );
+			} );
+
 			this.$el.on( 'input', '#custom-menu-item-name.invalid, #custom-menu-item-url.invalid', function() {
 				$( this ).removeClass( 'invalid' );
 			});
@@ -176,25 +189,31 @@
 		// Search input change handler.
 		search: function( event ) {
 			var $searchSection = $( '#available-menu-items-search' ),
-				$openSections = $( '#available-menu-items .accordion-section.open' );
+				$otherSections = $( '#available-menu-items .accordion-section' ).not( $searchSection );
 
 			if ( ! event ) {
 				return;
 			}
-			// Manual accordion-opening behavior.
-			if ( this.searchTerm && ! $searchSection.hasClass( 'open' ) ) {
-				$openSections.find( '.accordion-section-content' ).slideUp( 'fast' );
-				$searchSection.find( '.accordion-section-content' ).slideDown( 'fast' );
-				$openSections.find( '[aria-expanded]' ).first().attr( 'aria-expanded', 'false' );
-				$openSections.removeClass( 'open' );
-				$searchSection.addClass( 'open' );
-			}
-			if ( '' === event.target.value ) {
-				$searchSection.removeClass( 'open' );
-			}
+
 			if ( this.searchTerm === event.target.value ) {
 				return;
 			}
+
+			if ( '' !== event.target.value && ! $searchSection.hasClass( 'open' ) ) {
+				$otherSections.fadeOut( 100 );
+				$searchSection.find( '.accordion-section-content' ).slideDown( 'fast' );
+				$searchSection.addClass( 'open' );
+				$searchSection.find( '.clear-results' )
+					.prop( 'tabIndex', 0 )
+					.addClass( 'is-visible' );
+			} else if ( '' === event.target.value ) {
+				$searchSection.removeClass( 'open' );
+				$otherSections.show();
+				$searchSection.find( '.clear-results' )
+					.prop( 'tabIndex', -1 )
+					.removeClass( 'is-visible' );
+			}
+			
 			this.searchTerm = event.target.value;
 			this.pages.search = 1;
 			this.doSearch( 1 );
@@ -351,8 +370,6 @@
 			diff = totalHeight - accordionHeight;
 			if ( 120 < diff && 290 > diff ) {
 				sections.css( 'max-height', diff );
-			} else if ( 120 >= diff ) {
-				this.$el.addClass( 'allow-scroll' );
 			}
 		},
 

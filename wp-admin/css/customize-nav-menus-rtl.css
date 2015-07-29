@@ -590,7 +590,8 @@
 	bottom: 0;
 	right: -301px;
 	visibility: hidden;
-	overflow: hidden;
+	overflow-x: hidden;
+	overflow-y: auto;
 	width: 300px;
 	margin: 0;
 	z-index: 4;
@@ -600,8 +601,13 @@
 	border-left: 1px solid #ddd;
 }
 
-#available-menu-items.allow-scroll {
-	overflow-y: auto;
+#available-menu-items.opening {
+	overflow-y: hidden; /* avoid scrollbar jitter with animating heights */
+}
+
+#available-menu-items #available-menu-items-search.open {
+	height: 100%;
+	border-bottom: none;
 }
 
 #available-menu-items .accordion-section-title {
@@ -610,7 +616,8 @@
 	background: #fff;
 }
 
-#available-menu-items .open .accordion-section-title {
+#available-menu-items .open .accordion-section-title,
+#available-menu-items #available-menu-items-search .accordion-section-title {
 	background: #eee;
 }
 
@@ -700,6 +707,15 @@ button.not-a-button {
 	margin: 0;
 	min-height: 120px;
 	max-height: 290px;
+}
+
+#available-menu-items #available-menu-items-search .accordion-section-content {
+	position: absolute;
+	right: 1px;
+	top: 60px; /* below title div / search input */
+	bottom: 0px; /* 100% height that still triggers lazy load */
+	max-height: none;
+	width: 270px;
 }
 
 #available-menu-items .menu-item-tpl {
@@ -800,6 +816,43 @@ button.not-a-button {
 #available-menu-items-search.loading .accordion-section-title .spinner {
 	visibility: visible;
 	margin: 0 20px;
+}
+
+#available-menu-items-search .clear-results {
+	position: absolute;
+	top: 20px;
+	left: 20px;
+	width: 20px;
+	height: 20px;
+	cursor: pointer;
+	color: #a00;
+	text-decoration: none;
+}
+
+#available-menu-items-search .clear-results,
+#available-menu-items-search.loading .clear-results.is-visible {
+	display: none;
+}
+
+#available-menu-items-search .clear-results.is-visible {
+	display: block;
+}
+
+#available-menu-items-search .clear-results:before {
+	content: "\f335";
+	font: normal 20px/1 dashicons;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+#available-menu-items-search .clear-results:hover,
+#available-menu-items-search .clear-results:focus {
+	color: #f00;
+}
+
+#available-menu-items-search .clear-results:focus {
+	-webkit-box-shadow: 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, .8);
+	box-shadow: 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, .8);
 }
 
 #available-menu-items-search .spinner {
