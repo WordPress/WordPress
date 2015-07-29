@@ -465,11 +465,11 @@ class WP_Customize_Nav_Menus_Panel extends WP_Customize_Panel {
 					printf( __( 'You are customizing %s' ), '<strong class="panel-title">{{ data.title }}</strong>' );
 					?>
 				</span>
-				<button type="button" class="customize-screen-options-toggle" aria-expanded="false">
-					<span class="screen-reader-text"><?php _e( 'Menu Options' ); ?></span>
-				</button>
 				<button type="button" class="customize-help-toggle dashicons dashicons-editor-help" aria-expanded="false">
 					<span class="screen-reader-text"><?php _e( 'Help' ); ?></span>
+				</button>
+				<button type="button" class="customize-screen-options-toggle" aria-expanded="false">
+					<span class="screen-reader-text"><?php _e( 'Menu Options' ); ?></span>
 				</button>
 			</div>
 			<# if ( data.description ) { #>
