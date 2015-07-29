@@ -13,21 +13,23 @@
 		$weakCheckbox,
 
 		$submitButtons,
-		$submitButton;
+		$submitButton,
+		currentPass;
 
 	function generatePassword() {
 		if ( typeof zxcvbn !== 'function' ) {
-		   setTimeout( generatePassword, 50 );
+			setTimeout( generatePassword, 50 );
 		} else {
-		   $pass1.val( $pass1.data( 'pw' ) );
-		   $pass1.trigger( 'propertychange' );
-		   $pass1Wrap.addClass( 'show-password' );
+			$pass1.val( $pass1.data( 'pw' ) );
+			$pass1.trigger( 'pwupdate' );
+			$pass1Wrap.addClass( 'show-password' );
 		}
 	}
 
 	function bindPass1() {
 		var passStrength = $('#pass-strength-result')[0];
-		var currentPass = $pass1.val();
+
+		currentPass = $pass1.val();
 
 		$pass1Wrap = $pass1.parent();
 
@@ -40,8 +42,13 @@
 			.addClass( $pass1[0].className )
 			.data( 'pw', $pass1.data( 'pw' ) )
 			.val( $pass1.val() )
-			.on( 'input', function () {
-				$pass1.val( $pass1Text.val() ).trigger( 'propertychange' );
+			.on( 'input propertychange', function () {
+				if ( $pass1Text.val() === currentPass ) {
+					return;
+				}
+				$pass2.val( $pass1Text.val() );
+				$pass1.val( $pass1Text.val() ).trigger( 'pwupdate' );
+				currentPass = $pass1Text.val();
 			} );
 
 		$pass1.after( $pass1Text );
@@ -50,7 +57,7 @@
 			generatePassword();
 		}
 
-		$pass1.on( 'input propertychange', function () {
+		$pass1.on( 'input propertychange pwupdate', function () {
 			if ( $pass1.val() === currentPass ) {
 				return;
 			}
@@ -149,12 +156,14 @@
 		 * Fix a LastPass mismatch issue, LastPass only changes pass2.
 		 *
 		 * This fixes the issue by copying any changes from the hidden
-		 * pass2 field to the pass1 field.
+		 * pass2 field to the pass1 field, then running check_pass_strength.
 		 */
 		$pass2 = $('#pass2').on( 'input propertychange', function () {
 			if ( $pass2.val().length > 0 ) {
 				$pass1.val( $pass2.val() );
-				$pass1.trigger( 'propertychange' );
+				$pass2.val('');
+				currentPass = '';
+				$pass1.trigger( 'pwupdate' );
 			}
 		} );
 
@@ -228,8 +237,7 @@
 		var $colorpicker, $stylesheet, user_id, current_user_id,
 			select = $( '#display_name' );
 
-		$('#pass1').val('').on( 'input propertychange', check_pass_strength );
-		$('#pass2').val('').on( 'input propertychange', check_pass_strength );
+		$('#pass1').val('').on( 'input propertychange pwupdate', check_pass_strength );
 		$('#pass-strength-result').show();
 		$('.color-palette').click( function() {
 			$(this).siblings('input[name="admin_color"]').prop('checked', true);
