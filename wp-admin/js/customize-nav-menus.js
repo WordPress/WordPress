@@ -2492,7 +2492,7 @@
 				oldSection.container.remove();
 				api.section.remove( oldCustomizeId );
 
-				// Remove the menu to the nav menu widget template.
+				// Update the nav_menu widget to reflect removed placeholder menu.
 				navMenuCount = 0;
 				api.each(function( setting ) {
 					if ( /^nav_menu\[/.test( setting.id ) && false !== setting() ) {
@@ -2503,6 +2503,13 @@
 				widgetTemplate.find( '.nav-menu-widget-form-controls:first' ).toggle( 0 !== navMenuCount );
 				widgetTemplate.find( '.nav-menu-widget-no-menus-message:first' ).toggle( 0 === navMenuCount );
 				widgetTemplate.find( 'option[value=' + String( update.previous_term_id ) + ']' ).remove();
+
+				// Update the nav_menu_locations[...] controls to remove the placeholder menus from the dropdown options.
+				wp.customize.control.each(function( control ){
+					if ( /^nav_menu_locations\[/.test( control.id ) ) {
+						control.container.find( 'option[value=' + String( update.previous_term_id ) + ']' ).remove();
+					}
+				});
 
 				// Update nav_menu_locations to reference the new ID.
 				api.each( function( setting ) {
