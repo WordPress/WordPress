@@ -783,7 +783,36 @@ class WP_Press_This {
 			$press_this = str_replace( '.css', '-rtl.css', $press_this );
 		}
 
-		return $styles . $press_this;
+		$open_sans_font_url = '';
+
+		/* translators: If there are characters in your language that are not supported
+		 * by Open Sans, translate this to 'off'. Do not translate into your own language.
+		 */
+		if ( 'off' !== _x( 'on', 'Open Sans font: on or off' ) ) {
+			$subsets = 'latin,latin-ext';
+
+			/* translators: To add an additional Open Sans character subset specific to your language,
+			 * translate this to 'greek', 'cyrillic' or 'vietnamese'. Do not translate into your own language.
+			 */
+			$subset = _x( 'no-subset', 'Open Sans font: add new subset (greek, cyrillic, vietnamese)' );
+
+			if ( 'cyrillic' == $subset ) {
+				$subsets .= ',cyrillic,cyrillic-ext';
+			} elseif ( 'greek' == $subset ) {
+				$subsets .= ',greek,greek-ext';
+			} elseif ( 'vietnamese' == $subset ) {
+				$subsets .= ',vietnamese';
+			}
+
+			$query_args = array(
+				'family' => urlencode( 'Open Sans:400italic,700italic,400,600,700' ),
+				'subset' => urlencode( $subsets ),
+			);
+
+			$open_sans_font_url = ',' . add_query_arg( $query_args, 'https://fonts.googleapis.com/css' );
+		}
+
+		return $styles . $press_this . $open_sans_font_url;
 	}
 
 	/**
