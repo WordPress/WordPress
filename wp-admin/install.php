@@ -137,7 +137,7 @@ function display_setup_form( $error = null ) {
 			</th>
 			<td>
 				<div class="">
-					<?php $initial_password = wp_generate_password( 24 ); ?>
+					<?php $initial_password = wp_generate_password( 18 ); ?>
 					<input type="password" name="admin_password" id="pass1" class="regular-text" autocomplete="off" data-reveal="1" data-pw="<?php echo esc_attr( $initial_password ); ?>" aria-describedby="pass-strength-result" />
 					<button type="button" class="button button-secondary wp-hide-pw hide-if-no-js" data-toggle="0" aria-label="<?php esc_attr_e( 'Hide password' ); ?>">
 						<span class="dashicons dashicons-hidden"></span>
