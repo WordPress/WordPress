@@ -2851,9 +2851,11 @@ function wp_trim_words( $text, $num_words = 55, $more = null ) {
 	$original_text = $text;
 	$text = wp_strip_all_tags( $text );
 
-	/* translators: If your word count is based on single characters (e.g. East Asian characters),
-	   enter 'characters_excluding_spaces' or 'characters_including_spaces'. Otherwise, enter 'words'.
-	   Do not translate into your own language. */
+	/*
+	 * translators: If your word count is based on single characters (e.g. East Asian characters),
+	 * enter 'characters_excluding_spaces' or 'characters_including_spaces'. Otherwise, enter 'words'.
+	 * Do not translate into your own language.
+	 */
 	if ( strpos( _x( 'words', 'Word count type. Do not translate!' ), 'characters' ) === 0 && preg_match( '/^utf\-?8$/i', get_option( 'blog_charset' ) ) ) {
 		$text = trim( preg_replace( "/[\n\r\t ]+/", ' ', $text ), ' ' );
 		preg_match_all( '/./u', $text, $words_array );
