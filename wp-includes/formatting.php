@@ -410,8 +410,8 @@ function wpautop($pee, $br = true) {
 	$pee = preg_replace('!(</' . $allblocks . '>)!', "$1\n\n", $pee);
 	$pee = str_replace(array("\r\n", "\r"), "\n", $pee); // cross-platform newlines
 
-	// Strip newlines from all elements.
-	$pee = wp_replace_in_html_tags( $pee, array( "\n" => " " ) );
+	// Find newlines in all elements and add placeholders.
+	$pee = wp_replace_in_html_tags( $pee, array( "\n" => " <!-- wpnl --> " ) );
 
 	if ( strpos( $pee, '<option' ) !== false ) {
 		// no P/BR around option
@@ -464,7 +464,57 @@ function wpautop($pee, $br = true) {
 	if ( !empty($pre_tags) )
 		$pee = str_replace(array_keys($pre_tags), array_values($pre_tags), $pee);
 
+	// Restore newlines in all elements.
+	$pee = str_replace( " <!-- wpnl --> ", "\n", $pee );
+
 	return $pee;
+}
+
+/**
+ * Separate HTML elements and comments from the text.
+ *
+ * @since 4.2.4
+ *
+ * @param string $input The text which has to be formatted.
+ * @return array The formatted text.
+ */
+function wp_html_split( $input ) {
+	static $regex;
+
+	if ( ! isset( $regex ) ) {
+		$comments =
+			  '!'           // Start of comment, after the <.
+			. '(?:'         // Unroll the loop: Consume everything until --> is found.
+			.     '-(?!->)' // Dash not followed by end of comment.
+			.     '[^\-]*+' // Consume non-dashes.
+			. ')*+'         // Loop possessively.
+			. '(?:-->)?';   // End of comment. If not found, match all input.
+
+		$cdata =
+			  '!\[CDATA\['  // Start of comment, after the <.
+			. '[^\]]*+'     // Consume non-].
+			. '(?:'         // Unroll the loop: Consume everything until ]]> is found.
+			.     '](?!]>)' // One ] not followed by end of comment.
+			.     '[^\]]*+' // Consume non-].
+			. ')*+'         // Loop possessively.
+			. '(?:]]>)?';   // End of comment. If not found, match all input.
+
+		$regex =
+			  '/('              // Capture the entire match.
+			.     '<'           // Find start of element.
+			.     '(?(?=!--)'   // Is this a comment?
+			.         $comments // Find end of comment.
+			.     '|'
+			.         '(?(?=!\[CDATA\[)' // Is this a comment?
+			.             $cdata // Find end of comment.
+			.         '|'
+			.             '[^>]*>?' // Find end of element. If not found, match all input.
+			.         ')'
+			.     ')'
+			. ')/s';
+	}
+
+	return preg_split( $regex, $input, -1, PREG_SPLIT_DELIM_CAPTURE );
 }
 
 /**
@@ -478,25 +528,7 @@ function wpautop($pee, $br = true) {
  */
 function wp_replace_in_html_tags( $haystack, $replace_pairs ) {
 	// Find all elements.
-	$comments =
-		  '!'           // Start of comment, after the <.
-		. '(?:'         // Unroll the loop: Consume everything until --> is found.
-		.     '-(?!->)' // Dash not followed by end of comment.
-		.     '[^\-]*+' // Consume non-dashes.
-		. ')*+'         // Loop possessively.
-		. '(?:-->)?';   // End of comment. If not found, match all input.
-
-	$regex =
-		  '/('              // Capture the entire match.
-		.     '<'           // Find start of element.
-		.     '(?(?=!--)'   // Is this a comment?
-		.         $comments // Find end of comment.
-		.     '|'
-		.         '[^>]*>?' // Find end of element. If not found, match all input.
-		.     ')'
-		. ')/s';
-
-	$textarr = preg_split( $regex, $haystack, -1, PREG_SPLIT_DELIM_CAPTURE );
+	$textarr = wp_html_split( $haystack );
 	$changed = false;
 
 	// Optimize when searching for one item.
