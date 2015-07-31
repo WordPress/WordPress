@@ -326,11 +326,14 @@ class WP_Embed {
 	 * @return string Potentially modified $content.
 	 */
 	public function autoembed( $content ) {
-		// Strip newlines from all elements.
-		$content = wp_replace_in_html_tags( $content, array( "\n" => " " ) );
+		// Replace line breaks from all HTML elements with placeholders.
+		$content = wp_replace_in_html_tags( $content, array( "\n" => '<!-- wp-line-break -->' ) );
 
 		// Find URLs that are on their own line.
-		return preg_replace_callback( '|^\s*(https?://[^\s"]+)\s*$|im', array( $this, 'autoembed_callback' ), $content );
+		$content = preg_replace_callback( '|^\s*(https?://[^\s"]+)\s*$|im', array( $this, 'autoembed_callback' ), $content );
+
+		// Put the line breaks back.
+		return str_replace( '<!-- wp-line-break -->', "\n", $content );
 	}
 
 	/**
