@@ -520,11 +520,6 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 			editor.settings.height = 300;
 		}
 
-		// Start hidden when the Text editor is set to load first.
-		if ( tinymce.$( '#wp-' + editor.id + '-wrap' ).hasClass( 'html-active' ) ) {
-			editor.hide();
-		}
-
 		each( {
 			c: 'JustifyCenter',
 			r: 'JustifyRight',
