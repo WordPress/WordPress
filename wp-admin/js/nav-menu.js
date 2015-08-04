@@ -492,7 +492,7 @@ var wpNavMenu;
 				title = menus.subMenuFocus.replace( '%1$s', itemName ).replace( '%2$d', itemPosition ).replace( '%3$s', parentItemName );
 			}
 
-			$this.prop('title', title).html( title );
+			$this.prop('title', title).text( title );
 
 			// Mark this item's accessibility as refreshed
 			$this.data( 'needs_accessibility_refresh', false );
