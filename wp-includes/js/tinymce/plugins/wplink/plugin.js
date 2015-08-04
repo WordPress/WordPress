@@ -1,56 +1,4 @@
-/* global tinymce */
-tinymce.PluginManager.add( 'wplink', function( editor ) {
-	var toolbar;
-
-	editor.addCommand( 'WP_Link', function() {
-		window.wpLink && window.wpLink.open( editor.id );
-	});
-
-	// WP default shortcut
-	editor.addShortcut( 'Alt+Shift+A', '', 'WP_Link' );
-	// The "de-facto standard" shortcut, see #27305
-	editor.addShortcut( 'Meta+K', '', 'WP_Link' );
-
-	editor.addButton( 'link', {
-		icon: 'link',
-		tooltip: 'Insert/edit link',
-		cmd: 'WP_Link',
-		stateSelector: 'a[href]'
-	});
-
-	editor.addButton( 'unlink', {
-		icon: 'unlink',
-		tooltip: 'Remove link',
-		cmd: 'unlink'
-	});
-
-	editor.addMenuItem( 'link', {
-		icon: 'link',
-		text: 'Insert/edit link',
-		cmd: 'WP_Link',
-		stateSelector: 'a[href]',
-		context: 'insert',
-		prependToContext: true
-	});
-
-	editor.on( 'pastepreprocess', function( event ) {
-		var pastedStr = event.content,
-			regExp = /^(?:https?:)?\/\/\S+$/i;
-
-		if ( ! editor.selection.isCollapsed() && ! regExp.test( editor.selection.getContent() ) ) {
-			pastedStr = pastedStr.replace( /<[^>]+>/g, '' );
-			pastedStr = tinymce.trim( pastedStr );
-
-			if ( regExp.test( pastedStr ) ) {
-				editor.execCommand( 'mceInsertLink', false, {
-					href: editor.dom.decode( pastedStr )
-				} );
-
-				event.preventDefault();
-			}
-		}
-	} );
-
+( function( tinymce ) {
 	tinymce.ui.WPLinkPreview = tinymce.ui.Control.extend( {
 		url: '#',
 		renderHtml: function() {
@@ -96,43 +44,103 @@ tinymce.PluginManager.add( 'wplink', function( editor ) {
 
 				tinymce.$( this.getEl().firstChild ).attr( 'href', this.url ).text( url );
 			}
-		},
-		postRender: function() {
-			var self = this;
-
-			editor.on( 'wptoolbar', function( event ) {
-				var anchor = editor.dom.getParent( event.element, 'a' ),
-					$ = editor.$,
-					href;
-
-				if ( anchor && ! $( anchor ).find( 'img' ).length &&
-					( href = $( anchor ).attr( 'href' ) ) ) {
-
-					self.setURL( href );
-					event.element = anchor;
-					event.toolbar = toolbar;
-				}
-			} );
 		}
 	} );
 
-	editor.addButton( 'wp_link_edit', {
-		tooltip: 'Edit ', // trailing space is needed, used for context
-		icon: 'dashicon dashicons-edit',
-		cmd: 'WP_Link'
-	} );
+	tinymce.PluginManager.add( 'wplink', function( editor ) {
+		var toolbar;
 
-	editor.addButton( 'wp_link_remove', {
-		tooltip: 'Remove',
-		icon: 'dashicon dashicons-no',
-		cmd: 'unlink'
-	} );
+		editor.addCommand( 'WP_Link', function() {
+			window.wpLink && window.wpLink.open( editor.id );
+		});
 
-	editor.on( 'preinit', function() {
-		toolbar = editor.wp._createToolbar( [
-			'WPLinkPreview',
-			'wp_link_edit',
-			'wp_link_remove'
-		], true );
+		// WP default shortcut
+		editor.addShortcut( 'Alt+Shift+A', '', 'WP_Link' );
+		// The "de-facto standard" shortcut, see #27305
+		editor.addShortcut( 'Meta+K', '', 'WP_Link' );
+
+		editor.addButton( 'link', {
+			icon: 'link',
+			tooltip: 'Insert/edit link',
+			cmd: 'WP_Link',
+			stateSelector: 'a[href]'
+		});
+
+		editor.addButton( 'unlink', {
+			icon: 'unlink',
+			tooltip: 'Remove link',
+			cmd: 'unlink'
+		});
+
+		editor.addMenuItem( 'link', {
+			icon: 'link',
+			text: 'Insert/edit link',
+			cmd: 'WP_Link',
+			stateSelector: 'a[href]',
+			context: 'insert',
+			prependToContext: true
+		});
+
+		editor.on( 'pastepreprocess', function( event ) {
+			var pastedStr = event.content,
+				regExp = /^(?:https?:)?\/\/\S+$/i;
+
+			if ( ! editor.selection.isCollapsed() && ! regExp.test( editor.selection.getContent() ) ) {
+				pastedStr = pastedStr.replace( /<[^>]+>/g, '' );
+				pastedStr = tinymce.trim( pastedStr );
+
+				if ( regExp.test( pastedStr ) ) {
+					editor.execCommand( 'mceInsertLink', false, {
+						href: editor.dom.decode( pastedStr )
+					} );
+
+					event.preventDefault();
+				}
+			}
+		} );
+
+		editor.addButton( 'wp_link_preview', {
+			type: 'WPLinkPreview',
+			onPostRender: function() {
+				var self = this;
+
+				editor.on( 'wptoolbar', function( event ) {
+					var anchor = editor.dom.getParent( event.element, 'a' ),
+						$anchor,
+						href;
+
+					if ( anchor ) {
+						$anchor = editor.$( anchor );
+						href = $anchor.attr( 'href' );
+
+						if ( href && ! $anchor.find( 'img' ).length ) {
+							self.setURL( href );
+							event.element = anchor;
+							event.toolbar = toolbar;
+						}
+					}
+				} );
+			}
+		} );
+
+		editor.addButton( 'wp_link_edit', {
+			tooltip: 'Edit ', // trailing space is needed, used for context
+			icon: 'dashicon dashicons-edit',
+			cmd: 'WP_Link'
+		} );
+
+		editor.addButton( 'wp_link_remove', {
+			tooltip: 'Remove',
+			icon: 'dashicon dashicons-no',
+			cmd: 'unlink'
+		} );
+
+		editor.on( 'preinit', function() {
+			toolbar = editor.wp._createToolbar( [
+				'wp_link_preview',
+				'wp_link_edit',
+				'wp_link_remove'
+			], true );
+		} );
 	} );
-});
+} )( window.tinymce );
