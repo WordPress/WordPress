@@ -165,6 +165,7 @@ case 'edit':
 		wp_die( __( 'You can&#8217;t edit this item because it is in the Trash. Please restore it and try again.' ) );
 
 	if ( ! empty( $_GET['get-post-lock'] ) ) {
+		check_admin_referer( 'lock-post_' . $post_id );
 		wp_set_post_lock( $post_id );
 		wp_redirect( get_edit_post_link( $post_id, 'url' ) );
 		exit();
