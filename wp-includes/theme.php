@@ -673,8 +673,6 @@ function preview_theme() {
 
 	// Prevent theme mods to current theme being used on theme being previewed
 	add_filter( 'pre_option_theme_mods_' . get_option( 'stylesheet' ), '__return_empty_array' );
-
-	ob_start( 'preview_theme_ob_filter' );
 }
 add_action('setup_theme', 'preview_theme');
 
@@ -712,7 +710,7 @@ function _preview_theme_stylesheet_filter() {
  * @return string
  */
 function preview_theme_ob_filter( $content ) {
-	return preg_replace_callback( "|(<a.*?href=([\"']))(.*?)([\"'].*?>)|", 'preview_theme_ob_filter_callback', $content );
+	return $content;
 }
 
 /**
@@ -727,26 +725,7 @@ function preview_theme_ob_filter( $content ) {
  * @return string
  */
 function preview_theme_ob_filter_callback( $matches ) {
-	if ( strpos($matches[4], 'onclick') !== false )
-		$matches[4] = preg_replace('#onclick=([\'"]).*?(?<!\\\)\\1#i', '', $matches[4]); //Strip out any onclicks from rest of <a>. (?<!\\\) means to ignore the '" if it's escaped by \  to prevent breaking mid-attribute.
-	if (
-		( false !== strpos($matches[3], '/wp-admin/') )
-	||
-		( false !== strpos( $matches[3], '://' ) && 0 !== strpos( $matches[3], home_url() ) )
-	||
-		( false !== strpos($matches[3], '/feed/') )
-	||
-		( false !== strpos($matches[3], '/trackback/') )
-	)
-		return $matches[1] . "#$matches[2] onclick=$matches[2]return false;" . $matches[4];
-
-	$stylesheet = isset( $_GET['stylesheet'] ) ? $_GET['stylesheet'] : '';
-	$template   = isset( $_GET['template'] )   ? $_GET['template']   : '';
-
-	$link = add_query_arg( array( 'preview' => 1, 'template' => $template, 'stylesheet' => $stylesheet, 'preview_iframe' => 1 ), $matches[3] );
-	if ( 0 === strpos($link, 'preview=1') )
-		$link = "?$link";
-	return $matches[1] . esc_attr( $link ) . $matches[4];
+	return $matches[0];
 }
 
 /**
