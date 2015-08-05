@@ -68,8 +68,8 @@ if ( isset( $_REQUEST['action'] ) && 'update-site' == $_REQUEST['action'] ) {
 		// On the network's main site, don't allow the domain or path to change.
 		$blog_data['domain'] = $details->domain;
 		$blog_data['path'] = $details->path;
-	} elseif ( is_subdomain_install() ) {
-		// All parts of a URL can be updated for a subdomain configuration. We first
+	} else {
+		// For any other site, the scheme, domain, and path can all be changed. We first
 		// need to ensure a scheme has been provided, otherwise fallback to the existing.
 		$new_url_scheme = parse_url( $blog_data['url'], PHP_URL_SCHEME );
 
@@ -81,9 +81,6 @@ if ( isset( $_REQUEST['action'] ) && 'update-site' == $_REQUEST['action'] ) {
 		$blog_data['scheme'] = $update_parsed_url['scheme'];
 		$blog_data['domain'] = $update_parsed_url['host'];
 		$blog_data['path'] = $update_parsed_url['path'];
-	} else {
-		// Only the path can be updated for a subdirectory configuration, so capture existing domain.
-		$blog_data['domain'] = $details->domain;
 	}
 
 	$existing_details = get_blog_details( $id, false );
@@ -174,25 +171,11 @@ if ( ! empty( $messages ) ) {
 			<td><?php echo esc_url( $details->siteurl ); ?></td>
 		</tr>
 		<?php
-		// In a subdomain configuration, the scheme, domain, and path can all be changed.
-		elseif ( is_subdomain_install() ) : ?>
+		// For any other site, the scheme, domain, and path can all be changed.
+		else : ?>
 		<tr class="form-field form-required">
 			<th scope="row"><?php _e( 'Site URL' ); ?></th>
 			<td><input name="blog[url]" type="text" id="url" value="<?php echo $parsed_scheme . '://' . esc_attr( $details->domain ) . esc_attr( $details->path ); ?>" /></td>
-		</tr>
-		<?php
-		// In a subdirectory configuration, only the path can be changed.
-		// Scheme and domain are inherited from the network.
-		else : ?>
-		<tr class="form-field">
-			<th scope="row"><?php _e( 'Domain' ); ?></th>
-			<td><?php echo $parsed_scheme . ':// ' . esc_attr( $details->domain ); ?></td>
-		</tr>
-		<tr class="form-field form-required">
-			<th scope="row"><label for="path"><?php _e( 'Path' ) ?></label></th>
-			<td>
-				<input name="blog[path]" type="text" id="path" value="<?php echo esc_attr( $details->path ) ?>" /><br />
-			</td>
 		</tr>
 		<?php endif; ?>
 
