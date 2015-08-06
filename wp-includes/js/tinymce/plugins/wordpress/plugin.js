@@ -557,11 +557,17 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 			activeToolbar,
 			currentSelection,
 			timeout,
+			container = editor.getContainer(),
 			wpAdminbar = document.getElementById( 'wpadminbar' ),
 			mceIframe = document.getElementById( editor.id + '_ifr' ),
-			mceToolbar = tinymce.$( '.mce-toolbar-grp', editor.getContainer() )[0],
-			mceStatusbar = tinymce.$( '.mce-statusbar', editor.getContainer() )[0],
+			mceToolbar,
+			mceStatusbar,
 			wpStatusbar;
+
+			if ( container ) {
+				mceToolbar = tinymce.$( '.mce-toolbar-grp', container )[0];
+				mceStatusbar = tinymce.$( '.mce-statusbar', container )[0];
+			}
 
 			if ( editor.id === 'content' ) {
 				wpStatusbar = document.getElementById( 'post-status-info' );
@@ -702,7 +708,14 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 					scrollY = window.pageYOffset || document.documentElement.scrollTop,
 					windowWidth = window.innerWidth,
 					windowHeight = window.innerHeight,
-					iframeRect = mceIframe.getBoundingClientRect(),
+					iframeRect = mceIframe ? mceIframe.getBoundingClientRect() : {
+						top: 0,
+						right: windowWidth,
+						bottom: windowHeight,
+						left: 0,
+						width: windowWidth,
+						height: windowHeight
+					},
 					toolbar = this.getEl(),
 					toolbarWidth = toolbar.offsetWidth,
 					toolbarHeight = toolbar.offsetHeight,
