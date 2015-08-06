@@ -401,4 +401,9 @@ add_action( 'admin_init', '_wp_admin_bar_init' );
 add_action( 'wp_footer', 'wp_admin_bar_render', 1000 );
 add_action( 'in_admin_header', 'wp_admin_bar_render', 0 );
 
+// Former admin filters that can also be hooked on the front end
+add_action( 'media_buttons', 'media_buttons' );
+add_filter( 'image_send_to_editor', 'image_add_caption', 20, 8 );
+add_filter( 'media_send_to_editor', 'image_media_send_to_editor', 10, 3 );
+
 unset( $filter, $action );

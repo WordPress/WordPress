@@ -17,8 +17,6 @@ add_action( 'activity_box_end', 'wp_dashboard_quota' );
 // Media hooks.
 add_action( 'attachment_submitbox_misc_actions', 'attachment_submitbox_metadata' );
 
-add_action( 'media_buttons', 'media_buttons' );
-
 add_action( 'media_upload_image', 'wp_media_upload_handler' );
 add_action( 'media_upload_audio', 'wp_media_upload_handler' );
 add_action( 'media_upload_video', 'wp_media_upload_handler' );
@@ -34,10 +32,6 @@ add_filter( 'async_upload_video', 'get_media_item', 10, 2 );
 add_filter( 'async_upload_file',  'get_media_item', 10, 2 );
 
 add_filter( 'attachment_fields_to_save', 'image_attachment_fields_to_save', 10, 2 );
-
-add_filter( 'image_send_to_editor', 'image_add_caption', 20, 8 );
-
-add_filter( 'media_send_to_editor',      'image_media_send_to_editor',      10, 3 );
 
 add_filter( 'media_upload_gallery', 'media_upload_gallery' );
 add_filter( 'media_upload_library', 'media_upload_library' );
