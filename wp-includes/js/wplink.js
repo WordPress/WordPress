@@ -113,11 +113,9 @@ var wpLink;
 			this.textarea = $( '#' + window.wpActiveEditor ).get( 0 );
 
 			if ( typeof tinymce !== 'undefined' ) {
-				// Make sure the link wrapper is the last element in the body.
-				// Fixes z-index bug in iOS.
-				if ( tinymce.Env.iOS ) {
-					$body.append( inputs.backdrop, inputs.wrap );
-				}
+				// Make sure the link wrapper is the last element in the body,
+				// or the inline editor toolbar may show above the backdrop.
+				$body.append( inputs.backdrop, inputs.wrap );
 
 				ed = tinymce.get( wpActiveEditor );
 
