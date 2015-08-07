@@ -2017,15 +2017,19 @@ final class WP_Internal_Pointers {
 	public static function enqueue_scripts( $hook_suffix ) {
 		/*
 		 * Register feature pointers
-		 * Format: array( hook_suffix => pointer_id )
+		 *
+		 * Format:
+		 *     array(
+		 *         hook_suffix => pointer callback
+		 *     )
+		 *
+		 * Example:
+		 *     array(
+		 *         'themes.php' => 'wp390_widgets'
+		 *     )
 		 */
-
 		$registered_pointers = array(
-			'post-new.php' => 'wp410_dfw',
-			'post.php'     => 'wp410_dfw',
-			'edit.php'     => 'wp360_locks',
-			'widgets.php'  => 'wp390_widgets',
-			'themes.php'   => 'wp390_widgets',
+			// None currently
 		);
 
 		// Check if screen related pointer is registered
@@ -2034,8 +2038,21 @@ final class WP_Internal_Pointers {
 
 		$pointers = (array) $registered_pointers[ $hook_suffix ];
 
+		/*
+		 * Specify required capabilities for feature pointers
+		 *
+		 * Format:
+		 *     array(
+		 *         pointer callback => Array of required capabilities
+		 *     )
+		 *
+		 * Example:
+		 *     array(
+		 *         'wp390_widgets' => array( 'edit_theme_options' )
+		 *     )
+		 */
 		$caps_required = array(
-			'wp390_widgets' => array( 'edit_theme_options' ),
+			// None currently
 		);
 
 		// Get dismissed pointers
@@ -2116,78 +2133,9 @@ final class WP_Internal_Pointers {
 	public static function pointer_wp340_choose_image_from_library() {}
 	public static function pointer_wp350_media() {}
 	public static function pointer_wp360_revisions() {}
-
-	/**
-	 * @static
-	 */
-	public static function pointer_wp360_locks() {
-		if ( ! is_multi_author() ) {
-			return;
-		}
-
-		$content  = '<h3>' . __( 'Edit Lock' ) . '</h3>';
-		$content .= '<p>' . __( 'Someone else is editing this. No need to refresh; the lock will disappear when they&#8217;re done.' ) . '</p>';
-
-		self::print_js( 'wp360_locks', 'tr.wp-locked .locked-indicator', array(
-			'content' => $content,
-			'position' => array( 'edge' => 'left', 'align' => 'left' ),
-		) );
-	}
-
-	/**
-	 * @static
-	 */
-	public static function pointer_wp390_widgets() {
-		if ( ! current_theme_supports( 'widgets' ) ) {
-			return;
-		}
-
-		$content  = '<h3>' . __( 'New Feature: Live Widget Previews' ) . '</h3>';
-		$content .= '<p>' . __( 'Add, edit, and play around with your widgets from the Customizer.' ) . ' ' . __( 'Preview your changes in real-time and only save them when you&#8217;re ready.' ) . '</p>';
-
-		if ( 'themes' === get_current_screen()->id ) {
-			$selector = '.theme.active .customize';
-			$position = array( 'edge' => is_rtl() ? 'right' : 'left', 'align' => 'center' );
-		} else {
-			$selector = 'a[href^="customize.php"]';
-			if ( is_rtl() ) {
-				$position = array( 'edge' => 'right', 'align' => 'center', 'my' => 'right-5px' );
-			} else {
-				$position = array( 'edge' => 'left', 'align' => 'center', 'my' => 'left-5px' );
-			}
-		}
-
-		self::print_js( 'wp390_widgets', $selector, array(
-			'content' => $content,
-			'position' => $position,
-		) );
-	}
-
-	/**
-	 * @static
-	 *
-	 * @global bool $_wp_editor_expand
-	 */
-	public static function pointer_wp410_dfw() {
-		// Don't show when editor-scrolling is not used.
-		if ( empty( $GLOBALS['_wp_editor_expand'] ) ) {
-			return;
-		}
-
-		$content  = '<h3>' . __( 'Distraction-Free Writing' ) . '</h3>';
-		$content .= '<p>' . __( 'Enable distraction-free writing mode, and everything surrounding the editor will fade away when you start typing. Move your mouse out of the editor to reveal everything again.' ) . '</p>';
-
-		if ( is_rtl() ) {
-			$position = array( 'edge' => 'left', 'align' => 'center', 'my' => 'left+40 top-11', 'at' => 'left top' );
-		} else {
-			$position = array( 'edge' => 'right', 'align' => 'center', 'my' => 'right-40 top-11', 'at' => 'right top' );
-		}
-
-		self::print_js( 'wp410_dfw', '#wp-content-wrap', array(
-			'content' => $content,
-			'position' => $position,
-		) );
-	}
+	public static function pointer_wp360_locks() {}
+	public static function pointer_wp390_widgets() {}
+	public static function pointer_wp410_dfw() {}
 
 	/**
 	 * Prevents new users from seeing existing 'new feature' pointers.
@@ -2199,7 +2147,7 @@ final class WP_Internal_Pointers {
 	 * @param int $user_id User ID.
 	 */
 	public static function dismiss_pointers_for_new_users( $user_id ) {
-		add_user_meta( $user_id, 'dismissed_wp_pointers', 'wp360_locks,wp390_widgets' );
+		add_user_meta( $user_id, 'dismissed_wp_pointers', '' );
 	}
 }
 
