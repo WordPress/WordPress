@@ -1270,7 +1270,7 @@
 
 			if ( expanded ) {
 
-				if ( 'undefined' != typeof api.section( self.section ) && ! api.section( self.section ).expanded() ) {
+				if ( self.section() && api.section( self.section() ) ) {
 					self.expandControlSection();
 				}
 

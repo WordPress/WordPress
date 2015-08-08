@@ -73,8 +73,9 @@
 			} else {
 				focusContainer = construct.container;
 			}
-			focusContainer.find( ':focusable:first' ).focus();
-			focusContainer[0].scrollIntoView( true );
+
+			// Note that we can't use :focusable due to a jQuery UI issue. See: https://github.com/jquery/jquery-ui/pull/1583
+			focusContainer.find( 'input, select, textarea, button, object, a[href], [tabindex]' ).filter( ':visible' ).first().focus();
 		};
 		if ( params.completeCallback ) {
 			completeCallback = params.completeCallback;
