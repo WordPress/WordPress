@@ -999,7 +999,7 @@ tr.inline-edit-row td,
 .inline-edit-row fieldset.inline-edit-date legend {
 	display: block;
 	float: left;
-	width: 5em;
+	width: 6em;
 	line-height: 2.5;
 }
 
@@ -1012,9 +1012,10 @@ tr.inline-edit-row td,
 	line-height: 28px;
 }
 
-.inline-edit-row fieldset label span.input-text-wrap {
+.inline-edit-row fieldset label span.input-text-wrap,
+.inline-edit-row fieldset .timestamp-wrap {
 	display: block;
-	margin-left: 5em;
+	margin-left: 6em;
 }
 
 .quick-edit-row-post fieldset.inline-edit-col-right label span.title {
@@ -1942,7 +1943,8 @@ div.action-links,
 		font-size: 16px;
 	}
 
-	.inline-edit-row fieldset label span.title {
+	.inline-edit-row fieldset label span.title,
+	.inline-edit-row fieldset.inline-edit-date legend {
 		float: none;
 	}
 
@@ -1954,7 +1956,8 @@ div.action-links,
 		padding: 0;
 	}
 
-	.inline-edit-row fieldset label span.input-text-wrap {
+	.inline-edit-row fieldset label span.input-text-wrap,
+	.inline-edit-row fieldset .timestamp-wrap {
 		margin-left: 0;
 	}
 
