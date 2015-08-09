@@ -3388,18 +3388,6 @@
 			event.preventDefault();
 		});
 
-		// Go back to the top-level Customizer accordion.
-		$( '#customize-header-actions' ).on( 'click keydown', '.control-panel-back', function( event ) {
-			if ( api.utils.isKeydownButNotEnterEvent( event ) ) {
-				return;
-			}
-
-			event.preventDefault(); // Keep this AFTER the key filter above
-			api.panel.each( function ( panel ) {
-				panel.collapse();
-			});
-		});
-
 		closeBtn.keydown( function( event ) {
 			if ( 9 === event.which ) // tab
 				return;

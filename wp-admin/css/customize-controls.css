@@ -41,10 +41,6 @@ body {
 	border-bottom: 1px solid #ddd;
 }
 
-#customize-header-actions .secondary-actions {
-	display: none;
-}
-
 #customize-controls .wp-full-overlay-sidebar-content {
 	overflow-y: auto;
 	overflow-x: hidden;
@@ -273,10 +269,6 @@ h3.customize-section-title {
 	left: -100%;
 }
 
-.section-open .control-panel-back {
-	display: none;
-}
-
 .accordion-sub-container.control-panel-content {
 	display: none;
 	position: absolute;
@@ -300,7 +292,6 @@ h3.customize-section-title {
 	width: 100%;
 }
 
-.customize-overlay-close,
 .customize-controls-close {
 	display: block;
 	position: absolute;
@@ -320,29 +311,6 @@ h3.customize-section-title {
 	-webkit-box-sizing: content-box;
 	-moz-box-sizing: content-box;
 	box-sizing: content-box;
-}
-
-.customize-overlay-close {
-	left: auto;
-	right: 0;
-	border-right: 0;
-	border-left: 1px solid #ddd;
-}
-
-.control-panel-back {
-	display: block;
-	position: fixed;
-	top: 0;
-	z-index: 99;
-	left: -48px;
-	width: 45px;
-	height: 45px;
-	padding-right: 2px;
-	background: #eee;
-	border-right: 1px solid #ddd;
-	cursor: pointer;
-	-webkit-transition: left .18s ease-in-out, color .1s ease-in-out, background .1s ease-in-out;
-	transition: left .18s ease-in-out, color .1s ease-in-out, background .1s ease-in-out;
 }
 
 .customize-panel-back,
@@ -367,14 +335,12 @@ h3.customize-section-title {
 	height: 70px;
 }
 
-.ios .control-panel-back,
 .ios .customize-panel-back,
 .ios .customize-section-back {
 	-webkit-transition: left 0s;
 	transition: left 0s;
 }
 
-.collapsed .control-panel-back,
 .ios .customize-panel-back {
 	display: none;
 }
@@ -392,12 +358,8 @@ h3.customize-section-title {
 	color: #555;
 }
 
-.customize-overlay-close:focus,
-.customize-overlay-close:hover,
 .customize-controls-close:focus,
 .customize-controls-close:hover,
-.control-panel-back:focus,
-.control-panel-back:hover,
 .customize-controls-preview-toggle:focus,
 .customize-controls-preview-toggle:hover {
 	background: #ddd;
@@ -419,7 +381,6 @@ h3.customize-section-title {
 	box-shadow: none;
 }
 
-.customize-overlay-close:before,
 .customize-controls-close:before {
 	font: normal 22px/45px dashicons;
 	content: "\f335";
@@ -433,14 +394,6 @@ h3.customize-section-title {
 	font: normal 20px/69px dashicons;
 	content: "\f341";
 	position: relative;
-	left: 13px;
-}
-
-.control-panel-back:before {
-	font: normal 20px/45px dashicons;
-	content: "\f341";
-	position: relative;
-	top: 1px;
 	left: 13px;
 }
 
