@@ -399,7 +399,7 @@ function do_shortcodes_in_html_tags( $content, $ignore_html ) {
 				if ( $count > 0 ) {
 					// Sanitize the shortcode output using KSES.
 					$new_attr = wp_kses_one_attr( $new_attr, $elname );
-					if ( '' !== $new_attr ) {
+					if ( '' !== trim( $new_attr ) ) {
 						// The shortcode is safe to use now.
 						$attr = $new_attr;
 					}
