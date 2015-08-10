@@ -575,7 +575,7 @@ final class WP_Customize_Nav_Menus {
 			'type' => 'new_menu',
 		) );
 
-		$this->manager->add_control( new WP_New_Menu_Customize_Control( $this->manager, 'create_new_menu', array(
+		$this->manager->add_control( new WP_Customize_New_Menu_Control( $this->manager, 'create_new_menu', array(
 			'section' => 'add_menu',
 		) ) );
 	}

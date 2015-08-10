@@ -1945,7 +1945,7 @@ class WP_Customize_Nav_Menu_Auto_Add_Control extends WP_Customize_Control {
  *
  * @see WP_Customize_Control
  */
-class WP_New_Menu_Customize_Control extends WP_Customize_Control {
+class WP_Customize_New_Menu_Control extends WP_Customize_Control {
 
 	/**
 	 * Control type.

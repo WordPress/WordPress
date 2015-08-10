@@ -2273,7 +2273,7 @@
 	 * wp.customize.Menus.NewMenuControl
 	 *
 	 * Customizer control for creating new menus and handling deletion of existing menus.
-	 * Note that 'new_menu' must match the WP_New_Menu_Customize_Control::$type.
+	 * Note that 'new_menu' must match the WP_Customize_New_Menu_Control::$type.
 	 *
 	 * @constructor
 	 * @augments wp.customize.Control
