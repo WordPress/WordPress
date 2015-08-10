@@ -560,7 +560,7 @@ function prep_atom_text_construct($data) {
  * @see get_site_icon_url()
  */
 function atom_site_icon() {
-	$url = get_site_icon_url( null, 32 );
+	$url = get_site_icon_url( 32 );
 	if ( $url ) {
 		echo "<icon>$url</icon>\n";
 	}
@@ -577,7 +577,7 @@ function rss2_site_icon() {
 		$rss_title = get_bloginfo_rss( 'name' );
 	}
 
-	$url = get_site_icon_url( null, 32 );
+	$url = get_site_icon_url( 32 );
 	if ( $url ) {
 		echo '
 <image>
