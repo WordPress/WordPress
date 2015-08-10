@@ -388,8 +388,6 @@ function wp_revoke_user($id) {
 
 /**
  * @since 2.8.0
- */
-/**
  *
  * @global int $user_ID
  *
