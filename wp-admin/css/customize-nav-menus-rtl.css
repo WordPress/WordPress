@@ -443,11 +443,6 @@
 .reordering .menu-item-depth-10 > .menu-item-bar { margin-left: 150px; }
 .reordering .menu-item-depth-11 > .menu-item-bar { margin-left: 165px; }
 
-/* Forces top margin to be zero for new menu */
-.control-section-nav_menu.open .menu {
-	margin-top: 0 !important;
-}
-
 .control-section-nav_menu .menu .menu-item-edit-active {
 	margin-right: 0;
 }
