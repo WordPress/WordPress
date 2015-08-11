@@ -1686,7 +1686,7 @@ function upgrade_network() {
 			$tables = $wpdb->tables( 'global' );
 
 			// sitecategories may not exist.
-			if ( ! $this->get_var( "SHOW TABLES LIKE '{$tables['sitecategories']}'" ) ) {
+			if ( ! $wpdb->get_var( "SHOW TABLES LIKE '{$tables['sitecategories']}'" ) ) {
 				unset( $tables['sitecategories'] );
 			}
 
@@ -1715,7 +1715,7 @@ function upgrade_network() {
 			$tables = $wpdb->tables( 'global' );
 
 			// sitecategories may not exist.
-			if ( ! $this->get_var( "SHOW TABLES LIKE '{$tables['sitecategories']}'" ) ) {
+			if ( ! $wpdb->get_var( "SHOW TABLES LIKE '{$tables['sitecategories']}'" ) ) {
 				unset( $tables['sitecategories'] );
 			}
 
