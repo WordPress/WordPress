@@ -330,6 +330,7 @@ add_filter( 'determine_current_user', 'wp_validate_logged_in_cookie', 20 );
 // Split term updates.
 add_action( 'split_shared_term', '_wp_check_split_default_terms',  10, 4 );
 add_action( 'split_shared_term', '_wp_check_split_terms_in_menus', 10, 4 );
+add_action( 'split_shared_term', '_wp_check_split_nav_menu_terms', 10, 4 );
 
 /**
  * Filters formerly mixed into wp-includes

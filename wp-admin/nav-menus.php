@@ -354,7 +354,13 @@ switch ( $action ) {
 
 			// Update menu items.
 			if ( ! is_wp_error( $_menu_object ) ) {
-				$messages = array_merge( $messages, wp_nav_menu_update_menu_items( $nav_menu_selected_id, $nav_menu_selected_title ) );
+				$messages = array_merge( $messages, wp_nav_menu_update_menu_items( $_nav_menu_selected_id, $nav_menu_selected_title ) );
+
+				// If the menu ID changed, redirect to the new URL.
+				if ( $nav_menu_selected_id != $_nav_menu_selected_id ) {
+					wp_redirect( admin_url( 'nav-menus.php?menu=' . intval( $_nav_menu_selected_id ) ) );
+					exit();
+				}
 			}
 		}
 		break;

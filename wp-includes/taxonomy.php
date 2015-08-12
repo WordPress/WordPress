@@ -4396,6 +4396,34 @@ function _wp_check_split_terms_in_menus( $term_id, $new_term_id, $term_taxonomy_
 }
 
 /**
+ * If the term being split is a nav_menu, change associations.
+ *
+ * @ignore
+ * @since 4.3.0
+ *
+ * @global wpdb $wpdb
+ *
+ * @param int    $term_id          ID of the formerly shared term.
+ * @param int    $new_term_id      ID of the new term created for the $term_taxonomy_id.
+ * @param int    $term_taxonomy_id ID for the term_taxonomy row affected by the split.
+ * @param string $taxonomy         Taxonomy for the split term.
+ */
+function _wp_check_split_nav_menu_terms( $term_id, $new_term_id, $term_taxonomy_id, $taxonomy ) {
+	if ( 'nav_menu' !== $taxonomy ) {
+		return;
+	}
+
+	// Update menu locations.
+	$locations = get_nav_menu_locations();
+	foreach ( $locations as $location => $menu_id ) {
+		if ( $term_id == $menu_id ) {
+			$locations[ $location ] = $new_term_id;
+		}
+	}
+	set_theme_mod( 'nav_menu_locations', $locations );
+}
+
+/**
  * Get data about terms that previously shared a single term_id, but have since been split.
  *
  * @since 4.2.0

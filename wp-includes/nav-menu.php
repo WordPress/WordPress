@@ -315,6 +315,8 @@ function wp_update_nav_menu_object( $menu_id = 0, $menu_data = array() ) {
 	if ( is_wp_error( $update_response ) )
 		return $update_response;
 
+	$menu_id = (int) $update_response['term_id'];
+
 	/**
 	 * Fires after a navigation menu has been successfully updated.
 	 *
