@@ -5281,6 +5281,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		if ( $post_type == 'post' && isset( $content_struct['sticky'] ) ) {
 			$data = $newpost;
 			$data['sticky'] = $content_struct['sticky'];
+			$data['post_type'] = 'post';
 			$error = $this->_toggle_sticky( $data, true );
 			if ( $error ) {
 				return $error;
