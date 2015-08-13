@@ -42,6 +42,10 @@
 	vertical-align: middle;
 }
 
+.about-wrap .jetpack-video-wrapper {
+	margin-bottom: 0;
+}
+
 /* WordPress Version Badge */
 
 .wp-badge {
@@ -117,6 +121,7 @@
 .about-wrap code,
 .about-wrap ol li p {
 	font-size: 14px;
+	font-weight: normal;
 }
 
 .about-wrap .about-description,
@@ -207,7 +212,7 @@
 .about-wrap .feature-video {
 	position: relative;
 	margin: 40px 0;
-	/*padding-bottom: 56.25%; /* video is 1280 x 720 */
+	padding-bottom: 56.25%; /* video is 1280 x 720 */
 	width: 100%;
 	height: 0;
 	text-align: center;
