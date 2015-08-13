@@ -472,8 +472,6 @@ class WP_Comments_List_Table extends WP_List_Table {
  			return;
 		}
 
-		$post = get_post();
-
 		$the_comment_status = wp_get_comment_status( $comment->comment_ID );
 
 		$out = '';
@@ -534,9 +532,9 @@ class WP_Comments_List_Table extends WP_List_Table {
 
 			$format = '<a data-comment-id="%d" data-post-id="%d" data-action="%s" class="%s" title="%s" href="#">%s</a>';
 
-			$actions['quickedit'] = sprintf( $format, $comment->comment_ID, $post->ID, 'edit', 'vim-q comment-inline',esc_attr__( 'Edit this item inline' ), __( 'Quick&nbsp;Edit' ) );
+			$actions['quickedit'] = sprintf( $format, $comment->comment_ID, $comment->comment_post_ID, 'edit', 'vim-q comment-inline',esc_attr__( 'Edit this item inline' ), __( 'Quick&nbsp;Edit' ) );
 
-			$actions['reply'] = sprintf( $format, $comment->comment_ID, $post->ID, 'replyto', 'vim-r comment-inline', esc_attr__( 'Reply to this comment' ), __( 'Reply' ) );
+			$actions['reply'] = sprintf( $format, $comment->comment_ID, $comment->comment_post_ID, 'replyto', 'vim-r comment-inline', esc_attr__( 'Reply to this comment' ), __( 'Reply' ) );
 		}
 
 		/** This filter is documented in wp-admin/includes/dashboard.php */
@@ -671,6 +669,10 @@ class WP_Comments_List_Table extends WP_List_Table {
 	 */
 	public function column_response() {
 		$post = get_post();
+
+		if ( ! $post ) {
+			return;
+		}
 
 		if ( isset( $this->pending_count[$post->ID] ) ) {
 			$pending_comments = $this->pending_count[$post->ID];
