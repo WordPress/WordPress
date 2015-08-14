@@ -538,7 +538,12 @@
 				content = panelMeta.find( '.customize-panel-description' ),
 				options = $( '#screen-options-wrap' ),
 				button = panelMeta.find( '.customize-screen-options-toggle' );
-			button.on( 'click', function() {
+			button.on( 'click keydown', function( event ) {
+				if ( api.utils.isKeydownButNotEnterEvent( event ) ) {
+					return;
+				}
+				event.preventDefault();
+
 				// Hide description
 				if ( content.not( ':hidden' ) ) {
 					content.slideUp( 'fast' );
@@ -561,7 +566,12 @@
 			} );
 
 			// Help toggle
-			help.on( 'click', function() {
+			help.on( 'click keydown', function( event ) {
+				if ( api.utils.isKeydownButNotEnterEvent( event ) ) {
+					return;
+				}
+				event.preventDefault();
+
 				if ( 'true' === button.attr( 'aria-expanded' ) ) {
 					button.attr( 'aria-expanded', 'false' );
 					help.attr( 'aria-expanded', 'true' );
