@@ -364,8 +364,8 @@
 		itemSectionHeight: function() {
 			var sections, totalHeight, accordionHeight, diff;
 			totalHeight = window.innerHeight;
-			sections = this.$el.find( '.accordion-section-content' );
-			accordionHeight =  46 * ( 1 + sections.length ) - 16; // Magic numbers.
+			sections = this.$el.find( '.accordion-section:not( #available-menu-items-search ) .accordion-section-content' );
+			accordionHeight =  46 * ( 2 + sections.length ) - 13; // Magic numbers.
 			diff = totalHeight - accordionHeight;
 			if ( 120 < diff && 290 > diff ) {
 				sections.css( 'max-height', diff );
