@@ -4375,7 +4375,7 @@ function _wp_batch_split_terms() {
 		 LEFT JOIN {$wpdb->terms} t ON t.term_id = tt.term_id
 		 GROUP BY t.term_id
 		 HAVING term_tt_count > 1
-		 LIMIT 20"
+		 LIMIT 10"
 	);
 
 	// No more terms, we're done here.
@@ -4401,7 +4401,6 @@ function _wp_batch_split_terms() {
 	$shared_tts = $wpdb->get_results( "SELECT * FROM {$wpdb->term_taxonomy} WHERE `term_id` IN ({$shared_term_ids})" );
 
 	// Split term data recording is slow, so we do it just once, outside the loop.
-	$suspend = wp_suspend_cache_invalidation( true );
 	$split_term_data = get_option( '_split_terms', array() );
 	$skipped_first_term = $taxonomies = array();
 	foreach ( $shared_tts as $shared_tt ) {
@@ -4432,7 +4431,6 @@ function _wp_batch_split_terms() {
 		_get_term_hierarchy( $tax );
 	}
 
-	wp_suspend_cache_invalidation( $suspend );
 	update_option( '_split_terms', $split_term_data );
 
 	delete_option( $lock_name );
