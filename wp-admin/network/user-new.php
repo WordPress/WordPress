@@ -51,7 +51,7 @@ if ( isset($_REQUEST['action']) && 'add-user' == $_REQUEST['action'] ) {
 		if ( ! $user_id ) {
 	 		$add_user_errors = new WP_Error( 'add_user_fail', __( 'Cannot add user.' ) );
 		} else {
-			wp_new_user_notification( $user_id, $password );
+			wp_new_user_notification( $user_id, 'both' );
 			wp_redirect( add_query_arg( array('update' => 'added'), 'user-new.php' ) );
 			exit;
 		}

@@ -2619,7 +2619,7 @@ function register_new_user( $user_login, $user_email ) {
 
 	update_user_option( $user_id, 'default_password_nag', true, true ); //Set up the Password change nag.
 
-	wp_new_user_notification( $user_id );
+	wp_new_user_notification( $user_id, 'both' );
 
 	return $user_id;
 }

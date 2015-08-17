@@ -176,7 +176,7 @@ function edit_user( $user_id = 0 ) {
 		$user_id = wp_update_user( $user );
 	} else {
 		$user_id = wp_insert_user( $user );
-		wp_new_user_notification( $user_id );
+		wp_new_user_notification( $user_id, 'both' );
 	}
 	return $user_id;
 }

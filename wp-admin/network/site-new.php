@@ -79,7 +79,7 @@ if ( isset($_REQUEST['action']) && 'add-site' == $_REQUEST['action'] ) {
 		if ( false === $user_id )
 			wp_die( __( 'There was an error creating the user.' ) );
 		else
-			wp_new_user_notification( $user_id, $password );
+			wp_new_user_notification( $user_id, 'both' );
 	}
 
 	$wpdb->hide_errors();
