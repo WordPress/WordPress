@@ -1507,6 +1507,7 @@ function upgrade_430() {
 
 	// Shared terms are split in a separate process.
 	if ( $wp_current_db_version < 32814 ) {
+		update_option( 'finished_splitting_shared_terms', 0 );
 		wp_schedule_single_event( time() + ( 1 * MINUTE_IN_SECONDS ), 'wp_split_shared_term_batch' );
 	}
 

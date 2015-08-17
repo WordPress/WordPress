@@ -496,6 +496,9 @@ function populate_options() {
 
 	// 3.5
 	'link_manager_enabled' => 0,
+
+	// 4.3.0
+	'finished_splitting_shared_terms' => 1,
 	);
 
 	// 3.3
