@@ -44,12 +44,10 @@
 		}, true );
 
 		editor.on( 'keyup', function( event ) {
-			if ( ! VK.modifierPressed( event ) ) {
-				if ( event.keyCode === VK.SPACEBAR ) {
-					space();
-				} else if ( event.keyCode === VK.ENTER ) {
-					enter();
-				}
+			if ( event.keyCode === VK.SPACEBAR && ! event.ctrlKey && ! event.metaKey && ! event.altKey ) {
+				space();
+			} else if ( event.keyCode === VK.ENTER && ! VK.modifierPressed( event ) ) {
+				enter();
 			}
 		} );
 
