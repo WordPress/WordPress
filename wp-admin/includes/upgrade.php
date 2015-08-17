@@ -1521,7 +1521,7 @@ function upgrade_430() {
 				$tables = array_diff_assoc( $tables, $global_tables );
 			}
 		}
-	
+
 		foreach ( $tables as $table ) {
 			maybe_convert_table_to_utf8mb4( $table );
 		}
@@ -2622,7 +2622,7 @@ endif;
 
 /**
  * Determine if global tables should be upgraded.
- * 
+ *
  * This function performs a series of checks to ensure the environment allows
  * for the safe upgrading of global WordPress database tables. It is necessary
  * because global tables will commonly grow to millions of rows on large

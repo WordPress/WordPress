@@ -131,7 +131,7 @@ if ( $comment->comment_parent ) :
 </div>
 <?php endif; ?>
 
-<?php 
+<?php
 	/**
 	 * Filter miscellaneous actions for the edit comment form sidebar.
 	 *

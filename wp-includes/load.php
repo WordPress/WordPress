@@ -764,7 +764,7 @@ function get_current_blog_id() {
  *
  * @global string    $text_direction
  * @global WP_Locale $wp_locale      The WordPress date and time locale object.
- * 
+ *
  * @staticvar bool $loaded
  */
 function wp_load_translations_early() {

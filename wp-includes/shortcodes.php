@@ -208,10 +208,10 @@ function do_shortcode( $content, $ignore_html = false ) {
 
 	$pattern = get_shortcode_regex();
 	$content = preg_replace_callback( "/$pattern/s", 'do_shortcode_tag', $content );
-	
+
 	// Always restore square braces so we don't break things like <!--[if IE ]>
 	$content = unescape_invalid_shortcodes( $content );
-	
+
 	return $content;
 }
 
@@ -331,7 +331,7 @@ function do_shortcodes_in_html_tags( $content, $ignore_html ) {
 	$trans = array( '&#91;' => '&#091;', '&#93;' => '&#093;' );
 	$content = strtr( $content, $trans );
 	$trans = array( '[' => '&#91;', ']' => '&#93;' );
-	
+
 	$pattern = get_shortcode_regex();
 	$textarr = wp_html_split( $content );
 
@@ -368,14 +368,14 @@ function do_shortcodes_in_html_tags( $content, $ignore_html ) {
 			$element = strtr( $element, $trans );
 			continue;
 		}
-		
+
 		// Get element name
 		$front = array_shift( $attributes );
 		$back = array_pop( $attributes );
 		$matches = array();
 		preg_match('%[a-zA-Z0-9]+%', $front, $matches);
 		$elname = $matches[0];
-		
+
 		// Look for shortcodes in each attribute separately.
 		foreach ( $attributes as &$attr ) {
 			$open = strpos( $attr, '[' );
@@ -407,13 +407,13 @@ function do_shortcodes_in_html_tags( $content, $ignore_html ) {
 			}
 		}
 		$element = $front . implode( '', $attributes ) . $back;
-		
+
 		// Now encode any remaining [ or ] chars.
 		$element = strtr( $element, $trans );
 	}
-	
+
 	$content = implode( '', $textarr );
-	
+
 	return $content;
 }
 
@@ -429,7 +429,7 @@ function unescape_invalid_shortcodes( $content ) {
         // Clean up entire string, avoids re-parsing HTML.
         $trans = array( '&#91;' => '[', '&#93;' => ']' );
         $content = strtr( $content, $trans );
-        
+
         return $content;
 }
 
@@ -539,7 +539,7 @@ function strip_shortcodes( $content ) {
 
 	// Always restore square braces so we don't break things like <!--[if IE ]>
 	$content = unescape_invalid_shortcodes( $content );
-	
+
 	return $content;
 }
 
