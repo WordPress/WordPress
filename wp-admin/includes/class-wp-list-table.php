@@ -1258,7 +1258,7 @@ class WP_List_Table {
 	 * @return string The row actions output. In this case, an empty string.
 	 */
 	protected function handle_row_actions( $item, $column_name, $primary ) {
-		return '';
+		return $column_name == $primary ? '<button type="button" class="toggle-row"><span class="screen-reader-text">' . __( 'Show more details' ) . '</span></button>' : '';
  	}
 
 	/**
