@@ -93,7 +93,7 @@ window.wp = window.wp || {};
 	 *
 	 * @since 3.9.0
 	 *
-	 * @param {string} updateType
+	 * @param {string} upgradeType
 	 */
 	wp.updates.decrementCount = function( upgradeType ) {
 		var count,
