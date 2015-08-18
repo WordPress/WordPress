@@ -22,9 +22,12 @@ list( $display_version ) = explode( '-', $wp_version );
 
 include( ABSPATH . 'wp-admin/admin-header.php' );
 
-$video_url = 'https://videopress.com/embed/e9kH4FzP';
-$locale    = strtolower( str_replace( '_', '-', get_locale() ) );
-if ( 'en-us' !== $locale ) {
+$video_url = 'https://videopress.com/embed/T54Iy7Tw';
+$locale    = str_replace( '_', '-', 'de_DE' );
+if ( 'en-AU' !== $locale ) {
+	list( $locale ) = explode( '-', $locale );
+}
+if ( 'en' !== $locale ) {
 	$video_url = add_query_arg( 'defaultLangCode', $locale, $video_url );
 }
 
