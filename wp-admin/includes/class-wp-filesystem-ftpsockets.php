@@ -395,7 +395,7 @@ class WP_Filesystem_ftpsockets extends WP_Filesystem_Base {
 	}
 
 	/**
-	 * @param sting $path
+	 * @param string $path
 	 * @param bool $recursive
 	 */
 	public function rmdir($path, $recursive = false ) {
