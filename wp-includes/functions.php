@@ -3746,7 +3746,9 @@ function validate_file( $file, $allowed_files = '' ) {
  * @return bool True if SSL, false if not used.
  */
 function is_ssl() {
-	if ( isset($_SERVER['HTTPS']) ) {
+	if ( isset($_SERVER['HTTP_X_SSL_CIPHER'])) { // behind an SSL proxy like pound
+		return true;
+	} elseif ( isset($_SERVER['HTTPS']) ) { // SSL locally handled
 		if ( 'on' == strtolower($_SERVER['HTTPS']) )
 			return true;
 		if ( '1' == $_SERVER['HTTPS'] )
