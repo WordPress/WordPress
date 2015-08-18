@@ -312,7 +312,7 @@ function _wp_relative_upload_path( $path ) {
  *
  * @param mixed  $args   Optional. User defined arguments for replacing the defaults. Default empty.
  * @param string $output Optional. Constant for return type. Accepts OBJECT, ARRAY_A, ARRAY_N.
- *                       Default OBJECt.
+ *                       Default OBJECT.
  * @return array Array of children, where the type of each element is determined by $output parameter.
  *               Empty array on failure.
  */
