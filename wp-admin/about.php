@@ -23,7 +23,7 @@ list( $display_version ) = explode( '-', $wp_version );
 include( ABSPATH . 'wp-admin/admin-header.php' );
 
 $video_url = 'https://videopress.com/embed/T54Iy7Tw';
-$locale    = str_replace( '_', '-', 'de_DE' );
+$locale    = str_replace( '_', '-', get_locale() );
 if ( 'en-AU' !== $locale ) {
 	list( $locale ) = explode( '-', $locale );
 }
