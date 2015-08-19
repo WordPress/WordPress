@@ -333,8 +333,10 @@ class WP_Posts_List_Table extends WP_List_Table {
 			 * Posts list table, and sorting by date on the Pages list table.
 			 *
 			 * @since 2.1.0
+			 *
+			 * @param string $post_type The post type slug.
 			 */
-			do_action( 'restrict_manage_posts' );
+			do_action( 'restrict_manage_posts', $this->screen->post_type );
 
 			submit_button( __( 'Filter' ), 'button', 'filter_action', false, array( 'id' => 'post-query-submit' ) );
 		}
@@ -1513,8 +1515,8 @@ class WP_Posts_List_Table extends WP_List_Table {
 				 *
 				 * @since 2.7.0
 				 *
-				 * @param string  $column_name Name of the column to edit.
-				 * @param WP_Post $post_type   The post type slug.
+				 * @param string $column_name Name of the column to edit.
+				 * @param string $post_type   The post type slug.
 				 */
 				do_action( 'quick_edit_custom_box', $column_name, $screen->post_type );
 			}
