@@ -35,6 +35,7 @@ class WP_Embed {
 
 		// After a post is saved, cache oEmbed items via AJAX
 		add_action( 'edit_form_advanced', array( $this, 'maybe_run_ajax_cache' ) );
+		add_action( 'edit_page_form', array( $this, 'maybe_run_ajax_cache' ) );
 	}
 
 	/**
