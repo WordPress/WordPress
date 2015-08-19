@@ -4445,7 +4445,7 @@ function _wp_batch_split_terms() {
  */
 function _wp_check_for_scheduled_split_terms() {
 	if ( ! get_option( 'finished_splitting_shared_terms' ) && ! wp_next_scheduled( 'wp_batch_split_terms' ) ) {
-		wp_schedule_single_event( 'wp_batch_split_terms', time() + MINUTE_IN_SECONDS );
+		wp_schedule_single_event( time() + MINUTE_IN_SECONDS, 'wp_batch_split_terms' );
 	}
 }
 

@@ -534,6 +534,9 @@ function upgrade_all() {
 	if ( $wp_current_db_version < 33055 )
 		upgrade_430();
 
+	if ( $wp_current_db_version < 33056 )
+		upgrade_431();
+
 	maybe_disable_link_manager();
 
 	maybe_disable_automattic_widgets();
@@ -1574,6 +1577,23 @@ function upgrade_430_fix_comments() {
 
 	foreach ( $comments as $comment ) {
 		wp_delete_comment( $comment->comment_ID, true );
+	}
+}
+
+/**
+ * Executes changes made in WordPress 4.3.1.
+ *
+ * @since 4.3.1
+ */
+function upgrade_431() {
+	// Fix incorrect cron entries for term splitting
+	$cron_array = _get_cron_array();
+	if ( isset( $cron_array['wp_batch_split_terms'] ) ) {
+		foreach ( $cron_array['wp_batch_split_terms'] as $timestamp_hook => $cron_data ) {
+			foreach ( $cron_data as $key => $args ) {
+				wp_unschedule_event( 'wp_batch_split_terms', $timestamp_hook, $args['args'] );
+			}
+		}
 	}
 }
 
