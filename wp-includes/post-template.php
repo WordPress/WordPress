@@ -1555,6 +1555,7 @@ function the_attachment_link( $id = 0, $fullsize = false, $deprecated = false, $
  * Retrieve an attachment page link using an image or icon, if possible.
  *
  * @since 2.5.0
+ * @since 4.4.0 The `$id` parameter can now accept either a post ID or `WP_Post` object.
  *
  * @param int|WP_Post  $id        Optional. Post ID or post object.
  * @param string       $size      Optional, default is 'thumbnail'. Size of image, either array or string.
@@ -1565,7 +1566,6 @@ function the_attachment_link( $id = 0, $fullsize = false, $deprecated = false, $
  * @return string HTML content.
  */
 function wp_get_attachment_link( $id = 0, $size = 'thumbnail', $permalink = false, $icon = false, $text = false, $attr = '' ) {
-	$id = intval( $id );
 	$_post = get_post( $id );
 
 	if ( empty( $_post ) || ( 'attachment' != $_post->post_type ) || ! $url = wp_get_attachment_url( $_post->ID ) )
@@ -1577,7 +1577,7 @@ function wp_get_attachment_link( $id = 0, $size = 'thumbnail', $permalink = fals
 	if ( $text ) {
 		$link_text = $text;
 	} elseif ( $size && 'none' != $size ) {
-		$link_text = wp_get_attachment_image( $id, $size, $icon, $attr );
+		$link_text = wp_get_attachment_image( $_post->ID, $size, $icon, $attr );
 	} else {
 		$link_text = '';
 	}
