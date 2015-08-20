@@ -289,22 +289,6 @@ function get_post_permalink( $id = 0, $leavename = false, $sample = false ) {
 }
 
 /**
- * Retrieve permalink from post ID.
- *
- * @since 1.0.0
- *
- * @param int|WP_Post $post_id    Optional. Post ID or WP_Post object. Default is global $post.
- * @param mixed       $deprecated Not used.
- * @return string|false
- */
-function post_permalink( $post_id = 0, $deprecated = '' ) {
-	if ( !empty( $deprecated ) )
-		_deprecated_argument( __FUNCTION__, '1.3' );
-
-	return get_permalink($post_id);
-}
-
-/**
  * Retrieve the permalink for current page or page ID.
  *
  * Respects page_on_front. Use this one.
