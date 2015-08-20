@@ -1473,13 +1473,13 @@ class WP_Posts_List_Table extends WP_List_Table {
 			<option value="-1"><?php _e( '&mdash; No Change &mdash;' ); ?></option>
 			<option value="0"><?php echo get_post_format_string( 'standard' ); ?></option>
 			<?php
-
-			foreach ( $post_formats[0] as $format ) {
-				?>
-				<option value="<?php echo esc_attr( $format ); ?>"><?php echo esc_html( get_post_format_string( $format ) ); ?></option>
-				<?php
+			if ( is_array( $post_formats[0] ) ) {
+				foreach ( $post_formats[0] as $format ) {
+					?>
+					<option value="<?php echo esc_attr( $format ); ?>"><?php echo esc_html( get_post_format_string( $format ) ); ?></option>
+					<?php
+				}
 			}
-
 			?>
 		</select></label>
 	<?php
