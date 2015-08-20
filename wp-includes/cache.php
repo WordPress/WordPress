@@ -592,7 +592,8 @@ class WP_Object_Cache {
 	 * Reset keys
 	 *
 	 * @since 3.0.0
-	 * @deprecated 3.5.0
+	 * @deprecated 3.5.0 Use switch_to_blog()
+	 * @see switch_to_blog()
 	 */
 	public function reset() {
 		_deprecated_function( __FUNCTION__, '3.5', 'switch_to_blog()' );
