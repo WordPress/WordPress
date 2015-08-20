@@ -366,6 +366,13 @@ class WP {
 		} elseif ( empty( $this->query_vars['feed'] ) ) {
 			$headers['Content-Type'] = get_option('html_type') . '; charset=' . get_option('blog_charset');
 		} else {
+			// Set the correct content type for feeds
+			$type = $this->query_vars['feed'];
+			if ( 'feed' == $this->query_vars['feed'] ) {
+				$type = get_default_feed();
+			}
+			$headers['Content-Type'] = feed_content_type( $type ) . '; charset=' . get_option( 'blog_charset' );
+
 			// We're showing a feed, so WP is indeed the only thing that last changed
 			if ( !empty($this->query_vars['withcomments'])
 				|| false !== strpos( $this->query_vars['feed'], 'comments-' )
