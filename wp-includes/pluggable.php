@@ -1691,8 +1691,9 @@ if ( !function_exists('wp_new_user_notification') ) :
  * @since 4.3.0 The `$plaintext_pass` parameter was changed to `$notify`.
  *
  * @param int    $user_id User ID.
- * @param string $notify  Whether admin and user should be notified ('both') or
- *                        only the admin ('admin' or empty).
+ * @param string $notify  Optional. Type of notification that should happen. Accepts 'admin' or an empty
+ *                        string (admin only), or 'both' (admin and user). The empty string value was kept
+ *                        for backward-compatibility purposes with the renamed parameter. Default empty.
  */
 function wp_new_user_notification( $user_id, $notify = '' ) {
 	global $wpdb;
