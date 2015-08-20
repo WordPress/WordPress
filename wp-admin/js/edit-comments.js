@@ -35,7 +35,8 @@ setCommentsList = function() {
 
 		diff = $('#' + settings.element).is('.' + settings.dimClass) ? 1 : -1;
 		updatePending( diff );
-		updateCountText( 'span.approved-count', -1 * diff );
+		updateCountText( 'span.approved-count', -1 * diff  );
+		updateCountText( 'span.comment-count-approved', -1 * diff );
 	};
 
 	// Send current total, page, per_page and url
@@ -130,7 +131,7 @@ setCommentsList = function() {
 	};
 
 	updatePending = function( diff ) {
-		$('span.pending-count').each(function() {
+		$('span.pending-count, .comment-count-pending').each(function() {
 			var a = $(this), n = getCount(a) + diff;
 			if ( n < 1 )
 				n = 0;
@@ -289,7 +290,8 @@ setCommentsList = function() {
 		}
 
 		if ( approvedDiff ) {
-			updateCountText( 'span.approved-count', approvedDiff );
+			updateCountText( 'span.approved-count', approvedDiff  );
+			updateCountText( 'span.comment-count-approved', approvedDiff );
 		}
 
 		if ( spamDiff ) {
