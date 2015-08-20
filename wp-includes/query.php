@@ -1434,7 +1434,7 @@ class WP_Query {
 				$array[$key] = '';
 		}
 
-		$array_keys = array( 'category__in', 'category__not_in', 'category__and', 'post__in', 'post__not_in',
+		$array_keys = array( 'category__in', 'category__not_in', 'category__and', 'post__in', 'post__not_in', 'post_name__in',
 			'tag__in', 'tag__not_in', 'tag__and', 'tag_slug__in', 'tag_slug__and', 'post_parent__in', 'post_parent__not_in',
 			'author__in', 'author__not_in' );
 
@@ -1451,6 +1451,7 @@ class WP_Query {
 	 * @since 1.5.0
 	 * @since 4.2.0 Introduced the ability to order by specific clauses of a `$meta_query`, by passing the clause's
 	 *              array key to `$orderby`.
+	 * @since 4.3.0 Introduced the `$post_name__in` parameter.
 	 * @access public
 	 *
 	 * @param string|array $query {
@@ -1527,6 +1528,7 @@ class WP_Query {
 	 *     @type int          $posts_per_page          The number of posts to query for. Use -1 to request all posts.
 	 *     @type int          $posts_per_archive_page  The number of posts to query for by archive page. Overrides
 	 *                                                 'posts_per_page' when is_archive(), or is_search() are true.
+	 *     @type array        $post_name__in           An array of post slugs that results must match.
 	 *     @type string       $s                       Search keyword.
 	 *     @type int          $second                  Second of the minute. Default empty. Accepts numbers 0-60.
 	 *     @type array        $search_terms            Array of search terms.
@@ -2603,6 +2605,7 @@ class WP_Query {
 			unset($ptype_obj);
 		}
 
+		// Parameters related to 'post_name'.
 		if ( '' != $q['name'] ) {
 			$q['name'] = sanitize_title_for_query( $q['name'] );
 			$where .= " AND $wpdb->posts.post_name = '" . $q['name'] . "'";
@@ -2647,8 +2650,10 @@ class WP_Query {
 			$q['attachment'] = sanitize_title_for_query( wp_basename( $q['attachment'] ) );
 			$q['name'] = $q['attachment'];
 			$where .= " AND $wpdb->posts.post_name = '" . $q['attachment'] . "'";
+		} elseif ( is_array( $q['post_name__in'] ) && ! empty( $q['post_name__in'] ) ) {
+			$q['post_name__in'] = array_map( 'sanitize_title_for_query', $q['post_name__in'] );
+			$where .= " AND $wpdb->posts.post_name IN ('" . implode( "' ,'", $q['post_name__in'] ) . "')";
 		}
-
 
 		if ( intval($q['comments_popup']) )
 			$q['p'] = absint($q['comments_popup']);
