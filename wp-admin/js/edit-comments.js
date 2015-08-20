@@ -152,7 +152,7 @@ setCommentsList = function() {
 
 	// In admin-ajax.php, we send back the unix time stamp instead of 1 on success
 	delAfter = function( r, settings ) {
-		var total_items_i18n, total,
+		var total_items_i18n, total, animated, animatedCallback,
 			response = true === settings.parsed ? {} : settings.parsed.responses[0],
 			commentStatus = true === settings.parsed ? '' : response.supplemental.status,
 
@@ -333,9 +333,22 @@ setCommentsList = function() {
 			return;
 		}
 
-		theList.get(0).wpList.add( theExtraList.children(':eq(0)').remove().clone() );
+		theList.get(0).wpList.add( theExtraList.children( ':eq(0):not(.no-items)' ).remove().clone() );
 
 		refillTheExtraList();
+
+		animated = $( ':animated' );
+		animatedCallback = function () {
+			if ( ! $( '#the-comment-list tr:visible' ).length ) {
+				theList.get(0).wpList.add( theExtraList.find( '.no-items' ).clone() );
+			}
+		};
+
+		if ( animated.length ) {
+			animated.promise().done( animatedCallback );
+		} else {
+			animatedCallback();
+		}
 	};
 
 	refillTheExtraList = function(ev) {

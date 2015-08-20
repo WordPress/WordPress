@@ -409,7 +409,10 @@ class WP_Comments_List_Table extends WP_List_Table {
 	</tbody>
 
 	<tbody id="the-extra-comment-list" data-wp-lists="list:comment" style="display: none;">
-		<?php $this->items = $this->extra_items; $this->display_rows(); ?>
+		<?php
+			$this->items = $this->extra_items;
+			$this->display_rows_or_placeholder(); 
+		?>
 	</tbody>
 
 	<tfoot>
