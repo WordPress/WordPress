@@ -1451,7 +1451,7 @@ class WP_Query {
 	 * @since 1.5.0
 	 * @since 4.2.0 Introduced the ability to order by specific clauses of a `$meta_query`, by passing the clause's
 	 *              array key to `$orderby`.
-	 * @since 4.3.0 Introduced the `$post_name__in` parameter.
+	 * @since 4.4.0 Introduced the `$post_name__in` parameter.
 	 * @access public
 	 *
 	 * @param string|array $query {
