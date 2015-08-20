@@ -198,7 +198,7 @@ class WP_Comments_List_Table extends WP_List_Table {
 		$stati = array(
 				'all' => _nx_noop('All', 'All', 'comments'), // singular not used
 				'moderated' => _n_noop('Pending <span class="count">(<span class="pending-count">%s</span>)</span>', 'Pending <span class="count">(<span class="pending-count">%s</span>)</span>'),
-				'approved' => _n_noop('Approved', 'Approved'), // singular not used
+				'approved' => _n_noop('Approved <span class="count">(<span class="approved-count">%s</span>)</span>', 'Approved <span class="count">(<span class="approved-count">%s</span>)</span>'),
 				'spam' => _n_noop('Spam <span class="count">(<span class="spam-count">%s</span>)</span>', 'Spam <span class="count">(<span class="spam-count">%s</span>)</span>'),
 				'trash' => _n_noop('Trash <span class="count">(<span class="trash-count">%s</span>)</span>', 'Trash <span class="count">(<span class="trash-count">%s</span>)</span>')
 			);

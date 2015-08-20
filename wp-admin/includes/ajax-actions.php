@@ -347,8 +347,21 @@ function _wp_ajax_delete_comment_response( $comment_id, $delta = -1 ) {
 	$url      = isset( $_POST['_url'] )      ? esc_url_raw( $_POST['_url'] ) : '';
 
 	// JS didn't send us everything we need to know. Just die with success message
-	if ( !$total || !$per_page || !$page || !$url )
-		wp_die( time() );
+	if ( ! $total || ! $per_page || ! $page || ! $url ) {
+		$time = time();
+		$comment = get_comment( $comment_id );
+
+		$x = new WP_Ajax_Response( array(
+			'what' => 'comment',
+			// Here for completeness - not used.
+			'id' => $comment_id,
+			'supplemental' => array(
+				'status' => $comment ? $comment->comment_approved : '',
+				'time' => $time
+			)
+		) );
+		$x->send();
+	}
 
 	$total += $delta;
 	if ( $total < 0 )
@@ -377,12 +390,14 @@ function _wp_ajax_delete_comment_response( $comment_id, $delta = -1 ) {
 
 	// The time since the last comment count.
 	$time = time();
+	$comment = get_comment( $comment_id );
 
 	$x = new WP_Ajax_Response( array(
 		'what' => 'comment',
 		// Here for completeness - not used.
 		'id' => $comment_id,
 		'supplemental' => array(
+			'status' => $comment ? $comment->comment_approved : '',
 			'total_items_i18n' => sprintf( _n( '%s item', '%s items', $total ), number_format_i18n( $total ) ),
 			'total_pages' => ceil( $total / $per_page ),
 			'total_pages_i18n' => number_format_i18n( ceil( $total / $per_page ) ),
