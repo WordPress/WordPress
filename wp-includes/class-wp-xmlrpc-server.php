@@ -276,9 +276,8 @@ class wp_xmlrpc_server extends IXR_Server {
 	 * Check user's credentials. Deprecated.
 	 *
 	 * @since 1.5.0
-	 * @deprecated 2.8.0
-	 * @deprecated use wp_xmlrpc_server::login
-	 * @see wp_xmlrpc_server::login
+	 * @deprecated 2.8.0 Use wp_xmlrpc_server::login()
+	 * @see wp_xmlrpc_server::login()
 	 *
 	 * @param string $username User's username.
 	 * @param string $password User's password.
