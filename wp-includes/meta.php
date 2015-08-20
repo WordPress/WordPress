@@ -475,12 +475,11 @@ function get_metadata($meta_type, $object_id, $meta_key = '', $single = false) {
 	 *
 	 * @since 3.1.0
 	 *
-	 * @param null|array|string $value     The value get_metadata() should
-	 *                                     return - a single metadata value,
+	 * @param null|array|string $value     The value get_metadata() should return - a single metadata value,
 	 *                                     or an array of values.
 	 * @param int               $object_id Object ID.
 	 * @param string            $meta_key  Meta key.
-	 * @param string|array      $single    Meta value, or an array of values.
+	 * @param bool              $single    Whether to return only the first value of the specified $meta_key.
 	 */
 	$check = apply_filters( "get_{$meta_type}_metadata", null, $object_id, $meta_key, $single );
 	if ( null !== $check ) {
