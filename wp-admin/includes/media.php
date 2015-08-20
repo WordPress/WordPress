@@ -724,7 +724,7 @@ function media_upload_form_handler() {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Handles the process of uploading media.
  *
  * @since 2.5.0
  *
