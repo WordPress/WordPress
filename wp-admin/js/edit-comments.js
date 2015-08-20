@@ -2,7 +2,7 @@
 var setCommentsList, theList, theExtraList, commentReply;
 
 (function($) {
-var getCount, updateCount, updatePending;
+var getCount, updateCount, updateCountText, updatePending;
 
 setCommentsList = function() {
 	var totalInput, perPageInput, pageInput, dimAfter, delBefore, updateTotalCount, delAfter, refillTheExtraList, diff,
