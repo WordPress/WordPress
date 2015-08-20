@@ -2,7 +2,7 @@
 var setCommentsList, theList, theExtraList, commentReply;
 
 (function($) {
-var getCount, updateCount, updateCountText, updatePending;
+var getCount, updateCount, updateCountText, updatePending, updateApproved;
 
 setCommentsList = function() {
 	var totalInput, perPageInput, pageInput, dimAfter, delBefore, updateTotalCount, delAfter, refillTheExtraList, diff,
@@ -14,7 +14,7 @@ setCommentsList = function() {
 
 	// this fires when viewing "All"
 	dimAfter = function( r, settings ) {
-		var editRow, replyID, replyButton,
+		var editRow, replyID, replyButton, response,
 			c = $( '#' + settings.element );
 
 		editRow = $('#replyrow');
@@ -34,9 +34,14 @@ setCommentsList = function() {
 		}
 
 		diff = $('#' + settings.element).is('.' + settings.dimClass) ? 1 : -1;
-		updatePending( diff );
-		updateCountText( 'span.approved-count', -1 * diff  );
-		updateCountText( 'span.comment-count-approved', -1 * diff );
+		if ( true !== settings.parsed && settings.parsed.responses.length ) {
+			response = settings.parsed.responses[0].supplemental;
+			updatePending( diff, response.postId );
+			updateApproved( -1 * diff, response.postId );
+		} else {
+			updatePending( diff );
+			updateApproved( -1 * diff  );
+		}
 	};
 
 	// Send current total, page, per_page and url
@@ -130,13 +135,84 @@ setCommentsList = function() {
 		el.html(n);
 	};
 
-	updatePending = function( diff ) {
-		$('span.pending-count, .comment-count-pending').each(function() {
+	updatePending = function( diff, commentPostId ) {
+		var postSelector = '.post-com-count-' + commentPostId,
+			noClass = 'comment-count-no-pending',
+			pendingClass = 'comment-count-pending',
+			counts = $( 'span.pending-count' ),
+			pending,
+			noPending;
+
+		counts.each(function() {
 			var a = $(this), n = getCount(a) + diff;
 			if ( n < 1 )
 				n = 0;
 			a.closest('.awaiting-mod')[ 0 === n ? 'addClass' : 'removeClass' ]('count-0');
 			updateCount( a, n );
+		});
+
+		if ( ! commentPostId ) {
+			return;
+		}
+
+		// cache selectors to not get dupes
+		pending = $( 'span.' + pendingClass, postSelector );
+		noPending = $( 'span.' + noClass, postSelector );
+
+		pending.each(function() {
+			var a = $(this), n = getCount(a) + diff;
+			if ( n < 1 )
+				n = 0;
+
+			if ( 0 === n ) {
+				a.removeClass( pendingClass ).addClass( noClass );
+			}
+			updateCount( a, n );
+		});
+
+		noPending.each(function() {
+			var a = $(this);
+			if ( diff > 0 ) {
+				a.removeClass( noClass ).addClass( pendingClass );
+			}
+			updateCount( a, diff );
+		});
+	};
+
+	updateApproved = function( diff, commentPostId ) {
+		var postSelector = '.post-com-count-' + commentPostId,
+			noClass = 'comment-count-no-comments',
+			approvedClass = 'comment-count-approved',
+			approved,
+			noComments;
+
+		updateCountText( 'span.approved-count', diff );
+
+		if ( ! commentPostId ) {
+			return;
+		}
+
+		// cache selectors to not get dupes
+		approved = $( 'span.' + approvedClass, postSelector );
+		noComments = $( 'span.' + noClass, postSelector );
+
+		approved.each(function() {
+			var a = $(this), n = getCount(a) + diff;
+			if ( n < 1 )
+				n = 0;
+
+			if ( 0 === n ) {
+				a.removeClass( approvedClass ).addClass( noClass );
+			}
+			updateCount( a, n );
+		});
+
+		noComments.each(function() {
+			var a = $(this);
+			if ( diff > 0 ) {
+				a.removeClass( noClass ).addClass( approvedClass );
+			}
+			updateCount( a, diff );
 		});
 	};
 
@@ -152,9 +228,10 @@ setCommentsList = function() {
 
 	// In admin-ajax.php, we send back the unix time stamp instead of 1 on success
 	delAfter = function( r, settings ) {
-		var total_items_i18n, total, animated, animatedCallback,
+		var total_items_i18n, total, animated, animatedCallback, postSelector,
 			response = true === settings.parsed ? {} : settings.parsed.responses[0],
 			commentStatus = true === settings.parsed ? '' : response.supplemental.status,
+			commentPostId = true === settings.parsed ? '' : response.supplemental.postId,
 
 			targetParent = $( settings.target ).parent(),
 			commentRow = $('#' + settings.element),
@@ -285,13 +362,14 @@ setCommentsList = function() {
 			}
 		}
 
+		postSelector = '.post-com-count-' + commentPostId;
+
 		if ( pendingDiff ) {
-			updatePending( pendingDiff );
+			updatePending( pendingDiff, commentPostId );
 		}
 
 		if ( approvedDiff ) {
-			updateCountText( 'span.approved-count', approvedDiff  );
-			updateCountText( 'span.comment-count-approved', approvedDiff );
+			updateApproved( approvedDiff, commentPostId );
 		}
 
 		if ( spamDiff ) {
@@ -337,7 +415,7 @@ setCommentsList = function() {
 
 		refillTheExtraList();
 
-		animated = $( ':animated' );
+		animated = $( ':animated', '#the-comment-list' );
 		animatedCallback = function () {
 			if ( ! $( '#the-comment-list tr:visible' ).length ) {
 				theList.get(0).wpList.add( theExtraList.find( '.no-items' ).clone() );
@@ -627,7 +705,7 @@ commentReply = {
 
 		if ( r.supplemental.parent_approved ) {
 			pid = $('#comment-' + r.supplemental.parent_approved);
-			updatePending( -1 );
+			updatePending( -1, r.supplemental.parent_post_id );
 
 			if ( this.comments_listing == 'moderated' ) {
 				pid.animate( { 'backgroundColor':'#CCEEBB' }, 400, function(){

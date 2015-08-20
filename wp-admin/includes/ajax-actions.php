@@ -357,6 +357,7 @@ function _wp_ajax_delete_comment_response( $comment_id, $delta = -1 ) {
 			'id' => $comment_id,
 			'supplemental' => array(
 				'status' => $comment ? $comment->comment_approved : '',
+				'postId' => $comment ? $comment->comment_post_ID : '',
 				'time' => $time
 			)
 		) );
@@ -398,6 +399,7 @@ function _wp_ajax_delete_comment_response( $comment_id, $delta = -1 ) {
 		'id' => $comment_id,
 		'supplemental' => array(
 			'status' => $comment ? $comment->comment_approved : '',
+			'postId' => $comment ? $comment->comment_post_ID : '',
 			'total_items_i18n' => sprintf( _n( '%s item', '%s items', $total ), number_format_i18n( $total ) ),
 			'total_pages' => ceil( $total / $per_page ),
 			'total_pages_i18n' => number_format_i18n( ceil( $total / $per_page ) ),
@@ -1042,7 +1044,7 @@ function wp_ajax_replyto_comment( $action ) {
 	);
 
 	if ( $comment_auto_approved )
-		$response['supplemental'] = array( 'parent_approved' => $parent->comment_ID );
+		$response['supplemental'] = array( 'parent_approved' => $parent->comment_ID, 'parent_post_id' => $parent->comment_post_ID );
 
 	$x = new WP_Ajax_Response();
 	$x->add( $response );

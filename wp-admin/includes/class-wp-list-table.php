@@ -648,6 +648,11 @@ class WP_List_Table {
 				$pending_comments_number,
 				$pending_phrase
 			);
+		} else {
+			printf( '<span class="post-com-count post-com-count-pending"><span class="comment-count comment-count-no-pending" aria-hidden="true">%s</span><span class="screen-reader-text">%s</span></span>',
+				$pending_comments_number,
+				$approved_comments ? __( 'No pending comments' ) : __( 'No comments' )
+			);
 		}
 	}
 

@@ -411,7 +411,7 @@ class WP_Comments_List_Table extends WP_List_Table {
 	<tbody id="the-extra-comment-list" data-wp-lists="list:comment" style="display: none;">
 		<?php
 			$this->items = $this->extra_items;
-			$this->display_rows_or_placeholder(); 
+			$this->display_rows_or_placeholder();
 		?>
 	</tbody>
 
@@ -698,7 +698,7 @@ class WP_Comments_List_Table extends WP_List_Table {
 		echo $post_link;
 		$post_type_object = get_post_type_object( $post->post_type );
 		echo "<a href='" . get_permalink( $post->ID ) . "' class='comments-view-item-link'>" . $post_type_object->labels->view_item . '</a>';
-		echo '<span class="post-com-count-wrapper">';
+		echo '<span class="post-com-count-wrapper post-com-count-', $post->ID, '">';
 		$this->comments_bubble( $post->ID, $pending_comments );
 		echo '</span> ';
 		echo '</div>';
