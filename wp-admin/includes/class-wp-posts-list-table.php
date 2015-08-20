@@ -1072,7 +1072,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 				$actions['delete'] = "<a class='submitdelete' title='" . esc_attr__( 'Delete this item permanently' ) . "' href='" . get_delete_post_link( $post->ID, '', true ) . "'>" . __( 'Delete Permanently' ) . "</a>";
 		}
 
-		if ( $post_type_object->public ) {
+		if ( is_post_type_viewable( $post_type_object ) ) {
 			$title = _draft_or_post_title();
 			if ( in_array( $post->post_status, array( 'pending', 'draft', 'future' ) ) ) {
 				if ( $can_edit_post ) {

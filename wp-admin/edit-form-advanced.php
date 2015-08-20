@@ -84,21 +84,45 @@ $messages = array();
 /** This filter is documented in wp-admin/includes/meta-boxes.php */
 $post_preview_url = apply_filters( 'preview_post_link', add_query_arg( 'preview', 'true', $permalink ), $post );
 
+$preview_link_html = $scheduled_link_html = $view_post_html = '';
+
+$viewable = is_post_type_viewable( $post_type_object );
+
+if ( $viewable ) {
+	// Preview link.
+	$preview_link_html = sprintf( ' <a target="_blank" href="%s">%s</a>',
+		esc_url( $post_preview_url ),
+		__( 'Preview post' )
+	);
+
+	// Scheduled preview link.
+	$scheduled_link_html = sprintf( ' <a target="_blank" href="%s">%s</a>',
+		esc_url( $permalink ),
+		__( 'Preview post' )
+	);
+
+	// View post link.
+	$view_post_html = sprintf( ' <a href="%s">">%</a>',
+		esc_url( $permalink ),
+		__( 'View post' )
+	);
+}
+
+/* translators: Publish box date format, see http://php.net/date */
+$scheduled_date = date_i18n( __( 'M j, Y @ H:i' ), strtotime( $post->post_date ) );
 $messages['post'] = array(
 	 0 => '', // Unused. Messages start at index 1.
-	 1 => sprintf( __('Post updated. <a href="%s">View post</a>'), esc_url( $permalink ) ),
+	 1 => __( 'Post updated.' ) . $view_post_html,
 	 2 => __('Custom field updated.'),
 	 3 => __('Custom field deleted.'),
 	 4 => __('Post updated.'),
 	/* translators: %s: date and time of the revision */
 	 5 => isset($_GET['revision']) ? sprintf( __('Post restored to revision from %s'), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false,
-	 6 => sprintf( __('Post published. <a href="%s">View post</a>'), esc_url( $permalink ) ),
+	 6 => __( 'Post published.' ) . $view_post_html,
 	 7 => __('Post saved.'),
-	 8 => sprintf( __('Post submitted. <a target="_blank" href="%s">Preview post</a>'), esc_url( $post_preview_url ) ),
-	 9 => sprintf( __('Post scheduled for: <strong>%1$s</strong>. <a target="_blank" href="%2$s">Preview post</a>'),
-		/* translators: Publish box date format, see http://php.net/date */
-		date_i18n( __( 'M j, Y @ H:i' ), strtotime( $post->post_date ) ), esc_url( $permalink ) ),
-	10 => sprintf( __('Post draft updated. <a target="_blank" href="%s">Preview post</a>'), esc_url( $post_preview_url ) ),
+	 8 => __( 'Post submitted.' ) . $preview_link_html,
+	 9 => sprintf( __( 'Post scheduled for: <strong>%1$s</strong>' ), $scheduled_date ) . $scheduled_link_html,
+	10 => __( 'Post draft updated.' ) . $preview_link_html,
 );
 
 /** This filter is documented in wp-admin/includes/meta-boxes.php */
@@ -508,6 +532,7 @@ do_action( 'edit_form_before_permalink', $post );
 ?>
 <div class="inside">
 <?php
+if ( $viewable ) :
 $sample_permalink_html = $post_type_object->public ? get_sample_permalink_html($post->ID) : '';
 $shortlink = wp_get_shortlink($post->ID, 'post');
 
@@ -525,6 +550,7 @@ if ( $post_type_object->public && ! ( 'pending' == get_post_status( $post ) && !
 	</div>
 <?php
 }
+endif;
 ?>
 </div>
 <?php

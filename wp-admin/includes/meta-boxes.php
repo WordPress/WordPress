@@ -31,12 +31,13 @@ function post_submit_meta_box($post, $args = array() ) {
 <div id="save-action">
 <?php if ( 'publish' != $post->post_status && 'future' != $post->post_status && 'pending' != $post->post_status ) { ?>
 <input <?php if ( 'private' == $post->post_status ) { ?>style="display:none"<?php } ?> type="submit" name="save" id="save-post" value="<?php esc_attr_e('Save Draft'); ?>" class="button" />
+<span class="spinner"></span>
 <?php } elseif ( 'pending' == $post->post_status && $can_publish ) { ?>
 <input type="submit" name="save" id="save-post" value="<?php esc_attr_e('Save as Pending'); ?>" class="button" />
-<?php } ?>
 <span class="spinner"></span>
+<?php } ?>
 </div>
-<?php if ( $post_type_object->public ) : ?>
+<?php if ( is_post_type_viewable( $post_type_object ) ) : ?>
 <div id="preview-action">
 <?php
 if ( 'publish' == $post->post_status ) {
