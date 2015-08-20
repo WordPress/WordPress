@@ -102,7 +102,7 @@ if ( $viewable ) {
 	);
 
 	// View post link.
-	$view_post_html = sprintf( ' <a href="%s">">%</a>',
+	$view_post_html = sprintf( ' <a href="%s">%s</a>',
 		esc_url( $permalink ),
 		__( 'View post' )
 	);
