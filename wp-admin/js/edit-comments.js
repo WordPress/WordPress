@@ -228,7 +228,7 @@ setCommentsList = function() {
 
 	// In admin-ajax.php, we send back the unix time stamp instead of 1 on success
 	delAfter = function( r, settings ) {
-		var total_items_i18n, total, animated, animatedCallback, postSelector,
+		var total_items_i18n, total, animated, animatedCallback,
 			response = true === settings.parsed ? {} : settings.parsed.responses[0],
 			commentStatus = true === settings.parsed ? '' : response.supplemental.status,
 			commentPostId = true === settings.parsed ? '' : response.supplemental.postId,
@@ -361,8 +361,6 @@ setCommentsList = function() {
 				trashDiff = -1;
 			}
 		}
-
-		postSelector = '.post-com-count-' + commentPostId;
 
 		if ( pendingDiff ) {
 			updatePending( pendingDiff, commentPostId );
