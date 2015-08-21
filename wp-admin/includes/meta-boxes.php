@@ -521,7 +521,7 @@ function post_categories_meta_box( $post, $box ) {
 					);
 
 					/**
-					 * Filters the arguments for the taxonomy parent dropdown on the Post Edit page.
+					 * Filter the arguments for the taxonomy parent dropdown on the Post Edit page.
 					 *
 					 * @since 4.4.0
 					 *
@@ -543,9 +543,9 @@ function post_categories_meta_box( $post, $box ) {
 					 *                                      where `$parent` is 'parent_item'
 					 *                                      taxonomy label.
 					 * }
-					 *
 					 */
 					$parent_dropdown_args = apply_filters( 'post_edit_category_parent_dropdown_args', $parent_dropdown_args );
+
 					wp_dropdown_categories( $parent_dropdown_args );
 					?>
 					<input type="button" id="<?php echo $tax_name; ?>-add-submit" data-wp-lists="add:<?php echo $tax_name; ?>checklist:<?php echo $tax_name; ?>-add" class="button category-add-submit" value="<?php echo esc_attr( $taxonomy->labels->add_new_item ); ?>" />
