@@ -185,6 +185,7 @@ __( 'Core Committer' );
 __( 'Guest Committer' );
 __( 'Developer' );
 __( 'Designer' );
+__( 'Docs Committer' );
 __( 'XML-RPC' );
 __( 'Internationalization' );
 __( 'External Libraries' );
