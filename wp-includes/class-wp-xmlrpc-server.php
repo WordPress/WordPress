@@ -5132,7 +5132,6 @@ class wp_xmlrpc_server extends IXR_Server {
 						break;
 					default:
 						return new IXR_Error( 401, __( 'Invalid post type' ) );
-						break;
 				}
 				$post_author = $content_struct['wp_author_id'];
 			}
