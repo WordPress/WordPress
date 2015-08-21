@@ -138,12 +138,12 @@ setCommentsList = function() {
 	updatePending = function( diff, commentPostId ) {
 		var postSelector = '.post-com-count-' + commentPostId,
 			noClass = 'comment-count-no-pending',
+			noParentClass = 'post-com-count-no-pending',
 			pendingClass = 'comment-count-pending',
-			counts = $( 'span.pending-count' ),
 			pending,
 			noPending;
 
-		counts.each(function() {
+		$( 'span.pending-count' ).each(function() {
 			var a = $(this), n = getCount(a) + diff;
 			if ( n < 1 )
 				n = 0;
@@ -165,7 +165,11 @@ setCommentsList = function() {
 				n = 0;
 
 			if ( 0 === n ) {
+				a.parent().addClass( noParentClass );
 				a.removeClass( pendingClass ).addClass( noClass );
+			} else {
+				a.parent().removeClass( noParentClass );
+				a.addClass( pendingClass ).removeClass( noClass );
 			}
 			updateCount( a, n );
 		});
@@ -173,7 +177,11 @@ setCommentsList = function() {
 		noPending.each(function() {
 			var a = $(this);
 			if ( diff > 0 ) {
+				a.parent().removeClass( noParentClass );
 				a.removeClass( noClass ).addClass( pendingClass );
+			} else {
+				a.parent().addClass( noParentClass );
+				a.addClass( noClass ).removeClass( pendingClass );
 			}
 			updateCount( a, diff );
 		});
@@ -203,6 +211,8 @@ setCommentsList = function() {
 
 			if ( 0 === n ) {
 				a.removeClass( approvedClass ).addClass( noClass );
+			} else {
+				a.addClass( approvedClass ).removeClass( noClass );
 			}
 			updateCount( a, n );
 		});
@@ -211,6 +221,8 @@ setCommentsList = function() {
 			var a = $(this);
 			if ( diff > 0 ) {
 				a.removeClass( noClass ).addClass( approvedClass );
+			} else {
+				a.addClass( noClass ).removeClass( approvedClass );
 			}
 			updateCount( a, diff );
 		});
