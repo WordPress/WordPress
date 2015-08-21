@@ -510,7 +510,44 @@ function post_categories_meta_box( $post, $box ) {
 					<label class="screen-reader-text" for="new<?php echo $tax_name; ?>_parent">
 						<?php echo $taxonomy->labels->parent_item_colon; ?>
 					</label>
-					<?php wp_dropdown_categories( array( 'taxonomy' => $tax_name, 'hide_empty' => 0, 'name' => 'new' . $tax_name . '_parent', 'orderby' => 'name', 'hierarchical' => 1, 'show_option_none' => '&mdash; ' . $taxonomy->labels->parent_item . ' &mdash;' ) ); ?>
+					<?php
+					$parent_dropdown_args = array(
+						'taxonomy'         => $tax_name,
+						'hide_empty'       => 0,
+						'name'             => 'new' . $tax_name . '_parent',
+						'orderby'          => 'name',
+						'hierarchical'     => 1,
+						'show_option_none' => '&mdash; ' . $taxonomy->labels->parent_item . ' &mdash;',
+					);
+
+					/**
+					 * Filters the arguments for the taxonomy parent dropdown on the Post Edit page.
+					 *
+					 * @since 4.4.0
+					 *
+					 * @param array $parent_dropdown_args {
+					 *     Optional. Array of arguments to generate parent dropdown.
+					 *
+					 *     @type string   $taxonomy         Name of the taxonomy to retrieve.
+					 *     @type bool     $hide_if_empty    True to skip generating markup if no
+					 *                                      categories are found. Default 0.
+					 *     @type string   $name             Value for the 'name' attribute
+					 *                                      of the select element.
+					 *                                      Default "new{$tax_name}_parent".
+					 *     @type string   $orderby          Which column to use for ordering
+					 *                                      terms. Default 'name'.
+					 *     @type bool|int $hierarchical     Whether to traverse the taxonomy
+					 *                                      hierarchy. Default 1.
+					 *     @type string   $show_option_none Text to display for the "none" option.
+					 *                                      Default "&mdash; {$parent} &mdash;",
+					 *                                      where `$parent` is 'parent_item'
+					 *                                      taxonomy label.
+					 * }
+					 *
+					 */
+					$parent_dropdown_args = apply_filters( 'post_edit_category_parent_dropdown_args', $parent_dropdown_args );
+					wp_dropdown_categories( $parent_dropdown_args );
+					?>
 					<input type="button" id="<?php echo $tax_name; ?>-add-submit" data-wp-lists="add:<?php echo $tax_name; ?>checklist:<?php echo $tax_name; ?>-add" class="button category-add-submit" value="<?php echo esc_attr( $taxonomy->labels->add_new_item ); ?>" />
 					<?php wp_nonce_field( 'add-' . $tax_name, '_ajax_nonce-add-' . $tax_name, false ); ?>
 					<span id="<?php echo $tax_name; ?>-ajax-response"></span>
