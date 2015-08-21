@@ -333,6 +333,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 			 * Posts list table, and sorting by date on the Pages list table.
 			 *
 			 * @since 2.1.0
+			 * @since 4.4.0 The `$post_type` parameter was added.
 			 *
 			 * @param string $post_type The post type slug.
 			 */
