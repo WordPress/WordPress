@@ -51,10 +51,35 @@ function get_column_headers( $screen ) {
  * @return array
  */
 function get_hidden_columns( $screen ) {
-	if ( is_string( $screen ) )
+	if ( is_string( $screen ) ) {
 		$screen = convert_to_screen( $screen );
+	}
 
-	return (array) get_user_option( 'manage' . $screen->id . 'columnshidden' );
+	$hidden = get_user_option( 'manage' . $screen->id . 'columnshidden' );
+
+	if ( ! $hidden ) {
+		$hidden = array();
+
+		/**
+		 * Filter the default list of hidden columns.
+		 *
+		 * @since 4.4.0
+		 *
+		 * @param array     $hidden An array of columns hidden by default.
+		 * @param WP_Screen $screen WP_Screen object of the current screen.
+		 */
+		$hidden = apply_filters( 'default_hidden_columns', $hidden, $screen );
+	}
+
+	/**
+	 * Filter the list of hidden columns.
+	 *
+	 * @since 4.4.0
+	 *
+	 * @param array     $hidden An array of hidden columns.
+	 * @param WP_Screen $screen WP_Screen object of the current screen.
+	 */
+	return apply_filters( 'hidden_columns', $hidden, $screen );
 }
 
 /**
