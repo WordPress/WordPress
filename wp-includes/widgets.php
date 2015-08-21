@@ -316,7 +316,7 @@ class WP_Widget {
 		$this->_set( $widget_args['number'] );
 		$instances = $this->get_settings();
 
-		if ( isset( $instances[ $this->number ] ) ) {
+		if ( array_key_exists( $this->number, $instances ) ) {
 			$instance = $instances[ $this->number ];
 
 			/**
