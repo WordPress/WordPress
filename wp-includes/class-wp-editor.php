@@ -297,8 +297,6 @@ final class _WP_Editors {
 	public static function editor_settings($editor_id, $set) {
 		global $wp_version, $tinymce_version;
 
-		$first_run = false;
-
 		if ( empty(self::$first_init) ) {
 			if ( is_admin() ) {
 				add_action( 'admin_print_footer_scripts', array( __CLASS__, 'editor_js' ), 50 );
@@ -351,7 +349,6 @@ final class _WP_Editors {
 
 				/** This filter is documented in wp-admin/includes/media.php */
 				$no_captions = (bool) apply_filters( 'disable_captions', '' );
-				$first_run = true;
 				$ext_plugins = '';
 
 				if ( $set['teeny'] ) {
