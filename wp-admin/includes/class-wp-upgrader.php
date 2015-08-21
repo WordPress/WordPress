@@ -436,6 +436,7 @@ class WP_Upgrader {
 		 * @param array         $hook_extra Extra arguments passed to hooked filters.
 		 */
 		$res = apply_filters( 'upgrader_pre_install', true, $args['hook_extra'] );
+
 		if ( is_wp_error( $res ) ) {
 			return $res;
 		}
@@ -466,6 +467,7 @@ class WP_Upgrader {
 		 * @param WP_Upgrader $this          WP_Upgrader instance.
 		 */
 		$source = apply_filters( 'upgrader_source_selection', $source, $remote_source, $this );
+
 		if ( is_wp_error( $source ) ) {
 			return $source;
 		}
@@ -474,6 +476,7 @@ class WP_Upgrader {
 		if ( $source !== $remote_source ) {
 			$source_files = array_keys( $wp_filesystem->dirlist( $source ) );
 		}
+
 		/*
 		 * Protection against deleting files in any important base directories.
 		 * Theme_Upgrader & Plugin_Upgrader also trigger this, as they pass the
@@ -486,13 +489,14 @@ class WP_Upgrader {
 		if ( is_array( $wp_theme_directories ) ) {
 			$protected_directories = array_merge( $protected_directories, $wp_theme_directories );
 		}
+
 		if ( in_array( $destination, $protected_directories ) ) {
 			$remote_destination = trailingslashit( $remote_destination ) . trailingslashit( basename( $source ) );
 			$destination = trailingslashit( $destination ) . trailingslashit( basename( $source ) );
 		}
 
 		if ( $clear_destination ) {
-			// We're going to clear the destination if there's something there
+			// We're going to clear the destination if there's something there.
 			$this->skin->feedback('remove_old');
 
 			$removed = $this->clear_destination( $remote_destination );
@@ -600,7 +604,6 @@ class WP_Upgrader {
 	 *     @type array  $hook_extra                  Extra arguments to pass to the filter hooks called by
 	 *                                               {@see WP_Upgrader::run()}.
 	 * }
-	 *
 	 * @return array|false|WP_error The result from self::install_package() on success, otherwise a WP_Error,
 	 *                              or false if unable to connect to the filesystem.
 	 */
@@ -662,7 +665,10 @@ class WP_Upgrader {
 			return $res;
 		}
 
-		//Download the package (Note, This just returns the filename of the file if the package is a local file)
+		/*
+		 * Download the package (Note, This just returns the filename
+		 * of the file if the package is a local file)
+		 */
 		$download = $this->download_package( $options['package'] );
 		if ( is_wp_error($download) ) {
 			$this->skin->error($download);
@@ -675,7 +681,7 @@ class WP_Upgrader {
 
 		$delete_package = ( $download != $options['package'] ); // Do not delete a "local" file
 
-		//Unzips the file into a temporary directory
+		// Unzips the file into a temporary directory.
 		$working_dir = $this->unpack_package( $download, $delete_package );
 		if ( is_wp_error($working_dir) ) {
 			$this->skin->error($working_dir);
@@ -686,7 +692,7 @@ class WP_Upgrader {
 			return $working_dir;
 		}
 
-		//With the given options, this installs it to the destination directory.
+		// With the given options, this installs it to the destination directory.
 		$result = $this->install_package( array(
 			'source' => $working_dir,
 			'destination' => $options['destination'],
@@ -701,7 +707,7 @@ class WP_Upgrader {
 			$this->skin->error($result);
 			$this->skin->feedback('process_failed');
 		} else {
-			//Install Succeeded
+			// Install succeeded.
 			$this->skin->feedback('process_success');
 		}
 
@@ -761,6 +767,7 @@ class Plugin_Upgrader extends WP_Upgrader {
 	 * @since 2.8.0
 	 * @access public
 	 * @var array|WP_Error $result
+	 *
 	 * @see WP_Upgrader::$result
 	 */
 	public $result;
@@ -822,7 +829,6 @@ class Plugin_Upgrader extends WP_Upgrader {
 	 *     @type bool $clear_update_cache Whether to clear the plugin updates cache if successful.
 	 *                                    Default true.
 	 * }
-	 *
 	 * @return bool|WP_Error True if the install was successful, false or a WP_Error otherwise.
 	 */
 	public function install( $package, $args = array() ) {
@@ -940,7 +946,6 @@ class Plugin_Upgrader extends WP_Upgrader {
 	 *     @type bool $clear_update_cache Whether to clear the plugin updates cache if successful.
 	 *                                    Default true.
 	 * }
-	 *
 	 * @return array|false An array of results indexed by plugin file, or false if unable to connect to the filesystem.
 	 */
 	public function bulk_upgrade( $plugins, $args = array() ) {
@@ -969,10 +974,12 @@ class Plugin_Upgrader extends WP_Upgrader {
 
 		$this->skin->bulk_header();
 
-		// Only start maintenance mode if:
-		// - running Multisite and there are one or more plugins specified, OR
-		// - a plugin with an update available is currently active.
-		// @TODO: For multisite, maintenance mode should only kick in for individual sites if at all possible.
+		/*
+		 * Only start maintenance mode if:
+		 * - running Multisite and there are one or more plugins specified, OR
+		 * - a plugin with an update available is currently active.
+		 * @TODO: For multisite, maintenance mode should only kick in for individual sites if at all possible.
+		 */
 		$maintenance = ( is_multisite() && ! empty( $plugins ) );
 		foreach ( $plugins as $plugin )
 			$maintenance = $maintenance || ( is_plugin_active( $plugin ) && isset( $current->response[ $plugin] ) );
@@ -996,7 +1003,7 @@ class Plugin_Upgrader extends WP_Upgrader {
 				continue;
 			}
 
-			// Get the URL to the zip file
+			// Get the URL to the zip file.
 			$r = $current->response[ $plugin ];
 
 			$this->skin->plugin_active = is_plugin_active($plugin);
@@ -1051,7 +1058,7 @@ class Plugin_Upgrader extends WP_Upgrader {
 		// Cleanup our hooks, in case something else does a upgrade on this connection.
 		remove_filter('upgrader_clear_destination', array($this, 'delete_old_plugin'));
 
-		// Force refresh of plugin update information
+		// Force refresh of plugin update information.
 		wp_clean_plugins_cache( $parsed_args['clear_update_cache'] );
 
 		return $results;
@@ -1069,7 +1076,8 @@ class Plugin_Upgrader extends WP_Upgrader {
 	 * @global WP_Filesystem_Base $wp_filesystem Subclass
 	 *
 	 * @param string $source The path to the downloaded package source.
-	 * @return string|WP_Error The source as passed, or a {@see WP_Error} object if no plugins were found.
+	 * @return string|WP_Error The source as passed, or a {@see WP_Error} object
+	 *                         if no plugins were found.
 	 */
 	public function check_package($source) {
 		global $wp_filesystem;
