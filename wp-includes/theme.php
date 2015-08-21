@@ -1886,7 +1886,8 @@ function check_theme_switched() {
 /**
  * Includes and instantiates the WP_Customize_Manager class.
  *
- * Fires when ?wp_customize=on or on wp-admin/customize.php.
+ * Fires on a preview frame request (when ?wp_customize=on is in the URL) and
+ * on the Customizer interface page (wp-admin/customize.php).
  *
  * @since 3.4.0
  *
