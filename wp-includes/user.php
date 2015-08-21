@@ -2353,8 +2353,8 @@ function wp_create_user($username, $password, $email = '') {
 /**
  * Returns a list of meta keys to be (maybe) populated in wp_update_user().
  *
- * Values actually keys returned via this function are dependent on the presence
- * of those keys in the user meta data.
+ * The list of keys returned via this function are dependent on the presence
+ * of those keys in the user meta data to be set.
  *
  * @since 3.3.0
  * @access private
