@@ -26,6 +26,7 @@ class WP_Upgrader {
 	 * The error/notification strings used to update the user on the progress.
 	 *
 	 * @since 2.8.0
+	 * @access public
 	 * @var string $strings
 	 */
 	public $strings = array();
@@ -34,6 +35,7 @@ class WP_Upgrader {
 	 * The upgrader skin being used.
 	 *
 	 * @since 2.8.0
+	 * @access public
 	 * @var WP_Upgrader_Skin $skin
 	 */
 	public $skin = null;
@@ -47,6 +49,8 @@ class WP_Upgrader {
 	 * it.
 	 *
 	 * @since 2.8.0
+	 * @access public
+	 *
 	 * @var WP_Error|array $result {
 	 *      @type string $source             The full path to the source the files were installed from.
 	 *      @type string $source_files       List of all the files in the source directory.
@@ -68,6 +72,7 @@ class WP_Upgrader {
 	 * Set by the bulk update methods.
 	 *
 	 * @since 3.0.0
+	 * @access public
 	 * @var int $update_count
 	 */
 	public $update_count = 0;
@@ -78,6 +83,7 @@ class WP_Upgrader {
 	 * Used by the bulk update methods, and incremented for each update.
 	 *
 	 * @since 3.0.0
+	 * @access public
 	 * @var int
 	 */
 	public $update_current = 0;
@@ -86,6 +92,7 @@ class WP_Upgrader {
 	 * Construct the upgrader with a skin.
 	 *
 	 * @since 2.8.0
+	 * @access public
 	 *
 	 * @param WP_Upgrader_Skin $skin The upgrader skin to use. Default is a {@see WP_Upgrader_Skin}
 	 *                               instance.
@@ -104,6 +111,7 @@ class WP_Upgrader {
 	 * and also add the generic strings to `WP_Upgrader::$strings`.
 	 *
 	 * @since 2.8.0
+	 * @access public
 	 */
 	public function init() {
 		$this->skin->set_upgrader($this);
@@ -114,6 +122,7 @@ class WP_Upgrader {
 	 * Add the generic strings to WP_Upgrader::$strings.
 	 *
 	 * @since 2.8.0
+	 * @access public
 	 */
 	public function generic_strings() {
 		$this->strings['bad_request'] = __('Invalid Data provided.');
@@ -142,6 +151,7 @@ class WP_Upgrader {
 	 * Connect to the filesystem.
 	 *
 	 * @since 2.8.0
+	 * @access public
 	 *
 	 * @global WP_Filesystem_Base $wp_filesystem Subclass
 	 *
@@ -205,6 +215,7 @@ class WP_Upgrader {
 	 * Download a package.
 	 *
 	 * @since 2.8.0
+	 * @access public
 	 *
 	 * @param string $package The URI of the package. If this is the full path to an
 	 *                        existing local file, it will be returned untouched.
@@ -216,6 +227,7 @@ class WP_Upgrader {
 		 * Filter whether to return the package.
 		 *
 		 * @since 3.7.0
+		 * @access public
 		 *
 		 * @param bool        $reply   Whether to bail without returning the package.
 		 *                             Default false.
@@ -246,6 +258,7 @@ class WP_Upgrader {
 	 * Unpack a compressed package file.
 	 *
 	 * @since 2.8.0
+	 * @access public
 	 *
 	 * @global WP_Filesystem_Base $wp_filesystem Subclass
 	 *
@@ -297,6 +310,7 @@ class WP_Upgrader {
 	 * Clears the directory where this item is going to be installed into.
 	 *
 	 * @since 4.3.0
+	 * @access public
 	 *
 	 * @global WP_Filesystem_Base $wp_filesystem Subclass
 	 *
@@ -360,6 +374,7 @@ class WP_Upgrader {
 	 * clear out the destination folder if it already exists.
 	 *
 	 * @since 2.8.0
+	 * @access public
 	 *
 	 * @global WP_Filesystem_Base $wp_filesystem Subclass
 	 * @global array              $wp_theme_directories
@@ -561,6 +576,7 @@ class WP_Upgrader {
 	 * install it in the destination folder.
 	 *
 	 * @since 2.8.0
+	 * @access public
 	 *
 	 * @param array $options {
 	 *     Array or string of arguments for upgrading/installing a package.
@@ -707,6 +723,7 @@ class WP_Upgrader {
 	 * Creates/deletes the maintenance file to enable/disable maintenance mode.
 	 *
 	 * @since 2.8.0
+	 * @access public
 	 *
 	 * @global WP_Filesystem_Base $wp_filesystem Subclass
 	 *
@@ -742,6 +759,7 @@ class Plugin_Upgrader extends WP_Upgrader {
 	 * Plugin upgrade result.
 	 *
 	 * @since 2.8.0
+	 * @access public
 	 * @var array|WP_Error $result
 	 * @see WP_Upgrader::$result
 	 */
@@ -751,6 +769,7 @@ class Plugin_Upgrader extends WP_Upgrader {
 	 * Whether a bulk upgrade/install is being performed.
 	 *
 	 * @since 2.9.0
+	 * @access public
 	 * @var bool $bulk
 	 */
 	public $bulk = false;
@@ -759,6 +778,7 @@ class Plugin_Upgrader extends WP_Upgrader {
 	 * Initialize the upgrade strings.
 	 *
 	 * @since 2.8.0
+	 * @access public
 	 */
 	public function upgrade_strings() {
 		$this->strings['up_to_date'] = __('The plugin is at the latest version.');
@@ -776,6 +796,7 @@ class Plugin_Upgrader extends WP_Upgrader {
 	 * Initialize the install strings.
 	 *
 	 * @since 2.8.0
+	 * @access public
 	 */
 	public function install_strings() {
 		$this->strings['no_package'] = __('Install package not available.');
@@ -792,6 +813,7 @@ class Plugin_Upgrader extends WP_Upgrader {
 	 *
 	 * @since 2.8.0
 	 * @since 3.7.0 The `$args` parameter was added, making clearing the plugin update cache optional.
+	 * @access public
 	 *
 	 * @param string $package The full local path or URI of the package.
 	 * @param array  $args {
@@ -842,6 +864,7 @@ class Plugin_Upgrader extends WP_Upgrader {
 	 *
 	 * @since 2.8.0
 	 * @since 3.7.0 The `$args` parameter was added, making clearing the plugin update cache optional.
+	 * @access public
 	 *
 	 * @param string $plugin The basename path to the main plugin file.
 	 * @param array  $args {
@@ -908,6 +931,7 @@ class Plugin_Upgrader extends WP_Upgrader {
 	 *
 	 * @since 2.8.0
 	 * @since 3.7.0 The `$args` parameter was added, making clearing the plugin update cache optional.
+	 * @access public
 	 *
 	 * @param array $plugins Array of the basename paths of the plugins' main files.
 	 * @param array $args {
@@ -1040,6 +1064,7 @@ class Plugin_Upgrader extends WP_Upgrader {
 	 * {@see Plugin_Upgrader::install()}.
 	 *
 	 * @since 3.3.0
+	 * @access public
 	 *
 	 * @global WP_Filesystem_Base $wp_filesystem Subclass
 	 *
@@ -1081,6 +1106,7 @@ class Plugin_Upgrader extends WP_Upgrader {
 	 * This isn't used internally in the class, but is called by the skins.
 	 *
 	 * @since 2.8.0
+	 * @access public
 	 *
 	 * @return string|false The full path to the main plugin file, or false.
 	 */
@@ -1106,6 +1132,7 @@ class Plugin_Upgrader extends WP_Upgrader {
 	 *
 	 * @since 2.8.0
 	 * @since 4.1.0 Added a return value.
+	 * @access public
 	 *
 	 * @param bool|WP_Error  $return Upgrade offer return.
 	 * @param array          $plugin Plugin package arguments.
@@ -1139,6 +1166,7 @@ class Plugin_Upgrader extends WP_Upgrader {
 	 * {@see Plugin_Upgrader::upgrade()} and {@see Plugin_Upgrader::bulk_upgrade()}.
 	 *
 	 * @since 2.8.0
+	 * @access public
 	 *
 	 * @global WP_Filesystem_Base $wp_filesystem Subclass
      *
@@ -1209,6 +1237,7 @@ class Theme_Upgrader extends WP_Upgrader {
 	 * Initialize the upgrade strings.
 	 *
 	 * @since 2.8.0
+	 * @access public
 	 */
 	public function upgrade_strings() {
 		$this->strings['up_to_date'] = __('The theme is at the latest version.');
@@ -1225,6 +1254,7 @@ class Theme_Upgrader extends WP_Upgrader {
 	 * Initialize the install strings.
 	 *
 	 * @since 2.8.0
+	 * @access public
 	 */
 	public function install_strings() {
 		$this->strings['no_package'] = __('Install package not available.');
@@ -1252,6 +1282,7 @@ class Theme_Upgrader extends WP_Upgrader {
 	 * Hooked to the {@see 'upgrader_post_install'} filter by {@see Theme_Upgrader::install()}.
 	 *
 	 * @since 3.4.0
+	 * @access public
 	 *
 	 * @param bool  $install_result
 	 * @param array $hook_extra
@@ -1325,6 +1356,7 @@ class Theme_Upgrader extends WP_Upgrader {
 	 * a child theme and installing the parent theme fails.
 	 *
 	 * @since 3.4.0
+	 * @access public
 	 *
 	 * @param array $actions Preview actions.
 	 * @return array
@@ -1339,6 +1371,7 @@ class Theme_Upgrader extends WP_Upgrader {
 	 *
 	 * @since 2.8.0
 	 * @since 3.7.0 The `$args` parameter was added, making clearing the update cache optional.
+	 * @access public
 	 *
 	 * @param string $package The full local path or URI of the package.
 	 * @param array  $args {
@@ -1391,6 +1424,7 @@ class Theme_Upgrader extends WP_Upgrader {
 	 *
 	 * @since 2.8.0
 	 * @since 3.7.0 The `$args` parameter was added, making clearing the update cache optional.
+	 * @access public
 	 *
 	 * @param string $theme The theme slug.
 	 * @param array  $args {
@@ -1456,6 +1490,7 @@ class Theme_Upgrader extends WP_Upgrader {
 	 *
 	 * @since 3.0.0
 	 * @since 3.7.0 The `$args` parameter was added, making clearing the update cache optional.
+	 * @access public
 	 *
 	 * @param array $themes The theme slugs.
 	 * @param array $args {
@@ -1576,6 +1611,7 @@ class Theme_Upgrader extends WP_Upgrader {
 	 * files.
 	 *
 	 * @since 3.3.0
+	 * @access public
 	 *
 	 * @global WP_Filesystem_Base $wp_filesystem Subclass
 	 *
@@ -1616,6 +1652,7 @@ class Theme_Upgrader extends WP_Upgrader {
 	 * {@see Theme_Upgrader::bulk_upgrade()}.
 	 *
 	 * @since 2.8.0
+	 * @access public
 	 *
 	 * @param bool|WP_Error  $return
 	 * @param array          $theme
@@ -1643,6 +1680,7 @@ class Theme_Upgrader extends WP_Upgrader {
 	 * and {@see Theme_Upgrader::bulk_upgrade()}.
 	 *
 	 * @since 2.8.0
+	 * @access public
 	 *
 	 * @param bool|WP_Error  $return
 	 * @param array          $theme
@@ -1677,6 +1715,7 @@ class Theme_Upgrader extends WP_Upgrader {
 	 * and {@see Theme_Upgrader::bulk_upgrade()}.
 	 *
 	 * @since 2.8.0
+	 * @access public
 	 *
 	 * @global WP_Filesystem_Base $wp_filesystem Subclass
 	 *
@@ -1710,6 +1749,7 @@ class Theme_Upgrader extends WP_Upgrader {
 	 *
 	 * @since 2.8.0
 	 * @since 3.0.0 The `$theme` argument was added.
+	 * @access public
 	 *
 	 * @param string $theme The directory name of the theme. This is optional, and if not supplied,
 	 *                      the directory name from the last result will be used.
@@ -1742,6 +1782,7 @@ class Language_Pack_Upgrader extends WP_Upgrader {
 	 * Result of the language pack upgrade.
 	 *
 	 * @since 3.7.0
+	 * @access public
 	 * @var array|WP_Error $result
 	 * @see WP_Upgrader::$result
 	 */
@@ -1751,6 +1792,7 @@ class Language_Pack_Upgrader extends WP_Upgrader {
 	 * Whether a bulk upgrade/install is being performed.
 	 *
 	 * @since 3.7.0
+	 * @access public
 	 * @var bool $bulk
 	 */
 	public $bulk = true;
@@ -1761,6 +1803,7 @@ class Language_Pack_Upgrader extends WP_Upgrader {
 	 * Hooked to the {@see 'upgrader_process_complete'} action by default.
 	 *
 	 * @since 3.7.0
+	 * @access public
 	 *
 	 * @static
 	 *
@@ -1819,6 +1862,7 @@ class Language_Pack_Upgrader extends WP_Upgrader {
 	 * Initialize the upgrade strings.
 	 *
 	 * @since 3.7.0
+	 * @access public
 	 */
 	public function upgrade_strings() {
 		$this->strings['starting_upgrade'] = __( 'Some of your translations need updating. Sit tight for a few more seconds while we update them as well.' );
@@ -1834,6 +1878,7 @@ class Language_Pack_Upgrader extends WP_Upgrader {
 	 * Upgrade a language pack.
 	 *
 	 * @since 3.7.0
+	 * @access public
 	 *
 	 * @param string|false $update Optional. Whether an update offer is available. Default false.
 	 * @param array        $args   Optional. Other optional arguments, see
@@ -1858,6 +1903,7 @@ class Language_Pack_Upgrader extends WP_Upgrader {
 	 * Bulk upgrade language packs.
 	 *
 	 * @since 3.7.0
+	 * @access public
 	 *
 	 * @global WP_Filesystem_Base $wp_filesystem Subclass
 	 *
@@ -1985,6 +2031,7 @@ class Language_Pack_Upgrader extends WP_Upgrader {
 	 * {@see Language_Pack_Upgrader::bulk_upgrade()}.
 	 *
 	 * @since 3.7.0
+	 * @access public
 	 *
 	 * @global WP_Filesystem_Base $wp_filesystem Subclass
 	 *
@@ -2020,6 +2067,7 @@ class Language_Pack_Upgrader extends WP_Upgrader {
 	 * Get the name of an item being updated.
 	 *
 	 * @since 3.7.0
+	 * @access public
 	 *
 	 * @param object $update The data for an update.
 	 * @return string The name of the item being updated.
@@ -2059,6 +2107,7 @@ class Core_Upgrader extends WP_Upgrader {
 	 * Initialize the upgrade strings.
 	 *
 	 * @since 2.8.0
+	 * @access public
 	 */
 	public function upgrade_strings() {
 		$this->strings['up_to_date'] = __('WordPress is at the latest version.');
@@ -2075,6 +2124,7 @@ class Core_Upgrader extends WP_Upgrader {
 	 * Upgrade WordPress core.
 	 *
 	 * @since 2.8.0
+	 * @access public
 	 *
 	 * @global WP_Filesystem_Base $wp_filesystem Subclass
 	 * @global callback           $_wp_filesystem_direct_method
@@ -2245,6 +2295,7 @@ class Core_Upgrader extends WP_Upgrader {
 	 * Determines if this WordPress Core version should update to an offered version or not.
 	 *
 	 * @since 3.7.0
+	 * @access public
 	 *
 	 * @static
 	 *
@@ -2353,6 +2404,7 @@ class Core_Upgrader extends WP_Upgrader {
 	 * Compare the disk file checksums agains the expected checksums.
 	 *
 	 * @since 3.7.0
+	 * @access public
 	 *
 	 * @global string $wp_version
 	 * @global string $wp_local_package
@@ -2392,6 +2444,7 @@ class File_Upload_Upgrader {
 	 * The full path to the file package.
 	 *
 	 * @since 2.8.0
+	 * @access public
 	 * @var string $package
 	 */
 	public $package;
@@ -2400,6 +2453,7 @@ class File_Upload_Upgrader {
 	 * The name of the file.
 	 *
 	 * @since 2.8.0
+	 * @access public
 	 * @var string $filename
 	 */
 	public $filename;
@@ -2408,6 +2462,7 @@ class File_Upload_Upgrader {
 	 * The ID of the attachment post for this file.
 	 *
 	 * @since 3.3.0
+	 * @access public
 	 * @var int $id
 	 */
 	public $id = 0;
@@ -2416,6 +2471,7 @@ class File_Upload_Upgrader {
 	 * Construct the upgrader for a form.
 	 *
 	 * @since 2.8.0
+	 * @access public
 	 *
 	 * @param string $form      The name of the form the file was uploaded from.
 	 * @param string $urlholder The name of the `GET` parameter that holds the filename.
@@ -2475,6 +2531,7 @@ class File_Upload_Upgrader {
 	 * Delete the attachment/uploaded file.
 	 *
 	 * @since 3.2.2
+	 * @access public
 	 *
 	 * @return bool Whether the cleanup was successful.
 	 */
@@ -2502,6 +2559,7 @@ class WP_Automatic_Updater {
 	 * Tracks update results during processing.
 	 *
 	 * @var array
+	 * @access protected
 	 */
 	protected $update_results = array();
 
@@ -2509,6 +2567,7 @@ class WP_Automatic_Updater {
 	 * Whether the entire automatic updater is disabled.
 	 *
 	 * @since 3.7.0
+	 * @access public
 	 */
 	public function is_disabled() {
 		// Background updates are disabled if you don't want file changes.
@@ -2549,6 +2608,7 @@ class WP_Automatic_Updater {
 	 * how things get updated.
 	 *
 	 * @since 3.7.0
+	 * @access public
 	 *
 	 * @param string $context The filesystem path to check, in addition to ABSPATH.
 	 */
@@ -2601,6 +2661,7 @@ class WP_Automatic_Updater {
 	 * Tests to see if we can and should update a specific item.
 	 *
 	 * @since 3.7.0
+	 * @access public
 	 *
 	 * @global wpdb $wpdb
 	 *
@@ -2684,6 +2745,7 @@ class WP_Automatic_Updater {
 	 * Notifies an administrator of a core update.
 	 *
 	 * @since 3.7.0
+	 * @access protected
 	 *
 	 * @param object $item The update offer.
 	 */
@@ -2727,6 +2789,7 @@ class WP_Automatic_Updater {
 	 * Update an item, if appropriate.
 	 *
 	 * @since 3.7.0
+	 * @access public
 	 *
 	 * @param string $type The type of update being checked: 'core', 'theme', 'plugin', 'translation'.
 	 * @param object $item The update offer.
@@ -2830,6 +2893,7 @@ class WP_Automatic_Updater {
 	 * Kicks off the background update process, looping through all pending updates.
 	 *
 	 * @since 3.7.0
+	 * @access public
 	 *
 	 * @global wpdb   $wpdb
 	 * @global string $wp_version
@@ -2968,6 +3032,9 @@ class WP_Automatic_Updater {
 	 * If we tried to perform a core update, check if we should send an email,
 	 * and if we need to avoid processing future updates.
 	 *
+	 * @since Unknown
+	 * @access protected
+	 *
 	 * @global string $wp_version
 	 *
 	 * @param object|WP_Error $update_result The result of the core update. Includes the update offer and result.
@@ -3056,6 +3123,7 @@ class WP_Automatic_Updater {
 	 * Sends an email upon the completion or failure of a background core update.
 	 *
 	 * @since 3.7.0
+	 * @access protected
 	 *
 	 * @global string $wp_version
 	 *
@@ -3255,6 +3323,7 @@ class WP_Automatic_Updater {
 	 * Prepares and sends an email of a full log of background update results, useful for debugging and geekery.
 	 *
 	 * @since 3.7.0
+	 * @access protected
 	 */
 	protected function send_debug_email() {
 		$update_count = 0;
