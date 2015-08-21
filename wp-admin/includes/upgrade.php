@@ -222,6 +222,7 @@ As a new WordPress user, you should go to <a href=\"%s\">your dashboard</a> to d
 		'post_date_gmt' => $now_gmt,
 		'post_content' => $first_page,
 		'post_excerpt' => '',
+		'comment_status' => 'closed',
 		'post_title' => __( 'Sample Page' ),
 		/* translators: Default page slug */
 		'post_name' => __( 'sample-page' ),
