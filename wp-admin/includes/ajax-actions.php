@@ -1194,16 +1194,16 @@ function wp_ajax_add_meta() {
 
 		// If the post is an autodraft, save the post as a draft and then attempt to save the meta.
 		if ( $post->post_status == 'auto-draft' ) {
-			$save_POST = $_POST; // Backup $_POST
-			$_POST = array(); // Make it empty for edit_post()
-			$_POST['action'] = 'draft'; // Warning fix
-			$_POST['post_ID'] = $pid;
-			$_POST['post_type'] = $post->post_type;
-			$_POST['post_status'] = 'draft';
+			$post_data = array();
+			$post_data['action'] = 'draft'; // Warning fix
+			$post_data['post_ID'] = $pid;
+			$post_data['post_type'] = $post->post_type;
+			$post_data['post_status'] = 'draft';
 			$now = current_time('timestamp', 1);
-			$_POST['post_title'] = sprintf( __( 'Draft created on %1$s at %2$s' ), date( get_option( 'date_format' ), $now ), date( get_option( 'time_format' ), $now ) );
+			$post_data['post_title'] = sprintf( __( 'Draft created on %1$s at %2$s' ), date( get_option( 'date_format' ), $now ), date( get_option( 'time_format' ), $now ) );
 
-			if ( $pid = edit_post() ) {
+			$pid = edit_post( $post_data );
+			if ( $pid ) {
 				if ( is_wp_error( $pid ) ) {
 					$x = new WP_Ajax_Response( array(
 						'what' => 'meta',
@@ -1211,7 +1211,7 @@ function wp_ajax_add_meta() {
 					) );
 					$x->send();
 				}
-				$_POST = $save_POST; // Now we can restore original $_POST again
+
 				if ( !$mid = add_meta( $pid ) )
 					wp_die( __( 'Please provide a custom field value.' ) );
 			} else {
