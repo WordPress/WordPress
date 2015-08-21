@@ -1190,15 +1190,17 @@ class Theme_Upgrader extends WP_Upgrader {
 	 * Result of the theme upgrade offer.
 	 *
 	 * @since 2.8.0
+	 * @access public
 	 * @var array|WP_Erorr $result
 	 * @see WP_Upgrader::$result
 	 */
 	public $result;
 
 	/**
-	 * Whether multiple plugins are being upgraded/installed in bulk.
+	 * Whether multiple themes are being upgraded/installed in bulk.
 	 *
 	 * @since 2.9.0
+	 * @access public
 	 * @var bool $bulk
 	 */
 	public $bulk = false;
