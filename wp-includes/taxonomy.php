@@ -2551,6 +2551,9 @@ function wp_delete_term( $term, $taxonomy, $args = array() ) {
 		do_action( 'edited_term_taxonomies', $edit_tt_ids );
 	}
 
+	// Get the term before deleting it or its term relationships so we can pass to actions below.
+	$deleted_term = get_term( $term, $taxonomy );
+
 	$objects = $wpdb->get_col( $wpdb->prepare( "SELECT object_id FROM $wpdb->term_relationships WHERE term_taxonomy_id = %d", $tt_id ) );
 
 	foreach ( (array) $objects as $object ) {
@@ -2570,9 +2573,6 @@ function wp_delete_term( $term, $taxonomy, $args = array() ) {
 	$tax_object = get_taxonomy( $taxonomy );
 	foreach ( $tax_object->object_type as $object_type )
 		clean_object_term_cache( $objects, $object_type );
-
-	// Get the object before deletion so we can pass to actions below
-	$deleted_term = get_term( $term, $taxonomy );
 
 	/**
 	 * Fires immediately before a term taxonomy ID is deleted.
