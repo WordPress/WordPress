@@ -1232,7 +1232,7 @@ function wp_sanitize_redirect($location) {
 		){1,40}                              # ...one or more times
 		)/x';
 	$location = preg_replace_callback( $regex, '_wp_sanitize_utf8_in_redirect', $location );
-	$location = preg_replace('|[^a-z0-9-~+_.?#=&;,/:%!*\[\]()]|i', '', $location);
+	$location = preg_replace('|[^a-z0-9-~+_.?#=&;,/:%!*\[\]()@]|i', '', $location);
 	$location = wp_kses_no_null($location);
 
 	// remove %0d and %0a from location
