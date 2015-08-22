@@ -3431,6 +3431,14 @@ function attachment_url_to_postid( $url ) {
 	$dir = wp_upload_dir();
 	$path = $url;
 
+	$site_url = parse_url( $dir['url'] );
+	$image_path = parse_url( $path );
+
+	//force the protocols to match if needed
+	if ( isset( $image_path['scheme'] ) && ( $image_path['scheme'] !== $site_url['scheme'] ) ) {
+		$path = str_replace( $image_path['scheme'], $site_url['scheme'], $path );
+	}
+
 	if ( 0 === strpos( $path, $dir['baseurl'] . '/' ) ) {
 		$path = substr( $path, strlen( $dir['baseurl'] . '/' ) );
 	}
@@ -3449,9 +3457,7 @@ function attachment_url_to_postid( $url ) {
 	 * @param int|null $post_id The post_id (if any) found by the function.
 	 * @param string   $url     The URL being looked up.
 	 */
-	$post_id = apply_filters( 'attachment_url_to_postid', $post_id, $url );
-
-	return (int) $post_id;
+	return (int) apply_filters( 'attachment_url_to_postid', $post_id, $url );
 }
 
 /**
