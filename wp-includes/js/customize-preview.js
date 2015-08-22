@@ -1,3 +1,6 @@
+/*
+ * Script run inside a Customizer preview frame.
+ */
 (function( exports, $ ){
 	var api = wp.customize,
 		debounce;
@@ -30,8 +33,7 @@
 	 */
 	api.Preview = api.Messenger.extend({
 		/**
-		 * Requires params:
-		 *  - url    - the URL of preview frame
+		 * @param {string} url The URL of preview frame
 		 */
 		initialize: function( params, options ) {
 			var self = this;
