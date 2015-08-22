@@ -277,14 +277,14 @@ function count_user_posts( $userid, $post_type = 'post', $public_only = false ) 
 	 *
 	 * @since 2.7.0
 	 * @since 4.1.0 Added `$post_type` argument.
-	 * @since 4.3.0 Added `$public_only` argument.
+	 * @since 4.3.1 Added `$public_only` argument.
 	 *
 	 * @param int          $count       The user's post count.
 	 * @param int          $userid      User ID.
-	 * @param string|array $post_types  Post types to count the number of posts for.
+	 * @param string|array $post_type   Post types to count the number of posts for.
 	 * @param bool         $public_only Whether to limit counted posts to public posts.
 	 */
-	return apply_filters( 'get_usernumposts', $count, $userid, $post_type );
+	return apply_filters( 'get_usernumposts', $count, $userid, $post_type, $public_only );
 }
 
 /**
