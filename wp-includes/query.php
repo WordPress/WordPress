@@ -1425,6 +1425,7 @@ class WP_Query {
 			, 'preview'
 			, 's'
 			, 'sentence'
+			, 'title'
 			, 'fields'
 			, 'menu_order'
 		);
@@ -1544,6 +1545,7 @@ class WP_Query {
 	 *                                                 true. Note: a string of comma-separated IDs will NOT work.
 	 *     @type array        $tax_query               An associative array of WP_Tax_Query arguments.
 	 *                                                 {@see WP_Tax_Query->queries}
+	 *     @type string       $title                   Post title.
 	 *     @type bool         $update_post_meta_cache  Whether to update the post meta cache. Default true.
 	 *     @type bool         $update_post_term_cache  Whether to update the post term cache. Default true.
 	 *     @type int          $w                       The week number of the year. Default empty. Accepts numbers 0-53.
@@ -1577,6 +1579,7 @@ class WP_Query {
 		$qv['author'] = preg_replace( '|[^0-9,-]|', '', $qv['author'] ); // comma separated list of positive or negative integers
 		$qv['pagename'] = trim( $qv['pagename'] );
 		$qv['name'] = trim( $qv['name'] );
+		$qv['title'] = trim( $qv['title'] );
 		if ( '' !== $qv['hour'] ) $qv['hour'] = absint($qv['hour']);
 		if ( '' !== $qv['minute'] ) $qv['minute'] = absint($qv['minute']);
 		if ( '' !== $qv['second'] ) $qv['second'] = absint($qv['second']);
@@ -2603,6 +2606,10 @@ class WP_Query {
 				break;
 			} //end foreach
 			unset($ptype_obj);
+		}
+
+		if ( '' !== $q['title'] ) {
+			$where .= $wpdb->prepare( " AND $wpdb->posts.post_title = %s", stripslashes( $q['title'] ) );
 		}
 
 		// Parameters related to 'post_name'.
