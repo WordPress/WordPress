@@ -282,6 +282,11 @@ class WP_Posts_List_Table extends WP_List_Table {
 		$actions = array();
 		$post_type_obj = get_post_type_object( $this->screen->post_type );
 
+		// Don't show bulk options if the user can't edit posts.
+		if ( ! current_user_can( $post_type_obj->cap->edit_posts ) ) {
+			return $actions;
+		}
+
 		if ( $this->is_trash ) {
 			$actions['untrash'] = __( 'Restore' );
 		} else {
