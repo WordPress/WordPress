@@ -1627,9 +1627,13 @@ function get_term_to_edit( $id, $taxonomy ) {
  *     @type int|string   $number            Maximum number of terms to return. Accepts ''|0 (all) or any
  *                                           positive number. Default ''|0 (all).
  *     @type int          $offset            The number by which to offset the terms query. Default empty.
- *     @type string       $fields            Term fields to query for. Accepts 'all' (returns an array of
- *                                           term objects), 'ids' or 'names' (returns an array of integers
- *                                           or strings, respectively. Default 'all'.
+ *     @type string       $fields            Term fields to query for. Accepts 'all' (returns an array of complete
+ *                                           term objects), 'ids' (returns an array of ids), 'id=>parent' (returns
+ *                                           an associative array with ids as keys, parent term IDs as values),
+ *                                           'names' (returns an array of term names), 'count' (returns the number
+ *                                           of matching terms), 'id=>name' (returns an associative array with ids
+ *                                           as keys, term names as values), or 'id=>slug' (returns an associative
+ *                                           array with ids as keys, term slugs as values). Default 'all'.
  *     @type string|array $name              Optional. Name or array of names to return term(s) for. Default empty.
  *     @type string|array $slug              Optional. Slug or array of slugs to return term(s) for. Default empty.
  *     @type bool         $hierarchical      Whether to include terms that have non-empty descendants (even
