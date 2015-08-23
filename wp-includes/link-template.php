@@ -1945,7 +1945,7 @@ function adjacent_post_link( $format, $link, $in_same_term = false, $excluded_te
  *
  * @param int  $pagenum Optional. Page ID.
  * @param bool $escape  Optional. Whether to escape the URL for display, with esc_url(). Defaults to true.
-* 	                    Otherwise, prepares the URL with esc_url_raw().
+ * 	                    Otherwise, prepares the URL with esc_url_raw().
  * @return string The link URL for the given page number.
  */
 function get_pagenum_link($pagenum = 1, $escape = true ) {
