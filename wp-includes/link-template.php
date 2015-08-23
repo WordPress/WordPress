@@ -2423,6 +2423,17 @@ function _navigation_markup( $links, $class = 'posts-navigation', $screen_reader
 		<div class="nav-links">%3$s</div>
 	</nav>';
 
+	/**
+	 * Filter the navigation markup template.
+	 *
+	 * @since 4.4.0
+	 *
+	 * @param string $template The default template
+	 * @param string $class The class passed by the calling function.
+	 * @return string Navigation template.
+	 */
+	$template = apply_filters( 'navigation_markup_template', $template, $class );
+
 	return sprintf( $template, sanitize_html_class( $class ), esc_html( $screen_reader_text ), $links );
 }
 
