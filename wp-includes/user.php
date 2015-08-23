@@ -261,7 +261,7 @@ function wp_validate_logged_in_cookie( $user_id ) {
  * @global wpdb $wpdb WordPress database object for queries.
  *
  * @param int          $userid      User ID.
- * @param array|string $post_type   Optional. Post type(s) to count the number of posts for. Default 'post'.
+ * @param array|string $post_type   Optional. Single post type or array of post types to count the number of posts for. Default 'post'.
  * @param bool         $public_only Optional. Whether to only return counts for public posts. Default false.
  * @return int Number of posts the user has written in this post type.
  */
@@ -281,7 +281,7 @@ function count_user_posts( $userid, $post_type = 'post', $public_only = false ) 
 	 *
 	 * @param int          $count       The user's post count.
 	 * @param int          $userid      User ID.
-	 * @param string|array $post_type   Post types to count the number of posts for.
+	 * @param string|array $post_type   Single post type or array of post types to count the number of posts for.
 	 * @param bool         $public_only Whether to limit counted posts to public posts.
 	 */
 	return apply_filters( 'get_usernumposts', $count, $userid, $post_type, $public_only );
