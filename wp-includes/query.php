@@ -1891,6 +1891,11 @@ class WP_Query {
 			}
 		}
 
+		// If querystring 'cat' is an array, implode it.
+		if ( is_array( $q['cat'] ) ) {
+			$q['cat'] = implode( ',', $q['cat'] );
+		}
+
 		// Category stuff
 		if ( ! empty( $q['cat'] ) && ! $this->is_singular ) {
 			$cat_in = $cat_not_in = array();
@@ -1964,6 +1969,11 @@ class WP_Query {
 				'operator' => 'AND',
 				'include_children' => false
 			);
+		}
+
+		// If querystring 'tag' is array, implode it.
+		if ( is_array( $q['tag'] ) ) {
+			$q['tag'] = implode( ',', $q['tag'] );
 		}
 
 		// Tag stuff
