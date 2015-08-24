@@ -2365,7 +2365,8 @@ All at ###SITENAME###
  * @param string $username The user's username.
  * @param string $password The user's password.
  * @param string $email    Optional. The user's email. Default empty.
- * @return int|WP_Error The new user's ID.
+ * @return int|WP_Error The newly created user's ID or a WP_Error object if the user could not
+ *                      be created.
  */
 function wp_create_user($username, $password, $email = '') {
 	$user_login = wp_slash( $username );
