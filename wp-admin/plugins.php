@@ -265,7 +265,7 @@ if ( $action ) {
 
 							// Get plugins list from that folder.
 							if ( $folder_plugins = get_plugins( '/' . $plugin_slug ) ) {
-								foreach( $folder_plugins as $plugin_file => $data ) {
+								foreach ( $folder_plugins as $plugin_file => $data ) {
 									$plugin_info[ $plugin_file ] = _get_plugin_data_markup_translate( $plugin_file, $data );
 									$plugin_info[ $plugin_file ]['is_uninstallable'] = is_uninstallable_plugin( $plugin );
 									if ( ! $plugin_info[ $plugin_file ]['Network'] ) {

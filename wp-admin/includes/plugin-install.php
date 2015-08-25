@@ -497,7 +497,7 @@ function install_plugin_information() {
 		<?php }
 
 		if ( ! empty( $api->ratings ) && array_sum( (array) $api->ratings ) > 0 ) {
-			foreach( $api->ratings as $key => $ratecount ) {
+			foreach ( $api->ratings as $key => $ratecount ) {
 				// Avoid div-by-zero.
 				$_rating = $api->num_ratings ? ( $ratecount / $api->num_ratings ) : 0;
 				?>

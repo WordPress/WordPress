@@ -502,7 +502,7 @@ function wp_mail( $to, $subject, $message, $headers = '', $attachments = array()
 
 	// Set custom headers
 	if ( !empty( $headers ) ) {
-		foreach( (array) $headers as $name => $content ) {
+		foreach ( (array) $headers as $name => $content ) {
 			$phpmailer->AddCustomHeader( sprintf( '%1$s: %2$s', $name, $content ) );
 		}
 

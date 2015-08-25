@@ -2176,7 +2176,7 @@ class WP_Query {
 			'Comma-separated list of search stopwords in your language' ) );
 
 		$stopwords = array();
-		foreach( $words as $word ) {
+		foreach ( $words as $word ) {
 			$word = trim( $word, "\r\n\t " );
 			if ( $word )
 				$stopwords[] = $word;

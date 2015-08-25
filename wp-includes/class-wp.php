@@ -445,7 +445,7 @@ class WP {
 			}
 		}
 
-		foreach( (array) $headers as $name => $field_value )
+		foreach ( (array) $headers as $name => $field_value )
 			@header("{$name}: {$field_value}");
 
 		if ( $exit_required )

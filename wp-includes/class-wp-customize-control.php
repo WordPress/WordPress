@@ -386,7 +386,7 @@ class WP_Customize_Control {
 	 * @access public
 	 */
 	public function input_attrs() {
-		foreach( $this->input_attrs as $attr => $value ) {
+		foreach ( $this->input_attrs as $attr => $value ) {
 			echo $attr . '="' . esc_attr( $value ) . '" ';
 		}
 	}

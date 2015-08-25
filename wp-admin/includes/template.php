@@ -256,7 +256,7 @@ function wp_terms_checklist( $post_id = 0, $args = array() ) {
 		$checked_categories = array();
 		$keys = array_keys( $categories );
 
-		foreach( $keys as $k ) {
+		foreach ( $keys as $k ) {
 			if ( in_array( $categories[$k]->term_id, $args['selected_cats'] ) ) {
 				$checked_categories[] = $categories[$k];
 				unset( $categories[$k] );

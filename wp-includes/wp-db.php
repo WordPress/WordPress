@@ -840,7 +840,7 @@ class wpdb {
 		 */
 		$incompatible_modes = (array) apply_filters( 'incompatible_sql_modes', $this->incompatible_modes );
 
-		foreach( $modes as $i => $mode ) {
+		foreach ( $modes as $i => $mode ) {
 			if ( in_array( $mode, $incompatible_modes ) ) {
 				unset( $modes[ $i ] );
 			}
@@ -2249,7 +2249,7 @@ class wpdb {
 		} elseif ( $output == ARRAY_A || $output == ARRAY_N ) {
 			// Return an integer-keyed array of...
 			if ( $this->last_result ) {
-				foreach( (array) $this->last_result as $row ) {
+				foreach ( (array) $this->last_result as $row ) {
 					if ( $output == ARRAY_N ) {
 						// ...integer-keyed row arrays
 						$new_array[] = array_values( get_object_vars( $row ) );
@@ -2594,7 +2594,7 @@ class wpdb {
 		}
 
 		// If any of the columns don't have one of these collations, it needs more sanity checking.
-		foreach( $this->col_meta[ $table ] as $col ) {
+		foreach ( $this->col_meta[ $table ] as $col ) {
 			if ( empty( $col->Collation ) ) {
 				continue;
 			}
@@ -2944,7 +2944,7 @@ class wpdb {
 			if ( $col_offset == -1 ) {
 				$i = 0;
 				$new_array = array();
-				foreach( (array) $this->col_info as $col ) {
+				foreach ( (array) $this->col_info as $col ) {
 					$new_array[$i] = $col->{$info_type};
 					$i++;
 				}

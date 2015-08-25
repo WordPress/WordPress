@@ -148,7 +148,7 @@ class Walker {
 		// descend only when the depth is right and there are childrens for this element
 		if ( ($max_depth == 0 || $max_depth > $depth+1 ) && isset( $children_elements[$id]) ) {
 
-			foreach( $children_elements[ $id ] as $child ){
+			foreach ( $children_elements[ $id ] as $child ){
 
 				if ( !isset($newlevel) ) {
 					$newlevel = true;
@@ -250,7 +250,7 @@ class Walker {
 		if ( ( $max_depth == 0 ) && count( $children_elements ) > 0 ) {
 			$empty_array = array();
 			foreach ( $children_elements as $orphans )
-				foreach( $orphans as $op )
+				foreach ( $orphans as $op )
 					$this->display_element( $op, $empty_array, 1, 0, $args, $output );
 		 }
 
@@ -374,7 +374,7 @@ class Walker {
 		if ( $end >= $total_top && count( $children_elements ) > 0 ) {
 			$empty_array = array();
 			foreach ( $children_elements as $orphans )
-				foreach( $orphans as $op )
+				foreach ( $orphans as $op )
 					$this->display_element( $op, $empty_array, 1, 0, $args, $output );
 		}
 

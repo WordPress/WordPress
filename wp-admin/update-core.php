@@ -135,7 +135,7 @@ function dismissed_updates() {
 	<?php
 		echo '<p class="hide-if-no-js"><a id="show-dismissed" href="#">'.__('Show hidden updates').'</a></p>';
 		echo '<ul id="dismissed-updates" class="core-updates dismissed">';
-		foreach( (array) $dismissed as $update) {
+		foreach ( (array) $dismissed as $update) {
 			echo '<li>';
 			list_core_update( $update );
 			echo '</li>';
@@ -197,7 +197,7 @@ function core_upgrade_preamble() {
 	}
 
 	echo '<ul class="core-updates">';
-	foreach( (array) $updates as $update ) {
+	foreach ( (array) $updates as $update ) {
 		echo '<li>';
 		list_core_update( $update );
 		echo '</li>';

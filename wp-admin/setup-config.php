@@ -309,7 +309,7 @@ switch($step) {
 <p><?php _e( "Sorry, but I can&#8217;t write the <code>wp-config.php</code> file." ); ?></p>
 <p><?php _e( 'You can create the <code>wp-config.php</code> manually and paste the following text into it.' ); ?></p>
 <textarea id="wp-config" cols="98" rows="15" class="code" readonly="readonly"><?php
-		foreach( $config_file as $line ) {
+		foreach ( $config_file as $line ) {
 			echo htmlentities($line, ENT_COMPAT, 'UTF-8');
 		}
 ?></textarea>
@@ -336,7 +336,7 @@ if ( ! /iPad|iPod|iPhone/.test( navigator.userAgent ) ) {
 			$path_to_wp_config = dirname( ABSPATH ) . '/wp-config.php';
 
 		$handle = fopen( $path_to_wp_config, 'w' );
-		foreach( $config_file as $line ) {
+		foreach ( $config_file as $line ) {
 			fwrite( $handle, $line );
 		}
 		fclose( $handle );

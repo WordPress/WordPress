@@ -2464,7 +2464,7 @@ function wp_count_attachments( $mime_type = '' ) {
 	$count = $wpdb->get_results( "SELECT post_mime_type, COUNT( * ) AS num_posts FROM $wpdb->posts WHERE post_type = 'attachment' AND post_status != 'trash' $and GROUP BY post_mime_type", ARRAY_A );
 
 	$counts = array();
-	foreach( (array) $count as $row ) {
+	foreach ( (array) $count as $row ) {
 		$counts[ $row['post_mime_type'] ] = $row['num_posts'];
 	}
 	$counts['trash'] = $wpdb->get_var( "SELECT COUNT( * ) FROM $wpdb->posts WHERE post_type = 'attachment' AND post_status = 'trash' $and");
@@ -3079,7 +3079,7 @@ function wp_get_recent_posts( $args = array(), $output = ARRAY_A ) {
 
 	// Backward compatibility. Prior to 3.1 expected posts to be returned in array.
 	if ( ARRAY_A == $output ){
-		foreach( $results as $key => $result ) {
+		foreach ( $results as $key => $result ) {
 			$results[$key] = get_object_vars( $result );
 		}
 		return $results ? $results : array();
@@ -3398,7 +3398,7 @@ function wp_insert_post( $postarr, $wp_error = false ) {
 
 	$emoji_fields = array( 'post_title', 'post_content', 'post_excerpt' );
 
-	foreach( $emoji_fields as $emoji_field ) {
+	foreach ( $emoji_fields as $emoji_field ) {
 		if ( isset( $data[ $emoji_field ] ) ) {
 			$charset = $wpdb->get_col_charset( $wpdb->posts, $emoji_field );
 			if ( 'utf8' === $charset ) {
@@ -4149,7 +4149,7 @@ function get_enclosed( $post_id ) {
 	foreach ( $custom_fields as $key => $val ) {
 		if ( 'enclosure' != $key || !is_array( $val ) )
 			continue;
-		foreach( $val as $enc ) {
+		foreach ( $val as $enc ) {
 			$enclosure = explode( "\n", $enc );
 			$pung[] = trim( $enclosure[ 0 ] );
 		}
@@ -4239,7 +4239,7 @@ function trackback_url_list( $tb_list, $post_id ) {
 		}
 
 		$trackback_urls = explode( ',', $tb_list );
-		foreach( (array) $trackback_urls as $tb_url ) {
+		foreach ( (array) $trackback_urls as $tb_url ) {
 			$tb_url = trim( $tb_url );
 			trackback( $tb_url, wp_unslash( $postdata['post_title'] ), $excerpt, $post_id );
 		}
@@ -4485,7 +4485,7 @@ function get_page_hierarchy( &$pages, $page_id = 0 ) {
  */
 function _page_traverse_name( $page_id, &$children, &$result ){
 	if ( isset( $children[ $page_id ] ) ){
-		foreach( (array)$children[ $page_id ] as $child ) {
+		foreach ( (array)$children[ $page_id ] as $child ) {
 			$result[ $child->ID ] = $child->post_name;
 			_page_traverse_name( $child->ID, $children, $result );
 		}
@@ -4774,7 +4774,7 @@ function get_pages( $args = array() ) {
 
 	if ( ! empty( $r['exclude_tree'] ) ) {
 		$exclude = wp_parse_id_list( $r['exclude_tree'] );
-		foreach( $exclude as $id ) {
+		foreach ( $exclude as $id ) {
 			$children = get_page_children( $id, $pages );
 			foreach ( $children as $child ) {
 				$exclude[] = $child->ID;

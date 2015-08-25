@@ -53,7 +53,7 @@ if ( $action ) {
 				wp_safe_redirect( add_query_arg( 'error', 'none', $referer ) );
 				exit;
 			}
-			foreach( (array) $themes as $theme )
+			foreach ( (array) $themes as $theme )
 				$allowed_themes[ $theme ] = true;
 			update_site_option( 'allowedthemes', $allowed_themes );
 			wp_safe_redirect( add_query_arg( 'enabled', count( $themes ), $referer ) );
@@ -65,7 +65,7 @@ if ( $action ) {
 				wp_safe_redirect( add_query_arg( 'error', 'none', $referer ) );
 				exit;
 			}
-			foreach( (array) $themes as $theme )
+			foreach ( (array) $themes as $theme )
 				unset( $allowed_themes[ $theme ] );
 			update_site_option( 'allowedthemes', $allowed_themes );
 			wp_safe_redirect( add_query_arg( 'disabled', count( $themes ), $referer ) );

@@ -405,7 +405,7 @@ class WP_oEmbed {
 		 */
 		$provider = apply_filters( 'oembed_fetch_url', $provider, $url, $args );
 
-		foreach( array( 'json', 'xml' ) as $format ) {
+		foreach ( array( 'json', 'xml' ) as $format ) {
 			$result = $this->_fetch_with_format( $provider, $format );
 			if ( is_wp_error( $result ) && 'not-implemented' == $result->get_error_code() )
 				continue;

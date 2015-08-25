@@ -984,7 +984,7 @@ class WP_Press_This {
 		}
 
 		if ( ! empty( $data['_embeds'] ) ) {
-			foreach( $data['_embeds'] as $src ) {
+			foreach ( $data['_embeds'] as $src ) {
 				$prot_relative_src = preg_replace( '/^https?:/', '', $src );
 
 				if ( in_array( $prot_relative_src, $this->embeds ) ) {
@@ -1012,7 +1012,7 @@ class WP_Press_This {
 		$selected_images = array();
 
 		if ( ! empty( $data['_images'] ) ) {
-			foreach( $data['_images'] as $src ) {
+			foreach ( $data['_images'] as $src ) {
 				if ( false !== strpos( $src, 'gravatar.com' ) ) {
 					$src = preg_replace( '%http://[\d]+\.gravatar\.com/%', 'https://secure.gravatar.com/', $src );
 				}

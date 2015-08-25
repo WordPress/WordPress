@@ -207,7 +207,7 @@ function apply_filters( $tag, $value ) {
 		$args = func_get_args();
 
 	do {
-		foreach( (array) current($wp_filter[$tag]) as $the_ )
+		foreach ( (array) current($wp_filter[$tag]) as $the_ )
 			if ( !is_null($the_['function']) ){
 				$args[1] = $value;
 				$value = call_user_func_array($the_['function'], array_slice($args, 1, (int) $the_['accepted_args']));
@@ -264,7 +264,7 @@ function apply_filters_ref_array($tag, $args) {
 	reset( $wp_filter[ $tag ] );
 
 	do {
-		foreach( (array) current($wp_filter[$tag]) as $the_ )
+		foreach ( (array) current($wp_filter[$tag]) as $the_ )
 			if ( !is_null($the_['function']) )
 				$args[0] = call_user_func_array($the_['function'], array_slice($args, 0, (int) $the_['accepted_args']));
 
@@ -574,7 +574,7 @@ function do_action_ref_array($tag, $args) {
 	reset( $wp_filter[ $tag ] );
 
 	do {
-		foreach( (array) current($wp_filter[$tag]) as $the_ )
+		foreach ( (array) current($wp_filter[$tag]) as $the_ )
 			if ( !is_null($the_['function']) )
 				call_user_func_array($the_['function'], array_slice($args, 0, (int) $the_['accepted_args']));
 
@@ -845,7 +845,7 @@ function _wp_call_all_hook($args) {
 
 	reset( $wp_filter['all'] );
 	do {
-		foreach( (array) current($wp_filter['all']) as $the_ )
+		foreach ( (array) current($wp_filter['all']) as $the_ )
 			if ( !is_null($the_['function']) )
 				call_user_func_array($the_['function'], $args);
 

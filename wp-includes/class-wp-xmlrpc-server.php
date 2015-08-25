@@ -2948,7 +2948,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		$tags = array();
 
 		if ( $all_tags = get_tags() ) {
-			foreach( (array) $all_tags as $tag ) {
+			foreach ( (array) $all_tags as $tag ) {
 				$struct = array();
 				$struct['tag_id']			= $tag->term_id;
 				$struct['name']				= $tag->name;
@@ -4048,7 +4048,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		$struct = array();
 
-		foreach( $post_types as $post_type ) {
+		foreach ( $post_types as $post_type ) {
 			if ( ! current_user_can( $post_type->cap->edit_posts ) )
 				continue;
 
@@ -5367,7 +5367,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 			$categories = array();
 			$catids = wp_get_post_categories($post_ID);
-			foreach($catids as $catid)
+			foreach ($catids as $catid)
 				$categories[] = get_cat_name($catid);
 
 			$tagnames = array();
@@ -5506,7 +5506,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 			$categories = array();
 			$catids = wp_get_post_categories($entry['ID']);
-			foreach( $catids as $catid )
+			foreach ( $catids as $catid )
 				$categories[] = get_cat_name($catid);
 
 			$tagnames = array();

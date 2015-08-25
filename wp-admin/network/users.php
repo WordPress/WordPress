@@ -231,7 +231,7 @@ if ( isset( $_GET['action'] ) ) {
 			}
 			$i = 0;
 			if ( is_array( $_POST['user'] ) && ! empty( $_POST['user'] ) )
-				foreach( $_POST['user'] as $id ) {
+				foreach ( $_POST['user'] as $id ) {
 					if ( ! current_user_can( 'delete_user', $id ) )
 						continue;
 					wpmu_delete_user( $id );

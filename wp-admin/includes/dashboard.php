@@ -1069,7 +1069,7 @@ function wp_dashboard_primary() {
  * @param array  $feeds     Array of RSS feeds.
  */
 function wp_dashboard_primary_output( $widget_id, $feeds ) {
-	foreach( $feeds as $type => $args ) {
+	foreach ( $feeds as $type => $args ) {
 		$args['type'] = $type;
 		echo '<div class="rss-widget">';
 		if ( $type === 'plugins' ) {

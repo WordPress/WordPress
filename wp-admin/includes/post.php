@@ -371,7 +371,7 @@ function edit_post( $post_data = null ) {
 	if ( ! $success && is_callable( array( $wpdb, 'strip_invalid_text_for_column' ) ) ) {
 		$fields = array( 'post_title', 'post_content', 'post_excerpt' );
 
-		foreach( $fields as $field ) {
+		foreach ( $fields as $field ) {
 			if ( isset( $post_data[ $field ] ) ) {
 				$post_data[ $field ] = $wpdb->strip_invalid_text_for_column( $wpdb->posts, $field, $post_data[ $field ] );
 			}
@@ -1123,7 +1123,7 @@ function wp_edit_attachments_query_vars( $q = false ) {
 		unset($q['post_mime_type']);
 	}
 
-	foreach( array_keys( $post_mime_types ) as $type ) {
+	foreach ( array_keys( $post_mime_types ) as $type ) {
 		if ( isset( $q['attachment-filter'] ) && "post_mime_type:$type" == $q['attachment-filter'] ) {
 			$q['post_mime_type'] = $type;
 			break;

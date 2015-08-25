@@ -158,7 +158,7 @@ function wpmu_delete_blog( $blog_id, $drop = false ) {
 		}
 
 		$stack = array_reverse( $stack ); // Last added dirs are deepest
-		foreach( (array) $stack as $dir ) {
+		foreach ( (array) $stack as $dir ) {
 			if ( $dir != $top_dir)
 			@rmdir( $dir );
 		}
@@ -802,7 +802,7 @@ function choose_primary_blog() {
 			$found = false;
 			?>
 			<select name="primary_blog" id="primary_blog">
-				<?php foreach( (array) $all_blogs as $blog ) {
+				<?php foreach ( (array) $all_blogs as $blog ) {
 					if ( $primary_blog == $blog->userblog_id )
 						$found = true;
 					?><option value="<?php echo $blog->userblog_id ?>"<?php selected( $primary_blog, $blog->userblog_id ); ?>><?php echo esc_url( get_home_url( $blog->userblog_id ) ) ?></option><?php

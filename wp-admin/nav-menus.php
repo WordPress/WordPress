@@ -67,7 +67,7 @@ switch ( $action ) {
 				// Set up the data we need in one pass through the array of menu items.
 				$dbids_to_orders = array();
 				$orders_to_dbids = array();
-				foreach( (array) $ordered_menu_items as $ordered_menu_item_object ) {
+				foreach ( (array) $ordered_menu_items as $ordered_menu_item_object ) {
 					if ( isset( $ordered_menu_item_object->ID ) ) {
 						if ( isset( $ordered_menu_item_object->menu_order ) ) {
 							$dbids_to_orders[$ordered_menu_item_object->ID] = $ordered_menu_item_object->menu_order;
@@ -140,7 +140,7 @@ switch ( $action ) {
 				// Set up the data we need in one pass through the array of menu items.
 				$dbids_to_orders = array();
 				$orders_to_dbids = array();
-				foreach( (array) $ordered_menu_items as $ordered_menu_item_object ) {
+				foreach ( (array) $ordered_menu_items as $ordered_menu_item_object ) {
 					if ( isset( $ordered_menu_item_object->ID ) ) {
 						if ( isset( $ordered_menu_item_object->menu_order ) ) {
 							$dbids_to_orders[$ordered_menu_item_object->ID] = $ordered_menu_item_object->menu_order;
@@ -460,7 +460,7 @@ if ( ! $nav_menu_selected_title && is_nav_menu( $nav_menu_selected_id ) ) {
 }
 
 // Generate truncated menu names.
-foreach( (array) $nav_menus as $key => $_nav_menu ) {
+foreach ( (array) $nav_menus as $key => $_nav_menu ) {
 	$nav_menus[$key]->truncated_name = wp_html_excerpt( $_nav_menu->name, 40, '&hellip;' );
 }
 
@@ -588,7 +588,7 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 		?>
 	</h2>
 	<?php
-	foreach( $messages as $message ) :
+	foreach ( $messages as $message ) :
 		echo $message . "\n";
 	endforeach;
 	?>
@@ -668,7 +668,7 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 				<?php if ( $add_new_screen ) : ?>
 					<option value="0" selected="selected"><?php _e( '&mdash; Select &mdash;' ); ?></option>
 				<?php endif; ?>
-				<?php foreach( (array) $nav_menus as $_nav_menu ) : ?>
+				<?php foreach ( (array) $nav_menus as $_nav_menu ) : ?>
 					<option value="<?php echo esc_attr( $_nav_menu->term_id ); ?>" <?php selected( $_nav_menu->term_id, $nav_menu_selected_id ); ?>>
 						<?php
 						echo esc_html( $_nav_menu->truncated_name ) ;

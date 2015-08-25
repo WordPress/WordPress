@@ -135,7 +135,7 @@ $out = '';
 $wp_scripts = new WP_Scripts();
 wp_default_scripts($wp_scripts);
 
-foreach( $load as $handle ) {
+foreach ( $load as $handle ) {
 	if ( !array_key_exists($handle, $wp_scripts->registered) )
 		continue;
 

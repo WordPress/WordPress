@@ -340,7 +340,7 @@ function wptexturize_primes( $haystack, $needle, $prime, $open_quote, $close_quo
 
 	$sentences = explode( $open_quote, $haystack );
 
-	foreach( $sentences as $key => &$sentence ) {
+	foreach ( $sentences as $key => &$sentence ) {
 		if ( false === strpos( $sentence, $needle ) ) {
 			continue;
 		} elseif ( 0 !== $key && 0 === substr_count( $sentence, $close_quote ) ) {
@@ -4442,7 +4442,7 @@ function wp_encode_emoji( $content ) {
 		$matches = array();
 		if ( preg_match_all( $regex, $content, $matches ) ) {
 			if ( ! empty( $matches[1] ) ) {
-				foreach( $matches[1] as $emoji ) {
+				foreach ( $matches[1] as $emoji ) {
 					/*
 					 * UTF-32's hex encoding is the same as HTML's hex encoding.
 					 * So, by converting the emoji from UTF-8 to UTF-32, we magically

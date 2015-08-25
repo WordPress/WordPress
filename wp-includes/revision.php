@@ -336,7 +336,7 @@ function wp_restore_post_revision( $revision_id, $fields = null ) {
 		$fields = array_keys( _wp_post_revision_fields() );
 
 	$update = array();
-	foreach( array_intersect( array_keys( $revision ), $fields ) as $field ) {
+	foreach ( array_intersect( array_keys( $revision ), $fields ) as $field ) {
 		$update[$field] = $revision[$field];
 	}
 

@@ -96,7 +96,7 @@ class WP_Dependencies {
 		$handles = false === $handles ? $this->queue : (array) $handles;
 		$this->all_deps( $handles );
 
-		foreach( $this->to_do as $key => $handle ) {
+		foreach ( $this->to_do as $key => $handle ) {
 			if ( !in_array($handle, $this->done, true) && isset($this->registered[$handle]) ) {
 
 				/*

@@ -92,7 +92,7 @@ if ( $doaction ) {
 		case 'trash':
 			$trashed = $locked = 0;
 
-			foreach( (array) $post_ids as $post_id ) {
+			foreach ( (array) $post_ids as $post_id ) {
 				if ( !current_user_can( 'delete_post', $post_id) )
 					wp_die( __('You are not allowed to move this item to the Trash.') );
 
@@ -111,7 +111,7 @@ if ( $doaction ) {
 			break;
 		case 'untrash':
 			$untrashed = 0;
-			foreach( (array) $post_ids as $post_id ) {
+			foreach ( (array) $post_ids as $post_id ) {
 				if ( !current_user_can( 'delete_post', $post_id) )
 					wp_die( __('You are not allowed to restore this item from the Trash.') );
 
@@ -124,7 +124,7 @@ if ( $doaction ) {
 			break;
 		case 'delete':
 			$deleted = 0;
-			foreach( (array) $post_ids as $post_id ) {
+			foreach ( (array) $post_ids as $post_id ) {
 				$post_del = get_post($post_id);
 
 				if ( !current_user_can( 'delete_post', $post_id ) )

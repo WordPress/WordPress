@@ -1239,7 +1239,7 @@ function get_attachment_fields_to_edit($post, $errors = null) {
 	}
 
 	// Merge default fields with their errors, so any key passed with the error (e.g. 'error', 'helps', 'value') will replace the default
-	// The recursive merge is easily traversed with array casting: foreach( (array) $things as $thing )
+	// The recursive merge is easily traversed with array casting: foreach ( (array) $things as $thing )
 	$form_fields = array_merge_recursive($form_fields, (array) $errors);
 
 	// This was formerly in image_attachment_fields_to_edit().
@@ -1627,7 +1627,7 @@ function get_compat_media_markup( $attachment_id, $args = null ) {
 	}
 
 	// Merge default fields with their errors, so any key passed with the error (e.g. 'error', 'helps', 'value') will replace the default
-	// The recursive merge is easily traversed with array casting: foreach( (array) $things as $thing )
+	// The recursive merge is easily traversed with array casting: foreach ( (array) $things as $thing )
 	$form_fields = array_merge_recursive($form_fields, (array) $args['errors'] );
 
 	/** This filter is documented in wp-admin/includes/media.php */

@@ -765,7 +765,7 @@ function delete_plugins( $plugins, $deprecated = '' ) {
 		return false;
 
 	$checked = array();
-	foreach( $plugins as $plugin )
+	foreach ( $plugins as $plugin )
 		$checked[] = 'checked[]=' . $plugin;
 
 	ob_start();
@@ -813,7 +813,7 @@ function delete_plugins( $plugins, $deprecated = '' ) {
 
 	$errors = array();
 
-	foreach( $plugins as $plugin_file ) {
+	foreach ( $plugins as $plugin_file ) {
 		// Run Uninstall hook.
 		if ( is_uninstallable_plugin( $plugin_file ) ) {
 			uninstall_plugin($plugin_file);

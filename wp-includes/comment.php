@@ -2402,7 +2402,7 @@ function wp_new_comment( $commentdata ) {
 	if ( ! $comment_ID ) {
 		$fields = array( 'comment_author', 'comment_author_email', 'comment_author_url', 'comment_content' );
 
-		foreach( $fields as $field ) {
+		foreach ( $fields as $field ) {
 			if ( isset( $commentdata[ $field ] ) ) {
 				$commentdata[ $field ] = $wpdb->strip_invalid_text_for_column( $wpdb->comments, $field, $commentdata[ $field ] );
 			}

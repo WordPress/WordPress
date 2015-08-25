@@ -132,7 +132,7 @@ function date_i18n( $dateformatstring, $unixtimestamp = false, $gmt = false ) {
 		if ( $timezone_string ) {
 			$timezone_object = timezone_open( $timezone_string );
 			$date_object = date_create( null, $timezone_object );
-			foreach( $timezone_formats as $timezone_format ) {
+			foreach ( $timezone_formats as $timezone_format ) {
 				if ( false !== strpos( $dateformatstring, $timezone_format ) ) {
 					$formatted = date_format( $date_object, $timezone_format );
 					$dateformatstring = ' '.$dateformatstring;
@@ -1080,7 +1080,7 @@ function nocache_headers() {
 		}
 	}
 
-	foreach( $headers as $name => $field_value )
+	foreach ( $headers as $name => $field_value )
 		@header("{$name}: {$field_value}");
 }
 

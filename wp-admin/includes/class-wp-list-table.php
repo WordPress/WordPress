@@ -868,7 +868,7 @@ class WP_List_Table {
 
 		// We need a primary defined so responsive views show something,
 		// so let's fall back to the first non-checkbox column.
-		foreach( $columns as $col => $column_name ) {
+		foreach ( $columns as $col => $column_name ) {
 			if ( 'cb' === $col ) {
 				continue;
 			}

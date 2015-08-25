@@ -96,7 +96,7 @@ if ( $action ) {
 				$themes = (array) $_POST['checked'];
 				$action = 'enabled';
 				$n = count( $themes );
-				foreach( (array) $themes as $theme )
+				foreach ( (array) $themes as $theme )
 					$allowed_themes[ $theme ] = true;
 			} else {
 				$action = 'error';
@@ -109,7 +109,7 @@ if ( $action ) {
 				$themes = (array) $_POST['checked'];
 				$action = 'disabled';
 				$n = count( $themes );
-				foreach( (array) $themes as $theme )
+				foreach ( (array) $themes as $theme )
 					unset( $allowed_themes[ $theme ] );
 			} else {
 				$action = 'error';

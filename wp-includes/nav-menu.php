@@ -644,7 +644,7 @@ function wp_get_nav_menu_items( $menu, $args = array() ) {
 		$GLOBALS['_menu_item_sort_prop'] = $args['output_key'];
 		usort($items, '_sort_nav_menu_items');
 		$i = 1;
-		foreach( $items as $k => $item ) {
+		foreach ( $items as $k => $item ) {
 			$items[$k]->{$args['output_key']} = $i++;
 		}
 	}
@@ -848,7 +848,7 @@ function wp_get_associated_nav_menu_items( $object_id = 0, $object_type = 'post_
 			'posts_per_page' => -1,
 		)
 	);
-	foreach( (array) $menu_items as $menu_item ) {
+	foreach ( (array) $menu_items as $menu_item ) {
 		if ( isset( $menu_item->ID ) && is_nav_menu_item( $menu_item->ID ) ) {
 			$menu_item_type = get_post_meta( $menu_item->ID, '_menu_item_type', true );
 			if (
@@ -883,7 +883,7 @@ function _wp_delete_post_menu_item( $object_id = 0 ) {
 
 	$menu_item_ids = wp_get_associated_nav_menu_items( $object_id, 'post_type' );
 
-	foreach( (array) $menu_item_ids as $menu_item_id ) {
+	foreach ( (array) $menu_item_ids as $menu_item_id ) {
 		wp_delete_post( $menu_item_id, true );
 	}
 }
@@ -902,7 +902,7 @@ function _wp_delete_tax_menu_item( $object_id = 0, $tt_id, $taxonomy ) {
 
 	$menu_item_ids = wp_get_associated_nav_menu_items( $object_id, 'taxonomy', $taxonomy );
 
-	foreach( (array) $menu_item_ids as $menu_item_id ) {
+	foreach ( (array) $menu_item_ids as $menu_item_id ) {
 		wp_delete_post( $menu_item_id, true );
 	}
 }
