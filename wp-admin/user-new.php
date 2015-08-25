@@ -79,6 +79,18 @@ if ( isset($_REQUEST['action']) && 'adduser' == $_REQUEST['action'] ) {
 
 			$roles = get_editable_roles();
 			$role = $roles[ $_REQUEST['role'] ];
+
+			/**
+			 * Fires immediately after a user is invited to join a site, but before the notification is sent.
+			 *
+			 * @since 4.4.0
+			 *
+			 * @param int    $user_id     The invited user's ID.
+			 * @param array  $role        The role of invited user.
+			 * @param string $newuser_key The key of the invitation.
+			 */
+			do_action( 'invite_user', $user_id, $role, $newuser_key );
+
 			/* translators: 1: Site name, 2: site URL, 3: role, 4: activation URL */
 			$message = __( 'Hi,
 
