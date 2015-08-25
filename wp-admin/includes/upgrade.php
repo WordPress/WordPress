@@ -1590,11 +1590,8 @@ function upgrade_431() {
 	// Fix incorrect cron entries for term splitting
 	$cron_array = _get_cron_array();
 	if ( isset( $cron_array['wp_batch_split_terms'] ) ) {
-		foreach ( $cron_array['wp_batch_split_terms'] as $timestamp_hook => $cron_data ) {
-			foreach ( $cron_data as $key => $args ) {
-				wp_unschedule_event( 'wp_batch_split_terms', $timestamp_hook, $args['args'] );
-			}
-		}
+		unset( $cron_array['wp_batch_split_terms'] );
+		_set_cron_array( $cron_array );
 	}
 }
 
