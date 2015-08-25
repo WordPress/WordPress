@@ -95,7 +95,7 @@ function wp_initial_constants() {
 	// Constants for features added to WP that should short-circuit their plugin implementations
 	define( 'WP_FEATURE_BETTER_PASSWORDS', true );
 
-	/**
+	/**#@+
 	 * Constants for expressing human-readable intervals
 	 * in their respective number of seconds.
 	 *
@@ -111,6 +111,7 @@ function wp_initial_constants() {
 	define( 'WEEK_IN_SECONDS',    7 * DAY_IN_SECONDS    );
 	define( 'MONTH_IN_SECONDS',  30 * DAY_IN_SECONDS    );
 	define( 'YEAR_IN_SECONDS',  365 * DAY_IN_SECONDS    );
+	/**#@-*/
 }
 
 /**
