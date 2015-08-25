@@ -384,8 +384,6 @@ form.upgrade .hint {
 	border: 1px solid #ddd;
 	line-height: 1.8em;
 	word-spacing: 3px;
-	-webkit-border-radius: 6px;
-	border-radius: 6px;
 }
 
 .drag-drop #drag-drop-area {
