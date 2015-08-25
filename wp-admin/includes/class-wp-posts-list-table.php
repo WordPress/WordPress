@@ -838,13 +838,13 @@ class WP_Posts_List_Table extends WP_List_Table {
 			/**
 			 * Filter the published time of the post.
 			 *
-			 * If $mode equals 'excerpt', the published time and date are both displayed.
-			 * If $mode equals 'list' (default), the publish date is displayed, with the
+			 * If `$mode` equals 'excerpt', the published time and date are both displayed.
+			 * If `$mode` equals 'list' (default), the publish date is displayed, with the
 			 * time and date together available as an abbreviation definition.
 			 *
 			 * @since 2.5.1
 			 *
-			 * @param array   $t_time      The published time.
+			 * @param string  $t_time      The published time.
 			 * @param WP_Post $post        Post object.
 			 * @param string  $column_name The column name.
 			 * @param string  $mode        The list display mode ('excerpt' or 'list').
