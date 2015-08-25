@@ -1182,9 +1182,9 @@ Library = wp.media.controller.State.extend({
 		var defaultProps = wp.media.view.settings.defaultProps;
 		this._displays = [];
 		this._defaultDisplaySettings = {
-			align: defaultProps.align || getUserSetting( 'align', 'none' ),
-			size:  defaultProps.size  || getUserSetting( 'imgsize', 'medium' ),
-			link:  defaultProps.link  || getUserSetting( 'urlbutton', 'file' )
+			align: getUserSetting( 'align', defaultProps.align ) || 'none',
+			size:  getUserSetting( 'imgsize', defaultProps.size ) || 'medium',
+			link:  getUserSetting( 'urlbutton', defaultProps.link ) || 'none'
 		};
 	},
 
