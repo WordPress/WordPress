@@ -2732,6 +2732,8 @@ function home_url( $path = '', $scheme = null ) {
  * @return string Home URL link with optional path appended.
 */
 function get_home_url( $blog_id = null, $path = '', $scheme = null ) {
+	global $pagenow;
+
 	$orig_scheme = $scheme;
 
 	if ( empty( $blog_id ) || !is_multisite() ) {
@@ -2743,7 +2745,7 @@ function get_home_url( $blog_id = null, $path = '', $scheme = null ) {
 	}
 
 	if ( ! in_array( $scheme, array( 'http', 'https', 'relative' ) ) ) {
-		if ( is_ssl() && ! is_admin() && 'wp-login.php' !== $GLOBALS['pagenow'] )
+		if ( is_ssl() && ! is_admin() && 'wp-login.php' !== $pagenow )
 			$scheme = 'https';
 		else
 			$scheme = parse_url( $url, PHP_URL_SCHEME );
