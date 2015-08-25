@@ -43,8 +43,9 @@ function get_option( $option, $default = false ) {
 	 *
 	 * @param bool|mixed $pre_option Value to return instead of the option value.
 	 *                               Default false to skip it.
+	 * @param string     $option     Option name.
 	 */
-	$pre = apply_filters( 'pre_option_' . $option, false );
+	$pre = apply_filters( 'pre_option_' . $option, false, $option );
 	if ( false !== $pre )
 		return $pre;
 
@@ -62,10 +63,11 @@ function get_option( $option, $default = false ) {
 			 *
 			 * @since 3.4.0
 			 *
-			 * @param mixed $default The default value to return if the option does not exist
-			 *                       in the database.
+			 * @param mixed  $default The default value to return if the option does not exist
+			 *                        in the database.
+			 * @param string $option  Option name.
 			 */
-			return apply_filters( 'default_option_' . $option, $default );
+			return apply_filters( 'default_option_' . $option, $default, $option );
 		}
 
 		$alloptions = wp_load_alloptions();
@@ -90,7 +92,7 @@ function get_option( $option, $default = false ) {
 					wp_cache_set( 'notoptions', $notoptions, 'options' );
 
 					/** This filter is documented in wp-includes/option.php */
-					return apply_filters( 'default_option_' . $option, $default );
+					return apply_filters( 'default_option_' . $option, $default, $option );
 				}
 			}
 		}
@@ -102,7 +104,7 @@ function get_option( $option, $default = false ) {
 			$value = $row->option_value;
 		} else {
 			/** This filter is documented in wp-includes/option.php */
-			return apply_filters( 'default_option_' . $option, $default );
+			return apply_filters( 'default_option_' . $option, $default, $option );
 		}
 	}
 
@@ -121,10 +123,11 @@ function get_option( $option, $default = false ) {
 	 * @since 1.5.0 As 'option_' . $setting
 	 * @since 3.0.0
 	 *
-	 * @param mixed $value Value of the option. If stored serialized, it will be
-	 *                     unserialized prior to being returned.
+	 * @param mixed  $value  Value of the option. If stored serialized, it will be
+	 *                       unserialized prior to being returned.
+	 * @param string $option Option name.
 	 */
-	return apply_filters( 'option_' . $option, maybe_unserialize( $value ) );
+	return apply_filters( 'option_' . $option, maybe_unserialize( $value ), $option );
 }
 
 /**
@@ -263,10 +266,11 @@ function update_option( $option, $value, $autoload = null ) {
 	 *
 	 * @since 2.6.0
 	 *
-	 * @param mixed $value     The new, unserialized option value.
-	 * @param mixed $old_value The old option value.
+	 * @param mixed  $value     The new, unserialized option value.
+	 * @param mixed  $old_value The old option value.
+	 * @param string $option    Option name.
 	 */
-	$value = apply_filters( 'pre_update_option_' . $option, $value, $old_value );
+	$value = apply_filters( 'pre_update_option_' . $option, $value, $old_value, $option );
 
 	/**
 	 * Filter an option before its value is (maybe) serialized and updated.
@@ -341,10 +345,11 @@ function update_option( $option, $value, $autoload = null ) {
 	 *
 	 * @since 2.0.1
 	 *
-	 * @param mixed $old_value The old option value.
-	 * @param mixed $value     The new option value.
+	 * @param mixed  $old_value The old option value.
+	 * @param mixed  $value     The new option value.
+	 * @param string $option    Option name.
 	 */
-	do_action( "update_option_{$option}", $old_value, $value );
+	do_action( "update_option_{$option}", $old_value, $value, $option );
 
 	/**
 	 * Fires after the value of an option has been successfully updated.
@@ -595,7 +600,7 @@ function delete_transient( $transient ) {
  */
 function get_transient( $transient ) {
 
- 	/**
+	/**
 	 * Filter the value of an existing transient.
 	 *
 	 * The dynamic portion of the hook name, `$transient`, refers to the transient name.
@@ -605,11 +610,12 @@ function get_transient( $transient ) {
 	 *
 	 * @since 2.8.0
 	 *
-	 * @param mixed $pre_transient The default value to return if the transient does not exist.
-	 *                             Any value other than false will short-circuit the retrieval
-	 *                             of the transient, and return the returned value.
+	 * @param mixed  $pre_transient The default value to return if the transient does not exist.
+	 *                              Any value other than false will short-circuit the retrieval
+	 *                              of the transient, and return the returned value.
+	 * @param string $transient     Transient name.
 	 */
-	$pre = apply_filters( 'pre_transient_' . $transient, false );
+	$pre = apply_filters( 'pre_transient_' . $transient, false, $transient );
 	if ( false !== $pre )
 		return $pre;
 
@@ -642,9 +648,10 @@ function get_transient( $transient ) {
 	 *
 	 * @since 2.8.0
 	 *
-	 * @param mixed $value Value of transient.
+	 * @param mixed  $value     Value of transient.
+	 * @param string $transient Transient name.
 	 */
-	return apply_filters( 'transient_' . $transient, $value );
+	return apply_filters( 'transient_' . $transient, $value, $transient );
 }
 
 /**
@@ -674,10 +681,11 @@ function set_transient( $transient, $value, $expiration = 0 ) {
 	 * @since 3.0.0
 	 * @since 4.2.0 Added `$expiration` parameter.
 	 *
-	 * @param mixed $value      New value of transient.
-	 * @param int   $expiration Time until expiration in seconds.
+	 * @param mixed  $value      New value of transient.
+	 * @param int    $expiration Time until expiration in seconds.
+	 * @param string $transient  Transient name.
 	 */
-	$value = apply_filters( 'pre_set_transient_' . $transient, $value, $expiration );
+	$value = apply_filters( 'pre_set_transient_' . $transient, $value, $expiration, $transient );
 
 	if ( wp_using_ext_object_cache() ) {
 		$result = wp_cache_set( $transient, $value, 'transient', $expiration );
@@ -983,9 +991,10 @@ function get_site_option( $option, $default = false, $use_cache = true ) {
 	 * @since 2.9.0 As 'pre_site_option_' . $key
 	 * @since 3.0.0
 	 *
-	 * @param mixed $pre_option The default value to return if the option does not exist.
+	 * @param mixed  $pre_option The default value to return if the option does not exist.
+	 * @param string $option     Option name.
 	 */
- 	$pre = apply_filters( 'pre_site_option_' . $option, false );
+	$pre = apply_filters( 'pre_site_option_' . $option, false, $option );
 
  	if ( false !== $pre )
  		return $pre;
@@ -1003,16 +1012,17 @@ function get_site_option( $option, $default = false, $use_cache = true ) {
 		 *
 		 * @since 3.4.0
 		 *
-		 * @param mixed $default The value to return if the site option does not exist
-		 *                       in the database.
+		 * @param mixed  $default The value to return if the site option does not exist
+		 *                        in the database.
+		 * @param string $option  Option name.
 		 */
-		return apply_filters( 'default_site_option_' . $option, $default );
+		return apply_filters( 'default_site_option_' . $option, $default, $option );
 	}
 
 	if ( ! is_multisite() ) {
 
 		/** This filter is documented in wp-includes/option.php */
-		$default = apply_filters( 'default_site_option_' . $option, $default );
+		$default = apply_filters( 'default_site_option_' . $option, $default, $option );
 		$value = get_option($option, $default);
 	} else {
 		$cache_key = "{$wpdb->siteid}:$option";
@@ -1035,7 +1045,7 @@ function get_site_option( $option, $default = false, $use_cache = true ) {
 				wp_cache_set( $notoptions_key, $notoptions, 'site-options' );
 
 				/** This filter is documented in wp-includes/option.php */
-				$value = apply_filters( 'default_site_option_' . $option, $default );
+				$value = apply_filters( 'default_site_option_' . $option, $default, $option );
 			}
 		}
 	}
@@ -1048,9 +1058,10 @@ function get_site_option( $option, $default = false, $use_cache = true ) {
 	 * @since 2.9.0 As 'site_option_' . $key
 	 * @since 3.0.0
 	 *
-	 * @param mixed $value Value of site option.
+	 * @param mixed  $value  Value of site option.
+	 * @param string $option Option name.
 	 */
- 	return apply_filters( 'site_option_' . $option, $value );
+	return apply_filters( 'site_option_' . $option, $value, $option );
 }
 
 /**
@@ -1081,9 +1092,10 @@ function add_site_option( $option, $value ) {
 	 * @since 2.9.0 As 'pre_add_site_option_' . $key
 	 * @since 3.0.0
 	 *
-	 * @param mixed $value Value of site option.
+	 * @param mixed  $value  Value of site option.
+	 * @param string $option Option name.
 	 */
-	$value = apply_filters( 'pre_add_site_option_' . $option, $value );
+	$value = apply_filters( 'pre_add_site_option_' . $option, $value, $option );
 
 	$notoptions_key = "{$wpdb->siteid}:notoptions";
 
@@ -1169,8 +1181,10 @@ function delete_site_option( $option ) {
 	 * The dynamic portion of the hook name, `$option`, refers to the option name.
 	 *
 	 * @since 3.0.0
+	 *
+	 * @param string $option Option name.
 	 */
-	do_action( 'pre_delete_site_option_' . $option );
+	do_action( 'pre_delete_site_option_' . $option, $option );
 
 	if ( !is_multisite() ) {
 		$result = delete_option( $option );
@@ -1240,10 +1254,11 @@ function update_site_option( $option, $value ) {
 	 * @since 2.9.0 As 'pre_update_site_option_' . $key
 	 * @since 3.0.0
 	 *
-	 * @param mixed $value     New value of site option.
-	 * @param mixed $old_value Old value of site option.
+	 * @param mixed  $value     New value of site option.
+	 * @param mixed  $old_value Old value of site option.
+	 * @param string $option    Option name.
 	 */
-	$value = apply_filters( 'pre_update_site_option_' . $option, $value, $old_value );
+	$value = apply_filters( 'pre_update_site_option_' . $option, $value, $old_value, $option );
 
 	if ( $value === $old_value )
 		return false;
@@ -1374,11 +1389,12 @@ function get_site_transient( $transient ) {
 	 *
 	 * @since 2.9.0
 	 *
-	 * @param mixed $pre_site_transient The default value to return if the site transient does not exist.
-	 *                                  Any value other than false will short-circuit the retrieval
-	 *                                  of the transient, and return the returned value.
+	 * @param mixed  $pre_site_transient The default value to return if the site transient does not exist.
+	 *                                   Any value other than false will short-circuit the retrieval
+	 *                                   of the transient, and return the returned value.
+	 * @param string $transient          Transient name.
 	 */
-	$pre = apply_filters( 'pre_site_transient_' . $transient, false );
+	$pre = apply_filters( 'pre_site_transient_' . $transient, false, $transient );
 
 	if ( false !== $pre )
 		return $pre;
@@ -1410,9 +1426,10 @@ function get_site_transient( $transient ) {
 	 *
 	 * @since 2.9.0
 	 *
-	 * @param mixed $value Value of site transient.
+	 * @param mixed  $value     Value of site transient.
+	 * @param string $transient Transient name.
 	 */
-	return apply_filters( 'site_transient_' . $transient, $value );
+	return apply_filters( 'site_transient_' . $transient, $value, $transient );
 }
 
 /**
@@ -1440,9 +1457,10 @@ function set_site_transient( $transient, $value, $expiration = 0 ) {
 	 *
 	 * @since 3.0.0
 	 *
-	 * @param mixed $value Value of site transient.
+	 * @param mixed  $value     Value of site transient.
+	 * @param string $transient Transient name.
 	 */
-	$value = apply_filters( 'pre_set_site_transient_' . $transient, $value );
+	$value = apply_filters( 'pre_set_site_transient_' . $transient, $value, $transient );
 
 	$expiration = (int) $expiration;
 
@@ -1470,10 +1488,11 @@ function set_site_transient( $transient, $value, $expiration = 0 ) {
 		 *
 		 * @since 3.0.0
 		 *
-		 * @param mixed $value      Site transient value.
-		 * @param int   $expiration Time until expiration in seconds. Default 0.
+		 * @param mixed  $value      Site transient value.
+		 * @param int    $expiration Time until expiration in seconds. Default 0.
+		 * @param string $transient  Transient name.
 		 */
-		do_action( 'set_site_transient_' . $transient, $value, $expiration );
+		do_action( 'set_site_transient_' . $transient, $value, $expiration, $transient );
 
 		/**
 		 * Fires after the value for a site transient has been set.
