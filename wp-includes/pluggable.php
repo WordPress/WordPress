@@ -1812,6 +1812,18 @@ function wp_verify_nonce( $nonce, $action = -1 ) {
 		return 2;
 	}
 
+	/**
+	 * Fires when nonce verification fails.
+	 *
+	 * @since 4.4.0
+	 *
+	 * @param string     $nonce  The invalid nonce.
+	 * @param string|int $action The nonce action.
+	 * @param WP_User    $user   The current user object.
+	 * @param string     $token  The user's session token.
+	 */ 
+	do_action( 'wp_verify_nonce_failed', $nonce, $action, $user, $token );
+
 	// Invalid nonce
 	return false;
 }
