@@ -1,10 +1,15 @@
 <?php
 /**
+ * Core widgets functionality
+ *
  * @package WordPress
  * @subpackage Widgets
+ * @since 4.4.0
  */
 
-/* Template tags & API functions */
+//
+// Template tags & API functions
+//
 
 /**
  * Register a widget
@@ -750,7 +755,9 @@ function is_active_sidebar( $index ) {
 	return apply_filters( 'is_active_sidebar', $is_active_sidebar, $index );
 }
 
-/* Internal Functions */
+//
+// Internal Functions
+//
 
 /**
  * Retrieve full list of sidebars and their widget instance IDs.
