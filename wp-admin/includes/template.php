@@ -1083,8 +1083,11 @@ function do_meta_boxes( $screen, $context, $object ) {
 					$i++;
 					$hidden_class = in_array($box['id'], $hidden) ? ' hide-if-js' : '';
 					echo '<div id="' . $box['id'] . '" class="postbox ' . postbox_classes($box['id'], $page) . $hidden_class . '" ' . '>' . "\n";
-					if ( 'dashboard_browser_nag' != $box['id'] )
-						echo '<div class="handlediv" title="' . esc_attr__('Click to toggle') . '"><br /></div>';
+					if ( 'dashboard_browser_nag' != $box['id'] ) {
+						echo '<button class="handlediv button-link" title="' . esc_attr__( 'Click to toggle' ) . '" aria-expanded="true">';
+						echo '<span class="screen-reader-text">' . sprintf( __( 'Click to toggle %s panel' ), $box['title'] ) . '</span><br />';
+						echo '</button>';
+					}
 					echo "<h3 class='hndle'><span>{$box['title']}</span></h3>\n";
 					echo '<div class="inside">' . "\n";
 					call_user_func($box['callback'], $object, $box);
