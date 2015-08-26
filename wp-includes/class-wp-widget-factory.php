@@ -1,10 +1,17 @@
 <?php
 /**
- * Singleton that registers and instantiates WP_Widget classes.
+ * Class file for WP_Widget_Factory
  *
  * @package WordPress
  * @subpackage Widgets
+ * @since 4.4.0
+ */
+
+/**
+ * Singleton that registers and instantiates WP_Widget classes.
+ *
  * @since 2.8.0
+ * @since 4.4.0 Moved to its own file from wp-includes/widgets.php
  */
 class WP_Widget_Factory {
 	public $widgets = array();
