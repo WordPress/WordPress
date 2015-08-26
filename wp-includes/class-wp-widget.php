@@ -1,11 +1,20 @@
 <?php
 /**
- * This class must be extended for each widget and WP_Widget::widget(), WP_Widget::update()
- * and WP_Widget::form() need to be over-ridden.
+ * Class file for WP_Widget
  *
  * @package WordPress
  * @subpackage Widgets
+ * @since 4.4.0
+ */
+
+/**
+ * WP_Widget class.
+ *
+ * This class must be extended for each widget and WP_Widget::widget(), WP_Widget::update()
+ * and WP_Widget::form() need to be overridden.
+ *
  * @since 2.8.0
+ * @since 4.4.0 Moved to its own file from wp-includes/widgets.php
  */
 class WP_Widget {
 
