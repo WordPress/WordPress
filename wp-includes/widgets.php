@@ -1,7 +1,9 @@
 <?php
 /**
  * API for creating dynamic sidebar without hardcoding functionality into
- * themes. Includes both internal WordPress routines and theme use routines.
+ * themes
+ *
+ * Includes both internal WordPress routines and theme use routines.
  *
  * This functionality was found in a plugin before WordPress 2.2 release which
  * included it in the core from that point on.
@@ -13,7 +15,9 @@
  * @subpackage Widgets
  */
 
-/* Global Variables */
+//
+// Global Variables
+//
 
 /** @ignore */
 global $wp_registered_sidebars, $wp_registered_widgets, $wp_registered_widget_controls, $wp_registered_widget_updates;
@@ -83,6 +87,11 @@ $GLOBALS['_wp_deprecated_widgets_callbacks'] = array(
 	'wp_widget_recent_comments_control'
 );
 
+/** WP_Widget class */
 require_once( ABSPATH . WPINC . '/class-wp-widget.php' );
+
+/** WP_Widget_Factory class */
 require_once( ABSPATH . WPINC . '/class-wp-widget-factory.php' );
+
+/** Core widgets functionality */
 require_once( ABSPATH . WPINC . '/widget-functions.php' );
