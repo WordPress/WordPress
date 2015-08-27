@@ -583,17 +583,58 @@ function get_blogs_of_user( $user_id, $all = false ) {
  * @return bool
  */
 function is_user_member_of_blog( $user_id = 0, $blog_id = 0 ) {
+	global $wpdb;
+
 	$user_id = (int) $user_id;
 	$blog_id = (int) $blog_id;
 
-	if ( empty( $user_id ) )
+	if ( empty( $user_id ) ) {
 		$user_id = get_current_user_id();
+	}
 
-	if ( empty( $blog_id ) )
+	// Technically not needed, but does save calls to get_blog_details and get_user_meta
+	// in the event that the function is called when a user isn't logged in
+	if ( empty( $user_id ) ) {
+		return false;
+	} else {
+		$user = get_userdata( $user_id );
+		if ( ! $user instanceof WP_User ) {
+			return false;
+		}
+	}
+
+	if ( ! is_multisite() ) {
+		return true;
+	}
+
+	if ( empty( $blog_id ) ) {
 		$blog_id = get_current_blog_id();
+	}
 
-	$blogs = get_blogs_of_user( $user_id );
-	return array_key_exists( $blog_id, $blogs );
+	$blog = get_blog_details( $blog_id );
+
+	if ( ! $blog || ! isset( $blog->domain ) || $blog->archived || $blog->spam || $blog->deleted ) {
+		return false;
+	}
+
+	$keys = get_user_meta( $user_id );
+	if ( empty( $keys ) ) {
+		return false;
+	}
+
+	// no underscore before capabilities in $base_capabilities_key
+	$base_capabilities_key = $wpdb->base_prefix . 'capabilities';
+	$site_capabilities_key = $wpdb->base_prefix . $blog_id . '_capabilities';
+
+	if ( isset( $keys[ $base_capabilities_key ] ) && $blog_id == 1 ) {
+		return true;
+	}
+
+	if ( isset( $keys[ $site_capabilities_key ] ) ) {
+		return true;
+	}
+
+	return false;
 }
 
 /**
