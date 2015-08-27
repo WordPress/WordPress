@@ -1308,7 +1308,6 @@ function get_sample_permalink_html( $id, $new_title = null, $new_slug = null ) {
 
 		$post_name_html = '<span id="editable-post-name" title="' . $title . '">' . $post_name_abridged . '</span>';
 		$display_link = str_replace( array( '%pagename%', '%postname%' ), $post_name_html, urldecode( $permalink ) );
-		$pretty_permalink = str_replace( array( '%pagename%', '%postname%' ), $post_name, urldecode( $permalink ) );
 
 		$return =  '<strong>' . __( 'Permalink:' ) . "</strong>\n";
 		$return .= '<span id="sample-permalink" tabindex="-1">' . $display_link . "</span>\n";
@@ -1324,8 +1323,12 @@ function get_sample_permalink_html( $id, $new_title = null, $new_slug = null ) {
 			$preview_link = apply_filters( 'preview_post_link', add_query_arg( 'preview', 'true', $preview_link ), $post );
 			$return .= "<span id='view-post-btn'><a href='" . esc_url( $preview_link ) . "' class='button button-small' target='wp-preview-{$post->ID}'>$view_post</a></span>\n";
 		} else {
-			if ( empty( $pretty_permalink ) ) {
-				$pretty_permalink = $permalink;
+			if ( 'publish' === $post->post_status ) {
+				// View Post button should always go to the saved permalink.
+				$pretty_permalink = get_permalink( $post );
+			} else {
+				// Allow non-published (private, future) to be viewed at a pretty permalink.
+				$pretty_permalink = str_replace( array( '%pagename%', '%postname%' ), $post->post_name, urldecode( $permalink ) );
 			}
 
 			$return .= "<span id='view-post-btn'><a href='" . $pretty_permalink . "' class='button button-small'>$view_post</a></span>\n";
