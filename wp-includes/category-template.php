@@ -461,7 +461,7 @@ function wp_dropdown_categories( $args = '' ) {
  * Display or retrieve the HTML list of categories.
  *
  * @since 2.1.0
- * @since 4.4.0 Introduced the `hide_title_if_no_cats` argument.
+ * @since 4.4.0 Introduced the `hide_title_if_empty` argument.
  *
  * @param string|array $args {
  *     Array of optional arguments.
@@ -493,7 +493,7 @@ function wp_dropdown_categories( $args = '' ) {
  *                                               See {@link get_terms()}. Default true.
  *     @type string       $title_li              Text to use for the list title `<li>` element. Pass an empty string
  *                                               to disable. Default 'Categories'.
- *     @type bool         $hide_title_if_no_cats Whether to hide the `$title_li` element if there are no terms in
+ *     @type bool         $hide_title_if_empty   Whether to hide the `$title_li` element if there are no terms in
  *                                               the list. Default false (title will always be shown).
  *     @type int          $depth                 Category depth. Used for tab indentation. Default 0.
  *     @type string       $taxonomy              Taxonomy name. Default 'category'.
@@ -511,7 +511,7 @@ function wp_list_categories( $args = '' ) {
 		'feed_image' => '', 'exclude' => '',
 		'exclude_tree' => '', 'current_category' => 0,
 		'hierarchical' => true, 'title_li' => __( 'Categories' ),
-		'hide_title_if_no_cats' => false,
+		'hide_title_if_empty' => false,
 		'echo' => 1, 'depth' => 0,
 		'taxonomy' => 'category'
 	);
@@ -539,7 +539,7 @@ function wp_list_categories( $args = '' ) {
 	$categories = get_categories( $r );
 
 	$output = '';
-	if ( $r['title_li'] && 'list' == $r['style'] && ( ! empty( $categories ) || ! $r['hide_title_if_no_cats'] ) ) {
+	if ( $r['title_li'] && 'list' == $r['style'] && ( ! empty( $categories ) || ! $r['hide_title_if_empty'] ) ) {
 		$output = '<li class="' . esc_attr( $r['class'] ) . '">' . $r['title_li'] . '<ul>';
 	}
 	if ( empty( $categories ) ) {
