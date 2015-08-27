@@ -872,6 +872,7 @@ function wp_admin_canonical_url() {
 		'deleted', 'trashed', 'untrashed',
 		'enabled', 'disabled', 'skipped',
 		'spammed', 'unspammed',
+		'error',
 	);
 
 	/**
