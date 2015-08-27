@@ -40,6 +40,7 @@ function get_option( $option, $default = false ) {
 	 * the option value, returning the passed value instead.
 	 *
 	 * @since 1.5.0
+	 * @since 4.4.0 The `$option` parameter was added.
 	 *
 	 * @param bool|mixed $pre_option Value to return instead of the option value.
 	 *                               Default false to skip it.
