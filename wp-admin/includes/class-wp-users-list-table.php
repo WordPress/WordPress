@@ -270,7 +270,7 @@ class WP_Users_List_Table extends WP_List_Table {
 			'cb'       => '<input type="checkbox" />',
 			'username' => __( 'Username' ),
 			'name'     => __( 'Name' ),
-			'email'    => __( 'E-mail' ),
+			'email'    => __( 'Email' ),
 			'role'     => __( 'Role' ),
 			'posts'    => __( 'Posts' )
 		);

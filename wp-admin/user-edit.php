@@ -396,7 +396,7 @@ if ( is_multisite() && is_network_admin() && ! IS_PROFILE_PAGE && current_user_c
 
 <table class="form-table">
 <tr class="user-email-wrap">
-	<th><label for="email"><?php _e('E-mail'); ?> <span class="description"><?php _e('(required)'); ?></span></label></th>
+	<th><label for="email"><?php _e('Email'); ?> <span class="description"><?php _e('(required)'); ?></span></label></th>
 	<td><input type="email" name="email" id="email" value="<?php echo esc_attr( $profileuser->user_email ) ?>" class="regular-text ltr" />
 	<?php
 	$new_email = get_option( $current_user->ID . '_new_email' );
@@ -404,7 +404,7 @@ if ( is_multisite() && is_network_admin() && ! IS_PROFILE_PAGE && current_user_c
 	<div class="updated inline">
 	<p><?php
 		printf(
-			__( 'There is a pending change of your e-mail to %1$s. <a href="%2$s">Cancel</a>' ),
+			__( 'There is a pending change of your email to %1$s. <a href="%2$s">Cancel</a>' ),
 			'<code>' . $new_email['newemail'] . '</code>',
 			esc_url( self_admin_url( 'profile.php?dismiss=' . $current_user->ID . '_new_email' ) )
 	); ?></p>

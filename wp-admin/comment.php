@@ -166,7 +166,7 @@ if ( $comment->comment_approved != '0' ) { // if not unapproved
 </tr>
 <?php if ( $comment->comment_author_email ) { ?>
 <tr>
-<th scope="row"><?php _e('E-mail'); ?></th>
+<th scope="row"><?php _e('Email'); ?></th>
 <td><?php echo $comment->comment_author_email; ?></td>
 </tr>
 <?php } ?>

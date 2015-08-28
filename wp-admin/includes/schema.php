@@ -895,7 +895,7 @@ function populate_network( $network_id = 1, $domain = '', $email = '', $site_nam
 
 	$site_user = get_user_by( 'email', $email );
 	if ( ! is_email( $email ) )
-		$errors->add( 'invalid_email', __( 'You must provide a valid e-mail address.' ) );
+		$errors->add( 'invalid_email', __( 'You must provide a valid email address.' ) );
 
 	if ( $errors->get_error_code() )
 		return $errors;

@@ -172,7 +172,7 @@ function display_setup_form( $error = null ) {
 		</tr>
 		<?php endif; ?>
 		<tr>
-			<th scope="row"><label for="admin_email"><?php _e( 'Your E-mail' ); ?></label></th>
+			<th scope="row"><label for="admin_email"><?php _e( 'Your Email' ); ?></label></th>
 			<td><input name="admin_email" type="email" id="admin_email" size="25" value="<?php echo esc_attr( $admin_email ); ?>" />
 			<p><?php _e( 'Double-check your email address before continuing.' ); ?></p></td>
 		</tr>
@@ -293,7 +293,7 @@ switch($step) {
 		$admin_email  = isset( $_POST['admin_email'] ) ?trim( wp_unslash( $_POST['admin_email'] ) ) : '';
 		$public       = isset( $_POST['blog_public'] ) ? (int) $_POST['blog_public'] : 0;
 
-		// Check e-mail address.
+		// Check email address.
 		$error = false;
 		if ( empty( $user_name ) ) {
 			// TODO: poka-yoke
