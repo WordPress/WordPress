@@ -614,6 +614,7 @@ function get_transient( $transient ) {
 	 * of the transient, returning the passed value instead.
 	 *
 	 * @since 2.8.0
+	 * @since 4.4.0 The `$transient` parameter was added
 	 *
 	 * @param mixed  $pre_transient The default value to return if the transient does not exist.
 	 *                              Any value other than false will short-circuit the retrieval
