@@ -348,6 +348,7 @@ function update_option( $option, $value, $autoload = null ) {
 	 * The dynamic portion of the hook name, `$option`, refers to the option name.
 	 *
 	 * @since 2.0.1
+	 * @since 4.4.0 The `$option` parameter was added.
 	 *
 	 * @param mixed  $old_value The old option value.
 	 * @param mixed  $value     The new option value.
