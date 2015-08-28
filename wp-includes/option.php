@@ -686,7 +686,8 @@ function set_transient( $transient, $value, $expiration = 0 ) {
 	 * The dynamic portion of the hook name, `$transient`, refers to the transient name.
 	 *
 	 * @since 3.0.0
-	 * @since 4.2.0 Added `$expiration` parameter.
+	 * @since 4.2.0 The `$expiration` parameter was added.
+	 * @since 4.4.0 The `$transient` parameter was added.
 	 *
 	 * @param mixed  $value      New value of transient.
 	 * @param int    $expiration Time until expiration in seconds.
