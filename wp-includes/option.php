@@ -124,6 +124,7 @@ function get_option( $option, $default = false ) {
 	 *
 	 * @since 1.5.0 As 'option_' . $setting
 	 * @since 3.0.0
+	 * @since 4.4.0 The `$option` parameter was added.
 	 *
 	 * @param mixed  $value  Value of the option. If stored serialized, it will be
 	 *                       unserialized prior to being returned.
