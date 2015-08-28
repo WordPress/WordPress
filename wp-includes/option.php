@@ -1440,6 +1440,7 @@ function get_site_transient( $transient ) {
 	 * The dynamic portion of the hook name, `$transient`, refers to the transient name.
 	 *
 	 * @since 2.9.0
+	 * @since 4.4.0 The `$transient` parameter was added
 	 *
 	 * @param mixed  $value     Value of site transient.
 	 * @param string $transient Transient name.
