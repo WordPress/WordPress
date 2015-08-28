@@ -1102,6 +1102,7 @@ function add_site_option( $option, $value ) {
 	 *
 	 * @since 2.9.0 As 'pre_add_site_option_' . $key
 	 * @since 3.0.0
+	 * @since 4.4.0 The `$option` parameter was added
 	 *
 	 * @param mixed  $value  Value of site option.
 	 * @param string $option Option name.
