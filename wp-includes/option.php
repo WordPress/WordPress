@@ -1504,6 +1504,7 @@ function set_site_transient( $transient, $value, $expiration = 0 ) {
 		 * The dynamic portion of the hook name, `$transient`, refers to the transient name.
 		 *
 		 * @since 3.0.0
+		 * @since 4.4.0 The `$transient` parameter was added
 		 *
 		 * @param mixed  $value      Site transient value.
 		 * @param int    $expiration Time until expiration in seconds. Default 0.
