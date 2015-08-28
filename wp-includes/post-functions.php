@@ -1337,6 +1337,8 @@ function get_post_type_labels( $post_type_object ) {
 
 	$post_type = $post_type_object->name;
 
+	$default_labels = clone $labels;
+
 	/**
 	 * Filter the labels of a specific post type.
 	 *
@@ -1349,7 +1351,12 @@ function get_post_type_labels( $post_type_object ) {
 	 *
 	 * @param object $labels Object with labels for the post type as member variables.
 	 */
-	return apply_filters( "post_type_labels_{$post_type}", $labels );
+	$labels = apply_filters( "post_type_labels_{$post_type}", $labels );
+
+	// Ensure that the filtered labels contain all required default values.
+	$labels = (object) array_merge( (array) $default_labels, (array) $labels );
+
+	return $labels;
 }
 
 /**
