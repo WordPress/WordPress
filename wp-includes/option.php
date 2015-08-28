@@ -1193,6 +1193,7 @@ function delete_site_option( $option ) {
 	 * The dynamic portion of the hook name, `$option`, refers to the option name.
 	 *
 	 * @since 3.0.0
+	 * @since 4.4.0 The `$option` parameter was added
 	 *
 	 * @param string $option Option name.
 	 */
