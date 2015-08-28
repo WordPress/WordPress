@@ -998,6 +998,7 @@ function get_site_option( $option, $default = false, $use_cache = true ) {
 	 *
 	 * @since 2.9.0 As 'pre_site_option_' . $key
 	 * @since 3.0.0
+	 * @since 4.4.0 The `$option` parameter was added
 	 *
 	 * @param mixed  $pre_option The default value to return if the option does not exist.
 	 * @param string $option     Option name.
