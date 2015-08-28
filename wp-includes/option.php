@@ -1020,6 +1020,7 @@ function get_site_option( $option, $default = false, $use_cache = true ) {
 		 * The dynamic portion of the hook name, `$option`, refers to the option name.
 		 *
 		 * @since 3.4.0
+		 * @since 4.4.0 The `$option` parameter was added.
 		 *
 		 * @param mixed  $default The value to return if the site option does not exist
 		 *                        in the database.
