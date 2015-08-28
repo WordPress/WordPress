@@ -653,6 +653,7 @@ function get_transient( $transient ) {
 	 * The dynamic portion of the hook name, `$transient`, refers to the transient name.
 	 *
 	 * @since 2.8.0
+	 * @since 4.4.0 The `$transient` parameter was added
 	 *
 	 * @param mixed  $value     Value of transient.
 	 * @param string $transient Transient name.
