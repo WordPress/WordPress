@@ -1266,6 +1266,7 @@ function update_site_option( $option, $value ) {
 	 *
 	 * @since 2.9.0 As 'pre_update_site_option_' . $key
 	 * @since 3.0.0
+	 * @since 4.4.0 The `$option` parameter was added
 	 *
 	 * @param mixed  $value     New value of site option.
 	 * @param mixed  $old_value Old value of site option.
