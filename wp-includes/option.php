@@ -1402,6 +1402,7 @@ function get_site_transient( $transient ) {
 	 * returning the passed value instead.
 	 *
 	 * @since 2.9.0
+	 * @since 4.4.0 The `$transient` parameter was added
 	 *
 	 * @param mixed  $pre_site_transient The default value to return if the site transient does not exist.
 	 *                                   Any value other than false will short-circuit the retrieval
