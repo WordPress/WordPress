@@ -461,7 +461,8 @@ function wp_dropdown_categories( $args = '' ) {
  * Display or retrieve the HTML list of categories.
  *
  * @since 2.1.0
- * @since 4.4.0 Introduced the `hide_title_if_empty` argument.
+ * @since 4.4.0 Introduced the `hide_title_if_empty` argument. The `current_category` argument was modified to
+ *              optionally accept an array of values.
  *
  * @param string|array $args {
  *     Array of optional arguments.
@@ -488,7 +489,8 @@ function wp_dropdown_categories( $args = '' ) {
  *     @type array|string $exclude_tree          Array or comma/space-separated string of term IDs to exclude, along
  *                                               with their descendants. See {@link get_terms()}. Default empty string.
  *     @type bool|int     $echo                  True to echo markup, false to return it. Default 1.
- *     @type int          $current_category      Category that should get the 'current-cat' class. Default 0.
+ *     @type int|array    $current_category      ID of category, or array of IDs of categories, that should get the
+ *                                               'current-cat' class. Default 0.
  *     @type bool         $hierarchical          Whether to include terms that have non-empty descendants.
  *                                               See {@link get_terms()}. Default true.
  *     @type string       $title_li              Text to use for the list title `<li>` element. Pass an empty string
@@ -1121,11 +1123,18 @@ class Walker_Category extends Walker {
 			);
 
 			if ( ! empty( $args['current_category'] ) ) {
-				$_current_category = get_term( $args['current_category'], $category->taxonomy );
-				if ( $category->term_id == $args['current_category'] ) {
-					$css_classes[] = 'current-cat';
-				} elseif ( $category->term_id == $_current_category->parent ) {
-					$css_classes[] = 'current-cat-parent';
+				// 'current_category' can be an array, so we use `get_terms()`.
+				$_current_terms = get_terms( $category->taxonomy, array(
+					'include' => $args['current_category'],
+					'hide_empty' => false,
+				) );
+
+				foreach ( $_current_terms as $_current_term ) {
+					if ( $category->term_id == $_current_term->term_id ) {
+						$css_classes[] = 'current-cat';
+					} elseif ( $category->term_id == $_current_term->parent ) {
+						$css_classes[] = 'current-cat-parent';
+					}
 				}
 			}
 
