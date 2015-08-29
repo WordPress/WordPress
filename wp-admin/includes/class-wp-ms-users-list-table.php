@@ -42,8 +42,12 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 			'fields' => 'all_with_meta'
 		);
 
-		if ( wp_is_large_network( 'users' ) )
+		if ( wp_is_large_network( 'users' ) ) {
 			$args['search'] = ltrim( $args['search'], '*' );
+		} else if ( '' !== $args['search'] ) {
+			$args['search'] = trim( $args['search'], '*' );
+			$args['search'] = '*' . $args['search'] . '*';
+		}
 
 		if ( $role == 'super' ) {
 			$logins = implode( "', '", get_super_admins() );
