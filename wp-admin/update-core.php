@@ -284,8 +284,8 @@ function list_plugin_updates() {
 		}
 
 		$details_url = self_admin_url('plugin-install.php?tab=plugin-information&plugin=' . $plugin_data->update->slug . '&section=changelog&TB_iframe=true&width=640&height=662');
-		$details_text = sprintf(__('View version %1$s details'), $plugin_data->update->new_version);
-		$details = sprintf('<a href="%1$s" class="thickbox" title="%2$s">%3$s</a>.', esc_url($details_url), esc_attr($plugin_data->Name), $details_text);
+		$details_text = sprintf(__('View version %1$s details.'), $plugin_data->update->new_version);
+		$details = sprintf('<a href="%1$s" class="thickbox" title="%2$s">%3$s</a>', esc_url($details_url), esc_attr($plugin_data->Name), $details_text);
 
 		echo "
 	<tr>
