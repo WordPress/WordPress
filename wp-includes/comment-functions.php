@@ -1354,9 +1354,13 @@ function wp_get_current_commenter() {
 	 *
 	 * @since 3.1.0
 	 *
-	 * @param string $comment_author       Comment author's name.
-	 * @param string $comment_author_email Comment author's email.
-	 * @param string $comment_author_url   Comment author's URL.
+	 * @param array $comment_author_data {
+	 *     An array of current commenter variables.
+	 *
+	 *     @type string $comment_author       The name of the author of the comment. Default empty.
+	 *     @type string $comment_author_email The email address of the `$comment_author`. Default empty.
+	 *     @type string $comment_author_url   The URL address of the `$comment_author`. Default empty.
+	 * }
 	 */
 	return apply_filters( 'wp_get_current_commenter', compact('comment_author', 'comment_author_email', 'comment_author_url') );
 }
