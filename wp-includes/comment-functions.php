@@ -375,11 +375,11 @@ function get_comment_count( $post_id = 0 ) {
 				$comment_count['spam'] = $row['total'];
 				$comment_count["total_comments"] += $row['total'];
 				break;
-			case 1:
+			case '1':
 				$comment_count['approved'] = $row['total'];
 				$comment_count['total_comments'] += $row['total'];
 				break;
-			case 0:
+			case '0':
 				$comment_count['awaiting_moderation'] = $row['total'];
 				$comment_count['total_comments'] += $row['total'];
 				break;
