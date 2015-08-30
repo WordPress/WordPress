@@ -607,35 +607,42 @@ function image_get_intermediate_size( $post_id, $size = 'thumbnail' ) {
 
 	// get the best one for a specified set of dimensions
 	if ( is_array($size) && !empty($imagedata['sizes']) ) {
-		$areas = array();
+		$candidates = array();
 
 		foreach ( $imagedata['sizes'] as $_size => $data ) {
-			// already cropped to width or height; so use this size
-			if ( ( $data['width'] == $size[0] && $data['height'] <= $size[1] ) || ( $data['height'] == $size[1] && $data['width'] <= $size[0] ) ) {
+			// If there's an exact match to an existing image size, short circuit.
+			if ( $data['width'] == $size[0] && $data['height'] == $size[1] ) {
 				$file = $data['file'];
 				list($width, $height) = image_constrain_size_for_editor( $data['width'], $data['height'], $size );
 				return compact( 'file', 'width', 'height' );
 			}
-			// add to lookup table: area => size
-			$areas[$data['width'] * $data['height']] = $_size;
+			// If it's not an exact match but it's at least the dimensions requested.
+			if ( $data['width'] >= $size[0] && $data['height'] >= $size[1] ) {
+				$candidates[ $data['width'] * $data['height'] ] = $_size;
+			}
 		}
-		if ( !$size || !empty($areas) ) {
+
+		if ( ! empty( $candidates ) ) {
 			// find for the smallest image not smaller than the desired size
-			ksort($areas);
-			foreach ( $areas as $_size ) {
+			ksort( $candidates );
+			foreach ( $candidates as $_size ) {
 				$data = $imagedata['sizes'][$_size];
-				if ( $data['width'] >= $size[0] || $data['height'] >= $size[1] ) {
-					// Skip images with unexpectedly divergent aspect ratios (crops)
-					// First, we calculate what size the original image would be if constrained to a box the size of the current image in the loop
-					$maybe_cropped = image_resize_dimensions($imagedata['width'], $imagedata['height'], $data['width'], $data['height'], false );
-					// If the size doesn't match within one pixel, then it is of a different aspect ratio, so we skip it, unless it's the thumbnail size
-					if ( 'thumbnail' != $_size && ( !$maybe_cropped || ( $maybe_cropped[4] != $data['width'] && $maybe_cropped[4] + 1 != $data['width'] ) || ( $maybe_cropped[5] != $data['height'] && $maybe_cropped[5] + 1 != $data['height'] ) ) )
-						continue;
-					// If we're still here, then we're going to use this size
-					$file = $data['file'];
-					list($width, $height) = image_constrain_size_for_editor( $data['width'], $data['height'], $size );
-					return compact( 'file', 'width', 'height' );
+
+				// Skip images with unexpectedly divergent aspect ratios (crops)
+				// First, we calculate what size the original image would be if constrained to a box the size of the current image in the loop
+				$maybe_cropped = image_resize_dimensions($imagedata['width'], $imagedata['height'], $data['width'], $data['height'], false );
+				// If the size doesn't match within one pixel, then it is of a different aspect ratio, so we skip it, unless it's the thumbnail size
+				if ( 'thumbnail' != $_size &&
+				  ( ! $maybe_cropped
+				    || ( $maybe_cropped[4] != $data['width'] && $maybe_cropped[4] + 1 != $data['width'] )
+				    || ( $maybe_cropped[5] != $data['height'] && $maybe_cropped[5] + 1 != $data['height'] )
+				  ) ) {
+				  continue;
 				}
+				// If we're still here, then we're going to use this size
+				$file = $data['file'];
+				list( $width, $height ) = image_constrain_size_for_editor( $data['width'], $data['height'], $size );
+				return compact( 'file', 'width', 'height' );
 			}
 		}
 	}
