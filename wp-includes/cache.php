@@ -50,7 +50,7 @@ function wp_cache_close() {
  *
  * @global WP_Object_Cache $wp_object_cache
  *
- * @param int|string $key The cache key to increment
+ * @param int|string $key The cache key to decrement.
  * @param int $offset The amount by which to decrement the item's value. Default is 1.
  * @param string $group The group the key is in.
  * @return false|int False on failure, the item's new value on success.
@@ -423,7 +423,7 @@ class WP_Object_Cache {
 	 *
 	 * @since 3.3.0
 	 *
-	 * @param int|string $key The cache key to increment
+	 * @param int|string $key The cache key to decrement.
 	 * @param int $offset The amount by which to decrement the item's value. Default is 1.
 	 * @param string $group The group the key is in.
 	 * @return false|int False on failure, the item's new value on success.
