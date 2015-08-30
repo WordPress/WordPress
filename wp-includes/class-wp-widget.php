@@ -1,6 +1,6 @@
 <?php
 /**
- * Class file for WP_Widget
+ * WP_Widget class, base class for creating widgets
  *
  * @package WordPress
  * @subpackage Widgets
@@ -8,7 +8,7 @@
  */
 
 /**
- * WP_Widget class.
+ * Class extended to register widgets for the core Widgets API.
  *
  * This class must be extended for each widget and WP_Widget::widget(), WP_Widget::update()
  * and WP_Widget::form() need to be overridden.
