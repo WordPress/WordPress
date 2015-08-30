@@ -127,7 +127,7 @@ class WP_Media_List_Table extends WP_List_Table {
 		}
 
 		if ( $this->detached )
-			$actions['attach'] = __( 'Attach to a post' );
+			$actions['attach'] = __( 'Attach' );
 
 		return $actions;
 	}
