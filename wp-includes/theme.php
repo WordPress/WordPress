@@ -690,15 +690,13 @@ function switch_theme( $stylesheet ) {
 
 	$nav_menu_locations = get_theme_mod( 'nav_menu_locations' );
 
-	$old_theme  = wp_get_theme();
-	$new_theme = wp_get_theme( $stylesheet );
-
 	if ( func_num_args() > 1 ) {
-		$template = $stylesheet;
 		$stylesheet = func_get_arg( 1 );
-	} else {
-		$template = $new_theme->get_template();
 	}
+
+	$old_theme = wp_get_theme();
+	$new_theme = wp_get_theme( $stylesheet );
+	$template  = $new_theme->get_template();
 
 	update_option( 'template', $template );
 	update_option( 'stylesheet', $stylesheet );
