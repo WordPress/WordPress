@@ -632,15 +632,20 @@ class WP_Comments_List_Table extends WP_List_Table {
 		global $comment_status;
 
 		$author_url = get_comment_author_url();
-		if ( 'http://' == $author_url )
+		if ( 'http://' == $author_url ) {
 			$author_url = '';
+		}
+
 		$author_url_display = preg_replace( '|http://(www\.)?|i', '', $author_url );
-		if ( strlen( $author_url_display ) > 50 )
-			$author_url_display = substr( $author_url_display, 0, 49 ) . '&hellip;';
+		if ( strlen( $author_url_display ) > 50 ) {
+			$author_url_display = wp_html_excerpt( $author_url_display, 49, '&hellip;' );
+		}
+
 
 		echo "<strong>"; comment_author(); echo '</strong><br />';
-		if ( !empty( $author_url ) )
+		if ( !empty( $author_url ) ) {
 			echo "<a title='$author_url' href='$author_url'>$author_url_display</a><br />";
+		}
 
 		if ( $this->user_can ) {
 			if ( !empty( $comment->comment_author_email ) ) {
