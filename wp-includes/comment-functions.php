@@ -363,17 +363,25 @@ function get_comment_count( $post_id = 0 ) {
 	", ARRAY_A);
 
 	$comment_count = array(
-		"approved"              => 0,
-		"awaiting_moderation"   => 0,
-		"spam"                  => 0,
-		"total_comments"        => 0
+		'approved'            => 0,
+		'awaiting_moderation' => 0,
+		'spam'                => 0,
+		'trash'               => 0,
+		'post-trashed'        => 0,
+		'total_comments'      => 0,
 	);
 
 	foreach ( $totals as $row ) {
 		switch ( $row['comment_approved'] ) {
+			case 'trash':
+				$comment_count['trash'] = $row['total'];
+				break;
+			case 'post-trashed':
+				$comment_count['post-trashed'] = $row['total'];
+				break;
 			case 'spam':
 				$comment_count['spam'] = $row['total'];
-				$comment_count["total_comments"] += $row['total'];
+				$comment_count['total_comments'] += $row['total'];
 				break;
 			case '1':
 				$comment_count['approved'] = $row['total'];
@@ -921,14 +929,10 @@ function wp_blacklist_check($author, $email, $url, $comment, $user_ip, $user_age
  *
  * @since 2.5.0
  *
- * @global wpdb $wpdb
- *
  * @param int $post_id Optional. Post ID.
  * @return object|array Comment stats.
  */
 function wp_count_comments( $post_id = 0 ) {
-	global $wpdb;
-
 	$post_id = (int) $post_id;
 
 	/**
@@ -939,41 +943,24 @@ function wp_count_comments( $post_id = 0 ) {
 	 * @param array $count   An empty array.
 	 * @param int   $post_id The post ID.
 	 */
-	$stats = apply_filters( 'wp_count_comments', array(), $post_id );
-	if ( !empty($stats) )
-		return $stats;
+	$filtered = apply_filters( 'wp_count_comments', array(), $post_id );
+	if ( ! empty( $filtered ) ) {
+		return $filtered;
+	}
 
-	$count = wp_cache_get("comments-{$post_id}", 'counts');
-
-	if ( false !== $count )
+	$count = wp_cache_get( "comments-{$post_id}", 'counts' );
+	if ( false !== $count ) {
 		return $count;
-
-	$where = '';
-	if ( $post_id > 0 )
-		$where = $wpdb->prepare( "WHERE comment_post_ID = %d", $post_id );
-
-	$count = $wpdb->get_results( "SELECT comment_approved, COUNT( * ) AS num_comments FROM {$wpdb->comments} {$where} GROUP BY comment_approved", ARRAY_A );
-
-	$total = 0;
-	$approved = array('0' => 'moderated', '1' => 'approved', 'spam' => 'spam', 'trash' => 'trash', 'post-trashed' => 'post-trashed');
-	foreach ( (array) $count as $row ) {
-		// Don't count post-trashed toward totals
-		if ( 'post-trashed' != $row['comment_approved'] && 'trash' != $row['comment_approved'] )
-			$total += $row['num_comments'];
-		if ( isset( $approved[$row['comment_approved']] ) )
-			$stats[$approved[$row['comment_approved']]] = $row['num_comments'];
 	}
 
-	$stats['total_comments'] = $total;
-	foreach ( $approved as $key ) {
-		if ( empty($stats[$key]) )
-			$stats[$key] = 0;
-	}
+	$stats = get_comment_count( $post_id );
+	$stats['moderated'] = $stats['awaiting_moderation'];
+	unset( $stats['awaiting_moderation'] );
 
-	$stats = (object) $stats;
-	wp_cache_set("comments-{$post_id}", $stats, 'counts');
+	$stats_object = (object) $stats;
+	wp_cache_set( "comments-{$post_id}", $stats_object, 'counts' );
 
-	return $stats;
+	return $stats_object;
 }
 
 /**
