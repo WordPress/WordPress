@@ -225,14 +225,14 @@ foreach ( $themes as $theme ) :
 	<div class="theme-author"><?php printf( __( 'By %s' ), $theme['author'] ); ?></div>
 
 	<?php if ( $theme['active'] ) { ?>
-		<h3 class="theme-name" id="<?php echo $aria_name; ?>">
+		<h2 class="theme-name" id="<?php echo $aria_name; ?>">
 			<?php
 			/* translators: %s: theme name */
 			printf( __( '<span>Active:</span> %s' ), $theme['name'] );
 			?>
-		</h3>
+		</h2>
 	<?php } else { ?>
-		<h3 class="theme-name" id="<?php echo $aria_name; ?>"><?php echo $theme['name']; ?></h3>
+		<h2 class="theme-name" id="<?php echo $aria_name; ?>"><?php echo $theme['name']; ?></h2>
 	<?php } ?>
 
 	<div class="theme-actions">
@@ -327,14 +327,14 @@ $can_delete = current_user_can( 'delete_themes' );
 	<div class="theme-author"><?php printf( __( 'By %s' ), '{{{ data.author }}}' ); ?></div>
 
 	<# if ( data.active ) { #>
-		<h3 class="theme-name" id="{{ data.id }}-name">
+		<h2 class="theme-name" id="{{ data.id }}-name">
 			<?php
 			/* translators: %s: theme name */
 			printf( __( '<span>Active:</span> %s' ), '{{{ data.name }}}' );
 			?>
-		</h3>
+		</h2>
 	<# } else { #>
-		<h3 class="theme-name" id="{{ data.id }}-name">{{{ data.name }}}</h3>
+		<h2 class="theme-name" id="{{ data.id }}-name">{{{ data.name }}}</h2>
 	<# } #>
 
 	<div class="theme-actions">
@@ -376,8 +376,8 @@ $can_delete = current_user_can( 'delete_themes' );
 				<# if ( data.active ) { #>
 					<span class="current-label"><?php _e( 'Current Theme' ); ?></span>
 				<# } #>
-				<h3 class="theme-name">{{{ data.name }}}<span class="theme-version"><?php printf( __( 'Version: %s' ), '{{ data.version }}' ); ?></span></h3>
-				<h4 class="theme-author"><?php printf( __( 'By %s' ), '{{{ data.authorAndUri }}}' ); ?></h4>
+				<h2 class="theme-name">{{{ data.name }}}<span class="theme-version"><?php printf( __( 'Version: %s' ), '{{ data.version }}' ); ?></span></h2>
+				<h3 class="theme-author"><?php printf( __( 'By %s' ), '{{{ data.authorAndUri }}}' ); ?></h3>
 
 				<# if ( data.hasUpdate ) { #>
 				<div class="theme-update-message">
