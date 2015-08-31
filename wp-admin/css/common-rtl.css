@@ -329,14 +329,14 @@ h1 {
 	margin: .67em 0;
 }
 
-.wrap > h1,
-h2 {
+.wrap > h1 {
 	color: #23282d;
 	font-size: 1.5em;
 	margin: .83em 0;
 	font-weight: 400;
 }
 
+h2,
 h3 {
 	color: #23282d;
 	font-size: 1.3em;
@@ -568,14 +568,12 @@ code {
 }
 
 .wrap h1,
-.wrap h2,
 .subtitle {
 	font-weight: normal;
 	margin: 0;
 }
 
-.wrap h1,
-.wrap h2 {
+.wrap h1 {
 	font-size: 23px;
 	font-weight: 400;
 	padding: 9px 0 4px 15px;
