@@ -2,11 +2,13 @@
 var setCommentsList, theList, theExtraList, commentReply;
 
 (function($) {
-var getCount, updateCount, updateCountText, updatePending, updateApproved;
+var getCount, updateCount, updateCountText, updatePending, updateApproved,
+	updateHtmlTitle, adminTitle = document.title;
 
 setCommentsList = function() {
 	var totalInput, perPageInput, pageInput, dimAfter, delBefore, updateTotalCount, delAfter, refillTheExtraList, diff,
-		lastConfidentTime = 0;
+		lastConfidentTime = 0, titleDiv, titleRegEx,
+		isDashboard = $('#dashboard_right_now').length;
 
 	totalInput = $('input[name="_total"]', '#comments-form');
 	perPageInput = $('input[name="_per_page"]', '#comments-form');
@@ -135,6 +137,31 @@ setCommentsList = function() {
 		el.html(n);
 	};
 
+	updateHtmlTitle = function ( diff ) {
+		var newTitle, regExMatch, titleCount;
+
+		titleRegEx = titleRegEx || new RegExp( 'Comments (\\([0-9' + thousandsSeparator + ']+\\))?' );
+		// count funcs operate on a $'d element
+		titleDiv = titleDiv || $( '<div />' );
+		newTitle = adminTitle;
+
+		titleDiv.html( document.title );
+		titleCount = getCount( titleDiv ) + diff;
+		if ( titleCount >= 1 ) {
+			updateCount( titleDiv, titleCount );
+			regExMatch = titleRegEx.exec( document.title );
+			if ( regExMatch ) {
+				newTitle = document.title.replace( regExMatch[0], 'Comments (' + titleDiv.text() + ') ' );
+			}
+		} else {
+			regExMatch = titleRegEx.exec( newTitle );
+			if ( regExMatch ) {
+				newTitle = newTitle.replace( regExMatch[0], 'Comments' );
+			}
+		}
+		document.title = newTitle;
+	};
+
 	updatePending = function( diff, commentPostId ) {
 		var postSelector = '.post-com-count-' + commentPostId,
 			noClass = 'comment-count-no-pending',
@@ -142,6 +169,10 @@ setCommentsList = function() {
 			pendingClass = 'comment-count-pending',
 			pending,
 			noPending;
+
+		if ( ! isDashboard ) {
+			updateHtmlTitle( diff );
+		}
 
 		$( 'span.pending-count' ).each(function() {
 			var a = $(this), n = getCount(a) + diff;
@@ -390,7 +421,7 @@ setCommentsList = function() {
 			updateCountText( 'span.trash-count', trashDiff );
 		}
 
-		if ( ! $('#dashboard_right_now').length ) {
+		if ( ! isDashboard ) {
 			total = totalInput.val() ? parseInt( totalInput.val(), 10 ) : 0;
 			if ( $(settings.target).parent().is('span.undo') )
 				total++;
