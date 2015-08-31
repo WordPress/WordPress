@@ -652,11 +652,11 @@ class WP_Comments_List_Table extends WP_List_Table {
 		}
 
 		if ( $this->user_can ) {
-			if ( !empty( $comment->comment_author_email ) ) {
-				$GLOBALS['comment'] = $comment;
-				comment_author_email_link();
-				echo '<br />';
-				unset( $GLOBALS['comment'] );
+			if ( ! empty( $comment->comment_author_email ) ) {
+				$email = apply_filters( 'comment_email', $comment->comment_author_email, $comment );
+				if ( ! empty( $email ) && '@' !== $email ) {
+					printf( '<a href=\'mailto:%1$s\'>%1$s</a><br />', $email );
+				}
 			}
 
 			$author_ip = get_comment_author_IP( $comment->comment_ID );
