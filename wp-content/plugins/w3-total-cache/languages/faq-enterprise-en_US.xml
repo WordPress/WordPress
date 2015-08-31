@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faqs>
+    <section name="General">
+        <entry>
+            <question>
+                <![CDATA[ Which Enterprise features are currently available? ]]>
+            </question>
+            <answer>
+                <![CDATA[ <p>Enterprise features available:</p>
+                <ul>
+                    <li>Database cluster</li>
+                    <li>Amazon <acronym title="Simple Notification Service">SNS</acronym></li>
+                </ul>
+                    ]]>
+            </answer>
+        </entry>
+        <entry>
+            <question><![CDATA[ When should I use Amazon <acronym title="Simple Notification Service">SNS</acronym>? ]]></question>
+            <answer><![CDATA[ It should be used when you use load balancing with multiple servers. Using Amazon <acronym title="Simple Notification Service">SNS</acronym> will make sure that the W3 Total Cache caches for each server is purged when required. ]]></answer>
+        </entry>
+    </section>
+    <section name="Usage">
+        <entry>
+            <question><![CDATA[ How do I enable Database Cluster support? ]]></question>
+            <answer><![CDATA[
+                    <p>In order to use Database Cluster you need use WordPress in network mode and enable Enterprise mode for W3 Total Cache.</p>
+                    <p>After enabling Enterprise mode you will find a area inside Database Cache box on the General Settings page. Click 'Enable database cluster' to enable the functionality.</p>
+                    ]]></answer>
+        </entry>
+        <entry>
+            <question><![CDATA[ How do I configure Amazon <acronym title="Simple Notification Service">SNS</acronym>?]]>
+            </question>
+            <answer><![CDATA[
+                <ol>
+                <li>You need to visit <a href="https://console.aws.amazon.com/sns/"><acronym title="Simple Notification Service">SNS</acronym></a> and sign in /create account.</li>
+                <li>Create a new topic.</li>
+                <li>Copy paste the Topic ARN into correspongding field on the General Settings page. </li>
+                <li>Enter the corrent <a href="http://docs.aws.amazon.com/general/latest/gr/rande.html#sns_region">SNS region</a> in the corresponding textfield on General Settings page.</li>
+                <li>Enter your API key and API secret. You find your API key and API secret under Security Credentials in your Amazon account.</li>
+                <li>Click subscribe.</li>
+                <li>Save settings</li>
+                </ol>
+                    ]]>
+            </answer>
+        </entry>
+    </section>
+    <section name="Requirements">
+        <entry>
+            <question>
+            <![CDATA[ What is required to use Amazon <acronym title="Simple Notification Service">SNS</acronym>?]]>
+            </question>
+            <answer>
+                <![CDATA[
+                <p>
+                You need to sign up for a <a href="http://aws.amazon.com/sns/" target="_blank">Amazon Web Services account</a>.
+                </p>
+                 ]]>
+            </answer>
+        </entry>
+    </section>
+</faqs>

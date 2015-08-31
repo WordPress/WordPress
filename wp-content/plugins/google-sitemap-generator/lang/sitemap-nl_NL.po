@@ -1,0 +1,505 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: sitemap\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2008-03-15 10:27+0100\n"
+"Last-Translator: forkless <forkless@gmail.com>\n"
+"Language-Team: Arne Brachhold <himself@arnebrachhold.de>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: German\n"
+"X-Poedit-Country: GERMANY\n"
+
+msgid "Comment Count"
+msgstr "Aantal Reacties"
+
+msgid "Uses the number of comments of the post to calculate the priority"
+msgstr "Gebruikt het aantal reacties van het bericht om de prioriteit te berekenen"
+
+msgid "Comment Average"
+msgstr "Reactie Gemiddelde"
+
+msgid "Uses the average comment count to calculate the priority"
+msgstr "Gebruik het reactie gemiddelde om de prioriteit te berekenen"
+
+msgid "Popularity Contest"
+msgstr "Popularity Contest"
+
+msgid "Uses the activated <a href=\"%1\">Popularity Contest Plugin</a> from <a href=\"%2\">Alex King</a>. See <a href=\"%3\">Settings</a> and <a href=\"%4\">Most Popular Posts</a>"
+msgstr "Gebruikt het geactiveerde <a href=\"%1\">Popularity Contest Plugin</a> van <a href=\"%2\">Alex King</a>. Zie <a href=\"%3\">instellingen</a> en <a href=\"%4\">meest populaire berichten</a>"
+
+msgid "XML-Sitemap Generator"
+msgstr "XML-Sitemap Generator"
+
+msgid "XML-Sitemap"
+msgstr "XML-Sitemap"
+
+msgid "Thank you very much for your donation. You help me to continue support and development of this plugin and other free software!"
+msgstr "Hartelijke dank voor je donatie! Je helpt hierbij deze gratis plugin te ondersteunen en verder te ontwikkelen!"
+
+msgid "Hide this notice"
+msgstr "Deze melding verbergen"
+
+msgid "Thanks for using this plugin! You've installed this plugin over a month ago. If it works and your are satisfied with the results, isn't it worth at least one dollar? <a href=\"%s\">Donations</a> help me to continue support and development of this <i>free</i> software! <a href=\"%s\">Sure, no problem!</a>"
+msgstr "Bedankt voor het gebruiken van deze plugin! Je hebt deze plugin meer dan een maand geleden geinstalleerd. Wanneer het naar behoren werkt en je met het resultaat tevreden bent is het dan niet minsten één dollar waard? <a href=\"%s\">Donaties</a> helpen mij deze diese <i>gratis</i> software te ondersteunen en verder te ontwikkelen! <a href=\"%s\">Natuurlijk, geen probleem!</a> "
+
+msgid "No thanks, please don't bug me anymore!"
+msgstr "Nee dankjewel, val me hier niet meer mee lastig! "
+
+msgid "XML Sitemap Generator for WordPress"
+msgstr "XML Sitemap Generator voor WordPress"
+
+msgid "Configuration updated"
+msgstr "De instellingen zijn opgeslagen"
+
+msgid "Error while saving options"
+msgstr "Bij het opslaan van de instellingen is een fout opgetreden."
+
+msgid "Pages saved"
+msgstr "Pagina's opgeslagen"
+
+msgid "Error while saving pages"
+msgstr "Bij het opslaan van de pagina's is een fout opgetreden"
+
+msgid "<a href=\"%s\">Robots.txt</a> file saved"
+msgstr "<a href=\"%s\">Robots.txt</a> bestand opgeslagen"
+
+msgid "Error while saving Robots.txt file"
+msgstr "Er is een fout opgetreden tijdens het opslaan van robots.txt"
+
+msgid "The default configuration was restored."
+msgstr "De standaard instellingen zijn weer hersteld."
+
+msgid "open"
+msgstr "openen"
+
+msgid "close"
+msgstr "sluiten"
+
+msgid "click-down and drag to move this box"
+msgstr "Klik en sleep om dit venster te verplaatsen"
+
+msgid "click to %toggle% this box"
+msgstr "Klik om dit venster te %toggle%"
+
+msgid "use the arrow keys to move this box"
+msgstr "gebruik de cursor toetsen om dit venster te verplaatsen"
+
+msgid ", or press the enter key to %toggle% it"
+msgstr ", of druk op de enter toets om het te %toggle%"
+
+msgid "About this Plugin:"
+msgstr "Over deze plugin:"
+
+msgid "Plugin Homepage"
+msgstr "Plugin homepage"
+
+msgid "Notify List"
+msgstr "E-Mail wanneer er een update is"
+
+msgid "Support Forum"
+msgstr "Support Forum"
+
+msgid "Donate with PayPal"
+msgstr "Met PayPal doneren"
+
+msgid "My Amazon Wish List"
+msgstr "Amazon wensenlijst"
+
+msgid "translator_name"
+msgstr "Mark Peters"
+
+msgid "translator_url"
+msgstr "http://www.zinloosverteld.nl"
+
+msgid "Sitemap Resources:"
+msgstr "Sitemap informatie:"
+
+msgid "Webmaster Tools"
+msgstr "Webmaster Tools"
+
+msgid "Webmaster Blog"
+msgstr "Webmaster Blog"
+
+msgid "Site Explorer"
+msgstr "Site Explorer"
+
+msgid "Search Blog"
+msgstr "Doorzoek Blog"
+
+msgid "Webmaster Center Blog"
+msgstr "Webmaster Center Blog"
+
+msgid "Sitemaps Protocol"
+msgstr "Sitemaps Protocol"
+
+msgid "Official Sitemaps FAQ"
+msgstr "Offici&euml;le Sitemaps FAQ"
+
+msgid "My Sitemaps FAQ"
+msgstr "Mijn Sitemaps FAQ"
+
+msgid "Recent Donations:"
+msgstr "Recente Donaties:"
+
+msgid "List of the donors"
+msgstr "Lijst van donateurs"
+
+msgid "Hide this list"
+msgstr "Lijst verbergen"
+
+msgid "Thanks for your support!"
+msgstr "Bedankt voor je support!"
+
+msgid "Status"
+msgstr "Status"
+
+msgid "The sitemap wasn't built yet. <a href=\"%s\">Click here</a> to build it the first time."
+msgstr "De sitemap is nog niet gegenereerd. <a href=\"%s\">Klik hier</a> om deze voor de eerste keer aan te maken."
+
+msgid "Your <a href=\"%url%\">sitemap</a> was last built on <b>%date%</b>."
+msgstr "Jouw <a href=\"%url%\">Sitemap</a> werd voor het laatst op <b>%date%</b> gegenereerd."
+
+msgid "There was a problem writing your sitemap file. Make sure the file exists and is writable. <a href=\"%url%\">Learn more</a"
+msgstr "Er was een probleem met het opslaan van je sitemap bestand. Controleer of het bestand bestaat en de juiste bestandspermissies heeft. <a href=\"%url%\">Meer informatie</a"
+
+msgid "Your sitemap (<a href=\"%url%\">zipped</a>) was last built on <b>%date%</b>."
+msgstr "Jouw (<a href=\"%url%\">gezipt</a>) sitemap  werd voor het laatst op <b>%date%</b> gegenereerd."
+
+msgid "There was a problem writing your zipped sitemap file. Make sure the file exists and is writable. <a href=\"%url%\">Learn more</a"
+msgstr "Er was een probleem met het opslaan van het gezipte sitemap bestand. Controleer of het bestand bestand en de juiste bestandspermissies heeft. <a href=\"%url%\">Meer informatie</a"
+
+msgid "Google was <b>successfully notified</b> about changes."
+msgstr "Google is <b>succesvol</b> op de hoogte gesteld van de veranderingen."
+
+msgid "It took %time% seconds to notify Google, maybe you want to disable this feature to reduce the building time."
+msgstr "Het duurde %time% seconden om Google op de hoogte te stellen. Misschien wil je deze optie deactiveren om de doorlooptijd van de sitemap generatie te verkorten?"
+
+msgid "There was a problem while notifying Google. <a href=\"%s\">View result</a>"
+msgstr "Er was een probleem bij het informeren van Google. <a href=\"%s\">Resultaat weergeven</a>"
+
+msgid "YAHOO was <b>successfully notified</b> about changes."
+msgstr "Yahoo is <b>succesvol</b> op de hoogte gesteld van de veranderingen."
+
+msgid "It took %time% seconds to notify YAHOO, maybe you want to disable this feature to reduce the building time."
+msgstr "Het duurde %time% seconden om Yahoo op de hoogte te stellen. Misschien wil je deze optie deactiveren om de doorlooptijd van de sitemap generatie te verkorten?"
+
+msgid "There was a problem while notifying YAHOO. <a href=\"%s\">View result</a>"
+msgstr "Er was een probleem bij het informeren van Yahoo. <a href=\"%s\">Resultaat weergeven</a>"
+
+msgid "MSN was <b>successfully notified</b> about changes."
+msgstr "MSN.com  is <b>succesvol</b> op de hoogte gesteld van de veranderingen."
+
+msgid "It took %time% seconds to notify MSN.com, maybe you want to disable this feature to reduce the building time."
+msgstr "Het duurde %time% seconden om MSN.com op de hoogte te stellen. Misschien wil je deze optie deactiveren om de doorlooptijd van de sitemap generatie te verkorten?"
+
+msgid "There was a problem while notifying MSN.com. <a href=\"%s\">View result</a>"
+msgstr "Er was een probleem bij het informeren van MSN.com. <a href=\"%s\">Resultaat weergeven</a>"
+
+msgid "Ask.com was <b>successfully notified</b> about changes."
+msgstr "Ask.com is <b>succesvol</b> op de hoogte gesteld van de veranderingen."
+
+msgid "It took %time% seconds to notify Ask.com, maybe you want to disable this feature to reduce the building time."
+msgstr "Het duurde %time% seconden om Ask.com op de hoogte te stellen. Misschien wil je deze optie deactiveren om de doorlooptijd van de sitemap generatie te verkorten?"
+
+msgid "There was a problem while notifying Ask.com. <a href=\"%s\">View result</a>"
+msgstr "Er was een probleem bij het informeren van Ask.com. <a href=\"%s\">Resultaat weergeven</a>"
+
+msgid "The building process took about <b>%time% seconds</b> to complete and used %memory% MB of memory."
+msgstr "Het sitemap genereren duurde <b>%time% seconden</b> en gebruikte %memory%MB geheugen."
+
+msgid "The building process took about <b>%time% seconds</b> to complete."
+msgstr "Het sitemap genereren duurde <b>%time% seconden</b>."
+
+msgid "The content of your sitemap <strong>didn't change</strong> since the last time so the files were not written and no search engine was pinged."
+msgstr "De inhoud van de sitemap heeft zich <strong>niet gewijzigd</strong> sinds de laatste keer, als gevolgd zijn er geen bestanden weggeschreven en zijn de zoekmachines niet op de hoogte gesteld."
+
+msgid "The last run didn't finish! Maybe you can raise the memory or time limit for PHP scripts. <a href=\"%url%\">Learn more</a>"
+msgstr "De laatste generatie van de sitemap is niet afgesloten! Het kan helpen de geheugenlimiet voor PHP scripts te verhogen. <a href=\"%url%\">Meer informatie</a>"
+
+msgid "The last known memory usage of the script was %memused%MB, the limit of your server is %memlimit%."
+msgstr "Het laatst bekende geheugengebruik van het script lag op %memused%MB, het limiet voor PHP scripts op deze server is %memlimit%."
+
+msgid "The last known execution time of the script was %timeused% seconds, the limit of your server is %timelimit% seconds."
+msgstr "De laatst bekende doorlooptijd lag op %timeused% seconden, het limiet voor PHP scripts voor deze server is %timelimit% seconden."
+
+msgid "The script stopped around post number %lastpost% (+/- 100)"
+msgstr "Het script is ongeveer gestopt bij bericht nummer %lastpost%  (+/- 100)"
+
+msgid "If you changed something on your server or blog, you should <a href=\"%s\">rebuild the sitemap</a> manually."
+msgstr "Wanneer er iets gewijzigd is op de server of aan het Blog, dan kan men de sitemap met de hand opnieuw <a href=\"%s\">genereren</a>."
+
+msgid "If you encounter any problems with the build process you can use the <a href=\"%d\">debug function</a> to get more information."
+msgstr "Indien er bij het genereren van de sitemap problemen zijn kan men de <a href=\"%d\">Debug Functie</a> gebruiken om meer informatie over de opgetreden fout te achterhalen."
+
+msgid "Basic Options"
+msgstr "Basisinstellingen"
+
+msgid "Sitemap files:"
+msgstr "Sitemap bestanden:"
+
+msgid "Learn more"
+msgstr "Meer informatie"
+
+msgid "Write a normal XML file (your filename)"
+msgstr "Sitemap als XML bestand aanmaken (bestandsnaam)"
+
+msgid "Write a gzipped file (your filename + .gz)"
+msgstr "Gezipte sitemap aanmaken  (bestandsnaam + .gz)"
+
+msgid "Building mode:"
+msgstr "Generatie mode::"
+
+msgid "Rebuild sitemap if you change the content of your blog"
+msgstr "Sitemap opnieuw genereren wanneer je de inhoud van je Blog wijzigt"
+
+msgid "Enable manual sitemap building via GET Request"
+msgstr "Handmatig genereren van de sitemap via GET aanvragen toestaan"
+
+msgid "This will allow you to refresh your sitemap if an external tool wrote into the WordPress database without using the WordPress API. Use the following URL to start the process: <a href=\"%1\">%1</a> Please check the logfile above to see if sitemap was successfully built."
+msgstr "Hiermee kun je je sitemap opnieuw genereren indien een externe tool in de database van WordPress geschreven heeft zonder gebruik te maken van de API. Gebruik de volgende URL om het process te starten: <a href=\"%1\">%1</a> Controleer het logbestand hierboven om te kijken of de sitemap succesvol is gegenereerd."
+
+msgid "Update notification:"
+msgstr "Wijzigings notificatie:"
+
+msgid "Notify Google about updates of your Blog"
+msgstr "Google YAHOO op de hoogte stellen van de Blog wijzigingen"
+
+msgid "No registration required, but you can join the <a href=\"%s\">Google Webmaster Tools</a> to check crawling statistics."
+msgstr "Registratie niet noodzakelijk, maar je kunt je optioneel aanmelden bij de <a href=\"%s\">Google Webmaster Tools</a> om de indexeringsstatistieken van de site te bekijken."
+
+msgid "Notify MSN Live Search about updates of your Blog"
+msgstr "MSN Live Search op de hoogte stellen van de Blog wijzigingen"
+
+msgid "No registration required, but you can join the <a href=\"%s\">MSN Live Webmaster Tools</a> to check crawling statistics."
+msgstr "Registratie niet noodzakelijk, maar je kunt je optioneel aanmelden bij de <a href=\"%s\">MSN Live Webmaster Tools</a> om de indexeringsstatistieken van de site te bekijken."
+
+msgid "Notify Ask.com about updates of your Blog"
+msgstr "Ask.com YAHOO op de hoogte stellen van de Blog wijzigingen"
+
+msgid "No registration required."
+msgstr "Geen registratie noodzakelijk"
+
+msgid "Notify YAHOO about updates of your Blog"
+msgstr "YAHOO op de hoogte stellen van de Blog wijzigingen"
+
+msgid "Your Application ID:"
+msgstr "Jouw Application ID:"
+
+msgid "Don't you have such a key? <a href=\"%s1\">Request one here</a>!</a> %s2"
+msgstr "Nog geen key? <a href=\"%s1\">Hier aanvragen</a>!</a> %s2"
+
+msgid "Modify or create %s file in blog root which contains the sitemap location."
+msgstr "Maak of wijzig het %s bestand in de root directory van je Blog."
+
+msgid "File permissions: "
+msgstr "Bestands permissies:"
+
+msgid "OK, robots.txt is writable."
+msgstr "OK, robots.txt kan weggeschreven worden."
+
+msgid "Error, robots.txt is not writable."
+msgstr "Error, robots.txt kan niet weggeschreven worden."
+
+msgid "OK, robots.txt doesn't exist but the directory is writable."
+msgstr "OK, robots.txt bestaat nog niet, maar de directory kan beschreven worden."
+
+msgid "Error, robots.txt doesn't exist and the directory is not writable"
+msgstr "Error, robots.txt bestaat niet en de directory is niet beschrijfbaar"
+
+msgid "Advanced options:"
+msgstr "Uitgebreide instellingen"
+
+msgid "Limit the number of posts in the sitemap:"
+msgstr "Het aantal berichten in de sitemap limiteren:"
+
+msgid "Newer posts will be included first"
+msgstr "Nieuwe berichten worden het eerst opgenomen"
+
+msgid "Try to increase the memory limit to:"
+msgstr "Probeer de geheugenlimiet te verhogen naar: "
+
+msgid "e.g. \"4M\", \"16M\""
+msgstr "bijv. \"4M\", \"16M\""
+
+msgid "Try to increase the execution time limit to:"
+msgstr "Probeer de tijdslimiet van de generatie aan te passen naar:"
+
+msgid "in seconds, e.g. \"60\" or \"0\" for unlimited"
+msgstr "in seconden, bijv. \"60\" of \"0\" voor geen limiet"
+
+msgid "Include a XSLT stylesheet:"
+msgstr "XSLT stylesheet toevoegen:"
+
+msgid "Use Default"
+msgstr "Gebruik de standaard"
+
+msgid "Full or relative URL to your .xsl file"
+msgstr "Volledige of relatieve pad naar het .xsl bestand"
+
+msgid "Enable MySQL standard mode. Use this only if you're getting MySQL errors. (Needs much more memory!)"
+msgstr "MySQL standaard mode activeren. Gebruik deze optie indien MYSQL fouten optreden (gebruikt meer geheugen!)"
+
+msgid "Build the sitemap in a background process (You don't have to wait when you save a post)"
+msgstr "Genereer de sitemap in de achtergrond (Hierdoor is er geen wachttijd wanneer er een bericht wordt geplaatst)"
+
+msgid "Exclude the following posts or pages:"
+msgstr "Volgende berichten of pagina's uitsluiten:"
+
+msgid "List of IDs, separated by comma"
+msgstr "Lijst van de IDs, gescheiden door komma"
+
+msgid "Additional pages"
+msgstr "Addtionele pagina's"
+
+msgid "Here you can specify files or URLs which should be included in the sitemap, but do not belong to your Blog/WordPress.<br />For example, if your domain is www.foo.com and your blog is located on www.foo.com/blog you might want to include your homepage at www.foo.com"
+msgstr "Hier kunnen de bestanden of URLHier können Sie zusätzliche Seiten in Form von URLs angeben, welche mit in Ihre Sitemap aufgenommen werden sollen aber nicht von WordPress erzeugt werden. Falls Sie z.B. Ihre Homepage auf www.beispiel.com haben, Ihr Blog aber unter www.beispiel.com/blog zu erreichen ist, tragen Sie Ihre Homepage als http://www.beispiel.com hier  ein."
+
+msgid "Note"
+msgstr "Notitie"
+
+msgid "If your blog is in a subdirectory and you want to add pages which are NOT in the blog directory or beneath, you MUST place your sitemap file in the root directory (Look at the &quot;Location of your sitemap file&quot; section on this page)!"
+msgstr "Indien het Blog in een subdirectory staat en je wilt pagina's toevoegen die NIET in de Blog of onderliggende directories liggen, dan MOET je je sitemap bestand in de root direcotry van de webserver plaatsten. (Kijk naar de &quot;Locatie van het sitemap bestand&quot; sectiew op deze pagina)!"
+
+msgid "URL to the page"
+msgstr "URL naar de pagina"
+
+msgid "Enter the URL to the page. Examples: http://www.foo.com/index.html or www.foo.com/home "
+msgstr "Vul hier de URL naar de pagina in. Voorbeeld: http://www.zinloosverteld.nl of http://www.zinloosverteld.nl/blog"
+
+msgid "Priority"
+msgstr "Prioriteit"
+
+msgid "Choose the priority of the page relative to the other pages. For example, your homepage might have a higher priority than your imprint."
+msgstr "Kies hier de prioriteit van de pagina relatief ten opzichte van andere pagina's. Bijvoorbeeld, de homepage heeft een hogere prioriteit dan een colofon pagina."
+
+msgid "Last Changed"
+msgstr "Laatste wijziging"
+
+msgid "Enter the date of the last change as YYYY-MM-DD (2005-12-31 for example) (optional)."
+msgstr "Voer hier de laatste wijziging in in het formaat JJJJ-MM-DD (bijv. 2005-12-31). Dit veld is optioneel en hoeft niet ingevuld te worden."
+
+msgid "Change Frequency"
+msgstr "Wijzigingsfrequentie"
+
+msgid "#"
+msgstr "#"
+
+msgid "No pages defined."
+msgstr "Er zijn geen pagina's gedefini&euml;erd."
+
+msgid "Add new page"
+msgstr "Nieuwe pagina toevoegen"
+
+msgid "Post Priority"
+msgstr "Bericht prioriteit"
+
+msgid "Please select how the priority of each post should be calculated:"
+msgstr "Kies hier de berekeningsmethode voor de prioriteit van de berichten."
+
+msgid "Do not use automatic priority calculation"
+msgstr "Geen automatische prioriteitsberekening gebruiken"
+
+msgid "All posts will have the same priority which is defined in &quot;Priorities&quot;"
+msgstr "Alle berichten hebben dezelfde prioriteit die onder &quot;Prioriteiten&quot; is ingesteld."
+
+msgid "Location of your sitemap file"
+msgstr "Locatie van het sitemap bestand"
+
+msgid "Automatic detection"
+msgstr "Automatische herkenning"
+
+msgid "Filename of the sitemap file"
+msgstr "Bestandsnaam van de sitemap"
+
+msgid "Detected Path"
+msgstr "Herkend pad"
+
+msgid "Detected URL"
+msgstr "Herkende URL"
+
+msgid "Custom location"
+msgstr "Handmatig ingesteld pad"
+
+msgid "Absolute or relative path to the sitemap file, including name."
+msgstr "Absoluut of relatief pad naar het sitemap bestand inclusief bestandsnaam."
+
+msgid "Example"
+msgstr "Voorbeeld"
+
+msgid "Complete URL to the sitemap file, including name."
+msgstr "Absolute URL naar het sitemap bestand inclusief de bestandsnaam."
+
+msgid "Sitemap Content"
+msgstr "Sitemap inhoud"
+
+msgid "Include homepage"
+msgstr "Bevat homepage"
+
+msgid "Include posts"
+msgstr "Bevat berichten"
+
+msgid "Include static pages"
+msgstr "Bevat statische pagina's"
+
+msgid "Include categories"
+msgstr "Bevat categorie&euml;n"
+
+msgid "Include archives"
+msgstr "Bevat archieven"
+
+msgid "Include tag pages"
+msgstr "Bevag tag pagina's"
+
+msgid "Include author pages"
+msgstr "Bevat auteur pagina's"
+
+msgid "Change frequencies"
+msgstr "Wijzigingsfrequentie"
+
+msgid "Please note that the value of this tag is considered a hint and not a command. Even though search engine crawlers consider this information when making decisions, they may crawl pages marked \"hourly\" less frequently than that, and they may crawl pages marked \"yearly\" more frequently than that. It is also likely that crawlers will periodically crawl pages marked \"never\" so that they can handle unexpected changes to those pages."
+msgstr "Let er op dat de waarde van deze tag als tip gezien wordt en niet als commando. Zoekmachines kunnen deze tip oppakken, echter hoeven zij zich er niet aan te houden. Ze kunnen pagina's per \"Hourly\" gemarkeerd minder bezoeken. En pagina's gemarkeerd \"Yearly\" kunnen frequentere controles krijgen. Ook pagina's gemarkeerd \"Never\" kunnen worden bezocht om zo onverwachte veranderingen op te pakken."
+
+msgid "Homepage"
+msgstr "Homepage"
+
+msgid "Posts"
+msgstr "Berichten"
+
+msgid "Static pages"
+msgstr "Statische pagina's"
+
+msgid "Categories"
+msgstr "Categorie&euml;n"
+
+msgid "The current archive of this month (Should be the same like your homepage)"
+msgstr "Het archief van de huidige maand (Zou hetzelfde moeten zijn als de homepage)"
+
+msgid "Older archives (Changes only if you edit an old post)"
+msgstr "Archieven van voorgaande maanden"
+
+msgid "Tag pages"
+msgstr "Tag pagina's"
+
+msgid "Author pages"
+msgstr "Auteur pagina's"
+
+msgid "Priorities"
+msgstr "Prioriteiten"
+
+msgid "Posts (If auto calculation is disabled)"
+msgstr "Berichten (Wanneer automatische berekening is geactiveerd)"
+
+msgid "Minimum post priority (Even if auto calculation is enabled)"
+msgstr "Minimale prioriteit voor berichten (ook wanneer de automatische berekening is geactiveerd)"
+
+msgid "Archives"
+msgstr "Archieven"
+
+msgid "Update options"
+msgstr "Instellingen opslaan"
+
+msgid "Reset options"
+msgstr "Instellingen herstellen"
+

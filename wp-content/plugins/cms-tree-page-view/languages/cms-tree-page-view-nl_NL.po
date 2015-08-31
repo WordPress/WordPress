@@ -1,0 +1,234 @@
+# Translation of the WordPress plugin   by .
+# Copyright (C) 2010
+# This file is distributed under the same license as the  package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: CMS-tree-page-view\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/cms-tree-page-view\n"
+"POT-Creation-Date: 2010-08-28 21:55+0000\n"
+"PO-Revision-Date: 2011-02-23 13:01+0100\n"
+"Last-Translator: Cees van den Heuvel <cvandenheuvel@intermediad.nl>\n"
+"Language-Team: Intermediad <cvandenheuvel@intermediad.nl>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Dutch\n"
+"X-Poedit-Country: NETHERLANDS\n"
+
+#: functions.php:53
+msgid "Enter title of new page"
+msgstr "Voer de titel van de nieuwe pagina in"
+
+#: functions.php:54
+msgid "child pages"
+msgstr "dochter paginas"
+
+#: functions.php:55
+#: functions.php:376
+msgid "Edit page"
+msgstr "Wijzig pagina"
+
+#: functions.php:56
+#: functions.php:377
+msgid "View page"
+msgstr "Toon pagina"
+
+#: functions.php:57
+#: functions.php:376
+msgid "Edit"
+msgstr "Wijzig"
+
+#: functions.php:58
+#: functions.php:377
+msgid "View"
+msgstr "Toon"
+
+#: functions.php:59
+msgid "Add page"
+msgstr "Voeg pagina toe"
+
+#: functions.php:60
+#: functions.php:381
+msgid "Add new page after"
+msgstr "Voeg nieuwe pagina toe na"
+
+#: functions.php:61
+msgid "after"
+msgstr "na"
+
+#: functions.php:62
+msgid "inside"
+msgstr "binnen"
+
+#: functions.php:63
+msgid "Sorry, can't create a sub page to a page with status \"draft\"."
+msgstr "Sorry, kan geen sub pagina maken voor een pagina met de status \"draft\"."
+
+#: functions.php:64
+#: functions.php:385
+msgid "Add new page inside"
+msgstr "Voeg nieuwe pagina toe binnen"
+
+#: functions.php:65
+msgid "draft"
+msgstr "concept"
+
+#: functions.php:66
+msgid "future"
+msgstr "toekomstig"
+
+#: functions.php:67
+msgid "protected"
+msgstr "beschermd"
+
+#: functions.php:68
+#: functions.php:586
+msgid "pending"
+msgstr "wacht"
+
+#: functions.php:69
+msgid "private"
+msgstr "privé"
+
+#: functions.php:70
+msgid "Password protected page"
+msgstr "Wachtwoord beschermde pagina"
+
+#: functions.php:71
+msgid "Adding page..."
+msgstr "Toevoegen pagina ..."
+
+#: functions.php:172
+msgid "settings"
+msgstr "instellingen"
+
+#: functions.php:177
+msgid "Select where to show a tree for pages and custom post types"
+msgstr "Kies waar de boom voor pagina's en eigen berichttypes getoond wordt"
+
+#: functions.php:201
+msgid "On dashboard"
+msgstr "Op het Dashboard"
+
+#: functions.php:205
+msgid "In menu"
+msgstr "In het Menu"
+
+#: functions.php:216
+msgid "Save Changes"
+msgstr "Opslaan wijzigingen"
+
+#: functions.php:333
+msgid "No posts found."
+msgstr "Geen berichten gevonden."
+
+#: functions.php:339
+msgid "All"
+msgstr "Alle"
+
+#: functions.php:340
+msgid "Public"
+msgstr "Openbare"
+
+#: functions.php:345
+msgid "Expand"
+msgstr "Uitklappen"
+
+#: functions.php:346
+msgid "Collapse"
+msgstr "Inklappen"
+
+#: functions.php:354
+msgid "Clear search"
+msgstr "Wis zoekcriteria"
+
+#: functions.php:355
+msgid "Search"
+msgstr "Zoek"
+
+#: functions.php:356
+msgid "Searching..."
+msgstr "Zoeken ..."
+
+#: functions.php:357
+msgid "Nothing found."
+msgstr "Niets gevonden."
+
+#: functions.php:363
+msgid "Loading..."
+msgstr "Laden ..."
+
+#: functions.php:366
+msgid "Search: no pages found"
+msgstr "Zoek: geen paginas gevonden"
+
+#: functions.php:369
+msgid "Loading tree"
+msgstr "Boom laden"
+
+#: functions.php:381
+msgid "After"
+msgstr "Na"
+
+#: functions.php:385
+msgid "Inside"
+msgstr "Binnen"
+
+#: functions.php:389
+msgid "Can not create page inside of a page with draft status"
+msgstr "Kan geen pagina maken binnen een pagina met de status concept"
+
+#: functions.php:392
+msgid "Last modified"
+msgstr "Laatst gewijzigd"
+
+#: functions.php:394
+msgid "by"
+msgstr "door"
+
+#: functions.php:397
+msgid "Page ID"
+msgstr "Pagina ID"
+
+#: functions.php:551
+msgid "Unknown user"
+msgstr "Onbekende gebruiker"
+
+#: functions.php:556
+msgid "<Untitled page>"
+msgstr "<Pagina zonder titel>"
+
+#: functions.php:576
+msgid "Comments"
+msgstr "Opmerkingen"
+
+#: functions.php:583
+#, php-format
+msgid "%s pending"
+msgstr "% voortgang"
+
+#: functions.php:593
+msgctxt "comment count"
+msgid "0"
+msgstr "0"
+
+#: functions.php:593
+msgctxt "comment count"
+msgid "1"
+msgstr "1"
+
+#: functions.php:593
+msgctxt "comment count"
+msgid "%"
+msgstr "%"
+
+#: functions.php:624
+msgid "Click to edit. Drag to move."
+msgstr "Klik om te wijzigen. Sleep om te verplaatsen."
+
+#: functions.php:775
+msgid "New page"
+msgstr "Nieuwe pagina"
+

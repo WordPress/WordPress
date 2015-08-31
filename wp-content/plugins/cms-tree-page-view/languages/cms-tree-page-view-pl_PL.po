@@ -1,0 +1,320 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: CMS Tree Page View\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/cms-tree-page-view\n"
+"POT-Creation-Date: 2010-08-28 21:55+0000\n"
+"PO-Revision-Date: 2011-08-08 15:18+0100\n"
+"Last-Translator: Michał Księżuk <michal@ksiezuk.pl>\n"
+"Language-Team: gadjukin.net <georgij@gadjukin.net>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Poedit-Language: Czech\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2\n"
+"X-Textdomain-Support: yes\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#@ default
+#: functions.php:639
+#, php-format
+msgid "%s pending"
+msgstr "%s oczekuje"
+
+#@ cms-tree-page-view
+#: functions.php:612
+msgid "<Untitled page>"
+msgstr "<Strona bez tytułu>"
+
+#@ cms-tree-page-view
+#: functions.php:60
+#: functions.php:384
+msgid "Add new page after"
+msgstr "Dodaj nową stronę po"
+
+#@ cms-tree-page-view
+#: functions.php:66
+#: functions.php:388
+msgid "Add new page inside"
+msgstr "Dodaj nową stroną wewnątrz"
+
+#@ cms-tree-page-view
+#: functions.php:59
+msgid "Add page"
+msgstr "Dodaj stronę"
+
+#@ cms-tree-page-view
+#: functions.php:74
+msgid "Adding page..."
+msgstr "Dodaję stronę..."
+
+#@ cms-tree-page-view
+#: functions.php:384
+msgid "After"
+msgstr "Po"
+
+#@ cms-tree-page-view
+#: functions.php:341
+msgid "All"
+msgstr "Wszystkie"
+
+#@ cms-tree-page-view
+#: functions.php:392
+msgid "Can not create page inside of a page with draft status"
+msgstr "Nie można utworzyć strony wewnątrz strony w stanie szkicu"
+
+#@ cms-tree-page-view
+#: functions.php:357
+msgid "Clear search"
+msgstr "Wyczyść wyszukiwanie"
+
+#@ cms-tree-page-view
+#: functions.php:680
+msgid "Click to edit. Drag to move."
+msgstr "Kliknij by edytować. Przeciągnij by przenieść."
+
+#@ cms-tree-page-view
+#: functions.php:349
+msgid "Collapse"
+msgstr "Zwiń"
+
+#@ default
+#: functions.php:632
+msgid "Comments"
+msgstr "Komentarze"
+
+#@ cms-tree-page-view
+#: functions.php:57
+#: functions.php:379
+msgid "Edit"
+msgstr "Edytuj"
+
+#@ cms-tree-page-view
+#: functions.php:55
+#: functions.php:379
+msgid "Edit page"
+msgstr "Edytuj stronę"
+
+#@ cms-tree-page-view
+#: functions.php:53
+msgid "Enter title of new page"
+msgstr "Wprowadź tytuł nowej strony"
+
+#@ cms-tree-page-view
+#: functions.php:348
+msgid "Expand"
+msgstr "Rozwiń"
+
+#@ cms-tree-page-view
+#: functions.php:208
+msgid "In menu"
+msgstr "W menu"
+
+#@ cms-tree-page-view
+#: functions.php:388
+msgid "Inside"
+msgstr "Wewnątrz"
+
+#@ cms-tree-page-view
+#: functions.php:395
+msgid "Last modified"
+msgstr "Ostatnio modyfikowana"
+
+#@ cms-tree-page-view
+#: functions.php:372
+msgid "Loading tree"
+msgstr "Ładuję drzewo"
+
+#@ cms-tree-page-view
+#: functions.php:366
+msgid "Loading..."
+msgstr "Ładuję..."
+
+#@ cms-tree-page-view
+#: functions.php:831
+msgid "New page"
+msgstr "Nowa strona"
+
+#@ cms-tree-page-view
+#: functions.php:335
+msgid "No posts found."
+msgstr "Nie znaleziono wpisów."
+
+#@ cms-tree-page-view
+#: functions.php:360
+msgid "Nothing found."
+msgstr "Nic nie znaleziono."
+
+#@ cms-tree-page-view
+#: functions.php:204
+msgid "On dashboard"
+msgstr "W kokpicie"
+
+#@ cms-tree-page-view
+#: functions.php:400
+msgid "Page ID"
+msgstr "ID Strony"
+
+#@ cms-tree-page-view
+#: functions.php:73
+msgid "Password protected page"
+msgstr "Strona chroniona hasłem"
+
+#@ cms-tree-page-view
+#: functions.php:342
+msgid "Public"
+msgstr "Publiczny"
+
+#@ cms-tree-page-view
+#: functions.php:219
+msgid "Save Changes"
+msgstr "Zapisz zmiany"
+
+#@ cms-tree-page-view
+#: functions.php:358
+msgid "Search"
+msgstr "Wyszukaj"
+
+#@ cms-tree-page-view
+#: functions.php:369
+msgid "Search: no pages found"
+msgstr "Wyszukiwanie: nie znaleziono stron"
+
+#@ cms-tree-page-view
+#: functions.php:359
+msgid "Searching..."
+msgstr "Szukam..."
+
+#@ cms-tree-page-view
+#: functions.php:180
+msgid "Select where to show a tree for pages and custom post types"
+msgstr "Wybierz gdzie wyświetlić drzewo stron i własnych typów wpisów"
+
+#@ cms-tree-page-view
+#: functions.php:63
+msgid "Sorry, can't create a sub page to a page with status \"draft\"."
+msgstr "Przepraszamy, nie można utworzyć podstrony dla strony w stanie szkicu"
+
+#@ cms-tree-page-view
+#: functions.php:607
+msgid "Unknown user"
+msgstr "Nieznany użytkownik"
+
+#@ cms-tree-page-view
+#: functions.php:58
+#: functions.php:380
+msgid "View"
+msgstr "Wyświetl"
+
+#@ cms-tree-page-view
+#: functions.php:56
+#: functions.php:380
+msgid "View page"
+msgstr "Wyświetl stronę"
+
+#@ cms-tree-page-view
+#: functions.php:61
+msgid "after"
+msgstr "po"
+
+#@ cms-tree-page-view
+#: functions.php:397
+msgid "by"
+msgstr "od"
+
+#@ cms-tree-page-view
+#: functions.php:54
+msgid "child pages"
+msgstr "podstrony"
+
+#@ default
+#: functions.php:649
+msgctxt "comment count"
+msgid "%"
+msgstr "%"
+
+#@ default
+#: functions.php:649
+msgctxt "comment count"
+msgid "0"
+msgstr "0"
+
+#@ default
+#: functions.php:649
+msgctxt "comment count"
+msgid "1"
+msgstr "1"
+
+#@ cms-tree-page-view
+#: functions.php:67
+msgid "draft"
+msgstr "szkic"
+
+#@ cms-tree-page-view
+#: functions.php:68
+msgid "future"
+msgstr "przyszłe"
+
+#@ cms-tree-page-view
+#: functions.php:62
+msgid "inside"
+msgstr "wewnątrz"
+
+#@ cms-tree-page-view
+#@ default
+#: functions.php:70
+#: functions.php:642
+msgid "pending"
+msgstr "oczekuje"
+
+#@ cms-tree-page-view
+#: functions.php:71
+msgid "private"
+msgstr "prywatny"
+
+#@ cms-tree-page-view
+#: functions.php:69
+msgid "protected"
+msgstr "chroniony"
+
+#@ cms-tree-page-view
+#: functions.php:175
+msgid "settings"
+msgstr "ustawienia"
+
+#@ cms-tree-page-view
+#: functions.php:64
+msgid "Sorry, can't create a sub page to a page with status \"trash\"."
+msgstr "Przepraszamy, nie można utworzyć podstrony dla strony w koszu"
+
+#@ cms-tree-page-view
+#: functions.php:65
+msgid "Sorry, can't create a page after a page with status \"trash\"."
+msgstr "Przepraszamy, nie można utworzyć strony za stroną w koszu"
+
+#@ cms-tree-page-view
+#: functions.php:72
+msgid "trash"
+msgstr "kosz"
+
+#@ cms-tree-page-view
+#: functions.php:343
+msgid "Trash"
+msgstr "Kosz"
+
+#@ cms-tree-page-view
+#: functions.php:1013
+msgid "Close"
+msgstr "Zamknij"
+
+#@ cms-tree-page-view
+#: functions.php:1014
+msgid "<strong>Thank you for using this plugin!</strong> If you need help please check out the <a href=\"http://eskapism.se/code-playground/cms-tree-page-view/?utm_source=wordpress&utm_medium=banner&utm_campaign=promobox\">plugin homepage</a> or the <a href=\"http://wordpress.org/tags/cms-tree-page-view?forum_id=10\">support forum</a>."
+msgstr "<strong>Dziękuję za używanie tej wtyczki!</strong> Jeśli potrzebujesz pomocy odwiedź <a href=\\\"http://eskapism.se/code-playground/cms-tree-page-view/?utm_source=wordpress&utm_medium=banner&utm_campaign=promobox\\\">stroną domową wtyczki</a> lub <a href=\\\"http://wordpress.org/tags/cms-tree-page-view?forum_id=10\\\">forum pomocy</a> ."
+
+#@ cms-tree-page-view
+#: functions.php:1015
+msgid "If you like this plugin, please <a href=\"http://eskapism.se/sida/donate/?utm_source=wordpress&utm_medium=banner&utm_campaign=promobox\">support my work by donating</a> - or at least say something nice about this plugin in a blog post or tweet."
+msgstr "Pokud se vám tento plugin líbí, prosím podpořte mou práci <a href=\\\"http://eskapism.se/sida/donate/?utm_source=wordpress&utm_medium=banner&utm_campaign=promobox\\\">malým darem</a> - nebo alespoň řekněte něco pěkného o tomto pluginu v blogu."
+

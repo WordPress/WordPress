@@ -1,0 +1,920 @@
+# Copyright (C) 2005 Sewar : www.sewar.be
+# This file is distributed under the same license as the WordPress package.
+# Sewar <www.sewar.be/contact.php>, 2005.
+# $Id: sitemap.pot 2327 2005-06-19 03:09:59 RedAltExport $
+msgid ""
+msgstr ""
+"Project-Id-Version: Sitemap v2.7.1 for WP\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2009-06-07 01:15+0100\n"
+"PO-Revision-Date: 2009-07-15 03:12+0200\n"
+"Last-Translator: Hazem Khaled <hazem.khaled@gmail.com>\n"
+"Language-Team: Sewar <www.sewar.be/contact.php>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Arabic\n"
+"X-Poedit-Country: ARABIAN WORLD\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:846
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-core.php:642
+msgid "Comment Count"
+msgstr "عدد التعليقات"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:858
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-core.php:654
+msgid "Uses the number of comments of the post to calculate the priority"
+msgstr "أستخدم عدد التعليقات لحساب الأولوية"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:918
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-core.php:714
+msgid "Comment Average"
+msgstr "متوسط التعليقات"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:930
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-core.php:726
+msgid "Uses the average comment count to calculate the priority"
+msgstr "أستخدم متوسط التعليقات لحساب الأولوية"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:993
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-core.php:789
+msgid "Popularity Contest"
+msgstr ""
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:1005
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-core.php:801
+msgid "Uses the activated <a href=\"%1\">Popularity Contest Plugin</a> from <a href=\"%2\">Alex King</a>. See <a href=\"%3\">Settings</a> and <a href=\"%4\">Most Popular Posts</a>"
+msgstr ""
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-core.php:1187
+msgid "Always"
+msgstr "دائماً"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-core.php:1188
+msgid "Hourly"
+msgstr "كل ساعة"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-core.php:1189
+msgid "Daily"
+msgstr "يومياً"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-core.php:1190
+msgid "Weekly"
+msgstr "اسبوعياً"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-core.php:1191
+msgid "Monthly"
+msgstr "شهرياً"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-core.php:1192
+msgid "Yearly"
+msgstr "سنوياً"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-core.php:1193
+msgid "Never"
+msgstr "أبداً"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2600
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:102
+msgid "Thank you very much for your donation. You help me to continue support and development of this plugin and other free software!"
+msgstr ""
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2600
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:102
+msgid "Hide this notice"
+msgstr "أخفاء هذا التبليغ"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2657
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:108
+#, php-format
+msgid "Thanks for using this plugin! You've installed this plugin over a month ago. If it works and your are satisfied with the results, isn't it worth at least one dollar? <a href=\"%s\">Donations</a> help me to continue support and development of this <i>free</i> software! <a href=\"%s\">Sure, no problem!</a>"
+msgstr "شكراً ﻷستخدامك هذه الأضافة! لقد قمت بتركيب الإضافة من اكثر من شهر. إذا كنت راضي عن النتائج, يمكنك التبرع بدولار واحد على الأقل؟ <a href=\"%s\">المتبرعين</a> ساعدوني بدعم وتطوير هذه الأضافة <i>المجانية</i>! <a href=\"%s\">أكيد, لا يوجد مشكلة!</a>"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2657
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:108
+msgid "No thanks, please don't bug me anymore!"
+msgstr ""
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap-ui.php:67
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:119
+msgid "Your sitemap is being refreshed at the moment. Depending on your blog size this might take some time!"
+msgstr ""
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap-ui.php:69
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:121
+#, php-format
+msgid "Your sitemap will be refreshed in %s seconds. Depending on your blog size this might take some time!"
+msgstr ""
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:146
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:453
+msgid "XML Sitemap Generator for WordPress"
+msgstr "صانع خريطة الموقع"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:298
+msgid "Configuration updated"
+msgstr "تم تحديث الإعدادات"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:299
+msgid "Error while saving options"
+msgstr "حدث خطأ عند حفظ إعدادات الصفحات"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:301
+msgid "Pages saved"
+msgstr "تم حفظ إعدادات الصفحات"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:302
+msgid "Error while saving pages"
+msgstr "حدث خطأ عند حفظ إعدادات الصفحات"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2758
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:309
+msgid "The default configuration was restored."
+msgstr ""
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap-ui.php:374
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:466
+#, php-format
+msgid "There is a new version of %1$s available. <a href=\"%2$s\">Download version %3$s here</a>."
+msgstr "هناك إصدارة جديدة %1$s متاحة. <a href=\"%2$s\">تحميل الأصدارة %3$s من هنا</a>."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap-ui.php:376
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:468
+#, php-format
+msgid "There is a new version of %1$s available. <a href=\"%2$s\">Download version %3$s here</a> <em>automatic upgrade unavailable for this plugin</em>."
+msgstr "هناك إصدارة جديدة %1$s متاحة. <a href=\"%2$s\">تحميل الأصدارة %3$s من هنا</a>. <em>التحديث التلقائي غير متاح في هذه المدونة</em>."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap-ui.php:378
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:470
+#, php-format
+msgid "There is a new version of %1$s available. <a href=\"%2$s\">Download version %3$s here</a> or <a href=\"%4$s\">upgrade automatically</a>."
+msgstr "هناك إصدارة جديدة %1$s متاحة. <a href=\"%2$s\">تحميل الأصدارة %3$s من هنا</a> او <a href=\"%4$s\">حدث تلقائياً</a>."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2851
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2868
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:493
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:510
+msgid "open"
+msgstr "فتح"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2852
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2869
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:494
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:511
+msgid "close"
+msgstr "أغلاق"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2853
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2870
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:495
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:512
+msgid "click-down and drag to move this box"
+msgstr ""
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2854
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2871
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:496
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:513
+msgid "click to %toggle% this box"
+msgstr "أضغط لكي %toggle% هذا المربع"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2855
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2872
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:497
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:514
+msgid "use the arrow keys to move this box"
+msgstr "أستخدم السهم لتحريك المربعات"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2856
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2873
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:498
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:515
+msgid ", or press the enter key to %toggle% it"
+msgstr ", او أضغط على الزر لـ%toggle%"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2884
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:533
+msgid "About this Plugin:"
+msgstr "عن هذه الأضافة"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:534
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap.php:141
+msgid "Plugin Homepage"
+msgstr "الصفحة الرئيسية"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap-ui.php:421
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:535
+msgid "Suggest a Feature"
+msgstr "رشح خاصية جديدة"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2887
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:536
+msgid "Notify List"
+msgstr "قائمة التبليغ"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2888
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:537
+msgid "Support Forum"
+msgstr "منتدى الدعم"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap-ui.php:424
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:538
+msgid "Report a Bug"
+msgstr "أبلغ عن خطأ"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2889
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:540
+msgid "Donate with PayPal"
+msgstr "تبرع بالباي بال"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2890
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:541
+msgid "My Amazon Wish List"
+msgstr "قائمة رغباتي بأمازون"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2891
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:542
+msgid "translator_name"
+msgstr "إعادة الترجمة : حازم خالد"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2891
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:542
+msgid "translator_url"
+msgstr "http://HazemKhaled.com"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:545
+msgid "Sitemap Resources:"
+msgstr "موارد خريطة الموقع:"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2897
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:546
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:552
+msgid "Webmaster Tools"
+msgstr "ادوات مدير الموقع"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2898
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:547
+msgid "Webmaster Blog"
+msgstr "مدونة مدير الموقع"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2900
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:549
+msgid "Site Explorer"
+msgstr "متصفح الموقع"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2901
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:550
+msgid "Search Blog"
+msgstr "بحث المدونة"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3010
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:553
+msgid "Webmaster Center Blog"
+msgstr "مدونة مركز مدير الموقع"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:555
+msgid "Sitemaps Protocol"
+msgstr "بروتوكول خريطة الموقع"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2904
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:556
+msgid "Official Sitemaps FAQ"
+msgstr "الأسئلة الشائعة الرسمية عن خريطة المواقع"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:557
+msgid "My Sitemaps FAQ"
+msgstr "الأسئلة الشائعة عن خريطة الموقع"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2910
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:560
+msgid "Recent Donations:"
+msgstr "أخر تبرع"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2914
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:564
+msgid "List of the donors"
+msgstr "قائمة المتبرعين"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2916
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:566
+msgid "Hide this list"
+msgstr "اخفاء هذه القائمة"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2919
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:569
+msgid "Thanks for your support!"
+msgstr "شكراً لدعمك"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2931
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:587
+msgid "Status"
+msgstr "الحالة"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2941
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:595
+#, php-format
+msgid "The sitemap wasn't built yet. <a href=\"%s\">Click here</a> to build it the first time."
+msgstr ""
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2947
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:601
+msgid "Your <a href=\"%url%\">sitemap</a> was last built on <b>%date%</b>."
+msgstr ""
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2949
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:603
+msgid "There was a problem writing your sitemap file. Make sure the file exists and is writable. <a href=\"%url%\">Learn more</a"
+msgstr "مشكلة في ملف خريطة الموقع. تاكد من تواجد الملف ومن إتاجة الكتابة عليه. <a href=\"%url%\">أعرف المزيد</a>"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2956
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:610
+msgid "Your sitemap (<a href=\"%url%\">zipped</a>) was last built on <b>%date%</b>."
+msgstr ""
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2958
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:612
+msgid "There was a problem writing your zipped sitemap file. Make sure the file exists and is writable. <a href=\"%url%\">Learn more</a"
+msgstr "مشكلة في ملف تكوين خريطة الموقع المضغوطة. تاكد من تواجد الملف ومن إتاجة الكتابة عليه. <a href=\"%url%\">أعرف المزيد</a>"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2964
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:618
+msgid "Google was <b>successfully notified</b> about changes."
+msgstr ""
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2967
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:621
+msgid "It took %time% seconds to notify Google, maybe you want to disable this feature to reduce the building time."
+msgstr ""
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3011
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:624
+#, php-format
+msgid "There was a problem while notifying Google. <a href=\"%s\">View result</a>"
+msgstr ""
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2976
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:630
+msgid "YAHOO was <b>successfully notified</b> about changes."
+msgstr ""
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2979
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:633
+msgid "It took %time% seconds to notify YAHOO, maybe you want to disable this feature to reduce the building time."
+msgstr ""
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3023
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:636
+#, php-format
+msgid "There was a problem while notifying YAHOO. <a href=\"%s\">View result</a>"
+msgstr ""
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:642
+msgid "Bing was <b>successfully notified</b> about changes."
+msgstr ""
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:645
+msgid "It took %time% seconds to notify Bing, maybe you want to disable this feature to reduce the building time."
+msgstr ""
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:648
+#, php-format
+msgid "There was a problem while notifying Bing. <a href=\"%s\">View result</a>"
+msgstr ""
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2988
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:654
+msgid "Ask.com was <b>successfully notified</b> about changes."
+msgstr ""
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2991
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:657
+msgid "It took %time% seconds to notify Ask.com, maybe you want to disable this feature to reduce the building time."
+msgstr ""
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3035
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:660
+#, php-format
+msgid "There was a problem while notifying Ask.com. <a href=\"%s\">View result</a>"
+msgstr ""
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3002
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:668
+msgid "The building process took about <b>%time% seconds</b> to complete and used %memory% MB of memory."
+msgstr "تم الأنشاء في حوالي <b>%time% ثانية</b> وأستخدام %memory% MB من الذاكرة."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3004
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:670
+msgid "The building process took about <b>%time% seconds</b> to complete."
+msgstr ""
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3008
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:674
+msgid "The content of your sitemap <strong>didn't change</strong> since the last time so the files were not written and no search engine was pinged."
+msgstr ""
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap-ui.php:586
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:682
+msgid "The building process might still be active! Reload the page in a few seconds and check if something has changed."
+msgstr ""
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3012
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:685
+msgid "The last run didn't finish! Maybe you can raise the memory or time limit for PHP scripts. <a href=\"%url%\">Learn more</a>"
+msgstr ""
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3014
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:687
+msgid "The last known memory usage of the script was %memused%MB, the limit of your server is %memlimit%."
+msgstr ""
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3018
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:691
+msgid "The last known execution time of the script was %timeused% seconds, the limit of your server is %timelimit% seconds."
+msgstr ""
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3022
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:695
+msgid "The script stopped around post number %lastpost% (+/- 100)"
+msgstr ""
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3025
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:698
+#, php-format
+msgid "If you changed something on your server or blog, you should <a href=\"%s\">rebuild the sitemap</a> manually."
+msgstr "إذا تغير شيء على الخادم الخاص بك أو مدونتك, فيجب عليك <a href=\"%s\">إعادة غنشاء</a> الخريطة يدوياً"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3027
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:700
+#, php-format
+msgid "If you encounter any problems with the build process you can use the <a href=\"%d\">debug function</a> to get more information."
+msgstr "إذا واجهتك أي مشاكل في عملية انشاء الخريطة فيمكنك أستخدام <a href=\"%d\">debug function</a> للحصول على المزيد من المعلومات"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:707
+msgid "Basic Options"
+msgstr "إعدادات أساسية"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:709
+msgid "Sitemap files:"
+msgstr "ملفات الخريطة"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3044
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3059
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3079
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3104
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3121
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:709
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:724
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:744
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:777
+msgid "Learn more"
+msgstr "أعرف المزيد"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:714
+msgid "Write a normal XML file (your filename)"
+msgstr "كتابة ملف XML عادي (ملف خريطة الموقع)"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:720
+msgid "Write a gzipped file (your filename + .gz)"
+msgstr "كتابة ملف XML مضغوط (ملف خريطة الموقع + .gz)"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3059
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:724
+msgid "Building mode:"
+msgstr "نظام البناء:"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3064
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:729
+msgid "Rebuild sitemap if you change the content of your blog"
+msgstr "اعادة إنشاء الخريطة إذا قمت بتغيير محتوى المدونة"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3071
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:736
+msgid "Enable manual sitemap building via GET Request"
+msgstr "إتاحة أنشاء الخريطة يدوياً عن طريق طلب GET"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3075
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:740
+msgid "This will allow you to refresh your sitemap if an external tool wrote into the WordPress database without using the WordPress API. Use the following URL to start the process: <a href=\"%1\">%1</a> Please check the logfile above to see if sitemap was successfully built."
+msgstr ""
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:744
+msgid "Update notification:"
+msgstr "تحديث التبليغات:"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3083
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:748
+msgid "Notify Google about updates of your Blog"
+msgstr "تبليغ جوجل عن تحديثات موقعك"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3084
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:749
+#, php-format
+msgid "No registration required, but you can join the <a href=\"%s\">Google Webmaster Tools</a> to check crawling statistics."
+msgstr "لا يحتاج للتسجيل, ولكن يمكنك التسجيل في <a href=\"%s\">Google Webmaster Tools</a> لمتابعة أحصائيات أرشفة موقعك."
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:753
+msgid "Notify Bing (formerly MSN Live Search) about updates of your Blog"
+msgstr "أبلاغ BING (رسمياً MSN Live Search) عن التحديثات بمدونتك"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:754
+#, php-format
+msgid "No registration required, but you can join the <a href=\"%s\">Bing Webmaster Tools</a> to check crawling statistics."
+msgstr "لا يحتاج للتسجيل, ولكن يمكنك التسجيل في <a href=\"%s\">Bing Webmaster Tools</a> لمتابعة أحصائيات أرشفة موقعك."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3088
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:758
+msgid "Notify Ask.com about updates of your Blog"
+msgstr "أبلاغ Ask.com عن تحديثات مدونتك"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3089
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:759
+msgid "No registration required."
+msgstr "لا يحتاج للتسجيل"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3093
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:763
+msgid "Notify YAHOO about updates of your Blog"
+msgstr "تبليغ YAHOO بتحديثات مدونتك"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3154
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:764
+msgid "Your Application ID:"
+msgstr "رقم الطلب الخاص بك :"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:765
+#, php-format
+msgid "Don't you have such a key? <a href=\"%s1\">Request one here</a>! %s2"
+msgstr ""
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:770
+msgid "Add sitemap URL to the virtual robots.txt file."
+msgstr "إضافة خريطة الموقع لملف robots.txt"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:774
+msgid "The virtual robots.txt generated by WordPress is used. A real robots.txt file must NOT exist in the blog directory!"
+msgstr "ملف robots.txt الأفتراضي الذي تم إنشائه بواسطة WordPress قيد الأستخدام. ملف  robots.txt الفعلي يجب أن لا يكون موجود بمجلد المدونة!"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:777
+msgid "Advanced options:"
+msgstr "خيارات متقدمة"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3124
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:780
+msgid "Limit the number of posts in the sitemap:"
+msgstr "تحديد عدد التدوينات في الخريطة :"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3124
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:780
+msgid "Newer posts will be included first"
+msgstr "التدوينة الجديدة ستدرج الأولى"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3127
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:783
+msgid "Try to increase the memory limit to:"
+msgstr "حاول تزيد حد الذاكرة إلى:"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3127
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:783
+msgid "e.g. \"4M\", \"16M\""
+msgstr "مثال : \"4M\", \"16M\""
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3130
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:786
+msgid "Try to increase the execution time limit to:"
+msgstr "حاول زيادة مدة التنفيذ :"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3130
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:786
+msgid "in seconds, e.g. \"60\" or \"0\" for unlimited"
+msgstr "بالثواني, مثال:  \"60\" أو \"0\" للغير نهائي"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3133
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:790
+msgid "Include a XSLT stylesheet:"
+msgstr "أستخدام ملف تنسيقي XSLT:"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3133
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:791
+msgid "Full or relative URL to your .xsl file"
+msgstr "الرابط كاملاً ملفم ال .xsl"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:791
+msgid "Use default"
+msgstr "أستخدام الأفتراضي"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3152
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:797
+msgid "Enable MySQL standard mode. Use this only if you're getting MySQL errors. (Needs much more memory!)"
+msgstr "تفعيل وضع MySQL القياسي. أستخدها فقط في حالة حدوث اخطاء MySQL. (يحتاج إلى المزيد من الذاكرة!)"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:798
+msgid "Upgrade WordPress at least to 2.2 to enable the faster MySQL access"
+msgstr "يجب تحديث وردبريس للأصدارة 2.2 لتفعيل وصل أسرع لل MySQL"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3166
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:805
+msgid "Build the sitemap in a background process (You don't have to wait when you save a post)"
+msgstr "بناء خريطة الموقع في كل مرة في الخلفية (لكل لا يأخر عملية حفظ التدوينات)"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:806
+msgid "Upgrade WordPress at least to 2.1 to enable background building"
+msgstr "يجب تحديث المدونة لإصدارة 2.1 على الأقل لتفعيل العمل في الخلفية"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:813
+msgid "Additional pages"
+msgstr "صفحات إضافية"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:816
+msgid "Here you can specify files or URLs which should be included in the sitemap, but do not belong to your Blog/WordPress.<br />For example, if your domain is www.foo.com and your blog is located on www.foo.com/blog you might want to include your homepage at www.foo.com"
+msgstr "هنا يمكنك تضمين الملفات و الروابط التي يجب أن يتم تضمينها في خريطة الموقع، لكنها لا تتبع ووردبريس .<br />على سبيل المثال، إذا كان نطاق موقعك www.foo.com و مدونتك موجودة في www.foo.com/blog أنت قد تريد تضمين الصفحة الرئيسية لموقعك في www.foo.com."
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:818
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:997
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:1011
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:1020
+msgid "Note"
+msgstr "تنبيه"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:819
+msgid "If your blog is in a subdirectory and you want to add pages which are NOT in the blog directory or beneath, you MUST place your sitemap file in the root directory (Look at the &quot;Location of your sitemap file&quot; section on this page)!"
+msgstr "إذا كانت مدونتك في مجلد فرعي و أردت إضافة صفحات خارج مجلد مدونتك، يجب عليك وضع ملف خريطة موقعك في المجلد الرئيسي لموقعك (انظر فسم &quot;مكان ملف خريطة موقعك&quot; في هذه الصفحة)"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:821
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:860
+msgid "URL to the page"
+msgstr "رابط الصفحة"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:822
+msgid "Enter the URL to the page. Examples: http://www.foo.com/index.html or www.foo.com/home "
+msgstr "ضع رابط الصفحة ، مثلاً : http://www.foo.com/index.html أو www.foo.com/home ."
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:824
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:861
+msgid "Priority"
+msgstr "الأفضلية"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:825
+msgid "Choose the priority of the page relative to the other pages. For example, your homepage might have a higher priority than your imprint."
+msgstr "إختر أفضلية الصفحة نسبة إلى الصفحات الأخرى ، على سبيل المثال ، صفحتك الرئيسية لربّما يكون لها أفضلية أعلى من سيرتك الذاتية ."
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:827
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:863
+msgid "Last Changed"
+msgstr "آخر تعديل"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:828
+msgid "Enter the date of the last change as YYYY-MM-DD (2005-12-31 for example) (optional)."
+msgstr "ضع تاريخ آخر تعديل كـ YYYY-MM-DD (مثلاً : 2005-12-31) (اختياري) ."
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:862
+msgid "Change Frequency"
+msgstr "فترة التحديث"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:864
+msgid "#"
+msgstr "#"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:869
+msgid "No pages defined."
+msgstr "لا يوجد صفحات مضافة ."
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:874
+msgid "Add new page"
+msgstr "أضف صفحة جديدة"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:879
+msgid "Post Priority"
+msgstr "الأفضلية"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3329
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:881
+msgid "Please select how the priority of each post should be calculated:"
+msgstr "الرجاء اختيار مدى أولوية كل تدوينة :"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3331
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:883
+msgid "Do not use automatic priority calculation"
+msgstr "لا تستخدم حساب الأولوية تلقائيا"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3331
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:883
+msgid "All posts will have the same priority which is defined in &quot;Priorities&quot;"
+msgstr "كل المواضيع تحمل نفس الأولوية التي تم تحديدها في &quot;الأولويات&quot;"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:894
+msgid "Location of your sitemap file"
+msgstr "مكان ملف خريطة موقعك"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:897
+msgid "Automatic detection"
+msgstr "الكشف الآلي"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:901
+msgid "Filename of the sitemap file"
+msgstr "اسم ملف خريطة الموقع:"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:904
+msgid "Detected Path"
+msgstr "مسار الملف"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:904
+msgid "Detected URL"
+msgstr "رابط الملف"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:909
+msgid "Custom location"
+msgstr "مسار مخصص"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:913
+msgid "Absolute or relative path to the sitemap file, including name."
+msgstr "المسار الكامل لملف خريطة الموقع."
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:915
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:924
+msgid "Example"
+msgstr "مثال"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:922
+msgid "Complete URL to the sitemap file, including name."
+msgstr "الرابط الكامل لملف خريطة الموقع."
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:935
+msgid "Sitemap Content"
+msgstr "محتوى خريطة الموقع"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:941
+msgid "Include homepage"
+msgstr "تضمين الصفحة الرئيسية"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:947
+msgid "Include posts"
+msgstr "تضمين التدوينات"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:953
+msgid "Include following pages of multi-page posts (Increases build time and memory usage!)"
+msgstr "إدراج الصفحات التابعة للمواضيع متعددة الصفحات (يزيد في مدة إنشاء الخيرطة وكمية الذاكرة المستخدمة)"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:959
+msgid "Include static pages"
+msgstr "تضمين الصفحات"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:965
+msgid "Include categories"
+msgstr "تضمين التصنيفات"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:971
+msgid "Include archives"
+msgstr "تضمين الأرشيف"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:978
+msgid "Include tag pages"
+msgstr "تضمين صفحات التاجات"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:985
+msgid "Include author pages"
+msgstr "تضمين صفحات الكتاب"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:993
+msgid "Excluded items"
+msgstr "استبعاد عناصر"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:995
+msgid "Excluded categories"
+msgstr "استبعاد التصنيفات"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:997
+msgid "Using this feature will increase build time and memory usage!"
+msgstr "باستخدام هذه الميزة سوف تزيد من وقت الأنشاء واستخدام ذاكرة اكبر!"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:1004
+#, php-format
+msgid "This feature requires at least WordPress 2.5.1, you are using %s"
+msgstr "هذه الخاصية تحتاج لنسخة وردبريس 2.5.1, أنت تستخدم %s"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:1007
+msgid "Exclude posts"
+msgstr "استبعاد التدوينات"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3206
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:1009
+msgid "Exclude the following posts or pages:"
+msgstr "أستبعاد التدوينات او المواضيع الأتية:"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3206
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:1009
+msgid "List of IDs, separated by comma"
+msgstr "ضع الأرقام IDs, وأفصل بينهم بكومة انجليزية"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:1011
+msgid "Child posts won't be excluded automatically!"
+msgstr "المواضيع التابعة لن تستبعد تلقائيا!"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:1017
+msgid "Change frequencies"
+msgstr "فترة التحديث"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:1021
+msgid "Please note that the value of this tag is considered a hint and not a command. Even though search engine crawlers consider this information when making decisions, they may crawl pages marked \"hourly\" less frequently than that, and they may crawl pages marked \"yearly\" more frequently than that. It is also likely that crawlers will periodically crawl pages marked \"never\" so that they can handle unexpected changes to those pages."
+msgstr "رجاء لاحظ بأنّ قيمة هذه الخاصية هي تلميح معتبر و ليس إجبارياً . بالرغم من أنّ محركات البحث تقرأ هذه الخاصية عندما تبحث ، هي قد تفحص الصفحات التي أشّرت \"كل ساعة\" أقل كثيرا من ذلك ،  وهي قد تفحص الصفحات التي أشّرت \"سنوياً\" أكثر من ذلك . هي أيضا من المحتمل تفحص الصفحات التي أشّرت \"أبداً\" بشكل دوري لكي هم يمكن أن يعالجوا التغييرات الغير المتوقّعة في تلك الصفحات ."
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:1027
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:1084
+msgid "Homepage"
+msgstr "الصفحة الرئيسية"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:1033
+msgid "Posts"
+msgstr "التدوينات"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:1039
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:1102
+msgid "Static pages"
+msgstr "الصفحات"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:1045
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:1108
+msgid "Categories"
+msgstr "التصنيفات"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:1051
+msgid "The current archive of this month (Should be the same like your homepage)"
+msgstr "أرشيف الشهر الحالي (يفضل أن يكون مثل الصفحة الرئيسية)"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:1057
+msgid "Older archives (Changes only if you edit an old post)"
+msgstr "الأرشيف السابق (يتغير عندما تحرر تدوينة قديمة فقط)"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:1064
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:1121
+msgid "Tag pages"
+msgstr "صفحات التاجات"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:1071
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:1128
+msgid "Author pages"
+msgstr "صفحات المؤلفين"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:1079
+msgid "Priorities"
+msgstr "الأفضليات"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:1090
+msgid "Posts (If auto calculation is disabled)"
+msgstr "التدوينات (إذا كان الحساب الآلي غير مفعل)"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:1096
+msgid "Minimum post priority (Even if auto calculation is enabled)"
+msgstr "أفضلية التدوينة الدنيا (حتى إذا كان الحساب الآلي مفعل)"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:1114
+msgid "Archives"
+msgstr "الأرشيف"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:1139
+msgid "Update options"
+msgstr "تحديث الإعدادات"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:1140
+msgid "Reset options"
+msgstr "تصفير الإعدادات"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap.php:84
+msgid "XML-Sitemap Generator"
+msgstr "صانع خريطة الموقع"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap.php:84
+msgid "XML-Sitemap"
+msgstr "خريطة الموقع"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap.php:142
+msgid "Sitemap FAQ"
+msgstr "الأسئلة الشائعة عن خريطة الموقع"
+
+#~ msgid "Manual location"
+#~ msgstr "تحديد الرابط يدوياً"
+#~ msgid "OR"
+#~ msgstr "أو"
+#~ msgid "Error"
+#~ msgstr "حصل خطأ"
+#~ msgid ""
+#~ "A new page was added. Click on &quot;Save page changes&quot; to save your "
+#~ "changes."
+#~ msgstr ""
+#~ "تم إضافة صفحة جديدة ، إضغط على زر &quotحفظ تغييرات الصفحات&quot; لحفظ "
+#~ "تغييراتك ."
+#~ msgid ""
+#~ "The page was deleted. Click on &quot;Save page changes&quot; to save your "
+#~ "changes."
+#~ msgstr "تم حذف الصفحة ."
+#~ msgid "You changes have been cleared."
+#~ msgstr "تم إلغاء تغييراتك ."
+#~ msgid "Manual rebuild"
+#~ msgstr "إنشاء خريطة الموقع يدوياً"
+#~ msgid ""
+#~ "If you want to build the sitemap without editing a post, click on here!"
+#~ msgstr ""
+#~ "إذا كنت تريد إنشاء خريطة الموقع بدون تعديل تدوينة ، إضغط على الزر التالي :"
+#~ msgid "Rebuild Sitemap"
+#~ msgstr "إعادة إنشاء خريطة الموقع"
+

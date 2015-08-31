@@ -1,0 +1,321 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/cms-tree-page-view\n"
+"POT-Creation-Date: 2011-03-06 14:33:36+00:00\n"
+"PO-Revision-Date: 2012-02-22 07:45+0100\n"
+"Last-Translator: Pär Thernström <par.thernstrom@gmail.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2\n"
+"X-Textdomain-Support: yes\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#@ cms-tree-page-view
+#: functions.php:55
+msgid "Enter title of new page"
+msgstr "Indtast titel på ny side"
+
+#@ cms-tree-page-view
+#: functions.php:56
+msgid "child pages"
+msgstr "Barnesider"
+
+#@ cms-tree-page-view
+#: functions.php:57
+#: functions.php:401
+msgid "Edit page"
+msgstr "Redigér side"
+
+#@ cms-tree-page-view
+#: functions.php:58
+#: functions.php:402
+msgid "View page"
+msgstr "Se side"
+
+#@ cms-tree-page-view
+#: functions.php:59
+#: functions.php:401
+msgid "Edit"
+msgstr "Redigér"
+
+#@ cms-tree-page-view
+#: functions.php:60
+#: functions.php:402
+msgid "View"
+msgstr "Se"
+
+#@ cms-tree-page-view
+#: functions.php:61
+msgid "Add page"
+msgstr "Tilføj side"
+
+#@ cms-tree-page-view
+#: functions.php:62
+#: functions.php:406
+msgid "Add new page after"
+msgstr "Tilføj ny side efter"
+
+#@ cms-tree-page-view
+#: functions.php:63
+msgid "after"
+msgstr "efter"
+
+#@ cms-tree-page-view
+#: functions.php:64
+msgid "inside"
+msgstr "indeni"
+
+#@ cms-tree-page-view
+#: functions.php:65
+msgid "Sorry, can't create a sub page to a page with status \"draft\"."
+msgstr "Beklager! kan ikke oprette en underside til en side med status \"draft\"."
+
+#@ cms-tree-page-view
+#: functions.php:66
+msgid "Sorry, can't create a sub page to a page with status \"trash\"."
+msgstr "Beklager! kan ikke oprette en underside til en side med status \"trash\"."
+
+#@ cms-tree-page-view
+#: functions.php:67
+msgid "Sorry, can't create a page after a page with status \"trash\"."
+msgstr "Beklager! kan ikke oprette en side efter en side med status \"trash\"."
+
+#@ cms-tree-page-view
+#: functions.php:68
+#: functions.php:410
+msgid "Add new page inside"
+msgstr "Tilføj en ny side indeni"
+
+#@ cms-tree-page-view
+#: functions.php:69
+msgid "draft"
+msgstr "kladde"
+
+#@ cms-tree-page-view
+#: functions.php:70
+msgid "future"
+msgstr "fremtidig"
+
+#@ cms-tree-page-view
+#: functions.php:71
+msgid "protected"
+msgstr "beskyttet"
+
+#@ cms-tree-page-view
+#@ default
+#: functions.php:72
+#: functions.php:673
+msgid "pending"
+msgstr "afventer"
+
+#@ cms-tree-page-view
+#: functions.php:73
+msgid "private"
+msgstr "privat"
+
+#@ cms-tree-page-view
+#: functions.php:74
+msgid "trash"
+msgstr "papirkurv"
+
+#@ cms-tree-page-view
+#: functions.php:75
+msgid "Password protected page"
+msgstr "Adganskode-beskyttet side"
+
+#@ cms-tree-page-view
+#: functions.php:76
+msgid "Adding page..."
+msgstr "Tilføjer side..."
+
+#@ cms-tree-page-view
+#: functions.php:178
+msgid "settings"
+msgstr "indstillinger"
+
+#@ cms-tree-page-view
+#: functions.php:183
+msgid "Select where to show a tree for pages and custom post types"
+msgstr "Vælg hvor du vil vise et trævisning for sider og tilpasset indlægstyper"
+
+#@ cms-tree-page-view
+#: functions.php:209
+msgid "On dashboard"
+msgstr "På kontrolpanel"
+
+#@ cms-tree-page-view
+#: functions.php:213
+msgid "In menu"
+msgstr "I menu"
+
+#@ cms-tree-page-view
+#: functions.php:224
+msgid "Save Changes"
+msgstr "Gem ændringer"
+
+#@ cms-tree-page-view
+#: functions.php:355
+msgid "No posts found."
+msgstr "Ingen indlæg fundet."
+
+#@ cms-tree-page-view
+#: functions.php:361
+msgid "All"
+msgstr "Alle"
+
+#@ cms-tree-page-view
+#: functions.php:362
+msgid "Public"
+msgstr "Offentlig"
+
+#@ cms-tree-page-view
+#: functions.php:363
+msgid "Trash"
+msgstr "Papirkurv"
+
+#@ cms-tree-page-view
+#: functions.php:368
+msgid "Expand"
+msgstr "Udfolde"
+
+#@ cms-tree-page-view
+#: functions.php:369
+msgid "Collapse"
+msgstr "Sammenfolde"
+
+#@ cms-tree-page-view
+#: functions.php:377
+msgid "Clear search"
+msgstr "Ryd søgning"
+
+#@ cms-tree-page-view
+#: functions.php:378
+msgid "Search"
+msgstr "Søg"
+
+#@ cms-tree-page-view
+#: functions.php:379
+msgid "Searching..."
+msgstr "Søger..."
+
+#@ cms-tree-page-view
+#: functions.php:380
+msgid "Nothing found."
+msgstr "Ingenting fundet."
+
+#@ cms-tree-page-view
+#: functions.php:386
+msgid "Loading..."
+msgstr "Indlæser..."
+
+#@ cms-tree-page-view
+#: functions.php:391
+msgid "Search: no pages found"
+msgstr "Søgning: ingen sider fundet"
+
+#@ cms-tree-page-view
+#: functions.php:394
+msgid "Loading tree"
+msgstr "Indlæser trævisning"
+
+#@ cms-tree-page-view
+#: functions.php:406
+msgid "After"
+msgstr "Efter"
+
+#@ cms-tree-page-view
+#: functions.php:410
+msgid "Inside"
+msgstr "Indeni"
+
+#@ cms-tree-page-view
+#: functions.php:414
+msgid "Can not create page inside of a page with draft status"
+msgstr "Kan ikke oprette en side indeni en side med kladde-status"
+
+#@ cms-tree-page-view
+#: functions.php:417
+msgid "Last modified"
+msgstr "Sidst tilpasset"
+
+#@ cms-tree-page-view
+#: functions.php:419
+msgid "by"
+msgstr "af"
+
+#@ cms-tree-page-view
+#: functions.php:422
+msgid "Page ID"
+msgstr "Side-id"
+
+#@ cms-tree-page-view
+#: functions.php:638
+msgid "Unknown user"
+msgstr "Ukendt bruger"
+
+#@ cms-tree-page-view
+#: functions.php:643
+msgid "<Untitled page>"
+msgstr "<Unavngivet side>"
+
+#@ default
+#: functions.php:663
+msgid "Comments"
+msgstr "Kommentarer"
+
+#@ default
+#: functions.php:670
+#, php-format
+msgid "%s pending"
+msgstr "%s afventer"
+
+#@ default
+#: functions.php:680
+msgctxt "comment count"
+msgid "0"
+msgstr "0"
+
+#@ default
+#: functions.php:680
+#, fuzzy
+msgctxt "comment count"
+msgid "1"
+msgstr "1"
+
+#@ default
+#: functions.php:680
+#, fuzzy
+msgctxt "comment count"
+msgid "%"
+msgstr "%"
+
+#@ cms-tree-page-view
+#: functions.php:711
+msgid "Click to edit. Drag to move."
+msgstr "Klik for at redigere. Træk og slip."
+
+#@ cms-tree-page-view
+#: functions.php:862
+msgid "New page"
+msgstr "Ny side"
+
+#@ cms-tree-page-view
+#: functions.php:1046
+msgid "Close"
+msgstr "Luk"
+
+#@ cms-tree-page-view
+#: functions.php:1047
+msgid "<strong>Thank you for using this plugin!</strong> If you need help please check out the <a href=\"http://eskapism.se/code-playground/cms-tree-page-view/?utm_source=wordpress&utm_medium=banner&utm_campaign=promobox\">plugin homepage</a> or the <a href=\"http://wordpress.org/tags/cms-tree-page-view?forum_id=10\">support forum</a>."
+msgstr "<strong>Tak fordi du benytter dette plugin!</strong> Hvis du har brug for hjælp, så tag et kig på <a href=\"http://eskapism.se/code-playground/cms-tree-page-view/?utm_source=wordpress&utm_medium=banner&utm_campaign=promobox\">plugin hjemmesiden</a> eller <a href=\"http://wordpress.org/tags/cms-tree-page-view?forum_id=10\">support forum</a>."
+
+#@ cms-tree-page-view
+#: functions.php:1048
+msgid "If you like this plugin, please <a href=\"http://eskapism.se/sida/donate/?utm_source=wordpress&utm_medium=banner&utm_campaign=promobox\">support my work by donating</a> - or at least say something nice about this plugin in a blog post or tweet."
+msgstr "Hvis du kan lide dette plugin, så kan du <a href=\"http://eskapism.se/sida/donate/?utm_source=wordpress&utm_medium=banner&utm_campaign=promobox\">støtte mit arbejde ved en donation</a> - eller i det mindste fortælle noget godt om dette plugin på en blog, et indlæg eller tweet."
+

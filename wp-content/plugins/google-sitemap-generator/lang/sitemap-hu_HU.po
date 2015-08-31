@@ -1,0 +1,596 @@
+# [Countryname] Language File for sitemap (sitemap-[localname].po)
+# Copyright (C) 2005 [name] : [URL]
+# This file is distributed under the same license as the WordPress package.
+# [name] <[mail-address]>, 2005.
+# $Id: sitemap.pot 2502 2005-07-03 20:50:38Z arnee $
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: sitemap\n"
+"Report-Msgid-Bugs-To: <[mail-address]>\n"
+"POT-Creation-Date: 2005-06-15 00:00+0000\n"
+"PO-Revision-Date: 2007-11-05 23:44+0100\n"
+"Last-Translator: Cenzi <lupus.lupine@gmail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language-Team: \n"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:846
+msgid "Comment Count"
+msgstr "Kommentek számolása"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:858
+msgid "Uses the number of comments of the post to calculate the priority"
+msgstr "Kommentek számának felhasználása a fontosság kiszámításához"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:918
+msgid "Comment Average"
+msgstr "Kommentek"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:930
+msgid "Uses the average comment count to calculate the priority"
+msgstr "Kommentek számolása, hogy a fontosságot megállapíthassa"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:993
+msgid "Popularity Contest"
+msgstr "Gyakori tartalom"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:1005
+msgid "Uses the activated <a href=\"%1\">Popularity Contest Plugin</a> from <a href=\"%2\">Alex King</a>. See <a href=\"%3\">Settings</a> and <a href=\"%4\">Most Popular Posts</a>"
+msgstr "Uses the activated <a href=\"%1\">Popularity Contest Plugin</a> from <a href=\"%2\">Alex King</a>. See <a href=\"%3\">Settings</a> and <a href=\"%4\">Most Popular Posts</a>"
+
+msgid "XML-Sitemap Generator"
+msgstr "Oldaltérkép generátor"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2415
+msgid "XML-Sitemap"
+msgstr "XML-Oldaltérkép"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2600
+msgid "Thank you very much for your donation. You help me to continue support and development of this plugin and other free software!"
+msgstr "Köszönjük a támogatást. Segíthez a plugin fejlesztésében, hogy mindez ingyenes maradhasson!"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2600
+msgid "Hide this notice"
+msgstr "Tanács elrejtése"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2657
+#, php-format
+msgid "Thanks for using this plugin! You've installed this plugin over a month ago. If it works and your are satisfied with the results, isn't it worth at least one dollar? <a href=\"%s\">Donations</a> help me to continue support and development of this <i>free</i> software! <a href=\"%s\">Sure, no problem!</a>"
+msgstr "Köszönjük, hogy ezt a plugint használja! Kb. egy hónapja telepítette a plugint. Ha jól működik, és elégedett az eredményekkel, akkor nem adományozna a fejlesztéshez egy keveset? <a href=\"%s\">Adományok</a> segíthetnek a fejleszésekben, hogy ez a plugin <i>ingyenes</i> maradhasson! <a href=\"%s\">Persze, nem probléma!</a>"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2657
+msgid "No thanks, please don't bug me anymore!"
+msgstr "Köszönöm, nem. Ne jelenjen meg többet."
+
+msgid "XML Sitemap Generator for WordPress"
+msgstr "Oldaltérkép generátor WordPresshez"
+
+msgid "Configuration updated"
+msgstr "Beállítások frissítve!"
+
+msgid "Error while saving options"
+msgstr "Hiba az oldalak mentésekor"
+
+msgid "Pages saved"
+msgstr "Oldalak mentve"
+
+msgid "Error while saving pages"
+msgstr "Hiba az oldalak mentésekor"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2748
+#, php-format
+msgid "<a href=\"%s\">Robots.txt</a> file saved"
+msgstr "<a href=\"%s\">Robots.txt</a> fájl elmentve"
+
+msgid "Error while saving Robots.txt file"
+msgstr "Hiba aa Robots.txt fájl mentésekor"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2758
+msgid "The default configuration was restored."
+msgstr "Alap beállítás visszaállítva."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2851
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2868
+msgid "open"
+msgstr "megnyit"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2852
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2869
+msgid "close"
+msgstr "bezár"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2853
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2870
+msgid "click-down and drag to move this box"
+msgstr "kattintson rá, és ragadja meg ezt a dobozt"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2854
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2871
+msgid "click to %toggle% this box"
+msgstr "kattintson, hogy %toggle% ezt a dobozt"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2855
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2872
+msgid "use the arrow keys to move this box"
+msgstr "használja a mozgatáshoz a jobbra, balra, fel és le billentyűket"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2856
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2873
+msgid ", or press the enter key to %toggle% it"
+msgstr ", vagy nyomja meg az enter gombot az %toggle% -hez."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2884
+msgid "About this Plugin:"
+msgstr "Pluginról:"
+
+msgid "Plugin Homepage"
+msgstr "Plugin főoldal"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2887
+msgid "Notify List"
+msgstr "Értesítések"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2888
+msgid "Support Forum"
+msgstr "Fórum"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2889
+msgid "Donate with PayPal"
+msgstr "Adományozás (PayPal)"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2890
+msgid "My Amazon Wish List"
+msgstr "My Amazon kívánságlista"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2891
+msgid "translator_name"
+msgstr "Cenzi"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2891
+msgid "translator_url"
+msgstr "http://blog.cenzi.hu"
+
+msgid "Sitemap Resources:"
+msgstr "Oldaltérkép eredmények:"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2897
+msgid "Webmaster Tools"
+msgstr "Webmaster Tools"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2898
+msgid "Webmaster Blog"
+msgstr "Webmaster Blog"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2900
+msgid "Site Explorer"
+msgstr "Oldal böngészése"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2901
+msgid "Search Blog"
+msgstr "Kereső blog"
+
+msgid "Sitemaps Protocol"
+msgstr "Oldaltérkép protokol"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2904
+msgid "Official Sitemaps FAQ"
+msgstr "Hivatalos oldaltérképek GYIK"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2905
+msgid "My Sitemaps FAQ"
+msgstr "Oldaltérképek GYIK"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2910
+msgid "Recent Donations:"
+msgstr "Adományok:"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2914
+msgid "List of the donors"
+msgstr "Adományozók listája"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2916
+msgid "Hide this list"
+msgstr "Lista elrejtése"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2919
+msgid "Thanks for your support!"
+msgstr "Köszönjük a támogatást!"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2931
+msgid "Status"
+msgstr "Állapot"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2941
+#, php-format
+msgid "The sitemap wasn't built yet. <a href=\"%s\">Click here</a> to build it the first time."
+msgstr "Az oldaltérkép még nem készült el. <a href=\"%s\">Kattints ide</a> az elkészítéséhez."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2947
+msgid "Your <a href=\"%url%\">sitemap</a> was last built on <b>%date%</b>."
+msgstr "Az <a href=\"%url%\">oldaltérkép</a> legutóbbi felépítése: <b>%date%</b>."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2949
+msgid "There was a problem writing your sitemap file. Make sure the file exists and is writable. <a href=\"%url%\">Learn more</a"
+msgstr "Probléma merült fel az oldaltérkép elkészítésekor. Bizonyosodj meg, hogy a fájl létezik és írható. <a href=\"%url%\">Tovább</a"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2956
+msgid "Your sitemap (<a href=\"%url%\">zipped</a>) was last built on <b>%date%</b>."
+msgstr "Az oldaltérképed (<a href=\"%url%\">tömörésének</a>) ideje: <b>%date%</b>."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2958
+msgid "There was a problem writing your zipped sitemap file. Make sure the file exists and is writable. <a href=\"%url%\">Learn more</a"
+msgstr "Probléma merült fel az oldaltérkép tömörítésénél. Bizonyosodj meg, hogy a fájl létezik és írható. <a href=\"%url%\">Tovább</a"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2964
+msgid "Google was <b>successfully notified</b> about changes."
+msgstr "Google <b>sikeresen értesítve</b> lett a változásokról."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2967
+msgid "It took %time% seconds to notify Google, maybe you want to disable this feature to reduce the building time."
+msgstr "%time% másodpercbe telt a Google értesítése, de kikapcsolható ez a funkció."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3011
+#, php-format
+msgid "There was a problem while notifying Google. <a href=\"%s\">View result</a>"
+msgstr "Probléma merült fel a Google értesítésénél. <a href=\"%s\">Eredmény megtekintése</a>"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2976
+msgid "YAHOO was <b>successfully notified</b> about changes."
+msgstr "YAHOO <b>sikeresen értesítve</b> lett a változásokról."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2979
+msgid "It took %time% seconds to notify YAHOO, maybe you want to disable this feature to reduce the building time."
+msgstr "%time% másodpercbe telt a YAHOO értesítése, de kikapcsolható ez a funkció."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3023
+#, php-format
+msgid "There was a problem while notifying YAHOO. <a href=\"%s\">View result</a>"
+msgstr "Probléma merült fel a YAHOO értesítésénél. <a href=\"%s\">Eredmény megtekintése</a>"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2988
+msgid "Ask.com was <b>successfully notified</b> about changes."
+msgstr "Ask.com <b>sikeresen értesítve</b> lett a változásokról."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2991
+msgid "It took %time% seconds to notify Ask.com, maybe you want to disable this feature to reduce the building time."
+msgstr "%time% másodpercbe telt a Ask.com értesítése, de kikapcsolható ez a funkció."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3035
+#, php-format
+msgid "There was a problem while notifying Ask.com. <a href=\"%s\">View result</a>"
+msgstr "Probléma merült fel a Ask.com értesítésénél. <a href=\"%s\">Eredmény megtekintése</a>"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3002
+msgid "The building process took about <b>%time% seconds</b> to complete and used %memory% MB of memory."
+msgstr "Felépítési folyamat kb. <b>%time% másodperc</b> ami %memory% MB memóriát használ fel."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3004
+msgid "The building process took about <b>%time% seconds</b> to complete."
+msgstr "Felépítési folyamat kb. <b>%time% másodperc</b>."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3008
+msgid "The content of your sitemap <strong>didn't change</strong> since the last time so the files were not written and no search engine was pinged."
+msgstr "Az oldaltérkép tartalma <strong>nem változott</strong>, ezért nem lesznek a keresők megpingelve."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3012
+msgid "The last run didn't finish! Maybe you can raise the memory or time limit for PHP scripts. <a href=\"%url%\">Learn more</a>"
+msgstr "Nem sikerült! Talán kevés a memória. <a href=\"%url%\">Tovább</a>"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3014
+msgid "The last known memory usage of the script was %memused%MB, the limit of your server is %memlimit%."
+msgstr "Az utolsó memóriahasználat %memused%MB volt, a memórialimit: %memlimit%."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3018
+msgid "The last known execution time of the script was %timeused% seconds, the limit of your server is %timelimit% seconds."
+msgstr "Az utolsó script használat %timeused% másodperc, a szervered limite: %timelimit% másodperc."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3022
+msgid "The script stopped around post number %lastpost% (+/- 100)"
+msgstr "A script megállt megközelítőleg a következő bejegyzési számnál: %lastpost% (+/- 100)"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3025
+#, php-format
+msgid "If you changed something on your server or blog, you should <a href=\"%s\">rebuild the sitemap</a> manually."
+msgstr "Ha valamilyen változás történik a blogodon vagy szervereden, akkor ajánlatos az <a href=\"%s\">oldaltérkép újraépítése</a> kézzel."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3027
+#, php-format
+msgid "If you encounter any problems with the build process you can use the <a href=\"%d\">debug function</a> to get more information."
+msgstr "Ha felmerül valamilyen probléma a felépítési folyamat során, akkor futtasd le a <a href=\"%d\">debug funkciót</a> a további információért."
+
+msgid "Basic Options"
+msgstr "Alap beállítások"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3044
+msgid "Sitemap files:"
+msgstr "Oldaltérkép fájlok:"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3044
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3059
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3079
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3104
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3121
+msgid "Learn more"
+msgstr "Tovább"
+
+msgid "Write a normal XML file (your filename)"
+msgstr "Normál XML fájl írása (fájlnév)"
+
+msgid "Write a gzipped file (your filename + .gz)"
+msgstr "Gzippelt fájl írása (fájlév + .gz)"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3059
+msgid "Building mode:"
+msgstr "Felépítési mód:"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3064
+msgid "Rebuild sitemap if you change the content of your blog"
+msgstr "Oldaltérkép újraépítése, ha a blogod tartalma megváltozott"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3071
+msgid "Enable manual sitemap building via GET Request"
+msgstr "Kézi oldaltérkép engedélyezése a GET Request segítségével"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3075
+msgid "This will allow you to refresh your sitemap if an external tool wrote into the WordPress database without using the WordPress API. Use the following URL to start the process: <a href=\"%1\">%1</a> Please check the logfile above to see if sitemap was successfully built."
+msgstr "Ez engedélyezni fogja az oldaltérkép frissülését a WordPress adatbázisban. Használd a következő címet a folyamat elindításához: <a href=\"%1\">%1</a> Ellenőrizd a naplózó fájlt, hogy a folyamat befejeződött-e."
+
+msgid "Update notification:"
+msgstr "Frissítési értesítések"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3083
+msgid "Notify Google about updates of your Blog"
+msgstr "Google értesítése a blogod frissülésekor"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3084
+#, php-format
+msgid "No registration required, but you can join the <a href=\"%s\">Google Webmaster Tools</a> to check crawling statistics."
+msgstr "Nincs szükség a regisztráláshoz, de csatlakozhatsz a <a href=\"%s\">Google Webmaster Tools</a> programhoz, hogy ellenőrizhesd a robotok statisztikáját."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3088
+msgid "Notify Ask.com about updates of your Blog"
+msgstr "Ask.com értesítése a blogod frissítésekor"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3089
+msgid "No registration required."
+msgstr "Nincs szükség a regisztrációhoz."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3093
+msgid "Notify YAHOO about updates of your Blog"
+msgstr "YAHOO értesítése a blogod frissítésekor"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3094
+#, php-format
+msgid "No registration required, but you can sign up for the <a href=\"%s\">YAHOO Site Explorer</a> to view the crawling progress."
+msgstr "Nincs szükség a regisztráláshoz, de csatlakozhatsz a <a href=\"%s\">YAHOO Site Explorer</a> programhoz, hogy ellenőrizhesd a robotok statisztikáját."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3099
+#, php-format
+msgid "Modify or create %s file in blog root which contains the sitemap location."
+msgstr "%s fájl elkészítése vagy módosítása."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3102
+msgid "File permissions: "
+msgstr "Fájl engedélyek:"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3107
+msgid "OK, robots.txt is writable."
+msgstr "OK, robots.txt írható."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3109
+msgid "Error, robots.txt is not writable."
+msgstr "Hiba, robots.txt nem írható."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3113
+msgid "OK, robots.txt doesn't exist but the directory is writable."
+msgstr "OK, robots.txt nem létezik, de a könyvtár írható."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3115
+msgid "Error, robots.txt doesn't exist and the directory is not writable"
+msgstr "Hiba, robots.txt nem létezik és a könyvtár nem írható."
+
+msgid "Advanced options:"
+msgstr "Haladó beállítások:"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3124
+msgid "Limit the number of posts in the sitemap:"
+msgstr "Bejegyzések számának limitálása az oldaltérképben:"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3124
+msgid "Newer posts will be included first"
+msgstr "Újabb bejegyzések előre kerülnek"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3127
+msgid "Try to increase the memory limit to:"
+msgstr "Próbáld meg a memória limit emelését:"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3127
+msgid "e.g. \"4M\", \"16M\""
+msgstr "pl. \"4M\", \"16M\""
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3130
+msgid "Try to increase the execution time limit to:"
+msgstr "Próbáld meg a végrehajtási idő emelését:"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3130
+msgid "in seconds, e.g. \"60\" or \"0\" for unlimited"
+msgstr "másodpercekben pl. \"60\" vagy \"0\" a korlátlanért"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3133
+msgid "Include a XSLT stylesheet:"
+msgstr "XSLT stíluslap mellékelése:"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3133
+msgid "Use Default"
+msgstr "Alapbeállítás használata"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3133
+msgid "Full or relative URL to your .xsl file"
+msgstr "Teljes vagy relatív URL elérése a .xsl fájlhoz"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3152
+msgid "Enable MySQL standard mode. Use this only if you're getting MySQL errors. (Needs much more memory!)"
+msgstr "Alap MySQL mód engedélyezése. Ezt csak akkor használd, ha MySQL hibákat tapasztalsz. (Sokkal több memóriára lesz szükség!)"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3166
+msgid "Build the sitemap in a background process (You don't have to wait when you save a post)"
+msgstr "Háttérfolyamatként építse fel az oldaltérképet (Nem kell várni, amíg a bejegyzést elmented)"
+
+msgid "Additional pages"
+msgstr "Oldalak"
+
+msgid "Here you can specify files or URLs which should be included in the sitemap, but do not belong to your Blog/WordPress.<br />For example, if your domain is www.foo.com and your blog is located on www.foo.com/blog you might want to include your homepage at www.foo.com"
+msgstr "Be tudod állítani azokat a fájlokat, amelyek nem tartoznak a blogodhoz.<br />Például, ha a domainod www.akarmi.hu és a blogod a www.akarmi.hu/blog címen van, beleteheted a www.akarmi.hu címet is az oldaltérképbe."
+
+msgid "Note"
+msgstr "Megjegyzés"
+
+msgid "If your blog is in a subdirectory and you want to add pages which are NOT in the blog directory or beneath, you MUST place your sitemap file in the root directory (Look at the &quot;Location of your sitemap file&quot; section on this page)!"
+msgstr "Ha a blogod egy alkönyvtárban van és olyan oldalakat szeretnél felvenni, amelyek nincsennek a blog könyvtárában, akkor a gyökér könyvtárban kell elhelyeznek az oldaltérképet."
+
+msgid "URL to the page"
+msgstr "Oldal URL-je"
+
+msgid "Enter the URL to the page. Examples: http://www.foo.com/index.html or www.foo.com/home "
+msgstr "Írd be az oldal URL-jét. Például: http://www.akarmi.hu/index.html vagy www.akarmi.hu/home"
+
+msgid "Priority"
+msgstr "Fontosság"
+
+msgid "Choose the priority of the page relative to the other pages. For example, your homepage might have a higher priority than your imprint."
+msgstr "Válaszd ki az oldalak fontosságát. Például, a kezdőlapod lehet, hogy fontosabb, mint az aloldalak."
+
+msgid "Last Changed"
+msgstr "Utolsó módosítás"
+
+msgid "Enter the date of the last change as YYYY-MM-DD (2005-12-31 for example) (optional)."
+msgstr "Írd be az utolsó módosítást YYYY-MM-DD (példaként: 2007-08-12) (ajánlott)."
+
+msgid "Change Frequency"
+msgstr "Változások gyakorisága"
+
+msgid "#"
+msgstr "#"
+
+msgid "No pages defined."
+msgstr "Nincs oldal beállítva."
+
+msgid "Add new page"
+msgstr "Új oldal felvétele"
+
+msgid "Post Priority"
+msgstr "Bejegyzés fontossága"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3329
+msgid "Please select how the priority of each post should be calculated:"
+msgstr "Válaszd ki, hogyan működjön a fontosság kalkulálása"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3331
+msgid "Do not use automatic priority calculation"
+msgstr "Ne használja az automatikus fontosság kalkulálását"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3331
+msgid "All posts will have the same priority which is defined in &quot;Priorities&quot;"
+msgstr "Minden bejegyzés azonos fontosságú ami a &quot;Fontosságok&quot; alatt lett beállítva"
+
+msgid "Location of your sitemap file"
+msgstr "Oldaltérkép fájl elérése"
+
+msgid "Automatic detection"
+msgstr "Automatikus megállapítás"
+
+msgid "Filename of the sitemap file"
+msgstr "Oldaltérkép fájl neve"
+
+msgid "Detected Path"
+msgstr "Elérés"
+
+msgid "Detected URL"
+msgstr "URL megállapítása"
+
+msgid "Custom location"
+msgstr "Egyéni elérés"
+
+msgid "Absolute or relative path to the sitemap file, including name."
+msgstr "Abszolút vagy relatív elérése az oldaltérkép fájlnak (fájl-névvel együtt)."
+
+msgid "Example"
+msgstr "Példa"
+
+msgid "Complete URL to the sitemap file, including name."
+msgstr "Teljes URL-je az oldaltérkép fájlnak (fájl-névvel együtt)."
+
+msgid "Sitemap Content"
+msgstr "Oldaltérkép tartalma"
+
+msgid "Include homepage"
+msgstr "Főoldal mellékelése"
+
+msgid "Include posts"
+msgstr "Bejegyzések mellékelése"
+
+msgid "Include static pages"
+msgstr "Statikus oldalak mellékelése"
+
+msgid "Include categories"
+msgstr "Kategóriák mellékelése"
+
+msgid "Include archives"
+msgstr "Arhívumok mellékelése"
+
+msgid "Include tag pages"
+msgstr "Címkék oldalak melléklése"
+
+msgid "Include author pages"
+msgstr "Szerző oldalak melléklése"
+
+msgid "Change frequencies"
+msgstr "Változások gyakorisága"
+
+msgid "Please note that the value of this tag is considered a hint and not a command. Even though search engine crawlers consider this information when making decisions, they may crawl pages marked \"hourly\" less frequently than that, and they may crawl pages marked \"yearly\" more frequently than that. It is also likely that crawlers will periodically crawl pages marked \"never\" so that they can handle unexpected changes to those pages."
+msgstr "Please note that the value of this tag is considered a hint and not a command. Even though search engine crawlers consider this information when making decisions, they may crawl pages marked \"hourly\" less frequently than that, and they may crawl pages marked \"yearly\" more frequently than that. It is also likely that crawlers will periodically crawl pages marked \"never\" so that they can handle unexpected changes to those pages."
+
+msgid "Homepage"
+msgstr "Főoldal"
+
+msgid "Posts"
+msgstr "Bejegyzések"
+
+msgid "Static pages"
+msgstr "Statikus oldal"
+
+msgid "Categories"
+msgstr "Kategóriák"
+
+msgid "The current archive of this month (Should be the same like your homepage)"
+msgstr "Jelenlegi hónap arhívuma (Megegyezik az oldaladéval)"
+
+msgid "Older archives (Changes only if you edit an old post)"
+msgstr "Régi archívumok (Ha egy régi bejegyzést módosítottál)"
+
+msgid "Tag pages"
+msgstr "Címkék oldalak"
+
+msgid "Author pages"
+msgstr "Szerző oldalak"
+
+msgid "Priorities"
+msgstr "Fontosságok"
+
+msgid "Posts (If auto calculation is disabled)"
+msgstr "Bejegyzések (Ha az automatikus kalkulálás ki van kapcsolva)"
+
+msgid "Minimum post priority (Even if auto calculation is enabled)"
+msgstr "Minimum bejegyzések fontossága (Ha az automatikus kalkulálás engedélyezve van)"
+
+msgid "Archives"
+msgstr "Archívumok"
+
+msgid "Update options"
+msgstr "Beállítások frissítése"
+
+msgid "Reset options"
+msgstr "Beállítások visszaállítása"
+

@@ -1,0 +1,133 @@
+# Translation of the WordPress plugin   by .
+# Copyright (C) 2010
+# This file is distributed under the same license as the  package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: CTPV\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/cms-tree-page-view\n"
+"POT-Creation-Date: 2010-04-09 11:39+0000\n"
+"PO-Revision-Date: 2010-04-15 23:43+0300\n"
+"Last-Translator: FatCow <zhr@tut.by>\n"
+"Language-Team: Marcis G. <by.marcis@gmail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Belarusian\n"
+"X-Poedit-Country: BELARUS\n"
+"X-Poedit-SourceCharset: utf8\n"
+
+#: functions.php:84
+msgid "settings"
+msgstr "налады"
+
+#: functions.php:91
+msgid "Show tree"
+msgstr "Паказаць дрэва"
+
+#: functions.php:95
+msgid "on the dashboard"
+msgstr "у панэлі кіравання"
+
+#: functions.php:98
+msgid "under the pages menu"
+msgstr "па старонках меню"
+
+#: functions.php:105
+msgid "Save Changes"
+msgstr "Захаваць змены"
+
+#: functions.php:127
+msgid "All"
+msgstr "Усё"
+
+#: functions.php:128
+msgid "Public"
+msgstr "Публічна"
+
+#: functions.php:130
+msgid "Expand"
+msgstr "Разгарнуць"
+
+#: functions.php:131
+msgid "Collapse"
+msgstr "Згарнуць"
+
+#: functions.php:136
+msgid "Search"
+msgstr "Пошук"
+
+#: functions.php:137
+msgid "Searching..."
+msgstr "Пошук..."
+
+#: functions.php:142
+msgid "Loading..."
+msgstr "Загрузка..."
+
+#: functions.php:144
+msgid "Search: no pages found"
+msgstr "Пошук: старонкі не знойдзены"
+
+#: functions.php:146
+msgid "Loading tree"
+msgstr "Загрузка дрэва"
+
+#: functions.php:248
+msgid "<Untitled page>"
+msgstr "<Безназоўная старонка>"
+
+#: functions.php:264
+msgid "Click to edit. Drag to move."
+msgstr "Націсніце для рэдагавання. Цягніце для перасоўвання."
+
+#: functions.php:380
+msgid "New page"
+msgstr "Новая старонка"
+
+#: scripts/cms_tree_page_view.php:85
+#: scripts/cms_tree_page_view.php:102
+msgid "Enter title of new page"
+msgstr "Увядзіце назву новай старонкі"
+
+#: scripts/cms_tree_page_view.php:283
+msgid "child pages"
+msgstr "даччыныя старонкі"
+
+#: scripts/cms_tree_page_view.php:293
+msgid "Edit page"
+msgstr "Рэдагаваць старонку"
+
+#: scripts/cms_tree_page_view.php:293
+msgid "Edit"
+msgstr "Рэдагаваць"
+
+#: scripts/cms_tree_page_view.php:294
+msgid "View page"
+msgstr "Прагляд старонкі"
+
+#: scripts/cms_tree_page_view.php:294
+msgid "View"
+msgstr "Прагляд"
+
+#: scripts/cms_tree_page_view.php:296
+msgid "Add page"
+msgstr "Дадаць старонку"
+
+#: scripts/cms_tree_page_view.php:297
+msgid "Add new page after"
+msgstr "Дадаць новую старонку пасля "
+
+#: scripts/cms_tree_page_view.php:297
+msgid "after"
+msgstr "пасля"
+
+#: scripts/cms_tree_page_view.php:298
+msgid "Add new page inside"
+msgstr "Дадаць новую старонку ўсярэдзіне"
+
+#: scripts/cms_tree_page_view.php:298
+msgid "inside"
+msgstr "усярэдзіне"
+

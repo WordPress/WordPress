@@ -1,0 +1,372 @@
+# Copyright (C) 2012 
+# This file is distributed under the same license as the  package.
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/cms-tree-page-view\n"
+"POT-Creation-Date: 2012-12-26 20:37:31+00:00\n"
+"PO-Revision-Date: 2012-12-27 16:26+0100\n"
+"Last-Translator: Pär Thernström <par.thernstrom@gmail.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: sv_SE\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.4\n"
+"X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;"
+"_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2;_ex:1,2c;"
+"esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
+"X-Poedit-Basepath: .\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPath-1: ..\n"
+
+#: functions.php:272
+msgid "Enter title of new page"
+msgstr "Ange titel på ny sida"
+
+#: functions.php:273
+msgid "child pages"
+msgstr "undersidor"
+
+#: functions.php:274 functions.php:887
+msgid "Edit page"
+msgstr "Redigera sida"
+
+#: functions.php:275 functions.php:888
+msgid "View page"
+msgstr "Visa sida"
+
+#: functions.php:276 functions.php:887
+msgid "Edit"
+msgstr "Redigera"
+
+#: functions.php:277 functions.php:888
+msgid "View"
+msgstr "Visa"
+
+#: functions.php:278
+msgid "Add page"
+msgstr "Lägg till sida"
+
+#: functions.php:279 functions.php:896
+msgid "Add new page after"
+msgstr "Lägg till sida efter"
+
+#: functions.php:280
+msgid "after"
+msgstr "efter"
+
+#: functions.php:281
+msgid "inside"
+msgstr "inuti"
+
+#: functions.php:282
+msgid "Sorry, can't create a sub page to a page with status \"draft\"."
+msgstr "Kan inte skapa en undersida till en sida med status \"utkast\"."
+
+#: functions.php:283
+msgid "Sorry, can't create a sub page to a page with status \"trash\"."
+msgstr "Kan inte skapa en undersida till en sida med status \"i papperskorg\"."
+
+#: functions.php:284
+msgid "Sorry, can't create a page after a page with status \"trash\"."
+msgstr "Kan inte skapa sida efter en sida med status \"i papperskorg\"."
+
+#: functions.php:285 functions.php:901
+msgid "Add new page inside"
+msgstr "Ny sida inuti"
+
+#: functions.php:286 functions.php:292
+msgid "draft"
+msgstr "utkast"
+
+#: functions.php:287 functions.php:293
+msgid "future"
+msgstr "framtid"
+
+#: functions.php:288 functions.php:294
+msgid "protected"
+msgstr "skyddad"
+
+#: functions.php:289 functions.php:295 functions.php:1235
+msgid "pending"
+msgstr "väntande"
+
+#: functions.php:290 functions.php:296
+msgid "private"
+msgstr "privat"
+
+#: functions.php:291 functions.php:297
+msgid "trash"
+msgstr "papperskorg"
+
+#: functions.php:298
+msgid "Password protected page"
+msgstr "Lösenordsskyddad sida"
+
+#: functions.php:299
+msgid "Adding page..."
+msgstr "Lägger till sida..."
+
+#: functions.php:300
+msgid "Adding ..."
+msgstr "Lägger till ..."
+
+#: functions.php:393
+msgid "Tree View"
+msgstr "Trädvy"
+
+#: functions.php:402
+msgid "List View"
+msgstr "Listvy"
+
+#: functions.php:438
+msgid "Settings"
+msgstr "Inställningar"
+
+#: functions.php:474
+msgctxt "name of dashboard"
+msgid "%1$s Tree"
+msgstr "Trädvy för %1$s"
+
+#: functions.php:502
+msgctxt "name in menu"
+msgid "Tree View"
+msgstr "Trädvy"
+
+#: functions.php:503
+msgctxt "title on page with tree"
+msgid "%1$s Tree View"
+msgstr "Trädvy för %1$s"
+
+#: functions.php:523
+msgid "settings"
+msgstr "inställningar"
+
+#: functions.php:529
+msgid "Select where to show a tree for pages and custom post types"
+msgstr "Välj var en trädvy ska visas för sidor och custom post types."
+
+#: functions.php:573
+msgid "On dashboard"
+msgstr "På adminpanelen"
+
+#: functions.php:577
+msgid "In menu"
+msgstr "I menyn"
+
+#: functions.php:581
+msgid "On post overview screen"
+msgstr "På översiktssida för poster"
+
+#: functions.php:599
+msgid "Save Changes"
+msgstr "Spara Ändringar"
+
+#: functions.php:818
+msgid "No posts found."
+msgstr "Inga inlägg funna."
+
+#: functions.php:830
+msgid "All"
+msgstr "Alla"
+
+#: functions.php:835
+msgid "Public"
+msgstr "Publika"
+
+#: functions.php:840
+msgid "Trash"
+msgstr "Papperskorg"
+
+#: functions.php:848
+msgid "Expand"
+msgstr "Fäll ut"
+
+#: functions.php:849
+msgid "Collapse"
+msgstr "Fäll ihop"
+
+#: functions.php:857
+msgid "Clear search"
+msgstr "Rensa sök"
+
+#: functions.php:858
+msgid "Search"
+msgstr "Sök"
+
+#: functions.php:859
+msgid "Searching..."
+msgstr "Söker..."
+
+#: functions.php:860
+msgid "Nothing found."
+msgstr "Inget funnet."
+
+#: functions.php:867
+msgid "Loading..."
+msgstr "Laddar..."
+
+#: functions.php:872
+msgid "Search: no pages found"
+msgstr "Sök: inga sidor hittades"
+
+#: functions.php:875
+msgid "Loading tree"
+msgstr "Laddar träd"
+
+#: functions.php:896 functions.php:932
+msgid "After"
+msgstr "Efter"
+
+#: functions.php:901 functions.php:933
+msgid "Inside"
+msgstr "Inuti"
+
+#: functions.php:905
+msgid "Can not create page inside of a page with draft status"
+msgstr "Kan inte skapa sida inuti en sida med status utkast"
+
+#: functions.php:921
+msgid "Add page(s)"
+msgstr "Lägg till sidor"
+
+#: functions.php:926
+msgid "Enter title here"
+msgstr "Ange rubrik här"
+
+#: functions.php:931
+msgid "Position"
+msgstr "Plats"
+
+#: functions.php:938
+msgid "Status"
+msgstr "Status"
+
+#: functions.php:939
+msgid "Draft"
+msgstr "Utkast"
+
+#: functions.php:940
+msgid "Published"
+msgstr "Publicerad"
+
+#: functions.php:944
+msgid "Add"
+msgstr "Lägg till"
+
+#: functions.php:945
+msgid "or"
+msgstr "eller"
+
+#: functions.php:946
+msgid "cancel"
+msgstr "avbryt"
+
+#: functions.php:956
+msgid "Last modified"
+msgstr "Senast ändrad"
+
+#: functions.php:958
+msgid "by"
+msgstr "av"
+
+#: functions.php:961
+msgid "Page ID"
+msgstr "ID på sida"
+
+#: functions.php:997
+msgctxt "headline of page with tree"
+msgid "%1$s Tree View"
+msgstr "Trädvy för %1$s"
+
+#: functions.php:1200
+msgid "Unknown user"
+msgstr "Okänd användare"
+
+#: functions.php:1205
+msgid "<Untitled page>"
+msgstr "<Namnlös sida>"
+
+#: functions.php:1225
+msgid "Comments"
+msgstr "Kommentarer"
+
+#: functions.php:1232
+msgid "%s pending"
+msgstr "%s väntande"
+
+#: functions.php:1242
+msgctxt "comment count"
+msgid "0"
+msgstr "0"
+
+#: functions.php:1242
+msgctxt "comment count"
+msgid "1"
+msgstr "1"
+
+#: functions.php:1242
+msgctxt "comment count"
+msgid "%"
+msgstr "%"
+
+#: functions.php:1428
+msgid "New page"
+msgstr "Ny sida"
+
+#: functions.php:1618
+msgid "Thanks for using my plugin"
+msgstr "Tack för att du använder min plugin"
+
+#: functions.php:1620
+msgid ""
+"Hi there! I just wanna says thanks for using my plugin. I hope you like it "
+"as much as I do."
+msgstr ""
+"Hejsan! Tack för att du använder min plugin. Hoppas du gillar den lika "
+"mycket som jag gör."
+
+#: functions.php:1621
+msgid "/Pär Thernström - plugin creator"
+msgstr "/Pär Thernström - skapare av pluginen"
+
+#: functions.php:1623
+msgid "I like this plugin<br>– how can I thank you?"
+msgstr "Jag gillar den här pluginen<br>– hur kan jag tacka dig?"
+
+#: functions.php:1624
+msgid "There are serveral ways for you to show your appreciation:"
+msgstr "Det finns flera sätt du kan visa att du gillar pluginen på:"
+
+#: functions.php:1626
+msgid ""
+"<a href=\"%1$s\">Give it a nice review</a> over at the WordPress Plugin "
+"Directory"
+msgstr ""
+"<a href=\"%1$s\">Ge den ett bra betyg</a> på WordPress Plugin Directory"
+
+#: functions.php:1627
+msgid "<a href=\"%1$s\">Give a donation</a> – any amount will make me happy"
+msgstr "<a href=\"%1$s\">Donera</a> – oavsett summa så blir jag glad"
+
+#: functions.php:1628
+msgid ""
+"<a href=\"%1$s\">Post a nice tweet</a> or make a nice blog post about the "
+"plugin"
+msgstr ""
+"<a href=\"%1$s\">Skriv en snäll tweet</a> eller skriv ett schysst "
+"blogginlägg om pluginen"
+
+#: functions.php:1631
+msgid "Support"
+msgstr "Hjälp"
+
+#: functions.php:1632
+msgid "Plese see the <a href=\"%1$s\">support forum</a> for help."
+msgstr "Besök <a href=\"%1$s\">supportforumet</a> om du behöver hjälp."
+
+#: functions.php:1636
+msgid "Hide until next upgrade"
+msgstr "Göm tills nästa uppdatering"

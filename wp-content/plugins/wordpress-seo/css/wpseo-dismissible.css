@@ -1,0 +1,57 @@
+.notice-dismiss:before {
+	display: block !important;
+	width: 20px;
+	height: 20px;
+	color: #b4b9be;
+	background: none;
+	font: normal 16px/1 "dashicons";
+	text-align: center;
+	content: "\f153";
+
+	-webkit-font-smoothing: antialiased !important;
+	speak: none;
+}
+
+.notice-dismiss {
+	position: absolute;
+	top: 0;
+	right: 1px;
+	margin: 0;
+	padding: 9px;
+	border: none;
+	color: #b4b9be;
+	background: none;
+	cursor: pointer;
+}
+
+body.rtl .notice-dismiss {
+	right: auto !important;
+	left: 1px !important;
+}
+
+.notice-dismiss:before {
+	position: relative;
+	top: 0;
+	left: 0;
+	line-height: 20px;
+}
+
+.notice-dismiss:hover:before,
+.notice-dismiss:active:before,
+.notice-dismiss:focus:before {
+	color: #c00;
+}
+
+.notice-dismiss:focus {
+	outline: none;
+	color: #c00;
+	box-shadow: 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, 0.8);
+}
+
+.ie8 .notice-dismiss:focus {
+	outline: 1px solid #5b9dd9;
+}
+
+.notice.is-dismissible {
+	position: relative;
+}

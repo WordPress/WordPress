@@ -1,0 +1,49 @@
+* {
+    margin: 0;
+    padding: 0;
+    color: #464646;
+}
+
+html, body {
+    height: 100%;
+}
+
+body {
+    line-height: 1.4em;
+}
+
+body, input {
+    font-family: "Lucida Grande", Tahoma, Verdana, Arial, sans-serif;
+    font-size: 13px;
+}
+
+a {
+    color: #21759B;
+}
+
+a:hover {
+    color: #D54E21;
+}
+
+.button, input[type="button"], input[type="submit"] {
+    font-size: 11px;
+    line-height: 16px;
+    background: #f2f2f2 url(../img/white-grad.png) repeat-x scroll left top;
+    border: 1px solid #bbb;
+    color: #464646;
+    text-shadow: 0 1px 0 #fff;
+    cursor: pointer;
+    padding: 2px 8px;
+    border-radius: 11px;
+    -webkit-border-radius: 11px;
+    -moz-border-radius: 11px;
+}
+
+.button:hover, input[type="button"]:hover, input[type="submit"]:hover {
+    border-color: #666;
+    color: #000;
+}
+
+.button:active, input[type="button"]:active, input[type="submit"]:active {
+    background: #f2f2f2 url(../img/white-grad-active.png) repeat-x scroll left top;
+}

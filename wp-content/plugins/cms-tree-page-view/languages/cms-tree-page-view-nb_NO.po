@@ -1,0 +1,364 @@
+# Copyright (C) 2013 
+# This file is distributed under the same license as the  package.
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/cms-tree-page-view\n"
+"POT-Creation-Date: 2013-04-16 17:39:45+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2013-06-30 19:31+0100\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"X-Generator: Poedit 1.5.5\n"
+
+#: functions.php:66 functions.php:113 functions.php:1396
+msgid "Cheatin&#8217; uh?"
+msgstr ""
+
+#: functions.php:321
+msgid "Enter title of new page"
+msgstr "Skriv inn tittel op ny side"
+
+#: functions.php:322
+msgid "child pages"
+msgstr "undersider"
+
+#: functions.php:323 functions.php:970
+msgid "Edit page"
+msgstr "Rediger side"
+
+#: functions.php:324 functions.php:971
+msgid "View page"
+msgstr "Se side"
+
+#: functions.php:325 functions.php:970
+msgid "Edit"
+msgstr "Rediger"
+
+#: functions.php:326 functions.php:971
+msgid "View"
+msgstr "Se på"
+
+#: functions.php:327
+msgid "Add page"
+msgstr "Legg til side"
+
+#: functions.php:328 functions.php:979
+msgid "Add new page after"
+msgstr "Legg til ny side etter"
+
+#: functions.php:329
+msgid "after"
+msgstr "etter"
+
+#: functions.php:330
+msgid "inside"
+msgstr "inne i"
+
+#: functions.php:331
+msgid "Sorry, can't create a sub page to a page with status \"draft\"."
+msgstr "Beklager, kan ikke legge til underside med status  \"kladd\"."
+
+#: functions.php:332
+msgid "Sorry, can't create a sub page to a page with status \"trash\"."
+msgstr "Beklager, kan ikke legge til underside med status  \"søppel\"."
+
+#: functions.php:333
+msgid "Sorry, can't create a page after a page with status \"trash\"."
+msgstr ""
+"Beklager, kan ikke legge til en side etter en side med status  \"søppel\"."
+
+#: functions.php:334 functions.php:984
+msgid "Add new page inside"
+msgstr "Legg til ny side inne i"
+
+#: functions.php:335 functions.php:341
+msgid "draft"
+msgstr "kladd"
+
+#: functions.php:336 functions.php:342
+msgid "future"
+msgstr "fremtid"
+
+#: functions.php:337 functions.php:343
+msgid "protected"
+msgstr "beskyttet"
+
+#: functions.php:338 functions.php:344 functions.php:1296
+msgid "pending"
+msgstr "ventende"
+
+#: functions.php:339 functions.php:345
+msgid "private"
+msgstr "privat"
+
+#: functions.php:340 functions.php:346
+msgid "trash"
+msgstr "søppel"
+
+#: functions.php:347
+msgid "Password protected page"
+msgstr "passorbeskyttet side"
+
+#: functions.php:348
+msgid "Adding page..."
+msgstr "Legger til side.."
+
+#: functions.php:349
+msgid "Adding ..."
+msgstr "Legger til.."
+
+#: functions.php:350 functions.php:1057
+msgid "No posts found."
+msgstr "Ingen innlegg funnet"
+
+#: functions.php:448
+msgid "Tree View"
+msgstr "Tremeny"
+
+#: functions.php:457
+msgid "List View"
+msgstr "Listemeny"
+
+#: functions.php:493
+msgid "Settings"
+msgstr "Innstillinger"
+
+#: functions.php:533
+msgctxt "name of dashboard"
+msgid "%1$s Tree"
+msgstr "%1$s Tre"
+
+#: functions.php:571
+msgctxt "name in menu"
+msgid "Tree View"
+msgstr "Tremeny"
+
+#: functions.php:572
+msgctxt "title on page with tree"
+msgid "%1$s Tree View"
+msgstr "%1$s Tremeny"
+
+#: functions.php:592
+msgid "settings"
+msgstr "innstillinger"
+
+#: functions.php:598
+msgid "Select where to show a tree for pages and custom post types"
+msgstr ""
+
+#: functions.php:642
+msgid "On dashboard"
+msgstr ""
+
+#: functions.php:646
+msgid "In menu"
+msgstr ""
+
+#: functions.php:650
+msgid "On post overview screen"
+msgstr ""
+
+#: functions.php:669
+msgid "Save Changes"
+msgstr "Lagre endringer"
+
+#: functions.php:913
+msgid "All"
+msgstr "Alle"
+
+#: functions.php:918
+msgid "Public"
+msgstr "Offentlig"
+
+#: functions.php:923
+msgid "Trash"
+msgstr "Søppel"
+
+#: functions.php:931
+msgid "Expand"
+msgstr "Utvid"
+
+#: functions.php:932
+msgid "Collapse"
+msgstr "Kollapse"
+
+#: functions.php:940
+msgid "Clear search"
+msgstr "Slett søk"
+
+#: functions.php:941
+msgid "Search"
+msgstr "Søk"
+
+#: functions.php:942
+msgid "Searching..."
+msgstr "Søker.."
+
+#: functions.php:943
+msgid "Nothing found."
+msgstr "Ingenting funnet."
+
+#: functions.php:950
+msgid "Loading..."
+msgstr "Laster.."
+
+#: functions.php:955
+msgid "Search: no pages found"
+msgstr "Søk: Ingen sider funnet"
+
+#: functions.php:958
+msgid "Loading tree"
+msgstr "Laster treet"
+
+#: functions.php:979 functions.php:1016
+msgid "After"
+msgstr "Etter"
+
+#: functions.php:984 functions.php:1017
+msgid "Inside"
+msgstr "Inne i"
+
+#: functions.php:988
+msgid "Can not create page inside of a page with draft status"
+msgstr "Kan ikke lage en side inne i en side med status kladd"
+
+#: functions.php:1005
+msgid "Add page(s)"
+msgstr "Legg til side(r)"
+
+#: functions.php:1010
+msgid "Enter title here"
+msgstr "Legg til tittel her"
+
+#: functions.php:1015
+msgid "Position"
+msgstr "Stilling"
+
+#: functions.php:1022
+msgid "Status"
+msgstr "Status"
+
+#: functions.php:1023
+msgid "Draft"
+msgstr "Kladd"
+
+#: functions.php:1024
+msgid "Published"
+msgstr "Publisert"
+
+#: functions.php:1028
+msgid "Add"
+msgstr "Legg til"
+
+#: functions.php:1029
+msgid "or"
+msgstr "eller"
+
+#: functions.php:1030
+msgid "cancel"
+msgstr "avbryte"
+
+#: functions.php:1040
+msgid "Last modified"
+msgstr "Sist endret"
+
+#: functions.php:1042
+msgid "by"
+msgstr "av"
+
+#: functions.php:1045
+msgid "Page ID"
+msgstr "Sidens ID"
+
+#: functions.php:1088
+msgctxt "headline of page with tree"
+msgid "%1$s Tree View"
+msgstr "%1$s Tremeny"
+
+#: functions.php:1248
+msgid "Unknown user"
+msgstr "Ukjent bruker"
+
+#: functions.php:1253
+msgid "<Untitled page>"
+msgstr "<Ukjent side>"
+
+#: functions.php:1286
+msgid "Comments"
+msgstr "Kommentarer"
+
+#: functions.php:1293
+msgid "%s pending"
+msgstr "%s venter"
+
+#: functions.php:1303
+msgctxt "comment count"
+msgid "0"
+msgstr "0"
+
+#: functions.php:1303
+msgctxt "comment count"
+msgid "1"
+msgstr "1"
+
+#: functions.php:1303
+msgctxt "comment count"
+msgid "%"
+msgstr "%"
+
+#: functions.php:1502
+msgid "New page"
+msgstr "Ny side"
+
+#: functions.php:1692
+msgid "Thanks for using my plugin"
+msgstr ""
+
+#: functions.php:1694
+msgid ""
+"Hi there! I just wanna says thanks for using my plugin. I hope you like it "
+"as much as I do."
+msgstr ""
+
+#: functions.php:1695
+msgid "/Pär Thernström - plugin creator"
+msgstr ""
+
+#: functions.php:1697
+msgid "I like this plugin<br>– how can I thank you?"
+msgstr ""
+
+#: functions.php:1698
+msgid "There are serveral ways for you to show your appreciation:"
+msgstr ""
+
+#: functions.php:1700
+msgid ""
+"<a href=\"%1$s\">Give it a nice review</a> over at the WordPress Plugin "
+"Directory"
+msgstr ""
+
+#: functions.php:1701
+msgid "<a href=\"%1$s\">Give a donation</a> – any amount will make me happy"
+msgstr ""
+
+#: functions.php:1702
+msgid ""
+"<a href=\"%1$s\">Post a nice tweet</a> or make a nice blog post about the "
+"plugin"
+msgstr ""
+
+#: functions.php:1705
+msgid "Support"
+msgstr ""
+
+#: functions.php:1706
+msgid "Plese see the <a href=\"%1$s\">support forum</a> for help."
+msgstr ""
+
+#: functions.php:1710
+msgid "Hide until next upgrade"
+msgstr ""

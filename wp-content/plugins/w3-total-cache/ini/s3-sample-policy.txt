@@ -1,0 +1,23 @@
+{
+    "Statement": [
+        {
+            "Sid": "Stmt1339423675421",
+            "Action": [
+                "s3:DeleteObject",
+                "s3:Get*",
+                "s3:Put*",
+                "s3:Set*"
+            ],
+            "Effect": "Allow",
+            "Resource": [
+                "arn:aws:s3:::bucketnamehere/*"
+            ]
+        },
+        {
+            "Sid": "Stmt1339423675422",
+            "Action":s3:List*?,
+            "Effect":"Allow",
+            "Resource":"*"
+        }
+    ]
+}

@@ -1,0 +1,372 @@
+# Copyright (C) 2012 
+# This file is distributed under the same license as the  package.
+msgid ""
+msgstr ""
+"Project-Id-Version: CTPV\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/cms-tree-page-view\n"
+"POT-Creation-Date: 2012-12-23 11:26+0400\n"
+"PO-Revision-Date: 2012-12-26 21:58+0100\n"
+"Last-Translator: Pär Thernström <par.thernstrom@gmail.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.4\n"
+"X-Poedit-Basepath: E:\\Translate WP\\cms-tree-page-view\n"
+"X-Poedit-KeywordsList: _e;__;_x\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-SearchPath-0: E:\\Translate WP\\cms-tree-page-view\n"
+
+#: E:\Translate WP\cms-tree-page-view/functions.php:272
+msgid "Enter title of new page"
+msgstr "Введите название новой страницы"
+
+#: E:\Translate WP\cms-tree-page-view/functions.php:273
+msgid "child pages"
+msgstr "дочерние страницы"
+
+#: E:\Translate WP\cms-tree-page-view/functions.php:274
+#: WP\cms-tree-page-view/functions.php:887
+msgid "Edit page"
+msgstr "Редактировать страницу"
+
+#: E:\Translate WP\cms-tree-page-view/functions.php:275
+#: WP\cms-tree-page-view/functions.php:888
+msgid "View page"
+msgstr "Просмотр страницы"
+
+#: E:\Translate WP\cms-tree-page-view/functions.php:276
+#: WP\cms-tree-page-view/functions.php:887
+msgid "Edit"
+msgstr "Изменить"
+
+#: E:\Translate WP\cms-tree-page-view/functions.php:277
+#: WP\cms-tree-page-view/functions.php:888
+msgid "View"
+msgstr "Показать"
+
+#: E:\Translate WP\cms-tree-page-view/functions.php:278
+msgid "Add page"
+msgstr "Добавить страницу"
+
+#: E:\Translate WP\cms-tree-page-view/functions.php:279
+#: WP\cms-tree-page-view/functions.php:896
+msgid "Add new page after"
+msgstr "Добавить новую страницу после"
+
+#: E:\Translate WP\cms-tree-page-view/functions.php:280
+msgid "after"
+msgstr "после"
+
+#: E:\Translate WP\cms-tree-page-view/functions.php:281
+msgid "inside"
+msgstr "внутри"
+
+#: E:\Translate WP\cms-tree-page-view/functions.php:282
+msgid "Sorry, can't create a sub page to a page with status \"draft\"."
+msgstr ""
+"К сожалению, невозможно создать подстраницу для страницы со статусом  "
+"\"черновик \"."
+
+#: E:\Translate WP\cms-tree-page-view/functions.php:283
+msgid "Sorry, can't create a sub page to a page with status \"trash\"."
+msgstr ""
+"К сожалению, невозможно создать подстраницу для страницы со статусом  \"в "
+"корзине \"."
+
+#: E:\Translate WP\cms-tree-page-view/functions.php:284
+msgid "Sorry, can't create a page after a page with status \"trash\"."
+msgstr ""
+"К сожалению, невозможно создать страницу после страницы со статусом  \"в "
+"корзине \"."
+
+#: E:\Translate WP\cms-tree-page-view/functions.php:285
+#: WP\cms-tree-page-view/functions.php:901
+msgid "Add new page inside"
+msgstr "Добавить новую страницу внутри"
+
+#: E:\Translate WP\cms-tree-page-view/functions.php:286
+#: WP\cms-tree-page-view/functions.php:292
+msgid "draft"
+msgstr "черновик"
+
+#: E:\Translate WP\cms-tree-page-view/functions.php:287
+#: WP\cms-tree-page-view/functions.php:293
+msgid "future"
+msgstr "будущая"
+
+#: E:\Translate WP\cms-tree-page-view/functions.php:288
+#: WP\cms-tree-page-view/functions.php:294
+msgid "protected"
+msgstr "защищенная"
+
+#: E:\Translate WP\cms-tree-page-view/functions.php:289
+#: WP\cms-tree-page-view/functions.php:295
+#: WP\cms-tree-page-view/functions.php:1235
+msgid "pending"
+msgstr "в ожидании"
+
+#: E:\Translate WP\cms-tree-page-view/functions.php:290
+#: WP\cms-tree-page-view/functions.php:296
+msgid "private"
+msgstr "личная"
+
+#: E:\Translate WP\cms-tree-page-view/functions.php:291
+#: WP\cms-tree-page-view/functions.php:297
+msgid "trash"
+msgstr "в корзине"
+
+#: E:\Translate WP\cms-tree-page-view/functions.php:298
+msgid "Password protected page"
+msgstr "Страница защищенная паролем"
+
+#: E:\Translate WP\cms-tree-page-view/functions.php:299
+msgid "Adding page..."
+msgstr "Добавление пароля..."
+
+#: E:\Translate WP\cms-tree-page-view/functions.php:300
+msgid "Adding ..."
+msgstr "Добавление ..."
+
+#: E:\Translate WP\cms-tree-page-view/functions.php:393
+#: WP\cms-tree-page-view/functions.php:502
+msgid "Tree View"
+msgstr "В виде дерева"
+
+#: E:\Translate WP\cms-tree-page-view/functions.php:402
+msgid "List View"
+msgstr "Просмотр списка"
+
+#: E:\Translate WP\cms-tree-page-view/functions.php:438
+msgid "Settings"
+msgstr "Настройки"
+
+#: E:\Translate WP\cms-tree-page-view/functions.php:523
+msgid "settings"
+msgstr "настройки"
+
+#: E:\Translate WP\cms-tree-page-view/functions.php:529
+msgid "Select where to show a tree for pages and custom post types"
+msgstr "Укажите где показать дерево страниц и пользовательских типов записей"
+
+#: E:\Translate WP\cms-tree-page-view/functions.php:573
+msgid "On dashboard"
+msgstr "На консоли"
+
+#: E:\Translate WP\cms-tree-page-view/functions.php:577
+msgid "In menu"
+msgstr "В меню"
+
+#: E:\Translate WP\cms-tree-page-view/functions.php:581
+msgid "On post overview screen"
+msgstr "На обзорном экране сообщений"
+
+#: E:\Translate WP\cms-tree-page-view/functions.php:599
+msgid "Save Changes"
+msgstr "Сохранить изменения"
+
+#: E:\Translate WP\cms-tree-page-view/functions.php:818
+msgid "No posts found."
+msgstr "Записи не нейдены."
+
+#: E:\Translate WP\cms-tree-page-view/functions.php:830
+msgid "All"
+msgstr "Все"
+
+#: E:\Translate WP\cms-tree-page-view/functions.php:835
+msgid "Public"
+msgstr "Опубликованные"
+
+#: E:\Translate WP\cms-tree-page-view/functions.php:840
+msgid "Trash"
+msgstr "Корзина"
+
+#: E:\Translate WP\cms-tree-page-view/functions.php:848
+msgid "Expand"
+msgstr "Раскрыть"
+
+#: E:\Translate WP\cms-tree-page-view/functions.php:849
+msgid "Collapse"
+msgstr "Свернуть"
+
+#: E:\Translate WP\cms-tree-page-view/functions.php:857
+msgid "Clear search"
+msgstr "Очистить поиск"
+
+#: E:\Translate WP\cms-tree-page-view/functions.php:858
+msgid "Search"
+msgstr "Поиск"
+
+#: E:\Translate WP\cms-tree-page-view/functions.php:859
+msgid "Searching..."
+msgstr "Поиск..."
+
+#: E:\Translate WP\cms-tree-page-view/functions.php:860
+msgid "Nothing found."
+msgstr "Ничего не найдено."
+
+#: E:\Translate WP\cms-tree-page-view/functions.php:867
+msgid "Loading..."
+msgstr "Загрузка..."
+
+#: E:\Translate WP\cms-tree-page-view/functions.php:872
+msgid "Search: no pages found"
+msgstr "Поиск: страницы не найдены"
+
+#: E:\Translate WP\cms-tree-page-view/functions.php:875
+msgid "Loading tree"
+msgstr "Загрузка дерева"
+
+#: E:\Translate WP\cms-tree-page-view/functions.php:896
+#: WP\cms-tree-page-view/functions.php:932
+msgid "After"
+msgstr "После"
+
+#: E:\Translate WP\cms-tree-page-view/functions.php:901
+#: WP\cms-tree-page-view/functions.php:933
+msgid "Inside"
+msgstr "Внутри"
+
+#: E:\Translate WP\cms-tree-page-view/functions.php:905
+msgid "Can not create page inside of a page with draft status"
+msgstr "Невозможно создать страницу внутри страницы со статусом /\"черновик/\""
+
+#: E:\Translate WP\cms-tree-page-view/functions.php:921
+msgid "Add page(s)"
+msgstr "Добавить страницу(ы)"
+
+#: E:\Translate WP\cms-tree-page-view/functions.php:926
+msgid "Enter title here"
+msgstr "Введите название здесь"
+
+#: E:\Translate WP\cms-tree-page-view/functions.php:931
+msgid "Position"
+msgstr "Положение"
+
+#: E:\Translate WP\cms-tree-page-view/functions.php:938
+msgid "Status"
+msgstr "Состояние"
+
+#: E:\Translate WP\cms-tree-page-view/functions.php:939
+msgid "Draft"
+msgstr "Черновик"
+
+#: E:\Translate WP\cms-tree-page-view/functions.php:940
+msgid "Published"
+msgstr "Опубликовано"
+
+#: E:\Translate WP\cms-tree-page-view/functions.php:944
+msgid "Add"
+msgstr "Добавить"
+
+#: E:\Translate WP\cms-tree-page-view/functions.php:945
+msgid "or"
+msgstr "или"
+
+#: E:\Translate WP\cms-tree-page-view/functions.php:946
+msgid "cancel"
+msgstr "отмена"
+
+#: E:\Translate WP\cms-tree-page-view/functions.php:956
+msgid "Last modified"
+msgstr "Последнее изменение"
+
+#: E:\Translate WP\cms-tree-page-view/functions.php:958
+msgid "by"
+msgstr "-"
+
+#: E:\Translate WP\cms-tree-page-view/functions.php:961
+msgid "Page ID"
+msgstr "ID страницы"
+
+#: E:\Translate WP\cms-tree-page-view/functions.php:1200
+msgid "Unknown user"
+msgstr "Неизвестный пользователь"
+
+#: E:\Translate WP\cms-tree-page-view/functions.php:1205
+msgid "<Untitled page>"
+msgstr "<Страница без названия>"
+
+#: E:\Translate WP\cms-tree-page-view/functions.php:1225
+msgid "Comments"
+msgstr "Комментарии"
+
+#: E:\Translate WP\cms-tree-page-view/functions.php:1232
+#, php-format
+msgid "%s pending"
+msgstr "%s в ожидании"
+
+#: E:\Translate WP\cms-tree-page-view/functions.php:1242
+msgid "0"
+msgstr "0"
+
+#: E:\Translate WP\cms-tree-page-view/functions.php:1242
+msgid "1"
+msgstr "1"
+
+#: E:\Translate WP\cms-tree-page-view/functions.php:1242
+msgid "%"
+msgstr "%"
+
+#: E:\Translate WP\cms-tree-page-view/functions.php:1428
+msgid "New page"
+msgstr "Новая страница"
+
+#: E:\Translate WP\cms-tree-page-view/functions.php:1618
+msgid "Thanks for using my plugin"
+msgstr "Спасибо за использование моего плагина"
+
+#: E:\Translate WP\cms-tree-page-view/functions.php:1620
+msgid ""
+"Hi there! I just wanna says thanks for using my plugin. I hope you like it "
+"as much as I do."
+msgstr ""
+"Привет! Я просто хочу, сказать спасибо за использование моего плагина. Я "
+"надеюсь, что Вам он нравится так же, как и мне."
+
+#: E:\Translate WP\cms-tree-page-view/functions.php:1621
+msgid "/Pär Thernström - plugin creator"
+msgstr "/Pär Thernström - создатель плагина"
+
+#: E:\Translate WP\cms-tree-page-view/functions.php:1623
+msgid "I like this plugin<br>– how can I thank you?"
+msgstr "Мне нравится этот плагин<br> - как я могу отблагодарить Вас?"
+
+#: E:\Translate WP\cms-tree-page-view/functions.php:1624
+msgid "There are serveral ways for you to show your appreciation:"
+msgstr "Есть несколько способов, чтобы показать Вашу признательность:"
+
+#: E:\Translate WP\cms-tree-page-view/functions.php:1626
+#, php-format
+msgid ""
+"<a href=\"%1$s\">Give it a nice review</a> over at the WordPress Plugin "
+"Directory"
+msgstr "<a href=\"%1$s\">Дать хороший отзыв</a> в Каталоге Плагинов WordPress"
+
+#: E:\Translate WP\cms-tree-page-view/functions.php:1627
+#, php-format
+msgid "<a href=\"%1$s\">Give a donation</a> – any amount will make me happy"
+msgstr ""
+"<a href=\"%1$s\">Сделать пожертвование</a> – любая сумма сделает меня "
+"счастливым"
+
+#: E:\Translate WP\cms-tree-page-view/functions.php:1628
+#, php-format
+msgid ""
+"<a href=\"%1$s\">Post a nice tweet</a> or make a nice blog post about the "
+"plugin"
+msgstr ""
+"<a href=\"%1$s\">Написать хороший твит</a> ли сделать хороший блог о плагине"
+
+#: E:\Translate WP\cms-tree-page-view/functions.php:1631
+msgid "Support"
+msgstr "Поддержка"
+
+#: E:\Translate WP\cms-tree-page-view/functions.php:1632
+#, php-format
+msgid "Plese see the <a href=\"%1$s\">support forum</a> for help."
+msgstr "Читайте <a href=\"%1$s\">форум поддержки</a> для помощи."
+
+#: E:\Translate WP\cms-tree-page-view/functions.php:1636
+msgid "Hide until next upgrade"
+msgstr "Скрыть до следующего обновления"

@@ -1,0 +1,323 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: CMS Tree Page View\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/cms-tree-page-view\n"
+"POT-Creation-Date: 2010-08-28 21:55+0000\n"
+"PO-Revision-Date: 2011-01-19 11:55+0100\n"
+"Last-Translator: Georgij Gadjukin <georgij@gadjukin.net>\n"
+"Language-Team: gadjukin.net <georgij@gadjukin.net>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Poedit-Language: Czech\n"
+"X-Poedit-Country: \n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2;\n"
+"X-Poedit-Basepath: \n"
+"X-Poedit-Bookmarks: \n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Textdomain-Support: yes"
+
+#: functions.php:639
+#, php-format
+#@ default
+msgid "%s pending"
+msgstr "%s čeká"
+
+#: functions.php:612
+#@ cms-tree-page-view
+msgid "<Untitled page>"
+msgstr "<Nepojmenovaná stránka>"
+
+#: functions.php:60
+#: functions.php:384
+#@ cms-tree-page-view
+msgid "Add new page after"
+msgstr "Přidat novou stránku po"
+
+#: functions.php:66
+#: functions.php:388
+#@ cms-tree-page-view
+msgid "Add new page inside"
+msgstr "Přidat novou vnořenou stránku "
+
+#: functions.php:59
+#@ cms-tree-page-view
+msgid "Add page"
+msgstr "Přidat stránku"
+
+#: functions.php:74
+#@ cms-tree-page-view
+msgid "Adding page..."
+msgstr "Přidávám stránku..."
+
+#: functions.php:384
+#@ cms-tree-page-view
+msgid "After"
+msgstr "Po"
+
+#: functions.php:341
+#@ cms-tree-page-view
+msgid "All"
+msgstr "Vše"
+
+#: functions.php:392
+#@ cms-tree-page-view
+msgid "Can not create page inside of a page with draft status"
+msgstr "Nelze vytvořit vnořenou stránku pokud je status Koncept"
+
+#: functions.php:357
+#@ cms-tree-page-view
+msgid "Clear search"
+msgstr "Zrušit výběr"
+
+#: functions.php:680
+#@ cms-tree-page-view
+msgid "Click to edit. Drag to move."
+msgstr "Kliknutím upravit. Tažením přesunout"
+
+#: functions.php:349
+#@ cms-tree-page-view
+msgid "Collapse"
+msgstr "Sbalit"
+
+#: functions.php:632
+#@ default
+msgid "Comments"
+msgstr "Komentáře"
+
+#: functions.php:57
+#: functions.php:379
+#@ cms-tree-page-view
+msgid "Edit"
+msgstr "Upravit"
+
+#: functions.php:55
+#: functions.php:379
+#@ cms-tree-page-view
+msgid "Edit page"
+msgstr "Upravit stránku"
+
+#: functions.php:53
+#@ cms-tree-page-view
+msgid "Enter title of new page"
+msgstr "Zadejte název nové stránky"
+
+#: functions.php:348
+#@ cms-tree-page-view
+msgid "Expand"
+msgstr "Rozbalit"
+
+#: functions.php:208
+#@ cms-tree-page-view
+msgid "In menu"
+msgstr "V menu"
+
+#: functions.php:388
+#@ cms-tree-page-view
+msgid "Inside"
+msgstr "Vnořit"
+
+#: functions.php:395
+#@ cms-tree-page-view
+msgid "Last modified"
+msgstr "Poslední změna"
+
+#: functions.php:372
+#@ cms-tree-page-view
+msgid "Loading tree"
+msgstr "Načítám strom"
+
+#: functions.php:366
+#@ cms-tree-page-view
+msgid "Loading..."
+msgstr "Načítám..."
+
+#: functions.php:831
+#@ cms-tree-page-view
+msgid "New page"
+msgstr "Nová stránka"
+
+#: functions.php:335
+#@ cms-tree-page-view
+msgid "No posts found."
+msgstr "Žádný příspěvek"
+
+#: functions.php:360
+#@ cms-tree-page-view
+msgid "Nothing found."
+msgstr "Nic nenalezeno"
+
+#: functions.php:204
+#@ cms-tree-page-view
+msgid "On dashboard"
+msgstr "Na nástěnce"
+
+#: functions.php:400
+#@ cms-tree-page-view
+msgid "Page ID"
+msgstr "ID stránky"
+
+#: functions.php:73
+#@ cms-tree-page-view
+msgid "Password protected page"
+msgstr "Stránka chráněná heslem"
+
+#: functions.php:342
+#@ cms-tree-page-view
+msgid "Public"
+msgstr "Veřejné"
+
+#: functions.php:219
+#@ cms-tree-page-view
+msgid "Save Changes"
+msgstr "Uložit změny"
+
+#: functions.php:358
+#@ cms-tree-page-view
+msgid "Search"
+msgstr "Hledat"
+
+#: functions.php:369
+#@ cms-tree-page-view
+msgid "Search: no pages found"
+msgstr "Hledání: nic nenalezeno"
+
+#: functions.php:359
+#@ cms-tree-page-view
+msgid "Searching..."
+msgstr "Hledám..."
+
+#: functions.php:180
+#@ cms-tree-page-view
+msgid "Select where to show a tree for pages and custom post types"
+msgstr "Vyberte, kde chcete zobrazit strom pro stránky a příspěvky"
+
+#: functions.php:63
+#@ cms-tree-page-view
+msgid "Sorry, can't create a sub page to a page with status \"draft\"."
+msgstr "Sorry, nemůžete vytvořit podstránku u stránky, která má status \"Koncept\""
+
+#: functions.php:607
+#@ cms-tree-page-view
+msgid "Unknown user"
+msgstr "Neznámý uživatel"
+
+#: functions.php:58
+#: functions.php:380
+#@ cms-tree-page-view
+msgid "View"
+msgstr "Zobrazit"
+
+#: functions.php:56
+#: functions.php:380
+#@ cms-tree-page-view
+msgid "View page"
+msgstr "Zobrazit stránku"
+
+#: functions.php:61
+#@ cms-tree-page-view
+msgid "after"
+msgstr "po"
+
+#: functions.php:397
+#@ cms-tree-page-view
+msgid "by"
+msgstr "od"
+
+#: functions.php:54
+#@ cms-tree-page-view
+msgid "child pages"
+msgstr "vnořené stránky"
+
+#: functions.php:649
+#@ default
+msgctxt "comment count"
+msgid "%"
+msgstr "%"
+
+#: functions.php:649
+#@ default
+msgctxt "comment count"
+msgid "0"
+msgstr "0"
+
+#: functions.php:649
+#@ default
+msgctxt "comment count"
+msgid "1"
+msgstr "1"
+
+#: functions.php:67
+#@ cms-tree-page-view
+msgid "draft"
+msgstr "koncept"
+
+#: functions.php:68
+#@ cms-tree-page-view
+msgid "future"
+msgstr "budoucí"
+
+#: functions.php:62
+#@ cms-tree-page-view
+msgid "inside"
+msgstr "vnořit"
+
+#: functions.php:70
+#: functions.php:642
+#@ cms-tree-page-view
+#@ default
+msgid "pending"
+msgstr "čekájící"
+
+#: functions.php:71
+#@ cms-tree-page-view
+msgid "private"
+msgstr "soukromá"
+
+#: functions.php:69
+#@ cms-tree-page-view
+msgid "protected"
+msgstr "chráněná"
+
+#: functions.php:175
+#@ cms-tree-page-view
+msgid "settings"
+msgstr "nastavení"
+
+#: functions.php:64
+#@ cms-tree-page-view
+msgid "Sorry, can't create a sub page to a page with status \"trash\"."
+msgstr "Sorry, nemůžete vytvořit podstránku u stránky, která má status \"Smazáno\""
+
+#: functions.php:65
+#@ cms-tree-page-view
+msgid "Sorry, can't create a page after a page with status \"trash\"."
+msgstr "Sorry, nemůžete vytvořit stránku za stránkou, která má status \"Smazáno\""
+
+#: functions.php:72
+#@ cms-tree-page-view
+msgid "trash"
+msgstr "smazáno"
+
+#: functions.php:343
+#@ cms-tree-page-view
+msgid "Trash"
+msgstr "Smazáno"
+
+#: functions.php:1013
+#@ cms-tree-page-view
+msgid "Close"
+msgstr "Zavřít"
+
+#: functions.php:1014
+#@ cms-tree-page-view
+msgid "<strong>Thank you for using this plugin!</strong> If you need help please check out the <a href=\"http://eskapism.se/code-playground/cms-tree-page-view/?utm_source=wordpress&utm_medium=banner&utm_campaign=promobox\">plugin homepage</a> or the <a href=\"http://wordpress.org/tags/cms-tree-page-view?forum_id=10\">support forum</a>."
+msgstr "<strong>Děkujeme vám za používání tohoto pluginu!</strong> Pokud potřebujete poradit, prosím podívejte se na <a href=\\\"http://eskapism.se/code-playground/cms-tree-page-view/?utm_source=wordpress&utm_medium=banner&utm_campaign=promobox\\\">domovskou stránku pluginu</a> nebo <a href=\\\"http://wordpress.org/tags/cms-tree-page-view?forum_id=10\\\">fórum podpory</a> ."
+
+#: functions.php:1015
+#@ cms-tree-page-view
+msgid "If you like this plugin, please <a href=\"http://eskapism.se/sida/donate/?utm_source=wordpress&utm_medium=banner&utm_campaign=promobox\">support my work by donating</a> - or at least say something nice about this plugin in a blog post or tweet."
+msgstr "Pokud se vám tento plugin líbí, prosím podpořte mou práci <a href=\\\"http://eskapism.se/sida/donate/?utm_source=wordpress&utm_medium=banner&utm_campaign=promobox\\\">malým darem</a> - nebo alespoň řekněte něco pěkného o tomto pluginu v blogu."
+

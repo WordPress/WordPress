@@ -1,0 +1,1947 @@
+# Copyright (C) 2013 
+# This file is distributed under the same license as the  package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Advanced Custom Fields 4.3.0\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/advanced-custom-fields\n"
+"POT-Creation-Date: 2013-09-25 22:42+0100\n"
+"PO-Revision-Date: 2013-09-25 22:42+0100\n"
+"Last-Translator: Mikael Jorhult <mikael@jorhult.se>\n"
+"Language-Team: Mikael Jorhult <mikael@jorhult.se>\n"
+"Language: Swedish\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.7\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-Basepath: ..\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: acf.php:436
+msgid "Field&nbsp;Groups"
+msgstr "Fältgrupper"
+
+#: acf.php:437 core/controllers/field_groups.php:214
+msgid "Advanced Custom Fields"
+msgstr "Advanced Custom Fields"
+
+#: acf.php:438
+msgid "Add New"
+msgstr "Lägg till ny"
+
+#: acf.php:439
+msgid "Add New Field Group"
+msgstr "Lägg till ny fältgrupp"
+
+#: acf.php:440
+msgid "Edit Field Group"
+msgstr "Redigera fältgrupp"
+
+#: acf.php:441
+msgid "New Field Group"
+msgstr "Ny fältgrupp"
+
+#: acf.php:442
+msgid "View Field Group"
+msgstr "Visa fältgrupp"
+
+#: acf.php:443
+msgid "Search Field Groups"
+msgstr "Sök fältgrupp"
+
+#: acf.php:444
+msgid "No Field Groups found"
+msgstr "Inga fältgrupper hittades"
+
+#: acf.php:445
+msgid "No Field Groups found in Trash"
+msgstr "Inga fältgrupper finns i papperskorgen"
+
+#: acf.php:543 core/views/meta_box_options.php:98
+msgid "Custom Fields"
+msgstr "Egna fält"
+
+#: acf.php:561 acf.php:564
+msgid "Field group updated."
+msgstr "Fältgruppen uppdaterades."
+
+#: acf.php:562
+msgid "Custom field updated."
+msgstr "Eget fält uppdaterades."
+
+#: acf.php:563
+msgid "Custom field deleted."
+msgstr "Eget fält raderades."
+
+#: acf.php:566
+#, php-format
+msgid "Field group restored to revision from %s"
+msgstr "Fältgruppen återställdes till revision %s"
+
+#: acf.php:567
+msgid "Field group published."
+msgstr "Fältgruppen publicerades."
+
+#: acf.php:568
+msgid "Field group saved."
+msgstr "Fältgruppen sparades."
+
+#: acf.php:569
+msgid "Field group submitted."
+msgstr "Fältgruppen skickades."
+
+#: acf.php:570
+msgid "Field group scheduled for."
+msgstr "Fältgruppen schemalades."
+
+#: acf.php:571
+msgid "Field group draft updated."
+msgstr "Utkastet till fältgrupp uppdaterades."
+
+#: acf.php:706
+msgid "Thumbnail"
+msgstr "Tumnagel"
+
+#: acf.php:707
+msgid "Medium"
+msgstr "Medium"
+
+#: acf.php:708
+msgid "Large"
+msgstr "Stor"
+
+#: acf.php:709
+msgid "Full"
+msgstr "Full"
+
+#: core/api.php:1097
+msgid "Update"
+msgstr "Uppdatera"
+
+#: core/api.php:1098
+msgid "Post updated"
+msgstr "Inlägget uppdaterades"
+
+#: core/actions/export.php:23 core/views/meta_box_fields.php:58
+msgid "Error"
+msgstr "Fel"
+
+#: core/actions/export.php:30
+msgid "No ACF groups selected"
+msgstr "Inga ACF-grupper har valts"
+
+#: core/controllers/addons.php:42 core/controllers/field_groups.php:311
+msgid "Add-ons"
+msgstr "Tillägg"
+
+#: core/controllers/addons.php:130 core/controllers/field_groups.php:433
+msgid "Repeater Field"
+msgstr "Upprepningsfält"
+
+#: core/controllers/addons.php:131
+msgid "Create infinite rows of repeatable data with this versatile interface!"
+msgstr ""
+"Skapa obegränsat antal rader av upprepningsbar data med detta mångsidiga "
+"verktyg!"
+
+#: core/controllers/addons.php:137 core/controllers/field_groups.php:441
+msgid "Gallery Field"
+msgstr "Gallerifält"
+
+#: core/controllers/addons.php:138
+msgid "Create image galleries in a simple and intuitive interface!"
+msgstr "Skapa bildgallerier i ett enkelt och intuitivt gränssnitt!"
+
+#: core/controllers/addons.php:144 core/controllers/field_groups.php:449
+msgid "Options Page"
+msgstr "Alternativsida"
+
+#: core/controllers/addons.php:145
+msgid "Create global data to use throughout your website!"
+msgstr "Skapa gobala data som du kan använda över hela din webbplats!"
+
+#: core/controllers/addons.php:151
+msgid "Flexible Content Field"
+msgstr "Fält för flexibelt innehåll"
+
+#: core/controllers/addons.php:152
+msgid "Create unique designs with a flexible content layout manager!"
+msgstr "Skapa unika layouter med verktyget för flexibelt innehåll!"
+
+#: core/controllers/addons.php:161
+msgid "Gravity Forms Field"
+msgstr "Gravity Forms-fält"
+
+#: core/controllers/addons.php:162
+msgid "Creates a select field populated with Gravity Forms!"
+msgstr "Skapa ett listfält innehållande Gravity Forms-formulär!"
+
+#: core/controllers/addons.php:168
+msgid "Date & Time Picker"
+msgstr "Datum- och tidväljare"
+
+#: core/controllers/addons.php:169
+msgid "jQuery date & time picker"
+msgstr "Datum- och tidväljare med jQuery"
+
+#: core/controllers/addons.php:175
+msgid "Location Field"
+msgstr "Platsfält"
+
+#: core/controllers/addons.php:176
+msgid "Find addresses and coordinates of a desired location"
+msgstr "Hitta adresser och koordinater för en önskad plats"
+
+#: core/controllers/addons.php:182
+msgid "Contact Form 7 Field"
+msgstr "Contact Form 7-fält"
+
+#: core/controllers/addons.php:183
+msgid "Assign one or more contact form 7 forms to a post"
+msgstr "Välj ett eller fler Contact Form 7-formulär i ett inlägg"
+
+#: core/controllers/addons.php:193
+msgid "Advanced Custom Fields Add-Ons"
+msgstr "Tillägg till Advanced Custom Fields"
+
+#: core/controllers/addons.php:196
+msgid ""
+"The following Add-ons are available to increase the functionality of the "
+"Advanced Custom Fields plugin."
+msgstr ""
+"Följande tillägg finns för att öka funktionaliteten hos Advanced Custom "
+"Fields."
+
+#: core/controllers/addons.php:197
+msgid ""
+"Each Add-on can be installed as a separate plugin (receives updates) or "
+"included in your theme (does not receive updates)."
+msgstr ""
+"Varje tillägg kan installeras som en separat plugin (tar emot uppdateringar) "
+"eller inkluderas i ditt tema (tar inte emot uppdateringar)."
+
+#: core/controllers/addons.php:219 core/controllers/addons.php:240
+msgid "Installed"
+msgstr "Installerades"
+
+#: core/controllers/addons.php:221
+msgid "Purchase & Install"
+msgstr "Köp och installera"
+
+#: core/controllers/addons.php:242 core/controllers/field_groups.php:426
+#: core/controllers/field_groups.php:435 core/controllers/field_groups.php:443
+#: core/controllers/field_groups.php:451 core/controllers/field_groups.php:459
+msgid "Download"
+msgstr "Ladda ner"
+
+#: core/controllers/export.php:50 core/controllers/export.php:159
+msgid "Export"
+msgstr "Exportera"
+
+#: core/controllers/export.php:216
+msgid "Export Field Groups"
+msgstr "Exportera fältgrupper"
+
+#: core/controllers/export.php:221
+msgid "Field Groups"
+msgstr "Fältgrupper"
+
+#: core/controllers/export.php:222
+msgid "Select the field groups to be exported"
+msgstr "Välj fältgrupperna som ska exporteras"
+
+#: core/controllers/export.php:239 core/controllers/export.php:252
+msgid "Export to XML"
+msgstr "Exportera till XML"
+
+#: core/controllers/export.php:242 core/controllers/export.php:267
+msgid "Export to PHP"
+msgstr "Exportera till PHP"
+
+#: core/controllers/export.php:253
+msgid ""
+"ACF will create a .xml export file which is compatible with the native WP "
+"import plugin."
+msgstr ""
+"ACF kommer att skapa en .xml-fil som är kompatibel med WordPress egna "
+"importtillägg."
+
+#: core/controllers/export.php:254
+msgid ""
+"Imported field groups <b>will</b> appear in the list of editable field "
+"groups. This is useful for migrating fields groups between Wp websites."
+msgstr ""
+"Importerade fältgrupper <b>kommer</b> att visas i listan över redigerbara "
+"fältgrupper. Detta är användbart då fältgrupper flyttas mellan WordPress-"
+"webbplatser."
+
+#: core/controllers/export.php:256
+msgid "Select field group(s) from the list and click \"Export XML\""
+msgstr "Välj fältgrupp(er) från listan och klicka \"Exportera till XML\""
+
+#: core/controllers/export.php:257
+msgid "Save the .xml file when prompted"
+msgstr "Spara .xml-filen på valfri plats"
+
+#: core/controllers/export.php:258
+msgid "Navigate to Tools &raquo; Import and select WordPress"
+msgstr "Gå till Verktyg &raquo; Importera och välj WordPress"
+
+#: core/controllers/export.php:259
+msgid "Install WP import plugin if prompted"
+msgstr "Installera WordPress importtillägg vid behov"
+
+#: core/controllers/export.php:260
+msgid "Upload and import your exported .xml file"
+msgstr "Ladda upp och importera din exporterade .xml-fil"
+
+#: core/controllers/export.php:261
+msgid "Select your user and ignore Import Attachments"
+msgstr "Välj din användare och ignorera bilagor"
+
+#: core/controllers/export.php:262
+msgid "That's it! Happy WordPressing"
+msgstr "Klart! Mycket nöje!"
+
+#: core/controllers/export.php:268
+msgid "ACF will create the PHP code to include in your theme."
+msgstr "ACF kommer skapa PHP-koden att inkludera i ditt tema."
+
+#: core/controllers/export.php:269 core/controllers/export.php:310
+msgid ""
+"Registered field groups <b>will not</b> appear in the list of editable field "
+"groups. This is useful for including fields in themes."
+msgstr ""
+"Registrerade fältgrupper <b>kommer inte</b> att visas i listan över "
+"redigerbara fältgrupper. Detta är användbart när man inkluderar fält i teman."
+
+#: core/controllers/export.php:270 core/controllers/export.php:311
+msgid ""
+"Please note that if you export and register field groups within the same WP, "
+"you will see duplicate fields on your edit screens. To fix this, please move "
+"the original field group to the trash or remove the code from your functions."
+"php file."
+msgstr ""
+"Notera att om du exporterar och registrerar fältgrupper inom samma WordPress-"
+"installation kommer du se dubbletter av fälten i din redigeringsvy. För att "
+"åtgärda det flyttar du den ursprungliga fältgruppen till papperskorgen eller "
+"tar bort koden från din functions.php-fil."
+
+#: core/controllers/export.php:272
+msgid "Select field group(s) from the list and click \"Create PHP\""
+msgstr "Välj fältgrupp(er) från listan och klicka \"Exportera till PHP\""
+
+#: core/controllers/export.php:273 core/controllers/export.php:302
+msgid "Copy the PHP code generated"
+msgstr "Kopiera den genererade PHP-koden"
+
+#: core/controllers/export.php:274 core/controllers/export.php:303
+msgid "Paste into your functions.php file"
+msgstr "Klistra in koden i din functions.php-fil"
+
+#: core/controllers/export.php:275 core/controllers/export.php:304
+msgid "To activate any Add-ons, edit and use the code in the first few lines."
+msgstr "Redigera de första kodraderna för att aktivera eventuella tillägg. "
+
+#: core/controllers/export.php:295
+msgid "Export Field Groups to PHP"
+msgstr "Exportera fältgrupper till PHP"
+
+#: core/controllers/export.php:300 core/fields/tab.php:65
+msgid "Instructions"
+msgstr "Instruktioner"
+
+#: core/controllers/export.php:309
+msgid "Notes"
+msgstr "Anteckningar"
+
+#: core/controllers/export.php:316
+msgid "Include in theme"
+msgstr "Inkludera i tema"
+
+#: core/controllers/export.php:317
+msgid ""
+"The Advanced Custom Fields plugin can be included within a theme. To do so, "
+"move the ACF plugin inside your theme and add the following code to your "
+"functions.php file:"
+msgstr ""
+"Advanced Custom Fields-tilläggen kan inkluderas i ett tema. Detta görs genom "
+"att flytta ACF till din temamapp och lägg till följande kod i din functions."
+"php-fil:"
+
+#: core/controllers/export.php:323
+msgid ""
+"To remove all visual interfaces from the ACF plugin, you can use a constant "
+"to enable lite mode. Add the following code to your functions.php file "
+"<b>before</b> the include_once code:"
+msgstr ""
+"Ta bort det visuella gränssnittet i ACF genom att aktivera \"Lite mode\". "
+"Lägg till följande kod i din functions.php <b>innan</b> include_once-anropet:"
+
+#: core/controllers/export.php:331
+msgid "Back to export"
+msgstr "Tillbaka till export"
+
+#: core/controllers/export.php:400
+msgid "No field groups were selected"
+msgstr "Inga fältgrupper var valda"
+
+#: core/controllers/field_group.php:358
+msgid "Move to trash. Are you sure?"
+msgstr "Flytta till papperskorgen. Är du säker?"
+
+#: core/controllers/field_group.php:359
+msgid "checked"
+msgstr "vald"
+
+#: core/controllers/field_group.php:360
+msgid "No toggle fields available"
+msgstr "Det finns inga aktiveringsbara fält"
+
+#: core/controllers/field_group.php:361
+msgid "Field group title is required"
+msgstr "Fältgruppen måste ha en titel"
+
+#: core/controllers/field_group.php:362
+msgid "copy"
+msgstr "kopiera"
+
+#: core/controllers/field_group.php:363 core/views/meta_box_location.php:62
+#: core/views/meta_box_location.php:159
+msgid "or"
+msgstr "eller"
+
+#: core/controllers/field_group.php:364 core/controllers/field_group.php:395
+#: core/controllers/field_group.php:457 core/controllers/field_groups.php:148
+msgid "Fields"
+msgstr "Fält"
+
+#: core/controllers/field_group.php:365
+msgid "Parent fields"
+msgstr "Överliggande fält"
+
+#: core/controllers/field_group.php:366
+msgid "Sibling fields"
+msgstr "Intilliggande fält"
+
+#: core/controllers/field_group.php:367
+msgid "Hide / Show All"
+msgstr "Dölj / Visa alla"
+
+#: core/controllers/field_group.php:396
+msgid "Location"
+msgstr "Plats"
+
+#: core/controllers/field_group.php:397
+msgid "Options"
+msgstr "Alternativ"
+
+#: core/controllers/field_group.php:459
+msgid "Show Field Key:"
+msgstr "Visa fältnyckel:"
+
+#: core/controllers/field_group.php:460 core/fields/page_link.php:138
+#: core/fields/page_link.php:159 core/fields/post_object.php:328
+#: core/fields/post_object.php:349 core/fields/select.php:224
+#: core/fields/select.php:243 core/fields/taxonomy.php:343
+#: core/fields/user.php:285 core/fields/wysiwyg.php:245
+#: core/views/meta_box_fields.php:195 core/views/meta_box_fields.php:218
+msgid "No"
+msgstr "Nej"
+
+#: core/controllers/field_group.php:461 core/fields/page_link.php:137
+#: core/fields/page_link.php:158 core/fields/post_object.php:327
+#: core/fields/post_object.php:348 core/fields/select.php:223
+#: core/fields/select.php:242 core/fields/taxonomy.php:342
+#: core/fields/user.php:284 core/fields/wysiwyg.php:244
+#: core/views/meta_box_fields.php:194 core/views/meta_box_fields.php:217
+msgid "Yes"
+msgstr "Ja"
+
+#: core/controllers/field_group.php:638
+msgid "Front Page"
+msgstr "Förstasida"
+
+#: core/controllers/field_group.php:639
+msgid "Posts Page"
+msgstr "Inläggssida"
+
+#: core/controllers/field_group.php:640
+msgid "Top Level Page (parent of 0)"
+msgstr "Toppsida (förälder satt till 0)"
+
+#: core/controllers/field_group.php:641
+msgid "Parent Page (has children)"
+msgstr "Föräldersida (har undersidor)"
+
+#: core/controllers/field_group.php:642
+msgid "Child Page (has parent)"
+msgstr "Undersida (har föräldersida)"
+
+#: core/controllers/field_group.php:650
+msgid "Default Template"
+msgstr "Standardmall"
+
+#: core/controllers/field_group.php:727
+msgid "Publish"
+msgstr "Publicerat"
+
+#: core/controllers/field_group.php:728
+msgid "Pending Review"
+msgstr "Väntar på granskning"
+
+#: core/controllers/field_group.php:729
+msgid "Draft"
+msgstr "Utkast"
+
+#: core/controllers/field_group.php:730
+msgid "Future"
+msgstr "Tidsbestämt"
+
+#: core/controllers/field_group.php:731
+msgid "Private"
+msgstr "Privat"
+
+#: core/controllers/field_group.php:732
+msgid "Revision"
+msgstr "Revision"
+
+#: core/controllers/field_group.php:733
+msgid "Trash"
+msgstr "I papperskorgen"
+
+#: core/controllers/field_group.php:746
+msgid "Super Admin"
+msgstr "Superadministratör"
+
+#: core/controllers/field_group.php:761 core/controllers/field_group.php:782
+#: core/controllers/field_group.php:789 core/fields/file.php:186
+#: core/fields/image.php:170 core/fields/page_link.php:109
+#: core/fields/post_object.php:274 core/fields/post_object.php:298
+#: core/fields/relationship.php:595 core/fields/relationship.php:619
+#: core/fields/user.php:229
+msgid "All"
+msgstr "Alla"
+
+#: core/controllers/field_groups.php:147
+msgid "Title"
+msgstr "Titel"
+
+#: core/controllers/field_groups.php:216 core/controllers/field_groups.php:257
+msgid "Changelog"
+msgstr "Versionshistorik"
+
+#: core/controllers/field_groups.php:217
+msgid "See what's new in"
+msgstr "Se vad som är nytt i"
+
+#: core/controllers/field_groups.php:217
+msgid "version"
+msgstr "version"
+
+#: core/controllers/field_groups.php:219
+msgid "Resources"
+msgstr "Resurser"
+
+#: core/controllers/field_groups.php:221
+msgid "Getting Started"
+msgstr "Kom igång"
+
+#: core/controllers/field_groups.php:222
+msgid "Field Types"
+msgstr "Fälttyper"
+
+#: core/controllers/field_groups.php:223
+msgid "Functions"
+msgstr "Funktioner"
+
+#: core/controllers/field_groups.php:224
+msgid "Actions"
+msgstr "Actions"
+
+#: core/controllers/field_groups.php:225 core/fields/relationship.php:638
+msgid "Filters"
+msgstr "Filter"
+
+#: core/controllers/field_groups.php:226
+msgid "'How to' guides"
+msgstr "Användarguider"
+
+#: core/controllers/field_groups.php:227
+msgid "Tutorials"
+msgstr "Handledningar"
+
+#: core/controllers/field_groups.php:232
+msgid "Created by"
+msgstr "Skapad av"
+
+#: core/controllers/field_groups.php:235
+msgid "Vote"
+msgstr "Rösta"
+
+#: core/controllers/field_groups.php:236
+msgid "Follow"
+msgstr "Följ"
+
+#: core/controllers/field_groups.php:248
+msgid "Welcome to Advanced Custom Fields"
+msgstr "Välkommen till Advanced Custom Fields"
+
+#: core/controllers/field_groups.php:249
+msgid "Thank you for updating to the latest version!"
+msgstr "Tack för att du har uppdaterat till den senaste versionen!"
+
+#: core/controllers/field_groups.php:249
+msgid "is more polished and enjoyable than ever before. We hope you like it."
+msgstr "är mer polerad och bättre än någonsin. Vi hoppas att du tycker om det."
+
+#: core/controllers/field_groups.php:256
+msgid "What’s New"
+msgstr "Nyheter"
+
+#: core/controllers/field_groups.php:259
+msgid "Download Add-ons"
+msgstr "Ladda ner tillägg"
+
+#: core/controllers/field_groups.php:313
+msgid "Activation codes have grown into plugins!"
+msgstr "Aktiveringskoderna har flyttat in i tilläggen!"
+
+#: core/controllers/field_groups.php:314
+msgid ""
+"Add-ons are now activated by downloading and installing individual plugins. "
+"Although these plugins will not be hosted on the wordpress.org repository, "
+"each Add-on will continue to receive updates in the usual way."
+msgstr ""
+"Nu aktiveras tillägg genom att de laddas ner och installeras separat. Även "
+"om dessa tillägg inte lagras på wordpress.org fortsätter de att få "
+"uppdateringar som vanligt."
+
+#: core/controllers/field_groups.php:320
+msgid "All previous Add-ons have been successfully installed"
+msgstr "Alla tidigare tillägg har installerats"
+
+#: core/controllers/field_groups.php:324
+msgid "This website uses premium Add-ons which need to be downloaded"
+msgstr "Denna webbplats använder premiumtillägg som behöver laddas ner"
+
+#: core/controllers/field_groups.php:324
+msgid "Download your activated Add-ons"
+msgstr "Ladda ner dina aktiverade tillägg"
+
+#: core/controllers/field_groups.php:329
+msgid ""
+"This website does not use premium Add-ons and will not be affected by this "
+"change."
+msgstr ""
+"Denna webbplats använder inga premiumtillägg och påverkas inte av denna "
+"förändring."
+
+#: core/controllers/field_groups.php:339
+msgid "Easier Development"
+msgstr "Enklare utveckling"
+
+#: core/controllers/field_groups.php:341
+msgid "New Field Types"
+msgstr "Nya fälttyper"
+
+#: core/controllers/field_groups.php:343
+msgid "Taxonomy Field"
+msgstr "Taxonomifält"
+
+#: core/controllers/field_groups.php:344
+msgid "User Field"
+msgstr "Användarfält"
+
+#: core/controllers/field_groups.php:345
+msgid "Email Field"
+msgstr "E-postfät"
+
+#: core/controllers/field_groups.php:346
+msgid "Password Field"
+msgstr "Lösenordsfält"
+
+#: core/controllers/field_groups.php:348
+msgid "Custom Field Types"
+msgstr "Egna fälttyper"
+
+#: core/controllers/field_groups.php:349
+msgid ""
+"Creating your own field type has never been easier! Unfortunately, version 3 "
+"field types are not compatible with version 4."
+msgstr ""
+"Att skapa egna fälttyper har aldrig varit enklare! Tyvärr är inte fälttyper "
+"från version 3 inte kompatibla med version 4."
+
+#: core/controllers/field_groups.php:350
+msgid "Migrating your field types is easy, please"
+msgstr "Att migrera fälttyper är enkelt! Följ"
+
+#: core/controllers/field_groups.php:350
+msgid "follow this tutorial"
+msgstr "denna guide"
+
+#: core/controllers/field_groups.php:350
+msgid "to learn more."
+msgstr "för att få veta mer."
+
+#: core/controllers/field_groups.php:352
+msgid "Actions &amp; Filters"
+msgstr "Funktioner och filter"
+
+#: core/controllers/field_groups.php:353
+msgid ""
+"All actions & filters have received a major facelift to make customizing ACF "
+"even easier! Please"
+msgstr ""
+"Alla funktioner och filter har fått en ordentlig ansiktslyftning för att "
+"göra justeringar av ACF enklare! Läs"
+
+#: core/controllers/field_groups.php:353
+msgid "read this guide"
+msgstr "denna guide"
+
+#: core/controllers/field_groups.php:353
+msgid "to find the updated naming convention."
+msgstr "för en uppdatering av namnkonventionerna."
+
+#: core/controllers/field_groups.php:355
+msgid "Preview draft is now working!"
+msgstr "Förhandsvisning av utkast fungerar nu!"
+
+#: core/controllers/field_groups.php:356
+msgid "This bug has been squashed along with many other little critters!"
+msgstr "Denna bugg har åtgärdats tillsammans med ett antal av dess kompisar."
+
+#: core/controllers/field_groups.php:356
+msgid "See the full changelog"
+msgstr "Läsa hela förändringsloggen"
+
+#: core/controllers/field_groups.php:360
+msgid "Important"
+msgstr "Viktigt"
+
+#: core/controllers/field_groups.php:362
+msgid "Database Changes"
+msgstr "Databasförändringar"
+
+#: core/controllers/field_groups.php:363
+msgid ""
+"Absolutely <strong>no</strong> changes have been made to the database "
+"between versions 3 and 4. This means you can roll back to version 3 without "
+"any issues."
+msgstr ""
+"<b>Inga</b> förändringar har i databasen har gjorts mellan version 3 och 4. "
+"Detta innebär att du kan gå tillbaka till version 3 utan problem."
+
+#: core/controllers/field_groups.php:365
+msgid "Potential Issues"
+msgstr "Potentiella problem"
+
+#: core/controllers/field_groups.php:366
+msgid ""
+"Do to the sizable changes surounding Add-ons, field types and action/"
+"filters, your website may not operate correctly. It is important that you "
+"read the full"
+msgstr ""
+"På grund av stora förändringar kring tillägg, fälttyper samt funktioner och "
+"filter kanske din webbplats inte fungerar korrekt. Det är viktigt att läsa "
+"guiden"
+
+#: core/controllers/field_groups.php:366
+msgid "Migrating from v3 to v4"
+msgstr "Migration från version 3 till 4"
+
+#: core/controllers/field_groups.php:366
+msgid "guide to view the full list of changes."
+msgstr "för listan över samtliga förändringar."
+
+#: core/controllers/field_groups.php:369
+msgid "Really Important!"
+msgstr "Verkligen viktigt!"
+
+#: core/controllers/field_groups.php:369
+msgid ""
+"If you updated the ACF plugin without prior knowledge of such changes, "
+"please roll back to the latest"
+msgstr ""
+"Om du uppdaterat ACF utan att veta om dessa förändringar kan du gå tillbaka "
+"till den senaste upplagan av"
+
+#: core/controllers/field_groups.php:369
+msgid "version 3"
+msgstr "version 3"
+
+#: core/controllers/field_groups.php:369
+msgid "of this plugin."
+msgstr "av tillägget."
+
+#: core/controllers/field_groups.php:374
+msgid "Thank You"
+msgstr "Tack"
+
+#: core/controllers/field_groups.php:375
+msgid ""
+"A <strong>BIG</strong> thank you to everyone who has helped test the version "
+"4 beta and for all the support I have received."
+msgstr ""
+"Ett <strong>STORT</strong> tack till alla som har hjälpt till att testa "
+"betaversionen av version 4 och allt stöd jag fått."
+
+#: core/controllers/field_groups.php:376
+msgid "Without you all, this release would not have been possible!"
+msgstr "Utan er hade denna release aldrig varit möjlig!"
+
+#: core/controllers/field_groups.php:380
+msgid "Changelog for"
+msgstr "Förändringsloggen för"
+
+#: core/controllers/field_groups.php:397
+msgid "Learn more"
+msgstr "Läs mer"
+
+#: core/controllers/field_groups.php:403
+msgid "Overview"
+msgstr "Översikt"
+
+#: core/controllers/field_groups.php:405
+msgid ""
+"Previously, all Add-ons were unlocked via an activation code (purchased from "
+"the ACF Add-ons store). New to v4, all Add-ons act as separate plugins which "
+"need to be individually downloaded, installed and updated."
+msgstr ""
+"Tidigare har alla tillägg låsts upp via en aktiveringskod (som kunnat köpas "
+"via ACFs webbshop). Från och med version 4 är alla tillägg separata plugins "
+"som laddas ner, installeras och uppdateras individuellt."
+
+#: core/controllers/field_groups.php:407
+msgid ""
+"This page will assist you in downloading and installing each available Add-"
+"on."
+msgstr ""
+"Denna sida kommer att hjälpa dig ladda ner och installera alla tillgängliga "
+"tillägg."
+
+#: core/controllers/field_groups.php:409
+msgid "Available Add-ons"
+msgstr "Tillgängliga tillägg"
+
+#: core/controllers/field_groups.php:411
+msgid "The following Add-ons have been detected as activated on this website."
+msgstr "Följande tillägg har upptäckts och aktiverats på denna webbplats."
+
+#: core/controllers/field_groups.php:424
+msgid "Name"
+msgstr "Namn"
+
+#: core/controllers/field_groups.php:425
+msgid "Activation Code"
+msgstr "Aktiveringskod"
+
+#: core/controllers/field_groups.php:457
+msgid "Flexible Content"
+msgstr "Flexibelt innehåll"
+
+#: core/controllers/field_groups.php:467
+msgid "Installation"
+msgstr "Installation"
+
+#: core/controllers/field_groups.php:469
+msgid "For each Add-on available, please perform the following:"
+msgstr "Gör följande för varje tillgängligt tillägg:"
+
+#: core/controllers/field_groups.php:471
+msgid "Download the Add-on plugin (.zip file) to your desktop"
+msgstr "Ladda ner tillägget (.zip-fil) till ditt skrivbord"
+
+#: core/controllers/field_groups.php:472
+msgid "Navigate to"
+msgstr "Gå till"
+
+#: core/controllers/field_groups.php:472
+msgid "Plugins > Add New > Upload"
+msgstr "Tillägg > Lägg till > Ladda upp"
+
+#: core/controllers/field_groups.php:473
+msgid "Use the uploader to browse, select and install your Add-on (.zip file)"
+msgstr "Använd uppladdaren för att välja och installera tillägget (.zip-filen)"
+
+#: core/controllers/field_groups.php:474
+msgid ""
+"Once the plugin has been uploaded and installed, click the 'Activate Plugin' "
+"link"
+msgstr ""
+"När tillägget har laddats upp och installerats klickar du på länken "
+"\"Aktivera tillägg\""
+
+#: core/controllers/field_groups.php:475
+msgid "The Add-on is now installed and activated!"
+msgstr "Tillägget har nu installerats och aktiverats!"
+
+#: core/controllers/field_groups.php:489
+msgid "Awesome. Let's get to work"
+msgstr "Grymt! Dags att återgå till arbetet."
+
+#: core/controllers/input.php:63
+msgid "Expand Details"
+msgstr "Visa detaljer"
+
+#: core/controllers/input.php:64
+msgid "Collapse Details"
+msgstr "Dölj detaljer"
+
+#: core/controllers/input.php:67
+msgid "Validation Failed. One or more fields below are required."
+msgstr "Valideringen misslyckades. Ett eller flera fält nedan måste fyllas i."
+
+#: core/controllers/upgrade.php:86
+msgid "Upgrade"
+msgstr "Uppgradera"
+
+#: core/controllers/upgrade.php:139
+msgid "What's new"
+msgstr "Nyheter"
+
+#: core/controllers/upgrade.php:150
+msgid "credits"
+msgstr "Tack"
+
+#: core/controllers/upgrade.php:684
+msgid "Modifying field group options 'show on page'"
+msgstr "Ändrar fältgruppens inställning \"visa på sida\""
+
+#: core/controllers/upgrade.php:738
+msgid "Modifying field option 'taxonomy'"
+msgstr "Ändrar fältinställningen \"taxonomi\""
+
+#: core/controllers/upgrade.php:835
+msgid "Moving user custom fields from wp_options to wp_usermeta'"
+msgstr "Flyttar användarfält från wp_options till wp_usermeta"
+
+#: core/fields/_base.php:124 core/views/meta_box_location.php:74
+msgid "Basic"
+msgstr "Enkel"
+
+#: core/fields/checkbox.php:19 core/fields/taxonomy.php:319
+msgid "Checkbox"
+msgstr "Kryssruta"
+
+#: core/fields/checkbox.php:20 core/fields/radio.php:19
+#: core/fields/select.php:19 core/fields/true_false.php:20
+msgid "Choice"
+msgstr "Alternativ"
+
+#: core/fields/checkbox.php:146 core/fields/radio.php:144
+#: core/fields/select.php:177
+msgid "Choices"
+msgstr "Alternativ"
+
+#: core/fields/checkbox.php:147 core/fields/select.php:178
+msgid "Enter each choice on a new line."
+msgstr "Ange ett alternativ per rad"
+
+#: core/fields/checkbox.php:148 core/fields/select.php:179
+msgid "For more control, you may specify both a value and label like this:"
+msgstr "För mer kontroll kan du specificera både värde och etikett enligt:"
+
+#: core/fields/checkbox.php:149 core/fields/radio.php:150
+#: core/fields/select.php:180
+msgid "red : Red"
+msgstr "röd : Röd"
+
+#: core/fields/checkbox.php:149 core/fields/radio.php:151
+#: core/fields/select.php:180
+msgid "blue : Blue"
+msgstr "blå : Blå"
+
+#: core/fields/checkbox.php:166 core/fields/color_picker.php:89
+#: core/fields/email.php:106 core/fields/number.php:116
+#: core/fields/radio.php:193 core/fields/select.php:197
+#: core/fields/text.php:116 core/fields/textarea.php:96
+#: core/fields/true_false.php:94 core/fields/wysiwyg.php:187
+msgid "Default Value"
+msgstr "Standardvärde"
+
+#: core/fields/checkbox.php:167 core/fields/select.php:198
+msgid "Enter each default value on a new line"
+msgstr "Ange varje värde på en ny rad"
+
+#: core/fields/checkbox.php:183 core/fields/message.php:20
+#: core/fields/radio.php:209 core/fields/tab.php:20
+msgid "Layout"
+msgstr "Layout"
+
+#: core/fields/checkbox.php:194 core/fields/radio.php:220
+msgid "Vertical"
+msgstr "Vertikalt"
+
+#: core/fields/checkbox.php:195 core/fields/radio.php:221
+msgid "Horizontal"
+msgstr "Horisontellt"
+
+#: core/fields/color_picker.php:19
+msgid "Color Picker"
+msgstr "Färgväljare"
+
+#: core/fields/color_picker.php:20 core/fields/google-map.php:19
+#: core/fields/date_picker/date_picker.php:20
+msgid "jQuery"
+msgstr "jQuery"
+
+#: core/fields/dummy.php:19
+msgid "Dummy"
+msgstr "Dummy"
+
+#: core/fields/email.php:19
+msgid "Email"
+msgstr "E-post"
+
+#: core/fields/email.php:107 core/fields/number.php:117
+#: core/fields/text.php:117 core/fields/textarea.php:97
+#: core/fields/wysiwyg.php:188
+msgid "Appears when creating a new post"
+msgstr "Visas när ett nytt inlägg skapas"
+
+#: core/fields/email.php:123 core/fields/number.php:133
+#: core/fields/password.php:105 core/fields/text.php:131
+#: core/fields/textarea.php:111
+msgid "Placeholder Text"
+msgstr "Platshållartext"
+
+#: core/fields/email.php:124 core/fields/number.php:134
+#: core/fields/password.php:106 core/fields/text.php:132
+#: core/fields/textarea.php:112
+msgid "Appears within the input"
+msgstr "Visas inuti fältet"
+
+#: core/fields/email.php:138 core/fields/number.php:148
+#: core/fields/password.php:120 core/fields/text.php:146
+msgid "Prepend"
+msgstr "Lägg till före"
+
+#: core/fields/email.php:139 core/fields/number.php:149
+#: core/fields/password.php:121 core/fields/text.php:147
+msgid "Appears before the input"
+msgstr "Visas före fältet"
+
+#: core/fields/email.php:153 core/fields/number.php:163
+#: core/fields/password.php:135 core/fields/text.php:161
+msgid "Append"
+msgstr "Lägg till efter"
+
+#: core/fields/email.php:154 core/fields/number.php:164
+#: core/fields/password.php:136 core/fields/text.php:162
+msgid "Appears after the input"
+msgstr "Visas efter fältet"
+
+#: core/fields/file.php:19
+msgid "File"
+msgstr "Fil"
+
+#: core/fields/file.php:20 core/fields/image.php:20 core/fields/wysiwyg.php:36
+msgid "Content"
+msgstr "Innehåll"
+
+#: core/fields/file.php:26
+msgid "Select File"
+msgstr "Välj fil"
+
+#: core/fields/file.php:27
+msgid "Edit File"
+msgstr "Redigera fil"
+
+#: core/fields/file.php:28
+msgid "Update File"
+msgstr "Uppdatera fil"
+
+#: core/fields/file.php:29 core/fields/image.php:30
+msgid "uploaded to this post"
+msgstr "uppladdade till detta inlägg"
+
+#: core/fields/file.php:123
+msgid "No File Selected"
+msgstr "Ingen fil vald"
+
+#: core/fields/file.php:123
+msgid "Add File"
+msgstr "Lägg till fil"
+
+#: core/fields/file.php:153 core/fields/image.php:118
+#: core/fields/taxonomy.php:367
+msgid "Return Value"
+msgstr "Returvärde"
+
+#: core/fields/file.php:164
+msgid "File Object"
+msgstr "Filobjekt"
+
+#: core/fields/file.php:165
+msgid "File URL"
+msgstr "Filadress"
+
+#: core/fields/file.php:166
+msgid "File ID"
+msgstr "Filens ID"
+
+#: core/fields/file.php:175 core/fields/image.php:158
+msgid "Library"
+msgstr "Bibliotek"
+
+#: core/fields/file.php:187 core/fields/image.php:171
+msgid "Uploaded to post"
+msgstr "Uppladdade till detta inlägg"
+
+#: core/fields/google-map.php:18
+msgid "Google Map"
+msgstr "Google Map"
+
+#: core/fields/google-map.php:31
+msgid "Locating"
+msgstr "Söker plats"
+
+#: core/fields/google-map.php:32
+msgid "Sorry, this browser does not support geolocation"
+msgstr "Tyvärr saknar denna webbläsare stöd för platsinformation"
+
+#: core/fields/google-map.php:159
+msgid "Center"
+msgstr "Centrum"
+
+#: core/fields/google-map.php:160
+msgid "Center the initial map"
+msgstr "Kartans initiala centrum"
+
+#: core/fields/google-map.php:196
+msgid "Height"
+msgstr "Höjd"
+
+#: core/fields/google-map.php:197
+msgid "Customise the map height"
+msgstr "Skräddarsy kartans höjd"
+
+#: core/fields/image.php:19
+msgid "Image"
+msgstr "Bild"
+
+#: core/fields/image.php:27
+msgid "Select Image"
+msgstr "Välj bild"
+
+#: core/fields/image.php:28
+msgid "Edit Image"
+msgstr "Redigera bild"
+
+#: core/fields/image.php:29
+msgid "Update Image"
+msgstr "Uppdatera bild"
+
+#: core/fields/image.php:83
+msgid "Remove"
+msgstr "Radera"
+
+#: core/fields/image.php:84 core/views/meta_box_fields.php:108
+msgid "Edit"
+msgstr "Redigera"
+
+#: core/fields/image.php:90
+msgid "No image selected"
+msgstr "Ingen bild vald"
+
+#: core/fields/image.php:90
+msgid "Add Image"
+msgstr "Lägg till bild"
+
+#: core/fields/image.php:119 core/fields/relationship.php:570
+msgid "Specify the returned value on front end"
+msgstr "Välj vilken typ av värde som ska returneras"
+
+#: core/fields/image.php:129
+msgid "Image Object"
+msgstr "Bildobjekt"
+
+#: core/fields/image.php:130
+msgid "Image URL"
+msgstr "Bildadress"
+
+#: core/fields/image.php:131
+msgid "Image ID"
+msgstr "Bildens ID"
+
+#: core/fields/image.php:139
+msgid "Preview Size"
+msgstr "Förhandsvisningens storlek"
+
+#: core/fields/image.php:140
+msgid "Shown when entering data"
+msgstr "Visas vid inmatning"
+
+#: core/fields/image.php:159
+msgid "Limit the media library choice"
+msgstr "Begränsa urvalet i mediabiblioteket"
+
+#: core/fields/message.php:19 core/fields/message.php:70
+#: core/fields/true_false.php:79
+msgid "Message"
+msgstr "Meddelande"
+
+#: core/fields/message.php:71
+msgid "Text &amp; HTML entered here will appear inline with the fields"
+msgstr "Text och HTML som anges här visas tillsammans med fälten"
+
+#: core/fields/message.php:72
+msgid "Please note that all text will first be passed through the wp function "
+msgstr "Notera att all text först kommer att passera genom funktionen"
+
+#: core/fields/number.php:19
+msgid "Number"
+msgstr "Nummer"
+
+#: core/fields/number.php:178
+msgid "Minimum Value"
+msgstr "Minsta värde"
+
+#: core/fields/number.php:194
+msgid "Maximum Value"
+msgstr "Högsta värde"
+
+#: core/fields/number.php:210
+msgid "Step Size"
+msgstr "Stegvärde"
+
+#: core/fields/page_link.php:18
+msgid "Page Link"
+msgstr "Sidlänk"
+
+#: core/fields/page_link.php:19 core/fields/post_object.php:19
+#: core/fields/relationship.php:19 core/fields/taxonomy.php:19
+#: core/fields/user.php:19
+msgid "Relational"
+msgstr "Relation"
+
+#: core/fields/page_link.php:103 core/fields/post_object.php:268
+#: core/fields/relationship.php:589 core/fields/relationship.php:668
+#: core/views/meta_box_location.php:75
+msgid "Post Type"
+msgstr "Inläggstyp"
+
+#: core/fields/page_link.php:127 core/fields/post_object.php:317
+#: core/fields/select.php:214 core/fields/taxonomy.php:333
+#: core/fields/user.php:275
+msgid "Allow Null?"
+msgstr "Tillått nollvärde?"
+
+#: core/fields/page_link.php:148 core/fields/post_object.php:338
+#: core/fields/select.php:233
+msgid "Select multiple values?"
+msgstr "Välj multipla värden?"
+
+#: core/fields/password.php:19
+msgid "Password"
+msgstr "Lösenord"
+
+#: core/fields/post_object.php:18
+msgid "Post Object"
+msgstr "Inläggsobjekt"
+
+#: core/fields/post_object.php:292 core/fields/relationship.php:613
+msgid "Filter from Taxonomy"
+msgstr "Filtera från taxonomi"
+
+#: core/fields/radio.php:18
+msgid "Radio Button"
+msgstr "Alternativknapp"
+
+#: core/fields/radio.php:102 core/views/meta_box_location.php:91
+msgid "Other"
+msgstr "Annat"
+
+#: core/fields/radio.php:145
+msgid "Enter your choices one per line"
+msgstr "Ange ett värde per rad"
+
+#: core/fields/radio.php:147
+msgid "Red"
+msgstr "Röd"
+
+#: core/fields/radio.php:148
+msgid "Blue"
+msgstr "Blå"
+
+#: core/fields/radio.php:172
+msgid "Add 'other' choice to allow for custom values"
+msgstr "Lägg till värdet \"other\" för att tillåta egna värden"
+
+#: core/fields/radio.php:184
+msgid "Save 'other' values to the field's choices"
+msgstr "Spara \"other\"-värden till fältets alternativ"
+
+#: core/fields/relationship.php:18
+msgid "Relationship"
+msgstr "Relation"
+
+#: core/fields/relationship.php:29
+msgid "Maximum values reached ( {max} values )"
+msgstr "Maximalt antal värden nåddes ( maximalt {max} värden )"
+
+#: core/fields/relationship.php:425
+msgid "Search..."
+msgstr "Sök..."
+
+#: core/fields/relationship.php:436
+msgid "Filter by post type"
+msgstr "Filtrera inläggstyp"
+
+#: core/fields/relationship.php:569
+msgid "Return Format"
+msgstr "Returvärde"
+
+#: core/fields/relationship.php:580
+msgid "Post Objects"
+msgstr "Inläggsobjekt"
+
+#: core/fields/relationship.php:581
+msgid "Post IDs"
+msgstr "Inläggets ID"
+
+#: core/fields/relationship.php:647
+msgid "Search"
+msgstr "Sök"
+
+#: core/fields/relationship.php:648
+msgid "Post Type Select"
+msgstr "Välj inläggstyp"
+
+#: core/fields/relationship.php:656
+msgid "Elements"
+msgstr "Element"
+
+#: core/fields/relationship.php:657
+msgid "Selected elements will be displayed in each result"
+msgstr "Valda element visas i varje resultat"
+
+#: core/fields/relationship.php:666 core/views/meta_box_options.php:105
+msgid "Featured Image"
+msgstr "Utvald bild"
+
+#: core/fields/relationship.php:667
+msgid "Post Title"
+msgstr "Inläggstitel"
+
+#: core/fields/relationship.php:679
+msgid "Maximum posts"
+msgstr "Maximalt antal inlägg"
+
+#: core/fields/select.php:18 core/fields/select.php:109
+#: core/fields/taxonomy.php:324 core/fields/user.php:266
+msgid "Select"
+msgstr "Välj"
+
+#: core/fields/tab.php:19
+msgid "Tab"
+msgstr "Flik"
+
+#: core/fields/tab.php:68
+msgid ""
+"Use \"Tab Fields\" to better organize your edit screen by grouping your "
+"fields together under separate tab headings."
+msgstr ""
+"Använd \"flikfält\" för att bättre organisera redigeringsvyn genom att "
+"gruppera dina fält under separata flikar."
+
+#: core/fields/tab.php:69
+msgid ""
+"All the fields following this \"tab field\" (or until another \"tab field\" "
+"is defined) will be grouped together."
+msgstr ""
+"Alla fält efter detta \"flikfält\" (eller fram till nästa \"flikfält\") "
+"kommer att grupperas tillsammans."
+
+#: core/fields/tab.php:70
+msgid "Use multiple tabs to divide your fields into sections."
+msgstr "Använd flera flikar för att dela upp dina fält i sektioner."
+
+#: core/fields/taxonomy.php:18 core/fields/taxonomy.php:278
+msgid "Taxonomy"
+msgstr "Taxonomi"
+
+#: core/fields/taxonomy.php:222 core/fields/taxonomy.php:231
+msgid "None"
+msgstr "Ingen"
+
+#: core/fields/taxonomy.php:308 core/fields/user.php:251
+#: core/views/meta_box_fields.php:77 core/views/meta_box_fields.php:159
+msgid "Field Type"
+msgstr "Fälttyp"
+
+#: core/fields/taxonomy.php:318 core/fields/user.php:260
+msgid "Multiple Values"
+msgstr "Multipla värden"
+
+#: core/fields/taxonomy.php:320 core/fields/user.php:262
+msgid "Multi Select"
+msgstr "Flera värden"
+
+#: core/fields/taxonomy.php:322 core/fields/user.php:264
+msgid "Single Value"
+msgstr "Ett värde"
+
+#: core/fields/taxonomy.php:323
+msgid "Radio Buttons"
+msgstr "Alternativknappar"
+
+#: core/fields/taxonomy.php:352
+msgid "Load & Save Terms to Post"
+msgstr "Ladda eller spara termer till inlägg"
+
+#: core/fields/taxonomy.php:360
+msgid ""
+"Load value based on the post's terms and update the post's terms on save"
+msgstr ""
+"Ladda värde baserat på inläggets termer och uppdatera dessa när inlägget "
+"sparas"
+
+#: core/fields/taxonomy.php:377
+msgid "Term Object"
+msgstr "Termobjekt"
+
+#: core/fields/taxonomy.php:378
+msgid "Term ID"
+msgstr "Term-ID"
+
+#: core/fields/text.php:19
+msgid "Text"
+msgstr "Text"
+
+#: core/fields/text.php:176 core/fields/textarea.php:141
+msgid "Formatting"
+msgstr "Formatering"
+
+#: core/fields/text.php:177 core/fields/textarea.php:142
+msgid "Effects value on front end"
+msgstr "Påverkar hur värdet skrivs ut"
+
+#: core/fields/text.php:186 core/fields/textarea.php:151
+msgid "No formatting"
+msgstr "Ingen formatering"
+
+#: core/fields/text.php:187 core/fields/textarea.php:153
+msgid "Convert HTML into tags"
+msgstr "Konvertera HTML till taggar"
+
+#: core/fields/text.php:195 core/fields/textarea.php:126
+msgid "Character Limit"
+msgstr "Maximalt antal tecken"
+
+#: core/fields/text.php:196 core/fields/textarea.php:127
+msgid "Leave blank for no limit"
+msgstr "Lämna tomt för att inte begränsa"
+
+#: core/fields/textarea.php:19
+msgid "Text Area"
+msgstr "Textfält"
+
+#: core/fields/textarea.php:152
+msgid "Convert new lines into &lt;br /&gt; tags"
+msgstr "Konvertera radbrytnignar till &lt;br /&gt;-taggar"
+
+#: core/fields/true_false.php:19
+msgid "True / False"
+msgstr "Sant / Falskt"
+
+#: core/fields/true_false.php:80
+msgid "eg. Show extra content"
+msgstr "exempel: Visa extra innehåll"
+
+#: core/fields/user.php:18 core/views/meta_box_location.php:94
+msgid "User"
+msgstr "Användare"
+
+#: core/fields/user.php:224
+msgid "Filter by role"
+msgstr "Filtrera efter roll"
+
+#: core/fields/wysiwyg.php:35
+msgid "Wysiwyg Editor"
+msgstr "WYSIWYG-editor"
+
+#: core/fields/wysiwyg.php:202
+msgid "Toolbar"
+msgstr "Verktygsfält"
+
+#: core/fields/wysiwyg.php:234
+msgid "Show Media Upload Buttons?"
+msgstr "Visa knappar för mediauppladdning"
+
+#: core/fields/date_picker/date_picker.php:19
+msgid "Date Picker"
+msgstr "Datumväljare"
+
+#: core/fields/date_picker/date_picker.php:55
+msgid "Done"
+msgstr "Klar"
+
+#: core/fields/date_picker/date_picker.php:56
+msgid "Today"
+msgstr "Idag"
+
+#: core/fields/date_picker/date_picker.php:59
+msgid "Show a different month"
+msgstr "Visa en annan månad"
+
+#: core/fields/date_picker/date_picker.php:126
+msgid "Save format"
+msgstr "Lagringsformat"
+
+#: core/fields/date_picker/date_picker.php:127
+msgid ""
+"This format will determin the value saved to the database and returned via "
+"the API"
+msgstr ""
+"Detta format avgör hur värdet sparas i databasen och returneras via "
+"tilläggets API"
+
+#: core/fields/date_picker/date_picker.php:128
+msgid "\"yymmdd\" is the most versatile save format. Read more about"
+msgstr "\"yymmdd\" är det mest flexibla formatet. Läs mer om"
+
+#: core/fields/date_picker/date_picker.php:128
+#: core/fields/date_picker/date_picker.php:144
+msgid "jQuery date formats"
+msgstr "jQuery datumformat"
+
+#: core/fields/date_picker/date_picker.php:142
+msgid "Display format"
+msgstr "Visningsformat"
+
+#: core/fields/date_picker/date_picker.php:143
+msgid "This format will be seen by the user when entering a value"
+msgstr "Detta format är det som visas när användaren anger ett värde"
+
+#: core/fields/date_picker/date_picker.php:144
+msgid ""
+"\"dd/mm/yy\" or \"mm/dd/yy\" are the most used display formats. Read more "
+"about"
+msgstr "\"yy-mm-dd\" är set vanligaste visningsformatet. Läs mer om"
+
+#: core/fields/date_picker/date_picker.php:158
+msgid "Week Starts On"
+msgstr "Veckor börjar på"
+
+#: core/views/meta_box_fields.php:24
+msgid "New Field"
+msgstr "Nytt fält"
+
+#: core/views/meta_box_fields.php:58
+msgid "Field type does not exist"
+msgstr "Fälttypen finns inte"
+
+#: core/views/meta_box_fields.php:74
+msgid "Field Order"
+msgstr "Ordning på fält"
+
+#: core/views/meta_box_fields.php:75 core/views/meta_box_fields.php:127
+msgid "Field Label"
+msgstr "Fältetikett"
+
+#: core/views/meta_box_fields.php:76 core/views/meta_box_fields.php:143
+msgid "Field Name"
+msgstr "Fältnamn"
+
+#: core/views/meta_box_fields.php:78
+msgid "Field Key"
+msgstr "Fältnyckel"
+
+#: core/views/meta_box_fields.php:90
+msgid ""
+"No fields. Click the <strong>+ Add Field</strong> button to create your "
+"first field."
+msgstr ""
+"Inga fält. Klicka på knappen <strong>+ Lägg till fält</strong> för att skapa "
+"ditt första fält."
+
+#: core/views/meta_box_fields.php:105 core/views/meta_box_fields.php:108
+msgid "Edit this Field"
+msgstr "Redigera detta fält"
+
+#: core/views/meta_box_fields.php:109
+msgid "Read documentation for this field"
+msgstr "Läs dokumentationen för detta fält"
+
+#: core/views/meta_box_fields.php:109
+msgid "Docs"
+msgstr "Dokumentation"
+
+#: core/views/meta_box_fields.php:110
+msgid "Duplicate this Field"
+msgstr "Duplicera detta fält"
+
+#: core/views/meta_box_fields.php:110
+msgid "Duplicate"
+msgstr "Duplicera"
+
+#: core/views/meta_box_fields.php:111
+msgid "Delete this Field"
+msgstr "Radera detta fält"
+
+#: core/views/meta_box_fields.php:111
+msgid "Delete"
+msgstr "Radera"
+
+#: core/views/meta_box_fields.php:128
+msgid "This is the name which will appear on the EDIT page"
+msgstr "Detta namn kommer att visas i redigeringsvyn"
+
+#: core/views/meta_box_fields.php:144
+msgid "Single word, no spaces. Underscores and dashes allowed"
+msgstr "Ett ord utan mellanslag. Understreck och bindestreck är tillåtna"
+
+#: core/views/meta_box_fields.php:173
+msgid "Field Instructions"
+msgstr "Instruktioner för fält"
+
+#: core/views/meta_box_fields.php:174
+msgid "Instructions for authors. Shown when submitting data"
+msgstr "Instruktioner till författare. Visas när data anges"
+
+#: core/views/meta_box_fields.php:186
+msgid "Required?"
+msgstr "Obligatorisk?"
+
+#: core/views/meta_box_fields.php:209
+msgid "Conditional Logic"
+msgstr "Visningsvillkor"
+
+#: core/views/meta_box_fields.php:260 core/views/meta_box_location.php:117
+msgid "is equal to"
+msgstr "är lika med"
+
+#: core/views/meta_box_fields.php:261 core/views/meta_box_location.php:118
+msgid "is not equal to"
+msgstr "inte är lika med"
+
+#: core/views/meta_box_fields.php:279
+msgid "Show this field when"
+msgstr "Visa detta fält när"
+
+#: core/views/meta_box_fields.php:285
+msgid "all"
+msgstr "alla"
+
+#: core/views/meta_box_fields.php:286
+msgid "any"
+msgstr "någon"
+
+#: core/views/meta_box_fields.php:289
+msgid "these rules are met"
+msgstr "av dessa villkor uppfylls"
+
+#: core/views/meta_box_fields.php:303
+msgid "Close Field"
+msgstr "Stäng fält"
+
+#: core/views/meta_box_fields.php:316
+msgid "Drag and drop to reorder"
+msgstr "Dra och släpp för att ändra ordning"
+
+#: core/views/meta_box_fields.php:317
+msgid "+ Add Field"
+msgstr "+ Lägg till fält"
+
+#: core/views/meta_box_location.php:48
+msgid "Rules"
+msgstr "Regler"
+
+#: core/views/meta_box_location.php:49
+msgid ""
+"Create a set of rules to determine which edit screens will use these "
+"advanced custom fields"
+msgstr "Skapa regler för när redigeringsvyn ska visa dessa fält"
+
+#: core/views/meta_box_location.php:60
+msgid "Show this field group if"
+msgstr "Visa detta fält när"
+
+#: core/views/meta_box_location.php:76
+msgid "Logged in User Type"
+msgstr "Inloggad användartyp"
+
+#: core/views/meta_box_location.php:78 core/views/meta_box_location.php:79
+msgid "Page"
+msgstr "Sida"
+
+#: core/views/meta_box_location.php:80
+msgid "Page Type"
+msgstr "Sidtyp"
+
+#: core/views/meta_box_location.php:81
+msgid "Page Parent"
+msgstr "Sidans förälder"
+
+#: core/views/meta_box_location.php:82
+msgid "Page Template"
+msgstr "Sidmall"
+
+#: core/views/meta_box_location.php:84 core/views/meta_box_location.php:85
+msgid "Post"
+msgstr "Inlägg"
+
+#: core/views/meta_box_location.php:86
+msgid "Post Category"
+msgstr "Inläggskategori"
+
+#: core/views/meta_box_location.php:87
+msgid "Post Format"
+msgstr "Inläggsformat"
+
+#: core/views/meta_box_location.php:88
+msgid "Post Status"
+msgstr "Status"
+
+#: core/views/meta_box_location.php:89
+msgid "Post Taxonomy"
+msgstr "Inläggstaxonomi"
+
+#: core/views/meta_box_location.php:92
+msgid "Attachment"
+msgstr "Bilaga"
+
+#: core/views/meta_box_location.php:93
+msgid "Term"
+msgstr "Term"
+
+#: core/views/meta_box_location.php:146
+msgid "and"
+msgstr "och"
+
+#: core/views/meta_box_location.php:161
+msgid "Add rule group"
+msgstr "Lägg till regelgrupp"
+
+#: core/views/meta_box_options.php:25
+msgid "Order No."
+msgstr "Ordernr."
+
+#: core/views/meta_box_options.php:26
+msgid "Field groups are created in order <br />from lowest to highest"
+msgstr "Fältgrupper skapas i ordning, <br />från lägsta till högsta"
+
+#: core/views/meta_box_options.php:42
+msgid "Position"
+msgstr "Plats"
+
+#: core/views/meta_box_options.php:52
+msgid "High (after title)"
+msgstr "Hög (efter titeln)"
+
+#: core/views/meta_box_options.php:53
+msgid "Normal (after content)"
+msgstr "Normal (efter innehållet)"
+
+#: core/views/meta_box_options.php:54
+msgid "Side"
+msgstr "Sidopanel"
+
+#: core/views/meta_box_options.php:64
+msgid "Style"
+msgstr "Stil"
+
+#: core/views/meta_box_options.php:74
+msgid "No Metabox"
+msgstr "Ingen metabox"
+
+#: core/views/meta_box_options.php:75
+msgid "Standard Metabox"
+msgstr "Vanlig metabox"
+
+#: core/views/meta_box_options.php:84
+msgid "Hide on screen"
+msgstr "Dölj på sida"
+
+#: core/views/meta_box_options.php:85
+msgid "<b>Select</b> items to <b>hide</b> them from the edit screen"
+msgstr "<b>Välj</b> objekt för att <b>dölja</b> dem från redigeringsvyn"
+
+#: core/views/meta_box_options.php:86
+msgid ""
+"If multiple field groups appear on an edit screen, the first field group's "
+"options will be used. (the one with the lowest order number)"
+msgstr ""
+"Om flera fältgrupper visas i redigeringsvyn kommer första gruppens "
+"inställningar att användas (den med lägst ordningsnummer)"
+
+#: core/views/meta_box_options.php:96
+msgid "Content Editor"
+msgstr "Innehållseditor"
+
+#: core/views/meta_box_options.php:97
+msgid "Excerpt"
+msgstr "Utdrag"
+
+#: core/views/meta_box_options.php:99
+msgid "Discussion"
+msgstr "Diskussion"
+
+#: core/views/meta_box_options.php:100
+msgid "Comments"
+msgstr "Kommentarer"
+
+#: core/views/meta_box_options.php:101
+msgid "Revisions"
+msgstr "Revisioner"
+
+#: core/views/meta_box_options.php:102
+msgid "Slug"
+msgstr "Permalänk"
+
+#: core/views/meta_box_options.php:103
+msgid "Author"
+msgstr "Författare"
+
+#: core/views/meta_box_options.php:104
+msgid "Format"
+msgstr "Format"
+
+#: core/views/meta_box_options.php:106
+msgid "Categories"
+msgstr "Kategorier"
+
+#: core/views/meta_box_options.php:107
+msgid "Tags"
+msgstr "Etiketter"
+
+#: core/views/meta_box_options.php:108
+msgid "Send Trackbacks"
+msgstr "Skicka trackbacks"
+
+#~ msgid "This row"
+#~ msgstr "Denna rad"
+
+#~ msgid ""
+#~ "/**\n"
+#~ " *  Install Add-ons\n"
+#~ " *  \n"
+#~ " *  The following code will include all 4 premium Add-Ons in your theme.\n"
+#~ " *  Please do not attempt to include a file which does not exist. This "
+#~ "will produce an error.\n"
+#~ " *  \n"
+#~ " *  The following code assumes you have a folder 'add-ons' inside your "
+#~ "theme.\n"
+#~ " *\n"
+#~ " *  IMPORTANT\n"
+#~ " *  Add-ons may be included in a premium theme/plugin as outlined in the "
+#~ "terms and conditions.\n"
+#~ " *  For more information, please read:\n"
+#~ " *  - http://www.advancedcustomfields.com/terms-conditions/\n"
+#~ " *  - http://www.advancedcustomfields.com/resources/getting-started/"
+#~ "including-lite-mode-in-a-plugin-theme/\n"
+#~ " */"
+#~ msgstr ""
+#~ "/**\n"
+#~ " *  Installera tillägg\n"
+#~ " *  \n"
+#~ " *  Följande kod kommer att inkludera samtliga fyra premiumtillägg i ditt "
+#~ "tema.\n"
+#~ " *  Vänligen inkludera inte filer som inte existerar. Detta kommer att "
+#~ "resultera i ett felmeddelande.\n"
+#~ " *  \n"
+#~ " *  Koden antar att du har mappen 'add-ons' i ditt tema.\n"
+#~ " *\n"
+#~ " *  VIKTIGT\n"
+#~ " *  Tillägg kan inkluderas i premiumteman och plugins enligt villkoren.\n"
+#~ " *  För mer information, läs följande:\n"
+#~ " *  Läs följande sida för mer information: http://www."
+#~ "advancedcustomfields.com/terms-conditions/\n"
+#~ " *  - http://www.advancedcustomfields.com/terms-conditions/\n"
+#~ " *  - http://www.advancedcustomfields.com/resources/getting-started/"
+#~ "including-lite-mode-in-a-plugin-theme/\n"
+#~ " */"
+
+#~ msgid ""
+#~ "/**\n"
+#~ " *  Register Field Groups\n"
+#~ " *\n"
+#~ " *  The register_field_group function accepts 1 array which holds the "
+#~ "relevant data to register a field group\n"
+#~ " *  You may edit the array as you see fit. However, this may result in "
+#~ "errors if the array is not compatible with ACF\n"
+#~ " */"
+#~ msgstr ""
+#~ "/**\n"
+#~ " *  Registrera fältgrupper\n"
+#~ " *\n"
+#~ " *  Funktionen register_field_group tar emot en array som innehåller "
+#~ "inställningarna för samtliga fältgrupper.\n"
+#~ " *  Du kan redigera denna array fritt. Detta kan dock leda till fel om "
+#~ "ändringarna inte är kompatibla med ACF.\n"
+#~ " */"
+
+#~ msgid "Normal"
+#~ msgstr "Normal"
+
+#~ msgid "Taxonomy Term (Add / Edit)"
+#~ msgstr "Taxonomiterm (Lägg till / Redigera)"
+
+#~ msgid "User (Add / Edit)"
+#~ msgstr "Användare (Lägg till / Redigera)"
+
+#~ msgid "Media Attachment (Add / Edit)"
+#~ msgstr "Mediabilaga (Lägg till / Redigera)"
+
+#~ msgid "Min"
+#~ msgstr "Min"
+
+#~ msgid "Specifies the minimum value allowed"
+#~ msgstr "Bestämmer det minsta tillåtna värdet"
+
+#~ msgid "Max"
+#~ msgstr "Max"
+
+#~ msgid "Specifies the maximim value allowed"
+#~ msgstr "Bestämmer det högsta tillåtna värdet"
+
+#~ msgid "Specifies the legal number intervals"
+#~ msgstr "Bestämmer intervaller mellan tillåtna värden"
+
+#~ msgid "eg: #ffffff"
+#~ msgstr "exempel: #ffffff"
+
+#~ msgid "Define how to render html tags"
+#~ msgstr "Välj hur HTML-taggar renderas"
+
+#~ msgid "HTML"
+#~ msgstr "HTML"
+
+#~ msgid "Define how to render html tags / new lines"
+#~ msgstr "Välj hur HTML-taggar och radbrytningar renderas"
+
+#~ msgid "auto &lt;br /&gt;"
+#~ msgstr "automatiskt &lt;br /&gt;"
+
+#~ msgid "File Updated."
+#~ msgstr "Filen uppdaterad."
+
+#~ msgid "Media attachment updated."
+#~ msgstr "Mediabilagan uppdaterades."
+
+#~ msgid "No files selected"
+#~ msgstr "Inga filer valda"
+
+#~ msgid "Add Selected Files"
+#~ msgstr "Lägg till valda filer"
+
+#~ msgid "Image Updated."
+#~ msgstr "Bild uppdaterades."
+
+#~ msgid "No images selected"
+#~ msgstr "Inga bilder valda"
+
+#~ msgid "Add Selected Images"
+#~ msgstr "Lägg till valda bilder"
+
+#~ msgid "new_field"
+#~ msgstr "nytt_falt"
+
+#~ msgid "Unlock options add-on with an activation code"
+#~ msgstr "Lås upp inställnignstillägg med en aktiveringskod"

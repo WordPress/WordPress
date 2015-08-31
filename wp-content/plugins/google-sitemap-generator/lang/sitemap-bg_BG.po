@@ -1,0 +1,827 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: sitemap 3.1.1\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2009-03-02 13:53+0200\n"
+"Last-Translator: Alexander Dichev <http://dichev.com/contact/>\n"
+"Language-Team: Alexander Dichev <http://dichev.com/contact/>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Bulgarian\n"
+"X-Poedit-Country: BULGARIA\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-core.php:642
+msgid "Comment Count"
+msgstr "Брой Коментари"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-core.php:654
+msgid "Uses the number of comments of the post to calculate the priority"
+msgstr "Използва броя на коментарите при калкулиране на приоритета на поста"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-core.php:714
+msgid "Comment Average"
+msgstr "Коментари Средно"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-core.php:726
+msgid "Uses the average comment count to calculate the priority"
+msgstr "Използва средния брой на коментарите при калкулиране на приоритета"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-core.php:789
+msgid "Popularity Contest"
+msgstr "Popularity Contest"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-core.php:801
+msgid "Uses the activated <a href=\"%1\">Popularity Contest Plugin</a> from <a href=\"%2\">Alex King</a>. See <a href=\"%3\">Settings</a> and <a href=\"%4\">Most Popular Posts</a>"
+msgstr "Използва активиран <a href=\"%1\">Popularity Contest Plugin</a> от <a href=\"%2\">Alex King</a>. Виж <a href=\"%3\">Настройки</a> и <a href=\"%4\">Най-популярните постове</a>."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap-core.php:1118
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-core.php:1209
+msgid "Always"
+msgstr "Винаги"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap-core.php:1119
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-core.php:1210
+msgid "Hourly"
+msgstr "Ежечасно"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap-core.php:1120
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-core.php:1211
+msgid "Daily"
+msgstr "Ежедневно"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap-core.php:1121
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-core.php:1212
+msgid "Weekly"
+msgstr "Ежеседмично"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap-core.php:1122
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-core.php:1213
+msgid "Monthly"
+msgstr "Ежемесечно"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap-core.php:1123
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-core.php:1214
+msgid "Yearly"
+msgstr "Ежегодно"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap-core.php:1124
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-core.php:1215
+msgid "Never"
+msgstr "Никога"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:102
+msgid "Thank you very much for your donation. You help me to continue support and development of this plugin and other free software!"
+msgstr "Благодаря Ви много за дарението. Вие ми помагате да продължа развитието и поддръжката на този плъгин и на други безплатни приложения и софтуер."
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:102
+msgid "Hide this notice"
+msgstr "Скриване на съобщението"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:108
+#, php-format
+msgid "Thanks for using this plugin! You've installed this plugin over a month ago. If it works and your are satisfied with the results, isn't it worth at least one dollar? <a href=\"%s\">Donations</a> help me to continue support and development of this <i>free</i> software! <a href=\"%s\">Sure, no problem!</a>"
+msgstr "Благодаря Ви, че използвате този плъгин! Вие сте инсталирали и използвате този плъгин повече от месец. Ако работи добре и сте доволни от резултата, не си ли заслужава поне един долар? <a href=\"%s\">Даренията</a> ми помагат да продължа развитието и поддръжката на този <i>безплатен</i> софтуер! <a href=\"%s\">Разбира се, няма проблеми!</a> "
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:108
+msgid "No thanks, please don't bug me anymore!"
+msgstr "Не благодаря, моля, не ме безпокойте повече!"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap-ui.php:67
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:119
+msgid "Your sitemap is being refreshed at the moment. Depending on your blog size this might take some time!"
+msgstr "Вашата карта на сайта се обновява в момента. В зависимост от големината на блога, това би коствало известно време."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap-ui.php:69
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:121
+#, php-format
+msgid "Your sitemap will be refreshed in %s seconds. Depending on your blog size this might take some time!"
+msgstr "Вашата карта на сайта ще бъде обновена след %s секунди. В зависимост от големината на блога, това би коствало известно време."
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:146
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:441
+msgid "XML Sitemap Generator for WordPress"
+msgstr "XML Sitemap Генератор за WordPress"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:278
+msgid "Configuration updated"
+msgstr "Конфигурацията е обновена"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:279
+msgid "Error while saving options"
+msgstr "Грешка при запазване на настройките"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:281
+msgid "Pages saved"
+msgstr "Страниците са запаметени"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:282
+msgid "Error while saving pages"
+msgstr "Грешка при запаметяване на страниците"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:286
+#, php-format
+msgid "<a href=\"%s\">Robots.txt</a> file saved"
+msgstr "Файла <a href=\"%s\">Robots.txt</a> е запазен"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:288
+msgid "Error while saving Robots.txt file"
+msgstr "Грешка при запазването на файла robots.txt"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:297
+msgid "The default configuration was restored."
+msgstr "Стандартните настройки са възстановени"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap-ui.php:374
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:454
+#, php-format
+msgid "There is a new version of %1$s available. <a href=\"%2$s\">Download version %3$s here</a>."
+msgstr "Има нова версия на %1$s. <a href=\"%2$s\">Изтеглете версия %3$s тук</a>."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap-ui.php:376
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:456
+#, php-format
+msgid "There is a new version of %1$s available. <a href=\"%2$s\">Download version %3$s here</a> <em>automatic upgrade unavailable for this plugin</em>."
+msgstr "Има нова версия на %1$s. <a href=\"%2$s\">Изтегли версия %3$s тук</a> <em>невъзможно е автоматично обновяване за това разширение</em>."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap-ui.php:378
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:458
+#, php-format
+msgid "There is a new version of %1$s available. <a href=\"%2$s\">Download version %3$s here</a> or <a href=\"%4$s\">upgrade automatically</a>."
+msgstr "Има нова версия на %1$s. <a href=\"%2$s\">Изтегли версия %3$s тук</a> илиr <a href=\"%4$s\">обнови автоматично</a>."
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:481
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:498
+msgid "open"
+msgstr "отвори"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:482
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:499
+msgid "close"
+msgstr "затвори"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:483
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:500
+msgid "click-down and drag to move this box"
+msgstr "кликнете с мишката върху кутията и провлачете за да я преместите"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:484
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:501
+msgid "click to %toggle% this box"
+msgstr "кликнете за да %toggle% кутията"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:485
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:502
+msgid "use the arrow keys to move this box"
+msgstr "използвайте бутоните със стрелките за преместване на кутията"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:486
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:503
+msgid ", or press the enter key to %toggle% it"
+msgstr ", или натиснете бутона Enter за да го %toggle%"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:521
+msgid "About this Plugin:"
+msgstr "За плъгина:"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:522
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap.php:138
+msgid "Plugin Homepage"
+msgstr "Страница на плъгина"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap-ui.php:421
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:523
+msgid "Suggest a Feature"
+msgstr "Предложи Нова Възможност"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:524
+msgid "Notify List"
+msgstr "E-Mail абонамент за обновяванията"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:525
+msgid "Support Forum"
+msgstr "Форуми за помощ"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap-ui.php:424
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:526
+msgid "Report a Bug"
+msgstr "Докладвай за Бъг"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:528
+msgid "Donate with PayPal"
+msgstr "Дарение с PayPal"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:529
+msgid "My Amazon Wish List"
+msgstr "Моят списък с желания от Amazon"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:530
+msgid "translator_name"
+msgstr "Alexander Dichev"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:530
+msgid "translator_url"
+msgstr "http://dichev.com/"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:533
+msgid "Sitemap Resources:"
+msgstr "Sitemap Ресурси:"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:534
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:540
+msgid "Webmaster Tools"
+msgstr "Webmaster Tools"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:535
+msgid "Webmaster Blog"
+msgstr "Webmaster Blog"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:537
+msgid "Site Explorer"
+msgstr "Site Explorer"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:538
+msgid "Search Blog"
+msgstr "Search Blog"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:541
+msgid "Webmaster Center Blog"
+msgstr "Webmaster Center Blog"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:543
+msgid "Sitemaps Protocol"
+msgstr "Sitemaps Протокол"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:544
+msgid "Official Sitemaps FAQ"
+msgstr "Официални Често Задавани Въпроси"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:545
+msgid "My Sitemaps FAQ"
+msgstr "Моите Често Задавани Въпроси"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:548
+msgid "Recent Donations:"
+msgstr "Последни Дарения;"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:552
+msgid "List of the donors"
+msgstr "Списък на дарителите"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:554
+msgid "Hide this list"
+msgstr "Скрийте този списък"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:557
+msgid "Thanks for your support!"
+msgstr "Благодаря за помощта!"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:575
+msgid "Status"
+msgstr "Статус"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:583
+#, php-format
+msgid "The sitemap wasn't built yet. <a href=\"%s\">Click here</a> to build it the first time."
+msgstr "Все още не е създаден sitemap-файл. От <a href=\"%s\">тази връзка</a> генерирайте карта на сайта за първи път."
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:589
+msgid "Your <a href=\"%url%\">sitemap</a> was last built on <b>%date%</b>."
+msgstr "Вашият <a href=\"%url%\">sitemap-файл</a> беше създаден успешно на <b>%date%</b>."
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:591
+msgid "There was a problem writing your sitemap file. Make sure the file exists and is writable. <a href=\"%url%\">Learn more</a"
+msgstr "Имаше проблем при записването на sitemap-файла. Моля, уверете се, че файла е разрешен за презаписване. <a href=\"%url%\">Повече информация</a>."
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:598
+msgid "Your sitemap (<a href=\"%url%\">zipped</a>) was last built on <b>%date%</b>."
+msgstr "Вашият <a href=\"%url%\">архивиран sitemap-файл</a> беше създаден успешно на <b>%date%</b>."
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:600
+msgid "There was a problem writing your zipped sitemap file. Make sure the file exists and is writable. <a href=\"%url%\">Learn more</a"
+msgstr "Имаше проблем при записването на архивирания sitemap-файл. Моля, уверете се, че файла е разрешен за презаписване. <a href=\"%url%\">Повече информация</a>."
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:606
+msgid "Google was <b>successfully notified</b> about changes."
+msgstr "Google беше <b>уведомен успешно</b> за промените в блога."
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:609
+msgid "It took %time% seconds to notify Google, maybe you want to disable this feature to reduce the building time."
+msgstr "Отне %time% секунди за уведомяването на Google ако желаете да намалите времето за генериране можете да деактивирате тази функция."
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:612
+#, php-format
+msgid "There was a problem while notifying Google. <a href=\"%s\">View result</a>"
+msgstr "Имаше проблем с уведомяването на Google. <a href=\"%s\">Виж резултата</a>"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:618
+msgid "YAHOO was <b>successfully notified</b> about changes."
+msgstr "YAHOO беше <b>уведомен успешно</b> за промените в блога."
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:621
+msgid "It took %time% seconds to notify YAHOO, maybe you want to disable this feature to reduce the building time."
+msgstr "Отне %time% секунди за уведомяването на YAHOO ако желаете да намалите времето за генериране можете да деактивирате тази функция."
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:624
+#, php-format
+msgid "There was a problem while notifying YAHOO. <a href=\"%s\">View result</a>"
+msgstr "Имаше проблем с уведомяването на YAHOO. <a href=\"%s\">Виж резултата</a>"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:630
+msgid "MSN was <b>successfully notified</b> about changes."
+msgstr "MSN беше <b>уведомен успешно</b> за промените в блога."
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:633
+msgid "It took %time% seconds to notify MSN.com, maybe you want to disable this feature to reduce the building time."
+msgstr "Отне %time% секунди за уведомяването на MSN.com, ако желаете да намалите времето за генериране можете да деактивирате тази функция."
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:636
+#, php-format
+msgid "There was a problem while notifying MSN.com. <a href=\"%s\">View result</a>"
+msgstr "Имаше проблем с уведомяването на MSN.com. <a href=\"%s\">Виж резултата</a>"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:642
+msgid "Ask.com was <b>successfully notified</b> about changes."
+msgstr "Ask.com беше <b>уведомен успешно</b> за промените в блога."
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:645
+msgid "It took %time% seconds to notify Ask.com, maybe you want to disable this feature to reduce the building time."
+msgstr "Отне %time% секунди за уведомяването на Ask.com ако желаете да намалите времето за генериране можете да деактивирате тази функция."
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:648
+#, php-format
+msgid "There was a problem while notifying Ask.com. <a href=\"%s\">View result</a>"
+msgstr "Имаше проблем с уведомяването на Ask.com. <a href=\"%s\">Виж резултата</a>"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:656
+msgid "The building process took about <b>%time% seconds</b> to complete and used %memory% MB of memory."
+msgstr "Генерирането на sitemap-а отне <b>%time% секунди</b> и беше използвана %memory% MB памет."
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:658
+msgid "The building process took about <b>%time% seconds</b> to complete."
+msgstr "Процесът на генериране отне <b>%time% секунди</b>."
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:662
+msgid "The content of your sitemap <strong>didn't change</strong> since the last time so the files were not written and no search engine was pinged."
+msgstr "Съдържанието на картата на сайта Ви <strong>не е променено</strong> от последния път, затова файлове не бяха създадени и не бяха ping-нати търсачки."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap-ui.php:586
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:670
+msgid "The building process might still be active! Reload the page in a few seconds and check if something has changed."
+msgstr "Възможно е процесът по изграждане все още да не е приключил. Презареди страницата след няколко секунди и провери за промяна."
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:673
+msgid "The last run didn't finish! Maybe you can raise the memory or time limit for PHP scripts. <a href=\"%url%\">Learn more</a>"
+msgstr "Последният опит на генериране на карта на сайта приключи неуспешно! Можете да опитате да увеличите максимума използвана памет и лимита за време на изпълнение на PHP-скриптове на Вашия уеб-сървър. <a href=\"%url%\">Повече информация</a>."
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:675
+msgid "The last known memory usage of the script was %memused%MB, the limit of your server is %memlimit%."
+msgstr "Последното регистрирано количество използвана от скрипта памет е %memused%MB, лимита за използвана памет от PHP-скриптове, зададен в конфигурацията на Вашия уеб-сървър е %memlimit%MB."
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:679
+msgid "The last known execution time of the script was %timeused% seconds, the limit of your server is %timelimit% seconds."
+msgstr "Последното регистрирано време за изпълнение на скрипта беше %timeused% секунди, лимита за продължителност на изпълнение на PHP-скриптове зададен в конфигурацията на Вашия уеб-сървър е %timelimit% секунди."
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:683
+msgid "The script stopped around post number %lastpost% (+/- 100)"
+msgstr "Изпълнението на този скрипт спря около пост номер %lastpost% (+/- 100)."
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:686
+#, php-format
+msgid "If you changed something on your server or blog, you should <a href=\"%s\">rebuild the sitemap</a> manually."
+msgstr "Ако сте направили някакви промени по сървъра или блога е необходимо да <a href=\"%s\">Регенерирате Sitemap-а</a> ръчно."
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:688
+#, php-format
+msgid "If you encounter any problems with the build process you can use the <a href=\"%d\">debug function</a> to get more information."
+msgstr "Ако изпитвате проблеми при създаването на файла можете да активирате <a href=\"%d\">Дебъг Функцията</a> за да получите повече информация за грешките."
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:695
+msgid "Basic Options"
+msgstr "Основни Настройки"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:697
+msgid "Sitemap files:"
+msgstr "Sitemap файлове:"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:697
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:712
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:732
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:765
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:782
+msgid "Learn more"
+msgstr "Повече информация"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:702
+msgid "Write a normal XML file (your filename)"
+msgstr "Генерирай нормален XML файл (име на файла)"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:708
+msgid "Write a gzipped file (your filename + .gz)"
+msgstr "Генерирай архивирана версия  (име_на_файла + .gz)"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:712
+msgid "Building mode:"
+msgstr "Метод на генериране:"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:717
+msgid "Rebuild sitemap if you change the content of your blog"
+msgstr "Регенерирай sitemap-а при промяна в съдържанието на блога"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:724
+msgid "Enable manual sitemap building via GET Request"
+msgstr "Активиране на ръчно генериране на sitemap-файла чрез изпращане на GET заявка"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:728
+msgid "This will allow you to refresh your sitemap if an external tool wrote into the WordPress database without using the WordPress API. Use the following URL to start the process: <a href=\"%1\">%1</a> Please check the logfile above to see if sitemap was successfully built."
+msgstr "Това прави възможно регенериране на sitemap-а ако външен инструмент е внесъл промени в базата данни на WordPress без да изпозва WordPress API. Активирайте процеса от тази връзка: <a href=\"%1\">%1</a>. Моля, проверете log-файла по-горе за да разжерете дали sitemap-а е генериран успешно."
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:732
+msgid "Update notification:"
+msgstr "Уведомяване при обновяване:"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:736
+msgid "Notify Google about updates of your Blog"
+msgstr "Уведомяване на Google при обновяване на блога Ви"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:737
+#, php-format
+msgid "No registration required, but you can join the <a href=\"%s\">Google Webmaster Tools</a> to check crawling statistics."
+msgstr "Не е необходима регистрация, но трябва да се включите в <a href=\"%s\">Google Webmaster Tools</a> за да проверите статистиката от посещенията на търсачката на сайта ви."
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:741
+msgid "Notify MSN Live Search about updates of your Blog"
+msgstr "Уведомяване на MSN Live Search при обновяване на блога Ви"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:742
+#, php-format
+msgid "No registration required, but you can join the <a href=\"%s\">MSN Live Webmaster Tools</a> to check crawling statistics."
+msgstr "Не е необходима регистрация, но трябва да се включите в <a href=\"%s\">MSN Live Webmaster Tools</a> за да проверите статистиката от посещенията на търсачката на сайта ви."
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:746
+msgid "Notify Ask.com about updates of your Blog"
+msgstr "Уведомяване на Ask.com за обновявания на блога Ви"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:747
+msgid "No registration required."
+msgstr "Не е необходима регистрация."
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:751
+msgid "Notify YAHOO about updates of your Blog"
+msgstr "Уведомяване на YAHOO за обновявания на блога Ви"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3154
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:752
+msgid "Your Application ID:"
+msgstr "Вашето Application ID:"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3155
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:753
+#, php-format
+msgid "Don't you have such a key? <a href=\"%s1\">Request one here</a>! %s2"
+msgstr "Нямате ли ключ? <a href=\"%s1\">Заявете си от тук</a>! %s2"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:760
+#, php-format
+msgid "Modify or create %s file in blog root which contains the sitemap location."
+msgstr "Обновяване или създаване на факл %s в главната директория на блога, която се намира местоположението на картата на сайта."
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:763
+msgid "File permissions: "
+msgstr "Права върху файла:"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:768
+msgid "OK, robots.txt is writable."
+msgstr "OK, robots.txt е разрешен за промяна."
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:770
+msgid "Error, robots.txt is not writable."
+msgstr "Грешка, robots.txt е заключен за промяна."
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:774
+msgid "OK, robots.txt doesn't exist but the directory is writable."
+msgstr "OK, robots.txt не съществува, но директорията е разрешена за писане."
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:776
+msgid "Error, robots.txt doesn't exist and the directory is not writable"
+msgstr "Грешка, robots.txt не съществува и директорията не е разрешена за писане"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:782
+msgid "Advanced options:"
+msgstr "Допълнителни настройки:"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:785
+msgid "Limit the number of posts in the sitemap:"
+msgstr "Ограничи броя на постовете в sitemap-а:"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:785
+msgid "Newer posts will be included first"
+msgstr "Новите постове ще бъдат включени първо"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:788
+msgid "Try to increase the memory limit to:"
+msgstr "При възможност увеличи лимита на паметта на:"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:788
+msgid "e.g. \"4M\", \"16M\""
+msgstr "например \"4M\", \"16M\""
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:791
+msgid "Try to increase the execution time limit to:"
+msgstr "При възможност увеличи времето за изпълнение на:"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:791
+msgid "in seconds, e.g. \"60\" or \"0\" for unlimited"
+msgstr "секунди, например \"60\" или \"0\" без ограничение"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:795
+msgid "Include a XSLT stylesheet:"
+msgstr "Добави XSLT Stylesheet:"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:796
+msgid "Full or relative URL to your .xsl file"
+msgstr "Абсолютен или относителен URL до Вашия .xsl файл"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:796
+msgid "Use default"
+msgstr "Използвай Стандартните"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3152
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:801
+msgid "Enable MySQL standard mode. Use this only if you're getting MySQL errors. (Needs much more memory!)"
+msgstr "Активиране на MySQL Standard метод. Използва се само при получаване на MySQL грешки. (Използва доста повече памет!)"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3166
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:807
+msgid "Build the sitemap in a background process (You don't have to wait when you save a post)"
+msgstr "Генерирай картата на сайта на заден план (Няма да е необходимо да се чака при запазване на пост)"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:814
+msgid "Additional pages"
+msgstr "Допълнителни страници"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:817
+msgid "Here you can specify files or URLs which should be included in the sitemap, but do not belong to your Blog/WordPress.<br />For example, if your domain is www.foo.com and your blog is located on www.foo.com/blog you might want to include your homepage at www.foo.com"
+msgstr "Тук можете да определите файлове или URL-и, които да бъдат добавени в картата на сайта, въпреки, че не са част от блога/WordPress.<br />Например, ако домейнът Ви е www.foo.com и блогът Ви се намира на www.foo.com/blog, може да добавите заглавната страница на сайта си  http://www.foo.com"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:819
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:998
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:1012
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:1021
+msgid "Note"
+msgstr "Забележка"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:820
+msgid "If your blog is in a subdirectory and you want to add pages which are NOT in the blog directory or beneath, you MUST place your sitemap file in the root directory (Look at the &quot;Location of your sitemap file&quot; section on this page)!"
+msgstr "Ако блогът Ви се намира в поддиректория и Вие желаете да включите страници, които НЕ са в директорията на блога, вие ТРЯБВА да локализирате Вашия sitemap-файл в главната директория (Виж секцията &quot;Местонахождение на sitemap-файла&quot;)!"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:822
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:861
+msgid "URL to the page"
+msgstr "URL на страницата"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:823
+msgid "Enter the URL to the page. Examples: http://www.foo.com/index.html or www.foo.com/home "
+msgstr "Въведете URL на страницата. Примери: http://www.foo.com/index.html или www.foo.com/home "
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:825
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:862
+msgid "Priority"
+msgstr "Приоритет"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:826
+msgid "Choose the priority of the page relative to the other pages. For example, your homepage might have a higher priority than your imprint."
+msgstr "Изберете приоритета на страницата в зависимост от другите страници. Например, Вашата заглавна страница може да има по-висок приоритет от страницата Ви за контакт."
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:828
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:864
+msgid "Last Changed"
+msgstr "Последна Промяна"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:829
+msgid "Enter the date of the last change as YYYY-MM-DD (2005-12-31 for example) (optional)."
+msgstr "Въведете датата на последното обновяване във вида (например 2005-12-31) (незадължително)"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:863
+msgid "Change Frequency"
+msgstr "Честота на Обновяване"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:865
+msgid "#"
+msgstr "#"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:870
+msgid "No pages defined."
+msgstr "Няма дефинирани страници."
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:875
+msgid "Add new page"
+msgstr "Добавяне на нова страница"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:880
+msgid "Post Priority"
+msgstr "Приоритет на Поста"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:882
+msgid "Please select how the priority of each post should be calculated:"
+msgstr "Моля, изберете начин на калкулиране на приоритета на постовете"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:884
+msgid "Do not use automatic priority calculation"
+msgstr "Не използвай авто-калкулиране на приоритета"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:884
+msgid "All posts will have the same priority which is defined in &quot;Priorities&quot;"
+msgstr "Всички постове ще имат еднакъв приоритет, който е дефиниран в &quot;Приоритети&quot;"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:895
+msgid "Location of your sitemap file"
+msgstr "Път до sitemap-файла"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:898
+msgid "Automatic detection"
+msgstr "Автоматично разпознаване"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:902
+msgid "Filename of the sitemap file"
+msgstr "Име на sitemap-файла"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:905
+msgid "Detected Path"
+msgstr "Намерен път"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:905
+msgid "Detected URL"
+msgstr "Намерен URL"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:910
+msgid "Custom location"
+msgstr "Друго местонахождение"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:914
+msgid "Absolute or relative path to the sitemap file, including name."
+msgstr "Абсолютен и относителен път до sitemap-файла, включително името."
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:916
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:925
+msgid "Example"
+msgstr "Пример"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:923
+msgid "Complete URL to the sitemap file, including name."
+msgstr "Абсолютен URL до sitemap-файла, включително името."
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:936
+msgid "Sitemap Content"
+msgstr "Съдържание на картата на сайта"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:942
+msgid "Include homepage"
+msgstr "Включи заглавната страница"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:948
+msgid "Include posts"
+msgstr "Включи постове"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap-ui.php:911
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:954
+msgid "Include following pages of multi-page posts (&lt;!--nextpage--&gt;)"
+msgstr "Включи следните страници от многостранични статии (&lt;!--nextpage--&gt;)"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:960
+msgid "Include static pages"
+msgstr "Включи статични страници"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:966
+msgid "Include categories"
+msgstr "Включи категории"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:972
+msgid "Include archives"
+msgstr "Включи архиви"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:979
+msgid "Include tag pages"
+msgstr "Включи страници с тагове"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:986
+msgid "Include author pages"
+msgstr "Включи авторски страници"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:994
+msgid "Excluded items"
+msgstr "Изключени"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:996
+msgid "Excluded categories"
+msgstr "Изключени категории"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:998
+msgid "Using this feature will increase build time and memory usage!"
+msgstr "Използването на това ще увеличи времето за създаване и употребата на памет!"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:1005
+#, php-format
+msgid "This feature requires at least WordPress 2.5, you are using %s"
+msgstr "Това изисква най-малко WordPress 2.5, Вие използвате %s"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:1008
+msgid "Exclude posts"
+msgstr "Изключени постове"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3206
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:1010
+msgid "Exclude the following posts or pages:"
+msgstr "Не включвай следните постове и/или страници:"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3206
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:1010
+msgid "List of IDs, separated by comma"
+msgstr "Списък на ID-тата, разделени със запетая"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:1012
+msgid "Child posts will not automatically be excluded!"
+msgstr "Подстраниците ще бъдат автоматично изключени!"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:1018
+msgid "Change frequencies"
+msgstr "Честота на обновяване"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:1022
+msgid "Please note that the value of this tag is considered a hint and not a command. Even though search engine crawlers consider this information when making decisions, they may crawl pages marked \"hourly\" less frequently than that, and they may crawl pages marked \"yearly\" more frequently than that. It is also likely that crawlers will periodically crawl pages marked \"never\" so that they can handle unexpected changes to those pages."
+msgstr "Моля, обърнете внимание, че стойността на този таг е само подсказка, а не команда. Дори търсачките да се влияят от тази информация при вземане на решенията си, те може да посещават страници, маркирани с \"hourly\" по-рядко от това на всеки час и страници маркирани с \"yearly\" по-често от един път в годината. Приема се, че търсачките периодично посещават страници, маркирани с \"never\" за да могат да отбележат евентуални неочаквани промени в съдържанието им."
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:1028
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:1086
+msgid "Homepage"
+msgstr "Заглавна страница"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:1034
+msgid "Posts"
+msgstr "Постове"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:1040
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:1104
+msgid "Static pages"
+msgstr "Статични страници"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:1046
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:1110
+msgid "Categories"
+msgstr "Категории"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:1052
+msgid "The current archive of this month (Should be the same like your homepage)"
+msgstr "Настоящ архив за месеца (Трябва да е същия като на заглавната страница)"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:1058
+msgid "Older archives (Changes only if you edit an old post)"
+msgstr "Стари архиви (Промяна само при редакция на стар пост)"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:1065
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:1123
+msgid "Tag pages"
+msgstr "Страници на тагове"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:1072
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:1130
+msgid "Author pages"
+msgstr "Авторски страници"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:1080
+msgid "Priorities"
+msgstr "Приоритети"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:1092
+msgid "Posts (If auto calculation is disabled)"
+msgstr "Постове (Ако авто-калкулиране е неактивно)"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:1098
+msgid "Minimum post priority (Even if auto calculation is enabled)"
+msgstr "Минимален приоритет на постовете (Важи и при активирано авто-калкулиране)"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:1116
+msgid "Archives"
+msgstr "Архив"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:1141
+msgid "Update options"
+msgstr "Обновяване на настройките"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:1142
+msgid "Reset options"
+msgstr "Връщане на вградените настройки"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap.php:81
+msgid "XML-Sitemap Generator"
+msgstr "XML-Sitemap Генератор"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap.php:81
+msgid "XML-Sitemap"
+msgstr "XML-Sitemap"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap.php:139
+msgid "Sitemap FAQ"
+msgstr "Често Задавани Въпроси"
+

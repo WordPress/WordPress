@@ -1,0 +1,964 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Google XML Sitemaps v4.0beta9\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-05-05 20:24+0100\n"
+"PO-Revision-Date: 2012-06-02 14:54:30+0000\n"
+"Last-Translator: Arne Brachhold <himself-arnebrachhold-de>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Poedit-Language: \n"
+"X-Poedit-Country: \n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2;\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-Bookmarks: \n"
+"X-Poedit-SearchPath-0: C:/Inetpub/wwwroot/wp_plugins/sitemap_beta\n"
+"X-Textdomain-Support: yes"
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:846
+#: sitemap-core.php:527
+#@ sitemap
+msgid "Comment Count"
+msgstr "Broj Komentara"
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:858
+#: sitemap-core.php:537
+#@ sitemap
+msgid "Uses the number of comments of the post to calculate the priority"
+msgstr "Koristi broj komentara na postu za kalkulaciju prioriteta"
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:918
+#: sitemap-core.php:590
+#@ sitemap
+msgid "Comment Average"
+msgstr "Prosečan Broj Komentara"
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:930
+#: sitemap-core.php:600
+#@ sitemap
+msgid "Uses the average comment count to calculate the priority"
+msgstr "Koristi prosečan broj komentara za računanje prioriteta"
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:993
+#: sitemap-core.php:661
+#@ sitemap
+msgid "Popularity Contest"
+msgstr "Takmičenje Popularnosti"
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:1005
+#: sitemap-core.php:671
+#, php-format
+#@ sitemap
+msgid "Uses the activated <a href=\"%1\">Popularity Contest Plugin</a> from <a href=\"%2\">Alex King</a>. See <a href=\"%3\">Settings</a> and <a href=\"%4\">Most Popular Posts</a>"
+msgstr "Koristi aktivirani <a href=\"%1\">Takmičenje Popularnosti plugin</a> od <a href=\"%2\">Alex King-a</a>. Proveri <a href=\"%3\">Podešavanja</a> i <a href=\"%4\">Najpopularnije Postove</a>"
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap-core.php:1118
+#: sitemap-core.php:840
+#@ sitemap
+msgid "Always"
+msgstr "Uvek"
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap-core.php:1119
+#: sitemap-core.php:841
+#@ sitemap
+msgid "Hourly"
+msgstr "Svakog sata"
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap-core.php:1120
+#: sitemap-core.php:842
+#@ sitemap
+msgid "Daily"
+msgstr "Dnevno"
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap-core.php:1121
+#: sitemap-core.php:843
+#@ sitemap
+msgid "Weekly"
+msgstr "Nedeljno"
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap-core.php:1122
+#: sitemap-core.php:844
+#@ sitemap
+msgid "Monthly"
+msgstr "Mesečno"
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap-core.php:1123
+#: sitemap-core.php:845
+#@ sitemap
+msgid "Yearly"
+msgstr "Godišnje"
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap-core.php:1124
+#: sitemap-core.php:846
+#@ sitemap
+msgid "Never"
+msgstr "Nikad"
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:2415
+#: sitemap-loader.php:212
+#@ sitemap
+msgid "XML-Sitemap Generator"
+msgstr "XML-Sitemap Generator"
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:2415
+#: sitemap-loader.php:212
+#@ sitemap
+msgid "XML-Sitemap"
+msgstr "XML-Sitemap"
+
+#: sitemap-loader.php:239
+#@ sitemap
+msgid "Settings"
+msgstr "Podešavanja"
+
+#: sitemap-loader.php:240
+#@ sitemap
+msgid "FAQ"
+msgstr "FAQ"
+
+#: sitemap-loader.php:241
+#@ sitemap
+msgid "Support"
+msgstr "Podrška"
+
+#: sitemap-loader.php:242
+#@ sitemap
+msgid "Donate"
+msgstr "Donacije"
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:2886
+#: sitemap-loader.php:328
+#: sitemap-ui.php:630
+#@ sitemap
+msgid "Plugin Homepage"
+msgstr "Homepage Plugin-a"
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:2905
+#: sitemap-loader.php:329
+#: sitemap-ui.php:652
+#@ sitemap
+msgid "My Sitemaps FAQ"
+msgstr "Česta pitanja o Sitemap-ima"
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:2635
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:2835
+#: sitemap-ui.php:198
+#: sitemap-ui.php:585
+#@ sitemap
+msgid "XML Sitemap Generator for WordPress"
+msgstr "XML Sitemap Generator za WordPress"
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:2740
+#: sitemap-ui.php:374
+#@ sitemap
+msgid "Configuration updated"
+msgstr "Konfiguracije ažurirane"
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:2741
+#: sitemap-ui.php:375
+#@ sitemap
+msgid "Error while saving options"
+msgstr "Greška prilikom snimanja opcija"
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:2743
+#: sitemap-ui.php:378
+#@ sitemap
+msgid "Pages saved"
+msgstr "Stranice snimljene"
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:2744
+#: sitemap-ui.php:379
+#@ sitemap
+msgid "Error while saving pages"
+msgstr "Greška za vreme snimanja stranica"
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:2758
+#: sitemap-ui.php:387
+#@ sitemap
+msgid "The default configuration was restored."
+msgstr "Osnovna podešavanja su vraćena"
+
+#: sitemap-ui.php:397
+#@ sitemap
+msgid "The old files could NOT be deleted. Please use an FTP program and delete them by yourself."
+msgstr "Nismo mogli izbrisati stare fajlove. Molimo vas da koristite FTP program i obrišete ih lično."
+
+#: sitemap-ui.php:399
+#@ sitemap
+msgid "The old files were successfully deleted."
+msgstr "Stari fajlovi su uspešno obrisani."
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:2600
+#: sitemap-ui.php:439
+#@ sitemap
+msgid "Thank you very much for your donation. You help me to continue support and development of this plugin and other free software!"
+msgstr "Hvala vam na donaciji. Pomažete mi da nastavim rad i razvoj ovog plugin-a i drugih besplatnih programa."
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:2600
+#: sitemap-ui.php:439
+#@ sitemap
+msgid "Hide this notice"
+msgstr "Sakrijte ovo obaveštenje"
+
+#: sitemap-ui.php:445
+#, php-format
+#@ sitemap
+msgid "Thanks for using this plugin! You've installed this plugin over a month ago. If it works and you are satisfied with the results, isn't it worth at least a few dollar? <a href=\"%s\">Donations</a> help me to continue support and development of this <i>free</i> software! <a href=\"%s\">Sure, no problem!</a>"
+msgstr "Hvala vam što koristite ovaj plugin. Instalirali ste plugin pre meseca dana. Ako plugin radi i zadovoljni ste rezultatima, nadam se da je vredno makar par dolara? <a href=\"%s\">Donacije</a> mi pomažu da nastavim rad na ovom <i>besplatnom</i> softveru! <a href=\"%s\">Naravno, nema problema!</a>"
+
+#: sitemap-ui.php:445
+#@ sitemap
+msgid "Sure, but I already did!"
+msgstr "Naravno, ali već sam donirao!"
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:2657
+#: sitemap-ui.php:445
+#@ sitemap
+msgid "No thanks, please don't bug me anymore!"
+msgstr "Ne hvala, molim vas ne uznemiravajte me više!"
+
+#: sitemap-ui.php:452
+#, php-format
+#@ sitemap
+msgid "Thanks for using this plugin! You've installed this plugin some time ago. If it works and your are satisfied, why not <a href=\"%s\">rate it</a> and <a href=\"%s\">recommend it</a> to others? :-)"
+msgstr "Hvala vam što koristite ovaj plugin! Instalirali ste ovaj plugin pre nekog vremena. Ako radi i zadovoljni ste, zašto ne biste <a href=\"%s\">dali ocenu</a> i <a href=\"%s\">preporučili ga</a> drugima? :-)"
+
+#: sitemap-ui.php:452
+#@ sitemap
+msgid "Don't show this anymore"
+msgstr "Ne pokazuj više"
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap-ui.php:374
+#: sitemap-ui.php:601
+#, php-format
+#@ default
+msgid "There is a new version of %1$s available. <a href=\"%2$s\">Download version %3$s here</a>."
+msgstr "Postoji nova verzija %1$s. <a href=\"%2$s\">Skinite verziju %3$s ovde</a>."
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap-ui.php:376
+#: sitemap-ui.php:603
+#, php-format
+#@ default
+msgid "There is a new version of %1$s available. <a href=\"%2$s\">Download version %3$s here</a> <em>automatic upgrade unavailable for this plugin</em>."
+msgstr "Postoji nova verzija %1$s. <a href=\"%2$s\">Skinite novu verziju %3$s ovde</a> <em>automatsko osvežavanje verzije nije dostupno za ovaj plugin</em>."
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap-ui.php:378
+#: sitemap-ui.php:605
+#, php-format
+#@ default
+msgid "There is a new version of %1$s available. <a href=\"%2$s\">Download version %3$s here</a> or <a href=\"%4$s\">upgrade automatically</a>."
+msgstr "Postoji nova verzija %1$s. <a href=\"%2$s\">Skinite verziju %3$s ovde</a> ili <a href=\"%4$s\">uradite update automatski</a>."
+
+#: sitemap-ui.php:613
+#, php-format
+#@ sitemap
+msgid "Your blog is currently blocking search engines! Visit the <a href=\"%s\">privacy settings</a> to change this."
+msgstr "Vaš blog trenutno blokira pretraživače! Posetite <a href=\"%s\">podešavanja privatnosti</a> da bi ste promenili."
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:2884
+#: sitemap-ui.php:629
+#@ sitemap
+msgid "About this Plugin:"
+msgstr "O ovom plugin-u:"
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap-ui.php:421
+#: sitemap-ui.php:631
+#@ sitemap
+msgid "Suggest a Feature"
+msgstr "Predložite Funkciju"
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:2887
+#: sitemap-ui.php:632
+#@ sitemap
+msgid "Notify List"
+msgstr "Lista Notifikacija"
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:2888
+#: sitemap-ui.php:633
+#@ sitemap
+msgid "Support Forum"
+msgstr "Forum za Podršku"
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap-ui.php:424
+#: sitemap-ui.php:634
+#@ sitemap
+msgid "Report a Bug"
+msgstr "Prijavite Grešku"
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:2889
+#: sitemap-ui.php:636
+#@ sitemap
+msgid "Donate with PayPal"
+msgstr "Donirajte putem PayPal-a"
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:2890
+#: sitemap-ui.php:637
+#@ sitemap
+msgid "My Amazon Wish List"
+msgstr "Moje želje na Amazon-u"
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:2891
+#: sitemap-ui.php:638
+#@ sitemap
+msgid "translator_name"
+msgstr "ime_prevodioca"
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:2891
+#: sitemap-ui.php:638
+#@ sitemap
+msgid "translator_url"
+msgstr "url_prevodioca"
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:2895
+#: sitemap-ui.php:641
+#@ sitemap
+msgid "Sitemap Resources:"
+msgstr "Više o Sitemap-u"
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:2897
+#: sitemap-ui.php:642
+#: sitemap-ui.php:647
+#@ sitemap
+msgid "Webmaster Tools"
+msgstr "Alatke za Webmastere"
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:2898
+#: sitemap-ui.php:643
+#@ sitemap
+msgid "Webmaster Blog"
+msgstr "Webmaster Blog"
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:2901
+#: sitemap-ui.php:645
+#@ sitemap
+msgid "Search Blog"
+msgstr "Pretražite Blog"
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:3010
+#: sitemap-ui.php:648
+#@ sitemap
+msgid "Webmaster Center Blog"
+msgstr "Webmaster Central Blog"
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:2903
+#: sitemap-ui.php:650
+#@ sitemap
+msgid "Sitemaps Protocol"
+msgstr "Sitemap Protokol"
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:2904
+#: sitemap-ui.php:651
+#@ sitemap
+msgid "Official Sitemaps FAQ"
+msgstr "Oficijalni Sitemap FAW"
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:2910
+#: sitemap-ui.php:655
+#@ sitemap
+msgid "Recent Donations:"
+msgstr "Zadnje Donacije:"
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:2914
+#: sitemap-ui.php:658
+#@ sitemap
+msgid "List of the donors"
+msgstr "Lista Donatora"
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:2916
+#: sitemap-ui.php:660
+#@ sitemap
+msgid "Hide this list"
+msgstr "Sakrijte listu"
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:2919
+#: sitemap-ui.php:663
+#@ sitemap
+msgid "Thanks for your support!"
+msgstr "Hvala vam na podršci!"
+
+#: sitemap-ui.php:683
+#@ sitemap
+msgid "Search engines haven't been notified yet"
+msgstr "Pretraživači još uvek nisu obavešteni"
+
+#: sitemap-ui.php:687
+#, php-format
+#@ sitemap
+msgid "Result of the last ping, started on %date%."
+msgstr "Rezultati zadnjeg ping-a, započeto %date%."
+
+#: sitemap-ui.php:702
+#, php-format
+#@ sitemap
+msgid "There is still a sitemap.xml or sitemap.xml.gz file in your blog directory. Please delete them as no static files are used anymore or <a href=\"%s\">try to delete them automatically</a>."
+msgstr "Još uvek postoji sitemap.xml ili sitemap.xml.gz fajl na vašem blog direktorijumu. Molimo vas da ih obrišete jer se više ne koristi ni jeda statični fajl ili <a href=\"%s\">pokušajte da ih obrišete automatski</a>."
+
+#: sitemap-ui.php:705
+#, php-format
+#@ sitemap
+msgid "The URL to your sitemap index file is: <a href=\"%s\">%s</a>."
+msgstr "URL do vašeg sitemap index fajl-a je: <a href=\"%s\">%s</a>."
+
+#: sitemap-ui.php:708
+#@ sitemap
+msgid "Search engines haven't been notified yet. Write a post to let them know about your sitemap."
+msgstr "Pretraživači još uvek nisu obavešteni. Napišite post da bi ste ih obavestili o vašem sitemap-u."
+
+#: sitemap-ui.php:717
+#, php-format
+#@ sitemap
+msgid "%s was <b>successfully notified</b> about changes."
+msgstr "%s je <b>uspešno obavešten</b> o promenama."
+
+#: sitemap-ui.php:720
+#, php-format
+#@ sitemap
+msgid "It took %time% seconds to notify %name%, maybe you want to disable this feature to reduce the building time."
+msgstr "Trebalo je %time% sekundi da obavestimo %name%, možda želite da onesposobite ovu funkciju da bi ste smanjili vreme izgradnje."
+
+#: sitemap-ui.php:723
+#, php-format
+#@ sitemap
+msgid "There was a problem while notifying %name%. <a href=\"%s\">View result</a>"
+msgstr "Imali smo problem sa obaveštavanjem %name%. <a href=\"%s\">Pogledajte rezultate</a>"
+
+#: sitemap-ui.php:727
+#, php-format
+#@ sitemap
+msgid "If you encounter any problems with your sitemap you can use the <a href=\"%d\">debug function</a> to get more information."
+msgstr "Ako naiđete na neke probleme u vezi sa sitemap-om možete iskoristiti <a href=\"%d\">debug funkciju</a> da bi ste dobili više podataka."
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:3040
+#: sitemap-ui.php:735
+#@ sitemap
+msgid "Basic Options"
+msgstr "Onsovne Opcije"
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:3079
+#: sitemap-ui.php:737
+#@ sitemap
+msgid "Update notification:"
+msgstr "Ažurirajte notifikacije:"
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:3044
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:3059
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:3079
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:3104
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:3121
+#: sitemap-ui.php:737
+#: sitemap-ui.php:765
+#@ sitemap
+msgid "Learn more"
+msgstr "Saznajte više"
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:3083
+#: sitemap-ui.php:741
+#@ sitemap
+msgid "Notify Google about updates of your Blog"
+msgstr "Obavestite Google o promenama na vašem Blogu"
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:3084
+#: sitemap-ui.php:742
+#, php-format
+#@ sitemap
+msgid "No registration required, but you can join the <a href=\"%s\">Google Webmaster Tools</a> to check crawling statistics."
+msgstr "Registracija nije potrebna, ali možete otovriti nalog na <a href=\"%s\">Google Webmaster Tools</a> da bi ste preverili statistiku."
+
+#: sitemap-ui.php:746
+#@ sitemap
+msgid "Notify Bing (formerly MSN Live Search) about updates of your Blog"
+msgstr "Obavestite Bing (bivši MSN Live Search) o promenama na vašem Blogu"
+
+#: sitemap-ui.php:747
+#, php-format
+#@ sitemap
+msgid "No registration required, but you can join the <a href=\"%s\">Bing Webmaster Tools</a> to check crawling statistics."
+msgstr "Registracija nije potrebna, ali možete napraviti nalog na <a href=\"%s\">Bing Webmaster Tools</a> da proverite statistiku."
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:3088
+#: sitemap-ui.php:751
+#@ sitemap
+msgid "Notify Ask.com about updates of your Blog"
+msgstr "Obavestite Ask.com o promenama na vašem Blogu"
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:3089
+#: sitemap-ui.php:752
+#@ sitemap
+msgid "No registration required."
+msgstr "Registracija nije potrebna."
+
+#: sitemap-ui.php:757
+#@ sitemap
+msgid "Add sitemap URL to the virtual robots.txt file."
+msgstr "Dodajte URL vašeg sitemap-a u robots.txt fajl."
+
+#: sitemap-ui.php:761
+#@ sitemap
+msgid "The virtual robots.txt generated by WordPress is used. A real robots.txt file must NOT exist in the blog directory!"
+msgstr "Virtualni robots.txt fajl generisan od strane WordPress-a je iskorišćen. Pravi robots.txt fajl NE SME postojati u direktorijumu vašeg bloga!"
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:3121
+#: sitemap-ui.php:765
+#@ sitemap
+msgid "Advanced options:"
+msgstr "Napredne opcija:"
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:3127
+#: sitemap-ui.php:768
+#@ sitemap
+msgid "Try to increase the memory limit to:"
+msgstr "Pokušajte da povećate limit memorije na:"
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:3127
+#: sitemap-ui.php:768
+#@ sitemap
+msgid "e.g. \"4M\", \"16M\""
+msgstr "npr. \"4M\", \"16M\""
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:3130
+#: sitemap-ui.php:771
+#@ sitemap
+msgid "Try to increase the execution time limit to:"
+msgstr "Pokušajte da povećate vreme izvršenja na:"
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:3130
+#: sitemap-ui.php:771
+#@ sitemap
+msgid "in seconds, e.g. \"60\" or \"0\" for unlimited"
+msgstr "u sekundama, npr. \"60\" or \"0\" za neograničeno"
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:3133
+#: sitemap-ui.php:775
+#@ sitemap
+msgid "Include a XSLT stylesheet:"
+msgstr "Dodajte XSLT stylesheet:"
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:3133
+#: sitemap-ui.php:776
+#@ sitemap
+msgid "Full or relative URL to your .xsl file"
+msgstr "Absolutni ili relativni URL do vasšeg .xsl fajla."
+
+#: sitemap-ui.php:776
+#@ sitemap
+msgid "Use default"
+msgstr "Koristite default-ni"
+
+#: sitemap-ui.php:781
+#@ sitemap
+msgid "Include sitemap in HTML format"
+msgstr "Dodajte sitemap u HTML formatu"
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:3144
+#: sitemap-ui.php:790
+#@ sitemap
+msgid "Additional pages"
+msgstr "Dodatne stranice"
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:3149
+#: sitemap-ui.php:793
+#@ sitemap
+msgid "Here you can specify files or URLs which should be included in the sitemap, but do not belong to your Blog/WordPress.<br />For example, if your domain is www.foo.com and your blog is located on www.foo.com/blog you might want to include your homepage at www.foo.com"
+msgstr "Ovde možete specificirati fajlove ili URL-ove koje bi trebalo dodati u sitemap, ali ne pripadaju vašem Blog-u/WordPress-u. <br />Na primer, ako je vaš domen www.foo.com a vaš blog se nalazi na www.foo.com-blog mozda želite da dodate vašu početnu stranu www.foo.com"
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:3151
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:3462
+#: sitemap-ui.php:795
+#: sitemap-ui.php:999
+#: sitemap-ui.php:1010
+#: sitemap-ui.php:1019
+#@ sitemap
+msgid "Note"
+msgstr "Opazite"
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:3152
+#: sitemap-ui.php:796
+#@ sitemap
+msgid "If your blog is in a subdirectory and you want to add pages which are NOT in the blog directory or beneath, you MUST place your sitemap file in the root directory (Look at the &quot;Location of your sitemap file&quot; section on this page)!"
+msgstr "Ako se vaš blog nalazi u pod direktorijumu i ako želite da doddate stranice koje se ne nalaze u blog direktorijumu ili ispod, MORATE staviti sitemap fajl u korenu direktorijuma (Pogledajte &quot;Lokaciju vašeg sitemap-a &quot; sekciju na ovoj stranici)!"
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:3154
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:3300
+#: sitemap-ui.php:798
+#: sitemap-ui.php:837
+#@ sitemap
+msgid "URL to the page"
+msgstr "URL do stranice"
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:3155
+#: sitemap-ui.php:799
+#@ sitemap
+msgid "Enter the URL to the page. Examples: http://www.foo.com/index.html or www.foo.com/home "
+msgstr "Unesite URL do stranice. Primeri: http://www.foo.com/index.html ili www.foo.com/home "
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:3157
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:3301
+#: sitemap-ui.php:801
+#: sitemap-ui.php:838
+#@ sitemap
+msgid "Priority"
+msgstr "Prioritet"
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:3158
+#: sitemap-ui.php:802
+#@ sitemap
+msgid "Choose the priority of the page relative to the other pages. For example, your homepage might have a higher priority than your imprint."
+msgstr "Izaberite prioritet stranice u odnosu na druge stranice. Na primer, vaša početna stranica može imati veći prioritet nego niće stranice."
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:3160
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:3303
+#: sitemap-ui.php:804
+#: sitemap-ui.php:840
+#@ sitemap
+msgid "Last Changed"
+msgstr "Zadjne promene"
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:3161
+#: sitemap-ui.php:805
+#@ sitemap
+msgid "Enter the date of the last change as YYYY-MM-DD (2005-12-31 for example) (optional)."
+msgstr "Unesti datum zadnje prmene u formatu YYYY-MM-DD (2005-12-31 na primer) (opciono)."
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:3302
+#: sitemap-ui.php:839
+#@ sitemap
+msgid "Change Frequency"
+msgstr "Promente Učestalost"
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:3304
+#: sitemap-ui.php:841
+#@ sitemap
+msgid "#"
+msgstr "#"
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:3309
+#: sitemap-ui.php:846
+#@ sitemap
+msgid "No pages defined."
+msgstr "Stranice nisu definisane."
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:3314
+#: sitemap-ui.php:851
+#@ sitemap
+msgid "Add new page"
+msgstr "Dodajte novu stranicu"
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:3325
+#: sitemap-ui.php:857
+#@ sitemap
+msgid "Post Priority"
+msgstr "Prioritet postova"
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:3329
+#: sitemap-ui.php:859
+#@ sitemap
+msgid "Please select how the priority of each post should be calculated:"
+msgstr "Molimo vas izaberite kako se računa prioritet postova:"
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:3331
+#: sitemap-ui.php:861
+#@ sitemap
+msgid "Do not use automatic priority calculation"
+msgstr "Ne koristi automatsku kalkulaciju prioriteta"
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:3331
+#: sitemap-ui.php:861
+#@ sitemap
+msgid "All posts will have the same priority which is defined in &quot;Priorities&quot;"
+msgstr "Svi postovi će imati isti prioritet koji je definisan u &quot;Priorities&quot;"
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:3397
+#: sitemap-ui.php:872
+#@ sitemap
+msgid "Sitemap Content"
+msgstr "Sadržaj sitemap-a"
+
+#: sitemap-ui.php:873
+#@ sitemap
+msgid "WordPress standard content"
+msgstr "WordPress standardni sadržaj"
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:3405
+#: sitemap-ui.php:878
+#@ sitemap
+msgid "Include homepage"
+msgstr "Dodajte početnu "
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:3411
+#: sitemap-ui.php:884
+#@ sitemap
+msgid "Include posts"
+msgstr "Dodajte postove"
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:3417
+#: sitemap-ui.php:890
+#@ sitemap
+msgid "Include static pages"
+msgstr "Dodajte statičke stranice"
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:3423
+#: sitemap-ui.php:896
+#@ sitemap
+msgid "Include categories"
+msgstr "Dodajte kategorije"
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:3429
+#: sitemap-ui.php:902
+#@ sitemap
+msgid "Include archives"
+msgstr "Dodajte arhive"
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:3443
+#: sitemap-ui.php:908
+#@ sitemap
+msgid "Include author pages"
+msgstr "Dodajte stranice autora"
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:3436
+#: sitemap-ui.php:915
+#@ sitemap
+msgid "Include tag pages"
+msgstr "Dodajte tag stranice"
+
+#: sitemap-ui.php:929
+#@ sitemap
+msgid "Custom taxonomies"
+msgstr "Uobičajene taxonomije"
+
+#: sitemap-ui.php:940
+#, php-format
+#@ sitemap
+msgid "Include taxonomy pages for %s"
+msgstr "Dodajte stranice taxonomije za %s"
+
+#: sitemap-ui.php:958
+#@ sitemap
+msgid "Custom post types"
+msgstr "Uobičajeni tipovi postova"
+
+#: sitemap-ui.php:969
+#, php-format
+#@ sitemap
+msgid "Include custom post type %s"
+msgstr "Dodajte uobičajene tipove postova %s"
+
+#: sitemap-ui.php:981
+#@ sitemap
+msgid "Further options"
+msgstr "Još opcija"
+
+#: sitemap-ui.php:986
+#@ sitemap
+msgid "Include the last modification time."
+msgstr "Dodajte vreme zadnje modifikacije"
+
+#: sitemap-ui.php:988
+#@ sitemap
+msgid "This is highly recommended and helps the search engines to know when your content has changed. This option affects <i>all</i> sitemap entries."
+msgstr "Ovo je preporučljivo jer govori pretraživačima kada se vaš sadržaj promeni. Ova opcija utiče <i>sve</i> unose u sitemap."
+
+#: sitemap-ui.php:995
+#@ sitemap
+msgid "Excluded items"
+msgstr "Uklonite"
+
+#: sitemap-ui.php:997
+#@ sitemap
+msgid "Excluded categories"
+msgstr "Uklonite kategorije"
+
+#: sitemap-ui.php:999
+#@ sitemap
+msgid "Using this feature will increase build time and memory usage!"
+msgstr "Korišćenje ove funkcije će povećati vreme pravljenja i korišćenje memorije."
+
+#: sitemap-ui.php:1006
+#@ sitemap
+msgid "Exclude posts"
+msgstr "Uklonite postove"
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:3206
+#: sitemap-ui.php:1008
+#@ sitemap
+msgid "Exclude the following posts or pages:"
+msgstr "Uklonite sledeće postove ili stranice:"
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:3206
+#: sitemap-ui.php:1008
+#@ sitemap
+msgid "List of IDs, separated by comma"
+msgstr "Lista ID-a, odvojene zarezom"
+
+#: sitemap-ui.php:1010
+#@ sitemap
+msgid "Child posts won't be excluded automatically!"
+msgstr "Pod postovi neće biti uključeni automatski!"
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:3457
+#: sitemap-ui.php:1016
+#@ sitemap
+msgid "Change frequencies"
+msgstr "Promenite učestalost"
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:3463
+#: sitemap-ui.php:1020
+#@ sitemap
+msgid "Please note that the value of this tag is considered a hint and not a command. Even though search engine crawlers consider this information when making decisions, they may crawl pages marked \"hourly\" less frequently than that, and they may crawl pages marked \"yearly\" more frequently than that. It is also likely that crawlers will periodically crawl pages marked \"never\" so that they can handle unexpected changes to those pages."
+msgstr "Molimo vas da zapamtite da vrednost ovog tag-a je koristi kao predlog a ne kao komanda. Iako pretraživači razmatraju ovu infomaciju kada donose odluke, možda će proći kroz stranice obeležene \"hourly\" ređe nego naznačeno, a možda će stranice naznačene \"yearly\" posećivati češće. Isto tako je verovatno da će s'vremena na vreme prolaziti kroz stranice naznačene sa \"never\" da bi mogli da reaguju na neočekivane promene na tim stranicama."
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:3469
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:3535
+#: sitemap-ui.php:1026
+#: sitemap-ui.php:1083
+#@ sitemap
+msgid "Homepage"
+msgstr "Početna"
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:3475
+#: sitemap-ui.php:1032
+#@ sitemap
+msgid "Posts"
+msgstr "Postovi"
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:3481
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:3553
+#: sitemap-ui.php:1038
+#: sitemap-ui.php:1101
+#@ sitemap
+msgid "Static pages"
+msgstr "Statične stranice"
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:3487
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:3559
+#: sitemap-ui.php:1044
+#: sitemap-ui.php:1107
+#@ sitemap
+msgid "Categories"
+msgstr "Kategorije"
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:3493
+#: sitemap-ui.php:1050
+#@ sitemap
+msgid "The current archive of this month (Should be the same like your homepage)"
+msgstr "Trenutna arhiva za ovaj mesec (Treba biti ista kao i vaša početna stranica)"
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:3499
+#: sitemap-ui.php:1056
+#@ sitemap
+msgid "Older archives (Changes only if you edit an old post)"
+msgstr "Starije arhive (Menja se samo ako promenti stariji post)"
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:3506
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:3572
+#: sitemap-ui.php:1063
+#: sitemap-ui.php:1120
+#@ sitemap
+msgid "Tag pages"
+msgstr "Tag stranice"
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:3513
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:3579
+#: sitemap-ui.php:1070
+#: sitemap-ui.php:1127
+#@ sitemap
+msgid "Author pages"
+msgstr "Stranice autora"
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:3527
+#: sitemap-ui.php:1078
+#@ sitemap
+msgid "Priorities"
+msgstr "Prioriteti"
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:3541
+#: sitemap-ui.php:1089
+#@ sitemap
+msgid "Posts (If auto calculation is disabled)"
+msgstr "Postovi (ako je auto kalkulacija isključena)"
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:3547
+#: sitemap-ui.php:1095
+#@ sitemap
+msgid "Minimum post priority (Even if auto calculation is enabled)"
+msgstr "Minimalni prioritet za postove (Čak iako je auto kalkulacija uključena)"
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:3565
+#: sitemap-ui.php:1113
+#@ sitemap
+msgid "Archives"
+msgstr "Arhive"
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:3590
+#: sitemap-ui.php:1138
+#@ sitemap
+msgid "Update options"
+msgstr "Opcije ažuriranja"
+
+#  C:Inetpubwwwrootwpwp-contentpluginssitemap_beta/sitemap.php:3591
+#: sitemap-ui.php:1139
+#@ sitemap
+msgid "Reset options"
+msgstr "Opcije za resetovanje"
+
+#: sitemap.php:82
+#@ sitemap
+msgid "Your WordPress version is too old for XML Sitemaps."
+msgstr "Vaša verzija WordPress-a je previše stara za XML Sitemap."
+
+#: sitemap.php:82
+#, php-format
+#@ sitemap
+msgid "Unfortunately this release of Google XML Sitemaps requires at least WordPress %4$s. You are using Wordpress %2$s, which is out-dated and insecure. Please upgrade or go to <a href=\"%1$s\">active plugins</a> and deactivate the Google XML Sitemaps plugin to hide this message. You can download an older version of this plugin from the <a href=\"%3$s\">plugin website</a>."
+msgstr "Nažalost ova verzija Google XML Sitemap-a zahteva barem WordPress verziju %4$s. Vi koristite WordPress verziju %2$s, koja je zastarela i nesigurna. Molimo vas da update-ujete ili odete na <a href=\"%1$s\">aktivne plugin-ove</a> i deaktivirate Google XML Sitemap plugin da bi ste sakrili ovu poruku. Možete skinuti stariju verziju ovog plugin-a sa <a href=\"%3$s\">našeg sajta</a>."
+
+#: sitemap.php:92
+#@ sitemap
+msgid "Your PHP version is too old for XML Sitemaps."
+msgstr "PHP verzija koju koristite je previše stara za XML sitemap."
+
+#: sitemap.php:92
+#, php-format
+#@ sitemap
+msgid "Unfortunately this release of Google XML Sitemaps requires at least PHP %4$s. You are using PHP %2$s, which is out-dated and insecure. Please ask your web host to update your PHP installation or go to <a href=\"%1$s\">active plugins</a> and deactivate the Google XML Sitemaps plugin to hide this message. You can download an older version of this plugin from the <a href=\"%3$s\">plugin website</a>."
+msgstr "nažalost ova verzija Google XML Sitemap-a zahteva najmanje verziju PHP %4$s. Vi koristite PHP %2$s, koji je zastareo i nesiguran. Zamolite vaš hosting da ažuriraju verziju PHP instalacije ili idite na <a href=\"%1$s\">aktivne plugin-ove</a> i deaktivirajte Google XML Sitemap plugin da bi ste sakrili ovu poruku. Možete skinuti straiju verziju ovog plugin-a sa <a href=\"%3$s\">našeg sajta</a>."
+
+#. translators: plugin header field 'Name'
+#: sitemap.php:0
+#@ sitemap
+msgid "Google XML Sitemaps"
+msgstr ""
+
+#. translators: plugin header field 'PluginURI'
+#: sitemap.php:0
+#@ sitemap
+msgid "http://www.arnebrachhold.de/redir/sitemap-home/"
+msgstr ""
+
+#. translators: plugin header field 'Description'
+#: sitemap.php:0
+#@ sitemap
+msgid "This plugin will generate a special XML sitemap which will help search engines like Google, Yahoo, Bing and Ask.com to better index your blog."
+msgstr ""
+
+#. translators: plugin header field 'Author'
+#: sitemap.php:0
+#@ sitemap
+msgid "Arne Brachhold"
+msgstr ""
+
+#. translators: plugin header field 'AuthorURI'
+#: sitemap.php:0
+#@ sitemap
+msgid "http://www.arnebrachhold.de/"
+msgstr ""
+
+#. translators: plugin header field 'Version'
+#: sitemap.php:0
+#@ sitemap
+msgid "4.0beta9"
+msgstr ""
+

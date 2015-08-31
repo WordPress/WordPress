@@ -1,0 +1,257 @@
+# This file is distributed under the same license as the  package.
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/cms-tree-page-view\n"
+"POT-Creation-Date: 2011-03-06 14:33:36+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2012-03-22 17:32+0200\n"
+"X-Poedit-Language: Romanian\n"
+"X-Poedit-Country: Romania\n"
+"Language-Team: Web Geeks\n"
+"Last-Translator: \n"
+
+#: functions.php:53
+msgid "Enter title of new page"
+msgstr "Introduceţi titlul de pagină nouă"
+
+#: functions.php:54
+msgid "child pages"
+msgstr "pagini de copil"
+
+#: functions.php:55
+#: functions.php:381
+msgid "Edit page"
+msgstr "Editare pagină"
+
+#: functions.php:56
+#: functions.php:382
+msgid "View page"
+msgstr "Vizualizare pagină"
+
+#: functions.php:57
+#: functions.php:381
+msgid "Edit"
+msgstr "Editare"
+
+#: functions.php:58
+#: functions.php:382
+msgid "View"
+msgstr "Vizualizare"
+
+#: functions.php:59
+msgid "Add page"
+msgstr "Adăugare pagină"
+
+#: functions.php:60
+#: functions.php:386
+msgid "Add new page after"
+msgstr "Adăugare pagină după"
+
+#: functions.php:61
+msgid "after"
+msgstr "după"
+
+#: functions.php:62
+msgid "inside"
+msgstr "interior"
+
+#: functions.php:63
+msgid "Sorry, can't create a sub page to a page with status \"draft\"."
+msgstr "Ne pare rău, nu se poate crea o pagină sub la o pagină cu statut de \"proiect\"."
+
+#: functions.php:64
+msgid "Sorry, can't create a sub page to a page with status \"trash\"."
+msgstr "Ne pare rău, nu se poate crea o pagină sub la o pagină cu statut de \"gunoi\"."
+
+#: functions.php:65
+msgid "Sorry, can't create a page after a page with status \"trash\"."
+msgstr "Ne pare rău, nu se poate crea o pagină după pagină, cu statut \"gunoi\"."
+
+#: functions.php:66
+#: functions.php:390
+msgid "Add new page inside"
+msgstr "Adăugare pagină nouă în interiorul"
+
+#: functions.php:67
+msgid "draft"
+msgstr "proiectul"
+
+#: functions.php:68
+msgid "future"
+msgstr "viitor"
+
+#: functions.php:69
+msgid "protected"
+msgstr "protejat"
+
+#: functions.php:70
+#: functions.php:644
+msgid "pending"
+msgstr "aşteptare"
+
+#: functions.php:71
+msgid "private"
+msgstr "privat"
+
+#: functions.php:72
+msgid "trash"
+msgstr "gunoi"
+
+#: functions.php:73
+msgid "Password protected page"
+msgstr "Pagina protejată prin parolă"
+
+#: functions.php:74
+msgid "Adding page..."
+msgstr "Adăugarea de pagină..."
+
+#: functions.php:175
+msgid "settings"
+msgstr "Setări"
+
+#: functions.php:180
+msgid "Select where to show a tree for pages and custom post types"
+msgstr "Selectaţi de unde pentru a afişa un copac pentru pagini şi tipurile particularizate post"
+
+#: functions.php:204
+msgid "On dashboard"
+msgstr "Pe tabloul de bord"
+
+#: functions.php:208
+msgid "In menu"
+msgstr "În meniul"
+
+#: functions.php:219
+msgid "Save Changes"
+msgstr "Salvaţi modificările"
+
+#: functions.php:335
+msgid "No posts found."
+msgstr "Nu posturile de găsit."
+
+#: functions.php:341
+msgid "All"
+msgstr "Toate"
+
+#: functions.php:342
+msgid "Public"
+msgstr "Publice"
+
+#: functions.php:343
+msgid "Trash"
+msgstr "Gunoi"
+
+#: functions.php:348
+msgid "Expand"
+msgstr "Extinde"
+
+#: functions.php:349
+msgid "Collapse"
+msgstr "Colaps"
+
+#: functions.php:357
+msgid "Clear search"
+msgstr "Căutare clar"
+
+#: functions.php:358
+msgid "Search"
+msgstr "Căutare"
+
+#: functions.php:359
+msgid "Searching..."
+msgstr "Se caută..."
+
+#: functions.php:360
+msgid "Nothing found."
+msgstr "Nimic găsit."
+
+#: functions.php:366
+msgid "Loading..."
+msgstr "Încărcare..."
+
+#: functions.php:371
+msgid "Search: no pages found"
+msgstr "Căutare: nu pagini găsit"
+
+#: functions.php:374
+msgid "Loading tree"
+msgstr "Încărcare copac"
+
+#: functions.php:386
+msgid "After"
+msgstr "După"
+
+#: functions.php:390
+msgid "Inside"
+msgstr "În interiorul"
+
+#: functions.php:394
+msgid "Can not create page inside of a page with draft status"
+msgstr "Nu puteţi crea pagina în interiorul o pagină cu statut de proiect"
+
+#: functions.php:397
+msgid "Last modified"
+msgstr "Modificat ultima dată"
+
+#: functions.php:399
+msgid "by"
+msgstr "de"
+
+#: functions.php:402
+msgid "Page ID"
+msgstr "ID-ul page"
+
+#: functions.php:609
+msgid "Unknown user"
+msgstr "Utilizator necunoscut"
+
+#: functions.php:614
+msgid "<Untitled page>"
+msgstr "< Fără titlu pagină >"
+
+#: functions.php:634
+msgid "Comments"
+msgstr "Comentarii"
+
+#: functions.php:641
+msgid "%s pending"
+msgstr "%s până la"
+
+#: functions.php:651
+msgctxt "comment count"
+msgid "0"
+msgstr "0"
+
+#: functions.php:651
+msgctxt "comment count"
+msgid "1"
+msgstr "1"
+
+#: functions.php:651
+msgctxt "comment count"
+msgid "%"
+msgstr "%"
+
+#: functions.php:682
+msgid "Click to edit. Drag to move."
+msgstr "Faceţi clic pentru a edita. Trageţi pentru a muta."
+
+#: functions.php:833
+msgid "New page"
+msgstr "Pagină nouă"
+
+#: functions.php:1015
+msgid "Close"
+msgstr "Închide"
+
+#: functions.php:1016
+msgid "<strong>Thank you for using this plugin!</strong> If you need help please check out the <a href=\"http://eskapism.se/code-playground/cms-tree-page-view/?utm_source=wordpress&utm_medium=banner&utm_campaign=promobox\">plugin homepage</a> or the <a href=\"http://wordpress.org/tags/cms-tree-page-view?forum_id=10\">support forum</a>."
+msgstr "<strong> Vă mulţumim pentru folosirea acestui plugin! </strong> Dacă aveţi nevoie de ajutor vă rugăm să verificaţi <a href=\"http://eskapism.se/code-playground/cms-tree-page-view/?utm_source=wordpress&utm_medium=banner&utm_campaign=promobox\">pagina </a> sau <a href=\"http://wordpress.org/tags/cms-tree-page-view?forum_id=10\"> Forum </a>."
+
+#: functions.php:1017
+msgid "If you like this plugin, please <a href=\"http://eskapism.se/sida/donate/?utm_source=wordpress&utm_medium=banner&utm_campaign=promobox\">support my work by donating</a> - or at least say something nice about this plugin in a blog post or tweet."
+msgstr "Dacă vă place acest plug-in, vă rugăm să <a href=\"http://eskapism.se/sida/donate/?utm_source=wordpress&utm_medium=banner&utm_campaign=promobox\">munca mea prin donarea </a> - sau cel puţin spune ceva frumos despre acest plug-in într-un post pe blog-ul sau Twitter."
+

@@ -1,0 +1,1925 @@
+# Copyright (C) 2012 
+# This file is distributed under the same license as the  package.
+msgid ""
+msgstr ""
+"Project-Id-Version: acf chinese\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-05-11 19:59+0800\n"
+"PO-Revision-Date: 2013-06-10 19:00-0600\n"
+"Last-Translator: Amos Lee <4626395@gmail.com>\n"
+"Language-Team: Amos Lee <470266798@qq.com>\n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: _e;__\n"
+"X-Poedit-Basepath: .\n"
+"X-Generator: Poedit 1.5.5\n"
+"X-Poedit-SearchPath-0: ..\n"
+
+#: ../acf.php:264
+msgid "Field&nbsp;Groups"
+msgstr "字段和表单域"
+
+#: ../acf.php:265 ../core/controllers/field_groups.php:214
+msgid "Advanced Custom Fields"
+msgstr "高级自定义字段"
+
+#: ../acf.php:266
+msgid "Add New"
+msgstr "新建"
+
+#: ../acf.php:267
+msgid "Add New Field Group"
+msgstr "添加新字段组"
+
+#: ../acf.php:268
+msgid "Edit Field Group"
+msgstr "编辑当前字段组"
+
+#: ../acf.php:269
+msgid "New Field Group"
+msgstr "添加新字段组"
+
+#: ../acf.php:270
+msgid "View Field Group"
+msgstr "查看字段组"
+
+#: ../acf.php:271
+msgid "Search Field Groups"
+msgstr "搜索字段组"
+
+#: ../acf.php:272
+msgid "No Field Groups found"
+msgstr "没有找到字段组"
+
+#: ../acf.php:273
+msgid "No Field Groups found in Trash"
+msgstr "回收站中没有找到字段组"
+
+#: ../acf.php:386 ../core/views/meta_box_options.php:94
+msgid "Custom Fields"
+msgstr "字段"
+
+#: ../acf.php:404 ../acf.php:407
+msgid "Field group updated."
+msgstr "自定义字段组已更新。"
+
+#: ../acf.php:405
+msgid "Custom field updated."
+msgstr "自定义字段已更新。"
+
+#: ../acf.php:406
+msgid "Custom field deleted."
+msgstr "自定义字段已删除。"
+
+#: ../acf.php:409
+#, php-format
+msgid "Field group restored to revision from %s"
+msgstr "字段组已恢复到版本%s"
+
+#: ../acf.php:410
+msgid "Field group published."
+msgstr "字段组已发布。"
+
+#: ../acf.php:411
+msgid "Field group saved."
+msgstr "设置已保存。"
+
+#: ../acf.php:412
+msgid "Field group submitted."
+msgstr "字段组已提交"
+
+#: ../acf.php:413
+msgid "Field group scheduled for."
+msgstr "字段组已定时。"
+
+#: ../acf.php:414
+msgid "Field group draft updated."
+msgstr "字段组草稿已更新。"
+
+#: ../acf.php:549
+msgid "Thumbnail"
+msgstr "缩略图"
+
+#: ../acf.php:550
+msgid "Medium"
+msgstr "中"
+
+#: ../acf.php:551
+msgid "Large"
+msgstr "大"
+
+#: ../acf.php:552
+msgid "Full"
+msgstr "原图"
+
+#: ../core/actions/export.php:23 ../core/views/meta_box_fields.php:57
+msgid "Error"
+msgstr "错误"
+
+#: ../core/actions/export.php:30
+msgid "No ACF groups selected"
+msgstr "没有选择ACF组"
+
+#: ../core/controllers/addons.php:42 ../core/controllers/field_groups.php:311
+msgid "Add-ons"
+msgstr "附加功能"
+
+#: ../core/controllers/addons.php:130 ../core/controllers/field_groups.php:432
+msgid "Repeater Field"
+msgstr "复制字段"
+
+#: ../core/controllers/addons.php:131
+msgid "Create infinite rows of repeatable data with this versatile interface!"
+msgstr "使用这个方面的界面为重复数据创建无限行。 "
+
+#: ../core/controllers/addons.php:137 ../core/controllers/field_groups.php:440
+msgid "Gallery Field"
+msgstr "相册字段"
+
+#: ../core/controllers/addons.php:138
+msgid "Create image galleries in a simple and intuitive interface!"
+msgstr "使用简单直观的界面创建画廊！"
+
+#: ../core/controllers/addons.php:144 ../core/controllers/export.php:380
+#: ../core/controllers/field_groups.php:448
+msgid "Options Page"
+msgstr "选项页面"
+
+#: ../core/controllers/addons.php:145
+msgid "Create global data to use throughout your website!"
+msgstr "创建整个站点可用的全局数据。"
+
+#: ../core/controllers/addons.php:151
+msgid "Flexible Content Field"
+msgstr "多样内容字段"
+
+#: ../core/controllers/addons.php:152
+msgid "Create unique designs with a flexible content layout manager!"
+msgstr "通过强大的内容布局管理功能创建一个独有的设计。"
+
+#: ../core/controllers/addons.php:161
+msgid "Gravity Forms Field"
+msgstr "Gravity表单字段"
+
+#: ../core/controllers/addons.php:162
+msgid "Creates a select field populated with Gravity Forms!"
+msgstr "创建一个由Gravity表单处理的选择字段。"
+
+#: ../core/controllers/addons.php:168
+msgid "Date & Time Picker"
+msgstr "日期&时间选择器"
+
+#: ../core/controllers/addons.php:169
+msgid "jQuery date & time picker"
+msgstr "jQuery 日期 & 时间选择器"
+
+#: ../core/controllers/addons.php:175
+msgid "Location Field"
+msgstr "位置字段"
+
+#: ../core/controllers/addons.php:176
+msgid "Find addresses and coordinates of a desired location"
+msgstr "查找需要的位置的地址和坐标。"
+
+#: ../core/controllers/addons.php:182
+msgid "Contact Form 7 Field"
+msgstr "Contact Form 7 字段"
+
+#: ../core/controllers/addons.php:183
+msgid "Assign one or more contact form 7 forms to a post"
+msgstr "分配一个或多个contact form 7表单到文章"
+
+#: ../core/controllers/addons.php:193
+msgid "Advanced Custom Fields Add-Ons"
+msgstr "自定义字段附加功能"
+
+#: ../core/controllers/addons.php:196
+msgid ""
+"The following Add-ons are available to increase the functionality of the "
+"Advanced Custom Fields plugin."
+msgstr "下面的附加项可以提高插件功能。"
+
+#: ../core/controllers/addons.php:197
+msgid ""
+"Each Add-on can be installed as a separate plugin (receives updates) or "
+"included in your theme (does not receive updates)."
+msgstr ""
+"每个附件都可以作为一个单独的插件安装（可以获取更新）或包含在你的主题中（不能"
+"获取更新）"
+
+#: ../core/controllers/addons.php:218 ../core/controllers/addons.php:239
+msgid "Installed"
+msgstr "已安装"
+
+#: ../core/controllers/addons.php:220
+msgid "Purchase & Install"
+msgstr "购买和安装"
+
+#: ../core/controllers/addons.php:241 ../core/controllers/field_groups.php:425
+#: ../core/controllers/field_groups.php:434
+#: ../core/controllers/field_groups.php:442
+#: ../core/controllers/field_groups.php:450
+#: ../core/controllers/field_groups.php:458
+msgid "Download"
+msgstr "下载"
+
+#: ../core/controllers/export.php:50 ../core/controllers/export.php:159
+msgid "Export"
+msgstr "导出"
+
+#: ../core/controllers/export.php:216
+msgid "Export Field Groups"
+msgstr "导出字段组"
+
+#: ../core/controllers/export.php:221
+msgid "Field Groups"
+msgstr "字段组"
+
+#: ../core/controllers/export.php:222
+msgid "Select the field groups to be exported"
+msgstr "选择需要导出的字段组。"
+
+#: ../core/controllers/export.php:239 ../core/controllers/export.php:252
+msgid "Export to XML"
+msgstr "导出到XML"
+
+#: ../core/controllers/export.php:242 ../core/controllers/export.php:267
+msgid "Export to PHP"
+msgstr "导出到PHP"
+
+#: ../core/controllers/export.php:253
+msgid ""
+"ACF will create a .xml export file which is compatible with the native WP "
+"import plugin."
+msgstr "ACF将创建一个兼容WP导入插件的.xml文件。"
+
+#: ../core/controllers/export.php:254
+msgid ""
+"Imported field groups <b>will</b> appear in the list of editable field "
+"groups. This is useful for migrating fields groups between Wp websites."
+msgstr ""
+"导入字段组将出现在可编辑字段组后面，在几个WP站点之间迁移字段组时，这将非常有"
+"用。"
+
+#: ../core/controllers/export.php:256
+msgid "Select field group(s) from the list and click \"Export XML\""
+msgstr "从列表中选择字段组，然后点击 \"导出XML\" "
+
+#: ../core/controllers/export.php:257
+msgid "Save the .xml file when prompted"
+msgstr "导出后保存.xml文件"
+
+#: ../core/controllers/export.php:258
+msgid "Navigate to Tools &raquo; Import and select WordPress"
+msgstr "转到工具 &raquo; 导入，然后选择WordPress "
+
+#: ../core/controllers/export.php:259
+msgid "Install WP import plugin if prompted"
+msgstr "安装WP导入插件后开始"
+
+#: ../core/controllers/export.php:260
+msgid "Upload and import your exported .xml file"
+msgstr "上传并导入.xml文件"
+
+#: ../core/controllers/export.php:261
+msgid "Select your user and ignore Import Attachments"
+msgstr "选择用户，忽略导入附件"
+
+#: ../core/controllers/export.php:262
+msgid "That's it! Happy WordPressing"
+msgstr "成功了，使用愉快！"
+
+#: ../core/controllers/export.php:268
+msgid "ACF will create the PHP code to include in your theme."
+msgstr "ACP将导出可以包含到主题中的PHP代码"
+
+#: ../core/controllers/export.php:269 ../core/controllers/export.php:310
+msgid ""
+"Registered field groups <b>will not</b> appear in the list of editable field "
+"groups. This is useful for including fields in themes."
+msgstr ""
+"已注册字段<b>不会</b>出现在可编辑分组中，这对主题中包含的字段非常有用。"
+
+#: ../core/controllers/export.php:270 ../core/controllers/export.php:311
+msgid ""
+"Please note that if you export and register field groups within the same WP, "
+"you will see duplicate fields on your edit screens. To fix this, please move "
+"the original field group to the trash or remove the code from your functions."
+"php file."
+msgstr ""
+"请注意，如果在同一个网站导出并注册字段组，您会在您的编辑屏幕上看到重复的字"
+"段，为了解决这个问题，请将原字段组移动到回收站或删除您的functions.php文件中的"
+"代码。"
+
+#: ../core/controllers/export.php:272
+msgid "Select field group(s) from the list and click \"Create PHP\""
+msgstr "参加列表中选择表单组，然后点击 \"生成PHP\""
+
+#: ../core/controllers/export.php:273 ../core/controllers/export.php:302
+msgid "Copy the PHP code generated"
+msgstr "复制生成的PHP代码。"
+
+#: ../core/controllers/export.php:274 ../core/controllers/export.php:303
+msgid "Paste into your functions.php file"
+msgstr "请插入您的function.php文件"
+
+#: ../core/controllers/export.php:275 ../core/controllers/export.php:304
+msgid "To activate any Add-ons, edit and use the code in the first few lines."
+msgstr "要激活附加组件，编辑和应用代码中的前几行。"
+
+#: ../core/controllers/export.php:295
+msgid "Export Field Groups to PHP"
+msgstr "导出字段组到PHP"
+
+#: ../core/controllers/export.php:300 ../core/fields/tab.php:64
+msgid "Instructions"
+msgstr "结构"
+
+#: ../core/controllers/export.php:309
+msgid "Notes"
+msgstr "注意"
+
+#: ../core/controllers/export.php:316
+msgid "Include in theme"
+msgstr "包含在主题中"
+
+#: ../core/controllers/export.php:317
+msgid ""
+"The Advanced Custom Fields plugin can be included within a theme. To do so, "
+"move the ACF plugin inside your theme and add the following code to your "
+"functions.php file:"
+msgstr ""
+"字段插件可以包含到主题中，如果需要进行此操作，请移动字段插件到themes文件夹并"
+"添加以下代码到functions.php文件："
+
+#: ../core/controllers/export.php:323
+msgid ""
+"To remove all visual interfaces from the ACF plugin, you can use a constant "
+"to enable lite mode. Add the following code to you functions.php file "
+"<b>before</b> the include_once code:"
+msgstr ""
+"要删除所有ACF插件的可视化界面，你可以用一个常数，使精简版模式，将下面的代码添"
+"加到functions.php文件中include_once代码<b>之前</b>。"
+
+#: ../core/controllers/export.php:331
+msgid "Back to export"
+msgstr "返回到导出器"
+
+#: ../core/controllers/export.php:352
+msgid ""
+"/**\n"
+" *  Install Add-ons\n"
+" *  \n"
+" *  The following code will include all 4 premium Add-Ons in your theme.\n"
+" *  Please do not attempt to include a file which does not exist. This will "
+"produce an error.\n"
+" *  \n"
+" *  All fields must be included during the 'acf/register_fields' action.\n"
+" *  Other types of Add-ons (like the options page) can be included outside "
+"of this action.\n"
+" *  \n"
+" *  The following code assumes you have a folder 'add-ons' inside your "
+"theme.\n"
+" *\n"
+" *  IMPORTANT\n"
+" *  Add-ons may be included in a premium theme as outlined in the terms and "
+"conditions.\n"
+" *  However, they are NOT to be included in a premium / free plugin.\n"
+" *  For more information, please read http://www.advancedcustomfields.com/"
+"terms-conditions/\n"
+" */"
+msgstr ""
+"/ **\n"
+" *安装附加组件\n"
+" *\n"
+" *下面的代码将包括所有4个高级附加组件到您的主题\n"
+" *请不要试图包含一个不存在的文件，这将产生一个错误。\n"
+" *\n"
+" *所有字段都必须在'acf/register_fields'动作执行时包含。\n"
+" *其他类型的加载项（如选项页）可以包含在这个动作之外。\n"
+" *\n"
+" *下面的代码假定你在你的主题里面有一个“add-ons”文件夹。\n"
+" *\n"
+" *重要\n"
+" *附加组件可能在一个高级主题中包含下面的条款及条件。\n"
+" *但是，他们都没有被列入高级或免费插件。\n"
+" *欲了解更多信息，请读取http://www.advancedcustomfields.com/terms-"
+"conditions/\n"
+" */"
+
+#: ../core/controllers/export.php:370 ../core/controllers/field_group.php:365
+#: ../core/controllers/field_group.php:427
+#: ../core/controllers/field_groups.php:148
+msgid "Fields"
+msgstr "字段"
+
+#: ../core/controllers/export.php:384
+msgid ""
+"/**\n"
+" *  Register Field Groups\n"
+" *\n"
+" *  The register_field_group function accepts 1 array which holds the "
+"relevant data to register a field group\n"
+" *  You may edit the array as you see fit. However, this may result in "
+"errors if the array is not compatible with ACF\n"
+" */"
+msgstr ""
+"/**\n"
+" * 注册字段组\n"
+" *\n"
+" * register_field_group函数接受一个包含注册字段组有关数据的数组\n"
+" *您可以编辑您认为合适的数组，然而，如果数组不兼容ACF，这可能会导致错误\n"
+" */"
+
+#: ../core/controllers/export.php:435
+msgid "No field groups were selected"
+msgstr "没有选择字段组"
+
+#: ../core/controllers/field_group.php:366
+msgid "Location"
+msgstr "位置"
+
+#: ../core/controllers/field_group.php:367
+#: ../core/views/meta_box_location.php:167
+msgid "Options"
+msgstr "选项"
+
+#: ../core/controllers/field_group.php:429
+msgid "Show Field Key:"
+msgstr "显示字段密钥："
+
+#: ../core/controllers/field_group.php:430 ../core/fields/page_link.php:113
+#: ../core/fields/page_link.php:134 ../core/fields/post_object.php:288
+#: ../core/fields/post_object.php:309 ../core/fields/select.php:230
+#: ../core/fields/select.php:249 ../core/fields/taxonomy.php:352
+#: ../core/fields/user.php:294 ../core/fields/wysiwyg.php:236
+#: ../core/views/meta_box_fields.php:198 ../core/views/meta_box_fields.php:221
+msgid "No"
+msgstr "否"
+
+#: ../core/controllers/field_group.php:431 ../core/fields/page_link.php:112
+#: ../core/fields/page_link.php:133 ../core/fields/post_object.php:287
+#: ../core/fields/post_object.php:308 ../core/fields/select.php:229
+#: ../core/fields/select.php:248 ../core/fields/taxonomy.php:351
+#: ../core/fields/user.php:293 ../core/fields/wysiwyg.php:235
+#: ../core/views/meta_box_fields.php:197 ../core/views/meta_box_fields.php:220
+msgid "Yes"
+msgstr "是"
+
+#: ../core/controllers/field_group.php:608
+msgid "Front Page"
+msgstr "首页"
+
+#: ../core/controllers/field_group.php:609
+msgid "Posts Page"
+msgstr "文章页"
+
+#: ../core/controllers/field_group.php:610
+msgid "Top Level Page (parent of 0)"
+msgstr "顶级分类（父级为0）"
+
+#: ../core/controllers/field_group.php:611
+msgid "Parent Page (has children)"
+msgstr "父分类（有子分类）"
+
+#: ../core/controllers/field_group.php:612
+msgid "Child Page (has parent)"
+msgstr "子分类（有父分类）"
+
+#: ../core/controllers/field_group.php:620
+msgid "Default Template"
+msgstr "默认模板"
+
+#: ../core/controllers/field_group.php:712
+#: ../core/controllers/field_group.php:733
+#: ../core/controllers/field_group.php:740 ../core/fields/page_link.php:84
+#: ../core/fields/post_object.php:234 ../core/fields/post_object.php:258
+#: ../core/fields/relationship.php:529 ../core/fields/relationship.php:553
+#: ../core/fields/user.php:238
+msgid "All"
+msgstr "所有"
+
+#: ../core/controllers/field_groups.php:147
+msgid "Title"
+msgstr "标题"
+
+#: ../core/controllers/field_groups.php:216
+#: ../core/controllers/field_groups.php:257
+msgid "Changelog"
+msgstr "更新日志"
+
+#: ../core/controllers/field_groups.php:217
+msgid "See what's new in"
+msgstr "查看更新内容于"
+
+#: ../core/controllers/field_groups.php:217
+msgid "version"
+msgstr "版本"
+
+#: ../core/controllers/field_groups.php:219
+msgid "Resources"
+msgstr "资源"
+
+#: ../core/controllers/field_groups.php:221
+msgid "Getting Started"
+msgstr "开始"
+
+#: ../core/controllers/field_groups.php:222
+msgid "Field Types"
+msgstr "字段类型"
+
+#: ../core/controllers/field_groups.php:223
+msgid "Functions"
+msgstr "功能"
+
+#: ../core/controllers/field_groups.php:224
+msgid "Actions"
+msgstr "操作"
+
+#: ../core/controllers/field_groups.php:225
+#: ../core/fields/relationship.php:572
+msgid "Filters"
+msgstr "过滤器"
+
+#: ../core/controllers/field_groups.php:226
+msgid "'How to' guides"
+msgstr "新手向导"
+
+#: ../core/controllers/field_groups.php:227
+msgid "Tutorials"
+msgstr "向导"
+
+#: ../core/controllers/field_groups.php:232
+msgid "Created by"
+msgstr "创建者"
+
+#: ../core/controllers/field_groups.php:235
+msgid "Vote"
+msgstr "投票"
+
+#: ../core/controllers/field_groups.php:236
+msgid "Follow"
+msgstr "关注"
+
+#: ../core/controllers/field_groups.php:248
+msgid "Welcome to Advanced Custom Fields"
+msgstr "欢迎来到高级自定义字段"
+
+#: ../core/controllers/field_groups.php:249
+msgid "Thank you for updating to the latest version!"
+msgstr "非常感谢你升级插件到最新版本！"
+
+#: ../core/controllers/field_groups.php:249
+msgid "is more polished and enjoyable than ever before. We hope you like it."
+msgstr "比任何时候都优雅有趣，希望你喜欢他。"
+
+#: ../core/controllers/field_groups.php:256
+msgid "What’s New"
+msgstr "更新日志"
+
+#: ../core/controllers/field_groups.php:259
+msgid "Download Add-ons"
+msgstr "下载附加功能"
+
+#: ../core/controllers/field_groups.php:313
+msgid "Activation codes have grown into plugins!"
+msgstr "激活码成为了插件！"
+
+#: ../core/controllers/field_groups.php:314
+msgid ""
+"Add-ons are now activated by downloading and installing individual plugins. "
+"Although these plugins will not be hosted on the wordpress.org repository, "
+"each Add-on will continue to receive updates in the usual way."
+msgstr ""
+"附加组件现在通过下载和安装单独的插件激活，虽然这些插件不在wordpress.org库托"
+"管，每个附加组件将通过合适的方式得到更新。"
+
+#: ../core/controllers/field_groups.php:320
+msgid "All previous Add-ons have been successfully installed"
+msgstr "所有附加功能已安装！"
+
+#: ../core/controllers/field_groups.php:324
+msgid "This website uses premium Add-ons which need to be downloaded"
+msgstr "此站点使用的高级功能需要下载。"
+
+#: ../core/controllers/field_groups.php:324
+msgid "Download your activated Add-ons"
+msgstr "下载已激活的附加功能"
+
+#: ../core/controllers/field_groups.php:329
+msgid ""
+"This website does not use premium Add-ons and will not be affected by this "
+"change."
+msgstr "此站点未使用高级功能，这个改变没有影响。"
+
+#: ../core/controllers/field_groups.php:339
+msgid "Easier Development"
+msgstr "快速开发"
+
+#: ../core/controllers/field_groups.php:341
+msgid "New Field Types"
+msgstr "新字段类型"
+
+#: ../core/controllers/field_groups.php:343
+msgid "Taxonomy Field"
+msgstr "分类法字段"
+
+#: ../core/controllers/field_groups.php:344
+msgid "User Field"
+msgstr "用户字段"
+
+#: ../core/controllers/field_groups.php:345
+msgid "Email Field"
+msgstr "电子邮件字段"
+
+#: ../core/controllers/field_groups.php:346
+msgid "Password Field"
+msgstr "密码字段"
+
+#: ../core/controllers/field_groups.php:348
+msgid "Custom Field Types"
+msgstr "自定义字段类型"
+
+#: ../core/controllers/field_groups.php:349
+msgid ""
+"Creating your own field type has never been easier! Unfortunately, version 3 "
+"field types are not compatible with version 4."
+msgstr ""
+"创建您自己的字段类型从未如此简单！不幸的是，版本3的字段类型不兼容版本4。"
+
+#: ../core/controllers/field_groups.php:350
+msgid "Migrating your field types is easy, please"
+msgstr "数据迁移非常简单，请"
+
+#: ../core/controllers/field_groups.php:350
+msgid "follow this tutorial"
+msgstr "跟随这个向导"
+
+#: ../core/controllers/field_groups.php:350
+msgid "to learn more."
+msgstr "了解更多。"
+
+#: ../core/controllers/field_groups.php:352
+msgid "Actions &amp; Filters"
+msgstr "动作&amp;过滤器"
+
+#: ../core/controllers/field_groups.php:353
+msgid ""
+"All actions & filters have recieved a major facelift to make customizing ACF "
+"even easier! Please"
+msgstr "所有动作和过滤器得到了一次重大改版一遍更方便的定制ACF！请"
+
+#: ../core/controllers/field_groups.php:353
+msgid "read this guide"
+msgstr "阅读此向导"
+
+#: ../core/controllers/field_groups.php:353
+msgid "to find the updated naming convention."
+msgstr "找到更新命名约定。"
+
+#: ../core/controllers/field_groups.php:355
+msgid "Preview draft is now working!"
+msgstr "预览功能已经可用！"
+
+#: ../core/controllers/field_groups.php:356
+msgid "This bug has been squashed along with many other little critters!"
+msgstr "这个错误已经与许多其他小动物一起被压扁了！"
+
+#: ../core/controllers/field_groups.php:356
+msgid "See the full changelog"
+msgstr "查看全部更新日志"
+
+#: ../core/controllers/field_groups.php:360
+msgid "Important"
+msgstr "重要"
+
+#: ../core/controllers/field_groups.php:362
+msgid "Database Changes"
+msgstr "数据库改变"
+
+#: ../core/controllers/field_groups.php:363
+msgid ""
+"Absolutely <strong>no</strong> changes have been made to the database "
+"between versions 3 and 4. This means you can roll back to version 3 without "
+"any issues."
+msgstr ""
+"数据库在版本3和4之间<strong>没有</strong>任何修改，这意味你可以安全回滚到版本"
+"3而不会遇到任何问题。"
+
+#: ../core/controllers/field_groups.php:365
+msgid "Potential Issues"
+msgstr "潜在问题"
+
+#: ../core/controllers/field_groups.php:366
+msgid ""
+"Do to the sizable changes surounding Add-ons, field types and action/"
+"filters, your website may not operate correctly. It is important that you "
+"read the full"
+msgstr ""
+"需要在附加组件，字段类型和动作/过滤之间做重大修改时，你可的网站可能会出现一些"
+"问题，所有强烈建议阅读全部"
+
+#: ../core/controllers/field_groups.php:366
+msgid "Migrating from v3 to v4"
+msgstr "从V3迁移到V4"
+
+#: ../core/controllers/field_groups.php:366
+msgid "guide to view the full list of changes."
+msgstr "查看所有更新列表。"
+
+#: ../core/controllers/field_groups.php:369
+msgid "Really Important!"
+msgstr "非常重要！"
+
+#: ../core/controllers/field_groups.php:369
+msgid ""
+"If you updated the ACF plugin without prior knowledge of such changes, "
+"Please roll back to the latest"
+msgstr "如果你没有收到更新通知而升级到了ACF插件，请回滚到最近的一个版本。"
+
+#: ../core/controllers/field_groups.php:369
+msgid "version 3"
+msgstr "版本 3"
+
+#: ../core/controllers/field_groups.php:369
+msgid "of this plugin."
+msgstr "这个插件"
+
+#: ../core/controllers/field_groups.php:374
+msgid "Thank You"
+msgstr "谢谢！"
+
+#: ../core/controllers/field_groups.php:375
+msgid ""
+"A <strong>BIG</strong> thank you to everyone who has helped test the version "
+"4 beta and for all the support I have received."
+msgstr "非常感谢帮助我测试版本4的所有人。"
+
+#: ../core/controllers/field_groups.php:376
+msgid "Without you all, this release would not have been possible!"
+msgstr "没有你们，此版本可能还没有发布。"
+
+#: ../core/controllers/field_groups.php:380
+msgid "Changelog for"
+msgstr "更新日志："
+
+#: ../core/controllers/field_groups.php:396
+msgid "Learn more"
+msgstr "了解更多"
+
+#: ../core/controllers/field_groups.php:402
+msgid "Overview"
+msgstr "预览"
+
+#: ../core/controllers/field_groups.php:404
+msgid ""
+"Previously, all Add-ons were unlocked via an activation code (purchased from "
+"the ACF Add-ons store). New to v4, all Add-ons act as separate plugins which "
+"need to be individually downloaded, installed and updated."
+msgstr ""
+"在此之前，所有附加组件通过一个激活码（从ACF附加组件的商店购买）解锁，到了版本"
+"V4，所有附加组件作为单独的插件下载，安装和更新。"
+
+#: ../core/controllers/field_groups.php:406
+msgid ""
+"This page will assist you in downloading and installing each available Add-"
+"on."
+msgstr "此页将帮助您下载和安装每个可用的附加组件。"
+
+#: ../core/controllers/field_groups.php:408
+msgid "Available Add-ons"
+msgstr "可用附加功能"
+
+#: ../core/controllers/field_groups.php:410
+msgid "The following Add-ons have been detected as activated on this website."
+msgstr "在此网站上检测到以下附加已激活。"
+
+#: ../core/controllers/field_groups.php:423
+msgid "Name"
+msgstr "名称"
+
+#: ../core/controllers/field_groups.php:424
+msgid "Activation Code"
+msgstr "激活码"
+
+#: ../core/controllers/field_groups.php:456
+msgid "Flexible Content"
+msgstr "大段内容"
+
+#: ../core/controllers/field_groups.php:466
+msgid "Installation"
+msgstr "安装"
+
+#: ../core/controllers/field_groups.php:468
+msgid "For each Add-on available, please perform the following:"
+msgstr "对于每个可以用附加组件，请执行以下操作："
+
+#: ../core/controllers/field_groups.php:470
+msgid "Download the Add-on plugin (.zip file) to your desktop"
+msgstr "下载附加功能（.zip文件）到电脑。"
+
+#: ../core/controllers/field_groups.php:471
+msgid "Navigate to"
+msgstr "链接到"
+
+#: ../core/controllers/field_groups.php:471
+msgid "Plugins > Add New > Upload"
+msgstr "插件>添加>上传"
+
+#: ../core/controllers/field_groups.php:472
+msgid "Use the uploader to browse, select and install your Add-on (.zip file)"
+msgstr "使用文件上载器，浏览，选择并安装附加组件（zip文件）"
+
+#: ../core/controllers/field_groups.php:473
+msgid ""
+"Once the plugin has been uploaded and installed, click the 'Activate Plugin' "
+"link"
+msgstr "插件上传并安装后，点击'激活插件'链接。"
+
+#: ../core/controllers/field_groups.php:474
+msgid "The Add-on is now installed and activated!"
+msgstr "附加功能已安装并启用。"
+
+#: ../core/controllers/field_groups.php:488
+msgid "Awesome. Let's get to work"
+msgstr "太棒了！我们开始吧。"
+
+#: ../core/controllers/input.php:480
+msgid "Validation Failed. One or more fields below are required."
+msgstr "验证失败，下面一个或多个字段是必需的。"
+
+#: ../core/controllers/input.php:482
+msgid "Maximum values reached ( {max} values )"
+msgstr "达到了最大值 ( {max} 值 ) "
+
+#: ../core/controllers/upgrade.php:72
+msgid "Upgrade"
+msgstr "升级"
+
+#: ../core/controllers/upgrade.php:616
+msgid "Modifying field group options 'show on page'"
+msgstr "修改字段组选项'在页面上显示'"
+
+#: ../core/controllers/upgrade.php:670
+msgid "Modifying field option 'taxonomy'"
+msgstr "修改字段选项'分类法'"
+
+#: ../core/controllers/upgrade.php:767
+msgid "Moving user custom fields from wp_options to wp_usermeta'"
+msgstr "从wp_options移动用户自定义字段到wp_usermeta"
+
+#: ../core/fields/checkbox.php:19 ../core/fields/taxonomy.php:328
+msgid "Checkbox"
+msgstr "复选框"
+
+#: ../core/fields/checkbox.php:20 ../core/fields/radio.php:20
+#: ../core/fields/select.php:23 ../core/fields/true_false.php:20
+msgid "Choice"
+msgstr "选项"
+
+#: ../core/fields/checkbox.php:138 ../core/fields/radio.php:121
+#: ../core/fields/select.php:183
+msgid "Choices"
+msgstr "选项"
+
+#: ../core/fields/checkbox.php:139 ../core/fields/select.php:184
+msgid "Enter each choice on a new line."
+msgstr "输入选项，每行一个"
+
+#: ../core/fields/checkbox.php:140 ../core/fields/select.php:185
+msgid "For more control, you may specify both a value and label like this:"
+msgstr "如果需要更多控制，你按照一下格式，定义一个值和标签对："
+
+#: ../core/fields/checkbox.php:141 ../core/fields/radio.php:127
+#: ../core/fields/select.php:186
+msgid "red : Red"
+msgstr " red : Red "
+
+#: ../core/fields/checkbox.php:141 ../core/fields/radio.php:128
+#: ../core/fields/select.php:186
+msgid "blue : Blue"
+msgstr " blue : Blue "
+
+#: ../core/fields/checkbox.php:158 ../core/fields/color_picker.php:73
+#: ../core/fields/email.php:71 ../core/fields/number.php:71
+#: ../core/fields/radio.php:146 ../core/fields/select.php:203
+#: ../core/fields/text.php:73 ../core/fields/textarea.php:73
+#: ../core/fields/true_false.php:104 ../core/fields/wysiwyg.php:179
+msgid "Default Value"
+msgstr "默认值"
+
+#: ../core/fields/checkbox.php:159 ../core/fields/select.php:204
+msgid "Enter each default value on a new line"
+msgstr "每行输入一个默认值"
+
+#: ../core/fields/color_picker.php:19
+msgid "Color Picker"
+msgstr "颜色选择"
+
+#: ../core/fields/color_picker.php:20
+#: ../core/fields/date_picker/date_picker.php:20
+msgid "jQuery"
+msgstr "jQuery"
+
+#: ../core/fields/color_picker.php:74
+msgid "eg: #ffffff"
+msgstr "如: #ffffff "
+
+#: ../core/fields/dummy.php:19
+msgid "Dummy"
+msgstr "二进制"
+
+#: ../core/fields/email.php:19
+msgid "Email"
+msgstr "电子邮件"
+
+#: ../core/fields/file.php:19
+msgid "File"
+msgstr "文件"
+
+#: ../core/fields/file.php:20 ../core/fields/image.php:20
+#: ../core/fields/wysiwyg.php:20
+msgid "Content"
+msgstr "内容"
+
+#: ../core/fields/file.php:76 ../core/fields/image.php:76
+#: ../core/views/meta_box_fields.php:113
+msgid "Edit"
+msgstr "编辑"
+
+#: ../core/fields/file.php:77 ../core/fields/image.php:75
+msgid "Remove"
+msgstr "删除"
+
+#: ../core/fields/file.php:84
+msgid "No File Selected"
+msgstr "没有选择文件"
+
+#: ../core/fields/file.php:84
+msgid "Add File"
+msgstr "添加文件"
+
+#: ../core/fields/file.php:119 ../core/fields/image.php:116
+#: ../core/fields/taxonomy.php:376
+msgid "Return Value"
+msgstr "返回值"
+
+#: ../core/fields/file.php:130
+msgid "File Object"
+msgstr "文件对象"
+
+#: ../core/fields/file.php:131
+msgid "File URL"
+msgstr "文件URL"
+
+#: ../core/fields/file.php:132
+msgid "File ID"
+msgstr "文件ID"
+
+#: ../core/fields/file.php:243
+msgid "File Updated."
+msgstr "文件已更新"
+
+#: ../core/fields/file.php:335 ../core/fields/image.php:374
+msgid "Media attachment updated."
+msgstr "媒体附件已更新。"
+
+#: ../core/fields/file.php:493
+msgid "No files selected"
+msgstr "没有选择文件"
+
+#: ../core/fields/file.php:634
+msgid "Add Selected Files"
+msgstr "添加已选择文件"
+
+#: ../core/fields/file.php:667
+msgid "Select File"
+msgstr "选择文件"
+
+#: ../core/fields/file.php:670
+msgid "Update File"
+msgstr "更新文件"
+
+#: ../core/fields/image.php:19
+msgid "Image"
+msgstr "图像"
+
+#: ../core/fields/image.php:82
+msgid "No image selected"
+msgstr "没有选择图片"
+
+#: ../core/fields/image.php:82
+msgid "Add Image"
+msgstr "添加图片"
+
+#: ../core/fields/image.php:126
+msgid "Image Object"
+msgstr "对象图像"
+
+#: ../core/fields/image.php:127
+msgid "Image URL"
+msgstr "图像 URL"
+
+#: ../core/fields/image.php:128
+msgid "Image ID"
+msgstr "图像ID"
+
+#: ../core/fields/image.php:136
+msgid "Preview Size"
+msgstr "预览图大小"
+
+#: ../core/fields/image.php:283
+msgid "Image Updated."
+msgstr "图片已更新"
+
+#: ../core/fields/image.php:525
+msgid "No images selected"
+msgstr "没有选择图片"
+
+#: ../core/fields/image.php:667
+msgid "Add Selected Images"
+msgstr "添加所选图片"
+
+#: ../core/fields/image.php:696
+msgid "Select Image"
+msgstr "选择图像"
+
+#: ../core/fields/image.php:699
+msgid "Update Image"
+msgstr "更新图像"
+
+#: ../core/fields/message.php:19 ../core/fields/message.php:71
+#: ../core/fields/true_false.php:89
+msgid "Message"
+msgstr "消息"
+
+#: ../core/fields/message.php:20 ../core/fields/radio.php:162
+#: ../core/fields/tab.php:20
+msgid "Layout"
+msgstr "样式"
+
+#: ../core/fields/message.php:72
+msgid "Text &amp; HTML entered here will appear inline with the fields"
+msgstr "在这里输入的文本和HTML将和此字段一起出现。"
+
+#: ../core/fields/message.php:73
+msgid "Please note that all text will first be passed through the wp function "
+msgstr "请注意，所有文本将首页通过WP过滤功能"
+
+#: ../core/fields/number.php:19
+msgid "Number"
+msgstr "号码"
+
+#: ../core/fields/page_link.php:19
+msgid "Page Link"
+msgstr "页面链接"
+
+#: ../core/fields/page_link.php:20 ../core/fields/post_object.php:20
+#: ../core/fields/relationship.php:23 ../core/fields/taxonomy.php:23
+#: ../core/fields/user.php:23
+msgid "Relational"
+msgstr "关系"
+
+#: ../core/fields/page_link.php:78 ../core/fields/post_object.php:228
+#: ../core/fields/relationship.php:523 ../core/fields/relationship.php:602
+#: ../core/views/meta_box_location.php:72
+msgid "Post Type"
+msgstr "文章类型"
+
+#: ../core/fields/page_link.php:102 ../core/fields/post_object.php:277
+#: ../core/fields/select.php:220 ../core/fields/taxonomy.php:342
+#: ../core/fields/user.php:284
+msgid "Allow Null?"
+msgstr "是否允许空值？"
+
+#: ../core/fields/page_link.php:123 ../core/fields/post_object.php:298
+#: ../core/fields/select.php:239
+msgid "Select multiple values?"
+msgstr "是否选择多个值？"
+
+#: ../core/fields/password.php:19
+msgid "Password"
+msgstr "密码"
+
+#: ../core/fields/post_object.php:19
+msgid "Post Object"
+msgstr "文章对象"
+
+#: ../core/fields/post_object.php:252 ../core/fields/relationship.php:547
+msgid "Filter from Taxonomy"
+msgstr "通过分类法过滤"
+
+#: ../core/fields/radio.php:19
+msgid "Radio Button"
+msgstr "单选按钮"
+
+#: ../core/fields/radio.php:122
+msgid "Enter your choices one per line"
+msgstr "输入选项，每行一个"
+
+#: ../core/fields/radio.php:124
+msgid "Red"
+msgstr "红"
+
+#: ../core/fields/radio.php:125
+msgid "Blue"
+msgstr "蓝"
+
+#: ../core/fields/radio.php:173
+msgid "Vertical"
+msgstr "垂直"
+
+#: ../core/fields/radio.php:174
+msgid "Horizontal"
+msgstr "水平"
+
+#: ../core/fields/relationship.php:22
+msgid "Relationship"
+msgstr "关系"
+
+#: ../core/fields/relationship.php:362 ../core/fields/relationship.php:581
+msgid "Search"
+msgstr "搜索"
+
+#: ../core/fields/relationship.php:582
+msgid "Post Type Select"
+msgstr "文章类型选择"
+
+#: ../core/fields/relationship.php:590
+msgid "Elements"
+msgstr "元素"
+
+#: ../core/fields/relationship.php:591
+msgid "Selected elements will be displayed in each result"
+msgstr "选择的元素将在每个结果中显示。"
+
+#: ../core/fields/relationship.php:601
+msgid "Post Title"
+msgstr "文章类型"
+
+#: ../core/fields/relationship.php:613
+msgid "Maximum posts"
+msgstr "最大文章数"
+
+#: ../core/fields/select.php:22 ../core/fields/taxonomy.php:333
+#: ../core/fields/user.php:275
+msgid "Select"
+msgstr "选择"
+
+#: ../core/fields/tab.php:19
+msgid "Tab"
+msgstr "选项卡"
+
+#: ../core/fields/tab.php:67
+msgid ""
+"All fields proceeding this \"tab field\" (or until another \"tab field\"  is "
+"defined) will appear grouped on the edit screen."
+msgstr ""
+"所有选项处理这个\"选项卡域\" (或等到定义了\"选项卡域\")将在编辑屏幕分组出现。"
+
+#: ../core/fields/tab.php:68
+msgid "You can use multiple tabs to break up your fields into sections."
+msgstr "你可以使用选项卡分割字段到多个区域。"
+
+#: ../core/fields/taxonomy.php:22 ../core/fields/taxonomy.php:287
+msgid "Taxonomy"
+msgstr "分类法"
+
+#: ../core/fields/taxonomy.php:221 ../core/fields/taxonomy.php:230
+#: ../core/fields/text.php:97 ../core/fields/textarea.php:97
+msgid "None"
+msgstr "None"
+
+#: ../core/fields/taxonomy.php:317 ../core/fields/user.php:260
+#: ../core/views/meta_box_fields.php:82 ../core/views/meta_box_fields.php:163
+msgid "Field Type"
+msgstr "字段类型"
+
+#: ../core/fields/taxonomy.php:327 ../core/fields/user.php:269
+msgid "Multiple Values"
+msgstr "多选"
+
+#: ../core/fields/taxonomy.php:329 ../core/fields/user.php:271
+msgid "Multi Select"
+msgstr "多选"
+
+#: ../core/fields/taxonomy.php:331 ../core/fields/user.php:273
+msgid "Single Value"
+msgstr "单个值"
+
+#: ../core/fields/taxonomy.php:332
+msgid "Radio Buttons"
+msgstr "单选框"
+
+#: ../core/fields/taxonomy.php:361
+msgid "Load & Save Terms to Post"
+msgstr "加载&保存条目到文章。"
+
+#: ../core/fields/taxonomy.php:369
+msgid ""
+"Load value based on the post's terms and update the post's terms on save"
+msgstr "在文章上加载值，保存时更新文章条目。"
+
+#: ../core/fields/taxonomy.php:386
+msgid "Term Object"
+msgstr "对象缓存"
+
+#: ../core/fields/taxonomy.php:387
+msgid "Term ID"
+msgstr "内容ID"
+
+#: ../core/fields/text.php:19
+msgid "Text"
+msgstr "文本"
+
+#: ../core/fields/text.php:87 ../core/fields/textarea.php:87
+msgid "Formatting"
+msgstr "格式化"
+
+#: ../core/fields/text.php:88
+msgid "Define how to render html tags"
+msgstr "定义怎么生成html标签"
+
+#: ../core/fields/text.php:98 ../core/fields/textarea.php:99
+msgid "HTML"
+msgstr "HTML"
+
+#: ../core/fields/textarea.php:19
+msgid "Text Area"
+msgstr "文本段"
+
+#: ../core/fields/textarea.php:88
+msgid "Define how to render html tags / new lines"
+msgstr "定义怎么处理html标签和换行"
+
+#: ../core/fields/textarea.php:98
+msgid "auto &lt;br /&gt;"
+msgstr "自动添加&lt;br /&gt;"
+
+#: ../core/fields/true_false.php:19
+msgid "True / False"
+msgstr "真/假"
+
+#: ../core/fields/true_false.php:90
+msgid "eg. Show extra content"
+msgstr "例如：显示附加内容"
+
+#: ../core/fields/user.php:22
+msgid "User"
+msgstr "用户"
+
+#: ../core/fields/user.php:233
+msgid "Filter by role"
+msgstr "根据角色过滤"
+
+#: ../core/fields/wysiwyg.php:19
+msgid "Wysiwyg Editor"
+msgstr "可视化编辑器"
+
+#: ../core/fields/wysiwyg.php:193
+msgid "Toolbar"
+msgstr "工具条"
+
+#: ../core/fields/wysiwyg.php:225
+msgid "Show Media Upload Buttons?"
+msgstr "是否显示媒体上传按钮？"
+
+#: ../core/fields/_base.php:120 ../core/views/meta_box_location.php:71
+msgid "Basic"
+msgstr "基本"
+
+#: ../core/fields/date_picker/date_picker.php:19
+msgid "Date Picker"
+msgstr "日期选择"
+
+#: ../core/fields/date_picker/date_picker.php:52
+#: ../core/fields/date_picker/date_picker.php:132
+msgid "Done"
+msgstr "完成"
+
+#: ../core/fields/date_picker/date_picker.php:53
+#: ../core/fields/date_picker/date_picker.php:133
+msgid "Today"
+msgstr "今天"
+
+#: ../core/fields/date_picker/date_picker.php:56
+#: ../core/fields/date_picker/date_picker.php:136
+msgid "Show a different month"
+msgstr "显示其他月份"
+
+#: ../core/fields/date_picker/date_picker.php:146
+msgid "Save format"
+msgstr "保存格式"
+
+#: ../core/fields/date_picker/date_picker.php:147
+msgid ""
+"This format will determin the value saved to the database and returned via "
+"the API"
+msgstr "此格式将决定存储在数据库中的值，并通过API返回。"
+
+#: ../core/fields/date_picker/date_picker.php:148
+msgid "\"yymmdd\" is the most versatile save format. Read more about"
+msgstr "\"yymmdd\" 是最常用的格式，如需了解更多，请参考"
+
+#: ../core/fields/date_picker/date_picker.php:148
+#: ../core/fields/date_picker/date_picker.php:164
+msgid "jQuery date formats"
+msgstr "jQuery日期格式"
+
+#: ../core/fields/date_picker/date_picker.php:162
+msgid "Display format"
+msgstr "显示格式"
+
+#: ../core/fields/date_picker/date_picker.php:163
+msgid "This format will be seen by the user when entering a value"
+msgstr "这是用户输入日期后看到的格式。"
+
+#: ../core/fields/date_picker/date_picker.php:164
+msgid ""
+"\"dd/mm/yy\" or \"mm/dd/yy\" are the most used display formats. Read more "
+"about"
+msgstr "\"dd/mm/yy\" 或 \"mm/dd/yy\" 为最常用的显示格式，了解更多"
+
+#: ../core/fields/date_picker/date_picker.php:178
+msgid "Week Starts On"
+msgstr "每周开始于"
+
+#: ../core/views/meta_box_fields.php:23
+msgid "New Field"
+msgstr "新字段"
+
+#: ../core/views/meta_box_fields.php:24
+msgid "new_field"
+msgstr "新字段"
+
+#: ../core/views/meta_box_fields.php:57
+msgid "Field type does not exist"
+msgstr "字段类型不存在！"
+
+#: ../core/views/meta_box_fields.php:64
+msgid "Move to trash. Are you sure?"
+msgstr "确定要删除吗？"
+
+#: ../core/views/meta_box_fields.php:65
+msgid "checked"
+msgstr "选中"
+
+#: ../core/views/meta_box_fields.php:66
+msgid "No toggle fields available"
+msgstr "没有可用的条件字段"
+
+#: ../core/views/meta_box_fields.php:67
+msgid "copy"
+msgstr "复制"
+
+#: ../core/views/meta_box_fields.php:79
+msgid "Field Order"
+msgstr "字段顺序"
+
+#: ../core/views/meta_box_fields.php:80 ../core/views/meta_box_fields.php:132
+msgid "Field Label"
+msgstr "字段标签"
+
+#: ../core/views/meta_box_fields.php:81 ../core/views/meta_box_fields.php:148
+msgid "Field Name"
+msgstr "字段名称"
+
+#: ../core/views/meta_box_fields.php:83
+msgid "Field Key"
+msgstr "需要现场："
+
+#: ../core/views/meta_box_fields.php:95
+msgid ""
+"No fields. Click the <strong>+ Add Field</strong> button to create your "
+"first field."
+msgstr "没有字段，点击<strong>添加</strong>按钮创建第一个字段。"
+
+#: ../core/views/meta_box_fields.php:110 ../core/views/meta_box_fields.php:113
+msgid "Edit this Field"
+msgstr "编辑当前字段"
+
+#: ../core/views/meta_box_fields.php:114
+msgid "Read documentation for this field"
+msgstr "阅读此字段的文档"
+
+#: ../core/views/meta_box_fields.php:114
+msgid "Docs"
+msgstr "文档"
+
+#: ../core/views/meta_box_fields.php:115
+msgid "Duplicate this Field"
+msgstr "复制此项"
+
+#: ../core/views/meta_box_fields.php:115
+msgid "Duplicate"
+msgstr "复制"
+
+#: ../core/views/meta_box_fields.php:116
+msgid "Delete this Field"
+msgstr "删除此项"
+
+#: ../core/views/meta_box_fields.php:116
+msgid "Delete"
+msgstr "删除"
+
+#: ../core/views/meta_box_fields.php:133
+msgid "This is the name which will appear on the EDIT page"
+msgstr "在编辑界面显示的名字。"
+
+#: ../core/views/meta_box_fields.php:149
+msgid "Single word, no spaces. Underscores and dashes allowed"
+msgstr "单个字符串，不能有空格，可以用横线或下画线。"
+
+#: ../core/views/meta_box_fields.php:176
+msgid "Field Instructions"
+msgstr "字段说明"
+
+#: ../core/views/meta_box_fields.php:177
+msgid "Instructions for authors. Shown when submitting data"
+msgstr "字段说明，显示在表单下面。"
+
+#: ../core/views/meta_box_fields.php:189
+msgid "Required?"
+msgstr "(必填项)"
+
+#: ../core/views/meta_box_fields.php:212
+msgid "Conditional Logic"
+msgstr "条件逻辑"
+
+#: ../core/views/meta_box_fields.php:263
+#: ../core/views/meta_box_location.php:113
+msgid "is equal to"
+msgstr "等于"
+
+#: ../core/views/meta_box_fields.php:264
+#: ../core/views/meta_box_location.php:114
+msgid "is not equal to"
+msgstr "不等于"
+
+#: ../core/views/meta_box_fields.php:282
+msgid "Show this field when"
+msgstr "符合这些规则中的"
+
+#: ../core/views/meta_box_fields.php:288
+msgid "all"
+msgstr "所有"
+
+#: ../core/views/meta_box_fields.php:289
+msgid "any"
+msgstr "任一个"
+
+#: ../core/views/meta_box_fields.php:292
+msgid "these rules are met"
+msgstr "项时，显示此字段"
+
+#: ../core/views/meta_box_fields.php:306
+msgid "Close Field"
+msgstr "关闭字段"
+
+#: ../core/views/meta_box_fields.php:319
+msgid "Drag and drop to reorder"
+msgstr "托拽排序"
+
+#: ../core/views/meta_box_fields.php:320
+msgid "+ Add Field"
+msgstr "添加字段"
+
+#: ../core/views/meta_box_location.php:45
+msgid "Rules"
+msgstr "规则"
+
+#: ../core/views/meta_box_location.php:46
+msgid ""
+"Create a set of rules to determine which edit screens will use these "
+"advanced custom fields"
+msgstr "创建一组规则以确定自定义字段在那个编辑界面显示。"
+
+#: ../core/views/meta_box_location.php:57
+msgid "Show this field group if"
+msgstr "显示此字段组的条件"
+
+#: ../core/views/meta_box_location.php:59
+#: ../core/views/meta_box_location.php:155
+#: ../core/views/meta_box_location.php:172
+msgid "or"
+msgstr " 或"
+
+#: ../core/views/meta_box_location.php:73
+msgid "Logged in User Type"
+msgstr "用户类型已记录"
+
+#: ../core/views/meta_box_location.php:75
+#: ../core/views/meta_box_location.php:76
+msgid "Page"
+msgstr "页面"
+
+#: ../core/views/meta_box_location.php:77
+msgid "Page Type"
+msgstr "页面类型"
+
+#: ../core/views/meta_box_location.php:78
+msgid "Page Parent"
+msgstr "父级页面"
+
+#: ../core/views/meta_box_location.php:79
+msgid "Page Template"
+msgstr "页面模板"
+
+#: ../core/views/meta_box_location.php:81
+#: ../core/views/meta_box_location.php:82
+msgid "Post"
+msgstr "日志"
+
+#: ../core/views/meta_box_location.php:83
+msgid "Post Category"
+msgstr "文章类别"
+
+#: ../core/views/meta_box_location.php:84
+msgid "Post Format"
+msgstr "文章格式"
+
+#: ../core/views/meta_box_location.php:85
+msgid "Post Taxonomy"
+msgstr "分类法"
+
+#: ../core/views/meta_box_location.php:87
+msgid "Other"
+msgstr "其他"
+
+#: ../core/views/meta_box_location.php:88
+msgid "Taxonomy Term (Add / Edit)"
+msgstr "分类法条目（添加/编辑）"
+
+#: ../core/views/meta_box_location.php:89
+msgid "User (Add / Edit)"
+msgstr "用户（添加./编辑）"
+
+#: ../core/views/meta_box_location.php:90
+msgid "Media Attachment (Edit)"
+msgstr "媒体附件（编辑）"
+
+#: ../core/views/meta_box_location.php:142
+msgid "and"
+msgstr "+"
+
+#: ../core/views/meta_box_location.php:157
+msgid "Add rule group"
+msgstr "添加规则组"
+
+#: ../core/views/meta_box_location.php:168
+msgid "Unlock options add-on with an activation code"
+msgstr "使用激活码解锁附加功能"
+
+#: ../core/views/meta_box_options.php:23
+msgid "Order No."
+msgstr "序号"
+
+#: ../core/views/meta_box_options.php:24
+msgid "Field groups are created in order <br />from lowest to highest"
+msgstr "字段组排序<br />从低到高。"
+
+#: ../core/views/meta_box_options.php:40
+msgid "Position"
+msgstr "位置"
+
+#: ../core/views/meta_box_options.php:50
+msgid "Normal"
+msgstr "普通"
+
+#: ../core/views/meta_box_options.php:51
+msgid "Side"
+msgstr "边栏"
+
+#: ../core/views/meta_box_options.php:60
+msgid "Style"
+msgstr "样式"
+
+#: ../core/views/meta_box_options.php:70
+msgid "No Metabox"
+msgstr "无Metabox"
+
+#: ../core/views/meta_box_options.php:71
+msgid "Standard Metabox"
+msgstr "标准Metabox"
+
+#: ../core/views/meta_box_options.php:80
+msgid "Hide on screen"
+msgstr "隐藏元素"
+
+#: ../core/views/meta_box_options.php:81
+msgid "<b>Select</b> items to <b>hide</b> them from the edit screen"
+msgstr "<b>选择</b>需要在编辑界面<b>隐藏</b>的条目。 "
+
+#: ../core/views/meta_box_options.php:82
+msgid ""
+"If multiple field groups appear on an edit screen, the first field group's "
+"options will be used. (the one with the lowest order number)"
+msgstr ""
+"如果多个自定组出现在编辑界面，只有第一个字段组的设置有效（序号最小的）。"
+
+#: ../core/views/meta_box_options.php:92
+msgid "Content Editor"
+msgstr "内容编辑器"
+
+#: ../core/views/meta_box_options.php:93
+msgid "Excerpt"
+msgstr "摘要"
+
+#: ../core/views/meta_box_options.php:95
+msgid "Discussion"
+msgstr "讨论"
+
+#: ../core/views/meta_box_options.php:96
+msgid "Comments"
+msgstr "评论"
+
+#: ../core/views/meta_box_options.php:97
+msgid "Revisions"
+msgstr "版本控制"
+
+#: ../core/views/meta_box_options.php:98
+msgid "Slug"
+msgstr "别名"
+
+#: ../core/views/meta_box_options.php:99
+msgid "Author"
+msgstr "作者"
+
+#: ../core/views/meta_box_options.php:100
+msgid "Format"
+msgstr "格式"
+
+#: ../core/views/meta_box_options.php:101
+msgid "Featured Image"
+msgstr "特色图像"
+
+#: ../core/views/meta_box_options.php:102
+msgid "Categories"
+msgstr "类别"
+
+#: ../core/views/meta_box_options.php:103
+msgid "Tags"
+msgstr "标签"
+
+#: ../core/views/meta_box_options.php:104
+msgid "Send Trackbacks"
+msgstr "发送反馈"
+
+#~ msgid "Add-Ons"
+#~ msgstr "附加"
+
+#~ msgid "Just updated to version 4?"
+#~ msgstr "刚更新到版本4？"
+
+#~ msgid ""
+#~ "Activation codes have changed to plugins! Download your purchased add-ons"
+#~ msgstr "激活码已改变了插件，请下载已购买的附加功能。"
+
+#~ msgid "here"
+#~ msgstr "这里"
+
+#~ msgid "Type"
+#~ msgstr "类型"
+
+#~ msgid "match"
+#~ msgstr "符合"
+
+#~ msgid "of the above"
+#~ msgstr "  "
+
+#~ msgid "Parent Page"
+#~ msgstr "父页面"
+
+#~ msgid ""
+#~ "Read documentation, learn the functions and find some tips &amp; tricks "
+#~ "for your next web project."
+#~ msgstr "阅读文档，学习功能和发现一些小提示，然后应用到你下一个网站项目中。"
+
+#~ msgid "Visit the ACF website"
+#~ msgstr "访问ACF网站"
+
+#~ msgid "Add File to Field"
+#~ msgstr "添加文件"
+
+#~ msgid "Edit File"
+#~ msgstr "编辑文件"
+
+#~ msgid "Add Image to Field"
+#~ msgstr "添加图片"
+
+#~ msgid "Add Image to Gallery"
+#~ msgstr "添加图片到相册"
+
+#~ msgid "Attachment updated"
+#~ msgstr "附件已更新"
+
+#~ msgid "Options Updated"
+#~ msgstr "选项已更新"
+
+#~ msgid "No Custom Field Group found for the options page"
+#~ msgstr "没有为选项页找到自定义字段组。"
+
+#~ msgid "Create a Custom Field Group"
+#~ msgstr "创建自定义字段组"
+
+#~ msgid "Publish"
+#~ msgstr "发布"
+
+#~ msgid "Save Options"
+#~ msgstr "保存"
+
+#~ msgid "Settings"
+#~ msgstr "设置"
+
+#~ msgid "Repeater field deactivated"
+#~ msgstr "检测到复制字段"
+
+#~ msgid "Options page deactivated"
+#~ msgstr "检测到选项页面"
+
+#~ msgid "Flexible Content field deactivated"
+#~ msgstr "检测到多样内容字段"
+
+#~ msgid "Gallery field deactivated"
+#~ msgstr "检测到相册字段"
+
+#~ msgid "Repeater field activated"
+#~ msgstr "复制插件已激活。"
+
+#~ msgid "Options page activated"
+#~ msgstr "选项页面已激活"
+
+#~ msgid "Flexible Content field activated"
+#~ msgstr "多样内容字段已激活"
+
+#~ msgid "Gallery field activated"
+#~ msgstr "插件激活成功。"
+
+#~ msgid "License key unrecognised"
+#~ msgstr "许可密钥未注册"
+
+#~ msgid ""
+#~ "Add-ons can be unlocked by purchasing a license key. Each key can be used "
+#~ "on multiple sites."
+#~ msgstr "可以购买一个许可证来激活附加功能，每个许可证可用于许多站点。"
+
+#~ msgid "Status"
+#~ msgstr "状态"
+
+#~ msgid "Active"
+#~ msgstr "激活"
+
+#~ msgid "Inactive"
+#~ msgstr "未禁用"
+
+#~ msgid "Deactivate"
+#~ msgstr "禁用"
+
+#~ msgid "Activate"
+#~ msgstr "激活"
+
+#~ msgid "Register Field Groups"
+#~ msgstr "注册字段组"
+
+#~ msgid "Create PHP"
+#~ msgstr "创建PHP"
+
+#~ msgid "Advanced Custom Fields Settings"
+#~ msgstr "高级自动设置"
+
+#~ msgid "requires a database upgrade"
+#~ msgstr "数据库需要升级"
+
+#~ msgid "why?"
+#~ msgstr "为什么？"
+
+#~ msgid "Please"
+#~ msgstr "请"
+
+#~ msgid "backup your database"
+#~ msgstr "备份数据库"
+
+#~ msgid "then click"
+#~ msgstr "然后点击"
+
+#~ msgid "Upgrade Database"
+#~ msgstr "升级数据库"
+
+#~ msgid "No choices to choose from"
+#~ msgstr "选择表单没有选"
+
+#~ msgid "+ Add Row"
+#~ msgstr "添加行"
+
+#~ msgid "Add Row"
+#~ msgstr "添加行"
+
+#~ msgid "Reorder Layout"
+#~ msgstr "重排序布局"
+
+#~ msgid "Reorder"
+#~ msgstr "重排序"
+
+#~ msgid "Delete Layout"
+#~ msgstr "删除布局"
+
+#~ msgid "Add New Layout"
+#~ msgstr "添加新布局"
+
+#~ msgid "Duplicate Layout"
+#~ msgstr "复制布局"
+
+#~ msgid "Label"
+#~ msgstr "标签"
+
+#~ msgid "Display"
+#~ msgstr "显示"
+
+#~ msgid "Row"
+#~ msgstr "行"
+
+#~ msgid ""
+#~ "No fields. Click the \"+ Add Sub Field button\" to create your first "
+#~ "field."
+#~ msgstr "没有字段，点击<strong>添加</strong>按钮创建第一个字段。"
+
+#~ msgid "Column Width"
+#~ msgstr "分栏宽度"
+
+#~ msgid "Leave blank for auto"
+#~ msgstr "留空为自适应宽度"
+
+#~ msgid "Save Field"
+#~ msgstr "保存字段"
+
+#~ msgid "Close Sub Field"
+#~ msgstr "选择子字段"
+
+#~ msgid "+ Add Sub Field"
+#~ msgstr "添加子字段"
+
+#~ msgid "Button Label"
+#~ msgstr "按钮标签"
+
+#~ msgid "Gallery"
+#~ msgstr "相册"
+
+#~ msgid "Alternate Text"
+#~ msgstr "替换文本"
+
+#~ msgid "Caption"
+#~ msgstr "标题"
+
+#~ msgid "Description"
+#~ msgstr "描述"
+
+#~ msgid "Thumbnail is advised"
+#~ msgstr "建设使用缩略图"
+
+#~ msgid "Image Updated"
+#~ msgstr "图片已更新"
+
+#~ msgid "Grid"
+#~ msgstr "栅格"
+
+#~ msgid "List"
+#~ msgstr "列表"
+
+#~ msgid "1 image selected"
+#~ msgstr "已选择1张图片"
+
+#~ msgid "{count} images selected"
+#~ msgstr "选择了 {count}张图片"
+
+#~ msgid "Added"
+#~ msgstr "已添加"
+
+#~ msgid "Image already exists in gallery"
+#~ msgstr "图片已在相册中"
+
+#~ msgid "Image Added"
+#~ msgstr "图像已添加"
+
+#~ msgid "Repeater"
+#~ msgstr "复制"
+
+#~ msgid "Repeater Fields"
+#~ msgstr "复制字段"
+
+#~ msgid "Minimum Rows"
+#~ msgstr "最小行数"
+
+#~ msgid "Maximum Rows"
+#~ msgstr "最大行数"
+
+#~ msgid "Table (default)"
+#~ msgstr "表格（默认）"
+
+#~ msgid "Run filter \"the_content\"?"
+#~ msgstr "是否运行过滤器 \"the_content\"?"
+
+#~ msgid "Media (Edit)"
+#~ msgstr "媒体（编辑）"
