@@ -964,15 +964,10 @@ class WP_Widget_Recent_Comments extends WP_Widget {
 	}
 
 	/**
-	 * @global array  $comments
-	 * @global object $comment
-	 *
 	 * @param array $args
 	 * @param array $instance
 	 */
 	public function widget( $args, $instance ) {
-		global $comments, $comment;
-
 		$cache = array();
 		if ( ! $this->is_preview() ) {
 			$cache = wp_cache_get('widget_recent_comments', 'widget');
@@ -1026,11 +1021,11 @@ class WP_Widget_Recent_Comments extends WP_Widget {
 			$post_ids = array_unique( wp_list_pluck( $comments, 'comment_post_ID' ) );
 			_prime_post_caches( $post_ids, strpos( get_option( 'permalink_structure' ), '%category%' ), false );
 
-			foreach ( (array) $comments as $comment) {
+			foreach ( (array) $comments as $comment ) {
 				$output .= '<li class="recentcomments">';
 				/* translators: comments widget: 1: comment author, 2: post link */
 				$output .= sprintf( _x( '%1$s on %2$s', 'widgets' ),
-					'<span class="comment-author-link">' . get_comment_author_link() . '</span>',
+					'<span class="comment-author-link">' . get_comment_author_link( $comment->comment_ID ) . '</span>',
 					'<a href="' . esc_url( get_comment_link( $comment->comment_ID ) ) . '">' . get_the_title( $comment->comment_post_ID ) . '</a>'
 				);
 				$output .= '</li>';
