@@ -1,0 +1,236 @@
+# Translation of the WordPress plugin   by .
+# Copyright (C) 2010
+# This file is distributed under the same license as the  package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: cms-tree-page-view\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/cms-tree-page-view\n"
+"POT-Creation-Date: 2010-08-28 21:55+0000\n"
+"PO-Revision-Date: 2011-02-28 23:55+0200\n"
+"Last-Translator: shahar <asafgreenberg@gmail.com>\n"
+"Language-Team: ותודה לאחי דקר <asafgreenberg@gmail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Hebrew\n"
+"X-Poedit-Country: ISRAEL\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"Plural-Forms: Plural-Forms: nplurals=2; plural=n != 1;\n"
+
+#: functions.php:53
+msgid "Enter title of new page"
+msgstr "כתבי כותרת לעמוד החדש"
+
+#: functions.php:54
+msgid "child pages"
+msgstr "עמודי-בת"
+
+#: functions.php:55
+#: functions.php:376
+msgid "Edit page"
+msgstr "עריכת עמוד"
+
+#: functions.php:56
+#: functions.php:377
+msgid "View page"
+msgstr "הצגת עמוד"
+
+#: functions.php:57
+#: functions.php:376
+msgid "Edit"
+msgstr "עריכה"
+
+#: functions.php:58
+#: functions.php:377
+msgid "View"
+msgstr "תצוגה"
+
+#: functions.php:59
+msgid "Add page"
+msgstr "הוספת עמוד"
+
+#: functions.php:60
+#: functions.php:381
+msgid "Add new page after"
+msgstr "הוסיפי עמוד חדש אחרי"
+
+#: functions.php:61
+msgid "after"
+msgstr "אחרי"
+
+#: functions.php:62
+msgid "inside"
+msgstr "בתוך"
+
+#: functions.php:63
+msgid "Sorry, can't create a sub page to a page with status \"draft\"."
+msgstr "'צטערת, לא יכולה ליצור תת-עמוד של עמוד בסטטוס \"טיוטה\""
+
+#: functions.php:64
+#: functions.php:385
+msgid "Add new page inside"
+msgstr "הוסיפת עמוד חדש בתוך"
+
+#: functions.php:65
+msgid "draft"
+msgstr "טיוטה"
+
+#: functions.php:66
+msgid "future"
+msgstr "עתידי"
+
+#: functions.php:67
+msgid "protected"
+msgstr "מוגן"
+
+#: functions.php:68
+#: functions.php:586
+msgid "pending"
+msgstr "ממתין"
+
+#: functions.php:69
+msgid "private"
+msgstr "פרטית"
+
+#: functions.php:70
+msgid "Password protected page"
+msgstr "עמוד מוגן בסיסמה"
+
+#: functions.php:71
+msgid "Adding page..."
+msgstr "מוסיפה עמוד..."
+
+#: functions.php:172
+msgid "settings"
+msgstr "הגדרות"
+
+#: functions.php:177
+msgid "Select where to show a tree for pages and custom post types"
+msgstr "בחרי היכן להציג עץ עבור עמודים ופוסטים מותאמות אישית"
+
+#: functions.php:201
+msgid "On dashboard"
+msgstr "בלוח הבקרה"
+
+#: functions.php:205
+msgid "In menu"
+msgstr "בתפריט"
+
+#: functions.php:216
+msgid "Save Changes"
+msgstr "שמירת שינויים"
+
+#: functions.php:333
+msgid "No posts found."
+msgstr "לא נמצאו פוסטים"
+
+#: functions.php:339
+msgid "All"
+msgstr "הכל"
+
+#: functions.php:340
+msgid "Public"
+msgstr "ציבורי"
+
+#: functions.php:345
+msgid "Expand"
+msgstr "פתח הכל"
+
+#: functions.php:346
+msgid "Collapse"
+msgstr "סגור הכל"
+
+#: functions.php:354
+msgid "Clear search"
+msgstr "ניקוי"
+
+#: functions.php:355
+msgid "Search"
+msgstr "חיפוש"
+
+#: functions.php:356
+msgid "Searching..."
+msgstr "מחפשת..."
+
+#: functions.php:357
+msgid "Nothing found."
+msgstr "לא מצאתי"
+
+#: functions.php:363
+msgid "Loading..."
+msgstr "טוענת..."
+
+#: functions.php:366
+msgid "Search: no pages found"
+msgstr "חיפוש: לא נמצאו עמודים"
+
+#: functions.php:369
+msgid "Loading tree"
+msgstr "טוענת עץ"
+
+#: functions.php:381
+msgid "After"
+msgstr "אחרי"
+
+#: functions.php:385
+msgid "Inside"
+msgstr "בתוך"
+
+#: functions.php:389
+msgid "Can not create page inside of a page with draft status"
+msgstr "לא יכולה ליצור עמוד בתוך עמוד טיוטה"
+
+#: functions.php:392
+msgid "Last modified"
+msgstr "שונתה לאחרונה ב..."
+
+#: functions.php:394
+msgid "by"
+msgstr "ע\"י"
+
+#: functions.php:397
+msgid "Page ID"
+msgstr "מזהה עמוד (ID)"
+
+#: functions.php:551
+msgid "Unknown user"
+msgstr "משתמשת לא ידועה"
+
+#: functions.php:556
+msgid "<Untitled page>"
+msgstr "<ללא שם>"
+
+#: functions.php:576
+msgid "Comments"
+msgstr "הערות"
+
+#: functions.php:583
+#, php-format
+msgid "%s pending"
+msgstr "ממתינה %s"
+
+#: functions.php:593
+msgctxt "comment count"
+msgid "0"
+msgstr "0"
+
+#: functions.php:593
+msgctxt "comment count"
+msgid "1"
+msgstr "1"
+
+#: functions.php:593
+msgctxt "comment count"
+msgid "%"
+msgstr "%"
+
+#: functions.php:624
+msgid "Click to edit. Drag to move."
+msgstr "לחצי לעריכה. גררי להזזה"
+
+#: functions.php:775
+msgid "New page"
+msgstr "עמוד חדש"
+

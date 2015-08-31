@@ -1,0 +1,597 @@
+/*--------------------------------------------------------------------------------------------
+*
+*	Global
+*
+*--------------------------------------------------------------------------------------------*/
+
+/* Image Replacement */
+.ir { display: block; text-indent: -999em; overflow: hidden; background-repeat: no-repeat; text-align: left; direction: ltr; font-size: 0; line-height: 0; }
+input.ir { border: 0 none; background: none; }
+
+
+/* Horizontal List */
+.hl { padding: 0; margin: 0; list-style: none; display: block; position: relative; }
+.hl > li { float: left; display: block; margin: 0; padding: 0; }
+.hl > li.right { float: right; }
+
+.hl.center { position: relative; overflow: visible; left: 50%; float: left; }
+.hl.center > li { position: relative; left: -50%; }
+
+
+/* Block List */
+.bl { padding: 0; margin: 0; list-style: none; display: block; position: relative; }
+.bl > li { display: block; margin: 0; padding: 0; float: none; }
+
+
+.clearfix:before, .clearfix:after { content: "\0020"; display: block; height: 0; visibility: hidden; } 
+.clearfix:after { clear: both; }
+.clearfix { zoom: 1; }
+
+
+#icon-acf {
+	background: url(../images/sprite.png) 0 0 no-repeat;
+}
+
+.acf-loading {
+	background: url(../images/wpspin_light.gif) no-repeat scroll 50% 50% #EAEAEA;
+    border-radius: 30px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5) inset;
+    height: 16px;
+    margin: 10px auto;
+    padding: 6px;
+    width: 16px;
+}
+
+.acf-remove-item {
+	-webkit-transition: all 0.4s 0s ease-in-out;
+	-moz-transition: all 0.4s 0s ease-in-out;
+	-o-transition: all 0.4s 0s ease-in-out;
+	transition: all 0.4s 0s ease-in-out;
+	
+	-webkit-transform: translate(25px, 0px);
+	-moz-transform: translate(25px, 0px);
+	-o-transform: translate(25px, 0px);
+	transform: translate(25px, 0px);
+	
+	opacity: 0;
+}
+
+.acf-alert {
+	background: #FCF8E3;
+    border: 1px solid #FBEED5;
+    border-radius: 4px 4px 4px 4px;
+    margin: 20px 0px;
+    padding: 8px 14px;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+    color: #C09853;
+}
+
+.acf-alert p {
+	color: inherit;
+	margin: 0.5em 0;
+}
+
+.acf-alert.acf-alert-error {
+	background-color: #F2DEDE;
+    border-color: #EED3D7;
+    color: #B94A48;
+}
+
+.acf-alert.acf-alert-success {
+	background-color: #DFF0D8;
+    border-color: #D6E9C6;
+    color: #468847;
+}
+
+.acf-message {
+	background: #2F353E;
+	border-radius: 4px 4px 4px 4px;
+	border: #000 solid 1px;
+	color: #fff;
+	text-shadow: 0 1px 0 #000;
+	padding: 0 10px;
+	margin: 10px 0;
+}
+
+.acf-message p {
+	font-size: 15px;
+	margin: 15px 0;
+}
+
+.acf-message .acf-button,
+.acf-alert .acf-button{
+	font-size: 15px;
+	padding: 8px 12px;
+	margin-left: 5px;
+}
+
+/* icon */
+[class^="acf-sprite"], 
+[class*=" acf-sprite"] {
+	display: block;
+	width: 16px;
+	height: 16px;
+	float: left;
+	background: url(../images/sprite.png);
+	margin: 0;
+}
+
+
+/* Input append / prepend */
+.acf-input-prepend,
+.acf-input-append {
+	font-size: 12px;
+	line-height: 15px;
+	height: 15px;
+	
+	padding: 5px 7px;
+	
+	background: #F4F4F4;
+	border: #DFDFDF solid 1px;
+}
+
+.acf-input-prepend {
+	float: left;
+	border-right: 0;
+	border-radius: 3px 0 0 3px;
+}
+
+.acf-input-append {
+	float: right;
+	border-left: 0;
+	border-radius: 0 3px 3px 0;
+}
+
+.acf-input-wrap {
+	position: relative;
+	overflow: hidden;
+}
+
+.acf-input-wrap input {
+	height: 27px;
+	margin: 0;
+}
+
+input.acf-is-prepended {
+	border-radius: 0 3px 3px 0 !important;
+}
+
+input.acf-is-appended {
+	border-radius: 3px 0 0 3px !important;
+}
+
+input.acf-is-prepended.acf-is-appended {
+	border-radius: 0 !important;
+}
+
+
+/*--------------------------------------------------------------------------------------------
+*
+*	WP Box
+*
+*--------------------------------------------------------------------------------------------*/
+
+.wp-box {
+    background: #FFFFFF;
+    border: 1px solid #E5E5E5;
+    position: relative;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+}
+
+.wp-box .title {
+	border-bottom: 1px solid #EEEEEE;
+    margin: 0;
+    padding: 15px;
+	background: #FFFFFF;
+}
+
+.wp-box .title h3 {
+	font-size: 14px;
+    line-height: 1em;
+    margin: 0;
+    padding: 0;
+}
+
+.wp-box .inner {
+    padding: 15px;
+}
+
+.wp-box .footer {
+    background: #F5F5F5;
+    border-top: 1px solid #E1E1E1;
+    overflow: hidden;
+    padding: 15px;
+    position: relative;
+}
+
+.wp-box .footer ul.left {
+    float: left;
+}
+
+.wp-box .footer ul li {
+    margin: 0;
+    padding: 0;
+}
+
+.wp-box .footer ul.left li {
+    margin-right: 10px;
+}
+
+.wp-box .footer ul.right {
+    float: right;
+}
+
+.wp-box .footer ul.right li {
+    margin-left: 10px;
+}
+
+.wp-box h2 {
+	color: #333333;
+    font-size: 25px;
+    line-height: 29px;
+    margin: 0.25em 0 0.75em;
+    padding: 0;
+}
+
+.wp-box h3 {
+	margin: 1.5em 0 0;
+	
+}
+
+.wp-box p {
+	margin-top: 0.5em;
+}
+
+.wp-box-half.left {
+	width: 50%;
+	float: left;
+}
+
+.wp-box-half.right {
+	width: 50%;
+	height: 100%;
+	right: 0;
+	position: absolute;
+	background: none repeat scroll 0 0 #F9F9F9;
+    border-left: 1px solid #E1E1E1;
+}
+
+.wp-box-half.right .inner {
+	
+}
+
+.wp-box select {
+	width: 99%;
+	height: auto !important;
+}
+
+.wp-box .footer-blue {
+	border-top: 0 none;
+	background-color: #52ACCC;
+    color: #FFFFFF;
+    overflow: hidden;
+    padding: 10px;
+    position: relative;
+}
+
+.wp-box .footer-blue a {
+	text-decoration: none;
+	text-shadow: none;
+}
+
+
+/*---------------------------------------------------------------------------------------------
+	Table
+---------------------------------------------------------------------------------------------*/
+table.acf_input {
+	border: 0 none;
+	background: #fff;
+}
+
+table.acf_input tbody tr td {
+	padding: 13px 15px;
+	border-top: 1px solid #f5f5f5;
+	border-bottom: 0 none;
+}
+
+table.acf_input tbody tr td.label {
+	width: 24%;
+	vertical-align: top;
+	background: #F9F9F9;
+	border-top: 1px solid #f0f0f0;
+    border-right: 1px solid #E1E1E1;
+}
+
+table.acf_input > tbody > tr:first-child > td,
+table.acf_input > tbody > tr:first-child > td.label {
+	border-top: 0 none;
+}
+
+table.acf_input td.label ul.hl {
+	margin: 20px 0 0;
+}
+table.acf_input td.label ul.hl li {
+	margin: 0 3px 0 0;
+	
+}
+
+table.acf_input td.label ul.hl li a.acf-button {
+	font-size: 12px;
+	padding: 6px 10px;
+	font-weight: normal;
+}
+
+table.acf_input tbody tr td.label label {
+	display: block;
+	font-size: 13px;
+	line-height: 1.4em;
+	font-weight: bold;
+	padding: 0;
+	margin: 0 0 3px;
+	color: #333;
+}
+
+table.acf_input tbody tr td.label label span.required {
+	color: #f00;
+	display: inline;
+	margin-left: 3px;
+}
+
+
+table.acf_input tbody tr td.label p {
+	display: block;
+	font-size: 12px;
+	line-height: 1.4em;
+	padding: 0 !important;
+	margin: 3px 0 0 !important;
+	font-style: normal;
+	line-height: 16px;
+	color: #899194;
+}
+
+table.acf_input input[type="text"],
+table.acf_input input[type="number"],
+table.acf_input textarea,
+table.acf_input select{
+	width: 99.95%;
+	padding: 3px 5px;
+	outline: none;
+}
+
+table.acf_input select {
+	padding: 2px;
+}
+
+table.acf_input select option {
+	padding: 3px;
+}
+
+table.acf_input input[type="text"]:focus,
+table.acf_input textarea:focus,
+table.acf_input select:focus {
+	border-color:#98B6CB;
+}
+
+
+ul.acf-radio-list,
+ul.acf-checkbox-list {
+	background: transparent !important;
+	position: relative;
+	display: block;
+	padding: 1px;
+	margin: 0;
+}
+
+ul.acf-radio-list.horizontal,
+ul.acf-checkbox-list.horizontal {
+	overflow: hidden;
+}
+
+ul.acf-radio-list.horizontal li,
+ul.acf-checkbox-list.horizontal li {
+	float: left;
+	margin-right: 20px;
+}
+
+ul.acf-radio-list li input,
+ul.acf-checkbox-list li input {
+	margin-top: -1px;
+	margin-right: 5px !important;
+	width: auto !important;
+}
+
+
+/*--------------------------------------------------------------------------------------------
+*
+*	Buttons
+*
+*--------------------------------------------------------------------------------------------*/
+
+.acf-button {
+	position: relative;
+	display: inline-block;
+	border-radius: 3px;
+	height: 28px;
+	padding: 0 11px 1px;
+    cursor: pointer;
+    
+    -webkit-box-sizing: border-box;
+	-moz-box-sizing:    border-box;
+	box-sizing:         border-box;
+	
+    color: #fff;
+    font-weight: normal;
+    font-size: 13px;
+    line-height: 26px;
+    text-align: center;
+	text-decoration: none;
+	
+	background: #2EA2CC;
+	
+	border: #0074A2 solid 1px;
+	box-shadow: 0 1px 0 rgba(255, 255, 255, 0.25) inset;
+}
+
+.acf-button:hover {
+	background-color: #298CBA;
+	color: #fff;
+}
+
+.acf-button:focus,
+.acf-button:active {
+	outline: none;
+	line-height: 28px;
+}
+
+.acf-button:active {
+	box-shadow: none;
+}
+
+.acf-button[disabled] {
+	background: #298CBA !important;
+    border-color: #1B607F !important;
+    box-shadow: none !important;
+    color: #94CDE7 !important;
+    cursor: default !important;
+}
+
+
+.acf-button.grey {
+	color: #333;
+	border-color: #BBBBBB;
+	background: #F9F9F9;
+}
+
+.acf-button.grey:hover {
+	border-color: #999;
+}
+
+
+/* sizes */
+.acf-button.large,
+.acf-button-big {
+	height: 32px;
+	line-height: 31px;
+	font-size: 14px;
+}
+
+
+/*--------------------------------------------------------------------------
+*
+*	ACF add / remove
+*	
+*-------------------------------------------------------------------------*/
+
+.acf-button-add,
+.acf-button-remove,
+.acf-button-edit,
+.acf-button-delete {
+	background: url(../images/sprite.png) -16px -116px no-repeat #fff;
+    display: block;
+    height: 18px;
+    width: 18px;
+    border-radius: 9px;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+    
+    -webkit-transition: none;
+	-moz-transition: none;
+	-o-transition: none; 	
+	transition: none;
+}
+
+.acf-button-edit,
+.acf-button-delete {
+	width: 22px;
+	height: 22px;
+	border-radius: 11px;
+}
+
+.acf-button-add:hover {
+	background-position: -16px -166px;
+}
+
+.acf-button-remove {
+	background-position: -66px -116px;
+}
+
+.acf-button-remove:hover {
+	background-position: -66px -166px;
+}
+
+.acf-button-edit {
+	background-position: -14px -214px;
+}
+
+.acf-button-edit:hover {
+	background-position: -14px -264px;
+}
+
+.acf-button-delete {
+	background-position: -64px -214px;
+}
+
+.acf-button-delete:hover {
+	background-position: -64px -264px;
+}
+
+
+/*--------------------------------------------------------------------------
+*
+*	Plugin Update Info
+*	
+*-------------------------------------------------------------------------*/
+
+.plugins #advanced-custom-fields + .plugin-update-tr .update-message {
+	background: #EAF2FA;
+	border: #C7D7E2 solid 1px;
+	padding: 10px;
+}
+
+.acf-plugin-update-info {
+	font-weight: normal;
+}
+
+.acf-plugin-update-info h3 {
+	font-size: 12px;
+	line-height: 1em;
+	margin: 15px 0 10px;	
+}
+
+.acf-plugin-update-info ul {
+	list-style: disc outside;
+	padding-left: 14px;
+	margin: 0;
+}
+
+
+/*--------------------------------------------------------------------------
+*
+*	Retina
+*	
+*-------------------------------------------------------------------------*/
+
+@media
+only screen and (-webkit-min-device-pixel-ratio: 2),
+only screen and (   min--moz-device-pixel-ratio: 2),
+only screen and (     -o-min-device-pixel-ratio: 2/1),
+only screen and (        min-device-pixel-ratio: 2),
+only screen and (                min-resolution: 192dpi),
+only screen and (                min-resolution: 2dppx) { 
+	
+	#icon-acf,
+	.acf-button-add,
+	.acf-button-remove,
+	.acf-button-edit,
+	.acf-button-delete,
+	[class^="acf-sprite"], 
+	[class*=" acf-sprite"] {
+		background-image: url(../images/sprite@2x.png);
+		background-size: 100px 600px;
+	}
+	
+	.acf-loading {
+		background-image: url(../images/wpspin_light@2x.gif);
+		background-size: 16px 16px;
+	}
+	
+}

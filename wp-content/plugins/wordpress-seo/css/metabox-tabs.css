@@ -1,0 +1,342 @@
+/**
+ * Metabox Tabs
+ */
+
+ul.wpseo-metabox-tabs {
+	display: none;
+	margin-top: 12px;
+	margin-bottom: 3px;
+}
+
+.wpseo-metabox-tabs-div ul {
+	list-style: none;
+}
+
+.wpseo-metabox-tabs li {
+	display: inline;
+}
+
+ul.wpseo-metabox-tabs li.active {
+	border-width: 1px 1px 0;
+	border-style: solid solid none;
+	background-color: #fdfdfd;
+}
+
+ul.wpseo-metabox-tabs li {
+	padding: 5px;
+}
+
+.wpseo-metabox-tabs a {
+	text-decoration: none;
+}
+
+.wpseo-metabox-tabs-div div.wpseo-tabs-panel {
+	overflow: auto;
+	padding: 0.5em 0.9em;
+	border: 1px solid;
+}
+
+.wpseo-heading {
+	padding-left: 10px;
+}
+
+.wpseotab {
+	display: none;
+}
+
+.wpseotab.active {
+	display: block;
+	overflow: auto;
+	padding: 0.5em 0.9em;
+	border: 1px solid #ddd;
+	background-color: #fdfdfd;
+}
+
+#wpseo_meta .postbox .inside .wpseotab {
+	font-size: 13px !important;
+}
+
+.inside .wpseotab .form-table th {
+	width: 140px !important;
+	font-size: 13px;
+}
+
+.good,
+.warn,
+.wrong {
+	font-weight: bold;
+}
+
+.good {
+	color: green;
+}
+
+.warn {
+	color: maroon;
+}
+
+.wrong {
+	color: red;
+}
+
+#current_seo_title span {
+	padding: 2px 5px;
+	background-color: lightyellow;
+}
+
+#wpseosnippet {
+	width: auto;
+	max-width: 520px;
+	margin: 0 0 10px;
+	padding: 0 5px;
+	font-family: Arial, Helvetica, sans-serif;
+	font-style: normal;
+}
+
+#wpseosnippet td {
+	margin: 0;
+	padding: 0;
+}
+
+#wpseosnippet cite.url {
+	font-weight: normal;
+	font-style: normal;
+}
+
+#wpseosnippet a {
+	text-decoration: none;
+}
+
+#wpseosnippet .title {
+	display: block;
+	overflow: hidden;
+	width: 512px;
+	color: #1e0fbe;
+	font-size: 18px !important;
+	line-height: 1.2;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+#wpseosnippet .desc {
+	font-size: small;
+	line-height: 1.4;
+	word-wrap: break-word;
+}
+
+#wpseosnippet .desc .autogen {
+	color: #777;
+}
+
+#wpseosnippet .date {
+	color: #808080;
+}
+
+#wpseosnippet .desc p {
+	color: #545454;
+	font-size: small;
+	line-height: 1.4;
+	word-wrap: break-word;
+}
+
+#wpseosnippet .url {
+	color: #006621;
+	font-size: 13px;
+	line-height: 16px;
+}
+
+#wpseosnippet .meta {
+	color: #767676;
+}
+
+#wpseosnippet .util {
+	color: #4272db;
+}
+
+#wpseosnippet p {
+	margin: 0 !important;
+}
+
+#wpseosnippet a:hover {
+	text-decoration: underline;
+}
+
+#focuskwresults ul {
+	margin: 0;
+}
+
+#focuskwresults p,
+#focuskwresults li {
+	font-size: 13px;
+}
+
+#focuskwresults li {
+	margin: 0 0 0 20px;
+	list-style-type: disc;
+}
+
+.wpseo_hidden {
+	display: none;
+}
+
+/* Linkdex analysis block */
+
+table.wpseoanalysis th {
+	padding: 15px 0 5px 0;
+	font-size: 14px;
+	text-align: left;
+}
+
+table.wpseoanalysis th.first {
+	padding-top: 0;
+}
+
+table.wpseoanalysis td {
+	margin: 5px 0;
+	font-size: 13px;
+	line-height: 16px;
+}
+
+table.wpseoanalysis td.score {
+	width: 20px;
+	height: 18px;
+	padding-left: 10px;
+}
+
+.wpseo_msg {
+	margin: 5px 0 10px 0;
+	padding: 0 5px;
+	border: 1px solid #e6db55;
+	background-color: lightYellow;
+}
+
+/*
+ * jQuery UI CSS Framework 1.8.12
+ *
+ * Copyright 2011, AUTHORS.txt (http://jqueryui.com/about)
+ * Dual licensed under the MIT or GPL Version 2 licenses.
+ * http://jquery.org/license
+ *
+ * http://docs.jquery.com/UI/Theming/API
+ */
+
+
+/* Component containers
+----------------------------------*/
+
+#wpseotab .ui-widget-content {
+	border: 1px solid #ddd;
+	color: #333;
+	background: #f1f1f1;
+}
+
+#wpseotab .ui-widget-content a {
+	color: #333;
+}
+
+/*
+ * jQuery UI Autocomplete 1.8.12
+ * http://docs.jquery.com/UI/Autocomplete#theming
+ */
+#wpseotab .ui-autocomplete {
+	position: absolute;
+	cursor: default;
+}
+
+/* workarounds */
+* html #wpseotab .ui-autocomplete {
+	width: 1px;
+}
+
+/* without this, the menu expands to 100% in IE6 */
+
+/*
+ * jQuery UI Menu 1.8.12
+ *
+ * http://docs.jquery.com/UI/Menu#theming
+ */
+.ui-menu {
+	display: block;
+	float: left;
+	margin: 0;
+	padding: 2px;
+	list-style: none;
+}
+
+.ui-menu .ui-menu {
+	margin-top: -3px;
+}
+
+.ui-menu .ui-menu-item {
+	float: left;
+	clear: left;
+	zoom: 1;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+.ui-menu .ui-menu-item a {
+	display: block;
+	zoom: 1;
+	padding: 0.2em 0.4em;
+	line-height: 1.5;
+	text-decoration: none;
+}
+
+.ui-menu .ui-menu-item a.ui-state-hover,
+.ui-menu .ui-menu-item a.ui-state-active {
+	margin: -1px;
+	color: #000;
+}
+
+.wpseo-score-icon {
+	display: inline-block;
+	width: 12px;
+	height: 12px;
+	margin: 3px 10px 0 3px;
+	border-radius: 50%;
+	background: #888;
+	vertical-align: top;
+}
+
+.wpseo-score-icon.good {
+	background-color: #7ad03a;
+}
+
+.wpseo-score-icon.ok {
+	background-color: #ffba00;
+}
+
+.wpseo-score-icon.poor {
+	background-color: #ee7c1b;
+}
+
+.wpseo-score-icon.bad {
+	background-color: #dd3d36;
+}
+
+.wpseo-score-icon.na {
+	background-color: #888;
+}
+
+.wpseo-score-icon.noindex {
+	background-color: #1e8cbe;
+}
+
+.wpseo-score-title {
+	font-weight: 600;
+}
+
+img.yoast_help {
+	cursor: pointer;
+}
+
+.yoast-qtip {
+	font-size: 14px !important;
+	line-height: 18px !important;
+}
+
+.wpseo_content_wrapper p.search-box {
+	margin: 10px 0 5px 0;
+}

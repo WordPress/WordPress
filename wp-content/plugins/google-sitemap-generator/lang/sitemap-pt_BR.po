@@ -1,0 +1,327 @@
+# [Countryname] Language File for sitemap (sitemap-[localname].po)
+# Copyright (C) 2005 [name] : [URL]
+# This file is distributed under the same license as the WordPress package.
+# [name] <[mail-address]>, 2005.
+# $Id: sitemap-es_ES.po 2504 2005-07-03 22:19:18Z arnee $
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: sitemap\n"
+"Report-Msgid-Bugs-To: <[mail-address]>\n"
+"POT-Creation-Date: 2005-06-15 00:00+0000\n"
+"PO-Revision-Date: 2006-11-24 18:57-0300\n"
+"Last-Translator: Rafael Lima <rafael.lima@email.com.br>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language-Team: Pedro Polonia <polonia2@gmail.com>\n"
+"X-Poedit-Language: Portuguese\n"
+"X-Poedit-Country: PORTUGAL\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-Bookmarks: -1,59,-1,-1,-1,71,-1,-1,-1,-1\n"
+
+#: sitemap.php:375
+msgid "always"
+msgstr "sempre"
+
+msgid "hourly"
+msgstr "a cada hora"
+
+msgid "daily"
+msgstr "diariamente"
+
+msgid "weekly"
+msgstr "semanalmente"
+
+msgid "monthly"
+msgstr "mensalmente"
+
+msgid "yearly"
+msgstr "anualmente"
+
+msgid "never"
+msgstr "nunca"
+
+msgid "Detected Path"
+msgstr "Caminho detectado"
+
+msgid "Example"
+msgstr "Exemplo"
+
+msgid "Absolute or relative path to the sitemap file, including name."
+msgstr "Caminho absoluto ou relativo para o arquivo sitemap, incluindo o nome."
+
+msgid "Complete URL to the sitemap file, including name."
+msgstr "URL completo para o arquivo sitemap, incluindo o nome."
+
+msgid "Automatic location"
+msgstr "Localização automática"
+
+msgid "Manual location"
+msgstr "Localização manual"
+
+msgid "OR"
+msgstr "OU"
+
+msgid "Location of your sitemap file"
+msgstr "Localização do arquivo sitemap"
+
+msgid "If your blog is in a subdirectory and you want to add pages which are NOT in the blog directory or beneath, you MUST place your sitemap file in the root directory (Look at the &quot;Location of your sitemap file&quot; section on this page)!"
+msgstr "Se o seu blog está numa pasta e quer adicionar paginas que NÃO estão na pasta do seu blog ou em sub-pastas, DEVE colocar o seu arquivo sitemap na raiz dos directórios (Olhe na secção \"Localização do seu arquivo sitemap\" nesta página)! "
+
+#: sitemap.php:512
+msgid "Configuration updated"
+msgstr "Configuração actualizada"
+
+#: sitemap.php:513
+msgid "Error"
+msgstr "Erro"
+
+#: sitemap.php:521
+msgid "A new page was added. Click on &quot;Save page changes&quot; to save your changes."
+msgstr "Uma nova página foi adicionada. Seleccione em \"Gravar alterações\" para guardar as alterações. "
+
+#: sitemap.php:527
+msgid "Pages saved"
+msgstr "Páginas guardadas"
+
+#: sitemap.php:528
+msgid "Error while saving pages"
+msgstr "Erro durante a gravação das páginas "
+
+#: sitemap.php:539
+msgid "The page was deleted. Click on &quot;Save page changes&quot; to save your changes."
+msgstr "A página foi eliminada. Seleccione em \"Gravar alterações\" para guardar as alterações. "
+
+#: sitemap.php:542
+msgid "You changes have been cleared."
+msgstr "As suas alterações foram anuladas."
+
+#: sitemap.php:555
+msgid "Sitemap Generator"
+msgstr "Gerador Sitemap"
+
+#: sitemap.php:558
+msgid "Manual rebuild"
+msgstr "Reconstrução manual"
+
+#: sitemap.php:559
+msgid "If you want to build the sitemap without editing a post, click on here!"
+msgstr "Se deseja construir o sitemap sem editar nenhum artigo, clique aqui!"
+
+#: sitemap.php:560
+msgid "Rebuild Sitemap"
+msgstr "Reconstruir Sitemap"
+
+#: sitemap.php:564
+msgid "Additional pages"
+msgstr "Páginas adicionais"
+
+#: sitemap.php:566
+msgid "Here you can specify files or URLs which should be included in the sitemap, but do not belong to your Blog/WordPress.<br />For example, if your domain is www.foo.com and your blog is located on www.foo.com/blog you might want to include your homepage at www.foo.com"
+msgstr "Aqui pode especificar os arquivos ou URLs que devem ser incluídas no sitemap mas que não pertencem ao seu blog/WordPress.<br />Por exemplo: se o teu domínio é www.foo.com e o teu blog está localizado em www.foo.com/blog, deve querer incluir a sua página inicial em www.foo.com "
+
+#: sitemap.php:568
+msgid "URL to the page"
+msgstr "URL da página"
+
+#: sitemap.php:569
+msgid "Enter the URL to the page. Examples: http://www.foo.com/index.html or www.foo.com/home "
+msgstr "URL da página. Exemplos: http://www.foo.com/index.html ou www.foo.com/home"
+
+#: sitemap.php:571
+msgid "Priority"
+msgstr "Prioridade"
+
+#: sitemap.php:572
+msgid "Choose the priority of the page relative to the other pages. For example, your homepage might have a higher priority than your imprint."
+msgstr "Escolha a prioridade relativa da página relativa a outras páginas. Por exemplo, a sua página inicial deve ter uma maior prioridade que os seus dados pessoais."
+
+#: sitemap.php:574
+msgid "Last Changed"
+msgstr "Última Alteração"
+
+#: sitemap.php:575
+msgid "Enter the date of the last change as YYYY-MM-DD (2005-12-31 for example) (optional)."
+msgstr "Entre a data da última alteração como AAAA-MM-DD (por exemplo: 2005-12-31) (opcional). "
+
+#: sitemap.php:583
+msgid "Change Frequency"
+msgstr "Frequência das Alterações "
+
+#: sitemap.php:585
+msgid "#"
+msgstr "#"
+
+#: sitemap.php:609
+msgid "No pages defined."
+msgstr "Nenhuma página definida"
+
+#: sitemap.php:616
+msgid "Add new page"
+msgstr "Adicionar nova página "
+
+#: sitemap.php:617:
+msgid "Save page changes"
+msgstr "Guardar as alterações da página"
+
+#: sitemap.php:618:
+msgid "Undo all page changes"
+msgstr "Desfazer todas as alterações da página"
+
+#: sitemap.php:621:
+msgid "Delete marked page"
+msgstr "Apagar a página marcada"
+
+#: sitemap.php:627
+msgid "Basic Options"
+msgstr "Opções Básicas"
+
+#: sitemap.php:632
+msgid "Enable automatic priority calculation for posts based on comment count"
+msgstr "Activar o cálculo automático de prioridades para artigos baseado no número de comentários. "
+
+#: sitemap.php:638
+msgid "Write debug comments"
+msgstr "Escrever comentários de depuração (debug) "
+
+#: sitemap.php:643
+msgid "Filename of the sitemap file"
+msgstr "Nome do arquivo sitemap"
+
+#: sitemap.php:650
+msgid "Write a normal XML file (your filename)"
+msgstr "Escrever um arquivo XML normal (nome do arquivo)"
+
+#: sitemap.php:652
+msgid "Detected URL"
+msgstr "URL detectada"
+
+#: sitemap.php:657
+msgid "Write a gzipped file (your filename + .gz)"
+msgstr "Gravar um arquivo comprimido com gzip (nome_arquivo +.gz)"
+
+#: sitemap.php:664
+msgid "Auto-Ping Google Sitemaps"
+msgstr "Ping automático a Google Sitemaps"
+
+#: sitemap.php:665
+msgid "This option will automatically tell Google about changes."
+msgstr "Esta opção indicará automaticamente as alterações ao Google."
+
+#: sitemap.php:672
+msgid "Includings"
+msgstr "Inclusões"
+
+#: sitemap.php:677
+msgid "Include homepage"
+msgstr "Incluir página principal"
+
+#: sitemap.php:683
+msgid "Include posts"
+msgstr "Incluir artigos"
+
+#: sitemap.php:689
+msgid "Include static pages"
+msgstr "Incluir páginas estáticas"
+
+#: sitemap.php:695
+msgid "Include categories"
+msgstr "Incluir categorías"
+
+#: sitemap.php:701
+msgid "Include archives"
+msgstr "Incluir arquivos"
+
+#: sitemap.php:708
+msgid "Change frequencies"
+msgstr "Frequência das mudanças "
+
+#: sitemap.php:709
+msgid "Note"
+msgstr "Nota"
+
+#: sitemap.php:710
+msgid "Please note that the value of this tag is considered a hint and not a command. Even though search engine crawlers consider this information when making decisions, they may crawl pages marked \"hourly\" less frequently than that, and they may crawl pages marked \"yearly\" more frequently than that. It is also likely that crawlers will periodically crawl pages marked \"never\" so that they can handle unexpected changes to those pages."
+msgstr "Por favor, considere que o valor desta etiqueta é um conselho e não um comando. Mesmo quando alguns agentes de pesquisa (search engine crawlers) consideram esta informação para tomar decisões, eles podem verificar as páginas marcadas como \"a cada hora\" com menor frequência, e visitar varias vezes por ano, as páginas marcadas com \"anualmente\".É igualmente possível que sejam verificadas páginas marcadas com \"nunca\" para gerir possíveis mudanças inesperadas nas mesmas."
+
+#: sitemap.php:715
+msgid "Homepage"
+msgstr "Página principal"
+
+#: sitemap.php:721
+msgid "Posts"
+msgstr "Artigos"
+
+#: sitemap.php:727
+msgid "Static pages"
+msgstr "Páginas estáticas"
+
+#: sitemap.php:733
+msgid "Categories"
+msgstr "Categorias"
+
+#: sitemap.php:739
+msgid "The current archive of this month (Should be the same like your homepage)"
+msgstr "Arquivo deste mês (Deve ser igual ao da sua pagina principal)"
+
+#: sitemap.php:745
+msgid "Older archives (Changes only if you edit an old post)"
+msgstr "Arquivos antigos (Alterar só se editou um artigo antigo)"
+
+#: sitemap.php:752
+msgid "Priorities"
+msgstr "Prioridades"
+
+#: sitemap.php:763
+msgid "Posts (If auto calculation is disabled)"
+msgstr "Artigos (Se o calculo automático está inativo) "
+
+#: sitemap.php:769
+msgid "Minimum post priority (Even if auto calculation is enabled)"
+msgstr "Prioridade mínima para artigos (Mesmo quando o cálculo automático está ativo) "
+
+#: sitemap.php:787
+msgid "Archives"
+msgstr "Arquivos"
+
+#: sitemap.php:793
+msgid "Informations and support"
+msgstr "Informação e suporte"
+
+#: sitemap.php:794
+msgid "Check %s for updates and comment there if you have any problems / questions / suggestions."
+msgstr "Consulte %s para atualizações e comentários se tiver algum problema, questão ou sugestão."
+
+#: sitemap.php:797
+msgid "Update options"
+msgstr "Atualizar opções"
+
+#: sitemap.php:1033
+msgid "URL:"
+msgstr "URL:"
+
+#: sitemap.php:1034
+msgid "Path:"
+msgstr "Caminho:"
+
+#: sitemap.php:1037
+msgid "Could not write into %s"
+msgstr "Não foi possivel escrever em %s"
+
+#: sitemap.php:1048
+msgid "Successfully built sitemap file:"
+msgstr "Arquivo sitemap criado com sucesso:"
+
+#: sitemap.php:1048
+msgid "Successfully built gzipped sitemap file:"
+msgstr "Arquivo sitemap comprimido criado com sucesso:"
+
+#: sitemap.php:1062
+msgid "Could not ping to Google at %s"
+msgstr "Não foi possível realizar ping no Google em %s"
+
+#: sitemap.php:1064
+msgid "Successfully pinged Google at %s"
+msgstr "Ping a Google realizado com sucesso em %s"
+

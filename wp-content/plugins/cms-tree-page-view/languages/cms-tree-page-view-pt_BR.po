@@ -1,0 +1,247 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: CMS Tree View\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-10-14 16:53-0300\n"
+"PO-Revision-Date: 2010-10-14 16:57-0300\n"
+"Last-Translator: Ricardo Tomasi <ricardobeat@gmail.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-Language: Portuguese\n"
+"X-Poedit-Country: Brazil\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-SearchPath-0: ..\n"
+"X-Poedit-SearchPath-1: ../scripts\n"
+
+#: ../functions.php:53
+msgid "Enter title of new page"
+msgstr "Título da nova página"
+
+#: ../functions.php:54
+msgid "child pages"
+msgstr "sub-páginas"
+
+#: ../functions.php:55
+#: ../functions.php:379
+msgid "Edit page"
+msgstr "Editar página"
+
+#: ../functions.php:56
+#: ../functions.php:380
+msgid "View page"
+msgstr "Ver página"
+
+#: ../functions.php:57
+#: ../functions.php:379
+msgid "Edit"
+msgstr "Editar"
+
+#: ../functions.php:58
+#: ../functions.php:380
+msgid "View"
+msgstr "Ver"
+
+#: ../functions.php:59
+msgid "Add page"
+msgstr "Adicionar página"
+
+#: ../functions.php:60
+#: ../functions.php:384
+msgid "Add new page after"
+msgstr "Adicionar nova página após"
+
+#: ../functions.php:61
+msgid "after"
+msgstr "após"
+
+#: ../functions.php:62
+msgid "inside"
+msgstr "sub-página"
+
+#: ../functions.php:63
+msgid "Sorry, can't create a sub page to a page with status \"draft\"."
+msgstr "Desculpe, não é possível criar uma subpágina de uma página com status \"rascunho\""
+
+#: ../functions.php:64
+msgid "Sorry, can't create a sub page to a page with status \"trash\"."
+msgstr "Desculpe, não é possível criar uma subpágina de uma página com status \"lixo\""
+
+#: ../functions.php:65
+msgid "Sorry, can't create a page after a page with status \"trash\"."
+msgstr "Desculpe, não é possível criar uma página de uma página com status \"lixo\""
+
+#: ../functions.php:66
+#: ../functions.php:388
+msgid "Add new page inside"
+msgstr "Adicionar nova sub-página"
+
+#: ../functions.php:67
+msgid "draft"
+msgstr "rascunho"
+
+#: ../functions.php:68
+msgid "future"
+msgstr "agendado"
+
+#: ../functions.php:69
+msgid "protected"
+msgstr "protegida"
+
+#: ../functions.php:70
+#: ../functions.php:603
+msgid "pending"
+msgstr "pendente"
+
+#: ../functions.php:71
+msgid "private"
+msgstr "privado"
+
+#: ../functions.php:72
+msgid "trash"
+msgstr "lixo"
+
+#: ../functions.php:73
+msgid "Password protected page"
+msgstr "Página protegida por senha"
+
+#: ../functions.php:74
+msgid "Adding page..."
+msgstr "Adicionando página..."
+
+#: ../functions.php:175
+msgid "settings"
+msgstr "configurações"
+
+#: ../functions.php:180
+msgid "Select where to show a tree for pages and custom post types"
+msgstr "Onde exibir a opção Tree View:"
+
+#: ../functions.php:204
+msgid "On dashboard"
+msgstr "No Painel"
+
+#: ../functions.php:208
+msgid "In menu"
+msgstr "No menu"
+
+#: ../functions.php:219
+msgid "Save Changes"
+msgstr "Salvar alterações"
+
+#: ../functions.php:335
+msgid "No posts found."
+msgstr "Nenhum post encontrado."
+
+#: ../functions.php:341
+msgid "All"
+msgstr "Todos"
+
+#: ../functions.php:342
+msgid "Public"
+msgstr "Público"
+
+#: ../functions.php:343
+msgid "Trash"
+msgstr "Lixeira"
+
+#: ../functions.php:348
+msgid "Expand"
+msgstr "Expandir"
+
+#: ../functions.php:349
+msgid "Collapse"
+msgstr "Minimizar"
+
+#: ../functions.php:357
+msgid "Clear search"
+msgstr "Limpar busca"
+
+#: ../functions.php:358
+msgid "Search"
+msgstr "Buscar"
+
+#: ../functions.php:359
+msgid "Searching..."
+msgstr "Buscando..."
+
+#: ../functions.php:360
+msgid "Nothing found."
+msgstr "Nenhum resultado."
+
+#: ../functions.php:366
+msgid "Loading..."
+msgstr "Carregando..."
+
+#: ../functions.php:369
+msgid "Search: no pages found"
+msgstr "Busca: nenhuma página encontrada"
+
+#: ../functions.php:372
+msgid "Loading tree"
+msgstr "Carregando estrutura"
+
+#: ../functions.php:384
+msgid "After"
+msgstr "Após"
+
+#: ../functions.php:388
+msgid "Inside"
+msgstr "Sub-página"
+
+#: ../functions.php:392
+msgid "Can not create page inside of a page with draft status"
+msgstr "Não é possível criar uma página dentro de uma página com status rascunho"
+
+#: ../functions.php:395
+msgid "Last modified"
+msgstr "Última modificação"
+
+#: ../functions.php:397
+msgid "by"
+msgstr "por"
+
+#: ../functions.php:400
+msgid "Page ID"
+msgstr "ID da página"
+
+#: ../functions.php:568
+msgid "Unknown user"
+msgstr "Usuário desconhecido"
+
+#: ../functions.php:573
+msgid "<Untitled page>"
+msgstr "<Sem título>"
+
+#: ../functions.php:593
+msgid "Comments"
+msgstr "Coment&aacute;rios"
+
+#: ../functions.php:600
+#, php-format
+msgid "%s pending"
+msgstr "%s pendentes"
+
+#: ../functions.php:641
+msgid "Click to edit. Drag to move."
+msgstr "Clique para editar, arraste para mover."
+
+#: ../functions.php:792
+msgid "New page"
+msgstr "Nova página"
+
+#: ../functions.php:974
+msgid "Close"
+msgstr "Fechar"
+
+#: ../functions.php:975
+msgid "<strong>Thank you for using this plugin!</strong> If you need help please check out the <a href=\"http://eskapism.se/code-playground/cms-tree-page-view/?utm_source=wordpress&utm_medium=banner&utm_campaign=promobox\">plugin homepage</a> or the <a href=\"http://wordpress.org/tags/cms-tree-page-view?forum_id=10\">support forum</a>."
+msgstr "<a href=\"http://wordpress.org/tags/cms-tree-page-view?forum_id=10\">Fórum de suporte</a>"
+
+#: ../functions.php:976
+msgid "If you like this plugin, please <a href=\"http://eskapism.se/sida/donate/?utm_source=wordpress&utm_medium=banner&utm_campaign=promobox\">support my work by donating</a> - or at least say something nice about this plugin in a blog post or tweet."
+msgstr "Suporte este plugin <a href=\"http://eskapism.se/sida/donate/?utm_source=wordpress&utm_medium=banner&utm_campaign=promobox\">fazendo uma doação</a>."
+

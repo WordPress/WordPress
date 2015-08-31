@@ -1,0 +1,322 @@
+# Japanese Language File for sitemap (sitemap-ja_JP.UTF-8.po)
+# Copyright (C) 2005 hiromasa : http://hiromasa.zone.ne.jp/
+# This file is distributed under the same license as the WordPress package.
+# hiromasa <webmaster@hiromasa.zone.ne.jp>, 2005.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: sitemap\n"
+"Report-Msgid-Bugs-To: <webmaster@hiromasa.zone.ne.jp>\n"
+"POT-Creation-Date: 2005-06-09 02:00+0900\n"
+"PO-Revision-Date: 2005-07-03 23:17+0900\n"
+"Last-Translator: hiromasa <webmaster@hiromasa.zone.ne.jp>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=Shift_JIS\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language-Team: \n"
+
+#: sitemap.php:375
+msgid "always"
+msgstr "いつも"
+
+msgid "hourly"
+msgstr "毎時"
+
+msgid "daily"
+msgstr "毎日"
+
+msgid "weekly"
+msgstr "毎週"
+
+msgid "monthly"
+msgstr "毎月"
+
+msgid "yearly"
+msgstr "毎年"
+
+msgid "never"
+msgstr "更新されない"
+
+msgid "Detected Path"
+msgstr "パスの直接設定"
+
+msgid "Example"
+msgstr "例"
+
+msgid "Absolute or relative path to the sitemap file, including name."
+msgstr "ファイル名を含む Sitemap ファイルへの相対もしくは絶対パス"
+
+msgid "Complete URL to the sitemap file, including name."
+msgstr "ファイル名を含む Sitemap ファイルへの完全な URL"
+
+msgid "Automatic location"
+msgstr "自動配置"
+
+msgid "Manual location"
+msgstr "手動配置"
+
+msgid "OR"
+msgstr "もしくは"
+
+msgid "Location of your sitemap file"
+msgstr "Sitemap ファイルの場所"
+
+msgid "If your blog is in a subdirectory and you want to add pages which are NOT in the blog directory or beneath, you MUST place your sitemap file in the root directory (Look at the &quot;Location of your sitemap file&quot; section on this page)!"
+msgstr "もしあなたのブログがサブディレクトリに配置されている場合に、ブログディレクトリ以外のページを Sitemap に含めたいときは、Sitemap ファイルをルートディレクトリに配置すべきです。（このページの &quot;Sitemap ファイルの場所&quot; 設定を確認して下さい）"
+
+#: sitemap.php:512
+msgid "Configuration updated"
+msgstr "設定を更新しました。"
+
+#: sitemap.php:513
+msgid "Error"
+msgstr "エラーです。"
+
+#: sitemap.php:521
+msgid "A new page was added. Click on &quot;Save page changes&quot; to save your changes."
+msgstr "新しい追加ページ（の設定欄）が加わりました。 （ページの情報を入力後）&quot;変更の保存&quot を押下して設定を保存して下さい。"
+
+#: sitemap.php:527
+msgid "Pages saved"
+msgstr "追加ページの設定を保存しました。"
+
+#: sitemap.php:528
+msgid "Error while saving pages"
+msgstr "追加ページの設定の保存中にエラーが発生しました。"
+
+#: sitemap.php:539
+msgid "The page was deleted. Click on &quot;Save page changes&quot; to save your changes."
+msgstr "指定された追加ページ（の設定欄）を削除しました。 &quot;変更の保存&quot を押下して設定を保存して下さい。"
+
+#: sitemap.php:542
+msgid "You changes have been cleared."
+msgstr "変更は既に削除されています。"
+
+#: sitemap.php:555
+msgid "Sitemap Generator"
+msgstr "Sitemap Generator"
+
+#: sitemap.php:558
+msgid "Manual rebuild"
+msgstr "手動による Sitemap ファイルの再構築"
+
+#: sitemap.php:559
+msgid "If you want to build the sitemap without editing a post, click on here!"
+msgstr "もし投稿の編集なしに Sitemap ファイルを再構築したい場合はこのボタンを押下してください!"
+
+#: sitemap.php:560
+msgid "Rebuild Sitemap"
+msgstr "Sitemap の再構築"
+
+#: sitemap.php:564
+msgid "Additional pages"
+msgstr "追加ページの設定"
+
+#: sitemap.php:566
+msgid "Here you can specify files or URLs which should be included in the sitemap, but do not belong to your Blog/WordPress.<br />For example, if your domain is www.foo.com and your blog is located on www.foo.com/blog you might want to include your homepage at www.foo.com"
+msgstr "ここで、Sitemap に含まれるべきである URL を指定することができます。 しかし、ここで指定する URL は WordPress/Blog に属してはいけません。<br />例えばドメインが www.foo.com でブログが www.foo.com/blog だった場合、あなたは www.foo.com を Sitemap に含みたいと思うかもしれません。（訳注: この項目で WordPress 以外の URL を指定し、プラグインで出力する Sitemap に含めることができます）"
+
+#: sitemap.php:568
+msgid "URL to the page"
+msgstr "そのページのURL"
+
+#: sitemap.php:569
+msgid "Enter the URL to the page. Examples: http://www.foo.com/index.html or www.foo.com/home "
+msgstr "そのページのURL を入力して下さい。 例: http://www.foo.com/index.html や www.foo.com/home "
+
+#: sitemap.php:571
+msgid "Priority"
+msgstr "優先順位(priority)の設定"
+
+#: sitemap.php:572
+msgid "Choose the priority of the page relative to the other pages. For example, your homepage might have a higher priority than your imprint."
+msgstr "他のページに比例したページの優先順位(priority)を選んでください。 例えば、あなたのホームページは、銘記のページより高い優先度があるかもしれません。"
+
+#: sitemap.php:574
+msgid "Last Changed"
+msgstr "最終更新日"
+
+#: sitemap.php:575
+msgid "Enter the date of the last change as YYYY-MM-DD (2005-12-31 for example) (optional)."
+msgstr "最終更新日を YYYY-MM-DD 形式で入力して下さい。"
+
+#: sitemap.php:583
+msgid "Change Frequency"
+msgstr "更新頻度(changefreq)の設定"
+
+#: sitemap.php:585
+msgid "#"
+msgstr "#"
+
+#: sitemap.php:609
+msgid "No pages defined."
+msgstr "追加ページは定義されていません。"
+
+#: sitemap.php:616
+msgid "Add new page"
+msgstr "新しいページの追加"
+
+#: sitemap.php:617
+msgid "Save page changes"
+msgstr "変更の保存"
+
+#: sitemap.php:618
+msgid "Undo all page changes"
+msgstr "ページの変更を元に戻す"
+
+#: sitemap.php:621
+msgid "Delete marked page"
+msgstr "マークされたページの削除"
+
+#: sitemap.php:627
+msgid "Basic Options"
+msgstr "基本的な設定"
+
+#: sitemap.php:632
+msgid "Enable automatic priority calculation for posts based on comment count"
+msgstr "投稿に対するコメント数で、投稿（各エントリ）の優先順位(priority)を自動計算する機能を有効にする"
+
+#: sitemap.php:638
+msgid "Write debug comments"
+msgstr "デバッグ用コメント出力を行う"
+
+#: sitemap.php:643
+msgid "Filename of the sitemap file"
+msgstr "Sitemap のファイル名"
+
+#: sitemap.php:650
+msgid "Write a normal XML file (your filename)"
+msgstr "標準の XML ファイルを出力する (filename)"
+
+#: sitemap.php:652
+msgid "Detected URL"
+msgstr "Detected URL"
+
+#: sitemap.php:657
+msgid "Write a gzipped file (your filename + .gz)"
+msgstr "gz 圧縮されたファイルを出力する (filename + .gz)"
+
+#: sitemap.php:664
+msgid "Auto-Ping Google Sitemaps"
+msgstr "Google Sitemap に更新 ping を送る"
+
+#: sitemap.php:665
+msgid "This option will automatically tell Google about changes."
+msgstr "このオプションは、変更を Google に自動的に通知します。"
+
+#: sitemap.php:672
+msgid "Includings"
+msgstr "Sitemap に含める 項目の設定"
+
+#: sitemap.php:677
+msgid "Include homepage"
+msgstr "ホームページ"
+
+#: sitemap.php:683
+msgid "Include posts"
+msgstr "投稿（各エントリ）"
+
+#: sitemap.php:689
+msgid "Include static pages"
+msgstr "静的なページ"
+
+#: sitemap.php:695
+msgid "Include categories"
+msgstr "カテゴリ別"
+
+#: sitemap.php:701
+msgid "Include archives"
+msgstr "アーカイブ別"
+
+#: sitemap.php:708
+msgid "Change frequencies"
+msgstr "更新頻度(changefreq)の設定"
+
+#: sitemap.php:709
+msgid "Note"
+msgstr "メモ"
+
+#: sitemap.php:710
+msgid "Please note that the value of this tag is considered a hint and not a command. Even though search engine crawlers consider this information when making decisions, they may crawl pages marked \"hourly\" less frequently than that, and they may crawl pages marked \"yearly\" more frequently than that. It is also likely that crawlers will periodically crawl pages marked \"never\" so that they can handle unexpected changes to those pages."
+msgstr "このタグの値は命令ではなくヒントだと考えられます。サーチエンジンのクローラはこの設定を考慮に入れますが、\"1時間おき\" の設定にしてもその頻度でクロールしないかもしれないし、\"年一度の\" 設定にしてもそれより頻繁にクロールされるかもしれません。また \"更新されない\" に設定されたページも、思いがけない変化をこれらのページから得るために、おそらくクローラは定期的にクロールするでしょう。"
+
+#: sitemap.php:715
+msgid "Homepage"
+msgstr "ホームページ"
+
+#: sitemap.php:721
+msgid "Posts"
+msgstr "投稿（各エントリ）"
+
+#: sitemap.php:727
+msgid "Static pages"
+msgstr "静的なページ"
+
+#: sitemap.php:733
+msgid "Categories"
+msgstr "カテゴリ別"
+
+#: sitemap.php:739
+msgid "The current archive of this month (Should be the same like your homepage)"
+msgstr "当月のアーカイブ (\"ホームページ\" の設定と同じにすべきです)"
+
+#: sitemap.php:745
+msgid "Older archives (Changes only if you edit an old post)"
+msgstr "古いアーカイブ (古い投稿を編集したときだけ変更してください)"
+
+#: sitemap.php:752
+msgid "Priorities"
+msgstr "優先順位(priority)の設定"
+
+#: sitemap.php:763
+msgid "Posts (If auto calculation is disabled)"
+msgstr "投稿（各エントリ） (\"基本的な設定\"で自動計算に設定していない場合に有効)"
+
+#: sitemap.php:769
+msgid "Minimum post priority (Even if auto calculation is enabled)"
+msgstr "投稿（各エントリ）の最小値 (\"基本的な設定\"で自動計算に設定している場合に有効)"
+
+#: sitemap.php:787
+msgid "Archives"
+msgstr "アーカイブ別"
+
+#: sitemap.php:793
+msgid "Informations and support"
+msgstr "情報とサポート"
+
+#: sitemap.php:794
+msgid "Check %s for updates and comment there if you have any problems / questions / suggestions."
+msgstr "もし、問題や疑問、提案があれば %s のアップデート情報やコメントを確認して下さい。"
+
+#: sitemap.php:797
+msgid "Update options"
+msgstr "設定を更新 &raquo;"
+
+#: sitemap.php:1033
+msgid "URL:"
+msgstr "URL:"
+
+#: sitemap.php:1034
+msgid "Path:"
+msgstr "Path:"
+
+#: sitemap.php:1037
+msgid "Could not write into %s"
+msgstr "%s に書き込むことができません。"
+
+#: sitemap.php:1048
+msgid "Successfully built sitemap file:"
+msgstr "構築に成功した Sitemap ファイル:"
+
+#: sitemap.php:1048
+msgid "Successfully built gzipped sitemap file:"
+msgstr "構築に成功した gz 圧縮された Sitemap ファイル:"
+
+#: sitemap.php:1062
+msgid "Could not ping to Google at %s"
+msgstr "Google への更新 ping の送信ができませんでした。 %s"
+
+#: sitemap.php:1064
+msgid "Successfully pinged Google at %s"
+msgstr "Google への更新 ping の送信が成功しました。 %s"
+

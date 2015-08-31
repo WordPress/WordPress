@@ -1,0 +1,322 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Google Sitemap Generator Swedish Translation 1.0\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2008-01-08 12:16+0100\n"
+"Last-Translator: Markus <m.eriksson@rocketmail.com>\n"
+"Language-Team: Tobias Bergius <tobias@tobiasbergius.se>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=iso-8859-1\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Swedish\n"
+"X-Poedit-Country: SWEDEN\n"
+"X-Poedit-SourceCharset: iso-8859-1\n"
+
+#: sitemap.php:375
+msgid "always"
+msgstr "alltid"
+
+msgid "hourly"
+msgstr "varje timme"
+
+msgid "daily"
+msgstr "dagligen"
+
+msgid "weekly"
+msgstr "varje vecka"
+
+msgid "monthly"
+msgstr "m&aring;natligen"
+
+msgid "yearly"
+msgstr "&Aring;rligen"
+
+msgid "never"
+msgstr "aldrig"
+
+msgid "Detected Path"
+msgstr "Funnen s&ouml;kv&auml;g"
+
+msgid "Example"
+msgstr "Exempel"
+
+msgid "Absolute or relative path to the sitemap file, including name."
+msgstr "Absolut eller relativ s&ouml;kv&auml;g till sajtkartan, inklusive namn."
+
+msgid "Complete URL to the sitemap file, including name."
+msgstr "Komplett URL till sajtkartan, inklusive namn."
+
+msgid "Automatic location"
+msgstr "Automatisk s&ouml;kv&auml;g"
+
+msgid "Manual location"
+msgstr "Manuell s&ouml;kv&auml;g"
+
+msgid "OR"
+msgstr "eller"
+
+msgid "Location of your sitemap file"
+msgstr "S&ouml;kv&auml;g till din sajtkarta"
+
+msgid "If your blog is in a subdirectory and you want to add pages which are NOT in the blog directory or beneath, you MUST place your sitemap file in the root directory (Look at the &quot;Location of your sitemap file&quot; section on this page)!"
+msgstr "Om din blogg &auml;r i en underkatalog och du vill l&auml;gga till sidor som inte &auml;r i blogg-katalogen, eller under, m&aring;ste du placera din sajtkarta i root-katalogen (se &quot;S&ouml;kv&auml;g till din sajtkarta&quot; p&aring; den h&auml;r sidan)!"
+
+#: sitemap.php:512
+msgid "Configuration updated"
+msgstr "Konfiguration uppdaterad"
+
+#: sitemap.php:513
+msgid "Error"
+msgstr "Fel"
+
+#: sitemap.php:521
+msgid "A new page was added. Click on &quot;Save page changes&quot; to save your changes."
+msgstr "En ny sida tillagd. Klicka p&aring; &quot;Spara &auml;ndringar&quot; f&ouml;r att spara."
+
+#: sitemap.php:527
+msgid "Pages saved"
+msgstr "Sidor sparade"
+
+#: sitemap.php:528
+msgid "Error while saving pages"
+msgstr "Fel vid sparande av sida"
+
+#: sitemap.php:539
+msgid "The page was deleted. Click on &quot;Save page changes&quot; to save your changes."
+msgstr "Sidan borttagen. Klicka p&aring; &quot;Spara &auml;ndringar&quot; f&ouml;r att spara."
+
+#: sitemap.php:542
+msgid "You changes have been cleared."
+msgstr "Dina &auml;ndringar har rensats."
+
+#: sitemap.php:555
+msgid "Sitemap Generator"
+msgstr "Sitemap Generator"
+
+#: sitemap.php:558
+msgid "Manual rebuild"
+msgstr "Manuell &aring;terskapning"
+
+#: sitemap.php:559
+msgid "If you want to build the sitemap without editing a post, click on here!"
+msgstr "Om du vill skapa sajtkartan utan att redigera en artikel, klicka h&auml;r!"
+
+#: sitemap.php:560
+msgid "Rebuild Sitemap"
+msgstr "&Aring;terskapa sajtkarta"
+
+#: sitemap.php:564
+msgid "Additional pages"
+msgstr "Ytterligare sidor"
+
+#: sitemap.php:566
+msgid "Here you can specify files or URLs which should be included in the sitemap, but do not belong to your Blog/WordPress.<br />For example, if your domain is www.foo.com and your blog is located on www.foo.com/blog you might want to include your homepage at www.foo.com"
+msgstr "H&auml;r kan du l&auml;gga till URL:er i sajtkartan, som inte tillh&ouml;r Wordpress.<br />Till exempel, om din dom&auml;n &auml;r www.foo.com och din blogg finns p&aring; www.foo.com/blogg, vill du nog l&auml;gga till din startsida p&aring; www.foo.com."
+
+#: sitemap.php:568
+msgid "URL to the page"
+msgstr "URL till sidan"
+
+#: sitemap.php:569
+msgid "Enter the URL to the page. Examples: http://www.foo.com/index.html or www.foo.com/home "
+msgstr "Ange URL till sidan. Exempel: http://www.foo.com/index.html eller www.foo.com/home"
+
+#: sitemap.php:571
+msgid "Priority"
+msgstr "Prioritet"
+
+#: sitemap.php:572
+msgid "Choose the priority of the page relative to the other pages. For example, your homepage might have a higher priority than your imprint."
+msgstr "V&auml;lj prioritet relativt till de andra sidorna. Till exempel, din startsida kanske b&ouml;r ha h&ouml;gre prioritet &auml;n dina undersidor."
+
+#: sitemap.php:574
+msgid "Last Changed"
+msgstr "Senast &auml;ndrad"
+
+#: sitemap.php:575
+msgid "Enter the date of the last change as YYYY-MM-DD (2005-12-31 for example) (optional)."
+msgstr "&Auml;ndra datum f&ouml;r senaste &auml;ndringar enligt &Aring;&Aring;&Aring;&Aring;-MM-DD (2005-12-31 t.ex.) (valfritt)."
+
+#: sitemap.php:583
+msgid "Change Frequency"
+msgstr "&Auml;ndra frekvens"
+
+#: sitemap.php:585
+msgid "#"
+msgstr "#"
+
+#: sitemap.php:609
+msgid "No pages defined."
+msgstr "Inga sidor tillagda."
+
+#: sitemap.php:616
+msgid "Add new page"
+msgstr "L&auml;gg till sida"
+
+# sitemap.php:617:
+#: sitemap.php:617
+msgid "Save page changes"
+msgstr "Spara &auml;ndringar"
+
+# sitemap.php:618:
+#: sitemap.php:618
+msgid "Undo all page changes"
+msgstr "&Aring;ngra alla &auml;ndringar"
+
+# sitemap.php:621:
+#: sitemap.php:621
+msgid "Delete marked page"
+msgstr "Ta bort markerad sida"
+
+#: sitemap.php:627
+msgid "Basic Options"
+msgstr "Generella &auml;ndringar"
+
+#: sitemap.php:632
+msgid "Enable automatic priority calculation for posts based on comment count"
+msgstr "Aktivera automatisk prioritering f&ouml;r artiklar, baserat p&aring; antal kommentarer"
+
+#: sitemap.php:638
+msgid "Write debug comments"
+msgstr "Skriv debuggkommentarer"
+
+#: sitemap.php:643
+msgid "Filename of the sitemap file"
+msgstr "Filnamn p&aring; sajtkartan"
+
+#: sitemap.php:650
+msgid "Write a normal XML file (your filename)"
+msgstr "Skapa en vanlig XML-fil (ditt filnamn)"
+
+#: sitemap.php:652
+msgid "Detected URL"
+msgstr "Funnen URL"
+
+#: sitemap.php:657
+msgid "Write a gzipped file (your filename + .gz)"
+msgstr "Skapa en gzippad fil (filnamn + .gz)"
+
+#: sitemap.php:664
+msgid "Auto-Ping Google Sitemaps"
+msgstr "Auto-pinga Google Sitemaps"
+
+#: sitemap.php:665
+msgid "This option will automatically tell Google about changes."
+msgstr "Det h&auml;r g&ouml;r att Google automatiskt notifieras om uppdateringar"
+
+#: sitemap.php:672
+msgid "Includings"
+msgstr "Inkluderingar"
+
+#: sitemap.php:677
+msgid "Include homepage"
+msgstr "Inkludera startsida"
+
+#: sitemap.php:683
+msgid "Include posts"
+msgstr "Inkludera artiklar"
+
+#: sitemap.php:689
+msgid "Include static pages"
+msgstr "Inkludera statiska sidor"
+
+#: sitemap.php:695
+msgid "Include categories"
+msgstr "Inkludera kategorier"
+
+#: sitemap.php:701
+msgid "Include archives"
+msgstr "Inkluder arkiv"
+
+#: sitemap.php:708
+msgid "Change frequencies"
+msgstr "&Auml;ndra frekvenser"
+
+#: sitemap.php:709
+msgid "Note"
+msgstr "Observera"
+
+#: sitemap.php:710
+msgid "Please note that the value of this tag is considered a hint and not a command. Even though search engine crawlers consider this information when making decisions, they may crawl pages marked \"hourly\" less frequently than that, and they may crawl pages marked \"yearly\" more frequently than that. It is also likely that crawlers will periodically crawl pages marked \"never\" so that they can handle unexpected changes to those pages."
+msgstr "Den h&auml;r inst&auml;llningen ska ses som en ledtr&aring;d och inte ett kommando. &Auml;ven om s&ouml;kmotorerna l&auml;gger m&auml;rke till den h&auml;r informationen, s&aring; kan de indexera sidor markerade \"per timme\" mer s&auml;llan &auml;n det. Och dom kan indexera sidor markerade \"&aring;rligen\" oftare &auml;n s&aring;. Det &auml;r ocks&aring; vanligt att s&ouml;kmotorer regelbundet kontrollerar sidor markerade \"aldrig\", s&aring; att de kan hantera ov&auml;ntade h&auml;ndelser."
+
+#: sitemap.php:715
+msgid "Homepage"
+msgstr "Startsida"
+
+#: sitemap.php:721
+msgid "Posts"
+msgstr "Artiklar"
+
+#: sitemap.php:727
+msgid "Static pages"
+msgstr "Statiska sidor"
+
+#: sitemap.php:733
+msgid "Categories"
+msgstr "Kategorier"
+
+#: sitemap.php:739
+msgid "The current archive of this month (Should be the same like your homepage)"
+msgstr "Aktuellt arkiv f&ouml;r denna m&aring;nad (borde vara samma som din startsida)"
+
+#: sitemap.php:745
+msgid "Older archives (Changes only if you edit an old post)"
+msgstr "&Auml;ldre arkiv (&auml;ndras bara om du &auml;ndrar en &auml;ldre artikel)"
+
+#: sitemap.php:752
+msgid "Priorities"
+msgstr "Prioriteringar"
+
+#: sitemap.php:763
+msgid "Posts (If auto calculation is disabled)"
+msgstr "Artiklar (om autoprioritering &auml;r avaktiverat)"
+
+#: sitemap.php:769
+msgid "Minimum post priority (Even if auto calculation is enabled)"
+msgstr "Minsta artikeprioritet (&auml;ven om autoprioritering &auml;r aktiverat)"
+
+#: sitemap.php:787
+msgid "Archives"
+msgstr "Arkiv"
+
+#: sitemap.php:793
+msgid "Informations and support"
+msgstr "Information och support"
+
+#: sitemap.php:794
+msgid "Check %s for updates and comment there if you have any problems / questions / suggestions."
+msgstr "Kontrollera %s efter uppdateringar och kommentera om du har n&aring;gra problem, fr&aring;gor eller f&ouml;rslag."
+
+#: sitemap.php:797
+msgid "Update options"
+msgstr "Uppdatera inst&auml;llningar"
+
+#: sitemap.php:1033
+msgid "URL:"
+msgstr "URL:"
+
+#: sitemap.php:1034
+msgid "Path:"
+msgstr "S&ouml;kväg:"
+
+#: sitemap.php:1037
+msgid "Could not write into %s"
+msgstr "Kan inte skriva till %s"
+
+#: sitemap.php:1048
+msgid "Successfully built sitemap file:"
+msgstr "Sajtkarta skapad:"
+
+#: sitemap.php:1048
+msgid "Successfully built gzipped sitemap file:"
+msgstr "Gzippad sajtkarta skapad:"
+
+#: sitemap.php:1062
+msgid "Could not ping to Google at %s"
+msgstr "Kan inte pinga Google p&aring; %s"
+
+#: sitemap.php:1064
+msgid "Successfully pinged Google at %s"
+msgstr "Google pingad p&aring; %s"
+

@@ -1,0 +1,604 @@
+# [Countryname] Language File for sitemap (sitemap-[localname].po)
+# Copyright (C) 2005 [name] : [URL]
+# This file is distributed under the same license as the WordPress package.
+# [name] <[mail-address]>, 2005.
+# $Id: sitemap.pot 2502 2005-07-03 20:50:38Z arnee $
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: sitemap\n"
+"Report-Msgid-Bugs-To: <[mail-address]>\n"
+"POT-Creation-Date: 2005-06-15 00:00+0000\n"
+"PO-Revision-Date: 2007-11-21 20:50+0100\n"
+"Last-Translator: Peter Kahoun <kahi@kahi.cz>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language-Team: \n"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:846
+msgid "Comment Count"
+msgstr "Počet komentářů"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:858
+msgid "Uses the number of comments of the post to calculate the priority"
+msgstr "K vypočítání priority se využívá počet komentářů"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:918
+msgid "Comment Average"
+msgstr "Průměrný počet komentářů"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:930
+msgid "Uses the average comment count to calculate the priority"
+msgstr "K vypočítání priority se využívá průměrného počtu komentářů"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:993
+msgid "Popularity Contest"
+msgstr "Soutěž popularity"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:1005
+msgid "Uses the activated <a href=\"%1\">Popularity Contest Plugin</a> from <a href=\"%2\">Alex King</a>. See <a href=\"%3\">Settings</a> and <a href=\"%4\">Most Popular Posts</a>"
+msgstr "Využívá se pluginu <a href=\"%1\">Soutěž popularity (Popularity contest)</a> od <a href=\"%2\">Alexe Kinga</a>. Viz <a href=\"%3\">Nastavení</a> a <a href=\"%4\">Nejpopulárnější příspěvky</a>"
+
+msgid "XML-Sitemap Generator"
+msgstr "Generátor XML-Sitemapy"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2415
+msgid "XML-Sitemap"
+msgstr "XML-Sitemap"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2600
+msgid "Thank you very much for your donation. You help me to continue support and development of this plugin and other free software!"
+msgstr "Děkuji vám mockrát za vaše příspěvky. Pomáháte tím pokračovat v podpoře a vývoji tohoto pluginu a dalšího nekomerčního softwaru!"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2600
+msgid "Hide this notice"
+msgstr "Skrýt toto oznámení"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2657
+#, php-format
+msgid "Thanks for using this plugin! You've installed this plugin over a month ago. If it works and your are satisfied with the results, isn't it worth at least one dollar? <a href=\"%s\">Donations</a> help me to continue support and development of this <i>free</i> software! <a href=\"%s\">Sure, no problem!</a>"
+msgstr "Díky za používání tohoto pluginu! Už je to více než měsíc, co jste ho naistalovali. Pokud funguje k vaší spokojenosti, není hoden alespoň toho jednoho dolaru? <a href=\"%s\">Peněžní příspěvky</a> mi pomáhají pokračovat v podpoře a vývoji tohoto <i>nekomerčního</i> softwaru! <a href=\"%s\">Ovšem, žádný problém!</a>"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2657
+msgid "No thanks, please don't bug me anymore!"
+msgstr "Ne, díky, už mě prosím neotravuj!"
+
+msgid "XML Sitemap Generator for WordPress"
+msgstr "Generátor XML Sitemap"
+
+msgid "Configuration updated"
+msgstr "Nastavení aktualizováno"
+
+msgid "Error while saving options"
+msgstr "Při ukládání nastavení nastala chyba"
+
+msgid "Pages saved"
+msgstr "Stránka uložena"
+
+msgid "Error while saving pages"
+msgstr "Při ukládání stránek nastala chyba"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2748
+#, php-format
+msgid "<a href=\"%s\">Robots.txt</a> file saved"
+msgstr "Soubor <a href=\"%s\">robots.txt</a> uložen"
+
+msgid "Error while saving Robots.txt file"
+msgstr "Při ukládání souboru robots.txt nastala chyba"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2758
+msgid "The default configuration was restored."
+msgstr "Výchozí nastavení bylo obnoveno."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2851
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2868
+msgid "open"
+msgstr "otevřít"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2852
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2869
+msgid "close"
+msgstr "zavřít"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2853
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2870
+msgid "click-down and drag to move this box"
+msgstr "Podržte tlačítko myši a táhněte tento box dolů"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2854
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2871
+msgid "click to %toggle% this box"
+msgstr "klikněte k přepnutí viditelnosti tohoto boxu"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2855
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2872
+msgid "use the arrow keys to move this box"
+msgstr "k přesunutí tohoto boxu použijte šipky na klávesnici"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2856
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2873
+msgid ", or press the enter key to %toggle% it"
+msgstr ", anebo stiskněte Enter k přepnutí viditelnosti"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2884
+msgid "About this Plugin:"
+msgstr "O tomto pluginu:"
+
+msgid "Plugin Homepage"
+msgstr "Domovská stránka pluginu"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2887
+msgid "Notify List"
+msgstr "Oznamovatel novinek"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2888
+msgid "Support Forum"
+msgstr "Podpora (fórum)"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2889
+msgid "Donate with PayPal"
+msgstr "Přispějte přes PayPal"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2890
+msgid "My Amazon Wish List"
+msgstr "Můj WishList na Amazonu"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2891
+msgid "translator_name"
+msgstr "Peter \"Kahi\" Kahoun"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2891
+msgid "translator_url"
+msgstr "http://kahi.cz/wordpress"
+
+msgid "Sitemap Resources:"
+msgstr "Zdroje:"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2897
+msgid "Webmaster Tools"
+msgstr "Webmaster Tools"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2898
+msgid "Webmaster Blog"
+msgstr "Webmaster Blog"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2900
+msgid "Site Explorer"
+msgstr "Site Explorer"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2901
+msgid "Search Blog"
+msgstr "Search Blog"
+
+msgid "Sitemaps Protocol"
+msgstr "Sitemaps protokol"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2904
+msgid "Official Sitemaps FAQ"
+msgstr "Oficiální Sitemaps FAQ"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2905
+msgid "My Sitemaps FAQ"
+msgstr "Mé Sitemaps FAQ"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2910
+msgid "Recent Donations:"
+msgstr "Poslední příspěvky:"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2914
+msgid "List of the donors"
+msgstr "Seznam dárců"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2916
+msgid "Hide this list"
+msgstr "Skrýt seznam"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2919
+msgid "Thanks for your support!"
+msgstr "Díky za vaši podporu!"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2931
+msgid "Status"
+msgstr "Stav"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2941
+#, php-format
+msgid "The sitemap wasn't built yet. <a href=\"%s\">Click here</a> to build it the first time."
+msgstr "Sitemapa ještě nebyla vytvořena. <a href=\"%s\">Klikněte sem</a> pro první vytvoření."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2947
+msgid "Your <a href=\"%url%\">sitemap</a> was last built on <b>%date%</b>."
+msgstr "Vaše <a href=\"%url%\">sitemapa</a> byla naposledy aktualizována <b>%date%</b>."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2949
+msgid "There was a problem writing your sitemap file. Make sure the file exists and is writable. <a href=\"%url%\">Learn more</a"
+msgstr "Vyskytl se problém při zápisu do souboru sitemapy. Ujistěte se prosím, že soubor existuje a je do něj povolen zápis. <a href=\"%url%\">Dozvědět se víc</a>"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2956
+msgid "Your sitemap (<a href=\"%url%\">zipped</a>) was last built on <b>%date%</b>."
+msgstr "Vaše  <a href=\"%url%\">zazipovaná sitemapa</a> byla naposledy aktualizována <b>%date%</b>."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2958
+msgid "There was a problem writing your zipped sitemap file. Make sure the file exists and is writable. <a href=\"%url%\">Learn more</a"
+msgstr "Vyskytl se problém při zápisu do souboru zazipované sitemapy. Ujistěte se prosím, že soubor existuje a je do něj povolen zápis. <a href=\"%url%\">Dozvědět se víc</a>"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2964
+msgid "Google was <b>successfully notified</b> about changes."
+msgstr "Google byl <b>úspěšně upozorněn</b> na změny."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2967
+msgid "It took %time% seconds to notify Google, maybe you want to disable this feature to reduce the building time."
+msgstr "Oznámení Googlu zabralo %time% sekund, možná budete chtít deaktivovat tuto funkci pro snížení potřebného času k vytváření sitemapy."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3011
+#, php-format
+msgid "There was a problem while notifying Google. <a href=\"%s\">View result</a>"
+msgstr "Vyskytl se problém při oznamování změn Googlu. <a href=\"%s\">Prohlédnout výsledek</a>"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2976
+msgid "YAHOO was <b>successfully notified</b> about changes."
+msgstr "Yahoo byl  <b>úspěšně upozorněn</b> na změny."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2979
+msgid "It took %time% seconds to notify YAHOO, maybe you want to disable this feature to reduce the building time."
+msgstr "Oznámení Yahoo zabralo %time% sekund, možná budete chtít deaktivovat tuto funkci pro snížení potřebného času k vytváření sitemapy."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3023
+#, php-format
+msgid "There was a problem while notifying YAHOO. <a href=\"%s\">View result</a>"
+msgstr "Vyskytl se problém při oznamování změn Yahoo. <a href=\"%s\">Prohlédnout výsledek</a>"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2988
+msgid "Ask.com was <b>successfully notified</b> about changes."
+msgstr "Ask.com byl  <b>úspěšně upozorněn</b> na změny."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2991
+msgid "It took %time% seconds to notify Ask.com, maybe you want to disable this feature to reduce the building time."
+msgstr "Oznámení Ask.com zabralo %time% sekund, možná budete chtít deaktivovat tuto funkci pro snížení potřebného času k vytváření sitemapy."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3035
+#, php-format
+msgid "There was a problem while notifying Ask.com. <a href=\"%s\">View result</a>"
+msgstr "Vyskytl se problém při oznamování změn Ask.com. <a href=\"%s\">Prohlédnout výsledek</a>"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3002
+msgid "The building process took about <b>%time% seconds</b> to complete and used %memory% MB of memory."
+msgstr "Proces vytváření zabral kolem <b>%time% seconds</b> a spotřeboval %memory% MB paměti."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3004
+msgid "The building process took about <b>%time% seconds</b> to complete."
+msgstr "Proces vytváření zabral kolem <b>%time% sekund</b>."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3008
+msgid "The content of your sitemap <strong>didn't change</strong> since the last time so the files were not written and no search engine was pinged."
+msgstr "Obsah vaší sitemapy <strong>se nezměnil</strong> od posledního vytváření, takže soubory nebyly aktualizovány a vyhledávače nebyly upozorňovány na změny."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3012
+msgid "The last run didn't finish! Maybe you can raise the memory or time limit for PHP scripts. <a href=\"%url%\">Learn more</a>"
+msgstr "Poslední běh neproběhl do konce! Možná byste mohli navýšit limit paměti či maximálního času pro PHP skripty. <a href=\"%url%\">Dozvědět se víc</a>"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3014
+msgid "The last known memory usage of the script was %memused%MB, the limit of your server is %memlimit%."
+msgstr "Poslední známé využití paměti bylo %memused%MB, limit vašeho serveru je %memlimit%."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3018
+msgid "The last known execution time of the script was %timeused% seconds, the limit of your server is %timelimit% seconds."
+msgstr "Poslední známý čas trvání skriptu byl  %timeused%  sekund, limit vašeho serveru je %timelimit% sekund."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3022
+msgid "The script stopped around post number %lastpost% (+/- 100)"
+msgstr "Skript byl zastaven kolem příspěvku číslo %lastpost% (+/- 100)"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3025
+#, php-format
+msgid "If you changed something on your server or blog, you should <a href=\"%s\">rebuild the sitemap</a> manually."
+msgstr "Pokud bylo něco na vašem serveru nebo blogu změněno, měli byste <a href=\"%s\">aktualizovat sitemapu</a> ručně."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3027
+#, php-format
+msgid "If you encounter any problems with the build process you can use the <a href=\"%d\">debug function</a> to get more information."
+msgstr "Pokud zaregistrujete jakékoli problémy při procesu aktualizace sitemapy, k získání více informací můžete použít <a href=\"%d\">ladící funkci</a>."
+
+msgid "Basic Options"
+msgstr "Základní možnosti"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3044
+msgid "Sitemap files:"
+msgstr "Soubory sitemapy:"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3044
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3059
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3079
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3104
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3121
+msgid "Learn more"
+msgstr "Dozvědět se víc"
+
+msgid "Write a normal XML file (your filename)"
+msgstr "Ukládat normální XML soubor (jméno vašeho souboru)"
+
+msgid "Write a gzipped file (your filename + .gz)"
+msgstr "Ukládat komprimovaný (gzip) soubor (jméno vašeho souboru + .gz)"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3059
+msgid "Building mode:"
+msgstr "Mód aktualizace:"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3064
+msgid "Rebuild sitemap if you change the content of your blog"
+msgstr "Aktualizovat sitemapu při každé změně v obsahu vašeho blogu"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3071
+msgid "Enable manual sitemap building via GET Request"
+msgstr "Povolit ruční aktualizaci sitemapy pomocí GET dotazu"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3075
+msgid "This will allow you to refresh your sitemap if an external tool wrote into the WordPress database without using the WordPress API. Use the following URL to start the process: <a href=\"%1\">%1</a> Please check the logfile above to see if sitemap was successfully built."
+msgstr "Toto umožní aktualizovat vaši sitemapu, pokud do databáze Wordpressu zapíše data nějaký externí nástroj bez využití WordPress API. Použijte tuto URL ke spuštění procesu: <a href=\"%1\">%1</a>. Prosím zkontrolujte log-soubor výše, jestli byla sitemapa aktualizována úspěšně."
+
+msgid "Update notification:"
+msgstr "Oznámení o aktualizaci:"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3083
+msgid "Notify Google about updates of your Blog"
+msgstr "Oznamovat Googlu změny na vašem blogu"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3084
+#, php-format
+msgid "No registration required, but you can join the <a href=\"%s\">Google Webmaster Tools</a> to check crawling statistics."
+msgstr "Registrace není vyžadována, ale může se připojit k <a href=\"%s\">Google Webmaster Tools</a> kvůli kontrole statistik návštěv vyhledávače."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3088
+msgid "Notify Ask.com about updates of your Blog"
+msgstr "Oznamovat Ask.com změny na vašem blogu"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3089
+msgid "No registration required."
+msgstr "Registrace není vyžadována."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3093
+msgid "Notify YAHOO about updates of your Blog"
+msgstr "Oznamovat Yahoo změny na vašem blogu"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3094
+#, php-format
+msgid "No registration required, but you can sign up for the <a href=\"%s\">YAHOO Site Explorer</a> to view the crawling progress."
+msgstr "Registrace není vyžadována, ale můžete se přihlásit do <a href=\"%s\">YAHOO Site Explorer</a> kvůli prohlížení postupu návštěv vyhledávače."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3099
+#, php-format
+msgid "Modify or create %s file in blog root which contains the sitemap location."
+msgstr "Upravit nebo vytvořit %s soubor v kořeni blogu, který obsahuje adresu sitemapy."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3102
+msgid "File permissions: "
+msgstr "Oprávnění k souboru:"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3107
+msgid "OK, robots.txt is writable."
+msgstr "V pořádku, je možné zapisovat do robots.txt."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3109
+msgid "Error, robots.txt is not writable."
+msgstr "Chyba, není možné zapisovat do robots.txt."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3113
+msgid "OK, robots.txt doesn't exist but the directory is writable."
+msgstr "V pořádku, robots.txt neexistuje, ale zápis do adresáře je povolen."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3115
+msgid "Error, robots.txt doesn't exist and the directory is not writable"
+msgstr "Chyba, robots.txt neexistuje a zápis do adresáře není povolen."
+
+msgid "Advanced options:"
+msgstr "Pokročilé možnosti:"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3124
+msgid "Limit the number of posts in the sitemap:"
+msgstr "Omezit počet příspěvků v sitemapě:"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3124
+msgid "Newer posts will be included first"
+msgstr "Novější příspěvky budou zahrnuty nejdříve"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3127
+msgid "Try to increase the memory limit to:"
+msgstr "Zkuste navýšit limit paměti na:"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3127
+msgid "e.g. \"4M\", \"16M\""
+msgstr "např: \"4M\", \"16M\""
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3130
+msgid "Try to increase the execution time limit to:"
+msgstr "Zkuste navýšit maximální čas provádění skriptu na:"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3130
+msgid "in seconds, e.g. \"60\" or \"0\" for unlimited"
+msgstr "v sekundách, např. \"60\" anebo \"0\" pro nekonečno"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3133
+msgid "Include a XSLT stylesheet:"
+msgstr "Připojit XSLT stylopis:"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3133
+msgid "Use Default"
+msgstr "Použít výchozí"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3133
+msgid "Full or relative URL to your .xsl file"
+msgstr "Adresa k vašemu .xsl souboru"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3152
+msgid "Enable MySQL standard mode. Use this only if you're getting MySQL errors. (Needs much more memory!)"
+msgstr "Povolit standardní mód MySQL. Toto používejte jedině když se zobrazují MySQL chyby - vyžaduje to mnohem víc paměti!"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3166
+msgid "Build the sitemap in a background process (You don't have to wait when you save a post)"
+msgstr "Vytvářet sitemapu v pozadí (Tzn. nebudete muset čekat při ukládání příspěvku)"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3206
+msgid "Exclude the following posts or pages:"
+msgstr "Vyřadit tyto příspěvky či stránky:"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3206
+msgid "List of IDs, separated by comma"
+msgstr "Seznam ID oddělených čárkou"
+
+msgid "Additional pages"
+msgstr "Stránky navíc"
+
+msgid "Here you can specify files or URLs which should be included in the sitemap, but do not belong to your Blog/WordPress.<br />For example, if your domain is www.foo.com and your blog is located on www.foo.com/blog you might want to include your homepage at www.foo.com"
+msgstr "Zde můžete nastavit URL adresy, které mají být zahrnuty do sitemapy, ale nenáleží k blogu/WordPressu.<br />Například, pokud vaše doména je www.něco.cz a váš blog se nachází na www.něco.cz/blog, možná byste chtěli zahrnout i www.něco.cz"
+
+msgid "Note"
+msgstr "Poznámka"
+
+msgid "If your blog is in a subdirectory and you want to add pages which are NOT in the blog directory or beneath, you MUST place your sitemap file in the root directory (Look at the &quot;Location of your sitemap file&quot; section on this page)!"
+msgstr "Je-li váš blog v podsložce a chcete-li přidat stránky, které NEJSOU v adresáři blogu (anebo v podadresářích), MUSÍTE umístit vaši sitemapu do kořenové složky (Viz sekce &quot;Umístění vaší sitemapy&quot; na této stránce)!"
+
+msgid "URL to the page"
+msgstr "URL stránky"
+
+msgid "Enter the URL to the page. Examples: http://www.foo.com/index.html or www.foo.com/home "
+msgstr "Vložte URL (adresu) stránky. Příklady: http://www.něco.cz/index.html nebo www.něco.cz/home "
+
+msgid "Priority"
+msgstr "Priorita"
+
+msgid "Choose the priority of the page relative to the other pages. For example, your homepage might have a higher priority than your imprint."
+msgstr "Vyberte prioritu stránky relativně k ostatním stránkám. Například, vaše titulní stránka by měla mít vyšší prioritu než stránka O mně."
+
+msgid "Last Changed"
+msgstr "Naposledy změněno"
+
+msgid "Enter the date of the last change as YYYY-MM-DD (2005-12-31 for example) (optional)."
+msgstr "Vložte datum poslední změny ve formátu RRRR-MM-DD (například 2007-08-12) (nepovinné)."
+
+msgid "Change Frequency"
+msgstr "Nastavit frekvenci"
+
+msgid "#"
+msgstr "#"
+
+msgid "No pages defined."
+msgstr "Nejsou definovány žádné stránky."
+
+msgid "Add new page"
+msgstr "Přidat novou stránku"
+
+msgid "Post Priority"
+msgstr "Priorita příspěvků"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3329
+msgid "Please select how the priority of each post should be calculated:"
+msgstr "Vyberte prosím způsob, kterým má být priorita každého z příspěvků vypočítávána."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3331
+msgid "Do not use automatic priority calculation"
+msgstr "Nepoužívat automatický výpočet priority"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3331
+msgid "All posts will have the same priority which is defined in &quot;Priorities&quot;"
+msgstr "Všechny příspěvky budou mít stejnou prioritu, která je definována v &quot;Prioritách&quot;"
+
+msgid "Location of your sitemap file"
+msgstr "Umístění vaší sitemapy"
+
+msgid "Automatic detection"
+msgstr "Automatická detekce"
+
+msgid "Filename of the sitemap file"
+msgstr "Jméno souboru sitemapy"
+
+msgid "Detected Path"
+msgstr "Zjištěná cesta"
+
+msgid "Detected URL"
+msgstr "Zjištěná URL"
+
+msgid "Custom location"
+msgstr "Vlastní umístění"
+
+msgid "Absolute or relative path to the sitemap file, including name."
+msgstr "Absolutní nebo relativní cesta k sitemapě, včetně jména souboru."
+
+msgid "Example"
+msgstr "Příklad"
+
+msgid "Complete URL to the sitemap file, including name."
+msgstr "Celá URL k sitemapě, včetně jména."
+
+msgid "Sitemap Content"
+msgstr "Obsah sitemapy"
+
+msgid "Include homepage"
+msgstr "Zahrnout titulní stránku"
+
+msgid "Include posts"
+msgstr "Zahrnout příspěvky"
+
+msgid "Include static pages"
+msgstr "Zahrnout statické stránky"
+
+msgid "Include categories"
+msgstr "Zahrnout rubriky"
+
+msgid "Include archives"
+msgstr "Zahrnout archivy"
+
+msgid "Include tag pages"
+msgstr "Zahrnout stránky štítků"
+
+msgid "Include author pages"
+msgstr "Zahrnout stránky autorů"
+
+msgid "Change frequencies"
+msgstr "Nastavení frekvence"
+
+msgid "Please note that the value of this tag is considered a hint and not a command. Even though search engine crawlers consider this information when making decisions, they may crawl pages marked \"hourly\" less frequently than that, and they may crawl pages marked \"yearly\" more frequently than that. It is also likely that crawlers will periodically crawl pages marked \"never\" so that they can handle unexpected changes to those pages."
+msgstr "Berte prosím na vědomí, že hodnota tohoto štítku je jen zvažována \"jako náznak\", není to příkaz. Přestože vyhledávací roboti berou při rozhodování tuto hodnotu na vědomí, přesto mohou navštěvovat stránky označené jako \"každou hodinu\" méně často, a také mohou stránky označené jako \"ročně\" navštěvovat častěji. Rovněž je pravděpodobné, že roboti budou naštěvovat i stránky označené jako \"nikdy\" aby se mohli vypořádat s nečekanými změnami na těchto stránkách."
+
+msgid "Homepage"
+msgstr "Titulní stránka"
+
+msgid "Posts"
+msgstr "Příspěvky"
+
+msgid "Static pages"
+msgstr "Statické stránky"
+
+msgid "Categories"
+msgstr "Rubriky"
+
+msgid "The current archive of this month (Should be the same like your homepage)"
+msgstr "Stávající archiv tohoto měsíce (Měl by být stejný jako vaše titulní stránka)"
+
+msgid "Older archives (Changes only if you edit an old post)"
+msgstr "Starší archivy (Mění se jen když upravíte starý příspěvek)"
+
+msgid "Tag pages"
+msgstr "Stránky štítků"
+
+msgid "Author pages"
+msgstr "Stránky autorů"
+
+msgid "Priorities"
+msgstr "Priority"
+
+msgid "Posts (If auto calculation is disabled)"
+msgstr "Příspěvky (Když je automatický výpočet vypnutý)"
+
+msgid "Minimum post priority (Even if auto calculation is enabled)"
+msgstr "Minimální priorita příspěvku (I když je povolený automatický výpočet)"
+
+msgid "Archives"
+msgstr "Archivy"
+
+msgid "Update options"
+msgstr "Aktualizovat možnosti"
+
+msgid "Reset options"
+msgstr "Vynulovat možnosti"
+

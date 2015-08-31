@@ -1,0 +1,20 @@
+{
+    "name"       : "yoast/api-libs",
+    "description": "Shared API libraries for Yoast projects.",
+    "keywords"   : ["wordpress"],
+    "homepage"   : "https://github.com/Yoast/api-libs",
+    "license"    : "GPL-3.0",
+    "authors"    : [
+        {
+            "name"    : "Team Yoast",
+            "email"   : "support@yoast.com",
+            "homepage": "https://yoast.com"
+        }
+    ],
+    "support"    : {
+        "issues": "https://github.com/Yoast/api-libs/issues"
+    },
+    "autoload"   : {
+        "classmap": ["class-api-libs.php"]
+    }
+}

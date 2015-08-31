@@ -1,0 +1,95 @@
+/*
+ * jsTree default theme 1.0
+ * Supported features: dots/no-dots, icons/no-icons, focused, loading
+ * Supported plugins: ui (hovered, clicked), checkbox, contextmenu, search
+ */
+
+.jstree-wordpress li, 
+.jstree-wordpress ins { background-image:url("d.png"); background-repeat:no-repeat; background-color:transparent; }
+.jstree-wordpress li { background-position:-90px 0; background-repeat:repeat-y;  }
+.jstree-wordpress li.jstree-last { background:transparent; }
+.jstree-wordpress .jstree-open > ins { background-position:-72px 0; }
+.jstree-wordpress .jstree-closed > ins { background-position:-54px 0; cursor: pointer; }
+.jstree-wordpress .jstree-leaf > ins { background-position:-36px 0; }
+
+.jstree-wordpress .jstree-hovered { background:#e7f4f9; border:1px solid #d8f0fa; padding:0 2px 0 1px; }
+.jstree-wordpress .jstree-clicked { background:#beebff; border:1px solid #99defd; padding:0 2px 0 1px; }
+.jstree-wordpress a .jstree-icon { background-position:-56px -19px; }
+.jstree-wordpress a.jstree-loading .jstree-icon { background:url("throbber.gif") center center no-repeat !important; }
+
+.jstree-wordpress.jstree-focused { /* background:#ffffee; */ }
+
+.jstree-wordpress .jstree-no-dots li, 
+.jstree-wordpress .jstree-no-dots .jstree-leaf > ins { background:transparent; }
+.jstree-wordpress .jstree-no-dots .jstree-open > ins { background-position:-18px 0; }
+.jstree-wordpress .jstree-no-dots .jstree-closed > ins { background-position:0 0; }
+
+.jstree-wordpress .jstree-no-icons a .jstree-icon { display:none; }
+
+.jstree-wordpress .jstree-search { /* font-style:italic; */ }
+
+.jstree-wordpress .jstree-no-icons .checkbox { display:inline-block; }
+.jstree-wordpress .jstree-no-checkboxes .checkbox { display:none !important; }
+.jstree-wordpress .jstree-checked > a > .checkbox { background-position:-38px -19px; }
+.jstree-wordpress .jstree-unchecked > a > .checkbox { background-position:-2px -19px; }
+.jstree-wordpress .jstree-undetermined > a > .checkbox { background-position:-20px -19px; }
+.jstree-wordpress .jstree-checked > a > .checkbox:hover { background-position:-38px -37px; }
+.jstree-wordpress .jstree-unchecked > a > .checkbox:hover { background-position:-2px -37px; }
+.jstree-wordpress .jstree-undetermined > a > .checkbox:hover { background-position:-20px -37px; }
+
+#vakata-dragged.jstree-wordpress ins { background:transparent !important; }
+#vakata-dragged.jstree-wordpress .jstree-ok { background:url("d.png") -2px -53px no-repeat !important; }
+#vakata-dragged.jstree-wordpress .jstree-invalid { background:url("d.png") -18px -53px no-repeat !important; }
+#jstree-marker.jstree-wordpress { background:url("d.png") -41px -57px no-repeat !important; text-indent:-100px; }
+
+.jstree-wordpress a.jstree-search { font-weight: bold; background-color: #FFEFBA; }
+
+#vakata-contextmenu.jstree-wordpress-context, 
+#vakata-contextmenu.jstree-wordpress-context li ul { background:#f0f0f0; border:1px solid #979797; -moz-box-shadow: 1px 1px 2px #999; -webkit-box-shadow: 1px 1px 2px #999; box-shadow: 1px 1px 2px #999; }
+#vakata-contextmenu.jstree-wordpress-context li { }
+#vakata-contextmenu.jstree-wordpress-context a { color:black; }
+#vakata-contextmenu.jstree-wordpress-context a:hover, 
+#vakata-contextmenu.jstree-wordpress-context .vakata-hover > a { padding:0 5px; background:#e8eff7; border:1px solid #aecff7; color:black; -moz-border-radius:2px; -webkit-border-radius:2px; border-radius:2px; }
+#vakata-contextmenu.jstree-wordpress-context li.vakata-separator { background:white; border-top:1px solid #e0e0e0; margin:0; }
+#vakata-contextmenu.jstree-wordpress-context li ul { margin-left:-4px; }
+
+
+/* IE6 BEGIN */
+.jstree-wordpress li, 
+.jstree-wordpress ins,
+#vakata-dragged.jstree-wordpress .jstree-invalid, 
+#vakata-dragged.jstree-wordpress .jstree-ok, 
+#jstree-marker.jstree-default { _background-image:url("d.gif"); }
+.jstree-wordpress .jstree-open ins { _background-position:-72px 0; }
+.jstree-wordpress .jstree-closed ins { _background-position:-54px 0; }
+.jstree-wordpress .jstree-leaf ins { _background-position:-36px 0; }
+.jstree-wordpress a ins.jstree-icon { _background-position:-56px -19px; }
+#vakata-contextmenu.jstree-wordpress-context ins { _display:none; }
+#vakata-contextmenu.jstree-wordpress-context li { _zoom:1; }
+.jstree-wordpress .jstree-undetermined a .jstree-checkbox { _background-position:-20px -19px; }
+.jstree-wordpress .jstree-checked a .jstree-checkbox { _background-position:-38px -19px; }
+.jstree-wordpress .jstree-unchecked a .jstree-checkbox { _background-position:-2px -19px; }
+/* IE6 END */
+
+
+/* added by pär */
+.jstree-wordpress li {
+	/*padding-top: 2px;
+	padding-bottom: 2px;*/
+	position: relative;
+}
+/*.jstree li.jstree-closed,
+.jstree li.jstree-open
+ {
+}*/
+
+/*.jstree li.hover a,
+.jstree li a.hover
+{
+	background-color: #e7f4f9;
+}
+*/
+
+.jstree li a:hover {
+	background-color: #e7f4f9;
+}

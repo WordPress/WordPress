@@ -1,0 +1,320 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/cms-tree-page-view\n"
+"POT-Creation-Date: 2011-03-06 14:33:36+00:00\n"
+"PO-Revision-Date: 2012-04-03 17:15+0200\n"
+"Last-Translator: Gediminas <gcekanauskas@gmail.com>\n"
+"Language-Team: Gediminas <gcekanauskas@gmail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2\n"
+"X-Textdomain-Support: yes\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#@ cms-tree-page-view
+#: functions.php:55
+msgid "Enter title of new page"
+msgstr "Naujo puslapio pavadinimas"
+
+#@ cms-tree-page-view
+#: functions.php:56
+msgid "child pages"
+msgstr "vidinis puslapis"
+
+#@ cms-tree-page-view
+#: functions.php:57
+#: functions.php:401
+msgid "Edit page"
+msgstr "Redaguoti puslapį"
+
+#@ cms-tree-page-view
+#: functions.php:58
+#: functions.php:402
+msgid "View page"
+msgstr "Peržiūrėti puslapį"
+
+#@ cms-tree-page-view
+#: functions.php:59
+#: functions.php:401
+msgid "Edit"
+msgstr "Redaguoti"
+
+#@ cms-tree-page-view
+#: functions.php:60
+#: functions.php:402
+msgid "View"
+msgstr "Peržiūrėti"
+
+#@ cms-tree-page-view
+#: functions.php:61
+msgid "Add page"
+msgstr "Pridėti puslapį"
+
+#@ cms-tree-page-view
+#: functions.php:62
+#: functions.php:406
+msgid "Add new page after"
+msgstr "Pridėti puslapį po"
+
+#@ cms-tree-page-view
+#: functions.php:63
+msgid "after"
+msgstr "po"
+
+#@ cms-tree-page-view
+#: functions.php:64
+msgid "inside"
+msgstr "viduje"
+
+#@ cms-tree-page-view
+#: functions.php:65
+msgid "Sorry, can't create a sub page to a page with status \"draft\"."
+msgstr "Atsiprašome, negalima sukurti gilesnio meniu puslapio su \"draft\" būsena."
+
+#@ cms-tree-page-view
+#: functions.php:66
+msgid "Sorry, can't create a sub page to a page with status \"trash\"."
+msgstr "Atsiprašome, negalima sukurti gilesnio meniu puslapio su \"trash\" būsena."
+
+#@ cms-tree-page-view
+#: functions.php:67
+msgid "Sorry, can't create a page after a page with status \"trash\"."
+msgstr "Atsiprašome, negalima sukurti puslapio po puslapio su \"trash\" būsena."
+
+#@ cms-tree-page-view
+#: functions.php:68
+#: functions.php:410
+msgid "Add new page inside"
+msgstr "Pridėti naują puslapį viduje"
+
+#@ cms-tree-page-view
+#: functions.php:69
+msgid "draft"
+msgstr "eskizas"
+
+#@ cms-tree-page-view
+#: functions.php:70
+msgid "future"
+msgstr "būsimas"
+
+#@ cms-tree-page-view
+#: functions.php:71
+msgid "protected"
+msgstr "apsaugotas"
+
+#@ cms-tree-page-view
+#@ default
+#: functions.php:72
+#: functions.php:673
+msgid "pending"
+msgstr "laukiamas"
+
+#@ cms-tree-page-view
+#: functions.php:73
+msgid "private"
+msgstr "privatus"
+
+#@ cms-tree-page-view
+#: functions.php:74
+msgid "trash"
+msgstr "šiukšlė"
+
+#@ cms-tree-page-view
+#: functions.php:75
+msgid "Password protected page"
+msgstr "Slaptažodžiu apsaugotas puslapis"
+
+#@ cms-tree-page-view
+#: functions.php:76
+msgid "Adding page..."
+msgstr "Pridedamas puslapis..."
+
+#@ cms-tree-page-view
+#: functions.php:178
+msgid "settings"
+msgstr "nustatymai"
+
+#@ cms-tree-page-view
+#: functions.php:183
+msgid "Select where to show a tree for pages and custom post types"
+msgstr "Pasirinkite, kuriems įrašų tipams rodyti medžio struktūrą"
+
+#@ cms-tree-page-view
+#: functions.php:209
+msgid "On dashboard"
+msgstr "Ant skydelio"
+
+#@ cms-tree-page-view
+#: functions.php:213
+msgid "In menu"
+msgstr "Meniu"
+
+#@ cms-tree-page-view
+#: functions.php:224
+msgid "Save Changes"
+msgstr "Išsaugoti pakeitimus"
+
+#@ cms-tree-page-view
+#: functions.php:355
+msgid "No posts found."
+msgstr "Įrašų nerasta."
+
+#@ cms-tree-page-view
+#: functions.php:361
+msgid "All"
+msgstr "Visi"
+
+#@ cms-tree-page-view
+#: functions.php:362
+msgid "Public"
+msgstr "Paskelbti"
+
+#@ cms-tree-page-view
+#: functions.php:363
+msgid "Trash"
+msgstr "Šiukšlinėje"
+
+#@ cms-tree-page-view
+#: functions.php:368
+msgid "Expand"
+msgstr "Išplėsti visus"
+
+#@ cms-tree-page-view
+#: functions.php:369
+msgid "Collapse"
+msgstr "Sutraukti visus"
+
+#@ cms-tree-page-view
+#: functions.php:377
+msgid "Clear search"
+msgstr "Išvalyti paiešką"
+
+#@ cms-tree-page-view
+#: functions.php:378
+msgid "Search"
+msgstr "Ieškoti"
+
+#@ cms-tree-page-view
+#: functions.php:379
+msgid "Searching..."
+msgstr "Ieškoma..."
+
+#@ cms-tree-page-view
+#: functions.php:380
+msgid "Nothing found."
+msgstr "Nieko nerasta."
+
+#@ cms-tree-page-view
+#: functions.php:386
+msgid "Loading..."
+msgstr "Kraunama..."
+
+#@ cms-tree-page-view
+#: functions.php:391
+msgid "Search: no pages found"
+msgstr "Paieška: puslapių nerasta"
+
+#@ cms-tree-page-view
+#: functions.php:394
+msgid "Loading tree"
+msgstr "Kraunamas medis"
+
+#@ cms-tree-page-view
+#: functions.php:406
+msgid "After"
+msgstr "Po"
+
+#@ cms-tree-page-view
+#: functions.php:410
+msgid "Inside"
+msgstr "Viduje"
+
+#@ cms-tree-page-view
+#: functions.php:414
+msgid "Can not create page inside of a page with draft status"
+msgstr "Negalima sukurti puslapio, turinčio juodraščio statusą, viduje"
+
+#@ cms-tree-page-view
+#: functions.php:417
+msgid "Last modified"
+msgstr "Vėliausiai redaguota"
+
+#@ cms-tree-page-view
+#: functions.php:419
+msgid "by"
+msgstr " "
+
+#@ cms-tree-page-view
+#: functions.php:422
+msgid "Page ID"
+msgstr "Puslapio ID"
+
+#@ cms-tree-page-view
+#: functions.php:638
+msgid "Unknown user"
+msgstr "Nežinomas vartotojas"
+
+#@ cms-tree-page-view
+#: functions.php:643
+msgid "<Untitled page>"
+msgstr "<Nepavadintas puslapis>"
+
+#@ default
+#: functions.php:663
+msgid "Comments"
+msgstr "Komentarai"
+
+#@ default
+#: functions.php:670
+#, php-format
+msgid "%s pending"
+msgstr "Liko: %s"
+
+#@ default
+#: functions.php:680
+msgctxt "comment count"
+msgid "0"
+msgstr ""
+
+#@ default
+#: functions.php:680
+msgctxt "comment count"
+msgid "1"
+msgstr ""
+
+#@ default
+#: functions.php:680
+msgctxt "comment count"
+msgid "%"
+msgstr ""
+
+#@ cms-tree-page-view
+#: functions.php:711
+msgid "Click to edit. Drag to move."
+msgstr "Spragtelkite, norėdami redaguoti. Tempkite, norėdami perkeltii."
+
+#@ cms-tree-page-view
+#: functions.php:862
+msgid "New page"
+msgstr "Naujas puslapis"
+
+#@ cms-tree-page-view
+#: functions.php:1046
+msgid "Close"
+msgstr "Uždaryti"
+
+#@ cms-tree-page-view
+#: functions.php:1047
+msgid "<strong>Thank you for using this plugin!</strong> If you need help please check out the <a href=\"http://eskapism.se/code-playground/cms-tree-page-view/?utm_source=wordpress&utm_medium=banner&utm_campaign=promobox\">plugin homepage</a> or the <a href=\"http://wordpress.org/tags/cms-tree-page-view?forum_id=10\">support forum</a>."
+msgstr "<strong>Ačiū, kad naudojate šį įskiepį!</strong>Jei reikia pagalbos, galite apsilankyti <a href=\"http://eskapism.se/code-playground/cms-tree-page-view/?utm_source=wordpress&utm_medium=banner&utm_campaign=promobox\">įskiepio tinklapyje</a> arba <a href=\"http://wordpress.org/tags/cms-tree-page-view?forum_id=10\">pagalbos diskusijos</a>."
+
+#@ cms-tree-page-view
+#: functions.php:1048
+msgid "If you like this plugin, please <a href=\"http://eskapism.se/sida/donate/?utm_source=wordpress&utm_medium=banner&utm_campaign=promobox\">support my work by donating</a> - or at least say something nice about this plugin in a blog post or tweet."
+msgstr "Jei patinka šis įskiepis, prašau <a href=\"http://eskapism.se/sida/donate/?utm_source=wordpress&utm_medium=banner&utm_campaign=promobox\">paremti mano darbą</a> ar bent paminėkite šį įskiepį savo tinklaraštyje ar \"twitteryje\"."
+

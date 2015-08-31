@@ -1,0 +1,431 @@
+#overlay {
+    background: #666;
+    font-size:12px;
+}
+
+.ui-widget-overlay {
+    background-color: #666;
+    position: absolute;
+    opacity: 0.6;
+    top:0;
+    left:0;
+}
+
+.lightbox,.ui-dialog {
+    position: absolute;
+    background: #fdfdfd;
+    padding: 20px;
+    border: 1px solid #bbb;
+    border-radius: 11px;
+    -webkit-border-radius: 11px;
+    -moz-border-radius: 11px;
+}
+
+.lightbox h3 {
+    margin-top: 0;
+}
+
+.lightbox-close,.ui-dialog-titlebar-close  {
+    cursor: pointer;
+    position: absolute;
+    text-decoration: underline;
+    right: 20px;
+    z-index: 9999;
+}
+
+.lightbox-loader {
+    background: url(../img/wpspin_light.gif) no-repeat center center;
+}
+
+.lightbox-content {
+    position: relative;
+    font-size:12px;
+}
+
+#recom_container {
+    top: 90px;
+    bottom: 120px;
+    overflow: auto;
+    position: absolute;
+    width: 100%;
+}
+
+#recom_container_bottom {
+    bottom: 0;
+    width: 100%;
+    position: absolute;
+}
+
+#recom_container_bottom p {
+    margin-top: 0;
+}
+
+#recom_container_bottom fieldset {
+    margin: 0;
+}
+
+th.minify-files-add, td.minify-files-add {
+    width: 40px;
+    text-align: center;
+}
+
+#w3tc-self-test {
+    top: 170px;
+    bottom: 40px;
+    overflow: auto;
+    position: absolute;
+    width: 100%;
+}
+
+#w3tc-self-test ul {
+    list-style: none;
+}
+
+#w3tc-self-test-bottom {
+    bottom: 0;
+    width: 100%;
+    position: absolute;
+}
+
+.w3tc-self-test-hint {
+    font-size: 0.8em;
+    font-style: italic;
+    color: #999;
+}
+
+/**
+###################
+## Overlays
+###################
+*/
+.w3tc-overlay {
+    background-color: #fff;
+}
+
+.w3tc-overlay .content {
+    padding: 10px 10px 10px 10px;
+}
+.w3tc-overlay .footer {
+    padding: 0 10px 10px 10px;
+}
+.w3tc-overlay p, .w3tc-overlay label, .w3tc-overlay input, .w3tc-overlay option {
+    font-family:Arial, Verdana,sans-serif;
+    color:#88898a;
+}
+
+.w3tc-overlay p {
+    line-height: 1.72222;
+    margin: 0 0 15px;
+}
+
+.w3tc-overlay label {
+    line-height: 1.9986363100000002em;
+    font-weight:bold;
+}
+
+.w3tc-overlay .btn {
+    border: none;
+    font-size: 15px;
+    font-weight: normal;
+    line-height: 1.4;
+    border-radius: 4px;
+    padding: 10px 15px;
+    -webkit-font-smoothing: subpixel-antialiased;
+    -webkit-transition: 0.25s linear;
+    transition: 0.25s linear;
+    color: #ffffff;
+}
+.w3tc-overlay .btn:hover,
+.w3tc-overlay .btn:focus {
+    color: #ffffff;
+}
+.w3tc-overlay .btn:active,
+.w3tc-overlay .btn.active {
+    outline: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+.w3tc-overlay .btn.disabled,
+.w3tc-overlay .btn[disabled],
+fieldset[disabled] .btn {
+    background-color: #bdc3c7;
+    color: rgba(255, 255, 255, 0.75);
+    opacity: 0.7;
+    filter: alpha(opacity=70);
+}
+.w3tc-overlay .btn > [class^="fui-"] {
+    margin: 0 1px;
+    position: relative;
+    line-height: 1;
+    top: 1px;
+}
+.w3tc-overlay .btn-xs.btn > [class^="fui-"] {
+    font-size: 11px;
+    top: 0;
+}
+.w3tc-overlay .btn-hg.btn > [class^="fui-"] {
+    top: 2px;
+}
+.w3tc-overlay .btn-default {
+    color: #ffffff;
+    background-color: #bdc3c7;
+}
+
+.w3tc-overlay .btn-primary {
+    color: #ffffff;
+    background-color: #1abc9c;
+}
+
+#w3tc-support-us ul {margin:0;padding:0;}
+#w3tc-support-us li { display: inline-block; margin-right: 15px;}
+.w3tc-overlay .image {
+    /*background-color: transparent; /* make the button transparent */
+    background-repeat: no-repeat;  /* make the background image appear only once */
+    background-position: 10px 6px;  /* equivalent to 'top left' */
+    border: none;           /* assuming we don't want any borders */
+    cursor: pointer;        /* make the cursor like hovering over an <a> element */
+    padding-left: 16px;     /* make text start to the right of the image */
+    vertical-align: middle; /* align the text vertically centered */
+}
+.w3tc-overlay .w3tc-support-us h3 {
+    font-size: 16pt;
+}
+.w3tc-overlay .font-palette-dark-skies {
+    color:#666
+}
+.w3tc-overlay .btn {
+    border-bottom:solid 2px #000;
+    font-weight:bolder;
+
+}
+.w3tc-overlay .form-control.w3tc-size {
+    height:32px;
+    line-height:26px;
+    margin:0;
+    padding:0 5px 0 5px;
+}
+
+.w3tc-overlay input[type=button] {
+    cursor: pointer;
+}
+
+.w3tc-overlay input[type=text].form-control {
+    width:425px;
+}
+.w3tc-overlay  select.w3tc-size {
+    height:32px;
+    width:250px;
+    margin:0;
+    padding:0px 5px 0px 5px;
+    font-weight: normal;
+    border: 2px solid #bdc3c7;
+    color: #34495e;
+    font-size: 15px;
+    border-radius: 6px;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    -webkit-transition: border .25s linear, color .25s linear, background-color .25s linear;
+    transition: border .25s linear, color .25s linear, background-color .25s linear;
+}
+
+.w3tc-overlay .btn.w3tc-size {
+    margin:0;
+    padding:5px 10px 5px 10px;
+}
+.w3tc-overlay .btn.palette-light-grey {
+    background-color: #cccccc;
+    border-bottom-color: #aeaeae;
+}
+.w3tc-overlay .btn-default.palette-twitter:active,
+.w3tc-overlay .btn-default.palette-twitter.active,
+.w3tc-overlay .btn.palette-twitter {
+    background-color: #00acee;
+    color: #fff;
+    border-bottom-color: #0092cb;
+    padding:5px 10px 5px 37px;
+    background-image: url(../img/overlay/twitter-bird-dark-bgs.png);
+}
+.w3tc-overlay .btn-default.palette-wordpress:active,
+.w3tc-overlay .btn-default.palette-wordpress.active,
+.w3tc-overlay .btn.palette-wordpress{
+    background-color: #1585b6;
+    color: #fff;
+    border-bottom-color: #12719b;
+    padding:5px 10px 5px 37px;
+    background-image: url(../img/overlay/wordpress-logo-simplified-rgb.png);
+}
+.w3tc-overlay .btn.save:active,
+.w3tc-overlay .btn.save.active,
+.w3tc-overlay .btn.save {
+    background-position: 10px 5px;  /* equivalent to 'top left' */
+    padding:5px 10px 5px 37px;
+    background-image: url(../img/overlay/save-close.png);
+}
+
+.w3tc-overlay .btn.secure:active,
+.w3tc-overlay .btn.secure.active,
+.w3tc-overlay .btn.secure {
+    background-position: 10px 5px;  /* equivalent to 'top left' */
+    padding:5px 10px 5px 37px;
+    background-image: url(../img/overlay/save-close.png);
+}
+
+.w3tc-overlay btn.palette-turquoise {
+    border-bottom-color: #1abc9c;
+}
+
+.w3tc-overlay input[type=checkbox].css-checkbox {
+    position: absolute;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    height:1px;
+    width:1px;
+    margin:-1px;
+    padding:0;
+    border:0;
+}
+
+.w3tc-overlay input[type=checkbox].css-checkbox + label.css-label {
+    padding-left:20px;
+    height:17px;
+    display:inline-block;
+    line-height:18px;
+    background-repeat:no-repeat;
+    background-position: 0 0;
+    font-size:15px;
+    vertical-align:middle;
+    cursor:pointer;
+}
+
+.w3tc-overlay input[type=checkbox].css-checkbox:checked + label.css-label {
+    background-position: 0 -17px;
+}
+
+.w3tc-overlay .css-label{ background-image:url(../img/overlay/gray-check.png); }
+.w3tc-overlay {
+    position: absolute;
+    background: #fdfdfd;
+    border: 1px solid #bbb;
+    border-radius: 6px;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+}
+
+.w3tc-overlay header {
+    background-color: #f3f3f3;
+    color: #cacaca;
+    height:20px;
+    border-bottom: dashed 1px #c0c0c0;
+
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    -webkit-border-top-left-radius: 6px;
+    -webkit-border-top-right-radius: 6px;
+
+    -moz-border-top-left-radius: 6px;
+    -moz-border-top-right-radius: 6px;
+}
+
+.w3tc-overlay #w3tc-support-us header {
+    height:100px;
+    background-repeat:no-repeat;
+    background-position: 10px 7px;
+    background-image: url(../img/overlay/ceo.png);
+}
+
+.w3tc-overlay #w3tc-upgrade ul {
+    width: 480px;
+    float: right;
+    margin-right: 20px;
+}
+.w3tc-overlay #w3tc-upgrade li {
+    background: url(../img/overlay/list-check.png) no-repeat 0px 3px;
+    list-style-type: none;
+    padding: 0 0 1px 20px;
+}
+
+.w3tc-overlay #w3tc-upgrade header {
+    height:265px;
+    padding: 10px 10px 10px 10px;
+}
+.w3tc-overlay #w3tc-upgrade header img {
+    margin-right:20px;
+}
+.w3tc-overlay #w3tc-upgrade header .description {
+    clear: both;
+}
+.w3tc-overlay #w3tc-upgrade img {
+    float:left;
+}
+
+.w3tc-overlay #w3tc-upgrade .left h2{
+    font-weight: bold;
+    font-size: 1.4em;
+}
+
+.w3tc-overlay #w3tc-upgrade .right h2{
+    font-weight: bold;
+    font-size: 2.0em;
+}
+.w3tc-overlay #w3tc-upgrade .right h2 span{
+    font-weight: normal;
+}
+
+#w3tc-upgrade .footer {
+    clear:both;
+}
+
+.w3tc-overlay #w3tc-support-us header h2, header h3 {
+    margin:0;padding:0;
+}
+.w3tc-overlay #w3tc-support-us header div.left h2 {
+    font-size:20px;
+    color: #7b7b7b;
+    margin-top:10px;
+    margin-bottom:10px;
+}
+.w3tc-overlay #w3tc-support-us header div.left {
+    margin-top:10px;
+    padding-right:20px;
+    margin-left:110px;
+    border-right:solid 2px #FFF;
+    height:80px;
+}
+
+.w3tc-overlay #w3tc-support-us div.right {
+    margin-top: 5px;
+    line-height: 100px;
+    height: 100px;
+    padding-right: 40px;
+}
+.w3tc-overlay .w3tc-support-us header h3 {
+    font-size:14px;
+}
+
+.w3tc-overlay .palette-turquoise {
+    background-color: #1abc9c;
+    border-bottom-color: #16a085;
+}
+
+.w3tc_signup_email {
+    margin-bottom: 5px;
+}
+
+.w3tc-overlay-logo {
+    margin-top: -57px;
+    height:57px;
+    width:94px;
+    background-repeat:no-repeat;
+    background-position: 0 0;
+    background-image: url(../img/overlay/overlay-logo.png);
+
+}
+.w3tc-overlay .lightbox-close {
+    height: 20px;
+    width: 20px;
+    margin-right: -20px;
+    padding-top: 5px;
+    background-repeat: no-repeat;
+    background-position: 0 5px;
+    background-image: url(../img/overlay/overlay-close.png);
+}

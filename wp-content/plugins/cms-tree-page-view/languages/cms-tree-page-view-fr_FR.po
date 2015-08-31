@@ -1,0 +1,396 @@
+# Translation of the WordPress plugin   by .
+# Copyright (C) 2010
+# This file is distributed under the same license as the  package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/cms-tree-page-view\n"
+"POT-Creation-Date: 2012-12-26 20:37:31+00:00\n"
+"PO-Revision-Date: 2013-01-07 22:35+0100\n"
+"Last-Translator: Jean-Christophe Brebion <pro@jcbrebion.com>\n"
+"Language-Team: \n"
+"Language: fr_FR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.4\n"
+
+#: functions.php:272
+msgid "Enter title of new page"
+msgstr "Entrez le titre de la page"
+
+#: functions.php:273
+msgid "child pages"
+msgstr "Pages sous cette page"
+
+#: functions.php:274 functions.php:887
+msgid "Edit page"
+msgstr "Modifier la page"
+
+#: functions.php:275 functions.php:888
+msgid "View page"
+msgstr "Voir la page"
+
+#: functions.php:276 functions.php:887
+msgid "Edit"
+msgstr "Modifier"
+
+#: functions.php:277 functions.php:888
+msgid "View"
+msgstr "Voir"
+
+#: functions.php:278
+msgid "Add page"
+msgstr "Ajouter une page"
+
+#: functions.php:279 functions.php:896
+msgid "Add new page after"
+msgstr "Ajouter une page après cette page"
+
+#: functions.php:280
+msgid "after"
+msgstr "après"
+
+#: functions.php:281
+msgid "inside"
+msgstr "sous cette page"
+
+#: functions.php:282
+msgid "Sorry, can't create a sub page to a page with status \"draft\"."
+msgstr ""
+"Désolé, impossible de créer une page à l'intérieur d'une page ayant le "
+"statut de brouillon."
+
+#: functions.php:283
+msgid "Sorry, can't create a sub page to a page with status \"trash\"."
+msgstr ""
+"Désolé, impossible de créer une page à l'intérieur d'une page située dans la "
+"corbeille."
+
+#: functions.php:284
+msgid "Sorry, can't create a page after a page with status \"trash\"."
+msgstr ""
+"Désolé, impossible de créer une page après une page située dans la corbeille."
+
+#: functions.php:285 functions.php:901
+msgid "Add new page inside"
+msgstr "Ajouter une page à l'intérieur de cette page"
+
+#: functions.php:286 functions.php:292
+msgid "draft"
+msgstr "brouillon"
+
+#: functions.php:287 functions.php:293
+msgid "future"
+msgstr "planifié"
+
+#: functions.php:288 functions.php:294
+msgid "protected"
+msgstr "protégé"
+
+#: functions.php:289 functions.php:295 functions.php:1235
+msgid "pending"
+msgstr "en attente"
+
+#: functions.php:290 functions.php:296
+msgid "private"
+msgstr "privé"
+
+#: functions.php:291 functions.php:297
+msgid "trash"
+msgstr "corbeille"
+
+#: functions.php:298
+msgid "Password protected page"
+msgstr "Page protégée par mot de passe"
+
+#: functions.php:299
+msgid "Adding page..."
+msgstr "Ajout de la page…"
+
+#: functions.php:300
+msgid "Adding ..."
+msgstr "Ajout…"
+
+#: functions.php:393
+msgid "Tree View"
+msgstr "Affichage en arborescence"
+
+#: functions.php:402
+msgid "List View"
+msgstr "Affichage en liste"
+
+#: functions.php:438
+msgid "Settings"
+msgstr "Paramètres"
+
+#: functions.php:474
+msgctxt "name of dashboard"
+msgid "%1$s Tree"
+msgstr "Arborescence des %1$s"
+
+#: functions.php:502
+msgctxt "name in menu"
+msgid "Tree View"
+msgstr "Arborescence"
+
+#: functions.php:503
+msgctxt "title on page with tree"
+msgid "%1$s Tree View"
+msgstr "Vue de l'arborescence des %1$s"
+
+#: functions.php:523
+msgid "settings"
+msgstr "paramètres"
+
+#: functions.php:529
+msgid "Select where to show a tree for pages and custom post types"
+msgstr ""
+"Sélectionnez où vous souhaitez afficher l'arborescence pour les pages et "
+"types de contenus personnalisés"
+
+#: functions.php:573
+msgid "On dashboard"
+msgstr "Sur la tableau de bord"
+
+#: functions.php:577
+msgid "In menu"
+msgstr "Dans le menu"
+
+#: functions.php:581
+msgid "On post overview screen"
+msgstr "Sur l'écran de gestion des articles"
+
+#: functions.php:599
+msgid "Save Changes"
+msgstr "Enregistrer"
+
+#: functions.php:818
+msgid "No posts found."
+msgstr "Aucun article trouvé."
+
+#: functions.php:830
+msgid "All"
+msgstr "Toutes les pages"
+
+#: functions.php:835
+msgid "Public"
+msgstr "Pages publiées"
+
+#: functions.php:840
+msgid "Trash"
+msgstr "Corbeille"
+
+#: functions.php:848
+msgid "Expand"
+msgstr "Dérouler"
+
+#: functions.php:849
+msgid "Collapse"
+msgstr "Refermer"
+
+#: functions.php:857
+msgid "Clear search"
+msgstr "Effacer la recherche"
+
+#: functions.php:858
+msgid "Search"
+msgstr "Rechercher"
+
+#: functions.php:859
+msgid "Searching..."
+msgstr "Recherche en cours"
+
+#: functions.php:860
+msgid "Nothing found."
+msgstr "Aucun résultat."
+
+#: functions.php:867
+msgid "Loading..."
+msgstr "Chargement en cours"
+
+#: functions.php:872
+msgid "Search: no pages found"
+msgstr "Recherche: aucune page trouvée"
+
+#: functions.php:875
+msgid "Loading tree"
+msgstr "Chargement de l'arborescence"
+
+#: functions.php:896 functions.php:932
+msgid "After"
+msgstr "Après"
+
+#: functions.php:901 functions.php:933
+msgid "Inside"
+msgstr "À l'intérieur"
+
+#: functions.php:905
+msgid "Can not create page inside of a page with draft status"
+msgstr ""
+"Impossible de créer une page à l'intérieur d'une page ayant le statut de "
+"brouillon"
+
+#: functions.php:921
+msgid "Add page(s)"
+msgstr "Ajoutez une ou plusieurs pages"
+
+#: functions.php:926
+msgid "Enter title here"
+msgstr "Entrez un titre ici"
+
+#: functions.php:931
+msgid "Position"
+msgstr "Emplacement"
+
+#: functions.php:938
+msgid "Status"
+msgstr "Statut"
+
+#: functions.php:939
+msgid "Draft"
+msgstr "Brouillon"
+
+#: functions.php:940
+msgid "Published"
+msgstr "Publié"
+
+#: functions.php:944
+msgid "Add"
+msgstr "Ajouter"
+
+#: functions.php:945
+msgid "or"
+msgstr "ou"
+
+#: functions.php:946
+msgid "cancel"
+msgstr "annuler"
+
+#: functions.php:956
+msgid "Last modified"
+msgstr "Dernière modification"
+
+#: functions.php:958
+msgid "by"
+msgstr "par"
+
+#: functions.php:961
+msgid "Page ID"
+msgstr "ID de la page"
+
+#: functions.php:997
+msgctxt "headline of page with tree"
+msgid "%1$s Tree View"
+msgstr "Vue de l'arborescence des %1$s"
+
+#: functions.php:1200
+msgid "Unknown user"
+msgstr "Utilisateur inconnu"
+
+#: functions.php:1205
+msgid "<Untitled page>"
+msgstr "<Sans-titre>"
+
+#: functions.php:1225
+msgid "Comments"
+msgstr "Commentaires"
+
+#: functions.php:1232
+msgid "%s pending"
+msgstr "%s en attente"
+
+#: functions.php:1242
+msgctxt "comment count"
+msgid "0"
+msgstr "0"
+
+#: functions.php:1242
+msgctxt "comment count"
+msgid "1"
+msgstr "1"
+
+#: functions.php:1242
+msgctxt "comment count"
+msgid "%"
+msgstr "%"
+
+#: functions.php:1428
+msgid "New page"
+msgstr "Nouvelle page"
+
+#: functions.php:1618
+msgid "Thanks for using my plugin"
+msgstr "Merci d'utiliser mon plugin"
+
+#: functions.php:1620
+msgid ""
+"Hi there! I just wanna says thanks for using my plugin. I hope you like it "
+"as much as I do."
+msgstr ""
+"Bonjour! Je voulais simplement vous remercier d'utiliser mon plugin. "
+"J'espère que vous l'appréciez autant que moi."
+
+#: functions.php:1621
+msgid "/Pär Thernström - plugin creator"
+msgstr "Pär Thernström - créateur du plugin"
+
+#: functions.php:1623
+msgid "I like this plugin<br>– how can I thank you?"
+msgstr "J'adore ce plugin<br>– comment puis-je vous remercier?"
+
+#: functions.php:1624
+msgid "There are serveral ways for you to show your appreciation:"
+msgstr "Il y a plusieurs moyens de montrer votre appréciation:"
+
+#: functions.php:1626
+msgid ""
+"<a href=\"%1$s\">Give it a nice review</a> over at the WordPress Plugin "
+"Directory"
+msgstr ""
+"<a href=\"%1$s\">Écrire un avis positif</a> sur l'annuaire des plugins "
+"WordPress"
+
+#: functions.php:1627
+msgid "<a href=\"%1$s\">Give a donation</a> – any amount will make me happy"
+msgstr "<a href=\"%1$s\">Envoyer un don</a> – quel que soit le montant"
+
+#: functions.php:1628
+msgid ""
+"<a href=\"%1$s\">Post a nice tweet</a> or make a nice blog post about the "
+"plugin"
+msgstr ""
+"<a href=\"%1$s\">Poster un tweet</a> ou rédiger un article de blog à propos "
+"du plugin"
+
+#: functions.php:1631
+msgid "Support"
+msgstr "Support"
+
+#: functions.php:1632
+msgid "Plese see the <a href=\"%1$s\">support forum</a> for help."
+msgstr ""
+"Veuillez consulter le <a href=\"%1$s\">forum de support</a> pour obtenir de "
+"l'aide."
+
+#: functions.php:1636
+msgid "Hide until next upgrade"
+msgstr "Masquer jusqu'à la prochaine mise à jour"
+
+#~ msgid "Show tree"
+#~ msgstr "Voir l'arborescence"
+
+#~ msgid "under the pages menu"
+#~ msgstr "sous les pages du menu"
+
+#~ msgid ""
+#~ "No pages found. Maybe you want to <a href='post-new.php?"
+#~ "post_type=page'>add a new page</a>?"
+#~ msgstr ""
+#~ "Aucune page trouvée. Peut-être voulez-vous <a href='post-new.php?"
+#~ "post_type=page'>ajouter une page</a>?"
+
+#~ msgid "Click to edit. Drag to move."
+#~ msgstr "Cliquez pour modifier, vous pouvez aussi déplacer la page"

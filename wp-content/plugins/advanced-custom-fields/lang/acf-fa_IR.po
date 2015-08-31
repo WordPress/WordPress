@@ -1,0 +1,1884 @@
+# Copyright (C) 2013 
+# This file is distributed under the same license as the  package.
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/advanced-custom-fields\n"
+"POT-Creation-Date: 2014-09-29 08:09+0330\n"
+"PO-Revision-Date: 2014-09-30 14:51+0330\n"
+"Last-Translator: Ghaem Omidi <ghaemomidi@yahoo.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.7\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SearchPath-0: ..\n"
+
+#: ../acf.php:485
+msgid "Field&nbsp;Groups"
+msgstr "گروه های زمینه"
+
+#: ../acf.php:486 ../core/controllers/field_groups.php:214
+msgid "Advanced Custom Fields"
+msgstr "زمینه های دلخواه پیشرفته"
+
+#: ../acf.php:487
+msgid "Add New"
+msgstr "افزودن"
+
+#: ../acf.php:488
+msgid "Add New Field Group"
+msgstr "افزودن گروه زمینه جدید"
+
+#: ../acf.php:489
+msgid "Edit Field Group"
+msgstr "ویرایش گروه زمینه"
+
+#: ../acf.php:490
+msgid "New Field Group"
+msgstr "گروه زمینه جدید"
+
+#: ../acf.php:491
+msgid "View Field Group"
+msgstr "مشاهده گروه زمینه"
+
+#: ../acf.php:492
+msgid "Search Field Groups"
+msgstr "جستجوی گروه های زمینه"
+
+#: ../acf.php:493
+msgid "No Field Groups found"
+msgstr "گروه زمینه ای یافت نشد"
+
+#: ../acf.php:494
+msgid "No Field Groups found in Trash"
+msgstr "گروه زمینه ای در زباله دان یافت نشد"
+
+#: ../acf.php:579 ../core/views/meta_box_options.php:99
+msgid "Custom Fields"
+msgstr "زمینه های دلخواه"
+
+#: ../acf.php:597 ../acf.php:600
+msgid "Field group updated."
+msgstr "گروه زمینه بروز شد"
+
+#: ../acf.php:598
+msgid "Custom field updated."
+msgstr "زمینه دلخواه بروز شد"
+
+#: ../acf.php:599
+msgid "Custom field deleted."
+msgstr "زمینه دلخواه حذف شد"
+
+#: ../acf.php:602
+#, php-format
+msgid "Field group restored to revision from %s"
+msgstr "گروه زمینه از %s برای تجدید نظر بازگردانده شد."
+
+#: ../acf.php:603
+msgid "Field group published."
+msgstr "گروه زمینه انتشار یافت."
+
+#: ../acf.php:604
+msgid "Field group saved."
+msgstr "گروه زمینه ذخیره شد."
+
+#: ../acf.php:605
+msgid "Field group submitted."
+msgstr "گروه زمینه ارسال شد."
+
+#: ../acf.php:606
+msgid "Field group scheduled for."
+msgstr "گروه زمینه برنامه ریزی انتشار پیدا کرده برای"
+
+#: ../acf.php:607
+msgid "Field group draft updated."
+msgstr "پیش نویش گروه زمینه بروز شد."
+
+#: ../acf.php:742
+msgid "Thumbnail"
+msgstr "تصویر بندانگشتی"
+
+#: ../acf.php:743
+msgid "Medium"
+msgstr "متوسط"
+
+#: ../acf.php:744
+msgid "Large"
+msgstr "بزرگ"
+
+#: ../acf.php:745
+msgid "Full"
+msgstr "کامل"
+
+#: ../core/api.php:1171
+msgid "Update"
+msgstr "بروزرسانی"
+
+#: ../core/api.php:1172
+msgid "Post updated"
+msgstr "نوشته بروز شد."
+
+#: ../core/actions/export.php:26 ../core/views/meta_box_fields.php:58
+msgid "Error"
+msgstr "خطا"
+
+#: ../core/actions/export.php:33
+msgid "No ACF groups selected"
+msgstr "هیچ گروه زمینه دلخواه پیشرفته ای انتخاب نشده است."
+
+#: ../core/controllers/addons.php:42 ../core/controllers/field_groups.php:307
+msgid "Add-ons"
+msgstr "افزودنی ها"
+
+#: ../core/controllers/addons.php:130 ../core/controllers/field_groups.php:429
+msgid "Repeater Field"
+msgstr "تکرار کننده زمینه"
+
+#: ../core/controllers/addons.php:131
+msgid "Create infinite rows of repeatable data with this versatile interface!"
+msgstr ""
+"ایجاد بی نهایت سطر از داده های تکرار شونده به وسیله این زمینه چند منظوره!"
+
+#: ../core/controllers/addons.php:137 ../core/controllers/field_groups.php:437
+msgid "Gallery Field"
+msgstr "زمینه گالری"
+
+#: ../core/controllers/addons.php:138
+msgid "Create image galleries in a simple and intuitive interface!"
+msgstr "ایجاد گالری های تصاویر در یک رابط کاربری ساده و دیداری!"
+
+#: ../core/controllers/addons.php:144 ../core/controllers/field_groups.php:445
+msgid "Options Page"
+msgstr "برگه تنظیمات"
+
+#: ../core/controllers/addons.php:145
+msgid "Create global data to use throughout your website!"
+msgstr "ایجاد داده فراگیر برای استفاده در همه جای سایت شما!"
+
+#: ../core/controllers/addons.php:151
+msgid "Flexible Content Field"
+msgstr "زمینه محتوای انعطاف پذیر"
+
+#: ../core/controllers/addons.php:152
+msgid "Create unique designs with a flexible content layout manager!"
+msgstr "ایجاد طرح های منحصر به فرد با زمینه محتوای انعطاف پذیر!"
+
+#: ../core/controllers/addons.php:161
+msgid "Gravity Forms Field"
+msgstr "زمینه افزونه GravityForms"
+
+#: ../core/controllers/addons.php:162
+msgid "Creates a select field populated with Gravity Forms!"
+msgstr ""
+"زمینه جدید از نوع انتخاب می سازد که می توانید یکی از فرم های GravityForms که "
+"ساخته اید را از آن انتخاب کنید"
+
+#: ../core/controllers/addons.php:168
+msgid "Date & Time Picker"
+msgstr "تاریخ و زمان"
+
+#: ../core/controllers/addons.php:169
+msgid "jQuery date & time picker"
+msgstr "تاریخ و زمان جی کوئری"
+
+#: ../core/controllers/addons.php:175
+msgid "Location Field"
+msgstr "زمینه مکان(نقشه)"
+
+#: ../core/controllers/addons.php:176
+msgid "Find addresses and coordinates of a desired location"
+msgstr "یافتن آدرس و مختصات مکان مورد نظر"
+
+#: ../core/controllers/addons.php:182
+msgid "Contact Form 7 Field"
+msgstr "زمینه فرم تماس (Contact Form 7)"
+
+#: ../core/controllers/addons.php:183
+msgid "Assign one or more contact form 7 forms to a post"
+msgstr "اختصاص یک یا چند فرم تماس (Contact Form 7) به یک نوشته"
+
+#: ../core/controllers/addons.php:193
+msgid "Advanced Custom Fields Add-Ons"
+msgstr "افزودنی های افزونه زمینه های دلخواه پیشرفته"
+
+#: ../core/controllers/addons.php:196
+msgid ""
+"The following Add-ons are available to increase the functionality of the "
+"Advanced Custom Fields plugin."
+msgstr ""
+"افزودنی های زیر برای افزایش قابلیت های افزونه زمینه های دلخواه پیشرفته قابل "
+"استفاده هستند."
+
+#: ../core/controllers/addons.php:197
+msgid ""
+"Each Add-on can be installed as a separate plugin (receives updates) or "
+"included in your theme (does not receive updates)."
+msgstr ""
+"هر افزودنی می تواند به عنوان یک افزونه جدا ( قابل بروزرسانی) نصب شود و یا در "
+"پوسته شما (غیرقابل بروزرسانی) قرار گیرد."
+
+#: ../core/controllers/addons.php:219 ../core/controllers/addons.php:240
+msgid "Installed"
+msgstr "نصب شده"
+
+#: ../core/controllers/addons.php:221
+msgid "Purchase & Install"
+msgstr "خرید و نصب"
+
+#: ../core/controllers/addons.php:242 ../core/controllers/field_groups.php:422
+#: ../core/controllers/field_groups.php:431
+#: ../core/controllers/field_groups.php:439
+#: ../core/controllers/field_groups.php:447
+#: ../core/controllers/field_groups.php:455
+msgid "Download"
+msgstr "دانلود"
+
+#: ../core/controllers/export.php:50 ../core/controllers/export.php:159
+msgid "Export"
+msgstr "برون بری"
+
+#: ../core/controllers/export.php:216
+msgid "Export Field Groups"
+msgstr "برون بری گروه های زمینه"
+
+#: ../core/controllers/export.php:221
+msgid "Field Groups"
+msgstr "گروه های زمینه"
+
+#: ../core/controllers/export.php:222
+msgid "Select the field groups to be exported"
+msgstr "گروه های زمینه را برای برون بری انتخاب کنید"
+
+#: ../core/controllers/export.php:239 ../core/controllers/export.php:252
+msgid "Export to XML"
+msgstr "برون بری به فرمت XML"
+
+#: ../core/controllers/export.php:242 ../core/controllers/export.php:267
+msgid "Export to PHP"
+msgstr "برون بری به فرمت PHP"
+
+#: ../core/controllers/export.php:253
+msgid ""
+"ACF will create a .xml export file which is compatible with the native WP "
+"import plugin."
+msgstr ""
+"افزونه زمینه های دلخواه پیشرفته یک پرونده خروجی (.xml) را ایجاد خواهد کرد که "
+"با افزونه Wordpress Importer سازگار است."
+
+#: ../core/controllers/export.php:254
+msgid ""
+"Imported field groups <b>will</b> appear in the list of editable field "
+"groups. This is useful for migrating fields groups between Wp websites."
+msgstr ""
+"گروه های زمینه درون ریزی شده در لیست گروه های زمینه قابل ویرایش نمایش داده "
+"<b>خواهند شد</b>. این روش برای انتقال گروه های زمینه در بین سایت های وردپرسی "
+"مفید است."
+
+#: ../core/controllers/export.php:256
+msgid "Select field group(s) from the list and click \"Export XML\""
+msgstr ""
+"گروه زمینه را از لیست انتخاب کنید و سپس روی دکمه ((برون بری به فرمت XML)) "
+"کلیک کنید"
+
+#: ../core/controllers/export.php:257
+msgid "Save the .xml file when prompted"
+msgstr "فایل .xml را وقتی آماده شد، ذخیره کنید"
+
+#: ../core/controllers/export.php:258
+msgid "Navigate to Tools &raquo; Import and select WordPress"
+msgstr "به ((ابزارها > درون ریزی)) بروید و وردپرس را انتخاب کنید."
+
+#: ../core/controllers/export.php:259
+msgid "Install WP import plugin if prompted"
+msgstr "افزونه درون ریزی وردپرس را در صورت درخواست نصب نمایید"
+
+#: ../core/controllers/export.php:260
+msgid "Upload and import your exported .xml file"
+msgstr "فایل .xml خود را آپلود و درون ریزی کنید"
+
+#: ../core/controllers/export.php:261
+msgid "Select your user and ignore Import Attachments"
+msgstr "کاربر خود را انتخاب کنید و درون ریزی پیوست ها را نا دیده بگیرید"
+
+#: ../core/controllers/export.php:262
+msgid "That's it! Happy WordPressing"
+msgstr "همین ! از وردپرس لذت ببرید"
+
+#: ../core/controllers/export.php:268
+msgid "ACF will create the PHP code to include in your theme."
+msgstr ""
+"افزونه زمینه های دلخواه پیشرفته کد های PHP برای اضافه کردن در پوسته در "
+"اختیاران قرار می دهد"
+
+#: ../core/controllers/export.php:269 ../core/controllers/export.php:310
+msgid ""
+"Registered field groups <b>will not</b> appear in the list of editable field "
+"groups. This is useful for including fields in themes."
+msgstr ""
+"گروه های زمینه ساخته خواهند شد ولی قابل ویرایش <b>نخواهند بود</b>.یعنی در "
+"لیست افزونه برای ویرایش دیده نمی شوند. این روش برای قرار دادن زمینه ها در "
+"پوسته ها (برای مشتری) مفید است."
+
+#: ../core/controllers/export.php:270 ../core/controllers/export.php:311
+msgid ""
+"Please note that if you export and register field groups within the same WP, "
+"you will see duplicate fields on your edit screens. To fix this, please move "
+"the original field group to the trash or remove the code from your functions."
+"php file."
+msgstr ""
+"لطفا توجه کنید که اگر از هر دو روش ذکر شما در یک وردپرس به صورت هم زمان "
+"استفاده کنید، در صفحه ویرایش مطالب، دو بار زمینه ها را خواهید دید. واضح است "
+"که برای حل این مشکل یا باید زمینه ها را از افزونه حذف کنید یا کدهای php را "
+"از پوسته و احتمالا functions.php حذف کنید."
+
+#: ../core/controllers/export.php:272
+msgid "Select field group(s) from the list and click \"Create PHP\""
+msgstr ""
+"گروه های زمینه را از لیست انتخاب کنید و سپس روی دکمه ((برون بری به فرمت "
+"PHP)) کلیک کنید"
+
+#: ../core/controllers/export.php:273 ../core/controllers/export.php:302
+msgid "Copy the PHP code generated"
+msgstr "کدهای PHP تولید شده را کپی کنید"
+
+#: ../core/controllers/export.php:274 ../core/controllers/export.php:303
+msgid "Paste into your functions.php file"
+msgstr "در فایل functions.php پوسته خود قرار دهید"
+
+#: ../core/controllers/export.php:275 ../core/controllers/export.php:304
+msgid "To activate any Add-ons, edit and use the code in the first few lines."
+msgstr "برای فعالسازی افزودنی ها،چند سطر اول کدها را ویرایش و استفاده کنید"
+
+#: ../core/controllers/export.php:295
+msgid "Export Field Groups to PHP"
+msgstr "برون بری گروه های زمینه به PHP"
+
+#: ../core/controllers/export.php:300 ../core/fields/tab.php:65
+msgid "Instructions"
+msgstr "دستورالعمل ها"
+
+#: ../core/controllers/export.php:309
+msgid "Notes"
+msgstr "نکته ها"
+
+#: ../core/controllers/export.php:316
+msgid "Include in theme"
+msgstr "قرار دادن در پوسته"
+
+#: ../core/controllers/export.php:317
+msgid ""
+"The Advanced Custom Fields plugin can be included within a theme. To do so, "
+"move the ACF plugin inside your theme and add the following code to your "
+"functions.php file:"
+msgstr ""
+"افزونه زمینه های دلخواه پیشرفته وردپرس می تواند در داخل یک پوسته قرار بگیرد. "
+"برای انجام این کار، افزونه را به کنار پوسته تان انتقال دهید و کدهای زیر را "
+"به پرونده functions.php اضافه کنید:"
+
+#: ../core/controllers/export.php:323
+msgid ""
+"To remove all visual interfaces from the ACF plugin, you can use a constant "
+"to enable lite mode. Add the following code to your functions.php file "
+"<b>before</b> the include_once code:"
+msgstr ""
+"برای حذف همه رابط های بصری از افزونه زمینه های دلخواه پیشرفته (دیده نشدن "
+"افزونه)، می توانید از یک ثابت (کانستنت) برای فعال سازی حالت سبک (lite) "
+"استفاده کنید. کد زیر را به پرونده functions.php خود <b>قبل از</b> تابع "
+"include_once اضافه کنید:"
+
+#: ../core/controllers/export.php:331
+msgid "Back to export"
+msgstr "بازگشت به برون بری"
+
+#: ../core/controllers/export.php:400
+msgid "No field groups were selected"
+msgstr "گروه زمینه ای انتخاب نشده است"
+
+#: ../core/controllers/field_group.php:358
+msgid "Move to trash. Are you sure?"
+msgstr "انتقال به زباله دان، آیا شما مطمئنید؟"
+
+#: ../core/controllers/field_group.php:359
+msgid "checked"
+msgstr "انتخاب شده"
+
+#: ../core/controllers/field_group.php:360
+msgid "No toggle fields available"
+msgstr "هیچ زمینه شرط پذیری موجود نیست"
+
+#: ../core/controllers/field_group.php:361
+msgid "Field group title is required"
+msgstr "عنوان گروه زمینه ضروری است"
+
+#: ../core/controllers/field_group.php:362
+msgid "copy"
+msgstr "کپی"
+
+#: ../core/controllers/field_group.php:363
+#: ../core/views/meta_box_location.php:62
+#: ../core/views/meta_box_location.php:159
+msgid "or"
+msgstr "یا"
+
+#: ../core/controllers/field_group.php:364
+#: ../core/controllers/field_group.php:395
+#: ../core/controllers/field_group.php:457
+#: ../core/controllers/field_groups.php:148
+msgid "Fields"
+msgstr "زمینه ها"
+
+#: ../core/controllers/field_group.php:365
+msgid "Parent fields"
+msgstr "زمینه های مادر"
+
+#: ../core/controllers/field_group.php:366
+msgid "Sibling fields"
+msgstr "زمینه های هدف"
+
+#: ../core/controllers/field_group.php:367
+msgid "Hide / Show All"
+msgstr "مخفی کردن / نمایش همه"
+
+#: ../core/controllers/field_group.php:396
+msgid "Location"
+msgstr "مکان"
+
+#: ../core/controllers/field_group.php:397
+msgid "Options"
+msgstr "تنظیمات"
+
+#: ../core/controllers/field_group.php:459
+msgid "Show Field Key:"
+msgstr "نمایش کلید زمینه:"
+
+#: ../core/controllers/field_group.php:460 ../core/fields/page_link.php:138
+#: ../core/fields/page_link.php:159 ../core/fields/post_object.php:328
+#: ../core/fields/post_object.php:349 ../core/fields/select.php:224
+#: ../core/fields/select.php:243 ../core/fields/taxonomy.php:347
+#: ../core/fields/user.php:332 ../core/fields/wysiwyg.php:335
+#: ../core/views/meta_box_fields.php:196 ../core/views/meta_box_fields.php:219
+msgid "No"
+msgstr "خیر"
+
+#: ../core/controllers/field_group.php:461 ../core/fields/page_link.php:137
+#: ../core/fields/page_link.php:158 ../core/fields/post_object.php:327
+#: ../core/fields/post_object.php:348 ../core/fields/select.php:223
+#: ../core/fields/select.php:242 ../core/fields/taxonomy.php:346
+#: ../core/fields/user.php:331 ../core/fields/wysiwyg.php:334
+#: ../core/views/meta_box_fields.php:195 ../core/views/meta_box_fields.php:218
+msgid "Yes"
+msgstr "بله"
+
+#: ../core/controllers/field_group.php:633
+msgid "Front Page"
+msgstr "برگه نخست"
+
+#: ../core/controllers/field_group.php:634
+msgid "Posts Page"
+msgstr "برگه ی نوشته ها"
+
+#: ../core/controllers/field_group.php:635
+msgid "Top Level Page (parent of 0)"
+msgstr "بالاترین سطح برگه (parent of 0)"
+
+#: ../core/controllers/field_group.php:636
+msgid "Parent Page (has children)"
+msgstr "برگه مادر (دارای زیر مجموعه)"
+
+#: ../core/controllers/field_group.php:637
+msgid "Child Page (has parent)"
+msgstr "برگه زیر مجموعه (دارای مادر)"
+
+#: ../core/controllers/field_group.php:645
+msgid "Default Template"
+msgstr "پوسته پیش فرض"
+
+#: ../core/controllers/field_group.php:723
+msgid "Publish"
+msgstr "انتشار"
+
+#: ../core/controllers/field_group.php:724
+msgid "Pending Review"
+msgstr "در انتظار بررسی"
+
+#: ../core/controllers/field_group.php:725
+msgid "Draft"
+msgstr "پیش نویس"
+
+#: ../core/controllers/field_group.php:726
+msgid "Future"
+msgstr "شاخص"
+
+#: ../core/controllers/field_group.php:727
+msgid "Private"
+msgstr "خصوصی"
+
+#: ../core/controllers/field_group.php:728
+msgid "Revision"
+msgstr "بازنگری"
+
+#: ../core/controllers/field_group.php:729
+msgid "Trash"
+msgstr "زباله دان"
+
+#: ../core/controllers/field_group.php:742
+msgid "Super Admin"
+msgstr "مدیرکل"
+
+#: ../core/controllers/field_group.php:757
+#: ../core/controllers/field_group.php:778
+#: ../core/controllers/field_group.php:785 ../core/fields/file.php:186
+#: ../core/fields/image.php:170 ../core/fields/page_link.php:109
+#: ../core/fields/post_object.php:274 ../core/fields/post_object.php:298
+#: ../core/fields/relationship.php:601 ../core/fields/relationship.php:625
+#: ../core/fields/user.php:276
+msgid "All"
+msgstr "همه"
+
+#: ../core/controllers/field_groups.php:147
+msgid "Title"
+msgstr "عنوان"
+
+#: ../core/controllers/field_groups.php:216
+#: ../core/controllers/field_groups.php:253
+msgid "Changelog"
+msgstr "تغییرات"
+
+#: ../core/controllers/field_groups.php:217
+msgid "See what's new in"
+msgstr "چه چیز جدید است"
+
+#: ../core/controllers/field_groups.php:217
+msgid "version"
+msgstr "نسخه"
+
+#: ../core/controllers/field_groups.php:219
+msgid "Resources"
+msgstr "منابع"
+
+#: ../core/controllers/field_groups.php:221
+msgid "Getting Started"
+msgstr "راهنمای شروع"
+
+#: ../core/controllers/field_groups.php:222
+msgid "Field Types"
+msgstr "انواع زمینه"
+
+#: ../core/controllers/field_groups.php:223
+msgid "Functions"
+msgstr "توابع"
+
+#: ../core/controllers/field_groups.php:224
+msgid "Actions"
+msgstr "اکشن ها (مربوط به کدنویسی)"
+
+#: ../core/controllers/field_groups.php:225
+#: ../core/fields/relationship.php:644
+msgid "Filters"
+msgstr "فیلترها"
+
+#: ../core/controllers/field_groups.php:226
+msgid "'How to' guides"
+msgstr "راهنماهای کوتاه (نمونه کدها برای کدنویسی("
+
+#: ../core/controllers/field_groups.php:227
+msgid "Tutorials"
+msgstr "آموزش ها"
+
+#: ../core/controllers/field_groups.php:232
+msgid "Created by"
+msgstr "برنامه نویسی شده توسط"
+
+#: ../core/controllers/field_groups.php:244
+msgid "Welcome to Advanced Custom Fields"
+msgstr "به افزونه زمینه های دلخواه پیشرفته خوش آمدید!"
+
+#: ../core/controllers/field_groups.php:245
+msgid "Thank you for updating to the latest version!"
+msgstr "از شما برای بروزرسانی به آخرین نسخه ممنون هستیم"
+
+#: ../core/controllers/field_groups.php:245
+msgid "is more polished and enjoyable than ever before. We hope you like it."
+msgstr ""
+"افزونه بیش از گذشته لذت بخش و بهینه شده است. امیدواریم شما هم از آن لذت "
+"ببرید."
+
+#: ../core/controllers/field_groups.php:252
+msgid "What’s New"
+msgstr "چه چیزی جدید است؟"
+
+#: ../core/controllers/field_groups.php:255
+msgid "Download Add-ons"
+msgstr "دانلود افزودنی ها"
+
+#: ../core/controllers/field_groups.php:309
+msgid "Activation codes have grown into plugins!"
+msgstr "کدهای فعالسازی در افزونه ها افزایش یافته اند!"
+
+#: ../core/controllers/field_groups.php:310
+msgid ""
+"Add-ons are now activated by downloading and installing individual plugins. "
+"Although these plugins will not be hosted on the wordpress.org repository, "
+"each Add-on will continue to receive updates in the usual way."
+msgstr ""
+"افزودنی ها الان با دریافت و نصب افزونه های جداگانه فعال می شوند. با اینکه "
+"این افزونه ها در مخزن وردپرس پشتیبانی نخواهند شد، هر افزودنی به صورت معمول "
+"به روز رسانی را دریافت خواهد کرد."
+
+#: ../core/controllers/field_groups.php:316
+msgid "All previous Add-ons have been successfully installed"
+msgstr "تمام افزونه های قبلی با موفقیت نصب شده اند"
+
+#: ../core/controllers/field_groups.php:320
+msgid "This website uses premium Add-ons which need to be downloaded"
+msgstr "این سایت از افزودنی های پولی استفاده می کند که لازم است دانلود شوند"
+
+#: ../core/controllers/field_groups.php:320
+msgid "Download your activated Add-ons"
+msgstr "افزودنی های فعال شده ی خود را دانلود کنید"
+
+#: ../core/controllers/field_groups.php:325
+msgid ""
+"This website does not use premium Add-ons and will not be affected by this "
+"change."
+msgstr ""
+"این سایت از افزودنی های ویژه استفاده نمی کند و تحت تأثیر این تغییر قرار "
+"نخواهد گرفت"
+
+#: ../core/controllers/field_groups.php:335
+msgid "Easier Development"
+msgstr "توسعه آسانتر"
+
+#: ../core/controllers/field_groups.php:337
+msgid "New Field Types"
+msgstr "انواع زمینه جدید"
+
+#: ../core/controllers/field_groups.php:339
+msgid "Taxonomy Field"
+msgstr "زمینه طبقه بندی"
+
+#: ../core/controllers/field_groups.php:340
+msgid "User Field"
+msgstr "زمینه کاربر"
+
+#: ../core/controllers/field_groups.php:341
+msgid "Email Field"
+msgstr "زمینه پست الکترونیکی"
+
+#: ../core/controllers/field_groups.php:342
+msgid "Password Field"
+msgstr "زمینه رمزعبور"
+
+#: ../core/controllers/field_groups.php:344
+msgid "Custom Field Types"
+msgstr "انواع زمینه دلخواه"
+
+#: ../core/controllers/field_groups.php:345
+msgid ""
+"Creating your own field type has never been easier! Unfortunately, version 3 "
+"field types are not compatible with version 4."
+msgstr ""
+"ساخت نوع زمینه دلخواه برای خودتان هرگز به این آسانی نبوده! متأسفانه، انواع "
+"زمینه های نسخه 3 با نسخه 4 سازگار نیستند."
+
+#: ../core/controllers/field_groups.php:346
+msgid "Migrating your field types is easy, please"
+msgstr "انتقال انواع زمینه ها آسان است. پس لطفا افزونه خود را بروزرسانی کنید."
+
+#: ../core/controllers/field_groups.php:346
+msgid "follow this tutorial"
+msgstr "این آموزش را دنبال کنید"
+
+#: ../core/controllers/field_groups.php:346
+msgid "to learn more."
+msgstr "تا بیشتر بیاموزید"
+
+#: ../core/controllers/field_groups.php:348
+msgid "Actions &amp; Filters"
+msgstr "اکشن ها و فیلترها"
+
+#: ../core/controllers/field_groups.php:349
+msgid ""
+"All actions & filters have received a major facelift to make customizing ACF "
+"even easier! Please"
+msgstr ""
+"همه اکشن ها و فیلترها دارای تغییرات عمده ای شدند تا دلخواه سازی ACF از قبل "
+"آسانتر شود"
+
+#: ../core/controllers/field_groups.php:349
+msgid "read this guide"
+msgstr "لطفا راهنما را مطالعه فرمایید"
+
+#: ../core/controllers/field_groups.php:349
+msgid "to find the updated naming convention."
+msgstr "تا نامگذاری های جدید را متوجه شوید"
+
+#: ../core/controllers/field_groups.php:351
+msgid "Preview draft is now working!"
+msgstr "پیش نمایش پیش نویس اکنون کار می کند"
+
+#: ../core/controllers/field_groups.php:352
+msgid "This bug has been squashed along with many other little critters!"
+msgstr "این مشکل همراه با بسیاری از مشکلات دیگر برطرف شده اند!"
+
+#: ../core/controllers/field_groups.php:352
+msgid "See the full changelog"
+msgstr "مشاهده تغییرات کامل"
+
+#: ../core/controllers/field_groups.php:356
+msgid "Important"
+msgstr "مهم"
+
+#: ../core/controllers/field_groups.php:358
+msgid "Database Changes"
+msgstr "تغییرات پایگاه داده"
+
+#: ../core/controllers/field_groups.php:359
+msgid ""
+"Absolutely <strong>no</strong> changes have been made to the database "
+"between versions 3 and 4. This means you can roll back to version 3 without "
+"any issues."
+msgstr ""
+"<strong>هیچ تغییری</strong> در پایگاه داده بین نسخه 3 و 4 ایجاد نشده است. "
+"این بدین معنی است که شما می توانید بدون هیچ گونه مسئله ای به نسخه 3 برگردید."
+
+#: ../core/controllers/field_groups.php:361
+msgid "Potential Issues"
+msgstr "مسائل بالقوه"
+
+#: ../core/controllers/field_groups.php:362
+msgid ""
+"Do to the sizable changes surounding Add-ons, field types and action/"
+"filters, your website may not operate correctly. It is important that you "
+"read the full"
+msgstr ""
+"با توجه به تغییرات افزودنی ها، انواع زمینه ها و اکشن ها/فیلترها، ممکن است "
+"سایت شما به درستی عمل نکند. پس لازم است راهنمای کامل "
+
+#: ../core/controllers/field_groups.php:362
+msgid "Migrating from v3 to v4"
+msgstr "مهاجرت از نسخه 3 به نسخه 4 را مطالعه کنید"
+
+#: ../core/controllers/field_groups.php:362
+msgid "guide to view the full list of changes."
+msgstr "راهنمایی برای مشاهده لیست کاملی از تغییرات"
+
+#: ../core/controllers/field_groups.php:365
+msgid "Really Important!"
+msgstr "واقعا مهم!"
+
+#: ../core/controllers/field_groups.php:365
+msgid ""
+"If you updated the ACF plugin without prior knowledge of such changes, "
+"please roll back to the latest"
+msgstr ""
+"اگر شما افزونه زمینه های دلخواه پیشرفته وردپرس را بدون آگاهی از آخرین "
+"تغییرات بروزرسانی کردید، لطفا به نسخه قبل برگردید "
+
+#: ../core/controllers/field_groups.php:365
+msgid "version 3"
+msgstr "نسخه 3"
+
+#: ../core/controllers/field_groups.php:365
+msgid "of this plugin."
+msgstr "از این افزونه."
+
+#: ../core/controllers/field_groups.php:370
+msgid "Thank You"
+msgstr "از شما متشکرم"
+
+#: ../core/controllers/field_groups.php:371
+msgid ""
+"A <strong>BIG</strong> thank you to everyone who has helped test the version "
+"4 beta and for all the support I have received."
+msgstr ""
+"یک <strong>تشکر بزرگ</strong> از شما و همه کسانی که در تست نسخه 4 بتا به من "
+"کمک کردند میکنم. برای تمام کمک ها و پشتیبانی هایی که دریافت کردم نیز از همه "
+"شما متشکرم."
+
+#: ../core/controllers/field_groups.php:372
+msgid "Without you all, this release would not have been possible!"
+msgstr "بدون همه شما انتشار این نسخه امکان پذیر نبود!"
+
+#: ../core/controllers/field_groups.php:376
+msgid "Changelog for"
+msgstr "تغییرات برای"
+
+#: ../core/controllers/field_groups.php:393
+msgid "Learn more"
+msgstr "اطلاعات بیشتر"
+
+#: ../core/controllers/field_groups.php:399
+msgid "Overview"
+msgstr "بازنگری"
+
+#: ../core/controllers/field_groups.php:401
+msgid ""
+"Previously, all Add-ons were unlocked via an activation code (purchased from "
+"the ACF Add-ons store). New to v4, all Add-ons act as separate plugins which "
+"need to be individually downloaded, installed and updated."
+msgstr ""
+"پیش از این، قفل همه افزودنی ها از طریق یک کد فعالسازی (خریداری شده از "
+"فروشگاه افزودنی ها) باز می شدند.اما در نسخه 4 همه آنها به صورت افزودنی های "
+"جداگانه هستند و باید به صورت جدا دریافت، نصب و بروزرسانی شوند."
+
+#: ../core/controllers/field_groups.php:403
+msgid ""
+"This page will assist you in downloading and installing each available Add-"
+"on."
+msgstr "این برگه به شما در دریافت و نصب هر افزودنی موجود کمک خواهد کرد."
+
+#: ../core/controllers/field_groups.php:405
+msgid "Available Add-ons"
+msgstr "افزودنی های موجود"
+
+#: ../core/controllers/field_groups.php:407
+msgid "The following Add-ons have been detected as activated on this website."
+msgstr "افزودنی های زیر به صورت فعال در این سایت شناسایی شده اند"
+
+#: ../core/controllers/field_groups.php:420 ../core/fields/file.php:109
+msgid "Name"
+msgstr "نام"
+
+#: ../core/controllers/field_groups.php:421
+msgid "Activation Code"
+msgstr "کد فعالسازی"
+
+#: ../core/controllers/field_groups.php:453
+msgid "Flexible Content"
+msgstr "محتوای انعطاف پذیر"
+
+#: ../core/controllers/field_groups.php:463
+msgid "Installation"
+msgstr "نصب"
+
+#: ../core/controllers/field_groups.php:465
+msgid "For each Add-on available, please perform the following:"
+msgstr "برای هر افزودنی موجود، لطفا کارهای زیر را انجام دهید:"
+
+#: ../core/controllers/field_groups.php:467
+msgid "Download the Add-on plugin (.zip file) to your desktop"
+msgstr "دانلود افزونه افزودنی (پرونده ZIP) در کامپیوتر خود"
+
+#: ../core/controllers/field_groups.php:468
+msgid "Navigate to"
+msgstr "رفتن به"
+
+#: ../core/controllers/field_groups.php:468
+msgid "Plugins > Add New > Upload"
+msgstr "افزونه ها > افزودن > بارگذاری"
+
+#: ../core/controllers/field_groups.php:469
+msgid "Use the uploader to browse, select and install your Add-on (.zip file)"
+msgstr ""
+"از بارگذار برای انتخاب فایل استفاده کنید. افزودنی خود را (پرونده ZIP) انتخاب "
+"و نصب نمایید"
+
+#: ../core/controllers/field_groups.php:470
+msgid ""
+"Once the plugin has been uploaded and installed, click the 'Activate Plugin' "
+"link"
+msgstr ""
+"هنگامی که یک افزونه دریافت و نصب شده است، روی لینک (( فعال کردن افزونه)) "
+"کلیک کنید"
+
+#: ../core/controllers/field_groups.php:471
+msgid "The Add-on is now installed and activated!"
+msgstr "افزودنی در حال حاضر نصب و فعال سازی شده است!"
+
+#: ../core/controllers/field_groups.php:485
+msgid "Awesome. Let's get to work"
+msgstr "شگفت انگیزه، نه؟ پس بیا شروع به کار کنیم."
+
+#: ../core/controllers/input.php:63
+msgid "Expand Details"
+msgstr "نمایش جزئیات"
+
+#: ../core/controllers/input.php:64
+msgid "Collapse Details"
+msgstr "عدم نمایش جزئیات"
+
+#: ../core/controllers/input.php:67
+msgid "Validation Failed. One or more fields below are required."
+msgstr "یک یا چند مورد از گزینه های زیر را لازم است تکمیل نمایید"
+
+#: ../core/controllers/upgrade.php:74
+msgid "Upgrade"
+msgstr "بروزرسانی"
+
+#: ../core/controllers/upgrade.php:596
+msgid "Modifying field group options 'show on page'"
+msgstr "اصلاح گزینه های 'نمایش در برگه' ی گروه زمینه"
+
+#: ../core/controllers/upgrade.php:650
+msgid "Modifying field option 'taxonomy'"
+msgstr "اصلاح گزینه 'صبقه بندی' زمینه"
+
+#: ../core/controllers/upgrade.php:747
+msgid "Moving user custom fields from wp_options to wp_usermeta'"
+msgstr "انتقال زمینه های دلخواه کاربر از wp_options به wp_usermeta"
+
+#: ../core/fields/checkbox.php:19 ../core/fields/taxonomy.php:323
+msgid "Checkbox"
+msgstr "جعبه انتخاب(چک باکس)"
+
+#: ../core/fields/checkbox.php:20 ../core/fields/radio.php:19
+#: ../core/fields/select.php:19 ../core/fields/true_false.php:20
+msgid "Choice"
+msgstr "انتخاب"
+
+#: ../core/fields/checkbox.php:146 ../core/fields/radio.php:147
+#: ../core/fields/select.php:177
+msgid "Choices"
+msgstr "انتخاب ها"
+
+#: ../core/fields/checkbox.php:147 ../core/fields/select.php:178
+msgid "Enter each choice on a new line."
+msgstr "هر انتخاب را در یک خط جدید وارد کنید."
+
+#: ../core/fields/checkbox.php:148 ../core/fields/select.php:179
+msgid "For more control, you may specify both a value and label like this:"
+msgstr "برای کنترل بیشتر، ممکن است هر دو مقدار و برچسب را مانند زیر مشخص کنید:"
+
+#: ../core/fields/checkbox.php:149 ../core/fields/radio.php:153
+#: ../core/fields/select.php:180
+msgid "red : Red"
+msgstr "red : قرمز"
+
+#: ../core/fields/checkbox.php:149 ../core/fields/radio.php:154
+#: ../core/fields/select.php:180
+msgid "blue : Blue"
+msgstr "blue : آبی"
+
+#: ../core/fields/checkbox.php:166 ../core/fields/color_picker.php:89
+#: ../core/fields/email.php:106 ../core/fields/number.php:116
+#: ../core/fields/radio.php:196 ../core/fields/select.php:197
+#: ../core/fields/text.php:116 ../core/fields/textarea.php:103
+#: ../core/fields/true_false.php:94 ../core/fields/wysiwyg.php:277
+msgid "Default Value"
+msgstr "مقدار پیش فرض"
+
+#: ../core/fields/checkbox.php:167 ../core/fields/select.php:198
+msgid "Enter each default value on a new line"
+msgstr "هر مقدار پیش فرض را در یک خط جدید وارد کنید"
+
+#: ../core/fields/checkbox.php:183 ../core/fields/message.php:20
+#: ../core/fields/radio.php:212 ../core/fields/tab.php:20
+msgid "Layout"
+msgstr "چیدمان"
+
+#: ../core/fields/checkbox.php:194 ../core/fields/radio.php:223
+msgid "Vertical"
+msgstr "عمودی"
+
+#: ../core/fields/checkbox.php:195 ../core/fields/radio.php:224
+msgid "Horizontal"
+msgstr "افقی"
+
+#: ../core/fields/color_picker.php:19
+msgid "Color Picker"
+msgstr "انتخاب رنگ"
+
+#: ../core/fields/color_picker.php:20 ../core/fields/google-map.php:19
+#: ../core/fields/date_picker/date_picker.php:20
+msgid "jQuery"
+msgstr "جی کوئری"
+
+#: ../core/fields/dummy.php:19
+msgid "Dummy"
+msgstr "ساختگی"
+
+#: ../core/fields/email.php:19
+msgid "Email"
+msgstr "پست الکترونیکی"
+
+#: ../core/fields/email.php:107 ../core/fields/number.php:117
+#: ../core/fields/text.php:117 ../core/fields/textarea.php:104
+#: ../core/fields/wysiwyg.php:278
+msgid "Appears when creating a new post"
+msgstr "هنگام ایجاد یک نوشته جدید نمایش داده می شود"
+
+#: ../core/fields/email.php:123 ../core/fields/number.php:133
+#: ../core/fields/password.php:105 ../core/fields/text.php:131
+#: ../core/fields/textarea.php:118
+msgid "Placeholder Text"
+msgstr "نگهدارنده مکان متن"
+
+#: ../core/fields/email.php:124 ../core/fields/number.php:134
+#: ../core/fields/password.php:106 ../core/fields/text.php:132
+#: ../core/fields/textarea.php:119
+msgid "Appears within the input"
+msgstr "در داخل ورودی نمایش داده می شود"
+
+#: ../core/fields/email.php:138 ../core/fields/number.php:148
+#: ../core/fields/password.php:120 ../core/fields/text.php:146
+msgid "Prepend"
+msgstr "پیشوند"
+
+#: ../core/fields/email.php:139 ../core/fields/number.php:149
+#: ../core/fields/password.php:121 ../core/fields/text.php:147
+msgid "Appears before the input"
+msgstr "قبل از ورودی نمایش داده می شود"
+
+#: ../core/fields/email.php:153 ../core/fields/number.php:163
+#: ../core/fields/password.php:135 ../core/fields/text.php:161
+msgid "Append"
+msgstr "پسوند"
+
+#: ../core/fields/email.php:154 ../core/fields/number.php:164
+#: ../core/fields/password.php:136 ../core/fields/text.php:162
+msgid "Appears after the input"
+msgstr "بعد از ورودی نمایش داده می شود"
+
+#: ../core/fields/file.php:19
+msgid "File"
+msgstr "پرونده"
+
+#: ../core/fields/file.php:20 ../core/fields/image.php:20
+#: ../core/fields/wysiwyg.php:37
+msgid "Content"
+msgstr "محتوا"
+
+#: ../core/fields/file.php:26
+msgid "Select File"
+msgstr "انتخاب پرونده"
+
+#: ../core/fields/file.php:27
+msgid "Edit File"
+msgstr "ویرایش پرونده"
+
+#: ../core/fields/file.php:28
+msgid "Update File"
+msgstr "بروزرسانی پرونده"
+
+#: ../core/fields/file.php:29 ../core/fields/image.php:30
+msgid "uploaded to this post"
+msgstr "بارگذاری شده در این نوشته"
+
+#: ../core/fields/file.php:113
+msgid "Size"
+msgstr "اندازه"
+
+#: ../core/fields/file.php:123
+msgid "No File Selected"
+msgstr "هیچ پرونده ای انتخاب نشده"
+
+#: ../core/fields/file.php:123
+msgid "Add File"
+msgstr "افزودن پرونده"
+
+#: ../core/fields/file.php:153 ../core/fields/image.php:118
+#: ../core/fields/taxonomy.php:371
+msgid "Return Value"
+msgstr "مقدار بازگشت"
+
+#: ../core/fields/file.php:164
+msgid "File Object"
+msgstr "آبجکت پرونده"
+
+#: ../core/fields/file.php:165
+msgid "File URL"
+msgstr "آدرس پرونده"
+
+#: ../core/fields/file.php:166
+msgid "File ID"
+msgstr "شناسه(ID) پرونده"
+
+#: ../core/fields/file.php:175 ../core/fields/image.php:158
+msgid "Library"
+msgstr "کتابخانه"
+
+#: ../core/fields/file.php:187 ../core/fields/image.php:171
+msgid "Uploaded to post"
+msgstr "بارگذاری شده در نوشته"
+
+#: ../core/fields/google-map.php:18
+msgid "Google Map"
+msgstr "نقشه گوگل"
+
+#: ../core/fields/google-map.php:33
+msgid "Locating"
+msgstr "مکان یابی"
+
+#: ../core/fields/google-map.php:34
+msgid "Sorry, this browser does not support geolocation"
+msgstr "با عرض پوزش، این مرورگر از موقعیت یابی جغرافیایی پشتیبانی نمی کند"
+
+#: ../core/fields/google-map.php:120
+msgid "Clear location"
+msgstr "حذف مکان"
+
+#: ../core/fields/google-map.php:125
+msgid "Find current location"
+msgstr "پیدا کردن مکان فعلی"
+
+#: ../core/fields/google-map.php:126
+msgid "Search for address..."
+msgstr "جستجو برای آدرس . . ."
+
+#: ../core/fields/google-map.php:162
+msgid "Center"
+msgstr "مرکز"
+
+#: ../core/fields/google-map.php:163
+msgid "Center the initial map"
+msgstr "تقشه اولیه را وسط قرار بده"
+
+#: ../core/fields/google-map.php:199
+msgid "Zoom"
+msgstr "بزرگنمایی"
+
+#: ../core/fields/google-map.php:200
+msgid "Set the initial zoom level"
+msgstr "تعین مقدار بزرگنمایی اولیه"
+
+#: ../core/fields/google-map.php:217
+msgid "Height"
+msgstr "ارتفاع"
+
+#: ../core/fields/google-map.php:218
+msgid "Customise the map height"
+msgstr "سفارشی کردن ارتفاع نقشه"
+
+#: ../core/fields/image.php:19
+msgid "Image"
+msgstr "تصویر"
+
+#: ../core/fields/image.php:27
+msgid "Select Image"
+msgstr "انتخاب تصویر"
+
+#: ../core/fields/image.php:28
+msgid "Edit Image"
+msgstr "ویرایش تصویر"
+
+#: ../core/fields/image.php:29
+msgid "Update Image"
+msgstr "بروزرسانی تصویر"
+
+#: ../core/fields/image.php:83
+msgid "Remove"
+msgstr "حذف"
+
+#: ../core/fields/image.php:84 ../core/views/meta_box_fields.php:108
+msgid "Edit"
+msgstr "ویرایش"
+
+#: ../core/fields/image.php:90
+msgid "No image selected"
+msgstr "هیچ تصویری انتخاب نشده"
+
+#: ../core/fields/image.php:90
+msgid "Add Image"
+msgstr "افزودن تصویر"
+
+#: ../core/fields/image.php:119 ../core/fields/relationship.php:576
+msgid "Specify the returned value on front end"
+msgstr "مقدار برگشتی در نمایش نهایی را تعیین کنید"
+
+#: ../core/fields/image.php:129
+msgid "Image Object"
+msgstr "آبجکت تصویر"
+
+#: ../core/fields/image.php:130
+msgid "Image URL"
+msgstr "آدرس تصویر"
+
+#: ../core/fields/image.php:131
+msgid "Image ID"
+msgstr "شناسه(ID) تصویر"
+
+#: ../core/fields/image.php:139
+msgid "Preview Size"
+msgstr "اندازه پیش نمایش"
+
+#: ../core/fields/image.php:140
+msgid "Shown when entering data"
+msgstr "هنگام وارد کردن داده ها نمایش داده می شود"
+
+#: ../core/fields/image.php:159
+msgid "Limit the media library choice"
+msgstr "محدود کردن انتخاب کتابخانه چندرسانه ای"
+
+#: ../core/fields/message.php:19 ../core/fields/message.php:70
+#: ../core/fields/true_false.php:79
+msgid "Message"
+msgstr "پیام"
+
+#: ../core/fields/message.php:71
+msgid "Text &amp; HTML entered here will appear inline with the fields"
+msgstr ""
+"متن و کد HTML وارد شده در اینجا در خط همراه با زمینه نمایش داده خواهد شد"
+
+#: ../core/fields/message.php:72
+msgid "Please note that all text will first be passed through the wp function "
+msgstr "دقت کنید که نکاک متن ها اول از تابع وردپرس عبور خواهند کرد"
+
+#: ../core/fields/number.php:19
+msgid "Number"
+msgstr "شماره"
+
+#: ../core/fields/number.php:178
+msgid "Minimum Value"
+msgstr "حداقل مقدار"
+
+#: ../core/fields/number.php:194
+msgid "Maximum Value"
+msgstr "حداکثر مقدار"
+
+#: ../core/fields/number.php:210
+msgid "Step Size"
+msgstr "اندازه مرحله"
+
+#: ../core/fields/page_link.php:18
+msgid "Page Link"
+msgstr "پیوند (لینک) برگه/نوشته"
+
+#: ../core/fields/page_link.php:19 ../core/fields/post_object.php:19
+#: ../core/fields/relationship.php:19 ../core/fields/taxonomy.php:19
+#: ../core/fields/user.php:19
+msgid "Relational"
+msgstr "رابطه"
+
+#: ../core/fields/page_link.php:103 ../core/fields/post_object.php:268
+#: ../core/fields/relationship.php:595 ../core/fields/relationship.php:674
+#: ../core/views/meta_box_location.php:75
+msgid "Post Type"
+msgstr "نوع نوشته"
+
+#: ../core/fields/page_link.php:127 ../core/fields/post_object.php:317
+#: ../core/fields/select.php:214 ../core/fields/taxonomy.php:337
+#: ../core/fields/user.php:322
+msgid "Allow Null?"
+msgstr "آیا Null مجاز است؟"
+
+#: ../core/fields/page_link.php:148 ../core/fields/post_object.php:338
+#: ../core/fields/select.php:233
+msgid "Select multiple values?"
+msgstr "آیا چندین مقدار انتخاب شوند؟"
+
+#: ../core/fields/password.php:19
+msgid "Password"
+msgstr "رمزعبور"
+
+#: ../core/fields/post_object.php:18
+msgid "Post Object"
+msgstr "آبجکت یک نوشته"
+
+#: ../core/fields/post_object.php:292 ../core/fields/relationship.php:619
+msgid "Filter from Taxonomy"
+msgstr "فیلتر از طبقه بندی"
+
+#: ../core/fields/radio.php:18
+msgid "Radio Button"
+msgstr "دکمه رادیویی"
+
+#: ../core/fields/radio.php:105 ../core/views/meta_box_location.php:91
+msgid "Other"
+msgstr "دیگر"
+
+#: ../core/fields/radio.php:148
+msgid "Enter your choices one per line"
+msgstr "انتخاب ها را در هر خط وارد کنید"
+
+#: ../core/fields/radio.php:150
+msgid "Red"
+msgstr "قرمز"
+
+#: ../core/fields/radio.php:151
+msgid "Blue"
+msgstr "آبی"
+
+#: ../core/fields/radio.php:175
+msgid "Add 'other' choice to allow for custom values"
+msgstr "افزودن گزینه 'دیگر' برای ثبت مقادیر دلخواه"
+
+#: ../core/fields/radio.php:187
+msgid "Save 'other' values to the field's choices"
+msgstr "ذخیره مقادیر دیگر در انتخاب های زمینه"
+
+#: ../core/fields/relationship.php:18
+msgid "Relationship"
+msgstr "ارتباط"
+
+#: ../core/fields/relationship.php:29
+msgid "Maximum values reached ( {max} values )"
+msgstr "مقادیر به حداکثر رسیده اند ( {حداکثر} مقادیر )"
+
+#: ../core/fields/relationship.php:429
+msgid "Search..."
+msgstr "جستجو . . ."
+
+#: ../core/fields/relationship.php:440
+msgid "Filter by post type"
+msgstr "فیلتر توسط نوع نوشته"
+
+#: ../core/fields/relationship.php:575
+msgid "Return Format"
+msgstr "فرمت بازگشت"
+
+#: ../core/fields/relationship.php:586
+msgid "Post Objects"
+msgstr "آبجکت های نوشته ها"
+
+#: ../core/fields/relationship.php:587
+msgid "Post IDs"
+msgstr "شناسه(ID) های نوشته ها"
+
+#: ../core/fields/relationship.php:653
+msgid "Search"
+msgstr "جستجو"
+
+#: ../core/fields/relationship.php:654
+msgid "Post Type Select"
+msgstr "انتخاب نوع نوشته"
+
+#: ../core/fields/relationship.php:662
+msgid "Elements"
+msgstr "عناصر"
+
+#: ../core/fields/relationship.php:663
+msgid "Selected elements will be displayed in each result"
+msgstr "عناصر انتخاب شده در هر نتیجه نمایش داده خواهند شد"
+
+#: ../core/fields/relationship.php:672 ../core/views/meta_box_options.php:106
+msgid "Featured Image"
+msgstr "تصویر شاخص"
+
+#: ../core/fields/relationship.php:673
+msgid "Post Title"
+msgstr "عنوان نوشته"
+
+#: ../core/fields/relationship.php:685
+msgid "Maximum posts"
+msgstr "حداکثر تعداد نوشته ها"
+
+#: ../core/fields/select.php:18 ../core/fields/select.php:109
+#: ../core/fields/taxonomy.php:328 ../core/fields/user.php:313
+msgid "Select"
+msgstr "انتخاب(دراپ باکس)"
+
+#: ../core/fields/tab.php:19
+msgid "Tab"
+msgstr "تب"
+
+#: ../core/fields/tab.php:68
+msgid ""
+"Use \"Tab Fields\" to better organize your edit screen by grouping your "
+"fields together under separate tab headings."
+msgstr ""
+"از (زمینه تب) برای سازماندهی بهتر صفحه ویرایش با گروه بندی زمینه ها زیر تب "
+"ها استفاده کنید. "
+
+#: ../core/fields/tab.php:69
+msgid ""
+"All the fields following this \"tab field\" (or until another \"tab field\" "
+"is defined) will be grouped together."
+msgstr ""
+"همه زمینه های زیر این \" زمینه تب \"  (یا تا زمینه تب بعدی) با هم گروه بندی "
+"می شوند."
+
+#: ../core/fields/tab.php:70
+msgid "Use multiple tabs to divide your fields into sections."
+msgstr "از چندین تب برای تقسیم زمینه های خود به بخش های مختلف استفاده کنید."
+
+#: ../core/fields/taxonomy.php:18 ../core/fields/taxonomy.php:278
+msgid "Taxonomy"
+msgstr "طبقه بندی"
+
+#: ../core/fields/taxonomy.php:222 ../core/fields/taxonomy.php:231
+msgid "None"
+msgstr "هیچ"
+
+#: ../core/fields/taxonomy.php:312 ../core/fields/user.php:298
+#: ../core/views/meta_box_fields.php:77 ../core/views/meta_box_fields.php:159
+msgid "Field Type"
+msgstr "نوع زمینه"
+
+#: ../core/fields/taxonomy.php:322 ../core/fields/user.php:307
+msgid "Multiple Values"
+msgstr "چندین مقدار"
+
+#: ../core/fields/taxonomy.php:324 ../core/fields/user.php:309
+msgid "Multi Select"
+msgstr "چندین انتخاب"
+
+#: ../core/fields/taxonomy.php:326 ../core/fields/user.php:311
+msgid "Single Value"
+msgstr "تک مقدار"
+
+#: ../core/fields/taxonomy.php:327
+msgid "Radio Buttons"
+msgstr "دکمه های رادیویی"
+
+#: ../core/fields/taxonomy.php:356
+msgid "Load & Save Terms to Post"
+msgstr "خواندن و ذخیره دسته(ترم)ها برای نوشته"
+
+#: ../core/fields/taxonomy.php:364
+msgid ""
+"Load value based on the post's terms and update the post's terms on save"
+msgstr ""
+"مقدار بر اساس دسته(ترم) نوشته خوانده شود و دسته های نوشته را در هنگام ذخیره "
+"به روز رسانی کند"
+
+#: ../core/fields/taxonomy.php:381
+msgid "Term Object"
+msgstr "به صورت آبجکت"
+
+#: ../core/fields/taxonomy.php:382
+msgid "Term ID"
+msgstr "شناسه(ID) آیتم(ترم)"
+
+#: ../core/fields/text.php:19
+msgid "Text"
+msgstr "متن"
+
+#: ../core/fields/text.php:176 ../core/fields/textarea.php:164
+msgid "Formatting"
+msgstr "قالب بندی"
+
+#: ../core/fields/text.php:177 ../core/fields/textarea.php:165
+msgid "Effects value on front end"
+msgstr "موثر بر شیوه نمایش در سایت اصلی"
+
+#: ../core/fields/text.php:186 ../core/fields/textarea.php:174
+msgid "No formatting"
+msgstr "بدون قالب بندی"
+
+#: ../core/fields/text.php:187 ../core/fields/textarea.php:176
+msgid "Convert HTML into tags"
+msgstr "تبدیل HTML به تگ ها"
+
+#: ../core/fields/text.php:195 ../core/fields/textarea.php:133
+msgid "Character Limit"
+msgstr "محدودیت کاراکتر"
+
+#: ../core/fields/text.php:196 ../core/fields/textarea.php:134
+msgid "Leave blank for no limit"
+msgstr "برای نامحدود بودن این بخش را خالی بگذارید."
+
+#: ../core/fields/textarea.php:19
+msgid "Text Area"
+msgstr "باکس متن (متن چند خطی)"
+
+#: ../core/fields/textarea.php:148
+msgid "Rows"
+msgstr "سطرها"
+
+#: ../core/fields/textarea.php:149
+msgid "Sets the textarea height"
+msgstr "تعیین ارتفاع باکس متن"
+
+#: ../core/fields/textarea.php:175
+msgid "Convert new lines into &lt;br /&gt; tags"
+msgstr "تبدیل خط های جدید به برچسب ها"
+
+#: ../core/fields/true_false.php:19
+msgid "True / False"
+msgstr "صحیح / غلط"
+
+#: ../core/fields/true_false.php:80
+msgid "eg. Show extra content"
+msgstr "به عنوان مثال: نمایش محتوای اضافی"
+
+#: ../core/fields/user.php:18 ../core/views/meta_box_location.php:94
+msgid "User"
+msgstr "کاربر"
+
+#: ../core/fields/user.php:271
+msgid "Filter by role"
+msgstr "تفکیک با نقش"
+
+#: ../core/fields/wysiwyg.php:36
+msgid "Wysiwyg Editor"
+msgstr "ویرایشگر دیداری"
+
+#: ../core/fields/wysiwyg.php:292
+msgid "Toolbar"
+msgstr "نوار ابزار"
+
+#: ../core/fields/wysiwyg.php:324
+msgid "Show Media Upload Buttons?"
+msgstr "آیا دکمه های بارگذاری رسانه نمایش داده شوند؟"
+
+#: ../core/fields/_base.php:124 ../core/views/meta_box_location.php:74
+msgid "Basic"
+msgstr "پایه"
+
+#: ../core/fields/date_picker/date_picker.php:19
+msgid "Date Picker"
+msgstr "تاریخ"
+
+#: ../core/fields/date_picker/date_picker.php:55
+msgid "Done"
+msgstr "انجام شده"
+
+#: ../core/fields/date_picker/date_picker.php:56
+msgid "Today"
+msgstr "امروز"
+
+#: ../core/fields/date_picker/date_picker.php:59
+msgid "Show a different month"
+msgstr "نمایش یک ماه دیگر"
+
+#: ../core/fields/date_picker/date_picker.php:126
+msgid "Save format"
+msgstr "فرمت ذخیره"
+
+#: ../core/fields/date_picker/date_picker.php:127
+msgid ""
+"This format will determin the value saved to the database and returned via "
+"the API"
+msgstr ""
+"این فرمت مقدار ذخیره شده در پایگاه داده را مشخص خواهد کرد و از طریق API قابل "
+"خواندن است"
+
+#: ../core/fields/date_picker/date_picker.php:128
+msgid "\"yymmdd\" is the most versatile save format. Read more about"
+msgstr "\"yymmdd\" بهترین و پر استفاده ترین فرمت ذخیره است. اطلاعات بیشتر"
+
+#: ../core/fields/date_picker/date_picker.php:128
+#: ../core/fields/date_picker/date_picker.php:144
+msgid "jQuery date formats"
+msgstr "فرمت های تاریخ جی کوئری"
+
+#: ../core/fields/date_picker/date_picker.php:142
+msgid "Display format"
+msgstr "فرمت نمایش"
+
+#: ../core/fields/date_picker/date_picker.php:143
+msgid "This format will be seen by the user when entering a value"
+msgstr "این فرمت توسط کاربر در هنگام وارد کردن یک مقدار دیده خواهد شد"
+
+#: ../core/fields/date_picker/date_picker.php:144
+msgid ""
+"\"dd/mm/yy\" or \"mm/dd/yy\" are the most used display formats. Read more "
+"about"
+msgstr ""
+"\"dd/mm/yy\" یا \"mm/dd/yy\"  پر استفاده ترین قالب های نمایش تاریخ می باشند. "
+"اطلاعات بیشتر"
+
+#: ../core/fields/date_picker/date_picker.php:158
+msgid "Week Starts On"
+msgstr "اولین روز هفته"
+
+#: ../core/views/meta_box_fields.php:24
+msgid "New Field"
+msgstr "زمینه جدید"
+
+#: ../core/views/meta_box_fields.php:58
+msgid "Field type does not exist"
+msgstr "نوع زمینه وجود ندارد"
+
+#: ../core/views/meta_box_fields.php:74
+msgid "Field Order"
+msgstr "ترتیب زمینه"
+
+#: ../core/views/meta_box_fields.php:75 ../core/views/meta_box_fields.php:127
+msgid "Field Label"
+msgstr "برچسب زمینه"
+
+#: ../core/views/meta_box_fields.php:76 ../core/views/meta_box_fields.php:143
+msgid "Field Name"
+msgstr "نام زمینه"
+
+#: ../core/views/meta_box_fields.php:78
+msgid "Field Key"
+msgstr "کلید زمینه"
+
+#: ../core/views/meta_box_fields.php:90
+msgid ""
+"No fields. Click the <strong>+ Add Field</strong> button to create your "
+"first field."
+msgstr ""
+"هیچ زمینه ای وجود ندارد. روی دکمه<strong>+ افزودن زمینه</strong> کلیک کنید "
+"تا اولین زمینه خود را بسازید."
+
+#: ../core/views/meta_box_fields.php:105 ../core/views/meta_box_fields.php:108
+msgid "Edit this Field"
+msgstr "ویرایش این زمینه"
+
+#: ../core/views/meta_box_fields.php:109
+msgid "Read documentation for this field"
+msgstr "مستندات را برای این زمینه بخوانید"
+
+#: ../core/views/meta_box_fields.php:109
+msgid "Docs"
+msgstr "توضیحات"
+
+#: ../core/views/meta_box_fields.php:110
+msgid "Duplicate this Field"
+msgstr "تکثیر این زمینه"
+
+#: ../core/views/meta_box_fields.php:110
+msgid "Duplicate"
+msgstr "تکثیر"
+
+#: ../core/views/meta_box_fields.php:111
+msgid "Delete this Field"
+msgstr "حذف این زمینه"
+
+#: ../core/views/meta_box_fields.php:111
+msgid "Delete"
+msgstr "حذف"
+
+#: ../core/views/meta_box_fields.php:128
+msgid "This is the name which will appear on the EDIT page"
+msgstr "این نامی است که در صفحه \"ویرایش\" نمایش داده خواهد شد."
+
+#: ../core/views/meta_box_fields.php:144
+msgid "Single word, no spaces. Underscores and dashes allowed"
+msgstr "تک کلمه، بدون فاصله. خط زیرین و خط تیره ها مجازاند"
+
+#: ../core/views/meta_box_fields.php:173
+msgid "Field Instructions"
+msgstr "دستورالعمل های زمینه"
+
+#: ../core/views/meta_box_fields.php:174
+msgid "Instructions for authors. Shown when submitting data"
+msgstr "دستورالعمل هایی برای نویسندگان. هنگام ارسال داده ها نمایش داده می شوند"
+
+#: ../core/views/meta_box_fields.php:187
+msgid "Required?"
+msgstr "لازم است؟"
+
+#: ../core/views/meta_box_fields.php:210
+msgid "Conditional Logic"
+msgstr "منطق شرطی"
+
+#: ../core/views/meta_box_fields.php:261
+#: ../core/views/meta_box_location.php:117
+msgid "is equal to"
+msgstr "برابر شود با"
+
+#: ../core/views/meta_box_fields.php:262
+#: ../core/views/meta_box_location.php:118
+msgid "is not equal to"
+msgstr "برابر نشود با"
+
+#: ../core/views/meta_box_fields.php:280
+msgid "Show this field when"
+msgstr "نمایش این زمینه موقعی که"
+
+#: ../core/views/meta_box_fields.php:286
+msgid "all"
+msgstr "همه"
+
+#: ../core/views/meta_box_fields.php:287
+msgid "any"
+msgstr "هرکدام از"
+
+#: ../core/views/meta_box_fields.php:290
+msgid "these rules are met"
+msgstr "این قوانین تلاقی کردند"
+
+#: ../core/views/meta_box_fields.php:304
+msgid "Close Field"
+msgstr "بستن زمینه"
+
+#: ../core/views/meta_box_fields.php:317
+msgid "Drag and drop to reorder"
+msgstr "با گرفتن و کشیدن مرتب سازی کنید"
+
+#: ../core/views/meta_box_fields.php:318
+msgid "+ Add Field"
+msgstr "+ افزودن زمینه"
+
+#: ../core/views/meta_box_location.php:48
+msgid "Rules"
+msgstr "قوانین"
+
+#: ../core/views/meta_box_location.php:49
+msgid ""
+"Create a set of rules to determine which edit screens will use these "
+"advanced custom fields"
+msgstr ""
+"مجموعه ای از قوانین را بسازید تا مشخص کنید در کدام صفحه ویرایش ، این زمینه "
+"های دلخواه سفارشی نمایش داده شوند."
+
+#: ../core/views/meta_box_location.php:60
+msgid "Show this field group if"
+msgstr "نمایش این گروه زمینه اگر"
+
+#: ../core/views/meta_box_location.php:76
+msgid "Logged in User Type"
+msgstr "نوع کاربر وارد شده"
+
+#: ../core/views/meta_box_location.php:78
+#: ../core/views/meta_box_location.php:79
+msgid "Post"
+msgstr "نوشته"
+
+#: ../core/views/meta_box_location.php:80
+msgid "Post Category"
+msgstr "دسته بندی نوشته"
+
+#: ../core/views/meta_box_location.php:81
+msgid "Post Format"
+msgstr "فرمت نوشته"
+
+#: ../core/views/meta_box_location.php:82
+msgid "Post Status"
+msgstr "وضعیت نوشته"
+
+#: ../core/views/meta_box_location.php:83
+msgid "Post Taxonomy"
+msgstr "طبقه بندی نوشته"
+
+#: ../core/views/meta_box_location.php:85
+#: ../core/views/meta_box_location.php:86
+msgid "Page"
+msgstr "برگه"
+
+#: ../core/views/meta_box_location.php:87
+msgid "Page Type"
+msgstr "نوع برگه"
+
+#: ../core/views/meta_box_location.php:88
+msgid "Page Parent"
+msgstr "برگه مادر"
+
+#: ../core/views/meta_box_location.php:89
+msgid "Page Template"
+msgstr "قالب برگه"
+
+#: ../core/views/meta_box_location.php:92
+msgid "Attachment"
+msgstr "پیوست"
+
+#: ../core/views/meta_box_location.php:93
+msgid "Taxonomy Term"
+msgstr "آیتم طبقه بندی"
+
+#: ../core/views/meta_box_location.php:146
+msgid "and"
+msgstr "و"
+
+#: ../core/views/meta_box_location.php:161
+msgid "Add rule group"
+msgstr "افزودن گروه قانون"
+
+#: ../core/views/meta_box_options.php:25
+msgid "Order No."
+msgstr "شماره ترتیب"
+
+#: ../core/views/meta_box_options.php:26
+msgid "Field groups are created in order <br />from lowest to highest"
+msgstr ""
+"گروه های زمینه به ترتیب از کوچکترین شماره تا بزرگترین شماره نمایش داده می "
+"شوند."
+
+#: ../core/views/meta_box_options.php:42
+msgid "Position"
+msgstr "موقعیت"
+
+#: ../core/views/meta_box_options.php:52
+msgid "High (after title)"
+msgstr "بالا (بعد از عنوان)"
+
+#: ../core/views/meta_box_options.php:53
+msgid "Normal (after content)"
+msgstr "معمولی (بعد از ادیتور متن)"
+
+#: ../core/views/meta_box_options.php:54
+msgid "Side"
+msgstr "کنار"
+
+#: ../core/views/meta_box_options.php:64
+msgid "Style"
+msgstr "شیوه نمایش"
+
+#: ../core/views/meta_box_options.php:74
+msgid "Seamless (no metabox)"
+msgstr "بدون متاباکس"
+
+#: ../core/views/meta_box_options.php:75
+msgid "Standard (WP metabox)"
+msgstr "استاندارد (دارای متاباکس)"
+
+#: ../core/views/meta_box_options.php:84
+msgid "Hide on screen"
+msgstr "مخفی کردن در صفحه"
+
+#: ../core/views/meta_box_options.php:85
+msgid "<b>Select</b> items to <b>hide</b> them from the edit screen"
+msgstr "<b>انتخاب</b> آیتم ها برای <b>پنهان کردن</b> آن ها از صفحه ویرایش."
+
+#: ../core/views/meta_box_options.php:86
+msgid ""
+"If multiple field groups appear on an edit screen, the first field group's "
+"options will be used. (the one with the lowest order number)"
+msgstr ""
+"اگر چندین گروه زمینه در یک صفحه ویرایش نمایش داده شود، اولین تنظیمات گروه "
+"زمینه استفاده خواهد شد. (یکی با کمترین شماره)"
+
+#: ../core/views/meta_box_options.php:96
+msgid "Permalink"
+msgstr "پیوند یکتا"
+
+#: ../core/views/meta_box_options.php:97
+msgid "Content Editor"
+msgstr "ویرایش گر محتوا(ادیتور اصلی)"
+
+#: ../core/views/meta_box_options.php:98
+msgid "Excerpt"
+msgstr "چکیده"
+
+#: ../core/views/meta_box_options.php:100
+msgid "Discussion"
+msgstr "گفتگو"
+
+#: ../core/views/meta_box_options.php:101
+msgid "Comments"
+msgstr "دیدگاه ها"
+
+#: ../core/views/meta_box_options.php:102
+msgid "Revisions"
+msgstr "بازنگری ها"
+
+#: ../core/views/meta_box_options.php:103
+msgid "Slug"
+msgstr "نامک"
+
+#: ../core/views/meta_box_options.php:104
+msgid "Author"
+msgstr "نویسنده"
+
+#: ../core/views/meta_box_options.php:105
+msgid "Format"
+msgstr "فرمت"
+
+#: ../core/views/meta_box_options.php:107
+msgid "Categories"
+msgstr "دسته ها"
+
+#: ../core/views/meta_box_options.php:108
+msgid "Tags"
+msgstr "برچسب ها"
+
+#: ../core/views/meta_box_options.php:109
+msgid "Send Trackbacks"
+msgstr "ارسال بازتاب ها"
+
+#~ msgid "Vote"
+#~ msgstr "رأی دادن"
+
+#~ msgid "Follow"
+#~ msgstr "دنبال کردن"
+
+#~ msgid "What's new"
+#~ msgstr "چه چیزی جدید است؟"
+
+#~ msgid "credits"
+#~ msgstr "اعتبارات"
+
+#~ msgid "Term"
+#~ msgstr "دوره"
+
+#~ msgid "No Metabox"
+#~ msgstr "بدون متاباکس"

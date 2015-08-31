@@ -1,0 +1,260 @@
+# Copyright (C) 2010 
+# This file is distributed under the same license as the  package.
+msgid ""
+msgstr ""
+"Project-Id-Version: CMS tree page view v0.7.18\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/cms-tree-page-view\n"
+"POT-Creation-Date: 2011-03-06 14:33:36+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2011-03-21 04:17+0200\n"
+"Last-Translator: Mihalis Papanousis <greekphotographers@gmail.com>\n"
+"Language-Team: Mihalis Papanousis - http://aenaon.biz <fotonews@aenaon.biz>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"X-Poedit-Language: Greek\n"
+"X-Poedit-Country: GREECE\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+#: functions.php:53
+msgid "Enter title of new page"
+msgstr "Δώστε τον τίτλο της νέας σελίδας"
+
+#: functions.php:54
+msgid "child pages"
+msgstr "θυγατρικές σελίδες"
+
+#: functions.php:55
+#: functions.php:381
+msgid "Edit page"
+msgstr "Επεξεργασία σελίδας"
+
+#: functions.php:56
+#: functions.php:382
+msgid "View page"
+msgstr "Προβολή σελίδας"
+
+#: functions.php:57
+#: functions.php:381
+msgid "Edit"
+msgstr "Επεξεργασία"
+
+#: functions.php:58
+#: functions.php:382
+msgid "View"
+msgstr "Προβολή"
+
+#: functions.php:59
+msgid "Add page"
+msgstr "Προσθήκη σελίδας"
+
+#: functions.php:60
+#: functions.php:386
+msgid "Add new page after"
+msgstr "Προσθήκη σελίδας μετά τη"
+
+#: functions.php:61
+msgid "after"
+msgstr "μετά"
+
+#: functions.php:62
+msgid "inside"
+msgstr "θυγατρική"
+
+#: functions.php:63
+msgid "Sorry, can't create a sub page to a page with status \"draft\"."
+msgstr "Συγνώμη. Δεν επιτρέπεται η προσθήκη θυγατρικής σελίδας σε σελίδα που είναι \"προσχέδιο\"."
+
+#: functions.php:64
+msgid "Sorry, can't create a sub page to a page with status \"trash\"."
+msgstr "Συγνώμη. Δεν επιτρέπεται η προσθήκη θυγατρικής σελίδας σε σελίδα που έχει \"διαγραφή\"."
+
+#: functions.php:65
+msgid "Sorry, can't create a page after a page with status \"trash\"."
+msgstr "Συγνώμη. Δεν επιτρέπεται η προσθήκη σελίδας μετά απο μια σελίδα που έχει \"διαγραφή\"."
+
+#: functions.php:66
+#: functions.php:390
+msgid "Add new page inside"
+msgstr "Προσθήκη θυγατρικής σελίδας"
+
+#: functions.php:67
+msgid "draft"
+msgstr "προσχέδιο"
+
+#: functions.php:68
+msgid "future"
+msgstr "προγραμματισμένη"
+
+#: functions.php:69
+msgid "protected"
+msgstr "προστατευμένη"
+
+#: functions.php:70
+#: functions.php:644
+msgid "pending"
+msgstr "για έλεγχο"
+
+#: functions.php:71
+msgid "private"
+msgstr "προσωπική"
+
+#: functions.php:72
+msgid "trash"
+msgstr "στον κάδο"
+
+#: functions.php:73
+msgid "Password protected page"
+msgstr "Σελίδα προστατευμένη με συνθηματικό "
+
+#: functions.php:74
+msgid "Adding page..."
+msgstr "Πρόσθεση σελίδας..."
+
+#: functions.php:175
+msgid "settings"
+msgstr "ρυθμίσεις"
+
+#: functions.php:180
+msgid "Select where to show a tree for pages and custom post types"
+msgstr "Επιλέξτε που θα θέλατε να εμφανίζεται ένα \"δένδρο\" των σελίδων και των άρθρων ειδικού τύπου"
+
+#: functions.php:204
+msgid "On dashboard"
+msgstr "Στον πίνακα ελέγχου"
+
+#: functions.php:208
+msgid "In menu"
+msgstr "Στο μενού"
+
+#: functions.php:219
+msgid "Save Changes"
+msgstr "Αποθήκευση Αλλαγών"
+
+#: functions.php:335
+msgid "No posts found."
+msgstr "Δεν βρέθηκαν άρθρα."
+
+#: functions.php:341
+msgid "All"
+msgstr "Όλες"
+
+#: functions.php:342
+msgid "Public"
+msgstr "Δημόσιες"
+
+#: functions.php:343
+msgid "Trash"
+msgstr "Στον κάδο"
+
+#: functions.php:348
+msgid "Expand"
+msgstr "Ανάπτυξη"
+
+#: functions.php:349
+msgid "Collapse"
+msgstr "Σύμπτυξη"
+
+#: functions.php:357
+msgid "Clear search"
+msgstr "Εκκαθάριση αναζήτησης"
+
+#: functions.php:358
+msgid "Search"
+msgstr "Αναζήτηση"
+
+#: functions.php:359
+msgid "Searching..."
+msgstr "Αναζήτηση..."
+
+#: functions.php:360
+msgid "Nothing found."
+msgstr "Δεν βρέθεικε τίποτα."
+
+#: functions.php:366
+msgid "Loading..."
+msgstr "Φόρτωση..."
+
+#: functions.php:371
+msgid "Search: no pages found"
+msgstr "Αποτέλεσμα αναζήτησης: δεν βρέθηκαν σελίδες"
+
+#: functions.php:374
+msgid "Loading tree"
+msgstr "Φόρτωση \"δένδρου\""
+
+#: functions.php:386
+msgid "After"
+msgstr "Μετά"
+
+#: functions.php:390
+msgid "Inside"
+msgstr "Θυγατρική"
+
+#: functions.php:394
+msgid "Can not create page inside of a page with draft status"
+msgstr "Δεν είναι δυνατή η δημιουργία θυγατρικής σελίδας μέσα σε γονική που έχει διαγραφεί."
+
+#: functions.php:397
+msgid "Last modified"
+msgstr "Τελευταία τροποποίηση"
+
+#: functions.php:399
+msgid "by"
+msgstr "απο"
+
+#: functions.php:402
+msgid "Page ID"
+msgstr "ID σελίδας"
+
+#: functions.php:609
+msgid "Unknown user"
+msgstr "Άγνωστο μέλος"
+
+#: functions.php:614
+msgid "<Untitled page>"
+msgstr "<Σελίδα χωρίς τίτλο>"
+
+#: functions.php:634
+msgid "Comments"
+msgstr "Σχόλια"
+
+#: functions.php:641
+msgid "%s pending"
+msgstr "%s είναι για έλεγχο"
+
+#: functions.php:651
+msgctxt "comment count"
+msgid "0"
+msgstr "0"
+
+#: functions.php:651
+msgctxt "comment count"
+msgid "1"
+msgstr "1"
+
+#: functions.php:651
+msgctxt "comment count"
+msgid "%"
+msgstr "%"
+
+#: functions.php:682
+msgid "Click to edit. Drag to move."
+msgstr "Κάνετε κλίκ για επεξεργασία. Σύρετε για μετακίνηση."
+
+#: functions.php:833
+msgid "New page"
+msgstr "Νέα σελίδα"
+
+#: functions.php:1015
+msgid "Close"
+msgstr "Κλείσιμο"
+
+#: functions.php:1016
+msgid "<strong>Thank you for using this plugin!</strong> If you need help please check out the <a href=\"http://eskapism.se/code-playground/cms-tree-page-view/?utm_source=wordpress&utm_medium=banner&utm_campaign=promobox\">plugin homepage</a> or the <a href=\"http://wordpress.org/tags/cms-tree-page-view?forum_id=10\">support forum</a>."
+msgstr "<strong>Ευχαριστώ που χρησιμοποιείτε αυτό το πρόσθετο!</strong> Άν χρειάζεστε βοήθεια παρακαλώ πηγαίνετε στην <a href=\"http://eskapism.se/code-playground/cms-tree-page-view/?utm_source=wordpress&utm_medium=banner&utm_campaign=promobox\">σελίδα του προσθέτου</a> ή το <a href=\"http://wordpress.org/tags/cms-tree-page-view?forum_id=10\">φόρουμ υποστήριξης</a>."
+
+#: functions.php:1017
+msgid "If you like this plugin, please <a href=\"http://eskapism.se/sida/donate/?utm_source=wordpress&utm_medium=banner&utm_campaign=promobox\">support my work by donating</a> - or at least say something nice about this plugin in a blog post or tweet."
+msgstr "Αν σας αρέσει αυτό το πρόσθετο, παρακαλώ <a href=\"http://eskapism.se/sida/donate/?utm_source=wordpress&utm_medium=banner&utm_campaign=promobox\">υποστηρίξτε την δουλειά μου κάνοντας κάποια δωρεά</a> - ή τουλάχιστον γράψετε κάτι καλό σχετικά με αυτό σε άρθρο κάποιου blog ή κάντε ένα tweet."
+

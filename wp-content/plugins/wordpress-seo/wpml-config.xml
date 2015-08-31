@@ -1,0 +1,57 @@
+<wpml-config>
+    <custom-fields>
+        <custom-field action="translate">_yoast_wpseo_title</custom-field>
+        <custom-field action="translate">_yoast_wpseo_bctitle</custom-field>
+        <custom-field action="translate">_yoast_wpseo_metadesc</custom-field>
+        <custom-field action="translate">_yoast_wpseo_metakeywords</custom-field>
+        <custom-field action="translate">_yoast_wpseo_focuskw</custom-field>
+        <custom-field action="copy">_yoast_wpseo_meta-robots-noindex</custom-field>
+        <custom-field action="copy">_yoast_wpseo_meta-robots-nofollow</custom-field>
+        <custom-field action="copy">_yoast_wpseo_meta-robots-adv</custom-field>
+        <custom-field action="ignore">_yoast_wpseo_canonical</custom-field>
+        <custom-field action="ignore">_yoast_wpseo_redirect</custom-field>
+        <custom-field action="translate">_yoast_wpseo_opengraph-description</custom-field>
+        <custom-field action="translate">_yoast_wpseo_google-plus-description</custom-field>
+    </custom-fields>
+    <admin-texts>
+        <key name="wpseo_titles">
+            <key name="title-home-wpseo" />
+            <key name="metadesc-home-wpseo" />
+            <key name="metakey-home-wpseo" />
+            <key name="title-post" />
+            <key name="metadesc-post" />
+            <key name="metakey-post" />
+            <key name="title-page" />
+            <key name="metadesc-page" />
+            <key name="metakey-page" />
+            <key name="title-attachment" />
+            <key name="metadesc-attachment" />
+            <key name="metakey-attachment" />
+            <key name="title-category" />
+            <key name="metadesc-category" />
+            <key name="metakey-category" />
+            <key name="title-tax-post_tag" />
+            <key name="metadesc-tax-post_tag" />
+            <key name="metakey-tax-post_tag" />
+            <key name="title-author-wpseo" />
+            <key name="metadesc-author-wpseo" />
+            <key name="metakey-author-wpseo" />
+            <key name="title-archive-wpseo" />
+            <key name="metadesc-archive-wpseo" />
+            <key name="title-search-wpseo" />
+            <key name="title-404-wpseo" />
+        </key>
+        <key name="wpseo_internallinks">
+            <key name="breadcrumbs-sep" />
+            <key name="breadcrumbs-home" />
+            <key name="breadcrumbs-prefix" />
+            <key name="breadcrumbs-archiveprefix" />
+            <key name="breadcrumbs-searchprefix" />
+            <key name="breadcrumbs-404crumb" />
+        </key>
+        <key name="wpseo_rss">
+            <key name="rssbefore" />
+            <key name="rssafter" />
+        </key>
+    </admin-texts>
+</wpml-config>

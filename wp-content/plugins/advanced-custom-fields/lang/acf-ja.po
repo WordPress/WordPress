@@ -1,0 +1,1817 @@
+# Copyright (C) 2012 
+# This file is distributed under the same license as the  package.
+msgid ""
+msgstr ""
+"Project-Id-Version: ACF\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/advanced-custom-fields\n"
+"POT-Creation-Date: 2013-07-09 03:49:07+00:00\n"
+"PO-Revision-Date: 2013-07-26 07:40+0900\n"
+"Last-Translator: Fumito MIZUNO <ounziw@gmail.com>\n"
+"Language-Team: Fumito MIZUNO <ounziw@gmail.com>\n"
+"Language: Japanese\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.5\n"
+
+#: acf.php:325
+msgid "Field&nbsp;Groups"
+msgstr "フィールドグループ"
+
+#: acf.php:326 core/controllers/field_groups.php:214
+msgid "Advanced Custom Fields"
+msgstr "Advanced Custom Fields"
+
+#: acf.php:327
+msgid "Add New"
+msgstr "新規追加"
+
+#: acf.php:328
+msgid "Add New Field Group"
+msgstr "フィールドグループを新規追加"
+
+#: acf.php:329
+msgid "Edit Field Group"
+msgstr "フィールドグループを編集"
+
+#: acf.php:330
+msgid "New Field Group"
+msgstr "新規フィールドグループ"
+
+#: acf.php:331
+msgid "View Field Group"
+msgstr "フィールドグループを表示"
+
+#: acf.php:332
+msgid "Search Field Groups"
+msgstr "フィールドグループを検索"
+
+#: acf.php:333
+msgid "No Field Groups found"
+msgstr "フィールドグループが見つかりません"
+
+#: acf.php:334
+msgid "No Field Groups found in Trash"
+msgstr "ゴミ箱にフィールドグループが見つかりません"
+
+#: acf.php:447 core/views/meta_box_options.php:96
+msgid "Custom Fields"
+msgstr "カスタムフィールド"
+
+#: acf.php:465 acf.php:468
+msgid "Field group updated."
+msgstr "フィールドグループを更新しました"
+
+#: acf.php:466
+msgid "Custom field updated."
+msgstr "カスタムフィールドを更新しました"
+
+#: acf.php:467
+msgid "Custom field deleted."
+msgstr "カスタムフィールドを削除しました"
+
+#. translators: %s: date and time of the revision
+#: acf.php:470
+msgid "Field group restored to revision from %s"
+msgstr "リビジョン %s からフィールドグループを復元しました"
+
+#: acf.php:471
+msgid "Field group published."
+msgstr "フィールドグループを公開しました"
+
+#: acf.php:472
+msgid "Field group saved."
+msgstr "フィールドグループを保存しました"
+
+#: acf.php:473
+msgid "Field group submitted."
+msgstr "フィールドグループを送信しました"
+
+#: acf.php:474
+msgid "Field group scheduled for."
+msgstr "フィールドグループを公開予約しました"
+
+#: acf.php:475
+msgid "Field group draft updated."
+msgstr "フィールドグループ下書きを行進しました"
+
+#: acf.php:610
+msgid "Thumbnail"
+msgstr "サムネイル"
+
+#: acf.php:611
+msgid "Medium"
+msgstr "中"
+
+#: acf.php:612
+msgid "Large"
+msgstr "大"
+
+#: acf.php:613
+msgid "Full"
+msgstr "フルサイズ"
+
+#: core/actions/export.php:23 core/views/meta_box_fields.php:58
+msgid "Error"
+msgstr "エラー"
+
+#: core/actions/export.php:30
+msgid "No ACF groups selected"
+msgstr "ACF グループが選択されていません"
+
+#: core/api.php:1093
+#, fuzzy
+msgid "Update"
+msgstr "ファイルを更新する"
+
+#: core/api.php:1094
+#, fuzzy
+msgid "Post updated"
+msgstr "オプションを更新しました"
+
+#: core/controllers/addons.php:42 core/controllers/field_groups.php:311
+#, fuzzy
+msgid "Add-ons"
+msgstr "アドオンを探す"
+
+#: core/controllers/addons.php:130 core/controllers/field_groups.php:432
+msgid "Repeater Field"
+msgstr "繰り返しフィールド"
+
+#: core/controllers/addons.php:131
+msgid "Create infinite rows of repeatable data with this versatile interface!"
+msgstr "繰り返し挿入可能なフォームを、すてきなインターフェースで作成します。"
+
+#: core/controllers/addons.php:137 core/controllers/field_groups.php:440
+msgid "Gallery Field"
+msgstr "ギャラリーフィールド"
+
+#: core/controllers/addons.php:138
+msgid "Create image galleries in a simple and intuitive interface!"
+msgstr "画像ギャラリーを、シンプルで直感的なインターフェースで作成します。"
+
+#: core/controllers/addons.php:144 core/controllers/export.php:380
+#: core/controllers/field_groups.php:448
+msgid "Options Page"
+msgstr "オプションページ"
+
+#: core/controllers/addons.php:145
+msgid "Create global data to use throughout your website!"
+msgstr "ウェブサイト全体で使用できるグローバルデータを作成します。"
+
+#: core/controllers/addons.php:151
+msgid "Flexible Content Field"
+msgstr "柔軟コンテンツフィールド"
+
+#: core/controllers/addons.php:152
+msgid "Create unique designs with a flexible content layout manager!"
+msgstr "柔軟なコンテンツレイアウト管理により、すてきなデザインを作成します。"
+
+#: core/controllers/addons.php:161
+msgid "Gravity Forms Field"
+msgstr "Gravity Forms フィールド"
+
+#: core/controllers/addons.php:162
+msgid "Creates a select field populated with Gravity Forms!"
+msgstr "Creates a select field populated with Gravity Forms!"
+
+#: core/controllers/addons.php:168
+#, fuzzy
+msgid "Date & Time Picker"
+msgstr "デイトピッカー"
+
+#: core/controllers/addons.php:169
+msgid "jQuery date & time picker"
+msgstr "jQuery デイトタイムピッカー"
+
+#: core/controllers/addons.php:175
+#, fuzzy
+msgid "Location Field"
+msgstr "位置"
+
+#: core/controllers/addons.php:176
+msgid "Find addresses and coordinates of a desired location"
+msgstr "Find addresses and coordinates of a desired location"
+
+#: core/controllers/addons.php:182
+#, fuzzy
+msgid "Contact Form 7 Field"
+msgstr "カスタムフィールド"
+
+#: core/controllers/addons.php:183
+msgid "Assign one or more contact form 7 forms to a post"
+msgstr "Assign one or more contact form 7 forms to a post"
+
+#: core/controllers/addons.php:193
+#, fuzzy
+msgid "Advanced Custom Fields Add-Ons"
+msgstr "Advanced Custom Fields"
+
+#: core/controllers/addons.php:196
+msgid ""
+"The following Add-ons are available to increase the functionality of the "
+"Advanced Custom Fields plugin."
+msgstr ""
+"Advanced Custom Fields プラグインに機能を追加するアドオンが利用できます。"
+
+#: core/controllers/addons.php:197
+msgid ""
+"Each Add-on can be installed as a separate plugin (receives updates) or "
+"included in your theme (does not receive updates)."
+msgstr ""
+"それぞれのアドオンは、個別のプラグインとしてインストールする(管理画面で更新で"
+"きる)か、テーマに含める(管理画面で更新できない)かしてください。"
+
+#: core/controllers/addons.php:219 core/controllers/addons.php:240
+msgid "Installed"
+msgstr "インストール済み"
+
+#: core/controllers/addons.php:221
+msgid "Purchase & Install"
+msgstr "購入してインストールする"
+
+#: core/controllers/addons.php:242 core/controllers/field_groups.php:425
+#: core/controllers/field_groups.php:434 core/controllers/field_groups.php:442
+#: core/controllers/field_groups.php:450 core/controllers/field_groups.php:458
+msgid "Download"
+msgstr "ダウンロードする"
+
+#: core/controllers/export.php:50 core/controllers/export.php:159
+#, fuzzy
+msgid "Export"
+msgstr "XML をエクスポートする"
+
+#: core/controllers/export.php:216
+#, fuzzy
+msgid "Export Field Groups"
+msgstr "フィールドグループをインポートする"
+
+#: core/controllers/export.php:221
+#, fuzzy
+msgid "Field Groups"
+msgstr "新規フィールドグループ"
+
+#: core/controllers/export.php:222
+#, fuzzy
+msgid "Select the field groups to be exported"
+msgstr ""
+"一覧からフィールドグループを選択し、\"XML をエクスポートする\" をクリックして"
+"ください"
+
+#: core/controllers/export.php:239 core/controllers/export.php:252
+#, fuzzy
+msgid "Export to XML"
+msgstr "XML をエクスポートする"
+
+#: core/controllers/export.php:242 core/controllers/export.php:267
+#, fuzzy
+msgid "Export to PHP"
+msgstr "フィールドグループを PHP 形式でエクスポートする"
+
+#: core/controllers/export.php:253
+msgid ""
+"ACF will create a .xml export file which is compatible with the native WP "
+"import plugin."
+msgstr ""
+"ACF は .xml 形式のエクスポートファイルを作成します。WP のインポートプラグイン"
+"と互換性があります。"
+
+#: core/controllers/export.php:254
+msgid ""
+"Imported field groups <b>will</b> appear in the list of editable field "
+"groups. This is useful for migrating fields groups between Wp websites."
+msgstr ""
+"インポートしたフィールドグループは、編集可能なフィールドグループの一覧に表示"
+"されます。WP ウェブサイト間でフィールドグループを移行するのに役立ちます。"
+
+#: core/controllers/export.php:256
+msgid "Select field group(s) from the list and click \"Export XML\""
+msgstr ""
+"一覧からフィールドグループを選択し、\"XML をエクスポートする\" をクリックして"
+"ください"
+
+#: core/controllers/export.php:257
+msgid "Save the .xml file when prompted"
+msgstr "指示に従って .xml ファイルを保存してください"
+
+#: core/controllers/export.php:258
+msgid "Navigate to Tools &raquo; Import and select WordPress"
+msgstr "ツール &raquo; インポートと進み、WordPress を選択してください"
+
+#: core/controllers/export.php:259
+msgid "Install WP import plugin if prompted"
+msgstr ""
+"(インストールを促された場合は) WP インポートプラグインをインストールしてくだ"
+"さい"
+
+#: core/controllers/export.php:260
+msgid "Upload and import your exported .xml file"
+msgstr "エクスポートした .xml ファイルをアップロードし、インポートする"
+
+#: core/controllers/export.php:261
+msgid "Select your user and ignore Import Attachments"
+msgstr "ユーザーを選択するが、Import Attachments を選択しない"
+
+#: core/controllers/export.php:262
+msgid "That's it! Happy WordPressing"
+msgstr "これで OK です。WordPress をお楽しみください"
+
+#: core/controllers/export.php:268
+msgid "ACF will create the PHP code to include in your theme."
+msgstr "ACF は、テーマに含める PHP コードを作成します"
+
+#: core/controllers/export.php:269 core/controllers/export.php:310
+msgid ""
+"Registered field groups <b>will not</b> appear in the list of editable field "
+"groups. This is useful for including fields in themes."
+msgstr ""
+"登録したフィールドグループは、編集可能なフィールドグループの一覧に<b>表示され"
+"ません</b>。テーマにフィールドを含めるときに役立ちます。"
+
+#: core/controllers/export.php:270 core/controllers/export.php:311
+msgid ""
+"Please note that if you export and register field groups within the same WP, "
+"you will see duplicate fields on your edit screens. To fix this, please move "
+"the original field group to the trash or remove the code from your functions."
+"php file."
+msgstr ""
+"同一の WP でフィールドグループをエクスポートして登録する場合は、編集画面で重"
+"複フィールドになることに注意してください。これを修正するには、元のフィールド"
+"グループをゴミ箱へ移動するか、functions.php ファイルからこのコードを除去して"
+"ください。"
+
+#: core/controllers/export.php:272
+msgid "Select field group(s) from the list and click \"Create PHP\""
+msgstr ""
+"一覧からフィールドグループを選択し、\"PHP 形式のデータを作成する\" をクリック"
+"してください。"
+
+#: core/controllers/export.php:273 core/controllers/export.php:302
+msgid "Copy the PHP code generated"
+msgstr "生成された PHP コードをコピーし、"
+
+#: core/controllers/export.php:274 core/controllers/export.php:303
+msgid "Paste into your functions.php file"
+msgstr "functions.php に貼り付けてください"
+
+#: core/controllers/export.php:275 core/controllers/export.php:304
+msgid "To activate any Add-ons, edit and use the code in the first few lines."
+msgstr ""
+"アドオンを有効化するには、最初の何行かのコードを編集して使用してください"
+
+#: core/controllers/export.php:295
+msgid "Export Field Groups to PHP"
+msgstr "フィールドグループを PHP 形式でエクスポートする"
+
+#: core/controllers/export.php:300 core/fields/tab.php:65
+msgid "Instructions"
+msgstr "説明"
+
+#: core/controllers/export.php:309
+msgid "Notes"
+msgstr "注意"
+
+#: core/controllers/export.php:316
+msgid "Include in theme"
+msgstr "テーマに含める"
+
+#: core/controllers/export.php:317
+msgid ""
+"The Advanced Custom Fields plugin can be included within a theme. To do so, "
+"move the ACF plugin inside your theme and add the following code to your "
+"functions.php file:"
+msgstr ""
+"Advanced Custom Fields プラグインは、テーマに含めることができます。プラグイン"
+"をテーマ内に移動し、functions.php に下記コードを追加してください。"
+
+#: core/controllers/export.php:323
+msgid ""
+"To remove all visual interfaces from the ACF plugin, you can use a constant "
+"to enable lite mode. Add the following code to your functions.php file "
+"<b>before</b> the include_once code:"
+msgstr ""
+"Advanced Custom Fields プラグインのビジュアルインターフェースを取り除くには、"
+"定数を利用して「ライトモード」を有効にすることができます。functions.php の "
+"include_once よりも<b>前</b>に下記のコードを追加してください。"
+
+#: core/controllers/export.php:331
+#, fuzzy
+msgid "Back to export"
+msgstr "設定に戻る"
+
+#: core/controllers/export.php:352
+msgid ""
+"/**\n"
+" *  Install Add-ons\n"
+" *  \n"
+" *  The following code will include all 4 premium Add-Ons in your theme.\n"
+" *  Please do not attempt to include a file which does not exist. This will "
+"produce an error.\n"
+" *  \n"
+" *  All fields must be included during the 'acf/register_fields' action.\n"
+" *  Other types of Add-ons (like the options page) can be included outside "
+"of this action.\n"
+" *  \n"
+" *  The following code assumes you have a folder 'add-ons' inside your "
+"theme.\n"
+" *\n"
+" *  IMPORTANT\n"
+" *  Add-ons may be included in a premium theme as outlined in the terms and "
+"conditions.\n"
+" *  However, they are NOT to be included in a premium / free plugin.\n"
+" *  For more information, please read http://www.advancedcustomfields.com/"
+"terms-conditions/\n"
+" */"
+msgstr ""
+"/**\n"
+" *  Install Add-ons\n"
+" *  \n"
+" *  The following code will include all 4 premium Add-Ons in your theme.\n"
+" *  Please do not attempt to include a file which does not exist. This will "
+"produce an error.\n"
+" *  \n"
+" *  All fields must be included during the 'acf/register_fields' action.\n"
+" *  Other types of Add-ons (like the options page) can be included outside "
+"of this action.\n"
+" *  \n"
+" *  The following code assumes you have a folder 'add-ons' inside your "
+"theme.\n"
+" *\n"
+" *  IMPORTANT\n"
+" *  Add-ons may be included in a premium theme as outlined in the terms and "
+"conditions.\n"
+" *  However, they are NOT to be included in a premium / free plugin.\n"
+" *  For more information, please read http://www.advancedcustomfields.com/"
+"terms-conditions/\n"
+" */"
+
+#: core/controllers/export.php:370 core/controllers/field_group.php:366
+#: core/controllers/field_group.php:428 core/controllers/field_groups.php:148
+msgid "Fields"
+msgstr "フィールド"
+
+#: core/controllers/export.php:384
+#, fuzzy
+msgid ""
+"/**\n"
+" *  Register Field Groups\n"
+" *\n"
+" *  The register_field_group function accepts 1 array which holds the "
+"relevant data to register a field group\n"
+" *  You may edit the array as you see fit. However, this may result in "
+"errors if the array is not compatible with ACF\n"
+" */"
+msgstr ""
+"/**\n"
+" * フィールドグループを登録する\n"
+" * register_field_group 関数は、フィールドグループを登録するのに関係するデー"
+"タを持っている一つの配列を受け付けます。\n"
+" * 配列を好きなように編集することができます。しかし、配列が ACF と互換性の無"
+"い場合、エラーになってしまいます。\n"
+" * このコードは、functions.php ファイルを読み込む度に実行する必要がありま"
+"す。\n"
+" */"
+
+#: core/controllers/export.php:435
+msgid "No field groups were selected"
+msgstr "フィールドグループが選択されていません"
+
+#: core/controllers/field_group.php:367
+msgid "Location"
+msgstr "位置"
+
+#: core/controllers/field_group.php:368
+msgid "Options"
+msgstr "オプション"
+
+#: core/controllers/field_group.php:430
+#, fuzzy
+msgid "Show Field Key:"
+msgstr "フィールドキー"
+
+#: core/controllers/field_group.php:431 core/fields/page_link.php:138
+#: core/fields/page_link.php:159 core/fields/post_object.php:328
+#: core/fields/post_object.php:349 core/fields/select.php:224
+#: core/fields/select.php:243 core/fields/taxonomy.php:341
+#: core/fields/user.php:285 core/fields/wysiwyg.php:228
+#: core/views/meta_box_fields.php:207 core/views/meta_box_fields.php:230
+msgid "No"
+msgstr "いいえ"
+
+#: core/controllers/field_group.php:432 core/fields/page_link.php:137
+#: core/fields/page_link.php:158 core/fields/post_object.php:327
+#: core/fields/post_object.php:348 core/fields/select.php:223
+#: core/fields/select.php:242 core/fields/taxonomy.php:340
+#: core/fields/user.php:284 core/fields/wysiwyg.php:227
+#: core/views/meta_box_fields.php:206 core/views/meta_box_fields.php:229
+msgid "Yes"
+msgstr "はい"
+
+#: core/controllers/field_group.php:609
+msgid "Front Page"
+msgstr "フロントページ"
+
+#: core/controllers/field_group.php:610
+msgid "Posts Page"
+msgstr "投稿"
+
+#: core/controllers/field_group.php:611
+msgid "Top Level Page (parent of 0)"
+msgstr "一番上の階層(親がない)"
+
+#: core/controllers/field_group.php:612
+msgid "Parent Page (has children)"
+msgstr "親ページ(子ページを持つ)"
+
+#: core/controllers/field_group.php:613
+#, fuzzy
+msgid "Child Page (has parent)"
+msgstr "子ページ"
+
+#: core/controllers/field_group.php:621
+msgid "Default Template"
+msgstr "デフォルトテンプレート"
+
+#: core/controllers/field_group.php:713 core/controllers/field_group.php:734
+#: core/controllers/field_group.php:741 core/fields/file.php:181
+#: core/fields/image.php:166 core/fields/page_link.php:109
+#: core/fields/post_object.php:274 core/fields/post_object.php:298
+#: core/fields/relationship.php:553 core/fields/relationship.php:577
+#: core/fields/user.php:229
+msgid "All"
+msgstr "全て"
+
+#: core/controllers/field_groups.php:147
+msgid "Title"
+msgstr "タイトル"
+
+#: core/controllers/field_groups.php:216 core/controllers/field_groups.php:257
+msgid "Changelog"
+msgstr "更新履歴"
+
+#: core/controllers/field_groups.php:217
+msgid "See what's new in"
+msgstr "新着情報で見る"
+
+#: core/controllers/field_groups.php:217
+#, fuzzy
+msgid "version"
+msgstr "リビジョン"
+
+#: core/controllers/field_groups.php:219
+msgid "Resources"
+msgstr "リソース"
+
+#: core/controllers/field_groups.php:221
+msgid "Getting Started"
+msgstr "はじめに"
+
+#: core/controllers/field_groups.php:222
+#, fuzzy
+msgid "Field Types"
+msgstr "フィールドタイプ"
+
+#: core/controllers/field_groups.php:223
+#, fuzzy
+msgid "Functions"
+msgstr "説明"
+
+#: core/controllers/field_groups.php:224
+#, fuzzy
+msgid "Actions"
+msgstr "オプション"
+
+#: core/controllers/field_groups.php:225 core/fields/relationship.php:596
+msgid "Filters"
+msgstr "フィルター"
+
+#: core/controllers/field_groups.php:226
+msgid "'How to' guides"
+msgstr "使い方ガイド"
+
+#: core/controllers/field_groups.php:227
+msgid "Tutorials"
+msgstr "チュートリアル"
+
+#: core/controllers/field_groups.php:232
+msgid "Created by"
+msgstr "作成"
+
+#: core/controllers/field_groups.php:235
+msgid "Vote"
+msgstr "投票"
+
+#: core/controllers/field_groups.php:236
+msgid "Follow"
+msgstr "フォロー"
+
+#: core/controllers/field_groups.php:248
+#, fuzzy
+msgid "Welcome to Advanced Custom Fields"
+msgstr "Advanced Custom Fields"
+
+#: core/controllers/field_groups.php:249
+msgid "Thank you for updating to the latest version!"
+msgstr "最新版への更新ありがとうございます。"
+
+#: core/controllers/field_groups.php:249
+msgid "is more polished and enjoyable than ever before. We hope you like it."
+msgstr ""
+"は以前よりも洗練され、より良くなりました。気に入ってもらえると嬉しいです。"
+
+#: core/controllers/field_groups.php:256
+msgid "What’s New"
+msgstr "更新情報"
+
+#: core/controllers/field_groups.php:259
+#, fuzzy
+msgid "Download Add-ons"
+msgstr "アドオンを探す"
+
+#: core/controllers/field_groups.php:313
+msgid "Activation codes have grown into plugins!"
+msgstr "アクティベーションコードから、プラグインに変更されました。"
+
+#: core/controllers/field_groups.php:314
+msgid ""
+"Add-ons are now activated by downloading and installing individual plugins. "
+"Although these plugins will not be hosted on the wordpress.org repository, "
+"each Add-on will continue to receive updates in the usual way."
+msgstr ""
+"アドオンは、個別のプラグインをダウンロードしてインストールしてください。"
+"wordpress.org リポジトリにはありませんが、管理画面でこれらのアドオンの更新を"
+"行う事が出来ます。"
+
+#: core/controllers/field_groups.php:320
+msgid "All previous Add-ons have been successfully installed"
+msgstr "今まで使用していたアドオンがインストールされました。"
+
+#: core/controllers/field_groups.php:324
+msgid "This website uses premium Add-ons which need to be downloaded"
+msgstr ""
+"このウェブサイトではプレミアムアドオンが使用されており、アドオンをダウンロー"
+"ドする必要があります。"
+
+#: core/controllers/field_groups.php:324
+#, fuzzy
+msgid "Download your activated Add-ons"
+msgstr "アドオンを有効化する"
+
+#: core/controllers/field_groups.php:329
+msgid ""
+"This website does not use premium Add-ons and will not be affected by this "
+"change."
+msgstr ""
+"このウェブサイトではプレミアムアドオンを使用しておらず、この変更に影響されま"
+"せん。"
+
+#: core/controllers/field_groups.php:339
+msgid "Easier Development"
+msgstr "開発を容易に"
+
+#: core/controllers/field_groups.php:341
+#, fuzzy
+msgid "New Field Types"
+msgstr "フィールドタイプ"
+
+#: core/controllers/field_groups.php:343
+#, fuzzy
+msgid "Taxonomy Field"
+msgstr "タクソノミー"
+
+#: core/controllers/field_groups.php:344
+#, fuzzy
+msgid "User Field"
+msgstr "フィールドを閉じる"
+
+#: core/controllers/field_groups.php:345
+#, fuzzy
+msgid "Email Field"
+msgstr "ギャラリーフィールド"
+
+#: core/controllers/field_groups.php:346
+#, fuzzy
+msgid "Password Field"
+msgstr "新規フィールド"
+
+#: core/controllers/field_groups.php:348
+#, fuzzy
+msgid "Custom Field Types"
+msgstr "カスタムフィールド"
+
+#: core/controllers/field_groups.php:349
+msgid ""
+"Creating your own field type has never been easier! Unfortunately, version 3 "
+"field types are not compatible with version 4."
+msgstr ""
+"独自のフィールドタイプが簡単に作成できます。残念ですが、バージョン 3 とバー"
+"ジョン 4 には互換性がありません。"
+
+#: core/controllers/field_groups.php:350
+msgid "Migrating your field types is easy, please"
+msgstr "フィールドタイプをマイグレーションするのは簡単です。"
+
+#: core/controllers/field_groups.php:350
+msgid "follow this tutorial"
+msgstr "このチュートリアルに従ってください。"
+
+#: core/controllers/field_groups.php:350
+msgid "to learn more."
+msgstr "詳細を見る"
+
+#: core/controllers/field_groups.php:352
+msgid "Actions &amp; Filters"
+msgstr "アクションとフィルター"
+
+#: core/controllers/field_groups.php:353
+msgid ""
+"All actions & filters have received a major facelift to make customizing ACF "
+"even easier! Please"
+msgstr ""
+"カスタマイズを簡単にするため、すべてのアクションとフィルターを改装しました。"
+
+#: core/controllers/field_groups.php:353
+#, fuzzy
+msgid "read this guide"
+msgstr "このフィールドを編集する"
+
+#: core/controllers/field_groups.php:353
+msgid "to find the updated naming convention."
+msgstr "新しい命名規則をごらんください。"
+
+#: core/controllers/field_groups.php:355
+msgid "Preview draft is now working!"
+msgstr "プレビューが有効になりました。"
+
+#: core/controllers/field_groups.php:356
+msgid "This bug has been squashed along with many other little critters!"
+msgstr "このバグを修正しました。"
+
+#: core/controllers/field_groups.php:356
+msgid "See the full changelog"
+msgstr "全ての更新履歴を見る"
+
+#: core/controllers/field_groups.php:360
+msgid "Important"
+msgstr "重要"
+
+#: core/controllers/field_groups.php:362
+msgid "Database Changes"
+msgstr "データベース更新"
+
+#: core/controllers/field_groups.php:363
+msgid ""
+"Absolutely <strong>no</strong> changes have been made to the database "
+"between versions 3 and 4. This means you can roll back to version 3 without "
+"any issues."
+msgstr ""
+"バージョン 3 と 4 でデータベースの更新はありません。問題が発生した場合、バー"
+"ジョン 3 へのロールバックを行うことができます。"
+
+#: core/controllers/field_groups.php:365
+msgid "Potential Issues"
+msgstr "潜在的な問題"
+
+#: core/controllers/field_groups.php:366
+msgid ""
+"Do to the sizable changes surounding Add-ons, field types and action/"
+"filters, your website may not operate correctly. It is important that you "
+"read the full"
+msgstr ""
+"アドオン、フィールドタイプ、アクション／フィルターに関する変更のため、ウェブ"
+"サイトが正常に動作しない可能性があります。"
+
+#: core/controllers/field_groups.php:366
+msgid "Migrating from v3 to v4"
+msgstr "バージョン 3 から 4 への移行をごらんください。"
+
+#: core/controllers/field_groups.php:366
+msgid "guide to view the full list of changes."
+msgstr "変更の一覧を見ることができます。"
+
+#: core/controllers/field_groups.php:369
+msgid "Really Important!"
+msgstr "非常に重要"
+
+#: core/controllers/field_groups.php:369
+msgid ""
+"If you updated the ACF plugin without prior knowledge of such changes, "
+"please roll back to the latest"
+msgstr "予備知識無しに更新してしまった場合は、"
+
+#: core/controllers/field_groups.php:369
+msgid "version 3"
+msgstr "バージョン 3 "
+
+#: core/controllers/field_groups.php:369
+msgid "of this plugin."
+msgstr "にロールバックしてください。"
+
+#: core/controllers/field_groups.php:374
+msgid "Thank You"
+msgstr "ありがとうございます"
+
+#: core/controllers/field_groups.php:375
+msgid ""
+"A <strong>BIG</strong> thank you to everyone who has helped test the version "
+"4 beta and for all the support I have received."
+msgstr ""
+"バージョン 4 ベータのテストに協力してくださった皆さん、サポートしてくださった"
+"皆さんに感謝します。"
+
+#: core/controllers/field_groups.php:376
+msgid "Without you all, this release would not have been possible!"
+msgstr "皆さんの助けが無ければ、リリースすることはできなかったでしょう。"
+
+#: core/controllers/field_groups.php:380
+#, fuzzy
+msgid "Changelog for"
+msgstr "更新履歴"
+
+#: core/controllers/field_groups.php:396
+msgid "Learn more"
+msgstr "詳細を見る"
+
+#: core/controllers/field_groups.php:402
+msgid "Overview"
+msgstr "概要"
+
+#: core/controllers/field_groups.php:404
+msgid ""
+"Previously, all Add-ons were unlocked via an activation code (purchased from "
+"the ACF Add-ons store). New to v4, all Add-ons act as separate plugins which "
+"need to be individually downloaded, installed and updated."
+msgstr ""
+"今までは、アドオンはアクティベーションコードでロック解除していました。バー"
+"ジョン 4 では、アドオンは個別のプラグインとしてダウンロードしてインストールす"
+"る必要があります。"
+
+#: core/controllers/field_groups.php:406
+msgid ""
+"This page will assist you in downloading and installing each available Add-"
+"on."
+msgstr "このページは、アドオンのダウンロードやインストールを手助けします。"
+
+#: core/controllers/field_groups.php:408
+#, fuzzy
+msgid "Available Add-ons"
+msgstr "アドオンを有効化する"
+
+#: core/controllers/field_groups.php:410
+msgid "The following Add-ons have been detected as activated on this website."
+msgstr "以下のアドオンがこのウェブサイトで有効になっています。"
+
+#: core/controllers/field_groups.php:423
+msgid "Name"
+msgstr "名前"
+
+#: core/controllers/field_groups.php:424
+msgid "Activation Code"
+msgstr "アクティベーションコード"
+
+#: core/controllers/field_groups.php:456
+msgid "Flexible Content"
+msgstr "柔軟コンテンツ"
+
+#: core/controllers/field_groups.php:466
+#, fuzzy
+msgid "Installation"
+msgstr "説明"
+
+#: core/controllers/field_groups.php:468
+msgid "For each Add-on available, please perform the following:"
+msgstr "それぞれのアドオンについて、下記を実行してください。"
+
+#: core/controllers/field_groups.php:470
+msgid "Download the Add-on plugin (.zip file) to your desktop"
+msgstr "アドオン(.zip ファイル)をダウンロードする"
+
+#: core/controllers/field_groups.php:471
+msgid "Navigate to"
+msgstr "管理画面で"
+
+#: core/controllers/field_groups.php:471
+msgid "Plugins > Add New > Upload"
+msgstr "プラグイン > 新規追加 > アップロード"
+
+#: core/controllers/field_groups.php:472
+msgid "Use the uploader to browse, select and install your Add-on (.zip file)"
+msgstr "アドオンのファイルを選択してインストールする"
+
+#: core/controllers/field_groups.php:473
+msgid ""
+"Once the plugin has been uploaded and installed, click the 'Activate Plugin' "
+"link"
+msgstr "アップロードできたら、有効化をクリックする"
+
+#: core/controllers/field_groups.php:474
+msgid "The Add-on is now installed and activated!"
+msgstr "アドオンがインストールされ、有効化されました。"
+
+#: core/controllers/field_groups.php:488
+msgid "Awesome. Let's get to work"
+msgstr "素晴らしい。作業に戻ります。"
+
+#: core/controllers/input.php:510
+msgid "Validation Failed. One or more fields below are required."
+msgstr "検証に失敗しました。下記のフィールドの少なくとも一つが必須です。"
+
+#: core/controllers/upgrade.php:86
+msgid "Upgrade"
+msgstr "更新"
+
+#: core/controllers/upgrade.php:139
+#, fuzzy
+msgid "What's new"
+msgstr "新着情報で見る"
+
+#: core/controllers/upgrade.php:150
+msgid "credits"
+msgstr "クレジット"
+
+#: core/controllers/upgrade.php:684
+msgid "Modifying field group options 'show on page'"
+msgstr "フィールドグループオプション「ページで表示する」を変更"
+
+#: core/controllers/upgrade.php:738
+msgid "Modifying field option 'taxonomy'"
+msgstr "フィールドオプション「タクソノミー」を変更"
+
+#: core/controllers/upgrade.php:835
+msgid "Moving user custom fields from wp_options to wp_usermeta'"
+msgstr "ユーザーのカスタムフィールドを wp_options から wp_usermeta に変更する"
+
+#: core/fields/_base.php:124 core/views/meta_box_location.php:74
+msgid "Basic"
+msgstr "基本"
+
+#: core/fields/checkbox.php:19 core/fields/taxonomy.php:317
+msgid "Checkbox"
+msgstr "チェックボックス"
+
+#: core/fields/checkbox.php:20 core/fields/radio.php:19
+#: core/fields/select.php:19 core/fields/true_false.php:20
+msgid "Choice"
+msgstr "選択肢"
+
+#: core/fields/checkbox.php:137 core/fields/radio.php:144
+#: core/fields/select.php:177
+msgid "Choices"
+msgstr "選択し"
+
+#: core/fields/checkbox.php:138 core/fields/select.php:178
+#, fuzzy
+msgid "Enter each choice on a new line."
+msgstr "選択肢を一行ずつ入力してください"
+
+#: core/fields/checkbox.php:139 core/fields/select.php:179
+msgid "For more control, you may specify both a value and label like this:"
+msgstr "下記のように記述すると、値とラベルの両方を制御することができます。"
+
+#: core/fields/checkbox.php:140 core/fields/radio.php:150
+#: core/fields/select.php:180
+msgid "red : Red"
+msgstr "red : 赤"
+
+#: core/fields/checkbox.php:140 core/fields/radio.php:151
+#: core/fields/select.php:180
+msgid "blue : Blue"
+msgstr "blue : 青"
+
+#: core/fields/checkbox.php:157 core/fields/color_picker.php:73
+#: core/fields/email.php:69 core/fields/number.php:94
+#: core/fields/radio.php:193 core/fields/select.php:197
+#: core/fields/text.php:71 core/fields/textarea.php:71
+#: core/fields/true_false.php:94 core/fields/wysiwyg.php:171
+msgid "Default Value"
+msgstr "デフォルト値"
+
+#: core/fields/checkbox.php:158 core/fields/select.php:198
+msgid "Enter each default value on a new line"
+msgstr "デフォルト値を入力する"
+
+#: core/fields/checkbox.php:174 core/fields/message.php:20
+#: core/fields/radio.php:209 core/fields/tab.php:20
+msgid "Layout"
+msgstr "レイアウト"
+
+#: core/fields/checkbox.php:185 core/fields/radio.php:220
+msgid "Vertical"
+msgstr "垂直"
+
+#: core/fields/checkbox.php:186 core/fields/radio.php:221
+msgid "Horizontal"
+msgstr "水平"
+
+#: core/fields/color_picker.php:19
+msgid "Color Picker"
+msgstr "カラーピッカー"
+
+#: core/fields/color_picker.php:20 core/fields/date_picker/date_picker.php:23
+msgid "jQuery"
+msgstr "jQuery"
+
+#: core/fields/color_picker.php:74
+msgid "eg: #ffffff"
+msgstr "例: #ffffff"
+
+#: core/fields/date_picker/date_picker.php:22
+msgid "Date Picker"
+msgstr "デイトピッカー"
+
+#: core/fields/date_picker/date_picker.php:30
+msgid "Done"
+msgstr "完了"
+
+#: core/fields/date_picker/date_picker.php:31
+msgid "Today"
+msgstr "本日"
+
+#: core/fields/date_picker/date_picker.php:34
+msgid "Show a different month"
+msgstr "別の月を表示する"
+
+#: core/fields/date_picker/date_picker.php:105
+msgid "Save format"
+msgstr "フォーマットを保存する"
+
+#: core/fields/date_picker/date_picker.php:106
+msgid ""
+"This format will determin the value saved to the database and returned via "
+"the API"
+msgstr ""
+"このフォーマットは、値をデータベースに保存し、API で返す形式を決定します"
+
+#: core/fields/date_picker/date_picker.php:107
+msgid "\"yymmdd\" is the most versatile save format. Read more about"
+msgstr "最も良く用いられるフォーマットは \"yymmdd\" です。詳細は"
+
+#: core/fields/date_picker/date_picker.php:107
+#: core/fields/date_picker/date_picker.php:123
+msgid "jQuery date formats"
+msgstr "jQuery 日付フォーマット"
+
+#: core/fields/date_picker/date_picker.php:121
+msgid "Display format"
+msgstr "表示フォーマット"
+
+#: core/fields/date_picker/date_picker.php:122
+msgid "This format will be seen by the user when entering a value"
+msgstr "ユーザーが値を入力するときのフォーマット"
+
+#: core/fields/date_picker/date_picker.php:123
+msgid ""
+"\"dd/mm/yy\" or \"mm/dd/yy\" are the most used display formats. Read more "
+"about"
+msgstr "よく使用されるのは、\"dd/mm/yy\" や \"mm/dd/yy\" です。詳細は"
+
+#: core/fields/date_picker/date_picker.php:137
+msgid "Week Starts On"
+msgstr "週の開始"
+
+#: core/fields/dummy.php:19
+msgid "Dummy"
+msgstr "ダミー"
+
+#: core/fields/email.php:19
+msgid "Email"
+msgstr "メール"
+
+#: core/fields/file.php:19
+msgid "File"
+msgstr "ファイル"
+
+#: core/fields/file.php:20 core/fields/image.php:20 core/fields/wysiwyg.php:20
+#, fuzzy
+msgid "Content"
+msgstr "コンテンツエディタ"
+
+#: core/fields/file.php:26 core/fields/file.php:711
+msgid "Select File"
+msgstr "ファイルを選択する"
+
+#: core/fields/file.php:27
+msgid "Edit File"
+msgstr "ファイルを編集する"
+
+#: core/fields/file.php:28 core/fields/image.php:29
+msgid "uploaded to this post"
+msgstr "この投稿にアップロードされる"
+
+#: core/fields/file.php:118
+msgid "No File Selected"
+msgstr "ファイルが選択されていません"
+
+#: core/fields/file.php:118
+msgid "Add File"
+msgstr "ファイルを追加する"
+
+#: core/fields/file.php:148 core/fields/image.php:117
+#: core/fields/taxonomy.php:365
+msgid "Return Value"
+msgstr "返り値"
+
+#: core/fields/file.php:159
+msgid "File Object"
+msgstr "ファイルオブジェクト"
+
+#: core/fields/file.php:160
+msgid "File URL"
+msgstr "ファイル URL"
+
+#: core/fields/file.php:161
+msgid "File ID"
+msgstr "ファイル ID"
+
+#: core/fields/file.php:170 core/fields/image.php:155
+msgid "Library"
+msgstr "ライブラリ"
+
+#: core/fields/file.php:182 core/fields/image.php:167
+msgid "Uploaded to post"
+msgstr "投稿にアップロードされる"
+
+#: core/fields/file.php:286
+msgid "File Updated."
+msgstr "ファイルを更新しました"
+
+#: core/fields/file.php:379 core/fields/image.php:396
+msgid "Media attachment updated."
+msgstr "メディアアタッチメントを更新しました"
+
+#: core/fields/file.php:537
+msgid "No files selected"
+msgstr "ファイルが選択されていません"
+
+#: core/fields/file.php:678
+msgid "Add Selected Files"
+msgstr "選択されたファイルを追加する"
+
+#: core/fields/file.php:714
+msgid "Update File"
+msgstr "ファイルを更新する"
+
+#: core/fields/image.php:19
+msgid "Image"
+msgstr "画像"
+
+#: core/fields/image.php:27 core/fields/image.php:718
+msgid "Select Image"
+msgstr "画像を選択する"
+
+#: core/fields/image.php:28
+msgid "Edit Image"
+msgstr "画像を編集する"
+
+#: core/fields/image.php:82
+msgid "Remove"
+msgstr "取り除く"
+
+#: core/fields/image.php:83 core/views/meta_box_fields.php:122
+msgid "Edit"
+msgstr "編集"
+
+#: core/fields/image.php:89
+msgid "No image selected"
+msgstr "画像が選択されていません"
+
+#: core/fields/image.php:89
+msgid "Add Image"
+msgstr "画像を追加する"
+
+#: core/fields/image.php:127
+msgid "Image Object"
+msgstr "画像オブジェクト"
+
+#: core/fields/image.php:128
+msgid "Image URL"
+msgstr "画像 URL"
+
+#: core/fields/image.php:129
+msgid "Image ID"
+msgstr "画像 ID"
+
+#: core/fields/image.php:137
+msgid "Preview Size"
+msgstr "プレビューサイズ"
+
+#: core/fields/image.php:305
+msgid "Image Updated."
+msgstr "画像を更新しました"
+
+#: core/fields/image.php:547
+msgid "No images selected"
+msgstr "画像が選択されていません"
+
+#: core/fields/image.php:689
+#, fuzzy
+msgid "Add Selected Images"
+msgstr "選択した画像を追加する"
+
+#: core/fields/image.php:721
+msgid "Update Image"
+msgstr "画像を更新する"
+
+#: core/fields/message.php:19 core/fields/message.php:70
+#: core/fields/true_false.php:79
+msgid "Message"
+msgstr "メッセージ"
+
+#: core/fields/message.php:71
+msgid "Text &amp; HTML entered here will appear inline with the fields"
+msgstr "ここに記述したテキストと HTML がインラインで表示されます。"
+
+#: core/fields/message.php:72
+msgid "Please note that all text will first be passed through the wp function "
+msgstr "テキストを処理する WordPress の関数"
+
+#: core/fields/number.php:19
+msgid "Number"
+msgstr "数値"
+
+#: core/fields/number.php:110
+msgid "Min"
+msgstr "Min"
+
+#: core/fields/number.php:111
+msgid "Specifies the minimum value allowed"
+msgstr "最小値を指定します。"
+
+#: core/fields/number.php:127
+msgid "Max"
+msgstr "Max"
+
+#: core/fields/number.php:128
+msgid "Specifies the maximim value allowed"
+msgstr "最大値を指定します。"
+
+#: core/fields/number.php:144
+msgid "Step"
+msgstr "Step"
+
+#: core/fields/number.php:145
+msgid "Specifies the legal number intervals"
+msgstr "入力値の間隔を指定します。"
+
+#: core/fields/page_link.php:18
+msgid "Page Link"
+msgstr "ページリンク"
+
+#: core/fields/page_link.php:19 core/fields/post_object.php:19
+#: core/fields/relationship.php:19 core/fields/taxonomy.php:19
+#: core/fields/user.php:19
+#, fuzzy
+msgid "Relational"
+msgstr "関連"
+
+#: core/fields/page_link.php:103 core/fields/post_object.php:268
+#: core/fields/relationship.php:547 core/fields/relationship.php:626
+#: core/views/meta_box_location.php:75
+msgid "Post Type"
+msgstr "投稿タイプ"
+
+#: core/fields/page_link.php:127 core/fields/post_object.php:317
+#: core/fields/select.php:214 core/fields/taxonomy.php:331
+#: core/fields/user.php:275
+msgid "Allow Null?"
+msgstr "無を許可するか?"
+
+#: core/fields/page_link.php:148 core/fields/post_object.php:338
+#: core/fields/select.php:233
+msgid "Select multiple values?"
+msgstr "複数の値を選択できるか?"
+
+#: core/fields/password.php:19
+msgid "Password"
+msgstr "パスワード"
+
+#: core/fields/post_object.php:18
+msgid "Post Object"
+msgstr "投稿オブジェクト"
+
+#: core/fields/post_object.php:292 core/fields/relationship.php:571
+msgid "Filter from Taxonomy"
+msgstr "タクソノミーでフィルタする"
+
+#: core/fields/radio.php:18
+msgid "Radio Button"
+msgstr "ラジオボタン"
+
+#: core/fields/radio.php:102 core/views/meta_box_location.php:90
+msgid "Other"
+msgstr "その他"
+
+#: core/fields/radio.php:145
+msgid "Enter your choices one per line"
+msgstr "選択肢を一行ずつ入力してください"
+
+#: core/fields/radio.php:147
+msgid "Red"
+msgstr "赤"
+
+#: core/fields/radio.php:148
+msgid "Blue"
+msgstr "青"
+
+#: core/fields/radio.php:172
+msgid "Add 'other' choice to allow for custom values"
+msgstr "選択肢「その他」を追加する"
+
+#: core/fields/radio.php:184
+msgid "Save 'other' values to the field's choices"
+msgstr "「その他」の値を選択肢に追加する"
+
+#: core/fields/relationship.php:18
+msgid "Relationship"
+msgstr "関連"
+
+#: core/fields/relationship.php:28
+msgid "Maximum values reached ( {max} values )"
+msgstr "最大値( {max} ) に達しました"
+
+#: core/fields/relationship.php:401
+#, fuzzy
+msgid "Search..."
+msgstr "検索"
+
+#: core/fields/relationship.php:414
+msgid "Filter by post type"
+msgstr "投稿タイプでフィルタする"
+
+#: core/fields/relationship.php:605
+msgid "Search"
+msgstr "検索"
+
+#: core/fields/relationship.php:606
+#, fuzzy
+msgid "Post Type Select"
+msgstr "投稿タイプ"
+
+#: core/fields/relationship.php:614
+#, fuzzy
+msgid "Elements"
+msgstr "コメント"
+
+#: core/fields/relationship.php:615
+msgid "Selected elements will be displayed in each result"
+msgstr "選択した要素が表示されます。"
+
+#: core/fields/relationship.php:624 core/views/meta_box_options.php:103
+msgid "Featured Image"
+msgstr "アイキャッチ画像"
+
+#: core/fields/relationship.php:625
+#, fuzzy
+msgid "Post Title"
+msgstr "投稿タイプ"
+
+#: core/fields/relationship.php:637
+msgid "Maximum posts"
+msgstr "最大投稿数"
+
+#: core/fields/select.php:18 core/fields/taxonomy.php:322
+#: core/fields/user.php:266
+msgid "Select"
+msgstr "セレクトボックス"
+
+#: core/fields/tab.php:19
+msgid "Tab"
+msgstr "タブ"
+
+#: core/fields/tab.php:68
+msgid ""
+"All fields proceeding this \"tab field\" (or until another \"tab field\"  is "
+"defined) will appear grouped on the edit screen."
+msgstr "タブフィールドでフィールドを区切り、グループ化して表示します。"
+
+#: core/fields/tab.php:69
+msgid "You can use multiple tabs to break up your fields into sections."
+msgstr "複数のタブを使用することができます。"
+
+#: core/fields/taxonomy.php:18 core/fields/taxonomy.php:276
+msgid "Taxonomy"
+msgstr "タクソノミー"
+
+#: core/fields/taxonomy.php:211 core/fields/taxonomy.php:220
+#: core/fields/text.php:95 core/fields/textarea.php:95
+msgid "None"
+msgstr "無"
+
+#: core/fields/taxonomy.php:306 core/fields/user.php:251
+#: core/views/meta_box_fields.php:91 core/views/meta_box_fields.php:172
+msgid "Field Type"
+msgstr "フィールドタイプ"
+
+#: core/fields/taxonomy.php:316 core/fields/user.php:260
+#, fuzzy
+msgid "Multiple Values"
+msgstr "複数の値を選択できるか?"
+
+#: core/fields/taxonomy.php:318 core/fields/user.php:262
+#, fuzzy
+msgid "Multi Select"
+msgstr "セレクトボックス"
+
+#: core/fields/taxonomy.php:320 core/fields/user.php:264
+msgid "Single Value"
+msgstr "単一値"
+
+#: core/fields/taxonomy.php:321
+#, fuzzy
+msgid "Radio Buttons"
+msgstr "ラジオボタン"
+
+#: core/fields/taxonomy.php:350
+msgid "Load & Save Terms to Post"
+msgstr "タームの読み込み／保存"
+
+#: core/fields/taxonomy.php:358
+msgid ""
+"Load value based on the post's terms and update the post's terms on save"
+msgstr "投稿のタームに基づいて値を読み込み、投稿のタームを更新する"
+
+#: core/fields/taxonomy.php:375
+#, fuzzy
+msgid "Term Object"
+msgstr "ファイルオブジェクト"
+
+#: core/fields/taxonomy.php:376
+msgid "Term ID"
+msgstr "ターム ID"
+
+#: core/fields/text.php:19
+msgid "Text"
+msgstr "テキスト"
+
+#: core/fields/text.php:85 core/fields/textarea.php:85
+msgid "Formatting"
+msgstr "フォーマット"
+
+#: core/fields/text.php:86
+msgid "Define how to render html tags"
+msgstr "html タグの表示を決定する"
+
+#: core/fields/text.php:96 core/fields/textarea.php:97
+msgid "HTML"
+msgstr "HTML"
+
+#: core/fields/textarea.php:19
+msgid "Text Area"
+msgstr "テキストエリア"
+
+#: core/fields/textarea.php:86
+msgid "Define how to render html tags / new lines"
+msgstr "html タグ/新しい行の表示を決定する"
+
+#: core/fields/textarea.php:96
+msgid "auto &lt;br /&gt;"
+msgstr "自動 &lt;br /&gt;"
+
+#: core/fields/true_false.php:19
+msgid "True / False"
+msgstr "真/偽"
+
+#: core/fields/true_false.php:80
+msgid "eg. Show extra content"
+msgstr "例: 追加コンテンツを表示する"
+
+#: core/fields/user.php:18
+msgid "User"
+msgstr "ユーザー"
+
+#: core/fields/user.php:224
+msgid "Filter by role"
+msgstr "ロールでフィルタする"
+
+#: core/fields/wysiwyg.php:19
+msgid "Wysiwyg Editor"
+msgstr "Wysiwyg エディタ"
+
+#: core/fields/wysiwyg.php:185
+msgid "Toolbar"
+msgstr "ツールバー"
+
+#: core/fields/wysiwyg.php:217
+msgid "Show Media Upload Buttons?"
+msgstr "メディアアップロードボタンを表示するか?"
+
+#: core/views/meta_box_fields.php:24
+msgid "New Field"
+msgstr "新規フィールド"
+
+#: core/views/meta_box_fields.php:58
+#, fuzzy
+msgid "Field type does not exist"
+msgstr "エラー: フィールドタイプが存在しません"
+
+#: core/views/meta_box_fields.php:63
+msgid "Move to trash. Are you sure?"
+msgstr "ゴミ箱に移動させようとしています。よろしいですか?"
+
+#: core/views/meta_box_fields.php:64
+msgid "checked"
+msgstr "チェックされています"
+
+#: core/views/meta_box_fields.php:65
+msgid "No toggle fields available"
+msgstr "利用できるトグルフィールドがありません"
+
+#: core/views/meta_box_fields.php:66
+#, fuzzy
+msgid "Field group title is required"
+msgstr "フィールドグループを公開しました"
+
+#: core/views/meta_box_fields.php:67
+msgid "copy"
+msgstr "複製"
+
+#: core/views/meta_box_fields.php:68 core/views/meta_box_location.php:62
+#: core/views/meta_box_location.php:158
+msgid "or"
+msgstr "または"
+
+#: core/views/meta_box_fields.php:88
+msgid "Field Order"
+msgstr "フィールド順序"
+
+#: core/views/meta_box_fields.php:89 core/views/meta_box_fields.php:141
+msgid "Field Label"
+msgstr "フィールドラベル"
+
+#: core/views/meta_box_fields.php:90 core/views/meta_box_fields.php:157
+msgid "Field Name"
+msgstr "フィールド名"
+
+#: core/views/meta_box_fields.php:92
+msgid "Field Key"
+msgstr "フィールドキー"
+
+#: core/views/meta_box_fields.php:104
+msgid ""
+"No fields. Click the <strong>+ Add Field</strong> button to create your "
+"first field."
+msgstr ""
+"フィールドはありません。<strong>+ 新規追加</strong>ボタンをクリックして最初の"
+"フィールドを作成してください"
+
+#: core/views/meta_box_fields.php:119 core/views/meta_box_fields.php:122
+msgid "Edit this Field"
+msgstr "このフィールドを編集する"
+
+#: core/views/meta_box_fields.php:123
+msgid "Read documentation for this field"
+msgstr "このフィールドのドキュメントを読む"
+
+#: core/views/meta_box_fields.php:123
+msgid "Docs"
+msgstr "ドキュメント"
+
+#: core/views/meta_box_fields.php:124
+msgid "Duplicate this Field"
+msgstr "このフィールドを複製する"
+
+#: core/views/meta_box_fields.php:124
+msgid "Duplicate"
+msgstr "複製"
+
+#: core/views/meta_box_fields.php:125
+msgid "Delete this Field"
+msgstr "このフィールドを削除する"
+
+#: core/views/meta_box_fields.php:125
+msgid "Delete"
+msgstr "削除"
+
+#: core/views/meta_box_fields.php:142
+msgid "This is the name which will appear on the EDIT page"
+msgstr "編集ページで表示される名前です"
+
+#: core/views/meta_box_fields.php:158
+msgid "Single word, no spaces. Underscores and dashes allowed"
+msgstr "単一語。スペース無し。アンダースコアとダッシュは使用可能。"
+
+#: core/views/meta_box_fields.php:185
+msgid "Field Instructions"
+msgstr "フィールド記入のヒント"
+
+#: core/views/meta_box_fields.php:186
+msgid "Instructions for authors. Shown when submitting data"
+msgstr "作成者向けヒント。編集時に表示されます"
+
+#: core/views/meta_box_fields.php:198
+msgid "Required?"
+msgstr "必須か?"
+
+#: core/views/meta_box_fields.php:221
+msgid "Conditional Logic"
+msgstr "条件判定"
+
+#: core/views/meta_box_fields.php:272 core/views/meta_box_location.php:116
+msgid "is equal to"
+msgstr "等しい"
+
+#: core/views/meta_box_fields.php:273 core/views/meta_box_location.php:117
+msgid "is not equal to"
+msgstr "等しくない"
+
+#: core/views/meta_box_fields.php:291
+msgid "Show this field when"
+msgstr "表示する条件"
+
+#: core/views/meta_box_fields.php:297
+msgid "all"
+msgstr "全て"
+
+#: core/views/meta_box_fields.php:298
+msgid "any"
+msgstr "任意"
+
+#: core/views/meta_box_fields.php:301
+msgid "these rules are met"
+msgstr "これらの条件を満たす"
+
+#: core/views/meta_box_fields.php:315
+msgid "Close Field"
+msgstr "フィールドを閉じる"
+
+#: core/views/meta_box_fields.php:328
+msgid "Drag and drop to reorder"
+msgstr "ドラッグアンドドロップで並べ替える"
+
+#: core/views/meta_box_fields.php:329
+msgid "+ Add Field"
+msgstr "+ フィールドを追加"
+
+#: core/views/meta_box_location.php:48
+msgid "Rules"
+msgstr "ルール"
+
+#: core/views/meta_box_location.php:49
+msgid ""
+"Create a set of rules to determine which edit screens will use these "
+"advanced custom fields"
+msgstr ""
+"どの編集画面でカスタムフィールドを表示するかを決定するルールを作成します。"
+
+#: core/views/meta_box_location.php:60
+#, fuzzy
+msgid "Show this field group if"
+msgstr "表示する条件"
+
+#: core/views/meta_box_location.php:76
+msgid "Logged in User Type"
+msgstr "ログインしているユーザーのタイプ"
+
+#: core/views/meta_box_location.php:78 core/views/meta_box_location.php:79
+msgid "Page"
+msgstr "ページ"
+
+#: core/views/meta_box_location.php:80
+#, fuzzy
+msgid "Page Type"
+msgstr "投稿タイプ"
+
+#: core/views/meta_box_location.php:81
+#, fuzzy
+msgid "Page Parent"
+msgstr "親"
+
+#: core/views/meta_box_location.php:82
+#, fuzzy
+msgid "Page Template"
+msgstr "テンプレート"
+
+#: core/views/meta_box_location.php:84 core/views/meta_box_location.php:85
+msgid "Post"
+msgstr "投稿"
+
+#: core/views/meta_box_location.php:86
+#, fuzzy
+msgid "Post Category"
+msgstr "カテゴリー"
+
+#: core/views/meta_box_location.php:87
+#, fuzzy
+msgid "Post Format"
+msgstr "フォーマット"
+
+#: core/views/meta_box_location.php:88
+#, fuzzy
+msgid "Post Taxonomy"
+msgstr "タクソノミー"
+
+#: core/views/meta_box_location.php:91
+#, fuzzy
+msgid "Taxonomy Term (Add / Edit)"
+msgstr "タクソノミー(追加/編集)"
+
+#: core/views/meta_box_location.php:92
+msgid "User (Add / Edit)"
+msgstr "ユーザー(追加/編集)"
+
+#: core/views/meta_box_location.php:93
+#, fuzzy
+msgid "Media Attachment (Edit)"
+msgstr "メディアアタッチメントを更新しました"
+
+#: core/views/meta_box_location.php:145
+#, fuzzy
+msgid "and"
+msgstr "任意"
+
+#: core/views/meta_box_location.php:160
+#, fuzzy
+msgid "Add rule group"
+msgstr "フィールドグループを新規追加"
+
+#: core/views/meta_box_options.php:25
+msgid "Order No."
+msgstr "順序番号"
+
+#: core/views/meta_box_options.php:26
+msgid "Field groups are created in order <br />from lowest to highest"
+msgstr "フィールドグループは、<br />低いほうから高いほうへ作成されます"
+
+#: core/views/meta_box_options.php:42
+msgid "Position"
+msgstr "位置"
+
+#: core/views/meta_box_options.php:52
+msgid "Normal"
+msgstr "Normal"
+
+#: core/views/meta_box_options.php:53
+msgid "Side"
+msgstr "Side"
+
+#: core/views/meta_box_options.php:62
+msgid "Style"
+msgstr "Style"
+
+#: core/views/meta_box_options.php:72
+msgid "No Metabox"
+msgstr "メタボックス無"
+
+#: core/views/meta_box_options.php:73
+msgid "Standard Metabox"
+msgstr "標準メタボックス"
+
+#: core/views/meta_box_options.php:82
+msgid "Hide on screen"
+msgstr "画面に表示しない"
+
+#: core/views/meta_box_options.php:83
+msgid "<b>Select</b> items to <b>hide</b> them from the edit screen"
+msgstr "編集画面で<b>表示しない</b>アイテムを<b>選択する</b>"
+
+#: core/views/meta_box_options.php:84
+msgid ""
+"If multiple field groups appear on an edit screen, the first field group's "
+"options will be used. (the one with the lowest order number)"
+msgstr ""
+"編集画面に複数のフィールドグループが表示される場合、最初の(=順序番号の最も低"
+"い)フィールドグループのオプションが使用されます。"
+
+#: core/views/meta_box_options.php:94
+msgid "Content Editor"
+msgstr "コンテンツエディタ"
+
+#: core/views/meta_box_options.php:95
+msgid "Excerpt"
+msgstr "抜粋"
+
+#: core/views/meta_box_options.php:97
+msgid "Discussion"
+msgstr "ディスカッション"
+
+#: core/views/meta_box_options.php:98
+msgid "Comments"
+msgstr "コメント"
+
+#: core/views/meta_box_options.php:99
+msgid "Revisions"
+msgstr "リビジョン"
+
+#: core/views/meta_box_options.php:100
+msgid "Slug"
+msgstr "スラッグ"
+
+#: core/views/meta_box_options.php:101
+msgid "Author"
+msgstr "作成者"
+
+#: core/views/meta_box_options.php:102
+msgid "Format"
+msgstr "フォーマット"
+
+#: core/views/meta_box_options.php:104
+msgid "Categories"
+msgstr "カテゴリー"
+
+#: core/views/meta_box_options.php:105
+msgid "Tags"
+msgstr "タグ"
+
+#: core/views/meta_box_options.php:106
+msgid "Send Trackbacks"
+msgstr "トラックバック"

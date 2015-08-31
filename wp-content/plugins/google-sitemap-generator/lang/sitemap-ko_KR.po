@@ -1,0 +1,703 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2008-04-15 13:17+0900\n"
+"Last-Translator: 김승엽 <unfusion>\n"
+"Language-Team: Wordpress Korea <unfusion95@gmail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Korean\n"
+"X-Poedit-Country: KOREA, REPUBLIC OF\n"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:846
+msgid "Comment Count"
+msgstr "코멘트 갯수"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:858
+msgid "Uses the number of comments of the post to calculate the priority"
+msgstr "포스트의 코멘트 갯수를 이용해 우선순위를 계산합니다."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:918
+msgid "Comment Average"
+msgstr "코멘트 평균"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:930
+msgid "Uses the average comment count to calculate the priority"
+msgstr "코멘트의 평균 갯수를 이용해 우선순위를 계산합니다."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:993
+msgid "Popularity Contest"
+msgstr "Popularity Contest"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:1005
+msgid "Uses the activated <a href=\"%1\">Popularity Contest Plugin</a> from <a href=\"%2\">Alex King</a>. See <a href=\"%3\">Settings</a> and <a href=\"%4\">Most Popular Posts</a>"
+msgstr "활성화 된<a href=\"%2\">Alex King</a>의 <a href=\"%1\">Popularity Contest Plugin</a>을 이용합니다. <a href=\"%3\">설정</a> 과 <a href=\"%4\">Most Popular Posts</a>를 확인하십시오."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2415
+msgid "XML-Sitemap Generator"
+msgstr "XML-사이트 맵 생성기"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2415
+msgid "XML-Sitemap"
+msgstr "XML-사이트 맵"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2600
+msgid "Thank you very much for your donation. You help me to continue support and development of this plugin and other free software!"
+msgstr "기부에 정말 감사드립니다. 제가 이 플러그인이나 다른 무료 프로그램을 계속 작성하고 지원할 수 있도록 도와주십시오!"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2600
+msgid "Hide this notice"
+msgstr "이 주의사항 숨기기."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2657
+#, php-format
+msgid "Thanks for using this plugin! You've installed this plugin over a month ago. If it works and your are satisfied with the results, isn't it worth at least one dollar? <a href=\"%s\">Donations</a> help me to continue support and development of this <i>free</i> software! <a href=\"%s\">Sure, no problem!</a>"
+msgstr "이 플러그인을 사용해 주셔서 감사합니다! 당신이 이 플러그인을 사용한 지 한달이 되었습니다. 만약 이 플러그인의 작동과 결과가 만족스러웠고 1달러 이상의 가치가 있다고 생각하십니까? <a href=\"%s\">기부로</a> 제가 이 <i>무료</i> 소프트웨어의 개발과 지원을 계속하도록 도움을 주십시오! <a href=\"%s\">네, 문제없습니다!</a>"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2657
+msgid "No thanks, please don't bug me anymore!"
+msgstr "사양합니다, 더 이상 귀찮게 하지 말아주십시오."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2635
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2835
+msgid "XML Sitemap Generator for WordPress"
+msgstr "워드프레스 용 XML 사이트 맵 생성기"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2740
+msgid "Configuration updated"
+msgstr "설정이 업데이트 되었습니다"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2741
+msgid "Error while saving options"
+msgstr "옵션을 저장하는 중에 에러가 발생했습니다"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2743
+msgid "Pages saved"
+msgstr "페이지가 저장되었습니다"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2744
+msgid "Error while saving pages"
+msgstr "페이지를 저장하는 중에 에러가 발생했습니다"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2748
+#, php-format
+msgid "<a href=\"%s\">Robots.txt</a> file saved"
+msgstr "<a href=\"%s\">Robots.txt</a> 파일이 저장되었습니다"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2750
+msgid "Error while saving Robots.txt file"
+msgstr "Robots.txt 파일을 저장하는 중에 에러가 발생했습니다"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2758
+msgid "The default configuration was restored."
+msgstr "기본 설정이 복원되었습니다."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2851
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2868
+msgid "open"
+msgstr "열기"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2852
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2869
+msgid "close"
+msgstr "닫기"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2853
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2870
+msgid "click-down and drag to move this box"
+msgstr "이 상자를 움직이려면 클릭하고 드래그 하십시오"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2854
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2871
+msgid "click to %toggle% this box"
+msgstr "클릭하면 이 상자를 %toggle%"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2855
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2872
+msgid "use the arrow keys to move this box"
+msgstr "방향키를 사용해서 이 상자를 이동"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2856
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2873
+msgid ", or press the enter key to %toggle% it"
+msgstr ", 또는 엔터키를 눌러 %toggle%"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2884
+msgid "About this Plugin:"
+msgstr "이 플러그인 대해:"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2886
+msgid "Plugin Homepage"
+msgstr "플러그인 홈페이지"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2887
+msgid "Notify List"
+msgstr "메일 통지 리스트"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2888
+msgid "Support Forum"
+msgstr "서포트 포럼"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2889
+msgid "Donate with PayPal"
+msgstr "PayPal 기부"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2890
+msgid "My Amazon Wish List"
+msgstr "내 Amazon 위시 리스트"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2891
+msgid "translator_name"
+msgstr "번역자 김승엽"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2891
+msgid "translator_url"
+msgstr "http://unfusion.kunsan.ac.kr/word"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2895
+msgid "Sitemap Resources:"
+msgstr "사이트맵 Resources:"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2897
+msgid "Webmaster Tools"
+msgstr "웹마스터 도구"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2898
+msgid "Webmaster Blog"
+msgstr "웹마스터 블로그"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2900
+msgid "Site Explorer"
+msgstr "사이트 익스플로러"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2901
+msgid "Search Blog"
+msgstr "블로그 검색"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2898
+msgid "Webmaster Center Blog"
+msgstr "웹마스터 센터 블로그"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2903
+msgid "Sitemaps Protocol"
+msgstr "사이트 맵 프로토콜"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2904
+msgid "Official Sitemaps FAQ"
+msgstr "사이트 맵 FAQ"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2905
+msgid "My Sitemaps FAQ"
+msgstr "사이트 맵 생성기 FAQ"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2910
+msgid "Recent Donations:"
+msgstr "최근 기부:"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2914
+msgid "List of the donors"
+msgstr "기부자 목록"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2916
+msgid "Hide this list"
+msgstr "목록 숨기기"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2919
+msgid "Thanks for your support!"
+msgstr "당신의 지원에 감사드립니다!"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2931
+msgid "Status"
+msgstr "상태"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2941
+#, php-format
+msgid "The sitemap wasn't built yet. <a href=\"%s\">Click here</a> to build it the first time."
+msgstr "사이트 맵이 아직 만들어지지 않았습니다. <a href=\"%s\">여기를 클릭</a>하면 처음으로 사이트 맵을 생성합니다."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2947
+msgid "Your <a href=\"%url%\">sitemap</a> was last built on <b>%date%</b>."
+msgstr "당신의 <a href=\"%url%\">사이트 맵</a> 은 <b>%date%</b>에 마지막으로 생성되었습니다."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2949
+msgid "There was a problem writing your sitemap file. Make sure the file exists and is writable. <a href=\"%url%\">Learn more</a"
+msgstr "사이트 맵 파일을 작성하는 데 문제가 있습니다. 파일 생성과 쓰기가 가능하도록 해 주십시오. <a href=\"%url%\">정보 더 보기</a>"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2956
+msgid "Your sitemap (<a href=\"%url%\">zipped</a>) was last built on <b>%date%</b>."
+msgstr "당신의 사이트 맵(<a href=\"%url%\">압축됨</a>)은 <b>%date%</b>에 마지막으로 생성되었습니다."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2958
+msgid "There was a problem writing your zipped sitemap file. Make sure the file exists and is writable. <a href=\"%url%\">Learn more</a"
+msgstr "압축된 사이트 맵 파일을 작성하는 데 문제가 있습니다. 파일 생성과 쓰기가 가능하도록 해 주십시오. <a href=\"%url%\">정보 더 보기</a>"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2964
+msgid "Google was <b>successfully notified</b> about changes."
+msgstr "Google에 변경사항을 <b>성공적으로</b> 통보하였습니다."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2967
+msgid "It took %time% seconds to notify Google, maybe you want to disable this feature to reduce the building time."
+msgstr "Google에 통보하는데 %time% 초가 걸렸습니다. 만약 이 기능을 사용하지 않으면 사이트 맵 작성시간을 줄일 수 있습니다."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3011
+#, php-format
+msgid "There was a problem while notifying Google. <a href=\"%s\">View result</a>"
+msgstr "Google에 통보하는 동안 문제가 발생했습니다. <a href=\"%s\">결과 보기</a>"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2976
+msgid "YAHOO was <b>successfully notified</b> about changes."
+msgstr "YAHOO에 변경사항을 <b>성공적으로</b> 통보하였습니다."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2979
+msgid "It took %time% seconds to notify YAHOO, maybe you want to disable this feature to reduce the building time."
+msgstr "YAHOO에 통보하는데 %time% 초가 걸렸습니다. 만약 이 기능을 사용하지 않으면 사이트 맵 작성시간을 줄일 수 있습니다."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3023
+#, php-format
+msgid "There was a problem while notifying YAHOO. <a href=\"%s\">View result</a>"
+msgstr "YAHOO에 통보하는 동안 문제가 발생했습니다. <a href=\"%s\">결과 보기</a>"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2976
+msgid "MSN was <b>successfully notified</b> about changes."
+msgstr "MSN에 변경사항을 <b>성공적으로</b> 통보하였습니다."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2991
+msgid "It took %time% seconds to notify MSN.com, maybe you want to disable this feature to reduce the building time."
+msgstr "MSN.com에 통보하는데 %time% 초가 걸렸습니다. 만약 이 기능을 사용하지 않으면 사이트 맵 작성시간을 줄일 수 있습니다."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3035
+#, php-format
+msgid "There was a problem while notifying MSN.com. <a href=\"%s\">View result</a>"
+msgstr "MSN.com에 통보하는 동안 문제가 발생했습니다. <a href=\"%s\">결과 보기</a>"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2988
+msgid "Ask.com was <b>successfully notified</b> about changes."
+msgstr "Ask.com에 변경사항을 <b>성공적으로</b> 통보하였습니다."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2991
+msgid "It took %time% seconds to notify Ask.com, maybe you want to disable this feature to reduce the building time."
+msgstr "Ask.com에 통보하는데 %time% 초가 걸렸습니다. 만약 이 기능을 사용하지 않으면 사이트 맵 작성시간을 줄일 수 있습니다."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3035
+#, php-format
+msgid "There was a problem while notifying Ask.com. <a href=\"%s\">View result</a>"
+msgstr "Ask.com에 통보하는 동안 문제가 발생했습니다. <a href=\"%s\">결과 보기</a>"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3002
+msgid "The building process took about <b>%time% seconds</b> to complete and used %memory% MB of memory."
+msgstr "작성 과정을 완료하는데 약 <b>%time% 초</b>가 걸렸고, %memory% MB 의 메모리가 사용 되었습니다."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3004
+msgid "The building process took about <b>%time% seconds</b> to complete."
+msgstr "작성 과정을 완료하는데 <b>%time% 초</b>가 걸렸습니다. "
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3008
+msgid "The content of your sitemap <strong>didn't change</strong> since the last time so the files were not written and no search engine was pinged."
+msgstr "The content of your sitemap <strong>didn't change</strong> since the last time so the files were not written and no search engine was pinged."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3012
+msgid "The last run didn't finish! Maybe you can raise the memory or time limit for PHP scripts. <a href=\"%url%\">Learn more</a>"
+msgstr "마지막 실행이 완료되지 않았습니다! PHP 스크립트의 시간제한이나 메모리 한계를 올려 보시기 바랍니다. <a href=\"%url%\">정보 더 보기</a>"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3014
+msgid "The last known memory usage of the script was %memused%MB, the limit of your server is %memlimit%."
+msgstr "최근에 스크립트가 사용한 메모리는 %memused%MB 이며, 서버의 메모리 한계는 %memlimit%입니다."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3018
+msgid "The last known execution time of the script was %timeused% seconds, the limit of your server is %timelimit% seconds."
+msgstr "최근에 스트립트가 실행하면서 걸린 시간은 %timeused%초 이고, 서버의 제한시간은 %timelimit%초 입니다."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3022
+msgid "The script stopped around post number %lastpost% (+/- 100)"
+msgstr "스크립트가 포스트 넘버 %lastpost% (+/- 100) 부근에서 멈추었습니다"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3025
+#, php-format
+msgid "If you changed something on your server or blog, you should <a href=\"%s\">rebuild the sitemap</a> manually."
+msgstr "만약 서버 또는 블로그에 변경사항이 있다면 수동으로 <a href=\"%s\">사이트 맵을 재작성</a>해야 합니다."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3027
+#, php-format
+msgid "If you encounter any problems with the build process you can use the <a href=\"%d\">debug function</a> to get more information."
+msgstr "만약 작성 과정에 어떠한 문제가 발생한다면 <a href=\"%d\">디버그 기능</a>을 이용하여 더 많은 정보를 얻을 수 있습니다."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3040
+msgid "Basic Options"
+msgstr "기본 옵션"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3044
+msgid "Sitemap files:"
+msgstr "사이트 맵 파일:"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3044
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3059
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3079
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3104
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3121
+msgid "Learn more"
+msgstr "정보 더 보기"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3049
+msgid "Write a normal XML file (your filename)"
+msgstr "표준 XML 파일 작성 ( 사용자 파일이름 )"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3055
+msgid "Write a gzipped file (your filename + .gz)"
+msgstr "압축 파일 작성 ( 사용자 파일이름 + .gz)"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3059
+msgid "Building mode:"
+msgstr "작성 모드:"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3064
+msgid "Rebuild sitemap if you change the content of your blog"
+msgstr "블로그의 내용이 변경되었을 때 사이트 맵을 재작성함"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3071
+msgid "Enable manual sitemap building via GET Request"
+msgstr "GET Request를 통해 수동 사이트 맵 작성이 가능토록 함"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3075
+msgid "This will allow you to refresh your sitemap if an external tool wrote into the WordPress database without using the WordPress API. Use the following URL to start the process: <a href=\"%1\">%1</a> Please check the logfile above to see if sitemap was successfully built."
+msgstr "이 항목은 워드프레스 API를 사용하지 않고 워드프레스 데이타 베이스에 내용을 작성하는 외부 프로그램이 있을 때 사이트 맵을 재생성할 수 있도록 해줍니다. 다음의 링크를 따라 가면 처리과정을 시작할 수 있습니다.: <a href=\"%1\">%1</a> 사이트 맵을 성공적으로 작성했는지 확인하려면 위의 로그파일을 확인하시기 바랍니다."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3079
+msgid "Update notification:"
+msgstr "업데이트 통지:"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3083
+msgid "Notify Google about updates of your Blog"
+msgstr "블로그의 업데이트를 Google에 통보"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3084
+#, php-format
+msgid "No registration required, but you can join the <a href=\"%s\">Google Webmaster Tools</a> to check crawling statistics."
+msgstr "등록이 필요하진 않지만, <a href=\"%s\">구글 웹마스터 툴</a> 에 가입하면 수집 통계를 확인할 수 있습니다."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3083
+msgid "Notify MSN Live Search about updates of your Blog"
+msgstr "블로그의 업데이트를 MSN Live에 통보"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3084
+#, php-format
+msgid "No registration required, but you can join the <a href=\"%s\">MSN Live Webmaster Tools</a> to check crawling statistics."
+msgstr "등록이 필요하진 않지만, <a href=\"%s\">MSN Live 웹마스터 툴</a> 에 가입하면 수집 통계를 확인할 수 있습니다."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3088
+msgid "Notify Ask.com about updates of your Blog"
+msgstr "블로그의 업데이트를 Ask.com에 통보"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3089
+msgid "No registration required."
+msgstr "등록 필요 없음."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3093
+msgid "Notify YAHOO about updates of your Blog"
+msgstr "블로그의 업데이트를 YAHOO에 통보"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3154
+msgid "Your Application ID:"
+msgstr "당신의 Application ID:"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3155
+#, php-format
+msgid "Don't you have such a key? <a href=\"%s1\">Request one here</a>!</a> %s2"
+msgstr "Key를 가지고 있지 않나요? <a href=\"%s1\">여기서 신청하세요</a>!</a> %s2"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3099
+#, php-format
+msgid "Modify or create %s file in blog root which contains the sitemap location."
+msgstr "사이트 맵 위치를 포함하고 있는 블로그 루트의 %s 파일을 생성 또는 변경합니다."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3102
+msgid "File permissions: "
+msgstr "파일 권한:"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3107
+msgid "OK, robots.txt is writable."
+msgstr "OK, robox.txt가 쓰기 가능한 상태입니다."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3109
+msgid "Error, robots.txt is not writable."
+msgstr "Error, robots.txt가 쓰기 불가능한 상태입니다."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3113
+msgid "OK, robots.txt doesn't exist but the directory is writable."
+msgstr "OK, robots.txt 파일은 존재하지 않지만 디렉토리가 쓰기 가능한 상태입니다."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3115
+msgid "Error, robots.txt doesn't exist and the directory is not writable"
+msgstr "Error, robots.txt 가 존재하지 않으며 디렉토리도 쓰기 불가능한 상태입니다."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3121
+msgid "Advanced options:"
+msgstr "고급 옵션:"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3124
+msgid "Limit the number of posts in the sitemap:"
+msgstr "사이트 맵에 포함될 포스트의 갯수를 제한함:"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3124
+msgid "Newer posts will be included first"
+msgstr "최근 포스트가 먼저 포함됩니다."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3127
+msgid "Try to increase the memory limit to:"
+msgstr "메모리 한계를 증가시킴:"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3127
+msgid "e.g. \"4M\", \"16M\""
+msgstr "예. \"4M\", \"16M\""
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3130
+msgid "Try to increase the execution time limit to:"
+msgstr "실행 시간 제한을 증가시키도록함:"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3130
+msgid "in seconds, e.g. \"60\" or \"0\" for unlimited"
+msgstr "초 단위로 기입, 예.\"60\" 또는 \"0\" (제한 없음)"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3133
+msgid "Include a XSLT stylesheet:"
+msgstr "XSLT 스타일시트를 포함:"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3133
+msgid "Use Default"
+msgstr "기본설정 사용"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3133
+msgid "Full or relative URL to your .xsl file"
+msgstr ".xsl 파일의 전체 또는 상대 주소"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3152
+msgid "Enable MySQL standard mode. Use this only if you're getting MySQL errors. (Needs much more memory!)"
+msgstr "MySQL 스탠다드 모드를 가능하게 함. MySQL 에러가 발생할 때만 사용하십시오. (더 많은 메모리가 필요함!)"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3166
+msgid "Build the sitemap in a background process (You don't have to wait when you save a post)"
+msgstr "백그라운드 작업으로 사이트 맵을 생성 (포스트를 저장할 때 기다리지 않아도 됩니다.)"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3206
+msgid "Exclude the following posts or pages:"
+msgstr "다음의 포스트나 페이지를 제외:"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3206
+msgid "List of IDs, separated by comma"
+msgstr "콤마로 구분된 ID 리스트"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3144
+msgid "Additional pages"
+msgstr "페이지 추가"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3149
+msgid "Here you can specify files or URLs which should be included in the sitemap, but do not belong to your Blog/WordPress.<br />For example, if your domain is www.foo.com and your blog is located on www.foo.com/blog you might want to include your homepage at www.foo.com"
+msgstr "여기서 특정 파일이나 URL을 사이트 맵에 추가할 수 있지만 Blog/WordPress에 속해 있는 것은 추가 할 수 없습니다. <br /> 예를 들어, 도메인이 www.foo.com이고 블로그의 위치가 www.foo.com/blog 라면 www.foo.com을 홈페이지로 추가할 수 있습니다."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3151
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3462
+msgid "Note"
+msgstr "주의"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3152
+msgid "If your blog is in a subdirectory and you want to add pages which are NOT in the blog directory or beneath, you MUST place your sitemap file in the root directory (Look at the &quot;Location of your sitemap file&quot; section on this page)!"
+msgstr "블로그가 서브 디렉토리에 위치하는데 새 페이지를 추가하길 원한다면 사이트 맵 파일이 블로그 디렉토리나 그 아래에 있으면 안되고 root 디렉토리에 있어야 합니다. (이 페이지의 &quot;사이트 맵 파일의 위치&quot; 부분을 보십시오.)"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3154
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3300
+msgid "URL to the page"
+msgstr "페이지의 주소"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3155
+msgid "Enter the URL to the page. Examples: http://www.foo.com/index.html or www.foo.com/home "
+msgstr "페이지의 주소를 입력하십시오.예:http://www.foo.com/index.html or www.foo.com/home"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3157
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3301
+msgid "Priority"
+msgstr "우선순위"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3158
+msgid "Choose the priority of the page relative to the other pages. For example, your homepage might have a higher priority than your imprint."
+msgstr "다른 페이지에 비교하여 페이지의 우선 순위를 선택하십시오. 예를 들어 홈페이지는 다른 것에 비해 높은 우선 순위를 가져야 합니다."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3160
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3303
+msgid "Last Changed"
+msgstr "마지막 변경"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3161
+msgid "Enter the date of the last change as YYYY-MM-DD (2005-12-31 for example) (optional)."
+msgstr "최근 변경된 날짜를 YYYY-MM-DD (예 : 2005-12-31 ) 형식으로 입력하십시오 ( 선택사항 )"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3302
+msgid "Change Frequency"
+msgstr "변경 빈도"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3304
+msgid "#"
+msgstr "#"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3309
+msgid "No pages defined."
+msgstr "페이지가 지정되지 않았습니다."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3314
+msgid "Add new page"
+msgstr "새 페이지 추가"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3325
+msgid "Post Priority"
+msgstr "포스트 우선순위"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3329
+msgid "Please select how the priority of each post should be calculated:"
+msgstr "각 포스트의 우선순위를 어떻게 계산할 것인지 선택해 주십시오:"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3331
+msgid "Do not use automatic priority calculation"
+msgstr "자동 우선순위 계산을 사용하지 않음"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3331
+msgid "All posts will have the same priority which is defined in &quot;Priorities&quot;"
+msgstr "모든 포스트가 &quot;우선권&quot;에서 설정된 우선순위를 같게 됩니다."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3348
+msgid "Location of your sitemap file"
+msgstr "사이트 맵 파일의 위치"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3353
+msgid "Automatic detection"
+msgstr "자동 탐지"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3357
+msgid "Filename of the sitemap file"
+msgstr "사이트 맵 파일의 이름"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3360
+msgid "Detected Path"
+msgstr "탐지된 경로"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3360
+msgid "Detected URL"
+msgstr "탐지된 주소"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3365
+msgid "Custom location"
+msgstr "커스텀 로케이션"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3369
+msgid "Absolute or relative path to the sitemap file, including name."
+msgstr "파일이름을 포함한 사이트 맵 파일의 절대 또는 상대 경로"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3371
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3380
+msgid "Example"
+msgstr "예제"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3378
+msgid "Complete URL to the sitemap file, including name."
+msgstr "파일이름을 포함한 사이트 맵 파일의 완전한 주소."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3397
+msgid "Sitemap Content"
+msgstr "사이트 맵 내용"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3405
+msgid "Include homepage"
+msgstr "홈페이지 추가"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3411
+msgid "Include posts"
+msgstr "포스트 추가"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3417
+msgid "Include static pages"
+msgstr "정적 페이지 추가"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3423
+msgid "Include categories"
+msgstr "카테고리 추가"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3429
+msgid "Include archives"
+msgstr "아카이브 추가"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3436
+msgid "Include tag pages"
+msgstr "태크 페이지 추가"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3443
+msgid "Include author pages"
+msgstr "작성자 페이지 추가"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3457
+msgid "Change frequencies"
+msgstr "수집 빈도 변경"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3463
+msgid "Please note that the value of this tag is considered a hint and not a command. Even though search engine crawlers consider this information when making decisions, they may crawl pages marked \"hourly\" less frequently than that, and they may crawl pages marked \"yearly\" more frequently than that. It is also likely that crawlers will periodically crawl pages marked \"never\" so that they can handle unexpected changes to those pages."
+msgstr "각 태그에 있는 수치들은 고려할 수 있는 사항일 뿐 절대적인 명령은 아닙니다. 서치 엔진의 Crawler가 아래의 정보를 수집 결정을 내릴 때 고려한다고 해도 \"매시간\" 으로 된 페이지를 더 긴 주기로 수집할 수도 있고 \"매년\" 으로 된 페이지를 더 짧은 주기로 수집할 수도 있습니다. 이것은 \"하지않음\"으로 된 페이지도 마찬가지로 주기적 수집을 할 수도 있어서 그러한 페이지에 발생한 변화를 예기치 않게 수집할 수도 있습니다."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3469
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3535
+msgid "Homepage"
+msgstr "홈페이지"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3475
+msgid "Posts"
+msgstr "포스트들"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3481
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3553
+msgid "Static pages"
+msgstr "정적 페이지들"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3487
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3559
+msgid "Categories"
+msgstr "카테고리들"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3493
+msgid "The current archive of this month (Should be the same like your homepage)"
+msgstr "이번 달의 아카이브 ( 홈페이지와 같아야 합니다.)"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3499
+msgid "Older archives (Changes only if you edit an old post)"
+msgstr "오래된 아카이브 ( 예전 포스트를 수정했을 때만 변경 하십시오.)"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3506
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3572
+msgid "Tag pages"
+msgstr "태그 페이지들"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3513
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3579
+msgid "Author pages"
+msgstr "작성자 페이지들"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3527
+msgid "Priorities"
+msgstr "우선권"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3541
+msgid "Posts (If auto calculation is disabled)"
+msgstr "포스트 ( 만약 자동 계산이 중지 되었을 경우 )"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3547
+msgid "Minimum post priority (Even if auto calculation is enabled)"
+msgstr "최소 포스트 우선권 (만약 자동 계산이 활성화 되어있을 때도)"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3565
+msgid "Archives"
+msgstr "아카이브"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3590
+msgid "Update options"
+msgstr "옵션 업데이트"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3591
+msgid "Reset options"
+msgstr "옵션 초기화"
+

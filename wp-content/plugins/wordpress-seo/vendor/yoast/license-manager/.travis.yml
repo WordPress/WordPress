@@ -1,0 +1,54 @@
+language: php
+
+php: '5.5'
+
+sudo: false
+
+env:
+  - WP_VERSION=master WP_MULTISITE=0 PHPLINT=1
+
+matrix:
+  include:
+    - php: '5.5'
+      env: WP_VERSION=4.0 WP_MULTISITE=1
+    - php: '5.4'
+      env: WP_VERSION=4.0 WP_MULTISITE=0
+    - php: '5.4'
+      env: WP_VERSION=4.0 WP_MULTISITE=1
+    - php: '5.5'
+      env: WP_VERSION=4.0 WP_MULTISITE=0
+    - php: '5.5'
+      env: WP_VERSION=3.9 WP_MULTISITE=1
+    - php: '5.3'
+      env: WP_VERSION=3.9 WP_MULTISITE=0
+    - php: '5.2'
+      env: WP_VERSION=master WP_MULTISITE=1 PHPLINT=1
+
+before_script:
+  - phpenv local 5.6
+  - composer selfupdate --no-interaction
+  - composer install --no-interaction
+  - phpenv local --unset
+  - PLUGIN_SLUG=$(basename $(pwd))
+  - export WP_DEVELOP_DIR=/tmp/wordpress/
+  - git clone --depth=50 --branch="$WP_VERSION" git://develop.git.wordpress.org/ /tmp/wordpress
+  - cd ..
+  - cp -r "$PLUGIN_SLUG" "/tmp/wordpress/src/wp-content/plugins/$PLUGIN_SLUG"
+  - cd /tmp/wordpress/
+  - cp wp-tests-config-sample.php wp-tests-config.php
+  - sed -i "s/youremptytestdbnamehere/wordpress_tests/" wp-tests-config.php
+  - sed -i "s/yourusernamehere/travis/" wp-tests-config.php
+  - sed -i "s/yourpasswordhere//" wp-tests-config.php
+  - mysql -e "CREATE DATABASE wordpress_tests;" -uroot
+  - git clone https://github.com/squizlabs/PHP_CodeSniffer.git phpcs
+  - git clone https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards.git
+    wpcs
+  - cd phpcs
+  - scripts/phpcs --config-set installed_paths ../wpcs
+  - cd "/tmp/wordpress/src/wp-content/plugins/$PLUGIN_SLUG"
+  - phpenv rehash
+
+script:
+  - if [[ "$PHPLINT" == "1" ]]; then find -L .  -path ./vendor -prune -o -name '*.php' -print0 | xargs -0 -n 1 -P 4 php -l; fi
+  - if [[ "$PHPLINT" == "1" ]]; then /tmp/wordpress/phpcs/scripts/phpcs -p -s -v -n . --standard=./codesniffer.xml --extensions=php; fi
+  - phpunit -c phpunit.xml

@@ -1,0 +1,1961 @@
+# Copyright (C) 2013 
+# This file is distributed under the same license as the  package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Advanced Custom Fields\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/advanced-custom-fields\n"
+"POT-Creation-Date: 2013-12-03 04:25:56+00:00\n"
+"PO-Revision-Date: 2014-01-05 15:33+0100\n"
+"Last-Translator: Alex Torscho <contact@alextorscho.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: ru_RU\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.6.3\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SearchPath-0: ./acf.pot\n"
+
+#: acf.php:437
+msgid "Field&nbsp;Groups"
+msgstr "Группы&nbsp;полей"
+
+#: acf.php:438 core/controllers/field_groups.php:214
+msgid "Advanced Custom Fields"
+msgstr "Расширенные произвольные поля"
+
+#: acf.php:439
+msgid "Add New"
+msgstr "Добавить новую"
+
+#: acf.php:440
+msgid "Add New Field Group"
+msgstr "Добавить новую группу полей"
+
+#: acf.php:441
+msgid "Edit Field Group"
+msgstr "Редактировать группу полей"
+
+#: acf.php:442
+msgid "New Field Group"
+msgstr "Новая группа полей"
+
+#: acf.php:443
+msgid "View Field Group"
+msgstr "Просмотреть группу полей"
+
+#: acf.php:444
+msgid "Search Field Groups"
+msgstr "Поиск групп полей"
+
+#: acf.php:445
+msgid "No Field Groups found"
+msgstr "Группы полей не найдены"
+
+#: acf.php:446
+msgid "No Field Groups found in Trash"
+msgstr "Группы полей не найдены в корзине"
+
+#: acf.php:549 core/views/meta_box_options.php:99
+msgid "Custom Fields"
+msgstr "Произвольные поля"
+
+#: acf.php:567 acf.php:570
+msgid "Field group updated."
+msgstr "Группа полей обновлена."
+
+#: acf.php:568
+msgid "Custom field updated."
+msgstr "Произвольное поле обновлено."
+
+#: acf.php:569
+msgid "Custom field deleted."
+msgstr "Произвольное поле удалено."
+
+#. translators: %s: date and time of the revision
+#: acf.php:572
+msgid "Field group restored to revision from %s"
+msgstr "Группа полей восстановлена из редакции %s"
+
+#: acf.php:573
+msgid "Field group published."
+msgstr "Группа полей опубликована."
+
+#: acf.php:574
+msgid "Field group saved."
+msgstr "Группа полей сохранена."
+
+#: acf.php:575
+msgid "Field group submitted."
+msgstr "Группа полей отправлена."
+
+#: acf.php:576
+msgid "Field group scheduled for."
+msgstr "Группа полей запланирована."
+
+#: acf.php:577
+msgid "Field group draft updated."
+msgstr "Черновик группы полей обновлен."
+
+#: acf.php:712
+msgid "Thumbnail"
+msgstr "Миниатюра"
+
+#: acf.php:713
+msgid "Medium"
+msgstr "Средний"
+
+#: acf.php:714
+msgid "Large"
+msgstr "Большой"
+
+#: acf.php:715
+msgid "Full"
+msgstr "Полный"
+
+#: core/actions/export.php:26 core/views/meta_box_fields.php:58
+msgid "Error"
+msgstr "Ошибка"
+
+#: core/actions/export.php:33
+msgid "No ACF groups selected"
+msgstr "Группы ACF не выбраны"
+
+#: core/api.php:1162
+msgid "Update"
+msgstr "Обновить"
+
+#: core/api.php:1163
+msgid "Post updated"
+msgstr "Данные обновлены"
+
+#: core/controllers/addons.php:42 core/controllers/field_groups.php:311
+msgid "Add-ons"
+msgstr "Аддоны"
+
+#: core/controllers/addons.php:130 core/controllers/field_groups.php:433
+msgid "Repeater Field"
+msgstr "Повторающееся поле"
+
+#: core/controllers/addons.php:131
+msgid "Create infinite rows of repeatable data with this versatile interface!"
+msgstr "Создавайте повторающиеся поля с этим многофунциональным аддоном!"
+
+#: core/controllers/addons.php:137 core/controllers/field_groups.php:441
+msgid "Gallery Field"
+msgstr "Поле галереи"
+
+#: core/controllers/addons.php:138
+msgid "Create image galleries in a simple and intuitive interface!"
+msgstr "Создавайте галереи с этим простым и интуитивным интерфейсом!"
+
+#: core/controllers/addons.php:144 core/controllers/field_groups.php:449
+msgid "Options Page"
+msgstr "Страница с опциями"
+
+#: core/controllers/addons.php:145
+msgid "Create global data to use throughout your website!"
+msgstr ""
+"Создайте глобальные данные, которые можно будет использовать по всему сайту."
+
+#: core/controllers/addons.php:151
+msgid "Flexible Content Field"
+msgstr "Гибкое содержание"
+
+#: core/controllers/addons.php:152
+msgid "Create unique designs with a flexible content layout manager!"
+msgstr "Создавайте уникальные дизайны с настраиваемым гибким макетом."
+
+#: core/controllers/addons.php:161
+msgid "Gravity Forms Field"
+msgstr "Поле \"Gravity Forms\""
+
+#: core/controllers/addons.php:162
+msgid "Creates a select field populated with Gravity Forms!"
+msgstr "Создает поля использующие Gravity Forms."
+
+#: core/controllers/addons.php:168
+msgid "Date & Time Picker"
+msgstr "Выбор даты и времени"
+
+#: core/controllers/addons.php:169
+msgid "jQuery date & time picker"
+msgstr "выбор даты и времени jQuery"
+
+#: core/controllers/addons.php:175
+msgid "Location Field"
+msgstr "Поле местоположения"
+
+#: core/controllers/addons.php:176
+msgid "Find addresses and coordinates of a desired location"
+msgstr "Найдите адреса и координаты выбраного места."
+
+#: core/controllers/addons.php:182
+msgid "Contact Form 7 Field"
+msgstr "Поле \"Contact Form 7\""
+
+#: core/controllers/addons.php:183
+msgid "Assign one or more contact form 7 forms to a post"
+msgstr "Добавьте одно или больше форм \"Contact Form 7\" в запись."
+
+#: core/controllers/addons.php:193
+msgid "Advanced Custom Fields Add-Ons"
+msgstr "Расширенные произвольные поля. Аддоны"
+
+#: core/controllers/addons.php:196
+msgid ""
+"The following Add-ons are available to increase the functionality of the "
+"Advanced Custom Fields plugin."
+msgstr ""
+"Следующие аддоны могут увеличить функционал плагина \"Advanced Custom Fields"
+"\"."
+
+#: core/controllers/addons.php:197
+msgid ""
+"Each Add-on can be installed as a separate plugin (receives updates) or "
+"included in your theme (does not receive updates)."
+msgstr ""
+"Каждый аддон может быть установлен, как отдельный плагин (который "
+"обновляется), или же может быть включен в вашу тему (обновляться не будет)."
+
+#: core/controllers/addons.php:219 core/controllers/addons.php:240
+msgid "Installed"
+msgstr "Установлено"
+
+#: core/controllers/addons.php:221
+msgid "Purchase & Install"
+msgstr "Купить и установить"
+
+#: core/controllers/addons.php:242 core/controllers/field_groups.php:426
+#: core/controllers/field_groups.php:435 core/controllers/field_groups.php:443
+#: core/controllers/field_groups.php:451 core/controllers/field_groups.php:459
+msgid "Download"
+msgstr "Скачать"
+
+#: core/controllers/export.php:50 core/controllers/export.php:159
+msgid "Export"
+msgstr "Экспорт"
+
+#: core/controllers/export.php:216
+msgid "Export Field Groups"
+msgstr "Экспорт групп полей"
+
+#: core/controllers/export.php:221
+msgid "Field Groups"
+msgstr "Группы полей"
+
+#: core/controllers/export.php:222
+msgid "Select the field groups to be exported"
+msgstr "Выберите группы полей, которые надо экспортировать"
+
+#: core/controllers/export.php:239 core/controllers/export.php:252
+msgid "Export to XML"
+msgstr "Экспортировать в XML файл"
+
+#: core/controllers/export.php:242 core/controllers/export.php:267
+msgid "Export to PHP"
+msgstr "Экспортировать в PHP файл"
+
+#: core/controllers/export.php:253
+msgid ""
+"ACF will create a .xml export file which is compatible with the native WP "
+"import plugin."
+msgstr "ACF создат .xml файл, который совместим с WP Import плагином."
+
+#: core/controllers/export.php:254
+msgid ""
+"Imported field groups <b>will</b> appear in the list of editable field "
+"groups. This is useful for migrating fields groups between Wp websites."
+msgstr ""
+"Импортированные группы полей <strong>появятся</strong> в списке "
+"редактируемых групп полей. Эта функция очень полезна в случае переезда с "
+"одного WP сайта на другой."
+
+#: core/controllers/export.php:256
+msgid "Select field group(s) from the list and click \"Export XML\""
+msgstr ""
+"Выберите группу(-ы) полей из списка и нажмите на кнопку \"Экспортировать в "
+"XML файл\""
+
+#: core/controllers/export.php:257
+msgid "Save the .xml file when prompted"
+msgstr "Сохраните .xml файл при запросе сохранить файл."
+
+#: core/controllers/export.php:258
+msgid "Navigate to Tools &raquo; Import and select WordPress"
+msgstr ""
+"Зайдите во \"Инструменты\" &raquo; \"Импорт\", и выберите \"WordPress\"."
+
+#: core/controllers/export.php:259
+msgid "Install WP import plugin if prompted"
+msgstr "Установите WP Import плагин."
+
+#: core/controllers/export.php:260
+msgid "Upload and import your exported .xml file"
+msgstr "Загрузите и импортируйте ваш экспортированный .xml файл"
+
+#: core/controllers/export.php:261
+msgid "Select your user and ignore Import Attachments"
+msgstr "Выберите вашего пользователя и не импортируйте вложенные файлы"
+
+#: core/controllers/export.php:262
+msgid "That's it! Happy WordPressing"
+msgstr "Вот и все. Удачной работы с WordPress!"
+
+#: core/controllers/export.php:268
+msgid "ACF will create the PHP code to include in your theme."
+msgstr "ACF создат код PHP, который можно будет включить в вашу тему."
+
+#: core/controllers/export.php:269 core/controllers/export.php:310
+msgid ""
+"Registered field groups <b>will not</b> appear in the list of editable field "
+"groups. This is useful for including fields in themes."
+msgstr ""
+"Импортированные группы полей <strong>не появятся</strong> в списке. "
+"редактируемых групп полей. Данный способ удобен при необходимости включить "
+"поля в темы."
+
+#: core/controllers/export.php:270 core/controllers/export.php:311
+msgid ""
+"Please note that if you export and register field groups within the same WP, "
+"you will see duplicate fields on your edit screens. To fix this, please move "
+"the original field group to the trash or remove the code from your functions."
+"php file."
+msgstr ""
+"Пожалуйста, заметьте, если вы экспортируете а затем импортируете группы "
+"полей в один и тот же сайт WP, вы увидите дублированные поля на экране "
+"редактирования. Чтобы исправить это, перенесите оригинальную группы полей в "
+"корзину или удалите код из вашего \"<em>functions.php</em>\" файла."
+
+#: core/controllers/export.php:272
+msgid "Select field group(s) from the list and click \"Create PHP\""
+msgstr ""
+"Выберите группу(-ы) полей из списка, затем нажмите на кнопку "
+"\"Экспортировать в PHP файл\""
+
+#: core/controllers/export.php:273 core/controllers/export.php:302
+msgid "Copy the PHP code generated"
+msgstr "Скопируйте сгенерированный PHP код."
+
+#: core/controllers/export.php:274 core/controllers/export.php:303
+msgid "Paste into your functions.php file"
+msgstr "Вставьте его в ваш \"<em>functions.php</em>\" файл."
+
+#: core/controllers/export.php:275 core/controllers/export.php:304
+msgid "To activate any Add-ons, edit and use the code in the first few lines."
+msgstr ""
+"Чтобы активировать аддоны, отредактируйте и вставьте код в первые несколько "
+"строк."
+
+#: core/controllers/export.php:295
+msgid "Export Field Groups to PHP"
+msgstr "Экспортировать группы полей в PHP"
+
+#: core/controllers/export.php:300 core/fields/tab.php:65
+msgid "Instructions"
+msgstr "Инструкции"
+
+#: core/controllers/export.php:309
+msgid "Notes"
+msgstr "Заметки"
+
+#: core/controllers/export.php:316
+msgid "Include in theme"
+msgstr "Включить в тему"
+
+#: core/controllers/export.php:317
+msgid ""
+"The Advanced Custom Fields plugin can be included within a theme. To do so, "
+"move the ACF plugin inside your theme and add the following code to your "
+"functions.php file:"
+msgstr ""
+"Плагин \"Advanced Custom Fields\" может быть включен в тему. Для этого, "
+"переместите плагин ACF в папку вашей темы, и добавьте следующий код в ваш "
+"\"<em>functions.php</em>\" файл:"
+
+#: core/controllers/export.php:323
+msgid ""
+"To remove all visual interfaces from the ACF plugin, you can use a constant "
+"to enable lite mode. Add the following code to your functions.php file "
+"<b>before</b> the include_once code:"
+msgstr ""
+"Чтобы убрать весь визуальный интерфейс из плагина ACF, вы можете "
+"использовать константу, чтобы включить \"Режим Lite\". Добавьте следующий "
+"код в ваш \"<em>functions.php</em>\" файл <strong>перед</strong> "
+"<em>include_once</em>:"
+
+#: core/controllers/export.php:331
+msgid "Back to export"
+msgstr "Вернуться к экспорту"
+
+#: core/controllers/export.php:400
+msgid "No field groups were selected"
+msgstr "Группы полей не выбраны"
+
+#: core/controllers/field_group.php:358
+msgid "Move to trash. Are you sure?"
+msgstr "Отправить в корзину. Вы уверены?"
+
+# Maybe non-translateable too.
+#: core/controllers/field_group.php:359
+msgid "checked"
+msgstr "checked"
+
+#: core/controllers/field_group.php:360
+msgid "No toggle fields available"
+msgstr "Нет доступных полей выбора."
+
+#: core/controllers/field_group.php:361
+msgid "Field group title is required"
+msgstr "Заголовок группы полей обязателен"
+
+#: core/controllers/field_group.php:362
+msgid "copy"
+msgstr "копировать"
+
+#: core/controllers/field_group.php:363 core/views/meta_box_location.php:62
+#: core/views/meta_box_location.php:159
+msgid "or"
+msgstr "или"
+
+#: core/controllers/field_group.php:364 core/controllers/field_group.php:395
+#: core/controllers/field_group.php:457 core/controllers/field_groups.php:148
+msgid "Fields"
+msgstr "Поля"
+
+#: core/controllers/field_group.php:365
+msgid "Parent fields"
+msgstr "Родительские поля"
+
+#: core/controllers/field_group.php:366
+msgid "Sibling fields"
+msgstr "Родственные поля"
+
+#: core/controllers/field_group.php:367
+msgid "Hide / Show All"
+msgstr "Скрыть / Отобразить"
+
+#: core/controllers/field_group.php:396
+msgid "Location"
+msgstr "Местоположение"
+
+#: core/controllers/field_group.php:397
+msgid "Options"
+msgstr "Опции"
+
+#: core/controllers/field_group.php:459
+msgid "Show Field Key:"
+msgstr "Отображать ключ поля:"
+
+#: core/controllers/field_group.php:460 core/fields/page_link.php:138
+#: core/fields/page_link.php:159 core/fields/post_object.php:328
+#: core/fields/post_object.php:349 core/fields/select.php:224
+#: core/fields/select.php:243 core/fields/taxonomy.php:343
+#: core/fields/user.php:285 core/fields/wysiwyg.php:256
+#: core/views/meta_box_fields.php:195 core/views/meta_box_fields.php:218
+msgid "No"
+msgstr "Нет"
+
+#: core/controllers/field_group.php:461 core/fields/page_link.php:137
+#: core/fields/page_link.php:158 core/fields/post_object.php:327
+#: core/fields/post_object.php:348 core/fields/select.php:223
+#: core/fields/select.php:242 core/fields/taxonomy.php:342
+#: core/fields/user.php:284 core/fields/wysiwyg.php:255
+#: core/views/meta_box_fields.php:194 core/views/meta_box_fields.php:217
+msgid "Yes"
+msgstr "Да"
+
+#: core/controllers/field_group.php:645
+msgid "Front Page"
+msgstr "Главная страница"
+
+#: core/controllers/field_group.php:646
+msgid "Posts Page"
+msgstr "Страница записей"
+
+#: core/controllers/field_group.php:647
+msgid "Top Level Page (parent of 0)"
+msgstr "Самая верхняя страница (родитель 0)"
+
+#: core/controllers/field_group.php:648
+msgid "Parent Page (has children)"
+msgstr "Родительская страница (есть дочери)"
+
+#: core/controllers/field_group.php:649
+msgid "Child Page (has parent)"
+msgstr "Дочерняя страница (есть родительские страницы)"
+
+#: core/controllers/field_group.php:657
+msgid "Default Template"
+msgstr "Шаблон по умолчанию"
+
+#: core/controllers/field_group.php:734
+msgid "Publish"
+msgstr "Опубликовать"
+
+#: core/controllers/field_group.php:735
+msgid "Pending Review"
+msgstr "Ожидание обзора"
+
+#: core/controllers/field_group.php:736
+msgid "Draft"
+msgstr "Черновик"
+
+#: core/controllers/field_group.php:737
+msgid "Future"
+msgstr "Будущее"
+
+#: core/controllers/field_group.php:738
+msgid "Private"
+msgstr "Личное"
+
+#: core/controllers/field_group.php:739
+msgid "Revision"
+msgstr "Редакции"
+
+#: core/controllers/field_group.php:740
+msgid "Trash"
+msgstr "Корзина"
+
+#: core/controllers/field_group.php:753
+msgid "Super Admin"
+msgstr "Супер Администратор"
+
+#: core/controllers/field_group.php:768 core/controllers/field_group.php:789
+#: core/controllers/field_group.php:796 core/fields/file.php:186
+#: core/fields/image.php:170 core/fields/page_link.php:109
+#: core/fields/post_object.php:274 core/fields/post_object.php:298
+#: core/fields/relationship.php:598 core/fields/relationship.php:622
+#: core/fields/user.php:229
+msgid "All"
+msgstr "Все"
+
+#: core/controllers/field_groups.php:147
+msgid "Title"
+msgstr "Заголовок"
+
+#: core/controllers/field_groups.php:216 core/controllers/field_groups.php:257
+msgid "Changelog"
+msgstr "Журнал изменений"
+
+#: core/controllers/field_groups.php:217
+msgid "See what's new in"
+msgstr "Узнайте, что нового в"
+
+#: core/controllers/field_groups.php:217
+msgid "version"
+msgstr "версии"
+
+#: core/controllers/field_groups.php:219
+msgid "Resources"
+msgstr "Источники"
+
+#: core/controllers/field_groups.php:221
+msgid "Getting Started"
+msgstr "Приступаем к работе"
+
+#: core/controllers/field_groups.php:222
+msgid "Field Types"
+msgstr "Типы полей"
+
+#: core/controllers/field_groups.php:223
+msgid "Functions"
+msgstr "Функции"
+
+#: core/controllers/field_groups.php:224
+msgid "Actions"
+msgstr "Действия"
+
+#: core/controllers/field_groups.php:225 core/fields/relationship.php:641
+msgid "Filters"
+msgstr "Фильтры"
+
+#: core/controllers/field_groups.php:226
+msgid "'How to' guides"
+msgstr "Руководства \"Как…\""
+
+#: core/controllers/field_groups.php:227
+msgid "Tutorials"
+msgstr "Уроки и туториалы"
+
+#: core/controllers/field_groups.php:232
+msgid "Created by"
+msgstr "Создано"
+
+#: core/controllers/field_groups.php:235
+msgid "Vote"
+msgstr "Оценить"
+
+#: core/controllers/field_groups.php:236
+msgid "Follow"
+msgstr "Следить"
+
+#: core/controllers/field_groups.php:248
+msgid "Welcome to Advanced Custom Fields"
+msgstr "Добро пожаловать на \"Advanced Custom Fields\""
+
+#: core/controllers/field_groups.php:249
+msgid "Thank you for updating to the latest version!"
+msgstr "Благодарим за обновление до последней версии!"
+
+#: core/controllers/field_groups.php:249
+msgid "is more polished and enjoyable than ever before. We hope you like it."
+msgstr ""
+"еще более улучшен и интересен, чем когда либо. Мы надеемся, что он вам "
+"понравится."
+
+#: core/controllers/field_groups.php:256
+msgid "What’s New"
+msgstr "Что нового"
+
+#: core/controllers/field_groups.php:259
+msgid "Download Add-ons"
+msgstr "Скачать аддоны"
+
+#: core/controllers/field_groups.php:313
+msgid "Activation codes have grown into plugins!"
+msgstr "Коды активации выросли до плагинов!"
+
+#: core/controllers/field_groups.php:314
+msgid ""
+"Add-ons are now activated by downloading and installing individual plugins. "
+"Although these plugins will not be hosted on the wordpress.org repository, "
+"each Add-on will continue to receive updates in the usual way."
+msgstr ""
+"Аддоны теперь активируются скачивая и устанавливая индивидуальные плагины. "
+"Не смотря на то, что эти плагины не будут загружены на WordPress.org, каждый "
+"аддон будет обновляться обычным способом."
+
+#: core/controllers/field_groups.php:320
+msgid "All previous Add-ons have been successfully installed"
+msgstr "Все предыдущие аддоны были успешно установлены."
+
+#: core/controllers/field_groups.php:324
+msgid "This website uses premium Add-ons which need to be downloaded"
+msgstr "Этот сайт использует премиум аддоны, которые должны быть скачаны"
+
+#: core/controllers/field_groups.php:324
+msgid "Download your activated Add-ons"
+msgstr "Скачайте свои активированные аддоны."
+
+#: core/controllers/field_groups.php:329
+msgid ""
+"This website does not use premium Add-ons and will not be affected by this "
+"change."
+msgstr ""
+"Этот сайт не использует премиум аддоны и не будет затронут этим изменением."
+
+#: core/controllers/field_groups.php:339
+msgid "Easier Development"
+msgstr "Упрощенная разработка"
+
+#: core/controllers/field_groups.php:341
+msgid "New Field Types"
+msgstr "Новые типы полей"
+
+#: core/controllers/field_groups.php:343
+msgid "Taxonomy Field"
+msgstr "Поле таксономии"
+
+#: core/controllers/field_groups.php:344
+msgid "User Field"
+msgstr "Поле пользователя"
+
+#: core/controllers/field_groups.php:345
+msgid "Email Field"
+msgstr "Поле email"
+
+#: core/controllers/field_groups.php:346
+msgid "Password Field"
+msgstr "Поле пароля"
+
+#: core/controllers/field_groups.php:348
+msgid "Custom Field Types"
+msgstr "Произвольные типы полей"
+
+#: core/controllers/field_groups.php:349
+msgid ""
+"Creating your own field type has never been easier! Unfortunately, version 3 "
+"field types are not compatible with version 4."
+msgstr ""
+"Создание собственного типа полей никогда не было проще! К сожалению, типы "
+"полей 3-ей версии не совместимы с версией 4."
+
+#: core/controllers/field_groups.php:350
+msgid "Migrating your field types is easy, please"
+msgstr "Миграция ваших типов полей очень проста, пожалуйста,"
+
+#: core/controllers/field_groups.php:350
+msgid "follow this tutorial"
+msgstr "следуйте этому уроку,"
+
+#: core/controllers/field_groups.php:350
+msgid "to learn more."
+msgstr "чтобы узнать больше."
+
+#: core/controllers/field_groups.php:352
+msgid "Actions &amp; Filters"
+msgstr "Действия и фильтры"
+
+#: core/controllers/field_groups.php:353
+msgid ""
+"All actions & filters have received a major facelift to make customizing ACF "
+"even easier! Please"
+msgstr ""
+"Все действия и фильтры (actions & filters) получили крупное обновление, "
+"чтобы настройка ACF стала еще проще! Пожалуйста, "
+
+#: core/controllers/field_groups.php:353
+msgid "read this guide"
+msgstr "прочитайте этот гид,"
+
+#: core/controllers/field_groups.php:353
+msgid "to find the updated naming convention."
+msgstr "чтобы найти обновленное собрание названий."
+
+#: core/controllers/field_groups.php:355
+msgid "Preview draft is now working!"
+msgstr "Предпросмотр черновика теперь работает!"
+
+#: core/controllers/field_groups.php:356
+msgid "This bug has been squashed along with many other little critters!"
+msgstr "Эта ошибка была раздавленна наряду со многими другими мелкими тварями!"
+
+#: core/controllers/field_groups.php:356
+msgid "See the full changelog"
+msgstr "Посмотреть весь журнал изменений"
+
+#: core/controllers/field_groups.php:360
+msgid "Important"
+msgstr "Важно"
+
+#: core/controllers/field_groups.php:362
+msgid "Database Changes"
+msgstr "Изменения в базе данных"
+
+#: core/controllers/field_groups.php:363
+msgid ""
+"Absolutely <strong>no</strong> changes have been made to the database "
+"between versions 3 and 4. This means you can roll back to version 3 without "
+"any issues."
+msgstr ""
+"Не было абсолютно <strong>никаких</strong> изменений в базе данных между 3-"
+"ьей и 4-ой версиями. Это значит, вы можете откатиться до 3-ьей версии без "
+"каких либо проблем."
+
+#: core/controllers/field_groups.php:365
+msgid "Potential Issues"
+msgstr "Потенциальные проблемы"
+
+#: core/controllers/field_groups.php:366
+msgid ""
+"Do to the sizable changes surounding Add-ons, field types and action/"
+"filters, your website may not operate correctly. It is important that you "
+"read the full"
+msgstr ""
+"В связи со значительными изменениями в аддонах, типах полей и действиях/"
+"фильтрах, ваш сайт может не работать корректно. Очень важно, чтобы вы "
+"прочитали полный гид"
+
+#: core/controllers/field_groups.php:366
+msgid "Migrating from v3 to v4"
+msgstr "Переезд с версии 3 до версии 4"
+
+#: core/controllers/field_groups.php:366
+msgid "guide to view the full list of changes."
+msgstr "для полного списка изменений."
+
+#: core/controllers/field_groups.php:369
+msgid "Really Important!"
+msgstr "Очень важно!"
+
+#: core/controllers/field_groups.php:369
+msgid ""
+"If you updated the ACF plugin without prior knowledge of such changes, "
+"please roll back to the latest"
+msgstr ""
+"Если вы обновили плагин ACF без предварительных знаний об изменениях, "
+"пожалуйста, откатитесь до последней"
+
+#: core/controllers/field_groups.php:369
+msgid "version 3"
+msgstr "версиай 3"
+
+#: core/controllers/field_groups.php:369
+msgid "of this plugin."
+msgstr "этого плагина."
+
+#: core/controllers/field_groups.php:374
+msgid "Thank You"
+msgstr "Благодарим вас"
+
+#: core/controllers/field_groups.php:375
+msgid ""
+"A <strong>BIG</strong> thank you to everyone who has helped test the version "
+"4 beta and for all the support I have received."
+msgstr ""
+"<strong>БОЛЬШОЕ</strong> спасибо всем, кто помог протестировать версию 4 "
+"бета и за всю поддержку, которую мне оказали."
+
+#: core/controllers/field_groups.php:376
+msgid "Without you all, this release would not have been possible!"
+msgstr "Без вас всех, этот релиз был бы невозможен!"
+
+#: core/controllers/field_groups.php:380
+msgid "Changelog for"
+msgstr "Журнал изменений по"
+
+#: core/controllers/field_groups.php:397
+msgid "Learn more"
+msgstr "Узнать больше"
+
+#: core/controllers/field_groups.php:403
+msgid "Overview"
+msgstr "Обзор"
+
+#: core/controllers/field_groups.php:405
+msgid ""
+"Previously, all Add-ons were unlocked via an activation code (purchased from "
+"the ACF Add-ons store). New to v4, all Add-ons act as separate plugins which "
+"need to be individually downloaded, installed and updated."
+msgstr ""
+"Раньше, все аддоны разблокировались с помощью когда активации (купленные в "
+"магазине аддонов ACF). Новинка в версии 4, все аддоны работают, как "
+"отдельные плагины, которые должны быть скачаны, установлены и обновлены "
+"отдельно."
+
+#: core/controllers/field_groups.php:407
+msgid ""
+"This page will assist you in downloading and installing each available Add-"
+"on."
+msgstr "Эта страница поможет вам скачать и установить каждый доступный аддон."
+
+#: core/controllers/field_groups.php:409
+msgid "Available Add-ons"
+msgstr "Доступные аддоны"
+
+#: core/controllers/field_groups.php:411
+msgid "The following Add-ons have been detected as activated on this website."
+msgstr "Следующие аддоны были обнаружены активированными на этом сайте."
+
+#: core/controllers/field_groups.php:424
+msgid "Name"
+msgstr "Имя"
+
+#: core/controllers/field_groups.php:425
+msgid "Activation Code"
+msgstr "Код активации"
+
+#: core/controllers/field_groups.php:457
+msgid "Flexible Content"
+msgstr "Гибкое содержание"
+
+#: core/controllers/field_groups.php:467
+msgid "Installation"
+msgstr "Установка"
+
+#: core/controllers/field_groups.php:469
+msgid "For each Add-on available, please perform the following:"
+msgstr "Для каждого доступного аддона, выполните, пожалуйста, следующее:"
+
+#: core/controllers/field_groups.php:471
+msgid "Download the Add-on plugin (.zip file) to your desktop"
+msgstr "Скачайте плагин аддона (.zip файл) на ваш компьютер."
+
+#: core/controllers/field_groups.php:472
+msgid "Navigate to"
+msgstr "Перейти в"
+
+#: core/controllers/field_groups.php:472
+msgid "Plugins > Add New > Upload"
+msgstr "Откройте \"Плагины\" &raquo; \"Добавить новый\" &raquo; \"Загрузить\"."
+
+#: core/controllers/field_groups.php:473
+msgid "Use the uploader to browse, select and install your Add-on (.zip file)"
+msgstr "Найдите скачанный .zip файл, выберите его и установите"
+
+#: core/controllers/field_groups.php:474
+msgid ""
+"Once the plugin has been uploaded and installed, click the 'Activate Plugin' "
+"link"
+msgstr ""
+"Как только плагин будет загружен и установлен, нажмите на ссылку "
+"\"Активировать плагин\"."
+
+#: core/controllers/field_groups.php:475
+msgid "The Add-on is now installed and activated!"
+msgstr "Аддон теперь установлен и активирован!"
+
+#: core/controllers/field_groups.php:489
+msgid "Awesome. Let's get to work"
+msgstr "Превосходно! Приступим к работе."
+
+#: core/controllers/input.php:63
+msgid "Expand Details"
+msgstr "Развернуть детали"
+
+#: core/controllers/input.php:64
+msgid "Collapse Details"
+msgstr "Свернуть детали"
+
+#: core/controllers/input.php:67
+msgid "Validation Failed. One or more fields below are required."
+msgstr ""
+"Проверка не удалась. Один или больше полей ниже обязательны к заполнению."
+
+#: core/controllers/upgrade.php:86
+msgid "Upgrade"
+msgstr "Улучшить"
+
+#: core/controllers/upgrade.php:139
+msgid "What's new"
+msgstr "Что нового"
+
+#: core/controllers/upgrade.php:150
+msgid "credits"
+msgstr "кредиты"
+
+#: core/controllers/upgrade.php:684
+msgid "Modifying field group options 'show on page'"
+msgstr "Изменение опций \"отображать на странице\" группы полей"
+
+#: core/controllers/upgrade.php:738
+msgid "Modifying field option 'taxonomy'"
+msgstr "Изменение опции \"таксономия\" поля"
+
+#: core/controllers/upgrade.php:835
+msgid "Moving user custom fields from wp_options to wp_usermeta'"
+msgstr ""
+"Перенос пользовательских произвольных полей из \"wp_options\" в \"wp_usermeta"
+"\""
+
+#: core/fields/_base.php:124 core/views/meta_box_location.php:74
+msgid "Basic"
+msgstr "Основное"
+
+#: core/fields/checkbox.php:19 core/fields/taxonomy.php:319
+msgid "Checkbox"
+msgstr "Чекбокс"
+
+#: core/fields/checkbox.php:20 core/fields/radio.php:19
+#: core/fields/select.php:19 core/fields/true_false.php:20
+msgid "Choice"
+msgstr "Выбор"
+
+#: core/fields/checkbox.php:146 core/fields/radio.php:147
+#: core/fields/select.php:177
+msgid "Choices"
+msgstr "Выборы"
+
+#: core/fields/checkbox.php:147 core/fields/select.php:178
+msgid "Enter each choice on a new line."
+msgstr "Введите каждый вариант выбора на новую строку."
+
+#: core/fields/checkbox.php:148 core/fields/select.php:179
+msgid "For more control, you may specify both a value and label like this:"
+msgstr ""
+"Для лучшего управления, вы можете ввести значение и ярлык по следующему "
+"формату:"
+
+#: core/fields/checkbox.php:149 core/fields/radio.php:153
+#: core/fields/select.php:180
+msgid "red : Red"
+msgstr "red : Red"
+
+#: core/fields/checkbox.php:149 core/fields/radio.php:154
+#: core/fields/select.php:180
+msgid "blue : Blue"
+msgstr "blue : Blue"
+
+#: core/fields/checkbox.php:166 core/fields/color_picker.php:89
+#: core/fields/email.php:106 core/fields/number.php:116
+#: core/fields/radio.php:196 core/fields/select.php:197
+#: core/fields/text.php:116 core/fields/textarea.php:96
+#: core/fields/true_false.php:94 core/fields/wysiwyg.php:198
+msgid "Default Value"
+msgstr "Значение по умолчанию"
+
+#: core/fields/checkbox.php:167 core/fields/select.php:198
+msgid "Enter each default value on a new line"
+msgstr "Введите каждое значение на новую строку."
+
+#: core/fields/checkbox.php:183 core/fields/message.php:20
+#: core/fields/radio.php:212 core/fields/tab.php:20
+msgid "Layout"
+msgstr "Макет"
+
+#: core/fields/checkbox.php:194 core/fields/radio.php:223
+msgid "Vertical"
+msgstr "Вертикальный"
+
+#: core/fields/checkbox.php:195 core/fields/radio.php:224
+msgid "Horizontal"
+msgstr "Горизонтальный"
+
+#: core/fields/color_picker.php:19
+msgid "Color Picker"
+msgstr "Выбор цвета"
+
+#: core/fields/color_picker.php:20 core/fields/date_picker/date_picker.php:20
+#: core/fields/google-map.php:19
+msgid "jQuery"
+msgstr "jQuery"
+
+#: core/fields/date_picker/date_picker.php:19
+msgid "Date Picker"
+msgstr "Выбор даты"
+
+#: core/fields/date_picker/date_picker.php:55
+msgid "Done"
+msgstr "Готово"
+
+#: core/fields/date_picker/date_picker.php:56
+msgid "Today"
+msgstr "Сегодня"
+
+#: core/fields/date_picker/date_picker.php:59
+msgid "Show a different month"
+msgstr "Показать другой месяц"
+
+#: core/fields/date_picker/date_picker.php:126
+msgid "Save format"
+msgstr "Сохранить формат"
+
+#: core/fields/date_picker/date_picker.php:127
+msgid ""
+"This format will determin the value saved to the database and returned via "
+"the API"
+msgstr ""
+"Этот формат определит значение сохраненное в базе данных и возвращенное "
+"через API"
+
+#: core/fields/date_picker/date_picker.php:128
+msgid "\"yymmdd\" is the most versatile save format. Read more about"
+msgstr "\"yymmdd\" самоый практичный формат. Прочитать больше о"
+
+#: core/fields/date_picker/date_picker.php:128
+#: core/fields/date_picker/date_picker.php:144
+msgid "jQuery date formats"
+msgstr "форматы дат jQuery"
+
+#: core/fields/date_picker/date_picker.php:142
+msgid "Display format"
+msgstr "Отображать формат"
+
+#: core/fields/date_picker/date_picker.php:143
+msgid "This format will be seen by the user when entering a value"
+msgstr "Этот формат будет виден пользователям при вводе значения"
+
+#: core/fields/date_picker/date_picker.php:144
+msgid ""
+"\"dd/mm/yy\" or \"mm/dd/yy\" are the most used display formats. Read more "
+"about"
+msgstr ""
+"\"dd/mm/yy\" или \"mm/dd/yy\" самые используемые форматы отображения. "
+"Прочитать больше о"
+
+#: core/fields/date_picker/date_picker.php:158
+msgid "Week Starts On"
+msgstr "Неделя начинается"
+
+#: core/fields/dummy.php:19
+msgid "Dummy"
+msgstr "Макет"
+
+#: core/fields/email.php:19
+msgid "Email"
+msgstr "E-mail"
+
+#: core/fields/email.php:107 core/fields/number.php:117
+#: core/fields/text.php:117 core/fields/textarea.php:97
+#: core/fields/wysiwyg.php:199
+msgid "Appears when creating a new post"
+msgstr "Отображается при создании новой записи"
+
+#: core/fields/email.php:123 core/fields/number.php:133
+#: core/fields/password.php:105 core/fields/text.php:131
+#: core/fields/textarea.php:111
+msgid "Placeholder Text"
+msgstr "Текст внутри поля"
+
+#: core/fields/email.php:124 core/fields/number.php:134
+#: core/fields/password.php:106 core/fields/text.php:132
+#: core/fields/textarea.php:112
+msgid "Appears within the input"
+msgstr "Отображается внутри поля"
+
+#: core/fields/email.php:138 core/fields/number.php:148
+#: core/fields/password.php:120 core/fields/text.php:146
+msgid "Prepend"
+msgstr "Добавить в начало"
+
+#: core/fields/email.php:139 core/fields/number.php:149
+#: core/fields/password.php:121 core/fields/text.php:147
+msgid "Appears before the input"
+msgstr "Отображается перед полем"
+
+#: core/fields/email.php:153 core/fields/number.php:163
+#: core/fields/password.php:135 core/fields/text.php:161
+msgid "Append"
+msgstr "Добавить в конец"
+
+#: core/fields/email.php:154 core/fields/number.php:164
+#: core/fields/password.php:136 core/fields/text.php:162
+msgid "Appears after the input"
+msgstr "Отображается после поля"
+
+#: core/fields/file.php:19
+msgid "File"
+msgstr "Файл"
+
+#: core/fields/file.php:20 core/fields/image.php:20 core/fields/wysiwyg.php:36
+msgid "Content"
+msgstr "Содержание"
+
+#: core/fields/file.php:26
+msgid "Select File"
+msgstr "Выбрать файл"
+
+#: core/fields/file.php:27
+msgid "Edit File"
+msgstr "Редактировать файл"
+
+#: core/fields/file.php:28
+msgid "Update File"
+msgstr "Обновить файл"
+
+#: core/fields/file.php:29 core/fields/image.php:30
+msgid "uploaded to this post"
+msgstr "загружено в запись"
+
+#: core/fields/file.php:123
+msgid "No File Selected"
+msgstr "Файл не выбран"
+
+#: core/fields/file.php:123
+msgid "Add File"
+msgstr "Добавить файл"
+
+#: core/fields/file.php:153 core/fields/image.php:118
+#: core/fields/taxonomy.php:367
+msgid "Return Value"
+msgstr "Вернуть значение"
+
+#: core/fields/file.php:164
+msgid "File Object"
+msgstr "Файловый объект"
+
+#: core/fields/file.php:165
+msgid "File URL"
+msgstr "Ссылка на файл"
+
+#: core/fields/file.php:166
+msgid "File ID"
+msgstr "ID файла"
+
+#: core/fields/file.php:175 core/fields/image.php:158
+msgid "Library"
+msgstr "Библиотека"
+
+#: core/fields/file.php:187 core/fields/image.php:171
+msgid "Uploaded to post"
+msgstr "Загрузить в запись"
+
+#: core/fields/google-map.php:18
+msgid "Google Map"
+msgstr "Google Карта"
+
+#: core/fields/google-map.php:33
+msgid "Locating"
+msgstr "Определяется местоположения"
+
+#: core/fields/google-map.php:34
+msgid "Sorry, this browser does not support geolocation"
+msgstr "Простите, данный браузер не поддерживает геолокацию"
+
+#: core/fields/google-map.php:120
+msgid "Clear location"
+msgstr "Очистить местоположение"
+
+#: core/fields/google-map.php:125
+msgid "Find current location"
+msgstr "Найти текущее местоположение"
+
+#: core/fields/google-map.php:126
+msgid "Search for address..."
+msgstr "Поиск адреса..."
+
+#: core/fields/google-map.php:162
+msgid "Center"
+msgstr "Центр"
+
+#: core/fields/google-map.php:163
+msgid "Center the initial map"
+msgstr "Центрировать первоначальную карту"
+
+#: core/fields/google-map.php:199
+msgid "Zoom"
+msgstr "Масштаб"
+
+#: core/fields/google-map.php:200
+msgid "Set the initial zoom level"
+msgstr "Установить масштаб по умолчанию"
+
+#: core/fields/google-map.php:217
+msgid "Height"
+msgstr "Высота"
+
+#: core/fields/google-map.php:218
+msgid "Customise the map height"
+msgstr "Настроить высоту карты"
+
+#: core/fields/image.php:19
+msgid "Image"
+msgstr "Изображение"
+
+#: core/fields/image.php:27
+msgid "Select Image"
+msgstr "Выбрать изображение"
+
+#: core/fields/image.php:28
+msgid "Edit Image"
+msgstr "Редактировать изображение"
+
+#: core/fields/image.php:29
+msgid "Update Image"
+msgstr "Обновить изображение"
+
+#: core/fields/image.php:83
+msgid "Remove"
+msgstr "Убрать"
+
+#: core/fields/image.php:84 core/views/meta_box_fields.php:108
+msgid "Edit"
+msgstr "Редактировать"
+
+#: core/fields/image.php:90
+msgid "No image selected"
+msgstr "Изображение не выбрано"
+
+#: core/fields/image.php:90
+msgid "Add Image"
+msgstr "Добавить изображение"
+
+#: core/fields/image.php:119 core/fields/relationship.php:573
+msgid "Specify the returned value on front end"
+msgstr "Укажите возвращаемое значение в пользовательский интерфейс"
+
+#: core/fields/image.php:129
+msgid "Image Object"
+msgstr "Изображаемый объект"
+
+#: core/fields/image.php:130
+msgid "Image URL"
+msgstr "Ссылка на изображение"
+
+#: core/fields/image.php:131
+msgid "Image ID"
+msgstr "ID изображения"
+
+#: core/fields/image.php:139
+msgid "Preview Size"
+msgstr "Размер предпросмотра"
+
+#: core/fields/image.php:140
+msgid "Shown when entering data"
+msgstr "Отображается при вводе данных"
+
+#: core/fields/image.php:159
+msgid "Limit the media library choice"
+msgstr "Ограничить выбор библиотеки"
+
+#: core/fields/message.php:19 core/fields/message.php:70
+#: core/fields/true_false.php:79
+msgid "Message"
+msgstr "Сообщение"
+
+#: core/fields/message.php:71
+msgid "Text &amp; HTML entered here will appear inline with the fields"
+msgstr "Текст и HTML введенный сюда появится на одной строке с полями"
+
+#: core/fields/message.php:72
+msgid "Please note that all text will first be passed through the wp function "
+msgstr "Пожалуйста, заметьте, что весь текст пройдет через WP функцию"
+
+#: core/fields/number.php:19
+msgid "Number"
+msgstr "Номер"
+
+#: core/fields/number.php:178
+msgid "Minimum Value"
+msgstr "Минимальное значение"
+
+#: core/fields/number.php:194
+msgid "Maximum Value"
+msgstr "Максимальное значение"
+
+#: core/fields/number.php:210
+msgid "Step Size"
+msgstr "Размер этапа"
+
+#: core/fields/page_link.php:18
+msgid "Page Link"
+msgstr "Ссылка на страницу"
+
+#: core/fields/page_link.php:19 core/fields/post_object.php:19
+#: core/fields/relationship.php:19 core/fields/taxonomy.php:19
+#: core/fields/user.php:19
+msgid "Relational"
+msgstr "Отношение"
+
+#: core/fields/page_link.php:103 core/fields/post_object.php:268
+#: core/fields/relationship.php:592 core/fields/relationship.php:671
+#: core/views/meta_box_location.php:75
+msgid "Post Type"
+msgstr "Тип записи"
+
+#: core/fields/page_link.php:127 core/fields/post_object.php:317
+#: core/fields/select.php:214 core/fields/taxonomy.php:333
+#: core/fields/user.php:275
+msgid "Allow Null?"
+msgstr "Разрешить пусто значение?"
+
+#: core/fields/page_link.php:148 core/fields/post_object.php:338
+#: core/fields/select.php:233
+msgid "Select multiple values?"
+msgstr "Выбрать несколько значений?"
+
+#: core/fields/password.php:19
+msgid "Password"
+msgstr "Пароль"
+
+#: core/fields/post_object.php:18
+msgid "Post Object"
+msgstr "Объект записи"
+
+#: core/fields/post_object.php:292 core/fields/relationship.php:616
+msgid "Filter from Taxonomy"
+msgstr "Фильтровать по таксономии"
+
+#: core/fields/radio.php:18
+msgid "Radio Button"
+msgstr "Радио-кнопка"
+
+#: core/fields/radio.php:105 core/views/meta_box_location.php:91
+msgid "Other"
+msgstr "Другое"
+
+#: core/fields/radio.php:148
+msgid "Enter your choices one per line"
+msgstr "Введите каждый вариант выбора на новую строку."
+
+#: core/fields/radio.php:150
+msgid "Red"
+msgstr "Red"
+
+#: core/fields/radio.php:151
+msgid "Blue"
+msgstr "Blue"
+
+#: core/fields/radio.php:175
+msgid "Add 'other' choice to allow for custom values"
+msgstr "Добавить выбор \"другое\", чтобы позволить произвольные значения"
+
+#: core/fields/radio.php:187
+msgid "Save 'other' values to the field's choices"
+msgstr "Сохранить значения \"другое\" в выборы поля"
+
+#: core/fields/relationship.php:18
+msgid "Relationship"
+msgstr "Взаимоотношение"
+
+#: core/fields/relationship.php:29
+msgid "Maximum values reached ( {max} values )"
+msgstr "Максимальное количество значений достигнуто ({max} значений)"
+
+#: core/fields/relationship.php:428
+msgid "Search..."
+msgstr "Поиск..."
+
+#: core/fields/relationship.php:439
+msgid "Filter by post type"
+msgstr "Фильтровать по типу записи"
+
+#: core/fields/relationship.php:572
+msgid "Return Format"
+msgstr "Вернуть формат"
+
+#: core/fields/relationship.php:583
+msgid "Post Objects"
+msgstr "Объекты записи"
+
+#: core/fields/relationship.php:584
+msgid "Post IDs"
+msgstr "ID записи"
+
+#: core/fields/relationship.php:650
+msgid "Search"
+msgstr "Поиск"
+
+#: core/fields/relationship.php:651
+msgid "Post Type Select"
+msgstr "Выбор типа записи"
+
+#: core/fields/relationship.php:659
+msgid "Elements"
+msgstr "Элементы"
+
+#: core/fields/relationship.php:660
+msgid "Selected elements will be displayed in each result"
+msgstr "Выбранные элементы будут отображены в каждом результате"
+
+#: core/fields/relationship.php:669 core/views/meta_box_options.php:106
+msgid "Featured Image"
+msgstr "Миниатюра записи"
+
+#: core/fields/relationship.php:670
+msgid "Post Title"
+msgstr "Заголовок записи"
+
+#: core/fields/relationship.php:682
+msgid "Maximum posts"
+msgstr "Максимум записей"
+
+#: core/fields/select.php:18 core/fields/select.php:109
+#: core/fields/taxonomy.php:324 core/fields/user.php:266
+msgid "Select"
+msgstr "Выбрать"
+
+#: core/fields/tab.php:19
+msgid "Tab"
+msgstr "Вкладка"
+
+#: core/fields/tab.php:68
+msgid ""
+"Use \"Tab Fields\" to better organize your edit screen by grouping your "
+"fields together under separate tab headings."
+msgstr ""
+"Используйте \"Пола-вкладки\" для лучшей организации на странице правки "
+"группируя поля вместе под отдельные заголовки."
+
+#: core/fields/tab.php:69
+msgid ""
+"All the fields following this \"tab field\" (or until another \"tab field\" "
+"is defined) will be grouped together."
+msgstr ""
+"Все поля, которые следуют после этого поля будут находиться в данной вкладке "
+"(или пока другое поле-вкладка не будет создано)."
+
+#: core/fields/tab.php:70
+msgid "Use multiple tabs to divide your fields into sections."
+msgstr ""
+"Вы можете использовать несколько вкладок, чтобы разделить свои поля на "
+"разделы."
+
+#: core/fields/taxonomy.php:18 core/fields/taxonomy.php:278
+msgid "Taxonomy"
+msgstr "Таксономия"
+
+#: core/fields/taxonomy.php:222 core/fields/taxonomy.php:231
+msgid "None"
+msgstr "Ничего"
+
+#: core/fields/taxonomy.php:308 core/fields/user.php:251
+#: core/views/meta_box_fields.php:77 core/views/meta_box_fields.php:159
+msgid "Field Type"
+msgstr "Тип поля"
+
+#: core/fields/taxonomy.php:318 core/fields/user.php:260
+msgid "Multiple Values"
+msgstr "Несколько значений"
+
+#: core/fields/taxonomy.php:320 core/fields/user.php:262
+msgid "Multi Select"
+msgstr "Множественный выбор"
+
+#: core/fields/taxonomy.php:322 core/fields/user.php:264
+msgid "Single Value"
+msgstr "Одно значение"
+
+#: core/fields/taxonomy.php:323
+msgid "Radio Buttons"
+msgstr "Радио-кнопки"
+
+#: core/fields/taxonomy.php:352
+msgid "Load & Save Terms to Post"
+msgstr "Загрузить и сохранить термины в запись"
+
+#: core/fields/taxonomy.php:360
+msgid ""
+"Load value based on the post's terms and update the post's terms on save"
+msgstr ""
+"Загрузить значение основываясь на терминах записи и обновить термины записи "
+"при сохранении"
+
+#: core/fields/taxonomy.php:377
+msgid "Term Object"
+msgstr "Объект термина"
+
+#: core/fields/taxonomy.php:378
+msgid "Term ID"
+msgstr "ID термина"
+
+#: core/fields/text.php:19
+msgid "Text"
+msgstr "Текст"
+
+#: core/fields/text.php:176 core/fields/textarea.php:141
+msgid "Formatting"
+msgstr "Форматирование"
+
+#: core/fields/text.php:177 core/fields/textarea.php:142
+msgid "Effects value on front end"
+msgstr "Значение эффектов в пользовательском интерфейсе"
+
+#: core/fields/text.php:186 core/fields/textarea.php:151
+msgid "No formatting"
+msgstr "Без форматирования"
+
+#: core/fields/text.php:187 core/fields/textarea.php:153
+msgid "Convert HTML into tags"
+msgstr "Конвертировать HTML в теги"
+
+#: core/fields/text.php:195 core/fields/textarea.php:126
+msgid "Character Limit"
+msgstr "Ограничение символов"
+
+#: core/fields/text.php:196 core/fields/textarea.php:127
+msgid "Leave blank for no limit"
+msgstr "Оставьте поле пустым, чтобы убрать ограничение."
+
+#: core/fields/textarea.php:19
+msgid "Text Area"
+msgstr "Область текста"
+
+#: core/fields/textarea.php:152
+msgid "Convert new lines into &lt;br /&gt; tags"
+msgstr "Конвертировать новые линии в &lt;br /&gt; теги"
+
+#: core/fields/true_false.php:19
+msgid "True / False"
+msgstr "Истина / Ложь"
+
+#: core/fields/true_false.php:80
+msgid "eg. Show extra content"
+msgstr "Пример: Отображать дополнительное содержание"
+
+#: core/fields/user.php:18 core/views/meta_box_location.php:94
+msgid "User"
+msgstr "Пользователь"
+
+#: core/fields/user.php:224
+msgid "Filter by role"
+msgstr "Фильтровать по должности"
+
+#: core/fields/wysiwyg.php:35
+msgid "Wysiwyg Editor"
+msgstr "Редактор WYSIWYG"
+
+#: core/fields/wysiwyg.php:213
+msgid "Toolbar"
+msgstr "Панель инструментов"
+
+#: core/fields/wysiwyg.php:245
+msgid "Show Media Upload Buttons?"
+msgstr "Отображать кнопки загрузки медиа?"
+
+#: core/views/meta_box_fields.php:24
+msgid "New Field"
+msgstr "Новое поле"
+
+#: core/views/meta_box_fields.php:58
+msgid "Field type does not exist"
+msgstr "Тип поля не существует"
+
+#: core/views/meta_box_fields.php:74
+msgid "Field Order"
+msgstr "Порядок поля"
+
+#: core/views/meta_box_fields.php:75 core/views/meta_box_fields.php:127
+msgid "Field Label"
+msgstr "Ярлык поля"
+
+#: core/views/meta_box_fields.php:76 core/views/meta_box_fields.php:143
+msgid "Field Name"
+msgstr "Имя поля"
+
+#: core/views/meta_box_fields.php:78
+msgid "Field Key"
+msgstr "Ключ поля"
+
+#: core/views/meta_box_fields.php:90
+msgid ""
+"No fields. Click the <strong>+ Add Field</strong> button to create your "
+"first field."
+msgstr ""
+"Нет полей. Нажмите на кнопку <strong>+ Добавить поле</strong>, чтобы создать "
+"свое первое поле."
+
+#: core/views/meta_box_fields.php:105 core/views/meta_box_fields.php:108
+msgid "Edit this Field"
+msgstr "Редактировать это поле"
+
+#: core/views/meta_box_fields.php:109
+msgid "Read documentation for this field"
+msgstr "Прочитайте документацию по этому полю"
+
+#: core/views/meta_box_fields.php:109
+msgid "Docs"
+msgstr "Документация"
+
+#: core/views/meta_box_fields.php:110
+msgid "Duplicate this Field"
+msgstr "Копировать это поле"
+
+#: core/views/meta_box_fields.php:110
+msgid "Duplicate"
+msgstr "Копировать"
+
+#: core/views/meta_box_fields.php:111
+msgid "Delete this Field"
+msgstr "Удалить это поле"
+
+#: core/views/meta_box_fields.php:111
+msgid "Delete"
+msgstr "Удалить"
+
+#: core/views/meta_box_fields.php:128
+msgid "This is the name which will appear on the EDIT page"
+msgstr "Это имя появится на странице редактирования"
+
+#: core/views/meta_box_fields.php:144
+msgid "Single word, no spaces. Underscores and dashes allowed"
+msgstr "Одно слово, без пробелов. Разрешены только _ и -"
+
+#: core/views/meta_box_fields.php:173
+msgid "Field Instructions"
+msgstr "Инструкции по полю"
+
+#: core/views/meta_box_fields.php:174
+msgid "Instructions for authors. Shown when submitting data"
+msgstr "Инструкции для авторов. Отображаются при отправке данных"
+
+#: core/views/meta_box_fields.php:186
+msgid "Required?"
+msgstr "Обязательно?"
+
+#: core/views/meta_box_fields.php:209
+msgid "Conditional Logic"
+msgstr "Условная логика"
+
+#: core/views/meta_box_fields.php:260 core/views/meta_box_location.php:117
+msgid "is equal to"
+msgstr "равно"
+
+#: core/views/meta_box_fields.php:261 core/views/meta_box_location.php:118
+msgid "is not equal to"
+msgstr "не равно"
+
+#: core/views/meta_box_fields.php:279
+msgid "Show this field when"
+msgstr "Отображать это поле, когда"
+
+#: core/views/meta_box_fields.php:285
+msgid "all"
+msgstr "все"
+
+#: core/views/meta_box_fields.php:286
+msgid "any"
+msgstr "любое"
+
+#: core/views/meta_box_fields.php:289
+msgid "these rules are met"
+msgstr "из этих условий придерживаются"
+
+#: core/views/meta_box_fields.php:303
+msgid "Close Field"
+msgstr "Закрыть поле"
+
+#: core/views/meta_box_fields.php:316
+msgid "Drag and drop to reorder"
+msgstr "Drag-and-drop для переноса"
+
+#: core/views/meta_box_fields.php:317
+msgid "+ Add Field"
+msgstr "+ Добавить поле"
+
+#: core/views/meta_box_location.php:48
+msgid "Rules"
+msgstr "Правила"
+
+#: core/views/meta_box_location.php:49
+msgid ""
+"Create a set of rules to determine which edit screens will use these "
+"advanced custom fields"
+msgstr ""
+"Создайте группы правил и условий, чтобы определить, какие экраны "
+"редактирования будут использовать расширенные произвольные поля."
+
+#: core/views/meta_box_location.php:60
+msgid "Show this field group if"
+msgstr "Отображать эту группу полей, если"
+
+#: core/views/meta_box_location.php:76
+msgid "Logged in User Type"
+msgstr "Вошедший тип пользователя"
+
+#: core/views/meta_box_location.php:78 core/views/meta_box_location.php:79
+msgid "Page"
+msgstr "Страница"
+
+#: core/views/meta_box_location.php:80
+msgid "Page Type"
+msgstr "Тип страницы"
+
+#: core/views/meta_box_location.php:81
+msgid "Page Parent"
+msgstr "Родитель страницы"
+
+#: core/views/meta_box_location.php:82
+msgid "Page Template"
+msgstr "Шаблон страницы"
+
+#: core/views/meta_box_location.php:84 core/views/meta_box_location.php:85
+msgid "Post"
+msgstr "Запись"
+
+#: core/views/meta_box_location.php:86
+msgid "Post Category"
+msgstr "Рубрика записи"
+
+#: core/views/meta_box_location.php:87
+msgid "Post Format"
+msgstr "Формат записи"
+
+#: core/views/meta_box_location.php:88
+msgid "Post Status"
+msgstr "Статус записи"
+
+#: core/views/meta_box_location.php:89
+msgid "Post Taxonomy"
+msgstr "Таксономия записи"
+
+#: core/views/meta_box_location.php:92
+msgid "Attachment"
+msgstr "Вложение"
+
+#: core/views/meta_box_location.php:93
+msgid "Taxonomy Term"
+msgstr "Термин таксономии"
+
+#: core/views/meta_box_location.php:146
+msgid "and"
+msgstr "и"
+
+#: core/views/meta_box_location.php:161
+msgid "Add rule group"
+msgstr "Добавить группу правил"
+
+#: core/views/meta_box_options.php:25
+msgid "Order No."
+msgstr "Порядок очередности"
+
+#: core/views/meta_box_options.php:26
+msgid "Field groups are created in order <br />from lowest to highest"
+msgstr ""
+"Группы полей создаются по очереди, начиная с самого меньшего числа по самое "
+"большое."
+
+#: core/views/meta_box_options.php:42
+msgid "Position"
+msgstr "Позиция"
+
+#: core/views/meta_box_options.php:52
+msgid "High (after title)"
+msgstr "Высокая "
+
+#: core/views/meta_box_options.php:53
+msgid "Normal (after content)"
+msgstr "Нормальное (после содержания)"
+
+#: core/views/meta_box_options.php:54
+msgid "Side"
+msgstr "Боковая панель"
+
+#: core/views/meta_box_options.php:64
+msgid "Style"
+msgstr "Стиль"
+
+#: core/views/meta_box_options.php:74
+msgid "No Metabox"
+msgstr "Без метабокса"
+
+#: core/views/meta_box_options.php:75
+msgid "Standard Metabox"
+msgstr "Стандартный метабокс"
+
+#: core/views/meta_box_options.php:84
+msgid "Hide on screen"
+msgstr "Скрыть на экране"
+
+#: core/views/meta_box_options.php:85
+msgid "<b>Select</b> items to <b>hide</b> them from the edit screen"
+msgstr "<b>Выберите</b> пункт, который надо <b>спрятать</b> с экрана."
+
+#: core/views/meta_box_options.php:86
+msgid ""
+"If multiple field groups appear on an edit screen, the first field group's "
+"options will be used. (the one with the lowest order number)"
+msgstr ""
+"Если несколько групп полей появляются на экране редактирования, будет "
+"использована первая группа полей. (Та, у которой меньшее число порядка "
+"очередности.)"
+
+#: core/views/meta_box_options.php:96
+msgid "Permalink"
+msgstr "Постоянная ссылка"
+
+#: core/views/meta_box_options.php:97
+msgid "Content Editor"
+msgstr "Текстовый редактор"
+
+#: core/views/meta_box_options.php:98
+msgid "Excerpt"
+msgstr "Цитата"
+
+#: core/views/meta_box_options.php:100
+msgid "Discussion"
+msgstr "Обсуждение"
+
+#: core/views/meta_box_options.php:101
+msgid "Comments"
+msgstr "Комментарии"
+
+#: core/views/meta_box_options.php:102
+msgid "Revisions"
+msgstr "Редакции"
+
+#: core/views/meta_box_options.php:103
+msgid "Slug"
+msgstr "Ярлык"
+
+#: core/views/meta_box_options.php:104
+msgid "Author"
+msgstr "Автор"
+
+#: core/views/meta_box_options.php:105
+msgid "Format"
+msgstr "Формат"
+
+#: core/views/meta_box_options.php:107
+msgid "Categories"
+msgstr "Рубрики"
+
+#: core/views/meta_box_options.php:108
+msgid "Tags"
+msgstr "Метки"
+
+#: core/views/meta_box_options.php:109
+msgid "Send Trackbacks"
+msgstr "Отправить обратные ссылки"
+
+#~ msgid ""
+#~ "/**\n"
+#~ " *  Install Add-ons\n"
+#~ " *  \n"
+#~ " *  The following code will include all 4 premium Add-Ons in your theme.\n"
+#~ " *  Please do not attempt to include a file which does not exist. This "
+#~ "will produce an error.\n"
+#~ " *  \n"
+#~ " *  All fields must be included during the 'acf/register_fields' action.\n"
+#~ " *  Other types of Add-ons (like the options page) can be included "
+#~ "outside of this action.\n"
+#~ " *  \n"
+#~ " *  The following code assumes you have a folder 'add-ons' inside your "
+#~ "theme.\n"
+#~ " *\n"
+#~ " *  IMPORTANT\n"
+#~ " *  Add-ons may be included in a premium theme as outlined in the terms "
+#~ "and conditions.\n"
+#~ " *  However, they are NOT to be included in a premium / free plugin.\n"
+#~ " *  For more information, please read http://www.advancedcustomfields.com/"
+#~ "terms-conditions/\n"
+#~ " */"
+#~ msgstr ""
+#~ "/**\n"
+#~ " *  Установка аддонов\n"
+#~ " *  \n"
+#~ " *  Следующий код включит все 4 премиум аддона в вашу тему.\n"
+#~ " *  Пожалуйста, не пытайтесь включить файл, который не существует. Это "
+#~ "вызовет ошибку.\n"
+#~ " *  \n"
+#~ " *  Все поля должны быть включены во время 'acf/register_fields' "
+#~ "действия.\n"
+#~ " *  Другие типы аддонов (такие, как страница с опциями) могут быть "
+#~ "включены вне этого действия.\n"
+#~ " *  \n"
+#~ " *  Следующий код предполагает, что у вас есть папка 'add-ons' в вашей "
+#~ "теме.\n"
+#~ " *\n"
+#~ " *  ВАЖНО\n"
+#~ " *  Аддоны могут быть включены в премиум темы, как указано в Правилах и "
+#~ "условиях.\n"
+#~ " *  Тем не менее, они не будут включены в бесплатный или премиум плагин.\n"
+#~ " *  Для большей информации, пожалуйста, прочтите http://www."
+#~ "advancedcustomfields.com/terms-conditions/\n"
+#~ " */"
+
+#~ msgid ""
+#~ "/**\n"
+#~ " *  Register Field Groups\n"
+#~ " *\n"
+#~ " *  The register_field_group function accepts 1 array which holds the "
+#~ "relevant data to register a field group\n"
+#~ " *  You may edit the array as you see fit. However, this may result in "
+#~ "errors if the array is not compatible with ACF\n"
+#~ " */"
+#~ msgstr ""
+#~ "/**\n"
+#~ " *  Регистрация группы полей\n"
+#~ " *\n"
+#~ " *  Функция 'register_field_group' принимает один массив, который держит "
+#~ "соответственные данные, чтобы зарегистрировать группу полей.\n"
+#~ " *  Вы можете редактировать этот массив, как посчитаете нужным. Однако, "
+#~ "это может вызвать ошибки, если массив не совмествим с ACF.\n"
+#~ " */"
+
+#~ msgid "eg: #ffffff"
+#~ msgstr "Пример: #ffffff"
+
+#~ msgid "File Updated."
+#~ msgstr "Файл обновлен."
+
+#~ msgid "Media attachment updated."
+#~ msgstr "Вложение медиа обновлено."
+
+#~ msgid "No files selected"
+#~ msgstr "Файлы не выбраны"
+
+#~ msgid "Add Selected Files"
+#~ msgstr "Добавить выбранные файлы"
+
+#~ msgid "Image Updated."
+#~ msgstr "Изображение обновлено."
+
+#~ msgid "No images selected"
+#~ msgstr "Изображение не выбраны"
+
+#~ msgid "Add Selected Images"
+#~ msgstr "Добавить выбранные изображения"
+
+#~ msgid "Define how to render html tags"
+#~ msgstr "Определите, как отображать HTML теги."
+
+#~ msgid "HTML"
+#~ msgstr "HTML"
+
+#~ msgid "Define how to render html tags / new lines"
+#~ msgstr "Определите, как отображать HTML теги и новые строки."
+
+#~ msgid "auto &lt;br /&gt;"
+#~ msgstr "автоматические &lt;br /&gt;"

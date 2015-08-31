@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<ruleset name="WordPress SEO">
+	<description>WordPress SEO rules for PHP_CodeSniffer</description>
+
+    <file>.</file>
+
+	<exclude-pattern>tests/*</exclude-pattern>
+	<exclude-pattern>vendor/*</exclude-pattern>
+	<exclude-pattern>node_modules/*</exclude-pattern>
+
+    <arg name="extensions" value="php" />
+    <arg value="nsp" />
+
+    <rule ref="Yoast">
+        <exclude name="WordPress.CSRF.NonceVerification.NoNonceVerification" /><!-- TODO audit and fix nonces -->
+    </rule>
+
+    <rule ref="WordPress.WP.EnqueuedResources.NonEnqueuedScript">
+        <exclude-pattern>css/xml-sitemap-xsl.php</exclude-pattern>
+    </rule>
+</ruleset>

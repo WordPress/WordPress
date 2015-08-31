@@ -1,0 +1,685 @@
+# [Countryname] Language File for sitemap (sitemap-[localname].po)
+# Copyright (C) 2005 [name] : [URL]
+# This file is distributed under the same license as the WordPress package.
+# [name] <[mail-address]>, 2005.
+# $Id: sitemap.pot 24948 2007-11-18 16:37:44Z arnee $
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: sitemap\n"
+"Report-Msgid-Bugs-To: <[mail-address]>\n"
+"POT-Creation-Date: 2005-06-15 00:00+0000\n"
+"PO-Revision-Date: 2009-06-07 02:23+0100\n"
+"Last-Translator: Arne Brachhold\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language-Team: \n"
+"X-Poedit-KeywordsList: _e;__\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SearchPath-0: C:\\Inetpub\\wwwroot\\wp\\wp-content\\plugins\\sitemap_beta\n"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:846
+msgid "Comment Count"
+msgstr "Колькасць каментароў"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:858
+msgid "Uses the number of comments of the post to calculate the priority"
+msgstr "Выкарыстае колькасць каментароў да артыкула для вылічэння прыярытэту"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:918
+msgid "Comment Average"
+msgstr "Сярэдняя колькасць каментароў"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:930
+msgid "Uses the average comment count to calculate the priority"
+msgstr "Выкарыстае сярэдняя колькасць каментароў для вылічэння прыярытэту"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:993
+msgid "Popularity Contest"
+msgstr "Папулярнасць дыскусіі"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:1005
+msgid "Uses the activated <a href=\"%1\">Popularity Contest Plugin</a> from <a href=\"%2\">Alex King</a>. See <a href=\"%3\">Settings</a> and <a href=\"%4\">Most Popular Posts</a>"
+msgstr "Выкарыстайце актываваны <a href=\"%1\">Убудова папулярнасці дыскусій</a> ад <a href=\"%2\">Alex King</a>. Гл. <a href=\"%3\">Налады</a> і <a href=\"%4\">Самыя папулярныя запісы</a>"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2415
+msgid "XML-Sitemap Generator"
+msgstr "Генератар XML-карты сайта"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2415
+msgid "XML-Sitemap"
+msgstr "XML-карта сайта"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2600
+msgid "Thank you very much for your donation. You help me to continue support and development of this plugin and other free software!"
+msgstr "Премного дзякую за ахвяраванні. Вы дапамагаеце мне ў продалжении падтрымкі і распрацоўкі гэтай убудовы і іншага вольнага ПА!"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2600
+msgid "Hide this notice"
+msgstr "Схаваць гэтую заўвагу"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2657
+#, php-format
+msgid "Thanks for using this plugin! You've installed this plugin over a month ago. If it works and your are satisfied with the results, isn't it worth at least one dollar? <a href=\"%s\">Donations</a> help me to continue support and development of this <i>free</i> software! <a href=\"%s\">Sure, no problem!</a>"
+msgstr "Дзякую Вас за выкарыстанне гэтай убудовы! Вы ўсталявалі яго звыш месяца назад. Калі ён працуе і Вы здаволеныя яго вынікамі, вышліце мне хоць бы $1? <a href=\"%s\">Ахвяраванні</a> дапамогуць мне ў падтрымцы і распрацоўцы гэтага <i>бясплатнага</i> ПА! <a href=\"%s\">Вядома, без праблем!</a>"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2657
+msgid "No thanks, please don't bug me anymore!"
+msgstr "Не, дзякуй. Прашу мяне больш не турбаваць!"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2635
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2835
+msgid "XML Sitemap Generator for WordPress"
+msgstr "Генератар XML-карты сайта для WordPress"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2740
+msgid "Configuration updated"
+msgstr "Канфігурацыя абноўленая"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2741
+msgid "Error while saving options"
+msgstr "Памылка пры захаванні параметраў"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2743
+msgid "Pages saved"
+msgstr "Старонкі захаваныя"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2744
+msgid "Error while saving pages"
+msgstr "Памылка пры захаванні старонак"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2748
+#, php-format
+msgid "<a href=\"%s\">Robots.txt</a> file saved"
+msgstr "Файл <a href=\"%s\">Robots.txt</a> захаваны"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2750
+msgid "Error while saving Robots.txt file"
+msgstr "Памылка пры захаванні файла Robots.txt"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2758
+msgid "The default configuration was restored."
+msgstr "Канфігурацыя па змаўчанні адноўленая."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2851
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2868
+msgid "open"
+msgstr "адкрыць"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2852
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2869
+msgid "close"
+msgstr "зачыніць"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2853
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2870
+msgid "click-down and drag to move this box"
+msgstr "Націсніце кнопку мышы і цягнеце для перамяшчэння гэтага блока"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2854
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2871
+msgid "click to %toggle% this box"
+msgstr "Націсніце для %toggle% на гэты блок"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2855
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2872
+msgid "use the arrow keys to move this box"
+msgstr "выкарыстайце стрэлкі для перамяшчэння гэтага блока"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2856
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2873
+msgid ", or press the enter key to %toggle% it"
+msgstr ", або націсніце копку ўвод (enter) для %toggle% яго"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2884
+msgid "About this Plugin:"
+msgstr "Аб гэта ўбудове:"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2886
+msgid "Plugin Homepage"
+msgstr "Хатняя старонка ўбудовы"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2887
+msgid "Notify List"
+msgstr "Спіс напамінку"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2888
+msgid "Support Forum"
+msgstr "Форум тэхнічнай падтрымкі"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2889
+msgid "Donate with PayPal"
+msgstr "Ахвяраваць праз PayPal"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2890
+msgid "My Amazon Wish List"
+msgstr "Мой спіс пажаданняў на Amazon"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2891
+msgid "translator_name"
+msgstr "Перавёў Сяргей Рывкин"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2891
+msgid "translator_url"
+msgstr "http://ryvkin.ru"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2895
+msgid "Sitemap Resources:"
+msgstr "Рэсурсы карыт сайта:"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2897
+msgid "Webmaster Tools"
+msgstr "Прылады вэб-майстра"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2898
+msgid "Webmaster Blog"
+msgstr "Дзённік вэб-майстра"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2900
+msgid "Site Explorer"
+msgstr "Прагляд сайта"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2901
+msgid "Search Blog"
+msgstr "Шукаць у дзённіку"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2903
+msgid "Sitemaps Protocol"
+msgstr "Пратакол выкарыстання карты сайта"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2904
+msgid "Official Sitemaps FAQ"
+msgstr "Афіцыйны ЧАВО па картах сайта"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2905
+msgid "My Sitemaps FAQ"
+msgstr "Мой ЧАВО па картах сайта"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2910
+msgid "Recent Donations:"
+msgstr "Апошнія ахвяраванні:"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2914
+msgid "List of the donors"
+msgstr "Спіс спонсараў"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2916
+msgid "Hide this list"
+msgstr "Схаваць гэты спіс"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2919
+msgid "Thanks for your support!"
+msgstr "Дзякуй за Вашу падтрымку!"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2931
+msgid "Status"
+msgstr "Статут"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2941
+#, php-format
+msgid "The sitemap wasn't built yet. <a href=\"%s\">Click here</a> to build it the first time."
+msgstr "Карта сайта яшчэ не пабудаваная. <a href=\"%s\">Націсніце тут</a> для стварэння яе ўпершыню."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2947
+msgid "Your <a href=\"%url%\">sitemap</a> was last built on <b>%date%</b>."
+msgstr "Ваша <a href=\"%url%\">карта сайта</a> апошні раз была пабудаваная: <b>%date%</b>."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2949
+msgid "There was a problem writing your sitemap file. Make sure the file exists and is writable. <a href=\"%url%\">Learn more</a"
+msgstr "Пры запісе Вашага файла з картай сайта адбылася памылка. Упэўніцеся, што файл існуе і адчынены на запіс. <a href=\"%url%\">Пачытаць яшчэ</a>"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2956
+msgid "Your sitemap (<a href=\"%url%\">zipped</a>) was last built on <b>%date%</b>."
+msgstr "Ваша карта сайта (<a href=\"%url%\">сціснутая</a>) апошні раз была пабудаваная: <b>%date%</b>."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2958
+msgid "There was a problem writing your zipped sitemap file. Make sure the file exists and is writable. <a href=\"%url%\">Learn more</a"
+msgstr "Пры запісе сціснутай карты сайта адбылася памылка. Упэўніцеся, што файл існуе і адчынены на запіс. <a href=\"%url%\">Пачытаць яшчэ</a>"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2964
+msgid "Google was <b>successfully notified</b> about changes."
+msgstr "Google быў <b>паспяхова паінфармаваны</b> аб зменах."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2967
+msgid "It took %time% seconds to notify Google, maybe you want to disable this feature to reduce the building time."
+msgstr "%time% секунд заняло інфармаванне Google; магчыма, Вас варта адключыць гэтую функцыю, каб знізіць час пабудовы карты."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3011
+#, php-format
+msgid "There was a problem while notifying Google. <a href=\"%s\">View result</a>"
+msgstr "Пры інфармаванні Google адбылася памылка. <a href=\"%s\">Паглядзець вынік</a>"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2976
+msgid "YAHOO was <b>successfully notified</b> about changes."
+msgstr "YAHOO быў <b>паспяхова паінфармаваны</b> аб зменах."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2979
+msgid "It took %time% seconds to notify YAHOO, maybe you want to disable this feature to reduce the building time."
+msgstr "%time% секунд заняло інфармаванне YAHOO; магчыма, Вас варта адключыць гэтую функцыю, каб знізіць час пабудовы карты."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3023
+#, php-format
+msgid "There was a problem while notifying YAHOO. <a href=\"%s\">View result</a>"
+msgstr "Пры інфармаванні YAHOO адбылася памылка. <a href=\"%s\">Паглядзець вынік</a>"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2988
+msgid "Ask.com was <b>successfully notified</b> about changes."
+msgstr "Ask.com быў <b>паспяхова паінфармаваны</b> аб зменах."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2991
+msgid "It took %time% seconds to notify Ask.com, maybe you want to disable this feature to reduce the building time."
+msgstr "%time% секунд заняло інфармаванне Ask.com; магчыма, Вас варта адключыць гэтую функцыю, каб знізіць час пабудовы карты."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3035
+#, php-format
+msgid "There was a problem while notifying Ask.com. <a href=\"%s\">View result</a>"
+msgstr "Пры інфармаванні Ask.com адбылася памылка. <a href=\"%s\">Паглядзець вынік</a>"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3002
+msgid "The building process took about <b>%time% seconds</b> to complete and used %memory% MB of memory."
+msgstr "Працэс пабудовы заняў прыкладна <b>%time% секунд</b> і выкарыстаў %memory% MB памяці."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3004
+msgid "The building process took about <b>%time% seconds</b> to complete."
+msgstr "Працэс пабудовы заняў прыкладна <b>%time% секунд</b>."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3008
+msgid "The content of your sitemap <strong>didn't change</strong> since the last time so the files were not written and no search engine was pinged."
+msgstr "Утрыманне Вашай карты сайта <strong>не змянялася</strong> за апошні час, таму файлы не запісваліся і пошукавыя сістэмы не інфармаваліся."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3012
+msgid "The last run didn't finish! Maybe you can raise the memory or time limit for PHP scripts. <a href=\"%url%\">Learn more</a>"
+msgstr "Апошні запуск не быў завершаны! Магчыма, Вы перавысілі ліміты памяці або часу выканання. <a href=\"%url%\">Пачытаць яшчэ</a>"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3014
+msgid "The last known memory usage of the script was %memused%MB, the limit of your server is %memlimit%."
+msgstr "Апошні раз скрыпт выкарыстаў %memused%MB памяці, ліміт памяці Вашага сервера складае %memlimit%."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3018
+msgid "The last known execution time of the script was %timeused% seconds, the limit of your server is %timelimit% seconds."
+msgstr "Апошні раз скрыпт працаваў %timeused% секунд, абмежаванне часу на Вашым серверы складае %timelimit% секунд."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3022
+msgid "The script stopped around post number %lastpost% (+/- 100)"
+msgstr "Скрыпт спыніўся каля артыкула нумар %lastpost% (+/- 100)"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3025
+#, php-format
+msgid "If you changed something on your server or blog, you should <a href=\"%s\">rebuild the sitemap</a> manually."
+msgstr "Калі Вы нешта памянялі на Вашым сервре або ў дзённіку, Вам неабходна <a href=\"%s\">зноўку пабудаваць карту сайта</a> уручную."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3027
+#, php-format
+msgid "If you encounter any problems with the build process you can use the <a href=\"%d\">debug function</a> to get more information."
+msgstr "Калі Вы сапхнуліся з якія-небудзь праблемамі ў працэсе пабудовы, Вы можаце скарыстацца <a href=\"%d\">функцыяй адладкі</a> для атрымання дадатковай інфармацыі."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3040
+msgid "Basic Options"
+msgstr "Базавыя параметры"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3044
+msgid "Sitemap files:"
+msgstr "Файлы карты сайта:"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3044
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3059
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3079
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3104
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3121
+msgid "Learn more"
+msgstr "Пачытаць яшчэ"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3049
+msgid "Write a normal XML file (your filename)"
+msgstr "Запісаць звычайны XML файл (Ваша імя файла)"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3055
+msgid "Write a gzipped file (your filename + .gz)"
+msgstr "Запісаць запакаваны XML файл (Ваша імя файла + .gz)"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3059
+msgid "Building mode:"
+msgstr "Рэжым пабудовы карты:"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3064
+msgid "Rebuild sitemap if you change the content of your blog"
+msgstr "Пабудуйце зноўку карту сайта, калі Вы змянілі ўтрыманне Вашага дзённіка"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3071
+msgid "Enable manual sitemap building via GET Request"
+msgstr "Дазволіць ручную пабудову карты сайта з дапамогай запыту GET"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3075
+msgid "This will allow you to refresh your sitemap if an external tool wrote into the WordPress database without using the WordPress API. Use the following URL to start the process: <a href=\"%1\">%1</a> Please check the logfile above to see if sitemap was successfully built."
+msgstr "Гэта дазволіць Вам абнавіць карту сайта, калі знешняя прылада будзе пісаць у базу WordPress? не выкарыстаючы WordPress API. Выкарыстайце наступны URL для выканання працэсу: <a href=\"%1\">%1</a> Паглядзіце пратакол (гл. вышэй) для праверкі, ці пабудаваная карта сайта."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3079
+msgid "Update notification:"
+msgstr "Абнавіць апавяшчэнне:"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3083
+msgid "Notify Google about updates of your Blog"
+msgstr "Апавясціць Google аб зменах у Вашым дзённіку"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3084
+#, php-format
+msgid "No registration required, but you can join the <a href=\"%s\">Google Webmaster Tools</a> to check crawling statistics."
+msgstr "Рэгістрацыя не патрабуецца, але Вы можаце далучыцца да <a href=\"%s\">Прыладам вэб-майстра Google</a> для прагляду статыстыкі пошукавых робатаў."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3088
+msgid "Notify Ask.com about updates of your Blog"
+msgstr "Апавясціць Asc.com аб зменах у Вашым дзённіку"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3089
+msgid "No registration required."
+msgstr "Рэгістрацыя не патрабуецца."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3093
+msgid "Notify YAHOO about updates of your Blog"
+msgstr "Апавясціць YAHOO аб зменах у Вашым дзённіку"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3154
+msgid "Your Application ID:"
+msgstr "Ваш ідэнтыфікатар прыкладання (Application ID):"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3155
+#, php-format
+msgid "Don't you have such a key? <a href=\"%s1\">Request one here</a>!</a> %s2"
+msgstr "У Вас няма такога ключа?? <a href=\"%s1\">Запытаеце тут</a>!</a> %s2"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3099
+#, php-format
+msgid "Modify or create %s file in blog root which contains the sitemap location."
+msgstr "Змяніць або стварыць файл %s у дзённіку, які ўтрымоўвае інфармацыю аб размяшчэнні карты сайта."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3102
+msgid "File permissions: "
+msgstr "Дазволы на доступ да файлаў: "
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3107
+msgid "OK, robots.txt is writable."
+msgstr "OK, robots.txt адчынены на запіс."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3109
+msgid "Error, robots.txt is not writable."
+msgstr "Памылка, robots.txt не адчынены на запіс."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3113
+msgid "OK, robots.txt doesn't exist but the directory is writable."
+msgstr "OK, robots.txt не існуе, але каталог адчынены на запіс."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3115
+msgid "Error, robots.txt doesn't exist and the directory is not writable"
+msgstr "Памылка, robots.txt не існуе, і каталог не адчынены на запіс"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3121
+msgid "Advanced options:"
+msgstr "Пашыраныя параметры:"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3124
+msgid "Limit the number of posts in the sitemap:"
+msgstr "Абмежаваць колькасць артыкулаў у карце сайта:"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3124
+msgid "Newer posts will be included first"
+msgstr "Навейшыя артыкулы будуць уключаныя першымі"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3127
+msgid "Try to increase the memory limit to:"
+msgstr "Паспрабаваць павялічыць ліміт памяці да:"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3127
+msgid "e.g. \"4M\", \"16M\""
+msgstr "напрыклад, \"4M\", \"16M\""
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3130
+msgid "Try to increase the execution time limit to:"
+msgstr "Паспрабаваць павялічыць абмежаванне часу выканання да:"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3130
+msgid "in seconds, e.g. \"60\" or \"0\" for unlimited"
+msgstr "у секундах, напрыклад, \"60\" або \"0\" для неабмежаванага часу"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3133
+msgid "Include a XSLT stylesheet:"
+msgstr "Уключыць табліцу стыляў XSLT:"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3133
+msgid "Use Default"
+msgstr "Выкарыстаць значэнне па змаўчанні"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3133
+msgid "Full or relative URL to your .xsl file"
+msgstr "Поўны або адносны URL да Вашага файла .xsl"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3152
+msgid "Enable MySQL standard mode. Use this only if you're getting MySQL errors. (Needs much more memory!)"
+msgstr "Дазволіць стандартны рэжым MySQL. Выкарыстаць толькі ў выпадку памылак MySQL. (Патрабуе нашмат больш памяці!)"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3166
+msgid "Build the sitemap in a background process (You don't have to wait when you save a post)"
+msgstr "Будаваць карту сайта ў фонавым працэсе (Вам не трэба чакаць захаванні артыкула)"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3206
+msgid "Exclude the following posts or pages:"
+msgstr "Выключыць наступныя артыкулы або старонкі:"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3206
+msgid "List of IDs, separated by comma"
+msgstr "Спіс ідэнтыфікатараў (ID), падзеленых коскамі"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3144
+msgid "Additional pages"
+msgstr "Дадатковыя старонкі"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3149
+msgid "Here you can specify files or URLs which should be included in the sitemap, but do not belong to your Blog/WordPress.<br />For example, if your domain is www.foo.com and your blog is located on www.foo.com/blog you might want to include your homepage at www.foo.com"
+msgstr "Тут Вы можаце паказаць файлы або URL, якія павінны быць уключаныя ў карту сайта, але не прыналежныя Вашаму дзённіку/WordPress.<br />Напрыклад,калі Ваш дамен www.foo.com, а Ваш дзённік размешчаны ў www.foo.com/blog, Вам можа спатрэбіцца дадаць хатнюю старонку з www.foo.com"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3151
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3462
+msgid "Note"
+msgstr "Заўвага"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3152
+msgid "If your blog is in a subdirectory and you want to add pages which are NOT in the blog directory or beneath, you MUST place your sitemap file in the root directory (Look at the &quot;Location of your sitemap file&quot; section on this page)!"
+msgstr "Калі Ваш дзённік размешчаны ў падкаталогу, і Вы жадаеце дадаць старонкі, якія знаходзяцца ВЫШЭЙ у структуры каталогаў, Вам НЕАБХОДНА змясціць карту сайта ў каранёвы каталог (Гл. секцыю &quot;Размяшчэнне файла з картай сайта&quot; на гэтай старонцы)!"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3154
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3300
+msgid "URL to the page"
+msgstr "URL старонкі"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3155
+msgid "Enter the URL to the page. Examples: http://www.foo.com/index.html or www.foo.com/home "
+msgstr "Увядзіце URL гэтай старонкі. Прыклады: http://www.foo.com/index.html або www.foo.com/home "
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3157
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3301
+msgid "Priority"
+msgstr "Прыярытэт"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3158
+msgid "Choose the priority of the page relative to the other pages. For example, your homepage might have a higher priority than your imprint."
+msgstr "Вылучыце прыярытэт гэтай старонкі адносна іншых старонак. Напрыклад, Ваша галоўная старонка можа мець больш высокі прыярытэт, чым старонка з інфармацыяй аб сайце."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3160
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3303
+msgid "Last Changed"
+msgstr "Апошні раз змянялася"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3161
+msgid "Enter the date of the last change as YYYY-MM-DD (2005-12-31 for example) (optional)."
+msgstr "Увядзіце дату апошняй змены ў фармаце YYYY-MM-DD (2005-12-31, напрыклад) (не абавязкова)."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3302
+msgid "Change Frequency"
+msgstr "Частата змен"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3304
+msgid "#"
+msgstr "№"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3309
+msgid "No pages defined."
+msgstr "Няма старонак."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3314
+msgid "Add new page"
+msgstr "Дадаць новую старонку"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3325
+msgid "Post Priority"
+msgstr "Прыярытэт артыкула"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3329
+msgid "Please select how the priority of each post should be calculated:"
+msgstr "Вылучыце, як будзе вылічацца прыярытэт кожнага артыкула:"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3331
+msgid "Do not use automatic priority calculation"
+msgstr "Не выкарыстаць аўтаматычнае вылічэнне прыярытэту"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3331
+msgid "All posts will have the same priority which is defined in &quot;Priorities&quot;"
+msgstr "Усе артыкулы будуць мець аднолькавы прыярытэт, які вызначаны ў &quot;Прыярытэтах&quot;"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3348
+msgid "Location of your sitemap file"
+msgstr "Размяшчэнне Вашага файла з картай сайта"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3353
+msgid "Automatic detection"
+msgstr "Аўтаматычнае азначэнне"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3357
+msgid "Filename of the sitemap file"
+msgstr "Імя файла з картай сайта"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3360
+msgid "Detected Path"
+msgstr "Выяўлены шлях"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3360
+msgid "Detected URL"
+msgstr "Выяўлены URL"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3365
+msgid "Custom location"
+msgstr "Карыстацкае размяшчэнне"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3369
+msgid "Absolute or relative path to the sitemap file, including name."
+msgstr "Абсалютны або адносны шлях да файла з картай сайта, уключаючы імя файла."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3371
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3380
+msgid "Example"
+msgstr "Прыклад"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3378
+msgid "Complete URL to the sitemap file, including name."
+msgstr "Запоўніце URL да файла з картай сайта, уключаючы імя файла."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3397
+msgid "Sitemap Content"
+msgstr "Утрыманне карты сайта"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3405
+msgid "Include homepage"
+msgstr "Уключыць хатнюю старонку"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3411
+msgid "Include posts"
+msgstr "Уключыць артыкулы"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3417
+msgid "Include static pages"
+msgstr "Уключыць статычныя старонкі"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3423
+msgid "Include categories"
+msgstr "Уключыць катэгорыі"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3429
+msgid "Include archives"
+msgstr "Уключыць архівы"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3436
+msgid "Include tag pages"
+msgstr "Уключыць старонкі пазанак"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3443
+msgid "Include author pages"
+msgstr "Уключыць старонкі аўтараў"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3457
+msgid "Change frequencies"
+msgstr "Змяніць частоты"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3463
+msgid "Please note that the value of this tag is considered a hint and not a command. Even though search engine crawlers consider this information when making decisions, they may crawl pages marked \"hourly\" less frequently than that, and they may crawl pages marked \"yearly\" more frequently than that. It is also likely that crawlers will periodically crawl pages marked \"never\" so that they can handle unexpected changes to those pages."
+msgstr "Звернеце ўвагу, што значэнне гэтай пазнакі лічыцца рэкамендацыяй і не з'яўляецца камандай. Нават калі пошукавыя робаты бяруць гэтую інфармацыю да ўвагі для прыняцця рашэнняў, яны могуць аглядаць старонкі, пазначаныя \"раз у гадзіну\" радзей, чым запытана, і яны могуць аглядаць старонкі, пазначаныя як \"раз у год\" гушчару, чым запытана. Таксама бывае, што пошукавыя робаты аглядаюць старонкі, пазначаныя як \"ніколі\", адзначаючы не прадугледжаныя змены на гэтых старонках."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3469
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3535
+msgid "Homepage"
+msgstr "Галоўная старонка"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3475
+msgid "Posts"
+msgstr "Артыкулы"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3481
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3553
+msgid "Static pages"
+msgstr "Статычныя старонкі"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3487
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3559
+msgid "Categories"
+msgstr "Катэгорыі"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3493
+msgid "The current archive of this month (Should be the same like your homepage)"
+msgstr "Бягучы архіў за гэты месяц (Павінен быць тым жа, што і Галоўная старонка)"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3499
+msgid "Older archives (Changes only if you edit an old post)"
+msgstr "Старыя архівы (Змяняюцца толькі ў выпадку, калі Вы рэдагуеце старыя артыкулы)"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3506
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3572
+msgid "Tag pages"
+msgstr "Старонкі пазанак"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3513
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3579
+msgid "Author pages"
+msgstr "Старонкі аўтараў"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3527
+msgid "Priorities"
+msgstr "Прыярытэты"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3541
+msgid "Posts (If auto calculation is disabled)"
+msgstr "Артыкулы (Калі аўтаматычнае вылічэнне забароненае)"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3547
+msgid "Minimum post priority (Even if auto calculation is enabled)"
+msgstr "Мінімальны прыярытэт артыкула (Нават калі  аўтаматычнае вылічэнне дазволена)"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3565
+msgid "Archives"
+msgstr "Архівы"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3590
+msgid "Update options"
+msgstr "Абнавіць параметры"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3591
+msgid "Reset options"
+msgstr "Вярнуць зыходныя значэнні"
+
