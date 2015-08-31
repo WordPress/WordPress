@@ -159,13 +159,13 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 	}
 
 	function getShortcode( content ) {
-		return content.replace( /<div (?:id="attachment_|class="mceTemp)[^>]*>([\s\S]+?)<\/div>/g, function( a, b ) {
+		return content.replace( /(?:<div [^>]+mceTemp[^>]+>)?\s*(<dl [^>]+wp-caption[^>]+>[\s\S]+?<\/dl>)\s*(?:<\/div>)?/g, function( all, dl ) {
 			var out = '';
 
-			if ( b.indexOf('<img ') === -1 ) {
+			if ( dl.indexOf('<img ') === -1 ) {
 				// Broken caption. The user managed to drag the image out?
 				// Try to return the caption text as a paragraph.
-				out = b.match( /<dd [^>]+>([\s\S]+?)<\/dd>/i );
+				out = dl.match( /<dd [^>]+>([\s\S]+?)<\/dd>/i );
 
 				if ( out && out[1] ) {
 					return '<p>' + out[1] + '</p>';
@@ -174,7 +174,7 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 				return '';
 			}
 
-			out = b.replace( /\s*<dl ([^>]+)>\s*<dt [^>]+>([\s\S]+?)<\/dt>\s*<dd [^>]+>([\s\S]*?)<\/dd>\s*<\/dl>\s*/gi, function( a, b, c, caption ) {
+			out = dl.replace( /\s*<dl ([^>]+)>\s*<dt [^>]+>([\s\S]+?)<\/dt>\s*<dd [^>]+>([\s\S]*?)<\/dd>\s*<\/dl>\s*/gi, function( a, b, c, caption ) {
 				var id, classes, align, width;
 
 				width = c.match( /width="([0-9]*)"/ );
@@ -214,7 +214,7 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 			if ( out.indexOf('[caption') === -1 ) {
 				// the caption html seems broken, try to find the image that may be wrapped in a link
 				// and may be followed by <p> with the caption text.
-				out = b.replace( /[\s\S]*?((?:<a [^>]+>)?<img [^>]+>(?:<\/a>)?)(<p>[\s\S]*<\/p>)?[\s\S]*/gi, '<p>$1</p>$2' );
+				out = dl.replace( /[\s\S]*?((?:<a [^>]+>)?<img [^>]+>(?:<\/a>)?)(<p>[\s\S]*<\/p>)?[\s\S]*/gi, '<p>$1</p>$2' );
 			}
 
 			return out;
