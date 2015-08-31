@@ -428,16 +428,13 @@ class WP_Comments_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 *
 	 * @global WP_Post $post
-	 * @global object  $comment
 	 *
-	 * @param object $a_comment
+	 * @param object $comment
 	 */
-	public function single_row( $a_comment ) {
-		global $post, $comment;
+	public function single_row( $comment ) {
+		global $post;
 
-		$comment = $a_comment;
 		$the_comment_class = wp_get_comment_status( $comment->comment_ID );
 		if ( ! $the_comment_class ) {
 			$the_comment_class = '';
