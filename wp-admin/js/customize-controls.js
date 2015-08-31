@@ -655,6 +655,9 @@
 						completeCallback: expand
 					});
 				} else {
+					api.panel.each( function( panel ) {
+						panel.collapse();
+					});
 					expand();
 				}
 
@@ -1264,7 +1267,7 @@
 
 				// Collapse any sibling sections/panels
 				api.section.each( function ( section ) {
-					if ( ! section.panel() ) {
+					if ( panel.id !== section.panel() ) {
 						section.collapse( { duration: 0 } );
 					}
 				});
