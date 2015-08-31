@@ -1,0 +1,46 @@
+.wpseo-score-icon {
+	display: inline-block;
+	width: 12px;
+	height: 12px;
+	margin-left: 6px;
+	border-radius: 50%;
+	background: #888;
+	line-height: 16px;
+}
+
+.wpseo-score-icon.good {
+	background-color: #7ad03a;
+}
+
+.wpseo-score-icon.ok {
+	background-color: #ffba00;
+}
+
+.wpseo-score-icon.poor {
+	background-color: #ee7c1b;
+}
+
+.wpseo-score-icon.bad {
+	background-color: #dd3d36;
+}
+
+.wpseo-score-icon.na {
+	background-color: #888;
+}
+
+.wpseo-score-icon.noindex {
+	background-color: #1e8cbe;
+}
+
+th#wpseo-score {
+	width: 63px;
+}
+
+@media screen and ( max-width: 782px ) {
+	.column-wpseo-title,
+	.column-wpseo-score,
+	.column-wpseo-metadesc,
+	.column-wpseo-focuskw {
+		display: none;
+	}
+}

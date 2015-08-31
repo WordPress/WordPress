@@ -1,0 +1,161 @@
+# Translation of the WordPress plugin   by .
+# Copyright (C) 2010
+# This file is distributed under the same license as the  package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/cms-tree-page-view\n"
+"POT-Creation-Date: 2010-06-30 19:00+0000\n"
+"PO-Revision-Date: 2011-03-08 19:52+0100\n"
+"Last-Translator: Szijártó József <hutchington@gmail.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: functions.php:45
+msgid "Enter title of new page"
+msgstr "Új oldal címének megadása"
+
+#: functions.php:46
+msgid "child pages"
+msgstr "aloldalak"
+
+#: functions.php:47
+msgid "Edit page"
+msgstr "Oldal szerkesztése"
+
+#: functions.php:48
+msgid "View page"
+msgstr "Oldal megtekintése"
+
+#: functions.php:49
+msgid "Edit"
+msgstr "Szerkeszt"
+
+#: functions.php:50
+msgid "View"
+msgstr "Megtekint"
+
+#: functions.php:51
+msgid "Add page"
+msgstr "Oldal hozzáadása"
+
+#: functions.php:52
+msgid "Add new page after"
+msgstr "Oldal hozzáadása ezután"
+
+#: functions.php:53
+msgid "after"
+msgstr "utána"
+
+#: functions.php:54
+msgid "inside"
+msgstr "belső"
+
+#: functions.php:55
+msgid "Add new page inside"
+msgstr "Új oldal bele"
+
+#: functions.php:56
+msgid "draft"
+msgstr "Vázlat"
+
+#: functions.php:57
+msgid "future"
+msgstr "jövő"
+
+#: functions.php:58
+msgid "protected"
+msgstr "védett"
+
+#: functions.php:59
+msgid "pending"
+msgstr "függőben"
+
+#: functions.php:60
+msgid "private"
+msgstr "privát"
+
+#: functions.php:61
+msgid "Password protected page"
+msgstr "Jelszóval védett"
+
+#: functions.php:113
+msgid "settings"
+msgstr "beállítások"
+
+#: functions.php:120
+msgid "Show tree"
+msgstr "Fa mutatása"
+
+#: functions.php:124
+msgid "on the dashboard"
+msgstr "a Vezérlőpulton"
+
+#: functions.php:128
+msgid "under the pages menu"
+msgstr "az oldalak menüje alatt"
+
+#: functions.php:135
+msgid "Save Changes"
+msgstr "Változtatások mentése"
+
+#: functions.php:150
+msgid "No pages found. Maybe you want to <a href='post-new.php?post_type=page'>add a new page</a>?"
+msgstr "Nem található az oldal. Szeretnél hozzáadni egy <a href='post-new.php?post_type=page'>új oldalt</a>?"
+
+#: functions.php:157
+msgid "All"
+msgstr "Összes"
+
+#: functions.php:158
+msgid "Public"
+msgstr "Publikus"
+
+#: functions.php:160
+msgid "Expand"
+msgstr "Kibont"
+
+#: functions.php:161
+msgid "Collapse"
+msgstr "Becsuk"
+
+#: functions.php:166
+msgid "Clear search"
+msgstr "Keresés törlése"
+
+#: functions.php:167
+msgid "Search"
+msgstr "Keresés"
+
+#: functions.php:168
+msgid "Searching..."
+msgstr "Keresés..."
+
+#: functions.php:173
+msgid "Loading..."
+msgstr "Betöltés..."
+
+#: functions.php:175
+msgid "Search: no pages found"
+msgstr "Keresés: nem találhatók oldalak"
+
+#: functions.php:177
+msgid "Loading tree"
+msgstr "Fa betöltése"
+
+#: functions.php:277
+msgid "<Untitled page>"
+msgstr "<Névtelen oldal>"
+
+#: functions.php:295
+msgid "Click to edit. Drag to move."
+msgstr "Kattints a szerkesztésért. Fogd a mozgatásért."
+
+#: functions.php:432
+msgid "New page"
+msgstr "Új oldal"
+

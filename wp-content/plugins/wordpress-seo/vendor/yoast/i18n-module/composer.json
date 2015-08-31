@@ -1,0 +1,20 @@
+{
+    "name"       : "yoast/i18n-module",
+    "description": "Handle i18n for WordPress plugins.",
+    "keywords"   : ["wordpress"],
+    "homepage"   : "https://github.com/Yoast/i18n-module",
+    "license"    : "GPL-2.0+",
+    "authors"    : [
+        {
+            "name"    : "Team Yoast",
+            "email"   : "support@yoast.com",
+            "homepage": "https://yoast.com"
+        }
+    ],
+    "support"    : {
+        "issues": "https://github.com/Yoast/i18n-module/issues"
+    },
+    "autoload"   : {
+        "classmap": ["i18n-module.php"]
+    }
+}

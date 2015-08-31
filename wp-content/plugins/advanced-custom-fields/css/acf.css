@@ -1,0 +1,352 @@
+/*--------------------------------------------------------------------------------------------
+*
+*	ACF manage field groups
+*
+*--------------------------------------------------------------------------------------------*/
+
+#icon-edit {
+	background: url(../images/sprite.png) 0 0 no-repeat;
+}
+
+#acf-cols {
+	position: relative; 
+	clear: both;
+}
+
+#acf-col-left {
+	margin-right: 300px;
+}
+
+#acf-col-left .tablenav,
+#acf-col-left p.search-box {
+	display: none;
+}
+
+#acf-col-left .wp-list-table .check-column {
+	padding-left: 5px;
+}
+
+#acf-col-left .wp-list-table th#fields {
+	width: 25%;
+}
+
+#acf-col-left .tablenav.bottom {
+	display: block;
+}
+
+#acf-col-left form {
+	position: relative;
+	float: left;
+	width: 100%;
+}
+
+#acf-col-right {
+	float: right; 
+	width: 281px; 
+	padding-top: 37px !important;
+}
+
+.acf-form-table {
+	max-width: 1100px;
+}
+
+.acf-form-table > tbody > tr > th,
+.acf-form-table > tbody > tr > td {
+	padding-bottom: 30px;
+}
+
+.acf-export-form {
+	display: block;
+}
+
+.acf-export-form select {
+	width: 100%;
+}
+
+body.custom-fields_page_acf-settings .wp-pointer-arrow {
+	left: 15px !important;
+}
+
+.wp-pointer-content ol {
+    padding: 0 15px;
+    margin-left: 1.5em;
+}
+
+.acf-form-table pre,
+.acf-form-table .pre {
+	padding: 10px;
+	margin: 0;
+	font-family: Monaco,"Andale Mono","Courier New",monospace !important;
+	resize: none;
+	height: auto;
+	width: 100%;
+	padding: 0;
+	border: 0 none;
+	border-radius: 0;
+}
+
+.acf-form-table select option {
+    padding: 3px;
+}
+
+
+/*--------------------------------------------------------------------------
+*
+*	Columns
+*	
+*-------------------------------------------------------------------------*/
+
+.row-actions .inline {
+	display: none;
+}
+
+
+/*--------------------------------------------------------------------------
+*
+*	Add-Ons
+*	
+*-------------------------------------------------------------------------*/
+
+#add-ons {
+	margin-bottom: 20px;
+}
+
+#add-ons .add-on-group {
+	margin-top: 20px;
+	padding-top: 20px;
+	border-top: #F5F5F5 solid 1px;	
+}
+
+#add-ons .add-on-group:first-child {
+	margin-top: 0;
+	padding-top: 0;
+	border-top: 0 none;	
+}
+
+#add-ons .add-on {
+	float: left;
+	width: 220px;
+	margin: 10px;
+}
+
+#add-ons .add-on h3 {
+	margin-top: 0.5em;
+}
+
+#add-ons .add-on h3 a {
+	color: inherit;
+	text-decoration: none;
+}
+
+#add-ons .add-on .inner {
+	min-height: 105px;
+}
+
+#add-ons .add-on-active .button {
+	padding-left: 4px;
+}
+
+.acf-sprite-tick {
+	width: 14px;
+	height: 14px;
+	margin: 4px 5px 0 0;
+	background-position: 0px -300px;
+}
+
+#add-ons .add-on-title {
+	float: left;
+	width: 100%;
+	margin: 25px 0 25px;
+	border-top: #F5F5F5 solid 1px;
+}
+
+
+/*--------------------------------------------------------------------------
+*
+*	About (post update information)
+*	
+*-------------------------------------------------------------------------*/
+
+.acf-content {
+	font-size: 15px;
+    margin: 25px 40px 0 20px;
+    max-width: 1050px;
+    position: relative;
+}
+
+
+/*
+*  Title
+*/
+
+.acf-content-title h1 {
+    color: #333333;
+    font-size: 2.8em;
+    font-weight: 200;
+    line-height: 1.2em;
+    margin: 0.2em 0 0;
+}
+
+.acf-content-title h2 {
+    color: #777777;
+    font-size: 24px;
+    font-weight: normal;
+    line-height: 1.6em;
+    margin: 1em 0 1.4em;
+    font-family: "HelveticaNeue-Light","Helvetica Neue Light","Helvetica Neue",sans-serif;
+}
+
+
+/*
+*  Tabs
+*/
+
+.acf-content .nav-tab-wrapper {
+	padding-left: 6px;
+	margin-bottom: 30px;
+}
+
+.acf-content .nav-tab-wrapper .nav-tab {
+    color: #21759B;
+    font-size: 18px;
+    margin: 0 3px -1px 0;
+    padding: 4px 10px 6px;
+    vertical-align: top;
+}
+
+.acf-tab-content {
+	display: none;
+}
+
+.acf-tab-content.active {
+	display: block;
+}
+
+
+
+/*
+*  Body
+*/
+
+.acf-content-body {
+	margin: 0 0 30px;
+}
+
+.acf-content-body hr {	
+	border: 0 none;
+	border-top: #DFDFDF solid 1px;
+	background: transparent;
+	margin: 30px 0;
+	clear: both;
+}
+
+.acf-content-body h3 {
+	font-size: 24px;
+	margin: 2em 0 1em;
+}
+
+.acf-content-body h4 {
+	color: #464646;
+	font-size: 1em;
+	margin: 2em 0 0.6em;
+}
+
+.acf-content-body h4 + p {
+	 margin-top: 0.6em;
+}
+
+.acf-content-body p {
+	line-height: 1.6em;
+   
+}
+
+#acf-add-ons-table {
+	
+}
+
+#acf-add-ons-table img {
+	display: block;
+	width: 120px;
+}
+
+
+/*
+*  Footer
+*/ 
+
+.acf-content-footer {
+	margin: 60px 0 30px;
+}
+
+
+/*
+*  Cangelog
+*/
+
+.acf-content-body ul {
+	list-style: disc outside none;
+	padding-left: 30px;
+}
+
+.acf-content-body ul li {
+	margin: 12px 0;
+}
+
+.acf-content-body ul li a {
+	
+}
+
+
+/*
+*  Download
+*/
+
+
+#acf-download-add-ons-table {
+	width: auto;
+	min-width: 500px;
+}
+
+#acf-download-add-ons-table img {
+	width: 50px;
+}
+
+#acf-download-add-ons-table td {
+	vertical-align: middle;
+}
+
+#acf-download-add-ons-table td.td-image {
+	width: 50px;
+}
+
+#acf-download-add-ons-table td.td-name {
+	
+}
+
+#acf-download-add-ons-table td.td-download {
+	width: 90px;
+}
+
+
+/*--------------------------------------------------------------------------
+*
+*	Retina
+*	
+*-------------------------------------------------------------------------*/
+
+@media
+only screen and (-webkit-min-device-pixel-ratio: 2),
+only screen and (   min--moz-device-pixel-ratio: 2),
+only screen and (     -o-min-device-pixel-ratio: 2/1),
+only screen and (        min-device-pixel-ratio: 2),
+only screen and (                min-resolution: 192dpi),
+only screen and (                min-resolution: 2dppx) { 
+	
+	#icon-edit,
+	#icon-acf {
+		background-image: url(../images/sprite@2x.png);
+		background-size: 100px 600px;
+	}
+
+	
+}

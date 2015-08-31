@@ -1,0 +1,601 @@
+= 0.9.3 =
+* Added support for extensions
+* Added support for WordPress SEO image filter and CDN
+* Added file exclusions for media query string logic
+* Added user agents to user agents groups
+* Added CDN FTP path / host test
+* Fixed object cache and database cache for localization plugins
+* Fixed chinese filenames when using CDN
+* Fixed removal of stale cached files
+* Fixed missing slashes in inline HTML, JS and CSS files when using CDN
+* Fixed auto mode of minify filename length test
+* Fixed NetDNA / MaxCDN testing when domain does not match domain zone settings
+* Fixed CurlException and NetDNA / MaxCDN
+* Fixed pull zone dropdown not showing or showing wrong zone
+* Fixed trailing slash and redirect with apache
+* Fixed false notification for page cache rules verification
+* Fixed duplicate notifications for FTP
+* Fixed empty FTP form
+* Fixed add-in file validation
+* Fixed browser cache headers for proxy cases
+* Fixed wrong slash in Minify filepaths on windows based sites
+* Fixed settings link in minify test failure and multisite
+* Fixed missing param in canonical link generation
+* Fixed PHP 5.2 compatibility
+* Fixed handling of minify in preview mode
+* Fixed order of operation issue on install tab for nginx
+* Fixed translatable strings handling
+* Fixed page cache debug mode issues
+* Fixed home URL handling in multisite
+* Fixed manual minify mode and path based file source for sub-directory installations
+* Fixed path not set in disk enhanced caching
+* Fixed page cache rewrite rule detection
+* Fixed FTP CDN canonical
+* Improved security with esc_* usage
+* Improved backend performance with extensive refactoring
+
+= 0.9.2.11 =
+* Fixed issue with MaxCDN and authorization key
+* Fixed issue with WordPress in subfolder
+* Fixed issue with moved/renamed wp-content and plugin folder
+* Fixed issue with CDN and Minify Auto in Network with site wide CDN settings
+* Fixed issue with late init
+* Fixed minor UI issue
+* Fixed issue with possible OAuth name conflict
+* Fixed issue with CDN and cnames replacement of minify urls
+* Fixed issue with HTML debug comments being added to unsupported content
+* Improved minify auto filename for single install
+* Added minor improvement to NFS optimization with Page Cache
+* Added option to disable the Minify Auto filename length test and use a manual value
+* Removed unused file
+
+= 0.9.2.10 =
+* Added NetDNA / MaxCDN dashboard widget
+* Added zone dropdown for NetDNA and MaxCDN CDNs
+* Added create pull zone for NetDNA and MaxCDN CDNs
+* Added notification(s) if incompatible plugins are detected
+* Added "Disable CDN on the following pages" setting
+* Added "Disable CDN on SSL pages" setting
+* Added late init support for page cache's fragment caching
+* Added POT file
+* Added translations NL, PL
+* Fixed setenvif issue in htaccess rules
+* Fixed failed rewrite (404) and not caching feeds in nginx
+* Fixed NetDNA / MaxCDN CNAME purging issues and "Test CDN" functionality
+* Fixed Azure container handling
+* Fixed New Relic verification
+* Fixed theme preview
+* Fixed wrong path issue with w3tc-wp-loader.php
+* Fixed auto mode of Minify and filename lengths
+* Fixed purging monthly archives with Varnish
+* Fixed insert, delete, update quries purging with database cache
+* Fixed HTTP compression when dynamic page fragments are used
+* Fixed PHP_STRING and other warnings
+* Fixed case sensitive header detection
+* Fixed HEAD request handling
+* Fixed event scheduling propagation in Multi Site
+* Improved CDN custom file paths
+* Improved handling of legacy config files
+* Improved NetDNA / MaxCDN alias, key, secret string handling (backwards compatible)
+* Improved auto mode for minify file naming which was causing unncessary issues
+* Improved handling of hardcoded WordPress paths
+* Improved the file management functionality (FTP support, file permissions etc)
+* Improved disk cache directory usage
+* Improved garbage collection of expired cache files for disk enhanced method of page caching
+* Improved drop-in verification, only adds required drop-ins
+* Improved New Relic error notification handling
+* Improved New Relic "app name" settings with Multi Site
+* Improved cacheable mime type detection in Page Cache
+* Improved ob_callback performance and reduced number of output buffer calls
+* Improved minify handling with CDN and Multi Site
+* Improved Object Cache purge policy performance
+* Improved Database Cache purge policy performance
+* Improved handling of request methods other than GET, POST for page caching
+* Removed setting of New Relic app name in htaccess; set manually or use the dynamic setting on the "Monitoring" tab
+
+= 0.9.2.9 =
+* Fixed saving settings issue with CloudFlare on activation
+* Fixed issue with DbCache and Object Cache flushing
+* Improved security for CloudFlare API calls
+* Improved security for mfunc, now disabled by default and requires security string in order to execute: CVE-2013-2010
+* Improved behavior of GET string, used for detecting blogs in disk enhanced page caching mode for multi site to prevent redirect loops and other issues
+
+= 0.9.2.8 =
+* Fixed /tmp file creation issue when saving settings
+* Fixed auto minify
+* Fixed New Relic API key verification
+* Fixed uncommon issue with require ObjectCache failing
+* Fixed uncommon open_basedir verification issue
+* Improved notification handling by modified WordPress FileSystem API implementation
+* Added PHP file handling to support cases not covered by default WordPress FileSystem API
+
+= 0.9.2.7 =
+* Fixed config file write in more hosting environments
+* Fixed legacy config file import on servers with hardened file permissions
+* Fixed page cache write cache rules in some environments
+* Fixed HiDPI images
+* Fixed false positive notifications when permissions are not changed or same
+* Fixed minify help
+* Improved upgrade notifications
+* Improved page cache and minify notifications
+
+= 0.9.2.6 =
+* Added support for grouping cache entries for easier flushing
+* Added more options for placing minified files on pages. Custom placements using HTML comments.
+* Added CSS inclusion for auto / manual minify. If present its used: <!-- W3TC-include-css -->
+* Added JS inclusion for minify auto mode. If present its used: <!-- W3TC-include-js-head -->,
+* Added JS inclusion for minify manual mode. If present they are used when selecting correspong location in placement dropdown: <!-- W3TC-include-js-head -->, <!-- W3TC-include-js-body-start -->, <!-- W3TC-include-js-body-end -->
+* Added new minification inclusion options, async, defer, extsrc and asyncsrc
+* Added flushing sitemaps
+* Added flushing custom pages
+* Added flush the current blog when flushing in MultiSite
+* Added flushing home page and/or post page if static
+* Added flushing older pages (page/2, page/3) on purge requests
+* Added flushing a limited amount of pagenumbers
+* Added purging caches for deleted blogs in WordPress MultiSite
+* Added uninstall process to the plugin for easier cleanup
+* Added upgrade support that cleans up and removes old cache folders
+* Added message when disk enhanced page caching is not working properly
+* Added custom wp-content name and locations
+* Added CDN feature "Dont use CDN for specific roles"
+* Added "Purge from cache" link on edit post/page pages
+* Added permalink suffixes (.html, .htm etc)
+* Added uploading blogs.dir files when using MultiSite and CDN
+* Added notification about IAM when using Amazon services (SNS, CloudFront, S3 etc)
+* Added 'Don't minify JS files' 'Don't minify CSS files' options for minify 
+* Added Access-Control-Allow-Origin support for CDNs
+* Added hooks clean_post_cache and menu changes
+* Added caching JSON mime-type. Other mime-types can be added using array filter 'w3tc_is_cacheable_content_type'
+* Added automatic reloading of config files when APC apc.stat is disabled
+* Added request reload of APC file over HTTP
+* Added priming of post on publish
+* Added single config file (by default) when using WordPress MultiSite
+* Added switch_to_blog() support
+* Added wp_cache_decr, wp_cache_incr support
+* Added wp_cache_switch_to_blog support
+* Added fragment caching functionality that extends the transient caching methods in WordPress core
+* Added network activation and network policy management
+* Added control for comment cookie lifetime
+* Added Go Daddy SUBDOMAIN_DOCUMENT_ROOT directive support
+* Added JSON to mod_deflate configuration
+* Added JavaScript mime-type variations to mod_deflate configuration
+* Added WP-CLI support for purging cache, purging pull CDNs, reloading APC files, clearing APC, deleting pgcache files, and updating browser query string
+* Added .htc mime type
+* Added Rackspace CloudFiles container location selection
+* Added rejected terms in database cache, to allow for deeper database caching capability
+* Added Akamai CDN origin pull support
+* Added system cache purge when apc.stat is disabled
+* Added origin rel canonical support for CDNs
+* Added AT&T origin pull CDN
+* Added full-page mirroring and purging for origin pull CDNs
+* Added compatibility mode improve disk enhanced page caching performance ~20% for users that don't care about interoperability
+* Added nginx example files
+* Added varnish example files
+* Added basic application monitoring support using New Relic
+* Added application monitoring widget using New Relic
+* Added plugin dashboard page to display widgets etc
+* Added purge from cache link to admin bar dropdown while browser posts/pages on front-end
+* Added purge CDN completely link to admin bar dropdown
+* Added CDN SSL checkbox "Disable CDN on SSL page"
+* Added pull CDN support to MultiSite
+* Fixed caching of the "Front Page" and added an option for the same
+* Fixed w3_url_format function was not included error
+* Fixed security vulnerability with file cache: disk basic page caching, database or object caching to disk. CVEs: CVE-2012-6077, CVE-2012-6078, CVE-2012-6079
+* Fixed issue with concurrent writes to single config file
+* Fixed Preview mode and deploy button
+* Fixed varnish purging (See varnish config example file in ini folder)
+* Fixed false positive notification on Page Cache: Disc Enhanced
+* Fixed broken images for feedburner in dashboard on HTTPS sites
+* Fixed minify ID generation causing notices
+* Fixed false positive on minification related to group configuration among other
+* Fixed default wp-content path and CDN uploads when WordPress is installed in directory
+* Fixed pages not flushing when making changes in WordPress Admin
+* Fixed mod_filter being used on unsupported Apache versions
+* Fixed WordPress upgrade issue caused by W3TC remaining active
+* Fixed minify path when using WordPress MultiSite and blogs in sub-directories
+* Fixed user interface for "Dont cache specific roles"
+* Fixed CDN and minify to file for storage
+* Fixed feed_link filters interferring with feed purging
+* Fixed false positive with minify rewrite test and WordPress MultiSite sub-directory mode
+* Fixed WordPress Multisite in sub-directory mode and minify paths
+* Fixed caching posts page when using static home page
+* Fixed object cache not being initialised before getting options
+* Fixed locating document root for minify in certain environments
+* Fixed saving settings if permalinks are turned off
+* Fixed "Install" page displaying rules that is not required
+* Fixed minify cache being empty while page is cached so no minified files are generated, minified files auto generation no longer depend on pages not being cached
+* Fixed unnecessary flushing with SSL, user agents and referrer not being activated
+* Fixed "Purge from Page Cache" not purging varnish or CDN when enabled
+* Fixed CSS minification and relative paths in external files
+* Fixed login / logout and compatibility  with BuddyPress
+* Fixed flushing same posts many times if status is trashed or restored
+* Fixed handling of .html fancy permalinks with nginx
+* Fixed handling of missing xcache opcode cache
+* Fixed Amazon S3 allowing LIST permissions to everyone
+* Fixed handling of .xml mime type
+* Fixed numerous object cache compatibility issues
+* Fixed memcached port support issue
+* Fixed HTTP_HOST not defined warning issue
+* Fixed xdebug not configured halt issue
+* Fixed minified files not being mirrored by push CDNs
+* Fixed uploading to CDNs multiple times even if force overwrite is disabled
+* Improved CloudFlare support: purging, dev mode, minification options, automatic IP range updates, rocket loader feature, security levels
+* Improved support for the Bad Behavior plugin
+* Improved object cache and MultiSite compatibility
+* Improved flushing behavior with better post and pages detection. To change behavior hook into filter 'w3tc_flushable_post'
+* Improved XML user interface when using Page Cache Disc: Enhanced
+* Improved minify filename path generation
+* Improved minify custom placement usage
+* Improved PHP 5 compatibility by removing deprecated functionality
+* Improved WordPress 3.4 and 3.5 compatibility by removing deprecated functions usage
+* Improved plugin by removing unnecessary ob_starts
+* Improved minify usage by returning old minify files while generating new
+* Improved update procedure by removing need to manually deactivate and reactivate plugin
+* Improved CDN paths and URL generation using both single and multisite installs
+* Improved Admin Bar menu with more flushing actions
+* Improved minify auto by adding support for downloading and combining external files
+* Improved descriptions for various "Do not cache ..." textareas
+* Improved header settings so plugin header settings override WordPress default header where appropriate
+* Improved debug logging by adding a debug folder constant: W3TC_DEBUG_DIR
+* Improved support for WPTouch plugin
+* Improved custom post type support and flushing
+* Improved cache key format and handling
+* Improved minify support on Windows
+* Improved purging functionality for CDN providers
+* Improved compatibility wp-fb-autoconnect plugin
+* Improved support of WordPress installed when in a sub-directory
+* Improved support of non-default WordPress folder setups
+* Improved use of HTTP API and FileSystem API in WordPress. HTTP API usage improves minify and CDN functionality. FileSystem API integration improves activation, deactivation and configuration changes
+* Improved execution time across all caching engines
+* Improved cache miss performance for page caching
+* Improved notification handling
+* Improved cache priming algorithm
+* Improved minify error reporting
+* Improved varnish purging capability
+* Improved memory caching logic and purging speed
+* Improved support for auto minify in more hosting environments
+* Improved support for use of sockets in memcached
+* Improved handling of old settings upon update
+* Improved detection of document root on additional hosting providers
+* Improved handling of eTags
+* Improved browser cache policy options
+* Improved bug submission form implementation
+* Improved NetDNA / MaxCDN support by using their new API
+* Disabled minify if CloudFlare is active
+* Removed PHP 4 support
+* Removed cookie used for user agent groups unless the feature is used
+* Removed cookie used for referrer unless the feature is used
+* Removed duplicate inclusion of JSON library
+
+= 0.9.2.5 =
+* Fixed security issue that can occur if using database caching to disk. If using database caching to disk with a web server with directory listing or web accessible wp-content/w3tc/dbcache/* directories. This patch works for all hosting environments / types where PHP is properly configured, i.e. .htaccess modifications (or other web server configuration changes) are *not* necessary to ensure proper security. Empty the database cache after performing the update if you use database caching to disk.
+
+= 0.9.2.4 =
+* Added support for Microsoft SQL Server
+* Added API support for MediaTemple ProCDN (EdgeCast)
+* Added set_time_limit to self test
+* Fixed LiteSpeed web server support issues
+* Fixed native hostname 301 redirect
+* Fixed redundant object origin push export
+* Fixed WSOD (white screen of death) caused by minify in some hosting configurations
+* Fixed text encoding in feeds
+* Fixed incorrect mime-type in feeds (which caused feedburner anomalies)
+* Fixed array to string notices
+* Fixed expires header support for AWS
+* Fixed minification of font-family
+* Fixed object cache write issue in WP Admin
+* Improved (reduced) memory utilization by up to 70%
+* Improved disk enhanced page caching performance
+* Improved object caching performance
+* Improved activation reliability
+* Improved reliability of minify auto mode
+* Improved security (added nonces, no directory indexing, prevent direct file access)
+* Improved compatibility with network based file systems
+
+= 0.9.2.3 =
+* Added additional CloudFlare IP ranges
+* Fixed html tidy encoding
+* Fixed NetDNA / MaxCDN purging
+* Improved handling of markers in .htaccess files - easier upgrades
+* Improved cache busting logic
+* Improved numerous notifications and user interface behaviors
+* Improved AWS S3 and Cloudfront reliability
+* Improved reliability of minify auto mode
+
+= 0.9.2.2 =
+* Fixed minify directives, e.g.: "File param is missing," causing minify caching to fail
+* Fixed document root detection for IIS server
+* Fixed HTTP compression when using CloudFlare
+* Fixed HTML validation with JavaScript embed tags
+* Fixed fancy permalinks, sites with or without trailing slashes can now cache pages using disk enhanced
+* Fixed appending WP_CACHE define into wp-config.php for some users
+* Fixed path to JSON.php
+* Fixed listing of buckets error with AWS S3
+* Improved compatibility with WordPress SEO by Yoast, 404 error exception list sitemap value changed to: sitemap(_index|[0-9]+)?\.xml(\.gz)?
+
+= 0.9.2.1 =
+* Fixed existing installation upgrades: set minify to manual mode by default
+* Fixed unsuccessful transfer queue button
+* Fixed background in lightbox
+* Fixed handling of local http requests being blocked on some hosts
+* Disabled CDN for minify files when auto mode is selected and the CDN method is origin push
+
+= 0.9.2 =
+* Added support for nginx web server
+* Added support for CloudFlare
+* Added origin pull support for Amazon Cloudfront
+* Added Microsoft Azure Storage support for CDN
+* Added WinCache opcode cache support
+* Added additional minifier engines for HTML, CSS and JS including: HTMLtidy, CSStidy, Closure Compiler, YUI Compressor
+* Added Google Page Speed integration
+* Added support for @import processing
+* Added controls for page cache purging policy
+* Added auto mode for minify (not compatible with CDN)
+* Added support for set cookie domain setting
+* Added reliability improvements for Amazon Web Services
+* Added referrer group management for uniquely caching these cases
+* Added Amazon S3 bucket location selection control
+* Added support CNAMEs confguration support for Amazon Cloudfront
+* Added purge tool
+* Added support of custom wp-config.php location
+* Added cache busting support
+* Improved object caching performance when no plugins are active
+* Improved non-blocking JS embedding implementation
+* Improved reliability of CDN export operations
+* Improved implementation of headers for all cache engines
+* Improved minify help (recommendations) tool
+* Improved handling of .htaccess directive changes
+* Improved support of IIS web server
+* Improved varnish support
+* Fixed bugs with API changes with Rackspace Cloudfiles
+* Fixed bugs with origin push content delivery network methods
+* Fixed HTML encoding
+* Fixed emptying cache for various cache keys
+* Fixed rejected CDN file support
+* Fixed HTTPS mode in WP Admin
+* Fixed relative document root for disk enhanced page cache
+* Fixed trailing slash for disk enhanced page cache
+* Fixed minify template group settings being lost upon upgrade
+* Fixed division by zero error
+* Fixed object cache clones
+* Moved browser cache rules to site root instead of document root
+
+= 0.9.1.3 =
+* Improved error messages with AWS S3 CDN
+* Added SSL support for CDN
+* Added control for CDN queue upload interval
+* Added option for 404 file exceptions list in browser cache
+* Added exception for NextGen Gallery flash image rotator to CDN settings
+* Fixed external file imports
+* Fixed document root detection for CDN
+* Fixed minify file search
+* Fixed bugs with AWS CloudFront distribution creation and saving
+* Fixed Rackspace Cloud Files API
+
+= 0.9.1.2 =
+* Improved media library import compatibility
+* Improved various notifications
+* Changed expires implementation to last accessed instead of last modified
+* Resolved Apache 1.3 compatibility issue
+* Fixed issues with document root detection on some servers
+* Fixed an issue with minification of script tags with HTML comments inside
+* Fixed minify gzip compression
+* Fixed cache-control headers
+* Fixed empty fatal error notification on network activation
+* Fixed minify when https is active
+* Fixed fatal error upon activation when uploads path does not exist
+
+= 0.9.1.1 =
+* Added an additional notification to help users identify incomplete installations upon activation
+* Reverted previous Cloud Files workaround
+* Fixed preview mode buttons
+* Fixed duplicate entries appearing when using minify help tool more than once
+* Fixed browser cache rules generation for media files
+
+= 0.9.1 =
+* Improved Rackspace Cloud Files implementation
+* Improved frequently asked questions implementation to support incomplete PHP distributions
+* Fixed 500 Internal Server Error when upgrading with Disk enhanced mode enabled
+* Fixed notification issues with preview mode
+* Fixed an issue with fatal errors with minify and memcache(d) caching engine
+
+= 0.9 =
+* Added preview feature so all cache settings can be reviewed prior to deployment
+* Added minify configuration wizard (help button on minify tab)
+* Added "never cache the following pages" to database and object cache
+* Added minify option to JavaScript embed after &lt;body&gt;
+* Added minify error notifications
+* Added drag and drop dependency resolution for minify CSS / JavaScript groups
+* Added object caching
+* Added option to automatically page cache prime (preload) with or without XML sitemap
+* Added support for multiple CNAMEs to CDN
+* Added support for minifcation of any respective theme installed a single site
+* Added support for page caching of multiple themes for various user agent groups
+* Added support for theme switching / redirection based on groups of user agents
+* Added compatibility with WP Super Cache fragment caching method (disk basic mode only)
+* Added HTTP compression and headers for AWS S3
+* Added ignored comment stems field, with Google AdSense default value to HTML minify
+* Added support for varnish purging
+* Added Rackspace Cloud Files support
+* Added native NetDNA / MaxCDN integration
+* Added option to cache 404 pages
+* Added changed files auto-upload to CDN
+* Added option to handle 404 errors for static objects directly with the web server
+* Added support for gravity forms to database cache default settings
+* Added changed file auto-upload to CDN
+* Database connection errors now return internal server (500) error response and are thus not cached
+* Incomplete plugin installation / removal no longer generates public errors
+* Unterminated string errors no longer display publicly
+* Support tab improvements
+* Install tab improvements
+* Resolved conflicts with disk enhanced .htaccess directives insertion
+* Improved compatibility with all mobile plugins
+* Improved AWS reliability
+* Improved browser caching support and management
+* Improved directory management for disk caching methods for increased performance
+* Improved handling of missing minify files
+* Improved Media Library import
+* Improved Multi Site support
+* Improved SSL interoperability
+
+= 0.8.5.2 =
+* Added support for Bad Behavior plugin
+* Added support for eAccelerator 0.9.5.3 and XCache opcode caches
+* Added support for rewriting href attribute of anchors for images that use the CDN
+* Added deflate http compression support to minify
+* Added setting of file modification time after FTP upload
+* Added check of file modification time and file size before FTP upload
+* Added check of file hash before uploading to Amazon S3
+* Added option to force replacement of uploaded attachments on CDN
+* Added option to toggle feed minification
+* Added combine only option for CSS minification to overcome invalid CSS files
+* Added configuration file import / export
+* Database caching now disabled by default to improve compatibility with some shared hosting environments
+* Default page caching method now disk enhanced
+* Improved HTTP Compression inter-operability
+* Improved compatibility with Multi Site Manager
+* Improved apache compatibility
+* Improved .htaccess directives
+* Improved header management for posts / pages
+* Improved notifications
+* Improved minify handling of external files
+* Improved minify memory limit to avoid blank pages when document size is large
+* Improved minify reliability by reducing comment removal options
+* Improved Media Library Import versatility
+* Improved reliability of plugin activation in WordPress MU
+* Improved security handling for some operations
+* Improved reliability of handling file names containing spaces in CDN functionality
+* Improved non-blocking embedding reliability
+* Improved memcached detection by supporting only PECL memcache
+* Fixed disk enhanced method of page cache in WordPress MU
+* Fixed false match of page cache files in disk enhanced method of page cache
+* Fixed cron anomalies caused by caching of wp_options table
+* Fixed missing trailing slash issue when using disk enhanced page caching
+* Fixed auto-embed bug CSS and JS when already manually embedded
+
+= 0.8.5.1 =
+* Added option to CDN Settings to skip specified directories
+* Added option to allow for full control of HTTP compression options for page cache (some WordPress installations have issues with deflate)
+* Added sql_calc_found_rows to default auto reject SQL list
+* Added more notification cases identified and configured
+* Added new mobile user agents for Japanese market
+* Page cache performance improvements for disk enhanced mode
+* Improved FAQ and option descriptions
+* Improved apache directives for minify headers
+* Improved handling of redirects
+* Improved name space to avoid issues with other plugins
+* Improved handling of incomplete installations, caching runs with default options if custom settings file does not exist
+* Fixed anomalies with memcached-client.php in some environments
+* Fixed another interface bug with management of minify files
+* Fixed minor bug with table column length for some MySQL versions
+* Fixed minify bug with CRLF
+* Fixed minify bug with handling of zlib compression enabled
+* Fixed handling of pages with CDN Media Library import
+
+= 0.8.5 =
+* Added "enhanced" disk caching mode for page cache, a 160% performance improvement over basic mode
+* Added disk caching as an option for Database Cache
+* Added CDN support for Amazon S3 and CloudFront
+* Added mobile user agent rejection and redirect fields to page cache for handling mobile user agents
+* Added Submit Bug Report tab
+* Added support for detection of custom templates for minify groups
+* Added separate controls expiration time field for minify and page cache settings
+* Added PHP4 Support Notification to handle fatal errors on activation
+* Improved database caching by 45%
+* Improved handling of cache-control HTML headers
+* Improved handing of 3rd Party CSS file minification
+* Improved media library import reliability
+* Improved handling of `DOCUMENT_ROOT` on some servers
+* Improved garbage collection routine
+* Improved handling of `<pre>` and `<textarea>` minification
+* Improved handling of regular expressions in custom file list in CDN settings
+* Improved handling of media library attachments in RSS feeds
+* Improved handing of subdomains for CDN settings
+* Improved various notifications and error messages
+* Improved optional .htaccess directives
+* Fixed JS minifcation saving group settings
+* Fixed false positives for duplicate CSS or JS in minify settings
+* Fixed bug causing settings to be lost on upgrade
+* Fixed attachment URI when CDN mode enabled
+* Fixed small bug with FTP upload when CDN Method is Mirror (Origin Pull)
+* Fixed the URI for wlwmanfiest.xml when CDN enabled 
+* Fixed handling of HTTPS objects according to options
+* Fixed emptying disk cache under various obscure permutations
+* Fixed handling of obscure open_basedir restrictions
+* Fixed various bugs with emptying cache under various obscure permutations
+* Fixed installations deeper than document root
+
+= 0.8 =
+* Added disk as method for page caching
+* Added support for mirror (origin pull) content delivery networks
+* Added options to specify minify group policies per template
+* Added options for toggling inline CSS and JS minification to improve minify reliability
+* Added option to update Media Library attachment hostnames (when migrating domains etc)
+* Added "Empty Cache" buttons to respective tabs
+* Added additional file download fallback methods for minify
+* Improved cookie handling
+* Improved header handling
+* Improved reliability of Media Library import
+* "Don't cache pages for logged in users" is now the default page cache setting
+* Fixed minify bug with RSS feeds
+* Fixed minify bug with rewriting of url() URI in CSS
+* Addressed more page cache invalidity cases
+* Addressed rare occurrence of PHP fatal errors when saving post or comments
+* Addressed CSS bug on wp-login.php
+* Addressed rare MySQL error when uploading attachments to Media Library
+* Modified plugin file/directory structure
+* Confirmed compatibility with varnish and squid
+
+= 0.7.5.2 =
+* Added warning dialog to minify tab about removal of query strings locally hosted object URIs
+* Added empty (memcached) cache button to each tab
+* Improved reliability of memcache flush
+* Minified files now (optionally) upload automatically according to update interval (expiry time)
+* Changed directory of minify working files to wp-content/w3tc-cache/
+* Fixed parsing memcached server strings
+* Fixed minify sometimes not creating files as it should
+* Addressed WordPress network activation/deactivation issues
+* Provided memcache.ini directives updated to improve network throughput
+
+= 0.7.5.1 =
+* Added memcached test button for convenience
+* Added option to concatenate any script to header or footer with non-blocking options for scripts that cannot be minified (e.g. obfuscated scripts)
+* Added options to concatenate JS files only in header or footer (for use with obfuscated scripts)
+* Improved notification handling
+* Improved compatibility with suPHP
+* Improved reliability of Media Library Export
+* Fixed database cache that caused comment counts to become out of date
+* Fixed minor issue with URI with CDN functionality enabled
+* Removed unnecessary minify options
+* Minification error dialogs now disabled when JS or CSS minify settings disabled
+* Normalized line endings with /n as per minify author's direction
+* Resolved bug in the minify library preventing proper permission notification messages
+
+= 0.7.5 =
+* Added handling for magic_quotes set to on
+* Fixed issue with auto-download/upgrade and additional error checking
+* Fixed bug preventing minify working properly if either CSS or JS minification was disabled
+* Improved handling of inline comments and JavaScript in HTML documents
+* Improved handing of @import CSS embedding
+* Addressed privilege control issue
+* Resolved warnings thrown in various versions of WordPress
+* Memcached engine logic modified to better support clustering and multiple memcached instances
+* Eliminated false negatives in a number of gzip / deflate compression analysis tools
+* Total plugin file size reduced
+
+= 0.7 =
+* Added minify support for URIs starting with /
+* WordPress network mode support bug fixes
+* Minor CDN uploader fixes
+* Minor error message improvements
+
+= 0.6 =
+* Added "Debug Mode" listing all settings and queries with statistics
+* Improved error message notifications
+* Improved cache stability for large objects
+* FAQ and installation instructions corrections/adjustments
+* Support for multiple wordpress installations added
+* Resolved bug in minification of feeds
+
+= 0.5 =
+* Initial release

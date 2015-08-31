@@ -1,0 +1,49 @@
+.wpseo-score-icon {
+	display: inline-block;
+	width: 12px;
+	height: 12px;
+	margin: 3px 10px 0 3px;
+	border-radius: 50%;
+	background: #888;
+	vertical-align: top;
+}
+
+.wpseo-score-icon.good {
+	background-color: #7ad03a;
+}
+
+.wpseo-score-icon.ok {
+	background-color: #ffba00;
+}
+
+.wpseo-score-icon.poor {
+	background-color: #ee7c1b;
+}
+
+.wpseo-score-icon.bad {
+	background-color: #dd3d36;
+}
+
+.wpseo-score-icon.na {
+	background-color: #888;
+}
+
+.wpseo-score-icon.noindex {
+	background-color: #1e8cbe;
+}
+
+#wpseo-dashboard-overview th {
+	font-weight: 400;
+	text-align: left;
+}
+
+#wpseo-dashboard-overview th:after {
+	color: #0073aa;
+	/* &raquo; */
+	content: "\bb";
+}
+
+#wpseo-dashboard-overview .post-count {
+	padding: 0 0 0 10px;
+	text-align: right;
+}

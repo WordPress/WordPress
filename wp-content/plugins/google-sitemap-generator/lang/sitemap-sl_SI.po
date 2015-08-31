@@ -1,0 +1,325 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: sitemap-sl_SI\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2006-11-13 09:33+0100\n"
+"Last-Translator: m2-j <m2j@t-2.net>\n"
+"Language-Team: Milan Jungic <milanche@m2-j.info>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Slovenian\n"
+"X-Poedit-Country: SLOVENIA\n"
+
+#: sitemap.php:375
+msgid "always"
+msgstr "vedno"
+
+msgid "hourly"
+msgstr "vsako uro"
+
+msgid "daily"
+msgstr "dnevno"
+
+msgid "weekly"
+msgstr "tedensko"
+
+msgid "monthly"
+msgstr "mesečno"
+
+msgid "yearly"
+msgstr "letno"
+
+msgid "never"
+msgstr "nikoli"
+
+msgid "Detected Path"
+msgstr "Zaznana pot:"
+
+msgid "Example"
+msgstr "Primer"
+
+msgid "Absolute or relative path to the sitemap file, including name."
+msgstr "Absolutna ali relativna pot do datoteke načrta strani (vključno z imenom datoteke)"
+
+msgid "Complete URL to the sitemap file, including name."
+msgstr "URL naslov datoteke načrta strani (vključno z imenom datoteke)."
+
+msgid "Automatic location"
+msgstr "Samodejno lociranje"
+
+msgid "Manual location"
+msgstr "Ročno lociranje"
+
+msgid "OR"
+msgstr "ALI"
+
+msgid "Location of your sitemap file"
+msgstr "Ime datoteke načrta strani"
+
+msgid "If your blog is in a subdirectory and you want to add pages which are NOT in the blog directory or beneath, you MUST place your sitemap file in the root directory (Look at the &quot;Location of your sitemap file&quot; section on this page)!"
+msgstr "Če je vaš blog v podimeniku in želite v načrt strani dodatki datoteke, ki se nahajajo izven tega podimenika, morate datoteko načrta strani shraniti v korenski imenik, ki se nahaja nad vsemi imeniki katere želite v načrt strani vključiti (glejte sekcijo &quot;Ime datoteke načrta strani&quot; na tej strani)!"
+
+#: sitemap.php:512
+msgid "Configuration updated"
+msgstr "Nastavitve so posodobljene"
+
+#: sitemap.php:513
+msgid "Error"
+msgstr "Napaka"
+
+#: sitemap.php:521
+msgid "A new page was added. Click on &quot;Save page changes&quot; to save your changes."
+msgstr "Nova stran je dodana. Za uveljavitev sprememb, izberite &quot;Shrani stran&quot;."
+
+#: sitemap.php:527
+msgid "Pages saved"
+msgstr "Strani so shranjene."
+
+#: sitemap.php:528
+msgid "Error while saving pages"
+msgstr "Napaka pri shranjevanju strani"
+
+#: sitemap.php:539
+msgid "The page was deleted. Click on &quot;Save page changes&quot; to save your changes."
+msgstr "Stran je izbrisana. Za uveljavitev sprememb, izberite &quot;Shrani stran&quot;."
+
+#: sitemap.php:542
+msgid "You changes have been cleared."
+msgstr "Spremembe so razveljavljene."
+
+#: sitemap.php:555
+msgid "Sitemap Generator"
+msgstr "Generator načrta strani"
+
+#: sitemap.php:558
+msgid "Manual rebuild"
+msgstr "Ročno"
+
+#: sitemap.php:559
+msgid "If you want to build the sitemap without editing a post, click on here!"
+msgstr "Izberite to možnost, če želite takoj ustvariti načrt strani."
+
+#: sitemap.php:560
+msgid "Rebuild Sitemap"
+msgstr "Ustvari načrt strani"
+
+#: sitemap.php:564
+msgid "Additional pages"
+msgstr "Dodatne strani"
+
+#: sitemap.php:566
+msgid "Here you can specify files or URLs which should be included in the sitemap, but do not belong to your Blog/WordPress.<br />For example, if your domain is www.foo.com and your blog is located on www.foo.com/blog you might want to include your homepage at www.foo.com"
+msgstr "Tukaj lahko navedete datoteke in URL naslove, ki niso del vaše Wordpress namestitve, želite jih pa vključiti v načrt strani.<br />Primer: Vaša domena je www.foo.com, blog se nahaja na naslovu www.foo.com/blog, medtem, ko vi v načrt strani želite vključiti tudi naslov www.foo.com s pripadajočo vsebino."
+
+#: sitemap.php:568
+msgid "URL to the page"
+msgstr "URL naslov strani"
+
+#: sitemap.php:569
+msgid "Enter the URL to the page. Examples: http://www.foo.com/index.html or www.foo.com/home "
+msgstr "Vnestite URL naslov strani. Primer: www.foo.com ali www.foo.com/home"
+
+#: sitemap.php:571
+msgid "Priority"
+msgstr "Prioriteta"
+
+#: sitemap.php:572
+msgid "Choose the priority of the page relative to the other pages. For example, your homepage might have a higher priority than your imprint."
+msgstr "Izberi prioriteto strani, glede na ostale strani. Npr. za vašo domačo stran www.foo.com želite morda višjo prioriteto kot za vaš blog www.foo.com/blog? "
+
+#: sitemap.php:574
+msgid "Last Changed"
+msgstr "Zadnjič spremenjeno"
+
+#: sitemap.php:575
+msgid "Enter the date of the last change as YYYY-MM-DD (2005-12-31 for example) (optional)."
+msgstr "Vnesite datum zadnje spremembe JJJJ-MM-TT (oblika: 2005-12-31). (opcija)"
+
+#: sitemap.php:583
+msgid "Change Frequency"
+msgstr "Spremeni frekvenco"
+
+#: sitemap.php:585
+msgid "#"
+msgstr "#"
+
+#: sitemap.php:609
+msgid "No pages defined."
+msgstr "Nobena stran ni bila še definirana."
+
+#: sitemap.php:616
+msgid "Add new page"
+msgstr "Dodaj novo stran"
+
+# sitemap.php:617:
+#: sitemap.php:617
+msgid "Save page changes"
+msgstr "Shrani spremembe"
+
+# sitemap.php:618:
+#: sitemap.php:618
+msgid "Undo all page changes"
+msgstr "Razveljavi spremembe"
+
+# sitemap.php:621:
+#: sitemap.php:621
+msgid "Delete marked page"
+msgstr "Izbriši izbrane strani"
+
+#: sitemap.php:627
+msgid "Basic Options"
+msgstr "Osnovne nastavitve"
+
+#: sitemap.php:632
+msgid "Enable automatic priority calculation for posts based on comment count"
+msgstr "Določi prioriteto objav glede na število komentarjev pod posameznimi objavami"
+
+#: sitemap.php:638
+msgid "Write debug comments"
+msgstr "Zapiši komentarje za iskanje in odpravljanje napak"
+
+#: sitemap.php:643
+msgid "Filename of the sitemap file"
+msgstr "Ime datoteke načrta strani"
+
+#: sitemap.php:650
+msgid "Write a normal XML file (your filename)"
+msgstr "Shrani načrt strani kot standardno XML datoteko"
+
+#: sitemap.php:652
+msgid "Detected URL"
+msgstr "Zaznan URL naslov"
+
+#: sitemap.php:657
+msgid "Write a gzipped file (your filename + .gz)"
+msgstr "Shrani kot stisnjeno (gzip) datoteko  (ime datoteke + .gz)"
+
+#: sitemap.php:664
+msgid "Auto-Ping Google Sitemaps"
+msgstr "Samodejno obvesti Google o spremembah (ping)"
+
+#: sitemap.php:665
+msgid "This option will automatically tell Google about changes."
+msgstr "Če izberete to možnost, bodo morebitne spremembe v načrtu strani samodejno posredovane Googlu."
+
+#: sitemap.php:672
+msgid "Includings"
+msgstr "Vsebina"
+
+#: sitemap.php:677
+msgid "Include homepage"
+msgstr "Vključi osnovno (prvo) stran"
+
+#: sitemap.php:683
+msgid "Include posts"
+msgstr "Vključi objave"
+
+#: sitemap.php:689
+msgid "Include static pages"
+msgstr "Vključi statične strani"
+
+#: sitemap.php:695
+msgid "Include categories"
+msgstr "Vključi kategorije"
+
+#: sitemap.php:701
+msgid "Include archives"
+msgstr "Vključi zgodovino (arhivi)"
+
+#: sitemap.php:708
+msgid "Change frequencies"
+msgstr "Spremeni frekvenco"
+
+#: sitemap.php:709
+msgid "Note"
+msgstr "Opomba"
+
+#: sitemap.php:710
+msgid "Please note that the value of this tag is considered a hint and not a command. Even though search engine crawlers consider this information when making decisions, they may crawl pages marked \"hourly\" less frequently than that, and they may crawl pages marked \"yearly\" more frequently than that. It is also likely that crawlers will periodically crawl pages marked \"never\" so that they can handle unexpected changes to those pages."
+msgstr "Ta nastavitev je zgolj predlagana. Čeprav spletni iskalniki nastavljeno frekvenco upoštevajo, se zna zgoditi, da bodo strani nastavljene na urno osveževanje pregledovali redkeje, kot strani nastavljene na letno osveževanje. Ravno tako se zna zgoditi, da bodo iskalniki pregledovali strani, katerim ste nastavili, da se ne osvežujejo."
+
+#: sitemap.php:715
+msgid "Homepage"
+msgstr "Osnovna stran"
+
+#: sitemap.php:721
+msgid "Posts"
+msgstr "Objave"
+
+#: sitemap.php:727
+msgid "Static pages"
+msgstr "Statične strani"
+
+#: sitemap.php:733
+msgid "Categories"
+msgstr "Kategorije"
+
+#: sitemap.php:739
+msgid "The current archive of this month (Should be the same like your homepage)"
+msgstr "Aktualni arhiv tega meseca (enako kot za osnovno stran)"
+
+#: sitemap.php:745
+msgid "Older archives (Changes only if you edit an old post)"
+msgstr "Starejši arhivi"
+
+#: sitemap.php:752
+msgid "Priorities"
+msgstr "Prioritete"
+
+#: sitemap.php:763
+msgid "Posts (If auto calculation is disabled)"
+msgstr "Število objav (v primeru, ko je samodejno seštevanje onemogočeno)"
+
+#: sitemap.php:769
+msgid "Minimum post priority (Even if auto calculation is enabled)"
+msgstr "Najmanjša prioriteta za objave (tudi, ko je izbrana možnost samodejnega izračunavanja prioritet)"
+
+#: sitemap.php:787
+msgid "Archives"
+msgstr "Arhivi"
+
+#: sitemap.php:793
+msgid "Informations and support"
+msgstr "Informacije in podpora"
+
+#: sitemap.php:794
+msgid "Check %s for updates and comment there if you have any problems / questions / suggestions."
+msgstr "Popravke in pomoč za vtičnik boste našli na %s."
+
+#: sitemap.php:797
+msgid "Update options"
+msgstr "Shrani nastavitve"
+
+#: sitemap.php:1033
+msgid "URL:"
+msgstr "URL:"
+
+#: sitemap.php:1034
+msgid "Path:"
+msgstr "Pot:"
+
+# msgid "URL:"
+# msgstr ""
+# msgid "Path:"
+# msgstr ""
+#: sitemap.php:1037
+msgid "Could not write into %s"
+msgstr "Napaka pri shranjevanju datoteke &quot;%s&quot;."
+
+#: sitemap.php:1048
+msgid "Successfully built sitemap file:"
+msgstr "Načrt strani je bil uspešno zapisan:"
+
+#: sitemap.php:1048
+msgid "Successfully built gzipped sitemap file:"
+msgstr "Načrt strani je bil uspešno zapisan v stisnjeno (gzip) datoteko:"
+
+#: sitemap.php:1062
+msgid "Could not ping to Google at %s"
+msgstr "Napaka pri obveščanju Googla o spremembah (%s)"
+
+#: sitemap.php:1064
+msgid "Successfully pinged Google at %s"
+msgstr "Google je uspešno obveščen o spremembah (%s)"
+

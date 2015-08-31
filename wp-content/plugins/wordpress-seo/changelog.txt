@@ -1,0 +1,1914 @@
+= Changelog archive =
+
+This is an archive of older changelog entries. Most recent entries are maintained in readme.txt
+
+= 1.6.3 =
+
+* Bugfixes:
+	* Revert earlier logic change that broke taxonomy sitemaps.
+
+= 1.6.2 =
+
+* Bugfixes:
+	* Fixed security issue with XSS in bulk editor, props @ryanhellyer.
+	* Fix bug where URL would show wrongly in snippet preview for static homepage.
+	* Fix bug where filtering for posts without a focus keyword in the posts overview wouldn't work.
+	* Fix a bug where code wouldn't be escaped in the bulk editor.
+
+* Enhancements:
+	* When meta description is present, `og:description` is filled with that on category pages.
+	* Texturize some pointers, props @nacin.
+	* Fix typo in tour, props @markjaquith.
+	* Code optimization in in replace vars functionality, props @dannyvankooten.
+
+= 1.6.1 =
+
+* Bugfixes:
+	* Remove tags from title and description for snippet preview.
+	* Fix several notices.
+	* Improve escaping of values in the bulk editor before saving.
+
+* Enhancements:
+	* New admin icon using SVG, which uses proper color.
+	* Introduced a filter for the XML Sitemap base URL, `wpseo_sitemaps_base_url`
+	* Introduced a filter for the JSON+LD output: `wpseo_json_ld_search_output`
+
+* For developers: the [GitHub version](https://github.com/Yoast/wordpress-seo) now contains a full Grunt implementation for many actions.
+
+= 1.6 =
+
+This update removes more code than it adds, because Google stopped support for rel=author. It adds the new json+ld code for search in sitelinks though, so could have some cool results!
+
+* Bugfixes:
+	* Removed leftover code for the deleted HTML sitemap functionality.
+	* Fix [a bug](https://github.com/Yoast/wordpress-seo/pull/1520) where the wrong `$post` info would be used for the metabox, props [mgmartel](https://github.com/mgmartel).
+	* Fix the way we [replace whitespace](https://github.com/Yoast/wordpress-seo/pull/1542) to be more compatible with different encoding, props [Jrf](http://profiles.wordpress.org/jrf).
+
+* Enhancements:
+	* Implement new [sitelinks search box json+ld code](https://developers.google.com/webmasters/richsnippets/sitelinkssearch). Enabled by default, to disable use the new `disable_wpseo_json_ld_search` filter. To change the URL being put out use the `wpseo_json_ld_search_url` filter.
+	* Improved the onboarding tour to be more in line with the current status of the plugin.
+
+* Other:
+	* Removed all code to do with `rel=author` as Google has stopped that "experiment", see [this blog post](https://yoast.com/ten-blue-links/) for more info.
+
+* i18n
+	* Updated da_DK, fa_IR, fr_FR, hr, hu_HU, nl_NL, pt_BR and tr_RK
+
+= 1.5.6 =
+
+* Bugfixes:
+	* Fixed a dot without explanation on the page analysis tab.
+	* Fix save all feature bug in Bulk Editor as reported (and fixed) by [vdwijngaert](https://github.com/vdwijngaert) [here](https://github.com/Yoast/wordpress-seo/issues/1485).
+	* Fix bug where meta description based on a template wouldn't show up on author archive pages.
+	* Fix bug where shortlink HTTP header wouldn't be removed when checking the remove shortlink function as [reported here](https://github.com/Yoast/wordpress-seo/issues/1397).
+	* Fix a bug where force title setting would be reset on upgrade / update.
+	* Fix warning being thrown in breadcrumbs code.
+
+* Enhancements:
+	* Removing sitemap transients when updating the plugin, to make sure XML sitemaps always use latest code.
+	* Styling of metaboxes is more in line with WordPress core.
+	* Add new `%%user_description%%` replacement tag.
+	* Add option to remove users with zero posts from the XML sitemap.
+	* Move SEO data on term edit pages to lower on the page, to not interfere with themes.
+	* Code: use WP time constants as introduced in WP 3.5.
+
+* Other:
+	* Removing html-sitemap shortcode, it'll reappear in WordPress SEO Premium when it actually works.
+
+= 1.5.5.3 =
+Release Date: August 14th, 2014
+
+* Bugfixes:
+	* Prevent dying on edit post page for new posts / pages without focus keyword.
+	* Fix replacement of `%%excerpt%%` in snippet preview.
+
+= 1.5.5.2 =
+Release Date: August 14th, 2014
+
+* Bugfixes:
+	* Fix wrong SEO Analysis value icon, regression from 1.5.5.1
+* Enhancements:
+ 	* Add role specific removal from XML Author sitemap
+ 	* Add option to exclude user from XML Author sitemap on user profile page
+
+= 1.5.5.1 =
+Release Date: August 14th, 2014
+
+* Bugfixes:
+	* Fixed a potential error with `$canonical` not being a string after being filtered.
+	* Fixed more bugs with first paragraph keyword detection.
+	* Fixed bug in saving new opengraph title and images variables in the social settings.
+	* Fixed bug where SEO score incorrectly reported as 'Bad' when no focus keyword set, props [smerriman](https://github.com/smerriman) for finding, props [Jrf](http://profiles.wordpress.org/jrf) for the fix.
+	* Override `woo_title()` output harder than before to remove need for force rewrite with WooThemes themes.
+
+* Enhancements:
+	* Replace `%%parent_title%%` variable client side through JS.
+
+* i18n
+	* updated ar, cs_CZ, fr_FR, hr, pl_PL, pt_BR and ru_RU
+	* new .pot file based off of the 1.5.5 version
+
+= 1.5.5 =
+Release Date: August 12th, 2014
+
+* Bugfixes:
+	* WP Shortlinks weren't always removed when user did choose to remove them as reported in [issue #1397](https://github.com/Yoast/wordpress-seo/issues/1397), props [Firebird75](https://github.com/Firebird75).
+	* Fixed the way we prevent Jetpack from outputting OpenGraph tags. Props [jeherve](https://github.com/jeherve).
+	* Symlinking the plugin should now work. Props [crewstyle](https://github.com/crewstyle) and [dannyvankooten](https://github.com/dannyvankooten).
+	* Fix warnings on new site creation multisite as reported in [issue #1368](https://github.com/Yoast/wordpress-seo/issues/1368), props [jrfnl](https://github.com/jrfnl) and [jennybeaumont](https://github.com/jennybeaumont).
+	* Fixed redirect loop which occurred on multi-word search or when search query contained special characters and the 'redirect ugly URL's' option was on, as reported by [inventurblogger](https://github.com/inventurblogger) in [issue #1340](https://github.com/Yoast/wordpress-seo/issues/1340).
+	* Fixed double separators in snippet preview as reported by [GermanKiwi](https://github.com/GermanKiwi) in [issue #1321](https://github.com/Yoast/wordpress-seo/issues/1321), props [Jrf](http://profiles.wordpress.org/jrf).
+	* Fixed slashes in title in snippet preview as reported by [fittedwebdesign](https://github.com/fittedwebdesign) in [issue #1333](https://github.com/Yoast/wordpress-seo/issues/1333), props [Jrf](http://profiles.wordpress.org/jrf).
+	* Fixed re-introduced js compatibility issue with Soliloquy slider as reported by [ajsonnick](https://github.com/ajsonnick) in [issue #1343](https://github.com/Yoast/wordpress-seo/issues/1343), props [Jrf](http://profiles.wordpress.org/jrf).
+	* Fixed a bug where we could do a query in XML Sitemaps even when there were no posts to query for.
+	* If the sitemap is empty, add the homepage URL to make sure it doesn't throw errors in GWT.
+	* Change how we set 404's for non existing sitemap files, as reported in [#1383](https://github.com/Yoast/wordpress-seo/issues/1383) props [Dinglebat](https://github.com/Dinglebat).
+	* Fix issues with conflicting expectations being plugins/theme of the user meta twitter field - url vs twitter id, props [Jrf](http://profiles.wordpress.org/jrf).
+	* Fix how the first paragraph test for the keyword is done after a solid bug report by [squelchdesign](squelchdesign).
+	* Fix how we're handling protocol relative image URLs in the XML sitemap.
+	* Fix page analysis slug test for keywords with special characters.
+	* Properly set "No score" result for posts that have no focus keyword.
+
+* Enhancements:
+	* Drastically improved performance of snippet preview rendering.
+	* Added Facebook / OpenGraph title input and Google+ title input and image upload field to Social tab.
+	* Added Facebook / OpenGraph title input for the homepage on SEO -> Social settings page.
+	* Changed Facebook / OpenGraph default image and homepage image input fields to use the media uploader.
+	* Added a new title separator feature on the Titles admin page.
+	* Merged the bulk editor pages for titles and descriptions into one menu item "bulk editor".
+	* Added `noimageindex` option to advanced meta robots options.
+	* Bulk editor rights are no longer added for contributors, only for editors and up.
+	* If an archives meta description template has `%%page` variables, show it on page 2 and onwards of archives too.
+	* Add a confirm dialog when resetting setting to default.
+	* Add sorting by publication date in bulk editor as [requested by krogsgard here](https://github.com/Yoast/wordpress-seo/issues/1269).
+
+* Other:
+	* Remove references to deprecated Video Manual plugin.
+
+= 1.5.4.2 =
+Release Date: July 16th, 2014
+
+* Bugfixes:
+	* Fixed several notices for undefined variables.
+	* Properly trim meta description to its desired size again, regression caused in 1.5.4.
+	* Fix empty last modified date for term sitemaps in sitemap index.
+	* Fix bug where `wpseo_sitemap_exclude_empty_terms` filter wouldn't work for index sitemap.
+
+* Enhancements:
+	* Improve nonce checking in bulk title & description editor.
+	* Prevent direct access to XSL file.
+	* Improve code styling to match WordPress code standard even more strictly, props [Jrf](http://profiles.wordpress.org/jrf).
+	* Add button to copy home meta description to home OpenGraph description.
+
+= 1.5.4.1 =
+Release Date: July 15th, 2014
+
+* Bugfixes:
+	* Properly minified the metabox JS file, fixing snippet preview, props [Jrf](http://profiles.wordpress.org/jrf).
+	* Format unix timestamp to string in sitemap, fixes possible fatal error in XML sitemap.
+
+= 1.5.4 =
+Release Date: July 15th, 2014
+
+* Bugfixes
+	* Refactored the variable replacement function for better and faster results and more stability. This should fix most if not all problems users where having with variables not being replaced in the title, meta description, snippet preview etc - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Fixed: `wpseo_replacements` filter was being run before all replacements were known.
+	* Fixed: `%%pt_single%%` and `%%pt_plural%%` didn't work in preview mode.
+	* Fixed: `%%page_total%%` would sometimes be one short.
+	* Fixed: `%%term404%%` would sometimes be empty while the pagename causing the 404 was known.
+	* Fixed: empty taxonomy sitemap could still be shown, while it shouldn't, as reported by [allasai](https://github.com/allasai) in [issue #1004](https://github.com/Yoast/wordpress-seo/issues/1004) - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Fixed: if first result of a search is a post, the blog page was incorrectly added to the breadcrumb, as reported in [issue #1248](https://github.com/Yoast/wordpress-seo/issues/1248) by [Nikoya](https://github.com/Nikoya) - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Fixed: ensure that all our options exist always, fixes rare case in which this wouldn't be so. As reported by [bonny](https://github.com/bonny) in [issue #1245](https://github.com/Yoast/wordpress-seo/issues/1245) - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Fixed: Media title and meta settings could not be set when 'attachment URLs redirect to parent post' was selected which let to issues for attachments without a parent, as reported by [Firebird75](https://github.com/Firebird75) in [issue #1243](https://github.com/Yoast/wordpress-seo/issues/1243) - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Improved and more consistent check for whether to show the admin 'Edit files' screen, [issue #1197](https://github.com/Yoast/wordpress-seo/issues/1197) - props [hostliketoast](https://github.com/hostliketoast) and [Jrf](http://profiles.wordpress.org/jrf).
+	* Restore robots meta box per taxonomy to its former glory, it now shows even when blog is not set to public, as reported by [Lumieredelune](https://github.com/Lumieredelune) in [issue #1158](https://github.com/Yoast/wordpress-seo/issues/1158) - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Fixed: Multisite issues, as reported by [GaryJones](https://github.com/GaryJones) and [chrisfromthelc](https://github.com/chrisfromthelc) in [issue #935](https://github.com/Yoast/wordpress-seo/issues/935) - props [Jrf](http://profiles.wordpress.org/jrf).
+		- saving of settings on the multisite settings page was not working.
+		- restoring site to default settings from multisite settings page was not working.
+		- initializing new blogs with settings from a chosen default blog was not working (might still not be completely stable for WP multisite with WPSEO in must-use plugins directory, stable in all other cases).
+		- wrong option debug information shown on multisite settings page
+	* Fixed: an issue with sitemap transient caching for plugins not using paginated sitemaps (like news seo).
+	* Check if get_queried_object_id is not 0 before enqueueing wp_enqueue_media.
+	* Set rssafter to empty string on test_embed_rss() test.
+	* Fixed: Bing URL - props [GodThor](https://github.com/GodThor).
+	* Prevent from loading if WP is installing - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Fixed: Incorrect timezone in the root sitemap.
+	* Fixed: Multiselect fields are now properly saved in wpseo meta boxes.
+	* Force canonical links to be absolute, relative is NOT an option.
+	* Fixed: Breadcrumb on search pages.
+	* Added CDATA in sitemap image captions and titles.
+	* Various sitemap fixes and improvements - props [Rarst] (https://github.com/Rarst).
+
+* Enhancements
+	* Heavily reduce query load for XML sitemaps by caching XML sitemaps in transients.
+	* New `wpseo_register_extra_replacements` action hook which lets plugin/theme builders add new `%%...%%` replacement variables - including relevant help texts -. See [function documentation](https://github.com/Yoast/wordpress-seo/blob/master/inc/wpseo-functions.php) for an example of how to use this new functionality.
+	* If the final string - after replacement - would contain two separators with nothing between them, this extra separator will be removed.
+	* All remaining not replaced replacement vars are now stripped from the strings (without breaking the snippet preview).
+	* New filter `wpseo_replacements_filter_sep` which can be used to change the seperator character passed by the theme.
+	* When using the 'Reset default settings' button on a blog in a network while another blog has been chosen to be used as a basis for the settings for all new blogs, the reset will respect that setting and reset the blog to the settings from the chosen blog.
+	* For small networks ( < 100 sites ), the network page user interface has been improved, by offering drop-down lists of the blogs for blog selection fields. For larger networks, the interface remains the same.
+	* Added an action to allow adding content to the Post Type tab on the meta admin page.
+	* Removing the extra blog name added to the title by woo_title().
+	* More optimization improvements to snippet preview.
+	* Add filter to allow other plugins to interact with our metaboxes outside of the standard pages - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Replace variables through an AJAX call, which makes them work in the post editor too and allows for more variables to be replaced in the title.
+	* Added priority filters for XML sitemaps.
+
+* Other enhancements
+	* Security improvement: As the .htaccess / robots.txt files are site-wide files, on a multi-site WP installation they will no longer be available for editing to individual site owners. For super-admins, the 'SEO -> Edit Files' admin page will now be accessible through the Network Admin.
+	* We've added server specific info to our tracking class. Most notably, we're tracking whether a number of PHP extensions are enabled for our users now.
+
+= 1.5.3.3 =
+Release Date: June 2nd, 2014
+
+* Enhancements
+	* We've added some options and some host specific info to our tracking class. Most notably, we're tracking the PHP version for our users now, so we can see whether we, at some point, might drop PHP 5.2 support before WordPress does.
+	* Auto-deactivate plugin in the rare case that the SPL (Standard PHP Library) extension is not available.
+	* Switch from inline `xmlns` to inline use of the `prefix` attribute for breadcrumbs as that makes validation work. Fixes [Issue 1186]((https://github.com/Yoast/wordpress-seo/issues/1186).
+
+* Bugfixes
+	* Check whether snippet preview is shown on page before hiding / showing errors, deducted from [#1178](https://github.com/Yoast/wordpress-seo/issues/1178)
+	* Fixed incorrect sitemap last modified date as reported in [issue 1136](https://github.com/Yoast/wordpress-seo/issues/1136) - props [rscs](https://github.com/rscs).
+	* Specify post ID when using `wp_enqueue_media()` to set up correctly for the post being edited. [Pull #1165](https://github.com/Yoast/wordpress-seo/pull/1165), props [benhuson](https://github.com/benhuson).
+	* Fixed unreachable filter `wpseo_sitemap_[post_type]_content` as reported in [pull #1163](https://github.com/Yoast/wordpress-seo/pull/1163), also fixes unreachable filter `wpseo_sitemap_author_content`. Props [jakub-klapka](https://github.com/jakub-klapka).
+	* Fixed PHP notice as reported by [maxiwheat](https://github.com/maxiwheat) in [issue #1160](https://github.com/Yoast/wordpress-seo/issues/1160).
+	* Backed out pagination overflow redirect as it's causing too many issues.
+
+* i18n
+ 	* Make sure extensions menu is fully i18n compatible.
+
+= 1.5.3.2 =
+Release Date: May 16th, 2014
+
+* Bugfixes
+	* Backing out earlier change, as this breaks the snippet preview.
+
+* Enhancement
+	* Reintroduced the 'Strip the category base (usually /category/) from the category URL.' option.
+
+= 1.5.3.1 =
+Release Date: May 15th, 2014
+
+* Bugfixes
+	* Fix regression issue - non-replacement of %%name%% variable as reported in [issue #1104](https://github.com/Yoast/wordpress-seo/issues/1104) by [firstinflight](https://github.com/firstinflight) - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Fixed an issue where %%category%% was not replaced on certain pages.
+	* Added support for %%tag%% even if the ID is empty.
+	* All remaining not replaced title vars are now stripped from the title.
+	* Added a fallback to post_date in the sitemap 'mod' property for when a post is lacking the post_date_gmt value.
+
+= 1.5.3 =
+
+* Bugfixes
+	* Don't ping search engines if the blog is set to 'discourage search engines from indexing this site' - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Fix error in sitemap_index.xml if post type does not contain any posts as reported by [sebastiaandegeus](https://github.com/sebastiaandegeus).
+	* Use the correct HTTP protocol for responses - props [Fab1en](https://github.com/Fab1en).
+	* Better OG locale handling - props [maiis](https://github.com/maiis).
+	* Fixed: 'breadcrumb_last' class was missing on homepage, as reported by [uprise10](https://github.com/uprise10) in [issue #1045](https://github.com/Yoast/wordpress-seo/issues/1045) - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Fix empty post id notice, [issue #1080](https://github.com/Yoast/wordpress-seo/issues/1080) as reported by [sosada](https://github.com/sosada).
+	* Localize dates where appropriate as suggested by [allankronmark](https://github.com/allankronmark) in [issue #1073](https://github.com/Yoast/wordpress-seo/issues/1073).
+	* Fix for escaping str literals in JS regexes - props [MarventusWP](https://github.com/MarventusWP).
+
+* Enhancement
+	* Redirect paginated archive pages with a pagination number that doesn't exist to the first page of that archive.
+	* Update score circle icon to look great on HiDPI displays, as well as fitting better with WordPress 3.8+ design - props [paulwilde](https://github.com/paulwilde).
+	* Only show article publication time for posts, not for pages or other post types, introduce a new filter to _do_ allow them when needed.
+	* Load of improvements to banners and licenses page.
+	* Update snippet preview to use latest Google design changes - props [paulwilde](https://github.com/paulwilde).
+
+= 1.5.2.8 =
+
+* Bugfixes
+	* Added some missing textdomains.
+	* Fixed a license manager request bug.
+	* Work-around for fatal error caused by other plugins doing front-end post updates without loading all the required WP files, such as the WP Google Forms plugin - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Fixed incorrect link to Issues in CONTRIBUTING.md - props [GaryJones](https://github.com/GaryJones).
+	* Fixed a fatal error caused by not checking if Google Suggest request reponse is valid - props [jeremyfelt](https://github.com/jeremyfelt).
+	* Fixed a screen option bug in bulk edit options - props [designerken](https://github.com/designerken).
+	* Fixed warnings on edit files section - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Fixed a warning when post_type is an array - props [unr](https://github.com/unr).
+
+* i18n
+	* Updated el_GR, hu_HU, nl_NL and pl_PL
+
+= 1.5.2.7 =
+
+* Bugfixes
+	* Fixed a WordPress Network license bug.
+
+* i18n
+	* Updated el_GR, fa_IR, hu, it_IT, pt_PT, ru_RU, tr_TK and zh_CN
+	* Added Malay
+
+= 1.5.2.6 =
+
+* Bugfixes
+	* Fixed Open Graph Facebook Debubber Tags/Categories Issue, tags/categories are now grouped into one metatag - props [lgrandicelli](https://github.com/lgrandicelli).
+	* Fixed: %%cf_<custom-field-name>%% and %%parent_title%% not being resolved in the preview snippet as reported by [Glark](https://github.com/Glark) in [issue #916](https://github.com/Yoast/wordpress-seo/issues/916) - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Options are no longer deleted on plugin uninstall.
+	* Fixed a bug that caused the 'Plugins activated' message to be removed by the robots error message - props [andyexeter](https://github.com/andyexeter).
+	* Fix white screen/blog down issues caused by some webhosts actively disabling the PHP ctype extension - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Fixes Metabox Social tab media uploader not working on custom post types which don't use media as reported by [Drethic](https://github.com/Drethic) in [issue #911](https://github.com/Yoast/wordpress-seo/issues/911) - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Fixed vars not being replaced in OG description tag.
+
+* Enhancement
+	* Fix PHP warnings when post_type is an array.
+
+= 1.5.2.5 =
+
+* Bugfixes
+	* Fixed: Premium support link was being added to all plugins, not just ours ;-)
+	* Only show the breadcrumbs-blog-remove option if user uses page_for_posts as it's not applicable otherwise and can cause confusion.
+	* Clean up url query vars after use in our settings page to avoid actions being executed twice - props [Jrf](http://profiles.wordpress.org/jrf).
+
+= 1.5.2.4 =
+
+* Bugfixes
+	* Changed 'wpseo_frontend_head_init' hook to 'template_redirect' to prevent incorrect canonical redirect.
+	* Improved upgrade routine for breadcrumbs maintax/pt option as reported by [benfreke](https://github.com/benfreke) in [issue #849](https://github.com/Yoast/wordpress-seo/issues/849) - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Fixed a bug where the banners overlapped WordPress notices/errors.
+	* Fixed: Slashes in Taxonomy text inputs as reported by [chuckreynolds](https://github.com/chuckreynolds) in [issue #868](https://github.com/Yoast/wordpress-seo/issues/868) - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Increased priority (decreased priority int) on the template_redirect for the sitemap redirect hook.
+	* Fixed: `current_user_can` was being called too early as reported by [satrya](https://github.com/satrya) in [issue #881](https://github.com/Yoast/wordpress-seo/issues/881) - props [Jrf](http://profiles.wordpress.org/jrf).
+
+* Enhancement
+	* Enhanced validation of webmaster verification keys to prevent invalidating incorrect input which does contain a key as reported by [TheZoker](https://github.com/TheZoker) in [issue #864](https://github.com/Yoast/wordpress-seo/issues/864) - props [Jrf](http://profiles.wordpress.org/jrf).
+
+= 1.5.2.3 =
+
+** Note: if you already upgraded to v1.5+, you will need to retrieve your Facebook Apps again and please also check your Google+ URL. We had some bugs with both being escaped too aggressively. Sorry about that. **
+
+* Bugfixes
+	* Added missing settings menu pages to wp admin bar.
+	* Replaced old AdWords keyword tool link.
+	* Fix wp admin bar keyword density check link
+	* Taxonomy sitemap will now also show if empty.
+	* Prevent infinite loop triggered by `sitemap_close()`, fixes [#600](https://github.com/Yoast/wordpress-seo/issues/) as reported and fixed by [pbogdan](https://github.com/pbogdan).
+	* Fixed a link count Page Analysis bug.
+	* Fixed a keyword density problem in the Page Analysis
+	* Fixed OpenGraph/GooglePlus/Twitter tags not showing in a select few themes, [issue #750](https://github.com/Yoast/wordpress-seo/issues/750) as reported by [Jovian](https://github.com/Jovian) and [wwdboer](https://github.com/wwdboer) - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Fixed Facebook Apps not being saved/ "Failed to retrieve your apps from Facebook" as reported by [kevinlisota](https://github.com/kevinlisota) in [issue #812](https://github.com/Yoast/wordpress-seo/issues/812) - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Fixed duplicate feedback messages on WPSEO -> Social pages as reported by [steverep](https://github.com/steverep) in [issue #743](https://github.com/Yoast/wordpress-seo/issues/743) - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Flush our force title rewrite buffer earlier in `wp_footer` so it can be used by other plugins in `wp_footer`. Props [Gabriel Pérez Salazar](http://www.guero.net/).
+	* Start the force rewrite buffer late (at 999) in `template_redirect` instead of `get_header` because of several themes not using `get_header`, issue [#817](https://github.com/Yoast/wordpress-seo/issues/817) as reported by [Jrf](http://profiles.wordpress.org/jrf).
+	* Fixed 'Page %d of %d' / %%page%% variable not being replaced when on pages, as reported by [SGr33n](https://github.com/SGr33n) in [issue #801](https://github.com/Yoast/wordpress-seo/issues/801) - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Restore robots meta box per post to its former glory, it now shows even when blog is not set to public.
+	* Fixed individual page robots settings not being respected when using a page as blog as reported by [wintersolutions](https://github.com/wintersolutions) in [issue #813](https://github.com/Yoast/wordpress-seo/issues/813) - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Fixed: Too aggressive html escaping of the breadcrumbs.
+	* Fixed: Last breadcrumb wasn't always determined correctly resulting in crumbs not being linked when they should have been.
+	* Fixed: Breadcrumbs were sometimes missing separators and default texts since v1.5.0.
+	* Fixed: 404 date based breadcrumb and title creation could cause corruption of the `$post` object.
+	* Fixed: Filtering posts based on SEO score via the dropdown at the top of a post/page overview page no longer worked. Fixed. As reported by [gmuehl](https://github.com/gmuehl) in [issue #838](https://github.com/Yoast/wordpress-seo/issues/838) - props [Jrf](http://profiles.wordpress.org/jrf).
+
+* Enhancements
+	* Added filters for the change frequencies of different URLs added to the sitemap. Props to [haroldkyle](https://github.com/haroldkyle) for the idea.
+	* Added filter `wpseo_sitemap_exclude_empty_terms` to allow including empty terms in the XML sitemap.
+	* Private posts now default to noindex (even though they technically probably couldn't be indexed anyway).
+	* Show a warning message underneath a post's robots meta settings when site is set to noindex sitewide in WP core.
+	* Updated licensing class to show a notice when requests to yoast.com are blocked because of `WP_HTTP_BLOCK_EXTERNALS`.
+
+* Other
+	* Refactored the breadcrumb class - props [Jrf](http://profiles.wordpress.org/jrf).
+
+= 1.5.2.2 =
+
+* Bugfixes
+	* Fix for issue with Soliloquy image slider was not applied to minified js file.
+	* Fixed some PHP 'undefined index' notices.
+	* Fix banner images overlapping text in help tabs.
+	* Fixed meta description tag not showing for taxonomy (category/tag/etc) pages as reported in [issue #737](https://github.com/Yoast/wordpress-seo/issues/737) and [#780](https://github.com/Yoast/wordpress-seo/issues/780) - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Prevent a fatal error if `wp_remote_get()` fails while testing whether the title needs to be force rewritten as reported by [homeispv](http://wordpress.org/support/profile/homeispv) - props [Jrf](http://profiles.wordpress.org/jrf).
+
+* Enhancements
+	* Added composer support - props [codekipple](https://github.com/codekipple) and [Rarst](https://github.com/Rarst).
+
+= 1.5.2.1 =
+
+* Bugfixes
+	* Fix white screen/blog down issues caused by some (bloody stupid) webhosts actively disabling the filter extension - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Fix for some PHP notices, [issue #747](https://github.com/Yoast/wordpress-seo/issues/747) as reported by [benfreke](https://github.com/benfreke) - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Fixed: GooglePlus vanity urls were saved without the `+` as reported by [ronimarin](https://github.com/ronimarin) in [issue #730](https://github.com/Yoast/wordpress-seo/issues/730) - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Fix WP Admin menu items no longer clickable when on WPSEO pages as reported in [issue #733](https://github.com/Yoast/wordpress-seo/issues/733) and [#738](https://github.com/Yoast/wordpress-seo/issues/738) - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Fix strict warning for W3TC, [issue 721](https://github.com/Yoast/wordpress-seo/issues/721).
+	* Fix RSS text strings on options page being double escaped, [issue #731](https://github.com/Yoast/wordpress-seo/issues/731) as reported by [namaserajesh](https://github.com/namaserajesh) - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Avoid potential confusion over Facebook OpenGraph front page usage, [issue #570](https://github.com/Yoast/wordpress-seo/issues/570) - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Potentially fix [issue 565](https://github.com/Yoast/wordpress-seo/issues/565) bbpress warning message. Thanks [inetbiz](https://github.com/inetbiz) for reporting and [tobylewis](https://github.com/tobylewis) for finding the likely cause.
+	* Filter 'wpseo_pre_analysis_post_content' output is now only loaded in DOM object if not empty. - props [mgmartel](https://github.com/mgmartel).
+	* $post_content is now unset after loading in DOM object. - props [mgmartel](https://github.com/mgmartel).
+	* Fix Alexa ID string validation, as reported by [kyasajin](https://github.com/kyasajin) and [Bubichka](https://github.com/Bubichka) in [issue 736](https://github.com/Yoast/wordpress-seo/issues/736) - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Fix issue with Soliloquy image query, as reported by [osalcedo](https://github.com/osalcedo) and [mattisherwood](https://github.com/mattisherwood) in [issue #733](https://github.com/Yoast/wordpress-seo/issues/733) - props [Jrf](http://profiles.wordpress.org/jrf).
+
+* Enhancements
+	* Twitter metatag key is now filterable by 'wpseo_twitter_metatag_key'.
+	* Added a filter called "wpseo_replacements" in wpseo_replace_vars to allow customization of the replacements before they are applied - props [martinernst](https://github.com/martinernst).
+	* Added useful links for page analysis - props [bhubbard](https://github.com/bhubbard).
+
+* i18n Updates
+	* Updated nl_NL, id_ID, it_IT, fr_FR and de_DE
+	* Added ko
+	* Updated .pot file.
+
+= 1.5.2 =
+
+* Bugfix:
+	* If `mbstring` extension isn't loaded, fatal error was thrown.
+
+= 1.5.0 =
+
+This release contains tons and tons of bugfixes and security improvements. Credits for this release largely go to Juliette Reinders Folmer aka [Jrf](http://profiles.wordpress.org/jrf) / [jrfnl](https://github.com/jrfnl).
+
+Also a heartfelt thanks go out to the beta testers who tested all the changes. Special mentions for testers [Woyto](https://github.com/Woyto), [Bnpositive](https://github.com/Bnpositive), [Surbma](https://github.com/Surbma), [DavidCH1](https://github.com/DavidCH1), [TheITJuggler](https://github.com/TheITJuggler), [kletskater](https://github.com/kletskater) who caught a number of bugs and provided us with actionable information to fix these.
+
+This version also incorporates the [SEO Extended](http://wordpress.org/plugins/seo-extended/) plugin functionality into WP SEO with graceful thanks to [Faison](http://profiles.wordpress.org/faison/) and [Scott Offord](http://profiles.wordpress.org/scottofford/) for their great work on this plugin.
+
+**This version contains a lot of changes under the hood which will break backward compatibility, i.e. once you've upgraded, downgrading will break things.** So make sure you make a backup of your settings/database before upgrading.
+
+
+* Bugfixes
+	* Major overhaul of the way the plugin deals with options. This should fix a truck-load of bugs and provides improved security.
+	* Major overhaul of the way the plugin deals with post meta values. This should fix a truck-load of bugs and provides improved security.
+	* Major overhaul of the way the plugin deals with taxonomy meta values. This should fix a truck-load of bugs and provides improved security.
+
+	* Fixed: Renamed a number of options as they ran the risk of being overwritten by post type/taxonomy options which could get the same name. This may fix some issues where options did not seem to get saved correctly.
+
+	* Fixed: if page specific keywords were set for a static homepage, they would never be shown.
+	* Fixed: if only one FB admin was selected, the tag would not be added.
+	* Fixed: bug where taxonomies which were on an individual level set to noindex and sitemap include 'auto-detect' would still be shown in the sitemap
+	* Fixed: bug in canonical urls where an essential part of the logic was skipped for singular posts/pages
+	* Fixed: category rewrite rules could have errors for categories without parent categories.
+	* Fixed: bug in delete_sitemaps() - wrong retrieval of needed options.
+	* Fixed: HTML sitemaps would sometimes display headers without a link list.
+	* Fixed: Breadcrumbs could potentially output an empty element as part of the chain, resulting in two separators in a row.
+	* Fixed: Breadcrumbs: even when removing the prefix texts from the admin page, they would sometimes still be included.
+	* Improved fixed for possible caching issue when `title_test` option remained set, issue [#627](https://github.com/Yoast/wordpress-seo/issues/627).
+	* Fixed bug in `title_test_helper` where it would pass the wrong information to `update_option()`, related to issue [#627](https://github.com/Yoast/wordpress-seo/issues/627).
+	* Fixed: shortcodes should be removed from ogdesc.
+
+	* Fixed: Admin -> Dashboard -> Failed removal of the meta description from a theme file would still change the relevant internal option as if it had succeeded.
+	* Fixed: Admin -> Dashboard -> bug where message about files blocking the sitemap from working would not be removed when it should.
+	* Fixed: Admin -> Titles & Meta's -> Post types would show attachments even when attachment redirection to post was enabled.
+	* Fixed: Admin -> Import -> Fixed partially broken import functionality for WooThemes SEO framework
+	* Fixed: Admin -> Import -> Importing settings from file would not always work due to file/directory permission issues.
+	* Fixed: Admin -> Export -> Some values were exported in a way that they couldn't be imported properly again.
+	* Fixed: Admin -> Import/Export -> On export, the part of the admin page after export would not be loaded.
+	* Fixed: Admin -> Various -> Removed some superfluous hidden fields which could cause issues.
+	* Fixed: Admin -> Social -> The same fb user can no longer be added twice as Facebook admin.
+
+	* Admin -> Multi-site -> Added error message when user tries to restore to defaults a non-existent blog (only applies to multi-site installations).
+
+	* Bow out early from displaying the post/taxonomy metabox if the post/taxonomy is not public (no use adding meta data which will never be displayed).
+	* Prevent the SEO score filter from displaying on a post type overview page if the metabox has been hidden for the post type as suggested by [coreyworrell](https://github.com/coreyworrell) in issue [#601](https://github.com/Yoast/wordpress-seo/issues/601).
+
+	* Improved: post meta -> the keyword density calculation for non-latin, non-ideograph languages - i.e. cyrillic, hebrew etc - has been improved. Related issues [#703](https://github.com/Yoast/wordpress-seo/issues/703), [#681](https://github.com/Yoast/wordpress-seo/issues/681), [#349](https://github.com/Yoast/wordpress-seo/issues/349) and [#264](https://github.com/Yoast/wordpress-seo/issues/264). The keyword density calculation for ideograph based languages such as Japanese and Chinese will not work yet, issue [#145](https://github.com/Yoast/wordpress-seo/issues/145) remains open.
+	* Fixed: post meta -> SEO score indicator -> wpseo_translate_score() would never return score, but always the css value.
+	* Fixed: post meta -> SEO score indicator -> wpseo_translate_score() calls were passing unintended wrong parameters
+	* Fixed: post meta -> page analysis -> text analysis did not respect the blog character encoding. This may or may not solve a number of related bugs.
+	* Fixed: post meta -> often wrong meta value was shown for meta robots follow and meta robots index in post meta box so it appeared as if the chosen value was not saved correctly.
+	* Fixed: post meta -> meta robots advanced entry could have strange (invalid) values.
+	* Fixed: post meta -> since v1.4.22 importing from other plugins would import data even when the post already had WP SEO values, effectively overwritting (empty by choice) WPSEO fields.
+	* Fixed: post meta -> A few of the meta values could contain line breaks where those aren't allowed.
+
+	* Fixed: taxonomy meta -> breadcrumb title entry field would show for taxonomy even when breadcrumbs were not enabled
+	* Fixed: taxonomy meta -> bug where W3TC cache for taxonomy meta data wouldn't always be refreshed when it should and sometimes would when it shouldn't
+
+	* Fixed: some things should work better now for must-use installations.
+	* Added sanitation/improved validation to $_GET and $_POST variables if/when they are used in a manner which could cause security issues.
+	* Fixed: wrong file was loaded for the get_plugin_data() function.
+	* Fixed: several bug-sensitive code constructs. This will probably get rid of a number of hard to figure out bugs.
+	* Fixed: several html validation issues.
+	* Prevent error when theme does not support featured images, issue [#639](https://github.com/Yoast/wordpress-seo/issues/639) as reported by [kuzudecoletaje](https://github.com/kuzudecoletaje).
+
+
+* Enhancements
+	* The [SEO Extended](http://wordpress.org/plugins/seo-extended/) plugin functionality has now been integrated into WP SEO.
+	* Added ability to add Pininterest and Yandex site verification tags. You can enter this info on the WPSEO Dashboard and it will auto-generate the relevant meta tags for your webpage headers.
+	* New `[wpseo_breadcrumb]` shortcode.
+	* Post meta -> Don't show robots index/no-index choice in advanced meta box if there is a blog-wide override in place, i.e. the Settings -> Reading -> Block search engines checkbox is checked.
+	* Post meta -> Added 'Site-wide default' option to meta robots advanced field in advanced meta box.
+	* Post meta -> Added an option to decide whether to include/exclude `rel="author"` on a per post base as suggested by [GaryJones](https://github.com/GaryJones). (Added to the advanced meta box).
+	* Taxonomy meta -> Don't show robots index/no-index choice in taxonomy meta box if there is a blog-wide override in place, i.e. the Settings -> Reading -> Block search engines checkbox is checked.
+	* Admin -> If WP_DEBUG is on or if you have set the special constant WPSEO_DEBUG, a block with the currently saved options will be shown on the settings pages.
+	* Admin -> Dashboard -> Added error message for when meta description tag removal from theme file fails.
+	* Admin -> Titles & Meta -> Added option to add meta keywords to post type archives.
+	* Admin -> Social -> Facebook -> Added error messages for if communication with Facebook failed.
+	* Admin -> Import -> WPSEO settings -> Better error messages for when importing the settings fails and better clean up after itself.
+	* Adminbar -> Keyword research links now also search for the set the keyword when editing a post in the back-end.
+	* [Usability] Proper field labels for user profile form fields.
+	* The New Relic daemon (not the W3TC New Relic PHP module) realtime user monitoring will be turned off for xml/xsl files by default to prevent breaking the sitemaps as suggested by [szepeviktor](https://github.com/szepeviktor) in [issue #603](https://github.com/Yoast/wordpress-seo/issues/603)
+	* General jQuery efficiency improvements.
+	* Improved lazy loading of plugin files using autoload.
+	* Made the Google+ and Facebook post descriptions translatable by WPML.
+	* Better calculation precision for SEO score
+	* Improved 403 headers for illegal file requests as suggested by [cfoellmann](https://github.com/cfoellmann)
+	* Synchronized TextStatistics class with changes from the original, this should provide somewhat better results for non-latin languages.
+	* CSS and JS files are now minified
+	* Rewrote query logic for XML sitemaps
+	* Changed default settings for rel="author"
+	* Added option to switch to summary card with image for Twitter cards
+	* Made several changes to Open Graph logic
+	* Implemented new Yoast License framework
+	* Added possibility to create a robots.txt file directly on the server
+
+* Other:
+	* Removed some backward compatibility with WP < 3.5 as minimum requirement for WP SEO is now 3.5
+	* Removed some old (commented out) code
+	* Deprecated category rewrite functionality
+
+
+
+= 1.4.25 =
+
+* Bugfixes
+	* Do not include external URLs in XML sitemap (Issue #528) - props [tivnet](https://github.com/tivnet).
+	* Get home_url out of the sitemap loop - props [tivnet](https://github.com/tivnet).
+	* Add support for html entities - props [julienmeyer](https://github.com/julienmeyer).
+	* Fixed wrong use of `__FILE__`.
+
+* Enhancement
+	* WPSEO_FILE now has a 'defined' check.
+	* Removed unneeded `dirname` calls.
+
+* i18n
+	* Updated cs_CZ, de_DE, fr_FR & tr_TK
+
+= 1.4.24 =
+
+* Bugfixes
+	* Removed screen_icon() calls.
+	* Fixed a bug in robots meta tag on singular items.
+	* Fix double robots header, WP native settings will be respected - props [Jrf](http://profiles.wordpress.org/jrf).
+	* When post published data is newer than last modified date, use that in XML sitemap, props [mindingdata](https://github.com/mindingdata).
+	* Check if tab hash is correct after being redirected from Facebook API, props [dannyvankooten](https://github.com/dannyvankooten).
+	* Fix 404 in category rewrites when `pagination_base` was changed, props [raugfer](https://github.com/raugfer).
+	* Make the metabox tabs jQuery only work for WPSEO tabs, props [imageinabox](https://github.com/imageinabox).
+	* Sitemap shortcode sql had hard-coded table name which could easily cause the shortcode display to fail. Fixed. - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Fix issue with user capability authorisation check as reported by [scienceandpoetry](https://github.com/scienceandpoetry) in issue [#492](https://github.com/Yoast/wordpress-seo/issues/492) - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Fixed canonical rel links was causing an error when given an invalid taxonomy, issue [#306](https://github.com/Yoast/wordpress-seo/issues/306) - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Removed add_meta_box() function duplication  - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Fix issue "Flesch Reading Ease should only be a positive number". This also fixes the message being unclear. Thanks [eugenmihailescu](https://github.com/eugenmihailescu) for reporting - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Fixed issue with page analysis not taking feature image into account - props [darrarski](https://github.com/darrarski).
+
+* Enhancement
+	* Shortcode now also available to ajax requests - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Added gitignores to prevent incorrect commits (Cross platform collab) - props [cfoellmann](https://github.com/cfoellmann).
+	* Adding filters to individual sitemap url entries - props [mboynes](https://github.com/mboynes).
+
+= 1.4.23 =
+
+* Bugfixes
+	* Fix for serious sitemap issue which caused all pages of a split sitemap to be the same (show the first 1000 urls) - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Fixed a bug in the WPSEO tour in WP Network installs
+	* clean_permalink 301 redirect issue when using https - props [pirategaspard](https://github.com/pirategaspard)
+
+* i18n
+	* Updated cs_CZ, fa_IR, fr_FR, hu, hu_HU, pl_PL, ru_RU & zh_CN
+
+
+= 1.4.22 =
+
+* Bugfixes
+	* Reverted change to XML sitemaps stylesheet URL as that was giving issues on multisite installs.
+	* Reverted change to XML sitemap loading as we were no longer exposing some variables that other plugins relied upon.
+	* Fix bug with author sitemap showing for everyone.
+
+* Enhancement
+	* No longer save empty meta post variables, issue [#463](https://github.com/Yoast/wordpress-seo/issues/463). Clean up of DB is coming in future release, if you want to clean your DB now, see that issue for SQL queries.
+
+= 1.4.21 =
+
+* Bugfixes
+	* Fix notice for `ICL_LANGUAGE_CODE` not being defined.
+	* Fix missing function in install by adding a require.
+
+= 1.4.20 =
+
+* Bugfixes
+	* Fixed bug where posts set to _always_ index would not end up in XML sitemap.
+	* Fix _Invalid argument supplied for foreach()_ notice for WPML as reported by [pbearne](https://github.com/pbearne) - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Yoast tracking cron job will now unschedule on disallowing of tracking, on deactivation and on uninstall, inspired by [Bluebird Blvd.](http://wordpress.org/support/topic/found-active-tracking-device-after-deleting-wp-seo-months-ago) - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Fix issue [#453](https://github.com/Yoast/wordpress-seo/issues/435): setting shop as homepage caused a notice and wrong title with WooCommerce.
+	* Fixed a bug [#449](https://github.com/Yoast/wordpress-seo/issues/449) where a canonical, when manually set for a category, tag or term, could get pagination added to it on paginated pages, when it shouldn't.
+	* Fixed a bug where manually set canonicals would end up in `rel="next"` and `rel="prev"` tags.
+	* Fixed a bug [#450](https://github.com/Yoast/wordpress-seo/issues/450) where noindexed pages would appear in the HTML sitemap.
+	* Fixed a bug where non-public taxonomies would appear in the HTML sitemap.
+	* Fixed quotes not working in meta title and description for terms, issue [#405](https://github.com/Yoast/wordpress-seo/issues/405).
+	* Make sure author sitemap works when they should.
+	* Fix some notices in author sitemap, issue [#402](https://github.com/Yoast/wordpress-seo/issues/402).
+	* Fix breadcrumbs being broken on empty post type archives, issue [#443](https://github.com/Yoast/wordpress-seo/issues/443).
+	* Fixed a possible caching issue when `title_test` option remained set, issue [#419](https://github.com/Yoast/wordpress-seo/issues/419).
+	* Make sure og:description is shown on homepage when it's left empty in settings, fixes [#441](https://github.com/Yoast/wordpress-seo/issues/441).
+	* Make sure there are no WPML leftovers in our title, issue [#383](https://github.com/Yoast/wordpress-seo/issues/383).
+	* Fix padding on fix it buttons with 3.8 design, issue [#400](https://github.com/Yoast/wordpress-seo/issues/400).
+	* Hide SEO columns in responsive admin ( in 3.8 admin design ), issue [#445](https://github.com/Yoast/wordpress-seo/issues/445).
+
+* Misc
+	* Switch back to MailChimp for newsletter subscribe.
+	* Default to nofollowing links in RSS feed footers.
+
+* i18n
+  * Updated es_ES, pt_BR & ru_RU
+  * Added sk_SK
+
+= 1.4.19 =
+
+* Enhancements
+	* Added the option to upload a separate image for Facebook in the Social tab.
+	* Added published time, last modified time, tags and categories to OpenGraph output, to work with Pinterests new article pin.
+	* Added a filter for post length requirements in the Analysis tab.
+	* If there is a term description, use it in the OpenGraph description for a term archive page.
+	* Applied a number of settings form best practices - props [Jrf](http://profiles.wordpress.org/jrf).
+	* File inclusion best practices applied - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Breadcrumbs for Custom Post Types now take the CPT->label instead of CPT->labels->menu_name as text parameter, as suggested by [katart17](http://wordpress.org/support/profile/katart17) and [Robbert V](http://wordpress.org/support/profile/robbert-v) - props [Jrf](http://profiles.wordpress.org/jrf).
+
+* Bugfixes
+	* Move all rewrite flushing to shutdown, so it doesn't break other plugins who add their rewrites late.
+	* Fixed the wrong naming of the L10n JS object, props [Otto](http://profiles.wordpress.org/otto42).
+	* Improved form support for UTF-8 - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Corrected faulty multisite option registration - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Fixed appropriate use of plugins_url() to avoid breaking hooked in filters - props [Jrf](http://profiles.wordpress.org/jrf).
+	* (Temporary) fix for metabox styling for users using the MP6 plugin - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Minor fix in localization loading - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Fixed [Missing argument 3 for wpseo_upgrader_process_complete](https://github.com/Yoast/wordpress-seo/issues/327) notice for WP 3.7+, thanks [vickyindo](https://github.com/vickyindo), [Wendyhihi](https://github.com/Wendihihi) and [Theressa1](https://github.com/Theressa1) for reporting - props [Jrf](http://profiles.wordpress.org/jrf).
+
+* i18n
+  * Updated ru_RU, tr_TK and Hr
+
+= 1.4.18 =
+
+* Unhooking 'shutdown' (part of the NGG fix in 1.4.16) caused caching plugins to break, fixed while preserving NGG fix.
+* These changes were pushed in later but were deemed not important enough to force an update:
+	* Updated newsletter subscription form to reflect new newsletter system.
+	* Documentation
+		* Updated readme.txt to reflect support changes.
+		* Moved old sections of changelog to external file.
+	* i18n
+	* Updated pt_PT
+
+= 1.4.17 =
+
+* Missed a line in the commit of the option to stop stop words cleaning.
+
+= 1.4.16 =
+
+* Fix for compatibility with NextGen Gallery.
+
+* Enhancements
+	* Add option to enable slug stop word cleaning, find it under SEO -> Permalinks. It's on by default.
+	* Remove tracking variables from the Yoast Tracking that weren't used.
+
+* i18n
+	* Updated de_DE, fa_IR, fi, hu_HU, it_IT, pl_PL, sv_SE and tr_TK
+
+= 1.4.15 =
+
+* Bugfixes
+	* Fix the white XML sitemap errors caused by non-working XSL.
+	* Fixed the errors in content analysis reporting an H2 was not found when it was really there.
+	* Fix slug stopwords removal, props [amm350](https://github.com/amm350).
+	* Fix PHP Notice logged when site has capabilities created without 3rd value in args array, props [mbijon](https://github.com/mbijon).
+	* Fix the fact that meta description template for archive pages didn't work, props [MarcQueralt](https://github.com/MarcQueralt).
+	* Prevent wrong shortcodes (that echo instead of return) from causing erroneous output.
+	* Fix edge cases issue for keyword in first paragraph test not working.
+	* Revert change in 1.4.14 that did a `do_shortcode` while in the `head` to retrieve images from posts, as too many plugins crash then, instead added `wpseo_pre_analysis_post_content` filter there as well.
+
+= 1.4.14 =
+
+This release contains tons and tons of bugfixes, thanks in *large* part to [Jrf](http://profiles.wordpress.org/jrf), who now has commit rights to the code on Github directly. Please join me in thanking her for her efforts!
+
+* Notes:
+	* Our GitHub repository moved to [https://github.com/Yoast/wordpress-seo](https://github.com/Yoast/wordpress-seo), old links should redirect but please check.
+
+* Bugfixes
+	* Switch to stock autocomplete file and fix clash with color picker, props [Heinrich Luehrsen](http://www.luehrsen-heinrich.de/).
+	* Prevent strip category base code from breaking Custom Post Type rewrites, props [Steve Hulet](http://about.me/stevehulet).
+	* Fixed [issue with canonical links](http://wordpress.org/support/topic/serious-canonical-issue-with-paginated-posts) on last page of paginated posts - props [maxbugfiy](http://wordpress.org/support/profile/maxbuxfiy)
+	* Fixed bug in shortcode removal from meta description as reported by [professor44](http://profiles.wordpress.org/professor44/) - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Fixed bug preventing saving of taxonomy meta data on first try - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Fixed small (potential) issue in wpseo_title_test() - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Fixed bug where RSS excerpt would be double wrapped in `&lt;p&gt;` tags as reported by [mikeprince](http://profiles.wordpress.org/mikeprince) - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Fixed HTML validation error: Duplicate id Twitter on Social tab - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Fixed undefined index notice as reported by [szepeviktor](http://profiles.wordpress.org/szepeviktor).
+	* Fixed error in a database query as reported by [Watch Teller](http://wordpress.org/support/profile/watchteller) - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Fixed small issue with how styles where enqueued/registered - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Fixed bug in alt text of score dots as [reported by Rocket Pixels](http://wordpress.org/support/topic/dots-on-hover-over-show-na-tooltip) - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Applied best practices to all uses of preg_ functions fixing some bugs in the process - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Fixed bug in processing of `%%ct_<custom-tax-name>%%` as [reported by Joy](http://wordpress.org/support/topic/plugin-dies-when-processing-ct_desc_) - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Fixed: no more empty og: or twitter: tags. Also added additional escaping where needed - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Fixed: Meta description tag discovery looked in parent theme header file even when a child theme is the current theme - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Fixed: Using the 'Fix it' button would remove the meta description tag from the parent theme header file, even when a child theme is the current theme - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Fixed: Using the 'Fix it' button would fail if it had already been used once (i.e. if a wpseo backup file already existed) - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Fixed repeated unnecessary meta description tag checks on each visit to dashboard page - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Fixed: Meta description 'Fix it' feedback message was not shown - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Mini-fix for plugin_dir_url - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Fixed Author Highlighting to only show authors as possible choice for Google+ Plus author as reported by [Sanoma](https://github.com/jdevalk/wordpress-seo/issues/131) - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Fixed `adjacent_rel_links()` for Genesis users - props [benjamin74](https://github.com/benjamin74) for reporting.
+	* Replace jQuery .live function with .on(), as .live() has been deprecated and deleted. Props [Viktor Kostadinov](http://www.2buy1click.com/) & [Taco Verdonschot](https://yoast.com/about-us/taco-verdonschot/).
+	* Fix how breadcrumbs deal with taxonomy orders. Props [Gaya Kessler](http://www.gayadesign.com/).
+	* Fixed some PHP warnings
+
+* Enhancements
+	* Added `wpseo_pre_analysis_post_content` filter. This allows plugins to add content to the content that is analyzed by the page analysis functionality.
+	* Added `wpseo_genesis_force_adjacent_rel_home` filter to allow forcing of rel=next / rel=prev links on the homepage pagination for Genesis users, they're off by default.
+	* Make `$wpseo_metabox` a global, props [Peter Chester](http://tri.be/).
+	* No need to show Twitter image when OpenGraph is showing, props [Gary Jones](http://garyjones.co.uk/).
+	* Make sure WPML works again, props [dominykasgel](https://github.com/dominykasgel).
+	* Added checks for the meta description tag on theme switch, on theme update and on (re-)activation of the WP SEO plugin including a visual warning if the check would warrant it - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Added the ability to request re-checking a theme for the meta description tag. Useful when you've manually removed it (to get rid of the warning), inspired by [tzeldin88](http://wordpress.org/support/topic/plugin-wordpress-seo-by-yoast-your-theme-contains-a-meta-description-which-blocks-wordpress-seo) - props [Jrf](http://profiles.wordpress.org/jrf).
+	* OpenGraph image tags will now also be added for images added to the post via shortcodes, as suggested by [msebald](http://wordpress.org/support/topic/ogimage-set-to-default-image-but-articlepage-has-own-images?replies=3#post-4436317) - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Added 'wpseo_breadcrumb_single_link_with_sep' filter which allows users to filter a complete breadcrumb element including the separator - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Added 'wpseo_stopwords' filter which allows users to filter the stopwords list - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Added 'wpseo_terms' filter which allows users to filter the terms string - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Hide advanced tab for users for which it has been disabled, as [suggested by jrgmartin](https://github.com/jdevalk/wordpress-seo/issues/93) - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Updated Facebook supported locales list for og:locale
+
+* i18n
+	* Updated languages tr_TK, fi, ru_RU & da_DK
+	* Added language hi_IN
+	* Updated wordpress-seo.pot file
+
+= 1.4.13 =
+
+* Bugfixes
+	* Fixed ampersand (&) in site title in Title Templates loading as &amp;
+	* Fixed error when focus keyword contains a / - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Fixed issue with utf8 characters in meta description - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Fixed undefined property error - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Fixed undefined index error for the last page of the tour - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Fixed undefined index error for images without alt - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Fix output of author for Google+ when using a static front page - props [petervanderdoes](https://github.com/petervanderdoes).
+	* Keyword density calculation not working when special character in focus keyword - props [siriuzwhite](https://github.com/siriuzwhite).
+	* Reverse output buffer cleaning for XML sitemaps, as that collides with WP Super Cache, thanks to [Rarst](https://github.com/Rarst) for finding this.
+	* Fix canonical and rel=prev / rel=next links for paginated home pages using index.php links.
+	* Fixed og:title not following title settings.
+* Enhancements
+	* Improved breadcrumbs and titles for 404 pages - props [Jrf](http://profiles.wordpress.org/jrf).
+	* Moved XSL stylesheet from a static file in wp-content folder to a dynamic one, allowing it to work for sites that prevented the wp-content dir from being opened directly, f.i. through Sucuri's hardening.
+	* Added a link in the XSL pointing back to the sitemap index on individual sitemaps.
+	* When remove replytocom is checked in the permalink settings, these are now also redirected out.
+	* Added filters to OpenGraph output functions that didn't have them yet.
+
+= 1.4.12 =
+
+* Bugfixes
+	* Submit button displays again on Titles & Metas page.
+	* SEO Title now calculates length correctly.
+	* Force rewrite titles should no longer reset wrongly on update.
+
+= 1.4.11 =
+
+* i18n
+	* Updated de_DE, ru_RU, zh_CN.
+* Bugfixes
+	* Make rel="publisher" markup appear on every page.
+	* Prevent empty property='article:publisher' markup from being output .
+	* Fixed twitter:description tag should only appears if OpenGraph is inactive.
+	* og:description will default to get_the_excerpt when meta description is blank (similar to how twitter:description works).
+	* Fixes only 25 tags (and other taxonomy) are being indexed in taxonomy sitemaps.
+	* Fix lastmod dates for taxonomies in XML sitemap index file.
+* Enhancements
+	* Changed Social Admin section to have a tab-layout.
+	* Moved Google+ section from Homepage tab of Titles & Metas to Social tab.
+	* Make twitter:domain use WordPress site name instead of domain name.
+	* Added more output filters in the Twitter class.
+
+= 1.4.10 =
+
+* Fixes
+	* Caching was disabled in certain cases, this update fixes that.
+* Enhancements
+	* Added option to disable author sitemap.
+	* If author pages are disabled, author sitemaps are now automatically disabled.
+
+= 1.4.9 =
+
+* i18n
+	* Updated .pot file
+	* Updated ar, da_DK, de_DE, el_GR, es_ES, fa_IR, fr_FR, he_IL, id_ID, nl_NL, ro_RO, sv_SE & tr_TK
+	* Added hr & sl_SI
+	* Many localization fixes
+* Bugfixes
+	* Fixed sitemap "loc" element to have encoded entities.
+	* Honor the language setting if other plugins set the language.
+	* sitemap.xml will now redirect to sitemap_index.xml if it doesn't exist statically.
+	* Added filters 'wpseo_sitemap_exclude_post_type' and 'wpseo_sitemap_exclude_taxonomy' to allow themes/plugins to exclude entries in the XML sitemap.
+	* Added RTL support, some CSS fixes.
+	* Focus word gets counted in meta description when defined by a template.
+	* Fixed some bugs with the focus keyword in the first paragraph test.
+	* Fixed display bug in SEO Title column when defined by a template ('Page # of #').
+	* Fixed a few strict notices that would pop up in WP 3.6.
+	* Prevent other plugins from overriding the WP SEO menu position.
+	* Enabled the advanced tab for site-admins on a multi-site install.
+	* Fixed post save error when page analysis is disabled.
+	* OpenGraph frontpage og:description and og:image tags now properly added to the frontpage.
+* Enhancements
+	* Added an HTML sitemap shortcode [wpseo_sitemap].
+	* Added an XML sitemap listing the author profile URLs.
+	* Added detection of Yoast's robots meta plugin and All In One SEO plugins, plugin now gives a notice to import settings and disable those plugins.
+	* Prevent empty image tags in Twitter Cards - props [Mike Bijon](https://github.com/mbijon).
+	* Add new `twitter:domain` tag	- props [Mike Bijon](https://github.com/mbijon).
+	* Add support for Facebooks new OG tags for media publishers.
+	* Allow authorship to be removed per post type.
+
+= 1.4.7 =
+
+* Properly fix security bug that should've been fixed in 1.4.5.
+* Move from using several $options arrays in the frontend to 1 class wide option.
+* Instead of firing all plugin options as function within head function, attach them to `wpseo_head` action, allowing easier filtering and changing.
+* Where possible, use larger images for Facebook Opengraph.
+* Add several filters and actions around social settings.
+
+= 1.4.6 =
+
+* Fix a possible fatal error in tracking.
+
+= 1.4.5 =
+
+* Bug fixes:
+	* Fix security issue which allowed any user to reset settings.
+	* Allow saving of SEO metadata for attachments.
+	* Set the max-width of the snippet preview to 520px to look more like Google search results, while still allowing it to work on lower resolutions.
+* Enhancements:
+	* Remove the shortlink http header when the hide shortlink checkbox is checked.
+	* Added a check on focus keyword in the page analysis functionality, checking whether a focus keyword has already been used before.
+	* Update how the tracking class calculates users to improve speed.
+
+= 1.4.4 =
+
+* Fix changelog for 1.4.3
+* Bugfixes
+	* Fix activation bug.
+* i18n
+	* Updated es_ES, id_ID, he_IL.
+
+= 1.4.3 =
+
+* Bugfixes
+	* Register core SEO menu at a lower than default prio so other plugins can tie in more easily.
+	* Remove alt= from page analysis score divs.
+	* Make site tracking use the site hash consistently between plugins.
+	* Improve popup pointer removal.
+
+= 1.4.2 =
+
+* Bugfixes
+	* Made the sitemaps class load in backend too so it always generates rewrites correctly.
+	* Changed > to /> in class-twitter.php for validation as XHTML.
+	* Small fix in metabox CSS for small screens (thx [Ryan Hellyer](http://ryanhellyer.net)).
+	* Load classes on plugins_loaded instead of immediately on load to allow WPML to filter options.
+* i18n
+	* Updated bs_BA, cs_CZ, da_DK, de_DE, fa_IR, fr_FR, he_IL, hu_HU, id_ID, it_IT, nl_NL, pl_PL, pt_BR, ru_RU and tr_TR
+
+= 1.4.1 =
+
+* i18n:
+	* Updated .pot file
+	* Updated bg_BG, bs_BA, cs_CZ, fa_IR, hu_HU, pl_PL & ru_RU
+* Bugfixes:
+	* Focus keyword check now works again in all cases.
+	* Fix typo in Video SEO banner.
+* Enhancements:
+	* Don't show banners for plugins you already have.
+
+= 1.4 =
+
+* i18n & documentation:
+	* Updated Hebrew (he_IL)
+	* Updated Italian (it_IT)
+	* Updated Dutch (nl_NL)
+	* Updated Swedish (sv_SE)
+	* Updated some strings to fix typos.
+	* Removed affiliate links from readme.txt.
+* Bugfixes:
+	* Fixed a bug in saving post meta details for revisions.
+	* Prevent an error when there are no posts for post type.
+	* Fix the privacy warning to point to the right place.
+* Enhancements:
+	* Slight performance improvement in <head> functionality by not resetting query when its not needed (kudos to @Rarst).
+	* Slight performance improvement in options call by adding some caching (kudos to @Rarst as well).
+	* Changed inner workings of search engine ping, adding YOAST_SEO_PING_IMMEDIATELY constant to allow immediate ping on publish.
+	* Changed design of meta box, moving much of the help text out in favor of clicking on a help icon.
+	* Removed Linkdex branding from page analysis functionality.
+
+= 1.3.4.4 =
+
+* Bug with revisions in XML sitemap for some weird combinations.
+* Improved logic for rel=publisher on frontpage.
+* Allow variables in meta description for post type archive.
+* Improved counting of images for page analysis.
+* updated Turkish (tr_TR)
+* updated Russian (ru_RU)
+* updated Indonesian (id_ID)
+* updated French (fr_FR)
+* updated Czech (cs_CZ)
+* added Japanese (ja)
+
+= 1.3.4.3 =
+
+* Regex annoyances anyone? Sigh. Bug fixed.
+
+= 1.3.4.2 =
+
+* Added missing filter for meta box priority.
+* Fixed bug in JS encoding.
+
+= 1.3.4.1 =
+
+* Bug in page analysis regex.
+
+= 1.3.4 =
+
+* Fix bug in custom field value retrieval for new drafts.
+* Fix bug in meta box value for checkboxes (only used currently in News extension).
+* Remove redirect added in 1.3.3 as it seems to cause loops on some servers, will investigate later.
+* Add option to filter `wpseo_admin_pages` so more pages can use WP SEO admin stylesheets.
+* Prevent notice for images without alt tags.
+* Use mb_string when possible.
+
+= 1.3.3 =
+
+* Properly `$wpdb->prepare` all queries that need preparing.
+* Fix wrong escaping in admin pointers.
+* Make %%currentdate%% and %%currenttime%% variables respect WP date format settings.
+* Add %%currentday%% format.
+* Force remove Jetpack OpenGraph.
+* Fix the weird addition of `noindex, nofollow` on URLs with ?replytocom that was added in 3.5.
+* Force XML sitemap to be displayed on the proper domain URL, so XSLT works.
+
+= 1.3.2 =
+
+* Updated wordpress-seo.pot
+* Updated Turkish (tr_TR) filename.
+* Updated Spanish (es_ES) translation.
+* Fixed bug where non-admin users couldn't save their profile updates.
+* Fixed bug with the same OpenGraph image appearing multiple times.
+* Fixed bug that would prevent import and export of plugin settings.
+* Try to do a redirect back after saving settings.
+* Properly allow for attachment pages in XML sitemaps, default them to off.
+* Fixed annoying bug where checkboxes wouldn't display as "checked" even when the value was set to true.
+* Show post type name and taxonomy name (as opposed to label) next to labels in XML sitemap settings to more easily identify post types and taxonomies.
+* Switch tracking to a daily cronjob instead of an admin process to prevent tracking from slowing down admin interface.
+* Focus keyword detection now properly works for diacritical focus keywords as well.
+* Properly apply filters to meta desc and titles in admin grid.
+* Properly detect new versions of Facebook plugin too.
+* Allow changing of the number of posts per XML sitemap, to prevent memory issues on certain installs.
+
+= 1.3.1.1 =
+
+* Some of that escaping was too aggressive.
+
+= 1.3.1 =
+
+* Fix somewhat too aggressive escaping of content.
+* Added notice text for non-existing .htaccess file / robots.txt file.
+
+= 1.3 =
+
+* Long list of small fixes and improvements to code best practices after Sucuri review. Fixes 3 small security issues.
+* Updated .pot file
+* Updated Danish (da_DK), Indonesian (id_ID), Chinese (zh_CN), Russian (ru_RU), Norwegian (nb_NO), Turkish (tr_TK), Hebrew (he_IL) and Persian (fa_IR).
+* Added Arabic (ar), Catalan (ca) and Romanian (ro_RO).
+
+= 1.2.8.7 =
+
+* Fixed %%category%% and %%tag%% and some other variables that weren't working since 1.2.8.6.
+
+= 1.2.8.6 =
+
+* Revert gplus changes in 1.2.8.5 that were causing issues.
+* Fix a tracking timeout.
+* Fix a bunch of notices throughout variables functions.
+
+= 1.2.8.5 =
+
+* Fixed a bug for MultiSite due to a missing attribute in calling `get_admin_url`.
+* Updated Hebrew (he_IL), Dutch (nl_NL) French (fr_FR), Czech (cs_CZ), Italian (it_IT), Brazilian Portuguese (pt_BR).
+* Added Norwegian (nb_NO) and Portuguese (pt_PT).
+* Added a `wpseo_robots` filter for the robots meta tag.
+* Fixed integration with the [Facebook plugin](https://wordpress.org/plugins/facebook).
+
+= 1.2.8.4 =
+
+* Fix for double title issues with themes that filter `wp_title`, by having WP SEO filter a bit later in the process
+  (but no too late because the genesis <title> wrap filter is on 30).
+* Improved Twitter Card functionality: twitter meta tags now appear above OpenGraph meta tags.
+* Updated a bunch of languages: da_DK, de_DE, es_ES, fa_IR, fr_FR, he_IL, hu, hu_HU, it_IT, nl_NL, pt_BR, ru_RU, tr_TK, zh_CN.
+* Added Czech (cs_CZ) and Spanish - Venezuela (es_VE).
+
+= 1.2.8.3 =
+
+* Updated all the languages in hopes to fix the empty text strings.
+* Added basic translations for Danish (da_DK) and Finnish (fi).
+
+= 1.2.8.2 =
+
+* "Fix" for tracking popup with empty buttons.
+
+* Updated languages
+	* French fr_FR
+	* Dutch nl_NL
+	* Turkish tr_TK
+
+= 1.2.8.1 =
+
+* Fixed one s, that caused a fatal error. Sigh.
+
+= 1.2.8 =
+
+* Bug fixes:
+    * Fix for images not showing up in XML sitemap.
+    * Fix to allow breadcrumb titles to once again be set for CPT archive pages.
+    * Prevent empty rel=publisher link from being put out.
+    * Several fixes to the strip category base settings.
+    * Several fixes to the hardcoded meta description recognition code.
+    * Prevent title testing from priming the cache.
+    * Prevent upgrading from a recent version to force a title test, no longer overrides manual force rewrite settings.
+    * Fix paginated singular post / page issue when single isn't paginated.
+* Enhancements:
+    * No longer show .htaccess editor when on NGINX.
+    * Move tracking to its own file, switching to my own tracking instead of PressTrends so more specific options can be tracked.
+    * Tracking can now be enabled and disabled from the SEO Dashboard screen.
+* Documentation:
+    * Added rewrite rules for NGINX to FAQ.
+    * Now showing rewrite rules for NGINX on XML sitemaps settings page.
+
+= 1.2.7 =
+
+* Fixed compatibility with 3.3 and lower.
+
+= 1.2.6 =
+
+* Enhancements:
+    * Added (optional) PressTrends tracking to get some more info on common configurations of WP to test for.
+    * Made config page loading even faster.
+    * Added a link to my [Amazon wishlist](http://amzn.com/w/CBV7CEOJJH98) to the plugin sidebar in the admin ;)
+    * Added a check to see whether your theme contains a hardcoded meta description, and options to remove it.
+    * Added a Google+ Publisher input option for the homepage.
+    * Added the option to allow showing the date in the snippet preview per post type.
+    * Removed aggressive cache deleting in the XML sitemaps. Could cause issues with some plugins but should increase speed.
+    * Force the XML Sitemap to return a 200 OK Header.
+* Deprecated functionality:
+    * The breadcrumbs functionality no longer automatically hooks as this was giving too many issues.
+* Bug fixes:
+    * Prevent adding trailing slash on paged posts when force trailing slash on categories and tags is on.
+    * Breadcrumbs now properly use `home_url` instead of `site_url`.
+    * Simplify shortcode stripping, to make it actually work.
+    * Prevent several notices in XML Sitemaps class.
+* Textual / documentation changes:
+    * Add a "without @" notice to the Twitter username input field.
+
+= 1.2.5 =
+
+* Bug fixes:
+    * Make sure html entities are decoded and if needed re-encoded to XML entities for the XML sitemap.
+    * Fix infinite loop in sub-category or other sub-taxonomy archive page breadcrumbs.
+    * Fix breaking rewrite for categories when strip category is enabled.
+    * Fix non-global classes that should be global.
+* i18n:
+	* Updated French translation.
+	* Updated Bosnian language code and deleted unused Bosnian version.
+	* Updated Bulgarian and deleted unused Bulgarian `bul` version.
+	* Updated and completed it_IT and pt_BR translations.
+
+= 1.2.4 =
+
+* Bug fixes:
+	* Properly restore $wp_query after running header functionality, so we're not breaking badly built themes.
+	* Make the title test helper function only return the test title to the right WordPress user-agent.
+	* Fix for slug saving that should help interoperability with other slug-enhancing / changing functions.
+	* Fix wrong homepage titles with 12345 in them because of bug in 1.2.2.
+	* Added text domains on some strings that were missing it.
+	* Replace `split` with `explode` as `split` is deprecated in newer PHP versions.
+	* Properly deal with shortcodes with text inbetween.
+	* Remove several functions that are no longer used.
+	* `%%page%%` only outputs '`%%sep%%` Page 2 of X' when not on page 1. If you want it to show up on Page 1 you can use `%%pagetotal%%` and `%%pagenumber%%`. This both works for paginated posts & pages too.
+	* Allow for rel=author on sites with static frontpage too.
+* Enhancements:
+	* Massive updates to how parts of the plugin are loaded, leading to a reduction of memory usage in WordPress admin of 1~2 MB.
+	* Respect `DISALLOW_FILE_MODS` and `DISALLOW_FILE_EDIT` constants. When set to true, edit files menu option won't show.
+	* Added support for image galleries in the page analysis functionality, alt tags from images in galleries are now parsed too.
+	* Add an option to remove the `replytocom` variables from comment links (they're bloody stupid).
+	* Added variables `%%pt_single%%` and `%%pt_plural%%` which output the single and plural label of the current post type (useful for post type archives).
+	* Made the default settings smarter, they'll now use better titles _and_ will set titles for each public post type, post type archive and taxonomy.
+	* Updates to introductory tour.
+	* Added PHPdoc to the entire plugins codebase.
+	* Refactored all of the code not using WordPress code style.
+	* Breadcrumbs now use [RDFA](http://support.google.com/webmasters/bin/answer.py?hl=en&answer=185417) and have been completely rewritten for speed and more filter options.
+* i18n:
+	* Updated Russian translation.
+	* Better language codes for Hungarian and Bulgarian added.
+	* Updated .pot file.
+
+= 1.2.3 =
+
+* Bug fixes:
+	* Fixed possible bug on multi site.
+	* Fixed a bug in alt & title elements for XML sitemaps.
+	* Fix to force title rewrites in two places: call `wp_reset_query` for stupid themes and plugins.
+	* Fixed bug in saving some options.
+	* Fixed OpenGraph bug where default image wouldn't be used for post without images.
+	* Prevent error on division by zero when swapping around text.
+	* Prevent notice in title_test and also fix possible bugs.
+	* Properly escape the delimiter too in all `preg_quote` calls.
+	* Don't show SEO filter on upload.php.
+	* Only count alt tags in keyword density and word count calculations, leave out title attributes.
+	* Rewrote the force rewrite test to be simpler and better.
+* Enhancements:
+	* New icons for the analysis functionality.
+	* Twitter card functionality.
+	* Removed 200 lines of code from OpenGraph class because I could just inherit it from the parent class. d0h!
+	* Added a *bunch* of translations; bg, bos, bs, bul, es_ES, hu, hun, id_ID, pl_PL, pt_BR.
+	* Updated another bunch: de_DE, fr_FR, he_IL, it_IT, nl_NL, ru_RU, sv_SE.
+
+= 1.2.2 =
+
+* Some small bug fixes.
+* Made loading the TextStatistics class conditional on the existence of said class.
+* Added a posts filter option for SEO quality in the edit posts / pages overview.
+* Added a filter `wpseo_use_page_analysis` that disables the page analysis functionality when false is returned.
+* Added a filter `wpseo_show_date_in_snippet` that disables the date in the preview snippet when false is returned.
+
+= 1.2.1 =
+
+* Bugs fixed:
+	* Trim the focus keyword before running page analysis tests.
+	* Title's should be (and now is) Titles.
+	* Fixes to Theme integrations for Woo, Genesis and Thematic.
+	* Enhancement to force rewrite title test.
+
+= 1.2 =
+
+* Bugs fixed:
+	* ereg_replace != preg_replace ; in other words: alt and title tags for images in xml sitemap fixed.
+	* Image size for OpenGraph now defaults to medium for thumbnail image.
+	* Selecting a Facebook App as the admin of your site now actually works.
+	* Saving the SEO -> Dashboard settings no longer makes you loose the SEO -> Social settings.
+	* Tweaks to clean slug functionality.
+	* Fix for UTF-8 terms in titles and descriptions.
+	* Fixed bug where empty but saved title template settings could lead to empty homepage title on blogs with a static front page.
+	* Fixed several bugs around page numbers in titles and descriptions.
+	* Prevented an error in the opendir functionality for WP SEO modules.
+	* Allow ';' in focus keyword.
+	* Don't double encode characters in suggest functionality.
+	* Don't remove non-alphanumeric values for keyword checks.
+	* Fixed a bug in snippet preview occurring when content was shorter than max snippet length.
+	* Fixed keyword count in content for cases where keyword was surrounded by parentheses and some other characters.
+	* Loads of Regex Fu to improve keyword bolding.
+	* Activation and deactivation handlers properly specified.
+	* WP Super Cache now properly emptied on update of settings.
+	* Fixes to OpenGraph images for homepage.
+	* Fixed a notice in OpenGraph class on 404 pages.
+	* Fixed notices in OpenGraph admin when selecting Facebook app as admin.
+	* Fixed a bug where half the Page analyses wouldn't work when the visual editor is disabled.
+	* Changed the mime type of the XSL file for XML sitemaps to text/xml, so Firefox will display them properly.
+	* Made sure the default OpenGraph image will always show up when there's no other image.
+	* Updated tablesorting JS used in XML Sitemaps.
+* Enhancements:
+	* Added a page level "score" for the site analysis functionality.
+	* Allow sitewide noindexing of post types and taxonomies with post- and term-level overrides.
+	* Automatically check whether force rewrite needs to be enabled.
+	* Upon activation, XML sitemaps are automatically enabled.
+	* Upon activation, title templates are pre-filled with sensible defaults.
+	* Plugin now auto-detects whether titles need to be force-rewritten (using output buffering) or not.
+	* Redesign of the admin, removal of the indexations page and renaming the Titles page into Metas & Titles page.
+	* Allow noindex-following per custom taxonomy and custom post type.
+	* No longer show non-public post types on the Titles & Metas page.
+	* On activation, W3 Total Cache or WP Super Cache cache gets cleared automatically.
+	* Added an uninstall handler, deleting the plugin through the WP backend will now delete options from the DB too.
+	* Added the option to display custom taxonomy in titles and descriptions, use `%%ct_<custom-taxname>%%` for a comma separated list or `%%ct_<custom-taxname>%%single%%` for only one taxonomy term.
+	* Added the option to display custom taxonomy descriptions in post description fields, use `%%ct_desc_<custom-taxname>%%`.
+	* Allow for 'Page x of x' to be localized too.
+	* Force the query for the current page to be used instead of the query that a bad plugin or even theme was using by calling `wp_reset_query` before the header functionality.
+	* If you're a Woothemes user and you activate WordPress SEO, the "use 3rd party plugins data" checkbox will be checked on upon activation.
+	* Non front page blog pages now have a title template: `%%title%% %%page%% - %%sitename%%` if they don't have a specific SEO title and there is no page template.
+	* Pinging search engines on post of new content now moved to cron to prevent lag.
+	* Only embed images in the XML sitemap that match the main domain, subdomains should not matter but images from other domains are now ignored.
+	* Fixed a bug where homepage wouldn't be in the XML sitemap when there are no posts, yet the homepage is set to display recent posts.
+* API Improvements:
+	* Added a filter to allow adding URLs to specific XML sitemaps, see [this thread](http://wordpress.org/support/topic/plugin-wordpress-seo-by-yoast-how-to-add-a-non-wordpress-page-to-the-sitemap). The filter is `wpseo_sitemap_<$post_type>_content`.
+	* Added a filter for the meta keywords, `wpseo_metakey`.
+	* Added a filter to allow disabling `rel="next"` and `rel="prev"` links, use `wpseo_<prev|next>_rel_link`.
+	* Added a filter `wpseo_xml_sitemap_img_src` to allow changing the hostname of images, most common use case is to force them to the CDN.
+	* See the new [WordPress SEO API docs](http://yoast.com/wordpress/seo/api-docs/).
+
+= 1.1.9 =
+
+* Sigh... Sorry about that.
+
+= 1.1.8 =
+
+* Bugs fixed / Changes:
+	* Fix the clean slug function to not freak people out and remove chars.
+	* Fixed a couple of notices.
+	* Allow '+' in focus keyword.
+	* A *load* of i18n fixes (including a new POT file).
+
+= 1.1.7 =
+
+* Bugs fixed / Changes:
+	* Fixes issue with un-paginated canonicals for paged single posts / pages.
+	* Fixes %%page%% variable to work in title & description template on paginated singular post(type)s.
+	* Allow - in focus keyword.
+	* Removed the option to use a Facebook page as an admin in the Facebook OpenGraph, as Facebook deprecated that.
+	* Force OpenGraph locale to lowercase.
+	* Catch some weird locales and convert them to proper Facebook supported iso_country versions.
+	* Now adding _all_ the images in a post with an og:image tag, so people can more easily share the right image.
+	* Allow regex specific characters in the focus keyword for the Page Analysis checks.
+	* Add proper (and i18n compatible) [stop word](http://en.wikipedia.org/wiki/Stop_words) removal.
+	* Removed code to add noindex to login page as that's now in core for long enough.
+	* Fixed several notices.
+	* When a static homepage has no SEO title, default to the site's name + description.
+	* Only show images once in OpenGraph tags.
+	* Prevent a timeout on retrieving term meta.
+	* Don't do next / prev links on the homepage for Genesis based themes as that leads to trouble.
+	* XML Sitemaps & feeds:
+		* Properly fix featured image showing up in XML Sitemap.
+		* Optimized the main query for XML sitemaps per [this thread](http://wordpress.org/support/topic/plugin-wordpress-seo-by-yoast-performance-suggestion).
+		* Switch feed noindexing from `xhtml:meta` tags to X-Robots-Tag HTTP headers to prevent feed display issues.
+		* Force XML Sitemap descriptions for images to be clean to prevent XML parse errors.
+		* Tiny change in CSS for explanatory text in XSL.
+* New filters:
+	* Add filter `wpseo_locale` for the locale in the opengraph settings.
+	* Add filter `wpseo_metabox_prio` to allow WP SEO metabox priority to be changed.
+* Documentation:
+	* Removed the "Other Notes" tab from the plugin page, enough tabs there already.
+	* Added %%cf_ options to config page for titles.
+	* Fixed the Yoast Facebook URL.
+	* Changed plugin support link to [the new support URL format](http://wordpress.org/support/plugin/wordpress-seo).
+
+= 1.1.6 =
+
+* Tiny fix to showing meta description on posts page.
+* Fix for showing proper link to bug tracker.
+* Fix for redirecting attachment pages when they don't have a parent.
+* Fix for titles of custom post type pages.
+* Dozens more tiny bugfixes.
+
+= 1.1.5 =
+
+* Removing the Dashboard widget.
+
+= 1.1.4 =
+
+* Removed the canonical redirect as that was screwing with people's setups (and minds).
+
+= 1.1.3 =
+
+* Fix for the blog homepage title, description etc.
+* Added several filters for use in the soon to be released [Video SEO module](http://yoast.com/wordpress/seo/video-seo/).
+* Change to XSL for XML Sitemaps.
+* Non-canonical hostnames (like example.com when site setting is www.example.com) now 301 redirect to canonical hostname.
+* Static frontpages now added to XML sitemap *with* images if it has them, same for interior blog pages.
+
+= 1.1.2 =
+
+* No longer add redirected URLs to the XML Sitemap.
+* Plugin now properly adds images in galleries to the XML Sitemap too.
+* Fixed a bug in home page title logic, affecting blogs with a static front page and a separate posts page, who were unable to set the posts page's title.
+* Fixed a bug in the OpenGraph admin implementation.
+* Google Suggest works again, and properly this time.
+* Using entities in the snippet preview title & description field now still renders a correct "chars left" count.
+* Replaced the last single quotes with double quotes for meta fields, apparently Bing wouldn't verify because of the single quotes in the verification line.
+* Added option to verify your site with Alexa, as a lot of people requested this.
+
+= 1.1.1 =
+
+* Fixed `sprintf` bug in page analysis.
+* Fixed bug that caused inability to edit / save the search page title.
+* Fixed bug that caused inability to edit / save the "parent" blog in multisite settings.
+* Removed ability to edit WP Super Cache .htaccess file as it doesn't seem to be there anymore.
+* Removed Yahoo! Site Explorer.
+
+= 1.1 =
+
+* Biggest change: entire plugin now supports localization, testing can be done by dropping your properly named .mo file (wordpress-seo-nl_NL.mo for instance) into the languages dir.
+* Added Dutch, German, French, Hebrew, Italian, Russian and Swedish translations.
+* Show proper post type names in admin menu for disabling editor box and hide non-public post types (props Nacin).
+* Disabling the Advanced Editor now only disables it for non admins.
+* Replaced single quotes with double quotes in meta description and canonical, to please [Danny Sullivan](http://searchengineland.com).
+* Fixed issue with images in XML sitemaps.
+* Added Social menu item.
+* Lots of changes to the Facebook integration:
+	* Added the locale.
+	* Added default image.
+	* Added homepage image & description.
+	* New method of adding Facebook Admins.
+* Removed all nofollow settings, login register links are now nofollow by default, all other functionality removed as it doesn't make sense anymore.
+* Cosmetic changes: added some Yoast links to backend widget in the right sidebar.
+* Switched text domain from a constant to a proper string 'wordpress-seo'.
+* Removed the now unneeded extra styling for admin pointers.
+* Fixed a notice in 3.3beta with caused by `wp_reset_query` being called too early.
+* Added several filters to allow WPML (and other plugins) to create XML Sitemaps for other languages.
+* Minor updates to the plugin tour, removing the "Stop tour" button, "Close" now closes until you manually restart.
+
+= 1.0.3 =
+
+* This release is dedicated to removing options and setting defaults instead. Specifically, the following settings are now defaults without options to change them:
+	* Images are now always included in the XML sitemap as Bing no longer breaks on them.
+	* Pinging Google and Bing is now a default action as that's the whole point of having XML sitemaps.
+	* RSS feeds are now always noindex, followed. No search engine should ever list an RSS feed as a result in the resultpages.
+	* Admin, login and registration pages are always noindexed now for the same reason.
+	* Search result pages are now always noindex, follow.
+	* Subpages of the homepage are now also noindex, follow. It just doesn't make sense to index,follow those especially with the new rel="prev" and rel="next" changes.
+* The option to add `nosnippet` and `noarchive` meta tags sitewide has been removed. No one in his right mind would want to do that, and if you do, then adding the robots meta to your template yourself should be doable.
+* Pinging search engines with your RSS feed is no longer part of this plugin (as its unneeded because the XML sitemaps do that).
+* UTF-8 characters in RSS footer no longer break.
+* Added the option to use the author name and link in the RSS header and footer using %%AUTHORLINK%%.
+* No longer show the admin bar SEO menu for subscribers.
+* Some style changes to make the backend look nicer in WP 3.2 and 3.3.
+* Bug with importing settings fixed.
+* No longer redirect attachments that have no parent.
+* Correctly grab thumbnail for OpenGraph settings.
+* Pages now get the correct priority (0.8).
+* Added the option to noindex or completely disable post format archives.
+
+= 1.0.2.3 =
+
+* Fixed some edge cases with rel=next and rel=prev, particularly relating to a paginated page as a frontpage.
+* Updated the snippet preview so the date part of the snippet has the right color.
+* Fixed a bug in the update routine that could cause errors in the backend.
+* Enabled OpenGraph meta box on edit screens, first "stab".
+
+= 1.0.2.2 =
+
+* Removed all rel=index, rel=prev etc references that WP core currently uses as they're wrongly implemented.
+* Added rel=prev and rel=next for paginated posts and pages.
+* Removed the interface options for all rel= links, they're off by default now.
+* Removed the option to hide the version number. It's very easy to detect the version number anyway so let's not clutter the interface.
+
+= 1.0.2.1 =
+
+* I missed a case where the next link would point to the current page, fixed it though :)
+
+= 1.0.2 =
+
+* Fixed keyword in slug detection on non-post post types.
+* Optimizations in canonical functionality, adding canonicals to author archives and more.
+* Added prev and next links as [suggested by Google](http://googlewebmastercentral.blogspot.com/2011/09/pagination-with-relnext-and-relprev.html).
+* Fixed issue with unescaped characters in title and description when updating edit screen.
+* Posts with a canonical set to another URL are no longer included in the XML sitemap.
+
+= 1.0.1 =
+
+* Fixed a bug where canonical would be set to /page/1/ on archives.
+* Fixed an error for blocking files.
+* Fixed a JS error that would cause the link editor in the rich editor not to work.
+* Fixed possible error when reading settings have gone haywire (ie not 'posts' or 'page' on front but something else).
+
+= 1.0 =
+
+* I now dare call this plugin STABLE. This doesn't mean there are no more bugs, it does mean that I think it won't break sites anymore.
+* Fixed the import/export settings functionality.
+* Updated the snippet preview to Google's new snippet design.
+
+= 0.4.3 =
+
+* Heavily, very heavily, reduced memory usage in XML Sitemap generation.
+
+= 0.4.2 =
+
+* Fixes:
+	* XML Sitemaps:
+		* Bug in redirection of www to non-www
+		* Removed no longer needed robots_txt code.
+		* Proper flushing of rewrites.
+		* Fix for sites using index.php in permalinks.
+		* Moved XML settings to its own options array, cleaning up the settings. This also allows you to save XML Sitemap settings again.
+		* Sitemaps now contains all the last updated posts (under 1,000) of one post type in one new XML sitemap, so SE only has to crawl one sitemap per post type.
+		* XML Sitemap Index file is now being pushed into cache if a caching plugin is active (by loading it through a cron job).
+		* No longer breaks when `get_post_type_archive` doesn't exist.
+	* Metaboxes / Edit Post:
+		* Proper escaping of attribute values / already filled boxes.
+		* Bug in bolding / keyword recognition JS code.
+		* Background of tab content is now white again.
+	* Taxonomies:
+		* Fixed bug that could prevent noindex from showing up.
+	* Other:
+		* Admin menu works properly again and has XML Sitemaps menu added.
+
+= 0.4.1 =
+
+* Fixes bug in saving XML Sitemap and Dashboard settings.
+* Forces flush of rewrite rules so XML sitemaps start working immediately after enabling.
+* Adds a line of copy to the XML Sitemaps page to point the user at the index sitemap file.
+
+= 0.4 =
+
+* Fixes:
+	* XML Sitemaps:
+		* Complete rewrite of the XML Sitemap system, now using a sitemap index file and sitemap files per taxonomy and post type. Way more scaleable and awesome.
+		* Updated the XSL to work with Sitemap Index file too.
+		* Added functionality to remove old style & potential blocking XML sitemaps.
+		* Removed all code that wrote files, as it's no longer needed.
+		* Removed all functionality for updating sitemaps after publish, as it's no longer needed (search engines will still be pinged though).
+	* Breadcrumbs:
+	 	* Support for bbPress (the plugin), breadcrumbs.
+		* Fixed bug with blog URL appearing for non-post post_types.
+		* Fixed bug with post ancestors being in wrong order.
+		* Removed erroneous var_dump.
+	* Bug with title for homepage when using page as homepage.
+	* OpenGraph:
+		* Moved all OpenGraph code to specific OpenGraph class.
+		* Added option to specify and add FB Page and App ID and FB admin ID or ID's.
+	* Page Analaysis:
+		* Fixed bug in detection of headings with an ID or other attribute.
+	* Several performance optimizations to class includes.
+	* Some fixes in JavaScript keyword detection and keyword bolding in snippet when using colon and semicolons etc in title or meta description.
+	* Tiny CSS fixes so it all looks nice in WordPress 3.2.
+
+
+* Also:
+	* XML Sitemaps now have their own settings page.
+	* Plugin version is now stored in the options for the plugin to allow easy upgrade.
+	* Added the option to use custom fields in title and description templates. Use `%%cf_&lt;custom-field-name&gt;%%` and it'll be replaced with your custom field. So for instance %%cf_city%% when your custom field is named "city".
+	* Removed some of the tabs and empty lines the plugin was outputting.
+	* Added some filters:
+		* `wpseo_sitemap_urlimages` so you can add images to the sitemap, found in inc/class-sitemaps.php
+		* `wpseo_title` and `wpseo_metadesc` in frontend/class-frontend.php
+
+
+= 0.3.5 =
+
+* Fixes:
+	* Issue in post / page editor with link dialog and other plugins using jQuery UI.
+	* No longer uses Google JS API for jQuery UI, but just include jQuery UI autocomplete library and uses the rest from WP core.
+	* No longer uses Google JS API for jQuery UI CSS, but included the needed classes in the plugins CSS files.
+	* Properly update sitemap for custom post types on publication.
+	* Fixed a notice in heading detection when no headings were found.
+	* Fixed a typo in Page Analysis messages.
+
+= 0.3.4 =
+
+* Fixes:
+	* CSS issue caused by 0.3.3.
+	* Some security issues, thanks Jon Cave and Andrew Nacin for pointing them out and helping to fix!
+
+= 0.3.3 =
+
+* Fixes:
+	* CSS collisions due to too generic class names.
+	* Issue with outbound link recognition caused in 0.3.2.
+	* Improved first paragraph detection.
+	* Word count is now correct for non western european languages too.
+	* Keyword detection in content and first paragraph in Cyrillic, Russian and other languages.
+	* Handling of UTF-8 slugs.
+	* Proper detection of keywords underneath the focus keyword input field by using word boundaries.
+	* Proper keyword bolding and counting in snippet preview for Cyrillic, Russian and other languages.
+	* Proper counting of length of description and title for strings with accents or non-ASCII characters.
+	* No longer calculating Flesch score for non-English, as it's not correct.
+	* Related keywords button works again.
+	* Several performance improvements to edit post page JavaScript.
+
+* Also:
+	* Notice now properly tells you to save as draft or update a post to see new Linkdex analysis. No, it's not going to be AJAX, ever, for performance reasons.
+
+= 0.3.2 =
+
+* Fixes:
+	* Instant update of snippet preview now also works when editing post excerpt.
+	* Bugs with non-ASCII characters in the focus keyword and keyword recognition.
+	* Issues with themes using `cat` in search, most specifically the ClassiPress themes.
+	* The snippet preview no longer crashes when you use "on", "strong" or any other term contained in "strong" in your focus keyword.
+	* Made the Linkdex check for keyword in URL work in all occasions.
+	* Notices on XML import.
+	* Issue with title of blog page on paginated pages.
+
+* Also:
+	* Removed 3 no longer needed JavaScript files.
+	* Added the new bug tracker to the plugins sidebar notice under support.
+	* Canonical now has a filter (`wpseo_canonical`) so you can remove it or change it.
+
+= 0.3.1 =
+
+* Fixes:
+	* Bug in meta box JS code causing annoying issues in Firefox and Internet Explorer.
+	* Issue with outbound anchor text detection in Linkdex Page Analysis.
+	* Small bug in detection of keyword in Title when keyword contained dashes or other non alphanumeric chars.
+
+= 0.3 =
+
+* Major new feature: Linkdex Page Analysis has been integrated into WordPress SEO.
+
+* Other new features:
+	* You can now noindex, follow all sub pages of archives, taxonomies and categories.
+
+* Fixes / Updates:
+	* Snippet will now use ellipsis when post title or meta description is too long.
+	* Various JS optimizations in snippet preview generation.
+	* Snippet length will once again correctly correct for date inclusion.
+	* Date in snippet will be the current date when post is an unpublished draft.
+	* Preventing some errors when there's no focus keyword.
+	* Keyword detection in the URL now works correctly.
+	* URLs are no longer (incorrectly) "shortened".
+	* Fixed possible infinite loop in editor when adding focus keyword, which was causing FF crashes.
+	* Fixed count of keyword in content by removing tags properly.
+	* Fixed issues with HTML tags appearing in snippet inappropriately.
+	* Switched Google Suggest autocompletion for focus keyword to use [Google Suggest jQuery](http://code.google.com/p/googlesuggest-jquery/).
+	* No longer relies on `is_post_type_archive` to work, so compatible with WP 3.0 again.
+	* On themes that badly include $post in the head a redirect no longer occurs if the last post was redirected.
+	* SEO Settings menu in Admin Bar will no longer show for people that don't have the rights needed to use it.
+	* No longer wrongly showing image for last post in OpenGraph when on front page.
+	* No longer redirecting taxonomy feeds wrongly under some conditions with clean permalinks enabled.
+	* Fixed wrong titles for feeds.
+
+= 0.2.5.4 =
+
+* Custom post type archives update:
+	* You can now set a title, meta description and breadcrumbs title for custom post type archives on the Titles page
+	* Custom post type archives now have a correct canonical
+* Other fixes:
+	* Fixed a notice for an uninitialized setting
+	* Slightly changed the CSS for the admin area
+	* Changed input fields for meta descriptions on titles page from text input to textarea
+	* More preparations for allowing the plugin to be fully translated
+
+= 0.2.5.3 =
+
+* Bugs fixed:
+	* `edit_posts` is not the same as `edit_post`, what a difference an s makes, thanks to nacin.
+	* preview URLs now work again with clean permalinks on, but only for those with the actual rights to view them.
+	* Fix for catchable fatal error in canonical function.
+	* First stab at fix for errors with focus keyword check and keywords filled with HTML tags.
+	* canonical links for paginated posts are now set correctly.
+	* Issue where parent taxonomy items would display in the reverse order in breadcrumbs.
+	* Improved error handling for non PHP 5.2+ installs and also made automatic deactivation work properly.
+
+* Documentation fixes:
+	* Added screenshot and a FAQ with several items to this plugin's page.
+
+= 0.2.5.2 =
+
+* This WordPress SEO plugin now officially requires PHP5. WordPress version 3.2 will also require it, so you'd better upgrade now. If you're on any version lower than PHP 5.2, this plugin will deactivate itself. You can then use SEO Data Transporter to migrate your data to another plugin, or you could do the more sensible thing and get your hosting upgraded to PHP 5.2 ASAP.
+
+* Bugs fixed:
+	* Attempted compatibility fix with other plugins that hook into robots.txt functionality.
+	* Issue with not loading meta box for some custom post types.
+	* Issue where SEO data for custom post types would not save.
+	* Issue where post title in snippet preview would show %%sitename% instead of your site's name when no title template for post type was set.
+	* Issue with removing tags when string was empty in JavaScript.
+	* Hiding the post_format taxonomy on the right places.
+	* Should now work better with crappy themes that do weird things in header.php.
+
+* Design fixes:
+	* Updated tabs in meta boxes to reflect Core UI, for more info see [this post](http://developersmind.com/tabbed-meta-box-in-wordpress/) by Pete Mall.
+
+* Enhancements:
+	* Now using plugin version number to enqueue files so browser cache isn't in the way when upgrading.
+	* Loading scripts in footer now when possible.
+
+= 0.2.5.1 =
+
+* Security fixes:
+	* Added nonces for security to htaccess and robots.txt file editing to prevent possible CSRF.
+
+* Bugs fixed:
+	* Prevent JS error when WordPress SEO Meta box was hidden on edit pages.
+	* Fix for title in snippet preview not showing when no title template was set for the post type.
+	* Fix for focus keyword count, would give wrong return on slugs that were too long.
+	* Removed post_format from list of taxonomies you can edit title and meta desc template for as it's of no use.
+	* Removed post_format from list of taxonomies to exclude for XML Sitemap, it was already excluded by default.
+
+* New features:
+	* Option to disable WordPress SEO meta data box on (custom) taxonomies.
+
+= 0.2.5 =
+
+* Bugs fixed:
+	* Snippet preview quicker than ever and it no longer blows up some browsers: all AJAX calls have been removed and the entire process is done with JavaScript within the browser.
+
+* Feature enhancements:
+	* The meta box on the edit posts page now features tabs, thanks to Pete Mall (even works nicely in the blue theme).
+	* Advanced features moved to their own tab instead of button.
+	* Focus keyword now shown straight below snippet preview.
+
+* Other news: The Google News module almost ready for mass-deployment. Stay tuned.
+
+= 0.2.3.4 =
+
+* Added WPML config file, so you can SEO in multiple languages.
+
+= 0.2.3.3 =
+
+* Bugs fixed:
+	* Comma in priority in sitemap which should be dot. I hate European servers.
+	* Fixed a notice in generating a path to the wpseo directory in the uploads dir.
+	* Fixed a rather annoying XML Sitemap date issue, props to [Staze in wp.org forums](http://wordpress.org/support/topic/plugin-wordpress-seo-by-yoast-sitemapxml-wrong-date-for-blog?replies=8).
+
+* Feature enhancement:
+	* Breadcrumbs now output links to post type archives too.
+
+= 0.2.3.2 =
+
+* Bugs fixed:
+	* Fixed race condition where sitemap wouldn't load sometimes.
+	* ... in snippet preview are now bold as they should be.
+	* Desc and Title in snippet preview should now update less frequently to prevent crashing low mem browsers.
+
+= 0.2.3.1 =
+
+* Bugs fixed:
+	* Error in saving certain data when it was a checkbox.
+	* Fixed notice for non-existing title and for empty metakey.
+	* Fix for an error that could occur when the post thumbnail functionality is not active.
+* Changes:
+	* Added page numbers to default titles for taxonomies and archives.
+
+= 0.2.3 =
+
+* New features:
+	* First stab at (Facebook) OpenGraph implementation.
+	* Meta Description can now be returned, using `$wpseo_front->metadesc( false );` for use elsewhere.
+	* Plugins can now register their own variables to not be cleaned out when permalink redirect is enabled.
+
+* Bugs fixed:
+	* Deleting the dashboard widget will now really delete it.
+	* Some fixes for notices.
+	* Strip tags out of titles.
+	* Use blog charset for XML Sitemap instead of UTF-8.
+	* Import of Meta Keywords fixed.
+	* Small fix for possible error in AJAX routines.
+	* Breadcrumb now actually returns when you ask it to.
+	* Fixed some errors in JavaScript of title generation within snippet preview.
+	* Removed SEO title from post edit overview as you couldn't edit it there anyway.
+
+* Documentation fixes:
+	* Added an extra notice to clean permalink to let people know they're playing with fire.
+	* Small improvement to error handling for upload path.
+
+= 0.2.2 =
+
+* Bugs fixed:
+	* Disabling sitemaps now properly does what it says on the tin: disable sitemaps.
+	* Properly return title for homepage in rare instances where `is_home` returns true for front page even when front page is set to static page (yes, that's a WordPress bug I had to work around).
+	* An empty title separator will now be changed to ' - ' so titles don't get all borked.
+	* Several fixes in rewrites for MultiSite instances.
+	* Option to force http or https on canonical URLs.
+	* Several other bugfixes.
+
+= 0.2.1 =
+
+* Bugs fixed:
+	* Plugin frontend URL should now be properly defined for sites with https admin.
+	* Manually entered category title now actually works.
+	* Import now works properly again for HeadSpace and AIOSEO, even for meta keywords.
+	* Fixed typo in *wpseo-functions.php*, apparently `udpate_option` is not the same as `update_option`.
+	* Fixed a notice about date snippet.
+	* Fixed a notice about empty canonical.
+	* Prevent cleaning out the WP Subscription managers interface for everyone.
+	* Meta keywords are now properly comma separated.
+	* Year archives now give proper breadcrumb.
+	* Nofollowed meta widget actually works now.
+	* %%date%% replacement in templates improved significantly.
+	* Shortcodes stripped out in generation of title & description templates.
+
+* Changes:
+	* Moved all rewrites to their own class, *inc/class-rewrite.php*.
+	* Further improved error handling when *uploads/wpseo* dir creation fails.
+
+* New features:
+	* Remove category base, removes `/category/` from category URL's. Find it under Permalinks. Props to [WP No Category Base](http://wordpresssupplies.com/wordpress-plugins/no-category-base/) for having the cleanest code I could find in this area, which I reused and modified.
+	* Admin bar goodness: an SEO menu! Try it if you're on 3.1 already, it allows you to perform several SEO actions!
+
+= 0.2 =
+
+* Bugs fixed:
+	* Chars left counter works again as you type in title and SEO title.
+	* No longer error out when unable to delete sitemap files in site root.
+	* Fixed error when `memory_get_peak_usage` doesn't exist (below PHP 5.2).
+	* Fixed error when Yoast News feed couldn't be loaded.
+	* Fix for people who agressively empty their dashboards.
+	* Permalink redirect fix for paginated searches.
+
+* Changes:
+	* Plugin now properly reports which sitemap files are blocking it from working properly and asks you to delete them if it can't delete them itself.
+	* Some cosmetic fixes to dashboard widget.
+	* Removed some old links to Yoast CDN and replaced with images shipped with plugin, for SSL backends.
+	* New general settings panel on WPSEO Dashboard which allows you to disable WordPress SEO box on certain post types.
+	* Option to use focus keyword in title, meta description and keyword templates.
+	* Changed the hook for the permalink cleaning from `get_header` to `template_redirect`, which means it redirects faster and is less error prone.
+
+* New Features:
+	* Added option to export taxonomy metadata (PHP 5.2+ only for now).
+	* Meta keywords are now an option... I don't like them but there's sufficient demand apparently. Works for homepage, post types, author pages and taxonomies.
+	* Added an option to disable the advanced part of the edit post / page metabox.
+	* Added option to disable date display in snippet preview for posts.
+	* Multisite Network Admin page added, with three features:
+		* The option to make WordPress SEO only accessible to Super admins instead of site admins.
+		* The option to set a "default" site, from which new sites will henceforth acquire their settings on creation.
+		* The option to revert a site to the "default" site's settings.
+
+= 0.1.8 =
+
+* Notice: The functionality in the post / page editor has changed quite a bit. Meta descriptions are now generated using the meta descriptions template if no meta description is entered, so it will for instance use the post excerpt, the SEO title is no longer filled automatically BUT it is properly shown in the snippet preview based on your title template. It should work faster, more intuitive and just better in general, but I do need your feedback, let me know if it's an improvement.
+
+* Bugs fixed:
+	* Fixed a notice for non existing metadesc.
+	* Fixed several notices in title generation.
+	* Directory paths in backend now properly recognized even when erroneously set to 1.
+	* Fixed bug where frontpage title wouldn't be generated properly.
+	* Made sure unzip of settings.zip (for settings import) works properly everywhere (by getting rid of `WP_Filesystem` and `unzip_file()`, as they do not work reliably).
+	* Made sure meta descriptions are not shown on paged archives or homepages.
+
+* Changes:
+	* Admin:
+		* Moved image used in news widget into images directory instead of loading from CDN to prevent https issues.
+	* Breadcrumbs:
+		* Creating proper breadcrumbs for daily archives now (linking back to month archives).
+	* Post / Page edit box:
+		* Meta description now properly generated using template for that particular post_type.
+		* SEO Title is no longer auto filled, if you leave it empty "normal" title template generation is used.
+		* Several improvements to javascripts.
+	* Titles, Meta descriptions & Canonicals:
+		* Speed up of variable replacement for titles and meta descriptions.
+		* In fallback titles (when there's no template), plugin now sticks to `$sep` defined in `wp_title`.
+		* Now properly generating canonical links for date archives.
+		* The %%date%% variable now works properly on date archives too.
+		* Added new filter to make title work properly on HeadWay 2.0.5 and up.
+		* Fixed canonical and permalink redirection for paginated pages and posts (props to @rrolfe for finding the bug and coming up with first patch).
+	* XML Sitemaps:
+		* During sitemap generation, plugin now checks whether old sitemap.xml or sitemap.xml.gz files exist in root and deletes those if so.
+		* Made including images optional.
+		* Made it possible to pick which search engines to ping.
+		* Fix in XSL path generation on HTTPS admin backends when frontend is normal HTTP.
+		* XML Sitemap update on post publish now actually works properly.
+		* No longer are XML Sitemaps enabled automatically when publishing a post (sorry about that).
+
+= 0.1.7.1 =
+
+* Apparently `is_network_admin()` didn't exist before WP 3.1. D0h!!!
+
+= 0.1.7 =
+
+* Bugs fixed:
+	* Empty Home link when blog page is used and no settings have been set.
+	* Fixed couple more notices (well, like, 10).
+	* Bug in directory creation that would create the directory correctly but still throw an error and save the path wrongly to options.
+	* Dismissing Blog public warning was only possible on SEO pages, now it's possible everywhere.
+	* Excerpts, when used in description, are now properly sanitized from tags and shortcodes.
+	* Properly fallback to `$wp_query->get_queried_object()` instead of `get_queried_object()` for < 3.1 installs.
+	* Fixed several bugs in title generation, making it more stable and faster in the process.
+	* Properly escape entities in page titles, both in front end and in posts overview.
+
+* Changes:
+	* Latest news from Yoast now appears on Network Admin too, and you can disable it there and on normal admin pages individually. First step towards getting a Multi Site Network Admin SEO page.
+	* Added a "Re-test focus keyword" button for people using the Rich Text editor, which wasn't sending update events properly.
+
+= 0.1.6 =
+
+* New features:
+	* Export & Import your WordPress Settings easily.
+	* You can now supply extra variables to prevent from being cleaned out when clean permalinks is on.
+
+* Bugs fixed:
+	* No longer throw errors when wpseo dir cannot be created.
+	* Your blog is not public warning can now be properly dismissed.
+	* Fixed rewrite issues: apparently if you only load rewrite rules on the front-end, they don't get added when changing rewrites in the backend. D0h.
+	* Rewrite rule for sitemap is now forced even harder when regenerating sitemap by hand.
+	* Search permalinks now work properly, though in "old" ?s=query style, because of a bug in core.
+	* Breadcrumbs no longer errors when term that is supposed to show is empty.
+	* Enabling breadcrumbs without setting any of the text fields no longer gives notices but proper defaults.
+	* Proper fallback for get_term_title for pre WP 3.1 sites with custom taxonomies.
+
+* Changes:
+	* You can now dismiss settings advice.
+	* You can now fix some of the settings advice just by clicking the button.
+	* You can now make posts, pages and taxonomy terms of any kind always appear in sitemap even if they're noindex, or never, set on a piece by piece basis.
+	* Permalink changes now invoke immediate XML sitemap update.
+	* Added canonical url to the blog page if using a static page for front page (props [@rrolfe](http://twitter.com/rrolfe)).
+	* Removing RSS feeds now actually works (props @rrolfe).
+	* Added breadcrumb for 404 pages (props @rrolfe).
+	* Drastically reduced memory usage during XML sitemap generation.
+
+= 0.1.5 =
+
+* Bugs fixed:
+	* Duplicate noodp,noydir showing up in some occasions. Reworked most of robots meta output function.
+	* Fixed couple more notices.
+	* Trailing slash (when option set) now applied correctly in XML sitemap too.
+	* Made sure regenerating sitemap worked again on post publish.
+	* Force flush rewrite rules on activation / upgrade of plugin to make rewrite work.
+	* Fixed empty RSS content bug caused in 0.1.4.
+
+* Changes:
+	* Removed part done quick edit functionality, will need to revisit once API improves.
+	* Implemented a hook that would make the title work with Thematic based themes properly.
+	* Added option to remove "start" rel link from head section.
+	* Several style sheet changes to make backend styling easier and more robust.
+	* Added option to force rewrite titles for people that can't adapt their theme, it's ugly but not as ugly as how All In One SEO handles it.
+	* If title templates aren't set, the plugin now generates proper default titles.
+	* The News module has moved to a separate directory, where all other modules will reside too, so they can be updated individually later. Download link for the news module will appear on yoast.com shortly.
+
+* Documentation:
+	* Added Admin Only notice in HTML code when no meta description could be generated.
+	* Added a donation box, I'll gladly take your money ;)
+
+= 0.1.4 =
+
+* Bugs fixed:
+	* Fixed canonical for paginated archives of any kind when permalink structure doesn't end with /
+	* Fixed permalink redirect for paginated archives of any kind when permalink structure doesn't end with /
+	* Made sure blog shows up in breadcrumbs when you want it too.
+	* Fixed small javascript notice for js/wp-seo-metabox.js
+	* Rewrote parts of XML Sitemap generation so it's now fully compliant with MultiSite. You no longer have to choose paths for sitemaps, they'll all have fixed locations and using WP Rewrite will be placed in the correct positions, f.i. example.com/sitemap.xml.
+	* Heavily reduced memory usage on admin pages.
+	* Rewrote module structure and added some API's to be used in the modules.
+	* Plugin now creates uploads/wpseo dir to store all files it creates and takes in.
+	* Fixed several notices throughout the code.
+	* Made sure SEO title in edit posts screen shows correct SEO Title.
+	* Changed table sorting javascript for XSL's to Yoast CDN.
+
+= 0.1.3 =
+
+* Bugs fixed:
+	* SEO Title no longer being overwritten when it's already set.
+	* Titles for date archives work too now.
+	* On initial page load or SEO title regeneration number of chars remaining updates properly.
+	* Entities in titles and meta descriptions should now work correctly.
+	* When editing SEO title snippet preview now correctly updates with focus keyword bolded.
+	* Entities in XML sitemap should now show correctly.
+	* When using %%excerpt%% in descriptions it now correctly is shortened to 155 chars.
+	* Regenerating XML News sitemaps should no longer give a Fatal error but just work.
+	* Focus keyword should now properly be recognized in slug even when slug is too long to display.
+	* Breadcrumbs now show proper home link when showing blog link is disabled.
+	* Non post singular pages (pages and custom post types) no longer show blog link in breadcrumb path.
+
+* New features:
+	* Added option to regenerate SEO title (just click the button).
+	* Advanced button now looks cooler (hey even little changes deserve a changelog line!).
+	* Now pinging Ask.com too for updated sitemaps, for those of you caring about SEO for Ask.
+	* Added plugin version number to "branding" comment to help in bug fixing.
+
+= 0.1.2.1 =
+
+* Added a missing ) to prevent death on install / going into wp-admin.
+
+= 0.1.2 =
+
+* Bugs fixed:
+	* Non ASCII characaters should now display properly.
+	* Google News Module: added input field for Google News publication name, as this has to match how Google has you on file.
+	* Stripped tags out of title and meta description output when using, f.i., excerpts in template.
+	* Meta description now updates in snippet preview as well when post content changes and no meta description has been set yet.
+	* Meta description generated from post content now searches ahead to focus keyword and bolds it.
+	* Meta description should now show properly on blog pages when blog page is not site homepage.
+	* Alt or title for previous image could show up in image sitemap when one image didn't have that attribute.
+	* Prevented fatal error on remote_get of XML sitemap in admin/ajax.php.
+	* When there's a blog in / and in /example/ file editor should now properly get robots.txt and .htaccess from /example/ and not /.
+	* Reference to wrongly named yoast_breadcrumb_output fixed, should fix auto insertion of breadcrumbs in supported theme frameworks.
+	* Prevented error when yoast.com/feed/ doesn't work.
+	* Fixed several notices for unset variables.
+	* Added get text calls in several places to allow localization.
+
+* (Inline) Documentation fixes:
+	* Exclusion list in XML sitemap box for post types now shows proper label instead of internal name.
+	* Exclusion list in XML sitemap box for custom taxonomies now shows plural instead of singular form.
+	* Added explanation on how to add breadcrumbs to your theme, as well as link to more explanatory page.
+
+* Changes:
+	* Links to Webmaster Tools etc. now open in new window.
+	* Heavily simplified the javascript used for snippet preview, removing HTML5 placeholder code and instead inserting the title into the input straight away. Lot faster this way.
+	* Removed Anchor text for the blog page option from breadcrumbs section as you can simply set a breadcrumbs title on the blog page itself.
+	* Added option to always remove the Blog page from the breadcrumb.
+
+= 0.1.1 =
+
+* Bugs fixed:
+	* Double comma in robots meta values, as well as index,follow in robots meta.
+	* Oddities with categories in breadcrumbs fixed.
+	* If complete meta value for SE is entered it's now properly stripped, preventing /> from showing up in your page.
+	* Category meta description now shows properly when using category description template.
+	* Removed Hybrid breadcrumb in favor of Yoast breadcrumb when automatically adding breadcrumb to Hybrid based themes.
+	* First stab at fixing trailing slashed URL's in XML sitemaps.
+	* Made %%page%% also work on page 1 of a result set.
+	* Fixed design of broken feed error.
+	* Made sure %%tag%% works too in title templates.
+
+* (Inline) Documentation fixes:
+	* Added this readme.txt file describing all the SEO functionality, and why this is _the_ All in one SEO plugin.
+	* MS Webmaster Central renamed to Bing Webmaster Tools.
+	* Added links to Bing Webmaster Tools and Yahoo! Site explorer to meta values box, as well as an explanation that you do not need to use those values if your site is already verified.
+	* Changed wording on description of clean permalinks.
+	* Added line explaining that SEO title overwrites the SEO title template.
+	* Added line telling to save taxonomy and post_type excludes before rebuilding XML sitemap.
+
+* Changes:
+	* Changed robots meta noindex and nofollow storage for pages to boolean on noindex and nofollow, please check when upgrading.
+	* Now purging W3TC Object Cache when saving taxonomy meta data to make sure new settings are immediately reflected in output.
+	* Namespaced all menu items to prevent collissions with other plugins.
+	* Several code optimizations in admin panels.
+	* Huge code optimizations in breadcrumbs generation and permalink clean up.
+	* Permalink cleaning now works for taxonomies too.
+	* Faked All in One SEO class to make plugin work with themes that check for that.
+
+* New features:
+	* Noindex and nofollow options for taxonomies (noindexing a term automatically removes it from XML sitemap too).
+	* Editable canonicals for taxonomies.
+	* Completed module functionality, using the XML News sitemap as first module.
+	* Added experimental "Find related keywords" feature that'll return keywords that are related to your focus keyword.
+
+* Issues currently in progress:
+	* WPML compatibility for the multilingual SEO's.
+	* XML Sitemap errors in Bing Webmaster Tools (due to use of "caption" for images).
+
+
+= 0.1 =
+
+* Initial beta release.

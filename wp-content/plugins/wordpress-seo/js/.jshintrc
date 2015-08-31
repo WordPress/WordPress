@@ -1,0 +1,23 @@
+{
+  "boss": true,
+  "curly": true,
+  "camelcase": false,
+  "eqeqeq": true,
+  "eqnull": true,
+  "immed": true,
+  "es3": true,
+  "latedef": true,
+  "newcap": true,
+  "noarg": true,
+  "quotmark": "single",
+  "sub": true,
+  "strict": true,
+  "undef": true,
+  "unused": true,
+  "browser": true,
+  "jquery": true,
+  "globals": {
+    "exports": true,
+    "module": false
+  }
+}

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<phpdoc>
+	<title>Yoast SEO API Documentation</title>
+	<parser>
+		<target>/Users/jdevalk/Code/docs/wordpress-seo</target>
+		<encoding>utf8</encoding>
+		<markers>
+			<item>TODO</item>
+			<item>FIXME</item>
+		</markers>
+	</parser>
+	<transformer>
+		<target>/Users/jdevalk/Code/docs/wordpress-seo</target>
+	</transformer>
+	<transformations>
+		<template name="responsive"/>
+	</transformations>
+	<files>
+		<directory>.</directory>
+		<ignore>tests/*</ignore>
+		<ignore>vendor/*</ignore>
+		<ignore>grunt/*</ignore>
+		<ignore>languages/*</ignore>
+		<ignore>node_modules/*</ignore>
+	</files>
+</phpdoc>

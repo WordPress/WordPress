@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faqs>
+    <section name="General">
+        <entry>
+            <question>
+                <![CDATA[ Which Pro features are currently available? ]]>
+            </question>
+            <answer>
+                <![CDATA[ <p>Pro features available:</p>
+                <ul>
+                    <li>Fragment cache</li>
+                    <li>Genesis Extension</li>
+                </ul>
+                    ]]>
+            </answer>
+        </entry>
+        <entry>
+            <question><![CDATA[ How do I enable Pro mode on a site that is not registered, i.e a site that was not used for purchase such as local development site?]]></question>
+            <answer><![CDATA[
+                    <p>Add define('W3TC_PRO_DEV_MODE', true) to wp-config.php and resave the license key.</p>
+            ]]></answer>
+        </entry>
+    </section>
+    <section name="Usage">
+    <section name="CDN">
+        <entry>
+            <question><![CDATA[ How do I get CloudFront Dynamic Caching to work with full page caching? ]]></question>
+            <answer><![CDATA[
+            <p>
+            To enable full page caching option you need to enable "edge mode". If not already enabled this will
+            also enable Browser Cache and disable "Expires" header. This is because CloudFront does not cache properly
+            when "Expires" headers are set. When using CloudFront and full page caching there are no purging of cached pages when posting
+            new posts etc. Cache invalidations in CF is limited per month and also takes up to 15 minutes to complete. </p>
+            <p>Since there is no purging and you want to people to be able to comment it is recommended to use a hosted
+            commenting software, such as FaceBook Comments or Disqus. If you do not use this comments are not
+            shown after they been posted or approved.
+            </p>
+            <p>
+            Main step to get CloudFront full page caching working is to have your site on a different domain than the
+            one you want your visitors to see. So you should install or configure your site so its on a separate domain,
+            for example wp.example.com. You will then later configure example.com so its used by CloudFront.
+            </p>
+            <p>How to configure CloudFront on AWS:</p>
+            <ol>
+            <li>Go to <a href="https://console.aws.amazon.com/cloudfront/home">AWS Console</a></li>
+            <li>Click "Create Distribution"</li>
+            <li>Select "Web"</li>
+            <li>Click "Continue"</li>
+            <li>Enter wp.example.com into "Origin Domain Name"</li>
+            <li>Enter CustomWWW-example.com into "Origin ID"</li>
+            <li>Set Origin Protocol Policy to HTTP Only (CloudFront will connect to my origin using only HTTP).</li>
+            <li>Select "Allow HTTP Methods" - GET, HEAD, PUT, PATCH, DELETE, OPTIONS</li>
+            <li>Select "Forward Query Strings" - Yes</li>
+            <li>Enter example.com (the domain that your visitors will type into their browser) into
+            Alternate Domain Names(CNAMESs)</li>
+            <li>Set logging to "On"</li>
+            <li>Enter "webserverlog-example.com" into "Bucket for logs"</li>
+            <li>Enter "stats-logs/" into Log Prefix</li>
+            <li>Enter "CDN for example.com" into Comment.</li>
+            <li>Click "Create Distribution"</li>
+            </ol>
+            <p>Configure DNS</p>
+            <ol>
+            <li>Add new CNAME recored for example.com that points to the Domain Name that belongs to the distribution you created previously.
+            </ol>
+            <p>How to configure W3 Total Cache:</p>
+            <p>There are two methods to configure W3 Total Cache CDN. Origin Pull "CloudFront" or "Generic mirror". If you want to be able to invalidate URLs from within WordPress you need to use the CloudFront option.
+            If you do not configure an CDN the wrong URLs will be used when linking to CSS, JS and other files.
+            </p>
+            <p>Configure CloudFront:</p>
+            <ol>
+            <li>Select Origin Pull (Mirror) Amazon CloudPront on General Page</li>
+            <li>Go to the CDN page.</li>
+            <li>Enter your AWS credentials</li>
+            <li>Enter example.com as an CNAME</li>
+            <li>Save Settings</li>
+            </ol>
+            <p>Configure Generic Mirror:</p>
+            <ol>
+            <li>Enter example.com into "Replace site's hostname with:"</li>
+            <li>Save Settings</li>
+            </ol>
+            ]]>
+            </answer>
+        </entry>
+    </section>
+        <section name="Extensions">
+            <entry>
+                <question><![CDATA[ What is required for the Genesis Extension to work? ]]></question>
+                <answer><![CDATA[ <p>You need to enable Fragment Caching and use a theme based on Genesis.</p> ]]></answer>
+            </entry>
+
+            <entry>
+                <question><![CDATA[ When I enabled Genesis Extension with EDD, WooCommerce or other similar plugins, my cart,
+            checkout and/or other dynamic elements no longer get updated. How do I fix that? ]]></question>
+                <answer><![CDATA[
+                    <p>You need to go the Genesis Extension settings page.
+                    There you will a textbox called "Excluded single pages / posts:" there you need to enter the pages
+                    that should not be cached by the fragment caching. The exclude textareas support regular expressions
+                    so if the pages that are to be excluded are similar you can most likely enter one
+                    expression that covers all your pages. For information on regular expression you need to search.</p>
+                    <p>
+                    If you have anything dynamic in your widgets area, the sidebar, then you'll need to disable the sidebar caching, or enter pages that should not have their sidedar cached.
+                    </p>
+                    ]]></answer>
+            </entry>
+        </section>
+    </section>
+    <section name="Developers">
+    <entry>
+            <question><![CDATA[ How do I implement fragment caching? ]]></question>
+            <answer><![CDATA[
+				<p>Fragment caching adds new functionality to the WordPress <a href="http://codex.wordpress.org/Transients_API">Transients <acronym title="Application Programming Interface">API</acronym></a>:</p>
+				<ul>
+				    <li>Adds support for grouping transients both per blog and site wide</li>
+				    <li>Adds support for manual flushing of registered transient groups</li>
+				    <li>Adds support for action based flushing of registered transient groups</li>
+				    <li>Adds support for caching filters and actions</li>
+				</ul>
+				<p>To make the plugin aware that you group transients see code examples below:</p>
+				<pre>
+add_action('w3tc_register_fragment_groups', 'my_plugin_register_groups');
+
+function my_plugin_register_groups() {
+	//blog specific group and an array of actions that will trigger a flush of the group
+	w3tc_register_fragment_group('my_plugin_', array('publish_post'), 3600);
+	//If using MultiSite Network/site wide specific group and an array of actions that will trigger a flush of the group
+	w3tc_register_fragment_group_global('my_plugin_global_', array('edit_site'), 3600);
+}
+function my_plugin_flush_group() {
+	//manually flush a blog specific group.
+	w3tc_fragmentcache_flush_group('my_plugin_');
+}
+function my_plugin_flush_global_group() {
+	//manually flush a network wide group
+	w3tc_fragmentcache_flush_group('my_plugin_global_', true);
+}
+
+//Set transients
+function on_some_event() {
+    if (false === get_transient('my_plugin_some_key'))
+        //my_plugin_ prefix is the group name we registered earlier
+        set_transient('my_plugin_some_key', 'blog specific value');
+    if (false === get_site_transient('my_plugin_some_key'))
+        //my_plugin_site_ prefix is the group name we registered earlier
+        set_site_transient('my_plugin_site_some_key', 'site wide specific value');
+}
+
+// Cache action example
+add_action('theme_post_loop', 'cache_theme_post_loop_start',-999999999);
+add_action('theme_post_loop', 'cache_theme_post_loop_end', 999999999);
+
+/**
+ * Start outputbuffering
+ */
+function cache_theme_post_loop_start() {
+    w3tc_fragmentcache_start('example1', 'examples', 'theme_post_loop');
+}
+
+/**
+ * Store the output buffer .
+ */
+function cache_theme_post_loop_end() {
+    w3tc_fragmentcache_end('example1', 'examples', false);
+}
+
+// Cache filter example
+add_filter('theme_filter', 'cache_theme_filter_start',-999999999);
+add_filter('theme_filter', 'cache_theme_filter_end', 999999999);
+/**
+ * Start filter buffering and return filter result
+ */
+function cache_theme_filter_start($data) {
+    return w3tc_fragmentcache_filter_start('example_filter1', 'examples', $hook, $data);
+}
+
+/**
+ * Store the filter result and return filter result.
+ */
+function cache_theme_filter_end($data) {
+    return w3tc_fragmentcache_filter_end('example_filter1', 'examples', $data);
+}
+	</pre>
+			]]></answer>
+        </entry>
+        </section>
+</faqs>

@@ -1,0 +1,1358 @@
+# Copyright (C) 2012 
+# This file is distributed under the same license as the  package.
+msgid ""
+msgstr ""
+"Project-Id-Version: ACF\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/advanced-custom-fields\n"
+"POT-Creation-Date: 2012-10-04 22:38:59+00:00\n"
+"PO-Revision-Date: 2013-06-10 19:00-0600\n"
+"Last-Translator: Jurko Chervony <info@skinik.name>\n"
+"Language-Team: UA WordPress <skinik@wordpress.co.ua>\n"
+"Language: Ukrainian\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-Basepath: ..\n"
+"X-Generator: Poedit 1.5.5\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: acf.php:286 core/views/meta_box_options.php:94
+msgid "Custom Fields"
+msgstr "Додаткові поля"
+
+#: acf.php:307
+msgid "Field&nbsp;Groups"
+msgstr "Групи полів"
+
+#: acf.php:308 core/controllers/field_groups.php:234
+#: core/controllers/upgrade.php:70
+msgid "Advanced Custom Fields"
+msgstr ""
+
+#: acf.php:309 core/fields/flexible_content.php:325
+msgid "Add New"
+msgstr "Додати нову"
+
+#: acf.php:310
+msgid "Add New Field Group"
+msgstr "Додати нову групу полів"
+
+#: acf.php:311
+msgid "Edit Field Group"
+msgstr "Редагувати групу полів"
+
+#: acf.php:312
+msgid "New Field Group"
+msgstr "Нова група полів"
+
+#: acf.php:313
+msgid "View Field Group"
+msgstr "Переглянути групу полів"
+
+#: acf.php:314
+msgid "Search Field Groups"
+msgstr "Шукати групи полів"
+
+#: acf.php:315
+msgid "No Field Groups found"
+msgstr "Не знайдено груп полів"
+
+#: acf.php:316
+msgid "No Field Groups found in Trash"
+msgstr "У кошику немає груп полів"
+
+#: acf.php:351 acf.php:354
+msgid "Field group updated."
+msgstr "Групу полів оновлено."
+
+#: acf.php:352
+msgid "Custom field updated."
+msgstr "Додаткове поле оновлено."
+
+#: acf.php:353
+msgid "Custom field deleted."
+msgstr "Додаткове поле видалено."
+
+#. translators: %s: date and time of the revision
+#: acf.php:356
+msgid "Field group restored to revision from %s"
+msgstr ""
+
+#: acf.php:357
+msgid "Field group published."
+msgstr "Групу полів опубліковано."
+
+#: acf.php:358
+msgid "Field group saved."
+msgstr "Групу полів збережено."
+
+#: acf.php:359
+msgid "Field group submitted."
+msgstr ""
+
+#: acf.php:360
+msgid "Field group scheduled for."
+msgstr ""
+
+#: acf.php:361
+msgid "Field group draft updated."
+msgstr ""
+
+#: acf.php:380 core/fields/gallery.php:66 core/fields/gallery.php:229
+msgid "Title"
+msgstr "Заголовок"
+
+#: acf.php:623
+msgid "Error: Field Type does not exist!"
+msgstr ""
+
+#: acf.php:1709
+msgid "Thumbnail"
+msgstr "Мініатюра"
+
+#: acf.php:1710
+msgid "Medium"
+msgstr "Середній"
+
+#: acf.php:1711
+msgid "Large"
+msgstr "Великий"
+
+#: acf.php:1712 core/fields/wysiwyg.php:105
+msgid "Full"
+msgstr "Повний"
+
+#: core/actions/export.php:26
+msgid "No ACF groups selected"
+msgstr ""
+
+#: core/controllers/field_group.php:148 core/controllers/field_group.php:167
+#: core/controllers/field_groups.php:144
+msgid "Fields"
+msgstr "Поля"
+
+#: core/controllers/field_group.php:149
+msgid "Location"
+msgstr "Розміщення"
+
+#: core/controllers/field_group.php:150 core/controllers/field_group.php:427
+#: core/controllers/options_page.php:62 core/controllers/options_page.php:74
+#: core/views/meta_box_location.php:143
+msgid "Options"
+msgstr "Опції"
+
+#: core/controllers/field_group.php:355
+msgid "Parent Page"
+msgstr "Батьківська сторінка"
+
+#: core/controllers/field_group.php:356
+msgid "Child Page"
+msgstr "Дочірня сторінка"
+
+#: core/controllers/field_group.php:364
+msgid "Default Template"
+msgstr "Стандартний шаблон"
+
+#: core/controllers/field_group.php:451 core/controllers/field_group.php:472
+#: core/controllers/field_group.php:479 core/fields/page_link.php:76
+#: core/fields/post_object.php:223 core/fields/post_object.php:251
+#: core/fields/relationship.php:392 core/fields/relationship.php:421
+msgid "All"
+msgstr ""
+
+#: core/controllers/field_groups.php:197 core/views/meta_box_options.php:50
+msgid "Normal"
+msgstr "Стандартно"
+
+#: core/controllers/field_groups.php:198 core/views/meta_box_options.php:51
+msgid "Side"
+msgstr "Збоку"
+
+#: core/controllers/field_groups.php:208 core/views/meta_box_options.php:71
+msgid "Standard Metabox"
+msgstr ""
+
+#: core/controllers/field_groups.php:209 core/views/meta_box_options.php:70
+msgid "No Metabox"
+msgstr ""
+
+#: core/controllers/field_groups.php:236
+msgid "Changelog"
+msgstr "Список змін"
+
+#: core/controllers/field_groups.php:237
+msgid "See what's new in"
+msgstr "Перегляньте що нового у"
+
+#: core/controllers/field_groups.php:239
+msgid "Resources"
+msgstr "Документація"
+
+#: core/controllers/field_groups.php:240
+msgid ""
+"Read documentation, learn the functions and find some tips &amp; tricks for "
+"your next web project."
+msgstr ""
+"В документації ви знайдете детальний опис функцій та декілька порад і трюків "
+"для кращого використання плаґіну."
+
+#: core/controllers/field_groups.php:241
+msgid "Visit the ACF website"
+msgstr "Відвідайте сайт плаґіну"
+
+#: core/controllers/field_groups.php:246
+msgid "Created by"
+msgstr "Плаґін створив"
+
+#: core/controllers/field_groups.php:249
+msgid "Vote"
+msgstr ""
+
+#: core/controllers/field_groups.php:250
+msgid "Follow"
+msgstr ""
+
+#: core/controllers/input.php:528
+msgid "Validation Failed. One or more fields below are required."
+msgstr "Заповніть всі поля! Одне або декілька полів нижче не заповнено."
+
+#: core/controllers/input.php:529
+msgid "Add File to Field"
+msgstr ""
+
+#: core/controllers/input.php:530
+msgid "Edit File"
+msgstr "Редагувати файл"
+
+#: core/controllers/input.php:531
+msgid "Add Image to Field"
+msgstr ""
+
+#: core/controllers/input.php:532 core/controllers/input.php:535
+msgid "Edit Image"
+msgstr "Редагувати зображення"
+
+#: core/controllers/input.php:533
+msgid "Maximum values reached ( {max} values )"
+msgstr ""
+
+#: core/controllers/input.php:534
+msgid "Add Image to Gallery"
+msgstr "Додати зображення до галереї"
+
+#: core/controllers/input.php:625
+msgid "Attachment updated"
+msgstr "Вкладення завантажено"
+
+#: core/controllers/options_page.php:121
+msgid "Options Updated"
+msgstr "Опції оновлено"
+
+#: core/controllers/options_page.php:251
+msgid "No Custom Field Group found for the options page"
+msgstr ""
+
+#: core/controllers/options_page.php:251
+msgid "Create a Custom Field Group"
+msgstr "Створити групу додаткових полів"
+
+#: core/controllers/options_page.php:262
+msgid "Publish"
+msgstr "Опублікувати"
+
+#: core/controllers/options_page.php:265
+msgid "Save Options"
+msgstr "Зберегти опції"
+
+#: core/controllers/settings.php:49
+msgid "Settings"
+msgstr "Налаштування"
+
+#: core/controllers/settings.php:111
+msgid "Repeater field deactivated"
+msgstr ""
+
+#: core/controllers/settings.php:115
+msgid "Options page deactivated"
+msgstr ""
+
+#: core/controllers/settings.php:119
+msgid "Flexible Content field deactivated"
+msgstr ""
+
+#: core/controllers/settings.php:123
+msgid "Gallery field deactivated"
+msgstr ""
+
+#: core/controllers/settings.php:147
+msgid "Repeater field activated"
+msgstr ""
+
+#: core/controllers/settings.php:151
+msgid "Options page activated"
+msgstr ""
+
+#: core/controllers/settings.php:155
+msgid "Flexible Content field activated"
+msgstr ""
+
+#: core/controllers/settings.php:159
+msgid "Gallery field activated"
+msgstr ""
+
+#: core/controllers/settings.php:164
+msgid "License key unrecognised"
+msgstr ""
+
+#: core/controllers/settings.php:216
+msgid "Activate Add-ons."
+msgstr ""
+
+#: core/controllers/settings.php:217
+msgid ""
+"Add-ons can be unlocked by purchasing a license key. Each key can be used on "
+"multiple sites."
+msgstr ""
+
+#: core/controllers/settings.php:218
+msgid "Find Add-ons"
+msgstr ""
+
+#: core/controllers/settings.php:225 core/fields/flexible_content.php:380
+#: core/fields/flexible_content.php:456 core/fields/repeater.php:330
+#: core/fields/repeater.php:406 core/views/meta_box_fields.php:63
+#: core/views/meta_box_fields.php:138
+msgid "Field Type"
+msgstr "Тип поля"
+
+#: core/controllers/settings.php:226
+msgid "Status"
+msgstr "Статус"
+
+#: core/controllers/settings.php:227
+msgid "Activation Code"
+msgstr "Код активації"
+
+#: core/controllers/settings.php:232
+msgid "Repeater Field"
+msgstr ""
+
+#: core/controllers/settings.php:233 core/controllers/settings.php:252
+#: core/controllers/settings.php:271 core/controllers/settings.php:290
+msgid "Active"
+msgstr "Активно"
+
+#: core/controllers/settings.php:233 core/controllers/settings.php:252
+#: core/controllers/settings.php:271 core/controllers/settings.php:290
+msgid "Inactive"
+msgstr "Неактивно"
+
+#: core/controllers/settings.php:239 core/controllers/settings.php:258
+#: core/controllers/settings.php:277 core/controllers/settings.php:296
+msgid "Deactivate"
+msgstr "Деактивувати"
+
+#: core/controllers/settings.php:245 core/controllers/settings.php:264
+#: core/controllers/settings.php:283 core/controllers/settings.php:302
+msgid "Activate"
+msgstr "Активувати"
+
+#: core/controllers/settings.php:251
+msgid "Flexible Content Field"
+msgstr ""
+
+#: core/controllers/settings.php:270
+msgid "Gallery Field"
+msgstr "Поле галереї"
+
+#: core/controllers/settings.php:289 core/views/meta_box_location.php:74
+msgid "Options Page"
+msgstr "Сторінка опцій"
+
+#: core/controllers/settings.php:314
+msgid "Export Field Groups to XML"
+msgstr ""
+
+#: core/controllers/settings.php:315
+msgid ""
+"ACF will create a .xml export file which is compatible with the native WP "
+"import plugin."
+msgstr ""
+
+#: core/controllers/settings.php:316 core/controllers/settings.php:355
+msgid "Instructions"
+msgstr "Інструкція"
+
+#: core/controllers/settings.php:318
+msgid "Import Field Groups"
+msgstr "Імпортувати групи полів"
+
+#: core/controllers/settings.php:319
+msgid ""
+"Imported field groups <b>will</b> appear in the list of editable field "
+"groups. This is useful for migrating fields groups between Wp websites."
+msgstr ""
+
+#: core/controllers/settings.php:321
+msgid "Select field group(s) from the list and click \"Export XML\""
+msgstr ""
+
+#: core/controllers/settings.php:322
+msgid "Save the .xml file when prompted"
+msgstr ""
+
+#: core/controllers/settings.php:323
+msgid "Navigate to Tools &raquo; Import and select WordPress"
+msgstr ""
+
+#: core/controllers/settings.php:324
+msgid "Install WP import plugin if prompted"
+msgstr ""
+
+#: core/controllers/settings.php:325
+msgid "Upload and import your exported .xml file"
+msgstr ""
+
+#: core/controllers/settings.php:326
+msgid "Select your user and ignore Import Attachments"
+msgstr ""
+
+#: core/controllers/settings.php:327
+msgid "That's it! Happy WordPressing"
+msgstr ""
+
+#: core/controllers/settings.php:346
+msgid "Export XML"
+msgstr "Експортувати XML"
+
+#: core/controllers/settings.php:353
+msgid "Export Field Groups to PHP"
+msgstr "Експортувати групи полів в код PHP"
+
+#: core/controllers/settings.php:354
+msgid "ACF will create the PHP code to include in your theme."
+msgstr ""
+
+#: core/controllers/settings.php:357 core/controllers/settings.php:474
+msgid "Register Field Groups"
+msgstr ""
+
+#: core/controllers/settings.php:358 core/controllers/settings.php:475
+msgid ""
+"Registered field groups <b>will not</b> appear in the list of editable field "
+"groups. This is useful for including fields in themes."
+msgstr ""
+
+#: core/controllers/settings.php:359 core/controllers/settings.php:476
+msgid ""
+"Please note that if you export and register field groups within the same WP, "
+"you will see duplicate fields on your edit screens. To fix this, please move "
+"the original field group to the trash or remove the code from your functions."
+"php file."
+msgstr ""
+
+#: core/controllers/settings.php:361
+msgid "Select field group(s) from the list and click \"Create PHP\""
+msgstr ""
+
+#: core/controllers/settings.php:362 core/controllers/settings.php:478
+msgid "Copy the PHP code generated"
+msgstr "Скопіюйте згенерований код PHP"
+
+#: core/controllers/settings.php:363 core/controllers/settings.php:479
+msgid "Paste into your functions.php file"
+msgstr "Вставте  у  <code>functions.php</code>"
+
+#: core/controllers/settings.php:364 core/controllers/settings.php:480
+msgid "To activate any Add-ons, edit and use the code in the first few lines."
+msgstr ""
+
+#: core/controllers/settings.php:383
+msgid "Create PHP"
+msgstr "Створити PHP"
+
+#: core/controllers/settings.php:469
+msgid "Back to settings"
+msgstr "Повернутися до налаштувань"
+
+#: core/controllers/settings.php:504
+msgid ""
+"/**\n"
+" * Activate Add-ons\n"
+" * Here you can enter your activation codes to unlock Add-ons to use in your "
+"theme. \n"
+" * Since all activation codes are multi-site licenses, you are allowed to "
+"include your key in premium themes. \n"
+" * Use the commented out code to update the database with your activation "
+"code. \n"
+" * You may place this code inside an IF statement that only runs on theme "
+"activation.\n"
+" */"
+msgstr ""
+
+#: core/controllers/settings.php:519
+msgid ""
+"/**\n"
+" * Register field groups\n"
+" * The register_field_group function accepts 1 array which holds the "
+"relevant data to register a field group\n"
+" * You may edit the array as you see fit. However, this may result in errors "
+"if the array is not compatible with ACF\n"
+" * This code must run every time the functions.php file is read\n"
+" */"
+msgstr ""
+
+#: core/controllers/settings.php:558
+msgid "No field groups were selected"
+msgstr ""
+
+#: core/controllers/settings.php:608
+msgid "Advanced Custom Fields Settings"
+msgstr "Налаштування груп додаткових полів"
+
+#: core/controllers/upgrade.php:51
+msgid "Upgrade"
+msgstr "Оновити"
+
+#: core/controllers/upgrade.php:70
+msgid "requires a database upgrade"
+msgstr "потребує оновлення бази даних"
+
+#: core/controllers/upgrade.php:70
+msgid "why?"
+msgstr "для чого?"
+
+#: core/controllers/upgrade.php:70
+msgid "Please"
+msgstr "Будь ласка,"
+
+#: core/controllers/upgrade.php:70
+msgid "backup your database"
+msgstr "створіть резервну копію БД"
+
+#: core/controllers/upgrade.php:70
+msgid "then click"
+msgstr "і натискайте цю кнопку"
+
+#: core/controllers/upgrade.php:70
+msgid "Upgrade Database"
+msgstr "Оновити базу даних"
+
+#: core/controllers/upgrade.php:604
+msgid "Modifying field group options 'show on page'"
+msgstr ""
+
+#: core/controllers/upgrade.php:658
+msgid "Modifying field option 'taxonomy'"
+msgstr ""
+
+#: core/controllers/upgrade.php:755
+msgid "Moving user custom fields from wp_options to wp_usermeta'"
+msgstr ""
+
+#: core/fields/checkbox.php:21
+msgid "Checkbox"
+msgstr ""
+
+#: core/fields/checkbox.php:55 core/fields/radio.php:45
+#: core/fields/select.php:54
+msgid "No choices to choose from"
+msgstr ""
+
+#: core/fields/checkbox.php:113 core/fields/radio.php:114
+#: core/fields/select.php:174
+msgid "Choices"
+msgstr "Варіанти вибору"
+
+#: core/fields/checkbox.php:114 core/fields/radio.php:115
+#: core/fields/select.php:175
+msgid "Enter your choices one per line"
+msgstr "У кожному рядку по варіанту"
+
+#: core/fields/checkbox.php:116 core/fields/radio.php:117
+#: core/fields/select.php:177
+msgid "Red"
+msgstr "Червоний"
+
+#: core/fields/checkbox.php:117 core/fields/radio.php:118
+#: core/fields/select.php:178
+msgid "Blue"
+msgstr "Синій"
+
+#: core/fields/checkbox.php:119 core/fields/radio.php:120
+#: core/fields/select.php:180
+msgid "red : Red"
+msgstr "red : Червоний"
+
+#: core/fields/checkbox.php:120 core/fields/radio.php:121
+#: core/fields/select.php:181
+msgid "blue : Blue"
+msgstr "blue : Синій"
+
+#: core/fields/color_picker.php:21
+msgid "Color Picker"
+msgstr "Вибір кольору"
+
+#: core/fields/color_picker.php:92 core/fields/number.php:65
+#: core/fields/radio.php:130 core/fields/select.php:190
+#: core/fields/text.php:65 core/fields/textarea.php:62
+#: core/fields/wysiwyg.php:81
+msgid "Default Value"
+msgstr "Значення за замовчуванням"
+
+#: core/fields/color_picker.php:93
+msgid "eg: #ffffff"
+msgstr ""
+
+#: core/fields/date_picker/date_picker.php:21
+msgid "Date Picker"
+msgstr "Вибір дати"
+
+#: core/fields/date_picker/date_picker.php:106
+msgid "Save format"
+msgstr "Зберегти формат"
+
+#: core/fields/date_picker/date_picker.php:107
+msgid ""
+"This format will determin the value saved to the database and returned via "
+"the API"
+msgstr ""
+
+#: core/fields/date_picker/date_picker.php:108
+msgid "\"yymmdd\" is the most versatile save format. Read more about"
+msgstr ""
+
+#: core/fields/date_picker/date_picker.php:108
+#: core/fields/date_picker/date_picker.php:118
+#, fuzzy
+msgid "jQuery date formats"
+msgstr "Формат дати"
+
+#: core/fields/date_picker/date_picker.php:116
+#, fuzzy
+msgid "Display format"
+msgstr "Формат дати"
+
+#: core/fields/date_picker/date_picker.php:117
+msgid "This format will be seen by the user when entering a value"
+msgstr ""
+
+#: core/fields/date_picker/date_picker.php:118
+msgid ""
+"\"dd/mm/yy\" or \"mm/dd/yy\" are the most used display formats. Read more "
+"about"
+msgstr ""
+
+#: core/fields/file.php:21
+msgid "File"
+msgstr "Файл"
+
+#: core/fields/file.php:49
+msgid "File Updated."
+msgstr "Файл оновлено."
+
+#: core/fields/file.php:90 core/fields/flexible_content.php:407
+#: core/fields/gallery.php:251 core/fields/gallery.php:281
+#: core/fields/image.php:187 core/fields/repeater.php:356
+#: core/views/meta_box_fields.php:88
+msgid "Edit"
+msgstr "Редагувати"
+
+#: core/fields/file.php:91 core/fields/gallery.php:250
+#: core/fields/gallery.php:280 core/fields/image.php:186
+msgid "Remove"
+msgstr "Прибрати"
+
+#: core/fields/file.php:196
+msgid "No File Selected"
+msgstr "Файл не обрано"
+
+#: core/fields/file.php:196
+msgid "Add File"
+msgstr "Додати файл"
+
+#: core/fields/file.php:229 core/fields/image.php:223
+msgid "Return Value"
+msgstr "Повернення значення"
+
+#: core/fields/file.php:239
+msgid "File Object"
+msgstr ""
+
+#: core/fields/file.php:240
+msgid "File URL"
+msgstr ""
+
+#: core/fields/file.php:241
+#, fuzzy
+msgid "File ID"
+msgstr "Файл"
+
+#: core/fields/file.php:273 core/fields/image.php:291
+msgid "Media attachment updated."
+msgstr ""
+
+#: core/fields/file.php:407
+msgid "No files selected"
+msgstr ""
+
+#: core/fields/file.php:502
+msgid "Add Selected Files"
+msgstr ""
+
+#: core/fields/file.php:532
+msgid "Select File"
+msgstr "Обрати файл"
+
+#: core/fields/file.php:535
+msgid "Update File"
+msgstr "Оновити файл"
+
+#: core/fields/flexible_content.php:21
+msgid "Flexible Content"
+msgstr ""
+
+#: core/fields/flexible_content.php:38 core/fields/flexible_content.php:286
+msgid "+ Add Row"
+msgstr "+ Додати рядок"
+
+#: core/fields/flexible_content.php:313 core/fields/repeater.php:302
+#: core/views/meta_box_fields.php:25
+msgid "New Field"
+msgstr "Нове поле"
+
+#: core/fields/flexible_content.php:322 core/fields/radio.php:144
+#: core/fields/repeater.php:523
+msgid "Layout"
+msgstr "Шаблон структури"
+
+#: core/fields/flexible_content.php:324
+msgid "Reorder Layout"
+msgstr ""
+
+#: core/fields/flexible_content.php:324
+msgid "Reorder"
+msgstr ""
+
+#: core/fields/flexible_content.php:325
+msgid "Add New Layout"
+msgstr ""
+
+#: core/fields/flexible_content.php:326
+msgid "Delete Layout"
+msgstr ""
+
+#: core/fields/flexible_content.php:326 core/fields/flexible_content.php:410
+#: core/fields/repeater.php:359 core/views/meta_box_fields.php:91
+msgid "Delete"
+msgstr "Видалити"
+
+#: core/fields/flexible_content.php:336
+msgid "Label"
+msgstr "Назва"
+
+#: core/fields/flexible_content.php:346
+msgid "Name"
+msgstr "Назва"
+
+#: core/fields/flexible_content.php:356
+msgid "Display"
+msgstr "Таблиця"
+
+#: core/fields/flexible_content.php:363
+msgid "Table"
+msgstr "Таблиця"
+
+#: core/fields/flexible_content.php:364 core/fields/repeater.php:534
+msgid "Row"
+msgstr "Рядок"
+
+#: core/fields/flexible_content.php:377 core/fields/repeater.php:327
+#: core/views/meta_box_fields.php:60
+msgid "Field Order"
+msgstr "Порядок полів"
+
+#: core/fields/flexible_content.php:378 core/fields/flexible_content.php:425
+#: core/fields/repeater.php:328 core/fields/repeater.php:375
+#: core/views/meta_box_fields.php:61 core/views/meta_box_fields.php:107
+msgid "Field Label"
+msgstr "Назва поля"
+
+#: core/fields/flexible_content.php:379 core/fields/flexible_content.php:441
+#: core/fields/repeater.php:329 core/fields/repeater.php:391
+#: core/views/meta_box_fields.php:62 core/views/meta_box_fields.php:123
+msgid "Field Name"
+msgstr "Машинна назва поля"
+
+#: core/fields/flexible_content.php:388 core/fields/repeater.php:338
+#, fuzzy
+msgid ""
+"No fields. Click the \"+ Add Sub Field button\" to create your first field."
+msgstr ""
+"Ще немає полів. Click the \"+ Add Sub Field button\" to create your first "
+"field."
+
+#: core/fields/flexible_content.php:404 core/fields/flexible_content.php:407
+#: core/fields/repeater.php:353 core/fields/repeater.php:356
+#: core/views/meta_box_fields.php:85 core/views/meta_box_fields.php:88
+msgid "Edit this Field"
+msgstr "Редагувати це поле"
+
+#: core/fields/flexible_content.php:408 core/fields/repeater.php:357
+#: core/views/meta_box_fields.php:89
+msgid "Read documentation for this field"
+msgstr "Прочитати документацію про це поле"
+
+#: core/fields/flexible_content.php:408 core/fields/repeater.php:357
+#: core/views/meta_box_fields.php:89
+msgid "Docs"
+msgstr "Документація"
+
+#: core/fields/flexible_content.php:409 core/fields/repeater.php:358
+#: core/views/meta_box_fields.php:90
+msgid "Duplicate this Field"
+msgstr "Дублювати це поле"
+
+#: core/fields/flexible_content.php:409 core/fields/repeater.php:358
+#: core/views/meta_box_fields.php:90
+msgid "Duplicate"
+msgstr "Дублювати"
+
+#: core/fields/flexible_content.php:410 core/fields/repeater.php:359
+#: core/views/meta_box_fields.php:91
+msgid "Delete this Field"
+msgstr "Видалити це поле"
+
+#: core/fields/flexible_content.php:426 core/fields/repeater.php:376
+#: core/views/meta_box_fields.php:108
+msgid "This is the name which will appear on the EDIT page"
+msgstr "Ця назва відображується на сторінці редагування"
+
+#: core/fields/flexible_content.php:442 core/fields/repeater.php:392
+#: core/views/meta_box_fields.php:124
+msgid "Single word, no spaces. Underscores and dashes allowed"
+msgstr "Одне слово, без пробілів. Можете використовувати нижнє підкреслення."
+
+#: core/fields/flexible_content.php:476 core/fields/repeater.php:467
+msgid "Save Field"
+msgstr "Зберегти поле"
+
+#: core/fields/flexible_content.php:481 core/fields/repeater.php:472
+#: core/views/meta_box_fields.php:190
+msgid "Close Field"
+msgstr "Закрити поле"
+
+#: core/fields/flexible_content.php:481 core/fields/repeater.php:472
+msgid "Close Sub Field"
+msgstr "Закрити дочірнє поле"
+
+#: core/fields/flexible_content.php:495 core/fields/repeater.php:487
+#: core/views/meta_box_fields.php:203
+msgid "Drag and drop to reorder"
+msgstr "Поля можна перетягувати"
+
+#: core/fields/flexible_content.php:496 core/fields/repeater.php:488
+msgid "+ Add Sub Field"
+msgstr "+ Додати дочірнє поле"
+
+#: core/fields/flexible_content.php:503 core/fields/repeater.php:542
+msgid "Button Label"
+msgstr "Текст для кнопки"
+
+#: core/fields/gallery.php:25
+msgid "Gallery"
+msgstr "Галерея"
+
+#: core/fields/gallery.php:70 core/fields/gallery.php:233
+msgid "Alternate Text"
+msgstr "Альтернативний текст"
+
+#: core/fields/gallery.php:74 core/fields/gallery.php:237
+msgid "Caption"
+msgstr "Підпис"
+
+#: core/fields/gallery.php:78 core/fields/gallery.php:241
+msgid "Description"
+msgstr "Опис"
+
+#: core/fields/gallery.php:117 core/fields/image.php:243
+msgid "Preview Size"
+msgstr "Розмір мініатюр"
+
+#: core/fields/gallery.php:118
+msgid "Thumbnail is advised"
+msgstr ""
+
+#: core/fields/gallery.php:179
+msgid "Image Updated"
+msgstr "Зображення оновлено"
+
+#: core/fields/gallery.php:262 core/fields/gallery.php:669
+#: core/fields/image.php:193
+msgid "Add Image"
+msgstr "Додати зображення"
+
+#: core/fields/gallery.php:263
+msgid "Grid"
+msgstr "Плитка"
+
+#: core/fields/gallery.php:264
+msgid "List"
+msgstr "Список"
+
+#: core/fields/gallery.php:266 core/fields/image.php:429
+msgid "No images selected"
+msgstr ""
+
+#: core/fields/gallery.php:266
+msgid "1 image selected"
+msgstr ""
+
+#: core/fields/gallery.php:266
+msgid "{count} images selected"
+msgstr ""
+
+#: core/fields/gallery.php:591
+msgid "Added"
+msgstr "Додано"
+
+#: core/fields/gallery.php:611
+msgid "Image already exists in gallery"
+msgstr ""
+
+#: core/fields/gallery.php:617
+msgid "Image Added"
+msgstr "Зображення додано"
+
+#: core/fields/gallery.php:672 core/fields/image.php:557
+msgid "Update Image"
+msgstr "Оновити зображення"
+
+#: core/fields/image.php:21
+msgid "Image"
+msgstr "Зображення"
+
+#: core/fields/image.php:49
+msgid "Image Updated."
+msgstr "Зображення оновлено."
+
+#: core/fields/image.php:193
+msgid "No image selected"
+msgstr "Зображення не обрано"
+
+#: core/fields/image.php:233
+msgid "Image Object"
+msgstr ""
+
+#: core/fields/image.php:234
+msgid "Image URL"
+msgstr ""
+
+#: core/fields/image.php:235
+msgid "Image ID"
+msgstr ""
+
+#: core/fields/image.php:525
+msgid "Add selected Images"
+msgstr "Додати обрані зображення"
+
+#: core/fields/image.php:554
+msgid "Select Image"
+msgstr "Обрати зображення"
+
+#: core/fields/number.php:21
+msgid "Number"
+msgstr ""
+
+#: core/fields/page_link.php:21
+msgid "Page Link"
+msgstr ""
+
+#: core/fields/page_link.php:70 core/fields/post_object.php:217
+#: core/fields/relationship.php:386 core/views/meta_box_location.php:48
+msgid "Post Type"
+msgstr "Тип матеріалу"
+
+#: core/fields/page_link.php:98 core/fields/post_object.php:268
+#: core/fields/select.php:204
+msgid "Allow Null?"
+msgstr ""
+
+#: core/fields/page_link.php:107 core/fields/page_link.php:126
+#: core/fields/post_object.php:277 core/fields/post_object.php:296
+#: core/fields/select.php:213 core/fields/select.php:232
+#: core/fields/wysiwyg.php:124 core/fields/wysiwyg.php:145
+#: core/views/meta_box_fields.php:172
+msgid "Yes"
+msgstr "Так"
+
+#: core/fields/page_link.php:108 core/fields/page_link.php:127
+#: core/fields/post_object.php:278 core/fields/post_object.php:297
+#: core/fields/select.php:214 core/fields/select.php:233
+#: core/fields/wysiwyg.php:125 core/fields/wysiwyg.php:146
+#: core/views/meta_box_fields.php:173
+msgid "No"
+msgstr "Ні"
+
+#: core/fields/page_link.php:117 core/fields/post_object.php:287
+#: core/fields/select.php:223
+msgid "Select multiple values?"
+msgstr "Дозволити множинний вибір?"
+
+#: core/fields/post_object.php:21
+msgid "Post Object"
+msgstr ""
+
+#: core/fields/post_object.php:245 core/fields/relationship.php:415
+msgid "Filter from Taxonomy"
+msgstr ""
+
+#: core/fields/radio.php:21
+msgid "Radio Button"
+msgstr ""
+
+#: core/fields/radio.php:154
+msgid "Vertical"
+msgstr "Вертикально"
+
+#: core/fields/radio.php:155
+msgid "Horizontal"
+msgstr "Горизонтально"
+
+#: core/fields/relationship.php:21
+msgid "Relationship"
+msgstr ""
+
+#: core/fields/relationship.php:288
+msgid "Search"
+msgstr "Пошук"
+
+#: core/fields/relationship.php:438
+msgid "Maximum posts"
+msgstr ""
+
+#: core/fields/repeater.php:21
+msgid "Repeater"
+msgstr ""
+
+#: core/fields/repeater.php:66 core/fields/repeater.php:289
+msgid "Add Row"
+msgstr "Додати рядок"
+
+#: core/fields/repeater.php:319
+msgid "Repeater Fields"
+msgstr ""
+
+#: core/fields/repeater.php:420 core/views/meta_box_fields.php:151
+msgid "Field Instructions"
+msgstr "Опис поля"
+
+#: core/fields/repeater.php:440
+msgid "Column Width"
+msgstr "Ширина колонки"
+
+#: core/fields/repeater.php:441
+msgid "Leave blank for auto"
+msgstr ""
+
+#: core/fields/repeater.php:495
+msgid "Minimum Rows"
+msgstr "Мінімум рядків"
+
+#: core/fields/repeater.php:509
+msgid "Maximum Rows"
+msgstr "Максимум рядків"
+
+#: core/fields/repeater.php:533
+msgid "Table (default)"
+msgstr "Таблиця (за замовчуванням)"
+
+#: core/fields/select.php:21
+msgid "Select"
+msgstr ""
+
+#: core/fields/text.php:21
+msgid "Text"
+msgstr "Текст"
+
+#: core/fields/text.php:79 core/fields/textarea.php:76
+msgid "Formatting"
+msgstr "Форматування"
+
+#: core/fields/text.php:80
+msgid "Define how to render html tags"
+msgstr "Оберіть спосіб обробки теґів html"
+
+#: core/fields/text.php:89 core/fields/textarea.php:86
+msgid "None"
+msgstr ""
+
+#: core/fields/text.php:90 core/fields/textarea.php:88
+msgid "HTML"
+msgstr ""
+
+#: core/fields/textarea.php:21
+msgid "Text Area"
+msgstr "Багаторядкове текстове поле"
+
+#: core/fields/textarea.php:77
+msgid "Define how to render html tags / new lines"
+msgstr "Оберіть спосіб обробки теґів html та переносу рядків"
+
+#: core/fields/textarea.php:87
+msgid "auto &lt;br /&gt;"
+msgstr "автоматичне перенесення рядків (додається теґ &lt;br&gt;)"
+
+#: core/fields/true_false.php:21
+msgid "True / False"
+msgstr "Так / Ні"
+
+#: core/fields/true_false.php:68
+msgid "Message"
+msgstr "Повідомлення"
+
+#: core/fields/true_false.php:69
+msgid "eg. Show extra content"
+msgstr ""
+
+#: core/fields/wysiwyg.php:21
+msgid "Wysiwyg Editor"
+msgstr "Візуальний редактор"
+
+#: core/fields/wysiwyg.php:95
+msgid "Toolbar"
+msgstr ""
+
+#: core/fields/wysiwyg.php:106 core/views/meta_box_location.php:47
+msgid "Basic"
+msgstr "Загальне"
+
+#: core/fields/wysiwyg.php:114
+msgid "Show Media Upload Buttons?"
+msgstr "Показувати кнопки завантаження файлів?"
+
+#: core/fields/wysiwyg.php:133
+msgid "Run filter \"the_content\"?"
+msgstr "Застосовувати фільтр «the_content»?"
+
+#: core/fields/wysiwyg.php:134
+msgid "Enable this filter to use shortcodes within the WYSIWYG field"
+msgstr ""
+
+#: core/fields/wysiwyg.php:135
+msgid ""
+"Disable this filter if you encounter recursive template problems with "
+"plugins / themes"
+msgstr ""
+
+#: core/views/meta_box_fields.php:26
+msgid "new_field"
+msgstr ""
+
+#: core/views/meta_box_fields.php:47
+msgid "Move to trash. Are you sure?"
+msgstr "Перемістити в кошик. Ви впевнені?"
+
+#: core/views/meta_box_fields.php:64
+#, fuzzy
+msgid "Field Key"
+msgstr "Тип поля"
+
+#: core/views/meta_box_fields.php:74
+msgid ""
+"No fields. Click the <strong>+ Add Field</strong> button to create your "
+"first field."
+msgstr ""
+"Ще немає полів. Для створення полів натисніть <strong>+ Додати поле</strong>."
+
+#: core/views/meta_box_fields.php:152
+msgid "Instructions for authors. Shown when submitting data"
+msgstr "Напишіть короткий опис для поля"
+
+#: core/views/meta_box_fields.php:164
+msgid "Required?"
+msgstr "Обов’язкове?"
+
+#: core/views/meta_box_fields.php:204
+msgid "+ Add Field"
+msgstr "+ Додати поле"
+
+#: core/views/meta_box_location.php:35
+msgid "Rules"
+msgstr "Правила"
+
+#: core/views/meta_box_location.php:36
+msgid ""
+"Create a set of rules to determine which edit screens will use these "
+"advanced custom fields"
+msgstr ""
+"Створіть набір правил, щоб визначити де використовувати  ці додаткові поля"
+
+#: core/views/meta_box_location.php:49
+msgid "Logged in User Type"
+msgstr "Роль залоґованого користувача"
+
+#: core/views/meta_box_location.php:51
+msgid "Page Specific"
+msgstr "Сторінки"
+
+#: core/views/meta_box_location.php:52
+msgid "Page"
+msgstr "Сторінка"
+
+#: core/views/meta_box_location.php:53
+msgid "Page Type"
+msgstr "Тип сторінки"
+
+#: core/views/meta_box_location.php:54
+msgid "Page Parent"
+msgstr "Батьківська сторінка"
+
+#: core/views/meta_box_location.php:55
+msgid "Page Template"
+msgstr "Шаблон сторінки"
+
+#: core/views/meta_box_location.php:57
+msgid "Post Specific"
+msgstr "Публікації"
+
+#: core/views/meta_box_location.php:58
+msgid "Post"
+msgstr "Публікація"
+
+#: core/views/meta_box_location.php:59
+msgid "Post Category"
+msgstr "Категорія"
+
+#: core/views/meta_box_location.php:60
+msgid "Post Format"
+msgstr "Формат"
+
+#: core/views/meta_box_location.php:61
+msgid "Post Taxonomy"
+msgstr "Таксономія"
+
+#: core/views/meta_box_location.php:63
+msgid "Other"
+msgstr "Інше"
+
+#: core/views/meta_box_location.php:64
+msgid "Taxonomy (Add / Edit)"
+msgstr "Тип таксономії (Додати / Редагувати)"
+
+#: core/views/meta_box_location.php:65
+msgid "User (Add / Edit)"
+msgstr "Роль користувача (Додати / Редагувати)"
+
+#: core/views/meta_box_location.php:66
+msgid "Media (Edit)"
+msgstr "Медіафайл (Редагувати)"
+
+#: core/views/meta_box_location.php:96
+msgid "is equal to"
+msgstr "дорівнює"
+
+#: core/views/meta_box_location.php:97
+msgid "is not equal to"
+msgstr "не дорівнює"
+
+#: core/views/meta_box_location.php:121
+msgid "match"
+msgstr "має співпадати"
+
+#: core/views/meta_box_location.php:127
+msgid "all"
+msgstr "все"
+
+#: core/views/meta_box_location.php:128
+msgid "any"
+msgstr "будь що"
+
+#: core/views/meta_box_location.php:131
+msgid "of the above"
+msgstr "з вищевказаних умов"
+
+#: core/views/meta_box_location.php:144
+msgid "Unlock options add-on with an activation code"
+msgstr ""
+
+#: core/views/meta_box_options.php:23
+msgid "Order No."
+msgstr "Порядок розташування"
+
+#: core/views/meta_box_options.php:24
+#, fuzzy
+msgid "Field groups are created in order <br />from lowest to highest"
+msgstr "Чим менше число — тим вище розташування"
+
+#: core/views/meta_box_options.php:40
+msgid "Position"
+msgstr "Розташування"
+
+#: core/views/meta_box_options.php:60
+msgid "Style"
+msgstr "Стиль"
+
+#: core/views/meta_box_options.php:80
+msgid "Hide on screen"
+msgstr "Ховати на екрані"
+
+#: core/views/meta_box_options.php:81
+msgid "<b>Select</b> items to <b>hide</b> them from the edit screen"
+msgstr "<b>Оберіть</b> що <b>ховати</b> з екрану редагування/створення"
+
+#: core/views/meta_box_options.php:82
+msgid ""
+"If multiple field groups appear on an edit screen, the first field group's "
+"options will be used. (the one with the lowest order number)"
+msgstr ""
+
+#: core/views/meta_box_options.php:92
+msgid "Content Editor"
+msgstr "Редактор матеріалу"
+
+#: core/views/meta_box_options.php:93
+msgid "Excerpt"
+msgstr "Витяг"
+
+#: core/views/meta_box_options.php:95
+msgid "Discussion"
+msgstr ""
+
+#: core/views/meta_box_options.php:96
+msgid "Comments"
+msgstr "Коментарі"
+
+#: core/views/meta_box_options.php:97
+msgid "Revisions"
+msgstr "Ревізії"
+
+#: core/views/meta_box_options.php:98
+msgid "Slug"
+msgstr ""
+
+#: core/views/meta_box_options.php:99
+msgid "Author"
+msgstr "Автор"
+
+#: core/views/meta_box_options.php:100
+msgid "Format"
+msgstr "Формат"
+
+#: core/views/meta_box_options.php:101
+msgid "Featured Image"
+msgstr "Головне зображення"
+
+#~ msgid "Add Fields to Edit Screens"
+#~ msgstr "Додайте поля на сторінку редагування вмісту"
+
+#~ msgid "Customise the edit page"
+#~ msgstr "Налаштуйте сторінку створення вмісту"
+
+#, fuzzy
+#~ msgid "eg. dd/mm/yy. read more about"
+#~ msgstr "Напр. dd/mm/yy. read more about"

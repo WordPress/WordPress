@@ -1,0 +1,27 @@
+{
+    "name": "xrstf/composer-php52",
+    "license": "MIT",
+    "homepage": "http://www.xrstf.de/",
+    "support": {
+        "source": "https://bitbucket.org/xrstf/composer-php52",
+        "issues": "https://bitbucket.org/xrstf/composer-php52/issues"
+    },
+    "autoload": {
+        "psr-0": {
+            "xrstf\\Composer52": "lib/"
+        }
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "xrstf\\Composer52\\Generator::onPostInstallCmd"
+        ],
+        "post-update-cmd": [
+            "xrstf\\Composer52\\Generator::onPostInstallCmd"
+        ]
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-default": "1.x-dev"
+        }
+    }
+}

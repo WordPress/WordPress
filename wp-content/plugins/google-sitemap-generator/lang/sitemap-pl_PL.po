@@ -1,0 +1,640 @@
+# Polish Language File for Google XML Sitemaps - sitemap-pl_PL.po)
+# Copyright (C) 2007 Kuba Zwolinski : http://kubazwolinski.com
+# This file is distributed under the same license as the WordPress package.
+# kuba <snowdog@o2.pl>, 2007.
+# $Id: sitemap-pl_PL.po 2504 2007-10-03 09:19:18Z
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Google Sitemap Generator PL\n"
+"Report-Msgid-Bugs-To: <[mail-address]>\n"
+"POT-Creation-Date: 2005-06-15 00:00+0000\n"
+"PO-Revision-Date: 2007-12-30 12:52+0100\n"
+"Last-Translator: Kuba Zwolinski <snowdog@o2.pl>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language-Team: SnowDog <snowdog@o2.pl>\n"
+"X-Poedit-Language: Polish\n"
+"X-Poedit-Country: POLAND\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-Basepath: .\n"
+"Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+
+# F:\apache\htdocs\wordpress2-3\wp-content\plugins\google-sitemap-generator/sitemap.php:846
+msgid "Comment Count"
+msgstr "Liczba komentarzy"
+
+# F:\apache\htdocs\wordpress2-3\wp-content\plugins\google-sitemap-generator/sitemap.php:858
+msgid "Uses the number of comments of the post to calculate the priority"
+msgstr "Używa liczbę komentarzy do obliczania priorytetu wpisu"
+
+# F:\apache\htdocs\wordpress2-3\wp-content\plugins\google-sitemap-generator/sitemap.php:918
+msgid "Comment Average"
+msgstr "Średnia komentarzy"
+
+# F:\apache\htdocs\wordpress2-3\wp-content\plugins\google-sitemap-generator/sitemap.php:930
+msgid "Uses the average comment count to calculate the priority"
+msgstr "Używa średnią liczbę komentarzy do obliczania priorytetu wpisu"
+
+# F:\apache\htdocs\wordpress2-3\wp-content\plugins\google-sitemap-generator/sitemap.php:993
+msgid "Popularity Contest"
+msgstr "Konkurs popularności"
+
+# F:\apache\htdocs\wordpress2-3\wp-content\plugins\google-sitemap-generator/sitemap.php:1005
+msgid "Uses the activated <a href=\"%1\">Popularity Contest Plugin</a> from <a href=\"%2\">Alex King</a>. See <a href=\"%3\">Settings</a> and <a href=\"%4\">Most Popular Posts</a>"
+msgstr "Używa włączonej wtyczki <a href=\"%1\">Popularity Contest</a> od <a href=\"%2\">Alex King</a>. Zobacz<a href=\"%3\">ustawienia</a> i <a href=\"%4\">najbardziej popularne wpisy</a>"
+
+msgid "XML-Sitemap Generator"
+msgstr "Generator XML-Sitemap"
+
+# F:\apache\htdocs\wordpress2-3\wp-content\plugins\google-sitemap-generator/sitemap.php:2397
+msgid "XML-Sitemap"
+msgstr "XML-Sitemap"
+
+# F:\apache\htdocs\wordpress2-3\wp-content\plugins\google-sitemap-generator/sitemap.php:2582
+msgid "Thank you very much for your donation. You help me to continue support and development of this plugin and other free software!"
+msgstr "Wielkie dzięki za wsparcie. Pomagasz mi rozwijać tę wtyczkę oraz inne darmowe oprogramowanie!"
+
+# F:\apache\htdocs\wordpress2-3\wp-content\plugins\google-sitemap-generator/sitemap.php:2582
+msgid "Hide this notice"
+msgstr "Ukryj tę informację"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2606
+#, php-format
+msgid "Thanks for using this plugin! You've installed this plugin over a month ago. If it works and your are satisfied with the results, isn't it worth at least one dollar? <a href=\"%s\">Donations</a> help me to continue support and development of this <i>free</i> software! <a href=\"%s\">Sure, no problem!</a>"
+msgstr "Dzięki za używanie tej wtyczki! Wtyczka została zainstalowana ponad miesiąc temu. Jeśli działa dobrze i rezultaty sa zgodne z Twoimi oczekiwaniami, czy nie jest to wart paru złotych? <a href=\"%s\">Dotacje</a> pomagają mi kontynuowac rozwój wtyczki oraz zapewnić pomoc techniczną użytkownikom tego <i>darmowego</i> programu! <a href=\"%s\">Jasne, bardzo chętnie!</a>"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2606
+msgid "No thanks, please don't bug me anymore!"
+msgstr "Nie, dzięki. I nie zawracaj mi więcej tym głowy!"
+
+msgid "XML Sitemap Generator for WordPress"
+msgstr "Generator XML-Sitemap"
+
+msgid "Configuration updated"
+msgstr "Konfiguracja zaktualizowana"
+
+msgid "Error while saving options"
+msgstr "Wystąpił błąd podczas zapisywania opcji"
+
+msgid "Pages saved"
+msgstr "Strony zostały zapisane"
+
+msgid "Error while saving pages"
+msgstr "Wystąpił błąd podczas zapisywania stron."
+
+# F:\apache\htdocs\wordpress2-3\wp-content\plugins\google-sitemap-generator/sitemap.php:2711
+#, php-format
+msgid "<a href=\"%s\">Robots.txt</a> file saved"
+msgstr "Plik <a href=\"%s\">Robots.txt</a> został zapisany"
+
+msgid "Error while saving Robots.txt file"
+msgstr "Wystąpił błąd podczas zapisu pliku Robots.txt"
+
+# F:\apache\htdocs\wordpress2-3\wp-content\plugins\google-sitemap-generator/sitemap.php:2721
+msgid "The default configuration was restored."
+msgstr "Domyślna konfiguracja została przywrócona."
+
+# F:\apache\htdocs\wordpress2-3\wp-content\plugins\google-sitemap-generator/sitemap.php:2814
+# F:\apache\htdocs\wordpress2-3\wp-content\plugins\google-sitemap-generator/sitemap.php:2831
+msgid "open"
+msgstr "otworzyć"
+
+# F:\apache\htdocs\wordpress2-3\wp-content\plugins\google-sitemap-generator/sitemap.php:2815
+# F:\apache\htdocs\wordpress2-3\wp-content\plugins\google-sitemap-generator/sitemap.php:2832
+msgid "close"
+msgstr "zamknąć"
+
+# F:\apache\htdocs\wordpress2-3\wp-content\plugins\google-sitemap-generator/sitemap.php:2816
+# F:\apache\htdocs\wordpress2-3\wp-content\plugins\google-sitemap-generator/sitemap.php:2833
+msgid "click-down and drag to move this box"
+msgstr "wciśnik klawisz i przeciągnij żeby przesunąć"
+
+# F:\apache\htdocs\wordpress2-3\wp-content\plugins\google-sitemap-generator/sitemap.php:2817
+# F:\apache\htdocs\wordpress2-3\wp-content\plugins\google-sitemap-generator/sitemap.php:2834
+msgid "click to %toggle% this box"
+msgstr "kliknij aby %toggle% to pole"
+
+# F:\apache\htdocs\wordpress2-3\wp-content\plugins\google-sitemap-generator/sitemap.php:2818
+# F:\apache\htdocs\wordpress2-3\wp-content\plugins\google-sitemap-generator/sitemap.php:2835
+msgid "use the arrow keys to move this box"
+msgstr "użyj kursorów aby przesunąć ten blok"
+
+# F:\apache\htdocs\wordpress2-3\wp-content\plugins\google-sitemap-generator/sitemap.php:2819
+# F:\apache\htdocs\wordpress2-3\wp-content\plugins\google-sitemap-generator/sitemap.php:2836
+msgid ", or press the enter key to %toggle% it"
+msgstr ", lub wciśnij enter aby %toggle%"
+
+# F:\apache\htdocs\wordpress2-3\wp-content\plugins\google-sitemap-generator/sitemap.php:2847
+msgid "About this Plugin:"
+msgstr "O wtyczce:"
+
+msgid "Plugin Homepage"
+msgstr "Strona główna wtyczki"
+
+# F:\apache\htdocs\wordpress2-3\wp-content\plugins\google-sitemap-generator/sitemap.php:2850
+msgid "Notify List"
+msgstr "Lista zmian wtyczki"
+
+# F:\apache\htdocs\wordpress2-3\wp-content\plugins\google-sitemap-generator/sitemap.php:2851
+msgid "Support Forum"
+msgstr "Forum pomocy"
+
+# F:\apache\htdocs\wordpress2-3\wp-content\plugins\google-sitemap-generator/sitemap.php:2852
+msgid "Donate with PayPal"
+msgstr "Wspomóż nas przez PayPal"
+
+# F:\apache\htdocs\wordpress2-3\wp-content\plugins\google-sitemap-generator/sitemap.php:2853
+msgid "My Amazon Wish List"
+msgstr "Lista życzeń Amazon"
+
+# F:\apache\htdocs\wordpress2-3\wp-content\plugins\google-sitemap-generator/sitemap.php:2854
+msgid "translator_name"
+msgstr "Strona tłumaczenia"
+
+# F:\apache\htdocs\wordpress2-3\wp-content\plugins\google-sitemap-generator/sitemap.php:2854
+msgid "translator_url"
+msgstr "http://kubazwolinski.com/wordpress/tlumaczenie-wtyczki-google-xml-sitemaps/"
+
+msgid "Sitemap Resources:"
+msgstr "O mapie strony:"
+
+# F:\apache\htdocs\wordpress2-3\wp-content\plugins\google-sitemap-generator/sitemap.php:2860
+msgid "Webmaster Tools"
+msgstr "Webmaster Tools"
+
+# F:\apache\htdocs\wordpress2-3\wp-content\plugins\google-sitemap-generator/sitemap.php:2861
+msgid "Webmaster Blog"
+msgstr "Webmaster Blog"
+
+# F:\apache\htdocs\wordpress2-3\wp-content\plugins\google-sitemap-generator/sitemap.php:2863
+msgid "Site Explorer"
+msgstr "Site Explorer"
+
+# F:\apache\htdocs\wordpress2-3\wp-content\plugins\google-sitemap-generator/sitemap.php:2864
+msgid "Search Blog"
+msgstr "Search Blog"
+
+# F:\apache\htdocs\wordpress2-3\wp-content\plugins\google-sitemap-generator/sitemap.php:2861
+msgid "Webmaster Center Blog"
+msgstr "Webmaster Center Blog"
+
+msgid "Sitemaps Protocol"
+msgstr "Sitemaps Protocol"
+
+# F:\apache\htdocs\wordpress2-3\wp-content\plugins\google-sitemap-generator/sitemap.php:2867
+msgid "Official Sitemaps FAQ"
+msgstr "Official Sitemaps FAQ"
+
+# F:\apache\htdocs\wordpress2-3\wp-content\plugins\google-sitemap-generator/sitemap.php:2868
+msgid "My Sitemaps FAQ"
+msgstr "FAQ wtyczki"
+
+# F:\apache\htdocs\wordpress2-3\wp-content\plugins\google-sitemap-generator/sitemap.php:2873
+msgid "Recent Donations:"
+msgstr "Ostatnie dotacje:"
+
+# F:\apache\htdocs\wordpress2-3\wp-content\plugins\google-sitemap-generator/sitemap.php:2877
+msgid "List of the donors"
+msgstr "Lista darczyńców"
+
+# F:\apache\htdocs\wordpress2-3\wp-content\plugins\google-sitemap-generator/sitemap.php:2879
+msgid "Hide this list"
+msgstr "Ukryj tę listę"
+
+# F:\apache\htdocs\wordpress2-3\wp-content\plugins\google-sitemap-generator/sitemap.php:2882
+msgid "Thanks for your support!"
+msgstr "Dzięki za wsparcie!"
+
+# F:\apache\htdocs\wordpress2-3\wp-content\plugins\google-sitemap-generator/sitemap.php:2894
+msgid "Status"
+msgstr "Status"
+
+# F:\apache\htdocs\wordpress2-3\wp-content\plugins\google-sitemap-generator/sitemap.php:2904
+#, php-format
+msgid "The sitemap wasn't built yet. <a href=\"%s\">Click here</a> to build it the first time."
+msgstr "Mapa strony nie została jeszcze zbudowana. <a href=\"%s\">Kliknij tutaj</a>, aby ją zbudować po raz pierwszy."
+
+# F:\apache\htdocs\wordpress2-3\wp-content\plugins\google-sitemap-generator/sitemap.php:2910
+msgid "Your <a href=\"%url%\">sitemap</a> was last built on <b>%date%</b>."
+msgstr "Ostatnia modyfikacja twojej <a href=\"%url%\">mapy strony</a>: <b>%date%</b>."
+
+# F:\apache\htdocs\wordpress2-3\wp-content\plugins\google-sitemap-generator/sitemap.php:2912
+msgid "There was a problem writing your sitemap file. Make sure the file exists and is writable. <a href=\"%url%\">Learn more</a"
+msgstr "Wystąpił problem podczas zapisu pliku mapy. Upewnij się, że plik istnieje i ma prawa do zapisu przez serwer. <a href=\"%url%\">Dowiedz się więcej</a"
+
+# F:\apache\htdocs\wordpress2-3\wp-content\plugins\google-sitemap-generator/sitemap.php:2919
+msgid "Your sitemap (<a href=\"%url%\">zipped</a>) was last built on <b>%date%</b>."
+msgstr "Ostatnia modyfikacja twojej <a href=\"%url%\">spakowanej mapy strony</a>: <b>%date%</b>."
+
+# F:\apache\htdocs\wordpress2-3\wp-content\plugins\google-sitemap-generator/sitemap.php:2921
+msgid "There was a problem writing your zipped sitemap file. Make sure the file exists and is writable. <a href=\"%url%\">Learn more</a"
+msgstr "Wystąpił problem podczas zapisu spakowanej (gz) wersji pliku mapy. Upewnij się, że plik istnieje i posiada prawa do zapisu. <a href=\"%url%\">Dowiedz się więcej</a"
+
+# F:\apache\htdocs\wordpress2-3\wp-content\plugins\google-sitemap-generator/sitemap.php:2927
+msgid "Google was <b>successfully notified</b> about changes."
+msgstr "Google został <b>pomyślnie powiadomiony</b> o zmianach."
+
+# F:\apache\htdocs\wordpress2-3\wp-content\plugins\google-sitemap-generator/sitemap.php:2930
+msgid "It took %time% seconds to notify Google, maybe you want to disable this feature to reduce the building time."
+msgstr "Powiadomienie Google zajęło %time% sekund, możesz wyłączyć tę opcję, aby zredukować czas publikacji."
+
+# F:\apache\htdocs\wordpress2-3\wp-content\plugins\google-sitemap-generator/sitemap.php:2933
+#, php-format
+msgid "There was a problem while notifying Google. <a href=\"%s\">View result</a>"
+msgstr "Wystąpił problem z powiadomieniem Google. <a href=\"%s\">Obejrzyj rezultat</a>"
+
+# F:\apache\htdocs\wordpress2-3\wp-content\plugins\google-sitemap-generator/sitemap.php:2939
+msgid "YAHOO was <b>successfully notified</b> about changes."
+msgstr "YAHOO został <b>pomyślnie powiadomiony</b> o zmianach."
+
+# F:\apache\htdocs\wordpress2-3\wp-content\plugins\google-sitemap-generator/sitemap.php:2942
+msgid "It took %time% seconds to notify YAHOO, maybe you want to disable this feature to reduce the building time."
+msgstr "Powiadomienie YAHOO zajęło %time% sekund, możesz wyłączyć tę opcję, aby zredukować czas publikacji."
+
+# F:\apache\htdocs\wordpress2-3\wp-content\plugins\google-sitemap-generator/sitemap.php:2945
+#, php-format
+msgid "There was a problem while notifying YAHOO. <a href=\"%s\">View result</a>"
+msgstr "Wystąpił problem z powiadomieniem YAHOO. <a href=\"%s\">Obejrzyj rezultat</a>"
+
+# F:\apache\htdocs\wordpress2-3\wp-content\plugins\google-sitemap-generator/sitemap.php:2939
+msgid "MSN was <b>successfully notified</b> about changes."
+msgstr "MSN został <b>pomyślnie powiadomiony</b> o zmianach."
+
+# F:\apache\htdocs\wordpress2-3\wp-content\plugins\google-sitemap-generator/sitemap.php:2954
+msgid "It took %time% seconds to notify MSN.com, maybe you want to disable this feature to reduce the building time."
+msgstr "Powiadomienie MSN.com zajęło %time% sekund, możesz wyłączyć tę opcję, aby zredukować czas publikacji."
+
+# F:\apache\htdocs\wordpress2-3\wp-content\plugins\google-sitemap-generator/sitemap.php:2957
+#, php-format
+msgid "There was a problem while notifying MSN.com. <a href=\"%s\">View result</a>"
+msgstr "Wystąpił problem z powiadomieniem MSN.com. <a href=\"%s\">Obejrzyj rezultat</a>"
+
+# F:\apache\htdocs\wordpress2-3\wp-content\plugins\google-sitemap-generator/sitemap.php:2951
+msgid "Ask.com was <b>successfully notified</b> about changes."
+msgstr "Ask.com został <b>pomyślnie powiadomiony</b> o zmianach."
+
+# F:\apache\htdocs\wordpress2-3\wp-content\plugins\google-sitemap-generator/sitemap.php:2954
+msgid "It took %time% seconds to notify Ask.com, maybe you want to disable this feature to reduce the building time."
+msgstr "Powiadomienie Ask.com zajęło %time% sekund, możesz wyłączyć tę opcję, aby zredukować czas publikacji."
+
+# F:\apache\htdocs\wordpress2-3\wp-content\plugins\google-sitemap-generator/sitemap.php:2957
+#, php-format
+msgid "There was a problem while notifying Ask.com. <a href=\"%s\">View result</a>"
+msgstr "Wystąpił problem z powiadomieniem Ask.com. <a href=\"%s\">Obejrzyj rezultat</a>"
+
+# F:\apache\htdocs\wordpress2-3\wp-content\plugins\google-sitemap-generator/sitemap.php:2965
+msgid "The building process took about <b>%time% seconds</b> to complete and used %memory% MB of memory."
+msgstr "Proces budowy mapy zajął <b>%time% sek.</b> i wykorzystał %memory% MB pamięci."
+
+# F:\apache\htdocs\wordpress2-3\wp-content\plugins\google-sitemap-generator/sitemap.php:2967
+msgid "The building process took about <b>%time% seconds</b> to complete."
+msgstr "Proces budowy mapy zajął <b>%time% sek.</b>"
+
+# F:\apache\htdocs\wordpress2-3\wp-content\plugins\google-sitemap-generator/sitemap.php:2971
+msgid "The content of your sitemap <strong>didn't change</strong> since the last time so the files were not written and no search engine was pinged."
+msgstr "Zawartość twojej mapy <strong>nie zmieniła się /strong> od ostatniego razu, więc pliki nie zostały nadpisane i żadna wyszukiwarka nie została powiadomiona."
+
+# F:\apache\htdocs\wordpress2-3\wp-content\plugins\google-sitemap-generator/sitemap.php:2975
+msgid "The last run didn't finish! Maybe you can raise the memory or time limit for PHP scripts. <a href=\"%url%\">Learn more</a>"
+msgstr "Ostatnia operacja nie została zakończona! Może należy zwiększyć limit pamieci lub czasu wykonywania dla skryptów PHP. <a href=\"%url%\">Dowiedz się więcej</a>"
+
+# F:\apache\htdocs\wordpress2-3\wp-content\plugins\google-sitemap-generator/sitemap.php:2977
+msgid "The last known memory usage of the script was %memused%MB, the limit of your server is %memlimit%."
+msgstr "Ostatnie znane zużycie pamięci wyniosło %memused%MB, limit twojego serwera to %memlimit%."
+
+# F:\apache\htdocs\wordpress2-3\wp-content\plugins\google-sitemap-generator/sitemap.php:2981
+msgid "The last known execution time of the script was %timeused% seconds, the limit of your server is %timelimit% seconds."
+msgstr "Ostatni znany czas wykonywania skryptu wyniósł  %timeused% sek., limit twojego serwera wynosi %timelimit% sek."
+
+# F:\apache\htdocs\wordpress2-3\wp-content\plugins\google-sitemap-generator/sitemap.php:2985
+msgid "The script stopped around post number %lastpost% (+/- 100)"
+msgstr "Skrypt przerwał wykonywanie w okolicach wpisu nr %lastpost% (+/- 100)"
+
+# F:\apache\htdocs\wordpress2-3\wp-content\plugins\google-sitemap-generator/sitemap.php:2988
+#, php-format
+msgid "If you changed something on your server or blog, you should <a href=\"%s\">rebuild the sitemap</a> manually."
+msgstr "Jeśli na blogu coś zostało zmienione, należy <a href=\"%s\">przebudować mapę</a> ręcznie."
+
+# F:\apache\htdocs\wordpress2-3\wp-content\plugins\google-sitemap-generator/sitemap.php:2990
+#, php-format
+msgid "If you encounter any problems with the build process you can use the <a href=\"%d\">debug function</a> to get more information."
+msgstr "Jeśli napotkasz jakiś problem podczas procesu budowy mapy, możesz użyć <a href=\"%d\">funkcji debugowania</a> aby uzyskać więcej informacji."
+
+msgid "Basic Options"
+msgstr "Opcje podstawowe"
+
+# F:\apache\htdocs\wordpress2-3\wp-content\plugins\google-sitemap-generator/sitemap.php:3007
+msgid "Sitemap files:"
+msgstr "Pliki mapy strony:"
+
+# F:\apache\htdocs\wordpress2-3\wp-content\plugins\google-sitemap-generator/sitemap.php:3007
+# F:\apache\htdocs\wordpress2-3\wp-content\plugins\google-sitemap-generator/sitemap.php:3022
+# F:\apache\htdocs\wordpress2-3\wp-content\plugins\google-sitemap-generator/sitemap.php:3042
+# F:\apache\htdocs\wordpress2-3\wp-content\plugins\google-sitemap-generator/sitemap.php:3067
+# F:\apache\htdocs\wordpress2-3\wp-content\plugins\google-sitemap-generator/sitemap.php:3084
+msgid "Learn more"
+msgstr "Dowiedz się więcej"
+
+msgid "Write a normal XML file (your filename)"
+msgstr "Zapisz normalny plik XML (własna nazwa)"
+
+msgid "Write a gzipped file (your filename + .gz)"
+msgstr "Zapisz plik gzip (własna nazwa + .gz)"
+
+# F:\apache\htdocs\wordpress2-3\wp-content\plugins\google-sitemap-generator/sitemap.php:3022
+msgid "Building mode:"
+msgstr "Tryb budowy:"
+
+# F:\apache\htdocs\wordpress2-3\wp-content\plugins\google-sitemap-generator/sitemap.php:3027
+msgid "Rebuild sitemap if you change the content of your blog"
+msgstr "Przebudowuj mapę przy zmianie zawartości bloga"
+
+# F:\apache\htdocs\wordpress2-3\wp-content\plugins\google-sitemap-generator/sitemap.php:3034
+msgid "Enable manual sitemap building via GET Request"
+msgstr "Włącz manualne przebudowywanie mapy przez polecenie GET"
+
+# F:\apache\htdocs\wordpress2-3\wp-content\plugins\google-sitemap-generator/sitemap.php:3038
+msgid "This will allow you to refresh your sitemap if an external tool wrote into the WordPress database without using the WordPress API. Use the following URL to start the process: <a href=\"%1\">%1</a> Please check the logfile above to see if sitemap was successfully built."
+msgstr "Ta opcja pozwoli na odświeżenie mapy strony jeśli jakieś zewnętrzne narzędzie dokona zapisu w bazie danych WordPress z pominięciem WordPress API. Użyj następującego adresu w celu rozpoczęcia procesu: <a href=\"%1\">%1</a> Sprawdź plik logu powyżej, aby sprawdzić czy mapa została odpowiednio przebudowana."
+
+msgid "Update notification:"
+msgstr "Powiadomienia o aktualizacjach:"
+
+# F:\apache\htdocs\wordpress2-3\wp-content\plugins\google-sitemap-generator/sitemap.php:3046
+msgid "Notify Google about updates of your Blog"
+msgstr "Powiadamiaj Google o aktualizacjach twojego bloga"
+
+# F:\apache\htdocs\wordpress2-3\wp-content\plugins\google-sitemap-generator/sitemap.php:3047
+#, php-format
+msgid "No registration required, but you can join the <a href=\"%s\">Google Webmaster Tools</a> to check crawling statistics."
+msgstr "Rejestracja nie jest wymagana, ale możesz sprawdzić <a href=\"%s\">Google Webmaster Tools</a> aby kontrolować statystyki indeksowania."
+
+# F:\apache\htdocs\wordpress2-3\wp-content\plugins\google-sitemap-generator/sitemap.php:3046
+msgid "Notify MSN Live Search about updates of your Blog"
+msgstr "Powiadamiaj MSN Live Search o aktualizacjach twojego bloga"
+
+# F:\apache\htdocs\wordpress2-3\wp-content\plugins\google-sitemap-generator/sitemap.php:3047
+#, php-format
+msgid "No registration required, but you can join the <a href=\"%s\">MSN Live Webmaster Tools</a> to check crawling statistics."
+msgstr "Rejestracja nie jest wymagana, ale możesz sprawdzić <a href=\"%s\">MSN Live Webmaster Tools</a> aby kontrolować statystyki indeksowania."
+
+# F:\apache\htdocs\wordpress2-3\wp-content\plugins\google-sitemap-generator/sitemap.php:3051
+msgid "Notify Ask.com about updates of your Blog"
+msgstr "Powiadamiaj Ask.com o aktualizacjach twojego bloga"
+
+# F:\apache\htdocs\wordpress2-3\wp-content\plugins\google-sitemap-generator/sitemap.php:3052
+msgid "No registration required."
+msgstr "Rejestracja nie jest konieczna"
+
+# F:\apache\htdocs\wordpress2-3\wp-content\plugins\google-sitemap-generator/sitemap.php:3056
+msgid "Notify YAHOO about updates of your Blog"
+msgstr "Powiadamiaj YAHOO o aktualizacjach twojego bloga"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3154
+msgid "Your Application ID:"
+msgstr "ID aplikacji:"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3155
+#, php-format
+msgid "Don't you have such a key? <a href=\"%s1\">Request one here</a>!</a> %s2"
+msgstr "Nie masz takiego klucza? <a href=\"%s1\">Zamów go tutaj</a>!</a> %s2"
+
+# F:\apache\htdocs\wordpress2-3\wp-content\plugins\google-sitemap-generator/sitemap.php:3062
+#, php-format
+msgid "Modify or create %s file in blog root which contains the sitemap location."
+msgstr "Modyfikuj lub utwórz plik %s w katalogu strony gdzie znajduje się mapa strony."
+
+# F:\apache\htdocs\wordpress2-3\wp-content\plugins\google-sitemap-generator/sitemap.php:3065
+msgid "File permissions: "
+msgstr "Status pliku: "
+
+# F:\apache\htdocs\wordpress2-3\wp-content\plugins\google-sitemap-generator/sitemap.php:3070
+msgid "OK, robots.txt is writable."
+msgstr "OK, plik robots.txt ma prawa do zapisu."
+
+# F:\apache\htdocs\wordpress2-3\wp-content\plugins\google-sitemap-generator/sitemap.php:3072
+msgid "Error, robots.txt is not writable."
+msgstr "Błąd, plik robots.txt nie ma praw do zapisu."
+
+# F:\apache\htdocs\wordpress2-3\wp-content\plugins\google-sitemap-generator/sitemap.php:3076
+msgid "OK, robots.txt doesn't exist but the directory is writable."
+msgstr "OK, plik robots.txt nie istnieje, ale katalog ma prawa do zapisu przez serwer."
+
+# F:\apache\htdocs\wordpress2-3\wp-content\plugins\google-sitemap-generator/sitemap.php:3078
+msgid "Error, robots.txt doesn't exist and the directory is not writable"
+msgstr "Błąd, plik robots.txt nie istnieje i katalog nie ma prawa do zapisu przez serwer"
+
+msgid "Advanced options:"
+msgstr "Zaawansowane opcje:"
+
+# F:\apache\htdocs\wordpress2-3\wp-content\plugins\google-sitemap-generator/sitemap.php:3087
+msgid "Limit the number of posts in the sitemap:"
+msgstr "Limituj ilość wpisów w mapie:"
+
+# F:\apache\htdocs\wordpress2-3\wp-content\plugins\google-sitemap-generator/sitemap.php:3087
+msgid "Newer posts will be included first"
+msgstr "Nowsze wpisy będą załączone jako pierwsze"
+
+# F:\apache\htdocs\wordpress2-3\wp-content\plugins\google-sitemap-generator/sitemap.php:3090
+msgid "Try to increase the memory limit to:"
+msgstr "Spróbuj zwiększyć limit pamięci do:"
+
+# F:\apache\htdocs\wordpress2-3\wp-content\plugins\google-sitemap-generator/sitemap.php:3090
+msgid "e.g. \"4M\", \"16M\""
+msgstr "np. \"4M\", \"16M\""
+
+# F:\apache\htdocs\wordpress2-3\wp-content\plugins\google-sitemap-generator/sitemap.php:3093
+msgid "Try to increase the execution time limit to:"
+msgstr "Spróbuj zwiększyć limit czasu wykonywania do:"
+
+# F:\apache\htdocs\wordpress2-3\wp-content\plugins\google-sitemap-generator/sitemap.php:3093
+msgid "in seconds, e.g. \"60\" or \"0\" for unlimited"
+msgstr "w sekundach, np. \"60\" lub \"0\" dla nieograniczonego"
+
+# F:\apache\htdocs\wordpress2-3\wp-content\plugins\google-sitemap-generator/sitemap.php:3096
+msgid "Include a XSLT stylesheet:"
+msgstr "Załącz arkusz stylu XSLT: "
+
+# F:\apache\htdocs\wordpress2-3\wp-content\plugins\google-sitemap-generator/sitemap.php:3096
+msgid "Use Default"
+msgstr "Użyj wartości domyślnych"
+
+# F:\apache\htdocs\wordpress2-3\wp-content\plugins\google-sitemap-generator/sitemap.php:3096
+msgid "Full or relative URL to your .xsl file"
+msgstr "Absolutna lub relatywna ścieżka to twojego plik .xsl "
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3152
+msgid "Enable MySQL standard mode. Use this only if you're getting MySQL errors. (Needs much more memory!)"
+msgstr "Włącz standardowy tryb MySQL. Użyj tego tylko w przypadku występowania błędów MySQL (zużywa duzo więcej pamięci!)."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3166
+msgid "Build the sitemap in a background process (You don't have to wait when you save a post)"
+msgstr "Buduj mapę strony w tle (nie musisz czekać kiedy zapisujesz swój wpis)"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3206
+msgid "Exclude the following posts or pages:"
+msgstr "Wyłącz następujące wpisy lub strony:"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3206
+msgid "List of IDs, separated by comma"
+msgstr "Lista ID, oddzielonych przecinkami"
+
+msgid "Additional pages"
+msgstr "Dodatkowe strony"
+
+msgid "Here you can specify files or URLs which should be included in the sitemap, but do not belong to your Blog/WordPress.<br />For example, if your domain is www.foo.com and your blog is located on www.foo.com/blog you might want to include your homepage at www.foo.com"
+msgstr "Tutaj możesz podąć pliki lub adresy URL, które powinny znaleźć się w twojej mapie strony, chociaż nie należą do blogu/WordPress'a.<br />Na przykład, jeśli twoja domena to www.foo.com i twój blog znajduje się na www.foo.com/blog, możesz chcieć umieścić także stronę główną (czyli www.foo.com)"
+
+msgid "Note"
+msgstr "Notatka"
+
+msgid "If your blog is in a subdirectory and you want to add pages which are NOT in the blog directory or beneath, you MUST place your sitemap file in the root directory (Look at the &quot;Location of your sitemap file&quot; section on this page)!"
+msgstr "Jeśli twój blog znajduje się w podkatalogu i chcesz dodać strony które NIE znajdują się katalogu blogu lub jego subkatalogu, MUSISZ umieścić swoją mapę strony w katalogu głównym (zobacz sekcję &quot; Lokalizacja twojej mapy strony&quot; na tej stronie)!"
+
+msgid "URL to the page"
+msgstr "URL strony"
+
+msgid "Enter the URL to the page. Examples: http://www.foo.com/index.html or www.foo.com/home "
+msgstr "Wpisz adres URL strony. Przykłady: http://www.foo.com/index.html lub www.foo.com/home "
+
+msgid "Priority"
+msgstr "Priorytet"
+
+msgid "Choose the priority of the page relative to the other pages. For example, your homepage might have a higher priority than your imprint."
+msgstr "Wybierz priorytet strony w odniesieniu do innych stron. Na przykład, strona główna może mieć wyższy priorytet niż informacje o tobie."
+
+msgid "Last Changed"
+msgstr "Ostatnio zmieniony"
+
+msgid "Enter the date of the last change as YYYY-MM-DD (2005-12-31 for example) (optional)."
+msgstr "Wpisz datę ostatniej zmiany jako YYYY-MM-DD (na przykład: 2005-12-31) (opcja)."
+
+msgid "Change Frequency"
+msgstr "Zmień częstotliwość"
+
+msgid "#"
+msgstr "#"
+
+msgid "No pages defined."
+msgstr "Brak zdefiniowanych stron"
+
+msgid "Add new page"
+msgstr "Dodaj nową stronę"
+
+msgid "Post Priority"
+msgstr "Priorytet wpisu"
+
+# F:\apache\htdocs\wordpress2-3\wp-content\plugins\google-sitemap-generator/sitemap.php:3292
+msgid "Please select how the priority of each post should be calculated:"
+msgstr "Wybierz sposób obliczania priorytetu poszczególnych wpisów:"
+
+# F:\apache\htdocs\wordpress2-3\wp-content\plugins\google-sitemap-generator/sitemap.php:3294
+msgid "Do not use automatic priority calculation"
+msgstr "Nie używaj automatycznego obliczania priorytetu"
+
+# F:\apache\htdocs\wordpress2-3\wp-content\plugins\google-sitemap-generator/sitemap.php:3294
+msgid "All posts will have the same priority which is defined in &quot;Priorities&quot;"
+msgstr "Wszystkie wpisy mają ten sam priorytet, który jest zdefiniowany &quot;Priorytety&quot;"
+
+msgid "Location of your sitemap file"
+msgstr "Lokalizacja twojego pliku mapy strony"
+
+msgid "Automatic detection"
+msgstr "Automatycznw wykrywanie"
+
+msgid "Filename of the sitemap file"
+msgstr "Nazwa pliku mapy strony"
+
+msgid "Detected Path"
+msgstr "Wykryta ścieżka"
+
+msgid "Detected URL"
+msgstr "Wykryty URL"
+
+msgid "Custom location"
+msgstr "Własna lokalizacja"
+
+msgid "Absolute or relative path to the sitemap file, including name."
+msgstr "Absolutna ścieżka do pliku mapy strony, zawierający nazwę. "
+
+msgid "Example"
+msgstr "Przykład"
+
+msgid "Complete URL to the sitemap file, including name."
+msgstr "Pełen adres URL to pliku mapy strony, zawierający nazwę."
+
+msgid "Sitemap Content"
+msgstr "Zawartość mapy strony"
+
+msgid "Include homepage"
+msgstr "Zawiera stronę główną"
+
+msgid "Include posts"
+msgstr "Zawiera wpisy"
+
+msgid "Include static pages"
+msgstr "Zawiera statyczne strony"
+
+msgid "Include categories"
+msgstr "Zawiera kategorie"
+
+msgid "Include archives"
+msgstr "Zawiera archiwa"
+
+msgid "Include tag pages"
+msgstr "Zawiera strony tagów"
+
+msgid "Include author pages"
+msgstr "Zawiera strony autorów"
+
+msgid "Change frequencies"
+msgstr "Zmień częstotliwość"
+
+msgid "Please note that the value of this tag is considered a hint and not a command. Even though search engine crawlers consider this information when making decisions, they may crawl pages marked \"hourly\" less frequently than that, and they may crawl pages marked \"yearly\" more frequently than that. It is also likely that crawlers will periodically crawl pages marked \"never\" so that they can handle unexpected changes to those pages."
+msgstr "Proszę wziąść pod uwagę, że zawartość tego znacznika jest wskazówką, a nie poleceniem. Nawet jeśli wyszukiwarki biorą tą informację pod uwagę podczas podejmowania decyzji, to mogą one przeglądać strony zaznaczone jako \"co godzinę\" rzadziej. Jest również prawdopodobne, że strony oznaczone jako \"co rok\" będą przeglądane częściej. Również jest możliwe, że mimo oznaczenia \"nigdy\", wyszukiwarki mogą takie strony czasem przeglądać i wychwytywać nieoczekiwanie zmiany na tych stronach."
+
+msgid "Homepage"
+msgstr "Strona główna"
+
+msgid "Posts"
+msgstr "Wpisy"
+
+msgid "Static pages"
+msgstr "Statyczne strony"
+
+msgid "Categories"
+msgstr "Kategorie"
+
+msgid "The current archive of this month (Should be the same like your homepage)"
+msgstr "Aktualne archiwum tego miesiąca (powinno mieć taką samą częstotliwość jak strona główna)"
+
+msgid "Older archives (Changes only if you edit an old post)"
+msgstr "Starsz archiwa (zmień tylko jeśli edytujesz stare wpisy)"
+
+msgid "Tag pages"
+msgstr "Strony tagów"
+
+msgid "Author pages"
+msgstr "Strony autorów"
+
+msgid "Priorities"
+msgstr "Priorytety"
+
+msgid "Posts (If auto calculation is disabled)"
+msgstr "Wpisy (jeśli automatyczne przeliczanie jest wyłączone)"
+
+msgid "Minimum post priority (Even if auto calculation is enabled)"
+msgstr "Minimalny priorytet wpisu (nawet jeśli automatyczne przeliczanie jest włączone)"
+
+msgid "Archives"
+msgstr "Archiwa"
+
+msgid "Update options"
+msgstr "Zaktualizuj opcje"
+
+msgid "Reset options"
+msgstr "Reset opcji"
+

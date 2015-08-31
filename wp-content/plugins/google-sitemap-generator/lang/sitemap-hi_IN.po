@@ -1,0 +1,1030 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: google-sitemap\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2009-11-20 22:53+0100\n"
+"PO-Revision-Date: \n"
+"Last-Translator: Ashish <ashish@outshinesolutions.com>\n"
+"Language-Team: Outshine Solutions <pratyush.krishna@outshinesolutions.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Hindi\n"
+"X-Poedit-Country: INDIA\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:846
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-core.php:525
+msgid "Comment Count"
+msgstr "टिप्पणी गिनती"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:858
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-core.php:537
+msgid "Uses the number of comments of the post to calculate the priority"
+msgstr "पद की टिप्पणियों की संख्या का उपयोग करते हुए  प्राथमिकता की गणना करो "
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:918
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-core.php:597
+msgid "Comment Average"
+msgstr "टिप्पणी औसत"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:930
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-core.php:609
+msgid "Uses the average comment count to calculate the priority"
+msgstr "औसत टिप्पणी गिनती का उपयोग प्राथमिकता की गणना के लिए करो. "
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:993
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-core.php:672
+msgid "Popularity Contest"
+msgstr "लोकप्रियता प्रतियोगिता"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:1005
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-core.php:684
+msgid "Uses the activated <a href=\"%1\">Popularity Contest Plugin</a> from <a href=\"%2\">Alex King</a>. See <a href=\"%3\">Settings</a> and <a href=\"%4\">Most Popular Posts</a>"
+msgstr "सक्रिय का उपयोग करता है <a href=\"%1\"> लोकप्रियता प्रतियोगिता प्लगइन </a> से <a href=\"%2\"> एलेक्स राजा </a>. देखे <a href=\"%3\">सेटिंग्स </a> और <a href=\"%4\"> सर्वाधिक लोकप्रिय डाक</a>"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap-core.php:1118
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-core.php:1084
+msgid "Always"
+msgstr "हमेशा"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap-core.php:1119
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-core.php:1085
+msgid "Hourly"
+msgstr "प्रति घंटा"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap-core.php:1120
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-core.php:1086
+msgid "Daily"
+msgstr "दैनिक"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap-core.php:1121
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-core.php:1087
+msgid "Weekly"
+msgstr "साप्ताहिक"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap-core.php:1122
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-core.php:1088
+msgid "Monthly"
+msgstr "मासिक"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap-core.php:1123
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-core.php:1089
+msgid "Yearly"
+msgstr "वार्षिक"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap-core.php:1124
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-core.php:1090
+msgid "Never"
+msgstr "कभी नहीं"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2600
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:107
+msgid "Thank you very much for your donation. You help me to continue support and development of this plugin and other free software!"
+msgstr "आपको अपने दान के लिए बहुत बहुत धन्यवाद. तुम मेरी समर्थन और इस प्लगइन और अन्य मुक्त सॉफ्टवेयर के विकास को जारी रखने के लिए मदद करो !"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2600
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:107
+msgid "Hide this notice"
+msgstr "नोटिस छुपाएँ"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:113
+#, php-format
+msgid "Thanks for using this plugin! You've installed this plugin over a month ago. If it works and you are satisfied with the results, isn't it worth at least a few dollar? <a href=\"%s\">Donations</a> help me to continue support and development of this <i>free</i> software! <a href=\"%s\">Sure, no problem!</a>"
+msgstr "इस प्लगइन का उपयोग करने के लिए धन्यवाद! तुम एक महीने पहले इस प्लगइन को स्थापित चुके हो. अगर यह काम करता है और तुम परिणाम से संतुष्ट हो, <a href=\"%s\"> दान </a>  समर्थन और इस का विकास जारी रखने के लिए मेरी मदद करो <i>free</i>  सॉफ्टवेयर! <a href=\"%s\"> बेशक, कोई समस्या नहीं है! </a>"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:113
+msgid "Sure, but I already did!"
+msgstr "यकीन है, लेकिन मैं इसे पहले ही कर चूका हु!."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2657
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:113
+msgid "No thanks, please don't bug me anymore!"
+msgstr "नहीं, धन्यवाद,, कृपया मुझे अब और परेशान नहीं करो!"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:120
+#, php-format
+msgid "Thanks for using this plugin! You've installed this plugin some time ago. If it works and your are satisfied, why not <a href=\"%s\">rate it</a> and <a href=\"%s\">recommend it</a> to others? :-)"
+msgstr "इस प्लगइन का उपयोग करने के लिए धन्यवाद! आप इस प्लगइन को कुछ समय पहले स्थापित कर चुके हो.अगर यह काम करता है और आपके संतुष्ट करता है, क्यों नहीं <a href=\"%s\">यह दर</a> और  <a href=\"%s\"> यह अनुशंसा </a> to others? :-)"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:120
+msgid "Don't show this anymore"
+msgstr "अब यह मत दिखाओ"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap-ui.php:67
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:132
+msgid "Your sitemap is being refreshed at the moment. Depending on your blog size this might take some time!"
+msgstr "आपका साइटमैप पल में ताजा किया जा रहा है. निरभर है अपने ब्लॉग के आकार पर यह कुछ समय ले सकता है!"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap-ui.php:69
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:134
+#, php-format
+msgid "Your sitemap will be refreshed in %s seconds. Depending on your blog size this might take some time!"
+msgstr "साइटमैप ताजा हो जाएगा  %s  सेकंड  में, यह कुछ समय ले सकता है! निरभर है आपके ब्लॉग के आकार पर !"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2635
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2835
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:163
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:480
+msgid "XML Sitemap Generator for WordPress"
+msgstr "XML साइटमैप WordPress के लिए जेनरेटर है "
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2740
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:323
+msgid "Configuration updated"
+msgstr "विन्यास नवनिर्मित "
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2741
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:324
+msgid "Error while saving options"
+msgstr "विकल्प बचाते समय त्रुटि आई "
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2743
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:326
+msgid "Pages saved"
+msgstr "पृष्ठों सुरक्षित  "
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2744
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:327
+msgid "Error while saving pages"
+msgstr "पन्ने बचाते समय त्रुटि आई "
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2758
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:334
+msgid "The default configuration was restored."
+msgstr "डिफ़ॉल्ट कॉन्फ़िगरेशन बहाल कर दी गई."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap-ui.php:374
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:496
+#, php-format
+msgid "There is a new version of %1$s available. <a href=\"%2$s\">Download version %3$s here</a>."
+msgstr "वहाँ एक नया संस्करण %1$s उपलब्ध  है. <a href=\"%2$s\"> डाउनलोड संस्करण %3$s here</a>."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap-ui.php:376
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:498
+#, php-format
+msgid "There is a new version of %1$s available. <a href=\"%2$s\">Download version %3$s here</a> <em>automatic upgrade unavailable for this plugin</em>."
+msgstr "वहाँ एक नया संस्करण %1$s उपलब्ध  है. <a href=\"%2$s\"> डाउनलोड संस्करण %3$s here</a><em>स्वत: उन्नयन इस प्लगइन के लिए अनुपलब्ध </em>."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap-ui.php:378
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:500
+#, php-format
+msgid "There is a new version of %1$s available. <a href=\"%2$s\">Download version %3$s here</a> or <a href=\"%4$s\">upgrade automatically</a>."
+msgstr "वहाँ एक नया संस्करण %1$s उपलब्ध  है. <a href=\"%2$s\"> डाउनलोड संस्करण %3$s here</a> या <a href=\"%4$s\">स्वतः उन्नत</a>."
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:508
+#, php-format
+msgid "Your blog is currently blocking search engines! Visit the <a href=\"%s\">privacy settings</a> to change this."
+msgstr "वर्तमान में आपके ब्लॉग खोज इंजन बाधा डाल रही है! <a href=\"%s\"> गोपनीयता सेटिंग्स </a>इसे बदलते हैं."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2851
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2868
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:529
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:546
+msgid "open"
+msgstr "खुला होना"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2852
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2869
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:530
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:547
+msgid "close"
+msgstr "खुला होना"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2853
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2870
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:531
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:548
+msgid "click-down and drag to move this box"
+msgstr "नीचे क्लिक करें और इस को बॉक्स ड्रैग करे. "
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2854
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2871
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:532
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:549
+msgid "click to %toggle% this box"
+msgstr "क्लिक करे %toggle%इस बॉक्स पर "
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2855
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2872
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:533
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:550
+msgid "use the arrow keys to move this box"
+msgstr "तीर कुंजी का उपयोग इस बॉक्स पर करे. "
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2856
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2873
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:534
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:551
+msgid ", or press the enter key to %toggle% it"
+msgstr ", या इंटर के दबाये %टॉगल % करने में "
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2884
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:580
+msgid "About this Plugin:"
+msgstr "इस प्लगइन के बारे में:"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2886
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:581
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap.php:181
+msgid "Plugin Homepage"
+msgstr "प्लगइन मुखपृष्ठ"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap-ui.php:421
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:582
+msgid "Suggest a Feature"
+msgstr "एक फीचर  का  सुझाव है"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2887
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:583
+msgid "Notify List"
+msgstr "सूचित सूची"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2888
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:584
+msgid "Support Forum"
+msgstr "समर्थन फोरम"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap-ui.php:424
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:585
+msgid "Report a Bug"
+msgstr "एक बग रिपोर्ट"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2889
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:587
+msgid "Donate with PayPal"
+msgstr "पेपैल के साथ दान"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2890
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:588
+msgid "My Amazon Wish List"
+msgstr "मेरे अमेज़न इच्छा सूची"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2891
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:589
+msgid "translator_name"
+msgstr "Outshine Solutions"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2891
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:589
+msgid "translator_url"
+msgstr "http://outshinesolutions.com"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2895
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:593
+msgid "Sitemap Resources:"
+msgstr "साइटमैप संसाधन:"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2897
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:594
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:600
+msgid "Webmaster Tools"
+msgstr "वेबमास्टर उपकरण"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2898
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:595
+msgid "Webmaster Blog"
+msgstr "वेबमास्टर ब्लॉग"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2900
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:597
+msgid "Site Explorer"
+msgstr "साइट एक्सप्लोरर"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2901
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:598
+msgid "Search Blog"
+msgstr "खोज ब्लॉग"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3010
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:601
+msgid "Webmaster Center Blog"
+msgstr "वेबमास्टर केंद्र ब्लॉग"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2903
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:603
+msgid "Sitemaps Protocol"
+msgstr "साइटमैप प्रोटोकॉल"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2904
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:604
+msgid "Official Sitemaps FAQ"
+msgstr "सरकारी साइटमैप फैक्स"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2905
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:605
+msgid "My Sitemaps FAQ"
+msgstr "मेरा साइटमैप  फैक्स "
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2910
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:608
+msgid "Recent Donations:"
+msgstr "हाल ही में दान"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2914
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:611
+msgid "List of the donors"
+msgstr "दानदाताओं की सूची"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2916
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:613
+msgid "Hide this list"
+msgstr "सूची छिपाएँ"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2919
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:616
+msgid "Thanks for your support!"
+msgstr "आपके समर्थन के लिए धन्यवाद!"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:638
+msgid "The sitemap wasn't generated yet."
+msgstr "साइटमैप अभी तक सृजित नहीं किया गया."
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:641
+msgid "Result of the last build process, started on %date%."
+msgstr "पिछले निर्माण प्रक्रिया के परिणाम, शुरू में % तिथि%."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2941
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:650
+#, php-format
+msgid "The sitemap wasn't built yet. <a href=\"%s\">Click here</a> to build it the first time."
+msgstr "साइटमैप अभी तक नहीं बनाई गई थी. <a href=\"%s\"> यहां क्लिक करें </a> पहली बार निर्माण करने में "
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2947
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:656
+msgid "Your <a href=\"%url%\">sitemap</a> was last built on <b>%date%</b>."
+msgstr "आपका <a href=\"%url%\">साइटमैप </a>पिछले पर बनाया गया था <b>%तिथि </b>."
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:657
+msgid "The last build succeeded, but the file was deleted later or can't be accessed anymore. Did you move your blog to another server or domain?"
+msgstr "पिछले सफल बनाने, लेकिन बाद में नष्ट कर दिया फ़ाइल या अब तक पहुँचा नहीं जा सकता था. क्या तुम एक सर्वर या डोमेन को अपने ब्लॉग में ला सकते हो?"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:659
+msgid "There was a problem writing your sitemap file. Make sure the file exists and is writable. <a href=\"%url%\">Learn more</a>"
+msgstr "वहाँ एक अपने साइटमैप फ़ाइल लेखन समस्या थी. सुनिश्चित करें कि फ़ाइल मौजूद है और लिखने योग्य है.<a href=\"%url%\">अधिक जानें</a>"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2956
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:666
+msgid "Your sitemap (<a href=\"%url%\">zipped</a>) was last built on <b>%date%</b>."
+msgstr "आपका साइटमैप(<a href=\"%url%\">zipped</a>)  पिछले पर बनाया गया था <b>%तिथि%</b>."
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:667
+msgid "The last zipped build succeeded, but the file was deleted later or can't be accessed anymore. Did you move your blog to another server or domain?"
+msgstr "पिछले ज़िपित सफल बनी, लेकिन बाद में फ़ाइल नष्ट कर दिया या अब तक पहुँचा नहीं जा सकता था."
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:669
+msgid "There was a problem writing your zipped sitemap file. Make sure the file exists and is writable. <a href=\"%url%\">Learn more</a>"
+msgstr "वहाँ एक ज़िपित साइटमैप फ़ाइल लेखन में समस्या थी. सुनिश्चित करें कि फ़ाइल मौजूद है और लिखने योग्य है. <a href=\"%url%\">अधिक जानें</a>"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2964
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:675
+msgid "Google was <b>successfully notified</b> about changes."
+msgstr "गूगल थी <b> सफलतापूर्वक अधिसूचित </b> परिवर्तन के बारे में."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2967
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:678
+msgid "It took %time% seconds to notify Google, maybe you want to disable this feature to reduce the building time."
+msgstr "इसे लेकर % समय% सेकंड के लिए Google को सूचित करे,शायद आप इस सुविधा को अक्षम करने का निर्माण समय को कम के लिए करे."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3011
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:681
+#, php-format
+msgid "There was a problem while notifying Google. <a href=\"%s\">View result</a>"
+msgstr "वहाँ थोड़ी देर के लिए गूगल  सूचित समस्या थी. <a href=\"%s\">देखें परिणाम</a>"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2976
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:687
+msgid "YAHOO was <b>successfully notified</b> about changes."
+msgstr "याहू <b>परिवर्तन के बारे में </b> सफलतापूर्वक अधिसूचित   था"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2979
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:690
+msgid "It took %time% seconds to notify YAHOO, maybe you want to disable this feature to reduce the building time."
+msgstr "यह याहू  %समय% सेकंड में सूचित करे,शायद आप इस सुविधा को अक्षम करने का निर्माण समय को कम करने के लिए करे."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3023
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:693
+#, php-format
+msgid "There was a problem while notifying YAHOO. <a href=\"%s\">View result</a>"
+msgstr "यहाँ याहू को सूचित करने में समस्या थी, <a href=\"%s\"> देखें परिणाम </ a>"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:699
+msgid "Bing was <b>successfully notified</b> about changes."
+msgstr "बिंग <b> सफलतापूर्वक / b> परिवर्तन के बारे में <अधिसूचित था."
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:702
+msgid "It took %time% seconds to notify Bing, maybe you want to disable this feature to reduce the building time."
+msgstr "यह बिंग को %समय% सेकंड में सूचित करे,शायद आप इस सुविधा को अक्षम करने का निर्माण समय को कम करने के लिए करे."
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:705
+#, php-format
+msgid "There was a problem while notifying Bing. <a href=\"%s\">View result</a>"
+msgstr "यहाँ बिंग को सूचित करने में समस्या थी, <a href=\"%s\"> देखें परिणाम </ a>"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2988
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:711
+msgid "Ask.com was <b>successfully notified</b> about changes."
+msgstr "अश्क.कॉम <b> सफलतापूर्वक / b> परिवर्तन के बारे में <अधिसूचित था."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2991
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:714
+msgid "It took %time% seconds to notify Ask.com, maybe you want to disable this feature to reduce the building time."
+msgstr "यह अश्क.कॉम को %समय% सेकंड में सूचित करे,शायद आप इस सुविधा को अक्षम करने का निर्माण समय को कम करने के लिए करे."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3035
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:717
+#, php-format
+msgid "There was a problem while notifying Ask.com. <a href=\"%s\">View result</a>"
+msgstr "यहाँ अश्क.कॉम को सूचित करने में समस्या थी, <a href=\"%s\"> देखें परिणाम </ a>"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3002
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:725
+msgid "The building process took about <b>%time% seconds</b> to complete and used %memory% MB of memory."
+msgstr "निर्माण की प्रक्रिया <b>% समय% सेकंड </b> लेगी पूरी तरह पूरा करने में और इस्तेमाल% स्मृति % MB स्मृति करेगी. "
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3004
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:727
+msgid "The building process took about <b>%time% seconds</b> to complete."
+msgstr "निर्माण की प्रक्रिया <b>% समय% सेकंड </b> लेगी पूरी तरह पूरा करने में"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3008
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:731
+msgid "The content of your sitemap <strong>didn't change</strong> since the last time so the files were not written and no search engine was pinged."
+msgstr "आपके साइटमैप की सामग्री <strong> नहीं बदल </strong> पिछली बार के बाद से तो फाइल लिखा नहीं खोज इंजन pinged नहीं था और थे."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap-ui.php:586
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:739
+msgid "The building process might still be active! Reload the page in a few seconds and check if something has changed."
+msgstr "निर्माण की प्रक्रिया अब भी सक्रिय हो सकती है! कुछ ही सेकंड में पृष्ठ  पुनः लोड करे और  जांच करे अगर कुछ बदल गया है."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3012
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:742
+msgid "The last run didn't finish! Maybe you can raise the memory or time limit for PHP scripts. <a href=\"%url%\">Learn more</a>"
+msgstr "पिछले भाग समाप्त नहीं किया! यद तुम्हें याद हो या समय PHP लिपियों के लिए सीमा बढ़ा सकते हैं <a href=\"%url%\">अधिक जानें</a>"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3014
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:744
+msgid "The last known memory usage of the script was %memused%MB, the limit of your server is %memlimit%."
+msgstr "स्क्रिप्ट थी की अंतिम ज्ञात मेमोरी उपयोग %memused%MB,पने सर्वर की सीमा% memlimit% है."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3018
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:748
+msgid "The last known execution time of the script was %timeused% seconds, the limit of your server is %timelimit% seconds."
+msgstr "स्क्रिप्ट की अंतिम ज्ञात निष्पादन समय %timeused% seconds, अपने सर्वर की सीमा% timelimit% सेकंड है."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3022
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:752
+msgid "The script stopped around post number %lastpost% (+/- 100)"
+msgstr "स्क्रिप्ट के बाद आसपास की संख्या रोका %lastpost% (+/- 100)"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3025
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:755
+#, php-format
+msgid "If you changed something on your server or blog, you should <a href=\"%s\">rebuild the sitemap</a> manually."
+msgstr "यदि सर्वर या ब्लॉग पर कुछ बदल गया है ,आपका <a href=\"%s\"> <साइटमैप पुनर्निर्माण / a> मैन्युअल रूप से होना चाहिए."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3027
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:757
+#, php-format
+msgid "If you encounter any problems with the build process you can use the <a href=\"%d\">debug function</a> to get more information."
+msgstr "यदि आप किसी भी समस्याओं का सामना प्रक्रिया  बनाने के साथ सकते हैं  आप उपयोग कर सकते हैं <a href=\"%d\">समारोह डिबग </ a> के बारे में अधिक जानकारी पाने के लिए."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3040
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:764
+msgid "Basic Options"
+msgstr "मूलभूत विकल्प"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3044
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:766
+msgid "Sitemap files:"
+msgstr "साइटमैप फ़ाइलें हैं:"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3044
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3059
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3079
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3104
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3121
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:766
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:781
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:801
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:834
+msgid "Learn more"
+msgstr "अधिक जानें"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3049
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:771
+msgid "Write a normal XML file (your filename)"
+msgstr "एक सामान्य XML फ़ाइल लिखना  (आपकी फ़ाइल नाम)"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3055
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:777
+msgid "Write a gzipped file (your filename + .gz)"
+msgstr "लिखें gzipped फ़ाइल (फ़ाइल नाम आपके + gz.)"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3059
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:781
+msgid "Building mode:"
+msgstr "निर्माण मोड:"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3064
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:786
+msgid "Rebuild sitemap if you change the content of your blog"
+msgstr "पुनर्निर्माण साइटमैप यदि आप अपने ब्लॉग की सामग्री को बदलते है "
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3071
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:793
+msgid "Enable manual sitemap building via GET Request"
+msgstr "सक्षम मैनुअल के जरिए साइटमैप निर्माण अनुरोध प्राप्त"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:797
+msgid "This will allow you to refresh your sitemap if an external tool wrote into the WordPress database without using the WordPress API. Use the following URL to start the process: <a href=\"%1\">%1</a> Please check the result box above to see if sitemap was successfully built."
+msgstr "यह आप अपने साइटमैप ताज़ा करने की अनुमति देगा अगर एक बाह्य उपकरण WordPress API का उपयोग किए बिना WordPress डेटाबेस में लिखा था. निम्नलिखित यूआरएल का प्रयोग करें प्रक्रिया शुरू करने के  <a href=\"%1\">%1</a> लिए:  कृपया ऊपर परिणाम बॉक्स को चेक करें यदि साइटमैप सफलतापूर्वक बनाया गया था देखने"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3079
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:801
+msgid "Update notification:"
+msgstr "अद्यतन सूचना:"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3083
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:805
+msgid "Notify Google about updates of your Blog"
+msgstr "सूचित करे आपके ब्लॉग के अद्यतन के बारे में गूगल"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3084
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:806
+#, php-format
+msgid "No registration required, but you can join the <a href=\"%s\">Google Webmaster Tools</a> to check crawling statistics."
+msgstr "कोई पंजीकरण की आवश्यकता नहीं है, लेकिन आप शामिल हो सकते हैं <a href=\"%s\">गूगल वेबमास्टर उपकरण </a>आँकड़ों  को खंगालने की जाँच करें."
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:810
+msgid "Notify Bing (formerly MSN Live Search) about updates of your Blog"
+msgstr "बिंग सूचित करे आपके ब्लॉग के अद्यतन के बारे में  (पूर्व MSN लाइव खोज)"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:811
+#, php-format
+msgid "No registration required, but you can join the <a href=\"%s\">Bing Webmaster Tools</a> to check crawling statistics."
+msgstr "कोई पंजीकरण की आवश्यकता नहीं है, लेकिन आप शामिल हो सकते हैं <a href=\"%s\">गूगल वेबमास्टर उपकरण </a>आँकड़ों  को खंगालने की जाँच करें."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3088
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:815
+msgid "Notify Ask.com about updates of your Blog"
+msgstr "अश्क.कॉम को सूचित करे आपके ब्लॉग के अद्यतन के बारे में "
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3089
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:816
+msgid "No registration required."
+msgstr "कोई पंजीकरण की आवश्यकता नहीं है,"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3093
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:820
+msgid "Notify YAHOO about updates of your Blog"
+msgstr "याहू को सूचित करे आपके ब्लॉग के अद्यतन के बारे में "
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3154
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:821
+msgid "Your Application ID:"
+msgstr "आपका आवेदन आईडी:"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:822
+#, php-format
+msgid "Don't you have such a key? <a href=\"%s1\">Request one here</a>! %s2"
+msgstr "क्या नहीं है?<a href=\"%s1\">यहाँ एक अनुरोध करे</a>! %s2"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:827
+msgid "Add sitemap URL to the virtual robots.txt file."
+msgstr "जोड़ें आभासी robots.txt फ़ाइल के लिए URL साइटमैप."
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:831
+msgid "The virtual robots.txt generated by WordPress is used. A real robots.txt file must NOT exist in the blog directory!"
+msgstr "आभासी WordPress द्वारा उत्पन्न robots.txt प्रयोग किया जाता है. एक असली robots.txt फ़ाइल  ब्लॉग निर्देशिका में मौजूद नहीं होगा!"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3121
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:834
+msgid "Advanced options:"
+msgstr "उन्नत विकल्प हैं:"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3124
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:837
+msgid "Limit the number of posts in the sitemap:"
+msgstr "साइटमैप में पदों की संख्या सीमा:"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3124
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:837
+msgid "Newer posts will be included first"
+msgstr "नए पदों को पहले शामिल किया जाएगा"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3127
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:840
+msgid "Try to increase the memory limit to:"
+msgstr "स्मृति सीमा बढ़ाने की कोशिश करें:"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3127
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:840
+msgid "e.g. \"4M\", \"16M\""
+msgstr "e.g. \"4M\", \"16M\""
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3130
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:843
+msgid "Try to increase the execution time limit to:"
+msgstr "स्मृति सीमा बढ़ाने की कोशिश करें:"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3130
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:843
+msgid "in seconds, e.g. \"60\" or \"0\" for unlimited"
+msgstr "सेकंड में, e.g. \"60\" or \"0\" के लिए असीमित"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3133
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:847
+msgid "Include a XSLT stylesheet:"
+msgstr "एक XSLT stylesheet शामिल करें:"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3133
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:848
+msgid "Full or relative URL to your .xsl file"
+msgstr "पूर्ण या अपने रिश्तेदार. Xsl फ़ाइल के लिए URL"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:848
+msgid "Use default"
+msgstr " डिफ़ॉल्ट का प्रयोग करें"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3152
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:854
+msgid "Enable MySQL standard mode. Use this only if you're getting MySQL errors. (Needs much more memory!)"
+msgstr "सक्षम MySQL मानक मोड. यह सिर्फ अगर हो रही है MySQL त्रुटियों का प्रयोग करें. (आवश्यकताओं अधिक स्मृति!)"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:855
+msgid "Upgrade WordPress at least to 2.2 to enable the faster MySQL access"
+msgstr "अद्यतन में कम से कम 2.2 के लिए WordPress तेजी से सक्षम करने के लिए MySQL का उपयोग"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3166
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:862
+msgid "Build the sitemap in a background process (You don't have to wait when you save a post)"
+msgstr "निर्माण की प्रक्रिया में एक पृष्ठभूमि साइटमैप (आप के लिए इंतजार करना तुम एक के बाद जब बचाने के लिए नहीं है)"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:863
+msgid "Upgrade WordPress at least to 2.1 to enable background building"
+msgstr "अद्यतन में कम से कम 2.1 के लिए WordPress पृष्ठभूमि निर्माण सक्षम करने के लिए"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3144
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:870
+msgid "Additional pages"
+msgstr "अतिरिक्त पृष्ठों"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3149
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:873
+msgid "Here you can specify files or URLs which should be included in the sitemap, but do not belong to your Blog/WordPress.<br />For example, if your domain is www.foo.com and your blog is located on www.foo.com/blog you might want to include your homepage at www.foo.com"
+msgstr "यहाँ आप फ़ाइलों या यूआरएल जो साइटमैप में शामिल किया जाना चाहिए निर्दिष्ट कर सकते हैं,  लेकिन आपके ब्लॉग /WordPress का नहीं. <br /> उदाहरण के लिए,यदि आपके डोमेन www.foo.com और अपने ब्लॉग पर स्थित www.foo.com / ब्लॉग आप www.foo.com पर अपने मुखपृष्ठ शामिल करना चाहते हो "
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3151
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3462
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:875
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:1083
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:1097
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:1106
+msgid "Note"
+msgstr "नोट"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3152
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:876
+msgid "If your blog is in a subdirectory and you want to add pages which are NOT in the blog directory or beneath, you MUST place your sitemap file in the root directory (Look at the &quot;Location of your sitemap file&quot; section on this page)!"
+msgstr "यदि आपका ब्लॉग एक subdirectory में है और आप पृष्ठों जो ब्लॉग निर्देशिका या नीचे में नहीं जोड़ना चाहते हैं, तुम जरूरी रूट निर्देशिका में आपके साइटमैप फ़ाइल स्थान (आपके साइटमैप फ़ाइल \"स्थान पर देखो इस पृष्ठ पर\" अनुभाग)!"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3154
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3300
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:878
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:917
+msgid "URL to the page"
+msgstr "पृष्ठ के यूआरएल"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3155
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:879
+msgid "Enter the URL to the page. Examples: http://www.foo.com/index.html or www.foo.com/home "
+msgstr "पृष्ठ के URL दर्ज करें. उदाहरण: http://www.foo.com/index.html or www.foo.com/home "
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3157
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3301
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:881
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:918
+msgid "Priority"
+msgstr "प्राथमिकता"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3158
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:882
+msgid "Choose the priority of the page relative to the other pages. For example, your homepage might have a higher priority than your imprint."
+msgstr "ष्ठ की प्राथमिकता के अन्य पन्नों के सापेक्ष चुनें. उदाहरण के लिए, अपने होमपेज पर अपनी छाप से एक उच्च प्राथमिकता होगी."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3160
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3303
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:884
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:920
+msgid "Last Changed"
+msgstr "पिछले परिवर्तित"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3161
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:885
+msgid "Enter the date of the last change as YYYY-MM-DD (2005-12-31 for example) (optional)."
+msgstr "पिछले परिवर्तन के रूप में की तारीख दर्ज करें YYYY-MM-DD (उदाहरण के लिए 2005/12/31)(वैकल्पिक)."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3302
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:919
+msgid "Change Frequency"
+msgstr "बदलें आवृत्ति"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3304
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:921
+msgid "#"
+msgstr "#"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3309
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:926
+msgid "No pages defined."
+msgstr "कोई परिभाषित पृष्ठों नहीं."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3314
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:931
+msgid "Add new page"
+msgstr "नया पृष्ठ जोड़ें"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3325
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:936
+msgid "Post Priority"
+msgstr "पोस्ट प्राथमिकता"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3329
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:938
+msgid "Please select how the priority of each post should be calculated:"
+msgstr "कृपया चयन करे कैसे प्रत्येक पोस्ट की प्राथमिकता की गणना की जानी चाहिए:"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3331
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:940
+msgid "Do not use automatic priority calculation"
+msgstr "स्वचालित प्राथमिकता गणना का प्रयोग न करें"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3331
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:940
+msgid "All posts will have the same priority which is defined in &quot;Priorities&quot;"
+msgstr "सभी पदों को ही प्राथमिकता होगी जो परिभाषित है में  &quot; प्राथमिकताओं &quot;"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3348
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:951
+msgid "Location of your sitemap file"
+msgstr "आपके साइटमैप के स्थान फाइल"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3353
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:954
+msgid "Automatic detection"
+msgstr "स्वचालित पहचान"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3357
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:958
+msgid "Filename of the sitemap file"
+msgstr "साइटमैप फ़ाइल का फ़ाइल नाम"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3360
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:961
+msgid "Detected Path"
+msgstr "पता पथ"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3360
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:961
+msgid "Detected URL"
+msgstr "पता पथ"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3365
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:966
+msgid "Custom location"
+msgstr "पसंदीदा स्थान"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3369
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:970
+msgid "Absolute or relative path to the sitemap file, including name."
+msgstr "निरपेक्ष या रिश्तेदार साइटमैप फ़ाइल के पथ, नाम भी शामिल है."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3371
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3380
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:972
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:981
+msgid "Example"
+msgstr "उदाहरण"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3378
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:979
+msgid "Complete URL to the sitemap file, including name."
+msgstr "पूरा साइटमैप फ़ाइल यूआरएल, नाम भी शामिल है."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3397
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:992
+msgid "Sitemap Content"
+msgstr "साइटमैप सामग्री"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3405
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:998
+msgid "Include homepage"
+msgstr "शामिल मुखपृष्ठ"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3411
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:1004
+msgid "Include posts"
+msgstr "शामिल पदों"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:1010
+msgid "Include following pages of multi-page posts (Increases build time and memory usage!)"
+msgstr "शामिल बहु के अगले पृष्ठ का पद (वृद्धि समय और स्मृति के उपयोग का निर्माण!)"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3417
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:1016
+msgid "Include static pages"
+msgstr "शामिल स्थैतिक पृष्ठों"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3423
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:1022
+msgid "Include categories"
+msgstr "शामिल श्रेणियां"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3429
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:1028
+msgid "Include archives"
+msgstr "शामिल अभिलेखागार"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3436
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:1035
+msgid "Include tag pages"
+msgstr "शामिल टैग पृष्ठ"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:1051
+#, php-format
+msgid "Include taxonomy pages for %s"
+msgstr "शामिल  पृष्ठों के वर्गीकरण के लिए %s"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3443
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:1061
+msgid "Include author pages"
+msgstr "शामिल लेखक पृष्ठ"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:1065
+msgid "Further options"
+msgstr "इसके अलावा विकल्प"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:1070
+msgid "Include the last modification time."
+msgstr "अंतिम संशोधन का समय शामिल करें."
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:1072
+msgid "This is highly recommended and helps the search engines to know when your content has changed. This option affects <i>all</i> sitemap entries."
+msgstr "यह अत्यधिक की सिफारिश की है और खोज इंजन में मदद करता है पता है जब आपके सामग्री बदल गया है. इस विकल्प को प्रभावित करता है <i> सभी </ i> साइटमैप दर्ज की हैं."
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:1079
+msgid "Excluded items"
+msgstr "अपवर्जित आइटम"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:1081
+msgid "Excluded categories"
+msgstr "अपवर्जित श्रेणियां"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:1083
+msgid "Using this feature will increase build time and memory usage!"
+msgstr "इस सुविधा का उपयोग समय और मेमोरी उपयोग के निर्माण में वृद्धि होगी!"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:1090
+#, php-format
+msgid "This feature requires at least WordPress 2.5.1, you are using %s"
+msgstr "इस सुविधा की आवश्यकता कम से कम 2.5.1 WordPress,तुम प्रयोग कर रहे हैं %s"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:1093
+msgid "Exclude posts"
+msgstr "बाहर निकालने के पदों"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3206
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:1095
+msgid "Exclude the following posts or pages:"
+msgstr "निम्नलिखित पदों या पेज बाहर निकालें:"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3206
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:1095
+msgid "List of IDs, separated by comma"
+msgstr "आईडी की सूची, अल्पविराम के द्वारा अलग"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:1097
+msgid "Child posts won't be excluded automatically!"
+msgstr "बच्चे के पदों को स्वचालित रूप से बाहर नहीं जाएगा!"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3457
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:1103
+msgid "Change frequencies"
+msgstr "बदलें आवृत्तियों"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3463
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:1107
+msgid "Please note that the value of this tag is considered a hint and not a command. Even though search engine crawlers consider this information when making decisions, they may crawl pages marked \"hourly\" less frequently than that, and they may crawl pages marked \"yearly\" more frequently than that. It is also likely that crawlers will periodically crawl pages marked \"never\" so that they can handle unexpected changes to those pages."
+msgstr "कृपया ध्यान दें कि इस टैग का मूल्य एक और संकेत एक आदेश माना जाता है.हालांकि खोज इंजन crawlers जब इस निर्णय की जानकारी विचार,वे चिह्नित पृष्ठों क्रॉल कर सकते हैं \"प्रति घंटा \" है कि कम से अक्सर, और वे पृष्ठ क्रॉल के रूप में चिह्नित कर सकते हैं \"वार्षिक \" अधिक से अधिक है कि अक्सर.यह भी संभावना है कि crawlers समय समय पर पृष्ठों क्रॉल जाएगा चिह्नित \"कभी \" ताकि वे उन पृष्ठों को अप्रत्याशित परिवर्तन संभाल सकता हूँ."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3469
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3535
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:1113
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:1170
+msgid "Homepage"
+msgstr "मुखपृष्ठ"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3475
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:1119
+msgid "Posts"
+msgstr "डाक"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3481
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3553
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:1125
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:1188
+msgid "Static pages"
+msgstr "स्थैतिक पृष्ठों"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3487
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3559
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:1131
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:1194
+msgid "Categories"
+msgstr "श्रेणियाँ"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3493
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:1137
+msgid "The current archive of this month (Should be the same like your homepage)"
+msgstr "इस महीने की मौजूदा संग्रह (करना चाहिए अपने होमपेज की तरह ही)"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3499
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:1143
+msgid "Older archives (Changes only if you edit an old post)"
+msgstr "पुराने अभिलेखागार (परिवर्तन केवल अगर तुम एक पुरानी पोस्ट संपादित करें)"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3506
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3572
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:1150
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:1207
+msgid "Tag pages"
+msgstr "टैग पृष्ठ"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3513
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3579
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:1157
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:1214
+msgid "Author pages"
+msgstr "लेखक पृष्ठ"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3527
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:1165
+msgid "Priorities"
+msgstr "प्राथमिकताएं"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3541
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:1176
+msgid "Posts (If auto calculation is disabled)"
+msgstr "पदों (यदि स्वत: गणना अक्षम है)"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3547
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:1182
+msgid "Minimum post priority (Even if auto calculation is enabled)"
+msgstr "न्यूनतम पोस्ट प्राथमिकता (अगर ऑटो गणना सक्षम है)"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3565
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:1200
+msgid "Archives"
+msgstr "अभिलेखागार"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3590
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:1225
+msgid "Update options"
+msgstr "अद्यतन विकल्प"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3591
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap-ui.php:1226
+msgid "Reset options"
+msgstr "रीसेट विकल्प"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2415
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap.php:95
+msgid "XML-Sitemap Generator"
+msgstr "XML-साइटमैप जनरेटर"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2415
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap.php:95
+msgid "XML-Sitemap"
+msgstr "XML - साइटमैप"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap.php:109
+msgid "Settings"
+msgstr "सेटिंग्स"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap.php:110
+msgid "FAQ"
+msgstr "फैक्स "
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap.php:111
+msgid "Support"
+msgstr "सहायता"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap.php:112
+msgid "Donate"
+msgstr "दान"
+
+#: H:\Webdev\htdocs\wp_plugins\sitemap_beta/sitemap.php:182
+msgid "Sitemap FAQ"
+msgstr "साइटमैप फैक्स"
+

@@ -1,0 +1,22 @@
+/**
+ * Metabox Tabs
+ */
+
+ul.wpseo-metabox-tabs li.active {
+	background-color: #eff8ff;
+}
+
+ul.wpseo-metabox-tabs li.active,
+div.wpseo-tab-content {
+	border-color: #d1e5ee;
+}
+
+.wpseo-metabox-tabs .active a {
+	color: #333;
+}
+
+#wpseotab .ui-widget-content .ui-state-hover {
+	border: 1px solid #d1e5ee;
+	color: #333;
+	background: #eff8ff;
+}

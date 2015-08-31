@@ -1,0 +1,362 @@
+# Copyright (C) 2012
+# This file is distributed under the same license as the  package.
+# Translators:
+# Jan-Erik Finlander <janerik.finlander@gmail.com>, 2013.
+msgid ""
+msgstr ""
+"Project-Id-Version: CMS Tree Page View\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/cms-tree-page-view\n"
+"POT-Creation-Date: 2012-12-26 20:37:31+00:00\n"
+"PO-Revision-Date: 2013-03-03 07:23+0000\n"
+"Last-Translator: Jan-Erik Finlander <janerik.finlander@gmail.com>\n"
+"Language-Team: Finnish (http://www.transifex.com/projects/p/cms-tree-page-view/language/fi/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: fi\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: functions.php:272
+msgid "Enter title of new page"
+msgstr "Kirjoita uuden sivun otsikko "
+
+#: functions.php:273
+msgid "child pages"
+msgstr "Alasivut"
+
+#: functions.php:274 functions.php:887
+msgid "Edit page"
+msgstr "Muokkaa sivu"
+
+#: functions.php:275 functions.php:888
+msgid "View page"
+msgstr "Näytä sivu"
+
+#: functions.php:276 functions.php:887
+msgid "Edit"
+msgstr "Muokkaa"
+
+#: functions.php:277 functions.php:888
+msgid "View"
+msgstr "Näytä"
+
+#: functions.php:278
+msgid "Add page"
+msgstr "Lisää sivu"
+
+#: functions.php:279 functions.php:896
+msgid "Add new page after"
+msgstr "Lisää uusi sivu tämän jälkeen"
+
+#: functions.php:280
+msgid "after"
+msgstr "jälkeen"
+
+#: functions.php:281
+msgid "inside"
+msgstr "sisällä"
+
+#: functions.php:282
+msgid "Sorry, can't create a sub page to a page with status \"draft\"."
+msgstr "Valitettavasti ei voi luoda alasivun, sivu status on \"luonnos\"."
+
+#: functions.php:283
+msgid "Sorry, can't create a sub page to a page with status \"trash\"."
+msgstr "Valitettavasti ei voi luoda alasivun, sivun status on \"roskis\". "
+
+#: functions.php:284
+msgid "Sorry, can't create a page after a page with status \"trash\"."
+msgstr "Valitettavasti ei voi luoda sivun, \"roskis\" statuksen sivun  jälkeen. "
+
+#: functions.php:285 functions.php:901
+msgid "Add new page inside"
+msgstr "Lisää uusi sisäinen sivu "
+
+#: functions.php:286 functions.php:292
+msgid "draft"
+msgstr "luonnos"
+
+#: functions.php:287 functions.php:293
+msgid "future"
+msgstr "tuleva"
+
+#: functions.php:288 functions.php:294
+msgid "protected"
+msgstr "suojattu"
+
+#: functions.php:289 functions.php:295 functions.php:1235
+msgid "pending"
+msgstr "vireillä"
+
+#: functions.php:290 functions.php:296
+msgid "private"
+msgstr "privatti"
+
+#: functions.php:291 functions.php:297
+msgid "trash"
+msgstr "roskis"
+
+#: functions.php:298
+msgid "Password protected page"
+msgstr "salasanalla suojattu sivu"
+
+#: functions.php:299
+msgid "Adding page..."
+msgstr "Sivua lisätään... "
+
+#: functions.php:300
+msgid "Adding ..."
+msgstr "Lisätään..."
+
+#: functions.php:393
+msgid "Tree View"
+msgstr "Hakemisto"
+
+#: functions.php:402
+msgid "List View"
+msgstr "Lista"
+
+#: functions.php:438
+msgid "Settings"
+msgstr "Asetukset"
+
+#: functions.php:474
+msgctxt "name of dashboard"
+msgid "%1$s Tree"
+msgstr "%1$s Hakemisto"
+
+#: functions.php:502
+msgctxt "name in menu"
+msgid "Tree View"
+msgstr "Hakemisto"
+
+#: functions.php:503
+msgctxt "title on page with tree"
+msgid "%1$s Tree View"
+msgstr "%1$s Hakemisto"
+
+#: functions.php:523
+msgid "settings"
+msgstr "asetukset"
+
+#: functions.php:529
+msgid "Select where to show a tree for pages and custom post types"
+msgstr "Valitse, missä näytetään sivuhakemisto ja omat artikkelit"
+
+#: functions.php:573
+msgid "On dashboard"
+msgstr "Työpöydällä"
+
+#: functions.php:577
+msgid "In menu"
+msgstr "Valikossa"
+
+#: functions.php:581
+msgid "On post overview screen"
+msgstr "Yleiskatsaus näytöllä"
+
+#: functions.php:599
+msgid "Save Changes"
+msgstr "Tallenna muutokset"
+
+#: functions.php:818
+msgid "No posts found."
+msgstr "Artikkelia ei löytynyt."
+
+#: functions.php:830
+msgid "All"
+msgstr "Kaikki"
+
+#: functions.php:835
+msgid "Public"
+msgstr "Julkinen"
+
+#: functions.php:840
+msgid "Trash"
+msgstr "Roskis"
+
+#: functions.php:848
+msgid "Expand"
+msgstr "Laajenna"
+
+#: functions.php:849
+msgid "Collapse"
+msgstr "Supista"
+
+#: functions.php:857
+msgid "Clear search"
+msgstr "Tyhjennä haku"
+
+#: functions.php:858
+msgid "Search"
+msgstr "Hae"
+
+#: functions.php:859
+msgid "Searching..."
+msgstr "Heataan..."
+
+#: functions.php:860
+msgid "Nothing found."
+msgstr "Ei löytynyt mitään."
+
+#: functions.php:867
+msgid "Loading..."
+msgstr "Ladataan..."
+
+#: functions.php:872
+msgid "Search: no pages found"
+msgstr "Haku: sivuja ei löytynyt"
+
+#: functions.php:875
+msgid "Loading tree"
+msgstr "Ladataan hakemisto"
+
+#: functions.php:896 functions.php:932
+msgid "After"
+msgstr "Jälkeen"
+
+#: functions.php:901 functions.php:933
+msgid "Inside"
+msgstr "Sisällä"
+
+#: functions.php:905
+msgid "Can not create page inside of a page with draft status"
+msgstr "Valitettavasti ei voi luoda alasivun, sivu on luonnos tilassa"
+
+#: functions.php:921
+msgid "Add page(s)"
+msgstr "Lisää sivu(ja)"
+
+#: functions.php:926
+msgid "Enter title here"
+msgstr "Kirjoita otsikko tähän"
+
+#: functions.php:931
+msgid "Position"
+msgstr "Sijainti"
+
+#: functions.php:938
+msgid "Status"
+msgstr "Tila"
+
+#: functions.php:939
+msgid "Draft"
+msgstr "Luonnos"
+
+#: functions.php:940
+msgid "Published"
+msgstr "Julkaistu"
+
+#: functions.php:944
+msgid "Add"
+msgstr "Lisää"
+
+#: functions.php:945
+msgid "or"
+msgstr "tai"
+
+#: functions.php:946
+msgid "cancel"
+msgstr "peruuttaa"
+
+#: functions.php:956
+msgid "Last modified"
+msgstr "Viimeksi muokattu"
+
+#: functions.php:958
+msgid "by"
+msgstr "- "
+
+#: functions.php:961
+msgid "Page ID"
+msgstr "Sivun ID"
+
+#: functions.php:997
+msgctxt "headline of page with tree"
+msgid "%1$s Tree View"
+msgstr "%1$s Hakemisto"
+
+#: functions.php:1200
+msgid "Unknown user"
+msgstr "Tuntematon käyttäjä"
+
+#: functions.php:1205
+msgid "<Untitled page>"
+msgstr "<Sivun otsikko>"
+
+#: functions.php:1225
+msgid "Comments"
+msgstr "Kommentit"
+
+#: functions.php:1232
+msgid "%s pending"
+msgstr "%s vireillä"
+
+#: functions.php:1242
+msgctxt "comment count"
+msgid "0"
+msgstr "0"
+
+#: functions.php:1242
+msgctxt "comment count"
+msgid "1"
+msgstr "1"
+
+#: functions.php:1242
+msgctxt "comment count"
+msgid "%"
+msgstr "%"
+
+#: functions.php:1428
+msgid "New page"
+msgstr "Uusi sivu"
+
+#: functions.php:1618
+msgid "Thanks for using my plugin"
+msgstr "Kiitos kun käytät minun plugari"
+
+#: functions.php:1620
+msgid ""
+"Hi there! I just wanna says thanks for using my plugin. I hope you like it "
+"as much as I do."
+msgstr "Hei siellä! Haluan vain sanoo kiitos kun käytät minun plugarin. Toivottavasti pidät siitä yhtä paljon kuin minä."
+
+#: functions.php:1621
+msgid "/Pär Thernström - plugin creator"
+msgstr "/ Plugarin luoja"
+
+#: functions.php:1623
+msgid "I like this plugin<br>– how can I thank you?"
+msgstr "Pidän tätä plugaria <br> - miten voin kiittää sinua?"
+
+#: functions.php:1624
+msgid "There are serveral ways for you to show your appreciation:"
+msgstr "On olemassa useita tapoja, joilla voit näyttää arvostavasi:"
+
+#: functions.php:1626
+msgid ""
+"<a href=\"%1$s\">Give it a nice review</a> over at the WordPress Plugin "
+"Directory"
+msgstr "<a href=\"%1$s\"> Anna joku kiva arvostelu </ a> WordPress Plugin Directory kautta"
+
+#: functions.php:1627
+msgid "<a href=\"%1$s\">Give a donation</a> – any amount will make me happy"
+msgstr "<a href=\"%1$s\"> Anna lahjoitus </ a> - minkä määrä tahansa teksi minut onnelliseksi"
+
+#: functions.php:1628
+msgid ""
+"<a href=\"%1$s\">Post a nice tweet</a> or make a nice blog post about the "
+"plugin"
+msgstr "<a href=\"%1$s\"> Kirjoita kiva Tweetti </ a> tai kerro tästä hienosta plugarista sun blogissa"
+
+#: functions.php:1631
+msgid "Support"
+msgstr "Tuki"
+
+#: functions.php:1632
+msgid "Plese see the <a href=\"%1$s\">support forum</a> for help."
+msgstr "Katso <a href=\"%1$s\"> tukifoorumi </ a> jos tarvitset apua."
+
+#: functions.php:1636
+msgid "Hide until next upgrade"
+msgstr "Piilota seuraavan päivitykseen asti"

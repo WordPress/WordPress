@@ -1,0 +1,594 @@
+# [Countryname] Language File for sitemap (sitemap-[localname].po)
+# Copyright (C) 2005 [name] : [URL]
+# This file is distributed under the same license as the WordPress package.
+# [name] <[mail-address]>, 2005.
+# $Id: sitemap.pot 2502 2005-07-03 20:50:38Z arnee $
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: sitemap\n"
+"Report-Msgid-Bugs-To: <[mail-address]>\n"
+"POT-Creation-Date: 2005-06-15 00:00+0000\n"
+"PO-Revision-Date: 2007-11-25 01:16+0100\n"
+"Last-Translator: Arne Brachhold <http://www.arnebrachhold.de>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language-Team: \n"
+
+msgid "Comment Count"
+msgstr "Antal kommentar"
+
+msgid "Uses the number of comments of the post to calculate the priority"
+msgstr "Brug antallet af kommentarer til indlægget til at udregne prioriteten"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:918
+msgid "Comment Average"
+msgstr "Kommentar gennemsnit"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:930
+msgid "Uses the average comment count to calculate the priority"
+msgstr "Bruger det gennemsnitlige antal kommentarer til at udregne prioriteten"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:993
+msgid "Popularity Contest"
+msgstr "Popularitets konkurrence"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:1005
+msgid "Uses the activated <a href=\"%1\">Popularity Contest Plugin</a> from <a href=\"%2\">Alex King</a>. See <a href=\"%3\">Settings</a> and <a href=\"%4\">Most Popular Posts</a>"
+msgstr "Bruger det aktiveret <a href=\"%1\">Popularity Contest Plugin</a> fra <a href=\"%2\">Alex King</a>. Se <a href=\"%3\">indstillinger</a> og <a href=\"%4\">Mest populære indlæg</a>"
+
+msgid "XML-Sitemap Generator"
+msgstr "XML-Sitemap Generator"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2415
+msgid "XML-Sitemap"
+msgstr "XML-Sitemap"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2600
+msgid "Thank you very much for your donation. You help me to continue support and development of this plugin and other free software!"
+msgstr "Mange tak for din donation. Du hjælper mig med at fortsætte support og udvikling af dette plugin og andet gratis software!"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2600
+msgid "Hide this notice"
+msgstr "Skjul denne meddelelse"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2606
+#, php-format
+msgid "Thanks for using this plugin! You've installed this plugin over a month ago. If it works and your are satisfied with the results, isn't it worth at least one dollar? <a href=\"%s\">Donations</a> help me to continue support and development of this <i>free</i> software! <a href=\"%s\">Sure, no problem!</a>"
+msgstr "Tak fordi du bruger dette plugin! Du installerede dette plugin over en månede siden. Hvis det virker og du er tilfreds, er det så ikke bare en enkel dollar værd? <a href=\"%s\">Donationer</a> hjælper mig med at fortsætte support og udvikling af dette <i>gratis</i> stykke software! <a href=\"%s\">Selvfølgelig, ingen problem!</a>"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2606
+msgid "No thanks, please don't bug me anymore!"
+msgstr "Nej tak, lad venligst være med at forstyrre mig igen!"
+
+msgid "XML Sitemap Generator for WordPress"
+msgstr "XML-Sitemap Generator til Wordpress"
+
+msgid "Configuration updated"
+msgstr "Indstillingerne blev opdateret"
+
+msgid "Error while saving options"
+msgstr "Der forekom en fejl da indstilingerne skulle gemmes"
+
+msgid "Pages saved"
+msgstr "Sider gemt"
+
+msgid "Error while saving pages"
+msgstr "Der opstod en fejl da siderne skulle gemmes"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2748
+#, php-format
+msgid "<a href=\"%s\">Robots.txt</a> file saved"
+msgstr "<a href=\"%s\">Robots.txt</a> er gemt"
+
+msgid "Error while saving Robots.txt file"
+msgstr "Der forekom en fejl da Robots.txt filen skulle gemmes"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2758
+msgid "The default configuration was restored."
+msgstr "Standard indstillingerne er gendannet."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2851
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2868
+msgid "open"
+msgstr "Åben"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2852
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2869
+msgid "close"
+msgstr "Luk"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2853
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2870
+msgid "click-down and drag to move this box"
+msgstr "tryk og træk for at flytte denne boks"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2854
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2871
+msgid "click to %toggle% this box"
+msgstr "klik for at %toggle% denne boks"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2855
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2872
+msgid "use the arrow keys to move this box"
+msgstr "brug piltasterne for at flytte denne boks"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2856
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2873
+msgid ", or press the enter key to %toggle% it"
+msgstr ", eller tryk på enter tasten for at %toggle% den"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2884
+msgid "About this Plugin:"
+msgstr "Om dette plugin:"
+
+msgid "Plugin Homepage"
+msgstr "Plugin hjemmeside"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2887
+msgid "Notify List"
+msgstr "Informer liste"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2888
+msgid "Support Forum"
+msgstr "Support forum"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2889
+msgid "Donate with PayPal"
+msgstr "Donere via PayPal"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2890
+msgid "My Amazon Wish List"
+msgstr "Min Amazon ønskeliste"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2891
+msgid "translator_name"
+msgstr "translator_name"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2891
+msgid "translator_url"
+msgstr "translator_url"
+
+msgid "Sitemap Resources:"
+msgstr "Sitemap ressourcer:"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2897
+msgid "Webmaster Tools"
+msgstr "Webmaster Tools"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2898
+msgid "Webmaster Blog"
+msgstr "Webmaster Blog"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2900
+msgid "Site Explorer"
+msgstr "Site Explorer"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2901
+msgid "Search Blog"
+msgstr "Search Blog"
+
+msgid "Sitemaps Protocol"
+msgstr "Sitemap protocol"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2904
+msgid "Official Sitemaps FAQ"
+msgstr "Officiel Sitemap FAQ"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2905
+msgid "My Sitemaps FAQ"
+msgstr "Dette Sitemaps FAQ"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2910
+msgid "Recent Donations:"
+msgstr "Seneste donationer:"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2914
+msgid "List of the donors"
+msgstr "Liste over donationsgivere"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2916
+msgid "Hide this list"
+msgstr "Skjul denne liste"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2919
+msgid "Thanks for your support!"
+msgstr "Tak for din support!"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2931
+msgid "Status"
+msgstr "Status"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2941
+#, php-format
+msgid "The sitemap wasn't built yet. <a href=\"%s\">Click here</a> to build it the first time."
+msgstr "Dette Sitemap er ikke bygget endnu. <a href=\"%s\">Klik her</a> for at bygge det for første gang."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2947
+msgid "Your <a href=\"%url%\">sitemap</a> was last built on <b>%date%</b>."
+msgstr "Dit <a href=\"%url%\">sitemap</a> blev sidst bygget den <b>%date%</b>."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2949
+msgid "There was a problem writing your sitemap file. Make sure the file exists and is writable. <a href=\"%url%\">Learn more</a"
+msgstr "Der optod et problem under skrivning af din sitemap fil. Tjek om filen eksisterer og om den er skrivbar. <a href=\"%url%\">Lær mere</a>"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2956
+msgid "Your sitemap (<a href=\"%url%\">zipped</a>) was last built on <b>%date%</b>."
+msgstr "Dit sitemap (<a href=\"%url%\">gzipped</a>) blev bygget sidst den <b>%date%</b>."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2958
+msgid "There was a problem writing your zipped sitemap file. Make sure the file exists and is writable. <a href=\"%url%\">Learn more</a"
+msgstr "Der optod et problem under skrivningen af din pakkede sitemap fil. Tjek om filen eksisterer og er skrivbar.  <a href=\"%url%\">Lær mere</a>"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2964
+msgid "Google was <b>successfully notified</b> about changes."
+msgstr "Google blev <b>informeret korrekt</b> omkring ændringerne."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2967
+msgid "It took %time% seconds to notify Google, maybe you want to disable this feature to reduce the building time."
+msgstr "Det tog %time% sekunder at informerer google, måske skulle du deaktivere denn funktion for at reducerer bygge tiden."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2970
+#, php-format
+msgid "There was a problem while notifying Google. <a href=\"%s\">View result</a>"
+msgstr "Der opstod et problem under kommunikationen med Google. <a href=\"%s\">Se resultat</a>"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2976
+msgid "YAHOO was <b>successfully notified</b> about changes."
+msgstr "Yahoo blev <b>informeret korrekt</b> omkring ændringerne."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2979
+msgid "It took %time% seconds to notify YAHOO, maybe you want to disable this feature to reduce the building time."
+msgstr "Det tog %time% sekunder at informerer Yahoo, måske skulle du deaktivere denn funktion for at reducerer bygge tiden."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2982
+#, php-format
+msgid "There was a problem while notifying YAHOO. <a href=\"%s\">View result</a>"
+msgstr "Der opstod et problem under kommunikationen med YAHOO. <a href=\"%s\">Se resultat</a>"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2988
+msgid "Ask.com was <b>successfully notified</b> about changes."
+msgstr "Ask.com blev <b>informeret korrekt</b> omkring ændringerne."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2991
+msgid "It took %time% seconds to notify Ask.com, maybe you want to disable this feature to reduce the building time."
+msgstr "Det tog %time% sekunder at informerer Ask.com, måske skulle du deaktivere denn funktion for at reducerer bygge tiden."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2994
+#, php-format
+msgid "There was a problem while notifying Ask.com. <a href=\"%s\">View result</a>"
+msgstr "Der opstod et problem under kommunikationen med Ask.com. <a href=\"%s\">Se resultat</a>"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3002
+msgid "The building process took about <b>%time% seconds</b> to complete and used %memory% MB of memory."
+msgstr "Bygge processen tog omkring <b>%time% sekunder</b> for at fuldføre og bruge %memory% MB hukommelse."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3004
+msgid "The building process took about <b>%time% seconds</b> to complete."
+msgstr "Bygge processen tog omkring <b>%time% sekunder</b> for at fuldføre."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3008
+msgid "The content of your sitemap <strong>didn't change</strong> since the last time so the files were not written and no search engine was pinged."
+msgstr "Indholdet af dit sitemap har <strong>ikke</strong> ændret sig siden sidst. Derfor blev der ikke ikke skrevet til nogle filer og ikke kommunikeret med nogle søgemaskiner."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3012
+msgid "The last run didn't finish! Maybe you can raise the memory or time limit for PHP scripts. <a href=\"%url%\">Learn more</a>"
+msgstr "Sidste forsøg blev ikke færdigt! Måske skal du hæve hukommelses begrænsningen for PHP scripts. <a href=\"%url%\">Lær mere</a>"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3014
+msgid "The last known memory usage of the script was %memused%MB, the limit of your server is %memlimit%."
+msgstr "Det sidst kendte forbrug af hukommelse af dette script var %memused%MB, begrænsningen på din server er %memlimit%."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3018
+msgid "The last known execution time of the script was %timeused% seconds, the limit of your server is %timelimit% seconds."
+msgstr "Den sidste kendte eksekverings tid for dette script var %timeused% sekunder, begrænsningen på din server er %timelimit% sekunder."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3022
+msgid "The script stopped around post number %lastpost% (+/- 100)"
+msgstr "Scriptet stoppede omkring indlæg nummer %lastpost% (+/-100)"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3025
+#, php-format
+msgid "If you changed something on your server or blog, you should <a href=\"%s\">rebuild the sitemap</a> manually."
+msgstr "Hvis du ændre noget på din server eller blog, burde du <a href=\"%s\">opdatere dit sitemap</a> manuelt."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3027
+#, php-format
+msgid "If you encounter any problems with the build process you can use the <a href=\"%d\">debug function</a> to get more information."
+msgstr "Hvis du støder på problemer under bygge processen, kan du bruge <a href=\"%d\">debug funktionen</a> for at få flere informationer."
+
+msgid "Basic Options"
+msgstr "Basis indstillinger"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3044
+msgid "Sitemap files:"
+msgstr "Sitemap filer:"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3044
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3059
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3079
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3104
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3121
+msgid "Learn more"
+msgstr "Lær mere"
+
+msgid "Write a normal XML file (your filename)"
+msgstr "Lav en normal XML fil (Dit filnavn)"
+
+msgid "Write a gzipped file (your filename + .gz)"
+msgstr "Lav en gzipped fil (Dit filnavn + .gz"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3059
+msgid "Building mode:"
+msgstr "Bygge metode:"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3064
+msgid "Rebuild sitemap if you change the content of your blog"
+msgstr "Opdater dit sitemap hvis der sker ændringer i indholdet på din blog"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3071
+msgid "Enable manual sitemap building via GET Request"
+msgstr "Aktiverer manuel bygning af sitemap via GET Request"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3075
+msgid "This will allow you to refresh your sitemap if an external tool wrote into the WordPress database without using the WordPress API. Use the following URL to start the process: <a href=\"%1\">%1</a> Please check the logfile above to see if sitemap was successfully built."
+msgstr "Dette vil tillade dig at opdatere dit sitemap hvis et eksternt værktøj skrev til Wordpress databasen uden at bruge Wordpress API'et. Brug følgende URL til at starte processen: <a href=\"%1\">%1</a> Tjek venligst logfilen ovenover, for at se om dit sitemap blev bygget korrekt."
+
+msgid "Update notification:"
+msgstr "Opdaterings meddelelser:"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3083
+msgid "Notify Google about updates of your Blog"
+msgstr "Informer Google om opdateringer på din blog"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3084
+#, php-format
+msgid "No registration required, but you can join the <a href=\"%s\">Google Webmaster Tools</a> to check crawling statistics."
+msgstr "Registrering er ikke påkrævet, men du kan tilmelde dig <a href=\"%s\">Google Webmaster Tools</a> for at tjekke \"crawling\" statistikker."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3088
+msgid "Notify Ask.com about updates of your Blog"
+msgstr "Informer Ask.com om opdateringer på din blog"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3089
+msgid "No registration required."
+msgstr "Registrering ikke påkrævet."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3093
+msgid "Notify YAHOO about updates of your Blog"
+msgstr "Informer Yahoo om opdateringer på din blog"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3094
+#, php-format
+msgid "No registration required, but you can sign up for the <a href=\"%s\">YAHOO Site Explorer</a> to view the crawling progress."
+msgstr "Registrering er ikke påkrævet, men du kan tilmelde dig <a href=\"%s\">YAHOO Site Explorer</a> for at tjekke \"crawling\" statistikker."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3099
+#, php-format
+msgid "Modify or create %s file in blog root which contains the sitemap location."
+msgstr "Ændre eller opret %s i blog \"root\", som indeholder sitemap placeringen."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3102
+msgid "File permissions: "
+msgstr "Fil rettigheder: "
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3107
+msgid "OK, robots.txt is writable."
+msgstr "OK, robots.txt er skrivbar."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3109
+msgid "Error, robots.txt is not writable."
+msgstr "Fejl, robots.txt er ikke skrivbar."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3113
+msgid "OK, robots.txt doesn't exist but the directory is writable."
+msgstr "OK, robots.txt eksisterer ikke, men mappen er skrivbar."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3115
+msgid "Error, robots.txt doesn't exist and the directory is not writable"
+msgstr "Fejl, robots.txt eksisterer ikke og mappen er ikke skrivbar."
+
+msgid "Advanced options:"
+msgstr "Avanceret indstillinger"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3124
+msgid "Limit the number of posts in the sitemap:"
+msgstr "Begræns antallet af indlæg i dit sitemap:"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3124
+msgid "Newer posts will be included first"
+msgstr "Nyeste indlæg vil blive inkluderet først"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3127
+msgid "Try to increase the memory limit to:"
+msgstr "Prøv at forøg hukommelses begrænsningen til:"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3127
+msgid "e.g. \"4M\", \"16M\""
+msgstr "f.eks. \"4M\", \"16M\""
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3130
+msgid "Try to increase the execution time limit to:"
+msgstr "Prøv at forøg eksekverings tids begrænsningen til:"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3130
+msgid "in seconds, e.g. \"60\" or \"0\" for unlimited"
+msgstr "i sekunder, f.eks. \"60\" eller \"0\" for ubegrænset"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3133
+msgid "Include a XSLT stylesheet:"
+msgstr "Inkluderer et XSLT stylesheet:"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3133
+msgid "Use Default"
+msgstr "Brug standard"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3133
+msgid "Full or relative URL to your .xsl file"
+msgstr "Fuld eller relativ URL til din .xsl fil"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3152
+msgid "Enable MySQL standard mode. Use this only if you're getting MySQL errors. (Needs much more memory!)"
+msgstr "Aktiver MySQL standard mode. Brug kun dette hvis du får MySQL fejl. (Bruger meget mere hukommelse!)"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3166
+msgid "Build the sitemap in a background process (You don't have to wait when you save a post)"
+msgstr "Byg dit sitemap i en baggrundsprocess (Du behøver ikke at vente når du gemmer et indlæg)"
+
+msgid "Additional pages"
+msgstr "Ekstra sider"
+
+msgid "Here you can specify files or URLs which should be included in the sitemap, but do not belong to your Blog/WordPress.<br />For example, if your domain is www.foo.com and your blog is located on www.foo.com/blog you might want to include your homepage at www.foo.com"
+msgstr "Her kan du specificere filer og URLs, der skal inkluderes i dit sitemap, som ikke tilhører din side.<br/>F.eks. hvis dit domæne er www.minside.dk og din side er placeret i en under mappe (www.minside.dk/blog), så vil du måske inkludere www.minside.dk"
+
+msgid "Note"
+msgstr "Note"
+
+msgid "If your blog is in a subdirectory and you want to add pages which are NOT in the blog directory or beneath, you MUST place your sitemap file in the root directory (Look at the &quot;Location of your sitemap file&quot; section on this page)!"
+msgstr "Hvis din blog er i en undermappe og du vil tilføje sider, som IKKE er i blog mappen eller en mappe under, SKAL du placerer din sitemap fil i  &quot;root mappen&quot; (Se &quot;Stien til din sitemap fil&quot; sektionen på denne side)."
+
+msgid "URL to the page"
+msgstr "URL til siden"
+
+msgid "Enter the URL to the page. Examples: http://www.foo.com/index.html or www.foo.com/home "
+msgstr "Indtast URL'en til siden. F.eks.: http://www.minside.dk/index.html ellerhttp://www.minside.dk/forside"
+
+msgid "Priority"
+msgstr "Prioritet"
+
+msgid "Choose the priority of the page relative to the other pages. For example, your homepage might have a higher priority than your imprint."
+msgstr "Vælg sidens prioritet i forhold til de andre sider."
+
+msgid "Last Changed"
+msgstr "Ændret sidst"
+
+msgid "Enter the date of the last change as YYYY-MM-DD (2005-12-31 for example) (optional)."
+msgstr "Indtast datoen for den sidste ændret, som YYYY-MM-DD (F.eks. 2005-12-31) (Valgfri)"
+
+msgid "Change Frequency"
+msgstr "Skift frekvens"
+
+msgid "#"
+msgstr "#"
+
+msgid "No pages defined."
+msgstr "Ingen sider defineret"
+
+msgid "Add new page"
+msgstr "Tilføj ny side"
+
+msgid "Post Priority"
+msgstr "Indlægs prioritet"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3329
+msgid "Please select how the priority of each post should be calculated:"
+msgstr "Vælg venligst hvordan prioriteten af hver enkelt indlæg skal udregnes:"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3331
+msgid "Do not use automatic priority calculation"
+msgstr "Brug ikke automatisk prioritets udregning"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3331
+msgid "All posts will have the same priority which is defined in &quot;Priorities&quot;"
+msgstr "Alle indlæg vil have den samme prioritet som er defineret under &quot;Prioritet&quot;"
+
+msgid "Location of your sitemap file"
+msgstr "Stien til din sitemap fil"
+
+msgid "Automatic detection"
+msgstr "Find Automatisk "
+
+msgid "Filename of the sitemap file"
+msgstr "Sitemap filnavn"
+
+msgid "Detected Path"
+msgstr "Fundet sti"
+
+msgid "Detected URL"
+msgstr "Fundet URL"
+
+msgid "Custom location"
+msgstr "Brugerdefineret sti"
+
+msgid "Absolute or relative path to the sitemap file, including name."
+msgstr "Absolut eller relativ sti til sitemap filen, inklusiv filnavn."
+
+msgid "Example"
+msgstr "Eksempel"
+
+msgid "Complete URL to the sitemap file, including name."
+msgstr "Fuldstændig URL til sitemap filen, inklusiv filnavn"
+
+msgid "Sitemap Content"
+msgstr "Sitemap indhold"
+
+msgid "Include homepage"
+msgstr "Inkluder hjemmeside"
+
+msgid "Include posts"
+msgstr "Inkluder indlæg"
+
+msgid "Include static pages"
+msgstr "Inkluder statiske sider"
+
+msgid "Include categories"
+msgstr "Inkluder kategorier"
+
+msgid "Include archives"
+msgstr "Inkluder arkiver"
+
+msgid "Include tag pages"
+msgstr "Inkluder tag sider"
+
+msgid "Include author pages"
+msgstr "Inkluder forfatter sider"
+
+msgid "Change frequencies"
+msgstr "Ændre frekvenser"
+
+msgid "Please note that the value of this tag is considered a hint and not a command. Even though search engine crawlers consider this information when making decisions, they may crawl pages marked \"hourly\" less frequently than that, and they may crawl pages marked \"yearly\" more frequently than that. It is also likely that crawlers will periodically crawl pages marked \"never\" so that they can handle unexpected changes to those pages."
+msgstr "Bemærk venligst at værdien af dette \"tag\" anses for at være et hint og ikke en kommando. Selvom søgemaskine crawlers tager denne information i betrægtning, kan de crawle sider markeret \"pr. time\" færre gange og sider markeret \"årlig\" oftere. Det er også sandsynligt at crawlere periodisk vil crawle sider makeret \"aldrig\", så de kan håndtere uforventet ændringer på disse sider."
+
+msgid "Homepage"
+msgstr "Hjemmeside"
+
+msgid "Posts"
+msgstr "Indlæg"
+
+msgid "Static pages"
+msgstr "Statiske sider"
+
+msgid "Categories"
+msgstr "Kategorier"
+
+msgid "The current archive of this month (Should be the same like your homepage)"
+msgstr "Arkivet for denne måned (Burde være den som på din hjemmeside)"
+
+msgid "Older archives (Changes only if you edit an old post)"
+msgstr "Ældre arkiver (Ændre sig kun hvis du redigere et gammelt indlæg"
+
+msgid "Tag pages"
+msgstr "Tag sider"
+
+msgid "Author pages"
+msgstr "Forfatter sider"
+
+msgid "Priorities"
+msgstr "Prioriteter"
+
+msgid "Posts (If auto calculation is disabled)"
+msgstr "Indlæg (Hvis auto-udregn er deaktiveret)"
+
+msgid "Minimum post priority (Even if auto calculation is enabled)"
+msgstr "Minimum indlægs prioritet (Selvom auto-udregn er aktiveret)"
+
+msgid "Archives"
+msgstr "Arkiver"
+
+msgid "Update options"
+msgstr "Opdater indstillinger"
+
+msgid "Reset options"
+msgstr "Nulstil indstillinger"
+

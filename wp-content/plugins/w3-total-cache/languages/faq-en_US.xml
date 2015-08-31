@@ -1,0 +1,885 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faqs>
+	<section name="General">
+        <entry>
+            <question><![CDATA[ Who is this plugin for? ]]></question>
+            <answer><![CDATA[ <p>Anyone that wants to provide an optimal user experience to their readers.</p> ]]></answer>
+        </entry>
+        <entry>
+            <question><![CDATA[ Umm, why? ]]></question>
+            <answer><![CDATA[
+				<p>We needed an elegant remedy to common performance issues we spent countless hours addressing on various blogs we work with. They all suffered from similar issues and we found that same remedies would sort all of them. Issues like <acronym title="Hypertext Transfer Protocol">HTTP</acronym> transaction reduction, object size reduction and blocking objects are performance killers and have been remedied with this plugin. Rather than release our various plugins individually (and support them independently) we saw an opportunity to demonstrate how all of this functionality is intertwined and combines to realize far more than the sum of its parts.</p>
+				<p>One of the WordPress community's strengths is also its weakness; we found that numerous plugins are very handy and save some development time in a pinch, but the maintenance and performance penalties blogs suffer from as a result contribute to a poor user experience, which is never acceptable.</p>
+				<p>Experience has shown that fast loading web sites have (at least) the following characteristics:</p>
+				<ul>
+					<li>Reduced <a href="http://en.wikipedia.org/wiki/Customer_attrition" target="_blank">attrition</a></li>
+					<li>Higher conversion rates for e-commerce / affiliate etc sites</li>
+					<li>Increased time on site / more page views per visitor</li>
+				</ul>
+				<p><em>In fact, if wordpress.com (for example) applied some of the techniques used in this plugin, we imagine they'd realize ~10% performance improvement on the <acronym title="Cascading Style Sheet">CSS</acronym>, <acronym title="JavaScript">JS</acronym> and <acronym title="Hypertext Markup Language">HTML</acronym> (respectively) on the millions of blogs they host.</em></p>
+				<p>As a practical matter, Akamai and JupiterResearch did a study on <a href="http://www.akamai.com/html/about/press/releases/2006/press_110606.html" target="_blank">acceptable wait time for retail web sites</a> to load back in late 2006 concluding that users may leave after 4 seconds of waiting. That was several years ago now, even before 3G was available for mobile devices, what do you think web users expect today? <a href="http://blogs.zdnet.com/BTL/?p=3925" target="_blank">According to Marissa Mayer</a> of Google, as she stated the same year as Akamai, improving the speed of sites/applications reduces the learning curve for applications and contributes to higher use. It's time to bring the performance major corporations enjoy to the blogosphere.</p>
+				<p>As an aside, don't you think your site's <acronym title="Key Performance Indicators">KPI</acronym> would be more meaningful if you could be confident that all users were having the exact same performance experience with your site? It's too early to say for sure, but we feel that the statistics and metrics we all use to track our progress and results will be more realistic when W3 Total Cache is actively removing bottlenecks from our blogs.</p>
+				<p><a href="mailto:wordpressexperts@w3-edge.com">Please let us know</a> what kind of mileage you have.</p>
+			]]></answer>
+        </entry>
+        <entry>
+            <question><![CDATA[ So give me the skinny, what are the highlights? ]]></question>
+            <answer><![CDATA[
+				<p>W3 Total Cache is a suite of functionality designed to optimize the performance of all WordPress blogs. Features and benefits include:</p>
+				<ul>
+					<li>Improved progressive render (non-blocking <acronym title="Cascading Style Sheet">CSS</acronym> and <acronym title="JavaScript">JS</acronym> embedding)</li>
+					<li>Reduced <acronym title="Hypertext Transfer Protocol">HTTP</acronym> Transactions, <acronym title="Domain Name System">DNS</acronym> lookups, reduced document load time</li>
+					<li>Transparent content delivery network (<acronym title="Content Delivery Network">CDN</acronym>) support with automated media library import</li>
+					<li>Bandwidth savings via <acronym title="Hypertext Transfer Protocol">HTTP</acronym> compression (<acronym title="GNU zip">gzip</acronym>) for <acronym title="Hypertext Markup Language">HTML</acronym>, <acronym title="Cascading Style Sheet">CSS</acronym> and <acronym title="JavaScript">JS</acronym></li>
+					<li>Minification (concatenation, white space removal) of inline, external or 3rd party <acronym title="JavaScript">JS</acronym> and <acronym title="Cascading Style Sheet">CSS</acronym> with scheduled updates</li>
+					<li>Optional embedding of <acronym title="JavaScript">JS</acronym> just above &lt;/body&gt;</li>
+					<li>Support for caching pages, posts, feeds, database objects, <acronym title="Cascading Style Sheet">CSS</acronym>, <acronym title="JavaScript">JS</acronym> in memory with an opcode cache or memcached or both</li>
+					<li>Caching of feeds (comments, page and site), <acronym title="Uniform Resource Indicator">URL</acronym>s with query string variables (like search result pages), Database queries, Pages, Posts, <acronym title="Cascading Style Sheet">CSS</acronym> and <acronym title="JavaScript">JS</acronym></li>
+					<li>Complete header management including Etags</li>
+					<li>Increased web server concurrency and reduced resource consumption, increased scale</li>
+				</ul>
+				<p>In essence, anything that can be automated to squeeze out every bit of server performance and minimize bandwidth utilization has been done, leaving your readers with an optimized user experience.</p> ]]></answer>
+        </entry>
+        <entry>
+            <question><![CDATA[ I don't have time to deal with this, but I know I need it. Will you help me? ]]></question>
+            <answer><![CDATA[ <p>Yes! Please <a href="mailto:wordpressexperts@w3-edge.com">reach out to us</a> and we'll get you acclimated so you can "set it and forget it."</p> ]]></answer>
+        </entry>
+        <entry>
+            <question><![CDATA[ I've never heard of any of this stuff; my blog is fine, no one complains about the speed. Why should I install this? ]]></question>
+            <answer><![CDATA[ <p>Rarely do readers take the time to complain. They typically just stop browsing earlier than you'd prefer and may not return altogether. It's in every web site owner's best interest is to make sure that the performance of your blog is not hindering its success.</p> ]]></answer>
+        </entry>
+        <entry>
+            <question><![CDATA[ But even Matt Mullenweg doesn't agree that additional caching is so important, why bother? ]]></question>
+            <answer><![CDATA[ <p>You're right, <a href="http://ma.tt/2008/03/wordpress-is-open-source/#comment-439787" target="_blank">Matt did say that</a>. However, this plugin provides more than just "caching". Because he is correct, the web is dynamic and must remain so. But as we explain throughout this FAQ, our goal is to improve the performance of any blog. Furthermore, some techniques we use are well documented from past <a href="http://www.slideshare.net/bazza/high-performance-wordpress" target="_blank">WordCamp presentations</a>; we combined them in a way that we have found stands up to the highest traffic spikes.</p> ]]></answer>
+        </entry>
+        <entry>
+            <question><![CDATA[ And how many years of university do I need to use this thing? ]]></question>
+            <answer><![CDATA[ <p>-4 &mdash; That's right; a youngster in junior high school can get started with this plugin. Seriously, if you did your own WordPress install or have ever installed a plugin before you're in good shape. If you need help, <a href="mailto:wordpressexperts@w3-edge.com">let us know</a> or perhaps we'll make some videos or the like.</p> ]]></answer>
+        </entry>
+        <entry>
+            <question><![CDATA[ Ok, so the benefits are clear. What exactly is so special about *how* this plugin works? ]]></question>
+            <answer><![CDATA[ <p>Thanks for asking. We just decided not try to use the typical WordPress hooks and methodologies to implement our features, instead we take the normal output and perform optimizations to it before we send it to the user agent using a method they support and then cache the result afterwards. This concept is applied to objects you decide to cache.</p> ]]></answer>
+        </entry>
+        <entry>
+            <question><![CDATA[ So let me get this straight; you're telling me this plugin is designed to improve performance of any WordPress blog? ]]></question>
+            <answer><![CDATA[ <p>Precisely, that is unless you don't write any posts in your blog nor have any readers. If you're someone that's always into the latest web development technique or plugin, now you can "have it all" without making your readers suffer.</p> ]]></answer>
+        </entry>
+        <entry>
+            <question><![CDATA[ This is too good to be true, how can I test the results? ]]></question>
+            <answer><![CDATA[
+				<p>You will be able to see it instantly on each page load, but for tangible metrics, consider the following tools:</p>
+				<ul>
+					<li><a href="http://www.mozilla.com/firefox/" target="_blank">Mozilla Firefox</a> + <a href="http://getfirebug.com/" target="_blank">Firebug</a> + <a href="http://developer.yahoo.com/yslow/" target="_blank">Yahoo! YSlow</a></li>
+					<li><a href="http://www.mozilla.com/firefox/" target="_blank">Mozilla Firefox</a> + <a href="http://getfirebug.com/" target="_blank">Firebug</a> + <a href="http://code.google.com/speed/page-speed/" target="_blank">Google Page Speed</a></li>
+					<li><a href="http://www.mozilla.com/firefox/" target="_blank">Mozilla Firefox</a> + <a href="http://getfirebug.com/" target="_blank">Firebug</a> + <a href="http://stevesouders.com/hammerhead/" target="_blank">Hammerhead</a></li>
+					<li><a href="http://www.google.com/chrome" target="_blank">Google Chrome</a> + <a href="http://code.google.com/webtoolkit/speedtracer/" target="_blank">Google Speed Tracer</a></li>
+				</ul>
+				<ul>
+					<li><a href="http://tools.pingdom.com/" target="_blank">Pingdom</a></li>
+					<li><a href="http://www.webpagetest.org/test" target="_blank">WebPagetest</a></li>
+					<li><a href="http://www.gomez.com/instant-test-pro/" target="_blank">Gomez Instant Test Pro</a></li>
+				</ul>
+				<ul>
+					<li><a href="http://redbot.org/" target="_blank">Resource Expert Droid</a></li>
+					<li><a href="http://www.procata.com/cachetest/" target="_blank">Web Caching Tests</a></li>
+					<li><a href="http://www.port80software.com/tools/compresscheck.asp" target="_blank">Port80 Compression Check</a> (minify requires <acronym title="Microsoft Internet Explorer">MSIE</acronym>6 support to be enabled)</li>
+					<li><a href="http://www.gidnetwork.com/tools/gzip-test.php" target="_blank">A simple online web page compression / deflate / <acronym title="GNU zip">gzip</acronym> test tool</a></li>
+				</ul>
+			]]></answer>
+        </entry>
+        <entry>
+            <question><![CDATA[ I understand the database caching and the page caching, but	what's minify all about? ]]></question>
+            <answer><![CDATA[
+			<p>We'll just quote the fine folks at yahoo on this one:</p>
+			<blockquote>
+      			<p>"Minification is the practice of removing unnecessary characters from code to reduce its size thereby improving load times. When code is minified all comments are removed, as well as unneeded white space characters (space, newline, and tab). In the case of JavaScript, this improves response time performance because the size of the downloaded file is reduced. Two popular tools for minifying JavaScript code are <a href="http://www.crockford.com/javascript/jsmin.html" target="_blank"><acronym title="JavaScript">JS</acronym>Min</a> and <a href="http://developer.yahoo.com/yui/compressor/" target="_blank"><acronym title="Yahoo! User Interface">YUI</acronym> Compressor</a>. The <acronym title="Yahoo! User Interface">YUI</acronym> compressor can also minify <acronym title="Cascading Style Sheet">CSS</acronym>.</p>
+    			<p>Obfuscation is an alternative optimization that can be applied to source code. It's more complex than minification and thus more likely to generate bugs as a result of the obfuscation step itself. In a survey of ten top U.S. web sites, minification achieved a 21% size reduction versus 25% for obfuscation. Although obfuscation has a higher size reduction, minifying JavaScript is less risky.</p>
+      			<p>In addition to minifying external scripts and styles, inline &lt;script&gt; and &lt;style&gt; blocks can and should also be minified. Even if you <acronym title="GNU zip">gzip</acronym> your scripts and styles, minifying them will still reduce the size by 5% or more. As the use and size of JavaScript and <acronym title="Cascading Style Sheet">CSS</acronym> increases so will the savings gained by minifying your code."</p>
+      			<cite><a href="http://developer.yahoo.com/performance/rules.html#minify" target="_blank">developer.yahoo.com</a></cite>
+      		</blockquote>
+      		]]></answer>
+        </entry>
+        <entry>
+            <question><![CDATA[ What do you use to minify? ]]></question>
+            <answer><![CDATA[ <p>  We use: <a href="http://code.google.com/p/minify/" target="_blank">minify</a> but may support various engines in the future. Based on <a href="http://ejohn.org/" target="_blank">John Resig's</a> suggestion we're currently looking at <a href="http://yuilibrary.com/projects/yuicompressor/wiki" target="_blank"><acronym title="Yahoo! User Interface">YUI</acronym> Compressor</a> and <a href="http://code.google.com/closure/compiler/" target="_blank">Google Closure Compiler</a> (for JavaScript) also.</p> ]]></answer>
+        </entry>
+        <entry>
+            <question><![CDATA[	Will this speed up <acronym title="WordPress">WP</acronym> Admin? ]]></question>
+            <answer><![CDATA[ <p>Yes, indirectly &mdash; if you have a lot of bloggers working with you, you will find that it feels like you have a server dedicated only to <acronym title="WordPress">WP</acronym> Admin once this plugin is enabled; the result, increased productivity.</p> ]]></answer>
+        </entry>
+        <entry>
+            <question><![CDATA[ Does this plugin modify how the WordPress core works? ]]></question>
+            <answer><![CDATA[ <p>No. No theme changes, special files, WordPress core file modifications or special permissions need to be set.</p> ]]></answer>
+        </entry>
+        <entry>
+            <question><![CDATA[ Seriously, tell me what the downside is, there must be something? ]]></question>
+            <answer><![CDATA[ <p>Well, no there isn't. Installing the server side software might be challenging for some, but <a href="mailto:wordpressexperts@w3-edge.com">we can assist</a> with that if you ask. Other than that, unless you enjoy frequently upgrading your server plan or buying more servers and paying for bandwidth overages or wincing every time you add another "must have" plugin to your blog, we cannot find any reason to deter you from the use of this one.</p> ]]></answer>
+        </entry>
+        <entry>
+            <question><![CDATA[ If this plugin does everything you claim, why would you	give it away free? Cui Bono? ]]></question>
+            <answer><![CDATA[
+				<p>Who benefits? Everyone. Of the numerous, here are the three the most important reasons we share with the WordPress community:</p>
+				<ul>
+					<li>WordPress is free and high quality, plugins should be too.</li>
+					<li>There's no reason your blog shouldn't be able to perform as well as well as any major corporation's web site/application.</li>
+					<li><a href="http://code.google.com/speed/articles/" target="_blank">Google</a> and <a href="http://developer.yahoo.com/yui/" target="_blank">Yahoo</a> offer quite a bit, but they did not offer a WordPress solution yet. This is our contribution to speeding up the web (starting with the blogosphere).</li>
+				</ul>
+			]]></answer>
+        </entry>
+        <entry>
+            <question><![CDATA[ Who in the world uses memcached or an opcode cache etc anyway? ]]></question>
+            <answer><![CDATA[ <p>Great question! Basically anyone that needs to make their application scale. For example, <a href="http://www.wordpress.com/" target="_blank">WordPress.com</a>, <a href="http://twitter.com" target="_blank">Twitter</a>, <a href="http://www.facebook.com/" target="_blank">Facebook</a>, LiveJournal (the inventors of the software) and so on all use some sort of memory cache to increase application performance.</p> ]]></answer>
+        </entry>
+        <entry>
+            <question><![CDATA[ We run many blogs on many servers here at my company, is this plugin still for me? ]]></question>
+            <answer><![CDATA[ <p>  Yes, especially if you have a cluster and many WordPress installations or a WordPress <acronym title="Multi-User">MU</acronym> installation, then plugin is for you. It will allow you to move easily from multiple installations to WordPress <acronym title="Multi-User">MU</acronym> and continue to use multiple <acronym title="Hypertext Transfer Protocol">HTTP</acronym>, Database, Network Attached Storage etc servers in any configuration you wish. You can also specify as many memcached servers as you wish, although you cannot yet delegate a memcached server to a specific type of caching, i.e. there's no pool management yet.</p> ]]></answer>
+        </entry>
+        <entry>
+            <question><![CDATA[ So you appear to know what you're talking about, will there be any negative effect on my SEO rankings? ]]></question>
+            <answer><![CDATA[
+				<p>To answer, first we must assume that you're using all of the options we offer: <acronym title="Hypertext Transfer Protocol">HTTP</acronym> compression, minify etc. Having said that, we are only sending compressed data to user agents that support it; even <a href="http://www.google.com/search?q=search+engine+crawler+http+compression" target="_blank">most search engine crawlers do</a>. As for minified <acronym title="Hypertext Markup Language">HTML</acronym>, this is essentially how crawlers see your page anyway when they download it. So no, there's no penalty or compromise.</p>
+    			<p>Fact of the matter, there was a time when the semantics and size of your <acronym title="Hypertext Markup Language">HTML</acronym> file (code-to-content ratio), was a factor in a more favorable ranking. <a href="http://microformats.org/wiki/posh" target="_blank"><acronym title="Plain Old Semantic HTML">POSH</acronym></a> <acronym title="Hypertext Markup Language">HTML</acronym> has always been preferred by search engines. In some markets this may still be true, so give the search engines what they want.</p>
+    		]]></answer>
+        </entry>
+        <entry>
+            <question><![CDATA[ What about my robots.txt, sitemap.xml and all my site verification files etc, what happens with those? ]]></question>
+            <answer><![CDATA[ <p>If you're concerned about what happens with these when the <acronym title="Content Delivery Network">CDN</acronym> functionality is active, nothing does. You do not want or need these files moved from their original locations and <acronym title="Hypertext Transfer Protocol">HTTP</acronym> compression (or minification for that matter) is of no consequence in most cases.</p> ]]></answer>
+        </entry>
+        <entry>
+            <question><![CDATA[ Do you have any tricks for "post-loading", "lazy-loading" and other render optimizations in this plugin? ]]></question>
+            <answer><![CDATA[ <p>Yes we do, we're currently evaluating if they are best introduced into this plugin or as standalones. Feel free to <a href="mailto:wordpressexperts@w3-edge.com">chime in</a>.</p> ]]></answer>
+        </entry>
+        <entry>
+            <question><![CDATA[ I want to obfuscate my <acronym title="JavaScript">JS</acronym>, does the plugin do that? Will it ever? ]]></question>
+            <answer><![CDATA[ <p>No the plugin will not do that and it's unlikely that we'll support that.</p> ]]></answer>
+        </entry>
+        <entry>
+            <question><![CDATA[ I have some ideas for more features, can I write my own	add-ons for your plugin? ]]></question>
+            <answer><![CDATA[ <p>Not yet, we are considering support for add-ons. Meanwhile, please <a href="mailto:wordpressexperts@w3-edge.com">reach out to us</a> and let us know what you think would benefit the community.</p> ]]></answer>
+        </entry>
+        <entry>
+            <question><![CDATA[ Who do I thank for all of this? ]]></question>
+            <answer><![CDATA[
+				<p>It's quite difficult to recall all of the innovators that have shared their thoughts, code and experiences in the blogosphere over the years, but here are some names to get you started:</p>
+				<ul>
+					<li><a href="http://stevesouders.com/" target="_blank">Steve Souders</a></li>
+					<li><a href="http://mrclay.org/" target="_blank">Steve Clay</a></li>
+					<li><a href="http://wonko.com/" target="_blank">Ryan Grove</a></li>
+					<li><a href="http://www.nczonline.net/blog/2009/06/23/loading-javascript-without-blocking/" target="_blank">Nicholas Zakas</a> </li>
+					<li><a href="http://rtdean.livejournal.com/" target="_blank">Ryan Dean</a></li>
+					<li><a href="http://gravitonic.com/" target="_blank">Andrei Zmievski</a></li>
+					<li>George Schlossnagle</li>
+					<li>Daniel Cowgill</li>
+					<li><a href="http://toys.lerdorf.com/" target="_blank">Rasmus Lerdorf</a></li>
+					<li><a href="http://notmysock.org/" target="_blank">Gopal Vijayaraghavan</a></li>
+					<li><a href="http://eaccelerator.net/" target="_blank">Bart Vanbraban</a></li>
+					<li><a href="http://xcache.lighttpd.net/" target="_blank">mOo</a></li>
+				</ul>
+				<p>Please reach out to all of these people and support their projects if you're so inclined.</p> ]]></answer>
+        </entry>
+    </section>
+	<section name="Usage">
+        <section name="General">
+            <entry>
+                <question><![CDATA[ In the past, I always had to modify my theme to run dynamic code. Don't I need to do that again for this plugin? ]]></question>
+                <answer><![CDATA[ <p>For now no; there are some special cases that we will address with an upcoming release for highly dynamic sites.</p> ]]></answer>
+            </entry>
+            <entry>
+                <question><![CDATA[ What's this thing doing? Where are the statistics?
+			 ]]></question>
+                <answer><![CDATA[ <p>Right now we do not show the statistics in <acronym title="WordPress">WP</acronym> Admin, but soon we will provide graphs of: Page Cache Memory Use, Page Cache Hits/Misses, <acronym title="Database">DB</acronym> Cache Memory Use, <acronym title="Database">DB</acronym> Hits/Misses, Average Page Compression Savings, Average <acronym title="Cascading Style Sheet">CSS</acronym> Compression Savings, Average <acronym title="JavaScript">JS</acronym> Compression Savings, Average Requests per Second, and Average Page Execution Time.</p> ]]></answer>
+            </entry>
+            <entry>
+                <question><![CDATA[ How can I tell if it's working? Aren't there any statistics at all? ]]></question>
+                <answer><![CDATA[ <p>Well yes actually there are, simply enable debug mode on the "General" tab to have details appended to the bottom of your <acronym title="Hypertext Markup Language">HTML</acronym> source. Remember that when enabled all visitors to your blog can see these statistics if they view source. Using debug mode does slow the performance of your site so use sparingly.</p> ]]></answer>
+            </entry>
+            <entry>
+                <question><![CDATA[ I'm not a hardcore developer, can you explain to me how this // and	/ stuff works and how I should specify the paths for <acronym title="Cascading Style Sheet">CSS</acronym> and <acronym title="JavaScript">JS</acronym> files? ]]></question>
+                <answer><![CDATA[
+				<p>You mean on the minify settings page right? Ok, it's simple:<br />
+				// tells the plugin to search for the file with the provided path from the document root, e.g.: ///JS/jquery/jquery.<acronym title="JavaScript">JS</acronym><br />
+				/ tells the plugin to search for the file with the provided path from the server root, e.g. //JS/jquery/jquery.<acronym title="JavaScript">JS</acronym></p>
+				<p>In most cases providing an absolute path is sufficient and most reliable. You can of course use relative paths, but we discourage it unless you really know what you are doing.</p>
+			]]></answer>
+            </entry>
+            <entry>
+                <question><![CDATA[ Which features can I use if I haven't yet installed an opcode cache or memcached? ]]></question>
+                <answer><![CDATA[ <p>Memory caching will not be possible. However you will be able to use both the page cache and minify in "disk" mode, as well <acronym title="Content Delivery Network">CDN</acronym> functionality without issue.</p> ]]></answer>
+            </entry>
+            <entry>
+                <question><![CDATA[ Which textareas for file entries support regular expressions? ]]></question>
+                <answer><![CDATA[
+            <ul>
+                <li>Page Cache: Never cache the following pages, Cache exception list, Non-trailing slash pages</li>
+                <li>Database Cache: Never cache the following pages</li>
+                <li><acronym title="Content Delivery Network">CDN</acronym>: Custom file list, Rejected files <br />The <acronym title="Content Delivery Network">CDN</acronym> fields only support regular expression on the filename.</li>
+            </ul>
+            <p>Examples (Never cache the following pages):</p>
+            <ul>
+            <li>Do not cache page/directory and sub pages
+                /directory*</li>
+            <li>Do not cache pages under a directory
+                /directory/.+</li>
+            <li>Do not cache pages that contain specific text<br />
+                /.*text.*</li>
+            <li>Do not cache pages that is named child in directories<br />
+                .+/child</li>
+            <li>Do not cache any pages named child<br />
+                */child</li>
+            </ul>
+            <p>
+Note: To disable page caching of specific theme templates or plugin files you need to add define('DONOTCACHEPAGE', true); to it.</p>
+</p>
+            ]]></answer>
+            </entry>
+        </section>
+        <section name="Caching">
+            <entry>
+                <question><![CDATA[ How fast will the cache be updated? ]]></question>
+                <answer><![CDATA[ <p>Items expire from the cache at a rate that you specify. As far as how fast changes appear to your visitors, they appear instantly in most cases and if you're an administrator who's logged in they will always be immediately visible.</p> ]]></answer>
+            </entry>
+            <entry>
+                <question><![CDATA[ My server is state of the art with 15,000 RPM RAID, why do I need to cache anything in memory? ]]></question>
+                <answer><![CDATA[ <p>Even if your server was using an array of solid state disks (SSD), your server's <acronym title="Random Access Memory">RAM</acronym> is still going to be faster and introduce less overhead to access than even the fastest solid state drives on a PCIe bus. If you didn't invest in solid state disks for your server, then even worse off - at least an order of magnitude speed difference in read operations in <acronym title="Random Access Memory">RAM</acronym> versus HDD. For write operations delta the latency differences is even more pronounced. <acronym title="Random Access Memory">RAM</acronym> is the winner hands down. We won't even discuss the blocking and arbitration issues that happen with disk arrays under certain circumstances.</p> ]]></answer>
+            </entry>
+            <entry>
+                <question><![CDATA[ Why would I choose opcode caching over memcached or vice versa? ]]></question>
+                <answer><![CDATA[
+				<p>There's no straight answer for this one. Since WordPress is a PHP-based application, we encourage everyone to install an opcode cache and realize a minimum of 10x performance gain. It will obviously make our plugin faster as well, so again please check out the installation instructions if you do not already use an opcode cache. Once installed, you can select an opcode cache as the method and get back to blogging.</p>
+				<p>Opcode caching does have a couple weaknesses:</p>
+				<ul>
+					<li>If you frequently restart your web server (e.g. apache) especially during high traffic periods, you will lose your cache and your site will slow down as it rebuilds the cache (which happens very quickly). However if you use memcached you would not lose your cache if your web server is restarted.</li>
+					<li>More importantly, opcode caching is best suited for single server environments because the cache is only accessible to the local server, it cannot be shared with other servers in a multi-server (cluster) environment.</li>
+				</ul>
+				<p>It would appear that using <acronym title="Alternative PHP Cache">APC</acronym> database caching may be best, but your mileage may vary. So depending on what software you install and how you manage your server, you can choose the options to fit your needs. If you need help with the install on your dedicated or virtual dedicated linux-based server ask us!</p>
+			]]></answer>
+            </entry>
+            <entry>
+                <question><![CDATA[	I already use <acronym title="Hypertext Transfer Protocol">HTTP</acronym> compression on my server, why does it matter if I minify my code? ]]></question>
+                <answer><![CDATA[ <p>Let's say you had a file of 10240 bytes, which becomes 2048 bytes when compressed, savings of ~80% (typical for <acronym title="Cascading Style Sheet">CSS</acronym> files). That same file will now have an <strong>additional</strong> ~3x-10x transfer speed improvement when minified. That's a big return from a small operation. The larger your files, the more significant the proportional performance gains.</p> ]]></answer>
+            </entry>
+        </section>
+        <section name="Page Caching">
+            <entry>
+                <question><![CDATA[ How do I make some specific pages stay dynamic? ]]></question>
+                <answer><![CDATA[ <p>They never stop being dynamic, we just don't create pages that have not been changed. If you have a page that updated frequently in your blog before, it will still remain up-to-date at all times.</p> ]]></answer>
+            </entry>
+            <entry>
+                <question><![CDATA[ Why would I want to cache my feeds? ]]></question>
+                <answer><![CDATA[ <p>We feel that caching objects after the first request and checking for updates before responding subsequent requests (which is kind of how web browsers work too) creates more opportunities for interesting applications and mashups where the blogosphere doesn't require institutional investment to be able to handle developers making hundreds of requests every day the same way we use Google, Twitter and Facebook (for example) <acronym title="Application Programming Interface">API</acronym>s today. Think about it, even when major search engines crawl your site, they have to be "gentle" so they don't bring it down, let's turn the paradigm around so that every blog can deliver content in real-time in various formats.</p> ]]></answer>
+            </entry>
+            <entry>
+                <question><![CDATA[ How do I cache only the home page? ]]></question>
+                <answer><![CDATA[ <p>Add "/.+" (without the quotes) to page cache "Never cache the following pages" option on the page cache settings tab.</p> ]]></answer>
+            </entry>
+            <entry>
+                <question><![CDATA[ Sitemaps are not being cached. How do I resolve this? ]]></question>
+                <answer><![CDATA[ <p>Enable "Cache feeds: site, categories, tags, comments" on the "Page Cache" settings tab. Some sitemap implementations are considered by WordPress to be "feeds."</p> ]]></answer>
+            </entry>
+        </section>
+        <section name="Minification">
+            <entry>
+                <question><![CDATA[	How do I find the <acronym title="JavaScript">JS</acronym> and <acronym title="Cascading Style Sheet">CSS</acronym>	to optimize (manually minify) them with this plugin? ]]></question>
+                <answer><![CDATA[
+				<p>View your page source in your browser and search for any &lt;style&gt;, &lt;link&gt; or &lt;script&gt; tags that contain external <acronym title="Cascading Style Sheet">CSS</acronym> or <acronym title="JavaScript">JS</acronym> files and one by one add them to the minify settings page. Do not include any <acronym title="Cascading Style Sheet">CSS</acronym> in conditional statements (unless you know what you are doing) like:</p>
+    			<p>&lt;!--[if lte IE 8]&gt;&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;/wp-content/themes/default/lte.css&quot; media=&quot;screen,projection&quot; /&gt;&lt;![endif]--&gt; Or simply use the "Help" tool available on the minify settings page which will identify <acronym title="Cascading Style Sheet">CSS</acronym> and <acronym title="JavaScript">JS</acronym> files used in the templates of your theme and properly assign them to the same. Simply tick the checkbox for files you wish to minify, click "Apply &amp; close", then save your settings.</p>
+  				<p>The plugin will combine, minify, <acronym title="Hypertext Transfer Protocol">HTTP</acronym> compress and check for updates to these files automatically from now on. If you have any <acronym title="Cascading Style Sheet">CSS</acronym> or <acronym title="JavaScript">JS</acronym> that are inline consider making them external files so that you can use them with minify.</p>
+  			]]></answer>
+            </entry>
+            <entry>
+                <question><![CDATA[ I've used the plugin to optimize all my theme's	<acronym title="JavaScript">JS</acronym> and plugins <acronym title="JavaScript">JS</acronym>, but there are some function calls, where do those go? ]]></question>
+                <answer><![CDATA[ <p>Just place them above &lt;/head&gt; if that's where your embed is done or above &lt;/body&gt; if that's where you need them. Wherever they need to be to be called after the <acronym title="JavaScript">JS</acronym> that needs them, it'll be fine.</p> ]]></answer>
+            </entry>
+            <entry>
+                <question><![CDATA[ Can I use scripts that generate	<acronym title="Cascading Style Sheet">CSS</acronym> or	<acronym title="JavaScript">JS</acronym> with this plugin?]]></question>
+                <answer><![CDATA[ <p>Yes you can, but since there are numerous ways to do so, so be sure to test your results carefully. Having said that we do encourage it as it will mean that less processing has to be done to deliver your pages.</p> ]]></answer>
+            </entry>
+            <entry>
+                <question><![CDATA[	Why would I want to put my <acronym title="JavaScript">JS</acronym>	at the bottom of the page? ]]></question>
+                <answer><![CDATA[ <p>First let me point out that in many cases we suggest putting all the <acronym title="JavaScript">JS</acronym> that's not required for interactivity with your site at the bottom of the document. Anything <acronym title="JavaScript">JS</acronym> that makes the site work as intended we suggested embedding in the &lt;head&gt;. Depending on your specific situation, having the majority of your <acronym title="JavaScript">JS</acronym> at the bottom of the document will mean that your visitors won't have to download things they don't want to begin interacting with your site or reading it's content. Quite often the additional <acronym title="Hypertext Transfer Protocol">HTTP</acronym> transaction is worthwhile.</p> ]]></answer>
+            </entry>
+            <entry>
+                <question><![CDATA[ Does it really matter if I remove the line breaks from my code? ]]></question>
+                <answer><![CDATA[ <p>Definitely. Removing white space from your files make <acronym title="GNU zip">gzip</acronym> (<acronym title="Hypertext Transfer Protocol">HTTP</acronym> compression) more effective.</p> ]]></answer>
+            </entry>
+            <entry>
+                <question><![CDATA[	What's the benefit of removing <acronym title="Hypertext Markup Language">HTML</acronym> comments from my code? ]]></question>
+                <answer><![CDATA[ <p>Many developers like to have comments in the code for various reasons, however these comments add no value from the blog readers (or search engine for that matter) point of view and only contribute to increased load time and wasted bandwidth as a result. Now only you can use them and view them in your site (as a logged in administrator viewing the page source), which is really what (we assume) you intended.</p> ]]></answer>
+            </entry>
+            <entry>
+                <question><![CDATA[ Why is &lt;link&gt; used to embed <acronym title="Cascading Style Sheet">CSS</acronym> instead of &lt;style&gt;? ]]></question>
+                <answer><![CDATA[ <p>&lt;link&gt; is a non-blocking method to embed <acronym title="Cascading Style Sheet">CSS</acronym> into a document. We recommend this approach for optimal performance.</p> ]]></answer>
+            </entry>
+            <entry>
+                <question><![CDATA[ Why do I care of <acronym title="JavaScript">JS</acronym> or <acronym title="Cascading Style Sheet">CSS</acronym> is "blocking" or not? ]]></question>
+                <answer><![CDATA[ <p>In the case of objects (files) you don't host yourself, this could add several seconds to your page's load time as the <acronym title="Domain Name System">DNS</acronym> lookups, <acronym title="Hypertext Transfer Protocol">HTTP</acronym> transaction roundtrip times and wait times add up. Even when all the scripts are hosted locally, the same adversities exist. Since all objects in the &lt;head&gt; of a document have to be ready before the page can be rendered, having them load in a parallel fashion as opposed to linear (or near linear) gives night and day results.</p> ]]></answer>
+            </entry>
+            <entry>
+                <question><![CDATA[	What does this plugin do to inline <acronym title="Cascading Style Sheet">CSS</acronym> and	<acronym title="JavaScript">JS</acronym>? ]]></question>
+                <answer><![CDATA[ <p>Nothing yet. We're evaluating use cases to deal with common issues (like inline <acronym title="Cascading Style Sheet">CSS</acronym> for tag clouds for example).</p> ]]></answer>
+            </entry>
+            <entry>
+                <question><![CDATA[ Ok I get it, this all sounds nice and everything, but is this perfect? ]]></question>
+                <answer><![CDATA[ <p>Pretty much. If you monetize your blog with ads you will want to spend some time making sure that the ad code works well with your optimization settings. There are also the occasional pieces of code that conflict with the others and have to be in a specific order to work well, but that's not a problem that this plugin introduces.</p> ]]></answer>
+            </entry>
+            <entry>
+                <question><![CDATA[ Will this plugin break my theme by changing the order of conditional statements or the like? ]]></question>
+                <answer><![CDATA[ <p>No, the plugin looks for conditional statements in your markup used for <acronym title="Cascading Style Sheet">CSS</acronym> (and sometimes <acronym title="JavaScript">JS</acronym>) and makes sure that the minified files precede it, so keep that in mind.</p> ]]></answer>
+            </entry>
+            <entry>
+                <question><![CDATA[ Can I use packed or obfuscated <acronym title="JavaScript">JS</acronym> with this plugin? ]]></question>
+                <answer><![CDATA[ <p>  Yes and no. In general, packed <acronym title="JavaScript">JS</acronym> cannot be minified reliably. Obfuscated <acronym title="JavaScript">JS</acronym> also is hit or miss. A minified and <acronym title="GNU zip">gzip</acronym>ped <acronym title="JavaScript">JS</acronym> file will be smaller than a packed file in any case, so using the (uncompressed, unpacked or un obfuscated) developer versions of your plugins is no longer a concern when using this plugin. Alternatively, you can use the non-blocking embed option to continue to use your packed or obfuscated file without minification.</p> ]]></answer>
+            </entry>
+            <entry>
+                <question><![CDATA[ What about comments? Does the plugin slow down the rate at which comments appear? ]]></question>
+                <answer><![CDATA[ <p>On the contrary, as with any other action a user can perform on a site, faster performance will encourage more of it. The cache is so quickly rebuilt in memory that it's no trouble to show visitors the most current version of a post that's experiencing Digg, Slashdot, Drudge Report, Yahoo Buzz or Twitter effect.</p> ]]></answer>
+            </entry>
+            <entry>
+                <question><![CDATA[	What if I accidentally specify an incorrect path to a <acronym title="Cascading Style Sheet">CSS</acronym> or <acronym title="JavaScript">JS</acronym> file? ]]></question>
+                <answer><![CDATA[ <p>Unfortunately a 400 bad request error may be generated. So use the "Check <acronym title="Uniform Resource Indicator">URI</acronym>" button to make sure that you have entered the correct <acronym title="Uniform Resource Indicator">URL</acronym> or path to the file.</p> ]]></answer>
+            </entry>
+            <entry>
+                <question><![CDATA[ Does the plugin automatically remove duplicate <acronym title="JavaScript">JS</acronym>? ]]></question>
+                <answer><![CDATA[ <p>No. If you include a script in the minfy settings twice or it already exists in your theme we do not automatically remove the extra code. That's tricky business and it's better for us to just let you make the decisions conscientiously.</p> ]]></answer>
+            </entry>
+            <entry>
+                <question><![CDATA[ I have some <acronym title="Cascading Style Sheet">CSS</acronym> classes with declarations being overwritten or <acronym title="JavaScript">JS</acronym> with dependencies, do I really have to copy and paste all my <acronym title="Cascading Style Sheet">CSS</acronym> and <acronym title="JavaScript">JS</acronym> file settings around?</strong> ]]></question>
+                <answer><![CDATA[ <p>No, you can drag and drop them	into the desired order on the minify settings page.</p> ]]></answer>
+            </entry>
+            <entry>
+                <question><![CDATA[ Why does your plugin change the order of my &lt;script&gt; and &lt;link&gt; tags (in the &lt;head&gt;)? ]]></question>
+                <answer><![CDATA[ <p>Steve Souders <a href="http://www.youtube.com/watch?v=oaxZtKAlLRk" target="_blank">identified</a> that placing inline scripts between <acronym title="JavaScript">JS</acronym> and <acronym title="Cascading Style Sheet">CSS</acronym> embeds creates a blocking situation, so we're try to help you avoid that. If you'd like to experiment with various scenarios related specifically to your blog, we recommend Steve's tool, <a href="http://stevesouders.com/cuzillion/" target="_blank">Cuzillion</a>. Have some beneficial input on other common cases for WordPress users? <a href="mailto:wordpressexperts@w3-edge.com">Reach out to us</a>.</p> ]]></answer>
+            </entry>
+            <entry>
+                <question><![CDATA[ I can't read this minified <acronym title="Hypertext Markup Language">HTML</acronym>; can you give me a break please? ]]></question>
+                <answer><![CDATA[ <p>Happy to! Login as an administrator, go to the Minify Settings page and check off "Show un-minified pages to administrators" and save the changes. Now stay logged in as an administrator in the same browser you used to change the settings and now when you view the source of a given page in the site, the source will not be minified.</p> ]]></answer>
+            </entry>
+            <entry>
+                <question><![CDATA[ I'm an advanced theme developer and I want to have different combinations of <acronym title="Cascading Style Sheet">CSS</acronym> or <acronym title="JavaScript">JS</acronym> files on different types of pages in my theme; how is this done? ]]></question>
+                <answer><![CDATA[ <p>On the minify settings tab, use the drop-down selection menu to define the <acronym title="Cascading Style Sheet">CSS</acronym> or <acronym title="JavaScript">JS</acronym> files that appear on all pages using the "Default" group first. Then specify unie files for the other pages.</p> ]]></answer>
+            </entry>
+            <entry>
+                <question><![CDATA[ Why do you set the value of the media attribute of &lt;link&gt; to all? ]]></question>
+                <answer><![CDATA[ <p>In case you were using @media declarations in your document, we'd have you covered. We will likely allow you to modify this attribute as subsequent features are finalized.</p> ]]></answer>
+            </entry>
+            <entry>
+                <question><![CDATA[ Why can't I specify other &lt;script&gt; types or encoding? ]]></question>
+                <answer><![CDATA[ <p>We have not found a use case where this appears to be of any consequence. If you're aware of one <a href="mailto:wordpressexperts@w3-edge.com">please let us know</a>.</p> ]]></answer>
+            </entry>
+            <entry>
+                <question><![CDATA[ Some WordPress caching plugins fail when markup is not well-formed, is this plugin similar? ]]></question>
+                <answer><![CDATA[ <p>No, this plugin is not similar. While valid <acronym title="Hypertext Markup Language">HTML</acronym> and <acronym title="World Wide Web Consortium">W3C</acronym> standards ensure consistent behavior across user agents and promote accessibility, any invalidity that exist in the code is not going to bring your site to its knees.</p> ]]></answer>
+            </entry>
+            <entry>
+                <question><![CDATA[	Won't various 3rd parties who's	<acronym title="JavaScript">JS</acronym> I download and cache be concerned? ]]></question>
+                <answer><![CDATA[ <p>Unlikely, you're saving them bandwidth and using their applications, so they will probably appreciate it as long as their application still works as intended and you're using their software in an authorized manner. Look at it this way, even before this plugin, you and thousands of other people were still downloading it, now you're just downloading it first.</p> ]]></answer>
+            </entry>
+            <entry>
+                <question><![CDATA[
+				Google already minified and
+				<acronym title="Hypertext Transfer Protocol">HTTP</acronym>
+				compressed jQuery (and other libraries ) for me, why can't I just
+				use their bandwidth and embed other code after it?
+			 ]]></question>
+                <answer><![CDATA[ <p>You can! Just add Google's script to your minify settings use non-blocking mode and your visitors will download jQuery directly from them as you wish. And the same is obviously true for any other library you wish. Remember you are creating additional <acronym title="Domain Name System">DNS</acronym> Lookups and <acronym title="Hypertext Transfer Protocol">HTTP</acronym> transactions when you do this.</p> ]]></answer>
+            </entry>
+            <entry>
+                <question><![CDATA[ I wanted to use a different version jQuery with my theme,
+				how do I replace WordPress' jQuery with Google's minified version
+				using your plugin? ]]></question>
+                <answer><![CDATA[ <p>Currently you cannot, replacement is not yet supported.</p> ]]></answer>
+            </entry>
+            <entry>
+                <question><![CDATA[	What about query string variables on <acronym title="Cascading Style Sheet">CSS</acronym> and <acronym title="JavaScript">JS</acronym>, do they matter? ]]></question>
+                <answer><![CDATA[ <p>This is definitely a special case. Files like "http://domain.com/wp-content/themes/default/js/script.js?ver=20090102" etc need to be specified with the full <acronym title="Uniform Resource Locator">URL</acronym>. This is an exception to the general rule of specifying a local path to file like: "wp-content/themes/default/js/script.js", which should also work fine. Be sure to click the "Verify <acronym title="Uniform Resource Indicator">URL</acronym>" button to be sure that everything is ok before saving changes.</p> ]]></answer>
+            </entry>
+            <entry>
+                <question><![CDATA[ How can I embed the CSS or JS file at the location I	choose? ]]></question>
+                <answer><![CDATA[
+			<p>When using Minify and JS/CSS placement, custom placement, the following tags are available:</p>
+				<ul>
+				<li>&lt;!-- W3TC-include-css --&gt;<br / >Used with "Auto" and "Manual". Inserts the minified/combined <acronym title="Cascading Style Sheet">CSS</acronym> files at the location you choose.</li>
+				<li>&lt;!-- W3TC-include-js-head --&gt;<br / >Used with "Auto" and "Manual". Inserts the minified/combined <acronym title="JavaScript">JS</acronym> files. Embed location "in &lt;head&gt;" in "Manual" mode.</li>
+				<li>&lt;!-- W3TC-include-js-body-start --&gt;<br / >Used with "Manual". Inserts the minified/combined <acronym title="JavaScript">JS</acronym> files. Embed location "after &lt;body&gt;" in "Manual" mode.</li>
+				<li>&lt;!-- W3TC-include-js-body-end --&gt;<br / >Used with "Manual". Inserts the minified/combined <acronym title="JavaScript">JS</acronym> files. Embed location "before &lt;/body&gt;" in "Manual" mode.</li>
+				</ul>
+			]]></answer>
+            </entry>
+            <entry>
+                <question><![CDATA[	What's the point of downloading and caching 3rd party files (e.g. <acronym title="JavaScript">JS</acronym>)? ]]></question>
+                <answer><![CDATA[ <p>With the various hosted 3rd party applications available (from web site statistics to social media sharing widgets), the problems we've noticed are: additional <acronym title="Hypertext Transfer Protocol">HTTP</acronym> transactions, <acronym title="Domain Name System">DNS</acronym> lookups and latencies from busy servers that we can't control and often un-minified files with no <acronym title="Hypertext Transfer Protocol">HTTP</acronym> compression all add up to a very slow page load and poor user experience. With your own copy of external files, updated as frequently as you wish, none of these problems exist.</p> ]]></answer>
+            </entry>
+        </section>
+        <section name="CDN">
+            <entry>
+                <question><![CDATA[	I don't understand what a <acronym title="Content Delivery Network">CDN</acronym> has to do with caching, that's completely different, no? ]]></question>
+                <answer><![CDATA[ <p>Technically no, a <acronym title="Content Delivery Network">CDN</acronym> is a high performance cache that stores static assets (your theme files, media library etc) in various locations throughout the world in order to provide low latency access to them by readers in those regions.</p> ]]></answer>
+            </entry>
+            <entry>
+                <question><![CDATA[ How do I configure Amazon Simple Storage Service (Amazon <acronym title="Simple Storage Service">S3</acronym>) or Amazon CloudFront as my <acronym title="Content Delivery Network">CDN</acronym>? ]]></question>
+                <answer><![CDATA[
+				<p>First <a href="http://aws.amazon.com/" target="_blank">create an S3 account</a>; it may take several hours for your account credentials to be functional. Next, you need to obtain your "Access key ID" and "Secret key" from the "Access Credentials" section of the "<a href="http://aws-portal.amazon.com/gp/aws/developer/account/index.html?action=access-key" target="_blank">Security Credentials</a>" page of "My Account." Make sure the status is "active." Next, make sure that "Amazon Simple Storage Service (Amazon S3)" is the selected "<acronym title="Content Delivery Network">CDN</acronym> type" on the "General Settings" tab, then save the changes. Now on the "Content Delivery Network Settings" tab enter your "Access key," "Secret key" and enter a name (avoid special characters and spaces) for your bucket in the "Create a bucket" field by clicking the button of the same name. If using an existing bucket simply specify the bucket name in the "Bucket" field. Click the "Test <acronym title="Simple Storage Service">S3</acronym> Upload" button and make sure that the test is successful, if not check your settings and try again. Save your settings.</p>
+				<p>Unless you wish to use CloudFront, you're almost done, skip to the next paragraph if you're using CloudFront. Go to the "General Settings" tab and click the "Enable" checkbox and save the settings to enable <acronym title="Content Delivery Network">CDN</acronym> functionality. Empty the cache for the changes to take effect. If preview mode is active you will need to "deploy" your changes for them to take effect.</p>
+				<p>To use CloudFront, perform all of the steps above, except select the "Amazon CloudFront" "<acronym title="Content Delivery Network">CDN</acronym> type" in the "Content Delivery Network" section of the "General Settings" tab. When creating a new bucket, the distribution ID will automatically be populated. Otherwise, proceed to the <a href="https://console.aws.amazon.com/cloudfront/" target="_blank"><acronym title="Amazon Web Services">AWS</acronym> Management Console</a> and create a new distribution: select the S3 Bucket you created earlier as the "Origin," enter a <a href="http://docs.amazonwebservices.com/AmazonCloudFront/latest/DeveloperGuide/index.html?CNAMEs.html" target="_blank"><acronym title="Canonical Name">CNAME</acronym></a> if you wish to add one or more to your DNS Zone. Make sure that "Distribution Status" is deployed and "State" is enabled. Now on "Content Delivery Network" tab of the plugin, copy the subdomain found in the <acronym title="Amazon Web Services">AWS</acronym> Management Console and enter the <acronym title="Canonical Name">CNAME</acronym> used for the distribution in the "<acronym title="Canonical Name">CNAME</acronym>" field.</p>
+				<p>You may optionally, specify up to 10 hostnames to use rather than the default hostname, doing so will improve the render performance of your site's pages. Additional hostnames should also be specified in the settings for the distribution you're using in the <acronym title="Amazon Web Services">AWS</acronym> Management Console.</p>
+				<p>Now go to the General tab and click the "Enable" checkbox and save the settings to enable <acronym title="Content Delivery Network">CDN</acronym> functionality and empty the cache for the changes to take effect. If preview mode is active you will need to "deploy" your changes for them to take effect.</p>
+			]]></answer>
+            </entry>
+            <entry>
+                <question><![CDATA[ Anything I need to do when using Amazon Web Services with limited permissions (<acronym title="Simple Storage Service">S3</acronym>, CloudFront, <acronym title="Simple Notification Service">SNS</acronym>)? ]]></question>
+                <answer><![CDATA[
+                <p>We recommend that you use <a href="http://docs.amazonwebservices.com/IAM/latest/UserGuide/AccessPolicyLanguage_KeyConcepts.html" target="_blank"><acronym title="AWS Identity and Access Management">IAM</acronym></a> to create a new policy for <acronym title="Amazon Web Services">AWS</acronym> services that have limited permissions. A helpful tool: <a href="http://awspolicygen.s3.amazonaws.com/policygen.html" target="_blank">AWS Policy Generator</a></p>
+                <p>You also find a <acronym title="Simple Storage Service">S3</acronym> configuration sample in the "ini" folder in the plugins directory.</p>
+            ]]>
+                </answer>
+            </entry>
+            <entry>
+                <question><![CDATA[	How do I configure Rackspace Cloud Files as my <acronym title="Content Delivery Network">CDN</acronym>? ]]></question>
+                <answer><![CDATA[
+				<p>First <a href="http://www.rackspacecloud.com/cloud_hosting_products/files" target="_blank">create an account</a>. Next, in the "Content Delivery Network" section of the "General Settings" tab, select Rackspace Cloud Files as the "<acronym title="Content Delivery Network">CDN</acronym> Type." Now, in the "Configuration" section of the "Content Delivery Network" tab, enter the "Username" and "<acronym title="Application Programming Interface">API</acronym> key" associated with your account (found in the <acronym title="Application Programming Interface">API</acronym> Access section of the <a href="https://manage.rackspacecloud.com/APIAccess.do" target="_blank">rackspace cloud control panel</a>) in the respective fields. Next enter a name for the container to use (avoid special characters and spaces). If the operation is successful, the container's ID will automatically appear in the "Replace site's hostname with" field. You may optionally, specify the container name and container ID of an <a href="https://manage.rackspacecloud.com/CloudFiles.do" target="_blank">existing container</a> if you wish. Click the "Test Cloud Files Upload" button and make sure that the test is successful, if not check your settings and try again. Save your settings. You're now ready to export your media library, theme and any other files to the CDN.</p>
+				<p>You may optionally, specify up to 10 hostnames to use rather than the default hostname, doing so will improve the render performance of your site's pages.</p>
+				<p>Now go to the General tab and click the "Enable" checkbox and save the settings to enable <acronym title="Content Delivery Network">CDN</acronym> functionality and empty the cache for the changes to take effect. If preview mode is active you will need to "deploy" your changes for them to take effect.</p>
+			]]></answer>
+            </entry>
+            <entry>
+                <question><![CDATA[ How do I use an Origin Pull (Mirror) <acronym title="Content Delivery Network">CDN</acronym>? ]]></question>
+                <answer><![CDATA[
+				<p>Login to your <acronym title="Content Delivery Network">CDN</acronym> providers control panel or account management area. Following any set up steps they provide, create a new "pull zone" or "bucket" for your site's domain name. If there's a set up wizard or any troubleshooting tips your provider offers, be sure to review them. In the "Content Delivery Network" tab of the plugin, enter the hostname your <acronym title="Content Delivery Network">CDN</acronym> provider provided in the "replace site's hostname with" field. You should always do a quick check by opening a test file from the <acronym title="Content Delivery Network">CDN</acronym> hostname, e.g. http://cdn.domain.com/favicon.ico. Troubleshoot with yoru <acronym title="Content Delivery Network">CDN</acronym> provider until this test is successful.</p>
+				<p>Now go to the "General" tab and click the checkbox and save the settings to enable <acronym title="Content Delivery Network">CDN</acronym> functionality and empty the cache for the changes to take effect.</p> ]]>
+                </answer>
+            </entry>
+            <entry>
+                <question><![CDATA[	How can I host my favicon with my <acronym title="Content Delivery Network">CDN</acronym>? ]]></question>
+                <answer><![CDATA[ <p>If the file exists in your document root (i.e. http://domain.com/favicon.ico), the plugin can take care of that for you using custom upload options. If the file is in your theme directory you can also have the plugin uploaded from there.</p> ]]></answer>
+            </entry>
+            <entry>
+                <question><![CDATA[ What about the wp-includes files, can those be served from the <acronym title="Content Delivery Network">CDN</acronym>? ]]></question>
+                <answer><![CDATA[ <p>Yes, you can specify which file types you would like served by <acronym title="Content Delivery Network">CDN</acronym> and they will be uploaded and always downloaded from that location. This includes the smilies, JavaScript files et al. By default we take care of them all.</p> ]]></answer>
+            </entry>
+            <entry>
+                <question><![CDATA[ What if I don't want to work with a	<acronym title="Content Delivery Network">CDN</acronym>	right now, is there any other use for this feature? ]]></question>
+                <answer><![CDATA[ <p>Yes! You can take advantage of the <a href="http://www.mozilla.org/projects/netlib/http/pipelining-faq.html">pipelining</a> support in some browsers by creating a sub-domain for the static content for your site. So you could select the "Origin Push / Self-hosted" method of the General Settings tab. Create static.domain.com on your server (and update your <acronym title="Domain Name System">DNS</acronym> zone) and then specify the <acronym title="File Transfer Protocol">FTP</acronym> details for it in the plugin configuration panel and you're done. If you disable the scripting options on your server you'll find that your server will actually respond slightly faster from that sub-domain because it's just sending files and not processing them.</p> ]]></answer>
+            </entry>
+            <entry>
+                <question><![CDATA[	Are minified files uploaded to my <acronym title="Content Delivery Network">CDN</acronym> provider? ]]></question>
+                <answer><![CDATA[ <p>Yes, any <acronym title="Cascading Style Sheet">CSS</acronym> and <acronym title="JavaScript">JS</acronym> you manage with the plugin are minified before being uploaded to your <acronym title="Content Delivery Network">CDN</acronym>. You don't have to make any special changes to your theme. We encourage you to make sure that your provider supports <acronym title="Hypertext Transfer Protocol">HTTP</acronym> compression as the benefit of having your static assets available from more than one <acronym title="Point of Presence">POP</acronym> alone is not enough.</p> ]]></answer>
+            </entry>
+            <entry>
+                <question><![CDATA[ Who do you recommend as a <acronym title="Content Delivery Network">CDN</acronym> provider? ]]></question>
+                <answer><![CDATA[
+				<p>That depends on how you use your blog and where most of your readers read your blog (regionally). Here's a short list:</p>
+				<ul>
+				<li><a href="http://bit.ly/acaXXt" target="_blank">MaxCDN</a></li>
+				<li><a href="http://bit.ly/bIjSWC" target="_blank">EdgeCast</a></li>
+				<li><a href="http://bit.ly/ao1sGt" target="_blank">Amazon Cloudfront</a></li>
+				<li><a href="http://bit.ly/9hpX8T" target="_blank">Rackspace Cloud Files</a></li>
+				<li><a href="http://bit.ly/aCW04j" target="_blank">Limelight Networks</a></li>
+				<li><a href="http://bit.ly/a5GBLV" target="_blank">Akamai</a></li>
+				</ul>
+			]]></answer>
+            </entry>
+            <entry>
+                <question><![CDATA[	Hang on, don't I need to modify my <acronym title="Cascading Style Sheet">CSS</acronym>	files so they'll work on the <acronym title="Content Delivery Network">CDN</acronym>? ]]></question>
+                <answer><![CDATA[ <p>No, that is taken care of for you. Your <acronym title="Cascading Style Sheet">CSS</acronym> files will originate from your <acronym title="Content Delivery Network">CDN</acronym> provider and all paths to any images in your <acronym title="Cascading Style Sheet">CSS</acronym> will be changed from relative to absolute, making sure that they load just fine. Do nothing differently, yet reap all the benefits.</p> ]]></answer>
+            </entry>
+            <entry>
+                <question><![CDATA[ What is the purpose of the "Media Library Import" tool and how do I use it? ]]></question>
+                <answer><![CDATA[
+				<p>The media library import tool is for old or "messy" WordPress installations that have attachments (images etc in posts or pages) scattered about the web server or "hot linked" to 3rd party sites instead of properly using the media library.</p>
+				<p>The tool will scan your posts and pages for the cases above and copy them to your media library, update your posts to use the link addresses and produce a .htaccess file containing the list of of permanent redirects, so search engines can find the files in their new location.</p>
+				<p>You should backup your database before performing this operation.</p>
+			]]></answer>
+            </entry>
+            <entry>
+                <question><![CDATA[ What is the purpose of the "modify attachment <acronym title="Uniform Resource Indicator">URL</acronym>s" button? ]]></question>
+                <answer><![CDATA[
+				<p>If the domain name of your site has changed, this tool is useful in updating your posts and pages to use the current addresses. For example, if your site used to be www.domain.com, and you decided to change it to domain.com, the result would either be many "broken" images or many unnecessary redirects (which slow down the visitor's browsing experience). You can use this tool to correct this and similar cases. Correcting the <acronym title="Uniform Resource Indicator">URL</acronym>s of your images also allows the plugin to do a better job of determining which images are actually hosted with the <acronym title="Content Delivery Network">CDN</acronym></p>
+  				<p>As always, it never hurts to back up your database first.</p>
+  			]]></answer>
+            </entry>
+
+        </section>
+        <section name="Browser Cache">
+            <entry>
+                <question><![CDATA[ What's an Etag and why do I need one? ]]></question>
+                <answer><![CDATA[ <p>Entity tags were created to add more reliability to client side caching my providing a simple method for a browser to verify that a file had not changed since last it was downloaded. Using them helps enables your server return 304 or "not modified" responses instead of a 200 "ok" response which are much much slower (because the file is sent). The result is a visitor viewing multiple pages of your site would have that "instant loading" experience that we all definitely enjoy. Don't worry we don't use inodes to create our Etags so this solution is reliable for multi server hosting solutions.</p> ]]></answer>
+            </entry>
+            <entry>
+                <question><![CDATA[ What about Etags? ]]></question>
+                <answer><![CDATA[ <p>Yes, we have Etags covered. Even if you have a clustered hosting environment, your <a href="http://en.wikipedia.org/wiki/HTTP_ETag" target="_blank">Etags</a> will be consistent (across multiple servers in your cluster) so you don't have to worry about using special session cookies when you introduce our plugin. If you would like to specify headers for various reasons, you can do that as well.</p> ]]></answer>
+            </entry>
+            <entry>
+                <question><![CDATA[ Which encodings do you support? ]]></question>
+                <answer><![CDATA[ <p>We recommend UTF-8, but we do not modify the encoding in any files, instead we simply return the code as it is provided.</p> ]]></answer>
+            </entry>
+        </section>
+        <section name="Compatibility">
+            <entry>
+                <question><![CDATA[	Does this plugin work with WordPress <acronym title="Multi-User">MU</acronym>? ]]></question>
+                <answer><![CDATA[ <p>Indeed it does.</p> ]]></answer>
+            </entry>
+            <entry>
+                <question><![CDATA[ Does this plugin work with BuddyPress (bbPress)? ]]></question>
+                <answer><![CDATA[ <p>Yes.</p> ]]></answer>
+            </entry>
+            <entry>
+                <question><![CDATA[ Which WordPress versions are supported? ]]></question>
+                <answer><![CDATA[ <p>To use all features in the suite, a minimum version of 2.8 is required. Earlier versions will benefit from our Media Library Importer to get them back on the upgrade path and into a <acronym title="Content Delivery Network">CDN</acronym> of their choosing.</p> ]]></answer>
+            </entry>
+            <entry>
+                <question><![CDATA[ Will the plugin interfere with other plugins or widgets? ]]></question>
+                <answer><![CDATA[ <p>No, on the contrary if you use the minify settings you will improve their performance by several times.</p> ]]></answer>
+            </entry>
+            <entry>
+                <question><![CDATA[ Is this plugin compatible with other popular caching plugins? ]]></question>
+                <answer><![CDATA[ <p>No. Any disk based page caching plugin you're currently using would need to be completely uninstalled (not just disabled) in order to use this plugin. So if you have a development environment where you can try this out or testing during low traffic periods to get your preferences set, that is recommended. You can always backup your full WordPress installation before testing pretty quickly if you skip the /uploads/ (media library) directory.</p> ]]></answer>
+            </entry>
+            <entry>
+                <question><![CDATA[ Is this plugin comptatible with GD Star Rating? ]]></question>
+                <answer><![CDATA[
+				<p>Yes. Follow these steps:</p>
+				<ol>
+				<li>Enable dynamic loading of ratings by checking GD Star Rating -> Settings -> Features "Cache support option"</li>
+				<li>If Database cache enabled in W3 Total Cache add "wp_gdsr" to "Ignored query stems" field in the Database Cache settings tab, otherwise ratings will not updated after voting</li>
+				<li>Empty all caches</li>
+				</ol>
+			]]></answer>
+            </entry>
+            <entry>
+                <question><![CDATA[ How do I get WPTouch to work properly together with W3 Total Cache? ]]></question>
+                <answer><![CDATA[ <p>You need to enable "User Agent Groups" high and low and add any user agents you think are missing.</p>]]></answer>
+            </entry>
+            <entry>
+                <question><![CDATA[ Is this plugin comptatible with TDO Mini Forms? ]]></question>
+                <answer><![CDATA[ <p>Captcha and recaptcha will work fine, however you will need to prevent any pages with forms from being cached. Add the page's URI to the "Never cache the following pages" box on the Page Cache Settings tab.</p> ]]></answer>
+            </entry>
+            <entry>
+                <question><![CDATA[ Is this plugin compatible with varnish or squid? ]]></question>
+                <answer><![CDATA[ <p>It is compatible with <a href="http://varnish.projects.linpro.no/" target="_blank">varnish</a>.</p> ]]></answer>
+            </entry>
+        </section>
+        <section name="Errors and debugging">
+            <entry>
+                <question><![CDATA[ I've been using the plugin for some time, I updated one of my other plugins and now it doesn't work anymore. What's up? ]]></question>
+                <answer><![CDATA[ <p>It's likely the plugin author modified their <acronym title="JavaScript">JS</acronym> or <acronym title="Cascading Style Sheet">CSS</acronym> in the new release and any old <acronym title="Cascading Style Sheet">CSS</acronym> or <acronym title="JavaScript">JS</acronym> you optimized with our plugin has introduced duplicate code as a result (creating a conflict). Simply check out the source code, identify any new <acronym title="Cascading Style Sheet">CSS</acronym> or <acronym title="JavaScript">JS</acronym> and update your <acronym title="Cascading Style Sheet">CSS</acronym> and <acronym title="JavaScript">JS</acronym> optimizations our plugin and you're good to go.</p> ]]></answer>
+            </entry>
+            <entry>
+                <question><![CDATA[ I see garbage characters instead of the normal web site, what's going on here? ]]></question>
+                <answer><![CDATA[ <p>If a theme or it's files use the call php_flush() or function flush() that will interfere with the plugins normal operation; making the plugin send cached files before essential operations have finished. The flush() call is no longer necessary and should be removed.</p> ]]></answer>
+            </entry>
+            <entry>
+                <question><![CDATA[ I'm getting blank pages or 500 error codes when trying to upgrade on WordPress MU ]]></question>
+                <answer><![CDATA[ <p>First, make sure the plugin is not active (disabled) network-wide. Then make sure it's deactivated network-wide. Now you should be able to successful upgrade without breaking your site.</p> ]]></answer>
+            </entry>
+            <entry>
+                <question><![CDATA[ My YSlow score is low because it doesn't recognize my <acronym title="Content Delivery Network">CDN</acronym>, what can I do? ]]></question>
+                <answer><![CDATA[
+				<p>Rule 2 says to use a content delivery network (<acronym title="Content Delivery Network">CDN</acronym>). The score for this rule is computed by checking the hostname of each component against the list of known <acronym title="Content Delivery Network">CDN</acronym>s. Unfortunately, the list of "known <acronym title="Content Delivery Network">CDN</acronym>s" are the ones used by Yahoo!. Most likely these are not relevant to your web site, except for potentially yui.yahooapis.com. If you want an accurate score for your web site, you can add your <acronym title="Content Delivery Network">CDN</acronym> hostnames to YSlow using Firefox's preferences. Here are the steps to follow:</p>
+				<ul>
+					<li>Go to about:config in Firefox. You'll see the current list of preferences.</li>
+					<li>Right-click in the window and choose New and String to create a new string preference.</li>
+					<li>Enter extensions.yslow.cdnHostnames for the preference name.</li>
+					<li>For the string value, enter the hostname of your <acronym title="Content Delivery Network">CDN</acronym>, for example, mycdn.com. Do not use quotes. If you have multiple <acronym title="Content Delivery Network">CDN</acronym> hostnames, separate them with commas.</li>
+				</ul>
+				<p>If you specify <acronym title="Content Delivery Network">CDN</acronym> hostnames in your preferences, they'll be shown under the details for Rule 2 in the Performance view.</p>
+			]]></answer>
+            </entry>
+            <entry>
+                <question><![CDATA[ When I post / like my posts on Facebook the wrong text or no images are shown on Facebook.]]></question>
+                <answer><![CDATA[ <p>If this happens you need to add the following user agents to the textarea "Rejected user agents" the Page Cache settings page:</p>
+            <pre>facebookexternalhit
+FacebookExternalHit/1.1
+FacebookExternalHit/1.0</pre>
+            <p>Also make sure you have the correct xmlns:og /xmlns:fb  tags in your opening HTML tag.</p>
+            ]]></answer>
+            </entry>
+            <entry>
+                <question><![CDATA[ Why doesn't minify work for me? ]]></question>
+                <answer> <![CDATA[
+                <p>Great question. W3 Total Cache uses several open source tools to attempt to combine and optimize <acronym title="Cascading Style Sheet">CSS</acronym>, JavaScript and <acronym title="Hypertext Markup Language">HTML</acronym> etc. Unfortunately some trial and error is required on the part of developers is required to make sure that their code can be successfully minified with the various libraries W3 Total Cache supports. Even still, if developers do test their code thoroughly, they cannot be sure that interoperability with other code your site may have. This fault does not lie with any single party here, because there are thousands of plugins and theme combinations that a given site can have, there are millions of possible combinations of <acronym title="Cascading Style Sheet">CSS</acronym>, JavaScript etc.</p>
+                <p>A good rule of thumb is to try auto mode, work with a developer to identify the code that is not compatible and start with combine only mode (the safest optimization) and increase the optimization to the point just before functionality (JavaScript) or user interface / layout (<acronym title="Cascading Style Sheet">CSS</acronym>) breaks in your site.</p>
+                <p>We're always working to make this more simple and straight forward in future releases, but this is not an undertaking we can realize on our own. When you find a plugin, theme or file that is not compatible with minification reach out to the developer and ask them either to provide a minified version with their distribution or otherwise make sure their code is minification-friendly.</p>
+             ]]></answer>
+            </entry>
+            <entry>
+                <question><![CDATA[ The plugin tells me to add w3tc-wp-loader.php but minify loads correctly? ]]></question>
+                <answer><![CDATA[
+               <p>If you put the symlink path in w3tc-wp-loader.php the plugin will think the path has changed because WordPress converts symlinks to realpath.
+               You can disable the check by adding: define('DONOTVERIFY_WP_LOADER', true); to wp-config.php.
+               </p>
+            ]]></answer>
+            </entry>
+            <entry>
+                <question><![CDATA[ A notification about file owner appears along with a <acronym title="File Transfer Protocol">FTP</acronym> form, how can I resolve this? ]]></question>
+                <answer><![CDATA[ <p>The plugin uses WordPress FileSystem functionality to write to files. It verifies that file owner, file owner group of created files match process owner. If this is not the case it cannot write or modify files.</[>
+            <p>Typically, you should ask your web host about the permissions issue and they should be able to resolve it.
+            You can however try adding <em>define('FS_METHOD', 'direct');</em> to wp-config.php to circumvent the file and folder checks.</p>
+            ]]></answer>
+            </entry>
+            <entry>
+                <question><![CDATA[ I get an CloudFlare error message similar too <em>"certificate verify locations: CAfile: /etc/path/certs/ca-bundle.crt CApath: none "</em> ]]></question>
+                <answer>
+                    <![CDATA[ <p>
+                    This is happens when CURL cannot find the proper location of certificates or the certificates have incorrect permissions. Ask your web host for help addressing this issue.
+                </p>
+                ]]>
+                </answer>
+            </entry>
+        </section>
+    </section>
+	<section name="Requirements">
+        <entry>
+            <question><![CDATA[ Which web servers do you support? ]]></question>
+            <answer><![CDATA[ <p>We are aware of no incompatibilities with <a href="http://httpd.apache.org/" target="_blank">apache</a> 1.3+, <a href="http://wiki.nginx.org/" target="_blank">nginx 0.7+</a>, , <a href="http://www.iis.net/" target="_blank">IIS</a> 5+ or <a href="http://litespeedtech.com/products/webserver/overview/" target="_blank">litespeed</a> 4.0.2+. If there's a web server you feel we should be actively testing (e.g. <a href="http://www.lighttpd.net/" target="_blank">lighttpd</a>), we're <a href="mailto:wordpressexperts@w3-edge.com">interested in hearing</a>.</p> ]]></answer>
+        </entry>
+        <entry>
+            <question><![CDATA[ Do I need to enable mod_gzip, mod_rewrite or install any <acronym title="Hypertext Transfer Protocol">HTTP</acronym> compression software on my server? ]]></question>
+            <answer><![CDATA[
+				<p>Not when the option is enabled for page caching or minfiied files, however you do need either module to compress files that are not handled by W3 Total Cache.</p>
+				<p>If you're larger organization or a web hosting company, consider looking into solutions that exist like <a href="http://www.gear6.com/">Gear6</a> which could be useful now that you have a plugin that makes management memcached pain free.</p>
+			]]></answer>
+        </entry>
+        <entry>
+            <question><![CDATA[	How much memory (<acronym title="Random Access Memory">RAM</acronym>) do I need to delegate to caching? ]]></question>
+            <answer><![CDATA[
+				<p>Probably the hardest question of all. At the time of this writing the default WordPress install and theme will consume about 50MB of memory in an opcode cache while running our plugin. Keep in mind that the following factors will determine the minimum size of your cache beyond this noted 50MB:</p>
+				<ul>
+				<li>Number of typically requested pages per day (if your blog is popular this number is quite large)</li>
+				<li>Size of minified <acronym title="Cascading Style Sheet">CSS</acronym>, <acronym title="JavaScript">JS</acronym> and <acronym title="Hypertext Markup Language">HTML</acronym> pages (smaller is better)</li>
+				<li>Number and complexity of plugins active on your blog (fewer is better)</li>
+				<li>Expiry time of the cache (larger expiry time, larger cache)</li>
+				</ul>
+				<p>So we recommend an absolute minimum of 128MB for a typical blog; this figure is greater than some defaults, so keep that in mind. With statistics you'll be able to react accordingly and make adjustments.</p>
+				<p>For those that don't want or have time to learn anything new to get started, sample configuration files are included with the plugin containing inline comments for you.</p>
+			]]></answer>
+        </entry>
+        <entry>
+            <question><![CDATA[ What version of	<acronym title="Hypertext Preprocessor">PHP</acronym> do I need for this thing? ]]></question>
+            <answer><![CDATA[ <p>  Version 5.2+ </p> ]]></answer>
+        </entry>
+        <entry>
+            <question><![CDATA[ What version of mySQL is needed? ]]></question>
+            <answer><![CDATA[ <p>If your WordPress installation works, you're all set.</p> ]]></answer>
+        </entry>
+        <entry>
+            <question><![CDATA[ And I need mod_rewrite (or equivalent for my web server) installed too, no? ]]></question>
+            <answer><![CDATA[ <p>That's correct; everything you need for WordPress (i.e. fancy <acronym title="Uniform Resource Locator">URL</acronym>s) will get you started with this plugin also.</p> ]]></answer>
+        </entry>
+        <entry>
+            <question><![CDATA[ How much hardware do I have to throw at something like this	before I see a benefit? ]]></question>
+            <answer><![CDATA[ <p>This plugin was actually designed with virtual dedicated servers in mind. As long as your server has at least 256M of <acronym title="Random Access Memory">RAM</acronym>, you can get started with the advanced optimizations.</p> ]]></answer>
+        </entry>
+        <entry>
+            <question><![CDATA[ Is this plugin server cluster and load balancer friendly? ]]></question>
+            <answer><![CDATA[ <p>Yes, built from the ground up with scale and current hosting paradigms in mind.</p> ]]></answer>
+        </entry>
+        <entry>
+            <question><![CDATA[ I'm a web hosting provider and I heard about this plugin from my clients, is this plugin safe for a shared hosting environment? ]]></question>
+            <answer><![CDATA[ <p>Yes.</p> ]]></answer>
+        </entry>
+        <entry>
+            <question><![CDATA[ What is the intended impact of this plugin on the web hosting landscape? ]]></question>
+            <answer><![CDATA[ <p>We feel that shared or virtual hosting providers will begin offering secure containers (similar to what <a href="http://mediatemple.net/" target="_blank">mediatemple.net</a> does for mySQL and Ruby etc) for opcode caching and memcached. Whoever brings this offering to market first will lower the bar for more web sites/applications (and startups) to build better performing applications with greater ease. The same hosting provider would also possess a new value added service, thereby realizing a competitive advantage in a highly competitive marketplace. Not to mention be able to increase the density of domains per server (or cluster) without shortchanging customers.</p>  <p>One day hopefully this plugin will contribute to making web servers greener and reduce the ecological footprint of the web by reducing the computational effort required to deliver high performance rich user experiences.</p> ]]></answer>
+        </entry>
+	</section>
+    <section name="Developers">
+        <entry>
+            <question><![CDATA[ When are you going to translate this plugin into more languages? ]]></question>
+            <answer><![CDATA[ <p>When you help us! :-) Localization is tricky and we're happy to work with those willing to support the WordPress community. We will most likely follow the <a href="http://en.wordpress.com/stats/" target="_blank">trends of WordPress</a> itself to determine which languages are addressed first.</p> ]]></answer>
+        </entry>
+        <entry>
+            <question><![CDATA[ How do I implement page fragment caching? ]]></question>
+            <answer><![CDATA[
+                <p>First you need to define W3TC_DYNAMIC_SECURITY in your wp-config.php file.</p>
+                <pre>
+define('W3TC_DYNAMIC_SECURITY', 'somesecurestring');
+                </pre>
+                <p>Edit your templates with the following syntax to ensure that dynamic features remain so. Replace W3TC_DYNAMIC_SECURITY with content of the constant or use echo to print constant:</p>
+                <ul>
+                 <li>Example 1:<br />&lt;!-- mfunc W3TC_DYNAMIC_SECURITY any PHP code --&gt;&lt;!-- /mfunc W3TC_DYNAMIC_SECURITY --&gt;</li>
+                  <li>Example 2:<br />&lt;!-- mfunc W3TC_DYNAMIC_SECURITY --&gt;any PHP code&lt;!-- /mfunc W3TC_DYNAMIC_SECURITY --&gt;</li>
+                 <li>Example 3:<br />&lt;!--MFUNC W3TC_DYNAMIC_SECURITY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--&gt;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo rand();<br />&lt;!--/mfunc W3TC_DYNAMIC_SECURITY --&gt;</li>
+                  <li>Example 4:<br />&lt;!-- mclude W3TC_DYNAMIC_SECURITY path/to/file.php --&gt;&lt;!-- /mclude W3TC_DYNAMIC_SECURITY --&gt;</li>
+                  <li>Example 5:<br />&lt;!-- mclude W3TC_DYNAMIC_SECURITY --&gt;path/to/file.php&lt;!-- /mclude W3TC_DYNAMIC_SECURITY --&gt;</li>
+               </ul>
+               <p>Be aware that WordPress functions will not be available.</p>
+              ]]></answer>
+        </entry>
+        <entry>
+            <question><![CDATA[ How can I prevent caching directly in my templates etc? ]]></question>
+            <answer><![CDATA[
+				<p>Several constants are available for these purposes:</p>
+				<ul>
+					<li>define('DONOTCACHEPAGE', true);<br />Disables page caching for a given page.</li>
+					<li>define('DONOTCACHEDB', true);<br />Disables database caching for given page.</li>
+					<li>define('DONOTMINIFY', true);<br />Disables minify for a given page.</li>
+					<li>define('DONOTCDN', true);<br />Disables content delivery network for a given page.</li>
+					<li>define('DONOTCACHEOBJECT', true);<br />Disables object cache for a given page.</li>
+				</ul>
+			]]></answer>
+        </entry>
+        <entry>
+            <question><![CDATA[ How can I flush the cache without using the WP Admin interface? ]]></question>
+            <answer><![CDATA[
+				<p>It's possible to empty the entire cache or simply purge the cache of a single post / page:</p>
+				<ul>
+					<li>Purge the entire page cache:<br />
+					if (function_exists('w3tc_pgcache_flush')) {<br />
+					    w3tc_pgcache_flush();<br />
+					}
+					</li>
+					<li>Purge a single post / page by passing it's ID:<br />
+					if (function_exists('w3tc_pgcache_flush_post')) {<br />
+						w3tc_pgcache_flush_post($post_id);<br />
+					}
+					</li>
+				</ul>
+			]]></answer>
+        </entry>
+        <entry>
+            <question><![CDATA[ How do I programmatically modify user agent groups? ]]></question>
+            <answer><![CDATA[
+			    <p>There are two ways change user agent groups, functions or filter.</p>
+			    <p><strong>Using functions:</strong></p>
+			    <pre>
+$group_config = w3tc_get_user_agent_group($group_name); //name of the group
+$group_config['theme'] = 'newtheme';
+$group_config['redirect'] = '';
+$group_config['agents'] = array(escaped_string, [...]);
+$group_config['enabled'] = true;
+
+w3tc_save_user_agent_group($group_name, $group_config['theme'], $group_config['redirect'], $group_config['agents'], $group_config['enabled']);
+
+			    </pre>
+				<p><strong>Using filter: </strong></p>
+<pre>
+function my_w3tc_mobile_groups($w3tc_groups) {
+    // any operations
+    // clear all groups example
+    $w3tc_groups = array();
+    // delete all groups and add new example
+    $w3tc_groups = array(....);
+    // merge groups example:
+    $w3tc_groups = array_merge($w3tc_groups, array(
+        'good_browsers' =&gt; array(
+                    'theme' =&gt; 'good_theme/good_theme',
+                    'enabled' =&gt; true,
+                    'redirect' =&gt; '',
+                    'agents' =&gt; array('firefox', 'chrome')
+                    ),
+        'bad_browsers' =&gt; array(
+                    'theme' =&gt; 'bad_theme/bad_theme',
+                    'enabled' =&gt; true,
+                    'redirect' =&gt; '',
+                    'agents' =&gt; array('msie', 'opera')
+                    )
+    ));
+    return $w3tc_groups;
+}
+add_filter('w3tc_mobile_groups', 'my_w3tc_mobile_groups');
+				</pre>
+			]]></answer>
+        </entry>
+        <entry>
+            <question><![CDATA[ How do I programmatically modify referrer groups? ]]></question>
+            <answer><![CDATA[
+			    <p>There are two ways change referrer groups, functions or filter.</p>
+			    <p><strong>Using functions:</strong></p>
+			    <pre>
+$group_config = w3tc_get_referrer_group($group_name); //name of the group
+$group_config['theme'] = 'newtheme';
+$group_config['redirect'] = '';
+$group_config['referrers'] = array(escaped_string, [...]);
+$group_config['enabled'] = true;
+w3tc_save_referrer_group($group_name, $group_config['theme'], $group_config['referrer'], $group_config['referrers'], $group_config['enabled']);
+			    </pre>
+				<p><strong>Using filters: </strong></p>
+				<pre>
+function my_w3tc_referrer_groups($w3tc_groups) {<br />
+    // any operations
+    // clear all groups example
+    $w3tc_groups = array();
+
+    // delete all groups and add new example
+    $w3tc_groups = array(....);
+
+    // merge groups example:
+    $w3tc_groups = array_merge($w3tc_groups, array(
+    'search_referrers' =&gt; array(
+                        'theme' =&gt; 'search_theme',
+                        'enabled' =&gt; true,<br />
+                        'redirect' =&gt; '',<br />
+                        'referrers' =&gt; array('google\.com')
+                        ),
+
+    'other_referrers' =&gt; array(
+                        'theme' =&gt; 'video_theme',
+                        'enabled' =&gt; true,
+                        'redirect' =&gt; '',
+                        'referrers' =&gt; array('youtube\.com')
+                        )
+    ));
+
+    return $w3tc_groups;
+}
+add_filter('w3tc_referrer_groups', 'my_w3tc_referrer_groups');</pre>
+			]]></answer>
+        </entry>
+        <entry>
+            <question><![CDATA[ How do I remove the W3 Total Cache <acronym title="Hypertext Markup Language">HTML</acronym> comment? ]]></question>
+            <answer> <![CDATA[
+                <p>Define APP_REQUEST in wp-config.php for example:<br /><br />
+                if ($_SERVER['REQUEST_URI'] == '/my-specific-page/') {<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;define('APP_REQUEST', 'true');<br />
+                }
+                </p>
+             ]]></answer>
+        </entry>
+        <entry>
+            <question><![CDATA[ How can I make w3tc-wp-loader.php work correctly with symlinks where the real path changes from time to time? ]]></question>
+            <answer><![CDATA[
+               <p>Add the symlink path to w3tc-wp-loader.php and then  disable the wp loader check by adding: define('DONOTVERIFY_WP_LOADER', true); to wp-config.php.
+               </p>
+            ]]></answer>
+        </entry>
+        <entry>
+            <question><![CDATA[ How can I issue delete and reload APC commands over <acronym title="Hypertext Transfer Protocol">HTTP</acronym>/WP-CLI? ]]></question>
+            <answer> <![CDATA[
+                <p>Functions required for deleting and reloading over <acronym title="Hypertext Transfer Protocol">HTTP</acronym> is found in inc/functions/plugin.php.<br />
+                Call <em>w3tc_apc_reload_files(array('file1' ...),true)</em> to reload files.<br />
+                Call <em>w3tc_apc_delete_files_based_on_regex('a regular expression', true)</em> to delete files.</p>
+                <p>
+                <p>To do it locally with <em>WP-CLI</em>:<br />
+                     Call <em>wp w3-total-cache apc_reload_files local file1 file2 file3</em><br />
+                     Call <em>wp w3-total-cache apc_delete_based_on_regex local regex</em><br />
+                </p>
+            ]]></answer>
+        </entry>
+        <entry>
+            <question><![CDATA[ How do I add new extensions? ]]></question>
+            <answer><![CDATA[
+             <p>
+             Refer to w3-total-cache/extensions/GenesisAdmin.php to see how to create an extension by example.
+             </p>
+<pre>
+// Adding a basic function. See GenesisAdmin.php for how to setup settings screen.
+add_filter('w3tc_extensions', 'custom_extension');
+function custom_extension($extensions) {
+        $extensions['some.theme'] = array (
+            'name' => 'Custpom Framework Extension',
+            'author' => 'Bluw Widgets',
+            'description' => 'Adds specific caching capabilities.',
+            'author uri' => 'http://example.com',
+            'extension uri' => 'http://example.com',
+            'extension id' => 'some.theme',
+            'version' => '0.1',
+            'enabled' => true,
+            'requirements' => array(),
+            'path' => 'your-plugin-folder/extensions/CustomExtension.php'
+        );
+}
+</pre>
+             ]]></answer>
+        </entry>
+    </section>
+</faqs>

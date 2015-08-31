@@ -1,0 +1,1054 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: 3.1.9\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2009-12-20 03:31+0800\n"
+"PO-Revision-Date: 2009-12-21 17:59+0100\n"
+"Last-Translator: Arne Brachhold\n"
+"Language-Team: dupola <dupola.com@gmail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Chinese\n"
+"X-Poedit-Country: China\n"
+"X-Poedit-Basepath: D:\\usr\\www\\wp-content\\plugins\\google-sitemap-generator\n"
+"X-Poedit-KeywordsList: _e;__\n"
+"X-Poedit-SearchPath-0: D:\\usr\\www\\wp-content\\plugins\\google-sitemap-generator\n"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:846
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-core.php:525
+msgid "Comment Count"
+msgstr "评论数量"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:858
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-core.php:537
+msgid "Uses the number of comments of the post to calculate the priority"
+msgstr "通过文章评论数量的多少来决定优先"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:918
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-core.php:597
+msgid "Comment Average"
+msgstr "评论平均"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:930
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-core.php:609
+msgid "Uses the average comment count to calculate the priority"
+msgstr "通过评论平均来决定计算优先"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:993
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-core.php:672
+msgid "Popularity Contest"
+msgstr "热门内容"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:1005
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-core.php:684
+msgid "Uses the activated <a href=\"%1\">Popularity Contest Plugin</a> from <a href=\"%2\">Alex King</a>. See <a href=\"%3\">Settings</a> and <a href=\"%4\">Most Popular Posts</a>"
+msgstr "使用已经激活的 <a href=\"%2\">Alex King</a> 的 <a href=\"%1\">热门日志插件</a>。 查看 <a href=\"%3\">设置</a> and <a href=\"%4\">最流行日志</a>"
+
+# D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-core.php:1123
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-core.php:1084
+msgid "Always"
+msgstr "总是"
+
+# D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-core.php:1124
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-core.php:1085
+msgid "Hourly"
+msgstr "每小时"
+
+# D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-core.php:1125
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-core.php:1086
+msgid "Daily"
+msgstr "每天"
+
+# D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-core.php:1126
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-core.php:1087
+msgid "Weekly"
+msgstr "每周"
+
+# D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-core.php:1127
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-core.php:1088
+msgid "Monthly"
+msgstr "每月"
+
+# D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-core.php:1128
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-core.php:1089
+msgid "Yearly"
+msgstr "每月"
+
+# D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-core.php:1129
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-core.php:1090
+msgid "Never"
+msgstr "从不"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2635
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2835
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:97
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:482
+msgid "XML Sitemap Generator for WordPress"
+msgstr "XML 地图生成器"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2740
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:257
+msgid "Configuration updated"
+msgstr "配置已更新"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2741
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:258
+msgid "Error while saving options"
+msgstr "保存设置时出错"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2743
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:260
+msgid "Pages saved"
+msgstr "页面已保存"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2744
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:261
+msgid "Error while saving pages"
+msgstr "保存页面时出错"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2758
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:268
+msgid "The default configuration was restored."
+msgstr "默认结构已经被修复。"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2600
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:307
+msgid "Thank you very much for your donation. You help me to continue support and development of this plugin and other free software!"
+msgstr "非常感谢你的捐赠，你的帮助可以使我继续开发该这个和其他项目！"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2600
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:307
+msgid "Hide this notice"
+msgstr "隐藏提示"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2657
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:313
+#, php-format
+msgid "Thanks for using this plugin! You've installed this plugin over a month ago. If it works and you are satisfied with the results, isn't it worth at least a few dollar? <a href=\"%s\">Donations</a> help me to continue support and development of this <i>free</i> software! <a href=\"%s\">Sure, no problem!</a>"
+msgstr "感谢使用本插件！你已经使用了一段时间了，现在看起来它运行的很不错，帮了你不少忙。你会考虑支持它的发展吗？ <a href=\"%s\">捐赠</a> 几美元，作者就可以持续开发这个 <i>免费软件</i>了。没问题？<a href=\"%s\">点这里开始捐赠！</a>"
+
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:313
+msgid "Sure, but I already did!"
+msgstr "当然，我已经做了。"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2657
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:313
+msgid "No thanks, please don't bug me anymore!"
+msgstr "不，请别再再骚扰我啦！"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2657
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:320
+#, php-format
+msgid "Thanks for using this plugin! You've installed this plugin some time ago. If it works and your are satisfied, why not <a href=\"%s\">rate it</a> and <a href=\"%s\">recommend it</a> to others? :-)"
+msgstr "感谢你使用这个插件！你已经启用这个插件一段时间了。它运行得很不错并且你也很满意，可否 <a href=\"%s\">为它评分</a> 并 <a href=\"%s\">推荐</a> 给你的朋友们？ :-)"
+
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:320
+msgid "Don't show this anymore"
+msgstr "不要再显示"
+
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:332
+msgid "Your sitemap is being refreshed at the moment. Depending on your blog size this might take some time!<br /><small>Due to limitations of the WordPress scheduler, it might take another 60 seconds until the build process is actually started.</small>"
+msgstr "你的 Sitemap 已经更新，完全应用到你的 blog 可能需要点时间。"
+
+# D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:69
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:334
+#, php-format
+msgid "Your sitemap will be refreshed in %s seconds. Depending on your blog size this might take some time!"
+msgstr "你的 sitemap 将在 %s 秒内更新，Blog 配置不同，它完全生效的时间也不同。"
+
+# D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:374
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:498
+#, php-format
+msgid "There is a new version of %1$s available. <a href=\"%2$s\">Download version %3$s here</a>."
+msgstr "XML Sitemap 有新版本 %1$s 发布了。 <a href=\"%2$s\">这里来下载 %3$s 版</a>。"
+
+# D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:376
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:500
+#, php-format
+msgid "There is a new version of %1$s available. <a href=\"%2$s\">Download version %3$s here</a> <em>automatic upgrade unavailable for this plugin</em>."
+msgstr "XML Sitemap 的新版本 %1$s 发布了. <a href=\"%2$s\">到这里下载 %3$s 版</a> 。<em>无法自动更新这个插件</em>."
+
+# D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:378
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:502
+#, php-format
+msgid "There is a new version of %1$s available. <a href=\"%2$s\">Download version %3$s here</a> or <a href=\"%4$s\">upgrade automatically</a>."
+msgstr "XML Sitemap 新版 %1$s 发布了。 <a href=\"%2$s\">到这里下载 %3$s 版</a> 或者 <a href=\"%4$s\">自动升级</a>。"
+
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:510
+#, php-format
+msgid "Your blog is currently blocking search engines! Visit the <a href=\"%s\">privacy settings</a> to change this."
+msgstr "你的 Blog 现在正在屏蔽搜索引擎！如要更改请前去 <a href=\"%s\">隐私设置</a> 页面。"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2851
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2868
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:531
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:548
+msgid "open"
+msgstr "打开"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2852
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2869
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:532
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:549
+msgid "close"
+msgstr "关闭"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2853
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2870
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:533
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:550
+msgid "click-down and drag to move this box"
+msgstr "点击并拖动它到这个区域"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2854
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2871
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:534
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:551
+msgid "click to %toggle% this box"
+msgstr "点击并 %toggle% 这个区域"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2855
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2872
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:535
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:552
+msgid "use the arrow keys to move this box"
+msgstr "使用箭头指向来移动这个区块"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2856
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2873
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:536
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:553
+msgid ", or press the enter key to %toggle% it"
+msgstr "，或者按这里to %toggle% it"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2884
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:582
+msgid "About this Plugin:"
+msgstr "关于这个插件："
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2886
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:583
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap.php:187
+msgid "Plugin Homepage"
+msgstr "插件主页"
+
+# D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:438
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:584
+msgid "Suggest a Feature"
+msgstr "建议新功能"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2887
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:585
+msgid "Notify List"
+msgstr "通告列表"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2888
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:586
+msgid "Support Forum"
+msgstr "支持论坛"
+
+# D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:441
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:587
+msgid "Report a Bug"
+msgstr "报告 Bug"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2889
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:589
+msgid "Donate with PayPal"
+msgstr "通过 PayPal 捐赠"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2890
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:590
+msgid "My Amazon Wish List"
+msgstr "我想要的东西(Amazon)"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2891
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:591
+msgid "translator_name"
+msgstr "肚破惊天(@dupola)"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2891
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:591
+msgid "translator_url"
+msgstr "http://dupola.net"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2895
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:595
+msgid "Sitemap Resources:"
+msgstr "Sitemap 资源："
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2897
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:596
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:602
+msgid "Webmaster Tools"
+msgstr "Webmaster Tools"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2898
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:597
+msgid "Webmaster Blog"
+msgstr "Webmaster Blog"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2900
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:599
+msgid "Site Explorer"
+msgstr "Site Explorer"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2901
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:600
+msgid "Search Blog"
+msgstr "Search Blog"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3010
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:603
+msgid "Webmaster Center Blog"
+msgstr "Webmaster Center Blog"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2903
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:605
+msgid "Sitemaps Protocol"
+msgstr "Sitemaps 协议"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2904
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:606
+msgid "Official Sitemaps FAQ"
+msgstr "通用 Sitemaps FAQ"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2905
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:607
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap.php:188
+msgid "My Sitemaps FAQ"
+msgstr "我的 Sitemaps FAQ"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2910
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:610
+msgid "Recent Donations:"
+msgstr "最近捐赠者："
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2914
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:613
+msgid "List of the donors"
+msgstr "捐赠者列表"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2916
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:615
+msgid "Hide this list"
+msgstr "隐藏这个列表"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2919
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:618
+msgid "Thanks for your support!"
+msgstr "谢谢支持！"
+
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:640
+msgid "The sitemap wasn't generated yet."
+msgstr "Sitemap 还没生成。"
+
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:643
+msgid "Result of the last build process, started on %date%."
+msgstr "上一次执行的结果，始于 %date%."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2941
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:652
+#, php-format
+msgid "The sitemap wasn't built yet. <a href=\"%s\">Click here</a> to build it the first time."
+msgstr "sitemap 还没建立，<a href=\"%s\">点击这里</a>建立。"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2947
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:658
+msgid "Your <a href=\"%url%\">sitemap</a> was last built on <b>%date%</b>."
+msgstr "你的 <a href=\"%url%\">sitemap</a> 上一次建立是在<b>%date%</b>。"
+
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:659
+msgid "The last build succeeded, but the file was deleted later or can't be accessed anymore. Did you move your blog to another server or domain?"
+msgstr "Sitemap 上一次建立成功，不过文件被删除了或者是无法访问了。你是不是将 blog 转移到了其他主机或域名？"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2949
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:661
+msgid "There was a problem writing your sitemap file. Make sure the file exists and is writable. <a href=\"%url%\">Learn more</a>"
+msgstr "写入 sitemap 文件时发生错误。保证这个文件存在并且可写。<a href=\"%url%\">学习更多</a>"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2956
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:668
+msgid "Your sitemap (<a href=\"%url%\">zipped</a>) was last built on <b>%date%</b>."
+msgstr "你的 sitemap (<a href=\"%url%\">zipped</a>) 上一次建立是在 <b>%date%</b>."
+
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:669
+msgid "The last zipped build succeeded, but the file was deleted later or can't be accessed anymore. Did you move your blog to another server or domain?"
+msgstr "Sitemap zipped 上一次执行成功，不过文件被删除了或者是无法访问了。你是不是将 blog 转移到了其他主机或域名？"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2958
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:671
+msgid "There was a problem writing your zipped sitemap file. Make sure the file exists and is writable. <a href=\"%url%\">Learn more</a>"
+msgstr "在创建 zipped sitemap 文件时发生了错误。保证这个文件存在并且可写。<a href=\"%url%\">学习更多</a>"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2964
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:677
+msgid "Google was <b>successfully notified</b> about changes."
+msgstr "更新已经成功通知 Google。"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2967
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:680
+msgid "It took %time% seconds to notify Google, maybe you want to disable this feature to reduce the building time."
+msgstr "通知 Google 用了%time% ，也许你应该禁用这一功能以减少创建时间。"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3011
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:683
+#, php-format
+msgid "There was a problem while notifying Google. <a href=\"%s\">View result</a>"
+msgstr "在通知 Google 时发生错误，<a href=\"%s\">查看结果</a>"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2976
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:689
+msgid "YAHOO was <b>successfully notified</b> about changes."
+msgstr "更新已经成功通知 YAHOO。"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2979
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:692
+msgid "It took %time% seconds to notify YAHOO, maybe you want to disable this feature to reduce the building time."
+msgstr "通知 YAHOO 用了 %time% ，也许你应该禁用这项功能以减少建立时间。"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3023
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:695
+#, php-format
+msgid "There was a problem while notifying YAHOO. <a href=\"%s\">View result</a>"
+msgstr "通知 YAHOO 时出错。<a href=\"%s\">查看结果</a>"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3097
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:701
+msgid "Bing was <b>successfully notified</b> about changes."
+msgstr "您的更改已经成功通知 Bing。"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2967
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:704
+msgid "It took %time% seconds to notify Bing, maybe you want to disable this feature to reduce the building time."
+msgstr "通知 Bing 用了%time% ，也许你应该禁用这一功能以减少创建时间。"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3011
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:707
+#, php-format
+msgid "There was a problem while notifying Bing. <a href=\"%s\">View result</a>"
+msgstr "在通知 Bing 时发生错误，<a href=\"%s\">查看结果</a>"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2988
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:713
+msgid "Ask.com was <b>successfully notified</b> about changes."
+msgstr "更新已经成功通知 Ask.com。"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2991
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:716
+msgid "It took %time% seconds to notify Ask.com, maybe you want to disable this feature to reduce the building time."
+msgstr "通知 Ask.com 用了%time% ，也许你应该禁用这一功能以减少创建时间。"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3035
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:719
+#, php-format
+msgid "There was a problem while notifying Ask.com. <a href=\"%s\">View result</a>"
+msgstr "通知 MSN.com 时出错。<a href=\"%s\">查看结果</a>"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3002
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:727
+msgid "The building process took about <b>%time% seconds</b> to complete and used %memory% MB of memory."
+msgstr "此次建立大约用了 <b>%time% 秒</b> 完成，使用了 %memory% MB 内存。"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3004
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:729
+msgid "The building process took about <b>%time% seconds</b> to complete."
+msgstr "此次建立用了大约 <b>%time% 秒</b> 完成。"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3008
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:733
+msgid "The content of your sitemap <strong>didn't change</strong> since the last time so the files were not written and no search engine was pinged."
+msgstr "从上次这个文件不可写以后，你的 sitemap 就没有<strong>更新</strong> ，并且也没有通知任何搜索引擎。"
+
+# D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:586
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:741
+msgid "The building process might still be active! Reload the page in a few seconds and check if something has changed."
+msgstr "这项处理将会生效！几秒钟后刷新这个页面，查看是否有所变化。"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3012
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:744
+msgid "The last run didn't finish! Maybe you can raise the memory or time limit for PHP scripts. <a href=\"%url%\">Learn more</a>"
+msgstr "上次运行没有完成！你应该为 PHP scripts 增加内存或时间限制。<a href=\"%url%\">学习更多</a>"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3014
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:746
+msgid "The last known memory usage of the script was %memused%MB, the limit of your server is %memlimit%."
+msgstr "上次执行用了 was %memused%MB, 你的服务器限制是 %memlimit%。"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3018
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:750
+msgid "The last known execution time of the script was %timeused% seconds, the limit of your server is %timelimit% seconds."
+msgstr "上次执行时间 %timeused% 秒，你的服务器限制是 %timelimit% 秒."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3022
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:754
+msgid "The script stopped around post number %lastpost% (+/- 100)"
+msgstr "这个脚本停止于这篇日志： %lastpost% (+/- 100)"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3025
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:757
+#, php-format
+msgid "If you changed something on your server or blog, you should <a href=\"%s\">rebuild the sitemap</a> manually."
+msgstr "如果你 Blog 或服务器更新了某些东西，你应该手动 <a href=\"%s\">重建 sitemap</a>。"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3027
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:759
+#, php-format
+msgid "If you encounter any problems with the build process you can use the <a href=\"%d\">debug function</a> to get more information."
+msgstr "如果在执行建立程序时遇到问题，你可以使用 <a href=\"%d\">debug function</a>来获取更多信息。"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3040
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:766
+msgid "Basic Options"
+msgstr "基本设置"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3044
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:768
+msgid "Sitemap files:"
+msgstr "sitemap 文件"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3044
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3059
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3079
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3104
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3121
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:768
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:783
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:803
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:836
+msgid "Learn more"
+msgstr "学习更多"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3049
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:773
+msgid "Write a normal XML file (your filename)"
+msgstr "创建一个 XML 文件 (你的文件名)"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3055
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:779
+msgid "Write a gzipped file (your filename + .gz)"
+msgstr "创建一个 gzipped 文件 (你的文件名 + .gz)"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3059
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:783
+msgid "Building mode:"
+msgstr "建立模式："
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3064
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:788
+msgid "Rebuild sitemap if you change the content of your blog"
+msgstr "在你更改了 Blog 内容后重建 sitemap"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3071
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:795
+msgid "Enable manual sitemap building via GET Request"
+msgstr "通过 GET Request 启用手动建立 sitemap"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3075
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:799
+msgid "This will allow you to refresh your sitemap if an external tool wrote into the WordPress database without using the WordPress API. Use the following URL to start the process: <a href=\"%1\">%1</a> Please check the result box above to see if sitemap was successfully built."
+msgstr "如果外部工具不是通过 WordPress API写入 WordPress 数据，那此项将允许你刷新你的 sitemap，。使用下面这个链接开始运行：<a href=\"%1\">%1</a> 请检查上面的日志文件，看看 sitemap 有没有成功建立。"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3079
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:803
+msgid "Update notification:"
+msgstr "更新通知："
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3083
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:807
+msgid "Notify Google about updates of your Blog"
+msgstr "通知 Google 关于你 Blog 的更新"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3084
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:808
+#, php-format
+msgid "No registration required, but you can join the <a href=\"%s\">Google Webmaster Tools</a> to check crawling statistics."
+msgstr "非必须注册，不过你可以使用<a href=\"%s\">Google 管理员工具</a>查看爬虫统计。"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3209
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:812
+msgid "Notify Bing (formerly MSN Live Search) about updates of your Blog"
+msgstr "通知 Bing/MSN Live Search 关于你 Blog 的更新"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3084
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:813
+#, php-format
+msgid "No registration required, but you can join the <a href=\"%s\">Bing Webmaster Tools</a> to check crawling statistics."
+msgstr "非必须注册，不过你可以使用 <a href=\"%s\">Bing 管理员工具</a >查看爬虫统计。"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3088
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:817
+msgid "Notify Ask.com about updates of your Blog"
+msgstr "提醒 Ask.com 关于你 Blog 的更新"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3089
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:818
+msgid "No registration required."
+msgstr "非必须注册。"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3093
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:822
+msgid "Notify YAHOO about updates of your Blog"
+msgstr "提醒 Yahoo 关于你 Blog 的更新"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3154
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:823
+msgid "Your Application ID:"
+msgstr "你的 Application ID:"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3155
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:824
+#, php-format
+msgid "Don't you have such a key? <a href=\"%s1\">Request one here</a>! %s2"
+msgstr "没有 key？<a href=\"%s1\">点这里申请一个</a>! %s2"
+
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:829
+msgid "Add sitemap URL to the virtual robots.txt file."
+msgstr "将 sitemap 地址添加到虚拟 robots.txt 文件中。"
+
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:833
+msgid "The virtual robots.txt generated by WordPress is used. A real robots.txt file must NOT exist in the blog directory!"
+msgstr "由 WordPress 生成的虚拟 robots.txt 文件已经启用，请确保 blog 文档中已无原来的 robots.txt 文件。"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3121
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:836
+msgid "Advanced options:"
+msgstr "高级设置："
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3124
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:839
+msgid "Limit the number of posts in the sitemap:"
+msgstr "sitemap 里日志数量的限制："
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3124
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:839
+msgid "Newer posts will be included first"
+msgstr "较早的日志将首先被包含进来"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3127
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:842
+msgid "Try to increase the memory limit to:"
+msgstr "增加内存限制到："
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3127
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:842
+msgid "e.g. \"4M\", \"16M\""
+msgstr "比如： \"4M\", \"16M\""
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3130
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:845
+msgid "Try to increase the execution time limit to:"
+msgstr "增加执行时间限制到："
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3130
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:845
+msgid "in seconds, e.g. \"60\" or \"0\" for unlimited"
+msgstr "按秒计算，比如 \"60\" or \"0\" 没有限制"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3133
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:849
+msgid "Include a XSLT stylesheet:"
+msgstr "包含一个 XSLT 清单"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3133
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:850
+msgid "Full or relative URL to your .xsl file"
+msgstr ".xsl 文件的绝对或相对路径"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3133
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:850
+msgid "Use default"
+msgstr "使用默认的"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3152
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:856
+msgid "Enable MySQL standard mode. Use this only if you're getting MySQL errors. (Needs much more memory!)"
+msgstr "启用 MySQL 标准模式。仅在 MySQL 发生错误的时候使用。(将会占用更多内存！)"
+
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:857
+msgid "Upgrade WordPress at least to 2.2 to enable the faster MySQL access"
+msgstr "MySQL 快速连接仅支持 WordPress 2.2 或以上版本，请升级。"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3166
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:864
+msgid "Build the sitemap in a background process (You don't have to wait when you save a post)"
+msgstr "在后台建立 sitemap（你不需要在保存日志时等待）"
+
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:865
+msgid "Upgrade WordPress at least to 2.1 to enable background building"
+msgstr "后台生成仅支持 WordPress 2.1 或以上版本，请升级。"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3144
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:872
+msgid "Additional pages"
+msgstr "附加页面"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3149
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:875
+msgid "Here you can specify files or URLs which should be included in the sitemap, but do not belong to your Blog/WordPress.<br />For example, if your domain is www.foo.com and your blog is located on www.foo.com/blog you might want to include your homepage at www.foo.com"
+msgstr "在这里你可以为 sitemap 加入一些特殊的但并不存在于你 Blog/WordPress 的地址。比如，如果你的域名是 www.dupola.com，你的blog在 www.dupola.com/blog 上，你可以加入你的首页 www.dupola.com"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3151
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3462
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:877
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:1085
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:1099
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:1108
+msgid "Note"
+msgstr "注意"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3152
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:878
+msgid "If your blog is in a subdirectory and you want to add pages which are NOT in the blog directory or beneath, you MUST place your sitemap file in the root directory (Look at the &quot;Location of your sitemap file&quot; section on this page)!"
+msgstr "如果你的 blog 在子目录里，你要添加 blog 目录或下级目录没有的页面，你必须将 sitemap 文件放到这个目录里(查看本页的 &quot; sitemap 文件的位置 &quot; 一节)！"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3154
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3300
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:880
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:919
+msgid "URL to the page"
+msgstr "这个页面的 URL"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3155
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:881
+msgid "Enter the URL to the page. Examples: http://www.foo.com/index.html or www.foo.com/home "
+msgstr "输入这个页面的地址，比如：http://dupola.com/dreamhost 或 https://twitter.com/dupola 或 http://caodan.net"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3157
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3301
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:883
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:920
+msgid "Priority"
+msgstr "优先"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3158
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:884
+msgid "Choose the priority of the page relative to the other pages. For example, your homepage might have a higher priority than your imprint."
+msgstr "选择该页面的相关页面的优先权。比如，你的主页应该拥有一个更高的优先权。"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3160
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3303
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:886
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:922
+msgid "Last Changed"
+msgstr "最近更改"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3161
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:887
+msgid "Enter the date of the last change as YYYY-MM-DD (2005-12-31 for example) (optional)."
+msgstr "输入最后更改的日期，格式为 YYYY-MM-DD (例如 2005-12-31) (可选的l)."
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3302
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:921
+msgid "Change Frequency"
+msgstr "更改频率"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3304
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:923
+msgid "#"
+msgstr "#"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3309
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:928
+msgid "No pages defined."
+msgstr "没有页面"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3314
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:933
+msgid "Add new page"
+msgstr "增加一个新的页面"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3325
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:938
+msgid "Post Priority"
+msgstr "日志优先"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3329
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:940
+msgid "Please select how the priority of each post should be calculated:"
+msgstr "请选择每篇日志可预设的优先权："
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3331
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:942
+msgid "Do not use automatic priority calculation"
+msgstr "不要使用默认优先计算"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3331
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:942
+msgid "All posts will have the same priority which is defined in &quot;Priorities&quot;"
+msgstr "所有日志都将拥有 &quot;优先权&quot; 设定中设置的那样的优先权"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3348
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:953
+msgid "Location of your sitemap file"
+msgstr "你的 sitemap 文件的位置"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3353
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:956
+msgid "Automatic detection"
+msgstr "自动检查"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3357
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:960
+msgid "Filename of the sitemap file"
+msgstr "sitemap 文件的名字"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3360
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:963
+msgid "Detected Path"
+msgstr "检查路径"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3360
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:963
+msgid "Detected URL"
+msgstr "检查地址"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3365
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:968
+msgid "Custom location"
+msgstr "自定义位置"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3369
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:972
+msgid "Absolute or relative path to the sitemap file, including name."
+msgstr "sitemap 的绝对或相对路径，包括名字。"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3371
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3380
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:974
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:983
+msgid "Example"
+msgstr "例如"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3378
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:981
+msgid "Complete URL to the sitemap file, including name."
+msgstr "sitemap 文件的完全地址，包括名字。"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3397
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:994
+msgid "Sitemap Content"
+msgstr "sitemap 内容"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3405
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:1000
+msgid "Include homepage"
+msgstr "包含首页"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3411
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:1006
+msgid "Include posts"
+msgstr "包含日志"
+
+# D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:1013
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:1012
+msgid "Include following pages of multi-page posts (Increases build time and memory usage!)"
+msgstr "包括所有多重页面（这将增加使用内存和生成时间）"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3417
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:1018
+msgid "Include static pages"
+msgstr "包含独立页面"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3423
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:1024
+msgid "Include categories"
+msgstr "包含分类"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3429
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:1030
+msgid "Include archives"
+msgstr "包含存档页面"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3436
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:1037
+msgid "Include tag pages"
+msgstr "包含 Tag 页面"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3436
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:1053
+#, php-format
+msgid "Include taxonomy pages for %s"
+msgstr "包括 %s 的 tag 页面"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3443
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:1063
+msgid "Include author pages"
+msgstr "包含作者页面"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3590
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:1067
+msgid "Further options"
+msgstr "高级设置"
+
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:1072
+msgid "Include the last modification time."
+msgstr "包括最后修改时间。"
+
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:1074
+msgid "This is highly recommended and helps the search engines to know when your content has changed. This option affects <i>all</i> sitemap entries."
+msgstr "强烈推荐开启此项，它会在你的内容发生变动时帮你告诉搜索引擎。这个设置将影响到 <i>所有</i> sitemap 日志。"
+
+# D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:981
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:1081
+msgid "Excluded items"
+msgstr "不包含的项目"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3423
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:1083
+msgid "Excluded categories"
+msgstr "不包含分类"
+
+# D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:985
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:1085
+msgid "Using this feature will increase build time and memory usage!"
+msgstr "使用这个特性将增大建立时间和使用内存！"
+
+# D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:992
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:1092
+#, php-format
+msgid "This feature requires at least WordPress 2.5.1, you are using %s"
+msgstr "这个特性要求 WordPress 版本至少是 2.5，你正在使用  %s"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3411
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:1095
+msgid "Exclude posts"
+msgstr "不包含日志"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3206
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:1097
+msgid "Exclude the following posts or pages:"
+msgstr "不包括下面的日志或页面："
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3206
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:1097
+msgid "List of IDs, separated by comma"
+msgstr "ID 列表，用英文逗号隔开"
+
+# D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:999
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:1099
+msgid "Child posts won't be excluded automatically!"
+msgstr "子日志不会被自动排除。"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3457
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:1105
+msgid "Change frequencies"
+msgstr "更改频率"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3463
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:1109
+msgid "Please note that the value of this tag is considered a hint and not a command. Even though search engine crawlers consider this information when making decisions, they may crawl pages marked \"hourly\" less frequently than that, and they may crawl pages marked \"yearly\" more frequently than that. It is also likely that crawlers will periodically crawl pages marked \"never\" so that they can handle unexpected changes to those pages."
+msgstr "请注意，这些值仅仅是参考建立而并非是准确无误的。 "
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3469
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3535
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:1115
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:1172
+msgid "Homepage"
+msgstr "首页"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3475
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:1121
+msgid "Posts"
+msgstr "日志"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3481
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3553
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:1127
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:1190
+msgid "Static pages"
+msgstr "独立页面"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3487
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3559
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:1133
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:1196
+msgid "Categories"
+msgstr "分类"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3493
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:1139
+msgid "The current archive of this month (Should be the same like your homepage)"
+msgstr "这个月的存档（应该和你的首页保持一致）"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3499
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:1145
+msgid "Older archives (Changes only if you edit an old post)"
+msgstr "较早的存档（只在你编辑了旧日志后才更新）"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3506
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3572
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:1152
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:1209
+msgid "Tag pages"
+msgstr "Tag 页"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3513
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3579
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:1159
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:1216
+msgid "Author pages"
+msgstr "作者页"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3527
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:1167
+msgid "Priorities"
+msgstr "优先权"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3541
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:1178
+msgid "Posts (If auto calculation is disabled)"
+msgstr "日志（如果自动计算已禁用）"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3547
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:1184
+msgid "Minimum post priority (Even if auto calculation is enabled)"
+msgstr "日志最小优先（即使自动计算已经开启）"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3565
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:1202
+msgid "Archives"
+msgstr "存档"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3590
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:1227
+msgid "Update options"
+msgstr "更新设置"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3591
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap-ui.php:1228
+msgid "Reset options"
+msgstr "重置设置"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2415
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap.php:98
+msgid "XML-Sitemap Generator"
+msgstr "XML-Sitemap 生成器"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2415
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap.php:98
+msgid "XML-Sitemap"
+msgstr "XML-Sitemap"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3481
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3553
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap.php:112
+msgid "Settings"
+msgstr "设置"
+
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap.php:113
+msgid "FAQ"
+msgstr "FAQ"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:2888
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap.php:114
+msgid "Support"
+msgstr "支持"
+
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3151
+# C:\Inetpub\wwwroot\wp\wp-content\plugins\sitemap_beta/sitemap.php:3462
+#: D:\usr\www\wp-content\plugins\google-sitemap-generator/sitemap.php:115
+msgid "Donate"
+msgstr "捐赠"
+

@@ -1,0 +1,175 @@
+# Translation of the WordPress plugin   by .
+# Copyright (C) 2010
+# This file is distributed under the same license as the  package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/cms-tree-page-view\n"
+"POT-Creation-Date: 2010-06-30 19:00+0000\n"
+"PO-Revision-Date: 2011-01-17 19:00+0100\n"
+"Last-Translator: Andrea Bersi\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Italian\n"
+"X-Poedit-Country: ITALIA\n"
+
+#: functions.php:45
+msgid "Enter title of new page"
+msgstr "Inserire titolo pagina"
+
+#: functions.php:46
+msgid "child pages"
+msgstr "Pagine figlie"
+
+#: functions.php:47
+msgid "Edit page"
+msgstr "Modifica la pagina"
+
+#: functions.php:48
+msgid "View page"
+msgstr "Vedi pagina"
+
+#: functions.php:49
+msgid "Edit"
+msgstr "Modifica"
+
+#: functions.php:50
+msgid "View"
+msgstr "Vedi"
+
+#: functions.php:51
+msgid "Add page"
+msgstr "Aggiungi nuova pagina"
+
+#: functions.php:52
+msgid "Add new page after"
+msgstr "Aggiungi dopo la pagina"
+
+#: functions.php:53
+msgid "after"
+msgstr "dopo"
+
+#: functions.php:54
+msgid "inside"
+msgstr "all'interno della pagina"
+
+#: functions.php:55
+msgid "Add new page inside"
+msgstr "Aggiungi pagina figlia"
+
+#: functions.php:56
+msgid "draft"
+msgstr "Bozza"
+
+#: functions.php:57
+msgid "future"
+msgstr "pianificata"
+
+#: functions.php:58
+msgid "protected"
+msgstr "protetta"
+
+#: functions.php:59
+msgid "pending"
+msgstr "in attesa"
+
+#: functions.php:60
+msgid "private"
+msgstr "privata"
+
+#: functions.php:61
+msgid "Password protected page"
+msgstr "Pagina protetta da password"
+
+#: functions.php:113
+msgid "settings"
+msgstr "impostazioni"
+
+#: functions.php:120
+msgid "Show tree"
+msgstr "Mostra gerarchia"
+
+#: functions.php:124
+msgid "on the dashboard"
+msgstr "nella bacheca"
+
+#: functions.php:128
+msgid "under the pages menu"
+msgstr "nel menù delle pagine"
+
+#: functions.php:135
+msgid "Save Changes"
+msgstr "Salva"
+
+#: functions.php:150
+msgid "No pages found. Maybe you want to <a href='post-new.php?post_type=page'>add a new page</a>?"
+msgstr "Nessuna pagina. Vuoi <a href='post-new.php?post_type=page'>creare una pagina</a>?"
+
+#: functions.php:157
+msgid "All"
+msgstr "Tutte le pagine"
+
+#: functions.php:158
+msgid "Public"
+msgstr "Pagine pubblicate"
+
+#: functions.php:160
+msgid "Expand"
+msgstr "Espandi"
+
+#: functions.php:161
+msgid "Collapse"
+msgstr "Contrai"
+
+#: functions.php:166
+msgid "Clear search"
+msgstr "Cancella risultati ricerca"
+
+#: functions.php:167
+msgid "Search"
+msgstr "Ricerca"
+
+#: functions.php:168
+msgid "Searching..."
+msgstr "Ricerca..."
+
+#: functions.php:173
+msgid "Loading..."
+msgstr "Caricamento..."
+
+#: functions.php:175
+msgid "Search: no pages found"
+msgstr "Ricerca: nessuna pagina trovata"
+
+#: functions.php:177
+msgid "Loading tree"
+msgstr "Caricamento gerarchia"
+
+#: functions.php:277
+msgid "<Untitled page>"
+msgstr "<Nessun titolo>"
+
+#: functions.php:295
+msgid "Click to edit. Drag to move."
+msgstr "Clicca per modificare o per variare la gerarchia"
+
+#: functions.php:432
+msgid "New page"
+msgstr "Nuova pagina"
+
+#: functions.php:395
+msgid "Last modified"
+msgstr "Modificato il"
+
+#: functions.php:384
+msgid "After"
+msgstr "dopo"
+
+#: functions.php:388
+msgid "Inside"
+msgstr "all'interno della pagina"
+

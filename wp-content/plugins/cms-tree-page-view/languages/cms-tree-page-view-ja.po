@@ -1,0 +1,376 @@
+# Translation of the WordPress plugin   by .
+# Copyright (C) 2010
+# This file is distributed under the same license as the  package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/cms-tree-page-view\n"
+"POT-Creation-Date: 2013-04-16 17:39:45+00:00\n"
+"PO-Revision-Date: 2013-11-01 15:44+0900\n"
+"Last-Translator: Kazunori Yamazaki <yamazaki@gluum.com>\n"
+"Language-Team: \n"
+"Language: ja_JP\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-KeywordsList: _e;__\n"
+"X-Generator: Poedit 1.5.7\n"
+
+#: functions.php:66 functions.php:113 functions.php:1396
+msgid "Cheatin&#8217; uh?"
+msgstr "間違えましたか ?"
+
+#: functions.php:321
+msgid "Enter title of new page"
+msgstr "新しいページのタイトルを入力してください"
+
+#: functions.php:322
+msgid "child pages"
+msgstr "子ページ"
+
+#: functions.php:323 functions.php:970
+msgid "Edit page"
+msgstr "編集"
+
+#: functions.php:324 functions.php:971
+msgid "View page"
+msgstr "表示"
+
+#: functions.php:325 functions.php:970
+msgid "Edit"
+msgstr "編集"
+
+#: functions.php:326 functions.php:971
+msgid "View"
+msgstr "表示"
+
+#: functions.php:327
+msgid "Add page"
+msgstr "ページを追加"
+
+#: functions.php:328 functions.php:979
+msgid "Add new page after"
+msgstr "同じ階層のページを追加"
+
+#: functions.php:329
+msgid "after"
+msgstr "同じ階層に"
+
+#: functions.php:330
+msgid "inside"
+msgstr "一つ下の階層に"
+
+#: functions.php:331
+msgid "Sorry, can't create a sub page to a page with status \"draft\"."
+msgstr "下書きのページを基準にサブページを作成することはできません"
+
+#: functions.php:332
+msgid "Sorry, can't create a sub page to a page with status \"trash\"."
+msgstr "ゴミ箱のページを基準にサブページを作成することはできません"
+
+#: functions.php:333
+msgid "Sorry, can't create a page after a page with status \"trash\"."
+msgstr "ゴミ箱のページの後ろにページを作成することはできません"
+
+#: functions.php:334 functions.php:984
+msgid "Add new page inside"
+msgstr "一つ下の階層にページを作成"
+
+#: functions.php:335 functions.php:341
+msgid "draft"
+msgstr "下書き"
+
+#: functions.php:336 functions.php:342
+msgid "future"
+msgstr "予約"
+
+#: functions.php:337 functions.php:343
+msgid "protected"
+msgstr "保護"
+
+#: functions.php:338 functions.php:344 functions.php:1296
+msgid "pending"
+msgstr "レビュー待ち"
+
+#: functions.php:339 functions.php:345
+msgid "private"
+msgstr "非公開"
+
+#: functions.php:340 functions.php:346
+msgid "trash"
+msgstr "ゴミ箱"
+
+#: functions.php:347
+msgid "Password protected page"
+msgstr "パスワード保護されたページ"
+
+#: functions.php:348
+msgid "Adding page..."
+msgstr "ページを追加中..."
+
+#: functions.php:349
+msgid "Adding ..."
+msgstr "追加中..."
+
+#: functions.php:350 functions.php:1057
+msgid "No posts found."
+msgstr "ページがありません。"
+
+#: functions.php:448
+msgid "Tree View"
+msgstr "ツリー表示"
+
+#: functions.php:457
+msgid "List View"
+msgstr "リスト表示"
+
+#: functions.php:493
+msgid "Settings"
+msgstr "設定"
+
+#: functions.php:533
+msgctxt "name of dashboard"
+msgid "%1$s Tree"
+msgstr "%1$s ツリー"
+
+#: functions.php:571
+msgctxt "name in menu"
+msgid "Tree View"
+msgstr "ツリー表示"
+
+#: functions.php:572
+msgctxt "title on page with tree"
+msgid "%1$s Tree View"
+msgstr "%1$s ツリー表示"
+
+#: functions.php:592
+msgid "settings"
+msgstr "設定"
+
+#: functions.php:598
+msgid "Select where to show a tree for pages and custom post types"
+msgstr "ツリー表示をするところを選択してください"
+
+#: functions.php:642
+msgid "On dashboard"
+msgstr "ダッシュボード"
+
+#: functions.php:646
+msgid "In menu"
+msgstr "メニュー内"
+
+#: functions.php:650
+msgid "On post overview screen"
+msgstr "一覧表示画面"
+
+#: functions.php:669
+msgid "Save Changes"
+msgstr "保存"
+
+#: functions.php:913
+msgid "All"
+msgstr "全て表示"
+
+#: functions.php:918
+msgid "Public"
+msgstr "公開中"
+
+#: functions.php:923
+msgid "Trash"
+msgstr "ゴミ箱"
+
+#: functions.php:931
+msgid "Expand"
+msgstr "開く"
+
+#: functions.php:932
+msgid "Collapse"
+msgstr "閉じる"
+
+#: functions.php:940
+msgid "Clear search"
+msgstr "検索内容をクリア"
+
+#: functions.php:941
+msgid "Search"
+msgstr "検索"
+
+#: functions.php:942
+msgid "Searching..."
+msgstr "検索中..."
+
+#: functions.php:943
+msgid "Nothing found."
+msgstr "見つかりませんでした。"
+
+#: functions.php:950
+msgid "Loading..."
+msgstr "読み込み中..."
+
+#: functions.php:955
+msgid "Search: no pages found"
+msgstr "ページが見つかりませんでした"
+
+#: functions.php:958
+msgid "Loading tree"
+msgstr "読み込み中"
+
+#: functions.php:979 functions.php:1016
+msgid "After"
+msgstr "同じ階層に"
+
+#: functions.php:984 functions.php:1017
+msgid "Inside"
+msgstr "一つ下の階層に"
+
+#: functions.php:988
+msgid "Can not create page inside of a page with draft status"
+msgstr "下書きの下にページを作成することはできません"
+
+#: functions.php:1005
+msgid "Add page(s)"
+msgstr "新規ページを追加"
+
+#: functions.php:1010
+msgid "Enter title here"
+msgstr "タイトルを入力してください"
+
+#: functions.php:1015
+msgid "Position"
+msgstr "場所"
+
+#: functions.php:1022
+msgid "Status"
+msgstr "ステータス"
+
+#: functions.php:1023
+msgid "Draft"
+msgstr "下書き"
+
+#: functions.php:1024
+msgid "Published"
+msgstr "公開済み"
+
+#: functions.php:1028
+msgid "Add"
+msgstr "追加"
+
+#: functions.php:1029
+msgid "or"
+msgstr "または"
+
+#: functions.php:1030
+msgid "cancel"
+msgstr "キャンセル"
+
+#: functions.php:1040
+msgid "Last modified"
+msgstr "最終更新"
+
+#: functions.php:1042
+msgid "by"
+msgstr "："
+
+#: functions.php:1045
+msgid "Page ID"
+msgstr "ページID"
+
+#: functions.php:1088
+msgctxt "headline of page with tree"
+msgid "%1$s Tree View"
+msgstr "%1$s ツリー表示"
+
+#: functions.php:1248
+msgid "Unknown user"
+msgstr "不明"
+
+#: functions.php:1253
+msgid "<Untitled page>"
+msgstr "<タイトル未設定>"
+
+#: functions.php:1286
+msgid "Comments"
+msgstr "コメント"
+
+#: functions.php:1293
+msgid "%s pending"
+msgstr "%s"
+
+#: functions.php:1303
+msgctxt "comment count"
+msgid "0"
+msgstr "0"
+
+#: functions.php:1303
+msgctxt "comment count"
+msgid "1"
+msgstr "1"
+
+#: functions.php:1303
+msgctxt "comment count"
+msgid "%"
+msgstr "%"
+
+#: functions.php:1502
+msgid "New page"
+msgstr "ページを追加"
+
+#: functions.php:1692
+msgid "Thanks for using my plugin"
+msgstr "プラグインを使っていただきありがとうございます。"
+
+#: functions.php:1694
+msgid ""
+"Hi there! I just wanna says thanks for using my plugin. I hope you like it "
+"as much as I do."
+msgstr ""
+"こんにちは！私がこのプラグインを使っていただくことがうれしいように、あなたも"
+"気に入ってくれることを願います。"
+
+#: functions.php:1695
+msgid "/Pär Thernström - plugin creator"
+msgstr "/Pär Thernström - プラグイン制作者"
+
+#: functions.php:1697
+msgid "I like this plugin<br>– how can I thank you?"
+msgstr "このプラグインが気に入りました。<br>お礼をする方法はありますか？"
+
+#: functions.php:1698
+msgid "There are serveral ways for you to show your appreciation:"
+msgstr "お礼をする方法がいくつかあります。"
+
+#: functions.php:1700
+msgid ""
+"<a href=\"%1$s\">Give it a nice review</a> over at the WordPress Plugin "
+"Directory"
+msgstr "WordPress Plugin Directory に<a href=\"%1$s\">レビューを書く</a>"
+
+#: functions.php:1701
+msgid "<a href=\"%1$s\">Give a donation</a> – any amount will make me happy"
+msgstr "<a href=\"%1$s\">寄付をする</a> – 任意の金額で私が幸せになります"
+
+#: functions.php:1702
+msgid ""
+"<a href=\"%1$s\">Post a nice tweet</a> or make a nice blog post about the "
+"plugin"
+msgstr ""
+"<a href=\"%1$s\">ツイートする</a> またはこのプラグインについてブログを書く"
+
+#: functions.php:1705
+msgid "Support"
+msgstr "サポート"
+
+#: functions.php:1706
+msgid "Plese see the <a href=\"%1$s\">support forum</a> for help."
+msgstr ""
+"お困りの場合は<a href=\"%1$s\">サポートフォーラム</a>をご確認ください。"
+
+#: functions.php:1710
+msgid "Hide until next upgrade"
+msgstr "次のアップグレードまで表示しない"
+
+#~ msgid "Click to edit. Drag to move."
+#~ msgstr "クリックで編集、ドラッグで移動できます"

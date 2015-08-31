@@ -1,0 +1,409 @@
+﻿Google XML Sitemaps Generator for WordPress
+==============================================================================
+
+This generator will create a sitemaps.org compliant sitemap of your WordPress blog.
+Currently homepage, posts, static pages, categories, archives and author pages are supported.
+
+The priority of a post depends on its comments. You can choose the way the priority
+is calculated in the options screen.
+
+Feel free to visit my website under www.arnebrachhold.de or contact me at
+himself [at] arnebrachhold [dot] de
+
+Have fun!
+  Arne
+
+Installation:
+==============================================================================
+1. Upload the full directory into your wp-content/plugins directory
+2. Activate the plugin at the plugin administration page
+3. Open the plugin configuration page, which is located under Settings -> XML-Sitemap and customize settings like priorities and change frequencies.
+4. The plugin will automatically update your sitemap of you publish a post, so theres nothing more to do :)
+
+
+Additional contributors:
+==============================================================================
+Inspiration            Michael Nguyen      http://www.socialpatterns.com/
+SQL Improvements       Rodney Shupe        http://www.shupe.ca/
+Japanse Lang. File     Hirosama            http://hiromasa.zone.ne.jp/
+Spanish lang. File     Omi                 http://equipajedemano.info/
+Italian lang. File     Stefano Aglietti    http://wordpress-it.it/
+Trad.Chinese  File     Kirin Lin           http://kirin-lin.idv.tw/
+Simpl.Chinese File     june6               http://www.june6.cn/
+Swedish Lang. File     Tobias Bergius      http://tobiasbergius.se/
+Czech Lang. File       Peter Kahoun        http://kahi.cz
+Finnish Lang. File     Olli Jarva          http://kuvat.blog.olli.jarva.fi/
+Belorussian Lang. File Marcis Gasuns
+Bulgarian Lang. File   Alexander Dichev    http://dichev.com
+
+Thanks to all contributors and bug reporters! There were much more people involved
+in testing this plugin and reporting bugs, either by email or in the WordPress forums.
+
+Unfortunately I can't maintain a whole list here, but thanks again to everybody not listed here!
+
+
+Release History:
+==============================================================================
+2005-06-05     1.0     First release
+2005-06-05     1.1     Added archive support
+2005-06-05     1.2     Added category support
+2005-06-05     2.0a    Beta: Real Plugin! Static file generation, Admin UI
+2005-06-05     2.0     Various fixes, more help, more comments, configurable filename
+2005-06-07     2.01    Fixed 2 Bugs: 147 is now _e(strval($i)); instead of _e($i); 344 uses a full < ?php instead of < ?
+                       Thanks to Christian Aust for reporting this :)
+2005-06-07     2.1     Correct usage of last modification date for cats and archives  (thx to Rodney Shupe (http://www.shupe.ca/))
+                       Added support for .gz generation
+                       Fixed bug which ignored different post/page priorities
+                       Should support now different wordpress/admin directories
+2005-06-07     2.11    Fixed bug with hardcoded table table names instead of the $wpd vars
+2005-06-07     2.12    Changed SQL Statement of the categories to get it work on MySQL 3
+2005-06-08     2.2     Added language file support:
+                       - Japanese Language Files and code modifications by hiromasa (http://hiromasa.zone.ne.jp/)
+                       - German Language File by Arne Brachhold (http://www.arnebrachhold.de)
+2005-06-14     2.5    Added support for external pages
+                      Added support for Google Ping
+                      Added the minimum Post Priority option
+                      Added Spanish Language File by César Gómez Martín (http://www.cesargomez.org/)
+                      Added Italian Language File by Stefano Aglietti (http://wordpress-it.it/)
+                      Added Traditional Chine Language File by Kirin Lin (http://kirin-lin.idv.tw/)
+2005-07-03     2.6    Added support to store the files at a custom location
+                      Changed the home URL to have a slash at the end
+                      Required admin-functions.php so the script will work with external calls, wp-mail for example
+                      Added support for other plugins to add content to the sitemap via add_filter()
+2005-07-20     2.7    Fixed wrong date format in additional pages
+                      Added Simplified Chinese Language Files by june6 (http://www.june6.cn/)
+                      Added Swedish Language File by Tobias Bergius (http://tobiasbergius.se/)
+2006-01-07     3.0b   Added different priority calculation modes and introduced an API to create custom ones
+                      Added support to use the Popularity Contest plugin by Alex King to calculate post priority
+                      Added Button to restore default configuration
+                      Added several links to homepage and support
+                      Added option to exclude password protected posts
+                      Added function to start sitemap creation via GET and a secret key
+                      Posts and pages marked for publish with a date in the future won't be included
+                      Improved compatiblity with other plugins
+                      Improved speed and optimized settings handling
+                      Improved user-interface
+                      Recoded plugin architecture which is now fully OOP
+2006-01-07     3.0b1  Changed the way for hook support to be PHP5 and PHP4 compatible
+                      Readded support for tools like w.Bloggar
+                      Fixed "doubled-content" bug with WP2
+                      Added xmlns to enable validation
+2006-03-01     3.0b3  More performance
+                      More caching
+                      Better support for Popularity Contest and WP 2.x
+2006-11-16     3.0b4  Fixed bug with option SELECTS
+                      Decreased memory usage which should solve timeout and memory problems
+                      Updated namespace to support YAHOO and MSN
+2007-01-19     3.0b5  Javascripted page editor
+                      WP 2 Design
+                      YAHOO notification
+                      New status report, removed ugly logfiles
+                      Better Popularity Contest Support
+                      Fixed double backslashes on windows systems
+                      Added option to specify time limit and memory limit
+                      Added option to define a XSLT stylesheet and added a default one
+                      Fixed bug with sub-pages. Thanks to:
+                      - Mike Baptiste (http://baptiste.us),
+                      - Peter Claus Lamprecht (http://fastagent.de)
+                      - Glenn Nicholas (http://publicityship.com.au)
+                      Improved file handling, thanks to VJTD3 (http://www.VJTD3.com)
+                      WP 2.1 improvements
+2007-01-23     3.0b6  Use memory_get_peak_usage instead of memory_get_usage if available
+                      Removed the usage of REQUEST_URI since it not correct in all environments
+                      Fixed that sitemap.xml.gz was not compressed
+                      Added compat function "stripos" for PHP4 (Thanks to Joseph Abboud!)
+                      Streamlined some code
+2007-05-17     3.0b7  Added option to include the author pages like /author/john
+                      Small enhancements, removed stripos dependency and the added compat function
+                      Added check to not build the sitemap if importing posts
+                      Fixed missing domain parameter for translator name
+                      Fixed WP 2.1 / Pre 2.1 post / pages database changes
+                      Fixed wrong XSLT location (Thanks froosh)
+                      Added Ask.com notification
+                      Removed unused javascript
+2007-07-22     3.0b8  Changed category SQL to prevent unused cats from beeing included
+                      Plugin will be loaded on "init" instead of direclty after the file has been loaded.
+                      Added support for robots.txt modification
+                      Switched YAHOO ping API from YAHOO Web Services to the "normal" ping service which doesn't require an app id
+                      Search engines will only be pinged if the sitemap file has changed
+2007-09-02     3.0b9  Added tag support for WordPress 2.3
+                      Now using post_date_gmt instead of post_date everywhere
+                      Fixed archive bug with static pages (Thanks to Peter Claus Lamprecht)
+                      Fixed some missing translation domains, thanks to Kirin Lin!
+                      Added Czech translation files for 2.7.1, thanks to Peter Kahoun (http://kahi.cz)
+2007-09-04     3.0b10 Added category support for WordPress 2.3
+                      Fixed bug with empty URLs in sitemap
+                      Repaired GET building
+                      Added more info on debug mode
+2007-09-23     3.0b11 Changed mysql queries to unbuffered queries
+                      Uses MUCH less memory
+                      Fixed really stupid bug with search engine pings
+                      Option to set how many posts will be included
+2007-09-24     3.0    Yeah, 3.0 Final after one and a half year ;)
+                      Removed useless functions
+2007-11-03     3.0.1  Using the Snoopy HTTP client for ping requests instead of wp_remote_fopen
+                      Fixed undefined translation strings
+                      Added "safemode" for SQL which doesn't use unbuffered results (old style)
+                      Added option to run the building process in background using wp-cron
+                      Removed unnecessary function_exists, Thanks to user00265
+                      Added links to test the ping if it failed.
+2007-11-25     3.0.2  Fixed bug which caused that some settings were not saved correctly
+                      Added option to exclude pages or post by ID
+                      Restored YAHOO ping service with API key since the other one is to unreliable. (see 3.0b8)
+2007-11-28     3.0.2.1 Fixed wrong XML Schema Location (Thanks to Emanuele Tessore)
+                      Added Russian Language files by Sergey http://ryvkin.ru
+2007-12-30     3.0.3  Added Live Search Ping
+                      Removed some hooks which rebuilt the sitemap with every comment
+2008-03-30     3.0.3.1 Added compatibility CSS for WP 2.5
+2008-04-28     3.0.3.2 Improved WP 2.5 handling
+2008-04-29     3.0.3.3 Fixed author pages
+                      Enhanced background building and increased delay to 15 seconds
+                      Background building is enabled by default
+2008-04-28     3.1b1  Reorganized files in builder, loader and UI
+                      Added 2 step loader so only code that's needed will be loaded
+                      Improved WP 2.5 handling
+                      Secured all admin actions with nonces
+2008-05-18     3.1b2  Fixed critical bug with the build in background option
+                      Added notification if a build is scheduled
+2008-05-19     3.1b3  Cleaned up plugin directory and moved asset files to subfolders
+                      Fixed background building bug in WP 2.1
+                      Removed auto-update plugin link for WP < 2.5
+2008-05-22     3.1    Marked as 3.1 stable, updated documentation
+2008-05-27     3.1.0.1 Extracted UI JS to external file
+                      Enabled the option to include following pages of multi-page posts
+                      Script tries to raise memory and time limit if active
+2008-12-21     3.1.1  Fixed redirect issue if wp-admin is rewritten via mod_rewrite, thanks to macjoost
+                      Fixed wrong path to assets, thanks PozHonks
+                      Fixed wrong plugin URL if wp-content was renamed / redirected, thanks to wnorris
+                      Updated WP User Interface for 2.7
+                      Various other small things
+2008-12-26     3.1.2  Changed the way the stylesheet is saved (default / custom stylesheet)
+                      Sitemap is now build when page is published
+                      Removed support for static robots.txt files, this is now handled via WordPress
+                      Added compat. exceptions for WP 2.0 and WP 2.1
+2009-06-07     3.1.3  Changed MSN Live Search to Bing
+                      Exclude categories also now exludes the category itself and not only the posts
+                      Pings now use the new WordPress HTTP API instead of Snoopy
+                      Fixed bug that in localized WP installations priorities could not be saved.
+                      The sitemap cron job is now cleared after a manual rebuild or after changing the config
+                      Adjusted style of admin area for WP 2.8 and refreshed icons
+                      Disabled the "Exclude categories" feature for WP 2.5.1, since it doesn't have the required functions yet
+2009-06-22     3.1.4  Fixed bug which broke all pings in WP < 2.7
+                      Added more output in debug mode if pings fail
+                      Moved global post definitions for other plugins
+                      Added small icon for ozh admin menu
+                      Added more help links in UI
+2009-08-24     3.1.5  Added option to completely disable the last modification time
+                      Fixed bug regarding the use of the HTTPS url for the XSL stylesheet if the sitemap was build via the admin panel
+                      Improved handling of homepage if a single page was set for it
+                      Fixed mktime warning which appeared sometimes
+                      Fixed bug which caused inf. reloads after rebuilding the sitemap via the admin panel
+                      Improved handling of missing sitemaps files if WP was moved to another location
+2009-08-31     3.1.6  Fixed PHP error "Only variables can be passed by reference"
+                      Fixed wrong URLS of multi-page posts (Thanks artstorm!)
+2009-10-21     3.1.7  Added support for custom taxonomies (Thanks to Lee!)
+2009-11-07     3.1.8  Improved custom taxonomy handling and fixed wrong last modification date
+                      Changed readme and backlinks
+                      Fixed fatal error in WP < 2.3
+                      Fixed Update Notice in WP 2.8+
+                      Added warning if blog privacy is activated
+                      Fixed custom URLs priorities were shown as 0 instead of 1
+2009-11-13     3.1.9  Fixed MySQL Error if author pages were included
+2009-11-23     3.2    Added function to show the actual results of a ping instead of only linking to the url
+                      Added new hook (sm_rebuild) for third party plugins to start building the sitemap
+                      Fixed bug which showed the wrong URL for the latest Google ping result
+                      Added some missing phpdoc documentation
+                      Removed hardcoded php name for sitemap file for admin urls
+                      Uses KSES for showing ping test results
+                      Ping test fixed for WP < 2.3
+2009-12-16     3.2.1  Notes and update messages could interfere with the redirect after manual build
+                      Help Links in the WP context help were not shown anymore since last update
+                      IE 7 sometimes displayed a cached admin page
+                      Removed invalid link to config page from the plugin description (This resulted in a "Not enough permission error")
+                      Improved performance of getting the current plugin version with caching
+                      Updated Spanish language files
+2009-12-19     3.2.2  Fixed PHP4 problems
+2010-04-02     3.2.3  Fixed that all pages were not included in the sitemap if the "Uncategorized" category was excluded
+2010-05-29     3.2.4  Fixed more deprecated function calls
+                      Added (GMT) to sitemap xslt template to avoid confusion with time zone
+                      Added warning and don't activate plugin if multisite mode is enabled (this mode is NOT tested yet)
+                      Changed get_bloginfo('siteurl') to get_bloginfo('url') to avoid deprecation warning
+                      Changed has_cap(10) to has_cap('level_10') to avoid deprecation warning
+                      Fixed wrong SQL statement for author pages (Ticket #1108), thanks to twoenough
+2010-07-11     3.2.5  Backported Bing ping success fix from beta
+                      Added friendly hint to try out the new beta
+2010-09-19     3.2.6  Removed YAHOO ping since YAHOO uses bing now
+                      Removed deprecated function call
+2012-04-24     3.2.7  Fixed custom post types, thanks to clearsite of the wordpress.org forum!
+                      Fixed broken admin layout on WP 3.4
+2012-08-08     3.2.8  Fixed wrong custom taxonomy URLs, thanks to ramon fincken of the wordpress.org forum!
+                      Removed ASK ping since they shut down their service.
+                      Exclude post_format taxonomy from custom taxonomy list
+2013-01-11     3.2.9  Fixed security issue with change frequencies and filename of sitemap file. Exploit was only possible for admin accounts.
+2013-09-28     3.3    Fixed problem with file permission checking
+                      Filter out hashs (#) in URLs
+2013-11-24     3.4    Fixed deprecation warnings in PHP 5.4, thanks to Dion Hulse!
+2014-03-29     4.0    No static files anymore, sitemap is created on the fly
+                      Sitemap is split-up into sub-sitemaps by month, allowing up to 50.000 posts per month
+                      Support for custom post types and custom taxonomis!
+                      100% Multisite compatible, including by-blog and network activation.
+                      Added support for mu-plugins forced-activation (see sitemap-wpmu.php for details)
+                      Reduced server resource usage due to less content per request.
+                      New API allows other plugins to add their own, separate sitemaps.
+                      Raised min requirements to PHP 5.1 and WordPress 3.3
+                      Note: This version will try to rename your old sitemap files to *-old.xml. If that doesn’t work, please delete them manually since no static files are needed anymore!
+                      Using only wpdb instead of unbuffered queries anymore
+                      Ping to search engines are done on WP ping
+                      Using PHP5 syntax instead of old PHP4 OOP style
+                      Added pre-loader which checks the requirements
+                      Avoid the main query of WordPress (based on plugin by Michael Adams)
+                      Avoid additional queries in post sitemaps
+                      Added custom post types
+                      Fixed include of static front page in pages index
+                      Do not list "#" permalinks from placeholder plugins
+                      Removed YAHOO pings since YAHOO doesn't have its own ping service anymore.
+                      Sitemap doesn't state it is a feed anymore
+                      Removed Ask.com ping since they shut down their service (who uses Ask anyway?)
+2014-03-31     4.0.1  Fixed bug with custom post types including a "-"
+                      Changed rewrite-setup to happen on init and flushing on wp_loaded to better work with other plugins
+2014-04-01     4.0.2  Fixed warning if an gzip handler is already active
+2014-04-13     4.0.3  Fixed compression if an gzlib handler was already active
+                      Help regarding permalinks for Nginx users
+                      Fix with gzip compression in case there was other output before already
+                      Return 404 for HTML sitemaps if the option has been disabled
+2014-04-19     4.0.4  Removed deprecated get_page call
+                      Changed last modification time of sub-sitemaps to the last modification date of the posts instead of the publish date
+                      Removed information window if the statistic option has not been activated
+                      Added link regarding new sitemap format
+                      Updated Portuguese translation, thanks to Pedro Martinho
+                      Updated German translation
+2014-05-18     4.0.5  Fixed issue with empty post sitemaps (related to GMT/local time offset)
+                      Fixed some timing issues in archives
+                      Improved check for possible problems before gzipping
+                      Fixed empty Archives and Authors in case there were no posts
+                      Changed content type to text/xml to improve compatibility with caching plugins
+                      Changed query parameters to is_feed=true to improve compatibility with caching plugins
+                      Switched from using WP_Query to load posts to a custom SQL statement to avoid problems with other plugin filters
+                      Fixed bug which caused the Priority Provider to disappear in recent PHP versions
+                      Cleaned up code and renamed variables to be more readable
+                      Added caching of some SQL statements
+                      Added support feed for more help topics
+                      Added support for changing the base of the sitemap url to another URL (for WP installations in sub-folders)
+                      Changed text in XSL template to be more clear about sitemap-index and sub-sitemaps
+                      Added link to new help page
+                      Plugin will also ping with the corresponding sub-sitemap in case a post was modified
+                      Added function to manually start ping for main-sitemap or all sub-sitemaps
+                      Better checking for empty externals
+                      Updated Japanese Translation, thanks to Daisuke Takahashi
+2014-06-03     4.0.6  Added option to disable automatic gzipping
+                      Fixed bug with duplicated external sitemap entries
+                      Updated language file template
+                      Don't gzip if behind Varnish
+                      Improved compatibility with caches
+                      Ping on post edit
+2014-06-23     4.0.7  Better compatibility with managed GoDaddy hosting (clear alloptions cache when generating the sitemap)
+                      Improved checking if the sitemap should be gzipped or not (depending on ob levels)
+                      Removed WordPress version from the sitemap
+                      Corrected link to WordPress privacy settings
+                      Changed hook which is being used for sitemap pings
+2014-09-02     4.0.7.1Added icon for the new WP Add-Plugin page
+                      Changed "Tested up to" to 4.0
+2014-11-15     4.0.8  Fixed bug with excluded categories, thanks to Claus Schöffel!
+
+
+
+
+Todo:
+==============================================================================
+- Your wishes :)
+
+
+License:
+==============================================================================
+Copyright 2005 - 2014 ARNE BRACHHOLD  (email : himself - arnebrachhold - de)
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+Please see license.txt for the full license.
+
+
+Developer Documentation
+==============================================================================
+
+Adding other pages to the sitemap via other plugins
+
+This plugin uses the action system of WordPress to allow other plugins
+to add urls to the sitemap. Simply add your function with add_action to
+the list and the plugin will execute yours every time the sitemap is build.
+Use the static method "GetInstance" to get the generator and AddUrl method
+to add your content.
+
+Sample:
+
+function your_pages() {
+	$generatorObject = &GoogleSitemapGenerator::GetInstance();
+	if($generatorObject!=null) $generatorObject->AddUrl("http://blog.uri/tags/hello/",time(),"daily",0.5);
+}
+add_action("sm_buildmap", "your_pages");
+
+Parameters:
+- The URL to the page
+- The last modified data, as a UNIX timestamp (optional)
+- The Change Frequency (daily, hourly, weekly and so on) (optional)
+- The priority 0.0 to 1.0 (optional)
+
+
+Rebuilding the sitemap on request
+
+If you want to rebuild the sitemap because dynamic content from your plugin has changed,
+please use the "sm_rebuild" hook which is available since 3.1.9.
+All other methods, like calling the Build method directly are highly unrecommended and might
+not work anymore with the next version of the plugin. Using this hook, the sitemap plugin will
+take care of everything like loading the required classes and so on.
+
+Sample:
+
+do_action("sm_rebuild");
+
+The sitemap might not be rebuild immediately, since newer versions use a background WP-Cron
+job by default to prevent that the user has to wait and avoid multiple rebuilds within a very short time.
+In case the sitemap plugin is not installed, nothing will happen and no errors will be thrown.
+
+===============================================
+
+Adding additional PriorityProviders
+
+This plugin uses several classes to calculate the post priority.
+You can register your own provider and choose it at the options screen.
+
+Your class has to extend the GoogleSitemapGeneratorPrioProviderBase class
+which has a default constructor and a method called GetPostPriority
+which you can override.
+
+Look at the GoogleSitemapGeneratorPrioByPopularityContestProvider class
+for an example.
+
+To register your provider to the sitemap generator, use the following filter:
+
+add_filter("sm_add_prio_provider","AddMyProvider");
+
+Your function could look like this:
+
+function AddMyProvider($providers) {
+	array_push($providers,"MyProviderClass");
+	return $providers;
+}
+
+Note that you have to return the modified list!

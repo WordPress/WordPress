@@ -1,0 +1,1320 @@
+/*---------------------------------------------------------------------------------------------
+*
+*  Post Box
+*
+*---------------------------------------------------------------------------------------------*/
+
+.acf-hidden {
+	display: none !important;
+}
+
+.acf_postbox {
+	display: block;
+}
+
+.acf_postbox .inside,
+#poststuff .acf_postbox .inside {
+	margin: 0;
+	padding: 0;
+}
+
+.acf_postbox.no_box {
+	border: 0 none;
+	background: transparent;
+	box-shadow: none;
+}
+
+.acf_postbox.no_box > h3,
+.acf_postbox.no_box > .handlediv {
+	display: none;
+}
+
+.acf_postbox.no_box.closed .inside {
+	display: block;
+}
+
+.acf_postbox .widefat th, 
+.acf_postbox .widefat td {
+	overflow: visible;
+}
+
+
+/*---------------------------------------------------------------------------------------------
+*
+*  Field
+*
+*---------------------------------------------------------------------------------------------*/
+
+.acf_postbox .field {
+	position: relative;
+	color: #333333;
+}
+
+.acf_postbox > .inside > .field {
+	padding: 15px 10px;
+	border-top: #e8e8e8 solid 1px;
+}
+
+.acf_postbox > .inside > .field:first-child {
+	border-top: none;
+}
+
+.acf_postbox.no_box > .inside > .field { 
+    border-top: 0 none;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+
+/* Field Error */
+.acf_postbox .field.error {
+	border: #CC0000 solid 1px !important;
+	background: #FFEBE8 !important;
+}
+
+.acf_postbox .field .acf-error-message {
+	display: none;
+	position: relative;
+	
+	background: #CC0000;
+	color: #fff;
+	text-shadow: none;
+	
+	border-radius: 3px;
+	padding: 5px 10px;
+	
+	font-size: 12px;
+	line-height: 14px;
+	
+	margin: 5px 0 0;
+}
+
+.acf_postbox .field .acf-error-message .bit {
+	width: 0;
+	height: 0;
+	border: transparent 5px solid;
+	border-bottom-color: #CC0000;
+	
+	display: block;
+	position: absolute;
+	top: -10px;
+	left: 10px;
+}
+
+.acf_postbox .field.error .acf-error-message {
+	display: inline-block;
+}
+
+.acf_postbox .field.error label.field_label {
+	color: #CC0000;
+}
+
+.acf_postbox.no_box > .inside > .field.error { 
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
+.acf_postbox > .inside > .field.error + .field.error {
+	border-top: 0 none !important;
+}
+
+
+
+
+/* Field Label */
+.acf_postbox p.label {
+	font-size: 12px;
+	line-height: 1.5em;
+	margin: 0 0 1em;
+	padding: 0;
+	color: #666666;
+	text-shadow: 0 1px 0 #FFFFFF;
+}
+
+.acf_postbox p.label label {
+	color: #333333;
+    font-size: 13px;
+    line-height: 1.5em;
+    font-weight: bold;
+    padding: 0;
+    margin: 0 0 3px;
+    display: block;
+    vertical-align: text-bottom;
+}
+
+.acf_postbox .field.required label span.required {
+	color: #CC0000;
+}
+
+.acf_postbox label.field_label:first-child {
+	padding-top: 0;
+}
+
+.acf_postbox .field_type-message p.label {
+	display: none !important;
+} 
+
+/*---------------------------------------------------------------------------------------------
+*
+*  Basic Field Styles
+*
+*---------------------------------------------------------------------------------------------*/
+
+.acf_postbox .field input[type="text"],
+.acf_postbox .field input[type="number"],
+.acf_postbox .field input[type="password"],
+.acf_postbox .field input[type="email"],
+.acf_postbox .field textarea{
+	width: 100%;
+	padding: 5px;
+	resize: none;
+	margin: 0;
+}
+
+.acf_postbox .field textarea {
+	resize: vertical;
+	min-height: 150px;
+}
+
+.acf_postbox .field select{
+	width: 100%;
+	padding: 2px;
+	resize: none;
+}
+
+.acf_postbox .field select optgroup {
+	padding: 5px;
+	background: #fff;
+}
+
+.acf_postbox .field select option {
+	padding: 3px;
+}
+
+.acf_postbox .field select optgroup option {
+	padding-left: 5px;
+}
+
+.acf_postbox .field select optgroup:nth-child(2n) {
+    background: #F9F9F9;
+}
+
+
+/*---------------------------------------------------------------------------------------------
+*
+*  Field: WYSIWYG
+*
+*---------------------------------------------------------------------------------------------*/
+
+.acf_wysiwyg {
+	
+}
+
+.acf_wysiwyg .wp_themeSkin table.mceToolbarRow1 {
+    margin-top: 2px !important;
+}
+
+.acf_wysiwyg iframe{ 
+	min-height: 250px;
+}
+
+.acf_wysiwyg .wp-editor-container {
+	background: #fff;
+	border-color: #CCCCCC #CCCCCC #DFDFDF;
+    border-style: solid;
+    border-radius: 3px 3px 0 0;
+    border-width: 1px;
+}
+
+/*
+
+not needed in WP 3.8
+
+.acf_wysiwyg .mceStatusbar {
+	position: relative;
+}
+
+.acf_wysiwyg .mceStatusbar  a.mceResize {
+	top: -2px !important;
+}
+*/
+
+
+/*
+*  WP 3.5 z-index fix for full screen wysiwyg
+*/
+
+#mce_fullscreen_container {
+	z-index: 150005 !important;
+}
+
+
+/*---------------------------------------------------------------------------------------------
+*
+*  Field: Image
+*
+*---------------------------------------------------------------------------------------------*/
+
+.acf-image-uploader {
+	position: relative;
+}
+
+.acf-image-uploader .has-image { display: none; float: left; position: relative; max-width: 100%; }
+.acf-image-uploader .no-image { display: block; float: left; position: relative; max-width: 100%; }
+
+.acf-image-uploader.active .has-image { display: block; }
+.acf-image-uploader.active .no-image { display: none; }
+
+
+.acf-image-uploader img {
+	box-shadow: 0 0 2px rgba(0, 0, 0, 0.2);
+	width: 100%;
+	height: auto;
+	display: block;
+	min-width: 30px;
+	min-height: 30px;
+	background: #f1f1f1;
+	margin: 0 0 0 2px;
+}
+
+.acf-image-uploader .no-image p {
+	display: block;
+	margin: 0 !important;
+}
+
+.acf-image-uploader input.button {
+	width: auto;
+}
+
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+	
+	.acf-image-uploader img {
+		width: auto;
+		max-width: 100%;
+	}
+	
+}
+
+
+/*
+*  Hover
+*/
+
+.acf-image-uploader .hover {
+	position: absolute;
+	top: -11px;
+	right: -11px;
+	
+	-webkit-transition: opacity 0.25s 0s ease-in-out, visibility 0s linear 0.25s;
+	-moz-transition: opacity 0.25s 0s ease-in-out, visibility 0s linear 0.25s;
+	-o-transition: opacity 0.25s 0s ease-in-out, visibility 0s linear 0.25s; 	
+	transition: opacity 0.25s 0s ease-in-out, visibility 0s linear 0.25s; 
+	
+	visibility: hidden;
+	opacity: 0;
+}
+
+.acf-image-uploader .has-image:hover .hover {
+	-webkit-transition-delay:0s;
+	-moz-transition-delay:0s;
+	-o-transition-delay:0s;
+	transition-delay:0s;
+	
+	visibility: visible;
+	opacity: 1;
+}
+
+.acf-image-uploader .hover ul {
+	display: block;
+	margin: 0;
+	padding: 0;
+}
+
+.acf-image-uploader .hover ul li {
+	margin: 0 0 5px 0;
+}
+
+
+/*---------------------------------------------------------------------------------------------
+*
+*  Media Model
+*
+*---------------------------------------------------------------------------------------------*/
+
+.media-modal { 
+	
+}
+
+.media-modal .field {
+	padding: 0;
+}
+
+
+/* WP sets tables to act as divs. ACF uses tables, so these muct be reset */
+.media-modal .compat-attachment-fields td.field table {
+	display: table;
+}
+.media-modal .compat-attachment-fields td.field table tbody {
+	display: table-row-group;
+}
+.media-modal .compat-attachment-fields td.field table tr {
+	display: table-row;
+}
+.media-modal .compat-attachment-fields td.field table td,
+.media-modal .compat-attachment-fields td.field table th {
+	display: table-cell;
+}
+
+.compat-item table.widefat {
+	border: #DFDFDF solid 1px;
+}
+
+
+/* Expand / Collapse button */
+.media-modal .acf-expand-details {
+	float: right;
+	padding: 1px 10px;
+	margin-right: 6px;
+	height: 18px;
+	line-height: 18px;
+	color: #AAAAAA;
+	font-size: 12px;
+}
+
+.media-modal .acf-expand-details:hover {
+	color: #999;
+}
+
+.media-modal .acf-expand-details:focus,
+.media-modal .acf-expand-details:active {
+	outline: 0 none;
+}
+
+.media-modal .acf-expand-details span {
+	display: block;
+	float: left;
+}
+
+.media-modal .acf-expand-details .icon {
+	height: 15px;
+	width: 15px;
+	float: left;
+	
+	background: url(../images/arrows.png) 0 -72px no-repeat;
+	border: #C7C7C7 solid 1px;
+	
+	border-radius: 10px;
+	margin: 0 4px 0 0;
+}
+
+.media-modal .acf-expand-details:hover .icon {
+	border-color: #AAAAAA;
+}
+
+.media-modal.acf-expanded .acf-expand-details .icon {
+	background-position: 0 -108px;
+}
+
+.media-modal .acf-expand-details .is-open { display: none; }
+.media-modal .acf-expand-details .is-closed { display: block; }
+
+.media-modal.acf-expanded .acf-expand-details .is-open { display: block; }
+.media-modal.acf-expanded .acf-expand-details .is-closed { display: none; }
+
+
+/* Expand / Collapse views */
+.media-modal .media-toolbar,
+.media-modal .attachments,
+.media-modal .media-sidebar {
+	-webkit-transition: all 0.25s ease-out;  /* Safari 3.2+, Chrome */
+       -moz-transition: all 0.25s ease-out;  /* Firefox 4-15 */
+         -o-transition: all 0.25s ease-out;  /* Opera 10.5–12.00 */
+            transition: all 0.25s ease-out;  /* Firefox 16+, Opera 12.50+ */
+}
+
+.media-modal.acf-expanded .media-toolbar { right: 700px; }
+.media-modal.acf-expanded .attachments { right: 700px; }
+.media-modal.acf-expanded .media-sidebar { width: 667px; }
+
+
+/* Sidebar: Collapse */
+.media-modal .compat-item .label {
+	margin: 0;	
+}
+
+.media-modal .media-sidebar .setting span, 
+.media-modal .compat-item label span,
+.media-modal .media-sidebar .setting input, 
+.media-modal .media-sidebar .setting textarea,
+.media-modal .compat-item .field {
+	min-height: 0;
+	margin: 5px 0 0;
+}
+
+.media-modal .media-sidebar .setting span, 
+.media-modal .compat-item label span {
+	padding-top: 7px;	
+}
+
+.media-modal .attachment-display-settings .setting span {
+	margin-top: 0;
+	margin-right: 3%;
+}
+
+
+/* Sidebar: Expand */
+.media-modal.acf-expanded .attachment-info .thumbnail {
+	width: 20%;
+	max-width: none;
+	max-height: 150px;
+	margin-right: 3%;
+	overflow: hidden;
+}
+
+.media-modal.acf-expanded .media-sidebar .setting span,
+.media-modal.acf-expanded .compat-item .label {
+	min-width: 20%;	
+}
+
+.media-modal.acf-expanded .media-sidebar .setting input, 
+.media-modal.acf-expanded .media-sidebar .setting textarea,
+.media-modal.acf-expanded .compat-item .field {
+	width: 77%;
+}
+
+
+/*---------------------------------------------------------------------------------------------
+*
+*  Media Model (Edit Mode)
+*
+*---------------------------------------------------------------------------------------------*/
+
+.media-modal.acf-media-modal {
+	left: 15%;
+	right: 15%;
+	top: 100px;
+	bottom: 100px;
+}
+
+/* Expand / Collapse views */
+.media-modal.acf-media-modal .media-toolbar,
+.media-modal.acf-media-modal .attachments,
+.media-modal.acf-media-modal .media-sidebar {
+	-webkit-transition: none;  /* Safari 3.2+, Chrome */
+       -moz-transition: none;  /* Firefox 4-15 */
+         -o-transition: none;  /* Opera 10.5–12.00 */
+            transition: none;  /* Firefox 16+, Opera 12.50+ */
+}
+
+.media-modal.acf-media-modal .media-frame-router,
+.media-modal.acf-media-modal .attachments,
+.media-modal.acf-media-modal .media-frame-content .media-toolbar {
+    display: none;
+}
+
+.media-modal.acf-media-modal .media-frame-content {
+    top: 56px;
+}
+
+.media-modal.acf-media-modal .media-frame-title {
+    border-bottom: 1px solid #DFDFDF;
+    box-shadow: 0 4px 4px -4px rgba(0, 0, 0, 0.1);
+}
+
+.media-modal.acf-media-modal .media-frame-content .media-sidebar {
+    width: auto;
+    left: 0px;
+}
+
+.media-modal.acf-media-modal .media-toolbar {
+    right: 0;
+}
+
+
+@media (max-width: 960px) {
+	
+	.media-modal.acf-media-modal {
+		left: 10%;
+		right: 10%;
+	}
+	
+}
+
+@media (max-width: 760px) {
+	
+	.media-modal.acf-expanded .media-sidebar .setting span,
+	.media-modal.acf-expanded .compat-item .label {
+		min-width: 100%;
+		text-align: left;
+		min-height: 0;
+		padding: 0;
+	}
+	
+	.media-modal.acf-expanded .compat-item .label br {
+		display: none;
+	}
+	
+	.media-modal.acf-expanded .media-sidebar .setting input, 
+	.media-modal.acf-expanded .media-sidebar .setting textarea,
+	.media-modal.acf-expanded .compat-item .field {
+		width: 100%;
+	}
+	
+}
+
+
+/*---------------------------------------------------------------------------------------------
+*
+*  ACF Message Wrapper (used by image / file / gallery)
+*
+*---------------------------------------------------------------------------------------------*/
+
+.acf-message-wrapper {
+	margin: 10px 0;
+}
+
+.acf-message-wrapper .message {
+	margin: 0 !important;
+}
+
+
+/*---------------------------------------------------------------------------------------------
+*
+*  Field: File
+*
+*---------------------------------------------------------------------------------------------*/
+
+.acf-file-uploader {
+	position: relative;
+	line-height: 1.5em;
+}
+
+.acf-file-uploader .has-file {
+	display: none;
+	float: left;
+}
+
+.acf-file-uploader .no-file {
+	display: block;
+}
+
+.acf-file-uploader.active .has-file {
+	display: block;
+}
+
+.acf-file-uploader.active .no-file {
+	display: none;
+}
+
+.acf-file-uploader li {
+	position: relative;
+	margin: 0 10px 0 0;
+}
+
+.acf-file-uploader img {
+	min-height: 60px;
+	min-width: 46px;
+	box-shadow: 0 0 2px rgba(0, 0, 0, 0.2);
+	display: block;
+	background: #f1f1f1;
+}
+
+.acf-file-uploader input.button {
+	width: auto;
+}
+
+.acf-file-uploader a {
+	text-decoration: none;
+}
+
+.acf-file-uploader p {
+	margin: 0 0 4px;
+}
+
+
+/*
+*  Hover
+*/
+
+.acf-file-uploader .hover {
+	position: absolute;
+	top: -10px;
+	right: -10px;
+	
+	-webkit-transition: opacity 0.25s 0s ease-in-out, visibility 0s linear 0.25s;
+	-moz-transition: opacity 0.25s 0s ease-in-out, visibility 0s linear 0.25s;
+	-o-transition: opacity 0.25s 0s ease-in-out, visibility 0s linear 0.25s; 	
+	transition: opacity 0.25s 0s ease-in-out, visibility 0s linear 0.25s; 
+	
+	visibility: hidden;
+	opacity: 0;
+}
+
+.acf-file-uploader .has-file:hover .hover {
+	-webkit-transition-delay:0s;
+	-moz-transition-delay:0s;
+	-o-transition-delay:0s;
+	transition-delay:0s;
+	
+	visibility: visible;
+	opacity: 1;
+}
+
+.acf-file-uploader .hover ul {
+	display: block;
+	margin: 0;
+	padding: 0;
+}
+
+.acf-file-uploader .hover ul li {
+	margin: 0 0 3px 0;
+}
+
+
+/*---------------------------------------------------------------------------------------------
+*
+*  Field: Select
+*
+*---------------------------------------------------------------------------------------------*/
+
+#wpcontent select[multiple] {
+	height: auto;
+}
+
+#wpcontent select optgroup {
+	padding: 0 2px
+}
+
+#wpcontent select optgroup option {
+	padding-left: 6px;
+}
+
+ul.acf-checkbox-list {
+	background: transparent !important;
+}
+
+#createuser ul.acf-checkbox-list input {
+    width: auto;
+}
+
+
+/*---------------------------------------------------------------------------------------------
+*
+*  Input Table
+*
+*---------------------------------------------------------------------------------------------*/
+
+table.acf-input-table {
+	border-radius: 0 0 0 0;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+table.acf-input-table > thead { }
+table.acf-input-table > thead > tr > th { 
+	padding: 8px;
+	position: relative;
+	
+	vertical-align: top;
+	border-right: 1px solid #e1e1e1;
+}
+
+table.acf-input-table > tbody {}
+
+table.acf-input-table > tbody > tr {
+	background: #fff;
+}
+
+table.acf-input-table > tbody > tr > td {
+	background: transparent;
+	border: 0 none;
+   
+    border-top: 1px solid #ededed;
+    border-right: 1px solid #ededed;
+     
+    padding: 8px;
+    position: relative;
+}
+
+table.acf-input-table > tbody > tr > td {
+	background: transparent;
+	border: 0 none;
+   
+    border-top: 1px solid #ededed;
+    border-right: 1px solid #ededed;
+     
+    padding: 8px;
+    position: relative;
+}
+
+table.acf-input-table.row_layout > tbody > tr > td {
+	border-top-color: #DFDFDF;
+}
+
+table.acf-input-table > tbody > tr:first-child > td {
+	border-top: 0 none;
+}
+
+table.acf-input-table > tbody > tr > td:last-child {
+	border-right: 0 none;
+}
+
+td.acf_input-wrap {
+	padding: 0 !important;
+}
+
+.sub-field-instructions {
+	color: #999999;
+    display: block;
+    font-family: sans-serif;
+    font-size: 12px;
+    text-shadow: 0 1px 0 #FFFFFF;
+    
+    font-weight: normal;
+}
+
+
+/*---------------------------------------------------------------------------------------------
+*
+*	Field: Relationship
+*
+*---------------------------------------------------------------------------------------------*/
+
+.acf_relationship {
+	position: relative;
+	overflow: hidden;
+}
+
+.acf_relationship .relationship_left {
+	width: 50%;
+	float: left;
+}
+
+.acf_relationship .relationship_right {
+	width: 50%;
+	float: left;
+}
+
+.acf_relationship .relationship_label {
+	font-size: 12px;
+	font-family: sans-serif;
+	color: #999;
+	position: absolute;
+	margin-top: 5px;
+	margin-left: 10px;
+}
+
+.acf_relationship .widefat {
+	border-bottom-left-radius: 0;
+	border-bottom-right-radius: 0;
+}
+
+.acf_relationship .widefat th {
+	border-bottom: 0 none;
+}
+
+
+.acf_relationship .relationship_search {
+	margin: 0;
+	font-size: 12px;
+	line-height: 13px;
+	border-radius: 13px;
+	font-family: sans-serif;
+	padding: 5px 9px !important;
+}
+
+.acf_relationship .relationship_list {
+	background: #fff;
+	position: relative;
+	overflow: auto;
+	height: 150px;
+	border: #DFDFDF solid 1px;
+	border-top-width: 0;
+}
+
+.acf_relationship .relationship_list li.hide {
+	background: #f8f8f8;
+}
+
+.acf_relationship .relationship_list li.hide a {
+	cursor: default;
+	color: #21759B !important;
+	opacity: 0.5;
+	background: transparent !important;
+}
+
+.acf_relationship .relationship_list li {
+	border-bottom: #f8f8f8 solid 1px;
+}
+
+.acf_relationship .relationship_list li a {
+	display: block;
+	position: relative;
+	padding: 7px 9px;
+	text-decoration: none;
+}
+
+.acf_relationship .relationship_list li a .relationship-item-info {
+	color: #CCC;
+	text-transform: uppercase;
+	float: right;
+	font-size: 11px;
+}
+
+.acf_relationship .relationship_list li:hover a .relationship-item-info {
+	padding-right: 24px;
+	color: #999;
+}
+
+.acf_relationship .relationship_list li.hide:hover a .relationship-item-info {
+	padding-right: 0;
+	color: #CCC;
+}
+
+.acf_relationship .relationship_list li a:hover,
+.acf_relationship .relationship_list li a:focus {
+	background: #eaf2fa;
+	color: #000;
+	box-shadow: #d6e1ec 0 0 0 1px;
+}
+
+.acf_relationship .relationship_right .relationship_list {
+	margin-left: 10px;
+	height: 193px;
+	min-height: 193px;
+	border-top-width:1px; 
+}
+
+.acf_relationship .relationship_list li a .acf-button-add,
+.acf_relationship .relationship_list li a .acf-button-remove {
+	position: absolute;
+	top: 5px;
+	right: 5px;
+	display: none;
+	
+	cursor: pointer;
+}
+
+.acf_relationship .relationship_list li a:hover .acf-button-add,
+.acf_relationship .relationship_list li a:hover .acf-button-remove {
+	display: block;
+}
+
+.acf_relationship .relationship_list li.hide a:hover .acf-button-add {
+	display: none;
+}
+
+
+.acf_relationship .relationship_right .relationship_list li a {
+	cursor: move;
+}
+
+.acf_relationship .load-more .acf-loading {
+	padding: 0;
+	box-shadow: none;
+	background-color: transparent;
+}
+
+.acf_relationship.no-results .load-more {
+	display: none;
+}
+
+
+.acf_relationship select {
+	font-family: sans-serif;
+	font-size: 12px;
+	
+}
+
+.acf_relationship .widefat tr + tr th {
+	border-radius: 0;
+	border-top: #DFDFDF solid 1px;
+	background: #F3F3F3;
+	
+}
+
+.acf_relationship .relationship_list .result-thumbnail {
+	width:21px; 
+	height:21px; 
+	background:#F9F9F9; 
+	border:#E1E1E1 solid 1px; 
+	float:left; 
+	margin:-3px 5px 0 0;
+}
+
+.acf_relationship .relationship_list .result-thumbnail img {
+	width: 21px; 
+	height: 21px; 
+}
+
+
+/*---------------------------------------------------------------------------------------------
+*
+*  Field: Taxonomy
+*
+*---------------------------------------------------------------------------------------------*/
+
+.acf-taxonomy-field {
+	
+}
+
+.acf-taxonomy-field ul {
+	
+}
+
+.acf-taxonomy-field .categorychecklist-holder {
+	border: #DFDFDF solid 1px;
+	border-radius: 3px;
+	max-height: 200px;
+	overflow: auto;
+}
+
+.acf-taxonomy-field .acf-checkbox-list {
+	margin: 0;
+	padding: 10px;
+}
+
+.acf-taxonomy-field ul li {
+	
+}
+
+.acf-taxonomy-field ul.children {
+	padding-left: 18px;
+}
+
+
+/*---------------------------------------------------------------------------------------------
+*
+*	Field: Tab
+*
+*---------------------------------------------------------------------------------------------*/
+
+.field_type-tab {
+	display: none !important;
+}
+
+.acf-tab-group {
+	background: transparent;
+	border-bottom: #CCCCCC solid 1px;
+	margin: 0 0 10px;
+	padding: 10px 2px 0 0;
+}
+
+.acf-tab-group li {
+	font-family: "Open Sans",sans-serif;
+	font-size: 23px;
+    line-height: 29px;
+    margin: 0 8px 0 0;
+    
+}
+
+.acf-tab-group li a {
+	padding: 6px 10px;
+	display: block;
+	
+	color: #555555;
+	font-size: 15px;
+    font-weight: 700;
+    line-height: 24px;
+    
+    border: #CCCCCC solid 1px;
+    border-bottom: 0 none;
+    text-decoration: none;
+    background: #E4E4E4;
+    
+}
+
+.acf-tab-group li a:hover, 
+.acf-tab-group li.active a {
+    background: #FFFFFF;
+    outline: none;
+}
+
+.acf-tab-group li.active a {
+	background: #F1F1F1;
+	color: #000;
+	border-color: #CCCCCC;
+    border-bottom-color: #F7F7F7;
+    padding-bottom: 7px;
+    margin-bottom: -1px;
+}
+
+.acf_postbox > .inside > .field_type-tab + .field {
+	border-top: 0 none;
+}
+
+
+/*
+*  Box
+*/
+
+.acf_postbox.default .acf-tab-group {
+	padding-left: 10px;
+	border-bottom-color: #E8E8E8;
+}
+
+.acf_postbox.default .acf-tab-group li a {
+    background: #F1F1F1;
+}
+
+.acf_postbox.default .acf-tab-group li.active a {
+	background: #FFFFFF;
+}
+
+
+
+/*---------------------------------------------------------------------------------------------
+*
+*	Field: Date Picker
+*
+*---------------------------------------------------------------------------------------------*/
+
+.ui-acf .ui-datepicker {
+	z-index: 999999999 !important;
+}
+
+
+/*---------------------------------------------------------------------------------------------
+*
+*	Other
+*
+*---------------------------------------------------------------------------------------------*/
+
+.form-field.field input[type="checkbox"],
+.form-field.field input[type="radio"] {
+	width: auto !important;
+}
+
+#createuser input,
+#your-profile input {
+	max-width: 25em;
+}
+
+/*--------------------------------------------------------------------------
+*
+*	Tab Group
+*	
+*-------------------------------------------------------------------------*/
+
+.acf-tab_group-show {
+	display: block;
+}
+tr.acf-tab_group-show {
+	display: table-row;
+}
+.acf-tab_group-hide {
+	display: none;
+}
+
+
+/*--------------------------------------------------------------------------
+*
+*	Conditional Logic
+*	
+*-------------------------------------------------------------------------*/
+
+/* Show */
+.acf-conditional_logic-show {
+	display: block;
+}
+
+tr.acf-conditional_logic-show {
+	display: table-row;
+}
+
+td.acf-conditional_logic-show,
+th.acf-conditional_logic-show {
+    display: table-cell;
+}
+
+
+/* Hide */
+.acf-conditional_logic-hide,
+tr.acf-conditional_logic-hide,
+td.acf-conditional_logic-hide,
+th.acf-conditional_logic-hide {
+    display: none;
+}
+
+
+/* Hide (show blank) */
+td.acf-conditional_logic-hide.acf-show-blank,
+th.acf-conditional_logic-hide.acf-show-blank {
+    display: table-cell;
+}
+
+td.acf-conditional_logic-hide.acf-show-blank .inner,
+th.acf-conditional_logic-hide.acf-show-blank .inner {
+	display: none;
+}
+
+
+/*--------------------------------------------------------------------------
+*
+*	Conditional Logic + Tabs
+*	
+*-------------------------------------------------------------------------*/
+
+.acf-tab_group-hide.acf-conditional_logic-show {
+	display: none;
+}
+
+.hl.acf-tab-group > li.acf-conditional_logic-hide {
+	display: none;
+}
+
+
+/*--------------------------------------------------------------------------
+*
+*	Field: Color picker
+*	
+*-------------------------------------------------------------------------*/
+
+.acf-color_picker {
+	
+}
+
+.acf-color_picker input[type="text"] {
+	display: inline;
+	width: 80px !important;
+}
+
+.acf-color_picker .ui-slider-vertical {
+	width: auto;
+	height: auto;
+	background: transparent;
+	border: 0 none;
+}
+
+.acf-color_picker .ui-slider-vertical .ui-slider-handle {
+	margin-bottom: 0;
+}
+
+/* Hack for color picker in media popup */
+.media-frame .acf-color_picker .wp-color-result {
+	border-bottom: #BBBBBB solid 1px;
+}
+
+.compat-item .field .acf-color_picker input {
+	width: auto;
+	margin: 0 0 0 6px;
+}
+
+.compat-item .field .acf-color_picker .button {
+	height: 24px;
+	padding: 0 10px 1px;
+}
+
+
+/*--------------------------------------------------------------------------
+*
+*	Field: Location
+*	
+*-------------------------------------------------------------------------*/
+
+.acf-google-map {
+	position: relative;
+	border: #DFDFDF solid 1px;
+	background: #fff;
+}
+
+.acf-google-map .title {
+	position: relative;
+	border-bottom: #DFDFDF solid 1px;
+}
+
+.acf-google-map .has-value { display: none; }
+.acf-google-map .no-value { display: block; }
+
+.acf-google-map.active .has-value { display: block; }
+.acf-google-map.active .no-value { display: none; }
+
+.acf-google-map .title h4,
+.acf-google-map .title input[type="text"] {
+	margin: 0;
+	font-size: 12px;
+	line-height: 16px;
+	padding: 10px;
+	border: 0 none;
+	box-shadow: none;
+	border-radius: 0;
+	font-family: inherit;
+	cursor: text;
+}
+
+.acf-google-map .title input[type="text"] {
+	height: 36px;
+	line-height: normal;
+}
+
+.acf-google-map .title .search {
+	height: auto;
+	border: 0 none;
+}
+
+.acf-google-map .acf-sprite-remove,
+.acf-google-map .acf-sprite-locate {
+	right: 7px;
+	top: 7px;
+	position: absolute;
+}
+
+.acf-google-map .acf-sprite-remove {
+	background-position: -71px -221px;
+	height: 9px;
+	width: 9px;
+	border: 6px solid transparent;
+}
+.acf-google-map .acf-sprite-remove:hover { background-position: -71px -271px; }
+
+.acf-google-map .acf-sprite-locate {
+	background-position: -50px -300px;
+	width: 13px;
+	height: 13px;
+	border: 5px solid transparent;
+}
+.acf-google-map .acf-sprite-locate:hover { background-position: -50px -350px; }
+
+.acf-google-map .canvas {
+	height: 400px;
+}
+
+.pac-container {
+	margin-left: -1px;
+	margin-top: -1px;
+	padding: 5px 0;
+	border-color: #DFDFDF;
+}
+
+.pac-container:after {
+	display: none;
+}
+
+.pac-container .pac-item {
+	padding: 5px;
+	margin: 0 5px;
+}
+
+/*--------------------------------------------------------------------------
+*
+*	Retina
+*	
+*-------------------------------------------------------------------------*/
+
+@media
+only screen and (-webkit-min-device-pixel-ratio: 2),
+only screen and (   min--moz-device-pixel-ratio: 2),
+only screen and (     -o-min-device-pixel-ratio: 2/1),
+only screen and (        min-device-pixel-ratio: 2),
+only screen and (                min-resolution: 192dpi),
+only screen and (                min-resolution: 2dppx) { 
+	
+	.acf_flexible_content .layout .fc-delete-layout,
+	.acf-popup .bit,
+	.acf-gallery .toolbar .view-grid,
+	.acf-gallery .toolbar .view-list {
+		background-image: url(../images/sprite@2x.png);
+		background-size: 100px 600px;
+	}
+
+	
+}
