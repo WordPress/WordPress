@@ -929,6 +929,18 @@ jQuery(document).ready( function($) {
 			event.preventDefault();
 		}
 	});
+
+	if ( $( '#original_post_status' ).val() === 'auto-draft' && window.history.replaceState ) {
+		var location;
+
+		$( '#publish' ).on( 'click', function() {
+			location = window.location.href;
+			location += ( location.indexOf( '?' ) !== -1 ) ? '&' : '?';
+			location += 'wp-post-new-reload=true';
+
+			window.history.replaceState( null, null, location );
+		});
+	}
 });
 
 ( function( $, counter ) {
