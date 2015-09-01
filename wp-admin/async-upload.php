@@ -89,7 +89,7 @@ $id = media_handle_upload( 'async-upload', $post_id );
 if ( is_wp_error($id) ) {
 	echo '<div class="error-div error">
 	<a class="dismiss" href="#" onclick="jQuery(this).parents(\'div.media-item\').slideUp(200, function(){jQuery(this).remove();});">' . __('Dismiss') . '</a>
-	<strong>' . sprintf(__('&#8220;%s&#8221; has failed to upload due to an error'), esc_html($_FILES['async-upload']['name']) ) . '</strong><br />' .
+	<strong>' . sprintf(__('&#8220;%s&#8221; has failed to upload.'), esc_html($_FILES['async-upload']['name']) ) . '</strong><br />' .
 	esc_html($id->get_error_message()) . '</div>';
 	exit;
 }
