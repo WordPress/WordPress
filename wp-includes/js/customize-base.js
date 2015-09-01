@@ -74,6 +74,12 @@ window.wp = window.wp || {};
 		}
 
 		magic = this;
+
+		/*
+		 * If the class has a method called "instance",
+		 * the return value from the class' constructor will be a function that
+		 * calls invoked, along with all the object properties of the class.
+		 */
 		if ( this.instance ) {
 			magic = function() {
 				return magic.instance.apply( magic, arguments );
@@ -101,6 +107,11 @@ window.wp = window.wp || {};
 
 	api.Class.applicator = {};
 
+	/**
+	 * Initialize a class instance.
+	 *
+	 * Override this function in a subclass as needed.
+	 */
 	api.Class.prototype.initialize = function() {};
 
 	/*
@@ -281,6 +292,21 @@ window.wp = window.wp || {};
 			this._deferreds = {};
 		},
 
+		/**
+		 * Get the instance of an item from the collection if only ID is specified.
+		 *
+		 * If more than one argument is supplied, all are expected to be IDs and
+		 * the last to be a function callback that will be invoked when the requested
+		 * items are available.
+		 *
+		 * @see {api.Values.when}
+		 *
+		 * @param  {string}   id ID of the item.
+		 * @param  {...}         Zero or more IDs of items to wait for and a callback
+		 *                       function to invoke when they're available. Optional.
+		 * @return {mixed}    The item instance if only one ID was supplied.
+		 *                    A Deferred Promise object if a callback function is supplied.
+		 */
 		instance: function( id ) {
 			if ( arguments.length === 1 )
 				return this.value( id );
@@ -288,14 +314,33 @@ window.wp = window.wp || {};
 			return this.when.apply( this, arguments );
 		},
 
+		/**
+		 * Get the instance of an item.
+		 *
+		 * @param  {string} id The ID of the item.
+		 * @return {[type]}    [description]
+		 */
 		value: function( id ) {
 			return this._value[ id ];
 		},
 
+		/**
+		 * Whether the collection has an item with the given ID.
+		 *
+		 * @param  {string}  id The ID of the item to look for.
+		 * @return {Boolean}
+		 */
 		has: function( id ) {
 			return typeof this._value[ id ] !== 'undefined';
 		},
 
+		/**
+		 * Add an item to the collection.
+		 *
+		 * @param {string} id    The ID of the item.
+		 * @param {mixed}  value The item instance.
+		 * @return {mixed} The new item's instance.
+		 */
 		add: function( id, value ) {
 			if ( this.has( id ) )
 				return this.value( id );
@@ -307,12 +352,22 @@ window.wp = window.wp || {};
 
 			this.trigger( 'add', value );
 
+			// If a deferred object exists for this item,
+			// resolve it.
 			if ( this._deferreds[ id ] )
 				this._deferreds[ id ].resolve();
 
 			return this._value[ id ];
 		},
 
+		/**
+		 * Create a new item of the collection using the collection's default constructor
+		 * and store it in the collection.
+		 *
+		 * @param  {string} id    The ID of the item.
+		 * @param  {mixed}  value Any extra arguments are passed into the item's initialize method.
+		 * @return {mixed}  The new item's instance.
+		 */
 		create: function( id ) {
 			return this.add( id, new this.defaultConstructor( api.Class.applicator, slice.call( arguments, 1 ) ) );
 		},
@@ -325,6 +380,11 @@ window.wp = window.wp || {};
 			});
 		},
 
+		/**
+		 * Remove an item from the collection.
+		 *
+		 * @param  {string} id The ID of the item to remove.
+		 */
 		remove: function( id ) {
 			var value;
 
@@ -359,10 +419,18 @@ window.wp = window.wp || {};
 			if ( $.isFunction( ids[ ids.length - 1 ] ) )
 				dfd.done( ids.pop() );
 
+			/*
+			 * Create a stack of deferred objects for each item that is not
+			 * yet available, and invoke the supplied callback when they are.
+			 */
 			$.when.apply( $, $.map( ids, function( id ) {
 				if ( self.has( id ) )
 					return;
 
+				/*
+				 * The requested item is not available yet, create a deferred
+				 * object to resolve when it becomes available.
+				 */
 				return self._deferreds[ id ] = self._deferreds[ id ] || $.Deferred();
 			})).done( function() {
 				var values = $.map( ids, function( id ) {
