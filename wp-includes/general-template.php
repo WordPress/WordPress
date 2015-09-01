@@ -2309,7 +2309,7 @@ function feed_links( $args = array() ) {
 	/**
 	 * Filter whether to display the posts feed link.
 	 *
-	 * @since 4.3.0
+	 * @since 4.4.0
 	 *
 	 * @param bool $show Whether to display the posts feed link. Default true.
 	 */
@@ -2320,7 +2320,7 @@ function feed_links( $args = array() ) {
 	/**
 	 * Filter whether to display the comments feed link.
 	 *
-	 * @since 4.3.0
+	 * @since 4.4.0
 	 *
 	 * @param bool $show Whether to display the comments feed link. Default true.
 	 */
