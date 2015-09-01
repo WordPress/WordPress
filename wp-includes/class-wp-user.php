@@ -294,9 +294,13 @@ class WP_User {
 	}
 
 	/**
-	 * Magic method for setting custom fields
+	 * Magic method for setting custom user fields.
 	 *
 	 * @since 3.3.0
+	 * @access public
+	 *
+	 * @param string $key   User meta key.
+	 * @param mixed  $value User meta value.
 	 */
 	public function __set( $key, $value ) {
 		if ( 'id' == $key ) {
