@@ -216,14 +216,6 @@ video.wp-video-shortcode,
 	line-height: 1.5;
 }
 
-.wp-playlist-item-title:before {
-	content: '“';
-}
-
-.wp-playlist-item-title:after {
-	content: '”';
-}
-
 .wp-playlist-item-album {
 	font-style: italic;
 	overflow: hidden;
