@@ -8,7 +8,7 @@ This is a forked repo from the official wordpress repo. It contains a number of 
 - Commonly used plugins are added
 - Wp-config contains switch statement for multiple environments
 - Wp-config contains multisite code as comments
-- Removed redundant themes
+- Removed redundant themes, Down to the Bones added
 - Generic .htaccess added
 
 ## Please do a pull request from the official Wordpress repo when beginning a project to ensure WP Core is kept up to date.
