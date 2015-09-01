@@ -900,7 +900,7 @@ function get_all_user_settings() {
 	$user_settings = array();
 
 	if ( isset( $_COOKIE['wp-settings-' . $user_id] ) ) {
-		$cookie = preg_replace( '/[^A-Za-z0-9=&_]/', '', $_COOKIE['wp-settings-' . $user_id] );
+		$cookie = preg_replace( '/[^A-Za-z0-9=&_-]/', '', $_COOKIE['wp-settings-' . $user_id] );
 
 		if ( strpos( $cookie, '=' ) ) { // '=' cannot be 1st char
 			parse_str( $cookie, $user_settings );
@@ -940,8 +940,8 @@ function wp_set_all_user_settings( $user_settings ) {
 
 	$settings = '';
 	foreach ( $user_settings as $name => $value ) {
-		$_name = preg_replace( '/[^A-Za-z0-9_]+/', '', $name );
-		$_value = preg_replace( '/[^A-Za-z0-9_]+/', '', $value );
+		$_name = preg_replace( '/[^A-Za-z0-9_-]+/', '', $name );
+		$_value = preg_replace( '/[^A-Za-z0-9_-]+/', '', $value );
 
 		if ( ! empty( $_name ) ) {
 			$settings .= $_name . '=' . $_value . '&';
