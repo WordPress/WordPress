@@ -1733,7 +1733,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		}
 
 		if ( ! current_user_can( $post_type->cap->edit_posts ) )
-			return new IXR_Error( 401, __( 'Sorry, you are not allowed to edit posts in this post type' ));
+			return new IXR_Error( 401, __( 'You are not allowed to edit posts in this post type.' ));
 
 		$query['post_type'] = $post_type->name;
 

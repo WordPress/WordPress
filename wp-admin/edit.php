@@ -30,8 +30,13 @@ $post_type_object = get_post_type_object( $post_type );
 if ( ! $post_type_object )
 	wp_die( __( 'Invalid post type' ) );
 
-if ( ! current_user_can( $post_type_object->cap->edit_posts ) )
-	wp_die( __( 'Cheatin&#8217; uh?' ), 403 );
+if ( ! current_user_can( $post_type_object->cap->edit_posts ) ) {
+	wp_die(
+		'<h1>' . __( 'Cheatin&#8217; uh?' ) . '</h1>' .
+		'<p>' . __( 'You are not allowed to edit posts in this post type.' ) . '</p>',
+		403
+	);
+}
 
 $wp_list_table = _get_list_table('WP_Posts_List_Table');
 $pagenum = $wp_list_table->get_pagenum();
