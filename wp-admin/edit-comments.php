@@ -8,8 +8,13 @@
 
 /** WordPress Administration Bootstrap */
 require_once( dirname( __FILE__ ) . '/admin.php' );
-if ( !current_user_can('edit_posts') )
-	wp_die( __( 'Cheatin&#8217; uh?' ), 403 );
+if ( ! current_user_can( 'edit_posts' ) ) {
+	wp_die(
+		'<h1>' . __( 'Cheatin&#8217; uh?' ) . '</h1>' .
+		'<p>' . __( 'You are not allowed to edit comments.' ) . '</p>',
+		403
+	);
+}
 
 $wp_list_table = _get_list_table('WP_Comments_List_Table');
 $pagenum = $wp_list_table->get_pagenum();
