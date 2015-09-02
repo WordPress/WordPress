@@ -825,6 +825,47 @@ function remove_query_arg( $key, $query = false ) {
 }
 
 /**
+ * Returns an array of single-use query variable names that can be removed from a URL.
+ *
+ * @since 4.4.0
+ *
+ * @return array An array of parameters to remove from the URL.
+ */
+function wp_removable_query_args() {
+	$removable_query_args = array(
+		'activate',
+		'activated',
+		'approved',
+		'deactivate',
+		'deleted',
+		'disabled',
+		'enabled',
+		'error',
+		'locked',
+		'message',
+		'same',
+		'saved',
+		'settings-updated',
+		'skipped',
+		'spammed',
+		'trashed',
+		'unspammed',
+		'untrashed',
+		'update',
+		'updated',
+	);
+
+	/**
+	 * Filter the list of query variables to remove.
+	 *
+	 * @since 4.2.0
+	 *
+	 * @param array $removable_query_args An array of query variables to remove from a URL.
+	 */
+	return apply_filters( 'removable_query_args', $removable_query_args );
+}
+
+/**
  * Walks the array while sanitizing the contents.
  *
  * @since 0.71

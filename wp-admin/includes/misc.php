@@ -865,24 +865,7 @@ function post_form_autocomplete_off() {
  * @since 4.2.0
  */
 function wp_admin_canonical_url() {
-	$removable_query_args = array(
-		'message', 'settings-updated', 'saved',
-		'update', 'updated', 'activated',
-		'activate', 'deactivate', 'locked',
-		'deleted', 'trashed', 'untrashed',
-		'enabled', 'disabled', 'skipped',
-		'spammed', 'unspammed',
-		'error',
-	);
-
-	/**
-	 * Filter the list of URL parameters to remove.
-	 *
-	 * @since 4.2.0
-	 *
-	 * @param array $removable_query_args An array of parameters to remove from the URL.
-	 */
-	$removable_query_args = apply_filters( 'removable_query_args', $removable_query_args );
+	$removable_query_args = wp_removable_query_args();
 
 	if ( empty( $removable_query_args ) ) {
 		return;
