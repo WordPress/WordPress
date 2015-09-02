@@ -50,13 +50,14 @@ $menu[10] = array( __('Media'), 'upload_files', 'upload.php', '', 'menu-top menu
 	$submenu['upload.php'][5] = array( __('Library'), 'upload_files', 'upload.php');
 	/* translators: add new file */
 	$submenu['upload.php'][10] = array( _x('Add New', 'file'), 'upload_files', 'media-new.php');
+	$i = 15;
 	foreach ( get_taxonomies_for_attachments( 'objects' ) as $tax ) {
 		if ( ! $tax->show_ui || ! $tax->show_in_menu )
 			continue;
 
 		$submenu['upload.php'][$i++] = array( esc_attr( $tax->labels->menu_name ), $tax->cap->manage_terms, 'edit-tags.php?taxonomy=' . $tax->name . '&amp;post_type=attachment' );
 	}
-	unset($tax);
+	unset( $tax, $i );
 
 $menu[15] = array( __('Links'), 'manage_links', 'link-manager.php', '', 'menu-top menu-icon-links', 'menu-links', 'dashicons-admin-links' );
 	$submenu['link-manager.php'][5] = array( _x('All Links', 'admin menu'), 'manage_links', 'link-manager.php' );
