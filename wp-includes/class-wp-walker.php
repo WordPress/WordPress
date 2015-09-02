@@ -382,7 +382,11 @@ class Walker {
 	}
 
 	/**
+	 * Calculates the total number of root elements.
 	 *
+	 * @since 2.7.0
+	 * @access public
+	 * 
 	 * @param array $elements
 	 * @return int
 	 */
