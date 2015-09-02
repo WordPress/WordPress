@@ -17,8 +17,13 @@ $tax = get_taxonomy( $taxnow );
 if ( ! $tax )
 	wp_die( __( 'Invalid taxonomy' ) );
 
-if ( ! current_user_can( $tax->cap->manage_terms ) )
-	wp_die( __( 'Cheatin&#8217; uh?' ), 403 );
+if ( ! current_user_can( $tax->cap->manage_terms ) ) {
+	wp_die(
+		'<h1>' . __( 'Cheatin&#8217; uh?' ) . '</h1>' .
+		'<p>' . __( 'You are not allowed to manage these items.' ) . '</p>',
+		403
+	);
+}
 
 /**
  * $post_type is set when the WP_Terms_List_Table instance is created
@@ -53,8 +58,13 @@ case 'add-tag':
 
 	check_admin_referer( 'add-tag', '_wpnonce_add-tag' );
 
-	if ( !current_user_can( $tax->cap->edit_terms ) )
-		wp_die( __( 'Cheatin&#8217; uh?' ), 403 );
+	if ( ! current_user_can( $tax->cap->edit_terms ) ) {
+		wp_die(
+			'<h1>' . __( 'Cheatin&#8217; uh?' ) . '</h1>' .
+			'<p>' . __( 'You are not allowed to add this item.' ) . '</p>',
+			403
+		);
+	}
 
 	$ret = wp_insert_term( $_POST['tag-name'], $taxonomy, $_POST );
 	$location = 'edit-tags.php?taxonomy=' . $taxonomy;
@@ -89,8 +99,13 @@ case 'delete':
 	$tag_ID = (int) $_REQUEST['tag_ID'];
 	check_admin_referer( 'delete-tag_' . $tag_ID );
 
-	if ( !current_user_can( $tax->cap->delete_terms ) )
-		wp_die( __( 'Cheatin&#8217; uh?' ), 403 );
+	if ( ! current_user_can( $tax->cap->delete_terms ) ) {
+		wp_die(
+			'<h1>' . __( 'Cheatin&#8217; uh?' ) . '</h1>' .
+			'<p>' . __( 'You are not allowed to delete this item.' ) . '</p>',
+			403
+		);
+	}
 
 	wp_delete_term( $tag_ID, $taxonomy );
 
@@ -101,8 +116,13 @@ case 'delete':
 case 'bulk-delete':
 	check_admin_referer( 'bulk-tags' );
 
-	if ( !current_user_can( $tax->cap->delete_terms ) )
-		wp_die( __( 'Cheatin&#8217; uh?' ), 403 );
+	if ( ! current_user_can( $tax->cap->delete_terms ) ) {
+		wp_die(
+			'<h1>' . __( 'Cheatin&#8217; uh?' ) . '</h1>' .
+			'<p>' . __( 'You are not allowed to delete these items.' ) . '</p>',
+			403
+		);
+	}
 
 	$tags = (array) $_REQUEST['delete_tags'];
 	foreach ( $tags as $tag_ID ) {
@@ -139,8 +159,13 @@ case 'editedtag':
 	$tag_ID = (int) $_POST['tag_ID'];
 	check_admin_referer( 'update-tag_' . $tag_ID );
 
-	if ( !current_user_can( $tax->cap->edit_terms ) )
-		wp_die( __( 'Cheatin&#8217; uh?' ), 403 );
+	if ( ! current_user_can( $tax->cap->edit_terms ) ) {
+		wp_die(
+			'<h1>' . __( 'Cheatin&#8217; uh?' ) . '</h1>' .
+			'<p>' . __( 'You are not allowed to edit this item.' ) . '</p>',
+			403
+		);
+	}
 
 	$tag = get_term( $tag_ID, $taxonomy );
 	if ( ! $tag )
@@ -252,8 +277,13 @@ if ( 'category' == $taxonomy || 'link_category' == $taxonomy || 'post_tag' == $t
 
 require_once( ABSPATH . 'wp-admin/admin-header.php' );
 
-if ( !current_user_can($tax->cap->edit_terms) )
-	wp_die( __('You are not allowed to edit this item.') );
+if ( ! current_user_can( $tax->cap->edit_terms ) ) {
+	wp_die(
+		'<h1>' . __( 'Cheatin&#8217; uh?' ) . '</h1>' .
+		'<p>' . __( 'You are not allowed to edit this item.' ) . '</p>',
+		403
+	);
+}
 
 $messages = array();
 $messages['_item'] = array(
