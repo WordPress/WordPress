@@ -1,6 +1,14 @@
 <?php
 /**
- * Internal representation of a single cookie.
+ * HTTP API: WP_Http_Cookie object class
+ *
+ * @package WordPress
+ * @subpackage HTTP
+ * @since 4.4.0
+ */
+
+/**
+ * Core class used to encapsulate a single cookie object for internal use.
  *
  * Returned cookies are represented using this class, and when cookies are set, if they are not
  * already a WP_Http_Cookie() object, then they are turned into one.
@@ -8,8 +16,6 @@
  * @todo The WordPress convention is to use underscores instead of camelCase for function and method
  * names. Need to switch to use underscores instead for the methods.
  *
- * @package WordPress
- * @subpackage HTTP
  * @since 2.8.0
  */
 class WP_Http_Cookie {
