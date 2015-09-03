@@ -4437,15 +4437,15 @@ function _wp_batch_split_terms() {
 }
 
 /**
- * In order to avoid the wp_batch_split_terms() job being accidentally removed,
+ * In order to avoid the _wp_batch_split_terms() job being accidentally removed,
  * check that it's still scheduled while we haven't finished splitting terms.
  *
  * @ignore
  * @since 4.3.0
  */
 function _wp_check_for_scheduled_split_terms() {
-	if ( ! get_option( 'finished_splitting_shared_terms' ) && ! wp_next_scheduled( 'wp_batch_split_terms' ) ) {
-		wp_schedule_single_event( 'wp_batch_split_terms', time() + MINUTE_IN_SECONDS );
+	if ( ! get_option( 'finished_splitting_shared_terms' ) && ! wp_next_scheduled( 'wp_split_shared_term_batch' ) ) {
+		wp_schedule_single_event( time() + MINUTE_IN_SECONDS, 'wp_split_shared_term_batch' );
 	}
 }
 

@@ -383,8 +383,8 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 	 * @return bool
 	 */
 	public function is_writable($file) {
-		$file = ltrim($file, '/');
-		return is_writable('ssh2.sftp://' . $this->sftp_link . '/' . $file);
+		// PHP will base it's writable checks on system_user === file_owner, not ssh_user === file_owner
+		return true;
 	}
 	/**
 	 * @param string $file
