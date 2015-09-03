@@ -1,6 +1,14 @@
 <?php
 /**
- * Adds Proxy support to the WordPress HTTP API.
+ * HTTP API: WP_HTTP_Proxy class
+ *
+ * @package WordPress
+ * @subpackage HTTP
+ * @since 4.4.0
+ */
+
+/**
+ * Core class used to implement HTTP API proxy support.
  *
  * There are caveats to proxy support. It requires that defines be made in the wp-config.php file to
  * enable proxy support. There are also a few filters that plugins can hook into for some of the
@@ -28,6 +36,7 @@
  *
  * @link https://core.trac.wordpress.org/ticket/4011 Proxy support ticket in WordPress.
  * @link https://core.trac.wordpress.org/ticket/14636 Allow wildcard domains in WP_PROXY_BYPASS_HOSTS
+ *
  * @since 2.8.0
  */
 class WP_HTTP_Proxy {
