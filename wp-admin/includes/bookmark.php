@@ -26,8 +26,13 @@ function add_link() {
  * @return int|WP_Error Value 0 or WP_Error on failure. The link ID on success.
  */
 function edit_link( $link_id = 0 ) {
-	if ( !current_user_can( 'manage_links' ) )
-		wp_die( __( 'Cheatin&#8217; uh?' ), 403 );
+	if ( ! current_user_can( 'manage_links' ) ) {
+		wp_die(
+			'<h1>' . __( 'Cheatin&#8217; uh?' ) . '</h1>' .
+			'<p>' . __( 'You do not have sufficient permissions to edit the links for this site.' ) . '</p>',
+			403
+		);
+	}
 
 	$_POST['link_url'] = esc_html( $_POST['link_url'] );
 	$_POST['link_url'] = esc_url($_POST['link_url']);
