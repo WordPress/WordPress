@@ -218,13 +218,13 @@ final class WP_Customize_Manager {
 		if ( is_admin() && ! $doing_ajax_or_is_customized ) {
 			auth_redirect();
 		} elseif ( $doing_ajax_or_is_customized && ! is_user_logged_in() ) {
-			$this->wp_die( 0 );
+			$this->wp_die( 0, 'You must be logged in to complete this action.' );
 		}
 
 		show_admin_bar( false );
 
 		if ( ! current_user_can( 'customize' ) ) {
-			$this->wp_die( -1 );
+			$this->wp_die( -1, 'You are not allowed to customize the appearance of this site.' );
 		}
 
 		$this->original_stylesheet = get_stylesheet();
@@ -238,17 +238,17 @@ final class WP_Customize_Manager {
 			// If the requested theme is not the active theme and the user doesn't have the
 			// switch_themes cap, bail.
 			if ( ! current_user_can( 'switch_themes' ) ) {
-				$this->wp_die( -1 );
+				$this->wp_die( -1, 'You are not allowed to edit theme options on this site.' );
 			}
 
 			// If the theme has errors while loading, bail.
 			if ( $this->theme()->errors() ) {
-				$this->wp_die( -1 );
+				$this->wp_die( -1, $this->theme()->errors()->get_error_message() );
 			}
 
 			// If the theme isn't allowed per multisite settings, bail.
 			if ( ! $this->theme()->is_allowed() ) {
-				$this->wp_die( -1 );
+				$this->wp_die( -1, 'The requested theme does not exist.' );
 			}
 		}
 
