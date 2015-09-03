@@ -9,8 +9,13 @@
 /** WordPress Administration Bootstrap */
 require_once( dirname( __FILE__ ) . '/admin.php' );
 
-if ( ! current_user_can( 'list_users' ) )
-	wp_die( __( 'Cheatin&#8217; uh?' ), 403 );
+if ( ! current_user_can( 'list_users' ) ) {
+	wp_die(
+		'<h1>' . __( 'Cheatin&#8217; uh?' ) . '</h1>' .
+		'<p>' . __( 'You are not allowed to browse users.' ) . '</p>',
+		403
+	);
+}
 
 $wp_list_table = _get_list_table('WP_Users_List_Table');
 $pagenum = $wp_list_table->get_pagenum();
@@ -127,8 +132,13 @@ case 'promote':
 		}
 
 		// If the user doesn't already belong to the blog, bail.
-		if ( is_multisite() && !is_user_member_of_blog( $id ) )
-			wp_die( __( 'Cheatin&#8217; uh?' ), 403 );
+		if ( is_multisite() && !is_user_member_of_blog( $id ) ) {
+			wp_die(
+				'<h1>' . __( 'Cheatin&#8217; uh?' ) . '</h1>' .
+				'<p>' . __( 'One of the selected users in not a member of this site.' ) . '</p>',
+				403
+			);
+		}
 
 		$user = get_userdata( $id );
 		$user->set_role($_REQUEST['new_role']);
