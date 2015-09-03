@@ -1,11 +1,19 @@
 <?php
 /**
+ * HTTP API: WP_Http_Curl object class
+ *
+ * @package WordPress
+ * @subpackage HTTP
+ * @since 4.4.0
+ */
+
+/**
+ * Core class used to integrate Curl as an HTTP transport.
+ *
  * HTTP request method uses Curl extension to retrieve the url.
  *
  * Requires the Curl extension to be installed.
  *
- * @package WordPress
- * @subpackage HTTP
  * @since 2.7.0
  */
 class WP_Http_Curl {
