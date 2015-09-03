@@ -10,10 +10,19 @@
 require_once( dirname( __FILE__ ) . '/admin.php' );
 
 if ( is_multisite() ) {
-	if ( ! current_user_can( 'create_users' ) && ! current_user_can( 'promote_users' ) )
-		wp_die( __( 'Cheatin&#8217; uh?' ), 403 );
+	if ( ! current_user_can( 'create_users' ) && ! current_user_can( 'promote_users' ) ) {
+		wp_die(
+			'<h1>' . __( 'Cheatin&#8217; uh?' ) . '</h1>' .
+			'<p>' . __( 'You do not have sufficient permissions to add users to this network.' ) . '</p>',
+			403
+		);
+	}
 } elseif ( ! current_user_can( 'create_users' ) ) {
-	wp_die( __( 'Cheatin&#8217; uh?' ), 403 );
+	wp_die(
+		'<h1>' . __( 'Cheatin&#8217; uh?' ) . '</h1>' .
+		'<p>' . __( 'You are not allowed to create users.' ) . '</p>',
+		403
+	);
 }
 
 if ( is_multisite() ) {
@@ -59,8 +68,13 @@ if ( isset($_REQUEST['action']) && 'adduser' == $_REQUEST['action'] ) {
 		die();
 	}
 
-	if ( ! current_user_can('promote_user', $user_details->ID) )
-		wp_die( __( 'Cheatin&#8217; uh?' ), 403 );
+	if ( ! current_user_can( 'promote_user', $user_details->ID ) ) {
+		wp_die(
+			'<h1>' . __( 'Cheatin&#8217; uh?' ) . '</h1>' .
+			'<p>' . __( 'You do not have sufficient permissions to add users to this network.' ) . '</p>',
+			403
+		);
+	}
 
 	// Adding an existing user to this blog
 	$new_user_email = $user_details->user_email;
@@ -108,8 +122,13 @@ Please click the following link to confirm the invite:
 } elseif ( isset($_REQUEST['action']) && 'createuser' == $_REQUEST['action'] ) {
 	check_admin_referer( 'create-user', '_wpnonce_create-user' );
 
-	if ( ! current_user_can('create_users') )
-		wp_die( __( 'Cheatin&#8217; uh?' ), 403 );
+	if ( ! current_user_can( 'create_users' ) ) {
+		wp_die(
+			'<h1>' . __( 'Cheatin&#8217; uh?' ) . '</h1>' .
+			'<p>' . __( 'You are not allowed to create users.' ) . '</p>',
+			403
+		);
+	}
 
 	if ( ! is_multisite() ) {
 		$user_id = edit_user();
