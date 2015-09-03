@@ -1,11 +1,13 @@
 <?php
 /**
- * API for creating dynamic sidebar without hardcoding functionality into
+ * Core Widgets API
+ *
+ * This API is used for creating dynamic sidebar without hardcoding functionality into
  * themes
  *
- * Includes both internal WordPress routines and theme use routines.
+ * Includes both internal WordPress routines and theme-use routines.
  *
- * This functionality was found in a plugin before WordPress 2.2 release which
+ * This functionality was found in a plugin before the WordPress 2.2 release, which
  * included it in the core from that point on.
  *
  * @link https://codex.wordpress.org/Plugins/WordPress_Widgets WordPress Widgets
@@ -13,6 +15,7 @@
  *
  * @package WordPress
  * @subpackage Widgets
+ * @since 2.2.0
  */
 
 //
