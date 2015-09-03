@@ -135,7 +135,7 @@ case 'promote':
 		if ( is_multisite() && !is_user_member_of_blog( $id ) ) {
 			wp_die(
 				'<h1>' . __( 'Cheatin&#8217; uh?' ) . '</h1>' .
-				'<p>' . __( 'One of the selected users in not a member of this site.' ) . '</p>',
+				'<p>' . __( 'One of the selected users is not a member of this site.' ) . '</p>',
 				403
 			);
 		}

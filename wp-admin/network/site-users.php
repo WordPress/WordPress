@@ -136,8 +136,13 @@ if ( $action ) {
 					$user_id = (int) $user_id;
 
 					// If the user doesn't already belong to the blog, bail.
-					if ( !is_user_member_of_blog( $user_id ) )
-						wp_die( __( 'Cheatin&#8217; uh?' ), 403 );
+					if ( ! is_user_member_of_blog( $user_id ) ) {
+						wp_die(
+							'<h1>' . __( 'Cheatin&#8217; uh?' ) . '</h1>' .
+							'<p>' . __( 'One of the selected users is not a member of this site.' ) . '</p>',
+							403
+						);
+					}
 
 					$user = get_userdata( $user_id );
 					$user->set_role( $_REQUEST['new_role'] );
