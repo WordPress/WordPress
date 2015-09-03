@@ -1,14 +1,10 @@
 <?php
 /**
- * Simple and uniform HTTP request API.
- *
- * Will eventually replace and standardize the WordPress HTTP requests made.
- *
- * @link https://core.trac.wordpress.org/ticket/4779 HTTP API Proposal
+ * HTTP API: Top-level HTTP request API functionality
  *
  * @package WordPress
  * @subpackage HTTP
- * @since 2.7.0
+ * @since 4.4.0
  */
 
 /**
