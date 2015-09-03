@@ -1,9 +1,17 @@
 <?php
 /**
- * HTTP request method uses PHP Streams to retrieve the url.
+ * HTTP API: WP_Http_Streams object class
+ *
+ * @package WordPress
+ * @subpackage HTTP
+ * @since 4.4.0
+ */
+
+/**
+ * Core class used to integrate PHP Streams as an HTTP transport.
  *
  * @since 2.7.0
- * @since 3.7.0 Combined with the fsockopen transport and switched to stream_socket_client().
+ * @since 3.7.0 Combined with the fsockopen transport and switched to `stream_socket_client()`.
  */
 class WP_Http_Streams {
 	/**
