@@ -1042,8 +1042,8 @@ class wp_xmlrpc_server extends IXR_Server {
 		 *
 		 * @since 3.4.0
 		 *
-		 * @param array  $_comment An array of prepared comment data.
-		 * @param object $comment  Comment object.
+		 * @param array      $_comment An array of prepared comment data.
+		 * @param WP_Comment $comment  Comment object.
 		 */
 		return apply_filters( 'xmlrpc_prepare_comment', $_comment, $comment );
 	}

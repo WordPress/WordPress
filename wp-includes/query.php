@@ -3186,7 +3186,9 @@ class WP_Query {
 			$cgroupby = ( ! empty( $cgroupby ) ) ? 'GROUP BY ' . $cgroupby : '';
 			$corderby = ( ! empty( $corderby ) ) ? 'ORDER BY ' . $corderby : '';
 
-			$this->comments = (array) $wpdb->get_results("SELECT $distinct $wpdb->comments.* FROM $wpdb->comments $cjoin $cwhere $cgroupby $corderby $climits");
+			$comments = (array) $wpdb->get_results("SELECT $distinct $wpdb->comments.* FROM $wpdb->comments $cjoin $cwhere $cgroupby $corderby $climits");
+			// Convert to WP_Comment
+			$this->comments = array_map( 'get_comment', $comments );
 			$this->comment_count = count($this->comments);
 
 			$post_ids = array();
@@ -3557,7 +3559,9 @@ class WP_Query {
 			$climits = apply_filters_ref_array( 'comment_feed_limits', array( 'LIMIT ' . get_option('posts_per_rss'), &$this ) );
 
 			$comments_request = "SELECT $wpdb->comments.* FROM $wpdb->comments $cjoin $cwhere $cgroupby $corderby $climits";
-			$this->comments = $wpdb->get_results($comments_request);
+			$comments = $wpdb->get_results($comments_request);
+			// Convert to WP_Comment
+			$this->comments = array_map( 'get_comment', $comments );
 			$this->comment_count = count($this->comments);
 		}
 
@@ -3812,12 +3816,12 @@ class WP_Query {
 	}
 
 	/**
-	 * Iterate current comment index and return comment object.
+	 * Iterate current comment index and return WP_Comment object.
 	 *
 	 * @since 2.2.0
 	 * @access public
 	 *
-	 * @return object Comment object.
+	 * @return WP_Comment Comment object.
 	 */
 	public function next_comment() {
 		$this->current_comment++;

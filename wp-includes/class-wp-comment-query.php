@@ -665,7 +665,10 @@ class WP_Comment_Query {
 		 * @param array            $results  An array of comments.
 		 * @param WP_Comment_Query &$this    Current instance of WP_Comment_Query, passed by reference.
 		 */
-		$comments = apply_filters_ref_array( 'the_comments', array( $results, &$this ) );
+		$_comments = apply_filters_ref_array( 'the_comments', array( $results, &$this ) );
+
+		// Convert to WP_Comment instances
+		$comments = array_map( 'get_comment', $_comments );
 
 		wp_cache_add( $cache_key, $comments, 'comment' );
 		if ( '*' === $fields ) {

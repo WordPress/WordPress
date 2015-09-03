@@ -171,7 +171,7 @@ do_action( 'add_meta_boxes', 'comment', $comment );
  *
  * @since 3.0.0
  *
- * @param object $comment Comment object.
+ * @param WP_Comment $comment Comment object.
  */
 do_action( 'add_meta_boxes_comment', $comment );
 

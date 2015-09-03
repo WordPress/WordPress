@@ -548,10 +548,10 @@ function wp_dashboard_recent_drafts( $drafts = false ) {
 }
 
 /**
- * @global object $comment
+ * @global WP_Comment $comment
  *
- * @param object $comment
- * @param bool   $show_date
+ * @param WP_Comment $comment
+ * @param bool       $show_date
  */
 function _wp_dashboard_recent_comments_row( &$comment, $show_date = true ) {
 	$GLOBALS['comment'] =& $comment;
@@ -603,10 +603,10 @@ function _wp_dashboard_recent_comments_row( &$comment, $show_date = true ) {
 		 *
 		 * @since 2.6.0
 		 *
-		 * @param array  $actions An array of comment actions. Default actions include:
-		 *                        'Approve', 'Unapprove', 'Edit', 'Reply', 'Spam',
-		 *                        'Delete', and 'Trash'.
-		 * @param object $comment The comment object.
+		 * @param array      $actions An array of comment actions. Default actions include:
+		 *                            'Approve', 'Unapprove', 'Edit', 'Reply', 'Spam',
+		 *                            'Delete', and 'Trash'.
+		 * @param WP_Comment $comment The comment object.
 		 */
 		$actions = apply_filters( 'comment_row_actions', array_filter($actions), $comment );
 

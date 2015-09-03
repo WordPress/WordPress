@@ -2190,7 +2190,7 @@ if ( !function_exists( 'get_avatar' ) ) :
  * @since 4.2.0 Optional `$args` parameter added.
  *
  * @param mixed $id_or_email The Gravatar to retrieve. Accepts a user_id, gravatar md5 hash,
- *                           user email, WP_User object, WP_Post object, or comment object.
+ *                           user email, WP_User object, WP_Post object, or WP_Comment object.
  * @param int    $size       Optional. Height and width of the avatar image file in pixels. Default 96.
  * @param string $default    Optional. URL for the default image or a default type. Accepts '404'
  *                           (return a 404 instead of a default image), 'retro' (8bit), 'monsterid'
@@ -2258,9 +2258,10 @@ function get_avatar( $id_or_email, $size = 96, $default = '', $alt = '', $args =
 	 *
 	 * @since 4.2.0
 	 *
-	 * @param string            $avatar      HTML for the user's avatar. Default null.
-	 * @param int|object|string $id_or_email A user ID, email address, or comment object.
-	 * @param array             $args        Arguments passed to get_avatar_url(), after processing.
+	 * @param string $avatar      HTML for the user's avatar. Default null.
+	 * @param mixed  $id_or_email The Gravatar to retrieve. Accepts a user_id, gravatar md5 hash,
+	 *                            user email, WP_User object, WP_Post object, or WP_Comment object.
+	 * @param array  $args        Arguments passed to get_avatar_url(), after processing.
 	 */
 	$avatar = apply_filters( 'pre_get_avatar', null, $id_or_email, $args );
 
@@ -2314,12 +2315,13 @@ function get_avatar( $id_or_email, $size = 96, $default = '', $alt = '', $args =
 	 * @since 2.5.0
 	 * @since 4.2.0 The `$args` parameter was added.
 	 *
-	 * @param string            $avatar      &lt;img&gt; tag for the user's avatar.
-	 * @param int|object|string $id_or_email A user ID, email address, or comment object.
-	 * @param int               $size        Square avatar width and height in pixels to retrieve.
-	 * @param string            $alt         Alternative text to use in the avatar image tag.
+	 * @param string $avatar      &lt;img&gt; tag for the user's avatar.
+	 * @param mixed  $id_or_email The Gravatar to retrieve. Accepts a user_id, gravatar md5 hash,
+	 *                            user email, WP_User object, WP_Post object, or WP_Comment object.
+	 * @param int    $size        Square avatar width and height in pixels to retrieve.
+	 * @param string $alt         Alternative text to use in the avatar image tag.
 	 *                                       Default empty.
-	 * @param array             $args        Arguments passed to get_avatar_data(), after processing.
+	 * @param array  $args        Arguments passed to get_avatar_data(), after processing.
 	 */
 	return apply_filters( 'get_avatar', $avatar, $id_or_email, $args['size'], $args['default'], $args['alt'], $args );
 }

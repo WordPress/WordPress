@@ -743,8 +743,8 @@ function meta_form( $post = null ) {
  *
  * @since 0.71
  *
- * @global WP_Locale $wp_locale
- * @global object    $comment
+ * @global WP_Locale  $wp_locale
+ * @global WP_Comment $comment
  *
  * @param int|bool $edit      Accepts 1|true for editing the date, 0|false for adding the date.
  * @param int|bool $for_post  Accepts 1|true for applying the date to a post, 0|false for a comment.

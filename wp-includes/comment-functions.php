@@ -164,30 +164,25 @@ function get_approved_comments( $post_id, $args = array() ) {
  * @global wpdb   $wpdb WordPress database abstraction object.
  * @global object $comment
  *
- * @param object|string|int $comment Comment to retrieve.
+ * @param WP_Comment|string|int $comment Comment to retrieve.
  * @param string $output Optional. OBJECT or ARRAY_A or ARRAY_N constants.
- * @return object|array|null Depends on $output value.
+ * @return WP_Comment|array|null Depends on $output value.
  */
 function get_comment(&$comment, $output = OBJECT) {
-	global $wpdb;
+	if ( empty( $comment ) && isset( $GLOBALS['comment'] ) ) {
+		$comment = $GLOBALS['comment'];
+	}
 
-	if ( empty($comment) ) {
-		if ( isset($GLOBALS['comment']) )
-			$_comment = & $GLOBALS['comment'];
-		else
-			$_comment = null;
-	} elseif ( is_object($comment) ) {
-		wp_cache_add($comment->comment_ID, $comment, 'comment');
+	if ( $comment instanceof WP_Comment ) {
 		$_comment = $comment;
+	} elseif ( is_object( $comment ) ) {
+		$_comment = new WP_Comment( $comment );
 	} else {
-		if ( isset($GLOBALS['comment']) && ($GLOBALS['comment']->comment_ID == $comment) ) {
-			$_comment = & $GLOBALS['comment'];
-		} elseif ( ! $_comment = wp_cache_get($comment, 'comment') ) {
-			$_comment = $wpdb->get_row($wpdb->prepare("SELECT * FROM $wpdb->comments WHERE comment_ID = %d LIMIT 1", $comment));
-			if ( ! $_comment )
-				return null;
-			wp_cache_add($_comment->comment_ID, $_comment, 'comment');
-		}
+		$_comment = WP_Comment::get_instance( $comment );
+	}
+
+	if ( ! $_comment ) {
+		return null;
 	}
 
 	/**
@@ -202,14 +197,11 @@ function get_comment(&$comment, $output = OBJECT) {
 	if ( $output == OBJECT ) {
 		return $_comment;
 	} elseif ( $output == ARRAY_A ) {
-		$__comment = get_object_vars($_comment);
-		return $__comment;
+		return $_comment->to_array();
 	} elseif ( $output == ARRAY_N ) {
-		$__comment = array_values(get_object_vars($_comment));
-		return $__comment;
-	} else {
-		return $_comment;
+		return array_values( $_comment->to_array() );
 	}
+	return $_comment;
 }
 
 /**
@@ -479,8 +471,8 @@ function update_comment_meta($comment_id, $meta_key, $meta_value, $prev_value = 
  * Sets the cookies used to store an unauthenticated commentator's identity. Typically used
  * to recall previous comments by this commentator that are still held in moderation.
  *
- * @param object $comment Comment object.
- * @param object $user Comment author's object.
+ * @param WP_Comment $comment Comment object.
+ * @param object     $user    Comment author's object.
  *
  * @since 3.4.0
  */
@@ -760,7 +752,7 @@ function separate_comments(&$comments) {
  *
  * @global WP_Query $wp_query
  *
- * @param array $comments Optional array of comment objects. Defaults to $wp_query->comments
+ * @param array $comments Optional array of WP_Comment objects. Defaults to $wp_query->comments
  * @param int   $per_page Optional comments per page.
  * @param bool  $threaded Optional control over flat or threaded comments.
  * @return int Number of comment pages.
@@ -1288,7 +1280,7 @@ function wp_transition_comment_status($new_status, $old_status, $comment) {
 		 *
 		 * @since 2.7.0
 		 *
-		 * @param object $comment Comment object.
+		 * @param WP_Comment $comment Comment object.
 		 */
 		do_action( "comment_{$old_status}_to_{$new_status}", $comment );
 	}
@@ -1303,8 +1295,8 @@ function wp_transition_comment_status($new_status, $old_status, $comment) {
 	 *
 	 * @since 2.7.0
 	 *
-	 * @param int $comment_ID The comment ID.
-	 * @param obj $comment    Comment object.
+	 * @param int        $comment_ID The comment ID.
+	 * @param WP_Comment $comment    Comment object.
 	 */
 	do_action( "comment_{$new_status}_{$comment->comment_type}", $comment->comment_ID, $comment );
 }
@@ -1423,8 +1415,8 @@ function wp_insert_comment( $commentdata ) {
 	 *
 	 * @since 2.8.0
 	 *
-	 * @param int $id      The comment ID.
-	 * @param obj $comment Comment object.
+	 * @param int        $id      The comment ID.
+	 * @param WP_Comment $comment Comment object.
 	 */
 	do_action( 'wp_insert_comment', $id, $comment );
 
