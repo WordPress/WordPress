@@ -1,12 +1,18 @@
 <?php
 /**
- * Implementation for deflate and gzip transfer encodings.
+ * HTTP API: WP_Http_Encoding class
+ *
+ * @package WordPress
+ * @subpackage HTTP
+ * @since 4.4.0
+ */
+
+/**
+ * Core class used to implement deflate and gzip transfer encoding support for HTTP requests.
  *
  * Includes RFC 1950, RFC 1951, and RFC 1952.
  *
  * @since 2.8.0
- * @package WordPress
- * @subpackage HTTP
  */
 class WP_Http_Encoding {
 
