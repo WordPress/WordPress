@@ -1,9 +1,10 @@
 <?php
 /**
- * WordPress User API
+ * Users API: Top-level users functionality
  *
  * @package WordPress
  * @subpackage Users
+ * @since 4.4.0
  */
 
 /**
