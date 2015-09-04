@@ -164,6 +164,7 @@ function wp_category_checklist( $post_id = 0, $descendants_and_self = 0, $select
  * Taxonomy-independent version of wp_category_checklist().
  *
  * @since 3.0.0
+ * @since 4.4.0 Introduced the `$echo` argument.
  *
  * @param int          $post_id Optional. Post ID. Default 0.
  * @param array|string $args {
@@ -179,6 +180,8 @@ function wp_category_checklist( $post_id = 0, $descendants_and_self = 0, $select
  *     @type string $taxonomy             Taxonomy to generate the checklist for. Default 'category'.
  *     @type bool   $checked_ontop        Whether to move checked items out of the hierarchy and to
  *                                        the top of the list. Default true.
+ *     @type bool   $echo                 Whether to echo the generated markup. False to return the markup instead
+ *                                        of echoing it. Default true.
  * }
  */
 function wp_terms_checklist( $post_id = 0, $args = array() ) {
@@ -188,7 +191,8 @@ function wp_terms_checklist( $post_id = 0, $args = array() ) {
 		'popular_cats' => false,
 		'walker' => null,
 		'taxonomy' => 'category',
-		'checked_ontop' => true
+		'checked_ontop' => true,
+		'echo' => true,
 	);
 
 	/**
@@ -251,6 +255,8 @@ function wp_terms_checklist( $post_id = 0, $args = array() ) {
 		$categories = (array) get_terms( $taxonomy, array( 'get' => 'all' ) );
 	}
 
+	$output = '';
+
 	if ( $r['checked_ontop'] ) {
 		// Post process $categories rather than adding an exclude to the get_terms() query to keep the query the same across all posts (for any query cache)
 		$checked_categories = array();
@@ -264,10 +270,16 @@ function wp_terms_checklist( $post_id = 0, $args = array() ) {
 		}
 
 		// Put checked cats on top
-		echo call_user_func_array( array( $walker, 'walk' ), array( $checked_categories, 0, $args ) );
+		$output .= call_user_func_array( array( $walker, 'walk' ), array( $checked_categories, 0, $args ) );
 	}
 	// Then the rest of them
-	echo call_user_func_array( array( $walker, 'walk' ), array( $categories, 0, $args ) );
+	$output .= call_user_func_array( array( $walker, 'walk' ), array( $categories, 0, $args ) );
+
+	if ( $r['echo'] ) {
+		echo $output;
+	}
+
+	return $output;
 }
 
 /**
