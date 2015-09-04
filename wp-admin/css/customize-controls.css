@@ -1208,6 +1208,16 @@ body.cheatin {
 	box-shadow: 0 1px 3px rgba(0,0,0,0.13);
 }
 
+body.cheatin h1 {
+	border-bottom: 1px solid #dadada;
+	clear: both;
+	color: #666;
+	font: 24px "Open Sans", sans-serif;
+	margin: 30px 0 0 0;
+	padding: 0;
+	padding-bottom: 7px;
+}
+
 body.cheatin p {
 	font-size: 14px;
 	line-height: 1.5;

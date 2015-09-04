@@ -3028,7 +3028,10 @@
 		},
 
 		cheatin: function() {
-			$( document.body ).empty().addClass('cheatin').append( '<p>' + api.l10n.cheatin + '</p>' );
+			$( document.body ).empty().addClass( 'cheatin' ).append(
+				'<h1>' + api.l10n.cheatin + '</h1>' +
+				'<p>' + api.l10n.notAllowed + '</p>'
+			);
 		},
 
 		refreshNonces: function() {
