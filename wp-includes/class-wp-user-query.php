@@ -1,10 +1,16 @@
 <?php
 /**
- * WordPress User Query class.
+ * Users API: WP_User_Query class
  *
- * @since 3.1.0
  * @package WordPress
  * @subpackage Users
+ * @since 4.4.0
+ */
+
+/**
+ * Core class used for querying users.
+ *
+ * @since 3.1.0
  *
  * @see WP_User_Query::prepare_query() for information on accepted arguments.
  */
