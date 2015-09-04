@@ -1,14 +1,21 @@
 <?php
 /**
- * WordPress Comment Query class.
+ * Comments API: WP_Comment_Query class
  *
- * See WP_Comment_Query::__construct() for accepted arguments.
- *
- * @since 3.1.0
  * @package WordPress
  * @subpackage Comment
+ * @since 4.4.0
+ */
+
+/**
+ * Core class used for querying comments.
+ *
+ * @since 3.1.0
+ *
+ * @see WP_Comment_Query::__construct() for accepted arguments.
  */
 class WP_Comment_Query {
+
 	/**
 	 * SQL for database query.
 	 *
