@@ -945,6 +945,7 @@ function get_term_to_edit( $id, $taxonomy ) {
  *
  * @since 2.3.0
  * @since 4.2.0 Introduced 'name' and 'childless' parameters.
+ * @since 4.4.0 Introduced the ability to pass 'term_id' as an alias of 'id' for the `orderby` parameter.
  *
  * @global wpdb  $wpdb WordPress database abstraction object.
  * @global array $wp_filter
@@ -1132,7 +1133,7 @@ function get_terms( $taxonomies, $args = '' ) {
 		$orderby = 'tt.description';
 	} elseif ( 'none' == $_orderby ) {
 		$orderby = '';
-	} elseif ( empty($_orderby) || 'id' == $_orderby ) {
+	} elseif ( empty( $_orderby ) || 'id' == $_orderby || 'term_id' === $_orderby ) {
 		$orderby = 't.term_id';
 	} else {
 		$orderby = 't.name';
