@@ -1,9 +1,10 @@
 <?php
 /**
- * WordPress Rewrite API
+ * Rewrite API: Constants
  *
  * @package WordPress
  * @subpackage Rewrite
+ * @since 4.4.0
  */
 
 /**
