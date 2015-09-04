@@ -1,9 +1,10 @@
 <?php
 /**
- * Manages WordPress comments
+ * Comments API: Top-level comments functionality
  *
  * @package WordPress
  * @subpackage Comment
+ * @since 4.4.0
  */
 
 /**
