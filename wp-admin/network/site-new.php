@@ -10,6 +10,9 @@
 /** Load WordPress Administration Bootstrap */
 require_once( dirname( __FILE__ ) . '/admin.php' );
 
+/** WordPress Translation Install API */
+require_once( ABSPATH . 'wp-admin/includes/translation-install.php' );
+
 if ( ! is_multisite() )
 	wp_die( __( 'Multisite support is not enabled.' ) );
 
@@ -51,6 +54,18 @@ if ( isset($_REQUEST['action']) && 'add-site' == $_REQUEST['action'] ) {
 
 	$title = $blog['title'];
 
+	$meta = array(
+		'public' => 1
+	);
+
+	// Handle translation install for the new site.
+	if ( ! empty( $_POST['WPLANG'] ) && wp_can_install_language_pack() ) {
+		$language = wp_download_language_pack( wp_unslash( $_POST['WPLANG'] ) );
+		if ( $language ) {
+			$meta['WPLANG'] = $language;
+		}
+	}
+
 	if ( empty( $domain ) )
 		wp_die( __( 'Missing or invalid site address.' ) );
 
@@ -83,7 +98,7 @@ if ( isset($_REQUEST['action']) && 'add-site' == $_REQUEST['action'] ) {
 	}
 
 	$wpdb->hide_errors();
-	$id = wpmu_create_blog( $newdomain, $path, $title, $user_id , array( 'public' => 1 ), $current_site->id );
+	$id = wpmu_create_blog( $newdomain, $path, $title, $user_id, $meta, $current_site->id );
 	$wpdb->show_errors();
 	if ( ! is_wp_error( $id ) ) {
 		if ( ! is_super_admin( $user_id ) && !get_user_option( 'primary_blog', $user_id ) ) {
@@ -155,6 +170,35 @@ if ( ! empty( $messages ) ) {
 			<th scope="row"><label for="site-title"><?php _e( 'Site Title' ) ?></label></th>
 			<td><input name="blog[title]" type="text" class="regular-text" id="site-title" /></td>
 		</tr>
+		<?php
+		$languages    = get_available_languages();
+		$translations = wp_get_available_translations();
+		if ( ! empty( $languages ) || ! empty( $translations ) ) :
+			?>
+			<tr class="form-field form-required">
+				<th scope="row"><label for="site-language"><?php _e( 'Site Language' ); ?></label></th>
+				<td>
+					<?php
+					// Network default.
+					$lang = get_site_option( 'WPLANG' );
+
+					// Use English if the default isn't available.
+					if ( ! in_array( $lang, $languages ) ) {
+						$lang = '';
+					}
+
+					wp_dropdown_languages( array(
+						'name'                        => 'WPLANG',
+						'id'                          => 'site-language',
+						'selected'                    => $lang,
+						'languages'                   => $languages,
+						'translations'                => $translations,
+						'show_available_translations' => wp_can_install_language_pack(),
+					) );
+					?>
+				</td>
+			</tr>
+		<?php endif; // Languages. ?>
 		<tr class="form-field form-required">
 			<th scope="row"><label for="admin-email"><?php _e( 'Admin Email' ) ?></label></th>
 			<td><input name="blog[email]" type="email" class="regular-text wp-suggest-user" id="admin-email" data-autocomplete-type="search" data-autocomplete-field="user_email" /></td>
