@@ -1232,7 +1232,7 @@ function wp_print_request_filesystem_credentials_modal() {
 		<div class="notification-dialog" role="dialog" aria-labelledby="request-filesystem-credentials-title" tabindex="0">
 			<div class="request-filesystem-credentials-dialog-content">
 				<?php request_filesystem_credentials( site_url() ); ?>
-			<div>
+			</div>
 		</div>
 	</div>
 	<?php
