@@ -2775,7 +2775,7 @@ function wp_get_recent_posts( $args = array(), $output = ARRAY_A ) {
  *
  * @since 1.0.0
  * @since 4.2.0 Support was added for encoding emoji in the post title, content, and excerpt.
- * @since 4.4.0 A 'meta_input' array can now be passed to $postarr to add post meta data.
+ * @since 4.4.0 A 'meta_input' array can now be passed to `$postarr` to add post meta data.
  *
  * @see sanitize_post()
  * @global wpdb $wpdb WordPress database abstraction object.
@@ -2814,6 +2814,8 @@ function wp_get_recent_posts( $args = array(), $output = ARRAY_A ) {
  *     @type int    $menu_order            The order the post should be displayed in. Default 0.
  *     @type string $post_mime_type        The mime type of the post. Default empty.
  *     @type string $guid                  Global Unique ID for referencing the post. Default empty.
+ *     @type array  $tax_input             Array of taxonomy terms keyed by their taxonomy name. Default empty.
+ *     @type array  $meta_input            Array of post meta values keyed by their post meta key. Default empty.
  * }
  * @param bool  $wp_error Optional. Whether to allow return of WP_Error on failure. Default false.
  * @return int|WP_Error The post ID on success. The value 0 or WP_Error on failure.
