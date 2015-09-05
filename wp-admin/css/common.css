@@ -539,7 +539,8 @@ code {
 
 .widefat thead td.check-column,
 .widefat tfoot td.check-column {
-	padding-top: 10px;
+	padding-top: 4px;
+	vertical-align: middle;
 }
 
 .update-php div.updated,

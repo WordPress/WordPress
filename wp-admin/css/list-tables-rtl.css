@@ -1902,8 +1902,9 @@ div.action-links,
 		color: #dc3232;
 	}
 
-	.widefat thead .check-column, .widefat tfoot .check-column {
-		padding: 10px 0 10px;
+	.widefat thead td.check-column,
+	.widefat tfoot td.check-column {
+		padding-top: 10px;
 	}
 
 	.widefat * {
