@@ -188,7 +188,7 @@ printf( __('Comments should be displayed with the %s comments at the top of each
 <?php do_settings_fields('discussion', 'default'); ?>
 </table>
 
-<h3 class="title"><?php _e('Avatars'); ?></h3>
+<h2 class="title"><?php _e('Avatars'); ?></h2>
 
 <p><?php _e('An avatar is an image that follows you from weblog to weblog appearing beside your name when you comment on avatar enabled sites. Here you can enable the display of avatars for people who comment on your site.'); ?></p>
 
