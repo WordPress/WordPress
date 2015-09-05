@@ -2775,6 +2775,7 @@ function wp_get_recent_posts( $args = array(), $output = ARRAY_A ) {
  *
  * @since 1.0.0
  * @since 4.2.0 Support was added for encoding emoji in the post title, content, and excerpt.
+ * @since 4.4.0 A 'meta_input' array can now be passed to $postarr to add post meta data.
  *
  * @see sanitize_post()
  * @global wpdb $wpdb WordPress database abstraction object.
@@ -3169,6 +3170,12 @@ function wp_insert_post( $postarr, $wp_error = false ) {
 			if ( current_user_can( $taxonomy_obj->cap->assign_terms ) ) {
 				wp_set_post_terms( $post_ID, $tags, $taxonomy );
 			}
+		}
+	}
+
+	if ( ! empty( $postarr['meta_input'] ) ) {
+		foreach ( $postarr['meta_input'] as $field => $value ) {
+			update_post_meta( $post_ID, $field, $value );
 		}
 	}
 
