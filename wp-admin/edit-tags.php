@@ -422,7 +422,7 @@ if ( !is_null( $tax->labels->popular_items ) ) {
 	if ( $tag_cloud ) :
 	?>
 <div class="tagcloud">
-<h3><?php echo $tax->labels->popular_items; ?></h3>
+<h2><?php echo $tax->labels->popular_items; ?></h2>
 <?php echo $tag_cloud; unset( $tag_cloud ); ?>
 </div>
 <?php
@@ -475,7 +475,7 @@ if ( current_user_can($tax->cap->edit_terms) ) {
 ?>
 
 <div class="form-wrap">
-<h3><?php echo $tax->labels->add_new_item; ?></h3>
+<h2><?php echo $tax->labels->add_new_item; ?></h2>
 <form id="addtag" method="post" action="edit-tags.php" class="validate"
 <?php
 /**
