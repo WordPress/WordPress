@@ -3,13 +3,22 @@
 	var Container, focus, api = wp.customize;
 
 	/**
+	 * A Customizer Setting.
+	 *
+	 * A setting is WordPress data (theme mod, option, menu, etc.) that the user can
+	 * draft changes to in the Customizer.
+	 *
+	 * @see PHP class WP_Customize_Setting.
+	 *
 	 * @class
 	 * @augments wp.customize.Value
 	 * @augments wp.customize.Class
 	 *
-	 * @param options
-	 * - previewer - The Previewer instance to sync with.
-	 * - transport - The transport to use for previewing. Supports 'refresh' and 'postMessage'.
+	 * @param {object} id                The Setting ID.
+	 * @param {object} value             The initial value of the setting.
+	 * @param {object} options.previewer The Previewer instance to sync with.
+	 * @param {object} options.transport The transport to use for previewing. Supports 'refresh' and 'postMessage'.
+	 * @param {object} options.dirty
 	 */
 	api.Setting = api.Value.extend({
 		initialize: function( id, value, options ) {
@@ -19,8 +28,13 @@
 			this.transport = this.transport || 'refresh';
 			this._dirty = options.dirty || false;
 
+			// Whenever the setting's value changes, refresh the preview.
 			this.bind( this.preview );
 		},
+
+		/**
+		 * Refresh the preview, respective of the setting's refresh policy.
+		 */
 		preview: function() {
 			switch ( this.transport ) {
 				case 'refresh':
@@ -270,10 +284,9 @@
 		},
 
 		/**
-		 * Handle changes to the active state.
+		 * Active state change handler.
 		 *
-		 * This does not change the active state, it merely handles the behavior
-		 * for when it does change.
+		 * Shows the container if it is active, hides it if not.
 		 *
 		 * To override by subclass, update the container's UI to reflect the provided active state.
 		 *
@@ -1347,14 +1360,16 @@
 	 * @class
 	 * @augments wp.customize.Class
 	 *
-	 * @param {string} id                            Unique identifier for the control instance.
-	 * @param {object} options                       Options hash for the control instance.
+	 * @param {string} id                              Unique identifier for the control instance.
+	 * @param {object} options                         Options hash for the control instance.
 	 * @param {object} options.params
-	 * @param {object} options.params.type           Type of control (e.g. text, radio, dropdown-pages, etc.)
-	 * @param {string} options.params.content        The HTML content for the control.
-	 * @param {string} options.params.priority       Order of priority to show the control within the section.
+	 * @param {object} options.params.type             Type of control (e.g. text, radio, dropdown-pages, etc.)
+	 * @param {string} options.params.content          The HTML content for the control.
+	 * @param {string} options.params.priority         Order of priority to show the control within the section.
 	 * @param {string} options.params.active
-	 * @param {string} options.params.section
+	 * @param {string} options.params.section          The ID of the section the control belongs to.
+	 * @param {string} options.params.settings.default The ID of the setting the control relates to.
+	 * @param {string} options.params.settings.data
 	 * @param {string} options.params.label
 	 * @param {string} options.params.description
 	 * @param {string} options.params.instanceNumber Order in which this instance was created in relation to other instances.
@@ -1420,7 +1435,10 @@
 
 			api.utils.bubbleChildValueChanges( control, [ 'section', 'priority', 'active' ] );
 
-			// Associate this control with its settings when they are created
+			/*
+			 * After all settings related to the control are available,
+			 * make them available on the control and embed the control into the page.
+			 */
 			settings = $.map( control.params.settings, function( value ) {
 				return value;
 			});
@@ -1437,6 +1455,7 @@
 				control.embed();
 			}) );
 
+			// After the control is embedded on the page, invoke the "ready" method.
 			control.deferred.embedded.done( function () {
 				control.ready();
 			});
@@ -2573,6 +2592,9 @@
 	api.panel = new api.Values({ defaultConstructor: api.Panel });
 
 	/**
+	 * An object that fetches a preview in the background of the document, which
+	 * allows for seamless replacement of an existing preview.
+	 *
 	 * @class
 	 * @augments wp.customize.Messenger
 	 * @augments wp.customize.Class
@@ -2581,10 +2603,22 @@
 	api.PreviewFrame = api.Messenger.extend({
 		sensitivity: 2000,
 
+		/**
+		 * Initialize the PreviewFrame.
+		 *
+		 * @param {object} params.container
+		 * @param {object} params.signature
+		 * @param {object} params.previewUrl
+		 * @param {object} params.query
+		 * @param {object} options
+		 */
 		initialize: function( params, options ) {
 			var deferred = $.Deferred();
 
-			// This is the promise object.
+			/*
+			 * Make the instance of the PreviewFrame the promise object
+			 * so other objects can easily interact with it.
+			 */
 			deferred.promise( this );
 
 			this.container = params.container;
@@ -2601,6 +2635,12 @@
 			this.run( deferred );
 		},
 
+		/**
+		 * Run the preview request.
+		 *
+		 * @param {object} deferred jQuery Deferred object to be resolved with
+		 *                          the request.
+		 */
 		run: function( deferred ) {
 			var self   = this,
 				loaded = false,
@@ -2804,9 +2844,13 @@
 		refreshBuffer: 250,
 
 		/**
-		 * Requires params:
-		 *  - container  - a selector or jQuery element
-		 *  - previewUrl - the URL of preview frame
+		 * @param {array}  params.allowedUrls
+		 * @param {string} params.container   A selector or jQuery element for the preview
+		 *                                    frame to be placed.
+		 * @param {string} params.form
+		 * @param {string} params.previewUrl  The URL to preview.
+		 * @param {string} params.signature
+		 * @param {object} options
 		 */
 		initialize: function( params, options ) {
 			var self = this,
@@ -2919,6 +2963,11 @@
 			} );
 		},
 
+		/**
+		 * Query string data sent with each preview request.
+		 *
+		 * @abstract
+		 */
 		query: function() {},
 
 		abort: function() {
@@ -2928,6 +2977,9 @@
 			}
 		},
 
+		/**
+		 * Refresh the preview.
+		 */
 		refresh: function() {
 			var self = this;
 
@@ -3140,6 +3192,11 @@
 
 			nonce: api.settings.nonce,
 
+			/**
+			 * Build the query to send along with the Preview request.
+			 *
+			 * @return {object}
+			 */
 			query: function() {
 				var dirtyCustomized = {};
 				api.each( function ( value, key ) {
@@ -3467,14 +3524,21 @@
 			} );
 		}
 
-		// Create a potential postMessage connection with the parent frame.
+		/*
+		 * Create a postMessage connection with a parent frame,
+		 * in case the Customizer frame was opened with the Customize loader.
+		 *
+		 * @see wp.customize.Loader
+		 */
 		parent = new api.Messenger({
 			url: api.settings.url.parent,
 			channel: 'loader'
 		});
 
-		// If we receive a 'back' event, we're inside an iframe.
-		// Send any clicks to the 'Return' link to the parent page.
+		/*
+		 * If we receive a 'back' event, we're inside an iframe.
+		 * Send any clicks to the 'Return' link to the parent page.
+		 */
 		parent.bind( 'back', function() {
 			closeBtn.on( 'click.customize-controls-close', function( event ) {
 				event.preventDefault();
@@ -3499,8 +3563,10 @@
 			});
 		} );
 
-		// When activated, let the loader handle redirecting the page.
-		// If no loader exists, redirect the page ourselves (if a url exists).
+		/*
+		 * When activated, let the loader handle redirecting the page.
+		 * If no loader exists, redirect the page ourselves (if a url exists).
+		 */
 		api.bind( 'activated', function() {
 			if ( parent.targetWindow() )
 				parent.send( 'activated', api.settings.url.activated );
