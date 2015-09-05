@@ -62,12 +62,16 @@ if ( isset($_REQUEST['action']) && 'update-site' == $_REQUEST['action'] && is_ar
 		update_option( $key, $val );
 	}
 
-/**
- * Fires after the site options are updated.
- *
- * @since 3.0.0
- */
-	do_action( 'wpmu_update_blog_options' );
+	/**
+	 * Fires after the site options are updated.
+	 *
+	 * @since 3.0.0
+	 * @since 4.4.0 Added `$id` parameter.
+	 *
+	 * @param int $id The ID of the site being updated.
+	 */
+	do_action( 'wpmu_update_blog_options', $id );
+
 	restore_current_blog();
 	wp_redirect( add_query_arg( array( 'update' => 'updated', 'id' => $id ), 'site-settings.php') );
 	exit;
