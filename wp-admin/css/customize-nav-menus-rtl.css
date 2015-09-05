@@ -327,7 +327,7 @@
 	border: none;
 	content: "\f111";
 	display: block;
-	font: 18px/1 "dashicons";
+	font: 18px/1 dashicons;
 	padding: 5px;
 	text-align: center;
 	text-decoration: none !important;
@@ -506,7 +506,7 @@
 	position: relative;
 	right: -2px;
 	top: -1px;
-	font: normal 20px/1 'dashicons';
+	font: normal 20px/1 dashicons;
 	vertical-align: middle;
 	-webkit-transition: all 0.2s;
 	transition: all 0.2s;
@@ -629,7 +629,7 @@
 
 #available-menu-items .accordion-section-title .toggle-indicator:after {
 	content: '\f140';
-	font: normal 20px/1 'dashicons';
+	font: normal 20px/1 dashicons;
 	color: #a0a5aa;
 	vertical-align: top;
 	speak: none;

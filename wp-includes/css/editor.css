@@ -62,7 +62,7 @@
 }
 
 .mce-window .mce-window-head .mce-close:before {
-	font: normal 20px/36px 'dashicons';
+	font: normal 20px/36px dashicons;
 	text-align: center;
 	color: #666;
 	width: 36px;
@@ -805,7 +805,7 @@ i.mce-i-hr,
 i.mce-i-wp_code,
 i.mce-i-dashicon,
 .mce-close {
-	font: normal 20px/1 'dashicons';
+	font: normal 20px/1 dashicons;
 	padding: 0;
 	vertical-align: top;
 	speak: none;
@@ -816,7 +816,7 @@ i.mce-i-dashicon,
 }
 
 .qt-dfw {
-	font: normal 20px/1 'dashicons';
+	font: normal 20px/1 dashicons;
 	vertical-align: top;
 	speak: none;
 	-webkit-font-smoothing: antialiased;
@@ -1121,7 +1121,7 @@ i.mce-i-wp_code:before {
 }
 
 .wp-media-buttons .add_media span.wp-media-buttons-icon:before {
-	font: normal 18px/1 'dashicons';
+	font: normal 18px/1 dashicons;
 	speak: none;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
@@ -1331,7 +1331,7 @@ i.mce-i-wp_code:before {
 }
 
 #wp-link-close:before {
-	font: normal 20px/36px 'dashicons';
+	font: normal 20px/36px dashicons;
 	vertical-align: top;
 	speak: none;
 	-webkit-font-smoothing: antialiased;
@@ -1379,7 +1379,7 @@ i.mce-i-wp_code:before {
 
 #wp-link-search-toggle:after {
 	display: inline-block;
-	font: normal 20px/1 'dashicons';
+	font: normal 20px/1 dashicons;
 	vertical-align: top;
 	speak: none;
 	-webkit-font-smoothing: antialiased;

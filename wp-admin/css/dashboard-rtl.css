@@ -209,7 +209,7 @@
 
 .welcome-panel .welcome-icon:before {
 	color: #82878c;
-	font: normal 20px/1 'dashicons';
+	font: normal 20px/1 dashicons;
 	speak: none;
 	display: inline-block;
 	padding: 0 0 0 10px;
@@ -395,7 +395,7 @@ body #dashboard-widgets .postbox form .submit {
 #dashboard_right_now li a:before,
 #dashboard_right_now li span:before {
 	content: '\f159';
-	font: normal 20px/1 'dashicons';
+	font: normal 20px/1 dashicons;
 	speak: none;
 	display: block;
 	float: right;
@@ -597,7 +597,7 @@ form.initial-form.quickpress-open input#title {
 
 #dashboard_activity .comment-meta span.approve:before {
 	content: '\f227';
-	font: 20px/.5 "dashicons";
+	font: 20px/.5 dashicons;
 	margin-right: 12px;
 	vertical-align: middle;
 	position: relative;
@@ -627,7 +627,7 @@ form.initial-form.quickpress-open input#title {
 
 #dashboard_activity .no-activity .smiley:before {
 	content: '\f328';
-	font: normal 120px/1 'dashicons';
+	font: normal 120px/1 dashicons;
 	speak: none;
 	display: block;
 	margin: 0 0 0 5px;

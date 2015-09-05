@@ -237,7 +237,7 @@
 .theme-browser .theme .theme-installed:before {
 	content: '\f463';
 	display: inline-block;
-	font: normal 20px/1 'dashicons';
+	font: normal 20px/1 dashicons;
 	margin: 0 6px 0 0;
 	opacity: 0.8;
 	position: relative;
@@ -341,7 +341,7 @@
 	display: inline-block;
 	content: '\f132';
 	-webkit-font-smoothing: antialiased;
-	font: normal 74px/115px 'dashicons';
+	font: normal 74px/115px dashicons;
 	width: 100px;
 	height: 100px;
 	vertical-align: middle;
@@ -441,7 +441,7 @@
 }
 
 .theme-overlay .theme-header .close:before {
-	font: normal 22px/50px 'dashicons' !important;
+	font: normal 22px/50px dashicons !important;
 	color: #777;
 	display: inline-block;
 	content: '\f335';
@@ -499,7 +499,7 @@
 
 .theme-overlay .theme-header .right:before,
 .theme-overlay .theme-header .left:before {
-	font: normal 20px/50px 'dashicons' !important;
+	font: normal 20px/50px dashicons !important;
 	display: inline;
 	font-weight: 300;
 }
@@ -1033,7 +1033,7 @@ body.folded .theme-overlay .theme-wrap {
 	}
 
 	.theme-browser .theme.add-new-theme span:after {
-		font: normal 60px/90px 'dashicons';
+		font: normal 60px/90px dashicons;
 		width: 80px;
 		height: 80px;
 		top: 30%;
@@ -1181,7 +1181,7 @@ body.show-upload-theme p.no-themes {
 	content: "\f154";
 	display: inline-block;
 	-webkit-font-smoothing: antialiased;
-	font: normal 20px/1 'dashicons';
+	font: normal 20px/1 dashicons;
 	vertical-align: top;
 }
 
@@ -1527,7 +1527,7 @@ body.full-overlay-active {
 	display: block;
 	content: "\f148";
 	background: #eee;
-	font: normal 20px/1 'dashicons';
+	font: normal 20px/1 dashicons;
 	speak: none;
 	padding: 0;
 	-webkit-font-smoothing: antialiased;

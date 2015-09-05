@@ -226,7 +226,7 @@ html:lang(he-il) .rtl #wpadminbar *  {
 #wpadminbar .ab-item:before {
 	position: relative;
 	float: left;
-	font: normal 20px/1 'dashicons';
+	font: normal 20px/1 dashicons;
 	speak: none;
 	padding: 4px 0;
 	-webkit-font-smoothing: antialiased;
@@ -300,7 +300,7 @@ html:lang(he-il) .rtl #wpadminbar *  {
 #wpadminbar .menupop .menupop > .ab-item:before,
 #wpadminbar .ab-top-secondary .menupop .menupop > .ab-item:before {
 	position: absolute;
-	font: normal 17px/1 'dashicons';
+	font: normal 17px/1 dashicons;
 	speak: none;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
@@ -492,7 +492,7 @@ html:lang(he-il) .rtl #wpadminbar *  {
  */
 #wpadminbar .quicklinks li .blavatar {
 	float: left;
-	font: normal 16px/1 'dashicons' !important;
+	font: normal 16px/1 dashicons !important;
 	speak: none;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
@@ -598,7 +598,7 @@ html:lang(he-il) .rtl #wpadminbar *  {
 	top: 6px;
 	left: 5px;
 	z-index: 20;
-	font: normal 20px/1 'dashicons' !important;
+	font: normal 20px/1 dashicons !important;
 	content: '\f179';
 	speak: none;
 	-webkit-font-smoothing: antialiased;
@@ -876,7 +876,7 @@ html:lang(he-il) .rtl #wpadminbar *  {
 	}
 
 	#wpadminbar #wp-admin-bar-wp-logo > .ab-item .ab-icon:before {
-		font: 28px/1 'dashicons' !important;
+		font: 28px/1 dashicons !important;
 		top: -3px;
 	}
 
@@ -914,7 +914,7 @@ html:lang(he-il) .rtl #wpadminbar *  {
 	#wpadminbar #wp-admin-bar-my-account > .ab-item:before {
 		display: block;
 		text-indent: 0;
-		font: normal 32px/1 'dashicons';
+		font: normal 32px/1 dashicons;
 		speak: none;
 		top: 7px;
 		width: 52px;

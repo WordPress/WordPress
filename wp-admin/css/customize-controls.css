@@ -647,7 +647,7 @@ p.customize-section-description {
 
 .customize-control .dropdown-arrow:after {
 	content: "\f140";
-	font: normal 20px/1 'dashicons';
+	font: normal 20px/1 dashicons;
 	speak: none;
 	display: block;
 	padding: 0;

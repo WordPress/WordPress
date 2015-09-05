@@ -127,7 +127,7 @@
 
 .tb-close-icon:before {
 	content: '\f158';
-	font: normal 20px/29px 'dashicons';
+	font: normal 20px/29px dashicons;
 	speak: none;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;

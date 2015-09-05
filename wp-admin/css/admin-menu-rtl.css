@@ -39,7 +39,7 @@
 
 .icon16:before {
 	color: #999;
-	font: normal 20px/1 'dashicons';
+	font: normal 20px/1 dashicons;
 	speak: none;
 	padding: 6px 0;
 	height: 34px;
@@ -593,7 +593,7 @@ ul#adminmenu > li.current > a.current:after {
 	top: -3px;
 	color: #a0a5aa;
 	color: rgba(240,245,250,0.6);
-	font: normal 20px/1 'dashicons' !important;
+	font: normal 20px/1 dashicons !important;
 	speak: none;
 	margin: 0 auto;
 	padding: 0 !important;
@@ -904,7 +904,7 @@ li#wp-admin-bar-menu-toggle {
 		content: '\f228';
 		display: inline-block;
 		float: right;
-		font: normal 40px/45px 'Dashicons';
+		font: normal 40px/45px dashicons;
 		vertical-align: middle;
 		outline: none;
 		margin: 0;

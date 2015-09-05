@@ -755,7 +755,7 @@ img.emoji {
 	color: #b4b9be;
 	content: '\f153';
 	display: block;
-	font: normal 16px/20px 'dashicons';
+	font: normal 16px/20px dashicons;
 	speak: none;
 	height: 20px;
 	text-align: center;
@@ -1065,7 +1065,7 @@ th.action-links {
 	color: #777;
 	-webkit-transition: color .1s ease-in 0;
 	transition: color .1s ease-in 0;
-	font-family: "dashicons";
+	font-family: dashicons;
 	font-size: 16px;
 	line-height: 1;
 	text-align: center;
@@ -1492,7 +1492,7 @@ form.upgrade .hint {
 #screen-meta-links .show-settings:after {
 	right: 0;
 	content: '\f140';
-	font: normal 20px/1 'dashicons';
+	font: normal 20px/1 dashicons;
 	speak: none;
 	display: inline-block;
 	padding: 0 5px 0 0;
@@ -2150,7 +2150,7 @@ div.star-holder .star-rating {
 	-webkit-font-smoothing: antialiased;
 	font-size: 20px;
 	line-height: 1;
-	font-family: 'dashicons';
+	font-family: dashicons;
 	text-decoration: inherit;
 	font-weight: normal;
 	font-style: normal;
@@ -2726,7 +2726,7 @@ img {
 .js .sidebar-name .sidebar-name-arrow:before,
 .js .meta-box-sortables .postbox .handlediv:before {
 	right: 12px;
-	font: normal 20px/1 'dashicons';
+	font: normal 20px/1 dashicons;
 	speak: none;
 	display: inline-block;
 	padding: 8px 10px;
@@ -2866,7 +2866,7 @@ img {
 	content: '\f140';
 	border: none;
 	background: none;
-	font: normal 20px/1 'dashicons';
+	font: normal 20px/1 dashicons;
 	speak: none;
 	display: block;
 	padding: 0;

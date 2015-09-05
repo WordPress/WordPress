@@ -266,7 +266,7 @@ th .comment-grey-bubble {
 
 th .comment-grey-bubble:before {
 	content: '\f101';
-	font: normal 20px/.5 'dashicons';
+	font: normal 20px/.5 dashicons;
 	speak: none;
 	display: inline-block;
 	padding: 0;
@@ -443,7 +443,7 @@ table.media .column-title .filename {
 
 .sorting-indicator:before {
 	content: '\f142';
-	font: normal 20px/1 'dashicons';
+	font: normal 20px/1 dashicons;
 	speak: none;
 	display: inline-block;
 	padding: 0;
@@ -521,7 +521,7 @@ th.asc a:focus span.sorting-indicator:before {
 	padding: 1px 0 1px 2px;
 	color: #666;
 	content: '\f140';
-	font: normal 20px/1 'dashicons';
+	font: normal 20px/1 dashicons;
 	line-height: 1;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
@@ -543,7 +543,7 @@ tr.wp-locked .locked-indicator:before {
 	content: '\f160';
 	display: inline-block;
 	float: right;
-	font: normal 20px/1 'dashicons';
+	font: normal 20px/1 dashicons;
 	speak: none;
 	vertical-align: middle;
 	margin-right: 0;
@@ -775,7 +775,7 @@ classes exist in paginate_links() but not seen in list table output. */
 .view-switch a:before {
 	color: #b4b9be;
 	display: inline-block;
-	font: normal 20px/1 'dashicons';
+	font: normal 20px/1 dashicons;
 	speak: none;
 	vertical-align: middle;
 	-webkit-font-smoothing: antialiased;
@@ -1347,7 +1347,7 @@ tr.active.update + tr.plugin-update-tr .plugin-update {
 .plugin-card .install-now:before {
 	color: #d54e21;
 	display: inline-block;
-	font: normal 20px/1 'dashicons';
+	font: normal 20px/1 dashicons;
 	speak: none;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
@@ -1570,7 +1570,7 @@ div.action-links,
 }
 
 .plugin-card .column-compatibility span:before {
-	font: normal 20px/.5 'dashicons';
+	font: normal 20px/.5 dashicons;
 	speak: none;
 	display: inline-block;
 	padding: 0;

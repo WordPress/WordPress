@@ -174,7 +174,7 @@
 
 .media-modal-close .media-modal-icon:before {
 	content: '\f158';
-	font: normal 20px/1 'dashicons';
+	font: normal 20px/1 dashicons;
 	speak: none;
 	vertical-align: middle;
 	-webkit-font-smoothing: antialiased;
@@ -1088,7 +1088,7 @@
 }
 
 .uploader-inline .close:before {
-	font: normal 30px/50px 'dashicons' !important;
+	font: normal 30px/50px dashicons !important;
 	color: #777;
 	display: inline-block;
 	content: '\f335';
@@ -1892,7 +1892,7 @@
 }
 
 .image-details .advanced-toggle:after {
-	font: normal 20px/1 'dashicons';
+	font: normal 20px/1 dashicons;
 	speak: none;
 	vertical-align: top;
 	-webkit-font-smoothing: antialiased;

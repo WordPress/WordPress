@@ -26,7 +26,7 @@
 	border-radius: 50%;
 	color: #00a0d2;
 	content: '\f227';
-	font: normal 20px/1.6 'dashicons';
+	font: normal 20px/1.6 dashicons;
 	position: absolute;
 	top: 8px;
 	left: 15px;
@@ -64,7 +64,7 @@
 	color: #b4b9be;
 	content: '\f153';
 	display: block !important;
-	font: normal 16px/1 'dashicons';
+	font: normal 16px/1 dashicons;
 	speak: none;
 	margin: 1px 0;
 	text-align: center;

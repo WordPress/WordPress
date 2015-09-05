@@ -127,7 +127,7 @@ input[type="radio"]:checked:before {
 	display: inline-block;
 	vertical-align: middle;
 	width: 16px;
-	font: normal 21px/1 'dashicons';
+	font: normal 21px/1 dashicons;
 	speak: none;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
@@ -430,7 +430,7 @@ fieldset label,
 #misc-publishing-actions label[for="post_status"]:before {
 	content: '\f173';
 	display: inline-block;
-	font: normal 20px/1 'dashicons';
+	font: normal 20px/1 dashicons;
 	speak: none;
 	right: -1px;
 	padding: 0 0 0 5px;
@@ -817,7 +817,7 @@ table.form-table td .updated p {
 
 .pressthis-bookmarklet span:before {
 	color: #777;
-	font: normal 20px/1 'dashicons';
+	font: normal 20px/1 dashicons;
 	content:'\f157';
 	position: relative;
 	display: inline-block;
@@ -1024,7 +1024,7 @@ table.form-table td .updated p {
 	.widefat th input[type="checkbox"]:before,
 	.widefat thead td input[type="checkbox"]:before,
 	.widefat tfoot td input[type="checkbox"]:before {
-		font: normal 30px/1 'Dashicons';
+		font: normal 30px/1 dashicons;
 		margin: -3px -5px;
 	}
 

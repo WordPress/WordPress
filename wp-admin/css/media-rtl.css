@@ -315,7 +315,7 @@
 }
 
 #find-posts-close:before {
-	font: normal 20px/36px 'dashicons';
+	font: normal 20px/36px dashicons;
 	vertical-align: top;
 	speak: none;
 	-webkit-font-smoothing: antialiased;
@@ -672,7 +672,7 @@ border color while dragging a file over the uploader drop area */
 
 .edit-attachment-frame .edit-media-header .right:before,
 .edit-attachment-frame .edit-media-header .left:before {
-	font: normal 20px/50px 'dashicons' !important;
+	font: normal 20px/50px dashicons !important;
 	display: inline;
 	font-weight: 300;
 }
@@ -933,7 +933,7 @@ border color while dragging a file over the uploader drop area */
 }
 
 .imgedit-menu div:before {
-	font: normal 20px/1 'dashicons';
+	font: normal 20px/1 dashicons;
 	speak: none;
 	vertical-align: middle;
 }
