@@ -264,8 +264,7 @@ function comments_link_feed() {
  *
  * @since 2.5.0
  *
- * @param mixed  $id_or_email The Gravatar to retrieve. Accepts a user_id, gravatar md5 hash,
- *                            user email, WP_User object, WP_Post object, or WP_Comment object.
+ * @param int|WP_Comment $comment_id Optional comment object or id. Defaults to global comment object.
  */
 function comment_guid($comment_id = null) {
 	echo esc_url( get_comment_guid($comment_id) );
@@ -276,8 +275,7 @@ function comment_guid($comment_id = null) {
  *
  * @since 2.5.0
  *
- * @param mixed  $id_or_email The Gravatar to retrieve. Accepts a user_id, gravatar md5 hash,
- *                            user email, WP_User object, WP_Post object, or WP_Comment object.
+ * @param int|WP_Comment $comment_id Optional comment object or id. Defaults to global comment object.
  * @return false|string false on failure or guid for comment on success.
  */
 function get_comment_guid($comment_id = null) {
