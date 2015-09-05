@@ -3277,6 +3277,11 @@ function esc_url( $url, $protocols = null, $_context = 'display' ) {
 
 	$url = str_replace( ' ', '%20', $url );
 	$url = preg_replace('|[^a-z0-9-~+_.?#=!&;,/:%@$\|*\'()\\x80-\\xff]|i', '', $url);
+
+	if ( '' === $url ) {
+		return $url;
+	}
+
 	if ( 0 !== stripos( $url, 'mailto:' ) ) {
 		$strip = array('%0d', '%0a', '%0D', '%0A');
 		$url = _deep_replace($strip, $url);
