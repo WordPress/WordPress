@@ -67,8 +67,8 @@ function _sort_name_callback( $a, $b ) {
  *
  * @since 2.5.0
  *
- * @param string $sidebar id slug of the sidebar
- * @param string optional $sidebar_name Include the HTML for the sidebar name
+ * @param string $sidebar      Sidebar ID.
+ * @param string $sidebar_name Optional. Sidebar name. Default empty.
  */
 function wp_list_widget_controls( $sidebar, $sidebar_name = '' ) {
 	add_filter( 'dynamic_sidebar_params', 'wp_list_widget_controls_dynamic_sidebar' );
