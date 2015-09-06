@@ -86,13 +86,13 @@ function wp_list_widget_controls( $sidebar, $sidebar_name = '' ) {
 		<?php
 	}
 
-	echo '<div class="sidebar-description">';
-
 	if ( ! empty( $description ) ) {
-		echo '<p class="description">' . $description . '</p>';
+		?>
+		<div class="sidebar-description">
+			<p class="description"><?php echo $description; ?></p>
+		</div>
+		<?php
 	}
-
-	echo '</div>';
 
 	dynamic_sidebar( $sidebar );
 
