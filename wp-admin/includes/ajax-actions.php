@@ -1909,7 +1909,7 @@ function wp_ajax_upload_attachment() {
 		echo wp_json_encode( array(
 			'success' => false,
 			'data'    => array(
-				'message'  => __( "You don't have permission to upload files." ),
+				'message'  => __( 'You do not have permission to upload files.' ),
 				'filename' => $_FILES['async-upload']['name'],
 			)
 		) );
