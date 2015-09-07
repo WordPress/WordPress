@@ -18,13 +18,18 @@
  * @param int $timestamp Timestamp for when to run the event.
  * @param string $hook Action hook to execute when cron is run.
  * @param array $args Optional. Arguments to pass to the hook's callback function.
- * @return void|false
+ * @return false|void False when an event is not scheduled.
  */
 function wp_schedule_single_event( $timestamp, $hook, $args = array()) {
-	// don't schedule a duplicate if there's already an identical event due within 10 minutes of it
+	// Make sure timestamp is a positive integer
+	if ( ! is_numeric( $timestamp ) || $timestamp <= 0 ) {
+		return false;
+	}
+
+	// Don't schedule a duplicate if there's already an identical event due within 10 minutes of it
 	$next = wp_next_scheduled($hook, $args);
 	if ( $next && abs( $next - $timestamp ) <= 10 * MINUTE_IN_SECONDS ) {
-		return;
+		return false;
 	}
 
 	$crons = _get_cron_array();
@@ -67,9 +72,14 @@ function wp_schedule_single_event( $timestamp, $hook, $args = array()) {
  * @param string $recurrence How often the event should recur.
  * @param string $hook Action hook to execute when cron is run.
  * @param array $args Optional. Arguments to pass to the hook's callback function.
- * @return false|void False when does not schedule event.
+ * @return false|void False when an event is not scheduled.
  */
 function wp_schedule_event( $timestamp, $recurrence, $hook, $args = array()) {
+	// Make sure timestamp is a positive integer
+	if ( ! is_numeric( $timestamp ) || $timestamp <= 0 ) {
+		return false;
+	}
+
 	$crons = _get_cron_array();
 	$schedules = wp_get_schedules();
 
@@ -100,9 +110,14 @@ function wp_schedule_event( $timestamp, $recurrence, $hook, $args = array()) {
  * @param string $recurrence How often the event should recur.
  * @param string $hook Action hook to execute when cron is run.
  * @param array $args Optional. Arguments to pass to the hook's callback function.
- * @return false|void False when does not schedule event.
+ * @return false|void False when an event is not scheduled.
  */
 function wp_reschedule_event( $timestamp, $recurrence, $hook, $args = array() ) {
+	// Make sure timestamp is a positive integer
+	if ( ! is_numeric( $timestamp ) || $timestamp <= 0 ) {
+		return false;
+	}
+
 	$crons = _get_cron_array();
 	$schedules = wp_get_schedules();
 	$key = md5( serialize( $args ) );
@@ -148,6 +163,11 @@ function wp_reschedule_event( $timestamp, $recurrence, $hook, $args = array() ) 
  * as those used when originally scheduling the event.
  */
 function wp_unschedule_event( $timestamp, $hook, $args = array() ) {
+	// Make sure timestamp is a positive integer
+	if ( ! is_numeric( $timestamp ) || $timestamp <= 0 ) {
+		return false;
+	}
+
 	$crons = _get_cron_array();
 	$key = md5(serialize($args));
 	unset( $crons[$timestamp][$hook][$key] );
