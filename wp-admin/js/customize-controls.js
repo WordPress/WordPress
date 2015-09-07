@@ -1655,7 +1655,7 @@
 					control.setting.set( picker.wpColorPicker('color') );
 				},
 				clear: function() {
-					control.setting.set( false );
+					control.setting.set( '' );
 				}
 			});
 
