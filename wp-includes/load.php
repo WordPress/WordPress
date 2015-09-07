@@ -132,7 +132,6 @@ function wp_check_php_mysql_versions() {
 function wp_favicon_request() {
 	if ( '/favicon.ico' == $_SERVER['REQUEST_URI'] ) {
 		header('Content-Type: image/vnd.microsoft.icon');
-		header('Content-Length: 0');
 		exit;
 	}
 }
