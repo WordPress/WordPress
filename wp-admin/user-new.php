@@ -305,7 +305,7 @@ if ( ! empty( $messages ) ) {
 <?php
 if ( is_multisite() ) {
 	if ( $do_both )
-		echo '<h3 id="add-existing-user">' . __('Add Existing User') . '</h3>';
+		echo '<h2 id="add-existing-user">' . __( 'Add Existing User' ) . '</h2>';
 	if ( !is_super_admin() ) {
 		echo '<p>' . __( 'Enter the email address of an existing user on this network to invite them to this site. That person will be sent an email asking them to confirm the invite.' ) . '</p>';
 		$label = __('Email');
@@ -367,7 +367,7 @@ do_action( 'user_new_form', 'add-existing-user' );
 
 if ( current_user_can( 'create_users') ) {
 	if ( $do_both )
-		echo '<h3 id="create-new-user">' . __( 'Add New User' ) . '</h3>';
+		echo '<h2 id="create-new-user">' . __( 'Add New User' ) . '</h2>';
 ?>
 <p><?php _e('Create a brand new user and add them to this site.'); ?></p>
 <form method="post" name="createuser" id="createuser" class="validate" novalidate="novalidate"<?php
