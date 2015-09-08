@@ -622,7 +622,7 @@ function wpmu_validate_blog_signup( $blogname, $blog_title, $user = '' ) {
 			 *
 			 * @param array $subdirectory_reserved_names Array of reserved names.
 			 */
-			apply_filters( 'subdirectory_reserved_names', array( 'page', 'comments', 'blog', 'files', 'feed' ) )
+			apply_filters( 'subdirectory_reserved_names', array( 'page', 'comments', 'blog', 'files', 'feed', 'wp-admin', 'wp-content', 'wp-includes' ) )
 		);
 	}
 
