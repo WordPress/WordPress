@@ -2208,7 +2208,7 @@ function trackback($trackback_url, $title, $excerpt, $ID) {
 		return;
 
 	$options = array();
-	$options['timeout'] = 4;
+	$options['timeout'] = 10;
 	$options['body'] = array(
 		'title' => $title,
 		'url' => get_permalink($ID),
