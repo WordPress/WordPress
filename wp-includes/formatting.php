@@ -496,7 +496,7 @@ function wpautop( $pee, $br = true ) {
 	$allblocks = '(?:table|thead|tfoot|caption|col|colgroup|tbody|tr|td|th|div|dl|dd|dt|ul|ol|li|pre|form|map|area|blockquote|address|math|style|p|h[1-6]|hr|fieldset|legend|section|article|aside|hgroup|header|footer|nav|figure|figcaption|details|menu|summary)';
 
 	// Add a single line break above block-level opening tags.
-	$pee = preg_replace('!(<' . $allblocks . '[^>]*>)!', "\n$1", $pee);
+	$pee = preg_replace('!(<' . $allblocks . '[\s/>])!', "\n$1", $pee);
 
 	// Add a double line break below block-level closing tags.
 	$pee = preg_replace('!(</' . $allblocks . '>)!', "$1\n\n", $pee);
@@ -596,7 +596,9 @@ function wpautop( $pee, $br = true ) {
 		$pee = str_replace(array_keys($pre_tags), array_values($pre_tags), $pee);
 
 	// Restore newlines in all elements.
-	$pee = str_replace( " <!-- wpnl --> ", "\n", $pee );
+	if ( false !== strpos( $pee, '<!-- wpnl -->' ) ) {
+		$pee = str_replace( array( ' <!-- wpnl --> ', '<!-- wpnl -->' ), "\n", $pee );
+	}
 
 	return $pee;
 }
