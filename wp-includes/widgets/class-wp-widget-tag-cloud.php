@@ -30,7 +30,7 @@ class WP_Widget_Tag_Cloud extends WP_Widget {
 			}
 		}
 
-		/** This filter is documented in wp-includes/default-widgets.php */
+		/** This filter is documented in wp-includes/widgets/class-wp-widget-pages.php */
 		$title = apply_filters( 'widget_title', $title, $instance, $this->id_base );
 
 		echo $args['before_widget'];

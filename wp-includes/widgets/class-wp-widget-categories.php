@@ -22,7 +22,7 @@ class WP_Widget_Categories extends WP_Widget {
 	public function widget( $args, $instance ) {
 		static $first_dropdown = true;
 
-		/** This filter is documented in wp-includes/default-widgets.php */
+		/** This filter is documented in wp-includes/widgets/class-wp-widget-pages.php */
 		$title = apply_filters( 'widget_title', empty( $instance['title'] ) ? __( 'Categories' ) : $instance['title'], $instance, $this->id_base );
 
 		$c = ! empty( $instance['count'] ) ? '1' : '0';

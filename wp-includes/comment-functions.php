@@ -1020,7 +1020,7 @@ function wp_delete_comment($comment_id, $force_delete = false) {
 
 	clean_comment_cache($comment_id);
 
-	/** This action is documented in wp-includes/comment.php */
+	/** This action is documented in wp-includes/comment-functions.php */
 	do_action( 'wp_set_comment_status', $comment_id, 'delete' );
 
 	wp_transition_comment_status('delete', $comment->comment_approved, $comment);
@@ -1452,7 +1452,7 @@ function wp_filter_comment($commentdata) {
 		 */
 		$commentdata['user_id'] = apply_filters( 'pre_user_id', $commentdata['user_ID'] );
 	} elseif ( isset( $commentdata['user_id'] ) ) {
-		/** This filter is documented in wp-includes/comment.php */
+		/** This filter is documented in wp-includes/comment-functions.php */
 		$commentdata['user_id'] = apply_filters( 'pre_user_id', $commentdata['user_id'] );
 	}
 
@@ -1464,7 +1464,7 @@ function wp_filter_comment($commentdata) {
 	 * @param int $comment_agent The comment author's browser user agent.
 	 */
 	$commentdata['comment_agent'] = apply_filters( 'pre_comment_user_agent', ( isset( $commentdata['comment_agent'] ) ? $commentdata['comment_agent'] : '' ) );
-	/** This filter is documented in wp-includes/comment.php */
+	/** This filter is documented in wp-includes/comment-functions.php */
 	$commentdata['comment_author'] = apply_filters( 'pre_comment_author_name', $commentdata['comment_author'] );
 	/**
 	 * Filter the comment content before it is set.
@@ -1482,9 +1482,9 @@ function wp_filter_comment($commentdata) {
 	 * @param int $comment_author_ip The comment author's IP.
 	 */
 	$commentdata['comment_author_IP'] = apply_filters( 'pre_comment_user_ip', $commentdata['comment_author_IP'] );
-	/** This filter is documented in wp-includes/comment.php */
+	/** This filter is documented in wp-includes/comment-functions.php */
 	$commentdata['comment_author_url'] = apply_filters( 'pre_comment_author_url', $commentdata['comment_author_url'] );
-	/** This filter is documented in wp-includes/comment.php */
+	/** This filter is documented in wp-includes/comment-functions.php */
 	$commentdata['comment_author_email'] = apply_filters( 'pre_comment_author_email', $commentdata['comment_author_email'] );
 	$commentdata['filtered'] = true;
 	return $commentdata;
@@ -1899,7 +1899,7 @@ function wp_update_comment_count_now($post_id) {
 	 * @param int $old     The old comment count.
 	 */
 	do_action( 'wp_update_comment_count', $post_id, $new, $old );
-	/** This action is documented in wp-includes/post.php */
+	/** This action is documented in wp-includes/post-functions.php */
 	do_action( 'edit_post', $post_id, $post );
 
 	return true;
@@ -2381,7 +2381,7 @@ function _close_comments_for_old_post( $open, $post_id ) {
 
 	$post = get_post($post_id);
 
-	/** This filter is documented in wp-includes/comment.php */
+	/** This filter is documented in wp-includes/comment-functions.php */
 	$post_types = apply_filters( 'close_comments_for_post_types', array( 'post' ) );
 	if ( ! in_array( $post->post_type, $post_types ) )
 		return $open;

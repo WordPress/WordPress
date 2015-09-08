@@ -997,7 +997,7 @@ function sanitize_user_field($field, $value, $user_id, $context) {
 	if ( 'edit' == $context ) {
 		if ( $prefixed ) {
 
-			/** This filter is documented in wp-includes/post.php */
+			/** This filter is documented in wp-includes/post-functions.php */
 			$value = apply_filters( "edit_{$field}", $value, $user_id );
 		} else {
 
@@ -1021,7 +1021,7 @@ function sanitize_user_field($field, $value, $user_id, $context) {
 			$value = esc_attr($value);
 	} elseif ( 'db' == $context ) {
 		if ( $prefixed ) {
-			/** This filter is documented in wp-includes/post.php */
+			/** This filter is documented in wp-includes/post-functions.php */
 			$value = apply_filters( "pre_{$field}", $value );
 		} else {
 
@@ -1041,7 +1041,7 @@ function sanitize_user_field($field, $value, $user_id, $context) {
 		// Use display filters by default.
 		if ( $prefixed ) {
 
-			/** This filter is documented in wp-includes/post.php */
+			/** This filter is documented in wp-includes/post-functions.php */
 			$value = apply_filters( $field, $value, $user_id, $context );
 		} else {
 

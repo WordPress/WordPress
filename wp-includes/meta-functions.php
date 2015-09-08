@@ -533,7 +533,7 @@ function metadata_exists( $meta_type, $object_id, $meta_key ) {
 		return false;
 	}
 
-	/** This filter is documented in wp-includes/meta.php */
+	/** This filter is documented in wp-includes/meta-functions.php */
 	$check = apply_filters( "get_{$meta_type}_metadata", null, $object_id, $meta_key, true );
 	if ( null !== $check )
 		return (bool) $check;
@@ -654,11 +654,11 @@ function update_metadata_by_mid( $meta_type, $meta_id, $meta_value, $meta_key = 
 		$where = array();
 		$where[$id_column] = $meta_id;
 
-		/** This action is documented in wp-includes/meta.php */
+		/** This action is documented in wp-includes/meta-functions.php */
 		do_action( "update_{$meta_type}_meta", $meta_id, $object_id, $meta_key, $_meta_value );
 
 		if ( 'post' == $meta_type ) {
-			/** This action is documented in wp-includes/meta.php */
+			/** This action is documented in wp-includes/meta-functions.php */
 			do_action( 'update_postmeta', $meta_id, $object_id, $meta_key, $meta_value );
 		}
 
@@ -670,11 +670,11 @@ function update_metadata_by_mid( $meta_type, $meta_id, $meta_value, $meta_key = 
 		// Clear the caches.
 		wp_cache_delete($object_id, $meta_type . '_meta');
 
-		/** This action is documented in wp-includes/meta.php */
+		/** This action is documented in wp-includes/meta-functions.php */
 		do_action( "updated_{$meta_type}_meta", $meta_id, $object_id, $meta_key, $_meta_value );
 
 		if ( 'post' == $meta_type ) {
-			/** This action is documented in wp-includes/meta.php */
+			/** This action is documented in wp-includes/meta-functions.php */
 			do_action( 'updated_postmeta', $meta_id, $object_id, $meta_key, $meta_value );
 		}
 
@@ -722,7 +722,7 @@ function delete_metadata_by_mid( $meta_type, $meta_id ) {
 	if ( $meta = get_metadata_by_mid( $meta_type, $meta_id ) ) {
 		$object_id = $meta->{$column};
 
-		/** This action is documented in wp-includes/meta.php */
+		/** This action is documented in wp-includes/meta-functions.php */
 		do_action( "delete_{$meta_type}_meta", (array) $meta_id, $object_id, $meta->meta_key, $meta->meta_value );
 
 		// Old-style action.
@@ -746,7 +746,7 @@ function delete_metadata_by_mid( $meta_type, $meta_id ) {
 		// Clear the caches.
 		wp_cache_delete($object_id, $meta_type . '_meta');
 
-		/** This action is documented in wp-includes/meta.php */
+		/** This action is documented in wp-includes/meta-functions.php */
 		do_action( "deleted_{$meta_type}_meta", (array) $meta_id, $object_id, $meta->meta_key, $meta->meta_value );
 
 		// Old-style action.
