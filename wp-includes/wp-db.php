@@ -2521,8 +2521,6 @@ class wpdb {
 			default:
 				return false;
 		}
-
-		return false;
 	}
 
 	/**
