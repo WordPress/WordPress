@@ -203,6 +203,10 @@
 
 			$generateButton.show();
 			$passwordWrapper.hide();
+
+			// Clear password field to prevent update
+			$pass1.val( '' ).trigger( 'pwupdate' );
+			$submitButtons.prop( 'disabled', false );
 		} );
 
 		$pass1Row.closest('form').on( 'submit', function () {
