@@ -4,9 +4,18 @@
  *
  * @package WordPress
  * @subpackage Theme
+ * @since 3.4.0
  */
-
 final class WP_Theme implements ArrayAccess {
+	/**
+	 * Whether the theme has been marked as updateable
+	 *
+	 * @see WP_MS_Themes_List_Table
+	 *
+	 * @access public
+	 * @var bool
+	 */
+	public $update = false;
 
 	/**
 	 * Headers for style.css files.
