@@ -172,8 +172,9 @@ class WP_Roles {
 	 * @return WP_Role|void WP_Role object, if role is added.
 	 */
 	public function add_role( $role, $display_name, $capabilities = array() ) {
-		if ( isset( $this->roles[$role] ) )
+		if ( empty( $role ) || isset( $this->roles[ $role ] ) ) {
 			return;
+		}
 
 		$this->roles[$role] = array(
 			'name' => $display_name,

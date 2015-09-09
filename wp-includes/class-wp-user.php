@@ -439,6 +439,10 @@ class WP_User {
 	 * @param string $role Role name.
 	 */
 	public function add_role( $role ) {
+		if ( empty( $role ) ) {
+			return;
+		}
+
 		$this->caps[$role] = true;
 		update_user_meta( $this->ID, $this->cap_key, $this->caps );
 		$this->get_role_caps();

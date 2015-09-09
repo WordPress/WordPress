@@ -471,6 +471,9 @@ function get_role( $role ) {
  * @return WP_Role|null WP_Role object if role is added, null if already exists.
  */
 function add_role( $role, $display_name, $capabilities = array() ) {
+	if ( empty( $role ) ) {
+		return;
+	}
 	return wp_roles()->add_role( $role, $display_name, $capabilities );
 }
 
