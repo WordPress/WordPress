@@ -1260,7 +1260,16 @@ function map_meta_cap( $cap, $user_id ) {
 		if ( empty( $comment ) )
 			break;
 		$post = get_post( $comment->comment_post_ID );
-		$caps = map_meta_cap( 'edit_post', $user_id, $post->ID );
+
+		/*
+		 * If the post doesn't exist, we have an orphaned comment.
+		 * Fall back to the edit_posts capability, instead.
+		 */
+		if ( $post ) {
+			$caps = map_meta_cap( 'edit_post', $user_id, $post->ID );
+		} else {
+			$caps = map_meta_cap( 'edit_posts', $user_id );
+		}
 		break;
 	case 'unfiltered_upload':
 		if ( defined('ALLOW_UNFILTERED_UPLOADS') && ALLOW_UNFILTERED_UPLOADS && ( !is_multisite() || is_super_admin( $user_id ) )  )
