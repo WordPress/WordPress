@@ -350,23 +350,21 @@ tinymce.PluginManager.add('lists', function(editor) {
 				}
 
 				return true;
-			} else {
-				if (ulParent.nodeName == 'LI') {
-					ul = ulParent;
-					newBlock = createNewTextBlock(li, 'LI');
-				} else if (isListNode(ulParent)) {
-					newBlock = createNewTextBlock(li, 'LI');
-				} else {
-					newBlock = createNewTextBlock(li);
-				}
-
-				splitList(ul, li, newBlock);
-				normalizeList(ul.parentNode);
-
-				return true;
 			}
 
-			return false;
+			if (ulParent.nodeName == 'LI') {
+				ul = ulParent;
+				newBlock = createNewTextBlock(li, 'LI');
+			} else if (isListNode(ulParent)) {
+				newBlock = createNewTextBlock(li, 'LI');
+			} else {
+				newBlock = createNewTextBlock(li);
+			}
+
+			splitList(ul, li, newBlock);
+			normalizeList(ul.parentNode);
+
+			return true;
 		}
 
 		function indent(li) {
