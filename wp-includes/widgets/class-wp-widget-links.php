@@ -53,8 +53,8 @@ class WP_Widget_Links extends WP_Widget {
 		 *
 		 * @see wp_list_bookmarks()
 		 *
-		 * @param array $args     An array of arguments to retrieve the links list.
-		 * @param array $instance The settings for the particular instance of the widget.
+		 * @param array $widget_links_args An array of arguments to retrieve the links list.
+		 * @param array $instance          The settings for the particular instance of the widget.
 		 */
 		wp_list_bookmarks( apply_filters( 'widget_links_args', $widget_links_args, $instance ) );
 	}
