@@ -7,8 +7,11 @@
  * @subpackage User
  *
  * @property string $nickname
+ * @property string $description
  * @property string $user_description
+ * @property string $first_name
  * @property string $user_firstname
+ * @property string $last_name
  * @property string $user_lastname
  * @property string $user_login
  * @property string $user_pass
