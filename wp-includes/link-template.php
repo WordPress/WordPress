@@ -1311,14 +1311,12 @@ function get_edit_comment_link( $comment_id = 0 ) {
  *
  * @since 1.0.0
  *
- * @global object $comment
- *
  * @param string $text   Optional. Anchor text.
  * @param string $before Optional. Display before edit link.
  * @param string $after  Optional. Display after edit link.
  */
 function edit_comment_link( $text = null, $before = '', $after = '' ) {
-	global $comment;
+	$comment = get_comment();
 
 	if ( ! current_user_can( 'edit_comment', $comment->comment_ID ) ) {
 		return;

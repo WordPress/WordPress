@@ -169,7 +169,7 @@ function get_approved_comments( $post_id, $args = array() ) {
  * @param string $output Optional. OBJECT or ARRAY_A or ARRAY_N constants.
  * @return WP_Comment|array|null Depends on $output value.
  */
-function get_comment(&$comment, $output = OBJECT) {
+function get_comment( &$comment = null, $output = OBJECT ) {
 	if ( empty( $comment ) && isset( $GLOBALS['comment'] ) ) {
 		$comment = $GLOBALS['comment'];
 	}

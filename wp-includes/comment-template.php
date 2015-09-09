@@ -152,8 +152,6 @@ function comment_author_email_link( $linktext = '', $before = '', $after = '' ) 
  * enable anyone, including those that people don't want to get the email
  * address and use it for their own means good and bad.
  *
- * @global object $comment The current Comment row object.
- *
  * @since 2.7.0
  *
  * @param string $linktext Optional. Text to display instead of the comment author's email address.
@@ -163,8 +161,7 @@ function comment_author_email_link( $linktext = '', $before = '', $after = '' ) 
  * @return string
  */
 function get_comment_author_email_link( $linktext = '', $before = '', $after = '' ) {
-	global $comment;
-
+	$comment = get_comment();
 	/**
 	 * Filter the comment author's email for display.
 	 *
@@ -604,12 +601,10 @@ function comment_excerpt( $comment_ID = 0 ) {
  *
  * @since 1.5.0
  *
- * @global object $comment
- *
  * @return int The comment ID.
  */
 function get_comment_ID() {
-	global $comment;
+	$comment = get_comment();
 
 	/**
 	 * Filter the returned comment ID.
@@ -873,8 +868,6 @@ function comment_text( $comment_ID = 0, $args = array() ) {
  *
  * @since 1.5.0
  *
- * @global object $comment
- *
  * @param string $d         Optional. The format of the time. Default user's settings.
  * @param bool   $gmt       Optional. Whether to use the GMT date. Default false.
  * @param bool   $translate Optional. Whether to translate the time (for use in feeds).
@@ -882,7 +875,8 @@ function comment_text( $comment_ID = 0, $args = array() ) {
  * @return string The formatted time.
  */
 function get_comment_time( $d = '', $gmt = false, $translate = true ) {
-	global $comment;
+	$comment = get_comment();
+
 	$comment_date = $gmt ? $comment->comment_date_gmt : $comment->comment_date;
 	if ( '' == $d )
 		$date = mysql2date(get_option('time_format'), $comment_date, $translate);
@@ -1653,8 +1647,6 @@ function comment_id_fields( $id = 0 ) {
  *
  * @since 2.7.0
  *
- * @global object $comment
- *
  * @param string $noreplytext  Optional. Text to display when not replying to a comment.
  *                             Default false.
  * @param string $replytext    Optional. Text to display when replying to a comment.
@@ -1664,7 +1656,7 @@ function comment_id_fields( $id = 0 ) {
  *                             to their comment. Default true.
  */
 function comment_form_title( $noreplytext = false, $replytext = false, $linktoparent = true ) {
-	global $comment;
+	$comment = get_comment();
 
 	if ( false === $noreplytext ) $noreplytext = __( 'Leave a Reply' );
 	if ( false === $replytext ) $replytext = __( 'Leave a Reply to %s' );

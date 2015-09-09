@@ -3844,7 +3844,7 @@ class WP_Query {
 	 *
 	 * @since 2.2.0
 	 * @access public
-	 * @global object $comment Current comment.
+	 * @global WP_Comment $comment Current comment.
 	 */
 	public function the_comment() {
 		global $comment;

@@ -156,14 +156,11 @@ function get_pending_comments_num( $post_id ) {
  *
  * @since 2.5.0
  *
- * @global object $comment
- *
  * @param string $name User name.
  * @return string Avatar with Admin name.
  */
 function floated_admin_avatar( $name ) {
-	global $comment;
-	$avatar = get_avatar( $comment, 32, 'mystery' );
+	$avatar = get_avatar( get_comment(), 32, 'mystery' );
 	return "$avatar $name";
 }
 
