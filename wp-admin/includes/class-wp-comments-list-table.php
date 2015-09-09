@@ -442,11 +442,11 @@ class WP_Comments_List_Table extends WP_List_Table {
 	public function single_row( $comment ) {
 		global $post;
 
-		$the_comment_class = wp_get_comment_status( $comment->comment_ID );
+		$the_comment_class = wp_get_comment_status( $comment );
 		if ( ! $the_comment_class ) {
 			$the_comment_class = '';
 		}
-		$the_comment_class = join( ' ', get_comment_class( $the_comment_class, $comment->comment_ID, $comment->comment_post_ID ) );
+		$the_comment_class = join( ' ', get_comment_class( $the_comment_class, $comment, $comment->comment_post_ID ) );
 
 		$post = get_post( $comment->comment_post_ID );
 
@@ -479,7 +479,7 @@ class WP_Comments_List_Table extends WP_List_Table {
  			return;
 		}
 
-		$the_comment_status = wp_get_comment_status( $comment->comment_ID );
+		$the_comment_status = wp_get_comment_status( $comment );
 
 		$out = '';
 
@@ -588,7 +588,7 @@ class WP_Comments_List_Table extends WP_List_Table {
 	 * @param object $comment
 	 */
 	public function column_comment( $comment ) {
-		$comment_url = esc_url( get_comment_link( $comment->comment_ID ) );
+		$comment_url = esc_url( get_comment_link( $comment ) );
 
 		echo '<div class="comment-author">';
 			$this->column_author( $comment );
@@ -598,19 +598,19 @@ class WP_Comments_List_Table extends WP_List_Table {
 		/* translators: 2: comment date, 3: comment time */
 		printf( __( 'Submitted on <a href="%1$s">%2$s at %3$s</a>' ), $comment_url,
 			/* translators: comment date format. See http://php.net/date */
-			get_comment_date( __( 'Y/m/d' ), $comment->comment_ID ),
-			get_comment_date( get_option( 'time_format' ), $comment->comment_ID )
+			get_comment_date( __( 'Y/m/d' ), $comment ),
+			get_comment_date( get_option( 'time_format' ), $comment )
 		);
 
 		if ( $comment->comment_parent ) {
 			$parent = get_comment( $comment->comment_parent );
-			$parent_link = esc_url( get_comment_link( $comment->comment_parent ) );
-			$name = get_comment_author( $parent->comment_ID );
+			$parent_link = esc_url( get_comment_link( $parent ) );
+			$name = get_comment_author( $parent );
 			printf( ' | '.__( 'In reply to <a href="%1$s">%2$s</a>.' ), $parent_link, $name );
 		}
 
 		echo '</div>';
-		comment_text( $comment->comment_ID );
+		comment_text( $comment );
 		if ( $this->user_can ) { ?>
 		<div id="inline-<?php echo $comment->comment_ID; ?>" class="hidden">
 		<textarea class="comment" rows="1" cols="1"><?php
@@ -635,14 +635,14 @@ class WP_Comments_List_Table extends WP_List_Table {
 	public function column_author( $comment ) {
 		global $comment_status;
 
-		$author_url = get_comment_author_url( $comment->comment_ID );
+		$author_url = get_comment_author_url( $comment );
 
 		$author_url_display = untrailingslashit( preg_replace( '|^http(s)?://(www\.)?|i', '', $author_url ) );
 		if ( strlen( $author_url_display ) > 50 ) {
 			$author_url_display = wp_html_excerpt( $author_url_display, 49, '&hellip;' );
 		}
 
-		echo "<strong>"; comment_author( $comment->comment_ID ); echo '</strong><br />';
+		echo "<strong>"; comment_author( $comment ); echo '</strong><br />';
 		if ( ! empty( $author_url_display ) ) {
 			printf( '<a href="%s">%s</a><br />', esc_url( $author_url ), esc_html( $author_url_display ) );
 		}
@@ -657,7 +657,7 @@ class WP_Comments_List_Table extends WP_List_Table {
 				}
 			}
 
-			$author_ip = get_comment_author_IP( $comment->comment_ID );
+			$author_ip = get_comment_author_IP( $comment );
 			if ( $author_ip ) {
 				$author_ip_url = add_query_arg( array( 's' => $author_ip, 'mode' => 'detail' ), 'edit-comments.php' );
 				if ( 'spam' == $comment_status ) {
@@ -673,7 +673,7 @@ class WP_Comments_List_Table extends WP_List_Table {
 	 * @return string
 	 */
 	public function column_date( $comment ) {
-		return get_comment_date( __( 'Y/m/d \a\t g:i a' ), $comment->comment_ID );
+		return get_comment_date( __( 'Y/m/d \a\t g:i a' ), $comment );
 	}
 
 	/**
