@@ -29,24 +29,34 @@ class WP_Widget_Links extends WP_Widget {
 
 		$before_widget = preg_replace( '/id="[^"]*"/', 'id="%id"', $args['before_widget'] );
 
+		$widget_links_args = array(
+			'title_before'     => $args['before_title'],
+			'title_after'      => $args['after_title'],
+			'category_before'  => $before_widget,
+			'category_after'   => $args['after_widget'],
+			'show_images'      => $show_images,
+			'show_description' => $show_description,
+			'show_name'        => $show_name,
+			'show_rating'      => $show_rating,
+			'category'         => $category,
+			'class'            => 'linkcat widget',
+			'orderby'          => $orderby,
+			'order'            => $order,
+			'limit'            => $limit,
+		);
+
 		/**
 		 * Filter the arguments for the Links widget.
 		 *
 		 * @since 2.6.0
+		 * @since 4.4.0 The `$instance` parameter was added.
 		 *
 		 * @see wp_list_bookmarks()
 		 *
-		 * @param array $args An array of arguments to retrieve the links list.
+		 * @param array $args     An array of arguments to retrieve the links list.
+		 * @param array $instance The settings for the particular instance of the widget.
 		 */
-		wp_list_bookmarks( apply_filters( 'widget_links_args', array(
-			'title_before' => $args['before_title'], 'title_after' => $args['after_title'],
-			'category_before' => $before_widget, 'category_after' => $args['after_widget'],
-			'show_images' => $show_images, 'show_description' => $show_description,
-			'show_name' => $show_name, 'show_rating' => $show_rating,
-			'category' => $category, 'class' => 'linkcat widget',
-			'orderby' => $orderby, 'order' => $order,
-			'limit' => $limit,
-		) ) );
+		wp_list_bookmarks( apply_filters( 'widget_links_args', $widget_links_args, $instance ) );
 	}
 
 	/**
