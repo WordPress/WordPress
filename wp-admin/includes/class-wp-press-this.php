@@ -1495,7 +1495,7 @@ class WP_Press_This {
 				<div class="split-button-head">
 					<button type="button" class="publish-button split-button-primary" aria-live="polite">
 						<span class="publish"><?php echo ( current_user_can( 'publish_posts' ) ) ? __( 'Publish' ) : __( 'Submit for Review' ); ?></span>
-						<span class="saving-draft"><?php _e( 'Saving...' ); ?></span>
+						<span class="saving-draft"><?php _e( 'Saving&hellip;' ); ?></span>
 					</button><button type="button" class="split-button-toggle" aria-haspopup="true" aria-expanded="false">
 						<i class="dashicons dashicons-arrow-down-alt2"></i>
 						<span class="screen-reader-text"><?php _e('More actions'); ?></span>
