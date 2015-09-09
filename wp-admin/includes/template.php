@@ -754,6 +754,7 @@ function meta_form( $post = null ) {
  * Print out HTML form date elements for editing post or comment publish date.
  *
  * @since 0.71
+ * @since 4.4.0 Converted to use get_comment() instead of the global `$comment`.
  *
  * @global WP_Locale  $wp_locale
  *
