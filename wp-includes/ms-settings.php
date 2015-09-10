@@ -78,7 +78,7 @@ if ( !isset( $current_site ) || !isset( $current_blog ) ) {
 				$current_site = wp_get_network( $one_network );
 				wp_cache_add( 'current_network', $current_site, 'site-options' );
 			} elseif ( 0 === $wpdb->num_rows ) {
-				ms_not_installed();
+				ms_not_installed( $domain, $path );
 			}
 		}
 		if ( empty( $current_site ) ) {
@@ -86,7 +86,7 @@ if ( !isset( $current_site ) || !isset( $current_blog ) ) {
 		}
 
 		if ( empty( $current_site ) ) {
-			ms_not_installed();
+			ms_not_installed( $domain, $path );
 		} elseif ( $path === $current_site->path ) {
 			$current_blog = get_site_by_path( $domain, $path );
 		} else {
@@ -111,7 +111,7 @@ if ( !isset( $current_site ) || !isset( $current_blog ) ) {
 
 	// No network has been found, bail.
 	if ( empty( $current_site ) ) {
-		ms_not_installed();
+		ms_not_installed( $domain, $path );
 	}
 
 	// @todo Investigate when exactly this can occur.
@@ -156,7 +156,7 @@ if ( !isset( $current_site ) || !isset( $current_blog ) ) {
 			 * it's no use redirecting back to ourselves -- it'll cause a loop.
 			 * As we couldn't find a site, we're simply not installed.
 			 */
-			ms_not_installed();
+			ms_not_installed( $domain, $path );
 		}
 
 		header( 'Location: ' . $destination );

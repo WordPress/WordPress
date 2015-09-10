@@ -394,13 +394,15 @@ function get_site_by_path( $domain, $path, $segments = null ) {
  *
  * @access private
  * @since 3.0.0
+ * @since 4.3.0 The `$domain` and `$path` parameters were added.
  *
- * @global wpdb   $wpdb
- * @global string $domain
- * @global string $path
+ * @global wpdb $wpdb
+ *
+ * @param string $domain The requested domain for the error to reference.
+ * @param string $path   The requested path for the error to reference.
  */
-function ms_not_installed() {
-	global $wpdb, $domain, $path;
+function ms_not_installed( $domain, $path ) {
+	global $wpdb;
 
 	if ( ! is_admin() ) {
 		dead_db();
