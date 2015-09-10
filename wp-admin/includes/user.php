@@ -446,3 +446,22 @@ function default_password_nag() {
 	printf( '<a href="%s" id="default-password-nag-no">' . __('No thanks, do not remind me again') . '</a>', '?default_password_nag=0' );
 	echo '</p></div>';
 }
+
+/**
+ * @since 3.5.0
+ * @access private
+ */
+function delete_users_add_js() { ?>
+<script>
+jQuery(document).ready( function($) {
+	var submit = $('#submit').prop('disabled', true);
+	$('input[name="delete_option"]').one('change', function() {
+		submit.prop('disabled', false);
+	});
+	$('#reassign_user').focus( function() {
+		$('#delete_option1').prop('checked', true).trigger('change');
+	});
+});
+</script>
+<?php
+}

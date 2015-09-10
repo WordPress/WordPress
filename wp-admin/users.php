@@ -80,25 +80,6 @@ if ( empty($_REQUEST) ) {
 
 $update = '';
 
-/**
- * @since 3.5.0
- * @access private
- */
-function delete_users_add_js() { ?>
-<script>
-jQuery(document).ready( function($) {
-	var submit = $('#submit').prop('disabled', true);
-	$('input[name=delete_option]').one('change', function() {
-		submit.prop('disabled', false);
-	});
-	$('#reassign_user').focus( function() {
-		$('#delete_option1').prop('checked', true).trigger('change');
-	});
-});
-</script>
-<?php
-}
-
 switch ( $wp_list_table->current_action() ) {
 
 /* Bulk Dropdown menu Role changes */
@@ -215,7 +196,15 @@ case 'delete':
 	else
 		$userids = array_map( 'intval', (array) $_REQUEST['users'] );
 
-	add_action( 'admin_head', 'delete_users_add_js' );
+	$users_posts = new WP_Query( array(
+		'post_type' => 'any',
+		'author' => implode( ',', $userids ),
+		'posts_per_page' => 1
+	) );
+
+	if ( $users_posts->have_posts() ) {
+		add_action( 'admin_head', 'delete_users_add_js' );
+	}
 
 	include( ABSPATH . 'wp-admin/admin-header.php' );
 ?>
@@ -251,20 +240,24 @@ case 'delete':
 	}
 	?>
 	</ul>
-<?php if ( $go_delete ) : ?>
-	<?php if ( 1 == $go_delete ) : ?>
-		<fieldset><p><legend><?php _e( 'What should be done with content owned by this user?' ); ?></legend></p>
-	<?php else : ?>
-		<fieldset><p><legend><?php _e( 'What should be done with content owned by these users?' ); ?></legend></p>
-	<?php endif; ?>
-	<ul style="list-style:none;">
-		<li><label><input type="radio" id="delete_option0" name="delete_option" value="delete" />
-		<?php _e('Delete all content.'); ?></label></li>
-		<li><input type="radio" id="delete_option1" name="delete_option" value="reassign" />
-		<?php echo '<label for="delete_option1">' . __( 'Attribute all content to:' ) . '</label> ';
-		wp_dropdown_users( array( 'name' => 'reassign_user', 'exclude' => array_diff( $userids, array($current_user->ID) ) ) ); ?></li>
-	</ul></fieldset>
-	<?php
+<?php if ( $go_delete ) :
+
+	if ( ! $users_posts->have_posts() ) : ?>
+		<input type="hidden" name="delete_option" value="delete" />
+	<?php else: ?>
+		<?php if ( 1 == $go_delete ) : ?>
+			<fieldset><p><legend><?php _e( 'What should be done with content owned by this user?' ); ?></legend></p>
+		<?php else : ?>
+			<fieldset><p><legend><?php _e( 'What should be done with content owned by these users?' ); ?></legend></p>
+		<?php endif; ?>
+		<ul style="list-style:none;">
+			<li><label><input type="radio" id="delete_option0" name="delete_option" value="delete" />
+			<?php _e('Delete all content.'); ?></label></li>
+			<li><input type="radio" id="delete_option1" name="delete_option" value="reassign" />
+			<?php echo '<label for="delete_option1">' . __( 'Attribute all content to:' ) . '</label> ';
+			wp_dropdown_users( array( 'name' => 'reassign_user', 'exclude' => array_diff( $userids, array($current_user->ID) ) ) ); ?></li>
+		</ul></fieldset>
+	<?php endif;
 	/**
 	 * Fires at the end of the delete users form prior to the confirm button.
 	 *
