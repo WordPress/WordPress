@@ -26,24 +26,6 @@ if ( is_multisite() ) {
 }
 
 if ( is_multisite() ) {
-	/**
-	 *
-	 * @param string $text
-	 * @return string
-	 */
-	function admin_created_user_email( $text ) {
-		$roles = get_editable_roles();
-		$role = $roles[ $_REQUEST['role'] ];
-		/* translators: 1: Site name, 2: site URL, 3: role */
-		return sprintf( __( 'Hi,
-You\'ve been invited to join \'%1$s\' at
-%2$s with the role of %3$s.
-If you do not want to join this site please ignore
-this email. This invitation will expire in a few days.
-
-Please click the following link to activate your user account:
-%%s' ), get_bloginfo( 'name' ), home_url(), wp_specialchars_decode( translate_user_role( $role['name'] ) ) );
-	}
 	add_filter( 'wpmu_signup_user_notification_email', 'admin_created_user_email' );
 }
 
