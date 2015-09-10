@@ -35,14 +35,20 @@
  */
 class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 
-	public $link = false;
 	/**
+	 * @access public
+	 */
+	public $link = false;
+
+	/**
+	 * @access public
 	 * @var resource
 	 */
 	public $sftp_link;
 	public $keys = false;
 
 	/**
+	 * @access public
 	 *
 	 * @param array $opt
 	 */
@@ -96,6 +102,7 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 	}
 
 	/**
+	 * @access public
 	 *
 	 * @return bool
 	 */
@@ -129,6 +136,8 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 	}
 
 	/**
+	 * @access public
+	 * 
 	 * @param string $command
 	 * @param bool $returnbool
 	 * @return bool|string
@@ -154,6 +163,8 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 	}
 
 	/**
+	 * @access public
+	 *
 	 * @param string $file
 	 * @return string|false
 	 */
@@ -163,6 +174,8 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 	}
 
 	/**
+	 * @access public
+	 *
 	 * @param string $file
 	 * @return array
 	 */
@@ -172,6 +185,8 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 	}
 
 	/**
+	 * @access public
+	 *
 	 * @param string   $file
 	 * @param string   $contents
 	 * @param bool|int $mode
@@ -189,6 +204,7 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 	}
 
 	/**
+	 * @access public
 	 *
 	 * @return bool
 	 */
@@ -201,6 +217,8 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 	}
 
 	/**
+	 * @access public
+	 *
 	 * @param string $dir
 	 * @return bool|string
 	 */
@@ -209,6 +227,8 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 	}
 
 	/**
+	 * @access public
+	 *
 	 * @param string $file
 	 * @param string $group
 	 * @param bool   $recursive
@@ -224,6 +244,8 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 	}
 
 	/**
+	 * @access public
+	 *
 	 * @param string $file
 	 * @param int    $mode
 	 * @param bool   $recursive
@@ -250,7 +272,7 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 	/**
 	 * Change the ownership of a file / folder.
 	 *
-	 * @since Unknown
+	 * @access public
 	 *
 	 * @param string     $file    Path to the file.
 	 * @param string|int $owner   A user name or number.
@@ -266,6 +288,8 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 	}
 
 	/**
+	 * @access public
+	 *
 	 * @param string $file
 	 * @return string|false
 	 */
@@ -278,7 +302,10 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 		$ownerarray = posix_getpwuid($owneruid);
 		return $ownerarray['name'];
 	}
+
 	/**
+	 * @access public
+	 *
 	 * @param string $file
 	 * @return string
 	 */
@@ -287,6 +314,8 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 	}
 
 	/**
+	 * @access public
+	 *
 	 * @param string $file
 	 * @return string|false
 	 */
@@ -301,6 +330,8 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 	}
 
 	/**
+	 * @access public
+	 *
 	 * @param string   $source
 	 * @param string   $destination
 	 * @param bool     $overwrite
@@ -317,6 +348,8 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 	}
 
 	/**
+	 * @access public
+	 *
 	 * @param string $source
 	 * @param string $destination
 	 * @param bool   $overwrite
@@ -327,6 +360,8 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 	}
 
 	/**
+	 * @access public
+	 *
 	 * @param string      $file
 	 * @param bool        $recursive
 	 * @param string|bool $type
@@ -347,6 +382,8 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 	}
 
 	/**
+	 * @access public
+	 *
 	 * @param string $file
 	 * @return bool
 	 */
@@ -354,7 +391,10 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 		$file = ltrim($file, '/');
 		return file_exists('ssh2.sftp://' . $this->sftp_link . '/' . $file);
 	}
+
 	/**
+	 * @access public
+	 *
 	 * @param string $file
 	 * @return bool
 	 */
@@ -362,7 +402,10 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 		$file = ltrim($file, '/');
 		return is_file('ssh2.sftp://' . $this->sftp_link . '/' . $file);
 	}
+
 	/**
+	 * @access public
+	 *
 	 * @param string $path
 	 * @return bool
 	 */
@@ -370,7 +413,10 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 		$path = ltrim($path, '/');
 		return is_dir('ssh2.sftp://' . $this->sftp_link . '/' . $path);
 	}
+
 	/**
+	 * @access public
+	 *
 	 * @param string $file
 	 * @return bool
 	 */
@@ -378,7 +424,10 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 		$file = ltrim($file, '/');
 		return is_readable('ssh2.sftp://' . $this->sftp_link . '/' . $file);
 	}
+
 	/**
+	 * @access public
+	 *
 	 * @param string $file
 	 * @return bool
 	 */
@@ -386,7 +435,10 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 		// PHP will base it's writable checks on system_user === file_owner, not ssh_user === file_owner
 		return true;
 	}
+
 	/**
+	 * @access public
+	 *
 	 * @param string $file
 	 * @return int
 	 */
@@ -396,6 +448,8 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 	}
 
 	/**
+	 * @access public
+	 *
 	 * @param string $file
 	 * @return int
 	 */
@@ -405,6 +459,8 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 	}
 
 	/**
+	 * @access public
+	 *
 	 * @param string $file
 	 * @return int
 	 */
@@ -414,6 +470,8 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 	}
 
 	/**
+	 * @access public
+	 *
 	 * @param string $file
 	 * @param int    $time
 	 * @param int    $atime
@@ -423,6 +481,8 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 	}
 
 	/**
+	 * @access public
+	 *
 	 * @param string $path
 	 * @param mixed  $chmod
 	 * @param mixed  $chown
@@ -446,6 +506,8 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 	}
 
 	/**
+	 * @access public
+	 *
 	 * @param string $path
 	 * @param bool   $recursive
 	 * @return bool
@@ -455,6 +517,8 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 	}
 
 	/**
+	 * @access public
+	 *
 	 * @param string $path
 	 * @param bool   $include_hidden
 	 * @param bool   $recursive

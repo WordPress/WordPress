@@ -24,6 +24,7 @@ class WP_Filesystem_Base {
 	/**
 	 * Cached list of local filepaths to mapped remote filepaths.
 	 *
+	 * @access public
 	 * @since 2.7.0
 	 * @var array
 	 */
@@ -38,8 +39,14 @@ class WP_Filesystem_Base {
 	 */
 	public $method = '';
 
+	/**
+	 * @access public
+	 */
 	public $errors = null;
 
+	/**
+	 * @access public
+	 */
 	public $options = array();
 
 	/**
@@ -230,6 +237,7 @@ class WP_Filesystem_Base {
 	 *
 	 * Expects Windows sanitized path.
 	 *
+	 * @access public
 	 * @since 2.7.0
 	 *
 	 * @param string $folder The folder to locate.
@@ -354,6 +362,7 @@ class WP_Filesystem_Base {
 	/**
 	 * Gets the permissions of the specified file or filepath in their octal format
 	 *
+	 * @access public
 	 * @since 2.5.0
 	 * @param string $file
 	 * @return string the last 3 characters of the octal number
@@ -401,6 +410,7 @@ class WP_Filesystem_Base {
 	/**
 	 * Determine if the string provided contains binary characters.
 	 *
+	 * @access public
 	 * @since 2.7.0
 	 *
 	 * @param string $text String to test against.
@@ -415,6 +425,7 @@ class WP_Filesystem_Base {
 	 *
 	 * Default behavior is to do nothing, override this in your subclass, if desired.
 	 *
+	 * @access public
 	 * @since 2.5.0
 	 *
 	 * @param string $file      Path to the file.
@@ -429,8 +440,10 @@ class WP_Filesystem_Base {
 	/**
 	 * Connect filesystem.
 	 *
+	 * @access public
 	 * @since 2.5.0
 	 * @abstract
+	 *
 	 * @return bool True on success or false on failure (always true for WP_Filesystem_Direct).
 	 */
 	public function connect() {
@@ -440,8 +453,10 @@ class WP_Filesystem_Base {
 	/**
 	 * Read entire file into a string.
 	 *
+	 * @access public
 	 * @since 2.5.0
 	 * @abstract
+	 *
 	 * @param string $file Name of the file to read.
 	 * @return mixed|bool Returns the read data or false on failure.
 	 */
@@ -452,8 +467,10 @@ class WP_Filesystem_Base {
 	/**
 	 * Read entire file into an array.
 	 *
+	 * @access public
 	 * @since 2.5.0
 	 * @abstract
+	 *
 	 * @param string $file Path to the file.
 	 * @return array|bool the file contents in an array or false on failure.
 	 */
@@ -464,8 +481,10 @@ class WP_Filesystem_Base {
 	/**
 	 * Write a string to a file.
 	 *
+	 * @access public
 	 * @since 2.5.0
 	 * @abstract
+	 *
 	 * @param string $file     Remote path to the file where to write the data.
 	 * @param string $contents The data to write.
 	 * @param int    $mode     Optional. The file permissions as octal number, usually 0644.
@@ -478,8 +497,10 @@ class WP_Filesystem_Base {
 	/**
 	 * Get the current working directory.
 	 *
+	 * @access public
 	 * @since 2.5.0
 	 * @abstract
+	 *
 	 * @return string|bool The current working directory on success, or false on failure.
 	 */
 	public function cwd() {
@@ -489,8 +510,10 @@ class WP_Filesystem_Base {
 	/**
 	 * Change current directory.
 	 *
+	 * @access public
 	 * @since 2.5.0
 	 * @abstract
+	 *
 	 * @param string $dir The new current directory.
 	 * @return bool|string
 	 */
@@ -501,8 +524,10 @@ class WP_Filesystem_Base {
 	/**
 	 * Change the file group.
 	 *
+	 * @access public
 	 * @since 2.5.0
 	 * @abstract
+	 *
 	 * @param string $file      Path to the file.
 	 * @param mixed  $group     A group name or number.
 	 * @param bool   $recursive Optional. If set True changes file group recursively. Defaults to False.
@@ -515,8 +540,10 @@ class WP_Filesystem_Base {
 	/**
 	 * Change filesystem permissions.
 	 *
+	 * @access public
 	 * @since 2.5.0
 	 * @abstract
+	 *
 	 * @param string $file      Path to the file.
 	 * @param int    $mode      Optional. The permissions as octal number, usually 0644 for files, 0755 for dirs.
 	 * @param bool   $recursive Optional. If set True changes file group recursively. Defaults to False.
@@ -529,8 +556,10 @@ class WP_Filesystem_Base {
 	/**
 	 * Get the file owner.
 	 *
+	 * @access public
 	 * @since 2.5.0
 	 * @abstract
+	 * 
 	 * @param string $file Path to the file.
 	 * @return string|bool Username of the user or false on error.
 	 */
@@ -541,8 +570,10 @@ class WP_Filesystem_Base {
 	/**
 	 * Get the file's group.
 	 *
+	 * @access public
 	 * @since 2.5.0
 	 * @abstract
+	 *
 	 * @param string $file Path to the file.
 	 * @return string|bool The group or false on error.
 	 */
@@ -553,8 +584,10 @@ class WP_Filesystem_Base {
 	/**
 	 * Copy a file.
 	 *
+	 * @access public
 	 * @since 2.5.0
 	 * @abstract
+	 *
 	 * @param string $source      Path to the source file.
 	 * @param string $destination Path to the destination file.
 	 * @param bool   $overwrite   Optional. Whether to overwrite the destination file if it exists.
@@ -570,8 +603,10 @@ class WP_Filesystem_Base {
 	/**
 	 * Move a file.
 	 *
+	 * @access public
 	 * @since 2.5.0
 	 * @abstract
+	 *
 	 * @param string $source      Path to the source file.
 	 * @param string $destination Path to the destination file.
 	 * @param bool   $overwrite   Optional. Whether to overwrite the destination file if it exists.
@@ -585,8 +620,10 @@ class WP_Filesystem_Base {
 	/**
 	 * Delete a file or directory.
 	 *
+	 * @access public
 	 * @since 2.5.0
 	 * @abstract
+	 *
 	 * @param string $file      Path to the file.
 	 * @param bool   $recursive Optional. If set True changes file group recursively. Defaults to False.
 	 *                          Default false.
@@ -601,8 +638,10 @@ class WP_Filesystem_Base {
 	/**
 	 * Check if a file or directory exists.
 	 *
+	 * @access public
 	 * @since 2.5.0
 	 * @abstract
+	 *
 	 * @param string $file Path to file/directory.
 	 * @return bool Whether $file exists or not.
 	 */
@@ -613,8 +652,10 @@ class WP_Filesystem_Base {
 	/**
 	 * Check if resource is a file.
 	 *
+	 * @access public
 	 * @since 2.5.0
 	 * @abstract
+	 *
 	 * @param string $file File path.
 	 * @return bool Whether $file is a file.
 	 */
@@ -625,8 +666,10 @@ class WP_Filesystem_Base {
 	/**
 	 * Check if resource is a directory.
 	 *
+	 * @access public
 	 * @since 2.5.0
 	 * @abstract
+	 *
 	 * @param string $path Directory path.
 	 * @return bool Whether $path is a directory.
 	 */
@@ -637,8 +680,10 @@ class WP_Filesystem_Base {
 	/**
 	 * Check if a file is readable.
 	 *
+	 * @access public
 	 * @since 2.5.0
 	 * @abstract
+	 *
 	 * @param string $file Path to file.
 	 * @return bool Whether $file is readable.
 	 */
@@ -649,8 +694,10 @@ class WP_Filesystem_Base {
 	/**
 	 * Check if a file or directory is writable.
 	 *
+	 * @access public
 	 * @since 2.5.0
 	 * @abstract
+	 *
 	 * @return bool Whether $file is writable.
 	 */
 	public function is_writable( $file ) {
@@ -660,8 +707,10 @@ class WP_Filesystem_Base {
 	/**
 	 * Gets the file's last access time.
 	 *
+	 * @access public
 	 * @since 2.5.0
 	 * @abstract
+	 *
 	 * @param string $file Path to file.
 	 * @return int|bool Unix timestamp representing last access time.
 	 */
@@ -672,8 +721,10 @@ class WP_Filesystem_Base {
 	/**
 	 * Gets the file modification time.
 	 *
+	 * @access public
 	 * @since 2.5.0
 	 * @abstract
+	 *
 	 * @param string $file Path to file.
 	 * @return int|bool Unix timestamp representing modification time.
 	 */
@@ -684,8 +735,10 @@ class WP_Filesystem_Base {
 	/**
 	 * Gets the file size (in bytes).
 	 *
+	 * @access public
 	 * @since 2.5.0
 	 * @abstract
+	 *
 	 * @param string $file Path to file.
 	 * @return int|bool Size of the file in bytes.
 	 */
@@ -698,8 +751,10 @@ class WP_Filesystem_Base {
 	 *
 	 * Note: If $file doesn't exist, it will be created.
 	 *
+	 * @access public
 	 * @since 2.5.0
 	 * @abstract
+	 *
 	 * @param string $file  Path to file.
 	 * @param int    $time  Optional. Modified time to set for file.
 	 *                      Default 0.
@@ -714,8 +769,10 @@ class WP_Filesystem_Base {
 	/**
 	 * Create a directory.
 	 *
+	 * @access public
 	 * @since 2.5.0
 	 * @abstract
+	 *
 	 * @param string $path  Path for new directory.
 	 * @param mixed  $chmod Optional. The permissions as octal number, (or False to skip chmod)
 	 *                      Default false.
@@ -732,8 +789,10 @@ class WP_Filesystem_Base {
 	/**
 	 * Delete a directory.
 	 *
+	 * @access public
 	 * @since 2.5.0
 	 * @abstract
+	 *
 	 * @param string $path      Path to directory.
 	 * @param bool   $recursive Optional. Whether to recursively remove files/directories.
 	 *                          Default false.
@@ -746,6 +805,7 @@ class WP_Filesystem_Base {
 	/**
 	 * Get details for files in a directory or a specific file.
 	 *
+	 * @access public
 	 * @since 2.5.0
 	 * @abstract
 	 *
