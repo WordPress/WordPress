@@ -171,3 +171,14 @@ function enqueue_comment_hotkeys_js() {
 	if ( 'true' == get_user_option( 'comment_shortcuts' ) )
 		wp_enqueue_script( 'jquery-table-hotkeys' );
 }
+
+/**
+ * Display error message at bottom of comments.
+ *
+ * @param string $msg Error Message. Assumed to contain HTML and be sanitized.
+ */
+function comment_footer_die( $msg ) {
+	echo "<div class='wrap'><p>$msg</p></div>";
+	include( ABSPATH . 'wp-admin/admin-footer.php' );
+	die;
+}
