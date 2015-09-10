@@ -110,10 +110,12 @@ function wp_generate_attachment_metadata( $attachment_id, $file ) {
 		 * Filter the image sizes automatically generated when uploading an image.
 		 *
 		 * @since 2.9.0
+		 * @since 4.4.0 The `$metadata` argument was addeed
 		 *
-		 * @param array $sizes An associative array of image sizes.
+		 * @param array $sizes    An associative array of image sizes.
+		 * @param array $metadata An associative array of image metadata: width, height, file.
 		 */
-		$sizes = apply_filters( 'intermediate_image_sizes_advanced', $sizes );
+		$sizes = apply_filters( 'intermediate_image_sizes_advanced', $sizes, $metadata );
 
 		if ( $sizes ) {
 			$editor = wp_get_image_editor( $file );
