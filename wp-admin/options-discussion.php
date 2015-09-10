@@ -14,24 +14,6 @@ if ( ! current_user_can( 'manage_options' ) )
 $title = __('Discussion Settings');
 $parent_file = 'options-general.php';
 
-/**
- * Output JavaScript to toggle display of additional settings if avatars are disabled.
- *
- * @since 4.2.0
- */
-function options_discussion_add_js() {
-?>
-	<script>
-	(function($){
-		var parent = $( '#show_avatars' ),
-			children = $( '.avatar-settings' );
-		parent.change(function(){
-			children.toggleClass( 'hide-if-js', ! this.checked );
-		});
-	})(jQuery);
-	</script>
-<?php
-}
 add_action( 'admin_print_footer_scripts', 'options_discussion_add_js' );
 
 get_current_screen()->add_help_tab( array(

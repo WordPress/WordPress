@@ -46,27 +46,6 @@ get_current_screen()->set_help_sidebar(
 	'<p>' . __('<a href="https://wordpress.org/support/" target="_blank">Support Forums</a>') . '</p>'
 );
 
-/**
- * Display JavaScript on the page.
- *
- * @since 3.5.0
- */
-function options_permalink_add_js() {
-	?>
-<script type="text/javascript">
-jQuery(document).ready(function() {
-	jQuery('.permalink-structure input:radio').change(function() {
-		if ( 'custom' == this.value )
-			return;
-		jQuery('#permalink_structure').val( this.value );
-	});
-	jQuery('#permalink_structure').focus(function() {
-		jQuery("#custom_selection").attr('checked', 'checked');
-	});
-});
-</script>
-<?php
-}
 add_filter('admin_head', 'options_permalink_add_js');
 
 $home_path = get_home_path();

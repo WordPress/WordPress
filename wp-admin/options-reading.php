@@ -15,38 +15,7 @@ if ( ! current_user_can( 'manage_options' ) )
 $title = __( 'Reading Settings' );
 $parent_file = 'options-general.php';
 
-/**
- * Display JavaScript on the page.
- *
- * @since 3.5.0
- */
-function options_reading_add_js() {
-?>
-<script type="text/javascript">
-	jQuery(document).ready(function($){
-		var section = $('#front-static-pages'),
-			staticPage = section.find('input:radio[value="page"]'),
-			selects = section.find('select'),
-			check_disabled = function(){
-				selects.prop( 'disabled', ! staticPage.prop('checked') );
-			};
-		check_disabled();
- 		section.find('input:radio').change(check_disabled);
-	});
-</script>
-<?php
-}
 add_action('admin_head', 'options_reading_add_js');
-
-/**
- * Render the blog charset setting.
- *
- * @since 3.5.0
- */
-function options_reading_blog_charset() {
-	echo '<input name="blog_charset" type="text" id="blog_charset" value="' . esc_attr( get_option( 'blog_charset' ) ) . '" class="regular-text" />';
-	echo '<p class="description">' . __( 'The <a href="https://codex.wordpress.org/Glossary#Character_set">character encoding</a> of your site (UTF-8 is recommended)' ) . '</p>';
-}
 
 get_current_screen()->add_help_tab( array(
 	'id'      => 'overview',

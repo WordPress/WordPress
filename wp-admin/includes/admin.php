@@ -39,6 +39,9 @@ require_once(ABSPATH . 'wp-admin/includes/import.php');
 /** WordPress Misc Administration API */
 require_once(ABSPATH . 'wp-admin/includes/misc.php');
 
+/** WordPress Options Administration API */
+require_once(ABSPATH . 'wp-admin/includes/options.php');
+
 /** WordPress Plugin Administration API */
 require_once(ABSPATH . 'wp-admin/includes/plugin.php');
 
