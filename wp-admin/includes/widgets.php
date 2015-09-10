@@ -263,3 +263,12 @@ function wp_widget_control( $sidebar_args ) {
 
 	return $sidebar_args;
 }
+
+/**
+ *
+ * @param string $classes
+ * @return string
+ */
+function wp_widgets_access_body_class($classes) {
+	return "$classes widgets_access ";
+}
