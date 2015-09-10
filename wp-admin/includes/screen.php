@@ -718,11 +718,29 @@ final class WP_Screen {
 	 * Gets the help tabs registered for the screen.
 	 *
 	 * @since 3.4.0
+	 * @since 4.4.0 Help tabs are ordered by their priority.
 	 *
 	 * @return array Help tabs with arguments.
 	 */
 	public function get_help_tabs() {
-		return $this->_help_tabs;
+		$help_tabs = $this->_help_tabs;
+		uasort( $help_tabs, array( $this, '_sort_help_tabs' ) );
+		return $help_tabs;
+	}
+
+	/**
+	 * Compares the difference between the help tabs priorities.
+	 *
+	 * Used for help tabs sorting.
+	 *
+	 * @since 4.4.0
+	 *
+	 * @param int $tab_a The priority argument for the first tab.
+	 * @param int $tab_b The priority argument for the second tab.
+	 * @return int The difference between the priority arguments.
+	 */
+	protected function _sort_help_tabs( $tab_a, $tab_b ) {
+		return $tab_a['priority'] - $tab_b['priority'];
 	}
 
 	/**
@@ -744,13 +762,17 @@ final class WP_Screen {
 	 * Call this on the load-$pagenow hook for the relevant screen.
 	 *
 	 * @since 3.3.0
+	 * @since 4.4.0 The `$priority` argument was added.
 	 *
-	 * @param array $args
-	 * - string   - title    - Title for the tab.
-	 * - string   - id       - Tab ID. Must be HTML-safe.
-	 * - string   - content  - Help tab content in plain text or HTML. Optional.
-	 * - callback - callback - A callback to generate the tab content. Optional.
+	 * @param array $args {
+	 *     Array of arguments used to display the help tab.
 	 *
+	 *     @type string $title    Title for the tab. Default false.
+	 *     @type string $id       Tab ID. Must be HTML-safe. Default false.
+	 *     @type string $content  Optional. Help tab content in plain text or HTML. Default empty string.
+	 *     @type string $callback Optional. A callback to generate the tab content. Default false.
+	 *     @type int    $priority Optional. The priority of the tab, used for ordering. Default 10.
+	 * }
 	 */
 	public function add_help_tab( $args ) {
 		$defaults = array(
@@ -758,6 +780,7 @@ final class WP_Screen {
 			'id'       => false,
 			'content'  => '',
 			'callback' => false,
+			'priority' => 10,
 		);
 		$args = wp_parse_args( $args, $defaults );
 
