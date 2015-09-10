@@ -1090,3 +1090,25 @@ function confirm_delete_users( $users ) {
 	<?php
 	return true;
 }
+
+/**
+ * Print JavaScript in the header on the Network Settings screen.
+ *
+ * @since 4.1.0
+*/
+function network_settings_add_js() {
+?>
+<script type="text/javascript">
+jQuery(document).ready( function($) {
+	var languageSelect = $( '#WPLANG' );
+	$( 'form' ).submit( function() {
+		// Don't show a spinner for English and installed languages,
+		// as there is nothing to download.
+		if ( ! languageSelect.find( 'option:selected' ).data( 'installed' ) ) {
+			$( '#submit', this ).after( '<span class="spinner language-install-spinner" />' );
+		}
+	});
+});
+</script>
+<?php
+}

@@ -22,27 +22,6 @@ if ( ! current_user_can( 'manage_network_options' ) )
 $title = __( 'Network Settings' );
 $parent_file = 'settings.php';
 
-/**
- * Print JavaScript in the header on the Network Settings screen.
- *
- * @since 4.1.0
-*/
-function network_settings_add_js() {
-?>
-<script type="text/javascript">
-jQuery(document).ready( function($) {
-	var languageSelect = $( '#WPLANG' );
-	$( 'form' ).submit( function() {
-		// Don't show a spinner for English and installed languages,
-		// as there is nothing to download.
-		if ( ! languageSelect.find( 'option:selected' ).data( 'installed' ) ) {
-			$( '#submit', this ).after( '<span class="spinner language-install-spinner" />' );
-		}
-	});
-});
-</script>
-<?php
-}
 add_action( 'admin_head', 'network_settings_add_js' );
 
 get_current_screen()->add_help_tab( array(
