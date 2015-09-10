@@ -448,13 +448,16 @@ class WP_Comments_List_Table extends WP_List_Table {
 		}
 		$the_comment_class = join( ' ', get_comment_class( $the_comment_class, $comment, $comment->comment_post_ID ) );
 
-		$post = get_post( $comment->comment_post_ID );
-
+		if ( $comment->comment_post_ID > 0 ) {
+			$post = get_post( $comment->comment_post_ID );
+		}
 		$this->user_can = current_user_can( 'edit_comment', $comment->comment_ID );
 
 		echo "<tr id='comment-$comment->comment_ID' class='$the_comment_class'>";
 		$this->single_row_columns( $comment );
 		echo "</tr>\n";
+
+		$post = null;
 	}
 
  	/**
