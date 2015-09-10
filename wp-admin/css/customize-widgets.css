@@ -196,15 +196,15 @@
 }
 
 .move-widget:before {
-	content: '\f504';
+	content: "\f504";
 }
 
 .move-widget-down:before {
-	content: '\f347';
+	content: "\f347";
 }
 
 .move-widget-up:before {
-	content: '\f343';
+	content: "\f343";
 }
 
 #customize-theme-controls .first-widget .move-widget-up,
@@ -252,7 +252,7 @@
 
 #customize-theme-controls .widget-area-select li:before {
 	display: none;
-	content: '\f147';
+	content: "\f147";
 	position: absolute;
 	top: 12px;
 	left: 10px;

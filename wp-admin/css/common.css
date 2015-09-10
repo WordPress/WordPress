@@ -295,7 +295,7 @@ blockquote:before,
 blockquote:after,
 q:before,
 q:after {
-	content: '';
+	content: "";
 	content: none;
 }
 
@@ -754,7 +754,7 @@ img.emoji {
 .notice-dismiss:before {
 	background: none;
 	color: #b4b9be;
-	content: '\f153';
+	content: "\f153";
 	display: block;
 	font: normal 16px/20px dashicons;
 	speak: none;
@@ -1492,7 +1492,7 @@ form.upgrade .hint {
 
 #screen-meta-links .show-settings:after {
 	right: 0;
-	content: '\f140';
+	content: "\f140";
 	font: normal 20px/1 dashicons;
 	speak: none;
 	display: inline-block;
@@ -1507,7 +1507,7 @@ form.upgrade .hint {
 }
 
 #screen-meta-links .screen-meta-active:after {
-	content: '\f142';
+	content: "\f142";
 }
 
 /* end screen options and help tabs */
@@ -2163,11 +2163,11 @@ div.star-holder .star-rating {
 }
 
 .star-rating .star-full:before {
-	content:'\f155';
+	content: "\f155";
 }
 
 .star-rating .star-half:before {
-	content:'\f459';
+	content: "\f459";
 }
 
 .rtl .star-rating .star-half {
@@ -2177,7 +2177,7 @@ div.star-holder .star-rating {
 }
 
 .star-rating .star-empty:before {
-	content:'\f154';
+	content: "\f154";
 }
 
 div.action-links {
@@ -2750,12 +2750,12 @@ img {
 /* Show the arrow only on hover */
 .js .sidebar-name .sidebar-name-arrow:before,
 .js .meta-box-sortables .postbox .handlediv:before {
-	content: '\f142';
+	content: "\f142";
 }
 
 .js .widgets-holder-wrap.closed .sidebar-name-arrow:before,
 .js .meta-box-sortables .postbox.closed .handlediv:before {
-	content: '\f140';
+	content: "\f140";
 }
 
 .error a {
@@ -2864,7 +2864,7 @@ img {
 .control-section .accordion-section-title:after,
 .accordion-section-title:after {
 	right: 0;
-	content: '\f140';
+	content: "\f140";
 	border: none;
 	background: none;
 	font: normal 20px/1 dashicons;
@@ -2919,7 +2919,7 @@ img {
 #customize-info.open .accordion-section-title:after,
 .nav-menus-php .menu-item-edit-active .item-edit:before,
 .widget.open .widget-top a.widget-action:after {
-	content: '\f142';
+	content: "\f142";
 }
 
 /*!

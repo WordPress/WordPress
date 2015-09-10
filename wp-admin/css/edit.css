@@ -483,16 +483,16 @@ span.wp-media-buttons-icon:before {
 }
 
 #post-body #visibility:before {
-	content: '\f177';
+	content: "\f177";
 }
 
 .curtime #timestamp:before {
-	content: '\f145';
+	content: "\f145";
 	top: -1px;
 }
 
 #post-body .misc-pub-revisions:before {
-	content: '\f321';
+	content: "\f321";
 }
 
 #timestampdiv {
@@ -850,61 +850,61 @@ label.post-format-icon {
 .post-state-format.post-format-standard:before,
 .post-format-icon.post-format-standard:before,
 a.post-state-format.format-standard:before {
-	content: '\f109';
+	content: "\f109";
 }
 
 .post-state-format.post-format-image:before,
 .post-format-icon.post-format-image:before,
 a.post-state-format.format-image:before {
-	content: '\f128';
+	content: "\f128";
 }
 
 .post-state-format.post-format-gallery:before,
 .post-format-icon.post-format-gallery:before,
 a.post-state-format.format-gallery:before {
-	content: '\f161';
+	content: "\f161";
 }
 
 .post-state-format.post-format-audio:before,
 .post-format-icon.post-format-audio:before,
 a.post-state-format.format-audio:before {
-	content: '\f127';
+	content: "\f127";
 }
 
 .post-state-format.post-format-video:before,
 .post-format-icon.post-format-video:before,
 a.post-state-format.format-video:before {
-	content: '\f126';
+	content: "\f126";
 }
 
 .post-state-format.post-format-chat:before,
 .post-format-icon.post-format-chat:before,
 a.post-state-format.format-chat:before {
-	content: '\f125';
+	content: "\f125";
 }
 
 .post-state-format.post-format-status:before,
 .post-format-icon.post-format-status:before,
 a.post-state-format.format-status:before {
-	content: '\f130';
+	content: "\f130";
 }
 
 .post-state-format.post-format-aside:before,
 .post-format-icon.post-format-aside:before,
 a.post-state-format.format-aside:before {
-	content: '\f123';
+	content: "\f123";
 }
 
 .post-state-format.post-format-quote:before,
 .post-format-icon.post-format-quote:before,
 a.post-state-format.format-quote:before {
-	content: '\f122';
+	content: "\f122";
 }
 
 .post-state-format.post-format-link:before,
 .post-format-icon.post-format-link:before,
 a.post-state-format.format-link:before {
-	content: '\f103';
+	content: "\f103";
 }
 
 /*------------------------------------------------------------------------------

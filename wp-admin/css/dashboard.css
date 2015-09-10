@@ -223,31 +223,31 @@
 
 .welcome-panel .welcome-write-blog:before,
 .welcome-panel .welcome-edit-page:before {
-	content:'\f119';
+	content: "\f119";
 	top: -3px;
 }
 
 .welcome-panel .welcome-add-page:before {
-	content:'\f132';
+	content: "\f132";
 }
 
 .welcome-panel .welcome-view-site:before {
-	content:'\f115';
+	content: "\f115";
 	top: -2px;
 }
 
 .welcome-panel .welcome-widgets-menus:before {
-	content:'\f116';
+	content: "\f116";
 	top: -2px;
 }
 
 .welcome-panel .welcome-comments:before {
-	content:'\f117';
+	content: "\f117";
 	top: -1px;
 }
 
 .welcome-panel .welcome-learn-more:before {
-	content:'\f118';
+	content: "\f118";
 	top: -1px;
 }
 
@@ -394,7 +394,7 @@ body #dashboard-widgets .postbox form .submit {
 /* Dashboard right now - Icons */
 #dashboard_right_now li a:before,
 #dashboard_right_now li span:before {
-	content: '\f159';
+	content: "\f159";
 	font: normal 20px/1 dashicons;
 	speak: none;
 	display: block;
@@ -410,28 +410,28 @@ body #dashboard-widgets .postbox form .submit {
 
 #dashboard_right_now .page-count a:before,
 #dashboard_right_now .page-count span:before {
-	content: '\f105';
+	content: "\f105";
 }
 
 #dashboard_right_now .post-count a:before,
 #dashboard_right_now .post-count span:before {
-	content: '\f109';
+	content: "\f109";
 }
 
 #dashboard_right_now .comment-count a:before {
-	content: '\f101';
+	content: "\f101";
 }
 
 #dashboard_right_now .comment-mod-count a:before {
-	content: '\f125';
+	content: "\f125";
 }
 
 #dashboard_right_now .storage-count a:before {
-	content: '\f104';
+	content: "\f104";
 }
 
 #dashboard_right_now .storage-count.warning a:before {
-	content: '\f153';
+	content: "\f153";
 }
 
 /* Dashboard Quick Draft */
@@ -596,7 +596,7 @@ form.initial-form.quickpress-open input#title {
 }
 
 #dashboard_activity .comment-meta span.approve:before {
-	content: '\f227';
+	content: "\f227";
 	font: 20px/.5 dashicons;
 	margin-left: 12px;
 	vertical-align: middle;
@@ -626,7 +626,7 @@ form.initial-form.quickpress-open input#title {
 }
 
 #dashboard_activity .no-activity .smiley:before {
-	content: '\f328';
+	content: "\f328";
 	font: normal 120px/1 dashicons;
 	speak: none;
 	display: block;
@@ -908,7 +908,7 @@ a.rsswidget {
 }
 
 .rss-widget cite:before {
-	content: '\2014';
+	content: "\2014";
 }
 
 .dashboard-comment-wrap {

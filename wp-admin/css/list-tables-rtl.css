@@ -265,7 +265,7 @@ th .comment-grey-bubble {
 }
 
 th .comment-grey-bubble:before {
-	content: '\f101';
+	content: "\f101";
 	font: normal 20px/.5 dashicons;
 	speak: none;
 	display: inline-block;
@@ -442,7 +442,7 @@ table.media .column-title .filename {
 }
 
 .sorting-indicator:before {
-	content: '\f142';
+	content: "\f142";
 	font: normal 20px/1 dashicons;
 	speak: none;
 	display: inline-block;
@@ -467,13 +467,13 @@ table.media .column-title .filename {
 th.sorted.asc .sorting-indicator:before,
 th.desc:hover span.sorting-indicator:before,
 th.desc a:focus span.sorting-indicator:before {
-	content: '\f142';
+	content: "\f142";
 }
 
 th.sorted.desc .sorting-indicator:before,
 th.asc:hover span.sorting-indicator:before,
 th.asc a:focus span.sorting-indicator:before {
-	content: '\f140';
+	content: "\f140";
 }
 
 .wp-list-table .toggle-row {
@@ -520,7 +520,7 @@ th.asc a:focus span.sorting-indicator:before {
 	display: block;
 	padding: 1px 0 1px 2px;
 	color: #666;
-	content: '\f140';
+	content: "\f140";
 	font: normal 20px/1 dashicons;
 	line-height: 1;
 	-webkit-font-smoothing: antialiased;
@@ -529,7 +529,7 @@ th.asc a:focus span.sorting-indicator:before {
 }
 
 .wp-list-table .is-expanded .toggle-row:before {
-	content: '\f142';
+	content: "\f142";
 }
 
 tr.wp-locked .locked-indicator {
@@ -540,7 +540,7 @@ tr.wp-locked .locked-indicator {
 
 tr.wp-locked .locked-indicator:before {
 	color: #82878c;
-	content: '\f160';
+	content: "\f160";
 	display: inline-block;
 	float: right;
 	font: normal 20px/1 dashicons;
@@ -792,15 +792,15 @@ classes exist in paginate_links() but not seen in list table output. */
 }
 
 .view-switch .view-list:before {
-	content: '\f163';
+	content: "\f163";
 }
 
 .view-switch .view-excerpt:before {
-	content: '\f164';
+	content: "\f164";
 }
 
 .view-switch .view-grid:before {
-	content: '\f509';
+	content: "\f509";
 }
 
 .filter {
@@ -1356,7 +1356,7 @@ tr.active.update + tr.plugin-update-tr .plugin-update {
 
 .plugin-update-tr .update-message:before,
 .plugin-card .update-now:before {
-	content: '\f463';
+	content: "\f463";
 }
 
 .plugin-update-tr .update-message:before {
@@ -1370,7 +1370,7 @@ tr.active.update + tr.plugin-update-tr .plugin-update {
 
 .plugin-update-tr .updating-message:before,
 .plugin-card .updating-message:before {
-	content: '\f463';
+	content: "\f463";
 	-webkit-animation: rotation 2s infinite linear;
 	animation: rotation 2s infinite linear;
 }
@@ -1400,7 +1400,7 @@ tr.active.update + tr.plugin-update-tr .plugin-update {
 .plugin-update-tr .updated-message:before,
 .plugin-card .updated-message:before {
 	color: #79ba49;
-	content: '\f147';
+	content: "\f147";
 }
 
 .wp-list-table.plugins tbody tr.plugin-update-tr td.plugin-update {
@@ -1585,11 +1585,11 @@ div.action-links,
 }
 
 .plugin-card .compatibility-incompatible:before {
-	content: '\f158';
+	content: "\f158";
 }
 
 .plugin-card .compatibility-compatible:before {
-	content: '\f147';
+	content: "\f147";
 }
 
 .plugin-icon {
@@ -2056,7 +2056,7 @@ div.action-links,
 
 	/* mimic the checkbox th */
 	.plugins .plugin-update-tr:before {
-		content: '';
+		content: "";
 		display: table-cell;
 	}
 

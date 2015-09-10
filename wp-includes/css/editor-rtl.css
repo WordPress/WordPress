@@ -261,7 +261,7 @@ div.mce-inline-toolbar-grp:after {
 	height: 0;
 	border-style: solid;
 	border-color: transparent;
-	content: '';
+	content: "";
 }
 
 div.mce-inline-toolbar-grp.mce-arrow-up:before {
@@ -824,145 +824,145 @@ i.mce-i-dashicon,
 }
 
 i.mce-i-bold:before {
-	content: '\f200';
+	content: "\f200";
 }
 
 i.mce-i-italic:before {
-	content: '\f201';
+	content: "\f201";
 }
 
 i.mce-i-bullist:before {
-	content: '\f203';
+	content: "\f203";
 }
 
 i.mce-i-numlist:before {
-	content: '\f204';
+	content: "\f204";
 }
 
 i.mce-i-blockquote:before {
-	content: '\f205';
+	content: "\f205";
 }
 
 i.mce-i-alignleft:before {
-	content: '\f206';
+	content: "\f206";
 }
 
 i.mce-i-aligncenter:before {
-	content: '\f207';
+	content: "\f207";
 }
 
 i.mce-i-alignright:before {
-	content: '\f208';
+	content: "\f208";
 }
 
 i.mce-i-link:before {
-	content: '\f103';
+	content: "\f103";
 }
 
 i.mce-i-unlink:before {
-	content: '\f225';
+	content: "\f225";
 }
 
 i.mce-i-wp_more:before {
-	content: '\f209';
+	content: "\f209";
 }
 
 i.mce-i-strikethrough:before {
-	content: '\f224';
+	content: "\f224";
 }
 
 i.mce-i-spellchecker:before {
-	content: '\f210';
+	content: "\f210";
 }
 
 i.mce-i-fullscreen:before,
 i.mce-i-wp_fullscreen:before,
 i.mce-i-dfw:before,
 .qt-dfw:before {
-	content: '\f211';
+	content: "\f211";
 }
 
 i.mce-i-wp_adv:before {
-	content: '\f212';
+	content: "\f212";
 }
 
 i.mce-i-underline:before {
-	content: '\f213';
+	content: "\f213";
 }
 
 i.mce-i-alignjustify:before {
-	content: '\f214';
+	content: "\f214";
 }
 
 i.mce-i-forecolor:before,
 i.mce-i-backcolor:before {
-	content: '\f215';
+	content: "\f215";
 }
 
 i.mce-i-pastetext:before {
-	content: '\f217';
+	content: "\f217";
 }
 
 i.mce-i-removeformat:before {
-	content: '\f218';
+	content: "\f218";
 }
 
 i.mce-i-charmap:before {
-	content: '\f220';
+	content: "\f220";
 }
 
 i.mce-i-outdent:before {
-	content: '\f221';
+	content: "\f221";
 }
 
 i.mce-i-indent:before {
-	content: '\f222';
+	content: "\f222";
 }
 
 i.mce-i-undo:before {
-	content: '\f171';
+	content: "\f171";
 }
 
 i.mce-i-redo:before {
-	content: '\f172';
+	content: "\f172";
 }
 
 i.mce-i-help:before,
 i.mce-i-wp_help:before {
-	content: '\f223';
+	content: "\f223";
 }
 
 i.mce-i-wp-media-library:before {
-	content: '\f104';
+	content: "\f104";
 }
 
 i.mce-i-ltr:before {
-	content: '\f320';
+	content: "\f320";
 }
 
 i.mce-i-wp_page:before {
-	content: '\f105';
+	content: "\f105";
 }
 
 i.mce-i-hr:before {
-	content: '\f460';
+	content: "\f460";
 }
 
 .mce-close:before {
-	content: '\f158';
+	content: "\f158";
 }
 
 i.mce-i-wp_code:before {
-	content: '\f475';
+	content: "\f475";
 }
 
 /* RTL button icons */
 .rtl i.mce-i-outdent:before {
-	content: '\f222';
+	content: "\f222";
 }
 
 .rtl i.mce-i-indent:before {
-	content: '\f221';
+	content: "\f221";
 }
 
 /* Editors */
@@ -977,7 +977,7 @@ i.mce-i-wp_code:before {
 
 .wp-editor-tools:after {
 	clear: both;
-	content: '';
+	content: "";
 	display: table;
 }
 
@@ -1128,7 +1128,7 @@ i.mce-i-wp_code:before {
 }
 
 .wp-media-buttons .add_media span.wp-media-buttons-icon:before {
-	content: '\f104';
+	content: "\f104";
 }
 
 /* Quicktags */
@@ -1338,7 +1338,7 @@ i.mce-i-wp_code:before {
 	-moz-osx-font-smoothing: grayscale;
 	width: 36px;
 	height: 36px;
-	content: '\f158';
+	content: "\f158";
 }
 
 #wp-link-close:hover,
@@ -1384,11 +1384,11 @@ i.mce-i-wp_code:before {
 	speak: none;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
-	content: '\f140';
+	content: "\f140";
 }
 
 .search-panel-visible #wp-link-search-toggle:after {
-	content: '\f142';
+	content: "\f142";
 }
 
 #wp-link input[type="text"] {

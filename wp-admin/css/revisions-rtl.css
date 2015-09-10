@@ -500,19 +500,19 @@ div.revisions-controls > .wp-slider > .ui-slider-handle {
 }
 
 .wp-slider .ui-slider-handle.from-handle:before {
-	content: '\f139';
+	content: "\f141";
 }
 
 .wp-slider .ui-slider-handle.to-handle:before {
-	content: '\f141';
+	content: "\f139";
 }
 
 .rtl .wp-slider .ui-slider-handle.from-handle:before {
-	content: '\f141';
+	content: "\f139";
 }
 
 .rtl .wp-slider .ui-slider-handle.to-handle:before {
-	content: '\f139';
+	content: "\f141";
 	left: -1px;
 }
 

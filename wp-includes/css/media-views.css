@@ -173,7 +173,7 @@
 }
 
 .media-modal-close .media-modal-icon:before {
-	content: '\f158';
+	content: "\f158";
 	font: normal 20px/1 dashicons;
 	speak: none;
 	vertical-align: middle;
@@ -836,7 +836,7 @@
 }
 
 .wp-core-ui .attachment-preview:before {
-	content: '';
+	content: "";
 	display: block;
 	padding-top: 100%;
 }
@@ -867,7 +867,7 @@
 }
 
 .wp-core-ui .attachment .thumbnail:after {
-	content: '';
+	content: "";
 	display: block;
 	position: absolute;
 	top: 0;
@@ -1091,7 +1091,7 @@
 	font: normal 30px/50px dashicons !important;
 	color: #777;
 	display: inline-block;
-	content: '\f335';
+	content: "\f335";
 	font-weight: 300;
 }
 
@@ -1474,7 +1474,7 @@
 }
 
 .media-selection:after {
-	content: '';
+	content: "";
 	display: block;
 	position: absolute;
 	top: 0;
@@ -1585,7 +1585,7 @@
 }
 
 .attachment-info .thumbnail-image:after {
-	content: '';
+	content: "";
 	display: block;
 	position: absolute;
 	top: 0;
@@ -1745,7 +1745,7 @@
 }
 
 .media-modal .imgedit-help-toggled span.dashicons:before {
-	content: '\f142';
+	content: "\f142";
 }
 
 .media-modal .imgedit-group img {
@@ -1897,13 +1897,13 @@
 	vertical-align: top;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
-	content: '\f140';
+	content: "\f140";
 	display: inline-block;
 	margin-top: -2px;
 }
 
 .image-details .advanced-visible .advanced-toggle:after {
-	content: '\f142';
+	content: "\f142";
 }
 
 .image-details .embed-media-settings .size {
@@ -1934,7 +1934,7 @@
 }
 
 .image-details .custom-size:after {
-	content: '';
+	content: "";
 	display: table;
 	clear: both;
 }
@@ -1952,7 +1952,7 @@
 }
 
 .media-embed .thumbnail:after {
-	content: '';
+	content: "";
 	display: block;
 	position: absolute;
 	top: 0;

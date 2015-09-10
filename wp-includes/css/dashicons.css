@@ -474,7 +474,7 @@
 }
 
 .dashicons-randomize:before {
-	content: "\f503"
+	content: "\f503";
 }
 
 .dashicons-list-view:before {
@@ -610,83 +610,83 @@
 /* Media icons */
 
 .dashicons-media-archive:before {
-	content: "\f501"
+	content: "\f501";
 }
 
 .dashicons-media-audio:before {
-	content: "\f500"
+	content: "\f500";
 }
 
 .dashicons-media-code:before {
-	content: "\f499"
+	content: "\f499";
 }
 
 .dashicons-media-default:before {
-	content: "\f498"
+	content: "\f498";
 }
 
 .dashicons-media-document:before {
-	content: "\f497"
+	content: "\f497";
 }
 
 .dashicons-media-interactive:before {
-	content: "\f496"
+	content: "\f496";
 }
 
 .dashicons-media-spreadsheet:before {
-	content: "\f495"
+	content: "\f495";
 }
 
 .dashicons-media-text:before {
-	content: "\f491"
+	content: "\f491";
 }
 
 .dashicons-media-video:before {
-	content: "\f490"
+	content: "\f490";
 }
 
 .dashicons-playlist-audio:before {
-	content: "\f492"
+	content: "\f492";
 }
 
 .dashicons-playlist-video:before {
-	content: "\f493"
+	content: "\f493";
 }
 
 .dashicons-controls-play:before {
-	content: "\f522"
+	content: "\f522";
 }
 
 .dashicons-controls-pause:before {
-	content: "\f523"
+	content: "\f523";
 }
 
 .dashicons-controls-forward:before {
-	content: "\f519"
+	content: "\f519";
 }
 
 .dashicons-controls-skipforward:before {
-	content: "\f517"
+	content: "\f517";
 }
 
 .dashicons-controls-back:before {
-	content: "\f518"
+	content: "\f518";
 }
 
 .dashicons-controls-skipback:before {
-	content: "\f516"
+	content: "\f516";
 }
 
 .dashicons-controls-repeat:before {
-	content: "\f515"
+	content: "\f515";
 }
 
 .dashicons-controls-volumeon:before {
-	content: "\f521"
+	content: "\f521";
 }
 
 .dashicons-controls-volumeoff:before {
-	content: "\f520"
+	content: "\f520";
 }
 
 
@@ -709,11 +709,11 @@
 }
 
 .dashicons-plus-alt:before {
-	content: "\f502"
+	content: "\f502";
 }
 
 .dashicons-plus-alt2:before {
-	content: "\f543"
+	content: "\f543";
 }
 
 .dashicons-minus:before {

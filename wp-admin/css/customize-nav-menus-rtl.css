@@ -154,19 +154,19 @@
 }
 
 .menus-move-down:before {
-	content: '\f347';
+	content: "\f347";
 }
 
 .menus-move-up:before {
-	content: '\f343';
+	content: "\f343";
 }
 
 .menus-move-left:before {
-	content: '\f341';
+	content: "\f345";
 }
 
 .menus-move-right:before {
-	content: '\f345';
+	content: "\f341";
 }
 
 .move-up-disabled .menus-move-up,
@@ -233,7 +233,7 @@
 }
 
 .wp-customizer .menu-item .item-edit .toggle-indicator:after {
-	content: '\f140';
+	content: "\f140";
 	font: normal 20px/1 dashicons;
 	color: #a0a5aa;
 	vertical-align: top;
@@ -244,7 +244,7 @@
 }
 
 .wp-customizer .menu-item.menu-item-edit-active .item-edit .toggle-indicator:after {
-	content: '\f142';
+	content: "\f142";
 }
 
 .wp-customizer .menu-item-settings p.description {
@@ -628,7 +628,7 @@
 }
 
 #available-menu-items .accordion-section-title .toggle-indicator:after {
-	content: '\f140';
+	content: "\f140";
 	font: normal 20px/1 dashicons;
 	color: #a0a5aa;
 	vertical-align: top;
@@ -643,7 +643,7 @@
 }
 
 #available-menu-items .open .accordion-section-title .toggle-indicator:after {
-	content: '\f142';
+	content: "\f142";
 }
 
 #available-menu-items .accordion-section-content {

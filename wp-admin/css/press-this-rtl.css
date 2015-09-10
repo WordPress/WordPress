@@ -421,7 +421,7 @@ strong {
 	height: 0;
 	border-style: solid;
 	border-color: transparent;
-	content: '';
+	content: "";
 }
 
 .split-button-body:before {
@@ -899,7 +899,7 @@ dd {
 }
 
 .tagchecklist .ntdelbutton:before {
-	content: '\f153';
+	content: "\f153";
 	display: block;
 	margin: 2px 0;
 	height: 20px;
@@ -1364,7 +1364,7 @@ html {
 }
 
 .alert:before {
-	content: '';
+	content: "";
 	position: absolute;
 	top: 50%;
 	right: 30px;
@@ -1596,7 +1596,7 @@ html {
 
 .post-title:before {
 	/* Keeps empty container from collapsing */
-	content: '\a0';
+	content: "\a0";
 	display: inline-block;
 	width: 0;
 	speak: none;

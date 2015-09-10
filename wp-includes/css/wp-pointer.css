@@ -25,7 +25,7 @@
 	-webkit-border-radius: 50%;
 	border-radius: 50%;
 	color: #00a0d2;
-	content: '\f227';
+	content: "\f227";
 	font: normal 20px/1.6 dashicons;
 	position: absolute;
 	top: 8px;
@@ -62,7 +62,7 @@
 .wp-pointer-buttons a.close:before {
 	background: none;
 	color: #b4b9be;
-	content: '\f153';
+	content: "\f153";
 	display: block !important;
 	font: normal 16px/1 dashicons;
 	speak: none;
@@ -149,7 +149,7 @@
 	border: 13px solid transparent;
 	border-bottom-color: #00a0d2;
 	display: block;
-	content: ' ';
+	content: " ";
 }
 
 .wp-pointer-bottom .wp-pointer-arrow {
@@ -165,7 +165,7 @@
 	border: 13px solid transparent;
 	border-top-color: #fff;
 	display: block;
-	content: ' ';
+	content: " ";
 }
 
 /* rtl:ignore */
@@ -183,7 +183,7 @@
 	border: 13px solid transparent;
 	border-right-color: #fff;
 	display: block;
-	content: ' ';
+	content: " ";
 }
 
 /* rtl:ignore */
@@ -201,7 +201,7 @@
 	border: 13px solid transparent;
 	border-left-color: #fff;
 	display: block;
-	content: ' ';
+	content: " ";
 }
 
 /* Disable pointers at responsive sizes */

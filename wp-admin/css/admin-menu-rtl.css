@@ -52,56 +52,56 @@
 }
 
 .icon16.icon-dashboard:before {
-	content: '\f226';
+	content: "\f226";
 }
 
 .icon16.icon-post:before {
-	content: '\f109';
+	content: "\f109";
 }
 
 .icon16.icon-media:before {
-	content: '\f104';
+	content: "\f104";
 }
 
 .icon16.icon-links:before {
-	content: '\f103';
+	content: "\f103";
 }
 
 .icon16.icon-page:before {
-	content: '\f105';
+	content: "\f105";
 }
 
 .icon16.icon-comments:before {
-	content: '\f101';
+	content: "\f101";
 	margin-top: 1px;
 }
 
 .icon16.icon-appearance:before {
-	content: '\f100';
+	content: "\f100";
 }
 
 .icon16.icon-plugins:before {
-	content: '\f106';
+	content: "\f106";
 }
 
 .icon16.icon-users:before {
-	content: '\f110';
+	content: "\f110";
 }
 
 .icon16.icon-tools:before {
-	content: '\f107';
+	content: "\f107";
 }
 
 .icon16.icon-settings:before {
-	content: '\f108';
+	content: "\f108";
 }
 
 .icon16.icon-site:before {
-	content: '\f112'
+	content: "\f112";
 }
 
 .icon16.icon-generic:before {
-	content: '\f111';
+	content: "\f111";
 }
 
 /* hide background-image for icons above */
@@ -586,7 +586,7 @@ ul#adminmenu > li.current > a.current:after {
 }
 
 #collapse-button div:after {
-	content: '\f148';
+	content: "\f148";
 	display: block;
 	line-height: 15px;
 	right: -3px;
@@ -901,7 +901,7 @@ li#wp-admin-bar-menu-toggle {
 	}
 
 	#wpadminbar #wp-admin-bar-menu-toggle .ab-icon:before {
-		content: '\f228';
+		content: "\f228";
 		display: inline-block;
 		float: right;
 		font: normal 40px/45px dashicons;
