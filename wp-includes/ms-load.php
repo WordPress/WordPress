@@ -394,7 +394,7 @@ function get_site_by_path( $domain, $path, $segments = null ) {
  *
  * @access private
  * @since 3.0.0
- * @since 4.3.0 The `$domain` and `$path` parameters were added.
+ * @since 4.4.0 The `$domain` and `$path` parameters were added.
  *
  * @global wpdb $wpdb
  *
