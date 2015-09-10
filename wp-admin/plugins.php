@@ -442,7 +442,7 @@ if ( !empty($invalid) )
 <?php elseif (isset($_GET['deactivate-multi'])) : ?>
 	<div id="message" class="updated notice is-dismissible"><p><?php _e('Selected plugins <strong>deactivated</strong>.'); ?></p></div>
 <?php elseif ( 'update-selected' == $action ) : ?>
-	<div id="message" class="updated notice is-dismissible"><p><?php _e('No out of date plugins were selected.'); ?></p></div>
+	<div id="message" class="updated notice is-dismissible"><p><?php _e('All selected plugins are up to date.'); ?></p></div>
 <?php endif; ?>
 
 <div class="wrap">
