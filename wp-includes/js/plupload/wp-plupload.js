@@ -262,10 +262,13 @@ window.wp = window.wp || {};
 				return error( pluploadL10n.default_error, e, file );
 			}
 
-			if ( ! _.isObject( response ) || _.isUndefined( response.success ) )
+			if ( ! _.isObject( response ) || _.isUndefined( response.success ) ) {
 				return error( pluploadL10n.default_error, null, file );
-			else if ( ! response.success )
-				return error( response.data && response.data.message, response.data, file );
+			} else if ( ! response.success && ! _.isObject( response.data ) ) {
+				return error( response.data, null, file );
+			} else {
+				return error( response.data.message || pluploadL10n.default_error, response.data, file );
+			}
 
 			_.each(['file','loaded','size','percent'], function( key ) {
 				file.attachment.unset( key );
@@ -281,7 +284,7 @@ window.wp = window.wp || {};
 			if ( complete )
 				Uploader.queue.reset();
 
-			self.success( file.attachment );
+			self.success( file.attachment, response.data );
 		});
 
 		/**
