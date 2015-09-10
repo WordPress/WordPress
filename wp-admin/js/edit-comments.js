@@ -138,15 +138,23 @@ setCommentsList = function() {
 	};
 
 	updateHtmlTitle = function ( diff ) {
-		var newTitle, regExMatch, titleCount;
+		var newTitle, regExMatch, titleCount, commentFrag;
 
 		titleRegEx = titleRegEx || new RegExp( 'Comments (\\([0-9' + thousandsSeparator + ']+\\))?' );
 		// count funcs operate on a $'d element
 		titleDiv = titleDiv || $( '<div />' );
 		newTitle = adminTitle;
 
-		titleDiv.html( document.title );
-		titleCount = getCount( titleDiv ) + diff;
+		commentFrag = titleRegEx.exec( document.title );
+		if ( commentFrag ) {
+			commentFrag = commentFrag[0];
+			titleDiv.html( commentFrag );
+			titleCount = getCount( titleDiv ) + diff;
+		} else {
+			titleDiv.html( 0 );
+			titleCount = diff;
+		}
+
 		if ( titleCount >= 1 ) {
 			updateCount( titleDiv, titleCount );
 			regExMatch = titleRegEx.exec( document.title );
