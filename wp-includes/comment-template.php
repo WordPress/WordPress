@@ -42,7 +42,7 @@ function get_comment_author( $comment_ID = 0 ) {
 	 * @param int        $comment_ID The comment ID.
 	 * @param WP_Comment $comment    The comment object.
 	 */
-	return apply_filters( 'get_comment_author', $author, $comment_ID, $comment );
+	return apply_filters( 'get_comment_author', $author, $comment->comment_ID, $comment );
 }
 
 /**
@@ -54,7 +54,8 @@ function get_comment_author( $comment_ID = 0 ) {
  *									 Default current comment.
  */
 function comment_author( $comment_ID = 0 ) {
-	$author = get_comment_author( $comment_ID );
+	$comment = get_comment( $comment_ID );
+	$author  = get_comment_author( $comment );
 
 	/**
 	 * Filter the comment author's name for display.
@@ -65,7 +66,7 @@ function comment_author( $comment_ID = 0 ) {
 	 * @param string $author     The comment author's username.
 	 * @param int    $comment_ID The comment ID.
 	 */
-	echo apply_filters( 'comment_author', $author, $comment_ID );
+	echo apply_filters( 'comment_author', $author, $comment->comment_ID );
 }
 
 /**
@@ -90,7 +91,7 @@ function get_comment_author_email( $comment_ID = 0 ) {
 	 * @param int        $comment_ID           The comment ID.
 	 * @param WP_Comment $comment              The comment object.
 	 */
-	return apply_filters( 'get_comment_author_email', $comment->comment_author_email, $comment_ID, $comment );
+	return apply_filters( 'get_comment_author_email', $comment->comment_author_email, $comment->comment_ID, $comment );
 }
 
 /**
@@ -108,7 +109,8 @@ function get_comment_author_email( $comment_ID = 0 ) {
  *									 Default current comment.
  */
 function comment_author_email( $comment_ID = 0 ) {
-	$author_email = get_comment_author_email( $comment_ID );
+	$comment      = get_comment( $comment_ID );
+	$author_email = get_comment_author_email( $comment );
 
 	/**
 	 * Filter the comment author's email for display.
@@ -119,7 +121,7 @@ function comment_author_email( $comment_ID = 0 ) {
 	 * @param string $author_email The comment author's email address.
 	 * @param int    $comment_ID   The comment ID.
 	 */
-	echo apply_filters( 'author_email', $author_email, $comment_ID );
+	echo apply_filters( 'author_email', $author_email, $comment->comment_ID );
 }
 
 /**
@@ -199,8 +201,9 @@ function get_comment_author_email_link( $linktext = '', $before = '', $after = '
  * @return string The comment author name or HTML link for author's URL.
  */
 function get_comment_author_link( $comment_ID = 0 ) {
-	$url    = get_comment_author_url( $comment_ID );
-	$author = get_comment_author( $comment_ID );
+	$comment = get_comment( $comment_ID );
+	$url     = get_comment_author_url( $comment );
+	$author  = get_comment_author( $comment );
 
 	if ( empty( $url ) || 'http://' == $url )
 		$return = $author;
@@ -218,7 +221,7 @@ function get_comment_author_link( $comment_ID = 0 ) {
 	 * @param string $author     The comment author's username.
 	 * @param int    $comment_ID The comment ID.
 	 */
-	return apply_filters( 'get_comment_author_link', $return, $author, $comment_ID );
+	return apply_filters( 'get_comment_author_link', $return, $author, $comment->comment_ID );
 }
 
 /**
@@ -255,7 +258,7 @@ function get_comment_author_IP( $comment_ID = 0 ) {
 	 * @param int        $comment_ID        The comment ID.
 	 * @param WP_Comment $comment           The comment object.
 	 */
-	return apply_filters( 'get_comment_author_IP', $comment->comment_author_IP, $comment_ID, $comment );
+	return apply_filters( 'get_comment_author_IP', $comment->comment_author_IP, $comment->comment_ID, $comment );
 }
 
 /**
@@ -294,7 +297,7 @@ function get_comment_author_url( $comment_ID = 0 ) {
 	 * @param int        $comment_ID The comment ID.
 	 * @param WP_Comment $comment    The comment object.
 	 */
-	return apply_filters( 'get_comment_author_url', $url, $comment_ID, $comment );
+	return apply_filters( 'get_comment_author_url', $url, $comment->comment_ID, $comment );
 }
 
 /**
@@ -306,7 +309,8 @@ function get_comment_author_url( $comment_ID = 0 ) {
  *									 Default current comment.
  */
 function comment_author_url( $comment_ID = 0 ) {
-	$author_url = get_comment_author_url( $comment_ID );
+	$comment    = get_comment( $comment_ID );
+	$author_url = get_comment_author_url( $comment );
 
 	/**
 	 * Filter the comment author's URL for display.
@@ -317,7 +321,7 @@ function comment_author_url( $comment_ID = 0 ) {
 	 * @param string $author_url The comment author's URL.
 	 * @param int    $comment_ID The comment ID.
 	 */
-	echo apply_filters( 'comment_url', $author_url, $comment_ID );
+	echo apply_filters( 'comment_url', $author_url, $comment->comment_ID );
 }
 
 /**
@@ -484,7 +488,7 @@ function get_comment_class( $class = '', $comment_id = null, $post_id = null ) {
 	 * @param object   	  $comment    The comment
 	 * @param int|WP_Post $post_id    The post ID or WP_Post object.
 	 */
-	return apply_filters( 'comment_class', $classes, $class, $comment_id, $comment, $post_id );
+	return apply_filters( 'comment_class', $classes, $class, $comment->comment_ID, $comment, $post_id );
 }
 
 /**
@@ -570,7 +574,7 @@ function get_comment_excerpt( $comment_ID = 0 ) {
 	 * @param int        $comment_ID The comment ID.
 	 * @param WP_Comment $comment    The comment object.
 	 */
-	return apply_filters( 'get_comment_excerpt', $excerpt, $comment_ID, $comment );
+	return apply_filters( 'get_comment_excerpt', $excerpt, $comment->comment_ID, $comment );
 }
 
 /**
@@ -582,7 +586,8 @@ function get_comment_excerpt( $comment_ID = 0 ) {
  *                                    Default current comment.
  */
 function comment_excerpt( $comment_ID = 0 ) {
-	$comment_excerpt = get_comment_excerpt($comment_ID);
+	$comment         = get_comment( $comment_ID );
+	$comment_excerpt = get_comment_excerpt( $comment );
 
 	/**
 	 * Filter the comment excerpt for display.
@@ -593,7 +598,7 @@ function comment_excerpt( $comment_ID = 0 ) {
 	 * @param string $comment_excerpt The comment excerpt text.
 	 * @param int    $comment_ID      The comment ID.
 	 */
-	echo apply_filters( 'comment_excerpt', $comment_excerpt, $comment_ID );
+	echo apply_filters( 'comment_excerpt', $comment_excerpt, $comment->comment_ID );
 }
 
 /**
@@ -932,7 +937,7 @@ function get_comment_type( $comment_ID = 0 ) {
 	 * @param int 	     $comment_ID   The comment ID.
 	 * @param WP_Comment $comment      The comment object.
 	 */
-	return apply_filters( 'get_comment_type', $comment->comment_type, $comment_ID, $comment );
+	return apply_filters( 'get_comment_type', $comment->comment_type, $comment->comment_ID, $comment );
 }
 
 /**
