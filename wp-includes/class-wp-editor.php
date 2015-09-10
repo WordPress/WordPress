@@ -926,7 +926,7 @@ final class _WP_Editors {
 
 			'Color' => __( 'Color' ),
 			'Custom color' => __( 'Custom color' ),
-			'Custom…' => _x( 'Custom…', 'label for custom color' ),
+			'Custom\u2026' => _x( 'Custom\u2026', 'label for custom color' ),
 			'No color' => __( 'No color' ),
 
 			// Spelling, search/replace plugins
@@ -1028,7 +1028,7 @@ final class _WP_Editors {
 			'Toolbar Toggle' => __( 'Toolbar Toggle' ),
 			'Insert Read More tag' => __( 'Insert Read More tag' ),
 			'Insert Page Break tag' => __( 'Insert Page Break tag' ),
-			'Read more…' => __( 'Read more…' ), // Title on the placeholder inside the editor
+			'Read more\u2026' => __( 'Read more\u2026' ), // Title on the placeholder inside the editor
 			'Distraction-free writing mode' => __( 'Distraction-free writing mode' ),
 			'No alignment' => __( 'No alignment' ), // Tooltip for the 'alignnone' button in the image toolbar
 			'Remove' => __( 'Remove' ), // Tooltip for the 'remove' button in the image toolbar

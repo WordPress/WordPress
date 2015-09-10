@@ -564,18 +564,18 @@ function wp_default_scripts( &$scripts ) {
 		did_action( 'init' ) && $scripts->localize( 'updates', '_wpUpdatesSettings', array(
 			'ajax_nonce' => wp_create_nonce( 'updates' ),
 			'l10n'       => array(
-				'updating'          => __( 'Updating…' ),
+				'updating'          => __( 'Updating\u2026' ),
 				'updated'           => __( 'Updated!' ),
 				/* translators: Error string for a failed update */
 				'updateFailed'      => __( 'Update Failed: %s' ),
 				/* translators: Plugin name and version */
-				'updatingLabel'     => __( 'Updating %s…' ),
+				'updatingLabel'     => __( 'Updating %s\u2026' ),
 				/* translators: Plugin name and version */
 				'updatedLabel'      => __( '%s updated!' ),
 				/* translators: Plugin name and version */
 				'updateFailedLabel' => __( '%s update failed' ),
 				/* translators: JavaScript accessible string */
-				'updatingMsg'       => __( 'Updating… please wait.' ),
+				'updatingMsg'       => __( 'Updating\u2026 please wait.' ),
 				/* translators: JavaScript accessible string */
 				'updatedMsg'        => __( 'Update completed successfully.' ),
 				/* translators: JavaScript accessible string */
@@ -613,7 +613,7 @@ function wp_default_scripts( &$scripts ) {
 		$scripts->add( 'set-post-thumbnail', "/wp-admin/js/set-post-thumbnail$suffix.js", array( 'jquery' ), false, 1 );
 		did_action( 'init' ) && $scripts->localize( 'set-post-thumbnail', 'setPostThumbnailL10n', array(
 			'setThumbnail' => __( 'Use as featured image' ),
-			'saving' => __( 'Saving…' ),
+			'saving' => __( 'Saving\u2026' ),
 			'error' => __( 'Could not set that as the thumbnail image. Try a different attachment.' ),
 			'done' => __( 'Done' )
 		) );
