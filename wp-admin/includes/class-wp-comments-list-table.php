@@ -607,9 +607,11 @@ class WP_Comments_List_Table extends WP_List_Table {
 
 		if ( $comment->comment_parent ) {
 			$parent = get_comment( $comment->comment_parent );
-			$parent_link = esc_url( get_comment_link( $parent ) );
-			$name = get_comment_author( $parent );
-			printf( ' | '.__( 'In reply to <a href="%1$s">%2$s</a>.' ), $parent_link, $name );
+			if ( $parent ) {
+				$parent_link = esc_url( get_comment_link( $parent ) );
+				$name = get_comment_author( $parent );
+				printf( ' | '.__( 'In reply to <a href="%1$s">%2$s</a>.' ), $parent_link, $name );
+			}
 		}
 
 		echo '</div>';

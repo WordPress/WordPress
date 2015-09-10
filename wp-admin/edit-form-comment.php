@@ -119,17 +119,19 @@ if ( current_user_can( 'edit_post', $post_id ) ) {
 <?php
 if ( $comment->comment_parent ) :
 	$parent      = get_comment( $comment->comment_parent );
-	$parent_link = esc_url( get_comment_link( $comment->comment_parent ) );
-	$name        = get_comment_author( $parent->comment_ID );
-?>
-<div class="misc-pub-section misc-pub-reply-to">
-	<?php printf(
-		/* translators: comment link */
-		__( 'In reply to: %s' ),
-		'<b><a href="' . $parent_link . '">' . $name . '</a></b>'
-	); ?>
-</div>
-<?php endif; ?>
+	if ( $parent ) :
+		$parent_link = esc_url( get_comment_link( $comment->comment_parent ) );
+		$name        = get_comment_author( $parent->comment_ID );
+	?>
+	<div class="misc-pub-section misc-pub-reply-to">
+		<?php printf(
+			/* translators: comment link */
+			__( 'In reply to: %s' ),
+			'<b><a href="' . $parent_link . '">' . $name . '</a></b>'
+		); ?>
+	</div>
+<?php endif;
+endif; ?>
 
 <?php
 	/**
