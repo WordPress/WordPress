@@ -1948,3 +1948,11 @@ function wp_clean_plugins_cache( $clear_update_cache = true ) {
 		delete_site_transient( 'update_plugins' );
 	wp_cache_delete( 'plugins', 'plugins' );
 }
+
+/**
+ * @param string $plugin
+ */
+function plugin_sandbox_scrape( $plugin ) {
+	wp_register_plugin_realpath( WP_PLUGIN_DIR . '/' . $plugin );
+	include( WP_PLUGIN_DIR . '/' . $plugin );
+}

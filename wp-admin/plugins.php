@@ -148,13 +148,6 @@ if ( $action ) {
 
 			@ini_set('display_errors', true); //Ensure that Fatal errors are displayed.
 			// Go back to "sandbox" scope so we get the same errors as before
-			/**
-			 * @param string $plugin
-			 */
-			function plugin_sandbox_scrape( $plugin ) {
-				wp_register_plugin_realpath( WP_PLUGIN_DIR . '/' . $plugin );
-				include( WP_PLUGIN_DIR . '/' . $plugin );
-			}
 			plugin_sandbox_scrape( $plugin );
 			/** This action is documented in wp-admin/includes/plugin.php */
 			do_action( "activate_{$plugin}" );
