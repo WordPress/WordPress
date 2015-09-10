@@ -831,6 +831,18 @@ class WP_Posts_List_Table extends WP_List_Table {
 			}
 		}
 
+		if ( 'publish' == $post->post_status ) {
+			_e( 'Published' );
+		} elseif ( 'future' == $post->post_status ) {
+			if ( $time_diff > 0 ) {
+				echo '<strong class="error-message">' . __( 'Missed schedule' ) . '</strong>';
+			} else {
+				_e( 'Scheduled' );
+			}
+		} else {
+			_e( 'Last Modified' );
+		}
+		echo '<br />';
 		if ( 'excerpt' == $mode ) {
 			/**
 			 * Filter the published time of the post.
@@ -851,18 +863,6 @@ class WP_Posts_List_Table extends WP_List_Table {
 
 			/** This filter is documented in wp-admin/includes/class-wp-posts-list-table.php */
 			echo '<abbr title="' . $t_time . '">' . apply_filters( 'post_date_column_time', $h_time, $post, 'date', $mode ) . '</abbr>';
-		}
-		echo '<br />';
-		if ( 'publish' == $post->post_status ) {
-			_e( 'Published' );
-		} elseif ( 'future' == $post->post_status ) {
-			if ( $time_diff > 0 ) {
-				echo '<strong class="error-message">' . __( 'Missed schedule' ) . '</strong>';
-			} else {
-				_e( 'Scheduled' );
-			}
-		} else {
-			_e( 'Last Modified' );
 		}
 	}
 
