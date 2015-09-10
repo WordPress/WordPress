@@ -190,7 +190,7 @@ case 'editpost':
 
 	// Session cookie flag that the post was saved
 	if ( isset( $_COOKIE['wp-saving-post'] ) && $_COOKIE['wp-saving-post'] === $post_id . '-check' ) {
-		setcookie( 'wp-saving-post', $post_id . '-saved', time() + DAY_IN_SECONDS );
+		setcookie( 'wp-saving-post', $post_id . '-saved', time() + DAY_IN_SECONDS, ADMIN_COOKIE_PATH, COOKIE_DOMAIN, is_ssl() );
 	}
 
 	redirect_post($post_id); // Send user on their way while we keep working
