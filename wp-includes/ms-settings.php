@@ -86,6 +86,19 @@ if ( !isset( $current_site ) || !isset( $current_blog ) ) {
 		}
 
 		if ( empty( $current_site ) ) {
+			/**
+			 * Fires when a network cannot be found based on the requested domain and path.
+			 *
+			 * At the time of this action, the only recourse is to redirect somewhere
+			 * and exit. If you want to declare a particular network, do so earlier.
+			 *
+			 * @since 4.4.0
+			 *
+			 * @param string $domain       The domain used to search for a network.
+			 * @param string $path         The path used to search for a path.
+			 */
+			do_action( 'ms_network_not_found', $domain, $path );
+
 			ms_not_installed( $domain, $path );
 		} elseif ( $path === $current_site->path ) {
 			$current_blog = get_site_by_path( $domain, $path );
@@ -111,6 +124,9 @@ if ( !isset( $current_site ) || !isset( $current_blog ) ) {
 
 	// No network has been found, bail.
 	if ( empty( $current_site ) ) {
+		/** This action is documented in wp-includes/ms-settings.php */
+		do_action( 'ms_network_not_found', $domain, $path );
+
 		ms_not_installed( $domain, $path );
 	}
 
