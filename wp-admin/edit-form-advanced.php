@@ -395,13 +395,8 @@ if ( 'post' == $post_type || 'page' == $post_type ) {
 
 if ( 'post' == $post_type ) {
 	$publish_box = '<p>' . __('Several boxes on this screen contain settings for how your content will be published, including:') . '</p>';
-	$publish_box .= '<ul><li>' . __( '<strong>Publish</strong> - ' ) .
-		__( 'You can set the terms of publishing your post in the Publish box. ') .
-		__( 'For Status, Visibility, and Publish (immediately), click on the Edit link to reveal more options. ') .
-		__( 'Visibility includes options for password-protecting a post or making it stay at the top of your blog indefinitely (sticky). ' ) .
-		__( 'Publish (immediately) allows you to set a future or past date and time, so you can schedule a post to be published in the future or backdate a post. ' ) .
-		__( 'The Password protected option allows you to set an arbitrary password for each post. ' ) .
-		__( 'The Private option hides the post from everyone except editors and administrators. ' ) .
+	$publish_box .= '<ul><li>' .
+		__( '<strong>Publish</strong> &mdash; You can set the terms of publishing your post in the Publish box. For Status, Visibility, and Publish (immediately), click on the Edit link to reveal more options. Visibility includes options for password-protecting a post or making it stay at the top of your blog indefinitely (sticky). Publish (immediately) allows you to set a future or past date and time, so you can schedule a post to be published in the future or backdate a post. The Password protected option allows you to set an arbitrary password for each post. The Private option hides the post from everyone except editors and administrators.' ) .
 	'</li>';
 
 	if ( current_theme_supports( 'post-formats' ) && post_type_supports( 'post', 'post-formats' ) ) {
