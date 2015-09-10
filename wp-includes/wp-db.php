@@ -2814,7 +2814,7 @@ class wpdb {
 				. '|REPLACE(?:\s+LOW_PRIORITY|\s+DELAYED)?(?:\s+INTO)?'
 				. '|UPDATE(?:\s+LOW_PRIORITY)?(?:\s+IGNORE)?'
 				. '|DELETE(?:\s+LOW_PRIORITY|\s+QUICK|\s+IGNORE)*(?:\s+FROM)?'
-				. ')\s+((?:[0-9a-zA-Z$_.`]|[\xC2-\xDF][\x80-\xBF])+)/is', $query, $maybe ) ) {
+				. ')\s+((?:[0-9a-zA-Z$_.`-]|[\xC2-\xDF][\x80-\xBF])+)/is', $query, $maybe ) ) {
 			return str_replace( '`', '', $maybe[1] );
 		}
 
@@ -2822,7 +2822,7 @@ class wpdb {
 		if ( preg_match( '/^\s*(?:'
 				. 'SHOW\s+TABLE\s+STATUS.+(?:LIKE\s+|WHERE\s+Name\s*=\s*)'
 				. '|SHOW\s+(?:FULL\s+)?TABLES.+(?:LIKE\s+|WHERE\s+Name\s*=\s*)'
-				. ')\W((?:[0-9a-zA-Z$_.`]|[\xC2-\xDF][\x80-\xBF])+)\W/is', $query, $maybe ) ) {
+				. ')\W((?:[0-9a-zA-Z$_.`-]|[\xC2-\xDF][\x80-\xBF])+)\W/is', $query, $maybe ) ) {
 			return str_replace( '`', '', $maybe[1] );
 		}
 
@@ -2841,7 +2841,7 @@ class wpdb {
 				. '|LOAD\s+DATA.*INFILE.*INTO\s+TABLE'
 				. '|(?:GRANT|REVOKE).*ON\s+TABLE'
 				. '|SHOW\s+(?:.*FROM|.*TABLE)'
-				. ')\s+\(*\s*((?:[0-9a-zA-Z$_.`]|[\xC2-\xDF][\x80-\xBF])+)\s*\)*/is', $query, $maybe ) ) {
+				. ')\s+\(*\s*((?:[0-9a-zA-Z$_.`-]|[\xC2-\xDF][\x80-\xBF])+)\s*\)*/is', $query, $maybe ) ) {
 			return str_replace( '`', '', $maybe[1] );
 		}
 
