@@ -37,11 +37,12 @@ function map_meta_cap( $cap, $user_id ) {
 		if ( 'edit_user' == $cap && isset( $args[0] ) && $user_id == $args[0] )
 			break;
 
-		// If multisite these caps are allowed only for super admins.
-		if ( is_multisite() && !is_super_admin( $user_id ) )
+		// In multisite the user must have manage_network_users caps. If editing a super admin, the user must be a super admin.
+		if ( is_multisite() && ( ( ! is_super_admin( $user_id ) && 'edit_user' === $cap && is_super_admin( $args[0] ) ) || ! user_can( $user_id, 'manage_network_users' ) ) ) {
 			$caps[] = 'do_not_allow';
-		else
+		} else {
 			$caps[] = 'edit_users'; // edit_user maps to edit_users.
+		}
 		break;
 	case 'delete_post':
 	case 'delete_page':
