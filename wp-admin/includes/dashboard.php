@@ -565,8 +565,6 @@ function _wp_dashboard_recent_comments_row( &$comment, $show_date = true ) {
 		$comment_post_link = $comment_post_title;
 	}
 
-	$comment_link = '<a class="comment-link" href="' . esc_url(get_comment_link()) . '">#</a>';
-
 	$actions_string = '';
 	if ( current_user_can( 'edit_comment', $comment->comment_ID ) ) {
 		// Pre-order it: Approve | Reply | Edit | Spam | Trash.
@@ -575,7 +573,8 @@ function _wp_dashboard_recent_comments_row( &$comment, $show_date = true ) {
 			'reply' => '',
 			'edit' => '',
 			'spam' => '',
-			'trash' => '', 'delete' => ''
+			'trash' => '', 'delete' => '',
+			'view' => '',
 		);
 
 		$del_nonce = esc_html( '_wpnonce=' . wp_create_nonce( "delete-comment_$comment->comment_ID" ) );
@@ -592,10 +591,16 @@ function _wp_dashboard_recent_comments_row( &$comment, $show_date = true ) {
 		$actions['edit'] = "<a href='comment.php?action=editcomment&amp;c={$comment->comment_ID}' title='" . esc_attr__('Edit comment') . "'>". __('Edit') . '</a>';
 		$actions['reply'] = '<a onclick="window.commentReply && commentReply.open(\''.$comment->comment_ID.'\',\''.$comment->comment_post_ID.'\');return false;" class="vim-r hide-if-no-js" title="'.esc_attr__('Reply to this comment').'" href="#">' . __('Reply') . '</a>';
 		$actions['spam'] = "<a href='$spam_url' data-wp-lists='delete:the-comment-list:comment-$comment->comment_ID::spam=1' class='vim-s vim-destructive' title='" . esc_attr__( 'Mark this comment as spam' ) . "'>" . /* translators: mark as spam link */ _x( 'Spam', 'verb' ) . '</a>';
-		if ( !EMPTY_TRASH_DAYS )
+
+		if ( ! EMPTY_TRASH_DAYS ) {
 			$actions['delete'] = "<a href='$delete_url' data-wp-lists='delete:the-comment-list:comment-$comment->comment_ID::trash=1' class='delete vim-d vim-destructive'>" . __('Delete Permanently') . '</a>';
-		else
+		} else {
 			$actions['trash'] = "<a href='$trash_url' data-wp-lists='delete:the-comment-list:comment-$comment->comment_ID::trash=1' class='delete vim-d vim-destructive' title='" . esc_attr__( 'Move this comment to the trash' ) . "'>" . _x('Trash', 'verb') . '</a>';
+		}
+
+		if ( '1' === $comment->comment_approved ) {
+			$actions['view'] = '<a class="comment-link" href="' . esc_url( get_comment_link() ) . '">' . _x( 'View', 'verb' ) . '</a>';
+		}
 
 		/**
 		 * Filter the action links displayed for each comment in the 'Recent Comments'
@@ -634,7 +639,7 @@ function _wp_dashboard_recent_comments_row( &$comment, $show_date = true ) {
 			<div class="dashboard-comment-wrap has-row-actions">
 			<h4 class="comment-meta">
 				<?php printf( /* translators: 1: comment author, 2: post link, 3: notification if the comment is pending */__( 'From %1$s on %2$s%3$s' ),
-					'<cite class="comment-author">' . get_comment_author_link() . '</cite>', $comment_post_link.' '.$comment_link, ' <span class="approve">' . __( '[Pending]' ) . '</span>' ); ?>
+					'<cite class="comment-author">' . get_comment_author_link() . '</cite>', $comment_post_link, ' <span class="approve">' . __( '[Pending]' ) . '</span>' ); ?>
 			</h4>
 
 			<?php
@@ -653,7 +658,7 @@ function _wp_dashboard_recent_comments_row( &$comment, $show_date = true ) {
 			?>
 			<div class="dashboard-comment-wrap has-row-actions">
 			<?php /* translators: %1$s is type of comment, %2$s is link to the post */ ?>
-			<h4 class="comment-meta"><?php printf( _x( '%1$s on %2$s', 'dashboard' ), "<strong>$type</strong>", $comment_post_link." ".$comment_link ); ?></h4>
+			<h4 class="comment-meta"><?php printf( _x( '%1$s on %2$s', 'dashboard' ), "<strong>$type</strong>", $comment_post_link ); ?></h4>
 			<p class="comment-author"><?php comment_author_link(); ?></p>
 
 			<?php endif; // comment_type ?>
