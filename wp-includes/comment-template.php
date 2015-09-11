@@ -1672,7 +1672,7 @@ function comment_form_title( $noreplytext = false, $replytext = false, $linktopa
 		echo $noreplytext;
 	else {
 		$comment = get_comment($replytoid);
-		$author = ( $linktoparent ) ? '<a href="#comment-' . get_comment_ID() . '">' . get_comment_author() . '</a>' : get_comment_author();
+		$author = ( $linktoparent ) ? '<a href="#comment-' . get_comment_ID() . '">' . get_comment_author( $comment ) . '</a>' : get_comment_author( $comment );
 		printf( $replytext, $author );
 	}
 }

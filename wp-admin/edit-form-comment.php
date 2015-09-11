@@ -121,7 +121,7 @@ if ( $comment->comment_parent ) :
 	$parent      = get_comment( $comment->comment_parent );
 	if ( $parent ) :
 		$parent_link = esc_url( get_comment_link( $comment->comment_parent ) );
-		$name        = get_comment_author( $parent->comment_ID );
+		$name        = get_comment_author( $parent );
 	?>
 	<div class="misc-pub-section misc-pub-reply-to">
 		<?php printf(
