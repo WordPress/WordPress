@@ -538,6 +538,9 @@ function upgrade_all() {
 	if ( $wp_current_db_version < 33056 )
 		upgrade_431();
 
+	if ( $wp_current_db_version < 34030 )
+		upgrade_440();
+
 	maybe_disable_link_manager();
 
 	maybe_disable_automattic_widgets();
@@ -1592,6 +1595,22 @@ function upgrade_431() {
 	if ( isset( $cron_array['wp_batch_split_terms'] ) ) {
 		unset( $cron_array['wp_batch_split_terms'] );
 		_set_cron_array( $cron_array );
+	}
+}
+
+/**
+ * Executes changes made in WordPress 4.4.0.
+ *
+ * @since 4.4.0
+ *
+ * @global int  $wp_current_db_version Current version.
+ * @global wpdb $wpdb                  WordPress database abstraction object.
+ */
+function upgrade_440() {
+	global $wp_current_db_version, $wpdb;
+
+	if ( $wp_current_db_version < 34030 ) {
+		$wpdb->query( "ALTER TABLE {$wpdb->options} MODIFY option_name VARCHAR(191)" );
 	}
 }
 

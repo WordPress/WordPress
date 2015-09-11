@@ -135,7 +135,7 @@ CREATE TABLE $wpdb->links (
 ) $charset_collate;
 CREATE TABLE $wpdb->options (
   option_id bigint(20) unsigned NOT NULL auto_increment,
-  option_name varchar(64) NOT NULL default '',
+  option_name varchar(191) NOT NULL default '',
   option_value longtext NOT NULL,
   autoload varchar(20) NOT NULL default 'yes',
   PRIMARY KEY  (option_id),
