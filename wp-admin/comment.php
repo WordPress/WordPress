@@ -193,7 +193,7 @@ if ( $comment->comment_approved != '0' ) { // if not unapproved
 	<?php
 		/* translators: 2: comment date, 3: comment time */
 		printf( __( '<a href="%1$s">%2$s at %3$s</a>' ),
-			esc_url( get_comment_link( $comment->comment_ID ) ),
+			esc_url( get_comment_link( $comment ) ),
 			/* translators: comment date format. See http://php.net/date */
 			get_comment_date( __( 'Y/m/d' ), $comment ),
 			get_comment_date( get_option( 'time_format' ), $comment )

@@ -1472,7 +1472,7 @@ function wp_notify_postauthor( $comment_id, $deprecated = null ) {
 			break;
 	}
 	$notify_message .= get_permalink($comment->comment_post_ID) . "#comments\r\n\r\n";
-	$notify_message .= sprintf( __('Permalink: %s'), get_comment_link( $comment_id ) ) . "\r\n";
+	$notify_message .= sprintf( __('Permalink: %s'), get_comment_link( $comment ) ) . "\r\n";
 
 	if ( user_can( $post->post_author, 'edit_comment', $comment_id ) ) {
 		if ( EMPTY_TRASH_DAYS )

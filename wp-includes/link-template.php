@@ -1285,7 +1285,7 @@ function get_delete_post_link( $id = 0, $deprecated = '', $force_delete = false 
  *
  * @since 2.3.0
  *
- * @param int $comment_id Optional. Comment ID.
+ * @param int|WP_Comment $comment_id Optional. Comment ID or WP_Comment object.
  * @return string|void The edit comment link URL for the given comment.
  */
 function get_edit_comment_link( $comment_id = 0 ) {
@@ -1326,7 +1326,7 @@ function edit_comment_link( $text = null, $before = '', $after = '' ) {
 		$text = __( 'Edit This' );
 	}
 
-	$link = '<a class="comment-edit-link" href="' . get_edit_comment_link( $comment->comment_ID ) . '">' . $text . '</a>';
+	$link = '<a class="comment-edit-link" href="' . get_edit_comment_link( $comment ) . '">' . $text . '</a>';
 
 	/**
 	 * Filter the comment edit link anchor tag.

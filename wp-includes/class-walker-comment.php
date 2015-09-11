@@ -229,7 +229,7 @@ class Walker_Comment extends Walker {
 ?>
 		<<?php echo $tag; ?> id="comment-<?php comment_ID(); ?>" <?php comment_class( '', $comment ); ?>>
 			<div class="comment-body">
-				<?php _e( 'Pingback:' ); ?> <?php comment_author_link(); ?> <?php edit_comment_link( __( 'Edit' ), '<span class="edit-link">', '</span>' ); ?>
+				<?php _e( 'Pingback:' ); ?> <?php comment_author_link( $comment ); ?> <?php edit_comment_link( __( 'Edit' ), '<span class="edit-link">', '</span>' ); ?>
 			</div>
 <?php
 	}
@@ -268,7 +268,7 @@ class Walker_Comment extends Walker {
 		<br />
 		<?php endif; ?>
 
-		<div class="comment-meta commentmetadata"><a href="<?php echo esc_url( get_comment_link( $comment->comment_ID, $args ) ); ?>">
+		<div class="comment-meta commentmetadata"><a href="<?php echo esc_url( get_comment_link( $comment, $args ) ); ?>">
 			<?php
 				/* translators: 1: comment date, 2: comment time */
 				printf( __( '%1$s at %2$s' ), get_comment_date( '', $comment ),  get_comment_time() ); ?></a><?php edit_comment_link( __( '(Edit)' ), '&nbsp;&nbsp;', '' );
@@ -317,7 +317,7 @@ class Walker_Comment extends Walker {
 					</div><!-- .comment-author -->
 
 					<div class="comment-metadata">
-						<a href="<?php echo esc_url( get_comment_link( $comment->comment_ID, $args ) ); ?>">
+						<a href="<?php echo esc_url( get_comment_link( $comment, $args ) ); ?>">
 							<time datetime="<?php comment_time( 'c' ); ?>">
 								<?php
 									/* translators: 1: comment date, 2: comment time */
