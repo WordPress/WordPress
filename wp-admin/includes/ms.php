@@ -185,6 +185,10 @@ function wpmu_delete_blog( $blog_id, $drop = false ) {
 function wpmu_delete_user( $id ) {
 	global $wpdb;
 
+	if ( ! is_numeric( $id ) ) {
+		return false;
+	}
+
 	$id = (int) $id;
 	$user = new WP_User( $id );
 

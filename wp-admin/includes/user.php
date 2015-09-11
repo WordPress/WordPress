@@ -273,6 +273,10 @@ function get_users_drafts( $user_id ) {
 function wp_delete_user( $id, $reassign = null ) {
 	global $wpdb;
 
+	if ( ! is_numeric( $id ) ) {
+		return false;
+	}
+
 	$id = (int) $id;
 	$user = new WP_User( $id );
 
