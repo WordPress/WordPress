@@ -2182,13 +2182,19 @@
 		 * @param {object} attachment
 		 */
 		setImageFromAttachment: function( attachment ) {
-			var icon = typeof attachment.sizes['site_icon-32'] !== 'undefined' ? attachment.sizes['site_icon-32'] : attachment.sizes.thumbnail;
+			var sizes = [ 'site_icon-32', 'thumbnail', 'full' ],
+				icon;
+
+			_.each( sizes, function( size ) {
+				if ( ! icon && ! _.isUndefined ( attachment.sizes[ size ] ) ) {
+					icon = attachment.sizes[ size ];
+				}
+			} );
 
 			this.params.attachment = attachment;
 
 			// Set the Customizer setting; the callback takes care of rendering.
 			this.setting( attachment.id );
-
 
 			// Update the icon in-browser.
 			$( 'link[sizes="32x32"]' ).attr( 'href', icon.url );
