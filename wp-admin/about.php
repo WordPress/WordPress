@@ -86,7 +86,7 @@ $tech_features = array(
 	array(
 		'heading'     => __( 'Template Hierarchy' ),
 		/* Translators: 1: singular.php; 2: single.php; 3:page.php */
-		'description' => sprintf( __( 'Added %1$s as a fallback for %2$s and %3$s' ), '<code>singular.php</code>', '<code>single.php</code>', '<code>page.php</code>.' ),
+		'description' => sprintf( __( 'Added %1$s as a fallback for %2$s and %3$s' ), '<code>singular.php</code>', '<code>single.php</code>', '<code>page.php</code>' ),
 	),
 	array(
 		'heading'     => '<code>WP_List_Table</code>',
