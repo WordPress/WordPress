@@ -556,13 +556,12 @@ function wp_dashboard_recent_drafts( $drafts = false ) {
 function _wp_dashboard_recent_comments_row( &$comment, $show_date = true ) {
 	$GLOBALS['comment'] =& $comment;
 
-	$comment_post_title = _draft_or_post_title( $comment->comment_post_ID );
-
-	if ( current_user_can( 'edit_post', $comment->comment_post_ID ) ) {
+	if ( $comment->comment_post_ID > 0 && current_user_can( 'edit_post', $comment->comment_post_ID ) ) {
+		$comment_post_title = _draft_or_post_title( $comment->comment_post_ID );
 		$comment_post_url = get_edit_post_link( $comment->comment_post_ID );
 		$comment_post_link = "<a href='$comment_post_url'>$comment_post_title</a>";
 	} else {
-		$comment_post_link = $comment_post_title;
+		$comment_post_link = '';
 	}
 
 	$actions_string = '';
@@ -599,7 +598,7 @@ function _wp_dashboard_recent_comments_row( &$comment, $show_date = true ) {
 		}
 
 		if ( '1' === $comment->comment_approved ) {
-			$actions['view'] = '<a class="comment-link" href="' . esc_url( get_comment_link() ) . '">' . _x( 'View', 'verb' ) . '</a>';
+			$actions['view'] = '<a class="comment-link" href="' . esc_url( get_comment_link( $comment ) ) . '">' . _x( 'View', 'verb' ) . '</a>';
 		}
 
 		/**
@@ -630,7 +629,7 @@ function _wp_dashboard_recent_comments_row( &$comment, $show_date = true ) {
 
 ?>
 
-		<div id="comment-<?php echo $comment->comment_ID; ?>" <?php comment_class( array( 'comment-item', wp_get_comment_status($comment->comment_ID) ) ); ?>>
+		<div id="comment-<?php echo $comment->comment_ID; ?>" <?php comment_class( array( 'comment-item', wp_get_comment_status( $comment ) ) ); ?>>
 
 			<?php echo get_avatar( $comment, 50, 'mystery' ); ?>
 
@@ -638,8 +637,24 @@ function _wp_dashboard_recent_comments_row( &$comment, $show_date = true ) {
 
 			<div class="dashboard-comment-wrap has-row-actions">
 			<h4 class="comment-meta">
-				<?php printf( /* translators: 1: comment author, 2: post link, 3: notification if the comment is pending */__( 'From %1$s on %2$s%3$s' ),
-					'<cite class="comment-author">' . get_comment_author_link() . '</cite>', $comment_post_link, ' <span class="approve">' . __( '[Pending]' ) . '</span>' ); ?>
+				<?php
+				if ( $comment_post_link ) {
+					printf(
+						/* translators: 1: comment author, 2: post link, 3: notification if the comment is pending */
+						__( 'From %1$s on %2$s%3$s' ),
+						'<cite class="comment-author">' . get_comment_author_link( $comment ) . '</cite>',
+						$comment_post_link,
+						' <span class="approve">' . __( '[Pending]' ) . '</span>'
+					);
+				} else {
+					printf(
+						/* translators: 1: comment author, 2: notification if the comment is pending */
+						__( 'From %1$s %2$s' ),
+						'<cite class="comment-author">' . get_comment_author_link( $comment ) . '</cite>',
+						' <span class="approve">' . __( '[Pending]' ) . '</span>'
+					);
+				}
+				?>
 			</h4>
 
 			<?php
@@ -659,14 +674,15 @@ function _wp_dashboard_recent_comments_row( &$comment, $show_date = true ) {
 			<div class="dashboard-comment-wrap has-row-actions">
 			<?php /* translators: %1$s is type of comment, %2$s is link to the post */ ?>
 			<h4 class="comment-meta"><?php printf( _x( '%1$s on %2$s', 'dashboard' ), "<strong>$type</strong>", $comment_post_link ); ?></h4>
-			<p class="comment-author"><?php comment_author_link(); ?></p>
+			<p class="comment-author"><?php comment_author_link( $comment ); ?></p>
 
 			<?php endif; // comment_type ?>
-			<blockquote><p><?php comment_excerpt(); ?></p></blockquote>
+			<blockquote><p><?php comment_excerpt( $comment ); ?></p></blockquote>
 			<p class="row-actions"><?php echo $actions_string; ?></p>
 			</div>
 		</div>
 <?php
+	$GLOBALS['comment'] = null;
 }
 
 /**
