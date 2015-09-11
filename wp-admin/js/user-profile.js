@@ -153,7 +153,7 @@
 			$cancelButton;
 
 		$pass1Row = $('.user-pass1-wrap');
-		$pass1Label = $pass1Row.find('th label');
+		$pass1Label = $pass1Row.find('th label').attr( 'for', 'pass1-text' );
 
 		// hide this
 		$('.user-pass2-wrap').hide();
