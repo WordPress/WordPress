@@ -405,7 +405,7 @@ ul.add-menu-item-tabs li {
 
 .quick-search-wrap .spinner {
 	float: none;
-	margin: 0 5px;
+	margin: -3px -10px 0 0;
 }
 
 .nav-menus-php .list-wrap {
