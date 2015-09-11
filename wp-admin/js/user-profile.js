@@ -6,6 +6,7 @@
 		$pass1Wrap,
 		$pass1,
 		$pass1Text,
+		$pass1Label,
 
 		$pass2,
 
@@ -107,6 +108,8 @@
 
 				$pass1Text.focus();
 
+				$pass1Label.attr( 'for', 'pass1-text' );
+
 				if ( ! _.isUndefined( $pass1Text[0].setSelectionRange ) ) {
 					$pass1Text[0].setSelectionRange( 0, 100 );
 				}
@@ -126,6 +129,8 @@
 
 				$pass1.focus();
 
+				$pass1Label.attr( 'for', 'pass1' );
+
 				if ( ! _.isUndefined( $pass1[0].setSelectionRange ) ) {
 					$pass1[0].setSelectionRange( 0, 100 );
 				}
@@ -139,6 +144,8 @@
 			$cancelButton;
 
 		$pass1Row = $('.user-pass1-wrap');
+		$pass1Label = $pass1Row.find('th label').attr( 'for', 'pass1-text' );
+
 		// hide this
 		$('.user-pass2-wrap').hide();
 
