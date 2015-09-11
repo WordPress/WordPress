@@ -61,14 +61,16 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 	} );
 
 	editor.once( 'preinit', function() {
-		toolbar = editor.wp._createToolbar( [
-			'wp_img_alignleft',
-			'wp_img_aligncenter',
-			'wp_img_alignright',
-			'wp_img_alignnone',
-			'wp_img_edit',
-			'wp_img_remove'
-		] );
+		if ( editor.wp && editor.wp._createToolbar ) {
+			toolbar = editor.wp._createToolbar( [
+				'wp_img_alignleft',
+				'wp_img_aligncenter',
+				'wp_img_alignright',
+				'wp_img_alignnone',
+				'wp_img_edit',
+				'wp_img_remove'
+			] );
+		}
 	} );
 
 	editor.on( 'wptoolbar', function( event ) {
@@ -88,7 +90,7 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 					editor.selection.select( node );
 					editor.nodeChanged();
 				}, 200 );
-			} else {
+			} else if ( toolbar ) {
 				toolbar.hide();
 			}
 		} );
