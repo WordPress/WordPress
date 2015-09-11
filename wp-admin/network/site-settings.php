@@ -48,7 +48,7 @@ if ( !can_edit_network( $details->site_id ) )
 
 $is_main_site = is_main_site( $id );
 
-if ( isset($_REQUEST['action']) && 'update-site' == $_REQUEST['action'] && is_array( $_POST['option'] ) ) {
+if ( wp_validate_action( 'update-site' ) && is_array( $_POST['option'] ) ) {
 	check_admin_referer( 'edit-site' );
 
 	switch_to_blog( $id );

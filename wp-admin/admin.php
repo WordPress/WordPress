@@ -358,14 +358,16 @@ if ( isset($plugin_page) ) {
 	}
 }
 
-if ( ! empty( $_REQUEST['action'] ) ) {
+$_action = wp_validate_action();
+if ( ! empty( $_action ) ) {
 	/**
 	 * Fires when an 'action' request variable is sent.
 	 *
-	 * The dynamic portion of the hook name, `$_REQUEST['action']`,
+	 * The dynamic portion of the hook name, `$_action`,
 	 * refers to the action derived from the `GET` or `POST` request.
 	 *
 	 * @since 2.6.0
 	 */
-	do_action( 'admin_action_' . $_REQUEST['action'] );
+	do_action( 'admin_action_' . $_action );
 }
+unset( $_action );

@@ -29,7 +29,7 @@ if ( is_multisite() ) {
 	add_filter( 'wpmu_signup_user_notification_email', 'admin_created_user_email' );
 }
 
-if ( isset($_REQUEST['action']) && 'adduser' == $_REQUEST['action'] ) {
+if ( wp_validate_action( 'adduser' ) ) {
 	check_admin_referer( 'add-user', '_wpnonce_add-user' );
 
 	$user_details = null;
@@ -101,7 +101,7 @@ Please click the following link to confirm the invite:
 	}
 	wp_redirect( $redirect );
 	die();
-} elseif ( isset($_REQUEST['action']) && 'createuser' == $_REQUEST['action'] ) {
+} elseif ( wp_validate_action( 'createuser' ) ) {
 	check_admin_referer( 'create-user', '_wpnonce_create-user' );
 
 	if ( ! current_user_can( 'create_users' ) ) {
