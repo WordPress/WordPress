@@ -52,7 +52,7 @@ if ( post_password_required($post) ) {  // and it doesn't match the cookie
 <?php foreach ($comments as $comment) { ?>
 	<li id="comment-<?php comment_ID() ?>">
 	<?php comment_text() ?>
-	<p><cite><?php comment_type(); ?> <?php printf(__('by %1$s &#8212; %2$s @ <a href="#comment-%3$s">%4$s</a>'), get_comment_author_link( $comment ), get_comment_date(), get_comment_ID(), get_comment_time()); ?></cite></p>
+	<p><cite><?php comment_type(); ?> <?php printf(__('by %1$s &#8212; %2$s @ <a href="#comment-%3$s">%4$s</a>'), get_comment_author_link( $comment ), get_comment_date( '', $comment ), get_comment_ID(), get_comment_time()); ?></cite></p>
 	</li>
 
 <?php } // end for each comment ?>
