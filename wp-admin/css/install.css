@@ -168,6 +168,7 @@ submit {
 	font-weight: normal;
 }
 
+.form-table.install-success th,
 .form-table.install-success td {
 	vertical-align: middle;
 	padding: 16px 20px 16px 0;
