@@ -1691,13 +1691,16 @@ if ( !function_exists('wp_new_user_notification') ) :
  * @since 2.0.0
  * @since 4.3.0 The `$plaintext_pass` parameter was changed to `$notify`.
  *
+ * @global wpdb         $wpdb      WordPress database object for queries.
+ * @global PasswordHash $wp_hasher Portable PHP password hashing framework instance.
+ *
  * @param int    $user_id User ID.
  * @param string $notify  Optional. Type of notification that should happen. Accepts 'admin' or an empty
  *                        string (admin only), or 'both' (admin and user). The empty string value was kept
  *                        for backward-compatibility purposes with the renamed parameter. Default empty.
  */
 function wp_new_user_notification( $user_id, $notify = '' ) {
-	global $wpdb;
+	global $wpdb, $wp_hasher;
 	$user = get_userdata( $user_id );
 
 	// The blogname option is escaped with esc_html on the way into the database in sanitize_option
