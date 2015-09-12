@@ -532,11 +532,7 @@ class WP_List_Table {
 		if ( ! isset( $_GET['post_status'] ) || 'trash' !== $_GET['post_status'] ) {
 			$extra_checks .= " AND post_status != 'trash'";
 		} elseif ( isset( $_GET['post_status'] ) ) {
-			$stati = explode( ',', $_GET['post_status'] );
-			$extra_checks = '';
-			foreach ( $stati as $status ) {
-				$extra_checks .= $wpdb->prepare( ' AND post_status = %s', $status );
-			}
+			$extra_checks = $wpdb->prepare( ' AND post_status = %s', $_GET['post_status'] );
 		}
 
 		$months = $wpdb->get_results( $wpdb->prepare( "
