@@ -285,7 +285,7 @@ th .comment-grey-bubble:before {
 ------------------------------------------------------------------------------*/
 
 table.fixed {
-	table-layout: fixed;
+	table-layout: auto;
 }
 
 .fixed .column-rating,
