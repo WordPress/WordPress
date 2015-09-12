@@ -703,7 +703,8 @@ function get_comment_link( $comment = null, $args = array() ) {
  * @return string The link to the comments.
  */
 function get_comments_link( $post_id = 0 ) {
-	$comments_link = get_permalink( $post_id ) . '#comments';
+	$hash = get_comments_number( $post_id ) ? '#comments' : '#respond';
+	$comments_link = get_permalink( $post_id ) . $hash;
 	/**
 	 * Filter the returned post comments permalink.
 	 *
