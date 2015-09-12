@@ -498,8 +498,8 @@ function wp_comment_reply( $position = 1, $checkbox = false, $mode = 'single', $
 	<div id="addhead" style="display:none;"><h5><?php _e('Add new Comment'); ?></h5></div>
 	<div id="edithead" style="display:none;">
 		<div class="inside">
-		<label for="author"><?php _e('Name') ?></label>
-		<input type="text" name="newcomment_author" size="50" value="" id="author" />
+		<label for="author-name"><?php _e( 'Name' ) ?></label>
+		<input type="text" name="newcomment_author" size="50" value="" id="author-name" />
 		</div>
 
 		<div class="inside">
