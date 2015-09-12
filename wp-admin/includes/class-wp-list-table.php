@@ -528,10 +528,22 @@ class WP_List_Table {
 			return;
 		}
 
+		$extra_checks = "AND post_status != 'auto-draft'";
+		if ( ! isset( $_GET['post_status'] ) || 'trash' !== $_GET['post_status'] ) {
+			$extra_checks .= " AND post_status != 'trash'";
+		} elseif ( isset( $_GET['post_status'] ) ) {
+			$stati = explode( ',', $_GET['post_status'] );
+			$extra_checks = '';
+			foreach ( $stati as $status ) {
+				$extra_checks .= $wpdb->prepare( ' AND post_status = %s', $status );
+			}
+		}
+
 		$months = $wpdb->get_results( $wpdb->prepare( "
 			SELECT DISTINCT YEAR( post_date ) AS year, MONTH( post_date ) AS month
 			FROM $wpdb->posts
 			WHERE post_type = %s
+			$extra_checks
 			ORDER BY post_date DESC
 		", $post_type ) );
 
@@ -1118,7 +1130,8 @@ class WP_List_Table {
 	protected function display_tablenav( $which ) {
 		if ( 'top' == $which )
 			wp_nonce_field( 'bulk-' . $this->_args['plural'] );
-?>
+
+		if ( $this->has_items() ) : ?>
 	<div class="tablenav <?php echo esc_attr( $which ); ?>">
 
 		<div class="alignleft actions bulkactions">
@@ -1132,6 +1145,7 @@ class WP_List_Table {
 		<br class="clear" />
 	</div>
 <?php
+		endif;
 	}
 
 	/**
