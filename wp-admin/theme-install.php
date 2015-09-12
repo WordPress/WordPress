@@ -45,7 +45,7 @@ wp_localize_script( 'theme', '_wpThemeSettings', array(
 	'l10n' => array(
 		'addNew' => __( 'Add New Theme' ),
 		'search' => __( 'Search Themes' ),
-		'searchPlaceholder' => __( 'Search themes&hellip;' ), // placeholder (no ellipsis)
+		'searchPlaceholder' => __( 'Search themes...' ), // placeholder (no ellipsis)
 		'upload' => __( 'Upload Theme' ),
 		'back'   => __( 'Back' ),
 		'error'  => __( 'An unexpected error occurred. Something may be wrong with WordPress.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="https://wordpress.org/support/">support forums</a>.' ),
