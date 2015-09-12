@@ -89,7 +89,8 @@ input#link_url {
 	margin-top: -1px;
 }
 
-#edit-slug-box {
+#edit-slug-box,
+#comment-link-box {
 	line-height: 24px;
 	min-height: 25px; /* Yes, line-height + 1 */
 	margin-top: 5px;
@@ -100,6 +101,11 @@ input#link_url {
 #edit-slug-box .cancel {
 	margin-right: 10px;
 	font-size: 11px;
+}
+
+#comment-link-box {
+	margin: 5px 0;
+	padding: 0 5px;
 }
 
 #editable-post-name-full {
