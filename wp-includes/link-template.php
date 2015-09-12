@@ -1492,9 +1492,6 @@ function get_adjacent_post( $in_same_term = false, $excluded_terms = '', $previo
 	$where = '';
 
 	if ( $in_same_term || ! empty( $excluded_terms ) ) {
-		$join = " INNER JOIN $wpdb->term_relationships AS tr ON p.ID = tr.object_id INNER JOIN $wpdb->term_taxonomy tt ON tr.term_taxonomy_id = tt.term_taxonomy_id";
-		$where = $wpdb->prepare( "AND tt.taxonomy = %s", $taxonomy );
-
 		if ( ! empty( $excluded_terms ) && ! is_array( $excluded_terms ) ) {
 			// back-compat, $excluded_terms used to be $excluded_terms with IDs separated by " and "
 			if ( false !== strpos( $excluded_terms, ' and ' ) ) {
@@ -1508,6 +1505,9 @@ function get_adjacent_post( $in_same_term = false, $excluded_terms = '', $previo
 		}
 
 		if ( $in_same_term ) {
+			$join .= " INNER JOIN $wpdb->term_relationships AS tr ON p.ID = tr.object_id INNER JOIN $wpdb->term_taxonomy tt ON tr.term_taxonomy_id = tt.term_taxonomy_id";
+			$where .= $wpdb->prepare( "AND tt.taxonomy = %s", $taxonomy );
+
 			if ( ! is_object_in_taxonomy( $post->post_type, $taxonomy ) )
 				return '';
 			$term_array = wp_get_object_terms( $post->ID, $taxonomy, array( 'fields' => 'ids' ) );
