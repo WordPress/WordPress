@@ -291,8 +291,11 @@ function get_comment_guid($comment_id = null) {
  * Display the link to the comments.
  *
  * @since 1.5.0
+ * @since 4.4.0 Introduced the `$comment` argument.
+ *
+ * @param int|WP_Comment $comment Optional comment object or id. Defaults to global comment object.
  */
-function comment_link() {
+function comment_link( $comment = null ) {
 	/**
 	 * Filter the current comment's permalink.
 	 *
@@ -302,7 +305,7 @@ function comment_link() {
 	 *
 	 * @param string $comment_permalink The current comment permalink.
 	 */
-	echo esc_url( apply_filters( 'comment_link', get_comment_link() ) );
+	echo esc_url( apply_filters( 'comment_link', get_comment_link( $comment ) ) );
 }
 
 /**
