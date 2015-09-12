@@ -548,8 +548,8 @@ class WP_Meta_Query {
 		$meta_type  = $this->get_cast_for_type( $_meta_type );
 		$clause['cast'] = $meta_type;
 
-		// Fallback for clause keys is the table alias.
-		if ( ! $clause_key ) {
+		// Fallback for clause keys is the table alias. Key must be a string.
+		if ( is_int( $clause_key ) || ! $clause_key ) {
 			$clause_key = $clause['alias'];
 		}
 

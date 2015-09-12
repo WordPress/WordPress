@@ -2280,7 +2280,7 @@ class WP_Query {
 			$allowed_keys   = array_merge( $allowed_keys, array_keys( $meta_clauses ) );
 		}
 
-		if ( ! in_array( $orderby, $allowed_keys ) ) {
+		if ( ! in_array( $orderby, $allowed_keys, true ) ) {
 			return false;
 		}
 
