@@ -1,7 +1,7 @@
 === Twenty Fourteen ===
 Contributors: the WordPress team
 Requires at least: WordPress 3.6
-Tested up to: WordPress 4.3-trunk
+Tested up to: WordPress 4.4-trunk
 Stable tag: 1.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
