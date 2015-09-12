@@ -2773,7 +2773,7 @@ img {
 }
 
 /* Theme/Plugin Editor */
-.alignleft h3 {
+.alignleft h2 {
 	margin: 0;
 }
 
@@ -2801,7 +2801,7 @@ img {
 	word-wrap: break-word;
 }
 
-#templateside h3,
+#templateside h2,
 #postcustomstuff p.submit {
 	margin: 0;
 }
