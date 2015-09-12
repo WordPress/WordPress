@@ -191,6 +191,34 @@ class WP_Posts_List_Table extends WP_List_Table {
 		} elseif ( 1 === count( $_GET ) && ! empty( $_GET['post_type'] ) ) {
 			return $this->screen->post_type === $_GET['post_type'];
 		}
+
+		return 1 === count( $_GET ) && ! empty( $_GET['mode'] );
+	}
+
+	/**
+	 * Helper to create links to `edit.php` with params
+	 *
+	 * @since 4.4.0
+	 *
+	 * @return string The formatted link string.
+	 */
+	protected function get_edit_link( $args, $label, $class = '' ) {
+		$url = add_query_arg( $args, 'edit.php' );
+
+		$class_html = '';
+		if ( ! empty( $class ) ) {
+			 $class_html = sprintf(
+				' class="%s"',
+				esc_attr( $class )
+			);
+		}
+
+		return sprintf(
+			'<a href="%s"%s>%s</a>',
+			esc_url( $url ),
+			$class_html,
+			$label
+		);
 	}
 
 	/**
@@ -210,15 +238,33 @@ class WP_Posts_List_Table extends WP_List_Table {
 		$status_links = array();
 		$num_posts = wp_count_posts( $post_type, 'readable' );
 		$class = '';
-		$allposts = '';
 
 		$current_user_id = get_current_user_id();
+		$all_args = array( 'post_type' => $post_type );
 
 		if ( $this->user_posts_count ) {
-			if ( isset( $_GET['author'] ) && ( $_GET['author'] == $current_user_id ) )
-				$class = ' class="current"';
-			$status_links['mine'] = "<a href='edit.php?post_type=$post_type&author=$current_user_id'$class>" . sprintf( _nx( 'Mine <span class="count">(%s)</span>', 'Mine <span class="count">(%s)</span>', $this->user_posts_count, 'posts' ), number_format_i18n( $this->user_posts_count ) ) . '</a>';
-			$allposts = '&all_posts=1';
+			if ( isset( $_GET['author'] ) && ( $_GET['author'] == $current_user_id ) ) {
+				$class = 'current';
+			}
+
+			$mine_args = array(
+				'post_type' => $post_type,
+				'author' => $current_user_id
+			);
+
+			$mine_inner_html = sprintf(
+				_nx(
+					'Mine <span class="count">(%s)</span>',
+					'Mine <span class="count">(%s)</span>',
+					$this->user_posts_count,
+					'posts'
+				),
+				number_format_i18n( $this->user_posts_count )
+			);
+
+			$status_links['mine'] = $this->get_edit_link( $mine_args, $mine_inner_html, $class );
+
+			$all_args['all_posts'] = 1;
 			$class = '';
 		}
 
@@ -229,7 +275,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 			$total_posts -= $num_posts->$state;
 
 		if ( empty( $class ) && ( ( $this->is_base_request() && ! $this->user_posts_count ) || isset( $_REQUEST['all_posts'] ) ) ) {
-			$class =  ' class="current"';
+			$class = 'current';
 		}
 
 		$all_inner_html = sprintf(
@@ -242,29 +288,55 @@ class WP_Posts_List_Table extends WP_List_Table {
 			number_format_i18n( $total_posts )
 		);
 
-		$status_links['all'] = "<a href='edit.php?post_type=$post_type{$allposts}'$class>" . $all_inner_html . '</a>';
+		$status_links['all'] = $this->get_edit_link( $all_args, $all_inner_html, $class );
 
 		foreach ( get_post_stati(array('show_in_admin_status_list' => true), 'objects') as $status ) {
 			$class = '';
 
 			$status_name = $status->name;
 
-			if ( !in_array( $status_name, $avail_post_stati ) )
+			if ( ! in_array( $status_name, $avail_post_stati ) || empty( $num_posts->$status_name ) ) {
 				continue;
+			}
 
-			if ( empty( $num_posts->$status_name ) )
-				continue;
+			if ( isset($_REQUEST['post_status']) && $status_name == $_REQUEST['post_status'] ) {
+				$class = 'current';
+			}
 
-			if ( isset($_REQUEST['post_status']) && $status_name == $_REQUEST['post_status'] )
-				$class = ' class="current"';
+			$status_args = array(
+				'post_status' => $status_name,
+				'post_type' => $post_type,
+			);
 
-			$status_links[$status_name] = "<a href='edit.php?post_status=$status_name&amp;post_type=$post_type'$class>" . sprintf( translate_nooped_plural( $status->label_count, $num_posts->$status_name ), number_format_i18n( $num_posts->$status_name ) ) . '</a>';
+			$status_label = sprintf(
+				translate_nooped_plural( $status->label_count, $num_posts->$status_name ),
+				number_format_i18n( $num_posts->$status_name )
+			);
+
+			$status_links[ $status_name ] = $this->get_edit_link( $status_args, $status_label, $class );
 		}
 
 		if ( ! empty( $this->sticky_posts_count ) ) {
-			$class = ! empty( $_REQUEST['show_sticky'] ) ? ' class="current"' : '';
+			$class = ! empty( $_REQUEST['show_sticky'] ) ? 'current' : '';
 
-			$sticky_link = array( 'sticky' => "<a href='edit.php?post_type=$post_type&amp;show_sticky=1'$class>" . sprintf( _nx( 'Sticky <span class="count">(%s)</span>', 'Sticky <span class="count">(%s)</span>', $this->sticky_posts_count, 'posts' ), number_format_i18n( $this->sticky_posts_count ) ) . '</a>' );
+			$sticky_args = array(
+				'post_type'	=> $post_type,
+				'show_sticky' => 1
+			);
+
+			$sticky_inner_html = sprintf(
+				_nx(
+					'Sticky <span class="count">(%s)</span>',
+					'Sticky <span class="count">(%s)</span>',
+					$this->sticky_posts_count,
+					'posts'
+				),
+				number_format_i18n( $this->sticky_posts_count )
+			);
+
+			$sticky_link = array(
+				'sticky' => $this->get_edit_link( $sticky_args, $sticky_inner_html, $class )
+			);
 
 			// Sticky comes after Publish, or if not listed, after All.
 			$split = 1 + array_search( ( isset( $status_links['publish'] ) ? 'publish' : 'all' ), array_keys( $status_links ) );
@@ -760,7 +832,14 @@ class WP_Posts_List_Table extends WP_List_Table {
 		if ( $format ) {
 			$label = get_post_format_string( $format );
 
-			echo '<a href="' . esc_url( add_query_arg( array( 'post_format' => $format, 'post_type' => $post->post_type ), 'edit.php' ) ) . '" class="post-state-format post-format-icon post-format-' . $format . '" title="' . $label . '">' . $label . ":</a> ";
+			$format_class = 'post-state-format post-format-icon post-format-' . $format;
+
+			$format_args = array(
+				'post_format' => $format,
+				'post_type' => $post->post_type
+			);
+
+			echo $this->get_edit_link( $format_args, $label . ':', $format_class );
 		}
 
 		$can_edit_post = current_user_can( 'edit_post', $post->ID );
@@ -895,10 +974,11 @@ class WP_Posts_List_Table extends WP_List_Table {
 	 * @param WP_Post $post The current WP_Post object.
 	 */
 	public function column_author( $post ) {
-		printf( '<a href="%s">%s</a>',
-			esc_url( add_query_arg( array( 'post_type' => $post->post_type, 'author' => get_the_author_meta( 'ID' ) ), 'edit.php' )),
-			get_the_author()
+		$args = array(
+			'post_type' => $post->post_type,
+			'author' => get_the_author_meta( 'ID' )
 		);
+		echo $this->get_edit_link( $args, get_the_author() );
 	}
 
 	/**
@@ -937,10 +1017,8 @@ class WP_Posts_List_Table extends WP_List_Table {
 						$posts_in_term_qv['term'] = $t->slug;
 					}
 
-					$out[] = sprintf( '<a href="%s">%s</a>',
-						esc_url( add_query_arg( $posts_in_term_qv, 'edit.php' ) ),
-						esc_html( sanitize_term_field( 'name', $t->name, $t->term_id, $taxonomy, 'display' ) )
-					);
+					$label = esc_html( sanitize_term_field( 'name', $t->name, $t->term_id, $taxonomy, 'display' ) );
+					$out[] = $this->get_edit_link( $posts_in_term_qv, $label );
 				}
 				/* translators: used between list items, there is a space after the comma */
 				echo join( __( ', ' ), $out );
