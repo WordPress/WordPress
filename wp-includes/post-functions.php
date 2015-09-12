@@ -2318,6 +2318,20 @@ function wp_delete_post( $postid = 0, $force_delete = false ) {
 		return wp_delete_attachment( $postid, $force_delete );
 
 	/**
+	 * Filter whether a post deletion should take place.
+	 *
+	 * @since 4.4.0
+	 *
+	 * @param bool    $delete       Whether to go forward with deletion.
+	 * @param WP_Post $post         Post object.
+	 * @param bool    $force_delete Whether to bypass the trash.
+	 */
+	$check = apply_filters( 'pre_delete_post', null, $post, $force_delete );
+	if ( null !== $check ) {
+		return $check;
+	}
+
+	/**
 	 * Fires before a post is deleted, at the start of wp_delete_post().
 	 *
 	 * @since 3.2.0
