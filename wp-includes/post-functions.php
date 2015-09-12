@@ -3042,7 +3042,7 @@ function wp_insert_post( $postarr, $wp_error = false ) {
 
 	// These variables are needed by compact() later.
 	$post_content_filtered = $postarr['post_content_filtered'];
-	$post_author = empty( $postarr['post_author'] ) ? $user_id : $postarr['post_author'];
+	$post_author = isset( $postarr['post_author'] ) ? $postarr['post_author'] : $user_id;
 	$ping_status = empty( $postarr['ping_status'] ) ? get_default_comment_status( $post_type, 'pingback' ) : $postarr['ping_status'];
 	$to_ping = isset( $postarr['to_ping'] ) ? sanitize_trackback_urls( $postarr['to_ping'] ) : '';
 	$pinged = isset( $postarr['pinged'] ) ? $postarr['pinged'] : '';
