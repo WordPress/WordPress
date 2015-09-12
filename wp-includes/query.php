@@ -4616,6 +4616,7 @@ class WP_Query {
 	 * Set up global post data.
 	 *
 	 * @since 4.1.0
+	 * @since 4.4.0 Added the ability to pass a post ID to `$post`.
 	 *
 	 * @global int             $id
 	 * @global WP_User         $authordata
@@ -4627,11 +4628,19 @@ class WP_Query {
 	 * @global int             $more
 	 * @global int             $numpages
 	 *
-	 * @param WP_Post $post Post data.
+	 * @param WP_Post|object|int $post WP_Post instance or Post ID/object.
 	 * @return true True when finished.
 	 */
 	public function setup_postdata( $post ) {
 		global $id, $authordata, $currentday, $currentmonth, $page, $pages, $multipage, $more, $numpages;
+
+		if ( ! ( $post instanceof WP_Post ) ) {
+			$post = get_post( $post );
+		}
+
+		if ( ! $post ) {
+			return;
+		}
 
 		$id = (int) $post->ID;
 
@@ -4701,7 +4710,7 @@ class WP_Query {
 	public function reset_postdata() {
 		if ( ! empty( $this->post ) ) {
 			$GLOBALS['post'] = $this->post;
-			setup_postdata( $this->post );
+			$this->setup_postdata( $this->post );
 		}
 	}
 }
@@ -4769,10 +4778,11 @@ function wp_old_slug_redirect() {
  * Set up global post data.
  *
  * @since 1.5.0
+ * @since 4.4.0 Added the ability to pass a post ID to `$post`.
  *
  * @global WP_Query $wp_query
  *
- * @param object $post Post data.
+ * @param WP_Post|object|int $post WP_Post instance or Post ID/object.
  * @return bool True when finished.
  */
 function setup_postdata( $post ) {
