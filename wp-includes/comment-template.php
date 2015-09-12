@@ -853,7 +853,7 @@ function get_comment_text( $comment_ID = 0, $args = array() ) {
 function comment_text( $comment_ID = 0, $args = array() ) {
 	$comment = get_comment( $comment_ID );
 
-	$comment_text = get_comment_text( $comment_ID , $args );
+	$comment_text = get_comment_text( $comment, $args );
 	/**
 	 * Filter the text of a comment to be displayed.
 	 *

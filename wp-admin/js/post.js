@@ -59,6 +59,11 @@ commentsBox = {
 		);
 
 		return false;
+	},
+
+	load: function(total){
+		this.st = jQuery('#the-comment-list tr.comment:visible').length;
+		this.get(total);
 	}
 };
 

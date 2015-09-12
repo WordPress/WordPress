@@ -690,7 +690,7 @@ function post_comment_meta_box( $post ) {
 		}
 
 		?>
-		<p class="hide-if-no-js" id="show-comments"><a href="#commentstatusdiv" onclick="commentsBox.get(<?php echo $total; ?>);return false;"><?php _e('Show comments'); ?></a> <span class="spinner"></span></p>
+		<p class="hide-if-no-js" id="show-comments"><a href="#commentstatusdiv" onclick="commentsBox.load(<?php echo $total; ?>);return false;"><?php _e('Show comments'); ?></a> <span class="spinner"></span></p>
 		<?php
 	}
 
