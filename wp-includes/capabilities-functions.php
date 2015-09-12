@@ -53,6 +53,12 @@ function map_meta_cap( $cap, $user_id ) {
 		}
 
 		$post_type = get_post_type_object( $post->post_type );
+		if ( ! $post_type ) {
+			/* translators: 1: post type, 2: capability name */
+			_doing_it_wrong( __FUNCTION__, sprintf( __( 'The post type %1$s is not registered, so it may not be reliable to check the capability "%2$s" against a post of that type.' ), $post->post_type, $cap ), '4.4.0' );
+			$caps[] = 'edit_others_posts';
+			break;
+		}
 
 		if ( ! $post_type->map_meta_cap ) {
 			$caps[] = $post_type->cap->$cap;
@@ -101,6 +107,12 @@ function map_meta_cap( $cap, $user_id ) {
 		}
 
 		$post_type = get_post_type_object( $post->post_type );
+		if ( ! $post_type ) {
+			/* translators: 1: post type, 2: capability name */
+			_doing_it_wrong( __FUNCTION__, sprintf( __( 'The post type %1$s is not registered, so it may not be reliable to check the capability "%2$s" against a post of that type.' ), $post->post_type, $cap ), '4.4.0' );
+			$caps[] = 'edit_others_posts';
+			break;
+		}
 
 		if ( ! $post_type->map_meta_cap ) {
 			$caps[] = $post_type->cap->$cap;
@@ -143,6 +155,12 @@ function map_meta_cap( $cap, $user_id ) {
 		}
 
 		$post_type = get_post_type_object( $post->post_type );
+		if ( ! $post_type ) {
+			/* translators: 1: post type, 2: capability name */
+			_doing_it_wrong( __FUNCTION__, sprintf( __( 'The post type %1$s is not registered, so it may not be reliable to check the capability "%2$s" against a post of that type.' ), $post->post_type, $cap ), '4.4.0' );
+			$caps[] = 'edit_others_posts';
+			break;
+		}
 
 		if ( ! $post_type->map_meta_cap ) {
 			$caps[] = $post_type->cap->$cap;
@@ -169,6 +187,12 @@ function map_meta_cap( $cap, $user_id ) {
 	case 'publish_post':
 		$post = get_post( $args[0] );
 		$post_type = get_post_type_object( $post->post_type );
+		if ( ! $post_type ) {
+			/* translators: 1: post type, 2: capability name */
+			_doing_it_wrong( __FUNCTION__, sprintf( __( 'The post type %1$s is not registered, so it may not be reliable to check the capability "%2$s" against a post of that type.' ), $post->post_type, $cap ), '4.4.0' );
+			$caps[] = 'edit_others_posts';
+			break;
+		}
 
 		$caps[] = $post_type->cap->publish_posts;
 		break;
