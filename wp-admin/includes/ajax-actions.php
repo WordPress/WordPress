@@ -1011,6 +1011,10 @@ function wp_ajax_replyto_comment( $action ) {
 		$parent = get_comment( $comment_parent );
 
 		if ( $parent && $parent->comment_approved === '0' && $parent->comment_post_ID == $comment_post_ID ) {
+			if ( ! current_user_can( 'edit_comment', $parent->comment_ID ) ) {
+				wp_die( -1 );
+			}
+
 			if ( wp_set_comment_status( $parent->comment_ID, 'approve' ) )
 				$comment_auto_approved = true;
 		}
