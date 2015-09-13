@@ -1210,8 +1210,9 @@ function get_edit_post_link( $id = 0, $context = 'display' ) {
  * @param string $before Optional. Display before edit link.
  * @param string $after  Optional. Display after edit link.
  * @param int    $id     Optional. Post ID.
+ * @param string $class  Optional. Add custom class to link.
  */
-function edit_post_link( $text = null, $before = '', $after = '', $id = 0 ) {
+function edit_post_link( $text = null, $before = '', $after = '', $id = 0, $class = 'post-edit-link' ) {
 	if ( ! $post = get_post( $id ) ) {
 		return;
 	}
@@ -1224,7 +1225,7 @@ function edit_post_link( $text = null, $before = '', $after = '', $id = 0 ) {
 		$text = __( 'Edit This' );
 	}
 
-	$link = '<a class="post-edit-link" href="' . $url . '">' . $text . '</a>';
+	$link = '<a class="' . $class . '" href="' . $url . '">' . $text . '</a>';
 
 	/**
 	 * Filter the post edit link anchor tag.
