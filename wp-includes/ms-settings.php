@@ -87,7 +87,7 @@ if ( !isset( $current_site ) || !isset( $current_blog ) ) {
 			}
 		}
 		if ( empty( $current_site ) ) {
-			$current_site = get_network_by_path( $domain, $path, 1 );
+			$current_site = WP_Network::get_by_path( $domain, $path, 1 );
 		}
 
 		if ( empty( $current_site ) ) {
@@ -118,7 +118,7 @@ if ( !isset( $current_site ) || !isset( $current_blog ) ) {
 			$current_site = WP_Network::get_instance( $current_blog->site_id ? $current_blog->site_id : 1 );
 		} else {
 			// If you don't have a site with the same domain/path as a network, you're pretty screwed, but:
-			$current_site = get_network_by_path( $domain, $path, 1 );
+			$current_site = WP_Network::get_by_path( $domain, $path, 1 );
 		}
 	}
 
