@@ -258,20 +258,16 @@ function get_network_by_path( $domain, $path, $segments = null ) {
  * Retrieve an object containing information about the requested network.
  *
  * @since 3.9.0
- *
- * @global wpdb $wpdb
+ * @since 4.4.0 Converted to leverage WP_Network
  *
  * @param object|int $network The network's database row or ID.
- * @return object|false Object containing network information if found, false if not.
+ * @return WP_Network|false Object containing network information if found, false if not.
  */
 function wp_get_network( $network ) {
-	global $wpdb;
-
 	if ( ! is_object( $network ) ) {
-		$network = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $wpdb->site WHERE id = %d", $network ) );
-		if ( ! $network ) {
-			return false;
-		}
+		$network = WP_Network::get_instance( $network );
+	} else {
+		$network = new WP_Network( $network );
 	}
 
 	return $network;
