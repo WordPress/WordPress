@@ -1099,16 +1099,24 @@ final class WP_Screen {
 	 *
 	 * @since 3.3.0
 	 *
+	 * @param array $options {
+	 *     @type bool $wrap  Whether the screen-options-wrap div will be included. Defaults to true.
+	 * }
 	 * @global array $wp_meta_boxes
 	 */
-	public function render_screen_options() {
+	public function render_screen_options( $options = array() ) {
 		global $wp_meta_boxes;
+		$options = wp_parse_args( $options, array(
+			'wrap' => true,
+		) );
 
 		$columns = get_column_headers( $this );
 		$hidden  = get_hidden_columns( $this );
 
 		?>
-		<div id="screen-options-wrap" class="hidden" tabindex="-1" aria-label="<?php esc_attr_e('Screen Options Tab'); ?>">
+		<?php if ( $options['wrap'] ) : ?>
+			<div id="screen-options-wrap" class="hidden" tabindex="-1" aria-label="<?php esc_attr_e('Screen Options Tab'); ?>">
+		<?php endif; ?>
 		<form id="adv-settings" method="post">
 		<?php if ( isset( $wp_meta_boxes[ $this->id ] ) || $this->get_option( 'per_page' ) || ( $columns && empty( $columns['_title'] ) ) ) : ?>
 			<h5><?php _e( 'Show on screen' ); ?></h5>
@@ -1171,8 +1179,9 @@ final class WP_Screen {
 		?>
 		<div><?php wp_nonce_field( 'screen-options-nonce', 'screenoptionnonce', false ); ?></div>
 		</form>
-		</div>
-		<?php
+		<?php if ( $options['wrap'] ) : ?>
+			</div>
+		<?php endif;
 	}
 
 	/**
