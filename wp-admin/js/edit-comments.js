@@ -634,6 +634,8 @@ commentReply = {
 		act = 'edit' == action ? 'edit' : 'replyto';
 		act = t.act = act + '-comment';
 
+		$( 'td', editRow ).attr( 'colspan', $( 'th:visible, td:visible', c ).length );
+
 		$('#action', editRow).val(act);
 		$('#comment_post_ID', editRow).val(post_id);
 		$('#comment_ID', editRow).val(comment_id);
