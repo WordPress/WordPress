@@ -1820,7 +1820,8 @@ div.action-links,
 		text-align: right;
 	}
 
-	#comments-form .fixed .column-author {
+	#comments-form .fixed .column-author,
+	#commentsdiv .fixed .column-author {
 		display: none !important;
 	}
 
@@ -1972,6 +1973,22 @@ div.action-links,
 
 	.inline-edit-row .inline-edit-or {
 		margin: 0 0 0 6px;
+	}
+
+	#edithead .inside,
+	#commentsdiv #edithead .inside {
+		float: none;
+		text-align: right;
+		padding: 3px 5px;
+	}
+
+	#commentsdiv #edithead .inside input,
+	#edithead .inside input {
+		width: 100%;
+	}
+
+	#edithead label {
+		display: block;
 	}
 
 	#bulk-titles div {
