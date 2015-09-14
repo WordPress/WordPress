@@ -1054,10 +1054,13 @@ function wp_dropdown_pages( $args = '' ) {
 	 * Filter the HTML output of a list of pages as a drop down.
 	 *
 	 * @since 2.1.0
+	 * @since 4.4.0 `$r` and `$pages` added as arguments.
 	 *
 	 * @param string $output HTML output for drop down list of pages.
-	 */
-	$html = apply_filters( 'wp_dropdown_pages', $output );
+	 * @param array  $r      The parsed arguments array.
+	 * @param array  $pages  List of WP_Post objects returned by `get_pages()`
+ 	 */
+	$html = apply_filters( 'wp_dropdown_pages', $output, $r, $pages );
 
 	if ( $r['echo'] ) {
 		echo $html;
@@ -1161,13 +1164,15 @@ function wp_list_pages( $args = '' ) {
 	 * Filter the HTML output of the pages to list.
 	 *
 	 * @since 1.5.1
+	 * @since 4.4.0 `$pages` added as arguments.
 	 *
 	 * @see wp_list_pages()
 	 *
 	 * @param string $output HTML output of the pages list.
 	 * @param array  $r      An array of page-listing arguments.
+	 * @param array  $pages  List of WP_Post objects returned by `get_pages()`
 	 */
-	$html = apply_filters( 'wp_list_pages', $output, $r );
+	$html = apply_filters( 'wp_list_pages', $output, $r, $pages );
 
 	if ( $r['echo'] ) {
 		echo $html;
