@@ -77,7 +77,7 @@ if ( $action ) {
 				if ( false === $user_id ) {
 		 			$update = 'err_new_dup';
 				} else {
-					wp_new_user_notification( $user_id, 'both' );
+					wp_new_user_notification( $user_id, null, 'both' );
 					add_user_to_blog( $id, $user_id, $_POST['new_role'] );
 					$update = 'newuser';
 				}
