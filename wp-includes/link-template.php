@@ -1205,6 +1205,7 @@ function get_edit_post_link( $id = 0, $context = 'display' ) {
  * Display edit post link for post.
  *
  * @since 1.0.0
+ * @since 4.4.0 The `$class` argument was added.
  *
  * @param string $text   Optional. Anchor text.
  * @param string $before Optional. Display before edit link.
