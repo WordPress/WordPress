@@ -767,7 +767,7 @@ function meta_form( $post = null ) {
 function touch_time( $edit = 1, $for_post = 1, $tab_index = 0, $multi = 0 ) {
 	global $wp_locale;
 	$post = get_post();
-	
+
 	if ( $for_post )
 		$edit = ! ( in_array($post->post_status, array('draft', 'pending') ) && (!$post->post_date_gmt || '0000-00-00 00:00:00' == $post->post_date_gmt ) );
 
@@ -860,18 +860,20 @@ function page_template_dropdown( $default = '' ) {
  * Print out option HTML elements for the page parents drop-down.
  *
  * @since 1.5.0
+ * @since 4.4.0 `$post` argument was added.
  *
  * @global wpdb $wpdb
  *
- * @param int $default Optional. The default page ID to be pre-selected. Default 0.
- * @param int $parent  Optional. The parent page ID. Default 0.
- * @param int $level   Optional. Page depth level. Default 0.
+ * @param int         $default Optional. The default page ID to be pre-selected. Default 0.
+ * @param int         $parent  Optional. The parent page ID. Default 0.
+ * @param int         $level   Optional. Page depth level. Default 0.
+ * @param int|WP_Post $post    Post ID or WP_Post object.
  *
  * @return null|false Boolean False if page has no children, otherwise print out html elements
  */
-function parent_dropdown( $default = 0, $parent = 0, $level = 0 ) {
+function parent_dropdown( $default = 0, $parent = 0, $level = 0, $post = null ) {
 	global $wpdb;
-	$post = get_post();
+	$post = get_post( $post );
 	$items = $wpdb->get_results( $wpdb->prepare("SELECT ID, post_parent, post_title FROM $wpdb->posts WHERE post_parent = %d AND post_type = 'page' ORDER BY menu_order", $parent) );
 
 	if ( $items ) {
