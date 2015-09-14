@@ -44,6 +44,8 @@ if ( $doaction ) {
 	$redirect_to = remove_query_arg( array( 'trashed', 'untrashed', 'deleted', 'spammed', 'unspammed', 'approved', 'unapproved', 'ids' ), wp_get_referer() );
 	$redirect_to = add_query_arg( 'paged', $pagenum, $redirect_to );
 
+	wp_defer_comment_counting( true );
+
 	foreach ( $comment_ids as $comment_id ) { // Check the permissions on each
 		if ( !current_user_can( 'edit_comment', $comment_id ) )
 			continue;
@@ -79,6 +81,8 @@ if ( $doaction ) {
 				break;
 		}
 	}
+
+	wp_defer_comment_counting( false );
 
 	if ( $approved )
 		$redirect_to = add_query_arg( 'approved', $approved, $redirect_to );
