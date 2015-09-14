@@ -724,7 +724,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 	 *
 	 * @return string Unalterable name for the primary column, in this case, 'name'.
 	 */
-	public function get_primary_column_name() {
+	protected function get_primary_column_name() {
 		return 'name';
 	}
 }

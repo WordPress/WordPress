@@ -888,6 +888,10 @@ class WP_List_Table {
 		return $column;
 	}
 
+	public function get_primary_column() {
+		return $this->get_primary_column_name();
+	}
+
 	/**
 	 * Gets the name of the primary column.
 	 *
@@ -896,7 +900,7 @@ class WP_List_Table {
 	 *
 	 * @return string The name of the primary column.
 	 */
-	public function get_primary_column_name() {
+	protected function get_primary_column_name() {
 		$columns = $this->get_columns();
 		$default = $this->get_default_primary_column_name();
 
