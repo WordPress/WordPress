@@ -47,9 +47,17 @@ function map_meta_cap( $cap, $user_id ) {
 	case 'delete_post':
 	case 'delete_page':
 		$post = get_post( $args[0] );
+		if ( ! $post ) {
+			$caps[] = 'do_not_allow';
+			break;
+		}
 
 		if ( 'revision' == $post->post_type ) {
 			$post = get_post( $post->post_parent );
+			if ( ! $post ) {
+				$caps[] = 'do_not_allow';
+				break;
+			}
 		}
 
 		$post_type = get_post_type_object( $post->post_type );
@@ -97,13 +105,17 @@ function map_meta_cap( $cap, $user_id ) {
 	case 'edit_post':
 	case 'edit_page':
 		$post = get_post( $args[0] );
-		if ( empty( $post ) ) {
+		if ( ! $post ) {
 			$caps[] = 'do_not_allow';
 			break;
 		}
 
 		if ( 'revision' == $post->post_type ) {
 			$post = get_post( $post->post_parent );
+			if ( ! $post ) {
+				$caps[] = 'do_not_allow';
+				break;
+			}
 		}
 
 		$post_type = get_post_type_object( $post->post_type );
@@ -149,9 +161,17 @@ function map_meta_cap( $cap, $user_id ) {
 	case 'read_post':
 	case 'read_page':
 		$post = get_post( $args[0] );
+		if ( ! $post ) {
+			$caps[] = 'do_not_allow';
+			break;
+		}
 
 		if ( 'revision' == $post->post_type ) {
 			$post = get_post( $post->post_parent );
+			if ( ! $post ) {
+				$caps[] = 'do_not_allow';
+				break;
+			}
 		}
 
 		$post_type = get_post_type_object( $post->post_type );
@@ -186,6 +206,11 @@ function map_meta_cap( $cap, $user_id ) {
 		break;
 	case 'publish_post':
 		$post = get_post( $args[0] );
+		if ( ! $post ) {
+			$caps[] = 'do_not_allow';
+			break;
+		}
+
 		$post_type = get_post_type_object( $post->post_type );
 		if ( ! $post_type ) {
 			/* translators: 1: post type, 2: capability name */
@@ -200,6 +225,11 @@ function map_meta_cap( $cap, $user_id ) {
 	case 'delete_post_meta':
 	case 'add_post_meta':
 		$post = get_post( $args[0] );
+		if ( ! $post ) {
+			$caps[] = 'do_not_allow';
+			break;
+		}
+
 		$caps = map_meta_cap( 'edit_post', $user_id, $post->ID );
 
 		$meta_key = isset( $args[ 1 ] ) ? $args[ 1 ] : false;
@@ -229,8 +259,11 @@ function map_meta_cap( $cap, $user_id ) {
 		break;
 	case 'edit_comment':
 		$comment = get_comment( $args[0] );
-		if ( empty( $comment ) )
+		if ( ! $comment ) {
+			$caps[] = 'do_not_allow';
 			break;
+		}
+
 		$post = get_post( $comment->comment_post_ID );
 
 		/*
