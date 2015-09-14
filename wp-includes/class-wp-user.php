@@ -165,17 +165,23 @@ class WP_User {
 	 * Return only the main user fields
 	 *
 	 * @since 3.3.0
+	 * @since 4.4.0 Added 'ID' as an alias of 'id' for the `$field` parameter.
 	 *
 	 * @static
 	 *
 	 * @global wpdb $wpdb
 	 *
-	 * @param string $field The field to query against: 'id', 'slug', 'email' or 'login'
+	 * @param string $field The field to query against: 'id', 'ID', 'slug', 'email' or 'login'.
 	 * @param string|int $value The field value
 	 * @return object|false Raw user object
 	 */
 	public static function get_data_by( $field, $value ) {
 		global $wpdb;
+
+		// 'ID' is an alias of 'id'.
+		if ( 'ID' === $field ) {
+			$field = 'id';
+		}
 
 		if ( 'id' == $field ) {
 			// Make sure the value is numeric to avoid casting objects, for example,
