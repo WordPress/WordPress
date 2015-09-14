@@ -526,25 +526,25 @@ function wp_ajax_delete_comment() {
 	if ( isset($_POST['trash']) && 1 == $_POST['trash'] ) {
 		if ( 'trash' == $status )
 			wp_die( time() );
-		$r = wp_trash_comment( $comment->comment_ID );
+		$r = wp_trash_comment( $comment );
 	} elseif ( isset($_POST['untrash']) && 1 == $_POST['untrash'] ) {
 		if ( 'trash' != $status )
 			wp_die( time() );
-		$r = wp_untrash_comment( $comment->comment_ID );
+		$r = wp_untrash_comment( $comment );
 		if ( ! isset( $_POST['comment_status'] ) || $_POST['comment_status'] != 'trash' ) // undo trash, not in trash
 			$delta = 1;
 	} elseif ( isset($_POST['spam']) && 1 == $_POST['spam'] ) {
 		if ( 'spam' == $status )
 			wp_die( time() );
-		$r = wp_spam_comment( $comment->comment_ID );
+		$r = wp_spam_comment( $comment );
 	} elseif ( isset($_POST['unspam']) && 1 == $_POST['unspam'] ) {
 		if ( 'spam' != $status )
 			wp_die( time() );
-		$r = wp_unspam_comment( $comment->comment_ID );
+		$r = wp_unspam_comment( $comment );
 		if ( ! isset( $_POST['comment_status'] ) || $_POST['comment_status'] != 'spam' ) // undo spam, not in spam
 			$delta = 1;
 	} elseif ( isset($_POST['delete']) && 1 == $_POST['delete'] ) {
-		$r = wp_delete_comment( $comment->comment_ID );
+		$r = wp_delete_comment( $comment );
 	} else {
 		wp_die( -1 );
 	}

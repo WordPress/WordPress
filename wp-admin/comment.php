@@ -258,23 +258,23 @@ case 'unapprovecomment' :
 
 	switch ( $action ) {
 		case 'deletecomment' :
-			wp_delete_comment( $comment_id );
+			wp_delete_comment( $comment );
 			$redir = add_query_arg( array('deleted' => '1'), $redir );
 			break;
 		case 'trashcomment' :
-			wp_trash_comment($comment_id);
+			wp_trash_comment( $comment );
 			$redir = add_query_arg( array('trashed' => '1', 'ids' => $comment_id), $redir );
 			break;
 		case 'untrashcomment' :
-			wp_untrash_comment($comment_id);
+			wp_untrash_comment( $comment );
 			$redir = add_query_arg( array('untrashed' => '1'), $redir );
 			break;
 		case 'spamcomment' :
-			wp_spam_comment($comment_id);
+			wp_spam_comment( $comment );
 			$redir = add_query_arg( array('spammed' => '1', 'ids' => $comment_id), $redir );
 			break;
 		case 'unspamcomment' :
-			wp_unspam_comment($comment_id);
+			wp_unspam_comment( $comment );
 			$redir = add_query_arg( array('unspammed' => '1'), $redir );
 			break;
 		case 'approvecomment' :

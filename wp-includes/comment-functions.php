@@ -1164,13 +1164,10 @@ function wp_spam_comment( $comment_id ) {
  *
  * @since 2.9.0
  *
- * @param int $comment_id Comment ID.
+ * @param int|WP_Comment $comment_id Comment ID or WP_Comment object.
  * @return bool True on success, false on failure.
  */
-function wp_unspam_comment($comment_id) {
-	if ( ! (int)$comment_id )
-		return false;
-
+function wp_unspam_comment( $comment_id ) {
 	$comment = get_comment( $comment_id );
 	if ( ! $comment ) {
 		return false;
@@ -1183,15 +1180,15 @@ function wp_unspam_comment($comment_id) {
 	 *
 	 * @param int $comment_id The comment ID.
 	 */
-	do_action( 'unspam_comment', $comment_id );
+	do_action( 'unspam_comment', $comment->comment_ID );
 
-	$status = (string) get_comment_meta($comment_id, '_wp_trash_meta_status', true);
+	$status = (string) get_comment_meta( $comment->comment_ID, '_wp_trash_meta_status', true );
 	if ( empty($status) )
 		$status = '0';
 
 	if ( wp_set_comment_status( $comment, $status ) ) {
-		delete_comment_meta( $comment_id, '_wp_trash_meta_status' );
-		delete_comment_meta( $comment_id, '_wp_trash_meta_time' );
+		delete_comment_meta( $comment->comment_ID, '_wp_trash_meta_status' );
+		delete_comment_meta( $comment->comment_ID, '_wp_trash_meta_time' );
 		/**
 		 * Fires immediately after a comment is unmarked as Spam.
 		 *
@@ -1199,7 +1196,7 @@ function wp_unspam_comment($comment_id) {
 		 *
 		 * @param int $comment_id The comment ID.
 		 */
-		do_action( 'unspammed_comment', $comment_id );
+		do_action( 'unspammed_comment', $comment->comment_ID );
 		return true;
 	}
 
