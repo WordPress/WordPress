@@ -1916,7 +1916,15 @@ function reset_password( $user, $new_pass ) {
 	wp_set_password( $new_pass, $user->ID );
 	update_user_option( $user->ID, 'default_password_nag', false, true );
 
-	wp_password_change_notification( $user );
+	/**
+	 * Fires after the user's password is reset.
+	 *
+	 * @since 4.4.0
+	 *
+	 * @param object $user     The user.
+	 * @param string $new_pass New user password.
+	 */
+	do_action( 'after_password_reset', $user, $new_pass );
 }
 
 /**
