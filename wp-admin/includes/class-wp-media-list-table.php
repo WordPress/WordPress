@@ -8,6 +8,14 @@
  * @access private
  */
 class WP_Media_List_Table extends WP_List_Table {
+	/**
+	 * Store the pending comment count for each post
+	 *
+	 * @access public
+	 * @since 4.4.0
+	 * @var array
+	 */
+	public $pending_count = array();
 
 	private $detached;
 
@@ -149,7 +157,7 @@ class WP_Media_List_Table extends WP_List_Table {
 
 			/** This action is documented in wp-admin/includes/class-wp-posts-list-table.php */
 			do_action( 'restrict_manage_posts', $this->screen->post_type );
-			
+
 			submit_button( __( 'Filter' ), 'button', 'filter_action', false, array( 'id' => 'post-query-submit' ) );
 		}
 
@@ -481,7 +489,12 @@ class WP_Media_List_Table extends WP_List_Table {
 	public function column_comments( $post ) {
 		echo '<div class="post-com-count-wrapper">';
 
-		$pending_comments = get_pending_comments_num( $post->ID );
+		if ( isset( $this->pending_count[ $post->ID ] ) ) {
+			$pending_comments = $this->pending_count[ $post->ID ];
+		} else {
+			$pending_comments = get_pending_comments_num( $post->ID );
+		}
+
 		$this->comments_bubble( $post->ID, $pending_comments );
 
 		echo '</div>';
@@ -548,7 +561,12 @@ class WP_Media_List_Table extends WP_List_Table {
 	 * @global WP_Post $post
 	 */
 	public function display_rows() {
-		global $post;
+		global $post, $wp_query;
+
+		$post_ids = wp_list_pluck( $wp_query->posts, 'ID' );
+		reset( $wp_query->posts );
+
+		$this->pending_count = get_pending_comments_num( $post_ids );
 
 		add_filter( 'the_title','esc_html' );
 
