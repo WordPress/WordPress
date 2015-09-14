@@ -1916,6 +1916,7 @@ function wp_update_comment_count_now($post_id) {
 
 	clean_post_cache( $post );
 
+	wp_cache_delete( 'comments-0', 'counts' );
 	wp_cache_delete( "comments-{$post_id}", 'counts' );
 
 	/**
