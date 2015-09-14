@@ -32,7 +32,7 @@
 			setTimeout( generatePassword, 50 );
 		} else {
 			$pass1.val( $pass1.data( 'pw' ) );
-			$pass1.trigger( 'pwupdate' );
+			$pass1.trigger( 'pwupdate' ).trigger( 'wp-check-valid-field' );
 			if ( 1 !== parseInt( $toggleButton.data( 'start-masked' ), 10 ) ) {
 				$pass1Wrap.addClass( 'show-password' );
 			} else {
