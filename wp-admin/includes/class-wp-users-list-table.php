@@ -435,7 +435,7 @@ class WP_Users_List_Table extends WP_List_Table {
 						$r .= "$user_object->first_name $user_object->last_name";
 						break;
 					case 'email':
-						$r .= "<a href='mailto:$email'>$email</a>";
+						$r .= "<a href='" . esc_url( "mailto:$email" ) . "'>$email</a>";
 						break;
 					case 'role':
 						$r .= $role_name;
