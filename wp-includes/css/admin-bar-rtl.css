@@ -27,6 +27,11 @@ html:lang(he-il) .rtl #wpadminbar *  {
  	font-family: Arial, sans-serif;
 }
 
+#wpadminbar .ab-empty-item {
+	cursor: default;
+}
+
+#wpadminbar .ab-empty-item,
 #wpadminbar a.ab-item,
 #wpadminbar > #wp-toolbar span.ab-label,
 #wpadminbar > #wp-toolbar span.noticon {
@@ -451,6 +456,7 @@ html:lang(he-il) .rtl #wpadminbar *  {
 	font-size: 11px;
 }
 
+#wpadminbar #wp-admin-bar-my-account.with-avatar > .ab-empty-item img,
 #wpadminbar #wp-admin-bar-my-account.with-avatar > a img {
 	width: auto;
 	height: 16px;
@@ -464,6 +470,7 @@ html:lang(he-il) .rtl #wpadminbar *  {
 	display: inline;
 }
 
+#wpadminbar.ie8 #wp-admin-bar-my-account.with-avatar > .ab-empty-item img,
 #wpadminbar.ie8 #wp-admin-bar-my-account.with-avatar > a img {
 	width: auto;
 }
