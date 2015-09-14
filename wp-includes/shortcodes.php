@@ -461,6 +461,15 @@ function shortcode_parse_atts($text) {
 			elseif (isset($m[8]))
 				$atts[] = stripcslashes($m[8]);
 		}
+
+		// Reject any unclosed HTML elements
+		foreach( $atts as &$value ) {
+			if ( false !== strpos( $value, '<' ) ) {
+				if ( 1 !== preg_match( '/^[^<]*+(?:<[^>]*+>[^<]*+)*+$/', $value ) ) {
+					$value = '';
+				}
+			}
+		}
 	} else {
 		$atts = ltrim($text);
 	}
