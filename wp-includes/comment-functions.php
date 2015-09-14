@@ -1916,6 +1916,8 @@ function wp_update_comment_count_now($post_id) {
 
 	clean_post_cache( $post );
 
+	wp_cache_delete( "comments-{$post_id}", 'counts' );
+
 	/**
 	 * Fires immediately after a post's comment count is updated in the database.
 	 *
@@ -2324,7 +2326,6 @@ function xmlrpc_pingback_error( $ixr_error ) {
 function clean_comment_cache($ids) {
 	foreach ( (array) $ids as $id ) {
 		wp_cache_delete( $id, 'comment' );
-		wp_cache_delete( "comment-{$id}", 'counts' );
 	}
 
 	wp_cache_set( 'last_changed', microtime(), 'comment' );
