@@ -634,6 +634,8 @@ function img_caption_shortcode($attr, $content = null) {
 			$content = $matches[1];
 			$attr['caption'] = trim( $matches[2] );
 		}
+	} elseif ( strpos( $attr['caption'], '<' ) !== false ) {
+		$attr['caption'] = wp_kses( $attr['caption'], 'post' );
 	}
 
 	// Allow plugins/themes to override the default caption template.
