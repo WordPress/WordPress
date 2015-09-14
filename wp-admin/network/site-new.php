@@ -94,7 +94,7 @@ if ( wp_validate_action( 'add-site' ) ) {
 		if ( false === $user_id )
 			wp_die( __( 'There was an error creating the user.' ) );
 		else
-			wp_new_user_notification( $user_id, 'both' );
+			wp_new_user_notification( $user_id, null, 'both' );
 	}
 
 	$wpdb->hide_errors();
