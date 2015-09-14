@@ -780,7 +780,7 @@ jQuery(document).ready( function($) {
 		}
 
 		slug_value = ( c > full.length / 4 ) ? '' : full;
-		e.html('<input type="text" id="new-post-slug" value="'+slug_value+'" />').children('input').keypress(function(e) {
+		e.html('<input type="text" id="new-post-slug" value="'+slug_value+'" autocomplete="off" />').children('input').keypress(function(e) {
 			var key = e.keyCode || 0;
 			// on enter, just save the new slug, don't save the post
 			if ( 13 == key ) {
