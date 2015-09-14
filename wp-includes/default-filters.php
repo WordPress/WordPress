@@ -233,6 +233,7 @@ if ( isset( $_GET['replytocom'] ) )
 
 // Login actions
 add_action( 'login_head',          'wp_print_head_scripts',         9     );
+add_action( 'login_head',          'wp_site_icon',                  99    );
 add_action( 'login_footer',        'wp_print_footer_scripts',       20    );
 add_action( 'login_init',          'send_frame_options_header',     10, 0 );
 
