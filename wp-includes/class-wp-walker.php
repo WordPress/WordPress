@@ -387,8 +387,8 @@ class Walker {
 	 * @since 2.7.0
 	 * @access public
 	 * 
-	 * @param array $elements
-	 * @return int
+	 * @param array $elements Elements to list.
+	 * @return int Number of root elements.
 	 */
 	public function get_number_of_root_elements( $elements ){
 		$num = 0;
