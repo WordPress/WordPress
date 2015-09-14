@@ -3997,7 +3997,7 @@ function _links_add_base( $m ) {
 	return $m[1] . '=' . $m[2] .
 		( preg_match( '#^(\w{1,20}):#', $m[3], $protocol ) && in_array( $protocol[1], wp_allowed_protocols() ) ?
 			$m[3] :
-			WP_HTTP::make_absolute_url( $m[3], $_links_add_base )
+			WP_Http::make_absolute_url( $m[3], $_links_add_base )
 		)
 		. $m[2];
 }

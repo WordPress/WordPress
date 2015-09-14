@@ -294,7 +294,7 @@ class WP_Http_Streams {
 		);
 
 		// Handle redirects.
-		if ( false !== ( $redirect_response = WP_HTTP::handle_redirects( $url, $r, $response ) ) )
+		if ( false !== ( $redirect_response = WP_Http::handle_redirects( $url, $r, $response ) ) )
 			return $redirect_response;
 
 		// If the body was chunk encoded, then decode it.
@@ -343,7 +343,7 @@ class WP_Http_Streams {
 		 * If the request is being made to an IP address, we'll validate against IP fields
 		 * in the cert (if they exist)
 		 */
-		$host_type = ( WP_HTTP::is_ip_address( $host ) ? 'ip' : 'dns' );
+		$host_type = ( WP_Http::is_ip_address( $host ) ? 'ip' : 'dns' );
 
 		$certificate_hostnames = array();
 		if ( ! empty( $cert['extensions']['subjectAltName'] ) ) {
