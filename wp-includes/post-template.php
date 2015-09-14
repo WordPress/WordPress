@@ -849,7 +849,7 @@ function wp_link_pages( $args = '' ) {
 		} elseif ( $more ) {
 			$output .= $r['before'];
 			$prev = $page - 1;
-			if ( $prev ) {
+			if ( $prev > 0 ) {
 				$link = _wp_link_page( $prev ) . $r['link_before'] . $r['previouspagelink'] . $r['link_after'] . '</a>';
 
 				/** This filter is documented in wp-includes/post-template.php */
