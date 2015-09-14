@@ -520,7 +520,7 @@ function wp_ajax_delete_comment() {
 		wp_die( -1 );
 
 	check_ajax_referer( "delete-comment_$id" );
-	$status = wp_get_comment_status( $comment->comment_ID );
+	$status = wp_get_comment_status( $comment );
 
 	$delta = -1;
 	if ( isset($_POST['trash']) && 1 == $_POST['trash'] ) {
@@ -730,15 +730,16 @@ function wp_ajax_dim_comment() {
 	if ( ! current_user_can( 'edit_comment', $comment->comment_ID ) && ! current_user_can( 'moderate_comments' ) )
 		wp_die( -1 );
 
-	$current = wp_get_comment_status( $comment->comment_ID );
+	$current = wp_get_comment_status( $comment );
 	if ( isset( $_POST['new'] ) && $_POST['new'] == $current )
 		wp_die( time() );
 
 	check_ajax_referer( "approve-comment_$id" );
-	if ( in_array( $current, array( 'unapproved', 'spam' ) ) )
-		$result = wp_set_comment_status( $comment->comment_ID, 'approve', true );
-	else
-		$result = wp_set_comment_status( $comment->comment_ID, 'hold', true );
+	if ( in_array( $current, array( 'unapproved', 'spam' ) ) ) {
+		$result = wp_set_comment_status( $comment, 'approve', true );
+	} else {
+		$result = wp_set_comment_status( $comment, 'hold', true );
+	}
 
 	if ( is_wp_error($result) ) {
 		$x = new WP_Ajax_Response( array(
@@ -1015,7 +1016,7 @@ function wp_ajax_replyto_comment( $action ) {
 				wp_die( -1 );
 			}
 
-			if ( wp_set_comment_status( $parent->comment_ID, 'approve' ) )
+			if ( wp_set_comment_status( $parent, 'approve' ) )
 				$comment_auto_approved = true;
 		}
 	}

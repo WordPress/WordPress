@@ -4265,7 +4265,7 @@ function wp_scheduled_delete() {
 			delete_comment_meta($comment_id, '_wp_trash_meta_time');
 			delete_comment_meta($comment_id, '_wp_trash_meta_status');
 		} else {
-			wp_delete_comment($comment_id);
+			wp_delete_comment( $del_comment );
 		}
 	}
 }

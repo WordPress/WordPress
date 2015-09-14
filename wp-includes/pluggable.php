@@ -1353,8 +1353,8 @@ if ( ! function_exists('wp_notify_postauthor') ) :
  *
  * @since 1.0.0
  *
- * @param int    $comment_id Comment ID
- * @param string $deprecated Not used
+ * @param int|WP_Comment  $comment_id Comment ID or WP_Comment object.
+ * @param string          $deprecated Not used
  * @return bool True on completion. False if no email addresses were specified.
  */
 function wp_notify_postauthor( $comment_id, $deprecated = null ) {
@@ -1386,7 +1386,7 @@ function wp_notify_postauthor( $comment_id, $deprecated = null ) {
 	 * @param array $emails     An array of email addresses to receive a comment notification.
 	 * @param int   $comment_id The comment ID.
 	 */
-	$emails = apply_filters( 'comment_notification_recipients', $emails, $comment_id );
+	$emails = apply_filters( 'comment_notification_recipients', $emails, $comment->comment_ID );
 	$emails = array_filter( $emails );
 
 	// If there are no addresses to send the comment to, bail.
@@ -1409,7 +1409,7 @@ function wp_notify_postauthor( $comment_id, $deprecated = null ) {
 	 *                         Default false.
 	 * @param int  $comment_id The comment ID.
 	 */
-	$notify_author = apply_filters( 'comment_notification_notify_author', false, $comment_id );
+	$notify_author = apply_filters( 'comment_notification_notify_author', false, $comment->comment_ID );
 
 	// The comment was left by the author
 	if ( $author && ! $notify_author && $comment->user_id == $post->post_author ) {
@@ -1475,12 +1475,13 @@ function wp_notify_postauthor( $comment_id, $deprecated = null ) {
 	$notify_message .= get_permalink($comment->comment_post_ID) . "#comments\r\n\r\n";
 	$notify_message .= sprintf( __('Permalink: %s'), get_comment_link( $comment ) ) . "\r\n";
 
-	if ( user_can( $post->post_author, 'edit_comment', $comment_id ) ) {
-		if ( EMPTY_TRASH_DAYS )
-			$notify_message .= sprintf( __('Trash it: %s'), admin_url("comment.php?action=trash&c=$comment_id") ) . "\r\n";
-		else
-			$notify_message .= sprintf( __('Delete it: %s'), admin_url("comment.php?action=delete&c=$comment_id") ) . "\r\n";
-		$notify_message .= sprintf( __('Spam it: %s'), admin_url("comment.php?action=spam&c=$comment_id") ) . "\r\n";
+	if ( user_can( $post->post_author, 'edit_comment', $comment->comment_ID ) ) {
+		if ( EMPTY_TRASH_DAYS ) {
+			$notify_message .= sprintf( __('Trash it: %s'), admin_url("comment.php?action=trash&c={$comment->comment_ID}") ) . "\r\n";
+		} else {
+			$notify_message .= sprintf( __('Delete it: %s'), admin_url("comment.php?action=delete&c={$comment->comment_ID}") ) . "\r\n";
+		}
+		$notify_message .= sprintf( __('Spam it: %s'), admin_url("comment.php?action=spam&c={$comment->comment_ID}") ) . "\r\n";
 	}
 
 	$wp_email = 'wordpress@' . preg_replace('#^www\.#', '', strtolower($_SERVER['SERVER_NAME']));
@@ -1509,7 +1510,7 @@ function wp_notify_postauthor( $comment_id, $deprecated = null ) {
 	 * @param string $notify_message The comment notification email text.
 	 * @param int    $comment_id     Comment ID.
 	 */
-	$notify_message = apply_filters( 'comment_notification_text', $notify_message, $comment_id );
+	$notify_message = apply_filters( 'comment_notification_text', $notify_message, $comment->comment_ID );
 
 	/**
 	 * Filter the comment notification email subject.
@@ -1519,7 +1520,7 @@ function wp_notify_postauthor( $comment_id, $deprecated = null ) {
 	 * @param string $subject    The comment notification email subject.
 	 * @param int    $comment_id Comment ID.
 	 */
-	$subject = apply_filters( 'comment_notification_subject', $subject, $comment_id );
+	$subject = apply_filters( 'comment_notification_subject', $subject, $comment->comment_ID );
 
 	/**
 	 * Filter the comment notification email headers.
@@ -1529,7 +1530,7 @@ function wp_notify_postauthor( $comment_id, $deprecated = null ) {
 	 * @param string $message_headers Headers for the comment notification email.
 	 * @param int    $comment_id      Comment ID.
 	 */
-	$message_headers = apply_filters( 'comment_notification_headers', $message_headers, $comment_id );
+	$message_headers = apply_filters( 'comment_notification_headers', $message_headers, $comment->comment_ID );
 
 	foreach ( $emails as $email ) {
 		@wp_mail( $email, wp_specialchars_decode( $subject ), $notify_message, $message_headers );

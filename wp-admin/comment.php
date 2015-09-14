@@ -278,11 +278,11 @@ case 'unapprovecomment' :
 			$redir = add_query_arg( array('unspammed' => '1'), $redir );
 			break;
 		case 'approvecomment' :
-			wp_set_comment_status( $comment_id, 'approve' );
+			wp_set_comment_status( $comment, 'approve' );
 			$redir = add_query_arg( array( 'approved' => 1 ), $redir );
 			break;
 		case 'unapprovecomment' :
-			wp_set_comment_status( $comment_id, 'hold' );
+			wp_set_comment_status( $comment, 'hold' );
 			$redir = add_query_arg( array( 'unapproved' => 1 ), $redir );
 			break;
 	}
