@@ -835,10 +835,11 @@ function get_post_type( $post = null ) {
 function get_post_type_object( $post_type ) {
 	global $wp_post_types;
 
-	if ( empty($wp_post_types[$post_type]) )
+	if ( ! is_scalar( $post_type ) || empty( $wp_post_types[ $post_type ] ) ) {
 		return null;
+	}
 
-	return $wp_post_types[$post_type];
+	return $wp_post_types[ $post_type ];
 }
 
 /**
