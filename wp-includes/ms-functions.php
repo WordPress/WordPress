@@ -745,7 +745,20 @@ function wpmu_signup_blog( $domain, $path, $title, $user, $user_email, $meta = a
 		'meta' => $meta
 	) );
 
-	wpmu_signup_blog_notification($domain, $path, $title, $user, $user_email, $key, $meta);
+	/**
+	 * Fires after site signup information has been written to the database.
+	 *
+	 * @since 4.4.0
+	 *
+	 * @param string $domain     The requested domain.
+	 * @param string $path       The requested path.
+	 * @param string $title      The requested site title.
+	 * @param string $user       The user's requested login name.
+	 * @param string $user_email The user's email address.
+	 * @param string $key        The user's activation key
+	 * @param array  $meta       By default, contains the requested privacy setting and lang_id.
+	 */
+	do_action( 'after_signup_site', $domain, $path, $title, $user, $user_email, $key, $meta );
 }
 
 /**
@@ -782,7 +795,17 @@ function wpmu_signup_user( $user, $user_email, $meta = array() ) {
 		'meta' => $meta
 	) );
 
-	wpmu_signup_user_notification($user, $user_email, $key, $meta);
+	/**
+	 * Fires after a user's signup information has been written to the database.
+	 *
+	 * @since 4.4.0
+	 *
+	 * @param string $user       The user's requested login name.
+	 * @param string $user_email The user's email address.
+	 * @param string $key        The user's activation key
+	 * @param array  $meta       Additional signup meta. By default, this is an empty array.
+	 */
+	do_action( 'after_signup_user', $user, $user_email, $key, $meta );
 }
 
 /**
@@ -1027,7 +1050,6 @@ function wpmu_activate_signup($key) {
 		if ( isset( $user_already_exists ) )
 			return new WP_Error( 'user_already_exists', __( 'That username is already activated.' ), $signup);
 
-		wpmu_welcome_user_notification( $user_id, $password, $meta );
 		/**
 		 * Fires immediately after a new user is activated.
 		 *
@@ -1055,7 +1077,6 @@ function wpmu_activate_signup($key) {
 	}
 
 	$wpdb->update( $wpdb->signups, array('active' => 1, 'activated' => $now), array('activation_key' => $key) );
-	wpmu_welcome_notification($blog_id, $user_id, $password, $signup->title, $meta);
 	/**
 	 * Fires immediately after a site is activated.
 	 *
