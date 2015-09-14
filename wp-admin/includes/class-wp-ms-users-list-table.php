@@ -224,7 +224,7 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 					break;
 
 					case 'email':
-						echo "<td $attributes><a href='mailto:$user->user_email'>$user->user_email</a></td>";
+						echo "<td $attributes><a href='" . esc_url( "mailto:$user->user_email" ) . "'>$user->user_email</a></td>";
 					break;
 
 					case 'registered':
