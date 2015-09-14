@@ -50,7 +50,7 @@ var wpAjax = jQuery.extend( {
 		return true;
 	},
 	invalidateForm: function ( selector ) {
-		return jQuery( selector ).addClass( 'form-invalid' ).find('input').one( 'change', function() { jQuery(this).closest('.form-invalid').removeClass( 'form-invalid' ); } );
+		return jQuery( selector ).addClass( 'form-invalid' ).find('input').one( 'change wp-check-valid-field', function() { jQuery(this).closest('.form-invalid').removeClass( 'form-invalid' ); } );
 	},
 	validateForm: function( selector ) {
 		selector = jQuery( selector );
