@@ -1629,19 +1629,40 @@ function wp_new_comment( $commentdata ) {
 	 */
 	do_action( 'comment_post', $comment_ID, $commentdata['comment_approved'] );
 
-	if ( 'spam' !== $commentdata['comment_approved'] ) { // If it's spam save it silently for later crunching
-		if ( '0' == $commentdata['comment_approved'] ) {
-			wp_notify_moderator( $comment_ID );
-		}
-
-		// wp_notify_postauthor() checks if notifying the author of their own comment.
-		// By default, it won't, but filters can override this.
-		if ( get_option( 'comments_notify' ) && $commentdata['comment_approved'] ) {
-			wp_notify_postauthor( $comment_ID );
-		}
-	}
-
 	return $comment_ID;
+}
+
+/**
+ * Send a comment moderation notification to the comment moderator.
+ *
+ * @since 4.4.0
+ *
+ * @param int $comment_ID       ID of the comment.
+ * @param int $comment_approved Whether the comment is approved.
+ */
+function wp_new_comment_notify_moderator( $comment_ID, $comment_approved ) {
+	if ( '0' == $comment_approved ) {
+		wp_notify_moderator( $comment_ID );
+	}
+}
+
+/**
+ * Send a notification of a new comment to the post author.
+ *
+ * @since 4.4.0
+ *
+ * @param int $comment_ID ID of the comment.
+ */
+function wp_new_comment_notify_postauthor( $comment_ID ) {
+	$comment = get_comment( $comment_ID );
+
+	/*
+	 * `wp_notify_postauthor()` checks if notifying the author of their own comment.
+	 * By default, it won't, but filters can override this.
+	 */
+	if ( get_option( 'comments_notify' ) && $comment->comment_approved ) {
+		wp_notify_postauthor( $comment_ID );
+	}
 }
 
 /**
