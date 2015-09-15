@@ -362,6 +362,7 @@ function get_comment_count( $post_id = 0 ) {
 		'trash'               => 0,
 		'post-trashed'        => 0,
 		'total_comments'      => 0,
+		'all'                 => 0,
 	);
 
 	foreach ( $totals as $row ) {
@@ -379,10 +380,12 @@ function get_comment_count( $post_id = 0 ) {
 			case '1':
 				$comment_count['approved'] = $row['total'];
 				$comment_count['total_comments'] += $row['total'];
+				$comment_count['all'] += $row['total'];
 				break;
 			case '0':
 				$comment_count['awaiting_moderation'] = $row['total'];
 				$comment_count['total_comments'] += $row['total'];
+				$comment_count['all'] += $row['total'];
 				break;
 			default:
 				break;

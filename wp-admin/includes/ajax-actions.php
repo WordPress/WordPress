@@ -371,7 +371,8 @@ function _wp_ajax_delete_comment_response( $comment_id, $delta = -1 ) {
 	// Only do the expensive stuff on a page-break, and about 1 other time per page
 	if ( 0 == $total % $per_page || 1 == mt_rand( 1, $per_page ) ) {
 		$post_id = 0;
-		$status = 'total_comments'; // What type of comment count are we looking for?
+		// What type of comment count are we looking for?
+		$status = 'all';
 		$parsed = parse_url( $url );
 		if ( isset( $parsed['query'] ) ) {
 			parse_str( $parsed['query'], $query_vars );
