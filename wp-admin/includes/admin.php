@@ -49,6 +49,7 @@ require_once(ABSPATH . 'wp-admin/includes/plugin.php');
 require_once(ABSPATH . 'wp-admin/includes/post.php');
 
 /** WordPress Administration Screen API */
+require_once(ABSPATH . 'wp-admin/includes/class-wp-screen.php');
 require_once(ABSPATH . 'wp-admin/includes/screen.php');
 
 /** WordPress Taxonomy Administration API */
