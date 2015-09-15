@@ -2787,7 +2787,8 @@ function edit_form_image_editor( $post ) {
 function attachment_submitbox_metadata() {
 	$post = get_post();
 
-	$filename = esc_html( wp_basename( $post->guid ) );
+	$file = get_attached_file( $post->ID );
+	$filename = esc_html( wp_basename( $file ) );
 
 	$media_dims = '';
 	$meta = wp_get_attachment_metadata( $post->ID );
@@ -2822,7 +2823,6 @@ function attachment_submitbox_metadata() {
 	</div>
 
 	<?php
-		$file  = get_attached_file( $post->ID );
 		$file_size = false;
 
 		if ( isset( $meta['filesize'] ) )
