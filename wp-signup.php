@@ -75,7 +75,7 @@ get_header();
  */
 do_action( 'before_signup_form' );
 ?>
-<div id="content" class="widecolumn">
+<div id="signup-content" class="widecolumn">
 <div class="mu_register">
 <?php
 /**
