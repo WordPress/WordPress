@@ -69,11 +69,11 @@ class WP_HTTP_IXR_Client extends IXR_Client {
 		}
 
 		/**
-		 * Filter to allow custom headers to be sent
+		 * Filter the headers collection to be sent to the XML-RPC server.
 		 *
 		 * @since 4.4.0
 		 *
-		 * @param array $headers Header collection to be sent to the XML-RPC server.
+		 * @param array $headers Array of headers to be sent.
 		 */
 		$args['headers'] = apply_filters( 'wp_http_ixr_client_headers', $args['headers'] );
 
