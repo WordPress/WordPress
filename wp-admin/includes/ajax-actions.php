@@ -1527,7 +1527,7 @@ function wp_ajax_menu_quick_search() {
 function wp_ajax_get_permalink() {
 	check_ajax_referer( 'getpermalink', 'getpermalinknonce' );
 	$post_id = isset($_POST['post_id'])? intval($_POST['post_id']) : 0;
-	wp_die( add_query_arg( array( 'preview' => 'true' ), get_permalink( $post_id ) ) );
+	wp_die( get_preview_post_link( $post_id ) );
 }
 
 /**

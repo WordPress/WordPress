@@ -1318,9 +1318,9 @@ function get_sample_permalink_html( $id, $new_title = null, $new_slug = null ) {
 
 	if ( isset( $view_post ) ) {
 		if ( 'draft' == $post->post_status ) {
-			$preview_link = set_url_scheme( get_permalink( $post->ID ) );
+			$draft_link = set_url_scheme( get_permalink( $post->ID ) );
 			/** This filter is documented in wp-admin/includes/meta-boxes.php */
-			$preview_link = apply_filters( 'preview_post_link', add_query_arg( 'preview', 'true', $preview_link ), $post );
+			$preview_link = get_preview_post_link( $post, array(), $draft_link );
 			$return .= "<span id='view-post-btn'><a href='" . esc_url( $preview_link ) . "' class='button button-small' target='wp-preview-{$post->ID}'>$view_post</a></span>\n";
 		} else {
 			if ( 'publish' === $post->post_status ) {
@@ -1511,20 +1511,17 @@ function _admin_notice_post_locked() {
 	<?php
 
 	if ( $locked ) {
+		$query_args = array();
 		if ( get_post_type_object( $post->post_type )->public ) {
-			$preview_link = set_url_scheme( add_query_arg( 'preview', 'true', get_permalink( $post->ID ) ) );
-
 			if ( 'publish' == $post->post_status || $user->ID != $post->post_author ) {
 				// Latest content is in autosave
 				$nonce = wp_create_nonce( 'post_preview_' . $post->ID );
-				$preview_link = add_query_arg( array( 'preview_id' => $post->ID, 'preview_nonce' => $nonce ), $preview_link );
+				$query_args['preview_id'] = $post->ID;
+				$query_args['preview_nonce'] = $nonce;
 			}
-		} else {
-			$preview_link = '';
 		}
 
-		/** This filter is documented in wp-admin/includes/meta-boxes.php */
-		$preview_link = apply_filters( 'preview_post_link', $preview_link, $post );
+		$preview_link = get_preview_post_link( $post->ID, $query_args );
 
 		/**
 		 * Filter whether to allow the post lock to be overridden.
@@ -1710,7 +1707,7 @@ function post_preview() {
 	if ( is_wp_error( $saved_post_id ) )
 		wp_die( $saved_post_id->get_error_message() );
 
-	$query_args = array( 'preview' => 'true' );
+	$query_args = array();
 
 	if ( $is_autosave && $saved_post_id ) {
 		$query_args['preview_id'] = $post->ID;
@@ -1720,10 +1717,7 @@ function post_preview() {
 			$query_args['post_format'] = empty( $_POST['post_format'] ) ? 'standard' : sanitize_key( $_POST['post_format'] );
 	}
 
-	$url = add_query_arg( $query_args, get_permalink( $post->ID ) );
-
-	/** This filter is documented in wp-admin/includes/meta-boxes.php */
-	return apply_filters( 'preview_post_link', $url, $post );
+	return get_preview_post_link( $post, $query_args );
 }
 
 /**

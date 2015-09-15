@@ -899,6 +899,7 @@ function wp_link_pages( $args = '' ) {
 function _wp_link_page( $i ) {
 	global $wp_rewrite;
 	$post = get_post();
+	$query_args = array();
 
 	if ( 1 == $i ) {
 		$url = get_permalink();
@@ -912,16 +913,13 @@ function _wp_link_page( $i ) {
 	}
 
 	if ( is_preview() ) {
-		$url = add_query_arg( array(
-			'preview' => 'true'
-		), $url );
 
 		if ( ( 'draft' !== $post->post_status ) && isset( $_GET['preview_id'], $_GET['preview_nonce'] ) ) {
-			$url = add_query_arg( array(
-				'preview_id'    => wp_unslash( $_GET['preview_id'] ),
-				'preview_nonce' => wp_unslash( $_GET['preview_nonce'] )
-			), $url );
+			$query_args['preview_id'] = wp_unslash( $_GET['preview_id'] );
+			$query_args['preview_nonce'] = wp_unslash( $_GET['preview_nonce'] );
 		}
+
+		$url = get_preview_post_link( $post, $query_args, $url );
 	}
 
 	return '<a href="' . esc_url( $url ) . '">';

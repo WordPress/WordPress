@@ -81,8 +81,7 @@ if ( ! $permalink ) {
 }
 
 $messages = array();
-/** This filter is documented in wp-admin/includes/meta-boxes.php */
-$post_preview_url = apply_filters( 'preview_post_link', add_query_arg( 'preview', 'true', $permalink ), $post );
+$post_preview_url = get_preview_post_link( $post );
 
 $preview_link_html = $scheduled_link_html = $view_post_html = '';
 
@@ -125,8 +124,7 @@ $messages['post'] = array(
 	10 => __( 'Post draft updated.' ) . $preview_link_html,
 );
 
-/** This filter is documented in wp-admin/includes/meta-boxes.php */
-$page_preview_url = apply_filters( 'preview_post_link', add_query_arg( 'preview', 'true', $permalink ), $post );
+$page_preview_url = get_preview_post_link( $post );
 
 $messages['page'] = array(
 	 0 => '', // Unused. Messages start at index 1.

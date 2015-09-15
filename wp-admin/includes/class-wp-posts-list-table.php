@@ -1157,9 +1157,9 @@ class WP_Posts_List_Table extends WP_List_Table {
 			$title = _draft_or_post_title();
 			if ( in_array( $post->post_status, array( 'pending', 'draft', 'future' ) ) ) {
 				if ( $can_edit_post ) {
-					$preview_link = set_url_scheme( get_permalink( $post->ID ) );
+					$unpublished_link = set_url_scheme( get_permalink( $post ) );
 					/** This filter is documented in wp-admin/includes/meta-boxes.php */
-					$preview_link = apply_filters( 'preview_post_link', add_query_arg( 'preview', 'true', $preview_link ), $post );
+					$preview_link = get_preview_post_link( $post, array(), $unpublished_link );
 					$actions['view'] = '<a href="' . esc_url( $preview_link ) . '" title="' . esc_attr( sprintf( __( 'Preview &#8220;%s&#8221;' ), $title ) ) . '" rel="permalink">' . __( 'Preview' ) . '</a>';
 				}
 			} elseif ( 'trash' != $post->post_status ) {

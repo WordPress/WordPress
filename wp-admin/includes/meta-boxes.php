@@ -40,22 +40,10 @@ function post_submit_meta_box($post, $args = array() ) {
 <?php if ( is_post_type_viewable( $post_type_object ) ) : ?>
 <div id="preview-action">
 <?php
+$preview_link = esc_url( get_preview_post_link( $post ) );
 if ( 'publish' == $post->post_status ) {
-	$preview_link = esc_url( get_permalink( $post->ID ) );
 	$preview_button = __( 'Preview Changes' );
 } else {
-	$preview_link = set_url_scheme( get_permalink( $post->ID ) );
-
-	/**
-	 * Filter the URI of a post preview in the post submit box.
-	 *
-	 * @since 2.0.5
-	 * @since 4.0.0 $post parameter was added.
-	 *
-	 * @param string  $preview_link URI the user will be directed to for a post preview.
-	 * @param WP_Post $post         Post object.
-	 */
-	$preview_link = esc_url( apply_filters( 'preview_post_link', add_query_arg( 'preview', 'true', $preview_link ), $post ) );
 	$preview_button = __( 'Preview' );
 }
 ?>
