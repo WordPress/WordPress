@@ -1158,7 +1158,6 @@ class WP_Posts_List_Table extends WP_List_Table {
 			if ( in_array( $post->post_status, array( 'pending', 'draft', 'future' ) ) ) {
 				if ( $can_edit_post ) {
 					$unpublished_link = set_url_scheme( get_permalink( $post ) );
-					/** This filter is documented in wp-admin/includes/meta-boxes.php */
 					$preview_link = get_preview_post_link( $post, array(), $unpublished_link );
 					$actions['view'] = '<a href="' . esc_url( $preview_link ) . '" title="' . esc_attr( sprintf( __( 'Preview &#8220;%s&#8221;' ), $title ) ) . '" rel="permalink">' . __( 'Preview' ) . '</a>';
 				}
