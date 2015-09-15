@@ -1245,19 +1245,28 @@ function wp_insert_user( $userdata ) {
 	//Remove any non-printable chars from the login string to see if we have ended up with an empty username
 	$user_login = trim( $pre_user_login );
 
+	// user_login must be between 0 and 60 characters.
 	if ( empty( $user_login ) ) {
 		return new WP_Error('empty_user_login', __('Cannot create a user with an empty login name.') );
+	} elseif ( mb_strlen( $user_login ) > 60 ) {
+		return new WP_Error( 'user_login_too_long', __( 'Username may not be longer than 60 characters.' ) );
 	}
+
 	if ( ! $update && username_exists( $user_login ) ) {
 		return new WP_Error( 'existing_user_login', __( 'Sorry, that username already exists!' ) );
 	}
 
-	// If a nicename is provided, remove unsafe user characters before
-	// using it. Otherwise build a nicename from the user_login.
+	/*
+	 * If a nicename is provided, remove unsafe user characters before using it.
+	 * Otherwise build a nicename from the user_login.
+	 */
 	if ( ! empty( $userdata['user_nicename'] ) ) {
 		$user_nicename = sanitize_user( $userdata['user_nicename'], true );
+		if ( mb_strlen( $user_nicename ) > 50 ) {
+			return new WP_Error( 'user_nicename_too_long', __( 'Nicename may not be longer than 50 characters.' ) );
+		}
 	} else {
-		$user_nicename = $user_login;
+		$user_nicename = mb_substr( $user_login, 0, 50 );
 	}
 
 	$user_nicename = sanitize_title( $user_nicename );
@@ -1395,7 +1404,9 @@ function wp_insert_user( $userdata ) {
 	if ( $user_nicename_check ) {
 		$suffix = 2;
 		while ($user_nicename_check) {
-			$alt_user_nicename = $user_nicename . "-$suffix";
+			// user_nicename allows 50 chars. Subtract one for a hyphen, plus the length of the suffix.
+			$base_length = 49 - mb_strlen( $suffix );
+			$alt_user_nicename = mb_substr( $user_nicename, 0, $base_length ) . "-$suffix";
 			$user_nicename_check = $wpdb->get_var( $wpdb->prepare("SELECT ID FROM $wpdb->users WHERE user_nicename = %s AND user_login != %s LIMIT 1" , $alt_user_nicename, $user_login));
 			$suffix++;
 		}
