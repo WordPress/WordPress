@@ -623,7 +623,8 @@ commentReply = {
 		var editRow, rowData, act, replyButton, editHeight,
 			t = this,
 			c = $('#comment-' + comment_id),
-			h = c.height();
+			h = c.height(),
+			colspanVal = 0;
 
 		t.close();
 		t.cid = comment_id;
@@ -633,8 +634,12 @@ commentReply = {
 		action = action || 'replyto';
 		act = 'edit' == action ? 'edit' : 'replyto';
 		act = t.act = act + '-comment';
+		colspanVal = $( 'th:visible, td:visible', c ).length;
 
-		$( 'td', editRow ).attr( 'colspan', $( 'th:visible, td:visible', c ).length );
+		// Make sure it's actually a table and there's a `colspan` value to apply.
+		if ( editRow.hasClass( 'inline-edit-row' ) && 0 !== colspanVal ) {
+			$( 'td', editRow ).attr( 'colspan', colspanVal );
+		}
 
 		$('#action', editRow).val(act);
 		$('#comment_post_ID', editRow).val(post_id);
