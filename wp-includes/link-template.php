@@ -1159,16 +1159,16 @@ function get_post_type_archive_feed_link( $post_type, $feed = '' ) {
 }
 
 /**
- * Retrieve preview post link.
+ * Retrieve URL used for the post preview.
  *
- * Get the preview post URL. Allow any number of query args to be appended.
+ * Get the preview post URL. Allows additional query args to be appended.
  *
  * @since 4.4.0
  *
- * @param int    $post         Optional. Post ID or WP_Post object. Defaults to global post.
- * @param array  $query_args   Optional. If preview query arg should be added. Or array of query args to be added.
- * @param string $preview_link Optional. If a link other than the permalink should be used. Used by _wp_link_page.
- * @return string
+ * @param int|WP_Post $post         Optional. Post ID or `WP_Post` object. Defaults to global post.
+ * @param array       $query_args   Optional. Array of additional query args to be appended to the link.
+ * @param string      $preview_link Optional. Base preview link to be used if it should differ from the post permalink.
+ * @return string URL used for the post preview.
  */
 function get_preview_post_link( $post = null, $query_args = array(), $preview_link = '' ) {
 	$post = get_post( $post );
@@ -1187,12 +1187,12 @@ function get_preview_post_link( $post = null, $query_args = array(), $preview_li
 	}
 
 	/**
-	 * Filter the URI of a post preview in the post submit box.
+	 * Filter the URL used for a post preview.
 	 *
 	 * @since 2.0.5
 	 * @since 4.4.0 $post parameter was added.
 	 *
-	 * @param string  $preview_link URI the user will be directed to for a post preview.
+	 * @param string  $preview_link URL used for the post preview.
 	 * @param WP_Post $post         Post object.
 	 */
 	return apply_filters( 'preview_post_link', $preview_link, $post );
