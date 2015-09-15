@@ -1394,7 +1394,7 @@ function _get_custom_object_labels( $object, $nohier_vs_hier_defaults ) {
 	}
 	$labels = array_merge( $defaults, $object->labels );
 	$object->labels = (object) $object->labels;
-	
+
 	return (object) $labels;
 }
 
@@ -2370,9 +2370,14 @@ function wp_delete_post( $postid = 0, $force_delete = false ) {
 	// Point all attachments to this post up one level.
 	$wpdb->update( $wpdb->posts, $parent_data, $parent_where + array( 'post_type' => 'attachment' ) );
 
+	wp_defer_comment_counting( true );
+
 	$comment_ids = $wpdb->get_col( $wpdb->prepare( "SELECT comment_ID FROM $wpdb->comments WHERE comment_post_ID = %d", $postid ));
-	foreach ( $comment_ids as $comment_id )
+	foreach ( $comment_ids as $comment_id ) {
 		wp_delete_comment( $comment_id, true );
+	}
+
+	wp_defer_comment_counting( false );
 
 	$post_meta_ids = $wpdb->get_col( $wpdb->prepare( "SELECT meta_id FROM $wpdb->postmeta WHERE post_id = %d ", $postid ));
 	foreach ( $post_meta_ids as $mid )
@@ -4637,9 +4642,14 @@ function wp_delete_attachment( $post_id, $force_delete = false ) {
 	// Delete all for any posts.
 	delete_metadata( 'post', null, '_thumbnail_id', $post_id, true );
 
+	wp_defer_comment_counting( true );
+
 	$comment_ids = $wpdb->get_col( $wpdb->prepare( "SELECT comment_ID FROM $wpdb->comments WHERE comment_post_ID = %d", $post_id ));
-	foreach ( $comment_ids as $comment_id )
+	foreach ( $comment_ids as $comment_id ) {
 		wp_delete_comment( $comment_id, true );
+	}
+	
+	wp_defer_comment_counting( false );
 
 	$post_meta_ids = $wpdb->get_col( $wpdb->prepare( "SELECT meta_id FROM $wpdb->postmeta WHERE post_id = %d ", $post_id ));
 	foreach ( $post_meta_ids as $mid )

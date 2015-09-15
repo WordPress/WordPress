@@ -1907,6 +1907,10 @@ function wp_update_comment_count_now($post_id) {
 	$post_id = (int) $post_id;
 	if ( !$post_id )
 		return false;
+
+	wp_cache_delete( 'comments-0', 'counts' );
+	wp_cache_delete( "comments-{$post_id}", 'counts' );
+
 	if ( !$post = get_post($post_id) )
 		return false;
 
@@ -1915,9 +1919,6 @@ function wp_update_comment_count_now($post_id) {
 	$wpdb->update( $wpdb->posts, array('comment_count' => $new), array('ID' => $post_id) );
 
 	clean_post_cache( $post );
-
-	wp_cache_delete( 'comments-0', 'counts' );
-	wp_cache_delete( "comments-{$post_id}", 'counts' );
 
 	/**
 	 * Fires immediately after a post's comment count is updated in the database.
