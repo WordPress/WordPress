@@ -5227,12 +5227,14 @@ function get_posts_by_author_sql( $post_type, $full = true, $post_author = null,
  * 'gmt' is when the last post was posted in GMT formatted date.
  *
  * @since 0.71
+ * @since 4.4.0 The `$post_type` argument was added.
  *
- * @param string $timezone The location to get the time. Accepts 'gmt', 'blog',
- *                         or 'server'. Default 'server'.
+ * @param string $timezone  Optional. The location to get the time. Accepts 'gmt', 'blog',
+ *                          or 'server'. Default 'server'.
+ * @param string $post_type Optional. The post type to check. Default 'any'.
  * @return string The date of the last post.
  */
-function get_lastpostdate( $timezone = 'server' ) {
+function get_lastpostdate( $timezone = 'server', $post_type = 'any' ) {
 	/**
 	 * Filter the date the last post was published.
 	 *
@@ -5242,7 +5244,7 @@ function get_lastpostdate( $timezone = 'server' ) {
 	 *                         'blog', or 'server'.
 	 * @param string $timezone Location to use for getting the post published date.
 	 */
-	return apply_filters( 'get_lastpostdate', _get_last_post_time( $timezone, 'date' ), $timezone );
+	return apply_filters( 'get_lastpostdate', _get_last_post_time( $timezone, 'date', $post_type ), $timezone );
 }
 
 /**
@@ -5253,20 +5255,23 @@ function get_lastpostdate( $timezone = 'server' ) {
  * 'gmt' is when the last post was modified in GMT time.
  *
  * @since 1.2.0
+ * @since 4.4.0 The `$post_type` argument was added.
  *
- * @param string $timezone Optional. The timezone for the timestamp. Uses the server's internal timezone.
- *                         Accepts 'server', 'blog', 'gmt'. or 'server'. 'server' uses the server's
- *                         internal timezone. 'blog' uses the `post_modified` field, which proxies
- *                         to the timezone set for the site. 'gmt' uses the `post_modified_gmt` field.
- *                         Default 'server'.
+ * @param string $timezone  Optional. The timezone for the timestamp. Uses the server's internal timezone.
+ *                          Accepts 'server', 'blog', 'gmt'. or 'server'. 'server' uses the server's
+ *                          internal timezone. 'blog' uses the `post_modified` field, which proxies
+ *                          to the timezone set for the site. 'gmt' uses the `post_modified_gmt` field.
+ *                          Default 'server'.
+ * @param string $post_type Optional. The post type to check. Default 'any'.
  * @return string The timestamp.
  */
-function get_lastpostmodified( $timezone = 'server' ) {
-	$lastpostmodified = _get_last_post_time( $timezone, 'modified' );
+function get_lastpostmodified( $timezone = 'server', $post_type = 'any' ) {
+	$lastpostmodified = _get_last_post_time( $timezone, 'modified', $post_type );
 
 	$lastpostdate = get_lastpostdate($timezone);
-	if ( $lastpostdate > $lastpostmodified )
+	if ( $lastpostdate > $lastpostmodified ) {
 		$lastpostmodified = $lastpostdate;
+	}
 
 	/**
 	 * Filter the date the last post was modified.
@@ -5284,33 +5289,41 @@ function get_lastpostmodified( $timezone = 'server' ) {
  * Get the timestamp of the last time any post was modified or published.
  *
  * @since 3.1.0
+ * @since 4.4.0 The `$post_type` argument was added.
  * @access private
  *
  * @global wpdb $wpdb
  *
- * @param string $timezone The timezone for the timestamp. See {@see get_lastpostmodified()}
- *                         for information on accepted values.
- * @param string $field    Post field to check. Accepts 'date' or 'modified'.
+ * @param string $timezone  The timezone for the timestamp. See {@see get_lastpostmodified()}
+ *                          for information on accepted values.
+ * @param string $field     Post field to check. Accepts 'date' or 'modified'.
+ * @param string $post_type Optional. The post type to check. Default 'any'.
  * @return string|false The timestamp.
  */
-function _get_last_post_time( $timezone, $field ) {
+function _get_last_post_time( $timezone, $field, $post_type = 'any' ) {
 	global $wpdb;
 
-	if ( !in_array( $field, array( 'date', 'modified' ) ) )
+	if ( ! in_array( $field, array( 'date', 'modified' ) ) ) {
 		return false;
+	}
 
 	$timezone = strtolower( $timezone );
 
 	$key = "lastpost{$field}:$timezone";
+	if ( 'any' !== $post_type ) {
+		$key .= ':' . sanitize_key( $post_type );
+	}
 
 	$date = wp_cache_get( $key, 'timeinfo' );
 
-	if ( !$date ) {
-		$add_seconds_server = date('Z');
-
-		$post_types = get_post_types( array( 'public' => true ) );
-		array_walk( $post_types, array( &$wpdb, 'escape_by_ref' ) );
-		$post_types = "'" . implode( "', '", $post_types ) . "'";
+	if ( ! $date ) {
+		if ( 'any' === $post_type ) {
+			$post_types = get_post_types( array( 'public' => true ) );
+			array_walk( $post_types, array( $wpdb, 'escape_by_ref' ) );
+			$post_types = "'" . implode( "', '", $post_types ) . "'";
+		} else {
+			$post_types = "'" . sanitize_key( $post_type ) . "'";
+		}
 
 		switch ( $timezone ) {
 			case 'gmt':
@@ -5320,12 +5333,14 @@ function _get_last_post_time( $timezone, $field ) {
 				$date = $wpdb->get_var("SELECT post_{$field} FROM $wpdb->posts WHERE post_status = 'publish' AND post_type IN ({$post_types}) ORDER BY post_{$field}_gmt DESC LIMIT 1");
 				break;
 			case 'server':
+				$add_seconds_server = date( 'Z' );
 				$date = $wpdb->get_var("SELECT DATE_ADD(post_{$field}_gmt, INTERVAL '$add_seconds_server' SECOND) FROM $wpdb->posts WHERE post_status = 'publish' AND post_type IN ({$post_types}) ORDER BY post_{$field}_gmt DESC LIMIT 1");
 				break;
 		}
 
-		if ( $date )
+		if ( $date ) {
 			wp_cache_set( $key, $date, 'timeinfo' );
+		}
 	}
 
 	return $date;
@@ -5548,6 +5563,7 @@ function _transition_post_status( $new_status, $old_status, $post ) {
 		foreach ( array( 'server', 'gmt', 'blog' ) as $timezone ) {
 			wp_cache_delete( "lastpostmodified:$timezone", 'timeinfo' );
 			wp_cache_delete( "lastpostdate:$timezone", 'timeinfo' );
+			wp_cache_delete( "lastpostdate:$timezone:{$post->post_type}", 'timeinfo' );
 		}
 	}
 
