@@ -1182,7 +1182,7 @@ function get_preview_post_link( $post = null, $query_args = array(), $preview_li
 			$preview_link = get_permalink( $post );
 		}
 
-		$query_args['preview'] = true;
+		$query_args['preview'] = 'true';
 		$preview_link = add_query_arg( $query_args, $preview_link );
 	}
 
