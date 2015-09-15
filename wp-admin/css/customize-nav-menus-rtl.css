@@ -609,6 +609,8 @@
 	border-right: none;
 	border-left: none;
 	background: #fff;
+	-webkit-transition: all 0.15s;
+	transition: all 0.15s;
 }
 
 #available-menu-items .open .accordion-section-title,
@@ -700,7 +702,6 @@ button.not-a-button {
 #available-menu-items .accordion-section-content {
 	padding: 1px 15px 15px 15px;
 	margin: 0;
-	min-height: 120px;
 	max-height: 290px;
 }
 
