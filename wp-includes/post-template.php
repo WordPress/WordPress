@@ -1204,7 +1204,16 @@ function wp_list_pages( $args = '' ) {
  * @return string|void HTML menu
  */
 function wp_page_menu( $args = array() ) {
-	$defaults = array('sort_column' => 'menu_order, post_title', 'menu_class' => 'menu', 'echo' => true, 'link_before' => '', 'link_after' => '');
+	$defaults = array(
+		'sort_column' => 'menu_order, post_title',
+		'menu_class' => 'menu',
+		'echo' => true,
+		'link_before' => '',
+		'link_after' => '',
+		'before' => '<ul>',
+		'after' => '</ul>',
+		'walker' => ''
+	);
 	$args = wp_parse_args( $args, $defaults );
 
 	/**
@@ -1247,9 +1256,9 @@ function wp_page_menu( $args = array() ) {
 	$list_args['title_li'] = '';
 	$menu .= str_replace( array( "\r", "\n", "\t" ), '', wp_list_pages($list_args) );
 
-	if ( $menu )
-		$menu = '<ul>' . $menu . '</ul>';
-
+	if ( $menu ) {
+		$menu = $args['before'] . $menu . $args['after'];
+	}
 	$menu = '<div class="' . esc_attr($args['menu_class']) . '">' . $menu . "</div>\n";
 
 	/**
