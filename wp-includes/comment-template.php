@@ -1341,11 +1341,22 @@ function comments_popup_link( $zero = false, $one = false, $more = false, $css_c
 			$home = get_option('siteurl');
 		echo $home . '/' . $wpcommentspopupfile . '?comments_popup=' . $id;
 		echo '" onclick="wpopen(this.href); return false"';
-	} else { // if comments_popup_script() is not in the template, display simple comment link
-		if ( 0 == $number )
-			echo get_permalink() . '#respond';
-		else
+	} else {
+		// if comments_popup_script() is not in the template, display simple comment link
+		if ( 0 == $number ) {
+			$respond_link = get_permalink() . '#respond';
+			/**
+			 * Filter the respond link when a post has no comments.
+			 *
+			 * @since 4.4.0
+			 *
+			 * @param string $respond_link The default response link.
+			 * @param integer $id The post ID.
+			 */
+			echo apply_filters( 'respond_link', $respond_link, $id );
+		} else {
 			comments_link();
+		}
 		echo '"';
 	}
 
