@@ -3604,6 +3604,10 @@ function get_avatar_data( $id_or_email, $args = null ) {
 	$email_hash = '';
 	$user = $email = false;
 
+	if ( is_object( $id_or_email ) && isset( $id_or_email->comment_ID ) ) {
+		$id_or_email = get_comment( $id_or_email );
+	}
+
 	// Process the user identifier.
 	if ( is_numeric( $id_or_email ) ) {
 		$user = get_user_by( 'id', absint( $id_or_email ) );
