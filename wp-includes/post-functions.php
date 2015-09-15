@@ -1072,12 +1072,15 @@ function register_post_type( $post_type, $args = array() ) {
 		add_post_type_support( $post_type, array( 'title', 'editor' ) );
 	}
 
-	if ( false !== $args->query_var && ! empty( $wp ) ) {
+	if ( false !== $args->query_var ) {
 		if ( true === $args->query_var )
 			$args->query_var = $post_type;
 		else
 			$args->query_var = sanitize_title_with_dashes( $args->query_var );
-		$wp->add_query_var( $args->query_var );
+
+		if ( $wp && is_post_type_viewable( $args ) ) {
+			$wp->add_query_var( $args->query_var );
+		}
 	}
 
 	if ( false !== $args->rewrite && ( is_admin() || '' != get_option( 'permalink_structure' ) ) ) {

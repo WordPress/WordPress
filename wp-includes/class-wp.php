@@ -261,9 +261,11 @@ class WP {
 		 */
 		$this->public_query_vars = apply_filters( 'query_vars', $this->public_query_vars );
 
-		foreach ( get_post_types( array(), 'objects' ) as $post_type => $t )
-			if ( $t->query_var )
+		foreach ( get_post_types( array(), 'objects' ) as $post_type => $t ) {
+			if ( is_post_type_viewable( $t ) && $t->query_var ) {
 				$post_type_query_vars[$t->query_var] = $post_type;
+			}
+		}
 
 		foreach ( $this->public_query_vars as $wpvar ) {
 			if ( isset( $this->extra_query_vars[$wpvar] ) )
