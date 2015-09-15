@@ -14,7 +14,7 @@ require( dirname(__FILE__) . '/wp-load.php' );
 require( dirname( __FILE__ ) . '/wp-blog-header.php' );
 
 if ( !is_multisite() ) {
-	wp_redirect( site_url( '/wp-login.php?action=register' ) );
+	wp_redirect( wp_registration_url() );
 	die();
 }
 

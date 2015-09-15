@@ -326,7 +326,7 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 				/** This filter is documented in wp-login.php */
 				$redirect_url = apply_filters( 'wp_signup_location', network_site_url( 'wp-signup.php' ) );
 			} else {
-				$redirect_url = site_url( 'wp-login.php?action=register' );
+				$redirect_url = wp_registration_url();
 			}
 
 			wp_redirect( $redirect_url, 301 );
@@ -591,7 +591,7 @@ function wp_redirect_admin_locations() {
 		site_url( 'login', 'relative' ),
 	);
 	if ( in_array( untrailingslashit( $_SERVER['REQUEST_URI'] ), $logins ) ) {
-		wp_redirect( site_url( 'wp-login.php', 'login' ) );
+		wp_redirect( wp_login_url() );
 		exit;
 	}
 }
