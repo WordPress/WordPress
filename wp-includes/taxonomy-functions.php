@@ -3274,7 +3274,10 @@ function update_object_term_cache($object_ids, $object_type) {
 	if ( empty( $ids ) )
 		return false;
 
-	$terms = wp_get_object_terms($ids, $taxonomies, array('fields' => 'all_with_object_id'));
+	$terms = wp_get_object_terms( $ids, $taxonomies, array(
+		'fields' => 'all_with_object_id',
+		'orderby' => 'none',
+	) );
 
 	$object_terms = array();
 	foreach ( (array) $terms as $term )
