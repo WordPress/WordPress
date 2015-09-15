@@ -888,6 +888,14 @@ class WP_List_Table {
 		return $column;
 	}
 
+	/**
+	 * Public wrapper for `->get_default_primary_column_name()`
+	 *
+	 * @since 4.4.0
+	 * @access public
+	 *
+	 * @return string Name of the default primary column.
+	 */
 	public function get_primary_column() {
 		return $this->get_primary_column_name();
 	}
