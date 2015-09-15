@@ -109,6 +109,10 @@ case 'edit':
 	if ( ! $post_type_object )
 		wp_die( __( 'Unknown post type.' ) );
 
+	if ( ! in_array( $typenow, get_post_types( array( 'show_ui' => true ) ) ) ) {
+		wp_die( __( 'You are not allowed to edit posts in this post type.' ) );
+	}
+
 	if ( ! current_user_can( 'edit_post', $post_id ) )
 		wp_die( __( 'You are not allowed to edit this item.' ) );
 

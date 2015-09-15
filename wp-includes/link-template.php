@@ -1228,6 +1228,10 @@ function get_edit_post_link( $id = 0, $context = 'display' ) {
 	if ( !current_user_can( 'edit_post', $post->ID ) )
 		return;
 
+	if ( ! in_array( $post->post_type, get_post_types( array( 'show_ui' => true ) ) ) ) {
+		return;
+	}
+
 	/**
 	 * Filter the post edit link.
 	 *

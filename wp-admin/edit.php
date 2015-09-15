@@ -12,6 +12,10 @@ require_once( dirname( __FILE__ ) . '/admin.php' );
 if ( ! $typenow )
 	wp_die( __( 'Invalid post type' ) );
 
+if ( ! in_array( $typenow, get_post_types( array( 'show_ui' => true ) ) ) ) {
+	wp_die( __( 'You are not allowed to edit posts in this post type.' ) );
+}
+
 if ( 'attachment' === $typenow ) {
 	if ( wp_redirect( admin_url( 'upload.php' ) ) ) {
 		exit;
