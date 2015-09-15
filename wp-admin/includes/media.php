@@ -1368,7 +1368,8 @@ function get_media_item( $attachment_id, $args = null ) {
 	$toggle_on  = __( 'Show' );
 	$toggle_off = __( 'Hide' );
 
-	$filename = esc_html( wp_basename( $post->guid ) );
+	$file = get_attached_file( $post->ID );
+	$filename = esc_html( wp_basename( $file ) );
 	$title = esc_attr( $post->post_title );
 
 	$post_mime_types = get_post_mime_types();

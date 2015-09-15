@@ -4648,7 +4648,7 @@ function wp_delete_attachment( $post_id, $force_delete = false ) {
 	foreach ( $comment_ids as $comment_id ) {
 		wp_delete_comment( $comment_id, true );
 	}
-	
+
 	wp_defer_comment_counting( false );
 
 	$post_meta_ids = $wpdb->get_col( $wpdb->prepare( "SELECT meta_id FROM $wpdb->postmeta WHERE post_id = %d ", $post_id ));
@@ -4974,7 +4974,8 @@ function wp_mime_type_icon( $mime = 0 ) {
 			$mime = (int) $mime;
 			if ( $post = get_post( $mime ) ) {
 				$post_id = (int) $post->ID;
-				$ext = preg_replace('/^.+?\.([^.]+)$/', '$1', $post->guid);
+				$file = get_attached_file( $post_id );
+				$ext = preg_replace('/^.+?\.([^.]+)$/', '$1', $file);
 				if ( !empty($ext) ) {
 					$post_mimes[] = $ext;
 					if ( $ext_type = wp_ext2type( $ext ) )

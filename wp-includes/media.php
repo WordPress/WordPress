@@ -1175,7 +1175,7 @@ function wp_underscore_playlist_templates() {
 	<img src="{{ data.thumb.src }}"/>
 	<# } #>
 	<div class="wp-playlist-caption">
-		<span class="wp-playlist-item-meta wp-playlist-item-title"><?php 
+		<span class="wp-playlist-item-meta wp-playlist-item-title"><?php
 			/* translators: playlist item title */
 			printf( _x( '&#8220;%s&#8221;', 'playlist item title' ), '{{ data.title }}' );
 		?></span>
@@ -2076,7 +2076,8 @@ function get_attachment_taxonomies( $attachment ) {
 	if ( ! is_object($attachment) )
 		return array();
 
-	$filename = basename($attachment->guid);
+	$file = get_attached_file( $attachment->ID );
+	$filename = basename( $file );
 
 	$objects = array('attachment');
 

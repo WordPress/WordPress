@@ -3155,7 +3155,7 @@ function wp_ajax_crop_image() {
 			/** This filter is documented in wp-admin/custom-header.php */
 			$cropped = apply_filters( 'wp_create_file_in_uploads', $cropped, $attachment_id ); // For replication.
 
-			$parent_url = get_post( $attachment_id )->guid;
+			$parent_url = wp_get_attachment_url( $attachment_id );
 			$url        = str_replace( basename( $parent_url ), basename( $cropped ), $parent_url );
 
 			$size       = @getimagesize( $cropped );

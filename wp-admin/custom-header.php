@@ -1116,7 +1116,7 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 	 */
 	final public function create_attachment_object( $cropped, $parent_attachment_id ) {
 		$parent = get_post( $parent_attachment_id );
-		$parent_url = $parent->guid;
+		$parent_url = wp_get_attachment_url( $parent->ID );
 		$url = str_replace( basename( $parent_url ), basename( $cropped ), $parent_url );
 
 		$size = @getimagesize( $cropped );

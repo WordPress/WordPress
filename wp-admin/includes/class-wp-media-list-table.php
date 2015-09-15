@@ -370,7 +370,13 @@ class WP_Media_List_Table extends WP_List_Table {
 			<?php echo $link_end; ?>
 			<?php _media_states( $post ); ?>
 		</strong>
-		<p class="filename"><span class="screen-reader-text"><?php _e( 'File name:' ); ?> </span><?php echo wp_basename( $post->guid ); ?></p>
+		<p class="filename">
+			<span class="screen-reader-text"><?php _e( 'File name:' ); ?> </span>
+			<?php 
+			$file = get_attached_file( $post->ID );
+			echo wp_basename( $file );
+			?>
+		</p>
 		<?php
 	}
 
