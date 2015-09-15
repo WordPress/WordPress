@@ -92,7 +92,8 @@ class WP_Comment_Query {
 	 *
 	 * Sets up the comment query, based on the query vars passed.
 	 *
-	 * @since  4.2.0
+	 * @since 4.2.0
+	 * @since 4.4.0 `$parent__in` and `$parent__not_in` were added.
 	 * @access public
 	 *
 	 * @param string|array $query {
@@ -136,6 +137,8 @@ class WP_Comment_Query {
 	 *     @type string       $order               How to order retrieved comments. Accepts 'ASC', 'DESC'.
 	 *                                             Default: 'DESC'.
 	 *     @type int          $parent              Parent ID of comment to retrieve children of. Default empty.
+	 *     @type array        $parent__in          Array of parent IDs of comments to retrieve children for. Default empty.
+	 *     @type array        $parent__not_in      Array of parent IDs of comments *not* to retrieve children for. Default empty.
 	 *     @type array        $post_author__in     Array of author IDs to retrieve comments for. Default empty.
 	 *     @type array        $post_author__not_in Array of author IDs *not* to retrieve comments for. Default empty.
 	 *     @type int          $post_ID             Currently unused.
@@ -484,6 +487,16 @@ class WP_Comment_Query {
 		// Parse comment IDs for a NOT IN clause.
 		if ( ! empty( $this->query_vars['comment__not_in'] ) ) {
 			$where[] = "$wpdb->comments.comment_ID NOT IN ( " . implode( ',', wp_parse_id_list( $this->query_vars['comment__not_in'] ) ) . ' )';
+		}
+
+		// Parse comment parent IDs for an IN clause.
+		if ( ! empty( $this->query_vars['parent__in'] ) ) {
+			$where[] = 'comment_parent IN ( ' . implode( ',', wp_parse_id_list( $this->query_vars['parent__in'] ) ) . ' )';
+		}
+
+		// Parse comment parent IDs for a NOT IN clause.
+		if ( ! empty( $this->query_vars['parent__not_in'] ) ) {
+			$where[] = 'comment_parent NOT IN ( ' . implode( ',', wp_parse_id_list( $this->query_vars['parent__not_in'] ) ) . ' )';
 		}
 
 		// Parse comment post IDs for an IN clause.
