@@ -300,6 +300,21 @@ class WP {
 			if ( $t->query_var && isset( $this->query_vars[$t->query_var] ) )
 				$this->query_vars[$t->query_var] = str_replace( ' ', '+', $this->query_vars[$t->query_var] );
 
+		// Don't allow non-public taxonomies to be queried from the front-end.
+		if ( ! is_admin() ) {
+			foreach ( get_taxonomies( array( 'public' => false ), 'objects' ) as $taxonomy => $t ) {
+				// Check first for taxonomy-specific query_var.
+				if ( $t->query_var && isset( $this->query_vars[ $t->query_var ] ) ) {
+					unset( $this->query_vars[ $t->query_var ] );
+				}
+
+				// Next, check the 'taxonomy' query_var.
+				if ( isset( $this->query_vars['taxonomy'] ) && $taxonomy === $this->query_vars['taxonomy'] ) {
+					unset( $this->query_vars['taxonomy'], $this->query_vars['term'] );
+				}
+			}
+		}
+
 		// Limit publicly queried post_types to those that are publicly_queryable
 		if ( isset( $this->query_vars['post_type']) ) {
 			$queryable_post_types = get_post_types( array('publicly_queryable' => true) );
