@@ -1293,15 +1293,6 @@ class WP_Query {
 	 public $thumbnails_cached = false;
 
 	/**
-	 * Set if comment meta has already been cached
-	 *
-	 * @since 4.4.0
-	 * @access public
-	 * @var bool
-	 */
-	 public $comment_meta_cached = false;
-
-	/**
 	 * Cached list of search stopwords.
 	 *
 	 * @since 3.7.0

@@ -1815,12 +1815,6 @@ function wp_list_comments( $args = array(), $comments = null ) {
 		} else {
 			$_comments = $wp_query->comments;
 		}
-
-		if ( ! $wp_query->comment_meta_cached ) {
-			$comment_ids = wp_list_pluck( $_comments, 'comment_ID' );
-			update_meta_cache( 'comment', $comment_ids );
-			$wp_query->comment_meta_cached = true;
-		}
 	}
 
 	if ( '' === $r['per_page'] && get_option('page_comments') )
