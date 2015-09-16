@@ -5232,8 +5232,11 @@ function get_posts_by_author_sql( $post_type, $full = true, $post_author = null,
  * @since 0.71
  * @since 4.4.0 The `$post_type` argument was added.
  *
- * @param string $timezone  Optional. The location to get the time. Accepts 'gmt', 'blog',
- *                          or 'server'. Default 'server'.
+ * @param string $timezone  Optional. The timezone for the timestamp. Accepts 'server', 'blog', or 'gmt'.
+ *                          'server' uses the server's internal timezone.
+ *                          'blog' uses the `post_modified` field, which proxies to the timezone set for the site.
+ *                          'gmt' uses the `post_modified_gmt` field.
+ *                          Default 'server'.
  * @param string $post_type Optional. The post type to check. Default 'any'.
  * @return string The date of the last post.
  */
@@ -5243,9 +5246,9 @@ function get_lastpostdate( $timezone = 'server', $post_type = 'any' ) {
 	 *
 	 * @since 2.3.0
 	 *
-	 * @param string $date     Date the last post was published. Likely values are 'gmt',
-	 *                         'blog', or 'server'.
+	 * @param string $date     Date the last post was published.
 	 * @param string $timezone Location to use for getting the post published date.
+	 *                         See {@see get_lastpostdate()} for accepted `$timezone` values.
 	 */
 	return apply_filters( 'get_lastpostdate', _get_last_post_time( $timezone, 'date', $post_type ), $timezone );
 }
@@ -5260,10 +5263,8 @@ function get_lastpostdate( $timezone = 'server', $post_type = 'any' ) {
  * @since 1.2.0
  * @since 4.4.0 The `$post_type` argument was added.
  *
- * @param string $timezone  Optional. The timezone for the timestamp. Uses the server's internal timezone.
- *                          Accepts 'server', 'blog', 'gmt'. or 'server'. 'server' uses the server's
- *                          internal timezone. 'blog' uses the `post_modified` field, which proxies
- *                          to the timezone set for the site. 'gmt' uses the `post_modified_gmt` field.
+ * @param string $timezone  Optional. The timezone for the timestamp. See {@see get_lastpostdate()}
+ *                          for information on accepted values.
  *                          Default 'server'.
  * @param string $post_type Optional. The post type to check. Default 'any'.
  * @return string The timestamp.
@@ -5283,7 +5284,7 @@ function get_lastpostmodified( $timezone = 'server', $post_type = 'any' ) {
 	 *
 	 * @param string $lastpostmodified Date the last post was modified.
 	 * @param string $timezone         Location to use for getting the post modified date.
-	 *                                 See {@see get_lastpostmodified()} for accepted `$timezone` values.
+	 *                                 See {@see get_lastpostdate()} for accepted `$timezone` values.
 	 */
 	return apply_filters( 'get_lastpostmodified', $lastpostmodified, $timezone );
 }
@@ -5297,7 +5298,7 @@ function get_lastpostmodified( $timezone = 'server', $post_type = 'any' ) {
  *
  * @global wpdb $wpdb
  *
- * @param string $timezone  The timezone for the timestamp. See {@see get_lastpostmodified()}
+ * @param string $timezone  The timezone for the timestamp. See {@see get_lastpostdate()}
  *                          for information on accepted values.
  * @param string $field     Post field to check. Accepts 'date' or 'modified'.
  * @param string $post_type Optional. The post type to check. Default 'any'.
