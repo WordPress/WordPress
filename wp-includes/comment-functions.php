@@ -1648,11 +1648,15 @@ function wp_new_comment( $commentdata ) {
  *
  * @param int $comment_ID       ID of the comment.
  * @param int $comment_approved Whether the comment is approved.
+ * @return bool True on success, false on failure.
  */
 function wp_new_comment_notify_moderator( $comment_ID, $comment_approved ) {
-	if ( '0' == $comment_approved ) {
-		wp_notify_moderator( $comment_ID );
+	// Only send notifications for pending comments.
+	if ( '0' != $comment_approved ) {
+		return false;
 	}
+
+	return wp_notify_moderator( $comment_ID );
 }
 
 /**
@@ -1661,6 +1665,7 @@ function wp_new_comment_notify_moderator( $comment_ID, $comment_approved ) {
  * @since 4.4.0
  *
  * @param int $comment_ID ID of the comment.
+ * @return bool True on success, false on failure.
  */
 function wp_new_comment_notify_postauthor( $comment_ID ) {
 	$comment = get_comment( $comment_ID );
@@ -1669,9 +1674,16 @@ function wp_new_comment_notify_postauthor( $comment_ID ) {
 	 * `wp_notify_postauthor()` checks if notifying the author of their own comment.
 	 * By default, it won't, but filters can override this.
 	 */
-	if ( get_option( 'comments_notify' ) && $comment->comment_approved ) {
-		wp_notify_postauthor( $comment_ID );
+	if ( ! get_option( 'comments_notify' ) ) {
+		return false;
 	}
+
+	// Only send notifications for approved comments.
+	if ( 'spam' === $comment->comment_approved || ! $comment->comment_approved ) {
+		return false;
+	}
+
+	return wp_notify_postauthor( $comment_ID );
 }
 
 /**
