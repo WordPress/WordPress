@@ -258,7 +258,7 @@ function wptexturize( $text, $reset = false ) {
 		// Only call _wptexturize_pushpop_element if $curl is a delimiter.
 		$first = $curl[0];
 		if ( '<' === $first && '<!--' === substr( $curl, 0, 4 ) ) {
-			// This is an HTML comment delimeter.
+			// This is an HTML comment delimiter.
 
 			continue;
 
@@ -669,7 +669,7 @@ function wp_replace_in_html_tags( $haystack, $replace_pairs ) {
 		// Extract $needle and $replace.
 		foreach ( $replace_pairs as $needle => $replace );
 
-		// Loop through delimeters (elements) only.
+		// Loop through delimiters (elements) only.
 		for ( $i = 1, $c = count( $textarr ); $i < $c; $i += 2 ) {
 			if ( false !== strpos( $textarr[$i], $needle ) ) {
 				$textarr[$i] = str_replace( $needle, $replace, $textarr[$i] );
@@ -680,7 +680,7 @@ function wp_replace_in_html_tags( $haystack, $replace_pairs ) {
 		// Extract all $needles.
 		$needles = array_keys( $replace_pairs );
 
-		// Loop through delimeters (elements) only.
+		// Loop through delimiters (elements) only.
 		for ( $i = 1, $c = count( $textarr ); $i < $c; $i += 2 ) {
 			foreach ( $needles as $needle ) {
 				if ( false !== strpos( $textarr[$i], $needle ) ) {
