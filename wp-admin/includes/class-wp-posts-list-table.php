@@ -196,10 +196,14 @@ class WP_Posts_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Helper to create links to `edit.php` with params
+	 * Helper to create links to edit.php with params.
 	 *
 	 * @since 4.4.0
+	 * @access protected
 	 *
+	 * @param array  $args  URL parameters for the link.
+	 * @param string $label Link text.
+	 * @param string $class Optional. Class attribute. Default empty string.
 	 * @return string The formatted link string.
 	 */
 	protected function get_edit_link( $args, $label, $class = '' ) {
