@@ -619,6 +619,7 @@ function wpmu_validate_blog_signup( $blogname, $blog_title, $user = '' ) {
 			 * Filter reserved site names on a sub-directory Multisite install.
 			 *
 			 * @since 3.0.0
+			 * @since 4.4.0 'wp-admin', 'wp-content', and 'wp-includes' were added to the reserved names list.
 			 *
 			 * @param array $subdirectory_reserved_names Array of reserved names.
 			 */
