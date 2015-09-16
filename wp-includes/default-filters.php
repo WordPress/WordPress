@@ -339,6 +339,8 @@ add_action( 'wp_split_shared_term_batch', '_wp_batch_split_terms' );
 add_action( 'comment_post', 'wp_new_comment_notify_moderator', 10, 2 );
 add_action( 'comment_post', 'wp_new_comment_notify_postauthor' );
 add_action( 'after_password_reset', 'wp_password_change_notification' );
+add_action( 'register_new_user',      'wp_send_new_user_notifications' );
+add_action( 'edit_user_created_user', 'wp_send_new_user_notifications' );
 
 /**
  * Filters formerly mixed into wp-includes

@@ -176,7 +176,14 @@ function edit_user( $user_id = 0 ) {
 		$user_id = wp_update_user( $user );
 	} else {
 		$user_id = wp_insert_user( $user );
-		wp_new_user_notification( $user_id, null, 'both' );
+		/**
+		  * Fires after a new user has been created.
+		  *
+		  * @since 4.4.0
+		  *
+		  * @param int $user_id ID of the newly created user.
+		  */
+		do_action( 'edit_user_created_user', $user_id );
 	}
 	return $user_id;
 }

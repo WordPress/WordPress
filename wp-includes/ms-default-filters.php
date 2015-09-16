@@ -27,6 +27,9 @@ add_action( 'wpmu_new_user', 'newuser_notify_siteadmin' );
 add_action( 'wpmu_activate_user', 'add_new_user_to_blog', 10, 3 );
 add_action( 'wpmu_activate_user', 'wpmu_welcome_user_notification', 10, 3 );
 add_action( 'after_signup_user', 'wpmu_signup_user_notification', 10, 4 );
+add_action( 'network_site_new_created_user',   'wp_send_new_user_notifications' );
+add_action( 'network_site_users_created_user', 'wp_send_new_user_notifications' );
+add_action( 'network_user_new_created_user',   'wp_send_new_user_notifications' );
 add_filter( 'sanitize_user', 'strtolower' );
 
 // Blogs

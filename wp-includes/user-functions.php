@@ -2023,9 +2023,29 @@ function register_new_user( $user_login, $user_email ) {
 
 	update_user_option( $user_id, 'default_password_nag', true, true ); //Set up the Password change nag.
 
-	wp_new_user_notification( $user_id, null, 'both' );
+	/**
+	 * Fires after a new user registration has been recorded.
+	 *
+	 * @since 4.4.0
+	 *
+	 * @param int $user_id ID of the newly registered user.
+	 */
+	do_action( 'register_new_user', $user_id );
 
 	return $user_id;
+}
+
+/**
+ * Initiate email notifications related to the creation of new users.
+ *
+ * Notifications are sent both to the site admin and to the newly created user.
+ *
+ * @since 4.4.0
+ *
+ * @param int $user_id ID of the newly created user.
+ */
+function wp_send_new_user_notifications( $user_id ) {
+	wp_new_user_notification( $user_id, null, 'both' );
 }
 
 /**
