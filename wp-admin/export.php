@@ -153,7 +153,7 @@ function export_date_options( $post_type = 'post' ) {
 <form method="get" id="export-filters">
 <input type="hidden" name="download" value="true" />
 <p><label><input type="radio" name="content" value="all" checked="checked" /> <?php _e( 'All content' ); ?></label></p>
-<p class="description"><?php _e( 'This will contain all of your posts, pages, comments, custom fields, terms, navigation menus and custom posts.' ); ?></p>
+<p class="description"><?php _e( 'This will contain all of your posts, pages, comments, custom fields, terms, navigation menus, and custom posts.' ); ?></p>
 
 <p><label><input type="radio" name="content" value="posts" /> <?php _e( 'Posts' ); ?></label></p>
 <ul id="post-filters" class="export-filters">
