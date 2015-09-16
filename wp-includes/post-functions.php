@@ -984,8 +984,26 @@ function get_post_types( $args = array(), $output = 'names', $operator = 'and' )
 function register_post_type( $post_type, $args = array() ) {
 	global $wp_post_types, $wp_rewrite, $wp;
 
-	if ( ! is_array( $wp_post_types ) )
+	if ( ! is_array( $wp_post_types ) ) {
 		$wp_post_types = array();
+	}
+
+	// Sanitize post type name
+	$post_type = sanitize_key( $post_type );
+
+	if ( empty( $args['_builtin'] ) ) {
+		/**
+		 * Filter the arguments for registering a post type.
+		 *
+		 * Not available for built-in post types.
+		 *
+		 * @since 4.4.0
+		 *
+		 * @param array|string $args      Array or string of arguments for registering a post type.
+		 * @param string       $post_type Post type key.
+		 */
+		$args = apply_filters( 'register_post_type_args', $args, $post_type );
+	}
 
 	// Args prefixed with an underscore are reserved for internal use.
 	$defaults = array(
@@ -1018,7 +1036,6 @@ function register_post_type( $post_type, $args = array() ) {
 	$args = wp_parse_args( $args, $defaults );
 	$args = (object) $args;
 
-	$post_type = sanitize_key( $post_type );
 	$args->name = $post_type;
 
 	if ( empty( $post_type ) || strlen( $post_type ) > 20 ) {
