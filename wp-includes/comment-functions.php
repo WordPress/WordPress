@@ -1646,13 +1646,14 @@ function wp_new_comment( $commentdata ) {
  *
  * @since 4.4.0
  *
- * @param int $comment_ID       ID of the comment.
- * @param int $comment_approved Whether the comment is approved.
+ * @param int $comment_ID ID of the comment.
  * @return bool True on success, false on failure.
  */
-function wp_new_comment_notify_moderator( $comment_ID, $comment_approved ) {
+function wp_new_comment_notify_moderator( $comment_ID ) {
+	$comment = get_comment( $comment_ID );
+
 	// Only send notifications for pending comments.
-	if ( '0' != $comment_approved ) {
+	if ( '0' != $comment->comment_approved ) {
 		return false;
 	}
 
