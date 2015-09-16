@@ -803,8 +803,9 @@ function get_term_by($field, $value, $taxonomy, $output = OBJECT, $filter = 'raw
 		$field = 'tt.term_taxonomy_id';
 	} else {
 		$term = get_term( (int) $value, $taxonomy, $output, $filter );
-		if ( is_wp_error( $term ) )
+		if ( is_wp_error( $term ) || is_null( $term ) ) {
 			$term = false;
+		}
 		return $term;
 	}
 
