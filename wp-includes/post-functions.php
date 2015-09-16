@@ -3208,6 +3208,11 @@ function wp_insert_post( $postarr, $wp_error = false ) {
 	if ( ! empty( $postarr['tax_input'] ) ) {
 		foreach ( $postarr['tax_input'] as $taxonomy => $tags ) {
 			$taxonomy_obj = get_taxonomy($taxonomy);
+			if ( ! $taxonomy_obj ) {
+				_doing_it_wrong( __FUNCTION__, sprintf( __( 'Invalid taxonomy: %s' ), $taxonomy ), '4.4.0' );
+				continue;
+			}
+
 			// array = hierarchical, string = non-hierarchical.
 			if ( is_array( $tags ) ) {
 				$tags = array_filter($tags);
