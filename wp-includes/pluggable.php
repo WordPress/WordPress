@@ -2274,6 +2274,10 @@ function get_avatar( $id_or_email, $size = 96, $default = '', $alt = '', $args =
 		$args['width'] = $args['size'];
 	}
 
+	if ( is_object( $id_or_email ) && isset( $id_or_email->comment_ID ) ) {
+		$id_or_email = get_comment( $id_or_email );
+	}
+
 	/**
 	 * Filter whether to retrieve the avatar URL early.
 	 *
