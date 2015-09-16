@@ -1633,8 +1633,8 @@ function wp_new_comment( $commentdata ) {
 	 *
 	 * @since 1.2.0
 	 *
-	 * @param int $comment_ID       The comment ID.
-	 * @param int $comment_approved 1 (true) if the comment is approved, 0 (false) if not.
+	 * @param int        $comment_ID       The comment ID.
+	 * @param int|string $comment_approved 1 if the comment is approved, 0 if not, 'spam' if spam.
 	 */
 	do_action( 'comment_post', $comment_ID, $commentdata['comment_approved'] );
 
