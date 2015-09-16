@@ -634,15 +634,22 @@ class WP_User {
 	/**
 	 * Whether user has capability or role name.
 	 *
-	 * This is useful for looking up whether the user has a specific role
-	 * assigned to the user. The second optional parameter can also be used to
-	 * check for capabilities against a specific object, such as a post or user.
+	 * While checking against particular roles in place of a capability is supported
+	 * in part, this practice is discouraged as it may produce unreliable results.
 	 *
 	 * @since 2.0.0
 	 * @access public
 	 *
-	 * @param string|int $cap Capability or role name to search.
-	 * @return bool True, if user has capability; false, if user does not have capability.
+	 * @see map_meta_cap()
+	 *
+	 * @param string $cap       Capability name.
+	 * @param int    $object_id Optional. ID of the specific object to check against if `$cap` is a "meta" cap.
+	 *                          "Meta" capabilities, e.g. 'edit_post', 'edit_user', etc., are capabilities used
+	 *                          by map_meta_cap() to map to other "primitive" capabilities, e.g. 'edit_posts',
+	 *                          'edit_others_posts', etc. The parameter is accessed via func_get_args() and passed
+	 *                          to map_meta_cap().
+	 * @return bool Whether the current user has the given capability. If `$cap` is a meta cap and `$object_id` is
+	 *              passed, whether the current user has the given meta capability for the given object.
 	 */
 	public function has_cap( $cap ) {
 		if ( is_numeric( $cap ) ) {
