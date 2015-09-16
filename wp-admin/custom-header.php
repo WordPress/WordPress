@@ -835,6 +835,8 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 	 * Display third step of custom header image page.
 	 *
 	 * @since 2.1.0
+	 * @since 4.4.0 Switched to using wp_get_attachment_url() instead of the guid
+	 *              for retrieving the header image URL.
 	 */
 	public function step_3() {
 		check_admin_referer( 'custom-header-crop-image' );
