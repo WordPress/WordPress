@@ -1187,6 +1187,7 @@ function wp_list_pages( $args = '' ) {
  * arguments.
  *
  * @since 2.7.0
+ * @since 4.4.0 Added `$before`, `$after`, and `$walker` arguments.
  *
  * @param array|string $args {
  *     Optional. Arguments to generate a page menu. See wp_list_pages() for additional arguments.
@@ -1196,23 +1197,27 @@ function wp_list_pages( $args = '' ) {
  *     @type string          $menu_class  Class to use for the div ID containing the page list. Default 'menu'.
  *     @type bool            $echo        Whether to echo the list or return it. Accepts true (echo) or false (return).
  *                                        Default true.
- *     @type string          $link_before The HTML or text to prepend to $show_home text. Default empty.
- *     @type string          $link_after  The HTML or text to append to $show_home text. Default empty.
  *     @type int|bool|string $show_home   Whether to display the link to the home page. Can just enter the text
  *                                        you'd like shown for the home link. 1|true defaults to 'Home'.
+ *     @type string          $link_before The HTML or text to prepend to $show_home text. Default empty.
+ *     @type string          $link_after  The HTML or text to append to $show_home text. Default empty.
+ *     @type string          $before      The HTML or text to prepend to the menu. Default is '<ul>'.
+ *     @type string          $after       The HTML or text to append to the menu. Default is '</ul>'.
+ *     @type Walker          $walker      Walker instance to use for listing pages. Default empty (Walker_Page).
  * }
  * @return string|void HTML menu
  */
 function wp_page_menu( $args = array() ) {
 	$defaults = array(
 		'sort_column' => 'menu_order, post_title',
-		'menu_class' => 'menu',
-		'echo' => true,
+		'menu_class'  => 'menu',
+		'echo'        => true,
+		'show_home'   => false,
 		'link_before' => '',
-		'link_after' => '',
-		'before' => '<ul>',
-		'after' => '</ul>',
-		'walker' => ''
+		'link_after'  => '',
+		'before'      => '<ul>',
+		'after'       => '</ul>',
+		'walker'      => '',
 	);
 	$args = wp_parse_args( $args, $defaults );
 
