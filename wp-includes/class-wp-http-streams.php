@@ -313,7 +313,7 @@ class WP_Http_Streams {
 	}
 
 	/**
-	 * Verifies the received SSL certificate against it's Common Names and subjectAltName fields
+	 * Verifies the received SSL certificate against its Common Names and subjectAltName fields.
 	 *
 	 * PHP's SSL verifications only verify that it's a valid Certificate, it doesn't verify if
 	 * the certificate is valid for the hostname which was requested.
@@ -415,7 +415,7 @@ class WP_Http_Streams {
  * Deprecated HTTP Transport method which used fsockopen.
  *
  * This class is not used, and is included for backwards compatibility only.
- * All code should make use of WP_HTTP directly through it's API.
+ * All code should make use of WP_Http directly through its API.
  *
  * @see WP_HTTP::request
  *

@@ -2049,8 +2049,10 @@ class wpdb {
 	protected function process_field_charsets( $data, $table ) {
 		foreach ( $data as $field => $value ) {
 			if ( '%d' === $value['format'] || '%f' === $value['format'] ) {
-				// We can skip this field if we know it isn't a string.
-				// This checks %d/%f versus ! %s because it's sprintf() could take more.
+				/*
+				 * We can skip this field if we know it isn't a string.
+				 * This checks %d/%f versus ! %s because its sprintf() could take more.
+				 */
 				$value['charset'] = false;
 			} else {
 				$value['charset'] = $this->get_col_charset( $table, $field );
@@ -2079,8 +2081,10 @@ class wpdb {
 	protected function process_field_lengths( $data, $table ) {
 		foreach ( $data as $field => $value ) {
 			if ( '%d' === $value['format'] || '%f' === $value['format'] ) {
-				// We can skip this field if we know it isn't a string.
-				// This checks %d/%f versus ! %s because it's sprintf() could take more.
+				/*
+				 * We can skip this field if we know it isn't a string.
+				 * This checks %d/%f versus ! %s because its sprintf() could take more.
+				 */
 				$value['length'] = false;
 			} else {
 				$value['length'] = $this->get_col_length( $table, $field );

@@ -614,7 +614,7 @@ function wp_restore_image($post_id) {
 		if ( $parts['basename'] != $data['file'] ) {
 			if ( defined('IMAGE_EDIT_OVERWRITE') && IMAGE_EDIT_OVERWRITE ) {
 
-				// Delete only if it's edited image.
+				// Delete only if it's an edited image.
 				if ( preg_match('/-e[0-9]{13}\./', $parts['basename']) ) {
 					wp_delete_file( $file );
 				}
@@ -637,7 +637,7 @@ function wp_restore_image($post_id) {
 			if ( isset($meta['sizes'][$default_size]) && $meta['sizes'][$default_size]['file'] != $data['file'] ) {
 				if ( defined('IMAGE_EDIT_OVERWRITE') && IMAGE_EDIT_OVERWRITE ) {
 
-					// Delete only if it's edited image
+					// Delete only if it's an edited image.
 					if ( preg_match('/-e[0-9]{13}-/', $meta['sizes'][$default_size]['file']) ) {
 						$delete_file = path_join( $parts['dirname'], $meta['sizes'][$default_size]['file'] );
 						wp_delete_file( $delete_file );

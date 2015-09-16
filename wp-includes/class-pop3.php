@@ -82,7 +82,7 @@ class POP3 {
         //  Opens a socket to the specified server. Unless overridden,
         //  port defaults to 110. Returns true on success, false on fail
 
-        // If MAILSERVER is set, override $server with it's value
+        // If MAILSERVER is set, override $server with its value.
 
     if (!isset($port) || !$port) {$port = 110;}
         if(!empty($this->MAILSERVER))
