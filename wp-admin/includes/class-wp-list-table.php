@@ -889,7 +889,7 @@ class WP_List_Table {
 	}
 
 	/**
-	 * Public wrapper for `->get_default_primary_column_name()`
+	 * Public wrapper for WP_List_Table::get_default_primary_column_name().
 	 *
 	 * @since 4.4.0
 	 * @access public
