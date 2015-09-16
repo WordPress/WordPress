@@ -264,7 +264,7 @@ function wp_cache_add_non_persistent_groups( $groups ) {
  * @global WP_Object_Cache $wp_object_cache Object cache global instance.
  */
 function wp_cache_reset() {
-	_deprecated_function( __FUNCTION__, '3.5', 'wp_cache_switch_to_blog()' );
+	_deprecated_function( __FUNCTION__, '3.5' );
 
 	global $wp_object_cache;
 
