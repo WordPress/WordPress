@@ -106,21 +106,24 @@ function the_media_upload_tabs() {
  *
  * @since 2.5.0
  *
- * @param integer $id image attachment id
- * @param string $caption image caption
- * @param string $alt image alt attribute
- * @param string $title image title attribute
- * @param string $align image css alignment property
- * @param string $url image src url
- * @param string|bool $rel image rel attribute
- * @param string $size image size (thumbnail, medium, large, full or added  with add_image_size() )
+ * @param int     $id      image attachment id
+ * @param string  $caption image caption
+ * @param string  $title   image title attribute
+ * @param string  $align   image css alignment property
+ * @param string  $url     image src url
+ * @param string  $rel     image rel attribute
+ * @param string  $size    image size (thumbnail, medium, large, full or added  with add_image_size() )
  * @return string the html to insert into editor
  */
-function get_image_send_to_editor($id, $caption, $title, $align, $url='', $rel = false, $size='medium', $alt = '') {
+function get_image_send_to_editor( $id, $caption, $title, $align, $url='', $rel = '', $size='medium', $alt = '' ) {
 
 	$html = get_image_tag($id, $alt, '', $align, $size);
 
-	$rel = $rel ? ' rel="attachment wp-att-' . esc_attr($id).'"' : '';
+	if ( ! $rel ) {
+		$rel = ' rel="attachment wp-att-' . esc_attr( $id ) . '"';
+	} else {
+		$rel = ' rel="' . esc_attr( $rel ) . '"';
+	}
 
 	if ( $url )
 		$html = '<a href="' . esc_attr($url) . "\"$rel>$html</a>";
