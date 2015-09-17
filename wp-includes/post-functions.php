@@ -5081,11 +5081,16 @@ function wp_mime_type_icon( $mime = 0 ) {
 		$matches['default'] = array('default');
 
 		foreach ( $matches as $match => $wilds ) {
-			if ( isset($types[$wilds[0]])) {
-				$icon = $types[$wilds[0]];
-				if ( !is_numeric($mime) )
-					wp_cache_add("mime_type_icon_$mime", $icon);
-				break;
+			foreach ( $wilds as $wild ) {
+				if ( ! isset( $types[ $wild ] ) ) {
+					continue;
+				}
+
+				$icon = $types[ $wild ];
+				if ( ! is_numeric( $mime ) ) {
+					wp_cache_add( "mime_type_icon_$mime", $icon );
+				}
+				break 2;
 			}
 		}
 	}
