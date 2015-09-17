@@ -1256,18 +1256,7 @@ function get_sample_permalink($id, $title = null, $name = null) {
 	$post->post_name = $original_name;
 	unset($post->filter);
 
-	/**
-	 * Filter the sample permalink.
-	 *
-	 * @since 4.4.0
-	 *
-	 * @param string  $permalink Sample permalink.
-	 * @param int     $post_id   Post ID.
-	 * @param string  $title     Post title.
-	 * @param string  $name      Post name (slug).
-	 * @param WP_Post $post      Post object.
-	 */
-	return apply_filters( 'get_sample_permalink', $permalink, $post->ID, $title, $name, $post );
+	return $permalink;
 }
 
 /**
