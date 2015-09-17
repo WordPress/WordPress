@@ -4990,26 +4990,3 @@ function wp_post_preview_js() {
 	</script>
 	<?php
 }
-
-/**
- * Retrieve and, optionally, validate, an `action` query var
- *
- * @since 4.4.0
- *
- * @param string $action Optional. Action to validate.
- * @return string Empty string if there is no action in the request or it doesn't
- *                match the passed `$action`. Returns the [passed `$action` or
- *                request action on succcess.
- */
-function wp_validate_action( $action = '' ) {
-	$r = $_REQUEST;
-	if ( ! isset( $r['action'] ) ) {
-		return '';
-	}
-
-	if ( ! empty( $action ) ) {
-		return $action === $r['action'] ? $action : '';
-	}
-
-	return $r['action'];
-}

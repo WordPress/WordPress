@@ -28,7 +28,7 @@ nocache_headers();
 /** This action is documented in wp-admin/admin.php */
 do_action( 'admin_init' );
 
-$action = wp_validate_action();
+$action = empty( $_REQUEST['action'] ) ? '' : $_REQUEST['action'];
 
 if ( ! wp_validate_auth_cookie() ) {
 	if ( empty( $action ) ) {

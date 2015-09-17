@@ -17,7 +17,7 @@ include_once( ABSPATH . 'wp-admin/includes/class-wp-upgrader.php' );
 if ( isset($_GET['action']) ) {
 	$plugin = isset($_REQUEST['plugin']) ? trim($_REQUEST['plugin']) : '';
 	$theme = isset($_REQUEST['theme']) ? urldecode($_REQUEST['theme']) : '';
-	$action = wp_validate_action();
+	$action = isset($_REQUEST['action']) ? $_REQUEST['action'] : '';
 
 	if ( 'update-selected' == $action ) {
 		if ( ! current_user_can( 'update_plugins' ) )

@@ -174,12 +174,11 @@ get_current_screen()->set_help_sidebar(
 
 require_once( ABSPATH . 'wp-admin/admin-header.php' );
 
-$action = wp_validate_action();
-if ( isset( $_REQUEST['updated'] ) && $_REQUEST['updated'] == 'true' && ! empty( $action ) ) {
+if ( isset( $_REQUEST['updated'] ) && $_REQUEST['updated'] == 'true' && ! empty( $_REQUEST['action'] ) ) {
 	?>
 	<div id="message" class="updated notice is-dismissible"><p>
 		<?php
-		switch ( $action ) {
+		switch ( $_REQUEST['action'] ) {
 			case 'delete':
 				_e( 'User deleted.' );
 			break;

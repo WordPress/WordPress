@@ -153,8 +153,7 @@ class WP_Terms_List_Table extends WP_List_Table {
 	 * @return string
 	 */
 	public function current_action() {
-		$action = wp_validate_action();
-		if ( $action && isset( $_REQUEST['delete_tags'] ) && ( 'delete' == $action || 'delete' == $_REQUEST['action2'] ) )
+		if ( isset( $_REQUEST['action'] ) && isset( $_REQUEST['delete_tags'] ) && ( 'delete' == $_REQUEST['action'] || 'delete' == $_REQUEST['action2'] ) )
 			return 'bulk-delete';
 
 		return parent::current_action();
