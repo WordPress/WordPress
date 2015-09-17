@@ -1451,9 +1451,10 @@ function wp_insert_user( $userdata ) {
 	 *     @type bool     $show_admin_bar_front Whether to show the admin bar on the front end for the user.
 	 *                                          Default true.
  	 * }
- 	 * @param WP_User $user User object.
+	 * @param WP_User $user   User object.
+	 * @param bool    $update Whether the user is being updated rather than created.
  	 */
-	$meta = apply_filters( 'insert_user_meta', $meta, $user );
+	$meta = apply_filters( 'insert_user_meta', $meta, $user, $update );
 
 	// Update user meta.
 	foreach ( $meta as $key => $value ) {
