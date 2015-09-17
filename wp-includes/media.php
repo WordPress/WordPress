@@ -2778,8 +2778,16 @@ function wp_prepare_attachment_for_js( $attachment ) {
 	}
 
 	$attached_file = get_attached_file( $attachment->ID );
-	if ( file_exists( $attached_file ) ) {
+	
+	if ( isset( $meta['filesize'] ) ) {
+		$bytes = $meta['filesize'];
+	} elseif ( file_exists( $attached_file ) ) {
 		$bytes = filesize( $attached_file );
+	} else {
+		$bytes = '';
+	}
+
+	if ( $bytes ) {
 		$response['filesizeInBytes'] = $bytes;
 		$response['filesizeHumanReadable'] = size_format( $bytes );
 	}
