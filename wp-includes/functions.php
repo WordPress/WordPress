@@ -680,6 +680,10 @@ function _http_build_query( $data, $prefix = null, $sep = null, $key = '', $urle
  * value. Additional values provided are expected to be encoded appropriately
  * with urlencode() or rawurlencode().
  *
+ * Important: The return value of add_query_arg() is not escaped by default.
+ * Output should be late-escaped with esc_url() or similar to help prevent
+ * vulnerability to cross-site scripting (XSS) attacks.
+ *
  * @since 1.5.0
  *
  * @param string|array $param1 Either newkey or an associative_array.
