@@ -94,7 +94,7 @@ class WP_Comment_Query {
 	 *
 	 * @since 4.2.0
 	 * @since 4.4.0 `$parent__in` and `$parent__not_in` were added.
-	 * @since 4.4.0 Order by `comment__in` was added.
+	 * @since 4.4.0 Order by `comment__in` was added. `$update_comment_meta_cache` was added.
 	 * @access public
 	 *
 	 * @param string|array $query {
@@ -161,6 +161,8 @@ class WP_Comment_Query {
 	 *     @type array        $type__in            Include comments from a given array of comment types. Default empty.
 	 *     @type array        $type__not_in        Exclude comments from a given array of comment types. Default empty.
 	 *     @type int          $user_id             Include comments for a specific user ID. Default empty.
+	 *     @type bool         $update_comment_meta_cache Whether to prime the metadata cache for found comments.
+	 *                                                   Default true.
 	 * }
 	 */
 	public function __construct( $query = '' ) {
@@ -201,6 +203,7 @@ class WP_Comment_Query {
 			'meta_value' => '',
 			'meta_query' => '',
 			'date_query' => null, // See WP_Date_Query
+			'update_comment_meta_cache' => true,
 		);
 
 		if ( ! empty( $query ) ) {
@@ -698,7 +701,7 @@ class WP_Comment_Query {
 
 		wp_cache_add( $cache_key, $comments, 'comment' );
 		if ( '*' === $fields ) {
-			update_comment_cache( $comments );
+			update_comment_cache( $comments, $this->query_vars['update_comment_meta_cache'] );
 		}
 
 		$this->comments = $comments;

@@ -2357,12 +2357,23 @@ function clean_comment_cache($ids) {
  * cache using the comment group with the key using the ID of the comments.
  *
  * @since 2.3.0
+ * @since 4.4.0 Introduced the `$update_meta_cache` parameter.
  *
- * @param array $comments Array of comment row objects
+ * @param array $comments          Array of comment row objects
+ * @param bool  $update_meta_cache Whether to update commentmeta cache. Default true.
  */
-function update_comment_cache($comments) {
+function update_comment_cache( $comments, $update_meta_cache = true ) {
 	foreach ( (array) $comments as $comment )
 		wp_cache_add($comment->comment_ID, $comment, 'comment');
+
+	if ( $update_meta_cache ) {
+		// Avoid `wp_list_pluck()` in case `$comments` is passed by reference.
+		$comment_ids = array();
+		foreach ( $comments as $comment ) {
+			$comment_ids[] = $comment->comment_ID;
+		}
+		update_meta_cache( 'comment', $comment_ids );
+	}
 }
 
 //
