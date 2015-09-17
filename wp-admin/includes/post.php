@@ -577,7 +577,8 @@ function bulk_edit_posts( $post_data = null ) {
  *
  * @since 2.0.0
  *
- * @param string $post_type A post type string, defaults to 'post'.
+ * @param string $post_type    Optional. A post type string. Default 'post'.
+ * @param bool   $create_in_db Optional. Whether to insert the post into database. Default false.
  * @return WP_Post Post object containing all the default post data as attributes
  */
 function get_default_post_to_edit( $post_type = 'post', $create_in_db = false ) {
@@ -1255,7 +1256,18 @@ function get_sample_permalink($id, $title = null, $name = null) {
 	$post->post_name = $original_name;
 	unset($post->filter);
 
-	return $permalink;
+	/**
+	 * Filter the sample permalink.
+	 *
+	 * @since 4.4.0
+	 *
+	 * @param string  $permalink Sample permalink.
+	 * @param int     $post_id   Post ID.
+	 * @param string  $title     Post title.
+	 * @param string  $name      Post name (slug).
+	 * @param WP_Post $post      Post object.
+	 */
+	return apply_filters( 'get_sample_permalink', $permalink, $post->ID, $title, $name, $post );
 }
 
 /**
