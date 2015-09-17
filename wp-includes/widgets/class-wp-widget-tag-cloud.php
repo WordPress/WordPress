@@ -30,15 +30,6 @@ class WP_Widget_Tag_Cloud extends WP_Widget {
 			}
 		}
 
-		/** This filter is documented in wp-includes/widgets/class-wp-widget-pages.php */
-		$title = apply_filters( 'widget_title', $title, $instance, $this->id_base );
-
-		echo $args['before_widget'];
-		if ( $title ) {
-			echo $args['before_title'] . $title . $args['after_title'];
-		}
-		echo '<div class="tagcloud">';
-
 		/**
 		 * Filter the taxonomy used in the Tag Cloud widget.
 		 *
@@ -49,9 +40,26 @@ class WP_Widget_Tag_Cloud extends WP_Widget {
 		 *
 		 * @param array $current_taxonomy The taxonomy to use in the tag cloud. Default 'tags'.
 		 */
-		wp_tag_cloud( apply_filters( 'widget_tag_cloud_args', array(
-			'taxonomy' => $current_taxonomy
+		$tag_cloud = wp_tag_cloud( apply_filters( 'widget_tag_cloud_args', array(
+			'taxonomy' => $current_taxonomy,
+			'echo' => false
 		) ) );
+
+		if ( empty( $tag_cloud ) ) {
+			return;
+		}
+
+		/** This filter is documented in wp-includes/widgets/class-wp-widget-pages.php */
+		$title = apply_filters( 'widget_title', $title, $instance, $this->id_base );
+
+		echo $args['before_widget'];
+		if ( $title ) {
+			echo $args['before_title'] . $title . $args['after_title'];
+		}
+
+		echo '<div class="tagcloud">';
+
+		echo $tag_cloud;
 
 		echo "</div>\n";
 		echo $args['after_widget'];
@@ -74,20 +82,54 @@ class WP_Widget_Tag_Cloud extends WP_Widget {
 	 */
 	public function form( $instance ) {
 		$current_taxonomy = $this->_get_current_taxonomy($instance);
-		$title = isset( $instance['title'] ) ? $instance['title'] : '';
-?>
-	<p><label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:') ?></label>
-	<input type="text" class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" value="<?php echo esc_attr( $title ); ?>" /></p>
-	<p><label for="<?php echo $this->get_field_id('taxonomy'); ?>"><?php _e('Taxonomy:') ?></label>
-	<select class="widefat" id="<?php echo $this->get_field_id('taxonomy'); ?>" name="<?php echo $this->get_field_name('taxonomy'); ?>">
-	<?php foreach ( get_taxonomies() as $taxonomy ) :
-		$tax = get_taxonomy($taxonomy);
-		if ( !$tax->show_tagcloud || empty($tax->labels->name) )
-			continue;
-	?>
-		<option value="<?php echo esc_attr($taxonomy) ?>" <?php selected($taxonomy, $current_taxonomy) ?>><?php echo esc_attr( $tax->labels->name ); ?></option>
-	<?php endforeach; ?>
-	</select></p><?php
+		$title_id = $this->get_field_id( 'title' );
+		$instance['title'] = ! empty( $instance['title'] ) ? esc_attr( $instance['title'] ) : '';
+
+		echo '<p><label for="' . $title_id .'">' . __( 'Title:' ) . '</label>
+			<input type="text" class="widefat" id="' . $title_id .'" name="' . $this->get_field_name( 'title' ) .'" value="' . $instance['title'] .'" />
+		</p>';
+
+		$taxonomies = get_taxonomies( array( 'show_tagcloud' => true ), 'object' );
+		$id = $this->get_field_id( 'taxonomy' );
+		$name = $this->get_field_name( 'taxonomy' );
+		$input = '<input type="hidden" id="' . $id . '" name="' . $name . '" value="%s" />';
+
+		switch ( count( $taxonomies ) ) {
+
+		// No tag cloud supporting taxonomies found, display error message
+		case 0:
+			echo '<p>' . __( 'The tag cloud will not be displayed since their are no taxonomies that support the tag cloud widget.' ) . '</p>';
+			printf( $input, '' );
+			break;
+
+		// Just a single tag cloud supporting taxonomy found, no need to display options
+		case 1:
+			$keys = array_keys( $taxonomies );
+			$taxonomy = reset( $keys );
+			printf( $input, esc_attr( $taxonomy ) );
+			break;
+
+		// More than one tag cloud supporting taxonomy found, display options
+		default:
+			printf(
+				'<p><label for="%1$s">%2$s</label>' .
+				'<select class="widefat" id="%1$s" name="%3$s">',
+				$id,
+				__( 'Taxonomy:' ),
+				$name
+			);
+
+			foreach ( $taxonomies as $taxonomy => $tax ) {
+				printf(
+					'<option value="%s"%s>%s</option>',
+					esc_attr( $taxonomy ),
+					selected( $taxonomy, $current_taxonomy, false ),
+					$tax->labels->name
+				);
+			}
+
+			echo '</select></p>';
+		}
 	}
 
 	/**
