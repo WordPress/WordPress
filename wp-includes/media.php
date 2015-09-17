@@ -909,12 +909,9 @@ function img_caption_shortcode( $attr, $content = null ) {
 
 	$class = trim( 'wp-caption ' . $atts['align'] . ' ' . $atts['class'] );
 
-	if ( current_theme_supports( 'html5', 'caption' ) ) {
-		return '<figure ' . $atts['id'] . 'style="width: ' . (int) $atts['width'] . 'px;" class="' . esc_attr( $class ) . '">'
-		. do_shortcode( $content ) . '<figcaption class="wp-caption-text">' . $atts['caption'] . '</figcaption></figure>';
-	}
-
-	$caption_width = 10 + $atts['width'];
+	$html5 = current_theme_supports( 'html5', 'caption' );
+	// HTML5 captions never added the extra 10px to the image width
+	$width = $html5 ? $atts['width'] : ( 10 + $atts['width'] );
 
 	/**
 	 * Filter the width of an image's caption.
@@ -926,19 +923,27 @@ function img_caption_shortcode( $attr, $content = null ) {
 	 *
 	 * @see img_caption_shortcode()
 	 *
-	 * @param int    $caption_width Width of the caption in pixels. To remove this inline style,
-	 *                              return zero.
-	 * @param array  $atts          Attributes of the caption shortcode.
-	 * @param string $content       The image element, possibly wrapped in a hyperlink.
+	 * @param int    $width    Width of the caption in pixels. To remove this inline style,
+	 *                         return zero.
+	 * @param array  $atts     Attributes of the caption shortcode.
+	 * @param string $content  The image element, possibly wrapped in a hyperlink.
 	 */
-	$caption_width = apply_filters( 'img_caption_shortcode_width', $caption_width, $atts, $content );
+	$caption_width = apply_filters( 'img_caption_shortcode_width', $width, $atts, $content );
 
 	$style = '';
 	if ( $caption_width )
 		$style = 'style="width: ' . (int) $caption_width . 'px" ';
 
-	return '<div ' . $atts['id'] . $style . 'class="' . esc_attr( $class ) . '">'
-	. do_shortcode( $content ) . '<p class="wp-caption-text">' . $atts['caption'] . '</p></div>';
+	$html = '';
+	if ( $html5 ) {
+		$html = '<figure ' . $atts['id'] . $style . 'class="' . esc_attr( $class ) . '">'
+		. do_shortcode( $content ) . '<figcaption class="wp-caption-text">' . $atts['caption'] . '</figcaption></figure>';
+	} else {
+		$html = '<div ' . $atts['id'] . $style . 'class="' . esc_attr( $class ) . '">'
+		. do_shortcode( $content ) . '<p class="wp-caption-text">' . $atts['caption'] . '</p></div>';
+	}
+
+	return $html;
 }
 
 add_shortcode('gallery', 'gallery_shortcode');
@@ -2778,7 +2783,7 @@ function wp_prepare_attachment_for_js( $attachment ) {
 	}
 
 	$attached_file = get_attached_file( $attachment->ID );
-	
+
 	if ( isset( $meta['filesize'] ) ) {
 		$bytes = $meta['filesize'];
 	} elseif ( file_exists( $attached_file ) ) {
