@@ -131,18 +131,32 @@ class WP_Posts_List_Table extends WP_List_Table {
 
 		$this->set_hierarchical_display( is_post_type_hierarchical( $this->screen->post_type ) && 'menu_order title' == $wp_query->query['orderby'] );
 
-		$total_items = $this->hierarchical_display ? $wp_query->post_count : $wp_query->found_posts;
-
 		$post_type = $this->screen->post_type;
 		$per_page = $this->get_items_per_page( 'edit_' . $post_type . '_per_page' );
 
 		/** This filter is documented in wp-admin/includes/post.php */
  		$per_page = apply_filters( 'edit_posts_per_page', $per_page, $post_type );
 
-		if ( $this->hierarchical_display )
-			$total_pages = ceil( $total_items / $per_page );
-		else
-			$total_pages = $wp_query->max_num_pages;
+		if ( $this->hierarchical_display ) {
+			$total_items = $wp_query->post_count;
+		} else {
+			$post_counts = (array) wp_count_posts( $post_type, 'readable' );
+
+			if ( isset( $_REQUEST['post_status'] ) && in_array( $_REQUEST['post_status'] , $avail_post_stati ) ) {
+				$total_items = $post_counts[ $_REQUEST['post_status'] ];
+			} elseif ( isset( $_REQUEST['show_sticky'] ) && $_REQUEST['show_sticky'] ) {
+				$total_items = $this->sticky_posts_count;
+			} else {
+				$total_items = array_sum( $post_counts );
+
+				// Subtract post types that are not included in the admin all list.
+				foreach ( get_post_stati( array( 'show_in_admin_all_list' => false ) ) as $state ) {
+					$total_items -= $post_counts[ $state ];
+				}
+			}
+		}
+
+		$total_pages = ceil( $total_items / $per_page );
 
 		if ( ! empty( $_REQUEST['mode'] ) ) {
 			$mode = $_REQUEST['mode'] == 'excerpt' ? 'excerpt' : 'list';
