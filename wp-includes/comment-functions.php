@@ -2376,6 +2376,30 @@ function update_comment_cache( $comments, $update_meta_cache = true ) {
 	}
 }
 
+/**
+ * Lazy load comment meta when inside of a `WP_Query` loop.
+ *
+ * @since 4.4.0
+ *
+ * @param null $check      The `$check` param passed from the 'pre_comment_metadata' hook.
+ * @param int  $comment_id ID of the comment whose metadata is being cached.
+ * @return null In order not to short-circuit `get_metadata()`.
+ */
+function wp_lazyload_comment_meta( $check, $comment_id ) {
+	global $wp_query;
+
+	if ( ! empty( $wp_query->comments ) ) {
+		// Don't use `wp_list_pluck()` to avoid by-reference manipulation.
+		$comment_ids = array();
+		foreach ( $wp_query->comments as $comment ) {
+			$comment_ids[] = $comment->comment_ID;
+		}
+		update_meta_cache( 'comment', $comment_ids );
+	}
+
+	return $check;
+}
+
 //
 // Internal
 //

@@ -1211,6 +1211,7 @@ function comments_template( $file = '/comments.php', $separate_comments = false 
 		'orderby' => 'comment_date_gmt',
 		'status'  => 'approve',
 		'post_id' => $post->ID,
+		'update_comment_meta_cache' => false, // We lazy-load comment meta for performance.
 	);
 
 	if ( $user_ID ) {
