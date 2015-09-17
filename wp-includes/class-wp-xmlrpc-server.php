@@ -5737,11 +5737,10 @@ class wp_xmlrpc_server extends IXR_Server {
 			'id'   => strval( $id ),
 			'file' => $name,
 			'url'  => $upload[ 'url' ],
-			'type' => $type
+			'type' => $upload[ 'type' ]
 		);
 
-		/** This filter is documented in wp-admin/includes/file.php */
-		return apply_filters( 'wp_handle_upload', $struct, 'upload' );
+		return $struct;
 	}
 
 	/* MovableType API functions

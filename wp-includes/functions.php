@@ -1993,7 +1993,8 @@ function wp_upload_bits( $name, $deprecated, $bits, $time = null ) {
 	// Compute the URL
 	$url = $upload['url'] . "/$filename";
 
-	return array( 'file' => $new_file, 'url' => $url, 'error' => false );
+	/** This filter is documented in wp-admin/includes/file.php */
+	return apply_filters( 'wp_handle_upload', array( 'file' => $new_file, 'url' => $url, 'type' => $wp_filetype['type'], 'error' => false ), 'sideload' );
 }
 
 /**
