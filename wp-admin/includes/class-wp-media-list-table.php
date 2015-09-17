@@ -84,36 +84,46 @@ class WP_Media_List_Table extends WP_List_Table {
 	 * @return array
 	 */
 	protected function get_views() {
-		global $wpdb, $post_mime_types, $avail_post_mime_types;
+		global $post_mime_types, $avail_post_mime_types;
 
 		$type_links = array();
-		$_num_posts = (array) wp_count_attachments();
-		$_total_posts = array_sum($_num_posts) - $_num_posts['trash'];
-		$total_orphans = $wpdb->get_var( "SELECT COUNT( * ) FROM $wpdb->posts WHERE post_type = 'attachment' AND post_status != 'trash' AND post_parent < 1" );
-		$matches = wp_match_mime_types(array_keys($post_mime_types), array_keys($_num_posts));
-		$num_posts = array();
-		foreach ( $matches as $type => $reals ) {
-			foreach ( $reals as $real ) {
-				$num_posts[$type] = ( isset( $num_posts[$type] ) ) ? $num_posts[$type] + $_num_posts[$real] : $_num_posts[$real];
-			}
-		}
-		$selected = empty( $_GET['attachment-filter'] ) ? ' selected="selected"' : '';
-		$type_links['all'] = "<option value=''$selected>" . sprintf( _nx( 'All (%s)', 'All (%s)', $_total_posts, 'uploaded files' ), number_format_i18n( $_total_posts ) ) . '</option>';
+
+		$filter = empty( $_GET['attachment-filter'] ) ? '' : $_GET['attachment-filter'];
+
+		$type_links['all'] = sprintf(
+			'<option value=""%s>%s</option>',
+			selected( $filter, true, false ),
+			__( 'All media items' )
+		);
+
 		foreach ( $post_mime_types as $mime_type => $label ) {
-			if ( !wp_match_mime_types($mime_type, $avail_post_mime_types) )
+			if ( ! wp_match_mime_types( $mime_type, $avail_post_mime_types ) ) {
 				continue;
+			}
 
-			$selected = '';
-			if ( !empty( $_GET['attachment-filter'] ) && strpos( $_GET['attachment-filter'], 'post_mime_type:' ) === 0 && wp_match_mime_types( $mime_type, str_replace( 'post_mime_type:', '', $_GET['attachment-filter'] ) ) )
-				$selected = ' selected="selected"';
-			if ( !empty( $num_posts[$mime_type] ) )
-				$type_links[$mime_type] = '<option value="post_mime_type:' . esc_attr( $mime_type ) . '"' . $selected . '>' . sprintf( translate_nooped_plural( $label[2], $num_posts[$mime_type] ), number_format_i18n( $num_posts[$mime_type] )) . '</option>';
+			$selected = selected(
+				$filter && 0 === strpos( $filter, 'post_mime_type:' ) &&
+					wp_match_mime_types( $mime_type, str_replace( 'post_mime_type:', '', $filter ) ),
+				true,
+				false 	
+			);
+
+			$type_links[$mime_type] = sprintf(
+				'<option value="post_mime_type:%s"%s>%s</option>',
+				esc_attr( $mime_type ),
+				$selected,
+				$label[0]
+			);
 		}
-		$type_links['detached'] = '<option value="detached"' . ( $this->detached ? ' selected="selected"' : '' ) . '>' . sprintf( _nx( 'Unattached (%s)', 'Unattached (%s)', $total_orphans, 'detached files' ), number_format_i18n( $total_orphans ) ) . '</option>';
+		$type_links['detached'] = '<option value="detached"' . ( $this->detached ? ' selected="selected"' : '' ) . '>' . __( 'Unattached' ) . '</option>';
 
-		if ( !empty($_num_posts['trash']) )
-			$type_links['trash'] = '<option value="trash"' . ( (isset($_GET['attachment-filter']) && $_GET['attachment-filter'] == 'trash' ) ? ' selected="selected"' : '') . '>' . sprintf( _nx( 'Trash (%s)', 'Trash (%s)', $_num_posts['trash'], 'uploaded files' ), number_format_i18n( $_num_posts['trash'] ) ) . '</option>';
-
+		if ( $this->is_trash ) {
+			$type_links['trash'] = sprintf(
+				'<option value="trash"%s>%s</option>',
+				selected( 'trash' === $filter, true, false ),
+				__( 'Trash' )
+			);
+		}
 		return $type_links;
 	}
 
@@ -372,7 +382,7 @@ class WP_Media_List_Table extends WP_List_Table {
 		</strong>
 		<p class="filename">
 			<span class="screen-reader-text"><?php _e( 'File name:' ); ?> </span>
-			<?php 
+			<?php
 			$file = get_attached_file( $post->ID );
 			echo wp_basename( $file );
 			?>

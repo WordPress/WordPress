@@ -25,6 +25,8 @@ if ( 'grid' === $mode ) {
 	wp_enqueue_script( 'media-grid' );
 	wp_enqueue_script( 'media' );
 
+	remove_action( 'admin_head', 'wp_admin_canonical_url' );
+
 	$q = $_GET;
 	// let JS handle this
 	unset( $q['s'] );
