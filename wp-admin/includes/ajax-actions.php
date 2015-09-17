@@ -2491,13 +2491,10 @@ function wp_ajax_send_attachment_to_editor() {
 		}
 	}
 
-	$rel = $url = '';
-	$html = isset( $attachment['post_title'] ) ? $attachment['post_title'] : '';
-	if ( ! empty( $attachment['url'] ) ) {
-		$url = $attachment['url'];
-		if ( strpos( $url, 'attachment_id') || get_attachment_link( $id ) == $url )
-			$rel = ' rel="attachment wp-att-' . $id . '"';
-		$html = '<a href="' . esc_url( $url ) . '"' . $rel . '>' . $html . '</a>';
+	$rel = '';
+	$url = empty( $attachment['url'] ) ? '' : $attachment['url'];
+	if ( strpos( $url, 'attachment_id') || get_attachment_link( $id ) == $url ) {
+		$rel = ' rel="attachment wp-att-' . $id . '"';
 	}
 
 	remove_filter( 'media_send_to_editor', 'image_media_send_to_editor' );
@@ -2514,9 +2511,14 @@ function wp_ajax_send_attachment_to_editor() {
 		}
 
 		$title = ''; // We no longer insert title tags into <img> tags, as they are redundant.
-		$html = get_image_send_to_editor( $id, $caption, $title, $align, $url, (bool) $rel, $size, $alt );
+		$html = get_image_send_to_editor( $id, $caption, $title, $align, $url, $rel, $size, $alt );
 	} elseif ( wp_attachment_is( 'video', $post ) || wp_attachment_is( 'audio', $post )  ) {
 		$html = stripslashes_deep( $_POST['html'] );
+	} else {
+		$html = isset( $attachment['post_title'] ) ? $attachment['post_title'] : '';
+		if ( ! empty( $url ) ) {
+			$html = '<a href="' . esc_url( $url ) . '"' . $rel . '>' . $html . '</a>';
+		}
 	}
 
 	/** This filter is documented in wp-admin/includes/media.php */
