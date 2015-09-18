@@ -23,7 +23,6 @@ body {
 	-webkit-font-smoothing: antialiased !important;
 	overflow-wrap: break-word;
 	word-wrap: break-word; /* Old syntax */
-	word-break: break-word; /* iOS */
 }
 
 body.rtl {
