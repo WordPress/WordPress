@@ -2259,8 +2259,23 @@ function wp_rel_nofollow( $text ) {
  */
 function wp_rel_nofollow_callback( $matches ) {
 	$text = $matches[1];
-	$text = str_replace(array(' rel="nofollow"', " rel='nofollow'"), '', $text);
-	return "<a $text rel=\"nofollow\">";
+	$atts = shortcode_parse_atts( $matches[1] );
+	$rel = 'nofollow';
+	if ( ! empty( $atts['rel'] ) ) {
+		$parts = array_map( 'trim', explode( ' ', $atts['rel'] ) );
+		if ( false === array_search( 'nofollow', $parts ) ) {
+			$parts[] = 'nofollow';
+		}
+		$rel = implode( ' ', $parts );
+		unset( $atts['rel'] );
+
+		$html = '';
+		foreach ( $atts as $name => $value ) {
+			$html .= "{$name}=\"$value\" ";
+		}
+		$text = trim( $html );
+	}
+	return "<a $text rel=\"$rel\">";
 }
 
 /**
