@@ -148,6 +148,7 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 	public function get_columns() {
 		$users_columns = array(
 			'cb'         => '<input type="checkbox" />',
+			'id'         => __( 'ID' ),
 			'username'   => __( 'Username' ),
 			'name'       => __( 'Name' ),
 			'email'      => __( 'Email' ),
@@ -194,6 +195,18 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 		<label class="screen-reader-text" for="blog_<?php echo $user->ID; ?>"><?php echo sprintf( __( 'Select %s' ), $user->user_login ); ?></label>
 		<input type="checkbox" id="blog_<?php echo $user->ID ?>" name="allusers[]" value="<?php echo esc_attr( $user->ID ) ?>" />
 		<?php
+	}
+
+	/**
+	 * Handles the ID column output.
+	 *
+	 * @since 4.4.0
+	 * @access public
+	 *
+	 * @param WP_User $user The current WP_User object.
+	 */
+	public function column_id( $user ) {
+		echo $user->ID;
 	}
 
 	/**

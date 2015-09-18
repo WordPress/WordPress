@@ -200,6 +200,7 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 	public function get_columns() {
 		$sites_columns = array(
 			'cb'          => '<input type="checkbox" />',
+			'id'          => __( 'ID' ),
 			'blogname'    => __( 'URL' ),
 			'lastupdated' => __( 'Last Updated' ),
 			'registered'  => _x( 'Registered', 'site' ),
@@ -249,6 +250,18 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 			?></label>
 			<input type="checkbox" id="blog_<?php echo $blog['blog_id'] ?>" name="allblogs[]" value="<?php echo esc_attr( $blog['blog_id'] ) ?>" />
 		<?php endif;
+	}
+
+	/**
+	 * Handles the ID column output.
+	 *
+	 * @since 4.4.0
+	 * @access public
+	 *
+	 * @param array $blog Current site.
+	 */
+	public function column_id( $blog ) {
+		echo $blog['blog_id'];
 	}
 
 	/**
