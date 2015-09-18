@@ -3205,9 +3205,9 @@ function wp_ajax_crop_image() {
 }
 
 /**
- * Generates a password via ajax.
+ * Ajax handler for generating a password.
  *
- * @since 4.3.1
+ * @since 4.4.0
  */
 function wp_ajax_generate_password() {
 	wp_send_json_success( wp_generate_password( 24 ) );
