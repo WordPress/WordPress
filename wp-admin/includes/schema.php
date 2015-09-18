@@ -412,7 +412,6 @@ function populate_options() {
 	'moderation_notify' => 1,
 	'permalink_structure' => '',
 	'gzipcompression' => 0,
-	'hack_file' => 0,
 	'blog_charset' => 'UTF-8',
 	'moderation_keys' => '',
 	'active_plugins' => array(),
