@@ -351,9 +351,19 @@ function wp_default_scripts( &$scripts ) {
 
 
 	$scripts->add( 'wp-mediaelement', "/wp-includes/js/mediaelement/wp-mediaelement.js", array('mediaelement'), false, 1 );
-	did_action( 'init' ) && $scripts->localize( 'mediaelement', '_wpmejsSettings', array(
+	$mejs_settings = array(
 		'pluginPath' => includes_url( 'js/mediaelement/', 'relative' ),
-	) );
+	);
+	did_action( 'init' ) && $scripts->localize( 'mediaelement', '_wpmejsSettings',
+		/**
+		 * Filter the MediaElement configuration settings.
+		 *
+		 * @since 4.4.0
+		 *
+		 * @param array $mejs_settings MediaElement settings array.
+		 */
+		apply_filters( 'mejs_settings', $mejs_settings )
+	);
 
 	$scripts->add( 'froogaloop',  "/wp-includes/js/mediaelement/froogaloop.min.js", array(), '2.0' );
 	$scripts->add( 'wp-playlist', "/wp-includes/js/mediaelement/wp-playlist.js", array( 'wp-util', 'backbone', 'mediaelement' ), false, 1 );
