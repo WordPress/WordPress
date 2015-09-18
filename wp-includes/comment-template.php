@@ -1881,6 +1881,7 @@ function wp_list_comments( $args = array(), $comments = null ) {
  * @since 3.0.0
  * @since 4.1.0 Introduced the 'class_submit' argument.
  * @since 4.2.0 Introduced 'submit_button' and 'submit_fields' arguments.
+ * @since 4.4.0 Introduced 'title_reply_before' and 'title_reply_after' arguments.
  *
  * @param array       $args {
  *     Optional. Default arguments and form fields to override.
@@ -1905,6 +1906,10 @@ function wp_list_comments( $args = array(), $comments = null ) {
  *     @type string $title_reply          The translatable 'reply' button label. Default 'Leave a Reply'.
  *     @type string $title_reply_to       The translatable 'reply-to' button label. Default 'Leave a Reply to %s',
  *                                        where %s is the author of the comment being replied to.
+ *     @type string $title_reply_before   HTML displayed before the comment form title.
+ *                                        Default: '<h3 id="reply-title" class="comment-reply-title">'.
+ *     @type string $title_reply_after    HTML displayed after the comment form title.
+ *                                        Default: '</h3>'.
  *     @type string $cancel_reply_link    The translatable 'cancel reply' button label. Default 'Cancel reply'.
  *     @type string $label_submit         The translatable 'submit' button label. Default 'Post a comment'.
  *     @type string $submit_button        HTML format for the Submit button.
@@ -1966,6 +1971,8 @@ function comment_form( $args = array(), $post_id = null ) {
 		'name_submit'          => 'submit',
 		'title_reply'          => __( 'Leave a Reply' ),
 		'title_reply_to'       => __( 'Leave a Reply to %s' ),
+		'title_reply_before'   => '<h3 id="reply-title" class="comment-reply-title">',
+		'title_reply_after'    => '</h3>',
 		'cancel_reply_link'    => __( 'Cancel reply' ),
 		'label_submit'         => __( 'Post Comment' ),
 		'submit_button'        => '<input name="%1$s" type="submit" id="%2$s" class="%3$s" value="%4$s" />',
@@ -1997,7 +2004,20 @@ function comment_form( $args = array(), $post_id = null ) {
 			do_action( 'comment_form_before' );
 			?>
 			<div id="respond" class="comment-respond">
-				<h3 id="reply-title" class="comment-reply-title"><?php comment_form_title( $args['title_reply'], $args['title_reply_to'] ); ?> <small><?php cancel_comment_reply_link( $args['cancel_reply_link'] ); ?></small></h3>
+				<?php
+				echo $args['title_reply_before'];
+
+				comment_form_title( $args['title_reply'], $args['title_reply_to'] );
+
+				echo ' <small>';
+
+				cancel_comment_reply_link( $args['cancel_reply_link'] );
+
+				echo '</small>';
+
+				echo $args['title_reply_after'];
+				?>
+
 				<?php if ( get_option( 'comment_registration' ) && !is_user_logged_in() ) : ?>
 					<?php echo $args['must_log_in']; ?>
 					<?php
