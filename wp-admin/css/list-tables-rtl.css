@@ -595,7 +595,7 @@ th.sortable a,
 th.sorted a {
 	display: block;
 	overflow: hidden;
-	padding: 7px 10px 8px 7px;
+	padding: 8px 10px;
 }
 
 .fixed .column-comments.sortable a,
