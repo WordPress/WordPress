@@ -89,7 +89,8 @@ function get_plugin_data( $plugin_file, $markup = true, $translate = true ) {
 
 	// Site Wide Only is the old header for Network
 	if ( ! $plugin_data['Network'] && $plugin_data['_sitewide'] ) {
-		_deprecated_argument( __FUNCTION__, '3.0', sprintf( __( 'The <code>%1$s</code> plugin header is deprecated. Use <code>%2$s</code> instead.' ), 'Site Wide Only: true', 'Network: true' ) );
+		/* translators: 1: Site Wide Only: true, 2: Network: true */
+		_deprecated_argument( __FUNCTION__, '3.0', sprintf( __( 'The %1$s plugin header is deprecated. Use %2$s instead.' ), '<code>Site Wide Only: true</code>', '<code>Network: true</code>' ) );
 		$plugin_data['Network'] = $plugin_data['_sitewide'];
 	}
 	$plugin_data['Network'] = ( 'true' == strtolower( $plugin_data['Network'] ) );
