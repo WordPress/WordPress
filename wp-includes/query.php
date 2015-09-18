@@ -51,7 +51,6 @@ function get_queried_object() {
  * Wrapper for WP_Query::get_queried_object_id().
  *
  * @since 3.1.0
- * @access public
  *
  * @global WP_Query $wp_query Global WP_Query instance.
  *
@@ -67,10 +66,10 @@ function get_queried_object_id() {
  *
  * @since 2.2.0
  *
- * @global WP_Query $wp_query
+ * @global WP_Query $wp_query Global WP_Query instance.
  *
  * @param string $var   Query variable key.
- * @param mixed  $value
+ * @param mixed  $value Query variable value.
  */
 function set_query_var( $var, $value ) {
 	global $wp_query;
