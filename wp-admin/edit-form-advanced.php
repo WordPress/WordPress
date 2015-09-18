@@ -584,7 +584,7 @@ if ( post_type_supports($post_type, 'editor') ) {
 	),
 ) ); ?>
 <table id="post-status-info"><tbody><tr>
-	<td id="wp-word-count"><?php printf( __( 'Word count: %s' ), '<span class="word-count">0</span>' ); ?></td>
+	<td id="wp-word-count" class="hide-if-no-js"><?php printf( __( 'Word count: %s' ), '<span class="word-count">0</span>' ); ?></td>
 	<td class="autosave-info">
 	<span class="autosave-message">&nbsp;</span>
 <?php
