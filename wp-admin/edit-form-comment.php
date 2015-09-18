@@ -91,10 +91,13 @@ if ( $comment->comment_post_ID > 0 ):
 <?php
 /* translators: Publish box date format, see http://php.net/date */
 $datef = __( 'M j, Y @ H:i' );
-$stamp = __('Submitted on: <b>%1$s</b>');
-$date = date_i18n( $datef, strtotime( $comment->comment_date ) );
 ?>
-<span id="timestamp"><?php printf( $stamp, $date ); ?></span>
+<span id="timestamp"><?php
+printf(
+	__( 'Submitted on: %1$s' ),
+	'<b>' . date_i18n( $datef, strtotime( $comment->comment_date ) ) . '</b>'
+);
+?></span>
 <a href="#edit_timestamp" class="edit-timestamp hide-if-no-js"><span aria-hidden="true"><?php _e( 'Edit' ); ?></span> <span class="screen-reader-text"><?php _e( 'Edit date and time' ); ?></span></a>
 <fieldset id='timestampdiv' class='hide-if-js'>
 <legend class="screen-reader-text"><?php _e( 'Date and time' ); ?></legend>
