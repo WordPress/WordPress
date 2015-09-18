@@ -3203,3 +3203,12 @@ function wp_ajax_crop_image() {
 
 	wp_send_json_success( wp_prepare_attachment_for_js( $attachment_id ) );
 }
+
+/**
+ * Generates a password via ajax.
+ *
+ * @since 4.3.1
+ */
+function wp_ajax_generate_password() {
+	wp_send_json_success( wp_generate_password( 24 ) );
+}

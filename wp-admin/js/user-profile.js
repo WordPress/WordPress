@@ -217,6 +217,15 @@
 		$cancelButton.on( 'click', function () {
 			updateLock = false;
 
+			// Clear any entered password.
+			$pass1Text.val( '' );
+
+			// Generate a new password.
+			wp.ajax.post( 'generate-password' )
+				.done( function( data ) {
+					$pass1.data( 'pw', data );
+				} );
+
 			$generateButton.show();
 			$passwordWrapper.hide();
 
