@@ -1308,7 +1308,11 @@ function wp_ajax_add_user( $action ) {
 		'id' => $user_id,
 		'data' => $wp_list_table->single_row( $user_object, '', $role ),
 		'supplemental' => array(
-			'show-link' => sprintf(__( 'User <a href="#%s">%s</a> added' ), "user-$user_id", $user_object->user_login),
+			'show-link' => sprintf(
+				/* translators: the new user */
+				__( 'User %s added' ),
+				'<a href="#user-' . $user_id . '">' . $user_object->user_login . '</a>'
+			),
 			'role' => $role,
 		)
 	) );
