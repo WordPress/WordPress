@@ -1046,18 +1046,26 @@ We hope you enjoy your new site. Thanks!
 
 		if ( ! $vhost_ok ) {
 			$msg = '<p><strong>' . __( 'Warning! Wildcard DNS may not be configured correctly!' ) . '</strong></p>';
+
 			$msg .= '<p>' . sprintf(
+				/* translators: %s: host name */
 				__( 'The installer attempted to contact a random hostname (%s) on your domain.' ),
 				'<code>' . $hostname . '</code>'
 			);
-			if ( ! empty ( $errstr ) )
+			if ( ! empty ( $errstr ) ) {
+				/* translators: %s: error message */
 				$msg .= ' ' . sprintf( __( 'This resulted in an error message: %s' ), '<code>' . $errstr . '</code>' );
+			}
 			$msg .= '</p>';
+
 			$msg .= '<p>' . sprintf(
+				/* translators: %s: asterisk symbol (*) */
 				__( 'To use a subdomain configuration, you must have a wildcard entry in your DNS. This usually means adding a %s hostname record pointing at your web server in your DNS configuration tool.' ),
 				'<code>*</code>'
 			) . '</p>';
+
 			$msg .= '<p>' . __( 'You can still use your site but any subdomain you create may not be accessible. If you know your DNS is correct, ignore this message.' ) . '</p>';
+
 			return new WP_Error( 'no_wildcard_dns', $msg );
 		}
 	}
