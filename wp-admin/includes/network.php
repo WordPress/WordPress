@@ -120,7 +120,11 @@ function network_step1( $errors = false ) {
 	$has_ports = strstr( $hostname, ':' );
 	if ( ( false !== $has_ports && ! in_array( $has_ports, array( ':80', ':443' ) ) ) ) {
 		echo '<div class="error"><p><strong>' . __( 'ERROR:') . '</strong> ' . __( 'You cannot install a network of sites with your server address.' ) . '</p></div>';
-		echo '<p>' . sprintf( __( 'You cannot use port numbers such as %s.' ), '<code>' . $has_ports . '</code>' ) . '</p>';
+		echo '<p>' . sprintf(
+			/* translators: %s: port number */
+			__( 'You cannot use port numbers such as %s.' ),
+			'<code>' . $has_ports . '</code>'
+		) . '</p>';
 		echo '<a href="' . esc_url( admin_url() ) . '">' . __( 'Return to Dashboard' ) . '</a>';
 		echo '</div>';
 		include( ABSPATH . 'wp-admin/admin-footer.php' );
@@ -209,7 +213,7 @@ function network_step1( $errors = false ) {
 				<th scope='row'><?php esc_html_e( 'Server Address' ); ?></th>
 				<td>
 					<?php printf(
-						/* translators: host name */
+						/* translators: %s: host name */
 						__( 'The internet address of your network will be %s.' ),
 						'<code>' . $hostname . '</code>'
 					); ?>
@@ -253,7 +257,7 @@ function network_step1( $errors = false ) {
 				<th scope='row'><?php esc_html_e( 'Server Address' ); ?></th>
 				<td>
 					<?php printf(
-						/* translators: host name */
+						/* translators: %s: host name */
 						__( 'The internet address of your network will be %s.' ),
 						'<code>' . $hostname . '</code>'
 					); ?>
