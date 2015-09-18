@@ -102,7 +102,12 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 $new_admin_email = get_option( 'new_admin_email' );
 if ( $new_admin_email && $new_admin_email != get_option('admin_email') ) : ?>
 <div class="updated inline">
-<p><?php printf( __('There is a pending change of the admin email to <code>%1$s</code>. <a href="%2$s">Cancel</a>'), esc_html( $new_admin_email ), esc_url( admin_url( 'options.php?dismiss=new_admin_email' ) ) ); ?></p>
+<p><?php
+	printf( __( 'There is a pending change of the admin email to %1$s. <a href="%2$s">Cancel</a>' ),
+		'<code>' . esc_html( $new_admin_email ) . '</code>',
+		esc_url( admin_url( 'options.php?dismiss=new_admin_email' ) )
+	);
+?></p>
 </div>
 <?php endif; ?>
 </td>
@@ -137,9 +142,17 @@ if ( empty($tzstring) ) { // Create a UTC+- zone if no timezone string exists
 <?php echo wp_timezone_choice($tzstring); ?>
 </select>
 
-	<span id="utc-time"><?php printf(__('<abbr title="Coordinated Universal Time">UTC</abbr> time is <code>%s</code>'), date_i18n($timezone_format, false, 'gmt')); ?></span>
+	<span id="utc-time"><?php
+		printf( __( '<abbr title="Coordinated Universal Time">UTC</abbr> time is %s' ),
+			'<code>' . date_i18n( $timezone_format, false, 'gmt' ) . '</code>'
+		);
+	?></span>
 <?php if ( get_option('timezone_string') || !empty($current_offset) ) : ?>
-	<span id="local-time"><?php printf(__('Local time is <code>%1$s</code>'), date_i18n($timezone_format)); ?></span>
+	<span id="local-time"><?php
+		printf( __( 'Local time is %1$s' ),
+			'<code>' . date_i18n( $timezone_format ) . '</code>'
+		);
+	?></span>
 <?php endif; ?>
 <p class="description" id="timezone-description"><?php _e( 'Choose a city in the same timezone as you.' ); ?></p>
 <?php if ($check_zone_info && $tzstring) : ?>
