@@ -1195,6 +1195,7 @@ function wp_list_pages( $args = '' ) {
  *     @type string          $sort_column How to short the list of pages. Accepts post column names.
  *                                        Default 'menu_order, post_title'.
  *     @type string          $menu_class  Class to use for the div ID containing the page list. Default 'menu'.
+ *     @type string          $menu_tag    Element to use for the element containing the page list. Default 'div'.
  *     @type bool            $echo        Whether to echo the list or return it. Accepts true (echo) or false (return).
  *                                        Default true.
  *     @type int|bool|string $show_home   Whether to display the link to the home page. Can just enter the text
@@ -1211,6 +1212,7 @@ function wp_page_menu( $args = array() ) {
 	$defaults = array(
 		'sort_column' => 'menu_order, post_title',
 		'menu_class'  => 'menu',
+		'menu_tag'    => 'div',
 		'echo'        => true,
 		'show_home'   => false,
 		'link_before' => '',
@@ -1264,7 +1266,8 @@ function wp_page_menu( $args = array() ) {
 	if ( $menu ) {
 		$menu = $args['before'] . $menu . $args['after'];
 	}
-	$menu = '<div class="' . esc_attr($args['menu_class']) . '">' . $menu . "</div>\n";
+	$tag = sanitize_text_field( $args['menu_tag'] );
+	$menu = "<{$args['menu_tag']} class=\"" . esc_attr( $args['menu_class'] ) . '">' . $menu . "</{$args['menu_tag']}>\n";
 
 	/**
 	 * Filter the HTML output of a page-based menu.
