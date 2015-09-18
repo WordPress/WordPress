@@ -38,7 +38,14 @@ foreach ( $wpdb->tables( 'ms_global' ) as $table => $prefixed_table ) {
 }
 
 if ( ! network_domain_check() && ( ! defined( 'WP_ALLOW_MULTISITE' ) || ! WP_ALLOW_MULTISITE ) ) {
-	wp_die( __( 'You must define the <code>WP_ALLOW_MULTISITE</code> constant as true in your wp-config.php file to allow creation of a Network.' ) );
+	wp_die(
+		printf(
+			/* translators: 1: WP_ALLOW_MULTISITE 2: wp-config.php */
+			__( 'You must define the %1$s constant as true in your %2$s file to allow creation of a Network.' ),
+			'<code>WP_ALLOW_MULTISITE</code>',
+			'<code>wp-config.php</code>'
+		)
+	);
 }
 
 if ( is_network_admin() ) {

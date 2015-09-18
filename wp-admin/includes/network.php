@@ -120,7 +120,7 @@ function network_step1( $errors = false ) {
 	$has_ports = strstr( $hostname, ':' );
 	if ( ( false !== $has_ports && ! in_array( $has_ports, array( ':80', ':443' ) ) ) ) {
 		echo '<div class="error"><p><strong>' . __( 'ERROR:') . '</strong> ' . __( 'You cannot install a network of sites with your server address.' ) . '</p></div>';
-		echo '<p>' . sprintf( __( 'You cannot use port numbers such as <code>%s</code>.' ), $has_ports ) . '</p>';
+		echo '<p>' . sprintf( __( 'You cannot use port numbers such as %s.' ), '<code>' . $has_ports . '</code>' ) . '</p>';
 		echo '<a href="' . esc_url( admin_url() ) . '">' . __( 'Return to Dashboard' ) . '</a>';
 		echo '</div>';
 		include( ABSPATH . 'wp-admin/admin-footer.php' );
@@ -197,12 +197,22 @@ function network_step1( $errors = false ) {
 		if ( $is_www ) :
 		?>
 		<h3><?php esc_html_e( 'Server Address' ); ?></h3>
-		<p><?php printf( __( 'We recommend you change your siteurl to <code>%1$s</code> before enabling the network feature. It will still be possible to visit your site using the <code>www</code> prefix with an address like <code>%2$s</code> but any links will not have the <code>www</code> prefix.' ), substr( $hostname, 4 ), $hostname ); ?></p>
+		<p><?php printf(
+			/* translators: 1: site url 2: host name 3. www */
+			__( 'We recommend you change your siteurl to %1$s before enabling the network feature. It will still be possible to visit your site using the %3$s prefix with an address like %2$s but any links will not have the %3$s prefix.' ),
+			'<code>' . substr( $hostname, 4 ) . '</code>',
+			'<code>' . $hostname . '</code>',
+			'<code>www</code>'
+		); ?></p>
 		<table class="form-table">
 			<tr>
 				<th scope='row'><?php esc_html_e( 'Server Address' ); ?></th>
 				<td>
-					<?php printf( __( 'The internet address of your network will be <code>%s</code>.' ), $hostname ); ?>
+					<?php printf(
+						/* translators: host name */
+						__( 'The internet address of your network will be %s.' ),
+						'<code>' . $hostname . '</code>'
+					); ?>
 				</td>
 			</tr>
 		</table>
@@ -242,7 +252,11 @@ function network_step1( $errors = false ) {
 			<tr>
 				<th scope='row'><?php esc_html_e( 'Server Address' ); ?></th>
 				<td>
-					<?php printf( __( 'The internet address of your network will be <code>%s</code>.' ), $hostname ); ?>
+					<?php printf(
+						/* translators: host name */
+						__( 'The internet address of your network will be %s.' ),
+						'<code>' . $hostname . '</code>'
+					); ?>
 				</td>
 			</tr>
 		<?php endif; ?>
@@ -331,18 +345,38 @@ function network_step2( $errors = false ) {
 		<h3><?php esc_html_e( 'Enabling the Network' ); ?></h3>
 		<p><?php _e( 'Complete the following steps to enable the features for creating a network of sites.' ); ?></p>
 		<div class="updated inline"><p><?php
-			if ( file_exists( $home_path . '.htaccess' ) )
-				printf( __( '<strong>Caution:</strong> We recommend you back up your existing <code>wp-config.php</code> and <code>%s</code> files.' ), '.htaccess' );
-			elseif ( file_exists( $home_path . 'web.config' ) )
-				printf( __( '<strong>Caution:</strong> We recommend you back up your existing <code>wp-config.php</code> and <code>%s</code> files.' ), 'web.config' );
-			else
-				_e( '<strong>Caution:</strong> We recommend you back up your existing <code>wp-config.php</code> file.' );
+			if ( file_exists( $home_path . '.htaccess' ) ) {
+				printf(
+					/* translators: 1: wp-config.php 2: .htaccess */
+					__( '<strong>Caution:</strong> We recommend you back up your existing %1$s and %2$s files.' ),
+					'<code>wp-config.php</code>',
+					'<code>.htaccess</code>'
+				);
+			} elseif ( file_exists( $home_path . 'web.config' ) ) {
+				printf(
+					/* translators: 1: wp-config.php 2: web.config */
+					__( '<strong>Caution:</strong> We recommend you back up your existing %1$s and %2$s files.' ),
+					'<code>wp-config.php</code>',
+					'<code>web.config</code>'
+				);
+			} else {
+				printf(
+					/* translators: 1: wp-config.php */
+					__( '<strong>Caution:</strong> We recommend you back up your existing %s file.' ),
+					'<code>wp-config.php</code>'
+				);
+			}
 		?></p></div>
 <?php
 	}
 ?>
 		<ol>
-			<li><p><?php printf( __( 'Add the following to your <code>wp-config.php</code> file in <code>%s</code> <strong>above</strong> the line reading <code>/* That&#8217;s all, stop editing! Happy blogging. */</code>:' ), $location_of_wp_config ); ?></p>
+			<li><p><?php printf(
+				/* translators: 1: wp-config.php 2: location of wp-config file */
+				__( 'Add the following to your %1$s file in %2$s <strong>above</strong> the line reading <code>/* That&#8217;s all, stop editing! Happy blogging. */</code>:' ),
+				'<code>wp-config.php</code>',
+				'<code>' . $location_of_wp_config . '</code>'
+			); ?></p>
 				<textarea class="code" readonly="readonly" cols="100" rows="7">
 define('MULTISITE', true);
 define('SUBDOMAIN_INSTALL', <?php echo $subdomain_install ? 'true' : 'false'; ?>);
@@ -376,9 +410,17 @@ define('BLOG_ID_CURRENT_SITE', 1);
 	<p>
 		<?php
 			if ( 1 == $num_keys_salts ) {
-				_e( 'This unique authentication key is also missing from your <code>wp-config.php</code> file.' );
+				printf(
+					/* translators: 1: wp-config.php */
+					__( 'This unique authentication key is also missing from your %s file.' ),
+					'<code>wp-config.php</code>'
+				);
 			} else {
-				_e( 'These unique authentication keys are also missing from your <code>wp-config.php</code> file.' );
+				printf(
+					/* translators: 1: wp-config.php */
+					__( 'These unique authentication keys are also missing from your %s file.' ),
+					'<code>wp-config.php</code>'
+				);
 			}
 		?>
 		<?php _e( 'To make your installation more secure, you should also add:' ); ?>
@@ -443,9 +485,12 @@ define('BLOG_ID_CURRENT_SITE', 1);
 ';
 
 		echo '<li><p>';
-		/* translators: 1: a filename like .htaccess. 2: a file path. */
-		printf( __( 'Add the following to your %1$s file in %2$s, <strong>replacing</strong> other WordPress rules:' ),
-			'<code>web.config</code>', '<code>' . $home_path . '</code>' );
+		printf(
+			/* translators: 1: a filename like .htaccess. 2: a file path. */
+			__( 'Add the following to your %1$s file in %2$s, <strong>replacing</strong> other WordPress rules:' ),
+			'<code>web.config</code>',
+			'<code>' . $home_path . '</code>'
+		);
 		echo '</p>';
 		if ( ! $subdomain_install && WP_CONTENT_DIR != ABSPATH . 'wp-content' )
 			echo '<p><strong>' . __('Warning:') . ' ' . __( 'Subdirectory networks may not be fully compatible with custom wp-content directories.' ) . '</strong></p>';
@@ -480,9 +525,12 @@ RewriteRule . index.php [L]
 EOF;
 
 		echo '<li><p>';
-		/* translators: 1: a filename like .htaccess. 2: a file path. */
-		printf( __( 'Add the following to your %1$s file in %2$s, <strong>replacing</strong> other WordPress rules:' ),
-			'<code>.htaccess</code>', '<code>' . $home_path . '</code>' );
+		printf(
+			/* translators: 1: a filename like .htaccess. 2: a file path. */
+			__( 'Add the following to your %1$s file in %2$s, <strong>replacing</strong> other WordPress rules:' ),
+			'<code>.htaccess</code>',
+			'<code>' . $home_path . '</code>'
+		);
 		echo '</p>';
 		if ( ! $subdomain_install && WP_CONTENT_DIR != ABSPATH . 'wp-content' )
 			echo '<p><strong>' . __('Warning:') . ' ' . __( 'Subdirectory networks may not be fully compatible with custom wp-content directories.' ) . '</strong></p>';
