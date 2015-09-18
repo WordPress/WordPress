@@ -334,9 +334,9 @@ endif; ?>
 <div class="form-wrap">
 <p>
 	<?php
-	echo '<strong>' . __( 'Note:' ) . '</strong><br>';
+	echo '<strong>' . __( 'Note:' ) . '</strong><br />';
 	printf(
-		/* translators: default category */
+		/* translators: %s: default category */
 		__( 'Deleting a category does not delete the posts in that category. Instead, posts that were only assigned to the deleted category are set to the category %s.' ),
 		/** This filter is documented in wp-includes/category-template.php */
 		'<strong>' . apply_filters( 'the_category', get_cat_name( get_option( 'default_category') ) ) . '</strong>'
