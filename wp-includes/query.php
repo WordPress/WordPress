@@ -15,12 +15,13 @@
  * Retrieve variable in the WP_Query class.
  *
  * @since 1.5.0
+ * @since 3.9.0 The `$default` argument was introduced.
  *
  * @global WP_Query $wp_query
  *
  * @param string $var       The variable key to retrieve.
- * @param mixed  $default   Value to return if the query variable is not set. Default ''.
- * @return mixed
+ * @param mixed  $default   Optional. Value to return if the query variable is not set. Default empty.
+ * @return mixed Contents of the query variable.
  */
 function get_query_var( $var, $default = '' ) {
 	global $wp_query;
@@ -2358,11 +2359,13 @@ class WP_Query {
 	 * Retrieve query variable.
 	 *
 	 * @since 1.5.0
+	 * @since 3.9.0 The `$default` argument was introduced.
+	 *
 	 * @access public
 	 *
 	 * @param string $query_var Query variable key.
-	 * @param mixed  $default   Value to return if the query variable is not set. Default ''.
-	 * @return mixed
+	 * @param mixed  $default   Optional. Value to return if the query variable is not set. Default empty.
+	 * @return mixed Contents of the query variable.
 	 */
 	public function get( $query_var, $default = '' ) {
 		if ( isset( $this->query_vars[ $query_var ] ) ) {
