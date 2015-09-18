@@ -103,6 +103,7 @@ $new_admin_email = get_option( 'new_admin_email' );
 if ( $new_admin_email && $new_admin_email != get_option('admin_email') ) : ?>
 <div class="updated inline">
 <p><?php
+	/* translators: 1: new admin email, 2: Cancel link URL */
 	printf( __( 'There is a pending change of the admin email to %1$s. <a href="%2$s">Cancel</a>' ),
 		'<code>' . esc_html( $new_admin_email ) . '</code>',
 		esc_url( admin_url( 'options.php?dismiss=new_admin_email' ) )
@@ -143,13 +144,15 @@ if ( empty($tzstring) ) { // Create a UTC+- zone if no timezone string exists
 </select>
 
 	<span id="utc-time"><?php
+		/* translators: %s: UTC time */
 		printf( __( '<abbr title="Coordinated Universal Time">UTC</abbr> time is %s' ),
 			'<code>' . date_i18n( $timezone_format, false, 'gmt' ) . '</code>'
 		);
 	?></span>
 <?php if ( get_option('timezone_string') || !empty($current_offset) ) : ?>
 	<span id="local-time"><?php
-		printf( __( 'Local time is %1$s' ),
+		/* translators: %s: local time */
+		printf( __( 'Local time is %s' ),
 			'<code>' . date_i18n( $timezone_format ) . '</code>'
 		);
 	?></span>
