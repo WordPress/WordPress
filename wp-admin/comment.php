@@ -182,7 +182,11 @@ if ( $comment->comment_approved != '0' ) { // if not unapproved
 			$parent      = get_comment( $comment->comment_parent );
 			$parent_link = esc_url( get_comment_link( $parent ) );
 			$name        = get_comment_author( $parent );
-			printf( ' | ' . __( 'In reply to <a href="%1$s">%2$s</a>.' ), $parent_link, $name );
+			printf(
+				/* translators: comment link */
+				' | ' . __( 'In reply to %s.' ),
+				'<a href="' . $parent_link . '">' . $name . '</a>'
+			);
 		}
 	?>
 	</td>
