@@ -611,7 +611,7 @@ class WP_Comments_List_Table extends WP_List_Table {
 				$parent_link = esc_url( get_comment_link( $parent ) );
 				$name = get_comment_author( $parent );
 				printf(
-					/* translators: comment link */
+					/* translators: %s: comment link */
 					' | ' . __( 'In reply to %s.' ),
 					'<a href="' . $parent_link . '">' . $name . '</a>'
 				);
