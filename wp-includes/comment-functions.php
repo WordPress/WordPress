@@ -2377,6 +2377,30 @@ function update_comment_cache( $comments, $update_meta_cache = true ) {
 }
 
 /**
+ * Adds any comments from the given IDs to the cache that do not already exist in cache.
+ *
+ * @since 4.4.0
+ * @access private
+ *
+ * @see update_comment_cache()
+ *
+ * @global wpdb $wpdb
+ *
+ * @param array $comment_ids       Array of comment IDs.
+ * @param bool  $update_meta_cache Optional. Whether to update the meta cache. Default true.
+ */
+function _prime_comment_caches( $comment_ids, $update_meta_cache = true ) {
+	global $wpdb;
+
+	$non_cached_ids = _get_non_cached_ids( $comment_ids, 'comment' );
+	if ( !empty( $non_cached_ids ) ) {
+		$fresh_comments = $wpdb->get_results( sprintf( "SELECT $wpdb->comments.* FROM $wpdb->comments WHERE comment_ID IN (%s)", join( ",", array_map( 'intval', $non_cached_ids ) ) ) );
+
+		update_comment_cache( $fresh_comments, $update_meta_cache );
+	}
+}
+
+/**
  * Lazy load comment meta when inside of a `WP_Query` loop.
  *
  * @since 4.4.0
