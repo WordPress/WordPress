@@ -121,11 +121,13 @@ do_action( "{$taxonomy}_term_edit_form_tag" );
 			 * post URIs and term slugs.
 			 *
 			 * @since 2.6.0
+			 * @since 4.4.0 The `$tag` parameter was added.
 			 *
-			 * @param string $slug The editable slug. Will be either a term slug or post URI depending
-			 *                     upon the context in which it is evaluated.
+			 * @param string         $slug The editable slug. Will be either a term slug or post URI depending
+			 *                             upon the context in which it is evaluated.
+			 * @param object|WP_Post $tag  Term or WP_Post object.
 			 */
-			$slug = isset( $tag->slug ) ? apply_filters( 'editable_slug', $tag->slug ) : '';
+			$slug = isset( $tag->slug ) ? apply_filters( 'editable_slug', $tag->slug, $tag ) : '';
 			?>
 			<td><input name="slug" id="slug" type="text" value="<?php echo esc_attr( $slug ); ?>" size="40" />
 			<p class="description"><?php _e('The &#8220;slug&#8221; is the URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens.'); ?></p></td>

@@ -273,8 +273,9 @@ function get_inline_data($post) {
 	/** This filter is documented in wp-admin/edit-tag-form.php */
 	echo '
 <div class="hidden" id="inline_' . $post->ID . '">
-	<div class="post_title">' . $title . '</div>
-	<div class="post_name">' . apply_filters( 'editable_slug', $post->post_name ) . '</div>
+	<div class="post_title">' . $title . '</div>' .
+	/** This filter is documented in wp-admin/edit-tag-form.php */
+	'<div class="post_name">' . apply_filters( 'editable_slug', $post->post_name, $post ) . '</div>
 	<div class="post_author">' . $post->post_author . '</div>
 	<div class="comment_status">' . esc_html( $post->comment_status ) . '</div>
 	<div class="ping_status">' . esc_html( $post->ping_status ) . '</div>
