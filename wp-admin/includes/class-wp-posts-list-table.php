@@ -200,13 +200,16 @@ class WP_Posts_List_Table extends WP_List_Table {
 	 * @return bool Whether the current view is the "All" view.
 	 */
 	protected function is_base_request() {
-		if ( empty( $_GET ) ) {
+		$vars = $_GET;
+		unset( $vars['paged'] );
+		
+		if ( empty( $vars ) ) {
 			return true;
-		} elseif ( 1 === count( $_GET ) && ! empty( $_GET['post_type'] ) ) {
-			return $this->screen->post_type === $_GET['post_type'];
+		} elseif ( 1 === count( $vars ) && ! empty( $vars['post_type'] ) ) {
+			return $this->screen->post_type === $vars['post_type'];
 		}
 
-		return 1 === count( $_GET ) && ! empty( $_GET['mode'] );
+		return 1 === count( $vars ) && ! empty( $vars['mode'] );
 	}
 
 	/**
