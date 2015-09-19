@@ -1329,7 +1329,7 @@ function get_sample_permalink_html( $id, $new_title = null, $new_slug = null ) {
 	}
 
 	if ( isset( $view_post ) ) {
-		if ( 'draft' == $post->post_status ) {
+		if ( 'draft' == $post->post_status || 'pending' == $post->post_status ) {
 			$draft_link = set_url_scheme( get_permalink( $post->ID ) );
 			$preview_link = get_preview_post_link( $post, array(), $draft_link );
 			$return .= "<span id='view-post-btn'><a href='" . esc_url( $preview_link ) . "' class='button button-small' target='wp-preview-{$post->ID}'>$view_post</a></span>\n";
