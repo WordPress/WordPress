@@ -24,6 +24,8 @@ final class WP_Customize_Manager {
 	/**
 	 * An instance of the theme being previewed.
 	 *
+	 * @since 3.4.0
+	 * @access protected
 	 * @var WP_Theme
 	 */
 	protected $theme;
@@ -31,6 +33,8 @@ final class WP_Customize_Manager {
 	/**
 	 * The directory name of the previously active theme (within the theme_root).
 	 *
+	 * @since 3.4.0
+	 * @access protected
 	 * @var string
 	 */
 	protected $original_stylesheet;
@@ -38,33 +42,83 @@ final class WP_Customize_Manager {
 	/**
 	 * Whether this is a Customizer pageload.
 	 *
+	 * @since 3.4.0
+	 * @access protected
 	 * @var bool
 	 */
 	protected $previewing = false;
 
 	/**
-	 * Methods and properties deailing with managing widgets in the Customizer.
+	 * Methods and properties dealing with managing widgets in the Customizer.
 	 *
+	 * @since 3.9.0
+	 * @access public
 	 * @var WP_Customize_Widgets
 	 */
 	public $widgets;
 
 	/**
-	 * Methods and properties deailing with managing nav menus in the Customizer.
+	 * Methods and properties dealing with managing nav menus in the Customizer.
 	 *
+	 * @since 4.3.0
+	 * @access public
 	 * @var WP_Customize_Nav_Menus
 	 */
 	public $nav_menus;
 
-	protected $settings   = array();
+	/**
+	 * Registered instances of WP_Customize_Setting.
+	 *
+	 * @since 3.4.0
+	 * @access protected
+	 * @var array
+	 */
+	protected $settings = array();
+
+	/**
+	 * Sorted top-level instances of WP_Customize_Panel and WP_Customize_Section.
+	 *
+	 * @since 4.0.0
+	 * @access protected
+	 * @var array
+	 */
 	protected $containers = array();
-	protected $panels     = array();
-	protected $sections   = array();
-	protected $controls   = array();
 
+	/**
+	 * Registered instances of WP_Customize_Panel.
+	 *
+	 * @since 4.0.0
+	 * @access protected
+	 * @var array
+	 */
+	protected $panels = array();
+
+	/**
+	 * Registered instances of WP_Customize_Section.
+	 *
+	 * @since 3.4.0
+	 * @access protected
+	 * @var array
+	 */
+	protected $sections = array();
+
+	/**
+	 * Registered instances of WP_Customize_Control.
+	 *
+	 * @since 3.4.0
+	 * @access protected
+	 * @var array
+	 */
+	protected $controls = array();
+
+	/**
+	 * Return value of check_ajax_referer() in customize_preview_init() method.
+	 *
+	 * @since 3.5.0
+	 * @access protected
+	 * @var false|int
+	 */
 	protected $nonce_tick;
-
-	protected $customized;
 
 	/**
 	 * Panel types that may be rendered from JS templates.
@@ -733,7 +787,8 @@ final class WP_Customize_Manager {
 	 *
 	 * @since 3.4.0
 	 *
-	 * @return mixed
+	 * @param mixed $return Value passed through for wp_die_handler filter.
+	 * @return mixed Value passed through for wp_die_handler filter.
 	 */
 	public function remove_preview_signature( $return = null ) {
 		remove_action( 'shutdown', array( $this, 'customize_preview_signature' ), 1000 );
@@ -1313,12 +1368,12 @@ final class WP_Customize_Manager {
 	}
 
 	/**
-	 * Return whether the user agent is iOS.
+	 * Determine whether the user agent is iOS.
 	 *
 	 * @since 4.4.0
 	 * @access public
 	 *
-	 * @return bool
+	 * @return bool Whether the user agent is iOS.
 	 */
 	public function is_ios() {
 		return wp_is_mobile() && preg_match( '/iPad|iPod|iPhone/', $_SERVER['HTTP_USER_AGENT'] );
@@ -1330,7 +1385,7 @@ final class WP_Customize_Manager {
 	 * @since 4.4.0
 	 * @access public
 	 *
-	 * @return string
+	 * @return string The template string for the document title.
 	 */
 	public function get_document_title_template() {
 		if ( $this->is_theme_active() ) {
@@ -1350,7 +1405,7 @@ final class WP_Customize_Manager {
 	 * @since 4.4.0
 	 * @access public
 	 *
-	 * @param string $preview_url  URL to be previewed.
+	 * @param string $preview_url URL to be previewed.
 	 */
 	public function set_preview_url( $preview_url ) {
 		$this->preview_url = wp_validate_redirect( $preview_url, home_url( '/' ) );
@@ -1362,7 +1417,7 @@ final class WP_Customize_Manager {
 	 * @since 4.4.0
 	 * @access public
 	 *
-	 * @return string
+	 * @return string URL being previewed.
 	 */
 	public function get_preview_url() {
 		if ( empty( $this->preview_url ) ) {
@@ -1381,7 +1436,7 @@ final class WP_Customize_Manager {
 	 * @since 4.4.0
 	 * @access public
 	 *
-	 * @param string $return_url  URL for return link.
+	 * @param string $return_url URL for return link.
 	 */
 	public function set_return_url( $return_url ) {
 		$return_url = remove_query_arg( wp_removable_query_args(), $return_url );
@@ -1395,7 +1450,7 @@ final class WP_Customize_Manager {
 	 * @since 4.4.0
 	 * @access public
 	 *
-	 * @return string
+	 * @return string URL for link to close Customizer.
 	 */
 	public function get_return_url() {
 		if ( $this->return_url ) {
@@ -1412,6 +1467,9 @@ final class WP_Customize_Manager {
 
 	/**
 	 * Set the autofocused constructs.
+	 *
+	 * @since 4.4.0
+	 * @access public
 	 *
 	 * @param array $autofocus {
 	 *     Mapping of 'panel', 'section', 'control' to the ID which should be autofocused.
@@ -1446,7 +1504,7 @@ final class WP_Customize_Manager {
 	/**
 	 * Print JavaScript settings for parent window.
 	 *
-	 * @since 4.3.0
+	 * @since 4.4.0
 	 */
 	public function customize_pane_settings() {
 		/*
