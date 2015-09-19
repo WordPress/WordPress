@@ -2009,6 +2009,7 @@ div.action-links,
 	/* Updates */
 	#wpbody-content #update-themes-table .plugin-title {
 		width: auto;
+		white-space: normal;
 	}
 
 	/* Links */
