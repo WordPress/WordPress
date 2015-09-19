@@ -1090,6 +1090,7 @@ function update_user_caches($user) {
  * Clean all user caches
  *
  * @since 3.0.0
+ * @since 4.4.0 'clean_user_cache' action was added.
  *
  * @param WP_User|int $user User object or ID to be cleaned from the cache
  */
@@ -1104,6 +1105,16 @@ function clean_user_cache( $user ) {
 	wp_cache_delete( $user->user_login, 'userlogins' );
 	wp_cache_delete( $user->user_email, 'useremail' );
 	wp_cache_delete( $user->user_nicename, 'userslugs' );
+
+	/**
+	 * Fires immediately after the given user's cache is cleaned.
+	 *
+	 * @since 4.4.0
+	 *
+	 * @param int     $user_id User ID.
+	 * @param WP_User $user    User object.
+	 */
+	do_action( 'clean_user_cache', $user->ID, $user );
 }
 
 /**
