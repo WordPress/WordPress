@@ -31,6 +31,7 @@ function export_add_js() {
  		form.find('input:radio').change(function() {
 			filters.slideUp('fast');
 			switch ( $(this).val() ) {
+				case 'attachment': $('#attachment-filters').slideDown(); break;
 				case 'posts': $('#post-filters').slideDown(); break;
 				case 'pages': $('#page-filters').slideDown(); break;
 			}
@@ -89,7 +90,15 @@ if ( isset( $_GET['download'] ) ) {
 
 		if ( $_GET['page_status'] )
 			$args['status'] = $_GET['page_status'];
-	} else {
+	} elseif ( 'attachment' == $_GET['content'] ) {
+		$args['content'] = 'attachment';
+		
+		if ( $_GET['attachment_start_date'] || $_GET['attachment_end_date'] ) {
+			$args['start_date'] = $_GET['attachment_start_date'];
+			$args['end_date'] = $_GET['attachment_end_date'];
+		}
+	} 
+	else {
 		$args['content'] = $_GET['content'];
 	}
 
@@ -225,7 +234,20 @@ function export_date_options( $post_type = 'post' ) {
 <?php foreach ( get_post_types( array( '_builtin' => false, 'can_export' => true ), 'objects' ) as $post_type ) : ?>
 <p><label><input type="radio" name="content" value="<?php echo esc_attr( $post_type->name ); ?>" /> <?php echo esc_html( $post_type->label ); ?></label></p>
 <?php endforeach; ?>
-
+<p><label><input type="radio" name="content" value="attachment" /> <?php _e( 'Media' ); ?></label></p>
+<ul id="attachment-filters" class="export-filters">
+	<li>
+		<label><?php _e( 'Date range:' ); ?></label>
+		<select name="attachment_start_date">
+			<option value="0"><?php _e( 'Start Date' ); ?></option>
+			<?php export_date_options( 'attachment' ); ?>
+		</select>
+		<select name="attachment_end_date">
+			<option value="0"><?php _e( 'End Date' ); ?></option>
+			<?php export_date_options( 'attachment' ); ?>
+		</select>
+	</li>
+</ul>
 <?php
 /**
  * Fires after the export filters form.

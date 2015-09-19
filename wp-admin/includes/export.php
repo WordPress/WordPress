@@ -75,7 +75,7 @@ function export_wp( $args = array() ) {
 		}
 	}
 
-	if ( 'post' == $args['content'] || 'page' == $args['content'] ) {
+	if ( 'post' == $args['content'] || 'page' == $args['content'] || 'attachment' == $args['content'] ) {
 		if ( $args['author'] )
 			$where .= $wpdb->prepare( " AND {$wpdb->posts}.post_author = %d", $args['author'] );
 
