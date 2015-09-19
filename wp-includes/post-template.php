@@ -1187,13 +1187,14 @@ function wp_list_pages( $args = '' ) {
  * arguments.
  *
  * @since 2.7.0
- * @since 4.4.0 Added `container`, `before`, `after`, and `walker` arguments.
+ * @since 4.4.0 Added `menu_id`, `container`, `before`, `after`, and `walker` arguments.
  *
  * @param array|string $args {
  *     Optional. Arguments to generate a page menu. See wp_list_pages() for additional arguments.
  *
  *     @type string          $sort_column How to short the list of pages. Accepts post column names.
  *                                        Default 'menu_order, post_title'.
+ *     @type string          $menu_id     ID for the div containing the page list. Default is empty string.
  *     @type string          $menu_class  Class to use for the element containing the page list. Default 'menu'.
  *     @type string          $container   Element to use for the element containing the page list. Default 'div'.
  *     @type bool            $echo        Whether to echo the list or return it. Accepts true (echo) or false (return).
@@ -1211,6 +1212,7 @@ function wp_list_pages( $args = '' ) {
 function wp_page_menu( $args = array() ) {
 	$defaults = array(
 		'sort_column' => 'menu_order, post_title',
+		'menu_id'     => '',
 		'menu_class'  => 'menu',
 		'container'   => 'div',
 		'echo'        => true,
@@ -1267,7 +1269,16 @@ function wp_page_menu( $args = array() ) {
 		$menu = $args['before'] . $menu . $args['after'];
 	}
 	$container = sanitize_text_field( $args['container'] );
-	$menu = "<{$container} class=\"" . esc_attr( $args['menu_class'] ) . '">' . $menu . "</{$container}>\n";
+	$attrs = '';
+	if ( ! empty( $args['menu_id'] ) ) {
+		$attrs .= ' id="' . esc_attr( $args['menu_id'] ) . '"';
+	}
+
+	if ( ! empty( $args['menu_class'] ) ) {
+		$attrs .= ' class="' . esc_attr( $args['menu_class'] ) . '"';
+	}
+
+	$menu = "<{$container}{$attrs}>" . $menu . "</{$container}>\n";
 
 	/**
 	 * Filter the HTML output of a page-based menu.
