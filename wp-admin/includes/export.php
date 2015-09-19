@@ -43,21 +43,8 @@ function export_wp( $args = array() ) {
 	do_action( 'export_wp', $args );
 
 	$sitename = sanitize_key( get_bloginfo( 'name' ) );
-	if ( ! empty( $sitename ) ) {
-		$sitename .= '.';
-	}
-	$date = date( 'Y-m-d' );
-	$wp_filename = $sitename . 'wordpress.' . $date . '.xml';
-	/**
-	 * Filter the export filename.
-	 *
-	 * @since 4.4.0
-	 *
-	 * @param string $wp_filename The name of the file for download.
-	 * @param string $sitename    The site name.
-	 * @param string $date        Today's date, formatted.
-	 */
-	$filename = apply_filters( 'export_wp_filename', $wp_filename, $sitename, $date );
+	if ( ! empty($sitename) ) $sitename .= '.';
+	$filename = $sitename . 'wordpress.' . date( 'Y-m-d' ) . '.xml';
 
 	header( 'Content-Description: File Transfer' );
 	header( 'Content-Disposition: attachment; filename=' . $filename );
