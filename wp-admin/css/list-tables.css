@@ -434,7 +434,8 @@ table.media .column-title .filename {
 }
 
 .sorting-indicator {
-	display: none;
+	display: block;
+	visibility: hidden;
 	width: 10px;
 	height: 4px;
 	margin-top: 8px;
@@ -614,7 +615,7 @@ th.desc:hover span.sorting-indicator,
 th.desc a:focus span.sorting-indicator,
 th.asc:hover span.sorting-indicator,
 th.asc a:focus span.sorting-indicator {
-	display: block;
+	visibility: visible;
 }
 
 /* Bulk Actions */
