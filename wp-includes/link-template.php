@@ -622,22 +622,35 @@ function get_post_comments_feed_link($post_id = 0, $feed = '') {
 	if ( empty( $feed ) )
 		$feed = get_default_feed();
 
+	$post = get_post( $post_id );
+	$unattached = 'attachment' === $post->post_type && 0 === (int) $post->post_parent;
+
 	if ( '' != get_option('permalink_structure') ) {
 		if ( 'page' == get_option('show_on_front') && $post_id == get_option('page_on_front') )
 			$url = _get_page_link( $post_id );
 		else
 			$url = get_permalink($post_id);
 
-		$url = trailingslashit($url) . 'feed';
-		if ( $feed != get_default_feed() )
-			$url .= "/$feed";
-		$url = user_trailingslashit($url, 'single_feed');
+		if ( $unattached ) {
+			$url =  home_url( '/feed/' );
+			if ( $feed !== get_default_feed() ) {
+				$url .= "$feed/";
+			}
+			$url = add_query_arg( 'attachment_id', $post_id, $url );
+		} else {
+			$url = trailingslashit($url) . 'feed';
+			if ( $feed != get_default_feed() )
+				$url .= "/$feed";
+			$url = user_trailingslashit($url, 'single_feed');
+		}
 	} else {
-		$type = get_post_field('post_type', $post_id);
-		if ( 'page' == $type )
+		if ( $unattached ) {
+			$url = add_query_arg( array( 'feed' => $feed, 'attachment_id' => $post_id ), home_url( '/' ) );
+		} elseif ( 'page' == $post->post_type ) {
 			$url = add_query_arg( array( 'feed' => $feed, 'page_id' => $post_id ), home_url( '/' ) );
-		else
+		} else {
 			$url = add_query_arg( array( 'feed' => $feed, 'p' => $post_id ), home_url( '/' ) );
+		}
 	}
 
 	/**
