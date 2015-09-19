@@ -269,7 +269,9 @@ function list_plugin_updates() {
 		}
 		// Get plugin compat for updated version of WordPress.
 		if ( $core_update_version ) {
-			if ( isset($info->compatibility[$core_update_version][$plugin_data->update->new_version]) ) {
+			if ( isset( $info->tested ) && version_compare( $info->tested, $core_update_version, '>=' ) ) {
+				$compat .= '<br />' . sprintf( __( 'Compatibility with WordPress %1$s: 100%% (according to its author)' ), $core_update_version );
+			} elseif ( isset( $info->compatibility[ $core_update_version ][ $plugin_data->update->new_version ] ) ) {
 				$update_compat = $info->compatibility[$core_update_version][$plugin_data->update->new_version];
 				$compat .= '<br />' . sprintf(__('Compatibility with WordPress %1$s: %2$d%% (%3$d "works" votes out of %4$d total)'), $core_update_version, $update_compat[0], $update_compat[2], $update_compat[1]);
 			} else {
