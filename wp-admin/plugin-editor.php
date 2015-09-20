@@ -181,14 +181,14 @@ default:
 <big><?php
 	if ( is_plugin_active($plugin) ) {
 		if ( is_writeable($real_file) )
-			echo sprintf(__('Editing <strong>%s</strong> (active)'), $file);
+			echo sprintf( _x( 'Editing %s',  'plugin' ), '<strong>' . $file . '</strong>' ) . ' ' . _x( '(active)', 'plugin' );
 		else
-			echo sprintf(__('Browsing <strong>%s</strong> (active)'), $file);
+			echo sprintf( _x( 'Browsing %s', 'plugin' ), '<strong>' . $file . '</strong>' ) . ' ' . _x( '(active)', 'plugin' );
 	} else {
 		if ( is_writeable($real_file) )
-			echo sprintf(__('Editing <strong>%s</strong> (inactive)'), $file);
+			echo sprintf( _x( 'Editing %s',  'plugin' ), '<strong>' . $file . '</strong>' ) . ' ' . _x( '(inactive)', 'plugin' );
 		else
-			echo sprintf(__('Browsing <strong>%s</strong> (inactive)'), $file);
+			echo sprintf( _x( 'Browsing %s', 'plugin' ), '<strong>' . $file . '</strong>' ) . ' ' . _x( '(inactive)', 'plugin' );
 	}
 	?></big>
 </div>
