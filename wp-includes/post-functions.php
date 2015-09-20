@@ -876,6 +876,8 @@ function get_post_types( $args = array(), $output = 'names', $operator = 'and' )
  * parameter), along with a string for the post type name.
  *
  * @since 2.9.0
+ * @since 3.0.0 The `show_ui` argument is now enforced on the new post screen.
+ * @since 4.4.0 The `show_ui` argument is now enforced on the post type listing screen and post editing screen.
  *
  * @global array      $wp_post_types List of post types.
  * @global WP_Rewrite $wp_rewrite    Used for default feeds.
@@ -907,7 +909,7 @@ function get_post_types( $args = array(), $output = 'names', $operator = 'and' )
  *                                             * ?{post_type_key}={single_post_slug}
  *                                             * ?{post_type_query_var}={single_post_slug}
  *                                             If not set, the default is inherited from $public.
- *     @type bool        $show_ui              Whether to generate a default UI for managing this post type in the
+ *     @type bool        $show_ui              Whether to generate and allow a UI for managing this post type in the
  *                                             admin. Default is value of $public.
  *     @type bool        $show_in_menu         Where to show the post type in the admin menu. To work, $show_ui
  *                                             must be true. If true, the post type is shown in its own top level
