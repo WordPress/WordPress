@@ -780,8 +780,8 @@ function page_attributes_meta_box($post) {
 		?>
 <p><strong><?php _e('Template') ?></strong><?php
 	/**
-	 * Perform actions immediately after displaying the heading for the Template
-	 * section of the Page Attributes meta box.
+	 * Fires immediately after the heading inside the 'Template' section
+	 * of the 'Page Attributes' meta box.
 	 *
 	 * @since 4.4.0
 	 *
