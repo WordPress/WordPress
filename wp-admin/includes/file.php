@@ -559,7 +559,7 @@ function unzip_file($file, $to) {
 	 *
 	 * @param bool $ziparchive Whether to use ZipArchive. Default true.
 	 */
-	if ( class_exists( 'ZipArchive' ) && apply_filters( 'unzip_file_use_ziparchive', true ) ) {
+	if ( class_exists( 'ZipArchive', false ) && apply_filters( 'unzip_file_use_ziparchive', true ) ) {
 		$result = _unzip_file_ziparchive($file, $to, $needed_dirs);
 		if ( true === $result ) {
 			return $result;
@@ -848,7 +848,7 @@ function WP_Filesystem( $args = false, $context = false, $allow_relaxed_file_own
 	if ( ! $method )
 		return false;
 
-	if ( ! class_exists("WP_Filesystem_$method") ) {
+	if ( ! class_exists( "WP_Filesystem_$method", false  ) ) {
 
 		/**
 		 * Filter the path for a specific filesystem method class file.

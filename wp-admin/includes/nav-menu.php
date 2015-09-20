@@ -875,7 +875,7 @@ function wp_get_nav_menu_to_edit( $menu_id = 0 ) {
 		 */
 		$walker_class_name = apply_filters( 'wp_edit_nav_menu_walker', 'Walker_Nav_Menu_Edit', $menu_id );
 
-		if ( class_exists( $walker_class_name ) )
+		if ( class_exists( $walker_class_name, false ) )
 			$walker = new $walker_class_name;
 		else
 			return new WP_Error( 'menu_walker_not_exist', sprintf( __('The Walker class named <strong>%s</strong> does not exist.'), $walker_class_name ) );

@@ -178,7 +178,7 @@ endif;
  *
  * @link https://wordpress.org/plugins/atom-publishing-protocol/
  */
-if ( ! class_exists( 'wp_atom_server' ) ) {
+if ( ! class_exists( 'wp_atom_server', false ) ) {
 	class wp_atom_server {
 		public function __call( $name, $arguments ) {
 			_deprecated_function( __CLASS__ . '::' . $name, '3.5', 'the Atom Publishing Protocol plugin' );

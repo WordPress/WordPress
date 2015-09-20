@@ -454,8 +454,9 @@ function set_screen_options() {
 function iis7_rewrite_rule_exists($filename) {
 	if ( ! file_exists($filename) )
 		return false;
-	if ( ! class_exists('DOMDocument') )
+	if ( ! class_exists( 'DOMDocument', false ) ) {
 		return false;
+	}
 
 	$doc = new DOMDocument();
 	if ( $doc->load($filename) === false )
@@ -481,8 +482,9 @@ function iis7_delete_rewrite_rule($filename) {
 	if ( ! file_exists($filename) )
 		return true;
 
-	if ( ! class_exists('DOMDocument') )
+	if ( ! class_exists( 'DOMDocument', false ) ) {
 		return false;
+	}
 
 	$doc = new DOMDocument();
 	$doc->preserveWhiteSpace = false;
@@ -511,8 +513,9 @@ function iis7_delete_rewrite_rule($filename) {
  * @return bool
  */
 function iis7_add_rewrite_rule($filename, $rewrite_rule) {
-	if ( ! class_exists('DOMDocument') )
+	if ( ! class_exists( 'DOMDocument', false ) ) {
 		return false;
+	}
 
 	// If configuration file does not exist then we create one.
 	if ( ! file_exists($filename) ) {

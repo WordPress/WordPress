@@ -5,7 +5,7 @@
  */
 _deprecated_file( basename( __FILE__ ), '3.0', WPINC . '/http.php' );
 
-if ( !class_exists( 'Snoopy' ) ) :
+if ( ! class_exists( 'Snoopy', false ) ) :
 /*************************************************
 
 Snoopy - the PHP net client

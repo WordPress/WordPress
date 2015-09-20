@@ -316,7 +316,7 @@ function get_nonauthor_user_ids() {
 	return $wpdb->get_col( $wpdb->prepare("SELECT user_id FROM $wpdb->usermeta WHERE meta_key = %s AND meta_value = '0'", $level_key) );
 }
 
-if ( !class_exists('WP_User_Search') ) :
+if ( ! class_exists( 'WP_User_Search', false ) ) :
 /**
  * WordPress User Search class.
  *
@@ -757,7 +757,7 @@ function wp_tiny_mce( $teeny = false, $settings = false ) {
 
 	static $num = 1;
 
-	if ( ! class_exists('_WP_Editors' ) )
+	if ( ! class_exists( '_WP_Editors', false ) )
 		require_once( ABSPATH . WPINC . '/class-wp-editor.php' );
 
 	$editor_id = 'content' . $num++;

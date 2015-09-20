@@ -16,7 +16,7 @@ ini_set('auto_detect_line_endings', 1);
 /**
  * Routines for working with PO files
  */
-if ( !class_exists( 'PO' ) ):
+if ( ! class_exists( 'PO', false ) ):
 class PO extends Gettext_Translations {
 
 	var $comments_before_headers = '';
@@ -355,7 +355,7 @@ class PO extends Gettext_Translations {
 	/**
 	 * @staticvar string   $last_line
 	 * @staticvar boolean  $use_last_line
-	 * 
+	 *
 	 * @param     resource $f
 	 * @param     string   $action
 	 * @return boolean

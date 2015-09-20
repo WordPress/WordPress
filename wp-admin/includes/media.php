@@ -2974,7 +2974,7 @@ function wp_read_video_metadata( $file ) {
 
 	$metadata = array();
 
-	if ( ! class_exists( 'getID3' ) )
+	if ( ! class_exists( 'getID3', false ) )
 		require( ABSPATH . WPINC . '/ID3/getid3.php' );
 	$id3 = new getID3();
 	$data = $id3->analyze( $file );
@@ -3029,7 +3029,7 @@ function wp_read_audio_metadata( $file ) {
 		return false;
 	$metadata = array();
 
-	if ( ! class_exists( 'getID3' ) )
+	if ( ! class_exists( 'getID3', false ) )
 		require( ABSPATH . WPINC . '/ID3/getid3.php' );
 	$id3 = new getID3();
 	$data = $id3->analyze( $file );
