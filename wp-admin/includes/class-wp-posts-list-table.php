@@ -77,19 +77,21 @@ class WP_Posts_List_Table extends WP_List_Table {
 			'screen' => isset( $args['screen'] ) ? $args['screen'] : null,
 		) );
 
-		$post_type = $this->screen->post_type;
+		$post_type        = $this->screen->post_type;
 		$post_type_object = get_post_type_object( $post_type );
+		$exclude_states   = get_post_stati( array(
+			'show_in_admin_all_list' => false,
+		) );
+		$this->user_posts_count = $wpdb->get_var( $wpdb->prepare( "
+			SELECT COUNT( 1 )
+			FROM $wpdb->posts
+			WHERE post_type = %s
+			AND post_status NOT IN ( '" . implode( "','", $exclude_states ) . "' )
+			AND post_author = %d
+		", $post_type, get_current_user_id() ) );
 
-		if ( !current_user_can( $post_type_object->cap->edit_others_posts ) ) {
-			$exclude_states = get_post_stati( array( 'show_in_admin_all_list' => false ) );
-			$this->user_posts_count = $wpdb->get_var( $wpdb->prepare( "
-				SELECT COUNT( 1 ) FROM $wpdb->posts
-				WHERE post_type = %s AND post_status NOT IN ( '" . implode( "','", $exclude_states ) . "' )
-				AND post_author = %d
-			", $post_type, get_current_user_id() ) );
-
-			if ( $this->user_posts_count && empty( $_REQUEST['post_status'] ) && empty( $_REQUEST['all_posts'] ) && empty( $_REQUEST['author'] ) && empty( $_REQUEST['show_sticky'] ) )
-				$_GET['author'] = get_current_user_id();
+		if ( $this->user_posts_count && ! current_user_can( $post_type_object->cap->edit_others_posts ) && empty( $_REQUEST['post_status'] ) && empty( $_REQUEST['all_posts'] ) && empty( $_REQUEST['author'] ) && empty( $_REQUEST['show_sticky'] ) ) {
+			$_GET['author'] = get_current_user_id();
 		}
 
 		if ( 'post' == $post_type && $sticky_posts = get_option( 'sticky_posts' ) ) {
@@ -262,6 +264,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 
 		$current_user_id = get_current_user_id();
 		$all_args = array( 'post_type' => $post_type );
+		$mine = '';
 
 		if ( $this->user_posts_count ) {
 			if ( isset( $_GET['author'] ) && ( $_GET['author'] == $current_user_id ) ) {
@@ -283,7 +286,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 				number_format_i18n( $this->user_posts_count )
 			);
 
-			$status_links['mine'] = $this->get_edit_link( $mine_args, $mine_inner_html, $class );
+			$mine = $this->get_edit_link( $mine_args, $mine_inner_html, $class );
 
 			$all_args['all_posts'] = 1;
 			$class = '';
@@ -310,6 +313,9 @@ class WP_Posts_List_Table extends WP_List_Table {
 		);
 
 		$status_links['all'] = $this->get_edit_link( $all_args, $all_inner_html, $class );
+		if ( $mine ) {
+			$status_links['mine'] = $mine;
+		}
 
 		foreach ( get_post_stati(array('show_in_admin_status_list' => true), 'objects') as $status ) {
 			$class = '';
