@@ -1618,16 +1618,16 @@ div.action-links,
 
 /* ms */
 /* Background Color for Site Status */
-.wp-list-table tr.site-deleted {
+.wp-list-table .site-deleted {
 	background: #ff8573;
 }
-.wp-list-table tr.site-spammed {
+.wp-list-table .site-spammed {
 	background: #faafaa;
 }
-.wp-list-table tr.site-archived {
+.wp-list-table .site-archived {
 	background: #ffebe8;
 }
-.wp-list-table tr.site-mature {
+.wp-list-table .site-mature {
 	background: #fecac2;
 }
 
