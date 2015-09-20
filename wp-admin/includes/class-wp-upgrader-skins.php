@@ -281,8 +281,11 @@ class Bulk_Upgrader_Skin extends WP_Upgrader_Skin {
 	 */
 	public function add_strings() {
 		$this->upgrader->strings['skin_upgrade_start'] = __('The update process is starting. This process may take a while on some hosts, so please be patient.');
-		$this->upgrader->strings['skin_update_failed_error'] = __('An error occurred while updating %1$s: <strong>%2$s</strong>');
+		/* translators: 1: Title of an update, 2: Error message */
+		$this->upgrader->strings['skin_update_failed_error'] = __('An error occurred while updating %1$s: %2$s');
+		/* translators: 1: Title of an update */
 		$this->upgrader->strings['skin_update_failed'] = __('The update of %1$s failed.');
+		/* translators: 1: Title of an update */
 		$this->upgrader->strings['skin_update_successful'] = __( '%1$s updated successfully.' ) . ' <a onclick="%2$s" href="#" class="hide-if-no-js"><span>' . __( 'Show Details' ) . '</span><span class="hidden">' . __( 'Hide Details' ) . '</span></a>';
 		$this->upgrader->strings['skin_upgrade_end'] = __('All updates have been completed.');
 	}
@@ -379,10 +382,11 @@ class Bulk_Upgrader_Skin extends WP_Upgrader_Skin {
 	public function after($title = '') {
 		echo '</p></div>';
 		if ( $this->error || ! $this->result ) {
-			if ( $this->error )
-				echo '<div class="error"><p>' . sprintf($this->upgrader->strings['skin_update_failed_error'], $title, $this->error) . '</p></div>';
-			else
+			if ( $this->error ) {
+				echo '<div class="error"><p>' . sprintf($this->upgrader->strings['skin_update_failed_error'], $title, '<strong>' . $this->error . '</strong>' ) . '</p></div>';
+			} else {
 				echo '<div class="error"><p>' . sprintf($this->upgrader->strings['skin_update_failed'], $title) . '</p></div>';
+			}
 
 			echo '<script type="text/javascript">jQuery(\'#progress-' . esc_js($this->upgrader->update_current) . '\').show();</script>';
 		}
