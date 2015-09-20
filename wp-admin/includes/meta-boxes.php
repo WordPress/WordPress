@@ -778,7 +778,17 @@ function page_attributes_meta_box($post) {
 	if ( 'page' == $post->post_type && 0 != count( get_page_templates( $post ) ) && get_option( 'page_for_posts' ) != $post->ID ) {
 		$template = !empty($post->page_template) ? $post->page_template : false;
 		?>
-<p><strong><?php _e('Template') ?></strong></p>
+<p><strong><?php _e('Template') ?></strong><?php
+	/**
+	 * Perform actions immediately after displaying the heading for the Template
+	 * section of the Page Attributes meta box.
+	 *
+	 * @since 4.4.0
+	 *
+	 * @param string $template The template used for the current post.
+	 */
+	do_action( 'page_attributes_meta_box_template', $template );
+?></p>
 <label class="screen-reader-text" for="page_template"><?php _e('Page Template') ?></label><select name="page_template" id="page_template">
 <?php
 /**
