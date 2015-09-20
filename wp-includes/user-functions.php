@@ -136,8 +136,14 @@ function wp_authenticate_username_password($user, $username, $password) {
 
 	$user = get_user_by('login', $username);
 
-	if ( !$user )
-		return new WP_Error( 'invalid_username', sprintf( __( '<strong>ERROR</strong>: Invalid username. <a href="%s">Lost your password?</a>' ), wp_lostpassword_url() ) );
+	if ( !$user ) {
+		return new WP_Error( 'invalid_username',
+			__( '<strong>ERROR</strong>: Invalid username.' ) .
+			' <a href="' . wp_lostpassword_url() . '">' .
+			__( 'Lost your password?' ) .
+			'</a>'
+		);
+	}
 
 	/**
 	 * Filter whether the given user can be authenticated with the provided $password.
@@ -152,9 +158,18 @@ function wp_authenticate_username_password($user, $username, $password) {
 	if ( is_wp_error($user) )
 		return $user;
 
-	if ( !wp_check_password($password, $user->user_pass, $user->ID) )
-		return new WP_Error( 'incorrect_password', sprintf( __( '<strong>ERROR</strong>: The password you entered for the username <strong>%1$s</strong> is incorrect. <a href="%2$s">Lost your password?</a>' ),
-		$username, wp_lostpassword_url() ) );
+	if ( ! wp_check_password( $password, $user->user_pass, $user->ID ) ) {
+		return new WP_Error( 'incorrect_password',
+			sprintf(
+				/* translators: %s: user name */
+				__( '<strong>ERROR</strong>: The password you entered for the username %s is incorrect.' ),
+				'<strong>' . $username . '</strong>'
+			) .
+			' <a href="' . wp_lostpassword_url() . '">' .
+			__( 'Lost your password?' ) .
+			'</a>'
+		);
+	}
 
 	return $user;
 }
