@@ -1221,7 +1221,8 @@ function get_preview_post_link( $post = null, $query_args = array(), $preview_li
  *
  * @param int    $id      Optional. Post ID.
  * @param string $context Optional, defaults to display. How to write the '&', defaults to '&amp;'.
- * @return string|void The edit post link for the given post.
+ * @return string|null The edit post link for the given post. null if the post type is invalid or does
+ *                     not allow an editing UI.
  */
 function get_edit_post_link( $id = 0, $context = 'display' ) {
 	if ( ! $post = get_post( $id ) )
@@ -1241,7 +1242,13 @@ function get_edit_post_link( $id = 0, $context = 'display' ) {
 	if ( !current_user_can( 'edit_post', $post->ID ) )
 		return;
 
-	if ( ! in_array( $post->post_type, get_post_types( array( 'show_ui' => true ) ) ) ) {
+	$allowed = array_merge( array(
+		'revision',
+	), get_post_types( array(
+		'show_ui' => true,
+	) ) );
+
+	if ( ! in_array( $post->post_type, $allowed ) ) {
 		return;
 	}
 
