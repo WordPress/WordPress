@@ -785,9 +785,10 @@ function page_attributes_meta_box($post) {
 	 *
 	 * @since 4.4.0
 	 *
-	 * @param string $template The template used for the current post.
+	 * @param string  $template The template used for the current post.
+	 * @param WP_Post $post     The current post.
 	 */
-	do_action( 'page_attributes_meta_box_template', $template );
+	do_action( 'page_attributes_meta_box_template', $template, $post );
 ?></p>
 <label class="screen-reader-text" for="page_template"><?php _e('Page Template') ?></label><select name="page_template" id="page_template">
 <?php
