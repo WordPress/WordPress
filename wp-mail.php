@@ -244,15 +244,23 @@ for ( $i = 1; $i <= $count; $i++ ) {
 	 */
 	do_action( 'publish_phone', $post_ID );
 
-	echo "\n<p>" . sprintf(__('<strong>Author:</strong> %s'), esc_html($post_author)) . '</p>';
-	echo "\n<p>" . sprintf(__('<strong>Posted title:</strong> %s'), esc_html($post_title)) . '</p>';
+	echo "\n<p><strong>" . __( 'Author:' ) . '</strong> ' . esc_html( $post_author ) . '</p>';
+	echo "\n<p><strong>" . __( 'Posted title:' ) . '</strong> ' . esc_html( $post_title ) . '</p>';
 
 	if(!$pop3->delete($i)) {
-		echo '<p>' . sprintf(__('Oops: %s'), esc_html($pop3->ERROR)) . '</p>';
+		echo '<p>' . sprintf(
+			/* translators: %s: POP3 error */
+			__( 'Oops: %s' ),
+			esc_html( $pop3->ERROR )
+		) . '</p>';
 		$pop3->reset();
 		exit;
 	} else {
-		echo '<p>' . sprintf(__('Mission complete. Message <strong>%s</strong> deleted.'), $i) . '</p>';
+		echo '<p>' . sprintf(
+			/* translators: %s: the message ID */
+			__( 'Mission complete. Message %s deleted.' ),
+			'<strong>' . $i . '</strong>'
+		) . '</p>';
 	}
 
 }
