@@ -2383,8 +2383,7 @@ function update_comment_cache( $comments, $update_meta_cache = true ) {
  * @access private
  *
  * @see update_comment_cache()
- *
- * @global wpdb $wpdb
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param array $comment_ids       Array of comment IDs.
  * @param bool  $update_meta_cache Optional. Whether to update the meta cache. Default true.
