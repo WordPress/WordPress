@@ -281,7 +281,7 @@ function is_taxonomy_hierarchical($taxonomy) {
  * - public - If the taxonomy should be publicly queryable.
  *     * Defaults to true.
  * - hierarchical - Whether the taxonomy is hierarchical (e.g. category). Defaults to false.
- * - show_ui - Whether to generate a default UI for managing this taxonomy in the admin.
+ * - show_ui - Whether to generate and allow a UI for managing terms in this taxonomy in the admin.
  *     * If not set, the default is inherited from public.
  * - show_in_menu - Whether to show the taxonomy in the admin menu.
  *     * If true, the taxonomy is shown as a submenu of the object type menu.
@@ -323,6 +323,7 @@ function is_taxonomy_hierarchical($taxonomy) {
  *
  * @since 2.3.0
  * @since 4.2.0 Introduced `show_in_quick_edit` argument.
+ * @since 4.4.0 The `show_ui` argument is now enforced on the term editing screen.
  *
  * @global array $wp_taxonomies Registered taxonomies.
  * @global WP    $wp            WP instance.
