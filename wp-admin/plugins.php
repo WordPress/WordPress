@@ -372,14 +372,24 @@ get_current_screen()->add_help_tab( array(
 'title'		=> __('Overview'),
 'content'	=>
 	'<p>' . __('Plugins extend and expand the functionality of WordPress. Once a plugin is installed, you may activate it or deactivate it here.') . '</p>' .
-	'<p>' . sprintf(__('You can find additional plugins for your site by using the <a href="%1$s">Plugin Browser/Installer</a> functionality or by browsing the <a href="%2$s" target="_blank">WordPress Plugin Directory</a> directly and installing new plugins manually. To manually install a plugin you generally just need to upload the plugin file into your <code>/wp-content/plugins</code> directory. Once a plugin has been installed, you can activate it here.'), 'plugin-install.php', 'https://wordpress.org/plugins/') . '</p>'
+	'<p>' . sprintf(
+		/* translators: 1: Plugin Browser/Installer URL, 2: WordPress Plugin Directory URL 3: local plugin directory */
+		__( 'You can find additional plugins for your site by using the <a href="%1$s">Plugin Browser/Installer</a> functionality or by browsing the <a href="%2$s" target="_blank">WordPress Plugin Directory</a> directly and installing new plugins manually. To manually install a plugin you generally just need to upload the plugin file into your %3$s directory. Once a plugin has been installed, you can activate it here.' ),
+		'plugin-install.php',
+		'https://wordpress.org/plugins/',
+		'<code>/wp-content/plugins</code>'
+	) . '</p>'
 ) );
 get_current_screen()->add_help_tab( array(
 'id'		=> 'compatibility-problems',
 'title'		=> __('Troubleshooting'),
 'content'	=>
 	'<p>' . __('Most of the time, plugins play nicely with the core of WordPress and with other plugins. Sometimes, though, a plugin&#8217;s code will get in the way of another plugin, causing compatibility issues. If your site starts doing strange things, this may be the problem. Try deactivating all your plugins and re-activating them in various combinations until you isolate which one(s) caused the issue.') . '</p>' .
-	'<p>' . sprintf( __('If something goes wrong with a plugin and you can&#8217;t use WordPress, delete or rename that file in the <code>%s</code> directory and it will be automatically deactivated.'), WP_PLUGIN_DIR) . '</p>'
+	'<p>' . sprintf(
+		/* translators: WP_PLUGIN_DIR constant value */
+		__( 'If something goes wrong with a plugin and you can&#8217;t use WordPress, delete or rename that file in the %s directory and it will be automatically deactivated.' ),
+		'<code>' . WP_PLUGIN_DIR . '</code>'
+	) . '</p>'
 ) );
 
 get_current_screen()->set_help_sidebar(
@@ -394,9 +404,17 @@ $parent_file = 'plugins.php';
 require_once(ABSPATH . 'wp-admin/admin-header.php');
 
 $invalid = validate_active_plugins();
-if ( !empty($invalid) )
-	foreach ( $invalid as $plugin_file => $error )
-		echo '<div id="message" class="error"><p>' . sprintf(__('The plugin <code>%s</code> has been <strong>deactivated</strong> due to an error: %s'), esc_html($plugin_file), $error->get_error_message()) . '</p></div>';
+if ( ! empty( $invalid ) ) {
+	foreach ( $invalid as $plugin_file => $error ) {
+		echo '<div id="message" class="error"><p>';
+		printf(
+			/* translators: 1: plugin file 2: error message */
+			__( 'The plugin %1$s has been <strong>deactivated</strong> due to an error: %2$s' ),
+			'<code>' . esc_html( $plugin_file ) . '</code>',
+			$error->get_error_message() );
+		echo '</p></div>';
+	}
+}
 ?>
 
 <?php if ( isset($_GET['error']) ) :
