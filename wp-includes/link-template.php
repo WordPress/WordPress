@@ -2706,6 +2706,105 @@ function paginate_comments_links($args = array()) {
 }
 
 /**
+ * Returns navigation to next/previous set of comments when applicable.
+ *
+ * @since 4.4.0
+ *
+ * @param array $args {
+ *     Optional. Default comments navigation arguments.
+ *
+ *     @type string $prev_text          Anchor text to display in the previous comments link. Default 'Older comments'.
+ *     @type string $next_text          Anchor text to display in the next comments link. Default 'Newer comments'.
+ *     @type string $screen_reader_text Screen reader text for nav element. Default 'Comments navigation'.
+ * }
+ * @return string Markup for comments links.
+ */
+function get_the_comments_navigation( $args = array() ) {
+	$navigation = '';
+
+	// Are there comments to navigate through?
+	if ( get_comment_pages_count() > 1 && get_option( 'page_comments' ) ) {
+		$args = wp_parse_args( $args, array(
+			'prev_text'          => __( 'Older comments' ),
+			'next_text'          => __( 'Newer comments' ),
+			'screen_reader_text' => __( 'Comments navigation' ),
+		) );
+
+		$prev_link = get_previous_comments_link( $args['prev_text'] );
+		$next_link = get_next_comments_link( $args['next_text'] );
+
+		if ( $prev_link ) {
+			$navigation .= '<div class="nav-previous">' . $prev_link . '</div>';
+		}
+
+		if ( $next_link ) {
+			$navigation .= '<div class="nav-next">' . $next_link . '</div>';
+		}
+
+		$navigation = _navigation_markup( $navigation, 'comment-navigation', $args['screen_reader_text'] );
+	}
+
+	return $navigation;
+}
+
+/**
+ * Displays navigation to next/previous set of comments when applicable.
+ *
+ * @since 4.4.0
+ *
+ * @param array $args See {@see get_the_comments_navigation()} for available arguments.
+ */
+function the_comments_navigation( $args = array() ) {
+	echo get_the_comments_navigation( $args );
+}
+
+/**
+ * Returns a paginated navigation to next/previous set of comments,
+ * when applicable.
+ *
+ * @since 4.4.0
+ *
+ * @see paginate_comments_links()
+ *
+ * @param array $args {
+ *     Optional. Default pagination arguments.
+ *
+ *     @type string $screen_reader_text Screen reader text for nav element. Default 'Comments navigation'.
+ * }
+ * @return string Markup for pagination links.
+ */
+function get_the_comments_pagination( $args = array() ) {
+	$navigation = '';
+	$args       = wp_parse_args( $args, array(
+		'screen_reader_text' => __( 'Comments navigation' ),
+	) );
+	$args['echo'] = false;
+
+	// Make sure we get plain links, so we get a string we can work with.
+	$args['type'] = 'plain';
+
+	$links = paginate_comments_links( $args );
+
+	if ( $links ) {
+		$navigation = _navigation_markup( $links, 'comments-pagination', $args['screen_reader_text'] );
+	}
+
+	return $navigation;
+}
+
+/**
+ * Displays a paginated navigation to next/previous set of comments,
+ * when applicable.
+ *
+ * @since 4.4.0
+ *
+ * @param array $args See {@see get_the_comments_pagination()} for available arguments.
+ */
+function the_comments_pagination( $args = array() ) {
+	echo get_the_comments_pagination( $args );
+}
+
+/**
  * Retrieve the Press This bookmarklet link.
  *
  * Use this in 'a' element 'href' attribute.
