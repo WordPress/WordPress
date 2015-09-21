@@ -1203,7 +1203,7 @@ function get_preview_post_link( $post = null, $query_args = array(), $preview_li
 	 * Filter the URL used for a post preview.
 	 *
 	 * @since 2.0.5
-	 * @since 4.4.0 $post parameter was added.
+	 * @since 4.0.0 Added the `$post` parameter.
 	 *
 	 * @param string  $preview_link URL used for the post preview.
 	 * @param WP_Post $post         Post object.
