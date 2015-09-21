@@ -79,6 +79,7 @@ class WP_User_Query {
 	 * Prepare the query variables.
 	 *
 	 * @since 3.1.0
+	 * @since 4.1.0 Added the ability to order by the `include` value.
 	 * @since 4.2.0 Added 'meta_value_num' support for `$orderby` parameter. Added multi-dimensional array syntax
 	 *              for `$orderby` parameter.
 	 * @since 4.3.0 Added 'has_published_posts' parameter.
@@ -108,11 +109,11 @@ class WP_User_Query {
 	 *     @type string|array $orderby             Field(s) to sort the retrieved users by. May be a single value,
 	 *                                             an array of values, or a multi-dimensional array with fields as
 	 *                                             keys and orders ('ASC' or 'DESC') as values. Accepted values are
-	 *                                             'ID', 'display_name' (or 'name'), 'user_login' (or 'login'),
-	 *                                             'user_nicename' (or 'nicename'), 'user_email' (or 'email'),
-	 *                                             'user_url' (or 'url'), 'user_registered' (or 'registered'),
-	 *                                             'post_count', 'meta_value', 'meta_value_num', the value of
-	 *                                             `$meta_key`, or an array key of `$meta_query`. To use
+	 *                                             'ID', 'display_name' (or 'name'), 'include', 'user_login'
+	 *                                             (or 'login'), 'user_nicename' (or 'nicename'), 'user_email'
+	 *                                             (or 'email'), 'user_url' (or 'url'), 'user_registered'
+	 *                                             or 'registered'), 'post_count', 'meta_value', 'meta_value_num',
+	 *                                             the value of `$meta_key`, or an array key of `$meta_query`. To use
 	 *                                             'meta_value' or 'meta_value_num', `$meta_key` must be also be
 	 *                                             defined. Default 'user_login'.
 	 *     @type string       $order               Designates ascending or descending order of users. Order values
