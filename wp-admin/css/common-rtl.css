@@ -1296,11 +1296,35 @@ div.error {
 }
 
 .notice p,
+.notice-title,
 div.updated p,
 div.error p,
 .form-table td .notice p {
 	margin: 0.5em 0;
 	padding: 2px;
+}
+
+.error a {
+	text-decoration: underline;
+}
+
+.updated a {
+	padding-bottom: 2px;
+	text-decoration: none;
+}
+
+.notice-alt {
+	box-shadow: none;
+}
+
+.notice-large {
+	padding: 10px 20px;
+}
+
+.notice-title {
+	display: inline-block;
+	color: #23282d;
+	font-size: 18px;
 }
 
 .wp-core-ui .notice.is-dismissible {
@@ -1338,20 +1362,36 @@ div.error p,
 
 .notice-success,
 div.updated {
-	border-color: #7ad03a;
+	border-right-color: #46b450;
+}
+
+.notice-success.notice-alt {
+	background-color: #ecf7ed;
 }
 
 .notice-warning {
-	border-color: #ffba00;
+	border-right-color: #ffb900;
+}
+
+.notice-warning.notice-alt {
+	background-color: #fff8e5;
 }
 
 .notice-error,
 div.error {
-	border-color: #dd3d36;
+	border-right-color: #dc3232;
+}
+
+.notice-error.notice-alt {
+	background-color: #fbeaea;
 }
 
 .notice-info {
-	border-color: #00a0d2;
+	border-right-color: #00a0d2;
+}
+
+.notice-info.notice-alt {
+	background-color: #e5f5fa;
 }
 
 .wrap .notice,
@@ -2756,15 +2796,6 @@ img {
 .js .widgets-holder-wrap.closed .sidebar-name-arrow:before,
 .js .meta-box-sortables .postbox.closed .handlediv:before {
 	content: "\f140";
-}
-
-.error a {
-	text-decoration: underline;
-}
-
-.updated a {
-	text-decoration: none;
-	padding-bottom: 2px;
 }
 
 /* @todo: appears to be Press This only and overridden */

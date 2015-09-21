@@ -407,8 +407,8 @@ $can_delete = current_user_can( 'delete_themes' );
 				<h3 class="theme-author"><?php printf( __( 'By %s' ), '{{{ data.authorAndUri }}}' ); ?></h3>
 
 				<# if ( data.hasUpdate ) { #>
-				<div class="theme-update-message">
-					<h4 class="theme-update"><?php _e( 'Update Available' ); ?></h4>
+				<div class="notice notice-warning notice-alt notice-large">
+					<h4 class="notice-title"><?php _e( 'Update Available' ); ?></h4>
 					{{{ data.update }}}
 				</div>
 				<# } #>

@@ -786,24 +786,6 @@ body.folded .theme-overlay .theme-wrap {
 	margin-left: 5px;
 }
 
-/* Theme Updates info */
-.theme-overlay .theme-update-message {
-	background: #fef7f1;
-	border: 1px solid #eee;
-	border-right: 4px solid #d54e21;
-	-webkit-border-radius: 3px;
-	border-radius: 3px;
-	padding: 5px 20px 10px;
-}
-
-.theme-overlay .theme-update {
-	color: #23282d;
-	font-size: 18px;
-	display: inline-block;
-	line-height: 40px;
-	margin: 0;
-}
-
 .theme-overlay .parent-theme {
 	background: #f7fcfe;
 	border: 1px solid #eee;
