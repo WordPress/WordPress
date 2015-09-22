@@ -305,6 +305,9 @@ class WP_User {
 	/**
 	 * Magic method for setting custom user fields.
 	 *
+	 * This method does not update custom fields in the database. It only stores
+	 * the value on the WP_User instance.
+	 *
 	 * @since 3.3.0
 	 * @access public
 	 *
