@@ -1,10 +1,18 @@
 <?php
 /**
- * Links widget class
+ * Widget API: WP_Widget_Links class
  *
- * @since 2.8.0
  * @package WordPress
  * @subpackage Widgets
+ * @since 4.4.0
+ */
+
+/**
+ * Core class used to implement a Links widget.
+ *
+ * @since 2.8.0
+ *
+ * @see WP_Widget
  */
 class WP_Widget_Links extends WP_Widget {
 
