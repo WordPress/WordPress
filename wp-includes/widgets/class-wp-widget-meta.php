@@ -1,12 +1,20 @@
 <?php
 /**
- * Meta widget class
+ * Widget API: WP_Widget_Meta class
+ *
+ * @package WordPress
+ * @subpackage Widgets
+ * @since 4.4.0
+ */
+
+/**
+ * Core class used to implement a Meta widget.
  *
  * Displays log in/out, RSS feed links, etc.
  *
  * @since 2.8.0
- * @package WordPress
- * @subpackage Widgets
+ *
+ * @see WP_Widget
  */
 class WP_Widget_Meta extends WP_Widget {
 
