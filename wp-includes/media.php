@@ -794,6 +794,22 @@ function wp_get_attachment_image($attachment_id, $size = 'thumbnail', $icon = fa
 }
 
 /**
+ * Get the URL of an image attachment.
+ *
+ * @since 4.4.0
+ *
+ * @param int          $attachment_id Image attachment ID.
+ * @param string|array $size          Optional. Registered image size to retrieve the source for or a flat
+ *                                    array of height and width dimensions. Default 'thumbnail'.
+ * @param bool         $icon          Optional. Whether the image should be treated as an icon. Default false.
+ * @return string|false Attachment URL or false if no image is available.
+ */
+function wp_get_attachment_image_url( $attachment_id, $size = 'thumbnail', $icon = false ) {
+	$image = wp_get_attachment_image_src( $attachment_id, $size, $icon );
+	return isset( $image['0'] ) ? $image['0'] : false;
+}
+
+/**
  * Adds a 'wp-post-image' class to post thumbnails. Internal use only.
  *
  * Uses the 'begin_fetch_post_thumbnail_html' and 'end_fetch_post_thumbnail_html' action hooks to
