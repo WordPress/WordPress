@@ -190,11 +190,16 @@
 			}
 		} );
 
-		$passwordWrapper = $pass1Row.find('.wp-pwd').hide();
+		$passwordWrapper = $pass1Row.find( '.wp-pwd' );
+		$generateButton  = $pass1Row.find( 'button.wp-generate-pw' );
 
 		bindToggleButton();
 
-		$generateButton = $pass1Row.find( 'button.wp-generate-pw' ).show();
+		if ( $generateButton.length ) {
+			$passwordWrapper.hide();
+		}
+
+		$generateButton.show();
 		$generateButton.on( 'click', function () {
 			updateLock = true;
 
