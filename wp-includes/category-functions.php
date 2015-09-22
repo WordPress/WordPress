@@ -1,8 +1,10 @@
 <?php
 /**
- * WordPress Category API
+ * Taxonomy API: Top-level core category-specific functionality
  *
  * @package WordPress
+ * @subpackage Taxonomy
+ * @since 4.4.0
  */
 
 /**
