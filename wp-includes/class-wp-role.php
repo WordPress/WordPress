@@ -1,10 +1,16 @@
 <?php
 /**
- * WordPress Role class.
+ * User API: WP_Role class
  *
- * @since 2.0.0
  * @package WordPress
  * @subpackage User
+ * @since 4.4.0
+ */
+
+/**
+ * Core class used to extend the user roles API.
+ *
+ * @since 2.0.0
  */
 class WP_Role {
 	/**
