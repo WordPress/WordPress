@@ -1,6 +1,6 @@
 <?php
 /**
- * Metadata API
+ * Meta API: Top-level metadata functionality
  *
  * Functions for retrieving and manipulating metadata of various WordPress object types. Metadata
  * for an object is a represented by a simple key-value pair. Objects may contain multiple
@@ -8,7 +8,7 @@
  *
  * @package WordPress
  * @subpackage Meta
- * @since 2.9.0
+ * @since 4.4.0
  */
 
 /**
