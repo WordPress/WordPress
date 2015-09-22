@@ -1,6 +1,6 @@
 <?php
 /**
- * Core Comments API
+ * Core Comment API
  *
  * @package WordPress
  * @subpackage Comment
