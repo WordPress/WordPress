@@ -1,10 +1,18 @@
 <?php
 /**
- * Navigation Menu widget class
+ * Widget API: WP_Nav_Menu_Widget class
  *
- * @since 3.0.0
  * @package WordPress
  * @subpackage Widgets
+ * @since 4.4.0
+ */
+
+/**
+ * Core class used to implement the Navigation Menu widget.
+ *
+ * @since 3.0.0
+ *
+ * @see WP_Widget
  */
  class WP_Nav_Menu_Widget extends WP_Widget {
 
