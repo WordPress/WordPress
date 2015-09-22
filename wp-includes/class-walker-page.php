@@ -3,12 +3,12 @@
  * Post API: Walker_Page class
  *
  * @package WordPress
- * @subpackage Post
+ * @subpackage Template
  * @since 4.4.0
  */
 
 /**
- * Core walker class used to create HTML list of pages.
+ * Core walker class used to create an HTML list of pages.
  *
  * @since 2.1.0
  *
