@@ -280,6 +280,7 @@ function wp_read_image_metadata( $file ) {
 		'keywords' => array(),
 	);
 
+	$iptc = array();
 	/*
 	 * Read IPTC first, since it might contain data not available in exif such
 	 * as caption, description etc.
