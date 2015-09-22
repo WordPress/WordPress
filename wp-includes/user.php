@@ -1,6 +1,6 @@
 <?php
 /**
- * Core Users API
+ * Core User API
  *
  * @package WordPress
  * @subpackage Users
