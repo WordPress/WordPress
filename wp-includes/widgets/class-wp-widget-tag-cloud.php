@@ -1,10 +1,18 @@
 <?php
 /**
- * Tag cloud widget class
+ * Widget API: WP_Widget_Tag_Cloud class
  *
- * @since 2.8.0
  * @package WordPress
  * @subpackage Widgets
+ * @since 4.4.0
+ */
+
+/**
+ * Core class used to implement a Tag cloud widget.
+ *
+ * @since 2.8.0
+ *
+ * @see WP_Widget
  */
 class WP_Widget_Tag_Cloud extends WP_Widget {
 
