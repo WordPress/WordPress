@@ -286,6 +286,66 @@ function wp_remote_retrieve_body( $response ) {
 }
 
 /**
+ * Retrieve only the body from the raw response.
+ *
+ * @since 4.4.0
+ *
+ * @param array $response HTTP response.
+ * @return array An array of `WP_Http_Cookie` objects from the response. Empty array if there are none, or the response is a WP_Error.
+ */
+function wp_remote_retrieve_cookies( $response ) {
+	if ( is_wp_error( $response ) || empty( $response['cookies'] ) ) {
+		return array();
+	}
+
+	return $response['cookies'];
+}
+
+/**
+ * Retrieve a single cookie by name from the raw response.
+ *
+ * @since 4.4.0
+ *
+ * @param array  $response HTTP response.
+ * @param string $name     The name of the cookie to retrieve.
+ * @return WP_Http_Cookie|string The `WP_Http_Cookie` object. Empty string if the cookie isn't present in the response.
+ */
+function wp_remote_retrieve_cookie( $response, $name ) {
+	$cookies = wp_remote_retrieve_cookies( $response );
+
+	if ( empty( $cookies ) ) {
+		return '';
+	}
+
+	foreach ( $cookies as $cookie ) {
+		if ( $cookie->name === $name ) {
+			return $cookie;
+		}
+	}
+
+	return '';
+}
+
+/**
+ * Retrieve a single cookie's value by name from the raw response.
+ *
+ * @since 4.4.0
+ *
+ * @param array  $response HTTP response.
+ * @param string $name     The name of the cookie to retrieve.
+ * @return string The value of the cookie. Empty string if the cookie isn't present in the response.
+ */
+function wp_remote_retrieve_cookie_value( $response, $name ) {
+	$cookie = wp_remote_retrieve_cookie( $response, $name );
+
+	if ( ! is_a( $cookie, 'WP_Http_Cookie' ) ) {
+		return '';
+	}
+
+	return $cookie->value;
+}
+
+/**
  * Determines if there is an HTTP Transport that can process this request.
  *
  * @since 3.2.0
