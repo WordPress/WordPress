@@ -170,3 +170,30 @@ function get_the_post_thumbnail( $post = null, $size = 'post-thumbnail', $attr =
 	 */
 	return apply_filters( 'post_thumbnail_html', $html, $post->ID, $post_thumbnail_id, $size, $attr );
 }
+
+/**
+ * Return the post thumbnail URL.
+ *
+ * @since 4.4.0
+ *
+ * @param int|WP_Post  $post Optional. Post ID or WP_Post object.  Default is global `$post`.
+ * @param string|array $size Optional. Registered image size to retrieve the source for or a flat
+ *                           array of height and width dimensions. Default 'post-thumbnail'.
+ * @return string Post thumbnail URL or empty string.
+ */
+function get_the_post_thumbnail_url( $post = null, $size = 'post-thumbnail' ) {
+	$image = wp_get_attachment_image_url( get_post_thumbnail_id( $post ), $size );
+	return isset( $image ) ? $image : '';
+}
+
+/**
+ * Display the post thumbnail URL.
+ *
+ * @since 4.4.0
+ *
+ * @param string|array $size Optional. Registered image size to retrieve the source for or a flat
+ *                           array of height and width dimensions. Default 'post-thumbnail'.
+ */
+function the_post_thumbnail_url( $size = 'post-thumbnail' ) {
+	echo get_the_post_thumbnail_url( null, $size );
+}
