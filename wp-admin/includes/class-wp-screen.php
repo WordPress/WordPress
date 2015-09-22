@@ -512,23 +512,26 @@ final class WP_Screen {
 	 */
 	public function get_help_tabs() {
 		$help_tabs = $this->_help_tabs;
-		uasort( $help_tabs, array( $this, '_sort_help_tabs' ) );
-		return $help_tabs;
-	}
 
-	/**
-	 * Compares the difference between the help tabs priorities.
-	 *
-	 * Used for help tabs sorting.
-	 *
-	 * @since 4.4.0
-	 *
-	 * @param int $tab_a The priority argument for the first tab.
-	 * @param int $tab_b The priority argument for the second tab.
-	 * @return int The difference between the priority arguments.
-	 */
-	protected function _sort_help_tabs( $tab_a, $tab_b ) {
-		return $tab_a['priority'] - $tab_b['priority'];
+		$priorities = array();
+		foreach ( $help_tabs as $help_tab ) {
+			if ( isset( $priorities[ $help_tab['priority'] ] ) ) {
+				$priorities[ $help_tab['priority'] ][] = $help_tab;
+			} else {
+				$priorities[ $help_tab['priority'] ] = array( $help_tab );
+			}
+		}
+
+		sort( $priorities );
+
+		$sorted = array();
+		foreach ( $priorities as $list ) {
+			foreach ( $list as $tab ) {
+				$sorted[ $tab['id'] ] = $tab;
+			}
+		}
+
+		return $sorted;
 	}
 
 	/**
