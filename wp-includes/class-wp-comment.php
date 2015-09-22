@@ -1,6 +1,6 @@
 <?php
 /**
- * Comments API: WP_Comment object class
+ * Comment API: WP_Comment object class
  *
  * @package WordPress
  * @subpackage Comments
