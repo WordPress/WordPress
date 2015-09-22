@@ -1,6 +1,6 @@
 <?php
 /**
- * Post functions and post utility function.
+ * Core Post API
  *
  * @package WordPress
  * @subpackage Post
