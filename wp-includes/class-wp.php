@@ -365,7 +365,7 @@ class WP {
 	 * @since 2.0.0
 	 */
 	public function send_headers() {
-		$headers = array('X-Pingback' => get_bloginfo('pingback_url'));
+		$headers = array();
 		$status = null;
 		$exit_required = false;
 
@@ -595,6 +595,15 @@ class WP {
 
 		// Never 404 for the admin, robots, or if we found posts.
 		if ( is_admin() || is_robots() || $wp_query->posts ) {
+
+			// Only set X-Pingback for single posts.
+			if ( is_single() ) {
+				$p = get_queried_object();
+				if ( $p && pings_open( $p ) ) {
+					@header( 'X-Pingback: ' . get_bloginfo( 'pingback_url' ) );
+				}
+			}
+
 			status_header( 200 );
 			return;
 		}
