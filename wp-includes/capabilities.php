@@ -3,7 +3,7 @@
  * Core User Role & Capabilities API
  *
  * @package WordPress
- * @subpackage User
+ * @subpackage Users
  * @since 2.0.0
  */
 

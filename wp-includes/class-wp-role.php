@@ -3,7 +3,7 @@
  * User API: WP_Role class
  *
  * @package WordPress
- * @subpackage User
+ * @subpackage Users
  * @since 4.4.0
  */
 

@@ -3,7 +3,7 @@
  * User API: Top-level role and capabilities functionality
  *
  * @package WordPress
- * @subpackage User
+ * @subpackage Users
  * @since 4.4.0
  */
 
