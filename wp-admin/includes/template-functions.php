@@ -1,6 +1,6 @@
 <?php
 /**
- * Template WordPress Administration API.
+ * Administration API: Top-level admin template functionality
  *
  * A Big Mess. Also some neat functions that are nicely written.
  *
