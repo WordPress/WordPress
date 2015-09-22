@@ -283,11 +283,13 @@ class WP_User {
 	}
 
 	/**
-	 * Magic method for accessing custom fields
+	 * Magic method for accessing custom fields.
 	 *
 	 * @since 3.3.0
-	 * @param string $key
-	 * @return mixed
+	 * @access public
+	 *
+	 * @param string $key User meta key to retrieve.
+	 * @return mixed Value of the given user meta key (if set). If `$key` is 'id', the user ID.
 	 */
 	public function __get( $key ) {
 		if ( 'id' == $key ) {
