@@ -1600,9 +1600,9 @@ function sanitize_html_class( $class, $fallback = '' ) {
 	//Limit to A-Z,a-z,0-9,_,-
 	$sanitized = preg_replace( '/[^A-Za-z0-9_-]/', '', $sanitized );
 
-	if ( '' == $sanitized )
-		$sanitized = $fallback;
-
+	if ( '' == $sanitized && $fallback ) {
+		return sanitize_html_class( $fallback );
+	}
 	/**
 	 * Filter a sanitized HTML class string.
 	 *
