@@ -1,10 +1,18 @@
 <?php
 /**
- * Pages widget class
+ * Widget API: WP_Widget_Pages class
  *
- * @since 2.8.0
  * @package WordPress
  * @subpackage Widgets
+ * @since 4.4.0
+ */
+
+/**
+ * Core class used to implement a Pages widget.
+ *
+ * @since 2.8.0
+ *
+ * @see WP_Widget
  */
 class WP_Widget_Pages extends WP_Widget {
 
