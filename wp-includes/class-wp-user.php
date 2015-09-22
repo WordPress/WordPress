@@ -1,10 +1,16 @@
 <?php
 /**
- * WordPress User class.
+ * User API: WP_User class
  *
- * @since 2.0.0
  * @package WordPress
  * @subpackage User
+ * @since 4.4.0
+ */
+
+/**
+ * Core class used to implement the WP_User object.
+ *
+ * @since 2.0.0
  *
  * @property string $nickname
  * @property string $description
