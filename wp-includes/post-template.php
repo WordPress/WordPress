@@ -528,13 +528,12 @@ function body_class( $class = '' ) {
  * @since 2.8.0
  *
  * @global WP_Query $wp_query
- * @global wpdb     $wpdb
  *
  * @param string|array $class One or more classes to add to the class list.
  * @return array Array of classes.
  */
 function get_body_class( $class = '' ) {
-	global $wp_query, $wpdb;
+	global $wp_query;
 
 	$classes = array();
 

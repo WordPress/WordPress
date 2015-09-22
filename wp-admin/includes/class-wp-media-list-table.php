@@ -77,8 +77,6 @@ class WP_Media_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 *
-	 * @global wpdb  $wpdb
 	 * @global array $post_mime_types
 	 * @global array $avail_post_mime_types
 	 * @return array

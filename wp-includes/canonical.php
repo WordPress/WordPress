@@ -533,12 +533,11 @@ function _remove_qs_args_if_not_in_url( $query_string, Array $args_to_check, $ur
  * @since 2.3.0
  *
  * @global wpdb $wpdb WordPress database abstraction object.
- * @global WP_Rewrite $wp_rewrite
  *
  * @return false|string The correct URL if one is found. False on failure.
  */
 function redirect_guess_404_permalink() {
-	global $wpdb, $wp_rewrite;
+	global $wpdb;
 
 	if ( get_query_var('name') ) {
 		$where = $wpdb->prepare("post_name LIKE %s", $wpdb->esc_like( get_query_var('name') ) . '%');

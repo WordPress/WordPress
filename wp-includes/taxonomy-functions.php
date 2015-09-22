@@ -3869,8 +3869,6 @@ function _wp_check_split_terms_in_menus( $term_id, $new_term_id, $term_taxonomy_
  * @ignore
  * @since 4.3.0
  *
- * @global wpdb $wpdb
- *
  * @param int    $term_id          ID of the formerly shared term.
  * @param int    $new_term_id      ID of the new term created for the $term_taxonomy_id.
  * @param int    $term_taxonomy_id ID for the term_taxonomy row affected by the split.

@@ -5406,12 +5406,11 @@ function update_post_cache( &$posts ) {
  * @since 2.0.0
  *
  * @global bool $_wp_suspend_cache_invalidation
- * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param int|WP_Post $post Post ID or post object to remove from the cache.
  */
 function clean_post_cache( $post ) {
-	global $_wp_suspend_cache_invalidation, $wpdb;
+	global $_wp_suspend_cache_invalidation;
 
 	if ( ! empty( $_wp_suspend_cache_invalidation ) )
 		return;

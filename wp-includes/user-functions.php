@@ -859,7 +859,6 @@ function setup_userdata($for_user_id = '') {
  *
  * @since 2.3.0
  *
- * @global wpdb $wpdb WordPress database object for queries.
  * @global int  $blog_id
  *
  * @param array|string $args {

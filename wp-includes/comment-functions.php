@@ -162,7 +162,6 @@ function get_approved_comments( $post_id, $args = array() ) {
  *
  * @since 2.0.0
  *
- * @global wpdb   $wpdb WordPress database abstraction object.
  * @global object $comment
  *
  * @param WP_Comment|string|int $comment Comment to retrieve.
