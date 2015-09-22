@@ -1,6 +1,6 @@
 <?php
 /**
- * Post Comments List Table class
+ * Comment API: WP_Post_Comments_List_Table class
  *
  * @package WordPress
  * @subpackage List_Table
@@ -8,14 +8,12 @@
  */
 
 /**
- * Post Comments List Table class.
+ * Core list table class used to output the post comments list table.
  *
- * @package WordPress
- * @subpackage List_Table
  * @since 3.1.0
  * @access private
  *
- * @see WP_Comments_Table
+ * @see WP_Comments_List_Table
  */
 class WP_Post_Comments_List_Table extends WP_Comments_List_Table {
 
