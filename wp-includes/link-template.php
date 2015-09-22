@@ -3471,8 +3471,6 @@ function rel_canonical() {
  *
  * @since 3.0.0.
  *
- * @global WP_Query $wp_query
- *
  * @param int    $id          A post or blog id. Default is 0, which means the current post or blog.
  * @param string $context     Whether the id is a 'blog' id, 'post' id, or 'media' id.
  *                            If 'post', the post_type of the post is consulted.
@@ -3497,13 +3495,13 @@ function wp_get_shortlink($id = 0, $context = 'post', $allow_slugs = true) {
 	 */
 	$shortlink = apply_filters( 'pre_get_shortlink', false, $id, $context, $allow_slugs );
 
-	if ( false !== $shortlink )
+	if ( false !== $shortlink ) {
 		return $shortlink;
+	}
 
-	global $wp_query;
 	$post_id = 0;
 	if ( 'query' == $context && is_singular() ) {
-		$post_id = $wp_query->get_queried_object_id();
+		$post_id = get_queried_object_id();
 		$post = get_post( $post_id );
 	} elseif ( 'post' == $context ) {
 		$post = get_post( $id );
