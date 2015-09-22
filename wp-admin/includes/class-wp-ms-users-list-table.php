@@ -49,7 +49,7 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 			$args['search'] = '*' . $args['search'] . '*';
 		}
 
-		if ( $role == 'super' ) {
+		if ( $role === 'super' ) {
 			$logins = implode( "', '", get_super_admins() );
 			$args['include'] = $wpdb->get_col( "SELECT ID FROM $wpdb->users WHERE user_login IN ('$logins')" );
 		}
@@ -122,7 +122,7 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 		$class = $role != 'super' ? ' class="current"' : '';
 		$role_links = array();
 		$role_links['all'] = "<a href='" . network_admin_url('users.php') . "'$class>" . sprintf( _nx( 'All <span class="count">(%s)</span>', 'All <span class="count">(%s)</span>', $total_users, 'users' ), number_format_i18n( $total_users ) ) . '</a>';
-		$class = $role == 'super' ? ' class="current"' : '';
+		$class = $role === 'super' ? ' class="current"' : '';
 		$role_links['super'] = "<a href='" . network_admin_url('users.php?role=super') . "'$class>" . sprintf( _n( 'Super Admin <span class="count">(%s)</span>', 'Super Admins <span class="count">(%s)</span>', $total_admins ), number_format_i18n( $total_admins ) ) . '</a>';
 
 		return $role_links;
@@ -137,8 +137,9 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 
 		parent::pagination ( $which );
 
-		if ( 'top' == $which )
+		if ( 'top' === $which ) {
 			$this->view_switcher( $mode );
+		}
 	}
 
 	/**
@@ -268,7 +269,7 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 	 */
 	public function column_registered( $user ) {
 		global $mode;
-		if ( 'list' == $mode ) {
+		if ( 'list' === $mode ) {
 			$date = __( 'Y/m/d' );
 		} else {
 			$date = __( 'Y/m/d g:i:s a' );
@@ -311,7 +312,7 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 				continue;
 			}
 
-			$path	= ( $val->path == '/' ) ? '' : $val->path;
+			$path	= ( $val->path === '/' ) ? '' : $val->path;
 			echo '<span class="site-' . $val->site_id . '" >';
 			echo '<a href="'. esc_url( network_admin_url( 'site-info.php?id=' . $val->userblog_id ) ) .'">' . str_replace( '.' . get_current_site()->domain, '', $val->domain . $path ) . '</a>';
 			echo ' <small class="row-actions">';

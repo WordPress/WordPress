@@ -257,7 +257,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 		if ( $a == $b )
 			return 0;
 
-		if ( 'DESC' == $order ) {
+		if ( 'DESC' === $order ) {
 			return strcasecmp( $b, $a );
 		} else {
 			return strcasecmp( $a, $b );
@@ -337,10 +337,10 @@ class WP_Plugins_List_Table extends WP_List_Table {
 					break;
 			}
 
-			if ( 'search' != $type ) {
+			if ( 'search' !== $type ) {
 				$status_links[$type] = sprintf( "<a href='%s' %s>%s</a>",
 					add_query_arg('plugin_status', $type, 'plugins.php'),
-					( $type == $status ) ? ' class="current"' : '',
+					( $type === $status ) ? ' class="current"' : '',
 					sprintf( $text, number_format_i18n( $count ) )
 					);
 			}
@@ -400,13 +400,13 @@ class WP_Plugins_List_Table extends WP_List_Table {
 
 		echo '<div class="alignleft actions">';
 
-		if ( ! $this->screen->in_admin( 'network' ) && 'recently_activated' == $status )
+		if ( ! $this->screen->in_admin( 'network' ) && 'recently_activated' === $status ) {
 			submit_button( __( 'Clear List' ), 'button', 'clear-recent-list', false );
-		elseif ( 'top' == $which && 'mustuse' == $status )
+		} elseif ( 'top' === $which && 'mustuse' === $status ) {
 			echo '<p>' . sprintf( __( 'Files in the <code>%s</code> directory are executed automatically.' ), str_replace( ABSPATH, '/', WPMU_PLUGIN_DIR ) ) . '</p>';
-		elseif ( 'top' == $which && 'dropins' == $status )
+		} elseif ( 'top' === $which && 'dropins' === $status ) {
 			echo '<p>' . sprintf( __( 'Drop-ins are advanced plugins in the <code>%s</code> directory that replace WordPress functionality when present.' ), str_replace( ABSPATH, '', WP_CONTENT_DIR ) ) . '</p>';
-
+		}
 		echo '</div>';
 	}
 
@@ -458,9 +458,9 @@ class WP_Plugins_List_Table extends WP_List_Table {
 			'delete' => '',
 		);
 
-		if ( 'mustuse' == $context ) {
+		if ( 'mustuse' === $context ) {
 			$is_active = true;
-		} elseif ( 'dropins' == $context ) {
+		} elseif ( 'dropins' === $context ) {
 			$dropins = _get_dropins();
 			$plugin_name = $plugin_file;
 			if ( $plugin_file != $plugin_data['Name'] )

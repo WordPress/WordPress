@@ -45,7 +45,7 @@ class WP_Users_List_Table extends WP_List_Table {
 			'screen'   => isset( $args['screen'] ) ? $args['screen'] : null,
 		) );
 
-		$this->is_site_users = 'site-users-network' == $this->screen->id;
+		$this->is_site_users = 'site-users-network' === $this->screen->id;
 
 		if ( $this->is_site_users )
 			$this->site_id = isset( $_REQUEST['id'] ) ? intval( $_REQUEST['id'] ) : 0;
@@ -169,7 +169,7 @@ class WP_Users_List_Table extends WP_List_Table {
 
 			$class = '';
 
-			if ( $this_role == $role ) {
+			if ( $this_role === $role ) {
 				$class = ' class="current"';
 			}
 

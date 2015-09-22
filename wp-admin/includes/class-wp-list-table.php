@@ -283,11 +283,13 @@ class WP_List_Table {
 	 * @return int Number of items that correspond to the given pagination argument.
 	 */
 	public function get_pagination_arg( $key ) {
-		if ( 'page' == $key )
+		if ( 'page' === $key ) {
 			return $this->get_pagenum();
+		}
 
-		if ( isset( $this->_pagination_args[$key] ) )
+		if ( isset( $this->_pagination_args[$key] ) ) {
 			return $this->_pagination_args[$key];
+		}
 	}
 
 	/**
@@ -440,7 +442,7 @@ class WP_List_Table {
 		echo "<option value='-1' selected='selected'>" . __( 'Bulk Actions' ) . "</option>\n";
 
 		foreach ( $this->_actions as $name => $title ) {
-			$class = 'edit' == $name ? ' class="hide-if-no-js"' : '';
+			$class = 'edit' === $name ? ' class="hide-if-no-js"' : '';
 
 			echo "\t<option value='$name'$class>$title</option>\n";
 		}
@@ -598,7 +600,7 @@ class WP_List_Table {
 <?php
 			foreach ( $this->modes as $mode => $title ) {
 				$classes = array( 'view-' . $mode );
-				if ( $current_mode == $mode )
+				if ( $current_mode === $mode )
 					$classes[] = 'current';
 				printf(
 					"<a href='%s' class='%s' id='view-switch-$mode'><span class='screen-reader-text'>%s</span></a>\n",
@@ -782,7 +784,7 @@ class WP_List_Table {
 			);
 		}
 
-		if ( 'bottom' == $which ) {
+		if ( 'bottom' === $which ) {
 			$html_current_page  = $current;
 			$total_pages_before = '<span class="screen-reader-text">' . __( 'Current Page' ) . '</span><span id="table-paging" class="paging-input">';
 		} else {
@@ -1025,7 +1027,7 @@ class WP_List_Table {
 		else
 			$current_orderby = '';
 
-		if ( isset( $_GET['order'] ) && 'desc' == $_GET['order'] )
+		if ( isset( $_GET['order'] ) && 'desc' === $_GET['order'] )
 			$current_order = 'desc';
 		else
 			$current_order = 'asc';
@@ -1044,7 +1046,7 @@ class WP_List_Table {
 				$class[] = 'hidden';
 			}
 
-			if ( 'cb' == $column_key )
+			if ( 'cb' === $column_key )
 				$class[] = 'check-column';
 			elseif ( in_array( $column_key, array( 'posts', 'comments', 'links' ) ) )
 				$class[] = 'num';
@@ -1056,8 +1058,8 @@ class WP_List_Table {
 			if ( isset( $sortable[$column_key] ) ) {
 				list( $orderby, $desc_first ) = $sortable[$column_key];
 
-				if ( $current_orderby == $orderby ) {
-					$order = 'asc' == $current_order ? 'desc' : 'asc';
+				if ( $current_orderby === $orderby ) {
+					$order = 'asc' === $current_order ? 'desc' : 'asc';
 					$class[] = 'sorted';
 					$class[] = $current_order;
 				} else {
@@ -1136,9 +1138,9 @@ class WP_List_Table {
 	 * @param string $which
 	 */
 	protected function display_tablenav( $which ) {
-		if ( 'top' == $which )
+		if ( 'top' === $which ) {
 			wp_nonce_field( 'bulk-' . $this->_args['plural'] );
-
+		}
 		if ( $this->has_items() ) : ?>
 	<div class="tablenav <?php echo esc_attr( $which ); ?>">
 
@@ -1247,7 +1249,7 @@ class WP_List_Table {
 
 			$attributes = "class='$classes' $data";
 
-			if ( 'cb' == $column_name ) {
+			if ( 'cb' === $column_name ) {
 				echo '<th scope="row" class="check-column">';
 				echo $this->column_cb( $item );
 				echo '</th>';
@@ -1285,7 +1287,7 @@ class WP_List_Table {
 	 * @return string The row actions HTML, or an empty string if the current column is the primary column.
 	 */
 	protected function handle_row_actions( $item, $column_name, $primary ) {
-		return $column_name == $primary ? '<button type="button" class="toggle-row"><span class="screen-reader-text">' . __( 'Show more details' ) . '</span></button>' : '';
+		return $column_name === $primary ? '<button type="button" class="toggle-row"><span class="screen-reader-text">' . __( 'Show more details' ) . '</span></button>' : '';
  	}
 
 	/**

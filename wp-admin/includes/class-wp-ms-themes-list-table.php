@@ -41,7 +41,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 
 		$page = $this->get_pagenum();
 
-		$this->is_site_themes = ( 'site-themes-network' == $this->screen->id ) ? true : false;
+		$this->is_site_themes = ( 'site-themes-network' === $this->screen->id ) ? true : false;
 
 		if ( $this->is_site_themes )
 			$this->site_id = isset( $_REQUEST['id'] ) ? intval( $_REQUEST['id'] ) : 0;
@@ -145,9 +145,10 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 			$orderby = ucfirst( $orderby );
 			$order = strtoupper( $order );
 
-			if ( $orderby == 'Name' ) {
-				if ( 'ASC' == $order )
+			if ( $orderby === 'Name' ) {
+				if ( 'ASC' === $order ) {
 					$this->items = array_reverse( $this->items );
+				}
 			} else {
 				uasort( $this->items, array( $this, '_order_callback' ) );
 			}
@@ -206,7 +207,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 		if ( $a == $b )
 			return 0;
 
-		if ( 'DESC' == $order )
+		if ( 'DESC' === $order )
 			return ( $a < $b ) ? 1 : -1;
 		else
 			return ( $a < $b ) ? -1 : 1;
@@ -296,7 +297,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 			if ( 'search' != $type ) {
 				$status_links[$type] = sprintf( "<a href='%s' %s>%s</a>",
 					esc_url( add_query_arg('theme_status', $type, $url) ),
-					( $type == $status ) ? ' class="current"' : '',
+					( $type === $status ) ? ' class="current"' : '',
 					sprintf( $text, number_format_i18n( $count ) )
 				);
 			}
@@ -459,7 +460,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 	public function column_description( $theme ) {
 		global $status, $totals;
 		if ( $theme->errors() ) {
-			$pre = $status == 'broken' ? __( 'Broken Theme:' ) . ' ' : '';
+			$pre = $status === 'broken' ? __( 'Broken Theme:' ) . ' ' : '';
 			echo '<p><strong class="error-message">' . $pre . $theme->errors()->get_error_message() . '</strong></p>';
 		}
 

@@ -77,8 +77,9 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 		// These are the tabs which are shown on the page
 		$tabs = array();
 
-		if ( 'search' == $tab )
+		if ( 'search' === $tab ) {
 			$tabs['search']	= __( 'Search Results' );
+		}
 		$tabs['featured']  = _x( 'Featured', 'Plugin Installer' );
 		$tabs['popular']   = _x( 'Popular', 'Plugin Installer' );
 		$tabs['recommended']   = _x( 'Recommended', 'Plugin Installer' );
@@ -238,7 +239,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 
 		$display_tabs = array();
 		foreach ( (array) $tabs as $action => $text ) {
-			$class = ( $action == $tab ) ? ' current' : '';
+			$class = ( $action === $tab ) ? ' current' : '';
 			$href = self_admin_url('plugin-install.php?tab=' . $action);
 			$display_tabs['plugin-install-'.$action] = "<a href='$href' class='$class'>$text</a>";
 		}
@@ -310,7 +311,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 			return;
 		}
 
-		if ( 'top' ==  $which ) {
+		if ( 'top' === $which ) {
 			wp_referer_field();
 		?>
 			<div class="tablenav top">
@@ -367,7 +368,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 			return 0;
 		}
 
-		if ( 'DESC' == $this->order ) {
+		if ( 'DESC' === $this->order ) {
 			return ( $a < $b ) ? 1 : -1;
 		} else {
 			return ( $a < $b ) ? -1 : 1;

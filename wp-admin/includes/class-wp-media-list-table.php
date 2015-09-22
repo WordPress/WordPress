@@ -65,7 +65,7 @@ class WP_Media_List_Table extends WP_List_Table {
 
 		list( $post_mime_types, $avail_post_mime_types ) = wp_edit_attachments_query( $_REQUEST );
 
- 		$this->is_trash = isset( $_REQUEST['attachment-filter'] ) && 'trash' == $_REQUEST['attachment-filter'];
+ 		$this->is_trash = isset( $_REQUEST['attachment-filter'] ) && 'trash' === $_REQUEST['attachment-filter'];
 
  		$mode = empty( $_REQUEST['mode'] ) ? 'list' : $_REQUEST['mode'];
 
@@ -105,7 +105,7 @@ class WP_Media_List_Table extends WP_List_Table {
 				$filter && 0 === strpos( $filter, 'post_mime_type:' ) &&
 					wp_match_mime_types( $mime_type, str_replace( 'post_mime_type:', '', $filter ) ),
 				true,
-				false 	
+				false
 			);
 
 			$type_links[$mime_type] = sprintf(
@@ -285,13 +285,13 @@ class WP_Media_List_Table extends WP_List_Table {
 		$taxonomies = array_filter( $taxonomies, 'taxonomy_exists' );
 
 		foreach ( $taxonomies as $taxonomy ) {
-			if ( 'category' == $taxonomy )
+			if ( 'category' === $taxonomy ) {
 				$column_key = 'categories';
-			elseif ( 'post_tag' == $taxonomy )
+			} elseif ( 'post_tag' === $taxonomy ) {
 				$column_key = 'tags';
-			else
+			} else {
 				$column_key = 'taxonomy-' . $taxonomy;
-
+			}
 			$posts_columns[ $column_key ] = get_taxonomy( $taxonomy )->labels->name;
 		}
 
@@ -426,7 +426,7 @@ class WP_Media_List_Table extends WP_List_Table {
 	 * @param WP_Post $post The current WP_Post object.
 	 */
 	public function column_date( $post ) {
-		if ( '0000-00-00 00:00:00' == $post->post_date ) {
+		if ( '0000-00-00 00:00:00' === $post->post_date ) {
 			$h_time = __( 'Unpublished' );
 		} else {
 			$m_time = $post->post_date;
@@ -526,9 +526,9 @@ class WP_Media_List_Table extends WP_List_Table {
 	 * @param string  $column_name Current column name.
 	 */
 	public function column_default( $post, $column_name ) {
-		if ( 'categories' == $column_name ) {
+		if ( 'categories' === $column_name ) {
 			$taxonomy = 'category';
-		} elseif ( 'tags' == $column_name ) {
+		} elseif ( 'tags' === $column_name ) {
 			$taxonomy = 'post_tag';
 		} elseif ( 0 === strpos( $column_name, 'taxonomy-' ) ) {
 			$taxonomy = substr( $column_name, 9 );
@@ -589,7 +589,7 @@ class WP_Media_List_Table extends WP_List_Table {
 		while ( have_posts() ) : the_post();
 			if (
 				( $this->is_trash && $post->post_status != 'trash' )
-				|| ( ! $this->is_trash && $post->post_status == 'trash' )
+				|| ( ! $this->is_trash && $post->post_status === 'trash' )
 			) {
 				continue;
 			}

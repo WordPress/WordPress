@@ -69,7 +69,7 @@ class WP_Terms_List_Table extends WP_List_Table {
 	public function prepare_items() {
 		$tags_per_page = $this->get_items_per_page( 'edit_' . $this->screen->taxonomy . '_per_page' );
 
-		if ( 'post_tag' == $this->screen->taxonomy ) {
+		if ( 'post_tag' === $this->screen->taxonomy ) {
 			/**
 			 * Filter the number of terms displayed per page for the Tags list table.
 			 *
@@ -88,7 +88,7 @@ class WP_Terms_List_Table extends WP_List_Table {
 			 * @param int $tags_per_page Number of tags to be displayed. Default 20.
 			 */
 			$tags_per_page = apply_filters( 'tagsperpage', $tags_per_page );
-		} elseif ( 'category' == $this->screen->taxonomy ) {
+		} elseif ( 'category' === $this->screen->taxonomy ) {
 			/**
 			 * Filter the number of terms displayed per page for the Categories list table.
 			 *
@@ -153,7 +153,7 @@ class WP_Terms_List_Table extends WP_List_Table {
 	 * @return string
 	 */
 	public function current_action() {
-		if ( isset( $_REQUEST['action'] ) && isset( $_REQUEST['delete_tags'] ) && ( 'delete' == $_REQUEST['action'] || 'delete' == $_REQUEST['action2'] ) )
+		if ( isset( $_REQUEST['action'] ) && isset( $_REQUEST['delete_tags'] ) && ( 'delete' === $_REQUEST['action'] || 'delete' === $_REQUEST['action2'] ) )
 			return 'bulk-delete';
 
 		return parent::current_action();
@@ -171,7 +171,7 @@ class WP_Terms_List_Table extends WP_List_Table {
 			'slug'        => __( 'Slug' ),
 		);
 
-		if ( 'link_category' == $this->screen->taxonomy ) {
+		if ( 'link_category' === $this->screen->taxonomy ) {
 			$columns['links'] = __( 'Links' );
 		} else {
 			$columns['posts'] = _x( 'Count', 'Number/count of items' );
@@ -496,7 +496,7 @@ class WP_Terms_List_Table extends WP_List_Table {
 		if ( 'post' != $this->screen->post_type )
 			$args['post_type'] = $this->screen->post_type;
 
-		if ( 'attachment' == $this->screen->post_type )
+		if ( 'attachment' === $this->screen->post_type )
 			return "<a href='" . esc_url ( add_query_arg( $args, 'upload.php' ) ) . "'>$count</a>";
 
 		return "<a href='" . esc_url ( add_query_arg( $args, 'edit.php' ) ) . "'>$count</a>";
