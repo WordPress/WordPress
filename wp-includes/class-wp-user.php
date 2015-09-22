@@ -325,6 +325,26 @@ class WP_User {
 	}
 
 	/**
+	 * Magic method for unsetting a certain custom field
+	 *
+	 * @since 4.4.0
+	 */
+	function __unset( $key ) {
+		if ( 'id' == $key ) {
+			_deprecated_argument( 'WP_User->id', '2.1', __( 'Use <code>WP_User->ID</code> instead.' ) );
+			$key = 'ID';
+		}
+
+		if ( isset( $this->data->$key ) ) {
+			unset( $this->data->$key );
+		}
+
+		if ( isset( self::$back_compat_keys[ $key ] ) ) {
+			unset( self::$back_compat_keys[ $key ] );
+		}
+	}
+
+	/**
 	 * Determine whether the user exists in the database.
 	 *
 	 * @since 3.4.0
