@@ -1,6 +1,14 @@
 <?php
 /**
- * WordPress User Roles.
+ * User API: WP_Roles class
+ *
+ * @package WordPress
+ * @subpackage User
+ * @since 4.4.0
+ */
+
+/**
+ * Core class used to implement a user roles API.
  *
  * The role option is simple, the structure is organized by role name that store
  * the name in value of the 'name' key. The capabilities are stored as an array
@@ -14,8 +22,6 @@
  *     )
  *
  * @since 2.0.0
- * @package WordPress
- * @subpackage User
  */
 class WP_Roles {
 	/**
