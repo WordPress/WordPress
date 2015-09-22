@@ -1,10 +1,18 @@
 <?php
 /**
- * Recent_Comments widget class
+ * Widget API: WP_Widget_Recent_Comments class
  *
- * @since 2.8.0
  * @package WordPress
  * @subpackage Widgets
+ * @since 4.4.0
+ */
+
+/**
+ * Core class used to implement a Recent_Comments widget.
+ *
+ * @since 2.8.0
+ *
+ * @see WP_Widget
  */
 class WP_Widget_Recent_Comments extends WP_Widget {
 
