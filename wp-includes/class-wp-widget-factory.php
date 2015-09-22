@@ -3,7 +3,7 @@
  * Widget API: WP_Widget_Factory class
  *
  * @package WordPress
- * @subpackage Widget
+ * @subpackage Widgets
  * @since 4.4.0
  */
 
