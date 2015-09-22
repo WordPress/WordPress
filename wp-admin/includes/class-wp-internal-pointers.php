@@ -1,12 +1,17 @@
 <?php
 /**
- * WordPress Administration API: WP_Internal_Pointers class
+ * Administration API: WP_Internal_Pointers class
  *
  * @package WordPress
  * @subpackage Administration
  * @since 4.4.0
  */
 
+/**
+ * Core class used to implement an internal admin pointers API.
+ *
+ * @since 3.3.0
+ */
 final class WP_Internal_Pointers {
 	/**
 	 * Initializes the new feature pointers.
