@@ -1,17 +1,18 @@
 <?php
 /**
- * Category API: Walker_Category class
+ * Taxonomy API: Walker_Category class
  *
  * @package WordPress
  * @subpackage Template
+ * @since 4.4.0
  */
 
 /**
- * Create HTML list of categories.
+ * Core class used to create an HTML list of categories.
  *
- * @package WordPress
  * @since 2.1.0
- * @uses Walker
+ *
+ * @see Walker
  */
 class Walker_Category extends Walker {
 	/**
