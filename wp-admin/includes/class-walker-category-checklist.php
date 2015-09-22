@@ -1,6 +1,6 @@
 <?php
 /**
- * WordPress Administration API: Walker_Category_Checklist class
+ * Taxonomy API: Walker_Category_Checklist class
  *
  * @package WordPress
  * @subpackage Administration
@@ -8,7 +8,7 @@
  */
 
 /**
- * Walker to output an unordered list of category checkbox input elements.
+ * Core walker class to output an unordered list of category checkbox input elements.
  *
  * @since 2.5.1
  *
