@@ -1,10 +1,18 @@
 <?php
 /**
- * Text widget class
+ * Widget API: WP_Widget_Text class
  *
- * @since 2.8.0
  * @package WordPress
  * @subpackage Widgets
+ * @since 4.4.0
+ */
+
+/**
+ * Core class used to implement a Text widget.
+ *
+ * @since 2.8.0
+ *
+ * @see WP_Widget
  */
 class WP_Widget_Text extends WP_Widget {
 
