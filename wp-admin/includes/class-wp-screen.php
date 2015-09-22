@@ -8,10 +8,9 @@
  */
 
 /**
- * A class representing the admin screen.
+ * Core class used to implement an admin screen API.
  *
  * @since 3.3.0
- * @access public
  */
 final class WP_Screen {
 	/**
