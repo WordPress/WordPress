@@ -1,9 +1,10 @@
 <?php
 /**
- * Category Template Tags and API.
+ * Taxonomy API: Core category-specific template tags
  *
  * @package WordPress
  * @subpackage Template
+ * @since 1.2.0
  */
 
 /**
