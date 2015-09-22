@@ -1,6 +1,6 @@
 <?php
 /**
- * Users API: WP_User_Query class
+ * User API: WP_User_Query class
  *
  * @package WordPress
  * @subpackage Users
