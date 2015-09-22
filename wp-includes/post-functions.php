@@ -993,19 +993,15 @@ function register_post_type( $post_type, $args = array() ) {
 	// Sanitize post type name
 	$post_type = sanitize_key( $post_type );
 
-	if ( empty( $args['_builtin'] ) ) {
-		/**
-		 * Filter the arguments for registering a post type.
-		 *
-		 * Not available for built-in post types.
-		 *
-		 * @since 4.4.0
-		 *
-		 * @param array|string $args      Array or string of arguments for registering a post type.
-		 * @param string       $post_type Post type key.
-		 */
-		$args = apply_filters( 'register_post_type_args', $args, $post_type );
-	}
+	/**
+	 * Filter the arguments for registering a post type.
+	 *
+	 * @since 4.4.0
+	 *
+	 * @param array|string $args      Array or string of arguments for registering a post type.
+	 * @param string       $post_type Post type key.
+	 */
+	$args = apply_filters( 'register_post_type_args', $args, $post_type );
 
 	// Args prefixed with an underscore are reserved for internal use.
 	$defaults = array(
