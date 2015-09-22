@@ -1,11 +1,10 @@
 <?php
 /**
- * Taxonomy API
- *
- * @since 2.3.0
+ * Taxonomy API: Top-level taxonomy functionality
  *
  * @package WordPress
  * @subpackage Taxonomy
+ * @since 4.4.0
  */
 
 //
