@@ -335,11 +335,14 @@ class WP_User {
 	}
 
 	/**
-	 * Magic method for unsetting a certain custom field
+	 * Magic method for unsetting a certain custom field.
 	 *
 	 * @since 4.4.0
+	 * @access public
+	 *
+	 * @param string $key User meta key to unset.
 	 */
-	function __unset( $key ) {
+	public function __unset( $key ) {
 		if ( 'id' == $key ) {
 			_deprecated_argument( 'WP_User->id', '2.1', __( 'Use <code>WP_User->ID</code> instead.' ) );
 			$key = 'ID';
