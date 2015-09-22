@@ -677,10 +677,12 @@ function get_post_comments_feed_link($post_id = 0, $feed = '') {
  * @param string $feed      Optional. Feed format.
 */
 function post_comments_feed_link( $link_text = '', $post_id = '', $feed = '' ) {
-	$url = esc_url( get_post_comments_feed_link( $post_id, $feed ) );
-	if ( empty($link_text) )
+	$url = get_post_comments_feed_link( $post_id, $feed );
+	if ( empty( $link_text ) ) {
 		$link_text = __('Comments Feed');
+	}
 
+	$link = '<a href="' . esc_url( $url ) . '">' . esc_html( $link_text ) . '</a>';
 	/**
 	 * Filter the post comment feed link anchor tag.
 	 *
@@ -690,7 +692,7 @@ function post_comments_feed_link( $link_text = '', $post_id = '', $feed = '' ) {
 	 * @param int    $post_id Post ID.
 	 * @param string $feed    The feed type, or an empty string for the default feed type.
 	 */
-	echo apply_filters( 'post_comments_feed_link_html', "<a href='$url'>$link_text</a>", $post_id, $feed );
+	echo apply_filters( 'post_comments_feed_link_html', $link, $post_id, $feed );
 }
 
 /**
@@ -1290,7 +1292,7 @@ function edit_post_link( $text = null, $before = '', $after = '', $id = 0, $clas
 		$text = __( 'Edit This' );
 	}
 
-	$link = '<a class="' . esc_attr( $class ) . '" href="' . $url . '">' . $text . '</a>';
+	$link = '<a class="' . esc_attr( $class ) . '" href="' . esc_url( $url ) . '">' . esc_html( $text ) . '</a>';
 
 	/**
 	 * Filter the post edit link anchor tag.
@@ -1392,7 +1394,7 @@ function edit_comment_link( $text = null, $before = '', $after = '' ) {
 		$text = __( 'Edit This' );
 	}
 
-	$link = '<a class="comment-edit-link" href="' . get_edit_comment_link( $comment ) . '">' . $text . '</a>';
+	$link = '<a class="comment-edit-link" href="' . esc_url( get_edit_comment_link( $comment ) ) . '">' . esc_html( $text ) . '</a>';
 
 	/**
 	 * Filter the comment edit link anchor tag.
@@ -1452,7 +1454,7 @@ function edit_bookmark_link( $link = '', $before = '', $after = '', $bookmark = 
 	if ( empty($link) )
 		$link = __('Edit This');
 
-	$link = '<a href="' . get_edit_bookmark_link( $bookmark ) . '">' . $link . '</a>';
+	$link = '<a href="' . esc_url( get_edit_bookmark_link( $bookmark ) ) . '">' . esc_html( $link ) . '</a>';
 
 	/**
 	 * Filter the bookmark edit link anchor tag.
@@ -3441,23 +3443,22 @@ function get_edit_profile_url( $user_id = 0, $scheme = 'admin' ) {
  * Output rel=canonical for singular queries.
  *
  * @since 2.9.0
- *
- * @global WP_Query $wp_the_query
 */
 function rel_canonical() {
-	if ( !is_singular() )
+	if ( ! is_singular() ) {
 		return;
+	}
 
-	global $wp_the_query;
-	if ( !$id = $wp_the_query->get_queried_object_id() )
+	if ( ! $id = get_queried_object_id() ) {
 		return;
+	}
 
-	$link = get_permalink( $id );
+	$url = get_permalink( $id );
 
-	if ( $page = get_query_var('cpage') )
-		$link = get_comments_pagenum_link( $page );
-
-	echo "<link rel='canonical' href='$link' />\n";
+	if ( $page = get_query_var('cpage') ) {
+		$url = get_comments_pagenum_link( $page );
+	}
+	echo '<link rel="canonical" href="' . esc_url( $url ) . "\" />\n";
 }
 
 /**
