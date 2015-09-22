@@ -1,9 +1,9 @@
 <?php
 /**
- * Widgets API: WP_Widget_Factory class
+ * Widget API: WP_Widget_Factory class
  *
  * @package WordPress
- * @subpackage Widgets
+ * @subpackage Widget
  * @since 4.4.0
  */
 

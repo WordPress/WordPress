@@ -1,6 +1,6 @@
 <?php
 /**
- * Widgets API: Top-level widget functionality
+ * Widget API: Top-level widget functionality
  *
  * @package WordPress
  * @subpackage Widgets
