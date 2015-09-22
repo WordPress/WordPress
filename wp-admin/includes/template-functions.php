@@ -1892,7 +1892,7 @@ function _wp_admin_html_begin() {
 <![endif]-->
 <!--[if !(IE 8) ]><!-->
 <html xmlns="http://www.w3.org/1999/xhtml" class="<?php echo $admin_html_class; ?>" <?php
-	/** This action is documented in wp-admin/includes/template.php */
+	/** This action is documented in wp-admin/includes/template-functions.php */
 	do_action( 'admin_xml_ns' );
 ?> <?php language_attributes(); ?>>
 <!--<![endif]-->
