@@ -1,10 +1,10 @@
 <?php
 /**
- * Post functions and post utility function.
+ * Post API: Top-level post functionality
  *
  * @package WordPress
  * @subpackage Post
- * @since 1.5.0
+ * @since 4.4.0
  */
 
 //
