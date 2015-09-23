@@ -682,7 +682,7 @@ function post_comments_feed_link( $link_text = '', $post_id = '', $feed = '' ) {
 		$link_text = __('Comments Feed');
 	}
 
-	$link = '<a href="' . esc_url( $url ) . '">' . esc_html( $link_text ) . '</a>';
+	$link = '<a href="' . esc_url( $url ) . '">' . $link_text . '</a>';
 	/**
 	 * Filter the post comment feed link anchor tag.
 	 *
@@ -1292,7 +1292,7 @@ function edit_post_link( $text = null, $before = '', $after = '', $id = 0, $clas
 		$text = __( 'Edit This' );
 	}
 
-	$link = '<a class="' . esc_attr( $class ) . '" href="' . esc_url( $url ) . '">' . esc_html( $text ) . '</a>';
+	$link = '<a class="' . esc_attr( $class ) . '" href="' . esc_url( $url ) . '">' . $text . '</a>';
 
 	/**
 	 * Filter the post edit link anchor tag.
@@ -1394,7 +1394,7 @@ function edit_comment_link( $text = null, $before = '', $after = '' ) {
 		$text = __( 'Edit This' );
 	}
 
-	$link = '<a class="comment-edit-link" href="' . esc_url( get_edit_comment_link( $comment ) ) . '">' . esc_html( $text ) . '</a>';
+	$link = '<a class="comment-edit-link" href="' . esc_url( get_edit_comment_link( $comment ) ) . '">' . $text . '</a>';
 
 	/**
 	 * Filter the comment edit link anchor tag.
@@ -1454,7 +1454,7 @@ function edit_bookmark_link( $link = '', $before = '', $after = '', $bookmark = 
 	if ( empty($link) )
 		$link = __('Edit This');
 
-	$link = '<a href="' . esc_url( get_edit_bookmark_link( $bookmark ) ) . '">' . esc_html( $link ) . '</a>';
+	$link = '<a href="' . esc_url( get_edit_bookmark_link( $bookmark ) ) . '">' . $link . '</a>';
 
 	/**
 	 * Filter the bookmark edit link anchor tag.
