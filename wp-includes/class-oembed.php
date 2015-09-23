@@ -146,6 +146,7 @@ class WP_oEmbed {
 		 * | Kickstarter  | kickstarter.com      |  Yes  | 4.2.0     |
 		 * | Kickstarter  | kck.st               |  Yes  | 4.2.0     |
 		 * | ------------ | -------------------- | ----- | --------- |
+		 * | Cloudup      | cloudup.com          |  Yes  | 4.4.0     |
 		 * | ReverbNation | reverbnation.com     |  Yes  | 4.4.0     |
 		 *
 		 * No longer supported providers:
