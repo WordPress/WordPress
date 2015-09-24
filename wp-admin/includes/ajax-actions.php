@@ -351,6 +351,8 @@ function _wp_ajax_delete_comment_response( $comment_id, $delta = -1 ) {
 		$time = time();
 		$comment = get_comment( $comment_id );
 
+		$counts = wp_count_comments();
+
 		$x = new WP_Ajax_Response( array(
 			'what' => 'comment',
 			// Here for completeness - not used.
@@ -358,7 +360,16 @@ function _wp_ajax_delete_comment_response( $comment_id, $delta = -1 ) {
 			'supplemental' => array(
 				'status' => $comment ? $comment->comment_approved : '',
 				'postId' => $comment ? $comment->comment_post_ID : '',
-				'time' => $time
+				'time' => $time,
+				'in_moderation' => $counts->moderated,
+				'i18n_comments_text' => sprintf(
+					_n( '%s Comment', '%s Comments', $counts->approved ),
+					number_format_i18n( $counts->approved )
+				),
+				'i18n_moderation_text' => sprintf(
+					_nx( '%s in moderation', '%s in moderation', $counts->moderated, 'comments' ),
+					number_format_i18n( $counts->moderated )
+				)
 			)
 		) );
 		$x->send();
@@ -1049,8 +1060,23 @@ function wp_ajax_replyto_comment( $action ) {
 		'position' => $position
 	);
 
-	if ( $comment_auto_approved )
-		$response['supplemental'] = array( 'parent_approved' => $parent->comment_ID, 'parent_post_id' => $parent->comment_post_ID );
+	$counts = wp_count_comments();
+	$response['supplemental'] = array(
+		'in_moderation' => $counts->moderated,
+		'i18n_comments_text' => sprintf(
+			_n( '%s Comment', '%s Comments', $counts->approved ),
+			number_format_i18n( $counts->approved )
+		),
+		'i18n_moderation_text' => sprintf(
+			_nx( '%s in moderation', '%s in moderation', $counts->moderated, 'comments' ),
+			number_format_i18n( $counts->moderated )
+		)
+	);
+
+	if ( $comment_auto_approved ) {
+		$response['supplemental']['parent_approved'] = $parent->comment_ID;
+		$response['supplemental']['parent_post_id'] = $parent->comment_post_ID;
+	}
 
 	$x = new WP_Ajax_Response();
 	$x->add( $response );

@@ -3,7 +3,7 @@ var setCommentsList, theList, theExtraList, commentReply;
 
 (function($) {
 var getCount, updateCount, updateCountText, updatePending, updateApproved,
-	updateHtmlTitle, adminTitle = document.title;
+	updateHtmlTitle, updateDashboardText, adminTitle = document.title;
 
 setCommentsList = function() {
 	var totalInput, perPageInput, pageInput, dimAfter, delBefore, updateTotalCount, delAfter, refillTheExtraList, diff,
@@ -18,6 +18,10 @@ setCommentsList = function() {
 	dimAfter = function( r, settings ) {
 		var editRow, replyID, replyButton, response,
 			c = $( '#' + settings.element );
+
+		if ( true !== settings.parsed ) {
+			response = settings.parsed.responses[0];
+		}
 
 		editRow = $('#replyrow');
 		replyID = $('#comment_ID', editRow).val();
@@ -36,10 +40,10 @@ setCommentsList = function() {
 		}
 
 		diff = $('#' + settings.element).is('.' + settings.dimClass) ? 1 : -1;
-		if ( true !== settings.parsed && settings.parsed.responses.length ) {
-			response = settings.parsed.responses[0].supplemental;
-			updatePending( diff, response.postId );
-			updateApproved( -1 * diff, response.postId );
+		if ( response ) {
+			updateDashboardText( response.supplemental );
+			updatePending( diff, response.supplemental.postId );
+			updateApproved( -1 * diff, response.supplemental.postId );
 		} else {
 			updatePending( diff );
 			updateApproved( -1 * diff  );
@@ -277,12 +281,26 @@ setCommentsList = function() {
 		});
 	};
 
+	updateDashboardText = function ( response ) {
+		if ( ! isDashboard || ! response || ! response.i18n_comments_text ) {
+			return;
+		}
+
+		var rightNow = $( '#dashboard_right_now' );
+
+		$( '.comment-count a', rightNow ).text( response.i18n_comments_text );
+		$( '.comment-mod-count a', rightNow ).text( response.i18n_moderation_text )
+			.parent()
+			[ response.in_moderation > 0 ? 'removeClass' : 'addClass' ]( 'hidden' );
+	};
+
 	// In admin-ajax.php, we send back the unix time stamp instead of 1 on success
 	delAfter = function( r, settings ) {
 		var total_items_i18n, total, animated, animatedCallback,
 			response = true === settings.parsed ? {} : settings.parsed.responses[0],
 			commentStatus = true === settings.parsed ? '' : response.supplemental.status,
 			commentPostId = true === settings.parsed ? '' : response.supplemental.postId,
+			newTotal = true === settings.parsed ? '' : response.supplemental,
 
 			targetParent = $( settings.target ).parent(),
 			commentRow = $('#' + settings.element),
@@ -293,6 +311,8 @@ setCommentsList = function() {
 			unapproved = commentRow.hasClass( 'unapproved' ),
 			spammed = commentRow.hasClass( 'spam' ),
 			trashed = commentRow.hasClass( 'trash' );
+
+		updateDashboardText( newTotal );
 
 		// the order of these checks is important
 		// .unspam can also have .approve or .unapprove
@@ -769,6 +789,10 @@ commentReply = {
 				});
 				return;
 			}
+		}
+
+		if ( r.supplemental.i18n_comments_text ) {
+			updateDashboardText( r.supplemental );
 		}
 
 		c = $.trim(r.data); // Trim leading whitespaces
