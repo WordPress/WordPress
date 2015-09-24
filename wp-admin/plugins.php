@@ -442,7 +442,15 @@ if ( ! empty( $invalid ) ) {
 		if ( is_wp_error($delete_result) ) : ?>
 		<div id="message" class="error notice is-dismissible"><p><?php printf( __('Plugin could not be deleted due to an error: %s'), $delete_result->get_error_message() ); ?></p></div>
 		<?php else : ?>
-		<div id="message" class="updated notice is-dismissible"><p><?php _e('The selected plugins have been <strong>deleted</strong>.'); ?></p></div>
+		<div id="message" class="updated notice is-dismissible">
+			<p>
+				<?php echo _n(
+					'The selected plugin has been <strong>deleted</strong>.',
+					'The selected plugins have been <strong>deleted</strong>.',
+					$plugins_to_delete );
+				?>
+			</p>
+		</div>
 		<?php endif; ?>
 <?php elseif ( isset($_GET['activate']) ) : ?>
 	<div id="message" class="updated notice is-dismissible"><p><?php _e('Plugin <strong>activated</strong>.') ?></p></div>
