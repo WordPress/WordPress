@@ -67,6 +67,11 @@ input[type="url"] {
 	direction: ltr;
 }
 
+/* Vertically align the number selector with the input. */
+input[type="number"] {
+	line-height: inherit;
+}
+
 input[type="checkbox"],
 input[type="radio"] {
 	border: 1px solid #b4b9be;
@@ -383,6 +388,14 @@ input.small-text {
 
 input[type="number"].small-text {
 	width: 65px;
+}
+
+input.tiny-text {
+	width: 35px;
+}
+
+input[type="number"].tiny-text {
+	width: 45px;
 }
 
 #doaction,
