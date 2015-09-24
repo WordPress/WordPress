@@ -81,63 +81,84 @@ if ( ! $permalink ) {
 }
 
 $messages = array();
-$post_preview_url = get_preview_post_link( $post );
 
-$preview_link_html = $scheduled_link_html = $view_post_html = '';
+$preview_post_link_html = $scheduled_post_link_html = $view_post_link_html = '';
+$preview_page_link_html = $scheduled_page_link_html = $view_page_link_html = '';
+
+$preview_url = get_preview_post_link( $post );
 
 $viewable = is_post_type_viewable( $post_type_object );
 
 if ( $viewable ) {
-	// Preview link.
-	$preview_link_html = sprintf( ' <a target="_blank" href="%s">%s</a>',
-		esc_url( $post_preview_url ),
+
+	// Preview post link.
+	$preview_post_link_html = sprintf( ' <a target="_blank" href="%1$s">%2$s</a>',
+		esc_url( $preview_url ),
 		__( 'Preview post' )
 	);
 
-	// Scheduled preview link.
-	$scheduled_link_html = sprintf( ' <a target="_blank" href="%s">%s</a>',
+	// Scheduled post preview link.
+	$scheduled_post_link_html = sprintf( ' <a target="_blank" href="%1$s">%2$s</a>',
 		esc_url( $permalink ),
 		__( 'Preview post' )
 	);
 
 	// View post link.
-	$view_post_html = sprintf( ' <a href="%s">%s</a>',
+	$view_post_link_html = sprintf( ' <a href="%1$s">%2$s</a>',
 		esc_url( $permalink ),
 		__( 'View post' )
 	);
+
+	// Preview page link.
+	$preview_page_link_html = sprintf( ' <a target="_blank" href="%1$s">%2$s</a>',
+		esc_url( $preview_url ),
+		__( 'Preview page' )
+	);
+
+	// Scheduled page preview link.
+	$scheduled_page_link_html = sprintf( ' <a target="_blank" href="%1$s">%2$s</a>',
+		esc_url( $permalink ),
+		__( 'Preview page' )
+	);
+
+	// View page link.
+	$view_page_link_html = sprintf( ' <a href="%1$s">%2$s</a>',
+		esc_url( $permalink ),
+		__( 'View page' )
+	);
+
 }
 
 /* translators: Publish box date format, see http://php.net/date */
 $scheduled_date = date_i18n( __( 'M j, Y @ H:i' ), strtotime( $post->post_date ) );
+
 $messages['post'] = array(
 	 0 => '', // Unused. Messages start at index 1.
-	 1 => __( 'Post updated.' ) . $view_post_html,
-	 2 => __('Custom field updated.'),
-	 3 => __('Custom field deleted.'),
-	 4 => __('Post updated.'),
+	 1 => __( 'Post updated.' ) . $view_post_link_html,
+	 2 => __( 'Custom field updated.' ),
+	 3 => __( 'Custom field deleted.' ),
+	 4 => __( 'Post updated.' ),
 	/* translators: %s: date and time of the revision */
 	 5 => isset($_GET['revision']) ? sprintf( __('Post restored to revision from %s'), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false,
-	 6 => __( 'Post published.' ) . $view_post_html,
-	 7 => __('Post saved.'),
-	 8 => __( 'Post submitted.' ) . $preview_link_html,
-	 9 => sprintf( __( 'Post scheduled for: <strong>%1$s</strong>' ), $scheduled_date ) . $scheduled_link_html,
-	10 => __( 'Post draft updated.' ) . $preview_link_html,
+	 6 => __( 'Post published.' ) . $view_post_link_html,
+	 7 => __( 'Post saved.' ),
+	 8 => __( 'Post submitted.' ) . $preview_post_link_html,
+	 9 => sprintf( __( 'Post scheduled for: %s.' ), '<strong>' . $scheduled_date . '</strong>' ) . $scheduled_post_link_html,
+	10 => __( 'Post draft updated.' ) . $preview_post_link_html,
 );
-
-$page_preview_url = get_preview_post_link( $post );
-
 $messages['page'] = array(
 	 0 => '', // Unused. Messages start at index 1.
-	 1 => sprintf( __('Page updated. <a href="%s">View page</a>'), esc_url( $permalink ) ),
-	 2 => __('Custom field updated.'),
-	 3 => __('Custom field deleted.'),
-	 4 => __('Page updated.'),
+	 1 => __( 'Page updated.' ) . $view_page_link_html,
+	 2 => __( 'Custom field updated.' ),
+	 3 => __( 'Custom field deleted.' ),
+	 4 => __( 'Page updated.' ),
+	/* translators: %s: date and time of the revision */
 	 5 => isset($_GET['revision']) ? sprintf( __('Page restored to revision from %s'), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false,
-	 6 => sprintf( __('Page published. <a href="%s">View page</a>'), esc_url( $permalink ) ),
-	 7 => __('Page saved.'),
-	 8 => sprintf( __('Page submitted. <a target="_blank" href="%s">Preview page</a>'), esc_url( $page_preview_url ) ),
-	 9 => sprintf( __('Page scheduled for: <strong>%1$s</strong>. <a target="_blank" href="%2$s">Preview page</a>'), date_i18n( __( 'M j, Y @ H:i' ), strtotime( $post->post_date ) ), esc_url( $permalink ) ),
-	10 => sprintf( __('Page draft updated. <a target="_blank" href="%s">Preview page</a>'), esc_url( $page_preview_url ) ),
+	 6 => __( 'Page published.' ) . $view_page_link_html,
+	 7 => __( 'Page saved.' ),
+	 8 => __( 'Page submitted.' ) . $preview_page_link_html,
+	 9 => sprintf( __( 'Page scheduled for: %s.' ), '<strong>' . $scheduled_date . '</strong>' ) . $scheduled_page_link_html,
+	10 => __( 'Page draft updated.' ) . $preview_page_link_html,
 );
 $messages['attachment'] = array_fill( 1, 10, __( 'Media attachment updated.' ) ); // Hack, for now.
 
