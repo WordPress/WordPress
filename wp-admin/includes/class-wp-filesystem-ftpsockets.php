@@ -91,10 +91,14 @@ class WP_Filesystem_ftpsockets extends WP_Filesystem_Base {
 	}
 
 	/**
+	 * Retrieves the file contents.
+	 *
+	 * @since 2.5.0
 	 * @access public
-	 * 
-	 * @param string $file
-	 * @return false|string
+	 *
+	 * @param string $file Filename.
+	 * @return string|false File contents on success, false if no temp file could be opened,
+	 *                      or if the file doesn't exist.
 	 */
 	public function get_contents( $file ) {
 		if ( ! $this->exists($file) )
