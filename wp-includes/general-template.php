@@ -1898,7 +1898,7 @@ function the_date_xml() {
 function the_date( $d = '', $before = '', $after = '', $echo = true ) {
 	global $currentday, $previousday;
 
-	if ( $currentday != $previousday ) {
+	if ( is_new_day() ) {
 		$the_date = $before . get_the_date( $d ) . $after;
 		$previousday = $currentday;
 
