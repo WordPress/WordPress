@@ -1071,8 +1071,10 @@ class WP_Rewrite {
 					$sub1 .= '?$';
 					$sub2 .= '?$';
 
-					//post pagination, e.g. <permalink>/2/
-					$match = $match . '(/[0-9]+)?/?$';
+					// Post pagination, e.g. <permalink>/2/
+					// Previously: '(/[0-9]+)?/?$', which produced '/2' for page.
+					// When cast to int, returned 0.
+					$match = $match . '(?:/([0-9]+))?/?$';
 					$query = $index . '?' . $query . '&page=' . $this->preg_index($num_toks + 1);
 				} else { //not matching a permalink so this is a lot simpler
 					//close the match and finalise the query

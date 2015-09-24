@@ -256,6 +256,8 @@ function wp_resolve_numeric_slug_conflicts( $query_vars = array() ) {
 	} elseif ( 'monthnum' === $compare && isset( $query_vars['day'] ) ) {
 		$maybe_page = $query_vars['day'];
 	}
+	// Bug found in #11694 - 'page' was returning '/4'
+	$maybe_page = (int) trim( $maybe_page, '/' );
 
 	$post_page_count = substr_count( $post->post_content, '<!--nextpage-->' ) + 1;
 

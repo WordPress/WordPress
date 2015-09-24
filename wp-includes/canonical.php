@@ -148,6 +148,13 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 			}
 		}
 
+		if ( get_query_var( 'page' ) && $wp_query->post &&
+			false !== strpos( $wp_query->post->post_content, '<!--nextpage-->' ) ) {
+			$redirect['path'] = rtrim( $redirect['path'], (int) get_query_var( 'page' ) . '/' );
+			$redirect['query'] = remove_query_arg( 'page', $redirect['query'] );
+			$redirect_url = get_permalink( $wp_query->post->ID );
+		}
+
 	} elseif ( is_object($wp_rewrite) && $wp_rewrite->using_permalinks() ) {
 		// rewriting of old ?p=X, ?m=2004, ?m=200401, ?m=20040101
 		if ( is_attachment() && ! $redirect_url ) {
@@ -560,7 +567,7 @@ function redirect_guess_404_permalink() {
 			return false;
 		if ( get_query_var( 'feed' ) )
 			return get_post_comments_feed_link( $post_id, get_query_var( 'feed' ) );
-		elseif ( get_query_var( 'page' ) )
+		elseif ( get_query_var( 'page' ) && 1 < get_query_var( 'page' ) )
 			return trailingslashit( get_permalink( $post_id ) ) . user_trailingslashit( get_query_var( 'page' ), 'single_paged' );
 		else
 			return get_permalink( $post_id );

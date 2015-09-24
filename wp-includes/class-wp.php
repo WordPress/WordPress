@@ -587,7 +587,7 @@ class WP {
 	 * @global WP_Query $wp_query
  	 */
 	public function handle_404() {
-		global $wp_query;
+		global $wp_query, $wp;
 
 		// If we've already issued a 404, bail.
 		if ( is_404() )
@@ -596,16 +596,26 @@ class WP {
 		// Never 404 for the admin, robots, or if we found posts.
 		if ( is_admin() || is_robots() || $wp_query->posts ) {
 
-			// Only set X-Pingback for single posts.
+			$success = true;
 			if ( is_singular() ) {
 				$p = clone $wp_query->post;
+				// Only set X-Pingback for single posts that allow pings.
 				if ( $p && pings_open( $p ) ) {
 					@header( 'X-Pingback: ' . get_bloginfo( 'pingback_url' ) );
 				}
+
+				// check for paged content that exceeds the max number of pages
+				$next = '<!--nextpage-->';
+				if ( $p && false !== strpos( $p->post_content, $next ) && ! empty( $wp->query_vars['page'] ) ) {
+					$page = trim( $wp->query_vars['page'], '/' );
+					$success = (int) $page <= ( substr_count( $p->post_content, $next ) + 1 );
+				}
 			}
 
-			status_header( 200 );
-			return;
+			if ( $success ) {
+				status_header( 200 );
+				return;
+			}
 		}
 
 		// We will 404 for paged queries, as no posts were found.
