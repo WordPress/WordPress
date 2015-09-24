@@ -205,7 +205,7 @@ class WP_Comments_List_Table extends WP_List_Table {
 		//, number_format_i18n($num_comments->spam) ), "<span class='spam-comment-count'>" . number_format_i18n($num_comments->spam) . "</span>")
 		$stati = array(
 			'all' => str_replace( '%s', '<span class="all-count">%s</span>',
-				/* translators: %s: pending comments count */
+				/* translators: %s: all comments count */
 				_nx_noop(
 					'All <span class="count">(%s)</span>',
 					'All <span class="count">(%s)</span>',
