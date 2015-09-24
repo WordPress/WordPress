@@ -179,16 +179,22 @@ default:
 <div class="fileedit-sub">
 <div class="alignleft">
 <big><?php
-	if ( is_plugin_active($plugin) ) {
-		if ( is_writeable($real_file) )
+	if ( is_plugin_active( $plugin ) ) {
+		if ( is_writeable( $real_file ) ) {
+			/* translators: %s: File name */
 			echo sprintf( _x( 'Editing %s',  'plugin' ), '<strong>' . $file . '</strong>' ) . ' ' . _x( '(active)', 'plugin' );
-		else
+		} else {
+			/* translators: %s: File name */
 			echo sprintf( _x( 'Browsing %s', 'plugin' ), '<strong>' . $file . '</strong>' ) . ' ' . _x( '(active)', 'plugin' );
+		}
 	} else {
-		if ( is_writeable($real_file) )
+		if ( is_writeable( $real_file ) ) {
+			/* translators: %s: File name */
 			echo sprintf( _x( 'Editing %s',  'plugin' ), '<strong>' . $file . '</strong>' ) . ' ' . _x( '(inactive)', 'plugin' );
-		else
+		} else {
+			/* translators: %s: File name */
 			echo sprintf( _x( 'Browsing %s', 'plugin' ), '<strong>' . $file . '</strong>' ) . ' ' . _x( '(inactive)', 'plugin' );
+		}
 	}
 	?></big>
 </div>
