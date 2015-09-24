@@ -159,18 +159,25 @@ class WP_Http {
 			$r['_redirection'] = $r['redirection'];
 
 		/**
-		 * Filter whether to preempt an HTTP request's return.
+		 * Filter whether to preempt an HTTP request's return value.
 		 *
-		 * Returning a truthy value to the filter will short-circuit
-		 * the HTTP request and return early with that value.
+		 * Returning a non-false value from the filter will short-circuit the HTTP request and return
+		 * early with that value. A filter should return either:
+		 *
+		 *  - An array containing 'headers', 'body', 'response', 'cookies', and 'filename' elements
+		 *  - A WP_Error instance
+		 *  - boolean false (to avoid short-circuiting the response)
+		 *
+		 * Returning any other value may result in unexpected behaviour.
 		 *
 		 * @since 2.9.0
 		 *
-		 * @param bool   $preempt Whether to preempt an HTTP request return. Default false.
-		 * @param array  $r       HTTP request arguments.
-		 * @param string $url     The request URL.
+		 * @param false|array|WP_Error $preempt Whether to preempt an HTTP request's return value. Default false.
+		 * @param array               $r        HTTP request arguments.
+		 * @param string              $url      The request URL.
 		 */
 		$pre = apply_filters( 'pre_http_request', false, $r, $url );
+
 		if ( false !== $pre )
 			return $pre;
 
