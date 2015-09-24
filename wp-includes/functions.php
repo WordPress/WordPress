@@ -670,26 +670,39 @@ function _http_build_query( $data, $prefix = null, $sep = null, $key = '', $urle
 }
 
 /**
- * Retrieve a modified URL query string.
+ * Retrieves a modified URL query string.
  *
- * You can rebuild the URL and append a new query variable to the URL query by
- * using this function. You can also retrieve the full URL with query data.
+ * You can rebuild the URL and append query variables to the URL query by using this function.
+ * There are two ways to use this function; either a single key and value, or an associative array.
  *
- * Adding a single key & value or an associative array. Setting a key value to
- * an empty string removes the key. Omitting oldquery_or_uri uses the $_SERVER
- * value. Additional values provided are expected to be encoded appropriately
- * with urlencode() or rawurlencode().
+ * Using a single key and value:
  *
- * Important: The return value of add_query_arg() is not escaped by default.
- * Output should be late-escaped with esc_url() or similar to help prevent
- * vulnerability to cross-site scripting (XSS) attacks.
+ *     add_query_arg( 'key', 'value', 'http://example.com' );
+ *
+ * Using an associative array:
+ * 
+ *     add_query_arg( array(
+ *         'key1' => 'value1',
+ *         'key2' => 'value2',
+ *     ), 'http://example.com' );
+ * 
+ * Omitting the URL from either use results in the current URL being used
+ * (the value of `$_SERVER['REQUEST_URI']`).
+ * 
+ * Values are expected to be encoded appropriately with urlencode() or rawurlencode().
+ *
+ * Setting any query variable's value to boolean false removes the key (see remove_query_arg()).
+ *
+ * Important: The return value of add_query_arg() is not escaped by default. Output should be
+ * late-escaped with esc_url() or similar to help prevent vulnerability to cross-site scripting
+ * (XSS) attacks.
  *
  * @since 1.5.0
  *
- * @param string|array $param1 Either newkey or an associative_array.
- * @param string       $param2 Either newvalue or oldquery or URI.
- * @param string       $param3 Optional. Old query or URI.
- * @return string New URL query string.
+ * @param string|array $key   Either a query variable key, or an associative array of query variables.
+ * @param string       $value Optional. Either a query variable value, or a URL to act upon.
+ * @param string       $url   Optional. A URL to act upon.
+ * @return string New URL query string (unescaped).
  */
 function add_query_arg() {
 	$args = func_get_args();
