@@ -290,7 +290,13 @@ if ( comments_open( $post ) || pings_open( $post ) || post_type_supports( $post_
 	add_meta_box( 'commentstatusdiv', __( 'Discussion' ), 'post_comment_status_meta_box', null, 'normal', 'core' );
 }
 
-if ( 'publish' === get_post_status( $post ) || 'private' === get_post_status( $post ) ) {
+$stati = get_post_stati( array( 'public' => true ) );
+if ( empty( $stati ) ) {
+	$stati = array( 'publish' );
+}
+$stati[] = 'private';
+
+if ( in_array( get_post_status( $post ), $stati ) ) {
 	// If the post type support comments, or the post has comments, allow the
 	// Comments meta box.
 	if ( comments_open( $post ) || pings_open( $post ) || $post->comment_count > 0 || post_type_supports( $post_type, 'comments' ) ) {
