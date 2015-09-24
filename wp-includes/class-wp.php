@@ -587,7 +587,7 @@ class WP {
 	 * @global WP_Query $wp_query
  	 */
 	public function handle_404() {
-		global $wp_query, $wp;
+		global $wp_query;
 
 		// If we've already issued a 404, bail.
 		if ( is_404() )
@@ -606,8 +606,8 @@ class WP {
 
 				// check for paged content that exceeds the max number of pages
 				$next = '<!--nextpage-->';
-				if ( $p && false !== strpos( $p->post_content, $next ) && ! empty( $wp->query_vars['page'] ) ) {
-					$page = trim( $wp->query_vars['page'], '/' );
+				if ( $p && false !== strpos( $p->post_content, $next ) && ! empty( $this->query_vars['page'] ) ) {
+					$page = trim( $this->query_vars['page'], '/' );
 					$success = (int) $page <= ( substr_count( $p->post_content, $next ) + 1 );
 				}
 			}
