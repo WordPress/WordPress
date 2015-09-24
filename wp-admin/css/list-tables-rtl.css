@@ -386,6 +386,10 @@ table.media .column-title .filename {
 	width: 20%;
 }
 
+#comments-form .fixed .column-date {
+	width: 14%;
+}
+
 #commentsdiv.postbox .inside {
 	margin: 0;
 	padding: 0;

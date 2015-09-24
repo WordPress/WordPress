@@ -399,6 +399,8 @@ class WP_Comments_List_Table extends WP_List_Table {
 			$columns['response'] = __( 'In Response To' );
 		}
 
+		$columns['date'] = _x( 'Submitted On', 'column name' );
+
 		return $columns;
 	}
 
@@ -409,7 +411,8 @@ class WP_Comments_List_Table extends WP_List_Table {
 	protected function get_sortable_columns() {
 		return array(
 			'author'   => 'comment_author',
-			'response' => 'comment_post_ID'
+			'response' => 'comment_post_ID',
+			'date'     => 'comment_date'
 		);
 	}
 
@@ -621,19 +624,9 @@ class WP_Comments_List_Table extends WP_List_Table {
 	 * @param object $comment
 	 */
 	public function column_comment( $comment ) {
-		$comment_url = esc_url( get_comment_link( $comment ) );
-
 		echo '<div class="comment-author">';
 			$this->column_author( $comment );
 		echo '</div>';
-
-		echo '<div class="submitted-on">';
-		/* translators: 2: comment date, 3: comment time */
-		printf( __( 'Submitted on <a href="%1$s">%2$s at %3$s</a>' ), $comment_url,
-			/* translators: comment date format. See http://php.net/date */
-			get_comment_date( __( 'Y/m/d' ), $comment ),
-			get_comment_date( get_option( 'time_format' ), $comment )
-		);
 
 		if ( $comment->comment_parent ) {
 			$parent = get_comment( $comment->comment_parent );
@@ -642,13 +635,12 @@ class WP_Comments_List_Table extends WP_List_Table {
 				$name = get_comment_author( $parent );
 				printf(
 					/* translators: %s: comment link */
-					' | ' . __( 'In reply to %s.' ),
+					__( 'In reply to %s.' ),
 					'<a href="' . $parent_link . '">' . $name . '</a>'
 				);
 			}
 		}
 
-		echo '</div>';
 		comment_text( $comment );
 		if ( $this->user_can ) { ?>
 		<div id="inline-<?php echo $comment->comment_ID; ?>" class="hidden">
@@ -708,11 +700,18 @@ class WP_Comments_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 *
-	 * @return string
+	 * @access public
 	 */
 	public function column_date( $comment ) {
-		return get_comment_date( __( 'Y/m/d \a\t g:i a' ), $comment );
+		$comment_url = esc_url( get_comment_link( $comment ) );
+		echo '<div class="submitted-on">';
+		/* translators: 2: comment date, 3: comment time */
+		printf( __( '<a href="%1$s">%2$s at %3$s</a>' ), $comment_url,
+			/* translators: comment date format. See http://php.net/date */
+			get_comment_date( __( 'Y/m/d' ), $comment ),
+			get_comment_date( get_option( 'time_format' ), $comment )
+		);
+		echo '</div>';
 	}
 
 	/**
