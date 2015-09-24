@@ -3455,8 +3455,14 @@ function rel_canonical() {
 
 	$url = get_permalink( $id );
 
-	if ( $page = get_query_var('cpage') ) {
-		$url = get_comments_pagenum_link( $page );
+	$page = get_query_var( 'page' );
+	if ( $page ) {
+		$url = trailingslashit( $url ) . user_trailingslashit( $page, 'single_paged' );
+	}
+
+	$cpage = get_query_var( 'cpage' );
+	if ( $cpage ) {
+		$url = get_comments_pagenum_link( $cpage );
 	}
 	echo '<link rel="canonical" href="' . esc_url( $url ) . "\" />\n";
 }
