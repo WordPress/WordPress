@@ -32,6 +32,10 @@ class Custom_Background {
 	public $admin_image_div_callback;
 
 	/**
+	 * Used to trigger a success message when settings updated and set to true.
+	 *
+	 * @since 3.0.0
+	 * @access private
 	 * @var bool
 	 */
 	private $updated;
