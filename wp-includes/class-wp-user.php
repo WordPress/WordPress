@@ -345,7 +345,6 @@ class WP_User {
 	public function __unset( $key ) {
 		if ( 'id' == $key ) {
 			_deprecated_argument( 'WP_User->id', '2.1', __( 'Use <code>WP_User->ID</code> instead.' ) );
-			$key = 'ID';
 		}
 
 		if ( isset( $this->data->$key ) ) {
