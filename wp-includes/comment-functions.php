@@ -237,6 +237,8 @@ function get_comment_statuses() {
 		'approve'	=> _x('Approved', 'adjective'),
 		/* translators: comment status */
 		'spam'		=> _x('Spam', 'adjective'),
+		/* translators: comment status */
+		'trash'		=> _x('Trash', 'adjective'),
 	);
 
 	return $status;
