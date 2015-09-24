@@ -204,40 +204,47 @@ class WP_Comments_List_Table extends WP_List_Table {
 		//, number_format_i18n($num_comments->moderated) ), "<span class='comment-count'>" . number_format_i18n($num_comments->moderated) . "</span>"),
 		//, number_format_i18n($num_comments->spam) ), "<span class='spam-comment-count'>" . number_format_i18n($num_comments->spam) . "</span>")
 		$stati = array(
-				'all' => _nx_noop( 'All', 'All', 'comments' ), // singular not used
-				'moderated' => str_replace( '%s', '<span class="pending-count">%s</span>',
-					/* translators: %s: pending comments count */
-					_nx_noop(
-						'Pending <span class="count">(%s)</span>',
-						'Pending <span class="count">(%s)</span>',
-						'comments'
-					)
-				),
-				'approved' => str_replace( '%s', '<span class="approved-count">%s</span>',
-					/* translators: %s: approved comments count */
-					_nx_noop(
-						'Approved <span class="count">(%s)</span>',
-						'Approved <span class="count">(%s)</span>',
-						'comments'
-					)
-				),
-				'spam' => str_replace( '%s', '<span class="spam-count">%s</span>',
-					/* translators: %s: spam comments count */
-					_nx_noop(
-						'Spam <span class="count">(%s)</span>',
-						'Spam <span class="count">(%s)</span>',
-						'comments'
-					)
-				),
-				'trash' => str_replace( '%s', '<span class="trash-count">%s</span>',
-					/* translators: %s: trashed comments count */
-					_nx_noop(
-						'Trash <span class="count">(%s)</span>',
-						'Trash <span class="count">(%s)</span>',
-						'comments'
-					)
+			'all' => str_replace( '%s', '<span class="all-count">%s</span>',
+				/* translators: %s: pending comments count */
+				_nx_noop(
+					'All <span class="count">(%s)</span>',
+					'All <span class="count">(%s)</span>',
+					'comments'
 				)
-			);
+			), // singular not used
+			'moderated' => str_replace( '%s', '<span class="pending-count">%s</span>',
+				/* translators: %s: pending comments count */
+				_nx_noop(
+					'Pending <span class="count">(%s)</span>',
+					'Pending <span class="count">(%s)</span>',
+					'comments'
+				)
+			),
+			'approved' => str_replace( '%s', '<span class="approved-count">%s</span>',
+				/* translators: %s: approved comments count */
+				_nx_noop(
+					'Approved <span class="count">(%s)</span>',
+					'Approved <span class="count">(%s)</span>',
+					'comments'
+				)
+			),
+			'spam' => str_replace( '%s', '<span class="spam-count">%s</span>',
+				/* translators: %s: spam comments count */
+				_nx_noop(
+					'Spam <span class="count">(%s)</span>',
+					'Spam <span class="count">(%s)</span>',
+					'comments'
+				)
+			),
+			'trash' => str_replace( '%s', '<span class="trash-count">%s</span>',
+				/* translators: %s: trashed comments count */
+				_nx_noop(
+					'Trash <span class="count">(%s)</span>',
+					'Trash <span class="count">(%s)</span>',
+					'comments'
+				)
+			)
+		);
 
 		if ( !EMPTY_TRASH_DAYS )
 			unset($stati['trash']);

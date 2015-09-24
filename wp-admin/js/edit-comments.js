@@ -435,10 +435,12 @@ setCommentsList = function() {
 
 		if ( pendingDiff ) {
 			updatePending( pendingDiff, commentPostId );
+			updateCountText( 'span.all-count', pendingDiff );
 		}
 
 		if ( approvedDiff ) {
 			updateApproved( approvedDiff, commentPostId );
+			updateCountText( 'span.all-count', approvedDiff );
 		}
 
 		if ( spamDiff ) {
