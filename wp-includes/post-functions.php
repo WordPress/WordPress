@@ -1314,6 +1314,8 @@ function _post_type_meta_capabilities( $capabilities = null ) {
  * - parent_item_colon - This string isn't used on non-hierarchical types. In hierarchical
  *                       ones the default is 'Parent Page:'.
  * - all_items - String for the submenu. Default is All Posts/All Pages.
+ * - insert_into_item - String for the media frame button. Default is Insert into post/Insert into page.
+ * - uploaded_to_this_item - String for the media frame filter. Default is Uploaded to this post/Uploaded to this page.
  * - featured_image - Default is Featured Image.
  * - set_featured_image - Default is Set featured image.
  * - remove_featured_image - Default is Remove featured image.
@@ -1326,6 +1328,8 @@ function _post_type_meta_capabilities( $capabilities = null ) {
  * @since 3.0.0
  * @since 4.3.0 Added the `featured_image`, `set_featured_image`, `remove_featured_image`,
  *              and `use_featured_image` labels.
+ * @since 4.4.0 Added the `insert_into_item` and `uploaded_to_this_item` labels.
+ * 
  * @access private
  *
  * @param object $post_type_object Post type object.
@@ -1345,6 +1349,8 @@ function get_post_type_labels( $post_type_object ) {
 		'not_found_in_trash' => array( __('No posts found in Trash.'), __('No pages found in Trash.') ),
 		'parent_item_colon' => array( null, __('Parent Page:') ),
 		'all_items' => array( __( 'All Posts' ), __( 'All Pages' ) ),
+		'insert_into_item' => array( __( 'Insert into post' ), __( 'Insert into page' ) ),
+		'uploaded_to_this_item' => array( __( 'Uploaded to this post' ), __( 'Uploaded to this page' ) ),
 		'featured_image' => array( __( 'Featured Image' ), __( 'Featured Image' ) ),
 		'set_featured_image' => array( __( 'Set featured image' ), __( 'Set featured image' ) ),
 		'remove_featured_image' => array( __( 'Remove featured image' ), __( 'Remove featured image' ) ),

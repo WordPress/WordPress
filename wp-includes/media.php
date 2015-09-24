@@ -3066,8 +3066,6 @@ function wp_enqueue_media( $args = array() ) {
 		}
 	}
 
-	$hier = $post && is_post_type_hierarchical( $post->post_type );
-
 	if ( $post ) {
 		$post_type_object = get_post_type_object( $post->post_type );
 	} else {
@@ -3106,10 +3104,10 @@ function wp_enqueue_media( $args = array() ) {
 		'allMediaItems'          => __( 'All media items' ),
 		'allDates'               => __( 'All dates' ),
 		'noItemsFound'           => __( 'No items found.' ),
-		'insertIntoPost'         => $hier ? __( 'Insert into page' ) : __( 'Insert into post' ),
+		'insertIntoPost'         => $post_type_object->labels->insert_into_item,
 		'unattached'             => __( 'Unattached' ),
 		'trash'                  => _x( 'Trash', 'noun' ),
-		'uploadedToThisPost'     => $hier ? __( 'Uploaded to this page' ) : __( 'Uploaded to this post' ),
+		'uploadedToThisPost'     => $post_type_object->labels->uploaded_to_this_item,
 		'warnDelete'             => __( "You are about to permanently delete this item.\n  'Cancel' to stop, 'OK' to delete." ),
 		'warnBulkDelete'         => __( "You are about to permanently delete these items.\n  'Cancel' to stop, 'OK' to delete." ),
 		'warnBulkTrash'          => __( "You are about to trash these items.\n  'Cancel' to stop, 'OK' to delete." ),
