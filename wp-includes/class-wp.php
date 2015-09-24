@@ -598,7 +598,7 @@ class WP {
 
 			// Only set X-Pingback for single posts.
 			if ( is_singular() ) {
-				$p = get_queried_object();
+				$p = clone $wp_query->post;
 				if ( $p && pings_open( $p ) ) {
 					@header( 'X-Pingback: ' . get_bloginfo( 'pingback_url' ) );
 				}
