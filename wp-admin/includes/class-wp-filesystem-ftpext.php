@@ -93,10 +93,14 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 	}
 
 	/**
+	 * Retrieves the file contents.
+	 *
+	 * @since 2.5.0
 	 * @access public
 	 *
-	 * @param string $file
-	 * @return false|string
+	 * @param string $file Filename.
+	 * @return string|false File contents on success, false if no temp file could be opened,
+	 *                      or if the file couldn't be retrieved.
 	 */
 	public function get_contents( $file ) {
 		$tempfile = wp_tempnam($file);
