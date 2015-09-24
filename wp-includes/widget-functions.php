@@ -501,15 +501,15 @@ function wp_unregister_widget_control($id) {
  * @param int|string $index Optional, default is 1. Index, name or ID of dynamic sidebar.
  * @return bool True, if widget sidebar was found and called. False if not found or not called.
  */
-function dynamic_sidebar($index = 1) {
+function dynamic_sidebar( $index = 1 ) {
 	global $wp_registered_sidebars, $wp_registered_widgets;
 
-	if ( is_int($index) ) {
+	if ( is_int( $index ) ) {
 		$index = "sidebar-$index";
 	} else {
-		$index = sanitize_title($index);
+		$sanitized_index = sanitize_title( $index );
 		foreach ( (array) $wp_registered_sidebars as $key => $value ) {
-			if ( sanitize_title($value['name']) == $index ) {
+			if ( sanitize_title( $value['name'] ) == $sanitized_index ) {
 				$index = $key;
 				break;
 			}
