@@ -477,7 +477,7 @@ img.alignleft {
 	}
 
 	blockquote.alignright,
-	.wp-caption.alignright
+	.wp-caption.alignright,
 	img.alignright {
 		margin: 0.4118em 0 1.6471em 1.6471em;
 	}
