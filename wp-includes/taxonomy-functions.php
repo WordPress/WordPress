@@ -260,65 +260,14 @@ function is_taxonomy_hierarchical($taxonomy) {
 }
 
 /**
- * Create or modify a taxonomy object. Do not use before init.
+ * Creates or modifies a taxonomy object.
+ *
+ * Note: Do not use before the {@see 'init'} hook.
  *
  * A simple function for creating or modifying a taxonomy object based on the
  * parameters given. The function will accept an array (third optional
  * parameter), along with strings for the taxonomy name and another string for
  * the object type.
- *
- * Nothing is returned, so expect error maybe or use taxonomy_exists() to check
- * whether taxonomy exists.
- *
- * Optional $args contents:
- *
- * - label - Name of the taxonomy shown in the menu. Usually plural. If not set, labels['name'] will be used.
- * - labels - An array of labels for this taxonomy.
- *     * By default tag labels are used for non-hierarchical types and category labels for hierarchical ones.
- *     * You can see accepted values in {@link get_taxonomy_labels()}.
- * - description - A short descriptive summary of what the taxonomy is for. Defaults to blank.
- * - public - If the taxonomy should be publicly queryable.
- *     * Defaults to true.
- * - hierarchical - Whether the taxonomy is hierarchical (e.g. category). Defaults to false.
- * - show_ui - Whether to generate and allow a UI for managing terms in this taxonomy in the admin.
- *     * If not set, the default is inherited from public.
- * - show_in_menu - Whether to show the taxonomy in the admin menu.
- *     * If true, the taxonomy is shown as a submenu of the object type menu.
- *     * If false, no menu is shown.
- *     * show_ui must be true.
- *     * If not set, the default is inherited from show_ui.
- * - show_in_nav_menus - Makes this taxonomy available for selection in navigation menus.
- *     * If not set, the default is inherited from public.
- * - show_tagcloud - Whether to list the taxonomy in the Tag Cloud Widget.
- *     * If not set, the default is inherited from show_ui.
- * - show_in_quick_edit - Whether to show the taxonomy in the quick/bulk edit panel.
- *     * It not set, the default is inherited from show_ui.
- * - show_admin_column - Whether to display a column for the taxonomy on its post type listing screens.
- *     * Defaults to false.
- * - meta_box_cb - Provide a callback function for the meta box display.
- *     * If not set, defaults to post_categories_meta_box for hierarchical taxonomies
- *     and post_tags_meta_box for non-hierarchical.
- *     * If false, no meta box is shown.
- * - capabilities - Array of capabilities for this taxonomy.
- *     * You can see accepted values in this function.
- * - rewrite - Triggers the handling of rewrites for this taxonomy. Defaults to true, using $taxonomy as slug.
- *     * To prevent rewrite, set to false.
- *     * To specify rewrite rules, an array can be passed with any of these keys
- *         * 'slug' => string Customize the permastruct slug. Defaults to $taxonomy key
- *         * 'with_front' => bool Should the permastruct be prepended with WP_Rewrite::$front. Defaults to true.
- *         * 'hierarchical' => bool Either hierarchical rewrite tag or not. Defaults to false.
- *         * 'ep_mask' => const Assign an endpoint mask.
- *             * If not specified, defaults to EP_NONE.
- * - query_var - Sets the query_var key for this taxonomy. Defaults to $taxonomy key
- *     * If false, a taxonomy cannot be loaded at ?{query_var}={term_slug}
- *     * If specified as a string, the query ?{query_var_string}={term_slug} will be valid.
- * - update_count_callback - Works much like a hook, in that it will be called when the count is updated.
- *     * Defaults to _update_post_term_count() for taxonomies attached to post types, which then confirms
- *       that the objects are published before counting them.
- *     * Defaults to _update_generic_term_count() for taxonomies attached to other object types, such as links.
- * - _builtin - true if this taxonomy is a native or "built-in" taxonomy. THIS IS FOR INTERNAL USE ONLY!
- *
- * @todo Document $args as a hash notation.
  *
  * @since 2.3.0
  * @since 4.2.0 Introduced `show_in_quick_edit` argument.
@@ -329,7 +278,65 @@ function is_taxonomy_hierarchical($taxonomy) {
  *
  * @param string       $taxonomy    Taxonomy key, must not exceed 32 characters.
  * @param array|string $object_type Name of the object type for the taxonomy object.
- * @param array|string $args        See optional args description above.
+ * @param array|string $args        {
+ *     Optional. Array or query string of arguments for registering a taxonomy.
+ *
+ *     @type string        $label                 Name of the taxonomy shown in the menu. Usually plural. If not set,
+ *                                                `$labels['name']` will be used.
+ *     @type array         $labels                An array of labels for this taxonomy. By default, Tag labels are used for
+ *                                                non-hierarchical taxonmies, and Category labels are used for hierarchical
+ *                                                taxonomies. See accepted values in get_taxonomy_labels().
+ *                                                Default empty array.
+ *     @type string        $description           A short descriptive summary of what the taxonomy is for. Default empty.
+ *     @type bool          $public                Whether the taxonomy is publicly queryable. Default true.
+ *     @type bool          $hierarchical          Whether the taxonomy is hierarchical. Default false.
+ *     @type bool          $show_ui               Whether to generate and allow a UI for managing terms in this taxonomy in
+ *                                                the admin. If not set, the default is inherited from `$public`
+ *                                                (default true).
+ *     @type bool          $show_in_menu          Whether to show the taxonomy in the admin menu. If true, the taxonomy is
+ *                                                shown as a submenu of the object type menu. If false, no menu is shown.
+ *                                                `$show_ui` must be true. If not set, default is inherited from `$show_ui`
+ *                                                (default true).
+ *     @type bool          $show_in_nav_menus     Makes this taxonomy available for selection in navigation menus. If not
+ *                                                set, the default is inherited from `$public` (default true).
+ *     @type bool          $show_tagcloud         Whether to list the taxonomy in the Tag Cloud Widget controls. If not set,
+ *                                                the default is inherited from `$show_ui` (default true).
+ *     @type bool          $show_in_quick_edit    Whether to show the taxonomy in the quick/bulk edit panel. It not set,
+ *                                                the default is inherited from `$show_ui` (default true).
+ *     @type bool          $show_admin_column     Whether to display a column for the taxonomy on its post type listing
+ *                                                screens. Default false.
+ *     @type bool|callable $meta_box_cb           Provide a callback function for the meta box display. If not set,
+ *                                                post_categories_meta_box() is used for hierarchical taxonomies, and
+ *                                                post_tags_meta_box() is used for non-hierarchical. If false, no meta
+ *                                                box is shown.
+ *     @type array         $capabilities {
+ *         Array of capabilities for this taxonomy.
+ *
+ *         @type string $manage_terms Default 'manage_categories'.
+ *         @type string $edit_terms   Default 'manage_categories'.
+ *         @type string $delete_terms Default 'manage_categories'.
+ *         @type string $assign_terms Default 'edit_posts'.
+ *     }
+ *     @type bool|array    $rewrite {
+ *         Triggers the handling of rewrites for this taxonomy. Default true, using $taxonomy as slug. To prevent
+ *         rewrite, set to false. To specify rewrite rules, an array can be passed with any of these keys:
+ *    
+ *         @type string $slug         Customize the permastruct slug. Default `$taxonomy` key.
+ *         @type bool   $with_front   Should the permastruct be prepended with WP_Rewrite::$front. Default true.
+ *         @type bool   $hierarchical Either hierarchical rewrite tag or not. Default false.
+ *         @type int    $ep_mask      Assign an endpoint mask. Default `EP_NONE`.
+ *     }
+ *     @type string        $query_var             Sets the query var key for this taxonomy. Default `$taxonomy` key. If
+ *                                                false, a taxonomy cannot be loaded at `?{query_var}={term_slug}`. If a
+ *                                                string, the query `?{query_var}={term_slug}` will be valid.
+ *     @type callable      $update_count_callback Works much like a hook, in that it will be called when the count is
+ *                                                updated. Default _update_post_term_count() for taxonomies attached
+ *                                                to post types, which confirms that the objects are published before
+ *                                                counting them. Default _update_generic_term_count() for taxonomies
+ *                                                attached to other object types, such as users.
+ *     @type bool          $_builtin              This taxonomy is a "built-in" taxonomy. INTERNAL USE ONLY!
+ *                                                Default false.
+ * }
  * @return WP_Error|void WP_Error, if errors.
  */
 function register_taxonomy( $taxonomy, $object_type, $args = array() ) {
