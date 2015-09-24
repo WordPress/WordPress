@@ -444,10 +444,12 @@ if ( ! empty( $invalid ) ) {
 		<?php else : ?>
 		<div id="message" class="updated notice is-dismissible">
 			<p>
-				<?php echo _n(
-					'The selected plugin has been <strong>deleted</strong>.',
-					'The selected plugins have been <strong>deleted</strong>.',
-					$plugins_to_delete );
+				<?php
+				if ( 1 == $plugins_to_delete ) {
+					_e( 'The selected plugin has been <strong>deleted</strong>.' );
+				} else {
+					_e( 'The selected plugins have been <strong>deleted</strong>.' );
+				}
 				?>
 			</p>
 		</div>
