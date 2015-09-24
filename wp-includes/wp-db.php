@@ -1474,7 +1474,7 @@ class wpdb {
 
 				if ( $attempt_fallback ) {
 					$this->use_mysqli = false;
-					$this->db_connect();
+					return $this->db_connect( $allow_bail );
 				}
 			}
 		} else {
