@@ -488,8 +488,8 @@ function is_month() {
  *
  * @global WP_Query $wp_query Global WP_Query instance.
  *
- * @param mixed $page Page ID, title, slug, or array of such.
- * @return bool
+ * @param int|string|array $page Optional. Page ID, title, slug, or array of such. Default empty.
+ * @return bool Whether the query is for an existing single page.
  */
 function is_page( $page = '' ) {
 	global $wp_query;
@@ -597,8 +597,8 @@ function is_search() {
  *
  * @global WP_Query $wp_query Global WP_Query instance.
  *
- * @param mixed $post Post ID, title, slug, or array of such.
- * @return bool
+ * @param int|string|array $post Optional. Post ID, title, slug, or array of such. Default empty.
+ * @return bool Whether the query is for an existing single post.
  */
 function is_single( $post = '' ) {
 	global $wp_query;
@@ -624,8 +624,8 @@ function is_single( $post = '' ) {
  *
  * @global WP_Query $wp_query Global WP_Query instance.
  *
- * @param mixed $post_types Optional. Post Type or array of Post Types
- * @return bool
+ * @param string|array $post_types Optional. Post type or array of post types. Default empty.
+ * @return bool Whether the query is for an existing single post of any of the given post types.
  */
 function is_singular( $post_types = '' ) {
 	global $wp_query;
@@ -4406,8 +4406,8 @@ class WP_Query {
 	 *
 	 * @since 3.1.0
 	 *
-	 * @param mixed $page Page ID, title, slug, path, or array of such.
-	 * @return bool
+	 * @param int|string|array $page Optional. Page ID, title, slug, path, or array of such. Default empty.
+	 * @return bool Whether the query is for an existing single page.
 	 */
 	public function is_page( $page = '' ) {
 		if ( !$this->is_page )
@@ -4499,8 +4499,8 @@ class WP_Query {
 	 *
 	 * @since 3.1.0
 	 *
-	 * @param mixed $post Post ID, title, slug, path, or array of such.
-	 * @return bool
+	 * @param int|string|array $post Optional. Post ID, title, slug, path, or array of such. Default empty.
+	 * @return bool Whether the query is for an existing single post.
 	 */
 	public function is_single( $post = '' ) {
 		if ( !$this->is_single )
@@ -4545,8 +4545,8 @@ class WP_Query {
 	 *
 	 * @since 3.1.0
 	 *
-	 * @param mixed $post_types Optional. Post Type or array of Post Types
-	 * @return bool
+	 * @param string|array $post_types Optional. Post type or array of post types. Default empty.
+	 * @return bool Whether the query is for an existing single post of any of the given post types.
 	 */
 	public function is_singular( $post_types = '' ) {
 		if ( empty( $post_types ) || !$this->is_singular )
