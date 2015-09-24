@@ -615,7 +615,7 @@ final class WP_Customize_Nav_Menus {
 		if ( $post_types ) {
 			foreach ( $post_types as $slug => $post_type ) {
 				$item_types[] = array(
-					'title'  => $post_type->labels->singular_name,
+					'title'  => $post_type->labels->name,
 					'type'   => 'post_type',
 					'object' => $post_type->name,
 				);
@@ -629,7 +629,7 @@ final class WP_Customize_Nav_Menus {
 					continue;
 				}
 				$item_types[] = array(
-					'title'  => $taxonomy->labels->singular_name,
+					'title'  => $taxonomy->labels->name,
 					'type'   => 'taxonomy',
 					'object' => $taxonomy->name,
 				);
