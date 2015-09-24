@@ -1806,16 +1806,17 @@ class Language_Pack_Upgrader extends WP_Upgrader {
 	public $bulk = true;
 
 	/**
-	 * Asynchronously upgrade language packs after other upgrades have been made.
+	 * Asynchronously upgrades language packs after other upgrades have been made.
 	 *
 	 * Hooked to the {@see 'upgrader_process_complete'} action by default.
 	 *
 	 * @since 3.7.0
 	 * @access public
-	 *
 	 * @static
 	 *
-	 * @param false|WP_Upgrader $upgrader
+	 * @param false|WP_Upgrader $upgrader Optional. WP_Upgrader instance or false. If `$upgrader` is
+	 *                                    a Language_Pack_Upgrader instance, the method will bail to
+	 *                                    avoid recursion. Otherwise unused. Default false.
 	 */
 	public static function async_upgrade( $upgrader = false ) {
 		// Avoid recursion.
@@ -1829,8 +1830,10 @@ class Language_Pack_Upgrader extends WP_Upgrader {
 			return;
 		}
 
-		// Avoid messing with VCS installs, at least for now.
-		// Noted: this is not the ideal way to accomplish this.
+		/*
+		 * Avoid messing with VCS installs, at least for now.
+		 * Noted: this is not the ideal way to accomplish this.
+		 */
 		$check_vcs = new WP_Automatic_Updater;
 		if ( $check_vcs->is_vcs_checkout( WP_CONTENT_DIR ) ) {
 			return;
