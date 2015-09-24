@@ -71,6 +71,7 @@ class Walker_Nav_Menu extends Walker {
 	 * @see Walker::start_el()
 	 *
 	 * @since 3.0.0
+	 * @since 4.4.0 'nav_menu_item_args' filter was added.
 	 *
 	 * @param string $output Passed by reference. Used to append additional content.
 	 * @param object $item   Menu item data object.
@@ -83,6 +84,14 @@ class Walker_Nav_Menu extends Walker {
 
 		$classes = empty( $item->classes ) ? array() : (array) $item->classes;
 		$classes[] = 'menu-item-' . $item->ID;
+
+		/**
+		 * @since 4.4.0
+		 *
+		 * @param array  $args  An array of arguments.
+		 * @param object $item  Menu item data object.
+		 */
+		$args = apply_filters( 'nav_menu_item_args', $args, $item );
 
 		/**
 		 * Filter the CSS class(es) applied to a menu item's list item element.
