@@ -90,10 +90,11 @@ class Walker_Nav_Menu extends Walker {
 		 *
 		 * @since 4.4.0
 		 *
-		 * @param array  $args An array of arguments.
-		 * @param object $item Menu item data object.
+		 * @param array  $args  An array of arguments.
+		 * @param object $item  Menu item data object.
+		 * @param int    $depth Depth of menu item. Used for padding.
 		 */
-		$args = apply_filters( 'nav_menu_item_args', $args, $item );
+		$args = apply_filters( 'nav_menu_item_args', $args, $item, $depth );
 
 		/**
 		 * Filter the CSS class(es) applied to a menu item's list item element.
