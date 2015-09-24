@@ -1240,6 +1240,8 @@ function comments_template( $file = '/comments.php', $separate_comments = false 
 	if ( $separate_comments ) {
 		$wp_query->comments_by_type = separate_comments($comments);
 		$comments_by_type = &$wp_query->comments_by_type;
+	} else {
+		$wp_query->comments_by_type = array();
 	}
 
 	$overridden_cpage = false;
