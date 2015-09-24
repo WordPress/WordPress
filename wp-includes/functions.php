@@ -768,12 +768,12 @@ function add_query_arg() {
 }
 
 /**
- * Removes an item or list from the query string.
+ * Removes an item or items from a query string.
  *
  * @since 1.5.0
  *
  * @param string|array $key   Query key or keys to remove.
- * @param bool|string  $query Optional. When false uses the $_SERVER value. Default false.
+ * @param bool|string  $query Optional. When false uses the current URL. Default false.
  * @return string New URL query string.
  */
 function remove_query_arg( $key, $query = false ) {
