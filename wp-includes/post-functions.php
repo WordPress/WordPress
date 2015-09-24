@@ -992,14 +992,15 @@ function register_post_type( $post_type, $args = array() ) {
 
 	// Sanitize post type name
 	$post_type = sanitize_key( $post_type );
+	$args      = wp_parse_args( $args );
 
 	/**
 	 * Filter the arguments for registering a post type.
 	 *
 	 * @since 4.4.0
 	 *
-	 * @param array|string $args      Array or string of arguments for registering a post type.
-	 * @param string       $post_type Post type key.
+	 * @param array  $args      Array of arguments for registering a post type.
+	 * @param string $post_type Post type key.
 	 */
 	$args = apply_filters( 'register_post_type_args', $args, $post_type );
 
@@ -1031,7 +1032,7 @@ function register_post_type( $post_type, $args = array() ) {
 		'_builtin'             => false,
 		'_edit_link'           => 'post.php?post=%d',
 	);
-	$args = wp_parse_args( $args, $defaults );
+	$args = array_merge( $defaults, $args );
 	$args = (object) $args;
 
 	$args->name = $post_type;
