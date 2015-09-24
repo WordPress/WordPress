@@ -272,6 +272,7 @@ function is_taxonomy_hierarchical($taxonomy) {
  * @since 2.3.0
  * @since 4.2.0 Introduced `show_in_quick_edit` argument.
  * @since 4.4.0 The `show_ui` argument is now enforced on the term editing screen.
+ * @since 4.4.0 The `public` argument now controls whether the taxonomy can be queried on the front-end.
  *
  * @global array $wp_taxonomies Registered taxonomies.
  * @global WP    $wp            WP instance.
