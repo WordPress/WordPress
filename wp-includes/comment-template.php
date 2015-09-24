@@ -1890,7 +1890,8 @@ function wp_list_comments( $args = array(), $comments = null ) {
  * @since 3.0.0
  * @since 4.1.0 Introduced the 'class_submit' argument.
  * @since 4.2.0 Introduced 'submit_button' and 'submit_fields' arguments.
- * @since 4.4.0 Introduced 'title_reply_before' and 'title_reply_after' arguments.
+ * @since 4.4.0 Introduced 'title_reply_before', 'title_reply_after',
+ *              'cancel_reply_before', and 'cancel_reply_after' arguments.
  *
  * @param array       $args {
  *     Optional. Default arguments and form fields to override.
@@ -1919,6 +1920,8 @@ function wp_list_comments( $args = array(), $comments = null ) {
  *                                        Default: '<h3 id="reply-title" class="comment-reply-title">'.
  *     @type string $title_reply_after    HTML displayed after the comment form title.
  *                                        Default: '</h3>'.
+ *     @type string $cancel_reply_before  HTML displayed before the cancel reply link.
+ *     @type string $cancel_reply_after   HTML displayed after the cancel reply link.
  *     @type string $cancel_reply_link    The translatable 'cancel reply' button label. Default 'Cancel reply'.
  *     @type string $label_submit         The translatable 'submit' button label. Default 'Post a comment'.
  *     @type string $submit_button        HTML format for the Submit button.
@@ -1982,6 +1985,8 @@ function comment_form( $args = array(), $post_id = null ) {
 		'title_reply_to'       => __( 'Leave a Reply to %s' ),
 		'title_reply_before'   => '<h3 id="reply-title" class="comment-reply-title">',
 		'title_reply_after'    => '</h3>',
+		'cancel_reply_before'  => ' <small>',
+		'cancel_reply_after'   => '</small>',
 		'cancel_reply_link'    => __( 'Cancel reply' ),
 		'label_submit'         => __( 'Post Comment' ),
 		'submit_button'        => '<input name="%1$s" type="submit" id="%2$s" class="%3$s" value="%4$s" />',
@@ -2018,11 +2023,11 @@ function comment_form( $args = array(), $post_id = null ) {
 
 				comment_form_title( $args['title_reply'], $args['title_reply_to'] );
 
-				echo ' <small>';
+				echo $args['cancel_reply_before'];
 
 				cancel_comment_reply_link( $args['cancel_reply_link'] );
 
-				echo '</small>';
+				echo $args['cancel_reply_after'];
 
 				echo $args['title_reply_after'];
 				?>
