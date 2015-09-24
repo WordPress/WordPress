@@ -688,10 +688,28 @@ function wp_allow_comment( $commentdata ) {
  */
 function check_comment_flood_db( $ip, $email, $date ) {
 	global $wpdb;
-	if ( current_user_can( 'manage_options' ) )
-		return; // don't throttle admins
+	// don't throttle admins or moderators
+	if ( current_user_can( 'manage_options' ) || current_user_can( 'moderate_comments' ) ) {
+		return;
+	}
 	$hour_ago = gmdate( 'Y-m-d H:i:s', time() - HOUR_IN_SECONDS );
-	if ( $lasttime = $wpdb->get_var( $wpdb->prepare( "SELECT `comment_date_gmt` FROM `$wpdb->comments` WHERE `comment_date_gmt` >= %s AND ( `comment_author_IP` = %s OR `comment_author_email` = %s ) ORDER BY `comment_date_gmt` DESC LIMIT 1", $hour_ago, $ip, $email ) ) ) {
+
+	if ( is_user_logged_in() ) {
+		$user = get_current_user_id();
+		$check_column = '`user_id`';
+	} else {
+		$user = $ip;
+		$check_column = '`comment_author_IP`';
+	}
+
+	$sql = $wpdb->prepare(
+		"SELECT `comment_date_gmt` FROM `$wpdb->comments` WHERE `comment_date_gmt` >= %s AND ( $check_column = %s OR `comment_author_email` = %s ) ORDER BY `comment_date_gmt` DESC LIMIT 1",
+		$hour_ago,
+		$user,
+		$email 
+	);
+	$lasttime = $wpdb->get_var( $sql );
+	if ( $lasttime ) {
 		$time_lastcomment = mysql2date('U', $lasttime, false);
 		$time_newcomment  = mysql2date('U', $date, false);
 		/**
