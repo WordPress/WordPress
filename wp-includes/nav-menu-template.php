@@ -86,10 +86,12 @@ class Walker_Nav_Menu extends Walker {
 		$classes[] = 'menu-item-' . $item->ID;
 
 		/**
+		 * Filter the arguments for a single nav menu item.
+		 *
 		 * @since 4.4.0
 		 *
-		 * @param array  $args  An array of arguments.
-		 * @param object $item  Menu item data object.
+		 * @param array  $args An array of arguments.
+		 * @param object $item Menu item data object.
 		 */
 		$args = apply_filters( 'nav_menu_item_args', $args, $item );
 
