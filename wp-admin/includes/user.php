@@ -107,7 +107,12 @@ function edit_user( $user_id = 0 ) {
 	/* checking that username has been typed */
 	if ( $user->user_login == '' )
 		$errors->add( 'user_login', __( '<strong>ERROR</strong>: Please enter a username.' ) );
-
+		
+	/* checking that nickname has been typed */
+ 	if ( $update && empty( $user->nickname ) ) { 
+		$errors->add( 'nickname', __( '<strong>ERROR</strong>: Please enter a nickname.' ) ); 
+	}
+	
 	/* checking the password has been typed twice */
 	/**
 	 * Fires before the password and confirm password fields are checked for congruity.
