@@ -139,7 +139,7 @@ $messages['post'] = array(
 	 3 => __( 'Custom field deleted.' ),
 	 4 => __( 'Post updated.' ),
 	/* translators: %s: date and time of the revision */
-	 5 => isset($_GET['revision']) ? sprintf( __('Post restored to revision from %s'), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false,
+	 5 => isset($_GET['revision']) ? sprintf( __( 'Post restored to revision from %s.' ), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false,
 	 6 => __( 'Post published.' ) . $view_post_link_html,
 	 7 => __( 'Post saved.' ),
 	 8 => __( 'Post submitted.' ) . $preview_post_link_html,
@@ -153,7 +153,7 @@ $messages['page'] = array(
 	 3 => __( 'Custom field deleted.' ),
 	 4 => __( 'Page updated.' ),
 	/* translators: %s: date and time of the revision */
-	 5 => isset($_GET['revision']) ? sprintf( __('Page restored to revision from %s'), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false,
+	 5 => isset($_GET['revision']) ? sprintf( __( 'Page restored to revision from %s.' ), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false,
 	 6 => __( 'Page published.' ) . $view_page_link_html,
 	 7 => __( 'Page saved.' ),
 	 8 => __( 'Page submitted.' ) . $preview_page_link_html,
