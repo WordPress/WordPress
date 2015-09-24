@@ -25,7 +25,7 @@
  * @global string $locale
  * @global string $wp_local_package
  *
- * @return string The locale of the blog or from the 'locale' hook.
+ * @return string The locale of the blog or from the {@see 'locale'} hook.
  */
 function get_locale() {
 	global $locale, $wp_local_package;
