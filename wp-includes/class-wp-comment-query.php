@@ -901,7 +901,6 @@ class WP_Comment_Query {
 				} else {
 
 					$ref[ $_c->comment_parent ]->add_child( $_c );
-//					$ref[ $c->comment_parent ]->children[ $c->comment_ID ] = $c;
 					$ref[ $_c->comment_ID ] = $ref[ $_c->comment_parent ]->get_child( $_c->comment_ID );
 				}
 			}
