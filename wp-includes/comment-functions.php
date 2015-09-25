@@ -1377,6 +1377,7 @@ function wp_get_current_commenter() {
  * Inserts a comment into the database.
  *
  * @since 2.0.0
+ * @since 4.4.0 Introduced `$comment_meta` argument.
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
@@ -1401,6 +1402,8 @@ function wp_get_current_commenter() {
  *     @type int        $comment_post_ID      ID of the post that relates to the comment, if any.
  *                                            Default empty.
  *     @type string     $comment_type         Comment type. Default empty.
+ *     @type array      $comment_meta         Optional. Array of key/value pairs to be stored in commentmeta for the
+ *                                            new comment.
  *     @type int        $user_id              ID of the user who submitted the comment. Default 0.
  * }
  * @return int|false The new comment's ID on success, false on failure.
@@ -1438,6 +1441,13 @@ function wp_insert_comment( $commentdata ) {
 		wp_update_comment_count( $comment_post_ID );
 	}
 	$comment = get_comment( $id );
+
+	// If metadata is provided, store it.
+	if ( isset( $commentdata['comment_meta'] ) && is_array( $commentdata['comment_meta'] ) ) {
+		foreach ( $commentdata['comment_meta'] as $meta_key => $meta_value ) {
+			add_comment_meta( $comment->comment_ID, $meta_key, $meta_value, true );
+		}
+	}
 
 	/**
 	 * Fires immediately after a comment is inserted into the database.
