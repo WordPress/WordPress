@@ -181,19 +181,19 @@ default:
 <big><?php
 	if ( is_plugin_active( $plugin ) ) {
 		if ( is_writeable( $real_file ) ) {
-			/* translators: %s: File name */
-			echo sprintf( _x( 'Editing %s',  'plugin' ), '<strong>' . $file . '</strong>' ) . ' ' . _x( '(active)', 'plugin' );
+			/* translators: %s: plugin file name */
+			echo sprintf( __( 'Editing %s (active)' ), '<strong>' . $file . '</strong>' );
 		} else {
-			/* translators: %s: File name */
-			echo sprintf( _x( 'Browsing %s', 'plugin' ), '<strong>' . $file . '</strong>' ) . ' ' . _x( '(active)', 'plugin' );
+			/* translators: %s: plugin file name */
+			echo sprintf( __( 'Browsing %s (active)' ), '<strong>' . $file . '</strong>' );
 		}
 	} else {
 		if ( is_writeable( $real_file ) ) {
-			/* translators: %s: File name */
-			echo sprintf( _x( 'Editing %s',  'plugin' ), '<strong>' . $file . '</strong>' ) . ' ' . _x( '(inactive)', 'plugin' );
+			/* translators: %s: plugin file name */
+			echo sprintf( __( 'Editing %s (inactive)' ), '<strong>' . $file . '</strong>' );
 		} else {
-			/* translators: %s: File name */
-			echo sprintf( _x( 'Browsing %s', 'plugin' ), '<strong>' . $file . '</strong>' ) . ' ' . _x( '(inactive)', 'plugin' );
+			/* translators: %s: plugin file name */
+			echo sprintf( __( 'Browsing %s (inactive)' ), '<strong>' . $file . '</strong>' );
 		}
 	}
 	?></big>
