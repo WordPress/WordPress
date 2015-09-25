@@ -83,6 +83,7 @@ class WP_User_Query {
 	 * @since 4.2.0 Added 'meta_value_num' support for `$orderby` parameter. Added multi-dimensional array syntax
 	 *              for `$orderby` parameter.
 	 * @since 4.3.0 Added 'has_published_posts' parameter.
+	 * @since 4.4.0 Added 'paged' parameter.
 	 * @access public
 	 *
 	 * @global wpdb $wpdb
@@ -124,6 +125,8 @@ class WP_User_Query {
 	 *     @type int          $number              Number of users to limit the query for. Can be used in
 	 *                                             conjunction with pagination. Value -1 (all) is not supported.
 	 *                                             Default empty (all users).
+	 *     @type int          $paged               When used with number, defines the page of results to return.
+	 *                                             Default 1.
 	 *     @type bool         $count_total         Whether to count the total number of users found. If pagination
 	 *                                             is not needed, setting this to false can improve performance.
 	 *                                             Default true.
@@ -157,6 +160,7 @@ class WP_User_Query {
 				'order' => 'ASC',
 				'offset' => '',
 				'number' => '',
+				'paged' => 1,
 				'count_total' => true,
 				'fields' => 'all',
 				'who' => '',
@@ -323,10 +327,11 @@ class WP_User_Query {
 
 		// limit
 		if ( isset( $qv['number'] ) && $qv['number'] ) {
-			if ( $qv['offset'] )
+			if ( $qv['offset'] ) {
 				$this->query_limit = $wpdb->prepare("LIMIT %d, %d", $qv['offset'], $qv['number']);
-			else
-				$this->query_limit = $wpdb->prepare("LIMIT %d", $qv['number']);
+			} else {
+				$this->query_limit = $wpdb->prepare( "LIMIT %d, %d", $qv['number'] * ( $qv['paged'] - 1 ), $qv['number'] );
+			}
 		}
 
 		$search = '';
