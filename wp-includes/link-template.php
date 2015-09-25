@@ -2590,7 +2590,7 @@ function get_comments_pagenum_link( $pagenum = 1, $max_page = 0 ) {
 function get_next_comments_link( $label = '', $max_page = 0 ) {
 	global $wp_query;
 
-	if ( !is_singular() || !get_option('page_comments') )
+	if ( ! is_singular() )
 		return;
 
 	$page = get_query_var('cpage');
@@ -2644,7 +2644,7 @@ function next_comments_link( $label = '', $max_page = 0 ) {
  * @return string|void HTML-formatted link for the previous page of comments.
  */
 function get_previous_comments_link( $label = '' ) {
-	if ( !is_singular() || !get_option('page_comments') )
+	if ( ! is_singular() )
 		return;
 
 	$page = get_query_var('cpage');
@@ -2692,7 +2692,7 @@ function previous_comments_link( $label = '' ) {
 function paginate_comments_links($args = array()) {
 	global $wp_rewrite;
 
-	if ( !is_singular() || !get_option('page_comments') )
+	if ( ! is_singular() )
 		return;
 
 	$page = get_query_var('cpage');
@@ -2737,7 +2737,7 @@ function get_the_comments_navigation( $args = array() ) {
 	$navigation = '';
 
 	// Are there comments to navigate through?
-	if ( get_comment_pages_count() > 1 && get_option( 'page_comments' ) ) {
+	if ( get_comment_pages_count() > 1 ) {
 		$args = wp_parse_args( $args, array(
 			'prev_text'          => __( 'Older comments' ),
 			'next_text'          => __( 'Newer comments' ),

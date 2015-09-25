@@ -321,7 +321,7 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 				}
 			}
 
-			if ( get_option('page_comments') && ( ( 'newest' == get_option('default_comments_page') && get_query_var('cpage') > 0 ) || ( 'newest' != get_option('default_comments_page') && get_query_var('cpage') > 1 ) ) ) {
+			if ( ( 'newest' == get_option('default_comments_page') && get_query_var('cpage') > 0 ) || ( 'newest' != get_option('default_comments_page') && get_query_var('cpage') > 1 ) ) {
 				$addl_path = ( !empty( $addl_path ) ? trailingslashit($addl_path) : '' ) . user_trailingslashit( $wp_rewrite->comments_pagination_base . '-' . get_query_var('cpage'), 'commentpaged' );
 				$redirect['query'] = remove_query_arg( 'cpage', $redirect['query'] );
 			}

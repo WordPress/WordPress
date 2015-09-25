@@ -865,6 +865,10 @@ class WP_Comment_Query {
 		$level = 0;
 		do {
 			$parent_ids = $levels[ $level ];
+			if ( ! $parent_ids ) {
+				break;
+			}
+
 			$where = 'WHERE ' . implode( ' AND ', $where_clauses ) . ' AND comment_parent IN (' . implode( ',', array_map( 'intval', $parent_ids ) ) . ')';
 			$comment_ids = $wpdb->get_col( "{$this->sql_clauses['select']} {$this->sql_clauses['from']} {$where} {$this->sql_clauses['groupby']}" );
 

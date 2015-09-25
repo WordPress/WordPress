@@ -227,9 +227,11 @@ final class WP_Comment {
 	 * @since 4.4.0
 	 * @access public
 	 *
+	 * @param string $format Return value format. 'tree' for a hierarchical tree, 'flat' for a flattened array.
+	 *                       Default 'tree'.
 	 * @return array Array of `WP_Comment` objects.
 	 */
-	public function get_children() {
+	public function get_children( $format = 'tree' ) {
 		if ( is_null( $this->children ) ) {
 			$this->children = get_comments( array(
 				'parent' => $this->comment_ID,
@@ -237,7 +239,16 @@ final class WP_Comment {
 			) );
 		}
 
-		return $this->children;
+		if ( 'flat' === $format ) {
+			$children = array();
+			foreach ( $this->children as $child ) {
+				$children = array_merge( $children, array( $child ), $child->get_children( 'flat' ) );
+			}
+		} else {
+			$children = $this->children;
+		}
+
+		return $children;
 	}
 
 	/**

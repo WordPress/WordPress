@@ -98,17 +98,14 @@ printf( __('Enable threaded (nested) comments %s levels deep'), $thread_comments
 
 ?></label>
 <br />
-<label for="page_comments">
-<input name="page_comments" type="checkbox" id="page_comments" value="1" <?php checked('1', get_option('page_comments')); ?> />
 <?php
-
 $default_comments_page = '</label><label for="default_comments_page"><select name="default_comments_page" id="default_comments_page"><option value="newest"';
 if ( 'newest' == get_option('default_comments_page') ) $default_comments_page .= ' selected="selected"';
 $default_comments_page .= '>' . __('last') . '</option><option value="oldest"';
 if ( 'oldest' == get_option('default_comments_page') ) $default_comments_page .= ' selected="selected"';
 $default_comments_page .= '>' . __('first') . '</option></select>';
 
-printf( __('Break comments into pages with %1$s top level comments per page and the %2$s page displayed by default'), '</label><label for="comments_per_page"><input name="comments_per_page" type="number" step="1" min="0" id="comments_per_page" value="' . esc_attr(get_option('comments_per_page')) . '" class="small-text" />', $default_comments_page );
+printf( __('Break comments into pages with %1$s top level comments per page and the %2$s page displayed by default'), '<label for="comments_per_page"><input name="comments_per_page" type="number" step="1" min="0" id="comments_per_page" value="' . esc_attr(get_option('comments_per_page')) . '" class="small-text" />', $default_comments_page );
 
 ?></label>
 <br />
