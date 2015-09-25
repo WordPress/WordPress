@@ -659,7 +659,7 @@ commentReply = {
 		action = action || 'replyto';
 		act = 'edit' == action ? 'edit' : 'replyto';
 		act = t.act = act + '-comment';
-		colspanVal = $( 'th:visible, td:visible', c ).length;
+		colspanVal = $( '> th:visible, > td:visible', c ).length;
 
 		// Make sure it's actually a table and there's a `colspan` value to apply.
 		if ( editRow.hasClass( 'inline-edit-row' ) && 0 !== colspanVal ) {
