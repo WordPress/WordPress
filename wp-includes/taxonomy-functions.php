@@ -1488,7 +1488,14 @@ function get_terms( $taxonomies, $args = '' ) {
  * @return int|bool Meta ID on success, false on failure.
  */
 function add_term_meta( $term_id, $meta_key, $meta_value, $unique = false ) {
-	return add_metadata( 'term', $term_id, $meta_key, $meta_value, $unique );
+	$added = add_metadata( 'term', $term_id, $meta_key, $meta_value, $unique );
+
+	// Bust term query cache.
+	if ( $added ) {
+		wp_cache_set( 'last_changed', microtime(), 'terms' );
+	}
+
+	return $added;
 }
 
 /**
@@ -1502,7 +1509,14 @@ function add_term_meta( $term_id, $meta_key, $meta_value, $unique = false ) {
  * @return bool True on success, false on failure.
  */
 function delete_term_meta( $term_id, $meta_key, $meta_value = '' ) {
-	return delete_metadata( 'term', $term_id, $meta_key, $meta_value );
+	$deleted = delete_metadata( 'term', $term_id, $meta_key, $meta_value );
+
+	// Bust term query cache.
+	if ( $deleted ) {
+		wp_cache_set( 'last_changed', microtime(), 'terms' );
+	}
+
+	return $deleted;
 }
 
 /**
@@ -1536,7 +1550,14 @@ function get_term_meta( $term_id, $key = '', $single = false ) {
  * @return int|bool Meta ID if the key didn't previously exist. True on successful update. False on failure.
  */
 function update_term_meta( $term_id, $meta_key, $meta_value, $prev_value = '' ) {
-	return update_metadata( 'term', $term_id, $meta_key, $meta_value, $prev_value );
+	$updated = update_metadata( 'term', $term_id, $meta_key, $meta_value, $prev_value );
+
+	// Bust term query cache.
+	if ( $updated ) {
+		wp_cache_set( 'last_changed', microtime(), 'terms' );
+	}
+
+	return $updated;
 }
 
 /**
