@@ -96,6 +96,24 @@ class WP_Comment_Query {
 	public $comments;
 
 	/**
+	 * The amount of found comments for the current query.
+	 *
+	 * @since 4.4.0
+	 * @access public
+	 * @var int
+	 */
+	public $found_comments = 0;
+
+	/**
+	 * The number of pages.
+	 *
+	 * @since 4.4.0
+	 * @access public
+	 * @var int
+	 */
+	public $max_num_pages = 0;
+
+	/**
 	 * Make private/protected methods readable for backwards compatibility.
 	 *
 	 * @since 4.0.0
@@ -119,7 +137,7 @@ class WP_Comment_Query {
 	 *
 	 * @since 4.2.0
 	 * @since 4.4.0 `$parent__in` and `$parent__not_in` were added.
-	 * @since 4.4.0 Order by `comment__in` was added. `$update_comment_meta_cache` was added.
+	 * @since 4.4.0 Order by `comment__in` was added. `$update_comment_meta_cache` and `$no_found_rows` were added.
 	 * @access public
 	 *
 	 * @param string|array $query {
@@ -148,6 +166,8 @@ class WP_Comment_Query {
 	 *     @type int          $number              Maximum number of comments to retrieve. Default null (no limit).
 	 *     @type int          $offset              Number of comments to offset the query. Used to build LIMIT clause.
 	 *                                             Default 0.
+	 *     @type bool         $no_found_rows       Whether to disable the `SQL_CALC_FOUND_ROWS` query.
+	 *                                             Default: true.
 	 *     @type string|array $orderby             Comment status or array of statuses. To use 'meta_value' or
 	 *                                             'meta_value_num', `$meta_key` must also be defined. To sort by
 	 *                                             a specific `$meta_query` clause, use that clause's array key.
@@ -203,6 +223,7 @@ class WP_Comment_Query {
 			'karma' => '',
 			'number' => '',
 			'offset' => '',
+			'no_found_rows' => true,
 			'orderby' => '',
 			'order' => 'DESC',
 			'parent' => '',
@@ -329,6 +350,23 @@ class WP_Comment_Query {
 		}
 
 		$comment_ids = array_map( 'intval', $comment_ids );
+
+		$this->comment_count = count( $this->comments );
+
+		if ( $comment_ids && $this->query_vars['number'] && ! $this->query_vars['no_found_rows'] ) {
+			/**
+			 * Filter the query used to retrieve found comment count.
+			 *
+			 * @since 4.4.0
+			 *
+			 * @param string           $found_comments_query SQL query. Default 'SELECT FOUND_ROWS()'.
+			 * @param WP_Comment_Query $comment_query        The `WP_Comment_Query` instance.
+			 */
+			$found_comments_query = apply_filters( 'found_comments_query', 'SELECT FOUND_ROWS()', $this );
+			$this->found_comments = (int) $wpdb->get_var( $found_comments_query );
+
+			$this->max_num_pages = ceil( $this->found_comments / $this->query_vars['number'] );
+		}
 
 		if ( 'ids' == $this->query_vars['fields'] ) {
 			$this->comments = $comment_ids;
@@ -738,7 +776,12 @@ class WP_Comment_Query {
 			$orderby = "ORDER BY $orderby";
 		}
 
-		$this->sql_clauses['select']  = "SELECT $fields";
+		$found_rows = '';
+		if ( ! $this->query_vars['no_found_rows'] ) {
+			$found_rows = 'SQL_CALC_FOUND_ROWS';
+		}
+
+		$this->sql_clauses['select']  = "SELECT $found_rows $fields";
 		$this->sql_clauses['from']    = "FROM $wpdb->comments $join";
 		$this->sql_clauses['groupby'] = $groupby;
 		$this->sql_clauses['orderby'] = $orderby;
