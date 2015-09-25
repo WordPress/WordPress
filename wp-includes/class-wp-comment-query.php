@@ -44,6 +44,22 @@ class WP_Comment_Query {
 	protected $meta_query_clauses;
 
 	/**
+	 * SQL query clauses.
+	 *
+	 * @since 4.4.0
+	 * @access protected
+	 * @var array
+	 */
+	protected $sql_clauses = array(
+		'select'  => '',
+		'from'    => '',
+		'where'   => array(),
+		'groupby' => '',
+		'orderby' => '',
+		'limits'  => '',
+	);
+
+	/**
 	 * Date query container
 	 *
 	 * @since 3.7.0
@@ -357,9 +373,6 @@ class WP_Comment_Query {
 	protected function get_comment_ids() {
 		global $wpdb;
 
-		$groupby = '';
-		$where = array();
-
 		// Assemble clauses related to 'comment_approved'.
 		$approved_clauses = array();
 
@@ -423,9 +436,9 @@ class WP_Comment_Query {
 		// Collapse comment_approved clauses into a single OR-separated clause.
 		if ( ! empty( $approved_clauses ) ) {
 			if ( 1 === count( $approved_clauses ) ) {
-				$where[] = $approved_clauses[0];
+				$this->sql_clauses['where']['approved'] = $approved_clauses[0];
 			} else {
-				$where[] = '( ' . implode( ' OR ', $approved_clauses ) . ' )';
+				$this->sql_clauses['where']['approved'] = '( ' . implode( ' OR ', $approved_clauses ) . ' )';
 			}
 		}
 
@@ -524,8 +537,6 @@ class WP_Comment_Query {
 			} else {
 				$limits = 'LIMIT ' . $number;
 			}
-		} else {
-			$limits = '';
 		}
 
 		if ( $this->query_vars['count'] ) {
@@ -534,49 +545,47 @@ class WP_Comment_Query {
 			$fields = "$wpdb->comments.comment_ID";
 		}
 
-		$join = '';
-
 		$post_id = absint( $this->query_vars['post_id'] );
 		if ( ! empty( $post_id ) ) {
-			$where[] = $wpdb->prepare( 'comment_post_ID = %d', $post_id );
+			$this->sql_clauses['where']['post_id'] = $wpdb->prepare( 'comment_post_ID = %d', $post_id );
 		}
 
 		// Parse comment IDs for an IN clause.
 		if ( ! empty( $this->query_vars['comment__in'] ) ) {
-			$where[] = "$wpdb->comments.comment_ID IN ( " . implode( ',', wp_parse_id_list( $this->query_vars['comment__in'] ) ) . ' )';
+			$this->sql_clauses['where']['comment__in'] = "$wpdb->comments.comment_ID IN ( " . implode( ',', wp_parse_id_list( $this->query_vars['comment__in'] ) ) . ' )';
 		}
 
 		// Parse comment IDs for a NOT IN clause.
 		if ( ! empty( $this->query_vars['comment__not_in'] ) ) {
-			$where[] = "$wpdb->comments.comment_ID NOT IN ( " . implode( ',', wp_parse_id_list( $this->query_vars['comment__not_in'] ) ) . ' )';
+			$this->sql_clauses['where']['comment__not_in'] = "$wpdb->comments.comment_ID NOT IN ( " . implode( ',', wp_parse_id_list( $this->query_vars['comment__not_in'] ) ) . ' )';
 		}
 
 		// Parse comment parent IDs for an IN clause.
 		if ( ! empty( $this->query_vars['parent__in'] ) ) {
-			$where[] = 'comment_parent IN ( ' . implode( ',', wp_parse_id_list( $this->query_vars['parent__in'] ) ) . ' )';
+			$this->sql_clauses['where']['parent__in'] = 'comment_parent IN ( ' . implode( ',', wp_parse_id_list( $this->query_vars['parent__in'] ) ) . ' )';
 		}
 
 		// Parse comment parent IDs for a NOT IN clause.
 		if ( ! empty( $this->query_vars['parent__not_in'] ) ) {
-			$where[] = 'comment_parent NOT IN ( ' . implode( ',', wp_parse_id_list( $this->query_vars['parent__not_in'] ) ) . ' )';
+			$this->sql_clauses['where']['parent__not_in'] = 'comment_parent NOT IN ( ' . implode( ',', wp_parse_id_list( $this->query_vars['parent__not_in'] ) ) . ' )';
 		}
 
 		// Parse comment post IDs for an IN clause.
 		if ( ! empty( $this->query_vars['post__in'] ) ) {
-			$where[] = 'comment_post_ID IN ( ' . implode( ',', wp_parse_id_list( $this->query_vars['post__in'] ) ) . ' )';
+			$this->sql_clauses['where']['post__in'] = 'comment_post_ID IN ( ' . implode( ',', wp_parse_id_list( $this->query_vars['post__in'] ) ) . ' )';
 		}
 
 		// Parse comment post IDs for a NOT IN clause.
 		if ( ! empty( $this->query_vars['post__not_in'] ) ) {
-			$where[] = 'comment_post_ID NOT IN ( ' . implode( ',', wp_parse_id_list( $this->query_vars['post__not_in'] ) ) . ' )';
+			$this->sql_clauses['where']['post__not_in'] = 'comment_post_ID NOT IN ( ' . implode( ',', wp_parse_id_list( $this->query_vars['post__not_in'] ) ) . ' )';
 		}
 
 		if ( '' !== $this->query_vars['author_email'] ) {
-			$where[] = $wpdb->prepare( 'comment_author_email = %s', $this->query_vars['author_email'] );
+			$this->sql_clauses['where']['author_email'] = $wpdb->prepare( 'comment_author_email = %s', $this->query_vars['author_email'] );
 		}
 
 		if ( '' !== $this->query_vars['karma'] ) {
-			$where[] = $wpdb->prepare( 'comment_karma = %d', $this->query_vars['karma'] );
+			$this->sql_clauses['where']['karma'] = $wpdb->prepare( 'comment_karma = %d', $this->query_vars['karma'] );
 		}
 
 		// Filtering by comment_type: 'type', 'type__in', 'type__not_in'.
@@ -614,18 +623,18 @@ class WP_Comment_Query {
 
 			if ( ! empty( $comment_types[ $operator ] ) ) {
 				$types_sql = implode( ', ', $comment_types[ $operator ] );
-				$where[] = "comment_type $operator ($types_sql)";
+				$this->sql_clauses['where']['comment_type__' . strtolower( str_replace( ' ', '_', $operator ) ) ] = "comment_type $operator ($types_sql)";
 			}
 		}
 
 		if ( '' !== $this->query_vars['parent'] ) {
-			$where[] = $wpdb->prepare( 'comment_parent = %d', $this->query_vars['parent'] );
+			$this->sql_clauses['where']['parent'] = $wpdb->prepare( 'comment_parent = %d', $this->query_vars['parent'] );
 		}
 
 		if ( is_array( $this->query_vars['user_id'] ) ) {
-			$where[] = 'user_id IN (' . implode( ',', array_map( 'absint', $this->query_vars['user_id'] ) ) . ')';
+			$this->sql_clauses['where']['user_id'] = 'user_id IN (' . implode( ',', array_map( 'absint', $this->query_vars['user_id'] ) ) . ')';
 		} elseif ( '' !== $this->query_vars['user_id'] ) {
-			$where[] = $wpdb->prepare( 'user_id = %d', $this->query_vars['user_id'] );
+			$this->sql_clauses['where']['user_id'] = $wpdb->prepare( 'user_id = %d', $this->query_vars['user_id'] );
 		}
 
 		if ( '' !== $this->query_vars['search'] ) {
@@ -635,7 +644,7 @@ class WP_Comment_Query {
 			);
 
 			// Strip leading 'AND'.
-			$where[] = preg_replace( '/^\s*AND\s*/', '', $search_sql );
+			$this->sql_clauses['where']['search'] = preg_replace( '/^\s*AND\s*/', '', $search_sql );
 		}
 
 		// If any post-related query vars are passed, join the posts table.
@@ -648,41 +657,43 @@ class WP_Comment_Query {
 			foreach ( $post_fields as $field_name => $field_value ) {
 				// $field_value may be an array.
 				$esses = array_fill( 0, count( (array) $field_value ), '%s' );
-				$where[] = $wpdb->prepare( " {$wpdb->posts}.{$field_name} IN (" . implode( ',', $esses ) . ')', $field_value );
+				$this->sql_clauses['where']['post_fields'] = $wpdb->prepare( " {$wpdb->posts}.{$field_name} IN (" . implode( ',', $esses ) . ')', $field_value );
 			}
 		}
 
 		// Comment author IDs for an IN clause.
 		if ( ! empty( $this->query_vars['author__in'] ) ) {
-			$where[] = 'user_id IN ( ' . implode( ',', wp_parse_id_list( $this->query_vars['author__in'] ) ) . ' )';
+			$this->sql_clauses['where']['author__in'] = 'user_id IN ( ' . implode( ',', wp_parse_id_list( $this->query_vars['author__in'] ) ) . ' )';
 		}
 
 		// Comment author IDs for a NOT IN clause.
 		if ( ! empty( $this->query_vars['author__not_in'] ) ) {
-			$where[] = 'user_id NOT IN ( ' . implode( ',', wp_parse_id_list( $this->query_vars['author__not_in'] ) ) . ' )';
+			$this->sql_clauses['where']['author__not_in'] = 'user_id NOT IN ( ' . implode( ',', wp_parse_id_list( $this->query_vars['author__not_in'] ) ) . ' )';
 		}
 
 		// Post author IDs for an IN clause.
 		if ( ! empty( $this->query_vars['post_author__in'] ) ) {
 			$join_posts_table = true;
-			$where[] = 'post_author IN ( ' . implode( ',', wp_parse_id_list( $this->query_vars['post_author__in'] ) ) . ' )';
+			$this->sql_clauses['where']['post_author__in'] = 'post_author IN ( ' . implode( ',', wp_parse_id_list( $this->query_vars['post_author__in'] ) ) . ' )';
 		}
 
 		// Post author IDs for a NOT IN clause.
 		if ( ! empty( $this->query_vars['post_author__not_in'] ) ) {
 			$join_posts_table = true;
-			$where[] = 'post_author NOT IN ( ' . implode( ',', wp_parse_id_list( $this->query_vars['post_author__not_in'] ) ) . ' )';
+			$this->sql_clauses['where']['post_author__not_in'] = 'post_author NOT IN ( ' . implode( ',', wp_parse_id_list( $this->query_vars['post_author__not_in'] ) ) . ' )';
 		}
 
+		$join = '';
+
 		if ( $join_posts_table ) {
-			$join = "JOIN $wpdb->posts ON $wpdb->posts.ID = $wpdb->comments.comment_post_ID";
+			$join .= "JOIN $wpdb->posts ON $wpdb->posts.ID = $wpdb->comments.comment_post_ID";
 		}
 
 		if ( ! empty( $this->meta_query_clauses ) ) {
 			$join .= $this->meta_query_clauses['join'];
 
 			// Strip leading 'AND'.
-			$where[] = preg_replace( '/^\s*AND\s*/', '', $this->meta_query_clauses['where'] );
+			$this->sql_clauses['where']['meta_query'] = preg_replace( '/^\s*AND\s*/', '', $this->meta_query_clauses['where'] );
 
 			if ( ! $this->query_vars['count'] ) {
 				$groupby = "{$wpdb->comments}.comment_ID";
@@ -692,10 +703,10 @@ class WP_Comment_Query {
 		$date_query = $this->query_vars['date_query'];
 		if ( ! empty( $date_query ) && is_array( $date_query ) ) {
 			$date_query_object = new WP_Date_Query( $date_query, 'comment_date' );
-			$where[] = preg_replace( '/^\s*AND\s*/', '', $date_query_object->get_sql() );
+			$this->sql_clauses['where']['date_query'] = preg_replace( '/^\s*AND\s*/', '', $date_query_object->get_sql() );
 		}
 
-		$where = implode( ' AND ', $where );
+		$where = implode( ' AND ', $this->sql_clauses['where'] );
 
 		$pieces = array( 'fields', 'join', 'where', 'orderby', 'limits', 'groupby' );
 		/**
@@ -727,7 +738,13 @@ class WP_Comment_Query {
 			$orderby = "ORDER BY $orderby";
 		}
 
-		$this->request = "SELECT $fields FROM $wpdb->comments $join $where $groupby $orderby $limits";
+		$this->sql_clauses['select']  = "SELECT $fields";
+		$this->sql_clauses['from']    = "FROM $wpdb->comments $join";
+		$this->sql_clauses['groupby'] = $groupby;
+		$this->sql_clauses['orderby'] = $orderby;
+		$this->sql_clauses['limits']  = $limits;
+
+		$this->request = "{$this->sql_clauses['select']} {$this->sql_clauses['from']} {$where} {$this->sql_clauses['groupby']} {$this->sql_clauses['orderby']} {$this->sql_clauses['limits']}";
 
 		if ( $this->query_vars['count'] ) {
 			return intval( $wpdb->get_var( $this->request ) );
