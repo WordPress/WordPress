@@ -569,10 +569,15 @@ do_action( 'edit_form_before_permalink', $post );
 <?php
 if ( $viewable ) :
 $sample_permalink_html = $post_type_object->public ? get_sample_permalink_html($post->ID) : '';
-$shortlink = wp_get_shortlink($post->ID, 'post');
 
-if ( !empty( $shortlink ) && $shortlink !== $permalink && $permalink !== home_url('?page_id=' . $post->ID) )
-    $sample_permalink_html .= '<input id="shortlink" type="hidden" value="' . esc_attr($shortlink) . '" /><a href="#" class="button button-small" onclick="prompt(&#39;URL:&#39;, jQuery(\'#shortlink\').val()); return false;">' . __('Get Shortlink') . '</a>';
+// As of 4.4, the Get Shortlink button is hidden by default.
+if ( has_filter( 'pre_get_shortlink' ) || has_filter( 'get_shortlink' ) ) {
+	$shortlink = wp_get_shortlink($post->ID, 'post');
+
+	if ( !empty( $shortlink ) && $shortlink !== $permalink && $permalink !== home_url('?page_id=' . $post->ID) ) {
+    	$sample_permalink_html .= '<input id="shortlink" type="hidden" value="' . esc_attr($shortlink) . '" /><a href="#" class="button button-small" onclick="prompt(&#39;URL:&#39;, jQuery(\'#shortlink\').val()); return false;">' . __('Get Shortlink') . '</a>';
+	}
+}
 
 if ( $post_type_object->public && ! ( 'pending' == get_post_status( $post ) && !current_user_can( $post_type_object->cap->publish_posts ) ) ) {
 	$has_sample_permalink = $sample_permalink_html && 'auto-draft' != $post->post_status;
