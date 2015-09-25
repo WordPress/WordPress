@@ -129,12 +129,21 @@ class WP_Plugins_List_Table extends WP_List_Table {
 
 		set_transient( 'plugin_slugs', array_keys( $plugins['all'] ), DAY_IN_SECONDS );
 
-		if ( ! $screen->in_admin( 'network' ) ) {
+		if ( $screen->in_admin( 'network' ) ) {
+			$recently_activated = get_site_option( 'recently_activated', array() );
+		} else {
 			$recently_activated = get_option( 'recently_activated', array() );
+		}
 
-			foreach ( $recently_activated as $key => $time )
-				if ( $time + WEEK_IN_SECONDS < time() )
-					unset( $recently_activated[$key] );
+		foreach ( $recently_activated as $key => $time ) {
+			if ( $time + WEEK_IN_SECONDS < time() ) {
+				unset( $recently_activated[$key] );
+			}
+		}
+
+		if ( $screen->in_admin( 'network' ) ) {
+			update_site_option( 'recently_activated', $recently_activated );
+		} else {
 			update_option( 'recently_activated', $recently_activated );
 		}
 
@@ -170,8 +179,8 @@ class WP_Plugins_List_Table extends WP_List_Table {
 				// On the network-admin screen, populate the active list with plugins that are network activated
 				$plugins['active'][ $plugin_file ] = $plugin_data;
 			} else {
-				if ( ! $screen->in_admin( 'network' ) && isset( $recently_activated[ $plugin_file ] ) ) {
-					// On the non-network screen, populate the recently activated list with plugins that have been recently activated
+				if ( isset( $recently_activated[ $plugin_file ] ) ) {
+					// Populate the recently activated list with plugins that have been recently activated
 					$plugins['recently_activated'][ $plugin_file ] = $plugin_data;
 				}
 				// Populate the inactive list with plugins that aren't activated
@@ -400,7 +409,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 
 		echo '<div class="alignleft actions">';
 
-		if ( ! $this->screen->in_admin( 'network' ) && 'recently_activated' === $status ) {
+		if ( 'recently_activated' == $status ) {
 			submit_button( __( 'Clear List' ), 'button', 'clear-recent-list', false );
 		} elseif ( 'top' === $which && 'mustuse' === $status ) {
 			echo '<p>' . sprintf( __( 'Files in the <code>%s</code> directory are executed automatically.' ), str_replace( ABSPATH, '/', WPMU_PLUGIN_DIR ) ) . '</p>';

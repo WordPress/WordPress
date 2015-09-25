@@ -54,6 +54,10 @@ if ( $action ) {
 				$recent = (array) get_option( 'recently_activated' );
 				unset( $recent[ $plugin ] );
 				update_option( 'recently_activated', $recent );
+			} else {
+				$recent = (array) get_site_option( 'recently_activated' );
+				unset( $recent[ $plugin ] );
+				update_site_option( 'recently_activated', $recent );
 			}
 
 			if ( isset($_GET['from']) && 'import' == $_GET['from'] ) {
@@ -96,9 +100,18 @@ if ( $action ) {
 
 			if ( ! is_network_admin() ) {
 				$recent = (array) get_option('recently_activated' );
-				foreach ( $plugins as $plugin )
-					unset( $recent[ $plugin ] );
+			} else {
+				$recent = (array) get_site_option('recently_activated' );
+			}
+
+			foreach ( $plugins as $plugin ) {
+				unset( $recent[ $plugin ] );
+			}
+
+			if ( ! is_network_admin() ) {
 				update_option( 'recently_activated', $recent );
+			} else {
+				update_site_option( 'recently_activated', $recent );
 			}
 
 			wp_redirect( self_admin_url("plugins.php?activate-multi=true&plugin_status=$status&paged=$page&s=$s") );
@@ -165,8 +178,13 @@ if ( $action ) {
 			}
 
 			deactivate_plugins( $plugin, false, is_network_admin() );
-			if ( ! is_network_admin() )
+
+			if ( ! is_network_admin() ) {
 				update_option( 'recently_activated', array( $plugin => time() ) + (array) get_option( 'recently_activated' ) );
+			} else {
+				update_site_option( 'recently_activated', array( $plugin => time() ) + (array) get_site_option( 'recently_activated' ) );
+			}
+
 			if ( headers_sent() )
 				echo "<meta http-equiv='refresh' content='" . esc_attr( "0;url=plugins.php?deactivate=true&plugin_status=$status&paged=$page&s=$s" ) . "' />";
 			else
@@ -194,11 +212,15 @@ if ( $action ) {
 
 			deactivate_plugins( $plugins, false, is_network_admin() );
 
+			$deactivated = array();
+			foreach ( $plugins as $plugin ) {
+				$deactivated[ $plugin ] = time();
+			}
+
 			if ( ! is_network_admin() ) {
-				$deactivated = array();
-				foreach ( $plugins as $plugin )
-					$deactivated[ $plugin ] = time();
 				update_option( 'recently_activated', $deactivated + (array) get_option( 'recently_activated' ) );
+			} else {
+				update_site_option( 'recently_activated', $deactivated + (array) get_site_option( 'recently_activated' ) );
 			}
 
 			wp_redirect( self_admin_url("plugins.php?deactivate-multi=true&plugin_status=$status&paged=$page&s=$s") );
@@ -354,8 +376,11 @@ if ( $action ) {
 			exit;
 
 		case 'clear-recent-list':
-			if ( ! is_network_admin() )
+			if ( ! is_network_admin() ) {
 				update_option( 'recently_activated', array() );
+			} else {
+				update_site_option( 'recently_activated', array() );
+			}
 			break;
 	}
 }
