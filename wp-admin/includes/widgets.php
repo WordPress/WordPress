@@ -181,6 +181,11 @@ function wp_widget_control( $sidebar_args ) {
 	$multi_number = isset($sidebar_args['_multi_num']) ? $sidebar_args['_multi_num'] : '';
 	$add_new = isset($sidebar_args['_add']) ? $sidebar_args['_add'] : '';
 
+	$before_form = isset( $sidebar_args['before_form'] ) ? $sidebar_args['before_form'] : '<form method="post">';
+	$after_form = isset( $sidebar_args['after_form'] ) ? $sidebar_args['after_form'] : '</form>';
+	$before_widget_content = isset( $sidebar_args['before_widget_content'] ) ? $sidebar_args['before_widget_content'] : '<div class="widget-content">';
+	$after_widget_content = isset( $sidebar_args['after_widget_content'] ) ? $sidebar_args['after_widget_content'] : '</div>';
+
 	$query_arg = array( 'editwidget' => $widget['id'] );
 	if ( $add_new ) {
 		$query_arg['addnew'] = 1;
@@ -225,14 +230,16 @@ function wp_widget_control( $sidebar_args ) {
 	</div>
 
 	<div class="widget-inside">
-	<form method="post">
-	<div class="widget-content">
-<?php
-	if ( isset($control['callback']) )
+	<?php echo $before_form; ?>
+	<?php echo $before_widget_content; ?>
+	<?php
+	if ( isset( $control['callback'] ) ) {
 		$has_form = call_user_func_array( $control['callback'], $control['params'] );
-	else
-		echo "\t\t<p>" . __('There are no options for this widget.') . "</p>\n"; ?>
-	</div>
+	} else {
+		echo "\t\t<p>" . __('There are no options for this widget.') . "</p>\n";
+	}
+	?>
+	<?php echo $after_widget_content; ?>
 	<input type="hidden" name="widget-id" class="widget-id" value="<?php echo esc_attr($id_format); ?>" />
 	<input type="hidden" name="id_base" class="id_base" value="<?php echo esc_attr($id_base); ?>" />
 	<input type="hidden" name="widget-width" class="widget-width" value="<?php if (isset( $control['width'] )) echo esc_attr($control['width']); ?>" />
@@ -252,7 +259,7 @@ function wp_widget_control( $sidebar_args ) {
 		</div>
 		<br class="clear" />
 	</div>
-	</form>
+	<?php echo $after_form; ?>
 	</div>
 
 	<div class="widget-description">

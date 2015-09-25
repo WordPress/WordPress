@@ -898,19 +898,45 @@ final class WP_Customize_Widgets {
 	 * @return string Widget control form HTML markup.
 	 */
 	public function get_widget_control( $args ) {
+		$args[0]['before_form'] = '<div class="form">';
+		$args[0]['after_form'] = '</div><!-- .form -->';
+		$args[0]['before_widget_content'] = '<div class="widget-content">';
+		$args[0]['after_widget_content'] = '</div><!-- .widget-content -->';
 		ob_start();
-
 		call_user_func_array( 'wp_widget_control', $args );
-		$replacements = array(
-			'<form method="post">' => '<div class="form">',
-			'</form>' => '</div><!-- .form -->',
-		);
-
 		$control_tpl = ob_get_clean();
-
-		$control_tpl = str_replace( array_keys( $replacements ), array_values( $replacements ), $control_tpl );
-
 		return $control_tpl;
+	}
+
+	/**
+	 * Get the widget control markup parts.
+	 *
+	 * @since 4.4.0
+	 * @access public
+	 *
+	 * @param array $args Widget control arguments.
+	 * @return array {
+	 *     @type string $control  Markup for widget control wrapping form.
+	 *     @type string $content  The contents of the widget form itself.
+	 * }
+	 */
+	public function get_widget_control_parts( $args ) {
+		$args[0]['before_widget_content'] = '<div class="widget-content">';
+		$args[0]['after_widget_content'] = '</div><!-- .widget-content -->';
+		$control_markup = $this->get_widget_control( $args );
+
+		$content_start_pos = strpos( $control_markup, $args[0]['before_widget_content'] );
+		$content_end_pos = strrpos( $control_markup, $args[0]['after_widget_content'] );
+
+		$control = substr( $control_markup, 0, $content_start_pos + strlen( $args[0]['before_widget_content'] ) );
+		$control .= substr( $control_markup, $content_end_pos );
+		$content = trim( substr(
+			$control_markup,
+			$content_start_pos + strlen( $args[0]['before_widget_content'] ),
+			$content_end_pos - $content_start_pos - strlen( $args[0]['before_widget_content'] )
+		) );
+
+		return compact( 'control', 'content' );
 	}
 
 	/**

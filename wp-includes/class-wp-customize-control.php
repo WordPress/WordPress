@@ -1487,20 +1487,21 @@ class WP_Widget_Form_Customize_Control extends WP_Customize_Control {
 	public $height;
 	public $is_wide = false;
 
+	/**
+	 * Gather control params for exporting to JavaScript.
+	 *
+	 * @global array $wp_registered_widgets
+	 */
 	public function to_json() {
+		global $wp_registered_widgets;
+
 		parent::to_json();
 		$exported_properties = array( 'widget_id', 'widget_id_base', 'sidebar_id', 'width', 'height', 'is_wide' );
 		foreach ( $exported_properties as $key ) {
 			$this->json[ $key ] = $this->$key;
 		}
-	}
 
-	/**
-	 *
-	 * @global array $wp_registered_widgets
-	 */
-	public function render_content() {
-		global $wp_registered_widgets;
+		// Get the widget_control and widget_content.
 		require_once ABSPATH . '/wp-admin/includes/widgets.php';
 
 		$widget = $wp_registered_widgets[ $this->widget_id ];
@@ -1514,8 +1515,16 @@ class WP_Widget_Form_Customize_Control extends WP_Customize_Control {
 		);
 
 		$args = wp_list_widget_controls_dynamic_sidebar( array( 0 => $args, 1 => $widget['params'][0] ) );
-		echo $this->manager->widgets->get_widget_control( $args );
+		$widget_control_parts = $this->manager->widgets->get_widget_control_parts( $args );
+
+		$this->json['widget_control'] = $widget_control_parts['control'];
+		$this->json['widget_content'] = $widget_control_parts['content'];
 	}
+
+	/**
+	 * Override render_content to be no-op since content is exported via to_json for deferred embedding.
+	 */
+	public function render_content() {}
 
 	/**
 	 * Whether the current widget is rendered on the page.

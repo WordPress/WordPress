@@ -417,37 +417,104 @@
 		/**
 		 * @since 4.1.0
 		 */
-		initialize: function ( id, options ) {
+		initialize: function( id, options ) {
 			var control = this;
-			api.Control.prototype.initialize.call( control, id, options );
-			control.expanded = new api.Value();
+
+			control.widgetControlEmbedded = false;
+			control.widgetContentEmbedded = false;
+			control.expanded = new api.Value( false );
 			control.expandedArgumentsQueue = [];
-			control.expanded.bind( function ( expanded ) {
+			control.expanded.bind( function( expanded ) {
 				var args = control.expandedArgumentsQueue.shift();
 				args = $.extend( {}, control.defaultExpandedArguments, args );
 				control.onChangeExpanded( expanded, args );
 			});
-			control.expanded.set( false );
+
+			api.Control.prototype.initialize.call( control, id, options );
 		},
 
 		/**
-		 * Set up the control
+		 * Set up the control.
+		 *
+		 * @since 3.9.0
 		 */
 		ready: function() {
-			this._setupModel();
-			this._setupWideWidget();
-			this._setupControlToggle();
-			this._setupWidgetTitle();
-			this._setupReorderUI();
-			this._setupHighlightEffects();
-			this._setupUpdateUI();
-			this._setupRemoveUI();
+			var control = this;
+
+			/*
+			 * Embed a placeholder once the section is expanded. The full widget
+			 * form content will be embedded once the control itself is expanded,
+			 * and at this point the widget-added event will be triggered.
+			 */
+			if ( ! control.section() ) {
+				control.embedWidgetControl();
+			} else {
+				api.section( control.section(), function( section ) {
+					var onExpanded = function( isExpanded ) {
+						if ( isExpanded ) {
+							control.embedWidgetControl();
+							section.expanded.unbind( onExpanded );
+						}
+					};
+					if ( section.expanded() ) {
+						onExpanded( true );
+					} else {
+						section.expanded.bind( onExpanded );
+					}
+				} );
+			}
+		},
+
+		/**
+		 * Embed the .widget element inside the li container.
+		 *
+		 * @since 4.4.0
+		 */
+		embedWidgetControl: function() {
+			var control = this, widgetControl;
+
+			if ( control.widgetControlEmbedded ) {
+				return;
+			}
+			control.widgetControlEmbedded = true;
+
+			widgetControl = $( control.params.widget_control );
+			control.container.append( widgetControl );
+
+			control._setupModel();
+			control._setupWideWidget();
+			control._setupControlToggle();
+
+			control._setupWidgetTitle();
+			control._setupReorderUI();
+			control._setupHighlightEffects();
+			control._setupUpdateUI();
+			control._setupRemoveUI();
+		},
+
+		/**
+		 * Embed the actual widget form inside of .widget-content and finally trigger the widget-added event.
+		 *
+		 * @since 4.4.0
+		 */
+		embedWidgetContent: function() {
+			var control = this, widgetContent;
+
+			control.embedWidgetControl();
+			if ( control.widgetContentEmbedded ) {
+				return;
+			}
+			control.widgetContentEmbedded = true;
+
+			widgetContent = $( control.params.widget_content );
+			control.container.find( '.widget-content:first' ).append( widgetContent );
 
 			/*
 			 * Trigger widget-added event so that plugins can attach any event
 			 * listeners and dynamic UI elements.
 			 */
-			$( document ).trigger( 'widget-added', [ this.container.find( '.widget:first' ) ] );
+			$( document ).trigger( 'widget-added', [ control.container.find( '.widget:first' ) ] );
+
 		},
 
 		/**
@@ -1008,6 +1075,9 @@
 			var self = this, instanceOverride, completeCallback, $widgetRoot, $widgetContent,
 				updateNumber, params, data, $inputs, processing, jqxhr, isChanged;
 
+			// The updateWidget logic requires that the form fields to be fully present.
+			self.embedWidgetContent();
+
 			args = $.extend( {
 				instance: null,
 				complete: null,
@@ -1254,6 +1324,11 @@
 		 */
 		onChangeExpanded: function ( expanded, args ) {
 			var self = this, $widget, $inside, complete, prevComplete;
+
+			self.embedWidgetControl(); // Make sure the outer form is embedded so that the expanded state can be set in the UI.
+			if ( expanded ) {
+				self.embedWidgetContent();
+			}
 
 			// If the expanded state is unchanged only manipulate container expanded states
 			if ( args.unchanged ) {
