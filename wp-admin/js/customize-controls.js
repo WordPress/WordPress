@@ -1535,7 +1535,7 @@
 				return;
 			}
 
-			if ( ! $.contains( document, this.container ) ) {
+			if ( ! $.contains( document, this.container[0] ) ) {
 				// jQuery.fn.slideUp is not hiding an element if it is not in the DOM
 				this.container.toggle( active );
 				if ( args.completeCallback ) {
