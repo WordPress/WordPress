@@ -1770,9 +1770,7 @@ function wp_set_comment_status($comment_id, $comment_status, $wp_error = false) 
 		case 'approve':
 		case '1':
 			$status = '1';
-			if ( get_option('comments_notify') ) {
-				wp_notify_postauthor( $comment_id );
-			}
+			add_action( 'wp_set_comment_status', 'wp_new_comment_notify_postauthor' );
 			break;
 		case 'spam':
 			$status = 'spam';
