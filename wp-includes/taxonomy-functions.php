@@ -321,7 +321,7 @@ function is_taxonomy_hierarchical($taxonomy) {
  *     @type bool|array    $rewrite {
  *         Triggers the handling of rewrites for this taxonomy. Default true, using $taxonomy as slug. To prevent
  *         rewrite, set to false. To specify rewrite rules, an array can be passed with any of these keys:
- *    
+ *
  *         @type string $slug         Customize the permastruct slug. Default `$taxonomy` key.
  *         @type bool   $with_front   Should the permastruct be prepended with WP_Rewrite::$front. Default true.
  *         @type bool   $hierarchical Either hierarchical rewrite tag or not. Default false.

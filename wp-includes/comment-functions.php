@@ -708,7 +708,7 @@ function check_comment_flood_db( $ip, $email, $date ) {
 		"SELECT `comment_date_gmt` FROM `$wpdb->comments` WHERE `comment_date_gmt` >= %s AND ( $check_column = %s OR `comment_author_email` = %s ) ORDER BY `comment_date_gmt` DESC LIMIT 1",
 		$hour_ago,
 		$user,
-		$email 
+		$email
 	);
 	$lasttime = $wpdb->get_var( $sql );
 	if ( $lasttime ) {
