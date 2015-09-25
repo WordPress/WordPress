@@ -1897,8 +1897,11 @@ function check_theme_switched() {
 /**
  * Includes and instantiates the WP_Customize_Manager class.
  *
- * Fires on a preview frame request (when ?wp_customize=on is in the URL) and
- * on the Customizer interface page (wp-admin/customize.php).
+ * Loads the Customizer at plugins_loaded when accessing the customize.php admin
+ * page or when any request includes a wp_customize=on param, either as a GET
+ * query var or as POST data. This param is a signal for whether to bootstrap
+ * the Customizer when WordPress is loading, especially in the Customizer preview
+ * or when making Customizer Ajax requests for widgets or menus.
  *
  * @since 3.4.0
  *
@@ -1907,8 +1910,9 @@ function check_theme_switched() {
 function _wp_customize_include() {
 	if ( ! ( ( isset( $_REQUEST['wp_customize'] ) && 'on' == $_REQUEST['wp_customize'] )
 		|| ( is_admin() && 'customize.php' == basename( $_SERVER['PHP_SELF'] ) )
-	) )
+	) ) {
 		return;
+	}
 
 	require_once ABSPATH . WPINC . '/class-wp-customize-manager.php';
 	$GLOBALS['wp_customize'] = new WP_Customize_Manager();
