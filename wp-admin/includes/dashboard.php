@@ -928,7 +928,6 @@ function wp_dashboard_cached_rss_widget( $widget_id, $callback, $check_urls = ar
 
 /* Dashboard Widgets Controls */
 
-// Calls widget_control callback
 /**
  * Calls widget control callback.
  *
