@@ -87,15 +87,15 @@ class WP_Widget {
 	// Member functions that you must over-ride.
 
 	/**
-	 * Echo the widget content.
+	 * Echoes the widget content.
 	 *
-	 * Subclasses should over-ride this function to generate their widget code.
+	 * Sub-classes should over-ride this function to generate their widget code.
 	 *
 	 * @since 2.8.0
 	 * @access public
 	 *
-	 * @param array $args     Display arguments including before_title, after_title,
-	 *                        before_widget, and after_widget.
+	 * @param array $args     Display arguments including 'before_title', 'after_title',
+	 *                        'before_widget', and 'after_widget'.
 	 * @param array $instance The settings for the particular instance of the widget.
 	 */
 	public function widget( $args, $instance ) {
@@ -103,9 +103,9 @@ class WP_Widget {
 	}
 
 	/**
-	 * Update a particular instance.
+	 * Updates a particular instance of a widget.
 	 *
-	 * This function should check that $new_instance is set correctly. The newly-calculated
+	 * This function should check that `$new_instance` is set correctly. The newly-calculated
 	 * value of `$instance` should be returned. If false is returned, the instance won't be
 	 * saved/updated.
 	 *
@@ -113,7 +113,7 @@ class WP_Widget {
 	 * @access public
 	 *
 	 * @param array $new_instance New settings for this instance as input by the user via
-	 *                            {@see WP_Widget::form()}.
+	 *                            WP_Widget::form().
 	 * @param array $old_instance Old settings for this instance.
 	 * @return array Settings to save or bool false to cancel saving.
 	 */
@@ -122,7 +122,7 @@ class WP_Widget {
 	}
 
 	/**
-	 * Output the settings update form.
+	 * Outputs the settings update form.
 	 *
 	 * @since 2.8.0
 	 * @access public
@@ -130,7 +130,7 @@ class WP_Widget {
 	 * @param array $instance Current settings.
 	 * @return string Default return is 'noform'.
 	 */
-	public function form($instance) {
+	public function form( $instance ) {
 		echo '<p class="no-options-widget">' . __('There are no options for this widget.') . '</p>';
 		return 'noform';
 	}
@@ -146,10 +146,10 @@ class WP_Widget {
 	 * @param string $id_base         Optional Base ID for the widget, lowercase and unique. If left empty,
 	 *                                a portion of the widget's class name will be used Has to be unique.
 	 * @param string $name            Name for the widget displayed on the configuration page.
-	 * @param array  $widget_options  Optional. Widget options. See {@see wp_register_sidebar_widget()} for
+	 * @param array  $widget_options  Optional. Widget options. See wp_register_sidebar_widget() for information
+	 *                                on accepted arguments. Default empty array.
+	 * @param array  $control_options Optional. Widget control options. See wp_register_widget_control() for
 	 *                                information on accepted arguments. Default empty array.
-	 * @param array  $control_options Optional. Widget control options. See {@see wp_register_widget_control()}
-	 *                                for information on accepted arguments. Default empty array.
 	 */
 	public function __construct( $id_base, $name, $widget_options = array(), $control_options = array() ) {
 		$this->id_base = empty($id_base) ? preg_replace( '/(wp_)?widget_/', '', strtolower(get_class($this)) ) : strtolower($id_base);
@@ -160,7 +160,7 @@ class WP_Widget {
 	}
 
 	/**
-	 * PHP4 constructor
+	 * PHP4 constructor.
 	 *
 	 * @param string $id_base
 	 * @param string $name
