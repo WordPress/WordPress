@@ -98,26 +98,31 @@
 		} );
 	}
 
+	function resetToggle() {
+		$toggleButton
+			.data( 'toggle', 0 )
+			.attr({
+				'aria-label': userProfileL10n.ariaHide
+			})
+			.find( '.text' )
+				.text( userProfileL10n.hide )
+			.end()
+			.find( '.dashicons' )
+				.removeClass( 'dashicons-visibility' )
+				.addClass( 'dashicons-hidden' );
+
+		$pass1Text.focus();
+
+		$pass1Label.attr( 'for', 'pass1-text' );
+	}
+
 	function bindToggleButton() {
 		$toggleButton = $pass1Row.find('.wp-hide-pw');
 		$toggleButton.show().on( 'click', function () {
 			if ( 1 === parseInt( $toggleButton.data( 'toggle' ), 10 ) ) {
 				$pass1Wrap.addClass( 'show-password' );
-				$toggleButton
-					.data( 'toggle', 0 )
-					.attr({
-						'aria-label': userProfileL10n.ariaHide
-					})
-					.find( '.text' )
-						.text( userProfileL10n.hide )
-					.end()
-					.find( '.dashicons' )
-						.removeClass('dashicons-visibility')
-						.addClass('dashicons-hidden');
 
-				$pass1Text.focus();
-
-				$pass1Label.attr( 'for', 'pass1-text' );
+				resetToggle();
 
 				if ( ! _.isUndefined( $pass1Text[0].setSelectionRange ) ) {
 					$pass1Text[0].setSelectionRange( 0, 100 );
@@ -233,6 +238,8 @@
 
 			$generateButton.show();
 			$passwordWrapper.hide();
+
+			resetToggle();
 
 			// Clear password field to prevent update
 			$pass1.val( '' ).trigger( 'pwupdate' );
