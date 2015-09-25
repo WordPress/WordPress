@@ -590,7 +590,22 @@ function wp_allow_comment( $commentdata ) {
 		") AND comment_content = %s LIMIT 1",
 		wp_unslash( $commentdata['comment_content'] )
 	);
-	if ( $wpdb->get_var( $dupe ) ) {
+
+	$dupe_id = $wpdb->get_var( $dupe );
+
+	/**
+	 * Filters the ID, if any, of the duplicate comment found when creating a new comment.
+	 *
+	 * Return an empty value from this filter to allow what WP considers a duplicate comment.
+	 *
+	 * @since 4.4.0
+	 *
+	 * @param int   $dupe_id     ID of the comment identified as a duplicate.
+	 * @param array $commentdata Data for the comment being created.
+	 */
+	$dupe_id = apply_filters( 'duplicate_comment_id', $dupe_id, $commentdata );
+
+	if ( $dupe_id ) {
 		/**
 		 * Fires immediately after a duplicate comment is detected.
 		 *
