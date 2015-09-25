@@ -940,7 +940,7 @@ function get_post_types( $args = array(), $output = 'names', $operator = 'and' )
  *                                             Default false.
  *     @type array       $supports             An alias for calling {@see add_post_type_support()} directly.
  *                                             Defaults to array containing 'title' & 'editor'.
- *     @type callback    $register_meta_box_cb Provide a callback function that sets up the meta boxes for the
+ *     @type callable    $register_meta_box_cb Provide a callback function that sets up the meta boxes for the
  *                                             edit form. Do remove_meta_box() and add_meta_box() calls in the
  *                                             callback. Default null.
  *     @type array       $taxonomies           An array of taxonomy identifiers that will be registered for the

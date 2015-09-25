@@ -850,7 +850,7 @@ function wp_import_upload_form( $action ) {
  *
  * @param string           $id            String for use in the 'id' attribute of tags.
  * @param string           $title         Title of the meta box.
- * @param callback         $callback      Function that fills the box with the desired content.
+ * @param callable         $callback      Function that fills the box with the desired content.
  *                                        The function should echo its output.
  * @param string|WP_Screen $screen        Optional. The screen on which to show the box (like a post
  *                                        type, 'link', or 'comment'). Default is the current screen.

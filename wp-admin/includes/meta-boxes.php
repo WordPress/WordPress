@@ -345,7 +345,7 @@ function attachment_submit_meta_box( $post ) {
  *
  *     @type string   $id       Meta box ID.
  *     @type string   $title    Meta box title.
- *     @type callback $callback Meta box display callback.
+ *     @type callable $callback Meta box display callback.
  *     @type array    $args     Extra meta box arguments.
  * }
  */
@@ -386,7 +386,7 @@ function post_format_meta_box( $post, $box ) {
  *
  *     @type string   $id       Meta box ID.
  *     @type string   $title    Meta box title.
- *     @type callback $callback Meta box display callback.
+ *     @type callable $callback Meta box display callback.
  *     @type array    $args {
  *         Extra meta box arguments.
  *
@@ -442,7 +442,7 @@ function post_tags_meta_box( $post, $box ) {
  *
  *     @type string   $id       Meta box ID.
  *     @type string   $title    Meta box title.
- *     @type callback $callback Meta box display callback.
+ *     @type callable $callback Meta box display callback.
  *     @type array    $args {
  *         Extra meta box arguments.
  *

@@ -2187,7 +2187,7 @@ function wp_imagecreatetruecolor($width, $height) {
  *
  * @param string   $id       An internal ID/name for the handler. Needs to be unique.
  * @param string   $regex    The regex that will be used to see if this handler should be used for a URL.
- * @param callback $callback The callback function that will be called if the regex is matched.
+ * @param callable $callback The callback function that will be called if the regex is matched.
  * @param int      $priority Optional. Used to specify the order in which the registered handlers will
  *                           be tested. Default 10.
  */
@@ -2373,7 +2373,7 @@ function wp_maybe_load_embeds() {
 	 *
 	 * @since 3.6.0
 	 *
-	 * @param callback $handler Audio embed handler callback function.
+	 * @param callable $handler Audio embed handler callback function.
 	 */
 	wp_embed_register_handler( 'audio', '#^https?://.+?\.(' . join( '|', wp_get_audio_extensions() ) . ')$#i', apply_filters( 'wp_audio_embed_handler', 'wp_embed_handler_audio' ), 9999 );
 
@@ -2382,7 +2382,7 @@ function wp_maybe_load_embeds() {
 	 *
 	 * @since 3.6.0
 	 *
-	 * @param callback $handler Video embed handler callback function.
+	 * @param callable $handler Video embed handler callback function.
 	 */
 	wp_embed_register_handler( 'video', '#^https?://.+?\.(' . join( '|', wp_get_video_extensions() ) . ')$#i', apply_filters( 'wp_video_embed_handler', 'wp_embed_handler_video' ), 9999 );
 }

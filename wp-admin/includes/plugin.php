@@ -1014,7 +1014,7 @@ function uninstall_plugin($plugin) {
  * @param string $menu_title The text to be used for the menu
  * @param string $capability The capability required for this menu to be displayed to the user.
  * @param string $menu_slug The slug name to refer to this menu by (should be unique for this menu)
- * @param callback $function The function to be called to output the content for this page.
+ * @param callable $function The function to be called to output the content for this page.
  * @param string $icon_url The url to the icon to be used for this menu.
  *     * Pass a base64-encoded SVG using a data URI, which will be colored to match the color scheme.
  *       This should begin with 'data:image/svg+xml;base64,'.
@@ -1074,7 +1074,7 @@ function add_menu_page( $page_title, $menu_title, $capability, $menu_slug, $func
  * @param string $menu_title The text to be used for the menu
  * @param string $capability The capability required for this menu to be displayed to the user.
  * @param string $menu_slug The slug name to refer to this menu by (should be unique for this menu)
- * @param callback $function The function to be called to output the content for this page.
+ * @param callable $function The function to be called to output the content for this page.
  * @param string $icon_url The url to the icon to be used for this menu
  *
  * @return string The resulting page's hook_suffix
@@ -1102,7 +1102,7 @@ function add_object_page( $page_title, $menu_title, $capability, $menu_slug, $fu
  * @param string $menu_title The text to be used for the menu
  * @param string $capability The capability required for this menu to be displayed to the user.
  * @param string $menu_slug The slug name to refer to this menu by (should be unique for this menu)
- * @param callback $function The function to be called to output the content for this page.
+ * @param callable $function The function to be called to output the content for this page.
  * @param string $icon_url The url to the icon to be used for this menu
  *
  * @return string The resulting page's hook_suffix
@@ -1136,7 +1136,7 @@ function add_utility_page( $page_title, $menu_title, $capability, $menu_slug, $f
  * @param string $menu_title The text to be used for the menu
  * @param string $capability The capability required for this menu to be displayed to the user.
  * @param string $menu_slug The slug name to refer to this menu by (should be unique for this menu)
- * @param callback $function The function to be called to output the content for this page.
+ * @param callable $function The function to be called to output the content for this page.
  *
  * @return false|string The resulting page's hook_suffix, or false if the user does not have the capability required.
  */
@@ -1202,7 +1202,7 @@ function add_submenu_page( $parent_slug, $page_title, $menu_title, $capability, 
  * @param string $menu_title The text to be used for the menu
  * @param string $capability The capability required for this menu to be displayed to the user.
  * @param string $menu_slug The slug name to refer to this menu by (should be unique for this menu)
- * @param callback $function The function to be called to output the content for this page.
+ * @param callable $function The function to be called to output the content for this page.
  *
  * @return false|string The resulting page's hook_suffix, or false if the user does not have the capability required.
  */
@@ -1223,7 +1223,7 @@ function add_management_page( $page_title, $menu_title, $capability, $menu_slug,
  * @param string $menu_title The text to be used for the menu
  * @param string $capability The capability required for this menu to be displayed to the user.
  * @param string $menu_slug The slug name to refer to this menu by (should be unique for this menu)
- * @param callback $function The function to be called to output the content for this page.
+ * @param callable $function The function to be called to output the content for this page.
  *
  * @return false|string The resulting page's hook_suffix, or false if the user does not have the capability required.
  */
@@ -1244,7 +1244,7 @@ function add_options_page( $page_title, $menu_title, $capability, $menu_slug, $f
  * @param string $menu_title The text to be used for the menu
  * @param string $capability The capability required for this menu to be displayed to the user.
  * @param string $menu_slug The slug name to refer to this menu by (should be unique for this menu)
- * @param callback $function The function to be called to output the content for this page.
+ * @param callable $function The function to be called to output the content for this page.
  *
  * @return false|string The resulting page's hook_suffix, or false if the user does not have the capability required.
  */
@@ -1265,7 +1265,7 @@ function add_theme_page( $page_title, $menu_title, $capability, $menu_slug, $fun
  * @param string $menu_title The text to be used for the menu
  * @param string $capability The capability required for this menu to be displayed to the user.
  * @param string $menu_slug The slug name to refer to this menu by (should be unique for this menu)
- * @param callback $function The function to be called to output the content for this page.
+ * @param callable $function The function to be called to output the content for this page.
  *
  * @return false|string The resulting page's hook_suffix, or false if the user does not have the capability required.
  */
@@ -1286,7 +1286,7 @@ function add_plugins_page( $page_title, $menu_title, $capability, $menu_slug, $f
  * @param string $menu_title The text to be used for the menu
  * @param string $capability The capability required for this menu to be displayed to the user.
  * @param string $menu_slug The slug name to refer to this menu by (should be unique for this menu)
- * @param callback $function The function to be called to output the content for this page.
+ * @param callable $function The function to be called to output the content for this page.
  *
  * @return false|string The resulting page's hook_suffix, or false if the user does not have the capability required.
  */
@@ -1310,7 +1310,7 @@ function add_users_page( $page_title, $menu_title, $capability, $menu_slug, $fun
  * @param string $menu_title The text to be used for the menu
  * @param string $capability The capability required for this menu to be displayed to the user.
  * @param string $menu_slug The slug name to refer to this menu by (should be unique for this menu)
- * @param callback $function The function to be called to output the content for this page.
+ * @param callable $function The function to be called to output the content for this page.
  *
  * @return false|string The resulting page's hook_suffix, or false if the user does not have the capability required.
  */
@@ -1331,7 +1331,7 @@ function add_dashboard_page( $page_title, $menu_title, $capability, $menu_slug, 
  * @param string $menu_title The text to be used for the menu
  * @param string $capability The capability required for this menu to be displayed to the user.
  * @param string $menu_slug The slug name to refer to this menu by (should be unique for this menu)
- * @param callback $function The function to be called to output the content for this page.
+ * @param callable $function The function to be called to output the content for this page.
  *
  * @return false|string The resulting page's hook_suffix, or false if the user does not have the capability required.
  */
@@ -1352,7 +1352,7 @@ function add_posts_page( $page_title, $menu_title, $capability, $menu_slug, $fun
  * @param string $menu_title The text to be used for the menu
  * @param string $capability The capability required for this menu to be displayed to the user.
  * @param string $menu_slug The slug name to refer to this menu by (should be unique for this menu)
- * @param callback $function The function to be called to output the content for this page.
+ * @param callable $function The function to be called to output the content for this page.
  *
  * @return false|string The resulting page's hook_suffix, or false if the user does not have the capability required.
  */
@@ -1373,7 +1373,7 @@ function add_media_page( $page_title, $menu_title, $capability, $menu_slug, $fun
  * @param string $menu_title The text to be used for the menu
  * @param string $capability The capability required for this menu to be displayed to the user.
  * @param string $menu_slug The slug name to refer to this menu by (should be unique for this menu)
- * @param callback $function The function to be called to output the content for this page.
+ * @param callable $function The function to be called to output the content for this page.
  *
  * @return false|string The resulting page's hook_suffix, or false if the user does not have the capability required.
  */
@@ -1394,7 +1394,7 @@ function add_links_page( $page_title, $menu_title, $capability, $menu_slug, $fun
  * @param string $menu_title The text to be used for the menu
  * @param string $capability The capability required for this menu to be displayed to the user.
  * @param string $menu_slug The slug name to refer to this menu by (should be unique for this menu)
- * @param callback $function The function to be called to output the content for this page.
+ * @param callable $function The function to be called to output the content for this page.
  *
  * @return false|string The resulting page's hook_suffix, or false if the user does not have the capability required.
 */
@@ -1415,7 +1415,7 @@ function add_pages_page( $page_title, $menu_title, $capability, $menu_slug, $fun
  * @param string $menu_title The text to be used for the menu
  * @param string $capability The capability required for this menu to be displayed to the user.
  * @param string $menu_slug The slug name to refer to this menu by (should be unique for this menu)
- * @param callback $function The function to be called to output the content for this page.
+ * @param callable $function The function to be called to output the content for this page.
  *
  * @return false|string The resulting page's hook_suffix, or false if the user does not have the capability required.
 */

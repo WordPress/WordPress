@@ -53,7 +53,7 @@
 		 * @param array    $nav_menu_args {
 		 *     An array of arguments passed to wp_nav_menu() to retrieve a custom menu.
 		 *
-		 *     @type callback|bool $fallback_cb Callback to fire if the menu doesn't exist. Default empty.
+		 *     @type callable|bool $fallback_cb Callback to fire if the menu doesn't exist. Default empty.
 		 *     @type mixed         $menu        Menu ID, slug, or name.
 		 * }
 		 * @param stdClass $nav_menu      Nav menu object for the current menu.

@@ -135,8 +135,8 @@ function wp_dashboard_setup() {
  *
  * @param string   $widget_id
  * @param string   $widget_name
- * @param callback $callback
- * @param callback $control_callback
+ * @param callable $callback
+ * @param callable $control_callback
  * @param array    $callback_args
  */
 function wp_add_dashboard_widget( $widget_id, $widget_name, $callback, $control_callback = null, $callback_args = null ) {
@@ -886,7 +886,7 @@ function wp_dashboard_rss_output( $widget_id ) {
  * @since 2.5.0
  *
  * @param string $widget_id
- * @param callback $callback
+ * @param callable $callback
  * @param array $check_urls RSS feeds
  * @return bool False on failure. True on success.
  */

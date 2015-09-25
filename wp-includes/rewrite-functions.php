@@ -86,7 +86,7 @@ function add_permastruct( $name, $struct, $args = array() ) {
  * @global WP_Rewrite $wp_rewrite
  *
  * @param string   $feedname
- * @param callback $function Callback to run on feed display.
+ * @param callable $function Callback to run on feed display.
  * @return string Feed action name.
  */
 function add_feed($feedname, $function) {

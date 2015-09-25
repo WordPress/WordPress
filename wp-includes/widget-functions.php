@@ -222,7 +222,7 @@ function unregister_sidebar( $name ) {
  *
  * @param int|string $id              Widget ID.
  * @param string     $name            Widget display title.
- * @param callback   $output_callback Run when widget is called.
+ * @param callable   $output_callback Run when widget is called.
  * @param array      $options {
  *     Optional. An array of supplementary widget options for the instance.
  *
@@ -364,7 +364,7 @@ function wp_unregister_sidebar_widget($id) {
  *
  * @param int|string   $id               Sidebar ID.
  * @param string       $name             Sidebar display name.
- * @param callback     $control_callback Run when sidebar is displayed.
+ * @param callable     $control_callback Run when sidebar is displayed.
  * @param array|string $options          Optional. Widget options. See description above. Default empty array.
  */
 function wp_register_widget_control( $id, $name, $control_callback, $options = array() ) {
@@ -613,7 +613,7 @@ function dynamic_sidebar( $index = 1 ) {
 		 *
 		 *     @type string $name                Name of the widget.
 		 *     @type string $id                  Widget ID.
-		 *     @type array|callback $callback    When the hook is fired on the front-end, $callback is an array
+		 *     @type array|callable $callback    When the hook is fired on the front-end, $callback is an array
 		 *                                       containing the widget object. Fired on the back-end, $callback
 		 *                                       is 'wp_widget_control', see $_callback.
 		 *     @type array          $params      An associative array of multi-widget arguments.
