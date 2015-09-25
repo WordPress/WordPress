@@ -1737,7 +1737,7 @@ function wp_new_comment_notify_postauthor( $comment_ID ) {
 	}
 
 	// Only send notifications for approved comments.
-	if ( 'spam' === $comment->comment_approved || ! $comment->comment_approved ) {
+	if ( ! isset( $comment->comment_approved ) || 'spam' === $comment->comment_approved || ! $comment->comment_approved ) {
 		return false;
 	}
 
