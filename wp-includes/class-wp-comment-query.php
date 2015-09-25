@@ -137,7 +137,8 @@ class WP_Comment_Query {
 	 *
 	 * @since 4.2.0
 	 * @since 4.4.0 `$parent__in` and `$parent__not_in` were added.
-	 * @since 4.4.0 Order by `comment__in` was added. `$update_comment_meta_cache` and `$no_found_rows` were added.
+	 * @since 4.4.0 Order by `comment__in` was added. `$update_comment_meta_cache`, `$no_found_rows`,
+	 *              and `$hierarchical` were added.
 	 * @access public
 	 *
 	 * @param string|array $query {
@@ -206,6 +207,13 @@ class WP_Comment_Query {
 	 *     @type array        $type__in            Include comments from a given array of comment types. Default empty.
 	 *     @type array        $type__not_in        Exclude comments from a given array of comment types. Default empty.
 	 *     @type int          $user_id             Include comments for a specific user ID. Default empty.
+	 *     @type bool|string  $hierarchical        Whether to include comment descendants in the results.
+	 *                                             'threaded' returns a tree, with each comment's children stored
+	 *                                             in a `children` property on the `WP_Comment` object. 'flat'
+	 *                                             returns a flat array of found comments plus their children.
+	 *                                             Pass `false` to leave out descendants. The parameter is ignored
+	 *                                             (forced to `false`) when `$fields` is 'ids' or 'counts'.
+	 *                                             Accepts 'threaded', 'flat', or false. Default: false.
 	 *     @type bool         $update_comment_meta_cache Whether to prime the metadata cache for found comments.
 	 *                                                   Default true.
 	 * }
@@ -249,6 +257,7 @@ class WP_Comment_Query {
 			'meta_value' => '',
 			'meta_query' => '',
 			'date_query' => null, // See WP_Date_Query
+			'hierarchical' => false,
 			'update_comment_meta_cache' => true,
 		);
 
@@ -395,6 +404,10 @@ class WP_Comment_Query {
 
 		// Convert to WP_Comment instances
 		$comments = array_map( 'get_comment', $_comments );
+
+		if ( $this->query_vars['hierarchical'] ) {
+			$comments = $this->fill_descendants( $comments );
+		}
 
 		$this->comments = $comments;
 		return $this->comments;
@@ -665,6 +678,10 @@ class WP_Comment_Query {
 			}
 		}
 
+		if ( $this->query_vars['hierarchical'] && ! $this->query_vars['parent'] ) {
+			$this->query_vars['parent'] = 0;
+		}
+
 		if ( '' !== $this->query_vars['parent'] ) {
 			$this->sql_clauses['where']['parent'] = $wpdb->prepare( 'comment_parent = %d', $this->query_vars['parent'] );
 		}
@@ -795,6 +812,84 @@ class WP_Comment_Query {
 			$comment_ids = $wpdb->get_col( $this->request );
 			return array_map( 'intval', $comment_ids );
 		}
+	}
+
+	/**
+	 * Fetch descendants for located comments.
+	 *
+	 * Instead of calling `get_children()` separately on each child comment, we do a single set of queries to fetch
+	 * the descendant trees for all matched top-level comments.
+	 *
+	 * @since 4.4.0
+	 *
+	 * @param array $comments Array of top-level comments whose descendants should be filled in.
+	 * @return array
+	 */
+	protected function fill_descendants( $comments ) {
+		global $wpdb;
+
+		$levels = array(
+			0 => wp_list_pluck( $comments, 'comment_ID' ),
+		);
+
+		$where_clauses = $this->sql_clauses['where'];
+		unset(
+			$where_clauses['parent'],
+			$where_clauses['parent__in'],
+			$where_clauses['parent__not_in']
+		);
+
+		// Fetch an entire level of the descendant tree at a time.
+		$level = 0;
+		do {
+			$parent_ids = $levels[ $level ];
+			$where = 'WHERE ' . implode( ' AND ', $where_clauses ) . ' AND comment_parent IN (' . implode( ',', array_map( 'intval', $parent_ids ) ) . ')';
+			$comment_ids = $wpdb->get_col( "{$this->sql_clauses['select']} {$this->sql_clauses['from']} {$where} {$this->sql_clauses['groupby']}" );
+
+			$level++;
+			$levels[ $level ] = $comment_ids;
+		} while ( $comment_ids );
+
+		// Prime comment caches for non-top-level comments.
+		$descendant_ids = array();
+		for ( $i = 1; $i < count( $levels ); $i++ ) {
+			$descendant_ids = array_merge( $descendant_ids, $levels[ $i ] );
+		}
+
+		_prime_comment_caches( $descendant_ids, $this->query_vars['update_comment_meta_cache'] );
+
+		// Assemble a flat array of all comments + descendants.
+		$all_comments = $comments;
+		foreach ( $descendant_ids as $descendant_id ) {
+			$all_comments[] = get_comment( $descendant_id );
+		}
+
+		// If a threaded representation was requested, build the tree.
+		if ( 'threaded' === $this->query_vars['hierarchical'] ) {
+			$threaded_comments = $ref = array();
+			foreach ( $all_comments as $k => $c ) {
+				$_c = get_comment( $c->comment_ID );
+
+				// If the comment isn't in the reference array, it goes in the top level of the thread.
+				if ( ! isset( $ref[ $c->comment_parent ] ) ) {
+					$threaded_comments[ $_c->comment_ID ] = $_c;
+					$ref[ $_c->comment_ID ] = $threaded_comments[ $_c->comment_ID ];
+
+				// Otherwise, set it as a child of its parent.
+				} else {
+
+					$ref[ $_c->comment_parent ]->add_child( $_c );
+//					$ref[ $c->comment_parent ]->children[ $c->comment_ID ] = $c;
+					$ref[ $_c->comment_ID ] = $ref[ $_c->comment_parent ]->get_child( $_c->comment_ID );
+				}
+			}
+
+			$comments = $threaded_comments;
+		} else {
+			$comments = $all_comments;
+		}
+
+		return $comments;
 	}
 
 	/**

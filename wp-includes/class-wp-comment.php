@@ -150,6 +150,15 @@ final class WP_Comment {
 	public $user_id = 0;
 
 	/**
+	 * Comment children.
+	 *
+	 * @since 4.4.0
+	 * @access protected
+	 * @var array
+	 */
+	protected $children;
+
+	/**
 	 * Retrieves a WP_Comment instance.
 	 *
 	 * @since 4.4.0
@@ -210,5 +219,55 @@ final class WP_Comment {
 	 */
 	public function to_array() {
 		return get_object_vars( $this );
+	}
+
+	/**
+	 * Get the children of a comment.
+	 *
+	 * @since 4.4.0
+	 * @access public
+	 *
+	 * @return array Array of `WP_Comment` objects.
+	 */
+	public function get_children() {
+		if ( is_null( $this->children ) ) {
+			$this->children = get_comments( array(
+				'parent' => $this->comment_ID,
+				'hierarchical' => 'threaded',
+			) );
+		}
+
+		return $this->children;
+	}
+
+	/**
+	 * Add a child to the comment.
+	 *
+	 * Used by `WP_Comment_Query` when bulk-filling descendants.
+	 *
+	 * @since 4.4.0
+	 * @access public
+	 *
+	 * @param WP_Comment $child Child comment.
+	 */
+	public function add_child( WP_Comment $child ) {
+		$this->comments[ $child->comment_ID ] = $child;
+	}
+
+	/**
+	 * Get a child comment by ID.
+	 *
+	 * @since 4.4.0
+	 * @access public
+	 *
+	 * @param int $child_id ID of the child.
+	 * @return WP_Comment|bool Returns the comment object if found, otherwise false.
+	 */
+	public function get_child( $child_id ) {
+		if ( isset( $this->comments[ $child_id ] ) ) {
+			return $this->comments[ $child_id ];
+		}
+
+		return false;
 	}
 }
