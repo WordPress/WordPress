@@ -957,6 +957,7 @@ function get_term_to_edit( $id, $taxonomy ) {
  * @since 2.3.0
  * @since 4.2.0 Introduced 'name' and 'childless' parameters.
  * @since 4.4.0 Introduced the ability to pass 'term_id' as an alias of 'id' for the `orderby` parameter.
+ *              Introduced the 'meta_query' and 'update_term_meta_cache' parameters.
  *
  * @global wpdb  $wpdb WordPress database abstraction object.
  * @global array $wp_filter
@@ -1013,6 +1014,9 @@ function get_term_to_edit( $id, $taxonomy ) {
  *                                           no effect on non-hierarchical taxonomies. Default false.
  *     @type string       $cache_domain      Unique cache key to be produced when this query is stored in an
  *                                           object cache. Default is 'core'.
+ *     @type bool         $update_term_meta_cache Whether to prime meta caches for matched terms. Default true.
+ *     @type array        $meta_query             Meta query clauses to limit retrieved terms by.
+ *                                                See `WP_Meta_Query`. Default empty.
  * }
  * @return array|int|WP_Error List of Term Objects and their children. Will return WP_Error, if any of $taxonomies
  *                        do not exist.
@@ -1036,7 +1040,8 @@ function get_terms( $taxonomies, $args = '' ) {
 		'hide_empty' => true, 'exclude' => array(), 'exclude_tree' => array(), 'include' => array(),
 		'number' => '', 'fields' => 'all', 'name' => '', 'slug' => '', 'parent' => '', 'childless' => false,
 		'hierarchical' => true, 'child_of' => 0, 'get' => '', 'name__like' => '', 'description__like' => '',
-		'pad_counts' => false, 'offset' => '', 'search' => '', 'cache_domain' => 'core' );
+		'pad_counts' => false, 'offset' => '', 'search' => '', 'cache_domain' => 'core',
+		'update_term_meta_cache' => true, 'meta_query' => '' );
 	$args = wp_parse_args( $args, $defaults );
 	$args['number'] = absint( $args['number'] );
 	$args['offset'] = absint( $args['offset'] );
@@ -1296,6 +1301,16 @@ function get_terms( $taxonomies, $args = '' ) {
 		$where .= $wpdb->prepare( ' AND ((t.name LIKE %s) OR (t.slug LIKE %s))', $like, $like );
 	}
 
+	// Meta query support.
+	$join = '';
+	if ( ! empty( $args['meta_query'] ) ) {
+		$mquery = new WP_Meta_Query( $args['meta_query'] );
+		$mq_sql = $mquery->get_sql( 'term', 't', 'term_id' );
+
+		$join  .= $mq_sql['join'];
+		$where .= $mq_sql['where'];
+	}
+
 	$selects = array();
 	switch ( $args['fields'] ) {
 		case 'all':
@@ -1341,7 +1356,7 @@ function get_terms( $taxonomies, $args = '' ) {
 	 */
 	$fields = implode( ', ', apply_filters( 'get_terms_fields', $selects, $args, $taxonomies ) );
 
-	$join = "INNER JOIN $wpdb->term_taxonomy AS tt ON t.term_id = tt.term_id";
+	$join .= " INNER JOIN $wpdb->term_taxonomy AS tt ON t.term_id = tt.term_id";
 
 	$pieces = array( 'fields', 'join', 'where', 'orderby', 'order', 'limits' );
 
@@ -1372,6 +1387,12 @@ function get_terms( $taxonomies, $args = '' ) {
 	$terms = $wpdb->get_results($query);
 	if ( 'all' == $_fields ) {
 		update_term_cache( $terms );
+	}
+
+	// Prime termmeta cache.
+	if ( $args['update_term_meta_cache'] ) {
+		$term_ids = wp_list_pluck( $terms, 'term_id' );
+		update_termmeta_cache( $term_ids );
 	}
 
 	if ( empty($terms) ) {
@@ -1452,6 +1473,142 @@ function get_terms( $taxonomies, $args = '' ) {
 
 	/** This filter is documented in wp-includes/taxonomy */
 	return apply_filters( 'get_terms', $terms, $taxonomies, $args );
+}
+
+/**
+ * Adds metadata to a term.
+ *
+ * @since 4.4.0
+ *
+ * @param int    $term_id    Term ID.
+ * @param string $meta_key   Metadata name.
+ * @param mixed  $meta_value Metadata value.
+ * @param bool   $unique     Optional. Whether to bail if an entry with the same key is found for the term.
+ *                           Default false.
+ * @return int|bool Meta ID on success, false on failure.
+ */
+function add_term_meta( $term_id, $meta_key, $meta_value, $unique = false ) {
+	return add_metadata( 'term', $term_id, $meta_key, $meta_value, $unique );
+}
+
+/**
+ * Removes metadata matching criteria from a term.
+ *
+ * @since 4.4.0
+ *
+ * @param int    $term_id    Term ID.
+ * @param string $meta_key   Metadata name.
+ * @param mixed  $meta_value Optional. Metadata value. If provided, rows will only be removed that match the value.
+ * @return bool True on success, false on failure.
+ */
+function delete_term_meta( $term_id, $meta_key, $meta_value = '' ) {
+	return delete_metadata( 'term', $term_id, $meta_key, $meta_value );
+}
+
+/**
+ * Retrieves metadata for a term.
+ *
+ * @since 4.4.0
+ *
+ * @param int    $term_id Term ID.
+ * @param string $key     Optional. The meta key to retrieve. If no key is provided, fetches all metadata for the term.
+ * @param bool   $single  Whether to return a single value. If false, an array of all values matching the
+ *                        `$term_id`/`$key` pair will be returned. Default: false.
+ * @return mixed If `$single` is false, an array of metadata values. If `$single` is true, a single metadata value.
+ */
+function get_term_meta( $term_id, $key = '', $single = false ) {
+	return get_metadata( 'term', $term_id, $key, $single );
+}
+
+/**
+ * Updates term metadata.
+ *
+ * Use the `$prev_value` parameter to differentiate between meta fields with the same key and term ID.
+ *
+ * If the meta field for the term does not exist, it will be added.
+ *
+ * @since 4.4.0
+ *
+ * @param int    $term_id    Term ID.
+ * @param string $meta_key   Metadata key.
+ * @param mixed  $meta_value Metadata value.
+ * @param mixed  $prev_value Optional. Previous value to check before removing.
+ * @return int|bool Meta ID if the key didn't previously exist. True on successful update. False on failure.
+ */
+function update_term_meta( $term_id, $meta_key, $meta_value, $prev_value = '' ) {
+	return update_metadata( 'term', $term_id, $meta_key, $meta_value, $prev_value );
+}
+
+/**
+ * Updates metadata cache for list of term IDs.
+ *
+ * Performs SQL query to retrieve all metadata for the terms matching `$term_ids` and stores them in the cache.
+ * Subsequent calls to `get_term_meta()` will not need to query the database.
+ *
+ * @since 4.4.0
+ *
+ * @param array $term_ids List of term IDs.
+ * @return array|false Returns false if there is nothing to update. Returns an array of metadata on success.
+ */
+function update_termmeta_cache( $term_ids ) {
+	return update_meta_cache( 'term', $term_ids );
+}
+
+/**
+ * Lazy-loads termmeta when inside of a `WP_Query` loop.
+ *
+ * As a rule, term queries (`get_terms()` and `wp_get_object_terms()`) prime the metadata cache for matched terms by
+ * default. However, this can cause a slight performance penalty, especially when that metadata is not actually used.
+ * In the context of a `WP_Query` loop, we're able to avoid this potential penalty. `update_object_term_cache()`,
+ * called from `update_post_caches()`, does not 'update_term_meta_cache'. Instead, the first time `get_term_meta()` is
+ * called from within a `WP_Query` loop, the current function detects the fact, and then primes the metadata cache for
+ * all terms attached to all posts in the loop, with a single database query.
+ *
+ * @since 4.4.0
+ *
+ * @param null $check   The `$check` param passed from the 'pre_term_metadata' hook.
+ * @param int  $term_id ID of the term whose metadata is being cached.
+ * @return null In order not to short-circuit `get_metadata()`.
+ */
+function wp_lazyload_term_meta( $check, $term_id ) {
+	global $wp_query;
+
+	if ( $wp_query instanceof WP_Query && ! empty( $wp_query->posts ) && $wp_query->get( 'update_post_term_cache' ) ) {
+		// We can only lazyload if the entire post object is present.
+		$posts = array();
+		foreach ( $wp_query->posts as $post ) {
+			if ( $post instanceof WP_Post ) {
+				$posts[] = $post;
+			}
+		}
+
+		if ( empty( $posts ) ) {
+			return;
+		}
+
+		// Fetch cached term_ids for each post. Keyed by term_id for faster lookup.
+		$term_ids = array();
+		foreach ( $posts as $post ) {
+			$taxonomies = get_object_taxonomies( $post->post_type );
+			foreach ( $taxonomies as $taxonomy ) {
+				// No extra queries. Term cache should already be primed by 'update_post_term_cache'.
+				$terms = get_object_term_cache( $post->ID, $taxonomy );
+				if ( false !== $terms ) {
+					foreach ( $terms as $term ) {
+						if ( ! isset( $term_ids[ $term->term_id ] ) ) {
+							$term_ids[ $term->term_id ] = 1;
+						}
+					}
+				}
+			}
+		}
+
+		if ( $term_ids ) {
+			update_termmeta_cache( array_keys( $term_ids ) );
+		}
+	}
+
+	return $check;
 }
 
 /**
@@ -2011,6 +2168,7 @@ function wp_delete_category( $cat_ID ) {
  * @since 2.3.0
  * @since 4.2.0 Added support for 'taxonomy', 'parent', and 'term_taxonomy_id' values of `$orderby`.
  *              Introduced `$parent` argument.
+ * @since 4.4.0 Introduced `$meta_query` and `$update_term_meta_cache` arguments.
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
@@ -2026,6 +2184,10 @@ function wp_delete_category( $cat_ID ) {
  *                           term objects being returned, 'ids' will return an array of integers, and 'names' an array
  *                           of strings.
  *     @type int    $parent  Optional. Limit results to the direct children of a given term ID.
+ *     @type bool   $update_term_meta_cache Whether to prime termmeta cache for matched terms. Only applies when
+ *                                          `$fields` is 'all', 'all_with_object_id', or 'term_id'. Default true.
+ *     @type array  $meta_query             Meta query clauses to limit retrieved terms by. See `WP_Meta_Query`.
+ *                                          Default empty.
  * }
  * @return array|WP_Error The requested term data or empty array if no terms found.
  *                        WP_Error if any of the $taxonomies don't exist.
@@ -2053,6 +2215,8 @@ function wp_get_object_terms($object_ids, $taxonomies, $args = array()) {
 		'order'   => 'ASC',
 		'fields'  => 'all',
 		'parent'  => '',
+		'update_term_meta_cache' => true,
+		'meta_query' => '',
 	);
 	$args = wp_parse_args( $args, $defaults );
 
@@ -2126,9 +2290,21 @@ function wp_get_object_terms($object_ids, $taxonomies, $args = array()) {
 		$where[] = $wpdb->prepare( 'tt.parent = %d', $args['parent'] );
 	}
 
+	// Meta query support.
+	$meta_query_join = '';
+	if ( ! empty( $args['meta_query'] ) ) {
+		$mquery = new WP_Meta_Query( $args['meta_query'] );
+		$mq_sql = $mquery->get_sql( 'term', 't', 'term_id' );
+
+		$meta_query_join .= $mq_sql['join'];
+
+		// Strip leading AND.
+		$where[] = preg_replace( '/^\s*AND/', '', $mq_sql['where'] );
+	}
+
 	$where = implode( ' AND ', $where );
 
-	$query = "SELECT $select_this FROM $wpdb->terms AS t INNER JOIN $wpdb->term_taxonomy AS tt ON tt.term_id = t.term_id INNER JOIN $wpdb->term_relationships AS tr ON tr.term_taxonomy_id = tt.term_taxonomy_id WHERE $where $orderby $order";
+	$query = "SELECT $select_this FROM $wpdb->terms AS t INNER JOIN $wpdb->term_taxonomy AS tt ON tt.term_id = t.term_id INNER JOIN $wpdb->term_relationships AS tr ON tr.term_taxonomy_id = tt.term_taxonomy_id $meta_query_join WHERE $where $orderby $order";
 
 	$objects = false;
 	if ( 'all' == $fields || 'all_with_object_id' == $fields ) {
@@ -2151,6 +2327,17 @@ function wp_get_object_terms($object_ids, $taxonomies, $args = array()) {
 		foreach ( $terms as $key => $tt_id ) {
 			$terms[$key] = sanitize_term_field( 'term_taxonomy_id', $tt_id, 0, $taxonomy, 'raw' ); // 0 should be the term id, however is not needed when using raw context.
 		}
+	}
+
+	// Update termmeta cache, if necessary.
+	if ( $args['update_term_meta_cache'] && ( 'all' === $fields || 'all_with_object_ids' === $fields || 'term_id' === $fields ) ) {
+		if ( 'term_id' === $fields ) {
+			$term_ids = $fields;
+		} else {
+			$term_ids = wp_list_pluck( $terms, 'term_id' );
+		}
+
+		update_termmeta_cache( $term_ids );
 	}
 
 	if ( ! $terms ) {
@@ -3288,6 +3475,7 @@ function update_object_term_cache($object_ids, $object_type) {
 	$terms = wp_get_object_terms( $ids, $taxonomies, array(
 		'fields' => 'all_with_object_id',
 		'orderby' => 'none',
+		'update_term_meta_cache' => false,
 	) );
 
 	$object_terms = array();
