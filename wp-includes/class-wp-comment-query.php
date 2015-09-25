@@ -144,76 +144,98 @@ class WP_Comment_Query {
 	 * @param string|array $query {
 	 *     Optional. Array or query string of comment query parameters. Default empty.
 	 *
-	 *     @type string       $author_email        Comment author email address. Default empty.
-	 *     @type array        $author__in          Array of author IDs to include comments for. Default empty.
-	 *     @type array        $author__not_in      Array of author IDs to exclude comments for. Default empty.
-	 *     @type array        $comment__in         Array of comment IDs to include. Default empty.
-	 *     @type array        $comment__not_in     Array of comment IDs to exclude. Default empty.
-	 *     @type bool         $count               Whether to return a comment count (true) or array of comment
-	 *                                             objects (false). Default false.
-	 *     @type array        $date_query          Date query clauses to limit comments by. See WP_Date_Query.
-	 *                                             Default null.
-	 *     @type string       $fields              Comment fields to return. Accepts 'ids' for comment IDs only or
-	 *                                             empty for all fields. Default empty.
-	 *     @type int          $ID                  Currently unused.
-	 *     @type array        $include_unapproved  Array of IDs or email addresses of users whose unapproved comments
-	 *                                             will be returned by the query regardless of `$status`. Default empty.
-	 *     @type int          $karma               Karma score to retrieve matching comments for. Default empty.
-	 *     @type string       $meta_key            Include comments with a matching comment meta key. Default empty.
-	 *     @type string       $meta_value          Include comments with a matching comment meta value. Requires
-	 *                                             `$meta_key` to be set. Default empty.
-	 *     @type array        $meta_query          Meta query clauses to limit retrieved comments by.
-	 *                                             See WP_Meta_Query. Default empty.
-	 *     @type int          $number              Maximum number of comments to retrieve. Default null (no limit).
-	 *     @type int          $offset              Number of comments to offset the query. Used to build LIMIT clause.
-	 *                                             Default 0.
-	 *     @type bool         $no_found_rows       Whether to disable the `SQL_CALC_FOUND_ROWS` query.
-	 *                                             Default: true.
-	 *     @type string|array $orderby             Comment status or array of statuses. To use 'meta_value' or
-	 *                                             'meta_value_num', `$meta_key` must also be defined. To sort by
-	 *                                             a specific `$meta_query` clause, use that clause's array key.
-	 *                                             Accepts 'comment_agent', 'comment_approved', 'comment_author',
-	 *                                             'comment_author_email', 'comment_author_IP',
-	 *                                             'comment_author_url', 'comment_content', 'comment_date',
-	 *                                             'comment_date_gmt', 'comment_ID', 'comment_karma',
-	 *                                             'comment_parent', 'comment_post_ID', 'comment_type', 'user_id',
-	 *                                             'comment__in', 'meta_value', 'meta_value_num', the value of $meta_key, and the
-	 *                                             array keys of `$meta_query`. Also accepts false, an empty array,
-	 *                                             or 'none' to disable `ORDER BY` clause.
-	 *                                             Default: 'comment_date_gmt'.
-	 *     @type string       $order               How to order retrieved comments. Accepts 'ASC', 'DESC'.
-	 *                                             Default: 'DESC'.
-	 *     @type int          $parent              Parent ID of comment to retrieve children of. Default empty.
-	 *     @type array        $parent__in          Array of parent IDs of comments to retrieve children for. Default empty.
-	 *     @type array        $parent__not_in      Array of parent IDs of comments *not* to retrieve children for. Default empty.
-	 *     @type array        $post_author__in     Array of author IDs to retrieve comments for. Default empty.
-	 *     @type array        $post_author__not_in Array of author IDs *not* to retrieve comments for. Default empty.
-	 *     @type int          $post_ID             Currently unused.
-	 *     @type int          $post_id             Limit results to those affiliated with a given post ID. Default 0.
-	 *     @type array        $post__in            Array of post IDs to include affiliated comments for. Default empty.
-	 *     @type array        $post__not_in        Array of post IDs to exclude affiliated comments for. Default empty.
-	 *     @type int          $post_author         Comment author ID to limit results by. Default empty.
-	 *     @type string       $post_status         Post status to retrieve affiliated comments for. Default empty.
-	 *     @type string       $post_type           Post type to retrieve affiliated comments for. Default empty.
-	 *     @type string       $post_name           Post name to retrieve affiliated comments for. Default empty.
-	 *     @type int          $post_parent         Post parent ID to retrieve affiliated comments for. Default empty.
-	 *     @type string       $search              Search term(s) to retrieve matching comments for. Default empty.
-	 *     @type string       $status              Comment status to limit results by. Accepts 'hold'
-	 *                                             (`comment_status=0`), 'approve' (`comment_status=1`), 'all', or a
-	 *                                             custom comment status. Default 'all'.
-	 *     @type string|array $type                Include comments of a given type, or array of types. Accepts
-	 *                                             'comment', 'pings' (includes 'pingback' and 'trackback'), or any
-	 *                                             custom type string. Default empty.
-	 *     @type array        $type__in            Include comments from a given array of comment types. Default empty.
-	 *     @type array        $type__not_in        Exclude comments from a given array of comment types. Default empty.
-	 *     @type int          $user_id             Include comments for a specific user ID. Default empty.
-	 *     @type bool|string  $hierarchical        Whether to include comment descendants in the results.
-	 *                                             'threaded' returns a tree, with each comment's children stored
-	 *                                             in a `children` property on the `WP_Comment` object. 'flat'
-	 *                                             returns a flat array of found comments plus their children.
-	 *                                             Pass `false` to leave out descendants. The parameter is ignored
-	 *                                             (forced to `false`) when `$fields` is 'ids' or 'counts'.
-	 *                                             Accepts 'threaded', 'flat', or false. Default: false.
+	 *     @type string       $author_email              Comment author email address. Default empty.
+	 *     @type array        $author__in                Array of author IDs to include comments for. Default empty.
+	 *     @type array        $author__not_in            Array of author IDs to exclude comments for. Default empty.
+	 *     @type array        $comment__in               Array of comment IDs to include. Default empty.
+	 *     @type array        $comment__not_in           Array of comment IDs to exclude. Default empty.
+	 *     @type bool         $count                     Whether to return a comment count (true) or array of
+	 *                                                   comment objects (false). Default false.
+	 *     @type array        $date_query                Date query clauses to limit comments by. See WP_Date_Query.
+	 *                                                   Default null.
+	 *     @type string       $fields                    Comment fields to return. Accepts 'ids' for comment IDs
+	 *                                                   only or empty for all fields. Default empty.
+	 *     @type int          $ID                        Currently unused.
+	 *     @type array        $include_unapproved        Array of IDs or email addresses of users whose unapproved
+	 *                                                   comments will be returned by the query regardless of
+	 *                                                   `$status`. Default empty.
+	 *     @type int          $karma                     Karma score to retrieve matching comments for.
+	 *                                                   Default empty.
+	 *     @type string       $meta_key                  Include comments with a matching comment meta key.
+	 *                                                   Default empty.
+	 *     @type string       $meta_value                Include comments with a matching comment meta value.
+	 *                                                   Requires `$meta_key` to be set. Default empty.
+	 *     @type array        $meta_query                Meta query clauses to limit retrieved comments by.
+	 *                                                   See WP_Meta_Query. Default empty.
+	 *     @type int          $number                    Maximum number of comments to retrieve.
+	 *                                                   Default null (no limit).
+	 *     @type int          $offset                    Number of comments to offset the query. Used to build
+	 *                                                   LIMIT clause. Default 0.
+	 *     @type bool         $no_found_rows             Whether to disable the `SQL_CALC_FOUND_ROWS` query.
+	 *                                                   Default: true.
+	 *     @type string|array $orderby                   Comment status or array of statuses. To use 'meta_value'
+	 *                                                   or 'meta_value_num', `$meta_key` must also be defined.
+	 *                                                   To sort by a specific `$meta_query` clause, use that
+	 *                                                   clause's array key. Accepts 'comment_agent',
+	 *                                                   'comment_approved', 'comment_author',
+	 *                                                   'comment_author_email', 'comment_author_IP',
+	 *                                                   'comment_author_url', 'comment_content', 'comment_date',
+	 *                                                   'comment_date_gmt', 'comment_ID', 'comment_karma',
+	 *                                                   'comment_parent', 'comment_post_ID', 'comment_type',
+	 *                                                   'user_id', 'comment__in', 'meta_value', 'meta_value_num',
+	 *                                                   the value of $meta_key, and the array keys of
+	 *                                                   `$meta_query`. Also accepts false, an empty array, or
+	 *                                                   'none' to disable `ORDER BY` clause.
+	 *                                                   Default: 'comment_date_gmt'.
+	 *     @type string       $order                     How to order retrieved comments. Accepts 'ASC', 'DESC'.
+	 *                                                   Default: 'DESC'.
+	 *     @type int          $parent                    Parent ID of comment to retrieve children of.
+	 *                                                   Default empty.
+	 *     @type array        $parent__in                Array of parent IDs of comments to retrieve children for.
+	 *                                                   Default empty.
+	 *     @type array        $parent__not_in            Array of parent IDs of comments *not* to retrieve
+	 *                                                   children for. Default empty.
+	 *     @type array        $post_author__in           Array of author IDs to retrieve comments for.
+	 *                                                   Default empty.
+	 *     @type array        $post_author__not_in       Array of author IDs *not* to retrieve comments for.
+	 *                                                   Default empty.
+	 *     @type int          $post_ID                   Currently unused.
+	 *     @type int          $post_id                   Limit results to those affiliated with a given post ID.
+	 *                                                   Default 0.
+	 *     @type array        $post__in                  Array of post IDs to include affiliated comments for.
+	 *                                                   Default empty.
+	 *     @type array        $post__not_in              Array of post IDs to exclude affiliated comments for.
+	 *                                                   Default empty.
+	 *     @type int          $post_author               Comment author ID to limit results by. Default empty.
+	 *     @type string       $post_status               Post status to retrieve affiliated comments for.
+	 *                                                   Default empty.
+	 *     @type string       $post_type                 Post type to retrieve affiliated comments for.
+	 *                                                   Default empty.
+	 *     @type string       $post_name                 Post name to retrieve affiliated comments for.
+	 *                                                   Default empty.
+	 *     @type int          $post_parent               Post parent ID to retrieve affiliated comments for.
+	 *                                                   Default empty.
+	 *     @type string       $search                    Search term(s) to retrieve matching comments for.
+	 *                                                   Default empty.
+	 *     @type string       $status                    Comment status to limit results by. Accepts 'hold'
+	 *                                                   (`comment_status=0`), 'approve' (`comment_status=1`),
+	 *                                                   'all', or a custom comment status. Default 'all'.
+	 *     @type string|array $type                      Include comments of a given type, or array of types.
+	 *                                                   Accepts 'comment', 'pings' (includes 'pingback' and
+	 *                                                   'trackback'), or anycustom type string. Default empty.
+	 *     @type array        $type__in                  Include comments from a given array of comment types.
+	 *                                                   Default empty.
+	 *     @type array        $type__not_in              Exclude comments from a given array of comment types.
+	 *                                                   Default empty.
+	 *     @type int          $user_id                   Include comments for a specific user ID. Default empty.
+	 *     @type bool|string  $hierarchical              Whether to include comment descendants in the results.
+	 *                                                   'threaded' returns a tree, with each comment's children
+	 *                                                   stored in a `children` property on the `WP_Comment`
+	 *                                                   object. 'flat' returns a flat array of found comments plus
+	 *                                                   their children. Pass `false` to leave out descendants.
+	 *                                                   The parameter is ignored (forced to `false`) when
+	 *                                                   `$fields` is 'ids' or 'counts'. Accepts 'threaded',
+	 *                                                   'flat', or false. Default: false.
 	 *     @type bool         $update_comment_meta_cache Whether to prime the metadata cache for found comments.
 	 *                                                   Default true.
 	 * }
