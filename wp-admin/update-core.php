@@ -252,8 +252,25 @@ function list_plugin_updates() {
 
 	<tbody class="plugins">
 <?php
-	foreach ( (array) $plugins as $plugin_file => $plugin_data) {
-		$info = plugins_api('plugin_information', array('slug' => $plugin_data->update->slug ));
+	foreach ( (array) $plugins as $plugin_file => $plugin_data ) {
+		$info = plugins_api( 'plugin_information', array(
+			'slug' => $plugin_data->update->slug,
+			'fields' => array(
+				'short_description' => false,
+				'sections' => false,
+				'requires' => false,
+				'rating' => false,
+				'ratings' => false,
+				'downloaded' => false,
+				'downloadlink' => false,
+				'last_updated' => false,
+				'added' => false,
+				'tags' => false,
+				'homepage' => false,
+				'donate_link' => false,
+			),
+		) );
+
 		if ( is_wp_error( $info ) ) {
 			$info = false;
 		}
