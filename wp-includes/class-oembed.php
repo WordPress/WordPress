@@ -98,7 +98,7 @@ class WP_oEmbed {
 		 *
 		 * Supported providers:
 		 *
-		 * |   Provider   |        Flavor        |  SSL  |   Since   |
+		 * |   Provider   |        Flavor        | HTTPS |   Since   |
 		 * | ------------ | -------------------- | ----- | --------- |
 		 * | Dailymotion  | dailymotion.com      |  Yes  | 2.9.0     |
 		 * | Flickr       | flickr.com           |  Yes  | 2.9.0     |
@@ -108,29 +108,23 @@ class WP_oEmbed {
 		 * | Vimeo        | vimeo.com            |  Yes  | 2.9.0     |
 		 * | WordPress.tv | wordpress.tv         |  Yes  | 2.9.0     |
 		 * | YouTube      | youtube.com/watch    |  Yes  | 2.9.0     |
-		 * | ------------ | -------------------- | ----- | --------- |
 		 * | Funny or Die | funnyordie.com       |  Yes  | 3.0.0     |
 		 * | Polldaddy    | polldaddy.com        |  Yes  | 3.0.0     |
 		 * | SmugMug      | smugmug.com          |  Yes  | 3.0.0     |
 		 * | YouTube      | youtu.be             |  Yes  | 3.0.0     |
-		 * | ------------ | -------------------- | ----- | --------- |
 		 * | Twitter      | twitter.com          |  Yes  | 3.4.0     |
-		 * | ------------ | -------------------- | ----- | --------- |
 		 * | Instagram    | instagram.com        |  Yes  | 3.5.0     |
 		 * | Instagram    | instagr.am           |  Yes  | 3.5.0     |
 		 * | Slideshare   | slideshare.net       |  Yes  | 3.5.0     |
 		 * | SoundCloud   | soundcloud.com       |  Yes  | 3.5.0     |
-		 * | ------------ | -------------------- | ----- | --------- |
 		 * | Dailymotion  | dai.ly               |  No   | 3.6.0     |
 		 * | Flickr       | flic.kr              |  Yes  | 3.6.0     |
 		 * | Rdio         | rdio.com             |  Yes  | 3.6.0     |
 		 * | Rdio         | rd.io                |  Yes  | 3.6.0     |
 		 * | Spotify      | spotify.com          |  Yes  | 3.6.0     |
-		 * | ------------ | -------------------- | ----- | --------- |
 		 * | Imgur        | imgur.com            |  Yes  | 3.9.0     |
 		 * | Meetup.com   | meetup.com           |  Yes  | 3.9.0     |
 		 * | Meetup.com   | meetu.ps             |  Yes  | 3.9.0     |
-		 * | ------------ | -------------------- | ----- | --------- |
 		 * | Animoto      | animoto.com          |  Yes  | 4.0.0     |
 		 * | Animoto      | video214.com         |  Yes  | 4.0.0     |
 		 * | CollegeHumor | collegehumor.com     |  Yes  | 4.0.0     |
@@ -139,26 +133,20 @@ class WP_oEmbed {
 		 * | Polldaddy    | poll.fm              |  Yes  | 4.0.0     |
 		 * | TED          | ted.com              |  Yes  | 4.0.0     |
 		 * | YouTube      | youtube.com/playlist |  Yes  | 4.0.0     |
-		 * | ------------ | -------------------- | ----- | --------- |
 		 * | Vine         | vine.co              |  Yes  | 4.1.0     |
-		 * | ------------ | -------------------- | ----- | --------- |
 		 * | Tumblr       | tumblr.com           |  Yes  | 4.2.0     |
 		 * | Kickstarter  | kickstarter.com      |  Yes  | 4.2.0     |
 		 * | Kickstarter  | kck.st               |  Yes  | 4.2.0     |
-		 * | ------------ | -------------------- | ----- | --------- |
 		 * | Cloudup      | cloudup.com          |  Yes  | 4.4.0     |
 		 * | ReverbNation | reverbnation.com     |  Yes  | 4.4.0     |
 		 *
 		 * No longer supported providers:
 		 *
-		 * |   Provider   |        Flavor        |  SSL  |   Since   |  Removed  |
+		 * |   Provider   |        Flavor        | HTTPS |   Since   |  Removed  |
 		 * | ------------ | -------------------- | ----- | --------- | --------- |
 		 * | Qik          | qik.com              |  Yes  | 2.9.0     | 3.9.0     |
-		 * | ------------ | -------------------- | ----- | --------- | --------- |
 		 * | Viddler      | viddler.com          |  Yes  | 2.9.0     | 4.0.0     |
-		 * | ------------ | -------------------- | ----- | --------- | --------- |
 		 * | Revision3    | revision3.com        |  No   | 2.9.0     | 4.2.0     |
-		 * | ------------ | -------------------- | ----- | --------- | --------- |
 		 * | Blip         | blip.tv              |  No   | 2.9.0     | 4.4.0     |
 		 *
 		 * @see wp_oembed_add_provider()
