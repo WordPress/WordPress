@@ -320,4 +320,43 @@ final class WP_Comment {
 
 		return false;
 	}
+
+	/**
+	 * Whether a comment has post from which to retrieve magic properties
+	 *
+	 * @since 4.4.0
+	 * @access public
+	 *
+	 * @param string $name
+	 * @return bool
+	 */
+	public function __isset( $name ) {
+		if (
+			0 === (int) $this->comment_post_ID
+			|| property_exists( $this, $name )
+		) {
+			return;
+		}
+
+		$post = get_post( $this->comment_post_ID );
+		if ( $post ) {
+			return property_exists( $post, $name );
+		}
+	}
+
+	/**
+	 * Magic getter for $post properties
+	 *
+	 * @since 4.4.0
+	 * @access public
+	 *
+	 * @param string $name
+	 * @return mixed
+	 */
+	public function __get( $name ) {
+		$post = get_post( $this->comment_post_ID );
+		if ( $post ) {
+			return $post->$name;
+		}
+	}
 }
