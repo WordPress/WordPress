@@ -103,7 +103,7 @@ class WP_oEmbed {
 		 * | Dailymotion  | dailymotion.com      |  Yes  | 2.9.0     |
 		 * | Flickr       | flickr.com           |  Yes  | 2.9.0     |
 		 * | Hulu         | hulu.com             |  Yes  | 2.9.0     |
-		 * | Photobucket  | photobucket.com      |   !   | 2.9.0     |
+		 * | Photobucket  | photobucket.com      |  No   | 2.9.0     |
 		 * | Scribd       | scribd.com           |  Yes  | 2.9.0     |
 		 * | Vimeo        | vimeo.com            |  Yes  | 2.9.0     |
 		 * | WordPress.tv | wordpress.tv         |  Yes  | 2.9.0     |
@@ -121,7 +121,7 @@ class WP_oEmbed {
 		 * | Slideshare   | slideshare.net       |  Yes  | 3.5.0     |
 		 * | SoundCloud   | soundcloud.com       |  Yes  | 3.5.0     |
 		 * | ------------ | -------------------- | ----- | --------- |
-		 * | Dailymotion  | dai.ly               |   !   | 3.6.0     |
+		 * | Dailymotion  | dai.ly               |  No   | 3.6.0     |
 		 * | Flickr       | flic.kr              |  Yes  | 3.6.0     |
 		 * | Rdio         | rdio.com             |  Yes  | 3.6.0     |
 		 * | Rdio         | rd.io                |  Yes  | 3.6.0     |
@@ -157,9 +157,9 @@ class WP_oEmbed {
 		 * | ------------ | -------------------- | ----- | --------- | --------- |
 		 * | Viddler      | viddler.com          |  Yes  | 2.9.0     | 4.0.0     |
 		 * | ------------ | -------------------- | ----- | --------- | --------- |
-		 * | Revision3    | revision3.com        |   !   | 2.9.0     | 4.2.0     |
+		 * | Revision3    | revision3.com        |  No   | 2.9.0     | 4.2.0     |
 		 * | ------------ | -------------------- | ----- | --------- | --------- |
-		 * | Blip         | blip.tv              |   !   | 2.9.0     | 4.4.0     |
+		 * | Blip         | blip.tv              |  No   | 2.9.0     | 4.4.0     |
 		 *
 		 * @see wp_oembed_add_provider()
 		 *
