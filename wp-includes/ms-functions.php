@@ -2372,7 +2372,11 @@ function get_space_allowed() {
  * @return int of upload space available in bytes
  */
 function get_upload_space_available() {
-	$space_allowed = get_space_allowed() * 1024 * 1024;
+	$allowed = get_space_allowed();
+	if ( $allowed < 0 ) {
+		$allowed = 0;
+	}
+	$space_allowed = $allowed * 1024 * 1024;
 	if ( get_site_option( 'upload_space_check_disabled' ) )
 		return $space_allowed;
 

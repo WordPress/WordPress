@@ -5721,6 +5721,11 @@ class wp_xmlrpc_server extends IXR_Server {
 			return $this->error;
 		}
 
+		if ( is_multisite() && upload_is_user_over_quota( false ) ) {
+			$this->error = new IXR_Error( 401, __( 'Sorry, you have used your space allocation.' ) );
+			return $this->error;
+		}
+
 		/**
 		 * Filter whether to preempt the XML-RPC media upload.
 		 *
