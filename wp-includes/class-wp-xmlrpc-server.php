@@ -4563,6 +4563,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	 *     @type string $username
 	 *     @type string $password
 	 *     @type string $content
+	 *     @type bool   $publish
 	 * }
 	 * @return true|IXR_Error true when done.
 	 */
@@ -4574,6 +4575,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		$username = $args[2];
 		$password = $args[3];
 		$content  = $args[4];
+		$publish  = $args[5];
 
 		if ( ! $user = $this->login( $username, $password ) ) {
 			return $this->error;
@@ -4604,6 +4606,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		$postdata['post_category'] = xmlrpc_getpostcategory( $content );
 		$postdata['post_status'] = $actual_post['post_status'];
 		$postdata['post_excerpt'] = $actual_post['post_excerpt'];
+		$postdata['post_status'] = $publish ? 'publish' : 'draft';
 
 		$result = wp_update_post( $postdata );
 
