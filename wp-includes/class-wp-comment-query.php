@@ -138,7 +138,7 @@ class WP_Comment_Query {
 	 * @since 4.2.0
 	 * @since 4.4.0 `$parent__in` and `$parent__not_in` were added.
 	 * @since 4.4.0 Order by `comment__in` was added. `$update_comment_meta_cache`, `$no_found_rows`,
-	 *              and `$hierarchical` were added.
+	 *              `$hierarchical`, and `$update_comment_post_cache` were added.
 	 * @access public
 	 *
 	 * @param string|array $query {
@@ -238,6 +238,8 @@ class WP_Comment_Query {
 	 *                                                   'flat', or false. Default: false.
 	 *     @type bool         $update_comment_meta_cache Whether to prime the metadata cache for found comments.
 	 *                                                   Default true.
+	 *     @type bool         $update_comment_post_cache Whether to prime the cache for comment posts.
+	 *                                                   Default false.
 	 * }
 	 */
 	public function __construct( $query = '' ) {
@@ -281,6 +283,7 @@ class WP_Comment_Query {
 			'date_query' => null, // See WP_Date_Query
 			'hierarchical' => false,
 			'update_comment_meta_cache' => true,
+			'update_comment_post_cache' => false,
 		);
 
 		if ( ! empty( $query ) ) {
@@ -412,6 +415,16 @@ class WP_Comment_Query {
 			if ( $_comment = wp_cache_get( $comment_id, 'comment' ) ) {
 				$_comments[] = $_comment;
 			}
+		}
+
+		// Prime comment post caches.
+		if ( $this->query_vars['update_comment_post_cache'] ) {
+			$comment_post_ids = array();
+			foreach ( $_comments as $_comment ) {
+				$comment_post_ids[] = $_comment->comment_post_ID;
+			}
+
+			_prime_post_caches( $comment_post_ids, false, false );
 		}
 
 		/**

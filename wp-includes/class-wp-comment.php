@@ -159,6 +159,15 @@ final class WP_Comment {
 	protected $children;
 
 	/**
+	 * Post fields.
+	 *
+	 * @since 4.4.0
+	 * @access protected
+	 * @var array
+	 */
+	protected $post_fields = array( 'post_author', 'post_date', 'post_date_gmt', 'post_content', 'post_title', 'post_excerpt', 'post_status', 'comment_status', 'ping_status', 'post_name', 'to_ping', 'pinged', 'post_modified', 'post_modified_gmt', 'post_content_filtered', 'post_parent', 'guid', 'menu_order', 'post_type', 'post_mime_type', 'comment_count' );
+
+	/**
 	 * Retrieves a WP_Comment instance.
 	 *
 	 * @since 4.4.0
@@ -322,30 +331,27 @@ final class WP_Comment {
 	}
 
 	/**
-	 * Whether a comment has post from which to retrieve magic properties
+	 * Check whether a non-public property is set.
+	 *
+	 * If `$name` matches a post field, the comment post will be loaded and the post's value checked.
 	 *
 	 * @since 4.4.0
 	 * @access public
 	 *
-	 * @param string $name
+	 * @param string $name Property name.
 	 * @return bool
 	 */
 	public function __isset( $name ) {
-		if (
-			0 === (int) $this->comment_post_ID
-			|| property_exists( $this, $name )
-		) {
-			return;
-		}
-
-		$post = get_post( $this->comment_post_ID );
-		if ( $post ) {
+		if ( in_array( $name, $this->post_fields ) && 0 !== (int) $this->comment_post_ID ) {
+			$post = get_post( $this->comment_post_ID );
 			return property_exists( $post, $name );
 		}
 	}
 
 	/**
-	 * Magic getter for $post properties
+	 * Magic getter.
+	 *
+	 * If `$name` matches a post field, the comment post will be loaded and the post's value returned.
 	 *
 	 * @since 4.4.0
 	 * @access public
@@ -354,8 +360,8 @@ final class WP_Comment {
 	 * @return mixed
 	 */
 	public function __get( $name ) {
-		$post = get_post( $this->comment_post_ID );
-		if ( $post ) {
+		if ( in_array( $name, $this->post_fields ) ) {
+			$post = get_post( $this->comment_post_ID );
 			return $post->$name;
 		}
 	}
