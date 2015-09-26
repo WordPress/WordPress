@@ -4931,8 +4931,8 @@ class wp_xmlrpc_server extends IXR_Server {
 			$post_date = get_date_from_gmt(iso8601_to_datetime($dateCreated));
 			$post_date_gmt = iso8601_to_datetime($dateCreated, 'GMT');
 		} else {
-			$post_date = current_time('mysql');
-			$post_date_gmt = current_time('mysql', 1);
+			$post_date = '';
+			$post_date_gmt = '';
 		}
 
 		$post_category = array();
