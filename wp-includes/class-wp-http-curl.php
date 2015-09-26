@@ -1,6 +1,6 @@
 <?php
 /**
- * HTTP API: WP_Http_Curl object class
+ * HTTP API: WP_Http_Curl class
  *
  * @package WordPress
  * @subpackage HTTP

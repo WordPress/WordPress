@@ -1,6 +1,6 @@
 <?php
 /**
- * Network API: WP_Network object class
+ * Network API: WP_Network class
  *
  * @package WordPress
  * @subpackage Multisite

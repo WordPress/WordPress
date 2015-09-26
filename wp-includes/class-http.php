@@ -1,6 +1,6 @@
 <?php
 /**
- * HTTP API: WP_Http object class
+ * HTTP API: WP_Http class
  *
  * @package WordPress
  * @subpackage HTTP
