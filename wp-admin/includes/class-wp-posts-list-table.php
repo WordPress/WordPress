@@ -79,16 +79,19 @@ class WP_Posts_List_Table extends WP_List_Table {
 
 		$post_type        = $this->screen->post_type;
 		$post_type_object = get_post_type_object( $post_type );
-		$exclude_states   = get_post_stati( array(
-			'show_in_admin_all_list' => false,
-		) );
-		$this->user_posts_count = $wpdb->get_var( $wpdb->prepare( "
-			SELECT COUNT( 1 )
-			FROM $wpdb->posts
-			WHERE post_type = %s
-			AND post_status NOT IN ( '" . implode( "','", $exclude_states ) . "' )
-			AND post_author = %d
-		", $post_type, get_current_user_id() ) );
+
+		if ( is_multi_author() ) {
+			$exclude_states   = get_post_stati( array(
+				'show_in_admin_all_list' => false,
+			) );
+			$this->user_posts_count = $wpdb->get_var( $wpdb->prepare( "
+				SELECT COUNT( 1 )
+				FROM $wpdb->posts
+				WHERE post_type = %s
+				AND post_status NOT IN ( '" . implode( "','", $exclude_states ) . "' )
+				AND post_author = %d
+			", $post_type, get_current_user_id() ) );
+		}
 
 		if ( $this->user_posts_count && ! current_user_can( $post_type_object->cap->edit_others_posts ) && empty( $_REQUEST['post_status'] ) && empty( $_REQUEST['all_posts'] ) && empty( $_REQUEST['author'] ) && empty( $_REQUEST['show_sticky'] ) ) {
 			$_GET['author'] = get_current_user_id();
@@ -260,13 +263,14 @@ class WP_Posts_List_Table extends WP_List_Table {
 
 		$status_links = array();
 		$num_posts = wp_count_posts( $post_type, 'readable' );
+		$total_posts = array_sum( (array) $num_posts );
 		$class = '';
 
 		$current_user_id = get_current_user_id();
 		$all_args = array( 'post_type' => $post_type );
 		$mine = '';
 
-		if ( $this->user_posts_count ) {
+		if ( $this->user_posts_count && $this->user_posts_count !== $total_posts ) {
 			if ( isset( $_GET['author'] ) && ( $_GET['author'] == $current_user_id ) ) {
 				$class = 'current';
 			}
@@ -291,8 +295,6 @@ class WP_Posts_List_Table extends WP_List_Table {
 			$all_args['all_posts'] = 1;
 			$class = '';
 		}
-
-		$total_posts = array_sum( (array) $num_posts );
 
 		// Subtract post types that are not included in the admin all list.
 		foreach ( get_post_stati( array('show_in_admin_all_list' => false) ) as $state )
