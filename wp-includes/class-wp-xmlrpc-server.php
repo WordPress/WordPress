@@ -543,6 +543,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	 * }
 	 * @return array|IXR_Error Array contains:
 	 *  - 'isAdmin'
+	 *  - 'isPrimary' - whether the blog is the user's primary blog
 	 *  - 'url'
 	 *  - 'blogid'
 	 *  - 'blogName'
@@ -578,6 +579,11 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		$blogs = (array) get_blogs_of_user( $user->ID );
 		$struct = array();
+		$primary_blog_id = 0;
+		$active_blog = get_active_blog_for_user( $user->ID );
+		if ( $active_blog ) {
+			$primary_blog_id = (int) $active_blog->blog_id;
+		}
 
 		foreach ( $blogs as $blog ) {
 			// Don't include blogs that aren't hosted at this site.
@@ -589,13 +595,15 @@ class wp_xmlrpc_server extends IXR_Server {
 			switch_to_blog( $blog_id );
 
 			$is_admin = current_user_can( 'manage_options' );
+			$is_primary = ( (int) $blog_id === $primary_blog_id );
 
 			$struct[] = array(
-				'isAdmin'		=> $is_admin,
-				'url'			=> home_url( '/' ),
-				'blogid'		=> (string) $blog_id,
-				'blogName'		=> get_option( 'blogname' ),
-				'xmlrpc'		=> site_url( 'xmlrpc.php', 'rpc' ),
+				'isAdmin'   => $is_admin,
+				'isPrimary' => $is_primary,
+				'url'       => home_url( '/' ),
+				'blogid'    => (string) $blog_id,
+				'blogName'  => get_option( 'blogname' ),
+				'xmlrpc'    => site_url( 'xmlrpc.php', 'rpc' ),
 			);
 
 			restore_current_blog();
