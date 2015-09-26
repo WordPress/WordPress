@@ -301,7 +301,7 @@ final class WP_Comment {
 	 * @param WP_Comment $child Child comment.
 	 */
 	public function add_child( WP_Comment $child ) {
-		$this->comments[ $child->comment_ID ] = $child;
+		$this->children[ $child->comment_ID ] = $child;
 	}
 
 	/**
@@ -314,8 +314,8 @@ final class WP_Comment {
 	 * @return WP_Comment|bool Returns the comment object if found, otherwise false.
 	 */
 	public function get_child( $child_id ) {
-		if ( isset( $this->comments[ $child_id ] ) ) {
-			return $this->comments[ $child_id ];
+		if ( isset( $this->children[ $child_id ] ) ) {
+			return $this->children[ $child_id ];
 		}
 
 		return false;
