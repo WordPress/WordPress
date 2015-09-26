@@ -394,15 +394,6 @@ $new_user_ignore_pass = $creating && isset( $_POST['noconfirmation'] ) ? wp_unsl
 		<th scope="row"><label for="url"><?php _e('Website') ?></label></th>
 		<td><input name="url" type="url" id="url" class="code" value="<?php echo esc_attr( $new_user_uri ); ?>" /></td>
 	</tr>
-<?php
-/**
- * Filter the display of the password fields.
- *
- * @since 1.5.1
- *
- * @param bool $show Whether to show the password fields. Default true.
- */
-if ( apply_filters( 'show_password_fields', true ) ) : ?>
 	<tr class="form-field form-required user-pass1-wrap">
 		<th scope="row">
 			<label for="pass1">
@@ -445,7 +436,6 @@ if ( apply_filters( 'show_password_fields', true ) ) : ?>
 			</label>
 		</td>
 	</tr>
-<?php endif; ?>
 <?php } // !is_multisite ?>
 	<tr class="form-field">
 		<th scope="row"><label for="role"><?php _e('Role'); ?></label></th>
