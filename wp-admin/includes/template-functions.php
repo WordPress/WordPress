@@ -1631,12 +1631,14 @@ function _post_states($post) {
 		$post_states['scheduled'] = __( 'Scheduled' );
 	}
 
-	if ( get_option( 'page_on_front' ) == $post->ID ) {
-		$post_states['page_on_front'] = __( 'Front Page' );
-	}
+	if ( 'page' === get_option( 'show_on_front' ) ) {
+		if ( intval( get_option( 'page_on_front' ) ) === $post->ID ) {
+			$post_states['page_on_front'] = __( 'Front Page' );
+		}
 
-	if ( get_option( 'page_for_posts' ) == $post->ID ) {
-		$post_states['page_for_posts'] = __( 'Posts Page' );
+		if ( intval( get_option( 'page_for_posts' ) ) === $post->ID ) {
+			$post_states['page_for_posts'] = __( 'Posts Page' );
+		}
 	}
 
 	/**
