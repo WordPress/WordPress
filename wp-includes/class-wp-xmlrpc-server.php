@@ -3155,17 +3155,20 @@ class wp_xmlrpc_server extends IXR_Server {
 		$password	= $args[2];
 		$comment_id	= (int) $args[3];
 
-		if ( !$user = $this->login($username, $password) )
+		if ( ! $user = $this->login( $username, $password ) ) {
 			return $this->error;
-
-		if ( !current_user_can( 'moderate_comments' ) )
-			return new IXR_Error( 403, __( 'You are not allowed to moderate comments on this site.' ) );
+		}
 
 		/** This action is documented in wp-includes/class-wp-xmlrpc-server.php */
 		do_action( 'xmlrpc_call', 'wp.getComment' );
 
-		if ( ! $comment = get_comment($comment_id) )
+		if ( ! $comment = get_comment( $comment_id ) ) {
 			return new IXR_Error( 404, __( 'Invalid comment ID.' ) );
+		}
+
+		if ( ! current_user_can( 'edit_comment', $comment_id ) ) {
+			return new IXR_Error( 403, __( 'You are not allowed to moderate or edit this comment.' ) );
+		}
 
 		return $this->_prepare_comment( $comment );
 	}
@@ -3203,19 +3206,20 @@ class wp_xmlrpc_server extends IXR_Server {
 		$password = $args[2];
 		$struct	  = isset( $args[3] ) ? $args[3] : array();
 
-		if ( !$user = $this->login($username, $password) )
+		if ( ! $user = $this->login($username, $password ) )
 			return $this->error;
-
-		if ( !current_user_can( 'moderate_comments' ) )
-			return new IXR_Error( 401, __( 'Sorry, you cannot edit comments.' ) );
 
 		/** This action is documented in wp-includes/class-wp-xmlrpc-server.php */
 		do_action( 'xmlrpc_call', 'wp.getComments' );
 
-		if ( isset($struct['status']) )
+		if ( isset( $struct['status'] ) )
 			$status = $struct['status'];
 		else
 			$status = '';
+
+		if ( ! current_user_can( 'moderate_comments' ) && 'approve' !== $status ) {
+			return new IXR_Error( 401, __( 'Invalid comment status.' ) );
+		}
 
 		$post_id = '';
 		if ( isset($struct['post_id']) )
@@ -3260,24 +3264,24 @@ class wp_xmlrpc_server extends IXR_Server {
 	 * }
 	 * @return bool|IXR_Error {@link wp_delete_comment()}
 	 */
-	public function wp_deleteComment($args) {
+	public function wp_deleteComment( $args ) {
 		$this->escape($args);
 
 		$username	= $args[1];
 		$password	= $args[2];
 		$comment_ID	= (int) $args[3];
 
-		if ( !$user = $this->login($username, $password) )
+		if ( ! $user = $this->login( $username, $password ) ) {
 			return $this->error;
+		}
 
-		if ( !current_user_can( 'moderate_comments' ) )
-			return new IXR_Error( 403, __( 'You are not allowed to moderate comments on this site.' ) );
-
-		if ( ! get_comment($comment_ID) )
+		if ( ! get_comment( $comment_ID ) ) {
 			return new IXR_Error( 404, __( 'Invalid comment ID.' ) );
+		}
 
-		if ( !current_user_can( 'edit_comment', $comment_ID ) )
-			return new IXR_Error( 403, __( 'You are not allowed to moderate comments on this site.' ) );
+		if ( !current_user_can( 'edit_comment', $comment_ID ) ) {
+			return new IXR_Error( 403, __( 'You are not allowed to moderate or edit this comment.' ) );
+		}
 
 		/** This action is documented in wp-includes/class-wp-xmlrpc-server.php */
 		do_action( 'xmlrpc_call', 'wp.deleteComment' );
@@ -3334,17 +3338,17 @@ class wp_xmlrpc_server extends IXR_Server {
 		$comment_ID	= (int) $args[3];
 		$content_struct = $args[4];
 
-		if ( !$user = $this->login($username, $password) )
+		if ( !$user = $this->login( $username, $password ) ) {
 			return $this->error;
+		}
 
-		if ( !current_user_can( 'moderate_comments' ) )
-			return new IXR_Error( 403, __( 'You are not allowed to moderate comments on this site.' ) );
-
-		if ( ! get_comment($comment_ID) )
+		if ( ! get_comment( $comment_ID ) ) {
 			return new IXR_Error( 404, __( 'Invalid comment ID.' ) );
+		}
 
-		if ( !current_user_can( 'edit_comment', $comment_ID ) )
-			return new IXR_Error( 403, __( 'You are not allowed to moderate comments on this site.' ) );
+		if ( ! current_user_can( 'edit_comment', $comment_ID ) ) {
+			return new IXR_Error( 403, __( 'You are not allowed to moderate or edit this comment.' ) );
+		}
 
 		/** This action is documented in wp-includes/class-wp-xmlrpc-server.php */
 		do_action( 'xmlrpc_call', 'wp.editComment' );
@@ -3536,17 +3540,19 @@ class wp_xmlrpc_server extends IXR_Server {
 	 * }
 	 * @return array|IXR_Error
 	 */
-	public function wp_getCommentStatusList($args) {
+	public function wp_getCommentStatusList( $args ) {
 		$this->escape( $args );
 
 		$username = $args[1];
 		$password = $args[2];
 
-		if ( !$user = $this->login($username, $password) )
+		if ( ! $user = $this->login( $username, $password ) ) {
 			return $this->error;
+		}
 
-		if ( !current_user_can( 'moderate_comments' ) )
+		if ( ! current_user_can( 'publish_posts' ) ) {
 			return new IXR_Error( 403, __( 'You are not allowed access to details about this site.' ) );
+		}
 
 		/** This action is documented in wp-includes/class-wp-xmlrpc-server.php */
 		do_action( 'xmlrpc_call', 'wp.getCommentStatusList' );
@@ -3576,16 +3582,24 @@ class wp_xmlrpc_server extends IXR_Server {
 		$password	= $args[2];
 		$post_id	= (int) $args[3];
 
-		if ( !$user = $this->login($username, $password) )
+		if ( ! $user = $this->login( $username, $password ) ) {
 			return $this->error;
+		}
 
-		if ( !current_user_can( 'edit_posts' ) )
-			return new IXR_Error( 403, __( 'You are not allowed access to details about comments.' ) );
+		$post = get_post( $post_id, ARRAY_A );
+		if ( empty( $post['ID'] ) ) {
+			return new IXR_Error( 404, __( 'Invalid post ID.' ) );
+		}
+
+		if ( ! current_user_can( 'edit_post', $post_id ) ) {
+			return new IXR_Error( 403, __( 'You are not allowed access to details of this post.' ) );
+		}
 
 		/** This action is documented in wp-includes/class-wp-xmlrpc-server.php */
 		do_action( 'xmlrpc_call', 'wp.getCommentCount' );
 
 		$count = wp_count_comments( $post_id );
+
 		return array(
 			'approved' => $count->approved,
 			'awaiting_moderation' => $count->moderated,
