@@ -23,10 +23,6 @@ class WP_Widget_Recent_Comments extends WP_Widget {
 
 		if ( is_active_widget(false, false, $this->id_base) )
 			add_action( 'wp_head', array($this, 'recent_comments_style') );
-
-		add_action( 'comment_post', array($this, 'flush_widget_cache') );
-		add_action( 'edit_comment', array($this, 'flush_widget_cache') );
-		add_action( 'transition_comment_status', array($this, 'flush_widget_cache') );
 	}
 
 	/**
@@ -50,32 +46,12 @@ class WP_Widget_Recent_Comments extends WP_Widget {
 	}
 
 	/**
-	 * @access public
-	 */
-	public function flush_widget_cache() {
-		wp_cache_delete('widget_recent_comments', 'widget');
-	}
-
-	/**
 	 * @param array $args
 	 * @param array $instance
 	 */
 	public function widget( $args, $instance ) {
-		$cache = array();
-		if ( ! $this->is_preview() ) {
-			$cache = wp_cache_get('widget_recent_comments', 'widget');
-		}
-		if ( ! is_array( $cache ) ) {
-			$cache = array();
-		}
-
 		if ( ! isset( $args['widget_id'] ) )
 			$args['widget_id'] = $this->id;
-
-		if ( isset( $cache[ $args['widget_id'] ] ) ) {
-			echo $cache[ $args['widget_id'] ];
-			return;
-		}
 
 		$output = '';
 
@@ -128,11 +104,6 @@ class WP_Widget_Recent_Comments extends WP_Widget {
 		$output .= $args['after_widget'];
 
 		echo $output;
-
-		if ( ! $this->is_preview() ) {
-			$cache[ $args['widget_id'] ] = $output;
-			wp_cache_set( 'widget_recent_comments', $cache, 'widget' );
-		}
 	}
 
 	/**
@@ -144,12 +115,6 @@ class WP_Widget_Recent_Comments extends WP_Widget {
 		$instance = $old_instance;
 		$instance['title'] = sanitize_text_field( $new_instance['title'] );
 		$instance['number'] = absint( $new_instance['number'] );
-		$this->flush_widget_cache();
-
-		$alloptions = wp_cache_get( 'alloptions', 'options' );
-		if ( isset($alloptions['widget_recent_comments']) )
-			delete_option('widget_recent_comments');
-
 		return $instance;
 	}
 
