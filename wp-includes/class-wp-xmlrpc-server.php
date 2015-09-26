@@ -5734,24 +5734,6 @@ class wp_xmlrpc_server extends IXR_Server {
 			return new IXR_Error( 500, $upload_err );
 		}
 
-		if ( !empty($data['overwrite']) && ($data['overwrite'] == true) ) {
-			// Get postmeta info on the object.
-			$old_file = $wpdb->get_row("
-				SELECT ID
-				FROM {$wpdb->posts}
-				WHERE post_title = '{$name}'
-					AND post_type = 'attachment'
-			");
-
-			// Delete previous file.
-			wp_delete_attachment($old_file->ID);
-
-			// Make sure the new name is different by pre-pending the
-			// previous post id.
-			$filename = preg_replace('/^wpid\d+-/', '', $name);
-			$name = "wpid{$old_file->ID}-{$filename}";
-		}
-
 		$upload = wp_upload_bits($name, null, $bits);
 		if ( ! empty($upload['error']) ) {
 			$errorString = sprintf(__('Could not write file %1$s (%2$s)'), $name, $upload['error']);
