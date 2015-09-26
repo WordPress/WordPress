@@ -442,9 +442,11 @@ if ( is_multisite() && is_network_admin() && ! IS_PROFILE_PAGE && current_user_c
  * Filter the display of the password fields.
  *
  * @since 1.5.1
+ * @since 2.8.0 Add the `$profileuser` parameter.
  * @since 4.4.0 Now evaluated only in user-edit.php.
  *
- * @param bool $show Whether to show the password fields. Default true.
+ * @param bool    $show        Whether to show the password fields. Default true.
+ * @param WP_User $profileuser User object for the current user to edit.
  */
 if ( $show_password_fields = apply_filters( 'show_password_fields', true, $profileuser ) ) :
 ?>
