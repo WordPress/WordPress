@@ -368,11 +368,14 @@ if ( $action ) {
 				<?php
 				require_once(ABSPATH . 'wp-admin/admin-footer.php');
 				exit;
-			} //Endif verify-delete
-			$delete_result = delete_plugins($plugins);
+			} else {
+				$plugins_to_delete = count( $plugins );
+			} // endif verify-delete
+
+			$delete_result = delete_plugins( $plugins );
 
 			set_transient('plugins_delete_result_' . $user_ID, $delete_result); //Store the result in a cache rather than a URL param due to object type & length
-			wp_redirect( self_admin_url("plugins.php?deleted=true&plugin_status=$status&paged=$page&s=$s") );
+			wp_redirect( self_admin_url("plugins.php?deleted=$plugins_to_delete&plugin_status=$status&paged=$page&s=$s") );
 			exit;
 
 		case 'clear-recent-list':
@@ -470,7 +473,7 @@ if ( ! empty( $invalid ) ) {
 		<div id="message" class="updated notice is-dismissible">
 			<p>
 				<?php
-				if ( 1 == $plugins_to_delete ) {
+				if ( 1 == (int) $_GET['deleted'] ) {
 					_e( 'The selected plugin has been <strong>deleted</strong>.' );
 				} else {
 					_e( 'The selected plugins have been <strong>deleted</strong>.' );
