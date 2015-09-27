@@ -113,9 +113,9 @@ function plugins_api( $action, $args = array() ) {
 	}
 
 	/**
-	 * Override the Plugin Install API arguments.
+	 * Filter the WordPress.org Plugin Install API arguments.
 	 *
-	 * Please ensure that an object is returned.
+	 * Important: An object MUST be returned to this filter.
 	 *
 	 * @since 2.7.0
 	 *
