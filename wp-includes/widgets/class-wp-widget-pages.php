@@ -16,14 +16,26 @@
  */
 class WP_Widget_Pages extends WP_Widget {
 
+	/**
+	 * Sets up a new Pages widget instance.
+	 *
+	 * @since 2.8.0
+	 * @access public
+	 */
 	public function __construct() {
 		$widget_ops = array('classname' => 'widget_pages', 'description' => __( 'A list of your site&#8217;s Pages.') );
 		parent::__construct('pages', __('Pages'), $widget_ops);
 	}
 
 	/**
-	 * @param array $args
-	 * @param array $instance
+	 * Outputs the content for the current Pages widget instance.
+	 *
+	 * @since 2.8.0
+	 * @access public
+	 *
+	 * @param array $args     Display arguments including 'before_title', 'after_title',
+	 *                        'before_widget', and 'after_widget'.
+	 * @param array $instance Settings for the current Pages widget instance.
 	 */
 	public function widget( $args, $instance ) {
 
@@ -75,9 +87,15 @@ class WP_Widget_Pages extends WP_Widget {
 	}
 
 	/**
-	 * @param array $new_instance
-	 * @param array $old_instance
-	 * @return array
+	 * Handles updating settings for the current Pages widget instance.
+	 *
+	 * @since 2.8.0
+	 * @access public
+	 *
+	 * @param array $new_instance New settings for this instance as input by the user via
+	 *                            WP_Widget::form().
+	 * @param array $old_instance Old settings for this instance.
+	 * @return array Updated settings to save.
 	 */
 	public function update( $new_instance, $old_instance ) {
 		$instance = $old_instance;
@@ -94,12 +112,17 @@ class WP_Widget_Pages extends WP_Widget {
 	}
 
 	/**
-	 * @param array $instance
+	 * Outputs the settings form for the Pages widget.
+	 *
+	 * @since 2.8.0
+	 * @access public
+	 *
+	 * @param array $instance Current settings.
 	 */
 	public function form( $instance ) {
 		//Defaults
 		$instance = wp_parse_args( (array) $instance, array( 'sortby' => 'post_title', 'title' => '', 'exclude' => '') );
-	?>
+		?>
 		<p>
 			<label for="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>"><?php _e( 'Title:' ); ?></label>
 			<input class="widefat" id="<?php echo esc_attr( $this->get_field_id('title') ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'title' ) ); ?>" type="text" value="<?php echo esc_attr( $instance['title'] ); ?>" />
@@ -118,7 +141,7 @@ class WP_Widget_Pages extends WP_Widget {
 			<br />
 			<small><?php _e( 'Page IDs, separated by commas.' ); ?></small>
 		</p>
-<?php
+		<?php
 	}
 
 }
