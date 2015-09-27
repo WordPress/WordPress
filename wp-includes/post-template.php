@@ -1264,10 +1264,21 @@ function wp_page_menu( $args = array() ) {
 	$list_args['title_li'] = '';
 	$menu .= str_replace( array( "\r", "\n", "\t" ), '', wp_list_pages($list_args) );
 
+	$container = sanitize_text_field( $args['container'] );
+
 	if ( $menu ) {
+
+		// wp_nav_menu doesn't set before and after
+		if ( isset( $args['fallback_cb'] ) &&
+			'wp_page_menu' === $args['fallback_cb'] &&
+			'ul' !== $container ) {
+			$args['before'] = '<ul>';
+			$args['after'] = '</ul>';
+		}
+
 		$menu = $args['before'] . $menu . $args['after'];
 	}
-	$container = sanitize_text_field( $args['container'] );
+
 	$attrs = '';
 	if ( ! empty( $args['menu_id'] ) ) {
 		$attrs .= ' id="' . esc_attr( $args['menu_id'] ) . '"';
