@@ -8,7 +8,7 @@
  */
 
 /**
- * Core class used to implement the Navigation Menu widget.
+ * Core class used to implement the Custom Menu widget.
  *
  * @since 3.0.0
  *
@@ -16,14 +16,26 @@
  */
  class WP_Nav_Menu_Widget extends WP_Widget {
 
+	/**
+	 * Sets up a new Custom Menu widget instance.
+	 *
+	 * @since 3.0.0
+	 * @access public
+	 */
 	public function __construct() {
 		$widget_ops = array( 'description' => __('Add a custom menu to your sidebar.') );
 		parent::__construct( 'nav_menu', __('Custom Menu'), $widget_ops );
 	}
 
 	/**
-	 * @param array $args
-	 * @param array $instance
+	 * Outputs the content for the current Custom Menu widget instance.
+	 *
+	 * @since 3.0.0
+	 * @access public
+	 *
+	 * @param array $args     Display arguments including 'before_title', 'after_title',
+	 *                        'before_widget', and 'after_widget'.
+	 * @param array $instance Settings for the current Custom Menu widget instance.
 	 */
 	public function widget( $args, $instance ) {
 		// Get menu
@@ -65,9 +77,15 @@
 	}
 
 	/**
-	 * @param array $new_instance
-	 * @param array $old_instance
-	 * @return array
+	 * Handles updating settings for the current Custom Menu widget instance.
+	 *
+	 * @since 3.0.0
+	 * @access public
+	 *
+	 * @param array $new_instance New settings for this instance as input by the user via
+	 *                            WP_Widget::form().
+	 * @param array $old_instance Old settings for this instance.
+	 * @return array Updated settings to save.
 	 */
 	public function update( $new_instance, $old_instance ) {
 		$instance = array();
@@ -81,7 +99,12 @@
 	}
 
 	/**
-	 * @param array $instance
+	 * Outputs the settings form for the Custom Menu widget.
+	 *
+	 * @since 3.0.0
+	 * @access public
+	 *
+	 * @param array $instance Current settings.
 	 */
 	public function form( $instance ) {
 		$title = isset( $instance['title'] ) ? $instance['title'] : '';
