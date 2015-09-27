@@ -214,13 +214,12 @@ class WP_Users_List_Table extends WP_List_Table {
 	 *                      or below the table ("bottom").
 	 */
 	protected function extra_tablenav( $which ) {
-		if ( 'top' != $which )
-			return;
+		$id = 'bottom' === $which ? 'new_role2' : 'new_role';
 	?>
 	<div class="alignleft actions">
 		<?php if ( current_user_can( 'promote_users' ) ) : ?>
-		<label class="screen-reader-text" for="new_role"><?php _e( 'Change role to&hellip;' ) ?></label>
-		<select name="new_role" id="new_role">
+		<label class="screen-reader-text" for="<?php echo $id ?>"><?php _e( 'Change role to&hellip;' ) ?></label>
+		<select name="<?php echo $id ?>" id="<?php echo $id ?>">
 			<option value=""><?php _e( 'Change role to&hellip;' ) ?></option>
 			<?php wp_dropdown_roles(); ?>
 		</select>
@@ -250,8 +249,10 @@ class WP_Users_List_Table extends WP_List_Table {
 	 * @return string The bulk action required.
 	 */
 	public function current_action() {
-		if ( isset($_REQUEST['changeit']) && !empty($_REQUEST['new_role']) )
+		if ( isset( $_REQUEST['changeit'] ) &&
+			( ! empty( $_REQUEST['new_role'] ) || ! empty( $_REQUEST['new_role2'] ) ) ) {
 			return 'promote';
+		}
 
 		return parent::current_action();
 	}

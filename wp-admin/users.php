@@ -95,8 +95,16 @@ case 'promote':
 	}
 
 	$editable_roles = get_editable_roles();
-	if ( empty( $editable_roles[$_REQUEST['new_role']] ) )
-		wp_die(__('You can&#8217;t give users that role.'));
+	$role = false;
+	if ( ! empty( $_REQUEST['new_role2'] ) ) {
+		$role = $_REQUEST['new_role2'];
+	} elseif ( ! empty( $_REQUEST['new_role'] ) ) {
+		$role = $_REQUEST['new_role'];
+	}
+
+	if ( ! $role || empty( $editable_roles[ $role ] ) ) {
+		wp_die( __( 'You can&#8217;t give users that role.' ) );
+	}
 
 	$userids = $_REQUEST['users'];
 	$update = 'promote';
@@ -106,7 +114,7 @@ case 'promote':
 		if ( ! current_user_can('promote_user', $id) )
 			wp_die(__('You can&#8217;t edit that user.'));
 		// The new role of the current user must also have the promote_users cap or be a multisite super admin
-		if ( $id == $current_user->ID && ! $wp_roles->role_objects[ $_REQUEST['new_role'] ]->has_cap('promote_users')
+		if ( $id == $current_user->ID && ! $wp_roles->role_objects[ $role ]->has_cap('promote_users')
 			&& ! ( is_multisite() && is_super_admin() ) ) {
 				$update = 'err_admin_role';
 				continue;
@@ -122,7 +130,7 @@ case 'promote':
 		}
 
 		$user = get_userdata( $id );
-		$user->set_role($_REQUEST['new_role']);
+		$user->set_role( $role );
 	}
 
 	wp_redirect(add_query_arg('update', $update, $redirect));
