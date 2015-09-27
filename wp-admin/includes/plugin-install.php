@@ -7,7 +7,7 @@
  */
 
 /**
- * Retrieves plugin installer pages from WordPress Plugins API.
+ * Retrieves plugin installer pages from the WordPress.org Plugins API.
  *
  * It is possible for a plugin to override the Plugin API result with three
  * filters. Assume this is for plugins, which can extend on the Plugin Info to
