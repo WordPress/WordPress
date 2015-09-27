@@ -767,7 +767,7 @@ function wp_get_attachment_image($attachment_id, $size = 'thumbnail', $icon = fa
 		$attachment = get_post($attachment_id);
 		$default_attr = array(
 			'src'	=> $src,
-			'class'	=> "attachment-$size_class",
+			'class'	=> "attachment-$size_class size-$size",
 			'alt'	=> trim(strip_tags( get_post_meta($attachment_id, '_wp_attachment_image_alt', true) )), // Use Alt field first
 		);
 		if ( empty($default_attr['alt']) )
