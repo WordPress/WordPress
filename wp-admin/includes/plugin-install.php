@@ -125,15 +125,18 @@ function plugins_api( $action, $args = array() ) {
 	$args = apply_filters( 'plugins_api_args', $args, $action );
 
 	/**
-	 * Allows a plugin to override the WordPress.org Plugin Install API entirely.
+	 * Filter the response for the current WordPress.org Plugin Install API request.
 	 *
-	 * Please ensure that an object is returned.
+	 * Passing a non-false value will effectively short-circuit the WordPress.org API request.
+	 *
+	 * If `$action` is 'query_plugins', 'plugin_information', or 'hot_categories', an object MUST
+	 * be passed. If `$action` is 'hot_tags`, an array should be passed.
 	 *
 	 * @since 2.7.0
 	 *
-	 * @param bool|object $result The result object. Default false.
-	 * @param string      $action The type of information being requested from the Plugin Install API.
-	 * @param object      $args   Plugin API arguments.
+	 * @param false|object|array $result The result object or array. Default false.
+	 * @param string             $action The type of information being requested from the Plugin Install API.
+	 * @param object             $args   Plugin API arguments.
 	 */
 	$res = apply_filters( 'plugins_api', false, $action, $args );
 
