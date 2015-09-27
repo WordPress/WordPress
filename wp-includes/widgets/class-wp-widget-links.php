@@ -16,14 +16,26 @@
  */
 class WP_Widget_Links extends WP_Widget {
 
+	/**
+	 * Sets up a new Links widget instance.
+	 *
+	 * @since 2.8.0
+	 * @access public
+	 */
 	public function __construct() {
 		$widget_ops = array('description' => __( "Your blogroll" ) );
 		parent::__construct('links', __('Links'), $widget_ops);
 	}
 
 	/**
-	 * @param array $args
-	 * @param array $instance
+	 * Outputs the content for the current Links widget instance.
+	 *
+	 * @since 2.8.0
+	 * @access public
+	 *
+	 * @param array $args     Display arguments including 'before_title', 'after_title',
+	 *                        'before_widget', and 'after_widget'.
+	 * @param array $instance Settings for the current Links widget instance.
 	 */
 	public function widget( $args, $instance ) {
 		$show_description = isset($instance['description']) ? $instance['description'] : false;
@@ -68,9 +80,15 @@ class WP_Widget_Links extends WP_Widget {
 	}
 
 	/**
-	 * @param array $new_instance
-	 * @param array $old_instance
-	 * @return array
+	 * Handles updating settings for the current Links widget instance.
+	 *
+	 * @since 2.8.0
+	 * @access public
+	 *
+	 * @param array $new_instance New settings for this instance as input by the user via
+	 *                            WP_Widget::form().
+	 * @param array $old_instance Old settings for this instance.
+	 * @return array Updated settings to save.
 	 */
 	public function update( $new_instance, $old_instance ) {
 		$new_instance = (array) $new_instance;
@@ -91,7 +109,12 @@ class WP_Widget_Links extends WP_Widget {
 	}
 
 	/**
-	 * @param array $instance
+	 * Outputs the settings form for the Links widget.
+	 *
+	 * @since 2.8.0
+	 * @access public
+	 *
+	 * @param array $instance Current settings.
 	 */
 	public function form( $instance ) {
 
@@ -100,7 +123,7 @@ class WP_Widget_Links extends WP_Widget {
 		$link_cats = get_terms( 'link_category' );
 		if ( ! $limit = intval( $instance['limit'] ) )
 			$limit = -1;
-?>
+			?>
 		<p>
 		<label for="<?php echo $this->get_field_id('category'); ?>"><?php _e( 'Select Link Category:' ); ?></label>
 		<select class="widefat" id="<?php echo $this->get_field_id('category'); ?>" name="<?php echo $this->get_field_name('category'); ?>">
@@ -135,6 +158,6 @@ class WP_Widget_Links extends WP_Widget {
 		<label for="<?php echo $this->get_field_id('limit'); ?>"><?php _e( 'Number of links to show:' ); ?></label>
 		<input id="<?php echo $this->get_field_id('limit'); ?>" name="<?php echo $this->get_field_name('limit'); ?>" type="text" value="<?php echo $limit == -1 ? '' : intval( $limit ); ?>" size="3" />
 		</p>
-<?php
+		<?php
 	}
 }
