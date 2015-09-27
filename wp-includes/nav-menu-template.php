@@ -334,7 +334,7 @@ function wp_nav_menu( $args = array() ) {
 		 *                    Default is array containing 'div' and 'nav'.
 		 */
 		$allowed_tags = apply_filters( 'wp_nav_menu_container_allowedtags', array( 'div', 'nav' ) );
-		if ( in_array( $args->container, $allowed_tags ) ) {
+		if ( is_string( $args->container ) && in_array( $args->container, $allowed_tags ) ) {
 			$show_container = true;
 			$class = $args->container_class ? ' class="' . esc_attr( $args->container_class ) . '"' : ' class="menu-'. $menu->slug .'-container"';
 			$id = $args->container_id ? ' id="' . esc_attr( $args->container_id ) . '"' : '';
