@@ -16,6 +16,12 @@
  */
 class WP_Widget_Text extends WP_Widget {
 
+	/**
+	 * Sets up a new Text widget instance.
+	 *
+	 * @since 2.8.0
+	 * @access public
+	 */
 	public function __construct() {
 		$widget_ops = array('classname' => 'widget_text', 'description' => __('Arbitrary text or HTML.'));
 		$control_ops = array('width' => 400, 'height' => 350);
@@ -23,14 +29,14 @@ class WP_Widget_Text extends WP_Widget {
 	}
 
 	/**
-	 * Outputs the Text widget content.
+	 * Outputs the content for the current Text widget instance.
 	 *
 	 * @since 2.8.0
 	 * @access public
 	 *
 	 * @param array $args     Display arguments including 'before_title', 'after_title',
 	 *                        'before_widget', and 'after_widget'.
-	 * @param array $instance The settings for the particular instance of the widget.
+	 * @param array $instance Settings for the current Text widget instance.
 	 */
 	public function widget( $args, $instance ) {
 
@@ -61,9 +67,15 @@ class WP_Widget_Text extends WP_Widget {
 	}
 
 	/**
-	 * @param array $new_instance
-	 * @param array $old_instance
-	 * @return array
+	 * Handles updating settings for the current Text widget instance.
+	 *
+	 * @since 2.8.0
+	 * @access public
+	 *
+	 * @param array $new_instance New settings for this instance as input by the user via
+	 *                            WP_Widget::form().
+	 * @param array $old_instance Old settings for this instance.
+	 * @return array Settings to save or bool false to cancel saving.
 	 */
 	public function update( $new_instance, $old_instance ) {
 		$instance = $old_instance;
@@ -77,7 +89,12 @@ class WP_Widget_Text extends WP_Widget {
 	}
 
 	/**
-	 * @param array $instance
+	 * Outputs the Text widget settings form.
+	 *
+	 * @since 2.8.0
+	 * @access public
+	 *
+	 * @param array $instance Current settings.
 	 */
 	public function form( $instance ) {
 		$instance = wp_parse_args( (array) $instance, array( 'title' => '', 'text' => '' ) );
@@ -91,6 +108,6 @@ class WP_Widget_Text extends WP_Widget {
 		<textarea class="widefat" rows="16" cols="20" id="<?php echo $this->get_field_id('text'); ?>" name="<?php echo $this->get_field_name('text'); ?>"><?php echo esc_textarea( $instance['text'] ); ?></textarea></p>
 
 		<p><input id="<?php echo $this->get_field_id('filter'); ?>" name="<?php echo $this->get_field_name('filter'); ?>" type="checkbox"<?php checked( $filter ); ?> />&nbsp;<label for="<?php echo $this->get_field_id('filter'); ?>"><?php _e('Automatically add paragraphs'); ?></label></p>
-<?php
+		<?php
 	}
 }
