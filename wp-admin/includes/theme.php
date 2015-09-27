@@ -307,7 +307,12 @@ function get_theme_feature_list( $api = true ) {
  * as the second parameter. The hook for {@see 'themes_api_args'} must ensure that
  * an object is returned.
  *
- * The second filter, {@see 'themes_api'}, is the result that would be returned.
+ * The second filter, {@see 'themes_api'}, allows a plugin to override the WordPress.org
+ * Theme API entirely. If `$action` is 'query_themes', 'theme_information', or 'hot_categories',
+ * an object MUST be passed. If `$action` is 'hot_tags`, an array should be passed.
+ *
+ * Finally, the third filter, {@see 'themes_api_result'}, makes it possible to filter the
+ * response object or array, depending on the `$action` type.
  *
  * Supported arguments per action:
  *
