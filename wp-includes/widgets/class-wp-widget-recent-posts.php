@@ -8,7 +8,7 @@
  */
 
 /**
- * Core class used to implement a Recent_Posts widget.
+ * Core class used to implement a Recent Posts widget.
  *
  * @since 2.8.0
  *
@@ -16,6 +16,12 @@
  */
 class WP_Widget_Recent_Posts extends WP_Widget {
 
+	/**
+	 * Sets up a new Recent Posts widget instance.
+	 *
+	 * @since 2.8.0
+	 * @access public
+	 */
 	public function __construct() {
 		$widget_ops = array('classname' => 'widget_recent_entries', 'description' => __( "Your site&#8217;s most recent Posts.") );
 		parent::__construct('recent-posts', __('Recent Posts'), $widget_ops);
@@ -23,8 +29,14 @@ class WP_Widget_Recent_Posts extends WP_Widget {
 	}
 
 	/**
-	 * @param array $args
-	 * @param array $instance
+	 * Outputs the content for the current Recent Posts widget instance.
+	 *
+	 * @since 2.8.0
+	 * @access public
+	 *
+	 * @param array $args     Display arguments including 'before_title', 'after_title',
+	 *                        'before_widget', and 'after_widget'.
+	 * @param array $instance Settings for the current Recent Posts widget instance.
 	 */
 	public function widget( $args, $instance ) {
 		if ( ! isset( $args['widget_id'] ) ) {
@@ -58,7 +70,7 @@ class WP_Widget_Recent_Posts extends WP_Widget {
 		) ) );
 
 		if ($r->have_posts()) :
-?>
+		?>
 		<?php echo $args['before_widget']; ?>
 		<?php if ( $title ) {
 			echo $args['before_title'] . $title . $args['after_title'];
@@ -74,7 +86,7 @@ class WP_Widget_Recent_Posts extends WP_Widget {
 		<?php endwhile; ?>
 		</ul>
 		<?php echo $args['after_widget']; ?>
-<?php
+		<?php
 		// Reset the global $the_post as this query will have stomped on it
 		wp_reset_postdata();
 
@@ -82,9 +94,15 @@ class WP_Widget_Recent_Posts extends WP_Widget {
 	}
 
 	/**
-	 * @param array $new_instance
-	 * @param array $old_instance
-	 * @return array
+	 * Handles updating the settings for the current Recent Posts widget instance.
+	 *
+	 * @since 2.8.0
+	 * @access public
+	 *
+	 * @param array $new_instance New settings for this instance as input by the user via
+	 *                            WP_Widget::form().
+	 * @param array $old_instance Old settings for this instance.
+	 * @return array Updated settings to save.
 	 */
 	public function update( $new_instance, $old_instance ) {
 		$instance = $old_instance;
@@ -95,7 +113,12 @@ class WP_Widget_Recent_Posts extends WP_Widget {
 	}
 
 	/**
-	 * @param array $instance
+	 * Outputs the settings form for the Recent Posts widget.
+	 *
+	 * @since 2.8.0
+	 * @access public
+	 *
+	 * @param array $instance Current settings.
 	 */
 	public function form( $instance ) {
 		$title     = isset( $instance['title'] ) ? esc_attr( $instance['title'] ) : '';
