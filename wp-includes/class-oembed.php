@@ -99,7 +99,7 @@ class WP_oEmbed {
 		 * Supported providers:
 		 *
 		 * |   Provider   |        Flavor        | HTTPS |   Since   |
-		 * | ------------ | -------------------- | ----- | --------- |
+		 * | ------------ | -------------------- | :---: | --------- |
 		 * | Dailymotion  | dailymotion.com      |  Yes  | 2.9.0     |
 		 * | Flickr       | flickr.com           |  Yes  | 2.9.0     |
 		 * | Hulu         | hulu.com             |  Yes  | 2.9.0     |
@@ -143,7 +143,7 @@ class WP_oEmbed {
 		 * No longer supported providers:
 		 *
 		 * |   Provider   |        Flavor        | HTTPS |   Since   |  Removed  |
-		 * | ------------ | -------------------- | ----- | --------- | --------- |
+		 * | ------------ | -------------------- | :---: | --------- | --------- |
 		 * | Qik          | qik.com              |  Yes  | 2.9.0     | 3.9.0     |
 		 * | Viddler      | viddler.com          |  Yes  | 2.9.0     | 4.0.0     |
 		 * | Revision3    | revision3.com        |  No   | 2.9.0     | 4.2.0     |
