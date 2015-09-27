@@ -357,14 +357,13 @@ class WP {
 	}
 
 	/**
-	 * Send additional HTTP headers for caching, content type, etc.
+	 * Sends additional HTTP headers for caching, content type, etc.
 	 *
-	 * Sets the Content-Type header.
-	 * Sets the 'error' status (if passed) and optionally exits.
+	 * Sets the Content-Type header. Sets the 'error' status (if passed) and optionally exits.
 	 * If showing a feed, it will also send Last-Modified, ETag, and 304 status if needed.
 	 *
 	 * @since 2.0.0
-	 * @since 4.4.0  X-Pingback header is added conditionally after posts have been queried in handle_404().
+	 * @since 4.4.0 `X-Pingback` header is added conditionally after posts have been queried in handle_404().
 	 */
 	public function send_headers() {
 		$headers = array();
