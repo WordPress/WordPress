@@ -18,7 +18,13 @@
  * as the second parameter. The hook for {@see 'plugins_api_args'} must ensure that
  * an object is returned.
  *
- * The second filter, {@see 'plugins_api'}, is the result that would be returned.
+ * The second filter, {@see 'plugins_api'}, allows a plugin to override the WordPress.org
+ * Plugin Install API entirely. If `$action` is 'query_plugins', 'plugin_information', or
+ * 'hot_categories', an object MUST be passed. If `$action` is 'hot_tags`, an array should
+ * be passed.
+ *
+ * Finally, the third filter, {@see 'plugins_api_result'}, makes it possible to filter the
+ * response object or array, depending on the `$action` type.
  *
  * Supported arguments per action:
  *
