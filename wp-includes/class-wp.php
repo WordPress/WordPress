@@ -359,10 +359,12 @@ class WP {
 	/**
 	 * Send additional HTTP headers for caching, content type, etc.
 	 *
-	 * Sets the X-Pingback header, 404 status (if 404), Content-type. If showing
-	 * a feed, it will also send last-modified, etag, and 304 status if needed.
+	 * Sets the Content-Type header.
+	 * Sets the 'error' status (if passed) and optionally exits.
+	 * If showing a feed, it will also send Last-Modified, ETag, and 304 status if needed.
 	 *
 	 * @since 2.0.0
+	 * @since 4.4.0  X-Pingback header is added conditionally after posts have been queried in handle_404().
 	 */
 	public function send_headers() {
 		$headers = array();
@@ -581,6 +583,10 @@ class WP {
 	 * issued, and if the request was not a search or the homepage.
 	 *
 	 * Otherwise, issue a 200.
+	 *
+	 * This sets headers after posts have been queried. handle_404() really means "handle status."
+	 * By inspecting the result of querying posts, seemingly successful requests can be switched to
+	 * a 404 so that canonical redirection logic can kick in.
 	 *
 	 * @since 2.0.0
 	 *
