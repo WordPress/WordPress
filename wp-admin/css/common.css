@@ -1314,6 +1314,7 @@ div.error p,
 }
 
 .notice-alt {
+	-webkit-box-shadow: none;
 	box-shadow: none;
 }
 
