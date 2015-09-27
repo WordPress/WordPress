@@ -406,15 +406,17 @@ function themes_api( $action, $args = array() ) {
 	/**
 	 * Filter whether to override the WordPress.org Themes API.
 	 *
-	 * Returning a value of true to this filter allows a theme to completely
-	 * override the built-in WordPress.org API.
+	 * Passing a non-false value will effectively short-circuit the WordPress.org API request.
+	 *
+	 * If `$action` is 'query_themes', 'theme_information', or 'feature_list', an object MUST
+	 * be passed. If `$action` is 'hot_tags`, an array should be passed.
 	 *
 	 * @since 2.8.0
 	 *
-	 * @param bool   $bool   Whether to override the WordPress.org Themes API. Default false.
-	 * @param string $action Requested action. Likely values are 'theme_information',
-	 *                       'feature_list', or 'query_themes'.
-	 * @param object $args   Arguments used to query for installer pages from the Themes API.
+	 * @param false|object|array $override Whether to override the WordPress.org Themes API. Default false.
+	 * @param string             $action   Requested action. Likely values are 'theme_information',
+	 *                                    'feature_list', or 'query_themes'.
+	 * @param object             $args     Arguments used to query for installer pages from the Themes API.
 	 */
 	$res = apply_filters( 'themes_api', false, $action, $args );
 
