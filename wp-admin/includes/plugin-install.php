@@ -27,12 +27,20 @@
  * @param array|object $args   {
  *     Optional. Array or object of arguments to serialize for the Plugin Info API.
  *
- *     @type string  $slug     The plugin slug.
- *     @type int     $per_page Number of plugins per page. Default 24.
- *     @type int     $number   Number of tags or categories to be queried.
- *     @type string  $locale   Locale to provide context-sensitive results. Default is the value of get_locale().
- *     @type bool    $is_ssl   Whether links should be returned with https or not. Default false.
- *     @type array   $fields   {
+ *     @type string  $slug              The plugin slug. Default empty.
+ *     @type int     $per_page          Number of plugins per page. Default 24.
+ *     @type int     $page              Number of current page. Default 1.
+ *     @type int     $number            Number of tags or categories to be queried.
+ *     @type string  $search            A search term. Default empty.
+ *     @type string  $tag               Tag to filter plugins. Default empty.
+ *     @type string  $author            Username of an plugin author to filter plugins. Default empty.
+ *     @type string  $user              Username to query for their favorites. Default empty.
+ *     @type string  $browse            Browse view: 'popular', 'new', 'beta', 'recommended'.
+ *     @type string  $locale            Locale to provide context-sensitive results. Default is the value
+ *                                      of get_locale().
+ *     @type string  $installed_plugins Installed plugins to provide context-sensitive results.
+ *     @type bool    $is_ssl            Whether links should be returned with https or not. Default false.
+ *     @type array   $fields            {
  *         Array of fields which should or should not be returned.
  *
  *         @type bool $short_description Whether to return the plugin short description. Default true.
