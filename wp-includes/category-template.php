@@ -175,7 +175,17 @@ function get_the_category_list( $separator = '', $parents='', $post_id = false )
 		return apply_filters( 'the_category', '', $separator, $parents );
 	}
 
-	$categories = get_the_category( $post_id );
+	/**
+	 * Filter the categories before building the category list.
+	 *
+	 * @since 4.4.0
+	 *
+	 * @param array    $categories An array of the post's categories.
+	 * @param int|bool $post_id    ID of the post we're retrieving categories for. When `false`, we assume the
+	 *                             current post in the loop.
+	 */
+	$categories = apply_filters( 'the_category_list', get_the_category( $post_id ), $post_id );
+
 	if ( empty( $categories ) ) {
 		/** This filter is documented in wp-includes/category-template.php */
 		return apply_filters( 'the_category', __( 'Uncategorized' ), $separator, $parents );
