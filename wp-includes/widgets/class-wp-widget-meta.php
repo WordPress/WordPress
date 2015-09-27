@@ -18,14 +18,26 @@
  */
 class WP_Widget_Meta extends WP_Widget {
 
+	/**
+	 * Sets up a new Meta widget instance.
+	 *
+	 * @since 2.8.0
+	 * @access public
+	 */
 	public function __construct() {
 		$widget_ops = array('classname' => 'widget_meta', 'description' => __( "Login, RSS, &amp; WordPress.org links.") );
 		parent::__construct('meta', __('Meta'), $widget_ops);
 	}
 
 	/**
-	 * @param array $args
-	 * @param array $instance
+	 * Outputs the content for the current Meta widget instance.
+	 *
+	 * @since 2.8.0
+	 * @access public
+	 *
+	 * @param array $args     Display arguments including 'before_title', 'after_title',
+	 *                        'before_widget', and 'after_widget'.
+	 * @param array $instance Settings for the current Meta widget instance.
 	 */
 	public function widget( $args, $instance ) {
 		/** This filter is documented in wp-includes/widgets/class-wp-widget-pages.php */
@@ -35,13 +47,13 @@ class WP_Widget_Meta extends WP_Widget {
 		if ( $title ) {
 			echo $args['before_title'] . $title . $args['after_title'];
 		}
-?>
+			?>
 			<ul>
 			<?php wp_register(); ?>
 			<li><?php wp_loginout(); ?></li>
 			<li><a href="<?php echo esc_url( get_bloginfo( 'rss2_url' ) ); ?>"><?php _e('Entries <abbr title="Really Simple Syndication">RSS</abbr>'); ?></a></li>
 			<li><a href="<?php echo esc_url( get_bloginfo( 'comments_rss2_url' ) ); ?>"><?php _e('Comments <abbr title="Really Simple Syndication">RSS</abbr>'); ?></a></li>
-<?php
+			<?php
 			/**
 			 * Filter the "Powered by WordPress" text in the Meta widget.
 			 *
@@ -56,16 +68,22 @@ class WP_Widget_Meta extends WP_Widget {
 			) );
 
 			wp_meta();
-?>
+			?>
 			</ul>
-<?php
+			<?php
 		echo $args['after_widget'];
 	}
 
 	/**
-	 * @param array $new_instance
-	 * @param array $old_instance
-	 * @return array
+	 * Handles updating settings for the current Meta widget instance.
+	 *
+	 * @since 2.8.0
+	 * @access public
+	 *
+	 * @param array $new_instance New settings for this instance as input by the user via
+	 *                            WP_Widget::form().
+	 * @param array $old_instance Old settings for this instance.
+	 * @return array Updated settings to save.
 	 */
 	public function update( $new_instance, $old_instance ) {
 		$instance = $old_instance;
@@ -75,7 +93,12 @@ class WP_Widget_Meta extends WP_Widget {
 	}
 
 	/**
-	 * @param array $instance
+	 * Outputs the settings form for the Meta widget.
+	 *
+	 * @since 2.8.0
+	 * @access public
+	 *
+	 * @param array $instance Current settings.
 	 */
 	public function form( $instance ) {
 		$instance = wp_parse_args( (array) $instance, array( 'title' => '' ) );
