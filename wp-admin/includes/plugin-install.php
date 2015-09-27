@@ -20,6 +20,24 @@
  *
  * The second filter, {@see 'plugins_api'}, is the result that would be returned.
  *
+ * Supported arguments per action:
+ *
+ * | Argument Name        | query_plugins | plugin_information | hot_tags | hot_categories |
+ * | -------------------- | :-----------: | :----------------: | :------: | :------------: |
+ * | `$slug`              | No            |  Yes               | No       | No             |
+ * | `$per_page`          | Yes           |  No                | No       | No             |
+ * | `$page`              | Yes           |  No                | No       | No             |
+ * | `$number`            | No            |  No                | Yes      | Yes            |
+ * | `$search`            | Yes           |  No                | No       | No             |
+ * | `$tag`               | Yes           |  No                | No       | No             |
+ * | `$author`            | Yes           |  No                | No       | No             |
+ * | `$user`              | Yes           |  No                | No       | No             |
+ * | `$browse`            | Yes           |  No                | No       | No             |
+ * | `$locale`            | Yes           |  Yes               | No       | No             |
+ * | `$installed_plugins` | Yes           |  No                | No       | No             |
+ * | `$is_ssl`            | Yes           |  Yes               | No       | No             |
+ * | `$fields`            | Yes           |  Yes               | No       | No             |
+ *
  * @since 2.7.0
  *
  * @param string       $action API action to perform: 'query_plugins', 'plugin_information',
@@ -70,9 +88,9 @@
  *         @type bool $contributors      Whether to return the list of contributors. Default false.
  *     }
  * }
- * @return object|WP_Error Response object on success, WP_Error on failure. See the
+ * @return object|array|WP_Error Response object or array on success, WP_Error on failure. See the
  *         {@link https://developer.wordpress.org/reference/functions/plugins_api/ function reference article}
- *         for more information on the make-up of possible return objects depending on the value of `$action`.
+ *         for more information on the make-up of possible return values depending on the value of `$action`.
  */
 function plugins_api( $action, $args = array() ) {
 
