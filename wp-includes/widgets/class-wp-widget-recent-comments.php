@@ -158,4 +158,16 @@ class WP_Widget_Recent_Comments extends WP_Widget {
 		<input class="tiny-text" id="<?php echo $this->get_field_id( 'number' ); ?>" name="<?php echo $this->get_field_name( 'number' ); ?>" type="number" step="1" min="1" value="<?php echo $number; ?>" size="3" /></p>
 		<?php
 	}
+
+	/**
+	 * Flushes the Recent Comments widget cache.
+	 *
+	 * @since 2.8.0
+	 * @access public
+	 *
+	 * @deprecated 4.4.0 Fragment caching was removed in favor of split queries.
+	 */
+	public function flush_widget_cache() {
+		_deprecated_function( __METHOD__, '4.4' );
+	}
 }
