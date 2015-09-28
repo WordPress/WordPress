@@ -113,11 +113,12 @@ input#link_url {
 }
 
 #editable-post-name {
-	background-color: #fffbcc;
+	font-weight: bold;
 }
 
 #editable-post-name input {
 	font-size: 13px;
+	font-weight: normal;
 	height: 22px;
 	margin: 0;
 	width: 16em;

@@ -1287,19 +1287,35 @@ function get_sample_permalink_html( $id, $new_title = null, $new_slug = null ) {
 
 	list($permalink, $post_name) = get_sample_permalink($post->ID, $new_title, $new_slug);
 
+	$view_link = false;
+	$preview_target = '';
+
 	if ( current_user_can( 'read_post', $post->ID ) ) {
-		$ptype = get_post_type_object( $post->post_type );
-		$view_post = $ptype->labels->view_item;
+		if ( 'draft' === $post->post_status ) {
+			$draft_link = set_url_scheme( get_permalink( $post->ID ) );
+			$view_link = get_preview_post_link( $post, array(), $draft_link );
+			$preview_target = " target='wp-preview-{$post->ID}'";
+		} else {
+			if ( 'publish' === $post->post_status ) {
+				$view_link = get_permalink( $post );
+			} else {
+				// Allow non-published (private, future) to be viewed at a pretty permalink.
+				$view_link = str_replace( array( '%pagename%', '%postname%' ), $post->post_name, urldecode( $permalink ) );
+			}
+		}
 	}
 
-	if ( 'publish' == get_post_status( $post ) ) {
-		$title = __('Click to edit this part of the permalink');
-	} else {
-		$title = __('Temporary permalink. Click to edit this part.');
-	}
-
+	// Permalinks without a post/page name placeholder don't have anything to edit
 	if ( false === strpos( $permalink, '%postname%' ) && false === strpos( $permalink, '%pagename%' ) ) {
-		$return = '<strong>' . __('Permalink:') . "</strong>\n" . '<span id="sample-permalink" tabindex="-1">' . $permalink . "</span>\n";
+		$return = '<strong>' . __( 'Permalink:' ) . "</strong>\n";
+
+		if ( false !== $view_link ) {
+			$return .= '<a id="sample-permalink" href="' . esc_url( $view_link ) . '"' . $preview_target . '>' . $permalink . "</a>\n";
+		} else {
+			$return .= '<span id="sample-permalink">' . $permalink . "</span>\n";
+		}
+
+		// Encourage a pretty permalink setting
 		if ( '' == get_option( 'permalink_structure' ) && current_user_can( 'manage_options' ) && !( 'page' == get_option('show_on_front') && $id == get_option('page_on_front') ) ) {
 			$return .= '<span id="change-permalinks"><a href="options-permalink.php" class="button button-small" target="_blank">' . __('Change Permalinks') . "</a></span>\n";
 		}
@@ -1318,32 +1334,14 @@ function get_sample_permalink_html( $id, $new_title = null, $new_slug = null ) {
 			}
 		}
 
-		$post_name_html = '<span id="editable-post-name" title="' . $title . '">' . $post_name_abridged . '</span>';
+		$post_name_html = '<span id="editable-post-name">' . $post_name_abridged . '</span>';
 		$display_link = str_replace( array( '%pagename%', '%postname%' ), $post_name_html, urldecode( $permalink ) );
 
-		$return =  '<strong>' . __( 'Permalink:' ) . "</strong>\n";
-		$return .= '<span id="sample-permalink" tabindex="-1">' . $display_link . "</span>\n";
+		$return = '<strong>' . __( 'Permalink:' ) . "</strong>\n";
+		$return .= '<span id="sample-permalink"><a href="' . esc_url( $view_link ) . '"' . $preview_target . '>' . $display_link . "</a></span>\n";
 		$return .= '&lrm;'; // Fix bi-directional text display defect in RTL languages.
-		$return .= '<span id="edit-slug-buttons"><a href="#post_name" class="edit-slug button button-small hide-if-no-js" onclick="editPermalink(' . $id . '); return false;">' . __( 'Edit' ) . "</a></span>\n";
+		$return .= '<span id="edit-slug-buttons"><button type="button" class="edit-slug button button-small hide-if-no-js">' . __( 'Edit' ) . "</button></span>\n";
 		$return .= '<span id="editable-post-name-full">' . $post_name . "</span>\n";
-	}
-
-	if ( isset( $view_post ) ) {
-		if ( 'draft' == $post->post_status || 'pending' == $post->post_status ) {
-			$draft_link = set_url_scheme( get_permalink( $post->ID ) );
-			$preview_link = get_preview_post_link( $post, array(), $draft_link );
-			$return .= "<span id='view-post-btn'><a href='" . esc_url( $preview_link ) . "' class='button button-small' target='wp-preview-{$post->ID}'>$view_post</a></span>\n";
-		} else {
-			if ( 'publish' === $post->post_status ) {
-				// View Post button should always go to the saved permalink.
-				$pretty_permalink = get_permalink( $post );
-			} else {
-				// Allow non-published (private, future) to be viewed at a pretty permalink.
-				$pretty_permalink = str_replace( array( '%pagename%', '%postname%' ), $post->post_name, urldecode( $permalink ) );
-			}
-
-			$return .= "<span id='view-post-btn'><a href='" . $pretty_permalink . "' class='button button-small'>$view_post</a></span>\n";
-		}
 	}
 
 	/**
