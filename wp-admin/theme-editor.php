@@ -25,7 +25,7 @@ get_current_screen()->add_help_tab( array(
 'title'		=> __('Overview'),
 'content'	=>
 	'<p>' . __('You can use the Theme Editor to edit the individual CSS and PHP files which make up your theme.') . '</p>
-	<p>' . __('Begin by choosing a theme to edit from the dropdown menu and clicking Select. A list then appears of all the template files. Clicking once on any file name causes the file to appear in the large Editor box.') . '</p>
+	<p>' . __("Begin by choosing a theme to edit from the dropdown menu and clicking Select. A list then appears of the theme's template files. Clicking once on any file name causes the file to appear in the large Editor box.") . '</p>
 	<p>' . __('For PHP files, you can use the Documentation dropdown to select from functions recognized in that file. Look Up takes you to a web page with reference material about that particular function.') . '</p>
 	<p id="newcontent-description">' . __( 'In the editing area the Tab key enters a tab character. To move below this area by pressing Tab, press the Esc key followed by the Tab key. In some cases the Esc key will need to be pressed twice before the Tab key will allow you to continue.' ) . '</p>
 	<p>' . __('After typing in your edits, click Update File.') . '</p>
@@ -125,7 +125,7 @@ default:
  <div id="message" class="updated notice is-dismissible"><p><?php _e( 'File edited successfully.' ) ?></p></div>
 <?php endif;
 
-$description = get_file_description( $file );
+$description = get_file_description( $relative_file );
 $file_show = array_search( $file, array_filter( $allowed_files ) );
 if ( $description != $file_show )
 	$description .= ' <span>(' . $file_show . ')</span>';
@@ -177,12 +177,14 @@ if ( $allowed_files ) :
 		if ( 'style.css' == $filename )
 			echo "\t</ul>\n\t<h2>" . _x( 'Styles', 'Theme stylesheets in theme editor' ) . "</h2>\n\t<ul>\n";
 
-		$file_description = get_file_description( $absolute_filename );
-		if ( $file_description != basename( $filename ) )
+		$file_description = get_file_description( $filename );
+		if ( $filename !== basename( $absolute_filename ) || $file_description !== $filename ) {
 			$file_description .= '<br /><span class="nonessential">(' . $filename . ')</span>';
+		}
 
-		if ( $absolute_filename == $file )
+		if ( $absolute_filename === $file ) {
 			$file_description = '<span class="highlight">' . $file_description . '</span>';
+		}
 ?>
 		<li><a href="theme-editor.php?file=<?php echo urlencode( $filename ) ?>&amp;theme=<?php echo urlencode( $stylesheet ) ?>"><?php echo $file_description; ?></a></li>
 <?php
