@@ -246,8 +246,11 @@ function update_home_siteurl( $old_value, $value ) {
 	if ( defined( "WP_INSTALLING" ) )
 		return;
 
-	// If home changed, write rewrite rules to new location.
-	flush_rewrite_rules();
+	if ( is_multisite() && ms_is_switched() ) {
+		delete_option( 'rewrite_rules' );
+	} else {
+		flush_rewrite_rules();
+	}
 }
 
 /**
