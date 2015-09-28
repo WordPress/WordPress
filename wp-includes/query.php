@@ -4725,12 +4725,14 @@ class WP_Query {
  *
  * @since 2.1.0
  *
- * @global WP_Query $wp_query Global WP_Query instance.
- * @global wpdb     $wpdb     WordPress database abstraction object.
+ * @global WP_Query   $wp_query   Global WP_Query instance.
+ * @global wpdb       $wpdb       WordPress database abstraction object.
+ * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
  */
 function wp_old_slug_redirect() {
-	global $wp_query;
-	if ( is_404() && '' != $wp_query->query_vars['name'] ) :
+	global $wp_query, $wp_rewrite;
+
+	if ( '' !== $wp_query->query_vars['name'] ) :
 		global $wpdb;
 
 		// Guess the current post_type based on the query vars.
@@ -4767,10 +4769,33 @@ function wp_old_slug_redirect() {
 		if ( ! $id )
 			return;
 
-		$link = get_permalink($id);
+		$link = get_permalink( $id );
 
-		if ( !$link )
+		if ( is_feed() ) {
+			$link = user_trailingslashit( trailingslashit( $link ) . 'feed' );
+		} elseif ( isset( $GLOBALS['wp_query']->query_vars['paged'] ) && $GLOBALS['wp_query']->query_vars['paged'] > 1 ) {
+			$link = user_trailingslashit( trailingslashit( $link ) . 'page/' . $GLOBALS['wp_query']->query_vars['paged'] );
+		} elseif ( is_404() ) {
+			// Add rewrite endpoints if necessary.
+			foreach ( $wp_rewrite->endpoints as $endpoint ) {
+				if ( $endpoint[2] && false !== get_query_var( $endpoint[2], false ) ) {
+					$link = user_trailingslashit( trailingslashit( $link ) . $endpoint[1] );
+				}
+			}
+		}
+
+		/**
+		 * Filter the old slug redirect URL.
+		 *
+		 * @since 4.4.0
+		 *
+		 * @param string $link The redirect URL.
+		 */
+		$link = apply_filters( 'old_slug_redirect_url', $link );
+
+		if ( ! $link ) {
 			return;
+		}
 
 		wp_redirect( $link, 301 ); // Permanent redirect
 		exit;
