@@ -365,6 +365,7 @@ function validate_another_blog_signup() {
  *
  * @param string $domain The domain URL
  * @param string $path The site root path
+ * @param string $blog_title The blog title
  * @param string $user_name The username
  * @param string $user_email The user's email address
  * @param array $meta Any additional meta from the 'add_signup_meta' filter in validate_blog_signup()
