@@ -877,7 +877,7 @@ function get_page_of_comment( $comment_ID, $args = array() ) {
 
 	$comment_args = array(
 		'type'       => $args['type'],
-		'post_ID'    => $comment->comment_post_ID,
+		'post_id'    => $comment->comment_post_ID,
 		'fields'     => 'ids',
 		'status'     => 'approve',
 		'date_query' => array(
