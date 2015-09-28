@@ -61,6 +61,7 @@
 		 * Filter the arguments for the Custom Menu widget.
 		 *
 		 * @since 4.2.0
+		 * @since 4.4.0 Added the `$instance` parameter.
 		 *
 		 * @param array    $nav_menu_args {
 		 *     An array of arguments passed to wp_nav_menu() to retrieve a custom menu.
@@ -70,8 +71,9 @@
 		 * }
 		 * @param stdClass $nav_menu      Nav menu object for the current menu.
 		 * @param array    $args          Display arguments for the current widget.
+		 * @param array    $instance      Array of settings for the current widget.
 		 */
-		wp_nav_menu( apply_filters( 'widget_nav_menu_args', $nav_menu_args, $nav_menu, $args ) );
+		wp_nav_menu( apply_filters( 'widget_nav_menu_args', $nav_menu_args, $nav_menu, $args, $instance ) );
 
 		echo $args['after_widget'];
 	}
