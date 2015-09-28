@@ -741,7 +741,7 @@ jQuery(document).ready( function($) {
 		e = $('#editable-post-name');
 		revert_e = e.html();
 
-		buttons.html('<button type="button" class="save button-small">'+postL10n.ok+'</button> <a class="cancel" href="#">'+postL10n.cancel+'</a>');
+		buttons.html('<button type="button" class="save button button-small">'+postL10n.ok+'</button> <a class="cancel" href="#">'+postL10n.cancel+'</a>');
 		buttons.children('.save').click(function() {
 			var new_slug = e.children('input').val();
 			if ( new_slug == $('#editable-post-name-full').text() ) {
