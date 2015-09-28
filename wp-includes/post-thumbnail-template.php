@@ -182,8 +182,11 @@ function get_the_post_thumbnail( $post = null, $size = 'post-thumbnail', $attr =
  * @return string|false Post thumbnail URL or false if no URL is available.
  */
 function get_the_post_thumbnail_url( $post = null, $size = 'post-thumbnail' ) {
-	$image = wp_get_attachment_image_url( get_post_thumbnail_id( $post ), $size );
-	return isset( $image ) ? $image : false;
+	$post_thumbnail_id = get_post_thumbnail_id( $post );
+	if ( ! $post_thumbnail_id ) {
+		return false;
+	}
+	return wp_get_attachment_image_url( $post_thumbnail_id, $size );
 }
 
 /**
@@ -195,5 +198,8 @@ function get_the_post_thumbnail_url( $post = null, $size = 'post-thumbnail' ) {
  *                           array of height and width dimensions. Default 'post-thumbnail'.
  */
 function the_post_thumbnail_url( $size = 'post-thumbnail' ) {
-	echo get_the_post_thumbnail_url( null, $size );
+	$url = get_the_post_thumbnail_url( null, $size );
+	if ( $url ) {
+		echo esc_url( $url );
+	}
 }
