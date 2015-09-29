@@ -1330,7 +1330,7 @@ function _post_type_meta_capabilities( $capabilities = null ) {
  * @since 4.3.0 Added the `featured_image`, `set_featured_image`, `remove_featured_image`,
  *              and `use_featured_image` labels.
  * @since 4.4.0 Added the `insert_into_item` and `uploaded_to_this_item` labels.
- * 
+ *
  * @access private
  *
  * @param object $post_type_object Post type object.
@@ -3280,6 +3280,18 @@ function wp_insert_post( $postarr, $wp_error = false ) {
 			 * @param int $post_ID Attachment ID.
 			 */
 			do_action( 'edit_attachment', $post_ID );
+			$post_after = get_post( $post_ID );
+
+			/**
+			 * Fires once an existing attachment has been updated.
+			 *
+			 * @since 4.4.0
+			 *
+			 * @param int     $post_ID      Post ID.
+			 * @param WP_Post $post_after   Post object following the update.
+			 * @param WP_Post $post_before  Post object before the update.
+			 */
+			do_action( 'attachment_updated', $post_ID, $post_after, $post_before );
 		} else {
 
 			/**
@@ -5133,23 +5145,27 @@ function wp_mime_type_icon( $mime = 0 ) {
  * @param WP_Post $post_before The Previous Post Object
  */
 function wp_check_for_changed_slugs( $post_id, $post, $post_before ) {
-	// Don't bother if it hasnt changed.
-	if ( $post->post_name == $post_before->post_name )
+	// Don't bother if it hasn't changed.
+	if ( $post->post_name == $post_before->post_name ) {
 		return;
+	}
 
 	// We're only concerned with published, non-hierarchical objects.
-	if ( $post->post_status != 'publish' || is_post_type_hierarchical( $post->post_type ) )
+	if ( ! ( 'publish' === $post->post_status || ( 'attachment' === get_post_type( $post ) && 'inherit' === $post->post_status ) ) || is_post_type_hierarchical( $post->post_type ) ) {
 		return;
+	}
 
-	$old_slugs = (array) get_post_meta($post_id, '_wp_old_slug');
+	$old_slugs = (array) get_post_meta( $post_id, '_wp_old_slug' );
 
 	// If we haven't added this old slug before, add it now.
-	if ( !empty( $post_before->post_name ) && !in_array($post_before->post_name, $old_slugs) )
-		add_post_meta($post_id, '_wp_old_slug', $post_before->post_name);
+	if ( ! empty( $post_before->post_name ) && ! in_array( $post_before->post_name, $old_slugs ) ) {
+		add_post_meta( $post_id, '_wp_old_slug', $post_before->post_name );
+	}
 
 	// If the new slug was used previously, delete it from the list.
-	if ( in_array($post->post_name, $old_slugs) )
-		delete_post_meta($post_id, '_wp_old_slug', $post->post_name);
+	if ( in_array( $post->post_name, $old_slugs ) ) {
+		delete_post_meta( $post_id, '_wp_old_slug', $post->post_name );
+	}
 }
 
 /**

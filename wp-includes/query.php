@@ -4736,12 +4736,15 @@ function wp_old_slug_redirect() {
 		global $wpdb;
 
 		// Guess the current post_type based on the query vars.
-		if ( get_query_var('post_type') )
-			$post_type = get_query_var('post_type');
-		elseif ( !empty($wp_query->query_vars['pagename']) )
+		if ( get_query_var( 'post_type' ) ) {
+			$post_type = get_query_var( 'post_type' );
+		} elseif ( get_query_var( 'attachment' ) ) {
+			$post_type = 'attachment';
+		} elseif ( ! empty( $wp_query->query_vars['pagename'] ) ) {
 			$post_type = 'page';
-		else
+		} else {
 			$post_type = 'post';
+		}
 
 		if ( is_array( $post_type ) ) {
 			if ( count( $post_type ) > 1 )
