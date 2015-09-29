@@ -3626,6 +3626,7 @@ function wp_get_http( $url, $file_path = false, $red = 1 ) {
  *
  * @since 2.6.0
  * @deprecated 4.4.0 Use force_ssl_admin()
+ * @see force_ssl_admin()
  *
  * @param string|bool $force Optional Whether to force SSL login. Default null.
  * @return bool True if forced, false if not forced.
