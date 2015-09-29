@@ -781,23 +781,28 @@ function get_term($term, $taxonomy, $output = OBJECT, $filter = 'raw') {
  * @todo Better formatting for DocBlock.
  *
  * @since 2.3.0
+ * @since 4.4.0 `$taxonomy` is optional if `$field` is 'term_taxonomy_id'.
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  * @see sanitize_term_field() The $context param lists the available values for get_term_by() $filter param.
  *
  * @param string     $field    Either 'slug', 'name', 'id' (term_id), or 'term_taxonomy_id'
  * @param string|int $value    Search for this term value
- * @param string     $taxonomy Taxonomy Name
+ * @param string     $taxonomy Taxonomy name. Optional, if `$field` is 'term_taxonomy_id'.
  * @param string     $output   Constant OBJECT, ARRAY_A, or ARRAY_N
  * @param string     $filter   Optional, default is raw or no WordPress defined filter will applied.
  * @return object|array|null|WP_Error|false Term Row from database.
  *                                          Will return false if $taxonomy does not exist or $term was not found.
  */
-function get_term_by($field, $value, $taxonomy, $output = OBJECT, $filter = 'raw') {
+function get_term_by( $field, $value, $taxonomy = '', $output = OBJECT, $filter = 'raw' ) {
 	global $wpdb;
 
-	if ( ! taxonomy_exists($taxonomy) )
+	// 'term_taxonomy_id' lookups don't require taxonomy checks.
+	if ( 'term_taxonomy_id' !== $field && ! taxonomy_exists( $taxonomy ) ) {
 		return false;
+	}
+
+	$tax_clause = $wpdb->prepare( "AND tt.taxonomy = %s", $taxonomy );
 
 	if ( 'slug' == $field ) {
 		$field = 't.slug';
@@ -811,6 +816,9 @@ function get_term_by($field, $value, $taxonomy, $output = OBJECT, $filter = 'raw
 	} elseif ( 'term_taxonomy_id' == $field ) {
 		$value = (int) $value;
 		$field = 'tt.term_taxonomy_id';
+
+		// No `taxonomy` clause when searching by 'term_taxonomy_id'.
+		$tax_clause = '';
 	} else {
 		$term = get_term( (int) $value, $taxonomy, $output, $filter );
 		if ( is_wp_error( $term ) || is_null( $term ) ) {
@@ -819,9 +827,14 @@ function get_term_by($field, $value, $taxonomy, $output = OBJECT, $filter = 'raw
 		return $term;
 	}
 
-	$term = $wpdb->get_row( $wpdb->prepare( "SELECT t.*, tt.* FROM $wpdb->terms AS t INNER JOIN $wpdb->term_taxonomy AS tt ON t.term_id = tt.term_id WHERE tt.taxonomy = %s AND $field = %s LIMIT 1", $taxonomy, $value ) );
+	$term = $wpdb->get_row( $wpdb->prepare( "SELECT t.*, tt.* FROM $wpdb->terms AS t INNER JOIN $wpdb->term_taxonomy AS tt ON t.term_id = tt.term_id WHERE $field = %s $tax_clause LIMIT 1", $value ) );
 	if ( ! $term )
 		return false;
+
+	// In the case of 'term_taxonomy_id', override the provided `$taxonomy` with whatever we find in the db.
+	if ( 'term_taxonomy_id' === $field ) {
+		$taxonomy = $term->taxonomy;
+	}
 
 	wp_cache_add( $term->term_id, $term, $taxonomy );
 
