@@ -588,8 +588,9 @@ function wpmu_validate_user_signup($user_name, $user_email) {
  * @global wpdb   $wpdb
  * @global string $domain
  *
- * @param string $blogname   The blog name provided by the user. Must be unique.
- * @param string $blog_title The blog title provided by the user.
+ * @param string         $blogname   The blog name provided by the user. Must be unique.
+ * @param string         $blog_title The blog title provided by the user.
+ * @param WP_User|string $user       Optional. The user object to check against the new site name.
  * @return array Contains the new site data and error messages.
  */
 function wpmu_validate_blog_signup( $blogname, $blog_title, $user = '' ) {
@@ -704,12 +705,12 @@ function wpmu_validate_blog_signup( $blogname, $blog_title, $user = '' ) {
 	 * @param array $result {
 	 *     Array of domain, path, blog name, blog title, user and error messages.
 	 *
-	 *     @type string   $domain     Domain for the site.
-	 *     @type string   $path       Path for the site. Used in subdirectory installs.
-	 *     @type string   $blogname   The unique site name (slug).
-	 *     @type string   $blog_title Blog title.
-	 *     @type string   $user       User email address.
-	 *     @type WP_Error $errors     WP_Error containing any errors found.
+	 *     @type string         $domain     Domain for the site.
+	 *     @type string         $path       Path for the site. Used in subdirectory installs.
+	 *     @type string         $blogname   The unique site name (slug).
+	 *     @type string         $blog_title Blog title.
+	 *     @type string|WP_User $user       By default, an empty string. A user object if provided.
+	 *     @type WP_Error       $errors     WP_Error containing any errors found.
 	 * }
 	 */
 	return apply_filters( 'wpmu_validate_blog_signup', $result );
