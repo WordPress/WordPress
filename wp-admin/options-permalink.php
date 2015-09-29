@@ -251,7 +251,9 @@ printf( __('If you like, you may enter custom structures for your category and t
 <p><?php _e('If you temporarily make your site&#8217;s root directory writable for us to generate the <code>web.config</code> file automatically, do not forget to revert the permissions after the file has been created.') ?></p>
 		<?php endif; ?>
 	<?php endif; ?>
-<?php elseif ( ! $is_nginx ) :
+<?php elseif ( $is_nginx ) : ?>
+	<p><?php _e( '<a href="https://codex.wordpress.org/Nginx">Documentation on Nginx configuration</a>.' ); ?></p>
+<?php else:
 	if ( $permalink_structure && ! $usingpi && ! $writable && $update_required ) : ?>
 <p><?php _e('If your <code>.htaccess</code> file were <a href="https://codex.wordpress.org/Changing_File_Permissions">writable</a>, we could do this automatically, but it isn&#8217;t so these are the mod_rewrite rules you should have in your <code>.htaccess</code> file. Click in the field and press <kbd>CTRL + a</kbd> to select all.') ?></p>
 <form action="options-permalink.php" method="post">
