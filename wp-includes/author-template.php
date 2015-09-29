@@ -223,23 +223,17 @@ function the_author_posts() {
 }
 
 /**
- * Display an HTML link to the author page of the author of the current post.
+ * Retrieves an HTML link to the author page of the current post's author.
  *
- * Does just echo get_author_posts_url() function, like the others do. The
- * reason for this, is that another function is used to help in printing the
- * link to the author's posts.
+ * Returns an HTML-formatted link using get_author_posts_url().
  *
- * @link https://codex.wordpress.org/Template_Tags/the_author_posts_link
- * @since 1.2.0
+ * @since 4.4.0
  *
  * @global object $authordata The current author's DB object.
  *
- * @param string $deprecated Deprecated.
+ * @return string An HTML link to the author page.
  */
-function the_author_posts_link($deprecated = '') {
-	if ( !empty( $deprecated ) )
-		_deprecated_argument( __FUNCTION__, '2.1' );
-
+function get_the_author_posts_link() {
 	global $authordata;
 	if ( ! is_object( $authordata ) ) {
 		return;
@@ -259,7 +253,22 @@ function the_author_posts_link($deprecated = '') {
 	 *
 	 * @param string $link HTML link.
 	 */
-	echo apply_filters( 'the_author_posts_link', $link );
+	return apply_filters( 'the_author_posts_link', $link );
+}
+
+/**
+ * Displays an HTML link to the author page of the current post's author.
+ *
+ * @since 1.2.0
+ * @since 4.4.0 Converted into a wrapper for get_the_author_posts_link()
+ *
+ * @param string $deprecated Unused.
+ */
+function the_author_posts_link( $deprecated = '' ) {
+	if ( ! empty( $deprecated ) ) {
+		_deprecated_argument( __FUNCTION__, '2.1' );
+	}
+	echo get_the_author_posts_link();
 }
 
 /**
