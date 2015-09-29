@@ -201,7 +201,6 @@ add_filter( 'pingback_ping_source_uri', 'pingback_ping_source_uri'            );
 add_filter( 'xmlrpc_pingback_error',    'xmlrpc_pingback_error'               );
 add_filter( 'title_save_pre',           'trim'                                );
 add_filter( 'get_comment_metadata',     'wp_lazyload_comment_meta',     10, 2 );
-add_filter( 'get_term_metadata',        'wp_lazyload_term_meta',        10, 2 );
 
 add_filter( 'http_request_host_is_external', 'allowed_http_request_hosts', 10, 2 );
 

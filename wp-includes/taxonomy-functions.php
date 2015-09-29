@@ -1589,63 +1589,6 @@ function update_termmeta_cache( $term_ids ) {
 }
 
 /**
- * Lazy-loads termmeta when inside of a `WP_Query` loop.
- *
- * As a rule, term queries (`get_terms()` and `wp_get_object_terms()`) prime the metadata cache for matched terms by
- * default. However, this can cause a slight performance penalty, especially when that metadata is not actually used.
- * In the context of a `WP_Query` loop, we're able to avoid this potential penalty. `update_object_term_cache()`,
- * called from `update_post_caches()`, does not 'update_term_meta_cache'. Instead, the first time `get_term_meta()` is
- * called from within a `WP_Query` loop, the current function detects the fact, and then primes the metadata cache for
- * all terms attached to all posts in the loop, with a single database query.
- *
- * @since 4.4.0
- *
- * @param null $check   The `$check` param passed from the 'pre_term_metadata' hook.
- * @param int  $term_id ID of the term whose metadata is being cached.
- * @return null In order not to short-circuit `get_metadata()`.
- */
-function wp_lazyload_term_meta( $check, $term_id ) {
-	global $wp_query;
-
-	if ( $wp_query instanceof WP_Query && ! empty( $wp_query->posts ) && $wp_query->get( 'update_post_term_cache' ) ) {
-		// We can only lazyload if the entire post object is present.
-		$posts = array();
-		foreach ( $wp_query->posts as $post ) {
-			if ( $post instanceof WP_Post ) {
-				$posts[] = $post;
-			}
-		}
-
-		if ( empty( $posts ) ) {
-			return;
-		}
-
-		// Fetch cached term_ids for each post. Keyed by term_id for faster lookup.
-		$term_ids = array();
-		foreach ( $posts as $post ) {
-			$taxonomies = get_object_taxonomies( $post->post_type );
-			foreach ( $taxonomies as $taxonomy ) {
-				// No extra queries. Term cache should already be primed by 'update_post_term_cache'.
-				$terms = get_object_term_cache( $post->ID, $taxonomy );
-				if ( false !== $terms ) {
-					foreach ( $terms as $term ) {
-						if ( ! isset( $term_ids[ $term->term_id ] ) ) {
-							$term_ids[ $term->term_id ] = 1;
-						}
-					}
-				}
-			}
-		}
-
-		if ( $term_ids ) {
-			update_termmeta_cache( array_keys( $term_ids ) );
-		}
-	}
-
-	return $check;
-}
-
-/**
  * Check if Term exists.
  *
  * Formerly is_term(), introduced in 2.3.0.
