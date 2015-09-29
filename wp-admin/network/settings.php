@@ -101,7 +101,7 @@ if ( isset( $_GET['updated'] ) ) {
 	<h1><?php echo esc_html( $title ); ?></h1>
 	<form method="post" action="settings.php" novalidate="novalidate">
 		<?php wp_nonce_field( 'siteoptions' ); ?>
-		<h3><?php _e( 'Operational Settings' ); ?></h3>
+		<h2><?php _e( 'Operational Settings' ); ?></h2>
 		<table class="form-table">
 			<tr>
 				<th scope="row"><label for="site_name"><?php _e( 'Network Title' ) ?></label></th>
@@ -120,7 +120,7 @@ if ( isset( $_GET['updated'] ) ) {
 				</td>
 			</tr>
 		</table>
-		<h3><?php _e( 'Registration Settings' ); ?></h3>
+		<h2><?php _e( 'Registration Settings' ); ?></h2>
 		<table class="form-table">
 			<tr>
 				<th scope="row"><?php _e( 'Allow new registrations' ) ?></th>
@@ -196,7 +196,7 @@ if ( isset( $_GET['updated'] ) ) {
 			</tr>
 
 		</table>
-		<h3><?php _e('New Site Settings'); ?></h3>
+		<h2><?php _e( 'New Site Settings' ); ?></h2>
 		<table class="form-table">
 
 			<tr>
@@ -268,7 +268,7 @@ if ( isset( $_GET['updated'] ) ) {
 				</td>
 			</tr>
 		</table>
-		<h3><?php _e( 'Upload Settings' ); ?></h3>
+		<h2><?php _e( 'Upload Settings' ); ?></h2>
 		<table class="form-table">
 			<tr>
 				<th scope="row"><?php _e( 'Site upload space' ) ?></th>
@@ -306,7 +306,7 @@ if ( isset( $_GET['updated'] ) ) {
 		$translations = wp_get_available_translations();
 		if ( ! empty( $languages ) || ! empty( $translations ) ) {
 			?>
-			<h3><?php _e( 'Language Settings' ); ?></h3>
+			<h2><?php _e( 'Language Settings' ); ?></h2>
 			<table class="form-table">
 				<tr>
 					<th><label for="WPLANG"><?php _e( 'Default Language' ); ?></label></th>
@@ -333,7 +333,7 @@ if ( isset( $_GET['updated'] ) ) {
 		}
 		?>
 
-		<h3><?php _e( 'Menu Settings' ); ?></h3>
+		<h2><?php _e( 'Menu Settings' ); ?></h2>
 		<table id="menu" class="form-table">
 			<tr>
 				<th scope="row"><?php _e( 'Enable administration menus' ); ?></th>
