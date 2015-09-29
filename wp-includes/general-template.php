@@ -1440,6 +1440,8 @@ function wp_get_archives( $args = '' ) {
 		$archive_week_end_date_format = get_option( 'date_format' );
 	}
 
+	$sql_where = $wpdb->prepare( "WHERE post_type = %s AND post_status = 'publish'", $r['post_type'] );
+
 	/**
 	 * Filter the SQL WHERE clause for retrieving archives.
 	 *
@@ -1448,7 +1450,6 @@ function wp_get_archives( $args = '' ) {
 	 * @param string $sql_where Portion of SQL query containing the WHERE clause.
 	 * @param array  $r         An array of default arguments.
 	 */
-	$sql_where = $wpdb->prepare( "WHERE post_type = %s AND post_status = 'publish'", $r['post_type'] );
 	$where = apply_filters( 'getarchives_where', $sql_where, $r );
 
 	/**
