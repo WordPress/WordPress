@@ -1299,16 +1299,18 @@ class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control {
 				?>
 			</p>
 			<div class="current">
-				<span class="customize-control-title">
-					<?php _e( 'Current header' ); ?>
-				</span>
+				<label for="header_image-button">
+					<span class="customize-control-title">
+						<?php _e( 'Current header' ); ?>
+					</span>
+				</label>
 				<div class="container">
-				</div>
+				</div>				
 			</div>
 			<div class="actions">
 				<?php if ( current_user_can( 'upload_files' ) ): ?>
 				<button type="button"<?php echo $visibility; ?> class="button remove" aria-label="<?php esc_attr_e( 'Hide header image' ); ?>"><?php _e( 'Hide image' ); ?></button>
-				<button type="button" class="button new" aria-label="<?php esc_attr_e( 'Add new header image' ); ?>"><?php _e( 'Add new image' ); ?></button>
+				<button type="button" class="button new" id="header_image-button"  aria-label="<?php esc_attr_e( 'Add new header image' ); ?>"><?php _e( 'Add new image' ); ?></button>
 				<div style="clear:both"></div>
 				<?php endif; ?>
 			</div>
