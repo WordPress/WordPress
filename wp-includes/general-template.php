@@ -1357,6 +1357,7 @@ function get_archives_link($url, $text, $format = 'html', $before = '', $after =
  * Display archive links based on type and format.
  *
  * @since 1.2.0
+ * @since 4.4.0 $post_type arg was added.
  *
  * @see get_archives_link()
  *
@@ -1383,6 +1384,7 @@ function get_archives_link($url, $text, $format = 'html', $before = '', $after =
  *     @type bool|int   $echo            Whether to echo or return the links list. Default 1|true to echo.
  *     @type string     $order           Whether to use ascending or descending order. Accepts 'ASC', or 'DESC'.
  *                                       Default 'DESC'.
+ *     @type string     $post_type       Post type. Default 'post'.
  * }
  * @return string|void String when retrieving.
  */
@@ -1394,9 +1396,16 @@ function wp_get_archives( $args = '' ) {
 		'format' => 'html', 'before' => '',
 		'after' => '', 'show_post_count' => false,
 		'echo' => 1, 'order' => 'DESC',
+		'post_type' => 'post'
 	);
 
 	$r = wp_parse_args( $args, $defaults );
+
+	$post_type_object = get_post_type_object( $r['post_type'] );
+	if ( ! is_post_type_viewable( $post_type_object ) ) {
+		return;
+	}
+	$r['post_type'] = $post_type_object->name;
 
 	if ( '' == $r['type'] ) {
 		$r['type'] = 'monthly';
@@ -1439,7 +1448,8 @@ function wp_get_archives( $args = '' ) {
 	 * @param string $sql_where Portion of SQL query containing the WHERE clause.
 	 * @param array  $r         An array of default arguments.
 	 */
-	$where = apply_filters( 'getarchives_where', "WHERE post_type = 'post' AND post_status = 'publish'", $r );
+	$sql_where = $wpdb->prepare( "WHERE post_type = %s AND post_status = 'publish'", $r['post_type'] );
+	$where = apply_filters( 'getarchives_where', $sql_where, $r );
 
 	/**
 	 * Filter the SQL JOIN clause for retrieving archives.
@@ -1473,6 +1483,9 @@ function wp_get_archives( $args = '' ) {
 			$after = $r['after'];
 			foreach ( (array) $results as $result ) {
 				$url = get_month_link( $result->year, $result->month );
+				if ( 'post' !== $r['post_type'] ) {
+					$url = add_query_arg( 'post_type', $r['post_type'], $url );
+				}
 				/* translators: 1: month name, 2: 4-digit year */
 				$text = sprintf( __( '%1$s %2$d' ), $wp_locale->get_month( $result->month ), $result->year );
 				if ( $r['show_post_count'] ) {
@@ -1493,6 +1506,9 @@ function wp_get_archives( $args = '' ) {
 			$after = $r['after'];
 			foreach ( (array) $results as $result) {
 				$url = get_year_link( $result->year );
+				if ( 'post' !== $r['post_type'] ) {
+					$url = add_query_arg( 'post_type', $r['post_type'], $url );
+				}
 				$text = sprintf( '%d', $result->year );
 				if ( $r['show_post_count'] ) {
 					$r['after'] = '&nbsp;(' . $result->posts . ')' . $after;
@@ -1512,6 +1528,9 @@ function wp_get_archives( $args = '' ) {
 			$after = $r['after'];
 			foreach ( (array) $results as $result ) {
 				$url  = get_day_link( $result->year, $result->month, $result->dayofmonth );
+				if ( 'post' !== $r['post_type'] ) {
+					$url = add_query_arg( 'post_type', $r['post_type'], $url );
+				}
 				$date = sprintf( '%1$d-%2$02d-%3$02d 00:00:00', $result->year, $result->month, $result->dayofmonth );
 				$text = mysql2date( $archive_day_date_format, $date );
 				if ( $r['show_post_count'] ) {
@@ -1540,6 +1559,9 @@ function wp_get_archives( $args = '' ) {
 					$arc_week_start = date_i18n( $archive_week_start_date_format, $arc_week['start'] );
 					$arc_week_end   = date_i18n( $archive_week_end_date_format, $arc_week['end'] );
 					$url            = sprintf( '%1$s/%2$s%3$sm%4$s%5$s%6$sw%7$s%8$d', home_url(), '', '?', '=', $arc_year, '&amp;', '=', $result->week );
+					if ( 'post' !== $r['post_type'] ) {
+						$url = add_query_arg( 'post_type', $r['post_type'], $url );
+					}
 					$text           = $arc_week_start . $archive_week_separator . $arc_week_end;
 					if ( $r['show_post_count'] ) {
 						$r['after'] = '&nbsp;(' . $result->posts . ')' . $after;
