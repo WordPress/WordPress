@@ -883,6 +883,10 @@ abbr.required,
 	padding: 6px 10px 8px;
 }
 
+.misc-pub-filename {
+	word-wrap: break-word;
+}
+
 #minor-publishing-actions {
 	padding: 10px 10px 0 10px;
 	text-align: left;
