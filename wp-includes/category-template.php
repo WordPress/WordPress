@@ -498,7 +498,9 @@ function wp_dropdown_categories( $args = '' ) {
  *     @type string       $feed_image            URL of an image to use for the feed link. Default empty string.
  *     @type int          $child_of              Term ID to retrieve child terms of. See {@link get_terms()}. Default 0.
  *     @type array|string $exclude               Array or comma/space-separated string of term IDs to exclude.
- *                                               See {@link get_terms()}. Default empty string.
+ *                                               If `$hierarchical` is true, descendants of `$exclude` terms will also
+ *                                               be excluded; see `$exclude_tree`. See {@link get_terms()}.
+ *                                               Default empty string.
  *     @type array|string $exclude_tree          Array or comma/space-separated string of term IDs to exclude, along
  *                                               with their descendants. See {@link get_terms()}. Default empty string.
  *     @type bool|int     $echo                  True to echo markup, false to return it. Default 1.
@@ -536,8 +538,19 @@ function wp_list_categories( $args = '' ) {
 	if ( !isset( $r['pad_counts'] ) && $r['show_count'] && $r['hierarchical'] )
 		$r['pad_counts'] = true;
 
+	// Descendants of exclusions should be excluded too.
 	if ( true == $r['hierarchical'] ) {
-		$r['exclude_tree'] = $r['exclude'];
+		$exclude_tree = array();
+
+		if ( $r['exclude_tree'] ) {
+			$exclude_tree = array_merge( $exclude_tree, (array) $r['exclude_tree'] );
+		}
+
+		if ( $r['exclude'] ) {
+			$exclude_tree = array_merge( $exclude_tree, (array) $r['exclude'] );
+		}
+
+		$r['exclude_tree'] = $exclude_tree;
 		$r['exclude'] = '';
 	}
 
