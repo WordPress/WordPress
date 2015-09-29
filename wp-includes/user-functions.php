@@ -922,6 +922,16 @@ function wp_dropdown_users( $args = '' ) {
 
 	$query_args = wp_array_slice_assoc( $r, array( 'blog_id', 'include', 'exclude', 'orderby', 'order', 'who' ) );
 	$query_args['fields'] = array( 'ID', 'user_login', $show );
+
+	/**
+	 * Filter the arguments for user drop-down arguments before being passed into the query.
+	 *
+	 * @since 4.4.0
+	 *
+	 * @param array $query_args The default arguments for wp_dropdown_users().
+	 */
+	$query_args = apply_filters( 'wp_dropdown_users_args', $query_args );
+
 	$users = get_users( $query_args );
 
 	$output = '';
