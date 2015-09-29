@@ -1296,7 +1296,7 @@ function get_sample_permalink_html( $id, $new_title = null, $new_slug = null ) {
 			$view_link = get_preview_post_link( $post, array(), $draft_link );
 			$preview_target = " target='wp-preview-{$post->ID}'";
 		} else {
-			if ( 'publish' === $post->post_status ) {
+			if ( 'publish' === $post->post_status || 'attachment' === $post->post_type ) {
 				$view_link = get_permalink( $post );
 			} else {
 				// Allow non-published (private, future) to be viewed at a pretty permalink.
@@ -1310,7 +1310,7 @@ function get_sample_permalink_html( $id, $new_title = null, $new_slug = null ) {
 		$return = '<strong>' . __( 'Permalink:' ) . "</strong>\n";
 
 		if ( false !== $view_link ) {
-			$return .= '<a id="sample-permalink" href="' . esc_url( $view_link ) . '"' . $preview_target . '>' . $permalink . "</a>\n";
+			$return .= '<a id="sample-permalink" href="' . esc_url( $view_link ) . '"' . $preview_target . '>' . $view_link . "</a>\n";
 		} else {
 			$return .= '<span id="sample-permalink">' . $permalink . "</span>\n";
 		}

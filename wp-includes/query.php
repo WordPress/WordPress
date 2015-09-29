@@ -3580,6 +3580,11 @@ class WP_Query {
 		// Check post status to determine if post should be displayed.
 		if ( !empty($this->posts) && ($this->is_single || $this->is_page) ) {
 			$status = get_post_status($this->posts[0]);
+			if ( 'attachment' === $this->posts[0]->post_type && 0 === (int) $this->posts[0]->post_parent ) {
+				$this->is_page = false;
+				$this->is_single = true;
+				$this->is_attachment = true;
+			}
 			$post_status_obj = get_post_status_object($status);
 			//$type = get_post_type($this->posts[0]);
 

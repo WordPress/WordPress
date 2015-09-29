@@ -386,6 +386,9 @@ function get_attachment_link( $post = null, $leavename = false ) {
 
 	$post = get_post( $post );
 	$parent = ( $post->post_parent > 0 && $post->post_parent != $post->ID ) ? get_post( $post->post_parent ) : false;
+	if ( $parent && ! in_array( $parent->post_type, get_post_types() ) ) {
+		$parent = false;
+	}
 
 	if ( $wp_rewrite->using_permalinks() && $parent ) {
 		if ( 'page' == $parent->post_type )
@@ -403,6 +406,8 @@ function get_attachment_link( $post = null, $leavename = false ) {
 
 		if ( ! $leavename )
 			$link = str_replace( '%postname%', $name, $link );
+	} elseif ( $wp_rewrite->using_permalinks() && ! $leavename ) {
+		$link = home_url( user_trailingslashit( $post->post_name ) );
 	}
 
 	if ( ! $link )
