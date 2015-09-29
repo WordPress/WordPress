@@ -90,7 +90,7 @@ if ( ! comments_open( $comment_post_ID ) ) {
 }
 
 $comment_author       = ( isset( $_POST['author'] ) && is_string( $_POST['author'] ) ) ? trim( strip_tags( $_POST['author'] ) ) : null;
-$comment_author_email = ( isset( $_POST['email'] ) && is_email( $_POST['email'] ) ) ? trim( $_POST['email'] ) : null;
+$comment_author_email = ( isset( $_POST['email'] ) && is_string( $_POST['email'] ) ) ? trim( $_POST['email'] ) : null;
 $comment_author_url   = ( isset( $_POST['url'] ) && is_string( $_POST['url'] ) ) ? trim( $_POST['url'] ) : null;
 $comment_content      = ( isset( $_POST['comment'] ) && is_string( $_POST['comment'] ) ) ? trim( $_POST['comment'] ) : null;
 
