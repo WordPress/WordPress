@@ -1877,6 +1877,10 @@ function wp_ajax_save_widget() {
 
 		$sidebar = array_diff( $sidebar, array($widget_id) );
 		$_POST = array('sidebar' => $sidebar_id, 'widget-' . $id_base => array(), 'the-widget-id' => $widget_id, 'delete_widget' => '1');
+
+		/** This action is documented in wp-admin/widgets.php */
+		do_action( 'delete_widget', $widget_id, $sidebar_id, $id_base );
+
 	} elseif ( $settings && preg_match( '/__i__|%i%/', key($settings) ) ) {
 		if ( !$multi_number )
 			wp_die( $error );

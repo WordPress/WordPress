@@ -152,6 +152,17 @@ if ( isset($_POST['savewidget']) || isset($_POST['removewidget']) ) {
 
 		$sidebar = array_diff( $sidebar, array($widget_id) );
 		$_POST = array('sidebar' => $sidebar_id, 'widget-' . $id_base => array(), 'the-widget-id' => $widget_id, 'delete_widget' => '1');
+
+		/**
+		 * Fires immediately after a widget has been marked for deletion.
+		 * 
+		 * @since 4.4.0
+		 *
+		 * @param string $widget_id  ID of the widget marked for deletion.
+		 * @param string $sidebar_id ID of the sidebar the widget was deleted from.
+		 * @param string $id_base    ID base for the widget.
+		 */
+		do_action( 'delete_widget', $widget_id, $sidebar_id, $id_base );
 	}
 
 	$_POST['widget-id'] = $sidebar;
