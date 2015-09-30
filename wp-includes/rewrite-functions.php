@@ -16,7 +16,8 @@
  *
  * @param string       $regex    Regular Expression to match request against.
  * @param string|array $redirect Page to redirect to, or array of query vars and values.
- * @param string       $after    Optional, default is 'bottom'. Where to add rule, can also be 'top'.
+ * @param string       $after    Optional. Location where to insert the new rule. Accepts 'top',
+ *                               or 'bottom'. Default 'bottom'.
  */
 function add_rewrite_rule( $regex, $redirect, $after = 'bottom' ) {
 	global $wp_rewrite;
@@ -38,7 +39,7 @@ function add_rewrite_rule( $regex, $redirect, $after = 'bottom' ) {
  *
  * @param string $tag   Name of the new rewrite tag.
  * @param string $regex Regular expression to substitute the tag for in rewrite rules.
- * @param string $query String to append to the rewritten query. Must end in '='. Optional.
+ * @param string $query Optional. String to append to the rewritten query. Must end in '='. Default empty.
  */
 function add_rewrite_tag( $tag, $regex, $query = '' ) {
 	// validate the tag's name
@@ -61,12 +62,13 @@ function add_rewrite_tag( $tag, $regex, $query = '' ) {
  *
  * @since 3.0.0
  *
+ * @see WP_Rewrite::add_permastruct()
  * @global WP_Rewrite $wp_rewrite
  *
  * @param string $name   Name for permalink structure.
  * @param string $struct Permalink structure.
- * @param array  $args   Optional configuration for building the rules from the permalink structure,
- *                       see {@link WP_Rewrite::add_permastruct()} for full details.
+ * @param array  $args   Optional. Arguments for building the rules from the permalink structure,
+ *                       see WP_Rewrite::add_permastruct() for full details. Default empty array.
  */
 function add_permastruct( $name, $struct, $args = array() ) {
 	global $wp_rewrite;
