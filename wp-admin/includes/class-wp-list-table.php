@@ -1141,13 +1141,14 @@ class WP_List_Table {
 		if ( 'top' === $which ) {
 			wp_nonce_field( 'bulk-' . $this->_args['plural'] );
 		}
-		if ( $this->has_items() ) : ?>
+		?>
 	<div class="tablenav <?php echo esc_attr( $which ); ?>">
 
+		<?php if ( $this->has_items() ): ?>
 		<div class="alignleft actions bulkactions">
 			<?php $this->bulk_actions( $which ); ?>
 		</div>
-<?php
+		<?php endif;
 		$this->extra_tablenav( $which );
 		$this->pagination( $which );
 ?>
@@ -1155,7 +1156,6 @@ class WP_List_Table {
 		<br class="clear" />
 	</div>
 <?php
-		endif;
 	}
 
 	/**

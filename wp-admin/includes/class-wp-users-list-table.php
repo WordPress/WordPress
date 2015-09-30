@@ -217,7 +217,7 @@ class WP_Users_List_Table extends WP_List_Table {
 		$id = 'bottom' === $which ? 'new_role2' : 'new_role';
 	?>
 	<div class="alignleft actions">
-		<?php if ( current_user_can( 'promote_users' ) ) : ?>
+		<?php if ( current_user_can( 'promote_users' ) && $this->has_items() ) : ?>
 		<label class="screen-reader-text" for="<?php echo $id ?>"><?php _e( 'Change role to&hellip;' ) ?></label>
 		<select name="<?php echo $id ?>" id="<?php echo $id ?>">
 			<option value=""><?php _e( 'Change role to&hellip;' ) ?></option>
