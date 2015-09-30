@@ -1015,7 +1015,7 @@ function get_search_link( $query = '' ) {
 		$link = home_url('?s=' . urlencode($search) );
 	} else {
 		$search = urlencode($search);
-		$search = str_replace('%2F', '/', $search); // %2F(/) is not valid within a URL, send it unencoded.
+		$search = str_replace('%2F', '/', $search); // %2F(/) is not valid within a URL, send it un-encoded.
 		$link = str_replace( '%search%', $search, $permastruct );
 		$link = home_url( user_trailingslashit( $link, 'search' ) );
 	}

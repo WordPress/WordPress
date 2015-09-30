@@ -279,7 +279,7 @@ function _wp_relative_upload_path( $path ) {
  * Attachments may also be made the child of a post, so if that is an accurate
  * statement (which needs to be verified), it would then be possible to get
  * all of the attachments for a post. Attachments have since changed since
- * version 2.5, so this is most likely unaccurate, but serves generally as an
+ * version 2.5, so this is most likely inaccurate, but serves generally as an
  * example of what is possible.
  *
  * The arguments listed as defaults are for this function and also of the
@@ -385,7 +385,7 @@ function get_children( $args = '', $output = OBJECT ) {
  * @since 1.0.0
  *
  * @param string $post Post content.
- * @return array Post before ('main'), after ('extended'), and custom readmore ('more_text').
+ * @return array Post before ('main'), after ('extended'), and custom read more ('more_text').
  */
 function get_extended( $post ) {
 	//Match the new style more links.
@@ -2733,7 +2733,7 @@ function wp_get_post_categories( $post_id = 0, $args = array() ) {
  * @since 2.3.0
  *
  * @param int   $post_id Optional. The Post ID. Does not default to the ID of the
- *                       global $post. Defualt 0.
+ *                       global $post. Default 0.
  * @param array $args Optional. Overwrite the defaults
  * @return array List of post tags.
  */
@@ -3497,7 +3497,7 @@ function check_and_publish_future_post( $post_id ) {
 		return;
 	}
 
-	// wp_publish_post(_ returns no meaninful value
+	// wp_publish_post(_ returns no meaningful value.
 	wp_publish_post( $post_id );
 }
 

@@ -48,10 +48,10 @@ final class _WP_Editors {
 	 *     @type int        $textarea_rows     Number rows in the editor textarea. Default 20.
 	 *     @type string|int $tabindex          Tabindex value to use. Default empty.
 	 *     @type string     $tabfocus_elements The previous and next element ID to move the focus to
-	 *                                         when pressing the Tab key in TinyMCE. Defualt ':prev,:next'.
+	 *                                         when pressing the Tab key in TinyMCE. Default ':prev,:next'.
 	 *     @type string     $editor_css        Intended for extra styles for both Visual and Text editors.
 	 *                                         Should include `<style>` tags, and can use "scoped". Default empty.
-	 *     @type string     $editor_class      Extra classes to add to the editor textarea elemen. Default empty.
+	 *     @type string     $editor_class      Extra classes to add to the editor textarea element. Default empty.
 	 *     @type bool       $teeny             Whether to output the minimal editor config. Examples include
 	 *                                         Press This and the Comment editor. Default false.
 	 *     @type bool       $dfw               Deprecated in 4.1. Since 4.3 used only to enqueue wp-fullscreen-stub.js for backwards compatibility.
