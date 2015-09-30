@@ -1312,6 +1312,15 @@ class WP_Query {
 	public $updated_term_meta_cache = false;
 
 	/**
+	 * Whether the comment meta cache for matched posts has been primed.
+	 *
+	 * @since 4.4.0
+	 * @access protected
+	 * @var bool
+	 */
+	public $updated_comment_meta_cache = false;
+
+	/**
 	 * Cached list of search stopwords.
 	 *
 	 * @since 3.7.0
@@ -3682,6 +3691,11 @@ class WP_Query {
 			}
 		}
 
+		// If comments have been fetched as part of the query, make sure comment meta lazy-loading is set up.
+		if ( ! empty( $this->comments ) ) {
+			add_action( 'get_comment_metadata', array( $this, 'lazyload_comment_meta' ), 10, 2 );
+		}
+
 		if ( ! $q['suppress_filters'] ) {
 			/**
 			 * Filter the array of retrieved posts after they've been fetched and
@@ -4812,6 +4826,50 @@ class WP_Query {
 		// If no terms were found, there's no need to run this again.
 		if ( empty( $term_ids ) ) {
 			$this->updated_term_meta_cache = true;
+		}
+
+		return $check;
+	}
+
+	/**
+	 * Lazy-load comment meta when inside of a `WP_Query` loop.
+	 *
+	 * This method is public so that it can be used as a filter callback. As a rule, there is no need to invoke it
+	 * directly, from either inside or outside the `WP_Query` object.
+	 *
+	 * @since 4.4.0
+	 *
+	 * @param null $check      The `$check` param passed from the 'pre_comment_metadata' hook.
+	 * @param int  $comment_id ID of the comment whose metadata is being cached.
+	 * @return null In order not to short-circuit `get_metadata()`.
+	 */
+	public function lazyload_comment_meta( $check, $comment_id ) {
+		/*
+		 * We only do this once per `WP_Query` instance.
+		 * Can't use `remove_action()` because of non-unique object hashes.
+		 */
+		if ( $this->updated_comment_meta_cache ) {
+			return $check;
+		}
+
+		// Don't use `wp_list_pluck()` to avoid by-reference manipulation.
+		$comment_ids = array();
+		if ( is_array( $this->comments ) ) {
+			foreach ( $this->comments as $comment ) {
+				$comment_ids[] = $comment->comment_ID;
+			}
+		}
+
+		/*
+		 * Only update the metadata cache for comments belonging to these posts if the comment_id passed
+		 * to `get_comment_meta()` matches one of those comments. This prevents a single call to
+		 * `get_comment_meta()` from priming metadata for all `WP_Query` objects.
+		 */
+		if ( in_array( $comment_id, $comment_ids ) ) {
+			update_meta_cache( 'comment', $comment_ids );
+			$this->updated_comment_meta_cache = true;
+		} elseif ( empty( $comment_ids ) ) {
+			$this->updated_comment_meta_cache = true;
 		}
 
 		return $check;
