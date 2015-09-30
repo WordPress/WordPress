@@ -110,7 +110,7 @@
 	right: 0;
 }
 
-.customize-control-nav_menu .reordering .add-new-menu-item {
+#customize-theme-controls .reordering .add-new-menu-item {
 	opacity: 0.2;
 	pointer-events: none;
 	cursor: not-allowed;
@@ -981,11 +981,11 @@ body.adding-menu-items #customize-preview {
 }
 
 li.assigned-to-menu-location .menu-delete-item {
-  display: none;
+	display: none;
 }
 
 li.assigned-to-menu-location .add-new-menu-item {
-  margin-bottom: 1em;
+	margin-bottom: 1em;
 }
 
 .menu-delete {
