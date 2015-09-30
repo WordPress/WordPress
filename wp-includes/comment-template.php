@@ -667,7 +667,14 @@ function comment_ID() {
  * @global bool       $in_comment_loop
  *
  * @param WP_Comment|int|null $comment Comment to retrieve. Default current comment.
- * @param array               $args    Optional. An array of arguments to override the defaults.
+ * @param array               $args {
+ *     An array of optional arguments to override the defaults.
+ *
+ *     @type string $type      Passed to {@see get_page_of_comment()}.
+ *     @type int    $page      Current page of comments, for calculating comment pagination.
+ *     @type int    $per_page  Per-page value for comment pagination.
+ *     @type int    $max_depth Passed to {@see get_page_of_comment()}.
+ * }
  * @return string The permalink to the given comment.
  */
 function get_comment_link( $comment = null, $args = array() ) {
