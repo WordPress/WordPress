@@ -1510,24 +1510,34 @@ class WP_Rewrite {
 	 * the top of the rules.
 	 *
 	 * @since 2.1.0
+	 * @since 4.4.0 Array support was added to the `$redirect` parameter.
 	 * @access public
 	 *
-	 * @param string $regex    Regular expression to match against request.
-	 * @param string $redirect URL regex redirects to when regex matches request.
-	 * @param string $after    Optional, default is bottom. Location to place rule.
+	 * @param string       $regex    Regular expression to match against request.
+	 * @param string|array $redirect URL regex redirects to when regex matches request, or array
+	 *                               of query vars and values.
+	 * @param string       $after    Optional, default is bottom. Location to place rule.
 	 */
-	public function add_rule($regex, $redirect, $after = 'bottom') {
-		//get everything up to the first ?
-		$index = (strpos($redirect, '?') === false ? strlen($redirect) : strpos($redirect, '?'));
-		$front = substr($redirect, 0, $index);
-		if ( $front != $this->index ) { //it doesn't redirect to WP's index.php
-			$this->add_external_rule($regex, $redirect);
+	public function add_rule( $regex, $redirect, $after = 'bottom' ) {
+		if ( is_array( $redirect ) ) {
+			$external = false;
+			$redirect = add_query_arg( $redirect, 'index.php' );
 		} else {
-			if ( 'bottom' == $after)
-				$this->extra_rules = array_merge($this->extra_rules, array($regex => $redirect));
-			else
-				$this->extra_rules_top = array_merge($this->extra_rules_top, array($regex => $redirect));
-			//$this->extra_rules[$regex] = $redirect;
+			$index = false === strpos( $redirect, '?' ) ? strlen( $redirect ) : strpos( $redirect, '?' );
+			$front = substr( $redirect, 0, $index );
+
+			$external = $front != $this->index;
+		}
+
+		// "external" = it doesn't redirect to index.php
+		if ( $external ) {
+			$this->add_external_rule( $regex, $redirect );
+		} else {
+			if ( 'bottom' == $after ) {
+				$this->extra_rules = array_merge( $this->extra_rules, array( $regex => $redirect ) );
+			} else {
+				$this->extra_rules_top = array_merge( $this->extra_rules_top, array( $regex => $redirect ) );
+			}
 		}
 	}
 
