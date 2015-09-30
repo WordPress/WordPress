@@ -1677,6 +1677,10 @@ div.action-links,
 	.plugin-card .desc p:first-of-type {
 		margin-top: 0;
 	}
+
+	.fixed .column-date {
+		width: 14%;
+	}
 }
 
 @media screen and ( max-width: 782px ) {
