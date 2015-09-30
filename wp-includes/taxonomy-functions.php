@@ -1501,6 +1501,11 @@ function get_terms( $taxonomies, $args = '' ) {
  * @return int|bool Meta ID on success, false on failure.
  */
 function add_term_meta( $term_id, $meta_key, $meta_value, $unique = false ) {
+	// Bail if term meta table is not installed.
+	if ( get_option( 'db_version' ) < 34370 ) {
+		return false;
+	}
+
 	$added = add_metadata( 'term', $term_id, $meta_key, $meta_value, $unique );
 
 	// Bust term query cache.
@@ -1522,6 +1527,11 @@ function add_term_meta( $term_id, $meta_key, $meta_value, $unique = false ) {
  * @return bool True on success, false on failure.
  */
 function delete_term_meta( $term_id, $meta_key, $meta_value = '' ) {
+	// Bail if term meta table is not installed.
+	if ( get_option( 'db_version' ) < 34370 ) {
+		return false;
+	}
+
 	$deleted = delete_metadata( 'term', $term_id, $meta_key, $meta_value );
 
 	// Bust term query cache.
@@ -1544,6 +1554,11 @@ function delete_term_meta( $term_id, $meta_key, $meta_value = '' ) {
  * @return mixed If `$single` is false, an array of metadata values. If `$single` is true, a single metadata value.
  */
 function get_term_meta( $term_id, $key = '', $single = false ) {
+	// Bail if term meta table is not installed.
+	if ( get_option( 'db_version' ) < 34370 ) {
+		return false;
+	}
+
 	return get_metadata( 'term', $term_id, $key, $single );
 }
 
@@ -1563,6 +1578,11 @@ function get_term_meta( $term_id, $key = '', $single = false ) {
  * @return int|bool Meta ID if the key didn't previously exist. True on successful update. False on failure.
  */
 function update_term_meta( $term_id, $meta_key, $meta_value, $prev_value = '' ) {
+	// Bail if term meta table is not installed.
+	if ( get_option( 'db_version' ) < 34370 ) {
+		return false;
+	}
+
 	$updated = update_metadata( 'term', $term_id, $meta_key, $meta_value, $prev_value );
 
 	// Bust term query cache.
@@ -1585,6 +1605,11 @@ function update_term_meta( $term_id, $meta_key, $meta_value, $prev_value = '' ) 
  * @return array|false Returns false if there is nothing to update. Returns an array of metadata on success.
  */
 function update_termmeta_cache( $term_ids ) {
+	// Bail if term meta table is not installed.
+	if ( get_option( 'db_version' ) < 34370 ) {
+		return;
+	}
+
 	return update_meta_cache( 'term', $term_ids );
 }
 
