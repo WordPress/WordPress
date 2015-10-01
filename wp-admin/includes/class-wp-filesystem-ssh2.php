@@ -136,6 +136,28 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 	}
 
 	/**
+	 * Gets the ssh2.sftp PHP stream wrapper path to open for the given file.
+	 *
+	 * This method also works around a PHP bug where the root directory (/) cannot
+	 * be opened by PHP functions, causing a false failure. In order to work around
+	 * this, the path is converted to /./ which is semantically the same as /
+	 * See https://bugs.php.net/bug.php?id=64169 for more details.
+	 *
+	 * @access public
+	 *
+	 * @since 4.4
+	 *
+	 * @param string $path The File/Directory path on the remote server to return
+	 * @return string The ssh2.sftp:// wrapped path to use.
+	 */
+	public function sftp_path( $path ) {
+		if ( '/' === $path ) {
+			$path = '/./';
+		}
+		return 'ssh2.sftp://' . $this->sftp_link . '/' . ltrim( $path, '/' );
+	}
+
+	/**
 	 * @access public
 	 * 
 	 * @param string $command
@@ -169,8 +191,7 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 	 * @return string|false
 	 */
 	public function get_contents( $file ) {
-		$file = ltrim($file, '/');
-		return file_get_contents('ssh2.sftp://' . $this->sftp_link . '/' . $file);
+		return file_get_contents( $this->sftp_path( $file ) );
 	}
 
 	/**
@@ -180,8 +201,7 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 	 * @return array
 	 */
 	public function get_contents_array($file) {
-		$file = ltrim($file, '/');
-		return file('ssh2.sftp://' . $this->sftp_link . '/' . $file);
+		return file( $this->sftp_path( $file ) );
 	}
 
 	/**
@@ -193,7 +213,7 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 	 * @return bool
 	 */
 	public function put_contents($file, $contents, $mode = false ) {
-		$ret = file_put_contents( 'ssh2.sftp://' . $this->sftp_link . '/' . ltrim( $file, '/' ), $contents );
+		$ret = file_put_contents( $this->sftp_path( $file ), $contents );
 
 		if ( $ret !== strlen( $contents ) )
 			return false;
@@ -294,7 +314,7 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 	 * @return string|false
 	 */
 	public function owner($file) {
-		$owneruid = @fileowner('ssh2.sftp://' . $this->sftp_link . '/' . ltrim($file, '/'));
+		$owneruid = @fileowner( $this->sftp_path( $file ) );
 		if ( ! $owneruid )
 			return false;
 		if ( ! function_exists('posix_getpwuid') )
@@ -310,7 +330,7 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 	 * @return string
 	 */
 	public function getchmod($file) {
-		return substr( decoct( @fileperms( 'ssh2.sftp://' . $this->sftp_link . '/' . ltrim( $file, '/' ) ) ), -3 );
+		return substr( decoct( @fileperms( $this->sftp_path( $file ) ) ), -3 );
 	}
 
 	/**
@@ -320,7 +340,7 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 	 * @return string|false
 	 */
 	public function group($file) {
-		$gid = @filegroup('ssh2.sftp://' . $this->sftp_link . '/' . ltrim($file, '/'));
+		$gid = @filegroup( $this->sftp_path( $file ) );
 		if ( ! $gid )
 			return false;
 		if ( ! function_exists('posix_getgrgid') )
@@ -388,8 +408,7 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 	 * @return bool
 	 */
 	public function exists($file) {
-		$file = ltrim($file, '/');
-		return file_exists('ssh2.sftp://' . $this->sftp_link . '/' . $file);
+		return file_exists( $this->sftp_path( $file ) );
 	}
 
 	/**
@@ -399,8 +418,7 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 	 * @return bool
 	 */
 	public function is_file($file) {
-		$file = ltrim($file, '/');
-		return is_file('ssh2.sftp://' . $this->sftp_link . '/' . $file);
+		return is_file( $this->sftp_path( $file ) );
 	}
 
 	/**
@@ -410,8 +428,7 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 	 * @return bool
 	 */
 	public function is_dir($path) {
-		$path = ltrim($path, '/');
-		return is_dir('ssh2.sftp://' . $this->sftp_link . '/' . $path);
+		return is_dir( $this->sftp_path( $path ) );
 	}
 
 	/**
@@ -421,8 +438,7 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 	 * @return bool
 	 */
 	public function is_readable($file) {
-		$file = ltrim($file, '/');
-		return is_readable('ssh2.sftp://' . $this->sftp_link . '/' . $file);
+		return is_readable( $this->sftp_path( $file ) );
 	}
 
 	/**
@@ -443,8 +459,7 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 	 * @return int
 	 */
 	public function atime($file) {
-		$file = ltrim($file, '/');
-		return fileatime('ssh2.sftp://' . $this->sftp_link . '/' . $file);
+		return fileatime( $this->sftp_path( $file ) );
 	}
 
 	/**
@@ -454,8 +469,7 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 	 * @return int
 	 */
 	public function mtime($file) {
-		$file = ltrim($file, '/');
-		return filemtime('ssh2.sftp://' . $this->sftp_link . '/' . $file);
+		return filemtime( $this->sftp_path( $file ) );
 	}
 
 	/**
@@ -465,8 +479,7 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 	 * @return int
 	 */
 	public function size($file) {
-		$file = ltrim($file, '/');
-		return filesize('ssh2.sftp://' . $this->sftp_link . '/' . $file);
+		return filesize( $this->sftp_path( $file ) );
 	}
 
 	/**
@@ -536,7 +549,7 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 			return false;
 
 		$ret = array();
-		$dir = @dir('ssh2.sftp://' . $this->sftp_link .'/' . ltrim($path, '/') );
+		$dir = @dir( $this->sftp_path( $path ) );
 
 		if ( ! $dir )
 			return false;
