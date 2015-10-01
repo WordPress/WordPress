@@ -102,50 +102,68 @@ function extract_from_markers( $filename, $marker ) {
  * @return bool True on write success, false on failure.
  */
 function insert_with_markers( $filename, $marker, $insertion ) {
-	if (!file_exists( $filename ) || is_writeable( $filename ) ) {
-		if (!file_exists( $filename ) ) {
-			$markerdata = '';
-		} else {
-			$markerdata = explode( "\n", implode( '', file( $filename ) ) );
-		}
-
-		if ( !$f = @fopen( $filename, 'w' ) )
-			return false;
-
-		$foundit = false;
-		if ( $markerdata ) {
-			$state = true;
-			foreach ( $markerdata as $n => $markerline ) {
-				if (strpos($markerline, '# BEGIN ' . $marker) !== false)
-					$state = false;
-				if ( $state ) {
-					if ( $n + 1 < count( $markerdata ) )
-						fwrite( $f, "{$markerline}\n" );
-					else
-						fwrite( $f, "{$markerline}" );
-				}
-				if (strpos($markerline, '# END ' . $marker) !== false) {
-					fwrite( $f, "# BEGIN {$marker}\n" );
-					if ( is_array( $insertion ))
-						foreach ( $insertion as $insertline )
-							fwrite( $f, "{$insertline}\n" );
-					fwrite( $f, "# END {$marker}\n" );
-					$state = true;
-					$foundit = true;
-				}
-			}
-		}
-		if (!$foundit) {
-			fwrite( $f, "\n# BEGIN {$marker}\n" );
-			foreach ( $insertion as $insertline )
-				fwrite( $f, "{$insertline}\n" );
-			fwrite( $f, "# END {$marker}\n" );
-		}
-		fclose( $f );
-		return true;
-	} else {
+	if ( ! is_writeable( $filename ) ) {
 		return false;
 	}
+
+	if ( ! is_array( $insertion ) ) {
+		$insertion = array( $insertion );
+	}
+
+	$start_marker = "# BEGIN {$marker}";
+	$end_marker   = "# END {$marker}";
+
+	$fp = fopen( $filename, 'r+' );
+	if ( ! $fp ) {
+		return false;
+	}
+
+	// Attempt to get a lock. If the filesystem supports locking, this will block until the lock is acquired.
+	flock( $fp, LOCK_EX );
+
+	$lines = array();
+	while ( ! feof( $fp ) ) {
+		$lines[] = rtrim( fgets( $fp ), "\r\n" );
+	}
+
+	// Split out the existing file into the preceeding lines, and those that appear after the marker
+	$pre_lines = $post_lines = array();
+	$found_marker = $found_end_marker = false;
+	foreach ( $lines as $line ) {
+		if ( ! $found_marker && false !== strpos( $line, $start_marker ) ) {
+			$found_marker = true;
+			continue;
+		} elseif ( ! $found_end_marker && false !== strpos( $line, $end_marker ) ) {
+			$found_end_marker = true;
+			continue;
+		}
+		if ( ! $found_marker ) {
+			$pre_lines[] = $line;
+		} elseif ( $found_marker && $found_end_marker ) {
+			$post_lines[] = $line;
+		}
+	}
+
+	// Generate the new file data
+	$new_file_data = implode( "\n", array_merge(
+		$pre_lines,
+		array( $start_marker ),
+		$insertion,
+		array( $end_marker ),
+		$post_lines
+	) );
+
+	// Write to the start of the file, and truncate it to that length
+	fseek( $fp, 0 );
+	$bytes = fwrite( $fp, $new_file_data );
+	if ( $bytes ) {
+		ftruncate( $fp, $bytes );
+	}
+
+	flock( $fp, LOCK_UN );
+	fclose( $fp );
+
+	return (bool) $bytes;
 }
 
 /**
