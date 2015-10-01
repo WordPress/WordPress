@@ -200,7 +200,6 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 	public function get_columns() {
 		$sites_columns = array(
 			'cb'          => '<input type="checkbox" />',
-			'id'          => __( 'ID' ),
 			'blogname'    => __( 'URL' ),
 			'lastupdated' => __( 'Last Updated' ),
 			'registered'  => _x( 'Registered', 'site' ),

@@ -149,7 +149,6 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 	public function get_columns() {
 		$users_columns = array(
 			'cb'         => '<input type="checkbox" />',
-			'id'         => __( 'ID' ),
 			'username'   => __( 'Username' ),
 			'name'       => __( 'Name' ),
 			'email'      => __( 'Email' ),
