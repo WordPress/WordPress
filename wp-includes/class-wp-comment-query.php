@@ -922,6 +922,11 @@ class WP_Comment_Query {
 				}
 			}
 
+			// Set the 'populated_children' flag, to ensure additional database queries aren't run.
+			foreach ( $ref as $_ref ) {
+				$_ref->populated_children( true );
+			}
+
 			$comments = $threaded_comments;
 		} else {
 			$comments = $all_comments;

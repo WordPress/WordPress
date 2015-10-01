@@ -159,6 +159,15 @@ final class WP_Comment {
 	protected $children;
 
 	/**
+	 * Whether children have been populated for this comment object.
+	 *
+	 * @since 4.4.0
+	 * @access protected
+	 * @var bool
+	 */
+	protected $populated_children = false;
+
+	/**
 	 * Post fields.
 	 *
 	 * @since 4.4.0
@@ -279,7 +288,11 @@ final class WP_Comment {
 		$_args['parent'] = $this->comment_ID;
 
 		if ( is_null( $this->children ) ) {
-			$this->children = get_comments( $_args );
+			if ( $this->populated_children ) {
+				$this->children = array();
+			} else {
+				$this->children = get_comments( $_args );
+			}
 		}
 
 		if ( 'flat' === $_args['format'] ) {
@@ -328,6 +341,18 @@ final class WP_Comment {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Set the 'populated_children' flag.
+	 *
+	 * This flag is important for ensuring that calling `get_children()` on a childless comment will not trigger
+	 * unneeded database queries.
+	 *
+	 * @since 4.4.0
+	 */
+	public function populated_children( $set ) {
+		$this->populated_children = (bool) $set;
 	}
 
 	/**
