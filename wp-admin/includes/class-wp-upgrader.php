@@ -1867,9 +1867,14 @@ class Language_Pack_Upgrader extends WP_Upgrader {
 			return;
 		}
 
-		$skin = new Language_Pack_Upgrader_Skin( array(
-			'skip_header_footer' => true,
-		) );
+		// Re-use the automatic upgrader skin if the parent upgrader is using it.
+		if ( $upgrader && $upgrader->skin instanceof Automatic_Upgrader_Skin ) {
+			$skin = $upgrader->skin;
+		} else {
+			$skin = new Language_Pack_Upgrader_Skin( array(
+				'skip_header_footer' => true,
+			) );
+		}
 
 		$lp_upgrader = new Language_Pack_Upgrader( $skin );
 		$lp_upgrader->bulk_upgrade( $language_updates );
@@ -3368,7 +3373,7 @@ class WP_Automatic_Updater {
 
 		// Plugins, Themes, Translations
 		foreach ( array( 'plugin', 'theme', 'translation' ) as $type ) {
-    		
+
 			/**
 			 * Filter to control whether a notification email is sent to the site admin email address for
 			 * plugin, theme, and translation updates.
