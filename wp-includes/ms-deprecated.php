@@ -392,3 +392,31 @@ function create_empty_blog( $domain, $path, $weblog_title, $site_id = 1 ) {
 
 	return $blog_id;
 }
+
+/**
+ * Get the admin for a domain/path combination.
+ *
+ * @since MU 1.0
+ * @deprecated 4.4.0
+ *
+ * @global wpdb $wpdb
+ *
+ * @param string $sitedomain Optional. Site domain.
+ * @param string $path       Optional. Site path.
+ * @return array|false The network admins
+ */
+function get_admin_users_for_domain( $sitedomain = '', $path = '' ) {
+	_deprecated_function( __FUNCTION__, '4.4' );
+
+	global $wpdb;
+
+	if ( ! $sitedomain )
+		$site_id = $wpdb->siteid;
+	else
+		$site_id = $wpdb->get_var( $wpdb->prepare( "SELECT id FROM $wpdb->site WHERE domain = %s AND path = %s", $sitedomain, $path ) );
+
+	if ( $site_id )
+		return $wpdb->get_results( $wpdb->prepare( "SELECT u.ID, u.user_login, u.user_pass FROM $wpdb->users AS u, $wpdb->sitemeta AS sm WHERE sm.meta_key = 'admin_user_id' AND u.ID = sm.meta_value AND sm.site_id = %d", $site_id ), ARRAY_A );
+
+	return false;
+}
