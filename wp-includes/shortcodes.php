@@ -88,6 +88,19 @@ $shortcode_tags = array();
  */
 function add_shortcode($tag, $func) {
 	global $shortcode_tags;
+
+	if ( '' == trim( $tag ) ) {
+		$message = __( 'Invalid shortcode name.  Empty name given.' );
+		_doing_it_wrong( __FUNCTION__, $message, '4.4.0' );
+		return;
+	}
+
+	if ( 0 !== preg_match( '@[<>&/\[\]\x00-\x20]@', $tag ) ) {
+		$message = sprintf( __( 'Invalid shortcode name: %s  Do not use spaces or reserved chars: & / < > [ ]' ), $tag );
+		_doing_it_wrong( __FUNCTION__, $message, '4.4.0' );
+		return;
+	}
+
 	$shortcode_tags[ $tag ] = $func;
 }
 
