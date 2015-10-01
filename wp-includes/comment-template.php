@@ -1240,73 +1240,29 @@ function comments_template( $file = '/comments.php', $separate_comments = false 
 		$per_page = (int) get_option( 'comments_per_page' );
 	}
 
-	/*
-	 * For legacy reasons, higher page numbers always mean more recent comments, regardless of sort order.
-	 * Since we don't have full pagination info until after the query, we use some tricks to get the
-	 * right comments for the current page.
-	 *
-	 * Abandon all hope, ye who enter here!
-	 */
-	$flip_comment_order = $trim_comments_on_page= false;
+	$comment_args['order']  = 'ASC';
 	$comment_args['number'] = $per_page;
 	$page = (int) get_query_var( 'cpage' );
-	if ( 'newest' === get_option( 'default_comments_page' ) ) {
-		if ( $page ) {
-			$comment_args['order'] = 'ASC';
 
-			/*
-			 * We don't have enough data (namely, the total number of comments) to calculate an
-			 * exact offset. We'll fetch too many comments, and trim them as needed
-			 * after the query.
-			 */
-			$offset = ( $page - 2 ) * $per_page;
-			if ( 0 > $offset ) {
-				// `WP_Comment_Query` doesn't support negative offsets.
-				$comment_args['offset'] = 0;
-			} else {
-				$comment_args['offset'] = $offset;
-			}
-
-			// Fetch double the number of comments we need.
-			$comment_args['number'] += $per_page;
-			$trim_comments_on_page = true;
-		} else {
-			$comment_args['order'] = 'DESC';
-			$comment_args['offset'] = 0;
-			$flip_comment_order = true;
-		}
+	if ( $page ) {
+		$comment_args['offset'] = ( $page - 1 ) * $per_page;
+	} elseif ( 'oldest' === get_option( 'default_comments_page' ) ) {
+		$comment_args['offset'] = 0;
 	} else {
-		$comment_args['order'] = 'ASC';
-		if ( $page ) {
-			$comment_args['offset'] = ( $page - 1 ) * $per_page;
-		} else {
-			$comment_args['offset'] = 0;
-		}
+		// If fetching the first page of 'newest', we need a top-level comment count.
+		$top_level_query = new WP_Comment_Query();
+		$top_level_count = $top_level_query->query( array(
+			'count'   => true,
+			'orderby' => false,
+			'post_id' => $post->ID,
+			'parent'  => 0,
+		) );
+
+		$comment_args['offset'] = ( ceil( $top_level_count / $per_page ) - 1 ) * $per_page;
 	}
 
 	$comment_query = new WP_Comment_Query( $comment_args );
 	$_comments = $comment_query->comments;
-
-	// Delightful pagination quirk #1: `wp_list_comments()` expects the order to be wrong, so we make it wrong.
-	if ( $flip_comment_order ) {
-		$_comments = array_reverse( $_comments );
-	}
-
-	// Delightful pagination quirk #2: reverse chronological order requires page shifting.
-	if ( $trim_comments_on_page ) {
-		// Correct the value of max_num_pages, which is wrong because we manipulated the per_page 'number'.
-		$comment_query->max_num_pages = ceil( $comment_query->found_comments / $per_page );
-
-		// Identify the number of comments that should appear on page 1.
-		$page_1_count = $comment_query->found_comments - ( ( $comment_query->max_num_pages - 1 ) * $per_page );
-
-		// Use that value to shift the matched comments.
-		if ( 1 === $page ) {
-			$_comments = array_slice( $_comments, 0, $page_1_count );
-		} else {
-			$_comments = array_slice( $_comments, $page_1_count, $per_page );
-		}
-	}
 
 	// Trees must be flattened before they're passed to the walker.
 	$comments_flat = array();
