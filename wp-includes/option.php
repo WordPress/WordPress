@@ -1185,8 +1185,6 @@ function add_site_option( $option, $value ) {
 function delete_site_option( $option ) {
 	global $wpdb;
 
-	// ms_protect_special_option( $option ); @todo
-
 	/**
 	 * Fires immediately before a specific site option is deleted.
 	 *
