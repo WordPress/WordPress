@@ -673,7 +673,7 @@ function wp_allow_comment( $commentdata ) {
 			$commentdata['comment_author_IP'],
 			$commentdata['comment_agent']
 		) ) {
-			$approved = 'spam';
+			$approved = EMPTY_TRASH_DAYS ? 'trash' : 'spam';
 		}
 	}
 
