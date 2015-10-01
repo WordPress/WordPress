@@ -272,7 +272,7 @@ do_action( 'network_site_users_after_list_table' );
 
 /** This filter is documented in wp-admin/network/site-users.php */
 if ( current_user_can( 'promote_users' ) && apply_filters( 'show_network_site_users_add_existing_form', true ) ) : ?>
-<h3 id="add-existing-user"><?php _e( 'Add Existing User' ); ?></h3>
+<h2 id="add-existing-user"><?php _e( 'Add Existing User' ); ?></h2>
 <form action="site-users.php?action=adduser" id="adduser" method="post">
 	<input type="hidden" name="id" value="<?php echo esc_attr( $id ) ?>" />
 	<table class="form-table">
@@ -301,7 +301,7 @@ if ( current_user_can( 'promote_users' ) && apply_filters( 'show_network_site_us
  * @param bool $bool Whether to show the Add New User form. Default true.
  */
 if ( current_user_can( 'create_users' ) && apply_filters( 'show_network_site_users_add_new_form', true ) ) : ?>
-<h3 id="add-new-user"><?php _e( 'Add New User' ); ?></h3>
+<h2 id="add-new-user"><?php _e( 'Add New User' ); ?></h2>
 <form action="<?php echo network_admin_url('site-users.php?action=newuser'); ?>" id="newuser" method="post">
 	<input type="hidden" name="id" value="<?php echo esc_attr( $id ) ?>" />
 	<table class="form-table">
