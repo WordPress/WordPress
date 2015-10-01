@@ -4768,7 +4768,7 @@ class WP_Query {
 	 * @since 4.4.0
 	 * @access public
 	 *
-	 * @param null $check   The `$check` param passed from the 'pre_term_metadata' hook.
+	 * @param mixed $check  The `$check` param passed from the 'get_term_metadata' hook.
 	 * @param int  $term_id ID of the term whose metadata is being cached.
 	 * @return mixed In order not to short-circuit `get_metadata()`. Generally, this is `null`, but it could be
 	 *               another value if filtered by a plugin.
@@ -4776,7 +4776,7 @@ class WP_Query {
 	public function lazyload_term_meta( $check, $term_id ) {
 		/*
 		 * We only do this once per `WP_Query` instance.
-		 * Can't use `remove_action()` because of non-unique object hashes.
+		 * Can't use `remove_filter()` because of non-unique object hashes.
 		 */
 		if ( $this->updated_term_meta_cache ) {
 			return $check;
@@ -4839,14 +4839,14 @@ class WP_Query {
 	 *
 	 * @since 4.4.0
 	 *
-	 * @param null $check      The `$check` param passed from the 'pre_comment_metadata' hook.
+	 * @param mixed $check     The `$check` param passed from the 'get_comment_metadata' hook.
 	 * @param int  $comment_id ID of the comment whose metadata is being cached.
-	 * @return null In order not to short-circuit `get_metadata()`.
+	 * @return mixed The original value of `$check`, to not affect 'get_comment_metadata'.
 	 */
 	public function lazyload_comment_meta( $check, $comment_id ) {
 		/*
 		 * We only do this once per `WP_Query` instance.
-		 * Can't use `remove_action()` because of non-unique object hashes.
+		 * Can't use `remove_filter()` because of non-unique object hashes.
 		 */
 		if ( $this->updated_comment_meta_cache ) {
 			return $check;
