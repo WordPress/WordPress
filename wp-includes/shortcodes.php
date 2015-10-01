@@ -443,7 +443,10 @@ function unescape_invalid_shortcodes( $content ) {
  * @since 2.5.0
  *
  * @param string $text
- * @return array List of attributes and their value.
+ * @return array|string List of attribute values.
+ *                      Returns empty array if trim( $text ) == '""'.
+ *                      Returns empty string if trim( $text ) == ''.
+ *                      All other matches are checked for not empty().
  */
 function shortcode_parse_atts($text) {
 	$atts = array();
