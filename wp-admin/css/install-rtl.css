@@ -61,6 +61,12 @@ abbr {
 	font-variant: normal;
 }
 
+fieldset {
+	border: 0;
+	padding: 0;
+	margin: 0;
+}
+
 label {
 	cursor: pointer;
 }

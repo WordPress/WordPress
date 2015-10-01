@@ -177,8 +177,27 @@ function display_setup_form( $error = null ) {
 			<p><?php _e( 'Double-check your email address before continuing.' ); ?></p></td>
 		</tr>
 		<tr>
-			<th scope="row"><?php _e( 'Privacy' ); ?></th>
-			<td colspan="2"><label><input type="checkbox" name="blog_public" id="blog_public" value="1" <?php checked( $blog_public ); ?> /> <?php _e( 'Allow search engines to index this site' ); ?></label></td>
+			<th scope="row"><?php has_action( 'blog_privacy_selector' ) ? _e( 'Site Visibility' ) : _e( 'Search Engine Visibility' ); ?></th>
+			<td>
+				<fieldset>
+					<legend class="screen-reader-text"><span><?php has_action( 'blog_privacy_selector' ) ? _e( 'Site Visibility' ) : _e( 'Search Engine Visibility' ); ?> </span></legend>
+					<?php
+					if ( has_action( 'blog_privacy_selector' ) ) { ?>
+						<input id="blog-public" type="radio" name="blog_public" value="1" <?php checked( 1, $blog_public ); ?> />
+						<label for="blog-public"><?php _e( 'Allow search engines to index this site' );?></label><br/>
+						<input id="blog-norobots" type="radio" name="blog_public" value="0" <?php checked( 0, $blog_public ); ?> />
+						<label for="blog-norobots"><?php _e( 'Discourage search engines from indexing this site' ); ?></label>
+						<p class="description"><?php _e( 'Note: Neither of these options blocks access to your site &mdash; it is up to search engines to honor your request.' ); ?></p>
+						<?php
+						/** This action is documented in wp-admin/options-reading.php */
+						do_action( 'blog_privacy_selector' );
+					 } else { ?>
+						<label for="blog_public"><input name="blog_public" type="checkbox" id="blog_public" value="0" <?php checked( 0, $blog_public ); ?> />
+						<?php _e( 'Discourage search engines from indexing this site' ); ?></label>
+						<p class="description"><?php _e( 'It is up to search engines to honor this request.' ); ?></p>
+					<?php } ?>
+				</fieldset>
+			</td>
 		</tr>
 	</table>
 	<p class="step"><?php submit_button( __( 'Install WordPress' ), 'large', 'Submit', false, array( 'id' => 'submit' ) ); ?></p>
@@ -291,7 +310,7 @@ switch($step) {
 		$admin_password = isset($_POST['admin_password']) ? wp_unslash( $_POST['admin_password'] ) : '';
 		$admin_password_check = isset($_POST['admin_password2']) ? wp_unslash( $_POST['admin_password2'] ) : '';
 		$admin_email  = isset( $_POST['admin_email'] ) ?trim( wp_unslash( $_POST['admin_email'] ) ) : '';
-		$public       = isset( $_POST['blog_public'] ) ? (int) $_POST['blog_public'] : 0;
+		$public       = isset( $_POST['blog_public'] ) ? (int) $_POST['blog_public'] : 1;
 
 		// Check email address.
 		$error = false;
