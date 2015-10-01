@@ -67,14 +67,9 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 	}
 
 	$original = @parse_url($requested_url);
-	if ( false === $original )
+	if ( false === $original ) {
 		return;
-
-	// Some PHP setups turn requests for / into /index.php in REQUEST_URI
-	// See: https://core.trac.wordpress.org/ticket/5017
-	// See: https://core.trac.wordpress.org/ticket/7173
-	// Disabled, for now:
-	// $original['path'] = preg_replace('|/index\.php$|', '/', $original['path']);
+	}
 
 	$redirect = $original;
 	$redirect_url = false;
