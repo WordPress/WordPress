@@ -208,18 +208,17 @@ function do_shortcode( $content, $ignore_html = false ) {
 	if (empty($shortcode_tags) || !is_array($shortcode_tags))
 		return $content;
 
-	$tagnames = array_keys($shortcode_tags);
-	$tagregexp = join( '|', array_map('preg_quote', $tagnames) );
-	$pattern = "/\\[($tagregexp)/s";
+	// Find all registered tag names in $content.
+	preg_match_all( '@\[([^<>&/\[\]\x00-\x20]++)@', $content, $matches );
+	$tagnames = array_intersect( array_keys( $shortcode_tags ), $matches[1] );
 
-	if ( 1 !== preg_match( $pattern, $content ) ) {
-		// Avoids parsing HTML when there are no shortcodes or embeds anyway.
+	if ( empty( $tagnames ) ) {
 		return $content;
 	}
 
-	$content = do_shortcodes_in_html_tags( $content, $ignore_html );
+	$content = do_shortcodes_in_html_tags( $content, $ignore_html, $tagnames );
 
-	$pattern = get_shortcode_regex();
+	$pattern = get_shortcode_regex( $tagnames );
 	$content = preg_replace_callback( "/$pattern/s", 'do_shortcode_tag', $content );
 
 	// Always restore square braces so we don't break things like <!--[if IE ]>
@@ -247,11 +246,15 @@ function do_shortcode( $content, $ignore_html = false ) {
  *
  * @global array $shortcode_tags
  *
+ * @param array $tagnames List of shortcodes to find. Optional. Defaults to all registered shortcodes.
  * @return string The shortcode search regular expression
  */
-function get_shortcode_regex() {
+function get_shortcode_regex( $tagnames = null ) {
 	global $shortcode_tags;
-	$tagnames = array_keys($shortcode_tags);
+
+	if ( empty( $tagnames ) ) {
+		$tagnames = array_keys( $shortcode_tags );
+	}
 	$tagregexp = join( '|', array_map('preg_quote', $tagnames) );
 
 	// WARNING! Do not change this regex without changing do_shortcode_tag() and strip_shortcode_tag()
@@ -337,15 +340,16 @@ function do_shortcode_tag( $m ) {
  *
  * @param string $content Content to search for shortcodes
  * @param bool $ignore_html When true, all square braces inside elements will be encoded.
+ * @param array $tagnames List of shortcodes to find.
  * @return string Content with shortcodes filtered out.
  */
-function do_shortcodes_in_html_tags( $content, $ignore_html ) {
+function do_shortcodes_in_html_tags( $content, $ignore_html, $tagnames ) {
 	// Normalize entities in unfiltered HTML before adding placeholders.
 	$trans = array( '&#91;' => '&#091;', '&#93;' => '&#093;' );
 	$content = strtr( $content, $trans );
 	$trans = array( '[' => '&#91;', ']' => '&#93;' );
 
-	$pattern = get_shortcode_regex();
+	$pattern = get_shortcode_regex( $tagnames );
 	$textarr = wp_html_split( $content );
 
 	foreach ( $textarr as &$element ) {
@@ -557,9 +561,17 @@ function strip_shortcodes( $content ) {
 	if (empty($shortcode_tags) || !is_array($shortcode_tags))
 		return $content;
 
-	$content = do_shortcodes_in_html_tags( $content, true );
+	// Find all registered tag names in $content.
+	preg_match_all( '@\[([^<>&/\[\]\x00-\x20]++)@', $content, $matches );
+	$tagnames = array_intersect( array_keys( $shortcode_tags ), $matches[1] );
 
-	$pattern = get_shortcode_regex();
+	if ( empty( $tagnames ) ) {
+		return $content;
+	}
+
+	$content = do_shortcodes_in_html_tags( $content, true, $tagnames );
+
+	$pattern = get_shortcode_regex( $tagnames );
 	$content = preg_replace_callback( "/$pattern/s", 'strip_shortcode_tag', $content );
 
 	// Always restore square braces so we don't break things like <!--[if IE ]>
