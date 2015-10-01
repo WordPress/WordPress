@@ -1889,6 +1889,8 @@ function redirect_this_site( $deprecated = '' ) {
  *
  * @since MU
  *
+ * @blessed
+ *
  * @param array $upload
  * @return string|array If the upload is under the size limit, $upload is returned. Otherwise returns an error message.
  */
