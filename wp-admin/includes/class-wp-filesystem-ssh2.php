@@ -130,7 +130,11 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 			}
 		}
 
-		$this->sftp_link = ssh2_sftp($this->link);
+		$this->sftp_link = ssh2_sftp( $this->link );
+		if ( ! $this->sftp_link ) {
+			$this->errors->add( 'connect', sprintf( __( 'Failed to initialize a SFTP subsystem session with the SSH2 Server %1$s:%2$s' ), $this->options['hostname'], $this->options['port'] ) );
+			return false;
+		}
 
 		return true;
 	}
