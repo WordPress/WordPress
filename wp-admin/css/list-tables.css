@@ -152,7 +152,8 @@
 
 #replysubmit {
 	margin: 0;
-	padding: 0 5px 3px;
+	padding: 5px 7px 10px;
+	overflow: hidden;
 	text-align: center;
 }
 
@@ -166,11 +167,23 @@
 	text-align: center;
 }
 
-#replyrow h5 {
-	margin: .2em 0 0;
-	padding: 0 5px;
-	line-height: 1.4em;
-	font-size: 1em;
+#replyrow.inline-edit-row fieldset.comment-reply {
+	font-size: inherit;
+	line-height: inherit;
+}
+
+#replyrow legend {
+	margin: 0;
+	padding: .2em 5px 0;
+	font-size: 13px;
+	line-height: 1.4;
+	font-weight: 600;
+}
+
+#replyrow.inline-edit-row label {
+	display: inline;
+	vertical-align: baseline;
+	line-height: inherit;
 }
 
 #edithead .inside,
@@ -433,7 +446,6 @@ table.media .column-title .filename {
 }
 
 #commentsdiv #edithead .inside input {
-	vertical-align: middle;
 	width: 160px;
 }
 

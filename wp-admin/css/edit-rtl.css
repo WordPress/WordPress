@@ -24,9 +24,13 @@
 }
 
 #save-action .spinner,
-#show-comments a,
-#show-comments .spinner {
+#show-comments a {
 	float: right;
+}
+
+#show-comments .spinner {
+	float: none;
+	margin-top: 0;
 }
 
 #lost-connection-notice .spinner {
@@ -247,7 +251,8 @@ ul.category-tabs li,
 #normal-sortables .postbox #replyrow .submit {
 	float: none;
 	margin: 0;
-	padding: 0 7px 5px;
+	padding: 5px 7px 10px;
+	overflow: hidden;
 }
 
 #side-sortables .submitbox .submit input,

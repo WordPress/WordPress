@@ -380,8 +380,21 @@ function wp_comment_reply( $position = 1, $checkbox = false, $mode = 'single', $
 <?php else : ?>
 <div id="com-reply" style="display:none;"><div id="replyrow" style="display:none;">
 <?php endif; ?>
-	<div id="replyhead" style="display:none;"><h5><?php _e( 'Reply to Comment' ); ?></h5></div>
-	<div id="addhead" style="display:none;"><h5><?php _e('Add new Comment'); ?></h5></div>
+	<fieldset class="comment-reply">
+	<legend>
+		<span class="hidden" id="editlegend"><?php _e( 'Edit Comment' ); ?></span>
+		<span class="hidden" id="replyhead"><?php _e( 'Reply to Comment' ); ?></span>
+		<span class="hidden" id="addhead"><?php _e( 'Add new Comment' ); ?></span>
+	</legend>
+
+	<div id="replycontainer">
+	<label for="replycontent" class="screen-reader-text"><?php _e( 'Comment' ); ?></label>
+	<?php
+	$quicktags_settings = array( 'buttons' => 'strong,em,link,block,del,ins,img,ul,ol,li,code,close' );
+	wp_editor( '', 'replycontent', array( 'media_buttons' => false, 'tinymce' => false, 'quicktags' => $quicktags_settings ) );
+	?>
+	</div>
+
 	<div id="edithead" style="display:none;">
 		<div class="inside">
 		<label for="author-name"><?php _e( 'Name' ) ?></label>
@@ -397,14 +410,6 @@ function wp_comment_reply( $position = 1, $checkbox = false, $mode = 'single', $
 		<label for="author-url"><?php _e('URL') ?></label>
 		<input type="text" id="author-url" name="newcomment_author_url" class="code" size="103" value="" />
 		</div>
-		<div style="clear:both;"></div>
-	</div>
-
-	<div id="replycontainer">
-	<?php
-	$quicktags_settings = array( 'buttons' => 'strong,em,link,block,del,ins,img,ul,ol,li,code,close' );
-	wp_editor( '', 'replycontent', array( 'media_buttons' => false, 'tinymce' => false, 'quicktags' => $quicktags_settings ) );
-	?>
 	</div>
 
 	<p id="replysubmit" class="submit">
@@ -415,7 +420,6 @@ function wp_comment_reply( $position = 1, $checkbox = false, $mode = 'single', $
 	<a href="#comments-form" class="cancel button-secondary alignleft"><?php _e('Cancel'); ?></a>
 	<span class="waiting spinner"></span>
 	<span class="error" style="display:none;"></span>
-	<br class="clear" />
 	</p>
 
 	<input type="hidden" name="action" id="action" value="" />
@@ -430,6 +434,7 @@ function wp_comment_reply( $position = 1, $checkbox = false, $mode = 'single', $
 		if ( current_user_can( 'unfiltered_html' ) )
 			wp_nonce_field( 'unfiltered-html-comment', '_wp_unfiltered_html_comment', false );
 	?>
+	</fieldset>
 <?php if ( $table_row ) : ?>
 </td></tr></tbody></table>
 <?php else : ?>

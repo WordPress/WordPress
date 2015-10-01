@@ -676,7 +676,7 @@ commentReply = {
 			$('#author-url', editRow).val( $('div.author-url', rowData).text() );
 			$('#status', editRow).val( $('div.comment_status', rowData).text() );
 			$('#replycontent', editRow).val( $('textarea.comment', rowData).val() );
-			$('#edithead, #savebtn', editRow).show();
+			$( '#edithead, #editlegend, #savebtn', editRow ).show();
 			$('#replyhead, #replybtn, #addhead, #addbtn', editRow).hide();
 
 			if ( h > 120 ) {
@@ -691,12 +691,12 @@ commentReply = {
 			});
 		} else if ( action == 'add' ) {
 			$('#addhead, #addbtn', editRow).show();
-			$('#replyhead, #replybtn, #edithead, #savebtn', editRow).hide();
+			$( '#replyhead, #replybtn, #edithead, #editlegend, #savebtn', editRow ) .hide();
 			$('#the-comment-list').prepend(editRow);
 			$('#replyrow').fadeIn(300);
 		} else {
 			replyButton = $('#replybtn', editRow);
-			$('#edithead, #savebtn, #addhead, #addbtn', editRow).hide();
+			$( '#edithead, #editlegend, #savebtn, #addhead, #addbtn', editRow ).hide();
 			$('#replyhead, #replybtn', editRow).show();
 			c.after(editRow);
 
