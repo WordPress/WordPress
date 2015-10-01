@@ -3561,7 +3561,7 @@ class WP_Query {
 
 
 		if ( $q['update_post_term_cache'] ) {
-			add_action( 'get_term_metadata', array( $this, 'lazyload_term_meta' ), 10, 2 );
+			add_filter( 'get_term_metadata', array( $this, 'lazyload_term_meta' ), 10, 2 );
 		}
 
 		if ( ! $q['suppress_filters'] ) {
@@ -3693,7 +3693,7 @@ class WP_Query {
 
 		// If comments have been fetched as part of the query, make sure comment meta lazy-loading is set up.
 		if ( ! empty( $this->comments ) ) {
-			add_action( 'get_comment_metadata', array( $this, 'lazyload_comment_meta' ), 10, 2 );
+			add_filter( 'get_comment_metadata', array( $this, 'lazyload_comment_meta' ), 10, 2 );
 		}
 
 		if ( ! $q['suppress_filters'] ) {
