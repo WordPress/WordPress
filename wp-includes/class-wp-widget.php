@@ -177,6 +177,7 @@ class WP_Widget {
 	 *
 	 * This function should be used in form() methods to create name attributes for fields to be saved by update()
 	 *
+	 * @since 2.8.0
 	 * @since 4.4.0 Array format field names are now accepted.
 	 *
 	 * @param string $field_name Field name
@@ -196,9 +197,8 @@ class WP_Widget {
 	 * This function should be used in form() methods to create id attributes
 	 * for fields to be saved by {@see WP_Widget::update()}.
 	 *
-	 * @since 4.4.0 Array format field IDs are now accepted.
-	 *
 	 * @since 2.8.0
+	 * @since 4.4.0 Array format field IDs are now accepted.
 	 * @access public
 	 *
 	 * @param string $field_name Field name.
