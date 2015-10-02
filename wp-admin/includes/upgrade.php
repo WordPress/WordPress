@@ -153,7 +153,7 @@ function wp_install_defaults( $user_id ) {
 	$first_post_guid = get_option( 'home' ) . '/?p=1';
 
 	if ( is_multisite() ) {
-		$first_post = get_site_option( 'first_post' );
+		$first_post = get_network_option( 'first_post' );
 
 		if ( empty($first_post) )
 			$first_post = __( 'Welcome to <a href="SITE_URL">SITE_NAME</a>. This is your first post. Edit or delete it, then start writing!' );
@@ -189,9 +189,9 @@ function wp_install_defaults( $user_id ) {
 	$first_comment = __('Hi, this is a comment.
 To delete a comment, just log in and view the post&#039;s comments. There you will have the option to edit or delete them.');
 	if ( is_multisite() ) {
-		$first_comment_author = get_site_option( 'first_comment_author', $first_comment_author );
-		$first_comment_url = get_site_option( 'first_comment_url', network_home_url() );
-		$first_comment = get_site_option( 'first_comment', $first_comment );
+		$first_comment_author = get_network_option( 'first_comment_author', $first_comment_author );
+		$first_comment_url = get_network_option( 'first_comment_url', network_home_url() );
+		$first_comment = get_network_option( 'first_comment', $first_comment );
 	}
 	$wpdb->insert( $wpdb->comments, array(
 		'comment_post_ID' => 1,
@@ -214,7 +214,7 @@ To delete a comment, just log in and view the post&#039;s comments. There you wi
 
 As a new WordPress user, you should go to <a href=\"%s\">your dashboard</a> to delete this page and create new pages for your content. Have fun!" ), admin_url() );
 	if ( is_multisite() )
-		$first_page = get_site_option( 'first_page', $first_page );
+		$first_page = get_network_option( 'first_page', $first_page );
 	$first_post_guid = get_option('home') . '/?page_id=2';
 	$wpdb->insert( $wpdb->posts, array(
 		'post_author' => $user_id,
@@ -1255,8 +1255,8 @@ function upgrade_300() {
 	if ( $wp_current_db_version < 15093 )
 		populate_roles_300();
 
-	if ( $wp_current_db_version < 14139 && is_multisite() && is_main_site() && ! defined( 'MULTISITE' ) && get_site_option( 'siteurl' ) === false )
-		add_site_option( 'siteurl', '' );
+	if ( $wp_current_db_version < 14139 && is_multisite() && is_main_site() && ! defined( 'MULTISITE' ) && get_network_option( 'siteurl' ) === false )
+		add_network_option( 'siteurl', '' );
 
 	// 3.0 screen options key name changes.
 	if ( wp_should_upgrade_global_tables() ) {
@@ -1643,18 +1643,18 @@ function upgrade_network() {
 
 	// 2.8.
 	if ( $wp_current_db_version < 11549 ) {
-		$wpmu_sitewide_plugins = get_site_option( 'wpmu_sitewide_plugins' );
-		$active_sitewide_plugins = get_site_option( 'active_sitewide_plugins' );
+		$wpmu_sitewide_plugins = get_network_option( 'wpmu_sitewide_plugins' );
+		$active_sitewide_plugins = get_network_option( 'active_sitewide_plugins' );
 		if ( $wpmu_sitewide_plugins ) {
 			if ( !$active_sitewide_plugins )
 				$sitewide_plugins = (array) $wpmu_sitewide_plugins;
 			else
 				$sitewide_plugins = array_merge( (array) $active_sitewide_plugins, (array) $wpmu_sitewide_plugins );
 
-			update_site_option( 'active_sitewide_plugins', $sitewide_plugins );
+			update_network_option( 'active_sitewide_plugins', $sitewide_plugins );
 		}
-		delete_site_option( 'wpmu_sitewide_plugins' );
-		delete_site_option( 'deactivated_sitewide_plugins' );
+		delete_network_option( 'wpmu_sitewide_plugins' );
+		delete_network_option( 'deactivated_sitewide_plugins' );
 
 		$start = 0;
 		while( $rows = $wpdb->get_results( "SELECT meta_key, meta_value FROM {$wpdb->sitemeta} ORDER BY meta_id LIMIT $start, 20" ) ) {
@@ -1663,7 +1663,7 @@ function upgrade_network() {
 				if ( !@unserialize( $value ) )
 					$value = stripslashes( $value );
 				if ( $value !== $row->meta_value ) {
-					update_site_option( $row->meta_key, $value );
+					update_network_option( $row->meta_key, $value );
 				}
 			}
 			$start += 20;
@@ -1672,22 +1672,22 @@ function upgrade_network() {
 
 	// 3.0
 	if ( $wp_current_db_version < 13576 )
-		update_site_option( 'global_terms_enabled', '1' );
+		update_network_option( 'global_terms_enabled', '1' );
 
 	// 3.3
 	if ( $wp_current_db_version < 19390 )
-		update_site_option( 'initial_db_version', $wp_current_db_version );
+		update_network_option( 'initial_db_version', $wp_current_db_version );
 
 	if ( $wp_current_db_version < 19470 ) {
-		if ( false === get_site_option( 'active_sitewide_plugins' ) )
-			update_site_option( 'active_sitewide_plugins', array() );
+		if ( false === get_network_option( 'active_sitewide_plugins' ) )
+			update_network_option( 'active_sitewide_plugins', array() );
 	}
 
 	// 3.4
 	if ( $wp_current_db_version < 20148 ) {
 		// 'allowedthemes' keys things by stylesheet. 'allowed_themes' keyed things by name.
-		$allowedthemes  = get_site_option( 'allowedthemes'  );
-		$allowed_themes = get_site_option( 'allowed_themes' );
+		$allowedthemes  = get_network_option( 'allowedthemes'  );
+		$allowed_themes = get_network_option( 'allowed_themes' );
 		if ( false === $allowedthemes && is_array( $allowed_themes ) && $allowed_themes ) {
 			$converted = array();
 			$themes = wp_get_themes();
@@ -1695,22 +1695,22 @@ function upgrade_network() {
 				if ( isset( $allowed_themes[ $theme_data->get('Name') ] ) )
 					$converted[ $stylesheet ] = true;
 			}
-			update_site_option( 'allowedthemes', $converted );
-			delete_site_option( 'allowed_themes' );
+			update_network_option( 'allowedthemes', $converted );
+			delete_network_option( 'allowed_themes' );
 		}
 	}
 
 	// 3.5
 	if ( $wp_current_db_version < 21823 )
-		update_site_option( 'ms_files_rewriting', '1' );
+		update_network_option( 'ms_files_rewriting', '1' );
 
 	// 3.5.2
 	if ( $wp_current_db_version < 24448 ) {
-		$illegal_names = get_site_option( 'illegal_names' );
+		$illegal_names = get_network_option( 'illegal_names' );
 		if ( is_array( $illegal_names ) && count( $illegal_names ) === 1 ) {
 			$illegal_name = reset( $illegal_names );
 			$illegal_names = explode( ' ', $illegal_name );
-			update_site_option( 'illegal_names', $illegal_names );
+			update_network_option( 'illegal_names', $illegal_names );
 		}
 	}
 

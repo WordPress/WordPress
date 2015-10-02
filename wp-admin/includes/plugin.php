@@ -466,7 +466,7 @@ function is_plugin_active_for_network( $plugin ) {
 	if ( !is_multisite() )
 		return false;
 
-	$plugins = get_site_option( 'active_sitewide_plugins');
+	$plugins = get_network_option( 'active_sitewide_plugins' );
 	if ( isset($plugins[$plugin]) )
 		return true;
 
@@ -524,7 +524,7 @@ function activate_plugin( $plugin, $redirect = '', $network_wide = false, $silen
 
 	if ( is_multisite() && ( $network_wide || is_network_only_plugin($plugin) ) ) {
 		$network_wide = true;
-		$current = get_site_option( 'active_sitewide_plugins', array() );
+		$current = get_network_option( 'active_sitewide_plugins', array() );
 		$_GET['networkwide'] = 1; // Back compat for plugins looking for this value.
 	} else {
 		$current = get_option( 'active_plugins', array() );
@@ -577,9 +577,9 @@ function activate_plugin( $plugin, $redirect = '', $network_wide = false, $silen
 		}
 
 		if ( $network_wide ) {
-			$current = get_site_option( 'active_sitewide_plugins', array() );
+			$current = get_network_option( 'active_sitewide_plugins', array() );
 			$current[$plugin] = time();
-			update_site_option( 'active_sitewide_plugins', $current );
+			update_network_option( 'active_sitewide_plugins', $current );
 		} else {
 			$current = get_option( 'active_plugins', array() );
 			$current[] = $plugin;
@@ -628,7 +628,7 @@ function activate_plugin( $plugin, $redirect = '', $network_wide = false, $silen
  */
 function deactivate_plugins( $plugins, $silent = false, $network_wide = null ) {
 	if ( is_multisite() )
-		$network_current = get_site_option( 'active_sitewide_plugins', array() );
+		$network_current = get_network_option( 'active_sitewide_plugins', array() );
 	$current = get_option( 'active_plugins', array() );
 	$do_blog = $do_network = false;
 
@@ -709,7 +709,7 @@ function deactivate_plugins( $plugins, $silent = false, $network_wide = null ) {
 	if ( $do_blog )
 		update_option('active_plugins', $current);
 	if ( $do_network )
-		update_site_option( 'active_sitewide_plugins', $network_current );
+		update_network_option( 'active_sitewide_plugins', $network_current );
 }
 
 /**
@@ -881,7 +881,7 @@ function validate_active_plugins() {
 	}
 
 	if ( is_multisite() && current_user_can( 'manage_network_plugins' ) ) {
-		$network_plugins = (array) get_site_option( 'active_sitewide_plugins', array() );
+		$network_plugins = (array) get_network_option( 'active_sitewide_plugins', array() );
 		$plugins = array_merge( $plugins, array_keys( $network_plugins ) );
 	}
 

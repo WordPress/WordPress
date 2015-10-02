@@ -102,7 +102,7 @@ class WP_Themes_List_Table extends WP_List_Table {
 			}
 		}
 		// Fallthrough.
-		printf( __( 'Only the current theme is available to you. Contact the %s administrator for information about accessing additional themes.' ), get_site_option( 'site_name' ) );
+		printf( __( 'Only the current theme is available to you. Contact the %s administrator for information about accessing additional themes.' ), get_network_option( 'site_name' ) );
 	}
 
 	/**

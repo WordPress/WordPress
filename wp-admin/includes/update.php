@@ -29,7 +29,7 @@ function get_preferred_from_update_core() {
  */
 function get_core_updates( $options = array() ) {
 	$options = array_merge( array( 'available' => true, 'dismissed' => false ), $options );
-	$dismissed = get_site_option( 'dismissed_update_core' );
+	$dismissed = get_network_option( 'dismissed_update_core' );
 
 	if ( ! is_array( $dismissed ) )
 		$dismissed = array();
@@ -134,9 +134,9 @@ function get_core_checksums( $version, $locale ) {
  * @return bool
  */
 function dismiss_core_update( $update ) {
-	$dismissed = get_site_option( 'dismissed_update_core' );
+	$dismissed = get_network_option( 'dismissed_update_core' );
 	$dismissed[ $update->current . '|' . $update->locale ] = true;
-	return update_site_option( 'dismissed_update_core', $dismissed );
+	return update_network_option( 'dismissed_update_core', $dismissed );
 }
 
 /**
@@ -146,14 +146,14 @@ function dismiss_core_update( $update ) {
  * @return bool
  */
 function undismiss_core_update( $version, $locale ) {
-	$dismissed = get_site_option( 'dismissed_update_core' );
+	$dismissed = get_network_option( 'dismissed_update_core' );
 	$key = $version . '|' . $locale;
 
 	if ( ! isset( $dismissed[$key] ) )
 		return false;
 
 	unset( $dismissed[$key] );
-	return update_site_option( 'dismissed_update_core', $dismissed );
+	return update_network_option( 'dismissed_update_core', $dismissed );
 }
 
 /**
@@ -478,7 +478,7 @@ function maintenance_nag() {
 	global $upgrading;
 	$nag = isset( $upgrading );
 	if ( ! $nag ) {
-		$failed = get_site_option( 'auto_core_update_failed' );
+		$failed = get_network_option( 'auto_core_update_failed' );
 		/*
 		 * If an update failed critically, we may have copied over version.php but not other files.
 		 * In that case, if the install claims we're running the version we attempted, nag.

@@ -450,7 +450,7 @@ define('BLOG_ID_CURRENT_SITE', 1);
                     <match url="^index\.php$" ignoreCase="false" />
                     <action type="None" />
                 </rule>';
-				if ( is_multisite() && get_site_option( 'ms_files_rewriting' ) ) {
+				if ( is_multisite() && get_network_option( 'ms_files_rewriting' ) ) {
 					$web_config_file .= '
                 <rule name="WordPress Rule for Files" stopProcessing="true">
                     <match url="^' . $iis_subdir_match . 'files/(.+)" ignoreCase="false" />
@@ -506,7 +506,7 @@ define('BLOG_ID_CURRENT_SITE', 1);
 	<?php else : // end iis7_supports_permalinks(). construct an htaccess file instead:
 
 		$ms_files_rewriting = '';
-		if ( is_multisite() && get_site_option( 'ms_files_rewriting' ) ) {
+		if ( is_multisite() && get_network_option( 'ms_files_rewriting' ) ) {
 			$ms_files_rewriting = "\n# uploaded files\nRewriteRule ^";
 			$ms_files_rewriting .= $subdir_match . "files/(.+) {$rewrite_base}" . WPINC . "/ms-files.php?file={$subdir_replacement_12} [L]" . "\n";
 		}

@@ -16,7 +16,7 @@
  * @return array $_FILES array with 'error' key set if file exceeds quota. 'error' is empty otherwise.
  */
 function check_upload_size( $file ) {
-	if ( get_site_option( 'upload_space_check_disabled' ) )
+	if ( get_network_option( 'upload_space_check_disabled' ) )
 		return $file;
 
 	if ( $file['error'] != '0' ) // there's already an error
@@ -30,8 +30,8 @@ function check_upload_size( $file ) {
 	$file_size = filesize( $file['tmp_name'] );
 	if ( $space_left < $file_size )
 		$file['error'] = sprintf( __( 'Not enough space to upload. %1$s KB needed.' ), number_format( ($file_size - $space_left) /1024 ) );
-	if ( $file_size > ( 1024 * get_site_option( 'fileupload_maxk', 1500 ) ) )
-		$file['error'] = sprintf(__('This file is too big. Files must be less than %1$s KB in size.'), get_site_option( 'fileupload_maxk', 1500 ) );
+	if ( $file_size > ( 1024 * get_network_option( 'fileupload_maxk', 1500 ) ) )
+		$file['error'] = sprintf(__('This file is too big. Files must be less than %1$s KB in size.'), get_network_option( 'fileupload_maxk', 1500 ) );
 	if ( upload_is_user_over_quota( false ) ) {
 		$file['error'] = __( 'You have used your space quota. Please delete files before uploading.' );
 	}
@@ -98,7 +98,7 @@ function wpmu_delete_blog( $blog_id, $drop = false ) {
 	$upload_path = trim( get_option( 'upload_path' ) );
 
 	// If ms_files_rewriting is enabled and upload_path is empty, wp_upload_dir is not reliable.
-	if ( $drop && get_site_option( 'ms_files_rewriting' ) && empty( $upload_path ) ) {
+	if ( $drop && get_network_option( 'ms_files_rewriting' ) && empty( $upload_path ) ) {
 		$drop = false;
 	}
 
@@ -306,7 +306,7 @@ All at ###SITENAME###
 	$content = str_replace( '###USERNAME###', $current_user->user_login, $content );
 	$content = str_replace( '###ADMIN_URL###', esc_url( admin_url( 'options.php?adminhash='.$hash ) ), $content );
 	$content = str_replace( '###EMAIL###', $value, $content );
-	$content = str_replace( '###SITENAME###', get_site_option( 'site_name' ), $content );
+	$content = str_replace( '###SITENAME###', get_network_option( 'site_name' ), $content );
 	$content = str_replace( '###SITEURL###', network_home_url(), $content );
 
 	wp_mail( $value, sprintf( __( '[%s] New Admin Email Address' ), wp_specialchars_decode( get_option( 'blogname' ) ) ), $content );
@@ -385,7 +385,7 @@ All at ###SITENAME###
 		$content = str_replace( '###USERNAME###', $current_user->user_login, $content );
 		$content = str_replace( '###ADMIN_URL###', esc_url( admin_url( 'profile.php?newuseremail='.$hash ) ), $content );
 		$content = str_replace( '###EMAIL###', $_POST['email'], $content);
-		$content = str_replace( '###SITENAME###', get_site_option( 'site_name' ), $content );
+		$content = str_replace( '###SITENAME###', get_network_option( 'site_name' ), $content );
 		$content = str_replace( '###SITEURL###', network_home_url(), $content );
 
 		wp_mail( $_POST['email'], sprintf( __( '[%s] New Email Address' ), wp_specialchars_decode( get_option( 'blogname' ) ) ), $content );
@@ -413,7 +413,7 @@ function new_user_email_admin_notice() {
  * @return bool True if user is over upload space quota, otherwise false.
  */
 function upload_is_user_over_quota( $echo = true ) {
-	if ( get_site_option( 'upload_space_check_disabled' ) )
+	if ( get_network_option( 'upload_space_check_disabled' ) )
 		return false;
 
 	$space_allowed = get_space_allowed();
@@ -746,7 +746,7 @@ function site_admin_notice() {
 	global $wp_db_version;
 	if ( !is_super_admin() )
 		return false;
-	if ( get_site_option( 'wpmu_upgrade_site' ) != $wp_db_version )
+	if ( get_network_option( 'wpmu_upgrade_site' ) != $wp_db_version )
 		echo "<div class='update-nag'>" . sprintf( __( 'Thank you for Updating! Please visit the <a href="%s">Upgrade Network</a> page to update all your sites.' ), esc_url( network_admin_url( 'upgrade.php' ) ) ) . "</div>";
 }
 
@@ -828,7 +828,7 @@ function choose_primary_blog() {
 		?>
 		</td>
 	</tr>
-	<?php if ( in_array( get_site_option( 'registration' ), array( 'all', 'blog' ) ) ) : ?>
+	<?php if ( in_array( get_network_option( 'registration' ), array( 'all', 'blog' ) ) ) : ?>
 		<tr>
 			<th scope="row" colspan="2" class="th-full">
 				<?php
@@ -870,12 +870,12 @@ function grant_super_admin( $user_id ) {
 	do_action( 'grant_super_admin', $user_id );
 
 	// Directly fetch site_admins instead of using get_super_admins()
-	$super_admins = get_site_option( 'site_admins', array( 'admin' ) );
+	$super_admins = get_network_option( 'site_admins', array( 'admin' ) );
 
 	$user = get_userdata( $user_id );
 	if ( $user && ! in_array( $user->user_login, $super_admins ) ) {
 		$super_admins[] = $user->user_login;
-		update_site_option( 'site_admins' , $super_admins );
+		update_network_option( 'site_admins' , $super_admins );
 
 		/**
 		 * Fires after the user is granted Super Admin privileges.
@@ -917,13 +917,13 @@ function revoke_super_admin( $user_id ) {
 	do_action( 'revoke_super_admin', $user_id );
 
 	// Directly fetch site_admins instead of using get_super_admins()
-	$super_admins = get_site_option( 'site_admins', array( 'admin' ) );
+	$super_admins = get_network_option( 'site_admins', array( 'admin' ) );
 
 	$user = get_userdata( $user_id );
-	if ( $user && 0 !== strcasecmp( $user->user_email, get_site_option( 'admin_email' ) ) ) {
+	if ( $user && 0 !== strcasecmp( $user->user_email, get_network_option( 'admin_email' ) ) ) {
 		if ( false !== ( $key = array_search( $user->user_login, $super_admins ) ) ) {
 			unset( $super_admins[$key] );
-			update_site_option( 'site_admins', $super_admins );
+			update_network_option( 'site_admins', $super_admins );
 
 			/**
 			 * Fires after the user's Super Admin privileges are revoked.

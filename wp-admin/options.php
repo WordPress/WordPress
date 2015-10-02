@@ -95,7 +95,7 @@ $mail_options = array('mailserver_url', 'mailserver_port', 'mailserver_login', '
 if ( ! in_array( get_option( 'blog_charset' ), array( 'utf8', 'utf-8', 'UTF8', 'UTF-8' ) ) )
 	$whitelist_options['reading'][] = 'blog_charset';
 
-if ( get_site_option( 'initial_db_version' ) < 32453 ) {
+if ( get_network_option( 'initial_db_version' ) < 32453 ) {
 	$whitelist_options['writing'][] = 'use_smilies';
 	$whitelist_options['writing'][] = 'use_balanceTags';
 }

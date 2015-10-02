@@ -222,7 +222,7 @@ if ( ! $current_site instanceof WP_Network ) {
 }
 
 if ( empty( $current_site->site_name ) ) {
-	$current_site->site_name = get_site_option( 'site_name' );
+	$current_site->site_name = get_network_option( 'site_name' );
 	if ( ! $current_site->site_name ) {
 		$current_site->site_name = ucfirst( $current_site->domain );
 	}

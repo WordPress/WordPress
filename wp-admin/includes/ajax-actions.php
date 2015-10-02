@@ -165,7 +165,7 @@ function wp_ajax_wp_compression_test() {
 		wp_die( -1 );
 
 	if ( ini_get('zlib.output_compression') || 'ob_gzhandler' == ini_get('output_handler') ) {
-		update_site_option('can_compress_scripts', 0);
+		update_network_option( 'can_compress_scripts', 0 );
 		wp_die( 0 );
 	}
 
@@ -196,9 +196,9 @@ function wp_ajax_wp_compression_test() {
 			echo $out;
 			wp_die();
 		} elseif ( 'no' == $_GET['test'] ) {
-			update_site_option('can_compress_scripts', 0);
+			update_network_option( 'can_compress_scripts', 0 );
 		} elseif ( 'yes' == $_GET['test'] ) {
-			update_site_option('can_compress_scripts', 1);
+			update_network_option( 'can_compress_scripts', 1 );
 		}
 	}
 

@@ -1809,7 +1809,7 @@ function _get_additional_user_keys( $user ) {
  */
 function wp_get_user_contact_methods( $user = null ) {
 	$methods = array();
-	if ( get_site_option( 'initial_db_version' ) < 23588 ) {
+	if ( get_network_option( 'initial_db_version' ) < 23588 ) {
 		$methods = array(
 			'aim'    => __( 'AIM' ),
 			'yim'    => __( 'Yahoo IM' ),

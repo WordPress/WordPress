@@ -56,7 +56,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 <?php settings_fields('writing'); ?>
 
 <table class="form-table">
-<?php if ( get_site_option( 'initial_db_version' ) < 32453 ) : ?>
+<?php if ( get_network_option( 'initial_db_version' ) < 32453 ) : ?>
 <tr>
 <th scope="row"><?php _e('Formatting') ?></th>
 <td><fieldset><legend class="screen-reader-text"><span><?php _e('Formatting') ?></span></legend>

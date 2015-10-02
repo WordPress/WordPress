@@ -123,7 +123,7 @@ Name: %3$s' ),
 			get_site_url( $id ),
 			wp_unslash( $title )
 		);
-		wp_mail( get_site_option('admin_email'), sprintf( __( '[%s] New Site Created' ), $current_site->site_name ), $content_mail, 'From: "Site Admin" <' . get_site_option( 'admin_email' ) . '>' );
+		wp_mail( get_network_option( 'admin_email' ), sprintf( __( '[%s] New Site Created' ), $current_site->site_name ), $content_mail, 'From: "Site Admin" <' . get_network_option( 'admin_email' ) . '>' );
 		wpmu_welcome_notification( $id, $user_id, $password, $title, array( 'public' => 1 ) );
 		wp_redirect( add_query_arg( array( 'update' => 'added', 'id' => $id ), 'site-new.php' ) );
 		exit;
@@ -188,7 +188,7 @@ if ( ! empty( $messages ) ) {
 				<td>
 					<?php
 					// Network default.
-					$lang = get_site_option( 'WPLANG' );
+					$lang = get_network_option( 'WPLANG' );
 
 					// Use English if the default isn't available.
 					if ( ! in_array( $lang, $languages ) ) {
