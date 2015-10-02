@@ -2464,7 +2464,6 @@ function is_email( $email, $deprecated = false ) {
 		 *
 		 * @param bool   $is_email Whether the email address has passed the is_email() checks. Default false.
 		 * @param string $email    The email address being checked.
-		 * @param string $message  An explanatory message to the user.
 		 * @param string $context  Context under which the email was tested.
 		 */
 		return apply_filters( 'is_email', false, $email, 'email_too_short' );
