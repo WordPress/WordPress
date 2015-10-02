@@ -3012,7 +3012,11 @@ function wp_insert_post( $postarr, $wp_error = false ) {
 	 * is not 'draft' or 'pending', set date to now.
 	 */
 	if ( empty( $postarr['post_date'] ) || '0000-00-00 00:00:00' == $postarr['post_date'] ) {
-		$post_date = current_time( 'mysql' );
+		if ( empty( $postarr['post_date_gmt'] ) || '0000-00-00 00:00:00' == $postarr['post_date_gmt'] ) {
+			$post_date = current_time( 'mysql' );
+		} else {
+			$post_date = get_date_from_gmt( $postarr['post_date_gmt'] );
+		}
 	} else {
 		$post_date = $postarr['post_date'];
 	}
