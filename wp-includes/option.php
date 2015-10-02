@@ -972,24 +972,98 @@ function delete_all_user_settings() {
 }
 
 /**
- * Retrieve site option value based on name of option.
+ * Retrieve an option value for the current network based on name of option.
  *
  * @since 2.8.0
+ * @since 4.4.0 Modified into wrapper for get_network_option()
+ *
+ * @see get_network_option()
+ *
+ * @param string $option     Name of option to retrieve. Expected to not be SQL-escaped.
+ * @param mixed  $default    Optional value to return if option doesn't exist. Default false.
+ * @param bool   $deprecated Whether to use cache. Multisite only. Always set to true.
+ * @return mixed Value set for the option.
+ */
+function get_site_option( $option, $default = false, $deprecated = true ) {
+	return get_network_option( $option, $default );
+}
+
+/**
+ * Add a new option for the current network.
+ *
+ * Existing options will not be updated. Note that prior to 3.3 this wasn't the case.
+ *
+ * @since 2.8.0
+ * @since 4.4.0 Modified into wrapper for add_network_option()
+ *
+ * @see add_network_option()
+ *
+ * @param string $option Name of option to add. Expected to not be SQL-escaped.
+ * @param mixed  $value  Option value, can be anything. Expected to not be SQL-escaped.
+ * @return bool False if the option was not added. True if the option was added.
+ */
+function add_site_option( $option, $value ) {
+	return add_network_option( $option, $value );
+}
+
+/**
+ * Removes a option by name for the current network.
+ *
+ * @since 2.8.0
+ * @since 4.4.0 Modified into wrapper for delete_network_option()
+ *
+ * @see delete_network_option()
+ *
+ * @param string $option Name of option to remove. Expected to not be SQL-escaped.
+ * @return bool True, if succeed. False, if failure.
+ */
+function delete_site_option( $option ) {
+	return delete_network_option( $option );
+}
+
+/**
+ * Update the value of an option that was already added for the current network.
+ *
+ * @since 2.8.0
+ * @since 4.4.0 Modified into wrapper for update_network_option()
+ *
+ * @see update_network_option()
+ *
+ * @param string $option Name of option. Expected to not be SQL-escaped.
+ * @param mixed  $value  Option value. Expected to not be SQL-escaped.
+ * @return bool False if value was not updated. True if value was updated.
+ */
+function update_site_option( $option, $value ) {
+	return update_network_option( $option, $value );
+}
+
+/**
+ * Retrieve a network's option value based on the option name.
+ *
+ * @since 4.4.0
  *
  * @see get_option()
  *
- * @global wpdb $wpdb
+ * @global wpdb   $wpdb
+ * @global object $current_site
  *
- * @param string $option    Name of option to retrieve. Expected to not be SQL-escaped.
- * @param mixed  $default   Optional value to return if option doesn't exist. Default false.
- * @param bool   $use_cache Whether to use cache. Multisite only. Default true.
+ * @param string   $option     Name of option to retrieve. Expected to not be SQL-escaped.
+ * @param mixed    $default    Optional. Value to return if the option doesn't exist. Default false.
+ * @param int|bool $network_id Optional. ID of the network. Defaults to current network ID.
  * @return mixed Value set for the option.
  */
-function get_site_option( $option, $default = false, $use_cache = true ) {
-	global $wpdb;
+function get_network_option( $option, $default = false, $network_id = false ) {
+	global $wpdb, $current_site;
+
+	$network_id = (int) $network_id;
+
+	// Fallback to the current network if a network ID is not specified.
+	if ( ! $network_id && is_multisite() ) {
+		$network_id = $current_site->id;
+	}
 
 	/**
-	 * Filter an existing site option before it is retrieved.
+	 * Filter an existing network option before it is retrieved.
 	 *
 	 * The dynamic portion of the hook name, `$option`, refers to the option name.
 	 *
@@ -1005,17 +1079,18 @@ function get_site_option( $option, $default = false, $use_cache = true ) {
 	 */
 	$pre = apply_filters( 'pre_site_option_' . $option, false, $option );
 
- 	if ( false !== $pre )
- 		return $pre;
+	if ( false !== $pre ) {
+		return $pre;
+	}
 
 	// prevent non-existent options from triggering multiple queries
-	$notoptions_key = "{$wpdb->siteid}:notoptions";
+	$notoptions_key = "$network_id:notoptions";
 	$notoptions = wp_cache_get( $notoptions_key, 'site-options' );
 
-	if ( isset( $notoptions[$option] ) ) {
+	if ( isset( $notoptions[ $option ] ) ) {
 
 		/**
-		 * Filter a specific default site option.
+		 * Filter a specific default network option.
 		 *
 		 * The dynamic portion of the hook name, `$option`, refers to the option name.
 		 *
@@ -1030,17 +1105,15 @@ function get_site_option( $option, $default = false, $use_cache = true ) {
 	}
 
 	if ( ! is_multisite() ) {
-
 		/** This filter is documented in wp-includes/option.php */
 		$default = apply_filters( 'default_site_option_' . $option, $default, $option );
-		$value = get_option($option, $default);
+		$value = get_option( $option, $default );
 	} else {
-		$cache_key = "{$wpdb->siteid}:$option";
-		if ( $use_cache )
-			$value = wp_cache_get($cache_key, 'site-options');
+		$cache_key = "$network_id:$option";
+		$value = wp_cache_get( $cache_key, 'site-options' );
 
-		if ( !isset($value) || (false === $value) ) {
-			$row = $wpdb->get_row( $wpdb->prepare("SELECT meta_value FROM $wpdb->sitemeta WHERE meta_key = %s AND site_id = %d", $option, $wpdb->siteid ) );
+		if ( ! isset( $value ) || false === $value ) {
+			$row = $wpdb->get_row( $wpdb->prepare( "SELECT meta_value FROM $wpdb->sitemeta WHERE meta_key = %s AND site_id = %d", $option, $network_id ) );
 
 			// Has to be get_row instead of get_var because of funkiness with 0, false, null values
 			if ( is_object( $row ) ) {
@@ -1049,9 +1122,9 @@ function get_site_option( $option, $default = false, $use_cache = true ) {
 				wp_cache_set( $cache_key, $value, 'site-options' );
 			} else {
 				if ( ! is_array( $notoptions ) ) {
-					 $notoptions = array();
+					$notoptions = array();
 				}
-				$notoptions[$option] = true;
+				$notoptions[ $option ] = true;
 				wp_cache_set( $notoptions_key, $notoptions, 'site-options' );
 
 				/** This filter is documented in wp-includes/option.php */
@@ -1061,7 +1134,7 @@ function get_site_option( $option, $default = false, $use_cache = true ) {
 	}
 
 	/**
-	 * Filter the value of an existing site option.
+	 * Filter the value of an existing network option.
 	 *
 	 * The dynamic portion of the hook name, `$option`, refers to the option name.
 	 *
@@ -1069,34 +1142,43 @@ function get_site_option( $option, $default = false, $use_cache = true ) {
 	 * @since 3.0.0
 	 * @since 4.4.0 The `$option` parameter was added
 	 *
-	 * @param mixed  $value  Value of site option.
+	 * @param mixed  $value  Value of network option.
 	 * @param string $option Option name.
 	 */
 	return apply_filters( 'site_option_' . $option, $value, $option );
 }
 
 /**
- * Add a new site option.
+ * Add a new network option.
  *
- * Existing options will not be updated. Note that prior to 3.3 this wasn't the case.
+ * Existing options will not be updated.
  *
- * @since 2.8.0
+ * @since 4.4.0
  *
  * @see add_option()
  *
- * @global wpdb $wpdb
+ * @global wpdb   $wpdb
+ * @global object $current_site
  *
- * @param string $option Name of option to add. Expected to not be SQL-escaped.
- * @param mixed  $value  Optional. Option value, can be anything. Expected to not be SQL-escaped.
+ * @param  string   $option     Name of option to add. Expected to not be SQL-escaped.
+ * @param  mixed    $value      Option value, can be anything. Expected to not be SQL-escaped.
+ * @param  int|bool $network_id Optional. ID of the network. Defaults to current network ID.
  * @return bool False if option was not added and true if option was added.
  */
-function add_site_option( $option, $value ) {
-	global $wpdb;
+function add_network_option( $option, $value, $network_id = false ) {
+	global $wpdb, $current_site;
+
+	$network_id = (int) $network_id;
+
+	// Fallback to the current network if a network ID is not specified.
+	if ( ! $network_id && is_multisite() ) {
+		$network_id = $current_site->id;
+	}
 
 	wp_protect_special_option( $option );
 
 	/**
-	 * Filter the value of a specific site option before it is added.
+	 * Filter the value of a specific network option before it is added.
 	 *
 	 * The dynamic portion of the hook name, `$option`, refers to the option name.
 	 *
@@ -1104,38 +1186,41 @@ function add_site_option( $option, $value ) {
 	 * @since 3.0.0
 	 * @since 4.4.0 The `$option` parameter was added
 	 *
-	 * @param mixed  $value  Value of site option.
+	 * @param mixed  $value  Value of network option.
 	 * @param string $option Option name.
 	 */
 	$value = apply_filters( 'pre_add_site_option_' . $option, $value, $option );
 
-	$notoptions_key = "{$wpdb->siteid}:notoptions";
+	$notoptions_key = "$network_id:notoptions";
 
-	if ( !is_multisite() ) {
+	if ( ! is_multisite() ) {
 		$result = add_option( $option, $value );
 	} else {
-		$cache_key = "{$wpdb->siteid}:$option";
+		$cache_key = "$network_id:$option";
 
 		// Make sure the option doesn't already exist. We can check the 'notoptions' cache before we ask for a db query
 		$notoptions = wp_cache_get( $notoptions_key, 'site-options' );
-		if ( ! is_array( $notoptions ) || ! isset( $notoptions[$option] ) )
-			if ( false !== get_site_option( $option ) )
+		if ( ! is_array( $notoptions ) || ! isset( $notoptions[ $option ] ) ) {
+			if ( false !== get_network_option( $option, false, $network_id ) ) {
 				return false;
+			}
+		}
 
 		$value = sanitize_option( $option, $value );
 
 		$serialized_value = maybe_serialize( $value );
-		$result = $wpdb->insert( $wpdb->sitemeta, array('site_id' => $wpdb->siteid, 'meta_key' => $option, 'meta_value' => $serialized_value ) );
+		$result = $wpdb->insert( $wpdb->sitemeta, array( 'site_id'    => $network_id, 'meta_key'   => $option, 'meta_value' => $serialized_value ) );
 
-		if ( ! $result )
+		if ( ! $result ) {
 			return false;
+		}
 
 		wp_cache_set( $cache_key, $value, 'site-options' );
 
 		// This option exists now
 		$notoptions = wp_cache_get( $notoptions_key, 'site-options' ); // yes, again... we need it to be fresh
-		if ( is_array( $notoptions ) && isset( $notoptions[$option] ) ) {
-			unset( $notoptions[$option] );
+		if ( is_array( $notoptions ) && isset( $notoptions[ $option ] ) ) {
+			unset( $notoptions[ $option ] );
 			wp_cache_set( $notoptions_key, $notoptions, 'site-options' );
 		}
 	}
@@ -1143,50 +1228,60 @@ function add_site_option( $option, $value ) {
 	if ( $result ) {
 
 		/**
-		 * Fires after a specific site option has been successfully added.
+		 * Fires after a specific network option has been successfully added.
 		 *
 		 * The dynamic portion of the hook name, `$option`, refers to the option name.
 		 *
 		 * @since 2.9.0 As "add_site_option_{$key}"
 		 * @since 3.0.0
 		 *
-		 * @param string $option Name of site option.
-		 * @param mixed  $value  Value of site option.
+		 * @param string $option Name of the network option.
+		 * @param mixed  $value  Value of the network option.
 		 */
-		do_action( "add_site_option_{$option}", $option, $value );
+		do_action( 'add_site_option_' . $option, $option, $value );
 
 		/**
-		 * Fires after a site option has been successfully added.
+		 * Fires after a network option has been successfully added.
 		 *
 		 * @since 3.0.0
 		 *
-		 * @param string $option Name of site option.
-		 * @param mixed  $value  Value of site option.
+		 * @param string $option Name of the network option.
+		 * @param mixed  $value  Value of the network option.
 		 */
-		do_action( "add_site_option", $option, $value );
+		do_action( 'add_site_option', $option, $value );
 
 		return true;
 	}
+
 	return false;
 }
 
 /**
- * Removes site option by name.
+ * Removes a network option by name.
  *
- * @since 2.8.0
+ * @since 4.4.0
  *
  * @see delete_option()
  *
- * @global wpdb $wpdb
+ * @global wpdb   $wpdb
+ * @global object $current_site
  *
- * @param string $option Name of option to remove. Expected to not be SQL-escaped.
+ * @param  string   $option     Name of option to remove. Expected to not be SQL-escaped.
+ * @param  int|bool $network_id Optional. ID of the network. Defaults to current network ID.
  * @return bool True, if succeed. False, if failure.
  */
-function delete_site_option( $option ) {
-	global $wpdb;
+function delete_network_option( $option, $network_id = false ) {
+	global $wpdb, $current_site;
+
+	$network_id = (int) $network_id;
+
+	// Fallback to the current network if a network ID is not specified.
+	if ( ! $network_id && is_multisite() ) {
+		$network_id = $current_site->id;
+	}
 
 	/**
-	 * Fires immediately before a specific site option is deleted.
+	 * Fires immediately before a specific network option is deleted.
 	 *
 	 * The dynamic portion of the hook name, `$option`, refers to the option name.
 	 *
@@ -1197,68 +1292,79 @@ function delete_site_option( $option ) {
 	 */
 	do_action( 'pre_delete_site_option_' . $option, $option );
 
-	if ( !is_multisite() ) {
+	if ( ! is_multisite() ) {
 		$result = delete_option( $option );
 	} else {
-		$row = $wpdb->get_row( $wpdb->prepare( "SELECT meta_id FROM {$wpdb->sitemeta} WHERE meta_key = %s AND site_id = %d", $option, $wpdb->siteid ) );
-		if ( is_null( $row ) || !$row->meta_id )
+		$row = $wpdb->get_row( $wpdb->prepare( "SELECT meta_id FROM {$wpdb->sitemeta} WHERE meta_key = %s AND site_id = %d", $option, $network_id ) );
+		if ( is_null( $row ) || ! $row->meta_id ) {
 			return false;
-		$cache_key = "{$wpdb->siteid}:$option";
+		}
+		$cache_key = "$network_id:$option";
 		wp_cache_delete( $cache_key, 'site-options' );
 
-		$result = $wpdb->delete( $wpdb->sitemeta, array( 'meta_key' => $option, 'site_id' => $wpdb->siteid ) );
+		$result = $wpdb->delete( $wpdb->sitemeta, array( 'meta_key' => $option, 'site_id' => $network_id ) );
 	}
 
 	if ( $result ) {
 
 		/**
-		 * Fires after a specific site option has been deleted.
+		 * Fires after a specific network option has been deleted.
 		 *
 		 * The dynamic portion of the hook name, `$option`, refers to the option name.
 		 *
 		 * @since 2.9.0 As "delete_site_option_{$key}"
 		 * @since 3.0.0
 		 *
-		 * @param string $option Name of the site option.
+		 * @param string $option Name of the network option.
 		 */
-		do_action( "delete_site_option_{$option}", $option );
+		do_action( 'delete_site_option_' . $option, $option );
 
 		/**
-		 * Fires after a site option has been deleted.
+		 * Fires after a network option has been deleted.
 		 *
 		 * @since 3.0.0
 		 *
-		 * @param string $option Name of the site option.
+		 * @param string $option Name of the network option.
 		 */
-		do_action( "delete_site_option", $option );
+		do_action( 'delete_site_option', $option );
 
 		return true;
 	}
+
 	return false;
 }
 
 /**
- * Update the value of a site option that was already added.
+ * Update the value of a network option that was already added.
  *
- * @since 2.8.0
+ * @since 4.4.0
  *
  * @see update_option()
  *
- * @global wpdb $wpdb
+ * @global wpdb   $wpdb
+ * @global object $current_site
  *
- * @param string $option Name of option. Expected to not be SQL-escaped.
- * @param mixed  $value  Option value. Expected to not be SQL-escaped.
+ * @param string   $option     Name of option. Expected to not be SQL-escaped.
+ * @param mixed    $value      Option value. Expected to not be SQL-escaped.
+ * @param int|bool $network_id Optional. ID of the network. Defaults to current network ID.
  * @return bool False if value was not updated and true if value was updated.
  */
-function update_site_option( $option, $value ) {
-	global $wpdb;
+function update_network_option( $option, $value, $network_id = false ) {
+	global $wpdb, $current_site;
+
+	$network_id = (int) $network_id;
+
+	// Fallback to the current network if a network ID is not specified.
+	if ( ! $network_id && is_multisite() ) {
+		$network_id = $current_site->id;
+	}
 
 	wp_protect_special_option( $option );
 
-	$old_value = get_site_option( $option );
+	$old_value = get_network_option( $option, false, $network_id );
 
 	/**
-	 * Filter a specific site option before its value is updated.
+	 * Filter a specific network option before its value is updated.
 	 *
 	 * The dynamic portion of the hook name, `$option`, refers to the option name.
 	 *
@@ -1266,35 +1372,37 @@ function update_site_option( $option, $value ) {
 	 * @since 3.0.0
 	 * @since 4.4.0 The `$option` parameter was added
 	 *
-	 * @param mixed  $value     New value of site option.
-	 * @param mixed  $old_value Old value of site option.
+	 * @param mixed  $value     New value of the network option.
+	 * @param mixed  $old_value Old value of the network option.
 	 * @param string $option    Option name.
 	 */
 	$value = apply_filters( 'pre_update_site_option_' . $option, $value, $old_value, $option );
 
-	if ( $value === $old_value )
+	if ( $value === $old_value ) {
 		return false;
+	}
 
-	if ( false === $old_value )
-		return add_site_option( $option, $value );
+	if ( false === $old_value ) {
+		return add_network_option( $option, $value, $network_id );
+	}
 
-	$notoptions_key = "{$wpdb->siteid}:notoptions";
+	$notoptions_key = "$network_id:notoptions";
 	$notoptions = wp_cache_get( $notoptions_key, 'site-options' );
-	if ( is_array( $notoptions ) && isset( $notoptions[$option] ) ) {
-		unset( $notoptions[$option] );
+	if ( is_array( $notoptions ) && isset( $notoptions[ $option ] ) ) {
+		unset( $notoptions[ $option ] );
 		wp_cache_set( $notoptions_key, $notoptions, 'site-options' );
 	}
 
-	if ( !is_multisite() ) {
+	if ( ! is_multisite() ) {
 		$result = update_option( $option, $value );
 	} else {
 		$value = sanitize_option( $option, $value );
 
 		$serialized_value = maybe_serialize( $value );
-		$result = $wpdb->update( $wpdb->sitemeta, array( 'meta_value' => $serialized_value ), array( 'site_id' => $wpdb->siteid, 'meta_key' => $option ) );
+		$result = $wpdb->update( $wpdb->sitemeta, array( 'meta_value' => $serialized_value ), array( 'site_id' => $network_id, 'meta_key' => $option ) );
 
 		if ( $result ) {
-			$cache_key = "{$wpdb->siteid}:$option";
+			$cache_key = "$network_id:$option";
 			wp_cache_set( $cache_key, $value, 'site-options' );
 		}
 	}
@@ -1302,32 +1410,33 @@ function update_site_option( $option, $value ) {
 	if ( $result ) {
 
 		/**
-		 * Fires after the value of a specific site option has been successfully updated.
+		 * Fires after the value of a specific network option has been successfully updated.
 		 *
 		 * The dynamic portion of the hook name, `$option`, refers to the option name.
 		 *
 		 * @since 2.9.0 As "update_site_option_{$key}"
 		 * @since 3.0.0
 		 *
-		 * @param string $option    Name of site option.
-		 * @param mixed  $value     Current value of site option.
-		 * @param mixed  $old_value Old value of site option.
+		 * @param string $option    Name of the network option.
+		 * @param mixed  $value     Current value of the network option.
+		 * @param mixed  $old_value Old value of the network option.
 		 */
-		do_action( "update_site_option_{$option}", $option, $value, $old_value );
+		do_action( 'update_site_option_' . $option, $option, $value, $old_value );
 
 		/**
-		 * Fires after the value of a site option has been successfully updated.
+		 * Fires after the value of a network option has been successfully updated.
 		 *
 		 * @since 3.0.0
 		 *
-		 * @param string $option    Name of site option.
-		 * @param mixed  $value     Current value of site option.
-		 * @param mixed  $old_value Old value of site option.
+		 * @param string $option    Name of the network option.
+		 * @param mixed  $value     Current value of the network option.
+		 * @param mixed  $old_value Old value of the network option.
 		 */
-		do_action( "update_site_option", $option, $value, $old_value );
+		do_action( 'update_site_option', $option, $value, $old_value );
 
 		return true;
 	}
+
 	return false;
 }
 
