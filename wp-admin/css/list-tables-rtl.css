@@ -1618,11 +1618,6 @@ div.action-links,
 	margin: 0 0 20px 20px;
 }
 
-.plugin-icon img {
-	width: 128px;
-	height: 128px;
-}
-
 .no-plugin-results {
 	color: #999;
 	font-size: 18px;
