@@ -530,55 +530,86 @@ class WP_Plugins_List_Table extends WP_List_Table {
 			}
 		} // end if $context
 
-		$prefix = $screen->in_admin( 'network' ) ? 'network_admin_' : '';
+		$actions = array_filter( $actions );
 
-		/**
-		 * Filter the action links displayed for each plugin in the Plugins list table.
-		 *
-		 * The dynamic portion of the hook name, `$prefix`, refers to the context the
-		 * action links are displayed in. The 'network_admin_' prefix is used if the
-		 * current screen is the Network plugins list table. The prefix is empty ('')
-		 * if the current screen is the site plugins list table.
-		 *
-		 * The default action links for the Network plugins list table include
-		 * 'Network Activate', 'Network Deactivate', 'Edit', and 'Delete'.
-		 *
-		 * The default action links for the site plugins list table include
-		 * 'Activate', 'Deactivate', and 'Edit', for a network site, and
-		 * 'Activate', 'Deactivate', 'Edit', and 'Delete' for a single site.
-		 *
-		 * @since 2.5.0
-		 *
-		 * @param array  $actions     An array of plugin action links.
-		 * @param string $plugin_file Path to the plugin file.
-		 * @param array  $plugin_data An array of plugin data.
-		 * @param string $context     The plugin context. Defaults are 'All', 'Active',
-		 *                            'Inactive', 'Recently Activated', 'Upgrade',
-		 *                            'Must-Use', 'Drop-ins', 'Search'.
-		 */
-		$actions = apply_filters( $prefix . 'plugin_action_links', array_filter( $actions ), $plugin_file, $plugin_data, $context );
+		if ( $screen->in_admin( 'network' ) ) {
 
-		/**
-		 * Filter the list of action links displayed for a specific plugin.
-		 *
-		 * The first dynamic portion of the hook name, $prefix, refers to the context
-		 * the action links are displayed in. The 'network_admin_' prefix is used if the
-		 * current screen is the Network plugins list table. The prefix is empty ('')
-		 * if the current screen is the site plugins list table.
-		 *
-		 * The second dynamic portion of the hook name, $plugin_file, refers to the path
-		 * to the plugin file, relative to the plugins directory.
-		 *
-		 * @since 2.7.0
-		 *
-		 * @param array  $actions     An array of plugin action links.
-		 * @param string $plugin_file Path to the plugin file.
-		 * @param array  $plugin_data An array of plugin data.
-		 * @param string $context     The plugin context. Defaults are 'All', 'Active',
-		 *                            'Inactive', 'Recently Activated', 'Upgrade',
-		 *                            'Must-Use', 'Drop-ins', 'Search'.
-		 */
-		$actions = apply_filters( $prefix . "plugin_action_links_$plugin_file", $actions, $plugin_file, $plugin_data, $context );
+			/**
+			 * Filter the action links displayed for each plugin in the Network Admin Plugins list table.
+			 *
+			 * The default action links for the Network plugins list table include
+			 * 'Network Activate', 'Network Deactivate', 'Edit', and 'Delete'.
+			 *
+			 * @since 3.1.0 As `{$prefix}_plugin_action_links`
+			 * @since 4.4.0
+			 *
+			 * @param array  $actions     An array of plugin action links.
+			 * @param string $plugin_file Path to the plugin file relative to the plugins directory.
+			 * @param array  $plugin_data An array of plugin data.
+			 * @param string $context     The plugin context. Defaults are 'All', 'Active',
+			 *                            'Inactive', 'Recently Activated', 'Upgrade',
+			 *                            'Must-Use', 'Drop-ins', 'Search'.
+			 */
+			$actions = apply_filters( 'network_admin_plugin_action_links', $actions, $plugin_file, $plugin_data, $context );
+
+			/**
+			 * Filter the list of action links displayed for a specific plugin in the Network Admin Plugins list table.
+			 *
+			 * The dynamic portion of the hook name, $plugin_file, refers to the path
+			 * to the plugin file, relative to the plugins directory.
+			 *
+			 * @since 3.1.0 As `{$prefix}_plugin_action_links_{$plugin_file}`
+			 * @since 4.4.0
+			 *
+			 * @param array  $actions     An array of plugin action links.
+			 * @param string $plugin_file Path to the plugin file relative to the plugins directory.
+			 * @param array  $plugin_data An array of plugin data.
+			 * @param string $context     The plugin context. Defaults are 'All', 'Active',
+			 *                            'Inactive', 'Recently Activated', 'Upgrade',
+			 *                            'Must-Use', 'Drop-ins', 'Search'.
+			 */
+			$actions = apply_filters( "network_admin_plugin_action_links_{$plugin_file}", $actions, $plugin_file, $plugin_data, $context );
+
+		} else {
+
+			/**
+			 * Filter the action links displayed for each plugin in the Plugins list table.
+			 *
+			 * The default action links for the site plugins list table include
+			 * 'Activate', 'Deactivate', and 'Edit', for a network site, and
+			 * 'Activate', 'Deactivate', 'Edit', and 'Delete' for a single site.
+			 *
+			 * @since 2.5.0 As `{$prefix}_plugin_action_links`
+			 * @since 4.4.0
+			 *
+			 * @param array  $actions     An array of plugin action links.
+			 * @param string $plugin_file Path to the plugin file relative to the plugins directory.
+			 * @param array  $plugin_data An array of plugin data.
+			 * @param string $context     The plugin context. Defaults are 'All', 'Active',
+			 *                            'Inactive', 'Recently Activated', 'Upgrade',
+			 *                            'Must-Use', 'Drop-ins', 'Search'.
+			 */
+			$actions = apply_filters( 'plugin_action_links', $actions, $plugin_file, $plugin_data, $context );
+
+			/**
+			 * Filter the list of action links displayed for a specific plugin in the Plugins list table.
+			 *
+			 * The dynamic portion of the hook name, $plugin_file, refers to the path
+			 * to the plugin file, relative to the plugins directory.
+			 *
+			 * @since 2.7.0 As `{$prefix}_plugin_action_links_{$plugin_file}`
+			 * @since 4.4.0
+			 *
+			 * @param array  $actions     An array of plugin action links.
+			 * @param string $plugin_file Path to the plugin file relative to the plugins directory.
+			 * @param array  $plugin_data An array of plugin data.
+			 * @param string $context     The plugin context. Defaults are 'All', 'Active',
+			 *                            'Inactive', 'Recently Activated', 'Upgrade',
+			 *                            'Must-Use', 'Drop-ins', 'Search'.
+			 */
+			$actions = apply_filters( "plugin_action_links_{$plugin_file}", $actions, $plugin_file, $plugin_data, $context );
+
+		}
 
 		$class = $is_active ? 'active' : 'inactive';
 		$checkbox_id =  "checkbox_" . md5($plugin_data['Name']);
