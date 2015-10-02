@@ -168,7 +168,7 @@ function has_shortcode( $content, $tag ) {
 	}
 
 	if ( shortcode_exists( $tag ) ) {
-		preg_match_all( '/' . get_shortcode_regex() . '/s', $content, $matches, PREG_SET_ORDER );
+		preg_match_all( '/' . get_shortcode_regex() . '/', $content, $matches, PREG_SET_ORDER );
 		if ( empty( $matches ) )
 			return false;
 
@@ -219,7 +219,7 @@ function do_shortcode( $content, $ignore_html = false ) {
 	$content = do_shortcodes_in_html_tags( $content, $ignore_html, $tagnames );
 
 	$pattern = get_shortcode_regex( $tagnames );
-	$content = preg_replace_callback( "/$pattern/s", 'do_shortcode_tag', $content );
+	$content = preg_replace_callback( "/$pattern/", 'do_shortcode_tag', $content );
 
 	// Always restore square braces so we don't break things like <!--[if IE ]>
 	$content = unescape_invalid_shortcodes( $content );
@@ -378,7 +378,7 @@ function do_shortcodes_in_html_tags( $content, $ignore_html, $tagnames ) {
 		if ( false === $attributes ) {
 			// Some plugins are doing things like [name] <[email]>.
 			if ( 1 === preg_match( '%^<\s*\[\[?[^\[\]]+\]%', $element ) ) {
-				$element = preg_replace_callback( "/$pattern/s", 'do_shortcode_tag', $element );
+				$element = preg_replace_callback( "/$pattern/", 'do_shortcode_tag', $element );
 			}
 
 			// Looks like we found some crazy unfiltered HTML.  Skipping it for sanity.
@@ -407,12 +407,12 @@ function do_shortcodes_in_html_tags( $content, $ignore_html, $tagnames ) {
 				// In this specific situation we assume KSES did not run because the input
 				// was written by an administrator, so we should avoid changing the output
 				// and we do not need to run KSES here.
-				$attr = preg_replace_callback( "/$pattern/s", 'do_shortcode_tag', $attr );
+				$attr = preg_replace_callback( "/$pattern/", 'do_shortcode_tag', $attr );
 			} else {
 				// $attr like 'name = "[shortcode]"' or "name = '[shortcode]'"
 				// We do not know if $content was unfiltered. Assume KSES ran before shortcodes.
 				$count = 0;
-				$new_attr = preg_replace_callback( "/$pattern/s", 'do_shortcode_tag', $attr, -1, $count );
+				$new_attr = preg_replace_callback( "/$pattern/", 'do_shortcode_tag', $attr, -1, $count );
 				if ( $count > 0 ) {
 					// Sanitize the shortcode output using KSES.
 					$new_attr = wp_kses_one_attr( $new_attr, $elname );
@@ -572,7 +572,7 @@ function strip_shortcodes( $content ) {
 	$content = do_shortcodes_in_html_tags( $content, true, $tagnames );
 
 	$pattern = get_shortcode_regex( $tagnames );
-	$content = preg_replace_callback( "/$pattern/s", 'strip_shortcode_tag', $content );
+	$content = preg_replace_callback( "/$pattern/", 'strip_shortcode_tag', $content );
 
 	// Always restore square braces so we don't break things like <!--[if IE ]>
 	$content = unescape_invalid_shortcodes( $content );

@@ -219,43 +219,8 @@ function wptexturize( $text, $reset = false ) {
 	preg_match_all( '@\[/?([^<>&/\[\]\x00-\x20]++)@', $text, $matches );
 	$tagnames = array_intersect( array_keys( $shortcode_tags ), $matches[1] );
 	$found_shortcodes = ! empty( $tagnames );
-	if ( $found_shortcodes ) {
-		$tagregexp = join( '|', array_map( 'preg_quote', $tagnames ) );
-		$tagregexp = "(?:$tagregexp)(?![\\w-])"; // Excerpt of get_shortcode_regex().
-		$shortcode_regex =
-			  '\['              // Find start of shortcode.
-			. '[\/\[]?'         // Shortcodes may begin with [/ or [[
-			. $tagregexp        // Only match registered shortcodes, because performance.
-			. '(?:'
-			.     '[^\[\]<>]+'  // Shortcodes do not contain other shortcodes. Quantifier critical.
-			. '|'
-			.     '<[^\[\]>]*>' // HTML elements permitted. Prevents matching ] before >.
-			. ')*+'             // Possessive critical.
-			. '\]'              // Find end of shortcode.
-			. '\]?';            // Shortcodes may end with ]]
-	}
-
-	$comment_regex =
-		  '!'           // Start of comment, after the <.
-		. '(?:'         // Unroll the loop: Consume everything until --> is found.
-		.     '-(?!->)' // Dash not followed by end of comment.
-		.     '[^\-]*+' // Consume non-dashes.
-		. ')*+'         // Loop possessively.
-		. '(?:-->)?';   // End of comment. If not found, match all input.
-
-	$html_regex =			 // Needs replaced with wp_html_split() per Shortcode API Roadmap.
-		  '<'                // Find start of element.
-		. '(?(?=!--)'        // Is this a comment?
-		.     $comment_regex // Find end of comment.
-		. '|'
-		.     '[^>]*>?'      // Find end of element. If not found, match all input.
-		. ')';
-
-	if ( $found_shortcodes ) {
-		$regex = '/(' . $html_regex . '|' . $shortcode_regex . ')/s';
-	} else {
-		$regex = '/(' . $html_regex . ')/s';
-	}
+	$shortcode_regex = $found_shortcodes ? _get_wptexturize_shortcode_regex( $tagnames ) : '';
+	$regex = _get_wptexturize_split_regex( $shortcode_regex );
 
 	$textarr = preg_split( $regex, $text, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY );
 
@@ -264,7 +229,7 @@ function wptexturize( $text, $reset = false ) {
 		$first = $curl[0];
 		if ( '<' === $first ) {
 			if ( '<!--' === substr( $curl, 0, 4 ) ) {
-				// This is an HTML comment delimeter.
+				// This is an HTML comment delimiter.
 				continue;
 			} else {
 				// This is an HTML element delimiter.
@@ -615,6 +580,17 @@ function wpautop( $pee, $br = true ) {
  * @return array The formatted text.
  */
 function wp_html_split( $input ) {
+	return preg_split( get_html_split_regex(), $input, -1, PREG_SPLIT_DELIM_CAPTURE );
+}
+
+/**
+ * Retrieve the regular expression for an HTML element.
+ *
+ * @since 4.4.0
+ *
+ * @return string The regular expression
+ */
+function get_html_split_regex() {
 	static $regex;
 
 	if ( ! isset( $regex ) ) {
@@ -635,22 +611,100 @@ function wp_html_split( $input ) {
 			. ')*+'         // Loop possessively.
 			. '(?:]]>)?';   // End of comment. If not found, match all input.
 
+		$escaped = 
+			  '(?='           // Is the element escaped?
+			.    '!--'
+			. '|'
+			.    '!\[CDATA\['
+			. ')'
+			. '(?(?=!-)'      // If yes, which type?
+			.     $comments
+			. '|'
+			.     $cdata
+			. ')';
+
 		$regex =
 			  '/('              // Capture the entire match.
 			.     '<'           // Find start of element.
-			.     '(?(?=!--)'   // Is this a comment?
-			.         $comments // Find end of comment.
-			.     '|'
-			.         '(?(?=!\[CDATA\[)' // Is this a comment?
-			.             $cdata // Find end of comment.
-			.         '|'
-			.             '[^>]*>?' // Find end of element. If not found, match all input.
-			.         ')'
+			.     '(?'          // Conditional expression follows.
+			.         $escaped  // Find end of escaped element.
+			.     '|'           // ... else ...
+			.         '[^>]*>?' // Find end of normal element.
 			.     ')'
-			. ')/s';
+			. ')/';
 	}
 
-	return preg_split( $regex, $input, -1, PREG_SPLIT_DELIM_CAPTURE );
+	return $regex;
+}
+
+/**
+ * Retrieve the combined regular expression for HTML and shortcodes.
+ *
+ * @access private
+ * @ignore
+ * @internal This function will be removed in 4.5.0 per Shortcode API Roadmap.
+ * @since 4.4.0
+ *
+ * @param string $shortcode_regex The result from _get_wptexturize_shortcode_regex().  Optional.
+ * @return string The regular expression
+ */
+function _get_wptexturize_split_regex( $shortcode_regex = '' ) {
+	static $html_regex;
+
+	if ( ! isset( $html_regex ) ) {
+		$comment_regex =
+			  '!'           // Start of comment, after the <.
+			. '(?:'         // Unroll the loop: Consume everything until --> is found.
+			.     '-(?!->)' // Dash not followed by end of comment.
+			.     '[^\-]*+' // Consume non-dashes.
+			. ')*+'         // Loop possessively.
+			. '(?:-->)?';   // End of comment. If not found, match all input.
+
+		$html_regex =			 // Needs replaced with wp_html_split() per Shortcode API Roadmap.
+			  '<'                // Find start of element.
+			. '(?(?=!--)'        // Is this a comment?
+			.     $comment_regex // Find end of comment.
+			. '|'
+			.     '[^>]*>?'      // Find end of element. If not found, match all input.
+			. ')';
+	}
+
+	if ( empty( $shortcode_regex ) ) {
+		$regex = '/(' . $html_regex . ')/';
+	} else {
+		$regex = '/(' . $html_regex . '|' . $shortcode_regex . ')/';
+	}
+
+	return $regex;
+}
+
+/**
+ * Retrieve the regular expression for shortcodes.
+ *
+ * @access private
+ * @ignore
+ * @internal This function will be removed in 4.5.0 per Shortcode API Roadmap.
+ * @since 4.4.0
+ *
+ * @param array $tagnames List of shortcodes to find.
+ * @return string The regular expression
+ */
+function _get_wptexturize_shortcode_regex( $tagnames ) {
+	$tagregexp = join( '|', array_map( 'preg_quote', $tagnames ) );
+	$tagregexp = "(?:$tagregexp)(?=[\\s\\]\\/])"; // Excerpt of get_shortcode_regex().
+	$regex =
+		  '\['              // Find start of shortcode.
+		. '[\/\[]?'         // Shortcodes may begin with [/ or [[
+		. $tagregexp        // Only match registered shortcodes, because performance.
+		. '(?:'
+		.     '[^\[\]<>]+'  // Shortcodes do not contain other shortcodes. Quantifier critical.
+		. '|'
+		.     '<[^\[\]>]*>' // HTML elements permitted. Prevents matching ] before >.
+		. ')*+'             // Possessive critical.
+		. '\]'              // Find end of shortcode.
+		. '\]?';            // Shortcodes may end with ]]
+
+	return $regex;
 }
 
 /**
@@ -768,7 +822,7 @@ function shortcode_unautop( $pee ) {
 		. ')'
 		. '(?:' . $spaces . ')*+'            // optional trailing whitespace
 		. '<\\/p>'                           // closing paragraph
-		. '/s';
+		. '/';
 
 	return preg_replace( $pattern, '$1', $pee );
 }
