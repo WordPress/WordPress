@@ -129,8 +129,8 @@ function plugins_api( $action, $args = array() ) {
 	 *
 	 * Passing a non-false value will effectively short-circuit the WordPress.org API request.
 	 *
-	 * If `$action` is 'query_plugins', 'plugin_information', or 'hot_categories', an object MUST
-	 * be passed. If `$action` is 'hot_tags`, an array should be passed.
+	 * If `$action` is 'query_plugins' or 'plugin_information', an object MUST be passed.
+	 * If `$action` is 'hot_tags` or 'hot_categories', an array should be passed.
 	 *
 	 * @since 2.7.0
 	 *
