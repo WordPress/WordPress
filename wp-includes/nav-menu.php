@@ -433,6 +433,19 @@ function wp_update_nav_menu_item( $menu_id = 0, $menu_item_db_id = 0, $menu_item
 		$menu_item_db_id = wp_insert_post( $post );
 		if ( ! $menu_item_db_id	|| is_wp_error( $menu_item_db_id ) )
 			return $menu_item_db_id;
+
+		/**
+		 * Fires immediately after a new navigation menu item has been added.
+		 *
+		 * @since 4.4.0
+		 *
+		 * @see wp_update_nav_menu_item()
+		 *
+		 * @param int   $menu_id         ID of the updated menu.
+		 * @param int   $menu_item_db_id ID of the new menu item.
+		 * @param array $args            An array of arguments used to update/add the menu item.
+		 */
+		do_action( 'wp_add_nav_menu_item', $menu_id, $menu_item_db_id, $args );
 	}
 
 	// Associate the menu item with the menu term
