@@ -244,7 +244,7 @@ function the_content( $more_link_text = null, $strip_teaser = false) {
  * @global int   $multipage
  *
  * @param string $more_link_text Optional. Content for when there is more text.
- * @param bool $strip_teaser Optional. Strip teaser content before the more text. Default is false.
+ * @param bool   $strip_teaser   Optional. Strip teaser content before the more text. Default is false.
  * @return string
  */
 function get_the_content( $more_link_text = null, $strip_teaser = false ) {
@@ -316,7 +316,8 @@ function get_the_content( $more_link_text = null, $strip_teaser = false ) {
  *
  * @since 3.1.0
  * @access private
- * @param array $match Match array from preg_replace_callback
+ *
+ * @param array $match Match array from preg_replace_callback.
  * @return string
  */
 function _convert_urlencoded_to_entities( $match ) {
@@ -391,8 +392,8 @@ function has_excerpt( $id = 0 ) {
  *
  * @since 2.7.0
  *
- * @param string|array $class One or more classes to add to the class list.
- * @param int|WP_Post $post_id Optional. Post ID or post object.
+ * @param string|array $class   One or more classes to add to the class list.
+ * @param int|WP_Post  $post_id Optional. Post ID or post object. Defaults to the global `$post`.
  */
 function post_class( $class = '', $post_id = null ) {
 	// Separates classes with a single space, collates classes for post DIV
@@ -950,8 +951,10 @@ function post_custom( $key = '' ) {
 /**
  * Display list of post custom fields.
  *
- * @internal This will probably change at some point...
  * @since 1.2.0
+ *
+ * @internal This will probably change at some point...
+ *
  */
 function the_meta() {
 	if ( $keys = get_post_custom_keys() ) {
