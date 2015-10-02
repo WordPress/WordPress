@@ -19,8 +19,8 @@
  * an object is returned.
  *
  * The second filter, {@see 'plugins_api'}, allows a plugin to override the WordPress.org
- * Plugin Install API entirely. If `$action` is 'query_plugins', 'plugin_information', or
- * 'hot_categories', an object MUST be passed. If `$action` is 'hot_tags`, an array should
+ * Plugin Install API entirely. If `$action` is 'query_plugins' or 'plugin_information',
+ * an object MUST be passed. If `$action` is 'hot_tags` or 'hot_categories', an array MUST
  * be passed.
  *
  * Finally, the third filter, {@see 'plugins_api_result'}, makes it possible to filter the
