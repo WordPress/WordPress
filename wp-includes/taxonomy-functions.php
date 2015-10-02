@@ -346,6 +346,19 @@ function register_taxonomy( $taxonomy, $object_type, $args = array() ) {
 	if ( ! is_array( $wp_taxonomies ) )
 		$wp_taxonomies = array();
 
+	$args = wp_parse_args( $args );
+
+	/**
+	 * Filter the arguments for registering a taxonomy.
+	 *
+	 * @since 4.4.0
+	 *
+	 * @param array  $args        Array of arguments for registering a taxonomy.
+	 * @param array  $object_type Array of names of object types for the taxonomy.
+	 * @param string $taxonomy    Taxonomy key.
+	 */
+	$args = apply_filters( 'register_taxonomy_args', $args, $taxonomy, (array) $object_type );
+
 	$defaults = array(
 		'labels'                => array(),
 		'description'           => '',
@@ -364,7 +377,7 @@ function register_taxonomy( $taxonomy, $object_type, $args = array() ) {
 		'update_count_callback' => '',
 		'_builtin'              => false,
 	);
-	$args = wp_parse_args( $args, $defaults );
+	$args = array_merge( $defaults, $args );
 
 	if ( empty( $taxonomy ) || strlen( $taxonomy ) > 32 ) {
 		_doing_it_wrong( __FUNCTION__, __( 'Taxonomy names must be between 1 and 32 characters in length.' ), '4.2' );
