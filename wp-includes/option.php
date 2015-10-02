@@ -975,6 +975,7 @@ function delete_all_user_settings() {
  * Retrieve an option value for the current network based on name of option.
  *
  * @since 2.8.0
+ * @since 4.4.0 The `$use_cache` parameter was deprecated.
  * @since 4.4.0 Modified into wrapper for get_network_option()
  *
  * @see get_network_option()
