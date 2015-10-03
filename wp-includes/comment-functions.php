@@ -881,6 +881,7 @@ function get_page_of_comment( $comment_ID, $args = array() ) {
 		'fields'     => 'ids',
 		'count'      => true,
 		'status'     => 'approve',
+		'parent'     => 0,
 		'date_query' => array(
 			array(
 				'column' => "$wpdb->comments.comment_date_gmt",
