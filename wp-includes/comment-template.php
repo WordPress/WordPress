@@ -726,14 +726,6 @@ function get_comment_link( $comment = null, $args = array() ) {
 			}
 		}
 
-		// Drop the 'page' var if we're on the default page.
-		$comment_post = get_post( $comment->comment_post_ID );
-		if ( $args['per_page'] ) {
-			$total_pages = ceil( $comment_post->comment_count / $args['per_page'] );
-		} else {
-			$total_pages = 1;
-		}
-
 		/*
 		 * If the default page displays the oldest comments, the permalinks for comments on the default page
 		 * do not need a 'cpage' query var.
