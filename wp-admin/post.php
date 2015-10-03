@@ -254,13 +254,12 @@ case 'delete':
 	if ( ! current_user_can( 'delete_post', $post_id ) )
 		wp_die( __( 'You are not allowed to delete this item.' ) );
 
-	$force = ! EMPTY_TRASH_DAYS;
 	if ( $post->post_type == 'attachment' ) {
-		$force = ( $force || ! MEDIA_TRASH );
+		$force = ( ! MEDIA_TRASH );
 		if ( ! wp_delete_attachment( $post_id, $force ) )
 			wp_die( __( 'Error in deleting.' ) );
 	} else {
-		if ( ! wp_delete_post( $post_id, $force ) )
+		if ( ! wp_delete_post( $post_id, true ) )
 			wp_die( __( 'Error in deleting.' ) );
 	}
 
