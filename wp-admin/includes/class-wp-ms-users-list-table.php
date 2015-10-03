@@ -75,6 +75,9 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 
 		$mode = empty( $_REQUEST['mode'] ) ? 'list' : $_REQUEST['mode'];
 
+		/** This filter is documented in wp-admin/includes/class-wp-users-list-table.php */
+		$args = apply_filters( 'users_list_table_query_args', $args, $this );
+
 		// Query the user IDs for this page
 		$wp_user_search = new WP_User_Query( $args );
 
