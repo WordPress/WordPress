@@ -1132,7 +1132,11 @@
 					}
 				});
 				if ( settingValue ) {
-					element.set( settingValue[ property ] );
+					if ( ( property === 'classes' || property === 'xfn' ) && _.isArray( settingValue[ property ] ) ) {
+						element.set( settingValue[ property ].join( ' ' ) );
+					} else {
+						element.set( settingValue[ property ] );
+					}
 				}
 			});
 
