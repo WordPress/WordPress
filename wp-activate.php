@@ -68,6 +68,7 @@ get_header();
 ?>
 
 <div id="signup-content" class="widecolumn">
+	<div class="wp-activate-container">
 	<?php if ( empty($_GET['key']) && empty($_POST['key']) ) { ?>
 
 		<h2><?php _e('Activation Key Required') ?></h2>
@@ -127,6 +128,7 @@ get_header();
 		}
 	}
 	?>
+	</div>
 </div>
 <script type="text/javascript">
 	var key_input = document.getElementById('key');
