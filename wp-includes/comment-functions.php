@@ -941,7 +941,7 @@ function get_page_of_comment( $comment_ID, $args = array() ) {
 	 *     @type int    $max_depth Maximum comment threading depth allowed.
 	 * }
 	 */
-	return apply_filters( 'page_of_comment', (int) $page, $args, $original_args );
+	return apply_filters( 'get_page_of_comment', (int) $page, $args, $original_args );
 }
 
 /**
