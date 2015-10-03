@@ -855,8 +855,15 @@ function get_page_of_comment( $comment_ID, $args = array() ) {
 	$defaults = array( 'type' => 'all', 'page' => '', 'per_page' => '', 'max_depth' => '' );
 	$args = wp_parse_args( $args, $defaults );
 
-	if ( '' === $args['per_page'] )
-		$args['per_page'] = get_query_var('comments_per_page');
+	// Order of precedence: 1. `$args['per_page']`, 2. 'comments_per_page' query_var, 3. 'comments_per_page' option.
+	if ( '' === $args['per_page'] ) {
+		$args['per_page'] = get_query_var( 'comments_per_page' );
+	}
+
+	if ( '' === $args['per_page'] ) {
+		$args['per_page'] = get_option( 'comments_per_page' );
+	}
+
 	if ( empty($args['per_page']) ) {
 		$args['per_page'] = 0;
 		$args['page'] = 0;
