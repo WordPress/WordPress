@@ -2587,9 +2587,11 @@ function _default_wp_die_handler( $message, $title = '', $args = array() ) {
 		 	box-shadow: inset 0 2px 5px -3px rgba( 0, 0, 0, 0.5 );
 		}
 
-		<?php if ( 'rtl' == $text_direction ) : ?>
-		body { font-family: Tahoma, Arial; }
-		<?php endif; ?>
+		<?php
+		if ( 'rtl' == $text_direction ) {
+			echo 'body { font-family: Tahoma, Arial; }';
+		}
+		?>
 	</style>
 </head>
 <body id="error-page">
