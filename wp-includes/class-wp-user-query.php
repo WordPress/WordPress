@@ -76,6 +76,40 @@ class WP_User_Query {
 	}
 
 	/**
+	 * Fills in missing query variables with default values.
+	 *
+	 * @since 4.4.0
+	 * @access public
+	 *
+	 * @param array $args Query vars, as passed to `WP_User_Query`.
+	 * @return array Complete query variables with undefined ones filled in with defaults.
+	 */
+	public static function fill_query_vars( $args ) {
+		$defaults = array(
+			'blog_id' => $GLOBALS['blog_id'],
+			'role' => '',
+			'meta_key' => '',
+			'meta_value' => '',
+			'meta_compare' => '',
+			'include' => array(),
+			'exclude' => array(),
+			'search' => '',
+			'search_columns' => array(),
+			'orderby' => 'login',
+			'order' => 'ASC',
+			'offset' => '',
+			'number' => '',
+			'paged' => 1,
+			'count_total' => true,
+			'fields' => 'all',
+			'who' => '',
+			'has_published_posts' => null,
+		);
+
+		return wp_parse_args( $args, $defaults );
+	}
+
+	/**
 	 * Prepare the query variables.
 	 *
 	 * @since 3.1.0
@@ -146,26 +180,7 @@ class WP_User_Query {
 
 		if ( empty( $this->query_vars ) || ! empty( $query ) ) {
 			$this->query_limit = null;
-			$this->query_vars = wp_parse_args( $query, array(
-				'blog_id' => $GLOBALS['blog_id'],
-				'role' => '',
-				'meta_key' => '',
-				'meta_value' => '',
-				'meta_compare' => '',
-				'include' => array(),
-				'exclude' => array(),
-				'search' => '',
-				'search_columns' => array(),
-				'orderby' => 'login',
-				'order' => 'ASC',
-				'offset' => '',
-				'number' => '',
-				'paged' => 1,
-				'count_total' => true,
-				'fields' => 'all',
-				'who' => '',
-				'has_published_posts' => null,
-			) );
+			$this->query_vars = $this->fill_query_vars( $query );
 		}
 
 		/**
@@ -181,7 +196,9 @@ class WP_User_Query {
 		 */
 		do_action( 'pre_get_users', $this );
 
+		// Ensure that query vars are filled after 'pre_get_users'.
 		$qv =& $this->query_vars;
+		$qv =  $this->fill_query_vars( $qv );
 
 		if ( is_array( $qv['fields'] ) ) {
 			$qv['fields'] = array_unique( $qv['fields'] );
