@@ -2516,7 +2516,26 @@ function wp_insert_term( $term, $taxonomy, $args = array() ) {
 	 * Prevent the creation of terms with duplicate names at the same level of a taxonomy hierarchy,
 	 * unless a unique slug has been explicitly provided.
 	 */
-	if ( $name_match = get_term_by( 'name', $name, $taxonomy ) ) {
+	$name_matches = get_terms( $taxonomy, array(
+		'name' => $name,
+		'hide_empty' => false,
+	) );
+
+	/*
+	 * The `name` match in `get_terms()` doesn't differentiate accented characters,
+	 * so we do a stricter comparison here.
+	 */
+	$name_match = null;
+	if ( $name_matches ) {
+		foreach ( $name_matches as $_match ) {
+			if ( strtolower( $name ) === strtolower( $_match->name ) ) {
+				$name_match = $_match;
+				break;
+			}
+		}
+	}
+
+	if ( $name_match ) {
 		$slug_match = get_term_by( 'slug', $slug, $taxonomy );
 		if ( ! $slug_provided || $name_match->slug === $slug || $slug_match ) {
 			if ( is_taxonomy_hierarchical( $taxonomy ) ) {
