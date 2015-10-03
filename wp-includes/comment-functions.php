@@ -2526,3 +2526,195 @@ function _close_comments_for_old_post( $open, $post_id ) {
 
 	return $open;
 }
+
+/**
+ * Handles the submission of a comment, usually posted to wp-comments-post.php via a comment form.
+ *
+ * This function expects unslashed data, as opposed to functions such as `wp_new_comment()` which
+ * expect slashed data.
+ *
+ * @since 4.4.0
+ *
+ * @param array $comment_data {
+ *     Comment data.
+ *
+ *     @type string|int $comment_post_ID             The ID of the post that relates to the comment.
+ *     @type string     $author                      The name of the comment author.
+ *     @type string     $email                       The comment author email address.
+ *     @type string     $url                         The comment author URL.
+ *     @type string     $comment                     The content of the comment.
+ *     @type string|int $comment_parent              The ID of this comment's parent, if any. Default 0.
+ *     @type string     $_wp_unfiltered_html_comment The nonce value for allowing unfiltered HTML.
+ * }
+ * @return WP_Comment|WP_Error A WP_Comment object on success, a WP_Error object on failure.
+ */
+function wp_handle_comment_submission( $comment_data ) {
+
+	$comment_post_ID = $comment_parent = 0;
+	$comment_author = $comment_author_email = $comment_author_url = $comment_content = $_wp_unfiltered_html_comment = null;
+
+	if ( isset( $comment_data['comment_post_ID'] ) ) {
+		$comment_post_ID = (int) $comment_data['comment_post_ID'];
+	}
+	if ( isset( $comment_data['author'] ) && is_string( $comment_data['author'] ) ) {
+		$comment_author = trim( strip_tags( $comment_data['author'] ) );
+	}
+	if ( isset( $comment_data['email'] ) && is_string( $comment_data['email'] ) ) {
+		$comment_author_email = trim( $comment_data['email'] );
+	}
+	if ( isset( $comment_data['url'] ) && is_string( $comment_data['url'] ) ) {
+		$comment_author_url = trim( $comment_data['url'] );
+	}
+	if ( isset( $comment_data['comment'] ) && is_string( $comment_data['comment'] ) ) {
+		$comment_content = trim( $comment_data['comment'] );
+	}
+	if ( isset( $comment_data['comment_parent'] ) ) {
+		$comment_parent = absint( $comment_data['comment_parent'] );
+	}
+	if ( isset( $comment_data['_wp_unfiltered_html_comment'] ) && is_string( $comment_data['_wp_unfiltered_html_comment'] ) ) {
+		$_wp_unfiltered_html_comment = trim( $comment_data['_wp_unfiltered_html_comment'] );
+	}
+
+	$post = get_post( $comment_post_ID );
+
+	if ( empty( $post->comment_status ) ) {
+
+		/**
+		 * Fires when a comment is attempted on a post that does not exist.
+		 *
+		 * @since 1.5.0
+		 *
+		 * @param int $comment_post_ID Post ID.
+		 */
+		do_action( 'comment_id_not_found', $comment_post_ID );
+
+		return new WP_Error( 'comment_id_not_found' );
+
+	}
+
+	// get_post_status() will get the parent status for attachments.
+	$status = get_post_status( $post );
+
+	$status_obj = get_post_status_object( $status );
+
+	if ( ! comments_open( $comment_post_ID ) ) {
+
+		/**
+		 * Fires when a comment is attempted on a post that has comments closed.
+		 *
+		 * @since 1.5.0
+		 *
+		 * @param int $comment_post_ID Post ID.
+		 */
+		do_action( 'comment_closed', $comment_post_ID );
+
+		return new WP_Error( 'comment_closed', __( 'Sorry, comments are closed for this item.' ), 403 );
+
+	} elseif ( 'trash' == $status ) {
+
+		/**
+		 * Fires when a comment is attempted on a trashed post.
+		 *
+		 * @since 2.9.0
+		 *
+		 * @param int $comment_post_ID Post ID.
+		 */
+		do_action( 'comment_on_trash', $comment_post_ID );
+
+		return new WP_Error( 'comment_on_trash' );
+
+	} elseif ( ! $status_obj->public && ! $status_obj->private ) {
+
+		/**
+		 * Fires when a comment is attempted on a post in draft mode.
+		 *
+		 * @since 1.5.1
+		 *
+		 * @param int $comment_post_ID Post ID.
+		 */
+		do_action( 'comment_on_draft', $comment_post_ID );
+
+		return new WP_Error( 'comment_on_draft' );
+
+	} elseif ( post_password_required( $comment_post_ID ) ) {
+
+		/**
+		 * Fires when a comment is attempted on a password-protected post.
+		 *
+		 * @since 2.9.0
+		 *
+		 * @param int $comment_post_ID Post ID.
+		 */
+		do_action( 'comment_on_password_protected', $comment_post_ID );
+
+		return new WP_Error( 'comment_on_password_protected' );
+
+	} else {
+
+		/**
+		 * Fires before a comment is posted.
+		 *
+		 * @since 2.8.0
+		 *
+		 * @param int $comment_post_ID Post ID.
+		 */
+		do_action( 'pre_comment_on_post', $comment_post_ID );
+
+	}
+
+	// If the user is logged in
+	$user = wp_get_current_user();
+	if ( $user->exists() ) {
+		if ( empty( $user->display_name ) ) {
+			$user->display_name=$user->user_login;
+		}
+		$comment_author       = $user->display_name;
+		$comment_author_email = $user->user_email;
+		$comment_author_url   = $user->user_url;
+		if ( current_user_can( 'unfiltered_html' ) ) {
+			if ( ! isset( $comment_data['_wp_unfiltered_html_comment'] )
+				|| ! wp_verify_nonce( $comment_data['_wp_unfiltered_html_comment'], 'unfiltered-html-comment_' . $comment_post_ID )
+			) {
+				kses_remove_filters(); // start with a clean slate
+				kses_init_filters(); // set up the filters
+			}
+		}
+	} else {
+		if ( get_option( 'comment_registration' ) || 'private' == $status ) {
+			return new WP_Error( 'not_logged_in', __( 'Sorry, you must be logged in to post a comment.' ), 403 );
+		}
+	}
+
+	$comment_type = '';
+
+	if ( get_option( 'require_name_email' ) && ! $user->exists() ) {
+		if ( 6 > strlen( $comment_author_email ) || '' == $comment_author ) {
+			return new WP_Error( 'require_name_email', __( '<strong>ERROR</strong>: please fill the required fields (name, email).' ), 200 );
+		} elseif ( ! is_email( $comment_author_email ) ) {
+			return new WP_Error( 'require_valid_email', __( '<strong>ERROR</strong>: please enter a valid email address.' ), 200 );
+		}
+	}
+
+	if ( '' == $comment_content ) {
+		return new WP_Error( 'require_valid_comment', __( '<strong>ERROR</strong>: please type a comment.' ), 200 );
+	}
+
+	$commentdata = compact(
+		'comment_post_ID',
+		'comment_author',
+		'comment_author_email',
+		'comment_author_url',
+		'comment_content',
+		'comment_type',
+		'comment_parent',
+		'user_ID'
+	);
+
+	$comment_id = wp_new_comment( wp_slash( $commentdata ) );
+	if ( ! $comment_id ) {
+		return new WP_Error( 'comment_save_error', __( '<strong>ERROR</strong>: The comment could not be saved. Please try again later.' ), 500 );
+	}
+
+	return get_comment( $comment_id );
+
+}
