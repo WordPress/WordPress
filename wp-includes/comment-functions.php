@@ -849,11 +849,14 @@ function get_comment_pages_count( $comments = null, $per_page = null, $threaded 
 function get_page_of_comment( $comment_ID, $args = array() ) {
 	global $wpdb;
 
+	$page = null;
+
 	if ( !$comment = get_comment( $comment_ID ) )
 		return;
 
 	$defaults = array( 'type' => 'all', 'page' => '', 'per_page' => '', 'max_depth' => '' );
 	$args = wp_parse_args( $args, $defaults );
+	$original_args = $args;
 
 	// Order of precedence: 1. `$args['per_page']`, 2. 'comments_per_page' query_var, 3. 'comments_per_page' option.
 	if ( '' === $args['per_page'] ) {
@@ -868,44 +871,77 @@ function get_page_of_comment( $comment_ID, $args = array() ) {
 		$args['per_page'] = 0;
 		$args['page'] = 0;
 	}
-	if ( $args['per_page'] < 1 )
-		return 1;
 
-	if ( '' === $args['max_depth'] ) {
-		if ( get_option('thread_comments') )
-			$args['max_depth'] = get_option('thread_comments_depth');
-		else
-			$args['max_depth'] = -1;
+	if ( $args['per_page'] < 1 ) {
+		$page = 1;
 	}
 
-	// Find this comment's top level parent if threading is enabled
-	if ( $args['max_depth'] > 1 && 0 != $comment->comment_parent )
-		return get_page_of_comment( $comment->comment_parent, $args );
+	if ( null === $page ) {
+		if ( '' === $args['max_depth'] ) {
+			if ( get_option('thread_comments') )
+				$args['max_depth'] = get_option('thread_comments_depth');
+			else
+				$args['max_depth'] = -1;
+		}
 
-	$comment_args = array(
-		'type'       => $args['type'],
-		'post_id'    => $comment->comment_post_ID,
-		'fields'     => 'ids',
-		'count'      => true,
-		'status'     => 'approve',
-		'parent'     => 0,
-		'date_query' => array(
-			array(
-				'column' => "$wpdb->comments.comment_date_gmt",
-				'before' => $comment->comment_date_gmt,
-			)
-		),
-	);
+		// Find this comment's top level parent if threading is enabled
+		if ( $args['max_depth'] > 1 && 0 != $comment->comment_parent )
+			return get_page_of_comment( $comment->comment_parent, $args );
 
-	$comment_query = new WP_Comment_Query();
-	$older_comment_count = $comment_query->query( $comment_args );
+		$comment_args = array(
+			'type'       => $args['type'],
+			'post_id'    => $comment->comment_post_ID,
+			'fields'     => 'ids',
+			'count'      => true,
+			'status'     => 'approve',
+			'parent'     => 0,
+			'date_query' => array(
+				array(
+					'column' => "$wpdb->comments.comment_date_gmt",
+					'before' => $comment->comment_date_gmt,
+				)
+			),
+		);
 
-	// No older comments? Then it's page #1.
-	if ( 0 == $older_comment_count )
-		return 1;
+		$comment_query = new WP_Comment_Query();
+		$older_comment_count = $comment_query->query( $comment_args );
 
-	// Divide comments older than this one by comments per page to get this comment's page number
-	return ceil( ( $older_comment_count + 1 ) / $args['per_page'] );
+		// No older comments? Then it's page #1.
+		if ( 0 == $older_comment_count ) {
+			$page = 1;
+
+		// Divide comments older than this one by comments per page to get this comment's page number
+		} else {
+			$page = ceil( ( $older_comment_count + 1 ) / $args['per_page'] );
+		}
+	}
+
+	/**
+	 * Filters the calculated page on which a comment appears.
+	 *
+	 * @since 4.4.0
+	 *
+	 * @param int   $page          Comment page.
+	 * @param array $args {
+	 *     Arguments used to calculate pagination. These include arguments auto-detected by the function,
+	 *     based on query vars, system settings, etc. For pristine arguments passed to the function,
+	 *     see `$original_args`.
+	 *
+	 *     @type string $type      Type of comments to count.
+	 *     @type int    $page      Calculated current page.
+	 *     @type int    $per_page  Calculated number of comments per page.
+	 *     @type int    $max_depth Maximum comment threading depth allowed.
+	 * }
+	 * @param array $original_args {
+	 *     Array of arguments passed to the function. Some or all of these may not be set.
+	 *
+	 *     @type string $type      Type of comments to count.
+	 *     @type int    $page      Current comment page.
+	 *     @type int    $per_page  Number of comments per page.
+	 *     @type int    $max_depth Maximum comment threading depth allowed.
+	 * }
+	 */
+	return apply_filters( 'page_of_comment', (int) $page, $args, $original_args );
 }
 
 /**
