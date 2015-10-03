@@ -353,8 +353,13 @@ function validate_another_blog_signup() {
 	 */
 	$meta = apply_filters( 'add_signup_meta', $meta_defaults );
 
-	wpmu_create_blog( $domain, $path, $blog_title, $current_user->ID, $meta, $wpdb->siteid );
-	confirm_another_blog_signup($domain, $path, $blog_title, $current_user->user_login, $current_user->user_email, $meta);
+	$blog_id = wpmu_create_blog( $domain, $path, $blog_title, $current_user->ID, $meta, $wpdb->siteid );
+
+	if ( is_wp_error( $blog_id ) ) {
+		return false;
+	}
+
+	confirm_another_blog_signup( $domain, $path, $blog_title, $current_user->user_login, $current_user->user_email, $meta, $blog_id );
 	return true;
 }
 
@@ -362,19 +367,43 @@ function validate_another_blog_signup() {
  * Confirm a new site signup
  *
  * @since MU
+ * @since 4.4.0 Added the `$blog_id` parameter.
  *
  * @param string $domain The domain URL
  * @param string $path The site root path
  * @param string $blog_title The blog title
  * @param string $user_name The username
  * @param string $user_email The user's email address
- * @param array $meta Any additional meta from the 'add_signup_meta' filter in validate_blog_signup()
+ * @param array  $meta Any additional meta from the 'add_signup_meta' filter in validate_blog_signup()
+ * @param int    $blog_id The blog ID
  */
-function confirm_another_blog_signup( $domain, $path, $blog_title, $user_name, $user_email = '', $meta = array() ) {
+function confirm_another_blog_signup( $domain, $path, $blog_title, $user_name, $user_email = '', $meta = array(), $blog_id = 0 ) {
+
+	if ( $blog_id ) {
+		switch_to_blog( $blog_id );
+		$home_url  = home_url( '/' );
+		$login_url = wp_login_url();
+		restore_current_blog();
+	} else {
+		$home_url  = 'http://' . $domain . $path;
+		$login_url = 'http://' . $domain . $path . 'wp-login.php';
+	}
+
+	$site = sprintf( '<a href="%1$s">%2$s</a>',
+		esc_url( $home_url ),
+		$blog_title
+	);
+
 	?>
-	<h2><?php printf( __( 'The site %s is yours.' ), "<a href='http://{$domain}{$path}'>{$blog_title}</a>" ) ?></h2>
+	<h2><?php printf( __( 'The site %s is yours.' ), $site ); ?></h2>
 	<p>
-		<?php printf( __( '<a href="http://%1$s">http://%2$s</a> is your new site. <a href="%3$s">Log in</a> as &#8220;%4$s&#8221; using your existing password.' ), $domain.$path, $domain.$path, "http://" . $domain.$path . "wp-login.php", $user_name ) ?>
+		<?php printf(
+			__( '<a href="%1$s">%2$s</a> is your new site. <a href="%3$s">Log in</a> as &#8220;%4$s&#8221; using your existing password.' ),
+			esc_url( $home_url ),
+			untrailingslashit( $domain . $path ),
+			esc_url( $login_url ),
+			$user_name
+		); ?>
 	</p>
 	<?php
 	/**
