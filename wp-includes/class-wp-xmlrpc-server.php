@@ -1582,16 +1582,19 @@ class wp_xmlrpc_server extends IXR_Server {
 		do_action( 'xmlrpc_call', 'wp.deletePost' );
 
 		$post = get_post( $post_id, ARRAY_A );
-		if ( empty( $post['ID'] ) )
+		if ( empty( $post['ID'] ) ) {
 			return new IXR_Error( 404, __( 'Invalid post ID.' ) );
+		}
 
-		if ( ! current_user_can( 'delete_post', $post_id ) )
-			return new IXR_Error( 401, __( 'Sorry, you are not allowed to delete this post.' ) );
+		if ( ! current_user_can( 'delete_post', $post_id ) ) {
+			return new IXR_Error( 401, __( 'Sorry, you do not have the right to delete this post.' ) );
+		}
 
 		$result = wp_delete_post( $post_id );
 
-		if ( ! $result )
+		if ( ! $result ) {
 			return new IXR_Error( 500, __( 'The post cannot be deleted.' ) );
+		}
 
 		return true;
 	}
@@ -4685,18 +4688,21 @@ class wp_xmlrpc_server extends IXR_Server {
 		/** This action is documented in wp-includes/class-wp-xmlrpc-server.php */
 		do_action( 'xmlrpc_call', 'blogger.deletePost' );
 
-		$actual_post = get_post($post_ID,ARRAY_A);
+		$actual_post = get_post( $post_ID, ARRAY_A );
 
-		if ( !$actual_post || $actual_post['post_type'] != 'post' )
-			return new IXR_Error(404, __('Sorry, no such post.'));
+		if ( ! $actual_post || $actual_post['post_type'] != 'post' ) {
+			return new IXR_Error( 404, __( 'Sorry, no such post.' ) );
+		}
 
-		if ( !current_user_can('delete_post', $post_ID) )
-			return new IXR_Error(401, __('Sorry, you do not have the right to delete this post.'));
+		if ( ! current_user_can( 'delete_post', $post_ID ) ) {
+			return new IXR_Error( 401, __( 'Sorry, you do not have the right to delete this post.' ) );
+		}
 
-		$result = wp_delete_post($post_ID);
+		$result = wp_delete_post( $post_ID );
 
-		if ( !$result )
-			return new IXR_Error(500, __('For some strange yet very annoying reason, this post could not be deleted.'));
+		if ( ! $result ) {
+			return new IXR_Error( 500, __( 'The post cannot be deleted.' ) );
+		}
 
 		/**
 		 * Fires after a post has been successfully deleted via the XML-RPC Blogger API.
