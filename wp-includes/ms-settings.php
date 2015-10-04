@@ -221,12 +221,5 @@ if ( ! $current_site instanceof WP_Network ) {
 	$current_site = new WP_Network( $current_site );
 }
 
-if ( empty( $current_site->site_name ) ) {
-	$current_site->site_name = get_network_option( 'site_name' );
-	if ( ! $current_site->site_name ) {
-		$current_site->site_name = ucfirst( $current_site->domain );
-	}
-}
-
 // Define upload directory constants
 ms_upload_constants();

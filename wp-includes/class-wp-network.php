@@ -129,7 +129,23 @@ class WP_Network {
 			$this->$key = $value;
 		}
 
+		$this->_set_site_name();
 		$this->_set_cookie_domain();
+	}
+
+	/**
+	 * Set the site name assigned to the network if one has not been populated.
+	 *
+	 * @since 4.4.0
+	 * @access private
+	 */
+	private function _set_site_name() {
+		if ( ! empty( $this->site_name ) ) {
+			return;
+		}
+
+		$default = ucfirst( $this->domain );
+		$this->site_name = get_network_option( 'site_name', $default, $this->id );
 	}
 
 	/**
