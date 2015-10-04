@@ -1676,7 +1676,7 @@ All at ###SITENAME###
 			$pass_change_email['message'] = str_replace( '###ADMIN_EMAIL###', get_option( 'admin_email' ), $pass_change_email['message'] );
 			$pass_change_email['message'] = str_replace( '###EMAIL###', $user['user_email'], $pass_change_email['message'] );
 			$pass_change_email['message'] = str_replace( '###SITENAME###', get_option( 'blogname' ), $pass_change_email['message'] );
-			$pass_change_email['message'] = str_replace( '###SITEURL###', get_option( 'siteurl' ), $pass_change_email['message'] );
+			$pass_change_email['message'] = str_replace( '###SITEURL###', home_url(), $pass_change_email['message'] );
 
 			wp_mail( $pass_change_email['to'], sprintf( $pass_change_email['subject'], $blog_name ), $pass_change_email['message'], $pass_change_email['headers'] );
 		}
@@ -1730,7 +1730,7 @@ All at ###SITENAME###
 			$email_change_email['message'] = str_replace( '###ADMIN_EMAIL###', get_option( 'admin_email' ), $email_change_email['message'] );
 			$email_change_email['message'] = str_replace( '###EMAIL###', $user['user_email'], $email_change_email['message'] );
 			$email_change_email['message'] = str_replace( '###SITENAME###', get_option( 'blogname' ), $email_change_email['message'] );
-			$email_change_email['message'] = str_replace( '###SITEURL###', get_option( 'siteurl' ), $email_change_email['message'] );
+			$email_change_email['message'] = str_replace( '###SITEURL###', home_url(), $email_change_email['message'] );
 
 			wp_mail( $email_change_email['to'], sprintf( $email_change_email['subject'], $blog_name ), $email_change_email['message'], $email_change_email['headers'] );
 		}
