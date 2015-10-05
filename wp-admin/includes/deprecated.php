@@ -507,14 +507,12 @@ class WP_User_Search {
 	}
 
 	/**
-	 * {@internal Missing Short Description}}
-	 *
-	 * {@internal Missing Long Description}}
+	 * Prepares the user search query (legacy).
 	 *
 	 * @since 2.1.0
 	 * @access public
 	 */
-	function prepare_query() {
+	public function prepare_query() {
 		global $wpdb;
 		$this->first_user = ($this->page - 1) * $this->users_per_page;
 
@@ -547,14 +545,12 @@ class WP_User_Search {
 	}
 
 	/**
-	 * {@internal Missing Short Description}}
-	 *
-	 * {@internal Missing Long Description}}
+	 * Executes the user search query.
 	 *
 	 * @since 2.1.0
 	 * @access public
 	 */
-	function query() {
+	public function query() {
 		global $wpdb;
 
 		$this->results = $wpdb->get_col("SELECT DISTINCT($wpdb->users.ID)" . $this->query_from . $this->query_where . $this->query_orderby . $this->query_limit);
@@ -566,9 +562,7 @@ class WP_User_Search {
 	}
 
 	/**
-	 * {@internal Missing Short Description}}
-	 *
-	 * {@internal Missing Long Description}}
+	 * Prepares variables for use in templates.
 	 *
 	 * @since 2.1.0
 	 * @access public
@@ -576,14 +570,12 @@ class WP_User_Search {
 	function prepare_vars_for_template_usage() {}
 
 	/**
-	 * {@internal Missing Short Description}}
-	 *
-	 * {@internal Missing Long Description}}
+	 * Handles paging for the user search query.
 	 *
 	 * @since 2.1.0
 	 * @access public
 	 */
-	function do_paging() {
+	public function do_paging() {
 		if ( $this->total_users_for_query > $this->users_per_page ) { // have to page the results
 			$args = array();
 			if ( ! empty($this->search_term) )
@@ -610,16 +602,14 @@ class WP_User_Search {
 	}
 
 	/**
-	 * {@internal Missing Short Description}}
-	 *
-	 * {@internal Missing Long Description}}
+	 * Retrieves the user search query results.
 	 *
 	 * @since 2.1.0
 	 * @access public
 	 *
 	 * @return array
 	 */
-	function get_results() {
+	public function get_results() {
 		return (array) $this->results;
 	}
 
