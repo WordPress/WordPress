@@ -65,7 +65,7 @@ function update_gallery_tab($tabs) {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Outputs the legacy media upload tabs UI.
  *
  * @since 2.5.0
  *
@@ -102,7 +102,7 @@ function the_media_upload_tabs() {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Retrieves the image HTML to send to the editor.
  *
  * @since 2.5.0
  *
@@ -616,7 +616,7 @@ function get_upload_iframe_src( $type = null, $post_id = null, $tab = null ) {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Handles form submissions for the legacy media uploader.
  *
  * @since 2.5.0
  *
@@ -885,7 +885,7 @@ function media_sideload_image( $file, $post_id, $desc = null, $return = 'html' )
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Retrieves the legacy media uploader form in an iframe.
  *
  * @since 2.5.0
  *
@@ -908,7 +908,7 @@ function media_upload_gallery() {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Retrieves the legacy media library form in an iframe.
  *
  * @since 2.5.0
  *
@@ -1077,7 +1077,7 @@ function wp_caption_input_textarea($edit_post) {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Retrieves the image attachment fields to edit form fields.
  *
  * @since 2.5.0
  *
@@ -1090,7 +1090,7 @@ function image_attachment_fields_to_edit($form_fields, $post) {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Retrieves the single non-image attachment fields to edit form fields.
  *
  * @since 2.5.0
  *
@@ -1104,7 +1104,7 @@ function media_single_attachment_fields_to_edit( $form_fields, $post ) {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Retrieves the post non-image attachment fields to edito form fields.
  *
  * @since 2.8.0
  *
@@ -1143,7 +1143,7 @@ function image_attachment_fields_to_save( $post, $attachment ) {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Retrieves the media element HTML to send to the editor.
  *
  * @since 2.5.0
  *
@@ -1168,7 +1168,7 @@ function image_media_send_to_editor($html, $attachment_id, $attachment) {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Retrieves the attachment fields to edit form fields.
  *
  * @since 2.5.0
  *
@@ -1740,7 +1740,7 @@ function get_compat_media_markup( $attachment_id, $args = null ) {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Outputs the legacy media upload header.
  *
  * @since 2.5.0
  */
@@ -1756,7 +1756,7 @@ function media_upload_header() {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Outputs the legacy media upload form.
  *
  * @since 2.5.0
  *
@@ -1948,7 +1948,7 @@ do_action( 'post-html-upload-ui' );
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Outputs the legacy media upload form for a given media type.
  *
  * @since 2.5.0
  *
@@ -2018,7 +2018,7 @@ if ( $id ) {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Outputs the legacy media upload form for external media.
  *
  * @since 2.7.0
  *
@@ -2309,7 +2309,7 @@ jQuery(function($){
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Outputs the legacy media upload form for the media library.
  *
  * @since 2.5.0
  *
