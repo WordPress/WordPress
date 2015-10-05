@@ -56,7 +56,7 @@ function got_url_rewrite() {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Extracts strings from between the BEGIN and END markers in the .htaccess file.
  *
  * @since 1.5.0
  *
@@ -88,10 +88,10 @@ function extract_from_markers( $filename, $marker ) {
 }
 
 /**
- * {@internal Missing Short Description}}
- *
  * Inserts an array of strings into a file (.htaccess ), placing it between
- * BEGIN and END markers. Replaces existing marked info. Retains surrounding
+ * BEGIN and END markers.
+ *
+ * Replaces existing marked info. Retains surrounding
  * data. Creates file if none exists.
  *
  * @since 1.5.0
@@ -231,7 +231,7 @@ function iis7_save_url_rewrite_rules(){
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Update the "recently-edited" file for the plugin or theme editor.
  *
  * @since 1.5.0
  *
@@ -253,7 +253,7 @@ function update_recently_edited( $file ) {
 }
 
 /**
- * If siteurl, home or page_on_front changed, flush rewrite rules.
+ * Flushes rewrite rules if siteurl, home or page_on_front changed.
  *
  * @since 2.1.0
  *
@@ -313,7 +313,7 @@ function wp_reset_vars( $vars ) {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Displays the given administration message.
  *
  * @since 2.1.0
  *
