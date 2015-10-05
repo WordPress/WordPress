@@ -100,7 +100,7 @@ function wp_list_widget_controls( $sidebar, $sidebar_name = '' ) {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Retrieves the widget control arguments.
  *
  * @since 2.5.0
  *
