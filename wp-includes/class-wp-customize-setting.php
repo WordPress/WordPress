@@ -304,12 +304,13 @@ class WP_Customize_Setting {
 	 * @since 3.4.0
 	 *
 	 * @param mixed $value The value to update.
-	 * @return mixed The result of saving the value.
+	 * @return bool The result of saving the value.
 	 */
 	protected function update( $value ) {
-		switch( $this->type ) {
+		switch ( $this->type ) {
 			case 'theme_mod' :
-				return $this->_update_theme_mod( $value );
+				$this->_update_theme_mod( $value );
+				return true;
 
 			case 'option' :
 				return $this->_update_option( $value );
@@ -327,7 +328,9 @@ class WP_Customize_Setting {
 				 * @param mixed                $value Value of the setting.
 				 * @param WP_Customize_Setting $this  WP_Customize_Setting instance.
 				 */
-				return do_action( 'customize_update_' . $this->type, $value, $this );
+				do_action( "customize_update_{$this->type}", $value, $this );
+
+				return has_action( "customize_update_{$this->type}" );
 		}
 	}
 
