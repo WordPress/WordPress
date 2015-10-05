@@ -64,7 +64,7 @@ function wpmu_activate_stylesheet() {
 }
 add_action( 'wp_head', 'wpmu_activate_stylesheet' );
 
-get_header();
+get_header( 'wp-activate' );
 ?>
 
 <div id="signup-content" class="widecolumn">
@@ -134,4 +134,4 @@ get_header();
 	var key_input = document.getElementById('key');
 	key_input && key_input.focus();
 </script>
-<?php get_footer();
+<?php get_footer( 'wp-activate' );

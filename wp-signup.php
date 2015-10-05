@@ -66,7 +66,7 @@ function wpmu_signup_stylesheet() {
 }
 
 add_action( 'wp_head', 'wpmu_signup_stylesheet' );
-get_header();
+get_header( 'wp-signup' );
 
 /**
  * Fires before the site sign-up form.
@@ -759,4 +759,4 @@ if ( $active_signup == 'none' ) {
  */
 do_action( 'after_signup_form' ); ?>
 
-<?php get_footer(); ?>
+<?php get_footer( 'wp-signup' );
