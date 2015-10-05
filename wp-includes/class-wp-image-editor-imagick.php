@@ -208,7 +208,7 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 				$size = $this->image->getImageGeometry();
 			}
 			catch ( Exception $e ) {
-				return new WP_Error( 'invalid_image', __('Could not read image size'), $this->file );
+				return new WP_Error( 'invalid_image', __( 'Could not read image size.' ), $this->file );
 			}
 		}
 
