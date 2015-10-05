@@ -220,7 +220,7 @@ function wp_popular_terms_checklist( $taxonomy, $default = 0, $number = 10, $ech
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Outputs a link category checklist element.
  *
  * @since 2.5.1
  *
@@ -330,7 +330,7 @@ function get_inline_data($post) {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Outputs the in-line comment reply-to form in the Comments list table.
  *
  * @since 2.7.0
  *
@@ -461,7 +461,7 @@ function wp_comment_trashnotice() {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Outputs a post's public meta data in the Custom Fields meta box.
  *
  * @since 1.2.0
  *
@@ -504,7 +504,7 @@ function list_meta( $meta ) {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Outputs a single row of public meta data in the Custom Fields meta box.
  *
  * @since 2.5.0
  *
@@ -1417,7 +1417,7 @@ function settings_errors( $setting = '', $sanitize = false, $hide_on_update = fa
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Outputs the modal window used for attaching media to posts or pages in the media-listing screen.
  *
  * @since 2.7.0
  *
