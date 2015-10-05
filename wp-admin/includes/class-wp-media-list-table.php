@@ -470,8 +470,8 @@ class WP_Media_List_Table extends WP_List_Table {
 					<?php echo $title ?></a><?php
 			} else {
 				echo $title;
-			} ?></strong>,
-			<?php echo get_the_time( __( 'Y/m/d' ) ); ?><br />
+			} ?></strong>
+			<br />
 			<?php
 			if ( $user_can_edit ):
 				$detach_url = add_query_arg( array(
