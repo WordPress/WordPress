@@ -1534,8 +1534,8 @@ class WP_Query {
 	 *                                                 specific `$meta_query` clause, use that clause's array key.
 	 *                                                 Default 'date'. Accepts 'none', 'name', 'author', 'date',
 	 *                                                 'title', 'modified', 'menu_order', 'parent', 'ID', 'rand',
-	 *                                                 'comment_count', 'meta_value', 'meta_value_num', and the
-	 *                                                 array keys of `$meta_query`.
+	 *                                                 'comment_count', 'meta_value', 'meta_value_num', 'post__in',
+	 *                                                 and the array keys of `$meta_query`.
 	 *     @type int          $p                       Post ID.
 	 *     @type int          $page                    Show the number of posts that would show up on page X of a
 	 *                                                 static front page.
