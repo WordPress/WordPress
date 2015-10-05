@@ -1871,6 +1871,9 @@
 
 					control.isSorting = false;
 
+					// Reset horizontal scroll position when done dragging.
+					control.$sectionContent.scrollLeft( 0 );
+
 					_.each( menuItemContainerIds, function( menuItemContainerId ) {
 						var menuItemId, menuItemControl, matches;
 						matches = menuItemContainerId.match( /^customize-control-nav_menu_item-(-?\d+)$/, '' );
