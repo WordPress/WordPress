@@ -609,8 +609,8 @@
 	border-right: none;
 	border-left: none;
 	background: #fff;
-	-webkit-transition: all 0.15s;
-	transition: all 0.15s;
+	-webkit-transition: background-color 0.15s;
+	transition: background-color 0.15s;
 }
 
 #available-menu-items .open .accordion-section-title,
