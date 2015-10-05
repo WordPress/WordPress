@@ -1327,14 +1327,14 @@ function get_sample_permalink_html( $id, $new_title = null, $new_slug = null ) {
 		}
 	} else {
 		if ( function_exists( 'mb_strlen' ) ) {
-			if ( mb_strlen( $post_name ) > 30 ) {
-				$post_name_abridged = mb_substr( $post_name, 0, 14 ) . '&hellip;' . mb_substr( $post_name, -14 );
+			if ( mb_strlen( $post_name ) > 34 ) {
+				$post_name_abridged = mb_substr( $post_name, 0, 16 ) . '&hellip;' . mb_substr( $post_name, -16 );
 			} else {
 				$post_name_abridged = $post_name;
 			}
 		} else {
-			if ( strlen( $post_name ) > 30 ) {
-				$post_name_abridged = substr( $post_name, 0, 14 ) . '&hellip;' . substr( $post_name, -14 );
+			if ( strlen( $post_name ) > 34 ) {
+				$post_name_abridged = substr( $post_name, 0, 16 ) . '&hellip;' . substr( $post_name, -16 );
 			} else {
 				$post_name_abridged = $post_name;
 			}
